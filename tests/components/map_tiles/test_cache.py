@@ -11,7 +11,7 @@ from universalassistant.components.map_tiles.cache import (
     Asset,
     MapTilesCache,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 _CACHE = "universalassistant.components.map_tiles.cache"
 
@@ -22,7 +22,7 @@ BODY = b"0123456789"
 ENTRY_COST = len(BODY) + 1 + _ENTRY_OVERHEAD
 
 
-async def test_evicts_least_recently_used(hass: __HAC_KEEP__) -> None:
+async def test_evicts_least_recently_used(hass: UniversalAssistant) -> None:
     """Test that the cache stays inside its ceiling, dropping the coldest first."""
     with patch(f"{_CACHE}.CACHE_MAX_BYTES", 2 * ENTRY_COST):
         cache = MapTilesCache(hass)
@@ -49,7 +49,7 @@ async def test_evicts_least_recently_used(hass: __HAC_KEEP__) -> None:
     assert calls == ["a", "b", "c", "b"]
 
 
-async def test_entry_larger_than_the_ceiling_is_kept(hass: __HAC_KEEP__) -> None:
+async def test_entry_larger_than_the_ceiling_is_kept(hass: UniversalAssistant) -> None:
     """Test that a tile bigger than the whole cache is still served from it."""
     with patch(f"{_CACHE}.CACHE_MAX_BYTES", 10):
         cache = MapTilesCache(hass)
@@ -65,7 +65,7 @@ async def test_entry_larger_than_the_ceiling_is_kept(hass: __HAC_KEEP__) -> None
     assert calls == ["fetched"]
 
 
-async def test_empty_bodies_count_against_the_ceiling(hass: __HAC_KEEP__) -> None:
+async def test_empty_bodies_count_against_the_ceiling(hass: UniversalAssistant) -> None:
     """Test that entries with empty bodies cannot grow the cache without bound."""
     with patch(f"{_CACHE}.CACHE_MAX_BYTES", 3 * (1 + _ENTRY_OVERHEAD)):
         cache = MapTilesCache(hass)
@@ -83,7 +83,7 @@ async def test_empty_bodies_count_against_the_ceiling(hass: __HAC_KEEP__) -> Non
     assert calls == ["a", "b", "c", "d", "e", "a"]
 
 
-async def test_the_encoding_is_cached_with_the_body(hass: __HAC_KEEP__) -> None:
+async def test_the_encoding_is_cached_with_the_body(hass: UniversalAssistant) -> None:
     """Test that a cached asset still knows how its bytes are encoded."""
     cache = MapTilesCache(hass)
 
@@ -98,7 +98,7 @@ async def test_the_encoding_is_cached_with_the_body(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_failed_fetch_is_not_stored(hass: __HAC_KEEP__) -> None:
+async def test_failed_fetch_is_not_stored(hass: UniversalAssistant) -> None:
     """Test that a failure is retried rather than remembered."""
     cache = MapTilesCache(hass)
     calls: list[str] = []
@@ -112,7 +112,7 @@ async def test_failed_fetch_is_not_stored(hass: __HAC_KEEP__) -> None:
     assert len(calls) == 2
 
 
-async def test_concurrent_requests_share_one_fetch(hass: __HAC_KEEP__) -> None:
+async def test_concurrent_requests_share_one_fetch(hass: UniversalAssistant) -> None:
     """Test that a map view asking for one tile many times asks upstream once."""
     cache = MapTilesCache(hass)
     released = asyncio.Event()
@@ -134,7 +134,7 @@ async def test_concurrent_requests_share_one_fetch(hass: __HAC_KEEP__) -> None:
 
 
 async def test_a_cancelled_client_does_not_cancel_the_fetch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that one client navigating away leaves the others their tile."""
     cache = MapTilesCache(hass)
@@ -154,7 +154,7 @@ async def test_a_cancelled_client_does_not_cancel_the_fetch(
     assert await staying == Asset(b"tile", None)
 
 
-async def test_a_cancelled_fetch_does_not_poison_the_key(hass: __HAC_KEEP__) -> None:
+async def test_a_cancelled_fetch_does_not_poison_the_key(hass: UniversalAssistant) -> None:
     """Test that a key can be fetched again after its fetch task was cancelled."""
     cache = MapTilesCache(hass)
     released = asyncio.Event()
@@ -179,7 +179,7 @@ async def test_a_cancelled_fetch_does_not_poison_the_key(hass: __HAC_KEEP__) -> 
 
 
 async def test_stale_entry_is_refreshed_behind_the_response(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that an expired entry answers now and is replaced afterwards."""
     cache = MapTilesCache(hass)
@@ -198,7 +198,7 @@ async def test_stale_entry_is_refreshed_behind_the_response(
 
 
 async def test_asset_ttl_overrides_the_fallback(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that an asset's own ttl decides staleness, not the caller's fallback."""
     cache = MapTilesCache(hass)
@@ -218,7 +218,7 @@ async def test_asset_ttl_overrides_the_fallback(
     assert await cache.async_get("key", 10 * TTL, fetch) == Asset(b"second", None, TTL)
 
 
-async def test_concurrent_fetches_are_bounded(hass: __HAC_KEEP__) -> None:
+async def test_concurrent_fetches_are_bounded(hass: UniversalAssistant) -> None:
     """Test that only so many upstream fetches run at once."""
     with patch(f"{_CACHE}.MAX_CONCURRENT_FETCHES", 2):
         cache = MapTilesCache(hass)

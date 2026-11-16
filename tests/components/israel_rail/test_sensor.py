@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.israel_rail.const import DEPARTURES_COUNT
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import goto_future, init_integration
@@ -57,7 +57,7 @@ def freeze_before_first_train(freezer: FrozenDateTimeFactory) -> FrozenDateTimeF
 
 
 async def test_valid_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_israelrail: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -69,7 +69,7 @@ async def test_valid_config(
 
 
 async def test_update_train(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freeze_before_first_train: FrozenDateTimeFactory,
     mock_israelrail: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -93,7 +93,7 @@ async def test_update_train(
 
 
 async def test_fail_query(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freeze_before_first_train: FrozenDateTimeFactory,
     mock_israelrail: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -109,7 +109,7 @@ async def test_fail_query(
 
 
 async def test_no_departures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freeze_before_first_train: FrozenDateTimeFactory,
     mock_israelrail: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -152,7 +152,7 @@ async def test_no_departures(
 
 
 async def test_departure_delay(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freeze_before_first_train: FrozenDateTimeFactory,
     mock_israelrail: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -185,7 +185,7 @@ async def test_departure_delay(
 
 
 async def test_skip_first_route_when_in_past(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freeze_before_first_train: FrozenDateTimeFactory,
     mock_israelrail: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -209,7 +209,7 @@ async def test_skip_first_route_when_in_past(
 
 
 async def test_keep_first_route_when_upcoming(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freeze_before_first_train: FrozenDateTimeFactory,
     mock_israelrail: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -225,7 +225,7 @@ async def test_keep_first_route_when_upcoming(
 
 
 async def test_skip_first_route_with_fewer_results(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freeze_before_first_train: FrozenDateTimeFactory,
     mock_israelrail: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -244,7 +244,7 @@ async def test_skip_first_route_with_fewer_results(
 
 
 async def test_skip_multiple_past_routes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freeze_before_first_train: FrozenDateTimeFactory,
     mock_israelrail: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -262,7 +262,7 @@ async def test_skip_multiple_past_routes(
 
 
 async def test_all_routes_in_past(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freeze_before_first_train: FrozenDateTimeFactory,
     mock_israelrail: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -278,7 +278,7 @@ async def test_all_routes_in_past(
 
 
 async def test_delayed_route_kept_past_scheduled_time(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freeze_before_first_train: FrozenDateTimeFactory,
     mock_israelrail: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -300,7 +300,7 @@ async def test_delayed_route_kept_past_scheduled_time(
 
 
 async def test_delayed_route_dropped_once_delay_elapsed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freeze_before_first_train: FrozenDateTimeFactory,
     mock_israelrail: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -320,7 +320,7 @@ async def test_delayed_route_dropped_once_delay_elapsed(
 
 
 async def test_route_with_unparsable_departure_is_kept(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freeze_before_first_train: FrozenDateTimeFactory,
     mock_israelrail: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -340,7 +340,7 @@ async def test_route_with_unparsable_departure_is_kept(
 
 
 async def test_none_route_ends_the_scan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_israelrail: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

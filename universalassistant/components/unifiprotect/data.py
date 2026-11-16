@@ -31,7 +31,7 @@ from uiprotect.utils import log_event
 from uiprotect.websocket import WebsocketState
 
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
@@ -62,7 +62,7 @@ type UFPConfigEntry = ConfigEntry[ProtectData]
 
 @callback
 def async_last_update_was_successful(
-    hass: __HAC_KEEP__, entry: UFPConfigEntry
+    hass: UniversalAssistant, entry: UFPConfigEntry
 ) -> bool:
     """Check if the last update was successful for a config entry.
 
@@ -132,7 +132,7 @@ class ProtectData:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         protect: ProtectApiClient,
         update_interval: timedelta,
         entry: UFPConfigEntry,
@@ -170,8 +170,8 @@ class ProtectData:
         self.ptz_patrols: dict[str, list[PTZPatrol]] = {}
 
     @property
-    def hass(self) -> __HAC_KEEP__:
-        """Return the __HA_KEEP__ instance."""
+    def hass(self) -> UniversalAssistant:
+        """Return the Universal Home Assistant instance."""
         return self._hass
 
     @property
@@ -762,7 +762,7 @@ class ProtectData:
         if model_type is ModelType.LIVEVIEW and len(self.api.bootstrap.viewers) > 0:
             # alert user viewport needs restart so voice clients can get new options
             _LOGGER.warning(
-                "Liveviews updated. Restart __HA_KEEP__ to update Viewport select"
+                "Liveviews updated. Restart Universal Home Assistant to update Viewport select"
                 " options"
             )
             return
@@ -912,7 +912,7 @@ class ProtectData:
 
 
 @callback
-def async_get_ufp_entries(hass: __HAC_KEEP__) -> list[UFPConfigEntry]:
+def async_get_ufp_entries(hass: UniversalAssistant) -> list[UFPConfigEntry]:
     """Get all the UFP entries."""
     return cast(
         list[UFPConfigEntry],
@@ -927,7 +927,7 @@ def async_get_ufp_entries(hass: __HAC_KEEP__) -> list[UFPConfigEntry]:
 
 
 @callback
-def async_get_data_for_nvr_id(hass: __HAC_KEEP__, nvr_id: str) -> ProtectData | None:
+def async_get_data_for_nvr_id(hass: UniversalAssistant, nvr_id: str) -> ProtectData | None:
     """Find the ProtectData instance for the NVR id.
 
     Public-only entries are skipped: they have no private bootstrap to read
@@ -947,7 +947,7 @@ def async_get_data_for_nvr_id(hass: __HAC_KEEP__, nvr_id: str) -> ProtectData | 
 
 @callback
 def async_get_data_for_entry_id(
-    hass: __HAC_KEEP__, entry_id: str
+    hass: UniversalAssistant, entry_id: str
 ) -> ProtectData | None:
     """Find the ProtectData instance for a config entry id."""
     if (entry := hass.config_entries.async_get_entry(entry_id)) and hasattr(

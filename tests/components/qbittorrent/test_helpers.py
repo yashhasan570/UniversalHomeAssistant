@@ -7,11 +7,11 @@ from universalassistant.components.qbittorrent.helpers import (
     format_unix_timestamp,
     seconds_to_hhmmss,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_seconds_to_hhmmss(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the seconds_to_hhmmss function."""
     assert seconds_to_hhmmss(8640000) == "None"
@@ -19,21 +19,21 @@ async def test_seconds_to_hhmmss(
 
 
 async def test_format_unix_timestamp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the format_unix_timestamp function."""
     assert format_unix_timestamp(1640995200) == "2022-01-01T00:00:00+00:00"
 
 
 async def test_format_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the format_progress function."""
     assert format_progress({"progress": 0.5}) == "50.00"
 
 
 async def test_format_torrents(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the format_torrents function."""
     torrents_data = [
@@ -82,7 +82,7 @@ async def test_format_torrents(
 
 
 async def test_format_torrent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the format_torrent function."""
     torrent_data = {

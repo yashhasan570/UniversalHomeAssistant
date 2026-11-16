@@ -22,8 +22,8 @@ from universalassistant.components.notify import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import ATTR_DEVICE_ID
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
@@ -64,7 +64,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -120,7 +120,7 @@ class MobileAppNotifyEntity(NotifyEntity):
         elif ATTR_PUSH_URL in registration[ATTR_APP_DATA]:
             await _send_message(self._session, device_name, registration, data)
         else:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="device_not_connected_for_local_push_notifications",
                 translation_placeholders={"device_name": device_name},
@@ -143,7 +143,7 @@ class MobileAppNotifyEntity(NotifyEntity):
         )
 
 
-def push_registrations(hass: __HAC_KEEP__) -> dict[str, str]:
+def push_registrations(hass: UniversalAssistant) -> dict[str, str]:
     """Return a dictionary of push enabled registrations."""
     targets = {}
 
@@ -181,7 +181,7 @@ def log_rate_limits(device_name, resp, level=logging.INFO):
 
 
 async def async_get_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> MobileAppNotificationService:
@@ -248,7 +248,7 @@ class MobileAppNotificationService(BaseNotificationService):
             async_dispatcher_send(self.hass, SIGNAL_RECORD_NOTIFICATION, target)
 
         if failed_targets:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Device(s) with webhook id(s)"
                 f" {', '.join(failed_targets)}"
                 " not connected to local push notifications"
@@ -267,7 +267,7 @@ class MobileAppNotificationService(BaseNotificationService):
             await _send_message(
                 async_get_clientsession(self.hass), device_name, registration, data
             )
-        except __HAC_KEEP__Error as e:
+        except UniversalAssistantError as e:
             if e.translation_key == "rate_limit_exceeded_sending_notification":
                 _LOGGER.warning(str(e))
             else:
@@ -322,22 +322,22 @@ async def _send_message(
         if "message" in result:
             if message[-1] not in [".", "?", "!"]:
                 message += "."
-            message += " This message is generated externally to __HA_KEEP__."
+            message += " This message is generated externally to Universal Home Assistant."
         _LOGGER.debug("Error sending notification to %s: %s", device_name, message)
 
         if response.status == HTTPStatus.TOO_MANY_REQUESTS:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="rate_limit_exceeded_sending_notification",
                 translation_placeholders={"device_name": device_name},
             )
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="error_sending_notification",
             translation_placeholders={"device_name": device_name},
         )
     except TimeoutError as e:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="timeout_sending_notification",
             translation_placeholders={"device_name": device_name},
@@ -349,7 +349,7 @@ async def _send_message(
             registration[ATTR_APP_DATA][ATTR_PUSH_URL],
             exc_info=True,
         )
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="error_sending_notification",
             translation_placeholders={"device_name": device_name},

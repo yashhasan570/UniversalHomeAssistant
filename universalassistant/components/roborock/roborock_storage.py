@@ -7,7 +7,7 @@ from typing import Any, override
 
 from roborock.devices.cache import Cache, CacheData
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.storage import Store
 
 from .const import DOMAIN
@@ -19,12 +19,12 @@ MAPS_PATH = "maps"
 CACHE_VERSION = 2
 
 
-def _storage_path_prefix(hass: __HAC_KEEP__, entry_id: str) -> Path:
+def _storage_path_prefix(hass: UniversalAssistant, entry_id: str) -> Path:
     """Storage path for the old map storage cache location."""
     return Path(hass.config.path(STORAGE_PATH)) / entry_id
 
 
-async def async_cleanup_map_storage(hass: __HAC_KEEP__, entry_id: str) -> None:
+async def async_cleanup_map_storage(hass: UniversalAssistant, entry_id: str) -> None:
     """Remove map storage in the old format, if any.
 
     This removes all on-disk map files for the given config entry. This is the
@@ -46,7 +46,7 @@ async def async_cleanup_map_storage(hass: __HAC_KEEP__, entry_id: str) -> None:
 class StoreImpl(Store[dict[str, Any]]):
     """Store implementation for Roborock cache."""
 
-    def __init__(self, hass: __HAC_KEEP__, entry_id: str) -> None:
+    def __init__(self, hass: UniversalAssistant, entry_id: str) -> None:
         """Initialize StoreImpl."""
         super().__init__(
             hass,
@@ -72,13 +72,13 @@ class StoreImpl(Store[dict[str, Any]]):
 class CacheStore(Cache):
     """Store and retrieve cache for a Roborock device.
 
-    This implements the roborock Cache interface, backend by a __HA_KEEP__
+    This implements the roborock Cache interface, backend by a Universal Home Assistant
     Store that can be flushed to disk. This also manages dispatching the
     roborock map contents to separate on disk files via RoborockMapStorage
     since maps can be large.
     """
 
-    def __init__(self, hass: __HAC_KEEP__, entry_id: str) -> None:
+    def __init__(self, hass: UniversalAssistant, entry_id: str) -> None:
         """Initialize CacheStore."""
         self._cache_store = StoreImpl(hass, entry_id)
         self._cache_data: CacheData | None = None

@@ -9,12 +9,12 @@ from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.components.stookwijzer.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 
 
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_stookwijzer: MagicMock,
 ) -> None:
@@ -33,7 +33,7 @@ async def test_load_unload_config_entry(
 
 
 async def test_config_entry_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_stookwijzer: MagicMock,
 ) -> None:
@@ -49,7 +49,7 @@ async def test_config_entry_not_ready(
 
 
 async def test_migrate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_v1_config_entry: MockConfigEntry,
     mock_stookwijzer: MagicMock,
 ) -> None:
@@ -71,7 +71,7 @@ async def test_migrate_entry(
 
 
 async def test_entry_migration_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_v1_config_entry: MockConfigEntry,
     mock_stookwijzer: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -99,7 +99,7 @@ async def test_entry_migration_failure(
 
 
 async def test_entry_migration_failure_issue_per_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_v1_config_entry: MockConfigEntry,
     mock_stookwijzer: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -135,7 +135,7 @@ async def test_entry_migration_failure_issue_per_entry(
 
 @pytest.mark.usefixtures("mock_stookwijzer")
 async def test_entity_entry_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:

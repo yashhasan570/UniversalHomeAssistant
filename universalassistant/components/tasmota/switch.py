@@ -9,7 +9,7 @@ from hatasmota.models import DiscoveryHashType
 from universalassistant.components import switch
 from universalassistant.components.switch import SwitchEntity
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -19,7 +19,7 @@ from .entity import TasmotaAvailability, TasmotaDiscoveryUpdate, TasmotaOnOffEnt
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

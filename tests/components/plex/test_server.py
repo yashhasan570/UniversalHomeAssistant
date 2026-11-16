@@ -14,14 +14,14 @@ from universalassistant.components.plex.const import (
     CONF_SERVER,
 )
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import DEFAULT_DATA, DEFAULT_OPTIONS
 from .helpers import trigger_plex_update, wait_for_debouncer
 
 
 async def test_new_users_available(
-    hass: __HAC_KEEP__, entry, setup_plex_server
+    hass: UniversalAssistant, entry, setup_plex_server
 ) -> None:
     """Test setting up when new users available on Plex server."""
     MONITORED_USERS = {"User 1": {"enabled": True}}
@@ -40,7 +40,7 @@ async def test_new_users_available(
 
 
 async def test_new_ignored_users_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     entry,
     mock_websocket,
@@ -91,7 +91,7 @@ async def test_new_ignored_users_available(
 
 
 async def test_network_error_during_refresh(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, mock_plex_server
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, mock_plex_server
 ) -> None:
     """Test network failures during refreshes."""
     active_sessions = mock_plex_server._plex_server.sessions()
@@ -111,7 +111,7 @@ async def test_network_error_during_refresh(
 
 
 async def test_gdm_client_failure(
-    hass: __HAC_KEEP__, mock_websocket, setup_plex_server
+    hass: UniversalAssistant, mock_websocket, setup_plex_server
 ) -> None:
     """Test connection failure to a GDM discovered client."""
     with patch(
@@ -132,7 +132,7 @@ async def test_gdm_client_failure(
 
 
 async def test_mark_sessions_idle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_plex_server,
     mock_websocket,
     requests_mock: requests_mock.Mocker,
@@ -159,7 +159,7 @@ async def test_mark_sessions_idle(
 
 
 async def test_ignore_plex_web_client(
-    hass: __HAC_KEEP__, entry, setup_plex_server
+    hass: UniversalAssistant, entry, setup_plex_server
 ) -> None:
     """Test option to ignore Plex Web clients."""
     OPTIONS = copy.deepcopy(DEFAULT_OPTIONS)

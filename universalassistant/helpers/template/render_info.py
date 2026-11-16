@@ -1,4 +1,4 @@
-"""Template render information tracking for __HA_KEEP__."""
+"""Template render information tracking for Universal Home Assistant."""
 
 import collections.abc
 from collections.abc import Callable

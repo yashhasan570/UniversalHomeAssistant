@@ -13,7 +13,7 @@ from universalassistant.components.device_tracker import (
     DeviceScanner,
 )
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.typing import ConfigType
@@ -31,7 +31,7 @@ PLATFORM_SCHEMA = DEVICE_TRACKER_PLATFORM_SCHEMA.extend(
 
 
 async def async_get_scanner(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> UPCDeviceScanner | None:
     """Return the UPC device scanner."""
     conf = config[DEVICE_TRACKER_DOMAIN]

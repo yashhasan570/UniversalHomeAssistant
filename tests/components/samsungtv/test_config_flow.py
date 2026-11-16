@@ -51,7 +51,7 @@ from universalassistant.const import (
     CONF_PORT,
     CONF_TOKEN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import BaseServiceInfo, FlowResultType
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -106,14 +106,14 @@ MOCK_DEVICE_INFO = {
 AUTODETECT_LEGACY = call(
     "10.20.43.21",
     port=LEGACY_PORT,
-    name="__HAC_KEEP__",
-    description="__HAC_KEEP__",
+    name="UniversalAssistant",
+    description="UniversalAssistant",
     remote_id="ha.component.samsung",
     timeout=TIMEOUT_REQUEST,
 )
 AUTODETECT_WEBSOCKET_SSL = {
     "host": "10.20.43.21",
-    "name": "__HAC_KEEP__",
+    "name": "UniversalAssistant",
     "port": 8002,
     "timeout": TIMEOUT_REQUEST,
     "token": None,
@@ -129,7 +129,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 @pytest.mark.usefixtures("remote_legacy", "rest_api_failing")
-async def test_user_legacy(hass: __HAC_KEEP__) -> None:
+async def test_user_legacy(hass: UniversalAssistant) -> None:
     """Test starting a flow by user."""
     # show form
     result = await hass.config_entries.flow.async_init(
@@ -167,7 +167,7 @@ async def test_user_legacy(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("rest_api_failing")
-async def test_user_legacy_does_not_ok_first_time(hass: __HAC_KEEP__) -> None:
+async def test_user_legacy_does_not_ok_first_time(hass: UniversalAssistant) -> None:
     """Test starting a flow by user."""
     # show form
     with patch(
@@ -206,7 +206,7 @@ async def test_user_legacy_does_not_ok_first_time(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "remote_websocket", "rest_api", "remote_encrypted_websocket_failing"
 )
-async def test_user_websocket(hass: __HAC_KEEP__) -> None:
+async def test_user_websocket(hass: UniversalAssistant) -> None:
     """Test starting a flow by user."""
     with patch(
         "universalassistant.components.samsungtv.bridge.SamsungTVLegacyAsyncRemote.open",
@@ -236,7 +236,7 @@ async def test_user_websocket(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("remote_encrypted_websocket", "rest_api_non_ssl_only")
 async def test_user_encrypted_websocket(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test starting a flow from ssdp for a supported device populates the mac."""
     # show form
@@ -288,7 +288,7 @@ async def test_user_encrypted_websocket(
 
 @pytest.mark.usefixtures("rest_api", "remote_encrypted_websocket")
 async def test_user_websocket_k_series_encrypted_fallback(
-    hass: __HAC_KEEP__, rest_api: Mock
+    hass: UniversalAssistant, rest_api: Mock
 ) -> None:
     """Test a 2016 K-series set falls back to encrypted pairing (#177252).
 
@@ -349,7 +349,7 @@ async def test_user_websocket_k_series_encrypted_fallback(
 
 @pytest.mark.usefixtures("remote_websocket", "rest_api")
 async def test_user_websocket_k_series_stays_on_websocket(
-    hass: __HAC_KEEP__, rest_api: Mock
+    hass: UniversalAssistant, rest_api: Mock
 ) -> None:
     """Test a K-series set that pairs over websocket is not pushed to encrypted.
 
@@ -376,7 +376,7 @@ async def test_user_websocket_k_series_stays_on_websocket(
 
 @pytest.mark.usefixtures("rest_api")
 async def test_user_websocket_non_k_series_cannot_connect(
-    hass: __HAC_KEEP__, rest_api: Mock
+    hass: UniversalAssistant, rest_api: Mock
 ) -> None:
     """Test a non-K-series set that fails to connect is not pushed to encrypted.
 
@@ -406,7 +406,7 @@ async def test_user_websocket_non_k_series_cannot_connect(
 
 @pytest.mark.usefixtures("rest_api", "remote_encrypted_websocket_failing")
 async def test_user_websocket_k_series_encrypted_also_cannot_connect(
-    hass: __HAC_KEEP__, rest_api: Mock
+    hass: UniversalAssistant, rest_api: Mock
 ) -> None:
     """Test a K-series set that is offline aborts cleanly with cannot_connect.
 
@@ -435,7 +435,7 @@ async def test_user_websocket_k_series_encrypted_also_cannot_connect(
 
 
 @pytest.mark.usefixtures("rest_api_failing")
-async def test_user_legacy_missing_auth(hass: __HAC_KEEP__) -> None:
+async def test_user_legacy_missing_auth(hass: UniversalAssistant) -> None:
     """Test starting a flow by user with authentication."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -470,7 +470,7 @@ async def test_user_legacy_missing_auth(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("rest_api_failing")
-async def test_user_legacy_not_supported(hass: __HAC_KEEP__) -> None:
+async def test_user_legacy_not_supported(hass: UniversalAssistant) -> None:
     """Test starting a flow by user for not supported device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -492,7 +492,7 @@ async def test_user_legacy_not_supported(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("rest_api", "remote_encrypted_websocket_failing")
-async def test_user_websocket_not_supported(hass: __HAC_KEEP__) -> None:
+async def test_user_websocket_not_supported(hass: UniversalAssistant) -> None:
     """Test starting a flow by user for not supported device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -521,7 +521,7 @@ async def test_user_websocket_not_supported(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("rest_api", "remote_encrypted_websocket_failing")
 async def test_user_websocket_access_denied(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test starting a flow by user for not supported device."""
     result = await hass.config_entries.flow.async_init(
@@ -551,7 +551,7 @@ async def test_user_websocket_access_denied(
 
 
 @pytest.mark.usefixtures("rest_api", "remote_encrypted_websocket_failing")
-async def test_user_websocket_auth_retry(hass: __HAC_KEEP__) -> None:
+async def test_user_websocket_auth_retry(hass: UniversalAssistant) -> None:
     """Test starting a flow by user for not supported device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -599,7 +599,7 @@ async def test_user_websocket_auth_retry(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("rest_api_failing")
-async def test_user_not_successful(hass: __HAC_KEEP__) -> None:
+async def test_user_not_successful(hass: UniversalAssistant) -> None:
     """Test starting a flow by user but no connection found."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -626,7 +626,7 @@ async def test_user_not_successful(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("rest_api_failing")
-async def test_user_not_successful_2(hass: __HAC_KEEP__) -> None:
+async def test_user_not_successful_2(hass: UniversalAssistant) -> None:
     """Test starting a flow by user but no connection found."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -653,7 +653,7 @@ async def test_user_not_successful_2(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("remote_legacy", "rest_api_failing")
-async def test_ssdp(hass: __HAC_KEEP__) -> None:
+async def test_ssdp(hass: UniversalAssistant) -> None:
     """Test starting a flow from discovery."""
     # confirm to add the entry
     result = await hass.config_entries.flow.async_init(
@@ -676,7 +676,7 @@ async def test_ssdp(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("remote_legacy", "rest_api_failing")
-async def test_ssdp_no_manufacturer(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_no_manufacturer(hass: UniversalAssistant) -> None:
     """Test starting a flow from discovery when the manufacturer data is missing."""
     ssdp_data = deepcopy(MOCK_SSDP_DATA)
     ssdp_data.upnp.pop(ATTR_UPNP_MANUFACTURER)
@@ -695,7 +695,7 @@ async def test_ssdp_no_manufacturer(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("remote_legacy", "rest_api_failing")
 async def test_ssdp_legacy_not_remote_control_receiver_udn(
-    hass: __HAC_KEEP__, data: SsdpServiceInfo
+    hass: UniversalAssistant, data: SsdpServiceInfo
 ) -> None:
     """Test we abort if it is not usable for legacy discovery."""
     result = await hass.config_entries.flow.async_init(
@@ -706,7 +706,7 @@ async def test_ssdp_legacy_not_remote_control_receiver_udn(
 
 
 @pytest.mark.usefixtures("remote_legacy", "rest_api_failing")
-async def test_ssdp_noprefix(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_noprefix(hass: UniversalAssistant) -> None:
     """Test discovery flow when friendly name has no [TV] prefix."""
     ssdp_data = deepcopy(MOCK_SSDP_DATA)
     ssdp_data.upnp[ATTR_UPNP_FRIENDLY_NAME] = ssdp_data.upnp[ATTR_UPNP_FRIENDLY_NAME][
@@ -735,7 +735,7 @@ async def test_ssdp_noprefix(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("remote_websocket", "rest_api_failing")
-async def test_ssdp_legacy_missing_auth(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_legacy_missing_auth(hass: UniversalAssistant) -> None:
     """Test starting a flow from discovery with authentication."""
     with patch(
         "universalassistant.components.samsungtv.bridge.SamsungTVLegacyAsyncRemote.open",
@@ -773,7 +773,7 @@ async def test_ssdp_legacy_missing_auth(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("remote_websocket", "rest_api_failing")
-async def test_ssdp_legacy_not_supported(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_legacy_not_supported(hass: UniversalAssistant) -> None:
     """Test starting a flow from discovery for not supported device."""
     with patch(
         "universalassistant.components.samsungtv.bridge.SamsungTVLegacyBridge.async_try_connect",
@@ -791,7 +791,7 @@ async def test_ssdp_legacy_not_supported(hass: __HAC_KEEP__) -> None:
     "remote_websocket", "rest_api", "remote_encrypted_websocket_failing"
 )
 async def test_ssdp_websocket_success_populates_mac_address_and_ssdp_location(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test starting a flow from ssdp for a supported device populates the mac."""
     result = await hass.config_entries.flow.async_init(
@@ -823,7 +823,7 @@ async def test_ssdp_websocket_success_populates_mac_address_and_ssdp_location(
     "remote_websocket", "rest_api", "remote_encrypted_websocket_failing"
 )
 async def test_ssdp_websocket_success_populates_mac_address_and_main_tv_ssdp_location(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test starting a flow from ssdp for a supported device populates the mac."""
     result = await hass.config_entries.flow.async_init(
@@ -853,7 +853,7 @@ async def test_ssdp_websocket_success_populates_mac_address_and_main_tv_ssdp_loc
 
 @pytest.mark.usefixtures("remote_encrypted_websocket", "rest_api_non_ssl_only")
 async def test_ssdp_encrypted_websocket_success_populates_mac_address_and_ssdp_location(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test starting a flow from ssdp for a supported device populates the mac."""
     result = await hass.config_entries.flow.async_init(
@@ -907,7 +907,7 @@ async def test_ssdp_encrypted_websocket_success_populates_mac_address_and_ssdp_l
 
 @pytest.mark.usefixtures("rest_api_non_ssl_only")
 async def test_ssdp_encrypted_websocket_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test starting a flow from ssdp for an unsupported device populates the mac."""
     with patch(
@@ -924,7 +924,7 @@ async def test_ssdp_encrypted_websocket_not_supported(
 
 
 @pytest.mark.usefixtures("rest_api_failing")
-async def test_ssdp_websocket_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_websocket_cannot_connect(hass: UniversalAssistant) -> None:
     """Test starting a flow from discovery and we cannot connect."""
     with (
         patch(
@@ -949,7 +949,7 @@ async def test_ssdp_websocket_cannot_connect(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("remote_legacy")
-async def test_ssdp_wrong_manufacturer(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_wrong_manufacturer(hass: UniversalAssistant) -> None:
     """Test starting a flow from discovery."""
     ssdp_data = deepcopy(MOCK_SSDP_DATA)
     ssdp_data.upnp[ATTR_UPNP_MANUFACTURER] = ssdp_data.upnp[ATTR_UPNP_MANUFACTURER][7:]
@@ -964,7 +964,7 @@ async def test_ssdp_wrong_manufacturer(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("remote_encrypted_websocket_failing")
-async def test_ssdp_not_successful(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_not_successful(hass: UniversalAssistant) -> None:
     """Test starting a flow from discovery but no device found."""
     with (
         patch(
@@ -996,7 +996,7 @@ async def test_ssdp_not_successful(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("remote_encrypted_websocket_failing")
-async def test_ssdp_not_successful_2(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_not_successful_2(hass: UniversalAssistant) -> None:
     """Test starting a flow from discovery but no device found."""
     with (
         patch(
@@ -1028,7 +1028,7 @@ async def test_ssdp_not_successful_2(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("remote_legacy", "remote_encrypted_websocket_failing")
-async def test_ssdp_already_in_progress(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_already_in_progress(hass: UniversalAssistant) -> None:
     """Test starting a flow from discovery twice."""
     with patch(
         "universalassistant.components.samsungtv.bridge.SamsungTVWSBridge.async_device_info",
@@ -1050,7 +1050,7 @@ async def test_ssdp_already_in_progress(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("remote_websocket", "remote_encrypted_websocket_failing")
-async def test_ssdp_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_already_configured(hass: UniversalAssistant) -> None:
     """Test starting a flow from discovery when already configured."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -1087,7 +1087,7 @@ async def test_ssdp_already_configured(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "remote_websocket", "rest_api_non_ssl_only", "remote_encrypted_websocket_failing"
 )
-async def test_dhcp_wireless(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_wireless(hass: UniversalAssistant) -> None:
     """Test starting a flow from dhcp."""
     # confirm to add the entry
     result = await hass.config_entries.flow.async_init(
@@ -1116,7 +1116,7 @@ async def test_dhcp_wireless(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "remote_websocket", "rest_api", "remote_encrypted_websocket_failing"
 )
-async def test_dhcp_wired(hass: __HAC_KEEP__, rest_api: Mock) -> None:
+async def test_dhcp_wired(hass: UniversalAssistant, rest_api: Mock) -> None:
     """Test starting a flow from dhcp."""
     # Even though it is named "wifiMac", it matches the mac of the wired connection
     rest_api.rest_device_info.return_value = await async_load_json_object_fixture(
@@ -1183,7 +1183,7 @@ async def test_dhcp_wired(hass: __HAC_KEEP__, rest_api: Mock) -> None:
     ],
 )
 async def test_dhcp_zeroconf_already_in_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     source1: str,
     data1: BaseServiceInfo,
     source2: str,
@@ -1223,7 +1223,7 @@ async def test_dhcp_zeroconf_already_in_progress(
 @pytest.mark.usefixtures(
     "remote_websocket", "rest_api", "remote_encrypted_websocket_failing"
 )
-async def test_zeroconf(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf(hass: UniversalAssistant) -> None:
     """Test starting a flow from zeroconf."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -1248,7 +1248,7 @@ async def test_zeroconf(hass: __HAC_KEEP__) -> None:
     assert result["result"].unique_id == "be9554b9-c9fb-41f4-8920-22da015376a4"
 
 
-async def test_zeroconf_ignores_soundbar_by_name(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_ignores_soundbar_by_name(hass: UniversalAssistant) -> None:
     """Test zeroconf flow aborts early when the service name contains 'Soundbar'."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -1263,7 +1263,7 @@ async def test_zeroconf_ignores_soundbar_by_name(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("remote_websocket", "remote_encrypted_websocket_failing")
-async def test_zeroconf_ignores_soundbar(hass: __HAC_KEEP__, rest_api: Mock) -> None:
+async def test_zeroconf_ignores_soundbar(hass: UniversalAssistant, rest_api: Mock) -> None:
     """Test starting a flow from zeroconf where the device is actually a soundbar."""
     rest_api.rest_device_info.return_value = {
         "id": "uuid:be9554b9-c9fb-41f4-8920-22da015376a4",
@@ -1291,7 +1291,7 @@ async def test_zeroconf_ignores_soundbar(hass: __HAC_KEEP__, rest_api: Mock) -> 
     "remote_encrypted_websocket",
     "rest_api_failing",
 )
-async def test_zeroconf_no_device_info(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_no_device_info(hass: UniversalAssistant) -> None:
     """Test starting a flow from zeroconf where device_info returns None."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -1306,7 +1306,7 @@ async def test_zeroconf_no_device_info(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "remote_websocket", "rest_api", "remote_encrypted_websocket_failing"
 )
-async def test_zeroconf_and_dhcp_same_time(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_and_dhcp_same_time(hass: UniversalAssistant) -> None:
     """Test starting a flow from zeroconf and dhcp."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -1328,7 +1328,7 @@ async def test_zeroconf_and_dhcp_same_time(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("remote_encrypted_websocket_failing")
-async def test_autodetect_websocket(hass: __HAC_KEEP__) -> None:
+async def test_autodetect_websocket(hass: UniversalAssistant) -> None:
     """Test for send key with autodetection of protocol."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -1386,7 +1386,7 @@ async def test_autodetect_websocket(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("remote_encrypted_websocket_failing")
-async def test_websocket_no_mac(hass: __HAC_KEEP__) -> None:
+async def test_websocket_no_mac(hass: UniversalAssistant) -> None:
     """Test websocket setup when the device info has no mac address."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -1444,7 +1444,7 @@ async def test_websocket_no_mac(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("rest_api_failing")
-async def test_autodetect_auth_missing(hass: __HAC_KEEP__) -> None:
+async def test_autodetect_auth_missing(hass: UniversalAssistant) -> None:
     """Test for send key with autodetection of protocol."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -1485,7 +1485,7 @@ async def test_autodetect_auth_missing(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("rest_api_failing")
-async def test_autodetect_not_supported(hass: __HAC_KEEP__) -> None:
+async def test_autodetect_not_supported(hass: UniversalAssistant) -> None:
     """Test for send key with autodetection of protocol."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -1509,7 +1509,7 @@ async def test_autodetect_not_supported(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("remote_legacy", "rest_api_failing")
-async def test_autodetect_legacy(hass: __HAC_KEEP__) -> None:
+async def test_autodetect_legacy(hass: UniversalAssistant) -> None:
     """Test for send key with autodetection of protocol."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -1528,7 +1528,7 @@ async def test_autodetect_legacy(hass: __HAC_KEEP__) -> None:
     assert result["data"][CONF_PORT] == LEGACY_PORT
 
 
-async def test_autodetect_none(hass: __HAC_KEEP__) -> None:
+async def test_autodetect_none(hass: UniversalAssistant) -> None:
     """Test for send key with autodetection of protocol."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -1563,7 +1563,7 @@ async def test_autodetect_none(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "remote_websocket", "rest_api", "remote_encrypted_websocket_failing"
 )
-async def test_update_old_entry(hass: __HAC_KEEP__) -> None:
+async def test_update_old_entry(hass: UniversalAssistant) -> None:
     """Test update of old entry sets unique id."""
     entry = MockConfigEntry(domain=DOMAIN, data=ENTRYDATA_LEGACY)
     entry.add_to_hass(hass)
@@ -1593,7 +1593,7 @@ async def test_update_old_entry(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("remote_websocket", "rest_api")
 async def test_update_missing_mac_unique_id_added_from_dhcp(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test missing mac and unique id added."""
     # Incorrect MAC cleanup introduced in #110599, can be removed in 2026.3
@@ -1620,7 +1620,7 @@ async def test_update_missing_mac_unique_id_added_from_dhcp(
     "remote_websocket", "rest_api", "remote_encrypted_websocket_failing"
 )
 async def test_update_incorrectly_formatted_mac_unique_id_added_from_dhcp(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test incorrectly formatted mac is updated and unique id added."""
     entry_data = ENTRYDATA_LEGACY.copy()
@@ -1646,7 +1646,7 @@ async def test_update_incorrectly_formatted_mac_unique_id_added_from_dhcp(
     "remote_websocket", "rest_api", "remote_encrypted_websocket_failing"
 )
 async def test_update_missing_mac_unique_id_added_from_zeroconf(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test missing mac and unique id added."""
     entry = MockConfigEntry(
@@ -1672,7 +1672,7 @@ async def test_update_missing_mac_unique_id_added_from_zeroconf(
 
 @pytest.mark.usefixtures("remote_legacy", "rest_api_failing")
 async def test_update_missing_model_added_from_ssdp(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test missing model added via ssdp on legacy models."""
     entry = MockConfigEntry(
@@ -1699,7 +1699,7 @@ async def test_update_missing_model_added_from_ssdp(
     "remote_websocket", "rest_api", "remote_encrypted_websocket_failing"
 )
 async def test_update_missing_mac_unique_id_ssdp_location_added_from_ssdp(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test missing mac, ssdp_location, and unique id added via ssdp."""
     entry = MockConfigEntry(domain=DOMAIN, data=ENTRYDATA_LEGACY, unique_id=None)
@@ -1728,7 +1728,7 @@ async def test_update_missing_mac_unique_id_ssdp_location_added_from_ssdp(
     "rest_api_failing",
 )
 async def test_update_zeroconf_discovery_preserved_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test zeroconf discovery preserves unique id."""
     entry = MockConfigEntry(
@@ -1753,7 +1753,7 @@ async def test_update_zeroconf_discovery_preserved_unique_id(
     "remote_websocket", "rest_api", "remote_encrypted_websocket_failing"
 )
 async def test_update_missing_mac_unique_id_added_ssdp_location_updated_from_ssdp(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test missing mac/unique id with outdated ssdp_location and wrong st."""
     entry = MockConfigEntry(
@@ -1788,7 +1788,7 @@ async def test_update_missing_mac_unique_id_added_ssdp_location_updated_from_ssd
     "remote_websocket", "rest_api", "remote_encrypted_websocket_failing"
 )
 async def test_update_missing_mac_unique_id_ssdp_location_rendering_st_from_ssdp(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test missing mac/unique id with outdated ssdp_location, correct st."""
     entry = MockConfigEntry(
@@ -1824,7 +1824,7 @@ async def test_update_missing_mac_unique_id_ssdp_location_rendering_st_from_ssdp
     "remote_websocket", "rest_api", "remote_encrypted_websocket_failing"
 )
 async def test_update_missing_mac_unique_id_ssdp_location_tv_agent_st_from_ssdp(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test missing mac/unique id with outdated ssdp_location, correct st."""
     entry = MockConfigEntry(
@@ -1864,7 +1864,7 @@ async def test_update_missing_mac_unique_id_ssdp_location_tv_agent_st_from_ssdp(
     "remote_websocket", "rest_api", "remote_encrypted_websocket_failing"
 )
 async def test_update_ssdp_location_rendering_st_updated_from_ssdp(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test with outdated ssdp_location with the correct st added via ssdp."""
     entry = MockConfigEntry(
@@ -1897,7 +1897,7 @@ async def test_update_ssdp_location_rendering_st_updated_from_ssdp(
     "remote_websocket", "rest_api", "remote_encrypted_websocket_failing"
 )
 async def test_update_main_tv_ssdp_location_rendering_st_updated_from_ssdp(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test with outdated ssdp_location with the correct st added via ssdp."""
     entry = MockConfigEntry(
@@ -1927,7 +1927,7 @@ async def test_update_main_tv_ssdp_location_rendering_st_updated_from_ssdp(
 
 @pytest.mark.usefixtures("remote_websocket", "rest_api")
 async def test_update_missing_mac_added_unique_id_preserved_from_zeroconf(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test missing mac and unique id added."""
     entry = MockConfigEntry(
@@ -1953,7 +1953,7 @@ async def test_update_missing_mac_added_unique_id_preserved_from_zeroconf(
 
 @pytest.mark.usefixtures("remote_legacy")
 async def test_update_legacy_missing_mac_from_dhcp(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test missing mac added."""
     entry = MockConfigEntry(
@@ -1981,7 +1981,7 @@ async def test_update_legacy_missing_mac_from_dhcp(
 
 @pytest.mark.usefixtures("remote_legacy")
 async def test_update_legacy_missing_mac_from_dhcp_no_unique_id(
-    hass: __HAC_KEEP__, rest_api: Mock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, rest_api: Mock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test missing mac added when there is no unique id."""
     rest_api.rest_device_info.side_effect = HttpApiError
@@ -2019,7 +2019,7 @@ async def test_update_legacy_missing_mac_from_dhcp_no_unique_id(
     "remote_websocket", "rest_api", "remote_encrypted_websocket_failing"
 )
 async def test_update_ssdp_location_unique_id_added_from_ssdp(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test missing ssdp_location, and unique id added via ssdp."""
     entry = MockConfigEntry(
@@ -2049,7 +2049,7 @@ async def test_update_ssdp_location_unique_id_added_from_ssdp(
     "remote_websocket", "rest_api", "remote_encrypted_websocket_failing"
 )
 async def test_update_ssdp_location_unique_id_added_from_ssdp_with_rendering_control_st(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test missing ssdp_location and unique id with rendering st."""
     entry = MockConfigEntry(
@@ -2079,7 +2079,7 @@ async def test_update_ssdp_location_unique_id_added_from_ssdp_with_rendering_con
 
 
 @pytest.mark.usefixtures("remote_legacy")
-async def test_form_reauth_legacy(hass: __HAC_KEEP__) -> None:
+async def test_form_reauth_legacy(hass: UniversalAssistant) -> None:
     """Test reauthenticate legacy."""
     entry = MockConfigEntry(domain=DOMAIN, data=ENTRYDATA_LEGACY)
     entry.add_to_hass(hass)
@@ -2096,7 +2096,7 @@ async def test_form_reauth_legacy(hass: __HAC_KEEP__) -> None:
     assert result2["reason"] == "reauth_successful"
 
 
-async def test_reconfigure_host(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_host(hass: UniversalAssistant) -> None:
     """Test reconfigure flow updates the host."""
     entry = MockConfigEntry(domain=DOMAIN, data=ENTRYDATA_WEBSOCKET)
     entry.add_to_hass(hass)
@@ -2119,7 +2119,7 @@ async def test_reconfigure_host(hass: __HAC_KEEP__) -> None:
     assert entry.data[CONF_HOST] == "10.10.12.77"
 
 
-async def test_reconfigure_host_invalid(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_host_invalid(hass: UniversalAssistant) -> None:
     """Test reconfigure flow retries on invalid host."""
     entry = MockConfigEntry(domain=DOMAIN, data=ENTRYDATA_WEBSOCKET)
     entry.add_to_hass(hass)
@@ -2156,7 +2156,7 @@ async def test_reconfigure_host_invalid(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("remote_websocket", "rest_api")
-async def test_form_reauth_websocket(hass: __HAC_KEEP__) -> None:
+async def test_form_reauth_websocket(hass: UniversalAssistant) -> None:
     """Test reauthenticate websocket."""
     entry = MockConfigEntry(domain=DOMAIN, data=ENTRYDATA_WEBSOCKET)
     entry.add_to_hass(hass)
@@ -2178,7 +2178,7 @@ async def test_form_reauth_websocket(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("rest_api")
 async def test_form_reauth_websocket_cannot_connect(
-    hass: __HAC_KEEP__, remote_websocket: Mock
+    hass: UniversalAssistant, remote_websocket: Mock
 ) -> None:
     """Test reauthenticate websocket when we cannot connect on the first attempt."""
     entry = MockConfigEntry(domain=DOMAIN, data=ENTRYDATA_WEBSOCKET)
@@ -2207,7 +2207,7 @@ async def test_form_reauth_websocket_cannot_connect(
     assert result3["reason"] == "reauth_successful"
 
 
-async def test_form_reauth_websocket_not_supported(hass: __HAC_KEEP__) -> None:
+async def test_form_reauth_websocket_not_supported(hass: UniversalAssistant) -> None:
     """Test reauthenticate websocket when the device is not supported."""
     entry = MockConfigEntry(domain=DOMAIN, data=ENTRYDATA_WEBSOCKET)
     entry.add_to_hass(hass)
@@ -2230,7 +2230,7 @@ async def test_form_reauth_websocket_not_supported(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("remote_encrypted_websocket", "rest_api")
-async def test_form_reauth_encrypted(hass: __HAC_KEEP__) -> None:
+async def test_form_reauth_encrypted(hass: UniversalAssistant) -> None:
     """Test reauth flow for encrypted TVs."""
     encrypted_entry_data = deepcopy(ENTRYDATA_ENCRYPTED_WEBSOCKET)
     del encrypted_entry_data[CONF_TOKEN]
@@ -2303,7 +2303,7 @@ async def test_form_reauth_encrypted(hass: __HAC_KEEP__) -> None:
     "remote_websocket", "rest_api", "remote_encrypted_websocket_failing"
 )
 async def test_update_incorrect_udn_matching_upnp_udn_unique_id_added_from_ssdp(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test updating the wrong udn from ssdp via upnp udn match."""
     entry = MockConfigEntry(
@@ -2331,7 +2331,7 @@ async def test_update_incorrect_udn_matching_upnp_udn_unique_id_added_from_ssdp(
     "remote_websocket", "rest_api", "remote_encrypted_websocket_failing"
 )
 async def test_update_incorrect_udn_matching_mac_unique_id_added_from_ssdp(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test updating the wrong udn from ssdp via mac match."""
     entry = MockConfigEntry(
@@ -2357,7 +2357,7 @@ async def test_update_incorrect_udn_matching_mac_unique_id_added_from_ssdp(
 
 @pytest.mark.usefixtures("remote_websocket")
 async def test_update_incorrect_udn_matching_mac_from_dhcp(
-    hass: __HAC_KEEP__, rest_api: Mock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, rest_api: Mock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test that DHCP updates the wrong udn from ssdp via mac match."""
     entry = MockConfigEntry(
@@ -2391,7 +2391,7 @@ async def test_update_incorrect_udn_matching_mac_from_dhcp(
 
 @pytest.mark.usefixtures("remote_websocket")
 async def test_no_update_incorrect_udn_not_matching_mac_from_dhcp(
-    hass: __HAC_KEEP__, rest_api: Mock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, rest_api: Mock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test that DHCP does not update the wrong udn from ssdp via host match."""
     entry = MockConfigEntry(
@@ -2424,7 +2424,7 @@ async def test_no_update_incorrect_udn_not_matching_mac_from_dhcp(
 
 
 @pytest.mark.usefixtures("remote_websocket", "remote_encrypted_websocket_failing")
-async def test_ssdp_update_mac(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_update_mac(hass: UniversalAssistant) -> None:
     """Ensure that MAC address is correctly updated from SSDP."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -2485,10 +2485,10 @@ async def test_ssdp_update_mac(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("remote_websocket")
-async def test_dhcp_while_user_flow_pending(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_while_user_flow_pending(hass: UniversalAssistant) -> None:
     """Simulate pending user flow, then trigger DHCP before submit.
 
-    Covers https://github.com/yashhasan570/__HAC_KEEP__/issues/156591.
+    Covers https://github.com/yashhasan570/UniversalUniversalAssistant/issues/156591.
     """
     with patch(
         "universalassistant.components.samsungtv.bridge.SamsungTVWSBridge.async_device_info",

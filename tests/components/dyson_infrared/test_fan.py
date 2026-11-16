@@ -16,7 +16,7 @@ from universalassistant.components.fan import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
@@ -28,7 +28,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -50,7 +50,7 @@ async def test_entities(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on_sends_on_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     fan_entity_id: str,
 ) -> None:
@@ -71,7 +71,7 @@ async def test_turn_on_sends_on_command(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_off_sends_off_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     fan_entity_id: str,
 ) -> None:
@@ -100,7 +100,7 @@ async def test_turn_off_sends_off_command(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on_with_percentage_equal_to_current_speed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     fan_entity_id: str,
 ) -> None:
@@ -127,7 +127,7 @@ async def test_turn_on_with_percentage_equal_to_current_speed(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_percentage_zero_turns_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     fan_entity_id: str,
 ) -> None:
@@ -166,7 +166,7 @@ async def test_set_percentage_zero_turns_off(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_set_percentage_speed_up(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     fan_entity_id: str,
     requested_percentage: int,
@@ -204,7 +204,7 @@ async def test_set_percentage_speed_up(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_percentage_speed_down(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     fan_entity_id: str,
 ) -> None:
@@ -235,7 +235,7 @@ async def test_set_percentage_speed_down(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_oscillate_sends_swing_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     fan_entity_id: str,
 ) -> None:

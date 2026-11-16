@@ -27,7 +27,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import (
@@ -116,7 +116,7 @@ MOCK_USER_FINAL = {
     ],
 )
 async def test_form(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_user_step: dict[str, Any],
     mock_user_auth_step: dict[str, Any],
@@ -171,7 +171,7 @@ async def test_form(
     ],
 )
 async def test_form_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     exception: Exception,
     reason: str,
@@ -236,7 +236,7 @@ async def test_form_exceptions(
     ],
 )
 async def test_form_node_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     exception: Exception,
     reason: str,
@@ -289,7 +289,7 @@ async def test_form_node_exceptions(
     ],
 )
 async def test_form_exceptions_qemu(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     exception: Exception,
     reason: str,
@@ -332,7 +332,7 @@ async def test_form_exceptions_qemu(
 
 @pytest.mark.parametrize("status_code", [595, 596])
 async def test_form_skips_node_with_guest_list_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_setup_entry: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -376,7 +376,7 @@ async def test_form_skips_node_with_guest_list_error(
 
 
 async def test_form_no_nodes_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
 ) -> None:
     """Test we handle no nodes found exception."""
@@ -414,7 +414,7 @@ async def test_form_no_nodes_exception(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_no_nodes_empty_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
 ) -> None:
     """Test we handle no nodes found exception when empty list is returned."""
@@ -451,7 +451,7 @@ async def test_form_no_nodes_empty_list(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_duplicate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -511,7 +511,7 @@ def sanitize_config_entry(data: dict[str, Any]) -> dict[str, Any]:
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_flow_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     mock_user_step: dict[str, Any],
@@ -541,7 +541,7 @@ async def test_full_flow_reconfigure(
 
 
 async def test_full_flow_reconfigure_match_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_setup_entry: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -607,7 +607,7 @@ async def test_full_flow_reconfigure_match_entries(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_flow_reconfigure_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -647,7 +647,7 @@ async def test_full_flow_reconfigure_exceptions(
 
 
 async def test_full_flow_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_setup_entry: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -680,7 +680,7 @@ async def test_full_flow_reauth(
 
 
 async def test_full_flow_reauth_token_other(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_setup_entry: MagicMock,
     mock_config_entry_token_other: MockConfigEntry,
@@ -742,7 +742,7 @@ async def test_full_flow_reauth_token_other(
     ],
 )
 async def test_full_flow_reauth_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_setup_entry: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -780,7 +780,7 @@ async def test_full_flow_reauth_exceptions(
 
 
 async def test_form_offline_node_skipped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
 ) -> None:
     """Test that offline nodes are skipped during config flow."""

@@ -33,8 +33,8 @@ from universalassistant.const import (
     UnitOfVolume,
     UnitOfVolumeFlowRate,
 )
-from universalassistant.core import __HAC_KEEP__, State, callback, split_entity_id
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, State, callback, split_entity_id
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.entity import entity_sources
 from universalassistant.helpers.typing import Undefined
@@ -132,7 +132,7 @@ def _parse_state_class(state_class: Any) -> SensorStateClass | None:
     return try_parse_enum(SensorStateClass, state_class)
 
 
-def _get_sensor_states(hass: __HAC_KEEP__) -> list[State]:
+def _get_sensor_states(hass: UniversalAssistant) -> list[State]:
     """Get the current state of all sensors for which to compile statistics."""
     instance = get_instance(hass)
     # We check for state class first before calling the filter
@@ -330,7 +330,7 @@ def _collect_equivalent_units_for_entity(
 
 
 def _normalize_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     old_metadatas: dict[str, tuple[int, StatisticMetaData]],
     fstates: list[tuple[float, State]],
     entity_id: str,
@@ -451,7 +451,7 @@ def _normalize_states(
     return unit_class, statistics_unit, valid_fstates
 
 
-def _suggest_report_issue(hass: __HAC_KEEP__, entity_id: str) -> str:
+def _suggest_report_issue(hass: UniversalAssistant, entity_id: str) -> str:
     """Suggest to report an issue."""
     entity_info = entity_sources(hass).get(entity_id)
 
@@ -461,7 +461,7 @@ def _suggest_report_issue(hass: __HAC_KEEP__, entity_id: str) -> str:
 
 
 def warn_dip(
-    hass: __HAC_KEEP__, entity_id: str, state: State, previous_fstate: float
+    hass: UniversalAssistant, entity_id: str, state: State, previous_fstate: float
 ) -> None:
     """Log a warning once if a sensor with TOTAL_INCREASING has a decreasing value.
 
@@ -499,7 +499,7 @@ def warn_dip(
         )
 
 
-def warn_negative(hass: __HAC_KEEP__, entity_id: str, state: State) -> None:
+def warn_negative(hass: UniversalAssistant, entity_id: str, state: State) -> None:
     """Log a warning once if a sensor with TOTAL_INCREASING has a negative value."""
     if WARN_NEGATIVE not in hass.data:
         hass.data[WARN_NEGATIVE] = set()
@@ -522,7 +522,7 @@ def warn_negative(hass: __HAC_KEEP__, entity_id: str, state: State) -> None:
 
 
 def reset_detected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id: str,
     fstate: float,
     previous_fstate: float | None,
@@ -537,7 +537,7 @@ def reset_detected(
 
     if fstate < 0:
         warn_negative(hass, entity_id, state)
-        raise __HAC_KEEP__Error
+        raise UniversalAssistantError
 
     return fstate < 0.9 * previous_fstate
 
@@ -576,7 +576,7 @@ def _timestamp_to_isoformat_or_none(timestamp: float | None) -> str | None:
 
 
 def compile_statistics(  # noqa: C901
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     session: Session,
     start: dt.datetime,
     end: dt.datetime,
@@ -841,7 +841,7 @@ def compile_statistics(  # noqa: C901
                                 fstate,
                                 state.last_updated.isoformat(),
                             )
-                    except __HAC_KEEP__Error:
+                    except UniversalAssistantError:
                         continue
 
                 if reset:
@@ -876,7 +876,7 @@ def compile_statistics(  # noqa: C901
 
 
 def list_statistic_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     statistic_ids: list[str] | tuple[str] | None = None,
     statistic_type: str | None = None,
 ) -> dict:
@@ -1022,7 +1022,7 @@ def _update_issues(
 
 
 def update_statistics_issues(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     session: Session,
     custom_units_for_entities: dict[str, dict[str | None, str]],
 ) -> None:
@@ -1068,7 +1068,7 @@ def update_statistics_issues(
 
 
 def validate_statistics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     custom_units_for_entities: dict[str, dict[str | None, str]],
 ) -> dict[str, list[statistics.ValidationIssue]]:
     """Validate statistics."""

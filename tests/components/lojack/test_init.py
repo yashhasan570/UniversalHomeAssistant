@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.lojack.const import DEFAULT_UPDATE_INTERVAL, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -19,7 +19,7 @@ from .const import TEST_DEVICE_ID
 
 
 async def test_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lojack_client: MagicMock,
 ) -> None:
@@ -38,7 +38,7 @@ async def test_setup_entry(
     ],
 )
 async def test_setup_entry_create_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
     expected_state: ConfigEntryState,
@@ -63,7 +63,7 @@ async def test_setup_entry_create_errors(
     ],
 )
 async def test_setup_entry_list_devices_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lojack_client: MagicMock,
     side_effect: Exception,
@@ -80,7 +80,7 @@ async def test_setup_entry_list_devices_errors(
 
 
 async def test_setup_entry_no_vehicles(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lojack_client: MagicMock,
 ) -> None:
@@ -94,7 +94,7 @@ async def test_setup_entry_no_vehicles(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lojack_client: MagicMock,
 ) -> None:
@@ -110,7 +110,7 @@ async def test_unload_entry(
 
 
 async def test_coordinator_update_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lojack_client: MagicMock,
     mock_device: MagicMock,
@@ -139,7 +139,7 @@ async def test_coordinator_update_auth_error(
 
 
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lojack_client: MagicMock,
     device_registry: dr.DeviceRegistry,

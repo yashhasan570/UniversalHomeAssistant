@@ -20,7 +20,7 @@ from universalassistant.components.lorawan import (
     async_register_connection,
 )
 from universalassistant.config_entries import SOURCE_INTEGRATION_DISCOVERY, SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.util import dt as dt_util
 
@@ -42,7 +42,7 @@ def mock_discovery() -> Generator[None]:
 )
 @pytest.mark.parametrize(("stack", "model"), CATALOG_MODELS)
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     source: str,
     data: LoRaWANDiscoveryInfo | None,
     connection_entry: MockConfigEntry,
@@ -86,7 +86,7 @@ async def test_setup(
 )
 @pytest.mark.usefixtures("config_entry")
 async def test_already_configured(
-    hass: __HAC_KEEP__, source: str, data: LoRaWANDiscoveryInfo | None
+    hass: UniversalAssistant, source: str, data: LoRaWANDiscoveryInfo | None
 ) -> None:
     """Only one SenseCAP entry is needed for all connections."""
     result = await hass.config_entries.flow.async_init(
@@ -97,7 +97,7 @@ async def test_already_configured(
 
 
 async def test_duplicate_discovery(
-    hass: __HAC_KEEP__, connection_entry: MockConfigEntry
+    hass: UniversalAssistant, connection_entry: MockConfigEntry
 ) -> None:
     """Concurrent discoveries share one confirmation flow."""
     assert await hass.config_entries.async_setup(connection_entry.entry_id)
@@ -120,7 +120,7 @@ async def test_duplicate_discovery(
     [(SOURCE_USER, None), (SOURCE_INTEGRATION_DISCOVERY, LoRaWANDiscoveryInfo())],
 )
 async def test_no_connections(
-    hass: __HAC_KEEP__, source: str, data: LoRaWANDiscoveryInfo | None
+    hass: UniversalAssistant, source: str, data: LoRaWANDiscoveryInfo | None
 ) -> None:
     """Explain that a LoRaWAN backend must be configured first."""
     result = await hass.config_entries.flow.async_init(
@@ -131,7 +131,7 @@ async def test_no_connections(
 
 
 async def test_empty_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection_entry: MockConfigEntry,
     mock_connection: MockConnection,
 ) -> None:
@@ -154,7 +154,7 @@ async def test_empty_connection(
     ],
 )
 async def test_unsupported_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection_entry: MockConfigEntry,
     mock_connection: MockConnection,
     descriptor: DeviceDescriptor,
@@ -177,7 +177,7 @@ async def test_unsupported_device(
 
 
 async def test_connection_removed_before_confirmation(
-    hass: __HAC_KEEP__, connection_entry: MockConfigEntry
+    hass: UniversalAssistant, connection_entry: MockConfigEntry
 ) -> None:
     """Recheck connection availability before creating the entry."""
     assert await hass.config_entries.async_setup(connection_entry.entry_id)
@@ -192,7 +192,7 @@ async def test_connection_removed_before_confirmation(
 
 
 async def test_device_removed_before_confirmation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection_entry: MockConfigEntry,
     mock_connection: MockConnection,
     descriptor: DeviceDescriptor,
@@ -212,7 +212,7 @@ async def test_device_removed_before_confirmation(
 
 
 async def test_connection_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection_entry: MockConfigEntry,
     mock_connection: MockConnection,
 ) -> None:
@@ -230,7 +230,7 @@ async def test_connection_unavailable(
 
 @pytest.mark.parametrize("error", [None, ConnectionUnavailable])
 async def test_supported_device_on_another_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection_entry: MockConfigEntry,
     mock_connection: MockConnection,
     descriptor: DeviceDescriptor,

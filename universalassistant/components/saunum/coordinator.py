@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, override
 
 from pysaunum import SaunumClient, SaunumData, SaunumException
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DEFAULT_SCAN_INTERVAL, DOMAIN
@@ -23,7 +23,7 @@ class LeilSaunaCoordinator(DataUpdateCoordinator[SaunumData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         client: SaunumClient,
         config_entry: LeilSaunaConfigEntry,
     ) -> None:

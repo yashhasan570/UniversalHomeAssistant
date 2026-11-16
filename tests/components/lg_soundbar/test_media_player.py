@@ -17,7 +17,7 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import find_update_callback, setup_integration
 
@@ -46,7 +46,7 @@ def send_func_view_info(callback: MagicMock, current_function: str) -> None:
 
 
 async def test_source_reported_as_is_when_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_temescal: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -60,7 +60,7 @@ async def test_source_reported_as_is_when_available(
 
 
 async def test_source_falls_back_to_available_equivalent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_temescal: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -90,7 +90,7 @@ async def test_source_falls_back_to_available_equivalent(
 
 
 async def test_source_kept_when_no_equivalent_is_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_temescal: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_source_kept_when_no_equivalent_is_available(
 
 
 async def test_source_list_only_contains_offered_functions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_temescal: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -124,7 +124,7 @@ async def test_source_list_only_contains_offered_functions(
 
 
 async def test_source_unknown_before_any_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_temescal: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -159,7 +159,7 @@ def send_eq_view_info(callback: MagicMock, current_equaliser: int) -> None:
 
 
 async def test_sound_modes_beyond_the_library_table_are_offered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_temescal: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -182,7 +182,7 @@ async def test_sound_modes_beyond_the_library_table_are_offered(
 
 
 async def test_selecting_a_sound_mode_beyond_the_library_table(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_temescal: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -203,7 +203,7 @@ async def test_selecting_a_sound_mode_beyond_the_library_table(
 
 
 async def test_selecting_a_named_sound_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_temescal: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -226,7 +226,7 @@ async def test_selecting_a_named_sound_mode(
 
 
 async def test_selecting_a_source_the_device_does_not_offer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_temescal: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -261,7 +261,7 @@ def send_power_status(callback: MagicMock, powered_on: bool) -> None:
 
 
 async def test_state_stays_on_without_a_reported_power_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_temescal: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -286,7 +286,7 @@ async def test_state_stays_on_without_a_reported_power_status(
     ],
 )
 async def test_state_follows_a_reported_power_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_temescal: MagicMock,
     mock_config_entry: MockConfigEntry,
     powered_on: bool,

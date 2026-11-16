@@ -25,8 +25,8 @@ from universalassistant.components.light import (
     SERVICE_TURN_OFF as LIGHT_SERVICE_TURN_OFF,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.setup import async_setup_component
 from universalassistant.util import color as color_util
 
@@ -36,7 +36,7 @@ EXPECTED_FILE_COLOR = (25, 75, 125)
 
 
 @pytest.fixture(autouse=True)
-async def setup_universalassistant(hass: __HAC_KEEP__):
+async def setup_universalassistant(hass: UniversalAssistant):
     """Set up the universalassistant integration."""
     await async_setup_component(hass, "universalassistant", {})
 
@@ -66,7 +66,7 @@ def _close_enough(actual_rgb, testing_rgb):
 
 
 @pytest.fixture(autouse=True)
-async def setup_light(hass: __HAC_KEEP__):
+async def setup_light(hass: UniversalAssistant):
     """Configure our light component to work against for testing."""
     assert await async_setup_component(
         hass, LIGHT_DOMAIN, {LIGHT_DOMAIN: {"platform": "demo"}}
@@ -95,7 +95,7 @@ async def setup_light(hass: __HAC_KEEP__):
     assert state.state == STATE_OFF
 
 
-async def test_missing_url_and_path(hass: __HAC_KEEP__, setup_integration) -> None:
+async def test_missing_url_and_path(hass: UniversalAssistant, setup_integration) -> None:
     """Test that nothing happens when url and path are missing."""
 
     # Validate pre service call
@@ -119,7 +119,7 @@ async def test_missing_url_and_path(hass: __HAC_KEEP__, setup_integration) -> No
     assert state.state == STATE_OFF
 
 
-async def _async_execute_service(hass: __HAC_KEEP__, service_data: dict[str, Any]):
+async def _async_execute_service(hass: UniversalAssistant, service_data: dict[str, Any]):
     # Validate pre service call
     state = hass.states.get(LIGHT_ENTITY)
     assert state
@@ -135,7 +135,7 @@ async def _async_execute_service(hass: __HAC_KEEP__, service_data: dict[str, Any
 
 
 async def test_url_success(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, setup_integration
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, setup_integration
 ) -> None:
     """Test that a successful image GET translate to light RGB."""
     service_data = {
@@ -172,7 +172,7 @@ async def test_url_success(
 
 
 async def test_url_not_allowed(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, setup_integration
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, setup_integration
 ) -> None:
     """Test that a not allowed external URL raises and doesn't turn light on."""
     service_data = {
@@ -208,7 +208,7 @@ async def test_url_not_allowed(
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_url_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     exc: type[Exception],
     translation_key: str,
@@ -225,7 +225,7 @@ async def test_url_exception(
 
     aioclient_mock.get(url=service_data[ColorExtractorServiceArgument.URL], exc=exc)
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN, ColorExtractorService.TURN_ON, service_data, blocking=True
         )
@@ -252,7 +252,7 @@ async def test_url_exception(
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_url_error(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, status: int
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, status: int
 ) -> None:
     """Test that a non-OK HTTP status raises and doesn't turn light on."""
     service_data = {
@@ -273,7 +273,7 @@ async def test_url_error(
             "pytest_universalassistant.test_util.aiohttp.AiohttpClientMockResponse.read",
             side_effect=AssertionError("body read for a non-OK response"),
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN, ColorExtractorService.TURN_ON, service_data, blocking=True
@@ -314,7 +314,7 @@ def _get_file_mock(file_path):
 
 @patch("os.path.isfile", Mock(return_value=True))
 @patch("os.access", Mock(return_value=True))
-async def test_file(hass: __HAC_KEEP__, setup_integration) -> None:
+async def test_file(hass: UniversalAssistant, setup_integration) -> None:
     """Test that the file only service reads a file and translates to light RGB."""
     service_data = {
         ColorExtractorServiceArgument.PATH: "/opt/image.png",
@@ -356,7 +356,7 @@ async def test_file(hass: __HAC_KEEP__, setup_integration) -> None:
 
 @patch("os.path.isfile", Mock(return_value=True))
 @patch("os.access", Mock(return_value=True))
-async def test_file_denied_dir(hass: __HAC_KEEP__, setup_integration) -> None:
+async def test_file_denied_dir(hass: UniversalAssistant, setup_integration) -> None:
     """Test file service raises for images in disallowed dirs."""
     service_data = {
         ColorExtractorServiceArgument.PATH: "/path/to/a/dir/not/allowed/image.png",
@@ -410,7 +410,7 @@ async def test_file_denied_dir(hass: __HAC_KEEP__, setup_integration) -> None:
 @patch("os.path.isfile", Mock(return_value=True))
 @patch("os.access", Mock(return_value=True))
 async def test_turn_on_invalid_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     image_attr: str,
     image_reference: str,
@@ -454,7 +454,7 @@ async def test_turn_on_invalid_image(
 
 @patch("os.path.isfile", Mock(return_value=True))
 @patch("os.access", Mock(return_value=True))
-async def test_get_color_service(hass: __HAC_KEEP__, setup_integration) -> None:
+async def test_get_color_service(hass: UniversalAssistant, setup_integration) -> None:
     """Test that the get_color service returns the expected RGB color."""
     service_data = {
         ColorExtractorServiceArgument.PATH: "/opt/image.png",
@@ -482,7 +482,7 @@ async def test_get_color_service(hass: __HAC_KEEP__, setup_integration) -> None:
 @patch("os.path.isfile", Mock(return_value=True))
 @patch("os.access", Mock(return_value=True))
 async def test_get_color_service_invalid_image(
-    hass: __HAC_KEEP__, setup_integration
+    hass: UniversalAssistant, setup_integration
 ) -> None:
     """Test that the get_color service raises a ServiceValidationError when given an invalid image."""
     service_data = {
@@ -517,7 +517,7 @@ async def test_get_color_service_invalid_image(
 @patch("os.path.isfile", Mock(return_value=True))
 @patch("os.access", Mock(return_value=True))
 async def test_get_color_service_not_allowed_path(
-    hass: __HAC_KEEP__, setup_integration
+    hass: UniversalAssistant, setup_integration
 ) -> None:
     """Test that the get_color service raises a ServiceValidationError when given an image from a path that is not allowed."""
     service_data = {

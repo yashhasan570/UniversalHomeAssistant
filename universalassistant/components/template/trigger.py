@@ -13,7 +13,7 @@ from universalassistant.core import (
     Event,
     EventStateChangedData,
     HassJob,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
 )
 from universalassistant.helpers import config_validation as cv, template
@@ -39,7 +39,7 @@ TRIGGER_SCHEMA = IF_ACTION_SCHEMA = cv.TRIGGER_BASE_SCHEMA.extend(
 
 
 async def async_attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,

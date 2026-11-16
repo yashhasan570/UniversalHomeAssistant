@@ -22,11 +22,11 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CONF_TIME_ZONE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_step_user(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_step_user(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test user config."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -55,7 +55,7 @@ async def test_step_user(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> Non
 
 
 async def test_single_instance_allowed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort if already setup."""
@@ -69,7 +69,7 @@ async def test_single_instance_allowed(
     assert result.get("reason") == "single_instance_allowed"
 
 
-async def test_options(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def test_options(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Test updating options."""
     config_entry.add_to_hass(hass)
 
@@ -94,7 +94,7 @@ async def test_options(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> Non
 
 
 async def test_options_reconfigure(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test updating Jewish Calendar options triggers a value update."""
     config_entry.add_to_hass(hass)
@@ -115,7 +115,7 @@ async def test_options_reconfigure(
     assert config_entry.options[CONF_CANDLE_LIGHT_MINUTES] == DEFAULT_CANDLE_LIGHT + 1
 
 
-async def test_reconfigure(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def test_reconfigure(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Test starting a reconfigure flow."""
     config_entry.add_to_hass(hass)
     await hass.config_entries.async_setup(config_entry.entry_id)

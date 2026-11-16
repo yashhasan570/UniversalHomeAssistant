@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.prusalink import DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
@@ -23,7 +23,7 @@ def setup_binary_sensor_platform_only():
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensors_no_job(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: None
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: None
 ) -> None:
     """Test sensors while no job active."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -34,7 +34,7 @@ async def test_binary_sensors_no_job(
 
 
 async def test_status_connect_enabled_by_default(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: None
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: None
 ) -> None:
     """Connect binary sensor is enabled by default and reflects status_connect.ok."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -45,7 +45,7 @@ async def test_status_connect_enabled_by_default(
 
 
 async def test_status_connect_not_created_when_absent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api: None,
     mock_get_status_idle: dict[str, Any],
@@ -59,7 +59,7 @@ async def test_status_connect_not_created_when_absent(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sd_ready(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: None
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: None
 ) -> None:
     """SD card sensor reflects sd_ready from info endpoint."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -71,7 +71,7 @@ async def test_sd_ready(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_farm_mode(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: None
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: None
 ) -> None:
     """Farm mode sensor reflects farm_mode from info endpoint."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -83,7 +83,7 @@ async def test_farm_mode(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_farm_mode_not_created_when_absent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api: None,
     mock_info_api: dict[str, Any],

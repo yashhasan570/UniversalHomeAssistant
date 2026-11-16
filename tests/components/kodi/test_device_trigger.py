@@ -7,7 +7,7 @@ from universalassistant.components import automation
 from universalassistant.components.device_automation import DeviceAutomationType
 from universalassistant.components.kodi.const import DOMAIN
 from universalassistant.components.media_player import DOMAIN as MP_DOMAIN
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -15,14 +15,14 @@ from . import init_integration
 
 
 @pytest.fixture
-async def kodi_media_player(hass: __HAC_KEEP__) -> str:
+async def kodi_media_player(hass: UniversalAssistant) -> str:
     """Get a kodi media player."""
     await init_integration(hass)
     return f"{MP_DOMAIN}.name"
 
 
 async def test_get_triggers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -59,7 +59,7 @@ async def test_get_triggers(
 
 
 async def test_if_fires_on_state_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],
     kodi_media_player: str,
@@ -135,7 +135,7 @@ async def test_if_fires_on_state_change(
 
 
 async def test_if_fires_on_state_change_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],
     kodi_media_player: str,

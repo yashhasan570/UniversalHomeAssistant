@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONF_INSTALLATION_ID, CONF_SERIAL
 from .hub import VictronGxConfigEntry
@@ -13,7 +13,7 @@ TO_REDACT = {CONF_USERNAME, CONF_PASSWORD, CONF_HOST, CONF_SERIAL, CONF_INSTALLA
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: VictronGxConfigEntry
+    hass: UniversalAssistant, entry: VictronGxConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     hub = entry.runtime_data

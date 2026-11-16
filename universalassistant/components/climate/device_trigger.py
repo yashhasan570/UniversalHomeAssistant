@@ -25,8 +25,8 @@ from universalassistant.const import (
     CONF_TYPE,
     PERCENTAGE,
 )
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.entity import get_capability
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
@@ -80,7 +80,7 @@ TRIGGER_SCHEMA = probatio.TaggedUnion(
 
 
 async def async_get_triggers(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, str]]:
     """List device triggers for Climate devices."""
     registry = er.async_get(hass)
@@ -131,7 +131,7 @@ async def async_get_triggers(
 
 
 async def async_attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,
@@ -185,7 +185,7 @@ async def async_attach_trigger(
 
 
 async def async_get_trigger_capabilities(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List trigger capabilities."""
     trigger_type = config[CONF_TYPE]
@@ -212,7 +212,7 @@ async def async_get_trigger_capabilities(
             unit_of_measurement = get_capability(
                 hass, entry.entity_id, ClimateEntityCapabilityAttribute.TEMPERATURE_UNIT
             )
-        except __HAC_KEEP__Error:
+        except UniversalAssistantError:
             unit_of_measurement = None
     description = {"suffix": unit_of_measurement} if unit_of_measurement else None
 

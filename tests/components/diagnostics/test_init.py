@@ -16,7 +16,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator, WebSocketGe
 
 from universalassistant.components.diagnostics import _DIAGNOSTICS_DATA, DOMAIN
 from universalassistant.components.websocket_api import TYPE_RESULT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 from universalassistant.helpers.system_info import async_get_system_info
 from universalassistant.loader import async_get_integration
@@ -24,7 +24,7 @@ from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(autouse=True)
-async def mock_diagnostics_integration(hass: __HAC_KEEP__) -> None:
+async def mock_diagnostics_integration(hass: UniversalAssistant) -> None:
     """Mock a diagnostics integration."""
     hass.config.components.add("fake_integration")
     mock_platform(
@@ -52,7 +52,7 @@ async def mock_diagnostics_integration(hass: __HAC_KEEP__) -> None:
 
 
 async def test_websocket(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test websocket command."""
     client = await hass_ws_client(hass)
@@ -96,7 +96,7 @@ async def test_websocket(
     ],
 )
 async def test_download_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
     issue_registry: ir.IssueRegistry,
@@ -338,7 +338,7 @@ async def test_download_diagnostics(
 
 
 async def test_download_diagnostics_requires_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_read_only_access_token: str,
 ) -> None:
@@ -354,7 +354,7 @@ async def test_download_diagnostics_requires_admin(
 
 
 async def test_failure_scenarios(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test failure scenarios."""
     client = await hass_client()
@@ -400,7 +400,7 @@ async def test_failure_scenarios(
     ],
 )
 async def test_download_diagnostics_device_not_owned_by_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
     device_key: str,
@@ -437,7 +437,7 @@ async def test_download_diagnostics_device_not_owned_by_config_entry(
 
 
 async def test_download_diagnostics_composite_device_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:

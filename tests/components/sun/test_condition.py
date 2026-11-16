@@ -11,7 +11,7 @@ from pytest_universalassistant.typing import WebSocketGenerator
 from universalassistant.components import automation
 from universalassistant.components.sun.const import SunEntityStateAttribute
 from universalassistant.const import SUN_EVENT_SUNRISE, SUN_EVENT_SUNSET
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import trace
 from universalassistant.helpers.condition import async_validate_condition_config
 from universalassistant.helpers.sun import get_astral_event_next
@@ -88,7 +88,7 @@ async def assert_automation_condition_trace(hass_ws_client, automation_id, expec
 
 
 async def test_if_action_before_sunrise_no_offset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -164,7 +164,7 @@ async def test_if_action_before_sunrise_no_offset(
 
 
 async def test_if_action_after_sunrise_no_offset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -240,7 +240,7 @@ async def test_if_action_after_sunrise_no_offset(
 
 
 async def test_if_action_before_sunrise_with_offset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -367,7 +367,7 @@ async def test_if_action_before_sunrise_with_offset(
 
 
 async def test_if_action_before_sunset_with_offset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -491,7 +491,7 @@ async def test_if_action_before_sunset_with_offset(
 
 
 async def test_if_action_after_sunrise_with_offset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -639,7 +639,7 @@ async def test_if_action_after_sunrise_with_offset(
 
 
 async def test_if_action_after_sunset_with_offset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -715,7 +715,7 @@ async def test_if_action_after_sunset_with_offset(
 
 
 async def test_if_action_after_and_before_during(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -819,7 +819,7 @@ async def test_if_action_after_and_before_during(
 
 
 async def test_if_action_before_or_after_during(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -943,7 +943,7 @@ async def test_if_action_before_or_after_during(
 
 
 async def test_if_action_before_sunrise_no_offset_kotzebue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -1024,7 +1024,7 @@ async def test_if_action_before_sunrise_no_offset_kotzebue(
 
 
 async def test_if_action_after_sunrise_no_offset_kotzebue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -1105,7 +1105,7 @@ async def test_if_action_after_sunrise_no_offset_kotzebue(
 
 
 async def test_if_action_before_sunset_no_offset_kotzebue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -1187,7 +1187,7 @@ async def test_if_action_before_sunset_no_offset_kotzebue(
 
 
 async def test_if_action_after_sunset_no_offset_kotzebue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -1281,7 +1281,7 @@ async def test_if_action_after_sunset_no_offset_kotzebue(
     ],
 )
 async def test_if_action_no_sun_event_in_polar_regions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     service_calls: list[ServiceCall],
     location: tuple[float, float, str],
@@ -1409,7 +1409,7 @@ async def test_if_action_no_sun_event_in_polar_regions(
     ],
 )
 async def test_sun_state_conditions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     condition_key: str,
     location: tuple[float, float, str],
@@ -1453,7 +1453,7 @@ async def test_sun_state_conditions(
     ],
 )
 async def test_sun_state_condition_takes_no_options(
-    hass: __HAC_KEEP__, condition_key: str
+    hass: UniversalAssistant, condition_key: str
 ) -> None:
     """Test the sun state conditions accept no target and reject options."""
     await async_validate_condition_config(hass, {"condition": condition_key})
@@ -1464,7 +1464,7 @@ async def test_sun_state_condition_takes_no_options(
 
 
 async def test_is_set_agrees_with_sunset_trigger_time(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
 ) -> None:
     """Test is_set flips at the exact calculated sunset time."""
@@ -1532,7 +1532,7 @@ async def test_is_set_agrees_with_sunset_trigger_time(
     ],
 )
 async def test_elevation_condition(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     threshold: dict[str, object],
     elevation: float,
@@ -1629,7 +1629,7 @@ async def test_elevation_condition(
     ],
 )
 async def test_twilight_condition_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     condition_key: str,
     now: datetime,
@@ -1725,7 +1725,7 @@ _PERIODS = ("any", "morning", "evening")
     ],
 )
 async def test_golden_blue_hour_condition_period(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     condition_key: str,
     now: datetime,
@@ -1808,7 +1808,7 @@ async def test_golden_blue_hour_condition_period(
     ],
 )
 async def test_midnight_sun_polar_night_condition(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     condition_key: str,
     location: tuple[float, float, str],
@@ -1875,7 +1875,7 @@ async def test_midnight_sun_polar_night_condition(
     ],
 )
 async def test_midnight_sun_polar_night_condition_flips_at_crossing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     condition_key: str,
     crossing: datetime,
@@ -1927,7 +1927,7 @@ async def test_midnight_sun_polar_night_condition_flips_at_crossing(
     ],
 )
 async def test_golden_blue_hour_condition_period_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     condition_key: str,
     period: str,
     expectation: AbstractContextManager,

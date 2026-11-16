@@ -11,7 +11,7 @@ from universalassistant.components.vacuum import (
     VacuumEntityFeature,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import event
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -66,7 +66,7 @@ DEMO_VACUUM_NONE = "Demo vacuum 4 fourth floor"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

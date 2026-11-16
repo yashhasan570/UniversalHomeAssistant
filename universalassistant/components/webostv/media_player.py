@@ -13,10 +13,9 @@ from universalassistant.components.media_player import (
     MediaType,
 )
 from universalassistant.const import EntityStateAttribute
-from universalassistant.core import __HAC_KEEP__, ServiceResponse, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, ServiceResponse, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
-from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, format_mac
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
 
@@ -51,7 +50,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: WebOsTvConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -184,25 +183,6 @@ class LgWebOSMediaPlayerEntity(WebOsTvEntity, RestoreEntity, MediaPlayerEntity):
                 elif entry.get("playState") == "unloaded":
                     self._attr_state = MediaPlayerState.IDLE
 
-        tv_info = self._client.tv_info
-        maj_v = tv_info.software.get("major_ver")
-        min_v = tv_info.software.get("minor_ver")
-        if maj_v and min_v:
-            self._attr_device_info.sw_version = f"{maj_v}.{min_v}"
-
-        if model := tv_info.system.get("modelName"):
-            self._attr_device_info.model = model
-
-        if serial_number := tv_info.system.get("serialNumber"):
-            self._attr_device_info.serial_number = serial_number
-
-        if connections := {
-            (CONNECTION_NETWORK_MAC, format_mac(mac))
-            for key in ("wiredInfo", "wifiInfo")
-            if (mac := tv_info.connection.get(key, {}).get("macAddress"))
-        }:
-            self._attr_device_info.connections = connections
-
         if tv_state.sound_output is not None:
             self._attr_extra_state_attributes = {
                 ATTR_SOUND_OUTPUT: tv_state.sound_output
@@ -326,7 +306,7 @@ class LgWebOSMediaPlayerEntity(WebOsTvEntity, RestoreEntity, MediaPlayerEntity):
     async def async_select_source(self, source: str) -> None:
         """Select input source."""
         if (source_dict := self._source_list.get(source)) is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="source_not_found",
                 translation_placeholders={

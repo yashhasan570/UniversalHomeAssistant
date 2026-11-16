@@ -9,13 +9,13 @@ import pytest
 from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.components.lovelace import DOMAIN, _validate_url_slug
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture
 def mock_onboarding_not_done() -> Generator[MagicMock]:
-    """Mock that __HA_KEEP__ is currently onboarding."""
+    """Mock that Universal Home Assistant is currently onboarding."""
     with patch(
         "universalassistant.components.onboarding.async_is_onboarded",
         return_value=False,
@@ -25,7 +25,7 @@ def mock_onboarding_not_done() -> Generator[MagicMock]:
 
 @pytest.fixture
 def mock_onboarding_done() -> Generator[MagicMock]:
-    """Mock that __HA_KEEP__ is currently onboarding."""
+    """Mock that Universal Home Assistant is currently onboarding."""
     with patch(
         "universalassistant.components.onboarding.async_is_onboarded",
         return_value=True,
@@ -35,7 +35,7 @@ def mock_onboarding_done() -> Generator[MagicMock]:
 
 @pytest.fixture
 def mock_add_onboarding_listener() -> Generator[MagicMock]:
-    """Mock that __HA_KEEP__ is currently onboarding."""
+    """Mock that Universal Home Assistant is currently onboarding."""
     with patch(
         "universalassistant.components.onboarding.async_add_listener",
     ) as mock_add_onboarding_listener:
@@ -43,7 +43,7 @@ def mock_add_onboarding_listener() -> Generator[MagicMock]:
 
 
 async def test_create_dashboards_when_onboarded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
     mock_onboarding_done,
@@ -61,7 +61,7 @@ async def test_create_dashboards_when_onboarded(
 
 
 async def test_create_dashboards_when_not_onboarded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
     mock_add_onboarding_listener,

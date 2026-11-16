@@ -9,7 +9,7 @@ from trmnl.models import Device
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -25,7 +25,7 @@ class TRMNLCoordinator(DataUpdateCoordinator[dict[int, Device]]):
 
     config_entry: TRMNLConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: TRMNLConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: TRMNLConfigEntry) -> None:
         """Initialize coordinator."""
         super().__init__(
             hass,

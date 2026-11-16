@@ -5,7 +5,7 @@ from typing import override
 import probatio
 
 from universalassistant.const import CONF_OPTIONS
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.automation import DomainSpec
 from universalassistant.helpers.trigger import (
@@ -37,7 +37,7 @@ class EventReceivedTrigger(StatelessEntityTriggerBase):
     _domain_specs = {DOMAIN: DomainSpec()}
     _schema = EVENT_RECEIVED_TRIGGER_SCHEMA
 
-    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
+    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
         """Initialize the event received trigger."""
         super().__init__(hass, config)
         self._event_types = set(self._options[CONF_EVENT_TYPE])
@@ -60,6 +60,6 @@ TRIGGERS: dict[str, type[Trigger]] = {
 }
 
 
-async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
+async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
     """Return the triggers for events."""
     return TRIGGERS

@@ -7,7 +7,7 @@ from weatherflow4py.ws import WeatherFlowWebsocketAPI
 from websockets.exceptions import WebSocketException
 
 from universalassistant.const import CONF_API_TOKEN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.util.ssl import client_context
@@ -25,7 +25,7 @@ PLATFORMS: list[Platform] = [Platform.SENSOR, Platform.WEATHER]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: WeatherFlowCloudConfigEntry
+    hass: UniversalAssistant, entry: WeatherFlowCloudConfigEntry
 ) -> None:
     """Set up WeatherFlowCloud from a config entry."""
 
@@ -100,7 +100,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: WeatherFlowCloudConfigEntry
+    hass: UniversalAssistant, entry: WeatherFlowCloudConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

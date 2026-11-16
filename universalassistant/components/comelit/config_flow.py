@@ -23,8 +23,8 @@ from universalassistant.const import (
     CONF_TYPE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er, selector
 from universalassistant.helpers.selector import (
     TextSelector,
@@ -82,7 +82,7 @@ STEP_REAUTH_DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> dict[str, str]:
+async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> dict[str, str]:
     """Validate the user input allows us to connect."""
 
     api: ComelitCommonApi
@@ -393,21 +393,21 @@ class ComelitOptionsFlowHandler(OptionsFlow):
         )
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(__HAC_KEEP__Error):
+class InvalidAuth(UniversalAssistantError):
     """Error to indicate there is invalid auth."""
 
 
-class InvalidPin(__HAC_KEEP__Error):
+class InvalidPin(UniversalAssistantError):
     """Error to indicate an invalid pin."""
 
 
-class InvalidVedoPin(__HAC_KEEP__Error):
+class InvalidVedoPin(UniversalAssistantError):
     """Error to indicate an invalid VEDO pin."""
 
 
-class InvalidVedoAuth(__HAC_KEEP__Error):
+class InvalidVedoAuth(UniversalAssistantError):
     """Error to indicate VEDO authentication failed."""

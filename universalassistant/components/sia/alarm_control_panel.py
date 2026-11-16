@@ -12,7 +12,7 @@ from universalassistant.components.alarm_control_panel import (
     AlarmControlPanelState,
 )
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_ACCOUNT, CONF_ACCOUNTS, CONF_ZONES, KEY_ALARM, PREVIOUS_STATE
@@ -65,7 +65,7 @@ ENTITY_DESCRIPTION_ALARM = SIAAlarmControlPanelEntityDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SIAConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -89,7 +89,7 @@ class SIAAlarmControlPanel(SIABaseEntity, AlarmControlPanelEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: SIAConfigEntry,
         account: str,
         zone: int,

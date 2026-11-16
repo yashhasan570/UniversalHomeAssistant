@@ -43,8 +43,8 @@ from universalassistant.components.tts.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 from universalassistant.util.async_ import run_callback_threadsafe
@@ -72,7 +72,7 @@ async def get_stream_data(stream: tts.ResultStream) -> bytes:
 
 
 async def test_config_entry_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_tts_entity: MockTTSEntity,
     freezer: FrozenDateTimeFactory,
@@ -125,7 +125,7 @@ async def test_config_entry_unload(
 @pytest.mark.parametrize(
     "setup", ["mock_setup", "mock_config_entry_setup"], indirect=True
 )
-async def test_setup_component(hass: __HAC_KEEP__, setup: str) -> None:
+async def test_setup_component(hass: UniversalAssistant, setup: str) -> None:
     """Set up a TTS platform with defaults."""
     assert hass.services.has_service(tts.DOMAIN, "clear_cache")
     assert f"test.{tts.DOMAIN}" in hass.config.components
@@ -136,7 +136,7 @@ async def test_setup_component(hass: __HAC_KEEP__, setup: str) -> None:
     "setup", ["mock_setup", "mock_config_entry_setup"], indirect=True
 )
 async def test_setup_component_no_access_cache_folder(
-    hass: __HAC_KEEP__, mock_tts_init_cache_dir: MagicMock, setup: str
+    hass: UniversalAssistant, mock_tts_init_cache_dir: MagicMock, setup: str
 ) -> None:
     """Set up a TTS platform with defaults."""
     assert not hass.services.has_service(tts.DOMAIN, "test_say")
@@ -169,7 +169,7 @@ async def test_setup_component_no_access_cache_folder(
     indirect=["setup"],
 )
 async def test_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_cache_dir: Path,
     setup: str,
     tts_service: str,
@@ -235,7 +235,7 @@ async def test_service(
     indirect=["setup"],
 )
 async def test_service_default_language(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_cache_dir: Path,
     setup: str,
     tts_service: str,
@@ -299,7 +299,7 @@ async def test_service_default_language(
     indirect=["setup"],
 )
 async def test_service_default_special_language(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_cache_dir: Path,
     setup: str,
     tts_service: str,
@@ -362,7 +362,7 @@ async def test_service_default_special_language(
     indirect=["setup"],
 )
 async def test_service_language(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_cache_dir: Path,
     setup: str,
     tts_service: str,
@@ -425,7 +425,7 @@ async def test_service_language(
     indirect=["setup"],
 )
 async def test_service_wrong_language(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_cache_dir: Path,
     setup: str,
     tts_service: str,
@@ -479,7 +479,7 @@ async def test_service_wrong_language(
     indirect=["setup"],
 )
 async def test_service_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_cache_dir: Path,
     setup: str,
     tts_service: str,
@@ -563,7 +563,7 @@ class MockEntityWithDefaults(MockTTSEntity):
     indirect=["setup"],
 )
 async def test_service_default_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_cache_dir: Path,
     setup: str,
     tts_service: str,
@@ -634,7 +634,7 @@ async def test_service_default_options(
     indirect=["setup"],
 )
 async def test_merge_default_service_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_cache_dir: Path,
     setup: str,
     tts_service: str,
@@ -704,7 +704,7 @@ async def test_merge_default_service_options(
     indirect=["setup"],
 )
 async def test_service_wrong_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_cache_dir: Path,
     setup: str,
     tts_service: str,
@@ -760,7 +760,7 @@ async def test_service_wrong_options(
     indirect=["setup"],
 )
 async def test_service_clear_cache(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_cache_dir: Path,
     setup: str,
     tts_service: str,
@@ -813,7 +813,7 @@ def _write_cache_file(path: Path, days_unused: int = 0) -> None:
 
 
 async def _async_speak_from_cache(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Speak the doorbell message and wait until its audio is loaded."""
     await hass.services.async_call(
@@ -831,7 +831,7 @@ async def _async_speak_from_cache(
 
 
 async def test_service_clear_cache_days(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_cache_dir: Path,
     mock_tts_entity: MockTTSEntity,
 ) -> None:
@@ -859,7 +859,7 @@ async def test_service_clear_cache_days(
 
 
 async def test_service_clear_cache_days_missing_file(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_cache_dir: Path,
     mock_tts_entity: MockTTSEntity,
 ) -> None:
@@ -888,7 +888,7 @@ async def test_service_clear_cache_days_missing_file(
     ],
 )
 async def test_service_clear_cache_days_file_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_cache_dir: Path,
     mock_tts_entity: MockTTSEntity,
     caplog: pytest.LogCaptureFixture,
@@ -953,7 +953,7 @@ async def test_service_clear_cache_days_file_error(
     indirect=["setup"],
 )
 async def test_service_receive_voice(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_tts_cache_dir: Path,
     setup: str,
@@ -1024,7 +1024,7 @@ async def test_service_receive_voice(
     indirect=["setup"],
 )
 async def test_service_receive_voice_german(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_tts_cache_dir: Path,
     setup: str,
@@ -1065,7 +1065,7 @@ async def test_service_receive_voice_german(
     indirect=["setup"],
 )
 async def test_web_view_wrong_file(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     setup: str,
     expected_url_suffix: str,
@@ -1088,7 +1088,7 @@ async def test_web_view_wrong_file(
     indirect=["setup"],
 )
 async def test_web_view_wrong_file_with_head_request(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     setup: str,
     expected_url_suffix: str,
@@ -1111,7 +1111,7 @@ async def test_web_view_wrong_file_with_head_request(
     indirect=["setup"],
 )
 async def test_web_view_wrong_filename(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     setup: str,
     expected_url_suffix: str,
@@ -1156,7 +1156,7 @@ async def test_web_view_wrong_filename(
     indirect=["setup"],
 )
 async def test_service_without_cache(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_cache_dir: Path,
     setup: str,
     tts_service: str,
@@ -1204,7 +1204,7 @@ class MockEntityBoom(MockTTSEntity):
 
 @pytest.mark.parametrize("mock_provider", [MockProviderBoom(DEFAULT_LANG)])
 async def test_setup_legacy_cache_dir(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_cache_dir: Path,
     mock_provider: MockTTSProvider,
 ) -> None:
@@ -1242,7 +1242,7 @@ async def test_setup_legacy_cache_dir(
 
 @pytest.mark.parametrize("mock_tts_entity", [MockEntityBoom(DEFAULT_LANG)])
 async def test_setup_cache_dir(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_cache_dir: Path,
     mock_tts_entity: MockTTSEntity,
 ) -> None:
@@ -1280,7 +1280,7 @@ async def test_setup_cache_dir(
 
 @pytest.mark.parametrize("mock_tts_entity", [MockEntityBoom(DEFAULT_LANG)])
 async def test_cache_file_use_updates_access_time(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_cache_dir: Path,
     mock_tts_entity: MockTTSEntity,
 ) -> None:
@@ -1303,7 +1303,7 @@ async def test_cache_file_use_updates_access_time(
 
 @pytest.mark.parametrize("mock_tts_entity", [MockEntityBoom(DEFAULT_LANG)])
 async def test_service_clear_cache_days_keeps_memory_cached(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_cache_dir: Path,
     mock_tts_entity: MockTTSEntity,
 ) -> None:
@@ -1328,7 +1328,7 @@ async def test_service_clear_cache_days_keeps_memory_cached(
 
 @pytest.mark.parametrize("mock_tts_entity", [MockEntityBoom(DEFAULT_LANG)])
 async def test_memory_cache_use_updates_access_time(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_cache_dir: Path,
     mock_tts_entity: MockTTSEntity,
 ) -> None:
@@ -1350,7 +1350,7 @@ async def test_memory_cache_use_updates_access_time(
 
 @pytest.mark.parametrize("mock_tts_entity", [MockEntityBoom(DEFAULT_LANG)])
 async def test_service_clear_cache_days_concurrent_load(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_cache_dir: Path,
     mock_tts_entity: MockTTSEntity,
 ) -> None:
@@ -1399,7 +1399,7 @@ async def test_service_clear_cache_days_concurrent_load(
 
 
 async def test_service_clear_cache_days_concurrent_regenerate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_cache_dir: Path,
     mock_tts_entity: MockTTSEntity,
 ) -> None:
@@ -1491,7 +1491,7 @@ class MockEntityEmpty(MockTTSEntity):
     indirect=["setup"],
 )
 async def test_service_get_tts_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     setup: str,
     tts_service: str,
@@ -1514,7 +1514,7 @@ async def test_service_get_tts_error(
 
 
 async def test_legacy_cannot_retrieve_without_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_provider: MockTTSProvider,
     mock_tts_cache_dir: Path,
     hass_client: ClientSessionGenerator,
@@ -1537,7 +1537,7 @@ async def test_legacy_cannot_retrieve_without_token(
 
 
 async def test_cannot_retrieve_without_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_entity: MockTTSEntity,
     mock_tts_cache_dir: Path,
     hass_client: ClientSessionGenerator,
@@ -1601,7 +1601,7 @@ async def test_web_get_url(
     indirect=["setup"],
 )
 async def test_web_get_url_missing_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     setup: str,
     data: dict[str, Any],
@@ -1659,7 +1659,7 @@ async def test_tags_with_wave() -> None:
     ],
 )
 async def test_generate_media_source_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup: str,
     result_engine: str,
     engine: str | None,
@@ -1709,7 +1709,7 @@ async def test_generate_media_source_id(
     ],
 )
 async def test_generate_media_source_id_invalid_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup: str,
     engine: str | None,
     language: str | None,
@@ -1729,7 +1729,7 @@ async def test_generate_media_source_id_invalid_options(
     ],
     indirect=["setup"],
 )
-def test_resolve_engine(hass: __HAC_KEEP__, setup: str, engine_id: str) -> None:
+def test_resolve_engine(hass: UniversalAssistant, setup: str, engine_id: str) -> None:
     """Test resolving engine."""
     assert tts.async_resolve_engine(hass, None) == engine_id
     assert tts.async_resolve_engine(hass, engine_id) == engine_id
@@ -1744,7 +1744,7 @@ def test_resolve_engine(hass: __HAC_KEEP__, setup: str, engine_id: str) -> None:
 
 
 async def test_legacy_fetching_in_async(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test async fetching of data for a legacy provider."""
     tts_audio: asyncio.Future[bytes] = asyncio.Future()
@@ -1802,8 +1802,8 @@ async def test_legacy_fetching_in_async(
 
     # Test error is not cached
     tts_audio = asyncio.Future()
-    tts_audio.set_exception(__HAC_KEEP__Error("test error"))
-    with pytest.raises(__HAC_KEEP__Error):
+    tts_audio.set_exception(UniversalAssistantError("test error"))
+    with pytest.raises(UniversalAssistantError):
         await get_stream_data(create_stream("test message 2"))
 
     tts_audio = asyncio.Future()
@@ -1812,7 +1812,7 @@ async def test_legacy_fetching_in_async(
 
 
 async def test_fetching_in_async(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test async fetching of data."""
     tts_audio: asyncio.Future[bytes] = asyncio.Future()
@@ -1860,8 +1860,8 @@ async def test_fetching_in_async(
 
     # Test error is not cached
     tts_audio = asyncio.Future()
-    tts_audio.set_exception(__HAC_KEEP__Error("test error"))
-    with pytest.raises(__HAC_KEEP__Error):
+    tts_audio.set_exception(UniversalAssistantError("test error"))
+    with pytest.raises(UniversalAssistantError):
         await get_stream_data(create_stream("test message 2"))
 
     tts_audio = asyncio.Future()
@@ -1877,7 +1877,7 @@ async def test_fetching_in_async(
     indirect=["setup"],
 )
 async def test_ws_list_engines_filter_deprecated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     setup: str,
     engine_id: str,
@@ -1917,7 +1917,7 @@ async def test_ws_list_engines_filter_deprecated(
     indirect=["setup"],
 )
 async def test_ws_list_engines(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     setup: str,
     engine_id: str,
@@ -1996,7 +1996,7 @@ async def test_ws_list_engines(
 
 
 async def test_ws_list_engines_deprecated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_tts_entity: MockTTSEntity,
 ) -> None:
@@ -2053,7 +2053,7 @@ async def test_ws_list_engines_deprecated(
     indirect=["setup"],
 )
 async def test_ws_get_engine(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     setup: str,
     engine_id: str,
@@ -2081,7 +2081,7 @@ async def test_ws_get_engine(
     indirect=["setup"],
 )
 async def test_ws_get_engine_none_existing(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, setup: str, engine_id: str
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, setup: str, engine_id: str
 ) -> None:
     """Test getting a non existing tts engine."""
     client = await hass_ws_client()
@@ -2102,7 +2102,7 @@ async def test_ws_get_engine_none_existing(
     indirect=["setup"],
 )
 async def test_ws_list_voices(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, setup: str, engine_id: str
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, setup: str, engine_id: str
 ) -> None:
     """Test listing supported voices for a tts engine and language."""
     client = await hass_ws_client()
@@ -2152,14 +2152,14 @@ async def test_ws_list_voices(
     }
 
 
-async def test_async_convert_audio_error(hass: __HAC_KEEP__) -> None:
+async def test_async_convert_audio_error(hass: UniversalAssistant) -> None:
     """Test that ffmpeg failing during audio conversion will raise an error."""
     assert await async_setup_component(hass, ffmpeg.DOMAIN, {})
 
     async def bad_data_gen():
         yield bytes(0)
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         # Simulate a bad WAV file
         async for _chunk in tts._async_convert_audio(
             hass, "wav", bad_data_gen(), "mp3"
@@ -2217,7 +2217,7 @@ async def _async_chunks(*chunks: bytes) -> AsyncGenerator[bytes]:
     ],
 )
 async def test_async_convert_audio_streaming_wav_is_unwrapped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     chunks: list[bytes],
     expected_input_args: list[str],
     expected_stdin: bytes,
@@ -2267,7 +2267,7 @@ async def test_async_convert_audio_streaming_wav_is_unwrapped(
     ],
 )
 async def test_async_convert_audio_wav_fallback(
-    hass: __HAC_KEEP__, chunks: list[bytes]
+    hass: UniversalAssistant, chunks: list[bytes]
 ) -> None:
     """Test that audio which cannot be unwrapped is passed to ffmpeg as a WAV file."""
     assert await async_setup_component(hass, ffmpeg.DOMAIN, {})
@@ -2292,7 +2292,7 @@ async def test_async_convert_audio_wav_fallback(
     assert written == b"".join(chunks)
 
 
-async def test_async_convert_audio_streaming_wav_roundtrip(hass: __HAC_KEEP__) -> None:
+async def test_async_convert_audio_streaming_wav_roundtrip(hass: UniversalAssistant) -> None:
     """Test that unwrapped audio is converted correctly by ffmpeg."""
     assert await async_setup_component(hass, ffmpeg.DOMAIN, {})
 
@@ -2352,7 +2352,7 @@ async def test_async_convert_audio_streaming_wav_roundtrip(hass: __HAC_KEEP__) -
     ],
 )
 async def test_async_convert_audio_streaming_wav_passthrough(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sample_channels: int,
     to_sample_rate: int | None,
     to_sample_channels: int | None,
@@ -2401,7 +2401,7 @@ async def test_async_convert_audio_streaming_wav_passthrough(
     ],
 )
 async def test_async_convert_audio_streaming_wav_needs_ffmpeg(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     header: bytes,
     to_extension: str,
     to_sample_rate: int,
@@ -2461,7 +2461,7 @@ async def _audio_data_gen() -> AsyncGenerator[bytes]:
     ],
 )
 async def test_async_convert_audio_probe_size(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     from_extension: str,
     audio_input: AsyncGenerator[bytes] | Path,
     expected_input: list[str],
@@ -2515,7 +2515,7 @@ async def test_async_convert_audio_probe_size(
     ],
 )
 async def test_async_convert_audio_mp3_bitrate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     to_bitrate: int | None,
     expected_encoder_args: list[str],
 ) -> None:
@@ -2558,7 +2558,7 @@ async def test_async_convert_audio_mp3_bitrate(
 
 
 async def test_default_engine_prefer_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_entity: MockTTSEntity,
     mock_provider: MockTTSProvider,
 ) -> None:
@@ -2590,7 +2590,7 @@ async def test_default_engine_prefer_entity(
     ],
 )
 async def test_default_engine_prefer_cloud_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_provider: MockTTSProvider,
     config_flow_test_domains: str,
 ) -> None:
@@ -2615,7 +2615,7 @@ async def test_default_engine_prefer_cloud_entity(
     assert tts.async_default_engine(hass) == "tts.cloud_tts_entity"
 
 
-async def test_stream(hass: __HAC_KEEP__, mock_tts_entity: MockTTSEntity) -> None:
+async def test_stream(hass: UniversalAssistant, mock_tts_entity: MockTTSEntity) -> None:
     """Test creating streams."""
     await mock_config_entry_setup(hass, mock_tts_entity)
 
@@ -2681,7 +2681,7 @@ async def _message_stream() -> AsyncGenerator[str]:
     ],
 )
 async def test_stream_set_message_after_memory_cache_age(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_tts_entity: MockTTSEntity,
     set_message: Callable[[tts.ResultStream], None],
@@ -2706,7 +2706,7 @@ async def test_stream_set_message_after_memory_cache_age(
 
 
 async def test_stream_override_result_after_memory_cache_age(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_tts_entity: MockTTSEntity,
     tmp_path: Path,
@@ -2726,7 +2726,7 @@ async def test_stream_override_result_after_memory_cache_age(
 
 
 async def test_result_stream_message_set_idempotent(
-    hass: __HAC_KEEP__, mock_tts_entity: MockTTSEntity
+    hass: UniversalAssistant, mock_tts_entity: MockTTSEntity
 ) -> None:
     """Test setting a result stream message more than once."""
     await mock_config_entry_setup(hass, mock_tts_entity)
@@ -2785,7 +2785,7 @@ def _read_wav(data: bytes) -> tuple[int, int, int, bytes]:
 
 
 async def test_audio_stream(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test a stream of audio that is not generated by a TTS engine."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -2817,7 +2817,7 @@ async def test_audio_stream(
     assert stream.async_get_media_path() is None
 
 
-async def test_audio_stream_with_conversion(hass: __HAC_KEEP__) -> None:
+async def test_audio_stream_with_conversion(hass: UniversalAssistant) -> None:
     """Test a stream of audio that is converted to the preferred format."""
     assert await async_setup_component(hass, DOMAIN, {})
 
@@ -2854,7 +2854,7 @@ async def test_audio_stream_with_conversion(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_audio_stream_ffmpeg_input(
-    hass: __HAC_KEEP__, pcm_format: tts.PcmFormat, expected_input: str
+    hass: UniversalAssistant, pcm_format: tts.PcmFormat, expected_input: str
 ) -> None:
     """Test ffmpeg is told the format of the raw PCM audio."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -2895,7 +2895,7 @@ def test_pcm_format_invalid(sample_rate: int, sample_width: int, channels: int) 
         )
 
 
-async def test_audio_stream_unsupported_options(hass: __HAC_KEEP__) -> None:
+async def test_audio_stream_unsupported_options(hass: UniversalAssistant) -> None:
     """Test a stream of audio only supports the preferred format options."""
     assert await async_setup_component(hass, DOMAIN, {})
 
@@ -2920,21 +2920,21 @@ async def test_audio_stream_unsupported_options(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_audio_stream_set_message(
-    hass: __HAC_KEEP__, set_message: Callable[[tts.ResultStream], None]
+    hass: UniversalAssistant, set_message: Callable[[tts.ResultStream], None]
 ) -> None:
     """Test a stream of audio cannot generate speech from a message."""
     assert await async_setup_component(hass, DOMAIN, {})
 
     stream = tts.async_create_audio_stream(hass)
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         set_message(stream)
 
     assert exc_info.value.translation_key == "no_engine"
 
 
 async def test_audio_stream_error(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test an error in a stream of audio is raised to its consumers."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -2959,7 +2959,7 @@ async def test_audio_stream_error(
 
 
 async def test_set_audio_stream_on_engine_stream(
-    hass: __HAC_KEEP__, mock_tts_entity: MockTTSEntity
+    hass: UniversalAssistant, mock_tts_entity: MockTTSEntity
 ) -> None:
     """Test audio can replace generated speech on a stream with a TTS engine."""
     await mock_config_entry_setup(hass, mock_tts_entity)
@@ -3064,7 +3064,7 @@ async def test_tts_cache() -> None:
 
 
 async def test_async_internal_get_tts_audio_called(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tts_entity: MockTTSEntity,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -3095,7 +3095,7 @@ async def test_async_internal_get_tts_audio_called(
 
 
 async def test_stream_preferred_options_handled_by_engine(
-    hass: __HAC_KEEP__, mock_tts_entity: MockTTSEntity
+    hass: UniversalAssistant, mock_tts_entity: MockTTSEntity
 ) -> None:
     """Test that options the engine handles itself do not trigger ffmpeg."""
     preferred_options = {
@@ -3125,7 +3125,7 @@ async def test_stream_preferred_options_handled_by_engine(
 
 
 async def test_stream_conversion_keeps_options_handled_by_engine(
-    hass: __HAC_KEEP__, mock_tts_entity: MockTTSEntity
+    hass: UniversalAssistant, mock_tts_entity: MockTTSEntity
 ) -> None:
     """Test that a conversion for one option keeps the ones the engine handled."""
     mock_tts_entity._supported_options = [
@@ -3162,7 +3162,7 @@ async def test_stream_conversion_keeps_options_handled_by_engine(
 
 
 async def test_stream_override(
-    hass: __HAC_KEEP__, mock_tts_entity: MockTTSEntity
+    hass: UniversalAssistant, mock_tts_entity: MockTTSEntity
 ) -> None:
     """Test overriding streams with a media path."""
     await mock_config_entry_setup(hass, mock_tts_entity)
@@ -3196,7 +3196,7 @@ async def test_stream_override(
 
 
 async def test_stream_override_with_conversion(
-    hass: __HAC_KEEP__, mock_tts_entity: MockTTSEntity
+    hass: UniversalAssistant, mock_tts_entity: MockTTSEntity
 ) -> None:
     """Test overriding streams with a media path that requires conversion."""
     await mock_config_entry_setup(hass, mock_tts_entity)
@@ -3240,7 +3240,7 @@ async def test_stream_override_with_conversion(
 
 
 async def test_stream_override_conversion_is_cached(
-    hass: __HAC_KEEP__, mock_tts_entity: MockTTSEntity
+    hass: UniversalAssistant, mock_tts_entity: MockTTSEntity
 ) -> None:
     """Test that a converted override is reused for the same format."""
     await mock_config_entry_setup(hass, mock_tts_entity)
@@ -3436,20 +3436,20 @@ def test_write_tags_uses_voice_as_artist() -> None:
 
 @pytest.mark.parametrize("setup", ["mock_config_entry_setup"], indirect=True)
 @pytest.mark.usefixtures("setup")
-async def test_cache_message_unknown_provider(hass: __HAC_KEEP__) -> None:
+async def test_cache_message_unknown_provider(hass: UniversalAssistant) -> None:
     """Test caching a message for an unknown provider raises a translated error."""
     manager = hass.data[tts.DATA_TTS_MANAGER]
 
     async def message_gen() -> AsyncGenerator[str]:
         yield "hello"
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         manager.async_cache_message_in_memory("non-existing", "hello", False, "en", {})
     assert exc_info.value.translation_domain == tts.DOMAIN
     assert exc_info.value.translation_key == "provider_not_found"
     assert exc_info.value.translation_placeholders == {"engine": "non-existing"}
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         manager.async_cache_message_stream_in_memory(
             "non-existing", message_gen(), "en", {}
         )
@@ -3469,7 +3469,7 @@ async def test_cache_message_unknown_provider(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_init_cache_dir_error(
-    hass: __HAC_KEEP__, error_no: int, translation_key: str
+    hass: UniversalAssistant, error_no: int, translation_key: str
 ) -> None:
     """Test a failure to create the cache folder raises a translated error."""
     manager = tts.SpeechManager(hass, True, "tts", DEFAULT_TIME_MEMORY)
@@ -3479,7 +3479,7 @@ async def test_init_cache_dir_error(
             "universalassistant.components.tts._init_tts_cache_dir",
             side_effect=OSError(error_no, "error"),
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         manager._init_cache()
     assert exc_info.value.translation_domain == "universalassistant"
@@ -3491,17 +3491,17 @@ async def test_init_cache_dir_error(
     ("error_no", "translation_key", "error_type"),
     [
         (errno.ENOENT, "os_read_not_found", ServiceValidationError),
-        (errno.EACCES, "os_read_permission_denied", __HAC_KEEP__Error),
-        (errno.EISDIR, "os_read_is_directory", __HAC_KEEP__Error),
-        (errno.EIO, "os_read_error", __HAC_KEEP__Error),
+        (errno.EACCES, "os_read_permission_denied", UniversalAssistantError),
+        (errno.EISDIR, "os_read_is_directory", UniversalAssistantError),
+        (errno.EIO, "os_read_error", UniversalAssistantError),
     ],
 )
 async def test_init_cache_read_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     error_no: int,
     translation_key: str,
-    error_type: type[__HAC_KEEP__Error],
+    error_type: type[UniversalAssistantError],
 ) -> None:
     """Test a failure to list the cache folder raises a translated error."""
     manager = tts.SpeechManager(hass, True, str(tmp_path), DEFAULT_TIME_MEMORY)
@@ -3523,17 +3523,17 @@ async def test_init_cache_read_error(
     ("error_no", "translation_key", "error_type"),
     [
         (errno.ENOENT, "os_read_not_found", ServiceValidationError),
-        (errno.EACCES, "os_read_permission_denied", __HAC_KEEP__Error),
-        (errno.EISDIR, "os_read_is_directory", __HAC_KEEP__Error),
-        (errno.EIO, "os_read_error", __HAC_KEEP__Error),
+        (errno.EACCES, "os_read_permission_denied", UniversalAssistantError),
+        (errno.EISDIR, "os_read_is_directory", UniversalAssistantError),
+        (errno.EIO, "os_read_error", UniversalAssistantError),
     ],
 )
 async def test_load_cache_file_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     error_no: int,
     translation_key: str,
-    error_type: type[__HAC_KEEP__Error],
+    error_type: type[UniversalAssistantError],
 ) -> None:
     """Test a failure to read a cached file raises a translated error."""
     manager = tts.SpeechManager(hass, True, str(tmp_path), DEFAULT_TIME_MEMORY)

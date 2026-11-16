@@ -24,15 +24,15 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_climate_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_actron_api: MagicMock,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -49,7 +49,7 @@ async def test_climate_entities(
 
 
 async def test_system_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_actron_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_system_set_temperature(
 
 
 async def test_system_set_temperature_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_actron_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -85,7 +85,7 @@ async def test_system_set_temperature_api_error(
         "Test error"
     )
 
-    with pytest.raises(__HAC_KEEP__Error, match="Test error"):
+    with pytest.raises(UniversalAssistantError, match="Test error"):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -95,7 +95,7 @@ async def test_system_set_temperature_api_error(
 
 
 async def test_system_set_temperature_missing_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_actron_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -118,7 +118,7 @@ async def test_system_set_temperature_missing_temperature(
 
 
 async def test_system_set_fan_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_actron_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -139,7 +139,7 @@ async def test_system_set_fan_mode(
 
 
 async def test_system_set_fan_mode_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_actron_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -152,7 +152,7 @@ async def test_system_set_fan_mode_api_error(
         "Test error"
     )
 
-    with pytest.raises(__HAC_KEEP__Error, match="Test error"):
+    with pytest.raises(UniversalAssistantError, match="Test error"):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_FAN_MODE,
@@ -162,7 +162,7 @@ async def test_system_set_fan_mode_api_error(
 
 
 async def test_system_set_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_actron_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -183,7 +183,7 @@ async def test_system_set_hvac_mode(
 
 
 async def test_system_set_hvac_mode_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_actron_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -194,7 +194,7 @@ async def test_system_set_hvac_mode_api_error(
     status = mock_actron_api.state_manager.get_status.return_value
     status.ac_system.set_system_mode.side_effect = ActronAirAPIError("Test error")
 
-    with pytest.raises(__HAC_KEEP__Error, match="Test error"):
+    with pytest.raises(UniversalAssistantError, match="Test error"):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_HVAC_MODE,
@@ -204,7 +204,7 @@ async def test_system_set_hvac_mode_api_error(
 
 
 async def test_zone_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration_with_zone: None,
     mock_zone: MagicMock,
 ) -> None:
@@ -220,14 +220,14 @@ async def test_zone_set_temperature(
 
 
 async def test_zone_set_temperature_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration_with_zone: None,
     mock_zone: MagicMock,
 ) -> None:
     """Test API error when setting temperature for zone climate entity."""
     mock_zone.set_temperature.side_effect = ActronAirAPIError("Test error")
 
-    with pytest.raises(__HAC_KEEP__Error, match="Test error"):
+    with pytest.raises(UniversalAssistantError, match="Test error"):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -237,7 +237,7 @@ async def test_zone_set_temperature_api_error(
 
 
 async def test_zone_set_temperature_missing_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration_with_zone: None,
     mock_config_entry: MockConfigEntry,
     mock_zone: MagicMock,
@@ -257,7 +257,7 @@ async def test_zone_set_temperature_missing_temperature(
 
 
 async def test_zone_set_hvac_mode_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration_with_zone: None,
     mock_zone: MagicMock,
 ) -> None:
@@ -279,7 +279,7 @@ async def test_zone_set_hvac_mode_on(
 
 
 async def test_zone_set_hvac_mode_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration_with_zone: None,
     mock_zone: MagicMock,
 ) -> None:
@@ -298,14 +298,14 @@ async def test_zone_set_hvac_mode_off(
 
 
 async def test_zone_set_hvac_mode_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration_with_zone: None,
     mock_zone: MagicMock,
 ) -> None:
     """Test API error when setting HVAC mode for zone climate entity."""
     mock_zone.enable.side_effect = ActronAirAPIError("Test error")
 
-    with pytest.raises(__HAC_KEEP__Error, match="Test error"):
+    with pytest.raises(UniversalAssistantError, match="Test error"):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_HVAC_MODE,
@@ -318,7 +318,7 @@ async def test_zone_set_hvac_mode_api_error(
 
 
 async def test_system_hvac_mode_unmapped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_actron_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -335,7 +335,7 @@ async def test_system_hvac_mode_unmapped(
 
 
 async def test_zone_hvac_mode_unmapped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_actron_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     mock_zone: MagicMock,
@@ -355,7 +355,7 @@ async def test_zone_hvac_mode_unmapped(
 
 
 async def test_zone_hvac_mode_inactive(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_actron_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     mock_zone: MagicMock,
@@ -374,7 +374,7 @@ async def test_zone_hvac_mode_inactive(
 
 
 async def test_system_hvac_modes_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_actron_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -393,7 +393,7 @@ async def test_system_hvac_modes_default(
 
 
 async def test_system_hvac_modes_with_dry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_actron_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -419,7 +419,7 @@ async def test_system_hvac_modes_with_dry(
 
 
 async def test_system_hvac_modes_no_mode_support(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_actron_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -441,7 +441,7 @@ async def test_system_hvac_modes_no_mode_support(
 
 
 async def test_zone_hvac_modes_with_dry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_actron_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     mock_zone: MagicMock,
@@ -469,7 +469,7 @@ async def test_zone_hvac_modes_with_dry(
 
 
 async def test_zone_hvac_modes_no_mode_support(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_actron_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     mock_zone: MagicMock,

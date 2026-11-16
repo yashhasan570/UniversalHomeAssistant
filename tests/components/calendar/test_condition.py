@@ -18,11 +18,11 @@ from pytest_universalassistant.components.common import (
 
 from universalassistant.components.calendar.condition import CONDITIONS
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
-async def target_calendars(hass: __HAC_KEEP__) -> dict[str, list[str]]:
+async def target_calendars(hass: UniversalAssistant) -> dict[str, list[str]]:
     """Create multiple calendar entities associated with different targets."""
     return await target_entities(hass, "calendar")
 
@@ -39,7 +39,7 @@ _CONDITION_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_calendar_condition_options_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     condition_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -75,7 +75,7 @@ def test_condition_target_support() -> None:
     ],
 )
 async def test_calendar_condition_behavior_any(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_calendars: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -112,7 +112,7 @@ async def test_calendar_condition_behavior_any(
     ],
 )
 async def test_calendar_condition_behavior_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_calendars: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,

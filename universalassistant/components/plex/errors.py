@@ -1,9 +1,9 @@
 """Errors for the Plex integration."""
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 
-class PlexException(__HAC_KEEP__Error):
+class PlexException(UniversalAssistantError):
     """Base class for Plex exceptions."""
 
 
@@ -13,6 +13,10 @@ class NoServersFound(PlexException):
 
 class ServerNotSpecified(PlexException):
     """Multiple servers linked to account without choice provided."""
+
+
+class ServerNotFound(PlexException):
+    """Requested server not found on Plex account."""
 
 
 class ShouldUpdateConfigEntry(PlexException):

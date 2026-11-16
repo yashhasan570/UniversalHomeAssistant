@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_PLATFORM,
     CONF_TYPE,
 )
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
 from universalassistant.helpers.typing import ConfigType
 
@@ -58,7 +58,7 @@ LEGACY_STATUS_TAMPER_SUBTYPES = {
 
 
 async def async_get_triggers(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, str]]:
     """List device triggers for RFXCOM RFXtrx devices."""
     device = async_get_device_object(hass, device_id)
@@ -77,7 +77,7 @@ async def async_get_triggers(
 
 
 async def async_validate_trigger_config(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> ConfigType:
     """Validate config."""
     config = TRIGGER_SCHEMA(config)
@@ -106,7 +106,7 @@ async def async_validate_trigger_config(
 
 
 async def async_attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,

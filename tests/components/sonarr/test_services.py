@@ -23,8 +23,8 @@ from universalassistant.components.sonarr.services import (
     SonarrServiceArgument,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 
 
 @pytest.mark.parametrize(
@@ -38,7 +38,7 @@ from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationEr
     ],
 )
 async def test_services_config_entry_not_loaded_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     service: str,
 ) -> None:
@@ -76,7 +76,7 @@ async def test_services_config_entry_not_loaded_state(
     ],
 )
 async def test_services_integration_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     service: str,
 ) -> None:
@@ -94,7 +94,7 @@ async def test_services_integration_not_found(
 
 
 async def test_service_get_series(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -115,7 +115,7 @@ async def test_service_get_series(
 
 
 async def test_service_get_queue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -146,7 +146,7 @@ async def test_service_get_queue(
     ],
 )
 async def test_services_entry_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     service: str,
 ) -> None:
@@ -168,7 +168,7 @@ async def test_services_entry_not_loaded(
 
 
 async def test_service_get_queue_empty(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_sonarr: MagicMock,
 ) -> None:
@@ -201,7 +201,7 @@ async def test_service_get_queue_empty(
 
 
 async def test_service_get_diskspace(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -222,7 +222,7 @@ async def test_service_get_diskspace(
 
 
 async def test_service_get_diskspace_multiple_drives(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_sonarr: MagicMock,
 ) -> None:
@@ -293,7 +293,7 @@ async def test_service_get_diskspace_multiple_drives(
 
 
 async def test_service_get_upcoming(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -314,7 +314,7 @@ async def test_service_get_upcoming(
 
 
 async def test_service_get_wanted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -335,7 +335,7 @@ async def test_service_get_wanted(
 
 
 async def test_service_get_episodes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -356,7 +356,7 @@ async def test_service_get_episodes(
 
 
 async def test_service_get_episodes_with_season_filter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test get_episodes service with season filter."""
@@ -384,7 +384,7 @@ async def test_service_get_episodes_with_season_filter(
 
 
 async def test_service_get_queue_image_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_sonarr: MagicMock,
 ) -> None:
@@ -507,7 +507,7 @@ async def test_service_get_queue_image_fallback(
 
 
 async def test_service_get_queue_season_pack(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_sonarr_season_pack: MagicMock,
 ) -> None:
@@ -561,7 +561,7 @@ async def test_service_get_queue_season_pack(
     ],
 )
 async def test_services_api_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_sonarr: MagicMock,
     service: str,
@@ -573,7 +573,7 @@ async def test_services_api_connection_error(
         "Connection failed"
     )
 
-    with pytest.raises(__HAC_KEEP__Error, match="Failed to connect to Sonarr"):
+    with pytest.raises(UniversalAssistantError, match="Failed to connect to Sonarr"):
         await hass.services.async_call(
             DOMAIN,
             service,
@@ -594,7 +594,7 @@ async def test_services_api_connection_error(
     ],
 )
 async def test_services_api_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_sonarr: MagicMock,
     service: str,
@@ -606,7 +606,7 @@ async def test_services_api_auth_error(
         "Authentication failed"
     )
 
-    with pytest.raises(__HAC_KEEP__Error, match="Authentication failed for Sonarr"):
+    with pytest.raises(UniversalAssistantError, match="Authentication failed for Sonarr"):
         await hass.services.async_call(
             DOMAIN,
             service,

@@ -12,7 +12,7 @@ import probatio
 from universalassistant.components import recorder, websocket_api
 from universalassistant.components.recorder.statistics import StatisticsRow
 from universalassistant.const import UnitOfEnergy
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.integration_platform import (
     async_process_integration_platforms,
 )
@@ -31,17 +31,17 @@ from .types import EnergyPlatform, GetSolarForecastType, SolarForecastType
 from .validate import async_validate
 
 type EnergyWebSocketCommandHandler = Callable[
-    [__HAC_KEEP__, websocket_api.ActiveConnection, dict[str, Any], EnergyManager],
+    [UniversalAssistant, websocket_api.ActiveConnection, dict[str, Any], EnergyManager],
     None,
 ]
 type AsyncEnergyWebSocketCommandHandler = Callable[
-    [__HAC_KEEP__, websocket_api.ActiveConnection, dict[str, Any], EnergyManager],
+    [UniversalAssistant, websocket_api.ActiveConnection, dict[str, Any], EnergyManager],
     Coroutine[Any, Any, None],
 ]
 
 
 @callback
-def async_setup(hass: __HAC_KEEP__) -> None:
+def async_setup(hass: UniversalAssistant) -> None:
     """Set up the energy websocket API."""
     websocket_api.async_register_command(hass, ws_get_prefs)
     websocket_api.async_register_command(hass, ws_save_prefs)
@@ -53,14 +53,14 @@ def async_setup(hass: __HAC_KEEP__) -> None:
 
 @singleton("energy_platforms")
 async def async_get_energy_platforms(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> dict[str, GetSolarForecastType]:
     """Get energy platforms."""
     platforms: dict[str, GetSolarForecastType] = {}
 
     @callback
     def _process_energy_platform(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         domain: str,
         platform: EnergyPlatform,
     ) -> None:
@@ -84,7 +84,7 @@ def _ws_with_manager(
 
     @functools.wraps(func)
     async def with_manager(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         connection: websocket_api.ActiveConnection,
         msg: dict[str, Any],
     ) -> None:
@@ -107,7 +107,7 @@ def _ws_with_manager(
 @_ws_with_manager
 @callback
 def ws_get_prefs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     manager: EnergyManager,
@@ -133,7 +133,7 @@ def ws_get_prefs(
 @websocket_api.async_response
 @_ws_with_manager
 async def ws_save_prefs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     manager: EnergyManager,
@@ -152,7 +152,7 @@ async def ws_save_prefs(
 )
 @websocket_api.async_response
 async def ws_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -174,7 +174,7 @@ async def ws_info(
 )
 @websocket_api.async_response
 async def ws_validate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -190,7 +190,7 @@ async def ws_validate(
 @websocket_api.async_response
 @_ws_with_manager
 async def ws_solar_forecast(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     manager: EnergyManager,
@@ -247,7 +247,7 @@ async def ws_solar_forecast(
 )
 @websocket_api.async_response
 async def ws_get_fossil_energy_consumption(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

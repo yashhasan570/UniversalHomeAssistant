@@ -8,15 +8,15 @@ from universalassistant.components.todo import (
     TodoListEntity,
     TodoListEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .common import NoMatchingShoppingListItem, ShoppingData, ShoppingListConfigEntry
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShoppingListConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -61,7 +61,7 @@ class ShoppingTodoListEntity(TodoListEntity):
         try:
             await self._data.async_update(item.uid, data)
         except NoMatchingShoppingListItem as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Shopping list item '{item.uid}' was not found"
             ) from err
 
@@ -79,7 +79,7 @@ class ShoppingTodoListEntity(TodoListEntity):
         try:
             await self._data.async_move_item(uid, previous_uid)
         except NoMatchingShoppingListItem as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Shopping list item '{uid}' could not be re-ordered"
             ) from err
 

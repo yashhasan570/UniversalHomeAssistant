@@ -25,8 +25,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from .util import async_init_integration
@@ -40,7 +40,7 @@ def override_platforms() -> Generator[None]:
 
 
 async def test_airzone_create_selects(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_airzone_create_selects(
     assert hass.states.get("select.dorm_2_heat_stage") is None
 
 
-async def test_airzone_select_sys_qadapt(hass: __HAC_KEEP__) -> None:
+async def test_airzone_select_sys_qadapt(hass: UniversalAssistant) -> None:
     """Test select system Q-Adapt."""
 
     await async_init_integration(hass)
@@ -115,7 +115,7 @@ async def test_airzone_select_sys_qadapt(hass: __HAC_KEEP__) -> None:
             "universalassistant.components.airzone.AirzoneLocalApi.put_hvac",
             return_value=put_q_adapt,
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             SELECT_DOMAIN,
@@ -128,7 +128,7 @@ async def test_airzone_select_sys_qadapt(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_airzone_select_sleep(hass: __HAC_KEEP__) -> None:
+async def test_airzone_select_sleep(hass: UniversalAssistant) -> None:
     """Test select sleep."""
 
     await async_init_integration(hass)
@@ -172,7 +172,7 @@ async def test_airzone_select_sleep(hass: __HAC_KEEP__) -> None:
     assert state.state == "30m"
 
 
-async def test_airzone_select_mode(hass: __HAC_KEEP__) -> None:
+async def test_airzone_select_mode(hass: UniversalAssistant) -> None:
     """Test select HVAC mode."""
 
     await async_init_integration(hass)
@@ -216,7 +216,7 @@ async def test_airzone_select_mode(hass: __HAC_KEEP__) -> None:
     assert state.state == "cool"
 
 
-async def test_airzone_select_grille_angle(hass: __HAC_KEEP__) -> None:
+async def test_airzone_select_grille_angle(hass: UniversalAssistant) -> None:
     """Test select sleep."""
 
     await async_init_integration(hass)
@@ -279,7 +279,7 @@ async def test_airzone_select_grille_angle(hass: __HAC_KEEP__) -> None:
     assert state.state == "45deg"
 
 
-async def test_airzone_select_heat_stage(hass: __HAC_KEEP__) -> None:
+async def test_airzone_select_heat_stage(hass: UniversalAssistant) -> None:
     """Test select heat stage."""
 
     await async_init_integration(hass)

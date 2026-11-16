@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
 from universalassistant.components.nederlandse_spoorwegen.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -22,7 +22,7 @@ from .const import SUBENTRY_ID_1
 
 @pytest.mark.freeze_time("2025-09-15 14:30:00+00:00")
 async def test_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -40,7 +40,7 @@ async def test_entry_diagnostics(
 
 @pytest.mark.freeze_time("2025-09-15 14:30:00+00:00")
 async def test_device_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,

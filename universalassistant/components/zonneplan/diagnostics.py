@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_EMAIL, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import ZonneplanConfigEntry
 
@@ -32,7 +32,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: ZonneplanConfigEntry
+    hass: UniversalAssistant, entry: ZonneplanConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     data = entry.runtime_data.coordinator.data

@@ -10,7 +10,7 @@ from universalassistant import config_entries
 from universalassistant.components.fivem.config_flow import DEFAULT_PORT
 from universalassistant.components.fivem.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 USER_INPUT = {
@@ -64,7 +64,7 @@ def _patch_fivem_success() -> Generator[None]:
         yield
 
 
-async def test_show_config_form(hass: __HAC_KEEP__) -> None:
+async def test_show_config_form(hass: UniversalAssistant) -> None:
     """Test if initial configuration form is shown."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -74,7 +74,7 @@ async def test_show_config_form(hass: __HAC_KEEP__) -> None:
     assert result["step_id"] == "user"
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -104,7 +104,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -132,7 +132,7 @@ async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_invalid(hass: __HAC_KEEP__) -> None:
+async def test_form_invalid(hass: UniversalAssistant) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -160,7 +160,7 @@ async def test_form_invalid(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_invalid_game_name(hass: __HAC_KEEP__) -> None:
+async def test_form_invalid_game_name(hass: UniversalAssistant) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}

@@ -21,7 +21,7 @@ from universalassistant.components.light import (
     brightness_supported,
 )
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -72,7 +72,7 @@ DEFAULT_KELVIN = 2700
 
 
 def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

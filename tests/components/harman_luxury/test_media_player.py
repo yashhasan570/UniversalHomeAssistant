@@ -33,8 +33,8 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -46,7 +46,7 @@ ENTITY_ID = "media_player.dining_room"
 @pytest.mark.freeze_time("2024-01-01 12:00:00+00:00")
 @pytest.mark.usefixtures("mock_client")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -59,7 +59,7 @@ async def test_entities(
 
 
 async def test_volume_set(
-    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setting the volume level."""
     await setup_integration(hass, mock_config_entry)
@@ -73,7 +73,7 @@ async def test_volume_set(
 
 
 async def test_volume_mute(
-    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test muting the output."""
     await setup_integration(hass, mock_config_entry)
@@ -96,7 +96,7 @@ async def test_volume_mute(
     ],
 )
 async def test_transport_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -114,12 +114,12 @@ async def test_transport_commands(
 
 
 async def test_command_error(
-    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
-    """Test a failing device command raises a __HAC_KEEP__Error."""
+    """Test a failing device command raises a UniversalAssistantError."""
     await setup_integration(hass, mock_config_entry)
     mock_client.async_control.side_effect = HarmanLuxuryError
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             MEDIA_PLAYER_DOMAIN,
             SERVICE_MEDIA_PAUSE,
@@ -129,7 +129,7 @@ async def test_command_error(
 
 
 async def test_off_state(
-    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the player reports off when the device is not online."""
     mock_client.async_get_state.return_value = replace(PLAYER_STATE, online=False)
@@ -138,7 +138,7 @@ async def test_off_state(
 
 
 async def test_media_play_when_paused(
-    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that play is available and forwarded when the source is paused."""
     mock_client.async_get_state.return_value = replace(
@@ -155,7 +155,7 @@ async def test_media_play_when_paused(
 
 
 async def test_transport_features_are_independent(
-    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test a source that only allows pause does not advertise play or stop."""
     mock_client.async_get_state.return_value = replace(
@@ -169,7 +169,7 @@ async def test_transport_features_are_independent(
 
 
 async def test_becomes_unavailable_on_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

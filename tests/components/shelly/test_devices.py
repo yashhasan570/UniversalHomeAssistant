@@ -12,7 +12,7 @@ from universalassistant.components.shelly.const import (
     DOMAIN,
     MODEL_FRANKEVER_IRRIGATION_CONTROLLER,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
 
@@ -21,7 +21,7 @@ from . import MOCK_MAC, force_uptime_value, init_integration, snapshot_device_en
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_shelly_2pm_gen3_no_relay_names(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
@@ -112,7 +112,7 @@ async def test_shelly_2pm_gen3_no_relay_names(
 
 
 async def test_shelly_2pm_gen3_relay_names(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
@@ -198,7 +198,7 @@ async def test_shelly_2pm_gen3_relay_names(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_shelly_2pm_gen3_cover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
@@ -263,7 +263,7 @@ async def test_shelly_2pm_gen3_cover(
 
 
 async def test_shelly_2pm_gen3_cover_with_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
@@ -322,7 +322,7 @@ async def test_shelly_2pm_gen3_cover_with_name(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_shelly_pro_3em(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
@@ -401,7 +401,7 @@ async def test_shelly_pro_3em(
 
 
 async def test_shelly_pro_3em_with_emeter_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
@@ -481,7 +481,7 @@ async def test_shelly_pro_3em_with_emeter_name(
     ],
 )
 async def test_shelly_fk_06x_with_zone_names(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
@@ -541,7 +541,7 @@ async def test_shelly_fk_06x_with_zone_names(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_block_channel_with_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -582,7 +582,7 @@ async def test_block_channel_with_name(
 
 
 async def test_blu_trv_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_blu_trv: Mock,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
@@ -619,7 +619,7 @@ async def test_blu_trv_device_info(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,

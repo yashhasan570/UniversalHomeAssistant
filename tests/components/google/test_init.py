@@ -27,8 +27,8 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_FINAL_WRITE,
     STATE_OFF,
 )
-from universalassistant.core import __HAC_KEEP__, State
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceNotSupported
+from universalassistant.core import UniversalAssistant, State
+from universalassistant.exceptions import UniversalAssistantError, ServiceNotSupported
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
 )
@@ -84,7 +84,7 @@ def assert_state(actual: State | None, expected: State | None) -> None:
     ids=("google.create_event", "calendar.create_event"),
 )
 def add_event_call_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     request: pytest.FixtureRequest,
 ) -> Callable[[dict[str, Any]], Awaitable[None]]:
     """Fixture for calling the add or create event service."""
@@ -108,7 +108,7 @@ def add_event_call_service(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
 ) -> None:
     """Test load and unload of a ConfigEntry."""
@@ -127,7 +127,7 @@ async def test_unload_entry(
     "token_scopes", ["https://www.googleapis.com/auth/calendar.readonly"]
 )
 async def test_existing_token_missing_scope(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     token_scopes: list[str],
     component_setup: ComponentSetup,
     config_entry: MockConfigEntry,
@@ -146,7 +146,7 @@ async def test_existing_token_missing_scope(
 
 @pytest.mark.parametrize("config_entry_options", [{CONF_CALENDAR_ACCESS: "read_only"}])
 async def test_config_entry_scope_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     token_scopes: list[str],
     component_setup: ComponentSetup,
     config_entry: MockConfigEntry,
@@ -163,7 +163,7 @@ async def test_config_entry_scope_reauth(
 
 @pytest.mark.parametrize("calendars_config", [[{"cal_id": "invalid-schema"}]])
 async def test_calendar_yaml_missing_required_fields(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
     calendars_config: list[dict[str, Any]],
     mock_calendars_yaml: None,
@@ -178,7 +178,7 @@ async def test_calendar_yaml_missing_required_fields(
 
 @pytest.mark.parametrize("calendars_config", [[{"missing-cal_id": "invalid-schema"}]])
 async def test_invalid_calendar_yaml(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
     calendars_config: list[dict[str, Any]],
     mock_calendars_yaml: None,
@@ -192,7 +192,7 @@ async def test_invalid_calendar_yaml(
 
 
 async def test_calendar_yaml_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
     mock_calendars_list: ApiResult,
     test_api_calendar: dict[str, Any],
@@ -211,7 +211,7 @@ async def test_calendar_yaml_error(
 
 @pytest.mark.parametrize("calendars_config", [None])
 async def test_empty_calendar_yaml(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
     calendars_config: list[dict[str, Any]],
     mock_calendars_yaml: None,
@@ -230,7 +230,7 @@ async def test_empty_calendar_yaml(
 
 
 async def test_init_calendar(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
     mock_calendars_list: ApiResult,
     test_api_calendar: dict[str, Any],
@@ -252,7 +252,7 @@ async def test_init_calendar(
 
 
 async def test_multiple_config_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
     config_entry: MockConfigEntry,
     mock_calendars_list: ApiResult,
@@ -411,7 +411,7 @@ async def test_multiple_config_entries(
     ],
 )
 async def test_add_event_invalid_params(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
     mock_calendars_list: ApiResult,
     test_api_calendar: dict[str, Any],
@@ -448,7 +448,7 @@ async def test_add_event_invalid_params(
     ids=["in_days", "in_weeks"],
 )
 async def test_add_event_date_in_x(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
     mock_calendars_list: ApiResult,
     mock_insert_event: Callable[..., None],
@@ -491,7 +491,7 @@ async def test_add_event_date_in_x(
 
 
 async def test_add_event_date(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
     mock_calendars_list: ApiResult,
     test_api_calendar: dict[str, Any],
@@ -531,7 +531,7 @@ async def test_add_event_date(
 
 
 async def test_add_event_date_time(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
     mock_calendars_list: ApiResult,
     mock_insert_event: Callable[..., None],
@@ -594,7 +594,7 @@ async def test_add_event_date_time(
     ],
 )
 async def test_unsupported_create_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_calendars_yaml: Mock,
     component_setup: ComponentSetup,
     mock_calendars_list: ApiResult,
@@ -634,7 +634,7 @@ async def test_unsupported_create_event(
 
 
 async def test_add_event_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
     mock_calendars_list: ApiResult,
     test_api_calendar: dict[str, Any],
@@ -653,14 +653,14 @@ async def test_add_event_failure(
         exc=ClientError(),
     )
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await add_event_call_service(
             {"start_date": "2022-05-01", "end_date": "2022-05-02"}
         )
 
 
 async def test_add_event_location(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
     mock_calendars_list: ApiResult,
     test_api_calendar: dict[str, Any],
@@ -710,7 +710,7 @@ async def test_add_event_location(
     ids=["max_timestamp", "timestamp_naive"],
 )
 async def test_invalid_token_expiry_in_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -741,7 +741,7 @@ async def test_invalid_token_expiry_in_config_entry(
 
 @pytest.mark.parametrize("config_entry_token_expiry", [EXPIRED_TOKEN_TIMESTAMP])
 async def test_expired_token_refresh_internal_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -764,7 +764,7 @@ async def test_expired_token_refresh_internal_error(
     [EXPIRED_TOKEN_TIMESTAMP],
 )
 async def test_expired_token_requires_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -803,7 +803,7 @@ async def test_expired_token_requires_reauth(
     ids=["has_yaml", "no_yaml"],
 )
 async def test_calendar_yaml_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
     mock_calendars_yaml: Mock,
     mock_calendars_list: ApiResult,
@@ -832,7 +832,7 @@ async def test_calendar_yaml_update(
 
 @pytest.mark.parametrize("config_entry_unique_id", [None])
 async def test_assign_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
     mock_calendars_list: ApiResult,
     test_api_calendar: dict[str, Any],
@@ -870,7 +870,7 @@ async def test_assign_unique_id(
     ],
 )
 async def test_assign_unique_id_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
     mock_calendars_list: ApiResult,
     test_api_calendar: dict[str, Any],
@@ -900,7 +900,7 @@ async def test_assign_unique_id_failure(
 
 
 async def test_remove_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_calendars_list: ApiResult,
     component_setup: ComponentSetup,
     test_api_calendar: dict[str, Any],
@@ -936,7 +936,7 @@ async def test_remove_entry(
 
 
 async def test_remove_entry_after_failed_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_calendars_list: ApiResult,
     component_setup: ComponentSetup,
     test_api_calendar: dict[str, Any],
@@ -974,7 +974,7 @@ async def test_remove_entry_after_failed_unload(
 
 
 async def test_oauth_implementation_not_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""

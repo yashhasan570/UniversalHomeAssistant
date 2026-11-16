@@ -7,7 +7,7 @@ from syrupy.assertion import SnapshotAssertion
 from teslemetry_stream.const import Signal
 
 from universalassistant.const import ATTR_LATITUDE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import assert_entities, assert_entities_alt, setup_platform
@@ -16,7 +16,7 @@ from .const import METADATA_NOSCOPE, VEHICLE_DATA_ALT
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_device_tracker(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_legacy: AsyncMock,
@@ -29,7 +29,7 @@ async def test_device_tracker(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_device_tracker_alt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_vehicle_data: AsyncMock,
@@ -44,7 +44,7 @@ async def test_device_tracker_alt(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_device_tracker_noscope(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_metadata: AsyncMock,
@@ -60,7 +60,7 @@ async def test_device_tracker_noscope(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_device_tracker_streaming(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vehicle_data: AsyncMock,
     mock_add_listener: AsyncMock,
 ) -> None:
@@ -105,7 +105,7 @@ async def test_device_tracker_streaming(
 
 
 async def test_device_tracker_streaming_route_ends(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_add_listener: AsyncMock,
 ) -> None:
     """Test the streaming route tracker clears when navigation ends."""

@@ -31,11 +31,11 @@ from universalassistant.const import (
     SERVICE_TURN_OFF,
     SERVICE_TURN_ON,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def async_set_preset_mode(
-    hass: __HAC_KEEP__, preset_mode: str, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, preset_mode: str, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Set new preset mode."""
     data = {ATTR_PRESET_MODE: preset_mode}
@@ -47,7 +47,7 @@ async def async_set_preset_mode(
 
 
 def set_preset_mode(
-    hass: __HAC_KEEP__, preset_mode: str, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, preset_mode: str, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Set new preset mode."""
     data = {ATTR_PRESET_MODE: preset_mode}
@@ -59,7 +59,7 @@ def set_preset_mode(
 
 
 async def async_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     temperature: float | None = None,
     entity_id: str = ENTITY_MATCH_ALL,
     target_temp_high: float | None = None,
@@ -85,7 +85,7 @@ async def async_set_temperature(
 
 
 def set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     temperature: float | None = None,
     entity_id: str = ENTITY_MATCH_ALL,
     target_temp_high: float | None = None,
@@ -109,7 +109,7 @@ def set_temperature(
 
 
 async def async_set_humidity(
-    hass: __HAC_KEEP__, humidity: int, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, humidity: int, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Set new target humidity."""
     data = {ATTR_HUMIDITY: humidity}
@@ -121,7 +121,7 @@ async def async_set_humidity(
 
 
 def set_humidity(
-    hass: __HAC_KEEP__, humidity: int, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, humidity: int, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Set new target humidity."""
     data = {ATTR_HUMIDITY: humidity}
@@ -133,7 +133,7 @@ def set_humidity(
 
 
 async def async_set_fan_mode(
-    hass: __HAC_KEEP__, fan: str, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, fan: str, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Set all or specified climate devices fan mode on."""
     data = {ATTR_FAN_MODE: fan}
@@ -145,7 +145,7 @@ async def async_set_fan_mode(
 
 
 def set_fan_mode(
-    hass: __HAC_KEEP__, fan: str, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, fan: str, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Set all or specified climate devices fan mode on."""
     data = {ATTR_FAN_MODE: fan}
@@ -157,7 +157,7 @@ def set_fan_mode(
 
 
 async def async_set_hvac_mode(
-    hass: __HAC_KEEP__, hvac_mode: HVACMode, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, hvac_mode: HVACMode, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Set new target operation mode."""
     data = {ATTR_HVAC_MODE: hvac_mode}
@@ -169,7 +169,7 @@ async def async_set_hvac_mode(
 
 
 def set_operation_mode(
-    hass: __HAC_KEEP__, hvac_mode: HVACMode, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, hvac_mode: HVACMode, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Set new target operation mode."""
     data = {ATTR_HVAC_MODE: hvac_mode}
@@ -181,7 +181,7 @@ def set_operation_mode(
 
 
 async def async_set_swing_horizontal_mode(
-    hass: __HAC_KEEP__, swing_horizontal_mode: str, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, swing_horizontal_mode: str, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Set new target swing horizontal mode."""
     data = {ATTR_SWING_HORIZONTAL_MODE: swing_horizontal_mode}
@@ -195,7 +195,7 @@ async def async_set_swing_horizontal_mode(
 
 
 async def async_set_swing_mode(
-    hass: __HAC_KEEP__, swing_mode: str, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, swing_mode: str, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Set new target swing mode."""
     data = {ATTR_SWING_MODE: swing_mode}
@@ -207,7 +207,7 @@ async def async_set_swing_mode(
 
 
 def set_swing_mode(
-    hass: __HAC_KEEP__, swing_mode: str, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, swing_mode: str, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Set new target swing mode."""
     data = {ATTR_SWING_MODE: swing_mode}
@@ -218,7 +218,7 @@ def set_swing_mode(
     hass.services.call(DOMAIN, SERVICE_SET_SWING_MODE, data)
 
 
-async def async_turn_on(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
+async def async_turn_on(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Turn on device."""
     data = {}
 
@@ -229,7 +229,7 @@ async def async_turn_on(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -
 
 
 async def async_turn_off(
-    hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Turn off device."""
     data = {}

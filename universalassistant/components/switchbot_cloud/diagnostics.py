@@ -6,7 +6,7 @@ from typing import Any
 from switchbot_api import Device, Remote
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import SwitchbotCloudConfigEntry
 from .const import CONF_CLOUDHOOK_URL
@@ -16,7 +16,7 @@ TO_REDACT = {"deviceId", "deviceMac", "hubDeviceId", "imageUrl"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: SwitchbotCloudConfigEntry
+    hass: UniversalAssistant, entry: SwitchbotCloudConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     devices: dict[str, tuple[Device | Remote, SwitchBotCoordinator, list[str]]] = {}

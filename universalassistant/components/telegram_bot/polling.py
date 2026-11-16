@@ -7,7 +7,7 @@ from telegram import Bot, Update
 from telegram.error import NetworkError, RetryAfter, TelegramError, TimedOut
 from telegram.ext import ApplicationBuilder, CallbackContext, TypeHandler
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .bot import ALLOWED_UPDATES, BaseTelegramBot, TelegramBotConfigEntry
 from .helpers import get_base_url
@@ -16,7 +16,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_bot_platform(
-    hass: __HAC_KEEP__, bot: Bot, config: TelegramBotConfigEntry
+    hass: UniversalAssistant, bot: Bot, config: TelegramBotConfigEntry
 ) -> BaseTelegramBot | None:
     """Set up the Telegram polling platform."""
     pollbot = PollBot(hass, bot, config)
@@ -61,7 +61,7 @@ class PollBot(BaseTelegramBot):
     """
 
     def __init__(
-        self, hass: __HAC_KEEP__, bot: Bot, config: TelegramBotConfigEntry
+        self, hass: UniversalAssistant, bot: Bot, config: TelegramBotConfigEntry
     ) -> None:
         """Create Application to poll for updates."""
         super().__init__(hass, config, bot)

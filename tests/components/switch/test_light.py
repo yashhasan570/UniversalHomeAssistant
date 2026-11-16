@@ -8,7 +8,7 @@ from universalassistant.components.light import (
     ColorMode,
 )
 from universalassistant.components.switch import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import common as switch_common
@@ -17,12 +17,12 @@ from tests.components.light import common
 
 
 @pytest.fixture(autouse=True)
-async def setup_universalassistant(hass: __HAC_KEEP__):
+async def setup_universalassistant(hass: UniversalAssistant):
     """Set up the universalassistant integration."""
     await async_setup_component(hass, "universalassistant", {})
 
 
-async def test_default_state(hass: __HAC_KEEP__) -> None:
+async def test_default_state(hass: UniversalAssistant) -> None:
     """Test light switch default state."""
     await async_setup_component(
         hass,
@@ -50,7 +50,7 @@ async def test_default_state(hass: __HAC_KEEP__) -> None:
     assert state.attributes.get(ATTR_COLOR_MODE) is None
 
 
-async def test_light_service_calls(hass: __HAC_KEEP__) -> None:
+async def test_light_service_calls(hass: UniversalAssistant) -> None:
     """Test service calls to light."""
     await async_setup_component(hass, DOMAIN, {"switch": [{"platform": "demo"}]})
     await async_setup_component(
@@ -85,7 +85,7 @@ async def test_light_service_calls(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("light.light_switch").state == "off"
 
 
-async def test_switch_service_calls(hass: __HAC_KEEP__) -> None:
+async def test_switch_service_calls(hass: UniversalAssistant) -> None:
     """Test service calls to switch."""
     await async_setup_component(hass, DOMAIN, {"switch": [{"platform": "demo"}]})
     await async_setup_component(

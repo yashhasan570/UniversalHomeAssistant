@@ -15,7 +15,7 @@ from universalassistant.components.knx.const import (
     DOMAIN,
     REPAIR_ISSUE_DATA_SECURE_GROUP_KEY,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import issue_registry as ir
 
@@ -23,7 +23,7 @@ from .conftest import KNXTestKit
 from .test_config_flow import FIXTURE_UPLOAD_UUID, patch_file_upload
 
 
-async def test_create_fix_flow_raises_on_unknown_issue_id(hass: __HAC_KEEP__) -> None:
+async def test_create_fix_flow_raises_on_unknown_issue_id(hass: UniversalAssistant) -> None:
     """Test create_fix_flow raises on unknown issue_id."""
 
     with pytest.raises(ValueError):
@@ -35,7 +35,7 @@ async def test_create_fix_flow_raises_on_unknown_issue_id(hass: __HAC_KEEP__) ->
     ["1/2/5", "3/4/6"],
 )
 async def test_data_secure_group_key_issue_only_for_configured_group_address(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     issue_registry: ir.IssueRegistry,
     configured_group_address: str,
@@ -57,7 +57,7 @@ async def test_data_secure_group_key_issue_only_for_configured_group_address(
 
 
 async def test_data_secure_group_key_issue_links_existing_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -86,7 +86,7 @@ async def test_data_secure_group_key_issue_links_existing_issue(
 
 
 async def test_data_secure_group_key_issue_repair_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     knx: KNXTestKit,

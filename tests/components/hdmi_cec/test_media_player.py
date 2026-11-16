@@ -53,14 +53,14 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import MockHDMIDevice, assert_cec_command, assert_key_press_release
 from .conftest import CecEntityCreator, HDMINetworkCreator
 
 
 async def test_load_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_hdmi_network: HDMINetworkCreator,
     create_cec_entity: CecEntityCreator,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_load_platform(
 
 @pytest.mark.parametrize("platform", [{}, {"platform": "switch"}])
 async def test_load_types(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_hdmi_network: HDMINetworkCreator,
     create_cec_entity: CecEntityCreator,
     platform: dict[str, Any],
@@ -106,7 +106,7 @@ async def test_load_types(
 
 
 async def test_service_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_hdmi_network: HDMINetworkCreator,
     create_cec_entity: CecEntityCreator,
 ) -> None:
@@ -131,7 +131,7 @@ async def test_service_on(
 
 
 async def test_service_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_hdmi_network: HDMINetworkCreator,
     create_cec_entity: CecEntityCreator,
 ) -> None:
@@ -241,7 +241,7 @@ async def test_service_off(
     ],
 )
 async def test_supported_features(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_hdmi_network: HDMINetworkCreator,
     create_cec_entity: CecEntityCreator,
     type_id: int,
@@ -270,7 +270,7 @@ async def test_supported_features(
     ],
 )
 async def test_volume_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_hdmi_network: HDMINetworkCreator,
     create_cec_entity: CecEntityCreator,
     service: str,
@@ -305,7 +305,7 @@ async def test_volume_services(
     ],
 )
 async def test_track_change_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_hdmi_network: HDMINetworkCreator,
     create_cec_entity: CecEntityCreator,
     service: str,
@@ -343,7 +343,7 @@ async def test_track_change_services(
     ],
 )
 async def test_playback_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_hdmi_network: HDMINetworkCreator,
     create_cec_entity: CecEntityCreator,
     service: str,
@@ -371,7 +371,7 @@ async def test_playback_services(
 
 @pytest.mark.xfail(reason="PLAY feature isn't enabled")
 async def test_play_pause_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_hdmi_network: HDMINetworkCreator,
     create_cec_entity: CecEntityCreator,
 ) -> None:
@@ -430,7 +430,7 @@ async def test_play_pause_service(
     ],
 )
 async def test_update_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_hdmi_network: HDMINetworkCreator,
     create_cec_entity: CecEntityCreator,
     type_id: int,
@@ -481,7 +481,7 @@ async def test_update_state(
     ],
 )
 async def test_starting_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_hdmi_network: HDMINetworkCreator,
     create_cec_entity: CecEntityCreator,
     data: dict[str, Any],
@@ -496,7 +496,7 @@ async def test_starting_state(
 
 
 async def test_unavailable_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_hdmi_network: HDMINetworkCreator,
     create_cec_entity: CecEntityCreator,
 ) -> None:

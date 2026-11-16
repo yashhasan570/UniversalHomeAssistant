@@ -7,8 +7,8 @@ from wiim.exceptions import WiimDeviceException, WiimRequestException
 from wiim.wiim_device import WiimDevice
 
 from universalassistant.const import CONF_HOST, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, __HAC_KEEP__, callback
-from universalassistant.exceptions import ConfigEntryNotReady, __HAC_KEEP__Error
+from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.exceptions import ConfigEntryNotReady, UniversalAssistantError
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
@@ -28,7 +28,7 @@ from .util import async_get_event_callback_host
 DEFAULT_AVAILABILITY_POLLING_INTERVAL = 60
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: WiimConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: WiimConfigEntry) -> None:
     """Set up WiiM from a config entry.
 
     This method owns the device connect/disconnect lifecycle.
@@ -62,7 +62,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: WiimConfigEntry) -> None:
 
     try:
         local_host = await async_get_event_callback_host(hass, upnp_location)
-    except __HAC_KEEP__Error as err:
+    except UniversalAssistantError as err:
         raise ConfigEntryNotReady(
             translation_domain=DOMAIN,
             translation_key="callback_host_unavailable",
@@ -135,7 +135,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: WiimConfigEntry) -> None:
 
     async def _async_shutdown_event_handler(event: Event) -> None:
         LOGGER.info(
-            "__HA_KEEP__ stopping, disconnecting WiiM device: %s",
+            "Universal Home Assistant stopping, disconnecting WiiM device: %s",
             wiim_device.name,
         )
         await wiim_device.disconnect()
@@ -160,7 +160,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: WiimConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: WiimConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: WiimConfigEntry) -> None:
     """Unload a config entry."""
     LOGGER.info("Unloading WiiM entry: %s (UDN: %s)", entry.title, entry.unique_id)
 

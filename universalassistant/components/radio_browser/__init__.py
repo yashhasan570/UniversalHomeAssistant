@@ -4,7 +4,7 @@ from radios import RadioBrowser, RadioBrowserError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import __version__
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -14,7 +14,7 @@ type RadioBrowserConfigEntry = ConfigEntry[RadioBrowser]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: RadioBrowserConfigEntry
+    hass: UniversalAssistant, entry: RadioBrowserConfigEntry
 ) -> None:
     """Set up Radio Browser from a config entry.
 
@@ -22,7 +22,7 @@ async def async_setup_entry(
     only.
     """
     session = async_get_clientsession(hass)
-    radios = RadioBrowser(session=session, user_agent=f"__HAC_KEEP__/{__version__}")
+    radios = RadioBrowser(session=session, user_agent=f"UniversalAssistant/{__version__}")
 
     try:
         await radios.stats()
@@ -36,6 +36,6 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: RadioBrowserConfigEntry
+    hass: UniversalAssistant, entry: RadioBrowserConfigEntry
 ) -> None:
     """Unload a config entry."""

@@ -12,8 +12,8 @@ from vilfo.exceptions import (
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_HOST, CONF_ID, CONF_MAC
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.util.network import is_host_valid
 
 from .const import DOMAIN, ROUTER_DEFAULT_HOST
@@ -66,7 +66,7 @@ def _try_connect_and_fetch_basic_info(host, token):
     return result
 
 
-async def validate_input(hass: __HAC_KEEP__, data):
+async def validate_input(hass: UniversalAssistant, data):
     """Validate the user input allows us to connect.
 
     Data has the keys from DATA_SCHEMA with values provided by the user.
@@ -129,13 +129,13 @@ class DomainConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(__HAC_KEEP__Error):
+class InvalidAuth(UniversalAssistantError):
     """Error to indicate there is invalid auth."""
 
 
-class InvalidHost(__HAC_KEEP__Error):
+class InvalidHost(UniversalAssistantError):
     """Error to indicate that hostname/IP address is invalid."""

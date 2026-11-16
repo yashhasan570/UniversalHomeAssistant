@@ -16,7 +16,7 @@ from universalassistant.components.mqtt import DOMAIN
 from universalassistant.components.mqtt.models import MessageCallbackType, ReceiveMessage
 from universalassistant.components.mqtt.util import EnsureJobAfterCooldown
 from universalassistant.const import EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 ENTRY_DEFAULT_BIRTH_MESSAGE = {
     mqtt.CONF_BIRTH_MESSAGE: {
@@ -41,7 +41,7 @@ def mock_v5_protocol_check() -> bool:
 
 @pytest.fixture(autouse=True)
 def mock_try_connection_protocol_check(
-    hass: __HAC_KEEP__, mock_v5_protocol_check: bool
+    hass: UniversalAssistant, mock_v5_protocol_check: bool
 ) -> Generator[MagicMock]:
     """Patch try_connection."""
     with patch(
@@ -59,7 +59,7 @@ def temp_dir_prefix() -> str:
 
 @pytest.fixture(autouse=True)
 async def mock_temp_dir(
-    hass: __HAC_KEEP__, tmp_path: Path, temp_dir_prefix: str
+    hass: UniversalAssistant, tmp_path: Path, temp_dir_prefix: str
 ) -> AsyncGenerator[str]:
     """Mock the certificate temp directory."""
     mqtt_temp_dir = f"universal-assistant-mqtt-{temp_dir_prefix}-{getrandbits(10):03x}"
@@ -78,7 +78,7 @@ async def mock_temp_dir(
 
 
 @pytest.fixture
-def mock_debouncer(hass: __HAC_KEEP__) -> Generator[asyncio.Event]:
+def mock_debouncer(hass: UniversalAssistant) -> Generator[asyncio.Event]:
     """Mock EnsureJobAfterCooldown.
 
     Returns an asyncio.Event that allows to await the debouncer task to be finished.
@@ -102,7 +102,7 @@ def mock_debouncer(hass: __HAC_KEEP__) -> Generator[asyncio.Event]:
 
 @pytest.fixture
 async def setup_with_birth_msg_client_mock(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_config_entry_data: dict[str, Any] | None,
     mqtt_config_entry_options: dict[str, Any] | None,
     mqtt_client_mock: MqttMockPahoClient,

@@ -13,7 +13,7 @@ import probatio
 from universalassistant import __path__ as HOMEASSISTANT_PATH
 from universalassistant.components import websocket_api
 from universalassistant.const import EVENT_HOMEASSISTANT_CLOSE
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -73,9 +73,9 @@ def _figure_out_source(
                 stack = stack[0 : i + 1]
                 break
         # Iterate through the stack call (in reverse) and find the last call from
-        # a file in __HA_KEEP__. Try to figure out where error happened.
+        # a file in Universal Home Assistant. Try to figure out where error happened.
         for path, line_number in reversed(stack):
-            # Try to match with a file within __HA_KEEP__
+            # Try to match with a file within Universal Home Assistant
             if match := paths_re.match(path):
                 return (cast(str, match.group(1)), line_number)
     else:
@@ -86,7 +86,7 @@ def _figure_out_source(
         # We do this by walking up the stack until we find the first
         # frame match the record pathname so the code below
         # can be used to reverse the remaining stack frames
-        # and find the first one that is from a file within __HA_KEEP__.
+        # and find the first one that is from a file within Universal Home Assistant.
         #
         # We do not call traceback.extract_stack() because it is
         # it makes many stat() syscalls calls which do blocking I/O,
@@ -111,7 +111,7 @@ def _figure_out_source(
         # support other python implementations.
         #
         # Iterate through the stack call (in reverse) and find the last call from
-        # a file in __HA_KEEP__. Try to figure out where error happened.
+        # a file in Universal Home Assistant. Try to figure out where error happened.
         while back := frame.f_back:
             if match := paths_re.match(frame.f_code.co_filename):
                 return (cast(str, match.group(1)), frame.f_lineno)
@@ -252,7 +252,7 @@ class LogErrorHandler(logging.Handler):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         maxlen: int,
         fire_event: bool,
         paths_re: re.Pattern[str],
@@ -280,7 +280,7 @@ class LogErrorHandler(logging.Handler):
             self.hass.bus.fire(EVENT_SYSTEM_LOG, entry.to_dict())
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the logger component."""
     if (conf := config.get(DOMAIN)) is None:
         conf = CONFIG_SCHEMA({DOMAIN: {}})[DOMAIN]
@@ -318,7 +318,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 @websocket_api.websocket_command({probatio.Required("type"): "system_log/list"})
 @callback
 def list_errors(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """List all possible diagnostic handlers."""
     connection.send_result(

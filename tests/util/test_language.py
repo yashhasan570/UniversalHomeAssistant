@@ -1,4 +1,4 @@
-"""Test __HA_KEEP__ language util methods."""
+"""Test Universal Home Assistant language util methods."""
 
 import pytest
 

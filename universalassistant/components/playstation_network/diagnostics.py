@@ -6,7 +6,7 @@ from typing import Any
 from psnawp_api.models.trophies import PlatformType
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import PlaystationNetworkConfigEntry
 
@@ -26,7 +26,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: PlaystationNetworkConfigEntry
+    hass: UniversalAssistant, entry: PlaystationNetworkConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data.user_data

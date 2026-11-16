@@ -30,7 +30,7 @@ from miio.integrations.fan.zhimi.zhimi_miot import (
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
 from universalassistant.const import CONF_DEVICE, CONF_MODEL
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 from universalassistant.util.percentage import (
@@ -180,7 +180,7 @@ FAN_DIRECTIONS_MAP = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: XiaomiMiioConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

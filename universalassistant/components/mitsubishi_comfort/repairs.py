@@ -15,7 +15,7 @@ from universalassistant.components.repairs import (
     RepairsFlowResult,
 )
 from universalassistant.config_entries import OperationNotAllowed, UnknownEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -25,7 +25,7 @@ from .helpers import async_reconcile_missing_address_issue, has_full_credentials
 
 
 async def _async_reload_entry(
-    hass: __HAC_KEEP__, entry: MitsubishiComfortConfigEntry
+    hass: UniversalAssistant, entry: MitsubishiComfortConfigEntry
 ) -> None:
     """Reload the entry, restoring the repair issue if the reload fails.
 
@@ -67,7 +67,7 @@ class MissingAddressRepairFlow(RepairsFlow):
     """Collect LAN IPs for devices DHCP discovery has not resolved.
 
     The cloud never returns a device's LAN IP. DHCP discovery supplies it for
-    devices __HA_KEEP__ can see, but not for devices on another subnet or
+    devices Universal Home Assistant can see, but not for devices on another subnet or
     VLAN — for those the user enters the IP here.
     """
 
@@ -204,7 +204,7 @@ class MissingAddressRepairFlow(RepairsFlow):
 
 
 async def async_create_fix_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_id: str,
     data: dict[str, str | int | float | None] | None,
 ) -> RepairsFlow:

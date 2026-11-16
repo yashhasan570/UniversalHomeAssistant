@@ -7,14 +7,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.ohme.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
 
 
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -35,7 +35,7 @@ async def test_device(
     mock_client: MagicMock,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Snapshot the device from registry."""

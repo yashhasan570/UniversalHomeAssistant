@@ -15,7 +15,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.nextcloud.const import DEFAULT_SCAN_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import mock_config_entry
 from .const import NC_DATA, VALID_CONFIG
@@ -30,7 +30,7 @@ from .const import NC_DATA, VALID_CONFIG
     ],
 )
 async def test_data_update(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, error: NextcloudMonitorError
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, error: NextcloudMonitorError
 ) -> None:
     """Test a coordinator data updates."""
     entry = mock_config_entry(VALID_CONFIG)

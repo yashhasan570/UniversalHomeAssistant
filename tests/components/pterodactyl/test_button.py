@@ -16,8 +16,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -34,7 +34,7 @@ BUTTON_COMMANDS = [
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.usefixtures("mock_pterodactyl")
 async def test_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -51,7 +51,7 @@ async def test_button(
 
 @pytest.mark.usefixtures("mock_pterodactyl")
 async def test_button_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -76,7 +76,7 @@ async def test_button_disabled_by_default(
 @pytest.mark.usefixtures("mock_pterodactyl")
 @pytest.mark.usefixtures("suspended_game_servers")
 async def test_button_unavailable_when_suspended(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test button availability when the game server is suspended."""
     with patch("universalassistant.components.pterodactyl._PLATFORMS", [Platform.BUTTON]):
@@ -94,7 +94,7 @@ async def test_button_unavailable_when_suspended(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize(("button", "command"), BUTTON_COMMANDS)
 async def test_button_press(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pterodactyl: AsyncMock,
     button: str,
@@ -159,7 +159,7 @@ async def test_button_press(
     ],
 )
 async def test_button_press_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pterodactyl: AsyncMock,
     api_error: Exception | type[Exception],
@@ -176,7 +176,7 @@ async def test_button_press_error(
         assert state
         assert state.state == STATE_UNKNOWN
 
-        with pytest.raises(__HAC_KEEP__Error) as err:
+        with pytest.raises(UniversalAssistantError) as err:
             await hass.services.async_call(
                 BUTTON_DOMAIN,
                 ButtonService.PRESS,

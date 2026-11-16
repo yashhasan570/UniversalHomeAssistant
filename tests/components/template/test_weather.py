@@ -31,7 +31,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import Context, __HAC_KEEP__, State
+from universalassistant.core import Context, UniversalAssistant, State
 from universalassistant.helpers.restore_state import STORAGE_KEY as RESTORE_STATE_KEY
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.setup import async_setup_component
@@ -94,7 +94,7 @@ TEST_MODERN_REQUIRED = {
 
 @pytest.fixture
 async def setup_weather(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     config: dict[str, Any],
 ) -> None:
@@ -116,7 +116,7 @@ async def setup_weather(
     ],
 )
 @pytest.mark.usefixtures("setup_weather")
-async def test_template_state_exception(hass: __HAC_KEEP__) -> None:
+async def test_template_state_exception(hass: UniversalAssistant) -> None:
     """Test condition produces exception."""
     await async_trigger(hass, "sensor.condition", "anything")
     state = hass.states.get(TEST_WEATHER.entity_id)
@@ -214,7 +214,7 @@ async def test_template_state_exception(hass: __HAC_KEEP__) -> None:
     ],
 )
 @pytest.mark.usefixtures("setup_weather")
-async def test_template_state_text(hass: __HAC_KEEP__) -> None:
+async def test_template_state_text(hass: UniversalAssistant) -> None:
     """Test the state text of a template."""
     await async_trigger(hass, "sensor.condition", "sunny")
     for entity_id, v_attr, value in (
@@ -277,7 +277,7 @@ async def test_template_state_text(hass: __HAC_KEEP__) -> None:
     ],
 )
 @pytest.mark.usefixtures("setup_weather")
-async def test_forecasts(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
+async def test_forecasts(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
     """Test forecast service."""
     hass.states.async_set(
         "sensor.forecast",
@@ -425,7 +425,7 @@ async def test_forecasts(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> Non
 )
 @pytest.mark.usefixtures("setup_weather")
 async def test_forecasts_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test invalid forecasts."""
@@ -591,7 +591,7 @@ async def test_forecasts_invalid(
 )
 @pytest.mark.usefixtures("setup_weather")
 async def test_forecast_format_error(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test forecast service invalid on incorrect format."""
 
@@ -697,7 +697,7 @@ SAVED_EXTRA_DATA_WITH_FUTURE_KEY = {
     ],
 )
 async def test_restore_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     style: ConfigurationStyle,
     saved_state: str,
@@ -779,7 +779,7 @@ async def test_restore_state(
     ],
 )
 @pytest.mark.usefixtures("start_ha")
-async def test_trigger_action(hass: __HAC_KEEP__) -> None:
+async def test_trigger_action(hass: UniversalAssistant) -> None:
     """Test trigger entity with an action works."""
     state = hass.states.get("weather.hello_name")
     assert state is not None
@@ -796,7 +796,7 @@ async def test_trigger_action(hass: __HAC_KEEP__) -> None:
 
 
 async def test_restore_weather_save_state(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any], snapshot: SnapshotAssertion
+    hass: UniversalAssistant, hass_storage: dict[str, Any], snapshot: SnapshotAssertion
 ) -> None:
     """Test Restore saved state for Weather trigger template."""
     assert await async_setup_component(
@@ -882,7 +882,7 @@ SAVED_EXTRA_DATA_STRING_HUMIDITY = {
     ],
 )
 async def test_trigger_entity_restore_state_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     saved_attributes: dict,
     saved_extra_data: dict | None,
 ) -> None:
@@ -955,7 +955,7 @@ async def test_trigger_entity_restore_state_fail(
 )
 @pytest.mark.usefixtures("setup_weather")
 async def test_templated_optional_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     attribute: str,
     expected: str,
     initial_expected_state: str | None,
@@ -973,7 +973,7 @@ async def test_templated_optional_config(
 
 
 async def test_setup_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Tests creating a weather from a config entry."""
@@ -1007,7 +1007,7 @@ async def test_setup_config_entry(
 
 
 async def test_flow_preview(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test the config flow preview."""
@@ -1031,7 +1031,7 @@ async def test_flow_preview(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_extra_template_attributes(
-    hass: __HAC_KEEP__, style: ConfigurationStyle
+    hass: UniversalAssistant, style: ConfigurationStyle
 ) -> None:
     """Test extra attributes."""
     await assert_extra_template_attributes(
@@ -1050,7 +1050,7 @@ async def test_extra_template_attributes(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_blocked_template_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     attribute,
     caplog: pytest.LogCaptureFixture,
@@ -1075,7 +1075,7 @@ async def test_blocked_template_attributes(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1097,7 +1097,7 @@ async def test_attributes_template(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template_with_blocked_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     attribute: StrEnum,
     caplog: pytest.LogCaptureFixture,

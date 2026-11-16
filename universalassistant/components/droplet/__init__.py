@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import DropletConfigEntry, DropletDataCoordinator
 
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: DropletConfigEntry
+    hass: UniversalAssistant, config_entry: DropletConfigEntry
 ) -> None:
     """Set up Droplet from a config entry."""
 
@@ -27,7 +27,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: DropletConfigEntry
+    hass: UniversalAssistant, config_entry: DropletConfigEntry
 ) -> None:
     """Unload a config entry."""
 

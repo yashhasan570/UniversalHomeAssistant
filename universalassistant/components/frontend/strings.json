@@ -13,7 +13,7 @@
       "name": "Reload themes"
     },
     "set_theme": {
-      "description": "Sets the theme __HA_KEEP__ uses. Can be overridden by a user.",
+      "description": "Sets the theme Universal Home Assistant uses. Can be overridden by a user.",
       "fields": {
         "name": {
           "description": "Name of the theme that is used by default.",

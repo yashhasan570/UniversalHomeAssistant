@@ -13,8 +13,8 @@ from duco_connectivity import (
 
 from universalassistant.components.switch import SwitchEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -39,7 +39,7 @@ def _discover_identify_nodes(node_actions: NodeListActionItemList) -> set[int]:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: DucoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -100,12 +100,12 @@ class DucoIdentifySwitch(DucoEntity, SwitchEntity):
         try:
             await self.coordinator.async_set_node_identify(self._node_id, identify)
         except DucoRateLimitError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="rate_limit_exceeded",
             ) from err
         except DucoError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="failed_to_set_identify",
             ) from err

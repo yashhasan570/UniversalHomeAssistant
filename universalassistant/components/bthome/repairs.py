@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.components.repairs import RepairsFlow, RepairsFlowResult
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 
 from . import get_encryption_issue_id
@@ -51,7 +51,7 @@ class EncryptionRemovedRepairFlow(RepairsFlow):
 
 
 async def async_create_fix_flow(
-    hass: __HAC_KEEP__, issue_id: str, data: dict[str, Any] | None
+    hass: UniversalAssistant, issue_id: str, data: dict[str, Any] | None
 ) -> RepairsFlow:
     """Create the repair flow for removing the encryption key."""
     if not data or "entry_id" not in data:

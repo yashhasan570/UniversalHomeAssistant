@@ -27,7 +27,7 @@ from universalassistant.components.application_credentials import (
 from universalassistant.components.nest import DOMAIN
 from universalassistant.components.nest.const import API_URL, CONF_SUBSCRIBER_ID, SDM_SCOPES
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .common import (
@@ -146,7 +146,7 @@ async def auth(
 
 
 @pytest.fixture(autouse=True, name="media_path")
-def cleanup_media_storage(hass: __HAC_KEEP__) -> Generator[str]:
+def cleanup_media_storage(hass: UniversalAssistant) -> Generator[str]:
     """Test cleanup, remove any media storage persisted during the test."""
     tmp_path = str(uuid.uuid4())
     with patch(
@@ -158,7 +158,7 @@ def cleanup_media_storage(hass: __HAC_KEEP__) -> Generator[str]:
 
 
 @pytest.fixture(name="legacy_media_path")
-def cleanup_legacy_media_storage(hass: __HAC_KEEP__) -> Generator[str]:
+def cleanup_legacy_media_storage(hass: UniversalAssistant) -> Generator[str]:
     """Test cleanup, remove any media storage persisted during the test."""
     tmp_path = str(uuid.uuid4())
     with patch(
@@ -312,7 +312,7 @@ def config_entry(
 
 
 @pytest.fixture(autouse=True)
-async def credential(hass: __HAC_KEEP__, nest_test_config: NestTestConfig) -> None:
+async def credential(hass: UniversalAssistant, nest_test_config: NestTestConfig) -> None:
     """Fixture that provides the ClientCredential for the test if any."""
     if not nest_test_config.credential:
         return
@@ -324,7 +324,7 @@ async def credential(hass: __HAC_KEEP__, nest_test_config: NestTestConfig) -> No
 
 @pytest.fixture
 async def setup_base_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     platforms: list[str],
     config_entry: MockConfigEntry | None,
     auth: FakeAuth,

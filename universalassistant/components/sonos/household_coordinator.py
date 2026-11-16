@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 
 from soco import SoCo
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.debounce import Debouncer
 
 from .exception import SonosUpdateError
@@ -24,7 +24,7 @@ class SonosHouseholdCoordinator:
     cache_update_lock: asyncio.Lock
 
     def __init__(
-        self, hass: __HAC_KEEP__, household_id: str, config_entry: SonosConfigEntry
+        self, hass: UniversalAssistant, household_id: str, config_entry: SonosConfigEntry
     ) -> None:
         """Initialize the data."""
         self.hass = hass

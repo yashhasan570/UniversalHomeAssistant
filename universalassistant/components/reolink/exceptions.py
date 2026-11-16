@@ -1,9 +1,9 @@
 """Exceptions for the Reolink Camera integration."""
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 
-class ReolinkException(__HAC_KEEP__Error):
+class ReolinkException(UniversalAssistantError):
     """BaseException for the Reolink integration."""
 
 

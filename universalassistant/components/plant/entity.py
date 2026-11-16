@@ -15,7 +15,7 @@ from universalassistant.const import (
     EntityStateAttribute,
 )
 from universalassistant.core import Event, EventStateChangedData, State, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.event import async_track_state_change_event
 from universalassistant.util import dt as dt_util
@@ -144,7 +144,7 @@ class Plant(Entity):
                 self._brightness, new_state.last_updated
             )
         else:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Unknown reading from sensor {entity_id}: {value}"
             )
         if EntityStateAttribute.UNIT_OF_MEASUREMENT in new_state.attributes:

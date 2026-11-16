@@ -36,11 +36,11 @@
         "title": "Enter long-lived access token"
       },
       "discovery_confirm": {
-        "description": "Do you want to add the Music Assistant server `{url}` to __HA_KEEP__?",
+        "description": "Do you want to add the Music Assistant server `{url}` to Universal Home Assistant?",
         "title": "Discovered Music Assistant server"
       },
       "hassio_confirm": {
-        "description": "Do you want to add the Music Assistant server to __HA_KEEP__?",
+        "description": "Do you want to add the Music Assistant server to Universal Home Assistant?",
         "title": "Discovered Music Assistant app"
       },
       "install_app": {
@@ -59,13 +59,13 @@
           "use_app": "Use the official Music Assistant app"
         },
         "data_description": {
-          "use_app": "__HA_KEEP__ installs and starts the app for you if needed."
+          "use_app": "Universal Home Assistant installs and starts the app for you if needed."
         },
         "description": "Do you want to use the official Music Assistant app?\n\nIf you are already running Music Assistant in another app, in a custom container, natively etc., then do not select this option.",
         "title": "Select connection method"
       },
       "onboarding": {
-        "description": "Open Music Assistant and finish its initial setup. __HA_KEEP__ continues automatically once the setup is done.",
+        "description": "Open Music Assistant and finish its initial setup. Universal Home Assistant continues automatically once the setup is done.",
         "title": "Finish Music Assistant setup"
       },
       "reauth_confirm": {
@@ -318,7 +318,7 @@
       "message": "The dashboard {dashboard} requires a player, expected {expected}."
     },
     "dashboard_player_not_available": {
-      "message": "The player {player_id} is unknown or not exposed to __HA_KEEP__."
+      "message": "The player {player_id} is unknown or not exposed to Universal Home Assistant."
     },
     "dashboard_type_not_supported": {
       "message": "The display {display} does not support the dashboard {dashboard}, expected one of: {valid_ids}."
@@ -515,7 +515,7 @@
           "name": "Start item"
         },
         "username": {
-          "description": "Music Assistant username used for the play media request. This affects the playlog entry and takes the user's provider filters into account. Defaults to the Music Assistant user linked to the __HA_KEEP__ user making the request. If there is no linked user, the request runs as the default account.",
+          "description": "Music Assistant username used for the play media request. This affects the playlog entry and takes the user's provider filters into account. Defaults to the Music Assistant user linked to the Universal Home Assistant user making the request. If there is no linked user, the request runs as the default account.",
           "name": "Username"
         }
       },
@@ -553,7 +553,7 @@
           "name": "Search name"
         },
         "username": {
-          "description": "Music Assistant username used for searching. Searches respect the user's configured provider filters. Defaults to the Music Assistant user linked to the __HA_KEEP__ user making the request. If there is no linked user, the request runs as the default account.",
+          "description": "Music Assistant username used for searching. Searches respect the user's configured provider filters. Defaults to the Music Assistant user linked to the Universal Home Assistant user making the request. If there is no linked user, the request runs as the default account.",
           "name": "Username"
         }
       },

@@ -13,7 +13,7 @@ from mozart_api.mozart_client import MozartClient
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_MODEL, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.typing import ConfigType
@@ -45,13 +45,13 @@ PLATFORMS = [
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: BeoConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: BeoConfigEntry) -> None:
     """Set up from a config entry."""
 
     # Remove casts to str
@@ -107,7 +107,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: BeoConfigEntry) -> None:
     await client.connect_notifications(remote_control=True, reconnect=True)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: BeoConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: BeoConfigEntry) -> None:
     """Unload a config entry."""
     # Close the API client and WebSocket notification listener
     entry.runtime_data.client.disconnect_notifications()

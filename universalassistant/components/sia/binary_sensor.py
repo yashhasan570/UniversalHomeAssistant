@@ -13,7 +13,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntityDescription,
 )
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, EntityCategory
-from universalassistant.core import __HAC_KEEP__, State, callback
+from universalassistant.core import UniversalAssistant, State, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -83,7 +83,7 @@ ENTITY_DESCRIPTION_CONNECTIVITY = SIABinarySensorEntityDescription(
 
 
 def generate_binary_sensors(
-    hass: __HAC_KEEP__, entry: SIAConfigEntry
+    hass: UniversalAssistant, entry: SIAConfigEntry
 ) -> Iterable[SIABinarySensor]:
     """Generate binary sensors.
 
@@ -108,7 +108,7 @@ def generate_binary_sensors(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SIAConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -10,7 +10,7 @@ from starlink_grpc import GrpcError
 
 from universalassistant.components.starlink.const import DOMAIN
 from universalassistant.const import CONF_IP_ADDRESS, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .patchers import (
     HISTORY_STATS_SUCCESS_PATCHER,
@@ -24,7 +24,7 @@ SLEEP_DATA_TARGET = "universalassistant.components.starlink.coordinator.get_slee
 
 @pytest.mark.freeze_time("2026-06-01 12:00:00+00:00")
 async def test_unavailable_on_update_failure(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the time entity is unavailable while the coordinator update fails."""
     entry = MockConfigEntry(domain=DOMAIN, data={CONF_IP_ADDRESS: "1.2.3.4:0000"})

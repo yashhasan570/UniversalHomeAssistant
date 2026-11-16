@@ -8,14 +8,14 @@ from pytrafikverket import CameraInfoModel
 from universalassistant.components.recorder import Recorder
 from universalassistant.components.recorder.history import get_significant_states
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_exclude_attributes(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     monkeypatch: pytest.MonkeyPatch,
     aioclient_mock: AiohttpClientMocker,

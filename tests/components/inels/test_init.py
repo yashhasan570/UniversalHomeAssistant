@@ -6,14 +6,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from pytest_universalassistant.typing import MqttMockHAClient
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import HA_INELS_PATH
 from .common import DOMAIN
 
 
 async def test_ha_mqtt_publish(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test that MQTT publish function works correctly."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={})
@@ -38,7 +38,7 @@ async def test_ha_mqtt_publish(
 
 
 async def test_ha_mqtt_subscribe(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test that MQTT subscribe function works correctly."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={})
@@ -61,7 +61,7 @@ async def test_ha_mqtt_subscribe(
 
 
 async def test_ha_mqtt_not_available(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test that ConfigEntryNotReady is raised when MQTT is not available."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={})
@@ -77,7 +77,7 @@ async def test_ha_mqtt_not_available(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, mock_mqtt
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, mock_mqtt
 ) -> None:
     """Test unload entry."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={})

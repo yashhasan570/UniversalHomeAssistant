@@ -6,7 +6,7 @@ from async_upnp_client.profiles.dlna import DmrDevice
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_TYPE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import async_get_platforms
 
 from .const import (
@@ -50,7 +50,7 @@ def _device_diagnostics(device: DmrDevice) -> dict[str, Any]:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: ConfigEntry
+    hass: UniversalAssistant, entry: ConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     # The entity is not added to the platform when it is disabled

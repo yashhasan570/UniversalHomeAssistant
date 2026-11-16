@@ -13,8 +13,8 @@ from universalassistant.components.alarm_control_panel import (
     AlarmControlPanelEntityFeature,
     AlarmControlPanelState,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import YaleConfigEntry
@@ -24,7 +24,7 @@ from .entity import YaleAlarmEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: YaleConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -79,7 +79,7 @@ class YaleAlarmDevice(YaleAlarmEntity, AlarmControlPanelEntity):
                     self.coordinator.yale.disarm
                 )
         except YALE_ALL_ERRORS as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_alarm",
                 translation_placeholders={
@@ -92,7 +92,7 @@ class YaleAlarmDevice(YaleAlarmEntity, AlarmControlPanelEntity):
             self.coordinator.data["alarm"] = command
             self.async_write_ha_state()
             return
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="could_not_change_alarm",
         )

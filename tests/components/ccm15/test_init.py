@@ -9,11 +9,11 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.ccm15.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.usefixtures("ccm15_device")
-async def test_load_unload(hass: __HAC_KEEP__) -> None:
+async def test_load_unload(hass: UniversalAssistant) -> None:
     """Test options flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -36,7 +36,7 @@ async def test_load_unload(hass: __HAC_KEEP__) -> None:
     assert entry.state is ConfigEntryState.NOT_LOADED
 
 
-async def test_non_contiguous_slots(hass: __HAC_KEEP__) -> None:
+async def test_non_contiguous_slots(hass: UniversalAssistant) -> None:
     """Entities for sparse slot indices, including >= 32, are available.
 
     ``devices`` is keyed by the true slot index, which can be sparse and reach

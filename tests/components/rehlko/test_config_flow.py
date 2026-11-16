@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.rehlko import DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -23,7 +23,7 @@ DHCP_DISCOVERY = DhcpServiceInfo(
 
 
 async def test_configure_entry(
-    hass: __HAC_KEEP__, mock_rehlko: AsyncMock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_rehlko: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we can configure the entry."""
     result = await hass.config_entries.flow.async_init(
@@ -59,7 +59,7 @@ async def test_configure_entry(
     ],
 )
 async def test_configure_entry_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rehlko: AsyncMock,
     error: Exception,
     conf_error: dict[str, str],
@@ -106,7 +106,7 @@ async def test_configure_entry_exceptions(
 
 
 async def test_already_configured(
-    hass: __HAC_KEEP__, rehlko_config_entry: MockConfigEntry, mock_rehlko: AsyncMock
+    hass: UniversalAssistant, rehlko_config_entry: MockConfigEntry, mock_rehlko: AsyncMock
 ) -> None:
     """Test if entry is already configured."""
     rehlko_config_entry.add_to_hass(hass)
@@ -128,7 +128,7 @@ async def test_already_configured(
 
 
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     rehlko_config_entry: MockConfigEntry,
     mock_rehlko: AsyncMock,
     mock_setup_entry: AsyncMock,
@@ -152,7 +152,7 @@ async def test_reauth(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_exception(
-    hass: __HAC_KEEP__, rehlko_config_entry: MockConfigEntry, mock_rehlko: AsyncMock
+    hass: UniversalAssistant, rehlko_config_entry: MockConfigEntry, mock_rehlko: AsyncMock
 ) -> None:
     """Test reauth flow."""
     rehlko_config_entry.add_to_hass(hass)
@@ -183,7 +183,7 @@ async def test_reauth_exception(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_dhcp_discovery(hass: __HAC_KEEP__, mock_rehlko: AsyncMock) -> None:
+async def test_dhcp_discovery(hass: UniversalAssistant, mock_rehlko: AsyncMock) -> None:
     """Test we can setup from dhcp discovery."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_DHCP}, data=DHCP_DISCOVERY
@@ -204,7 +204,7 @@ async def test_dhcp_discovery(hass: __HAC_KEEP__, mock_rehlko: AsyncMock) -> Non
 
 
 async def test_dhcp_discovery_already_set_up(
-    hass: __HAC_KEEP__, rehlko_config_entry: MockConfigEntry, mock_rehlko: AsyncMock
+    hass: UniversalAssistant, rehlko_config_entry: MockConfigEntry, mock_rehlko: AsyncMock
 ) -> None:
     """Test DHCP discovery aborts if already set up."""
     rehlko_config_entry.add_to_hass(hass)

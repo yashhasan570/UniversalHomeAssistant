@@ -20,8 +20,8 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -30,7 +30,7 @@ from .conftest import TEST_CAM_NAME, TEST_NVR_NAME
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "reolink_host")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -52,7 +52,7 @@ async def test_all_entities(
     ],
 )
 async def test_light_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     whiteled_brightness: int | None,
@@ -86,7 +86,7 @@ async def test_light_state(
 
 
 async def test_light_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:
@@ -112,7 +112,7 @@ async def test_light_turn_off(
     reolink_host.set_whiteled.assert_called_with(0, state=False, brightness=None)
 
     reolink_host.set_whiteled.side_effect = ReolinkError("Test error")
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_OFF,
@@ -122,7 +122,7 @@ async def test_light_turn_off(
 
 
 async def test_light_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:
@@ -156,7 +156,7 @@ async def test_light_turn_on(
     ],
 )
 async def test_light_turn_on_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     exception: Exception,
@@ -171,7 +171,7 @@ async def test_light_turn_on_errors(
     entity_id = f"{Platform.LIGHT}.{TEST_CAM_NAME}_floodlight"
 
     reolink_host.set_whiteled.side_effect = exception
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_ON,
@@ -181,7 +181,7 @@ async def test_light_turn_on_errors(
 
 
 async def test_host_light_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:
@@ -200,7 +200,7 @@ async def test_host_light_state(
 
 
 async def test_host_light_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:
@@ -229,7 +229,7 @@ async def test_host_light_turn_off(
     reolink_host.set_state_light.assert_called_with(False)
 
     reolink_host.set_state_light.side_effect = ReolinkError("Test error")
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_OFF,
@@ -239,7 +239,7 @@ async def test_host_light_turn_off(
 
 
 async def test_host_light_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:
@@ -268,7 +268,7 @@ async def test_host_light_turn_on(
     reolink_host.set_state_light.assert_called_with(True)
 
     reolink_host.set_state_light.side_effect = ReolinkError("Test error")
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_ON,

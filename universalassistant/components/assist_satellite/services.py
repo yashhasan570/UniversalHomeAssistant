@@ -15,9 +15,9 @@ from hassil.util import (
 import probatio
 
 from universalassistant.auth.permissions.const import CAT_ENTITIES, POLICY_CONTROL
-from universalassistant.core import __HAC_KEEP__, ServiceCall, SupportsResponse, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, SupportsResponse, callback
 from universalassistant.exceptions import (
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     ServiceValidationError,
     Unauthorized,
     UnknownUser,
@@ -95,7 +95,7 @@ _media_id_validator = probatio.Any(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the Assist satellite services."""
     component = hass.data[DATA_COMPONENT]
 
@@ -206,7 +206,7 @@ def async_setup_services(hass: __HAC_KEEP__) -> None:
         answer = await satellite_entity.async_internal_ask_question(**ask_question_args)
 
         if answer is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="no_answer",
             )

@@ -12,7 +12,7 @@ import probatio
 
 from universalassistant.components import conversation, media_source
 from universalassistant.components.http.auth import async_sign_path
-from universalassistant.core import Context, __HAC_KEEP__, ServiceResponse, callback
+from universalassistant.core import Context, UniversalAssistant, ServiceResponse, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import llm
 from universalassistant.helpers.chat_session import ChatSession, async_get_chat_session
@@ -58,7 +58,7 @@ def _save_media_image(image_data: media_source.MediaImage) -> Path:
 
 
 async def _resolve_attachments(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     session: ChatSession,
     attachments: list[dict] | None = None,
 ) -> list[conversation.Attachment]:
@@ -118,7 +118,7 @@ async def _resolve_attachments(
 
 @callback
 def _async_get_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id: str | None,
     preferred_entity_id: str | None,
     feature: AITaskEntityFeature,
@@ -163,7 +163,7 @@ def _async_get_entity(
 
 
 async def async_generate_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     task_name: str,
     entity_id: str | None = None,
@@ -201,7 +201,7 @@ async def async_generate_data(
 
 
 async def async_generate_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     task_name: str,
     entity_id: str | None = None,
@@ -380,7 +380,7 @@ class ImageData:
 
 
 async def async_evaluate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     task_name: str,
     questions: dict[str, EvaluationQuestion],

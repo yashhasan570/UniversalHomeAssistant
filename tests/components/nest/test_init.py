@@ -29,7 +29,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.nest import DOMAIN
 from universalassistant.components.nest.const import OAUTH2_TOKEN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 from universalassistant.util.dt import utcnow
 
@@ -99,7 +99,7 @@ def warning_caplog(
 
 
 async def test_setup_success(
-    hass: __HAC_KEEP__, error_caplog: pytest.LogCaptureFixture, setup_platform
+    hass: UniversalAssistant, error_caplog: pytest.LogCaptureFixture, setup_platform
 ) -> None:
     """Test successful setup."""
     await setup_platform()
@@ -112,7 +112,7 @@ async def test_setup_success(
 
 @pytest.mark.parametrize("nest_test_config", [(TEST_CONFIG_NEW_SUBSCRIPTION)])
 async def test_setup_success_new_subscription_format(
-    hass: __HAC_KEEP__, error_caplog: pytest.LogCaptureFixture, setup_platform
+    hass: UniversalAssistant, error_caplog: pytest.LogCaptureFixture, setup_platform
 ) -> None:
     """Test successful setup."""
     await setup_platform()
@@ -125,7 +125,7 @@ async def test_setup_success_new_subscription_format(
 
 @pytest.mark.parametrize("subscriber_id", [("invalid-subscriber-format")])
 async def test_setup_configuration_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     subscriber_id,
     setup_base_platform,
@@ -150,7 +150,7 @@ async def test_setup_configuration_failure(
     ],
 )
 async def test_setup_subscriber_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     setup_base_platform,
     expected_log_message: str,
@@ -166,7 +166,7 @@ async def test_setup_subscriber_failure(
 
 
 async def test_setup_device_manager_failure(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, setup_base_platform
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, setup_base_platform
 ) -> None:
     """Test device manager api failure."""
     with (
@@ -209,7 +209,7 @@ async def test_setup_device_manager_failure(
     ],
 )
 async def test_expired_token_refresh_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_base_platform: PlatformSetup,
     aioclient_mock: AiohttpClientMocker,
     token_response_args: dict,
@@ -235,7 +235,7 @@ async def test_expired_token_refresh_error(
 
 @pytest.mark.parametrize("subscriber_side_effect", [AuthException()])
 async def test_subscriber_auth_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     setup_base_platform,
 ) -> None:
@@ -253,7 +253,7 @@ async def test_subscriber_auth_failure(
 
 @pytest.mark.parametrize("subscriber_side_effect", [ConfigurationException()])
 async def test_subscriber_configuration_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_base_platform,
 ) -> None:
     """Test configuration error."""
@@ -266,7 +266,7 @@ async def test_subscriber_configuration_failure(
 
 
 async def test_subscriber_create_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_base_platform,
 ) -> None:
     """Test setup fails when the subscriber can't be created."""
@@ -279,7 +279,7 @@ async def test_subscriber_create_failure(
     assert entries[0].reason == "Failed to create the Nest subscriber"
 
 
-async def test_legacy_entry_setup_error(hass: __HAC_KEEP__) -> None:
+async def test_legacy_entry_setup_error(hass: UniversalAssistant) -> None:
     """Test setup of a legacy config entry fails and the entry is removed."""
     entry = MockConfigEntry(domain=DOMAIN, data={})
     entry.add_to_hass(hass)
@@ -295,7 +295,7 @@ async def test_legacy_entry_setup_error(hass: __HAC_KEEP__) -> None:
     mock_remove.assert_awaited_once_with(entry.entry_id)
 
 
-async def test_unload_entry(hass: __HAC_KEEP__, setup_platform) -> None:
+async def test_unload_entry(hass: UniversalAssistant, setup_platform) -> None:
     """Test successful unload of a ConfigEntry."""
     await setup_platform()
 
@@ -309,7 +309,7 @@ async def test_unload_entry(hass: __HAC_KEEP__, setup_platform) -> None:
 
 
 async def test_remove_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_base_platform: PlatformSetup,
     aioclient_mock: AiohttpClientMocker,
     subscriber: AsyncMock,
@@ -343,11 +343,11 @@ async def test_remove_entry(
 
 
 async def test_universal_assistant_stop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_platform: PlatformSetup,
     subscriber: AsyncMock,
 ) -> None:
-    """Test successful subscriber shutdown when __HAC_KEEP__ stops."""
+    """Test successful subscriber shutdown when UniversalAssistant stops."""
     await setup_platform()
 
     entries = hass.config_entries.async_entries(DOMAIN)
@@ -361,7 +361,7 @@ async def test_universal_assistant_stop(
 
 
 async def test_remove_entry_delete_subscriber_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_base_platform: PlatformSetup,
     aioclient_mock: AiohttpClientMocker,
     subscriber: AsyncMock,
@@ -393,7 +393,7 @@ async def test_remove_entry_delete_subscriber_failure(
 
 @pytest.mark.parametrize("config_entry_unique_id", [DOMAIN, None])
 async def test_migrate_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     error_caplog,
     setup_platform,
     config_entry,
@@ -411,7 +411,7 @@ async def test_migrate_unique_id(
 
 
 async def test_add_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_platform: PlatformSetup,
     create_device: CreateDevice,
     subscriber: AsyncMock,
@@ -458,7 +458,7 @@ async def test_add_devices(
 
 
 async def test_stale_device_cleanup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_platform: PlatformSetup,
     create_device: CreateDevice,
     subscriber: AsyncMock,
@@ -515,7 +515,7 @@ async def test_stale_device_cleanup(
     ],
 )
 async def test_legacy_topic_detection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_platform: PlatformSetup,
     config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
@@ -530,7 +530,7 @@ async def test_legacy_topic_detection(
 
 @pytest.mark.parametrize("nest_test_config", [TEST_CONFIG_LEGACY_TOPIC])
 async def test_legacy_topic_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_platform: PlatformSetup,
     config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
@@ -571,7 +571,7 @@ async def test_legacy_topic_issue(
     ],
 )
 async def test_legacy_topic_issue_on_setup_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_base_platform: PlatformSetup,
     config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
@@ -590,7 +590,7 @@ async def test_legacy_topic_issue_on_setup_failure(
 
 @pytest.mark.parametrize("nest_test_config", [TEST_CONFIG_SELF_HOSTED_TOPIC])
 async def test_subscription_not_found_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_base_platform: PlatformSetup,
     config_entry: MockConfigEntry,
     subscriber: AsyncMock,
@@ -620,7 +620,7 @@ async def test_subscription_not_found_issue(
 @pytest.mark.parametrize("nest_test_config", [TEST_CONFIG_LEGACY_TOPIC])
 @pytest.mark.parametrize("subscriber_side_effect", [ConfigurationException()])
 async def test_remove_entry_deletes_issues(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_base_platform: PlatformSetup,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,

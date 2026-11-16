@@ -41,8 +41,8 @@ from universalassistant.components.universalassistant_hardware.util import (
     rpi_firmware_release_url,
 )
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.setup import async_setup_component
 
 from .test_config_flow import create_mock_owner
@@ -80,7 +80,7 @@ TEST_Z2M_ADDON_SLUG_2 = "45df7312_zigbee2mqtt_edge"
 TEST_Z2M_ADDON_SLUG_3 = "b0107004_zigbee2mqtt"
 
 
-async def test_guess_firmware_info_unknown(hass: __HAC_KEEP__) -> None:
+async def test_guess_firmware_info_unknown(hass: UniversalAssistant) -> None:
     """Test guessing the firmware type."""
 
     await async_setup_component(hass, DOMAIN, {})
@@ -94,7 +94,7 @@ async def test_guess_firmware_info_unknown(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_guess_firmware_info_integrations(hass: __HAC_KEEP__) -> None:
+async def test_guess_firmware_info_integrations(hass: UniversalAssistant) -> None:
     """Test guessing the firmware via OTBR and ZHA."""
 
     await async_setup_component(hass, DOMAIN, {})
@@ -147,7 +147,7 @@ async def test_guess_firmware_info_integrations(hass: __HAC_KEEP__) -> None:
     async_register_firmware_info_provider(hass, "zha", mock_zha_hardware_info)
 
     async def mock_otbr_async_get_firmware_info(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> FirmwareInfo | None:
         return {
             otbr1.entry_id: otbr_firmware_info1,
@@ -179,7 +179,7 @@ async def test_guess_firmware_info_integrations(hass: __HAC_KEEP__) -> None:
 
 
 async def test_guess_hardware_owners_z2m(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test fetching adapter info for a complex Z2M scenario."""
     await async_setup_component(hass, DOMAIN, {})
@@ -188,7 +188,7 @@ async def test_guess_hardware_owners_z2m(
     multipan_addon_manager.async_get_addon_info.side_effect = AddonError()
 
     async def mock_z2m_firmware_info(
-        hass: __HAC_KEEP__, z2m_addon_manager: AddonManager
+        hass: UniversalAssistant, z2m_addon_manager: AddonManager
     ) -> FirmwareInfo | None:
         slug = z2m_addon_manager.addon_slug
         if slug == TEST_Z2M_ADDON_SLUG_1:
@@ -265,7 +265,7 @@ async def test_guess_hardware_owners_z2m(
         assert (await guess_hardware_owners(hass, "/dev/ttyUSB3")) == []
 
 
-async def test_guess_hardware_owners_otbr(hass: __HAC_KEEP__) -> None:
+async def test_guess_hardware_owners_otbr(hass: UniversalAssistant) -> None:
     """Test OTBR addon detection in guess_hardware_owners."""
     await async_setup_component(hass, DOMAIN, {})
 
@@ -307,7 +307,7 @@ async def test_guess_hardware_owners_otbr(hass: __HAC_KEEP__) -> None:
         ]
 
 
-async def test_guess_hardware_owners_multipan(hass: __HAC_KEEP__) -> None:
+async def test_guess_hardware_owners_multipan(hass: UniversalAssistant) -> None:
     """Test multiprotocol addon detection in guess_hardware_owners."""
     await async_setup_component(hass, DOMAIN, {})
 
@@ -357,7 +357,7 @@ async def test_guess_hardware_owners_multipan(hass: __HAC_KEEP__) -> None:
         ]
 
 
-async def test_owning_addon(hass: __HAC_KEEP__) -> None:
+async def test_owning_addon(hass: UniversalAssistant) -> None:
     """Test `OwningAddon`."""
 
     owning_addon = OwningAddon(slug="some-addon-slug")
@@ -404,7 +404,7 @@ async def test_owning_addon(hass: __HAC_KEEP__) -> None:
         assert (await owning_addon.is_running(hass)) is False
 
 
-async def test_owning_addon_temporarily_stop_info_error(hass: __HAC_KEEP__) -> None:
+async def test_owning_addon_temporarily_stop_info_error(hass: UniversalAssistant) -> None:
     """Test `OwningAddon` temporarily stopping with an info error."""
 
     owning_addon = OwningAddon(slug="some-addon-slug")
@@ -425,7 +425,7 @@ async def test_owning_addon_temporarily_stop_info_error(hass: __HAC_KEEP__) -> N
     assert len(mock_manager.async_start_addon_waiting.mock_calls) == 0
 
 
-async def test_owning_addon_temporarily_stop_not_running(hass: __HAC_KEEP__) -> None:
+async def test_owning_addon_temporarily_stop_not_running(hass: UniversalAssistant) -> None:
     """Test `OwningAddon` temporarily stopping when the addon is not running."""
 
     owning_addon = OwningAddon(slug="some-addon-slug")
@@ -454,7 +454,7 @@ async def test_owning_addon_temporarily_stop_not_running(hass: __HAC_KEEP__) -> 
     assert len(mock_manager.async_start_addon_waiting.mock_calls) == 0
 
 
-async def test_owning_addon_temporarily_stop(hass: __HAC_KEEP__) -> None:
+async def test_owning_addon_temporarily_stop(hass: UniversalAssistant) -> None:
     """Test `OwningAddon` temporarily stopping when the addon is running."""
 
     owning_addon = OwningAddon(slug="some-addon-slug")
@@ -491,7 +491,7 @@ async def test_owning_addon_temporarily_stop(hass: __HAC_KEEP__) -> None:
     assert len(mock_manager.async_start_addon_waiting.mock_calls) == 1
 
 
-async def test_owning_integration(hass: __HAC_KEEP__) -> None:
+async def test_owning_integration(hass: UniversalAssistant) -> None:
     """Test `OwningIntegration`."""
     config_entry = MockConfigEntry(domain="mock_domain", unique_id="some_unique_id")
     config_entry.add_to_hass(hass)
@@ -512,7 +512,7 @@ async def test_owning_integration(hass: __HAC_KEEP__) -> None:
 
 
 async def test_owning_integration_temporarily_stop_missing_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test temporarily stopping the integration when the config entry doesn't exist."""
     missing_integration = OwningIntegration(config_entry_id="missing_entry_id")
@@ -530,7 +530,7 @@ async def test_owning_integration_temporarily_stop_missing_entry(
 
 
 async def test_owning_integration_temporarily_stop_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test temporarily stopping the integration when the config entry is not loaded."""
     entry = MockConfigEntry(domain="test_domain")
@@ -551,7 +551,7 @@ async def test_owning_integration_temporarily_stop_not_loaded(
     assert len(mock_setup.mock_calls) == 0
 
 
-async def test_owning_integration_temporarily_stop_loaded(hass: __HAC_KEEP__) -> None:
+async def test_owning_integration_temporarily_stop_loaded(hass: UniversalAssistant) -> None:
     """Test temporarily stopping the integration when the config entry is loaded."""
     entry = MockConfigEntry(domain="test_domain")
     entry.add_to_hass(hass)
@@ -572,7 +572,7 @@ async def test_owning_integration_temporarily_stop_loaded(hass: __HAC_KEEP__) ->
     mock_setup.assert_called_once_with(entry.entry_id)
 
 
-async def test_firmware_info(hass: __HAC_KEEP__) -> None:
+async def test_firmware_info(hass: UniversalAssistant) -> None:
     """Test `FirmwareInfo`."""
 
     owner1 = AsyncMock()
@@ -608,7 +608,7 @@ async def test_firmware_info(hass: __HAC_KEEP__) -> None:
     assert (await firmware_info2.is_running(hass)) is False
 
 
-async def test_get_otbr_addon_firmware_info_failure(hass: __HAC_KEEP__) -> None:
+async def test_get_otbr_addon_firmware_info_failure(hass: UniversalAssistant) -> None:
     """Test getting OTBR addon firmware info failure due to bad API call."""
 
     otbr_addon_manager = AsyncMock(spec_set=AddonManager)
@@ -618,7 +618,7 @@ async def test_get_otbr_addon_firmware_info_failure(hass: __HAC_KEEP__) -> None:
 
 
 async def test_get_otbr_addon_firmware_info_failure_bad_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test getting OTBR addon firmware info failure due to bad addon options."""
 
@@ -636,14 +636,14 @@ async def test_get_otbr_addon_firmware_info_failure_bad_options(
 
 
 async def test_get_z2m_addon_manager(
-    hass: __HAC_KEEP__, supervisor_client: AsyncMock
+    hass: UniversalAssistant, supervisor_client: AsyncMock
 ) -> None:
     """Test getting the Z2M addon manager."""
     manager = get_z2m_addon_manager(hass, "abc123_zigbee2mqtt")
     assert manager.addon_slug == "abc123_zigbee2mqtt"
 
 
-async def test_get_z2m_addon_firmware_info(hass: __HAC_KEEP__) -> None:
+async def test_get_z2m_addon_firmware_info(hass: UniversalAssistant) -> None:
     """Test getting Z2M addon firmware info."""
     z2m_addon_manager = Mock(spec=AddonManager)
     z2m_addon_manager.addon_slug = "abc123_zigbee2mqtt"
@@ -667,7 +667,7 @@ async def test_get_z2m_addon_firmware_info(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_get_z2m_addon_firmware_info_not_installed(hass: __HAC_KEEP__) -> None:
+async def test_get_z2m_addon_firmware_info_not_installed(hass: UniversalAssistant) -> None:
     """Test getting Z2M addon firmware info, addon not installed."""
     z2m_addon_manager = Mock(spec=AddonManager)
     z2m_addon_manager.addon_slug = "abc123_zigbee2mqtt"
@@ -683,7 +683,7 @@ async def test_get_z2m_addon_firmware_info_not_installed(hass: __HAC_KEEP__) -> 
     assert (await get_z2m_addon_firmware_info(hass, z2m_addon_manager)) is None
 
 
-async def test_get_z2m_addon_firmware_info_failure(hass: __HAC_KEEP__) -> None:
+async def test_get_z2m_addon_firmware_info_failure(hass: UniversalAssistant) -> None:
     """Test getting Z2M addon firmware info failure due to bad API call."""
 
     z2m_addon_manager = AsyncMock(spec_set=AddonManager)
@@ -693,7 +693,7 @@ async def test_get_z2m_addon_firmware_info_failure(hass: __HAC_KEEP__) -> None:
 
 
 async def test_get_z2m_addon_firmware_info_failure_bad_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test getting Z2M addon firmware info failure due to bad addon options."""
 
@@ -711,7 +711,7 @@ async def test_get_z2m_addon_firmware_info_failure_bad_options(
 
 
 async def test_get_z2m_addon_firmware_info_failure_serial_not_dict(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test getting Z2M addon firmware info failure when serial is not a dict."""
 
@@ -800,7 +800,7 @@ async def test_probe_silabs_firmware_info(
     ],
 )
 async def test_async_get_flasher_cls(
-    hass: __HAC_KEEP__, flasher_type: FlasherType, expected_cls: type
+    hass: UniversalAssistant, flasher_type: FlasherType, expected_cls: type
 ) -> None:
     """Test resolving the flasher class of a flasher type."""
     assert await async_get_flasher_cls(hass, flasher_type) is expected_cls
@@ -815,7 +815,7 @@ async def test_async_get_flasher_cls(
     ],
 )
 async def test_probe_silabs_firmware_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     probe_result: FirmwareInfo | None,
     expected: ApplicationType | None,
 ) -> None:
@@ -847,7 +847,7 @@ async def test_probe_silabs_firmware_type(
         assert result == expected
 
 
-async def test_async_flash_silabs_firmware(hass: __HAC_KEEP__) -> None:
+async def test_async_flash_silabs_firmware(hass: UniversalAssistant) -> None:
     """Test async_flash_silabs_firmware."""
     await async_setup_component(hass, DOMAIN, {})
 
@@ -948,7 +948,7 @@ async def test_async_flash_silabs_firmware(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_async_flash_silabs_firmware_flash_failure(
-    hass: __HAC_KEEP__, side_effect: Exception, expected_error_msg: str
+    hass: UniversalAssistant, side_effect: Exception, expected_error_msg: str
 ) -> None:
     """Test async_flash_silabs_firmware flash failure."""
     await async_setup_component(hass, DOMAIN, {})
@@ -975,7 +975,7 @@ async def test_async_flash_silabs_firmware_flash_failure(
         patch(
             "universalassistant.components.universalassistant_hardware.util.parse_firmware_image"
         ),
-        pytest.raises(__HAC_KEEP__Error, match=expected_error_msg) as exc,
+        pytest.raises(UniversalAssistantError, match=expected_error_msg) as exc,
     ):
         async with async_firmware_flashing_context(
             hass, "/dev/ttyUSB0", "universalassistant_hardware"
@@ -993,17 +993,17 @@ async def test_async_flash_silabs_firmware_flash_failure(
         call(hass),
         # pylint: disable-next=unnecessary-dunder-call
         call().__aenter__(ANY),
-        call().__aexit__(ANY, __HAC_KEEP__Error, exc.value, ANY),
+        call().__aexit__(ANY, UniversalAssistantError, exc.value, ANY),
     ]
     assert owner2.temporarily_stop.mock_calls == [
         call(hass),
         # pylint: disable-next=unnecessary-dunder-call
         call().__aenter__(ANY),
-        call().__aexit__(ANY, __HAC_KEEP__Error, exc.value, ANY),
+        call().__aexit__(ANY, UniversalAssistantError, exc.value, ANY),
     ]
 
 
-async def test_async_flash_silabs_firmware_probe_failure(hass: __HAC_KEEP__) -> None:
+async def test_async_flash_silabs_firmware_probe_failure(hass: UniversalAssistant) -> None:
     """Test async_flash_silabs_firmware probe failure."""
     await async_setup_component(hass, DOMAIN, {})
 
@@ -1034,7 +1034,7 @@ async def test_async_flash_silabs_firmware_probe_failure(hass: __HAC_KEEP__) -> 
             return_value=None,
         ),
         pytest.raises(
-            __HAC_KEEP__Error, match="Failed to probe the firmware after flashing"
+            UniversalAssistantError, match="Failed to probe the firmware after flashing"
         ) as exc,
     ):
         async with async_firmware_flashing_context(
@@ -1053,13 +1053,13 @@ async def test_async_flash_silabs_firmware_probe_failure(hass: __HAC_KEEP__) -> 
         call(hass),
         # pylint: disable-next=unnecessary-dunder-call
         call().__aenter__(ANY),
-        call().__aexit__(ANY, __HAC_KEEP__Error, exc.value, ANY),
+        call().__aexit__(ANY, UniversalAssistantError, exc.value, ANY),
     ]
     assert owner2.temporarily_stop.mock_calls == [
         call(hass),
         # pylint: disable-next=unnecessary-dunder-call
         call().__aenter__(ANY),
-        call().__aexit__(ANY, __HAC_KEEP__Error, exc.value, ANY),
+        call().__aexit__(ANY, UniversalAssistantError, exc.value, ANY),
     ]
 
 

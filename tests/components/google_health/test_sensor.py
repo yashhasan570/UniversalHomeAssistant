@@ -23,7 +23,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.google_health.const import DOMAIN
 from universalassistant.components.google_health.coordinator import DEVICE_POLLING_INTERVAL
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util.unit_system import (
     METRIC_SYSTEM,
@@ -36,7 +36,7 @@ from .conftest import _list_fixture, paired_devices_fixture
 
 @pytest.mark.usefixtures("mock_google_health_client")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,
@@ -50,7 +50,7 @@ async def test_all_entities(
 
 
 async def test_sensor_empty_rollup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_google_health_client: AsyncMock,
     integration_setup: Callable[[], Awaitable[bool]],
 ) -> None:
@@ -95,7 +95,7 @@ async def test_sensor_empty_rollup(
 
 
 async def test_sensor_empty_sleep(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_google_health_client: AsyncMock,
     integration_setup: Callable[[], Awaitable[bool]],
 ) -> None:
@@ -118,7 +118,7 @@ async def test_sensor_empty_sleep(
 
 
 async def test_sensor_in_progress_sleep(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_google_health_client: AsyncMock,
     integration_setup: Callable[[], Awaitable[bool]],
 ) -> None:
@@ -170,7 +170,7 @@ async def test_sensor_in_progress_sleep(
     ],
 )
 async def test_sensor_sleep_missing_stages(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_google_health_client: AsyncMock,
     integration_setup: Callable[[], Awaitable[bool]],
     stages_summary: list[StageSummary] | None,
@@ -191,7 +191,7 @@ async def test_sensor_sleep_missing_stages(
 
 
 async def test_sensor_only_in_progress_sleep(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_google_health_client: AsyncMock,
     integration_setup: Callable[[], Awaitable[bool]],
 ) -> None:
@@ -239,7 +239,7 @@ async def test_sensor_only_in_progress_sleep(
 )
 @pytest.mark.usefixtures("mock_google_health_client")
 async def test_sensor_unit_conversions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration_setup: Callable[[], Awaitable[bool]],
     unit_system: UnitSystem,
     expected_sensors: dict[str, tuple[Any, str]],
@@ -263,7 +263,7 @@ async def test_sensor_unit_conversions(
 )
 @pytest.mark.usefixtures("mock_google_health_client")
 async def test_device_sensor_via_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[], Awaitable[bool]],
@@ -290,7 +290,7 @@ async def test_device_sensor_via_device_id(
 
 
 async def test_stale_device_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_google_health_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -327,7 +327,7 @@ async def test_stale_device_removed(
 
 @pytest.mark.usefixtures("mock_google_health_client")
 async def test_stale_device_removed_on_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[], Awaitable[bool]],
@@ -347,7 +347,7 @@ async def test_stale_device_removed_on_setup(
 
 
 async def test_auto_add_new_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_google_health_client: AsyncMock,
     device_registry: dr.DeviceRegistry,

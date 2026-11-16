@@ -4,14 +4,14 @@ import pytest
 
 from universalassistant.components.sensor import CONF_STATE_CLASS, SensorStateClass
 from universalassistant.const import ATTR_UNIT_OF_MEASUREMENT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import ComponentSetup
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     connection,
 ) -> None:

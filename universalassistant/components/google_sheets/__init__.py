@@ -2,7 +2,7 @@
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.config_entry_oauth2_flow import (
@@ -19,7 +19,7 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 type GoogleSheetsConfigEntry = ConfigEntry[OAuth2Session]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Activate the Google Sheets component."""
 
     async_setup_services(hass)
@@ -28,7 +28,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: GoogleSheetsConfigEntry
+    hass: UniversalAssistant, entry: GoogleSheetsConfigEntry
 ) -> None:
     """Set up Google Sheets from a config entry."""
     implementation = await async_get_config_entry_implementation(hass, entry)
@@ -40,12 +40,12 @@ async def async_setup_entry(
     entry.runtime_data = session
 
 
-def async_entry_has_scopes(hass: __HAC_KEEP__, entry: GoogleSheetsConfigEntry) -> bool:
+def async_entry_has_scopes(hass: UniversalAssistant, entry: GoogleSheetsConfigEntry) -> bool:
     """Verify that the config entry desired scope is present in the oauth token."""
     return DEFAULT_ACCESS in entry.data.get(CONF_TOKEN, {}).get("scope", "").split(" ")
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: GoogleSheetsConfigEntry
+    hass: UniversalAssistant, entry: GoogleSheetsConfigEntry
 ) -> None:
     """Unload a config entry."""

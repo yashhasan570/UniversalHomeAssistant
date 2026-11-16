@@ -23,14 +23,14 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CONF_NAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import make_v2_config_entry
 from .const import API_KEY, MIN_CONFIG
 
 
-async def test_user_flow(hass: __HAC_KEEP__) -> None:
+async def test_user_flow(hass: UniversalAssistant) -> None:
     """Test user config flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -48,7 +48,7 @@ async def test_user_flow(hass: __HAC_KEEP__) -> None:
     assert result["result"].unique_id == API_KEY
 
 
-async def test_user_flow_api_key_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_api_key_already_configured(hass: UniversalAssistant) -> None:
     """Test user config flow aborts when the API key is already configured."""
     make_v2_config_entry().add_to_hass(hass)
 
@@ -84,7 +84,7 @@ async def test_user_flow_api_key_already_configured(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_user_flow_errors(
-    hass: __HAC_KEEP__, side_effect: type[Exception], errors: dict[str, str]
+    hass: UniversalAssistant, side_effect: type[Exception], errors: dict[str, str]
 ) -> None:
     """Test user config flow errors and recovery."""
     result = await hass.config_entries.flow.async_init(
@@ -115,7 +115,7 @@ async def test_user_flow_errors(
     assert result["result"].unique_id == API_KEY
 
 
-async def test_location_subentry_flow(hass: __HAC_KEEP__) -> None:
+async def test_location_subentry_flow(hass: UniversalAssistant) -> None:
     """Test creating a location subentry."""
     config_entry = make_v2_config_entry()
     config_entry.add_to_hass(hass)
@@ -158,7 +158,7 @@ async def test_location_subentry_flow(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_location_subentry_flow_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_location_subentry_flow_already_configured(hass: UniversalAssistant) -> None:
     """Test creating a location subentry for a location that already exists."""
     config_entry = make_v2_config_entry()
     config_entry.add_to_hass(hass)
@@ -187,7 +187,7 @@ async def test_location_subentry_flow_already_configured(hass: __HAC_KEEP__) -> 
     assert len(config_entry.subentries) == 1
 
 
-async def test_location_subentry_reconfigure(hass: __HAC_KEEP__) -> None:
+async def test_location_subentry_reconfigure(hass: UniversalAssistant) -> None:
     """Test reconfiguring a location subentry."""
     config_entry = make_v2_config_entry()
     config_entry.add_to_hass(hass)
@@ -226,7 +226,7 @@ async def test_location_subentry_reconfigure(hass: __HAC_KEEP__) -> None:
 
 
 async def test_location_subentry_reconfigure_same_location(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test reconfiguring a location subentry without changing the location."""
     config_entry = make_v2_config_entry()
@@ -259,7 +259,7 @@ async def test_location_subentry_reconfigure_same_location(
 
 
 async def test_location_subentry_reconfigure_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test reconfiguring a location subentry to another configured location."""
     config_entry = make_v2_config_entry()

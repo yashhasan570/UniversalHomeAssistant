@@ -28,8 +28,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -48,7 +48,7 @@ def mock_glow_device(mock_amazon_devices_client: AsyncMock) -> None:
 
 @pytest.mark.usefixtures("mock_amazon_devices_client")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -128,7 +128,7 @@ async def test_all_entities(
     ],
 )
 async def test_light_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -151,7 +151,7 @@ async def test_light_services(
 
 
 async def test_turn_on_when_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -176,7 +176,7 @@ async def test_turn_on_when_off(
 
 
 async def test_pushed_sensor_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -196,7 +196,7 @@ async def test_pushed_sensor_update(
 
 
 async def test_unknown_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -228,7 +228,7 @@ async def test_unknown_state(
     ],
 )
 async def test_feature_operation_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -239,7 +239,7 @@ async def test_feature_operation_error(
 
     mock_amazon_devices_client.call_feature_operation.side_effect = side_effect
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_OFF,
@@ -251,7 +251,7 @@ async def test_feature_operation_error(
 
 
 async def test_partial_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

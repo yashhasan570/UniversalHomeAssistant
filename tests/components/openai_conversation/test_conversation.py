@@ -41,7 +41,7 @@ from universalassistant.components.openai_conversation.const import (
     CONF_WEB_SEARCH_USER_LOCATION,
 )
 from universalassistant.const import CONF_LLM_HASS_API
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.helpers import intent
 from universalassistant.helpers.llm import ToolInput, ToolResult
 from universalassistant.setup import async_setup_component
@@ -61,7 +61,7 @@ from tests.components.conversation import (
 
 
 async def test_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
 ) -> None:
@@ -107,7 +107,7 @@ async def test_entity(
     ],
 )
 async def test_error_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
     mock_create_stream: AsyncMock,
@@ -143,7 +143,7 @@ async def test_error_handling(
     ],
 )
 async def test_incomplete_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_with_assist: MockConfigEntry,
     mock_init_component,
     mock_create_stream: AsyncMock,
@@ -218,7 +218,7 @@ async def test_incomplete_response(
     ],
 )
 async def test_failed_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_with_assist: MockConfigEntry,
     mock_init_component,
     mock_create_stream: AsyncMock,
@@ -241,7 +241,7 @@ async def test_failed_response(
 
 
 async def test_conversation_agent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
 ) -> None:
@@ -254,7 +254,7 @@ async def test_conversation_agent(
 
 @freeze_time("2025-10-31 12:00:00")
 async def test_function_call(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_with_reasoning_model: MockConfigEntry,
     mock_init_component,
     mock_create_stream: AsyncMock,
@@ -354,7 +354,7 @@ async def test_function_call(
 
 @freeze_time("2025-10-31 18:00:00")
 async def test_function_call_without_reasoning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_with_assist: MockConfigEntry,
     mock_init_component,
     mock_create_stream: AsyncMock,
@@ -402,7 +402,7 @@ async def test_function_call_without_reasoning(
     [pytest.param("", id="empty-delta"), pytest.param([], id="no-text-deltas")],
 )
 async def test_function_call_with_silent_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
     mock_chat_log: MockChatLog,  # noqa: F811
     snapshot: SnapshotAssertion,
@@ -453,7 +453,7 @@ async def test_function_call_with_silent_response(
     ],
 )
 async def test_missing_or_incomplete_empty_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     events: list[ResponseStreamEvent | IncompleteDetails],
@@ -473,7 +473,7 @@ async def test_missing_or_incomplete_empty_response(
 
 @freeze_time("2025-10-31 18:00:00")
 async def test_reasoning_summary_off_omits_summary_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component: None,
     mock_create_stream: AsyncMock,
@@ -543,7 +543,7 @@ async def test_reasoning_summary_off_omits_summary_key(
     ],
 )
 async def test_function_call_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_with_assist: MockConfigEntry,
     mock_init_component,
     mock_create_stream: AsyncMock,
@@ -564,7 +564,7 @@ async def test_function_call_invalid(
 
 
 async def test_assist_api_tools_conversion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_with_assist: MockConfigEntry,
     mock_init_component,
     mock_create_stream,
@@ -625,7 +625,7 @@ async def test_assist_api_tools_conversion(
     ],
 )
 async def test_store_responses_forwarded_for_conversation_agent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
     mock_create_stream: AsyncMock,
@@ -659,7 +659,7 @@ async def test_store_responses_forwarded_for_conversation_agent(
 
 @pytest.mark.parametrize("inline_citations", [True, False])
 async def test_web_search(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
     mock_create_stream,
@@ -687,7 +687,7 @@ async def test_web_search(
     await hass.config_entries.async_reload(mock_config_entry.entry_id)
 
     message = [
-        "__HA_KEEP__ now supports ",
+        "Universal Home Assistant now supports ",
         "ChatGPT Search in Assist",
         " ([release notes](https://www.universalassistant.io/blog/categories/release-notes/)",
         ").",
@@ -745,7 +745,7 @@ async def test_web_search(
 
 
 async def test_web_search_remove_citations_gpt5(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
     mock_create_stream,
@@ -800,7 +800,7 @@ async def test_web_search_remove_citations_gpt5(
     ],
 )
 async def test_code_interpreter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     mock_chat_log: MockChatLog,  # noqa: F811
@@ -881,7 +881,7 @@ async def test_code_interpreter(
 
 
 async def test_flex_tier_retry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
     mock_create_stream,
@@ -975,7 +975,7 @@ async def test_flex_tier_retry(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_model_args(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     snapshot: SnapshotAssertion,

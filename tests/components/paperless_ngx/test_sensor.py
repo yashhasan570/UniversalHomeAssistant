@@ -22,7 +22,7 @@ from universalassistant.components.paperless_ngx.coordinator import (
     UPDATE_INTERVAL_STATISTICS,
 )
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -30,7 +30,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -44,7 +44,7 @@ async def test_sensor_platform(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_statistic_sensor_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_paperless: AsyncMock,
     freezer: FrozenDateTimeFactory,
     mock_statistic_data_update,
@@ -80,7 +80,7 @@ async def test_statistic_sensor_state(
     ],
 )
 async def test__statistic_sensor_state_on_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_paperless: AsyncMock,
     freezer: FrozenDateTimeFactory,
     mock_statistic_data_update,

@@ -28,7 +28,7 @@ from universalassistant.const import (
     SUN_EVENT_SUNRISE,
     SUN_EVENT_SUNSET,
 )
-from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__, callback
+from universalassistant.core import Event, EventStateChangedData, UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.event import (
     async_track_point_in_utc_time,
@@ -68,7 +68,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the triggers to control lights based on device presence."""
     conf = config[DOMAIN]
     disable_turn_off = conf[CONF_DISABLE_TURN_OFF]

@@ -7,7 +7,7 @@ from typing import override
 from ritualsgenie import Attribute, RitualsGenie, RitualsGenieHub
 
 from universalassistant.components.number import NumberEntity, NumberEntityDescription
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -43,7 +43,7 @@ ENTITY_DESCRIPTIONS = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: RitualsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

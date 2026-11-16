@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.json import json_loads
 
 from . import DsmrConfigEntry
@@ -13,7 +13,7 @@ TO_REDACT = {CONF_ENCRYPTION_KEY}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: DsmrConfigEntry
+    hass: UniversalAssistant, config_entry: DsmrConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
 

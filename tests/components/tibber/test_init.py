@@ -13,11 +13,11 @@ from universalassistant.components.tibber import DOMAIN
 from universalassistant.components.tibber.const import AUTH_IMPLEMENTATION
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_entry_unload(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, mock_tibber_setup: MagicMock
+    recorder_mock: Recorder, hass: UniversalAssistant, mock_tibber_setup: MagicMock
 ) -> None:
     """Test unloading the entry."""
     entry = hass.config_entries.async_entry_for_domain_unique_id(DOMAIN, "tibber")
@@ -45,7 +45,7 @@ async def _hang_forever() -> None:
 )
 async def test_entry_unload_rt_disconnect_error(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tibber_setup: MagicMock,
     side_effect: Exception | Callable[[], Awaitable[None]],
 ) -> None:
@@ -61,7 +61,7 @@ async def test_entry_unload_rt_disconnect_error(
     assert entry.state is ConfigEntryState.NOT_LOADED
 
 
-async def _async_trigger_client_fetch(hass: __HAC_KEEP__) -> None:
+async def _async_trigger_client_fetch(hass: UniversalAssistant) -> None:
     """Make the integration fetch its client through a public entity action."""
     await hass.services.async_call(
         "notify",
@@ -73,7 +73,7 @@ async def _async_trigger_client_fetch(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("recorder_mock", "mock_tibber_setup")
 async def test_client_created_once_and_reused(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tibber_client_cls: MagicMock,
 ) -> None:
     """Ensure setup builds one authenticated client that later fetches reuse."""
@@ -96,7 +96,7 @@ async def test_client_created_once_and_reused(
 
 @pytest.mark.usefixtures("recorder_mock", "mock_tibber_setup")
 async def test_rotated_token_returned_by_refresh_callback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     tibber_client_cls: MagicMock,
 ) -> None:
@@ -118,7 +118,7 @@ async def test_rotated_token_returned_by_refresh_callback(
 
 @pytest.mark.usefixtures("recorder_mock", "tibber_mock", "setup_credentials")
 async def test_setup_missing_access_token_triggers_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Ensure an OAuth token without an access token triggers reauthentication."""
     entry = MockConfigEntry(
@@ -143,7 +143,7 @@ async def test_setup_missing_access_token_triggers_reauth(
     assert flows[0]["context"]["source"] == SOURCE_REAUTH
 
 
-async def test_setup_requires_data_api_reauth(hass: __HAC_KEEP__) -> None:
+async def test_setup_requires_data_api_reauth(hass: UniversalAssistant) -> None:
     """Ensure legacy entries trigger reauth to configure Data API."""
     hass.config.components.add("recorder")
     entry = MockConfigEntry(

@@ -12,7 +12,7 @@ from mcstatus.responses import (
     LegacyStatusResponse,
 )
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -68,7 +68,7 @@ class MinecraftServer:
     _server: BedrockServer | JavaServer | LegacyServer | None
 
     def __init__(
-        self, hass: __HAC_KEEP__, server_type: MinecraftServerType, address: str
+        self, hass: UniversalAssistant, server_type: MinecraftServerType, address: str
     ) -> None:
         """Initialize server instance."""
         self._server = None

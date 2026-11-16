@@ -14,8 +14,8 @@ from universalassistant.components.lock import (
     LockEntityFeature,
 )
 from universalassistant.const import ATTR_CODE, Platform
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import LOCK_TIMED_REQUEST_TIMEOUT_MS, LOGGER, MatterServiceArgument
@@ -55,7 +55,7 @@ DOOR_LOCK_OPERATION_SOURCE: dict[int, str] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MatterConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -285,7 +285,7 @@ class MatterLock(MatterEntity, LockEntity):
                 credential_rule=kwargs.get(MatterServiceArgument.CREDENTIAL_RULE),
             )
         except MatterError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to set lock user on {self.entity_id}: {err}"
             ) from err
 
@@ -298,7 +298,7 @@ class MatterLock(MatterEntity, LockEntity):
                 kwargs[MatterServiceArgument.USER_INDEX],
             )
         except MatterError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to clear lock user on {self.entity_id}: {err}"
             ) from err
 
@@ -310,7 +310,7 @@ class MatterLock(MatterEntity, LockEntity):
                 self._endpoint.node,
             )
         except MatterError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to get lock info for {self.entity_id}: {err}"
             ) from err
 
@@ -322,7 +322,7 @@ class MatterLock(MatterEntity, LockEntity):
                 self._endpoint.node,
             )
         except MatterError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to get lock users for {self.entity_id}: {err}"
             ) from err
 
@@ -340,7 +340,7 @@ class MatterLock(MatterEntity, LockEntity):
                 user_type=kwargs.get(MatterServiceArgument.USER_TYPE),
             )
         except MatterError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to set lock credential on {self.entity_id}: {err}"
             ) from err
 
@@ -354,7 +354,7 @@ class MatterLock(MatterEntity, LockEntity):
                 credential_index=kwargs[MatterServiceArgument.CREDENTIAL_INDEX],
             )
         except MatterError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to clear lock credential on {self.entity_id}: {err}"
             ) from err
 
@@ -370,7 +370,7 @@ class MatterLock(MatterEntity, LockEntity):
                 credential_index=kwargs[MatterServiceArgument.CREDENTIAL_INDEX],
             )
         except MatterError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to get credential status for {self.entity_id}: {err}"
             ) from err
 

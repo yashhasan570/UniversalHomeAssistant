@@ -12,7 +12,7 @@ from typing import Any, Protocol, override
 import wave
 
 from universalassistant.components import stt
-from universalassistant.core import Context, __HAC_KEEP__, callback
+from universalassistant.core import Context, UniversalAssistant, callback
 from universalassistant.helpers import chat_session
 from universalassistant.util import ulid as ulid_util
 from universalassistant.util.limited_size_dict import LimitedSizeDict
@@ -107,9 +107,9 @@ class _PipelineProcessorRequest:
 
 @dataclass
 class PipelineRun:
-    """__HA_KEEP__ controller for a pipeline run."""
+    """Universal Home Assistant controller for a pipeline run."""
 
-    hass: __HAC_KEEP__
+    hass: UniversalAssistant
     context: Context
     pipeline: Pipeline
     start_stage: PipelineStage
@@ -241,7 +241,7 @@ class PipelineRun:
     async def async_execute(
         self, pipeline_input: PipelineInput, *, validate: bool = False
     ) -> None:
-        """Run the pipeline processor with the __HA_KEEP__ lifecycle."""
+        """Run the pipeline processor with the Universal Home Assistant lifecycle."""
         request = pipeline_input.create_processor_request()
         validation_error: PipelineError | None = None
         self._set_request_identity(request)
@@ -308,7 +308,7 @@ class PipelineRun:
 
     @callback
     def accept_wake_word(self, wake_word_phrase: str) -> None:
-        """Apply __HA_KEEP__'s duplicate wake-up policy."""
+        """Apply Universal Home Assistant's duplicate wake-up policy."""
         last_wake_up = self.hass.data[DATA_LAST_WAKE_UP].get(wake_word_phrase)
         if (
             last_wake_up is not None
@@ -320,7 +320,7 @@ class PipelineRun:
 
     @callback
     def capture_audio(self, audio_bytes: bytes | None) -> None:
-        """Forward an audio chunk to __HA_KEEP__ capture mechanisms."""
+        """Forward an audio chunk to Universal Home Assistant capture mechanisms."""
         if self.debug_recording_queue is not None:
             self.debug_recording_queue.put_nowait(audio_bytes)
 

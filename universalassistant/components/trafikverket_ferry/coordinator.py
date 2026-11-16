@@ -9,7 +9,7 @@ from pytrafikverket.exceptions import InvalidAuthentication, NoFerryFound
 from pytrafikverket.models import FerryStopModel
 
 from universalassistant.const import CONF_API_KEY, CONF_WEEKDAY, WEEKDAYS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -50,7 +50,7 @@ class TVDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     config_entry: TVFerryConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: TVFerryConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: TVFerryConfigEntry) -> None:
         """Initialize the Trafikverket coordinator."""
         super().__init__(
             hass,

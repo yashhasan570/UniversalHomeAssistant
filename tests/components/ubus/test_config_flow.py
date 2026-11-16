@@ -7,8 +7,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.ubus.const import CONF_DHCP_SOFTWARE, DOMAIN
 from universalassistant.config_entries import SOURCE_IMPORT, SOURCE_USER
-from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.const import (
+    CONF_HOST,
+    CONF_PASSWORD,
+    CONF_SSL,
+    CONF_USERNAME,
+    CONF_VERIFY_SSL,
+)
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import MOCK_CONFIG, MOCK_HOST
@@ -17,11 +23,13 @@ USER_INPUT = {
     CONF_HOST: MOCK_HOST,
     CONF_USERNAME: "root",
     CONF_PASSWORD: "password",
+    CONF_SSL: False,
+    CONF_VERIFY_SSL: True,
 }
 
 
 async def test_user_flow_success(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_ubus: MagicMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_ubus: MagicMock
 ) -> None:
     """Test the user flow creates an entry with the default DHCP software."""
     result = await hass.config_entries.flow.async_init(
@@ -38,8 +46,44 @@ async def test_user_flow_success(
     assert result["data"] == MOCK_CONFIG
 
 
+@pytest.mark.parametrize(
+    ("ssl", "verify_ssl"),
+    [
+        pytest.param(False, False, id="http"),
+        pytest.param(True, False, id="https"),
+        pytest.param(True, True, id="https_verified"),
+    ],
+)
+async def test_user_flow_ssl_options(
+    hass: UniversalAssistant,
+    mock_setup_entry: AsyncMock,
+    mock_ubus: MagicMock,
+    ssl: bool,
+    verify_ssl: bool,
+) -> None:
+    """Test the user flow stores the selected SSL options."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": SOURCE_USER}
+    )
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        user_input={**USER_INPUT, CONF_SSL: ssl, CONF_VERIFY_SSL: verify_ssl},
+    )
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["data"][CONF_SSL] is ssl
+    assert result["data"][CONF_VERIFY_SSL] is verify_ssl
+    mock_ubus.assert_called_once_with(
+        f"{'https' if ssl else 'http'}://{MOCK_HOST}/ubus",
+        "root",
+        "password",
+        verify=verify_ssl,
+    )
+
+
 async def test_user_flow_cannot_connect(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_ubus: MagicMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_ubus: MagicMock
 ) -> None:
     """Test the user flow recovers after a connection error."""
     mock_ubus.return_value.connect.side_effect = ConnectionError("boom")
@@ -73,7 +117,7 @@ async def test_user_flow_cannot_connect(
     ],
 )
 async def test_user_flow_invalid_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_ubus: MagicMock,
     connect: dict,
@@ -102,7 +146,7 @@ async def test_user_flow_invalid_auth(
 
 
 async def test_user_flow_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_ubus: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -122,7 +166,7 @@ async def test_user_flow_already_configured(
 
 
 async def test_import_flow(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_ubus: MagicMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_ubus: MagicMock
 ) -> None:
     """Test importing a YAML configuration."""
     result = await hass.config_entries.flow.async_init(
@@ -135,7 +179,7 @@ async def test_import_flow(
 
 
 async def test_import_flow_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_ubus: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -152,7 +196,7 @@ async def test_import_flow_already_configured(
 
 
 async def test_import_flow_preserves_dhcp_software(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_ubus: MagicMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_ubus: MagicMock
 ) -> None:
     """Test a non-default DHCP software choice survives the import."""
     result = await hass.config_entries.flow.async_init(
@@ -166,6 +210,39 @@ async def test_import_flow_preserves_dhcp_software(
 
 
 @pytest.mark.parametrize(
+    ("ssl", "verify_ssl"),
+    [
+        pytest.param(False, False, id="http"),
+        pytest.param(True, False, id="https"),
+        pytest.param(True, True, id="https_verified"),
+    ],
+)
+async def test_import_flow_preserves_ssl_options(
+    hass: UniversalAssistant,
+    mock_setup_entry: AsyncMock,
+    mock_ubus: MagicMock,
+    ssl: bool,
+    verify_ssl: bool,
+) -> None:
+    """Test the SSL options survive the import."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": SOURCE_IMPORT},
+        data={**MOCK_CONFIG, CONF_SSL: ssl, CONF_VERIFY_SSL: verify_ssl},
+    )
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["data"][CONF_SSL] is ssl
+    assert result["data"][CONF_VERIFY_SSL] is verify_ssl
+    mock_ubus.assert_called_once_with(
+        f"{'https' if ssl else 'http'}://{MOCK_HOST}/ubus",
+        "root",
+        "password",
+        verify=verify_ssl,
+    )
+
+
+@pytest.mark.parametrize(
     ("side_effect", "reason"),
     [
         pytest.param(TypeError, "cannot_connect", id="cannot_connect"),
@@ -173,7 +250,7 @@ async def test_import_flow_preserves_dhcp_software(
     ],
 )
 async def test_import_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_ubus: MagicMock,
     side_effect: type[Exception],

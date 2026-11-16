@@ -13,7 +13,7 @@ from pytest_universalassistant.common import (
 
 from universalassistant.components.evil_genius_labs.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util.json import JsonObjectType
 
@@ -38,7 +38,7 @@ def product_fixture() -> dict[str, str]:
 
 
 @pytest.fixture
-def config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Evil genius labs config entry."""
     entry = MockConfigEntry(domain=DOMAIN, data={"host": "192.168.1.113"})
     entry.add_to_hass(hass)
@@ -47,7 +47,7 @@ def config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 @pytest.fixture
 async def setup_evil_genius_labs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     all_fixture: dict[str, Any],
     info_fixture: JsonObjectType,

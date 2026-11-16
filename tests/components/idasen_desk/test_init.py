@@ -10,13 +10,13 @@ import pytest
 from universalassistant.components.idasen_desk.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import init_integration
 
 
 async def test_setup_and_shutdown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_desk_api: MagicMock,
 ) -> None:
     """Test setup."""
@@ -33,7 +33,7 @@ async def test_setup_and_shutdown(
 
 @pytest.mark.parametrize("exception", [AuthFailedError(), TimeoutError(), BleakError()])
 async def test_setup_connect_exception(
-    hass: __HAC_KEEP__, mock_desk_api: MagicMock, exception: Exception
+    hass: UniversalAssistant, mock_desk_api: MagicMock, exception: Exception
 ) -> None:
     """Test setup with an connection exception."""
     mock_desk_api.connect = AsyncMock(side_effect=exception)
@@ -42,7 +42,7 @@ async def test_setup_connect_exception(
     assert entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_no_ble_device(hass: __HAC_KEEP__, mock_desk_api: MagicMock) -> None:
+async def test_no_ble_device(hass: UniversalAssistant, mock_desk_api: MagicMock) -> None:
     """Test setup with no BLEDevice from address."""
     with mock.patch(
         "universalassistant.components.idasen_desk.bluetooth.async_ble_device_from_address",
@@ -54,7 +54,7 @@ async def test_no_ble_device(hass: __HAC_KEEP__, mock_desk_api: MagicMock) -> No
 
 
 async def test_reconnect_on_bluetooth_callback(
-    hass: __HAC_KEEP__, mock_desk_api: MagicMock
+    hass: UniversalAssistant, mock_desk_api: MagicMock
 ) -> None:
     """Test that a reconnect is made after the bluetooth callback is triggered."""
     with mock.patch(
@@ -82,7 +82,7 @@ async def test_reconnect_on_bluetooth_callback(
         assert mock_desk_api.connect.call_count == 0
 
 
-async def test_unload_entry(hass: __HAC_KEEP__, mock_desk_api: MagicMock) -> None:
+async def test_unload_entry(hass: UniversalAssistant, mock_desk_api: MagicMock) -> None:
     """Test successful unload of entry."""
     entry = await init_integration(hass)
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1

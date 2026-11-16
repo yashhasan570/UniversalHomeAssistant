@@ -26,7 +26,7 @@ from universalassistant.components.verisure.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, update_coordinator
 
 from .conftest import OVERVIEW
@@ -37,7 +37,7 @@ LOCK_ENTITY_ID = "lock.front_door"
 
 
 async def _async_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     platforms: list[Platform] | None = None,
 ) -> None:
@@ -52,7 +52,7 @@ async def _async_setup(
 
 
 async def _async_trigger_coordinator_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     *,
     expire_cookie: bool = True,
@@ -66,7 +66,7 @@ async def _async_trigger_coordinator_update(
 
 
 async def test_setup_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
 ) -> None:
@@ -81,7 +81,7 @@ async def test_setup_success(
 
 @pytest.mark.usefixtures("mock_verisure")
 async def test_child_device_links_to_alarm_via_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -112,7 +112,7 @@ async def test_child_device_links_to_alarm_via_device(
     ],
 )
 async def test_setup_transient_login_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
     exc: Exception,
@@ -127,7 +127,7 @@ async def test_setup_transient_login_failure(
 
 
 async def test_setup_authentication_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
 ) -> None:
@@ -145,7 +145,7 @@ async def test_setup_authentication_error(
 
 
 async def test_setup_cookie_read_uses_password_login(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
 ) -> None:
@@ -160,7 +160,7 @@ async def test_setup_cookie_read_uses_password_login(
 
 
 async def test_setup_cookie_read_transient_password_login(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
 ) -> None:
@@ -175,7 +175,7 @@ async def test_setup_cookie_read_transient_password_login(
 
 
 async def test_setup_cookie_read_authentication_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
 ) -> None:
@@ -191,7 +191,7 @@ async def test_setup_cookie_read_authentication_error(
 
 
 async def test_setup_cookie_read_mfa_required_triggers_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
 ) -> None:
@@ -210,7 +210,7 @@ async def test_setup_cookie_read_mfa_required_triggers_reauth(
 
 
 async def test_setup_unexpected_verisure_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
 ) -> None:
@@ -223,7 +223,7 @@ async def test_setup_unexpected_verisure_error(
 
 
 async def test_setup_login_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
 ) -> None:
@@ -244,7 +244,7 @@ async def test_setup_login_error(
     ],
 )
 async def test_setup_transient_first_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
     exc: Exception,
@@ -258,7 +258,7 @@ async def test_setup_transient_first_refresh(
 
 
 async def test_setup_authentication_error_recovers_on_first_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
 ) -> None:
@@ -275,7 +275,7 @@ async def test_setup_authentication_error_recovers_on_first_refresh(
 
 
 async def test_setup_cookie_read_on_first_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
 ) -> None:
@@ -289,7 +289,7 @@ async def test_setup_cookie_read_on_first_refresh(
 
 
 async def test_setup_login_error_recovers_on_first_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
 ) -> None:
@@ -303,7 +303,7 @@ async def test_setup_login_error_recovers_on_first_refresh(
 
 
 async def test_setup_overview_request_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
 ) -> None:
@@ -316,7 +316,7 @@ async def test_setup_overview_request_failure(
 
 
 async def test_update_authentication_error_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -337,7 +337,7 @@ async def test_update_authentication_error_recovers(
 
 
 async def test_update_authentication_error_triggers_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -360,7 +360,7 @@ async def test_update_authentication_error_triggers_reauth(
 
 
 async def test_update_cookie_read_password_login(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -378,7 +378,7 @@ async def test_update_cookie_read_password_login(
 
 
 async def test_update_cookie_read_password_login_transient(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -395,7 +395,7 @@ async def test_update_cookie_read_password_login_transient(
 
 
 async def test_update_cookie_read_password_login_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -416,7 +416,7 @@ async def test_update_cookie_read_password_login_auth_error(
 
 
 async def test_update_transient_update_cookie(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -432,7 +432,7 @@ async def test_update_transient_update_cookie(
 
 
 async def test_update_rate_limit_cookie_refresh_backoff(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -454,7 +454,7 @@ async def test_update_rate_limit_cookie_refresh_backoff(
 
 
 async def test_update_rate_limit_backoff_escalates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -479,7 +479,7 @@ async def test_update_rate_limit_backoff_escalates(
 
 
 async def test_update_rate_limit_backoff_resets_on_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -502,7 +502,7 @@ async def test_update_rate_limit_backoff_resets_on_success(
 
 
 async def test_update_skips_cookie_refresh_when_recent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -522,7 +522,7 @@ async def test_update_skips_cookie_refresh_when_recent(
 
 
 async def test_update_session_refresh_cookie_read_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -543,7 +543,7 @@ async def test_update_session_refresh_cookie_read_success(
 
 
 async def test_update_session_refresh_login_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -564,7 +564,7 @@ async def test_update_session_refresh_login_error(
 
 
 async def test_update_session_refresh_transient(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -629,7 +629,7 @@ def _overview_without(*keys: str) -> list[dict]:
     ],
 )
 async def test_update_partial_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure: MagicMock,
     freezer: FrozenDateTimeFactory,

@@ -10,7 +10,7 @@ import probatio
 from universalassistant.components import tag
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_DEVICE, CONF_VALUE_TEMPLATE
-from universalassistant.core import HassJobType, __HAC_KEEP__, callback
+from universalassistant.core import HassJobType, UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service_info.mqtt import ReceivePayloadType
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -52,7 +52,7 @@ DISCOVERY_SCHEMA = MQTT_BASE_SCHEMA.extend(
 
 
 async def async_setup_mqtt_tag_entry(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry
 ) -> None:
     """Set up MQTT tag scanner dynamically through MQTT discovery."""
 
@@ -61,7 +61,7 @@ async def async_setup_mqtt_tag_entry(
 
 
 async def _async_setup_tag(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     config_entry: ConfigEntry,
     discovery_data: DiscoveryInfoType,
@@ -90,7 +90,7 @@ async def _async_setup_tag(
     send_discovery_done(hass, discovery_data)
 
 
-def async_has_tags(hass: __HAC_KEEP__, device_id: str) -> bool:
+def async_has_tags(hass: UniversalAssistant, device_id: str) -> bool:
     """Device has tag scanners."""
     if device_id not in (tags := hass.data[DATA_MQTT].tags):
         return False
@@ -104,7 +104,7 @@ class MQTTTagScanner(MqttDiscoveryDeviceUpdateMixin):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config: ConfigType,
         device_id: str | None,
         discovery_data: DiscoveryInfoType,

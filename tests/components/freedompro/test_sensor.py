@@ -6,7 +6,7 @@ from unittest.mock import patch
 import pytest
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.dt import utcnow
 
@@ -34,7 +34,7 @@ from .conftest import get_states_response_for_uid
     ],
 )
 async def test_sensor_get_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
     entity_id: str,

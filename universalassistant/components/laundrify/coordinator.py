@@ -9,7 +9,7 @@ from laundrify_aio import LaundrifyAPI, LaundrifyDevice
 from laundrify_aio.exceptions import ApiConnectionException, UnauthorizedException
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -27,7 +27,7 @@ class LaundrifyUpdateCoordinator(DataUpdateCoordinator[dict[str, LaundrifyDevice
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: LaundrifyConfigEntry,
         laundrify_api: LaundrifyAPI,
     ) -> None:

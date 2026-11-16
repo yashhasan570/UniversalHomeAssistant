@@ -6,8 +6,8 @@ import pytest
 from pytest_universalassistant.common import MockUser
 
 from universalassistant.components import google_assistant as ga
-from universalassistant.core import Context, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import Context, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.setup import async_setup_component
 
 from .test_http import DUMMY_CONFIG
@@ -15,7 +15,7 @@ from .test_http import DUMMY_CONFIG
 SYNC_BUTTON_ENTITY_ID = "button.google_home_synchronize_devices"
 
 
-async def test_sync_button(hass: __HAC_KEEP__, hass_owner_user: MockUser) -> None:
+async def test_sync_button(hass: UniversalAssistant, hass_owner_user: MockUser) -> None:
     """Test sync button."""
 
     await async_setup_component(
@@ -45,7 +45,7 @@ async def test_sync_button(hass: __HAC_KEEP__, hass_owner_user: MockUser) -> Non
         mock_sync_entities.assert_called_once_with(hass_owner_user.id)
 
         mock_sync_entities.return_value = 400
-        with pytest.raises(__HAC_KEEP__Error):
+        with pytest.raises(UniversalAssistantError):
             await hass.services.async_call(
                 "button",
                 "press",

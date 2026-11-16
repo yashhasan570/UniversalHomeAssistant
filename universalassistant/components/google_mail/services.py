@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 from googleapiclient.http import HttpRequest
 import probatio
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service import async_extract_config_entry_ids
 
@@ -103,7 +103,7 @@ async def _gmail_service(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up services for Google Mail integration."""
 
     hass.services.async_register(

@@ -124,7 +124,7 @@ def _validate_brand_folder(integration: Integration, brand_dir: Path) -> None:
     for name in sorted(images.keys() - ALLOWED_IMAGES):
         _report(
             integration,
-            f"brand/{name} is not a brand image __HA_KEEP__ uses, allowed are:"
+            f"brand/{name} is not a brand image Universal Home Assistant uses, allowed are:"
             f" {', '.join(sorted(ALLOWED_IMAGES))}",
         )
 

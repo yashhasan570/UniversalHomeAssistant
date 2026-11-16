@@ -10,7 +10,7 @@ from yarl import URL
 from universalassistant.components.myneomitis.const import CONF_USER_ID, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 TEST_EMAIL = "test@example.com"
@@ -36,7 +36,7 @@ def make_client_response_error(status: int) -> ClientResponseError:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_success(
-    hass: __HAC_KEEP__, mock_pyaxenco_client: AsyncMock
+    hass: UniversalAssistant, mock_pyaxenco_client: AsyncMock
 ) -> None:
     """Test successful user flow for MyNeomitis integration."""
     result = await hass.config_entries.flow.async_init(
@@ -72,7 +72,7 @@ async def test_user_flow_success(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pyaxenco_client: AsyncMock,
     side_effect: Exception,
     expected_error: str,
@@ -104,7 +104,7 @@ async def test_flow_errors(
 
 
 async def test_abort_if_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -126,7 +126,7 @@ async def test_abort_if_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -168,7 +168,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
     side_effect: Exception,
@@ -200,7 +200,7 @@ async def test_reauth_flow_errors(
 
 
 async def test_reauth_flow_wrong_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:

@@ -13,7 +13,7 @@ from aioaxlevpp import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.event import async_track_point_in_utc_time
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -33,7 +33,7 @@ class AxleCoordinator(DataUpdateCoordinator[AxleStatus]):
     _scheduled_event: GridEvent | None = None
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: AxleConfigEntry, client: AxleClient
+        self, hass: UniversalAssistant, entry: AxleConfigEntry, client: AxleClient
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(

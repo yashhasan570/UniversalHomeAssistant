@@ -1,1 +1,1 @@
-"""Generated files for the pylint __HA_KEEP__ plugin."""
+"""Generated files for the pylint Universal Home Assistant plugin."""

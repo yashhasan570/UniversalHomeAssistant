@@ -32,7 +32,7 @@ from universalassistant.const import (
 from universalassistant.core import (
     CoreState,
     Event,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
     valid_entity_id,
 )
@@ -63,7 +63,7 @@ YAML__OPEN_PATH = "universalassistant.util.yaml.loader.open"
     ],
 )
 async def test_get_all_entity_aliases(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     aliases: list[er.AliasEntry],
@@ -97,7 +97,7 @@ async def test_get_all_entity_aliases(
 
 
 async def test_get_entity_aliases_next_name_part(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -192,7 +192,7 @@ async def test_get(entity_registry: er.EntityRegistry) -> None:
 
 
 async def test_get_or_create_returns_same_entry(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Make sure we do not duplicate entries."""
     update_events = async_capture_events(hass, er.EVENT_ENTITY_REGISTRY_UPDATED)
@@ -221,7 +221,7 @@ def test_get_or_create_suggested_object_id(entity_registry: er.EntityRegistry) -
 
 
 def test_get_or_create_updates_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
@@ -437,7 +437,7 @@ def test_get_or_create_suggested_object_id_conflict_register(
 
 
 def test_get_or_create_suggested_object_id_conflict_existing(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that we don't generate an entity id that currently exists."""
     hass.states.async_set("light.hue_1234", "on")
@@ -472,7 +472,7 @@ def test_create_triggers_save(entity_registry: er.EntityRegistry) -> None:
 
 
 async def test_loading_saving_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -584,7 +584,7 @@ async def test_loading_saving_data(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_entity_registry_loading_waits_for_device_registry(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test entity registry waits for device registry when loaded concurrently.
 
@@ -627,7 +627,7 @@ async def test_entity_registry_loading_waits_for_device_registry(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_entity_load_detaches_from_dropped_device(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """An entity referencing a device that no longer exists is detached on load.
 
@@ -660,7 +660,7 @@ async def test_entity_load_detaches_from_dropped_device(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_entity_load_keeps_child_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """An entity on a child device keeps its device id on load.
@@ -762,7 +762,7 @@ def test_get_available_entity_id_considers_registered_entities(
 
 
 def test_get_available_entity_id_considers_existing_entities(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that we don't create entity id that currently exists."""
     hass.states.async_set("light.kitchen", "on")
@@ -886,7 +886,7 @@ def test_get_available_entity_id_considers_existing_entities(
     ],
 )
 def test_generate_entity_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1128,7 +1128,7 @@ def test_generate_entity_id(
     ],
 )
 def test_generate_entity_id_parts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1186,7 +1186,7 @@ def test_generate_entity_id_parts(
 
 
 def test_generate_entity_id_parts_entity_area(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1238,7 +1238,7 @@ def test_generate_entity_id_parts_entity_area(
 
 
 def test_generate_entity_id_parent_device_part(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1299,7 +1299,7 @@ def test_generate_entity_id_parent_device_part(
 
 
 def test_generate_entity_id_next_name_part(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1361,7 +1361,7 @@ def test_generate_entity_id_next_name_part(
 
 
 def test_regenerate_entity_id_overrides(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1412,7 +1412,7 @@ def test_regenerate_entity_id_overrides(
 
 
 def test_next_name_part(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1449,7 +1449,7 @@ def test_next_name_part(
 
 
 def test_regenerate_entity_id_after_settings_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1487,7 +1487,7 @@ def test_regenerate_entity_id_after_settings_change(
 
 
 def test_entity_id_parts_do_not_affect_full_entity_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1577,7 +1577,7 @@ def test_is_registered(entity_registry: er.EntityRegistry) -> None:
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_filter_on_load(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test we transform some data when loading from storage."""
     hass_storage[er.STORAGE_KEY] = {
@@ -1653,7 +1653,7 @@ async def test_filter_on_load(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_reconcile_disabled_by_on_load(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test stale config entry and device disables are reconciled when loading."""
     config_entry = MockConfigEntry(domain="light")
@@ -1746,7 +1746,7 @@ async def test_reconcile_disabled_by_on_load(
     )
 
 
-async def test_async_load_twice_raises(hass: __HAC_KEEP__) -> None:
+async def test_async_load_twice_raises(hass: UniversalAssistant) -> None:
     """Test loading the entity registry twice raises."""
     registry = er.async_get(hass)
     with pytest.raises(RuntimeError, match="Entity registry is already loaded"):
@@ -1754,7 +1754,7 @@ async def test_async_load_twice_raises(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.parametrize("load_registries", [False])
-async def test_async_wait_loaded(hass: __HAC_KEEP__) -> None:
+async def test_async_wait_loaded(hass: UniversalAssistant) -> None:
     """Test waiting until the entity registry is loaded."""
     dr.async_setup(hass)
     await dr.async_load(hass)
@@ -1770,7 +1770,7 @@ async def test_async_wait_loaded(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_load_bad_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1945,7 +1945,7 @@ def test_async_get_entity_id(entity_registry: er.EntityRegistry) -> None:
 
 
 async def test_updating_config_entry_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that we update config entry id in registry."""
     update_events = async_capture_events(hass, er.EVENT_ENTITY_REGISTRY_UPDATED)
@@ -1978,7 +1978,7 @@ async def test_updating_config_entry_id(
 
 
 async def test_removing_config_entry_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that we update config entry id in registry."""
     update_events = async_capture_events(hass, er.EVENT_ENTITY_REGISTRY_UPDATED)
@@ -2007,7 +2007,7 @@ async def test_removing_config_entry_id(
 
 
 async def test_enabled_count_for_config_entry(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test counting enabled entries for a config entry."""
     mock_config = MockConfigEntry(domain="light", entry_id="mock-id-1")
@@ -2065,7 +2065,7 @@ async def test_enabled_count_for_config_entry(
 
 
 async def test_deleted_entity_removing_config_entry_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test that we update config entry id in registry on deleted entity."""
@@ -2104,7 +2104,7 @@ async def test_deleted_entity_removing_config_entry_id(
 
 
 async def test_removing_config_subentry_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that we update config subentry id in registry."""
     update_events = async_capture_events(hass, er.EVENT_ENTITY_REGISTRY_UPDATED)
@@ -2149,7 +2149,7 @@ async def test_removing_config_subentry_id(
 
 
 async def test_deleted_entity_removing_config_subentry_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test that we update config subentry id in registry on deleted entity."""
@@ -2258,7 +2258,7 @@ async def test_removing_area_id_deleted_entity(
 
 
 @pytest.mark.parametrize("load_registries", [False])
-async def test_migration_1_1(hass: __HAC_KEEP__, hass_storage: dict[str, Any]) -> None:
+async def test_migration_1_1(hass: UniversalAssistant, hass_storage: dict[str, Any]) -> None:
     """Test migration from version 1.1."""
     hass_storage[er.STORAGE_KEY] = {
         "version": 1,
@@ -2343,7 +2343,7 @@ async def test_migration_1_1(hass: __HAC_KEEP__, hass_storage: dict[str, Any]) -
 
 
 @pytest.mark.parametrize("load_registries", [False])
-async def test_migration_1_7(hass: __HAC_KEEP__, hass_storage: dict[str, Any]) -> None:
+async def test_migration_1_7(hass: UniversalAssistant, hass_storage: dict[str, Any]) -> None:
     """Test migration from version 1.7.
 
     This tests cleanup after frontend bug which incorrectly updated device_class
@@ -2419,7 +2419,7 @@ async def test_migration_1_7(hass: __HAC_KEEP__, hass_storage: dict[str, Any]) -
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_migration_1_11(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test migration from version 1.11.
 
@@ -2573,7 +2573,7 @@ async def test_migration_1_11(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_migration_1_18(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test migration from version 1.18.
 
@@ -2745,7 +2745,7 @@ async def test_migration_1_18(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_migration_1_21(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test migration from version 1.21.
@@ -2953,7 +2953,7 @@ async def test_migration_1_21(
 
 
 async def test_update_entity_unique_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test entity's unique_id is updated."""
     mock_config = MockConfigEntry(domain="light", entry_id="mock-id-1")
@@ -2983,7 +2983,7 @@ async def test_update_entity_unique_id(
 
 
 async def test_update_entity_unique_id_conflict(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test migration raises when unique_id already in use."""
@@ -3012,7 +3012,7 @@ async def test_update_entity_unique_id_conflict(
 
 
 async def test_update_entity_entity_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test entity's entity_id is updated for entity with a restored state."""
     hass.set_state(CoreState.not_running)
@@ -3080,7 +3080,7 @@ async def test_update_entity_entity_id_without_state(
 
 
 async def test_update_entity_entity_id_entity_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test update raises when entity_id already in use."""
     entry = entity_registry.async_get_or_create("light", "hue", "5678")
@@ -3125,7 +3125,7 @@ async def test_update_entity_entity_id_entity_id(
 
 
 async def test_update_entity(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test updating entity."""
     mock_config = MockConfigEntry(domain="light", entry_id="mock-id-1")
@@ -3155,7 +3155,7 @@ async def test_update_entity(
 
 
 async def test_update_entity_own_area_without_own_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -3230,7 +3230,7 @@ async def test_update_entity_own_area_without_own_name(
 
 
 async def test_entity_own_area_without_own_name_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -3331,7 +3331,7 @@ async def test_entity_own_area_without_own_name_issue(
     ],
 )
 async def test_move_to_child_device_takes_over_own_area(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -3404,7 +3404,7 @@ async def test_move_to_child_device_takes_over_own_area(
 
 
 async def test_move_to_child_device_with_area_in_same_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -3442,7 +3442,7 @@ async def test_move_to_child_device_with_area_in_same_update(
 
 
 async def test_move_to_main_device_keeps_own_area(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -3488,7 +3488,7 @@ async def test_move_to_main_device_keeps_own_area(
 
 
 async def test_entity_own_area_without_own_name_issue_on_start(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -3531,7 +3531,7 @@ async def test_entity_own_area_without_own_name_issue_on_start(
 
 
 async def test_update_entity_recalculates_original_name_unprefixed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -3681,7 +3681,7 @@ async def test_update_entity_recalculates_original_name_unprefixed(
 )
 @pytest.mark.usefixtures("freezer")
 async def test_update_entity_disabled_by(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     new_config_entry_disabled_by: config_entries.ConfigEntryDisabler | None,
@@ -3809,7 +3809,7 @@ async def test_update_entity_disabled_by(
 )
 @pytest.mark.usefixtures("freezer")
 async def test_update_entity_disabled_by_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     entity_disabled_by_initial: er.RegistryEntryDisabler | None,
@@ -3915,7 +3915,7 @@ async def test_update_entity_disabled_by_2(
     ],
 )
 async def test_update_entity_device_id_disabled_by(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     entity_disabled_by: er.RegistryEntryDisabler | None,
@@ -3968,7 +3968,7 @@ async def test_update_entity_device_id_disabled_by(
     ],
 )
 async def test_create_entity_on_disabled_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     entity_disabled_by: er.RegistryEntryDisabler | None,
@@ -3994,7 +3994,7 @@ async def test_create_entity_on_disabled_device(
 
 
 async def test_remove_disabled_device_enables_unlinked_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -4025,7 +4025,7 @@ async def test_remove_disabled_device_enables_unlinked_entities(
 
 
 async def test_update_entity_options(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test updating entity."""
     mock_config = MockConfigEntry(domain="light", entry_id="mock-id-1")
@@ -4082,7 +4082,7 @@ async def test_disabled_by(entity_registry: er.EntityRegistry) -> None:
 
 
 async def test_disabled_by_config_entry_pref(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test config entry preference setting disabled_by."""
@@ -4114,7 +4114,7 @@ async def test_disabled_by_config_entry_pref(
 
 
 async def test_disabled_by_config_entry_pref_on_disabled_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -4162,7 +4162,7 @@ async def test_disabled_by_config_entry_pref_on_disabled_device(
     ],
 )
 async def test_restore_entity_disabled_by_config_entry_pref(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     entity_disabled_by_initial: er.RegistryEntryDisabler | None,
@@ -4207,7 +4207,7 @@ async def test_restore_entity_disabled_by_config_entry_pref(
 
 
 async def test_restore_entity_disabled_by_undefined_config_entry_pref(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test the config entry preference applies to a restored legacy entity.
@@ -4268,7 +4268,7 @@ async def test_hidden_by(entity_registry: er.EntityRegistry) -> None:
 
 
 async def test_restore_states(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test restoring states."""
     hass.set_state(CoreState.not_running)
@@ -4346,7 +4346,7 @@ async def test_restore_states(
     ],
 )
 async def test_restore_states_disabled_by_changed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     initial_disabled_by: er.RegistryEntryDisabler | None,
@@ -4374,7 +4374,7 @@ async def test_restore_states_disabled_by_changed(
 
 
 async def test_restore_states_disabled_by_changed_keeps_live_state(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test disabling a registry entry leaves a non-restored state alone."""
     entity_registry.async_get_or_create(
@@ -4401,7 +4401,7 @@ async def test_restore_states_disabled_by_changed_keeps_live_state(
     ],
 )
 async def test_restore_states_renamed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     initial_disabled_by: er.RegistryEntryDisabler | None,
@@ -4464,7 +4464,7 @@ async def test_restore_states_renamed(
     ],
 )
 async def test_restore_state_uses_device_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     original_name: str | None,
@@ -4508,7 +4508,7 @@ async def test_restore_state_uses_device_name(
 
 
 async def test_remove_device_removes_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -4538,7 +4538,7 @@ async def test_remove_device_removes_entities(
 
 
 async def test_remove_device_with_shared_connection_removes_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -4595,7 +4595,7 @@ async def test_remove_device_with_shared_connection_removes_entities(
 
 
 async def test_remove_device_keeps_other_config_entry_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -4642,7 +4642,7 @@ async def test_remove_device_keeps_other_config_entry_entities(
 
 
 async def test_move_device_config_entry_removes_old_entry_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -4678,7 +4678,7 @@ async def test_move_device_config_entry_removes_old_entry_entities(
 
 @pytest.mark.parametrize("old_subentry_id", [None, "sub-1"])
 async def test_move_device_config_subentry_removes_old_subentry_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     old_subentry_id: str | None,
@@ -4742,7 +4742,7 @@ async def test_move_device_config_subentry_removes_old_subentry_entities(
 
 
 async def test_remove_device_removes_config_subentry_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -4809,7 +4809,7 @@ async def test_remove_device_removes_config_subentry_entities(
 
 
 async def test_remove_device_keeps_other_config_subentry_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -4873,7 +4873,7 @@ async def test_remove_device_keeps_other_config_subentry_entities(
 
 
 async def test_update_device_race(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -4910,7 +4910,7 @@ async def test_update_device_race(
 
 
 async def test_update_device_race_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -4971,7 +4971,7 @@ async def test_update_device_race_2(
 
 
 async def test_has_entity_name_false_device_name_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -5093,7 +5093,7 @@ async def test_has_entity_name_false_device_name_changes(
 
 
 async def test_disable_device_disables_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -5165,7 +5165,7 @@ async def test_disable_device_disables_entities(
 
 
 async def test_disable_config_entry_disables_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -5242,7 +5242,7 @@ async def test_disable_config_entry_disables_entities(
     [er.RegistryEntryDisabler.CONFIG_ENTRY, er.RegistryEntryDisabler.DEVICE],
 )
 async def test_derived_disabled_by_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     disabled_by: er.RegistryEntryDisabler,
@@ -5294,7 +5294,7 @@ async def test_derived_disabled_by_ignored(
 
 
 async def test_enable_config_entry_with_user_disabled_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -5341,7 +5341,7 @@ async def test_enable_config_entry_with_user_disabled_device(
 
 
 async def test_enable_device_with_disabled_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -5392,7 +5392,7 @@ async def test_enable_device_with_disabled_config_entry(
 
 
 async def test_disable_config_entry_disables_entities_on_its_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -5442,7 +5442,7 @@ async def test_disable_config_entry_disables_entities_on_its_devices(
 
 
 async def test_disabled_entities_excluded_from_entity_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -5489,7 +5489,7 @@ async def test_disabled_entities_excluded_from_entity_list(
 
 
 async def test_entity_max_length_exceeded(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that an exception is raised when the max character length is exceeded."""
 
@@ -5532,7 +5532,7 @@ async def test_entity_max_length_exceeded(
 
 
 async def test_entity_id_truncation_strips_trailing_underscore(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a truncated entity ID does not end with an underscore."""
     # The entity ID is cut at 255 characters, right after the underscore
@@ -5583,7 +5583,7 @@ async def test_resolve_entity_ids(entity_registry: er.EntityRegistry) -> None:
         er.async_validate_entity_ids(entity_registry, ["unknown_uuid"])
 
 
-async def test_entity_registry_items(hass: __HAC_KEEP__) -> None:
+async def test_entity_registry_items(hass: UniversalAssistant) -> None:
     """Test the EntityRegistryItems container."""
     entities = er.EntityRegistryItems(hass)
     assert entities.get_entity_id(("a", "b", "c")) is None
@@ -5645,7 +5645,7 @@ async def test_device_does_not_exist(entity_registry: er.EntityRegistry) -> None
 
 
 async def test_composite_device_id_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -5820,7 +5820,7 @@ async def test_unique_id_non_string(
     ],
 )
 def test_migrate_entity_to_new_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     create_kwargs: dict,
     migrate_kwargs: dict,
@@ -5926,7 +5926,7 @@ def test_migrate_entity_to_new_platform(
 
 
 async def test_migrate_entity_to_new_platform_error_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test migrate_entity_to_new_platform."""
@@ -6013,7 +6013,7 @@ async def test_migrate_entity_to_new_platform_error_handling(
 
 
 async def test_restore_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
@@ -6273,7 +6273,7 @@ async def test_restore_entity(
 )
 @pytest.mark.usefixtures("freezer")
 async def test_restore_migrated_entity_disabled_by(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     entity_disabled_by: er.RegistryEntryDisabler | None,
@@ -6398,7 +6398,7 @@ async def test_restore_migrated_entity_disabled_by(
 )
 @pytest.mark.usefixtures("freezer")
 async def test_restore_migrated_entity_hidden_by(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     entity_hidden_by: er.RegistryEntryHider | None,
@@ -6515,7 +6515,7 @@ async def test_restore_migrated_entity_hidden_by(
 
 @pytest.mark.usefixtures("freezer")
 async def test_restore_migrated_entity_initial_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -6706,7 +6706,7 @@ async def test_restore_migrated_entity_initial_options(
 )
 @pytest.mark.usefixtures("freezer")
 async def test_restore_entity_disabled_by(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     config_entry_disabled_by: config_entries.ConfigEntryDisabler | None,
@@ -6834,7 +6834,7 @@ async def test_restore_entity_disabled_by(
 )
 @pytest.mark.usefixtures("freezer")
 async def test_restore_entity_disabled_by_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     entity_disabled_by_initial: er.RegistryEntryDisabler | None,
@@ -6982,7 +6982,7 @@ async def test_restore_entity_disabled_by_2(
     ],
 )
 async def test_restore_entity_disabled_by_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     entity_disabled_by_initial: er.RegistryEntryDisabler | None,
@@ -7049,7 +7049,7 @@ async def test_restore_entity_disabled_by_device(
     ],
 )
 async def test_restore_entity_disabled_by_device_on_recreated_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     device_disabled_by_removal: dr.DeviceEntryDisabler | None,
@@ -7116,7 +7116,7 @@ async def test_restore_entity_disabled_by_device_on_recreated_device(
 
 
 async def test_async_migrate_entry_delete_self(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test async_migrate_entry."""
     config_entry1 = MockConfigEntry(domain="test1")
@@ -7153,7 +7153,7 @@ async def test_async_migrate_entry_delete_self(
 
 
 async def test_async_migrate_entry_delete_other(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test async_migrate_entry."""
     config_entry1 = MockConfigEntry(domain="test1")
@@ -7403,7 +7403,7 @@ async def test_entries_for_category(entity_registry: er.EntityRegistry) -> None:
 
 
 async def test_get_or_create_thread_safety(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test call async_get_or_create_from a thread."""
     with pytest.raises(
@@ -7420,7 +7420,7 @@ async def test_get_or_create_thread_safety(
 
 
 async def test_async_update_entity_thread_safety(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test call async_get_or_create from a thread."""
     entry = entity_registry.async_get_or_create("light", "hue", "1234")
@@ -7442,7 +7442,7 @@ async def test_async_update_entity_thread_safety(
 
 
 async def test_async_remove_thread_safety(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test call async_remove from a thread."""
     entry = entity_registry.async_get_or_create("light", "hue", "1234")
@@ -7454,7 +7454,7 @@ async def test_async_remove_thread_safety(
 
 
 async def test_subentry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test subentry error handling."""
@@ -7629,7 +7629,7 @@ def _composite_device_storage(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_migration_repoints_entities(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Entities are moved to the split device matching their config entry."""
     entry_a = MockConfigEntry(domain="domain_a")
@@ -7676,7 +7676,7 @@ async def test_migration_repoints_entities(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_migration_repoints_entities_fallbacks(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """An entity not exactly matching a split falls back by config entry, then detaches."""
     entry_a = MockConfigEntry(
@@ -7745,7 +7745,7 @@ async def test_migration_repoints_entities_fallbacks(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_async_entries_for_device_legacy_composite_id(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """A legacy composite device id resolves to its split devices' entities."""
     entry_a = MockConfigEntry(domain="domain_a")
@@ -7828,7 +7828,7 @@ async def test_async_entries_for_device_legacy_composite_id(
 
 
 async def test_async_entries_for_device_composite_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -7873,7 +7873,7 @@ async def test_async_entries_for_device_composite_id(
 
 
 async def test_async_get_effective_area_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -7927,7 +7927,7 @@ async def test_async_get_effective_area_id(
 
 
 async def test_disable_child_device_disables_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -7971,7 +7971,7 @@ async def test_disable_child_device_disables_entities(
 
 
 async def test_remove_child_device_removes_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -8004,7 +8004,7 @@ async def test_remove_child_device_removes_entities(
 
 
 async def test_remove_child_device_orphans_foreign_entry_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -8176,7 +8176,7 @@ NAME_MIGRATION_DELETED_ENTITY_BASE = {
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_migration_1_23(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test migration from version 1.23.
@@ -8461,7 +8461,7 @@ async def test_migration_1_23(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_preserve_compat_name_as_alias(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test preserving the pre-migration name as the primary alias."""
@@ -8534,7 +8534,7 @@ async def test_preserve_compat_name_as_alias(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_compat_name_cleared_on_name_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test the compat name is dropped once the name of the entity changes."""

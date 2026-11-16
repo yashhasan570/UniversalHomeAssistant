@@ -3,7 +3,7 @@
 import probatio
 
 from universalassistant.components.media_player import DOMAIN as MEDIA_PLAYER_DOMAIN
-from universalassistant.core import __HAC_KEEP__, SupportsResponse, callback
+from universalassistant.core import UniversalAssistant, SupportsResponse, callback
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.typing import VolDictType
 
@@ -43,7 +43,7 @@ SERVICES = (
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up services."""
 
     for service_name, schema, method, supports_response in SERVICES:

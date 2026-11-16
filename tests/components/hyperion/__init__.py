@@ -11,7 +11,7 @@ from universalassistant.components.hyperion import get_hyperion_unique_id
 from universalassistant.components.hyperion.const import CONF_PRIORITY, DOMAIN
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 TEST_HOST = "test"
@@ -118,7 +118,7 @@ def create_mock_client() -> Mock:
 
 
 def add_test_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     data: dict[str, Any] | None = None,
     options: dict[str, Any] | None = None,
 ) -> MockConfigEntry:
@@ -140,7 +140,7 @@ def add_test_config_entry(
 
 
 async def setup_test_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry | None = None,
     hyperion_client: Mock | None = None,
     options: dict[str, Any] | None = None,
@@ -171,7 +171,7 @@ def call_registered_callback(
 
 
 def register_test_entity(
-    hass: __HAC_KEEP__, domain: str, type_name: str, entity_id: str
+    hass: UniversalAssistant, domain: str, type_name: str, entity_id: str
 ) -> None:
     """Register a test entity."""
     unique_id = get_hyperion_unique_id(TEST_SYSINFO_ID, TEST_INSTANCE, type_name)

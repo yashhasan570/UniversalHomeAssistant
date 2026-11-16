@@ -17,7 +17,7 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.components.tts import ATTR_MESSAGE, DOMAIN, Provider
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.discovery import async_load_platform
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from universalassistant.setup import async_setup_component
@@ -47,7 +47,7 @@ async def test_default_provider_attributes() -> None:
     assert provider.async_get_supported_voices("test") is None
 
 
-async def test_deprecated_platform(hass: __HAC_KEEP__) -> None:
+async def test_deprecated_platform(hass: UniversalAssistant) -> None:
     """Test deprecated google platform."""
     with assert_setup_component(0, DOMAIN):
         assert await async_setup_component(
@@ -56,7 +56,7 @@ async def test_deprecated_platform(hass: __HAC_KEEP__) -> None:
 
 
 async def test_invalid_platform(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test platform setup with an invalid platform."""
     await async_load_platform(
@@ -72,7 +72,7 @@ async def test_invalid_platform(
 
 
 async def test_platform_setup_without_provider(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_provider: MockTTSProvider,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_platform_setup_without_provider(
 
         async def async_get_engine(
             self,
-            hass: __HAC_KEEP__,
+            hass: UniversalAssistant,
             config: ConfigType,
             discovery_info: DiscoveryInfoType | None = None,
         ) -> Provider | None:
@@ -106,7 +106,7 @@ async def test_platform_setup_without_provider(
 
 
 async def test_platform_setup_with_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_provider: MockTTSProvider,
 ) -> None:
@@ -117,7 +117,7 @@ async def test_platform_setup_with_error(
 
         async def async_get_engine(
             self,
-            hass: __HAC_KEEP__,
+            hass: UniversalAssistant,
             config: ConfigType,
             discovery_info: DiscoveryInfoType | None = None,
         ) -> Provider:
@@ -140,7 +140,7 @@ async def test_platform_setup_with_error(
 
 
 async def test_service_without_cache_config(
-    hass: __HAC_KEEP__, mock_tts_cache_dir: Path, mock_tts
+    hass: UniversalAssistant, mock_tts_cache_dir: Path, mock_tts
 ) -> None:
     """Set up a TTS platform without cache."""
     calls = async_mock_service(hass, MP_DOMAIN, SERVICE_PLAY_MEDIA)

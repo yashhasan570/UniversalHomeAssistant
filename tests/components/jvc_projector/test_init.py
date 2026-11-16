@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.jvc_projector.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.issue_registry import IssueRegistry
@@ -18,7 +18,7 @@ from . import MOCK_MAC
 
 
 async def test_init(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_device: AsyncMock,
     mock_integration: MockConfigEntry,
@@ -33,7 +33,7 @@ async def test_init(
 
 
 async def test_device_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_device: AsyncMock,
     mock_integration: MockConfigEntry,
@@ -47,7 +47,7 @@ async def test_device_registry(
 
 
 async def test_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: AsyncMock,
     mock_integration: MockConfigEntry,
 ) -> None:
@@ -62,11 +62,11 @@ async def test_unload_config_entry(
 
 
 async def test_disconnect_on_hass_stop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: AsyncMock,
     mock_integration: MockConfigEntry,
 ) -> None:
-    """Test device disconnects when __HA_KEEP__ stops."""
+    """Test device disconnects when Universal Home Assistant stops."""
     assert mock_integration.state is ConfigEntryState.LOADED
     assert mock_device.disconnect.call_count == 0
 
@@ -77,7 +77,7 @@ async def test_disconnect_on_hass_stop(
 
 
 async def test_config_entry_connect_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_config_entry_connect_error(
 
 
 async def test_config_entry_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -107,7 +107,7 @@ async def test_config_entry_auth_error(
 
 
 async def test_deprecated_sensor_issue_lifecycle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: IssueRegistry,
     entity_registry: er.EntityRegistry,
     mock_integration: MockConfigEntry,

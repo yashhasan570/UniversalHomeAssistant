@@ -18,12 +18,12 @@ from universalassistant.components.local_file.services import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 
 
 async def test_loading_file(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     loaded_entry: MockConfigEntry,
 ) -> None:
@@ -51,7 +51,7 @@ async def test_loading_file(
 )
 @pytest.mark.usefixtures("loaded_entry")
 async def test_file_not_readable_after_setup(
-    hass: __HAC_KEEP__, error_no: int, translation_key: str
+    hass: UniversalAssistant, error_no: int, translation_key: str
 ) -> None:
     """Test an error is raised when the file is not readable after setup."""
     with (
@@ -59,7 +59,7 @@ async def test_file_not_readable_after_setup(
             "universalassistant.components.local_file.camera.open",
             side_effect=OSError(error_no, os.strerror(error_no)),
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await async_get_image(hass, "camera.local_file")
 
@@ -98,7 +98,7 @@ async def test_file_not_readable_after_setup(
     ],
 )
 async def test_camera_content_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     title: str,
     config: dict[str, Any],
@@ -140,7 +140,7 @@ async def test_camera_content_type(
     [{"file_path": "mock/path.jpg"}],
 )
 async def test_update_file_path(
-    hass: __HAC_KEEP__, loaded_entry: MockConfigEntry
+    hass: UniversalAssistant, loaded_entry: MockConfigEntry
 ) -> None:
     """Test update_file_path service."""
     # Setup platform

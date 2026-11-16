@@ -12,7 +12,7 @@ import pytest
 
 from universalassistant.components.hue.v2.select import HueSceneSelectEntity
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.json import JsonArrayType
 
@@ -26,7 +26,7 @@ LITERAL_SUFFIX_SCENE_ID = "33333333-4444-4555-8666-777777777777"
 
 
 async def test_scene_select_initial_state(
-    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test that scene select entities are created with correct initial state."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -52,7 +52,7 @@ async def test_scene_select_initial_state(
 
 
 async def test_scene_select_becomes_inactive(
-    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test that the select entity reflects unknown state when no scene is active."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -112,7 +112,7 @@ async def test_scene_select_becomes_inactive(
 
 
 async def test_scene_select_activate_option(
-    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test that selecting an option calls the bridge scene recall API."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -140,7 +140,7 @@ async def test_scene_select_activate_option(
 
 
 async def test_scene_select_disambiguates_duplicate_names(
-    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test duplicate regular scene names are exposed and recalled distinctly."""
     test_data = deepcopy(v2_resources_test_data)
@@ -204,7 +204,7 @@ async def test_scene_select_disambiguates_duplicate_names(
     ],
 )
 async def test_scene_select_disambiguated_label_does_not_shadow_scene_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
     option: str,
@@ -253,7 +253,7 @@ async def test_scene_select_disambiguated_label_does_not_shadow_scene_name(
 
 
 async def test_scene_select_refreshes_options_for_scene_events(
-    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test add, rename, and delete events refresh the unified scene options."""
     test_data = deepcopy(v2_resources_test_data)
@@ -311,7 +311,7 @@ async def test_scene_select_refreshes_options_for_scene_events(
 
 
 async def test_scene_select_prefers_active_smart_scene(
-    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test smart scene state transitions in the unified scene select."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -349,7 +349,7 @@ async def test_scene_select_prefers_active_smart_scene(
 
 
 async def test_scene_select_activate_smart_scene_option(
-    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test selecting a smart scene uses the smart scene recall API."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -372,7 +372,7 @@ async def test_scene_select_activate_smart_scene_option(
 
 
 async def test_scene_select_disambiguates_duplicate_smart_scene_names(
-    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test duplicate smart scene names are exposed and recalled distinctly."""
     test_data = deepcopy(v2_resources_test_data)
@@ -414,7 +414,7 @@ async def test_scene_select_disambiguates_duplicate_smart_scene_names(
 
 
 async def test_scene_select_disambiguates_names_across_scene_types(
-    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test identical regular and smart scene names remain independently selectable."""
     test_data = deepcopy(v2_resources_test_data)
@@ -471,7 +471,7 @@ async def test_scene_select_disambiguates_names_across_scene_types(
     ],
 )
 async def test_scene_select_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
     entity_id: str,
@@ -487,7 +487,7 @@ async def test_scene_select_options(
 
 
 async def test_scene_select_removed_when_group_deleted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
@@ -530,7 +530,7 @@ async def test_scene_select_removed_when_group_deleted(
     ],
 )
 async def test_scene_select_created_when_group_added(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
     source_id: str,
@@ -562,7 +562,7 @@ async def test_scene_select_created_when_group_added(
 
 
 async def test_scene_select_refreshes_options_missed_before_subscribe(
-    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test options include a scene added after init and before subscribe."""
     test_data = [

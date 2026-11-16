@@ -5,12 +5,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.kulersky.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 
 async def test_migrate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test migrate config entry from v1 to v2."""
@@ -46,7 +46,7 @@ async def test_migrate_entry(
 
 
 async def test_migrate_entry_no_devices_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test migrate config entry from v1 to v2."""
 

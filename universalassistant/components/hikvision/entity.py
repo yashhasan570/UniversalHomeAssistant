@@ -2,7 +2,7 @@
 
 from typing import override
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity
@@ -24,7 +24,7 @@ class HikvisionEntity(Entity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: HikvisionConfigEntry,
         channel: int,
     ) -> None:

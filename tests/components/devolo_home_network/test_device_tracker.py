@@ -14,7 +14,7 @@ from universalassistant.components.devolo_home_network.const import (
     SHORT_UPDATE_INTERVAL,
 )
 from universalassistant.const import STATE_NOT_HOME, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import configure_integration
@@ -26,7 +26,7 @@ STATION = CONNECTED_STATIONS[0]
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_device_tracker(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: MockDevice,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -77,7 +77,7 @@ async def test_device_tracker(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_restoring_clients(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: MockDevice,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -107,7 +107,7 @@ async def test_restoring_clients(
 
 @pytest.mark.usefixtures("mock_device", "entity_registry_enabled_by_default")
 async def test_recreating_removed_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:

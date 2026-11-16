@@ -18,13 +18,14 @@ from pytest_universalassistant.common import (
 )
 from syrupy.assertion import SnapshotAssertion
 
+from universalassistant import config_entries
 from universalassistant.components.portainer.const import DOMAIN
 from universalassistant.components.portainer.coordinator import (
     DEFAULT_DF_SCAN_INTERVAL,
     DEFAULT_SCAN_INTERVAL,
 )
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -42,7 +43,7 @@ def enable_all_entities(entity_registry_enabled_by_default: None) -> None:
 
 @pytest.mark.usefixtures("mock_portainer_client")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -62,7 +63,7 @@ async def test_all_entities(
 
 
 async def test_df_endpoint_timeout_only_marks_that_endpoint_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -121,7 +122,7 @@ async def test_df_endpoint_timeout_only_marks_that_endpoint_unavailable(
     ],
 )
 async def test_disk_space_only_fetched_for_enabled_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -150,8 +151,11 @@ async def test_disk_space_only_fetched_for_enabled_entities(
         assert entry.disabled_by is er.RegistryEntryDisabler.INTEGRATION
     mock_portainer_client.docker_system_df.assert_not_called()
 
+    # Enabling the entity reloads the config entry after a delay. Waiting for that
+    # reload keeps it from firing during the disk space poll below.
     entity_registry.async_update_entity(entity_id, disabled_by=None)
-    await hass.config_entries.async_reload(mock_config_entry.entry_id)
+    freezer.tick(config_entries.RELOAD_AFTER_UPDATE_DELAY)
+    async_fire_time_changed(hass, dt_util.utcnow())
     await hass.async_block_till_done(wait_background_tasks=True)
 
     mock_portainer_client.docker_system_df.assert_called_once_with(1, verbose=True)
@@ -177,7 +181,7 @@ async def test_disk_space_only_fetched_for_enabled_entities(
 
 
 async def test_volume_size_from_disk_space(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -208,7 +212,7 @@ async def test_volume_size_from_disk_space(
 
 
 async def test_volume_size_unknown_when_not_measured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -226,7 +230,7 @@ async def test_volume_size_unknown_when_not_measured(
 
 
 async def test_volume_size_unavailable_when_volume_deleted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -244,7 +248,7 @@ async def test_volume_size_unavailable_when_volume_deleted(
 
 
 async def test_endpoint_timeout_keeps_known_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -281,7 +285,7 @@ async def test_endpoint_timeout_keeps_known_entities(
 
 
 async def test_container_never_started(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

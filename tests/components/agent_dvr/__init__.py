@@ -5,7 +5,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.agent_dvr.const import DOMAIN, SERVER_URL
 from universalassistant.const import CONF_HOST, CONF_PORT, CONTENT_TYPE_JSON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 CONF_DATA = {
     CONF_HOST: "example.local",
@@ -14,8 +14,8 @@ CONF_DATA = {
 }
 
 
-def create_entry(hass: __HAC_KEEP__):
-    """Add config entry in __HA_KEEP__."""
+def create_entry(hass: UniversalAssistant):
+    """Add config entry in Universal Home Assistant."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         unique_id="c0715bba-c2d0-48ef-9e3e-bc81c9ea4447",
@@ -26,11 +26,11 @@ def create_entry(hass: __HAC_KEEP__):
 
 
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     skip_setup: bool = False,
 ) -> MockConfigEntry:
-    """Set up the Agent DVR integration in __HA_KEEP__."""
+    """Set up the Agent DVR integration in Universal Home Assistant."""
 
     aioclient_mock.get(
         "http://example.local:8090/command.cgi?cmd=getStatus",

@@ -6,7 +6,7 @@ from typing import override
 from kaco_rs485 import AsyncBus, BusError, InverterState, KacoRs485Client, status_text
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -24,7 +24,7 @@ class KacoRs485Coordinator(DataUpdateCoordinator[dict[int, InverterState]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: KacoRs485ConfigEntry,
         port: str,
     ) -> None:

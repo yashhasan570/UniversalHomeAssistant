@@ -32,7 +32,7 @@ from universalassistant.components.sofar.sensor import (
     SofarTotalSensorDescription,
 )
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -63,7 +63,7 @@ DERIVED_KEYS = {
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -134,7 +134,7 @@ def test_sensor_description_components_are_real() -> None:
     ],
 )
 async def test_enabled_by_default_partition(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     serial: str,
     model: str,
@@ -186,7 +186,7 @@ async def test_enabled_by_default_partition(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_enum_option_slugs_are_translation_keys(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test acronym enum members become slugs, not capitalized words."""
@@ -216,7 +216,7 @@ async def test_enum_option_slugs_are_translation_keys(
 
 
 async def test_shipped_sensors_created_and_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -250,7 +250,7 @@ async def test_shipped_sensors_created_and_state(
 
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_total_keeps_its_restored_value_while_asleep(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_connection: MockModbusConnection,
     mock_config_entry: MockConfigEntry,
@@ -287,7 +287,7 @@ async def test_total_keeps_its_restored_value_while_asleep(
 
 
 async def test_sensor_availability_on_component_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
     mock_connection: MockModbusConnection,
@@ -346,7 +346,7 @@ async def test_value_fn_reads_the_field_its_key_names(
     ],
 )
 async def test_charge_cutoff_needs_a_declaring_mask(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hide_charge_cutoff: Callable[[MockModbusUnit], None],
 ) -> None:
@@ -402,7 +402,7 @@ async def test_total_fn_reads_the_total_its_key_names(
 
 
 async def _setup_hybrid_with_tower(
-    hass: __HAC_KEEP__, connection: MockModbusConnection, groups: int
+    hass: UniversalAssistant, connection: MockModbusConnection, groups: int
 ) -> MockConfigEntry:
     """Set up a hybrid with a BTS tower, sensors only."""
     seed_hybrid_inverter(connection.for_unit(1))
@@ -430,7 +430,7 @@ async def _setup_hybrid_with_tower(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_battery_pack_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
     device_registry: dr.DeviceRegistry,
@@ -460,7 +460,7 @@ async def test_battery_pack_entities(
 
 
 async def test_battery_pack_unavailable_while_its_group_is_offline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
 ) -> None:

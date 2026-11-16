@@ -9,12 +9,12 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.usefixtures("mock_api")
 async def test_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: Callable[[], Awaitable[bool]],
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,

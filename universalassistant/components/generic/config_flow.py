@@ -22,7 +22,7 @@ from universalassistant.components.camera import (
     DynamicStreamSettings,
     _async_get_image,
 )
-from universalassistant.components.http import __HAC_KEEP__View
+from universalassistant.components.http import UniversalAssistantView
 from universalassistant.components.stream import (
     CONF_RTSP_TRANSPORT,
     CONF_USE_WALLCLOCK_AS_TIMESTAMPS,
@@ -47,9 +47,9 @@ from universalassistant.const import (
     HTTP_BASIC_AUTHENTICATION,
     HTTP_DIGEST_AUTHENTICATION,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.data_entry_flow import section
-from universalassistant.exceptions import __HAC_KEEP__Error, TemplateError
+from universalassistant.exceptions import UniversalAssistantError, TemplateError
 from universalassistant.helpers import config_validation as cv, template as template_helper
 from universalassistant.helpers.entity_platform import PlatformData
 from universalassistant.helpers.httpx_client import get_async_client
@@ -93,7 +93,7 @@ SUPPORTED_IMAGE_TYPES = {"png", "jpeg", "gif", "svg+xml", "webp"}
 IMAGE_PREVIEWS_ACTIVE = "previews"
 
 
-class InvalidStreamException(__HAC_KEEP__Error):
+class InvalidStreamException(UniversalAssistantError):
     """Error to indicate an invalid stream."""
 
     def __init__(self, error: str, details: str | None = None) -> None:
@@ -162,7 +162,7 @@ def get_image_type(image: bytes) -> str | None:
 
 
 async def async_test_still(
-    hass: __HAC_KEEP__, info: Mapping[str, Any]
+    hass: UniversalAssistant, info: Mapping[str, Any]
 ) -> tuple[dict[str, str], str | None]:
     """Verify that the still image is valid before we create an entity."""
     fmt = None
@@ -229,7 +229,7 @@ async def async_test_still(
 
 
 def slug(
-    hass: __HAC_KEEP__, template: str | template_helper.Template | None
+    hass: UniversalAssistant, template: str | template_helper.Template | None
 ) -> str | None:
     """Convert a camera url into a string suitable for a camera name."""
     url = ""
@@ -246,7 +246,7 @@ def slug(
 
 
 async def async_test_and_preview_stream(
-    hass: __HAC_KEEP__, info: Mapping[str, Any]
+    hass: UniversalAssistant, info: Mapping[str, Any]
 ) -> Stream | None:
     """Verify that the stream is valid before we create an entity.
 
@@ -298,7 +298,7 @@ async def async_test_and_preview_stream(
         if err.errno == EIO:  # input/output error
             raise InvalidStreamException("stream_io_error") from err
         raise
-    except __HAC_KEEP__Error as err:
+    except UniversalAssistantError as err:
         if "Stream integration is not set up" in str(err):
             raise InvalidStreamException("stream_not_set_up") from err
         raise
@@ -309,7 +309,7 @@ async def async_test_and_preview_stream(
     return stream
 
 
-def register_still_preview(hass: __HAC_KEEP__) -> None:
+def register_still_preview(hass: UniversalAssistant) -> None:
     """Set up still image preview for camera feeds during config flow."""
     hass.data.setdefault(DOMAIN, {})
 
@@ -412,7 +412,7 @@ class GenericIPCamConfigFlow(ConfigFlow, domain=DOMAIN):
 
     @staticmethod
     @override
-    async def async_setup_preview(hass: __HAC_KEEP__) -> None:
+    async def async_setup_preview(hass: UniversalAssistant) -> None:
         """Set up preview WS API."""
         websocket_api.async_register_command(hass, ws_start_preview)
 
@@ -507,19 +507,19 @@ class GenericOptionsFlowHandler(OptionsFlow):
 
     @staticmethod
     @override
-    async def async_setup_preview(hass: __HAC_KEEP__) -> None:
+    async def async_setup_preview(hass: UniversalAssistant) -> None:
         """Set up preview WS API."""
         websocket_api.async_register_command(hass, ws_start_preview)
 
 
-class CameraImagePreview(__HAC_KEEP__View):
+class CameraImagePreview(UniversalAssistantView):
     """Camera view to temporarily serve an image."""
 
     url = "/api/generic/preview_flow_image/{flow_id}"
     name = "api:generic:preview_flow_image"
     requires_auth = False
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialise."""
         self.hass = hass
 
@@ -558,7 +558,7 @@ class CameraImagePreview(__HAC_KEEP__View):
 )
 @websocket_api.async_response
 async def ws_start_preview(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

@@ -6,11 +6,11 @@ from pytest_universalassistant.common import MockConfigEntry
 from pytouchlinesl.client import RothAPIError
 
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_setup_auth_error_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_touchlinesl_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -27,7 +27,7 @@ async def test_setup_auth_error_starts_reauth(
 
 
 async def test_setup_api_error_retries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_touchlinesl_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

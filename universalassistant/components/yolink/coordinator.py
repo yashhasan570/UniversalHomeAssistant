@@ -13,8 +13,8 @@ from yolink.home_manager import YoLinkHome
 from yolink.model import BRDP
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
 
@@ -41,7 +41,7 @@ class YoLinkCoordinator(DataUpdateCoordinator[dict]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: YoLinkConfigEntry,
         device: YoLinkDevice,
         paired_device: YoLinkDevice | None = None,
@@ -112,8 +112,8 @@ class YoLinkCoordinator(DataUpdateCoordinator[dict]):
             resp: BRDP = await self.device.call_device(request)
         except YoLinkAuthFailError as yl_auth_err:
             self.config_entry.async_start_reauth(self.hass)
-            raise __HAC_KEEP__Error(yl_auth_err) from yl_auth_err
+            raise UniversalAssistantError(yl_auth_err) from yl_auth_err
         except YoLinkClientError as yl_client_err:
-            raise __HAC_KEEP__Error(yl_client_err) from yl_client_err
+            raise UniversalAssistantError(yl_client_err) from yl_client_err
         else:
             return resp.data

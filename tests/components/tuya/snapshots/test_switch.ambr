@@ -9307,7 +9307,7 @@
 # name: test_platform_setup_and_discovery[switch.raspy4_universal_assistant_child_lock-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Raspy4 - __HA_KEEP__ Child lock',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Raspy4 - Universal Home Assistant Child lock',
     }),
     'context': <ANY>,
     'entity_id': 'switch.raspy4_universal_assistant_child_lock',
@@ -9358,7 +9358,7 @@
   StateSnapshot({
     'attributes': ReadOnlyDict({
       <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'outlet',
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Raspy4 - __HA_KEEP__ Socket',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Raspy4 - Universal Home Assistant Socket',
     }),
     'context': <ANY>,
     'entity_id': 'switch.raspy4_universal_assistant_socket',

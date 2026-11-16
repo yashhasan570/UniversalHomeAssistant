@@ -17,7 +17,7 @@ from universalassistant.components.amberelectric.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 API_KEY = "psk_123456789"
@@ -160,7 +160,7 @@ def mock_no_site_api() -> Generator:
 
 
 async def test_single_pending_site(
-    hass: __HAC_KEEP__, single_site_pending_api: Mock
+    hass: UniversalAssistant, single_site_pending_api: Mock
 ) -> None:
     """Test single site."""
     initial_result = await hass.config_entries.flow.async_init(
@@ -191,7 +191,7 @@ async def test_single_pending_site(
     assert data[CONF_SITE_ID] == "01FG0AGP818PXK0DWHXJRRT2DH"
 
 
-async def test_single_site(hass: __HAC_KEEP__, single_site_api: Mock) -> None:
+async def test_single_site(hass: UniversalAssistant, single_site_api: Mock) -> None:
     """Test single site."""
     initial_result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -222,7 +222,7 @@ async def test_single_site(hass: __HAC_KEEP__, single_site_api: Mock) -> None:
 
 
 async def test_single_closed_site_no_closed_date(
-    hass: __HAC_KEEP__, single_site_closed_no_close_date_api: Mock
+    hass: UniversalAssistant, single_site_closed_no_close_date_api: Mock
 ) -> None:
     """Test single closed site with no closed date is filtered out."""
     enter_api_key_result = await hass.config_entries.flow.async_init(
@@ -257,7 +257,7 @@ async def test_single_closed_site_no_closed_date(
 
 
 async def test_single_site_rejoin(
-    hass: __HAC_KEEP__, single_site_rejoin_api: Mock
+    hass: UniversalAssistant, single_site_rejoin_api: Mock
 ) -> None:
     """Test single site."""
     initial_result = await hass.config_entries.flow.async_init(
@@ -288,7 +288,7 @@ async def test_single_site_rejoin(
     assert data[CONF_SITE_ID] == "01FG0AGP818PXK0DWHXJRRT2DH"
 
 
-async def test_no_site(hass: __HAC_KEEP__, no_site_api: Mock) -> None:
+async def test_no_site(hass: UniversalAssistant, no_site_api: Mock) -> None:
     """Test no site."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -321,7 +321,7 @@ async def test_no_site(hass: __HAC_KEEP__, no_site_api: Mock) -> None:
     assert result.get("type") is FlowResultType.CREATE_ENTRY
 
 
-async def test_invalid_key(hass: __HAC_KEEP__, invalid_key_api: Mock) -> None:
+async def test_invalid_key(hass: UniversalAssistant, invalid_key_api: Mock) -> None:
     """Test invalid api key."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -354,7 +354,7 @@ async def test_invalid_key(hass: __HAC_KEEP__, invalid_key_api: Mock) -> None:
     assert result.get("type") is FlowResultType.CREATE_ENTRY
 
 
-async def test_unknown_error(hass: __HAC_KEEP__, api_error: Mock) -> None:
+async def test_unknown_error(hass: UniversalAssistant, api_error: Mock) -> None:
     """Test invalid api key."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}

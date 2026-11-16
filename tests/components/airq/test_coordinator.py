@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.airq import AirQCoordinator
 from universalassistant.components.airq.const import DOMAIN
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.typing import Undefined
 
 from .common import TEST_DEVICE_DATA, TEST_DEVICE_INFO
@@ -30,7 +30,7 @@ STATUS_WARMUP = {
 
 
 async def test_logging_in_coordinator_first_update_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_airq: AsyncMock,
 ) -> None:
@@ -66,7 +66,7 @@ async def test_logging_in_coordinator_first_update_data(
 
 
 async def test_logging_in_coordinator_subsequent_update_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_airq: AsyncMock,
 ) -> None:
@@ -97,7 +97,7 @@ async def test_logging_in_coordinator_subsequent_update_data(
 
 
 async def test_logging_when_warming_up_sensor_present(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_airq: AsyncMock,
 ) -> None:

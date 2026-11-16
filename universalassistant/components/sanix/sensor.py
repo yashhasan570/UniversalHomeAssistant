@@ -22,7 +22,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import PERCENTAGE, UnitOfLength
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -82,7 +82,7 @@ SENSOR_TYPES: tuple[SanixSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SanixConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

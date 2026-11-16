@@ -1,9 +1,9 @@
 """Errors for assist satellite."""
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 
-class AssistSatelliteError(__HAC_KEEP__Error):
+class AssistSatelliteError(UniversalAssistantError):
     """Base class for assist satellite errors."""
 
 

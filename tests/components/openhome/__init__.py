@@ -4,11 +4,11 @@ from datetime import timedelta
 
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 
-async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Set up the openhome integration."""
     config_entry.add_to_hass(hass)
 
@@ -16,7 +16,7 @@ async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -
     await hass.async_block_till_done()
 
 
-async def async_poll(hass: __HAC_KEEP__) -> None:
+async def async_poll(hass: UniversalAssistant) -> None:
     """Trigger a poll of the polling platforms.
 
     Well past the media player's ten second scan interval.

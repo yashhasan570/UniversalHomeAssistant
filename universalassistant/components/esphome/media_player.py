@@ -222,7 +222,7 @@ class EsphomeMediaPlayer(
             return None
 
         # Replace the media URL with a proxy URL pointing to Home
-        # Assistant. When requested, __HA_KEEP__ will use ffmpeg to
+        # Assistant. When requested, Universal Home Assistant will use ffmpeg to
         # convert the source URL to the supported format.
         _LOGGER.debug("Proxying media url %s with format %s", url, format_to_use)
         device_id = self.device_entry.id

@@ -13,7 +13,7 @@
           "oauth_client_id": "[%key:component::tailscale::config::step::user::data::oauth_client_id%]",
           "oauth_client_secret": "[%key:component::tailscale::config::step::user::data::oauth_client_secret%]"
         },
-        "description": "Enter the credentials of a Tailscale OAuth client so __HA_KEEP__ can keep authenticating. Create one at {oauth_url} and grant it the **Devices: Core** read scope.\n\nOAuth clients do not expire, so they do not need to be replaced periodically."
+        "description": "Enter the credentials of a Tailscale OAuth client so Universal Home Assistant can keep authenticating. Create one at {oauth_url} and grant it the **Devices: Core** read scope.\n\nOAuth clients do not expire, so they do not need to be replaced periodically."
       },
       "user": {
         "data": {
@@ -21,7 +21,7 @@
           "oauth_client_secret": "OAuth client secret",
           "tailnet": "Tailnet"
         },
-        "description": "This integration monitors your Tailscale network, it **DOES NOT** make your __HA_KEEP__ accessible via Tailscale VPN.\n\nA Tailnet is the name of your Tailscale network. You can find it in the top left corner in the Tailscale Admin Panel (beside the Tailscale logo).\n\nCreate an OAuth client at {oauth_url} and grant it the **Devices: Core** read scope. OAuth clients do not expire, so they do not need to be replaced periodically."
+        "description": "This integration monitors your Tailscale network, it **DOES NOT** make your Universal Home Assistant accessible via Tailscale VPN.\n\nA Tailnet is the name of your Tailscale network. You can find it in the top left corner in the Tailscale Admin Panel (beside the Tailscale logo).\n\nCreate an OAuth client at {oauth_url} and grant it the **Devices: Core** read scope. OAuth clients do not expire, so they do not need to be replaced periodically."
       }
     }
   },

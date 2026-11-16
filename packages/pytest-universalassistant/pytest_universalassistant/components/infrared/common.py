@@ -9,7 +9,7 @@ from universalassistant.components.infrared import (
     InfraredReceiverEntity,
 )
 from universalassistant.components.infrared.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
@@ -58,14 +58,14 @@ class MockInfraredReceiverEntity(InfraredReceiverEntity):
             self._attr_name = name
 
 
-async def init_infrared_fixture_helper(hass: __HAC_KEEP__) -> None:
+async def init_infrared_fixture_helper(hass: UniversalAssistant) -> None:
     """Set up the Infrared integration for testing."""
     assert await async_setup_component(hass, DOMAIN, {})
     await hass.async_block_till_done()
 
 
 async def mock_infrared_emitter_entity_fixture_helper(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> MockInfraredEmitterEntity:
     """Add a mock infrared emitter entity to the running integration."""
     entity = MockInfraredEmitterEntity("test_ir_emitter")
@@ -75,7 +75,7 @@ async def mock_infrared_emitter_entity_fixture_helper(
 
 
 async def mock_infrared_receiver_entity_fixture_helper(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> MockInfraredReceiverEntity:
     """Add a mock infrared receiver entity to the running integration."""
     entity = MockInfraredReceiverEntity("test_ir_receiver")

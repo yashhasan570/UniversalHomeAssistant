@@ -8,12 +8,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.usefixtures("mock_notifications_android_tv")
 async def test_entry_setup_unload(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test integration setup and unload."""
 
@@ -29,7 +29,7 @@ async def test_entry_setup_unload(
 
 
 async def test_config_entry_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_notifications_android_tv: AsyncMock,
 ) -> None:

@@ -9,7 +9,7 @@ import pytest
 from universalassistant.components.ipma.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_LATITUDE, CONF_LOCATION, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import MockLocation
@@ -29,7 +29,7 @@ def ipma_setup_fixture() -> Generator[None]:
         yield
 
 
-async def test_config_flow(hass: __HAC_KEEP__) -> None:
+async def test_config_flow(hass: UniversalAssistant) -> None:
     """Test configuration form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -55,7 +55,7 @@ async def test_config_flow(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_config_flow_failures(hass: __HAC_KEEP__) -> None:
+async def test_config_flow_failures(hass: UniversalAssistant) -> None:
     """Test config flow with failures."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -93,7 +93,7 @@ async def test_config_flow_failures(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("init_integration")
-async def test_flow_entry_already_exists(hass: __HAC_KEEP__) -> None:
+async def test_flow_entry_already_exists(hass: UniversalAssistant) -> None:
     """Test user input for config_entry that already exists.
 
     Test when the form should show when user puts existing location

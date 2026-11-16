@@ -3,13 +3,13 @@
 from pytest_universalassistant.components.diagnostics import get_diagnostics_for_config_entry
 from pytest_universalassistant.typing import ClientSessionGenerator
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import async_init_integration
 
 
 async def test_diagnostics(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, mock_litejet
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator, mock_litejet
 ) -> None:
     """Test getting the LiteJet diagnostics."""
 

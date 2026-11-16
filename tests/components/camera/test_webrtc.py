@@ -23,7 +23,7 @@ from universalassistant.components.camera import (
 )
 from universalassistant.components.web_rtc import async_register_ice_servers
 from universalassistant.components.websocket_api import TYPE_RESULT
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.setup import async_setup_component
 
@@ -45,7 +45,7 @@ class Go2RTCProvider(SomeTestProvider):
 
 @pytest.mark.usefixtures("mock_camera", "mock_stream_source")
 async def test_async_register_webrtc_provider(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test registering a WebRTC provider."""
     camera = get_camera_from_entity_id(hass, "camera.demo_camera")
@@ -84,7 +84,7 @@ async def test_async_register_webrtc_provider(
 
 @pytest.mark.usefixtures("mock_camera", "mock_stream_source")
 async def test_async_register_webrtc_provider_twice(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     register_test_provider: SomeTestProvider,
 ) -> None:
     """Test registering a WebRTC provider twice should raise."""
@@ -93,7 +93,7 @@ async def test_async_register_webrtc_provider_twice(
 
 
 async def test_async_register_webrtc_provider_camera_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test registering a WebRTC provider when camera is not loaded."""
     with pytest.raises(ValueError, match="Unexpected state, camera not loaded"):
@@ -102,7 +102,7 @@ async def test_async_register_webrtc_provider_camera_not_loaded(
 
 @pytest.mark.usefixtures("mock_test_webrtc_cameras")
 async def test_ws_get_client_config(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test get WebRTC client config."""
     await async_setup_component(hass, DOMAIN, {})
@@ -170,7 +170,7 @@ async def test_ws_get_client_config(
 
 @pytest.mark.usefixtures("mock_test_webrtc_cameras")
 async def test_ws_get_client_config_custom_config(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test get WebRTC client config."""
     await async_process_ha_core_config(
@@ -196,7 +196,7 @@ async def test_ws_get_client_config_custom_config(
 
 @pytest.mark.usefixtures("mock_camera")
 async def test_ws_get_client_config_no_rtc_camera(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test get WebRTC client config."""
     await async_setup_component(hass, DOMAIN, {})
@@ -228,7 +228,7 @@ async def provide_webrtc_answer(stream_source: str, offer: str, stream_id: str) 
 
 @pytest.mark.usefixtures("mock_test_webrtc_cameras")
 async def test_websocket_webrtc_offer(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test initiating a WebRTC stream with offer and answer."""
     client = await hass_ws_client(hass)
@@ -275,7 +275,7 @@ async def test_websocket_webrtc_offer(
 )
 @pytest.mark.usefixtures("mock_stream_source", "mock_camera")
 async def test_websocket_webrtc_offer_webrtc_provider_deprecated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     register_test_provider: SomeTestProvider,
 ) -> None:
@@ -309,7 +309,7 @@ async def test_websocket_webrtc_offer_webrtc_provider_deprecated(
 )
 @pytest.mark.usefixtures("mock_stream_source", "mock_camera")
 async def test_websocket_webrtc_offer_webrtc_provider(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     register_test_provider: SomeTestProvider,
     message: WebRTCMessage,
@@ -326,7 +326,7 @@ async def test_websocket_webrtc_offer_webrtc_provider(
 
 
 async def _test_websocket_webrtc_offer_webrtc_provider(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     register_test_provider: SomeTestProvider,
     message: WebRTCMessage,
@@ -386,7 +386,7 @@ async def _test_websocket_webrtc_offer_webrtc_provider(
 
 
 async def test_websocket_webrtc_offer_invalid_entity(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test WebRTC with a camera entity that does not exist."""
     await async_setup_component(hass, DOMAIN, {})
@@ -410,7 +410,7 @@ async def test_websocket_webrtc_offer_invalid_entity(
 
 @pytest.mark.usefixtures("mock_test_webrtc_cameras")
 async def test_websocket_webrtc_offer_missing_offer(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test WebRTC stream with missing required fields."""
     client = await hass_ws_client(hass)
@@ -429,7 +429,7 @@ async def test_websocket_webrtc_offer_missing_offer(
 
 @pytest.mark.usefixtures("mock_camera")
 async def test_websocket_webrtc_offer_invalid_stream_type(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test WebRTC initiating for a camera with a different stream_type."""
     client = await hass_ws_client(hass)
@@ -483,7 +483,7 @@ async def mock_hls_stream_source_fixture() -> AsyncGenerator[AsyncMock]:
 )
 @pytest.mark.usefixtures("mock_test_webrtc_cameras")
 async def test_ws_webrtc_candidate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     frontend_candidate: dict[str, Any],
     expected_candidate: RTCIceCandidateInit,
@@ -537,7 +537,7 @@ async def test_ws_webrtc_candidate(
 )
 @pytest.mark.usefixtures("mock_test_webrtc_cameras")
 async def test_ws_webrtc_candidate_invalid_candidate_message(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     message: dict,
     expected_error_msg: str,
@@ -565,7 +565,7 @@ async def test_ws_webrtc_candidate_invalid_candidate_message(
 
 @pytest.mark.usefixtures("mock_test_webrtc_cameras")
 async def test_ws_webrtc_candidate_not_supported(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test ws webrtc candidate command is raising if not supported."""
     client = await hass_ws_client(hass)
@@ -588,7 +588,7 @@ async def test_ws_webrtc_candidate_not_supported(
 
 @pytest.mark.usefixtures("mock_camera", "mock_stream_source")
 async def test_ws_webrtc_candidate_webrtc_provider(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     register_test_provider: SomeTestProvider,
 ) -> None:
@@ -616,7 +616,7 @@ async def test_ws_webrtc_candidate_webrtc_provider(
 
 
 async def test_ws_webrtc_candidate_invalid_entity(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test ws WebRTC candidate command with a camera entity that does not exist."""
     await async_setup_component(hass, DOMAIN, {})
@@ -641,7 +641,7 @@ async def test_ws_webrtc_candidate_invalid_entity(
 
 @pytest.mark.usefixtures("mock_test_webrtc_cameras")
 async def test_ws_webrtc_canidate_missing_candidate(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test ws WebRTC candidate command with missing required fields."""
     client = await hass_ws_client(hass)
@@ -661,7 +661,7 @@ async def test_ws_webrtc_canidate_missing_candidate(
 
 @pytest.mark.usefixtures("mock_camera")
 async def test_ws_webrtc_candidate_invalid_stream_type(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test ws WebRTC candidate command for a camera with a different stream_type."""
     client = await hass_ws_client(hass)
@@ -686,7 +686,7 @@ async def test_ws_webrtc_candidate_invalid_stream_type(
     }
 
 
-async def test_webrtc_provider_optional_interface(hass: __HAC_KEEP__) -> None:
+async def test_webrtc_provider_optional_interface(hass: UniversalAssistant) -> None:
     """Test optional interface for WebRTC provider."""
 
     class OnlyRequiredInterfaceProvider(CameraWebRTCProvider):
@@ -739,7 +739,7 @@ async def test_webrtc_provider_optional_interface(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_camera", "mock_stream_source")
 async def test_camera_unregisters_from_webrtc_provider_on_removal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     register_test_provider: SomeTestProvider,
 ) -> None:
     """Test camera unregisters from WebRTC provider when removed from hass."""

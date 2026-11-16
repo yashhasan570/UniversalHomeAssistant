@@ -6,11 +6,11 @@
     },
     "step": {
       "discovery_confirm": {
-        "description": "Do you want to add Powersensor to __HA_KEEP__?",
+        "description": "Do you want to add Powersensor to Universal Home Assistant?",
         "title": "Powersensor plugs discovered"
       },
       "manual_confirm": {
-        "description": "No Powersensor plugs were discovered on your network. You can still add the integration and if plugs are later discovered they will be added to __HA_KEEP__. Do you want to add Powersensor to __HA_KEEP__?",
+        "description": "No Powersensor plugs were discovered on your network. You can still add the integration and if plugs are later discovered they will be added to Universal Home Assistant. Do you want to add Powersensor to Universal Home Assistant?",
         "title": "No Powersensor plugs discovered"
       },
       "sensor_role": {

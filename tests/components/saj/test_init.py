@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.saj.coordinator import SCAN_INTERVAL
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
@@ -17,7 +17,7 @@ from . import setup_integration
 @pytest.mark.parametrize("connection_method", ["ethernet", "wifi"], indirect=True)
 @pytest.mark.usefixtures("mock_aiosaj_saj")
 async def test_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test async_setup_entry for ethernet and wifi connections."""
@@ -27,7 +27,7 @@ async def test_setup_entry(
 
 
 async def test_setup_entry_connection_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_aiosaj_saj: MagicMock,
 ) -> None:
@@ -40,7 +40,7 @@ async def test_setup_entry_connection_failed(
 
 @pytest.mark.parametrize("connection_method", ["wifi"], indirect=True)
 async def test_setup_entry_auth_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_aiosaj_saj: MagicMock,
 ) -> None:
@@ -57,7 +57,7 @@ async def test_setup_entry_auth_failed(
 
 @pytest.mark.parametrize("connection_method", ["wifi"], indirect=True)
 async def test_update_auth_failed_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_aiosaj_saj: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -93,7 +93,7 @@ async def test_update_auth_failed_starts_reauth(
     ],
 )
 async def test_setup_entry_retries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_aiosaj_saj: MagicMock,
     exception: Exception,
@@ -106,7 +106,7 @@ async def test_setup_entry_retries(
 
 @pytest.mark.usefixtures("mock_aiosaj_saj")
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test async_unload_entry."""

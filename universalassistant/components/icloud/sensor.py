@@ -11,7 +11,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
 )
 from universalassistant.const import PERCENTAGE, EntityCategory, UnitOfLength
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.icon import icon_for_battery_level
@@ -182,7 +182,7 @@ SENSORS: tuple[IcloudSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: IcloudConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

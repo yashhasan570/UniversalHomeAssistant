@@ -6,13 +6,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
 
 async def test_cover_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_dio_chacon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -30,7 +30,7 @@ async def test_cover_unload_entry(
 
 
 async def test_cover_shutdown_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_dio_chacon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

@@ -10,7 +10,7 @@ import pytest
 from universalassistant import config_entries
 from universalassistant.components.igloohome.const import DOMAIN
 from universalassistant.const import CONF_CLIENT_ID, CONF_CLIENT_SECRET
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import setup_integration
@@ -22,7 +22,7 @@ FORM_USER_INPUT = {
 
 
 async def test_form_valid_input(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: Generator[AsyncMock],
     mock_auth: Generator[AsyncMock],
 ) -> None:
@@ -49,7 +49,7 @@ async def test_form_valid_input(
     [(AuthException(), "invalid_auth"), (ClientError(), "cannot_connect")],
 )
 async def test_form_invalid_input(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_auth: Generator[AsyncMock],
     exception: Exception,
@@ -85,7 +85,7 @@ async def test_form_invalid_input(
 
 
 async def test_form_abort_on_matching_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: Generator[AsyncMock],
     mock_auth: Generator[AsyncMock],
 ) -> None:

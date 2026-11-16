@@ -7,7 +7,7 @@ from xiaomi_weather import WeatherData, XiaomiWeatherClient, XiaomiWeatherError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -27,7 +27,7 @@ class XiaomiWeatherCoordinator(DataUpdateCoordinator[WeatherData]):
 
     config_entry: XiaomiWeatherConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, entry: XiaomiWeatherConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: XiaomiWeatherConfigEntry) -> None:
         """Initialize the shared client."""
         super().__init__(
             hass,

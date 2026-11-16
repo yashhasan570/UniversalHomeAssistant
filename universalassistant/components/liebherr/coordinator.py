@@ -18,7 +18,7 @@ from pyliebherrhomeapi import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -45,7 +45,7 @@ class LiebherrCoordinator(DataUpdateCoordinator[DeviceState]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: LiebherrConfigEntry,
         client: LiebherrClient,
         device_id: str,

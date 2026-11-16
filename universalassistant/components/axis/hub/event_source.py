@@ -7,7 +7,7 @@ from axis.errors import Unauthorized
 from axis.models.mqtt import ClientState, mqtt_json_to_event
 from axis.stream_manager import Signal, State
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.setup import async_when_setup
 
@@ -24,7 +24,7 @@ class AxisEventSource:
     """Manage connection to event sources from an Axis device."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: AxisConfigEntry, api: axis.AxisDevice
+        self, hass: UniversalAssistant, config_entry: AxisConfigEntry, api: axis.AxisDevice
     ) -> None:
         """Initialize the device."""
         self.hass = hass
@@ -57,7 +57,7 @@ class AxisEventSource:
             self.api.stream.connection_status_callback.clear()
         self.api.stream.stop()
 
-    async def _async_use_mqtt(self, hass: __HAC_KEEP__, component: str) -> None:
+    async def _async_use_mqtt(self, hass: UniversalAssistant, component: str) -> None:
         """Set up to use MQTT."""
         try:
             status = await self.api.vapix.mqtt.get_client_status()

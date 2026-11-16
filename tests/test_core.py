@@ -1,4 +1,4 @@
-"""Test to verify that __HA_KEEP__ core works."""
+"""Test to verify that Universal Home Assistant core works."""
 
 import array
 import asyncio
@@ -41,7 +41,7 @@ from universalassistant.const import (
 from universalassistant.core import (
     CoreState,
     HassJob,
-    __HAC_KEEP__,
+    UniversalAssistant,
     ReleaseChannel,
     ServiceCall,
     ServiceResponse,
@@ -51,7 +51,7 @@ from universalassistant.core import (
     get_release_channel,
 )
 from universalassistant.exceptions import (
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     InvalidEntityFormatError,
     InvalidStateError,
     MaxLengthExceeded,
@@ -86,14 +86,14 @@ async def test_async_add_hass_job_schedule_callback() -> None:
     hass = MagicMock()
     job = MagicMock()
 
-    ha.__HAC_KEEP__._async_add_hass_job(hass, ha.HassJob(ha.callback(job)))
+    ha.UniversalAssistant._async_add_hass_job(hass, ha.HassJob(ha.callback(job)))
     assert len(hass.loop.call_soon.mock_calls) == 1
     assert len(hass.loop.create_task.mock_calls) == 0
     assert len(hass.add_job.mock_calls) == 0
 
 
 async def test_async_add_hass_job_eager_start_coro_suspends(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test scheduling a coro as a task that will suspend with eager_start."""
 
@@ -108,7 +108,7 @@ async def test_async_add_hass_job_eager_start_coro_suspends(
 
 
 async def test_async_run_hass_job_eager_start_coro_suspends(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test scheduling a coro as a task that will suspend with eager_start."""
 
@@ -122,7 +122,7 @@ async def test_async_run_hass_job_eager_start_coro_suspends(
     assert task not in hass._tasks
 
 
-async def test_async_add_hass_job_background(hass: __HAC_KEEP__) -> None:
+async def test_async_add_hass_job_background(hass: UniversalAssistant) -> None:
     """Test scheduling a coro as a background task with async_add_hass_job."""
 
     async def job_that_suspends():
@@ -137,7 +137,7 @@ async def test_async_add_hass_job_background(hass: __HAC_KEEP__) -> None:
     assert task not in hass._background_tasks
 
 
-async def test_async_run_hass_job_background(hass: __HAC_KEEP__) -> None:
+async def test_async_run_hass_job_background(hass: UniversalAssistant) -> None:
     """Test scheduling a coro as a background task with async_run_hass_job."""
 
     async def job_that_suspends():
@@ -152,7 +152,7 @@ async def test_async_run_hass_job_background(hass: __HAC_KEEP__) -> None:
     assert task not in hass._background_tasks
 
 
-async def test_async_add_hass_job_eager_background(hass: __HAC_KEEP__) -> None:
+async def test_async_add_hass_job_eager_background(hass: UniversalAssistant) -> None:
     """Test scheduling a coro as an eager background task with async_add_hass_job."""
 
     async def job_that_suspends():
@@ -167,7 +167,7 @@ async def test_async_add_hass_job_eager_background(hass: __HAC_KEEP__) -> None:
     assert task not in hass._background_tasks
 
 
-async def test_async_run_hass_job_eager_background(hass: __HAC_KEEP__) -> None:
+async def test_async_run_hass_job_eager_background(hass: UniversalAssistant) -> None:
     """Test scheduling a coro as an eager background task with async_run_hass_job."""
 
     async def job_that_suspends():
@@ -182,7 +182,7 @@ async def test_async_run_hass_job_eager_background(hass: __HAC_KEEP__) -> None:
     assert task not in hass._background_tasks
 
 
-async def test_async_run_hass_job_background_synchronous(hass: __HAC_KEEP__) -> None:
+async def test_async_run_hass_job_background_synchronous(hass: UniversalAssistant) -> None:
     """Test scheduling a coro as an eager background task with async_run_hass_job."""
 
     async def job_that_does_not_suspends():
@@ -198,7 +198,7 @@ async def test_async_run_hass_job_background_synchronous(hass: __HAC_KEEP__) -> 
     await task
 
 
-async def test_async_run_hass_job_synchronous(hass: __HAC_KEEP__) -> None:
+async def test_async_run_hass_job_synchronous(hass: UniversalAssistant) -> None:
     """Test scheduling a coro as an eager task with async_run_hass_job."""
 
     async def job_that_does_not_suspends():
@@ -214,7 +214,7 @@ async def test_async_run_hass_job_synchronous(hass: __HAC_KEEP__) -> None:
     await task
 
 
-async def test_async_add_hass_job_coro_named(hass: __HAC_KEEP__) -> None:
+async def test_async_add_hass_job_coro_named(hass: UniversalAssistant) -> None:
     """Test that we schedule coroutines and add jobs to the job pool with a name."""
 
     async def mycoro():
@@ -223,11 +223,11 @@ async def test_async_add_hass_job_coro_named(hass: __HAC_KEEP__) -> None:
     job = ha.HassJob(mycoro, "named coro")
     assert "named coro" in str(job)
     assert job.name == "named coro"
-    task = ha.__HAC_KEEP__._async_add_hass_job(hass, job)
+    task = ha.UniversalAssistant._async_add_hass_job(hass, job)
     assert "named coro" in str(task)
 
 
-async def test_async_add_hass_job_eager_start(hass: __HAC_KEEP__) -> None:
+async def test_async_add_hass_job_eager_start(hass: UniversalAssistant) -> None:
     """Test eager_start with async_add_hass_job."""
 
     async def mycoro():
@@ -236,7 +236,7 @@ async def test_async_add_hass_job_eager_start(hass: __HAC_KEEP__) -> None:
     job = ha.HassJob(mycoro, "named coro")
     assert "named coro" in str(job)
     assert job.name == "named coro"
-    task = ha.__HAC_KEEP__._async_add_hass_job(hass, job)
+    task = ha.UniversalAssistant._async_add_hass_job(hass, job)
     assert "named coro" in str(task)
 
 
@@ -246,7 +246,7 @@ async def test_async_add_hass_job_schedule_partial_callback() -> None:
     job = MagicMock()
     partial = functools.partial(ha.callback(job))
 
-    ha.__HAC_KEEP__._async_add_hass_job(hass, ha.HassJob(partial))
+    ha.UniversalAssistant._async_add_hass_job(hass, ha.HassJob(partial))
     assert hass.loop.call_soon.call_count == 1
     assert hass.loop.create_task.call_count == 0
     assert hass.add_job.call_count == 0
@@ -266,7 +266,7 @@ async def test_async_add_hass_job_schedule_corofunction_eager_start() -> None:
         patch.object(loop, "call_soon") as mock_loop_call_soon,
     ):
         hass_job = ha.HassJob(job)
-        task = ha.__HAC_KEEP__._async_add_hass_job(hass, hass_job)
+        task = ha.UniversalAssistant._async_add_hass_job(hass, hass_job)
         assert mock_loop_call_soon.call_count == 0
         assert hass.add_job.call_count == 0
         assert mock_create_eager_task.mock_calls
@@ -289,7 +289,7 @@ async def test_async_add_hass_job_schedule_partial_corofunction_eager_start() ->
         patch.object(loop, "call_soon") as mock_loop_call_soon,
     ):
         hass_job = ha.HassJob(partial)
-        task = ha.__HAC_KEEP__._async_add_hass_job(hass, hass_job)
+        task = ha.UniversalAssistant._async_add_hass_job(hass, hass_job)
         assert mock_loop_call_soon.call_count == 0
         assert hass.add_job.call_count == 0
         assert mock_create_eager_task.mock_calls
@@ -303,7 +303,7 @@ async def test_async_add_job_add_hass_threaded_job_to_pool() -> None:
     def job():
         pass
 
-    ha.__HAC_KEEP__._async_add_hass_job(hass, ha.HassJob(job))
+    ha.UniversalAssistant._async_add_hass_job(hass, ha.HassJob(job))
     assert hass.loop.call_soon.call_count == 0
     assert hass.loop.create_task.call_count == 0
     assert hass.loop.run_in_executor.call_count == 1
@@ -321,7 +321,7 @@ async def test_async_create_task_schedule_coroutine() -> None:
         patch.object(loop, "create_task") as mock_loop_create_task,
     ):
         coro = job()
-        ha.__HAC_KEEP__.async_create_task_internal(hass, coro, eager_start=False)
+        ha.UniversalAssistant.async_create_task_internal(hass, coro, eager_start=False)
         assert mock_loop_call_soon.call_count == 0
         assert mock_loop_create_task.call_count == 1
         assert hass.add_job.call_count == 0
@@ -336,7 +336,7 @@ async def test_async_create_task_eager_start_schedule_coroutine() -> None:
         pass
 
     with patch.object(loop, "create_task") as mock_loop_create_task:
-        ha.__HAC_KEEP__.async_create_task_internal(hass, job(), eager_start=True)
+        ha.UniversalAssistant.async_create_task_internal(hass, job(), eager_start=True)
         # Should create the task directly since 3.12 supports eager_start
         assert mock_loop_create_task.call_count == 0
         assert hass.add_job.call_count == 0
@@ -350,7 +350,7 @@ async def test_async_create_task_schedule_coroutine_with_name() -> None:
         pass
 
     coro = job()
-    task = ha.__HAC_KEEP__.async_create_task_internal(
+    task = ha.UniversalAssistant.async_create_task_internal(
         hass, coro, "named task", eager_start=False
     )
     assert hass.loop.call_soon.call_count == 0
@@ -369,7 +369,7 @@ async def test_async_run_eager_hass_job_calls_callback() -> None:
         asyncio.get_running_loop()  # ensure we are in the event loop
         calls.append(1)
 
-    ha.__HAC_KEEP__.async_run_hass_job(hass, ha.HassJob(ha.callback(job)))
+    ha.UniversalAssistant.async_run_hass_job(hass, ha.HassJob(ha.callback(job)))
     assert len(calls) == 1
 
 
@@ -380,7 +380,7 @@ async def test_async_run_eager_hass_job_calls_coro_function() -> None:
     async def job():
         pass
 
-    ha.__HAC_KEEP__.async_run_hass_job(hass, ha.HassJob(job))
+    ha.UniversalAssistant.async_run_hass_job(hass, ha.HassJob(job))
     assert len(hass._async_add_hass_job.mock_calls) == 1
 
 
@@ -392,7 +392,7 @@ async def test_async_run_hass_job_calls_callback() -> None:
     def job():
         calls.append(1)
 
-    ha.__HAC_KEEP__.async_run_hass_job(hass, ha.HassJob(ha.callback(job)))
+    ha.UniversalAssistant.async_run_hass_job(hass, ha.HassJob(ha.callback(job)))
     assert len(calls) == 1
     assert len(hass.async_add_job.mock_calls) == 0
 
@@ -405,12 +405,12 @@ async def test_async_run_hass_job_delegates_non_async() -> None:
     def job():
         calls.append(1)
 
-    ha.__HAC_KEEP__.async_run_hass_job(hass, ha.HassJob(job))
+    ha.UniversalAssistant.async_run_hass_job(hass, ha.HassJob(job))
     assert len(calls) == 0
     assert len(hass._async_add_hass_job.mock_calls) == 1
 
 
-async def test_async_get_hass_can_be_called(hass: __HAC_KEEP__) -> None:
+async def test_async_get_hass_can_be_called(hass: UniversalAssistant) -> None:
     """Test calling async_get_hass via different paths.
 
     The test asserts async_get_hass can be called from:
@@ -429,7 +429,7 @@ async def test_async_get_hass_can_be_called(hass: __HAC_KEEP__) -> None:
             if ha.async_get_hass() is hass:
                 return True
             raise Exception  # noqa: TRY002
-        except __HAC_KEEP__Error:
+        except UniversalAssistantError:
             return False
 
         raise Exception  # noqa: TRY002
@@ -588,7 +588,7 @@ async def test_async_get_hass_can_be_called(hass: __HAC_KEEP__) -> None:
     my_job_create_task.join()
 
 
-async def test_async_add_executor_job_background(hass: __HAC_KEEP__) -> None:
+async def test_async_add_executor_job_background(hass: UniversalAssistant) -> None:
     """Test running an executor job in the background."""
     calls = []
 
@@ -609,7 +609,7 @@ async def test_async_add_executor_job_background(hass: __HAC_KEEP__) -> None:
     await task
 
 
-async def test_async_add_executor_job(hass: __HAC_KEEP__) -> None:
+async def test_async_add_executor_job(hass: UniversalAssistant) -> None:
     """Test running an executor job."""
     calls = []
 
@@ -628,7 +628,7 @@ async def test_async_add_executor_job(hass: __HAC_KEEP__) -> None:
     await task
 
 
-async def test_stage_shutdown(hass: __HAC_KEEP__) -> None:
+async def test_stage_shutdown(hass: UniversalAssistant) -> None:
     """Simulate a shutdown, test calling stuff."""
     test_stop = async_capture_events(hass, EVENT_HOMEASSISTANT_STOP)
     test_final_write = async_capture_events(hass, EVENT_HOMEASSISTANT_FINAL_WRITE)
@@ -643,7 +643,7 @@ async def test_stage_shutdown(hass: __HAC_KEEP__) -> None:
     assert len(test_all) == 2
 
 
-async def test_stage_shutdown_timeouts(hass: __HAC_KEEP__) -> None:
+async def test_stage_shutdown_timeouts(hass: UniversalAssistant) -> None:
     """Simulate a shutdown, test timeouts at each step."""
 
     with patch.object(hass.timeout, "async_timeout", side_effect=TimeoutError):
@@ -653,7 +653,7 @@ async def test_stage_shutdown_timeouts(hass: __HAC_KEEP__) -> None:
 
 
 async def test_stage_shutdown_generic_error(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Simulate a shutdown, test generic error doesn't prevent it."""
 
@@ -671,7 +671,7 @@ async def test_stage_shutdown_generic_error(
     assert hass.state is ha.CoreState.stopped
 
 
-async def test_stage_shutdown_with_exit_code(hass: __HAC_KEEP__) -> None:
+async def test_stage_shutdown_with_exit_code(hass: UniversalAssistant) -> None:
     """Simulate a shutdown, test calling stuff with exit code checks."""
     test_stop = async_capture_events(hass, EVENT_HOMEASSISTANT_STOP)
     test_final_write = async_capture_events(hass, EVENT_HOMEASSISTANT_FINAL_WRITE)
@@ -712,7 +712,7 @@ async def test_stage_shutdown_with_exit_code(hass: __HAC_KEEP__) -> None:
 
 
 async def test_shutdown_calls_block_till_done_after_shutdown_run_callback_threadsafe(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Ensure shutdown_run_callback_threadsafe precedes final async_block_till_done."""
     stop_calls = []
@@ -738,7 +738,7 @@ async def test_shutdown_calls_block_till_done_after_shutdown_run_callback_thread
     assert stop_calls[-1] == "async_block_till_done"
 
 
-async def test_pending_scheduler(hass: __HAC_KEEP__) -> None:
+async def test_pending_scheduler(hass: UniversalAssistant) -> None:
     """Add a coro to pending tasks."""
     call_count = []
 
@@ -755,7 +755,7 @@ async def test_pending_scheduler(hass: __HAC_KEEP__) -> None:
     assert len(call_count) == 3
 
 
-def test_add_job_pending_tasks_coro(hass: __HAC_KEEP__) -> None:
+def test_add_job_pending_tasks_coro(hass: UniversalAssistant) -> None:
     """Add a coro to pending tasks."""
 
     async def test_coro():
@@ -768,7 +768,7 @@ def test_add_job_pending_tasks_coro(hass: __HAC_KEEP__) -> None:
     assert len(hass._tasks) == 0
 
 
-async def test_async_add_job_pending_tasks_coro(hass: __HAC_KEEP__) -> None:
+async def test_async_add_job_pending_tasks_coro(hass: UniversalAssistant) -> None:
     """Add a coro to pending tasks."""
     call_count = []
 
@@ -785,7 +785,7 @@ async def test_async_add_job_pending_tasks_coro(hass: __HAC_KEEP__) -> None:
     assert len(hass._tasks) == 0
 
 
-async def test_async_create_task_pending_tasks_coro(hass: __HAC_KEEP__) -> None:
+async def test_async_create_task_pending_tasks_coro(hass: UniversalAssistant) -> None:
     """Add a coro to pending tasks."""
     call_count = []
 
@@ -802,7 +802,7 @@ async def test_async_create_task_pending_tasks_coro(hass: __HAC_KEEP__) -> None:
     assert len(hass._tasks) == 0
 
 
-async def test_async_add_job_pending_tasks_executor(hass: __HAC_KEEP__) -> None:
+async def test_async_add_job_pending_tasks_executor(hass: UniversalAssistant) -> None:
     """Run an executor in pending tasks."""
     call_count = []
 
@@ -824,7 +824,7 @@ async def test_async_add_job_pending_tasks_executor(hass: __HAC_KEEP__) -> None:
     assert len(call_count) == 2
 
 
-async def test_async_add_job_pending_tasks_callback(hass: __HAC_KEEP__) -> None:
+async def test_async_add_job_pending_tasks_callback(hass: UniversalAssistant) -> None:
     """Run a callback in pending tasks."""
     call_count = []
 
@@ -849,13 +849,13 @@ async def test_async_add_job_pending_tasks_callback(hass: __HAC_KEEP__) -> None:
     assert len(call_count) == 2
 
 
-async def test_add_job_with_none(hass: __HAC_KEEP__) -> None:
+async def test_add_job_with_none(hass: UniversalAssistant) -> None:
     """Try to add a job with None as function."""
     with pytest.raises(ValueError):
         hass.async_add_job(None, "test_arg")
 
 
-async def test_add_job_coroutine_object(hass: __HAC_KEEP__) -> None:
+async def test_add_job_coroutine_object(hass: UniversalAssistant) -> None:
     """Test add_job with a coroutine object from an executor thread."""
     result: list[str] = []
 
@@ -869,7 +869,7 @@ async def test_add_job_coroutine_object(hass: __HAC_KEEP__) -> None:
     assert result == ["called"]
 
 
-async def test_add_job_coroutine_function(hass: __HAC_KEEP__) -> None:
+async def test_add_job_coroutine_function(hass: UniversalAssistant) -> None:
     """Test add_job with a coroutine function from an executor thread."""
     result: list[str] = []
 
@@ -883,7 +883,7 @@ async def test_add_job_coroutine_function(hass: __HAC_KEEP__) -> None:
     assert result == ["called"]
 
 
-async def test_add_job_callback(hass: __HAC_KEEP__) -> None:
+async def test_add_job_callback(hass: UniversalAssistant) -> None:
     """Test add_job with a @callback from an executor thread."""
     result: list[str] = []
 
@@ -898,7 +898,7 @@ async def test_add_job_callback(hass: __HAC_KEEP__) -> None:
     assert result == ["called"]
 
 
-async def test_add_job_executor(hass: __HAC_KEEP__) -> None:
+async def test_add_job_executor(hass: UniversalAssistant) -> None:
     """Test add_job with a regular function from an executor thread."""
     result: list[str] = []
 
@@ -913,7 +913,7 @@ async def test_add_job_executor(hass: __HAC_KEEP__) -> None:
     assert result == ["called"]
 
 
-async def test_add_job_partial_callback(hass: __HAC_KEEP__) -> None:
+async def test_add_job_partial_callback(hass: UniversalAssistant) -> None:
     """Test add_job with a partial-wrapped @callback from an executor thread."""
     result: list[tuple[str, int]] = []
 
@@ -931,7 +931,7 @@ async def test_add_job_partial_callback(hass: __HAC_KEEP__) -> None:
 
 
 async def test_add_job_partial_coroutine_function(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test add_job with a partial-wrapped coroutine function."""
     result: list[tuple[str, int]] = []
@@ -948,7 +948,7 @@ async def test_add_job_partial_coroutine_function(
     assert result == [("partial", 2)]
 
 
-async def test_add_job_async_with_callback_decorator(hass: __HAC_KEEP__) -> None:
+async def test_add_job_async_with_callback_decorator(hass: UniversalAssistant) -> None:
     """Test add_job with an async function incorrectly marked as @callback."""
     result: list[str] = []
 
@@ -1236,7 +1236,7 @@ def test_state_as_compressed_state_json() -> None:
     assert state.as_compressed_state_json is as_compressed_state
 
 
-async def test_eventbus_add_remove_listener(hass: __HAC_KEEP__) -> None:
+async def test_eventbus_add_remove_listener(hass: UniversalAssistant) -> None:
     """Test remove_listener method."""
     old_count = len(hass.bus.async_listeners())
 
@@ -1255,7 +1255,7 @@ async def test_eventbus_add_remove_listener(hass: __HAC_KEEP__) -> None:
     unsub()
 
 
-async def test_eventbus_filtered_listener(hass: __HAC_KEEP__) -> None:
+async def test_eventbus_filtered_listener(hass: UniversalAssistant) -> None:
     """Test we can prefilter events."""
     calls = []
 
@@ -1284,7 +1284,7 @@ async def test_eventbus_filtered_listener(hass: __HAC_KEEP__) -> None:
     unsub()
 
 
-async def test_eventbus_run_immediately_callback(hass: __HAC_KEEP__) -> None:
+async def test_eventbus_run_immediately_callback(hass: UniversalAssistant) -> None:
     """Test we can call events immediately with a callback."""
     calls = []
 
@@ -1302,7 +1302,7 @@ async def test_eventbus_run_immediately_callback(hass: __HAC_KEEP__) -> None:
     unsub()
 
 
-async def test_eventbus_run_immediately_coro(hass: __HAC_KEEP__) -> None:
+async def test_eventbus_run_immediately_coro(hass: UniversalAssistant) -> None:
     """Test we can call events immediately with a coro."""
     calls = []
 
@@ -1319,7 +1319,7 @@ async def test_eventbus_run_immediately_coro(hass: __HAC_KEEP__) -> None:
     unsub()
 
 
-async def test_eventbus_listen_once_run_immediately_coro(hass: __HAC_KEEP__) -> None:
+async def test_eventbus_listen_once_run_immediately_coro(hass: UniversalAssistant) -> None:
     """Test we can call events immediately with a coro."""
     calls = []
 
@@ -1334,7 +1334,7 @@ async def test_eventbus_listen_once_run_immediately_coro(hass: __HAC_KEEP__) -> 
     assert len(calls) == 1
 
 
-async def test_eventbus_nested_fire_dispatch_order(hass: __HAC_KEEP__) -> None:
+async def test_eventbus_nested_fire_dispatch_order(hass: UniversalAssistant) -> None:
     """Test dispatch order when a listener fires an event synchronously.
 
     The implementation of event listeners is such that listeners are called
@@ -1381,7 +1381,7 @@ async def test_eventbus_nested_fire_dispatch_order(hass: __HAC_KEEP__) -> None:
 
 
 async def test_eventbus_nested_fire_endless_loop_guard(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that event listeners firing events in an endless loop are stopped.
 
@@ -1419,7 +1419,7 @@ async def test_eventbus_nested_fire_endless_loop_guard(
 
 
 async def test_eventbus_fire_raises_when_queue_limit_reached(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a nested fire raises once the per-dispatch queue limit is reached.
 
@@ -1430,7 +1430,7 @@ async def test_eventbus_fire_raises_when_queue_limit_reached(
     hass.bus._dispatching = True
     hass.bus._queued_event_count = ha._MAX_QUEUED_EVENT_DISPATCHES
     try:
-        with pytest.raises(__HAC_KEEP__Error, match="endless loop"):
+        with pytest.raises(UniversalAssistantError, match="endless loop"):
             hass.bus.async_fire("test")
         # The rejected event is not queued
         assert len(hass.bus._event_queue) == 0
@@ -1439,7 +1439,7 @@ async def test_eventbus_fire_raises_when_queue_limit_reached(
         hass.bus._queued_event_count = 0
 
 
-async def test_eventbus_unsubscribe_listener(hass: __HAC_KEEP__) -> None:
+async def test_eventbus_unsubscribe_listener(hass: UniversalAssistant) -> None:
     """Test unsubscribe listener from returned function."""
     calls = []
 
@@ -1463,7 +1463,7 @@ async def test_eventbus_unsubscribe_listener(hass: __HAC_KEEP__) -> None:
     assert len(calls) == 1
 
 
-async def test_eventbus_listen_once_event_with_callback(hass: __HAC_KEEP__) -> None:
+async def test_eventbus_listen_once_event_with_callback(hass: UniversalAssistant) -> None:
     """Test listen_once_event method."""
     runs = []
 
@@ -1481,7 +1481,7 @@ async def test_eventbus_listen_once_event_with_callback(hass: __HAC_KEEP__) -> N
     assert len(runs) == 1
 
 
-async def test_eventbus_listen_once_event_with_coroutine(hass: __HAC_KEEP__) -> None:
+async def test_eventbus_listen_once_event_with_coroutine(hass: UniversalAssistant) -> None:
     """Test listen_once_event method."""
     runs = []
 
@@ -1498,7 +1498,7 @@ async def test_eventbus_listen_once_event_with_coroutine(hass: __HAC_KEEP__) -> 
     assert len(runs) == 1
 
 
-async def test_eventbus_listen_once_event_with_thread(hass: __HAC_KEEP__) -> None:
+async def test_eventbus_listen_once_event_with_thread(hass: UniversalAssistant) -> None:
     """Test listen_once_event method."""
     runs = []
 
@@ -1515,7 +1515,7 @@ async def test_eventbus_listen_once_event_with_thread(hass: __HAC_KEEP__) -> Non
     assert len(runs) == 1
 
 
-async def test_eventbus_thread_event_listener(hass: __HAC_KEEP__) -> None:
+async def test_eventbus_thread_event_listener(hass: UniversalAssistant) -> None:
     """Test thread event listener."""
     thread_calls = []
 
@@ -1528,7 +1528,7 @@ async def test_eventbus_thread_event_listener(hass: __HAC_KEEP__) -> None:
     assert len(thread_calls) == 1
 
 
-async def test_eventbus_callback_event_listener(hass: __HAC_KEEP__) -> None:
+async def test_eventbus_callback_event_listener(hass: UniversalAssistant) -> None:
     """Test callback event listener."""
     callback_calls = []
 
@@ -1542,7 +1542,7 @@ async def test_eventbus_callback_event_listener(hass: __HAC_KEEP__) -> None:
     assert len(callback_calls) == 1
 
 
-async def test_eventbus_coroutine_event_listener(hass: __HAC_KEEP__) -> None:
+async def test_eventbus_coroutine_event_listener(hass: UniversalAssistant) -> None:
     """Test coroutine event listener."""
     coroutine_calls = []
 
@@ -1555,7 +1555,7 @@ async def test_eventbus_coroutine_event_listener(hass: __HAC_KEEP__) -> None:
     assert len(coroutine_calls) == 1
 
 
-async def test_eventbus_max_length_exceeded(hass: __HAC_KEEP__) -> None:
+async def test_eventbus_max_length_exceeded(hass: UniversalAssistant) -> None:
     """Test that an exception is raised when the max character length is exceeded."""
 
     long_evt_name = (
@@ -1674,7 +1674,7 @@ def test_state_repr() -> None:
     )
 
 
-async def test_statemachine_async_set_invalid_state(hass: __HAC_KEEP__) -> None:
+async def test_statemachine_async_set_invalid_state(hass: UniversalAssistant) -> None:
     """Test setting an invalid state with the async_set method."""
     with pytest.raises(
         InvalidStateError,
@@ -1684,7 +1684,7 @@ async def test_statemachine_async_set_invalid_state(hass: __HAC_KEEP__) -> None:
 
 
 async def test_statemachine_async_set_internal_invalid_state(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setting an invalid state with the async_set_internal method."""
     long_state = "o" * 256
@@ -1706,7 +1706,7 @@ async def test_statemachine_async_set_internal_invalid_state(
     ) in caplog.record_tuples
 
 
-async def test_statemachine_is_state(hass: __HAC_KEEP__) -> None:
+async def test_statemachine_is_state(hass: UniversalAssistant) -> None:
     """Test is_state method."""
     hass.states.async_set("light.bowl", "on", {})
     assert hass.states.is_state("light.Bowl", "on")
@@ -1714,7 +1714,7 @@ async def test_statemachine_is_state(hass: __HAC_KEEP__) -> None:
     assert not hass.states.is_state("light.Non_existing", "on")
 
 
-async def test_statemachine_entity_ids(hass: __HAC_KEEP__) -> None:
+async def test_statemachine_entity_ids(hass: UniversalAssistant) -> None:
     """Test async_entity_ids method."""
     assert hass.states.async_entity_ids() == []
     assert hass.states.async_entity_ids("light") == []
@@ -1732,7 +1732,7 @@ async def test_statemachine_entity_ids(hass: __HAC_KEEP__) -> None:
     assert states == ["light.bowl", "switch.ac"]
 
 
-async def test_statemachine_remove(hass: __HAC_KEEP__) -> None:
+async def test_statemachine_remove(hass: UniversalAssistant) -> None:
     """Test remove method."""
     hass.states.async_set("light.bowl", "on", {})
     events = async_capture_events(hass, EVENT_STATE_CHANGED)
@@ -1754,7 +1754,7 @@ async def test_statemachine_remove(hass: __HAC_KEEP__) -> None:
     assert len(events) == 1
 
 
-async def test_state_machine_case_insensitivity(hass: __HAC_KEEP__) -> None:
+async def test_state_machine_case_insensitivity(hass: UniversalAssistant) -> None:
     """Test setting and getting states entity_id insensitivity."""
     events = async_capture_events(hass, EVENT_STATE_CHANGED)
 
@@ -1775,7 +1775,7 @@ async def test_state_machine_case_insensitivity(hass: __HAC_KEEP__) -> None:
 
 
 async def test_statemachine_last_changed_not_updated_on_same_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test to not update the existing, same state."""
     hass.states.async_set("light.bowl", "on", {})
@@ -1792,7 +1792,7 @@ async def test_statemachine_last_changed_not_updated_on_same_state(
     assert state.last_changed == state2.last_changed
 
 
-async def test_statemachine_force_update(hass: __HAC_KEEP__) -> None:
+async def test_statemachine_force_update(hass: UniversalAssistant) -> None:
     """Test force update option."""
     hass.states.async_set("light.bowl", "on", {})
     events = async_capture_events(hass, EVENT_STATE_CHANGED)
@@ -1806,7 +1806,7 @@ async def test_statemachine_force_update(hass: __HAC_KEEP__) -> None:
     assert len(events) == 1
 
 
-async def test_statemachine_avoids_updating_attributes(hass: __HAC_KEEP__) -> None:
+async def test_statemachine_avoids_updating_attributes(hass: UniversalAssistant) -> None:
     """Test async_set avoids recreating ReadOnly dicts when possible."""
     attrs = {"some_attr": "attr_value"}
 
@@ -1838,7 +1838,7 @@ def test_service_call_repr() -> None:
     )
 
 
-async def test_service_registry_has_service(hass: __HAC_KEEP__) -> None:
+async def test_service_registry_has_service(hass: UniversalAssistant) -> None:
     """Test has_service method."""
     hass.services.async_register("test_domain", "test_service", lambda call: None)
     assert len(hass.services.async_services()) == 1
@@ -1847,7 +1847,7 @@ async def test_service_registry_has_service(hass: __HAC_KEEP__) -> None:
     assert not hass.services.has_service("non_existing", "test_service")
 
 
-async def test_service_registry_service_enumeration(hass: __HAC_KEEP__) -> None:
+async def test_service_registry_service_enumeration(hass: UniversalAssistant) -> None:
     """Test enumerating services methods."""
     hass.services.async_register("test_domain", "test_service", lambda call: None)
     services1 = hass.services.async_services()
@@ -1872,7 +1872,7 @@ async def test_service_registry_service_enumeration(hass: __HAC_KEEP__) -> None:
 
 
 async def test_serviceregistry_call_with_blocking_done_in_time(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test call with blocking."""
     registered_events = async_capture_events(hass, EVENT_SERVICE_REGISTERED)
@@ -1888,14 +1888,14 @@ async def test_serviceregistry_call_with_blocking_done_in_time(
 
 
 async def test_serviceregistry_call_non_existing_with_blocking(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test non-existing with blocking."""
     with pytest.raises(ServiceNotFound):
         await hass.services.async_call("test_domain", "i_do_not_exist", blocking=True)
 
 
-async def test_serviceregistry_async_service(hass: __HAC_KEEP__) -> None:
+async def test_serviceregistry_async_service(hass: UniversalAssistant) -> None:
     """Test registering and calling an async service."""
     calls = []
 
@@ -1909,7 +1909,7 @@ async def test_serviceregistry_async_service(hass: __HAC_KEEP__) -> None:
     assert len(calls) == 1
 
 
-async def test_serviceregistry_async_service_partial(hass: __HAC_KEEP__) -> None:
+async def test_serviceregistry_async_service_partial(hass: UniversalAssistant) -> None:
     """Test registering and calling an wrapped async service."""
     calls = []
 
@@ -1926,7 +1926,7 @@ async def test_serviceregistry_async_service_partial(hass: __HAC_KEEP__) -> None
     assert len(calls) == 1
 
 
-async def test_serviceregistry_callback_service(hass: __HAC_KEEP__) -> None:
+async def test_serviceregistry_callback_service(hass: UniversalAssistant) -> None:
     """Test registering and calling an async service."""
     calls = []
 
@@ -1941,7 +1941,7 @@ async def test_serviceregistry_callback_service(hass: __HAC_KEEP__) -> None:
     assert len(calls) == 1
 
 
-async def test_serviceregistry_remove_service(hass: __HAC_KEEP__) -> None:
+async def test_serviceregistry_remove_service(hass: UniversalAssistant) -> None:
     """Test remove service."""
     calls_remove = async_capture_events(hass, EVENT_SERVICE_REMOVED)
 
@@ -1957,7 +1957,7 @@ async def test_serviceregistry_remove_service(hass: __HAC_KEEP__) -> None:
     assert calls_remove[-1].data["service"] == "test_service"
 
 
-async def test_serviceregistry_service_that_not_exists(hass: __HAC_KEEP__) -> None:
+async def test_serviceregistry_service_that_not_exists(hass: UniversalAssistant) -> None:
     """Test remove service that not exists."""
     calls_remove = async_capture_events(hass, EVENT_SERVICE_REMOVED)
     assert not hass.services.has_service("test_xxx", "test_yyy")
@@ -1980,7 +1980,7 @@ async def test_serviceregistry_service_that_not_exists(hass: __HAC_KEEP__) -> No
 
 
 async def test_serviceregistry_async_service_raise_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test registering and calling an async service raise exception."""
 
@@ -1999,7 +1999,7 @@ async def test_serviceregistry_async_service_raise_exception(
 
 
 async def test_serviceregistry_callback_service_raise_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test registering and calling an callback service raise exception."""
 
@@ -2036,7 +2036,7 @@ async def test_serviceregistry_callback_service_raise_exception(
     ],
 )
 async def test_serviceregistry_supports_response(
-    hass: __HAC_KEEP__, domain: str, service: str, expected: SupportsResponse
+    hass: UniversalAssistant, domain: str, service: str, expected: SupportsResponse
 ) -> None:
     """Test the response support of registered and missing services."""
     hass.services.async_register(
@@ -2057,7 +2057,7 @@ async def test_serviceregistry_supports_response(
     ],
 )
 async def test_serviceregistry_async_return_response(
-    hass: __HAC_KEEP__, supports_response: SupportsResponse
+    hass: UniversalAssistant, supports_response: SupportsResponse
 ) -> None:
     """Test service call for a service that returns response data."""
 
@@ -2084,7 +2084,7 @@ async def test_serviceregistry_async_return_response(
 
 
 async def test_services_call_return_response_requires_blocking(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that non-blocking service calls cannot ask for response data."""
     async_mock_service(hass, "test_domain", "test_service")
@@ -2113,7 +2113,7 @@ async def test_services_call_return_response_requires_blocking(
     ],
 )
 async def test_serviceregistry_return_response_invalid(
-    hass: __HAC_KEEP__, response_data: Any, expected_error: str
+    hass: UniversalAssistant, response_data: Any, expected_error: str
 ) -> None:
     """Test service call response data must be json serializable objects."""
 
@@ -2128,7 +2128,7 @@ async def test_serviceregistry_return_response_invalid(
         service_handler,
         supports_response=SupportsResponse.ONLY,
     )
-    with pytest.raises(__HAC_KEEP__Error, match=expected_error):
+    with pytest.raises(UniversalAssistantError, match=expected_error):
         await hass.services.async_call(
             "test_domain",
             "test_service",
@@ -2146,7 +2146,7 @@ async def test_serviceregistry_return_response_invalid(
     ],
 )
 async def test_serviceregistry_return_response_arguments(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supports_response: SupportsResponse,
     return_response: bool,
     expected_error: str,
@@ -2178,7 +2178,7 @@ async def test_serviceregistry_return_response_arguments(
     ],
 )
 async def test_serviceregistry_return_response_optional(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     return_response: bool,
     expected_response_data: Any,
 ) -> None:
@@ -2209,7 +2209,7 @@ async def test_serviceregistry_return_response_optional(
 
 async def test_start_taking_too_long(caplog: pytest.LogCaptureFixture) -> None:
     """Test when async_start takes too long."""
-    hass = ha.__HAC_KEEP__("/test/ha-config")
+    hass = ha.UniversalAssistant("/test/ha-config")
     caplog.set_level(logging.WARNING)
     hass.async_create_task(asyncio.sleep(0))
 
@@ -2218,14 +2218,14 @@ async def test_start_taking_too_long(caplog: pytest.LogCaptureFixture) -> None:
             await hass.async_start()
 
         assert hass.state is ha.CoreState.running
-        assert "Something is blocking __HA_KEEP__" in caplog.text
+        assert "Something is blocking Universal Home Assistant" in caplog.text
 
     finally:
         await hass.async_stop()
         assert hass.state is ha.CoreState.stopped
 
 
-async def test_service_executed_with_subservices(hass: __HAC_KEEP__) -> None:
+async def test_service_executed_with_subservices(hass: UniversalAssistant) -> None:
     """Test we block correctly till all services done."""
     calls = async_mock_service(hass, "test", "inner")
     context = ha.Context()
@@ -2256,7 +2256,7 @@ async def test_service_executed_with_subservices(hass: __HAC_KEEP__) -> None:
     assert all(call.context is context for call in calls)
 
 
-async def test_service_call_event_contains_original_data(hass: __HAC_KEEP__) -> None:
+async def test_service_call_event_contains_original_data(hass: UniversalAssistant) -> None:
     """Test that service call event contains original data."""
     events = async_capture_events(hass, EVENT_CALL_SERVICE)
 
@@ -2311,7 +2311,7 @@ def test_context_json_fragment() -> None:
     assert isinstance(as_dict_2, ReadOnlyDict)
 
 
-async def test_async_functions_with_callback(hass: __HAC_KEEP__) -> None:
+async def test_async_functions_with_callback(hass: UniversalAssistant) -> None:
     """Test we deal with async functions accidentally marked as callback."""
     runs = []
 
@@ -2336,7 +2336,7 @@ async def test_async_functions_with_callback(hass: __HAC_KEEP__) -> None:
     assert len(runs) == 3
 
 
-async def test_async_run_job_starts_tasks_eagerly(hass: __HAC_KEEP__) -> None:
+async def test_async_run_job_starts_tasks_eagerly(hass: UniversalAssistant) -> None:
     """Test async_run_job starts tasks eagerly."""
     runs = []
 
@@ -2350,7 +2350,7 @@ async def test_async_run_job_starts_tasks_eagerly(hass: __HAC_KEEP__) -> None:
     await task
 
 
-async def test_async_run_job_starts_coro_eagerly(hass: __HAC_KEEP__) -> None:
+async def test_async_run_job_starts_coro_eagerly(hass: UniversalAssistant) -> None:
     """Test async_run_job starts coros eagerly."""
     runs = []
 
@@ -2423,8 +2423,8 @@ def test_valid_domain() -> None:
         assert ha.valid_domain(valid), valid
 
 
-async def test_start_events(hass: __HAC_KEEP__) -> None:
-    """Test events fired when starting __HA_KEEP__."""
+async def test_start_events(hass: UniversalAssistant) -> None:
+    """Test events fired when starting Universal Home Assistant."""
     hass.state = ha.CoreState.not_running
 
     all_events = []
@@ -2456,7 +2456,7 @@ async def test_start_events(hass: __HAC_KEEP__) -> None:
 
 
 async def test_log_blocking_events(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Ensure we log which task is blocking startup when debug logging is on."""
 
@@ -2478,7 +2478,7 @@ async def test_log_blocking_events(
 
 
 async def test_chained_logging_hits_log_timeout(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Ensure we log which task is blocking startup on chain."""
 
@@ -2506,7 +2506,7 @@ async def test_chained_logging_hits_log_timeout(
 
 
 async def test_chained_logging_misses_log_timeout(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Ensure we do not log blocking task if no timeout hit."""
 
@@ -2532,7 +2532,7 @@ async def test_chained_logging_misses_log_timeout(
     assert "_task_chain_" not in caplog.text
 
 
-async def test_async_all(hass: __HAC_KEEP__) -> None:
+async def test_async_all(hass: UniversalAssistant) -> None:
     """Test async_all."""
     assert hass.states.async_all() == []
     assert hass.states.async_all("light") == []
@@ -2558,7 +2558,7 @@ async def test_async_all(hass: __HAC_KEEP__) -> None:
     } == {"light.bowl", "light.frog", "switch.link"}
 
 
-async def test_async_entity_ids_count(hass: __HAC_KEEP__) -> None:
+async def test_async_entity_ids_count(hass: UniversalAssistant) -> None:
     """Test async_entity_ids_count."""
 
     assert hass.states.async_entity_ids_count() == 0
@@ -2595,7 +2595,7 @@ async def test_hassjob_forbid_coroutine() -> None:
     await coro
 
 
-async def test_reserving_states(hass: __HAC_KEEP__) -> None:
+async def test_reserving_states(hass: UniversalAssistant) -> None:
     """Test we can reserve a state in the state machine."""
 
     hass.states.async_reserve("light.bedroom")
@@ -2603,14 +2603,14 @@ async def test_reserving_states(hass: __HAC_KEEP__) -> None:
     hass.states.async_set("light.bedroom", "on")
     assert hass.states.async_available("light.bedroom") is False
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         hass.states.async_reserve("light.bedroom")
 
     hass.states.async_remove("light.bedroom")
     assert hass.states.async_available("light.bedroom") is True
     hass.states.async_set("light.bedroom", "on")
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         hass.states.async_reserve("light.bedroom")
 
     assert hass.states.async_available("light.bedroom") is False
@@ -2911,7 +2911,7 @@ def _ulid_timestamp(ulid: str) -> int:
 
 
 async def test_state_change_events_context_id_match_state_time(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test last_updated, timed_fired, and the ulid all have the same time."""
     events = async_capture_events(hass, EVENT_STATE_CHANGED)
@@ -2925,7 +2925,7 @@ async def test_state_change_events_context_id_match_state_time(
 
 
 async def test_state_change_events_match_time_with_limits_of_precision(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Ensure last_updated matches last_updated_timestamp within limits of precision.
 
@@ -2971,7 +2971,7 @@ def test_state_timestamps() -> None:
 
 
 async def test_state_firing_event_matches_context_id_ulid_time(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test timed_fired and the ulid have the same time."""
     events = async_capture_events(hass, EVENT_HOMEASSISTANT_STARTED)
@@ -2986,7 +2986,7 @@ async def test_state_firing_event_matches_context_id_ulid_time(
     )
 
 
-async def test_event_context(hass: __HAC_KEEP__) -> None:
+async def test_event_context(hass: UniversalAssistant) -> None:
     """Test we can lookup the origin of a context from an event."""
     events = []
 
@@ -3037,7 +3037,7 @@ def _get_by_type(full_name: str) -> list[Any]:
     reason="Takes too long on the CI",
 )
 @patch.object(ha._LOGGER, "debug", lambda *args: None)
-async def test_state_changed_events_to_not_leak_contexts(hass: __HAC_KEEP__) -> None:
+async def test_state_changed_events_to_not_leak_contexts(hass: UniversalAssistant) -> None:
     """Test state changed events do not leak contexts."""
     gc.collect()
     # Other tests can log Contexts which keep them in memory
@@ -3060,7 +3060,7 @@ async def test_state_changed_events_to_not_leak_contexts(hass: __HAC_KEEP__) -> 
 
 
 @pytest.mark.parametrize("eager_start", [True, False])
-async def test_background_task(hass: __HAC_KEEP__, eager_start: bool) -> None:
+async def test_background_task(hass: UniversalAssistant, eager_start: bool) -> None:
     """Test background tasks being quit."""
     result = asyncio.Future()
 
@@ -3081,7 +3081,7 @@ async def test_background_task(hass: __HAC_KEEP__, eager_start: bool) -> None:
 
 
 async def test_shutdown_does_not_block_on_normal_tasks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Ensure shutdown does not block on normal tasks."""
     result = asyncio.Future()
@@ -3104,7 +3104,7 @@ async def test_shutdown_does_not_block_on_normal_tasks(
 
 
 async def test_shutdown_does_not_block_on_shielded_tasks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Ensure shutdown does not block on shielded tasks."""
     result = asyncio.Future()
@@ -3131,7 +3131,7 @@ async def test_shutdown_does_not_block_on_shielded_tasks(
 
 
 @pytest.mark.parametrize("eager_start", [True, False])
-async def test_cancellable_hassjob(hass: __HAC_KEEP__, eager_start: bool) -> None:
+async def test_cancellable_hassjob(hass: UniversalAssistant, eager_start: bool) -> None:
     """Simulate a shutdown, ensure cancellable jobs are cancelled."""
     job = MagicMock()
 
@@ -3154,7 +3154,7 @@ async def test_cancellable_hassjob(hass: __HAC_KEEP__, eager_start: bool) -> Non
     timer2.cancel()
 
 
-async def test_validate_state(hass: __HAC_KEEP__) -> None:
+async def test_validate_state(hass: UniversalAssistant) -> None:
     """Test validate_state."""
     assert ha.validate_state("test") == "test"
     with pytest.raises(InvalidStateError):
@@ -3173,7 +3173,7 @@ async def test_validate_state(hass: __HAC_KEEP__) -> None:
 async def test_get_release_channel(
     version: str, release_channel: ReleaseChannel
 ) -> None:
-    """Test if release channel detection works from __HA_KEEP__ version number."""
+    """Test if release channel detection works from Universal Home Assistant version number."""
     with patch("universalassistant.core.__version__", f"{version}"):
         assert get_release_channel() == release_channel
 
@@ -3243,7 +3243,7 @@ def test_hassjob_passing_job_type() -> None:
     )
 
 
-async def test_shutdown_job(hass: __HAC_KEEP__) -> None:
+async def test_shutdown_job(hass: UniversalAssistant) -> None:
     """Test async_add_shutdown_job."""
     evt = asyncio.Event()
 
@@ -3259,7 +3259,7 @@ async def test_shutdown_job(hass: __HAC_KEEP__) -> None:
     assert evt.is_set()
 
 
-async def test_cancel_shutdown_job(hass: __HAC_KEEP__) -> None:
+async def test_cancel_shutdown_job(hass: UniversalAssistant) -> None:
     """Test cancelling a job added to async_add_shutdown_job."""
     evt = asyncio.Event()
 
@@ -3273,7 +3273,7 @@ async def test_cancel_shutdown_job(hass: __HAC_KEEP__) -> None:
     assert not evt.is_set()
 
 
-async def test_shutdown_job_runs_before_stop(hass: __HAC_KEEP__) -> None:
+async def test_shutdown_job_runs_before_stop(hass: UniversalAssistant) -> None:
     """Test shutdown jobs run before EVENT_HOMEASSISTANT_STOP is fired."""
     order: list[str] = []
 
@@ -3293,7 +3293,7 @@ async def test_shutdown_job_runs_before_stop(hass: __HAC_KEEP__) -> None:
     assert order == ["shutdown_job", "stop_listener"]
 
 
-async def test_startup_job(hass: __HAC_KEEP__) -> None:
+async def test_startup_job(hass: UniversalAssistant) -> None:
     """Test async_add_startup_job."""
     evt = asyncio.Event()
 
@@ -3308,7 +3308,7 @@ async def test_startup_job(hass: __HAC_KEEP__) -> None:
     assert evt.is_set()
 
 
-async def test_cancel_startup_job(hass: __HAC_KEEP__) -> None:
+async def test_cancel_startup_job(hass: UniversalAssistant) -> None:
     """Test cancelling a job added to async_add_startup_job."""
     evt = asyncio.Event()
 
@@ -3322,7 +3322,7 @@ async def test_cancel_startup_job(hass: __HAC_KEEP__) -> None:
     assert not evt.is_set()
 
 
-async def test_startup_job_runs_after_start_before_started(hass: __HAC_KEEP__) -> None:
+async def test_startup_job_runs_after_start_before_started(hass: UniversalAssistant) -> None:
     """Test startup jobs run after START listeners finish and before STARTED is fired."""
     order: list[str] = []
 
@@ -3351,7 +3351,7 @@ async def test_startup_job_runs_after_start_before_started(hass: __HAC_KEEP__) -
     assert order == ["start_listener", "startup_job", "started_listener"]
 
 
-def test_one_time_listener_repr(hass: __HAC_KEEP__) -> None:
+def test_one_time_listener_repr(hass: UniversalAssistant) -> None:
     """Test one time listener repr."""
 
     def _listener(event: ha.Event):
@@ -3364,7 +3364,7 @@ def test_one_time_listener_repr(hass: __HAC_KEEP__) -> None:
     assert "_listener" in repr_str
 
 
-async def test_async_add_import_executor_job(hass: __HAC_KEEP__) -> None:
+async def test_async_add_import_executor_job(hass: UniversalAssistant) -> None:
     """Test async_add_import_executor_job works and is limited to one thread."""
     evt = threading.Event()
     loop = asyncio.get_running_loop()
@@ -3381,7 +3381,7 @@ async def test_async_add_import_executor_job(hass: __HAC_KEEP__) -> None:
 
 
 async def test_async_run_job_deprecated(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test async_run_job warns about its deprecation."""
 
@@ -3392,12 +3392,12 @@ async def test_async_run_job_deprecated(
     assert (
         "Detected code that calls `async_run_job`, which should be reviewed against "
         "https://contributors.universalassistant.io/blog/2024/03/13/deprecate_add_run_job/"
-        " for replacement options. This will stop working in __HA_KEEP__ 2025.4"
+        " for replacement options. This will stop working in Universal Home Assistant 2025.4"
     ) in caplog.text
 
 
 async def test_async_add_job_deprecated(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test async_add_job warns about its deprecation."""
 
@@ -3408,12 +3408,12 @@ async def test_async_add_job_deprecated(
     assert (
         "Detected code that calls `async_add_job`, which should be reviewed against "
         "https://contributors.universalassistant.io/blog/2024/03/13/deprecate_add_run_job/"
-        " for replacement options. This will stop working in __HA_KEEP__ 2025.4"
+        " for replacement options. This will stop working in Universal Home Assistant 2025.4"
     ) in caplog.text
 
 
 async def test_async_add_hass_job_deprecated(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test async_add_hass_job warns about its deprecation."""
 
@@ -3425,11 +3425,11 @@ async def test_async_add_hass_job_deprecated(
         "Detected code that calls `async_add_hass_job`,"
         " which should be reviewed against "
         "https://contributors.universalassistant.io/blog/2024/04/07/deprecate_add_hass_job/"
-        " for replacement options. This will stop working in __HA_KEEP__ 2025.5"
+        " for replacement options. This will stop working in Universal Home Assistant 2025.5"
     ) in caplog.text
 
 
-async def test_eventbus_lazy_object_creation(hass: __HAC_KEEP__) -> None:
+async def test_eventbus_lazy_object_creation(hass: UniversalAssistant) -> None:
     """Test we don't create unneeded objects when firing events."""
     calls = []
 
@@ -3489,7 +3489,7 @@ async def test_eventbus_lazy_object_creation(hass: __HAC_KEEP__) -> None:
     unsub()
 
 
-async def test_event_filter_sanity_checks(hass: __HAC_KEEP__) -> None:
+async def test_event_filter_sanity_checks(hass: UniversalAssistant) -> None:
     """Test raising on bad event filters."""
 
     @ha.callback
@@ -3500,11 +3500,11 @@ async def test_event_filter_sanity_checks(hass: __HAC_KEEP__) -> None:
         """Mock filter."""
         return False
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         hass.bus.async_listen("test", listener, event_filter=bad_filter)
 
 
-async def test_statemachine_report_state(hass: __HAC_KEEP__) -> None:
+async def test_statemachine_report_state(hass: UniversalAssistant) -> None:
     """Test report state event."""
 
     @ha.callback
@@ -3551,7 +3551,7 @@ async def test_statemachine_report_state(hass: __HAC_KEEP__) -> None:
     assert len(state_reported_events) == 1
 
 
-async def test_report_state_listener_restrictions(hass: __HAC_KEEP__) -> None:
+async def test_report_state_listener_restrictions(hass: UniversalAssistant) -> None:
     """Test we enforce requirements for EVENT_STATE_REPORTED listeners."""
 
     @ha.callback
@@ -3564,7 +3564,7 @@ async def test_report_state_listener_restrictions(hass: __HAC_KEEP__) -> None:
         return False
 
     # no filter
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         hass.bus.async_listen(EVENT_STATE_REPORTED, listener)
 
     # Both filter and run_immediately
@@ -3580,7 +3580,7 @@ async def test_report_state_listener_restrictions(hass: __HAC_KEEP__) -> None:
     ["async_listen", "async_listen_once"],
 )
 async def test_async_listen_with_run_immediately_deprecated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     run_immediately: bool,
     method: str,
@@ -3598,7 +3598,7 @@ async def test_async_listen_with_run_immediately_deprecated(
         func(EVENT_HOMEASSISTANT_START, _test, run_immediately=run_immediately)
 
 
-async def test_async_fire_thread_safety(hass: __HAC_KEEP__) -> None:
+async def test_async_fire_thread_safety(hass: UniversalAssistant) -> None:
     """Test async_fire thread safety."""
     events = async_capture_events(hass, "test_event")
     hass.bus.async_fire("test_event")
@@ -3611,7 +3611,7 @@ async def test_async_fire_thread_safety(hass: __HAC_KEEP__) -> None:
     assert len(events) == 1
 
 
-async def test_async_register_thread_safety(hass: __HAC_KEEP__) -> None:
+async def test_async_register_thread_safety(hass: UniversalAssistant) -> None:
     """Test async_register thread safety."""
     with pytest.raises(
         RuntimeError,
@@ -3625,7 +3625,7 @@ async def test_async_register_thread_safety(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_async_remove_thread_safety(hass: __HAC_KEEP__) -> None:
+async def test_async_remove_thread_safety(hass: UniversalAssistant) -> None:
     """Test async_remove thread safety."""
     with pytest.raises(
         RuntimeError,
@@ -3636,7 +3636,7 @@ async def test_async_remove_thread_safety(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_async_create_task_thread_safety(hass: __HAC_KEEP__) -> None:
+async def test_async_create_task_thread_safety(hass: UniversalAssistant) -> None:
     """Test async_create_task thread safety."""
 
     async def _any_coro():
@@ -3649,13 +3649,13 @@ async def test_async_create_task_thread_safety(hass: __HAC_KEEP__) -> None:
         await hass.async_add_executor_job(hass.async_create_task, _any_coro)
 
 
-async def test_thread_safety_message(hass: __HAC_KEEP__) -> None:
+async def test_thread_safety_message(hass: UniversalAssistant) -> None:
     """Test the thread safety message."""
     with pytest.raises(
         RuntimeError,
         match=re.escape(
             "Detected code that calls test from a thread other than the event loop, "
-            "which may cause __HA_KEEP__ to crash or data to corrupt. For more "
+            "which may cause Universal Home Assistant to crash or data to corrupt. For more "
             "information, see "
             "https://contributors.universalassistant.io/core/internals/thread-safety/#test"
             ". Please report this issue",
@@ -3665,7 +3665,7 @@ async def test_thread_safety_message(hass: __HAC_KEEP__) -> None:
 
 
 @ha.verify_event_loop_thread("test.function")
-def _decorated_function(hass: __HAC_KEEP__, value: int, *, extra: int) -> int:
+def _decorated_function(hass: UniversalAssistant, value: int, *, extra: int) -> int:
     """Return the sum of the arguments."""
     return value + extra
 
@@ -3673,7 +3673,7 @@ def _decorated_function(hass: __HAC_KEEP__, value: int, *, extra: int) -> int:
 class _DecoratedMethodOwner:
     """Hold a reference to hass and a decorated method."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize."""
         self.hass = hass
 
@@ -3686,7 +3686,7 @@ class _DecoratedMethodOwner:
 class _DecoratedMethodPrivateOwner:
     """Hold a private reference to hass and a decorated method."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize."""
         self._hass = hass
 
@@ -3722,8 +3722,8 @@ class _DecoratedMethodPrivateOwner:
     ],
 )
 async def test_verify_event_loop_thread_decorator(
-    hass: __HAC_KEEP__,
-    get_target: Callable[[__HAC_KEEP__], Callable[..., int]],
+    hass: UniversalAssistant,
+    get_target: Callable[[UniversalAssistant], Callable[..., int]],
     what: str,
 ) -> None:
     """Test the verify_event_loop_thread decorator."""
@@ -3737,7 +3737,7 @@ async def test_verify_event_loop_thread_decorator(
         await hass.async_add_executor_job(functools.partial(target, value=1, extra=2))
 
 
-async def test_async_set_updates_last_reported(hass: __HAC_KEEP__) -> None:
+async def test_async_set_updates_last_reported(hass: UniversalAssistant) -> None:
     """Test async_set method updates last_reported AND last_reported_timestamp."""
     hass.states.async_set("light.bowl", "on", {})
     state = hass.states.get("light.bowl")

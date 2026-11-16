@@ -13,9 +13,9 @@ import probatio
 from universalassistant import config_entries, data_entry_flow
 from universalassistant.auth.permissions.const import CAT_CONFIG_ENTRIES, POLICY_EDIT
 from universalassistant.components import websocket_api
-from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View, require_admin
+from universalassistant.components.http import KEY_HASS, UniversalAssistantView, require_admin
 from universalassistant.components.http.data_validator import RequestDataValidator
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import DependencyError, Unauthorized
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.data_entry_flow import (
@@ -42,8 +42,8 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @callback
-def async_setup(hass: __HAC_KEEP__) -> bool:
-    """Enable the __HA_KEEP__ views."""
+def async_setup(hass: UniversalAssistant) -> bool:
+    """Enable the Universal Home Assistant views."""
     hass.http.register_view(ConfigManagerEntryIndexView)
     hass.http.register_view(ConfigManagerEntryResourceView)
     hass.http.register_view(ConfigManagerEntryResourceReloadView)
@@ -77,7 +77,7 @@ def async_setup(hass: __HAC_KEEP__) -> bool:
     return True
 
 
-class ConfigManagerEntryIndexView(__HAC_KEEP__View):
+class ConfigManagerEntryIndexView(UniversalAssistantView):
     """View to get available config entries."""
 
     url = "/api/config/config_entries/entry"
@@ -98,7 +98,7 @@ class ConfigManagerEntryIndexView(__HAC_KEEP__View):
         return self.json(fragments)
 
 
-class ConfigManagerEntryResourceView(__HAC_KEEP__View):
+class ConfigManagerEntryResourceView(UniversalAssistantView):
     """View to interact with a config entry."""
 
     url = "/api/config/config_entries/entry/{entry_id}"
@@ -129,7 +129,7 @@ class ConfigManagerEntryResourceView(__HAC_KEEP__View):
         return self.json(result)
 
 
-class ConfigManagerEntryResourceReloadView(__HAC_KEEP__View):
+class ConfigManagerEntryResourceReloadView(UniversalAssistantView):
     """View to reload a config entry."""
 
     url = "/api/config/config_entries/entry/{entry_id}/reload"
@@ -267,7 +267,7 @@ class ConfigManagerFlowResourceView(
         return _prepare_config_flow_result_json(result, super()._prepare_result_json)
 
 
-class ConfigManagerAvailableFlowView(__HAC_KEEP__View):
+class ConfigManagerAvailableFlowView(UniversalAssistantView):
     """View to query available flows."""
 
     url = "/api/config/config_entries/flow_handlers"
@@ -391,7 +391,7 @@ class SubentryManagerFlowResourceView(
 @websocket_api.require_admin
 @websocket_api.websocket_command({"type": "config_entries/flow/progress"})
 def config_entries_flow_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -414,7 +414,7 @@ def config_entries_flow_progress(
 @websocket_api.require_admin
 @websocket_api.websocket_command({"type": "config_entries/flow/subscribe"})
 def config_entries_flow_subscribe(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -501,7 +501,7 @@ def send_entry_not_found(
 
 
 def get_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     entry_id: str,
     msg_id: int,
@@ -521,7 +521,7 @@ def get_entry(
 )
 @websocket_api.async_response
 async def config_entry_get_single(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -546,7 +546,7 @@ async def config_entry_get_single(
 )
 @websocket_api.async_response
 async def config_entry_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -596,7 +596,7 @@ async def config_entry_update(
 )
 @websocket_api.async_response
 async def config_entry_disable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -636,7 +636,7 @@ async def config_entry_disable(
 )
 @websocket_api.async_response
 async def ignore_config_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -680,7 +680,7 @@ async def ignore_config_flow(
 )
 @websocket_api.async_response
 async def config_entries_get(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -699,7 +699,7 @@ async def config_entries_get(
 )
 @websocket_api.async_response
 async def config_entries_subscribe(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -745,7 +745,7 @@ async def config_entries_subscribe(
 
 
 async def _async_matching_config_entries_json_fragments(
-    hass: __HAC_KEEP__, type_filter: list[str] | None, domain: str | None
+    hass: UniversalAssistant, type_filter: list[str] | None, domain: str | None
 ) -> list[json_fragment]:
     """Return matching config entries by type and/or domain."""
     if domain:
@@ -796,7 +796,7 @@ async def _async_matching_config_entries_json_fragments(
 )
 @websocket_api.async_response
 async def config_subentry_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -828,7 +828,7 @@ async def config_subentry_list(
 )
 @websocket_api.async_response
 async def config_subentry_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -868,7 +868,7 @@ async def config_subentry_update(
 )
 @websocket_api.async_response
 async def config_subentry_delete(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

@@ -7,7 +7,7 @@ from yarl import URL
 
 from universalassistant.components.diagnostics import REDACTED, async_redact_data
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import PyLoadConfigEntry, PyLoadData
 
@@ -15,7 +15,7 @@ TO_REDACT = {CONF_USERNAME, CONF_PASSWORD, CONF_URL}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: PyLoadConfigEntry
+    hass: UniversalAssistant, config_entry: PyLoadConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     pyload_data: PyLoadData = config_entry.runtime_data.data

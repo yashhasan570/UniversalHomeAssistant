@@ -27,7 +27,7 @@ from universalassistant.components.telegram_bot.const import (
 from universalassistant.components.telegram_bot.webhooks import TELEGRAM_WEBHOOK_URL
 from universalassistant.config_entries import SOURCE_USER, ConfigSubentry
 from universalassistant.const import CONF_API_KEY, CONF_PLATFORM, CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -41,7 +41,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 async def test_options_flow(
-    hass: __HAC_KEEP__, mock_webhooks_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_webhooks_config_entry: MockConfigEntry
 ) -> None:
     """Test options flow."""
 
@@ -72,7 +72,7 @@ async def test_options_flow(
 
 
 async def test_reconfigure_flow_broadcast(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_register_webhook: None,
     mock_external_calls: None,
     mock_webhooks_config_entry: MockConfigEntry,
@@ -137,7 +137,7 @@ async def test_reconfigure_flow_broadcast(
 
 
 async def test_reconfigure_flow_webhooks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -241,7 +241,7 @@ async def test_reconfigure_flow_webhooks(
     ],
 )
 async def test_reconfigure_flow_logout_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
     side_effect: list,
@@ -300,7 +300,7 @@ async def test_reconfigure_flow_logout_failed(
 
 
 async def test_create_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_register_webhook: None,
     mock_external_calls: None,
     mock_generate_secret_token: str,
@@ -422,7 +422,7 @@ async def test_create_entry(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_create_webhook_entry(
-    hass: __HAC_KEEP__, api_endpoint: str, webhook_url: str
+    hass: UniversalAssistant, api_endpoint: str, webhook_url: str
 ) -> None:
     """Test user flow that creates a webhook bot."""
 
@@ -475,7 +475,7 @@ async def test_create_webhook_entry(
 
 
 async def test_reauth_flow(
-    hass: __HAC_KEEP__, mock_webhooks_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_webhooks_config_entry: MockConfigEntry
 ) -> None:
     """Test a reauthentication flow."""
     mock_webhooks_config_entry.add_to_hass(hass)
@@ -530,7 +530,7 @@ async def test_reauth_flow(
 
 
 async def test_subentry_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -570,7 +570,7 @@ async def test_subentry_flow(
 
 
 async def test_subentry_flow_config_not_ready(
-    hass: __HAC_KEEP__, mock_broadcast_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_broadcast_config_entry: MockConfigEntry
 ) -> None:
     """Test subentry flow where config entry is not loaded."""
     mock_broadcast_config_entry.add_to_hass(hass)
@@ -586,7 +586,7 @@ async def test_subentry_flow_config_not_ready(
 
 
 async def test_subentry_flow_chat_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -648,7 +648,7 @@ async def test_subentry_flow_chat_error(
 
 
 async def test_subentry_flow_webhook_with_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     webhook_bot,
     hass_client: ClientSessionGenerator,
     update_message_text,
@@ -683,7 +683,7 @@ async def test_subentry_flow_webhook_with_update(
 
 
 async def test_subentry_flow_polling_bot_without_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_polling_config_entry: MockConfigEntry,
     mock_external_calls: None,
     mock_polling_calls: None,
@@ -710,7 +710,7 @@ async def test_subentry_flow_polling_bot_without_update(
 
 
 async def test_subentry_flow_broadcast_without_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -739,7 +739,7 @@ async def test_subentry_flow_broadcast_without_update(
 
 
 async def test_subentry_flow_broadcast_update_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -768,7 +768,7 @@ async def test_subentry_flow_broadcast_update_error(
     }
 
 
-async def test_duplicate_entry(hass: __HAC_KEEP__) -> None:
+async def test_duplicate_entry(hass: UniversalAssistant) -> None:
     """Test user flow with duplicated entries."""
 
     data = {

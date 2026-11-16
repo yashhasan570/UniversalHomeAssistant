@@ -13,7 +13,7 @@ from universalassistant.components.media_player import (
 from universalassistant.components.tts import DOMAIN as TTS_DOMAIN
 from universalassistant.const import CommonServiceArgument
 from universalassistant.core import (
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -107,7 +107,7 @@ class MusicAssistantServiceArgument(StrEnum):
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register custom actions."""
     hass.services.async_register(
         DOMAIN,

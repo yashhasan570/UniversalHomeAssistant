@@ -8,7 +8,7 @@ from pysmarty2 import Smarty
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 _LOGGER = logging.getLogger(__name__)
@@ -23,7 +23,7 @@ class SmartyCoordinator(DataUpdateCoordinator[None]):
     software_version: str
     configuration_version: str
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: SmartyConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: SmartyConfigEntry) -> None:
         """Initialize."""
         super().__init__(
             hass,

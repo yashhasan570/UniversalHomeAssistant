@@ -19,7 +19,7 @@ from pycec.const import (
 )
 from pycec.network import HDMINetwork, PhysicalAddress
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 
 from .const import DATA_HDMI_CEC, DOMAIN
 
@@ -204,7 +204,7 @@ def _update(call: ServiceCall) -> None:
     call.hass.data[DATA_HDMI_CEC].hdmi_network.scan()
 
 
-def setup_services(hass: __HAC_KEEP__) -> None:
+def setup_services(hass: UniversalAssistant) -> None:
     """Register the HDMI CEC services."""
     hass.services.register(
         DOMAIN, HdmiCecService.SEND_COMMAND, _tx, SERVICE_SEND_COMMAND_SCHEMA

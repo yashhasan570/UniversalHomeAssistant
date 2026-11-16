@@ -7,20 +7,20 @@ from unittest.mock import AsyncMock, patch
 import pytest
 
 from universalassistant.components.media_extractor import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import MockYoutubeDL
 
 
 @pytest.fixture(autouse=True)
-async def setup_universalassistant(hass: __HAC_KEEP__):
+async def setup_universalassistant(hass: UniversalAssistant):
     """Set up the universalassistant integration."""
     await async_setup_component(hass, "universalassistant", {})
 
 
 @pytest.fixture(autouse=True)
-async def setup_media_player(hass: __HAC_KEEP__) -> None:
+async def setup_media_player(hass: UniversalAssistant) -> None:
     """Set up the demo media player."""
     await async_setup_component(
         hass, "media_player", {"media_player": {"platform": "demo"}}
@@ -29,7 +29,7 @@ async def setup_media_player(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.fixture(name="mock_youtube_dl")
-async def setup_mock_yt_dlp(hass: __HAC_KEEP__) -> MockYoutubeDL:
+async def setup_mock_yt_dlp(hass: UniversalAssistant) -> MockYoutubeDL:
     """Mock YoutubeDL."""
     mock = MockYoutubeDL({})
     with patch(

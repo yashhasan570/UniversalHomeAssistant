@@ -4,7 +4,7 @@ from dataclasses import asdict, dataclass
 from enum import StrEnum
 from typing import Any, Self
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -69,7 +69,7 @@ class AgentBackup(BaseBackup):
         )
 
 
-class BackupError(__HAC_KEEP__Error):
+class BackupError(UniversalAssistantError):
     """Base class for backup errors."""
 
     error_code = "unknown"

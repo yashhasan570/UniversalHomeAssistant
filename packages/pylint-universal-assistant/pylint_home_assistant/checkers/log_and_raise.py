@@ -1,9 +1,9 @@
-"""Checker for logging an error right before raising it to __HA_KEEP__.
+"""Checker for logging an error right before raising it to Universal Home Assistant.
 
-__HA_KEEP__ already reports the exceptions an integration raises to it:
+Universal Home Assistant already reports the exceptions an integration raises to it:
 config entry setup logs ``ConfigEntryNotReady``, ``ConfigEntryAuthFailed`` and
 ``ConfigEntryError``, a coordinator logs ``UpdateFailed``, and a failing action
-returns ``__HAC_KEEP__Error`` to the caller. Logging the same error first
+returns ``UniversalAssistantError`` to the caller. Logging the same error first
 reports it twice.
 
 ``W7450`` (``universal-assistant-log-and-raise``)
@@ -20,7 +20,7 @@ _REPORTED_EXCEPTIONS = {
     "universalassistant.exceptions.ConfigEntryAuthFailed",
     "universalassistant.exceptions.ConfigEntryError",
     "universalassistant.exceptions.ConfigEntryNotReady",
-    "universalassistant.exceptions.__HAC_KEEP__Error",
+    "universalassistant.exceptions.UniversalAssistantError",
     "universalassistant.exceptions.ServiceValidationError",
     "universalassistant.helpers.update_coordinator.UpdateFailed",
 }
@@ -28,7 +28,7 @@ _LOG_LEVELS = {"critical", "error", "exception", "warning"}
 
 
 def _reported_exception(node: nodes.Raise) -> str | None:
-    """Return the name of the raised exception if __HA_KEEP__ reports it."""
+    """Return the name of the raised exception if Universal Home Assistant reports it."""
     exc = node.exc.func if isinstance(node.exc, nodes.Call) else node.exc
     if exc is None:
         return None
@@ -66,12 +66,12 @@ class LogAndRaiseChecker(BaseChecker):
     priority = -1
     msgs = {
         "W7450": (
-            "Don't log before raising `%s`, __HA_KEEP__ already reports it",
+            "Don't log before raising `%s`, Universal Home Assistant already reports it",
             "universal-assistant-log-and-raise",
             (
                 "Used when an integration logs an error and then raises an "
-                "exception that __HA_KEEP__ reports itself, such as "
-                "`UpdateFailed`, `ConfigEntryNotReady` or `__HAC_KEEP__Error`."
+                "exception that Universal Home Assistant reports itself, such as "
+                "`UpdateFailed`, `ConfigEntryNotReady` or `UniversalAssistantError`."
             ),
         ),
     }

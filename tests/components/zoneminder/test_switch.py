@@ -18,14 +18,14 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .conftest import create_mock_monitor
 
 
 async def _setup_zm_with_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     zm_config: dict,
     monitors: list,
@@ -59,7 +59,7 @@ async def _setup_zm_with_switches(
 
 
 async def test_switch_per_monitor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     two_monitors: list,
@@ -75,7 +75,7 @@ async def test_switch_per_monitor(
 
 
 async def test_switch_name_format(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -92,7 +92,7 @@ async def test_switch_name_format(
 
 
 async def test_switch_on_when_function_matches_command_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -114,7 +114,7 @@ async def test_switch_on_when_function_matches_command_on(
 
 
 async def test_switch_off_when_function_differs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -136,7 +136,7 @@ async def test_switch_off_when_function_differs(
 
 
 async def test_switch_unknown_without_classic_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -160,7 +160,7 @@ async def test_switch_unknown_without_classic_mode(
 
 
 async def test_switch_turn_on_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -184,7 +184,7 @@ async def test_switch_turn_on_service(
 
 
 async def test_switch_turn_off_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -207,7 +207,7 @@ async def test_switch_turn_off_service(
 
 
 async def test_switch_follows_server_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -232,7 +232,7 @@ async def test_switch_follows_server_change(
 
 
 async def test_switch_icon(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -249,7 +249,7 @@ async def test_switch_icon(
 
 
 async def test_switch_platform_not_ready_empty_monitors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
 ) -> None:

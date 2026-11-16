@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 
 from pydeconz import DeconzSession, errors
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import aiohttp_client
 
 from ..const import LOGGER
@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 
 async def get_deconz_api(
-    hass: __HAC_KEEP__, config_entry: DeconzConfigEntry
+    hass: UniversalAssistant, config_entry: DeconzConfigEntry
 ) -> DeconzSession:
     """Create a gateway object and verify configuration."""
     session = aiohttp_client.async_get_clientsession(hass)

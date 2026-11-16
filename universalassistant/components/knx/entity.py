@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_UNIQUE_ID,
     EntityStateAttribute,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity
@@ -65,7 +65,7 @@ def build_yaml_unique_id(
 
 @callback
 def async_migrate_yaml_unique_id(
-    hass: __HAC_KEEP__, platform: str, legacy_id: str, new_id: str
+    hass: UniversalAssistant, platform: str, legacy_id: str, new_id: str
 ) -> None:
     """Migrate a YAML entity unique_id from the legacy format to the stable one."""
     # migration from unstable group address string parts added in 2026.8

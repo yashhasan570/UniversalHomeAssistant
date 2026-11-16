@@ -8,7 +8,7 @@ import pyvera as pv
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
 from universalassistant.helpers.event import call_later
 
 type VeraConfigEntry = ConfigEntry[ControllerData]
@@ -36,7 +36,7 @@ def get_configured_platforms(controller_data: ControllerData) -> set[Platform]:
 class SubscriptionRegistry(pv.AbstractSubscriptionRegistry):
     """Manages polling for data from vera."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the object."""
         super().__init__()
         self._hass = hass

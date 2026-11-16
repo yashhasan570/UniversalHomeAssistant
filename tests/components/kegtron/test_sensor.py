@@ -6,7 +6,7 @@ from pytest_universalassistant.components.bluetooth import inject_bluetooth_serv
 from universalassistant.components.kegtron.const import DOMAIN
 from universalassistant.components.sensor import ATTR_STATE_CLASS
 from universalassistant.const import ATTR_FRIENDLY_NAME, ATTR_UNIT_OF_MEASUREMENT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import (
     KEGTRON_KT100_SERVICE_INFO,
@@ -15,7 +15,7 @@ from . import (
 )
 
 
-async def test_sensors_kt100(hass: __HAC_KEEP__) -> None:
+async def test_sensors_kt100(hass: UniversalAssistant) -> None:
     """Test setting up creates the sensors for Kegtron KT-100."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -90,7 +90,7 @@ async def test_sensors_kt100(hass: __HAC_KEEP__) -> None:
     await hass.async_block_till_done()
 
 
-async def test_sensors_kt200(hass: __HAC_KEEP__) -> None:
+async def test_sensors_kt200(hass: UniversalAssistant) -> None:
     """Test setting up creates the sensors for Kegtron KT-200."""
     entry = MockConfigEntry(
         domain=DOMAIN,

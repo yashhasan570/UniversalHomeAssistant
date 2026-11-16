@@ -26,7 +26,7 @@ from universalassistant.components.marketplace.repositories.base import (
     RepositoryManifest,
 )
 from universalassistant.components.marketplace.utils.logger import LOGGER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import PROXY_HEADERS
 
@@ -114,7 +114,7 @@ def mocked_response(
     )
 
 
-async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Set up the Marketplace integration."""
     config_entry.add_to_hass(hass)
 
@@ -122,7 +122,7 @@ async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -
     await hass.async_block_till_done()
 
 
-def get_marketplace(hass: __HAC_KEEP__) -> MarketplaceManager:
+def get_marketplace(hass: UniversalAssistant) -> MarketplaceManager:
     """Return the Marketplace object of the loaded config entry."""
     return async_get_marketplace(hass)
 

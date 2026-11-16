@@ -41,7 +41,7 @@ from universalassistant.components.application_credentials import (
 )
 from universalassistant.components.august.const import DOMAIN
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 USER_ID = "a76c25e5-49aa-4c14-cd0c-48a6931e2081"
@@ -84,7 +84,7 @@ def _timetoken() -> str:
 
 
 async def mock_august_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> MockConfigEntry:
     """Mock august config entry and client credentials."""
     entry = mock_config_entry()
@@ -102,7 +102,7 @@ def mock_config_entry(jwt: str | None = None) -> MockConfigEntry:
     )
 
 
-async def mock_client_credentials(hass: __HAC_KEEP__) -> ClientCredential:
+async def mock_client_credentials(hass: UniversalAssistant) -> ClientCredential:
     """Mock client credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(
@@ -125,7 +125,7 @@ def patch_august_setup():
 
 
 async def _mock_setup_august(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     api_instance: ApiAsync,
     pubnub_mock: AugustPubNub,
     authenticate_side_effect: MagicMock,
@@ -146,7 +146,7 @@ async def _mock_setup_august(
 
 
 async def _create_august_with_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: Iterable[LockDetail | DoorbellDetail] | None = None,
     api_call_side_effects: dict[str, Any] | None = None,
     activities: list[Any] | None = None,
@@ -167,7 +167,7 @@ async def _create_august_with_devices(
 
 
 async def _create_august_api_with_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: Iterable[LockDetail | DoorbellDetail] | None = None,
     api_call_side_effects: dict[str, Any] | None = None,
     activities: dict[str, Any] | None = None,
@@ -429,20 +429,20 @@ def _mock_august_lock_data(
     }
 
 
-async def _mock_operative_august_lock_detail(hass: __HAC_KEEP__) -> LockDetail:
+async def _mock_operative_august_lock_detail(hass: UniversalAssistant) -> LockDetail:
     return await _mock_lock_from_fixture(hass, "get_lock.online.json")
 
 
-async def _mock_lock_with_offline_key(hass: __HAC_KEEP__) -> LockDetail:
+async def _mock_lock_with_offline_key(hass: UniversalAssistant) -> LockDetail:
     return await _mock_lock_from_fixture(hass, "get_lock.online_with_keys.json")
 
 
-async def _mock_inoperative_august_lock_detail(hass: __HAC_KEEP__) -> LockDetail:
+async def _mock_inoperative_august_lock_detail(hass: UniversalAssistant) -> LockDetail:
     return await _mock_lock_from_fixture(hass, "get_lock.offline.json")
 
 
 async def _mock_activities_from_fixture(
-    hass: __HAC_KEEP__, path: str
+    hass: UniversalAssistant, path: str
 ) -> list[Activity]:
     json_dict = await _load_json_fixture(hass, path)
     activities = []
@@ -454,32 +454,32 @@ async def _mock_activities_from_fixture(
     return activities
 
 
-async def _mock_lock_from_fixture(hass: __HAC_KEEP__, path: str) -> LockDetail:
+async def _mock_lock_from_fixture(hass: UniversalAssistant, path: str) -> LockDetail:
     json_dict = await _load_json_fixture(hass, path)
     return LockDetail(json_dict)
 
 
-async def _mock_doorbell_from_fixture(hass: __HAC_KEEP__, path: str) -> LockDetail:
+async def _mock_doorbell_from_fixture(hass: UniversalAssistant, path: str) -> LockDetail:
     json_dict = await _load_json_fixture(hass, path)
     return DoorbellDetail(json_dict)
 
 
-async def _load_json_fixture(hass: __HAC_KEEP__, path: str) -> dict[str, Any]:
+async def _load_json_fixture(hass: UniversalAssistant, path: str) -> dict[str, Any]:
     fixture = await hass.async_add_executor_job(
         load_fixture, os.path.join("august", path)
     )
     return json.loads(fixture)
 
 
-async def _mock_doorsense_enabled_august_lock_detail(hass: __HAC_KEEP__) -> LockDetail:
+async def _mock_doorsense_enabled_august_lock_detail(hass: UniversalAssistant) -> LockDetail:
     return await _mock_lock_from_fixture(hass, "get_lock.online_with_doorsense.json")
 
 
-async def _mock_doorsense_missing_august_lock_detail(hass: __HAC_KEEP__) -> LockDetail:
+async def _mock_doorsense_missing_august_lock_detail(hass: UniversalAssistant) -> LockDetail:
     return await _mock_lock_from_fixture(hass, "get_lock.online_missing_doorsense.json")
 
 
-async def _mock_lock_with_unlatch(hass: __HAC_KEEP__) -> LockDetail:
+async def _mock_lock_with_unlatch(hass: UniversalAssistant) -> LockDetail:
     return await _mock_lock_from_fixture(hass, "get_lock.online_with_unlatch.json")
 
 

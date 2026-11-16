@@ -10,7 +10,7 @@ from universalassistant.components.remote import (
     SERVICE_SEND_COMMAND,
 )
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF, SERVICE_TURN_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import UPNP_SERIAL
@@ -18,13 +18,13 @@ from . import UPNP_SERIAL
 MAIN_ENTITY_ID = f"{REMOTE_DOMAIN}.my_roku_3"
 
 
-async def test_setup(hass: __HAC_KEEP__, init_integration: MockConfigEntry) -> None:
+async def test_setup(hass: UniversalAssistant, init_integration: MockConfigEntry) -> None:
     """Test setup with basic config."""
     assert hass.states.get(MAIN_ENTITY_ID)
 
 
 async def test_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -34,7 +34,7 @@ async def test_unique_id(
 
 
 async def test_main_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_roku: MagicMock,
 ) -> None:

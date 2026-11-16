@@ -16,9 +16,9 @@ from universalassistant.config_entries import (
     OptionsFlow,
 )
 from universalassistant.const import CONF_HOST, CONF_NAME, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.data_entry_flow import AbortFlow
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -60,7 +60,7 @@ def _schema_with_defaults(
     )
 
 
-async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> dict[str, str]:
+async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> dict[str, str]:
     """Validate the user input allows us to connect."""
     session = async_get_clientsession(hass)
     device = DoorBird(
@@ -81,7 +81,7 @@ async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> dict[str, 
     return {"title": data[CONF_HOST], "mac_addr": mac_addr}
 
 
-async def async_verify_supported_device(hass: __HAC_KEEP__, host: str) -> bool:
+async def async_verify_supported_device(hass: UniversalAssistant, host: str) -> bool:
     """Verify the doorbell state endpoint returns a 401."""
     session = async_get_clientsession(hass)
     device = DoorBird(host, "", "", http_session=session)
@@ -303,9 +303,9 @@ class OptionsFlowHandler(OptionsFlow):
         return self.async_show_form(step_id="init", data_schema=options_schema)
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(__HAC_KEEP__Error):
+class InvalidAuth(UniversalAssistantError):
     """Error to indicate there is invalid auth."""

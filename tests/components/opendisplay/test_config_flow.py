@@ -19,7 +19,7 @@ from universalassistant import config_entries
 from universalassistant.components.bluetooth import BluetoothServiceInfoBleak
 from universalassistant.components.opendisplay.config_flow import CONNECT_TIMEOUT
 from universalassistant.components.opendisplay.const import CONF_ENCRYPTION_KEY, DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.util import dt as dt_util
 
@@ -55,7 +55,7 @@ def mock_setup_entry() -> Generator[None]:
 
 
 async def test_bluetooth_discovery(
-    hass: __HAC_KEEP__, mock_opendisplay_device_class: MagicMock
+    hass: UniversalAssistant, mock_opendisplay_device_class: MagicMock
 ) -> None:
     """Test discovery via Bluetooth with a valid device."""
     result = await hass.config_entries.flow.async_init(
@@ -80,7 +80,7 @@ async def test_bluetooth_discovery(
 
 @pytest.mark.parametrize("service_info", UNSUPPORTED_SERVICE_INFOS)
 async def test_bluetooth_discovery_not_opendisplay(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_opendisplay_device_class: MagicMock,
     service_info: BluetoothServiceInfoBleak,
 ) -> None:
@@ -96,7 +96,7 @@ async def test_bluetooth_discovery_not_opendisplay(
 
 
 async def test_bluetooth_discovery_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test discovery aborts when device is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -110,7 +110,7 @@ async def test_bluetooth_discovery_already_configured(
     assert result["reason"] == "already_configured"
 
 
-async def test_bluetooth_discovery_already_in_progress(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_discovery_already_in_progress(hass: UniversalAssistant) -> None:
     """Test discovery aborts when same device flow is in progress."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -138,7 +138,7 @@ async def test_bluetooth_discovery_already_in_progress(hass: __HAC_KEEP__) -> No
     ],
 )
 async def test_bluetooth_confirm_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_opendisplay_device: MagicMock,
     exception: Exception,
     expected_reason: str,
@@ -170,7 +170,7 @@ async def test_bluetooth_confirm_connection_error(
 
 
 async def test_bluetooth_confirm_ble_device_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the confirm step reports an error when the BLE device is not found."""
     result = await hass.config_entries.flow.async_init(
@@ -197,7 +197,7 @@ async def test_bluetooth_confirm_ble_device_not_found(
 
 
 async def test_bluetooth_confirm_connection_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_opendisplay_device: MagicMock,
 ) -> None:
     """Test that a device which stops responding does not hang the flow."""
@@ -229,7 +229,7 @@ async def test_bluetooth_confirm_connection_timeout(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_step_with_devices(hass: __HAC_KEEP__) -> None:
+async def test_user_step_with_devices(hass: UniversalAssistant) -> None:
     """Test user step with discovered devices."""
     with patch(
         "universalassistant.components.opendisplay.config_flow.async_discovered_service_info",
@@ -254,7 +254,7 @@ async def test_user_step_with_devices(hass: __HAC_KEEP__) -> None:
     assert result["result"].unique_id == "AA:BB:CC:DD:EE:FF"
 
 
-async def test_user_step_no_devices(hass: __HAC_KEEP__) -> None:
+async def test_user_step_no_devices(hass: UniversalAssistant) -> None:
     """Test user step when no devices are discovered."""
     with patch(
         "universalassistant.components.opendisplay.config_flow.async_discovered_service_info",
@@ -271,7 +271,7 @@ async def test_user_step_no_devices(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("service_info", UNSUPPORTED_SERVICE_INFOS)
 async def test_user_step_filters_unsupported(
-    hass: __HAC_KEEP__, service_info: BluetoothServiceInfoBleak
+    hass: UniversalAssistant, service_info: BluetoothServiceInfoBleak
 ) -> None:
     """Test user step filters out unsupported devices."""
     with patch(
@@ -297,7 +297,7 @@ async def test_user_step_filters_unsupported(
     ],
 )
 async def test_user_step_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_opendisplay_device: MagicMock,
     exception: Exception,
     expected_error: str,
@@ -332,7 +332,7 @@ async def test_user_step_connection_error(
 
 
 async def test_user_step_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test user step aborts when device is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -352,7 +352,7 @@ async def test_user_step_already_configured(
 
 
 async def test_bluetooth_discovery_encrypted_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_opendisplay_device: MagicMock,
 ) -> None:
     """Test Bluetooth discovery prompts for key when device requires encryption."""
@@ -382,7 +382,7 @@ async def test_bluetooth_discovery_encrypted_device(
 
 
 async def test_bluetooth_discovery_encrypted_invalid_key_format(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_opendisplay_device: MagicMock,
 ) -> None:
     """Test encryption_key step shows error on invalid key format."""
@@ -418,7 +418,7 @@ async def test_bluetooth_discovery_encrypted_invalid_key_format(
 
 
 async def test_bluetooth_discovery_encrypted_wrong_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_opendisplay_device: MagicMock,
 ) -> None:
     """Test encryption_key step shows error on wrong key, then succeeds."""
@@ -455,7 +455,7 @@ async def test_bluetooth_discovery_encrypted_wrong_key(
 
 
 async def test_user_step_encrypted_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_opendisplay_device: MagicMock,
 ) -> None:
     """Test user step prompts for key when device requires encryption."""
@@ -490,7 +490,7 @@ async def test_user_step_encrypted_device(
 
 
 async def test_reauth_update_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_opendisplay_device: MagicMock,
     mock_encrypted_config_entry: MockConfigEntry,
 ) -> None:
@@ -513,7 +513,7 @@ async def test_reauth_update_key(
 
 
 async def test_reauth_remove_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_opendisplay_device: MagicMock,
     mock_encrypted_config_entry: MockConfigEntry,
 ) -> None:
@@ -534,7 +534,7 @@ async def test_reauth_remove_key(
 
 
 async def test_reauth_wrong_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_opendisplay_device: MagicMock,
     mock_encrypted_config_entry: MockConfigEntry,
 ) -> None:
@@ -566,7 +566,7 @@ async def test_reauth_wrong_key(
 
 
 async def test_reauth_invalid_key_format(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_encrypted_config_entry: MockConfigEntry,
 ) -> None:
     """Test reauth form shows error for a malformed encryption key."""

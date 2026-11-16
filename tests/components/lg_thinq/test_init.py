@@ -10,14 +10,14 @@ from thinqconnect import DeviceType, ThinQAPIErrorCodes, ThinQAPIException
 from universalassistant.components.lg_thinq.const import DEVICE_STATUS_MESSAGE, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_OFF, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from . import setup_integration
 
 
 async def test_load_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_thinq_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -47,7 +47,7 @@ async def test_load_unload_entry(
     ],
 )
 async def test_unload_entry_with_failing_disconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_thinq_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -76,7 +76,7 @@ async def test_unload_entry_with_failing_disconnect(
     [AttributeError(), TypeError(), ValueError(), ClientError(), TimeoutError()],
 )
 async def test_config_not_ready_mqtt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_thinq_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -100,7 +100,7 @@ async def test_config_not_ready_mqtt(
     ],
 )
 async def test_config_not_ready_bridge_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_thinq_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -116,7 +116,7 @@ async def test_config_not_ready_bridge_list(
 
 
 async def test_retry_after_mqtt_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_thinq_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -140,7 +140,7 @@ async def test_retry_after_mqtt_failure(
 
 
 async def test_mqtt_disconnected_when_setup_fails_after_connecting(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_thinq_api: AsyncMock,
     mock_thinq_mqtt_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -158,7 +158,7 @@ async def test_mqtt_disconnected_when_setup_fails_after_connecting(
 
 
 async def test_mqtt_disconnected_on_unload_when_not_prepared(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_thinq_api: AsyncMock,
     mock_thinq_mqtt_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -177,7 +177,7 @@ async def test_mqtt_disconnected_on_unload_when_not_prepared(
 @pytest.mark.parametrize("device_fixture", ["washer"])
 @pytest.mark.usefixtures("devices")
 async def test_device_not_connected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_thinq_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -221,7 +221,7 @@ async def test_device_not_connected(
 @pytest.mark.parametrize("device_fixture", ["washer"])
 @pytest.mark.usefixtures("devices")
 async def test_device_fetch_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_thinq_api: AsyncMock,
     mock_config_entry: MockConfigEntry,

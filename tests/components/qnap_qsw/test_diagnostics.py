@@ -34,7 +34,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from universalassistant.components.diagnostics import REDACTED
 from universalassistant.components.qnap_qsw.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .util import (
     CONFIG,
@@ -48,7 +48,7 @@ from .util import (
 
 
 async def test_config_entry_diagnostics(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test config entry diagnostics."""
     await async_init_integration(hass)

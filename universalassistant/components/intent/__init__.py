@@ -36,7 +36,7 @@ from universalassistant.const import (
     SERVICE_TURN_OFF,
     SERVICE_TURN_ON,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, State
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, State
 from universalassistant.helpers import (
     area_registry as ar,
     config_validation as cv,
@@ -84,7 +84,7 @@ ONOFF_DEVICE_CLASSES = {
 }
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Intent component."""
     hass.data[TIMER_DATA] = TimerManager(hass)
 
@@ -163,7 +163,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 class IntentPlatformProtocol(Protocol):
     """Define the format that intent platforms can have."""
 
-    async def async_setup_intents(self, hass: __HAC_KEEP__) -> None:
+    async def async_setup_intents(self, hass: UniversalAssistant) -> None:
         """Set up platform intents."""
 
 
@@ -625,13 +625,13 @@ class GetTemperatureIntent(intent.IntentHandler):
 
 
 async def _async_process_intent(
-    hass: __HAC_KEEP__, domain: str, platform: IntentPlatformProtocol
+    hass: UniversalAssistant, domain: str, platform: IntentPlatformProtocol
 ) -> None:
     """Process the intents of an integration."""
     await platform.async_setup_intents(hass)
 
 
-class IntentHandleView(http.__HAC_KEEP__View):
+class IntentHandleView(http.UniversalAssistantView):
     """View to handle intents from JSON."""
 
     url = "/api/intent/handle"

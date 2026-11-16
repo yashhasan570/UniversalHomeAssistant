@@ -10,7 +10,7 @@ from music_assistant_models.constants import (
 from music_assistant_models.player import Player
 from music_assistant_models.player_queue import PlayerQueue
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import MusicAssistantConfigEntry
 
@@ -96,7 +96,7 @@ def _player_diagnostics(player: Player, queue: PlayerQueue | None) -> dict[str, 
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: MusicAssistantConfigEntry
+    hass: UniversalAssistant, entry: MusicAssistantConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     mass = entry.runtime_data.mass

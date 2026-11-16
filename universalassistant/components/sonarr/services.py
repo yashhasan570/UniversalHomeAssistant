@@ -9,8 +9,8 @@ from aiopyarr import exceptions
 import probatio
 
 from universalassistant.const import CONF_URL
-from universalassistant.core import __HAC_KEEP__, ServiceCall, SupportsResponse, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, ServiceCall, SupportsResponse, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import selector, service
 from universalassistant.util import dt as dt_util
 
@@ -110,15 +110,15 @@ SERVICE_GET_WANTED_SCHEMA = SERVICE_BASE_SCHEMA.extend(
 
 
 async def _handle_api_errors[_T](func: Callable[[], Awaitable[_T]]) -> _T:
-    """Handle API errors and raise __HAC_KEEP__Error with user-friendly messages."""
+    """Handle API errors and raise UniversalAssistantError with user-friendly messages."""
     try:
         return await func()
     except exceptions.ArrAuthenticationException as ex:
-        raise __HAC_KEEP__Error("Authentication failed for Sonarr") from ex
+        raise UniversalAssistantError("Authentication failed for Sonarr") from ex
     except exceptions.ArrConnectionException as ex:
-        raise __HAC_KEEP__Error("Failed to connect to Sonarr") from ex
+        raise UniversalAssistantError("Failed to connect to Sonarr") from ex
     except exceptions.ArrException as ex:
-        raise __HAC_KEEP__Error(f"Sonarr API error: {ex}") from ex
+        raise UniversalAssistantError(f"Sonarr API error: {ex}") from ex
 
 
 async def _async_get_series(call: ServiceCall) -> dict[str, Any]:
@@ -235,7 +235,7 @@ async def _async_get_wanted(call: ServiceCall) -> dict[str, Any]:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register services for the Sonarr integration."""
 
     hass.services.async_register(

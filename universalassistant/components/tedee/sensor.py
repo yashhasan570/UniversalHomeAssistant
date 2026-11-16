@@ -13,7 +13,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import PERCENTAGE, EntityCategory, UnitOfTime
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import TedeeConfigEntry
@@ -52,7 +52,7 @@ ENTITIES: tuple[TedeeSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: TedeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

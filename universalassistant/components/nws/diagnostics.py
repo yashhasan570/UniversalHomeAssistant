@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_API_KEY, CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import NWSConfigEntry
 from .const import CONF_STATION
@@ -14,7 +14,7 @@ OBSERVATION_TO_REDACT = {"station"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: NWSConfigEntry,
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""

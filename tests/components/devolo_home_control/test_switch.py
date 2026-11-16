@@ -9,8 +9,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.devolo_home_control.const import DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import ATTR_ENTITY_ID, STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import configure_integration
@@ -18,7 +18,7 @@ from .mocks import HomeControlMock, HomeControlMockSwitch
 
 
 async def test_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     caplog: pytest.LogCaptureFixture,
@@ -70,7 +70,7 @@ async def test_switch(
             "devolo_home_control_api.properties.binary_switch_property.BinarySwitchProperty.set",
             return_value=False,
         ),
-        pytest.raises(__HAC_KEEP__Error) as error,
+        pytest.raises(UniversalAssistantError) as error,
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,
@@ -112,7 +112,7 @@ async def test_switch(
     assert "Device Test is back online" in caplog.text
 
 
-async def test_remove_from_hass(hass: __HAC_KEEP__) -> None:
+async def test_remove_from_hass(hass: UniversalAssistant) -> None:
     """Test removing entity."""
     entry = configure_integration(hass)
     test_gateway = HomeControlMockSwitch()

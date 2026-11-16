@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any, cast
 
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import LOGGER
 
@@ -19,7 +19,7 @@ CONF_TIMESERIES_ID = "timeseries_id"
 class RememberTheMilkConfiguration:
     """Internal configuration data for Remember The Milk."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Create new instance of configuration."""
         self._config_file_path = hass.config.path(CONFIG_FILE_NAME)
         self._config: dict[str, Any] = {}
@@ -64,7 +64,7 @@ class RememberTheMilkConfiguration:
     def get_rtm_id(
         self, profile_name: str, hass_id: str
     ) -> tuple[int, int, int] | None:
-        """Get the RTM ids for a __HA_KEEP__ task ID.
+        """Get the RTM ids for a Universal Home Assistant task ID.
 
         The id of a RTM tasks consists of the tuple:
         list id, timeseries id and the task id.
@@ -88,7 +88,7 @@ class RememberTheMilkConfiguration:
         time_series_id: int,
         rtm_task_id: int,
     ) -> None:
-        """Add/Update the RTM task ID for a __HA_KEEP__ task ID."""
+        """Add/Update the RTM task ID for a Universal Home Assistant task ID."""
         self._initialize_profile(profile_name)
         # Store the ids as strings to keep the legacy storage format.
         id_tuple = {

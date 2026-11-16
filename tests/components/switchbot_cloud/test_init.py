@@ -35,7 +35,7 @@ from universalassistant.const import (
     CONF_WEBHOOK_ID,
     EVENT_HOMEASSISTANT_START,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.core_config import async_process_ha_core_config
 
 from . import configure_integration
@@ -94,7 +94,7 @@ def mock_setup_webhook():
 
 
 async def test_setup_entry_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices,
     mock_get_status,
     mock_get_webook_configuration,
@@ -172,7 +172,7 @@ async def test_setup_entry_success(
     ],
 )
 async def test_setup_entry_fails_when_listing_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     error: Exception,
     state: ConfigEntryState,
     mock_list_devices,
@@ -190,7 +190,7 @@ async def test_setup_entry_fails_when_listing_devices(
 
 
 async def test_setup_entry_auth_failed_starts_reauth(
-    hass: __HAC_KEEP__, mock_list_devices: AsyncMock
+    hass: UniversalAssistant, mock_list_devices: AsyncMock
 ) -> None:
     """Test an authentication error during setup starts a reauth flow."""
     mock_list_devices.side_effect = SwitchBotAuthenticationError
@@ -204,7 +204,7 @@ async def test_setup_entry_auth_failed_starts_reauth(
 
 
 async def test_setup_entry_fails_when_refreshing(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
+    hass: UniversalAssistant, mock_list_devices, mock_get_status
 ) -> None:
     """Test error handling in get_status in setup of entry."""
     mock_list_devices.return_value = [
@@ -227,7 +227,7 @@ async def test_setup_entry_fails_when_refreshing(
 
 
 async def test_refresh_auth_failed_starts_reauth(
-    hass: __HAC_KEEP__, mock_list_devices: AsyncMock, mock_get_status: AsyncMock
+    hass: UniversalAssistant, mock_list_devices: AsyncMock, mock_get_status: AsyncMock
 ) -> None:
     """Test an authentication error when refreshing a device starts a reauth flow."""
     mock_list_devices.return_value = [
@@ -250,7 +250,7 @@ async def test_refresh_auth_failed_starts_reauth(
 
 
 async def test_posting_to_webhook(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices,
     mock_get_status,
     mock_get_webook_configuration,
@@ -299,7 +299,7 @@ async def test_posting_to_webhook(
 
 
 async def test_polling_is_only_disabled_after_webhook_delivery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices,
     mock_get_status,
     mock_get_webook_configuration,
@@ -385,7 +385,7 @@ async def test_polling_is_only_disabled_after_webhook_delivery(
 
 
 async def test_setup_entry_skips_webhook_without_external_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices,
     mock_get_status,
     mock_get_webook_configuration,
@@ -418,7 +418,7 @@ async def test_setup_entry_skips_webhook_without_external_url(
 
 
 async def test_setup_creates_cloudhook_when_cloud_active(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices,
     mock_get_status,
     mock_get_webook_configuration,
@@ -463,7 +463,7 @@ async def test_setup_creates_cloudhook_when_cloud_active(
 
 
 async def test_setup_survives_the_cloud_going_away(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices: AsyncMock,
     mock_get_status: AsyncMock,
     mock_get_webook_configuration: AsyncMock,
@@ -511,7 +511,7 @@ async def test_setup_survives_the_cloud_going_away(
 
 
 async def test_setup_reuses_persisted_cloudhook(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices,
     mock_get_status,
     mock_get_webook_configuration,
@@ -565,7 +565,7 @@ async def test_setup_reuses_persisted_cloudhook(
 
 
 async def test_setup_falls_back_to_local_url_without_cloud(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices,
     mock_get_status,
     mock_get_webook_configuration,
@@ -597,7 +597,7 @@ async def test_setup_falls_back_to_local_url_without_cloud(
 
 
 async def test_cloud_connects_after_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices,
     mock_get_status,
     mock_get_webook_configuration,
@@ -647,7 +647,7 @@ async def test_cloud_connects_after_setup(
 
 
 async def test_setup_active_subscription_not_connected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices,
     mock_get_status,
     mock_get_webook_configuration,
@@ -709,7 +709,7 @@ async def test_setup_active_subscription_not_connected(
 
 
 async def test_cloudhook_deleted_on_entry_removal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices,
     mock_get_status,
     mock_get_webook_configuration,
@@ -754,7 +754,7 @@ async def test_cloudhook_deleted_on_entry_removal(
 
 
 async def test_remove_entry_without_cloudhook_skips_delete(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices,
     mock_get_status,
     mock_get_webook_configuration,
@@ -790,7 +790,7 @@ async def test_remove_entry_without_cloudhook_skips_delete(
 
 
 async def test_remove_entry_with_cloud_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices,
     mock_get_status,
     mock_get_webook_configuration,
@@ -833,7 +833,7 @@ async def test_remove_entry_with_cloud_unavailable(
 
 
 async def test_single_coordinator_for_multi_platform_device(
-    hass: __HAC_KEEP__, mock_list_devices: AsyncMock, mock_get_status: AsyncMock
+    hass: UniversalAssistant, mock_list_devices: AsyncMock, mock_get_status: AsyncMock
 ) -> None:
     """Test that a multi-platform device creates only one coordinator."""
     mock_list_devices.return_value = [

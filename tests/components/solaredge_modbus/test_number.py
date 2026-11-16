@@ -14,15 +14,15 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 BACKUP_RESERVE_ENTITY = "number.solaredge_se10000h_backup_reserve"
 BACKUP_RESERVE_REGISTER = 57352
 
 
-async def _setup_number_platform(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+async def _setup_number_platform(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     with patch(
         "universalassistant.components.solaredge_modbus.PLATFORMS", [Platform.NUMBER]
     ):
@@ -33,7 +33,7 @@ async def _setup_number_platform(hass: __HAC_KEEP__, entry: MockConfigEntry) -> 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_numbers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -45,7 +45,7 @@ async def test_numbers(
 
 
 async def test_power_factor_setpoint_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -61,7 +61,7 @@ async def test_power_factor_setpoint_disabled_by_default(
 
 
 async def test_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -85,7 +85,7 @@ async def test_set_value(
 
 
 async def test_set_value_communication_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -94,7 +94,7 @@ async def test_set_value_communication_error(
 
     mock_modbus_unit.fail_write(BACKUP_RESERVE_REGISTER, ModbusTimeoutError("timeout"))
 
-    with pytest.raises(__HAC_KEEP__Error) as excinfo:
+    with pytest.raises(UniversalAssistantError) as excinfo:
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -109,7 +109,7 @@ async def test_set_value_communication_error(
 
 
 async def test_set_value_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -118,7 +118,7 @@ async def test_set_value_rejected(
 
     mock_modbus_unit.fail_write(BACKUP_RESERVE_REGISTER, ValueError("does not fit"))
 
-    with pytest.raises(__HAC_KEEP__Error) as excinfo:
+    with pytest.raises(UniversalAssistantError) as excinfo:
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,

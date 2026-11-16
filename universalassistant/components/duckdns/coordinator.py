@@ -8,7 +8,7 @@ from aiohttp import ClientError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -35,7 +35,7 @@ class DuckDnsUpdateCoordinator(DataUpdateCoordinator[None]):
 
     config_entry: DuckDnsConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: DuckDnsConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: DuckDnsConfigEntry) -> None:
         """Initialize the Duck DNS update coordinator."""
         super().__init__(
             hass,

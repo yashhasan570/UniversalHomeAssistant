@@ -9,7 +9,7 @@ from pooldose.request_status import RequestStatus
 from pooldose.type_definitions import DeviceInfoDict, StructuredValuesDict
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 _LOGGER = logging.getLogger(__name__)
@@ -25,7 +25,7 @@ class PooldoseCoordinator(DataUpdateCoordinator[StructuredValuesDict]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         client: PooldoseClient,
         config_entry: PooldoseConfigEntry,
     ) -> None:

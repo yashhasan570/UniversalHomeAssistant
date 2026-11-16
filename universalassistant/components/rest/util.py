@@ -26,8 +26,8 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     HTTP_DIGEST_AUTHENTICATION,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import discovery, template
 from universalassistant.helpers.entity_component import DEFAULT_SCAN_INTERVAL
 from universalassistant.helpers.typing import ConfigType
@@ -81,12 +81,12 @@ COORDINATOR_AWARE_PLATFORMS = [SENSOR_DOMAIN, BINARY_SENSOR_DOMAIN]
 
 
 @callback
-def async_setup_shared_data(hass: __HAC_KEEP__) -> None:
+def async_setup_shared_data(hass: UniversalAssistant) -> None:
     """Create shared data for platform config and rest coordinators."""
     hass.data[DOMAIN] = {key: [] for key in (COORDINATOR, *COORDINATOR_AWARE_PLATFORMS)}
 
 
-async def async_process_config(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_process_config(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Process rest configuration."""
     if DOMAIN not in config:
         return True
@@ -131,7 +131,7 @@ async def async_process_config(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-def create_rest_data_from_config(hass: __HAC_KEEP__, config: ConfigType) -> RestData:
+def create_rest_data_from_config(hass: UniversalAssistant, config: ConfigType) -> RestData:
     """Create RestData from config."""
     resource: str | None = config.get(CONF_RESOURCE)
     resource_template: template.Template | None = config.get(CONF_RESOURCE_TEMPLATE)
@@ -153,7 +153,7 @@ def create_rest_data_from_config(hass: __HAC_KEEP__, config: ConfigType) -> Rest
         payload = payload_template.async_render(parse_result=False)
 
     if not resource:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN, translation_key="resource_not_set"
         )
 

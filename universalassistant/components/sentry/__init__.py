@@ -14,7 +14,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STARTED,
     __version__ as current_version,
 )
-from universalassistant.core import __HAC_KEEP__, get_release_channel
+from universalassistant.core import UniversalAssistant, get_release_channel
 from universalassistant.helpers import entity_platform, instance_id
 from universalassistant.helpers.event import async_call_later
 from universalassistant.helpers.system_info import async_get_system_info
@@ -40,7 +40,7 @@ from .const import (
 LOGGER_INFO_REGEX = re.compile(r"^(\w+)\.?(\w+)?\.?(\w+)?\.?(\w+)?(?:\..*)?$")
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up Sentry from a config entry."""
 
     # Migrate environment from config entry data to config entry options
@@ -115,7 +115,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
 
 
 def process_before_send(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     options: Mapping[str, Any],
     channel: str,
     huuid: str,
@@ -192,10 +192,10 @@ def process_before_send(
     # Set user context to the installation UUID
     event.setdefault("user", {}).update({"id": huuid})
 
-    # Update event data with __HA_KEEP__ Context
+    # Update event data with Universal Home Assistant Context
     event.setdefault("contexts", {}).update(
         {
-            "__HA_KEEP__": {
+            "Universal Home Assistant": {
                 "channel": channel,
                 "custom_components": "\n".join(sorted(custom_components)),
                 "integrations": "\n".join(sorted(integrations)),

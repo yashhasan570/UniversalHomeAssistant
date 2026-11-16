@@ -10,8 +10,8 @@ from universalassistant.components import websocket_api
 from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import CONF_ENTITY_ID, CONF_NAME
-from universalassistant.core import __HAC_KEEP__, callback, split_entity_id
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback, split_entity_id
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.schema_config_entry_flow import (
     SchemaCommonFlowHandler,
     SchemaConfigFlowHandler,
@@ -175,7 +175,7 @@ class StatisticsConfigFlowHandler(SchemaConfigFlowHandler, domain=DOMAIN):
 
     @staticmethod
     @override
-    async def async_setup_preview(hass: __HAC_KEEP__) -> None:
+    async def async_setup_preview(hass: UniversalAssistant) -> None:
         """Set up preview WS API."""
         websocket_api.async_register_command(hass, ws_start_preview)
 
@@ -190,7 +190,7 @@ class StatisticsConfigFlowHandler(SchemaConfigFlowHandler, domain=DOMAIN):
 )
 @websocket_api.async_response
 async def ws_start_preview(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -213,7 +213,7 @@ async def ws_start_preview(
         flow_status = hass.config_entries.options.async_get(msg["flow_id"])
         config_entry = hass.config_entries.async_get_entry(flow_status["handler"])
         if not config_entry:
-            raise __HAC_KEEP__Error("Config entry not found")
+            raise UniversalAssistantError("Config entry not found")
         entity_id = config_entry.options[CONF_ENTITY_ID]
         name = config_entry.options[CONF_NAME]
         state_characteristic = config_entry.options[CONF_STATE_CHARACTERISTIC]

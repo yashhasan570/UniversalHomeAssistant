@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import UnifiAccessConfigEntry
 
@@ -12,7 +12,7 @@ TO_REDACT = {CONF_API_TOKEN}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: UnifiAccessConfigEntry
+    hass: UniversalAssistant, entry: UnifiAccessConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     data = entry.runtime_data.data

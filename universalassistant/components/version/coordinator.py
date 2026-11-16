@@ -7,7 +7,7 @@ from pyhaversion import HaVersion, HaVersionSource
 from pyhaversion.exceptions import HaVersionException
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN, LOGGER, UPDATE_COORDINATOR_UPDATE_INTERVAL
@@ -22,7 +22,7 @@ class VersionDataUpdateCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: VersionConfigEntry,
         api: HaVersion,
     ) -> None:

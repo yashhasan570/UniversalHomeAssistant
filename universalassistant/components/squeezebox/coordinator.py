@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, Any, override
 from pysqueezebox import Player, Server
 from pysqueezebox.player import Alarm
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -34,7 +34,7 @@ class LMSStatusDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     config_entry: SqueezeboxConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: SqueezeboxConfigEntry, lms: Server
+        self, hass: UniversalAssistant, config_entry: SqueezeboxConfigEntry, lms: Server
     ) -> None:
         """Initialize my coordinator."""
         super().__init__(
@@ -84,7 +84,7 @@ class SqueezeBoxPlayerUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: SqueezeboxConfigEntry,
         player: Player,
         server_uuid: str,

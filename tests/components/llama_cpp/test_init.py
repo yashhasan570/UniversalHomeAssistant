@@ -8,11 +8,11 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_setup_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setting up and unloading llama.cpp entry."""
@@ -51,7 +51,7 @@ async def test_setup_unload_entry(
     ],
 )
 async def test_setup_entry_failures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
     expected_state: ConfigEntryState,
@@ -68,7 +68,7 @@ async def test_setup_entry_failures(
 
 
 async def test_setup_entry_auth_failed_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_models_list: AsyncMock,
 ) -> None:

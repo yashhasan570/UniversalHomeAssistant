@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.ituran.const import UPDATE_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -23,7 +23,7 @@ from . import setup_integration
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("mock_ituran", [True], indirect=True)
 async def test_ev_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_ituran: AsyncMock,
@@ -38,7 +38,7 @@ async def test_ev_binary_sensor(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("mock_ituran", [True], indirect=True)
 async def test_ev_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_ituran: AsyncMock,
     mock_config_entry: MockConfigEntry,

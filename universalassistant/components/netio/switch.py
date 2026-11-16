@@ -9,7 +9,7 @@ import probatio
 from pynetio import Netio
 
 from universalassistant import util
-from universalassistant.components.http import __HAC_KEEP__View
+from universalassistant.components.http import UniversalAssistantView
 from universalassistant.components.switch import (
     PLATFORM_SCHEMA as SWITCH_PLATFORM_SCHEMA,
     SwitchEntity,
@@ -22,7 +22,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     STATE_ON,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv, issue_registry as ir
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -66,7 +66,7 @@ PLATFORM_SCHEMA = SWITCH_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: NetioConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -78,7 +78,7 @@ async def async_setup_entry(
 
 
 def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -129,7 +129,7 @@ def dispose(event):
         value.netio.stop()
 
 
-class NetioApiView(__HAC_KEEP__View):
+class NetioApiView(UniversalAssistantView):
     """WSGI handler class."""
 
     url = URL_API_NETIO_EP

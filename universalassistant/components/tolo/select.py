@@ -8,7 +8,7 @@ from tololib import ToloClient, ToloSettings
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import AromaTherapySlot, LampMode
@@ -50,7 +50,7 @@ SELECTS = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ToloConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

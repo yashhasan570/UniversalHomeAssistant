@@ -15,7 +15,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STARTED,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import CoreState, __HAC_KEEP__
+from universalassistant.core import CoreState, UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
 
@@ -23,7 +23,7 @@ from .const import HOST, PORT
 from .helpers import future_timestamp, static_datetime
 
 
-async def test_update_unique_id(hass: __HAC_KEEP__) -> None:
+async def test_update_unique_id(hass: UniversalAssistant) -> None:
     """Test updating a config entry without a unique_id."""
     assert hass.state is CoreState.running
 
@@ -47,7 +47,7 @@ async def test_update_unique_id(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.freeze_time(static_datetime())
-async def test_unload_config_entry(hass: __HAC_KEEP__) -> None:
+async def test_unload_config_entry(hass: UniversalAssistant) -> None:
     """Test unloading a config entry."""
     assert hass.state is CoreState.running
 
@@ -89,7 +89,7 @@ async def test_unload_config_entry(hass: __HAC_KEEP__) -> None:
     assert state is None
 
 
-async def test_delay_load_during_startup(hass: __HAC_KEEP__) -> None:
+async def test_delay_load_during_startup(hass: UniversalAssistant) -> None:
     """Test delayed loading of a config entry during startup."""
     hass.set_state(CoreState.not_running)
 
@@ -122,7 +122,7 @@ async def test_delay_load_during_startup(hass: __HAC_KEEP__) -> None:
 
 
 async def test_coordinator_refresh_fails_during_startup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test coordinator refresh failure during the async_at_started callback."""
     hass.set_state(CoreState.not_running)
@@ -157,7 +157,7 @@ async def test_coordinator_refresh_fails_during_startup(
 
 
 async def test_coordinator_refresh_fails_then_recovers_after_startup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test coordinator recovers after failing on the initial startup refresh."""
 

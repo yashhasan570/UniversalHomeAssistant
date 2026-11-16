@@ -11,7 +11,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
 )
 from universalassistant.const import UnitOfPower
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -44,7 +44,7 @@ SENSOR_VEDO_TYPES: Final = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ComelitConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

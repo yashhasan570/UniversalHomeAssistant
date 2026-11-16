@@ -22,7 +22,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -35,7 +35,7 @@ def get_device_id(mac: str) -> tuple[str, str]:
     return (BLUETOOTH_DOMAIN, mac)
 
 
-async def _async_setup_bthome_device(hass: __HAC_KEEP__, mac: str) -> MockConfigEntry:
+async def _async_setup_bthome_device(hass: UniversalAssistant, mac: str) -> MockConfigEntry:
     config_entry = MockConfigEntry(
         domain=DOMAIN,
         unique_id=mac,
@@ -48,7 +48,7 @@ async def _async_setup_bthome_device(hass: __HAC_KEEP__, mac: str) -> MockConfig
     return config_entry
 
 
-async def test_event_long_press(hass: __HAC_KEEP__) -> None:
+async def test_event_long_press(hass: UniversalAssistant) -> None:
     """Make sure that a long press event is fired."""
     mac = "A4:C1:38:8D:18:B2"
     entry = await _async_setup_bthome_device(hass, mac)
@@ -71,7 +71,7 @@ async def test_event_long_press(hass: __HAC_KEEP__) -> None:
     await hass.async_block_till_done()
 
 
-async def test_event_rotate_dimmer(hass: __HAC_KEEP__) -> None:
+async def test_event_rotate_dimmer(hass: UniversalAssistant) -> None:
     """Make sure that a rotate dimmer event is fired."""
     mac = "A4:C1:38:8D:18:B2"
     entry = await _async_setup_bthome_device(hass, mac)
@@ -95,7 +95,7 @@ async def test_event_rotate_dimmer(hass: __HAC_KEEP__) -> None:
 
 
 async def test_get_triggers_button(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test that we get the expected triggers from a BTHome BLE sensor."""
     mac = "A4:C1:38:8D:18:B2"
@@ -134,7 +134,7 @@ async def test_get_triggers_button(
 
 
 async def test_get_triggers_multiple_buttons(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test that we get the expected triggers for multiple buttons device."""
     mac = "A4:C1:38:8D:18:B2"
@@ -194,7 +194,7 @@ async def test_get_triggers_multiple_buttons(
     ],
 )
 async def test_validate_trigger_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     event_class: str,
     event_type: str,
@@ -250,7 +250,7 @@ async def test_validate_trigger_config(
 
 
 async def test_get_triggers_dimmer(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test that we get the expected triggers from a BTHome BLE sensor."""
     mac = "A4:C1:38:8D:18:B2"
@@ -289,7 +289,7 @@ async def test_get_triggers_dimmer(
 
 
 async def test_get_triggers_for_invalid_bthome_ble_device(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test that we don't get triggers for an invalid device."""
     mac = "A4:C1:38:8D:18:B2"
@@ -321,7 +321,7 @@ async def test_get_triggers_for_invalid_bthome_ble_device(
 
 
 async def test_get_triggers_for_invalid_device_id(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test that we don't get triggers when using an invalid device_id."""
     mac = "DE:70:E8:B2:39:0C"
@@ -351,7 +351,7 @@ async def test_get_triggers_for_invalid_device_id(
 
 
 async def test_if_fires_on_motion_detected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
 ) -> None:

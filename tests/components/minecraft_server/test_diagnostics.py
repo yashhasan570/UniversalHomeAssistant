@@ -14,7 +14,7 @@ from pytest_universalassistant.components.diagnostics import get_diagnostics_for
 from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import (
     TEST_BEDROCK_STATUS_RESPONSE,
@@ -38,7 +38,7 @@ from .const import (
     ],
 )
 async def test_config_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     server: JavaServer | BedrockServer | LegacyServer,

@@ -21,15 +21,15 @@ from universalassistant.components.number import (
 from universalassistant.components.peblar.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__, State
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, State
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
 @pytest.mark.parametrize("init_integration", [Platform.NUMBER], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -53,7 +53,7 @@ async def test_entities(
 @pytest.mark.parametrize("init_integration", [Platform.NUMBER], indirect=True)
 @pytest.mark.usefixtures("init_integration", "entity_registry_enabled_by_default")
 async def test_number_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
 ) -> None:
     """Test the Peblar EV charger numbers."""
@@ -77,7 +77,7 @@ async def test_number_set_value(
 
 
 async def test_number_set_value_when_charging_is_suspended(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -139,7 +139,7 @@ async def test_number_set_value_when_charging_is_suspended(
 @pytest.mark.parametrize("init_integration", [Platform.NUMBER], indirect=True)
 @pytest.mark.usefixtures("init_integration", "entity_registry_enabled_by_default")
 async def test_number_set_value_communication_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     error: Exception,
     error_match: str,
@@ -151,7 +151,7 @@ async def test_number_set_value_communication_error(
     mock_peblar.rest_api.return_value.ev_interface.side_effect = error
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=error_match,
     ) as excinfo:
         await hass.services.async_call(
@@ -172,7 +172,7 @@ async def test_number_set_value_communication_error(
 @pytest.mark.parametrize("init_integration", [Platform.NUMBER], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_number_set_value_authentication_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -183,7 +183,7 @@ async def test_number_set_value_authentication_error(
     )
     mock_peblar.login.side_effect = PeblarAuthenticationError("Authentication error")
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=(
             r"An authentication failure occurred while communicating "
             r"with the Peblar EV charger"
@@ -230,7 +230,7 @@ async def test_number_set_value_authentication_error(
     ],
 )
 async def test_restore_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     mock_config_entry: MockConfigEntry,
     restore_state: str,
@@ -281,7 +281,7 @@ async def test_restore_state(
 @pytest.mark.parametrize("init_integration", [Platform.NUMBER], indirect=True)
 @pytest.mark.usefixtures("init_integration", "entity_registry_enabled_by_default")
 async def test_charge_limit_maximum(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_max: int,
 ) -> None:
     """Test the ceiling on the charge limit.
@@ -303,7 +303,7 @@ async def test_charge_limit_maximum(
 @pytest.mark.parametrize("init_integration", [Platform.NUMBER], indirect=True)
 @pytest.mark.usefixtures("init_integration", "entity_registry_enabled_by_default")
 async def test_charge_limit_can_be_raised_again(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
 ) -> None:
     """A charger left on a low limit can still be turned back up."""
@@ -341,7 +341,7 @@ async def test_charge_limit_can_be_raised_again(
     ],
 )
 async def test_custom_solar_settings(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     entity_id: str,
     value: int,
@@ -350,7 +350,7 @@ async def test_custom_solar_settings(
     """Test the custom solar settings reach the charger.
 
     One setting at a time: the charger keeps whatever is left out, so
-    sending the pair would overwrite the other one with what __HA_KEEP__
+    sending the pair would overwrite the other one with what Universal Home Assistant
     happened to be holding.
     """
     await hass.services.async_call(
@@ -375,7 +375,7 @@ async def test_custom_solar_settings(
 @pytest.mark.parametrize("init_integration", [Platform.NUMBER], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_custom_solar_settings_take_a_negative_threshold(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the threshold reaches below zero, which is where it lives.
 
@@ -399,7 +399,7 @@ async def test_custom_solar_settings_take_a_negative_threshold(
     ids=["firmware without custom solar", "no power meter configured"],
     indirect=True,
 )
-async def test_custom_solar_settings_absent(hass: __HAC_KEEP__) -> None:
+async def test_custom_solar_settings_absent(hass: UniversalAssistant) -> None:
     """Test a charger that cannot do custom solar is not offered its settings."""
     assert (
         hass.states.get("number.peblar_ev_charger_custom_solar_start_threshold") is None

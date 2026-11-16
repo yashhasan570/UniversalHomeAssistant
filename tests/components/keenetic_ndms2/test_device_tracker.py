@@ -16,7 +16,7 @@ from universalassistant.components.keenetic_ndms2.const import (
     DOMAIN,
 )
 from universalassistant.const import ATTR_FRIENDLY_NAME, STATE_HOME, STATE_NOT_HOME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import MOCK_DATA, MOCK_NAME
@@ -59,7 +59,7 @@ def mock_client() -> Generator[MagicMock]:
 
 
 @pytest.fixture
-def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Return the default mocked config entry."""
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_DATA)
     entry.add_to_hass(hass)
@@ -68,7 +68,7 @@ def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_client_name_change_renames_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -110,7 +110,7 @@ async def test_client_name_change_renames_device(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_client_without_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -158,7 +158,7 @@ async def test_client_without_name(
 )
 @pytest.mark.usefixtures("mock_client")
 async def test_restoring_client_name_with_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -203,7 +203,7 @@ async def test_restoring_client_name_with_device(
 )
 @pytest.mark.usefixtures("mock_client")
 async def test_restoring_client_name_without_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,

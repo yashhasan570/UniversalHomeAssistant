@@ -52,7 +52,7 @@ from universalassistant.components.sensor import (
 )
 from universalassistant.config_entries import current_entry
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import CoreState, __HAC_KEEP__, callback
+from universalassistant.core import CoreState, UniversalAssistant, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import EntityDescription
 from universalassistant.helpers.frame import ReportBehavior, report_usage
@@ -179,7 +179,7 @@ GENERIC_PASSIVE_BLUETOOTH_DATA_UPDATE_WITH_DEVICE_NAME_AND_TEMP_CHANGE = (
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_basic_usage(hass: __HAC_KEEP__) -> None:
+async def test_basic_usage(hass: UniversalAssistant) -> None:
     """Test basic usage of the PassiveBluetoothProcessorCoordinator."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
 
@@ -278,7 +278,7 @@ async def test_basic_usage(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_async_set_updated_data_usage(hass: __HAC_KEEP__) -> None:
+async def test_async_set_updated_data_usage(hass: UniversalAssistant) -> None:
     """Test async_set_updated_data of the PassiveBluetoothProcessorCoordinator."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
 
@@ -384,7 +384,7 @@ async def test_async_set_updated_data_usage(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
 async def test_entity_key_is_dispatched_on_entity_key_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test entity key listeners are only dispatched on change."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -504,7 +504,7 @@ async def test_entity_key_is_dispatched_on_entity_key_change(
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_unavailable_after_no_data(hass: __HAC_KEEP__) -> None:
+async def test_unavailable_after_no_data(hass: UniversalAssistant) -> None:
     """Test that the coordinator is unavailable after no data for a while."""
     start_monotonic = time.monotonic()
 
@@ -617,7 +617,7 @@ async def test_unavailable_after_no_data(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_no_updates_once_stopping(hass: __HAC_KEEP__) -> None:
+async def test_no_updates_once_stopping(hass: UniversalAssistant) -> None:
     """Test updates are ignored once hass is stopping."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
 
@@ -672,7 +672,7 @@ async def test_no_updates_once_stopping(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
 async def test_exception_from_update_method(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we handle exceptions from the update method."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -740,7 +740,7 @@ async def test_exception_from_update_method(
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_bad_data_from_update_method(hass: __HAC_KEEP__) -> None:
+async def test_bad_data_from_update_method(hass: UniversalAssistant) -> None:
     """Test we handle bad data from the update method."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
 
@@ -1099,7 +1099,7 @@ GOVEE_B5178_PRIMARY_AND_REMOTE_PASSIVE_BLUETOOTH_DATA_UPDATE = (
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_integration_with_entity(hass: __HAC_KEEP__) -> None:
+async def test_integration_with_entity(hass: UniversalAssistant) -> None:
     """Test PassiveBluetoothProcessorCoordinator with entity."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
 
@@ -1259,7 +1259,7 @@ NO_DEVICES_PASSIVE_BLUETOOTH_DATA_UPDATE = PassiveBluetoothDataUpdate(
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_integration_with_entity_without_a_device(hass: __HAC_KEEP__) -> None:
+async def test_integration_with_entity_without_a_device(hass: UniversalAssistant) -> None:
     """Test integration with PassiveBluetoothCoordinatorEntity with no device."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
 
@@ -1323,7 +1323,7 @@ async def test_integration_with_entity_without_a_device(hass: __HAC_KEEP__) -> N
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
 async def test_passive_bluetooth_entity_with_entity_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test with a mock entity platform."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -1428,7 +1428,7 @@ DEVICE_ONLY_PASSIVE_BLUETOOTH_DATA_UPDATE = PassiveBluetoothDataUpdate(
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_integration_multiple_entity_platforms(hass: __HAC_KEEP__) -> None:
+async def test_integration_multiple_entity_platforms(hass: UniversalAssistant) -> None:
     """Test coordinator with multiple platforms."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
 
@@ -1521,7 +1521,7 @@ async def test_integration_multiple_entity_platforms(hass: __HAC_KEEP__) -> None
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
 async def test_exception_from_coordinator_update_method(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we handle exceptions from the update method."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -1578,7 +1578,7 @@ async def test_exception_from_coordinator_update_method(
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
 async def test_integration_multiple_entity_platforms_with_reload_and_restart(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test coordinator with multiple platforms and reload."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -1881,7 +1881,7 @@ NAMING_PASSIVE_BLUETOOTH_DATA_UPDATE = PassiveBluetoothDataUpdate(
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_naming(hass: __HAC_KEEP__) -> None:
+async def test_naming(hass: UniversalAssistant) -> None:
     """Test basic usage of the PassiveBluetoothProcessorCoordinator."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
 
@@ -2011,7 +2011,7 @@ def test_restore_data_device_info_round_trip() -> None:
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_plain_device_info_deprecated(hass: __HAC_KEEP__) -> None:
+async def test_plain_device_info_deprecated(hass: UniversalAssistant) -> None:
     """Test a plain device info is converted, and reported once."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
 
@@ -2063,7 +2063,7 @@ async def test_plain_device_info_deprecated(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
 async def test_shared_device_info_kept_as_is(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test a shared device info is stored as is, as it is compared by identity."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})

@@ -15,8 +15,8 @@ from universalassistant.const import (
     CONF_ENTITY_ID,
     CONF_TYPE,
 )
-from universalassistant.core import Context, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import Context, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.entity import get_capability, get_supported_features
 from universalassistant.helpers.typing import ConfigType, TemplateVarsType, VolDictType
@@ -65,14 +65,14 @@ _ACTION_SCHEMA = probatio.TaggedUnion(
 
 
 async def async_validate_action_config(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> ConfigType:
     """Validate config."""
     return async_validate_entity_schema(hass, config, _ACTION_SCHEMA)
 
 
 async def async_get_actions(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, str]]:
     """List device actions for Humidifier devices."""
     registry = er.async_get(hass)
@@ -99,7 +99,7 @@ async def async_get_actions(
 
 
 async def async_call_action_from_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     variables: TemplateVarsType,
     context: Context | None,
@@ -125,7 +125,7 @@ async def async_call_action_from_config(
 
 
 async def async_get_action_capabilities(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List action capabilities."""
     action_type = config[CONF_TYPE]
@@ -147,7 +147,7 @@ async def async_get_action_capabilities(
                 )
                 or []
             )
-        except __HAC_KEEP__Error:
+        except UniversalAssistantError:
             available_modes = []
         fields[probatio.Required(ATTR_MODE)] = probatio.In(available_modes)
     else:

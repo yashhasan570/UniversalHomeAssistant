@@ -33,8 +33,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.json import load_json
 
@@ -113,7 +113,7 @@ COMMANDS = [
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entities_created(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -123,7 +123,7 @@ async def test_entities_created(
 
 
 async def test_missing_multi_room(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_receiver: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -141,7 +141,7 @@ async def test_missing_multi_room(
     ("power", "expected"), [(True, STATE_ON), (False, STATE_OFF), (None, STATE_UNKNOWN)]
 )
 async def test_push_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_receiver: MagicMock,
     receiver_update: Callable[[V2007ReceiverState | None], None],
     power: bool | None,
@@ -157,12 +157,12 @@ async def test_push_state(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_disconnect_reloads(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_receiver: MagicMock,
     mock_config_entry: MockConfigEntry,
     receiver_update: Callable[[V2007ReceiverState | None], None],
 ) -> None:
-    """Mark both entities unavailable, then reconnect through __HA_KEEP__."""
+    """Mark both entities unavailable, then reconnect through Universal Home Assistant."""
     reconnect_started = asyncio.Event()
     reconnect_allowed = asyncio.Event()
     connect = mock_receiver.connect.side_effect
@@ -193,7 +193,7 @@ async def test_disconnect_reloads(
     ("volume", "expected"), [(-40.0, 40 / 98), (None, None), (-math.inf, None)]
 )
 async def test_volume_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_receiver: MagicMock,
     receiver_update: Callable[[V2007ReceiverState | None], None],
     volume: float | None,
@@ -209,7 +209,7 @@ async def test_volume_state(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_unknown_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_receiver: MagicMock,
     receiver_update: Callable[[V2007ReceiverState | None], None],
 ) -> None:
@@ -224,7 +224,7 @@ async def test_unknown_source(
     ("zone", "entity_id", "service", "data", "method", "args"), COMMANDS
 )
 async def test_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_receiver: MagicMock,
     zone: str,
     entity_id: str,
@@ -241,7 +241,7 @@ async def test_commands(
 
 
 @pytest.mark.usefixtures("init_integration")
-async def test_invalid_source(hass: __HAC_KEEP__) -> None:
+async def test_invalid_source(hass: UniversalAssistant) -> None:
     """Reject unsupported input names."""
     with pytest.raises(
         ServiceValidationError, match="Input source nonexistent is not supported"
@@ -272,7 +272,7 @@ def test_source_translations() -> None:
     ("zone", "entity_id", "service", "data", "method", "args"), COMMANDS
 )
 async def test_command_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_receiver: MagicMock,
     zone: str,
     entity_id: str,
@@ -286,7 +286,7 @@ async def test_command_failure(
     command = getattr(getattr(mock_receiver, zone), method)
     command.side_effect = error("Connection lost")
     with pytest.raises(
-        __HAC_KEEP__Error, match="Unable to communicate with the receiver"
+        UniversalAssistantError, match="Unable to communicate with the receiver"
     ) as err:
         await hass.services.async_call(
             MP_DOMAIN, service, {ATTR_ENTITY_ID: entity_id, **data}, blocking=True
@@ -305,7 +305,7 @@ async def test_command_failure(
     [("bd", "M"), ("usb", "7"), ("cd", "B"), ("am2", "L")],
 )
 async def test_other_model_sources(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_receiver: MagicMock,
     receiver_update: Callable[[V2007ReceiverState | None], None],
     zone: str,

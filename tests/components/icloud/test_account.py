@@ -39,7 +39,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.storage import Store
@@ -87,7 +87,7 @@ def mock_icloud_service_no_userinfo_fixture():
 
 
 async def test_setup_fails_when_userinfo_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_store: Mock,
     mock_icloud_service_no_userinfo: MagicMock,
 ) -> None:
@@ -133,7 +133,7 @@ def mock_icloud_service_fixture():
 
 
 async def test_setup_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_store: Mock,
 ) -> None:
     """Test a transport failure during setup asks for a retry."""
@@ -167,7 +167,7 @@ async def test_setup_connection_error(
 
 
 async def test_setup_success_with_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_store: Mock,
     mock_icloud_service: MagicMock,
 ) -> None:
@@ -255,7 +255,7 @@ def mock_icloud_devices_fixture() -> Generator[list[dict[str, Any]]]:
         yield payloads
 
 
-async def _set_up_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def _set_up_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Set up the integration for a config entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_CONFIG, entry_id="test", unique_id=USERNAME
@@ -266,14 +266,14 @@ async def _set_up_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     return config_entry
 
 
-async def _poll(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+async def _poll(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
     """Let the account poll iCloud once more."""
     freezer.tick(timedelta(minutes=DEFAULT_MAX_INTERVAL + 1))
     async_fire_time_changed(hass)
     await hass.async_block_till_done()
 
 
-def _entities_of_device(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> set[str]:
+def _entities_of_device(hass: UniversalAssistant, config_entry: MockConfigEntry) -> set[str]:
     """Return what the integration offers for the account's devices.
 
     The tracker platform and the battery sensors each build only what the
@@ -303,7 +303,7 @@ def _entities_of_device(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> se
     ],
 )
 async def test_a_device_gets_what_it_reports(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     icloud_devices: list[dict[str, Any]],
     device: dict[str, Any],
     expected: set[str],
@@ -324,7 +324,7 @@ async def test_a_device_gets_what_it_reports(
 
 
 async def test_a_device_without_battery_still_reports_its_location(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     icloud_devices: list[dict[str, Any]],
 ) -> None:
     """Test that a device iCloud reports no battery for gets its coordinates.
@@ -351,7 +351,7 @@ async def test_a_device_without_battery_still_reports_its_location(
     ],
 )
 async def test_half_a_location_is_not_tracked(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     icloud_devices: list[dict[str, Any]],
     location: dict[str, Any],
 ) -> None:
@@ -370,7 +370,7 @@ async def test_half_a_location_is_not_tracked(
 
 
 async def test_a_device_gaining_a_battery_gets_its_battery_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     icloud_devices: list[dict[str, Any]],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -378,7 +378,7 @@ async def test_a_device_gaining_a_battery_gets_its_battery_sensor(
 
     A device kept for its location alone is added without one, and the sensor
     platform only builds from the new-device signal, so the battery it starts
-    reporting would otherwise go unnoticed until __HA_KEEP__ restarts.
+    reporting would otherwise go unnoticed until Universal Home Assistant restarts.
     """
     icloud_devices.append(DEVICE_WITHOUT_BATTERY)
     await _set_up_entry(hass)
@@ -394,7 +394,7 @@ async def test_a_device_gaining_a_battery_gets_its_battery_sensor(
 
 
 async def test_devices_appearing_in_one_poll_all_get_their_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     icloud_devices: list[dict[str, Any]],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -421,7 +421,7 @@ async def test_devices_appearing_in_one_poll_all_get_their_entities(
 
 
 async def test_a_battery_level_that_is_absent_is_not_zero(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     icloud_devices: list[dict[str, Any]],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -439,7 +439,7 @@ async def test_a_battery_level_that_is_absent_is_not_zero(
 
 
 async def test_a_device_losing_its_battery_stops_reporting_a_level(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     icloud_devices: list[dict[str, Any]],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -474,7 +474,7 @@ async def test_a_device_losing_its_battery_stops_reporting_a_level(
     ],
 )
 async def test_a_device_that_stops_sharing_its_location_reads_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     icloud_devices: list[dict[str, Any]],
     freezer: FrozenDateTimeFactory,
     location: dict[str, Any] | None,
@@ -499,7 +499,7 @@ async def test_a_device_that_stops_sharing_its_location_reads_unknown(
 
 
 async def test_a_tracked_device_is_updated_even_when_it_reports_nothing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     icloud_devices: list[dict[str, Any]],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -530,7 +530,7 @@ async def test_a_tracked_device_is_updated_even_when_it_reports_nothing(
 
 
 async def test_a_failed_locate_does_not_cost_the_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_store: Mock,
     mock_icloud_service: MagicMock,
 ) -> None:
@@ -572,7 +572,7 @@ async def test_a_failed_locate_does_not_cost_the_poll(
 
 
 async def test_a_rejected_session_on_locate_reaches_the_caller(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_store: Mock,
     mock_icloud_service: MagicMock,
 ) -> None:
@@ -610,7 +610,7 @@ async def test_a_rejected_session_on_locate_reaches_the_caller(
 
 
 async def test_a_poll_with_no_devices_still_schedules_the_next_one(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_store: Mock,
     mock_icloud_service: MagicMock,
 ) -> None:
@@ -734,7 +734,7 @@ def mock_polling_service_fixture():
 
 
 async def test_polling_survives_authentication_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     polling_service: tuple[MagicMock, dict],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -771,7 +771,7 @@ async def test_polling_survives_authentication_error(
 
 
 async def test_failed_login_is_not_retried_under_the_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     polling_service: tuple[MagicMock, dict],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -816,7 +816,7 @@ async def test_failed_login_is_not_retried_under_the_user(
     assert hass.states.get("sensor.iphone_battery") is None
 
 
-async def test_terms_acceptance_starts_reauth(hass: __HAC_KEEP__) -> None:
+async def test_terms_acceptance_starts_reauth(hass: UniversalAssistant) -> None:
     """Test that a login waiting on new terms asks the user to act.
 
     Only the config flow can accept them, so the account has to stay loaded
@@ -844,7 +844,7 @@ async def test_terms_acceptance_starts_reauth(hass: __HAC_KEEP__) -> None:
 
 
 async def test_device_without_identity_is_skipped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     polling_service: tuple[MagicMock, dict],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -879,7 +879,7 @@ async def test_device_without_identity_is_skipped(
     assert hass.states.get("sensor.iphone_battery").state == "80"
 
 
-async def test_pending_check_ignores_a_skipped_device(hass: __HAC_KEEP__) -> None:
+async def test_pending_check_ignores_a_skipped_device(hass: UniversalAssistant) -> None:
     """Test that the pending-device retry does not read a device that was skipped.
 
     The first device iCloud lists has no id and is still loading, so it is
@@ -914,7 +914,7 @@ async def test_pending_check_ignores_a_skipped_device(hass: __HAC_KEEP__) -> Non
 
 
 async def test_polling_resumes_after_2fa_challenge(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     polling_service: tuple[MagicMock, dict],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -954,7 +954,7 @@ async def test_polling_resumes_after_2fa_challenge(
 
 
 async def test_rejected_credentials_ask_the_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     polling_service: tuple[MagicMock, dict],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -985,7 +985,7 @@ async def test_rejected_credentials_ask_the_user(
 
 
 async def test_2fa_challenge_keeps_session_for_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     polling_service: tuple[MagicMock, dict],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1015,7 +1015,7 @@ async def test_2fa_challenge_keeps_session_for_reauth(
 
 
 async def test_2fa_exception_while_polling_asks_for_a_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     polling_service: tuple[MagicMock, dict],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1072,7 +1072,7 @@ async def test_2fa_exception_while_polling_asks_for_a_code(
     ],
 )
 async def test_auth_status_while_polling_asks_the_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     polling_service: tuple[MagicMock, dict],
     freezer: FrozenDateTimeFactory,
     status: AppleAuthError,
@@ -1109,7 +1109,7 @@ async def test_auth_status_while_polling_asks_the_user(
 
 
 async def test_other_api_error_while_polling_keeps_retrying(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     polling_service: tuple[MagicMock, dict],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1152,7 +1152,7 @@ async def test_other_api_error_while_polling_keeps_retrying(
 
 
 async def test_family_device_after_setup_time_2fa(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     polling_service: tuple[MagicMock, dict],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1192,7 +1192,7 @@ async def test_family_device_after_setup_time_2fa(
 
 
 async def test_account_with_no_devices_keeps_polling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     polling_service: tuple[MagicMock, dict],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1226,7 +1226,7 @@ async def test_account_with_no_devices_keeps_polling(
 
 
 async def test_rejected_session_on_device_refresh_asks_the_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     polling_service: tuple[MagicMock, dict],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1263,7 +1263,7 @@ async def test_rejected_session_on_device_refresh_asks_the_user(
 
 
 async def test_auth_status_on_first_device_refresh_asks_the_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     polling_service: tuple[MagicMock, dict],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1289,7 +1289,7 @@ async def test_auth_status_on_first_device_refresh_asks_the_user(
     await hass.async_block_till_done()
 
     # Only the user can clear a rejection, so setup fails as an authentication
-    # failure and __HA_KEEP__ starts the reauth flow and stops retrying.
+    # failure and Universal Home Assistant starts the reauth flow and stops retrying.
     assert config_entry.state is ConfigEntryState.SETUP_ERROR
     assert [
         flow
@@ -1300,7 +1300,7 @@ async def test_auth_status_on_first_device_refresh_asks_the_user(
 
 
 async def test_rejected_session_on_first_device_refresh_asks_the_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     polling_service: tuple[MagicMock, dict],
 ) -> None:
     """Test that a session rejected on the first fetch reaches the user.
@@ -1332,7 +1332,7 @@ async def test_rejected_session_on_first_device_refresh_asks_the_user(
 
 
 async def test_other_api_error_on_first_device_refresh_is_not_a_rejection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     polling_service: tuple[MagicMock, dict],
 ) -> None:
     """Test that an error that is not about authentication does not ask for a login.
@@ -1363,7 +1363,7 @@ async def test_other_api_error_on_first_device_refresh_is_not_a_rejection(
 
 
 async def test_unreachable_icloud_on_first_device_refresh_retries_the_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     polling_service: tuple[MagicMock, dict],
 ) -> None:
     """Test that an unreachable iCloud is reported as a connection problem."""
@@ -1407,7 +1407,7 @@ async def test_unreachable_icloud_on_first_device_refresh_retries_the_setup(
     ],
 )
 async def test_devices_rejected_after_the_first_read_are_left_to_the_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     polling_service: tuple[MagicMock, dict],
     error: Exception,
     reauth: bool,
@@ -1431,7 +1431,7 @@ async def test_devices_rejected_after_the_first_read_are_left_to_the_user(
 
 
 async def test_auth_status_on_device_refresh_while_polling_asks_the_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     polling_service: tuple[MagicMock, dict],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1469,7 +1469,7 @@ async def test_auth_status_on_device_refresh_while_polling_asks_the_user(
 
 
 async def test_a_failed_setup_retry_keeps_the_account_polling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     polling_service: tuple[MagicMock, dict],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1522,7 +1522,7 @@ async def test_a_failed_setup_retry_keeps_the_account_polling(
 
 
 async def test_device_without_a_status_keeps_the_account_polling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test that a device iCloud reports no status for does not end setup.

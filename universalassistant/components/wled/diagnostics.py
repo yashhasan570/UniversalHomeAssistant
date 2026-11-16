@@ -3,13 +3,13 @@
 from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import WLEDConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: WLEDConfigEntry
+    hass: UniversalAssistant, entry: WLEDConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data

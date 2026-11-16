@@ -7,7 +7,7 @@ from goodwe import Inverter, InverterError, OperationMode
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -39,7 +39,7 @@ OPERATION_MODE = SelectEntityDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: GoodweConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

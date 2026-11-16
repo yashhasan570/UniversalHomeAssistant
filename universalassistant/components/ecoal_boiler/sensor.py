@@ -2,7 +2,7 @@
 
 from universalassistant.components.sensor import SensorDeviceClass, SensorEntity
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -10,7 +10,7 @@ from . import AVAILABLE_SENSORS, DATA_ECOAL_BOILER
 
 
 def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -41,7 +41,7 @@ class EcoalTempSensor(SensorEntity):
     def update(self) -> None:
         """Fetch new state data for the sensor.
 
-        This is the only method that should fetch new data for __HA_KEEP__.
+        This is the only method that should fetch new data for Universal Home Assistant.
         """
         # Old values read 0.5 back can still be used
         status = self._ecoal_contr.get_cached_status()

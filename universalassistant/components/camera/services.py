@@ -13,8 +13,8 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.components.stream import FORMAT_CONTENT_TYPE, OUTPUT_FORMATS
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.network import get_url
 from universalassistant.helpers.os_error import os_write_error
@@ -80,7 +80,7 @@ async def _async_handle_snapshot_service(
                 else await camera.async_camera_image()
             )
     except TimeoutError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="snapshot_timeout",
             translation_placeholders={"timeout": str(CAMERA_IMAGE_TIMEOUT)},
@@ -147,7 +147,7 @@ async def _async_handle_record_service(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the camera services."""
     component = hass.data[DATA_COMPONENT]
 

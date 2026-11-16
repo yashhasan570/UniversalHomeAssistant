@@ -6,7 +6,7 @@ from modbus_connection.model import Component, RegisterField
 from solaredged import SolarEdge
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import (
     SolarEdgeModbusConfigEntry,
@@ -67,7 +67,7 @@ def _poll_data(coordinator: SolarEdgeModbusDataUpdateCoordinator) -> dict[str, A
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: SolarEdgeModbusConfigEntry
+    hass: UniversalAssistant, entry: SolarEdgeModbusConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry.
 

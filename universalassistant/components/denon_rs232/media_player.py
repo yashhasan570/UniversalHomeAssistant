@@ -23,8 +23,8 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
     MediaType,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -97,7 +97,7 @@ def _tuner_frequency_to_mhz(frequency: str | None) -> str | None:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: DenonRS232ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -271,7 +271,7 @@ class DenonRS232MediaPlayer(MediaPlayerEntity):
             None,
         )
         if input_source is None:
-            raise __HAC_KEEP__Error("Invalid source")
+            raise UniversalAssistantError("Invalid source")
 
         await self._player.select_input_source(input_source)
 

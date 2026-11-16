@@ -28,7 +28,7 @@ from universalassistant.components.weather import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from tests.testing_config.custom_components.test import weather as WeatherPlatform
@@ -61,7 +61,7 @@ class MockWeatherTest(WeatherPlatform.MockWeather):
 
 
 async def create_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_weather: type[WeatherPlatform.MockWeather],
     manifest_extra: dict[str, Any] | None,
     **kwargs,
@@ -82,7 +82,7 @@ async def create_entity(
     )
 
     async def async_setup_entry_init(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -90,7 +90,7 @@ async def create_entity(
         )
 
     async def async_setup_entry_weather_platform(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:

@@ -17,7 +17,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.skoda.const import DOMAIN
 from universalassistant.components.skoda.coordinator import UPDATE_INTERVAL
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -42,7 +42,7 @@ def platforms() -> Generator[None]:
     ],
 )
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -59,7 +59,7 @@ async def test_sensors(
 
 @pytest.mark.parametrize("vehicle_fixture", ["vehicle_hybrid.json"])
 async def test_sensor_unknown_when_data_becomes_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
     freezer: FrozenDateTimeFactory,

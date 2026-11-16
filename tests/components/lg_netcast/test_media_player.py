@@ -9,7 +9,7 @@ import pytest
 from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.media_player import DOMAIN as MP_DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from . import MODEL_NAME, setup_lgnetcast
@@ -37,7 +37,7 @@ def mock_lg_netcast() -> Generator[MagicMock]:
 
 
 async def test_source_list_duplicate_channel_names(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lg_netcast: MagicMock,
 ) -> None:
     """Test that duplicate channel names are disambiguated in source list."""

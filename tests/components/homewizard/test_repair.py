@@ -22,14 +22,14 @@ from universalassistant.components.homewizard.repairs import async_create_fix_fl
 from universalassistant.components.repairs import ConfirmRepairFlow
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
 
 async def test_repair_acquires_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_homewizardenergy: MagicMock,
     mock_homewizardenergy_v2: MagicMock,
@@ -93,7 +93,7 @@ async def test_repair_acquires_token(
 
 
 async def test_repair_created_for_cloud_disabled_predictive_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_homewizardenergy: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -117,7 +117,7 @@ async def test_repair_created_for_cloud_disabled_predictive_mode(
 
 
 async def test_repair_shown_again_after_restart(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
     mock_homewizardenergy: MagicMock,
@@ -160,7 +160,7 @@ async def test_repair_shown_again_after_restart(
 
 
 async def test_repair_auto_resolves_when_cloud_is_re_enabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_homewizardenergy: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -186,7 +186,7 @@ async def test_repair_auto_resolves_when_cloud_is_re_enabled(
 
 
 async def test_repair_confirm_enables_cloud_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_homewizardenergy: MagicMock,
     hass_client: ClientSessionGenerator,
@@ -231,7 +231,7 @@ async def test_repair_confirm_enables_cloud_connection(
     ],
 )
 async def test_repair_confirm_enable_cloud_connection_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_homewizardenergy: MagicMock,
     hass_client: ClientSessionGenerator,
@@ -267,7 +267,7 @@ async def test_repair_confirm_enable_cloud_connection_errors(
     assert issue_registry.async_get_issue(DOMAIN, issue_id) is not None
 
 
-async def test_repair_unknown_issue_id_raises(hass: __HAC_KEEP__) -> None:
+async def test_repair_unknown_issue_id_raises(hass: UniversalAssistant) -> None:
     """Test unknown repair issue id raises ValueError."""
     with pytest.raises(ValueError, match="unknown repair unknown_issue"):
         await async_create_fix_flow(hass, "unknown_issue", {"entry_id": "entry-id"})
@@ -282,7 +282,7 @@ async def test_repair_unknown_issue_id_raises(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_repair_invalid_entry_id_returns_confirm_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     data: dict[str, str | int | float | None] | None,
 ) -> None:
     """Test invalid repair flow data falls back to confirm flow."""

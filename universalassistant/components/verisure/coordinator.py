@@ -17,7 +17,7 @@ from verisure import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.storage import STORAGE_DIR
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -49,7 +49,7 @@ class VerisureDataUpdateCoordinator(DataUpdateCoordinator[dict]):
 
     config_entry: VerisureConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, entry: VerisureConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: VerisureConfigEntry) -> None:
         """Initialize the Verisure hub."""
         self.imageseries: list[dict[str, str]] = []
         self._overview: list[dict] = []
@@ -235,7 +235,7 @@ class VerisureDataUpdateCoordinator(DataUpdateCoordinator[dict]):
                 None,
             )
 
-        # Store data in a way __HA_KEEP__ can easily consume it
+        # Store data in a way Universal Home Assistant can easily consume it
         self._overview = overview
         self._rate_limit_backoff_level = 0
         return {

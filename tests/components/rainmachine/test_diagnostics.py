@@ -6,11 +6,11 @@ from regenmaschine.errors import RainMachineError
 from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry,
     hass_client: ClientSessionGenerator,
     setup_rainmachine,
@@ -23,7 +23,7 @@ async def test_entry_diagnostics(
 
 
 async def test_entry_diagnostics_failed_controller_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry,
     controller,
     hass_client: ClientSessionGenerator,

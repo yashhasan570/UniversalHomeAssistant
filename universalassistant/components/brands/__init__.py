@@ -12,8 +12,8 @@ from aiohttp import ClientError, hdrs, web
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.components.http import KEY_AUTHENTICATED, __HAC_KEEP__View
-from universalassistant.core import __HAC_KEEP__, callback, valid_domain
+from universalassistant.components.http import KEY_AUTHENTICATED, UniversalAssistantView
+from universalassistant.core import UniversalAssistant, callback, valid_domain
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.event import async_track_time_interval
@@ -39,7 +39,7 @@ _RND: Final = SystemRandom()
 CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Brands integration."""
     access_tokens: deque[str] = deque(maxlen=2)
     access_tokens.append(hex(_RND.getrandbits(256))[2:])
@@ -64,7 +64,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 @callback
 @websocket_api.websocket_command({probatio.Required("type"): "brands/access_token"})
 def ws_access_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -106,12 +106,12 @@ def _read_brand_file(brand_dir: Path, image: str) -> bytes | None:
     return None
 
 
-class _BrandsBaseView(__HAC_KEEP__View):
+class _BrandsBaseView(UniversalAssistantView):
     """Base view for serving brand images."""
 
     requires_auth = False
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the view."""
         self._hass = hass
         self._cache_dir = Path(hass.config.cache_path(DOMAIN))

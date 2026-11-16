@@ -28,7 +28,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import Context, CoreState, __HAC_KEEP__, State
+from universalassistant.core import Context, CoreState, UniversalAssistant, State
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
@@ -81,7 +81,7 @@ TEST_BINARY_SENSOR = TemplatePlatformSetup(
 
 @pytest.fixture
 async def setup_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     count: int,
     style: ConfigurationStyle,
     state_template: str,
@@ -95,7 +95,7 @@ async def setup_binary_sensor(
 
 @pytest.fixture
 async def setup_single_attribute_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     count: int,
     style: ConfigurationStyle,
     attribute: str,
@@ -123,7 +123,7 @@ async def setup_single_attribute_binary_sensor(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_binary_sensor")
-async def test_setup_minimal(hass: __HAC_KEEP__) -> None:
+async def test_setup_minimal(hass: UniversalAssistant) -> None:
     """Test the setup."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, STATE_ON)
 
@@ -151,7 +151,7 @@ async def test_setup_minimal(hass: __HAC_KEEP__) -> None:
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_binary_sensor")
-async def test_setup(hass: __HAC_KEEP__) -> None:
+async def test_setup(hass: UniversalAssistant) -> None:
     """Test the setup."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, STATE_ON)
 
@@ -170,7 +170,7 @@ async def test_setup(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_setup_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     config_entry_extra_options: dict[str, str],
 ) -> None:
@@ -235,7 +235,7 @@ async def test_setup_config_entry(
     ],
 )
 @pytest.mark.usefixtures("start_ha")
-async def test_setup_invalid_sensors(hass: __HAC_KEEP__, count: int) -> None:
+async def test_setup_invalid_sensors(hass: UniversalAssistant, count: int) -> None:
     """Test setup with no sensors."""
     assert len(hass.states.async_entity_ids("binary_sensor")) == count
 
@@ -259,7 +259,7 @@ async def test_setup_invalid_sensors(hass: __HAC_KEEP__, count: int) -> None:
     ],
 )
 async def test_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     state_template: str,
     expected_result: str,
 ) -> None:
@@ -307,7 +307,7 @@ async def test_state(
     ],
 )
 @pytest.mark.usefixtures("setup_single_attribute_binary_sensor")
-async def test_icon_template(hass: __HAC_KEEP__, initial_state: str | None) -> None:
+async def test_icon_template(hass: UniversalAssistant, initial_state: str | None) -> None:
     """Test icon template."""
     state = hass.states.get(TEST_BINARY_SENSOR.entity_id)
     assert state.attributes.get("icon") == initial_state
@@ -338,7 +338,7 @@ async def test_icon_template(hass: __HAC_KEEP__, initial_state: str | None) -> N
 )
 @pytest.mark.usefixtures("setup_single_attribute_binary_sensor")
 async def test_entity_picture_template(
-    hass: __HAC_KEEP__, initial_state: str | None
+    hass: UniversalAssistant, initial_state: str | None
 ) -> None:
     """Test entity_picture template."""
     state = hass.states.get(TEST_BINARY_SENSOR.entity_id)
@@ -370,7 +370,7 @@ async def test_entity_picture_template(
 )
 @pytest.mark.usefixtures("setup_single_attribute_binary_sensor")
 async def test_attribute_templates(
-    hass: __HAC_KEEP__, initial_value: str | None
+    hass: UniversalAssistant, initial_value: str | None
 ) -> None:
     """Test attribute_templates template."""
     state = hass.states.get(TEST_BINARY_SENSOR.entity_id)
@@ -403,7 +403,7 @@ async def test_attribute_templates(
 )
 @pytest.mark.usefixtures("setup_single_attribute_binary_sensor")
 async def test_invalid_attribute_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     caplog_setup_text: str,
     caplog: pytest.LogCaptureFixture,
@@ -448,7 +448,7 @@ def setup_mock() -> Generator[Mock]:
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_binary_sensor")
-async def test_match_all(hass: __HAC_KEEP__, setup_mock: Mock) -> None:
+async def test_match_all(hass: UniversalAssistant, setup_mock: Mock) -> None:
     """Test template that is rerendered on any state lifecycle."""
     init_calls = len(setup_mock.mock_calls)
 
@@ -471,7 +471,7 @@ async def test_match_all(hass: __HAC_KEEP__, setup_mock: Mock) -> None:
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_binary_sensor")
-async def test_binary_sensor_state(hass: __HAC_KEEP__) -> None:
+async def test_binary_sensor_state(hass: UniversalAssistant) -> None:
     """Test the event."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, STATE_OFF)
     state = hass.states.get(TEST_BINARY_SENSOR.entity_id)
@@ -507,7 +507,7 @@ async def test_binary_sensor_state(hass: __HAC_KEEP__) -> None:
     ],
 )
 @pytest.mark.usefixtures("setup_single_attribute_binary_sensor")
-async def test_delay_on(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+async def test_delay_on(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
     """Test binary sensor template delay on."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, STATE_OFF)
     assert hass.states.get(TEST_BINARY_SENSOR.entity_id).state == STATE_OFF
@@ -565,7 +565,7 @@ async def test_delay_on(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> N
     ],
 )
 @pytest.mark.usefixtures("setup_single_attribute_binary_sensor")
-async def test_delay_off(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+async def test_delay_off(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
     """Test binary sensor template delay off."""
     assert hass.states.get(TEST_BINARY_SENSOR.entity_id).state != STATE_ON
 
@@ -600,7 +600,7 @@ async def test_delay_off(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> 
 
 
 async def test_self_referencing_delay_loop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -657,7 +657,7 @@ async def test_self_referencing_delay_loop(
     ],
 )
 async def test_config_flow_binary_sensor_delay_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     advanced_input: dict[str, Any],
     expected_advanced_options: dict[str, Any],
     expected_state: str,
@@ -714,7 +714,7 @@ async def test_config_flow_binary_sensor_delay_options(
 
 
 async def test_config_flow_preview_binary_sensor_delay(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test the config flow preview with a delayed binary sensor."""
@@ -791,7 +791,7 @@ async def test_config_flow_preview_binary_sensor_delay(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_binary_sensor")
-async def test_available_without_availability_template(hass: __HAC_KEEP__) -> None:
+async def test_available_without_availability_template(hass: UniversalAssistant) -> None:
     """Ensure availability is true without an availability_template."""
     state = hass.states.get(TEST_BINARY_SENSOR.entity_id)
 
@@ -821,7 +821,7 @@ async def test_available_without_availability_template(hass: __HAC_KEEP__) -> No
     ],
 )
 @pytest.mark.usefixtures("setup_single_attribute_binary_sensor")
-async def test_availability_template(hass: __HAC_KEEP__) -> None:
+async def test_availability_template(hass: UniversalAssistant) -> None:
     """Test availability template."""
     await async_trigger(hass, TEST_AVAILABILITY_ENTITY_ID, STATE_OFF)
 
@@ -848,7 +848,7 @@ async def test_availability_template(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("setup_single_attribute_binary_sensor")
 async def test_invalid_availability_template_keeps_component_available(
-    hass: __HAC_KEEP__, caplog_setup_text: str, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog_setup_text: str, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that an invalid availability keeps the device available."""
 
@@ -859,7 +859,7 @@ async def test_invalid_availability_template_keeps_component_available(
     assert text in caplog_setup_text or text in caplog.text
 
 
-async def test_no_update_template_match_all(hass: __HAC_KEEP__) -> None:
+async def test_no_update_template_match_all(hass: UniversalAssistant) -> None:
     """Test that we do not update sensors that match on all."""
 
     hass.set_state(CoreState.not_running)
@@ -932,7 +932,7 @@ async def test_no_update_template_match_all(hass: __HAC_KEEP__) -> None:
     "style",
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
-async def test_unique_id(hass: __HAC_KEEP__, style: ConfigurationStyle) -> None:
+async def test_unique_id(hass: UniversalAssistant, style: ConfigurationStyle) -> None:
     """Test unique_id option only creates one light per id."""
     await setup_and_test_unique_id(hass, TEST_BINARY_SENSOR, style, {}, "{{ 1 == 1}}")
 
@@ -941,7 +941,7 @@ async def test_unique_id(hass: __HAC_KEEP__, style: ConfigurationStyle) -> None:
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_nested_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -963,7 +963,7 @@ async def test_nested_unique_id(
 )
 @pytest.mark.usefixtures("setup_single_attribute_binary_sensor")
 async def test_template_icon_validation_error(
-    hass: __HAC_KEEP__, initial_state: str, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, initial_state: str, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test binary sensor template delay on."""
     caplog.set_level(logging.ERROR)
@@ -994,7 +994,7 @@ async def test_template_icon_validation_error(
     ],
 )
 async def test_modern_restore_state_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     restored_state: str,
     expected_state: str,
 ) -> None:
@@ -1057,7 +1057,7 @@ async def test_modern_restore_state_attributes(
     ],
 )
 async def test_modern_restore_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     restored_state: str,
     expected_state: str,
     extra_config: ConfigType,
@@ -1091,7 +1091,7 @@ async def test_modern_restore_state(
     ],
 )
 async def test_modern_does_not_restore_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     source_state: str,
     restored_state: str,
     expected_state: str,
@@ -1142,7 +1142,7 @@ async def test_modern_does_not_restore_state(
 )
 @pytest.mark.usefixtures("setup_binary_sensor")
 async def test_template_with_trigger_templated_auto_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     beer_count: int,
     first_state: str,
     second_state: str,
@@ -1195,7 +1195,7 @@ async def test_template_with_trigger_templated_auto_off(
 )
 @pytest.mark.usefixtures("setup_binary_sensor")
 async def test_template_trigger_delay_on_and_auto_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test binary sensor template with delay_on, auto_off, and multiple triggers."""
@@ -1264,7 +1264,7 @@ async def test_template_trigger_delay_on_and_auto_off(
 )
 @pytest.mark.usefixtures("setup_binary_sensor")
 async def test_template_multiple_states_delay_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test binary sensor template with delay_on and multiple state changes."""
@@ -1313,7 +1313,7 @@ async def test_template_multiple_states_delay_on(
 )
 @pytest.mark.usefixtures("setup_binary_sensor")
 async def test_template_with_trigger_auto_off_cancel(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test binary sensor template with template auto off."""
@@ -1377,7 +1377,7 @@ async def test_template_with_trigger_auto_off_cancel(
 )
 @pytest.mark.usefixtures("setup_single_attribute_binary_sensor")
 async def test_trigger_with_negative_time_periods(
-    hass: __HAC_KEEP__, attribute: str, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, attribute: str, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test binary sensor template with template negative time periods."""
     state = hass.states.get(TEST_BINARY_SENSOR.entity_id)
@@ -1408,7 +1408,7 @@ async def test_trigger_with_negative_time_periods(
 )
 @pytest.mark.usefixtures("setup_single_attribute_binary_sensor")
 async def test_trigger_template_delay_with_multiple_triggers(
-    hass: __HAC_KEEP__, delay_state: str, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, delay_state: str, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test trigger based binary sensor with multiple triggers during delay."""
     for _ in range(10):
@@ -1437,7 +1437,7 @@ async def test_trigger_template_delay_with_multiple_triggers(
     ],
 )
 async def test_trigger_entity_restore_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     restored_state: str,
     initial_state: str,
     initial_attributes: list[str],
@@ -1498,7 +1498,7 @@ async def test_trigger_entity_restore_state(
 
 @pytest.mark.parametrize("restored_state", [STATE_ON, STATE_OFF])
 async def test_trigger_entity_restore_state_auto_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     restored_state: str,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1535,7 +1535,7 @@ async def test_trigger_entity_restore_state_auto_off(
 
 
 async def test_trigger_entity_restore_state_auto_off_expired(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test restoring trigger template binary sensor."""
@@ -1563,7 +1563,7 @@ async def test_trigger_entity_restore_state_auto_off_expired(
 
 
 async def test_saving_auto_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1610,7 +1610,7 @@ async def test_saving_auto_off(
 
 
 async def test_trigger_entity_restore_invalid_auto_off_time_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1644,7 +1644,7 @@ async def test_trigger_entity_restore_invalid_auto_off_time_data(
 
 
 async def test_trigger_entity_restore_invalid_auto_off_time_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1679,7 +1679,7 @@ async def test_trigger_entity_restore_invalid_auto_off_time_key(
 
 
 async def test_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1718,7 +1718,7 @@ async def test_device_id(
 
 
 async def test_flow_preview(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the config flow preview."""
     state = await async_get_flow_preview_state(
@@ -1734,7 +1734,7 @@ async def test_flow_preview(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1749,7 +1749,7 @@ async def test_attributes_template(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template_with_blocked_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     attribute: str,
     caplog: pytest.LogCaptureFixture,

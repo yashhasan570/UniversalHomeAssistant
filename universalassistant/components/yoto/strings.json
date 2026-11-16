@@ -10,7 +10,7 @@
     },
     "step": {
       "oauth_discovery": {
-        "description": "__HA_KEEP__ has found a Yoto player on your network. Press **Submit** to continue setting up Yoto."
+        "description": "Universal Home Assistant has found a Yoto player on your network. Press **Submit** to continue setting up Yoto."
       },
       "pick_implementation": {
         "data": {

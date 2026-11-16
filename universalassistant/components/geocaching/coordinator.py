@@ -7,7 +7,7 @@ from geocachingapi.geocachingapi import GeocachingApi
 from geocachingapi.models import GeocachingStatus
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.config_entry_oauth2_flow import OAuth2Session
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -24,7 +24,7 @@ class GeocachingDataUpdateCoordinator(DataUpdateCoordinator[GeocachingStatus]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         *,
         entry: GeocachingConfigEntry,
         session: OAuth2Session,

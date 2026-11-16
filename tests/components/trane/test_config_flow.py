@@ -9,7 +9,7 @@ from steamloop import PairingError, SteamloopConnectionError
 from universalassistant.components.trane.const import CONF_SECRET_KEY, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import MOCK_HOST, MOCK_SECRET_KEY
@@ -17,7 +17,7 @@ from .conftest import MOCK_HOST, MOCK_SECRET_KEY
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_user_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connection: MagicMock,
 ) -> None:
     """Test the full user config flow."""
@@ -51,7 +51,7 @@ async def test_full_user_flow(
     ],
 )
 async def test_form_errors_can_recover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connection: MagicMock,
     side_effect: Exception,
     error_key: str,
@@ -88,7 +88,7 @@ async def test_form_errors_can_recover(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connection: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

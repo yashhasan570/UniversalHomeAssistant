@@ -4,7 +4,7 @@ import pytest
 
 from universalassistant.components.qnap_qsw.const import ATTR_MESSAGE
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .util import async_init_integration
@@ -12,7 +12,7 @@ from .util import async_init_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_qnap_qsw_create_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test creation of binary sensors."""

@@ -1,10 +1,10 @@
-"""Integration to offer AI tasks to __HA_KEEP__."""
+"""Integration to offer AI tasks to Universal Home Assistant."""
 
 import logging
 
 from universalassistant.components.media_source import local_source
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, callback
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import config_validation as cv, storage
 from universalassistant.helpers.entity_component import EntityComponent
@@ -75,7 +75,7 @@ _LOGGER = logging.getLogger(__name__)
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up AI Task."""
     entity_component = EntityComponent[AITaskEntity](_LOGGER, DOMAIN, hass)
     hass.data[DATA_COMPONENT] = entity_component
@@ -89,7 +89,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up a config entry."""
     if not await hass.data[DATA_COMPONENT].async_setup_entry(entry):
         raise ConfigEntryError(
@@ -99,13 +99,13 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.data[DATA_COMPONENT].async_unload_entry(entry)
 
 
 @callback
-def async_is_automatic_evaluation_enabled(hass: __HAC_KEEP__) -> bool:
+def async_is_automatic_evaluation_enabled(hass: UniversalAssistant) -> bool:
     """Return whether the user allows automatic use of the default decision model.
 
     Returns False if AI Task has not been set up. This only checks the user's
@@ -131,7 +131,7 @@ class AITaskPreferences:
     gen_data_entity_id: str | None = None
     gen_image_entity_id: str | None = None
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the preferences."""
         self._store: storage.Store[dict[str, str | bool | None]] = storage.Store(
             hass, 1, DOMAIN

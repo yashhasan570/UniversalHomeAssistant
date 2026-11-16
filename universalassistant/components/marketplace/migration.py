@@ -14,7 +14,7 @@ from urllib.parse import parse_qsl, urlencode
 
 from universalassistant.components import lovelace
 from universalassistant.const import CONF_TOKEN, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -77,7 +77,7 @@ RETIRED_CATEGORIES: dict[str, RetiredCategory] = {
 
 @callback
 def async_adopt_legacy_install(
-    hass: __HAC_KEEP__, entry: MarketplaceConfigEntry
+    hass: UniversalAssistant, entry: MarketplaceConfigEntry
 ) -> None:
     """Adopt what the previous install left behind, if there is anything."""
     entity_registry = er.async_get(hass)
@@ -131,7 +131,7 @@ def async_adopt_legacy_install(
 
 
 @callback
-def _async_adopt_options(hass: __HAC_KEEP__, entry: MarketplaceConfigEntry) -> None:
+def _async_adopt_options(hass: UniversalAssistant, entry: MarketplaceConfigEntry) -> None:
     """Drop the options of the previous install, keeping the download profile."""
     options = {
         key: value for key, value in entry.options.items() if key == CONF_PROFILE
@@ -268,7 +268,7 @@ def _display_name(repository_data: dict[str, Any]) -> str:
 
 @callback
 def async_forget_retired_repositories(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MarketplaceConfigEntry,
     repositories: dict[str, dict[str, Any]],
 ) -> None:
@@ -283,7 +283,7 @@ def async_forget_retired_repositories(
 
 @callback
 def _async_forget_category(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MarketplaceConfigEntry,
     repositories: dict[str, dict[str, Any]],
     category: str,
@@ -342,7 +342,7 @@ def _async_forget_category(
     )
 
 
-async def async_remove_duplicate_entries(hass: __HAC_KEEP__) -> None:
+async def async_remove_duplicate_entries(hass: UniversalAssistant) -> None:
     """Keep a single config entry when two of them landed next to each other.
 
     Both integrations could be configured side by side, which leaves two entries
@@ -447,7 +447,7 @@ def _migrated_resource_url(url: str) -> str:
     return f"{path}?{urlencode(parameters)}"
 
 
-async def async_migrate_dashboard_resources(hass: __HAC_KEEP__) -> None:
+async def async_migrate_dashboard_resources(hass: UniversalAssistant) -> None:
     """Point the dashboard resources at the path the frontend serves.
 
     The custom integration served www/community itself, the frontend serves the
@@ -486,7 +486,7 @@ async def async_migrate_dashboard_resources(hass: __HAC_KEEP__) -> None:
 
 @callback
 def _async_update_yaml_resources_issue(
-    hass: __HAC_KEEP__, resources: list[dict[str, Any]]
+    hass: UniversalAssistant, resources: list[dict[str, Any]]
 ) -> None:
     """Ask to update the YAML resources that still use the old path."""
     legacy_urls = [
@@ -601,7 +601,7 @@ def _remove_legacy_files(config_path: str) -> list[str]:
     return removed
 
 
-async def async_remove_legacy_files(hass: __HAC_KEEP__) -> None:
+async def async_remove_legacy_files(hass: UniversalAssistant) -> None:
     """Clean up the files of the previous install once the Marketplace adopted them."""
     if removed := await hass.async_add_executor_job(
         _remove_legacy_files, hass.config.path()

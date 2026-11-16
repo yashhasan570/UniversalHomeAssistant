@@ -7,8 +7,8 @@ from aiohasupervisor.models import AddonState
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import ADDONS_COORDINATOR
@@ -24,7 +24,7 @@ ENTITY_DESCRIPTION = SwitchEntityDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -70,7 +70,7 @@ class HassioAddonSwitch(HassioAddonEntity, SwitchEntity):
         try:
             await supervisor_client.addons.start_addon(self._addon_slug)
         except SupervisorError as err:
-            raise __HAC_KEEP__Error(err) from err
+            raise UniversalAssistantError(err) from err
 
         await self.coordinator.force_addon_info_data_refresh(self._addon_slug)
 
@@ -81,6 +81,6 @@ class HassioAddonSwitch(HassioAddonEntity, SwitchEntity):
         try:
             await supervisor_client.addons.stop_addon(self._addon_slug)
         except SupervisorError as err:
-            raise __HAC_KEEP__Error(err) from err
+            raise UniversalAssistantError(err) from err
 
         await self.coordinator.force_addon_info_data_refresh(self._addon_slug)

@@ -6,14 +6,14 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
 @pytest.mark.freeze_time("2023-10-21")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_subway_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_with_subway_subentry: MockConfigEntry,
     mock_subway_feed: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -36,7 +36,7 @@ async def test_subway_sensor(
 @pytest.mark.freeze_time("2023-10-21")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_bus_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_with_bus_subentry: MockConfigEntry,
     mock_bus_feed: MagicMock,
     entity_registry: er.EntityRegistry,

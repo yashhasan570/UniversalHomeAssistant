@@ -10,7 +10,7 @@ from sfrbox_api.models import DslInfo, FtthInfo, SystemInfo, VoipInfo, WanInfo
 from universalassistant.components.sfr_box.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -23,7 +23,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 @pytest.fixture(name="config_entry")
-def get_config_entry(hass: __HAC_KEEP__) -> ConfigEntry:
+def get_config_entry(hass: UniversalAssistant) -> ConfigEntry:
     """Create and register mock config entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -38,7 +38,7 @@ def get_config_entry(hass: __HAC_KEEP__) -> ConfigEntry:
 
 
 @pytest.fixture(name="config_entry_with_auth")
-def get_config_entry_with_auth(hass: __HAC_KEEP__) -> ConfigEntry:
+def get_config_entry_with_auth(hass: UniversalAssistant) -> ConfigEntry:
     """Create and register mock config entry."""
     config_entry_with_auth = MockConfigEntry(
         domain=DOMAIN,
@@ -57,7 +57,7 @@ def get_config_entry_with_auth(hass: __HAC_KEEP__) -> ConfigEntry:
 
 
 @pytest.fixture
-async def dsl_get_info(hass: __HAC_KEEP__) -> AsyncGenerator[DslInfo]:
+async def dsl_get_info(hass: UniversalAssistant) -> AsyncGenerator[DslInfo]:
     """Fixture for SFRBox.dsl_get_info."""
     dsl_info = DslInfo(
         **(await async_load_json_object_fixture(hass, "dsl_getInfo.json", DOMAIN))
@@ -70,7 +70,7 @@ async def dsl_get_info(hass: __HAC_KEEP__) -> AsyncGenerator[DslInfo]:
 
 
 @pytest.fixture
-async def ftth_get_info(hass: __HAC_KEEP__) -> AsyncGenerator[FtthInfo]:
+async def ftth_get_info(hass: UniversalAssistant) -> AsyncGenerator[FtthInfo]:
     """Fixture for SFRBox.ftth_get_info."""
     info = FtthInfo(
         **(await async_load_json_object_fixture(hass, "ftth_getInfo.json", DOMAIN))
@@ -83,7 +83,7 @@ async def ftth_get_info(hass: __HAC_KEEP__) -> AsyncGenerator[FtthInfo]:
 
 
 @pytest.fixture
-async def system_get_info(hass: __HAC_KEEP__) -> AsyncGenerator[SystemInfo]:
+async def system_get_info(hass: UniversalAssistant) -> AsyncGenerator[SystemInfo]:
     """Fixture for SFRBox.system_get_info."""
     info = SystemInfo(
         **(await async_load_json_object_fixture(hass, "system_getInfo.json", DOMAIN))
@@ -96,7 +96,7 @@ async def system_get_info(hass: __HAC_KEEP__) -> AsyncGenerator[SystemInfo]:
 
 
 @pytest.fixture
-async def voip_get_info(hass: __HAC_KEEP__) -> AsyncGenerator[VoipInfo]:
+async def voip_get_info(hass: UniversalAssistant) -> AsyncGenerator[VoipInfo]:
     """Fixture for SFRBox.voip_get_info."""
     info = VoipInfo(
         **(await async_load_json_object_fixture(hass, "voip_getInfo.json", DOMAIN))
@@ -109,7 +109,7 @@ async def voip_get_info(hass: __HAC_KEEP__) -> AsyncGenerator[VoipInfo]:
 
 
 @pytest.fixture
-async def wan_get_info(hass: __HAC_KEEP__) -> AsyncGenerator[WanInfo]:
+async def wan_get_info(hass: UniversalAssistant) -> AsyncGenerator[WanInfo]:
     """Fixture for SFRBox.wan_get_info."""
     info = WanInfo(
         **(await async_load_json_object_fixture(hass, "wan_getInfo.json", DOMAIN))

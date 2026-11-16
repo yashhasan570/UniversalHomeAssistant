@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import HA_INELS_PATH
 from .common import DOMAIN, MockConfigEntry, get_entity_state, set_mock_mqtt
@@ -67,7 +67,7 @@ def mock_reload_entry():
 
 
 @pytest.fixture
-def setup_entity(hass: __HAC_KEEP__, mock_mqtt):
+def setup_entity(hass: UniversalAssistant, mock_mqtt):
     """Set up an entity for testing with specified configuration and status."""
 
     async def _setup(
@@ -99,7 +99,7 @@ def entity_config(request: pytest.FixtureRequest):
     return request.param
 
 
-async def setup_inels_test_integration(hass: __HAC_KEEP__):
+async def setup_inels_test_integration(hass: UniversalAssistant):
     """Load inels integration with mocked mqtt broker."""
     hass.config.components.add(DOMAIN)
 

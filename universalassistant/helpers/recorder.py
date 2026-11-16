@@ -8,7 +8,7 @@ import functools
 import logging
 from typing import TYPE_CHECKING, Any
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.util.hass_dict import HassKey
 
 if TYPE_CHECKING:
@@ -34,7 +34,7 @@ class RecorderData:
 
 
 @callback
-def async_migration_in_progress(hass: __HAC_KEEP__) -> bool:
+def async_migration_in_progress(hass: UniversalAssistant) -> bool:
     """Check to see if a recorder migration is in progress."""
     from universalassistant.components import recorder  # noqa: PLC0415
 
@@ -42,7 +42,7 @@ def async_migration_in_progress(hass: __HAC_KEEP__) -> bool:
 
 
 @callback
-def async_migration_is_live(hass: __HAC_KEEP__) -> bool:
+def async_migration_is_live(hass: UniversalAssistant) -> bool:
     """Check to see if a recorder migration is live."""
     from universalassistant.components import recorder  # noqa: PLC0415
 
@@ -50,7 +50,7 @@ def async_migration_is_live(hass: __HAC_KEEP__) -> bool:
 
 
 @callback
-def async_initialize_recorder(hass: __HAC_KEEP__) -> None:
+def async_initialize_recorder(hass: UniversalAssistant) -> None:
     """Initialize recorder data.
 
     This creates the RecorderData instance stored in hass.data[DATA_RECORDER] and
@@ -64,7 +64,7 @@ def async_initialize_recorder(hass: __HAC_KEEP__) -> None:
 
 
 @functools.lru_cache(maxsize=1)
-def get_instance(hass: __HAC_KEEP__) -> Recorder:
+def get_instance(hass: UniversalAssistant) -> Recorder:
     """Get the recorder instance."""
     return hass.data[DATA_INSTANCE]
 
@@ -72,7 +72,7 @@ def get_instance(hass: __HAC_KEEP__) -> Recorder:
 @contextmanager
 def session_scope(
     *,
-    hass: __HAC_KEEP__ | None = None,
+    hass: UniversalAssistant | None = None,
     session: Session | None = None,
     exception_filter: Callable[[Exception], bool] | None = None,
     read_only: bool = False,

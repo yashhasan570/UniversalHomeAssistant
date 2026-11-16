@@ -8,11 +8,11 @@ from pytest_universalassistant.components.diagnostics import get_diagnostics_for
 from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
@@ -30,7 +30,7 @@ async def test_diagnostics(
 
 
 async def test_diagnostics_without_static_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,

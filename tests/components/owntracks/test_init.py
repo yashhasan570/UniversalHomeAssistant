@@ -8,7 +8,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from universalassistant.components import owntracks
 from universalassistant.components.device_tracker.legacy import Device
 from universalassistant.components.owntracks import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 MINIMAL_LOCATION_MESSAGE = {
@@ -44,9 +44,9 @@ def mock_dev_track(mock_device_tracker_conf: list[Device]) -> None:
 
 @pytest.fixture
 async def mock_client(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> TestClient:
-    """Start the __HA_KEEP__ HTTP component."""
+    """Start the Universal Home Assistant HTTP component."""
     mock_component(hass, "group")
     mock_component(hass, "zone")
     mock_component(hass, "device_tracker")

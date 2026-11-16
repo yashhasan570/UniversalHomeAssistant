@@ -13,13 +13,14 @@ from pytest_universalassistant.common import (
 from roborock.data.v1 import RoborockDockTypeCode
 from roborock.device_features import RoborockDockFeatures
 from roborock.exceptions import RoborockException
+from roborock.map.b01_q10_map_parser import Q10Room
 from roborock.roborock_message import RoborockDyadDataProtocol
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.roborock.const import A01_UPDATE_INTERVAL, DOMAIN
 from universalassistant.components.roborock.coordinator import MIN_UNAVAILABLE_DURATION
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -33,13 +34,85 @@ def platforms() -> list[Platform]:
 
 
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     setup_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test sensors and check test values are correctly set."""
     await snapshot_platform(hass, entity_registry, snapshot, setup_entry.entry_id)
+
+
+@pytest.mark.parametrize(
+    ("current_room", "expected_state"),
+    [
+        pytest.param(None, STATE_UNKNOWN, id="unknown"),
+        pytest.param(
+            Q10Room(id=9, raw_name="rr_bedroom", pixel_value=36, pixel_count=100),
+            "Bedroom",
+            id="bedroom",
+        ),
+        pytest.param(
+            Q10Room(id=10, raw_name="rr_living_room", pixel_value=40, pixel_count=200),
+            "Living Room",
+            id="living_room",
+        ),
+    ],
+)
+async def test_q10_current_room(
+    hass: UniversalAssistant,
+    mock_roborock_entry: MockConfigEntry,
+    fake_q10_vacuum: FakeDevice,
+    current_room: Q10Room | None,
+    expected_state: str,
+) -> None:
+    """Expose the room reported by the library, including unknown locations."""
+    fake_q10_vacuum.b01_q10_properties.map.current_room = current_room
+
+    await hass.config_entries.async_setup(mock_roborock_entry.entry_id)
+    await hass.async_block_till_done()
+
+    state = hass.states.get("sensor.roborock_q10_s5_current_room")
+    assert state.state == expected_state
+    assert state.attributes["options"] == ["Bedroom", "Living Room"]
+
+
+async def test_q10_current_room_updates_and_unloads(
+    hass: UniversalAssistant,
+    setup_entry: MockConfigEntry,
+    fake_q10_vacuum: FakeDevice,
+) -> None:
+    """Follow room and map changes and remove the listener on unload."""
+    map_trait = fake_q10_vacuum.b01_q10_properties.map
+    notify = map_trait.add_update_listener.call_args[0][0]
+    unsubscribe = map_trait.add_update_listener.return_value
+
+    for room in map_trait.rooms:
+        map_trait.current_room = room
+        notify()
+        await hass.async_block_till_done()
+        assert hass.states.get("sensor.roborock_q10_s5_current_room").state == room.name
+
+    room = Q10Room(id=11, raw_name="Harry's office", pixel_value=44, pixel_count=100)
+    map_trait.rooms = [room]
+    map_trait.current_room = room
+    notify()
+    await hass.async_block_till_done()
+    state = hass.states.get("sensor.roborock_q10_s5_current_room")
+    assert state.state == "Harry's office"
+    assert state.attributes["options"] == ["Harry's office"]
+
+    map_trait.current_room = None
+    map_trait.rooms = []
+    notify()
+    await hass.async_block_till_done()
+    state = hass.states.get("sensor.roborock_q10_s5_current_room")
+    assert state.state == STATE_UNKNOWN
+    assert "options" not in state.attributes
+
+    assert await hass.config_entries.async_unload(setup_entry.entry_id)
+    await hass.async_block_till_done()
+    unsubscribe.assert_called_once()
 
 
 def setup_coordinator_side_effect(
@@ -66,7 +139,7 @@ def setup_coordinator_side_effect(
     ],
 )
 async def test_sensors_coordinator_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
     fake_devices: list[FakeDevice],
     side_effect: Any,
@@ -104,7 +177,7 @@ async def test_sensors_coordinator_state(
 
 
 async def test_dock_cleaning_brush_sensor_not_created_and_cleaned_up(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     bypass_api_client_fixture: None,
     entity_registry: er.EntityRegistry,
     mock_roborock_entry: MockConfigEntry,
@@ -149,7 +222,7 @@ async def test_dock_cleaning_brush_sensor_not_created_and_cleaned_up(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_dock_cleaning_brush_sensor_created_when_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     bypass_api_client_fixture: None,
     mock_roborock_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
@@ -167,7 +240,7 @@ async def test_dock_cleaning_brush_sensor_created_when_supported(
 
 
 async def test_dyad_follows_reported_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     fake_devices: list[FakeDevice],
 ) -> None:
@@ -183,7 +256,7 @@ async def test_dyad_follows_reported_state(
 
 
 async def test_dyad_unsubscribed_on_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     fake_devices: list[FakeDevice],
 ) -> None:
@@ -198,7 +271,7 @@ async def test_dyad_unsubscribed_on_unload(
 
 
 async def test_dyad_unreported_protocol_is_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fake_devices: list[FakeDevice],
     mock_roborock_entry: MockConfigEntry,
 ) -> None:
@@ -214,7 +287,7 @@ async def test_dyad_unreported_protocol_is_unknown(
 
 
 async def test_dyad_update_does_not_postpone_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     fake_devices: list[FakeDevice],
     freezer: FrozenDateTimeFactory,
@@ -242,7 +315,7 @@ async def test_dyad_update_does_not_postpone_poll(
     ],
 )
 async def test_dyad_availability_follows_last_message(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     fake_devices: list[FakeDevice],
     freezer: FrozenDateTimeFactory,

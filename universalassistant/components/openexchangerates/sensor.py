@@ -4,7 +4,7 @@ from typing import override
 
 from universalassistant.components.sensor import SensorEntity
 from universalassistant.const import CONF_QUOTE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -16,7 +16,7 @@ ATTRIBUTION = "Data provided by openexchangerates.org"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: OpenexchangeratesConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

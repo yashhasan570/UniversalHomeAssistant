@@ -6,7 +6,7 @@ import pytest
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.discord.notify import DiscordNotificationService
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 MESSAGE = "Testing Discord Messenger platform"
 CONTENT = b"TestContent"
@@ -15,7 +15,7 @@ TARGET = "1234567890"
 
 
 @pytest.fixture
-def discord_notification_service(hass: __HAC_KEEP__) -> DiscordNotificationService:
+def discord_notification_service(hass: UniversalAssistant) -> DiscordNotificationService:
     """Set up discord notification service."""
     hass.config.allowlist_external_urls.add(URL_ATTACHMENT)
     return DiscordNotificationService(hass, "token")

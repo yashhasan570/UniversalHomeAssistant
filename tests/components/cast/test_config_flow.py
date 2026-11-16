@@ -10,7 +10,7 @@ from universalassistant import config_entries
 from universalassistant.components import cast
 from universalassistant.components.cast import DOMAIN
 from universalassistant.components.cast.universal_assistant_cast import CAST_USER_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -25,7 +25,7 @@ def _get_schema_suggested_values(data_schema, keys: list[str]) -> dict[str, Any]
     return suggested_values
 
 
-async def test_creating_entry_sets_up_media_player(hass: __HAC_KEEP__) -> None:
+async def test_creating_entry_sets_up_media_player(hass: UniversalAssistant) -> None:
     """Test setting up Cast loads the media player."""
     with (
         patch(
@@ -60,7 +60,7 @@ async def test_creating_entry_sets_up_media_player(hass: __HAC_KEEP__) -> None:
         config_entries.SOURCE_ZEROCONF,
     ],
 )
-async def test_single_instance(hass: __HAC_KEEP__, source) -> None:
+async def test_single_instance(hass: UniversalAssistant, source) -> None:
     """Test we only allow a single config flow."""
     MockConfigEntry(domain=DOMAIN).add_to_hass(hass)
     await hass.async_block_till_done()
@@ -72,7 +72,7 @@ async def test_single_instance(hass: __HAC_KEEP__, source) -> None:
     assert result["reason"] == "single_instance_allowed"
 
 
-async def test_user_setup(hass: __HAC_KEEP__) -> None:
+async def test_user_setup(hass: UniversalAssistant) -> None:
     """Test we can finish a config flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -89,11 +89,11 @@ async def test_user_setup(hass: __HAC_KEEP__) -> None:
         "ignore_cec": [],
         "known_hosts": [],
         "uuid": [],
-        "user_id": users[0].id,  # __HA_KEEP__ cast user
+        "user_id": users[0].id,  # Universal Home Assistant cast user
     }
 
 
-async def test_user_setup_options(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_options(hass: UniversalAssistant) -> None:
     """Test we can finish a config flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -112,11 +112,11 @@ async def test_user_setup_options(hass: __HAC_KEEP__) -> None:
         "ignore_cec": [],
         "known_hosts": ["192.168.0.1", "192.168.0.2"],
         "uuid": [],
-        "user_id": users[0].id,  # __HA_KEEP__ cast user
+        "user_id": users[0].id,  # Universal Home Assistant cast user
     }
 
 
-async def test_zeroconf_setup(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_setup(hass: UniversalAssistant) -> None:
     """Test we can finish a config flow through zeroconf."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_ZEROCONF}
@@ -132,12 +132,12 @@ async def test_zeroconf_setup(hass: __HAC_KEEP__) -> None:
         "ignore_cec": [],
         "known_hosts": [],
         "uuid": [],
-        "user_id": users[0].id,  # __HA_KEEP__ cast user
+        "user_id": users[0].id,  # Universal Home Assistant cast user
     }
     assert result["result"].unique_id == DOMAIN
 
 
-async def test_zeroconf_setup_onboarding(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_setup_onboarding(hass: UniversalAssistant) -> None:
     """Test we automatically finish a config flow through zeroconf during onboarding."""
     with patch(
         "universalassistant.components.onboarding.async_is_onboarded", return_value=False
@@ -153,7 +153,7 @@ async def test_zeroconf_setup_onboarding(hass: __HAC_KEEP__) -> None:
         "ignore_cec": [],
         "known_hosts": [],
         "uuid": [],
-        "user_id": users[0].id,  # __HA_KEEP__ cast user
+        "user_id": users[0].id,  # Universal Home Assistant cast user
     }
     assert result["result"].unique_id == DOMAIN
 
@@ -231,7 +231,7 @@ async def test_zeroconf_setup_onboarding(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_option_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     initial: dict[str, Any],
     expected_suggested_values: dict[str, Any],
     user_input: dict[str, Any],
@@ -272,7 +272,7 @@ async def test_option_flow(
     assert config_entry.data == updated
 
 
-async def test_known_hosts(hass: __HAC_KEEP__, castbrowser_mock) -> None:
+async def test_known_hosts(hass: UniversalAssistant, castbrowser_mock) -> None:
     """Test known hosts is passed to pychromecast."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}

@@ -41,7 +41,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryNotReady,
@@ -123,7 +123,7 @@ PLATFORMS = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SmartThingsConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SmartThingsConfigEntry) -> None:
     """Initialize config entry which represents an installed SmartApp."""
     # The oauth smartthings entry will have a token, older ones are version 3
     # after migration but still require reauthentication
@@ -344,7 +344,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SmartThingsConfigEntry) -
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: SmartThingsConfigEntry
+    hass: UniversalAssistant, entry: SmartThingsConfigEntry
 ) -> None:
     """Unload a config entry."""
     client = entry.runtime_data.client
@@ -355,7 +355,7 @@ async def async_unload_entry(
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, entry: SmartThingsConfigEntry
+    hass: UniversalAssistant, entry: SmartThingsConfigEntry
 ) -> None:
     """Handle config entry migration."""
 
@@ -504,7 +504,7 @@ async def async_migrate_entry(
 
 
 def determine_machine_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry_id: str,
     device_id: str,
 ) -> Capability | None:

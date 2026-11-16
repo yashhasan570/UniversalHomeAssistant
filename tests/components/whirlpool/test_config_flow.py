@@ -12,7 +12,7 @@ from universalassistant import config_entries
 from universalassistant.components.whirlpool.const import CONF_BRAND, DOMAIN
 from universalassistant.config_entries import ConfigFlowResult
 from universalassistant.const import CONF_PASSWORD, CONF_REGION, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -74,7 +74,7 @@ def fixture_mock_whirlpool_setup_entry():
 
 
 async def test_user_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     region: tuple[str, Region],
     brand: tuple[str, Brand],
     mock_appliances_manager_api: MagicMock,
@@ -100,7 +100,7 @@ async def test_user_flow(
 
 
 async def test_user_flow_invalid_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     region: tuple[str, Region],
     brand: tuple[str, Brand],
     mock_auth_api: MagicMock,
@@ -135,7 +135,7 @@ async def test_user_flow_invalid_auth(
     ],
 )
 async def test_user_flow_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: Exception,
     expected_error: str,
     region: tuple[str, Region],
@@ -170,7 +170,7 @@ async def test_user_flow_auth_error(
 
 
 async def test_user_flow_connect_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     region: tuple[str, Region],
     brand: tuple[str, Brand],
     mock_appliances_manager_api: MagicMock,
@@ -198,7 +198,7 @@ async def test_user_flow_connect_error(
 
 
 async def test_already_configured(
-    hass: __HAC_KEEP__, region: tuple[str, Region], brand: tuple[str, Brand]
+    hass: UniversalAssistant, region: tuple[str, Region], brand: tuple[str, Brand]
 ) -> None:
     """Test that configuring the integration twice with the same data fails."""
     mock_entry = MockConfigEntry(
@@ -236,7 +236,7 @@ async def test_already_configured(
     ],
 )
 async def test_no_appliances_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     region: tuple[str, Region],
     brand: tuple[str, Brand],
     mock_appliances_manager_api: MagicMock,
@@ -280,7 +280,7 @@ async def test_no_appliances_flow(
 
 
 async def test_dhcp_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     region: tuple[str, Region],
     brand: tuple[str, Brand],
     mock_whirlpool_setup_entry: MagicMock,
@@ -300,7 +300,7 @@ async def test_dhcp_flow(
     assert_successful_user_flow(mock_whirlpool_setup_entry, result, region[0], brand[0])
 
 
-async def test_dhcp_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_already_configured(hass: UniversalAssistant) -> None:
     """Test that DHCP discovery aborts when an account is already configured."""
     MockConfigEntry(
         domain=DOMAIN, data=CONFIG_INPUT, unique_id="test-username"
@@ -314,7 +314,7 @@ async def test_dhcp_already_configured(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_dhcp_already_in_progress(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_already_in_progress(hass: UniversalAssistant) -> None:
     """Test that discovering multiple appliances results in a single flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_DHCP}, data=DHCP_DISCOVERY
@@ -337,7 +337,7 @@ async def test_dhcp_already_in_progress(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_whirlpool_setup_entry")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__, region: tuple[str, Region], brand: tuple[str, Brand]
+    hass: UniversalAssistant, region: tuple[str, Region], brand: tuple[str, Brand]
 ) -> None:
     """Test a successful reauth flow."""
     mock_entry = MockConfigEntry(
@@ -362,7 +362,7 @@ async def test_reauth_flow(
 
 @pytest.mark.usefixtures("mock_whirlpool_setup_entry")
 async def test_reauth_flow_invalid_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     region: tuple[str, Region],
     brand: tuple[str, Brand],
     mock_auth_api: MagicMock,
@@ -410,7 +410,7 @@ async def test_reauth_flow_invalid_auth(
     ],
 )
 async def test_reauth_flow_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: Exception,
     expected_error: str,
     region: tuple[str, Region],

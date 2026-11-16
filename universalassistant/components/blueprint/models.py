@@ -19,8 +19,8 @@ from universalassistant.const import (
     CONF_PATH,
     __version__,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.field_visibility import get_hidden_fields
 from universalassistant.util import yaml as yaml_util
 
@@ -139,7 +139,7 @@ class Blueprint:
 
     @callback
     def validate(self) -> list[str] | None:
-        """Test if the __HA_KEEP__ installation supports this blueprint.
+        """Test if the Universal Home Assistant installation supports this blueprint.
 
         Return list of errors if not valid.
         """
@@ -150,7 +150,7 @@ class Blueprint:
         if min_version is not None and AwesomeVersion(__version__) < AwesomeVersion(
             min_version
         ):
-            errors.append(f"Requires at least __HA_KEEP__ {min_version}")
+            errors.append(f"Requires at least Universal Home Assistant {min_version}")
 
         return errors or None
 
@@ -221,11 +221,11 @@ class DomainBlueprints:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         domain: str,
         logger: logging.Logger,
-        blueprint_in_use: Callable[[__HAC_KEEP__, str], bool],
-        reload_blueprint_consumers: Callable[[__HAC_KEEP__, str], Awaitable[None]],
+        blueprint_in_use: Callable[[UniversalAssistant, str], bool],
+        reload_blueprint_consumers: Callable[[UniversalAssistant, str], Awaitable[None]],
         blueprint_schema: Callable[[Any], Any],
     ) -> None:
         """Initialize a domain blueprints instance."""
@@ -262,7 +262,7 @@ class DomainBlueprints:
                 blueprint_path,
                 FileNotFoundError(f"Unable to find {blueprint_path}"),
             ) from err
-        except __HAC_KEEP__Error as err:
+        except UniversalAssistantError as err:
             raise FailedToLoad(self.domain, blueprint_path, err) from err
 
         return Blueprint(

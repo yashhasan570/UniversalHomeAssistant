@@ -21,13 +21,13 @@ from pytest_universalassistant.typing import MqttMockHAClientGenerator
 from universalassistant.components.mqtt.const import DOMAIN
 from universalassistant.config_entries import ConfigSubentry, ConfigSubentryData
 from universalassistant.const import SERVICE_RELOAD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 from universalassistant.util.yaml import parse_yaml
 
 
-async def help_setup_yaml(hass: __HAC_KEEP__, config: dict[str, str]) -> None:
+async def help_setup_yaml(hass: UniversalAssistant, config: dict[str, str]) -> None:
     """Help to set up an exported MQTT device via YAML."""
     with patch(
         "universalassistant.config.load_yaml_config_file",
@@ -42,7 +42,7 @@ async def help_setup_yaml(hass: __HAC_KEEP__, config: dict[str, str]) -> None:
         await hass.async_block_till_done()
 
 
-async def help_setup_discovery(hass: __HAC_KEEP__, config: dict[str, str]) -> None:
+async def help_setup_discovery(hass: UniversalAssistant, config: dict[str, str]) -> None:
     """Help to set up an exported MQTT device via YAML."""
     async_fire_mqtt_message(
         hass, config["discovery_topic"], config["discovery_payload"]
@@ -51,7 +51,7 @@ async def help_setup_discovery(hass: __HAC_KEEP__, config: dict[str, str]) -> No
 
 
 async def help_export_config(
-    hass: __HAC_KEEP__, flow_id: str, flow_step: str
+    hass: UniversalAssistant, flow_id: str, flow_step: str
 ) -> dict[str, str]:
     """Help to export an MQTT device from an open subentry reconfigure flow."""
     result = await hass.config_entries.subentries.async_configure(
@@ -98,7 +98,7 @@ async def help_export_config(
     ],
 )
 async def test_subentry_reconfigure_export_settings(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     issue_registry: ir.IssueRegistry,
@@ -198,13 +198,13 @@ async def test_subentry_reconfigure_export_settings(
 
 
 async def _remove_subentry(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, subentry_id: str
+    hass: UniversalAssistant, config_entry: MockConfigEntry, subentry_id: str
 ) -> None:
     assert hass.config_entries.async_remove_subentry(config_entry, subentry_id)
 
 
 async def _remove_config_entry(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, subentry_id: str
+    hass: UniversalAssistant, config_entry: MockConfigEntry, subentry_id: str
 ) -> None:
     await hass.config_entries.async_remove(config_entry.entry_id)
 
@@ -236,12 +236,12 @@ async def _remove_config_entry(
     ],
 )
 async def test_subentry_migration_issue_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     issue_registry: ir.IssueRegistry,
     flow_step: str,
-    setup_helper: Callable[[__HAC_KEEP__, dict[str, str]], Awaitable[None]],
-    remove: Callable[[__HAC_KEEP__, MockConfigEntry, str], Awaitable[None]],
+    setup_helper: Callable[[UniversalAssistant, dict[str, str]], Awaitable[None]],
+    remove: Callable[[UniversalAssistant, MockConfigEntry, str], Awaitable[None]],
 ) -> None:
     """Test the migration issue is removed with its subentry or config entry."""
     await mqtt_mock_entry()

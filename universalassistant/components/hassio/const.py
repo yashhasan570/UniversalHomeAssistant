@@ -9,7 +9,7 @@ from universalassistant.util.hass_dict import HassKey
 if TYPE_CHECKING:
     from aiohasupervisor.models import (
         AddonsStats,
-        __HAC_KEEP__Info,
+        UniversalAssistantInfo,
         HostInfo,
         InstalledAddon,
         InstalledAddonComplete,
@@ -109,7 +109,7 @@ JOBS_COORDINATOR: HassKey[SupervisorJobsCoordinator] = HassKey(
 DATA_AUTO_UPDATE: HassKey[AutoUpdateManager] = HassKey("hassio_auto_update")
 
 
-DATA_CORE_INFO: HassKey[__HAC_KEEP__Info] = HassKey("hassio_core_info")
+DATA_CORE_INFO: HassKey[UniversalAssistantInfo] = HassKey("hassio_core_info")
 DATA_CORE_STATS = "hassio_core_stats"
 DATA_HOST_INFO: HassKey[HostInfo] = HassKey("hassio_host_info")
 DATA_STORE: HassKey[StoreInfo] = HassKey("hassio_store")
@@ -168,7 +168,7 @@ DEFAULT_UPDATE_OPTIONS = {
     OPTION_CORE_BACKUP_BEFORE_UPDATE: False,
 }
 
-# Automatic __HA_KEEP__ updates. A missing enabled option means the user
+# Automatic Universal Home Assistant updates. A missing enabled option means the user
 # has not made a choice yet.
 OPTION_CORE_AUTO_UPDATE = "core_auto_update"
 OPTION_CORE_AUTO_UPDATE_DELAY = "core_auto_update_delay"
@@ -237,9 +237,9 @@ EXTRA_PLACEHOLDERS = {
 class SupervisorEntityModel(StrEnum):
     """Supervisor entity model."""
 
-    ADDON = "__HA_KEEP__ App"
-    OS = "__HA_KEEP__ Operating System"
-    CORE = "__HA_KEEP__ Core"
-    SUPERVISOR = "__HA_KEEP__ Supervisor"
-    HOST = "__HA_KEEP__ Host"
-    MOUNT = "__HA_KEEP__ Mount"
+    ADDON = "Universal Home Assistant App"
+    OS = "Universal Home Assistant Operating System"
+    CORE = "Universal Home Assistant Core"
+    SUPERVISOR = "Universal Home Assistant Supervisor"
+    HOST = "Universal Home Assistant Host"
+    MOUNT = "Universal Home Assistant Mount"

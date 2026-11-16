@@ -48,8 +48,8 @@ from universalassistant.const import (
     CONF_TYPE,
     CONF_URL,
 )
-from universalassistant.core import CoreState, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
@@ -72,7 +72,7 @@ pytestmark = pytest.mark.usefixtures("domain_data_mock")
 MOCK_ENTITY_NAME = "device_name " + MOCK_DEVICE_NAME
 
 
-async def setup_mock_component(hass: __HAC_KEEP__, mock_entry: MockConfigEntry) -> str:
+async def setup_mock_component(hass: UniversalAssistant, mock_entry: MockConfigEntry) -> str:
     """Set up a mock DlnaDmrEntity with the given configuration."""
     assert await hass.config_entries.async_setup(mock_entry.entry_id) is True
     await hass.async_block_till_done()
@@ -83,7 +83,7 @@ async def setup_mock_component(hass: __HAC_KEEP__, mock_entry: MockConfigEntry) 
     return entries[0].entity_id
 
 
-async def get_attrs(hass: __HAC_KEEP__, entity_id: str) -> Mapping[str, Any]:
+async def get_attrs(hass: UniversalAssistant, entity_id: str) -> Mapping[str, Any]:
     """Get updated device attributes."""
     await async_update_entity(hass, entity_id)
     entity_state = hass.states.get(entity_id)
@@ -95,7 +95,7 @@ async def get_attrs(hass: __HAC_KEEP__, entity_id: str) -> Mapping[str, Any]:
 
 @pytest.fixture
 async def mock_entity_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain_data_mock: Mock,
     config_entry_mock: MockConfigEntry,
     ssdp_scanner_mock: Mock,
@@ -145,7 +145,7 @@ async def mock_entity_id(
 
 @pytest.fixture
 async def mock_disconnected_entity_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain_data_mock: Mock,
     config_entry_mock: MockConfigEntry,
     ssdp_scanner_mock: Mock,
@@ -198,7 +198,7 @@ async def mock_disconnected_entity_id(
 
 
 async def test_setup_entry_no_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain_data_mock: Mock,
     ssdp_scanner_mock: Mock,
     config_entry_mock: MockConfigEntry,
@@ -268,7 +268,7 @@ async def test_setup_entry_no_options(
     [CoreState.not_running, CoreState.running],
 )
 async def test_setup_entry_with_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain_data_mock: Mock,
     ssdp_scanner_mock: Mock,
     config_entry_mock: MockConfigEntry,
@@ -342,7 +342,7 @@ async def test_setup_entry_with_options(
 
 
 async def test_setup_entry_mac_address(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     domain_data_mock: Mock,
     config_entry_mock: MockConfigEntry,
@@ -363,7 +363,7 @@ async def test_setup_entry_mac_address(
 
 
 async def test_setup_entry_no_mac_address(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     domain_data_mock: Mock,
     config_entry_mock_no_mac: MockConfigEntry,
@@ -384,7 +384,7 @@ async def test_setup_entry_no_mac_address(
 
 
 async def test_event_subscribe_failure(
-    hass: __HAC_KEEP__, config_entry_mock: MockConfigEntry, dmr_device_mock: Mock
+    hass: UniversalAssistant, config_entry_mock: MockConfigEntry, dmr_device_mock: Mock
 ) -> None:
     """Test _device_connect aborts when async_subscribe_services fails."""
     dmr_device_mock.async_subscribe_services.side_effect = UpnpError
@@ -411,7 +411,7 @@ async def test_event_subscribe_failure(
 
 
 async def test_event_subscribe_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_mock: MockConfigEntry,
     dmr_device_mock: Mock,
 ) -> None:
@@ -441,7 +441,7 @@ async def test_event_subscribe_rejected(
 
 
 async def test_available_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     dmr_device_mock: Mock,
     config_entry_mock: MockConfigEntry,
@@ -488,7 +488,7 @@ async def test_available_device(
 
 
 async def test_feature_flags(
-    hass: __HAC_KEEP__, dmr_device_mock: Mock, mock_entity_id: str
+    hass: UniversalAssistant, dmr_device_mock: Mock, mock_entity_id: str
 ) -> None:
     """Test feature flags of a connected DlnaDmrEntity."""
     # Check supported feature flags, one at a time.
@@ -541,7 +541,7 @@ async def test_feature_flags(
 
 
 async def test_attributes(
-    hass: __HAC_KEEP__, dmr_device_mock: Mock, mock_entity_id: str
+    hass: UniversalAssistant, dmr_device_mock: Mock, mock_entity_id: str
 ) -> None:
     """Test attributes of a connected DlnaDmrEntity."""
     # Check attributes come directly from the device
@@ -619,7 +619,7 @@ async def test_attributes(
 
 
 async def test_services(
-    hass: __HAC_KEEP__, dmr_device_mock: Mock, mock_entity_id: str
+    hass: UniversalAssistant, dmr_device_mock: Mock, mock_entity_id: str
 ) -> None:
     """Test service calls of a connected DlnaDmrEntity."""
     # Check interface methods interact directly with the device
@@ -689,7 +689,7 @@ async def test_services(
 
 
 async def test_play_media_stopped(
-    hass: __HAC_KEEP__, dmr_device_mock: Mock, mock_entity_id: str
+    hass: UniversalAssistant, dmr_device_mock: Mock, mock_entity_id: str
 ) -> None:
     """Test play_media, starting from stopped and the device can stop."""
     # play_media performs a few calls to the device for setup and play
@@ -711,20 +711,20 @@ async def test_play_media_stopped(
 
     dmr_device_mock.construct_play_media_metadata.assert_awaited_once_with(
         media_url="http://198.51.100.20:8200/MediaItems/17621.mp3",
-        media_title="__HA_KEEP__",
+        media_title="Universal Home Assistant",
         override_upnp_class="object.item.audioItem.musicTrack",
         meta_data={},
     )
     dmr_device_mock.async_stop.assert_awaited_once_with()
     dmr_device_mock.async_set_transport_uri.assert_awaited_once_with(
-        "http://198.51.100.20:8200/MediaItems/17621.mp3", "__HA_KEEP__", ANY
+        "http://198.51.100.20:8200/MediaItems/17621.mp3", "Universal Home Assistant", ANY
     )
     dmr_device_mock.async_wait_for_can_play.assert_awaited_once_with()
     dmr_device_mock.async_play.assert_awaited_once_with()
 
 
 async def test_play_media_playing(
-    hass: __HAC_KEEP__, dmr_device_mock: Mock, mock_entity_id: str
+    hass: UniversalAssistant, dmr_device_mock: Mock, mock_entity_id: str
 ) -> None:
     """Test play_media, device is already playing and can't stop."""
     dmr_device_mock.can_stop = False
@@ -745,20 +745,20 @@ async def test_play_media_playing(
 
     dmr_device_mock.construct_play_media_metadata.assert_awaited_once_with(
         media_url="http://198.51.100.20:8200/MediaItems/17621.mp3",
-        media_title="__HA_KEEP__",
+        media_title="Universal Home Assistant",
         override_upnp_class="object.item.audioItem.musicTrack",
         meta_data={},
     )
     dmr_device_mock.async_stop.assert_not_awaited()
     dmr_device_mock.async_set_transport_uri.assert_awaited_once_with(
-        "http://198.51.100.20:8200/MediaItems/17621.mp3", "__HA_KEEP__", ANY
+        "http://198.51.100.20:8200/MediaItems/17621.mp3", "Universal Home Assistant", ANY
     )
     dmr_device_mock.async_wait_for_can_play.assert_not_awaited()
     dmr_device_mock.async_play.assert_not_awaited()
 
 
 async def test_play_media_no_autoplay(
-    hass: __HAC_KEEP__, dmr_device_mock: Mock, mock_entity_id: str
+    hass: UniversalAssistant, dmr_device_mock: Mock, mock_entity_id: str
 ) -> None:
     """Test play_media with autoplay=False."""
     # play_media performs a few calls to the device for setup and play
@@ -781,20 +781,20 @@ async def test_play_media_no_autoplay(
 
     dmr_device_mock.construct_play_media_metadata.assert_awaited_once_with(
         media_url="http://198.51.100.20:8200/MediaItems/17621.mp3",
-        media_title="__HA_KEEP__",
+        media_title="Universal Home Assistant",
         override_upnp_class="object.item.audioItem.musicTrack",
         meta_data={},
     )
     dmr_device_mock.async_stop.assert_awaited_once_with()
     dmr_device_mock.async_set_transport_uri.assert_awaited_once_with(
-        "http://198.51.100.20:8200/MediaItems/17621.mp3", "__HA_KEEP__", ANY
+        "http://198.51.100.20:8200/MediaItems/17621.mp3", "Universal Home Assistant", ANY
     )
     dmr_device_mock.async_wait_for_can_play.assert_not_awaited()
     dmr_device_mock.async_play.assert_not_awaited()
 
 
 async def test_play_media_metadata(
-    hass: __HAC_KEEP__, dmr_device_mock: Mock, mock_entity_id: str
+    hass: UniversalAssistant, dmr_device_mock: Mock, mock_entity_id: str
 ) -> None:
     """Test play_media constructs useful metadata from user params."""
     await hass.services.async_call(
@@ -854,7 +854,7 @@ async def test_play_media_metadata(
 
 
 async def test_play_media_local_source(
-    hass: __HAC_KEEP__, dmr_device_mock: Mock, mock_entity_id: str
+    hass: UniversalAssistant, dmr_device_mock: Mock, mock_entity_id: str
 ) -> None:
     """Test play_media with a media_id from a local media_source."""
     # Based on roku's test_services_play_media_local_source and cast's
@@ -887,7 +887,7 @@ async def test_play_media_local_source(
 
 
 async def test_play_media_didl_metadata(
-    hass: __HAC_KEEP__, dmr_device_mock: Mock, mock_entity_id: str
+    hass: UniversalAssistant, dmr_device_mock: Mock, mock_entity_id: str
 ) -> None:
     """Test play_media passes available DIDL-Lite metadata to the DMR."""
 
@@ -942,7 +942,7 @@ async def test_play_media_didl_metadata(
 
 
 async def test_shuffle_repeat_modes(
-    hass: __HAC_KEEP__, dmr_device_mock: Mock, mock_entity_id: str
+    hass: UniversalAssistant, dmr_device_mock: Mock, mock_entity_id: str
 ) -> None:
     """Test setting repeat and shuffle modes."""
     # Test shuffle with all variations of existing play mode
@@ -1028,7 +1028,7 @@ async def test_shuffle_repeat_modes(
 
 
 async def test_browse_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     dmr_device_mock: Mock,
     mock_entity_id: str,
@@ -1139,7 +1139,7 @@ async def test_browse_media(
 
 
 async def test_browse_media_unfiltered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     config_entry_mock: MockConfigEntry,
     dmr_device_mock: Mock,
@@ -1226,7 +1226,7 @@ async def test_browse_media_unfiltered(
 
 
 async def test_playback_update_state(
-    hass: __HAC_KEEP__, dmr_device_mock: Mock, mock_entity_id: str
+    hass: UniversalAssistant, dmr_device_mock: Mock, mock_entity_id: str
 ) -> None:
     """Test starting or pausing playback causes the state to be refreshed.
 
@@ -1265,7 +1265,7 @@ async def test_playback_update_state(
     [CoreState.not_running, CoreState.running],
 )
 async def test_unavailable_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     domain_data_mock: Mock,
     ssdp_scanner_mock: Mock,
@@ -1392,7 +1392,7 @@ async def test_unavailable_device(
     [CoreState.not_running, CoreState.running],
 )
 async def test_become_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     domain_data_mock: Mock,
     ssdp_scanner_mock: Mock,
@@ -1480,7 +1480,7 @@ async def test_become_available(
     [CoreState.not_running, CoreState.running],
 )
 async def test_alive_but_gone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain_data_mock: Mock,
     ssdp_scanner_mock: Mock,
     mock_disconnected_entity_id: str,
@@ -1582,7 +1582,7 @@ async def test_alive_but_gone(
 
 
 async def test_multiple_ssdp_alive(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain_data_mock: Mock,
     ssdp_scanner_mock: Mock,
     mock_disconnected_entity_id: str,
@@ -1637,7 +1637,7 @@ async def test_multiple_ssdp_alive(
 
 
 async def test_ssdp_byebye(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ssdp_scanner_mock: Mock,
     mock_entity_id: str,
     dmr_device_mock: Mock,
@@ -1679,7 +1679,7 @@ async def test_ssdp_byebye(
 
 
 async def test_ssdp_update_seen_bootid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain_data_mock: Mock,
     ssdp_scanner_mock: Mock,
     mock_disconnected_entity_id: str,
@@ -1806,7 +1806,7 @@ async def test_ssdp_update_seen_bootid(
 
 
 async def test_ssdp_update_missed_bootid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain_data_mock: Mock,
     ssdp_scanner_mock: Mock,
     mock_disconnected_entity_id: str,
@@ -1883,7 +1883,7 @@ async def test_ssdp_update_missed_bootid(
 
 
 async def test_ssdp_bootid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain_data_mock: Mock,
     ssdp_scanner_mock: Mock,
     mock_disconnected_entity_id: str,
@@ -1963,7 +1963,7 @@ async def test_ssdp_bootid(
 
 
 async def test_become_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entity_id: str,
     dmr_device_mock: Mock,
 ) -> None:
@@ -1980,7 +1980,7 @@ async def test_become_unavailable(
     # not disconnect it immediately.
     # An exception should also be raised to inform the user or automation.
     with pytest.raises(
-        __HAC_KEEP__Error, match="Could not connect .* async_set_volume_level"
+        UniversalAssistantError, match="Could not connect .* async_set_volume_level"
     ):
         await hass.services.async_call(
             mp.DOMAIN,
@@ -2006,7 +2006,7 @@ async def test_become_unavailable(
     dmr_device_mock.async_update.side_effect = UpnpConnectionError
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="Could not connect .* async_set_volume_level"
+        UniversalAssistantError, match="Could not connect .* async_set_volume_level"
     ):
         await hass.services.async_call(
             mp.DOMAIN,
@@ -2023,7 +2023,7 @@ async def test_become_unavailable(
 
 
 async def test_generic_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entity_id: str,
     dmr_device_mock: Mock,
 ) -> None:
@@ -2041,7 +2041,7 @@ async def test_generic_error(
     # but not disconnect it immediately.
     # An exception should also be raised to inform the user or automation.
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Error when calling device service for action async_media_play: .*Illegal MIME-type",
     ):
         await hass.services.async_call(
@@ -2067,7 +2067,7 @@ async def test_generic_error(
 
 
 async def test_poll_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain_data_mock: Mock,
     config_entry_mock: MockConfigEntry,
     dmr_device_mock: Mock,
@@ -2123,7 +2123,7 @@ async def test_poll_availability(
 
 
 async def test_disappearing_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_disconnected_entity_id: str,
 ) -> None:
     """Test attribute update or service call as device disappears.
@@ -2163,7 +2163,7 @@ async def test_disappearing_device(
 
 
 async def test_resubscribe_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entity_id: str,
     dmr_device_mock: Mock,
 ) -> None:
@@ -2182,7 +2182,7 @@ async def test_resubscribe_failure(
 
 
 async def test_config_update_listen_port(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain_data_mock: Mock,
     config_entry_mock: MockConfigEntry,
     dmr_device_mock: Mock,
@@ -2221,7 +2221,7 @@ async def test_config_update_listen_port(
 
 
 async def test_config_update_connect_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain_data_mock: Mock,
     config_entry_mock: MockConfigEntry,
     mock_entity_id: str,
@@ -2256,7 +2256,7 @@ async def test_config_update_connect_failure(
 
 
 async def test_config_update_callback_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain_data_mock: Mock,
     config_entry_mock: MockConfigEntry,
     dmr_device_mock: Mock,
@@ -2295,7 +2295,7 @@ async def test_config_update_callback_url(
 
 
 async def test_config_update_poll_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain_data_mock: Mock,
     config_entry_mock: MockConfigEntry,
     dmr_device_mock: Mock,
@@ -2336,7 +2336,7 @@ async def test_config_update_poll_availability(
 
 
 async def test_config_update_mac_address(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     domain_data_mock: Mock,
     config_entry_mock_no_mac: MockConfigEntry,
@@ -2381,7 +2381,7 @@ async def test_config_update_mac_address(
     [CoreState.not_running, CoreState.running],
 )
 async def test_connections_restored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     domain_data_mock: Mock,
@@ -2483,7 +2483,7 @@ async def test_connections_restored(
 
 
 async def test_udn_upnp_connection_added_if_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     domain_data_mock: Mock,

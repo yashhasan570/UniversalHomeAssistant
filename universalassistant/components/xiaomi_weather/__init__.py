@@ -1,7 +1,7 @@
 """The Xiaomi Weather integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 
 from .const import DOMAIN
@@ -13,7 +13,7 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: XiaomiWeatherConfigEntry
+    hass: UniversalAssistant, entry: XiaomiWeatherConfigEntry
 ) -> None:
     """Fetch initial data before setting up platforms."""
     coordinator = XiaomiWeatherCoordinator(hass, entry)
@@ -23,7 +23,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: XiaomiWeatherConfigEntry
+    hass: UniversalAssistant, entry: XiaomiWeatherConfigEntry
 ) -> None:
     """Unload entities and their coordinator subscriptions."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

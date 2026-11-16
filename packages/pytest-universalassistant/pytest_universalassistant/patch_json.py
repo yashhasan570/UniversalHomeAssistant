@@ -14,7 +14,7 @@ mock_objects = []
 
 
 def json_encoder_default(obj: Any) -> Any:
-    """Convert __HA_KEEP__ objects.
+    """Convert Universal Home Assistant objects.
 
     Hand other objects to the original method.
     """

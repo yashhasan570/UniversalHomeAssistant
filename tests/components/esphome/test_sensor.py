@@ -36,7 +36,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfVolume,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import (
@@ -47,7 +47,7 @@ from .conftest import (
 
 
 async def test_generic_numeric_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -102,7 +102,7 @@ async def test_generic_numeric_sensor(
 
 
 async def test_generic_numeric_sensor_with_entity_category_and_icon(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
@@ -138,7 +138,7 @@ async def test_generic_numeric_sensor_with_entity_category_and_icon(
 
 
 async def test_generic_numeric_sensor_state_class_measurement(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
@@ -177,7 +177,7 @@ async def test_generic_numeric_sensor_state_class_measurement(
 
 
 async def test_generic_numeric_sensor_state_class_measurement_angle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
@@ -214,7 +214,7 @@ async def test_generic_numeric_sensor_state_class_measurement_angle(
 
 
 async def test_generic_numeric_sensor_device_class_timestamp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -241,7 +241,7 @@ async def test_generic_numeric_sensor_device_class_timestamp(
 
 
 async def test_generic_numeric_sensor_device_class_uptime(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -268,7 +268,7 @@ async def test_generic_numeric_sensor_device_class_uptime(
 
 
 async def test_generic_numeric_sensor_legacy_last_reset_convert(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -297,7 +297,7 @@ async def test_generic_numeric_sensor_legacy_last_reset_convert(
 
 
 async def test_generic_numeric_sensor_no_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -323,7 +323,7 @@ async def test_generic_numeric_sensor_no_state(
 
 
 async def test_generic_numeric_sensor_nan_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -349,7 +349,7 @@ async def test_generic_numeric_sensor_nan_state(
 
 
 async def test_generic_numeric_sensor_missing_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -375,7 +375,7 @@ async def test_generic_numeric_sensor_missing_state(
 
 
 async def test_generic_text_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -401,7 +401,7 @@ async def test_generic_text_sensor(
 
 
 async def test_generic_text_sensor_missing_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -427,7 +427,7 @@ async def test_generic_text_sensor_missing_state(
 
 
 async def test_generic_text_sensor_device_class_timestamp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -455,7 +455,7 @@ async def test_generic_text_sensor_device_class_timestamp(
 
 
 async def test_generic_text_sensor_device_class_date(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -483,7 +483,7 @@ async def test_generic_text_sensor_device_class_date(
 
 
 async def test_generic_numeric_sensor_empty_string_uom(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -536,7 +536,7 @@ async def test_generic_numeric_sensor_empty_string_uom(
     ],
 )
 async def test_suggested_display_precision_by_device_class(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     device_class: SensorDeviceClass,
@@ -570,7 +570,7 @@ async def test_suggested_display_precision_by_device_class(
 
 
 async def test_sensor_state_class_and_unit_removed_by_firmware_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:

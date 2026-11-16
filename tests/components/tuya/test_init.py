@@ -19,7 +19,7 @@ from universalassistant.components.tuya.const import (
 from universalassistant.components.tuya.diagnostics import _REDACTED_DPCODES
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import (
@@ -32,7 +32,7 @@ from . import (
 
 
 async def test_registry_cleanup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -68,7 +68,7 @@ async def test_registry_cleanup(
 
 
 async def test_registry_cleanup_multiple_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -111,7 +111,7 @@ async def test_registry_cleanup_multiple_entries(
 
 @pytest.mark.usefixtures("no_quirk")
 async def test_device_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_devices: list[CustomerDevice],
@@ -214,7 +214,7 @@ async def test_device_registry(
     ],
 )
 async def test_device_registry_with_quirk(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -254,7 +254,7 @@ async def test_device_registry_with_quirk(
 @patch("universalassistant.components.tuya.PLATFORMS", [])
 async def test_dynamic_add_device(
     mock_initialise_device_quirk: MagicMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_manager: Manager,
     notification_helper: TuyaNotificationHelper,
@@ -304,7 +304,7 @@ async def test_dynamic_add_device(
 
 
 async def test_dynamic_remove_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_manager: Manager,
     notification_helper: TuyaNotificationHelper,
@@ -338,7 +338,7 @@ async def test_dynamic_remove_device(
     )
 
 
-async def test_fixtures_valid(hass: __HAC_KEEP__) -> None:
+async def test_fixtures_valid(hass: UniversalAssistant) -> None:
     """Ensure Tuya fixture files are valid."""
     # We want to ensure that the fixture files do not contain
     # `universal_assistant`, `id`, or `terminal_id` keys.
@@ -369,7 +369,7 @@ async def test_fixtures_valid(hass: __HAC_KEEP__) -> None:
 
 
 async def test_network_error_retries_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test a network error during setup results in a setup retry."""

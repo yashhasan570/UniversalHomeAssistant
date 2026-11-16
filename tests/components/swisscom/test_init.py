@@ -8,11 +8,11 @@ from swisscom_internet_box import SwisscomAuthError, SwisscomConnectionError
 
 from universalassistant.components.swisscom.coordinator import SCAN_INTERVAL
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_setup_auth_error_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_swisscom_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -31,7 +31,7 @@ async def test_setup_auth_error_starts_reauth(
 
 
 async def test_setup_connection_error_retries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_swisscom_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -47,7 +47,7 @@ async def test_setup_connection_error_retries(
 
 
 async def test_update_auth_error_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_swisscom_client: MagicMock,
     mock_config_entry: MockConfigEntry,

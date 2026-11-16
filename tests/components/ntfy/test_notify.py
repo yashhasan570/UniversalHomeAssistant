@@ -22,8 +22,8 @@ from universalassistant.components.notify import (
 from universalassistant.components.ntfy.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 
@@ -39,7 +39,7 @@ async def notify_only() -> AsyncGenerator[None]:
 
 @pytest.mark.usefixtures("mock_aiontfy")
 async def test_notify_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -57,7 +57,7 @@ async def test_notify_platform(
 
 @pytest.mark.freeze_time("2025-01-09T12:00:00+00:00")
 async def test_send_message(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
 ) -> None:
@@ -111,7 +111,7 @@ async def test_send_message(
     ],
 )
 async def test_send_message_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
     exception: Exception,
@@ -127,7 +127,7 @@ async def test_send_message_exception(
 
     mock_aiontfy.publish.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error, match=error_msg):
+    with pytest.raises(UniversalAssistantError, match=error_msg):
         await hass.services.async_call(
             NOTIFY_DOMAIN,
             SERVICE_SEND_MESSAGE,
@@ -145,7 +145,7 @@ async def test_send_message_exception(
 
 
 async def test_send_message_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
 ) -> None:
@@ -161,7 +161,7 @@ async def test_send_message_reauth_flow(
         NtfyUnauthorizedAuthenticationError(40101, 401, "unauthorized"),
     )
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             NOTIFY_DOMAIN,
             SERVICE_SEND_MESSAGE,

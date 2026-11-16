@@ -13,7 +13,7 @@ from victron_mqtt import (
 )
 
 from universalassistant.components.time import TimeEntity
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -26,7 +26,7 @@ PARALLEL_UPDATES = 0  # There is no I/O in the entity itself.
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: VictronGxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

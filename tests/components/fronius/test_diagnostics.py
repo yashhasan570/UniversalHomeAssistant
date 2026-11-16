@@ -8,13 +8,13 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import mock_responses, setup_fronius_integration
 
 
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     snapshot: SnapshotAssertion,
@@ -31,7 +31,7 @@ async def test_diagnostics(
 
 
 async def test_diagnostics_modbus(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,

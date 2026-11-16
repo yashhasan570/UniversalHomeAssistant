@@ -11,8 +11,8 @@ from volvocarsapi.models import VolvoApiException, VolvoCarsCommandResult
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import configure_mock
@@ -25,7 +25,7 @@ from .const import DEFAULT_VIN
     ["ex30_2024", "s90_diesel_2018", "xc40_electric_2024", "xc90_petrol_2019"],
 )
 async def test_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: Callable[[], Awaitable[bool]],
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -52,7 +52,7 @@ async def test_button(
     ],
 )
 async def test_button_press(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
     command: str,
@@ -88,7 +88,7 @@ async def test_button_press(
     ],
 )
 async def test_button_press_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
     command: str,
@@ -100,7 +100,7 @@ async def test_button_press_error(
 
     configure_mock(mock_api.async_execute_command, side_effect=VolvoApiException)
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -122,7 +122,7 @@ async def test_button_press_error(
     ],
 )
 async def test_button_press_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
     command: str,
@@ -139,7 +139,7 @@ async def test_button_press_failure(
         ),
     )
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

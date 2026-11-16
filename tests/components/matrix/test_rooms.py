@@ -7,14 +7,14 @@ from universalassistant.components.matrix import CONFIG_SCHEMA, MatrixBot
 from universalassistant.components.matrix.const import DOMAIN
 from universalassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
 from universalassistant.const import EVENT_HOMEASSISTANT_START
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .conftest import MOCK_CONFIG_DATA, TEST_BAD_ROOM, TEST_JOINABLE_ROOMS
 
 
 async def test_join(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_client,
     mock_save_json,
@@ -42,7 +42,7 @@ async def test_join(
     )
 
 
-async def test_resolve_aliases(hass: __HAC_KEEP__, matrix_bot: MatrixBot) -> None:
+async def test_resolve_aliases(hass: UniversalAssistant, matrix_bot: MatrixBot) -> None:
     """Test resolving configured room aliases into room ids."""
 
     await hass.async_start()

@@ -5,7 +5,7 @@ from typing import override
 from pyintelliclima import FanMode, FanSpeed, IntelliClimaECO2
 
 from universalassistant.components.select import SelectEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import IntelliClimaConfigEntry, IntelliClimaCoordinator
@@ -25,7 +25,7 @@ INTELLICLIMA_MODE_TO_FAN_MODE = {v: k for k, v in FAN_MODE_TO_INTELLICLIMA_MODE.
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: IntelliClimaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

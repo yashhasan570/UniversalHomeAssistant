@@ -22,7 +22,7 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -33,7 +33,7 @@ ENTITY_ID = f"{LIGHT_DOMAIN}.{CONF_FAKE_NAME}"
 
 
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     fritz: Mock,
@@ -57,7 +57,7 @@ async def test_setup(
 
 
 async def test_setup_non_color(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     fritz: Mock,
@@ -78,7 +78,7 @@ async def test_setup_non_color(
 
 
 async def test_setup_non_color_non_level(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     fritz: Mock,
@@ -100,7 +100,7 @@ async def test_setup_non_color_non_level(
 
 
 async def test_setup_color(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     fritz: Mock,
@@ -124,7 +124,7 @@ async def test_setup_color(
     await snapshot_platform(hass, entity_registry, snapshot, entry.entry_id)
 
 
-async def test_turn_on(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_turn_on(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test turn device on."""
     device = FritzDeviceLightMock()
     device.get_color_temps.return_value = [2700, 6500]
@@ -148,7 +148,7 @@ async def test_turn_on(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert device.set_level.call_args_list == [call(100, True)]
 
 
-async def test_turn_on_color(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_turn_on_color(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test turn device on in color mode."""
     device = FritzDeviceLightMock()
     device.get_color_temps.return_value = [2700, 6500]
@@ -176,7 +176,7 @@ async def test_turn_on_color(hass: __HAC_KEEP__, fritz: Mock) -> None:
 
 
 async def test_turn_on_color_no_fullcolorsupport(
-    hass: __HAC_KEEP__, fritz: Mock
+    hass: UniversalAssistant, fritz: Mock
 ) -> None:
     """Test turn device on in mapped color mode if unmapped is not supported."""
     device = FritzDeviceLightMock()
@@ -203,7 +203,7 @@ async def test_turn_on_color_no_fullcolorsupport(
     assert device.set_color.call_args_list == [call((100, 70), 0, True)]
 
 
-async def test_turn_off(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_turn_off(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test turn device off."""
     device = FritzDeviceLightMock()
     device.get_color_temps.return_value = [2700, 6500]
@@ -219,7 +219,7 @@ async def test_turn_off(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert device.set_state_off.call_count == 1
 
 
-async def test_update(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_update(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test update without error."""
     device = FritzDeviceLightMock()
     device.get_color_temps.return_value = [2700, 6500]
@@ -240,7 +240,7 @@ async def test_update(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert fritz().login.call_count == 1
 
 
-async def test_update_error(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_update_error(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test update with error."""
     device = FritzDeviceLightMock()
     device.get_color_temps.return_value = [2700, 6500]
@@ -264,7 +264,7 @@ async def test_update_error(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert fritz().login.call_count == 2
 
 
-async def test_discover_new_device(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_discover_new_device(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test adding new discovered devices during runtime."""
     device = FritzDeviceLightMock()
     device.get_color_temps.return_value = [2700, 6500]

@@ -8,7 +8,7 @@ from yarl import URL
 
 from universalassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
 from universalassistant.const import CONF_API_KEY, CONF_URL, CONF_VERIFY_SSL, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -41,7 +41,7 @@ PLATFORMS = [
 ]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Habitica service."""
 
     async_setup_services(hass)
@@ -49,7 +49,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: HabiticaConfigEntry
+    hass: UniversalAssistant, config_entry: HabiticaConfigEntry
 ) -> None:
     """Set up habitica from a config entry."""
     party_added_by_this_entry: UUID | None = None
@@ -159,18 +159,18 @@ async def async_setup_entry(
 
 
 async def _async_update_listener(
-    hass: __HAC_KEEP__, entry: HabiticaConfigEntry
+    hass: UniversalAssistant, entry: HabiticaConfigEntry
 ) -> None:
     """Handle update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def shutdown_party_coordinator(hass: __HAC_KEEP__, party_added: UUID) -> None:
+async def shutdown_party_coordinator(hass: UniversalAssistant, party_added: UUID) -> None:
     """Handle party coordinator shutdown."""
     await hass.data[HABITICA_KEY][party_added].async_shutdown()
     hass.data[HABITICA_KEY].pop(party_added)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: HabiticaConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: HabiticaConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

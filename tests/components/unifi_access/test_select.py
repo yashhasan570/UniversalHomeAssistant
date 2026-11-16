@@ -18,8 +18,8 @@ from unifi_access_api import (
 from universalassistant.components.select import DOMAIN as SELECT_DOMAIN
 from universalassistant.components.unifi_access.const import DOMAIN
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -36,7 +36,7 @@ def only_select_platform() -> Generator[None]:
 
 
 async def test_select_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -54,7 +54,7 @@ async def test_select_entities(
 
 
 async def test_select_current_option_no_rule(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -68,7 +68,7 @@ async def test_select_current_option_no_rule(
 
 
 async def test_select_current_option_active_rule(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -84,7 +84,7 @@ async def test_select_current_option_active_rule(
 
 
 async def test_select_option_calls_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -105,7 +105,7 @@ async def test_select_option_calls_api(
 
 
 async def test_select_schedule_option_does_not_call_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -126,7 +126,7 @@ async def test_select_schedule_option_does_not_call_api(
 
 
 async def test_select_not_created_when_lock_rules_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -138,7 +138,7 @@ async def test_select_not_created_when_lock_rules_unsupported(
 
 
 async def test_select_lock_early_option_shown_for_schedule_rule(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -156,7 +156,7 @@ async def test_select_lock_early_option_shown_for_schedule_rule(
 
 
 async def test_select_lock_early_option_hidden_for_non_schedule_rule(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -172,7 +172,7 @@ async def test_select_lock_early_option_hidden_for_non_schedule_rule(
 
 
 async def test_select_created_for_supported_doors_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -194,7 +194,7 @@ async def test_select_created_for_supported_doors_only(
 
 
 async def test_select_placeholder_created_for_transient_error_doors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -215,11 +215,11 @@ async def test_select_placeholder_created_for_transient_error_doors(
 
 
 async def test_select_option_raises_on_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
-    """Test __HAC_KEEP__Error is raised when set_door_lock_rule fails."""
+    """Test UniversalAssistantError is raised when set_door_lock_rule fails."""
     mock_client.get_door_lock_rule = AsyncMock(return_value=DoorLockRuleStatus())
     await setup_integration(hass, mock_config_entry)
 
@@ -227,7 +227,7 @@ async def test_select_option_raises_on_api_error(
         side_effect=UnifiAccessError("API error")
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             SELECT_DOMAIN,
             "select_option",

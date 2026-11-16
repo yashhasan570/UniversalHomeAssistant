@@ -17,8 +17,8 @@ from universalassistant.components.todo import (
     TodoListEntity,
     TodoListEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.setup import SetupPhases, async_pause_setup
 from universalassistant.util import dt as dt_util
@@ -75,7 +75,7 @@ def _repair_legacy_crlf_newlines(content: str) -> str:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: LocalTodoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -120,7 +120,7 @@ async def async_setup_entry(
 
 
 def _convert_item(item: TodoItem) -> Todo:
-    """Convert a __HAC_KEEP__ TodoItem to an ical Todo."""
+    """Convert a UniversalAssistant TodoItem to an ical Todo."""
     todo = Todo()
     if item.uid:
         todo.uid = item.uid
@@ -229,13 +229,13 @@ class LocalTodoListEntity(TodoListEntity):
             todos = self._calendar.todos
             item_idx: dict[str, int] = {itm.uid: idx for idx, itm in enumerate(todos)}
             if uid not in item_idx:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="item_not_found",
                     translation_placeholders={"uid": uid, "entity_id": self.entity_id},
                 )
             if previous_uid and previous_uid not in item_idx:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="item_not_found",
                     translation_placeholders={

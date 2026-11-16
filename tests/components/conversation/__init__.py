@@ -16,7 +16,7 @@ from universalassistant.components.universalassistant.exposed_entities import (
     DATA_EXPOSED_ENTITIES,
     async_expose_entity,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import chat_session, intent, llm
 
 
@@ -48,7 +48,7 @@ class MockAgent(conversation.AbstractConversationAgent):
 
 
 @pytest.fixture
-async def mock_chat_log(hass: __HAC_KEEP__) -> AsyncGenerator[MockChatLog]:
+async def mock_chat_log(hass: UniversalAssistant) -> AsyncGenerator[MockChatLog]:
     """Return mock chat logs."""
     # pylint: disable-next=contextmanager-generator-missing-cleanup
     with (
@@ -96,12 +96,12 @@ class MockChatLog(conversation.ChatLog):
         self._llm_api.async_call_tool = async_call_tool
 
 
-def expose_new(hass: __HAC_KEEP__, expose_new: bool) -> None:
+def expose_new(hass: UniversalAssistant, expose_new: bool) -> None:
     """Enable exposing new entities to the default agent."""
     exposed_entities = hass.data[DATA_EXPOSED_ENTITIES]
     exposed_entities.async_set_expose_new_entities(conversation.DOMAIN, expose_new)
 
 
-def expose_entity(hass: __HAC_KEEP__, entity_id: str, should_expose: bool) -> None:
+def expose_entity(hass: UniversalAssistant, entity_id: str, should_expose: bool) -> None:
     """Expose an entity to the default agent."""
     async_expose_entity(hass, conversation.DOMAIN, entity_id, should_expose)

@@ -36,15 +36,15 @@ from universalassistant.const import (
     CommonServiceArgument,
     EntityCategory,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .const import MOCK_INSTALLATION_ID
 
 
 async def _async_inject_firmware_versions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     victron_hub: VictronVenusHub,
     installed: str,
     available: str,
@@ -65,7 +65,7 @@ async def _async_inject_firmware_versions(
 
 
 async def test_firmware_update_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration_with_update: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -129,7 +129,7 @@ async def test_firmware_update_entity(
 
 
 async def test_firmware_without_available_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration_with_update: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -165,7 +165,7 @@ async def test_firmware_without_available_version(
     ],
 )
 async def test_firmware_check_preserves_skipped_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration_with_update: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
     firmware_state: FirmwareUpdateState,
@@ -240,7 +240,7 @@ async def test_firmware_check_preserves_skipped_update(
     ],
 )
 async def test_install_firmware_update_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration_with_update: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
     firmware_state: int,
@@ -283,7 +283,7 @@ async def test_install_firmware_update_service(
         assert state.attributes[ATTR_IN_PROGRESS] is True
         assert state.attributes[ATTR_UPDATE_PERCENTAGE] == 84
 
-        with pytest.raises(__HAC_KEEP__Error) as err:
+        with pytest.raises(UniversalAssistantError) as err:
             await hass.services.async_call(
                 UPDATE_DOMAIN,
                 UpdateService.INSTALL,
@@ -347,7 +347,7 @@ async def test_install_firmware_update_service(
     ],
 )
 async def test_install_propagates_translated_failure_and_clears_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration_with_update: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
     error: FirmwareUpdateError | NotConnectedError | PublishError,
@@ -380,7 +380,7 @@ async def test_install_propagates_translated_failure_and_clears_progress(
             "install_firmware_update",
             new=AsyncMock(side_effect=install_firmware_update),
         ),
-        pytest.raises(__HAC_KEEP__Error) as err,
+        pytest.raises(UniversalAssistantError) as err,
     ):
         await hass.services.async_call(
             UPDATE_DOMAIN,

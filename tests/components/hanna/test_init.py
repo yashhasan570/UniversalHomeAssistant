@@ -5,11 +5,11 @@ from unittest.mock import MagicMock
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hanna_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

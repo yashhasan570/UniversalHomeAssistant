@@ -3,7 +3,7 @@
 from pyforeca import ForecaApiClient
 
 from universalassistant.const import CONF_API_KEY, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.typing import ConfigType
@@ -17,13 +17,13 @@ PLATFORMS = [Platform.SENSOR, Platform.WEATHER]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Foreca actions."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ForecaConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ForecaConfigEntry) -> None:
     """Set up Foreca from a config entry."""
     client = ForecaApiClient(
         entry.data[CONF_API_KEY], session=async_get_clientsession(hass)
@@ -40,11 +40,11 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ForecaConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def _async_reload_entry(hass: __HAC_KEEP__, entry: ForecaConfigEntry) -> None:
+async def _async_reload_entry(hass: UniversalAssistant, entry: ForecaConfigEntry) -> None:
     """Reload so an added or removed location gets its own coordinator."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ForecaConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ForecaConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

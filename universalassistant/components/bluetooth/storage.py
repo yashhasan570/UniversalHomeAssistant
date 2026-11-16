@@ -9,7 +9,7 @@ from habluetooth import (
     expire_stale_scanner_discovered_device_advertisement_data,
 )
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.storage import Store
 
 REMOTE_SCANNER_STORAGE_VERSION = 1
@@ -20,7 +20,7 @@ SCANNER_SAVE_DELAY = 5
 class BluetoothStorage:
     """Storage for remote scanners."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the storage."""
         self._store: Store[DiscoveryStorageType] = Store(
             hass, REMOTE_SCANNER_STORAGE_VERSION, REMOTE_SCANNER_STORAGE_KEY

@@ -19,7 +19,7 @@ from aiopyarr.radarr_client import RadarrClient
 
 from universalassistant.components.calendar import CalendarEvent
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
@@ -64,7 +64,7 @@ class RadarrDataUpdateCoordinator(DataUpdateCoordinator[T], ABC, Generic[T]):  #
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: RadarrConfigEntry,
         host_configuration: PyArrHostConfiguration,
         api_client: RadarrClient,
@@ -158,7 +158,7 @@ class CalendarUpdateCoordinator(RadarrDataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: RadarrConfigEntry,
         host_configuration: PyArrHostConfiguration,
         api_client: RadarrClient,

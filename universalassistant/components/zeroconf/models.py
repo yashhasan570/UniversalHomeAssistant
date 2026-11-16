@@ -17,7 +17,7 @@ class HaZeroconf(Zeroconf):
 
 
 class HaAsyncZeroconf(AsyncZeroconf):
-    """__HA_KEEP__ version of AsyncZeroconf."""
+    """Universal Home Assistant version of AsyncZeroconf."""
 
     @override
     async def async_close(self) -> None:

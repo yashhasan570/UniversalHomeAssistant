@@ -14,7 +14,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.ecosmart.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import TEST_ACCOUNT_REF, TEST_API_KEY, load_identity
@@ -36,7 +36,7 @@ FLOW_ERRORS = pytest.mark.parametrize(
 )
 
 
-async def test_user_flow(hass: __HAC_KEEP__, mock_ecosmart_client: AsyncMock) -> None:
+async def test_user_flow(hass: UniversalAssistant, mock_ecosmart_client: AsyncMock) -> None:
     """Test the happy path creates an entry keyed on the account reference."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -56,7 +56,7 @@ async def test_user_flow(hass: __HAC_KEEP__, mock_ecosmart_client: AsyncMock) ->
 
 
 async def test_user_flow_unlabelled_key(
-    hass: __HAC_KEEP__, mock_ecosmart_client: AsyncMock
+    hass: UniversalAssistant, mock_ecosmart_client: AsyncMock
 ) -> None:
     """Test a key with no label falls back to the integration name."""
     mock_ecosmart_client.me.return_value = replace(load_identity(), label="")
@@ -75,7 +75,7 @@ async def test_user_flow_unlabelled_key(
 
 @FLOW_ERRORS
 async def test_user_flow_errors_then_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ecosmart_client: AsyncMock,
     side_effect: Exception,
     error: str,
@@ -103,7 +103,7 @@ async def test_user_flow_errors_then_recovers(
 
 
 async def test_user_flow_no_icps_then_recovers(
-    hass: __HAC_KEEP__, mock_ecosmart_client: AsyncMock
+    hass: UniversalAssistant, mock_ecosmart_client: AsyncMock
 ) -> None:
     """Test a key minted before switch-in is rejected, not accepted empty."""
     mock_ecosmart_client.me.return_value = load_identity("me_no_icps.json")
@@ -128,7 +128,7 @@ async def test_user_flow_no_icps_then_recovers(
 
 
 async def test_duplicate_account_aborts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -147,7 +147,7 @@ async def test_duplicate_account_aborts(
 
 
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -170,7 +170,7 @@ async def test_reauth_flow(
 
 @FLOW_ERRORS
 async def test_reauth_flow_errors_then_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -200,7 +200,7 @@ async def test_reauth_flow_errors_then_recovers(
 
 
 async def test_reauth_flow_no_icps_then_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -229,7 +229,7 @@ async def test_reauth_flow_no_icps_then_recovers(
 
 
 async def test_reauth_flow_other_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -250,7 +250,7 @@ async def test_reauth_flow_other_account(
 
 
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -273,7 +273,7 @@ async def test_reconfigure_flow(
 
 @FLOW_ERRORS
 async def test_reconfigure_flow_errors_then_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -303,7 +303,7 @@ async def test_reconfigure_flow_errors_then_recovers(
 
 
 async def test_reconfigure_flow_other_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

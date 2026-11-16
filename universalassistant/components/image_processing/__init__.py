@@ -6,7 +6,7 @@ import logging
 import probatio
 
 from universalassistant.const import CONF_ENTITY_ID, CONF_NAME, CONF_SOURCE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.typing import ConfigType
@@ -86,7 +86,7 @@ __all__ = [
 ]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the image processing."""
     component = hass.data[DATA_COMPONENT] = EntityComponent[ImageProcessingEntity](
         _LOGGER, DOMAIN, hass, SCAN_INTERVAL

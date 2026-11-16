@@ -10,7 +10,7 @@ from visionpluspython.client import WattsVisionClient
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import (
     aiohttp_client,
@@ -35,7 +35,7 @@ PLATFORMS: list[Platform] = [Platform.CLIMATE, Platform.SWITCH]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Watts Vision component."""
     async_setup_services(hass)
     return True
@@ -56,7 +56,7 @@ type WattsVisionConfigEntry = ConfigEntry[WattsVisionRuntimeData]
 
 @callback
 def _handle_new_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: WattsVisionConfigEntry,
     hub_coordinator: WattsVisionHubCoordinator,
 ) -> None:
@@ -97,7 +97,7 @@ def _handle_new_devices(
     async_dispatcher_send(hass, f"{DOMAIN}_{entry.entry_id}_new_device")
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: WattsVisionConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: WattsVisionConfigEntry) -> None:
     """Set up Watts Vision from a config entry."""
     implementation = (
         await config_entry_oauth2_flow.async_get_config_entry_implementation(
@@ -166,7 +166,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: WattsVisionConfigEntry) -
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: WattsVisionConfigEntry
+    hass: UniversalAssistant, entry: WattsVisionConfigEntry
 ) -> None:
     """Unload a config entry."""
     for device_coordinator in entry.runtime_data.device_coordinators.values():

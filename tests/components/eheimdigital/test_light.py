@@ -28,8 +28,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.color import value_to_brightness
 
@@ -45,7 +45,7 @@ from .conftest import init_integration
     ],
 )
 async def test_setup_classic_led_ctrl(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     eheimdigital_hub_mock: MagicMock,
     tankconfig: list[list[str]],
     mock_config_entry: MockConfigEntry,
@@ -76,7 +76,7 @@ async def test_setup_classic_led_ctrl(
 
 
 async def test_dynamic_new_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     eheimdigital_hub_mock: MagicMock,
     classic_led_ctrl_mock: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -119,7 +119,7 @@ async def test_dynamic_new_devices(
 
 
 async def test_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     eheimdigital_hub_mock: MagicMock,
     classic_led_ctrl_mock: EheimDigitalClassicLEDControl,
@@ -134,7 +134,7 @@ async def test_turn_off(
 
     classic_led_ctrl_mock.hub.send_packet.side_effect = EheimDigitalClientError
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_OFF,
@@ -172,7 +172,7 @@ async def test_turn_off(
     ],
 )
 async def test_turn_on_brightness(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     eheimdigital_hub_mock: MagicMock,
     mock_config_entry: MockConfigEntry,
     classic_led_ctrl_mock: EheimDigitalClassicLEDControl,
@@ -189,7 +189,7 @@ async def test_turn_on_brightness(
 
     classic_led_ctrl_mock.hub.send_packet.side_effect = EheimDigitalClientError
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_ON,
@@ -225,7 +225,7 @@ async def test_turn_on_brightness(
 
 
 async def test_turn_on_effect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     eheimdigital_hub_mock: MagicMock,
     mock_config_entry: MockConfigEntry,
     classic_led_ctrl_mock: EheimDigitalClassicLEDControl,
@@ -260,7 +260,7 @@ async def test_turn_on_effect(
 
 
 async def test_state_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     eheimdigital_hub_mock: MagicMock,
     mock_config_entry: MockConfigEntry,
     classic_led_ctrl_mock: EheimDigitalClassicLEDControl,
@@ -286,7 +286,7 @@ async def test_state_update(
 
 
 async def test_update_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     eheimdigital_hub_mock: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

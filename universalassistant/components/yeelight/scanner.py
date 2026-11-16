@@ -15,7 +15,7 @@ from async_upnp_client.utils import CaseInsensitiveDict
 
 from universalassistant import config_entries
 from universalassistant.components import network
-from universalassistant.core import CALLBACK_TYPE, HassJob, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, HassJob, UniversalAssistant, callback
 from universalassistant.helpers import discovery_flow
 from universalassistant.helpers.event import async_call_later, async_track_time_interval
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
@@ -47,13 +47,13 @@ class YeelightScanner:
 
     @classmethod
     @callback
-    def async_get(cls, hass: __HAC_KEEP__) -> Self:
+    def async_get(cls, hass: UniversalAssistant) -> Self:
         """Get scanner instance."""
         if cls._scanner is None:
             cls._scanner = cls(hass)
         return cls._scanner
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize class."""
         self._hass = hass
         self._host_discovered_events: dict[str, list[asyncio.Event]] = {}

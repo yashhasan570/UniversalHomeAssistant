@@ -14,7 +14,7 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -48,7 +48,7 @@ def job() -> dict[str, Any]:
 )
 @pytest.mark.freeze_time(datetime(2020, 2, 20, 9, 10, 13, 543, tzinfo=UTC))
 async def test_numbers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     init_integration: MockConfigEntry,
@@ -75,7 +75,7 @@ async def test_numbers(
 @pytest.mark.freeze_time(datetime(2020, 2, 20, 9, 10, 0))
 @pytest.mark.usefixtures("init_integration")
 async def test_numbers_no_target_temp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test the number entities when target temperature is None."""
@@ -109,7 +109,7 @@ async def test_numbers_no_target_temp(
 @pytest.mark.freeze_time(datetime(2020, 2, 20, 9, 10, 0))
 @pytest.mark.usefixtures("init_integration")
 async def test_set_tool_temp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test setting tool temperature via number entity."""
     with patch(
@@ -149,7 +149,7 @@ async def test_set_tool_temp(
 @pytest.mark.freeze_time(datetime(2020, 2, 20, 9, 10, 0))
 @pytest.mark.usefixtures("init_integration")
 async def test_set_bed_temp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test setting bed temperature via number entity."""
     with patch(
@@ -193,7 +193,7 @@ async def test_set_bed_temp(
 @pytest.mark.freeze_time(datetime(2020, 2, 20, 9, 10, 0))
 @pytest.mark.usefixtures("init_integration")
 async def test_set_tool_n_temp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test setting tool temperature when multiple tools present."""
     with patch(
@@ -222,7 +222,7 @@ async def test_set_tool_n_temp(
 @pytest.mark.freeze_time(datetime(2020, 2, 20, 9, 10, 0))
 @pytest.mark.usefixtures("init_integration")
 async def test_numbers_printer_disconnected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test number entities when printer is disconnected."""
     # When printer is disconnected, no number entities should be created

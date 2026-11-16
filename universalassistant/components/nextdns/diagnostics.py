@@ -5,7 +5,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_API_KEY, CONF_UNIQUE_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import NextDnsConfigEntry
 from .const import CONF_PROFILE_ID
@@ -14,7 +14,7 @@ TO_REDACT = {CONF_API_KEY, CONF_PROFILE_ID, CONF_UNIQUE_ID}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: NextDnsConfigEntry
+    hass: UniversalAssistant, config_entry: NextDnsConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     profiles_data: list[dict[str, Any]] = []

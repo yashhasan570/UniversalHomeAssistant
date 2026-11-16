@@ -6,8 +6,8 @@ from typing import Final, override
 from indevolt_api import IndevoltConfig, IndevoltEnergyMode
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -45,7 +45,7 @@ SELECTS: Final = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: IndevoltConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -113,7 +113,7 @@ class IndevoltSelectEntity(IndevoltEntity, SelectEntity):
             )
 
         else:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="write_error",
                 translation_placeholders={"name": str(self.name)},

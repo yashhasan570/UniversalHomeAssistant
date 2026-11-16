@@ -14,7 +14,7 @@ from universalassistant.components.application_credentials import (
     async_import_client_credential,
 )
 from universalassistant.components.senz.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.setup import async_setup_component
@@ -27,7 +27,7 @@ REDIRECT_URL = "https://example.com" + REDIRECT_PATH
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     access_token: str,
@@ -83,7 +83,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_duplicate_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -132,7 +132,7 @@ async def test_duplicate_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -212,7 +212,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reconfiguration_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,

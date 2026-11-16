@@ -73,7 +73,7 @@ def parse_requirement_safe(requirement_str: str) -> Requirement | None:
         # example: git+https://github.com/pypa/pip#pip>=1
 
         # fragment support was originally used to install zip files, and
-        # we no longer do this in __HA_KEEP__. However, custom
+        # we no longer do this in Universal Home Assistant. However, custom
         # components started using it to install packages from git
         # urls which would make it would be a breaking change to
         # remove it.
@@ -103,7 +103,7 @@ def is_installed(requirement_str: str) -> bool:
         if (installed_version := version(req.name)) is None:
             # This can happen when an install failed or
             # was aborted while in progress see
-            # https://github.com/yashhasan570/__HAC_KEEP__/issues/47699
+            # https://github.com/yashhasan570/UniversalUniversalAssistant/issues/47699
             _LOGGER.error(  # type: ignore[unreachable]
                 "Installed version for %s resolved to None", req.name
             )

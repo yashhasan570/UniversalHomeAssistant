@@ -2,7 +2,7 @@
 
 from typing import Any, override
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_entry_oauth2_flow
 
 from .const import AUTHORIZE_URL, TOKEN_URL
@@ -13,7 +13,7 @@ class TeslemetryImplementation(
 ):
     """Teslemetry OAuth2 implementation."""
 
-    def __init__(self, hass: __HAC_KEEP__, domain: str, client_id: str) -> None:
+    def __init__(self, hass: UniversalAssistant, domain: str, client_id: str) -> None:
         """Initialize OAuth2 implementation."""
 
         super().__init__(

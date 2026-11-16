@@ -32,8 +32,8 @@ from universalassistant.components.zha.helpers import (
     get_zha_gateway_proxy,
 )
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_component import async_update_entity
 
 from .common import find_entity_id, send_attributes_report, update_attribute_cache
@@ -64,7 +64,7 @@ WCCS = closures.WindowCovering.ConfigStatus
 
 
 async def test_cover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:
@@ -329,7 +329,7 @@ async def test_cover(
 
 
 async def test_cover_supported_features_runtime_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:
@@ -393,7 +393,7 @@ async def test_cover_supported_features_runtime_update(
 
 
 async def test_cover_failures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:
@@ -458,7 +458,7 @@ async def test_cover_failures(
             status=zcl_f.Status.UNSUP_CLUSTER_COMMAND,
         ),
     ):
-        with pytest.raises(__HAC_KEEP__Error, match=r"Failed to close cover"):
+        with pytest.raises(UniversalAssistantError, match=r"Failed to close cover"):
             await hass.services.async_call(
                 COVER_DOMAIN,
                 SERVICE_CLOSE_COVER,
@@ -478,7 +478,7 @@ async def test_cover_failures(
             status=zcl_f.Status.UNSUP_CLUSTER_COMMAND,
         ),
     ):
-        with pytest.raises(__HAC_KEEP__Error, match=r"Failed to close cover tilt"):
+        with pytest.raises(UniversalAssistantError, match=r"Failed to close cover tilt"):
             await hass.services.async_call(
                 COVER_DOMAIN,
                 SERVICE_CLOSE_COVER_TILT,
@@ -499,7 +499,7 @@ async def test_cover_failures(
             status=zcl_f.Status.UNSUP_CLUSTER_COMMAND,
         ),
     ):
-        with pytest.raises(__HAC_KEEP__Error, match=r"Failed to open cover"):
+        with pytest.raises(UniversalAssistantError, match=r"Failed to open cover"):
             await hass.services.async_call(
                 COVER_DOMAIN,
                 SERVICE_OPEN_COVER,
@@ -519,7 +519,7 @@ async def test_cover_failures(
             status=zcl_f.Status.UNSUP_CLUSTER_COMMAND,
         ),
     ):
-        with pytest.raises(__HAC_KEEP__Error, match=r"Failed to open cover tilt"):
+        with pytest.raises(UniversalAssistantError, match=r"Failed to open cover tilt"):
             await hass.services.async_call(
                 COVER_DOMAIN,
                 SERVICE_OPEN_COVER_TILT,
@@ -540,7 +540,7 @@ async def test_cover_failures(
             status=zcl_f.Status.UNSUP_CLUSTER_COMMAND,
         ),
     ):
-        with pytest.raises(__HAC_KEEP__Error, match=r"Failed to set cover position"):
+        with pytest.raises(UniversalAssistantError, match=r"Failed to set cover position"):
             await hass.services.async_call(
                 COVER_DOMAIN,
                 SERVICE_SET_COVER_POSITION,
@@ -562,7 +562,7 @@ async def test_cover_failures(
         ),
     ):
         with pytest.raises(
-            __HAC_KEEP__Error, match=r"Failed to set cover tilt position"
+            UniversalAssistantError, match=r"Failed to set cover tilt position"
         ):
             await hass.services.async_call(
                 COVER_DOMAIN,
@@ -584,7 +584,7 @@ async def test_cover_failures(
             status=zcl_f.Status.UNSUP_CLUSTER_COMMAND,
         ),
     ):
-        with pytest.raises(__HAC_KEEP__Error, match=r"Failed to stop cover"):
+        with pytest.raises(UniversalAssistantError, match=r"Failed to stop cover"):
             await hass.services.async_call(
                 COVER_DOMAIN,
                 SERVICE_STOP_COVER,
@@ -605,7 +605,7 @@ async def test_cover_failures(
             status=zcl_f.Status.UNSUP_CLUSTER_COMMAND,
         ),
     ):
-        with pytest.raises(__HAC_KEEP__Error, match=r"Failed to stop cover"):
+        with pytest.raises(UniversalAssistantError, match=r"Failed to stop cover"):
             await hass.services.async_call(
                 COVER_DOMAIN,
                 SERVICE_STOP_COVER_TILT,

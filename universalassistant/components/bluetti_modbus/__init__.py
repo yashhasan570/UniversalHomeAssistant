@@ -4,8 +4,8 @@ from modbus_connection import ModbusTcpParams
 
 from universalassistant.components.modbus import async_get_unit
 from universalassistant.const import CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import ConfigEntryError, __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ConfigEntryError, UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 
 from .const import CONF_UNIT_ID, DOMAIN
@@ -21,13 +21,13 @@ PLATFORMS = [Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: BluettiModbusConfigEntry
+    hass: UniversalAssistant, entry: BluettiModbusConfigEntry
 ) -> None:
     """Set up BLUETTI Modbus from a config entry."""
     params = ModbusTcpParams(host=entry.data[CONF_HOST], port=entry.data[CONF_PORT])
     try:
         unit = async_get_unit(hass, entry, params, entry.data[CONF_UNIT_ID])
-    except __HAC_KEEP__Error as err:
+    except UniversalAssistantError as err:
         # The device is already in use over different link settings, which
         # one shared connection cannot honour.
         raise ConfigEntryError(
@@ -65,7 +65,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: BluettiModbusConfigEntry
+    hass: UniversalAssistant, entry: BluettiModbusConfigEntry
 ) -> None:
     """Unload a BLUETTI Modbus config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

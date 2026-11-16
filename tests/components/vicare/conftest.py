@@ -16,7 +16,7 @@ from universalassistant.components.application_credentials import (
     async_import_client_credential,
 )
 from universalassistant.components.vicare.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import MODULE, setup_integration
@@ -127,7 +127,7 @@ class MockViCareService:
 
 
 @pytest.fixture(autouse=True)
-async def setup_credentials(hass: __HAC_KEEP__) -> None:
+async def setup_credentials(hass: UniversalAssistant) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, "application_credentials", {})
     await async_import_client_credential(
@@ -162,7 +162,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 @pytest.fixture
 async def mock_vicare_gas_boiler(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> AsyncGenerator[MockConfigEntry]:
     """Return a mocked ViCare API representing a single gas boiler device."""
     fixtures: list[Fixture] = [Fixture({"type:boiler"}, "vicare/Vitodens300W.json")]
@@ -179,7 +179,7 @@ async def mock_vicare_gas_boiler(
 
 @pytest.fixture
 async def mock_vicare_room_sensors(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> AsyncGenerator[MockConfigEntry]:
     """Return a mocked ViCare API representing multiple room sensor devices."""
     fixtures: list[Fixture] = [

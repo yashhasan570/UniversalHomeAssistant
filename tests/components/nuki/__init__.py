@@ -8,13 +8,13 @@ from pytest_universalassistant.common import (
 import requests_mock
 
 from universalassistant.components.nuki.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .mock import MOCK_INFO, setup_nuki_integration
 
 
 async def init_integration(
-    hass: __HAC_KEEP__, mock_nuki_requests: requests_mock.Mocker
+    hass: UniversalAssistant, mock_nuki_requests: requests_mock.Mocker
 ) -> MockConfigEntry:
     """Mock integration setup."""
     # Mocking authentication endpoint

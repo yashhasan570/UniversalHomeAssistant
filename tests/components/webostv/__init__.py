@@ -6,13 +6,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.webostv.const import DOMAIN
 from universalassistant.const import CONF_CLIENT_SECRET, CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CLIENT_KEY, FAKE_UUID, HOST, TV_NAME
 
 
 async def setup_webostv(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     unique_id: str | None = FAKE_UUID,
     options: dict[str, Any] | None = None,
 ) -> MockConfigEntry:

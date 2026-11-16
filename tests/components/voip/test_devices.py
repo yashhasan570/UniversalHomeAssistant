@@ -10,12 +10,12 @@ from voip_utils.sip import SipEndpoint
 from universalassistant.components.voip import DOMAIN
 from universalassistant.components.voip.devices import VoIPDevice, VoIPDevices
 from universalassistant.components.voip.store import VoipStore
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
 async def test_device_registry_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     voip_devices: VoIPDevices,
     call_info: CallInfo,
     device_registry: dr.DeviceRegistry,
@@ -47,7 +47,7 @@ async def test_device_registry_info(
 
 
 async def test_device_registry_info_from_unknown_phone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     voip_devices: VoIPDevices,
     call_info: CallInfo,
     device_registry: dr.DeviceRegistry,
@@ -67,7 +67,7 @@ async def test_device_registry_info_from_unknown_phone(
 
 
 async def test_device_registry_info_update_contact(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     voip_devices: VoIPDevices,
     call_info: CallInfo,
     device_registry: dr.DeviceRegistry,
@@ -101,7 +101,7 @@ async def test_device_registry_info_update_contact(
 
 
 async def test_device_load_contact(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     call_info: CallInfo,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -135,7 +135,7 @@ async def test_device_load_contact(
 
 
 async def test_remove_device_registry_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     voip_device: VoIPDevice,
     voip_devices: VoIPDevices,
     device_registry: dr.DeviceRegistry,
@@ -175,7 +175,7 @@ async def legacy_dev_reg_entry(
 
 
 async def test_device_registry_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     legacy_dev_reg_entry: dr.DeviceEntry,
     voip_devices: VoIPDevices,
     call_info: CallInfo,

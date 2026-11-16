@@ -9,7 +9,7 @@ from aiorussound.rio.models import PartyMode
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import RussoundConfigEntry
@@ -43,7 +43,7 @@ CONTROL_ENTITIES: tuple[RussoundZoneSelectEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: RussoundConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -64,7 +64,7 @@ class RussoundSelectEntity(RussoundBaseEntity, SelectEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         controller: Controller,
         entry: RussoundConfigEntry,
         zone_id: int,

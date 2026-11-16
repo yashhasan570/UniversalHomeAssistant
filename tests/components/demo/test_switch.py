@@ -8,7 +8,7 @@ import pytest
 from universalassistant.components.demo import DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 SWITCH_ENTITY_IDS = ["switch.decorative_lights", "switch.ac"]
@@ -25,7 +25,7 @@ def switch_only() -> Generator[None]:
 
 
 @pytest.fixture(autouse=True)
-async def setup_comp(hass: __HAC_KEEP__, switch_only: None) -> None:
+async def setup_comp(hass: UniversalAssistant, switch_only: None) -> None:
     """Set up demo component."""
     assert await async_setup_component(
         hass, SWITCH_DOMAIN, {SWITCH_DOMAIN: {"platform": DOMAIN}}
@@ -34,7 +34,7 @@ async def setup_comp(hass: __HAC_KEEP__, switch_only: None) -> None:
 
 
 @pytest.mark.parametrize("switch_entity_id", SWITCH_ENTITY_IDS)
-async def test_turn_on(hass: __HAC_KEEP__, switch_entity_id: str) -> None:
+async def test_turn_on(hass: UniversalAssistant, switch_entity_id: str) -> None:
     """Test switch turn on method."""
     await hass.services.async_call(
         SWITCH_DOMAIN,
@@ -60,7 +60,7 @@ async def test_turn_on(hass: __HAC_KEEP__, switch_entity_id: str) -> None:
 
 
 @pytest.mark.parametrize("switch_entity_id", SWITCH_ENTITY_IDS)
-async def test_turn_off(hass: __HAC_KEEP__, switch_entity_id: str) -> None:
+async def test_turn_off(hass: UniversalAssistant, switch_entity_id: str) -> None:
     """Test switch turn off method."""
     await hass.services.async_call(
         SWITCH_DOMAIN,
@@ -87,7 +87,7 @@ async def test_turn_off(hass: __HAC_KEEP__, switch_entity_id: str) -> None:
 
 @pytest.mark.parametrize("switch_entity_id", SWITCH_ENTITY_IDS)
 async def test_turn_off_without_entity_id(
-    hass: __HAC_KEEP__, switch_entity_id: str
+    hass: UniversalAssistant, switch_entity_id: str
 ) -> None:
     """Test switch turn off all switches."""
     await hass.services.async_call(

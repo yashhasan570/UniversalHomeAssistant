@@ -29,8 +29,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, PRECISION_TENTHS, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from universalassistant.util import dt as dt_util
@@ -62,7 +62,7 @@ HA_PRESET_TO_EVO = {v: k for k, v in EVO_PRESET_TO_HA.items()}
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     _: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -464,7 +464,7 @@ class EvoController(EvoClimateEntity):
                 else EvoSystemMode.OFF
             )
         else:
-            raise __HAC_KEEP__Error(f"Invalid hvac_mode: {hvac_mode}")
+            raise UniversalAssistantError(f"Invalid hvac_mode: {hvac_mode}")
         await self._set_tcs_mode(evo_mode)
 
     @override

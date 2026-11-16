@@ -14,7 +14,7 @@ from universalassistant.components.backup import (
     Folder,
 )
 from universalassistant.components.kitchen_sink import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import instance_id
 from universalassistant.setup import async_setup_component
 
@@ -33,7 +33,7 @@ async def backup_only() -> AsyncGenerator[None]:
 
 
 @pytest.fixture(autouse=True)
-async def setup_integration(hass: __HAC_KEEP__) -> AsyncGenerator[None]:
+async def setup_integration(hass: UniversalAssistant) -> AsyncGenerator[None]:
     """Set up Kitchen Sink integration."""
     with patch("universalassistant.components.backup.is_hassio", return_value=False):
         assert await async_setup_component(hass, BACKUP_DOMAIN, {BACKUP_DOMAIN: {}})
@@ -43,7 +43,7 @@ async def setup_integration(hass: __HAC_KEEP__) -> AsyncGenerator[None]:
 
 
 async def test_agents_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test backup agent info."""
@@ -88,7 +88,7 @@ async def test_agents_info(
 
 
 async def test_agents_list_backups(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test agent list backups."""
@@ -119,7 +119,7 @@ async def test_agents_list_backups(
 
 
 async def test_agents_download(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test downloading a backup."""
@@ -131,7 +131,7 @@ async def test_agents_download(
 
 
 async def test_agents_upload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
@@ -202,7 +202,7 @@ async def test_agents_upload(
 
 
 async def test_agent_delete_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

@@ -6,7 +6,7 @@ from laundrify_aio import LaundrifyAPI
 from laundrify_aio.exceptions import ApiConnectionException, UnauthorizedException
 
 from universalassistant.const import CONF_ACCESS_TOKEN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -17,7 +17,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS = [Platform.BINARY_SENSOR, Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: LaundrifyConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: LaundrifyConfigEntry) -> None:
     """Set up laundrify from a config entry."""
 
     session = async_get_clientsession(hass)
@@ -39,13 +39,13 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: LaundrifyConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: LaundrifyConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: LaundrifyConfigEntry) -> None:
     """Unload a config entry."""
 
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: LaundrifyConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: LaundrifyConfigEntry) -> None:
     """Migrate entry."""
 
     _LOGGER.debug("Migrating from version %s", entry.version)

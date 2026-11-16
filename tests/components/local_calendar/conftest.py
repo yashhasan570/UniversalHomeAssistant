@@ -14,7 +14,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator, WebSocketGe
 
 from universalassistant.components.local_calendar import LocalCalendarStore
 from universalassistant.components.local_calendar.const import CONF_CALENDAR_NAME, DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 CALENDAR_NAME = "Light Schedule"
@@ -27,7 +27,7 @@ class FakeStore(LocalCalendarStore):
     """Mock storage implementation."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, path: Path, ics_content: str, read_side_effect: Any
+        self, hass: UniversalAssistant, path: Path, ics_content: str, read_side_effect: Any
     ) -> None:
         """Initialize FakeStore."""
         super().__init__(hass, path)
@@ -65,7 +65,7 @@ def mock_store(ics_content: str, store_read_side_effect: Any | None) -> Generato
 
     stores: dict[Path, FakeStore] = {}
 
-    def new_store(hass: __HAC_KEEP__, path: Path) -> FakeStore:
+    def new_store(hass: UniversalAssistant, path: Path) -> FakeStore:
         if path not in stores:
             stores[path] = FakeStore(hass, path, ics_content, store_read_side_effect)
         return stores[path]
@@ -85,7 +85,7 @@ def mock_time_zone() -> str:
 
 
 @pytest.fixture(autouse=True)
-async def set_time_zone(hass: __HAC_KEEP__, time_zone: str):
+async def set_time_zone(hass: UniversalAssistant, time_zone: str):
     """Set the time zone for the tests."""
     # Set our timezone to CST/Regina so we can check calculations
     # This keeps UTC-6 all year round
@@ -99,7 +99,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 
 @pytest.fixture(name="setup_integration")
-async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Set up the integration."""
     config_entry.add_to_hass(hass)
     assert await async_setup_component(hass, DOMAIN, {})
@@ -172,7 +172,7 @@ type ClientFixture = Callable[[], Awaitable[Client]]
 
 @pytest.fixture
 async def ws_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> ClientFixture:
     """Fixture for creating the test websocket client."""

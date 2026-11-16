@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.flic_button.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import FLIC2_ADDRESS, FLIC2_SERIAL, create_flic2_service_info, setup_integration
@@ -22,7 +22,7 @@ def _fire_state_callbacks(mock_flic_client: MagicMock) -> None:
 
 
 async def test_setup_entry_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_flic_client: MagicMock,
     mock_ble_device_from_address: MagicMock,
@@ -36,7 +36,7 @@ async def test_setup_entry_success(
 
 
 async def test_setup_entry_device_not_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_flic_client: MagicMock,
     mock_no_ble_device_from_address: MagicMock,
@@ -61,7 +61,7 @@ async def test_setup_entry_device_not_available(
     ],
 )
 async def test_setup_entry_initial_connection_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_flic_client: MagicMock,
     mock_ble_device_from_address: MagicMock,
@@ -78,7 +78,7 @@ async def test_setup_entry_initial_connection_fails(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_flic_client: MagicMock,
     mock_ble_device_from_address: MagicMock,
@@ -97,7 +97,7 @@ async def test_unload_entry(
 
 @pytest.mark.parametrize("device_type", [DeviceType.TWIST])
 async def test_setup_entry_with_twist_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_flic_client: MagicMock,
     mock_no_ble_device_from_address: MagicMock,
@@ -110,7 +110,7 @@ async def test_setup_entry_with_twist_device(
 
 
 async def test_bluetooth_callback_sets_ble_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_flic_client: MagicMock,
     mock_no_ble_device_from_address: MagicMock,
@@ -132,7 +132,7 @@ async def test_bluetooth_callback_sets_ble_device(
     "mock_no_ble_device_from_address", "mock_bluetooth_register_callback"
 )
 async def test_firmware_version_set_when_connected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_flic_client: MagicMock,
@@ -166,7 +166,7 @@ async def test_firmware_version_set_when_connected(
     "mock_no_ble_device_from_address", "mock_bluetooth_register_callback"
 )
 async def test_firmware_version_kept_on_reload_out_of_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_flic_client: MagicMock,

@@ -4,7 +4,7 @@ from pyseventeentrack import Client as SeventeenTrackClient
 from pyseventeentrack.errors import SeventeenTrackError
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
@@ -19,7 +19,7 @@ PLATFORMS: list[Platform] = [Platform.SENSOR]
 CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the 17Track component."""
 
     async_setup_services(hass)
@@ -28,7 +28,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: SeventeenTrackConfigEntry
+    hass: UniversalAssistant, entry: SeventeenTrackConfigEntry
 ) -> None:
     """Set up 17Track from a config entry."""
 

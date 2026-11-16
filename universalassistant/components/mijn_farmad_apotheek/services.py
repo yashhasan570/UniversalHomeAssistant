@@ -12,17 +12,19 @@ from aiofarmad import (
     FarmadAuthorizationError,
     FarmadCommunicationError,
     FarmadError,
+    FarmadMissingPriceError,
+    FarmadPriceLookupError,
 )
 import probatio
 
 from universalassistant.core import (
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import (
@@ -86,7 +88,7 @@ ORDER_MEDICATION_SCHEMA = probatio.Schema(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the actions for the Mijn Farmad Apotheek integration."""
     hass.services.async_register(
         DOMAIN,
@@ -107,19 +109,19 @@ def async_setup_services(hass: __HAC_KEEP__) -> None:
 
 def _translate_error(
     err: FarmadError, apb: str, translation_key: str
-) -> __HAC_KEEP__Error:
-    """Return the __HA_KEEP__ error for a library error.
+) -> UniversalAssistantError:
+    """Return the Universal Home Assistant error for a library error.
 
     The translation key applies to every error that is not an
     authentication or authorization failure.
     """
     if isinstance(err, FarmadAuthenticationError):
-        return __HAC_KEEP__Error(
+        return UniversalAssistantError(
             translation_domain=DOMAIN, translation_key="authentication_failed"
         )
     if isinstance(err, FarmadAuthorizationError):
         translation_key = "not_authorized"
-    return __HAC_KEEP__Error(
+    return UniversalAssistantError(
         translation_domain=DOMAIN,
         translation_key=translation_key,
         translation_placeholders={"apb": apb},
@@ -207,7 +209,7 @@ async def _async_write_draft(
         raise
     if draft_id is None:
         await _async_clear_draft(data, apb)
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="order_failed",
             translation_placeholders={"apb": apb},
@@ -228,8 +230,23 @@ async def _async_place_order(
             basket_id = await data.client.async_submit_basket(
                 apb, draft_id, products=products, comment=comment
             )
+        except FarmadPriceLookupError:
+            await _async_clear_draft(data, apb)
+            raise
+        except FarmadMissingPriceError as err:
+            _LOGGER.debug("Ordering at pharmacy %s failed: %s", apb, err)
+            await _async_clear_draft(data, apb)
+            raise UniversalAssistantError(
+                translation_domain=DOMAIN,
+                translation_key="price_unavailable",
+                translation_placeholders={
+                    "apb": apb,
+                    "product": products[0].product_cnk,
+                },
+            ) from err
         except FarmadCommunicationError as err:
-            raise __HAC_KEEP__Error(
+            _LOGGER.debug("Ordering at pharmacy %s failed: %s", apb, err)
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="order_unconfirmed",
                 translation_placeholders={"apb": apb},
@@ -238,7 +255,7 @@ async def _async_place_order(
             await _async_clear_draft(data, apb)
             raise
     if basket_id is None:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="order_unconfirmed",
             translation_placeholders={"apb": apb},
@@ -258,6 +275,7 @@ async def _async_search_medication(call: ServiceCall) -> ServiceResponse:
     except FarmadError as err:
         if isinstance(err, FarmadAuthenticationError):
             entry.async_start_reauth(call.hass)
+        _LOGGER.debug("Searching pharmacy %s failed: %s", apb, err)
         raise _translate_error(err, apb, "search_failed") from err
     return {ATTR_PRODUCTS: [_serialize_product(product) for product in products]}
 
@@ -284,5 +302,6 @@ async def _async_order_medication(call: ServiceCall) -> ServiceResponse:
     except FarmadError as err:
         if isinstance(err, FarmadAuthenticationError):
             entry.async_start_reauth(call.hass)
+        _LOGGER.debug("Ordering at pharmacy %s failed: %s", apb, err)
         raise _translate_error(err, apb, "order_failed") from err
     return {ATTR_BASKET_ID: basket_id, ATTR_DESCRIPTION: description}

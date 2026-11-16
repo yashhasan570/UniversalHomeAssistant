@@ -6,9 +6,9 @@ import pytest
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.cover import (
-    ATTR_CURRENT_POSITION,
-    ATTR_POSITION,
     DOMAIN as COVER_DOMAIN,
+    CoverEntityStateAttribute,
+    CoverServiceArgument,
     CoverState,
 )
 from universalassistant.components.devolo_home_control.const import DOMAIN
@@ -19,8 +19,8 @@ from universalassistant.const import (
     SERVICE_SET_COVER_POSITION,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import configure_integration
@@ -28,7 +28,7 @@ from .mocks import HomeControlMock, HomeControlMockCover
 
 
 async def test_cover(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
 ) -> None:
     """Test setup and state change of a cover device."""
     entry = configure_integration(hass)
@@ -50,7 +50,7 @@ async def test_cover(
     await hass.async_block_till_done()
     state = hass.states.get(f"{COVER_DOMAIN}.test_test")
     assert state.state == CoverState.CLOSED
-    assert state.attributes[ATTR_CURRENT_POSITION] == 0.0
+    assert state.attributes[CoverEntityStateAttribute.CURRENT_POSITION] == 0.0
 
     # Test setting position
     with patch(
@@ -77,7 +77,10 @@ async def test_cover(
         await hass.services.async_call(
             COVER_DOMAIN,
             SERVICE_SET_COVER_POSITION,
-            {ATTR_ENTITY_ID: f"{COVER_DOMAIN}.test_test", ATTR_POSITION: 50},
+            {
+                ATTR_ENTITY_ID: f"{COVER_DOMAIN}.test_test",
+                CoverServiceArgument.POSITION: 50,
+            },
             blocking=True,
         )  # In reality, this leads to a websocket message like already tested above
         set_value.assert_called_once_with(50)
@@ -87,12 +90,15 @@ async def test_cover(
             "devolo_home_control_api.properties.multi_level_switch_property.MultiLevelSwitchProperty.set",
             return_value=False,
         ),
-        pytest.raises(__HAC_KEEP__Error) as error,
+        pytest.raises(UniversalAssistantError) as error,
     ):
         await hass.services.async_call(
             COVER_DOMAIN,
             SERVICE_SET_COVER_POSITION,
-            {ATTR_ENTITY_ID: f"{COVER_DOMAIN}.test_test", ATTR_POSITION: 50},
+            {
+                ATTR_ENTITY_ID: f"{COVER_DOMAIN}.test_test",
+                CoverServiceArgument.POSITION: 50,
+            },
             blocking=True,
         )
     assert error.value.translation_key == "set_failed"
@@ -105,7 +111,7 @@ async def test_cover(
     assert hass.states.get(f"{COVER_DOMAIN}.test_test").state == STATE_UNAVAILABLE
 
 
-async def test_remove_from_hass(hass: __HAC_KEEP__) -> None:
+async def test_remove_from_hass(hass: UniversalAssistant) -> None:
     """Test removing entity."""
     entry = configure_integration(hass)
     test_gateway = HomeControlMockCover()

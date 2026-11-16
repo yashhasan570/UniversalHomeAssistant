@@ -28,7 +28,7 @@ from universalassistant.components.yeelight.const import (
     NIGHTLIGHT_SWITCH_TYPE_LIGHT,
 )
 from universalassistant.const import CONF_DEVICE, CONF_HOST, CONF_ID, CONF_MODEL, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
@@ -69,7 +69,7 @@ SSDP_INFO = SsdpServiceInfo(
 )
 
 
-async def test_discovery(hass: __HAC_KEEP__) -> None:
+async def test_discovery(hass: UniversalAssistant) -> None:
     """Test setting up discovery."""
     with _patch_discovery(), _patch_discovery_interval():
         result = await hass.config_entries.flow.async_init(
@@ -128,7 +128,7 @@ async def test_discovery(hass: __HAC_KEEP__) -> None:
     assert result2["reason"] == "no_devices_found"
 
 
-async def test_discovery_with_existing_device_present(hass: __HAC_KEEP__) -> None:
+async def test_discovery_with_existing_device_present(hass: UniversalAssistant) -> None:
     """Test setting up discovery."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_ID: "0x000000000099999", CONF_HOST: "4.4.4.4"}
@@ -212,7 +212,7 @@ async def test_discovery_with_existing_device_present(hass: __HAC_KEEP__) -> Non
     assert result2["reason"] == "no_devices_found"
 
 
-async def test_discovery_no_device(hass: __HAC_KEEP__) -> None:
+async def test_discovery_no_device(hass: UniversalAssistant) -> None:
     """Test discovery without device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -229,7 +229,7 @@ async def test_discovery_no_device(hass: __HAC_KEEP__) -> None:
     assert result2["reason"] == "no_devices_found"
 
 
-async def test_import(hass: __HAC_KEEP__) -> None:
+async def test_import(hass: UniversalAssistant) -> None:
     """Test import from yaml."""
     config = {
         CONF_NAME: DEFAULT_NAME,
@@ -293,7 +293,7 @@ async def test_import(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_manual(hass: __HAC_KEEP__) -> None:
+async def test_manual(hass: UniversalAssistant) -> None:
     """Test manually setup."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -368,7 +368,7 @@ async def test_manual(hass: __HAC_KEEP__) -> None:
     assert result2["reason"] == "already_configured"
 
 
-async def test_options(hass: __HAC_KEEP__) -> None:
+async def test_options(hass: UniversalAssistant) -> None:
     """Test options flow."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -411,7 +411,7 @@ async def test_options(hass: __HAC_KEEP__) -> None:
     assert hass.states.get(f"light.{NAME}_nightlight") is not None
 
 
-async def test_options_unknown_model(hass: __HAC_KEEP__) -> None:
+async def test_options_unknown_model(hass: UniversalAssistant) -> None:
     """Test options flow with an unknown model."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -453,7 +453,7 @@ async def test_options_unknown_model(hass: __HAC_KEEP__) -> None:
     assert hass.states.get(f"light.{NAME}_nightlight") is not None
 
 
-async def test_manual_no_capabilities(hass: __HAC_KEEP__) -> None:
+async def test_manual_no_capabilities(hass: UniversalAssistant) -> None:
     """Test manually setup without successful get_capabilities."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -489,7 +489,7 @@ async def test_manual_no_capabilities(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_discovered_by_homekit_and_dhcp(hass: __HAC_KEEP__) -> None:
+async def test_discovered_by_homekit_and_dhcp(hass: UniversalAssistant) -> None:
     """Test we get the form with homekit and abort for dhcp source when we get both."""
 
     mocked_bulb = _mocked_bulb()
@@ -600,7 +600,7 @@ async def test_discovered_by_homekit_and_dhcp(hass: __HAC_KEEP__) -> None:
         ),
     ],
 )
-async def test_discovered_by_dhcp_or_homekit(hass: __HAC_KEEP__, source, data) -> None:
+async def test_discovered_by_dhcp_or_homekit(hass: UniversalAssistant, source, data) -> None:
     """Test we can setup when discovered from dhcp or homekit."""
 
     mocked_bulb = _mocked_bulb()
@@ -675,7 +675,7 @@ async def test_discovered_by_dhcp_or_homekit(hass: __HAC_KEEP__, source, data) -
     ],
 )
 async def test_discovered_by_dhcp_or_homekit_failed_to_get_id(
-    hass: __HAC_KEEP__, source, data
+    hass: UniversalAssistant, source, data
 ) -> None:
     """Test abort when unique id cannot be obtained from discovery."""
 
@@ -693,7 +693,7 @@ async def test_discovered_by_dhcp_or_homekit_failed_to_get_id(
     assert result["reason"] == "cannot_connect"
 
 
-async def test_discovered_ssdp(hass: __HAC_KEEP__) -> None:
+async def test_discovered_ssdp(hass: UniversalAssistant) -> None:
     """Test we can setup when discovered from ssdp."""
 
     mocked_bulb = _mocked_bulb()
@@ -746,7 +746,7 @@ async def test_discovered_ssdp(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_discovered_zeroconf(hass: __HAC_KEEP__) -> None:
+async def test_discovered_zeroconf(hass: UniversalAssistant) -> None:
     """Test we can setup when discovered from zeroconf."""
 
     mocked_bulb = _mocked_bulb()
@@ -819,7 +819,7 @@ async def test_discovered_zeroconf(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_discovery_updates_ip(hass: __HAC_KEEP__) -> None:
+async def test_discovery_updates_ip(hass: UniversalAssistant) -> None:
     """Test discovery updates ip."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "1.2.2.3"}, unique_id=ID
@@ -845,7 +845,7 @@ async def test_discovery_updates_ip(hass: __HAC_KEEP__) -> None:
 
 
 async def test_discovery_updates_ip_no_reload_setup_in_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test discovery updates ip does not reload if setup is an an error state."""
     config_entry = MockConfigEntry(
@@ -876,7 +876,7 @@ async def test_discovery_updates_ip_no_reload_setup_in_progress(
     assert len(mock_setup_entry.mock_calls) == 0
 
 
-async def test_discovery_adds_missing_ip_id_only(hass: __HAC_KEEP__) -> None:
+async def test_discovery_adds_missing_ip_id_only(hass: UniversalAssistant) -> None:
     """Test discovery adds missing ip."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={CONF_ID: ID})
     config_entry.add_to_hass(hass)
@@ -922,7 +922,7 @@ async def test_discovery_adds_missing_ip_id_only(hass: __HAC_KEEP__) -> None:
         ),
     ],
 )
-async def test_discovered_during_onboarding(hass: __HAC_KEEP__, source, data) -> None:
+async def test_discovered_during_onboarding(hass: UniversalAssistant, source, data) -> None:
     """Test we create a config entry when discovered during onboarding."""
     mocked_bulb = _mocked_bulb()
     with (
@@ -955,7 +955,7 @@ async def test_discovered_during_onboarding(hass: __HAC_KEEP__, source, data) ->
 
 
 @pytest.fixture
-def reconfigure_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def reconfigure_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Add a Yeelight config entry to reconfigure."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -967,7 +967,7 @@ def reconfigure_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 
 async def test_reconfigure(
-    hass: __HAC_KEEP__, reconfigure_entry: MockConfigEntry
+    hass: UniversalAssistant, reconfigure_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring the host of a bulb."""
     result = await reconfigure_entry.start_reconfigure_flow(hass)
@@ -1004,7 +1004,7 @@ async def test_reconfigure(
     ],
 )
 async def test_reconfigure_unknown_id(
-    hass: __HAC_KEEP__, unique_id: str | None, no_device: bool
+    hass: UniversalAssistant, unique_id: str | None, no_device: bool
 ) -> None:
     """Test reconfiguring when the ID of the entry or the bulb is unknown."""
     config_entry = MockConfigEntry(
@@ -1036,7 +1036,7 @@ async def test_reconfigure_unknown_id(
     assert config_entry.unique_id == unique_id
 
 
-async def test_reconfigure_no_id_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_no_id_already_configured(hass: UniversalAssistant) -> None:
     """Test reconfiguring an entry without ID to a bulb of another entry aborts."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1063,7 +1063,7 @@ async def test_reconfigure_no_id_already_configured(hass: __HAC_KEEP__) -> None:
 
 
 async def test_reconfigure_cannot_connect(
-    hass: __HAC_KEEP__, reconfigure_entry: MockConfigEntry
+    hass: UniversalAssistant, reconfigure_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring shows an error when the bulb can't be reached and recovers."""
     result = await reconfigure_entry.start_reconfigure_flow(hass)
@@ -1101,7 +1101,7 @@ async def test_reconfigure_cannot_connect(
 
 
 async def test_reconfigure_unique_id_mismatch(
-    hass: __HAC_KEEP__, reconfigure_entry: MockConfigEntry
+    hass: UniversalAssistant, reconfigure_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring to a different bulb aborts."""
     result = await reconfigure_entry.start_reconfigure_flow(hass)
@@ -1121,7 +1121,7 @@ async def test_reconfigure_unique_id_mismatch(
 
 
 async def test_reconfigure_already_configured(
-    hass: __HAC_KEEP__, reconfigure_entry: MockConfigEntry
+    hass: UniversalAssistant, reconfigure_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring to the host of another entry aborts."""
     MockConfigEntry(

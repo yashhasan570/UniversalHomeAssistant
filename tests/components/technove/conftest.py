@@ -9,7 +9,7 @@ from technove import Station as TechnoVEStation
 
 from universalassistant.components.technove.const import DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -33,7 +33,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 @pytest.fixture
 def mock_onboarding() -> Generator[MagicMock]:
-    """Mock that __HA_KEEP__ is currently onboarding."""
+    """Mock that Universal Home Assistant is currently onboarding."""
     with patch(
         "universalassistant.components.onboarding.async_is_onboarded",
         return_value=False,
@@ -66,7 +66,7 @@ def mock_technove(device_fixture: TechnoVEStation) -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_technove: MagicMock,
 ) -> MockConfigEntry:

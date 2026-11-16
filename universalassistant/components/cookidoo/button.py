@@ -7,8 +7,8 @@ from typing import override
 from cookidoo_api import Cookidoo, CookidooException
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -34,7 +34,7 @@ TODO_CLEAR = CookidooButtonEntityDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: CookidooConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -66,7 +66,7 @@ class CookidooButton(CookidooBaseEntity, ButtonEntity):
         try:
             await self.entity_description.press_fn(self.coordinator.cookidoo)
         except CookidooException as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="button_clear_todo_failed",
             ) from e

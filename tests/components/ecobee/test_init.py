@@ -21,12 +21,12 @@ from typing_extensions import Sentinel as sentinel
 from universalassistant.components.ecobee.const import CONF_REFRESH_TOKEN, DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CONF_API_KEY, CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import GENERIC_THERMOSTAT_INFO
 
 
-def _api_key_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def _api_key_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Return a registered MockConfigEntry using the PIN/API-key data shape."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -36,7 +36,7 @@ def _api_key_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     return entry
 
 
-def _credentials_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def _credentials_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Return a registered MockConfigEntry using the username/password data shape."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -77,7 +77,7 @@ def _build_mock_ecobee(
 
 
 async def _setup_with_mock(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
     ecobee: MagicMock,
     *,
@@ -96,7 +96,7 @@ async def _setup_with_mock(
     return result
 
 
-def _has_reauth_flow(hass: __HAC_KEEP__) -> bool:
+def _has_reauth_flow(hass: UniversalAssistant) -> bool:
     """Return True if the ecobee config flow has an in-progress reauth flow."""
     return any(
         flow["context"].get("source") == SOURCE_REAUTH
@@ -104,7 +104,7 @@ def _has_reauth_flow(hass: __HAC_KEEP__) -> bool:
     )
 
 
-async def test_setup_succeeds_with_api_key_entry(hass: __HAC_KEEP__) -> None:
+async def test_setup_succeeds_with_api_key_entry(hass: UniversalAssistant) -> None:
     """A PIN/API-key entry sets up cleanly when pyecobee returns thermostats."""
     entry = _api_key_entry(hass)
     ecobee = _build_mock_ecobee()
@@ -113,7 +113,7 @@ async def test_setup_succeeds_with_api_key_entry(hass: __HAC_KEEP__) -> None:
     assert entry.state is ConfigEntryState.LOADED
 
 
-async def test_setup_succeeds_with_credentials_entry(hass: __HAC_KEEP__) -> None:
+async def test_setup_succeeds_with_credentials_entry(hass: UniversalAssistant) -> None:
     """A username/password entry sets up cleanly when pyecobee returns thermostats."""
     entry = _credentials_entry(hass)
     ecobee = _build_mock_ecobee(
@@ -128,7 +128,7 @@ async def test_setup_succeeds_with_credentials_entry(hass: __HAC_KEEP__) -> None
     assert entry.state is ConfigEntryState.LOADED
 
 
-async def test_setup_rejects_entry_with_no_credentials(hass: __HAC_KEEP__) -> None:
+async def test_setup_rejects_entry_with_no_credentials(hass: UniversalAssistant) -> None:
     """An entry missing both API key and username/password fails setup."""
     entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_REFRESH_TOKEN: "test-refresh-token"}
@@ -139,7 +139,7 @@ async def test_setup_rejects_entry_with_no_credentials(hass: __HAC_KEEP__) -> No
     assert entry.state is ConfigEntryState.SETUP_ERROR
 
 
-async def test_setup_retries_when_refresh_returns_false(hass: __HAC_KEEP__) -> None:
+async def test_setup_retries_when_refresh_returns_false(hass: UniversalAssistant) -> None:
     """A False return from pyecobee.refresh_tokens triggers setup retry."""
     entry = _api_key_entry(hass)
     ecobee = _build_mock_ecobee(refresh_returns=False)
@@ -149,7 +149,7 @@ async def test_setup_retries_when_refresh_returns_false(hass: __HAC_KEEP__) -> N
     assert not _has_reauth_flow(hass)
 
 
-async def test_setup_fails_when_no_thermostats(hass: __HAC_KEEP__) -> None:
+async def test_setup_fails_when_no_thermostats(hass: UniversalAssistant) -> None:
     """Setup aborts when ecobee.com returns no thermostats."""
     entry = _api_key_entry(hass)
     ecobee = _build_mock_ecobee(thermostats=None)
@@ -159,7 +159,7 @@ async def test_setup_fails_when_no_thermostats(hass: __HAC_KEEP__) -> None:
     assert entry.reason == "No ecobee devices found to set up"
 
 
-async def test_setup_triggers_reauth_on_mfa_required(hass: __HAC_KEEP__) -> None:
+async def test_setup_triggers_reauth_on_mfa_required(hass: UniversalAssistant) -> None:
     """EcobeeAuthMfaRequiredError during setup raises ConfigEntryAuthFailed → reauth."""
     entry = _credentials_entry(hass)
     ecobee = _build_mock_ecobee()
@@ -171,7 +171,7 @@ async def test_setup_triggers_reauth_on_mfa_required(hass: __HAC_KEEP__) -> None
 
 
 async def test_setup_triggers_reauth_on_auth_failed_with_username(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """EcobeeAuthFailedError on a credentials entry raises ConfigEntryAuthFailed → reauth."""
     entry = _credentials_entry(hass)
@@ -186,7 +186,7 @@ async def test_setup_triggers_reauth_on_auth_failed_with_username(
 
 
 async def test_setup_no_reauth_on_auth_failed_without_username(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """API-key entries surface EcobeeAuthFailedError as permanent error, not reauth."""
     entry = _api_key_entry(hass)
@@ -198,7 +198,7 @@ async def test_setup_no_reauth_on_auth_failed_without_username(
     assert not _has_reauth_flow(hass)
 
 
-async def test_setup_no_reauth_on_unknown_error(hass: __HAC_KEEP__) -> None:
+async def test_setup_no_reauth_on_unknown_error(hass: UniversalAssistant) -> None:
     """EcobeeAuthUnknownError is treated as transient — no reauth flow is started."""
     entry = _api_key_entry(hass)
     ecobee = _build_mock_ecobee()
@@ -210,7 +210,7 @@ async def test_setup_no_reauth_on_unknown_error(hass: __HAC_KEEP__) -> None:
 
 
 async def test_setup_recovers_from_expired_token_during_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """update() catches ExpiredTokenError and triggers refresh() in the same setup pass."""
     entry = _api_key_entry(hass)
@@ -253,7 +253,7 @@ async def test_setup_recovers_from_expired_token_during_update(
     ids=["api_key", "credentials"],
 )
 async def test_setup_persists_refreshed_credentials_to_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict,
     expected_data: dict,
 ) -> None:
@@ -269,7 +269,7 @@ async def test_setup_persists_refreshed_credentials_to_entry(
 
 
 async def test_runtime_refresh_persists_new_refresh_token(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """A natural runtime refresh writes the rotated refresh_token back to the entry.
 

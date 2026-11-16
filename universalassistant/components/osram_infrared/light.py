@@ -19,7 +19,7 @@ from universalassistant.components.light import (
     LightEntityFeature,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import color as color_util
@@ -88,7 +88,7 @@ CMD_REPEAT_COUNT = 3
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -325,5 +325,5 @@ class OsramIrLightWithReceiver(OsramIrLight, InfraredReceiverConsumerEntity):
 
         if code is OsramLightCode.MODE:
             # MODE changes color of the bulb in a predefined order but
-            # does not map reliably to a __HA_KEEP__ light effect.
+            # does not map reliably to a Universal Home Assistant light effect.
             return

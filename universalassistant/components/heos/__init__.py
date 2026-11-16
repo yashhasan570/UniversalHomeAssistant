@@ -3,7 +3,7 @@
 from datetime import timedelta
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.typing import ConfigType
 
@@ -18,13 +18,13 @@ MIN_UPDATE_SOURCES = timedelta(seconds=1)
 CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the HEOS component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: HeosConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: HeosConfigEntry) -> None:
     """Initialize config entry which represents the HEOS controller."""
     # For backwards compat
     if entry.unique_id is None:
@@ -62,13 +62,13 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: HeosConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: HeosConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: HeosConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, entry: HeosConfigEntry, device: dr.AnyDeviceEntry
+    hass: UniversalAssistant, entry: HeosConfigEntry, device: dr.AnyDeviceEntry
 ) -> bool:
     """Remove config entry from device if no longer present."""
     if not isinstance(device, dr.DeviceEntry):

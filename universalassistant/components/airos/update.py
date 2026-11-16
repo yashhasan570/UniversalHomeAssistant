@@ -1,4 +1,4 @@
-"""AirOS update component for __HA_KEEP__."""
+"""AirOS update component for Universal Home Assistant."""
 
 import logging
 from typing import Any, override
@@ -10,8 +10,8 @@ from universalassistant.components.update import (
     UpdateEntity,
     UpdateEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -28,7 +28,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: AirOSConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -93,12 +93,12 @@ class AirOSUpdateEntity(AirOSEntity, UpdateEntity):
             await self.status.airos_device.download()
             await self.status.airos_device.install()
         except AirOSConnectionAuthenticationError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="update_connection_authentication_error",
             ) from err
         except AirOSException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="update_error",
             ) from err

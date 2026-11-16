@@ -17,15 +17,15 @@ from universalassistant.components.update import (
     UpdateService,
 )
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.util import dt as dt_util
 
 from .conftest import FAKE_QUERY_RESPONSE
 
 
 async def test_update_lms(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test binary sensor states and attributes."""
@@ -50,7 +50,7 @@ async def test_update_lms(
 
 
 async def test_update_plugins_install_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test binary sensor states and attributes."""
@@ -119,7 +119,7 @@ async def test_update_plugins_install_fallback(
 
 
 async def test_update_plugins_install_restart_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test binary sensor states and attributes."""
@@ -144,7 +144,7 @@ async def test_update_plugins_install_restart_fail(
             "universalassistant.components.squeezebox.Server.async_query",
             return_value=True,
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             UPDATE_DOMAIN,
@@ -163,7 +163,7 @@ async def test_update_plugins_install_restart_fail(
 
 
 async def test_update_plugins_install_ok(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test binary sensor states and attributes."""

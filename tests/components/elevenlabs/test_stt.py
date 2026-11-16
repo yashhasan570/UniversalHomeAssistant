@@ -8,7 +8,7 @@ import pytest
 from universalassistant.components import stt
 from universalassistant.components.elevenlabs.const import CONF_STT_AUTO_LANGUAGE, CONF_VOICE
 from universalassistant.const import CONF_MODEL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 # === Fixtures ===
 
@@ -107,7 +107,7 @@ def opus_metadata() -> stt.SpeechMetadata:
 
 
 async def test_stt_transcription_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup: AsyncMock,
     default_metadata: stt.SpeechMetadata,
     two_chunk_stream,
@@ -134,7 +134,7 @@ async def test_stt_transcription_success(
     ],
 )
 async def test_stt_transcription_success_auto_language(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup: AsyncMock,
     simple_stream,
 ) -> None:
@@ -159,7 +159,7 @@ async def test_stt_transcription_success_auto_language(
 
 
 async def test_stt_transcription_passes_language_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup: AsyncMock,
     default_metadata: stt.SpeechMetadata,
     simple_stream,
@@ -187,7 +187,7 @@ async def test_stt_transcription_passes_language_code(
     ],
 )
 async def test_stt_edge_cases(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup: AsyncMock,
     request: pytest.FixtureRequest,
     metadata_fixture: str,
@@ -205,7 +205,7 @@ async def test_stt_edge_cases(
 
 
 async def test_stt_convert_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup: AsyncMock,
     default_metadata: stt.SpeechMetadata,
     simple_stream,
@@ -223,7 +223,7 @@ async def test_stt_convert_api_error(
 
 
 async def test_supported_properties(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup: AsyncMock,
 ) -> None:
     """Test the advertised capabilities of the ElevenLabs STT entity."""

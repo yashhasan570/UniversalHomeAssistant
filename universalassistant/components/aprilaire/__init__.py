@@ -3,7 +3,7 @@
 from pyaprilaire.const import Attribute
 
 from universalassistant.const import CONF_HOST, CONF_PORT, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.device_registry import format_mac
 
@@ -17,7 +17,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: AprilaireConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: AprilaireConfigEntry) -> None:
     """Set up a config entry for Aprilaire."""
 
     host = entry.data[CONF_HOST]
@@ -52,6 +52,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: AprilaireConfigEntry) -> 
     await coordinator.wait_for_ready(ready_callback)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: AprilaireConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: AprilaireConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

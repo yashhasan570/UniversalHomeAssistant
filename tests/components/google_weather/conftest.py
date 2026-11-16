@@ -15,7 +15,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_object_f
 from universalassistant.components.google_weather.const import DOMAIN
 from universalassistant.config_entries import ConfigSubentryDataWithId
 from universalassistant.const import CONF_API_KEY, CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -28,7 +28,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 @pytest.fixture
-def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Return the default mocked config entry."""
     config_entry = MockConfigEntry(
         title="Google Weather",

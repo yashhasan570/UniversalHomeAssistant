@@ -14,7 +14,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.httpx_client import get_async_client
@@ -46,7 +46,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: DevoloHomeNetworkConfigEntry
+    hass: UniversalAssistant, entry: DevoloHomeNetworkConfigEntry
 ) -> None:
     """Set up devolo Home Network from a config entry."""
     zeroconf_instance = await zeroconf.async_get_async_instance(hass)
@@ -151,7 +151,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: DevoloHomeNetworkConfigEntry
+    hass: UniversalAssistant, entry: DevoloHomeNetworkConfigEntry
 ) -> None:
     """Unload a config entry."""
     device = entry.runtime_data.device

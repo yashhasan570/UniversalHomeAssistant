@@ -14,7 +14,7 @@ from universalassistant.components.tesla_wall_connector.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -26,7 +26,7 @@ from .conftest import (
 )
 
 
-async def test_form(mock_wall_connector_version, hass: __HAC_KEEP__) -> None:
+async def test_form(mock_wall_connector_version, hass: UniversalAssistant) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -53,7 +53,7 @@ async def test_form(mock_wall_connector_version, hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_wall_connector_version")
-async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -91,7 +91,7 @@ async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_wall_connector_version")
-async def test_form_other_error(hass: __HAC_KEEP__) -> None:
+async def test_form_other_error(hass: UniversalAssistant) -> None:
     """Test we handle any other error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -121,7 +121,7 @@ async def test_form_other_error(hass: __HAC_KEEP__) -> None:
 
 
 async def test_form_already_configured(
-    mock_wall_connector_setup, mock_wall_connector_version, hass: __HAC_KEEP__
+    mock_wall_connector_setup, mock_wall_connector_version, hass: UniversalAssistant
 ) -> None:
     """Test we get already configured."""
 
@@ -148,7 +148,7 @@ async def test_form_already_configured(
 
 
 async def test_dhcp_can_finish(
-    mock_wall_connector_setup, mock_wall_connector_version, hass: __HAC_KEEP__
+    mock_wall_connector_setup, mock_wall_connector_version, hass: UniversalAssistant
 ) -> None:
     """Test DHCP discovery flow can finish right away."""
 
@@ -177,7 +177,7 @@ async def test_dhcp_can_finish(
     assert result["result"].unique_id == "abc123"
 
 
-async def test_form_with_split_phase(hass: __HAC_KEEP__) -> None:
+async def test_form_with_split_phase(hass: UniversalAssistant) -> None:
     """Test setting single-phase / split-phase during setup."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -208,7 +208,7 @@ async def test_form_with_split_phase(hass: __HAC_KEEP__) -> None:
     assert result2["result"].unique_id == "abc123"
 
 
-async def test_options_flow(hass: __HAC_KEEP__) -> None:
+async def test_options_flow(hass: UniversalAssistant) -> None:
     """Test options flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -251,7 +251,7 @@ async def test_options_flow(hass: __HAC_KEEP__) -> None:
 
 
 async def test_dhcp_already_exists(
-    mock_wall_connector_version, hass: __HAC_KEEP__
+    mock_wall_connector_version, hass: UniversalAssistant
 ) -> None:
     """Test DHCP discovery flow when device already exists."""
 
@@ -276,7 +276,7 @@ async def test_dhcp_already_exists(
 
 
 async def test_dhcp_error_from_wall_connector(
-    mock_wall_connector_version, hass: __HAC_KEEP__
+    mock_wall_connector_version, hass: UniversalAssistant
 ) -> None:
     """Test DHCP discovery flow when we cannot communicate with the device."""
 
@@ -300,7 +300,7 @@ async def test_dhcp_error_from_wall_connector(
 
 
 @pytest.mark.usefixtures("mock_wall_connector_version")
-async def test_reconfigure(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure(hass: UniversalAssistant) -> None:
     """Test reconfiguring the host."""
     entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "1.1.1.1"}, unique_id="abc123"
@@ -340,7 +340,7 @@ async def test_reconfigure(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("mock_wall_connector_version")
 async def test_reconfigure_errors(
-    hass: __HAC_KEEP__, side_effect: type[Exception], error: str
+    hass: UniversalAssistant, side_effect: type[Exception], error: str
 ) -> None:
     """Test reconfigure errors and recovery."""
     entry = MockConfigEntry(
@@ -380,7 +380,7 @@ async def test_reconfigure_errors(
 
 
 @pytest.mark.usefixtures("mock_wall_connector_version")
-async def test_reconfigure_unique_id_mismatch(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_unique_id_mismatch(hass: UniversalAssistant) -> None:
     """Test reconfigure aborts when the host is a different Wall Connector."""
     entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "1.1.1.1"}, unique_id="other_serial"

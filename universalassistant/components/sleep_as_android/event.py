@@ -9,7 +9,7 @@ from universalassistant.components.event import (
     EventEntity,
     EventEntityDescription,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import SleepAsAndroidConfigEntry
@@ -133,7 +133,7 @@ EVENT_DESCRIPTIONS: tuple[SleepAsAndroidEventEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: SleepAsAndroidConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

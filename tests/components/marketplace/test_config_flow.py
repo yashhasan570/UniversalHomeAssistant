@@ -11,14 +11,14 @@ from universalassistant.components.marketplace.const import CONF_PROFILE, DOMAIN
 from universalassistant.components.marketplace.profiles import PROFILES
 from universalassistant.config_entries import SOURCE_SYSTEM
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType, UnknownFlow
 
 from . import get_marketplace
 from .const import TOKEN
 
 
-async def _start_device_step(hass: __HAC_KEEP__, entry: MockConfigEntry) -> str:
+async def _start_device_step(hass: UniversalAssistant, entry: MockConfigEntry) -> str:
     """Start connecting a GitHub account and return the flow id at the device step."""
     entry.add_to_hass(hass)
 
@@ -32,7 +32,7 @@ async def _start_device_step(hass: __HAC_KEEP__, entry: MockConfigEntry) -> str:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_system_flow(hass: __HAC_KEEP__) -> None:
+async def test_system_flow(hass: UniversalAssistant) -> None:
     """Test the system flow sets up the Marketplace without a GitHub account."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_SYSTEM}
@@ -48,7 +48,7 @@ async def test_system_flow(hass: __HAC_KEEP__) -> None:
 @pytest.mark.parametrize("warning_accepted", [None])
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_connect_github(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     github_device_client: AsyncMock,
     device_activation_event: asyncio.Event,
@@ -85,7 +85,7 @@ async def test_connect_github(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_registration_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     github_device_client: AsyncMock,
 ) -> None:
@@ -103,7 +103,7 @@ async def test_registration_failure(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_registration_without_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     github_device_client: AsyncMock,
 ) -> None:
@@ -123,7 +123,7 @@ async def test_registration_without_data(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_activation_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     github_device_client: AsyncMock,
     device_activation_event: asyncio.Event,
@@ -159,7 +159,7 @@ async def test_activation_failure(
 @pytest.mark.parametrize("github_token", [None])
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_activation_asks_again_for_an_unknown_device_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     github_device_client: AsyncMock,
     device_activation_event: asyncio.Event,
@@ -195,7 +195,7 @@ async def test_activation_asks_again_for_an_unknown_device_code(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_activation_without_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     github_device_client: AsyncMock,
     device_activation_event: asyncio.Event,
@@ -224,7 +224,7 @@ async def test_activation_without_data(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_remove_while_activating(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     github_device_client: AsyncMock,
 ) -> None:
@@ -242,7 +242,7 @@ async def test_remove_while_activating(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the flow aborts when an entry already exists."""
@@ -258,7 +258,7 @@ async def test_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     github_device_client: AsyncMock,
     device_activation_event: asyncio.Event,
@@ -292,7 +292,7 @@ async def test_reauth_flow(
 
 
 async def test_options_flow_lists_every_profile(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Test the options offer every profile, the active one picked."""
     result = await hass.config_entries.options.async_init(init_integration.entry_id)
@@ -313,7 +313,7 @@ async def test_options_flow_lists_every_profile(
     ],
 )
 async def test_options_flow_switches_the_profile(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry, chosen: str
+    hass: UniversalAssistant, init_integration: MockConfigEntry, chosen: str
 ) -> None:
     """Test picking a profile reloads, the next request uses its endpoints."""
     marketplace = get_marketplace(hass)

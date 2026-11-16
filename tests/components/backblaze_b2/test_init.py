@@ -8,14 +8,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.backblaze_b2.const import CONF_APPLICATION_KEY
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from . import setup_integration
 
 
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test loading and unloading the integration."""
@@ -30,7 +30,7 @@ async def test_load_unload_config_entry(
 
 
 async def test_setup_entry_invalid_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setup entry with invalid auth."""
@@ -61,7 +61,7 @@ async def test_setup_entry_invalid_auth(
     ],
 )
 async def test_setup_entry_restricted_bucket(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
     state: ConfigEntryState,
@@ -78,12 +78,12 @@ async def test_setup_entry_restricted_bucket(
 
 
 async def test_periodic_issue_check(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test periodic issue check functionality."""
     captured_callback = None
 
-    def capture_callback(hass: __HAC_KEEP__ | None, callback, interval):
+    def capture_callback(hass: UniversalAssistant | None, callback, interval):
         nonlocal captured_callback
         captured_callback = callback
         return MagicMock()

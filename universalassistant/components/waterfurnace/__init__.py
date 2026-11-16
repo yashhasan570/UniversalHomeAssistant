@@ -7,7 +7,7 @@ from waterfurnace.waterfurnace import WaterFurnace, WFCredentialError, WFExcepti
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -31,7 +31,7 @@ type WaterFurnaceConfigEntry = ConfigEntry[dict[str, WaterFurnaceDeviceData]]
 
 
 async def _async_setup_coordinator(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     username: str,
     password: str,
     device_index: int,
@@ -55,7 +55,7 @@ async def _async_setup_coordinator(
 
     # Defer the first energy refresh until HA has fully started so the
     # potentially large initial backfill doesn't compete with startup I/O.
-    async def _async_start_energy(hass: __HAC_KEEP__) -> None:
+    async def _async_start_energy(hass: UniversalAssistant) -> None:
         await energy_coordinator.async_refresh()
 
     entry.async_on_unload(async_at_started(hass, _async_start_energy))
@@ -66,7 +66,7 @@ async def _async_setup_coordinator(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: WaterFurnaceConfigEntry
+    hass: UniversalAssistant, entry: WaterFurnaceConfigEntry
 ) -> None:
     """Set up WaterFurnace from a config entry."""
     username = entry.data[CONF_USERNAME]
@@ -94,14 +94,14 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: WaterFurnaceConfigEntry
+    hass: UniversalAssistant, entry: WaterFurnaceConfigEntry
 ) -> None:
     """Unload a WaterFurnace config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, entry: WaterFurnaceConfigEntry
+    hass: UniversalAssistant, entry: WaterFurnaceConfigEntry
 ) -> None:
     """Migrate old entry."""
 

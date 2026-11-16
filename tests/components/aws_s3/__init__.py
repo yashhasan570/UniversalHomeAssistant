@@ -7,12 +7,12 @@ from aiobotocore.response import StreamingBody
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.backup import DOMAIN as BACKUP_DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
 async def setup_integration(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Set up the S3 integration for testing."""
     assert await async_setup_component(hass, BACKUP_DOMAIN, {BACKUP_DOMAIN: {}})

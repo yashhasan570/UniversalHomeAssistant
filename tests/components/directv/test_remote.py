@@ -13,8 +13,8 @@ from universalassistant.components.remote import (
     SERVICE_SEND_COMMAND,
 )
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF, SERVICE_TURN_ON
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import RECEIVER_ID, setup_integration
@@ -25,7 +25,7 @@ MAIN_ENTITY_ID = f"{REMOTE_DOMAIN}.host"
 UNAVAILABLE_ENTITY_ID = f"{REMOTE_DOMAIN}.unavailable_client"
 
 
-async def test_setup(hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker) -> None:
+async def test_setup(hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker) -> None:
     """Test setup with basic config."""
     await setup_integration(hass, aioclient_mock)
     assert hass.states.get(MAIN_ENTITY_ID)
@@ -34,7 +34,7 @@ async def test_setup(hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker) ->
 
 
 async def test_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -52,7 +52,7 @@ async def test_unique_id(
 
 
 async def test_main_services(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the different services."""
     await setup_integration(hass, aioclient_mock)
@@ -86,14 +86,14 @@ async def test_main_services(
 
 
 async def test_send_command_failed(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test that a failed command raises an error."""
     await setup_integration(hass, aioclient_mock)
 
     with (
         patch("directv.DIRECTV.remote", side_effect=DIRECTVError) as remote_mock,
-        pytest.raises(__HAC_KEEP__Error) as err,
+        pytest.raises(UniversalAssistantError) as err,
     ):
         await hass.services.async_call(
             REMOTE_DOMAIN,

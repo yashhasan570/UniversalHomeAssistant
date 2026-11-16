@@ -9,7 +9,7 @@ from aiohttp import ClientResponseError
 from pybraendstofpriser import Braendstofpriser
 
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -36,7 +36,7 @@ class FuelPricesDKCoordinator(DataUpdateCoordinator[dict[int, FuelPricesDKStatio
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: FuelpricesDkConfigEntry,
     ) -> None:
         """Initialize the coordinator."""

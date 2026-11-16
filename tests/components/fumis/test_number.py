@@ -14,8 +14,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .const import UNIQUE_ID
@@ -27,7 +27,7 @@ pytestmark = pytest.mark.parametrize(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_numbers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -38,7 +38,7 @@ async def test_numbers(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_power_level(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fumis: MagicMock,
 ) -> None:
     """Test setting the power level."""
@@ -57,7 +57,7 @@ async def test_set_power_level(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_set_fan_speed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fumis: MagicMock,
 ) -> None:
     """Test setting the fan speed."""
@@ -76,13 +76,13 @@ async def test_set_fan_speed(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_number_error_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fumis: MagicMock,
 ) -> None:
     """Test error handling for number actions."""
     mock_fumis.set_power.side_effect = FumisConnectionError
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,

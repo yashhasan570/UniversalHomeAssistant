@@ -17,8 +17,8 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
     MediaType,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.dispatcher import (
@@ -63,7 +63,7 @@ def needs_session[_PlexMediaPlayerT: PlexMediaPlayer, **_P, _R](
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: PlexConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -510,7 +510,7 @@ class PlexMediaPlayer(MediaPlayerEntity):
     ) -> None:
         """Play a piece of media."""
         if not (self.device and "playback" in self._device_protocol_capabilities):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Client is not currently accepting playback controls: {self.name}"
             )
 
@@ -522,7 +522,7 @@ class PlexMediaPlayer(MediaPlayerEntity):
         try:
             self.device.playMedia(result.media, offset=result.offset)
         except requests.exceptions.ConnectTimeout as exc:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Request failed when playing on {self.name}"
             ) from exc
 

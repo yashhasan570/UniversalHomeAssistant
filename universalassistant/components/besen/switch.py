@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from typing import Any, override
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import BesenConfigEntry
@@ -15,7 +15,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: BesenConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

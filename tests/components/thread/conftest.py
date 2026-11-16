@@ -6,13 +6,13 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components import thread
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 CONFIG_ENTRY_DATA = {}
 
 
 @pytest.fixture(name="thread_config_entry")
-async def thread_config_entry_fixture(hass: __HAC_KEEP__):
+async def thread_config_entry_fixture(hass: UniversalAssistant):
     """Mock Thread config entry."""
     config_entry = MockConfigEntry(
         data=CONFIG_ENTRY_DATA,

@@ -9,7 +9,7 @@ from tesla_fleet_api.exceptions import VehicleOffline
 
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN, LockService, LockState
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -18,7 +18,7 @@ from .const import COMMAND_OK
 
 
 async def test_lock(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     normal_config_entry: MockConfigEntry,
@@ -30,7 +30,7 @@ async def test_lock(
 
 
 async def test_lock_offline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vehicle_data: AsyncMock,
     normal_config_entry: MockConfigEntry,
 ) -> None:
@@ -43,7 +43,7 @@ async def test_lock_offline(
 
 
 async def test_lock_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     normal_config_entry: MockConfigEntry,
 ) -> None:
     """Tests that the lock services work."""

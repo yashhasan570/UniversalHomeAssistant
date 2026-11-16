@@ -36,7 +36,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -88,7 +88,7 @@ CONFIG_ATTRIBUTES = {
 
 @pytest.fixture
 async def setup_comp(
-    hass: __HAC_KEEP__, config_count: tuple[dict[str, Any], int]
+    hass: UniversalAssistant, config_count: tuple[dict[str, Any], int]
 ) -> None:
     """Set up group cover component."""
     config, count = config_count
@@ -101,7 +101,7 @@ async def setup_comp(
 
 @pytest.mark.parametrize("config_count", [(CONFIG_ATTRIBUTES, 1)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_state(hass: __HAC_KEEP__) -> None:
+async def test_state(hass: UniversalAssistant) -> None:
     """Test handling of state.
 
     The group state is unknown if all group members are unknown or unavailable.
@@ -267,7 +267,7 @@ async def test_state(hass: __HAC_KEEP__) -> None:
 @pytest.mark.parametrize("config_count", [(CONFIG_ATTRIBUTES, 1)])
 @pytest.mark.usefixtures("setup_comp")
 async def test_attributes(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test handling of state attributes."""
     state = hass.states.get(COVER_GROUP)
@@ -428,7 +428,7 @@ async def test_attributes(
 
 @pytest.mark.parametrize("config_count", [(CONFIG_TILT_ONLY, 2)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_cover_that_only_supports_tilt_removed(hass: __HAC_KEEP__) -> None:
+async def test_cover_that_only_supports_tilt_removed(hass: UniversalAssistant) -> None:
     """Test removing a cover that support tilt."""
     hass.states.async_set(
         DEMO_COVER_TILT,
@@ -457,7 +457,7 @@ async def test_cover_that_only_supports_tilt_removed(hass: __HAC_KEEP__) -> None
 
 @pytest.mark.parametrize("config_count", [(CONFIG_ALL, 2)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_open_covers(hass: __HAC_KEEP__) -> None:
+async def test_open_covers(hass: UniversalAssistant) -> None:
     """Test open cover function."""
     await hass.services.async_call(
         COVER_DOMAIN, SERVICE_OPEN_COVER, {ATTR_ENTITY_ID: COVER_GROUP}, blocking=True
@@ -479,7 +479,7 @@ async def test_open_covers(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("config_count", [(CONFIG_ALL, 2)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_close_covers(hass: __HAC_KEEP__) -> None:
+async def test_close_covers(hass: UniversalAssistant) -> None:
     """Test close cover function."""
     await hass.services.async_call(
         COVER_DOMAIN, SERVICE_CLOSE_COVER, {ATTR_ENTITY_ID: COVER_GROUP}, blocking=True
@@ -501,7 +501,7 @@ async def test_close_covers(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("config_count", [(CONFIG_ALL, 2)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_toggle_covers(hass: __HAC_KEEP__) -> None:
+async def test_toggle_covers(hass: UniversalAssistant) -> None:
     """Test toggle cover function."""
     # Start covers in open state
     await hass.services.async_call(
@@ -552,7 +552,7 @@ async def test_toggle_covers(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("config_count", [(CONFIG_ALL, 2)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_stop_covers(hass: __HAC_KEEP__) -> None:
+async def test_stop_covers(hass: UniversalAssistant) -> None:
     """Test stop cover function."""
     await hass.services.async_call(
         COVER_DOMAIN, SERVICE_OPEN_COVER, {ATTR_ENTITY_ID: COVER_GROUP}, blocking=True
@@ -579,7 +579,7 @@ async def test_stop_covers(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("config_count", [(CONFIG_ALL, 2)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_set_cover_position(hass: __HAC_KEEP__) -> None:
+async def test_set_cover_position(hass: UniversalAssistant) -> None:
     """Test set cover position function."""
     await hass.services.async_call(
         COVER_DOMAIN,
@@ -603,7 +603,7 @@ async def test_set_cover_position(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("config_count", [(CONFIG_ALL, 2)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_open_tilts(hass: __HAC_KEEP__) -> None:
+async def test_open_tilts(hass: UniversalAssistant) -> None:
     """Test open tilt function."""
     await hass.services.async_call(
         COVER_DOMAIN,
@@ -627,7 +627,7 @@ async def test_open_tilts(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("config_count", [(CONFIG_ALL, 2)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_close_tilts(hass: __HAC_KEEP__) -> None:
+async def test_close_tilts(hass: UniversalAssistant) -> None:
     """Test close tilt function."""
     await hass.services.async_call(
         COVER_DOMAIN,
@@ -649,7 +649,7 @@ async def test_close_tilts(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("config_count", [(CONFIG_ALL, 2)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_toggle_tilts(hass: __HAC_KEEP__) -> None:
+async def test_toggle_tilts(hass: UniversalAssistant) -> None:
     """Test toggle tilt function."""
     # Start tilted open
     await hass.services.async_call(
@@ -712,7 +712,7 @@ async def test_toggle_tilts(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("config_count", [(CONFIG_ALL, 2)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_stop_tilts(hass: __HAC_KEEP__) -> None:
+async def test_stop_tilts(hass: UniversalAssistant) -> None:
     """Test stop tilts function."""
     await hass.services.async_call(
         COVER_DOMAIN,
@@ -743,7 +743,7 @@ async def test_stop_tilts(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("config_count", [(CONFIG_ALL, 2)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_set_tilt_positions(hass: __HAC_KEEP__) -> None:
+async def test_set_tilt_positions(hass: UniversalAssistant) -> None:
     """Test set tilt position function."""
     await hass.services.async_call(
         COVER_DOMAIN,
@@ -765,7 +765,7 @@ async def test_set_tilt_positions(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("config_count", [(CONFIG_POS, 2)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_is_opening_closing(hass: __HAC_KEEP__) -> None:
+async def test_is_opening_closing(hass: UniversalAssistant) -> None:
     """Test is_opening property."""
     await hass.services.async_call(
         COVER_DOMAIN, SERVICE_OPEN_COVER, {ATTR_ENTITY_ID: COVER_GROUP}, blocking=True
@@ -853,7 +853,7 @@ async def test_is_opening_closing(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("config_count", [(CONFIG_ATTRIBUTES, 1)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_assumed_state(hass: __HAC_KEEP__) -> None:
+async def test_assumed_state(hass: UniversalAssistant) -> None:
     """Test assumed_state attribute behavior."""
     # No members with assumed_state -> group doesn't have assumed_state in attributes
     hass.states.async_set(DEMO_COVER, CoverState.OPEN, {})
@@ -907,7 +907,7 @@ async def test_assumed_state(hass: __HAC_KEEP__) -> None:
     assert ATTR_ASSUMED_STATE not in state.attributes
 
 
-async def test_nested_group(hass: __HAC_KEEP__) -> None:
+async def test_nested_group(hass: UniversalAssistant) -> None:
     """Test nested cover group."""
     await async_setup_component(
         hass,

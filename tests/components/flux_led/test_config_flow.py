@@ -23,7 +23,7 @@ from universalassistant.components.flux_led.const import (
     TRANSITION_STROBE,
 )
 from universalassistant.const import CONF_DEVICE, CONF_HOST, CONF_MODEL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -46,7 +46,7 @@ from . import (
 MAC_ADDRESS_DIFFERENT = "ff:bb:ff:dd:ee:ff"
 
 
-async def test_discovery(hass: __HAC_KEEP__) -> None:
+async def test_discovery(hass: UniversalAssistant) -> None:
     """Test setting up discovery."""
     with _patch_discovery(), _patch_wifibulb():
         result = await hass.config_entries.flow.async_init(
@@ -122,7 +122,7 @@ async def test_discovery(hass: __HAC_KEEP__) -> None:
     assert result2["reason"] == "no_devices_found"
 
 
-async def test_discovery_legacy(hass: __HAC_KEEP__) -> None:
+async def test_discovery_legacy(hass: UniversalAssistant) -> None:
     """Test setting up discovery with a legacy device."""
     with _patch_discovery(device=FLUX_DISCOVERY_PARTIAL), _patch_wifibulb():
         result = await hass.config_entries.flow.async_init(
@@ -198,7 +198,7 @@ async def test_discovery_legacy(hass: __HAC_KEEP__) -> None:
     assert result2["reason"] == "no_devices_found"
 
 
-async def test_discovery_with_existing_device_present(hass: __HAC_KEEP__) -> None:
+async def test_discovery_with_existing_device_present(hass: UniversalAssistant) -> None:
     """Test setting up discovery."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "127.0.0.2"}, unique_id="dd:dd:dd:dd:dd:dd"
@@ -283,7 +283,7 @@ async def test_discovery_with_existing_device_present(hass: __HAC_KEEP__) -> Non
     assert result2["reason"] == "no_devices_found"
 
 
-async def test_discovery_no_device(hass: __HAC_KEEP__) -> None:
+async def test_discovery_no_device(hass: UniversalAssistant) -> None:
     """Test discovery without device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -297,7 +297,7 @@ async def test_discovery_no_device(hass: __HAC_KEEP__) -> None:
     assert result2["reason"] == "no_devices_found"
 
 
-async def test_manual_working_discovery(hass: __HAC_KEEP__) -> None:
+async def test_manual_working_discovery(hass: UniversalAssistant) -> None:
     """Test manually setup."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -356,7 +356,7 @@ async def test_manual_working_discovery(hass: __HAC_KEEP__) -> None:
     assert result2["reason"] == "already_configured"
 
 
-async def test_user_flow_can_replace_ignored(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_can_replace_ignored(hass: UniversalAssistant) -> None:
     """Test a user flow can replace an ignored entry."""
     ignored_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -410,7 +410,7 @@ async def test_user_flow_can_replace_ignored(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_manual_no_discovery_data(hass: __HAC_KEEP__) -> None:
+async def test_manual_no_discovery_data(hass: UniversalAssistant) -> None:
     """Test manually setup without discovery data."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -439,7 +439,7 @@ async def test_manual_no_discovery_data(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_discovered_by_discovery_and_dhcp(hass: __HAC_KEEP__) -> None:
+async def test_discovered_by_discovery_and_dhcp(hass: UniversalAssistant) -> None:
     """Test we get the form with discovery and abort for dhcp."""
 
     with _patch_discovery(), _patch_wifibulb():
@@ -494,7 +494,7 @@ async def test_discovered_by_discovery_and_dhcp(hass: __HAC_KEEP__) -> None:
     assert result3["reason"] == "already_in_progress"
 
 
-async def test_discovered_by_discovery(hass: __HAC_KEEP__) -> None:
+async def test_discovered_by_discovery(hass: UniversalAssistant) -> None:
     """Test we can setup when discovered from discovery."""
 
     with _patch_discovery(), _patch_wifibulb():
@@ -536,7 +536,7 @@ async def test_discovered_by_discovery(hass: __HAC_KEEP__) -> None:
     assert mock_async_setup_entry.called
 
 
-async def test_discovered_by_dhcp_udp_responds(hass: __HAC_KEEP__) -> None:
+async def test_discovered_by_dhcp_udp_responds(hass: UniversalAssistant) -> None:
     """Test we can setup when discovered from dhcp but with udp response."""
 
     with _patch_discovery(), _patch_wifibulb():
@@ -576,7 +576,7 @@ async def test_discovered_by_dhcp_udp_responds(hass: __HAC_KEEP__) -> None:
     assert mock_async_setup_entry.called
 
 
-async def test_discovered_by_dhcp_no_udp_response(hass: __HAC_KEEP__) -> None:
+async def test_discovered_by_dhcp_no_udp_response(hass: UniversalAssistant) -> None:
     """Test we can setup when discovered from dhcp but no udp response."""
 
     with _patch_discovery(no_device=True), _patch_wifibulb():
@@ -611,7 +611,7 @@ async def test_discovered_by_dhcp_no_udp_response(hass: __HAC_KEEP__) -> None:
 
 
 async def test_discovered_by_dhcp_partial_udp_response_fallback_tcp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test setup from dhcp when part of the udp response is missing."""
 
@@ -648,7 +648,7 @@ async def test_discovered_by_dhcp_partial_udp_response_fallback_tcp(
 
 
 async def test_discovered_by_dhcp_no_udp_response_or_tcp_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test setup from dhcp with no udp or tcp response."""
 
@@ -670,7 +670,7 @@ async def test_discovered_by_dhcp_no_udp_response_or_tcp_response(
     ],
 )
 async def test_discovered_by_dhcp_or_discovery_adds_missing_unique_id(
-    hass: __HAC_KEEP__, source, data
+    hass: UniversalAssistant, source, data
 ) -> None:
     """Test we can setup when discovered from dhcp or discovery."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={CONF_HOST: IP_ADDRESS})
@@ -689,7 +689,7 @@ async def test_discovered_by_dhcp_or_discovery_adds_missing_unique_id(
 
 
 async def test_mac_address_off_by_one_updated_via_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the mac address is updated when off by one."""
     config_entry = MockConfigEntry(
@@ -712,7 +712,7 @@ async def test_mac_address_off_by_one_updated_via_discovery(
 
 
 async def test_mac_address_off_by_one_not_updated_from_dhcp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the mac address is NOT updated when its off by one from dhcp discovery."""
     config_entry = MockConfigEntry(
@@ -740,7 +740,7 @@ async def test_mac_address_off_by_one_not_updated_from_dhcp(
     ],
 )
 async def test_dhcp_or_discovery_mac_mismatch_host_already_configured(
-    hass: __HAC_KEEP__, source, data
+    hass: UniversalAssistant, source, data
 ) -> None:
     """Test we abort if the host is already configured but the mac does not match."""
     config_entry = MockConfigEntry(
@@ -760,7 +760,7 @@ async def test_dhcp_or_discovery_mac_mismatch_host_already_configured(
     assert config_entry.unique_id == MAC_ADDRESS_DIFFERENT
 
 
-async def test_options(hass: __HAC_KEEP__) -> None:
+async def test_options(hass: UniversalAssistant) -> None:
     """Test options flow."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -806,7 +806,7 @@ async def test_options(hass: __HAC_KEEP__) -> None:
         (config_entries.SOURCE_INTEGRATION_DISCOVERY, FLUX_DISCOVERY),
     ],
 )
-async def test_discovered_can_be_ignored(hass: __HAC_KEEP__, source, data) -> None:
+async def test_discovered_can_be_ignored(hass: UniversalAssistant, source, data) -> None:
     """Test we abort if the mac was already ignored."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

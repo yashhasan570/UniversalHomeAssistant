@@ -32,7 +32,7 @@ from universalassistant.const import (
 from universalassistant.core import (
     CALLBACK_TYPE,
     Event,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback as hass_callback,
 )
 from universalassistant.helpers import discovery_flow, issue_registry as ir
@@ -63,8 +63,8 @@ from .util import async_load_history_from_system
 _LOGGER = logging.getLogger(__name__)
 
 
-class __HAC_KEEP__BluetoothManager(BluetoothManager):
-    """Manage Bluetooth for __HA_KEEP__."""
+class UniversalAssistantBluetoothManager(BluetoothManager):
+    """Manage Bluetooth for Universal Home Assistant."""
 
     __slots__ = (
         "_callback_index",
@@ -76,7 +76,7 @@ class __HAC_KEEP__BluetoothManager(BluetoothManager):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         integration_matcher: IntegrationMatcher,
         bluetooth_adapters: BluetoothAdapters,
         storage: BluetoothStorage,
@@ -462,8 +462,8 @@ class __HAC_KEEP__BluetoothManager(BluetoothManager):
             return
 
         # Only create repair issues for Docker-based installations where users
-        # can fix permissions. This includes: __HA_KEEP__ Supervised,
-        # __HA_KEEP__ Container, and third-party containers
+        # can fix permissions. This includes: Universal Home Assistant Supervised,
+        # Universal Home Assistant Container, and third-party containers
         if not is_docker_env():
             return
 

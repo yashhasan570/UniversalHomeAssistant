@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.ws66i.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .test_media_player import (
     MOCK_CONFIG,
@@ -18,7 +18,7 @@ from .test_media_player import (
 ZONE_1_ID = "media_player.zone_11"
 
 
-async def test_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_cannot_connect(hass: UniversalAssistant) -> None:
     """Test connection error."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_CONFIG, options=MOCK_OPTIONS
@@ -36,7 +36,7 @@ async def test_cannot_connect(hass: __HAC_KEEP__) -> None:
         assert hass.states.get(ZONE_1_ID) is None
 
 
-async def test_cannot_connect_2(hass: __HAC_KEEP__) -> None:
+async def test_cannot_connect_2(hass: UniversalAssistant) -> None:
     """Test connection error pt 2."""
     # Another way to test same case as test_cannot_connect
     ws66i = MockWs66i()
@@ -57,7 +57,7 @@ async def test_cannot_connect_2(hass: __HAC_KEEP__) -> None:
         assert hass.states.get(ZONE_1_ID) is None
 
 
-async def test_unload_config_entry(hass: __HAC_KEEP__) -> None:
+async def test_unload_config_entry(hass: UniversalAssistant) -> None:
     """Test unloading config entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_CONFIG, options=MOCK_OPTIONS

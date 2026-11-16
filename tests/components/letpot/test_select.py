@@ -14,8 +14,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -23,7 +23,7 @@ from . import setup_integration
 
 @pytest.mark.parametrize("device_type", ["LPH62", "LPH31"])
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_client: MagicMock,
     mock_device_client: MagicMock,
@@ -40,7 +40,7 @@ async def test_all_entities(
 
 @pytest.mark.parametrize("device_type", ["LPH31"])
 async def test_set_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     mock_device_client: MagicMock,
@@ -80,7 +80,7 @@ async def test_set_select(
     ],
 )
 async def test_select_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     mock_device_client: MagicMock,
@@ -92,7 +92,7 @@ async def test_select_error(
 
     mock_device_client.set_light_mode.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error, match=user_error):
+    with pytest.raises(UniversalAssistantError, match=user_error):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,

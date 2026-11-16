@@ -33,7 +33,7 @@ from universalassistant.const import (
     Platform,
     __version__,
 )
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -73,7 +73,7 @@ PLATFORMS = [
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: LaMarzoccoConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: LaMarzoccoConfigEntry) -> None:
     """Set up La Marzocco as config entry."""
 
     assert entry.unique_id
@@ -258,13 +258,13 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: LaMarzoccoConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: LaMarzoccoConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: LaMarzoccoConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, entry: LaMarzoccoConfigEntry
+    hass: UniversalAssistant, entry: LaMarzoccoConfigEntry
 ) -> None:
     """Migrate config entry."""
 
@@ -305,7 +305,7 @@ async def async_migrate_entry(
         _LOGGER.debug("Migrated La Marzocco config entry to version 4")
 
 
-def create_client_session(hass: __HAC_KEEP__) -> ClientSession:
+def create_client_session(hass: UniversalAssistant) -> ClientSession:
     """Create a ClientSession with La Marzocco specific headers."""
 
     return async_create_clientsession(

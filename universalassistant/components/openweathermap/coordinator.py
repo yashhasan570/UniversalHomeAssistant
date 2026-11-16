@@ -21,7 +21,7 @@ from universalassistant.components.weather import (
     Forecast,
 )
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import sun
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
@@ -84,7 +84,7 @@ class OWMUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: OpenweathermapConfigEntry,
         owm_client: OWMClient,
     ) -> None:

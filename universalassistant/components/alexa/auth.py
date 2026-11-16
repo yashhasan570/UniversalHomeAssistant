@@ -11,7 +11,7 @@ from typing import Any
 import aiohttp
 
 from universalassistant.const import CONF_CLIENT_ID, CONF_CLIENT_SECRET
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.storage import Store
 from universalassistant.util import dt as dt_util
@@ -33,7 +33,7 @@ STORAGE_EXPIRE_TIME = "expire_time"
 class Auth:
     """Handle authentication to send events to Alexa."""
 
-    def __init__(self, hass: __HAC_KEEP__, client_id: str, client_secret: str) -> None:
+    def __init__(self, hass: UniversalAssistant, client_id: str, client_secret: str) -> None:
         """Initialize the Auth class."""
         self.hass = hass
 

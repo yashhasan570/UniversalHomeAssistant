@@ -8,7 +8,7 @@ from simplipy.system.v3 import SystemV3
 
 from universalassistant.components.simplisafe.const import DOMAIN
 from universalassistant.const import CONF_CODE, CONF_PASSWORD, CONF_TOKEN, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util.json import JsonObjectType
 
@@ -35,7 +35,7 @@ def api_fixture(
 
 @pytest.fixture(name="config_entry")
 def config_entry_fixture(
-    hass: __HAC_KEEP__, config: dict[str, str], unique_id: str
+    hass: UniversalAssistant, config: dict[str, str], unique_id: str
 ) -> MockConfigEntry:
     """Define a config entry."""
     entry = MockConfigEntry(
@@ -126,7 +126,7 @@ def patch_simplisafe_api_fixture(api: Mock, websocket: Mock):
 
 @pytest.fixture(name="setup_simplisafe")
 async def setup_simplisafe_fixture(
-    hass: __HAC_KEEP__, api: Mock, config: dict[str, str], patch_simplisafe_api
+    hass: UniversalAssistant, api: Mock, config: dict[str, str], patch_simplisafe_api
 ) -> None:
     """Define a fixture to set up SimpliSafe for config flow tests."""
     assert await async_setup_component(hass, DOMAIN, config)

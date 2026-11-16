@@ -2,7 +2,7 @@
 
 from pyscorpiontrack import ScorpionTrackClient
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import CONF_SHARE_TOKEN, PLATFORMS
@@ -10,7 +10,7 @@ from .coordinator import ScorpionTrackConfigEntry, ScorpionTrackCoordinator
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: ScorpionTrackConfigEntry
+    hass: UniversalAssistant, entry: ScorpionTrackConfigEntry
 ) -> None:
     """Set up ScorpionTrack from a config entry."""
     client = ScorpionTrackClient(
@@ -25,7 +25,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: ScorpionTrackConfigEntry
+    hass: UniversalAssistant, entry: ScorpionTrackConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

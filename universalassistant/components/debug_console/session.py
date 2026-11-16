@@ -11,7 +11,7 @@ import secrets
 from typing import Any
 
 from universalassistant.components.websocket_api import ActiveConnection
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.helpers.event import async_call_later
 from universalassistant.util.hass_dict import HassKey
 
@@ -110,7 +110,7 @@ DATA_SESSIONS: HassKey[ConsoleSessions] = HassKey(DOMAIN)
 
 @callback
 def async_get_session(
-    hass: __HAC_KEEP__, connection: ActiveConnection, session_id: str
+    hass: UniversalAssistant, connection: ActiveConnection, session_id: str
 ) -> ConsoleSession:
     """Return a console session of the user, creating it when needed.
 
@@ -145,7 +145,7 @@ def async_get_session(
 
 @callback
 def async_stop_executions(
-    hass: __HAC_KEEP__, connection: ActiveConnection, session_id: str
+    hass: UniversalAssistant, connection: ActiveConnection, session_id: str
 ) -> None:
     """Stop the code a session of the user is running, if any."""
     if session := hass.data[DATA_SESSIONS].get((connection.user.id, session_id)):
@@ -170,7 +170,7 @@ async def async_close_sessions(sessions: ConsoleSessions) -> None:
 
 @callback
 def _async_release_session(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sessions: ConsoleSessions,
     key: tuple[str, str],
     session: ConsoleSession,

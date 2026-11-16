@@ -16,7 +16,7 @@
         "description": "[%key:common::config_flow::description::confirm_setup%]"
       },
       "oauth_discovery": {
-        "description": "__HA_KEEP__ has found a Miele device on your network. Press **Submit** to continue setting up Miele."
+        "description": "Universal Home Assistant has found a Miele device on your network. Press **Submit** to continue setting up Miele."
       },
       "pick_implementation": {
         "data": {

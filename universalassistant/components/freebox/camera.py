@@ -13,7 +13,7 @@ from universalassistant.components.ffmpeg import (
     async_get_image,
     get_ffmpeg_manager,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_platform
 from universalassistant.helpers.aiohttp_client import async_aiohttp_proxy_stream
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -27,7 +27,7 @@ _FFMPEG_ARGUMENTS = "-pred 1"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FreeboxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -49,7 +49,7 @@ async def async_setup_entry(
 
 @callback
 def add_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     router: FreeboxRouter,
     async_add_entities: AddConfigEntryEntitiesCallback,
     tracked: set[str],
@@ -91,7 +91,7 @@ class FreeboxCamera(FreeboxHomeEntity, Camera):
     _attr_supported_features = CameraEntityFeature.ON_OFF | CameraEntityFeature.STREAM
 
     def __init__(
-        self, hass: __HAC_KEEP__, router: FreeboxRouter, node: dict[str, Any]
+        self, hass: UniversalAssistant, router: FreeboxRouter, node: dict[str, Any]
     ) -> None:
         """Initialize a camera."""
         super().__init__(router, node)

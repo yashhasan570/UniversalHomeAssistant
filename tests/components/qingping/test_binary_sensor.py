@@ -15,13 +15,13 @@ from universalassistant.components.bluetooth import (
 )
 from universalassistant.components.qingping.const import DOMAIN
 from universalassistant.const import ATTR_FRIENDLY_NAME, STATE_OFF, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from . import LIGHT_AND_SIGNAL_SERVICE_INFO, NO_DATA_SERVICE_INFO
 
 
-async def test_binary_sensors(hass: __HAC_KEEP__) -> None:
+async def test_binary_sensors(hass: UniversalAssistant) -> None:
     """Test setting up creates the binary sensors."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -45,7 +45,7 @@ async def test_binary_sensors(hass: __HAC_KEEP__) -> None:
     await hass.async_block_till_done()
 
 
-async def test_binary_sensor_restore_state(hass: __HAC_KEEP__) -> None:
+async def test_binary_sensor_restore_state(hass: UniversalAssistant) -> None:
     """Test setting up creates the binary sensors and restoring state."""
     start_monotonic = time.monotonic()
 

@@ -12,7 +12,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import (
     condition,
     config_validation as cv,
@@ -34,7 +34,7 @@ CONDITION_SCHEMA = cv.DEVICE_CONDITION_BASE_SCHEMA.extend(
 
 
 async def async_get_conditions(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, str]]:
     """List device conditions for NEW_NAME devices."""
     registry = er.async_get(hass)
@@ -61,7 +61,7 @@ async def async_get_conditions(
 
 @callback
 def async_condition_from_config(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> condition.ConditionCheckerType:
     """Create a function to test a device condition."""
     if config[CONF_TYPE] == "is_on":
@@ -70,7 +70,7 @@ def async_condition_from_config(
         state = STATE_OFF
 
     @callback
-    def test_is_state(hass: __HAC_KEEP__, variables: TemplateVarsType) -> bool:
+    def test_is_state(hass: UniversalAssistant, variables: TemplateVarsType) -> bool:
         """Test if an entity is a certain state."""
         return condition.state(hass, config[ATTR_ENTITY_ID], state)
 

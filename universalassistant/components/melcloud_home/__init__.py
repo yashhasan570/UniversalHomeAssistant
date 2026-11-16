@@ -3,7 +3,7 @@
 from aiomelcloudhome import MELCloudHome, MelCloudHomeAuth
 
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -25,7 +25,7 @@ PLATFORMS: list[Platform] = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: MelCloudHomeConfigEntry
+    hass: UniversalAssistant, entry: MelCloudHomeConfigEntry
 ) -> None:
     """Set up MELCloud Home from a config entry."""
     session = async_get_clientsession(hass)
@@ -53,14 +53,14 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: MelCloudHomeConfigEntry
+    hass: UniversalAssistant, entry: MelCloudHomeConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, entry: MelCloudHomeConfigEntry
+    hass: UniversalAssistant, entry: MelCloudHomeConfigEntry
 ) -> None:
     """Migrate old config entries."""
     if entry.minor_version < 2:

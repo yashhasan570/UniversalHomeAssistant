@@ -13,7 +13,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant import config_entries
 from universalassistant.components.kmtronic.const import CONF_REVERSE, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
@@ -29,7 +29,7 @@ def _patch_get_status() -> Generator[None]:
         yield
 
 
-async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -63,7 +63,7 @@ async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
 
 
 async def test_form_options(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test that the options form."""
     config_entry = MockConfigEntry(
@@ -101,7 +101,7 @@ async def test_form_options(
     assert config_entry.state is ConfigEntryState.LOADED
 
 
-async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
+async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -137,7 +137,7 @@ async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -173,7 +173,7 @@ async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_unknown_error(hass: __HAC_KEEP__) -> None:
+async def test_form_unknown_error(hass: UniversalAssistant) -> None:
     """Test we handle unknown errors."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}

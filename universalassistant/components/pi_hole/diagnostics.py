@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import PiHoleConfigEntry
 
@@ -12,7 +12,7 @@ TO_REDACT = {CONF_API_KEY}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: PiHoleConfigEntry
+    hass: UniversalAssistant, entry: PiHoleConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     api = entry.runtime_data.api

@@ -14,7 +14,7 @@ from haffmpeg.camera import CameraMjpeg
 from universalassistant.components.camera import Camera, CameraEntityFeature
 from universalassistant.components.ffmpeg import FFmpegManager, get_ffmpeg_manager
 from universalassistant.const import CONF_NAME, STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.aiohttp_client import (
     async_aiohttp_proxy_stream,
     async_aiohttp_proxy_web,
@@ -56,7 +56,7 @@ _BOOL_TO_STATE = {True: STATE_ON, False: STATE_OFF}
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

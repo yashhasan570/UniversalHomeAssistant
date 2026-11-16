@@ -10,7 +10,7 @@ from universalassistant.components.discord.const import (
     SUBENTRY_TYPE_TARGET,
 )
 from universalassistant.config_entries import ConfigEntryState, ConfigSubentry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import (
@@ -23,7 +23,7 @@ from . import (
 from .conftest import TARGET
 
 
-async def test_setup_and_unload(hass: __HAC_KEEP__) -> None:
+async def test_setup_and_unload(hass: UniversalAssistant) -> None:
     """Test the config entry sets up and unloads."""
     entry = create_entry(hass, with_subentry=True)
     await setup_integration(hass, entry)
@@ -36,7 +36,7 @@ async def test_setup_and_unload(hass: __HAC_KEEP__) -> None:
 
 
 async def test_add_subentry_reloads(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test adding a subentry reloads the entry so a new entity appears."""
     entry = create_entry(hass, with_subentry=True)
@@ -63,7 +63,7 @@ async def test_add_subentry_reloads(
     assert entity_registry.async_get("notify.alerts") is not None
 
 
-async def test_setup_auth_failed(hass: __HAC_KEEP__) -> None:
+async def test_setup_auth_failed(hass: UniversalAssistant) -> None:
     """Test the config entry fails to authenticate."""
     entry = create_entry(hass)
     with patch_discord_login() as mock:
@@ -74,7 +74,7 @@ async def test_setup_auth_failed(hass: __HAC_KEEP__) -> None:
     assert entry.state is ConfigEntryState.SETUP_ERROR
 
 
-async def test_setup_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_setup_cannot_connect(hass: UniversalAssistant) -> None:
     """Test the config entry retries when it cannot connect."""
     entry = create_entry(hass)
     with patch_discord_login() as mock:
@@ -86,7 +86,7 @@ async def test_setup_cannot_connect(hass: __HAC_KEEP__) -> None:
 
 
 async def test_notify_entity_created(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:

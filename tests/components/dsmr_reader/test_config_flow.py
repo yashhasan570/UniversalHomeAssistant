@@ -2,11 +2,11 @@
 
 from universalassistant.components.dsmr_reader.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_user_step(hass: __HAC_KEEP__) -> None:
+async def test_user_step(hass: UniversalAssistant) -> None:
     """Test the user step call."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}

@@ -18,7 +18,7 @@ from universalassistant.components.binary_sensor import (
 )
 from universalassistant.components.cover import DOMAIN as COVER_DOMAIN
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -34,7 +34,7 @@ BATTERY_STATUS_LOW = "low"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: LutronCasetaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -93,7 +93,7 @@ class LutronOccupancySensor(LutronCasetaEntity, BinarySensorEntity):
     _attr_device_class = BinarySensorDeviceClass.OCCUPANCY
 
     def __init__(
-        self, hass: __HAC_KEEP__, device: dict[str, Any], data: LutronCasetaData
+        self, hass: UniversalAssistant, device: dict[str, Any], data: LutronCasetaData
     ) -> None:
         """Init an occupancy sensor."""
         super().__init__(hass, device, data)
@@ -158,7 +158,7 @@ class LutronCasetaBatterySensor(LutronCasetaEntity, BinarySensorEntity):
     _attr_should_poll = True
 
     def __init__(
-        self, hass: __HAC_KEEP__, device: dict[str, Any], data: LutronCasetaData
+        self, hass: UniversalAssistant, device: dict[str, Any], data: LutronCasetaData
     ) -> None:
         """Initialize the battery sensor."""
         super().__init__(hass, device, data)

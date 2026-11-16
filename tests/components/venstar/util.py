@@ -6,7 +6,7 @@ import requests_mock
 from universalassistant.components.climate import DOMAIN as CLIMATE_DOMAIN
 from universalassistant.components.venstar.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PLATFORM
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 TEST_MODELS = ["t2k", "colortouch"]
@@ -15,7 +15,7 @@ TEST_MODELS = ["t2k", "colortouch"]
 def mock_venstar_devices(f):
     """Decorate function to mock a Venstar Colortouch and T2000 thermostat API."""
 
-    async def wrapper(hass: __HAC_KEEP__) -> None:
+    async def wrapper(hass: UniversalAssistant) -> None:
         # Mock thermostats are:
         # Venstar T2000, FW 4.38
         # Venstar "colortouch" T7850, FW 5.1
@@ -51,10 +51,10 @@ def mock_venstar_devices(f):
 
 
 async def async_init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     skip_setup: bool = False,
 ):
-    """Set up the venstar integration in __HA_KEEP__."""
+    """Set up the venstar integration in Universal Home Assistant."""
     platform_config = [
         {
             CONF_PLATFORM: "venstar",

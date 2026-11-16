@@ -11,8 +11,8 @@ from pychromecast.discovery import CastBrowser
 from universalassistant.components.media_player import BrowseMedia, MediaType
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.integration_platform import LazyIntegrationPlatforms
 from universalassistant.helpers.typing import ConfigType
@@ -48,7 +48,7 @@ class CastRuntimeData:
 
 @callback
 def _process_cast_platform(
-    hass: __HAC_KEEP__, integration_domain: str, platform: CastProtocol
+    hass: UniversalAssistant, integration_domain: str, platform: CastProtocol
 ) -> CastProtocol:
     """Process a cast platform."""
     if (
@@ -56,17 +56,17 @@ def _process_cast_platform(
         or not hasattr(platform, "async_browse_media")
         or not hasattr(platform, "async_play_media")
     ):
-        raise __HAC_KEEP__Error(f"Invalid cast platform {platform}")
+        raise UniversalAssistantError(f"Invalid cast platform {platform}")
     return platform
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Cast component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: CastConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: CastConfigEntry) -> None:
     """Set up Cast from a config entry."""
     refresh_token = await universal_assistant_cast.async_setup_ha_cast(hass, entry)
     entry.runtime_data = CastRuntimeData(
@@ -80,13 +80,13 @@ class CastProtocol(Protocol):
     """Define the format of cast platforms."""
 
     async def async_get_media_browser_root_object(
-        self, hass: __HAC_KEEP__, cast_type: str
+        self, hass: UniversalAssistant, cast_type: str
     ) -> list[BrowseMedia]:
         """Create a list of root objects for media browsing."""
 
     async def async_browse_media(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         media_content_type: MediaType | str,
         media_content_id: str,
         cast_type: str,
@@ -99,7 +99,7 @@ class CastProtocol(Protocol):
 
     async def async_play_media(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         cast_entity_id: str,
         chromecast: Chromecast,
         media_type: MediaType | str,
@@ -111,13 +111,13 @@ class CastProtocol(Protocol):
         """
 
 
-async def async_remove_entry(hass: __HAC_KEEP__, entry: CastConfigEntry) -> None:
-    """Remove __HA_KEEP__ Cast user."""
+async def async_remove_entry(hass: UniversalAssistant, entry: CastConfigEntry) -> None:
+    """Remove Universal Home Assistant Cast user."""
     await universal_assistant_cast.async_remove_user(hass, entry)
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, config_entry: CastConfigEntry, device_entry: dr.AnyDeviceEntry
+    hass: UniversalAssistant, config_entry: CastConfigEntry, device_entry: dr.AnyDeviceEntry
 ) -> bool:
     """Remove cast config entry from a device.
 

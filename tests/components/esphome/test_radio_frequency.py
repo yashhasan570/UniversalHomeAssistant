@@ -21,8 +21,8 @@ from universalassistant.components.radio_frequency import (
     RadioFrequencyReceiverEntity,
 )
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.util import dt as dt_util
 
 from .conftest import MockESPHomeDevice, MockESPHomeDeviceType
@@ -78,7 +78,7 @@ async def _mock_rf_device(
     ],
 )
 async def test_radio_frequency_entity_capabilities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     capabilities: RadioFrequencyCapability,
@@ -95,7 +95,7 @@ async def test_radio_frequency_entity_capabilities(
 
 
 async def test_radio_frequency_entity_no_capabilities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -106,7 +106,7 @@ async def test_radio_frequency_entity_no_capabilities(
 
 
 async def test_radio_frequency_multiple_entities_mixed_capabilities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -150,7 +150,7 @@ async def test_radio_frequency_multiple_entities_mixed_capabilities(
 
 
 async def test_radio_frequency_send_command_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -174,11 +174,11 @@ async def test_radio_frequency_send_command_success(
 
 
 async def test_radio_frequency_send_command_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
-    """Test sending RF command with APIConnectionError raises __HAC_KEEP__Error."""
+    """Test sending RF command with APIConnectionError raises UniversalAssistantError."""
     await _mock_rf_device(mock_esphome_device, mock_client)
 
     mock_client.radio_frequency_transmit_raw_timings.side_effect = APIConnectionError(
@@ -190,14 +190,14 @@ async def test_radio_frequency_send_command_failure(
         timings=[350, -1050],
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await radio_frequency.async_send_command(hass, ENTITY_ID, command)
     assert exc_info.value.translation_domain == "esphome"
     assert exc_info.value.translation_key == "error_communicating_with_device"
 
 
 async def test_radio_frequency_receiver_signal_dispatched(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     freezer: FrozenDateTimeFactory,
@@ -234,7 +234,7 @@ async def test_radio_frequency_receiver_signal_dispatched(
 
 
 async def test_radio_frequency_receiver_unsubscribes_on_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -255,7 +255,7 @@ async def test_radio_frequency_receiver_unsubscribes_on_unload(
 
 
 async def test_radio_frequency_receiver_resubscribes_on_reconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -277,7 +277,7 @@ async def test_radio_frequency_receiver_resubscribes_on_reconnect(
 
 
 async def test_radio_frequency_entity_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -304,7 +304,7 @@ async def test_radio_frequency_entity_availability(
 
 
 async def test_radio_frequency_supported_frequency_ranges(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:

@@ -7,7 +7,7 @@ import pywilight
 import requests
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import (
     HOST,
@@ -40,7 +40,7 @@ def mock_dummy_device_from_host():
         yield device
 
 
-async def test_config_entry_not_ready(hass: __HAC_KEEP__) -> None:
+async def test_config_entry_not_ready(hass: UniversalAssistant) -> None:
     """Test the WiLight configuration entry not ready."""
     with patch(
         "pywilight.device_from_host",
@@ -51,7 +51,7 @@ async def test_config_entry_not_ready(hass: __HAC_KEEP__) -> None:
     assert entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_unload_config_entry(hass: __HAC_KEEP__, dummy_device_from_host) -> None:
+async def test_unload_config_entry(hass: UniversalAssistant, dummy_device_from_host) -> None:
     """Test the WiLight configuration entry unloading."""
     entry = await setup_integration(hass)
 

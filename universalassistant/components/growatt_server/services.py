@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, SupportsResponse, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, SupportsResponse, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
@@ -57,7 +57,7 @@ class GrowattServiceArgument(StrEnum):
 
 
 def _get_coordinators(
-    hass: __HAC_KEEP__, device_type: str
+    hass: UniversalAssistant, device_type: str
 ) -> dict[str, GrowattCoordinator]:
     """Get all coordinators of a given device type with V1 API."""
     coordinators: dict[str, GrowattCoordinator] = {}
@@ -74,7 +74,7 @@ def _get_coordinators(
 
 
 def _get_coordinator(
-    hass: __HAC_KEEP__, device_id: str, device_type: str
+    hass: UniversalAssistant, device_id: str, device_type: str
 ) -> GrowattCoordinator:
     """Get coordinator by device registry ID and device type."""
     coordinators = _get_coordinators(hass, device_type)
@@ -146,7 +146,7 @@ def _parse_time_str(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register services for Growatt Server integration."""
 
     async def handle_update_time_segment(call: ServiceCall) -> None:

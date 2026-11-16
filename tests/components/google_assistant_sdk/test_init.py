@@ -22,8 +22,8 @@ from universalassistant.components import conversation
 from universalassistant.components.google_assistant_sdk import DOMAIN
 from universalassistant.components.google_assistant_sdk.const import SUPPORTED_LANGUAGE_CODES
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import Context, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import Context, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
 )
@@ -41,7 +41,7 @@ async def fetch_api_url(hass_client, url):
 
 
 async def test_setup_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -67,7 +67,7 @@ async def test_setup_success(
 
 @pytest.mark.parametrize("expires_at", [time.time() - 3600], ids=["expired"])
 async def test_expired_token_refresh_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
     config_entry: MockConfigEntry,
@@ -108,7 +108,7 @@ async def test_expired_token_refresh_success(
     ids=["failure_requires_reauth", "transient_failure"],
 )
 async def test_expired_token_refresh_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
     status: http.HTTPStatus,
@@ -130,7 +130,7 @@ async def test_expired_token_refresh_failure(
 
 @pytest.mark.parametrize("expires_at", [time.time() - 3600], ids=["expired"])
 async def test_setup_client_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
     config_entry: MockConfigEntry,
@@ -162,7 +162,7 @@ async def test_setup_client_error(
     ids=["default", "english", "spanish"],
 )
 async def test_send_text_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     options: dict[str, str],
     expected_language_code: str,
@@ -194,7 +194,7 @@ async def test_send_text_command(
 
 
 async def test_send_text_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -242,7 +242,7 @@ async def test_send_text_commands(
     ids=["failure_requires_reauth", "transient_failure"],
 )
 async def test_send_text_command_expired_token_refresh_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
     status: http.HTTPStatus,
@@ -273,7 +273,7 @@ async def test_send_text_command_expired_token_refresh_failure(
 
 
 async def test_send_text_command_grpc_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
 ) -> None:
     """Test service call send_text_command when RpcError is raised."""
@@ -285,7 +285,7 @@ async def test_send_text_command_grpc_error(
             "universalassistant.components.google_assistant_sdk.helpers.TextAssistantAsync.assist",
             side_effect=RpcError(),
         ) as mock_assist_call,
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -297,7 +297,7 @@ async def test_send_text_command_grpc_error(
 
 
 async def test_send_text_command_media_player(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     hass_client: ClientSessionGenerator,
     freezer: FrozenDateTimeFactory,
@@ -385,7 +385,7 @@ async def test_send_text_command_media_player(
 
 
 async def test_conversation_agent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -421,7 +421,7 @@ async def test_conversation_agent(
 
 
 async def test_conversation_agent_refresh_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     setup_integration: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
@@ -474,7 +474,7 @@ async def test_conversation_agent_refresh_token(
 
 
 async def test_conversation_agent_language_changed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     setup_integration: ComponentSetup,
 ) -> None:
@@ -510,7 +510,7 @@ async def test_conversation_agent_language_changed(
 
 
 async def test_conversation_agent_serializes_requests(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     setup_integration: ComponentSetup,
 ) -> None:
@@ -565,7 +565,7 @@ async def test_conversation_agent_serializes_requests(
 
 
 async def test_conversation_agent_closed_on_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     setup_integration: ComponentSetup,
 ) -> None:
@@ -594,7 +594,7 @@ async def test_conversation_agent_closed_on_unload(
 
 
 async def test_oauth_implementation_not_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""

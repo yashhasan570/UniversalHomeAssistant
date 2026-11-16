@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, NamedTuple, override
 from sofar_modbus import BatteryPack
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity import EntityDescription
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -48,7 +48,7 @@ def battery_pack_identifier(serial: str, pack: BatteryPack) -> str:
 
 @callback
 def async_remove_unserved_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SofarConfigEntry,
     platform: Platform,
     descriptions: Iterable[SofarEntityDescription],

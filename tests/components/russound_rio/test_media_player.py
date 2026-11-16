@@ -37,8 +37,8 @@ from universalassistant.const import (
     STATE_PAUSED,
     STATE_PLAYING,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 
 from . import mock_state_update, setup_integration
 from .const import ENTITY_ID_ZONE_1
@@ -57,7 +57,7 @@ from .const import ENTITY_ID_ZONE_1
     ],
 )
 async def test_entity_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_russound_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     zone_status: bool,
@@ -76,7 +76,7 @@ async def test_entity_state(
 
 
 async def test_media_volume(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_russound_client: AsyncMock,
 ) -> None:
@@ -116,7 +116,7 @@ async def test_media_volume(
 
 
 async def test_volume_mute(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_russound_client: AsyncMock,
 ) -> None:
@@ -176,7 +176,7 @@ async def test_volume_mute(
     ],
 )
 async def test_source_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_russound_client: AsyncMock,
     source_name: str,
@@ -198,7 +198,7 @@ async def test_source_service(
 
 
 async def test_invalid_source_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_russound_client: AsyncMock,
 ) -> None:
@@ -210,7 +210,7 @@ async def test_invalid_source_service(
     ].select_source.side_effect = CommandError
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Error executing async_select_source on entity media_player.backyard_backyard",
     ):
         await hass.services.async_call(
@@ -222,7 +222,7 @@ async def test_invalid_source_service(
 
 
 async def test_power_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_russound_client: AsyncMock,
 ) -> None:
@@ -241,7 +241,7 @@ async def test_power_service(
 
 
 async def test_media_seek(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_russound_client: AsyncMock,
 ) -> None:
@@ -260,7 +260,7 @@ async def test_media_seek(
 
 
 async def test_play_media_preset_item_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_russound_client: AsyncMock,
 ) -> None:
@@ -327,7 +327,7 @@ async def test_play_media_preset_item_id(
 
 
 async def test_play_media_unknown_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_russound_client: AsyncMock,
 ) -> None:
@@ -335,7 +335,7 @@ async def test_play_media_unknown_type(
     await setup_integration(hass, mock_config_entry)
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Unsupported media type for Russound zone: unsupported_content_type",
     ):
         await hass.services.async_call(
@@ -359,7 +359,7 @@ async def test_play_media_unknown_type(
     ],
 )
 async def test_source_list_exclusion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_russound_client: AsyncMock,
     rio_version: str,

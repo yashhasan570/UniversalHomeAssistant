@@ -15,15 +15,15 @@ from universalassistant.components.time import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from .conftest import TEST_CAM_NAME
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_floodlight_schedule(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_floodlight_schedule(
     reolink_host.set_spotlight_lighting_schedule.side_effect = ReolinkError(
         "Test error"
     )
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             TIME_DOMAIN,
             TimeService.SET_VALUE,
@@ -86,7 +86,7 @@ async def test_floodlight_schedule(
     reolink_host.set_spotlight_lighting_schedule.side_effect = InvalidParameterError(
         "Test error"
     )
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             TIME_DOMAIN,
             TimeService.SET_VALUE,
@@ -100,7 +100,7 @@ async def test_floodlight_schedule(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_floodlight_schedule_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:

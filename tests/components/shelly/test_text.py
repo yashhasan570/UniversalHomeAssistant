@@ -14,8 +14,8 @@ from universalassistant.components.text import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
 
@@ -37,7 +37,7 @@ def fixture_platforms():
     ],
 )
 async def test_rpc_device_virtual_text(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -86,7 +86,7 @@ async def test_rpc_device_virtual_text(
 
 @pytest.mark.usefixtures("disable_async_remove_shelly_rpc_entities")
 async def test_rpc_remove_virtual_text_when_mode_label(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
     mock_rpc_device: Mock,
@@ -119,7 +119,7 @@ async def test_rpc_remove_virtual_text_when_mode_label(
 
 
 async def test_rpc_remove_virtual_text_when_orphaned(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
     mock_rpc_device: Mock,
@@ -158,7 +158,7 @@ async def test_rpc_remove_virtual_text_when_orphaned(
     ],
 )
 async def test_text_set_exc(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     exception: Exception,
@@ -180,7 +180,7 @@ async def test_text_set_exc(
 
     mock_rpc_device.text_set.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error, match=error):
+    with pytest.raises(UniversalAssistantError, match=error):
         await hass.services.async_call(
             TEXT_DOMAIN,
             SERVICE_SET_VALUE,
@@ -193,7 +193,7 @@ async def test_text_set_exc(
 
 
 async def test_text_set_reauth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:

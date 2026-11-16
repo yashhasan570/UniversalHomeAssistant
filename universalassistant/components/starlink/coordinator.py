@@ -28,8 +28,8 @@ from starlink_grpc import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_IP_ADDRESS
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 _LOGGER = logging.getLogger(__name__)
@@ -55,7 +55,7 @@ class StarlinkUpdateCoordinator(DataUpdateCoordinator[StarlinkData]):
 
     config_entry: StarlinkConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: StarlinkConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: StarlinkConfigEntry) -> None:
         """Initialize an UpdateCoordinator for a group of sensors."""
         self.channel_context = ChannelContext(target=config_entry.data[CONF_IP_ADDRESS])
         self.history_stats_start = None
@@ -101,7 +101,7 @@ class StarlinkUpdateCoordinator(DataUpdateCoordinator[StarlinkData]):
                     set_stow_state, not stow, self.channel_context
                 )
             except GrpcError as exc:
-                raise __HAC_KEEP__Error from exc
+                raise UniversalAssistantError from exc
 
     async def async_reboot_starlink(self) -> None:
         """Reboot the Starlink system tied to this coordinator."""
@@ -109,7 +109,7 @@ class StarlinkUpdateCoordinator(DataUpdateCoordinator[StarlinkData]):
             try:
                 await self.hass.async_add_executor_job(reboot, self.channel_context)
             except GrpcError as exc:
-                raise __HAC_KEEP__Error from exc
+                raise UniversalAssistantError from exc
 
     async def async_set_gps_enabled(self, enable: bool) -> None:
         """Set whether Starlink system uses GPS for position data."""
@@ -119,7 +119,7 @@ class StarlinkUpdateCoordinator(DataUpdateCoordinator[StarlinkData]):
                     set_gps_config, enable, self.channel_context
                 )
             except GrpcError as exc:
-                raise __HAC_KEEP__Error from exc
+                raise UniversalAssistantError from exc
 
     async def async_set_sleep_schedule_enabled(self, sleep_schedule: bool) -> None:
         """Set whether Starlink system uses the configured sleep schedule."""
@@ -133,7 +133,7 @@ class StarlinkUpdateCoordinator(DataUpdateCoordinator[StarlinkData]):
                     self.channel_context,
                 )
             except GrpcError as exc:
-                raise __HAC_KEEP__Error from exc
+                raise UniversalAssistantError from exc
 
     async def async_set_sleep_start(self, start: int) -> None:
         """Set Starlink system sleep schedule start time."""
@@ -147,7 +147,7 @@ class StarlinkUpdateCoordinator(DataUpdateCoordinator[StarlinkData]):
                     self.channel_context,
                 )
             except GrpcError as exc:
-                raise __HAC_KEEP__Error from exc
+                raise UniversalAssistantError from exc
 
     async def async_set_sleep_duration(self, end: int) -> None:
         """Set Starlink system sleep schedule end time."""
@@ -166,4 +166,4 @@ class StarlinkUpdateCoordinator(DataUpdateCoordinator[StarlinkData]):
                     self.channel_context,
                 )
             except GrpcError as exc:
-                raise __HAC_KEEP__Error from exc
+                raise UniversalAssistantError from exc

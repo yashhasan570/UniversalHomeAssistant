@@ -4,7 +4,7 @@ from enum import StrEnum
 
 import probatio
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import config_validation as cv
 
 from .const import DOMAIN, EBUSD_DATA
@@ -38,7 +38,7 @@ def _ebusd_write(call: ServiceCall) -> None:
     )
 
 
-def setup_services(hass: __HAC_KEEP__) -> None:
+def setup_services(hass: UniversalAssistant) -> None:
     """Register the Ebusd services."""
     hass.services.register(
         DOMAIN, EbusdService.WRITE, _ebusd_write, schema=SERVICE_EBUSD_WRITE_SCHEMA

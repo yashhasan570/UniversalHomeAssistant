@@ -9,11 +9,11 @@ from universalassistant.components.fan import (
     intent as fan_intent,
 )
 from universalassistant.const import STATE_OFF
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import intent
 
 
-async def test_set_speed_intent(hass: __HAC_KEEP__) -> None:
+async def test_set_speed_intent(hass: UniversalAssistant) -> None:
     """Test set speed intent for fans."""
     await fan_intent.async_setup_intents(hass)
 

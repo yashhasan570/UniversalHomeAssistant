@@ -24,8 +24,8 @@ from universalassistant.components.switch import (
     SwitchService,
 )
 from universalassistant.const import ATTR_ASSUMED_STATE, STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__, State
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, State
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -40,7 +40,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     setup_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -58,7 +58,7 @@ async def test_switches(
     ],
 )
 async def test_update_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     entity_id: str,
 ) -> None:
@@ -146,7 +146,7 @@ DOCK_SWITCH_ENTITY_IDS = {
     ],
 )
 async def test_dock_switch_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
     entity_id: str,
@@ -191,7 +191,7 @@ async def test_dock_switch_commands(
     ],
 )
 async def test_dock_switch_reflects_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
     entity_id: str,
@@ -211,7 +211,7 @@ async def test_dock_switch_reflects_status(
 
 
 async def test_dock_switch_follows_pushed_dps(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
 ) -> None:
@@ -239,7 +239,7 @@ async def test_dock_switch_follows_pushed_dps(
 
 
 async def test_mop_washing_ignores_going_to_wash_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
 ) -> None:
@@ -278,7 +278,7 @@ async def test_mop_washing_ignores_going_to_wash_state(
     ],
 )
 async def test_dock_switch_command_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
     entity_id: str,
@@ -289,7 +289,7 @@ async def test_dock_switch_command_failure(
     fake_vacuum.v1_properties.command.send.side_effect = RoborockException
 
     with pytest.raises(
-        __HAC_KEEP__Error, match=f"Error while calling {expected_command}"
+        UniversalAssistantError, match=f"Error while calling {expected_command}"
     ):
         await hass.services.async_call(
             "switch",
@@ -339,7 +339,7 @@ def dock_type(request: pytest.FixtureRequest, fake_vacuum: FakeDevice) -> None:
 )
 @pytest.mark.usefixtures("dock_type")
 async def test_dock_switches_match_dock_capabilities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     expected_entity_ids: set[str],
 ) -> None:
@@ -371,7 +371,7 @@ async def test_dock_switches_match_dock_capabilities(
     "send_message_exception", [roborock.exceptions.RoborockTimeout]
 )
 async def test_update_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     entity_id: str,
     service: str,
@@ -386,7 +386,7 @@ async def test_update_failed(
     # Ensure that the entity exist, as these test can pass even if there is no entity.
     assert hass.states.get(entity_id) is not None
     with (
-        pytest.raises(__HAC_KEEP__Error, match="Failed to update Roborock options"),
+        pytest.raises(UniversalAssistantError, match="Failed to update Roborock options"),
     ):
         await hass.services.async_call(
             "switch",
@@ -406,7 +406,7 @@ async def test_update_failed(
     ],
 )
 async def test_a01_switch_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     entity_id: str,
     fake_devices: list[FakeDevice],
@@ -455,7 +455,7 @@ async def test_a01_switch_success(
     ],
 )
 async def test_a01_switch_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     entity_id: str,
     service: str,
@@ -473,7 +473,7 @@ async def test_a01_switch_failure(
     # Ensure that the entity exists
     assert hass.states.get(entity_id) is not None
 
-    with pytest.raises(__HAC_KEEP__Error, match="Failed to update Roborock options"):
+    with pytest.raises(UniversalAssistantError, match="Failed to update Roborock options"):
         await hass.services.async_call(
             "switch",
             service,
@@ -486,7 +486,7 @@ async def test_a01_switch_failure(
 
 
 async def test_a01_switch_unknown_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     fake_devices: list[FakeDevice],
 ) -> None:
@@ -532,7 +532,7 @@ async def test_a01_switch_unknown_state(
     ],
 )
 async def test_q10_switch_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     fake_q10_vacuum: FakeDevice,
     entity_id: str,
@@ -578,7 +578,7 @@ async def test_q10_switch_success(
     ],
 )
 async def test_q10_switch_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     fake_q10_vacuum: FakeDevice,
     entity_id: str,
@@ -591,7 +591,7 @@ async def test_q10_switch_failure(
 
     assert hass.states.get(entity_id) is not None
 
-    with pytest.raises(__HAC_KEEP__Error, match="Failed to update Roborock options"):
+    with pytest.raises(UniversalAssistantError, match="Failed to update Roborock options"):
         await hass.services.async_call(
             "switch",
             SwitchService.TURN_ON,
@@ -602,7 +602,7 @@ async def test_q10_switch_failure(
 
 
 async def test_q10_button_light_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     fake_q10_vacuum: FakeDevice,
 ) -> None:
@@ -643,7 +643,7 @@ async def test_q10_button_light_switch(
 
 
 async def test_q10_button_light_switch_restore_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
 ) -> None:
     """Test the Q10 indicator light restores its assumed state after a restart."""
@@ -659,7 +659,7 @@ async def test_q10_button_light_switch_restore_state(
 
 
 async def test_q10_button_light_switch_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     fake_q10_vacuum: FakeDevice,
 ) -> None:
@@ -672,7 +672,7 @@ async def test_q10_button_light_switch_failure(
 
     assert hass.states.get(entity_id) is not None
 
-    with pytest.raises(__HAC_KEEP__Error, match="Failed to update Roborock options"):
+    with pytest.raises(UniversalAssistantError, match="Failed to update Roborock options"):
         await hass.services.async_call(
             "switch",
             SwitchService.TURN_ON,

@@ -4,12 +4,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.justnimbus.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import FIXTURE_OLD_USER_INPUT, FIXTURE_UNIQUE_ID
 
 
-async def test_config_entry_reauth_at_setup(hass: __HAC_KEEP__) -> None:
+async def test_config_entry_reauth_at_setup(hass: UniversalAssistant) -> None:
     """Test that setting up with old config results in reauth."""
     mock_config = MockConfigEntry(
         domain=DOMAIN, unique_id=FIXTURE_UNIQUE_ID, data=FIXTURE_OLD_USER_INPUT

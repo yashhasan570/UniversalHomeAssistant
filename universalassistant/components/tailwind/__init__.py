@@ -1,7 +1,7 @@
 """Integration for Tailwind devices."""
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from .const import DOMAIN
@@ -10,7 +10,7 @@ from .coordinator import TailwindConfigEntry, TailwindDataUpdateCoordinator
 PLATFORMS = [Platform.BINARY_SENSOR, Platform.BUTTON, Platform.COVER, Platform.NUMBER]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: TailwindConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: TailwindConfigEntry) -> None:
     """Set up Tailwind device from a config entry."""
     coordinator = TailwindDataUpdateCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()
@@ -33,6 +33,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: TailwindConfigEntry) -> N
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: TailwindConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: TailwindConfigEntry) -> None:
     """Unload Tailwind config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

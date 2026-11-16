@@ -22,7 +22,7 @@ from pyvesync.devices.vesynchumidifier import VeSyncHumid200S, VeSyncHumid200300
 from universalassistant.components.vesync import DOMAIN
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.typing import ConfigType
 
 from .common import DEVICE_CATEGORIES, mock_firmware, mock_multiple_device_responses
@@ -79,7 +79,7 @@ def patch_vesync_auth():
 
 
 @pytest.fixture(name="config_entry")
-def config_entry_fixture(hass: __HAC_KEEP__, config) -> ConfigEntry:
+def config_entry_fixture(hass: UniversalAssistant, config) -> ConfigEntry:
     """Create a mock VeSync config entry."""
     entry = MockConfigEntry(
         title="VeSync",
@@ -298,7 +298,7 @@ def rgb_humidifier() -> Mock:
 
 @pytest.fixture(name="humidifier_config_entry")
 async def humidifier_config_entry(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, config
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, config
 ) -> MockConfigEntry:
     """Create a mock VeSync config entry for `Humidifier 200s`."""
     entry = MockConfigEntry(
@@ -321,7 +321,7 @@ async def humidifier_config_entry(
 
 @pytest.fixture
 async def rgb_humidifier_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
 ) -> MockConfigEntry:
@@ -371,7 +371,7 @@ async def rgb_humidifier_config_entry(
 
 @pytest.fixture
 async def install_humidifier_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     manager,
     request: pytest.FixtureRequest,
@@ -386,7 +386,7 @@ async def install_humidifier_device(
 
 @pytest.fixture(name="fan_config_entry")
 async def fan_config_entry(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, config
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, config
 ) -> MockConfigEntry:
     """Create a mock VeSync config entry for `SmartTowerFan`."""
     entry = MockConfigEntry(
@@ -409,7 +409,7 @@ async def fan_config_entry(
 
 @pytest.fixture(name="pedestal_fan_config_entry")
 async def pedestal_fan_config_entry(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, config
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, config
 ) -> MockConfigEntry:
     """Create a mock VeSync config entry for `CoreBreeze 432S`."""
     entry = MockConfigEntry(
@@ -432,7 +432,7 @@ async def pedestal_fan_config_entry(
 
 @pytest.fixture(name="switch_old_id_config_entry")
 async def switch_old_id_config_entry(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, config
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, config
 ) -> MockConfigEntry:
     """Create a mock VeSync config entry for switch with old unique ID."""
     entry = MockConfigEntry(

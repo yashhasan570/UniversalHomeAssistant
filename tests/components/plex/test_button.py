@@ -8,12 +8,12 @@ from pytest_universalassistant.common import async_fire_time_changed
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.plex.const import DEBOUNCE_TIMEOUT
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 
 async def test_scan_clients_button_schedule(
-    hass: __HAC_KEEP__, setup_plex_server
+    hass: UniversalAssistant, setup_plex_server
 ) -> None:
     """Test scan_clients button scheduled update."""
     with patch(

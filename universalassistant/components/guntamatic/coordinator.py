@@ -8,7 +8,7 @@ import requests
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN, SCAN_INTERVAL
@@ -21,7 +21,7 @@ type GuntamaticConfigEntry = ConfigEntry[GuntamaticCoordinator]
 class GuntamaticCoordinator(DataUpdateCoordinator[dict[str, list[str]]]):
     """Guntamatic data coordinator."""
 
-    def __init__(self, hass: __HAC_KEEP__, entry: GuntamaticConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: GuntamaticConfigEntry) -> None:
         """Initialize coordinator."""
         super().__init__(
             hass,

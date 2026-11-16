@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 from tuya_sharing import CustomerDevice, Manager
 
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import TuyaNotificationHelper, initialize_entry
@@ -26,7 +26,7 @@ def platform_autouse():
 @pytest.mark.freeze_time("2023-11-01 13:14:15+01:00")
 @pytest.mark.usefixtures("no_quirk")
 async def test_platform_setup_and_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_devices: list[CustomerDevice],
@@ -66,7 +66,7 @@ async def test_platform_setup_and_discovery(
     ],
 )
 async def test_alarm_message_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -95,7 +95,7 @@ async def test_alarm_message_event(
 )
 @pytest.mark.freeze_time("2024-01-01")
 async def test_selective_state_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,

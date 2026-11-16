@@ -12,7 +12,7 @@ from pytest_universalassistant.common import MockConfigEntry, get_schema_suggest
 from universalassistant import config_entries
 from universalassistant.components.caldav.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME, CONF_VERIFY_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import TEST_PASSWORD, TEST_URL, TEST_USERNAME
@@ -28,7 +28,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 async def test_form(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     dav_client: Mock,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_form(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_caldav_client_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     side_effect: Exception,
     expected_error: str,
     dav_client: Mock,
@@ -123,7 +123,7 @@ async def test_caldav_client_error(
 
 
 async def test_reauth_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -157,7 +157,7 @@ async def test_reauth_success(
 
 
 async def test_reauth_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     config_entry: MockConfigEntry,
     dav_client: Mock,
@@ -207,7 +207,7 @@ async def test_reauth_failure(
 
 
 async def test_reconfigure_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     config_entry: MockConfigEntry,
     dav_client: Mock,
@@ -265,7 +265,7 @@ async def test_reconfigure_success(
     ],
 )
 async def test_reconfigure_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     config_entry: MockConfigEntry,
     dav_client: Mock,
@@ -316,7 +316,7 @@ async def test_reconfigure_failure(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfiguring to the server and account of another entry."""
@@ -359,7 +359,7 @@ async def test_reconfigure_duplicate(
     ],
 )
 async def test_multiple_config_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     config_entry: MockConfigEntry,
     user_input: dict[str, str],
@@ -410,7 +410,7 @@ async def test_multiple_config_entries(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_duplicate_config_entries(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, user_input: dict[str, str]
+    hass: UniversalAssistant, config_entry: MockConfigEntry, user_input: dict[str, str]
 ) -> None:
     """Test multiple configuration entries with the same settings."""
 

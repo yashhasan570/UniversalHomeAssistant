@@ -5,13 +5,13 @@ from unittest.mock import MagicMock
 import pyvera as pv
 
 from universalassistant.components.light import ATTR_BRIGHTNESS, ATTR_HS_COLOR
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .common import ComponentFactory, new_simple_controller_config
 
 
 async def test_light(
-    hass: __HAC_KEEP__, vera_component_factory: ComponentFactory
+    hass: UniversalAssistant, vera_component_factory: ComponentFactory
 ) -> None:
     """Test function."""
     vera_device: pv.VeraDimmer = MagicMock(spec=pv.VeraDimmer)

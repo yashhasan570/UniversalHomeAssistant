@@ -1,9 +1,9 @@
 """Errors for the HomematicIP Cloud integration."""
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 
-class HmipcException(__HAC_KEEP__Error):
+class HmipcException(UniversalAssistantError):
     """Base class for HomematicIP Cloud exceptions."""
 
 

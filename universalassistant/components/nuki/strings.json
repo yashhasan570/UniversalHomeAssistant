@@ -52,7 +52,7 @@
   },
   "issues": {
     "https_webhook": {
-      "description": "The Nuki bridge cannot push events to an HTTPS address (SSL), please configure a (local) HTTP address under \"__HA_KEEP__ URL\" in the [network settings]({network_link}). The current (local) address is: `{base_url}`, a valid address could, for example, be `{sample_url}` where `{sample_ip}` is the IP of the __HA_KEEP__ device",
+      "description": "The Nuki bridge cannot push events to an HTTPS address (SSL), please configure a (local) HTTP address under \"Universal Home Assistant URL\" in the [network settings]({network_link}). The current (local) address is: `{base_url}`, a valid address could, for example, be `{sample_url}` where `{sample_ip}` is the IP of the Universal Home Assistant device",
       "title": "Nuki webhook URL uses HTTPS (SSL)"
     }
   },

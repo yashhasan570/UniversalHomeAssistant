@@ -13,7 +13,7 @@ from tesla_fleet_api.teslemetry import EnergySite, Vehicle
 from teslemetry_stream import TeslemetryStream, TeslemetryStreamVehicle
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.storage import Store
 
@@ -82,7 +82,7 @@ class TeslemetryChargeOnSolarStore:
     entity's restore state expires, so the settings are stored independently of them.
     """
 
-    def __init__(self, hass: __HAC_KEEP__, entry_id: str) -> None:
+    def __init__(self, hass: UniversalAssistant, entry_id: str) -> None:
         """Initialize the store."""
         self._store = Store[dict[str, dict[str, Any]]](
             hass, STORAGE_VERSION, f"{DOMAIN}.charge_on_solar.{entry_id}"

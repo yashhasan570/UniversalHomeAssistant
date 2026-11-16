@@ -16,7 +16,7 @@ from zwave_js_server.model.node import Node, NodeDataType
 
 from universalassistant.components.zwave_js import DOMAIN
 from universalassistant.components.zwave_js.helpers import get_device_id
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -25,7 +25,7 @@ from universalassistant.helpers import (
 
 
 async def _trigger_repair_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: Client,
     multisensor_6_state: NodeDataType,
     device_config_changed: bool = True,
@@ -56,7 +56,7 @@ async def _trigger_repair_issue(
 
 
 async def test_device_config_file_changed_confirm_step(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
@@ -126,7 +126,7 @@ async def test_device_config_file_changed_confirm_step(
 
 
 async def test_device_config_file_changed_area_in_placeholders(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
@@ -162,7 +162,7 @@ async def test_device_config_file_changed_area_in_placeholders(
 
 
 async def test_device_config_file_changed_cleared(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     client: Client,
@@ -201,7 +201,7 @@ async def test_device_config_file_changed_cleared(
 
 
 async def test_device_config_file_changed_ignore_step(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
@@ -269,7 +269,7 @@ async def test_device_config_file_changed_ignore_step(
     ["component.zwave_js.issues.invalid_issue.title"],
 )
 async def test_invalid_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     integration,
@@ -315,7 +315,7 @@ async def test_invalid_issue(
 
 
 async def test_abort_confirm(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
@@ -355,7 +355,7 @@ async def test_abort_confirm(
 
 @pytest.mark.usefixtures("client")
 async def test_migrate_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
@@ -443,7 +443,7 @@ async def test_migrate_unique_id(
 
 @pytest.mark.usefixtures("client")
 async def test_migrate_unique_id_missing_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     issue_registry: ir.IssueRegistry,
@@ -515,7 +515,7 @@ async def test_migrate_unique_id_missing_config_entry(
 
 @pytest.mark.usefixtures("client")
 async def test_migrate_unique_id_non_integer_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
 ) -> None:

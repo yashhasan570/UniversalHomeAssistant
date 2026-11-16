@@ -12,8 +12,8 @@ from eurotronic_cometblue_ha import AsyncCometBlue, InvalidByteValueError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN, MAX_RETRIES
@@ -39,7 +39,7 @@ class CometBlueDataUpdateCoordinator(DataUpdateCoordinator[CometBlueCoordinatorD
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: CometBlueConfigEntry,
         cometblue: AsyncCometBlue,
     ) -> None:
@@ -71,7 +71,7 @@ class CometBlueDataUpdateCoordinator(DataUpdateCoordinator[CometBlueCoordinatorD
                     return await function(**payload)
             except (InvalidByteValueError, TimeoutError, BleakError) as ex:
                 if retry_count >= MAX_RETRIES:
-                    raise __HAC_KEEP__Error(
+                    raise UniversalAssistantError(
                         translation_domain=DOMAIN,
                         translation_key="command_failed",
                         translation_placeholders={

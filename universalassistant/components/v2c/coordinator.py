@@ -9,7 +9,7 @@ from pytrydan.exceptions import TrydanError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 SCAN_INTERVAL = timedelta(seconds=5)
@@ -25,7 +25,7 @@ class V2CUpdateCoordinator(DataUpdateCoordinator[TrydanData]):
     config_entry: V2CConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: V2CConfigEntry, evse: Trydan
+        self, hass: UniversalAssistant, config_entry: V2CConfigEntry, evse: Trydan
     ) -> None:
         """Initialize DataUpdateCoordinator for a v2c evse."""
         self.evse = evse

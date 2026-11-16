@@ -1,4 +1,4 @@
-"""API for Monzo bound to __HA_KEEP__ OAuth."""
+"""API for Monzo bound to Universal Home Assistant OAuth."""
 
 from typing import override
 

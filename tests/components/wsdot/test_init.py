@@ -3,12 +3,12 @@
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 
 
 async def test_travel_sensor_setup_no_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_failed_travel_time: None,
     issue_registry: ir.IssueRegistry,

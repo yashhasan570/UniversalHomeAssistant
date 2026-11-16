@@ -55,8 +55,8 @@ from universalassistant.const import (
     EVENT_STATE_REPORTED,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import Event, EventStateReportedData, __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import Event, EventStateReportedData, UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import PlayerMocks
@@ -72,7 +72,7 @@ from .conftest import PlayerMocks
     ],
 )
 async def test_simple_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_config_entry: None,
     player_mocks: PlayerMocks,
     service: str,
@@ -90,7 +90,7 @@ async def test_simple_actions(
 
 
 async def test_volume_set(
-    hass: __HAC_KEEP__, setup_config_entry: None, player_mocks: PlayerMocks
+    hass: UniversalAssistant, setup_config_entry: None, player_mocks: PlayerMocks
 ) -> None:
     """Test the media player volume set."""
     await hass.services.async_call(
@@ -104,7 +104,7 @@ async def test_volume_set(
 
 
 async def test_volume_mute(
-    hass: __HAC_KEEP__, setup_config_entry: None, player_mocks: PlayerMocks
+    hass: UniversalAssistant, setup_config_entry: None, player_mocks: PlayerMocks
 ) -> None:
     """Test the media player volume mute."""
     await hass.services.async_call(
@@ -118,7 +118,7 @@ async def test_volume_mute(
 
 
 async def test_volume_up(
-    hass: __HAC_KEEP__, setup_config_entry: None, player_mocks: PlayerMocks
+    hass: UniversalAssistant, setup_config_entry: None, player_mocks: PlayerMocks
 ) -> None:
     """Test the media player volume up."""
     await hass.services.async_call(
@@ -132,7 +132,7 @@ async def test_volume_up(
 
 
 async def test_volume_down(
-    hass: __HAC_KEEP__, setup_config_entry: None, player_mocks: PlayerMocks
+    hass: UniversalAssistant, setup_config_entry: None, player_mocks: PlayerMocks
 ) -> None:
     """Test the media player volume down."""
     await hass.services.async_call(
@@ -155,7 +155,7 @@ async def test_volume_down(
     ],
 )
 async def test_select_input_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_config_entry: None,
     player_mocks: PlayerMocks,
     input: str,
@@ -172,7 +172,7 @@ async def test_select_input_source(
 
 
 async def test_select_preset_source(
-    hass: __HAC_KEEP__, setup_config_entry: None, player_mocks: PlayerMocks
+    hass: UniversalAssistant, setup_config_entry: None, player_mocks: PlayerMocks
 ) -> None:
     """Test the media player select preset source."""
     await hass.services.async_call(
@@ -185,7 +185,7 @@ async def test_select_preset_source(
 
 
 async def test_attributes_set(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_config_entry: None,
     player_mocks: PlayerMocks,
     snapshot: SnapshotAssertion,
@@ -198,7 +198,7 @@ async def test_attributes_set(
 
 
 async def test_stop_maps_to_idle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_config_entry: None,
     player_mocks: PlayerMocks,
 ) -> None:
@@ -219,7 +219,7 @@ async def test_stop_maps_to_idle(
 
 
 async def test_status_updated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_config_entry: None,
     player_mocks: PlayerMocks,
 ) -> None:
@@ -243,7 +243,7 @@ async def test_status_updated(
 
 
 async def test_unavailable_when_offline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_config_entry: None,
     player_mocks: PlayerMocks,
 ) -> None:
@@ -266,7 +266,7 @@ async def test_unavailable_when_offline(
 
 
 async def test_attr_master(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_config_entry: None,
     player_mocks: PlayerMocks,
 ) -> None:
@@ -294,7 +294,7 @@ async def test_attr_master(
 
 
 async def test_attr_bluesound_group(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_config_entry: None,
     setup_config_entry_secondary: None,
     player_mocks: PlayerMocks,
@@ -323,7 +323,7 @@ async def test_attr_bluesound_group(
 
 
 async def test_attr_bluesound_group_skips_an_entry_that_is_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_config_entry: None,
     config_entry_secondary: MockConfigEntry,
     player_mocks: PlayerMocks,
@@ -351,7 +351,7 @@ async def test_attr_bluesound_group_skips_an_entry_that_is_not_loaded(
 
 
 async def test_attr_bluesound_group_for_follower(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_config_entry: None,
     setup_config_entry_secondary: None,
     player_mocks: PlayerMocks,
@@ -392,14 +392,14 @@ async def test_attr_bluesound_group_for_follower(
 
 
 async def test_volume_up_from_6_to_7(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_config_entry: None,
     player_mocks: PlayerMocks,
 ) -> None:
     """Test the media player volume up from 6 to 7.
 
     This fails if rounding is not done correctly. See
-    https://github.com/yashhasan570/__HAC_KEEP__/issues/129956
+    https://github.com/yashhasan570/UniversalUniversalAssistant/issues/129956
     for more details.
     """
     player_mocks.player_data.status_long_polling_mock.set(
@@ -423,7 +423,7 @@ async def test_volume_up_from_6_to_7(
 
 
 async def test_attr_group_members(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_config_entry: None,
     setup_config_entry_secondary: None,
     player_mocks: PlayerMocks,
@@ -472,7 +472,7 @@ async def test_attr_group_members(
     ],
 )
 async def test_attr_group_members_after_entity_id_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     setup_config_entry: None,
     setup_config_entry_secondary: None,
@@ -523,7 +523,7 @@ async def test_attr_group_members_after_entity_id_change(
 
 
 async def test_join_players(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_config_entry: None,
     setup_config_entry_secondary: None,
     player_mocks: PlayerMocks,
@@ -545,7 +545,7 @@ async def test_join_players(
 
 
 async def test_join_players_after_entity_id_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     setup_config_entry: None,
     setup_config_entry_secondary: None,
@@ -583,7 +583,7 @@ async def test_join_players_after_entity_id_change(
 
 
 async def test_join_player_cannot_join_to_self(
-    hass: __HAC_KEEP__, setup_config_entry: None, player_mocks: PlayerMocks
+    hass: UniversalAssistant, setup_config_entry: None, player_mocks: PlayerMocks
 ) -> None:
     """Test that joining to self is not allowed."""
     with pytest.raises(
@@ -604,7 +604,7 @@ async def test_join_player_cannot_join_to_self(
 
 
 async def test_unjoin_player(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_config_entry: None,
     setup_config_entry_secondary: None,
     player_mocks: PlayerMocks,
@@ -643,18 +643,18 @@ async def test_unjoin_player(
         ),
         pytest.param(
             PairedPlayer("3.3.3.3", 11000),
-            "The group leader 3.3.3.3:11000 is not set up in __HA_KEEP__",
+            "The group leader 3.3.3.3:11000 is not set up in Universal Home Assistant",
             id="leader_not_loaded",
         ),
     ],
 )
 async def test_unjoin_player_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     player_mocks: PlayerMocks,
     leader: PairedPlayer,
     message: str,
 ) -> None:
-    """Test that a failing unjoin raises __HAC_KEEP__Error."""
+    """Test that a failing unjoin raises UniversalAssistantError."""
     player_mocks.player_data_secondary.player.remove_follower.side_effect = (
         PlayerUnreachableError("timeout")
     )
@@ -668,7 +668,7 @@ async def test_unjoin_player_error(
     # state; this could be any async call
     await hass.async_block_till_done()
 
-    with pytest.raises(__HAC_KEEP__Error, match=message):
+    with pytest.raises(UniversalAssistantError, match=message):
         await hass.services.async_call(
             MEDIA_PLAYER_DOMAIN,
             SERVICE_UNJOIN,
@@ -732,19 +732,19 @@ async def test_unjoin_player_error(
     ],
 )
 async def test_action_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     player_mocks: PlayerMocks,
     service: str,
     service_data: dict[str, Any],
     method: str,
 ) -> None:
-    """Test that a failing player call raises __HAC_KEEP__Error."""
+    """Test that a failing player call raises UniversalAssistantError."""
     getattr(
         player_mocks.player_data.player, method
     ).side_effect = PlayerUnreachableError("timeout")
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="Could not reach the Bluesound player: timeout"
+        UniversalAssistantError, match="Could not reach the Bluesound player: timeout"
     ):
         await hass.services.async_call(
             MEDIA_PLAYER_DOMAIN,
@@ -755,7 +755,7 @@ async def test_action_error(
 
 
 async def test_media_image_relative_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     setup_config_entry: None,
     player_mocks: PlayerMocks,
@@ -778,7 +778,7 @@ async def test_media_image_relative_url(
 
 
 async def test_media_position_and_duration_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_config_entry: None,
     player_mocks: PlayerMocks,
 ) -> None:
@@ -807,7 +807,7 @@ async def test_media_position_and_duration_unknown(
     ],
 )
 async def test_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_config_entry: None,
     player_mocks: PlayerMocks,
     input_id: str | None,
@@ -831,7 +831,7 @@ async def test_source(
 
 
 async def test_select_unknown_source(
-    hass: __HAC_KEEP__, setup_config_entry: None
+    hass: UniversalAssistant, setup_config_entry: None
 ) -> None:
     """Test selecting an unknown source raises an error."""
     with pytest.raises(
@@ -853,7 +853,7 @@ async def test_select_unknown_source(
 
 
 async def test_media_seek(
-    hass: __HAC_KEEP__, setup_config_entry: None, player_mocks: PlayerMocks
+    hass: UniversalAssistant, setup_config_entry: None, player_mocks: PlayerMocks
 ) -> None:
     """Test seeking when the player supports it."""
     player_mocks.player_data.status_long_polling_mock.set(
@@ -874,7 +874,7 @@ async def test_media_seek(
 
 
 async def test_unjoin_player_as_leader(
-    hass: __HAC_KEEP__, setup_config_entry: None, player_mocks: PlayerMocks
+    hass: UniversalAssistant, setup_config_entry: None, player_mocks: PlayerMocks
 ) -> None:
     """Test the media_player.unjoin action on a group leader."""
     player_mocks.player_data.sync_status_long_polling_mock.set(
@@ -898,7 +898,7 @@ async def test_unjoin_player_as_leader(
 
 
 async def test_play_media_source(
-    hass: __HAC_KEEP__, setup_config_entry: None, player_mocks: PlayerMocks
+    hass: UniversalAssistant, setup_config_entry: None, player_mocks: PlayerMocks
 ) -> None:
     """Test playing a media source item plays its resolved url."""
     with patch(
@@ -924,7 +924,7 @@ async def test_play_media_source(
 
 
 async def test_browse_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_config_entry: None,
     hass_ws_client: WebSocketGenerator,
 ) -> None:

@@ -19,20 +19,20 @@ from universalassistant.components.ai_task.const import (
     DATA_PREFERENCES,
     DOMAIN,
 )
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError, Unauthorized
 from universalassistant.helpers import selector
 
 from .conftest import TEST_ENTITY_ID, MockAITaskEntity
 
 
-async def test_automatic_evaluation_without_setup(hass: __HAC_KEEP__) -> None:
+async def test_automatic_evaluation_without_setup(hass: UniversalAssistant) -> None:
     """Automatic evaluation is disabled when AI Task has not been set up."""
     assert async_is_automatic_evaluation_enabled(hass) is False
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_automatic_evaluation_preference(hass: __HAC_KEEP__) -> None:
+async def test_automatic_evaluation_preference(hass: UniversalAssistant) -> None:
     """The public helper reflects the default and subsequent preference changes."""
     assert async_is_automatic_evaluation_enabled(hass) is False
 
@@ -45,7 +45,7 @@ async def test_automatic_evaluation_preference(hass: __HAC_KEEP__) -> None:
 
 
 async def test_preferences_storage_load(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that AITaskPreferences are stored and loaded correctly."""
     preferences = AITaskPreferences(hass)
@@ -108,7 +108,7 @@ async def test_preferences_storage_load(
     ],
 )
 async def test_generate_data_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
     freezer: FrozenDateTimeFactory,
     set_preferences: dict[str, str | None],
@@ -160,7 +160,7 @@ async def test_generate_data_service(
 
 
 async def test_generate_data_service_structure_fields(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
     mock_ai_task_entity: MockAITaskEntity,
 ) -> None:
@@ -307,7 +307,7 @@ async def test_generate_data_service_structure_fields(
     ),
 )
 async def test_generate_data_service_invalid_structure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
     structure: Any,
     expected_exception: Exception,
@@ -342,7 +342,7 @@ async def test_generate_data_service_invalid_structure(
 )
 @pytest.mark.freeze_time("2025-06-14 22:59:00")
 async def test_generate_image_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
     set_preferences: dict[str, str | None],
     msg_extra: dict[str, str],
@@ -391,7 +391,7 @@ async def test_generate_image_service(
 
 
 async def test_generate_image_service_no_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
 ) -> None:
     """Test the generate image service with no entity specified."""
@@ -411,7 +411,7 @@ async def test_generate_image_service_no_entity(
         )
 
 
-async def test_preferences_existing_storage(hass: __HAC_KEEP__) -> None:
+async def test_preferences_existing_storage(hass: UniversalAssistant) -> None:
     """Existing installations do not opt in to automatic evaluation on upgrade."""
     preferences = AITaskPreferences(hass)
     await preferences._store.async_save(
@@ -436,7 +436,7 @@ async def test_preferences_existing_storage(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures("init_components")
 @pytest.mark.parametrize("service", ["generate_data", "generate_image"])
 async def test_generate_service_explicit_entity_permission(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_read_only_user: MockUser,
     mock_ai_task_entity: MockAITaskEntity,
     service: str,
@@ -469,7 +469,7 @@ async def test_generate_service_explicit_entity_permission(
 @pytest.mark.parametrize("domain", ["camera", "image"])
 @pytest.mark.parametrize("entity_selection", [{}, {"entity_id": TEST_ENTITY_ID}])
 async def test_generate_service_attachment_permission(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_admin_user: MockUser,
     mock_ai_task_entity: MockAITaskEntity,
     service: str,
@@ -515,7 +515,7 @@ async def test_generate_service_attachment_permission(
 @pytest.mark.usefixtures("init_components")
 @pytest.mark.parametrize("service", ["generate_data", "generate_image"])
 async def test_generate_service_default_permission(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_read_only_user: MockUser,
     service: str,
 ) -> None:

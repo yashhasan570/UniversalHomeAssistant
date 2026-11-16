@@ -7,8 +7,8 @@ from typing import Any, override
 from ohme import ApiException, ChargerStatus, OhmeApiClient
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -37,7 +37,7 @@ BUTTON_DESCRIPTIONS = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: OhmeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -62,7 +62,7 @@ class OhmeButton(OhmeEntity, ButtonEntity):
         try:
             await self.entity_description.press_fn(self.coordinator.client)
         except ApiException as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_key="api_failed", translation_domain=DOMAIN
             ) from e
         await self.coordinator.async_request_refresh()

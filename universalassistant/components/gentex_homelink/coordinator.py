@@ -8,7 +8,7 @@ from homelink.model.device import Device
 from homelink.mqtt_provider import MQTTProvider
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.util.ssl import get_default_context
 
 type HomeLinkConfigEntry = ConfigEntry[HomeLinkCoordinator]
@@ -34,7 +34,7 @@ class HomeLinkCoordinator:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         provider: MQTTProvider,
         config_entry: HomeLinkConfigEntry,
     ) -> None:

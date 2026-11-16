@@ -19,7 +19,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.smartyplants.const import DEFAULT_SCAN_INTERVAL, DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.update_coordinator import UpdateFailed
 
@@ -30,7 +30,7 @@ TEMPERATURE = "sensor.monstera_temperature"
 
 @pytest.mark.usefixtures("mock_smartyplants_client")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -43,7 +43,7 @@ async def test_all_entities(
 
 @pytest.mark.usefixtures("mock_smartyplants_client")
 async def test_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -91,7 +91,7 @@ async def test_device(
 )
 @pytest.mark.usefixtures("mock_smartyplants_client")
 async def test_reading_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     sensor_payloads: list[dict[str, Any]],
     path: tuple[str, ...],
@@ -112,7 +112,7 @@ async def test_reading_states(
 
 @pytest.mark.usefixtures("mock_smartyplants_client")
 async def test_temperature_follows_the_backend_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     sensor_payloads: list[dict[str, Any]],
 ) -> None:
@@ -131,7 +131,7 @@ async def test_temperature_follows_the_backend_unit(
 
 @pytest.mark.usefixtures("mock_smartyplants_client")
 async def test_sensor_removed_from_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     sensor_payloads: list[dict[str, Any]],
     freezer: FrozenDateTimeFactory,
@@ -168,7 +168,7 @@ async def test_sensor_removed_from_account(
     ],
 )
 async def test_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smartyplants_client: AsyncMock,
     freezer: FrozenDateTimeFactory,

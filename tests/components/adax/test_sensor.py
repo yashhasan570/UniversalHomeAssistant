@@ -6,14 +6,14 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_sensor_cloud(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_adax_cloud: AsyncMock,
     mock_cloud_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -31,7 +31,7 @@ async def test_sensor_cloud(
 
 
 async def test_sensor_local_not_created(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_adax_local: AsyncMock,
     mock_local_config_entry: MockConfigEntry,
 ) -> None:
@@ -46,7 +46,7 @@ async def test_sensor_local_not_created(
 
 
 async def test_multiple_devices_create_individual_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_adax_cloud: AsyncMock,
     mock_cloud_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -87,7 +87,7 @@ async def test_multiple_devices_create_individual_sensors(
 
 
 async def test_fallback_to_get_rooms(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_adax_cloud: AsyncMock,
     mock_cloud_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,

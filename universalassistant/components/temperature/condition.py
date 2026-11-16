@@ -19,7 +19,7 @@ from universalassistant.components.weather import (
     WeatherEntityStateAttribute,
 )
 from universalassistant.const import EntityStateAttribute, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.automation import DomainSpec
 from universalassistant.helpers.condition import (
     Condition,
@@ -89,6 +89,6 @@ CONDITIONS: dict[str, type[Condition]] = {
 }
 
 
-async def async_get_conditions(hass: __HAC_KEEP__) -> dict[str, type[Condition]]:
+async def async_get_conditions(hass: UniversalAssistant) -> dict[str, type[Condition]]:
     """Return the temperature conditions."""
     return CONDITIONS

@@ -8,8 +8,8 @@ from growattServer import GrowattV1ApiError
 
 from universalassistant.components.number import NumberEntity, NumberEntityDescription
 from universalassistant.const import PERCENTAGE, EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -102,7 +102,7 @@ def _create_numbers_for_device(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: GrowattConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -185,7 +185,7 @@ class GrowattNumber(CoordinatorEntity[GrowattCoordinator], NumberEntity):
                 int_value,
             )
         except GrowattV1ApiError as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="api_error_with_code",
                 translation_placeholders={

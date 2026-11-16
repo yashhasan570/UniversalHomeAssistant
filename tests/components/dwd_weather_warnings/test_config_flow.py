@@ -13,7 +13,7 @@ from universalassistant.components.dwd_weather_warnings.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import ATTR_LATITUDE, ATTR_LONGITUDE, STATE_HOME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 
@@ -29,7 +29,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 async def test_create_entry_region(
-    hass: __HAC_KEEP__, mock_dwdwfsapi: MagicMock
+    hass: UniversalAssistant, mock_dwdwfsapi: MagicMock
 ) -> None:
     """Test that the full config flow works for a region identifier."""
     result = await hass.config_entries.flow.async_init(
@@ -63,7 +63,7 @@ async def test_create_entry_region(
 
 
 async def test_create_entry_gps(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_dwdwfsapi: MagicMock
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_dwdwfsapi: MagicMock
 ) -> None:
     """Test that the full config flow works for a device tracker."""
     result = await hass.config_entries.flow.async_init(
@@ -140,7 +140,7 @@ async def test_create_entry_gps(
 
 
 async def test_config_flow_already_configured(
-    hass: __HAC_KEEP__, mock_dwdwfsapi: MagicMock
+    hass: UniversalAssistant, mock_dwdwfsapi: MagicMock
 ) -> None:
     """Test aborting if the warncell ID / name is already configured."""
     entry = MockConfigEntry(
@@ -168,7 +168,7 @@ async def test_config_flow_already_configured(
 
 
 @pytest.mark.usefixtures("mock_dwdwfsapi")
-async def test_config_flow_with_errors(hass: __HAC_KEEP__) -> None:
+async def test_config_flow_with_errors(hass: UniversalAssistant) -> None:
     """Test error scenarios during the configuration."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}

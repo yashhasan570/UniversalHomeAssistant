@@ -20,8 +20,8 @@ from simplipy.system.v3 import (
 )
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.service import (
     async_get_device_and_config_entry,
@@ -175,7 +175,7 @@ def extract_system(
         try:
             await func(call, system)
         except SimplipyError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="error_while_executing",
                 translation_placeholders={"service": call.service, "error": str(err)},
@@ -221,7 +221,7 @@ async def async_set_system_properties(call: ServiceCall, system: SystemType) -> 
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register services."""
 
     for service, method, schema in (

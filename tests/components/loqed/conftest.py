@@ -15,14 +15,14 @@ from pytest_universalassistant.common import (
 
 from universalassistant.components.loqed.const import CONF_CLOUDHOOK_URL, DOMAIN
 from universalassistant.const import CONF_API_TOKEN, CONF_NAME, CONF_WEBHOOK_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 type PatchLockCreationFlow = Callable[[dict[str, Any], loqed.Lock, str], Any]
 
 
 @pytest.fixture(name="config_entry")
-async def config_entry_fixture(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def config_entry_fixture(hass: UniversalAssistant) -> MockConfigEntry:
     """Mock config entry."""
 
     json_config = await async_load_json_object_fixture(
@@ -46,7 +46,7 @@ async def config_entry_fixture(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 
 @pytest.fixture(name="cloud_config_entry")
-async def cloud_config_entry_fixture(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def cloud_config_entry_fixture(hass: UniversalAssistant) -> MockConfigEntry:
     """Mock config entry."""
 
     json_config = await async_load_json_object_fixture(
@@ -74,7 +74,7 @@ async def cloud_config_entry_fixture(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 
 @pytest.fixture(name="lock")
-async def lock_fixture(hass: __HAC_KEEP__) -> loqed.Lock:
+async def lock_fixture(hass: UniversalAssistant) -> loqed.Lock:
     """Set up a mock implementation of a Lock."""
     webhooks_fixture = await async_load_json_array_fixture(
         hass, "get_all_webhooks.json", DOMAIN
@@ -91,7 +91,7 @@ async def lock_fixture(hass: __HAC_KEEP__) -> loqed.Lock:
 
 @pytest.fixture(name="integration")
 async def integration_fixture(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, lock: loqed.Lock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, lock: loqed.Lock
 ) -> AsyncGenerator[MockConfigEntry]:
     """Set up the loqed integration with a config entry."""
     config: dict[str, Any] = {DOMAIN: {CONF_API_TOKEN: ""}}

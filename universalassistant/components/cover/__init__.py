@@ -16,7 +16,7 @@ from universalassistant.const import (
     SERVICE_TOGGLE,
     SERVICE_TOGGLE_COVER_TILT,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.deprecation import deprecated_function
@@ -106,12 +106,12 @@ __all__ = [
 @deprecated_function(
     "hass.states.is_state(entity_id, 'closed')", breaks_in_ha_version="2027.10"
 )
-def is_closed(hass: __HAC_KEEP__, entity_id: str) -> bool:
+def is_closed(hass: UniversalAssistant, entity_id: str) -> bool:
     """Return if the cover is closed based on the statemachine."""
     return hass.states.is_state(entity_id, CoverState.CLOSED)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Track states and offer events for covers."""
     component = hass.data[DATA_COMPONENT] = EntityComponent[CoverEntity](
         _LOGGER, DOMAIN, hass, SCAN_INTERVAL
@@ -124,7 +124,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up a config entry."""
     if not await hass.data[DATA_COMPONENT].async_setup_entry(entry):
         raise ConfigEntryError(
@@ -134,6 +134,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.data[DATA_COMPONENT].async_unload_entry(entry)

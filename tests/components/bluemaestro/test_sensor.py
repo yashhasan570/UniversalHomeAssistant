@@ -6,7 +6,7 @@ from pytest_universalassistant.components.bluetooth import inject_bluetooth_serv
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.bluemaestro.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import BLUEMAESTRO_SERVICE_INFO
@@ -14,7 +14,7 @@ from . import BLUEMAESTRO_SERVICE_INFO
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:

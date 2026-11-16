@@ -19,7 +19,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util.dt import utcnow
@@ -33,7 +33,7 @@ uid = (
 
 
 async def test_climate_get_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     init_integration: MockConfigEntry,
@@ -93,7 +93,7 @@ async def test_climate_get_state(
 
 
 async def test_climate_set_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -125,7 +125,7 @@ async def test_climate_set_off(
 
 
 async def test_climate_set_unsupported_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -150,7 +150,7 @@ async def test_climate_set_unsupported_hvac_mode(
 
 
 async def test_climate_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -197,7 +197,7 @@ async def test_climate_set_temperature(
 
 
 async def test_climate_set_temperature_unsupported_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
 ) -> None:

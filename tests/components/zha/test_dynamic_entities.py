@@ -20,7 +20,7 @@ from universalassistant.components.zha.helpers import (
     get_zha_gateway_proxy,
 )
 from universalassistant.const import STATE_OFF, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import find_entity_id
@@ -38,7 +38,7 @@ def platforms_only() -> Generator[None]:
 
 
 async def _create_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> ZHADeviceProxy:
@@ -91,7 +91,7 @@ def _get_platform_entity(
 
 
 async def test_dynamic_entity_lifecycle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
@@ -190,7 +190,7 @@ async def test_dynamic_entity_lifecycle(
 
 
 async def test_unknown_unique_id_is_noop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
@@ -236,7 +236,7 @@ async def test_unknown_unique_id_is_noop(
 
 
 async def test_remove_entity_reference_when_ieee_already_cleared(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
@@ -263,7 +263,7 @@ async def test_remove_entity_reference_when_ieee_already_cleared(
 
 
 async def test_entity_reference_follows_entity_id_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
@@ -303,7 +303,7 @@ async def test_entity_reference_follows_entity_id_change(
 
 
 async def test_reinterview_quirk_class_swap_rebinds_proxy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:

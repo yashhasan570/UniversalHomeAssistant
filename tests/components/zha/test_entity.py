@@ -11,7 +11,7 @@ from zigpy.zcl.clusters import general
 
 from universalassistant.components.zha.const import DOMAIN
 from universalassistant.components.zha.helpers import get_zha_gateway, get_zha_gateway_proxy
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import (
@@ -25,7 +25,7 @@ from .conftest import (
 
 
 async def test_device_registry_via_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
@@ -66,7 +66,7 @@ async def test_device_registry_via_device(
 
 
 async def test_device_registry_via_device_without_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
@@ -108,7 +108,7 @@ async def test_device_registry_via_device_without_entities(
 
 
 async def test_group_entity_name_and_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[Any, Any, None]],
     zigpy_app_controller_with_group: ControllerApplication,
     device_registry: dr.DeviceRegistry,

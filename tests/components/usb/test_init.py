@@ -25,7 +25,7 @@ from universalassistant.components.usb.models import SerialDevice, USBDevice
 from universalassistant.components.usb.serial_proxy_stub import HassESPHomeSerialStub
 from universalassistant.components.usb.utils import usb_device_from_path
 from universalassistant.const import EVENT_HOMEASSISTANT_STARTED, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -51,7 +51,7 @@ slae_sh_device = USBDevice(
 
 
 async def test_aiousbwatcher_discovery(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that aiousbwatcher can discover a device without raising an exception."""
     new_usb = [{"domain": "test1", "vid": "3039"}, {"domain": "test2", "vid": "0FA0"}]
@@ -124,7 +124,7 @@ async def test_aiousbwatcher_discovery(
 
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
-async def test_is_serial_port_present(hass: __HAC_KEEP__) -> None:
+async def test_is_serial_port_present(hass: UniversalAssistant) -> None:
     """A local path is checked on disk, a URL against the scanned ports."""
     proxy_url = "esphome-hass://esphome/01M0EP649N48N88Z52ZG2B21VT?port_name=uart0"
     assert await async_setup_component(hass, DOMAIN, {"usb": {}})
@@ -282,7 +282,7 @@ def _cp2102_at(device: str) -> USBDevice:
 )
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_find_moved_serial_port(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_path: str,
     ports: list[USBDevice],
     expected: str | None,
@@ -301,7 +301,7 @@ async def test_find_moved_serial_port(
 
 
 async def test_notify_serial_ports_changed_with_aiousbwatcher(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A scanner's ports are rescanned even while the udev watcher is running."""
     new_usb = [{"domain": "test1", "vid": "3039"}]
@@ -351,7 +351,7 @@ async def test_notify_serial_ports_changed_with_aiousbwatcher(
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_polling_discovery(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that polling can discover a device without raising an exception."""
     new_usb = [{"domain": "test1", "vid": "3039"}]
@@ -404,7 +404,7 @@ async def test_polling_discovery(
 
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
-async def test_removal_by_aiousbwatcher_before_started(hass: __HAC_KEEP__) -> None:
+async def test_removal_by_aiousbwatcher_before_started(hass: UniversalAssistant) -> None:
     """Test a device is removed by the aiousbwatcher before started."""
     new_usb = [{"domain": "test1", "vid": "3039", "pid": "3039"}]
 
@@ -439,7 +439,7 @@ async def test_removal_by_aiousbwatcher_before_started(hass: __HAC_KEEP__) -> No
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_discovered_by_websocket_scan(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test a device is discovered from websocket scan."""
     new_usb = [{"domain": "test1", "vid": "3039", "pid": "3039"}]
@@ -476,7 +476,7 @@ async def test_discovered_by_websocket_scan(
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_discovered_by_websocket_scan_limited_by_description_matcher(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test websocket scan discovery is limited by the description matcher."""
     new_usb = [
@@ -515,7 +515,7 @@ async def test_discovered_by_websocket_scan_limited_by_description_matcher(
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_non_usb_ignored_by_discovery(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that polling ignores native serial ports."""
     new_usb = [
@@ -563,7 +563,7 @@ async def test_non_usb_ignored_by_discovery(
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_most_targeted_matcher_wins(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that the most targeted matcher is used."""
     new_usb = [
@@ -603,7 +603,7 @@ async def test_most_targeted_matcher_wins(
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_discovered_by_websocket_scan_rejected_by_description_matcher(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test websocket scan discovery rejected by the description matcher."""
     new_usb = [
@@ -641,7 +641,7 @@ async def test_discovered_by_websocket_scan_rejected_by_description_matcher(
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_discovered_by_websocket_scan_limited_by_serial_number_matcher(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test websocket scan discovery is limited by the serial_number matcher."""
     new_usb = [
@@ -685,7 +685,7 @@ async def test_discovered_by_websocket_scan_limited_by_serial_number_matcher(
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_discovered_by_websocket_scan_rejected_by_serial_number_matcher(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test websocket scan discovery is rejected by the serial_number matcher."""
     new_usb = [
@@ -723,7 +723,7 @@ async def test_discovered_by_websocket_scan_rejected_by_serial_number_matcher(
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_discovered_by_websocket_scan_limited_by_manufacturer_matcher(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test websocket scan discovery is limited by the manufacturer matcher."""
     new_usb = [
@@ -767,7 +767,7 @@ async def test_discovered_by_websocket_scan_limited_by_manufacturer_matcher(
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_discovered_by_websocket_scan_rejected_by_manufacturer_matcher(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test websocket scan discovery is rejected by the manufacturer matcher."""
     new_usb = [
@@ -810,7 +810,7 @@ async def test_discovered_by_websocket_scan_rejected_by_manufacturer_matcher(
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_discovered_by_websocket_rejected_with_empty_serial_number_only(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test websocket discovery is rejected with empty serial number."""
     new_usb = [
@@ -848,7 +848,7 @@ async def test_discovered_by_websocket_rejected_with_empty_serial_number_only(
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_discovered_by_websocket_scan_match_vid_only(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test a device is discovered from websocket scan only matching vid."""
     new_usb = [{"domain": "test1", "vid": "3039"}]
@@ -885,7 +885,7 @@ async def test_discovered_by_websocket_scan_match_vid_only(
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_discovered_by_websocket_scan_match_vid_wrong_pid(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test websocket scan discovery matching vid but wrong pid."""
     new_usb = [{"domain": "test1", "vid": "3039", "pid": "9999"}]
@@ -921,7 +921,7 @@ async def test_discovered_by_websocket_scan_match_vid_wrong_pid(
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_discovered_by_websocket_no_vid_pid(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test a device is discovered from websocket scan with no vid or pid."""
     new_usb = [{"domain": "test1", "vid": "3039", "pid": "9999"}]
@@ -957,7 +957,7 @@ async def test_discovered_by_websocket_no_vid_pid(
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_non_matching_discovered_by_scanner_after_started(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test a websocket scan that does not match."""
     new_usb = [{"domain": "test1", "vid": "4444", "pid": "4444"}]
@@ -992,7 +992,7 @@ async def test_non_matching_discovered_by_scanner_after_started(
 
 
 async def test_aiousbwatcher_on_wsl_fallback_without_throwing_exception(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test aiousbwatcher WSL failure falls back to scanning without exception."""
     new_usb = [{"domain": "test1", "vid": "3039"}]
@@ -1027,7 +1027,7 @@ async def test_aiousbwatcher_on_wsl_fallback_without_throwing_exception(
     assert mock_config_flow.mock_calls[0][1][0] == "test1"
 
 
-async def test_discovered_by_aiousbwatcher_before_started(hass: __HAC_KEEP__) -> None:
+async def test_discovered_by_aiousbwatcher_before_started(hass: UniversalAssistant) -> None:
     """Test a device is discovered since aiousbwatcher is now running."""
     new_usb = [{"domain": "test1", "vid": "3039", "pid": "3039"}]
 
@@ -1162,7 +1162,7 @@ def test_human_readable_device_name() -> None:
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_web_socket_triggers_discovery_request_callbacks(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the websocket call triggers a discovery request callback."""
     mock_callback = Mock()
@@ -1197,7 +1197,7 @@ async def test_web_socket_triggers_discovery_request_callbacks(
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_initial_scan_callback(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test it's possible to register a callback when the initial scan is done."""
     mock_callback_1 = Mock()
@@ -1233,7 +1233,7 @@ async def test_initial_scan_callback(
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_cancel_initial_scan_callback(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test it's possible to cancel an initial scan callback."""
     mock_callback = Mock()
@@ -1332,7 +1332,7 @@ async def test_cancel_initial_scan_callback(
     ],
 )
 async def test_cp2102n_ordering_on_macos(
-    ports: list[MagicMock], hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    ports: list[MagicMock], hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test CP2102N ordering on macOS."""
 
@@ -1366,7 +1366,7 @@ async def test_cp2102n_ordering_on_macos(
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 @patch("universalassistant.components.usb.REQUEST_SCAN_COOLDOWN", 0)
 async def test_register_port_event_callback(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the registration of a port event callback."""
 
@@ -1457,7 +1457,7 @@ async def test_register_port_event_callback(
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 @patch("universalassistant.components.usb.REQUEST_SCAN_COOLDOWN", 0)
 async def test_register_port_event_callback_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1515,7 +1515,7 @@ async def test_register_port_event_callback_failure(
     assert "Failure 2" in caplog.text
 
 
-async def test_async_scan_serial_ports(hass: __HAC_KEEP__) -> None:
+async def test_async_scan_serial_ports(hass: UniversalAssistant) -> None:
     """Test async_scan_serial_ports parsing."""
     assert await async_setup_component(hass, DOMAIN, {"usb": {}})
     with patch(
@@ -1572,7 +1572,7 @@ async def test_async_scan_serial_ports(hass: __HAC_KEEP__) -> None:
     ]
 
 
-async def test_async_scan_serial_ports_with_scanner(hass: __HAC_KEEP__) -> None:
+async def test_async_scan_serial_ports_with_scanner(hass: UniversalAssistant) -> None:
     """Contributed ports are appended to, and override, real scan results."""
     real_amA1 = SerialDevice(
         device="/dev/ttyAMA1",
@@ -1626,7 +1626,7 @@ async def test_async_scan_serial_ports_with_scanner(hass: __HAC_KEEP__) -> None:
 
 
 async def test_async_scan_serial_ports_scanner_raises(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """A scanner raising does not prevent other scanners or real ports."""
     real_port = SerialDevice(
@@ -1644,7 +1644,7 @@ async def test_async_scan_serial_ports_scanner_raises(
 
     assert await async_setup_component(hass, DOMAIN, {"usb": {}})
 
-    def broken_scanner(_hass: __HAC_KEEP__) -> list:
+    def broken_scanner(_hass: UniversalAssistant) -> list:
         raise RuntimeError("scanner broke")
 
     usb.async_register_serial_port_scanner(hass, broken_scanner)
@@ -1736,7 +1736,7 @@ def test_usb_device_from_path_returns_none_when_not_found() -> None:
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 @patch("universalassistant.components.usb.REQUEST_SCAN_COOLDOWN", 0)
 async def test_removal_aborts_discovery_flows(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test USB device removal aborts the correct discovery flows."""
     # Used by test1
@@ -1904,7 +1904,7 @@ async def test_removal_aborts_discovery_flows(
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_list_serial_ports(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test listing serial ports via websocket."""
@@ -2030,7 +2030,7 @@ async def test_list_serial_ports(
     "command", ["usb/list_serial_ports", "usb/list_serial_integrations"]
 )
 async def test_ws_commands_require_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
     setup_usb: MagicMock,
@@ -2048,7 +2048,7 @@ async def test_ws_commands_require_admin(
 
 
 async def test_list_serial_ports_os_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     setup_usb: MagicMock,
 ) -> None:
@@ -2066,7 +2066,7 @@ async def test_list_serial_ports_os_error(
 
 @pytest.mark.usefixtures("setup_usb")
 async def test_list_serial_integrations(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test listing the integrations whose config flow uses SerialPortSelector."""
@@ -2085,7 +2085,7 @@ async def test_list_serial_integrations(
 
 @pytest.mark.usefixtures("setup_usb")
 async def test_list_serial_integrations_custom_override(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test a core integration overridden by a custom integration is not listed."""
@@ -2102,7 +2102,7 @@ async def test_list_serial_integrations_custom_override(
     assert "dsmr" in response["result"]
 
 
-async def test_serial_proxy_stub_sync(hass: __HAC_KEEP__) -> None:
+async def test_serial_proxy_stub_sync(hass: UniversalAssistant) -> None:
     """Test ESPHome serial proxy stub."""
     assert await async_setup_component(hass, DOMAIN, {})
 

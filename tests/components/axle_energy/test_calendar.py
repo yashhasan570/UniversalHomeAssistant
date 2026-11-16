@@ -1,4 +1,4 @@
-"""Test the grid event calendar through __HA_KEEP__."""
+"""Test the grid event calendar through Universal Home Assistant."""
 
 from dataclasses import replace
 from datetime import timedelta
@@ -31,7 +31,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, ServiceResponse
+from universalassistant.core import UniversalAssistant, ServiceResponse
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -43,7 +43,7 @@ EVENT = {
 }
 
 
-async def setup(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+async def setup(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     """Load the integration and its platforms."""
     entry.add_to_hass(hass)
     assert await hass.config_entries.async_setup(entry.entry_id)
@@ -51,7 +51,7 @@ async def setup(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
 
 
 async def get_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     start: str = "2026-09-11T16:00:00Z",
     end: str = "2026-09-11T19:00:00Z",
 ) -> ServiceResponse:
@@ -73,7 +73,7 @@ async def get_events(
 
 @pytest.mark.freeze_time("2026-09-11T16:59:00Z")
 async def test_calendar_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -120,7 +120,7 @@ async def test_calendar_snapshot(
     ],
 )
 async def test_current_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_event: GridEvent,
@@ -179,7 +179,7 @@ async def test_current_event(
     ],
 )
 async def test_calendar_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     start: str,
@@ -195,7 +195,7 @@ async def test_calendar_events(
 
 @pytest.mark.freeze_time("2026-09-11T16:59:00Z")
 async def test_empty_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -219,7 +219,7 @@ async def test_empty_range(
     ],
 )
 async def test_empty_schedule(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     opted_out: bool | None,
@@ -233,7 +233,7 @@ async def test_empty_schedule(
 
 @pytest.mark.freeze_time("2026-09-11T16:59:00Z")
 async def test_opted_out(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_event: GridEvent,
@@ -248,7 +248,7 @@ async def test_opted_out(
 
 @pytest.mark.freeze_time("2026-09-11T16:59:00Z")
 async def test_failure_and_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     hass_client: ClientSessionGenerator,
@@ -279,7 +279,7 @@ async def test_failure_and_recovery(
 
 @pytest.mark.freeze_time("2026-09-11T16:59:00Z")
 async def test_boundaries_and_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_event: GridEvent,
@@ -314,7 +314,7 @@ async def test_boundaries_and_unload(
 
 @pytest.mark.freeze_time("2026-09-11T16:59:00Z")
 async def test_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -336,7 +336,7 @@ async def test_reload(
     ],
 )
 async def test_calendar_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_event: GridEvent,
@@ -394,7 +394,7 @@ async def test_calendar_trigger(
     ],
 )
 async def test_end_trigger_at_scan_boundary(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_event: GridEvent,

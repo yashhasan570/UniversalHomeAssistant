@@ -11,7 +11,7 @@ from victron_vrm.models import Site
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.selector import (
     SelectOptionDict,
@@ -29,15 +29,15 @@ STEP_USER_DATA_SCHEMA = probatio.Schema(
 )
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(__HAC_KEEP__Error):
+class InvalidAuth(UniversalAssistantError):
     """Error to indicate there is invalid auth."""
 
 
-class SiteNotFound(__HAC_KEEP__Error):
+class SiteNotFound(UniversalAssistantError):
     """Error to indicate the site was not found."""
 
 

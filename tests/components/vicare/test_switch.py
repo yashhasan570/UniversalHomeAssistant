@@ -12,7 +12,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -27,7 +27,7 @@ VENTILATION_FIXTURES: list[Fixture] = [
 
 
 async def setup_switch_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vicare: MockPyViCare,
 ) -> None:
@@ -44,7 +44,7 @@ async def setup_switch_platform(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -58,7 +58,7 @@ async def test_all_entities(
 
 
 async def test_switch_created_per_available_quickmode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that only quickmodes that can be switched get an entity."""
@@ -77,7 +77,7 @@ async def test_switch_created_per_available_quickmode(
 
 
 async def test_switch_state_follows_quickmode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that an active quickmode is reported as on."""
@@ -91,7 +91,7 @@ async def test_switch_state_follows_quickmode(
 
 
 async def test_turn_on_activates_quickmode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that turning the switch on activates the quickmode."""
@@ -112,7 +112,7 @@ async def test_turn_on_activates_quickmode(
 
 
 async def test_turn_off_deactivates_quickmode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that turning the switch off deactivates the quickmode."""
@@ -133,7 +133,7 @@ async def test_turn_off_deactivates_quickmode(
 
 
 async def test_no_switch_for_non_ventilation_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that a device without ventilation does not get quickmode switches."""
@@ -147,7 +147,7 @@ async def test_no_switch_for_non_ventilation_device(
 
 
 async def test_turn_on_error_is_raised(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that a failed activation is not swallowed."""
@@ -167,7 +167,7 @@ async def test_turn_on_error_is_raised(
 
 
 async def test_turn_on_refused_while_another_quickmode_runs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that the device refusing a second quickmode reads as a clear error."""

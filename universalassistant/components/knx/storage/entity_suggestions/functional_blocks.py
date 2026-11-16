@@ -25,7 +25,7 @@ from xknxproject.models import (
 )
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from ...dpt import HaDptClass, get_supported_dpts
 from ..const import CONF_DPT, CONF_GA_PASSIVE
@@ -520,7 +520,7 @@ class FunctionalBlockSuggestionProvider(SuggestionProvider):
 
     @override
     async def async_get_suggestions(
-        self, hass: __HAC_KEEP__, knx: KNXModule
+        self, hass: UniversalAssistant, knx: KNXModule
     ) -> ProviderResult:
         """Generate entity suggestions from project data."""
         project = await knx.project.get_knxproject()

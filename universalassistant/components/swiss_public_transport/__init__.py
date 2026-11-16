@@ -9,7 +9,7 @@ from opendata_transport.exceptions import (
 )
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -25,6 +25,7 @@ from .const import (
     CONF_TIME_FIXED,
     CONF_TIME_OFFSET,
     CONF_TIME_STATION,
+    CONF_TRANSPORTATIONS,
     CONF_VIA,
     DEFAULT_TIME_STATION,
     DOMAIN,
@@ -45,14 +46,14 @@ PLATFORMS: list[Platform] = [Platform.SENSOR]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Swiss public transport component."""
     async_setup_services(hass)
     return True
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: SwissPublicTransportConfigEntry
+    hass: UniversalAssistant, entry: SwissPublicTransportConfigEntry
 ) -> None:
     """Set up Swiss public transport from a config entry."""
     config = entry.data
@@ -70,6 +71,7 @@ async def async_setup_entry(
         via=config.get(CONF_VIA),
         time=config.get(CONF_TIME_FIXED),
         isArrivalTime=config.get(CONF_TIME_STATION, DEFAULT_TIME_STATION) == "arrival",
+        transportations=config.get(CONF_TRANSPORTATIONS),
     )
     if time_offset:
         offset_opendata(opendata, time_offset)
@@ -106,14 +108,14 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: SwissPublicTransportConfigEntry
+    hass: UniversalAssistant, entry: SwissPublicTransportConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, config_entry: SwissPublicTransportConfigEntry
+    hass: UniversalAssistant, config_entry: SwissPublicTransportConfigEntry
 ) -> None:
     """Migrate config entry."""
     _LOGGER.debug("Migrating from version %s", config_entry.version)

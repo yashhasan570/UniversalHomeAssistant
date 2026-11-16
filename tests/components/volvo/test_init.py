@@ -14,7 +14,7 @@ from volvocarsapi.models import VolvoAuthException
 from universalassistant.components.volvo.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
 )
@@ -25,7 +25,7 @@ from .const import MOCK_ACCESS_TOKEN, SERVER_TOKEN_RESPONSE
 
 @pytest.mark.usefixtures("mock_api")
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     setup_integration: Callable[[], Awaitable[bool]],
 ) -> None:
@@ -91,7 +91,7 @@ async def test_token_refresh_fail(
     ],
 )
 async def test_token_refresh_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     setup_integration: Callable[[], Awaitable[bool]],
@@ -137,7 +137,7 @@ async def test_vehicle_auth_failure(
 
 
 async def test_oauth_implementation_not_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""

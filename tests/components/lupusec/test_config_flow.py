@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 MOCK_DATA_STEP = {
@@ -39,7 +39,7 @@ MOCK_IMPORT_STEP_NAME = {
 }
 
 
-async def test_form_valid_input(hass: __HAC_KEEP__) -> None:
+async def test_form_valid_input(hass: UniversalAssistant) -> None:
     """Test handling valid user input."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -78,7 +78,7 @@ async def test_form_valid_input(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_flow_user_init_data_error_and_recover(
-    hass: __HAC_KEEP__, raise_error, text_error
+    hass: UniversalAssistant, raise_error, text_error
 ) -> None:
     """Test exceptions and recovery."""
     result = await hass.config_entries.flow.async_init(
@@ -126,7 +126,7 @@ async def test_flow_user_init_data_error_and_recover(
     assert len(mock_initialize_lupusec.mock_calls) == 1
 
 
-async def test_flow_user_init_data_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_init_data_already_configured(hass: UniversalAssistant) -> None:
     """Test duplicate config entry.."""
 
     entry = MockConfigEntry(

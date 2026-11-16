@@ -10,8 +10,8 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.pushover import DOMAIN
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 
 from . import MOCK_CONFIG
 
@@ -58,7 +58,7 @@ def mock_cancel_receipt():
 
 
 async def test_send_message(
-    hass: __HAC_KEEP__, mock_pushover: MagicMock, mock_send_message: MagicMock
+    hass: UniversalAssistant, mock_pushover: MagicMock, mock_send_message: MagicMock
 ) -> None:
     """Test sending a message."""
     entry = MockConfigEntry(
@@ -81,7 +81,7 @@ async def test_send_message(
         user="MYUSERKEY",
         message="Hello TTL",
         device="",
-        title="__HA_KEEP__",
+        title="Universal Home Assistant",
         url=None,
         url_title=None,
         image=None,
@@ -98,7 +98,7 @@ async def test_send_message(
 
 @pytest.mark.usefixtures("mock_pushover")
 async def test_send_message_attachment_not_allowed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_send_message: MagicMock,
 ) -> None:
     """Test that an attachment outside the allowed paths raises and sends nothing."""
@@ -138,7 +138,7 @@ async def test_send_message_attachment_not_allowed(
     ],
 )
 async def test_send_message_attachment_read_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_send_message: MagicMock,
     error_no: int,
     translation_key: str,
@@ -157,7 +157,7 @@ async def test_send_message_attachment_read_error(
             "universalassistant.components.pushover.notify.open",
             side_effect=OSError(error_no, os.strerror(error_no)),
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             "notify",
@@ -174,7 +174,7 @@ async def test_send_message_attachment_read_error(
 
 @pytest.mark.usefixtures("mock_pushover")
 async def test_send_message_with_attachment(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_send_message: MagicMock,
     tmp_path: Path,
 ) -> None:
@@ -205,7 +205,7 @@ async def test_send_message_with_attachment(
 
 
 async def test_cancel_by_tag(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pushover: MagicMock,
     mock_send_message_prio2: MagicMock,
     mock_cancel_receipt: MagicMock,
@@ -238,7 +238,7 @@ async def test_cancel_by_tag(
 
 
 async def test_cancel_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pushover: MagicMock,
     mock_send_message_prio2: MagicMock,
     mock_cancel_receipt: MagicMock,
@@ -268,7 +268,7 @@ async def test_cancel_all(
 
 
 async def test_cancel_multiple_receipts_same_tag(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pushover: MagicMock,
     mock_cancel_receipt: MagicMock,
 ) -> None:
@@ -335,7 +335,7 @@ async def test_cancel_multiple_receipts_same_tag(
 )
 @pytest.mark.usefixtures("mock_pushover")
 async def test_cancel_invalid_entry_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     other_entry_domain: str,
     entry_id: str,
     translation_key: str,
@@ -357,7 +357,7 @@ async def test_cancel_invalid_entry_id(
 
 
 async def test_cancel_empty_receipt_tags(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pushover: MagicMock,
     mock_send_message: MagicMock,
     mock_cancel_receipt: MagicMock,
@@ -379,7 +379,7 @@ async def test_cancel_empty_receipt_tags(
 
 
 async def test_cancel_tag_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pushover: MagicMock,
     mock_send_message_prio2: MagicMock,
     mock_cancel_receipt: MagicMock,
@@ -411,7 +411,7 @@ async def test_cancel_tag_not_found(
 
 
 async def test_cancel_receipt_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pushover: MagicMock,
     mock_send_message_prio2: MagicMock,
     mock_cancel_receipt: MagicMock,

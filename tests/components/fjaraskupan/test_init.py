@@ -10,7 +10,7 @@ from pytest_universalassistant.components.bluetooth import (
 from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.components.fjaraskupan.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -37,7 +37,7 @@ MOCK_SERVICE_INFO = BluetoothServiceInfo(
 
 
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test setup creates expected device."""
@@ -77,7 +77,7 @@ async def test_setup(
 
 
 async def test_setup_ignore_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test setup does not create a device before we see service."""
@@ -101,7 +101,7 @@ async def test_setup_ignore_device(
 
 
 async def test_remove_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:

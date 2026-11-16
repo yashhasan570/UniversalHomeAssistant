@@ -9,8 +9,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_with_selected_platforms
@@ -20,7 +20,7 @@ ENTITY_ID = "switch.device_name_electric_heater"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_flexit_bacnet: AsyncMock,
@@ -34,7 +34,7 @@ async def test_switches(
 
 
 async def test_switches_implementation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_flexit_bacnet: AsyncMock,
@@ -76,7 +76,7 @@ async def test_switches_implementation(
     # Error recovery, when turning off
     mock_flexit_bacnet.disable_electric_heater.side_effect = DecodingError
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
@@ -102,7 +102,7 @@ async def test_switches_implementation(
     # Error recovery, when turning on
     mock_flexit_bacnet.enable_electric_heater.side_effect = DecodingError
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,

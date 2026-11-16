@@ -19,8 +19,8 @@ from universalassistant.components.climate import (
 )
 from universalassistant.components.tessie.const import TessieClimateKeeper
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -46,7 +46,7 @@ def cop_entity_id(entity_registry: er.EntityRegistry) -> str:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_climate(
-    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, snapshot: SnapshotAssertion, entity_registry: er.EntityRegistry
 ) -> None:
     """Tests that the climate entity is correct."""
 
@@ -130,7 +130,7 @@ async def test_climate(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_climate_cop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test cabin overheat protection climate mode controls."""
@@ -203,7 +203,7 @@ async def test_climate_cop(
     assert state.state == HVACMode.OFF
 
 
-async def test_errors(hass: __HAC_KEEP__) -> None:
+async def test_errors(hass: UniversalAssistant) -> None:
     """Tests errors are handled."""
 
     await setup_platform(hass, [Platform.CLIMATE])
@@ -215,7 +215,7 @@ async def test_errors(hass: __HAC_KEEP__) -> None:
             "universalassistant.components.tessie.climate.stop_climate",
             side_effect=ERROR_UNKNOWN,
         ) as mock_set,
-        pytest.raises(__HAC_KEEP__Error) as error,
+        pytest.raises(UniversalAssistantError) as error,
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
@@ -234,7 +234,7 @@ async def test_errors(hass: __HAC_KEEP__) -> None:
             "universalassistant.components.tessie.climate.stop_climate",
             side_effect=ERROR_CONNECTION,
         ) as mock_set,
-        pytest.raises(__HAC_KEEP__Error) as error,
+        pytest.raises(UniversalAssistantError) as error,
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
@@ -253,7 +253,7 @@ async def test_errors(hass: __HAC_KEEP__) -> None:
             "universalassistant.components.tessie.climate.start_climate_preconditioning",
             return_value={"result": False, "reason": "cpd_enabled"},
         ) as mock_set,
-        pytest.raises(__HAC_KEEP__Error) as error,
+        pytest.raises(UniversalAssistantError) as error,
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
@@ -268,7 +268,7 @@ async def test_errors(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_climate_cop_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test cabin overheat protection command errors are handled."""
@@ -281,7 +281,7 @@ async def test_climate_cop_errors(
             "universalassistant.components.tessie.climate.stop_cabin_overheat_protection",
             side_effect=ERROR_UNKNOWN,
         ) as mock_set,
-        pytest.raises(__HAC_KEEP__Error) as error,
+        pytest.raises(UniversalAssistantError) as error,
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
@@ -297,7 +297,7 @@ async def test_climate_cop_errors(
             "universalassistant.components.tessie.climate.start_cabin_overheat_protection",
             return_value=TEST_RESPONSE_ERROR,
         ) as mock_set,
-        pytest.raises(__HAC_KEEP__Error) as error,
+        pytest.raises(UniversalAssistantError) as error,
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,

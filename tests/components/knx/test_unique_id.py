@@ -10,7 +10,7 @@ from universalassistant.components.knx.const import DOMAIN, KNX_ADDRESS
 from universalassistant.components.knx.entity import build_yaml_unique_id
 from universalassistant.components.knx.schema import LightSchema, SwitchSchema
 from universalassistant.const import CONF_NAME, CONF_UNIQUE_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import KNXTestKit
@@ -51,7 +51,7 @@ def test_build_yaml_unique_id_parts(monkeypatch: pytest.MonkeyPatch) -> None:
 
 @pytest.mark.usefixtures("two_level_address_format")
 async def test_yaml_unique_id_stable_with_two_level_style(
-    hass: __HAC_KEEP__, knx: KNXTestKit, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, knx: KNXTestKit, entity_registry: er.EntityRegistry
 ) -> None:
     """A 2-level style install still gets the LONG unique_id, not the 2-level string."""
     await knx.setup_integration(
@@ -64,7 +64,7 @@ async def test_yaml_unique_id_stable_with_two_level_style(
 
 @pytest.mark.usefixtures("two_level_address_format")
 async def test_yaml_unique_id_migration(
-    hass: __HAC_KEEP__, knx: KNXTestKit, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, knx: KNXTestKit, entity_registry: er.EntityRegistry
 ) -> None:
     """A legacy (2-level) unique_id is migrated to the stable LONG form."""
     legacy_unique_id = "1/515"
@@ -90,7 +90,7 @@ async def test_yaml_unique_id_migration(
 
 @pytest.mark.usefixtures("two_level_address_format")
 async def test_yaml_unique_id_migration_collision(
-    hass: __HAC_KEEP__, knx: KNXTestKit, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, knx: KNXTestKit, entity_registry: er.EntityRegistry
 ) -> None:
     """A stale legacy entry is removed when the stable unique_id already exists."""
     legacy_unique_id = "1/515"
@@ -120,7 +120,7 @@ async def test_yaml_unique_id_migration_collision(
 
 
 async def test_yaml_user_unique_id(
-    hass: __HAC_KEEP__, knx: KNXTestKit, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, knx: KNXTestKit, entity_registry: er.EntityRegistry
 ) -> None:
     """A user-defined unique_id is used verbatim instead of the derived one."""
     await knx.setup_integration(
@@ -138,7 +138,7 @@ async def test_yaml_user_unique_id(
 
 
 async def test_yaml_user_unique_id_migration(
-    hass: __HAC_KEEP__, knx: KNXTestKit, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, knx: KNXTestKit, entity_registry: er.EntityRegistry
 ) -> None:
     """Adding a user-defined unique_id migrates the auto-generated entity to it."""
     auto_unique_id = "1/2/3"
@@ -170,7 +170,7 @@ async def test_yaml_user_unique_id_migration(
 
 @pytest.mark.usefixtures("two_level_address_format")
 async def test_yaml_user_unique_id_migration_from_legacy(
-    hass: __HAC_KEEP__, knx: KNXTestKit, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, knx: KNXTestKit, entity_registry: er.EntityRegistry
 ) -> None:
     """A user-defined unique_id migrates even from the legacy (2-level) id."""
     legacy_unique_id = "1/515"
@@ -202,7 +202,7 @@ async def test_yaml_user_unique_id_migration_from_legacy(
 
 
 async def test_yaml_user_unique_id_shared_across_platforms(
-    hass: __HAC_KEEP__, knx: KNXTestKit, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, knx: KNXTestKit, entity_registry: er.EntityRegistry
 ) -> None:
     """The same user unique_id is allowed on entities of different platforms."""
     await knx.setup_integration(
@@ -226,7 +226,7 @@ async def test_yaml_user_unique_id_shared_across_platforms(
 
 
 async def test_yaml_duplicate_user_unique_id_invalid(
-    hass: __HAC_KEEP__, knx: KNXTestKit, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, knx: KNXTestKit, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Two entities of the same platform must not share a user unique_id."""
     await knx.setup_integration(
@@ -242,7 +242,7 @@ async def test_yaml_duplicate_user_unique_id_invalid(
 
 
 async def test_yaml_user_unique_id_collision_keeps_generated_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,

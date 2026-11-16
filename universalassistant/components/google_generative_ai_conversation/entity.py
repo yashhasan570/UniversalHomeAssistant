@@ -37,8 +37,8 @@ import probatio
 
 from universalassistant.components import conversation
 from universalassistant.config_entries import ConfigSubentry
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, llm
 from universalassistant.helpers.entity import Entity
 
@@ -544,7 +544,7 @@ async def _transform_stream(
                     if response.prompt_feedback
                     else "unknown"
                 )
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     "The message got blocked due to content"
                     f" violations, reason: {reason}"
                 )
@@ -561,7 +561,7 @@ async def _transform_stream(
                     "Error in Google Generative AI response: %s, see: https://ai.google.dev/api/generate-content#FinishReason",
                     candidate.finish_reason,
                 )
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     f"{ERROR_GETTING_RESPONSE} Reason: {candidate.finish_reason}"
                 )
 
@@ -638,7 +638,7 @@ async def _transform_stream(
         else:
             message = type(err).__name__
         error = f"{ERROR_GETTING_RESPONSE}: {message}"
-        raise __HAC_KEEP__Error(error) from err
+        raise UniversalAssistantError(error) from err
 
 
 class GoogleGenerativeAILLMBaseEntity(Entity):
@@ -706,7 +706,7 @@ class GoogleGenerativeAILLMBaseEntity(Entity):
         if prompt_content.content:
             prompt = prompt_content.content
         else:
-            raise __HAC_KEEP__Error("Invalid prompt content")
+            raise UniversalAssistantError("Invalid prompt content")
 
         messages: list[Content | ContentDict] = []
 
@@ -802,7 +802,7 @@ class GoogleGenerativeAILLMBaseEntity(Entity):
                 # pylint: disable-next=universal-assistant-log-and-raise
                 LOGGER.error("Error sending message: %s %s", type(err), err)
                 error = ERROR_GETTING_RESPONSE
-                raise __HAC_KEEP__Error(error) from err
+                raise UniversalAssistantError(error) from err
 
             chat_request = list(
                 _create_google_tool_response_parts(
@@ -876,7 +876,7 @@ class GoogleGenerativeAILLMBaseEntity(Entity):
 
 
 async def async_prepare_files_for_prompt(
-    hass: __HAC_KEEP__, client: Client, files: list[tuple[Path, str | None]]
+    hass: UniversalAssistant, client: Client, files: list[tuple[Path, str | None]]
 ) -> list[File]:
     """Upload files so they can be attached to a prompt.
 
@@ -887,7 +887,7 @@ async def async_prepare_files_for_prompt(
         prompt_parts: list[File] = []
         for filename, mimetype in files:
             if not filename.exists():
-                raise __HAC_KEEP__Error(f"`{filename}` does not exist")
+                raise UniversalAssistantError(f"`{filename}` does not exist")
             if mimetype is None:
                 mimetype = mimetypes.guess_type(filename)[0]
             prompt_parts.append(
@@ -924,7 +924,7 @@ async def async_prepare_files_for_prompt(
             )
 
         if uploaded_file.state == FileState.FAILED:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"File `{uploaded_file.name}` processing"
                 " failed, reason:"
                 f" {uploaded_file.error.message if uploaded_file.error else 'unknown'}"

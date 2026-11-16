@@ -15,7 +15,7 @@ from universalassistant.components.forked_daapd.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF, ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -54,7 +54,7 @@ def config_entry_fixture():
     )
 
 
-async def test_show_form(hass: __HAC_KEEP__) -> None:
+async def test_show_form(hass: UniversalAssistant) -> None:
     """Test that the form is served with no input."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -64,7 +64,7 @@ async def test_show_form(hass: __HAC_KEEP__) -> None:
     assert result["step_id"] == "user"
 
 
-async def test_config_flow(hass: __HAC_KEEP__) -> None:
+async def test_config_flow(hass: UniversalAssistant) -> None:
     """Test that the user step works."""
     with (
         patch(
@@ -110,7 +110,7 @@ async def test_config_flow(hass: __HAC_KEEP__) -> None:
 
 
 async def test_config_flow_already_configured(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test that the user step aborts if already configured."""
     config_entry.add_to_hass(hass)
@@ -137,7 +137,7 @@ async def test_config_flow_already_configured(
 
 
 async def test_zeroconf_updates_title(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test that zeroconf updates title and aborts with same host."""
     MockConfigEntry(domain=DOMAIN, data={CONF_HOST: "different host"}).add_to_hass(hass)
@@ -161,7 +161,7 @@ async def test_zeroconf_updates_title(
     assert len(hass.config_entries.async_entries(DOMAIN)) == 2
 
 
-async def test_config_flow_no_websocket(hass: __HAC_KEEP__) -> None:
+async def test_config_flow_no_websocket(hass: UniversalAssistant) -> None:
     """Test config flow setup without websocket enabled on server."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -214,7 +214,7 @@ async def test_config_flow_no_websocket(hass: __HAC_KEEP__) -> None:
         }
 
 
-async def test_config_flow_zeroconf_invalid(hass: __HAC_KEEP__) -> None:
+async def test_config_flow_zeroconf_invalid(hass: UniversalAssistant) -> None:
     """Test that an invalid zeroconf entry doesn't work."""
     # test with no discovery properties
     discovery_info = ZeroconfServiceInfo(
@@ -278,7 +278,7 @@ async def test_config_flow_zeroconf_invalid(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "not_forked_daapd"
 
 
-async def test_config_flow_zeroconf_valid(hass: __HAC_KEEP__) -> None:
+async def test_config_flow_zeroconf_valid(hass: UniversalAssistant) -> None:
     """Test that a valid zeroconf entry works."""
     discovery_info = ZeroconfServiceInfo(
         ip_address=ip_address("192.168.1.1"),
@@ -299,7 +299,7 @@ async def test_config_flow_zeroconf_valid(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.FORM
 
 
-async def test_options_flow(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def test_options_flow(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Test config flow options."""
 
     with (
@@ -333,7 +333,7 @@ async def test_options_flow(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -
 
 
 async def test_async_setup_entry_not_ready(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, config_entry: MockConfigEntry, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that a PlatformNotReady exception is thrown during platform setup."""
 

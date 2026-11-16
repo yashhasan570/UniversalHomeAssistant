@@ -1,4 +1,4 @@
-"""API for Google Drive bound to __HA_KEEP__ OAuth."""
+"""API for Google Drive bound to Universal Home Assistant OAuth."""
 
 from collections.abc import AsyncIterator, Callable, Coroutine
 from dataclasses import dataclass
@@ -168,7 +168,7 @@ class DriveClient:
         )
 
     async def async_create_ha_root_folder_if_not_exists(self) -> tuple[str, str]:
-        """Create __HA_KEEP__ folder if it doesn't exist."""
+        """Create Universal Home Assistant folder if it doesn't exist."""
         fields = "id,name"
         query = " and ".join(
             [
@@ -186,7 +186,7 @@ class DriveClient:
             return str(file["id"]), str(file["name"])
 
         file_metadata = {
-            "name": "__HA_KEEP__",
+            "name": "Universal Home Assistant",
             "mimeType": "application/vnd.google-apps.folder",
             "properties": {
                 "universal_assistant": "root",
@@ -234,7 +234,7 @@ class DriveClient:
         )
 
     def _backup_query(self, *extra: str) -> str:
-        """Return a query matching the backups of this __HA_KEEP__ instance."""
+        """Return a query matching the backups of this Universal Home Assistant instance."""
         return " and ".join(
             [
                 "properties has { key='universal_assistant' and value='backup' }",

@@ -22,7 +22,7 @@ from universalassistant.const import (
     UnitOfTime,
     UnitOfVolume,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_SENSOR_INDICES
@@ -151,7 +151,7 @@ SENSOR_DESCRIPTIONS = [
         value_fn=lambda sensor: sensor.uptime,
     ),
     PurpleAirSensorEntityDescription(
-        # This sensor is an air quality index for VOCs. More info at https://github.com/yashhasan570/__HAC_KEEP__/pull/84896
+        # This sensor is an air quality index for VOCs. More info at https://github.com/yashhasan570/UniversalUniversalAssistant/pull/84896
         key="voc",
         translation_key="voc_aqi",
         device_class=SensorDeviceClass.AQI,
@@ -162,7 +162,7 @@ SENSOR_DESCRIPTIONS = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: PurpleAirConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

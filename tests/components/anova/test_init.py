@@ -8,12 +8,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.anova.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_DEVICES, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import async_init_integration, create_entry
 
 
-async def test_async_setup_entry(hass: __HAC_KEEP__, anova_api: AnovaApi) -> None:
+async def test_async_setup_entry(hass: UniversalAssistant, anova_api: AnovaApi) -> None:
     """Test a successful setup entry."""
     await async_init_integration(hass)
     state = hass.states.get("sensor.anova_precision_cooker_mode")
@@ -22,7 +22,7 @@ async def test_async_setup_entry(hass: __HAC_KEEP__, anova_api: AnovaApi) -> Non
 
 
 async def test_wrong_login(
-    hass: __HAC_KEEP__, anova_api_wrong_login: AnovaApi
+    hass: UniversalAssistant, anova_api_wrong_login: AnovaApi
 ) -> None:
     """Test for setup failure if connection to Anova is missing."""
     entry = create_entry(hass)
@@ -30,7 +30,7 @@ async def test_wrong_login(
     assert entry.state is ConfigEntryState.SETUP_ERROR
 
 
-async def test_unload_entry(hass: __HAC_KEEP__, anova_api: AnovaApi) -> None:
+async def test_unload_entry(hass: UniversalAssistant, anova_api: AnovaApi) -> None:
     """Test successful unload of entry."""
     entry = await async_init_integration(hass)
 
@@ -44,7 +44,7 @@ async def test_unload_entry(hass: __HAC_KEEP__, anova_api: AnovaApi) -> None:
 
 
 async def test_no_devices_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     anova_api_no_devices: AnovaApi,
 ) -> None:
     """Test when there don't seem to be any devices on the account."""
@@ -53,7 +53,7 @@ async def test_no_devices_found(
 
 
 async def test_websocket_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     anova_api_websocket_failure: AnovaApi,
 ) -> None:
     """Test that we successfully handle a websocket failure on setup."""
@@ -62,7 +62,7 @@ async def test_websocket_failure(
 
 
 async def test_migration_removing_devices_in_config_entry(
-    hass: __HAC_KEEP__, anova_api: AnovaApi
+    hass: UniversalAssistant, anova_api: AnovaApi
 ) -> None:
     """Test a successful setup entry."""
     entry = MockConfigEntry(

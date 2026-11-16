@@ -29,8 +29,8 @@ from universalassistant.components.eheimdigital.const import (
     HEATER_SMART_MODE,
 )
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import init_integration
@@ -38,7 +38,7 @@ from .conftest import init_integration
 
 @pytest.mark.usefixtures("heater_mock")
 async def test_setup_heater(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     eheimdigital_hub_mock: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -65,7 +65,7 @@ async def test_setup_heater(
 
 
 async def test_dynamic_new_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     eheimdigital_hub_mock: MagicMock,
     heater_mock: EheimDigitalHeater,
     entity_registry: er.EntityRegistry,
@@ -114,7 +114,7 @@ async def test_dynamic_new_devices(
     ],
 )
 async def test_set_preset_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     eheimdigital_hub_mock: MagicMock,
     heater_mock: EheimDigitalHeater,
     mock_config_entry: MockConfigEntry,
@@ -131,7 +131,7 @@ async def test_set_preset_mode(
 
     heater_mock.hub.send_packet.side_effect = EheimDigitalClientError
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -159,7 +159,7 @@ async def test_set_preset_mode(
 
 
 async def test_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     eheimdigital_hub_mock: MagicMock,
     heater_mock: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -174,7 +174,7 @@ async def test_set_temperature(
 
     heater_mock.hub.send_packet.side_effect = EheimDigitalClientError
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -202,7 +202,7 @@ async def test_set_temperature(
     ("hvac_mode", "active"), [(HVACMode.AUTO, True), (HVACMode.OFF, False)]
 )
 async def test_set_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     eheimdigital_hub_mock: MagicMock,
     heater_mock: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -219,7 +219,7 @@ async def test_set_hvac_mode(
 
     heater_mock.hub.send_packet.side_effect = EheimDigitalClientError
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_HVAC_MODE,
@@ -247,7 +247,7 @@ async def test_set_hvac_mode(
 
 
 async def test_state_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     eheimdigital_hub_mock: MagicMock,
     mock_config_entry: MockConfigEntry,
     heater_mock: EheimDigitalHeater,

@@ -15,7 +15,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntityDescription,
 )
 from universalassistant.const import STATE_OFF, STATE_ON, EntityCategory, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
 from universalassistant.helpers.typing import StateType
@@ -647,7 +647,7 @@ ENERGY_LOCAL_STATUS_DESCRIPTIONS: tuple[
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: TeslemetryConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -903,7 +903,7 @@ class TeslemetryVehicleBluetoothPresenceBinarySensorEntity(
 class TeslemetryVehicleBluetoothSessionBinarySensorEntity(
     TeslemetryVehicleBluetoothBinarySensorEntity
 ):
-    """Binary sensor for __HA_KEEP__'s own Bluetooth link to a vehicle."""
+    """Binary sensor for Universal Home Assistant's own Bluetooth link to a vehicle."""
 
     # Links are opened per command and never kept alive, so there is no session
     # until the library reports one.

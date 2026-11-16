@@ -11,8 +11,8 @@
     },
     "step": {
       "hassio_confirm": {
-        "description": "Do you want to configure __HA_KEEP__ to connect to the motionEye service provided by the app: {addon}?",
-        "title": "motionEye via __HA_KEEP__ app"
+        "description": "Do you want to configure Universal Home Assistant to connect to the motionEye service provided by the app: {addon}?",
+        "title": "motionEye via Universal Home Assistant app"
       },
       "user": {
         "data": {
@@ -56,7 +56,7 @@
     "step": {
       "init": {
         "data": {
-          "webhook_set": "Configure motionEye webhooks to report events to __HA_KEEP__",
+          "webhook_set": "Configure motionEye webhooks to report events to Universal Home Assistant",
           "webhook_set_overwrite": "Overwrite unrecognized webhooks"
         },
         "sections": {

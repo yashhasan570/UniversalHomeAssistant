@@ -27,7 +27,7 @@ from universalassistant.const import (
     UnitOfPower,
     UnitOfTemperature,
 )
-from universalassistant.core import CALLBACK_TYPE, Event, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, Event, UniversalAssistant, callback
 from universalassistant.exceptions import PlatformNotReady
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import DeviceInfo
@@ -586,7 +586,7 @@ DATA_API_SENSORS: tuple[SensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: TibberConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -597,7 +597,7 @@ async def async_setup_entry(
 
 
 async def _async_setup_graphql_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: TibberConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -1004,7 +1004,7 @@ class TibberRtDataCoordinator(DataUpdateCoordinator[dict[str, Any]]):  # pylint:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: TibberConfigEntry,
         add_sensor_callback: Callable[[TibberRtDataCoordinator, Any], None],
         tibber_home: TibberHome,
@@ -1040,7 +1040,7 @@ class TibberRtDataCoordinator(DataUpdateCoordinator[dict[str, Any]]):  # pylint:
 
     @callback
     def _handle_ha_stop(self, _event: Event) -> None:
-        """Handle __HA_KEEP__ stopping."""
+        """Handle Universal Home Assistant stopping."""
         self._async_remove_stop_handler = None
         self._remove_listeners()
 

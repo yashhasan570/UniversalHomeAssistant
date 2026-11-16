@@ -18,7 +18,7 @@ import probatio
 
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 from universalassistant.helpers.typing import VolDictType
 
@@ -31,7 +31,7 @@ CONF_MFA_METHOD = "mfa_method"
 
 
 async def _validate_login(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     data: Mapping[str, Any],
 ) -> None:
     """Validate login data and raise exceptions on failure."""

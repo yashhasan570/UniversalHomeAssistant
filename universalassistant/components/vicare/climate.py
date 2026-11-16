@@ -24,7 +24,7 @@ from universalassistant.const import (
     PRECISION_WHOLE,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -90,7 +90,7 @@ def _build_entities(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ViCareConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -170,7 +170,7 @@ class ViCareClimate(ViCareEntity, ClimateEntity):
 
             with suppress(PyViCareNotSupportedFeatureError):
                 self._attr_native_target_temperature = (
-                    self._api.getCurrentDesiredTemperature()
+                    self._api.getActiveProgramTemperature()
                 )
 
             with suppress(PyViCareNotSupportedFeatureError):

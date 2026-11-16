@@ -7,7 +7,7 @@ from typing import override
 from aioaseko import Aseko, Unit
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import DOMAIN
@@ -23,7 +23,7 @@ class AsekoDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Unit]]):
     config_entry: AsekoConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: AsekoConfigEntry, aseko: Aseko
+        self, hass: UniversalAssistant, config_entry: AsekoConfigEntry, aseko: Aseko
     ) -> None:
         """Initialize global Aseko unit data updater."""
         self._aseko = aseko

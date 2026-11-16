@@ -34,7 +34,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 MOCK_CONFIG_V1 = {
@@ -85,7 +85,7 @@ MOCK_CONFIG_V3_1 = {
 
 
 async def test_setup_entry_with_default_ssl(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_airos_class: MagicMock,
     mock_airos_client: MagicMock,
@@ -112,7 +112,7 @@ async def test_setup_entry_with_default_ssl(
 
 
 async def test_setup_entry_without_ssl(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airos_class: MagicMock,
     mock_airos_client: MagicMock,
     mock_async_get_firmware_data: AsyncMock,
@@ -146,7 +146,7 @@ async def test_setup_entry_without_ssl(
 
 
 async def test_ssl_migrate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airos_client: MagicMock,
     mock_async_get_firmware_data: AsyncMock,
 ) -> None:
@@ -178,7 +178,7 @@ async def test_ssl_migrate_entry(
     ],
 )
 async def test_uid_migrate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     sensor_domain: str,
@@ -238,7 +238,7 @@ async def test_uid_migrate_entry(
 
 
 async def test_migrate_additional_settings(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airos_client: MagicMock,
     mock_async_get_firmware_data: AsyncMock,
 ) -> None:
@@ -264,7 +264,7 @@ async def test_migrate_additional_settings(
 
 
 async def test_migrate_future_return(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airos_client: MagicMock,
     mock_async_get_firmware_data: AsyncMock,
 ) -> None:
@@ -286,7 +286,7 @@ async def test_migrate_future_return(
 
 
 async def test_load_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_airos_client: MagicMock,
     mock_async_get_firmware_data: AsyncMock,
@@ -316,7 +316,7 @@ async def test_load_unload_entry(
     ],
 )
 async def test_setup_entry_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_airos_class: MagicMock,
     mock_airos_client: MagicMock,
@@ -343,7 +343,7 @@ async def test_fetch_airos_data_auth_error(mock_airos_client: MagicMock) -> None
 
 
 async def test_setup_entry_with_legacy_ssl(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airos_class: MagicMock,
     mock_airos_client: MagicMock,
     mock_async_get_firmware_data: AsyncMock,
@@ -403,7 +403,7 @@ async def test_setup_entry_with_legacy_ssl(
     ],
 )
 async def test_setup_entry_with_legacy_ssl_fails_firmware_detect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airos_class: MagicMock,
     mock_airos_client: MagicMock,
     mock_async_get_firmware_data: AsyncMock,
@@ -456,7 +456,7 @@ async def test_setup_entry_with_legacy_ssl_fails_firmware_detect(
     ],
 )
 async def test_setup_entry_with_legacy_ssl_fails_coordinator(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airos_class: MagicMock,
     mock_airos_client: MagicMock,
     mock_async_get_firmware_data: AsyncMock,

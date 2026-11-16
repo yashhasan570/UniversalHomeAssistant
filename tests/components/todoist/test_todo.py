@@ -25,7 +25,7 @@ from universalassistant.components.todoist.services import (
     TodoistServiceArgument,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_component import async_update_entity
 
 from .conftest import PROJECT_ID, make_api_due, make_api_response, make_api_task
@@ -38,7 +38,7 @@ def platforms() -> list[Platform]:
 
 
 @pytest.fixture(autouse=True)
-async def set_time_zone(hass: __HAC_KEEP__) -> None:
+async def set_time_zone(hass: UniversalAssistant) -> None:
     """Set the time zone for the tests that keesp UTC-6 all year round."""
     await hass.config.async_set_time_zone("America/Regina")
 
@@ -85,7 +85,7 @@ async def set_time_zone(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_todo_item_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: None,
     expected_state: str,
 ) -> None:
@@ -178,7 +178,7 @@ async def test_todo_item_state(
     ids=["summary", "due_date", "due_datetime", "description"],
 )
 async def test_add_todo_list_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: None,
     api: AsyncMock,
     item_data: dict[str, Any],
@@ -227,7 +227,7 @@ async def test_add_todo_list_item(
 @pytest.mark.parametrize("tasks", [[]])
 @pytest.mark.usefixtures("setup_integration")
 async def test_new_task_action_refreshes_todo_list(
-    hass: __HAC_KEEP__, api: AsyncMock
+    hass: UniversalAssistant, api: AsyncMock
 ) -> None:
     """Test the To-do list reflects a task created by the new_task action."""
     state = hass.states.get("todo.name")
@@ -260,7 +260,7 @@ async def test_new_task_action_refreshes_todo_list(
     ("tasks"), [[make_api_task(id="task-id-1", content="Soda", completed_at=None)]]
 )
 async def test_update_todo_item_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: None,
     api: AsyncMock,
 ) -> None:
@@ -519,7 +519,7 @@ async def test_update_todo_item_status(
     ],
 )
 async def test_update_todo_items(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: None,
     api: AsyncMock,
     update_data: dict[str, Any],
@@ -571,7 +571,7 @@ async def test_update_todo_items(
     ],
 )
 async def test_remove_todo_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: None,
     api: AsyncMock,
 ) -> None:
@@ -607,7 +607,7 @@ async def test_remove_todo_item(
     ("tasks"), [[make_api_task(id="task-id-1", content="Cheese", completed_at=None)]]
 )
 async def test_subscribe(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: None,
     api: AsyncMock,
     hass_ws_client: WebSocketGenerator,

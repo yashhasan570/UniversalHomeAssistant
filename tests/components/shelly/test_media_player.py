@@ -41,8 +41,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_registry import EntityRegistry
 
 from . import init_integration, patch_platforms
@@ -161,7 +161,7 @@ def fixture_platforms():
 
 
 async def test_rpc_media_player(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -191,7 +191,7 @@ async def test_rpc_media_player(
 
 
 async def test_rpc_media_player_audio_file(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -252,7 +252,7 @@ async def test_rpc_media_player_audio_file(
 
 
 async def test_rpc_media_player_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -319,7 +319,7 @@ async def test_rpc_media_player_actions(
 
 
 async def test_rpc_media_player_play_media_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -331,7 +331,7 @@ async def test_rpc_media_player_play_media_errors(
     await init_integration(hass, 2, model=MODEL_WALL_DISPLAY)
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="Unsupported media ID for Shelly device: invalid"
+        UniversalAssistantError, match="Unsupported media ID for Shelly device: invalid"
     ):
         await hass.services.async_call(
             MEDIA_PLAYER_DOMAIN,
@@ -345,7 +345,7 @@ async def test_rpc_media_player_play_media_errors(
         )
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="Unsupported media type for Shelly device: invalid"
+        UniversalAssistantError, match="Unsupported media type for Shelly device: invalid"
     ):
         await hass.services.async_call(
             MEDIA_PLAYER_DOMAIN,
@@ -360,7 +360,7 @@ async def test_rpc_media_player_play_media_errors(
 
 
 async def test_get_image_http(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     hass_client_no_auth: ClientSessionGenerator,
@@ -392,7 +392,7 @@ async def test_get_image_http(
     ],
 )
 async def test_get_image_http_stale_url_after_thumb_invalidated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     hass_client_no_auth: ClientSessionGenerator,
@@ -425,7 +425,7 @@ async def test_get_image_http_stale_url_after_thumb_invalidated(
 
 
 async def test_entity_picture_absent_base64_data_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     hass_client: ClientSessionGenerator,
@@ -454,7 +454,7 @@ async def test_entity_picture_absent_base64_data_invalid(
     ],
 )
 async def test_entity_picture_absent_thumb_string_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     hass_client: ClientSessionGenerator,
@@ -477,7 +477,7 @@ async def test_entity_picture_absent_thumb_string_invalid(
 
 
 async def test_entity_picture_absent_mime_type_not_allowed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     hass_client: ClientSessionGenerator,
@@ -499,7 +499,7 @@ async def test_entity_picture_absent_mime_type_not_allowed(
 
 
 async def test_rpc_media_player_browse_media_root(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     hass_ws_client: WebSocketGenerator,
@@ -537,7 +537,7 @@ async def test_rpc_media_player_browse_media_root(
 
 
 async def test_rpc_media_player_browse_media_radio_stations(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     hass_ws_client: WebSocketGenerator,
@@ -579,7 +579,7 @@ async def test_rpc_media_player_browse_media_radio_stations(
 
 
 async def test_rpc_media_player_browse_media_audio_files(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     hass_ws_client: WebSocketGenerator,
@@ -621,7 +621,7 @@ async def test_rpc_media_player_browse_media_audio_files(
 
 
 async def test_rpc_media_player_browse_media_unsupported_media_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     hass_ws_client: WebSocketGenerator,
@@ -674,7 +674,7 @@ async def test_rpc_media_player_browse_media_unsupported_media_type(
     ],
 )
 async def test_rpc_media_player_browse_media_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     hass_ws_client: WebSocketGenerator,
@@ -708,7 +708,7 @@ async def test_rpc_media_player_browse_media_errors(
 
 
 async def test_rpc_media_player_no_media_meta(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -732,7 +732,7 @@ async def test_rpc_media_player_no_media_meta(
 
 
 async def test_rpc_media_player_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:

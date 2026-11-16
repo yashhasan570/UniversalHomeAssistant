@@ -26,7 +26,7 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 ENTITY_DEHUMIDIFIER = "humidifier.dehumidifier"
@@ -45,7 +45,7 @@ async def humidifier_only() -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_demo_humidifier(hass: __HAC_KEEP__, humidifier_only: None):
+async def setup_demo_humidifier(hass: UniversalAssistant, humidifier_only: None):
     """Initialize setup demo humidifier."""
     assert await async_setup_component(
         hass, HUMIDITY_DOMAIN, {"humidifier": {"platform": "demo"}}
@@ -53,7 +53,7 @@ async def setup_demo_humidifier(hass: __HAC_KEEP__, humidifier_only: None):
     await hass.async_block_till_done()
 
 
-def test_setup_params(hass: __HAC_KEEP__) -> None:
+def test_setup_params(hass: UniversalAssistant) -> None:
     """Test the initial parameters."""
     state = hass.states.get(ENTITY_DEHUMIDIFIER)
     assert state.state == STATE_ON
@@ -62,14 +62,14 @@ def test_setup_params(hass: __HAC_KEEP__) -> None:
     assert state.attributes.get(ATTR_ACTION) == "drying"
 
 
-def test_default_setup_params(hass: __HAC_KEEP__) -> None:
+def test_default_setup_params(hass: UniversalAssistant) -> None:
     """Test the setup with default parameters."""
     state = hass.states.get(ENTITY_DEHUMIDIFIER)
     assert state.attributes.get(ATTR_MIN_HUMIDITY) == 0
     assert state.attributes.get(ATTR_MAX_HUMIDITY) == 100
 
 
-async def test_set_target_humidity_bad_attr(hass: __HAC_KEEP__) -> None:
+async def test_set_target_humidity_bad_attr(hass: UniversalAssistant) -> None:
     """Test setting the target humidity without required attribute."""
     state = hass.states.get(ENTITY_DEHUMIDIFIER)
     assert state.attributes.get(ATTR_HUMIDITY) == 54.2
@@ -87,7 +87,7 @@ async def test_set_target_humidity_bad_attr(hass: __HAC_KEEP__) -> None:
     assert state.attributes.get(ATTR_HUMIDITY) == 54.2
 
 
-async def test_set_target_humidity(hass: __HAC_KEEP__) -> None:
+async def test_set_target_humidity(hass: UniversalAssistant) -> None:
     """Test the setting of the target humidity."""
     state = hass.states.get(ENTITY_DEHUMIDIFIER)
     assert state.attributes.get(ATTR_HUMIDITY) == 54.2
@@ -104,7 +104,7 @@ async def test_set_target_humidity(hass: __HAC_KEEP__) -> None:
     assert state.attributes.get(ATTR_HUMIDITY) == 64
 
 
-async def test_set_hold_mode_away(hass: __HAC_KEEP__) -> None:
+async def test_set_hold_mode_away(hass: UniversalAssistant) -> None:
     """Test setting the hold mode away."""
     await hass.services.async_call(
         HUMIDITY_DOMAIN,
@@ -118,7 +118,7 @@ async def test_set_hold_mode_away(hass: __HAC_KEEP__) -> None:
     assert state.attributes.get(ATTR_MODE) == MODE_AWAY
 
 
-async def test_set_hold_mode_eco(hass: __HAC_KEEP__) -> None:
+async def test_set_hold_mode_eco(hass: UniversalAssistant) -> None:
     """Test setting the hold mode eco."""
     await hass.services.async_call(
         HUMIDITY_DOMAIN,
@@ -132,7 +132,7 @@ async def test_set_hold_mode_eco(hass: __HAC_KEEP__) -> None:
     assert state.attributes.get(ATTR_MODE) == "eco"
 
 
-async def test_turn_on(hass: __HAC_KEEP__) -> None:
+async def test_turn_on(hass: UniversalAssistant) -> None:
     """Test turn on device."""
     await hass.services.async_call(
         HUMIDITY_DOMAIN,
@@ -155,7 +155,7 @@ async def test_turn_on(hass: __HAC_KEEP__) -> None:
     assert state.attributes.get(ATTR_ACTION) == "drying"
 
 
-async def test_turn_off(hass: __HAC_KEEP__) -> None:
+async def test_turn_off(hass: UniversalAssistant) -> None:
     """Test turn off device."""
     await hass.services.async_call(
         HUMIDITY_DOMAIN,
@@ -178,7 +178,7 @@ async def test_turn_off(hass: __HAC_KEEP__) -> None:
     assert state.attributes.get(ATTR_ACTION) == "off"
 
 
-async def test_toggle(hass: __HAC_KEEP__) -> None:
+async def test_toggle(hass: UniversalAssistant) -> None:
     """Test toggle device."""
     await hass.services.async_call(
         HUMIDITY_DOMAIN,

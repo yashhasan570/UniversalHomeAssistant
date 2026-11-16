@@ -20,8 +20,8 @@ from universalassistant.components.water_heater import (
     STATE_OFF,
 )
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
@@ -34,7 +34,7 @@ HA_PLUGWISE_SMILE_ASYNC_UPDATE = (
 @pytest.mark.parametrize("platforms", [(WATER_HEATER_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_adam_water_heater_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
@@ -44,7 +44,7 @@ async def test_adam_water_heater_snapshot(
 
 
 async def test_adam_water_heater_setpoint_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_smile_adam_jip: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -65,7 +65,7 @@ async def test_adam_water_heater_setpoint_change(
         55.0,
     )
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             WATER_HEATER_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -77,7 +77,7 @@ async def test_adam_water_heater_setpoint_change(
         )
     assert mock_smile_adam_jip.set_number.call_count == 1
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             WATER_HEATER_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -96,7 +96,7 @@ async def test_adam_water_heater_setpoint_change(
 @pytest.mark.parametrize("platforms", [(WATER_HEATER_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_anna_water_heater_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
@@ -109,7 +109,7 @@ async def test_anna_water_heater_snapshot(
 @pytest.mark.parametrize("cooling_present", [False], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_anna_water_heater_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_smile_anna: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -146,7 +146,7 @@ async def test_anna_water_heater_states(
 
 
 async def test_adam_water_heater_active_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_smile_adam_jip: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -169,13 +169,13 @@ async def test_adam_water_heater_active_state(
 
 @pytest.mark.usefixtures("mock_smile_adam_jip")
 async def test_adam_water_heater_setpoint_error_uses_configured_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test out-of-range setpoint errors use the configured temperature unit."""
     hass.config.units = US_CUSTOMARY_SYSTEM
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             WATER_HEATER_DOMAIN,
             SERVICE_SET_TEMPERATURE,

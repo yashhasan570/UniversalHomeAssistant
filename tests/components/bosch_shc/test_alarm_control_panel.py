@@ -19,7 +19,7 @@ from universalassistant.const import (
     SERVICE_ALARM_DISARM,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import intrusion_system_device, setup_integration
@@ -89,7 +89,7 @@ def platforms() -> Generator[None]:
     ],
 )
 async def test_alarm_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
     kwargs: dict,
@@ -114,7 +114,7 @@ async def test_alarm_state(
     ],
 )
 async def test_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -133,7 +133,7 @@ async def test_services(
 
 
 async def test_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -147,7 +147,7 @@ async def test_unavailable(
 
 
 async def test_push_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -180,7 +180,7 @@ async def test_push_update(
     ],
 )
 async def test_entity_id_change_in_place(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,

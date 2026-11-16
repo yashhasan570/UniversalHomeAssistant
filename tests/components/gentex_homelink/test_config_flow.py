@@ -16,7 +16,7 @@ from universalassistant.components.gentex_homelink.const import (
     OAUTH2_TOKEN_URL,
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigFlowResult
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
@@ -29,7 +29,7 @@ from . import (
 
 
 async def complete_oauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     flow_id: str,
@@ -61,7 +61,7 @@ async def complete_oauth_flow(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_unique_configurations(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -131,7 +131,7 @@ async def test_unique_configurations(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -163,7 +163,7 @@ async def test_auth_error(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_authorize_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
     """Test rejecting account authorization."""
@@ -193,7 +193,7 @@ async def test_authorize_rejected(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_reauth_successful(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -214,7 +214,7 @@ async def test_reauth_successful(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -238,7 +238,7 @@ async def test_reauth_error(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_invalid_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:

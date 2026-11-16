@@ -2,12 +2,12 @@
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .mocks import _create_yale_api_with_devices, _mock_lock_from_fixture
 
 
-async def test_wake_lock(hass: __HAC_KEEP__) -> None:
+async def test_wake_lock(hass: UniversalAssistant) -> None:
     """Test creation of a lock and wake it."""
     lock_one = await _mock_lock_from_fixture(
         hass, "get_lock.online_with_doorsense.json"

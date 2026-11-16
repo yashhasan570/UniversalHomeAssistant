@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 import probatio
 
 from universalassistant.const import CONF_ID
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service import (
     ReloadServiceHelper,
@@ -64,7 +64,7 @@ def _reload_targets(service_call: ServiceCall) -> set[str | None]:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the services for the automation integration."""
     component = hass.data[DATA_COMPONENT]
     component.async_register_entity_service(

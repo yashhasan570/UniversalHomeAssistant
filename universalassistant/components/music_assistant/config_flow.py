@@ -26,7 +26,7 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
 )
 from universalassistant.const import CONF_TOKEN, CONF_URL
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.data_entry_flow import UnknownFlow
 from universalassistant.helpers import aiohttp_client, http
 from universalassistant.helpers.config_entry_oauth2_flow import (
@@ -84,13 +84,13 @@ def _parse_zeroconf_server_info(properties: dict[str, str]) -> ServerInfoMessage
     )
 
 
-async def _get_server_info(hass: __HAC_KEEP__, url: str) -> ServerInfoMessage:
+async def _get_server_info(hass: UniversalAssistant, url: str) -> ServerInfoMessage:
     """Get MA server info for the given URL."""
     session = aiohttp_client.async_get_clientsession(hass)
     return await get_server_info(server_url=url, aiohttp_session=session)
 
 
-async def _test_connection(hass: __HAC_KEEP__, url: str, token: str) -> None:
+async def _test_connection(hass: UniversalAssistant, url: str, token: str) -> None:
     """Test connection to MA server with given URL and token."""
     session = aiohttp_client.async_get_clientsession(hass)
     async with MusicAssistantClient(
@@ -104,7 +104,7 @@ async def _test_connection(hass: __HAC_KEEP__, url: str, token: str) -> None:
 
 
 @callback
-def _get_frontend_base(hass: __HAC_KEEP__) -> str:
+def _get_frontend_base(hass: UniversalAssistant) -> str:
     """Return the base URL of the frontend the user is on.
 
     The frontend sends its origin with every flow request, which is the
@@ -423,7 +423,7 @@ class MusicAssistantConfigFlow(ConfigFlow, domain=DOMAIN):
     async def async_step_hassio(
         self, discovery_info: HassioServiceInfo
     ) -> ConfigFlowResult:
-        """Handle __HA_KEEP__ app discovery.
+        """Handle Universal Home Assistant app discovery.
 
         This flow is triggered by the Music Assistant app.
         """
@@ -486,7 +486,7 @@ class MusicAssistantConfigFlow(ConfigFlow, domain=DOMAIN):
     async def async_step_hassio_confirm(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
-        """Confirm the __HA_KEEP__ app discovery."""
+        """Confirm the Universal Home Assistant app discovery."""
         if TYPE_CHECKING:
             assert self.url is not None
 
@@ -513,7 +513,7 @@ class MusicAssistantConfigFlow(ConfigFlow, domain=DOMAIN):
             return self.async_abort(reason="invalid_discovery_info")
 
         if server_info.schema_version >= HASSIO_DISCOVERY_SCHEMA_VERSION:
-            # Ignore servers running as __HA_KEEP__ app
+            # Ignore servers running as Universal Home Assistant app
             # (they should be discovered through hassio discovery instead)
             if server_info.universalassistant_addon:
                 # The app server announcing itself means it is online, so an
@@ -598,7 +598,7 @@ class MusicAssistantConfigFlow(ConfigFlow, domain=DOMAIN):
         params = urlencode(
             {
                 "return_url": f"{redirect_uri}?state={state}",
-                "device_name": "__HA_KEEP__",
+                "device_name": "Universal Home Assistant",
             }
         )
         login_url = f"{self.url}/login?{params}"
@@ -627,7 +627,7 @@ class MusicAssistantConfigFlow(ConfigFlow, domain=DOMAIN):
             long_lived_token = await create_long_lived_token(
                 self.url,
                 self.token,
-                "__HA_KEEP__",
+                "Universal Home Assistant",
                 aiohttp_session=session,
             )
             LOGGER.debug("Successfully created long-lived token")

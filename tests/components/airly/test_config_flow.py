@@ -18,7 +18,7 @@ from universalassistant.const import (
     CONF_LOCATION,
     CONF_LONGITUDE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 TEST_API_KEY = "foo"
@@ -47,7 +47,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 async def test_invalid_api_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airly_client: MagicMock,
 ) -> None:
     """Test that errors are shown when API key is invalid."""
@@ -87,7 +87,7 @@ async def test_invalid_api_key(
 
 
 async def test_invalid_location(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airly_client: MagicMock,
     mock_airly_measurements: Measurement,
     mock_airly_no_station_measurements: Measurement,
@@ -131,7 +131,7 @@ async def test_invalid_location(
 
 
 async def test_invalid_location_for_point_and_nearest(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airly_client: MagicMock,
     mock_airly_no_station_measurements: Measurement,
 ) -> None:
@@ -159,7 +159,7 @@ async def test_invalid_location_for_point_and_nearest(
 
 
 async def test_duplicate_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airly_client: MagicMock,
 ) -> None:
     """Test that errors are shown when duplicates are added."""
@@ -189,7 +189,7 @@ async def test_duplicate_error(
 
 
 async def test_create_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airly_client: MagicMock,
 ) -> None:
     """Test that the user step works."""
@@ -214,7 +214,7 @@ async def test_create_entry(
 
 
 async def test_create_entry_with_nearest_method(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airly_client: MagicMock,
     mock_airly_no_station_measurements: Measurement,
 ) -> None:
@@ -251,7 +251,7 @@ async def test_create_entry_with_nearest_method(
     ],
 )
 async def test_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airly_client: MagicMock,
     exception: Exception,
     error: str,
@@ -298,7 +298,7 @@ async def test_cannot_connect(
     ],
 )
 async def test_unknown_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airly_client: MagicMock,
     exception: Exception,
     error: str,
@@ -338,7 +338,7 @@ async def test_unknown_error(
     ("start_flow", "step_id", "abort_reason"), UPDATE_API_KEY_FLOWS
 )
 async def test_update_api_key_successful(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_airly_client: MagicMock,
     start_flow: str,
@@ -373,7 +373,7 @@ async def test_update_api_key_successful(
     ("start_flow", "step_id", "abort_reason"), UPDATE_API_KEY_FLOWS
 )
 async def test_update_api_key_with_nearest_method(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airly_client: MagicMock,
     start_flow: str,
     step_id: str,
@@ -443,7 +443,7 @@ async def test_update_api_key_with_nearest_method(
     ],
 )
 async def test_update_api_key_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_airly_client: MagicMock,
     start_flow: str,

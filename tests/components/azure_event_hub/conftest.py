@@ -18,7 +18,7 @@ from universalassistant.components.azure_event_hub.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
 
@@ -43,7 +43,7 @@ def mock_filter_schema() -> dict[str, Any]:
 
 @pytest.fixture(name="entry")
 async def mock_entry_fixture(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     filter_schema: dict[str, Any],
     mock_create_batch: MagicMock,
     mock_send_batch: AsyncMock,
@@ -76,7 +76,7 @@ async def mock_entry_fixture(
 # fixtures for init tests
 @pytest.fixture(name="entry_with_one_event")
 def mock_entry_with_one_event(
-    hass: __HAC_KEEP__, entry: MockConfigEntry
+    hass: UniversalAssistant, entry: MockConfigEntry
 ) -> MockConfigEntry:
     """Use the entry and add a single test event to the queue."""
     assert entry.state is ConfigEntryState.LOADED

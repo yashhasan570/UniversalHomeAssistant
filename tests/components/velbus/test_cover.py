@@ -12,14 +12,14 @@ from universalassistant.components.cover import (
     CoverServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
 
 
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -39,7 +39,7 @@ async def test_entities(
     ],
 )
 async def test_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     entity_id: str,
     entity_num: int,
@@ -71,7 +71,7 @@ async def test_actions(
 
 
 async def test_position(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_cover: AsyncMock,
 ) -> None:

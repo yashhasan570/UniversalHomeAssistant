@@ -43,7 +43,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 @pytest.fixture
 def mock_config_entry() -> MockConfigEntry:
-    """Mock __HA_KEEP__ ConfigEntry."""
+    """Mock Universal Home Assistant ConfigEntry."""
     return MockConfigEntry(
         domain=DOMAIN,
         data={CONF_HOST: "192.168.1.100"},

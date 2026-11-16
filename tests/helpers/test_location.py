@@ -1,7 +1,7 @@
-"""Tests __HA_KEEP__ location helpers."""
+"""Tests Universal Home Assistant location helpers."""
 
 from universalassistant.const import EntityStateAttribute
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import location
 
 
@@ -101,7 +101,7 @@ def test_closest_returns_closest() -> None:
     assert state == location.closest(123.45, 123.45, [state, state2])
 
 
-async def test_coordinates_function_as_attributes(hass: __HAC_KEEP__) -> None:
+async def test_coordinates_function_as_attributes(hass: UniversalAssistant) -> None:
     """Test coordinates function."""
     hass.states.async_set(
         "test.object", "happy", {"latitude": 32.87336, "longitude": -117.22943}
@@ -109,13 +109,13 @@ async def test_coordinates_function_as_attributes(hass: __HAC_KEEP__) -> None:
     assert location.find_coordinates(hass, "test.object") == "32.87336,-117.22943"
 
 
-async def test_coordinates_function_as_state(hass: __HAC_KEEP__) -> None:
+async def test_coordinates_function_as_state(hass: UniversalAssistant) -> None:
     """Test coordinates function."""
     hass.states.async_set("test.object", "32.87336,-117.22943")
     assert location.find_coordinates(hass, "test.object") == "32.87336,-117.22943"
 
 
-async def test_coordinates_function_device_tracker_in_zone(hass: __HAC_KEEP__) -> None:
+async def test_coordinates_function_device_tracker_in_zone(hass: UniversalAssistant) -> None:
     """Test coordinates function."""
     hass.states.async_set(
         "zone.home",
@@ -129,7 +129,7 @@ async def test_coordinates_function_device_tracker_in_zone(hass: __HAC_KEEP__) -
     )
 
 
-async def test_coordinates_function_zone_friendly_name(hass: __HAC_KEEP__) -> None:
+async def test_coordinates_function_zone_friendly_name(hass: UniversalAssistant) -> None:
     """Test coordinates function."""
     hass.states.async_set(
         "zone.home",
@@ -149,7 +149,7 @@ async def test_coordinates_function_zone_friendly_name(hass: __HAC_KEEP__) -> No
 
 
 async def test_coordinates_function_device_tracker_from_input_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test coordinates function."""
     hass.states.async_set(
@@ -163,7 +163,7 @@ async def test_coordinates_function_device_tracker_from_input_select(
     )
 
 
-def test_coordinates_function_returns_none_on_recursion(hass: __HAC_KEEP__) -> None:
+def test_coordinates_function_returns_none_on_recursion(hass: UniversalAssistant) -> None:
     """Test coordinates function."""
     hass.states.async_set(
         "test.first",
@@ -174,7 +174,7 @@ def test_coordinates_function_returns_none_on_recursion(hass: __HAC_KEEP__) -> N
 
 
 async def test_coordinates_function_returns_state_if_no_coords(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test test_coordinates function."""
     hass.states.async_set(
@@ -184,7 +184,7 @@ async def test_coordinates_function_returns_state_if_no_coords(
     assert location.find_coordinates(hass, "test.object") == "abc"
 
 
-def test_coordinates_function_returns_input_if_no_coords(hass: __HAC_KEEP__) -> None:
+def test_coordinates_function_returns_input_if_no_coords(hass: UniversalAssistant) -> None:
     """Test test_coordinates function."""
     assert location.find_coordinates(hass, "test.abc") == "test.abc"
     assert location.find_coordinates(hass, "abc") == "abc"

@@ -7,7 +7,7 @@ from music_assistant_models.player import PlayerOption, PlayerOptionType
 
 from universalassistant.components.number import NumberEntity, NumberEntityDescription
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import MusicAssistantConfigEntry
@@ -29,7 +29,7 @@ PLAYER_OPTIONS_NUMBER: Final[dict[str, bool]] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MusicAssistantConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

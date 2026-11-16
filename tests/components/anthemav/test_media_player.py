@@ -11,12 +11,12 @@ from universalassistant.components.media_player import (
     MediaPlayerEntityStateAttribute,
 )
 from universalassistant.const import STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -27,7 +27,7 @@ async def test_all_entities(
 
 
 async def test_update_states_zone1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_anthemav: AsyncMock,
     update_callback: Callable[[str], None],

@@ -2,7 +2,7 @@
 
 import pytest
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import SnoozFixture, create_mock_snooz, create_mock_snooz_config_entry
 
@@ -13,7 +13,7 @@ def mock_bluetooth(enable_bluetooth: None) -> None:
 
 
 @pytest.fixture
-async def mock_connected_snooz(hass: __HAC_KEEP__):
+async def mock_connected_snooz(hass: UniversalAssistant):
     """Mock a Snooz configuration entry and device."""
 
     device = await create_mock_snooz()

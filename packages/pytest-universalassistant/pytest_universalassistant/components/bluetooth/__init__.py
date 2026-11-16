@@ -22,8 +22,8 @@ from universalassistant.components.bluetooth import (
     BluetoothServiceInfoBleak,
     async_get_advertisement_callback,
 )
-from universalassistant.components.bluetooth.manager import __HAC_KEEP__BluetoothManager
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.components.bluetooth.manager import UniversalAssistantBluetoothManager
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from pytest_universalassistant.common import MockConfigEntry
 
@@ -137,21 +137,21 @@ def generate_ble_device(
     return BLEDevice(**new)
 
 
-def _get_manager() -> __HAC_KEEP__BluetoothManager:
+def _get_manager() -> UniversalAssistantBluetoothManager:
     """Return the bluetooth manager."""
-    manager: __HAC_KEEP__BluetoothManager = get_manager()
+    manager: UniversalAssistantBluetoothManager = get_manager()
     return manager
 
 
 def inject_advertisement(
-    hass: __HAC_KEEP__, device: BLEDevice, adv: AdvertisementData
+    hass: UniversalAssistant, device: BLEDevice, adv: AdvertisementData
 ) -> None:
     """Inject an advertisement into the manager."""
     return inject_advertisement_with_source(hass, device, adv, SOURCE_LOCAL)
 
 
 def inject_advertisement_with_source(
-    hass: __HAC_KEEP__, device: BLEDevice, adv: AdvertisementData, source: str
+    hass: UniversalAssistant, device: BLEDevice, adv: AdvertisementData, source: str
 ) -> None:
     """Inject an advertisement into the manager from a specific source."""
     inject_advertisement_with_time_and_source(
@@ -160,7 +160,7 @@ def inject_advertisement_with_source(
 
 
 def inject_advertisement_with_time_and_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device: BLEDevice,
     adv: AdvertisementData,
     time: float,
@@ -173,7 +173,7 @@ def inject_advertisement_with_time_and_source(
 
 
 def inject_advertisement_with_time_and_source_connectable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device: BLEDevice,
     adv: AdvertisementData,
     time: float,
@@ -202,7 +202,7 @@ def inject_advertisement_with_time_and_source_connectable(
 
 
 def inject_bluetooth_service_info_bleak(
-    hass: __HAC_KEEP__, info: BluetoothServiceInfoBleak
+    hass: UniversalAssistant, info: BluetoothServiceInfoBleak
 ) -> None:
     """Inject an advertisement into the manager with connectable status."""
     advertisement_data = generate_advertisement_data(
@@ -228,7 +228,7 @@ def inject_bluetooth_service_info_bleak(
 
 
 def inject_bluetooth_service_info(
-    hass: __HAC_KEEP__, info: BluetoothServiceInfo
+    hass: UniversalAssistant, info: BluetoothServiceInfo
 ) -> None:
     """Inject a BluetoothServiceInfo into the manager."""
     advertisement_data = generate_advertisement_data(  # type: ignore[no-untyped-call]
@@ -289,18 +289,18 @@ def patch_discovered_devices(mock_discovered: list[BLEDevice]) -> Generator[None
     manager._connectable_history = original_connectable_history
 
 
-async def async_setup_with_default_adapter(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def async_setup_with_default_adapter(hass: UniversalAssistant) -> MockConfigEntry:
     """Set up the Bluetooth integration with a default adapter."""
     return await _async_setup_with_adapter(hass, DEFAULT_ADDRESS)
 
 
-async def async_setup_with_one_adapter(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def async_setup_with_one_adapter(hass: UniversalAssistant) -> MockConfigEntry:
     """Set up the Bluetooth integration with one adapter."""
     return await _async_setup_with_adapter(hass, "00:00:00:00:00:01")
 
 
 async def _async_setup_with_adapter(
-    hass: __HAC_KEEP__, address: str
+    hass: UniversalAssistant, address: str
 ) -> MockConfigEntry:
     """Set up the Bluetooth integration with any adapter."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id=address)

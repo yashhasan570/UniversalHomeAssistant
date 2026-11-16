@@ -13,7 +13,7 @@ from universalassistant.components.prowl.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import (
@@ -25,7 +25,7 @@ from .conftest import (
 )
 
 
-async def test_flow_user(hass: __HAC_KEEP__, mock_prowlpy: AsyncMock) -> None:
+async def test_flow_user(hass: UniversalAssistant, mock_prowlpy: AsyncMock) -> None:
     """Test user initialized flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -43,7 +43,7 @@ async def test_flow_user(hass: __HAC_KEEP__, mock_prowlpy: AsyncMock) -> None:
 
 
 async def test_flow_duplicate_api_key(
-    hass: __HAC_KEEP__, mock_prowlpy: AsyncMock
+    hass: UniversalAssistant, mock_prowlpy: AsyncMock
 ) -> None:
     """Test user initialized flow."""
     result = await hass.config_entries.flow.async_init(
@@ -66,7 +66,7 @@ async def test_flow_duplicate_api_key(
     assert result["type"] is FlowResultType.ABORT
 
 
-async def test_flow_user_bad_key(hass: __HAC_KEEP__, mock_prowlpy: AsyncMock) -> None:
+async def test_flow_user_bad_key(hass: UniversalAssistant, mock_prowlpy: AsyncMock) -> None:
     """Test user submitting a bad API key."""
     mock_prowlpy.verify_key.side_effect = prowlpy.APIError("Invalid API key")
 
@@ -92,7 +92,7 @@ async def test_flow_user_bad_key(hass: __HAC_KEEP__, mock_prowlpy: AsyncMock) ->
 
 
 async def test_flow_user_prowl_timeout(
-    hass: __HAC_KEEP__, mock_prowlpy: AsyncMock
+    hass: UniversalAssistant, mock_prowlpy: AsyncMock
 ) -> None:
     """Test Prowl API timeout."""
     mock_prowlpy.verify_key.side_effect = TimeoutError
@@ -118,7 +118,7 @@ async def test_flow_user_prowl_timeout(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_api_failure(hass: __HAC_KEEP__, mock_prowlpy: AsyncMock) -> None:
+async def test_flow_api_failure(hass: UniversalAssistant, mock_prowlpy: AsyncMock) -> None:
     """Test Prowl API failure."""
     mock_prowlpy.verify_key.side_effect = prowlpy.APIError(BAD_API_RESPONSE)
 
@@ -169,7 +169,7 @@ async def test_flow_api_failure(hass: __HAC_KEEP__, mock_prowlpy: AsyncMock) -> 
 )
 @pytest.mark.usefixtures("mock_prowlpy")
 async def test_flow_import(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     names: list[str | None],
     expected_title: str,
     expected_data: dict[str, str],
@@ -194,7 +194,7 @@ async def test_flow_import(
     ],
 )
 async def test_flow_import_existing_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_prowlpy: AsyncMock,
     source: str,
 ) -> None:

@@ -22,7 +22,7 @@
   "clients": {
     "a1b2c3d4-e5f6-1234-abcd-ef0123456789": {
       "id": "a1b2c3d4-e5f6-1234-abcd-ef0123456789",
-      "label": "__HA_KEEP__",
+      "label": "Universal Home Assistant",
       "refreshToken": "secret-refresh-token"
     }
   }

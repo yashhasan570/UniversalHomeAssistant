@@ -13,7 +13,7 @@ from universalassistant.components.alexa_devices.services import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_DEVICE_ID
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
@@ -22,7 +22,7 @@ from .const import TEST_DEVICE_1_ID, TEST_DEVICE_1_SN
 
 
 async def test_setup_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -36,7 +36,7 @@ async def test_setup_services(
 
 
 async def test_info_skill_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -66,7 +66,7 @@ async def test_info_skill_service(
 
 
 async def test_send_sound_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -96,7 +96,7 @@ async def test_send_sound_service(
 
 
 async def test_send_text_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -153,7 +153,7 @@ async def test_send_text_service(
     ],
 )
 async def test_invalid_parameters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     sound: str,
@@ -220,7 +220,7 @@ async def test_invalid_parameters(
     ],
 )
 async def test_invalid_info_skillparameters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     info_skill: str,
@@ -260,7 +260,7 @@ async def test_invalid_info_skillparameters(
 
 
 async def test_config_entry_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -300,7 +300,7 @@ async def test_config_entry_not_loaded(
 
 
 async def test_invalid_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -337,7 +337,7 @@ async def test_invalid_config_entry(
 
 
 async def test_missing_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,

@@ -334,7 +334,7 @@
   {
     "slug": "other_ecosystems",
     "name": "Other ecosystems",
-    "description": "Use your __HA_KEEP__ devices in Apple Home, Alexa, Google Home and other platforms.",
+    "description": "Use your Universal Home Assistant devices in Apple Home, Alexa, Google Home and other platforms.",
     "icon": "mdi:home-export-outline",
     "subcategories": []
   },

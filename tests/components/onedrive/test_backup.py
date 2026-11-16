@@ -1,18 +1,21 @@
 """Test the backups for OneDrive."""
 
 import asyncio
-from collections.abc import AsyncGenerator
+from collections.abc import AsyncGenerator, AsyncIterator
 from dataclasses import replace
 from io import StringIO
 from json import dumps
+from typing import Any
 from unittest.mock import Mock, patch
 
 from onedrive_personal_sdk.exceptions import (
     AuthenticationError,
     HashMismatchError,
     OneDriveException,
+    UploadSessionExpired,
 )
 from onedrive_personal_sdk.models.items import File
+from onedrive_personal_sdk.models.upload import FileInfo
 import pytest
 from pytest_universalassistant.common import AsyncMock, MockConfigEntry
 from pytest_universalassistant.typing import (
@@ -21,14 +24,18 @@ from pytest_universalassistant.typing import (
     WebSocketGenerator,
 )
 
-from universalassistant.components.backup import DOMAIN as BACKUP_DOMAIN, AgentBackup
+from universalassistant.components.backup import (
+    DOMAIN as BACKUP_DOMAIN,
+    AgentBackup,
+    async_get_manager,
+)
 from universalassistant.components.onedrive.backup import (
     METADATA_DOWNLOAD_CONCURRENCY,
     async_register_backup_agents_listener,
 )
 from universalassistant.components.onedrive.const import DATA_BACKUP_AGENT_LISTENERS, DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import setup_integration
@@ -37,7 +44,7 @@ from .const import BACKUP_METADATA
 
 @pytest.fixture(autouse=True)
 async def setup_backup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> AsyncGenerator[None]:
     """Set up onedrive integration."""
@@ -53,7 +60,7 @@ async def setup_backup_integration(
 
 
 async def test_agents_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -88,7 +95,7 @@ async def test_agents_info(
 
 
 async def test_agents_list_backups(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test agent list backups."""
@@ -122,7 +129,7 @@ async def test_agents_list_backups(
 
 
 async def test_agents_list_backups_with_download_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_onedrive_client: MagicMock,
 ) -> None:
@@ -138,7 +145,7 @@ async def test_agents_list_backups_with_download_failure(
 
 
 async def test_agents_list_backups_downloads_metadata_concurrently(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_onedrive_client: MagicMock,
     mock_backup_file: File,
@@ -181,7 +188,7 @@ async def test_agents_list_backups_downloads_metadata_concurrently(
 
 
 async def test_agents_get_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -218,7 +225,7 @@ async def test_agents_get_backup(
 
 
 async def test_agents_get_backup_missing_file(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
     mock_onedrive_client: MagicMock,
@@ -243,7 +250,7 @@ async def test_agents_get_backup_missing_file(
 
 
 async def test_agents_delete(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_onedrive_client: MagicMock,
 ) -> None:
@@ -344,6 +351,90 @@ async def test_agents_upload_corrupt_upload(
     assert "Hash validation failed, backup file might be corrupt" in caplog.text
 
 
+@pytest.mark.parametrize(
+    ("side_effect", "metadata_uploads", "error_logged"),
+    [
+        pytest.param([UploadSessionExpired(), None], 1, False, id="retry_succeeds"),
+        pytest.param(UploadSessionExpired(), 0, True, id="retry_fails"),
+    ],
+)
+async def test_agents_upload_session_expired(
+    hass_client: ClientSessionGenerator,
+    caplog: pytest.LogCaptureFixture,
+    mock_onedrive_client: MagicMock,
+    mock_large_file_upload_client: AsyncMock,
+    mock_config_entry: MockConfigEntry,
+    side_effect: list[Exception | None] | Exception,
+    metadata_uploads: int,
+    error_logged: bool,
+) -> None:
+    """Test the upload is retried once with a new session when it expires."""
+    mock_large_file_upload_client.side_effect = side_effect
+    client = await hass_client()
+    test_backup = AgentBackup.from_dict(BACKUP_METADATA)
+
+    with (
+        patch(
+            "universalassistant.components.backup.manager.BackupManager.async_get_backup",
+        ) as fetch_backup,
+        patch(
+            "universalassistant.components.backup.manager.read_backup",
+            return_value=test_backup,
+        ),
+        patch("pathlib.Path.open") as mocked_open,
+    ):
+        mocked_open.return_value.read = Mock(side_effect=[b"test", b""])
+        fetch_backup.return_value = test_backup
+        resp = await client.post(
+            f"/api/backup/upload?agent_id={DOMAIN}.{mock_config_entry.unique_id}",
+            data={"file": StringIO("test")},
+        )
+
+    assert resp.status == 201
+    assert mock_large_file_upload_client.call_count == 2
+    assert mock_onedrive_client.upload_file.call_count == metadata_uploads
+    assert (
+        "Error during backup in async_upload_backup: UploadSessionExpired"
+        in caplog.text
+    ) is error_logged
+
+
+async def test_agents_upload_retry_reopens_stream(
+    hass: UniversalAssistant,
+    mock_large_file_upload_client: AsyncMock,
+    mock_config_entry: MockConfigEntry,
+) -> None:
+    """Test the retry after an expired session uploads the full backup again."""
+    content = [b"chunk1", b"chunk2", b"chunk3"]
+    received: list[bytes] = []
+
+    async def open_stream() -> AsyncIterator[bytes]:
+        async def stream() -> AsyncIterator[bytes]:
+            for chunk in content:
+                yield chunk
+
+        return stream()
+
+    async def upload(_token_function: Any, file: FileInfo, **kwargs: Any) -> None:
+        if not received:
+            received.append(await anext(file.content_stream))
+            raise UploadSessionExpired
+        received.append(b"".join([chunk async for chunk in file.content_stream]))
+
+    mock_large_file_upload_client.side_effect = upload
+    agent = async_get_manager(hass).backup_agents[
+        f"{DOMAIN}.{mock_config_entry.unique_id}"
+    ]
+
+    await agent.async_upload_backup(
+        open_stream=open_stream,
+        backup=AgentBackup.from_dict(BACKUP_METADATA),
+        on_progress=Mock(),
+    )
+
+    assert received == [b"chunk1", b"chunk1chunk2chunk3"]
+
+
 async def test_agents_upload_metadata_upload_failed(
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
@@ -434,7 +525,7 @@ async def test_error_on_agents_download(
     ],
 )
 async def test_delete_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_onedrive_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -472,7 +563,7 @@ async def test_delete_error(
 
 
 async def test_agents_delete_not_found_does_not_throw(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_onedrive_client: MagicMock,
 ) -> None:
@@ -493,7 +584,7 @@ async def test_agents_delete_not_found_does_not_throw(
 
 
 async def test_agents_backup_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_onedrive_client: MagicMock,
 ) -> None:
@@ -510,7 +601,7 @@ async def test_agents_backup_not_found(
 
 
 async def test_reauth_on_403(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_onedrive_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -542,7 +633,7 @@ async def test_reauth_on_403(
     assert flow["context"]["entry_id"] == mock_config_entry.entry_id
 
 
-async def test_listeners_get_cleaned_up(hass: __HAC_KEEP__) -> None:
+async def test_listeners_get_cleaned_up(hass: UniversalAssistant) -> None:
     """Test listener gets cleaned up."""
     listener = MagicMock()
     remove_listener = async_register_backup_agents_listener(hass, listener=listener)

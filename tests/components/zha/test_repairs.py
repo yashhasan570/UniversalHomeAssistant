@@ -29,8 +29,8 @@ from universalassistant.components.zha.repairs.wrong_silabs_firmware import (
     warn_on_wrong_silabs_firmware,
 )
 from universalassistant.config_entries import ConfigEntryDisabler, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -44,7 +44,7 @@ CONNECT_ZBT1_DEVICE = (
 )
 
 
-async def test_detect_radio_hardware(hass: __HAC_KEEP__) -> None:
+async def test_detect_radio_hardware(hass: UniversalAssistant) -> None:
     """Test logic to detect radio hardware."""
     skyconnect_config_entry = MockConfigEntry(
         data={
@@ -60,7 +60,7 @@ async def test_detect_radio_hardware(hass: __HAC_KEEP__) -> None:
         minor_version=4,
         domain=SKYCONNECT_DOMAIN,
         options={},
-        title="__HA_KEEP__ SkyConnect",
+        title="Universal Home Assistant SkyConnect",
     )
     skyconnect_config_entry.add_to_hass(hass)
 
@@ -71,14 +71,14 @@ async def test_detect_radio_hardware(hass: __HAC_KEEP__) -> None:
             "pid": "EA60",
             "serial_number": "3c0ed67c628beb11b1cd64a0f320645d",
             "manufacturer": "Nabu Casa",
-            "product": "__HA_KEEP__ Connect ZBT-1",
+            "product": "Universal Home Assistant Connect ZBT-1",
             "firmware": "ezsp",
         },
         version=1,
         minor_version=4,
         domain=SKYCONNECT_DOMAIN,
         options={},
-        title="__HA_KEEP__ Connect ZBT-1",
+        title="Universal Home Assistant Connect ZBT-1",
     )
     connect_zbt1_config_entry.add_to_hass(hass)
 
@@ -103,17 +103,17 @@ async def test_detect_radio_hardware(hass: __HAC_KEEP__) -> None:
         )
 
 
-def test_detect_radio_hardware_failure(hass: __HAC_KEEP__) -> None:
+def test_detect_radio_hardware_failure(hass: UniversalAssistant) -> None:
     """Test radio hardware detection failure."""
 
     with (
         patch(
             "universalassistant.components.universalassistant_yellow.hardware.async_info",
-            side_effect=__HAC_KEEP__Error(),
+            side_effect=UniversalAssistantError(),
         ),
         patch(
             "universalassistant.components.universalassistant_sky_connect.hardware.async_info",
-            side_effect=__HAC_KEEP__Error(),
+            side_effect=UniversalAssistantError(),
         ),
     ):
         assert _detect_radio_hardware(hass, SKYCONNECT_DEVICE) == HardwareType.OTHER
@@ -124,7 +124,7 @@ def test_detect_radio_hardware_failure(hass: __HAC_KEEP__) -> None:
     [HardwareType.SKYCONNECT, HardwareType.YELLOW, HardwareType.OTHER],
 )
 async def test_multipan_firmware_repair(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     detected_hardware: HardwareType,
     config_entry: MockConfigEntry,
     mock_zigpy_connect: ControllerApplication,
@@ -178,7 +178,7 @@ async def test_multipan_firmware_repair(
 
 
 async def test_multipan_firmware_no_repair_on_probe_failure(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, config_entry: MockConfigEntry, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test that a repair is not created when multi-PAN firmware cannot be probed."""
 
@@ -211,7 +211,7 @@ async def test_multipan_firmware_no_repair_on_probe_failure(
 
 
 async def test_multipan_firmware_retry_on_probe_ezsp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_zigpy_connect: ControllerApplication,
     issue_registry: ir.IssueRegistry,
@@ -248,7 +248,7 @@ async def test_multipan_firmware_retry_on_probe_ezsp(
 
 
 async def _detect_wrong_firmware(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     probe_side_effect: Callable[..., Awaitable[ApplicationType]] | None = None,
 ) -> None:
     """Run radio type detection as a flow would, probing multi-PAN firmware."""
@@ -275,7 +275,7 @@ async def _detect_wrong_firmware(
 
 
 async def test_wrong_firmware_flow_issue_linked_to_entry(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, config_entry: MockConfigEntry, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test the flow's wrong firmware issue is linked to and removed with the entry."""
     config_entry.add_to_hass(hass)
@@ -312,10 +312,10 @@ async def test_wrong_firmware_flow_issue_linked_to_entry(
     ],
 )
 async def test_wrong_firmware_flow_entry_changed_while_probing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
-    change_entry: Callable[[__HAC_KEEP__, MockConfigEntry], Awaitable[Any]],
+    change_entry: Callable[[UniversalAssistant, MockConfigEntry], Awaitable[Any]],
 ) -> None:
     """Test the flow's issue is unlinked if the entry is removed or disabled."""
     config_entry.add_to_hass(hass)
@@ -342,7 +342,7 @@ async def test_wrong_firmware_flow_entry_changed_while_probing(
     ],
 )
 async def test_wrong_firmware_flow_issue_unlinked(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     disabled_by: list[ConfigEntryDisabler],
 ) -> None:
@@ -360,7 +360,7 @@ async def test_wrong_firmware_flow_issue_unlinked(
 
 
 async def test_no_warn_on_ziggurat_firmware(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test that OpenThread RCP firmware with Ziggurat is not reported as wrong."""
     with patch(
@@ -376,7 +376,7 @@ async def test_no_warn_on_ziggurat_firmware(
     assert issue is None
 
 
-async def test_no_warn_on_socket(hass: __HAC_KEEP__) -> None:
+async def test_no_warn_on_socket(hass: UniversalAssistant) -> None:
     """Test that no warning is issued when the device is a socket."""
     with patch(
         "universalassistant.components.zha.repairs.wrong_silabs_firmware.probe_silabs_firmware_type",
@@ -387,7 +387,7 @@ async def test_no_warn_on_socket(hass: __HAC_KEEP__) -> None:
 
 
 async def test_inconsistent_settings_keep_new(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     mock_zigpy_connect: ControllerApplication,
@@ -467,7 +467,7 @@ async def test_inconsistent_settings_keep_new(
 
 
 async def test_inconsistent_settings_restore_old(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     mock_zigpy_connect: ControllerApplication,

@@ -31,8 +31,8 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -60,7 +60,7 @@ def _x13_device() -> DummyDevice:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_light_state_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -75,7 +75,7 @@ async def test_light_state_snapshot(
 
 
 async def test_light_state_and_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test light state attributes and service calls reach the device."""
@@ -155,7 +155,7 @@ async def test_light_state_and_services(
     ],
 )
 async def test_light_turn_on_power_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     initial_power: bool,
     service_data: dict[str, Any],
@@ -229,7 +229,7 @@ async def test_light_turn_on_power_handling(
     ],
 )
 async def test_light_color_mode_fallbacks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     attributes: dict[X13Attributes, Any],
     expected_state: str,
@@ -256,7 +256,7 @@ async def test_light_color_mode_fallbacks(
 
 
 async def test_light_effect_none_when_device_reports_non_string(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test effect is reported as None when the device value is not a string."""
@@ -272,7 +272,7 @@ async def test_light_effect_none_when_device_reports_non_string(
 
 
 async def test_light_not_created_for_other_device_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test no light entity is created for a device type without one."""
@@ -293,10 +293,10 @@ async def test_light_not_created_for_other_device_type(
 
 
 async def test_light_turn_on_raises_on_device_communication_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
-    """Test a device communication failure surfaces as a __HAC_KEEP__Error."""
+    """Test a device communication failure surfaces as a UniversalAssistantError."""
     device = _x13_device()
     config_entry = mock_config_entry(device)
     with patch("universalassistant.components.midea._PLATFORMS", [Platform.LIGHT]):
@@ -306,7 +306,7 @@ async def test_light_turn_on_raises_on_device_communication_error(
 
     with (
         patch.object(device, "set_attribute", side_effect=SocketException("offline")),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             LIGHT_DOMAIN,

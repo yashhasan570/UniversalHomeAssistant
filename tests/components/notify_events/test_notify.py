@@ -12,10 +12,10 @@ from universalassistant.components.notify_events.notify import (
     ATTR_PRIORITY,
     ATTR_TOKEN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def test_send_msg(hass: __HAC_KEEP__) -> None:
+async def test_send_msg(hass: UniversalAssistant) -> None:
     """Test notify.events service."""
     notify_calls = async_mock_service(hass, NOTIFY_DOMAIN, "events")
 

@@ -2,7 +2,7 @@
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 # TODO List the platforms that you want to support.
 # For your initial PR, limit it to 1 platform.
@@ -14,7 +14,7 @@ type New_NameConfigEntry = ConfigEntry[MyApi]  # noqa: F821
 
 
 # TODO Update entry annotation
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up NEW_NAME from a config entry."""
 
     # TODO 1. Create API instance
@@ -26,6 +26,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
 
 
 # TODO Update entry annotation
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)

@@ -7,7 +7,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ENTITIES, CONF_ICON, CONF_NAME, SERVICE_RELOAD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.group import (
     expand_entity_ids as _expand_entity_ids,
@@ -85,7 +85,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-def is_on(hass: __HAC_KEEP__, entity_id: str) -> bool:
+def is_on(hass: UniversalAssistant, entity_id: str) -> bool:
     """Test if the group state is in its ON-state."""
     if REG_KEY not in hass.data:
         # Integration not setup yet, it cannot be on
@@ -102,7 +102,7 @@ expand_entity_ids = _expand_entity_ids
 get_entity_ids = _get_entity_ids
 
 
-def groups_with_entity(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
+def groups_with_entity(hass: UniversalAssistant, entity_id: str) -> list[str]:
     """Get all groups that contain this entity.
 
     Async friendly.
@@ -145,21 +145,21 @@ def groups_with_entity(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
     return groups
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up a config entry."""
     await hass.config_entries.async_forward_entry_setups(
         entry, (entry.options["group_type"],)
     )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(
         entry, (entry.options["group_type"],)
     )
 
 
-async def async_remove_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_remove_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Remove a config entry."""
     # Unhide the group members
     registry = er.async_get(hass)
@@ -178,7 +178,7 @@ async def async_remove_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         registry.async_update_entity(entity_id, hidden_by=None)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up all groups found defined in the configuration."""
     await async_setup_registry(hass)
 

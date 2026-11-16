@@ -4,7 +4,7 @@ from typing import Any
 
 from aiohomeconnect.model import GetSetting, Status
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 
 from .const import DOMAIN
@@ -41,7 +41,7 @@ async def _generate_appliance_diagnostics(
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: HomeConnectConfigEntry
+    hass: UniversalAssistant, entry: HomeConnectConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return {
@@ -53,7 +53,7 @@ async def async_get_config_entry_diagnostics(
 
 
 async def async_get_device_diagnostics(
-    hass: __HAC_KEEP__, entry: HomeConnectConfigEntry, device: AnyDeviceEntry
+    hass: UniversalAssistant, entry: HomeConnectConfigEntry, device: AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device."""
     ha_id = next(

@@ -16,7 +16,7 @@ from universalassistant.components.backup import DOMAIN as BACKUP_DOMAIN, AgentB
 from universalassistant.components.webdav.backup import async_register_backup_agents_listener
 from universalassistant.components.webdav.const import DATA_BACKUP_AGENT_LISTENERS, DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.json import json_dumps
 from universalassistant.setup import async_setup_component
 
@@ -27,7 +27,7 @@ from tests.components.backup.common import collect_upload_events, upload_backup_
 
 @pytest.fixture(autouse=True)
 async def setup_backup_integration(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, webdav_client: AsyncMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, webdav_client: AsyncMock
 ) -> AsyncGenerator[None]:
     """Set up webdav integration."""
     with (
@@ -43,7 +43,7 @@ async def setup_backup_integration(
 
 
 async def test_agents_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_agents_info(
 
 
 async def test_agents_list_backups(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -116,7 +116,7 @@ async def test_agents_list_backups(
 
 
 async def test_agents_get_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -153,7 +153,7 @@ async def test_agents_get_backup(
 
 
 async def test_agents_delete(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     webdav_client: AsyncMock,
 ) -> None:
@@ -205,7 +205,7 @@ async def test_agents_upload(
 
 @pytest.mark.usefixtures("freezer")
 async def test_agents_upload_emits_progress_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     webdav_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -286,7 +286,7 @@ async def test_error_on_agents_download(
     ],
 )
 async def test_delete_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     webdav_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -314,7 +314,7 @@ async def test_delete_error(
 
 
 async def test_agents_delete_not_found_does_not_throw(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     webdav_client: AsyncMock,
 ) -> None:
@@ -335,7 +335,7 @@ async def test_agents_delete_not_found_does_not_throw(
 
 
 async def test_agents_backup_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     webdav_client: AsyncMock,
 ) -> None:
@@ -351,7 +351,7 @@ async def test_agents_backup_not_found(
 
 
 async def test_raises_on_403(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     webdav_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -375,7 +375,7 @@ async def test_raises_on_403(
     assert flows[0]["context"]["entry_id"] == mock_config_entry.entry_id
 
 
-async def test_listeners_get_cleaned_up(hass: __HAC_KEEP__) -> None:
+async def test_listeners_get_cleaned_up(hass: UniversalAssistant) -> None:
     """Test listener gets cleaned up."""
     listener = AsyncMock()
     remove_listener = async_register_backup_agents_listener(hass, listener=listener)
@@ -388,7 +388,7 @@ async def test_listeners_get_cleaned_up(hass: __HAC_KEEP__) -> None:
 
 
 async def test_agents_list_backups_skips_invalid_metadata_file(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     webdav_client: AsyncMock,
 ) -> None:

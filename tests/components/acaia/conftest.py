@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.acaia.const import CONF_IS_NEW_STYLE_SCALE, DOMAIN
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
@@ -42,7 +42,7 @@ def entry_options() -> dict[str, Any]:
 
 @pytest.fixture
 def mock_config_entry(
-    hass: __HAC_KEEP__, entry_options: dict[str, Any]
+    hass: UniversalAssistant, entry_options: dict[str, Any]
 ) -> MockConfigEntry:
     """Return the default mocked config entry."""
     return MockConfigEntry(
@@ -60,7 +60,7 @@ def mock_config_entry(
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_scale: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_scale: MagicMock
 ) -> MockConfigEntry:
     """Set up the acaia integration for testing."""
     await setup_integration(hass, mock_config_entry)

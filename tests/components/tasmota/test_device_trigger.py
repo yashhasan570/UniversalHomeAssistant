@@ -17,7 +17,7 @@ from universalassistant.components import automation
 from universalassistant.components.device_automation import DeviceAutomationType
 from universalassistant.components.tasmota import _LOGGER
 from universalassistant.components.tasmota.const import DEFAULT_PREFIX, DOMAIN
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.trigger import async_initialize_triggers
 from universalassistant.setup import async_setup_component
@@ -26,7 +26,7 @@ from .test_common import DEFAULT_CONFIG, remove_device
 
 
 async def test_get_triggers_btn(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mqtt_mock: MqttMockHAClient,
     setup_tasmota,
@@ -73,7 +73,7 @@ async def test_get_triggers_btn(
 
 
 async def test_get_triggers_swc(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mqtt_mock: MqttMockHAClient,
     setup_tasmota,
@@ -108,7 +108,7 @@ async def test_get_triggers_swc(
 
 
 async def test_get_unknown_triggers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mqtt_mock: MqttMockHAClient,
     setup_tasmota,
@@ -157,7 +157,7 @@ async def test_get_unknown_triggers(
 
 
 async def test_get_non_existing_triggers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mqtt_mock: MqttMockHAClient,
     setup_tasmota,
@@ -183,7 +183,7 @@ async def test_get_non_existing_triggers(
 
 @pytest.mark.no_fail_on_log_exception
 async def test_discover_bad_triggers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mqtt_mock: MqttMockHAClient,
     setup_tasmota,
@@ -271,7 +271,7 @@ async def test_discover_bad_triggers(
 
 
 async def test_update_remove_triggers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mqtt_mock: MqttMockHAClient,
     setup_tasmota,
@@ -348,7 +348,7 @@ async def test_update_remove_triggers(
 
 
 async def test_if_fires_on_mqtt_message_btn(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
     mqtt_mock: MqttMockHAClient,
@@ -424,7 +424,7 @@ async def test_if_fires_on_mqtt_message_btn(
 
 
 async def test_if_fires_on_mqtt_message_swc(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
     mqtt_mock: MqttMockHAClient,
@@ -523,7 +523,7 @@ async def test_if_fires_on_mqtt_message_swc(
 
 
 async def test_if_fires_on_mqtt_message_late_discover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
     mqtt_mock: MqttMockHAClient,
@@ -607,7 +607,7 @@ async def test_if_fires_on_mqtt_message_late_discover(
 
 
 async def test_if_fires_on_mqtt_message_after_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
     mqtt_mock: MqttMockHAClient,
@@ -694,7 +694,7 @@ async def test_if_fires_on_mqtt_message_after_update(
 
 
 async def test_no_resubscribe_same_topic(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mqtt_mock: MqttMockHAClient,
     setup_tasmota,
@@ -746,7 +746,7 @@ async def test_no_resubscribe_same_topic(
 
 
 async def test_not_fires_on_mqtt_message_after_remove_by_mqtt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
     mqtt_mock: MqttMockHAClient,
@@ -822,7 +822,7 @@ async def test_not_fires_on_mqtt_message_after_remove_by_mqtt(
 
 
 async def test_not_fires_on_mqtt_message_after_remove_from_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
@@ -888,7 +888,7 @@ async def test_not_fires_on_mqtt_message_after_remove_from_registry(
 
 
 async def test_attach_remove(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mqtt_mock: MqttMockHAClient,
     setup_tasmota,
@@ -953,7 +953,7 @@ async def test_attach_remove(
 
 
 async def test_attach_remove_late(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mqtt_mock: MqttMockHAClient,
     setup_tasmota,
@@ -1030,7 +1030,7 @@ async def test_attach_remove_late(
 
 
 async def test_attach_remove_late2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mqtt_mock: MqttMockHAClient,
     setup_tasmota,
@@ -1092,7 +1092,7 @@ async def test_attach_remove_late2(
 
 
 async def test_attach_remove_unknown1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mqtt_mock: MqttMockHAClient,
     setup_tasmota,
@@ -1135,7 +1135,7 @@ async def test_attach_remove_unknown1(
 
 
 async def test_attach_unknown_remove_device_from_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     mqtt_mock: MqttMockHAClient,
@@ -1189,7 +1189,7 @@ async def test_attach_unknown_remove_device_from_registry(
 
 
 async def test_attach_remove_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mqtt_mock: MqttMockHAClient,
     setup_tasmota,

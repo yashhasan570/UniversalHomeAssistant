@@ -13,8 +13,8 @@ from gcal_sync.sync import CalendarEventSyncManager
 from gcal_sync.timeline import Timeline
 from ical.iter import SortableItemValue
 
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
 
@@ -51,7 +51,7 @@ class CalendarSyncUpdateCoordinator(DataUpdateCoordinator[Timeline]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: GoogleConfigEntry,
         sync: CalendarEventSyncManager,
         name: str,
@@ -86,7 +86,7 @@ class CalendarSyncUpdateCoordinator(DataUpdateCoordinator[Timeline]):
     ) -> Iterable[Event]:
         """Get all events in a specific time frame."""
         if not self.data:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Unable to get events: Sync from server has not completed"
             )
         return self.data.overlapping(
@@ -113,7 +113,7 @@ class CalendarQueryUpdateCoordinator(DataUpdateCoordinator[list[Event]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: GoogleConfigEntry,
         calendar_service: GoogleCalendarService,
         name: str,
@@ -149,7 +149,7 @@ class CalendarQueryUpdateCoordinator(DataUpdateCoordinator[list[Event]]):
                 result_items.extend(result_page.items)
         except ApiException as err:
             self.async_set_update_error(err)
-            raise __HAC_KEEP__Error(str(err)) from err
+            raise UniversalAssistantError(str(err)) from err
         return result_items
 
     @override

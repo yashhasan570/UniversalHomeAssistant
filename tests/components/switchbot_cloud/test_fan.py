@@ -29,7 +29,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -53,7 +53,7 @@ from . import (
     ],
 )
 async def test_coordinator_data_is_none(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices: AsyncMock,
     mock_get_status: AsyncMock,
     device_info: Device,
@@ -80,7 +80,7 @@ async def test_coordinator_data_is_none(
     ],
 )
 async def test_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices: AsyncMock,
     mock_get_status: AsyncMock,
     device_info: Device,
@@ -124,7 +124,7 @@ async def test_turn_on(
     ],
 )
 async def test_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices: AsyncMock,
     mock_get_status: AsyncMock,
     device_info: Device,
@@ -168,7 +168,7 @@ async def test_turn_off(
     ],
 )
 async def test_set_percentage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices: AsyncMock,
     mock_get_status: AsyncMock,
     device_info: Device,
@@ -212,7 +212,7 @@ async def test_set_percentage(
     ],
 )
 async def test_set_preset_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices: AsyncMock,
     mock_get_status: AsyncMock,
     device_info: Device,
@@ -256,7 +256,7 @@ async def test_set_preset_mode(
     ],
 )
 async def test_power_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices: AsyncMock,
     mock_get_status: AsyncMock,
     device_info: Device,
@@ -291,7 +291,7 @@ async def test_power_state(
 
 
 async def test_air_purifier(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_list_devices: AsyncMock,
@@ -311,7 +311,7 @@ async def test_air_purifier(
 
 
 async def test_air_purifier_unknown_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices: AsyncMock,
     mock_get_status: AsyncMock,
 ) -> None:
@@ -369,7 +369,7 @@ async def test_air_purifier_unknown_mode(
     ],
 )
 async def test_air_purifier_controller(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices: AsyncMock,
     mock_get_status: AsyncMock,
     service: str,

@@ -6,7 +6,7 @@ import logging
 from airthings import Airthings, AirthingsDevice, AirthingsError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN
@@ -22,7 +22,7 @@ class AirthingsDataUpdateCoordinator(DataUpdateCoordinator[dict[str, AirthingsDe
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         airthings: Airthings,
         config_entry: AirthingsConfigEntry,
     ) -> None:

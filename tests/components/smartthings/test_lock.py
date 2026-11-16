@@ -17,7 +17,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -29,7 +29,7 @@ from . import (
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -50,7 +50,7 @@ async def test_all_entities(
     ],
 )
 async def test_lock_unlock(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     action: str,
@@ -75,7 +75,7 @@ async def test_lock_unlock(
 
 @pytest.mark.parametrize("device_fixture", ["yale_push_button_deadbolt_lock"])
 async def test_state_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -100,7 +100,7 @@ async def test_state_update(
 
 @pytest.mark.parametrize("device_fixture", ["yale_push_button_deadbolt_lock"])
 async def test_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -124,7 +124,7 @@ async def test_availability(
 
 @pytest.mark.parametrize("device_fixture", ["yale_push_button_deadbolt_lock"])
 async def test_availability_at_start(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     unavailable_device: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

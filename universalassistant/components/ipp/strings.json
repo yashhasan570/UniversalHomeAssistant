@@ -35,7 +35,7 @@
           "ssl": "[%key:common::config_flow::data::ssl%]",
           "verify_ssl": "[%key:common::config_flow::data::verify_ssl%]"
         },
-        "description": "Set up your printer via Internet Printing Protocol (IPP) to integrate with __HA_KEEP__.",
+        "description": "Set up your printer via Internet Printing Protocol (IPP) to integrate with Universal Home Assistant.",
         "title": "Link your printer"
       },
       "zeroconf_confirm": {

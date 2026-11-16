@@ -15,8 +15,8 @@ from universalassistant.components.number import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 
@@ -26,7 +26,7 @@ from universalassistant.helpers import entity_registry as er
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_number(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -51,7 +51,7 @@ async def test_number(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_number_set_value(
-    hass: __HAC_KEEP__, load_int: ConfigEntry, mock_client: MagicMock
+    hass: UniversalAssistant, load_int: ConfigEntry, mock_client: MagicMock
 ) -> None:
     """Test the Sensibo number service."""
 
@@ -60,7 +60,7 @@ async def test_number_set_value(
 
     mock_client.async_set_calibration.return_value = {"status": "failure"}
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,

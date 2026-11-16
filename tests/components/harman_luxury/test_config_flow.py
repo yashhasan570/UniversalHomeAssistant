@@ -10,14 +10,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.harman_luxury.const import DOMAIN
 from universalassistant.config_entries import SOURCE_SSDP, SOURCE_USER
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import DEVICE_INFO, SSDP_DISCOVERY, TEST_HOST, TEST_NAME, TEST_SERIAL
 
 
 @pytest.mark.usefixtures("mock_client")
-async def test_user_flow(hass: __HAC_KEEP__) -> None:
+async def test_user_flow(hass: UniversalAssistant) -> None:
     """Test the full user configuration flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -36,7 +36,7 @@ async def test_user_flow(hass: __HAC_KEEP__) -> None:
 
 
 async def test_user_flow_cannot_connect(
-    hass: __HAC_KEEP__, mock_client: AsyncMock
+    hass: UniversalAssistant, mock_client: AsyncMock
 ) -> None:
     """Test the user flow recovers from a connection error."""
     mock_client.async_get_info.side_effect = HarmanLuxuryError
@@ -58,7 +58,7 @@ async def test_user_flow_cannot_connect(
 
 
 async def test_user_flow_blank_serial(
-    hass: __HAC_KEEP__, mock_client: AsyncMock
+    hass: UniversalAssistant, mock_client: AsyncMock
 ) -> None:
     """Test the user flow recovers from a device that reports no serial."""
     mock_client.async_get_info.return_value = replace(DEVICE_INFO, serial="")
@@ -81,7 +81,7 @@ async def test_user_flow_blank_serial(
 
 @pytest.mark.usefixtures("mock_client")
 async def test_user_flow_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test aborting the user flow when the device is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -97,7 +97,7 @@ async def test_user_flow_already_configured(
 
 
 @pytest.mark.usefixtures("mock_client")
-async def test_ssdp_flow(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_flow(hass: UniversalAssistant) -> None:
     """Test the SSDP discovery flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_SSDP}, data=SSDP_DISCOVERY
@@ -114,7 +114,7 @@ async def test_ssdp_flow(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_client")
 async def test_ssdp_flow_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test SSDP discovery aborts and updates the host when already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -130,7 +130,7 @@ async def test_ssdp_flow_already_configured(
 
 
 async def test_ssdp_flow_cannot_connect(
-    hass: __HAC_KEEP__, mock_client: AsyncMock
+    hass: UniversalAssistant, mock_client: AsyncMock
 ) -> None:
     """Test SSDP discovery aborts when the device cannot be reached."""
     mock_client.async_get_info.side_effect = HarmanLuxuryError
@@ -143,7 +143,7 @@ async def test_ssdp_flow_cannot_connect(
 
 
 @pytest.mark.usefixtures("mock_client")
-async def test_ssdp_flow_missing_serial(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_flow_missing_serial(hass: UniversalAssistant) -> None:
     """Test SSDP discovery aborts when the advertisement lacks a serial."""
     discovery = replace(SSDP_DISCOVERY, upnp={})
 
@@ -155,7 +155,7 @@ async def test_ssdp_flow_missing_serial(hass: __HAC_KEEP__) -> None:
 
 
 async def test_ssdp_flow_serial_mismatch(
-    hass: __HAC_KEEP__, mock_client: AsyncMock
+    hass: UniversalAssistant, mock_client: AsyncMock
 ) -> None:
     """Test SSDP discovery aborts when the API serial differs from the advertised one."""
     mock_client.async_get_info.return_value = replace(DEVICE_INFO, serial="different")

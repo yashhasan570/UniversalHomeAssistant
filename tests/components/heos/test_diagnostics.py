@@ -11,14 +11,14 @@ from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
 from universalassistant.components.heos.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import MockHeos
 
 
 async def test_config_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     controller: MockHeos,
@@ -40,7 +40,7 @@ async def test_config_entry_diagnostics(
 
 
 async def test_config_entry_diagnostics_error_getting_system(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     controller: MockHeos,
@@ -62,7 +62,7 @@ async def test_config_entry_diagnostics_error_getting_system(
 
 
 async def test_device_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,

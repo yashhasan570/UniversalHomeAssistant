@@ -4,7 +4,7 @@ from marantz_rs232 import MarantzV2007Receiver, V2007ReceiverState
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_DEVICE, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 
 from .const import DOMAIN, LOGGER, MarantzRS232ConfigEntry
@@ -13,7 +13,7 @@ PLATFORMS = [Platform.MEDIA_PLAYER]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: MarantzRS232ConfigEntry
+    hass: UniversalAssistant, entry: MarantzRS232ConfigEntry
 ) -> None:
     """Set up Marantz RS-232 from a config entry."""
     port = entry.data[CONF_DEVICE]
@@ -58,7 +58,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: MarantzRS232ConfigEntry
+    hass: UniversalAssistant, entry: MarantzRS232ConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

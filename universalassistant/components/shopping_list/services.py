@@ -4,7 +4,7 @@ from enum import StrEnum
 
 import probatio
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 
@@ -46,7 +46,7 @@ SERVICE_SORT_SCHEMA = probatio.Schema(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register shopping list services."""
 
     async def add_item_service(call: ServiceCall) -> None:

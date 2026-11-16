@@ -9,7 +9,7 @@
       "invalid_proxy_url": "{proxy_url_error}",
       "invalid_trusted_networks": "Invalid trusted network: {error_message}",
       "invalid_url": "URL must start with https",
-      "no_url_available": "URL is required since you have not configured an external URL in __HA_KEEP__",
+      "no_url_available": "URL is required since you have not configured an external URL in Universal Home Assistant",
       "telegram_error": "Error from Telegram: {error_message}"
     },
     "step": {
@@ -76,7 +76,7 @@
         },
         "data_description": {
           "trusted_networks": "Telegram server access ACL as list.\nDefault: 149.154.160.0/20, 91.108.4.0/22",
-          "url": "Allow to overwrite the external URL from the __HA_KEEP__ configuration for different setups."
+          "url": "Allow to overwrite the external URL from the Universal Home Assistant configuration for different setups."
         },
         "title": "Webhooks network configuration"
       }
@@ -369,7 +369,7 @@
           "name": "[%key:component::telegram_bot::services::send_message::fields::config_entry_id::name%]"
         },
         "directory_path": {
-          "description": "Local directory path to save the file to. Defaults to the 'telegram_bot' directory within your __HA_KEEP__ configuration directory.",
+          "description": "Local directory path to save the file to. Defaults to the 'telegram_bot' directory within your Universal Home Assistant configuration directory.",
           "example": "/config/telegram_bot",
           "name": "Directory path"
         },

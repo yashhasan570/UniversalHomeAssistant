@@ -9,8 +9,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -22,7 +22,7 @@ ENTITY_ID_GEN1 = "button.bk1600_enable_standby_mode"
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("generation", [2, 1], indirect=True)
 async def test_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_indevolt: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -37,7 +37,7 @@ async def test_button(
 
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_button_press_standby(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -65,7 +65,7 @@ async def test_button_press_standby(
 
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_button_press_standby_already_in_realtime_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -96,11 +96,11 @@ async def test_button_press_standby_already_in_realtime_mode(
 
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_button_press_standby_rejected_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
-    """Test standby raises __HAC_KEEP__Error when device rejects."""
+    """Test standby raises UniversalAssistantError when device rejects."""
     with patch("universalassistant.components.indevolt.PLATFORMS", [Platform.BUTTON]):
         await setup_integration(hass, mock_config_entry)
 
@@ -108,7 +108,7 @@ async def test_button_press_standby_rejected_command(
     mock_indevolt.stop.return_value = False
 
     # Mock call to pause (dis)charging
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -119,7 +119,7 @@ async def test_button_press_standby_rejected_command(
 
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_button_press_standby_portable_mode_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -136,7 +136,7 @@ async def test_button_press_standby_portable_mode_error(
     mock_indevolt.set_data.reset_mock()
 
     # Mock call to pause (dis)charging
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

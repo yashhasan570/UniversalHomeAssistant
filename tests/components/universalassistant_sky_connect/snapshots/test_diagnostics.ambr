@@ -34,7 +34,7 @@
     'hardware': dict({
       'manufacturer': 'Nabu Casa',
       'pid': 'EA60',
-      'product': '__HA_KEEP__ Connect ZBT-1',
+      'product': 'Universal Home Assistant Connect ZBT-1',
       'vid': '10C4',
     }),
   })

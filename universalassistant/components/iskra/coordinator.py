@@ -13,7 +13,7 @@ from pyiskra.exceptions import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN
@@ -29,7 +29,7 @@ class IskraDataUpdateCoordinator(DataUpdateCoordinator[None]):
     config_entry: IskraConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: IskraConfigEntry, device: Device
+        self, hass: UniversalAssistant, config_entry: IskraConfigEntry, device: Device
     ) -> None:
         """Initialize."""
         self.device = device

@@ -14,7 +14,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.haven_iaq.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
@@ -28,7 +28,7 @@ from . import (
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_haven_client")
 async def test_user_flow_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test manual setup."""
     result = await hass.config_entries.flow.async_init(
@@ -74,7 +74,7 @@ async def test_user_flow_success(
     ],
 )
 async def test_user_flow_error_then_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_haven_client: AsyncMock,
     first_response: DeviceInfo | Exception,
     expected: str,
@@ -108,7 +108,7 @@ async def test_user_flow_error_then_recovers(
 
 
 async def test_user_flow_aborts_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_haven_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -131,7 +131,7 @@ async def test_user_flow_aborts_duplicate(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_flow_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_haven_client: AsyncMock,
 ) -> None:
     """Test zeroconf discovery."""
@@ -156,7 +156,7 @@ async def test_zeroconf_flow_success(
 
 
 async def test_zeroconf_updates_existing_entry(
-    hass: __HAC_KEEP__, mock_haven_client: AsyncMock
+    hass: UniversalAssistant, mock_haven_client: AsyncMock
 ) -> None:
     """Test rediscovery updates the host on an existing entry."""
     entry = MockConfigEntry(
@@ -198,7 +198,7 @@ async def test_zeroconf_updates_existing_entry(
     ],
 )
 async def test_zeroconf_aborts_on_device_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_haven_client: AsyncMock,
     error: Exception,
     expected: str,

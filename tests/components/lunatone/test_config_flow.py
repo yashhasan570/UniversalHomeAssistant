@@ -12,7 +12,7 @@ from yarl import URL
 from universalassistant.components.lunatone.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -52,7 +52,7 @@ ZEROCONF_DISCOVERY = ZeroconfServiceInfo(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lunatone_info: AsyncMock,
     info_data: InfoData,
     expected_unique_id: str,
@@ -79,7 +79,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_flow_fail_because_of_missing_device_infos(
-    hass: __HAC_KEEP__, mock_lunatone_info: AsyncMock
+    hass: UniversalAssistant, mock_lunatone_info: AsyncMock
 ) -> None:
     """Test full flow."""
     mock_lunatone_info.data = None
@@ -108,7 +108,7 @@ async def test_full_flow_fail_because_of_missing_device_infos(
 
 
 async def test_device_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that the flow is aborted when the device is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -138,7 +138,7 @@ async def test_device_already_configured(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_step_fail_with_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lunatone_info: AsyncMock,
     exception: Exception,
     expected_error: str,
@@ -172,7 +172,7 @@ async def test_user_step_fail_with_error(
 
 
 async def test_zeroconf_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -195,7 +195,7 @@ async def test_zeroconf_flow(
 
 
 async def test_zeroconf_flow_abort_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -220,7 +220,7 @@ async def test_zeroconf_flow_abort_duplicate(
     ],
 )
 async def test_zeroconf_flow_abort_with_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_info: AsyncMock,
     exception: Exception,
@@ -247,7 +247,7 @@ async def test_zeroconf_flow_abort_with_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lunatone_info: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -277,7 +277,7 @@ async def test_reconfigure(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_fail_with_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lunatone_info: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,

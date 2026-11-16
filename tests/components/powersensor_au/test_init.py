@@ -23,7 +23,7 @@ from universalassistant.components.powersensor_au.const import (
 from universalassistant.components.powersensor_au.models import PowersensorRuntimeData
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -52,7 +52,7 @@ async def test_setup_starts_mdns_browser(mock_devices: MagicMock) -> None:
 
 
 async def test_unload_unsubscribes_devices_then_stops_library(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_devices: MagicMock,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
@@ -75,7 +75,7 @@ async def test_unload_unsubscribes_devices_then_stops_library(
 
 
 async def test_event_during_unload_does_not_orphan_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_devices: MagicMock,
     config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -108,7 +108,7 @@ async def test_event_during_unload_does_not_orphan_entities(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_devices_start_failure_retries_and_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_devices: MagicMock,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -156,7 +156,7 @@ async def test_devices_start_failure_retries_and_recovers(
 
 
 async def test_discovery_is_stopped_if_forwarding_platforms_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_devices: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -184,7 +184,7 @@ async def test_discovery_is_stopped_if_forwarding_platforms_fails(
     ],
 )
 async def test_setup_constructs_vhh_with_solar_from_saved_roles(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_devices: MagicMock,
     roles: dict[str, str],
     with_solar: bool,
@@ -221,7 +221,7 @@ async def test_setup_constructs_vhh_with_solar_from_saved_roles(
 
 
 async def _delete_device(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, device_id: str
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, device_id: str
 ) -> bool:
     """Ask HA to delete a device, as its device page does; return whether it did."""
     assert await async_setup_component(hass, "config", {})
@@ -230,11 +230,11 @@ async def _delete_device(
     return response["success"]
 
 
-async def _keep_loaded(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+async def _keep_loaded(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     """Leave the entry running."""
 
 
-async def _unload(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+async def _unload(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     """Unload the entry, as disabling the integration does."""
     assert await hass.config_entries.async_unload(entry.entry_id)
     await hass.async_block_till_done()
@@ -248,7 +248,7 @@ async def _unload(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
     ],
 )
 async def test_device_on_the_network_cannot_be_deleted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     device_registry: dr.DeviceRegistry,
@@ -292,7 +292,7 @@ async def test_device_on_the_network_cannot_be_deleted(
     ],
 )
 async def test_lost_device_can_be_deleted_and_is_rebuilt_if_it_returns(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     device_registry: dr.DeviceRegistry,
@@ -339,7 +339,7 @@ async def test_lost_device_can_be_deleted_and_is_rebuilt_if_it_returns(
     ],
 )
 async def test_device_can_be_deleted_while_unloaded_and_returns_on_load(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     device_registry: dr.DeviceRegistry,
@@ -382,7 +382,7 @@ async def test_device_can_be_deleted_while_unloaded_and_returns_on_load(
 
 
 async def test_returning_sensor_gets_entities_of_a_role_it_had_before(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     device_registry: dr.DeviceRegistry,
@@ -445,13 +445,13 @@ async def test_returning_sensor_gets_entities_of_a_role_it_had_before(
     ],
 )
 async def test_household_view_cannot_be_deleted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     device_registry: dr.DeviceRegistry,
     hass_ws_client: WebSocketGenerator,
     before_delete: Callable[
-        [__HAC_KEEP__, MockConfigEntry], Coroutine[Any, Any, None]
+        [UniversalAssistant, MockConfigEntry], Coroutine[Any, Any, None]
     ],
 ) -> None:
     """The household view belongs to the installation, not to one device."""

@@ -7,13 +7,13 @@ from pytest_universalassistant.common import async_capture_events
 
 from universalassistant.components.knx.const import KNX_ADDRESS
 from universalassistant.const import CONF_EVENT, CONF_TYPE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import KNXTestKit
 
 
 async def test_knx_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     knx: KNXTestKit,
 ) -> None:

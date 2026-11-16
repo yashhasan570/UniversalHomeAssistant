@@ -8,8 +8,8 @@ from typing import TYPE_CHECKING
 import probatio
 
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, selector, service
 from universalassistant.helpers.storage import STORAGE_DIR
 
@@ -36,7 +36,7 @@ class VelbusServiceArgument(StrEnum):
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the velbus services."""
 
     async def scan(call: ServiceCall) -> None:
@@ -47,7 +47,7 @@ def async_setup_services(hass: __HAC_KEEP__) -> None:
         try:
             await entry.runtime_data.controller.scan()
         except OSError as exc:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="scan_failed",
                 translation_placeholders={"error": str(exc)},
@@ -61,7 +61,7 @@ def async_setup_services(hass: __HAC_KEEP__) -> None:
         try:
             await entry.runtime_data.controller.sync_clock()
         except OSError as exc:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="sync_clock_failed",
                 translation_placeholders={"error": str(exc)},
@@ -84,7 +84,7 @@ def async_setup_services(hass: __HAC_KEEP__) -> None:
         try:
             await module.set_memo_text(memo_text)
         except OSError as exc:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_memo_text_failed",
                 translation_placeholders={"error": str(exc)},
@@ -114,7 +114,7 @@ def async_setup_services(hass: __HAC_KEEP__) -> None:
         try:
             await hass.async_add_executor_job(_clear_cache)
         except OSError as exc:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="clear_cache_failed",
                 translation_placeholders={"path": cache_path},

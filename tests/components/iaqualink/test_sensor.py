@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN, SensorDeviceClass
 from universalassistant.const import STATE_UNKNOWN, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
@@ -26,7 +26,7 @@ from .conftest import (
 
 
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     entity_registry: er.EntityRegistry,
@@ -39,7 +39,7 @@ async def test_setup(
 
 
 async def _setup_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     *,
@@ -95,7 +95,7 @@ async def _setup_sensor(
     ],
 )
 async def test_sensor_initialization(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     name: str,
@@ -129,7 +129,7 @@ async def test_sensor_initialization(
     ],
 )
 async def test_sensor_native_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     state: str,

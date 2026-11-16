@@ -670,7 +670,7 @@
       "supported_by": "motion_blinds"
     },
     "analytics_insights": {
-      "name": "__HA_KEEP__ Analytics Insights",
+      "name": "Universal Home Assistant Analytics Insights",
       "integration_type": "service",
       "categories": [
         "computers_network.cloud_developer_tools"
@@ -3973,7 +3973,7 @@
         "cloud"
       ],
       "config_flow": false,
-      "iot_class": "local_polling"
+      "iot_class": "cloud_polling"
     },
     "epic_games_store": {
       "name": "Epic Games Store",
@@ -5916,7 +5916,7 @@
       "iot_class": "local_polling"
     },
     "hassio": {
-      "name": "__HA_KEEP__ Supervisor",
+      "name": "Universal Home Assistant Supervisor",
       "integration_type": "hub",
       "categories": [
         "computers_network.nas_servers"
@@ -6252,7 +6252,7 @@
       "supported_by": "netatmo"
     },
     "universalassistant_connect_zbt2": {
-      "name": "__HA_KEEP__ Connect ZBT-2",
+      "name": "Universal Home Assistant Connect ZBT-2",
       "integration_type": "hardware",
       "categories": [
         "hubs_protocols.wireless_protocols"
@@ -6260,7 +6260,7 @@
       "config_flow": true
     },
     "universalassistant_green": {
-      "name": "__HA_KEEP__ Green",
+      "name": "Universal Home Assistant Green",
       "integration_type": "hardware",
       "categories": [
         "hubs_protocols.smart_home_hubs"
@@ -6269,7 +6269,7 @@
       "single_config_entry": true
     },
     "universalassistant_sky_connect": {
-      "name": "__HA_KEEP__ Connect ZBT-1",
+      "name": "Universal Home Assistant Connect ZBT-1",
       "integration_type": "hardware",
       "categories": [
         "hubs_protocols.wireless_protocols"
@@ -6277,7 +6277,7 @@
       "config_flow": true
     },
     "universalassistant_yellow": {
-      "name": "__HA_KEEP__ Yellow",
+      "name": "Universal Home Assistant Yellow",
       "integration_type": "hardware",
       "categories": [
         "hubs_protocols.smart_home_hubs",
@@ -7078,7 +7078,7 @@
       "iot_class": "local_push"
     },
     "ios": {
-      "name": "__HA_KEEP__ iOS",
+      "name": "Universal Home Assistant iOS",
       "integration_type": "hub",
       "categories": [
         "presence_location.phones_companion_apps",
@@ -15656,6 +15656,15 @@
       ],
       "config_flow": true,
       "iot_class": "cloud_polling"
+    },
+    "trimlight": {
+      "name": "Trimlight",
+      "integration_type": "device",
+      "categories": [
+        "lighting.led_strips_controllers"
+      ],
+      "config_flow": true,
+      "iot_class": "local_polling"
     },
     "trmnl": {
       "name": "TRMNL",

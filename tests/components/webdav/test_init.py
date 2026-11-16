@@ -14,7 +14,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.webdav.const import CONF_BACKUP_PATH, DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
@@ -57,7 +57,7 @@ from . import setup_integration
     ],
 )
 async def test_error_during_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     webdav_client: AsyncMock,
     caplog: pytest.LogCaptureFixture,
     error: Exception,
@@ -85,7 +85,7 @@ async def test_error_during_setup(
 
 
 async def test_auth_error_during_setup_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     webdav_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -137,7 +137,7 @@ async def test_auth_error_during_setup_starts_reauth(
     ],
 )
 async def test_backup_path_error_during_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     webdav_client: AsyncMock,
     caplog: pytest.LogCaptureFixture,
     check_side_effect: list[bool | Exception],
@@ -166,7 +166,7 @@ async def test_backup_path_error_during_setup(
 
 
 async def test_setup_with_root_backup_path(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     webdav_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

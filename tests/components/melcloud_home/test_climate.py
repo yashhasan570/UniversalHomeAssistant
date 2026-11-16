@@ -51,8 +51,8 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -64,7 +64,7 @@ ATW_ZONE2_ENTITY_ID = "climate.heat_pump_zone_2"
 
 @pytest.mark.usefixtures("mock_melcloud_client")
 async def test_climate_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -121,7 +121,7 @@ async def test_climate_platform(
     ],
 )
 async def test_ata_hvac_modes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     apply_capabilities: Callable[[dict[str, Any]], dict[str, Any] | None],
@@ -169,7 +169,7 @@ async def test_ata_hvac_modes(
 )
 @pytest.mark.usefixtures("mock_melcloud_client")
 async def test_ata_set_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_melcloud_client: AsyncMock,
     hvac_mode: HVACMode,
@@ -203,7 +203,7 @@ async def test_ata_set_hvac_mode(
 )
 @pytest.mark.usefixtures("mock_melcloud_client")
 async def test_ata_set_fan_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_melcloud_client: AsyncMock,
     fan_mode: str,
@@ -253,7 +253,7 @@ async def test_ata_set_fan_mode(
     ],
 )
 async def test_ata_swing_features(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     apply_capabilities: Callable[[dict[str, Any]], dict[str, Any] | None],
@@ -292,7 +292,7 @@ async def test_ata_swing_features(
 )
 @pytest.mark.usefixtures("mock_melcloud_client")
 async def test_ata_set_swing_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_melcloud_client: AsyncMock,
     swing_mode: str,
@@ -327,7 +327,7 @@ async def test_ata_set_swing_mode(
 )
 @pytest.mark.usefixtures("mock_melcloud_client")
 async def test_ata_set_swing_horizontal_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_melcloud_client: AsyncMock,
     swing_mode: str,
@@ -350,7 +350,7 @@ async def test_ata_set_swing_horizontal_mode(
 
 @pytest.mark.usefixtures("mock_melcloud_client")
 async def test_ata_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_melcloud_client: AsyncMock,
 ) -> None:
@@ -378,7 +378,7 @@ async def test_ata_set_temperature(
 )
 @pytest.mark.usefixtures("mock_melcloud_client")
 async def test_ata_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_melcloud_client: AsyncMock,
     service: str,
@@ -421,7 +421,7 @@ async def test_ata_turn_on_off(
 )
 @pytest.mark.usefixtures("mock_melcloud_client")
 async def test_atw_set_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_melcloud_client: AsyncMock,
     entity_id: str,
@@ -521,7 +521,7 @@ async def test_atw_set_hvac_mode(
     ],
 )
 async def test_atw_set_hvac_mode_keeps_strategy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_melcloud_client: AsyncMock,
     entity_id: str,
@@ -565,7 +565,7 @@ async def test_atw_set_hvac_mode_keeps_strategy(
 )
 @pytest.mark.usefixtures("mock_melcloud_client")
 async def test_atw_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_melcloud_client: AsyncMock,
     entity_id: str,
@@ -595,7 +595,7 @@ async def test_atw_set_temperature(
 )
 @pytest.mark.usefixtures("mock_melcloud_client")
 async def test_atw_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_melcloud_client: AsyncMock,
     service: str,
@@ -625,7 +625,7 @@ async def test_atw_turn_on_off(
     ],
 )
 async def test_ata_temperature_range_by_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_melcloud_client: AsyncMock,
     operation_mode: str,
@@ -651,7 +651,7 @@ async def test_ata_temperature_range_by_mode(
 
 
 async def test_ata_no_capabilities_temperature_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_melcloud_client: AsyncMock,
 ) -> None:
@@ -692,7 +692,7 @@ async def test_ata_no_capabilities_temperature_range(
     ],
 )
 async def test_target_temperature_step(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_melcloud_client: AsyncMock,
     units_key: str,
@@ -716,7 +716,7 @@ async def test_target_temperature_step(
 
 
 async def test_atw_zone_temperature_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_melcloud_client: AsyncMock,
 ) -> None:
@@ -767,7 +767,7 @@ async def test_atw_zone_temperature_range(
     ],
 )
 async def test_atw_zone_hvac_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_melcloud_client: AsyncMock,
     overrides: dict[str, str],
@@ -875,7 +875,7 @@ async def test_atw_zone_hvac_action(
     ],
 )
 async def test_action_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_melcloud_client: AsyncMock,
     entity_id: str,
@@ -890,7 +890,7 @@ async def test_action_exceptions(
 
     getattr(mock_melcloud_client, method).side_effect = raise_exception
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             service,
@@ -902,7 +902,7 @@ async def test_action_exceptions(
 
 
 async def test_action_invalid_auth_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_melcloud_client: AsyncMock,
 ) -> None:
@@ -911,7 +911,7 @@ async def test_action_invalid_auth_starts_reauth(
 
     mock_melcloud_client.control_ata_unit.side_effect = MelCloudHomeAuthenticationError
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_TURN_ON,

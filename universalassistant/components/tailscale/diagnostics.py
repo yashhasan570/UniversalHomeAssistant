@@ -5,7 +5,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONF_OAUTH_CLIENT_ID, CONF_OAUTH_CLIENT_SECRET, CONF_TAILNET
 from .coordinator import TailscaleConfigEntry
@@ -32,7 +32,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: TailscaleConfigEntry
+    hass: UniversalAssistant, entry: TailscaleConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     # Round-trip via JSON to trigger serialization

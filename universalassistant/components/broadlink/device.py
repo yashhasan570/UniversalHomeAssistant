@@ -17,7 +17,7 @@ from broadlink_async.exceptions import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_MAC, CONF_TIMEOUT, CONF_TYPE, Platform
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 
@@ -37,7 +37,7 @@ class BroadlinkDevice[_ApiT: blk.Device = blk.Device]:
 
     api: _ApiT
 
-    def __init__(self, hass: __HAC_KEEP__, config: ConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config: ConfigEntry) -> None:
         """Initialize the device."""
         self.hass = hass
         self.config = config
@@ -71,7 +71,7 @@ class BroadlinkDevice[_ApiT: blk.Device = blk.Device]:
         return self.update_manager.available
 
     @staticmethod
-    async def async_update(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+    async def async_update(hass: UniversalAssistant, entry: ConfigEntry) -> None:
         """Update the device and related entities.
 
         Triggered when the device is renamed on the frontend.

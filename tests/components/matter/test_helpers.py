@@ -11,7 +11,7 @@ from universalassistant.components.matter.helpers import (
     get_device_id,
     get_node_from_device_entry,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from .common import setup_integration_with_node_fixture
@@ -19,7 +19,7 @@ from .common import setup_integration_with_node_fixture
 
 @pytest.mark.parametrize("node_fixture", ["device_diagnostics"])
 async def test_get_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -30,7 +30,7 @@ async def test_get_device_id(
 
 
 async def test_get_node_from_device_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     matter_client: MagicMock,
 ) -> None:

@@ -1,6 +1,7 @@
 """Tests for the NRGkick integration initialization."""
 
 from datetime import timedelta
+import logging
 from unittest.mock import AsyncMock
 
 from freezegun.api import FrozenDateTimeFactory
@@ -20,14 +21,14 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.nrgkick.const import DEFAULT_SCAN_INTERVAL, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 
 from . import setup_integration
 
 
 async def test_load_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:
@@ -90,7 +91,7 @@ async def test_load_unload_entry(
     ],
 )
 async def test_entry_setup_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
     exception: Exception,
@@ -112,7 +113,7 @@ async def test_entry_setup_errors(
 
 
 async def test_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -129,7 +130,7 @@ async def test_device(
 
 
 async def test_json_api_disabled_at_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
     issue_registry: ir.IssueRegistry,
@@ -158,7 +159,7 @@ async def test_json_api_disabled_at_setup(
 
 
 async def test_json_api_disabled_at_runtime(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
     issue_registry: ir.IssueRegistry,
@@ -189,3 +190,39 @@ async def test_json_api_disabled_at_runtime(
     assert (state := hass.states.get(entity_id))
     assert state.state != STATE_UNAVAILABLE
     assert issue_registry.async_get_issue(DOMAIN, issue_id) is None
+
+
+@pytest.mark.parametrize(
+    ("exception", "level"),
+    [
+        pytest.param(
+            NRGkickUnreachableError("Connection refused"),
+            logging.INFO,
+            id="unreachable",
+        ),
+        pytest.param(NRGkickTimeoutError("Timeout"), logging.ERROR, id="timeout"),
+    ],
+)
+async def test_refresh_log_level(
+    hass: UniversalAssistant,
+    mock_config_entry: MockConfigEntry,
+    mock_nrgkick_api: AsyncMock,
+    freezer: FrozenDateTimeFactory,
+    caplog: pytest.LogCaptureFixture,
+    exception: Exception,
+    level: int,
+) -> None:
+    """Test an unreachable device is logged at info level."""
+    await setup_integration(hass, mock_config_entry)
+
+    mock_nrgkick_api.get_info.side_effect = exception
+    freezer.tick(timedelta(seconds=DEFAULT_SCAN_INTERVAL))
+    async_fire_time_changed(hass)
+    await hass.async_block_till_done()
+
+    assert [
+        record.levelno
+        for record in caplog.records
+        if record.name == "universalassistant.components.nrgkick.coordinator"
+        and record.levelno > logging.DEBUG
+    ] == [level]

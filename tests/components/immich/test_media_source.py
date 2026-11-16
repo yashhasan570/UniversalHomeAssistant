@@ -23,14 +23,14 @@ from universalassistant.components.media_player import (
     SearchMediaQuery,
 )
 from universalassistant.components.media_source import MediaSourceItem, Unresolvable
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util.aiohttp import MockRequest, MockStreamReaderChunked
 
 from . import setup_integration
 
 
-async def test_get_media_source(hass: __HAC_KEEP__) -> None:
+async def test_get_media_source(hass: UniversalAssistant) -> None:
     """Test the async_get_media_source."""
     assert await async_setup_component(hass, "media_source", {})
 
@@ -54,7 +54,7 @@ async def test_get_media_source(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_resolve_media_bad_identifier(
-    hass: __HAC_KEEP__, identifier: str, exception_msg: str
+    hass: UniversalAssistant, identifier: str, exception_msg: str
 ) -> None:
     """Test resolve_media with bad identifiers."""
     assert await async_setup_component(hass, "media_source", {})
@@ -86,7 +86,7 @@ async def test_resolve_media_bad_identifier(
     ],
 )
 async def test_resolve_media_success(
-    hass: __HAC_KEEP__, identifier: str, url: str, mime_type: str
+    hass: UniversalAssistant, identifier: str, url: str, mime_type: str
 ) -> None:
     """Test successful resolving an item."""
     assert await async_setup_component(hass, "media_source", {})
@@ -99,7 +99,7 @@ async def test_resolve_media_success(
     assert result.mime_type == mime_type
 
 
-async def test_browse_media_unconfigured(hass: __HAC_KEEP__) -> None:
+async def test_browse_media_unconfigured(hass: UniversalAssistant) -> None:
     """Test browse_media without any devices being configured."""
     assert await async_setup_component(hass, "media_source", {})
 
@@ -112,7 +112,7 @@ async def test_browse_media_unconfigured(hass: __HAC_KEEP__) -> None:
 
 
 async def test_browse_media_get_root(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_immich: Mock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -208,7 +208,7 @@ async def test_browse_media_get_root(
     ],
 )
 async def test_browse_media_collections(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_immich: Mock,
     mock_config_entry: MockConfigEntry,
     collection: str,
@@ -251,7 +251,7 @@ async def test_browse_media_collections(
     ],
 )
 async def test_browse_media_collections_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_immich: Mock,
     mock_config_entry: MockConfigEntry,
     collection: str,
@@ -310,7 +310,7 @@ async def test_browse_media_collections_error(
     ],
 )
 async def test_browse_media_collection_items_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_immich: Mock,
     mock_config_entry: MockConfigEntry,
     collection: str,
@@ -462,7 +462,7 @@ async def test_browse_media_collection_items_error(
     ],
 )
 async def test_browse_media_collection_get_items(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_immich: Mock,
     mock_config_entry: MockConfigEntry,
     collection: str,
@@ -517,7 +517,7 @@ async def test_browse_media_collection_get_items(
     ],
 )
 async def test_browse_media_title_of_unknown_collection_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_immich: Mock,
     mock_config_entry: MockConfigEntry,
     collection: str,
@@ -555,7 +555,7 @@ async def test_browse_media_title_of_unknown_collection_item(
 
 
 async def test_media_view(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     mock_immich: Mock,
     mock_config_entry: MockConfigEntry,
@@ -791,7 +791,7 @@ async def test_media_view(
     ],
 )
 async def test_search_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_immich: Mock,
     mock_config_entry: MockConfigEntry,
     identifier: str,
@@ -816,7 +816,7 @@ async def test_search_media(
 
 
 async def test_search_media_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_immich: Mock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -870,7 +870,7 @@ async def test_search_media_errors(
 )
 @pytest.mark.usefixtures("mock_immich")
 async def test_search_media_invalid_scope(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     identifier: str | None,
     translation_key: str,
@@ -893,7 +893,7 @@ async def test_search_media_invalid_scope(
 
 @pytest.mark.usefixtures("mock_immich")
 async def test_search_media_account_unloaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test search_media on an unloaded Immich account."""
@@ -922,7 +922,7 @@ async def test_search_media_account_unloaded(
 )
 @pytest.mark.usefixtures("mock_immich")
 async def test_browse_media_account_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     identifier: str,
 ) -> None:
@@ -942,7 +942,7 @@ async def test_browse_media_account_not_loaded(
 
 @pytest.mark.usefixtures("mock_immich")
 async def test_browse_media_only_account_unloaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test browse_media on the only account after it is unloaded."""
@@ -970,7 +970,7 @@ async def test_browse_media_only_account_unloaded(
 )
 @pytest.mark.usefixtures("mock_immich")
 async def test_media_view_account_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     unique_id: str,
 ) -> None:

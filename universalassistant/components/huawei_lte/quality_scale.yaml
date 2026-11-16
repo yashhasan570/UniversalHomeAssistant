@@ -42,7 +42,7 @@ rules:
   integration-owner: done
   log-when-unavailable:
     status: todo
-    comment: Kind of done, but to be reviewed, there's probably room for improvement. Maybe address this when converting to use a data update coordinator. See also https://github.com/yashhasan570/__HAC_KEEP__/issues/55495
+    comment: Kind of done, but to be reviewed, there's probably room for improvement. Maybe address this when converting to use a data update coordinator. See also https://github.com/yashhasan570/UniversalUniversalAssistant/issues/55495
   parallel-updates: todo
   reauthentication-flow: done
   test-coverage:

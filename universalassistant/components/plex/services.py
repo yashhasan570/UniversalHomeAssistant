@@ -8,8 +8,8 @@ from plexapi.exceptions import NotFound
 import probatio
 from yarl import URL
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.template import result_as_boolean
 
 from .const import DOMAIN, PLEX_URI_SCHEME
@@ -43,7 +43,7 @@ _LOGGER = logging.getLogger(__package__)
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up services for the Plex integration."""
 
     async def async_refresh_library_service(service_call: ServiceCall) -> None:
@@ -57,7 +57,7 @@ def async_setup_services(hass: __HAC_KEEP__) -> None:
     )
 
 
-def refresh_library(hass: __HAC_KEEP__, service_call: ServiceCall) -> None:
+def refresh_library(hass: UniversalAssistant, service_call: ServiceCall) -> None:
     """Scan a Plex library for new and updated media."""
     plex_server_name = service_call.data.get(PlexServiceArgument.SERVER_NAME)
     library_name = service_call.data[PlexServiceArgument.LIBRARY_NAME]
@@ -79,16 +79,16 @@ def refresh_library(hass: __HAC_KEEP__, service_call: ServiceCall) -> None:
 
 
 def get_plex_server(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     plex_server_name: str | None = None,
     plex_server_id: str | None = None,
 ) -> PlexServer:
     """Retrieve a configured Plex server by name."""
     if DOMAIN not in hass.data:
-        raise __HAC_KEEP__Error("Plex integration not configured")
+        raise UniversalAssistantError("Plex integration not configured")
     servers = get_plex_servers(hass)
     if not servers:
-        raise __HAC_KEEP__Error("No Plex servers available")
+        raise UniversalAssistantError("No Plex servers available")
 
     if plex_server_id:
         return servers[plex_server_id]
@@ -101,7 +101,7 @@ def get_plex_server(
         if plex_server is not None:
             return plex_server
         friendly_names = [x.friendly_name for x in plex_servers]
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             f"Requested Plex server '{plex_server_name}' not found in {friendly_names}"
         )
 
@@ -109,14 +109,14 @@ def get_plex_server(
         return next(iter(plex_servers))
 
     friendly_names = [x.friendly_name for x in plex_servers]
-    raise __HAC_KEEP__Error(
+    raise UniversalAssistantError(
         "Multiple Plex servers configured, choose with 'plex_server' key:"
         f" {friendly_names}"
     )
 
 
 def process_plex_payload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     content_type: str,
     content_id: str,
     default_plex_server: PlexServer | None = None,
@@ -170,7 +170,7 @@ def process_plex_payload(
 
     if content_type == "station":
         if not supports_playqueues:
-            raise __HAC_KEEP__Error("Plex stations are not supported on this device")
+            raise UniversalAssistantError("Plex stations are not supported on this device")
         playqueue = plex_server.create_station_playqueue(content)
         return PlexMediaSearchResult(playqueue)
 
@@ -182,7 +182,7 @@ def process_plex_payload(
 
     if playqueue_id := content.pop("playqueue_id", None):
         if not supports_playqueues:
-            raise __HAC_KEEP__Error("Plex playqueues are not supported on this device")
+            raise UniversalAssistantError("Plex playqueues are not supported on this device")
         try:
             playqueue = plex_server.get_playqueue(playqueue_id)
         except NotFound as err:

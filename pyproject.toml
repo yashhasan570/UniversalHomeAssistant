@@ -10,7 +10,7 @@ license-files = ["LICENSE*", "universalassistant/backports/LICENSE*"]
 description = "Open-source home automation platform running on Python 3."
 readme = "README.rst"
 authors = [
-  { name = "The __HA_KEEP__ Authors", email = "hello@universalassistant.io" },
+  { name = "The Universal Home Assistant Authors", email = "hello@universalassistant.io" },
 ]
 keywords = ["home", "automation"]
 classifiers = [
@@ -90,8 +90,8 @@ dependencies = [
 
 [project.urls]
 "Homepage" = "https://www.universalassistant.io/"
-"Source Code" = "https://github.com/yashhasan570/__HAC_KEEP__"
-"Bug Reports" = "https://github.com/yashhasan570/__HAC_KEEP__/issues"
+"Source Code" = "https://github.com/yashhasan570/UniversalUniversalAssistant"
+"Bug Reports" = "https://github.com/yashhasan570/UniversalUniversalAssistant/issues"
 "Docs: Dev" = "https://contributors.universalassistant.io/"
 "Discord" = "https://www.universalassistant.io/join-chat/"
 "Forum" = "https://community.universalassistant.io/"
@@ -434,7 +434,7 @@ expected-line-ending-format = "LF"
 overgeneral-exceptions = [
   "builtins.BaseException",
   "builtins.Exception",
-  # "universalassistant.exceptions.__HAC_KEEP__Error",  # too many issues
+  # "universalassistant.exceptions.UniversalAssistantError",  # too many issues
 ]
 
 [tool.pylint.TYPING]
@@ -460,15 +460,15 @@ filterwarnings = [
   "error::sqlalchemy.exc.SAWarning",
   "error:usefixtures\\(\\) in .* without arguments has no effect:UserWarning", # pytest
 
-  # -- __HAC_KEEP__ - aiohttp
+  # -- UniversalAssistant - aiohttp
   # Overwrite web.Application to pass a custom default argument to _make_request
-  "ignore:Inheritance class __HAC_KEEP__Application from web.Application is discouraged:DeprecationWarning",
+  "ignore:Inheritance class UniversalAssistantApplication from web.Application is discouraged:DeprecationWarning",
   # Hass wraps `ClientSession.close` to emit a warning if the session is closed accidentally
   "ignore:Setting custom ClientSession.close attribute is discouraged:DeprecationWarning:universalassistant.helpers.aiohttp_client",
   # Modify app state for testing
   "ignore:Changing state of started or joined application is deprecated:DeprecationWarning:tests.components.http.test_ban",
 
-  # -- __HAC_KEEP__ - design choice
+  # -- UniversalAssistant - design choice
   # airOS 6 firmware negotiates nothing newer than TLS 1.0
   "ignore:ssl.TLSVersion.TLSv1 is deprecated:DeprecationWarning:universalassistant.components.airos.helpers",
 
@@ -730,7 +730,7 @@ ignore = [
   "ASYNC109", # Async function definition with a `timeout` parameter Use `asyncio.timeout` instead
   "ASYNC110", # Use `asyncio.Event` instead of awaiting `asyncio.sleep` in a `while` loop
   "ASYNC240", # Use an async function for entering the file system
-  "B008",     # Do not perform function call in argument defaults; commonly used in __HA_KEEP__ (e.g. cv.* validators)
+  "B008",     # Do not perform function call in argument defaults; commonly used in Universal Home Assistant (e.g. cv.* validators)
   "B019",     # Use of functools.lru_cache or functools.cache on methods can lead to memory leaks
   "D202",     # No blank lines allowed after function docstring
   "D203",     # 1 blank line required before class docstring
@@ -874,7 +874,7 @@ mark-parentheses = false
 "universalassistant.helpers.config_validation.port".msg = "use probatio.Port() instead"
 "universalassistant.helpers.config_validation.has_at_least_one_key".msg = "use probatio.AtLeastOne instead"
 "universalassistant.helpers.config_validation.has_at_most_one_key".msg = "use probatio.AtMostOne instead"
-"__future__.annotations".msg = "It should not be needed because __HA_KEEP__ requires Python 3.14+"
+"__future__.annotations".msg = "It should not be needed because Universal Home Assistant requires Python 3.14+"
 
 [tool.ruff.lint.isort]
 force-sort-within-sections = true
@@ -901,7 +901,7 @@ split-on-trailing-comma = false
 "universalassistant/components/*/*/*" = ["TID252"]
 "tests/components/*/*/*" = ["TID252"]
 
-# Benchmarks reuse the test helpers to spin up a __HA_KEEP__ instance
+# Benchmarks reuse the test helpers to spin up a Universal Home Assistant instance
 "benchmarks/**" = ["TID251"]
 
 # Temporary

@@ -9,11 +9,11 @@ from universalassistant import setup
 from universalassistant.components import dynalite, frontend
 from universalassistant.components.cover import DEVICE_CLASSES
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_get_config(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Get the config via websocket."""
     host = "1.2.3.4"
@@ -55,7 +55,7 @@ async def test_get_config(
 
 
 async def test_save_config(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Save the config via websocket."""
     host1 = "1.2.3.4"
@@ -111,7 +111,7 @@ async def test_save_config(
 
 
 async def test_save_config_invalid_entry(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Try to update nonexistent entry."""
     host1 = "1.2.3.4"
@@ -149,7 +149,7 @@ async def test_save_config_invalid_entry(
     assert existing_entry.data == {CONF_HOST: host1, CONF_PORT: port1}
 
 
-async def test_panel_registration(hass: __HAC_KEEP__) -> None:
+async def test_panel_registration(hass: UniversalAssistant) -> None:
     """Test that the dynalite panel is registered with correct module URL format."""
     with (
         patch(

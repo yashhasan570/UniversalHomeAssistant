@@ -9,14 +9,14 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.my_pv.coordinator import UPDATE_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
 
 @pytest.mark.usefixtures("mock_my_pv_client")
 async def test_coordinator_update_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -36,7 +36,7 @@ async def test_coordinator_update_data(
 
 
 async def test_coordinator_update_data_not_connected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
@@ -77,7 +77,7 @@ async def test_coordinator_update_data_not_connected(
 
 
 async def test_coordinator_update_data_rate_limiting(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,

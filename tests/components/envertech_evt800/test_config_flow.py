@@ -7,14 +7,14 @@ from pytest_universalassistant.plugins import MockConfigEntry
 from universalassistant.components.envertech_evt800.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import MOCK_USER_INPUT
 
 
 async def test_full_flow(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_evt800_client: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_evt800_client: AsyncMock
 ) -> None:
     """Test completing a full flow."""
 
@@ -39,7 +39,7 @@ async def test_full_flow(
 
 
 async def test_form_errors(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_evt800_client: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_evt800_client: AsyncMock
 ) -> None:
     """Test encountering errors when configuring the integration."""
     result = await hass.config_entries.flow.async_init(
@@ -74,7 +74,7 @@ async def test_form_errors(
 
 
 async def test_form_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_evt800_client: AsyncMock,
     mock_config_entry: MockConfigEntry,

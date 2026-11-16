@@ -8,7 +8,7 @@ from switchbot_api import Device, SwitchBotAPI
 from universalassistant.components.select import DOMAIN as SELECT_DOMAIN, SelectService
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import configure_integration
 
@@ -22,7 +22,7 @@ from . import configure_integration
     ],
 )
 async def test_night_light_coordinator_data_is_none(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices: AsyncMock,
     mock_get_status: AsyncMock,
     device: str,
@@ -58,7 +58,7 @@ async def test_night_light_coordinator_data_is_none(
     ],
 )
 async def test_night_light_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices: AsyncMock,
     mock_get_status: AsyncMock,
     device: str,
@@ -108,7 +108,7 @@ async def test_night_light_options(
 
 
 async def test_night_light_options_not_exist(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices: AsyncMock,
     mock_get_status: AsyncMock,
 ) -> None:

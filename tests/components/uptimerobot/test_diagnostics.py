@@ -8,7 +8,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from pyuptimerobot import UptimeRobotException
 from pyuptimerobot.const import API_PATH_USER_ME
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .common import (
     MOCK_UPTIMEROBOT_ACCOUNT,
@@ -20,7 +20,7 @@ from .common import (
 
 
 async def test_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test config entry diagnostics."""
@@ -56,7 +56,7 @@ async def test_entry_diagnostics(
 
 
 async def test_entry_diagnostics_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test config entry diagnostics with exception."""

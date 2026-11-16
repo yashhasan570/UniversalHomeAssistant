@@ -7,8 +7,8 @@ from typing import Any, Final, override
 from ohme import ApiException, ChargerMode, OhmeApiClient
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -47,7 +47,7 @@ VEHICLE_SELECT_DESCRIPTION: Final[OhmeSelectDescription] = OhmeSelectDescription
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: OhmeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -74,7 +74,7 @@ class OhmeSelect(OhmeEntity, SelectEntity):
         try:
             await self.entity_description.select_fn(self.coordinator.client, option)
         except ApiException as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_key="api_failed", translation_domain=DOMAIN
             ) from e
         await self.coordinator.async_request_refresh()

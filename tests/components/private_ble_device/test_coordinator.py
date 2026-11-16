@@ -3,7 +3,7 @@
 import pytest
 from pytest_universalassistant.components.bluetooth import _get_manager
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import (
     DUMMY_IRK,
@@ -25,7 +25,7 @@ def _unavailable_callback_count(address: str) -> int:
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_ignored_address_unavailable_callback_released(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test an ignored address stops being tracked once it goes unavailable."""
     await async_mock_config_entry(hass)
@@ -42,7 +42,7 @@ async def test_ignored_address_unavailable_callback_released(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_ignored_address_released_when_irk_resolves(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the ignore tracker is cancelled when a new IRK resolves the address."""
     await async_mock_config_entry(hass, OTHER_IRK)

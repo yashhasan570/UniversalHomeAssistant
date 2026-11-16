@@ -7,7 +7,7 @@ from universalassistant.components.greeneye_monitor.sensor import (
     DATA_WATT_SECONDS,
 )
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -24,7 +24,7 @@ from .conftest import assert_sensor_state
 
 
 async def test_sensor_does_not_exist_before_monitor_connected(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, monitors: AsyncMock
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, monitors: AsyncMock
 ) -> None:
     """Test that a sensor does not exist before its monitor is connected."""
     # The sensor base class handles connecting the monitor, so we test
@@ -37,7 +37,7 @@ async def test_sensor_does_not_exist_before_monitor_connected(
 
 
 async def test_sensors_created_when_monitor_connected(
-    hass: __HAC_KEEP__, monitors: AsyncMock
+    hass: UniversalAssistant, monitors: AsyncMock
 ) -> None:
     """Test that sensors get created when the monitor first connects."""
     # The sensor base class handles updating the state on connection,
@@ -53,7 +53,7 @@ async def test_sensors_created_when_monitor_connected(
 
 
 async def test_sensors_created_during_setup_if_monitor_already_connected(
-    hass: __HAC_KEEP__, monitors: AsyncMock
+    hass: UniversalAssistant, monitors: AsyncMock
 ) -> None:
     """Test sensors get created during setup if monitor connects fast."""
     # The sensor base class handles updating the state on connection,
@@ -68,7 +68,7 @@ async def test_sensors_created_during_setup_if_monitor_already_connected(
 
 
 async def test_disable_sensor_after_monitor_connected(
-    hass: __HAC_KEEP__, monitors: AsyncMock
+    hass: UniversalAssistant, monitors: AsyncMock
 ) -> None:
     """Test disabled sensor stops listening for changes."""
     # The sensor base class handles connecting the monitor, so we test
@@ -84,7 +84,7 @@ async def test_disable_sensor_after_monitor_connected(
 
 
 async def test_updates_state_when_sensor_pushes(
-    hass: __HAC_KEEP__, monitors: AsyncMock
+    hass: UniversalAssistant, monitors: AsyncMock
 ) -> None:
     """Test sensor entity updates state when underlying sensor pushes."""
     # The sensor base class handles triggering state updates, so we
@@ -101,7 +101,7 @@ async def test_updates_state_when_sensor_pushes(
 
 
 async def test_power_sensor_initially_unknown(
-    hass: __HAC_KEEP__, monitors: AsyncMock
+    hass: UniversalAssistant, monitors: AsyncMock
 ) -> None:
     """Test power sensor handles initial unknown state."""
     await setup_greeneye_monitor_component_with_config(
@@ -118,7 +118,7 @@ async def test_power_sensor_initially_unknown(
     )
 
 
-async def test_power_sensor(hass: __HAC_KEEP__, monitors: AsyncMock) -> None:
+async def test_power_sensor(hass: UniversalAssistant, monitors: AsyncMock) -> None:
     """Test power sensor reports values including net metering."""
     await setup_greeneye_monitor_component_with_config(
         hass, SINGLE_MONITOR_CONFIG_POWER_SENSORS
@@ -135,7 +135,7 @@ async def test_power_sensor(hass: __HAC_KEEP__, monitors: AsyncMock) -> None:
 
 
 async def test_pulse_counter_initially_unknown(
-    hass: __HAC_KEEP__, monitors: AsyncMock
+    hass: UniversalAssistant, monitors: AsyncMock
 ) -> None:
     """Test pulse counter handles initial unknown state."""
     await setup_greeneye_monitor_component_with_config(
@@ -157,7 +157,7 @@ async def test_pulse_counter_initially_unknown(
     assert_sensor_state(hass, "sensor.pulse_3", STATE_UNKNOWN, {DATA_PULSES: 1000})
 
 
-async def test_pulse_counter(hass: __HAC_KEEP__, monitors: AsyncMock) -> None:
+async def test_pulse_counter(hass: UniversalAssistant, monitors: AsyncMock) -> None:
     """Test pulse counter sensor reports values with unit conversion."""
     await setup_greeneye_monitor_component_with_config(
         hass, SINGLE_MONITOR_CONFIG_PULSE_COUNTERS
@@ -172,7 +172,7 @@ async def test_pulse_counter(hass: __HAC_KEEP__, monitors: AsyncMock) -> None:
     assert_sensor_state(hass, "sensor.pulse_3", "18000.0", {DATA_PULSES: 1000})
 
 
-async def test_temperature_sensor(hass: __HAC_KEEP__, monitors: AsyncMock) -> None:
+async def test_temperature_sensor(hass: UniversalAssistant, monitors: AsyncMock) -> None:
     """Test temperature sensor handles native unit conversion."""
     await setup_greeneye_monitor_component_with_config(
         hass, SINGLE_MONITOR_CONFIG_TEMPERATURE_SENSORS
@@ -183,7 +183,7 @@ async def test_temperature_sensor(hass: __HAC_KEEP__, monitors: AsyncMock) -> No
     assert_sensor_state(hass, "sensor.temp_a", "0.0")
 
 
-async def test_voltage_sensor(hass: __HAC_KEEP__, monitors: AsyncMock) -> None:
+async def test_voltage_sensor(hass: UniversalAssistant, monitors: AsyncMock) -> None:
     """Test that a voltage sensor reports its values properly."""
     await setup_greeneye_monitor_component_with_config(
         hass, SINGLE_MONITOR_CONFIG_VOLTAGE_SENSORS
@@ -192,7 +192,7 @@ async def test_voltage_sensor(hass: __HAC_KEEP__, monitors: AsyncMock) -> None:
     assert_sensor_state(hass, "sensor.voltage_1", "120.0")
 
 
-async def test_multi_monitor_sensors(hass: __HAC_KEEP__, monitors: AsyncMock) -> None:
+async def test_multi_monitor_sensors(hass: UniversalAssistant, monitors: AsyncMock) -> None:
     """Test that sensors still work when multiple monitors are registered."""
     await setup_greeneye_monitor_component_with_config(hass, MULTI_MONITOR_CONFIG)
     await connect_monitor(hass, monitors, 1)
@@ -203,7 +203,7 @@ async def test_multi_monitor_sensors(hass: __HAC_KEEP__, monitors: AsyncMock) ->
     assert_sensor_state(hass, "sensor.unit_3_temp_1", "32.0")
 
 
-async def disable_entity(hass: __HAC_KEEP__, entity_id: str) -> None:
+async def disable_entity(hass: UniversalAssistant, entity_id: str) -> None:
     """Disable the given entity."""
     entity_registry = er.async_get(hass)
     entity_registry.async_update_entity(

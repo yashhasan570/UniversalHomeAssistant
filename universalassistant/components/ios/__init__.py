@@ -1,4 +1,4 @@
-"""Native __HA_KEEP__ iOS app component."""
+"""Native Universal Home Assistant iOS app component."""
 
 from http import HTTPStatus
 from typing import Any, cast
@@ -7,10 +7,10 @@ from aiohttp import web
 import probatio
 
 from universalassistant import config_entries
-from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
+from universalassistant.components.http import KEY_HASS, UniversalAssistantView
 from universalassistant.const import CONF_ACTIONS, Platform
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv, discovery
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.json import save_json
@@ -215,7 +215,7 @@ CONFIGURATION_FILE = ".ios.conf"
 PLATFORMS = [Platform.SENSOR]
 
 
-def devices_with_push(hass: __HAC_KEEP__) -> dict[str, str]:
+def devices_with_push(hass: UniversalAssistant) -> dict[str, str]:
     """Return a dictionary of push enabled targets."""
     return {
         device_name: device.get(ATTR_PUSH_ID)
@@ -224,7 +224,7 @@ def devices_with_push(hass: __HAC_KEEP__) -> dict[str, str]:
     }
 
 
-def enabled_push_ids(hass: __HAC_KEEP__) -> list[str]:
+def enabled_push_ids(hass: UniversalAssistant) -> list[str]:
     """Return a list of push enabled target push IDs."""
     return [
         device.get(ATTR_PUSH_ID)
@@ -233,12 +233,12 @@ def enabled_push_ids(hass: __HAC_KEEP__) -> list[str]:
     ]
 
 
-def devices(hass: __HAC_KEEP__) -> dict[str, dict[str, Any]]:
+def devices(hass: UniversalAssistant) -> dict[str, dict[str, Any]]:
     """Return a dictionary of all identified devices."""
     return hass.data[IOS_DATA][ATTR_DEVICES]
 
 
-def device_name_for_push_id(hass: __HAC_KEEP__, push_id: str) -> str | None:
+def device_name_for_push_id(hass: UniversalAssistant, push_id: str) -> str | None:
     """Return the device name for the push ID."""
     for device_name, device in hass.data[IOS_DATA][ATTR_DEVICES].items():
         if device.get(ATTR_PUSH_ID) is push_id:
@@ -246,7 +246,7 @@ def device_name_for_push_id(hass: __HAC_KEEP__, push_id: str) -> str | None:
     return None
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the iOS component."""
     conf: ConfigType | None = config.get(DOMAIN)
 
@@ -281,7 +281,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
+    hass: UniversalAssistant, entry: config_entries.ConfigEntry
 ) -> None:
     """Set up an iOS entry."""
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
@@ -293,7 +293,7 @@ async def async_setup_entry(
     hass.http.register_view(iOSConfigView(hass.data[IOS_DATA][CONF_USER]))
 
 
-class iOSPushConfigView(__HAC_KEEP__View):
+class iOSPushConfigView(UniversalAssistantView):
     """A view that provides the push categories configuration."""
 
     url = "/api/ios/push"
@@ -309,7 +309,7 @@ class iOSPushConfigView(__HAC_KEEP__View):
         return self.json(self.push_config)
 
 
-class iOSConfigView(__HAC_KEEP__View):
+class iOSConfigView(UniversalAssistantView):
     """A view that provides the whole user-defined configuration."""
 
     url = "/api/ios/config"
@@ -325,7 +325,7 @@ class iOSConfigView(__HAC_KEEP__View):
         return self.json(self.config)
 
 
-class iOSIdentifyDeviceView(__HAC_KEEP__View):
+class iOSIdentifyDeviceView(UniversalAssistantView):
     """A view that accepts device identification requests."""
 
     url = "/api/ios/identify"
@@ -352,7 +352,7 @@ class iOSIdentifyDeviceView(__HAC_KEEP__View):
 
         try:
             save_json(self._config_path, hass.data[IOS_DATA])
-        except __HAC_KEEP__Error:
+        except UniversalAssistantError:
             return self.json_message(
                 "Error saving device.", HTTPStatus.INTERNAL_SERVER_ERROR
             )

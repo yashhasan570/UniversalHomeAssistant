@@ -16,8 +16,8 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 ENTITY_ID = "light.huum_sauna_light"
@@ -31,7 +31,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -42,7 +42,7 @@ async def test_light(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_light_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_huum_client: AsyncMock,
 ) -> None:
     """Test turning off light."""
@@ -59,7 +59,7 @@ async def test_light_turn_off(
 
 
 async def test_light_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_huum_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -85,14 +85,14 @@ async def test_light_turn_on(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_light_communication_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_huum_client: AsyncMock,
 ) -> None:
-    """Test that API errors when toggling the light are raised as __HAC_KEEP__Error."""
+    """Test that API errors when toggling the light are raised as UniversalAssistantError."""
     mock_huum_client.toggle_light.side_effect = RequestError()
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="An error occurred while communicating with the Huum sauna",
     ):
         await hass.services.async_call(

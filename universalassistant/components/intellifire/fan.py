@@ -13,7 +13,7 @@ from universalassistant.components.fan import (
     FanEntityDescription,
     FanEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
     percentage_to_ranged_value,
@@ -53,7 +53,7 @@ INTELLIFIRE_FANS: tuple[IntellifireFanEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: IntellifireConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

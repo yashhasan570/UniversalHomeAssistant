@@ -18,7 +18,7 @@ from universalassistant.components.lutron_caseta.const import (
 )
 from universalassistant.components.lutron_caseta.models import LutronCasetaData
 from universalassistant.const import ATTR_DEVICE_ID, CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -27,7 +27,7 @@ from . import MockBridge, async_setup_integration
 from tests.components.logbook.common import MockRow, mock_humanify
 
 
-async def test_humanify_lutron_caseta_button_event(hass: __HAC_KEEP__) -> None:
+async def test_humanify_lutron_caseta_button_event(hass: UniversalAssistant) -> None:
     """Test humanifying lutron_caseta_button_events."""
     hass.config.components.add("recorder")
     assert await async_setup_component(hass, "logbook", {})
@@ -80,7 +80,7 @@ async def test_humanify_lutron_caseta_button_event(hass: __HAC_KEEP__) -> None:
 
 
 async def test_humanify_lutron_caseta_button_event_integration_not_loaded(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test humanifying button events when integration fails to load."""
     hass.config.components.add("recorder")
@@ -133,7 +133,7 @@ async def test_humanify_lutron_caseta_button_event_integration_not_loaded(
 
 
 async def test_humanify_lutron_caseta_button_event_ra3(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test humanifying lutron_caseta_button_events from an RA3 hub."""
     hass.config.components.add("recorder")
@@ -170,7 +170,7 @@ async def test_humanify_lutron_caseta_button_event_ra3(
 
 
 async def test_humanify_lutron_caseta_button_unknown_type(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test humanifying lutron_caseta_button_events with an unknown type."""
     hass.config.components.add("recorder")

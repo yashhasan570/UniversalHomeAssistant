@@ -9,7 +9,7 @@ import pytest
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -27,7 +27,7 @@ def platform() -> Platform:
 
 @pytest.mark.usefixtures("matter_devices")
 async def test_sirens(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -37,7 +37,7 @@ async def test_sirens(
 
 @pytest.mark.parametrize("node_fixture", ["heiman_smoke_detector"])
 async def test_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -79,7 +79,7 @@ async def test_turn_on(
 
 @pytest.mark.parametrize("node_fixture", ["heiman_smoke_detector"])
 async def test_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -108,7 +108,7 @@ async def test_turn_off(
 
 @pytest.mark.parametrize("node_fixture", ["heiman_smoke_detector"])
 async def test_unknown_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:

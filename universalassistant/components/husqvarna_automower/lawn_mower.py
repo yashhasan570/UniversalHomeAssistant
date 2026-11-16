@@ -10,7 +10,7 @@ from universalassistant.components.lawn_mower import (
     LawnMowerEntity,
     LawnMowerEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -38,7 +38,7 @@ SUPPORT_STATE_SERVICES = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: AutomowerConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

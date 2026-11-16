@@ -16,7 +16,7 @@ from universalassistant.components.nexia.coordinator import (
 from universalassistant.components.sensor import SensorDeviceClass
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import PERCENTAGE, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
@@ -24,7 +24,7 @@ from universalassistant.helpers.entity_registry import EntityRegistry
 from .conftest import setup_integration
 
 
-async def test_create_sensors(hass: __HAC_KEEP__, patch_nexia_home: NexiaHome) -> None:
+async def test_create_sensors(hass: UniversalAssistant, patch_nexia_home: NexiaHome) -> None:
     """Test creation of sensors."""
 
     await setup_integration(hass, patch_nexia_home)
@@ -164,7 +164,7 @@ async def test_create_sensors(hass: __HAC_KEEP__, patch_nexia_home: NexiaHome) -
 
 
 async def test_room_iq_sensor_disabled_by_default(
-    hass: __HAC_KEEP__, patch_nexia_home: NonCallableMock[NexiaHome]
+    hass: UniversalAssistant, patch_nexia_home: NonCallableMock[NexiaHome]
 ) -> None:
     """Test NexiaRoomIQSensor is disabled by default."""
 
@@ -178,7 +178,7 @@ async def test_room_iq_sensor_disabled_by_default(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_room_iq_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     patch_nexia_home: NonCallableMock[NexiaHome],
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
@@ -248,7 +248,7 @@ async def test_room_iq_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_any_room_iq_monitors(
-    hass: __HAC_KEEP__, patch_nexia_home: NexiaHome
+    hass: UniversalAssistant, patch_nexia_home: NexiaHome
 ) -> None:
     """Test any_room_iq_monitors after unload."""
 
@@ -264,7 +264,7 @@ async def test_any_room_iq_monitors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_room_iq_monitors_removed_after_rename(
-    hass: __HAC_KEEP__, patch_nexia_home: NexiaHome, entity_registry: EntityRegistry
+    hass: UniversalAssistant, patch_nexia_home: NexiaHome, entity_registry: EntityRegistry
 ) -> None:
     """Test RoomIQ monitors are unregistered on unload after renaming entities."""
     zone = patch_nexia_home.get_thermostat_by_id(2000004).get_zone_by_id(500)
@@ -302,7 +302,7 @@ async def test_room_iq_monitors_removed_after_rename(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_room_iq_sensor_no_longer_present(
-    hass: __HAC_KEEP__, patch_nexia_home: NexiaHome, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, patch_nexia_home: NexiaHome, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test RoomIQ sensor no longer present."""
     zone = patch_nexia_home.get_thermostat_by_id(2000004).get_zone_by_id(500)
@@ -338,7 +338,7 @@ async def test_room_iq_sensor_no_longer_present(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_1_room_iq_sensor(
-    hass: __HAC_KEEP__, patch_nexia_home: NexiaHome
+    hass: UniversalAssistant, patch_nexia_home: NexiaHome
 ) -> None:
     """Test one-RoomIQ sensor case."""
     zone = patch_nexia_home.get_thermostat_by_id(2000003).get_zone_by_id(400)

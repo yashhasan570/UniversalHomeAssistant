@@ -1,11 +1,11 @@
-"""The tests for __HA_KEEP__ ffmpeg binary sensor."""
+"""The tests for Universal Home Assistant ffmpeg binary sensor."""
 
 from unittest.mock import AsyncMock, patch
 
 from pytest_universalassistant.common import assert_setup_component
 
 from universalassistant.const import EVENT_HOMEASSISTANT_START
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 CONFIG_NOISE = {
@@ -19,7 +19,7 @@ CONFIG_MOTION = {
 # -- ffmpeg noise binary_sensor --
 
 
-async def test_noise_setup_component(hass: __HAC_KEEP__) -> None:
+async def test_noise_setup_component(hass: UniversalAssistant) -> None:
     """Set up ffmpeg component."""
     with assert_setup_component(1, "binary_sensor"):
         await async_setup_component(hass, "binary_sensor", CONFIG_NOISE)
@@ -30,7 +30,7 @@ async def test_noise_setup_component(hass: __HAC_KEEP__) -> None:
 
 
 @patch("haffmpeg.sensor.SensorNoise.open_sensor", side_effect=AsyncMock())
-async def test_noise_setup_component_start(mock_start, hass: __HAC_KEEP__) -> None:
+async def test_noise_setup_component_start(mock_start, hass: UniversalAssistant) -> None:
     """Set up ffmpeg component."""
     with assert_setup_component(1, "binary_sensor"):
         await async_setup_component(hass, "binary_sensor", CONFIG_NOISE)
@@ -49,7 +49,7 @@ async def test_noise_setup_component_start(mock_start, hass: __HAC_KEEP__) -> No
 
 @patch("haffmpeg.sensor.SensorNoise")
 async def test_noise_setup_component_start_callback(
-    mock_ffmpeg, hass: __HAC_KEEP__
+    mock_ffmpeg, hass: UniversalAssistant
 ) -> None:
     """Set up ffmpeg component."""
     mock_ffmpeg().open_sensor.side_effect = AsyncMock()
@@ -77,7 +77,7 @@ async def test_noise_setup_component_start_callback(
 # -- ffmpeg motion binary_sensor --
 
 
-async def test_motion_setup_component(hass: __HAC_KEEP__) -> None:
+async def test_motion_setup_component(hass: UniversalAssistant) -> None:
     """Set up ffmpeg component."""
     with assert_setup_component(1, "binary_sensor"):
         await async_setup_component(hass, "binary_sensor", CONFIG_MOTION)
@@ -88,7 +88,7 @@ async def test_motion_setup_component(hass: __HAC_KEEP__) -> None:
 
 
 @patch("haffmpeg.sensor.SensorMotion.open_sensor", side_effect=AsyncMock())
-async def test_motion_setup_component_start(mock_start, hass: __HAC_KEEP__) -> None:
+async def test_motion_setup_component_start(mock_start, hass: UniversalAssistant) -> None:
     """Set up ffmpeg component."""
     with assert_setup_component(1, "binary_sensor"):
         await async_setup_component(hass, "binary_sensor", CONFIG_MOTION)
@@ -107,7 +107,7 @@ async def test_motion_setup_component_start(mock_start, hass: __HAC_KEEP__) -> N
 
 @patch("haffmpeg.sensor.SensorMotion")
 async def test_motion_setup_component_start_callback(
-    mock_ffmpeg, hass: __HAC_KEEP__
+    mock_ffmpeg, hass: UniversalAssistant
 ) -> None:
     """Set up ffmpeg component."""
     mock_ffmpeg().open_sensor.side_effect = AsyncMock()

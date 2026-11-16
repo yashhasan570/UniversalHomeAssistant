@@ -7,13 +7,13 @@ import pytest
 from pytest_universalassistant.typing import MockHAClientWebSocket, WebSocketGenerator
 
 from universalassistant.components.config import label_registry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import label_registry as lr
 
 
 @pytest.fixture(name="client")
 async def client_fixture(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> MockHAClientWebSocket:
     """Fixture that can interact with the config manager API."""
     label_registry.async_setup(hass)

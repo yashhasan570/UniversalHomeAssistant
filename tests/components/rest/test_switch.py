@@ -41,8 +41,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.trigger_template_entity import CONF_PICTURE
 from universalassistant.setup import async_setup_component
@@ -71,7 +71,7 @@ def http_success_code(request: pytest.FixtureRequest) -> HTTPStatus:
 
 
 async def test_setup_missing_config(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setup with configuration missing required entries."""
     config = {SWITCH_DOMAIN: {CONF_PLATFORM: DOMAIN}}
@@ -85,7 +85,7 @@ async def test_setup_missing_config(
 
 
 async def test_setup_missing_schema(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setup with resource missing schema."""
     config = {SWITCH_DOMAIN: {CONF_PLATFORM: DOMAIN, CONF_RESOURCE: "localhost"}}
@@ -100,7 +100,7 @@ async def test_setup_missing_schema(
 
 @respx.mock
 async def test_setup_failed_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test setup when connection error occurs."""
@@ -114,7 +114,7 @@ async def test_setup_failed_connect(
 
 @respx.mock
 async def test_setup_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test setup when connection timeout occurs."""
@@ -127,7 +127,7 @@ async def test_setup_timeout(
 
 
 @respx.mock
-async def test_setup_minimum(hass: __HAC_KEEP__) -> None:
+async def test_setup_minimum(hass: UniversalAssistant) -> None:
     """Test setup with minimum configuration."""
     route = respx.get(RESOURCE) % HTTPStatus.OK
     config = {SWITCH_DOMAIN: {CONF_PLATFORM: DOMAIN, CONF_RESOURCE: RESOURCE}}
@@ -138,7 +138,7 @@ async def test_setup_minimum(hass: __HAC_KEEP__) -> None:
 
 
 @respx.mock
-async def test_setup_query_params(hass: __HAC_KEEP__) -> None:
+async def test_setup_query_params(hass: UniversalAssistant) -> None:
     """Test setup with query params."""
     route = respx.get("http://localhost/?search=something") % HTTPStatus.OK
     config = {
@@ -156,7 +156,7 @@ async def test_setup_query_params(hass: __HAC_KEEP__) -> None:
 
 
 @respx.mock
-async def test_setup(hass: __HAC_KEEP__) -> None:
+async def test_setup(hass: UniversalAssistant) -> None:
     """Test setup with valid configuration."""
     route = respx.get(RESOURCE) % HTTPStatus.OK
     config = {
@@ -176,7 +176,7 @@ async def test_setup(hass: __HAC_KEEP__) -> None:
 
 
 @respx.mock
-async def test_setup_with_state_resource(hass: __HAC_KEEP__) -> None:
+async def test_setup_with_state_resource(hass: UniversalAssistant) -> None:
     """Test setup with valid configuration."""
     respx.get(RESOURCE) % HTTPStatus.NOT_FOUND
     route = respx.get("http://localhost/state") % HTTPStatus.OK
@@ -198,7 +198,7 @@ async def test_setup_with_state_resource(hass: __HAC_KEEP__) -> None:
 
 
 @respx.mock
-async def test_setup_with_templated_headers_params(hass: __HAC_KEEP__) -> None:
+async def test_setup_with_templated_headers_params(hass: UniversalAssistant) -> None:
     """Test setup with valid configuration."""
     route = respx.get(RESOURCE) % HTTPStatus.OK
     config = {
@@ -231,7 +231,7 @@ async def test_setup_with_templated_headers_params(hass: __HAC_KEEP__) -> None:
 # Tests for REST switch platform.
 
 
-async def _async_setup_test_switch(hass: __HAC_KEEP__) -> None:
+async def _async_setup_test_switch(hass: UniversalAssistant) -> None:
     respx.get(RESOURCE) % HTTPStatus.OK
 
     headers = {"Content-type": CONTENT_TYPE_JSON}
@@ -252,7 +252,7 @@ async def _async_setup_test_switch(hass: __HAC_KEEP__) -> None:
 
 
 @respx.mock
-async def test_name(hass: __HAC_KEEP__) -> None:
+async def test_name(hass: UniversalAssistant) -> None:
     """Test the name."""
     await _async_setup_test_switch(hass)
 
@@ -261,7 +261,7 @@ async def test_name(hass: __HAC_KEEP__) -> None:
 
 
 @respx.mock
-async def test_device_class(hass: __HAC_KEEP__) -> None:
+async def test_device_class(hass: UniversalAssistant) -> None:
     """Test the device class."""
     await _async_setup_test_switch(hass)
 
@@ -270,7 +270,7 @@ async def test_device_class(hass: __HAC_KEEP__) -> None:
 
 
 @respx.mock
-async def test_is_on_before_update(hass: __HAC_KEEP__) -> None:
+async def test_is_on_before_update(hass: UniversalAssistant) -> None:
     """Test is_on in initial state."""
     await _async_setup_test_switch(hass)
 
@@ -280,7 +280,7 @@ async def test_is_on_before_update(hass: __HAC_KEEP__) -> None:
 
 @respx.mock
 async def test_turn_on_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     http_success_code: HTTPStatus,
 ) -> None:
     """Test turn_on."""
@@ -303,12 +303,12 @@ async def test_turn_on_success(
 
 
 @respx.mock
-async def test_turn_on_status_not_ok(hass: __HAC_KEEP__) -> None:
+async def test_turn_on_status_not_ok(hass: UniversalAssistant) -> None:
     """Test turn_on when error status returned."""
     await _async_setup_test_switch(hass)
 
     route = respx.post(RESOURCE) % HTTPStatus.INTERNAL_SERVER_ERROR
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -325,12 +325,12 @@ async def test_turn_on_status_not_ok(hass: __HAC_KEEP__) -> None:
 
 
 @respx.mock
-async def test_turn_on_timeout(hass: __HAC_KEEP__) -> None:
+async def test_turn_on_timeout(hass: UniversalAssistant) -> None:
     """Test turn_on when timeout occurs."""
     await _async_setup_test_switch(hass)
 
     respx.post(RESOURCE).mock(side_effect=httpx2.TimeoutException(""))
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -344,7 +344,7 @@ async def test_turn_on_timeout(hass: __HAC_KEEP__) -> None:
 
 @respx.mock
 async def test_turn_off_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     http_success_code: HTTPStatus,
 ) -> None:
     """Test turn_off."""
@@ -368,12 +368,12 @@ async def test_turn_off_success(
 
 
 @respx.mock
-async def test_turn_off_status_not_ok(hass: __HAC_KEEP__) -> None:
+async def test_turn_off_status_not_ok(hass: UniversalAssistant) -> None:
     """Test turn_off when error status returned."""
     await _async_setup_test_switch(hass)
 
     route = respx.post(RESOURCE) % HTTPStatus.INTERNAL_SERVER_ERROR
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
@@ -390,12 +390,12 @@ async def test_turn_off_status_not_ok(hass: __HAC_KEEP__) -> None:
 
 
 @respx.mock
-async def test_turn_off_timeout(hass: __HAC_KEEP__) -> None:
+async def test_turn_off_timeout(hass: UniversalAssistant) -> None:
     """Test turn_off when timeout occurs."""
     await _async_setup_test_switch(hass)
 
     respx.post(RESOURCE).mock(side_effect=httpx2.TimeoutException(""))
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
@@ -408,7 +408,7 @@ async def test_turn_off_timeout(hass: __HAC_KEEP__) -> None:
 
 
 @respx.mock
-async def test_update_when_on(hass: __HAC_KEEP__) -> None:
+async def test_update_when_on(hass: UniversalAssistant) -> None:
     """Test update when switch is on."""
     await _async_setup_test_switch(hass)
 
@@ -420,7 +420,7 @@ async def test_update_when_on(hass: __HAC_KEEP__) -> None:
 
 
 @respx.mock
-async def test_update_when_off(hass: __HAC_KEEP__) -> None:
+async def test_update_when_off(hass: UniversalAssistant) -> None:
     """Test update when switch is off."""
     await _async_setup_test_switch(hass)
 
@@ -432,7 +432,7 @@ async def test_update_when_off(hass: __HAC_KEEP__) -> None:
 
 
 @respx.mock
-async def test_update_when_unknown(hass: __HAC_KEEP__) -> None:
+async def test_update_when_unknown(hass: UniversalAssistant) -> None:
     """Test update when unknown status returned."""
     await _async_setup_test_switch(hass)
 
@@ -444,7 +444,7 @@ async def test_update_when_unknown(hass: __HAC_KEEP__) -> None:
 
 
 @respx.mock
-async def test_update_timeout(hass: __HAC_KEEP__) -> None:
+async def test_update_timeout(hass: UniversalAssistant) -> None:
     """Test update when timeout occurs."""
     await _async_setup_test_switch(hass)
 
@@ -457,7 +457,7 @@ async def test_update_timeout(hass: __HAC_KEEP__) -> None:
 
 @respx.mock
 async def test_entity_config(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test entity configuration."""
 
@@ -492,7 +492,7 @@ async def test_entity_config(
 
 @respx.mock
 async def test_availability(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test entity configuration."""
 
@@ -566,7 +566,7 @@ async def test_availability(
 
 @respx.mock
 async def test_availability_blocks_is_on_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test availability blocks is_on_template from rendering."""

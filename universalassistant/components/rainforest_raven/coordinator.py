@@ -12,7 +12,7 @@ from aioraven.serial import RAVEnSerialDevice
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_DEVICE, CONF_MAC
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -69,7 +69,7 @@ class RAVEnDataCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     _device_info: RAVEnDeviceInfo | None = None
     config_entry: RAVEnConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, entry: RAVEnConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: RAVEnConfigEntry) -> None:
         """Initialize the data object."""
         super().__init__(
             hass,

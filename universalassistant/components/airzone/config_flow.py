@@ -8,14 +8,23 @@ from aioairzone.exceptions import AirzoneError, InvalidSystem
 from aioairzone.localapi import AirzoneLocalApi, ConnectionOptions
 import probatio
 
+from universalassistant.components import mqtt
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_ID, CONF_PORT
+from universalassistant.core import callback
 from universalassistant.data_entry_flow import AbortFlow
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.device_registry import format_mac
+from universalassistant.helpers.schema_config_entry_flow import (
+    SchemaCommonFlowHandler,
+    SchemaFlowError,
+    SchemaFlowFormStep,
+    SchemaOptionsFlowHandlerWithReload,
+)
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
-from .const import DOMAIN
+from .const import CONF_MQTT_TOPIC, DOMAIN
+from .coordinator import AirzoneConfigEntry
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -30,6 +39,34 @@ SYSTEM_ID_SCHEMA = CONFIG_SCHEMA.extend(
         probatio.Required(CONF_ID, default=1): int,
     }
 )
+
+
+async def validate_options(
+    handler: SchemaCommonFlowHandler,
+    user_input: dict[str, Any],
+) -> dict[str, Any]:
+    """Validate Airzone options."""
+    mqtt_topic = user_input.get(CONF_MQTT_TOPIC, "")
+    if len(mqtt_topic) > 0:
+        try:
+            mqtt.valid_publish_topic(mqtt_topic)
+        except probatio.Invalid as err:
+            raise SchemaFlowError("invalid_mqtt_topic") from err
+
+    return user_input
+
+
+OPTIONS_SCHEMA = probatio.Schema(
+    {
+        probatio.Optional(CONF_MQTT_TOPIC): str,
+    }
+)
+OPTIONS_FLOW = {
+    "init": SchemaFlowFormStep(
+        OPTIONS_SCHEMA,
+        validate_user_input=validate_options,
+    ),
+}
 
 
 def short_mac(addr: str) -> str:
@@ -175,3 +212,12 @@ class AirZoneConfigFlow(ConfigFlow, domain=DOMAIN):
             data_schema=probatio.Schema(base_schema),
             errors=errors,
         )
+
+    @staticmethod
+    @callback
+    @override
+    def async_get_options_flow(
+        config_entry: AirzoneConfigEntry,
+    ) -> SchemaOptionsFlowHandlerWithReload:
+        """Get the options flow for this handler."""
+        return SchemaOptionsFlowHandlerWithReload(config_entry, OPTIONS_FLOW)

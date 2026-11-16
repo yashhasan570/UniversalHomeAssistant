@@ -23,8 +23,8 @@ from universalassistant.const import (
     CONF_TRIGGERS,
     CONF_VARIABLES,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv, script
 from universalassistant.helpers.condition import async_validate_conditions_config
 from universalassistant.helpers.trigger import async_validate_trigger_config
@@ -89,7 +89,7 @@ AUTOMATION_BLUEPRINT_SCHEMA = probatio.All(
 
 
 async def _async_validate_config_item(  # noqa: C901
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     raise_on_errors: bool,
     warn_on_errors: bool,
@@ -192,7 +192,7 @@ async def _async_validate_config_item(  # noqa: C901
                     err,
                 )
             if raise_on_errors:
-                raise __HAC_KEEP__Error(err) from err
+                raise UniversalAssistantError(err) from err
             return _minimal_config(ValidationStatus.FAILED_BLUEPRINT, err, config)
 
     automation_name = "Unnamed automation"
@@ -220,7 +220,7 @@ async def _async_validate_config_item(  # noqa: C901
         )
     except (
         probatio.Invalid,
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
     ) as err:
         if isinstance(err, probatio.Invalid):
             err.prepend([CONF_TRIGGERS])
@@ -241,7 +241,7 @@ async def _async_validate_config_item(  # noqa: C901
             )
         except (
             probatio.Invalid,
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
         ) as err:
             if isinstance(err, probatio.Invalid):
                 err.prepend([CONF_CONDITIONS])
@@ -264,7 +264,7 @@ async def _async_validate_config_item(  # noqa: C901
         )
     except (
         probatio.Invalid,
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
     ) as err:
         if isinstance(err, probatio.Invalid):
             err.prepend([CONF_ACTIONS])
@@ -302,18 +302,18 @@ class AutomationConfig(dict):
 
 
 async def _try_async_validate_config_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict[str, Any],
 ) -> AutomationConfig | None:
     """Validate config item."""
     try:
         return await _async_validate_config_item(hass, config, False, True)
-    except probatio.Invalid, __HAC_KEEP__Error:
+    except probatio.Invalid, UniversalAssistantError:
         return None
 
 
 async def async_validate_config_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_key: str,
     config: dict[str, Any],
 ) -> AutomationConfig | None:
@@ -321,7 +321,7 @@ async def async_validate_config_item(
     return await _async_validate_config_item(hass, config, True, False)
 
 
-async def async_validate_config(hass: __HAC_KEEP__, config: ConfigType) -> ConfigType:
+async def async_validate_config(hass: UniversalAssistant, config: ConfigType) -> ConfigType:
     """Validate config."""
     # No gather here since _try_async_validate_config_item is unlikely to suspend
     # and the cost of creating many tasks is not worth the benefit.

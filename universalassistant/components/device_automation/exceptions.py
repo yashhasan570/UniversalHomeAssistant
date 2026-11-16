@@ -1,15 +1,15 @@
 """Device automation exceptions."""
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 
-class InvalidDeviceAutomationConfig(__HAC_KEEP__Error):
+class InvalidDeviceAutomationConfig(UniversalAssistantError):
     """When device automation config is invalid."""
 
 
-class DeviceNotFound(__HAC_KEEP__Error):
+class DeviceNotFound(UniversalAssistantError):
     """When referenced device not found."""
 
 
-class EntityNotFound(__HAC_KEEP__Error):
+class EntityNotFound(UniversalAssistantError):
     """When referenced entity not found."""

@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.aqualogic import AquaLogicProcessor
 from universalassistant.components.aqualogic.const import DOMAIN, UPDATE_TOPIC
 from universalassistant.const import CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.dispatcher import dispatcher_send
 
 
@@ -57,7 +57,7 @@ def mock_aqualogic_device() -> Generator[MagicMock]:
 
 
 @pytest.fixture
-def mock_processor(hass: __HAC_KEEP__, mock_panel: MagicMock) -> Generator[MagicMock]:
+def mock_processor(hass: UniversalAssistant, mock_panel: MagicMock) -> Generator[MagicMock]:
     """Mock the AquaLogic processor thread."""
     with patch(
         "universalassistant.components.aqualogic.AquaLogicProcessor"
@@ -72,7 +72,7 @@ def mock_processor(hass: __HAC_KEEP__, mock_panel: MagicMock) -> Generator[Magic
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_processor: MagicMock,
     platforms: list[Platform],
@@ -95,7 +95,7 @@ def platforms() -> list[Platform]:
 
 @pytest.fixture
 async def processor_run(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> AsyncGenerator[tuple[AquaLogicProcessor, MagicMock]]:
     """Provide a real AquaLogicProcessor for testing run() without starting the thread."""

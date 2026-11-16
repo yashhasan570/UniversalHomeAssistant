@@ -9,7 +9,7 @@ from momonga import Momonga, MomongaError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_DEVICE, CONF_ID, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import CONNECT_RETRIES, DEFAULT_SCAN_INTERVAL, DOMAIN, REOPEN_DELAYS
@@ -46,7 +46,7 @@ class BRouteUpdateCoordinator(DataUpdateCoordinator[BRouteData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: BRouteConfigEntry,
     ) -> None:
         """Initialize."""

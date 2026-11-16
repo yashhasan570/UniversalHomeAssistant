@@ -19,7 +19,7 @@ from universalassistant.components.bluetooth.active_update_processor import (
     ActiveBluetoothProcessorCoordinator,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.event import async_track_time_interval
 
@@ -47,7 +47,7 @@ class INKBIRDActiveBluetoothProcessorCoordinator(
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: INKBIRDConfigEntry,
         device_type: str | None,
         device_data: dict[str, Any] | None,

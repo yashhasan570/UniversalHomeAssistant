@@ -14,14 +14,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_all_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_autarco_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -35,7 +35,7 @@ async def test_all_sensors(
 
 
 async def test_update_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_autarco_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

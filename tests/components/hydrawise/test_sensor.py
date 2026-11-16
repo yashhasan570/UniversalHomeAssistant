@@ -19,7 +19,7 @@ from universalassistant.components.hydrawise.const import (
     WATER_USE_SCAN_INTERVAL,
 )
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.unit_system import (
     METRIC_SYSTEM,
@@ -30,7 +30,7 @@ from universalassistant.util.unit_system import (
 
 @pytest.mark.freeze_time("2023-10-01 00:00:00+00:00")
 async def test_all_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_add_config_entry: Callable[[], Awaitable[MockConfigEntry]],
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -46,7 +46,7 @@ async def test_all_sensors(
 
 @pytest.mark.freeze_time("2023-10-01 00:00:00+00:00")
 async def test_suspended_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     zones: list[Zone],
     mock_add_config_entry: Callable[[], Awaitable[MockConfigEntry]],
 ) -> None:
@@ -61,7 +61,7 @@ async def test_suspended_state(
 
 @pytest.mark.freeze_time("2024-11-01 00:00:00+00:00")
 async def test_usage_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_added_config_entry: MockConfigEntry,
     mock_pydrawise: AsyncMock,
     controller_water_use_summary: ControllerWaterUseSummary,
@@ -88,7 +88,7 @@ async def test_usage_refresh(
 
 
 async def test_no_sensor_and_water_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     controller: Controller,
     controller_water_use_summary: ControllerWaterUseSummary,
     mock_add_config_entry: Callable[[], Awaitable[MockConfigEntry]],
@@ -134,7 +134,7 @@ async def test_no_sensor_and_water_state(
     ],
 )
 async def test_volume_unit_conversion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     unit_system: UnitSystem,
     hydrawise_unit_system: str,
     expected_state: str,

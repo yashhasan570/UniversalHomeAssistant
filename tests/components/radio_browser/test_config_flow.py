@@ -8,12 +8,12 @@ from radios import RadioBrowserConnectionError
 
 from universalassistant.components.radio_browser.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_radio_browser")
-async def test_full_user_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_full_user_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test the full user configuration flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -34,7 +34,7 @@ async def test_full_user_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -
 
 
 async def test_user_flow_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_radio_browser: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_user_flow_cannot_connect(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we abort if the Radio Browser is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -78,7 +78,7 @@ async def test_already_configured(
 
 
 async def test_onboarding_flow(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test the onboarding configuration flow."""
     result = await hass.config_entries.flow.async_init(

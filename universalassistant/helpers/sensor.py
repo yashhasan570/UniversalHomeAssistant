@@ -6,8 +6,8 @@ from typing import TYPE_CHECKING, Any, override
 from .device_registry import DeviceInfo
 
 if TYPE_CHECKING:
-    # `sensor_state_data` is a second-party library (i.e. maintained by __HA_KEEP__
-    # core members) which is not strictly required by __HA_KEEP__.
+    # `sensor_state_data` is a second-party library (i.e. maintained by Universal Home Assistant
+    # core members) which is not strictly required by Universal Home Assistant.
     # Therefore, we import it as a type hint only.
     from sensor_state_data import SensorDeviceInfo
 

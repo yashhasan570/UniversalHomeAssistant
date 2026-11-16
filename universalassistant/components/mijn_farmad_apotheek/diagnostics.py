@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_EMAIL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import FarmadConfigEntry
 from .const import CONF_REFRESH_TOKEN
@@ -13,7 +13,7 @@ TO_REDACT = {CONF_ACCESS_TOKEN, CONF_EMAIL, CONF_REFRESH_TOKEN, "title", "unique
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: FarmadConfigEntry
+    hass: UniversalAssistant, entry: FarmadConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     diagnostics: dict[str, Any] = {

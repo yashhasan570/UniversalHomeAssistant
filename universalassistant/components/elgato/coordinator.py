@@ -18,7 +18,7 @@ from elgato import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -43,7 +43,7 @@ class ElgatoDataUpdateCoordinator(DataUpdateCoordinator[ElgatoData]):
     config_entry: ElgatoConfigEntry
     has_battery: bool | None = None
 
-    def __init__(self, hass: __HAC_KEEP__, entry: ElgatoConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: ElgatoConfigEntry) -> None:
         """Initialize the coordinator."""
         self.client = Elgato(
             entry.data[CONF_HOST],
@@ -96,7 +96,7 @@ class ElgatoFirmwareCoordinator(DataUpdateCoordinator[dict[int, FirmwareVersion]
     times a year, so it runs on its own cadence.
     """
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the global Elgato firmware updater."""
         self.catalog = FirmwareCatalog(session=async_get_clientsession(hass))
         super().__init__(

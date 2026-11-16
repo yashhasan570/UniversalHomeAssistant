@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONF_DEVICE_DATA, CONF_DEVICE_TYPE
 from .coordinator import INKBIRDActiveBluetoothProcessorCoordinator, INKBIRDConfigEntry
@@ -11,7 +11,7 @@ from .coordinator import INKBIRDActiveBluetoothProcessorCoordinator, INKBIRDConf
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: INKBIRDConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: INKBIRDConfigEntry) -> None:
     """Set up INKBIRD BLE device from a config entry."""
     assert entry.unique_id is not None
     device_type: str | None = entry.data.get(CONF_DEVICE_TYPE)
@@ -26,6 +26,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: INKBIRDConfigEntry) -> No
     entry.async_on_unload(coordinator.async_start())
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: INKBIRDConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: INKBIRDConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -15,19 +15,19 @@ from universalassistant.components.energy import DOMAIN, data, is_configured
 from universalassistant.components.recorder import Recorder
 from universalassistant.components.recorder.models import StatisticMeanType
 from universalassistant.components.recorder.statistics import async_add_external_statistics
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
 @pytest.fixture(autouse=True)
-async def setup_integration(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
+async def setup_integration(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
     """Set up the integration."""
     assert await async_setup_component(hass, DOMAIN, {})
 
 
 @pytest.fixture
-def mock_energy_platform(hass: __HAC_KEEP__) -> None:
+def mock_energy_platform(hass: UniversalAssistant) -> None:
     """Mock an energy platform."""
     hass.config.components.add("some_domain")
     mock_platform(
@@ -47,7 +47,7 @@ def mock_energy_platform(hass: __HAC_KEEP__) -> None:
 
 
 async def test_get_preferences_no_data(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test we get error if no preferences set."""
     client = await hass_ws_client(hass)
@@ -62,7 +62,7 @@ async def test_get_preferences_no_data(
 
 
 async def test_get_preferences_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -84,7 +84,7 @@ async def test_get_preferences_default(
 
 
 async def test_save_preferences(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
     mock_energy_platform,
@@ -240,7 +240,7 @@ async def test_save_preferences(
 
 
 async def test_handle_duplicate_from_stat(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test we handle duplicate from stats across multiple grid sources."""
     client = await hass_ws_client(hass)
@@ -273,7 +273,7 @@ async def test_handle_duplicate_from_stat(
 
 
 async def test_validate(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test we can validate the preferences."""
     client = await hass_ws_client(hass)
@@ -293,7 +293,7 @@ async def test_validate(
 
 
 async def test_get_solar_forecast(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, mock_energy_platform
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, mock_energy_platform
 ) -> None:
     """Test we get preferences."""
     entry = MockConfigEntry(domain="some_domain")
@@ -330,7 +330,7 @@ async def test_get_solar_forecast(
 
 @pytest.mark.freeze_time("2021-08-01 00:00:00+00:00")
 async def test_fossil_energy_consumption_no_co2(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test fossil_energy_consumption when co2 data is missing."""
     now = dt_util.utcnow()
@@ -497,7 +497,7 @@ async def test_fossil_energy_consumption_no_co2(
 
 @pytest.mark.freeze_time("2021-08-01 00:00:00+00:00")
 async def test_fossil_energy_consumption_hole(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test fossil_energy_consumption when some data points lack sum."""
     now = dt_util.utcnow()
@@ -664,7 +664,7 @@ async def test_fossil_energy_consumption_hole(
 
 @pytest.mark.freeze_time("2021-08-01 00:00:00+00:00")
 async def test_fossil_energy_consumption_no_data(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test fossil_energy_consumption when there is no data."""
     now = dt_util.utcnow()
@@ -816,7 +816,7 @@ async def test_fossil_energy_consumption_no_data(
 
 @pytest.mark.freeze_time("2021-08-01 00:00:00+00:00")
 async def test_fossil_energy_consumption(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test fossil_energy_consumption with co2 sensor data."""
     now = dt_util.utcnow()
@@ -1017,7 +1017,7 @@ async def test_fossil_energy_consumption(
 
 @pytest.mark.freeze_time("2021-08-01 00:00:00+00:00")
 async def test_fossil_energy_consumption_partial_month(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test fossil_energy_consumption includes a trailing partial month."""
     now = dt_util.utcnow()
@@ -1091,7 +1091,7 @@ async def test_fossil_energy_consumption_partial_month(
 )
 async def test_fossil_energy_consumption_trailing_period_dst(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     period: str,
     first_stat: str,
@@ -1161,7 +1161,7 @@ async def test_fossil_energy_consumption_trailing_period_dst(
 
 
 async def test_fossil_energy_consumption_checks(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test fossil_energy_consumption parameter validation."""
     client = await hass_ws_client(hass)
@@ -1215,7 +1215,7 @@ async def test_fossil_energy_consumption_checks(
 
 @pytest.mark.freeze_time("2021-08-01 01:00:00+00:00")
 async def test_fossil_energy_consumption_check_missing_hour(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the API keeps the first hour of data for the time frame."""
 
@@ -1334,7 +1334,7 @@ async def test_fossil_energy_consumption_check_missing_hour(
 
 @pytest.mark.freeze_time("2021-08-01 00:00:00+00:00")
 async def test_fossil_energy_consumption_missing_sum(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test fossil_energy_consumption statistics missing sum."""
     now = dt_util.utcnow()
@@ -1390,7 +1390,7 @@ async def test_fossil_energy_consumption_missing_sum(
 
 
 async def test_save_home_source(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test a whole-home consumption meter can be saved."""
     client = await hass_ws_client(hass)
@@ -1437,7 +1437,7 @@ async def test_save_home_source(
     ],
 )
 async def test_save_home_source_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     energy_sources: list[dict[str, Any]],
 ) -> None:
@@ -1450,5 +1450,82 @@ async def test_save_home_source_invalid(
     msg = await client.receive_json()
 
     assert msg["id"] == 5
+    assert not msg["success"]
+    assert msg["error"]["code"] == "invalid_format"
+
+
+async def test_save_battery_directions(
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+) -> None:
+    """Test a battery measured per direction next to one measured in total."""
+    client = await hass_ws_client(hass)
+    total_battery = {
+        "type": "battery",
+        "stat_energy_from": "sensor.battery_energy_from",
+        "stat_energy_to": "sensor.battery_energy_to",
+    }
+    directions_battery = {
+        "type": "battery",
+        "stat_energy_from_grid": "sensor.battery_from_grid",
+        "stat_energy_from_solar": "sensor.battery_from_solar",
+        "stat_energy_to_home": "sensor.battery_to_home",
+        "power_config": {
+            "stat_rate_from_solar": "sensor.battery_from_solar_power",
+            "stat_rate_to_home": "sensor.battery_to_home_power",
+        },
+    }
+
+    await client.send_json(
+        {
+            "id": 5,
+            "type": "energy/save_prefs",
+            "energy_sources": [total_battery, directions_battery],
+        }
+    )
+    msg = await client.receive_json()
+
+    assert msg["success"]
+    saved = [
+        total_battery,
+        {
+            **directions_battery,
+            "stat_rate": "sensor.energy_battery_battery_from_solar_power"
+            "_battery_to_home_power_net_power",
+        },
+    ]
+    assert msg["result"]["energy_sources"] == saved
+
+    # Saving the stored preferences again keeps them
+    await client.send_json(
+        {"id": 6, "type": "energy/save_prefs", "energy_sources": saved}
+    )
+    msg = await client.receive_json()
+
+    assert msg["success"]
+    assert msg["result"]["energy_sources"] == saved
+
+
+async def test_save_battery_directions_invalid(
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+) -> None:
+    """Test a battery mixing total and direction energy is rejected."""
+    client = await hass_ws_client(hass)
+
+    await client.send_json(
+        {
+            "id": 5,
+            "type": "energy/save_prefs",
+            "energy_sources": [
+                {
+                    "type": "battery",
+                    "stat_energy_from": "sensor.battery_energy_from",
+                    "stat_energy_to": "sensor.battery_energy_to",
+                    "stat_energy_to_home": "sensor.battery_to_home",
+                }
+            ],
+        }
+    )
+    msg = await client.receive_json()
+
     assert not msg["success"]
     assert msg["error"]["code"] == "invalid_format"

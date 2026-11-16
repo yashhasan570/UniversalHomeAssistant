@@ -13,7 +13,7 @@ import probatio
 
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_API_KEY, CONF_BASE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import AbortFlow
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -34,7 +34,7 @@ def get_data_schema(
     )
 
 
-async def validate_input(hass: __HAC_KEEP__, data: dict[str, str]) -> dict[str, str]:
+async def validate_input(hass: UniversalAssistant, data: dict[str, str]) -> dict[str, str]:
     """Validate the user input allows us to connect."""
     client = Client(data[CONF_API_KEY], async_get_clientsession(hass))
 

@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.gios.const import CONF_STATION_ID, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 CONFIG = {
@@ -19,7 +19,7 @@ CONFIG = {
 pytestmark = pytest.mark.usefixtures("mock_gios")
 
 
-async def test_happy_flow(hass: __HAC_KEEP__) -> None:
+async def test_happy_flow(hass: UniversalAssistant) -> None:
     """Test that the user step works."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -43,7 +43,7 @@ async def test_happy_flow(hass: __HAC_KEEP__) -> None:
     assert result["result"].unique_id == "123"
 
 
-async def test_form_with_api_error(hass: __HAC_KEEP__, mock_gios: MagicMock) -> None:
+async def test_form_with_api_error(hass: UniversalAssistant, mock_gios: MagicMock) -> None:
     """Test the form is aborted because of API error."""
     mock_gios.create.side_effect = ApiError("error")
 
@@ -66,7 +66,7 @@ async def test_form_with_api_error(hass: __HAC_KEEP__, mock_gios: MagicMock) -> 
     ],
 )
 async def test_form_submission_errors(
-    hass: __HAC_KEEP__, mock_gios: MagicMock, exception, errors
+    hass: UniversalAssistant, mock_gios: MagicMock, exception, errors
 ) -> None:
     """Test errors during form submission."""
     mock_gios.async_update.side_effect = exception
@@ -91,7 +91,7 @@ async def test_form_submission_errors(
 
 
 async def test_duplicate_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that duplicate station IDs are rejected."""
     mock_config_entry.add_to_hass(hass)

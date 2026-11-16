@@ -25,7 +25,7 @@ import probatio
 
 from universalassistant.auth.permissions.const import POLICY_READ
 from universalassistant.components.camera import Image, img_util
-from universalassistant.components.http import KEY_HASS_USER, __HAC_KEEP__View
+from universalassistant.components.http import KEY_HASS_USER, UniversalAssistantView
 from universalassistant.const import (
     CONF_BINARY_SENSORS,
     CONF_CLIENT_ID,
@@ -36,12 +36,12 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
     ConfigEntryNotReady,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     Unauthorized,
 )
 from universalassistant.helpers import (
@@ -118,7 +118,7 @@ EVENT_MEDIA_CACHE_SIZE = 256  # number of events
 THUMBNAIL_SIZE_PX = 175
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up Nest components with dispatch between old/new flows."""
     hass.http.register_view(NestEventMediaView(hass))
     hass.http.register_view(NestEventMediaThumbnailView(hass))
@@ -131,7 +131,7 @@ class SignalUpdateCallback:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: NestConfigEntry,
     ) -> None:
         """Initialize EventCallback."""
@@ -242,7 +242,7 @@ class SignalUpdateCallback:
             device_registry.async_remove_device(device_entry.id)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: NestConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: NestConfigEntry) -> None:
     """Set up Nest from a config entry with dispatch between old/new flows."""
     if DATA_SDM not in entry.data:
         hass.async_create_task(hass.config_entries.async_remove(entry.entry_id))
@@ -352,12 +352,12 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: NestConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: NestConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: NestConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_remove_entry(hass: __HAC_KEEP__, entry: NestConfigEntry) -> None:
+async def async_remove_entry(hass: UniversalAssistant, entry: NestConfigEntry) -> None:
     """Handle removal of pubsub subscriptions created during config flow."""
     if (
         DATA_SDM not in entry.data
@@ -378,7 +378,7 @@ async def async_remove_entry(hass: __HAC_KEEP__, entry: NestConfigEntry) -> None
 
 
 @callback
-def _async_check_pubsub_topic(hass: __HAC_KEEP__, entry: NestConfigEntry) -> None:
+def _async_check_pubsub_topic(hass: UniversalAssistant, entry: NestConfigEntry) -> None:
     """Create a repair issue if the entry uses a Google-hosted Pub/Sub topic."""
     issue_id = LEGACY_TOPIC_ISSUE_ID.format(entry_id=entry.entry_id)
     # Entries without a topic were created before self-hosted topics were supported
@@ -400,10 +400,10 @@ def _async_check_pubsub_topic(hass: __HAC_KEEP__, entry: NestConfigEntry) -> Non
     )
 
 
-class NestEventViewBase(__HAC_KEEP__View, ABC):
+class NestEventViewBase(UniversalAssistantView, ABC):
     """Base class for media event APIs."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize NestEventViewBase."""
         self.hass = hass
 
@@ -429,7 +429,7 @@ class NestEventViewBase(__HAC_KEEP__View, ABC):
                 f"Event token was invalid '{event_token}'", HTTPStatus.NOT_FOUND
             )
         except ApiException as err:
-            raise __HAC_KEEP__Error("Unable to fetch media for event") from err
+            raise UniversalAssistantError("Unable to fetch media for event") from err
         if not media:
             return self._json_error(
                 f"No event found for event_id '{event_token}'", HTTPStatus.NOT_FOUND
@@ -484,7 +484,7 @@ class NestEventMediaThumbnailView(NestEventViewBase):
     url = "/api/nest/event_media/{device_id}/{event_token}/thumbnail"
     name = "api:nest:event_media"
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize NestEventMediaThumbnailView."""
         super().__init__(hass)
         self._lock = asyncio.Lock()

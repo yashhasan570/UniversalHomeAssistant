@@ -8,14 +8,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.eq3btsmart.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_MAC
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import format_mac
 
 from .const import MAC
 
 
 async def test_setup_retries_when_device_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test setup is retried with a diagnostic reason when the device is missing."""

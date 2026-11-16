@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.twinkly.const import DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_ID, CONF_MODEL, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -16,7 +16,7 @@ from .const import TEST_MAC, TEST_MODEL, TEST_NAME
 
 
 @pytest.mark.usefixtures("mock_twinkly_client", "mock_setup_entry")
-async def test_full_flow(hass: __HAC_KEEP__) -> None:
+async def test_full_flow(hass: UniversalAssistant) -> None:
     """Test the full flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -42,7 +42,7 @@ async def test_full_flow(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_exceptions(hass: __HAC_KEEP__, mock_twinkly_client: AsyncMock) -> None:
+async def test_exceptions(hass: UniversalAssistant, mock_twinkly_client: AsyncMock) -> None:
     """Test the failure when raising exceptions."""
     mock_twinkly_client.get_details.side_effect = TimeoutError
     result = await hass.config_entries.flow.async_init(
@@ -69,7 +69,7 @@ async def test_exceptions(hass: __HAC_KEEP__, mock_twinkly_client: AsyncMock) ->
 
 @pytest.mark.usefixtures("mock_twinkly_client", "mock_setup_entry")
 async def test_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the device is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -89,7 +89,7 @@ async def test_already_configured(
 
 
 @pytest.mark.usefixtures("mock_twinkly_client", "mock_setup_entry")
-async def test_dhcp_full_flow(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_full_flow(hass: UniversalAssistant) -> None:
     """Test DHCP discovery flow can confirm right away."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -117,7 +117,7 @@ async def test_dhcp_full_flow(hass: __HAC_KEEP__) -> None:
 
 
 async def test_dhcp_cannot_connect(
-    hass: __HAC_KEEP__, mock_twinkly_client: AsyncMock
+    hass: UniversalAssistant, mock_twinkly_client: AsyncMock
 ) -> None:
     """Test DHCP discovery aborts when the device does not answer."""
     mock_twinkly_client.get_details.side_effect = TimeoutError
@@ -138,7 +138,7 @@ async def test_dhcp_cannot_connect(
 
 @pytest.mark.usefixtures("mock_twinkly_client")
 async def test_dhcp_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test DHCP discovery flow aborts if entry already setup."""
     mock_config_entry.add_to_hass(hass)
@@ -160,7 +160,7 @@ async def test_dhcp_already_configured(
 
 
 @pytest.mark.usefixtures("mock_twinkly_client", "mock_setup_entry")
-async def test_user_flow_works_discovery(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_works_discovery(hass: UniversalAssistant) -> None:
     """Test user flow can continue after discovery happened."""
     await hass.config_entries.flow.async_init(
         DOMAIN,

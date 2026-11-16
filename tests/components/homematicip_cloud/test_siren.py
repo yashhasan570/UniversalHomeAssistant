@@ -7,13 +7,13 @@ from universalassistant.components.siren import (
     SirenEntityFeature,
 )
 from universalassistant.const import ATTR_SUPPORTED_FEATURES, STATE_OFF
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .helper import HomeFactory, async_manipulate_test_data, get_and_check_entity_basics
 
 
 async def test_hmip_mp3_siren(
-    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
+    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipMP3Siren (HmIP-MP3P)."""
     entity_id = "siren.kombisignalmelder_siren"

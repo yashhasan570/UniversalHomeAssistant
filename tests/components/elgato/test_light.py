@@ -22,8 +22,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 pytestmark = pytest.mark.usefixtures("init_integration")
@@ -39,7 +39,7 @@ pytestmark = pytest.mark.usefixtures("init_integration")
     ],
 )
 async def test_light_state_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -63,7 +63,7 @@ async def test_light_state_temperature(
 )
 @pytest.mark.usefixtures("state_variant", "device_fixtures")
 async def test_light_change_state_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_elgato: MagicMock,
 ) -> None:
     """Test the change of state of a Elgato Key Light device."""
@@ -126,13 +126,13 @@ async def test_light_change_state_temperature(
 
 @pytest.mark.parametrize("service", [SERVICE_TURN_ON, SERVICE_TURN_OFF])
 async def test_light_unavailable(
-    hass: __HAC_KEEP__, mock_elgato: MagicMock, service: str
+    hass: UniversalAssistant, mock_elgato: MagicMock, service: str
 ) -> None:
     """Test error/unavailable handling of an Elgato Light."""
     mock_elgato.light.side_effect = ElgatoConnectionError
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="An error occurred while communicating with the Elgato device",
     ):
         await hass.services.async_call(
@@ -146,7 +146,7 @@ async def test_light_unavailable(
     assert state.state == STATE_UNAVAILABLE
 
 
-async def test_light_identify(hass: __HAC_KEEP__, mock_elgato: MagicMock) -> None:
+async def test_light_identify(hass: UniversalAssistant, mock_elgato: MagicMock) -> None:
     """Test identifying an Elgato Light."""
     await hass.services.async_call(
         DOMAIN,
@@ -162,7 +162,7 @@ async def test_light_identify(hass: __HAC_KEEP__, mock_elgato: MagicMock) -> Non
     mock_elgato.identify.side_effect = ElgatoError
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="An unknown error occurred while communicating with the Elgato device",
     ):
         await hass.services.async_call(

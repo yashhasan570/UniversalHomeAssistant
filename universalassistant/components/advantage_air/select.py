@@ -3,7 +3,7 @@
 from typing import override
 
 from universalassistant.components.select import SelectEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import AdvantageAirCoordinator, AdvantageAirDataConfigEntry
@@ -13,7 +13,7 @@ ADVANTAGE_AIR_INACTIVE = "Inactive"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: AdvantageAirDataConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

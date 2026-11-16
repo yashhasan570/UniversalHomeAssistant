@@ -5,7 +5,7 @@ from pytest_universalassistant.common import async_mock_service
 
 from universalassistant.components import light
 from universalassistant.components.light import DOMAIN
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.state import async_reproduce_state
 
 VALID_BRIGHTNESS = {"brightness": 180}
@@ -28,7 +28,7 @@ NONE_XY_COLOR = {"xy_color": None}
 
 
 async def test_reproducing_states(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test reproducing Light states."""
     hass.states.async_set("light.entity_off", "off", {})
@@ -141,7 +141,7 @@ async def test_reproducing_states(
     ],
 )
 async def test_filter_color_modes(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, color_mode
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, color_mode
 ) -> None:
     """Test filtering of parameters according to color mode."""
     hass.states.async_set("light.entity", "off", {})
@@ -194,7 +194,7 @@ async def test_filter_color_modes(
 
 
 async def test_filter_color_modes_missing_attributes(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test warning on missing attribute when filtering for color mode."""
     color_mode = light.ColorMode.COLOR_TEMP
@@ -257,7 +257,7 @@ async def test_filter_color_modes_missing_attributes(
         NONE_XY_COLOR,
     ],
 )
-async def test_filter_none(hass: __HAC_KEEP__, saved_state) -> None:
+async def test_filter_none(hass: UniversalAssistant, saved_state) -> None:
     """Test filtering of parameters which are None."""
     hass.states.async_set("light.entity", "off", {})
 

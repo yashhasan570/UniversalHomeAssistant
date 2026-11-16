@@ -6,7 +6,7 @@ from skyboxremote import RemoteControl, SkyBoxConnectionError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 
 PLATFORMS = [Platform.REMOTE]
@@ -17,7 +17,7 @@ _LOGGER = logging.getLogger(__name__)
 type SkyRemoteConfigEntry = ConfigEntry[RemoteControl]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SkyRemoteConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SkyRemoteConfigEntry) -> None:
     """Set up Sky remote."""
     host = entry.data[CONF_HOST]
     port = entry.data[CONF_PORT]
@@ -33,6 +33,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SkyRemoteConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SkyRemoteConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SkyRemoteConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

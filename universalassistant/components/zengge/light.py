@@ -4,7 +4,7 @@ import probatio
 
 from universalassistant.components.light import PLATFORM_SCHEMA as LIGHT_PLATFORM_SCHEMA
 from universalassistant.const import CONF_DEVICES, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv, issue_registry as ir
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -18,7 +18,7 @@ PLATFORM_SCHEMA = LIGHT_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

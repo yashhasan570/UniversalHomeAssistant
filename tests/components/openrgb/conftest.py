@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_object_f
 
 from universalassistant.components.openrgb.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_NAME, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 def _process_openrgb_dump(dump: Any) -> Any:
@@ -116,7 +116,7 @@ def mock_openrgb_client(mock_openrgb_device: MagicMock) -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
 ) -> MockConfigEntry:

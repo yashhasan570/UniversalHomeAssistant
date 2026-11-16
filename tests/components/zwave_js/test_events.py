@@ -9,7 +9,7 @@ from zwave_js_server.event import Event
 
 from universalassistant.components.zwave_js.helpers import get_device_id
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 
@@ -20,7 +20,7 @@ def platforms() -> list[str]:
 
 
 async def test_scenes(
-    hass: __HAC_KEEP__, hank_binary_switch, integration, client
+    hass: UniversalAssistant, hank_binary_switch, integration, client
 ) -> None:
     """Test scene events."""
     # just pick a random node to fake the value notification events
@@ -151,7 +151,7 @@ async def test_scenes(
 
 
 async def test_notifications(
-    hass: __HAC_KEEP__, hank_binary_switch, integration, client
+    hass: UniversalAssistant, hank_binary_switch, integration, client
 ) -> None:
     """Test notification events."""
     # just pick a random node to fake the value notification events
@@ -281,7 +281,7 @@ async def test_notifications(
 
 @pytest.mark.parametrize("platforms", [[Platform.SWITCH]])
 async def test_value_updated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     vision_security_zl7432,
     integration,
@@ -361,7 +361,7 @@ async def test_value_updated(
 
 
 async def test_power_level_notification(
-    hass: __HAC_KEEP__, hank_binary_switch, integration, client
+    hass: UniversalAssistant, hank_binary_switch, integration, client
 ) -> None:
     """Test power level notification events."""
     # just pick a random node to fake the notification event
@@ -396,7 +396,7 @@ async def test_power_level_notification(
 
 
 async def test_unknown_notification(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     hank_binary_switch,
     integration,

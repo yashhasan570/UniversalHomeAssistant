@@ -18,7 +18,7 @@ from universalassistant.components.climate import (
 from universalassistant.components.climate.significant_change import (
     async_check_significant_change,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.unit_system import (
     METRIC_SYSTEM as METRIC,
     US_CUSTOMARY_SYSTEM as IMPERIAL,
@@ -26,7 +26,7 @@ from universalassistant.util.unit_system import (
 )
 
 
-async def test_significant_state_change(hass: __HAC_KEEP__) -> None:
+async def test_significant_state_change(hass: UniversalAssistant) -> None:
     """Detect Climate significant state_changes."""
     attrs = {}
     assert not async_check_significant_change(hass, "on", attrs, "on", attrs)
@@ -126,7 +126,7 @@ async def test_significant_state_change(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_significant_atributes_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     unit_system: UnitSystem,
     old_attrs: dict,
     new_attrs: dict,

@@ -11,7 +11,7 @@ import pytest
 
 from universalassistant.components.seafile.const import DOMAIN
 from universalassistant.components.seafile.utils import handle_seafile_errors
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 
 async def test_handle_seafile_errors_returns_result() -> None:
@@ -43,7 +43,7 @@ async def test_handle_seafile_errors(
     async def call() -> None:
         raise exception
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await call()
     assert exc_info.value.translation_domain == DOMAIN
     assert exc_info.value.translation_key == translation_key

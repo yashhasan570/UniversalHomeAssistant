@@ -14,7 +14,7 @@ from universalassistant.config_entries import (
     ConfigEntryState,
 )
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -22,7 +22,7 @@ from . import remove_config_entry, setup_config_entry, unload_config_entry
 
 
 async def test_config_flow(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_hub_refresh: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_hub_refresh: AsyncMock
 ) -> None:
     """Test we can handle user-input to create a config entry."""
     result = await hass.config_entries.flow.async_init(
@@ -52,7 +52,7 @@ async def test_config_flow(
 
 
 async def test_config_flow_from_dhcp(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_hub_refresh: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_hub_refresh: AsyncMock
 ) -> None:
     """Test we can handle DHCP discovery to create a config entry."""
     info = DhcpServiceInfo(
@@ -85,7 +85,7 @@ async def test_config_flow_from_dhcp(
 
 
 async def test_config_flow_from_dhcp_add_mac(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_hub_refresh: AsyncMock,
 ) -> None:
@@ -127,7 +127,7 @@ async def test_config_flow_from_dhcp_add_mac(
 
 
 async def test_config_flow_from_dhcp_ip_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_hub_refresh: AsyncMock,
 ) -> None:
@@ -173,7 +173,7 @@ async def test_config_flow_from_dhcp_ip_update(
 
 
 async def test_config_flow_from_dhcp_no_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_hub_refresh: AsyncMock,
 ) -> None:
@@ -219,7 +219,7 @@ async def test_config_flow_from_dhcp_no_update(
 
 
 async def test_config_flow_from_dhcp_ignored_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_hub_refresh: AsyncMock,
 ) -> None:
@@ -245,7 +245,7 @@ async def test_config_flow_from_dhcp_ignored_entry(
 
 
 async def test_config_flow_ping_failed(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_hub_refresh: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_hub_refresh: AsyncMock
 ) -> None:
     """Test we handle ping failed error."""
     result = await hass.config_entries.flow.async_init(
@@ -287,7 +287,7 @@ async def test_config_flow_ping_failed(
 
 
 async def test_config_flow_cannot_connect(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_hub_refresh: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_hub_refresh: AsyncMock
 ) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
@@ -329,7 +329,7 @@ async def test_config_flow_cannot_connect(
 
 
 async def test_config_flow_unknown_error(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_hub_refresh: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_hub_refresh: AsyncMock
 ) -> None:
     """Test we handle an unknown error."""
     result = await hass.config_entries.flow.async_init(
@@ -376,7 +376,7 @@ async def test_config_flow_unknown_error(
     indirect=True,
 )
 async def test_config_flow_duplicate_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_dest_refresh: AsyncMock,
@@ -408,7 +408,7 @@ async def test_config_flow_duplicate_entries(
     indirect=True,
 )
 async def test_config_flow_multiple_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_dest_refresh: AsyncMock,

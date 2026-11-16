@@ -47,7 +47,7 @@ from universalassistant.const import (
     EntityCategory,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_registry import RegistryEntryDisabler
 from universalassistant.util import dt as dt_util
@@ -629,7 +629,7 @@ UPS_BATTERY_POOL_FIELDS = [
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.freeze_time("2021-01-01 01:01:00")
 async def test_entity_and_device_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry_factory,
     snapshot: SnapshotAssertion,
@@ -645,7 +645,7 @@ async def test_entity_and_device_data(
     [{CONF_ALLOW_BANDWIDTH_SENSORS: True, CONF_ALLOW_UPTIME_SENSORS: True}],
 )
 @pytest.mark.usefixtures("config_entry_setup")
-async def test_no_clients(hass: __HAC_KEEP__) -> None:
+async def test_no_clients(hass: UniversalAssistant) -> None:
     """Test the update_clients function when no clients are found."""
     assert len(hass.states.async_entity_ids(SENSOR_DOMAIN)) == 0
 
@@ -663,7 +663,7 @@ async def test_no_clients(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.parametrize("client_payload", [[WIRED_CLIENT, WIRELESS_CLIENT]])
 async def test_bandwidth_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_message: WebsocketMessageMock,
     config_entry_options: MappingProxyType[str, Any],
     config_entry_setup: MockConfigEntry,
@@ -740,7 +740,7 @@ async def test_bandwidth_sensors(
 @pytest.mark.usefixtures("config_entry_setup")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_wired_client_speed_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_message: WebsocketMessageMock,
     client_payload: list[dict[str, Any]],
 ) -> None:
@@ -802,7 +802,7 @@ async def test_wired_client_speed_sensor(
 @pytest.mark.usefixtures("config_entry_setup")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_ignore_local_mac_client_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     wireless_local_mac_has_sensors: bool,
 ) -> None:
     """Only Wi-Fi clients with private MACs are filtered when the option is enabled."""
@@ -841,7 +841,7 @@ async def test_ignore_local_mac_client_sensors(
 )
 @pytest.mark.parametrize("client_payload", [[WIRED_CLIENT]])
 async def test_wired_client_speed_sensor_not_created_when_untracked(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client_payload: list[dict[str, Any]],
@@ -866,7 +866,7 @@ async def test_wired_client_speed_sensor_not_created_when_untracked(
 @pytest.mark.usefixtures("config_entry_setup")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_remove_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_message: WebsocketMessageMock,
     client_payload: list[dict[str, Any]],
 ) -> None:
@@ -897,7 +897,7 @@ async def test_remove_sensors(
 @pytest.mark.parametrize("device_payload", [[DEVICE_1]])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_poe_port_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_websocket_message: WebsocketMessageMock,
     mock_websocket_state: WebsocketStateManager,
@@ -970,7 +970,7 @@ async def test_poe_port_switches(
 
 @pytest.mark.parametrize("wlan_payload", [[WLAN]])
 async def test_wlan_client_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_factory: ConfigEntryFactoryType,
     mock_websocket_message: WebsocketMessageMock,
     mock_websocket_state: WebsocketStateManager,
@@ -1102,7 +1102,7 @@ async def test_wlan_client_sensors(
 @pytest.mark.parametrize("device_payload", [[PDU_DEVICE_1]])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_outlet_power_readings(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_message: WebsocketMessageMock,
     device_payload: list[dict[str, Any]],
     entity_id: str,
@@ -1129,7 +1129,7 @@ async def test_outlet_power_readings(
 @pytest.mark.parametrize("device_payload", [[UPS_DEVICE_1]])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_outlet_power_reading_extended_caps(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_message: WebsocketMessageMock,
 ) -> None:
     """Test outlet power reporting with extended capability bits and numeric values."""
@@ -1187,7 +1187,7 @@ async def test_outlet_power_reading_extended_caps(
     ],
 )
 async def test_ups_battery_pool_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_websocket_message: WebsocketMessageMock,
@@ -1274,7 +1274,7 @@ async def test_ups_battery_pool_sensors(
     indirect=["device_payload"],
 )
 async def test_ups_battery_pool_readings(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_factory: ConfigEntryFactoryType,
     entity_registry: er.EntityRegistry,
     mock_websocket_message: WebsocketMessageMock,
@@ -1322,7 +1322,7 @@ async def test_ups_battery_pool_readings(
     [pytest.param((), id="missing"), pytest.param((None,), id="null")],
 )
 async def test_ups_battery_pool_late_field(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_factory: ConfigEntryFactoryType,
     entity_registry: er.EntityRegistry,
     mock_websocket_message: WebsocketMessageMock,
@@ -1383,7 +1383,7 @@ async def test_ups_battery_pool_late_field(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_device_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_message: WebsocketMessageMock,
     device_payload: list[dict[str, Any]],
 ) -> None:
@@ -1427,7 +1427,7 @@ async def test_device_temperature(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_device_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_websocket_message: WebsocketMessageMock,
     device_payload: list[dict[str, Any]],
@@ -1462,7 +1462,7 @@ async def test_device_state(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_device_system_stats(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_websocket_message: WebsocketMessageMock,
     device_payload: list[dict[str, Any]],
@@ -1502,7 +1502,7 @@ async def test_device_system_stats(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_device_system_stats_update_interval(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_websocket_message: WebsocketMessageMock,
     mock_websocket_state: WebsocketStateManager,
@@ -1654,7 +1654,7 @@ async def test_device_system_stats_update_interval(
     ],
 )
 async def test_bandwidth_port_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry_setup: MockConfigEntry,
     config_entry_options: MappingProxyType[str, Any],
@@ -1807,7 +1807,7 @@ async def test_bandwidth_port_sensors(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_port_link_speed_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_websocket_message: WebsocketMessageMock,
     device_payload: list[dict[str, Any]],
@@ -1875,7 +1875,7 @@ async def test_port_link_speed_sensors(
     ],
 )
 async def test_device_client_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     mock_websocket_message: WebsocketMessageMock,
@@ -1955,7 +1955,7 @@ async def test_device_client_sensors(
 
 
 async def _test_uptime_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_websocket_message: WebsocketMessageMock,
     config_entry_factory: ConfigEntryFactoryType,
@@ -2022,7 +2022,7 @@ async def _test_uptime_entity(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_client_uptime(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     config_entry_options: MappingProxyType[str, Any],
     config_entry_factory: ConfigEntryFactoryType,
@@ -2067,7 +2067,7 @@ async def test_client_uptime(
 
 @pytest.mark.parametrize("device_payload", [[DEVICE_1]])
 async def test_device_uptime(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
     config_entry_factory: ConfigEntryFactoryType,
@@ -2265,7 +2265,7 @@ async def test_device_uptime(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_wan_monitor_latency(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_websocket_message: WebsocketMessageMock,
     device_payload: list[dict[str, Any]],
@@ -2362,7 +2362,7 @@ async def test_wan_monitor_latency(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_wan_monitor_latency_with_no_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Verify that wan latency sensors is not created if there is no data."""
@@ -2396,7 +2396,7 @@ async def test_wan_monitor_latency_with_no_entries(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_wan_monitor_latency_with_no_uptime(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Verify that wan latency sensors is not created if there is no data."""
@@ -2437,7 +2437,7 @@ async def test_wan_monitor_latency_with_no_uptime(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_wan_monitor_latency_without_monitors_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Verify setup succeeds when a WAN's uptime stats omit the 'monitors' key."""
@@ -2489,7 +2489,7 @@ async def test_wan_monitor_latency_without_monitors_key(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_device_temperatures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
     mock_websocket_message,
@@ -2555,7 +2555,7 @@ async def test_device_temperatures(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_device_temperature_update_interval(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
     mock_websocket_message: WebsocketMessageMock,
@@ -2616,7 +2616,7 @@ async def test_device_temperature_update_interval(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_device_temperature_with_missing_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_websocket_message: WebsocketMessageMock,
     device_payload: list[dict[str, Any]],
@@ -2677,7 +2677,7 @@ async def test_device_temperature_with_missing_value(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_device_with_no_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Verify that device temperature sensors is not created if there is no data."""
@@ -2715,7 +2715,7 @@ async def test_device_with_no_temperature(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_device_with_no_matching_temperatures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Verify device temperature sensors are not created without matching data."""
@@ -2772,7 +2772,7 @@ async def test_device_with_no_matching_temperatures(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_device_uplink(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_websocket_message,
     device_payload: list[dict[str, Any]],
@@ -2795,13 +2795,13 @@ async def test_device_uplink(
 @pytest.mark.parametrize("firewall_policy_payload", [[FIREWALL_POLICY]])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_firewall_policy_schedule_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     config_entry_factory: ConfigEntryFactoryType,
 ) -> None:
     """The status follows the controller's clock across a schedule window.
 
-    The controller is in Europe/Stockholm (UTC+1 in January) and __HA_KEEP__
+    The controller is in Europe/Stockholm (UTC+1 in January) and Universal Home Assistant
     in US/Pacific, so a 21:00 to 08:00 window opens at 20:00 UTC.
     """
     freezer.move_to("2026-01-15 19:30:00+00:00")
@@ -2854,11 +2854,11 @@ async def test_firewall_policy_schedule_status(
 @pytest.mark.parametrize("firewall_policy_payload", [[FIREWALL_POLICY]])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_firewall_policy_schedule_status_time_zone_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     config_entry_factory: ConfigEntryFactoryType,
 ) -> None:
-    """Without a usable controller time zone, __HA_KEEP__'s is used.
+    """Without a usable controller time zone, Universal Home Assistant's is used.
 
     20:00 UTC is 21:00 in Stockholm but noon in US/Pacific.
     """
@@ -2893,7 +2893,7 @@ async def test_firewall_policy_schedule_status_time_zone_fallback(
 @pytest.mark.usefixtures("config_entry_setup")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_firewall_policy_schedule_status_by_policy(
-    hass: __HAC_KEEP__, expected: str
+    hass: UniversalAssistant, expected: str
 ) -> None:
     """Disabled policies, always-on schedules and unknown modes."""
     assert hass.states.get(SCHEDULE_STATUS_ENTITY).state == expected
@@ -2909,7 +2909,7 @@ async def test_firewall_policy_schedule_status_by_policy(
 @pytest.mark.usefixtures("config_entry_setup")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_firewall_policy_schedule_status_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Predefined and unnamed policies get no status sensor."""
     assert len(hass.states.async_entity_ids(SENSOR_DOMAIN)) == 0
@@ -2920,7 +2920,7 @@ async def test_firewall_policy_schedule_status_unsupported(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_firewall_policy_schedule_status_follows_polling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,
     config_entry_factory: ConfigEntryFactoryType,
@@ -2944,7 +2944,7 @@ async def test_firewall_policy_schedule_status_follows_polling(
 @pytest.mark.parametrize("firewall_policy_payload", [[FIREWALL_POLICY]])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_firewall_policy_schedule_status_disabled_by_default(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """The status sensor is created disabled."""
     entry = entity_registry.async_get(SCHEDULE_STATUS_ENTITY)
@@ -2956,7 +2956,7 @@ async def test_firewall_policy_schedule_status_disabled_by_default(
 @pytest.mark.freeze_time("2021-01-01 01:01:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_firewall_policy_schedule_status_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     snapshot: SnapshotAssertion,

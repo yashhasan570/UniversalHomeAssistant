@@ -16,7 +16,7 @@ from livisi import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -37,7 +37,7 @@ class LivisiDataUpdateCoordinator(DataUpdateCoordinator[list[LivisiDevice]]):
 
     config_entry: LivisiConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: LivisiConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: LivisiConfigEntry) -> None:
         """Initialize my coordinator."""
         super().__init__(
             hass,

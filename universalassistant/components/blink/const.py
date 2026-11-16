@@ -6,7 +6,7 @@ DOMAIN = "blink"
 # Legacy globally-shared OAuth identifier every install used to send. Blink's
 # authorize endpoint now rejects it (HTTP 406); kept only to detect and drop
 # it on migration/reauth so blinkpy can mint a per-install UUID instead.
-LEGACY_HARDWARE_ID = "__HA_KEEP__"
+LEGACY_HARDWARE_ID = "Universal Home Assistant"
 
 CONF_MIGRATE = "migrate"
 CONF_CAMERA = "camera"

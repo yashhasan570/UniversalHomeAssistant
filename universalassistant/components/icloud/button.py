@@ -3,7 +3,7 @@
 from typing import override
 
 from universalassistant.components.button import ButtonEntity
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -15,7 +15,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: IcloudConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

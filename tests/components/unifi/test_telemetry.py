@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_registry import RegistryEntryDisabler
 
@@ -124,7 +124,7 @@ def device_payload(
     "gap", [pytest.param((), id="absent"), pytest.param((None,), id="null")]
 )
 async def test_telemetry_gap_and_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     entity_registry: er.EntityRegistry,
@@ -197,7 +197,7 @@ async def test_telemetry_gap_and_reload(
     [pytest.param((), id="absent"), pytest.param((None,), id="null")],
 )
 async def test_telemetry_late_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_factory: ConfigEntryFactoryType,
     entity_registry: er.EntityRegistry,
     mock_websocket_message: WebsocketMessageMock,
@@ -249,7 +249,7 @@ async def test_telemetry_late_discovery(
     ("field", "telemetry", "sensors", "values"), [TELEMETRY_CASES[1]]
 )
 async def test_system_stats_telemetry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_factory: ConfigEntryFactoryType,
     entity_registry: er.EntityRegistry,
     mock_websocket_message: WebsocketMessageMock,
@@ -298,7 +298,7 @@ async def test_system_stats_telemetry(
     ],
 )
 async def test_pdu_aggregate_power(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_factory: ConfigEntryFactoryType,
     entity_registry: er.EntityRegistry,
     mock_websocket_message: WebsocketMessageMock,
@@ -340,7 +340,7 @@ async def test_pdu_aggregate_power(
     ],
 )
 async def test_general_temperature_capability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_factory: ConfigEntryFactoryType,
     entity_registry: er.EntityRegistry,
     mock_websocket_message: WebsocketMessageMock,
@@ -385,7 +385,7 @@ async def test_general_temperature_capability(
     ],
 )
 async def test_port_speed_telemetry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_factory: ConfigEntryFactoryType,
     entity_registry: er.EntityRegistry,
@@ -432,7 +432,7 @@ async def test_port_speed_telemetry(
     [("outlet_ac_power_budget", "1875")],
 )
 async def test_telemetry_registry_scope(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_factory: ConfigEntryFactoryType,
     entity_registry: er.EntityRegistry,
     device_payload: list[dict[str, Any]],
@@ -458,7 +458,7 @@ async def test_telemetry_registry_scope(
 )
 @pytest.mark.parametrize("disabled_by", [None, RegistryEntryDisabler.USER])
 async def test_capability_loss_on_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_factory: ConfigEntryFactoryType,
     entity_registry: er.EntityRegistry,
@@ -529,7 +529,7 @@ async def test_capability_loss_on_reload(
     ],
 )
 async def test_disabled_capability_loss_on_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_factory: ConfigEntryFactoryType,
     entity_registry: er.EntityRegistry,
     mock_websocket_message: WebsocketMessageMock,
@@ -574,7 +574,7 @@ async def test_disabled_capability_loss_on_update(
     ("field", "telemetry", "unsupported", "sensor", "unique_id"), CAPABILITY_CASES
 )
 async def test_capability_loss_registry_scope(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_factory: ConfigEntryFactoryType,
     entity_registry: er.EntityRegistry,
     device_payload: list[dict[str, Any]],
@@ -637,7 +637,7 @@ async def test_capability_loss_registry_scope(
     ],
 )
 async def test_subdevice_capability_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_factory: ConfigEntryFactoryType,
     entity_registry: er.EntityRegistry,
     mock_websocket_message: WebsocketMessageMock,
@@ -710,7 +710,7 @@ async def test_subdevice_capability_changes(
     ],
 )
 async def test_outlet_relay_telemetry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -748,7 +748,7 @@ async def test_outlet_relay_telemetry(
 
 @pytest.mark.parametrize(("field", "telemetry", "sensors", "values"), TELEMETRY_CASES)
 async def test_user_disabled_telemetry_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -788,7 +788,7 @@ async def test_user_disabled_telemetry_sensor(
 @pytest.mark.parametrize(("field", "telemetry", "sensors", "values"), TELEMETRY_CASES)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_device_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -863,7 +863,7 @@ async def test_device_update_failure(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_subdevice_table_library_boundary(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_websocket_message: WebsocketMessageMock,

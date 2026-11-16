@@ -11,7 +11,7 @@ import pywemo
 from universalassistant import config_entries
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_DISCOVERY, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import CALLBACK_TYPE, Event, HassJob, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, Event, HassJob, UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.event import async_call_later
 from universalassistant.helpers.typing import ConfigType
@@ -97,7 +97,7 @@ def _start_registry_and_responder() -> tuple[
     return registry, discovery_responder
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up for WeMo devices."""
     async_setup_services(hass)
     registry, discovery_responder = await hass.async_add_executor_job(
@@ -127,7 +127,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up a wemo config entry."""
     wemo_data = hass.data[DATA_WEMO]
     dispatcher = WemoDispatcher(entry)
@@ -146,7 +146,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         await discovery.async_discover_and_schedule()
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a wemo config entry."""
     _LOGGER.debug("Unloading WeMo")
     wemo_data = hass.data[DATA_WEMO]
@@ -162,7 +162,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
 
 
 async def async_wemo_dispatcher_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     dispatch: DispatchCallback,
 ) -> None:
     """Connect a wemo platform with the WemoDispatcher."""
@@ -185,7 +185,7 @@ class WemoDispatcher:
         self._dispatch_callbacks: dict[Platform, DispatchCallback] = {}
 
     async def async_add_unique_device(
-        self, hass: __HAC_KEEP__, wemo: pywemo.WeMoDevice
+        self, hass: UniversalAssistant, wemo: pywemo.WeMoDevice
     ) -> None:
         """Add a WeMo device to hass if it has not already been added."""
         if wemo.serial_number in self._added_serial_numbers:
@@ -241,7 +241,7 @@ class WemoDispatcher:
             ),
         )
 
-    async def async_unload_platforms(self, hass: __HAC_KEEP__) -> None:
+    async def async_unload_platforms(self, hass: UniversalAssistant) -> None:
         """Forward the unloading of an entry to platforms."""
         platforms: set[Platform] = set(self._dispatch_backlog.keys())
         platforms.update(self._dispatch_callbacks.keys())
@@ -258,7 +258,7 @@ class WemoDiscovery:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         wemo_dispatcher: WemoDispatcher,
         static_config: Sequence[HostPortTuple],
         entry: ConfigEntry,

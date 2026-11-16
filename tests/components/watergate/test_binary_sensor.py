@@ -25,7 +25,7 @@ from universalassistant.const import (
     EntityCategory,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -39,7 +39,7 @@ EXTERNAL_POWER = "binary_sensor.sonic_external_power"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
@@ -55,7 +55,7 @@ async def test_binary_sensor(
 
 
 async def test_enabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
@@ -78,7 +78,7 @@ async def test_enabled_by_default(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_states_are_off_when_the_device_reports_false(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
 ) -> None:
@@ -103,7 +103,7 @@ async def test_states_are_off_when_the_device_reports_false(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_unavailable_when_source_data_is_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
     freezer: FrozenDateTimeFactory,
@@ -136,7 +136,7 @@ async def test_unavailable_when_source_data_is_missing(
     ],
 )
 async def test_external_power(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
@@ -160,7 +160,7 @@ async def test_external_power(
 
 
 async def test_external_power_follows_the_power_supply_webhook(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],

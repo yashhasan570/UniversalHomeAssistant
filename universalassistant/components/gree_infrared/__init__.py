@@ -1,4 +1,4 @@
-"""Gree IR Remote integration for __HA_KEEP__."""
+"""Gree IR Remote integration for Universal Home Assistant."""
 
 import asyncio
 from dataclasses import dataclass, field, replace
@@ -14,7 +14,7 @@ from infrared_protocols.commands.gree_ac import (
 from universalassistant.components.climate import HVACMode
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 from .const import CONF_HVAC_MODES, DEFAULT_HVAC_MODES, HA_MODE_TO_LIB
 
@@ -108,7 +108,7 @@ class GreeIrRuntimeData:
 type GreeIrConfigEntry = ConfigEntry[GreeIrRuntimeData]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: GreeIrConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: GreeIrConfigEntry) -> None:
     """Set up Gree IR from a config entry."""
     configured_modes = tuple(
         HA_MODE_TO_LIB[HVACMode(mode)]
@@ -121,6 +121,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: GreeIrConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: GreeIrConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: GreeIrConfigEntry) -> None:
     """Unload a Gree IR config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 from elvia import error as ElviaError
 
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers.event import async_track_time_interval
 
@@ -17,7 +17,7 @@ if TYPE_CHECKING:
     from universalassistant.config_entries import ConfigEntry
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up Elvia from a config entry."""
     importer = ElviaImporter(
         hass=hass,

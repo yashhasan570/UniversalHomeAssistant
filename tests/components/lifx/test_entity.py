@@ -4,7 +4,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.lifx.const import DOMAIN
 from universalassistant.components.lifx.entity import async_repair_device_registry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .helpers import MAC_ADDRESS, SERIAL, create_mock_light
@@ -15,12 +15,12 @@ UNRELATED_CONNECTION = (dr.CONNECTION_BLUETOOTH, "test-connection")
 
 
 def _add_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     domain: str = DOMAIN,
     unique_id: str = SERIAL,
 ) -> MockConfigEntry:
-    """Add a config entry to __HA_KEEP__."""
+    """Add a config entry to Universal Home Assistant."""
     entry = MockConfigEntry(domain=domain, unique_id=unique_id)
     entry.add_to_hass(hass)
     return entry
@@ -43,7 +43,7 @@ def _add_device(
 
 
 def test_firmware_four_state_uses_unmodified_library_mac(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test a firmware 4 state does not have its library MAC adjusted."""
@@ -64,7 +64,7 @@ def test_firmware_four_state_uses_unmodified_library_mac(
 
 
 def test_incorrect_offset_mac_is_replaced_in_place(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test the historical offset MAC is replaced on the original device."""
@@ -86,7 +86,7 @@ def test_incorrect_offset_mac_is_replaced_in_place(
 
 
 def test_repair_preserves_device_and_entity_metadata(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -127,7 +127,7 @@ def test_repair_preserves_device_and_entity_metadata(
 
 
 def test_repair_preserves_unrelated_connections(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test repair replaces only MAC connections."""
@@ -152,7 +152,7 @@ def test_repair_preserves_unrelated_connections(
 
 
 def test_obsolete_mac_collision_does_not_mutate_other_physical_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test removing an obsolete MAC does not affect its physical owner."""
@@ -183,7 +183,7 @@ def test_obsolete_mac_collision_does_not_mutate_other_physical_device(
 
 
 def test_matching_mac_from_other_integration_is_not_mutated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test another integration may publish the same physical MAC independently."""

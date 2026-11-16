@@ -6,14 +6,14 @@ from probatio.error import Invalid
 import pytest
 
 from universalassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 
 from .conftest import BUILD, ComponentSetup
 
 
 async def test_notify(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
 ) -> None:
     """Test service call draft email."""
@@ -83,7 +83,7 @@ async def test_notify(
 
 
 async def test_notify_probatio_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
 ) -> None:
     """Test probatio error thrown when drafting email."""

@@ -16,7 +16,7 @@ from technove import Station, Status, TechnoVEError
 
 from universalassistant.components.technove.const import DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_with_selected_platforms
@@ -24,7 +24,7 @@ from . import setup_with_selected_platforms
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_technove")
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -52,7 +52,7 @@ async def test_sensors(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_disabled_by_default_sensors(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, entity_id: str
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, entity_id: str
 ) -> None:
     """Test the disabled by default TechnoVE sensors."""
     assert hass.states.get(entity_id) is None
@@ -64,7 +64,7 @@ async def test_disabled_by_default_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_no_wifi_support(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_technove: MagicMock,
 ) -> None:
@@ -84,7 +84,7 @@ async def test_no_wifi_support(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_sensor_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_technove: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -103,7 +103,7 @@ async def test_sensor_update_failure(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_sensor_unknown_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_technove: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:

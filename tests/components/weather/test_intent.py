@@ -9,12 +9,12 @@ from universalassistant.components.weather import (
     WeatherEntity,
     intent as weather_intent,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import intent
 from universalassistant.setup import async_setup_component
 
 
-async def test_get_weather(hass: __HAC_KEEP__) -> None:
+async def test_get_weather(hass: UniversalAssistant) -> None:
     """Test get weather for first entity and by name."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, DOMAIN, {"weather": {}})
@@ -70,7 +70,7 @@ async def test_get_weather(hass: __HAC_KEEP__) -> None:
         assert err.value.result.no_match_reason is intent.MatchFailedReason.ASSISTANT
 
 
-async def test_get_weather_wrong_name(hass: __HAC_KEEP__) -> None:
+async def test_get_weather_wrong_name(hass: UniversalAssistant) -> None:
     """Test get weather with the wrong name."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, DOMAIN, {"weather": {}})
@@ -106,7 +106,7 @@ async def test_get_weather_wrong_name(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_get_weather_no_entities(hass: __HAC_KEEP__) -> None:
+async def test_get_weather_no_entities(hass: UniversalAssistant) -> None:
     """Test get weather with no weather entities."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, DOMAIN, {"weather": {}})

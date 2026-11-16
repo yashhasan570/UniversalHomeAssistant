@@ -23,8 +23,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 
@@ -36,7 +36,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -57,7 +57,7 @@ async def test_switches(
     ],
 )
 async def test_switch_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airobot_client: AsyncMock,
     entity_id: str,
     method_name: str,
@@ -91,7 +91,7 @@ async def test_switch_turn_on_off(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_switch_state_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airobot_client: AsyncMock,
     mock_settings,
     freezer: FrozenDateTimeFactory,
@@ -160,7 +160,7 @@ async def test_switch_state_updates(
     ],
 )
 async def test_switch_error_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airobot_client: AsyncMock,
     entity_id: str,
     method_name: str,
@@ -171,7 +171,7 @@ async def test_switch_error_handling(
     mock_method = getattr(mock_airobot_client, method_name)
     mock_method.side_effect = AirobotError("Test error")
 
-    with pytest.raises(__HAC_KEEP__Error, match=expected_key):
+    with pytest.raises(UniversalAssistantError, match=expected_key):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             service,

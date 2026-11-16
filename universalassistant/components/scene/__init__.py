@@ -9,7 +9,7 @@ import probatio
 from universalassistant.components.light import ATTR_TRANSITION
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PLATFORM, SERVICE_TURN_ON
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.typing import ConfigType
@@ -78,14 +78,14 @@ __all__ = [
 # mypy: disallow-any-generics
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the scenes."""
     component = hass.data[DATA_COMPONENT] = EntityComponent[BaseScene](
         logging.getLogger(__name__), DOMAIN, hass
     )
 
     await component.async_setup(config)
-    # Ensure __HA_KEEP__ platform always loaded.
+    # Ensure Universal Home Assistant platform always loaded.
     hass.async_create_task(
         component.async_setup_platform(
             HOMEASSISTANT_DOMAIN, {"platform": HOMEASSISTANT_DOMAIN, STATES: []}
@@ -97,7 +97,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up a config entry."""
     if not await hass.data[DATA_COMPONENT].async_setup_entry(entry):
         raise ConfigEntryError(
@@ -107,6 +107,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.data[DATA_COMPONENT].async_unload_entry(entry)

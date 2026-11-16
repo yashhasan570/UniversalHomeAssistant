@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.dunehd.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 CONFIG_HOSTNAME = {CONF_HOST: "dunehd-host"}
@@ -28,7 +28,7 @@ def _patch_success() -> Generator[None]:
         yield
 
 
-async def test_user_invalid_host(hass: __HAC_KEEP__) -> None:
+async def test_user_invalid_host(hass: UniversalAssistant) -> None:
     """Test that errors are shown when the host is invalid."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -53,7 +53,7 @@ async def test_user_invalid_host(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_very_long_host(hass: __HAC_KEEP__) -> None:
+async def test_user_very_long_host(hass: UniversalAssistant) -> None:
     """Test that errors are shown when the host is longer than 253 chars."""
     long_host = (
         "very_long_host_very_long_host_very_long_host_very_long_host_very_long_"
@@ -84,7 +84,7 @@ async def test_user_very_long_host(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_user_cannot_connect(hass: UniversalAssistant) -> None:
     """Test that errors are shown when cannot connect to the host."""
     with patch("pdunehd.DuneHDPlayer.update_state", return_value={}):
         result = await hass.config_entries.flow.async_init(
@@ -110,7 +110,7 @@ async def test_user_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_duplicate_error(hass: __HAC_KEEP__) -> None:
+async def test_duplicate_error(hass: UniversalAssistant) -> None:
     """Test that errors are shown when duplicates are added."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -143,7 +143,7 @@ async def test_duplicate_error(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_create_entry(hass: __HAC_KEEP__) -> None:
+async def test_create_entry(hass: UniversalAssistant) -> None:
     """Test that the user step works."""
     with (
         patch("universalassistant.components.dunehd.async_setup_entry"),
@@ -166,7 +166,7 @@ async def test_create_entry(hass: __HAC_KEEP__) -> None:
         assert result["data"] == {CONF_HOST: "dunehd-host"}
 
 
-async def test_create_entry_with_ipv6_address(hass: __HAC_KEEP__) -> None:
+async def test_create_entry_with_ipv6_address(hass: UniversalAssistant) -> None:
     """Test that the user step works with device IPv6 address.."""
     with (
         patch("universalassistant.components.dunehd.async_setup_entry"),

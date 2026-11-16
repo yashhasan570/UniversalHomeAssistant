@@ -18,7 +18,7 @@ from pynordpool import (
 )
 
 from universalassistant.const import CONF_CURRENCY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.event import async_track_point_in_utc_time
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -42,7 +42,7 @@ class NordPoolDataUpdateCoordinator(DataUpdateCoordinator[DeliveryPeriodsData]):
 
     config_entry: NordPoolConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: NordPoolConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: NordPoolConfigEntry) -> None:
         """Initialize the Nord Pool coordinator."""
         super().__init__(
             hass,

@@ -11,7 +11,7 @@ from amberelectric.models.forecast_interval import ForecastInterval
 from amberelectric.rest import ApiException
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import LOGGER, REQUEST_TIMEOUT
@@ -54,7 +54,7 @@ class AmberUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: AmberConfigEntry,
         api: amberelectric.AmberApi,
         site_id: str,

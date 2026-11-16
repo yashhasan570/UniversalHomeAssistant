@@ -9,13 +9,13 @@ from trmnl.exceptions import TRMNLAuthenticationError, TRMNLError
 from universalassistant.components.trmnl.const import DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
 
 @pytest.mark.usefixtures("mock_trmnl_client")
-async def test_full_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_full_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test the full config flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -43,7 +43,7 @@ async def test_full_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> Non
     ],
 )
 async def test_form_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_trmnl_client: AsyncMock,
     mock_setup_entry: AsyncMock,
     exception: type[Exception],
@@ -75,7 +75,7 @@ async def test_form_errors(
 
 @pytest.mark.usefixtures("mock_trmnl_client")
 async def test_duplicate_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we handle duplicate entries."""
     mock_config_entry.add_to_hass(hass)
@@ -100,7 +100,7 @@ DHCP_DISCOVERY = DhcpServiceInfo(
 
 
 @pytest.mark.usefixtures("mock_trmnl_client")
-async def test_dhcp_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_dhcp_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test the DHCP discovery flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_DHCP}, data=DHCP_DISCOVERY
@@ -120,7 +120,7 @@ async def test_dhcp_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> Non
 
 
 async def test_dhcp_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test DHCP discovery aborts when an account is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -133,7 +133,7 @@ async def test_dhcp_already_configured(
     assert result["reason"] == "already_configured"
 
 
-async def test_dhcp_already_in_progress(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_already_in_progress(hass: UniversalAssistant) -> None:
     """Test only one DHCP discovery flow is started."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_DHCP}, data=DHCP_DISCOVERY
@@ -156,7 +156,7 @@ async def test_dhcp_already_in_progress(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_trmnl_client", "mock_setup_entry")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the reauth flow."""
@@ -185,7 +185,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_trmnl_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: type[Exception],
@@ -217,7 +217,7 @@ async def test_reauth_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_wrong_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_trmnl_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -238,7 +238,7 @@ async def test_reauth_flow_wrong_account(
 
 @pytest.mark.usefixtures("mock_trmnl_client", "mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the reconfigure flow."""
@@ -267,7 +267,7 @@ async def test_reconfigure_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_trmnl_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: type[Exception],
@@ -299,7 +299,7 @@ async def test_reconfigure_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_wrong_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_trmnl_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

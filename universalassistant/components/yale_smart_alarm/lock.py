@@ -6,8 +6,8 @@ from yalesmartalarmclient import YaleLock, YaleLockState
 
 from universalassistant.components.lock import LockEntity, LockState
 from universalassistant.const import ATTR_CODE
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import YaleConfigEntry
@@ -28,7 +28,7 @@ LOCK_STATE_MAP = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: YaleConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -78,7 +78,7 @@ class YaleDoorlock(YaleLockEntity, LockEntity):
                     self.lock_data.open, code
                 )
         except YALE_ALL_ERRORS as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_lock",
                 translation_placeholders={
@@ -91,7 +91,7 @@ class YaleDoorlock(YaleLockEntity, LockEntity):
             self.lock_data.set_state(state)
             self.async_write_ha_state()
             return
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="could_not_change_lock",
         )

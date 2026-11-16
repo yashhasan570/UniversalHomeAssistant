@@ -6,14 +6,14 @@ import aiohttp
 import pytest
 
 from universalassistant.components.lifx_cloud.scene import LifxCloudScene
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 SCENE_DATA = {"name": "Living room", "uuid": "abc-123"}
 
 
 @pytest.fixture
-def scene(hass: __HAC_KEEP__) -> LifxCloudScene:
+def scene(hass: UniversalAssistant) -> LifxCloudScene:
     """Return a LIFX Cloud scene entity."""
     return LifxCloudScene(hass, {"Authorization": "Bearer token"}, 10, SCENE_DATA)
 
@@ -37,10 +37,10 @@ async def test_activate(scene: LifxCloudScene) -> None:
     ],
 )
 async def test_activate_failure_raises(scene: LifxCloudScene, error: Exception) -> None:
-    """A failed activate raises __HAC_KEEP__Error."""
+    """A failed activate raises UniversalAssistantError."""
     with patch(
         "universalassistant.components.lifx_cloud.scene.async_get_clientsession"
     ) as session:
         session.return_value.put = AsyncMock(side_effect=error)
-        with pytest.raises(__HAC_KEEP__Error):
+        with pytest.raises(UniversalAssistantError):
             await scene.async_activate()

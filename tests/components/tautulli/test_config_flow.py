@@ -9,13 +9,13 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.tautulli.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_SOURCE, CONF_URL, CONF_VERIFY_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import CONF_DATA, NAME, patch_config_flow_tautulli, setup_integration
 
 
-async def test_flow_user(hass: __HAC_KEEP__) -> None:
+async def test_flow_user(hass: UniversalAssistant) -> None:
     """Test user initiated flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={CONF_SOURCE: SOURCE_USER}
@@ -39,7 +39,7 @@ async def test_flow_user(hass: __HAC_KEEP__) -> None:
     assert result2["data"] == CONF_DATA
 
 
-async def test_flow_user_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_cannot_connect(hass: UniversalAssistant) -> None:
     """Test user initialized flow with unreachable server."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={CONF_SOURCE: SOURCE_USER}
@@ -73,7 +73,7 @@ async def test_flow_user_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert result2["data"] == CONF_DATA
 
 
-async def test_flow_user_invalid_auth(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_invalid_auth(hass: UniversalAssistant) -> None:
     """Test user initialized flow with invalid authentication."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={CONF_SOURCE: SOURCE_USER}
@@ -107,7 +107,7 @@ async def test_flow_user_invalid_auth(hass: __HAC_KEEP__) -> None:
     assert result2["data"] == CONF_DATA
 
 
-async def test_flow_user_unknown_error(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_unknown_error(hass: UniversalAssistant) -> None:
     """Test user initialized flow with unreachable server."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={CONF_SOURCE: SOURCE_USER}
@@ -141,7 +141,7 @@ async def test_flow_user_unknown_error(hass: __HAC_KEEP__) -> None:
     assert result2["data"] == CONF_DATA
 
 
-async def test_flow_user_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_already_configured(hass: UniversalAssistant) -> None:
     """Test user step already configured."""
     entry = MockConfigEntry(domain=DOMAIN, data=CONF_DATA)
     entry.add_to_hass(hass)
@@ -162,7 +162,7 @@ async def test_flow_user_already_configured(hass: __HAC_KEEP__) -> None:
         assert result["reason"] == "already_configured"
 
 
-async def test_flow_user_multiple_entries_allowed(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_multiple_entries_allowed(hass: UniversalAssistant) -> None:
     """Test user step can configure multiple entries."""
     entry = MockConfigEntry(domain=DOMAIN, data=CONF_DATA)
     entry.add_to_hass(hass)
@@ -195,7 +195,7 @@ async def test_flow_user_multiple_entries_allowed(hass: __HAC_KEEP__) -> None:
 
 
 async def test_flow_reauth(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test reauth flow."""
     with patch("universalassistant.components.tautulli.PLATFORMS", []):
@@ -224,7 +224,7 @@ async def test_flow_reauth(
 
 
 async def test_flow_reauth_error(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test reauth flow with invalid authentication."""
     with patch("universalassistant.components.tautulli.PLATFORMS", []):

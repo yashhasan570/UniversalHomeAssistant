@@ -17,8 +17,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -30,7 +30,7 @@ TRIGGER_ENTITY_ID = f"{SWITCH_DOMAIN}.fake_trigger"
 
 
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     fritz: Mock,
@@ -52,7 +52,7 @@ async def test_setup(
     await snapshot_platform(hass, entity_registry, snapshot, entry.entry_id)
 
 
-async def test_switch_turn_on(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_switch_turn_on(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test turn switch device on."""
     device = FritzDeviceSwitchMock()
     await setup_config_entry(
@@ -68,7 +68,7 @@ async def test_switch_turn_on(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert device.set_switch_state_on.call_count == 1
 
 
-async def test_switch_turn_off(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_switch_turn_off(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test turn switch device off."""
     device = FritzDeviceSwitchMock()
 
@@ -86,7 +86,7 @@ async def test_switch_turn_off(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert device.set_switch_state_off.call_count == 1
 
 
-async def test_switch_toggle_while_locked(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_switch_toggle_while_locked(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test toggling while switch device is locked."""
     device = FritzDeviceSwitchMock()
     device.lock = True
@@ -96,7 +96,7 @@ async def test_switch_toggle_while_locked(hass: __HAC_KEEP__, fritz: Mock) -> No
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Can't toggle switch while manual switching is disabled for the device",
     ):
         await hass.services.async_call(
@@ -107,7 +107,7 @@ async def test_switch_toggle_while_locked(hass: __HAC_KEEP__, fritz: Mock) -> No
         )
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Can't toggle switch while manual switching is disabled for the device",
     ):
         await hass.services.async_call(
@@ -118,7 +118,7 @@ async def test_switch_toggle_while_locked(hass: __HAC_KEEP__, fritz: Mock) -> No
         )
 
 
-async def test_update(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_update(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test update without error."""
     device = FritzDeviceSwitchMock()
     trigger = FritzTriggerMock()
@@ -142,7 +142,7 @@ async def test_update(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert fritz().login.call_count == 1
 
 
-async def test_update_error(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_update_error(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test update with error."""
     device = FritzDeviceSwitchMock()
     fritz().update_devices.side_effect = ["", HTTPError("Boom"), ""]
@@ -162,7 +162,7 @@ async def test_update_error(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert fritz().login.call_count == 2
 
 
-async def test_assume_device_unavailable(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_assume_device_unavailable(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test assume device as unavailable."""
     device = FritzDeviceSwitchMock()
     device.voltage = 0
@@ -177,7 +177,7 @@ async def test_assume_device_unavailable(hass: __HAC_KEEP__, fritz: Mock) -> Non
     assert state.state == STATE_UNAVAILABLE
 
 
-async def test_discover_new_device(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_discover_new_device(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test adding new discovered devices during runtime."""
     device = FritzDeviceSwitchMock()
     trigger = FritzTriggerMock()
@@ -217,7 +217,7 @@ async def test_discover_new_device(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert hass.states.get(f"{SWITCH_DOMAIN}.new_trigger")
 
 
-async def test_activate_trigger(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_activate_trigger(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test activating a FRITZ! trigger."""
     trigger = FritzTriggerMock()
     await setup_config_entry(
@@ -236,7 +236,7 @@ async def test_activate_trigger(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert fritz().set_trigger_active.call_count == 1
 
 
-async def test_deactivate_trigger(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_deactivate_trigger(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test deactivating a FRITZ! trigger."""
     trigger = FritzTriggerMock()
     await setup_config_entry(

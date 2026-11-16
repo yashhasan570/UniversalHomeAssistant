@@ -6,7 +6,7 @@ from typing import override
 from googlewifiapi import GoogleWifiAPI, GoogleWifiStatus
 from googlewifiapi.exception import GoogleWifiClientError
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN, LOGGER
@@ -15,7 +15,7 @@ from .const import DOMAIN, LOGGER
 class GoogleWifiCoordinator(DataUpdateCoordinator[GoogleWifiStatus]):
     """Coordinates entities for the Google Wifi integration."""
 
-    def __init__(self, hass: __HAC_KEEP__, api: GoogleWifiAPI) -> None:
+    def __init__(self, hass: UniversalAssistant, api: GoogleWifiAPI) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,

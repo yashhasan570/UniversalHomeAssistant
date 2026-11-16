@@ -1,4 +1,4 @@
-"""Test config entry functions for __HA_KEEP__ templates."""
+"""Test config entry functions for Universal Home Assistant templates."""
 
 from datetime import timedelta
 import json
@@ -8,7 +8,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import TemplateError
 from universalassistant.helpers import entity, entity_registry as er
 from universalassistant.helpers.entity_platform import EntityPlatform
@@ -17,7 +17,7 @@ from tests.helpers.template.helpers import assert_result_info, render, render_to
 
 
 async def test_integration_entities(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test integration_entities function."""
     # test entities for untitled config entry
@@ -82,7 +82,7 @@ async def test_integration_entities(
 
 
 async def test_config_entry_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test config_entry_id function."""
     config_entry = MockConfigEntry(domain="light", title="Some integration")
@@ -108,7 +108,7 @@ async def test_config_entry_id(
     assert info.rate_limit is None
 
 
-async def test_config_entry_attr(hass: __HAC_KEEP__) -> None:
+async def test_config_entry_attr(hass: UniversalAssistant) -> None:
     """Test config entry attr."""
     config_entry = MockConfigEntry(
         domain="mock_light",

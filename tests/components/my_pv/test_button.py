@@ -13,8 +13,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -24,7 +24,7 @@ pytestmark = pytest.mark.usefixtures("entity_registry_enabled_by_default")
 
 @pytest.mark.usefixtures("mock_my_pv_client")
 async def test_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -37,7 +37,7 @@ async def test_button(
 
 
 async def test_button_unavailable_not_connected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -51,7 +51,7 @@ async def test_button_unavailable_not_connected(
 
 
 async def test_button_press(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -68,15 +68,15 @@ async def test_button_press(
 
 
 async def test_button_press_send_command_returns_false(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
-    """Test for __HAC_KEEP__Error when send_command returns False."""
+    """Test for UniversalAssistantError when send_command returns False."""
     await setup_integration(hass, mock_config_entry)
 
     mock_my_pv_client.send_command.return_value = False
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -99,19 +99,19 @@ async def test_button_press_send_command_returns_false(
 @pytest.mark.parametrize(
     ("error", "expected_ha_error"),
     [
-        (MyPVConnectionError(), __HAC_KEEP__Error),
+        (MyPVConnectionError(), UniversalAssistantError),
         (MyPVAuthenticationError(), ConfigEntryAuthFailed),
-        (MyPVTooManyRequestsError(), __HAC_KEEP__Error),
+        (MyPVTooManyRequestsError(), UniversalAssistantError),
     ],
 )
 async def test_button_press_send_command_raises_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
     error: MyPVConnectionError | MyPVAuthenticationError,
-    expected_ha_error: type[__HAC_KEEP__Error],
+    expected_ha_error: type[UniversalAssistantError],
 ) -> None:
-    """Test for __HAC_KEEP__Error when send_command raises error."""
+    """Test for UniversalAssistantError when send_command raises error."""
     await setup_integration(hass, mock_config_entry)
 
     mock_my_pv_client.send_command.side_effect = error

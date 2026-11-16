@@ -11,7 +11,7 @@ from universalassistant.components.islamic_prayer_times.const import CONF_CALC_M
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -19,12 +19,12 @@ from . import NOW, PRAYER_TIMES
 
 
 @pytest.fixture(autouse=True)
-async def set_utc(hass: __HAC_KEEP__) -> None:
+async def set_utc(hass: UniversalAssistant) -> None:
     """Set timezone to UTC."""
     await hass.config.async_set_time_zone("UTC")
 
 
-async def test_successful_config_entry(hass: __HAC_KEEP__) -> None:
+async def test_successful_config_entry(hass: UniversalAssistant) -> None:
     """Test that Islamic Prayer Times is configured successfully."""
 
     entry = MockConfigEntry(
@@ -43,7 +43,7 @@ async def test_successful_config_entry(hass: __HAC_KEEP__) -> None:
         assert entry.state is ConfigEntryState.LOADED
 
 
-async def test_unload_entry(hass: __HAC_KEEP__) -> None:
+async def test_unload_entry(hass: UniversalAssistant) -> None:
     """Test removing Islamic Prayer Times."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -62,7 +62,7 @@ async def test_unload_entry(hass: __HAC_KEEP__) -> None:
         assert entry.state is ConfigEntryState.NOT_LOADED
 
 
-async def test_options_listener(hass: __HAC_KEEP__) -> None:
+async def test_options_listener(hass: UniversalAssistant) -> None:
     """Ensure updating options triggers a coordinator refresh."""
     entry = MockConfigEntry(domain=DOMAIN, data={})
     entry.add_to_hass(hass)
@@ -102,7 +102,7 @@ async def test_options_listener(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_migrate_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     object_id: str,
     old_unique_id: str,
@@ -135,7 +135,7 @@ async def test_migrate_unique_id(
     assert entity_migrated.unique_id == f"{entry.entry_id}-{old_unique_id}"
 
 
-async def test_migration_from_1_1_to_1_2(hass: __HAC_KEEP__) -> None:
+async def test_migration_from_1_1_to_1_2(hass: UniversalAssistant) -> None:
     """Test migrating from version 1.1 to 1.2."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -160,7 +160,7 @@ async def test_migration_from_1_1_to_1_2(hass: __HAC_KEEP__) -> None:
     assert entry.minor_version == 2
 
 
-async def test_update_scheduling(hass: __HAC_KEEP__) -> None:
+async def test_update_scheduling(hass: UniversalAssistant) -> None:
     """Test that integration schedules update immediately after Islamic midnight."""
     entry = MockConfigEntry(domain=DOMAIN, data={})
     entry.add_to_hass(hass)

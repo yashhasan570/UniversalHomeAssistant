@@ -10,7 +10,7 @@ from pytest_universalassistant.components.bluetooth import generate_ble_device
 
 from universalassistant.components.hue_ble.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import TEST_DEVICE_MAC, TEST_DEVICE_NAME
@@ -50,7 +50,7 @@ from . import TEST_DEVICE_MAC, TEST_DEVICE_NAME
     ids=["no_device", "error_connect", "error_poll"],
 )
 async def test_setup_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     reachability_reason: str,
     ble_device: BLEDevice | None,
@@ -89,7 +89,7 @@ async def test_setup_error(
 
 
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that the config is loaded if there are no errors."""
 

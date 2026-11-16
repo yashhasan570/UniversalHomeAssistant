@@ -13,7 +13,7 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
 )
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import DOMAIN, LOGGER
@@ -181,5 +181,5 @@ class ActronAirConfigFlow(ConfigFlow, domain=DOMAIN):
         return await self.async_step_user()
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""

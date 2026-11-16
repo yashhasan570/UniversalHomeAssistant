@@ -1,4 +1,4 @@
-"""Helpers to help with encoding __HA_KEEP__ objects in JSON."""
+"""Helpers to help with encoding Universal Home Assistant objects in JSON."""
 
 from collections import deque
 from collections.abc import Callable
@@ -18,11 +18,11 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class JSONEncoder(json.JSONEncoder):
-    """JSONEncoder that supports __HA_KEEP__ objects."""
+    """JSONEncoder that supports Universal Home Assistant objects."""
 
     @override
     def default(self, o: Any) -> Any:
-        """Convert __HA_KEEP__ objects.
+        """Convert Universal Home Assistant objects.
 
         Hand other objects to the original method.
         """
@@ -37,7 +37,7 @@ class JSONEncoder(json.JSONEncoder):
 
 
 def json_encoder_default(obj: Any) -> Any:
-    """Convert __HA_KEEP__ objects.
+    """Convert Universal Home Assistant objects.
 
     Hand other objects to the original method.
     """
@@ -69,7 +69,7 @@ else:
 
 
 class ExtendedJSONEncoder(JSONEncoder):
-    """JSONEncoder that supports __HA_KEEP__ objects and falls back to repr(o)."""
+    """JSONEncoder that supports Universal Home Assistant objects and falls back to repr(o)."""
 
     @override
     def default(self, o: Any) -> Any:
@@ -109,7 +109,7 @@ def json_bytes_strip_null(data: Any) -> bytes:
         return result
 
     # We work on the processed result so we don't need to worry about
-    # __HA_KEEP__ extensions which allows encoding sets, tuples, etc.
+    # Universal Home Assistant extensions which allows encoding sets, tuples, etc.
     return json_bytes(_strip_null(orjson.loads(result)))
 
 

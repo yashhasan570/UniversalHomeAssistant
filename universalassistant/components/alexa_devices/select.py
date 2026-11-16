@@ -8,8 +8,8 @@ from aioamazondevices.structures import AmazonDevice, AmazonDropInStatus
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -52,7 +52,7 @@ SERVICE_SELECTS: Final = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: AmazonConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -157,7 +157,7 @@ class AmazonSelectServiceEntity(AmazonServiceEntity, SelectEntity):
                 self._attr_current_option = option
                 self.async_write_ha_state()
                 return
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="select_option_not_found",
             translation_placeholders={"option": option},

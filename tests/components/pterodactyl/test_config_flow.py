@@ -11,14 +11,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.pterodactyl.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import TEST_API_KEY, TEST_URL, TEST_USER_INPUT
 
 
 @pytest.mark.usefixtures("mock_pterodactyl", "mock_setup_entry")
-async def test_full_flow(hass: __HAC_KEEP__) -> None:
+async def test_full_flow(hass: UniversalAssistant) -> None:
     """Test full flow without errors."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -56,7 +56,7 @@ async def test_full_flow(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_recovery_after_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception_type: Exception,
     expected_error: str,
     mock_pterodactyl: Generator[AsyncMock],
@@ -93,7 +93,7 @@ async def test_recovery_after_error(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_pterodactyl")
 async def test_service_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test config flow abort if the Pterodactyl server is already configured."""
@@ -116,7 +116,7 @@ async def test_service_already_configured(
 
 @pytest.mark.usefixtures("mock_pterodactyl", "mock_setup_entry")
 async def test_reauth_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reauth config flow success."""
@@ -153,7 +153,7 @@ async def test_reauth_full_flow(
     ],
 )
 async def test_reauth_recovery_after_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception_type: Exception,
     expected_error: str,
     mock_config_entry: MockConfigEntry,

@@ -21,8 +21,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, PRECISION_HALVES, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -39,7 +39,7 @@ from .entity import FlexitEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: FlexitConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -126,7 +126,7 @@ class FlexitClimateEntity(FlexitEntity, ClimateEntity):
             ConnectionError,
             DecodingError,
         ) as exc:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_temperature",
                 translation_placeholders={
@@ -168,7 +168,7 @@ class FlexitClimateEntity(FlexitEntity, ClimateEntity):
             ConnectionError,
             DecodingError,
         ) as exc:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_preset_mode",
                 translation_placeholders={
@@ -202,7 +202,7 @@ class FlexitClimateEntity(FlexitEntity, ClimateEntity):
             ConnectionError,
             DecodingError,
         ) as exc:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_hvac_mode",
                 translation_placeholders={

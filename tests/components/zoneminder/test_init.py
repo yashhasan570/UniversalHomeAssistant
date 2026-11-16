@@ -10,7 +10,7 @@ from requests.exceptions import (
 
 from universalassistant.components.zoneminder.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PATH, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .conftest import MOCK_HOST
@@ -19,7 +19,7 @@ CONF_PATH_ZMS = "path_zms"
 
 
 async def test_constructor_called_with_http_prefix(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
 ) -> None:
     """Test ZM constructor called with http prefix when ssl=false."""
@@ -39,7 +39,7 @@ async def test_constructor_called_with_http_prefix(
 
 
 async def test_constructor_called_with_https_prefix(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     ssl_config: dict,
 ) -> None:
@@ -52,7 +52,7 @@ async def test_constructor_called_with_https_prefix(
 
 
 async def test_constructor_called_with_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
 ) -> None:
@@ -66,7 +66,7 @@ async def test_constructor_called_with_auth(
 
 
 async def test_constructor_called_with_paths(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
 ) -> None:
     """Test ZM constructor called with custom paths."""
@@ -89,7 +89,7 @@ async def test_constructor_called_with_paths(
 
 
 async def test_login_called_in_executor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
 ) -> None:
@@ -101,7 +101,7 @@ async def test_login_called_in_executor(
 
 
 async def test_login_success_returns_true(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
 ) -> None:
@@ -115,7 +115,7 @@ async def test_login_success_returns_true(
 
 
 async def test_login_failure_returns_false(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
 ) -> None:
@@ -134,7 +134,7 @@ async def test_login_failure_returns_false(
     ],
 )
 async def test_connection_error_logged(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     caplog: pytest.LogCaptureFixture,
@@ -158,7 +158,7 @@ async def test_connection_error_logged(
 
 
 async def test_async_setup_services_invoked(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
 ) -> None:
@@ -173,7 +173,7 @@ async def test_async_setup_services_invoked(
 
 
 async def test_binary_sensor_platform_load_triggered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
 ) -> None:

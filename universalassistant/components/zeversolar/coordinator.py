@@ -8,7 +8,7 @@ import zeversolar
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN
@@ -23,7 +23,7 @@ class ZeversolarCoordinator(DataUpdateCoordinator[zeversolar.ZeverSolarData]):
 
     config_entry: ZeversolarConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, entry: ZeversolarConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: ZeversolarConfigEntry) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,

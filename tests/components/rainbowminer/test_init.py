@@ -9,14 +9,14 @@ from rainbowminer_api_client import RainbowMinerAuthError, RainbowMinerConnectio
 from universalassistant.components.rainbowminer.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 from .conftest import TEST_HOST, TEST_PORT
 
 
 async def test_setup_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rainbowminer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -31,7 +31,7 @@ async def test_setup_unload(
 
 
 async def test_setup_with_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rainbowminer_client: AsyncMock,
 ) -> None:
     """Test setup with username and password."""
@@ -65,7 +65,7 @@ async def test_setup_with_auth(
     ],
 )
 async def test_setup_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rainbowminer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,

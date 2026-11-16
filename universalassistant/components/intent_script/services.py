@@ -2,7 +2,7 @@
 
 from enum import StrEnum
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.helpers.service import async_register_admin_service
 
 from .const import DOMAIN
@@ -20,7 +20,7 @@ async def _handle_reload(service_call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the services for the intent_script integration."""
     async_register_admin_service(
         hass,

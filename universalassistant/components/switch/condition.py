@@ -2,7 +2,7 @@
 
 from universalassistant.components.input_boolean import DOMAIN as INPUT_BOOLEAN_DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.automation import DomainSpec
 from universalassistant.helpers.condition import Condition, make_entity_state_condition
 
@@ -19,6 +19,6 @@ CONDITIONS: dict[str, type[Condition]] = {
 }
 
 
-async def async_get_conditions(hass: __HAC_KEEP__) -> dict[str, type[Condition]]:
+async def async_get_conditions(hass: UniversalAssistant) -> dict[str, type[Condition]]:
     """Return the switch conditions."""
     return CONDITIONS

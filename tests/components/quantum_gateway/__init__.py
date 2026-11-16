@@ -2,11 +2,11 @@
 
 from universalassistant.components.device_tracker import DOMAIN as DEVICE_TRACKER_DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_PLATFORM
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
-async def setup_platform(hass: __HAC_KEEP__) -> None:
+async def setup_platform(hass: UniversalAssistant) -> None:
     """Set up the quantum_gateway integration."""
     result = await async_setup_component(
         hass,

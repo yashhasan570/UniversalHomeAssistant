@@ -72,8 +72,8 @@ from universalassistant.const import (
     SERVICE_VOLUME_UP,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import area_registry as ar, entity_registry as er
 from universalassistant.helpers.device_registry import (
     CONNECTION_NETWORK_MAC,
@@ -94,7 +94,7 @@ def mock_token() -> Generator[MagicMock]:
 
 
 async def test_device_registry(
-    hass: __HAC_KEEP__, device_registry: DeviceRegistry, async_autosetup_sonos, soco
+    hass: UniversalAssistant, device_registry: DeviceRegistry, async_autosetup_sonos, soco
 ) -> None:
     """Test sonos device registered in the device registry."""
     reg_device = device_registry.async_get_device_by_identifier(
@@ -115,7 +115,7 @@ async def test_device_registry(
 
 
 async def test_device_registry_not_portable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: DeviceRegistry,
     async_setup_sonos,
@@ -133,7 +133,7 @@ async def test_device_registry_not_portable(
 
 
 async def test_entity_basic(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_autosetup_sonos,
     discover,
     entity_registry: er.EntityRegistry,
@@ -229,7 +229,7 @@ async def test_entity_basic(
     ],
 )
 async def test_play_media_library(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
     media_content_type,
@@ -296,7 +296,7 @@ async def test_play_media_library(
     ],
 )
 async def test_play_media_library_content_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_autosetup_sonos,
     media_content_type,
     media_content_id,
@@ -354,7 +354,7 @@ async def test_play_media_library_content_error(
     ],
 )
 async def test_play_media_error_translation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
     error: Exception,
@@ -365,7 +365,7 @@ async def test_play_media_error_translation(
     soco_mock = soco_factory.mock_list.get("192.168.42.2")
     soco_mock.play_uri.side_effect = error
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             MP_DOMAIN,
             SERVICE_PLAY_MEDIA,
@@ -386,7 +386,7 @@ _track_url = "S://192.168.42.100/music/iTunes/The%20Beatles/A%20Hard%20Day%2fs%I
 
 
 async def test_play_media_lib_track_play(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
 ) -> None:
@@ -415,7 +415,7 @@ async def test_play_media_lib_track_play(
 
 
 async def test_play_media_lib_track_next(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
 ) -> None:
@@ -443,7 +443,7 @@ async def test_play_media_lib_track_next(
 
 
 async def test_play_media_lib_track_replace(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
 ) -> None:
@@ -466,7 +466,7 @@ async def test_play_media_lib_track_replace(
 
 
 async def test_play_media_lib_track_add(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
 ) -> None:
@@ -558,7 +558,7 @@ async def test_play_media_lib_track_add(
 )
 @pytest.mark.usefixtures("async_autosetup_sonos")
 async def test_play_media_source_passes_mime_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     enqueue: MediaPlayerEnqueue,
     expected_play_uri_calls: list[Any],
@@ -593,7 +593,7 @@ async def test_play_media_source_passes_mime_type(
 
 @pytest.mark.usefixtures("async_autosetup_sonos")
 async def test_play_radio_media_source_does_not_pass_mime_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
 ) -> None:
     """Test radio media source MIME type is not passed to SoCo."""
@@ -626,7 +626,7 @@ _share_link_title: str = "playlist title"
 
 
 async def test_play_media_share_link_add(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
     soco_sharelink,
@@ -660,7 +660,7 @@ async def test_play_media_share_link_add(
 
 @pytest.mark.usefixtures("soco_factory", "async_autosetup_sonos")
 async def test_play_media_spotify_media_browser_url(
-    hass: __HAC_KEEP__, soco_sharelink: MagicMock
+    hass: UniversalAssistant, soco_sharelink: MagicMock
 ) -> None:
     """Tests playing a Spotify media browser URL when Spotify is set up."""
     hass.config.components.add("spotify")
@@ -681,7 +681,7 @@ async def test_play_media_spotify_media_browser_url(
 
 
 async def test_play_media_share_link_next(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
     soco_sharelink,
@@ -716,7 +716,7 @@ async def test_play_media_share_link_next(
 
 
 async def test_play_media_share_link_play(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
     soco_sharelink,
@@ -750,7 +750,7 @@ async def test_play_media_share_link_play(
 
 
 async def test_play_media_share_link_replace(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
     soco_sharelink,
@@ -811,7 +811,7 @@ _mock_playlists = [
     ],
 )
 async def test_play_media_music_library_playlist(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
     discover,
@@ -840,7 +840,7 @@ async def test_play_media_music_library_playlist(
 
 
 async def test_play_media_music_library_playlist_dne(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
     caplog: pytest.LogCaptureFixture,
@@ -868,7 +868,7 @@ async def test_play_media_music_library_playlist_dne(
 
 
 async def test_play_sonos_playlist(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_autosetup_sonos,
     soco: MockSoCo,
     sonos_playlists: SearchResult,
@@ -933,7 +933,7 @@ async def test_play_sonos_playlist(
 )
 @pytest.mark.parametrize("speaker_model", ["Sonos Amp"], indirect=True)
 async def test_select_source_line_in_tv(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
     source: str,
@@ -1036,7 +1036,7 @@ async def test_select_source_line_in_tv(
 )
 @pytest.mark.parametrize("speaker_model", ["Sonos Amp"], indirect=True)
 async def test_select_source_play_uri(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
     source: str,
@@ -1078,7 +1078,7 @@ async def test_select_source_play_uri(
 )
 @pytest.mark.parametrize("speaker_model", ["Sonos Amp"], indirect=True)
 async def test_select_source_play_queue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
     source: str,
@@ -1110,7 +1110,7 @@ async def test_select_source_play_queue(
 
 @pytest.mark.parametrize("speaker_model", ["Sonos Amp"], indirect=True)
 async def test_select_source_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
 ) -> None:
@@ -1130,7 +1130,7 @@ async def test_select_source_error(
 
 
 async def test_shuffle_set(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco: MockSoCo,
     async_autosetup_sonos,
 ) -> None:
@@ -1161,7 +1161,7 @@ async def test_shuffle_set(
 
 
 async def test_shuffle_get(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco: MockSoCo,
     async_autosetup_sonos,
     no_media_event: SonosMockEvent,
@@ -1192,7 +1192,7 @@ async def test_shuffle_get(
 
 
 async def test_repeat_set(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco: MockSoCo,
     async_autosetup_sonos,
 ) -> None:
@@ -1233,7 +1233,7 @@ async def test_repeat_set(
 
 
 async def test_repeat_get(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco: MockSoCo,
     async_autosetup_sonos,
     no_media_event: SonosMockEvent,
@@ -1271,7 +1271,7 @@ async def test_repeat_get(
 
 
 async def test_play_media_favorite_item_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
 ) -> None:
@@ -1312,7 +1312,7 @@ async def test_play_media_favorite_item_id(
     assert "UNKNOWN_ID" in str(sve.value)
 
 
-async def _setup_hass(hass: __HAC_KEEP__):
+async def _setup_hass(hass: UniversalAssistant):
     await async_setup_component(
         hass,
         DOMAIN,
@@ -1329,7 +1329,7 @@ async def _setup_hass(hass: __HAC_KEEP__):
 
 
 async def test_service_snapshot_restore(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
 ) -> None:
     """Test the snapshot and restore services."""
@@ -1370,7 +1370,7 @@ async def test_service_snapshot_restore(
 
 
 async def test_volume(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco: MockSoCo,
     async_autosetup_sonos,
 ) -> None:
@@ -1419,7 +1419,7 @@ async def test_volume(
     ],
 )
 async def test_media_transport(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco: MockSoCo,
     async_autosetup_sonos,
     service: str,
@@ -1449,7 +1449,7 @@ async def test_media_transport(
     ],
 )
 async def test_state_paused_idle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco: MockSoCo,
     async_autosetup_sonos,
     no_media_event: SonosMockEvent,
@@ -1478,7 +1478,7 @@ async def test_state_paused_idle(
 
 
 async def test_play_media_announce(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco: MockSoCo,
     async_autosetup_sonos,
     sonos_websocket,
@@ -1507,7 +1507,7 @@ async def test_play_media_announce(
     sonos_websocket.play_clip.reset_mock()
     sonos_websocket.play_clip.side_effect = SonosWebsocketError("Error Message")
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="An error occurred while communicating with the Sonos speaker",
     ):
         await hass.services.async_call(
@@ -1530,7 +1530,7 @@ async def test_play_media_announce(
     retval = {"success": 0}
     sonos_websocket.play_clip.return_value = [retval, {}]
     with pytest.raises(
-        __HAC_KEEP__Error, match=f"Announcing clip {content_id} failed {retval}"
+        UniversalAssistantError, match=f"Announcing clip {content_id} failed {retval}"
     ):
         await hass.services.async_call(
             MP_DOMAIN,
@@ -1593,7 +1593,7 @@ async def test_play_media_announce(
     ],
 )
 async def test_play_media_announce_format_warning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco: MockSoCo,
     async_autosetup_sonos,
     sonos_websocket,
@@ -1623,7 +1623,7 @@ async def test_play_media_announce_format_warning(
 
 
 async def test_media_get_queue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco: MockSoCo,
     async_autosetup_sonos,
     soco_factory,
@@ -1668,7 +1668,7 @@ FAVORITE_TITLES = [
     indirect=["speaker_model"],
 )
 async def test_media_source_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_autosetup_sonos,
     speaker_model: str,
     source_list: list[str],
@@ -1694,7 +1694,7 @@ async def test_media_source_list(
     indirect=["speaker_model"],
 )
 async def test_source_list_favorites_cleared(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco: MockSoCo,
     async_autosetup_sonos,
     speaker_model: str,
@@ -1737,7 +1737,7 @@ async def test_source_list_favorites_cleared(
 
 
 async def test_service_update_alarm(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco: MockSoCo,
     async_autosetup_sonos,
 ) -> None:
@@ -1774,7 +1774,7 @@ async def test_service_update_alarm(
 
 
 async def test_service_update_alarm_dne(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco: MockSoCo,
     async_autosetup_sonos,
 ) -> None:
@@ -1802,7 +1802,7 @@ async def test_service_update_alarm_dne(
 
 @pytest.mark.freeze_time("2024-01-01T12:00:00Z")
 async def test_position_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco: MockSoCo,
     async_autosetup_sonos,
     media_event: SonosMockEvent,
@@ -1966,7 +1966,7 @@ async def test_position_updates(
     ],
 )
 async def test_media_info_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco: MockSoCo,
     async_autosetup_sonos,
     media_event: SonosMockEvent,

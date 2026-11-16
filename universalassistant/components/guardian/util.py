@@ -8,8 +8,8 @@ from typing import TYPE_CHECKING, Any, Concatenate
 
 from aioguardian.errors import GuardianError
 
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .const import LOGGER
@@ -33,7 +33,7 @@ class EntityDomainReplacementStrategy:
 
 @callback
 def async_finish_entity_domain_replacements(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: GuardianConfigEntry,
     entity_replacement_strategies: Iterable[EntityDomainReplacementStrategy],
 ) -> None:
@@ -71,7 +71,7 @@ def convert_exceptions_to_universalassistant_error[_GuardianEntityT: GuardianEnt
         try:
             await func(entity, *args, **kwargs)
         except GuardianError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Error while calling {func.__name__}: {err}"
             ) from err
 

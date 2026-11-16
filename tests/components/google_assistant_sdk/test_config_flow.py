@@ -9,7 +9,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant import config_entries
 from universalassistant.components.google_assistant_sdk.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
@@ -22,7 +22,7 @@ TITLE = "Google Assistant SDK"
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     setup_credentials: None,
@@ -83,7 +83,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     setup_credentials: None,
@@ -147,7 +147,7 @@ async def test_reauth(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     setup_credentials: None,
@@ -203,7 +203,7 @@ async def test_reconfigure(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_single_instance_allowed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     setup_credentials: None,
@@ -221,7 +221,7 @@ async def test_single_instance_allowed(
 
 
 async def test_options_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
 ) -> None:

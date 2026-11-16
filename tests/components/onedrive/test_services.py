@@ -22,8 +22,8 @@ from universalassistant.components.onedrive.services import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 
 from . import setup_integration
 
@@ -55,7 +55,7 @@ def upload_file_fixture() -> MockUploadFile:
 
 @pytest.fixture(autouse=True)
 def mock_upload_file(
-    hass: __HAC_KEEP__, upload_file: MockUploadFile
+    hass: UniversalAssistant, upload_file: MockUploadFile
 ) -> Generator[None]:
     """Fixture that mocks out the file calls using the FakeFile fixture."""
     with (
@@ -78,7 +78,7 @@ def mock_upload_file(
 
 
 async def test_upload_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test service call to upload content."""
@@ -104,7 +104,7 @@ async def test_upload_service(
 
 
 async def test_upload_service_wildcard(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_onedrive_client: MagicMock,
 ) -> None:
@@ -143,7 +143,7 @@ async def test_upload_service_wildcard(
 
 
 async def test_upload_service_wildcard_recursive(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_onedrive_client: MagicMock,
 ) -> None:
@@ -190,7 +190,7 @@ async def test_upload_service_wildcard_recursive(
 
 
 async def test_upload_service_wildcard_no_match(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test upload service call with a wildcard pattern that matches no files."""
@@ -202,7 +202,7 @@ async def test_upload_service_wildcard_no_match(
             "universalassistant.components.onedrive.services.glob.glob",
             return_value=[],
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -220,7 +220,7 @@ async def test_upload_service_wildcard_no_match(
 
 @pytest.mark.parametrize("upload_file", [MockUploadFile(is_allowed_path=False)])
 async def test_upload_service_wildcard_base_not_allowed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that a wildcard base directory outside the allowlist is rejected."""
@@ -230,7 +230,7 @@ async def test_upload_service_wildcard_base_not_allowed(
         patch(
             "universalassistant.components.onedrive.services.glob.glob",
         ) as mock_glob,
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -249,7 +249,7 @@ async def test_upload_service_wildcard_base_not_allowed(
 
 
 async def test_upload_service_no_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test service call to upload content without response."""
@@ -272,7 +272,7 @@ async def test_upload_service_no_response(
 
 
 async def test_upload_service_config_entry_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test upload service call with a config entry that does not exist."""
@@ -293,7 +293,7 @@ async def test_upload_service_config_entry_not_found(
 
 
 async def test_config_entry_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test upload service call with a config entry that is not loaded."""
@@ -320,13 +320,13 @@ async def test_config_entry_not_loaded(
 
 @pytest.mark.parametrize("upload_file", [MockUploadFile(is_allowed_path=False)])
 async def test_path_is_not_allowed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test upload service call with a filename path that is not allowed."""
     await setup_integration(hass, mock_config_entry)
     with (
-        pytest.raises(__HAC_KEEP__Error, match="no access to path"),
+        pytest.raises(UniversalAssistantError, match="no access to path"),
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -343,12 +343,12 @@ async def test_path_is_not_allowed(
 
 @pytest.mark.parametrize("upload_file", [MockUploadFile(exists=False)])
 async def test_filename_does_not_exist(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test upload service call with a filename path that does not exist."""
     await setup_integration(hass, mock_config_entry)
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             OneDriveService.UPLOAD,
@@ -366,13 +366,13 @@ async def test_filename_does_not_exist(
 
 @pytest.mark.parametrize("upload_file", [MockUploadFile(exists=False)])
 async def test_multiple_filenames_do_not_exist(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test upload service reports all missing files, not just the first one."""
     await setup_integration(hass, mock_config_entry)
     second_filename = "other_snapshot.jpg"
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             OneDriveService.UPLOAD,
@@ -390,7 +390,7 @@ async def test_multiple_filenames_do_not_exist(
 
 
 async def test_upload_service_fails_upload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_onedrive_client: MagicMock,
 ) -> None:
@@ -398,7 +398,7 @@ async def test_upload_service_fails_upload(
     await setup_integration(hass, mock_config_entry)
     mock_onedrive_client.upload_file.side_effect = OneDriveException("error")
 
-    with pytest.raises(__HAC_KEEP__Error, match="Failed to upload"):
+    with pytest.raises(UniversalAssistantError, match="Failed to upload"):
         await hass.services.async_call(
             DOMAIN,
             OneDriveService.UPLOAD,
@@ -414,13 +414,13 @@ async def test_upload_service_fails_upload(
 
 @pytest.mark.parametrize("upload_file", [MockUploadFile(size=260 * 1024 * 1024)])
 async def test_upload_size_limit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test upload service call with a filename path that does not exist."""
     await setup_integration(hass, mock_config_entry)
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=re.escape(f"`{TEST_FILENAME}` is too large (272629760 > 262144000)"),
     ):
         await hass.services.async_call(
@@ -447,7 +447,7 @@ async def test_upload_size_limit(
     ],
 )
 async def test_upload_file_read_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     method: str,
     error_no: int,
@@ -459,7 +459,7 @@ async def test_upload_file_read_error(
         patch.object(
             Path, method, side_effect=OSError(error_no, os.strerror(error_no))
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -479,7 +479,7 @@ async def test_upload_file_read_error(
 
 
 async def test_create_album_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_onedrive_client: MagicMock,
 ) -> None:
@@ -489,7 +489,7 @@ async def test_create_album_failed(
 
     mock_onedrive_client.create_folder.side_effect = OneDriveException()
 
-    with pytest.raises(__HAC_KEEP__Error, match="Failed to create folder"):
+    with pytest.raises(UniversalAssistantError, match="Failed to create folder"):
         await hass.services.async_call(
             DOMAIN,
             OneDriveService.UPLOAD,
@@ -504,7 +504,7 @@ async def test_create_album_failed(
 
 
 async def test_delete_service_config_entry_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test delete service call with a config entry that does not exist."""
@@ -523,7 +523,7 @@ async def test_delete_service_config_entry_not_found(
 
 
 async def test_delete_service_config_entry_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test delete service call with a config entry that is not loaded."""
@@ -547,7 +547,7 @@ async def test_delete_service_config_entry_not_loaded(
 
 
 async def test_delete_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_onedrive_client: MagicMock,
 ) -> None:
@@ -573,7 +573,7 @@ async def test_delete_service(
 
 
 async def test_delete_service_delete_permanently(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_onedrive_client: MagicMock,
 ) -> None:
@@ -599,7 +599,7 @@ async def test_delete_service_delete_permanently(
 
 
 async def test_delete_service_multiple_files(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_onedrive_client: MagicMock,
 ) -> None:
@@ -631,15 +631,15 @@ async def test_delete_service_multiple_files(
 
 
 async def test_delete_service_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_onedrive_client: MagicMock,
 ) -> None:
-    """Test delete service raises __HAC_KEEP__Error on OneDriveException."""
+    """Test delete service raises UniversalAssistantError on OneDriveException."""
     await setup_integration(hass, mock_config_entry)
     mock_onedrive_client.delete_drive_item.side_effect = OneDriveException("api error")
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             OneDriveService.DELETE,
@@ -654,7 +654,7 @@ async def test_delete_service_fails(
 
 
 async def test_delete_service_multiple_files_all_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_onedrive_client: MagicMock,
 ) -> None:
@@ -666,7 +666,7 @@ async def test_delete_service_multiple_files_all_fail(
         OneDriveException("error two"),
     ]
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             OneDriveService.DELETE,
@@ -688,7 +688,7 @@ async def test_delete_service_multiple_files_all_fail(
 
 
 async def test_delete_service_multiple_files_partial_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_onedrive_client: MagicMock,
 ) -> None:
@@ -700,7 +700,7 @@ async def test_delete_service_multiple_files_partial_failure(
         OneDriveException("error two"),
     ]
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             OneDriveService.DELETE,
@@ -727,15 +727,15 @@ async def test_delete_service_multiple_files_partial_failure(
 
 
 async def test_delete_service_get_approot_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_onedrive_client: MagicMock,
 ) -> None:
-    """Test delete service raises __HAC_KEEP__Error when get_approot fails."""
+    """Test delete service raises UniversalAssistantError when get_approot fails."""
     await setup_integration(hass, mock_config_entry)
     mock_onedrive_client.get_approot.side_effect = OneDriveException("network error")
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             OneDriveService.DELETE,
@@ -749,7 +749,7 @@ async def test_delete_service_get_approot_fails(
 
 
 async def test_delete_empty_destination_path(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test delete service raises when destination_path is an empty list."""
@@ -779,14 +779,14 @@ async def test_delete_empty_destination_path(
     ],
 )
 async def test_delete_invalid_destination_path(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     bad_path: str,
 ) -> None:
-    """Test delete service raises __HAC_KEEP__Error for invalid destination paths."""
+    """Test delete service raises UniversalAssistantError for invalid destination paths."""
     await setup_integration(hass, mock_config_entry)
 
-    with pytest.raises(__HAC_KEEP__Error, match="Invalid destination path"):
+    with pytest.raises(UniversalAssistantError, match="Invalid destination path"):
         await hass.services.async_call(
             DOMAIN,
             OneDriveService.DELETE,

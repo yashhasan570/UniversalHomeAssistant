@@ -1,4 +1,4 @@
-"""The tests for the __HA_KEEP__ API component."""
+"""The tests for the Universal Home Assistant API component."""
 
 import asyncio
 from http import HTTPStatus
@@ -21,9 +21,9 @@ from universalassistant.components.api import DOMAIN
 from universalassistant.components.group import DOMAIN as GROUP_DOMAIN
 from universalassistant.components.logger import DOMAIN as LOGGER_DOMAIN
 from universalassistant.components.system_health import DOMAIN as SYSTEM_HEALTH_DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     ServiceValidationError,
     Unauthorized,
 )
@@ -34,15 +34,15 @@ from universalassistant.util.yaml.loader import JSON_TYPE
 
 @pytest.fixture
 async def mock_api_client(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> TestClient:
-    """Start the __HA_KEEP__ HTTP component and return admin API client."""
+    """Start the Universal Home Assistant HTTP component and return admin API client."""
     await async_setup_component(hass, DOMAIN, {})
     return await hass_client()
 
 
 async def test_api_list_state_entities(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test if the debug interface allows us to list state entities."""
     hass.states.async_set("test.entity", "hello")
@@ -63,7 +63,7 @@ async def test_api_list_state_entities(
     ],
 )
 async def test_api_states_compression_threshold(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api_client: TestClient,
     entity_count: int,
     expect_compression: bool,
@@ -82,7 +82,7 @@ async def test_api_states_compression_threshold(
     assert ("Content-Encoding" in resp.headers) is expect_compression
 
 
-async def test_api_get_state(hass: __HAC_KEEP__, mock_api_client: TestClient) -> None:
+async def test_api_get_state(hass: UniversalAssistant, mock_api_client: TestClient) -> None:
     """Test if the debug interface allows us to get a state."""
     hass.states.async_set("hello.world", "nice", {"attr": 1})
     resp = await mock_api_client.get("/api/states/hello.world")
@@ -99,7 +99,7 @@ async def test_api_get_state(hass: __HAC_KEEP__, mock_api_client: TestClient) ->
 
 
 async def test_api_get_non_existing_state(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test if the debug interface allows us to get a state."""
     resp = await mock_api_client.get("/api/states/does_not_exist")
@@ -107,7 +107,7 @@ async def test_api_get_non_existing_state(
 
 
 async def test_api_state_change(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test if we can change the state of an entity that exists."""
     hass.states.async_set("test.test", "not_to_be_set")
@@ -120,7 +120,7 @@ async def test_api_state_change(
 
 
 async def test_api_state_change_of_non_existing_entity(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test if changing a state of a non existing entity is possible."""
     new_state = "debug_state_change"
@@ -135,7 +135,7 @@ async def test_api_state_change_of_non_existing_entity(
 
 
 async def test_api_state_change_with_bad_entity_id(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test if API sends appropriate error if we omit state."""
     resp = await mock_api_client.post(
@@ -146,7 +146,7 @@ async def test_api_state_change_with_bad_entity_id(
 
 
 async def test_api_state_change_with_bad_state(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test if API sends appropriate error if we omit state."""
     resp = await mock_api_client.post(
@@ -157,7 +157,7 @@ async def test_api_state_change_with_bad_state(
 
 
 async def test_api_state_change_internal_error(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test 500 is returned when state cannot be read back after being set."""
     with patch.object(ha.StateMachine, "async_set"):
@@ -169,7 +169,7 @@ async def test_api_state_change_internal_error(
 
 
 async def test_api_state_change_with_bad_data(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test if API sends appropriate error if we omit state."""
     resp = await mock_api_client.post(
@@ -180,7 +180,7 @@ async def test_api_state_change_with_bad_data(
 
 
 async def test_api_state_change_with_invalid_json(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test if API sends appropriate error if send invalid json data."""
     resp = await mock_api_client.post("/api/states/test.test", data="{,}")
@@ -190,7 +190,7 @@ async def test_api_state_change_with_invalid_json(
 
 
 async def test_api_state_change_with_string_body(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test API error when sending a string instead of a JSON object."""
     resp = await mock_api_client.post(
@@ -202,7 +202,7 @@ async def test_api_state_change_with_string_body(
 
 
 async def test_api_state_change_to_zero_value(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test if changing a state to a zero value is possible."""
     resp = await mock_api_client.post(
@@ -219,7 +219,7 @@ async def test_api_state_change_to_zero_value(
 
 
 async def test_api_state_change_push(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test if we can push a change the state of an entity."""
     hass.states.async_set("test.test", "not_to_be_set")
@@ -245,7 +245,7 @@ async def test_api_state_change_push(
 
 
 async def test_api_fire_event_with_no_data(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test if the API allows us to fire an event."""
     test_value = []
@@ -264,7 +264,7 @@ async def test_api_fire_event_with_no_data(
 
 
 async def test_api_fire_event_with_data(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test if the API allows us to fire an event."""
     test_value = []
@@ -288,7 +288,7 @@ async def test_api_fire_event_with_data(
 
 
 async def test_api_fire_event_with_invalid_json(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test if the API allows us to fire an event."""
     test_value = []
@@ -320,7 +320,7 @@ async def test_api_fire_event_with_invalid_json(
     assert len(test_value) == 0
 
 
-async def test_api_get_config(hass: __HAC_KEEP__, mock_api_client: TestClient) -> None:
+async def test_api_get_config(hass: UniversalAssistant, mock_api_client: TestClient) -> None:
     """Test the return of the configuration."""
     resp = await mock_api_client.get(const.URL_API_CONFIG)
     result = await resp.json()
@@ -341,7 +341,7 @@ async def test_api_get_config(hass: __HAC_KEEP__, mock_api_client: TestClient) -
 
 
 async def test_api_get_components(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test the return of the components."""
     resp = await mock_api_client.get(const.URL_API_COMPONENTS)
@@ -350,7 +350,7 @@ async def test_api_get_components(
 
 
 async def test_api_get_event_listeners(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test if we can get the list of events being listened for."""
     resp = await mock_api_client.get(const.URL_API_EVENTS)
@@ -365,7 +365,7 @@ async def test_api_get_event_listeners(
 
 
 async def test_api_get_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api_client: TestClient,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -430,7 +430,7 @@ async def test_api_get_services(
 
 
 async def test_api_call_service_no_data(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test if the API allows us to call a service."""
     test_value = []
@@ -448,7 +448,7 @@ async def test_api_call_service_no_data(
 
 
 async def test_api_call_service_with_data(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test if the API allows us to call a service."""
 
@@ -510,7 +510,7 @@ RESP_UNSUPPORTED = {
     ],
 )
 async def test_api_call_service_returns_response_requested_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api_client: TestClient,
     supports_response: ha.SupportsResponse,
     requested_response: bool,
@@ -542,7 +542,7 @@ async def test_api_call_service_returns_response_requested_response(
 
 
 async def test_api_call_service_client_closed(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test that services keep running if client is closed."""
     test_value = []
@@ -581,7 +581,7 @@ async def test_api_call_service_client_closed(
     assert test_value[0] == 1
 
 
-async def test_api_template(hass: __HAC_KEEP__, mock_api_client: TestClient) -> None:
+async def test_api_template(hass: UniversalAssistant, mock_api_client: TestClient) -> None:
     """Test the template API."""
     hass.states.async_set("sensor.temperature", 10)
 
@@ -616,7 +616,7 @@ async def test_api_template(hass: __HAC_KEEP__, mock_api_client: TestClient) -> 
 
 
 async def test_api_template_cached(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test the template API uses the cache."""
     hass.states.async_set("sensor.temperature", 30)
@@ -642,7 +642,7 @@ async def test_api_template_cached(
 
 
 async def test_api_template_error(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test the template API."""
     hass.states.async_set("sensor.temperature", 10)
@@ -655,7 +655,7 @@ async def test_api_template_error(
 
 
 async def test_api_template_with_invalid_json(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test if API sends appropriate error if send invalid json data."""
     resp = await mock_api_client.post(const.URL_API_TEMPLATE, data="{,}")
@@ -665,7 +665,7 @@ async def test_api_template_with_invalid_json(
 
 
 async def test_api_template_error_with_string_body(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test the API returns an error when a string is sent in the body."""
     hass.states.async_set("sensor.temperature", 10)
@@ -679,7 +679,7 @@ async def test_api_template_error_with_string_body(
     assert await resp.json() == {"message": "Template data should be a JSON object."}
 
 
-async def test_stream(hass: __HAC_KEEP__, mock_api_client: TestClient) -> None:
+async def test_stream(hass: UniversalAssistant, mock_api_client: TestClient) -> None:
     """Test the stream."""
     listen_count = _listen_count(hass)
 
@@ -695,7 +695,7 @@ async def test_stream(hass: __HAC_KEEP__, mock_api_client: TestClient) -> None:
 
 
 async def test_stream_with_restricted(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test the stream with restrictions."""
     listen_count = _listen_count(hass)
@@ -736,13 +736,13 @@ async def _stream_next_event(stream):
     return json.loads(conv)
 
 
-def _listen_count(hass: __HAC_KEEP__) -> int:
+def _listen_count(hass: UniversalAssistant) -> int:
     """Return number of event listeners."""
     return sum(hass.bus.async_listeners().values())
 
 
 async def test_api_error_log(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     hass_access_token: str,
     hass_admin_user: MockUser,
@@ -779,7 +779,7 @@ async def test_api_error_log(
 
 
 async def test_api_fire_event_context(
-    hass: __HAC_KEEP__, mock_api_client: TestClient, hass_access_token: str
+    hass: UniversalAssistant, mock_api_client: TestClient, hass_access_token: str
 ) -> None:
     """Test if the API sets right context if we fire an event."""
     test_value = []
@@ -804,7 +804,7 @@ async def test_api_fire_event_context(
 
 
 async def test_api_call_service_context(
-    hass: __HAC_KEEP__, mock_api_client: TestClient, hass_access_token: str
+    hass: UniversalAssistant, mock_api_client: TestClient, hass_access_token: str
 ) -> None:
     """Test if the API sets right context if we call a service."""
     calls = async_mock_service(hass, "test_domain", "test_service")
@@ -822,7 +822,7 @@ async def test_api_call_service_context(
 
 
 async def test_api_set_state_context(
-    hass: __HAC_KEEP__, mock_api_client: TestClient, hass_access_token: str
+    hass: UniversalAssistant, mock_api_client: TestClient, hass_access_token: str
 ) -> None:
     """Test if the API sets right context if we set state."""
     await mock_api_client.post(
@@ -838,7 +838,7 @@ async def test_api_set_state_context(
 
 
 async def test_event_stream_requires_admin(
-    hass: __HAC_KEEP__, mock_api_client: TestClient, hass_admin_user: MockUser
+    hass: UniversalAssistant, mock_api_client: TestClient, hass_admin_user: MockUser
 ) -> None:
     """Test user needs to be admin to access event stream."""
     hass_admin_user.groups = []
@@ -847,7 +847,7 @@ async def test_event_stream_requires_admin(
 
 
 async def test_states(
-    hass: __HAC_KEEP__, mock_api_client: TestClient, hass_admin_user: MockUser
+    hass: UniversalAssistant, mock_api_client: TestClient, hass_admin_user: MockUser
 ) -> None:
     """Test fetching all states as admin."""
     hass.states.async_set("test.entity", "hello")
@@ -861,7 +861,7 @@ async def test_states(
 
 
 async def test_states_view_filters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_read_only_user: MockUser,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -893,7 +893,7 @@ async def test_states_view_filters(
 
 
 async def test_get_entity_state_read_perm(
-    hass: __HAC_KEEP__, mock_api_client: TestClient, hass_admin_user: MockUser
+    hass: UniversalAssistant, mock_api_client: TestClient, hass_admin_user: MockUser
 ) -> None:
     """Test getting a state requires read permission."""
     hass_admin_user.mock_policy({})
@@ -904,7 +904,7 @@ async def test_get_entity_state_read_perm(
 
 
 async def test_post_entity_state_admin(
-    hass: __HAC_KEEP__, mock_api_client: TestClient, hass_admin_user: MockUser
+    hass: UniversalAssistant, mock_api_client: TestClient, hass_admin_user: MockUser
 ) -> None:
     """Test updating state requires admin."""
     hass_admin_user.groups = []
@@ -913,7 +913,7 @@ async def test_post_entity_state_admin(
 
 
 async def test_delete_entity_state_admin(
-    hass: __HAC_KEEP__, mock_api_client: TestClient, hass_admin_user: MockUser
+    hass: UniversalAssistant, mock_api_client: TestClient, hass_admin_user: MockUser
 ) -> None:
     """Test deleting entity requires admin."""
     hass_admin_user.groups = []
@@ -922,7 +922,7 @@ async def test_delete_entity_state_admin(
 
 
 async def test_post_event_admin(
-    hass: __HAC_KEEP__, mock_api_client: TestClient, hass_admin_user: MockUser
+    hass: UniversalAssistant, mock_api_client: TestClient, hass_admin_user: MockUser
 ) -> None:
     """Test sending event requires admin."""
     hass_admin_user.groups = []
@@ -931,7 +931,7 @@ async def test_post_event_admin(
 
 
 async def test_rendering_template_admin(
-    hass: __HAC_KEEP__, mock_api_client: TestClient, hass_admin_user: MockUser
+    hass: UniversalAssistant, mock_api_client: TestClient, hass_admin_user: MockUser
 ) -> None:
     """Test rendering a template requires admin."""
     hass_admin_user.groups = []
@@ -940,7 +940,7 @@ async def test_rendering_template_admin(
 
 
 async def test_api_call_service_not_found(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test if the API fails 400 if unknown service."""
     resp = await mock_api_client.post("/api/services/test_domain/test_service")
@@ -956,16 +956,16 @@ async def test_api_call_service_not_found(
             id="service_validation_error",
         ),
         pytest.param(
-            __HAC_KEEP__Error("Something failed"),
+            UniversalAssistantError("Something failed"),
             HTTPStatus.INTERNAL_SERVER_ERROR,
             id="universal_assistant_error",
         ),
     ],
 )
 async def test_api_call_service_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api_client: TestClient,
-    error: __HAC_KEEP__Error,
+    error: UniversalAssistantError,
     status: HTTPStatus,
 ) -> None:
     """Test the API returns a JSON error if the service raises."""
@@ -982,7 +982,7 @@ async def test_api_call_service_raises(
 
 
 async def test_api_call_service_unauthorized(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test the API returns 401 if the service denies permission."""
 
@@ -997,7 +997,7 @@ async def test_api_call_service_unauthorized(
 
 
 async def test_api_call_service_bad_data(
-    hass: __HAC_KEEP__, mock_api_client: TestClient
+    hass: UniversalAssistant, mock_api_client: TestClient
 ) -> None:
     """Test if the API fails 400 if unknown service."""
     test_value = []
@@ -1017,7 +1017,7 @@ async def test_api_call_service_bad_data(
     assert resp.status == HTTPStatus.BAD_REQUEST
 
 
-async def test_api_status(hass: __HAC_KEEP__, mock_api_client: TestClient) -> None:
+async def test_api_status(hass: UniversalAssistant, mock_api_client: TestClient) -> None:
     """Test getting the api status."""
     resp = await mock_api_client.get("/api/")
     assert resp.status == HTTPStatus.OK
@@ -1025,7 +1025,7 @@ async def test_api_status(hass: __HAC_KEEP__, mock_api_client: TestClient) -> No
     assert json["message"] == "API running."
 
 
-async def test_api_core_state(hass: __HAC_KEEP__, mock_api_client: TestClient) -> None:
+async def test_api_core_state(hass: UniversalAssistant, mock_api_client: TestClient) -> None:
     """Test getting core status."""
     resp = await mock_api_client.get("/api/core/state")
     assert resp.status == HTTPStatus.OK
@@ -1046,7 +1046,7 @@ async def test_api_core_state(hass: __HAC_KEEP__, mock_api_client: TestClient) -
     ],
 )
 async def test_api_core_state_recorder_migrating(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api_client: TestClient,
     migration_in_progress: bool,
     migration_is_live: bool,

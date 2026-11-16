@@ -10,11 +10,11 @@ from universalassistant import core
 from universalassistant.auth.models import User
 from universalassistant.components.http import (
     KEY_HASS,
-    __HAC_KEEP__Request,
-    __HAC_KEEP__View,
+    UniversalAssistantRequest,
+    UniversalAssistantView,
 )
 from universalassistant.const import CONF_CLIENT_ID, CONF_CLIENT_SECRET, CONF_NAME
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.helpers import entity_registry as er, start
 from universalassistant.helpers.typing import ConfigType
 
@@ -45,7 +45,7 @@ class AlexaConfig(AbstractConfig):
 
     _auth: Auth | None
 
-    def __init__(self, hass: __HAC_KEEP__, config: ConfigType) -> None:
+    def __init__(self, hass: UniversalAssistant, config: ConfigType) -> None:
         """Initialize Alexa config."""
         super().__init__(hass)
         self._config = config
@@ -64,7 +64,7 @@ class AlexaConfig(AbstractConfig):
             # Discovery needs the entity states
             start.async_at_started(self.hass, self._async_migrate_entity_settings)
 
-    async def _async_migrate_entity_settings(self, _: __HAC_KEEP__) -> None:
+    async def _async_migrate_entity_settings(self, _: UniversalAssistant) -> None:
         """Migrate the entity settings to the current version."""
         # v2: preserve the pre-migration name of exposed entities as an alias
         for entity in async_get_entities(self.hass, self):
@@ -148,7 +148,7 @@ class AlexaConfig(AbstractConfig):
         return await self._auth.async_do_auth(code)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> None:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> None:
     """Activate Smart Home functionality of Alexa component.
 
     This is optional, triggered by having a `smart_home:` sub-section in the
@@ -165,7 +165,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> None:
         await smart_home_config.async_enable_proactive_mode()
 
 
-class SmartHomeView(__HAC_KEEP__View):
+class SmartHomeView(UniversalAssistantView):
     """Expose Smart Home v3 payload interface via HTTP POST."""
 
     url = SMART_HOME_HTTP_ENDPOINT
@@ -175,7 +175,7 @@ class SmartHomeView(__HAC_KEEP__View):
         """Initialize."""
         self.smart_home_config = smart_home_config
 
-    async def post(self, request: __HAC_KEEP__Request) -> web.Response | bytes:
+    async def post(self, request: UniversalAssistantRequest) -> web.Response | bytes:
         """Handle Alexa Smart Home requests.
 
         The Smart Home API requires the endpoint to be implemented in AWS
@@ -211,7 +211,7 @@ class SmartHomeView(__HAC_KEEP__View):
 
 
 async def async_handle_message(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: AbstractConfig,
     request: dict[str, Any],
     context: Context | None = None,
@@ -233,7 +233,7 @@ async def async_handle_message(
     try:
         if not enabled:
             raise AlexaBridgeUnreachableError(  # noqa: TRY301
-                "Alexa API not enabled in __HA_KEEP__ configuration"
+                "Alexa API not enabled in Universal Home Assistant configuration"
             )
 
         await config.set_authorized(True)

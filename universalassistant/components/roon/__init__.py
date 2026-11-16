@@ -2,7 +2,7 @@
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.typing import ConfigType
@@ -17,13 +17,13 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 PLATFORMS = [Platform.EVENT, Platform.MEDIA_PLAYER]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: RoonConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: RoonConfigEntry) -> None:
     """Set up a roonserver from a config entry."""
     # fallback to using host for compatibility with older configs
     name = entry.data.get(CONF_ROON_NAME, entry.data[CONF_HOST])
@@ -50,7 +50,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: RoonConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: RoonConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: RoonConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 

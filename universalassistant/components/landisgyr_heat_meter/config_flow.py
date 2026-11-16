@@ -10,7 +10,7 @@ import ultraheat_api
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_DEVICE
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.selector import SerialPortSelector
 
 from .const import DOMAIN, ULTRAHEAT_TIMEOUT
@@ -85,5 +85,5 @@ class LandisgyrConfigFlow(ConfigFlow, domain=DOMAIN):
         return data.model, data.device_number
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""

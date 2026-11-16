@@ -22,7 +22,7 @@ from universalassistant.components.overkiz import create_somfy_client
 from universalassistant.components.overkiz.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     OAuth2TokenRequestError,
     OAuth2TokenRequestReauthError,
@@ -42,7 +42,7 @@ ENTITY_SENSOR_TARGET_CLOSURE_STATE_2 = (
 )
 
 
-async def test_unique_id_migration(hass: __HAC_KEEP__) -> None:
+async def test_unique_id_migration(hass: UniversalAssistant) -> None:
     """Test migration of sensor unique IDs."""
 
     mock_entry = MockConfigEntry(
@@ -121,7 +121,7 @@ async def test_unique_id_migration(hass: __HAC_KEEP__) -> None:
 
 
 async def test_setup_rexel_local_uses_local_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rexel_local_config_entry: MockConfigEntry,
     mock_client: MockOverkizClient,
 ) -> None:
@@ -151,7 +151,7 @@ async def test_setup_rexel_local_uses_local_client(
 
 
 async def test_go_to_alias_button_unique_id_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: MockOverkizClient,
 ) -> None:
@@ -220,7 +220,7 @@ async def test_go_to_alias_button_unique_id_migration(
     ],
 )
 async def test_go_to_alias_button_migration_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: MockOverkizClient,
     exception: Exception,
@@ -258,7 +258,7 @@ async def test_go_to_alias_button_migration_connection_error(
 
 
 async def test_go_to_alias_button_migration_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: MockOverkizClient,
 ) -> None:
@@ -296,7 +296,7 @@ async def test_go_to_alias_button_migration_auth_error(
 
 
 async def test_go_to_alias_button_migration_without_legacy_buttons(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MockOverkizClient,
 ) -> None:
     """Test the migration skips the API when there is no legacy button."""
@@ -323,7 +323,7 @@ async def test_go_to_alias_button_migration_without_legacy_buttons(
 
 
 async def test_setup_token_reauth_error_starts_reauth(
-    hass: __HAC_KEEP__, mock_rexel_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_rexel_config_entry: MockConfigEntry
 ) -> None:
     """A non-recoverable token refresh failure triggers reauth."""
     mock_rexel_config_entry.add_to_hass(hass)
@@ -367,7 +367,7 @@ async def test_setup_token_reauth_error_starts_reauth(
     ],
 )
 async def test_setup_transient_error_retries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rexel_config_entry: MockConfigEntry,
     exception: Exception,
 ) -> None:
@@ -388,7 +388,7 @@ async def test_setup_transient_error_retries(
 
 
 async def test_somfy_setup_dispatches_to_create_somfy_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_somfy_config_entry: MockConfigEntry,
     mock_client: MockOverkizClient,
 ) -> None:
@@ -407,7 +407,7 @@ async def test_somfy_setup_dispatches_to_create_somfy_client(
 
 
 async def test_somfy_on_token_refresh_updates_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_somfy_config_entry: MockConfigEntry,
 ) -> None:
     """The on_token_refresh callback writes the new refresh token to the entry."""

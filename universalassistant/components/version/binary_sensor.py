@@ -15,7 +15,7 @@ from universalassistant.const import (
     EntityCategory,
     __version__ as HA_VERSION,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DEFAULT_NAME
@@ -26,7 +26,7 @@ HA_VERSION_OBJECT = AwesomeVersion(HA_VERSION)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: VersionConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

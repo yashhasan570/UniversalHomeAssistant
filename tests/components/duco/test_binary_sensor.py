@@ -19,7 +19,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import async_fire_coordinator_update, setup_platform_integration
@@ -33,7 +33,7 @@ DIAGNOSTIC_ERROR_TYPES = [
 
 
 async def test_diagnostic_binary_sensor_entity_registry_defaults(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -69,7 +69,7 @@ async def test_diagnostic_binary_sensor_entity_registry_defaults(
 
 
 async def test_unknown_diagnostic_subsystem_is_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -95,7 +95,7 @@ async def test_unknown_diagnostic_subsystem_is_ignored(
     ],
 )
 async def test_diagnostic_binary_sensor_problem_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     raw_status: str,
@@ -117,7 +117,7 @@ async def test_diagnostic_binary_sensor_problem_state(
 
 
 async def test_diagnostic_binary_sensors_added_after_initial_empty_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -156,7 +156,7 @@ async def test_diagnostic_binary_sensors_added_after_initial_empty_response(
 
 
 async def test_diagnostic_binary_sensors_wait_for_box_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_sensor_nodes: list[Node],
@@ -189,7 +189,7 @@ async def test_diagnostic_binary_sensors_wait_for_box_node(
     ],
 )
 async def test_diagnostic_binary_sensor_becomes_unknown_without_known_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -212,7 +212,7 @@ async def test_diagnostic_binary_sensor_becomes_unknown_without_known_status(
 
 @pytest.mark.parametrize("exception_type", DIAGNOSTIC_ERROR_TYPES)
 async def test_diagnostics_refresh_failure_is_isolated_and_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_sensor_nodes: list[Node],
@@ -242,7 +242,7 @@ async def test_diagnostics_refresh_failure_is_isolated_and_recovers(
 
 @pytest.mark.parametrize("exception_type", DIAGNOSTIC_ERROR_TYPES)
 async def test_initial_diagnostics_failure_is_isolated_and_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_sensor_nodes: list[Node],
@@ -268,7 +268,7 @@ async def test_initial_diagnostics_failure_is_isolated_and_recovers(
 
 
 async def test_diagnostics_availability_transitions_logged(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     freezer: FrozenDateTimeFactory,

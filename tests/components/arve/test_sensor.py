@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import async_init_integration
@@ -26,7 +26,7 @@ SENSORS = (
 
 
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_arve: MagicMock,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -47,7 +47,7 @@ async def test_sensors(
 
 
 async def test_sensor_unavailable_on_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_arve: MagicMock,
     mock_config_entry: MockConfigEntry,

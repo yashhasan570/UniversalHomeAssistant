@@ -5,10 +5,10 @@ platform for a function `async_check_significant_change`:
 
 ```python
 from typing import Optional
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 async def async_check_significant_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     old_state: str,
     old_attrs: dict,
     new_state: str,
@@ -33,7 +33,7 @@ from types import MappingProxyType
 from typing import Any, Protocol
 
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__, State, callback
+from universalassistant.core import UniversalAssistant, State, callback
 from universalassistant.util.hass_dict import HassKey
 
 from .integration_platform import async_process_integration_platforms
@@ -42,7 +42,7 @@ PLATFORM = "significant_change"
 DATA_FUNCTIONS: HassKey[dict[str, CheckTypeFunc]] = HassKey("significant_change")
 type CheckTypeFunc = Callable[
     [
-        __HAC_KEEP__,
+        UniversalAssistant,
         str,
         dict | MappingProxyType,
         str,
@@ -53,7 +53,7 @@ type CheckTypeFunc = Callable[
 
 type ExtraCheckTypeFunc = Callable[
     [
-        __HAC_KEEP__,
+        UniversalAssistant,
         str,
         dict | MappingProxyType,
         Any,
@@ -70,7 +70,7 @@ class SignificantChangeProtocol(Protocol):
 
     def async_check_significant_change(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         old_state: str,
         old_attrs: Mapping[str, Any],
         new_state: str,
@@ -80,7 +80,7 @@ class SignificantChangeProtocol(Protocol):
 
 
 async def create_checker(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     _domain: str,
     extra_significant_check: ExtraCheckTypeFunc | None = None,
 ) -> SignificantlyChangedChecker:
@@ -90,7 +90,7 @@ async def create_checker(
 
 
 # Marked as singleton so multiple calls all wait for same output.
-async def _initialize(hass: __HAC_KEEP__) -> None:
+async def _initialize(hass: UniversalAssistant) -> None:
     """Initialize the functions."""
     if DATA_FUNCTIONS in hass.data:
         return
@@ -99,7 +99,7 @@ async def _initialize(hass: __HAC_KEEP__) -> None:
 
     @callback
     def process_platform(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         component_name: str,
         platform: SignificantChangeProtocol,
     ) -> None:
@@ -182,7 +182,7 @@ class SignificantlyChangedChecker:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         extra_significant_check: ExtraCheckTypeFunc | None = None,
     ) -> None:
         """Test if an entity has significantly changed."""

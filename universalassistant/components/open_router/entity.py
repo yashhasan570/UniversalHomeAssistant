@@ -27,8 +27,8 @@ import probatio
 from universalassistant.components import conversation
 from universalassistant.config_entries import ConfigSubentry
 from universalassistant.const import CONF_MODEL
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, llm
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.json import json_dumps
@@ -131,7 +131,7 @@ def _decode_tool_arguments(arguments: str) -> Any:
     try:
         return json.loads(arguments)
     except json.JSONDecodeError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="tool_args_parse_error",
             translation_placeholders={"error": str(err)},
@@ -218,13 +218,13 @@ async def _transform_stream(
     if not has_choices:
         # pylint: disable-next=universal-assistant-log-and-raise
         LOGGER.error("API returned empty choices")
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN, translation_key="empty_response"
         )
 
 
 async def async_prepare_files_for_prompt(
-    hass: __HAC_KEEP__, files: list[tuple[Path, str | None]]
+    hass: UniversalAssistant, files: list[tuple[Path, str | None]]
 ) -> list[ChatCompletionContentPartImageParam]:
     """Append files to a prompt.
 
@@ -236,7 +236,7 @@ async def async_prepare_files_for_prompt(
 
         for file_path, mime_type in files:
             if not file_path.exists():
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="file_not_found",
                     translation_placeholders={"file_path": str(file_path)},
@@ -246,7 +246,7 @@ async def async_prepare_files_for_prompt(
                 mime_type = guess_file_type(file_path)[0]
 
             if not mime_type or not mime_type.startswith(("image/", "application/pdf")):
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="unsupported_file_type",
                     translation_placeholders={"file_path": str(file_path)},
@@ -369,7 +369,7 @@ class OpenRouterEntity(Entity):
             "model": model,
             "user": chat_log.conversation_id,
             "extra_headers": {
-                "X-Title": "__HA_KEEP__",
+                "X-Title": "Universal Home Assistant",
                 "HTTP-Referer": "https://www.universalassistant.io/integrations/open_router",
             },
             "extra_body": extra_body,
@@ -417,7 +417,7 @@ class OpenRouterEntity(Entity):
             except openai.OpenAIError as err:
                 # pylint: disable-next=universal-assistant-log-and-raise
                 LOGGER.error("Error talking to API: %s", err)
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="api_error",
                     translation_placeholders={"error": str(err)},

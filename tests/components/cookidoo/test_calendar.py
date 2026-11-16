@@ -17,8 +17,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_TOKEN, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -37,7 +37,7 @@ def calendar_only() -> Generator[None]:
 
 @pytest.mark.usefixtures("mock_cookidoo_client")
 async def test_calendar(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cookidoo_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -57,7 +57,7 @@ async def test_calendar(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.usefixtures("mock_cookidoo_client")
 async def test_get_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cookidoo_config_entry: MockConfigEntry,
     mock_cookidoo_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -102,7 +102,7 @@ async def test_get_events(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_get_events_login_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cookidoo_config_entry: MockConfigEntry,
     mock_cookidoo_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -131,7 +131,7 @@ async def test_get_events_login_failure(
     )
     mock_cookidoo_client.login.side_effect = login_exception
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "calendar",
             "get_events",
@@ -147,7 +147,7 @@ async def test_get_events_login_failure(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_get_events_relogin_persists_tokens(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cookidoo_config_entry_with_token: MockConfigEntry,
     mock_cookidoo_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -184,7 +184,7 @@ async def test_get_events_relogin_persists_tokens(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_get_events_persists_rotated_tokens(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cookidoo_config_entry_with_token: MockConfigEntry,
     mock_cookidoo_client: AsyncMock,
     notify_auth_data_update: Callable[[CookidooAuthData], None],

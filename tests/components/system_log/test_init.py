@@ -13,7 +13,7 @@ from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.components import system_log
 from universalassistant.components.system_log.services import SystemLogService
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.setup import async_setup_component
 
@@ -90,7 +90,7 @@ class WatchLogErrorHandler(system_log.LogErrorHandler):
 
 
 async def async_setup_system_log(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> WatchLogErrorHandler:
     """Set up the system_log component."""
     WatchLogErrorHandler.instances = []
@@ -105,7 +105,7 @@ async def async_setup_system_log(
 
 
 async def test_normal_logs(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that debug and info are not logged."""
     await async_setup_component(hass, system_log.DOMAIN, BASIC_CONFIG)
@@ -119,7 +119,7 @@ async def test_normal_logs(
 
 
 async def test_exception(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that exceptions are logged and retrieved correctly."""
     await async_setup_component(hass, system_log.DOMAIN, BASIC_CONFIG)
@@ -131,7 +131,7 @@ async def test_exception(
     assert_log(log, "exception message", "log message", "ERROR")
 
 
-async def test_warning(hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator) -> None:
+async def test_warning(hass: UniversalAssistant, hass_ws_client: WebSocketGenerator) -> None:
     """Test that warning are logged and retrieved correctly."""
     await async_setup_component(hass, system_log.DOMAIN, BASIC_CONFIG)
     await hass.async_block_till_done()
@@ -142,7 +142,7 @@ async def test_warning(hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator) -
 
 
 async def test_warning_good_format(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test warning with good format arguments are logged correctly."""
     await async_setup_component(hass, system_log.DOMAIN, BASIC_CONFIG)
@@ -155,7 +155,7 @@ async def test_warning_good_format(
 
 
 async def test_warning_missing_format_args(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test warning with missing format args are logged correctly."""
     await async_setup_component(hass, system_log.DOMAIN, BASIC_CONFIG)
@@ -167,7 +167,7 @@ async def test_warning_missing_format_args(
     assert_log(log, "", ["Warning message missing a format arg %s"], "WARNING")
 
 
-async def test_error(hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator) -> None:
+async def test_error(hass: UniversalAssistant, hass_ws_client: WebSocketGenerator) -> None:
     """Test that errors are logged and retrieved correctly."""
     await async_setup_component(hass, system_log.DOMAIN, BASIC_CONFIG)
     await hass.async_block_till_done()
@@ -178,7 +178,7 @@ async def test_error(hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator) -> 
     assert_log(log, "", "Error message", "ERROR")
 
 
-async def test_config_not_fire_event(hass: __HAC_KEEP__) -> None:
+async def test_config_not_fire_event(hass: UniversalAssistant) -> None:
     """Test that errors are not posted as events with default config."""
     await async_setup_component(hass, system_log.DOMAIN, BASIC_CONFIG)
     await hass.async_block_till_done()
@@ -197,7 +197,7 @@ async def test_config_not_fire_event(hass: __HAC_KEEP__) -> None:
     assert len(events) == 0
 
 
-async def test_error_posted_as_event(hass: __HAC_KEEP__) -> None:
+async def test_error_posted_as_event(hass: UniversalAssistant) -> None:
     """Test that error are posted as events."""
     watcher = await async_setup_system_log(
         hass, {"system_log": {"max_entries": 2, "fire_event": True}}
@@ -216,7 +216,7 @@ async def test_error_posted_as_event(hass: __HAC_KEEP__) -> None:
 
 
 async def test_critical(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that critical are logged and retrieved correctly."""
     await async_setup_component(hass, system_log.DOMAIN, BASIC_CONFIG)
@@ -229,7 +229,7 @@ async def test_critical(
 
 
 async def test_remove_older_logs(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that older logs are rotated out."""
     await async_setup_component(hass, system_log.DOMAIN, BASIC_CONFIG)
@@ -249,7 +249,7 @@ def log_msg(nr=2):
 
 
 async def test_dedupe_logs(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that duplicate log entries are dedupe."""
     await async_setup_component(hass, system_log.DOMAIN, BASIC_CONFIG)
@@ -290,7 +290,7 @@ async def test_dedupe_logs(
 
 
 async def test_clear_logs(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that the log can be cleared via a service call."""
     await async_setup_component(hass, system_log.DOMAIN, BASIC_CONFIG)
@@ -303,7 +303,7 @@ async def test_clear_logs(
     await get_error_log(hass_ws_client)
 
 
-async def test_write_log(hass: __HAC_KEEP__) -> None:
+async def test_write_log(hass: UniversalAssistant) -> None:
     """Test that error propagates to logger."""
     await async_setup_component(hass, system_log.DOMAIN, BASIC_CONFIG)
     await hass.async_block_till_done()
@@ -318,7 +318,7 @@ async def test_write_log(hass: __HAC_KEEP__) -> None:
     assert logger.method_calls[0] == ("error", ("test_message",))
 
 
-async def test_write_choose_logger(hass: __HAC_KEEP__) -> None:
+async def test_write_choose_logger(hass: UniversalAssistant) -> None:
     """Test that correct logger is chosen."""
     await async_setup_component(hass, system_log.DOMAIN, BASIC_CONFIG)
     await hass.async_block_till_done()
@@ -333,7 +333,7 @@ async def test_write_choose_logger(hass: __HAC_KEEP__) -> None:
     mock_logging.assert_called_once_with("myLogger")
 
 
-async def test_write_choose_level(hass: __HAC_KEEP__) -> None:
+async def test_write_choose_level(hass: UniversalAssistant) -> None:
     """Test that correct logger is chosen."""
     await async_setup_component(hass, system_log.DOMAIN, BASIC_CONFIG)
     await hass.async_block_till_done()
@@ -350,7 +350,7 @@ async def test_write_choose_level(hass: __HAC_KEEP__) -> None:
 
 
 async def test_unknown_path(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test error logged from unknown path."""
     await async_setup_component(hass, system_log.DOMAIN, BASIC_CONFIG)
@@ -371,7 +371,7 @@ def get_frame(path: str, previous_frame: MagicMock | None) -> MagicMock:
 
 
 async def async_log_error_from_test_path(
-    hass: __HAC_KEEP__, path: str, watcher: WatchLogErrorHandler
+    hass: UniversalAssistant, path: str, watcher: WatchLogErrorHandler
 ) -> None:
     """Log error while mocking the path."""
     call_path = "internal_path.py"
@@ -395,9 +395,9 @@ async def async_log_error_from_test_path(
 
 
 async def test_universalassistant_path(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
-    """Test error logged from __HA_KEEP__ path."""
+    """Test error logged from Universal Home Assistant path."""
 
     with patch(
         "universalassistant.components.system_log.HOMEASSISTANT_PATH",
@@ -412,7 +412,7 @@ async def test_universalassistant_path(
 
 
 async def test_config_path(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test error logged from config path."""
 
@@ -427,7 +427,7 @@ async def test_config_path(
 
 
 async def test_raise_during_log_capture(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that exceptions are logged and retrieved correctly."""
     await async_setup_component(hass, system_log.DOMAIN, BASIC_CONFIG)
@@ -454,11 +454,11 @@ async def test_raise_during_log_capture(
     assert_log(log, "", "Bad logger message: repr error", "ERROR")
 
 
-async def test__figure_out_source(hass: __HAC_KEEP__) -> None:
+async def test__figure_out_source(hass: UniversalAssistant) -> None:
     """Test that source is figured out correctly.
 
     We have to test this directly for exception tracebacks since
-    we cannot generate a trackback from a __HA_KEEP__ component
+    we cannot generate a trackback from a Universal Home Assistant component
     in a test because the test is not a component.
     """
     try:
@@ -484,7 +484,7 @@ async def test__figure_out_source(hass: __HAC_KEEP__) -> None:
     assert entry.source == ("figure_out_source is False", 5)
 
 
-async def test_formatting_exception(hass: __HAC_KEEP__) -> None:
+async def test_formatting_exception(hass: UniversalAssistant) -> None:
     """Test that exceptions are formatted correctly."""
     try:
         raise ValueError("test")  # noqa: TRY301

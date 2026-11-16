@@ -34,7 +34,7 @@ from universalassistant.const import (
     SERVICE_TURN_OFF,
     SERVICE_TURN_ON,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import (
@@ -61,7 +61,7 @@ from . import (
 
 
 def _get_config_entry_from_unique_id(
-    hass: __HAC_KEEP__, unique_id: str
+    hass: UniversalAssistant, unique_id: str
 ) -> ConfigEntry | None:
     for entry in hass.config_entries.async_entries(domain=DOMAIN):
         if entry.unique_id == TEST_SYSINFO_ID:
@@ -69,14 +69,14 @@ def _get_config_entry_from_unique_id(
     return None
 
 
-async def test_setup_config_entry(hass: __HAC_KEEP__) -> None:
+async def test_setup_config_entry(hass: UniversalAssistant) -> None:
     """Test setting up the component via config entries."""
     await setup_test_config_entry(hass, hyperion_client=create_mock_client())
     assert hass.states.get(TEST_ENTITY_ID_1) is not None
 
 
 async def test_setup_config_entry_not_ready_connect_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the component not being ready."""
     client = create_mock_client()
@@ -86,7 +86,7 @@ async def test_setup_config_entry_not_ready_connect_fail(
 
 
 async def test_setup_config_entry_not_ready_switch_instance_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the component not being ready."""
     client = create_mock_client()
@@ -97,7 +97,7 @@ async def test_setup_config_entry_not_ready_switch_instance_fail(
 
 
 async def test_setup_config_entry_not_ready_load_state_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the component not being ready."""
     client = create_mock_client()
@@ -114,7 +114,7 @@ async def test_setup_config_entry_not_ready_load_state_fail(
 
 
 async def test_setup_config_entry_dynamic_instances(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test dynamic changes in the instance configuration."""
@@ -229,7 +229,7 @@ async def test_setup_config_entry_dynamic_instances(
     assert hass.states.get(TEST_ENTITY_ID_3) is not None
 
 
-async def test_light_basic_properties(hass: __HAC_KEEP__) -> None:
+async def test_light_basic_properties(hass: UniversalAssistant) -> None:
     """Test the basic properties."""
     client = create_mock_client()
     client.priorities = [{const.KEY_PRIORITY: TEST_PRIORITY}]
@@ -251,7 +251,7 @@ async def test_light_basic_properties(hass: __HAC_KEEP__) -> None:
     assert entity_state.attributes["supported_features"] == LightEntityFeature.EFFECT
 
 
-async def test_light_async_turn_on(hass: __HAC_KEEP__) -> None:
+async def test_light_async_turn_on(hass: UniversalAssistant) -> None:
     """Test turning the light on."""
     client = create_mock_client()
     client.priorities = [{const.KEY_PRIORITY: TEST_PRIORITY}]
@@ -457,7 +457,7 @@ async def test_light_async_turn_on(hass: __HAC_KEEP__) -> None:
 
 
 async def test_light_async_turn_on_fail_async_send_set_effect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test async_send_set_effect failure when turning on the light."""
     client = create_mock_client()
@@ -472,12 +472,12 @@ async def test_light_async_turn_on_fail_async_send_set_effect(
         blocking=True,
     )
     assert client.method_calls[-1] == call.async_send_set_effect(
-        priority=180, effect={"name": "Warm Mood Blobs"}, origin="__HA_KEEP__"
+        priority=180, effect={"name": "Warm Mood Blobs"}, origin="Universal Home Assistant"
     )
 
 
 async def test_light_async_turn_on_fail_async_send_set_color(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test async_send_set_color failure when turning on the light."""
     client = create_mock_client()
@@ -492,12 +492,12 @@ async def test_light_async_turn_on_fail_async_send_set_color(
         blocking=True,
     )
     assert client.method_calls[-1] == call.async_send_set_color(
-        priority=180, color=(0, 0, 255), origin="__HA_KEEP__"
+        priority=180, color=(0, 0, 255), origin="Universal Home Assistant"
     )
 
 
 async def test_light_async_turn_off_fail_async_send_send_clear(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test async_send_clear failure when turning off the light."""
     client = create_mock_client()
@@ -513,7 +513,7 @@ async def test_light_async_turn_off_fail_async_send_send_clear(
     assert client.method_calls[-1] == call.async_send_clear(priority=TEST_PRIORITY)
 
 
-async def test_light_async_turn_off(hass: __HAC_KEEP__) -> None:
+async def test_light_async_turn_off(hass: UniversalAssistant) -> None:
     """Test turning the light off."""
     client = create_mock_client()
     await setup_test_config_entry(hass, hyperion_client=client)
@@ -533,7 +533,7 @@ async def test_light_async_turn_off(hass: __HAC_KEEP__) -> None:
 
 
 async def test_light_async_updates_from_hyperion_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test receiving a variety of Hyperion client callbacks."""
     client = create_mock_client()
@@ -642,7 +642,7 @@ async def test_light_async_updates_from_hyperion_client(
     assert entity_state.state == "on"
 
 
-async def test_full_state_loaded_on_start(hass: __HAC_KEEP__) -> None:
+async def test_full_state_loaded_on_start(hass: UniversalAssistant) -> None:
     """Test receiving a variety of Hyperion client callbacks."""
     client = create_mock_client()
 
@@ -669,7 +669,7 @@ async def test_full_state_loaded_on_start(hass: __HAC_KEEP__) -> None:
     assert entity_state.attributes["hs_color"] == (180.0, 100.0)
 
 
-async def test_unload_entry(hass: __HAC_KEEP__) -> None:
+async def test_unload_entry(hass: UniversalAssistant) -> None:
     """Test unload."""
     client = create_mock_client()
     await setup_test_config_entry(hass, hyperion_client=client)
@@ -684,7 +684,7 @@ async def test_unload_entry(hass: __HAC_KEEP__) -> None:
 
 
 async def test_version_log_warning(
-    caplog: pytest.LogCaptureFixture, hass: __HAC_KEEP__
+    caplog: pytest.LogCaptureFixture, hass: UniversalAssistant
 ) -> None:
     """Test warning on old version."""
     client = create_mock_client()
@@ -695,7 +695,7 @@ async def test_version_log_warning(
 
 
 async def test_version_no_log_warning(
-    caplog: pytest.LogCaptureFixture, hass: __HAC_KEEP__
+    caplog: pytest.LogCaptureFixture, hass: UniversalAssistant
 ) -> None:
     """Test no warning on acceptable version."""
     client = create_mock_client()
@@ -705,7 +705,7 @@ async def test_version_no_log_warning(
     assert "Please consider upgrading" not in caplog.text
 
 
-async def test_setup_entry_no_token_reauth(hass: __HAC_KEEP__) -> None:
+async def test_setup_entry_no_token_reauth(hass: UniversalAssistant) -> None:
     """Verify a reauth flow when auth is required but no token provided."""
     client = create_mock_client()
     config_entry = add_test_config_entry(hass)
@@ -734,7 +734,7 @@ async def test_setup_entry_no_token_reauth(hass: __HAC_KEEP__) -> None:
         assert config_entry.state is ConfigEntryState.SETUP_ERROR
 
 
-async def test_setup_entry_bad_token_reauth(hass: __HAC_KEEP__) -> None:
+async def test_setup_entry_bad_token_reauth(hass: UniversalAssistant) -> None:
     """Verify a reauth flow when a bad token is provided."""
     client = create_mock_client()
     config_entry = add_test_config_entry(
@@ -768,7 +768,7 @@ async def test_setup_entry_bad_token_reauth(hass: __HAC_KEEP__) -> None:
         assert config_entry.state is ConfigEntryState.SETUP_ERROR
 
 
-async def test_light_option_effect_hide_list(hass: __HAC_KEEP__) -> None:
+async def test_light_option_effect_hide_list(hass: UniversalAssistant) -> None:
     """Test the effect_hide_list option."""
     client = create_mock_client()
     client.effects = [{const.KEY_NAME: "One"}, {const.KEY_NAME: "Two"}]
@@ -788,7 +788,7 @@ async def test_light_option_effect_hide_list(hass: __HAC_KEEP__) -> None:
 
 
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:

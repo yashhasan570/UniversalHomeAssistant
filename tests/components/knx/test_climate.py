@@ -7,7 +7,7 @@ from universalassistant.components.climate import HVACMode
 from universalassistant.components.knx.const import CONF_SYNC_STATE, ClimateConf
 from universalassistant.components.knx.schema import ClimateSchema
 from universalassistant.const import CONF_NAME, STATE_IDLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -21,7 +21,7 @@ RAW_FLOAT_22_0 = (0x0C, 0x4C)
 
 
 async def test_climate_basic_temperature_set(
-    hass: __HAC_KEEP__, knx: KNXTestKit
+    hass: UniversalAssistant, knx: KNXTestKit
 ) -> None:
     """Test KNX climate basic."""
     await knx.setup_integration(
@@ -59,7 +59,7 @@ async def test_climate_basic_temperature_set(
 
 @pytest.mark.parametrize("heat_cool_ga", [None, "4/4/4"])
 async def test_climate_on_off(
-    hass: __HAC_KEEP__, knx: KNXTestKit, heat_cool_ga: str | None
+    hass: UniversalAssistant, knx: KNXTestKit, heat_cool_ga: str | None
 ) -> None:
     """Test KNX climate on/off."""
     on_off_ga = "3/3/3"
@@ -148,7 +148,7 @@ async def test_climate_on_off(
 
 @pytest.mark.parametrize("on_off_ga", [None, "4/4/4"])
 async def test_climate_hvac_mode(
-    hass: __HAC_KEEP__, knx: KNXTestKit, on_off_ga: str | None
+    hass: UniversalAssistant, knx: KNXTestKit, on_off_ga: str | None
 ) -> None:
     """Test KNX climate hvac mode."""
     controller_mode_ga = "3/3/3"
@@ -236,7 +236,7 @@ async def test_climate_hvac_mode(
 
 
 async def test_climate_heat_cool_read_only(
-    hass: __HAC_KEEP__, knx: KNXTestKit
+    hass: UniversalAssistant, knx: KNXTestKit
 ) -> None:
     """Test KNX climate hvac mode."""
     heat_cool_state_ga = "3/3/3"
@@ -274,7 +274,7 @@ async def test_climate_heat_cool_read_only(
 
 
 async def test_climate_heat_cool_read_only_on_off(
-    hass: __HAC_KEEP__, knx: KNXTestKit
+    hass: UniversalAssistant, knx: KNXTestKit
 ) -> None:
     """Test KNX climate hvac mode."""
     on_off_ga = "2/2/2"
@@ -320,7 +320,7 @@ async def test_climate_heat_cool_read_only_on_off(
 
 
 async def test_climate_preset_mode(
-    hass: __HAC_KEEP__, knx: KNXTestKit, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, knx: KNXTestKit, entity_registry: er.EntityRegistry
 ) -> None:
     """Test KNX climate preset mode."""
     await knx.setup_integration(
@@ -375,7 +375,7 @@ async def test_climate_preset_mode(
     assert len(knx.xknx.devices) == 0
 
 
-async def test_update_entity(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_update_entity(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test update climate entity for KNX."""
     await knx.setup_integration(
         {
@@ -413,7 +413,7 @@ async def test_update_entity(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     await knx.assert_read("1/2/7")
 
 
-async def test_command_value_idle_mode(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_command_value_idle_mode(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX climate command_value."""
     await knx.setup_integration(
         {
@@ -445,7 +445,7 @@ async def test_command_value_idle_mode(hass: __HAC_KEEP__, knx: KNXTestKit) -> N
     )
 
 
-async def test_fan_speed_3_steps(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_fan_speed_3_steps(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX climate fan speed 3 steps."""
     await knx.setup_integration(
         {
@@ -503,7 +503,7 @@ async def test_fan_speed_3_steps(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
 
 @pytest.mark.parametrize("raw_value", [0x04, 0xFF])
 async def test_fan_speed_step_out_of_range(
-    hass: __HAC_KEEP__, knx: KNXTestKit, raw_value: int
+    hass: UniversalAssistant, knx: KNXTestKit, raw_value: int
 ) -> None:
     """Test that fan step values beyond fan_max_step don't crash the entity."""
     await knx.setup_integration(
@@ -540,7 +540,7 @@ async def test_fan_speed_step_out_of_range(
     knx.assert_state("climate.test", HVACMode.HEAT, fan_mode=None)
 
 
-async def test_fan_speed_2_steps(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_fan_speed_2_steps(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX climate fan speed 2 steps."""
     await knx.setup_integration(
         {
@@ -593,7 +593,7 @@ async def test_fan_speed_2_steps(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     knx.assert_state("climate.test", HVACMode.HEAT, fan_mode="off")
 
 
-async def test_fan_speed_1_step(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_fan_speed_1_step(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX climate fan speed 1 step."""
     await knx.setup_integration(
         {
@@ -636,7 +636,7 @@ async def test_fan_speed_1_step(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     knx.assert_state("climate.test", HVACMode.HEAT, fan_mode="off")
 
 
-async def test_fan_speed_5_steps(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_fan_speed_5_steps(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX climate fan speed 5 steps."""
     await knx.setup_integration(
         {
@@ -692,7 +692,7 @@ async def test_fan_speed_5_steps(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     knx.assert_state("climate.test", HVACMode.HEAT, fan_mode="off")
 
 
-async def test_fan_speed_percentage(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_fan_speed_percentage(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX climate fan speed percentage."""
     await knx.setup_integration(
         {
@@ -756,7 +756,7 @@ async def test_fan_speed_percentage(hass: __HAC_KEEP__, knx: KNXTestKit) -> None
 
 
 async def test_fan_speed_percentage_4_steps(
-    hass: __HAC_KEEP__, knx: KNXTestKit
+    hass: UniversalAssistant, knx: KNXTestKit
 ) -> None:
     """Test KNX climate fan speed percentage with 4 steps."""
     await knx.setup_integration(
@@ -817,7 +817,7 @@ async def test_fan_speed_percentage_4_steps(
     knx.assert_state("climate.test", HVACMode.HEAT, fan_mode="75%")
 
 
-async def test_fan_speed_zero_mode_auto(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_fan_speed_zero_mode_auto(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX climate fan speed 3 steps."""
     await knx.setup_integration(
         {
@@ -864,7 +864,7 @@ async def test_fan_speed_zero_mode_auto(hass: __HAC_KEEP__, knx: KNXTestKit) -> 
     knx.assert_state("climate.test", HVACMode.HEAT, fan_mode="auto")
 
 
-async def test_climate_humidity(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_climate_humidity(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX climate humidity."""
     await knx.setup_integration(
         {
@@ -895,7 +895,7 @@ async def test_climate_humidity(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     )
 
 
-async def test_swing(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_swing(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX climate swing."""
     await knx.setup_integration(
         {
@@ -939,7 +939,7 @@ async def test_swing(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     knx.assert_state("climate.test", HVACMode.HEAT, swing_mode="off")
 
 
-async def test_horizontal_swing(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_horizontal_swing(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX climate horizontal swing."""
     await knx.setup_integration(
         {
@@ -984,7 +984,7 @@ async def test_horizontal_swing(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
 
 
 async def test_climate_ui_create(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
 ) -> None:

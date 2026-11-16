@@ -9,7 +9,7 @@ from screenlogicpy import ScreenLogicGateway
 from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import (
@@ -21,7 +21,7 @@ from . import (
 
 
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,

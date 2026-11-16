@@ -10,7 +10,7 @@ from universalassistant.components.media_player import (
     MediaPlayerEntityFeature,
     MediaPlayerState,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -23,7 +23,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: Ws66iConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -14,7 +14,7 @@ from universalassistant.components.github.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType, UnknownFlow
 
 from .const import MOCK_ACCESS_TOKEN
@@ -22,7 +22,7 @@ from .const import MOCK_ACCESS_TOKEN
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_user_flow_implementation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     github_device_client: AsyncMock,
     github_client: AsyncMock,
     device_activation_event: asyncio.Event,
@@ -47,7 +47,7 @@ async def test_full_user_flow_implementation(
 
 
 async def test_flow_with_registration_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     github_device_client: AsyncMock,
 ) -> None:
     """Test flow with registration failure of the device."""
@@ -60,7 +60,7 @@ async def test_flow_with_registration_failure(
 
 
 async def test_flow_with_activation_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     github_device_client: AsyncMock,
     device_activation_event: asyncio.Event,
 ) -> None:
@@ -89,7 +89,7 @@ async def test_flow_with_activation_failure(
 
 
 async def test_flow_with_remove_while_activating(
-    hass: __HAC_KEEP__, github_device_client: AsyncMock
+    hass: UniversalAssistant, github_device_client: AsyncMock
 ) -> None:
     """Test flow with user canceling while activating."""
 
@@ -111,7 +111,7 @@ async def test_flow_with_remove_while_activating(
 
 
 async def test_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort if already configured."""
@@ -127,7 +127,7 @@ async def test_already_configured(
 
 @pytest.mark.parametrize("mock_subentries", [[]])
 async def test_repository_subentry_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     github_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -155,7 +155,7 @@ async def test_repository_subentry_flow(
 
 @pytest.mark.parametrize("mock_subentries", [[]])
 async def test_repository_subentry_flow_repository_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     github_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -187,7 +187,7 @@ async def test_repository_subentry_flow_repository_error(
 
 @pytest.mark.parametrize("mock_subentries", [[]])
 async def test_repository_subentry_flow_no_repositories(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     github_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -219,7 +219,7 @@ async def test_repository_subentry_flow_no_repositories(
 
 
 async def test_repository_subentry_flow_omit_already_setup_repository(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     github_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

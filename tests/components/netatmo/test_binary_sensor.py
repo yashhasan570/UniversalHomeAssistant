@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.binary_sensor import BinarySensorDeviceClass
 from universalassistant.const import CONF_WEBHOOK_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 import universalassistant.util.dt as dt_util
 
@@ -25,7 +25,7 @@ from .common import (
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     netatmo_auth: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -42,7 +42,7 @@ async def test_entity(
 
 
 async def test_doortag_setup(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test doortag setup."""
     fake_post_hits = 0
@@ -114,7 +114,7 @@ async def test_doortag_setup(
     ],
 )
 async def test_doortag_opening_status_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     netatmo_auth: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -248,7 +248,7 @@ async def test_doortag_opening_status_change(
     ],
 )
 async def test_doortag_opening_category(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     netatmo_auth: AsyncMock,
     doortag_category: str,

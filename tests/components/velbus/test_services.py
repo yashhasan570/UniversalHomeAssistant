@@ -14,15 +14,15 @@ from universalassistant.components.velbus.services import (
     VelbusServiceArgument,
 )
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.storage import STORAGE_DIR
 
 from . import init_integration
 
 
 async def test_global_services_with_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test services directed at the bus with a config_entry."""
@@ -64,7 +64,7 @@ async def test_global_services_with_config_entry(
 
     # Test scan with OSError
     config_entry.runtime_data.controller.scan.side_effect = OSError("Boom")
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             VelbusService.SCAN,
@@ -74,7 +74,7 @@ async def test_global_services_with_config_entry(
 
     # Test sync_clock with OSError
     config_entry.runtime_data.controller.sync_clock.side_effect = OSError("Boom")
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             VelbusService.SYNC_CLOCK,
@@ -84,7 +84,7 @@ async def test_global_services_with_config_entry(
 
 
 async def test_set_memo_text(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     controller: AsyncMock,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_set_memo_text(
     controller.return_value.get_module.return_value.set_memo_text.side_effect = OSError(
         "Boom"
     )
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             VelbusService.SET_MEMO_TEXT,
@@ -140,7 +140,7 @@ async def test_set_memo_text(
 
 
 async def test_clear_cache(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test the clear_cache service."""
@@ -180,7 +180,7 @@ async def test_clear_cache(
     ],
 )
 async def test_clear_cache_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     error: int,
     service_data: dict[str, int],
@@ -193,7 +193,7 @@ async def test_clear_cache_error(
     with (
         patch(patch_target[0], return_value=True),
         patch(patch_target[1], side_effect=OSError(error, os.strerror(error))),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -229,7 +229,7 @@ async def test_clear_cache_error(
     ],
 )
 async def test_clear_cache_path_exists(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     service_data: dict,
     patch_target: tuple[str, str],

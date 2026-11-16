@@ -23,8 +23,8 @@ from universalassistant.components.calendar import (
     CalendarEvent,
     CalendarEventStatus,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -44,7 +44,7 @@ MAX_LOOKAHEAD_TIME = timedelta(days=365)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: LocalCalendarConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -103,7 +103,7 @@ class LocalCalendarEntity(CalendarEntity):
 
     @override
     async def async_get_events(
-        self, hass: __HAC_KEEP__, start_date: datetime, end_date: datetime
+        self, hass: UniversalAssistant, start_date: datetime, end_date: datetime
     ) -> list[CalendarEvent]:
         """Get all events in a specific time frame."""
 
@@ -168,7 +168,7 @@ class LocalCalendarEntity(CalendarEntity):
                     recurrence_range=range_value,
                 )
             except EventStoreError as err:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="delete_event_error",
                 ) from err
@@ -203,7 +203,7 @@ class LocalCalendarEntity(CalendarEntity):
             try:
                 await self.hass.async_add_executor_job(apply_edit)
             except EventStoreError as err:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="update_event_error",
                 ) from err
@@ -221,7 +221,7 @@ def _parse_event(event: dict[str, Any]) -> Event:
     # start dates with a timezone. For now, ensure any datetime is stored as a
     # floating local time to ensure we still apply proper local timezone rules.
     # This can be removed when ical is updated with a new recurrence_id format
-    # https://github.com/yashhasan570/__HAC_KEEP__/issues/87759
+    # https://github.com/yashhasan570/UniversalUniversalAssistant/issues/87759
     for key in (EVENT_START, EVENT_END):
         if (
             (value := event[key])

@@ -4,11 +4,11 @@ from dataclasses import FrozenInstanceError
 
 import pytest
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import system_state
 
 
-async def test_universal_assistant_restart_not_required(hass: __HAC_KEEP__) -> None:
+async def test_universal_assistant_restart_not_required(hass: UniversalAssistant) -> None:
     """Test a fresh instance does not require a restart."""
     state = system_state.async_get(hass)
 
@@ -22,7 +22,7 @@ async def test_universal_assistant_restart_not_required(hass: __HAC_KEEP__) -> N
     }
 
 
-async def test_set_universal_assistant_restart_required(hass: __HAC_KEEP__) -> None:
+async def test_set_universal_assistant_restart_required(hass: UniversalAssistant) -> None:
     """Test integrations flag a restart, each listed once."""
     updates: list[dict[str, bool | list[str]]] = []
     system_state.async_subscribe(
@@ -55,7 +55,7 @@ async def test_set_universal_assistant_restart_required(hass: __HAC_KEEP__) -> N
     ]
 
 
-async def test_unsubscribe(hass: __HAC_KEEP__) -> None:
+async def test_unsubscribe(hass: UniversalAssistant) -> None:
     """Test a listener stops receiving updates after unsubscribing."""
     updates: list[system_state.SystemState] = []
 
@@ -72,7 +72,7 @@ async def test_unsubscribe(hass: __HAC_KEEP__) -> None:
     assert updates == []
 
 
-async def test_system_state_is_read_only(hass: __HAC_KEEP__) -> None:
+async def test_system_state_is_read_only(hass: UniversalAssistant) -> None:
     """Test callers cannot bypass the latch by changing the state."""
     system_state.async_set_universal_assistant_restart_required(hass, "hacs")
     state = system_state.async_get(hass)
@@ -87,7 +87,7 @@ async def test_system_state_is_read_only(hass: __HAC_KEEP__) -> None:
     assert system_state.async_get(hass).universal_assistant_restart_sources == {"hacs"}
 
 
-async def test_set_host_reboot_required(hass: __HAC_KEEP__) -> None:
+async def test_set_host_reboot_required(hass: UniversalAssistant) -> None:
     """Test the host reboot flag follows Supervisor, and only updates on change."""
     updates: list[bool] = []
     system_state.async_subscribe(
@@ -103,7 +103,7 @@ async def test_set_host_reboot_required(hass: __HAC_KEEP__) -> None:
     assert not system_state.async_get(hass).host_reboot_required
 
 
-async def test_dismiss(hass: __HAC_KEEP__) -> None:
+async def test_dismiss(hass: UniversalAssistant) -> None:
     """Test a dismissed restart stays required, until another integration asks."""
     updates: list[bool] = []
     system_state.async_subscribe(
@@ -133,7 +133,7 @@ async def test_dismiss(hass: __HAC_KEEP__) -> None:
     assert updates == [False, True, False]
 
 
-async def test_dismiss_host_reboot(hass: __HAC_KEEP__) -> None:
+async def test_dismiss_host_reboot(hass: UniversalAssistant) -> None:
     """Test a dismissed reboot comes back once Supervisor raises it again."""
     system_state.async_set_host_reboot_required(hass, True)
     system_state.async_dismiss(hass)

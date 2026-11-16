@@ -36,7 +36,7 @@ from universalassistant.core import (
     DOMAIN as HOMEASSISTANT_DOMAIN,
     Context,
     Event,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
     split_entity_id,
     valid_entity_id,
@@ -497,7 +497,7 @@ class RegistryEntry:
         )
 
     @callback
-    def write_unavailable_state(self, hass: __HAC_KEEP__) -> None:
+    def write_unavailable_state(self, hass: UniversalAssistant) -> None:
         """Write the unavailable state to the state machine."""
         attrs: dict[str, Any] = {EntityStateAttribute.RESTORED: True}
 
@@ -526,7 +526,7 @@ class RegistryEntry:
 
 @callback
 def _async_get_full_entity_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     area_id: str | None,
     device_id: str | None,
@@ -632,7 +632,7 @@ def _async_get_full_entity_name(
 
 @callback
 def async_get_legacy_friendly_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: RegistryEntry,
     original_name: str | Undefined | None = Undefined,
 ) -> str:
@@ -661,7 +661,7 @@ def async_get_legacy_friendly_name(
 
 
 @callback
-def async_get_full_entity_name(hass: __HAC_KEEP__, entry: RegistryEntry) -> str:
+def async_get_full_entity_name(hass: UniversalAssistant, entry: RegistryEntry) -> str:
     """Get the computed name for an entity entry."""
     return _async_get_full_entity_name(
         hass,
@@ -684,7 +684,7 @@ def async_get_full_entity_name(hass: __HAC_KEEP__, entry: RegistryEntry) -> str:
 
 @callback
 def async_get_entity_aliases(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: RegistryEntry,
     *,
     allow_empty: bool = True,
@@ -713,7 +713,7 @@ def async_get_entity_aliases(
 
 
 @callback
-def async_preserve_compat_name_as_alias(hass: __HAC_KEEP__, entity_id: str) -> None:
+def async_preserve_compat_name_as_alias(hass: UniversalAssistant, entity_id: str) -> None:
     """Keep the pre-1.24 name as the primary alias.
 
     Integrations exposing entities by name call this from their own one-time
@@ -780,7 +780,7 @@ def _async_strip_prefix_from_entity_name(
 
 @callback
 def _unprefix_original_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     original_name: str | None,
     has_entity_name: bool,
     device_id: str | None,
@@ -1118,7 +1118,7 @@ class EntityRegistryItems(BaseRegistryItems[RegistryEntry]):
     Also maintains a count of enabled entries per config entry id.
     """
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the container."""
         super().__init__()
         # hass is stored only so get_entries_for_device_id can expand a pre-migration
@@ -1253,7 +1253,7 @@ class EntityRegistryItems(BaseRegistryItems[RegistryEntry]):
 
 
 def _validate_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain: str,
     platform: str,
     *,
@@ -1355,7 +1355,7 @@ def _has_own_area_without_own_name(entry: RegistryEntry) -> bool:
 
 @callback
 def _async_get_child_device_accepting_area(
-    hass: __HAC_KEEP__, entry: RegistryEntry
+    hass: UniversalAssistant, entry: RegistryEntry
 ) -> dr.ChildDeviceEntry | None:
     """Return the child device which accepts the area of its new main entity.
 
@@ -1383,7 +1383,7 @@ class EntityRegistry(BaseRegistry):
     settings: EntityRegistrySettings
     _entities_data: dict[str, RegistryEntry]
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the registry."""
         self.hass = hass
         self._loaded_event = asyncio.Event()
@@ -1465,7 +1465,7 @@ class EntityRegistry(BaseRegistry):
         """
         report_usage(
             "calls `entity_registry.async_generate_entity_id`, "
-            "which is deprecated and will be removed in __HA_KEEP__ 2027.2; "
+            "which is deprecated and will be removed in Universal Home Assistant 2027.2; "
             "use `entity_registry.async_get_available_entity_id` instead",
             core_behavior=ReportBehavior.LOG,
             breaks_in_ha_version="2027.2.0",
@@ -2776,12 +2776,12 @@ class EntityRegistry(BaseRegistry):
 
 @callback
 @singleton(DATA_REGISTRY)
-def async_get(hass: __HAC_KEEP__) -> EntityRegistry:
+def async_get(hass: UniversalAssistant) -> EntityRegistry:
     """Get entity registry."""
     return EntityRegistry(hass)
 
 
-async def async_load(hass: __HAC_KEEP__, *, load_empty: bool = False) -> None:
+async def async_load(hass: UniversalAssistant, *, load_empty: bool = False) -> None:
     """Load entity registry."""
     await async_get(hass).async_load(load_empty=load_empty)
 
@@ -2810,7 +2810,7 @@ def async_entries_for_area(
 
 @callback
 def async_get_effective_area_id(
-    hass: __HAC_KEEP__, entry: RegistryEntry
+    hass: UniversalAssistant, entry: RegistryEntry
 ) -> str | None:
     """Return the effective area of an entity.
 
@@ -2881,7 +2881,7 @@ def async_config_entry_disabled_by_changed(
 
 
 @callback
-def _async_setup_cleanup(hass: __HAC_KEEP__, registry: EntityRegistry) -> None:
+def _async_setup_cleanup(hass: UniversalAssistant, registry: EntityRegistry) -> None:
     """Clean up device registry when entities removed."""
     from . import category_registry as cr, event, label_registry as lr  # noqa: PLC0415
 
@@ -2937,7 +2937,7 @@ def _async_setup_cleanup(hass: __HAC_KEEP__, registry: EntityRegistry) -> None:
 
 
 @callback
-def _async_setup_entity_restore(hass: __HAC_KEEP__, registry: EntityRegistry) -> None:
+def _async_setup_entity_restore(hass: UniversalAssistant, registry: EntityRegistry) -> None:
     """Set up the entity restore mechanism."""
 
     @callback
@@ -3028,7 +3028,7 @@ def _own_area_without_own_name_issue_id(entry: RegistryEntry) -> str:
 
 @callback
 def _async_setup_own_area_without_own_name_issues(
-    hass: __HAC_KEEP__, registry: EntityRegistry
+    hass: UniversalAssistant, registry: EntityRegistry
 ) -> None:
     """Report entities with an area of their own but no name of their own.
 
@@ -3094,7 +3094,7 @@ def _async_setup_own_area_without_own_name_issues(
 
 
 async def async_migrate_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_id: str,
     entry_callback: Callable[[RegistryEntry], dict[str, Any] | None],
 ) -> None:

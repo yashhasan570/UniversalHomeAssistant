@@ -15,8 +15,8 @@ from universalassistant.components.tts import (
     Voice,
 )
 from universalassistant.config_entries import ConfigSubentry
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import GoogleGenerativeAIConfigEntry
@@ -47,7 +47,7 @@ VOICES_MAX_PAGES = 10
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: GoogleGenerativeAIConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -405,7 +405,7 @@ class GoogleGenerativeAITextToSpeechEntity(
         except (APIError, ClientError, ValueError, TypeError) as exc:
             # pylint: disable-next=universal-assistant-log-and-raise
             LOGGER.error("Error during TTS: %s", exc, exc_info=True)
-            raise __HAC_KEEP__Error(exc) from exc
+            raise UniversalAssistantError(exc) from exc
         if mime_type == "audio/wav":
             return "wav", data
         return "wav", convert_to_wav(data, mime_type)

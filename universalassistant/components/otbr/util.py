@@ -19,8 +19,8 @@ from universalassistant.components.universalassistant_hardware.silabs_multiproto
     is_multiprotocol_url,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import issue_registry as ir
 
 from .const import DOMAIN
@@ -44,7 +44,7 @@ INSECURE_PASSPHRASES = (
 )
 
 
-class GetBorderAgentIdNotSupported(__HAC_KEEP__Error):
+class GetBorderAgentIdNotSupported(UniversalAssistantError):
     """Raised from python_otbr_api.GetBorderAgentIdNotSupportedError."""
 
 
@@ -69,7 +69,7 @@ def _handle_otbr_error[**_P, _R](
         try:
             return await func(self, *args, **kwargs)
         except (python_otbr_api.OTBRError, aiohttp.ClientError, TimeoutError) as exc:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="api_error"
             ) from exc
 
@@ -85,7 +85,7 @@ class OTBRData:
     entry_id: str
 
     @_handle_otbr_error
-    async def factory_reset(self, hass: __HAC_KEEP__) -> None:
+    async def factory_reset(self, hass: UniversalAssistant) -> None:
         """Reset the router."""
         try:
             await self.api.factory_reset()
@@ -163,7 +163,7 @@ class OTBRData:
         return await self.api.get_coprocessor_version()
 
 
-async def get_allowed_channel(hass: __HAC_KEEP__, otbr_url: str) -> int | None:
+async def get_allowed_channel(hass: UniversalAssistant, otbr_url: str) -> int | None:
     """Return the allowed channel, or None if there's no restriction."""
     if not is_multiprotocol_url(otbr_url):
         # The OTBR is not sharing the radio, no restriction
@@ -176,7 +176,7 @@ async def get_allowed_channel(hass: __HAC_KEEP__, otbr_url: str) -> int | None:
 
 
 async def _warn_on_channel_collision(
-    hass: __HAC_KEEP__, otbrdata: OTBRData, dataset_tlvs: bytes
+    hass: UniversalAssistant, otbrdata: OTBRData, dataset_tlvs: bytes
 ) -> None:
     """Warn user if OTBR and ZHA attempt to use different channels."""
 
@@ -219,7 +219,7 @@ async def _warn_on_channel_collision(
 
 
 def _warn_on_default_network_settings(
-    hass: __HAC_KEEP__, otbrdata: OTBRData, dataset_tlvs: bytes
+    hass: UniversalAssistant, otbrdata: OTBRData, dataset_tlvs: bytes
 ) -> None:
     """Warn user if insecure default network settings are used."""
     dataset = tlv_parser.parse_tlv(dataset_tlvs.hex())
@@ -263,7 +263,7 @@ def _warn_on_default_network_settings(
 
 
 async def update_issues(
-    hass: __HAC_KEEP__, otbrdata: OTBRData, dataset_tlvs: bytes
+    hass: UniversalAssistant, otbrdata: OTBRData, dataset_tlvs: bytes
 ) -> None:
     """Raise or clear repair issues related to network settings."""
     await _warn_on_channel_collision(hass, otbrdata, dataset_tlvs)
@@ -271,7 +271,7 @@ async def update_issues(
 
 
 async def update_unique_id(
-    hass: __HAC_KEEP__, entry: OTBRConfigEntry | None, border_agent_id: bytes
+    hass: UniversalAssistant, entry: OTBRConfigEntry | None, border_agent_id: bytes
 ) -> None:
     """Update the config entry's unique_id if not matching."""
     border_agent_id_hex = border_agent_id.hex()

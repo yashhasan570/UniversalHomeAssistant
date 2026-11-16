@@ -1,6 +1,6 @@
 """Regression tests for Ecobee 3.
 
-https://github.com/yashhasan570/__HAC_KEEP__/issues/15336
+https://github.com/yashhasan570/UniversalUniversalAssistant/issues/15336
 """
 
 from typing import Any
@@ -15,7 +15,7 @@ from universalassistant.components.climate import ClimateEntityFeature
 from universalassistant.components.sensor import SensorStateClass
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from ..common import (
@@ -30,7 +30,7 @@ from ..common import (
 )
 
 
-async def test_ecobee3_setup(hass: __HAC_KEEP__) -> None:
+async def test_ecobee3_setup(hass: UniversalAssistant) -> None:
     """Test that a Ecbobee 3 can be correctly setup in HA."""
     accessories = await setup_accessories_from_file(hass, "ecobee3.json")
     config_entry, _ = await setup_test_accessories(hass, accessories)
@@ -145,7 +145,7 @@ async def test_ecobee3_setup(hass: __HAC_KEEP__) -> None:
 
 
 async def test_ecobee3_current_temperature_after_config_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test current temperature updates after the accessory map is replaced."""
     accessories = await setup_accessories_from_file(hass, "ecobee3.json")
@@ -176,7 +176,7 @@ async def test_ecobee3_current_temperature_after_config_change(
 
 
 async def test_ecobee3_setup_from_cache(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -213,7 +213,7 @@ async def test_ecobee3_setup_from_cache(
 
 
 async def test_ecobee3_setup_connection_failure(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that Ecbobee can be correctly setup from its cached entity map."""
     accessories = await setup_accessories_from_file(hass, "ecobee3.json")
@@ -254,7 +254,7 @@ async def test_ecobee3_setup_connection_failure(
 
 
 async def test_ecobee3_add_sensors_at_runtime(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that new sensors are automatically added."""
 
@@ -291,7 +291,7 @@ async def test_ecobee3_add_sensors_at_runtime(
 
 
 async def test_ecobee3_remove_sensors_at_runtime(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that sensors are automatically removed."""
 
@@ -354,7 +354,7 @@ async def test_ecobee3_remove_sensors_at_runtime(
 
 
 async def test_ecobee3_services_and_chars_removed(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test handling removal of some services and chars."""
 

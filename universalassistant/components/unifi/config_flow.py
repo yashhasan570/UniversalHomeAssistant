@@ -33,7 +33,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.data_entry_flow import AbortFlow, SectionConfig, section
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.device_registry import format_mac
@@ -60,7 +60,7 @@ from .const import (
     LOGGER,
 )
 from .errors import AuthenticationRequired, CannotConnect, MfaRequired
-from .hub import UnifiHub, get_unifi_api
+from .hub import UnifiHub, get_unifi_api, update_site_unique_id
 
 DEFAULT_HOST = "unifi"
 DEFAULT_PORT = 443
@@ -182,22 +182,29 @@ class UnifiFlowHandler(ConfigFlow, domain=DOMAIN):
             with _catch_unifi_api_flow_errors(errors):
                 sites = await self._async_update_sites(config_data)
 
-                if (
-                    (unique_id := config_entry.unique_id) is not None
-                ) and unique_id in sites:
-                    config_data[CONF_SITE_ID] = sites[unique_id].name
-                    if config_entry.state is ConfigEntryState.LOADED:
-                        # The update listener reloads a loaded entry on data changes
-                        if config_data.items() <= config_entry.data.items():
-                            self.hass.config_entries.async_schedule_reload(
-                                config_entry.entry_id
+                if (unique_id := config_entry.unique_id) is not None:
+                    if unique_id not in sites:
+                        unique_id = update_site_unique_id(
+                            self.hass,
+                            config_entry,
+                            unique_id,
+                            config_entry.data[CONF_SITE_ID],
+                            sites,
+                        )
+                    if unique_id in sites:
+                        config_data[CONF_SITE_ID] = sites[unique_id].name
+                        if config_entry.state is ConfigEntryState.LOADED:
+                            # The update listener reloads a loaded entry on data changes
+                            if config_data.items() <= config_entry.data.items():
+                                self.hass.config_entries.async_schedule_reload(
+                                    config_entry.entry_id
+                                )
+                            return self.async_update_and_abort(
+                                config_entry, data_updates=config_data
                             )
-                        return self.async_update_and_abort(
+                        return self.async_update_reload_and_abort(
                             config_entry, data_updates=config_data
                         )
-                    return self.async_update_reload_and_abort(
-                        config_entry, data_updates=config_data
-                    )
                 raise AbortFlow("unknown_site_id")
         else:
             data_schema = self._build_form_schema(
@@ -472,7 +479,7 @@ class UnifiOptionsFlowHandler(OptionsFlow):
         )
 
 
-async def _async_discover_unifi(hass: __HAC_KEEP__) -> str | None:
+async def _async_discover_unifi(hass: UniversalAssistant) -> str | None:
     """Discover UniFi Network address."""
     try:
         return await hass.async_add_executor_job(socket.gethostbyname, "unifi")

@@ -18,8 +18,8 @@ from universalassistant.components.zwave_js.helpers import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -29,7 +29,7 @@ from universalassistant.setup import async_setup_component
 
 
 async def test_get_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: Client,
     lock_schlage_be469: Node,
     integration: ConfigEntry,
@@ -120,7 +120,7 @@ async def test_get_actions(
 
 
 async def test_get_actions_meter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: Client,
     aeon_smart_switch_6: Node,
     integration: ConfigEntry,
@@ -142,7 +142,7 @@ async def test_get_actions_meter(
 
 
 async def test_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: Client,
     climate_radio_thermostat_ct100_plus: Node,
     integration: ConfigEntry,
@@ -298,7 +298,7 @@ async def test_actions(
 
 
 async def test_actions_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: Client,
     climate_radio_thermostat_ct100_plus: Node,
     integration: ConfigEntry,
@@ -358,7 +358,7 @@ async def test_actions_legacy(
 
 
 async def test_actions_multiple_calls(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: Client,
     climate_radio_thermostat_ct100_plus: Node,
     integration: ConfigEntry,
@@ -410,7 +410,7 @@ async def test_actions_multiple_calls(
 
 
 async def test_lock_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: Client,
     lock_schlage_be469: Node,
     integration: ConfigEntry,
@@ -486,7 +486,7 @@ async def test_lock_actions(
 
 
 async def test_reset_meter_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: Client,
     aeon_smart_switch_6: Node,
     integration: ConfigEntry,
@@ -556,7 +556,7 @@ async def test_reset_meter_action(
     ],
 )
 async def test_set_value_action_endpoint_child_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: Client,
     climate_heatit_z_trm3: Node,
     integration: MockConfigEntry,
@@ -611,7 +611,7 @@ async def test_set_value_action_endpoint_child_device(
 
 
 async def test_reset_meter_action_endpoint_child_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: Client,
     aeotec_zwa046: Node,
     integration: MockConfigEntry,
@@ -699,7 +699,7 @@ async def test_reset_meter_action_endpoint_child_device(
     ],
 )
 async def test_refresh_value_action_endpoint_child_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: Client,
     climate_heatit_z_trm3: Node,
     integration: MockConfigEntry,
@@ -756,7 +756,7 @@ async def test_refresh_value_action_endpoint_child_device(
 
 
 async def test_lock_actions_endpoint_child_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: Client,
     lock_schlage_be469: Node,
     integration: MockConfigEntry,
@@ -838,7 +838,7 @@ async def test_lock_actions_endpoint_child_device(
 
 
 async def test_get_actions_endpoint_child_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: Client,
     aeotec_zwa046: Node,
     integration: MockConfigEntry,
@@ -903,7 +903,7 @@ async def test_get_actions_endpoint_child_device(
 
 
 async def test_get_action_capabilities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: Client,
     climate_radio_thermostat_ct100_plus: Node,
     integration: ConfigEntry,
@@ -1086,7 +1086,7 @@ async def test_get_action_capabilities(
 
 
 async def test_get_action_capabilities_lock_triggers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: Client,
     lock_schlage_be469: Node,
     integration: ConfigEntry,
@@ -1137,7 +1137,7 @@ async def test_get_action_capabilities_lock_triggers(
 
 
 async def test_get_action_capabilities_meter_triggers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: Client,
     aeon_smart_switch_6: Node,
     integration: ConfigEntry,
@@ -1170,7 +1170,7 @@ async def test_get_action_capabilities_meter_triggers(
 
 
 async def test_failure_scenarios(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: Client,
     hank_binary_switch: Node,
     integration: ConfigEntry,
@@ -1179,7 +1179,7 @@ async def test_failure_scenarios(
     """Test failure scenarios."""
     device = dr.async_entries_for_config_entry(device_registry, integration.entry_id)[0]
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await device_action.async_call_action_from_config(
             hass, {"type": "failed.test", "device_id": device.id}, {}, None
         )
@@ -1193,7 +1193,7 @@ async def test_failure_scenarios(
 
 
 async def test_unavailable_entity_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: Client,
     lock_schlage_be469: Node,
     integration: ConfigEntry,

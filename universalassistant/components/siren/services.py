@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, TypedDict, cast
 
 import probatio
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import VolDictType
@@ -99,7 +99,7 @@ async def _async_handle_turn_on_service(siren: SirenEntity, call: ServiceCall) -
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the siren services."""
     component = hass.data[DATA_COMPONENT]
 

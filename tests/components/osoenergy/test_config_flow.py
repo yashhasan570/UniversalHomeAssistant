@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.osoenergy.const import DOMAIN
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 SUBSCRIPTION_KEY = "valid subscription key"
@@ -17,7 +17,7 @@ TEST_USER_EMAIL = "test_user_email@domain.com"
 UPDATED_SCAN_INTERVAL = 60
 
 
-async def test_user_flow(hass: __HAC_KEEP__) -> None:
+async def test_user_flow(hass: UniversalAssistant) -> None:
     """Test the user flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -52,7 +52,7 @@ async def test_user_flow(hass: __HAC_KEEP__) -> None:
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
 
 
-async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
+async def test_reauth_flow(hass: UniversalAssistant) -> None:
     """Test the reauth flow."""
     mock_config = MockConfigEntry(
         domain=DOMAIN,
@@ -89,7 +89,7 @@ async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
 
 
-async def test_abort_if_existing_entry(hass: __HAC_KEEP__) -> None:
+async def test_abort_if_existing_entry(hass: UniversalAssistant) -> None:
     """Check flow abort when an entry already exist."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -120,7 +120,7 @@ async def test_abort_if_existing_entry(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_user_flow_invalid_subscription_key(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_invalid_subscription_key(hass: UniversalAssistant) -> None:
     """Test user flow with invalid username."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -159,7 +159,7 @@ async def test_user_flow_invalid_subscription_key(hass: __HAC_KEEP__) -> None:
 
 
 async def test_user_flow_exception_on_subscription_key_check(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test user flow with invalid username."""
     result = await hass.config_entries.flow.async_init(

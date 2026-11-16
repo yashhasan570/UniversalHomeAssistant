@@ -20,7 +20,7 @@ from universalassistant.const import (
     UnitOfElectricCurrent,
     UnitOfSpeed,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.icon import icon_for_battery_level
 
@@ -107,7 +107,7 @@ ENERGY_INFO_DESCRIPTIONS: tuple[TessieNumberBatteryEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: TessieConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

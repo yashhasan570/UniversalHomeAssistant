@@ -4,7 +4,7 @@ from collections.abc import Callable
 
 from universalassistant.components.logbook import LOGBOOK_ENTRY_MESSAGE, LOGBOOK_ENTRY_NAME
 from universalassistant.const import ATTR_DEVICE_ID, CONF_EVENT, CONF_ID
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 
 from .const import CONF_GESTURE, DOMAIN
@@ -128,7 +128,7 @@ def _get_device_event_description(
 
 @callback
 def async_describe_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_describe_event: Callable[[str, str, Callable[[Event], dict[str, str]]], None],
 ) -> None:
     """Describe logbook events."""

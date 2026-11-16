@@ -25,7 +25,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STARTED,
     Platform,
 )
-from universalassistant.core import CoreState, __HAC_KEEP__
+from universalassistant.core import CoreState, UniversalAssistant
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.loader import IntegrationNotLoaded
 from universalassistant.util import dt as dt_util
@@ -41,7 +41,7 @@ KNOWN_TO_THE_LOADER = (
 )
 
 
-async def _async_reload(hass: __HAC_KEEP__, marketplace: MarketplaceManager) -> None:
+async def _async_reload(hass: UniversalAssistant, marketplace: MarketplaceManager) -> None:
     """Reload the config entry of the Marketplace."""
     assert marketplace.configuration.config_entry is not None
     assert await hass.config_entries.async_reload(
@@ -51,7 +51,7 @@ async def _async_reload(hass: __HAC_KEEP__, marketplace: MarketplaceManager) -> 
 
 
 async def test_added_custom_repository_survives_a_reload(
-    hass: __HAC_KEEP__, marketplace: MarketplaceManager
+    hass: UniversalAssistant, marketplace: MarketplaceManager
 ) -> None:
     """Test a custom repository added by hand is kept, even when not installed."""
     await marketplace.async_register_repository(
@@ -66,7 +66,7 @@ async def test_added_custom_repository_survives_a_reload(
 
 
 async def test_forgotten_custom_repository_is_gone_after_a_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -91,7 +91,7 @@ async def test_forgotten_custom_repository_is_gone_after_a_reload(
 
 @pytest.mark.parametrize("github_token", [None])
 async def test_config_flow_flag_survives_a_reload(
-    hass: __HAC_KEEP__, marketplace: MarketplaceManager
+    hass: UniversalAssistant, marketplace: MarketplaceManager
 ) -> None:
     """Test an installed integration keeps knowing it is set up from the UI."""
     repository = marketplace.repositories.get_by_id(REPOSITORY_INTEGRATION_ID)
@@ -106,7 +106,7 @@ async def test_config_flow_flag_survives_a_reload(
 
 
 async def test_pending_restart_survives_a_reload(
-    hass: __HAC_KEEP__, marketplace: MarketplaceManager
+    hass: UniversalAssistant, marketplace: MarketplaceManager
 ) -> None:
     """Test a reload does not pretend the installed code is loaded."""
     repository = marketplace.repositories.get_by_id(REPOSITORY_INTEGRATION_ID)
@@ -121,7 +121,7 @@ async def test_pending_restart_survives_a_reload(
 
 
 async def test_new_install_gets_its_pre_release_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
@@ -143,7 +143,7 @@ async def test_new_install_gets_its_pre_release_switch(
 
 
 async def test_new_install_leaves_the_other_entities_alone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
@@ -226,7 +226,7 @@ async def test_integer_catalog_timestamp_can_be_stored(
 
 
 async def test_catalog_removal_is_noticed_while_running(
-    hass: __HAC_KEEP__, marketplace: MarketplaceManager, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, marketplace: MarketplaceManager, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test a repository the catalog removes is noticed without a restart."""
     repository = marketplace.repositories.get_by_id(REPOSITORY_INTEGRATION_ID)
@@ -317,9 +317,9 @@ async def test_critical_removal_gets_no_removed_repair(
 
 
 async def test_unloaded_before_start_runs_no_startup_tasks(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
-    """Test an entry unloaded before __HA_KEEP__ started leaves its tasks."""
+    """Test an entry unloaded before Universal Home Assistant started leaves its tasks."""
     hass.set_state(CoreState.not_running)
     mock_config_entry.add_to_hass(hass)
 
@@ -335,9 +335,9 @@ async def test_unloaded_before_start_runs_no_startup_tasks(
 
 
 async def test_startup_tasks_wait_until_universal_assistant_started(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
-    """Test a slow catalog does not hold up __HA_KEEP__ starting."""
+    """Test a slow catalog does not hold up Universal Home Assistant starting."""
     hass.set_state(CoreState.not_running)
     mock_config_entry.add_to_hass(hass)
 
@@ -356,7 +356,7 @@ async def test_startup_tasks_wait_until_universal_assistant_started(
 
 
 async def test_restart_repair_follows_a_new_repository_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -404,7 +404,7 @@ async def test_stored_install_keeps_the_folder_it_is_in(
 
 
 async def test_unload_stops_a_recurring_run(
-    hass: __HAC_KEEP__, marketplace: MarketplaceManager, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, marketplace: MarketplaceManager, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test a recurring run in flight does not carry on after an unload."""
     started = asyncio.Event()

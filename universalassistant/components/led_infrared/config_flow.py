@@ -12,7 +12,7 @@ from universalassistant.components.infrared import (
     async_send_command,
 )
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.selector import (
     EntitySelector,
@@ -140,7 +140,7 @@ class LEDIrConfigFlow(ConfigFlow, domain=DOMAIN):
             for code in (codes.OFF, codes.ON, codes.OFF):
                 await async_send_command(self.hass, emitter_id, code.to_command())
                 await asyncio.sleep(_TOGGLE_GAP)
-        except __HAC_KEEP__Error:
+        except UniversalAssistantError:
             return await self.async_step_test_failed()
         return self.async_show_menu(
             step_id="test_device",

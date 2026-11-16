@@ -17,7 +17,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_config_entry
@@ -29,7 +29,7 @@ from . import setup_config_entry
     indirect=True,
 )
 async def test_light_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,
@@ -56,7 +56,7 @@ async def test_light_device(
     indirect=True,
 )
 async def test_light_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,
@@ -93,7 +93,7 @@ async def test_light_update(
     indirect=["mock_hub_configuration", "mock_hub_status"],
 )
 async def test_light_turn_on_and_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,
@@ -161,7 +161,7 @@ async def test_light_turn_on_and_off(
     indirect=True,
 )
 async def test_light_dimm_on_and_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,

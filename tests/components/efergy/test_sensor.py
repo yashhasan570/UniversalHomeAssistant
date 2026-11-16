@@ -19,7 +19,7 @@ from universalassistant.const import (
     UnitOfEnergy,
     UnitOfPower,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -32,7 +32,7 @@ def enable_all_entities(entity_registry_enabled_by_default: None) -> None:
 
 
 async def test_sensor_readings(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -97,7 +97,7 @@ async def test_sensor_readings(
 
 
 async def test_multi_sensor_readings(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test for multiple sensors in one household."""
     await setup_platform(hass, aioclient_mock, SENSOR_DOMAIN, MULTI_SENSOR_TOKEN)
@@ -119,7 +119,7 @@ async def test_multi_sensor_readings(
 
 
 async def test_failed_update_and_reconnection(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test failed update and reconnection."""
     await setup_platform(hass, aioclient_mock, SENSOR_DOMAIN)

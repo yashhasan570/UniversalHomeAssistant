@@ -17,7 +17,7 @@ from universalassistant.components.light import (
     LightEntityFeature,
     filter_supported_color_modes,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import WizConfigEntry, WizData
@@ -52,7 +52,7 @@ def _async_pilot_builder(**kwargs: Any) -> PilotBuilder:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: WizConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -14,7 +14,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
@@ -46,7 +46,7 @@ def _create_device_info(
     mac_address: str | None,
     firmware_version: str | None,
 ) -> DeviceInfo:
-    """Create device info for __HA_KEEP__."""
+    """Create device info for Universal Home Assistant."""
     display_model = _get_display_model(device_model, product_model)
 
     connections: set[tuple[str, str]] = set()
@@ -62,7 +62,7 @@ def _create_device_info(
     )
 
 
-async def _setup_api(hass: __HAC_KEEP__, entry: GrandstreamConfigEntry) -> GDSPhoneAPI:
+async def _setup_api(hass: UniversalAssistant, entry: GrandstreamConfigEntry) -> GDSPhoneAPI:
     """Set up and initialize API with error handling."""
     host = entry.data[CONF_HOST]
     username = entry.data[CONF_USERNAME]
@@ -114,7 +114,7 @@ async def _setup_api(hass: __HAC_KEEP__, entry: GrandstreamConfigEntry) -> GDSPh
     )
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: GrandstreamConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: GrandstreamConfigEntry) -> None:
     """Set up Grandstream Home integration."""
     _LOGGER.debug("Starting integration initialization: %s", entry.entry_id)
 
@@ -165,7 +165,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: GrandstreamConfigEntry) -
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: GrandstreamConfigEntry
+    hass: UniversalAssistant, entry: GrandstreamConfigEntry
 ) -> None:
     """Unload config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

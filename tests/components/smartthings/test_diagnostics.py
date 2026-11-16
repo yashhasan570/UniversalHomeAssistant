@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
 from universalassistant.components.smartthings.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -21,7 +21,7 @@ from . import setup_integration
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_config_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     devices: AsyncMock,
     mock_smartthings: AsyncMock,
@@ -43,7 +43,7 @@ async def test_config_entry_diagnostics(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_device_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
     devices: AsyncMock,

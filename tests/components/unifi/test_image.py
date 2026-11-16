@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.image import DOMAIN as IMAGE_DOMAIN
 from universalassistant.config_entries import RELOAD_AFTER_UPDATE_DELAY
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_registry import RegistryEntryDisabler
 from universalassistant.util import dt as dt_util
@@ -85,7 +85,7 @@ WLAN = {
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.freeze_time("2021-01-01 01:01:00")
 async def test_entity_and_device_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     site_payload: dict[str, Any],
@@ -103,7 +103,7 @@ async def test_entity_and_device_data(
 @pytest.mark.parametrize("wlan_payload", [[WLAN]])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_wlan_qr_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
@@ -157,7 +157,7 @@ async def test_wlan_qr_code(
 @pytest.mark.usefixtures("config_entry_setup")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_hub_state_change(
-    hass: __HAC_KEEP__, mock_websocket_state: WebsocketStateManager
+    hass: UniversalAssistant, mock_websocket_state: WebsocketStateManager
 ) -> None:
     """Verify entities state reflect on hub becoming unavailable."""
     assert hass.states.get("image.ssid_1_qr_code").state != STATE_UNAVAILABLE
@@ -175,7 +175,7 @@ async def test_hub_state_change(
 @pytest.mark.usefixtures("config_entry_setup")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_source_availability(
-    hass: __HAC_KEEP__, mock_websocket_message: WebsocketMessageMock
+    hass: UniversalAssistant, mock_websocket_message: WebsocketMessageMock
 ) -> None:
     """Verify entities state reflect on source becoming unavailable."""
     assert hass.states.get("image.ssid_1_qr_code").state != STATE_UNAVAILABLE

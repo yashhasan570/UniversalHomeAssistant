@@ -9,7 +9,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.kitchen_sink import DOMAIN, image
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
@@ -24,13 +24,13 @@ async def image_only() -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_comp(hass: __HAC_KEEP__, image_only):
+async def setup_comp(hass: UniversalAssistant, image_only):
     """Set up demo component."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     await hass.async_block_till_done()
 
 
-async def test_states(hass: __HAC_KEEP__) -> None:
+async def test_states(hass: UniversalAssistant) -> None:
     """Test the expected image entities are added."""
     states = hass.states.async_all()
     assert len(states) == 1
@@ -46,7 +46,7 @@ async def test_states(hass: __HAC_KEEP__) -> None:
 
 
 async def test_fetch_image(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test fetching an image with an authenticated client."""
     client = await hass_client()

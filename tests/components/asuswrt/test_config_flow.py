@@ -34,7 +34,7 @@ from universalassistant.const import (
     CONF_PROTOCOL,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .common import ASUSWRT_BASE, HOST, ROUTER_MAC_ADDR
@@ -101,7 +101,7 @@ def mock_controller_patch_is_file():
     [({}, None), ({"label_mac": ROUTER_MAC_ADDR}, ROUTER_MAC_ADDR)],
 )
 async def test_user_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connect_legacy,
     patch_setup_entry,
     unique_id,
@@ -141,7 +141,7 @@ async def test_user_legacy(
 
 @pytest.mark.parametrize("unique_id", [None, ROUTER_MAC_ADDR])
 async def test_user_http(
-    hass: __HAC_KEEP__, connect_http, patch_setup_entry, unique_id
+    hass: UniversalAssistant, connect_http, patch_setup_entry, unique_id
 ) -> None:
     """Test user config http."""
     flow_result = await hass.config_entries.flow.async_init(
@@ -172,7 +172,7 @@ async def test_user_http(
 
 @pytest.mark.parametrize("config", [CONFIG_SCHEMA_TELNET, CONFIG_SCHEMA_HTTP])
 @pytest.mark.usefixtures("connect_http", "patch_setup_entry")
-async def test_error_pwd_required(hass: __HAC_KEEP__, config) -> None:
+async def test_error_pwd_required(hass: UniversalAssistant, config) -> None:
     """Test we abort for missing password."""
     config_data = {k: v for k, v in config.items() if k != CONF_PASSWORD}
     result = await hass.config_entries.flow.async_init(
@@ -198,7 +198,7 @@ async def test_error_pwd_required(hass: __HAC_KEEP__, config) -> None:
 
 
 @pytest.mark.usefixtures("connect_legacy", "patch_setup_entry")
-async def test_error_no_password_ssh(hass: __HAC_KEEP__) -> None:
+async def test_error_no_password_ssh(hass: UniversalAssistant) -> None:
     """Test we abort for wrong password and ssh file combination."""
     config_data = {k: v for k, v in CONFIG_SCHEMA_SSH.items() if k != CONF_PASSWORD}
     result = await hass.config_entries.flow.async_init(
@@ -230,7 +230,7 @@ async def test_error_no_password_ssh(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("connect_legacy", "patch_setup_entry")
-async def test_error_password_and_ssh(hass: __HAC_KEEP__) -> None:
+async def test_error_password_and_ssh(hass: UniversalAssistant) -> None:
     """Test we abort for both password and ssh file combination."""
     config_data = {**CONFIG_SCHEMA_SSH, CONF_MORE_OPTIONS: {CONF_SSH_KEY: SSH_KEY}}
     result = await hass.config_entries.flow.async_init(
@@ -262,7 +262,7 @@ async def test_error_password_and_ssh(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("connect_legacy", "patch_setup_entry")
-async def test_error_invalid_ssh(hass: __HAC_KEEP__, patch_is_file) -> None:
+async def test_error_invalid_ssh(hass: UniversalAssistant, patch_is_file) -> None:
     """Test we abort if invalid ssh file is provided."""
     config_data = {k: v for k, v in CONFIG_SCHEMA_SSH.items() if k != CONF_PASSWORD}
     config_data[CONF_MORE_OPTIONS] = {CONF_SSH_KEY: SSH_KEY}
@@ -303,7 +303,7 @@ async def test_error_invalid_ssh(hass: __HAC_KEEP__, patch_is_file) -> None:
 
 
 @pytest.mark.usefixtures("connect_legacy", "patch_setup_entry")
-async def test_error_invalid_host(hass: __HAC_KEEP__, patch_get_host) -> None:
+async def test_error_invalid_host(hass: UniversalAssistant, patch_get_host) -> None:
     """Test we abort if host name is invalid."""
     patch_get_host.side_effect = gaierror
     result = await hass.config_entries.flow.async_init(
@@ -335,7 +335,7 @@ async def test_error_invalid_host(hass: __HAC_KEEP__, patch_get_host) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_abort_if_not_unique_id_setup(hass: __HAC_KEEP__) -> None:
+async def test_abort_if_not_unique_id_setup(hass: UniversalAssistant) -> None:
     """Test we abort if component without uniqueid is already setup."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -351,7 +351,7 @@ async def test_abort_if_not_unique_id_setup(hass: __HAC_KEEP__) -> None:
 
 
 async def test_update_uniqueid_exist(
-    hass: __HAC_KEEP__, connect_http, patch_setup_entry
+    hass: UniversalAssistant, connect_http, patch_setup_entry
 ) -> None:
     """Test we update entry if uniqueid is already configured."""
     existing_entry = MockConfigEntry(
@@ -382,7 +382,7 @@ async def test_update_uniqueid_exist(
     assert not prev_entry
 
 
-async def test_abort_invalid_unique_id(hass: __HAC_KEEP__, connect_legacy) -> None:
+async def test_abort_invalid_unique_id(hass: UniversalAssistant, connect_legacy) -> None:
     """Test we abort if uniqueid not available."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -417,7 +417,7 @@ async def test_abort_invalid_unique_id(hass: __HAC_KEEP__, connect_legacy) -> No
 )
 @pytest.mark.usefixtures("patch_setup_entry")
 async def test_on_connect_legacy_failed(
-    hass: __HAC_KEEP__, connect_legacy, side_effect, error
+    hass: UniversalAssistant, connect_legacy, side_effect, error
 ) -> None:
     """Test when we have errors connecting the router with legacy library."""
     flow_result = await hass.config_entries.flow.async_init(
@@ -461,7 +461,7 @@ async def test_on_connect_legacy_failed(
 )
 @pytest.mark.usefixtures("patch_setup_entry")
 async def test_on_connect_http_failed(
-    hass: __HAC_KEEP__, connect_http, side_effect, error
+    hass: UniversalAssistant, connect_http, side_effect, error
 ) -> None:
     """Test when we have errors connecting the router with http library."""
     flow_result = await hass.config_entries.flow.async_init(
@@ -488,7 +488,7 @@ async def test_on_connect_http_failed(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_options_flow_ap(hass: __HAC_KEEP__, patch_setup_entry) -> None:
+async def test_options_flow_ap(hass: UniversalAssistant, patch_setup_entry) -> None:
     """Test config flow options for ap mode."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -526,7 +526,7 @@ async def test_options_flow_ap(hass: __HAC_KEEP__, patch_setup_entry) -> None:
     }
 
 
-async def test_options_flow_router(hass: __HAC_KEEP__, patch_setup_entry) -> None:
+async def test_options_flow_router(hass: UniversalAssistant, patch_setup_entry) -> None:
     """Test config flow options for router mode."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -561,7 +561,7 @@ async def test_options_flow_router(hass: __HAC_KEEP__, patch_setup_entry) -> Non
     }
 
 
-async def test_options_flow_http(hass: __HAC_KEEP__, patch_setup_entry) -> None:
+async def test_options_flow_http(hass: UniversalAssistant, patch_setup_entry) -> None:
     """Test config flow options for http mode."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -595,7 +595,7 @@ async def test_options_flow_http(hass: __HAC_KEEP__, patch_setup_entry) -> None:
 
 
 @pytest.mark.usefixtures("connect_http_sens_detect")
-async def test_reconfigure(hass: __HAC_KEEP__, connect_http: MagicMock) -> None:
+async def test_reconfigure(hass: UniversalAssistant, connect_http: MagicMock) -> None:
     """Test reconfiguring the router connection reloads the entry once."""
     entry = MockConfigEntry(
         domain=DOMAIN, data=CONFIG_DATA_HTTP, unique_id=ROUTER_MAC_ADDR
@@ -636,7 +636,7 @@ async def test_reconfigure(hass: __HAC_KEEP__, connect_http: MagicMock) -> None:
 
 
 @pytest.mark.usefixtures("connect_legacy", "patch_setup_entry")
-async def test_reconfigure_password_to_ssh_key(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_password_to_ssh_key(hass: UniversalAssistant) -> None:
     """Test reconfiguring a legacy router from a password to an SSH key."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -686,7 +686,7 @@ async def test_reconfigure_password_to_ssh_key(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("connect_http", "patch_setup_entry")
 async def test_reconfigure_invalid_input(
-    hass: __HAC_KEEP__, user_input: dict[str, Any], error: str
+    hass: UniversalAssistant, user_input: dict[str, Any], error: str
 ) -> None:
     """Test reconfigure shows input errors and can recover."""
     entry = MockConfigEntry(
@@ -723,7 +723,7 @@ async def test_reconfigure_invalid_input(
 )
 @pytest.mark.usefixtures("patch_setup_entry")
 async def test_reconfigure_connection_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connect_http: MagicMock,
     side_effect: type[Exception] | None,
     error: str,
@@ -758,7 +758,7 @@ async def test_reconfigure_connection_errors(
 
 
 @pytest.mark.usefixtures("connect_http", "patch_setup_entry")
-async def test_reconfigure_unique_id_mismatch(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_unique_id_mismatch(hass: UniversalAssistant) -> None:
     """Test reconfiguring to a different router aborts."""
     entry = MockConfigEntry(
         domain=DOMAIN, data=CONFIG_DATA_HTTP, unique_id="11:22:33:44:55:66"

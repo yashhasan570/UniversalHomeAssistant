@@ -16,7 +16,7 @@ from pycomfoconnect import (
 )
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -44,7 +44,7 @@ PRESET_MODES = [PRESET_MODE_AUTO]
 
 
 def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

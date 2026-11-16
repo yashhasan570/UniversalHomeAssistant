@@ -12,7 +12,7 @@ from universalassistant.const import (
     CONF_PORT,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import HOST, MAC, NAME, PASSWORD, PORT, USERNAME, setup_mock_onvif_camera
 
@@ -48,7 +48,7 @@ def _make_entry() -> MockConfigEntry:
     )
 
 
-async def _call_ptz(hass: __HAC_KEEP__, continuous_duration: float) -> None:
+async def _call_ptz(hass: UniversalAssistant, continuous_duration: float) -> None:
     """Call the onvif.ptz service with the given continuous_duration."""
     await hass.services.async_call(
         DOMAIN,
@@ -67,7 +67,7 @@ async def _call_ptz(hass: __HAC_KEEP__, continuous_duration: float) -> None:
 
 
 async def test_ptz_continuous_move_calls_stop_when_duration_nonzero(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test ONVIF PTZ ContinuousMove calls Stop when duration is nonzero."""
     entry = _make_entry()
@@ -97,7 +97,7 @@ async def test_ptz_continuous_move_calls_stop_when_duration_nonzero(
 
 
 async def test_ptz_continuous_move_does_not_call_stop_when_duration_zero(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test ONVIF PTZ ContinuousMove does not call Stop when duration is zero."""
     entry = _make_entry()

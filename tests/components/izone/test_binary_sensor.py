@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 import universalassistant.helpers.entity_registry as er
 
 from . import setup_integration
@@ -25,7 +25,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_binary_sensor_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -43,7 +43,7 @@ async def test_binary_sensor_entities(
 )
 @pytest.mark.usefixtures("mock_create_discovery")
 async def test_fault_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zones: list[Mock],
     damper_fault: bool,
@@ -63,7 +63,7 @@ async def test_fault_states(
 
 @pytest.mark.usefixtures("mock_create_discovery")
 async def test_damper_fault_not_created_without_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zones: list[Mock],
     entity_registry: er.EntityRegistry,
@@ -85,7 +85,7 @@ async def test_damper_fault_not_created_without_data(
 )
 @pytest.mark.usefixtures("mock_create_discovery")
 async def test_sensor_fault_not_created(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zones: list[Mock],
     entity_registry: er.EntityRegistry,

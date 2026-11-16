@@ -11,7 +11,7 @@ from probatio.humanize import humanize_error
 from universalassistant.components import webhook
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import ATTR_ID, CONF_WEBHOOK_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_entry_flow, config_validation as cv
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
@@ -81,7 +81,7 @@ def _parse_json_body(json_body: dict) -> dict:
 
 
 async def handle_webhook(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     webhook_id: str,
     request: web.Request,
 ) -> web.Response:
@@ -131,7 +131,7 @@ async def handle_webhook(
     return web.Response(text=f"Setting location for {device}")
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: TraccarConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: TraccarConfigEntry) -> None:
     """Configure based on config entry."""
     entry.runtime_data = set()
     webhook.async_register(
@@ -141,7 +141,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: TraccarConfigEntry) -> No
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: TraccarConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: TraccarConfigEntry) -> None:
     """Unload a config entry."""
     webhook.async_unregister(hass, entry.data[CONF_WEBHOOK_ID])
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -19,7 +19,7 @@ from universalassistant.const import (
     CONF_VALUE_TEMPLATE,
     MATCH_ALL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import PlatformNotReady, TemplateError
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import (
@@ -62,7 +62,7 @@ TRIGGER_ENTITY_OPTIONS = (
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -107,7 +107,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -158,7 +158,7 @@ async def async_setup_entry(
 
 
 async def async_setup_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     trigger_entity_config: ConfigType,
     query_template: ValueTemplate,
     column_name: str,

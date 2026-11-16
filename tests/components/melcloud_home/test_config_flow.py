@@ -13,14 +13,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.melcloud_home.const import DOMAIN
 from universalassistant.const import CONF_EMAIL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import MOCK_REAUTH_INPUT, MOCK_USER_INPUT
 
 
 @pytest.mark.usefixtures("mock_melcloud_client")
-async def test_user_flow(hass: __HAC_KEEP__) -> None:
+async def test_user_flow(hass: UniversalAssistant) -> None:
     """Test the full user config flow creates an entry."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -50,7 +50,7 @@ async def test_user_flow(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_form_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     exception: Exception,
     reason: str,
@@ -87,7 +87,7 @@ async def test_form_exceptions(
 
 @pytest.mark.usefixtures("mock_melcloud_client")
 async def test_duplicate_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we handle duplicate entries."""
     mock_config_entry.add_to_hass(hass)
@@ -108,7 +108,7 @@ async def test_duplicate_entry(
 
 
 async def test_full_flow_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_setup_entry: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -135,7 +135,7 @@ async def test_full_flow_reauth(
 
 
 async def test_reauth_flow_wrong_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -173,7 +173,7 @@ async def test_reauth_flow_wrong_account(
     ],
 )
 async def test_reauth_flow_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_setup_entry: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -211,7 +211,7 @@ async def test_reauth_flow_exceptions(
 
 
 async def test_reconfigure_flow_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_setup_entry: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -247,7 +247,7 @@ async def test_reconfigure_flow_success(
     ],
 )
 async def test_reconfigure_flow_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_setup_entry: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -287,7 +287,7 @@ async def test_reconfigure_flow_exceptions(
 
 
 async def test_reconfigure_flow_wrong_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_setup_entry: MagicMock,
     mock_config_entry: MockConfigEntry,

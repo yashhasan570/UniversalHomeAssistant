@@ -1,4 +1,4 @@
-"""__HA_KEEP__ Hardware integration helpers."""
+"""Universal Home Assistant Hardware integration helpers."""
 
 from collections import defaultdict
 from collections.abc import AsyncGenerator, AsyncIterator, Awaitable, Callable
@@ -14,7 +14,7 @@ from universalassistant.components.usb import (
     usb_device_from_path,
 )
 from universalassistant.config_entries import SOURCE_IMPORT, ConfigEntry
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback as hass_callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback as hass_callback
 from universalassistant.helpers import device_registry as dr
 
 from .const import DATA_COMPONENT, HARDWARE_INTEGRATION_DOMAINS
@@ -34,22 +34,22 @@ class HardwareFirmwareDiscoveryInfo(TypedDict):
 
 
 class SyncHardwareFirmwareInfoModule(Protocol):
-    """Protocol type for __HA_KEEP__ Hardware firmware info platform modules."""
+    """Protocol type for Universal Home Assistant Hardware firmware info platform modules."""
 
     def get_firmware_info(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: ConfigEntry,
     ) -> FirmwareInfo | None:
         """Return radio firmware information for the config entry, synchronously."""
 
 
 class AsyncHardwareFirmwareInfoModule(Protocol):
-    """Protocol type for __HA_KEEP__ Hardware firmware info platform modules."""
+    """Protocol type for Universal Home Assistant Hardware firmware info platform modules."""
 
     async def async_get_firmware_info(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: ConfigEntry,
     ) -> FirmwareInfo | None:
         """Return radio firmware information for the config entry, asynchronously."""
@@ -62,7 +62,7 @@ type HardwareFirmwareInfoModule = (
 
 @hass_callback
 def async_get_hardware_domain_for_usb_device(
-    hass: __HAC_KEEP__, usb_device: USBDevice
+    hass: UniversalAssistant, usb_device: USBDevice
 ) -> str | None:
     """Identify which hardware domain should handle a USB device."""
     matched = async_get_usb_matchers_for_device(hass, usb_device)
@@ -80,7 +80,7 @@ def async_get_hardware_domain_for_usb_device(
 class HardwareInfoDispatcher:
     """Central dispatcher for hardware/firmware information."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the dispatcher."""
         self.hass = hass
         self._providers: dict[str, HardwareFirmwareInfoModule] = {}
@@ -231,7 +231,7 @@ class HardwareInfoDispatcher:
 
 @hass_callback
 def async_register_firmware_info_provider(
-    hass: __HAC_KEEP__, domain: str, platform: HardwareFirmwareInfoModule
+    hass: UniversalAssistant, domain: str, platform: HardwareFirmwareInfoModule
 ) -> None:
     """Register a firmware info provider."""
     return hass.data[DATA_COMPONENT].register_firmware_info_provider(domain, platform)
@@ -239,7 +239,7 @@ def async_register_firmware_info_provider(
 
 @hass_callback
 def async_register_firmware_info_callback(
-    hass: __HAC_KEEP__, device: str, callback: Callable[[FirmwareInfo], None]
+    hass: UniversalAssistant, device: str, callback: Callable[[FirmwareInfo], None]
 ) -> CALLBACK_TYPE:
     """Register a firmware info provider."""
     return hass.data[DATA_COMPONENT].register_firmware_info_callback(device, callback)
@@ -247,7 +247,7 @@ def async_register_firmware_info_callback(
 
 @hass_callback
 def async_notify_firmware_info(
-    hass: __HAC_KEEP__, domain: str, firmware_info: FirmwareInfo
+    hass: UniversalAssistant, domain: str, firmware_info: FirmwareInfo
 ) -> Awaitable[None]:
     """Notify the dispatcher of new firmware information."""
     return hass.data[DATA_COMPONENT].notify_firmware_info(domain, firmware_info)
@@ -255,7 +255,7 @@ def async_notify_firmware_info(
 
 @hass_callback
 def async_register_firmware_update_in_progress(
-    hass: __HAC_KEEP__, device: str, source_domain: str
+    hass: UniversalAssistant, device: str, source_domain: str
 ) -> None:
     """Register that a firmware update is in progress for a device."""
     return hass.data[DATA_COMPONENT].register_firmware_update_in_progress(
@@ -265,7 +265,7 @@ def async_register_firmware_update_in_progress(
 
 @hass_callback
 def async_unregister_firmware_update_in_progress(
-    hass: __HAC_KEEP__, device: str, source_domain: str
+    hass: UniversalAssistant, device: str, source_domain: str
 ) -> None:
     """Unregister a firmware update for a device."""
     return hass.data[DATA_COMPONENT].unregister_firmware_update_in_progress(
@@ -274,13 +274,13 @@ def async_unregister_firmware_update_in_progress(
 
 
 @hass_callback
-def async_is_firmware_update_in_progress(hass: __HAC_KEEP__, device: str) -> bool:
+def async_is_firmware_update_in_progress(hass: UniversalAssistant, device: str) -> bool:
     """Check if a firmware update is in progress for a device."""
     return hass.data[DATA_COMPONENT].is_firmware_update_in_progress(device)
 
 
 @hass_callback
-def async_get_serial_port_via_device_id(hass: __HAC_KEEP__, device: str) -> str | None:
+def async_get_serial_port_via_device_id(hass: UniversalAssistant, device: str) -> str | None:
     """Return the ID of the device a serial port is connected through, if any."""
     if not device.startswith("esphome-hass://"):
         return None
@@ -308,7 +308,7 @@ def async_get_serial_port_via_device_id(hass: __HAC_KEEP__, device: str) -> str 
 
 @asynccontextmanager
 async def async_firmware_update_context(
-    hass: __HAC_KEEP__, device: str, source_domain: str
+    hass: UniversalAssistant, device: str, source_domain: str
 ) -> AsyncGenerator[None]:
     """Register a device as having its firmware being actively updated."""
     async_register_firmware_update_in_progress(hass, device, source_domain)

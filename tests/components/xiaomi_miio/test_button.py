@@ -20,14 +20,14 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from . import TEST_MAC
 
 
 @pytest.fixture(autouse=True)
-async def setup_test(hass: __HAC_KEEP__):
+async def setup_test(hass: UniversalAssistant):
     """Initialize test xiaomi_miio for button entity."""
 
     mock_vacuum = MagicMock()
@@ -45,7 +45,7 @@ async def setup_test(hass: __HAC_KEEP__):
         yield mock_vacuum
 
 
-async def test_vacuum_button_params(hass: __HAC_KEEP__) -> None:
+async def test_vacuum_button_params(hass: UniversalAssistant) -> None:
     """Test the initial parameters of a vacuum button."""
 
     entity_id = await setup_component(hass, "test_vacuum")
@@ -56,7 +56,7 @@ async def test_vacuum_button_params(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.freeze_time("2023-06-28 00:00:00+00:00")
-async def test_vacuum_button_press(hass: __HAC_KEEP__) -> None:
+async def test_vacuum_button_press(hass: UniversalAssistant) -> None:
     """Test pressing a vacuum button."""
 
     entity_id = await setup_component(hass, "test_vacuum")
@@ -78,7 +78,7 @@ async def test_vacuum_button_press(hass: __HAC_KEEP__) -> None:
     assert state.state == pressed_at.isoformat()
 
 
-async def setup_component(hass: __HAC_KEEP__, entity_name: str) -> str:
+async def setup_component(hass: UniversalAssistant, entity_name: str) -> str:
     """Set up vacuum component."""
     entity_id = f"{BUTTON_DOMAIN}.{entity_name}"
 

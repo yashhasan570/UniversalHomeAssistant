@@ -18,7 +18,7 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -27,7 +27,7 @@ SCAN_INTERVAL = dt.timedelta(seconds=30)
 
 
 async def test_number(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_apsystems: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -65,7 +65,7 @@ async def test_number(
 @pytest.mark.usefixtures("mock_apsystems")
 @patch("universalassistant.components.apsystems.PLATFORMS", [Platform.NUMBER])
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

@@ -18,7 +18,7 @@ from universalassistant.const import (
     CONF_ENTITY_ID,
     CONF_SOURCE,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.setup import async_setup_component
 
 TEST_DIR = os.path.dirname(__file__)
@@ -53,7 +53,7 @@ MOCK_NOW = dt.datetime(2020, 2, 20, 10, 5, 3)
 
 
 @pytest.fixture(autouse=True)
-async def setup_universalassistant(hass: __HAC_KEEP__):
+async def setup_universalassistant(hass: UniversalAssistant):
     """Set up the universalassistant integration."""
     await async_setup_component(hass, "universalassistant", {})
 
@@ -95,7 +95,7 @@ def mock_now():
 
 
 async def test_bad_api_key(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Catch bad api key."""
     with mock.patch(
@@ -107,14 +107,14 @@ async def test_bad_api_key(
         assert not hass.states.get(VALID_ENTITY_ID)
 
 
-async def test_setup_platform(hass: __HAC_KEEP__, mock_detections) -> None:
+async def test_setup_platform(hass: UniversalAssistant, mock_detections) -> None:
     """Set up platform with one entity."""
     await async_setup_component(hass, IP_DOMAIN, VALID_CONFIG)
     await hass.async_block_till_done()
     assert hass.states.get(VALID_ENTITY_ID)
 
 
-async def test_process_image(hass: __HAC_KEEP__, mock_image, mock_detections) -> None:
+async def test_process_image(hass: UniversalAssistant, mock_image, mock_detections) -> None:
     """Process an image."""
     await async_setup_component(hass, IP_DOMAIN, VALID_CONFIG)
     await hass.async_block_till_done()
@@ -139,7 +139,7 @@ async def test_process_image(hass: __HAC_KEEP__, mock_image, mock_detections) ->
 
 
 async def test_catch_bad_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_image,
     mock_detections,
@@ -158,7 +158,7 @@ async def test_catch_bad_image(
     assert "Sighthound unable to process image" in caplog.text
 
 
-async def test_save_image(hass: __HAC_KEEP__, mock_image, mock_detections) -> None:
+async def test_save_image(hass: UniversalAssistant, mock_image, mock_detections) -> None:
     """Save a processed image."""
     valid_config_save_file = deepcopy(VALID_CONFIG)
     valid_config_save_file[IP_DOMAIN].update({sh.CONF_SAVE_FILE_FOLDER: TEST_DIR})
@@ -184,7 +184,7 @@ async def test_save_image(hass: __HAC_KEEP__, mock_image, mock_detections) -> No
 
 
 async def test_save_timestamped_image(
-    hass: __HAC_KEEP__, mock_image, mock_detections, mock_now
+    hass: UniversalAssistant, mock_image, mock_detections, mock_now
 ) -> None:
     """Save a processed image."""
     valid_config_save_ts_file = deepcopy(VALID_CONFIG)

@@ -28,7 +28,7 @@ from universalassistant.const import (
     UnitOfPressure,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .common import send_attributes_report
 from .conftest import SIG_EP_INPUT, SIG_EP_OUTPUT, SIG_EP_PROFILE, SIG_EP_TYPE
@@ -50,19 +50,19 @@ def sensor_platform_only():
         yield
 
 
-async def async_test_humidity(hass: __HAC_KEEP__, cluster: Cluster, entity_id: str):
+async def async_test_humidity(hass: UniversalAssistant, cluster: Cluster, entity_id: str):
     """Test humidity sensor."""
     await send_attributes_report(hass, cluster, {1: 1, 0: 1000, 2: 100})
     assert_state(hass, entity_id, "10.0", PERCENTAGE)
 
 
-async def async_test_temperature(hass: __HAC_KEEP__, cluster: Cluster, entity_id: str):
+async def async_test_temperature(hass: UniversalAssistant, cluster: Cluster, entity_id: str):
     """Test temperature sensor."""
     await send_attributes_report(hass, cluster, {1: 1, 0: 2900, 2: 100})
     assert_state(hass, entity_id, "29.0", UnitOfTemperature.CELSIUS)
 
 
-async def async_test_pressure(hass: __HAC_KEEP__, cluster: Cluster, entity_id: str):
+async def async_test_pressure(hass: UniversalAssistant, cluster: Cluster, entity_id: str):
     """Test pressure sensor."""
     await send_attributes_report(hass, cluster, {1: 1, 0: 1000, 2: 10000})
     assert_state(hass, entity_id, "1000", UnitOfPressure.HPA)
@@ -71,7 +71,7 @@ async def async_test_pressure(hass: __HAC_KEEP__, cluster: Cluster, entity_id: s
     assert_state(hass, entity_id, "1000", UnitOfPressure.HPA)
 
 
-async def async_test_illuminance(hass: __HAC_KEEP__, cluster: Cluster, entity_id: str):
+async def async_test_illuminance(hass: UniversalAssistant, cluster: Cluster, entity_id: str):
     """Test illuminance sensor."""
     await send_attributes_report(hass, cluster, {1: 1, 0: 10, 2: 20})
     assert_state(hass, entity_id, "1", LIGHT_LUX)
@@ -83,7 +83,7 @@ async def async_test_illuminance(hass: __HAC_KEEP__, cluster: Cluster, entity_id
     assert_state(hass, entity_id, "unknown", LIGHT_LUX)
 
 
-async def async_test_metering(hass: __HAC_KEEP__, cluster: Cluster, entity_id: str):
+async def async_test_metering(hass: UniversalAssistant, cluster: Cluster, entity_id: str):
     """Test Smart Energy metering sensor."""
     await send_attributes_report(hass, cluster, {1025: 1, 1024: 12345, 1026: 100})
     assert_state(hass, entity_id, "12345.0", None)
@@ -130,7 +130,7 @@ async def async_test_metering(hass: __HAC_KEEP__, cluster: Cluster, entity_id: s
 
 
 async def async_test_smart_energy_summation_delivered(
-    hass: __HAC_KEEP__, cluster: Cluster, entity_id: str
+    hass: UniversalAssistant, cluster: Cluster, entity_id: str
 ):
     """Test SmartEnergy Summation delivered sensor."""
 
@@ -147,7 +147,7 @@ async def async_test_smart_energy_summation_delivered(
 
 
 async def async_test_smart_energy_summation_received(
-    hass: __HAC_KEEP__, cluster: Cluster, entity_id: str
+    hass: UniversalAssistant, cluster: Cluster, entity_id: str
 ):
     """Test SmartEnergy Summation received sensor."""
 
@@ -164,7 +164,7 @@ async def async_test_smart_energy_summation_received(
 
 
 async def async_test_electrical_measurement(
-    hass: __HAC_KEEP__, cluster: Cluster, entity_id: str
+    hass: UniversalAssistant, cluster: Cluster, entity_id: str
 ):
     """Test electrical measurement sensor."""
     # update divisor cached value
@@ -188,7 +188,7 @@ async def async_test_electrical_measurement(
 
 
 async def async_test_em_apparent_power(
-    hass: __HAC_KEEP__, cluster: Cluster, entity_id: str
+    hass: UniversalAssistant, cluster: Cluster, entity_id: str
 ):
     """Test electrical measurement Apparent Power sensor."""
     # update divisor cached value
@@ -208,7 +208,7 @@ async def async_test_em_apparent_power(
 
 
 async def async_test_em_power_factor(
-    hass: __HAC_KEEP__, cluster: Cluster, entity_id: str
+    hass: UniversalAssistant, cluster: Cluster, entity_id: str
 ):
     """Test electrical measurement Power Factor sensor."""
     # update divisor cached value
@@ -228,7 +228,7 @@ async def async_test_em_power_factor(
 
 
 async def async_test_em_rms_current(
-    hass: __HAC_KEEP__, cluster: Cluster, entity_id: str
+    hass: UniversalAssistant, cluster: Cluster, entity_id: str
 ):
     """Test electrical measurement RMS Current sensor."""
 
@@ -248,7 +248,7 @@ async def async_test_em_rms_current(
 
 
 async def async_test_em_rms_voltage(
-    hass: __HAC_KEEP__, cluster: Cluster, entity_id: str
+    hass: UniversalAssistant, cluster: Cluster, entity_id: str
 ):
     """Test electrical measurement RMS Voltage sensor."""
 
@@ -268,7 +268,7 @@ async def async_test_em_rms_voltage(
 
 
 async def async_test_powerconfiguration(
-    hass: __HAC_KEEP__, cluster: Cluster, entity_id: str
+    hass: UniversalAssistant, cluster: Cluster, entity_id: str
 ):
     """Test powerconfiguration/battery sensor."""
     await send_attributes_report(hass, cluster, {33: 98})
@@ -281,7 +281,7 @@ async def async_test_powerconfiguration(
 
 
 async def async_test_powerconfiguration2(
-    hass: __HAC_KEEP__, cluster: Cluster, entity_id: str
+    hass: UniversalAssistant, cluster: Cluster, entity_id: str
 ):
     """Test powerconfiguration/battery sensor."""
     await send_attributes_report(hass, cluster, {33: 255})
@@ -292,7 +292,7 @@ async def async_test_powerconfiguration2(
 
 
 async def async_test_device_temperature(
-    hass: __HAC_KEEP__, cluster: Cluster, entity_id: str
+    hass: UniversalAssistant, cluster: Cluster, entity_id: str
 ):
     """Test temperature sensor."""
     await send_attributes_report(hass, cluster, {0: 2900})
@@ -300,7 +300,7 @@ async def async_test_device_temperature(
 
 
 async def async_test_setpoint_change_source(
-    hass: __HAC_KEEP__, cluster: Cluster, entity_id: str
+    hass: UniversalAssistant, cluster: Cluster, entity_id: str
 ):
     """Test the translation of numerical state into enum text."""
     await send_attributes_report(
@@ -313,7 +313,7 @@ async def async_test_setpoint_change_source(
 
 
 async def async_test_pi_heating_demand(
-    hass: __HAC_KEEP__, cluster: Cluster, entity_id: str
+    hass: UniversalAssistant, cluster: Cluster, entity_id: str
 ):
     """Test pi heating demand is correctly returned."""
     await send_attributes_report(
@@ -520,7 +520,7 @@ async def async_test_pi_heating_demand(
     ],
 )
 async def test_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
     cluster_id,
@@ -636,7 +636,7 @@ async def test_sensor(
     ],
 )
 async def test_sensor_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
     translation_key: str | None,
@@ -702,7 +702,7 @@ async def test_sensor_name(
     )
 
 
-def assert_state(hass: __HAC_KEEP__, entity_id, state, unit_of_measurement):
+def assert_state(hass: UniversalAssistant, entity_id, state, unit_of_measurement):
     """Check that the state is what is expected.
 
     This is used to ensure that the logic in each sensor class handled the

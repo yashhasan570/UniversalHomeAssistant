@@ -11,7 +11,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONNECTION_TYPES
 from .coordinator import SAJConfigEntry, SAJDataUpdateCoordinator
@@ -19,7 +19,7 @@ from .coordinator import SAJConfigEntry, SAJDataUpdateCoordinator
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SAJConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SAJConfigEntry) -> None:
     """Set up SAJ from a config entry."""
     host = entry.data[CONF_HOST]
     connection_type = entry.data[CONF_TYPE]
@@ -46,6 +46,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SAJConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SAJConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SAJConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

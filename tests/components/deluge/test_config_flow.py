@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.deluge.const import DEFAULT_NAME, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_SOURCE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import CONF_DATA
@@ -54,7 +54,7 @@ def deluge_setup_fixture():
         yield
 
 
-async def test_flow_user(hass: __HAC_KEEP__, api) -> None:
+async def test_flow_user(hass: UniversalAssistant, api) -> None:
     """Test user initialized flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -72,7 +72,7 @@ async def test_flow_user(hass: __HAC_KEEP__, api) -> None:
     assert result["data"] == CONF_DATA
 
 
-async def test_flow_user_already_configured(hass: __HAC_KEEP__, api) -> None:
+async def test_flow_user_already_configured(hass: UniversalAssistant, api) -> None:
     """Test user initialized flow with duplicate server."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -98,7 +98,7 @@ async def test_flow_user_already_configured(hass: __HAC_KEEP__, api) -> None:
 
 
 @pytest.mark.usefixtures("conn_error")
-async def test_flow_user_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_cannot_connect(hass: UniversalAssistant) -> None:
     """Test user initialized flow with unreachable server."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={CONF_SOURCE: SOURCE_USER}
@@ -124,7 +124,7 @@ async def test_flow_user_cannot_connect(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("unknown_error")
-async def test_flow_user_unknown_error(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_unknown_error(hass: UniversalAssistant) -> None:
     """Test user initialized flow with unreachable server."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={CONF_SOURCE: SOURCE_USER}
@@ -149,7 +149,7 @@ async def test_flow_user_unknown_error(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_reauth(hass: __HAC_KEEP__, api) -> None:
+async def test_flow_reauth(hass: UniversalAssistant, api) -> None:
     """Test reauth step."""
     entry = MockConfigEntry(
         domain=DOMAIN,

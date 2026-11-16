@@ -7,8 +7,8 @@ from typing import override
 from hdfury import OPERATION_MODES, TX0_INPUT_PORTS, TX1_INPUT_PORTS, HDFuryError
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -56,7 +56,7 @@ async def _set_ports(coordinator: HDFuryCoordinator) -> None:
     tx1 = coordinator.data.info.get("portseltx1")
 
     if tx0 is None or tx1 is None:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="tx_state_error",
             translation_placeholders={"details": f"tx0={tx0}, tx1={tx1}"},
@@ -66,7 +66,7 @@ async def _set_ports(coordinator: HDFuryCoordinator) -> None:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: HDFuryConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -110,7 +110,7 @@ class HDFurySelect(HDFuryEntity, SelectEntity):
         try:
             await self.entity_description.set_value_fn(self.coordinator, option)
         except HDFuryError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="communication_error",
             ) from error

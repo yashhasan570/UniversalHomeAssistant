@@ -6,7 +6,7 @@ from typing import Any, override
 from switchbot_api import CommonCommands, Device, PowerState, Remote, SwitchBotAPI
 
 from universalassistant.components.switch import SwitchDeviceClass, SwitchEntity
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -17,7 +17,7 @@ from .entity import SwitchBotCloudEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: SwitchbotCloudConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

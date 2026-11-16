@@ -7,7 +7,7 @@ import probatio
 from universalassistant.components.fan import DOMAIN as FAN_DOMAIN
 from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import DOMAIN
@@ -34,8 +34,8 @@ class BondServiceArgument(StrEnum):
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
-    """__HA_KEEP__ services."""
+def async_setup_services(hass: UniversalAssistant) -> None:
+    """Universal Home Assistant services."""
 
     # Fan entity services
     service.async_register_platform_entity_service(

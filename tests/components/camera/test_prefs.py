@@ -16,20 +16,20 @@ from universalassistant.components.camera.prefs import (
     get_dynamic_camera_stream_settings,
 )
 from universalassistant.components.stream import Orientation
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_get_dynamic_camera_stream_settings_missing_prefs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test get_dynamic_camera_stream_settings when camera prefs are not set up."""
-    with pytest.raises(__HAC_KEEP__Error, match="Camera integration not set up"):
+    with pytest.raises(UniversalAssistantError, match="Camera integration not set up"):
         await get_dynamic_camera_stream_settings(hass, "camera.test")
 
 
-async def test_get_dynamic_camera_stream_settings_success(hass: __HAC_KEEP__) -> None:
+async def test_get_dynamic_camera_stream_settings_success(hass: UniversalAssistant) -> None:
     """Test successful retrieval of dynamic camera stream settings."""
     # Set up camera preferences
     prefs = CameraPreferences(hass)
@@ -43,7 +43,7 @@ async def test_get_dynamic_camera_stream_settings_success(hass: __HAC_KEEP__) ->
 
 
 async def test_get_dynamic_camera_stream_settings_with_custom_orientation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test get_dynamic_camera_stream_settings with custom orientation set."""
     # Set up camera preferences
@@ -65,7 +65,7 @@ async def test_get_dynamic_camera_stream_settings_with_custom_orientation(
 
 
 async def test_get_dynamic_camera_stream_settings_with_preload_stream(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test get_dynamic_camera_stream_settings with preload stream enabled."""
     # Set up camera preferences
@@ -85,7 +85,7 @@ async def test_get_dynamic_camera_stream_settings_with_preload_stream(
 
 
 async def test_entity_id_change_disabled_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -120,7 +120,7 @@ async def test_entity_id_change_disabled_camera(
 
 
 async def test_entity_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -145,7 +145,7 @@ async def test_entity_removed(
 
 
 async def test_entity_id_change_drops_stale_prefs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -172,7 +172,7 @@ async def test_entity_id_change_drops_stale_prefs(
 
 
 async def test_entity_id_change_other_domain(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -197,7 +197,7 @@ async def test_entity_id_change_other_domain(
     "orientation", [Orientation.NO_TRANSFORM, Orientation.ROTATE_LEFT]
 )
 async def test_get_dynamic_camera_stream_settings_stored_orientation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     orientation: Orientation,
 ) -> None:

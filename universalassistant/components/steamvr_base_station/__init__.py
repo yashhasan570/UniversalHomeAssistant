@@ -10,7 +10,7 @@ from universalassistant.components.bluetooth import (
     async_ble_device_from_address,
 )
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import DOMAIN
@@ -26,7 +26,7 @@ PLATFORMS: list[Platform] = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: SteamVRBaseStationConfigEntry
+    hass: UniversalAssistant, entry: SteamVRBaseStationConfigEntry
 ) -> None:
     """Set up a base station from a config entry."""
     if TYPE_CHECKING:
@@ -60,7 +60,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: SteamVRBaseStationConfigEntry
+    hass: UniversalAssistant, entry: SteamVRBaseStationConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

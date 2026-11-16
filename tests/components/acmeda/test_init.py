@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.acmeda.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 
@@ -39,7 +39,7 @@ def mock_hub(mock_roller: MagicMock) -> Generator[MagicMock]:
 
 
 async def test_update_devices_renames_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     mock_hub: MagicMock,
@@ -73,7 +73,7 @@ async def test_update_devices_renames_device(
 
 @pytest.mark.usefixtures("mock_hub")
 async def test_unload_hub_reset_failed(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test unloading fails when the hub cannot be reset."""
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)

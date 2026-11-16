@@ -16,7 +16,7 @@ from universalassistant.components.light import (
     ColorMode,
 )
 from universalassistant.const import ATTR_SUPPORTED_FEATURES, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import setup_test_component
@@ -63,7 +63,7 @@ def create_lightbulb_service_with_color_temp(accessory: Accessory) -> Service:
 
 @pytest.mark.parametrize("brightness", [1, 2, 3])
 async def test_turn_on_low_brightness_no_zero(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int], brightness: int
+    hass: UniversalAssistant, get_next_aid: Callable[[], int], brightness: int
 ) -> None:
     """Test low brightness values never send 0 percent to the device.
 
@@ -90,7 +90,7 @@ async def test_turn_on_low_brightness_no_zero(
 
 
 async def test_switch_change_light_state(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test that we can turn a HomeKit light on and off again."""
     helper = await setup_test_component(
@@ -141,7 +141,7 @@ async def test_switch_change_light_state(
 
 
 async def test_switch_change_light_state_color_temp(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test that we can turn change color_temp."""
     helper = await setup_test_component(
@@ -165,7 +165,7 @@ async def test_switch_change_light_state_color_temp(
 
 
 async def test_switch_read_light_state_dimmer(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test that we can read the state of a HomeKit light accessory."""
     helper = await setup_test_component(hass, get_next_aid(), create_lightbulb_service)
@@ -202,7 +202,7 @@ async def test_switch_read_light_state_dimmer(
 
 
 async def test_switch_push_light_state_dimmer(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test that we can read the state of a HomeKit light accessory."""
     helper = await setup_test_component(hass, get_next_aid(), create_lightbulb_service)
@@ -232,7 +232,7 @@ async def test_switch_push_light_state_dimmer(
 
 
 async def test_switch_read_light_state_hs(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test that we can read the state of a HomeKit light accessory."""
     helper = await setup_test_component(
@@ -299,7 +299,7 @@ async def test_switch_read_light_state_hs(
 
 
 async def test_switch_push_light_state_hs(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test that we can read the state of a HomeKit light accessory."""
     helper = await setup_test_component(
@@ -334,7 +334,7 @@ async def test_switch_push_light_state_hs(
 
 
 async def test_switch_read_light_state_color_temp(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test that we can read the color_temp of a  light accessory."""
     helper = await setup_test_component(
@@ -366,7 +366,7 @@ async def test_switch_read_light_state_color_temp(
 
 
 async def test_switch_push_light_state_color_temp(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test that we can read the state of a HomeKit light accessory."""
     helper = await setup_test_component(
@@ -391,7 +391,7 @@ async def test_switch_push_light_state_color_temp(
 
 
 async def test_light_becomes_unavailable_but_recovers(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test transition to and from unavailable state."""
     helper = await setup_test_component(
@@ -428,7 +428,7 @@ async def test_light_becomes_unavailable_but_recovers(
 
 
 async def test_light_unloaded_removed(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test entity and HKDevice are correctly unloaded and removed."""
     helper = await setup_test_component(
@@ -457,7 +457,7 @@ async def test_light_unloaded_removed(
 
 
 async def test_migrate_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     get_next_aid: Callable[[], int],
 ) -> None:
@@ -477,7 +477,7 @@ async def test_migrate_unique_id(
 
 
 async def test_only_migrate_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     get_next_aid: Callable[[], int],
 ) -> None:

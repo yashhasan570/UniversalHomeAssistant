@@ -12,7 +12,7 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import (
     micromodule_dimmer_device,
@@ -37,6 +37,8 @@ LED_BRIGHTNESS_COMPACT_ENTITY_ID = "number.smart_plug_compact_led_brightness"
 DISPLAY_BRIGHTNESS_ENTITY_ID = "number.thermostat_gen2_display_brightness"
 DISPLAY_ON_TIME_ENTITY_ID = "number.thermostat_gen2_display_on_time"
 DIMMER_SPEED_ENTITY_ID = "number.dimmer_dimming_speed"
+DIMMER_MIN_ENTITY_ID = "number.dimmer_minimum_brightness"
+DIMMER_MAX_ENTITY_ID = "number.dimmer_maximum_brightness"
 ENTER_DURATION_ENTITY_ID = "number.smart_plug_energy_saving_enter_duration"
 ENTER_DURATION_COMPACT_ENTITY_ID = (
     "number.smart_plug_compact_energy_saving_enter_duration"
@@ -50,7 +52,7 @@ ENTER_DURATION_COMPACT_ENTITY_ID = (
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_micromodule_impulse_relay_impulse_length_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The impulse length is reported, converted from tenths of a second."""
@@ -68,7 +70,7 @@ async def test_micromodule_impulse_relay_impulse_length_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_micromodule_impulse_relay_impulse_length_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -95,7 +97,7 @@ async def test_micromodule_impulse_relay_impulse_length_set_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_micromodule_impulse_relay_no_impulse_length_support(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No number entity is created for a relay without impulse-length support."""
@@ -117,7 +119,7 @@ async def test_micromodule_impulse_relay_no_impulse_length_support(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_micromodule_impulse_relay_impulse_length_partial_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The entity is still created if the initial poll omits the field."""
@@ -135,7 +137,7 @@ async def test_micromodule_impulse_relay_impulse_length_partial_poll(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_shutter_contact2_bypass_timeout_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The bypass timeout is reported in minutes."""
@@ -153,7 +155,7 @@ async def test_shutter_contact2_bypass_timeout_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_shutter_contact2_bypass_timeout_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -191,7 +193,7 @@ async def test_shutter_contact2_bypass_timeout_set_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smart_plug_power_threshold_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The power threshold is reported for both smart plug variants."""
@@ -218,7 +220,7 @@ async def test_smart_plug_power_threshold_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smart_plug_power_threshold_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -254,7 +256,7 @@ async def test_smart_plug_power_threshold_set_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smart_plug_no_power_threshold_support(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No entity is created without energy-saving or a power threshold."""
@@ -284,7 +286,7 @@ async def test_smart_plug_no_power_threshold_support(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smart_plug_enter_duration_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The enter duration is reported for both smart plug variants."""
@@ -313,7 +315,7 @@ async def test_smart_plug_enter_duration_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smart_plug_enter_duration_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -349,7 +351,7 @@ async def test_smart_plug_enter_duration_set_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smart_plug_no_enter_duration_support(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No entity is created without energy-saving or an enter duration."""
@@ -366,7 +368,7 @@ async def test_smart_plug_no_enter_duration_support(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_thermostat_offset_value_and_bounds(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The offset and the bounds reported by the device are exposed."""
@@ -390,7 +392,7 @@ async def test_thermostat_offset_value_and_bounds(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_thermostat_offset_non_positive_step_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """A non-positive device step size falls back to 0.5."""
@@ -408,7 +410,7 @@ async def test_thermostat_offset_non_positive_step_fallback(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_thermostat_offset_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -435,7 +437,7 @@ async def test_thermostat_offset_set_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_thermostat_offset_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No number is created without temperature offset support."""
@@ -468,7 +470,7 @@ async def test_thermostat_offset_unsupported(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_other_thermostat_families_offset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
 ) -> None:
@@ -492,7 +494,7 @@ async def test_other_thermostat_families_offset(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smart_plug_led_brightness_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The LED brightness of both plug types is exposed."""
@@ -513,7 +515,7 @@ async def test_smart_plug_led_brightness_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smart_plug_led_brightness_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -540,7 +542,7 @@ async def test_smart_plug_led_brightness_set_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smart_plug_no_led_brightness_support(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No entity is created without LED brightness support."""
@@ -566,7 +568,7 @@ async def test_smart_plug_no_led_brightness_support(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_thermostat_gen2_display_numbers_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The display brightness and on time are exposed."""
@@ -600,7 +602,7 @@ async def test_thermostat_gen2_display_numbers_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_room_thermostat2_display_numbers_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -669,7 +671,7 @@ async def test_room_thermostat2_display_numbers_set_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_thermostat_gen2_display_numbers_partial_support(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     brightness_present: bool,
     on_time_present: bool,
@@ -698,7 +700,7 @@ async def test_thermostat_gen2_display_numbers_partial_support(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_dimmer_dimming_speed_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The dimming speed is reported."""
@@ -721,7 +723,7 @@ async def test_dimmer_dimming_speed_value(
     indirect=True,
 )
 async def test_dimmer_dimming_speed_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -748,10 +750,100 @@ async def test_dimmer_dimming_speed_set_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_dimmer_without_configuration_has_no_speed_number(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """A dimmer without calibration support gets no dimming speed number."""
     await setup_integration(hass, mock_config_entry)
 
     assert hass.states.get(DIMMER_SPEED_ENTITY_ID) is None
+
+
+@pytest.mark.parametrize(
+    "device_buckets",
+    [
+        {
+            "micromodule_dimmers": [
+                micromodule_dimmer_device(
+                    supports_dimmer_configuration=True,
+                    min_brightness=10,
+                    max_brightness=90,
+                )
+            ]
+        }
+    ],
+    indirect=True,
+)
+@pytest.mark.usefixtures("mock_session")
+async def test_dimmer_brightness_range_values(
+    hass: UniversalAssistant,
+    mock_config_entry: MockConfigEntry,
+) -> None:
+    """The calibrated brightness range is reported."""
+    await setup_integration(hass, mock_config_entry)
+
+    min_state = hass.states.get(DIMMER_MIN_ENTITY_ID)
+    max_state = hass.states.get(DIMMER_MAX_ENTITY_ID)
+    assert min_state is not None
+    assert min_state.state == "10.0"
+    assert max_state is not None
+    assert max_state.state == "90.0"
+
+
+@pytest.mark.parametrize(
+    "device_buckets",
+    [
+        {
+            "micromodule_dimmers": [
+                micromodule_dimmer_device(supports_dimmer_configuration=True)
+            ]
+        }
+    ],
+    indirect=True,
+)
+@pytest.mark.parametrize(
+    ("entity_id", "kwarg"),
+    [
+        (DIMMER_MIN_ENTITY_ID, "min_brightness"),
+        (DIMMER_MAX_ENTITY_ID, "max_brightness"),
+    ],
+)
+async def test_dimmer_brightness_range_set_value(
+    hass: UniversalAssistant,
+    mock_session: MagicMock,
+    mock_config_entry: MockConfigEntry,
+    entity_id: str,
+    kwarg: str,
+) -> None:
+    """Setting a value writes only that end of the range."""
+    await setup_integration(hass, mock_config_entry)
+    device = mock_session.device_helper.micromodule_dimmers[0]
+    device.set_brightness_range.reset_mock()
+
+    await hass.services.async_call(
+        NUMBER_DOMAIN,
+        NumberService.SET_VALUE,
+        {
+            CommonServiceArgument.ENTITY_ID: entity_id,
+            NumberServiceArgument.VALUE: 42.4,
+        },
+        blocking=True,
+    )
+    device.set_brightness_range.assert_called_once_with(**{kwarg: 42})
+
+
+@pytest.mark.parametrize(
+    "device_buckets",
+    [{"micromodule_dimmers": [micromodule_dimmer_device()]}],
+    indirect=True,
+)
+@pytest.mark.usefixtures("mock_session")
+async def test_dimmer_without_configuration_has_no_numbers(
+    hass: UniversalAssistant,
+    mock_config_entry: MockConfigEntry,
+) -> None:
+    """A dimmer without calibration support gets no brightness numbers."""
+    await setup_integration(hass, mock_config_entry)
+
+    assert hass.states.get(DIMMER_MIN_ENTITY_ID) is None
+    assert hass.states.get(DIMMER_MAX_ENTITY_ID) is None

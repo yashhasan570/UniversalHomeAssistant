@@ -9,7 +9,7 @@ from universalassistant.components.alarm_control_panel import (
     AlarmControlPanelEntityFeature,
     AlarmControlPanelState,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -24,7 +24,7 @@ CONST_ALARM_CONTROL_PANEL_NAME = "Alarm Panel"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: AgentDVRConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

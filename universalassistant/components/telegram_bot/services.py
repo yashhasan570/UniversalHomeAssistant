@@ -10,13 +10,13 @@ from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument
 from universalassistant.core import (
     DOMAIN as HOMEASSISTANT_DOMAIN,
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.target import (
     TargetSelection,
@@ -442,14 +442,14 @@ async def _async_send_telegram_message(service: ServiceCall) -> ServiceResponse:
 
                 assert isinstance(service_responses, list)
                 service_responses.extend(formatted_responses)
-        except (__HAC_KEEP__Error, TelegramError) as ex:
+        except (UniversalAssistantError, TelegramError) as ex:
             target = target_notify_entity_id or str(target_chat_id)
             errors.append((ex, target))
 
     if len(errors) == 1:
-        if isinstance(errors[0][0], __HAC_KEEP__Error):
+        if isinstance(errors[0][0], UniversalAssistantError):
             raise errors[0][0]
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="action_failed",
             translation_placeholders={"error": str(errors[0][0])},
@@ -465,7 +465,7 @@ async def _async_send_telegram_message(service: ServiceCall) -> ServiceResponse:
             )
             error_messages.append(f"`{target_type}` {target}: {error}")
 
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="multiple_errors",
             translation_placeholders={"errors": "\n".join(error_messages)},
@@ -684,7 +684,7 @@ def _build_targets(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the Telegram bot services."""
     for service_notif, schema in SERVICE_MAP.items():
         supports_response = SupportsResponse.NONE

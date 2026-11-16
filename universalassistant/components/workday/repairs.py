@@ -11,7 +11,7 @@ from universalassistant.components.repairs import (
     RepairsFlowResult,
 )
 from universalassistant.const import CONF_COUNTRY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.selector import (
     SelectSelector,
     SelectSelectorConfig,
@@ -181,7 +181,7 @@ class HolidayFixFlow(RepairsFlow):
 
 
 async def async_create_fix_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_id: str,
     data: dict[str, Any] | None,
 ) -> RepairsFlow:

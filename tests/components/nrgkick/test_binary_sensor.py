@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -16,7 +16,7 @@ pytestmark = pytest.mark.usefixtures("entity_registry_enabled_by_default")
 
 
 async def test_binary_sensor_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -29,7 +29,7 @@ async def test_binary_sensor_entities(
 
 
 async def test_charge_permitted_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:

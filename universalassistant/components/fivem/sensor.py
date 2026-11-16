@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from typing import override
 
 from universalassistant.components.sensor import SensorEntity, SensorEntityDescription
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -49,7 +49,7 @@ SENSORS: tuple[FiveMSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FiveMConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -10,13 +10,13 @@ from syrupy.filters import props
 
 from universalassistant.components.huawei_lte.const import DOMAIN
 from universalassistant.const import CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import magic_client
 
 
 async def test_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:

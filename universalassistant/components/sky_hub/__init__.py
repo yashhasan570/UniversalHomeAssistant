@@ -11,7 +11,7 @@ from universalassistant.components.device_tracker.legacy import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -19,7 +19,7 @@ from .const import DOMAIN, ISSUE_LEGACY_KNOWN_DEVICES, PLATFORMS
 from .coordinator import SkyHubConfigEntry, SkyHubCoordinator
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SkyHubConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SkyHubConfigEntry) -> None:
     """Set up Sky Hub from a config entry."""
     router = SkyQHub(async_get_clientsession(hass), entry.data[CONF_HOST])
     coordinator = SkyHubCoordinator(hass, entry, router)
@@ -54,7 +54,7 @@ def _legacy_issue_id(entry: SkyHubConfigEntry) -> str:
 
 
 async def _async_check_legacy_known_devices(
-    hass: __HAC_KEEP__, entry: SkyHubConfigEntry, tracked: Collection[str]
+    hass: UniversalAssistant, entry: SkyHubConfigEntry, tracked: Collection[str]
 ) -> None:
     """Report legacy trackers which conflict with newly registered entities."""
     legacy_devices = await async_load_config(
@@ -87,13 +87,13 @@ async def _async_check_legacy_known_devices(
     )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SkyHubConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SkyHubConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, entry: SkyHubConfigEntry, device_entry: dr.AnyDeviceEntry
+    hass: UniversalAssistant, entry: SkyHubConfigEntry, device_entry: dr.AnyDeviceEntry
 ) -> bool:
     """Allow removing a client device while the client is not connected."""
     if not isinstance(device_entry, dr.DeviceEntry):

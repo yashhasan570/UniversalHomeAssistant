@@ -13,7 +13,7 @@ from wyoming.intent import Intent, IntentsStart, IntentsStop, NotRecognized
 
 from universalassistant.components import conversation
 from universalassistant.const import MATCH_ALL
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.exceptions import TemplateError
 from universalassistant.helpers import chat_session, intent, llm, template
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -28,7 +28,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: WyomingConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -122,7 +122,7 @@ class WyomingConversationEntity(
 
         try:
             # Open the session and chat log first, so their checks run before
-            # the text leaves __HA_KEEP__.
+            # the text leaves Universal Home Assistant.
             with (
                 chat_session.async_get_chat_session(
                     self.hass, user_input.conversation_id, context=user_input.context

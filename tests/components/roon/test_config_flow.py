@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.roon.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -71,7 +71,7 @@ class RoonDiscoveryFailedMock(RoonDiscoveryMock):
         return []
 
 
-async def test_successful_discovery_and_auth(hass: __HAC_KEEP__) -> None:
+async def test_successful_discovery_and_auth(hass: UniversalAssistant) -> None:
     """Test when discovery and auth both work ok."""
 
     with (
@@ -113,7 +113,7 @@ async def test_successful_discovery_and_auth(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_unsuccessful_discovery_user_form_and_auth(hass: __HAC_KEEP__) -> None:
+async def test_unsuccessful_discovery_user_form_and_auth(hass: UniversalAssistant) -> None:
     """Test unsuccessful discover then user form entry with auth."""
 
     with (
@@ -158,7 +158,7 @@ async def test_unsuccessful_discovery_user_form_and_auth(hass: __HAC_KEEP__) -> 
     }
 
 
-async def test_duplicate_config(hass: __HAC_KEEP__) -> None:
+async def test_duplicate_config(hass: UniversalAssistant) -> None:
     """Test user adding the host via the form for host that is already configured."""
 
     CONFIG = {"host": "1.1.1.1"}
@@ -199,7 +199,7 @@ async def test_duplicate_config(hass: __HAC_KEEP__) -> None:
         assert result2["reason"] == "already_configured"
 
 
-async def test_successful_discovery_no_auth(hass: __HAC_KEEP__) -> None:
+async def test_successful_discovery_no_auth(hass: UniversalAssistant) -> None:
     """Test successful discover, but failed auth."""
 
     with (
@@ -259,7 +259,7 @@ async def test_successful_discovery_no_auth(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_unexpected_exception(hass: __HAC_KEEP__) -> None:
+async def test_unexpected_exception(hass: UniversalAssistant) -> None:
     """Test successful discover, and unexpected exception during auth."""
 
     with (

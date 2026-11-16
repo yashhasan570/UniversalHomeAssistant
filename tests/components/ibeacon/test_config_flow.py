@@ -7,12 +7,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.ibeacon.const import CONF_ALLOW_NAMELESS_UUIDS, DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_bluetooth_adapters")
-async def test_setup_user_no_bluetooth(hass: __HAC_KEEP__) -> None:
+async def test_setup_user_no_bluetooth(hass: UniversalAssistant) -> None:
     """Test setting up via user interaction when bluetooth is not enabled."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -23,7 +23,7 @@ async def test_setup_user_no_bluetooth(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_setup_user(hass: __HAC_KEEP__) -> None:
+async def test_setup_user(hass: UniversalAssistant) -> None:
     """Test setting up via user interaction with bluetooth enabled."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -41,7 +41,7 @@ async def test_setup_user(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_setup_user_already_setup(hass: __HAC_KEEP__) -> None:
+async def test_setup_user_already_setup(hass: UniversalAssistant) -> None:
     """Test setting up via user when already setup ."""
     MockConfigEntry(domain=DOMAIN).add_to_hass(hass)
     result = await hass.config_entries.flow.async_init(
@@ -53,7 +53,7 @@ async def test_setup_user_already_setup(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_options_flow(hass: __HAC_KEEP__) -> None:
+async def test_options_flow(hass: UniversalAssistant) -> None:
     """Test config flow options."""
     config_entry = MockConfigEntry(domain=DOMAIN)
     config_entry.add_to_hass(hass)

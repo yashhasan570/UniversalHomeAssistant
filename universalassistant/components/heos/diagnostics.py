@@ -11,7 +11,7 @@ from universalassistant.components.diagnostics import (
     device_entry_as_dict,
     entity_entry_as_dict,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 
@@ -42,7 +42,7 @@ def _as_dict(
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: HeosConfigEntry
+    hass: UniversalAssistant, config_entry: HeosConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = config_entry.runtime_data
@@ -70,7 +70,7 @@ async def async_get_config_entry_diagnostics(
 
 
 async def async_get_device_diagnostics(
-    hass: __HAC_KEEP__, config_entry: HeosConfigEntry, device: AnyDeviceEntry
+    hass: UniversalAssistant, config_entry: HeosConfigEntry, device: AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device."""
     entity_registry = er.async_get(hass)

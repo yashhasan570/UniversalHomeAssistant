@@ -17,7 +17,7 @@ from universalassistant.components.history_stats.const import (
 from universalassistant.components.sensor import CONF_STATE_CLASS
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_ENTITY_ID, CONF_NAME, CONF_STATE, CONF_TYPE
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.entity_component import async_update_entity
 from universalassistant.util import dt as dt_util
 
@@ -52,9 +52,9 @@ async def get_config_to_integration_load() -> dict[str, Any]:
 
 @pytest.fixture(name="loaded_entry")
 async def load_integration(
-    hass: __HAC_KEEP__, get_config: dict[str, Any]
+    hass: UniversalAssistant, get_config: dict[str, Any]
 ) -> MockConfigEntry:
-    """Set up the History stats integration in __HA_KEEP__."""
+    """Set up the History stats integration in Universal Home Assistant."""
     start_time = dt_util.utcnow() - timedelta(minutes=60)
     t0 = start_time + timedelta(minutes=20)
     t1 = t0 + timedelta(minutes=10)

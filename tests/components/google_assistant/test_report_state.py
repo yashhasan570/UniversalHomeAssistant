@@ -8,7 +8,7 @@ import pytest
 from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.google_assistant import error, report_state
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
 
@@ -16,7 +16,7 @@ from . import BASIC_CONFIG, MockConfig
 
 
 async def test_report_state(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test report state works."""
     assert await async_setup_component(hass, "switch", {})
@@ -148,7 +148,7 @@ async def test_report_state(
 
 @pytest.mark.freeze_time("2023-08-01 00:00:00+00:00")
 async def test_report_notifications(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test report state works."""
     config = MockConfig(agent_user_ids={"1"})
@@ -294,7 +294,7 @@ async def test_report_notifications(
 
 
 async def test_report_state_disabled_during_initial_report(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test disabling while the initial report is in flight stops reporting."""
     hass.states.async_set("light.ceiling", "off")

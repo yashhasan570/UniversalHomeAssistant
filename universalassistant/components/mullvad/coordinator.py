@@ -8,7 +8,7 @@ from typing import Any, override
 from mullvad_api import MullvadAPI
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import DOMAIN
@@ -23,7 +23,7 @@ class MullvadCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     config_entry: MullvadConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, entry: MullvadConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: MullvadConfigEntry) -> None:
         """Initialize the Mullvad coordinator."""
         super().__init__(
             hass,

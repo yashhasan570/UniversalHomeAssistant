@@ -17,7 +17,7 @@ import probatio
 from universalassistant.components import zeroconf
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
 from .const import (
@@ -39,7 +39,7 @@ HOST_SCHEMA = probatio.Schema(
 
 
 def write_tls_asset(
-    hass: __HAC_KEEP__, folder: str, filename: str, asset: bytes
+    hass: UniversalAssistant, folder: str, filename: str, asset: bytes
 ) -> None:
     """Write the tls assets to disk."""
     makedirs(hass.config.path(DOMAIN, folder), exist_ok=True)
@@ -50,7 +50,7 @@ def write_tls_asset(
 
 
 def create_credentials_and_validate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     host: str,
     unique_id: str,
     user_input: dict[str, Any],
@@ -58,7 +58,7 @@ def create_credentials_and_validate(
 ) -> dict[str, Any] | None:
     """Create and store credentials and validate session."""
     helper = SHCRegisterClient(host, user_input[CONF_PASSWORD])
-    result = helper.register(host, "__HAC_KEEP__")
+    result = helper.register(host, "UniversalAssistant")
 
     if result is not None:
         # Save key/certificate pair for each registered host separately
@@ -79,7 +79,7 @@ def create_credentials_and_validate(
 
 
 def get_info_from_host(
-    hass: __HAC_KEEP__, host: str, zeroconf_instance: zeroconf.HaZeroconf
+    hass: UniversalAssistant, host: str, zeroconf_instance: zeroconf.HaZeroconf
 ) -> dict[str, str | None]:
     """Get information from host."""
     session = SHCSession(

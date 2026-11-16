@@ -4,13 +4,13 @@ from unittest.mock import AsyncMock
 
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
 
 async def test_update_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_myuplink_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

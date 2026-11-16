@@ -7,7 +7,7 @@ from typing import Any, Concatenate, override
 from aiostreammagic import StreamMagicClient
 from aiostreammagic.models import CallbackType
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity
 
@@ -25,7 +25,7 @@ def command[_EntityT: CambridgeAudioEntity, **_P](
         try:
             await func(self, *args, **kwargs)
         except STREAM_MAGIC_EXCEPTIONS as exc:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_error",
                 translation_placeholders={

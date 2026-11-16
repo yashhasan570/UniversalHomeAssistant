@@ -29,7 +29,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -88,7 +88,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up Scrape from yaml config."""
     scrape_config: list[ConfigType] | None
     if not (scrape_config := config.get(DOMAIN)):
@@ -122,7 +122,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ScrapeConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ScrapeConfigEntry) -> None:
     """Set up Scrape from a config entry."""
 
     config: dict[str, Any] = dict(entry.options)
@@ -148,7 +148,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ScrapeConfigEntry) -> Non
     entry.async_on_unload(entry.add_update_listener(update_listener))
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: ScrapeConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: ScrapeConfigEntry) -> None:
     """Migrate old entry."""
 
     if entry.version == 1:
@@ -284,18 +284,18 @@ async def async_migrate_entry(hass: __HAC_KEEP__, entry: ScrapeConfigEntry) -> N
         hass.config_entries.async_update_entry(entry, options=new_options, version=3)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ScrapeConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ScrapeConfigEntry) -> None:
     """Unload Scrape config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def update_listener(hass: __HAC_KEEP__, entry: ScrapeConfigEntry) -> None:
+async def update_listener(hass: UniversalAssistant, entry: ScrapeConfigEntry) -> None:
     """Handle config entry update."""
     hass.config_entries.async_schedule_reload(entry.entry_id)
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, entry: ScrapeConfigEntry, device: dr.AnyDeviceEntry
+    hass: UniversalAssistant, entry: ScrapeConfigEntry, device: dr.AnyDeviceEntry
 ) -> bool:
     """Remove Scrape config entry from a device."""
     entity_registry = er.async_get(hass)

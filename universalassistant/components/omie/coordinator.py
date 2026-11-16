@@ -9,7 +9,7 @@ import pyomie.main as pyomie
 from pyomie.model import OMIEResults, SpotData
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 from universalassistant.util import dt as dt_util
@@ -29,7 +29,7 @@ type OMIEConfigEntry = ConfigEntry[OMIECoordinator]
 class OMIECoordinator(DataUpdateCoordinator[OMIEResults[SpotData]]):
     """Coordinator that manages OMIE data for the current CET day."""
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: OMIEConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: OMIEConfigEntry) -> None:
         """Initialize OMIE coordinator."""
         super().__init__(
             hass,

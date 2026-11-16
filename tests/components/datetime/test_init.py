@@ -8,7 +8,7 @@ from pytest_universalassistant.common import setup_test_component_platform
 
 from universalassistant.components.datetime import ATTR_DATETIME, DOMAIN, SERVICE_SET_VALUE
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_FRIENDLY_NAME, CONF_PLATFORM
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .common import MockDateTimeEntity
@@ -16,7 +16,7 @@ from .common import MockDateTimeEntity
 DEFAULT_VALUE = datetime(2020, 1, 1, 12, 0, 0, tzinfo=UTC)
 
 
-async def test_datetime(hass: __HAC_KEEP__) -> None:
+async def test_datetime(hass: UniversalAssistant) -> None:
     """Test date/time entity."""
     await hass.config.async_set_time_zone("UTC")
     setup_test_component_platform(

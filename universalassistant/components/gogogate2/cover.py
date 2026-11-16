@@ -14,7 +14,7 @@ from universalassistant.components.cover import (
     CoverEntity,
     CoverEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .common import cover_unique_id
@@ -23,7 +23,7 @@ from .entity import GoGoGate2Entity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: GogoGateConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

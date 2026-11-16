@@ -9,7 +9,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult, OptionsFlow
 from universalassistant.const import CONF_PASSWORD, CONF_PORT, CONF_USERNAME, CONF_VERIFY_SSL
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.data_entry_flow import AbortFlow
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.selector import (
@@ -101,7 +101,7 @@ OPTIONS_SCHEMA = probatio.Schema(
 
 
 async def validate_input(
-    hass: __HAC_KEEP__, user_input: dict[str, Any]
+    hass: UniversalAssistant, user_input: dict[str, Any]
 ) -> dict[str, str]:
     """Validate user input."""
     if errors := {

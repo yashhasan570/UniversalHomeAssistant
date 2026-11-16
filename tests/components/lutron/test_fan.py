@@ -14,7 +14,7 @@ from universalassistant.components.fan import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -26,7 +26,7 @@ def setup_platforms():
 
 
 async def test_fan_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lutron: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -46,7 +46,7 @@ async def test_fan_setup(
 
 
 async def test_fan_services(
-    hass: __HAC_KEEP__, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test fan services."""
     mock_config_entry.add_to_hass(hass)
@@ -89,7 +89,7 @@ async def test_fan_services(
 
 
 async def test_fan_update(
-    hass: __HAC_KEEP__, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test fan state update."""
     mock_config_entry.add_to_hass(hass)

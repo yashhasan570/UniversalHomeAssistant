@@ -28,7 +28,7 @@ class MySwitch(SwitchEntity):
         try:
             await self.device.turn_on()
         except DeviceError as err:
-            raise __HAC_KEEP__Error("Failed") from err
+            raise UniversalAssistantError("Failed") from err
 """,
             id="raises_universalassistant_error",
         ),
@@ -81,7 +81,7 @@ class MySwitch(SwitchEntity):
             await self.device.turn_on()
         except DeviceError:
             _LOGGER.error("Failed")
-            raise __HAC_KEEP__Error("Failed")
+            raise UniversalAssistantError("Failed")
 """,
             id="logs_and_raises",
         ),
@@ -426,7 +426,7 @@ def test_decorator_raises_ha_error_ok(
     linter: UnittestLinter,
     error_propagation_checker: SwallowedActionExceptionsChecker,
 ) -> None:
-    """Test that decorators that properly raise __HAC_KEEP__Error pass."""
+    """Test that decorators that properly raise UniversalAssistantError pass."""
     root_node = astroid.parse(
         """
 def convert_error(func):
@@ -434,7 +434,7 @@ def convert_error(func):
         try:
             return await func(self, *args, **kwargs)
         except DeviceError as err:
-            raise __HAC_KEEP__Error("Failed") from err
+            raise UniversalAssistantError("Failed") from err
     return wrapper
 
 class MySwitch(SwitchEntity):
@@ -500,7 +500,7 @@ class MyFan(FanEntity):
         try:
             await self.device.set_speed(speed)
         except DeviceError as err:
-            raise __HAC_KEEP__Error("Failed") from err
+            raise UniversalAssistantError("Failed") from err
 """,
         "universalassistant.components.test_integration.fan",
     )
@@ -594,7 +594,7 @@ async def _handle_do_thing(call):
     try:
         await some_api.do_thing(call.data["target"])
     except ApiError as err:
-        raise __HAC_KEEP__Error("Failed") from err
+        raise UniversalAssistantError("Failed") from err
 """,
         "universalassistant.components.test_integration.services",
     )

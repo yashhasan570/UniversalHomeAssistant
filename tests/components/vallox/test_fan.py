@@ -29,8 +29,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -51,7 +51,7 @@ FAN_ENTITY_ID = "fan.vallox"
 
 @pytest.mark.usefixtures("mock_vallox_client")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -72,7 +72,7 @@ async def test_all_entities(
     ],
 )
 async def test_fan_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vallox_client: AsyncMock,
     expected_state: str,
 ) -> None:
@@ -98,7 +98,7 @@ async def test_fan_state(
     ],
 )
 async def test_fan_profile(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_preset: str | None,
     expected_percentage: int | None,
 ) -> None:
@@ -111,7 +111,7 @@ async def test_fan_profile(
 
 @pytest.mark.usefixtures("init_integration")
 @pytest.mark.parametrize("metrics", [{"A_CYC_HOME_SPEED_SETTING": None}])
-async def test_fan_speed_missing(hass: __HAC_KEEP__) -> None:
+async def test_fan_speed_missing(hass: UniversalAssistant) -> None:
     """Test a fan speed the unit does not report."""
     state = hass.states.get(FAN_ENTITY_ID)
     assert state
@@ -121,7 +121,7 @@ async def test_fan_speed_missing(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("init_integration")
 @pytest.mark.parametrize("metrics", [{"A_CYC_MODE": None}])
-async def test_fan_mode_missing(hass: __HAC_KEEP__) -> None:
+async def test_fan_mode_missing(hass: UniversalAssistant) -> None:
     """Test the fan when the unit does not report whether it is on."""
     state = hass.states.get(FAN_ENTITY_ID)
     assert state
@@ -147,7 +147,7 @@ async def test_fan_mode_missing(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vallox_client: AsyncMock,
     service: str,
     expected_called_with: dict[str, MetricValue],
@@ -171,12 +171,12 @@ async def test_turn_on_off(
     ],
 )
 async def test_turn_on_off_exception(
-    hass: __HAC_KEEP__, mock_vallox_client: AsyncMock, service: str
+    hass: UniversalAssistant, mock_vallox_client: AsyncMock, service: str
 ) -> None:
     """Test turn on/off when the unit returns an error."""
     mock_vallox_client.set_values.side_effect = ValloxApiException("Fake failure")
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             FAN_DOMAIN, service, {ATTR_ENTITY_ID: FAN_ENTITY_ID}, blocking=True
         )
@@ -271,7 +271,7 @@ async def test_turn_on_off_exception(
     ],
 )
 async def test_turn_on_with_parameters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vallox_client: AsyncMock,
     service_data: dict[str, int | str],
     expected_calls: list[_Call],
@@ -323,7 +323,7 @@ async def test_turn_on_with_parameters(
     ],
 )
 async def test_turn_on_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vallox_client: AsyncMock,
     failing_method: str,
     expected_calls: list[_Call],
@@ -334,7 +334,7 @@ async def test_turn_on_exception(
         "Fake failure"
     )
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             FAN_DOMAIN,
             SERVICE_TURN_ON,
@@ -353,7 +353,7 @@ async def test_turn_on_exception(
 @pytest.mark.usefixtures("init_integration")
 @pytest.mark.parametrize("metrics", [METRICS_UNIT_OFF])
 async def test_turn_on_unsupported_profile(
-    hass: __HAC_KEEP__, mock_vallox_client: AsyncMock
+    hass: UniversalAssistant, mock_vallox_client: AsyncMock
 ) -> None:
     """Test turn on with a speed for a preset that has no fan speed setting."""
     mock_vallox_client.reset_mock()
@@ -401,7 +401,7 @@ async def test_turn_on_unsupported_profile(
     ],
 )
 async def test_set_preset_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vallox_client: AsyncMock,
     preset: str,
     expected_profile: Profile,
@@ -420,7 +420,7 @@ async def test_set_preset_mode(
 
 
 @pytest.mark.usefixtures("init_integration")
-async def test_set_invalid_preset_mode(hass: __HAC_KEEP__) -> None:
+async def test_set_invalid_preset_mode(hass: UniversalAssistant) -> None:
     """Test set an invalid preset mode."""
     with pytest.raises(NotValidPresetModeError) as exc:
         await hass.services.async_call(
@@ -434,12 +434,12 @@ async def test_set_invalid_preset_mode(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_preset_mode_exception(
-    hass: __HAC_KEEP__, mock_vallox_client: AsyncMock
+    hass: UniversalAssistant, mock_vallox_client: AsyncMock
 ) -> None:
     """Test set preset mode when the unit returns an error."""
     mock_vallox_client.set_profile.side_effect = ValloxApiException("Fake exception")
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             FAN_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -468,7 +468,7 @@ async def test_set_preset_mode_exception(
     ],
 )
 async def test_set_percentage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vallox_client: AsyncMock,
     percentage: int,
     expected_set_fan_speed_calls: list[_Call],
@@ -490,12 +490,12 @@ async def test_set_percentage(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_percentage_exception(
-    hass: __HAC_KEEP__, mock_vallox_client: AsyncMock
+    hass: UniversalAssistant, mock_vallox_client: AsyncMock
 ) -> None:
     """Test set fan speed percentage when the unit returns an error."""
     mock_vallox_client.set_fan_speed.side_effect = ValloxApiException("Fake failure")
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             FAN_DOMAIN,
             SERVICE_SET_PERCENTAGE,
@@ -507,7 +507,7 @@ async def test_set_percentage_exception(
 @pytest.mark.usefixtures("init_integration")
 @pytest.mark.parametrize("metrics", [METRICS_PROFILE_FIREPLACE])
 async def test_set_percentage_unsupported_profile(
-    hass: __HAC_KEEP__, mock_vallox_client: AsyncMock
+    hass: UniversalAssistant, mock_vallox_client: AsyncMock
 ) -> None:
     """Test setting the fan speed in a profile that has no fan speed setting."""
     mock_vallox_client.set_fan_speed.side_effect = ValloxInvalidInputException(

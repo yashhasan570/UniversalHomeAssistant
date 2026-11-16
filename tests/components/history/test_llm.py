@@ -19,7 +19,7 @@ from universalassistant.components.recorder.models import (
     StatisticMetaData,
 )
 from universalassistant.components.recorder.statistics import async_import_statistics
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.helpers import llm
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -45,7 +45,7 @@ def llm_context() -> llm.LLMContext:
 
 @pytest.fixture
 async def recorded_statistics(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Record 72 hours of statistics, ending at 2026-10-12 12:00 UTC."""
     freezer.move_to("2026-10-12 12:00:00+00:00")
@@ -91,9 +91,9 @@ async def recorded_statistics(
 
 
 async def test_async_get_tools(
-    hass: __HAC_KEEP__, llm_context: llm.LLMContext
+    hass: UniversalAssistant, llm_context: llm.LLMContext
 ) -> None:
-    """Test async_get_tools returns tools only for __HA_KEEP__ API."""
+    """Test async_get_tools returns tools only for Universal Home Assistant API."""
     assert async_get_tools(hass, llm_context, llm.LLM_API_ASSIST) is None
 
     universal_assistant_tools = async_get_tools(
@@ -127,7 +127,7 @@ def test_parameters_openapi(snapshot: SnapshotAssertion) -> None:
     ],
 )
 async def test_invalid_parameters(
-    hass: __HAC_KEEP__, llm_context: llm.LLMContext, tool_args: JsonObjectType
+    hass: UniversalAssistant, llm_context: llm.LLMContext, tool_args: JsonObjectType
 ) -> None:
     """Test invalid arguments are rejected by the Probatio schema."""
     tool = GetHistoryTool()
@@ -164,7 +164,7 @@ async def test_invalid_parameters(
 )
 @pytest.mark.freeze_time("2026-10-12 12:00:00+00:00")
 async def test_invalid_time_span(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     llm_context: llm.LLMContext,
     tool_args: JsonObjectType,
     error: str,
@@ -182,9 +182,9 @@ async def test_invalid_time_span(
 
 @pytest.mark.usefixtures("recorder_mock", "recorded_statistics")
 async def test_call_through_api(
-    hass: __HAC_KEEP__, hass_admin_user: MockUser, llm_context: llm.LLMContext
+    hass: UniversalAssistant, hass_admin_user: MockUser, llm_context: llm.LLMContext
 ) -> None:
-    """Test tool discovery and results through the __HA_KEEP__ API."""
+    """Test tool discovery and results through the Universal Home Assistant API."""
     assert await async_setup_component(hass, "llm", {})
     llm_context.context = Context(user_id=hass_admin_user.id)
 
@@ -264,7 +264,7 @@ async def test_call_through_api(
     ],
 )
 async def test_get_statistics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     llm_context: llm.LLMContext,
     snapshot: SnapshotAssertion,
     tool_args: JsonObjectType,
@@ -327,7 +327,7 @@ async def test_get_statistics(
     ],
 )
 async def test_statistics_state_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     llm_context: llm.LLMContext,
     entity_id: str,
     unit: str,
@@ -356,7 +356,7 @@ async def test_statistics_state_unit(
 
 @pytest.mark.usefixtures("recorder_mock", "recorded_statistics")
 async def test_hourly_fallback_per_entity(
-    hass: __HAC_KEEP__, llm_context: llm.LLMContext, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, llm_context: llm.LLMContext, snapshot: SnapshotAssertion
 ) -> None:
     """Test only entities without 5minute rows fall back to hourly rows."""
     first_start = dt_util.parse_datetime("2026-10-12 11:30:00+00:00")

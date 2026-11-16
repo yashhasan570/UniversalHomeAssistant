@@ -8,7 +8,7 @@ from requests.exceptions import ConnectTimeout
 from universalassistant.components.dremel_3d_printer.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_SOURCE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import CONF_DATA, patch_async_setup_entry
@@ -16,7 +16,7 @@ from .conftest import CONF_DATA, patch_async_setup_entry
 MOCK = "universalassistant.components.dremel_3d_printer.config_flow.Dremel3DPrinter"
 
 
-async def test_full_user_flow_implementation(hass: __HAC_KEEP__, connection) -> None:
+async def test_full_user_flow_implementation(hass: UniversalAssistant, connection) -> None:
     """Test the full manual user flow from start to finish."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={CONF_SOURCE: SOURCE_USER}
@@ -37,7 +37,7 @@ async def test_full_user_flow_implementation(hass: __HAC_KEEP__, connection) -> 
 
 
 async def test_already_configured(
-    hass: __HAC_KEEP__, connection, config_entry: MockConfigEntry
+    hass: UniversalAssistant, connection, config_entry: MockConfigEntry
 ) -> None:
     """Test we abort if the device is already configured."""
     result = await hass.config_entries.flow.async_init(
@@ -47,7 +47,7 @@ async def test_already_configured(
     assert result["reason"] == "already_configured"
 
 
-async def test_cannot_connect(hass: __HAC_KEEP__, connection) -> None:
+async def test_cannot_connect(hass: UniversalAssistant, connection) -> None:
     """Test we show user form on connection error."""
     with patch(MOCK, side_effect=ConnectTimeout):
         result = await hass.config_entries.flow.async_init(
@@ -67,7 +67,7 @@ async def test_cannot_connect(hass: __HAC_KEEP__, connection) -> None:
     assert result["data"] == CONF_DATA
 
 
-async def test_unknown_error(hass: __HAC_KEEP__, connection) -> None:
+async def test_unknown_error(hass: UniversalAssistant, connection) -> None:
     """Test we show user form on unknown error."""
     with patch(MOCK, side_effect=Exception):
         result = await hass.config_entries.flow.async_init(

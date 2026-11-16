@@ -21,8 +21,8 @@ from universalassistant.const import (
     CONF_PROXY_SSL,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -50,7 +50,7 @@ ATTR_ICON = "icon"
 
 
 async def async_get_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> KodiNotificationService:
@@ -107,7 +107,7 @@ class KodiNotificationService(BaseNotificationService):
             await self._server.GUI.ShowNotification(title, message, icon, displaytime)
 
         except jsonrpc_async.TransportError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="notify_failed",
             ) from err

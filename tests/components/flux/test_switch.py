@@ -21,7 +21,7 @@ from universalassistant.const import (
     STATE_ON,
     SUN_EVENT_SUNRISE,
 )
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -30,7 +30,7 @@ from tests.components.light.common import MockLight
 
 
 @pytest.fixture(autouse=True)
-async def set_utc(hass: __HAC_KEEP__) -> None:
+async def set_utc(hass: UniversalAssistant) -> None:
     """Set timezone to UTC."""
     await hass.config.async_set_time_zone("UTC")
 
@@ -44,7 +44,7 @@ def ignore_missing_translations() -> str | list[str]:
     ]
 
 
-async def test_valid_config(hass: __HAC_KEEP__) -> None:
+async def test_valid_config(hass: UniversalAssistant) -> None:
     """Test configuration."""
     assert await async_setup_component(
         hass,
@@ -64,7 +64,7 @@ async def test_valid_config(hass: __HAC_KEEP__) -> None:
 
 
 async def test_unique_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test configuration with unique ID."""
     assert await async_setup_component(
@@ -88,7 +88,7 @@ async def test_unique_id(
     assert entity_registry.async_get_entity_id("switch", "flux", "zaphotbeeblebrox")
 
 
-async def test_restore_state_last_on(hass: __HAC_KEEP__) -> None:
+async def test_restore_state_last_on(hass: UniversalAssistant) -> None:
     """Test restoring state when the last state is on."""
     mock_restore_cache(hass, [State("switch.flux", "on")])
 
@@ -110,7 +110,7 @@ async def test_restore_state_last_on(hass: __HAC_KEEP__) -> None:
     assert state.state == "on"
 
 
-async def test_restore_state_last_off(hass: __HAC_KEEP__) -> None:
+async def test_restore_state_last_off(hass: UniversalAssistant) -> None:
     """Test restoring state when the last state is off."""
     mock_restore_cache(hass, [State("switch.flux", "off")])
 
@@ -132,7 +132,7 @@ async def test_restore_state_last_off(hass: __HAC_KEEP__) -> None:
     assert state.state == "off"
 
 
-async def test_valid_config_with_info(hass: __HAC_KEEP__) -> None:
+async def test_valid_config_with_info(hass: UniversalAssistant) -> None:
     """Test configuration."""
     assert await async_setup_component(
         hass,
@@ -153,7 +153,7 @@ async def test_valid_config_with_info(hass: __HAC_KEEP__) -> None:
     await hass.async_block_till_done()
 
 
-async def test_valid_config_no_name(hass: __HAC_KEEP__) -> None:
+async def test_valid_config_no_name(hass: UniversalAssistant) -> None:
     """Test configuration."""
     with assert_setup_component(1, "switch"):
         assert await async_setup_component(
@@ -168,7 +168,7 @@ async def test_valid_config_no_name(hass: __HAC_KEEP__) -> None:
     "ignore_missing_translations",
     [[]],
 )
-async def test_invalid_config_no_lights(hass: __HAC_KEEP__) -> None:
+async def test_invalid_config_no_lights(hass: UniversalAssistant) -> None:
     """Test configuration."""
     with assert_setup_component(0, "switch"):
         assert await async_setup_component(
@@ -178,7 +178,7 @@ async def test_invalid_config_no_lights(hass: __HAC_KEEP__) -> None:
 
 
 async def test_flux_when_switch_is_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_light_entities: list[MockLight],
 ) -> None:
     """Test the flux switch when it is off."""
@@ -202,7 +202,7 @@ async def test_flux_when_switch_is_off(
     sunrise_time = test_time.replace(hour=5, minute=0, second=0)
 
     def event_date(
-        hass: __HAC_KEEP__, event: str, now: date | datetime | None = None
+        hass: UniversalAssistant, event: str, now: date | datetime | None = None
     ) -> datetime | None:
         if event == SUN_EVENT_SUNRISE:
             return sunrise_time
@@ -235,7 +235,7 @@ async def test_flux_when_switch_is_off(
 
 
 async def test_flux_before_sunrise(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_light_entities: list[MockLight],
 ) -> None:
     """Test the flux switch before sunrise."""
@@ -259,7 +259,7 @@ async def test_flux_before_sunrise(
     sunrise_time = test_time.replace(hour=5, minute=0, second=5)
 
     def event_date(
-        hass: __HAC_KEEP__, event: str, now: date | datetime | None = None
+        hass: UniversalAssistant, event: str, now: date | datetime | None = None
     ) -> datetime | None:
         if event == SUN_EVENT_SUNRISE:
             return sunrise_time
@@ -300,7 +300,7 @@ async def test_flux_before_sunrise(
 
 
 async def test_flux_before_sunrise_known_location(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_light_entities: list[MockLight],
 ) -> None:
     """Test the flux switch before sunrise."""
@@ -359,7 +359,7 @@ async def test_flux_before_sunrise_known_location(
 
 
 async def test_flux_after_sunrise_before_sunset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_light_entities: list[MockLight],
 ) -> None:
     """Test the flux switch after sunrise and before sunset."""
@@ -383,7 +383,7 @@ async def test_flux_after_sunrise_before_sunset(
     sunrise_time = test_time.replace(hour=5, minute=0, second=0)
 
     def event_date(
-        hass: __HAC_KEEP__, event: str, now: date | datetime | None = None
+        hass: UniversalAssistant, event: str, now: date | datetime | None = None
     ) -> datetime | None:
         if event == SUN_EVENT_SUNRISE:
             return sunrise_time
@@ -423,7 +423,7 @@ async def test_flux_after_sunrise_before_sunset(
 
 
 async def test_flux_after_sunset_before_stop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_light_entities: list[MockLight],
 ) -> None:
     """Test the flux switch after sunset and before stop."""
@@ -447,7 +447,7 @@ async def test_flux_after_sunset_before_stop(
     sunrise_time = test_time.replace(hour=5, minute=0, second=0)
 
     def event_date(
-        hass: __HAC_KEEP__, event: str, now: date | datetime | None = None
+        hass: UniversalAssistant, event: str, now: date | datetime | None = None
     ) -> datetime | None:
         if event == SUN_EVENT_SUNRISE:
             return sunrise_time
@@ -488,7 +488,7 @@ async def test_flux_after_sunset_before_stop(
 
 
 async def test_flux_after_stop_before_sunrise(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_light_entities: list[MockLight],
 ) -> None:
     """Test the flux switch after stop and before sunrise."""
@@ -512,7 +512,7 @@ async def test_flux_after_stop_before_sunrise(
     sunrise_time = test_time.replace(hour=5, minute=0, second=0)
 
     def event_date(
-        hass: __HAC_KEEP__, event: str, now: date | datetime | None = None
+        hass: UniversalAssistant, event: str, now: date | datetime | None = None
     ) -> datetime | None:
         if event == SUN_EVENT_SUNRISE:
             return sunrise_time
@@ -552,7 +552,7 @@ async def test_flux_after_stop_before_sunrise(
 
 
 async def test_flux_with_custom_start_stop_times(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_light_entities: list[MockLight],
 ) -> None:
     """Test the flux with custom start and stop times."""
@@ -576,7 +576,7 @@ async def test_flux_with_custom_start_stop_times(
     sunrise_time = test_time.replace(hour=5, minute=0, second=0)
 
     def event_date(
-        hass: __HAC_KEEP__, event: str, now: date | datetime | None = None
+        hass: UniversalAssistant, event: str, now: date | datetime | None = None
     ) -> datetime | None:
         if event == SUN_EVENT_SUNRISE:
             return sunrise_time
@@ -618,7 +618,7 @@ async def test_flux_with_custom_start_stop_times(
 
 
 async def test_flux_before_sunrise_stop_next_day(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_light_entities: list[MockLight],
 ) -> None:
     """Test the flux switch before sunrise.
@@ -645,7 +645,7 @@ async def test_flux_before_sunrise_stop_next_day(
     sunrise_time = test_time.replace(hour=5, minute=0, second=0)
 
     def event_date(
-        hass: __HAC_KEEP__, event: str, now: date | datetime | None = None
+        hass: UniversalAssistant, event: str, now: date | datetime | None = None
     ) -> datetime | None:
         if event == SUN_EVENT_SUNRISE:
             return sunrise_time
@@ -686,7 +686,7 @@ async def test_flux_before_sunrise_stop_next_day(
 
 
 async def test_flux_after_sunrise_before_sunset_stop_next_day(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_light_entities: list[MockLight],
 ) -> None:
     """Test the flux switch after sunrise and before sunset.
@@ -713,7 +713,7 @@ async def test_flux_after_sunrise_before_sunset_stop_next_day(
     sunrise_time = test_time.replace(hour=5, minute=0, second=0)
 
     def event_date(
-        hass: __HAC_KEEP__, event: str, now: date | datetime | None = None
+        hass: UniversalAssistant, event: str, now: date | datetime | None = None
     ) -> datetime | None:
         if event == SUN_EVENT_SUNRISE:
             return sunrise_time
@@ -754,7 +754,7 @@ async def test_flux_after_sunrise_before_sunset_stop_next_day(
 
 
 async def test_flux_after_sunset_before_midnight_stop_next_day(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_light_entities: list[MockLight],
 ) -> None:
     """Test the flux switch after sunset and before stop.
@@ -781,7 +781,7 @@ async def test_flux_after_sunset_before_midnight_stop_next_day(
     sunrise_time = test_time.replace(hour=5, minute=0, second=0)
 
     def event_date(
-        hass: __HAC_KEEP__, event: str, now: date | datetime | None = None
+        hass: UniversalAssistant, event: str, now: date | datetime | None = None
     ) -> datetime | None:
         if event == SUN_EVENT_SUNRISE:
             return sunrise_time
@@ -822,7 +822,7 @@ async def test_flux_after_sunset_before_midnight_stop_next_day(
 
 
 async def test_flux_after_sunset_after_midnight_stop_next_day(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_light_entities: list[MockLight],
 ) -> None:
     """Test the flux switch after sunset and before stop.
@@ -849,7 +849,7 @@ async def test_flux_after_sunset_after_midnight_stop_next_day(
     sunrise_time = test_time.replace(hour=5, minute=0, second=0)
 
     def event_date(
-        hass: __HAC_KEEP__, event: str, now: date | datetime | None = None
+        hass: UniversalAssistant, event: str, now: date | datetime | None = None
     ) -> datetime | None:
         if event == SUN_EVENT_SUNRISE:
             return sunrise_time
@@ -890,7 +890,7 @@ async def test_flux_after_sunset_after_midnight_stop_next_day(
 
 
 async def test_flux_after_stop_before_sunrise_stop_next_day(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_light_entities: list[MockLight],
 ) -> None:
     """Test the flux switch after stop and before sunrise.
@@ -917,7 +917,7 @@ async def test_flux_after_stop_before_sunrise_stop_next_day(
     sunrise_time = test_time.replace(hour=5, minute=0, second=0)
 
     def event_date(
-        hass: __HAC_KEEP__, event: str, now: date | datetime | None = None
+        hass: UniversalAssistant, event: str, now: date | datetime | None = None
     ) -> datetime | None:
         if event == SUN_EVENT_SUNRISE:
             return sunrise_time
@@ -958,7 +958,7 @@ async def test_flux_after_stop_before_sunrise_stop_next_day(
 
 
 async def test_flux_with_custom_colortemps(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_light_entities: list[MockLight],
 ) -> None:
     """Test the flux with custom start and stop colortemps."""
@@ -982,7 +982,7 @@ async def test_flux_with_custom_colortemps(
     sunrise_time = test_time.replace(hour=5, minute=0, second=0)
 
     def event_date(
-        hass: __HAC_KEEP__, event: str, now: date | datetime | None = None
+        hass: UniversalAssistant, event: str, now: date | datetime | None = None
     ) -> datetime | None:
         if event == SUN_EVENT_SUNRISE:
             return sunrise_time
@@ -1025,7 +1025,7 @@ async def test_flux_with_custom_colortemps(
 
 
 async def test_flux_with_custom_brightness(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_light_entities: list[MockLight],
 ) -> None:
     """Test the flux with custom start and stop colortemps."""
@@ -1049,7 +1049,7 @@ async def test_flux_with_custom_brightness(
     sunrise_time = test_time.replace(hour=5, minute=0, second=0)
 
     def event_date(
-        hass: __HAC_KEEP__, event: str, now: date | datetime | None = None
+        hass: UniversalAssistant, event: str, now: date | datetime | None = None
     ) -> datetime | None:
         if event == SUN_EVENT_SUNRISE:
             return sunrise_time
@@ -1091,7 +1091,7 @@ async def test_flux_with_custom_brightness(
 
 
 async def test_flux_with_multiple_lights(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_light_entities: list[MockLight],
 ) -> None:
     """Test the flux switch with multiple light entities."""
@@ -1132,7 +1132,7 @@ async def test_flux_with_multiple_lights(
     sunrise_time = test_time.replace(hour=5, minute=0, second=0)
 
     def event_date(
-        hass: __HAC_KEEP__, event: str, now: date | datetime | None = None
+        hass: UniversalAssistant, event: str, now: date | datetime | None = None
     ) -> datetime | None:
         if event == SUN_EVENT_SUNRISE:
             return sunrise_time
@@ -1178,7 +1178,7 @@ async def test_flux_with_multiple_lights(
 
 
 async def test_flux_with_temp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_light_entities: list[MockLight],
 ) -> None:
     """Test the flux switch's mode mired."""
@@ -1201,7 +1201,7 @@ async def test_flux_with_temp(
     sunrise_time = test_time.replace(hour=5, minute=0, second=0)
 
     def event_date(
-        hass: __HAC_KEEP__, event: str, now: date | datetime | None = None
+        hass: UniversalAssistant, event: str, now: date | datetime | None = None
     ) -> datetime | None:
         if event == SUN_EVENT_SUNRISE:
             return sunrise_time
@@ -1241,7 +1241,7 @@ async def test_flux_with_temp(
 
 
 async def test_flux_with_rgb(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_light_entities: list[MockLight],
 ) -> None:
     """Test the flux switch's mode rgb."""
@@ -1264,7 +1264,7 @@ async def test_flux_with_rgb(
     sunrise_time = test_time.replace(hour=5, minute=0, second=0)
 
     def event_date(
-        hass: __HAC_KEEP__, event: str, date: date | datetime | None = None
+        hass: UniversalAssistant, event: str, date: date | datetime | None = None
     ) -> datetime | None:
         if event == SUN_EVENT_SUNRISE:
             return sunrise_time

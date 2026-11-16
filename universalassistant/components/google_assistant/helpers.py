@@ -16,7 +16,7 @@ from yarl import URL
 
 from universalassistant.components import webhook
 from universalassistant.const import CONF_NAME, STATE_UNAVAILABLE, EntityStateAttribute
-from universalassistant.core import CALLBACK_TYPE, Context, __HAC_KEEP__, State, callback
+from universalassistant.core import CALLBACK_TYPE, Context, UniversalAssistant, State, callback
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -51,7 +51,7 @@ LOCAL_SDK_MIN_VERSION = AwesomeVersion("2.1.5")
 
 @callback
 def _get_registry_entries(
-    hass: __HAC_KEEP__, entity_id: str
+    hass: UniversalAssistant, entity_id: str
 ) -> tuple[
     er.RegistryEntry | None,
     dr.AnyDeviceEntry | None,
@@ -84,7 +84,7 @@ class AbstractConfig(ABC):
 
     _unsub_report_state: Callable[[], None] | None = None
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize abstract config."""
         self.hass = hass
         self._google_sync_unsub: dict[str, CALLBACK_TYPE] = {}
@@ -153,7 +153,7 @@ class AbstractConfig(ABC):
 
     @abstractmethod
     def get_local_user_id(self, webhook_id):
-        """Map webhook ID to a __HA_KEEP__ user ID.
+        """Map webhook ID to a Universal Home Assistant user ID.
 
         Any action initiated by Google Assistant via the local SDK will be attributed
         to the returned user ID.
@@ -513,7 +513,7 @@ class GoogleEntity:
     __slots__ = ("_traits", "config", "entity_id", "hass", "state")
 
     def __init__(
-        self, hass: __HAC_KEEP__, config: AbstractConfig, state: State
+        self, hass: UniversalAssistant, config: AbstractConfig, state: State
     ) -> None:
         """Initialize a Google entity."""
         self.hass = hass
@@ -731,7 +731,7 @@ class GoogleEntity:
 
     @callback
     def async_update(self):
-        """Update the entity with latest info from __HA_KEEP__."""
+        """Update the entity with latest info from Universal Home Assistant."""
         self.state = self.hass.states.get(self.entity_id)
 
         if self._traits is None:
@@ -753,7 +753,7 @@ def deep_update(target, source):
 
 @callback
 def async_get_google_entity_if_supported_cached(
-    hass: __HAC_KEEP__, config: AbstractConfig, state: State
+    hass: UniversalAssistant, config: AbstractConfig, state: State
 ) -> GoogleEntity | None:
     """Return a GoogleEntity if entity is supported checking the cache first.
 
@@ -773,7 +773,7 @@ def async_get_google_entity_if_supported_cached(
 
 @callback
 def async_get_google_entity_if_supported(
-    hass: __HAC_KEEP__, config: AbstractConfig, state: State
+    hass: UniversalAssistant, config: AbstractConfig, state: State
 ) -> GoogleEntity | None:
     """Return a GoogleEntity if entity is supported.
 
@@ -788,7 +788,7 @@ def async_get_google_entity_if_supported(
 
 @callback
 def async_get_entities(
-    hass: __HAC_KEEP__, config: AbstractConfig
+    hass: UniversalAssistant, config: AbstractConfig
 ) -> list[GoogleEntity]:
     """Return all entities that are supported by Google."""
     entities: list[GoogleEntity] = []

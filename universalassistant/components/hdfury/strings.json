@@ -29,7 +29,7 @@
         "data_description": {
           "host": "Hostname or IP address of your HDFury device."
         },
-        "description": "Set up your HDFury to integrate with __HA_KEEP__."
+        "description": "Set up your HDFury to integrate with Universal Home Assistant."
       }
     }
   },

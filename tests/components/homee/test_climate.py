@@ -30,7 +30,7 @@ from universalassistant.components.climate import (
 )
 from universalassistant.components.homee.const import PRESET_MANUAL
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import build_mock_node, setup_integration
@@ -44,7 +44,7 @@ async def platforms() -> AsyncGenerator[None]:
 
 
 async def setup_mock_climate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
     file: str,
@@ -90,7 +90,7 @@ async def setup_mock_climate(
     ],
 )
 async def test_climate_features(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
     file: str,
@@ -107,7 +107,7 @@ async def test_climate_features(
 
 
 async def test_climate_preset_modes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
 ) -> None:
@@ -135,7 +135,7 @@ async def test_climate_preset_modes(
     ],
 )
 async def test_hvac_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
     attribute_type: AttributeType,
@@ -167,7 +167,7 @@ async def test_hvac_action(
     ],
 )
 async def test_current_preset_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
     preset_mode_int: int,
@@ -193,7 +193,7 @@ async def test_current_preset_mode(
     ],
 )
 async def test_current_preset_mode_alternate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
     preset_mode_int: int,
@@ -261,7 +261,7 @@ async def test_current_preset_mode_alternate(
     ],
 )
 async def test_climate_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
     service: str,
@@ -319,7 +319,7 @@ async def test_climate_services(
     ],
 )
 async def test_climate_services_alternate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
     service: str,
@@ -342,7 +342,7 @@ async def test_climate_services_alternate(
 
 
 async def test_climate_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

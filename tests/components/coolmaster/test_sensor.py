@@ -7,12 +7,12 @@ import pytest
 
 from universalassistant.components.coolmaster.const import MAX_RETRIES
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_component import async_update_entity
 
 
 async def test_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
 ) -> None:
     """Test the Coolmaster sensor."""
@@ -21,7 +21,7 @@ async def test_sensor(
 
 
 async def test_retry_with_no_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_errors: ConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -45,7 +45,7 @@ async def test_retry_with_no_error(
 
 @patch("universalassistant.components.coolmaster.coordinator.BACKOFF_BASE_DELAY", new=0)
 async def test_retry_with_less_than_max_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_errors: ConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -69,7 +69,7 @@ async def test_retry_with_less_than_max_errors(
 
 @patch("universalassistant.components.coolmaster.coordinator.BACKOFF_BASE_DELAY", new=0)
 async def test_retry_with_more_than_max_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_errors: ConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_retry_with_more_than_max_errors(
 
 @patch("universalassistant.components.coolmaster.coordinator.BACKOFF_BASE_DELAY", new=0)
 async def test_retry_with_empty_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_empty_status: ConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

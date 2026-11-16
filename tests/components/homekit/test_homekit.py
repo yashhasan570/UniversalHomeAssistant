@@ -59,8 +59,8 @@ from universalassistant.const import (
     UnitOfRatio,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__, State
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, State
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -120,7 +120,7 @@ def patch_source_ip():
 
 
 def _mock_homekit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
     homekit_mode: str,
     entity_filter: EntityFilter | None = None,
@@ -142,7 +142,7 @@ def _mock_homekit(
     )
 
 
-def _mock_homekit_bridge(hass: __HAC_KEEP__, entry: MockConfigEntry) -> HomeKit:
+def _mock_homekit_bridge(hass: UniversalAssistant, entry: MockConfigEntry) -> HomeKit:
     homekit = _mock_homekit(hass, entry, HOMEKIT_MODE_BRIDGE)
     homekit.driver = MagicMock()
     homekit.iid_storage = MagicMock()
@@ -163,7 +163,7 @@ def _mock_pyhap_bridge():
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_setup_min(hass: __HAC_KEEP__) -> None:
+async def test_setup_min(hass: UniversalAssistant) -> None:
     """Test async_setup with min config options."""
 
     entry = MockConfigEntry(
@@ -209,7 +209,7 @@ async def test_setup_min(hass: __HAC_KEEP__) -> None:
 
 @patch(f"{PATH_HOMEKIT}.async_port_is_available", return_value=True)
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_removing_entry(port_mock, hass: __HAC_KEEP__) -> None:
+async def test_removing_entry(port_mock, hass: UniversalAssistant) -> None:
     """Test removing a config entry."""
 
     entry = MockConfigEntry(
@@ -257,7 +257,7 @@ async def test_removing_entry(port_mock, hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_homekit_setup(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_homekit_setup(hass: UniversalAssistant, hk_driver) -> None:
     """Test setup of bridge and driver."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -306,7 +306,7 @@ async def test_homekit_setup(hass: __HAC_KEEP__, hk_driver) -> None:
 
 
 async def test_homekit_setup_ip_address(
-    hass: __HAC_KEEP__, hk_driver, mock_async_zeroconf: MagicMock
+    hass: UniversalAssistant, hk_driver, mock_async_zeroconf: MagicMock
 ) -> None:
     """Test setup with given IP address."""
     entry = MockConfigEntry(
@@ -351,7 +351,7 @@ async def test_homekit_setup_ip_address(
 
 
 async def test_homekit_with_single_advertise_ips(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     mock_async_zeroconf: MagicMock,
     hass_storage: dict[str, Any],
@@ -386,7 +386,7 @@ async def test_homekit_with_single_advertise_ips(
 
 
 async def test_homekit_with_many_advertise_ips(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     mock_async_zeroconf: MagicMock,
     hass_storage: dict[str, Any],
@@ -425,7 +425,7 @@ async def test_homekit_with_many_advertise_ips(
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_homekit_setup_advertise_ips(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_homekit_setup_advertise_ips(hass: UniversalAssistant, hk_driver) -> None:
     """Test setup with given IP address to advertise."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -470,7 +470,7 @@ async def test_homekit_setup_advertise_ips(hass: __HAC_KEEP__, hk_driver) -> Non
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_homekit_add_accessory(hass: __HAC_KEEP__, mock_hap) -> None:
+async def test_homekit_add_accessory(hass: UniversalAssistant, mock_hap) -> None:
     """Add accessory if config exists and get_acc returns an accessory."""
 
     entry = MockConfigEntry(
@@ -510,7 +510,7 @@ async def test_homekit_add_accessory(hass: __HAC_KEEP__, mock_hap) -> None:
 @pytest.mark.parametrize("acc_category", [CATEGORY_TELEVISION, CATEGORY_CAMERA])
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_warn_add_accessory_bridge(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     acc_category,
     mock_hap,
     caplog: pytest.LogCaptureFixture,
@@ -543,7 +543,7 @@ async def test_homekit_warn_add_accessory_bridge(
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_homekit_remove_accessory(hass: __HAC_KEEP__) -> None:
+async def test_homekit_remove_accessory(hass: UniversalAssistant) -> None:
     """Remove accessory from bridge."""
     entry = await async_init_integration(hass)
 
@@ -561,7 +561,7 @@ async def test_homekit_remove_accessory(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_homekit_entity_filter(hass: __HAC_KEEP__) -> None:
+async def test_homekit_entity_filter(hass: UniversalAssistant) -> None:
     """Test the entity filter."""
     entry = await async_init_integration(hass)
 
@@ -581,7 +581,7 @@ async def test_homekit_entity_filter(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_homekit_entity_glob_filter(hass: __HAC_KEEP__) -> None:
+async def test_homekit_entity_glob_filter(hass: UniversalAssistant) -> None:
     """Test the entity filter."""
     entry = await async_init_integration(hass)
 
@@ -607,7 +607,7 @@ async def test_homekit_entity_glob_filter(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_entity_glob_filter_with_config_entities(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the entity filter with configuration entities."""
     entry = await async_init_integration(hass)
@@ -659,7 +659,7 @@ async def test_homekit_entity_glob_filter_with_config_entities(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_entity_glob_filter_with_hidden_entities(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the entity filter with hidden entities."""
     entry = await async_init_integration(hass)
@@ -711,7 +711,7 @@ async def test_homekit_entity_glob_filter_with_hidden_entities(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_start(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -732,7 +732,7 @@ async def test_homekit_start(
         connections={connection},
         manufacturer="Any",
         name="Any",
-        model="__HA_KEEP__ HomeKit Bridge",
+        model="Universal Home Assistant HomeKit Bridge",
     )
 
     hass.states.async_set("light.demo", "on")
@@ -749,7 +749,7 @@ async def test_homekit_start(
     await hass.async_block_till_done()
     mock_add_acc.assert_any_call(state)
     mock_setup_msg.assert_called_with(
-        hass, entry.entry_id, "Mock Title (__HA_KEEP__ Bridge)", ANY, ANY
+        hass, entry.entry_id, "Mock Title (Universal Home Assistant Bridge)", ANY, ANY
     )
     assert hk_driver_start.called
     assert homekit.status == STATUS_RUNNING
@@ -798,7 +798,7 @@ async def test_homekit_start(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_start_with_a_broken_accessory(
-    hass: __HAC_KEEP__, hk_driver
+    hass: UniversalAssistant, hk_driver
 ) -> None:
     """Test HomeKit start method."""
     entry = MockConfigEntry(
@@ -826,7 +826,7 @@ async def test_homekit_start_with_a_broken_accessory(
 
     await hass.async_block_till_done()
     mock_setup_msg.assert_called_with(
-        hass, entry.entry_id, "Mock Title (__HA_KEEP__ Bridge)", ANY, ANY
+        hass, entry.entry_id, "Mock Title (Universal Home Assistant Bridge)", ANY, ANY
     )
     assert hk_driver_start.called
     assert homekit.status == STATUS_RUNNING
@@ -840,7 +840,7 @@ async def test_homekit_start_with_a_broken_accessory(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_start_with_a_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     demo_cleanup,
     device_registry: dr.DeviceRegistry,
@@ -871,7 +871,7 @@ async def test_homekit_start_with_a_device(
 
     await hass.async_block_till_done()
     mock_setup_msg.assert_called_with(
-        hass, entry.entry_id, "Mock Title (__HA_KEEP__ Bridge)", ANY, ANY
+        hass, entry.entry_id, "Mock Title (Universal Home Assistant Bridge)", ANY, ANY
     )
     assert homekit.status == STATUS_RUNNING
 
@@ -883,7 +883,7 @@ async def test_homekit_start_with_a_device(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_start_with_a_child_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver: HomeDriver,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -948,7 +948,7 @@ async def test_homekit_start_with_a_child_device(
     await homekit.async_stop()
 
 
-async def test_homekit_stop(hass: __HAC_KEEP__) -> None:
+async def test_homekit_stop(hass: UniversalAssistant) -> None:
     """Test HomeKit stop method."""
     entry = await async_init_integration(hass)
     homekit = _mock_homekit(hass, entry, HOMEKIT_MODE_BRIDGE)
@@ -979,7 +979,7 @@ async def test_homekit_stop(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_homekit_reset_accessories(hass: __HAC_KEEP__, mock_hap) -> None:
+async def test_homekit_reset_accessories(hass: UniversalAssistant, mock_hap) -> None:
     """Test resetting HomeKit accessories."""
 
     entry = MockConfigEntry(
@@ -1017,7 +1017,7 @@ async def test_homekit_reset_accessories(hass: __HAC_KEEP__, mock_hap) -> None:
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_reload_accessory_can_change_class(
-    hass: __HAC_KEEP__, mock_hap
+    hass: UniversalAssistant, mock_hap
 ) -> None:
     """Test reloading a HomeKit Accessory in brdige mode.
 
@@ -1053,7 +1053,7 @@ async def test_homekit_reload_accessory_can_change_class(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_reload_accessory_in_accessory_mode(
-    hass: __HAC_KEEP__, mock_hap
+    hass: UniversalAssistant, mock_hap
 ) -> None:
     """Test reloading a HomeKit Accessory in accessory mode.
 
@@ -1089,7 +1089,7 @@ async def test_homekit_reload_accessory_in_accessory_mode(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_reload_accessory_same_class(
-    hass: __HAC_KEEP__, mock_hap
+    hass: UniversalAssistant, mock_hap
 ) -> None:
     """Test reloading a HomeKit Accessory in bridge mode.
 
@@ -1134,7 +1134,7 @@ async def test_homekit_reload_accessory_same_class(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_unpair(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test unpairing HomeKit accessories."""
 
@@ -1185,7 +1185,7 @@ async def test_homekit_unpair(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_unpair_device_with_children(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test unpairing a device that has child devices.
 
@@ -1246,7 +1246,7 @@ async def test_homekit_unpair_device_with_children(
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_homekit_unpair_missing_device_id(hass: __HAC_KEEP__) -> None:
+async def test_homekit_unpair_missing_device_id(hass: UniversalAssistant) -> None:
     """Test unpairing HomeKit accessories with invalid device id."""
 
     entry = MockConfigEntry(
@@ -1274,7 +1274,7 @@ async def test_homekit_unpair_missing_device_id(hass: __HAC_KEEP__) -> None:
         state = homekit.driver.state
         client_1 = str(uuid1()).encode("utf-8")
         state.add_paired_client(client_1, "any", b"1")
-        with pytest.raises(__HAC_KEEP__Error):
+        with pytest.raises(UniversalAssistantError):
             await hass.services.async_call(
                 DOMAIN,
                 HomeKitService.UNPAIR,
@@ -1288,7 +1288,7 @@ async def test_homekit_unpair_missing_device_id(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_unpair_not_homekit_device(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test unpairing HomeKit accessories with a non-homekit device id."""
 
@@ -1328,7 +1328,7 @@ async def test_homekit_unpair_not_homekit_device(
         state = homekit.driver.state
         client_1 = str(uuid1()).encode("utf-8")
         state.add_paired_client(client_1, "any", b"1")
-        with pytest.raises(__HAC_KEEP__Error):
+        with pytest.raises(UniversalAssistantError):
             await hass.services.async_call(
                 DOMAIN,
                 HomeKitService.UNPAIR,
@@ -1341,7 +1341,7 @@ async def test_homekit_unpair_not_homekit_device(
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_homekit_reset_accessories_not_supported(hass: __HAC_KEEP__) -> None:
+async def test_homekit_reset_accessories_not_supported(hass: UniversalAssistant) -> None:
     """Test resetting HomeKit accessories with an unsupported entity."""
 
     entry = MockConfigEntry(
@@ -1386,7 +1386,7 @@ async def test_homekit_reset_accessories_not_supported(hass: __HAC_KEEP__) -> No
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_homekit_reset_accessories_state_missing(hass: __HAC_KEEP__) -> None:
+async def test_homekit_reset_accessories_state_missing(hass: UniversalAssistant) -> None:
     """Test resetting HomeKit accessories when the state goes missing."""
 
     entry = MockConfigEntry(
@@ -1429,7 +1429,7 @@ async def test_homekit_reset_accessories_state_missing(hass: __HAC_KEEP__) -> No
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_homekit_reset_accessories_not_bridged(hass: __HAC_KEEP__) -> None:
+async def test_homekit_reset_accessories_not_bridged(hass: UniversalAssistant) -> None:
     """Test resetting HomeKit accessories when the state is not bridged."""
 
     entry = MockConfigEntry(
@@ -1475,7 +1475,7 @@ async def test_homekit_reset_accessories_not_bridged(hass: __HAC_KEEP__) -> None
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_homekit_reset_single_accessory(hass: __HAC_KEEP__, mock_hap) -> None:
+async def test_homekit_reset_single_accessory(hass: UniversalAssistant, mock_hap) -> None:
     """Test resetting HomeKit single accessory."""
 
     entry = MockConfigEntry(
@@ -1513,7 +1513,7 @@ async def test_homekit_reset_single_accessory(hass: __HAC_KEEP__, mock_hap) -> N
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_homekit_reset_single_accessory_unsupported(hass: __HAC_KEEP__) -> None:
+async def test_homekit_reset_single_accessory_unsupported(hass: UniversalAssistant) -> None:
     """Test resetting HomeKit single accessory with an unsupported entity."""
 
     entry = MockConfigEntry(
@@ -1554,7 +1554,7 @@ async def test_homekit_reset_single_accessory_unsupported(hass: __HAC_KEEP__) ->
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_reset_single_accessory_state_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test resetting HomeKit single accessory when the state goes missing."""
 
@@ -1594,7 +1594,7 @@ async def test_homekit_reset_single_accessory_state_missing(
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_homekit_reset_single_accessory_no_match(hass: __HAC_KEEP__) -> None:
+async def test_homekit_reset_single_accessory_no_match(hass: UniversalAssistant) -> None:
     """Test resetting HomeKit single accessory when the entity id does not match."""
 
     entry = MockConfigEntry(
@@ -1634,7 +1634,7 @@ async def test_homekit_reset_single_accessory_no_match(hass: __HAC_KEEP__) -> No
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_too_many_accessories(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1670,7 +1670,7 @@ async def test_homekit_too_many_accessories(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_finds_linked_batteries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1752,7 +1752,7 @@ async def test_homekit_finds_linked_batteries(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_async_get_integration_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1829,7 +1829,7 @@ async def test_homekit_async_get_integration_fails(
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_yaml_updates_update_config_entry_for_name(hass: __HAC_KEEP__) -> None:
+async def test_yaml_updates_update_config_entry_for_name(hass: UniversalAssistant) -> None:
     """Test async_setup with imported config."""
 
     entry = MockConfigEntry(
@@ -1879,7 +1879,7 @@ async def test_yaml_updates_update_config_entry_for_name(hass: __HAC_KEEP__) -> 
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_yaml_can_link_with_default_name(hass: __HAC_KEEP__) -> None:
+async def test_yaml_can_link_with_default_name(hass: UniversalAssistant) -> None:
     """Test async_setup with imported config linked by default name."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1913,7 +1913,7 @@ async def test_yaml_can_link_with_default_name(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_yaml_can_link_with_port(hass: __HAC_KEEP__) -> None:
+async def test_yaml_can_link_with_port(hass: UniversalAssistant) -> None:
     """Test async_setup with imported config linked by port."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1967,7 +1967,7 @@ async def test_yaml_can_link_with_port(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_homekit_uses_system_zeroconf(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_homekit_uses_system_zeroconf(hass: UniversalAssistant, hk_driver) -> None:
     """Test HomeKit uses system zeroconf."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1997,7 +1997,7 @@ async def test_homekit_uses_system_zeroconf(hass: __HAC_KEEP__, hk_driver) -> No
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_ignored_missing_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -2092,7 +2092,7 @@ async def test_homekit_ignored_missing_devices(
 )
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_finds_linked_motion_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -2167,7 +2167,7 @@ async def test_homekit_finds_linked_motion_sensors(
 )
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_finds_linked_doorbell_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -2236,7 +2236,7 @@ async def test_homekit_finds_linked_doorbell_sensors(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_finds_linked_humidity_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -2255,7 +2255,7 @@ async def test_homekit_finds_linked_humidity_sensors(
         config_entry_id=config_entry.entry_id,
         sw_version="0.16.1",
         model="Smart Brainy Clever Humidifier",
-        manufacturer="__HA_KEEP__",
+        manufacturer="Universal Home Assistant",
         connections={(dr.CONNECTION_NETWORK_MAC, "12:34:56:AB:CD:EF")},
     )
 
@@ -2298,7 +2298,7 @@ async def test_homekit_finds_linked_humidity_sensors(
         ANY,
         ANY,
         {
-            "manufacturer": "__HA_KEEP__",
+            "manufacturer": "Universal Home Assistant",
             "model": "Smart Brainy Clever Humidifier",
             "platform": "test",
             "sw_version": "0.16.1",
@@ -2309,7 +2309,7 @@ async def test_homekit_finds_linked_humidity_sensors(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_finds_linked_air_purifier_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -2328,7 +2328,7 @@ async def test_homekit_finds_linked_air_purifier_sensors(
         config_entry_id=config_entry.entry_id,
         sw_version="0.16.1",
         model="Smart Air Purifier",
-        manufacturer="__HA_KEEP__",
+        manufacturer="Universal Home Assistant",
         connections={(dr.CONNECTION_NETWORK_MAC, "12:34:56:AB:CD:EF")},
     )
 
@@ -2401,7 +2401,7 @@ async def test_homekit_finds_linked_air_purifier_sensors(
         ANY,
         ANY,
         {
-            "manufacturer": "__HA_KEEP__",
+            "manufacturer": "Universal Home Assistant",
             "model": "Smart Air Purifier",
             "platform": "air_purifier",
             "sw_version": "0.16.1",
@@ -2415,7 +2415,7 @@ async def test_homekit_finds_linked_air_purifier_sensors(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 @patch(f"{PATH_HOMEKIT}.async_port_is_available", return_value=True)
-async def test_reload(mock_port_available: MagicMock, hass: __HAC_KEEP__) -> None:
+async def test_reload(mock_port_available: MagicMock, hass: UniversalAssistant) -> None:
     """Test we can reload from yaml."""
 
     entry = MockConfigEntry(
@@ -2507,7 +2507,7 @@ async def test_reload(mock_port_available: MagicMock, hass: __HAC_KEEP__) -> Non
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_start_in_accessory_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -2551,7 +2551,7 @@ async def test_homekit_start_in_accessory_mode(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_start_in_accessory_mode_unsupported_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2584,7 +2584,7 @@ async def test_homekit_start_in_accessory_mode_unsupported_entity(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_start_in_accessory_mode_missing_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2619,7 +2619,7 @@ async def test_homekit_start_in_accessory_mode_missing_entity(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_wait_for_port_to_free(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

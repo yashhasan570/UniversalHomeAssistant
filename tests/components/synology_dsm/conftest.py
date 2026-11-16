@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .common import mock_dsm_hardware, mock_dsm_information
@@ -22,7 +22,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 @pytest.fixture
-async def setup_media_source(hass: __HAC_KEEP__) -> None:
+async def setup_media_source(hass: UniversalAssistant) -> None:
     """Set up media source."""
     assert await async_setup_component(hass, "media_source", {})
 

@@ -12,8 +12,8 @@ from universalassistant.components.homematicip_cloud.services import (
     HomematicIPServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from .helper import HomeFactory
@@ -24,7 +24,7 @@ from .helper import HomeFactory
     [({HomematicIPServiceArgument.PIN: "1234"}, "1234"), ({}, None)],
 )
 async def test_pull_latch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     default_mock_hap_factory: HomeFactory,
     full_flush_lock_controller_device_data: dict[str, Any],
@@ -63,7 +63,7 @@ async def test_pull_latch(
 
 
 async def test_pull_latch_rejected_by_access_point(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     default_mock_hap_factory: HomeFactory,
     full_flush_lock_controller_device_data: dict[str, Any],
@@ -95,7 +95,7 @@ async def test_pull_latch_rejected_by_access_point(
                 status=400, text='{"errorCode": "INVALID_AUTHORIZATION_PIN"}'
             ),
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -109,7 +109,7 @@ async def test_pull_latch_rejected_by_access_point(
 
 
 async def test_pull_latch_on_non_opener_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     default_mock_hap_factory: HomeFactory,
 ) -> None:
@@ -129,7 +129,7 @@ async def test_pull_latch_on_non_opener_device(
 
 
 async def test_pull_latch_unknown_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     default_mock_hap_factory: HomeFactory,
 ) -> None:
     """Targeting an unknown device reports a clear error."""

@@ -34,7 +34,7 @@ from universalassistant.components.system_bridge.config_flow import SystemBridge
 from universalassistant.components.system_bridge.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import (
     FIXTURE_COMMAND,
@@ -255,7 +255,7 @@ def mock_websocket_client(
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_version: MagicMock,
     mock_websocket_client: MagicMock,

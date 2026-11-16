@@ -21,7 +21,7 @@ from universalassistant.components.rainbird.const import (
     DEFAULT_TRIGGER_TIME_MINUTES,
 )
 from universalassistant.const import EVENT_HOMEASSISTANT_CLOSE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 HOST = "example.com"
 URL = "http://example.com/stick"
@@ -139,7 +139,7 @@ async def config_entry(
 
 @pytest.fixture(autouse=True)
 async def add_config_entry(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry | None
+    hass: UniversalAssistant, config_entry: MockConfigEntry | None
 ) -> None:
     """Fixture to add the config entry."""
     if config_entry:
@@ -148,7 +148,7 @@ async def add_config_entry(
 
 @pytest.fixture(autouse=True)
 def setup_platforms(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     platforms: list[str],
 ) -> None:
     """Fixture for setting up the default platforms."""
@@ -158,7 +158,7 @@ def setup_platforms(
 
 
 @pytest.fixture(autouse=True)
-def aioclient_mock(hass: __HAC_KEEP__) -> Generator[AiohttpClientMocker]:
+def aioclient_mock(hass: UniversalAssistant) -> Generator[AiohttpClientMocker]:
     """Context manager to mock aiohttp client."""
     mocker = AiohttpClientMocker()
 

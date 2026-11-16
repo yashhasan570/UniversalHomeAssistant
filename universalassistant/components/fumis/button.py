@@ -8,7 +8,7 @@ from fumis import Fumis
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import FumisConfigEntry, FumisDataUpdateCoordinator
@@ -36,7 +36,7 @@ BUTTONS: tuple[FumisButtonEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FumisConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

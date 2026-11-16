@@ -8,7 +8,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.doorbird.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -17,7 +17,7 @@ from .conftest import DoorbirdMockerType, patch_doorbird_api_entry_points
 
 
 async def test_change_schedule_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     doorbird_mocker: DoorbirdMockerType,
     hass_client: ClientSessionGenerator,

@@ -17,8 +17,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -32,7 +32,7 @@ SUPPORTED_SUB_MODELS: frozenset[str] = frozenset({"NTD", "ETRV"})
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MyNeomitisConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -213,7 +213,7 @@ class MyNeoClimate(ClimateEntity):
         if self._attr_preset_mode != "setpoint":
             ok = await self._set_device_mode("setpoint")
             if not ok:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     f"Failed to set preset mode 'setpoint' for {self.entity_id}"
                 )
             self._attr_preset_mode = "setpoint"
@@ -229,7 +229,7 @@ class MyNeoClimate(ClimateEntity):
 
         ok = await self._set_device_temperature(temperature)
         if not ok:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to set temperature to {temperature} for {self.entity_id}"
             )
 
@@ -258,7 +258,7 @@ class MyNeoClimate(ClimateEntity):
 
         ok = await self._set_device_mode(preset_mode)
         if not ok:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to set preset mode '{preset_mode}' for {self.entity_id}"
             )
 
@@ -277,7 +277,7 @@ class MyNeoClimate(ClimateEntity):
 
             ok = await self._set_device_mode("standby")
             if not ok:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     f"Failed to set standby mode for {self.entity_id}"
                 )
             self._attr_preset_mode = "standby"
@@ -298,7 +298,7 @@ class MyNeoClimate(ClimateEntity):
 
             ok = await self._set_device_mode(preset_to_restore)
             if not ok:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     f"Failed to restore preset '{preset_to_restore}'"
                     f" for {self.entity_id}"
                 )

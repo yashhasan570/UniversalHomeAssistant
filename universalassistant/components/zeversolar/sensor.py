@@ -13,7 +13,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import UnitOfEnergy, UnitOfPower
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import ZeversolarConfigEntry, ZeversolarCoordinator
@@ -47,7 +47,7 @@ SENSOR_TYPES = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ZeversolarConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

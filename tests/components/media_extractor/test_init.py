@@ -15,15 +15,15 @@ from universalassistant.components.media_extractor.services import (
     MediaExtractorService,
     MediaExtractorServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__, ServiceCall
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.setup import async_setup_component
 
 from . import YOUTUBE_EMPTY_PLAYLIST, YOUTUBE_PLAYLIST, YOUTUBE_VIDEO, MockYoutubeDL
 from .const import NO_FORMATS_RESPONSE, SOUNDCLOUD_TRACK
 
 
-async def test_play_media_service_is_registered(hass: __HAC_KEEP__) -> None:
+async def test_play_media_service_is_registered(hass: UniversalAssistant) -> None:
     """Test play media service is registered."""
     mock_config_entry = MockConfigEntry(domain=DOMAIN)
 
@@ -46,7 +46,7 @@ async def test_play_media_service_is_registered(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_extract_media_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_youtube_dl: MockYoutubeDL,
     snapshot: SnapshotAssertion,
     empty_media_extractor_config: dict[str, Any],
@@ -69,7 +69,7 @@ async def test_extract_media_service(
 
 
 async def test_extracting_playlist_no_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_youtube_dl: MockYoutubeDL,
     empty_media_extractor_config: dict[str, Any],
 ) -> None:
@@ -78,7 +78,7 @@ async def test_extracting_playlist_no_entries(
     await async_setup_component(hass, DOMAIN, empty_media_extractor_config)
     await hass.async_block_till_done()
     with pytest.raises(
-        __HAC_KEEP__Error, match="The playlist does not contain any media"
+        UniversalAssistantError, match="The playlist does not contain any media"
     ) as exc_info:
         await hass.services.async_call(
             DOMAIN,
@@ -99,7 +99,7 @@ async def test_extracting_playlist_no_entries(
     ],
 )
 async def test_play_media_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_youtube_dl: MockYoutubeDL,
     service_calls: list[ServiceCall],
     snapshot: SnapshotAssertion,
@@ -127,7 +127,7 @@ async def test_play_media_service(
 
 
 async def test_download_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     empty_media_extractor_config: dict[str, Any],
     service_calls: list[ServiceCall],
     caplog: pytest.LogCaptureFixture,
@@ -157,7 +157,7 @@ async def test_download_error(
 
 
 async def test_no_target_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_youtube_dl: MockYoutubeDL,
     empty_media_extractor_config: dict[str, Any],
     service_calls: list[ServiceCall],
@@ -184,7 +184,7 @@ async def test_no_target_entity(
 
 
 async def test_playlist(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_youtube_dl: MockYoutubeDL,
     empty_media_extractor_config: dict[str, Any],
     service_calls: list[ServiceCall],
@@ -211,7 +211,7 @@ async def test_playlist(
 
 
 async def test_playlist_no_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_youtube_dl: MockYoutubeDL,
     empty_media_extractor_config: dict[str, Any],
     service_calls: list[ServiceCall],
@@ -240,7 +240,7 @@ async def test_playlist_no_entries(
 
 
 async def test_query_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     empty_media_extractor_config: dict[str, Any],
     service_calls: list[ServiceCall],
 ) -> None:
@@ -276,7 +276,7 @@ async def test_query_error(
 
 
 async def test_cookiefile_detection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_youtube_dl: MockYoutubeDL,
     empty_media_extractor_config: dict[str, Any],
     caplog: pytest.LogCaptureFixture,

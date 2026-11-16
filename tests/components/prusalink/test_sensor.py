@@ -24,7 +24,7 @@ from universalassistant.const import (
     UnitOfLength,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
@@ -36,7 +36,7 @@ def setup_sensor_platform_only():
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_sensors_no_job(hass: __HAC_KEEP__, mock_config_entry, mock_api) -> None:
+async def test_sensors_no_job(hass: UniversalAssistant, mock_config_entry, mock_api) -> None:
     """Test sensors while no job active."""
     assert await async_setup_component(hass, DOMAIN, {})
 
@@ -141,7 +141,7 @@ async def test_sensors_no_job(hass: __HAC_KEEP__, mock_config_entry, mock_api) -
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors_idle_job_mk3(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry,
     mock_api,
     mock_job_api_idle_mk3,
@@ -250,7 +250,7 @@ async def test_sensors_idle_job_mk3(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors_active_job(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry,
     mock_api,
     mock_get_status_printing,
@@ -299,7 +299,7 @@ async def test_sensors_active_job(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_axis_x_y_sensors(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: None
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: None
 ) -> None:
     """Test X and Y axis position sensors."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -321,7 +321,7 @@ async def test_axis_x_y_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_axis_x_y_not_created_when_absent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api: None,
     mock_get_status_idle: dict[str, Any],
@@ -337,7 +337,7 @@ async def test_axis_x_y_not_created_when_absent(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_min_extrusion_temp_sensor(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: None
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: None
 ) -> None:
     """Test minimum extrusion temperature sensor from info endpoint."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -352,7 +352,7 @@ async def test_min_extrusion_temp_sensor(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_min_extrusion_temp_not_created_when_absent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api: None,
     mock_info_api: dict[str, Any],
@@ -369,7 +369,7 @@ async def test_min_extrusion_temp_not_created_when_absent(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_job_timestamps_not_derived_after_the_print(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry,
     mock_api,
     mock_get_status_printing,
@@ -404,7 +404,7 @@ async def test_job_timestamps_not_derived_after_the_print(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_job_timestamps_kept_while_paused(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry,
     mock_api,
     mock_get_status_printing,

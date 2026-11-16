@@ -17,7 +17,7 @@ from weheat.exceptions import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.config_entry_oauth2_flow import OAuth2Session
@@ -81,7 +81,7 @@ class WeheatDataUpdateCoordinator(DataUpdateCoordinator[HeatPump]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: WeheatConfigEntry,
         session: OAuth2Session,
         heat_pump: HeatPumpDiscovery.HeatPumpInfo,
@@ -125,7 +125,7 @@ class WeheatEnergyUpdateCoordinator(DataUpdateCoordinator[HeatPump]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: WeheatConfigEntry,
         session: OAuth2Session,
         heat_pump: HeatPumpDiscovery.HeatPumpInfo,

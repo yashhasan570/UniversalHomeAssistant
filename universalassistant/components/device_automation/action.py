@@ -5,7 +5,7 @@ from typing import Any, Protocol
 import probatio
 
 from universalassistant.const import CONF_DOMAIN
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -22,13 +22,13 @@ class DeviceAutomationActionProtocol(Protocol):
     ACTION_SCHEMA: probatio.Schema
 
     async def async_validate_action_config(
-        self, hass: __HAC_KEEP__, config: ConfigType
+        self, hass: UniversalAssistant, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
 
     async def async_call_action_from_config(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config: ConfigType,
         variables: dict[str, Any],
         context: Context | None,
@@ -36,18 +36,18 @@ class DeviceAutomationActionProtocol(Protocol):
         """Execute a device action."""
 
     async def async_get_action_capabilities(
-        self, hass: __HAC_KEEP__, config: ConfigType
+        self, hass: UniversalAssistant, config: ConfigType
     ) -> dict[str, probatio.Schema]:
         """List action capabilities."""
 
     async def async_get_actions(
-        self, hass: __HAC_KEEP__, device_id: str
+        self, hass: UniversalAssistant, device_id: str
     ) -> list[dict[str, Any]]:
         """List actions."""
 
 
 async def async_validate_action_config(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> ConfigType:
     """Validate config."""
     return await async_validate_device_automation_config(
@@ -56,7 +56,7 @@ async def async_validate_action_config(
 
 
 async def async_call_action_from_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     variables: dict[str, Any],
     context: Context | None,

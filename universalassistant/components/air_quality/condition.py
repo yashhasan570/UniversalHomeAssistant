@@ -12,7 +12,7 @@ from universalassistant.const import (
     UnitOfRadiationConcentration,
     UnitOfRatio,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.automation import DomainSpec
 from universalassistant.helpers.condition import (
     Condition,
@@ -135,6 +135,6 @@ CONDITIONS: dict[str, type[Condition]] = {
 }
 
 
-async def async_get_conditions(hass: __HAC_KEEP__) -> dict[str, type[Condition]]:
+async def async_get_conditions(hass: UniversalAssistant) -> dict[str, type[Condition]]:
     """Return the air quality conditions."""
     return CONDITIONS

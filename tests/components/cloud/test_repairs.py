@@ -15,7 +15,7 @@ from universalassistant.components.cloud.repairs import (
     async_manage_legacy_subscription_issue,
 )
 from universalassistant.components.repairs import DOMAIN as REPAIRS_DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -24,7 +24,7 @@ from . import mock_cloud
 
 
 async def test_do_not_create_repair_issues_at_startup_if_not_logged_in(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test that we create repair issue at startup if we are logged in."""
@@ -41,7 +41,7 @@ async def test_do_not_create_repair_issues_at_startup_if_not_logged_in(
 
 @pytest.mark.usefixtures("mock_auth")
 async def test_create_repair_issues_at_startup_if_logged_in(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_create_repair_issues_at_startup_if_logged_in(
 
 
 async def test_legacy_subscription_delete_issue_if_no_longer_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test that we delete the legacy subscription issue if no longer legacy."""
@@ -80,7 +80,7 @@ async def test_legacy_subscription_delete_issue_if_no_longer_legacy(
 
 @pytest.mark.usefixtures("mock_auth")
 async def test_legacy_subscription_repair_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
@@ -165,7 +165,7 @@ async def test_legacy_subscription_repair_flow(
 
 @pytest.mark.usefixtures("mock_auth")
 async def test_legacy_subscription_repair_flow_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     issue_registry: ir.IssueRegistry,

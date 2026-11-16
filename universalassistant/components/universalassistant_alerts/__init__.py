@@ -1,9 +1,9 @@
-"""The __HA_KEEP__ alerts integration."""
+"""The Universal Home Assistant alerts integration."""
 
 import logging
 
 from universalassistant.const import EVENT_COMPONENT_LOADED
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.debounce import Debouncer
@@ -24,7 +24,7 @@ _LOGGER = logging.getLogger(__name__)
 CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up alerts."""
     last_alerts: dict[str, str | None] = {}
 
@@ -87,7 +87,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     coordinator = AlertUpdateCoordinator(hass)
     coordinator.async_add_listener(async_schedule_update_alerts)
 
-    async def initial_refresh(hass: __HAC_KEEP__) -> None:
+    async def initial_refresh(hass: UniversalAssistant) -> None:
         refresh_debouncer = Debouncer(
             hass,
             _LOGGER,

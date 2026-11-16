@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any
 
 import probatio
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import VolDictType
 
@@ -28,7 +28,7 @@ if TYPE_CHECKING:
     from .entity import LightEntity
 
 
-def _preprocess_data(hass: __HAC_KEEP__, data: dict[str, Any]) -> VolDictType:
+def _preprocess_data(hass: UniversalAssistant, data: dict[str, Any]) -> VolDictType:
     """Preprocess the service data."""
     base: VolDictType = {
         entity_field: data.pop(entity_field)  # type: ignore[arg-type]
@@ -72,7 +72,7 @@ async def _async_handle_toggle_service(light: LightEntity, call: ServiceCall) ->
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the light services."""
     component = hass.data[DATA_COMPONENT]
 

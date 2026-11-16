@@ -12,12 +12,12 @@ from universalassistant.components.smlight.bluetooth import get_ble_scanner_mode
 from universalassistant.components.smlight.const import CONF_BLE_SCANNER_MODE, BLEScannerMode
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.usefixtures("mock_ultima_client")
 async def test_bluetooth_scanner_lifecycle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connect_scanner: MagicMock,
     mock_bluetooth_scanner: MagicMock,
@@ -57,7 +57,7 @@ async def test_bluetooth_scanner_lifecycle(
 
 
 async def test_bluetooth_not_started_for_disabled_settings(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connect_scanner: MagicMock,
     mock_smlight_client: MagicMock,
@@ -81,7 +81,7 @@ async def test_bluetooth_not_started_for_disabled_settings(
 
 @pytest.mark.usefixtures("mock_smlight_client")
 async def test_bluetooth_not_started_for_classic_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connect_scanner: MagicMock,
 ) -> None:
@@ -107,7 +107,7 @@ async def test_bluetooth_not_started_for_classic_device(
     ],
 )
 async def test_bluetooth_scanner_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connect_scanner: MagicMock,
     mock_ultima_client: MagicMock,
@@ -139,7 +139,7 @@ async def test_bluetooth_scanner_options(
 
 
 async def test_bluetooth_scanner_options_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connect_scanner: MagicMock,
     mock_ultima_client: MagicMock,
@@ -160,7 +160,7 @@ async def test_bluetooth_scanner_options_disabled(
 
 
 async def test_bluetooth_scanner_options_device_proxy_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connect_scanner: MagicMock,
     mock_ultima_client: MagicMock,
@@ -188,7 +188,7 @@ async def test_bluetooth_scanner_options_device_proxy_disabled(
 
 
 async def test_get_ble_scanner_mode_no_ble(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_smlight_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

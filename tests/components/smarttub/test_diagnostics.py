@@ -9,11 +9,11 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 import smarttub
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     spa: smarttub.Spa,
     spa_state: smarttub.SpaStateFull,
@@ -62,7 +62,7 @@ async def test_entry_diagnostics(
 
 
 async def test_entry_diagnostics_no_coordinator_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     spa: smarttub.Spa,
     config_entry: MockConfigEntry,

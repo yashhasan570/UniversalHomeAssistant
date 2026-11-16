@@ -23,8 +23,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util, slugify
 
@@ -40,7 +40,7 @@ from .const import DEVICE_ID, MAC_ADDRESS
 
 
 async def test_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -60,7 +60,7 @@ async def test_states(
         assert hass.states.get(f"sensor.my_device_{excluded}") is None
 
 
-async def test_plug(hass: __HAC_KEEP__) -> None:
+async def test_plug(hass: UniversalAssistant) -> None:
     """Test a smart plug."""
     already_migrated_config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "127.0.0.1"}, unique_id=MAC_ADDRESS
@@ -115,7 +115,7 @@ async def test_plug(hass: __HAC_KEEP__) -> None:
         ),
     ],
 )
-async def test_led_switch(hass: __HAC_KEEP__, dev: Device, domain: str) -> None:
+async def test_led_switch(hass: UniversalAssistant, dev: Device, domain: str) -> None:
     """Test LED setting for plugs, strips and dimmers."""
     already_migrated_config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "127.0.0.1"}, unique_id=MAC_ADDRESS
@@ -153,7 +153,7 @@ async def test_led_switch(hass: __HAC_KEEP__, dev: Device, domain: str) -> None:
 
 
 async def test_plug_unique_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a plug unique id."""
     already_migrated_config_entry = MockConfigEntry(
@@ -169,7 +169,7 @@ async def test_plug_unique_id(
     assert entity_registry.async_get(entity_id).unique_id == DEVICE_ID
 
 
-async def test_plug_update_fails(hass: __HAC_KEEP__) -> None:
+async def test_plug_update_fails(hass: UniversalAssistant) -> None:
     """Test a smart plug update failure."""
     already_migrated_config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "127.0.0.1"}, unique_id=MAC_ADDRESS
@@ -191,7 +191,7 @@ async def test_plug_update_fails(hass: __HAC_KEEP__) -> None:
     assert state.state == STATE_UNAVAILABLE
 
 
-async def test_strip(hass: __HAC_KEEP__) -> None:
+async def test_strip(hass: UniversalAssistant) -> None:
     """Test a smart strip."""
     already_migrated_config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "127.0.0.1"}, unique_id=MAC_ADDRESS
@@ -257,7 +257,7 @@ async def test_strip(hass: __HAC_KEEP__) -> None:
 
 
 async def test_strip_unique_ids(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a strip unique id."""
     already_migrated_config_entry = MockConfigEntry(
@@ -281,7 +281,7 @@ async def test_strip_unique_ids(
 
 
 async def test_strip_blank_alias(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -344,7 +344,7 @@ async def test_strip_blank_alias(
     ids=["Authentication", "Timeout", "Other"],
 )
 async def test_plug_errors_when_turned_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception_type,
     msg,
     reauth_expected,
@@ -368,7 +368,7 @@ async def test_plug_errors_when_turned_on(
         already_migrated_config_entry.async_get_active_flows(hass, {SOURCE_REAUTH})
     )
 
-    with pytest.raises(__HAC_KEEP__Error, match=msg):
+    with pytest.raises(UniversalAssistantError, match=msg):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,

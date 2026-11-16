@@ -15,7 +15,7 @@ from universalassistant.components.nextbus.const import CONF_AGENCY, CONF_ROUTE,
 from universalassistant.components.nextbus.coordinator import NextBusDataUpdateCoordinator
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_NAME, CONF_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import UpdateFailed
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -37,7 +37,7 @@ from .const import (
 
 
 async def test_predictions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nextbus: MagicMock,
     mock_nextbus_lists: MagicMock,
     mock_nextbus_predictions: MagicMock,
@@ -63,7 +63,7 @@ async def test_predictions(
     ],
 )
 async def test_prediction_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nextbus: MagicMock,
     mock_nextbus_lists: MagicMock,
     mock_nextbus_predictions: MagicMock,
@@ -78,7 +78,7 @@ async def test_prediction_exceptions(
 
 
 async def test_custom_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nextbus: MagicMock,
     mock_nextbus_lists: MagicMock,
     mock_nextbus_predictions: MagicMock,
@@ -94,7 +94,7 @@ async def test_custom_name(
 
 
 async def test_verify_no_predictions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nextbus: MagicMock,
     mock_nextbus_lists: MagicMock,
     mock_nextbus_predictions: MagicMock,
@@ -110,7 +110,7 @@ async def test_verify_no_predictions(
 
 
 async def test_verify_no_upcoming(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nextbus: MagicMock,
     mock_nextbus_lists: MagicMock,
     mock_nextbus_predictions: MagicMock,
@@ -126,7 +126,7 @@ async def test_verify_no_upcoming(
 
 
 async def test_verify_throttle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nextbus: MagicMock,
     mock_nextbus_lists: MagicMock,
     mock_nextbus_predictions: MagicMock,
@@ -177,7 +177,7 @@ async def test_verify_throttle(
 
 
 async def test_concurrent_setup_shares_coordinator(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nextbus: MagicMock,
     mock_nextbus_lists: MagicMock,
     mock_nextbus_predictions: MagicMock,
@@ -210,7 +210,7 @@ async def test_concurrent_setup_shares_coordinator(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nextbus: MagicMock,
     mock_nextbus_lists: MagicMock,
     mock_nextbus_predictions: MagicMock,
@@ -265,7 +265,7 @@ async def test_unload_entry(
 
 
 async def test_unload_final_entry_cleans_up_shared_coordinator(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nextbus: MagicMock,
     mock_nextbus_lists: MagicMock,
     mock_nextbus_predictions: MagicMock,

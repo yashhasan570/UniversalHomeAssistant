@@ -9,7 +9,7 @@ from universalassistant.components.light import (
     ColorMode,
     LightEntity,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import color as color_util
 
@@ -21,7 +21,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ElgatoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -2,7 +2,7 @@
   "config": {
     "abort": {
       "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
-      "unique_id_mismatch": "The Portainer instance ID does not match the previously configured instance. This can occur if the device was reset or reconfigured outside of __HA_KEEP__."
+      "unique_id_mismatch": "The Portainer instance ID does not match the previously configured instance. This can occur if the device was reset or reconfigured outside of Universal Home Assistant."
     },
     "error": {
       "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
@@ -68,7 +68,7 @@
           "data": {
             "endpoint_id": "Environment"
           },
-          "description": "Select a Portainer environment to add as a device in __HA_KEEP__.",
+          "description": "Select a Portainer environment to add as a device in Universal Home Assistant.",
           "title": "Add a Portainer environment"
         }
       }

@@ -43,7 +43,7 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -75,7 +75,7 @@ def override_platforms() -> Generator[None]:
     ],
 )
 async def test_climate_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_integration: MockConfigEntry,
     get_client: AirPatrolAPI,
     entity_registry: er.EntityRegistry,
@@ -91,7 +91,7 @@ async def test_climate_entities(
 
 
 async def test_climate_entity_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_integration: MockConfigEntry,
     get_client: AirPatrolAPI,
     get_data: dict[str, Any],
@@ -113,7 +113,7 @@ async def test_climate_entity_unavailable(
 
 
 async def test_climate_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_integration: MockConfigEntry,
     get_client: AirPatrolAPI,
     climate_data: dict[str, Any],
@@ -142,7 +142,7 @@ async def test_climate_set_temperature(
 
 
 async def test_climate_set_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_integration: MockConfigEntry,
     get_client: AirPatrolAPI,
     climate_data: dict[str, Any],
@@ -167,7 +167,7 @@ async def test_climate_set_hvac_mode(
 
 
 async def test_climate_set_fan_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_integration: MockConfigEntry,
     get_client: AirPatrolAPI,
     climate_data: dict[str, Any],
@@ -192,7 +192,7 @@ async def test_climate_set_fan_mode(
 
 
 async def test_climate_set_swing_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_integration: MockConfigEntry,
     get_client: AirPatrolAPI,
     climate_data: dict[str, Any],
@@ -233,7 +233,7 @@ async def test_climate_set_swing_mode(
     ],
 )
 async def test_climate_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_integration: MockConfigEntry,
     get_client: AirPatrolAPI,
     climate_data: dict[str, Any],
@@ -258,7 +258,7 @@ async def test_climate_turn_on(
 
 
 async def test_climate_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_integration: MockConfigEntry,
     get_client: AirPatrolAPI,
     climate_data: dict[str, Any],
@@ -299,7 +299,7 @@ async def test_climate_turn_off(
     ],
 )
 async def test_climate_heat_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_integration: MockConfigEntry,
     get_client: AirPatrolAPI,
 ) -> None:
@@ -309,7 +309,7 @@ async def test_climate_heat_mode(
 
 
 async def test_climate_set_temperature_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_integration: MockConfigEntry,
     get_client: AirPatrolAPI,
 ) -> None:
@@ -349,7 +349,7 @@ async def test_climate_set_temperature_api_error(
     ],
 )
 async def test_climate_fan_mode_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_client: AirPatrolAPI,
     get_data: dict[str, Any],
     load_integration: MockConfigEntry,
@@ -376,7 +376,7 @@ async def test_climate_fan_mode_invalid(
     ],
 )
 async def test_climate_swing_mode_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_integration: MockConfigEntry,
     get_client: AirPatrolAPI,
 ) -> None:

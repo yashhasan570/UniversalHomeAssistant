@@ -9,11 +9,11 @@ from unittest.mock import patch
 import pytest
 from pytest_universalassistant.common import MockModule
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import importlib
 
 
-async def test_async_import_module(hass: __HAC_KEEP__) -> None:
+async def test_async_import_module(hass: UniversalAssistant) -> None:
     """Test importing a module."""
     mock_module = MockModule()
     with patch(
@@ -25,7 +25,7 @@ async def test_async_import_module(hass: __HAC_KEEP__) -> None:
     assert module is mock_module
 
 
-async def test_async_import_module_on_helper(hass: __HAC_KEEP__) -> None:
+async def test_async_import_module_on_helper(hass: UniversalAssistant) -> None:
     """Test importing the importlib helper."""
     module = await importlib.async_import_module(
         hass, "universalassistant.helpers.importlib"
@@ -37,7 +37,7 @@ async def test_async_import_module_on_helper(hass: __HAC_KEEP__) -> None:
     assert module is importlib
 
 
-async def test_async_import_module_failures(hass: __HAC_KEEP__) -> None:
+async def test_async_import_module_failures(hass: UniversalAssistant) -> None:
     """Test importing a module fails."""
     with (
         patch(
@@ -60,7 +60,7 @@ async def test_async_import_module_failures(hass: __HAC_KEEP__) -> None:
 
 
 async def test_async_import_module_failure_caches_module_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test importing a module caches ModuleNotFound."""
     with (
@@ -86,7 +86,7 @@ async def test_async_import_module_failure_caches_module_not_found(
 
 @pytest.mark.parametrize("eager_start", [True, False])
 async def test_async_import_module_concurrency(
-    hass: __HAC_KEEP__, eager_start: bool
+    hass: UniversalAssistant, eager_start: bool
 ) -> None:
     """Test importing a module with concurrency."""
     mock_module = MockModule()
@@ -113,7 +113,7 @@ async def test_async_import_module_concurrency(
 
 
 async def test_async_import_module_concurrent_import_cancelled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Verify cancelling a waiting caller does not break the in-progress import."""
     mock_module = MockModule()

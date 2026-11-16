@@ -3,11 +3,11 @@
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def setup_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> bool:
     """Set up a config entry."""
@@ -18,7 +18,7 @@ async def setup_config_entry(
 
 
 async def unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
 ) -> bool:
     """Unload a config entry."""
@@ -28,7 +28,7 @@ async def unload_config_entry(
 
 
 async def remove_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
 ) -> dict[str, bool]:
     """Remove a config entry."""

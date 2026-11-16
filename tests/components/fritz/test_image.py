@@ -14,7 +14,7 @@ from universalassistant.components.fritz.const import DOMAIN, SCAN_INTERVAL
 from universalassistant.components.image import DOMAIN as IMAGE_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_registry import EntityRegistry
 from universalassistant.util import slugify
@@ -75,7 +75,7 @@ GUEST_WIFI_DISABLED: dict[str, dict] = {
     ],
 )
 async def test_image_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -127,7 +127,7 @@ async def test_image_entity(
 
 @pytest.mark.parametrize(("fc_data"), [({**MOCK_FB_SERVICES})])
 async def test_image_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
     freezer: FrozenDateTimeFactory,
@@ -168,7 +168,7 @@ async def test_image_update(
 
 @pytest.mark.parametrize(("fc_data"), [({**MOCK_FB_SERVICES})])
 async def test_image_update_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     freezer: FrozenDateTimeFactory,
     fc_class_mock,
@@ -218,7 +218,7 @@ async def test_image_update_unavailable(
 
 
 async def test_migrate_to_new_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fc_class_mock,
     fh_class_mock,
     entity_registry: EntityRegistry,

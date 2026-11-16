@@ -4,7 +4,7 @@ import logging
 from typing import Any
 
 from universalassistant.const import CONF_NAME, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 
@@ -45,7 +45,7 @@ def _stable_key(old_key: str) -> str | None:
     return new_key if new_key != old_key else None
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: OpenRGBConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: OpenRGBConfigEntry) -> None:
     """Migrate an old config entry.
 
     Version 1 embedded the location in every device key verbatim, including the
@@ -115,7 +115,7 @@ async def async_migrate_entry(hass: __HAC_KEEP__, entry: OpenRGBConfigEntry) -> 
 
 
 def _setup_server_device_registry(
-    hass: __HAC_KEEP__, entry: OpenRGBConfigEntry, coordinator: OpenRGBCoordinator
+    hass: UniversalAssistant, entry: OpenRGBConfigEntry, coordinator: OpenRGBCoordinator
 ):
     """Set up device registry for the OpenRGB SDK server."""
     device_registry = dr.async_get(hass)
@@ -132,7 +132,7 @@ def _setup_server_device_registry(
     )
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: OpenRGBConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: OpenRGBConfigEntry) -> None:
     """Set up OpenRGB from a config entry."""
     coordinator = OpenRGBCoordinator(hass, entry)
 
@@ -146,13 +146,13 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: OpenRGBConfigEntry) -> No
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: OpenRGBConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: OpenRGBConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, entry: OpenRGBConfigEntry, device_entry: AnyDeviceEntry
+    hass: UniversalAssistant, entry: OpenRGBConfigEntry, device_entry: AnyDeviceEntry
 ) -> bool:
     """Allows removal of device if it is no longer connected."""
     coordinator = entry.runtime_data

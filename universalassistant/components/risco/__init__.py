@@ -21,7 +21,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -71,7 +71,7 @@ def zone_update_signal(zone_id: int) -> str:
     return f"risco_zone_update_{zone_id}"
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: RiscoConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: RiscoConfigEntry) -> None:
     """Set up Risco from a config entry."""
     if is_local(entry):
         await _async_setup_local_entry(hass, entry)
@@ -81,7 +81,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: RiscoConfigEntry) -> None
 
 
 async def _async_setup_local_entry(
-    hass: __HAC_KEEP__, entry: RiscoConfigEntry
+    hass: UniversalAssistant, entry: RiscoConfigEntry
 ) -> None:
     data = entry.data
     concurrency = entry.options.get(CONF_CONCURRENCY, DEFAULT_CONCURRENCY)
@@ -159,7 +159,7 @@ async def _async_setup_local_entry(
 
 
 async def _async_setup_cloud_entry(
-    hass: __HAC_KEEP__, entry: RiscoConfigEntry
+    hass: UniversalAssistant, entry: RiscoConfigEntry
 ) -> None:
     data = entry.data
     risco = RiscoCloud(data[CONF_USERNAME], data[CONF_PASSWORD], data[CONF_PIN])
@@ -187,7 +187,7 @@ async def _async_setup_cloud_entry(
     await events_coordinator.async_refresh()
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: RiscoConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: RiscoConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     if local_data := entry.runtime_data.local_data:
@@ -203,17 +203,17 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: RiscoConfigEntry) -> Non
             )
 
 
-async def async_remove_entry(hass: __HAC_KEEP__, entry: RiscoConfigEntry) -> None:
+async def async_remove_entry(hass: UniversalAssistant, entry: RiscoConfigEntry) -> None:
     """Remove the stored last event timestamp."""
     await last_event_store(hass, entry.entry_id).async_remove()
 
 
-async def _update_listener(hass: __HAC_KEEP__, entry: RiscoConfigEntry) -> None:
+async def _update_listener(hass: UniversalAssistant, entry: RiscoConfigEntry) -> None:
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Risco integration services."""
 
     async_setup_services(hass)

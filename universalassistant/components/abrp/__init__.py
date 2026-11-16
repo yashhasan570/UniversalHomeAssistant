@@ -5,7 +5,7 @@ import logging
 from aioabrp import AbrpClient, TelemetryStream
 
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_entry_oauth2_flow, device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -25,7 +25,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS: list[Platform] = [Platform.DEVICE_TRACKER, Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: AbrpConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: AbrpConfigEntry) -> None:
     """Set up A Better Routeplanner from a config entry."""
     implementation = (
         await config_entry_oauth2_flow.async_get_config_entry_implementation(
@@ -119,6 +119,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: AbrpConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: AbrpConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: AbrpConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

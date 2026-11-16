@@ -9,13 +9,13 @@ from universalassistant.components.asuswrt.diagnostics import TO_REDACT
 from universalassistant.components.device_tracker import CONF_CONSIDER_HOME
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .common import CONFIG_DATA_TELNET, ROUTER_MAC_ADDR
 
 
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     connect_legacy,
 ) -> None:

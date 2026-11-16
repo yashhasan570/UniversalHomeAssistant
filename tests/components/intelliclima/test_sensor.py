@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import async_poll, setup_integration
@@ -19,7 +19,7 @@ from . import async_poll, setup_integration
 
 @pytest.fixture(autouse=True)
 async def setup_intelliclima_sensor_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_cloud_interface: AsyncMock,
 ) -> AsyncGenerator[None]:
@@ -33,7 +33,7 @@ async def setup_intelliclima_sensor_only(
 
 
 async def test_all_sensor_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -73,7 +73,7 @@ async def test_all_sensor_entities(
     ],
 )
 async def test_sensor_no_reading(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     single_eco_device: IntelliClimaDevices,
     field: str,

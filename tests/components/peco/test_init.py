@@ -14,7 +14,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.peco.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 MOCK_ENTRY_DATA = {"county": "TOTAL"}
 COUNTY_ENTRY_DATA = {"county": "BUCKS"}
@@ -22,7 +22,7 @@ INVALID_COUNTY_DATA = {"county": "INVALID"}
 METER_DATA = {"county": "BUCKS", "phone_number": "1234567890"}
 
 
-async def test_unload_entry(hass: __HAC_KEEP__) -> None:
+async def test_unload_entry(hass: UniversalAssistant) -> None:
     """Test the unload entry."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=MOCK_ENTRY_DATA)
     config_entry.add_to_hass(hass)
@@ -64,7 +64,7 @@ async def test_unload_entry(hass: __HAC_KEEP__) -> None:
         "bucks_customers_served",
     ],
 )
-async def test_update_timeout(hass: __HAC_KEEP__, sensor) -> None:
+async def test_update_timeout(hass: UniversalAssistant, sensor) -> None:
     """Test if it raises an error when there is a timeout."""
 
     config_entry = MockConfigEntry(domain=DOMAIN, data=COUNTY_ENTRY_DATA)
@@ -90,7 +90,7 @@ async def test_update_timeout(hass: __HAC_KEEP__, sensor) -> None:
         "total_customers_served",
     ],
 )
-async def test_total_update_timeout(hass: __HAC_KEEP__, sensor) -> None:
+async def test_total_update_timeout(hass: UniversalAssistant, sensor) -> None:
     """Test if it raises an error when there is a timeout."""
 
     config_entry = MockConfigEntry(domain=DOMAIN, data=MOCK_ENTRY_DATA)
@@ -115,7 +115,7 @@ async def test_total_update_timeout(hass: __HAC_KEEP__, sensor) -> None:
         "bucks_customers_served",
     ],
 )
-async def test_http_error(hass: __HAC_KEEP__, sensor: str) -> None:
+async def test_http_error(hass: UniversalAssistant, sensor: str) -> None:
     """Test if it raises an error when an abnormal status code is returned."""
 
     config_entry = MockConfigEntry(domain=DOMAIN, data=COUNTY_ENTRY_DATA)
@@ -141,7 +141,7 @@ async def test_http_error(hass: __HAC_KEEP__, sensor: str) -> None:
         "bucks_customers_served",
     ],
 )
-async def test_bad_json(hass: __HAC_KEEP__, sensor: str) -> None:
+async def test_bad_json(hass: UniversalAssistant, sensor: str) -> None:
     """Test if it raises an error when abnormal JSON is returned."""
 
     config_entry = MockConfigEntry(domain=DOMAIN, data=COUNTY_ENTRY_DATA)
@@ -158,7 +158,7 @@ async def test_bad_json(hass: __HAC_KEEP__, sensor: str) -> None:
     assert config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_unresponsive_meter_error(hass: __HAC_KEEP__) -> None:
+async def test_unresponsive_meter_error(hass: UniversalAssistant) -> None:
     """Test if it raises an error when the meter will not respond."""
 
     config_entry = MockConfigEntry(domain=DOMAIN, data=METER_DATA)
@@ -192,7 +192,7 @@ async def test_unresponsive_meter_error(hass: __HAC_KEEP__) -> None:
     assert config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_meter_http_error(hass: __HAC_KEEP__) -> None:
+async def test_meter_http_error(hass: UniversalAssistant) -> None:
     """Test if it raises an error when there is an HTTP error."""
 
     config_entry = MockConfigEntry(domain=DOMAIN, data=METER_DATA)
@@ -226,7 +226,7 @@ async def test_meter_http_error(hass: __HAC_KEEP__) -> None:
     assert config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_meter_bad_json(hass: __HAC_KEEP__) -> None:
+async def test_meter_bad_json(hass: UniversalAssistant) -> None:
     """Test if it raises an error when there is bad JSON."""
 
     config_entry = MockConfigEntry(domain=DOMAIN, data=METER_DATA)
@@ -260,7 +260,7 @@ async def test_meter_bad_json(hass: __HAC_KEEP__) -> None:
     assert config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_meter_timeout(hass: __HAC_KEEP__) -> None:
+async def test_meter_timeout(hass: UniversalAssistant) -> None:
     """Test if it raises an error when there is a timeout."""
 
     config_entry = MockConfigEntry(domain=DOMAIN, data=METER_DATA)
@@ -294,7 +294,7 @@ async def test_meter_timeout(hass: __HAC_KEEP__) -> None:
     assert config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_meter_data(hass: __HAC_KEEP__) -> None:
+async def test_meter_data(hass: UniversalAssistant) -> None:
     """Test if the meter returns the value successfully."""
 
     config_entry = MockConfigEntry(domain=DOMAIN, data=METER_DATA)

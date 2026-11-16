@@ -30,7 +30,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_CLOSE,
     HTTP_BASIC_AUTHENTICATION,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import aiohttp_client as client
 from universalassistant.util import ssl as ssl_util
 from universalassistant.util.color import RGBColor
@@ -39,7 +39,7 @@ from universalassistant.util.ssl import SSLCipherList
 
 @pytest.fixture(name="camera_client")
 async def camera_client_fixture(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> TestClient:
     """Fixture to fetch camera streams."""
     mock_config_entry = MockConfigEntry(
@@ -61,7 +61,7 @@ async def camera_client_fixture(
     return await hass_client()
 
 
-async def test_get_clientsession_with_ssl(hass: __HAC_KEEP__) -> None:
+async def test_get_clientsession_with_ssl(hass: UniversalAssistant) -> None:
     """Test init clientsession with ssl."""
     client.async_get_clientsession(hass)
     verify_ssl = True
@@ -76,7 +76,7 @@ async def test_get_clientsession_with_ssl(hass: __HAC_KEEP__) -> None:
     assert isinstance(connector, aiohttp.TCPConnector)
 
 
-async def test_get_clientsession_without_ssl(hass: __HAC_KEEP__) -> None:
+async def test_get_clientsession_without_ssl(hass: UniversalAssistant) -> None:
     """Test init clientsession without ssl."""
     client.async_get_clientsession(hass, verify_ssl=False)
     verify_ssl = False
@@ -121,7 +121,7 @@ async def test_get_clientsession_without_ssl(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_get_clientsession(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     verify_ssl: bool,
     expected_family: int,
     ssl_cipher: SSLCipherList,
@@ -140,7 +140,7 @@ async def test_get_clientsession(
     assert isinstance(connector, aiohttp.TCPConnector)
 
 
-async def test_create_clientsession_with_ssl_and_cookies(hass: __HAC_KEEP__) -> None:
+async def test_create_clientsession_with_ssl_and_cookies(hass: UniversalAssistant) -> None:
     """Test create clientsession with ssl."""
     session = client.async_create_clientsession(hass, cookies={"bla": True})
     assert isinstance(session, aiohttp.ClientSession)
@@ -155,7 +155,7 @@ async def test_create_clientsession_with_ssl_and_cookies(hass: __HAC_KEEP__) -> 
 
 
 async def test_create_clientsession_without_ssl_and_cookies(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test create clientsession without ssl."""
     session = client.async_create_clientsession(hass, False, cookies={"bla": True})
@@ -200,7 +200,7 @@ async def test_create_clientsession_without_ssl_and_cookies(
     ],
 )
 async def test_get_clientsession_cleanup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     verify_ssl: bool,
     expected_family: int,
     ssl_cipher: SSLCipherList,
@@ -226,7 +226,7 @@ async def test_get_clientsession_cleanup(
     assert connector.closed
 
 
-async def test_get_clientsession_patched_close(hass: __HAC_KEEP__) -> None:
+async def test_get_clientsession_patched_close(hass: UniversalAssistant) -> None:
     """Test closing clientsession does not work."""
 
     verify_ssl = True
@@ -252,7 +252,7 @@ async def test_get_clientsession_patched_close(hass: __HAC_KEEP__) -> None:
 
 
 async def test_warning_close_session_integration(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test log warning message when closing the session from integration context."""
     with (
@@ -286,15 +286,15 @@ async def test_warning_close_session_integration(
         session = client.async_get_clientsession(hass)
         await session.close()
     assert (
-        "Detected that integration 'hue' closes the __HA_KEEP__ aiohttp session at "
+        "Detected that integration 'hue' closes the Universal Home Assistant aiohttp session at "
         "universalassistant/components/hue/light.py, line 23: await session.close(). "
-        "Please create a bug report at https://github.com/yashhasan570/__HAC_KEEP__/issues?"
+        "Please create a bug report at https://github.com/yashhasan570/UniversalUniversalAssistant/issues?"
         "q=is%3Aopen+is%3Aissue+label%3A%22integration%3A+hue%22"
     ) in caplog.text
 
 
 async def test_warning_close_session_custom(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test log warning message when closing the session from custom context."""
     mock_integration(hass, MockModule("hue"), built_in=False)
@@ -329,7 +329,7 @@ async def test_warning_close_session_custom(
         session = client.async_get_clientsession(hass)
         await session.close()
     assert (
-        "Detected that custom integration 'hue' closes the __HA_KEEP__ aiohttp "
+        "Detected that custom integration 'hue' closes the Universal Home Assistant aiohttp "
         "session at custom_components/hue/light.py, line 23: await session.close(). "
         "Please report it to the author of the 'hue' custom integration"
     ) in caplog.text
@@ -370,7 +370,7 @@ async def test_async_aiohttp_proxy_stream_client_err(
 
 
 async def test_sending_named_tuple(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test sending a named tuple in json."""
     resp = aioclient_mock.post("http://127.0.0.1/rgb", json={"rgb": RGBColor(4, 3, 2)})
@@ -381,7 +381,7 @@ async def test_sending_named_tuple(
     assert aioclient_mock.mock_calls[0][2]["rgb"] == RGBColor(4, 3, 2)
 
 
-async def test_client_session_immutable_headers(hass: __HAC_KEEP__) -> None:
+async def test_client_session_immutable_headers(hass: UniversalAssistant) -> None:
     """Test we can't mutate headers."""
     session = client.async_get_clientsession(hass)
 
@@ -392,21 +392,21 @@ async def test_client_session_immutable_headers(hass: __HAC_KEEP__) -> None:
         session.headers.update({"user-agent": "bla"})
 
 
-async def test_create_clientsession_keeps_headers(hass: __HAC_KEEP__) -> None:
+async def test_create_clientsession_keeps_headers(hass: UniversalAssistant) -> None:
     """Test default headers passed to the session are kept."""
     session = client.async_create_clientsession(
         hass, headers={"Authorization": "Basic bla", "User-Agent": "bla"}
     )
 
     assert session.headers["authorization"] == "Basic bla"
-    # We always identify as __HA_KEEP__
+    # We always identify as Universal Home Assistant
     assert session.headers["user-agent"] == client.SERVER_SOFTWARE
 
 
 @pytest.mark.usefixtures("disable_mock_zeroconf_resolver")
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_async_mdnsresolver(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test async_mdnsresolver."""
     resp = aioclient_mock.post("http://localhost/xyz", json={"x": 1})
@@ -416,7 +416,7 @@ async def test_async_mdnsresolver(
     assert await resp.json() == {"x": 1}
 
 
-async def test_resolver_is_singleton(hass: __HAC_KEEP__) -> None:
+async def test_resolver_is_singleton(hass: UniversalAssistant) -> None:
     """Test that the resolver is a singleton."""
     session = client.async_get_clientsession(hass)
     session2 = client.async_get_clientsession(hass)
@@ -428,7 +428,7 @@ async def test_resolver_is_singleton(hass: __HAC_KEEP__) -> None:
     assert session._connector._resolver is session3._connector._resolver
 
 
-async def test_connector_uses_http11_alpn(hass: __HAC_KEEP__) -> None:
+async def test_connector_uses_http11_alpn(hass: UniversalAssistant) -> None:
     """Test that connector uses HTTP/1.1 ALPN protocols."""
     with patch.object(
         ssl_util, "client_context", wraps=ssl_util.client_context
@@ -441,7 +441,7 @@ async def test_connector_uses_http11_alpn(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_connector_no_verify_uses_http11_alpn(hass: __HAC_KEEP__) -> None:
+async def test_connector_no_verify_uses_http11_alpn(hass: UniversalAssistant) -> None:
     """Test that connector without SSL verification uses HTTP/1.1 ALPN protocols."""
     with patch.object(
         ssl_util, "client_context_no_verify", wraps=ssl_util.client_context_no_verify
@@ -514,7 +514,7 @@ def _resolve_result(host: str, addr: str) -> list[dict[str, object]]:
 
 @pytest.mark.usefixtures("socket_enabled")
 async def test_redirect_loopback_to_loopback_allowed(
-    hass: __HAC_KEEP__, redirect_server: TestServer
+    hass: UniversalAssistant, redirect_server: TestServer
 ) -> None:
     """Test that redirects from loopback to loopback are allowed."""
     session = client.async_get_clientsession(hass)
@@ -528,7 +528,7 @@ async def test_redirect_loopback_to_loopback_allowed(
 
 @pytest.mark.usefixtures("socket_enabled")
 async def test_redirect_relative_url_allowed(
-    hass: __HAC_KEEP__, redirect_server: TestServer
+    hass: UniversalAssistant, redirect_server: TestServer
 ) -> None:
     """Test that relative redirects are allowed (they stay on the same host)."""
     session = client.async_create_clientsession(hass)
@@ -557,7 +557,7 @@ async def test_redirect_relative_url_allowed(
     ],
 )
 async def test_redirect_to_non_loopback_allowed(
-    hass: __HAC_KEEP__, redirect_server: TestServer, target: str
+    hass: UniversalAssistant, redirect_server: TestServer, target: str
 ) -> None:
     """Test that redirects to non-loopback addresses are allowed."""
     session = client.async_create_clientsession(hass)
@@ -578,7 +578,7 @@ async def test_redirect_to_non_loopback_allowed(
 
 @pytest.mark.usefixtures("socket_enabled")
 async def test_redirect_to_custom_scheme_not_blocked(
-    hass: __HAC_KEEP__, redirect_server: TestServer
+    hass: UniversalAssistant, redirect_server: TestServer
 ) -> None:
     """Test that redirects to custom (non-HTTP/S) URI schemes are not blocked."""
     session = client.async_create_clientsession(hass)
@@ -659,7 +659,7 @@ async def test_redirect_to_custom_scheme_not_blocked(
     ],
 )
 async def test_redirect_to_blocked_address(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     redirect_server: TestServer,
     location: str,
     target_resolved_addr: str | None,
@@ -692,7 +692,7 @@ async def test_redirect_to_blocked_address(
 
 
 @pytest.mark.usefixtures("socket_enabled")
-async def test_clientsession_accepts_large_headers(hass: __HAC_KEEP__) -> None:
+async def test_clientsession_accepts_large_headers(hass: UniversalAssistant) -> None:
     """Test the clientsession reads header fields larger than aiohttp's default limit."""
     large_value = "x" * 9300
 

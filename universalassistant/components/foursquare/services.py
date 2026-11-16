@@ -7,7 +7,7 @@ import logging
 import probatio
 import requests
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import config_validation as cv
 
 from .const import DATA_ACCESS_TOKEN, DOMAIN, EVENT_CHECKIN
@@ -66,7 +66,7 @@ def _checkin_user(call: ServiceCall) -> None:
     hass.bus.fire(EVENT_CHECKIN, {"text": response.text})
 
 
-def setup_services(hass: __HAC_KEEP__) -> None:
+def setup_services(hass: UniversalAssistant) -> None:
     """Register the Foursquare services."""
     hass.services.register(
         DOMAIN, FoursquareService.CHECKIN, _checkin_user, schema=CHECKIN_SERVICE_SCHEMA

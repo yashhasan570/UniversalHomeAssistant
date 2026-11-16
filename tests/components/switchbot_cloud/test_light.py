@@ -25,13 +25,13 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import configure_integration
 
 
 async def test_coordinator_data_is_none(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
+    hass: UniversalAssistant, mock_list_devices, mock_get_status
 ) -> None:
     """Test coordinator data is none."""
 
@@ -53,7 +53,7 @@ async def test_coordinator_data_is_none(
 
 
 async def test_strip_light_turn_off(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
+    hass: UniversalAssistant, mock_list_devices, mock_get_status
 ) -> None:
     """Test strip light turn off."""
 
@@ -85,7 +85,7 @@ async def test_strip_light_turn_off(
 
 
 async def test_rgbww_light_turn_off(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
+    hass: UniversalAssistant, mock_list_devices, mock_get_status
 ) -> None:
     """Test rgbww light turn_off."""
 
@@ -118,7 +118,7 @@ async def test_rgbww_light_turn_off(
 
 
 async def test_strip_light_turn_on(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
+    hass: UniversalAssistant, mock_list_devices, mock_get_status
 ) -> None:
     """Test strip light turn on."""
     mock_list_devices.return_value = [
@@ -209,7 +209,7 @@ async def test_strip_light_turn_on(
 
 
 async def test_rgbww_light_turn_on(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
+    hass: UniversalAssistant, mock_list_devices, mock_get_status
 ) -> None:
     """Test rgbww light turn on."""
     mock_list_devices.return_value = [
@@ -313,7 +313,7 @@ async def test_rgbww_light_turn_on(
 
 @pytest.mark.parametrize("device_type", ["Ceiling Light", "Ceiling Light Pro"])
 async def test_ceiling_light_turn_on(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status, device_type
+    hass: UniversalAssistant, mock_list_devices, mock_get_status, device_type
 ) -> None:
     """Test ceiling light turn on."""
     mock_list_devices.return_value = [
@@ -394,7 +394,7 @@ async def test_ceiling_light_turn_on(
 
 @pytest.mark.parametrize("device_type", ["Ceiling Light", "Ceiling Light Pro"])
 async def test_ceiling_light_turn_off(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status, device_type
+    hass: UniversalAssistant, mock_list_devices, mock_get_status, device_type
 ) -> None:
     """Test ceiling light turn off."""
     mock_list_devices.return_value = [
@@ -434,7 +434,7 @@ async def test_ceiling_light_turn_off(
     "device_type", ["RGBIC Neon Rope Light", "RGBIC Neon Wire Rope Light"]
 )
 async def test_rgbic_neon_rope_light(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status, device_type
+    hass: UniversalAssistant, mock_list_devices, mock_get_status, device_type
 ) -> None:
     """Test rgbic neon rope light."""
     mock_list_devices.return_value = [
@@ -501,7 +501,7 @@ async def test_rgbic_neon_rope_light(
 
 
 async def test_candle_warmer_lamp(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
+    hass: UniversalAssistant, mock_list_devices, mock_get_status
 ) -> None:
     """Test candle warmer lamp."""
     mock_list_devices.return_value = [
@@ -557,7 +557,7 @@ async def test_candle_warmer_lamp(
 
 
 async def test_rgbww_light_brightness_and_color_temp(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
+    hass: UniversalAssistant, mock_list_devices, mock_get_status
 ) -> None:
     """Test RGBWW light turn on with both brightness and color temperature."""
     mock_list_devices.return_value = [
@@ -606,7 +606,7 @@ async def test_rgbww_light_brightness_and_color_temp(
 
 
 async def test_rgbww_light_brightness_and_rgb_color(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
+    hass: UniversalAssistant, mock_list_devices, mock_get_status
 ) -> None:
     """Test RGBWW light turn on with both brightness and RGB color."""
     mock_list_devices.return_value = [
@@ -661,7 +661,7 @@ async def test_rgbww_light_brightness_and_rgb_color(
 
 @pytest.mark.parametrize("device_type", ["Ceiling Light", "Ceiling Light Pro"])
 async def test_ceiling_light_brightness_and_color_temp(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status, device_type
+    hass: UniversalAssistant, mock_list_devices, mock_get_status, device_type
 ) -> None:
     """Test ceiling light turn on with both brightness and color temperature."""
     mock_list_devices.return_value = [

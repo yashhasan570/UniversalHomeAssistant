@@ -1,4 +1,4 @@
-"""__HA_KEEP__ representation of an UPnP/IGD."""
+"""Universal Home Assistant representation of an UPnP/IGD."""
 
 from datetime import datetime
 from functools import partial
@@ -14,7 +14,7 @@ from async_upnp_client.profiles.igd import IgdDevice, IgdStateItem
 from async_upnp_client.utils import async_get_local_ip
 from getmac import get_mac_address
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -71,7 +71,7 @@ def get_preferred_location(locations: set[str]) -> str:
     raise ValueError("No location found")
 
 
-async def async_get_mac_address_from_host(hass: __HAC_KEEP__, host: str) -> str | None:
+async def async_get_mac_address_from_host(hass: UniversalAssistant, host: str) -> str | None:
     """Get mac address from host."""
     ip_addr = ip_address(host)
     if ip_addr.version == 4:
@@ -86,7 +86,7 @@ async def async_get_mac_address_from_host(hass: __HAC_KEEP__, host: str) -> str 
 
 
 async def async_create_device(
-    hass: __HAC_KEEP__, location: str, force_poll: bool
+    hass: UniversalAssistant, location: str, force_poll: bool
 ) -> Device:
     """Create UPnP/IGD device."""
     session = async_get_clientsession(hass, verify_ssl=False)
@@ -112,11 +112,11 @@ async def async_create_device(
 
 
 class Device:
-    """__HA_KEEP__ representation of a UPnP/IGD device."""
+    """Universal Home Assistant representation of a UPnP/IGD device."""
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         igd_device: IgdDevice,
         notify_server: AiohttpNotifyServer,
         force_poll: bool,

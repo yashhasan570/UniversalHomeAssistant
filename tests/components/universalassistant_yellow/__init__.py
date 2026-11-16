@@ -1,1 +1,1 @@
-"""Tests for the __HA_KEEP__ Yellow integration."""
+"""Tests for the Universal Home Assistant Yellow integration."""

@@ -39,8 +39,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_platform import async_get_platforms
 
@@ -90,7 +90,7 @@ CAMERA_SWITCHES_PUBLIC = [d for d in CAMERA_SWITCHES_NO_EXTRA if d.is_public_val
 
 
 async def test_switch_camera_remove(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera, unadopted_camera: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera, unadopted_camera: Camera
 ) -> None:
     """Test removing and re-adding a camera device."""
 
@@ -104,7 +104,7 @@ async def test_switch_camera_remove(
 
 
 async def test_switch_light_remove(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """Test removing and re-adding a light device."""
 
@@ -117,7 +117,7 @@ async def test_switch_light_remove(
     assert_entity_counts(hass, Platform.SWITCH, 4, 3)
 
 
-async def test_switch_nvr(hass: __HAC_KEEP__, ufp: MockUFPFixture) -> None:
+async def test_switch_nvr(hass: UniversalAssistant, ufp: MockUFPFixture) -> None:
     """Test switch entity setup for light devices."""
 
     await init_entry(hass, ufp, [])
@@ -142,7 +142,7 @@ async def test_switch_nvr(hass: __HAC_KEEP__, ufp: MockUFPFixture) -> None:
 
 
 async def test_switch_setup_no_perm(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     light: Light,
@@ -191,7 +191,7 @@ _CAMERA_PUBLIC_SWITCHES = (
 
 @pytest.mark.parametrize("key", _CAMERA_PUBLIC_SWITCHES)
 async def test_switch_camera_read_only_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -216,7 +216,7 @@ async def test_switch_camera_read_only_user(
 
 @pytest.mark.parametrize("key", ["ssh", "system_sounds", "motion"])
 async def test_switch_camera_read_only_user_private_setters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -243,7 +243,7 @@ async def test_switch_camera_read_only_user_private_setters(
 
 
 async def test_switch_setup_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     light: Light,
@@ -288,7 +288,7 @@ async def test_switch_setup_light(
 
 
 async def test_switch_setup_camera_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -332,7 +332,7 @@ async def test_switch_setup_camera_all(
 
 
 async def test_switch_setup_camera_none(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -379,7 +379,7 @@ async def test_switch_setup_camera_none(
 
 
 async def test_switch_light_status(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """Tests status light switch for lights."""
 
@@ -414,7 +414,7 @@ async def test_switch_light_status(
 
 
 async def test_switch_light_status_public_value(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """Status light switch reads from the public object and refreshes on a WS update."""
 
@@ -435,7 +435,7 @@ async def test_switch_light_status_public_value(
 
 
 async def test_switch_light_status_unavailable_without_public(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """The migrated status light switch is unavailable without a public object."""
 
@@ -448,7 +448,7 @@ async def test_switch_light_status_unavailable_without_public(
 
 
 async def test_switch_camera_ssh(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """Tests SSH switch for cameras."""
 
@@ -478,7 +478,7 @@ async def test_switch_camera_ssh(
 
 @pytest.mark.parametrize("description", CAMERA_SWITCHES_PRIVATE)
 async def test_switch_camera_simple(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     description: ProtectSwitchEntityDescription,
@@ -513,7 +513,7 @@ async def test_switch_camera_simple(
 
 @pytest.mark.parametrize("description", CAMERA_SWITCHES_PUBLIC)
 async def test_switch_camera_simple_public(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     description: ProtectSwitchEntityDescription,
@@ -550,7 +550,7 @@ async def test_switch_camera_simple_public(
 
 
 async def test_switch_camera_highfps(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """Tests High FPS switch for cameras."""
 
@@ -598,7 +598,7 @@ CAMERA_SWITCHES_DETECTIONS_EXTRA = [
 
 @pytest.mark.parametrize("description", CAMERA_SWITCHES_DETECTIONS_EXTRA)
 async def test_switch_camera_detections_public_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     description: ProtectSwitchEntityDescription,
@@ -653,7 +653,7 @@ async def test_switch_camera_detections_public_api(
 
 
 async def test_switch_camera_status_light_public_value(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """Status light reads from the public object and refreshes on a public WS update."""
 
@@ -683,7 +683,7 @@ async def test_switch_camera_status_light_public_value(
     ],
 )
 async def test_switch_camera_osd_public_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     switch_key: str,
@@ -731,7 +731,7 @@ CAMERA_SWITCHES_DETECTION_READ = [
     ("key", "object_types", "audio_types"), CAMERA_SWITCHES_DETECTION_READ
 )
 async def test_switch_camera_detection_public_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     key: str,
@@ -790,7 +790,7 @@ async def test_switch_camera_detection_public_value(
 
 
 async def test_switch_camera_highfps_public_value(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """The high FPS switch reads video_mode from the public object."""
 
@@ -811,7 +811,7 @@ async def test_switch_camera_highfps_public_value(
 
 
 async def test_switch_camera_detection_unavailable_without_public(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """A migrated detection toggle is unavailable without a public object."""
 
@@ -832,7 +832,7 @@ async def test_switch_camera_detection_unavailable_without_public(
 
 
 async def test_switch_camera_detection_available_with_recording_disabled(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """A migrated detection toggle stays available with recording disabled.
 
@@ -852,7 +852,7 @@ async def test_switch_camera_detection_available_with_recording_disabled(
 
 
 async def test_switch_camera_privacy(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """Tests Privacy Mode switch for cameras with privacy mode defaulted on."""
 
@@ -908,7 +908,7 @@ async def test_switch_camera_privacy(
 
 
 async def test_switch_camera_privacy_already_on(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """Tests Privacy Mode switch for cameras with privacy mode defaulted on."""
 
@@ -933,9 +933,9 @@ async def test_switch_camera_privacy_already_on(
 
 
 async def test_switch_turn_on_client_error(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
-    """Test switch turn on with ClientError raises __HAC_KEEP__Error."""
+    """Test switch turn on with ClientError raises UniversalAssistantError."""
 
     setup_public_light(ufp)
     await init_entry(hass, ufp, [light])
@@ -957,7 +957,7 @@ async def test_switch_turn_on_client_error(
             new_callable=AsyncMock,
             side_effect=ClientError("Test error"),
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             "switch", "turn_on", {ATTR_ENTITY_ID: entity_id}, blocking=True
@@ -965,9 +965,9 @@ async def test_switch_turn_on_client_error(
 
 
 async def test_switch_turn_on_not_authorized(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
-    """Test switch turn on with NotAuthorized raises __HAC_KEEP__Error."""
+    """Test switch turn on with NotAuthorized raises UniversalAssistantError."""
 
     setup_public_light(ufp)
     await init_entry(hass, ufp, [light])
@@ -989,7 +989,7 @@ async def test_switch_turn_on_not_authorized(
             new_callable=AsyncMock,
             side_effect=NotAuthorized("Not authorized"),
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             "switch", "turn_on", {ATTR_ENTITY_ID: entity_id}, blocking=True
@@ -1007,7 +1007,7 @@ _ENV_CAPABILITIES = {
 
 
 async def test_switch_sense_capability_creation_filter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
@@ -1032,7 +1032,7 @@ async def test_switch_sense_capability_creation_filter(
 
 
 async def test_switch_sense_capability_registry_cleanup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
@@ -1051,7 +1051,7 @@ async def test_switch_sense_capability_registry_cleanup(
 
 
 async def test_switch_sense_no_capability_map_creates_none(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
@@ -1072,7 +1072,7 @@ async def test_switch_sense_no_capability_map_creates_none(
 
 
 async def test_switch_sense_no_capability_map_removes_existing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
@@ -1103,7 +1103,7 @@ MIGRATED_SENSE_SWITCHES = [
 
 @pytest.mark.parametrize(("key", "public_kwarg", "set_method"), MIGRATED_SENSE_SWITCHES)
 async def test_switch_sense_public_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
     key: str,
@@ -1131,7 +1131,7 @@ async def test_switch_sense_public_value(
 
 @pytest.mark.parametrize(("key", "public_kwarg", "set_method"), MIGRATED_SENSE_SWITCHES)
 async def test_switch_sense_set_public(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
     key: str,
@@ -1159,7 +1159,7 @@ async def test_switch_sense_set_public(
 
 
 async def test_switch_sense_unavailable_without_public(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, sensor_all: Sensor
+    hass: UniversalAssistant, ufp: MockUFPFixture, sensor_all: Sensor
 ) -> None:
     """A migrated sense switch is unavailable without a public object."""
     await init_entry(hass, ufp, [sensor_all])
@@ -1172,7 +1172,7 @@ async def test_switch_sense_unavailable_without_public(
 
 
 async def test_switch_sense_status_light_stays_private(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, sensor_all: Sensor
+    hass: UniversalAssistant, ufp: MockUFPFixture, sensor_all: Sensor
 ) -> None:
     """The status light has no public counterpart, so it reads the private object.
 
@@ -1196,7 +1196,7 @@ async def test_switch_sense_status_light_stays_private(
 
 
 async def test_switch_sense_public_switches_ignore_local_permissions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
@@ -1243,7 +1243,7 @@ _SMART_KEYS = {key for key, _, _ in CAMERA_SWITCHES_DETECTION_READ}
     ("key", "object_types", "audio_types"), CAMERA_SWITCHES_DETECTION_READ
 )
 async def test_switch_camera_detection_capability_gating(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -1263,7 +1263,7 @@ async def test_switch_camera_detection_capability_gating(
 
 
 async def test_switch_command_when_public_object_vanishes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     sensor_all: Sensor,
     ufp_public_only: MockUFPFixture,
@@ -1303,7 +1303,7 @@ async def test_switch_command_when_public_object_vanishes(
 
     with (
         patch.object(entity, "async_request_call", _delete_then_run),
-        pytest.raises(__HAC_KEEP__Error) as err,
+        pytest.raises(UniversalAssistantError) as err,
     ):
         await hass.services.async_call(
             "switch", "turn_off", {ATTR_ENTITY_ID: entity_id}, blocking=True
@@ -1316,7 +1316,7 @@ async def test_switch_command_when_public_object_vanishes(
 
 
 async def test_switch_hybrid_public_sensor_without_private_deferred(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
@@ -1378,7 +1378,7 @@ async def test_switch_hybrid_public_sensor_without_private_deferred(
     ],
 )
 async def test_public_only_switch_end_to_end(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     request: pytest.FixtureRequest,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1434,7 +1434,7 @@ async def test_public_only_switch_end_to_end(
 
 
 async def test_public_only_switch_camera_capability_gating(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     doorbell: Camera,
     ufp_public_only: MockUFPFixture,
@@ -1468,7 +1468,7 @@ async def test_public_only_switch_camera_capability_gating(
     ],
 )
 async def test_public_only_switch_added_after_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     request: pytest.FixtureRequest,
     entity_registry: er.EntityRegistry,
     ufp_public_only: MockUFPFixture,
@@ -1506,7 +1506,7 @@ async def test_public_only_switch_added_after_setup(
 
 
 async def test_public_only_switch_sense_registry_cleanup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     sensor_all: Sensor,
     ufp_public_only: MockUFPFixture,

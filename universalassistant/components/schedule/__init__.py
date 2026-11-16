@@ -1,4 +1,4 @@
-"""Support for schedules in __HA_KEEP__."""
+"""Support for schedules in Universal Home Assistant."""
 
 from dataclasses import dataclass
 from typing import override
@@ -6,7 +6,7 @@ from typing import override
 import probatio
 
 from universalassistant.const import CONF_ID, CONF_NAME
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.collection import (
     DictStorageCollection,
@@ -58,7 +58,7 @@ class ScheduleData:
     yaml_collection: YamlCollection
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up a schedule."""
     component = EntityComponent[Schedule](LOGGER, DOMAIN, hass)
 

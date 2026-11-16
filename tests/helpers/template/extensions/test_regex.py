@@ -2,13 +2,13 @@
 
 import pytest
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import TemplateError
 
 from tests.helpers.template.helpers import render
 
 
-def test_regex_match(hass: __HAC_KEEP__) -> None:
+def test_regex_match(hass: UniversalAssistant) -> None:
     """Test regex_match method."""
 
     result = render(
@@ -16,17 +16,17 @@ def test_regex_match(hass: __HAC_KEEP__) -> None:
     )
     assert result is True
 
-    result = render(hass, """{{ '__HA_KEEP__ test' | regex_match('home', True) }}""")
+    result = render(hass, """{{ 'Universal Home Assistant test' | regex_match('home', True) }}""")
     assert result is True
 
-    result = render(hass, """{{ 'Another __HA_KEEP__ test'|regex_match('Home') }}""")
+    result = render(hass, """{{ 'Another Universal Home Assistant test'|regex_match('Home') }}""")
     assert result is False
 
-    result = render(hass, """{{ ['__HA_KEEP__ test'] | regex_match('.*Assist') }}""")
+    result = render(hass, """{{ ['Universal Home Assistant test'] | regex_match('.*Assist') }}""")
     assert result is True
 
 
-def test_match_test(hass: __HAC_KEEP__) -> None:
+def test_match_test(hass: UniversalAssistant) -> None:
     """Test match test."""
 
     result = render(
@@ -35,7 +35,7 @@ def test_match_test(hass: __HAC_KEEP__) -> None:
     assert result is True
 
 
-def test_regex_search(hass: __HAC_KEEP__) -> None:
+def test_regex_search(hass: UniversalAssistant) -> None:
     """Test regex_search method."""
 
     result = render(
@@ -44,20 +44,20 @@ def test_regex_search(hass: __HAC_KEEP__) -> None:
     assert result is True
 
     result = render(
-        hass, """{{ '__HA_KEEP__ test' | regex_search('home', True) }}"""
+        hass, """{{ 'Universal Home Assistant test' | regex_search('home', True) }}"""
     )
     assert result is True
 
     result = render(
-        hass, """    {{ 'Another __HA_KEEP__ test' | regex_search('Home') }}"""
+        hass, """    {{ 'Another Universal Home Assistant test' | regex_search('Home') }}"""
     )
     assert result is True
 
-    result = render(hass, """{{ ['__HA_KEEP__ test'] | regex_search('Assist') }}""")
+    result = render(hass, """{{ ['Universal Home Assistant test'] | regex_search('Assist') }}""")
     assert result is True
 
 
-def test_search_test(hass: __HAC_KEEP__) -> None:
+def test_search_test(hass: UniversalAssistant) -> None:
     """Test search test."""
 
     result = render(
@@ -66,7 +66,7 @@ def test_search_test(hass: __HAC_KEEP__) -> None:
     assert result is True
 
 
-def test_regex_replace(hass: __HAC_KEEP__) -> None:
+def test_regex_replace(hass: UniversalAssistant) -> None:
     """Test regex_replace method."""
 
     result = render(hass, r"""{{ 'Hello World' | regex_replace('(Hello\\s)',) }}""")
@@ -75,10 +75,10 @@ def test_regex_replace(hass: __HAC_KEEP__) -> None:
     result = render(
         hass, """{{ ['Home hinderant test'] | regex_replace('hinder', 'Assist') }}"""
     )
-    assert result == ["__HA_KEEP__ test"]
+    assert result == ["Universal Home Assistant test"]
 
 
-def test_regex_findall(hass: __HAC_KEEP__) -> None:
+def test_regex_findall(hass: UniversalAssistant) -> None:
     """Test regex_findall method."""
 
     result = render(
@@ -87,7 +87,7 @@ def test_regex_findall(hass: __HAC_KEEP__) -> None:
     assert result == ["JFK", "LHR"]
 
 
-def test_regex_findall_index(hass: __HAC_KEEP__) -> None:
+def test_regex_findall_index(hass: UniversalAssistant) -> None:
     """Test regex_findall_index method."""
 
     result = render(
@@ -103,7 +103,7 @@ def test_regex_findall_index(hass: __HAC_KEEP__) -> None:
     assert result == "LHR"
 
 
-def test_regex_ignorecase_parameter(hass: __HAC_KEEP__) -> None:
+def test_regex_ignorecase_parameter(hass: UniversalAssistant) -> None:
     """Test ignorecase parameter across all regex functions."""
     # Test regex_match with ignorecase
 
@@ -126,7 +126,7 @@ def test_regex_ignorecase_parameter(hass: __HAC_KEEP__) -> None:
     assert result == ["TEST", "test", "Test"]
 
 
-def test_regex_with_non_string_input(hass: __HAC_KEEP__) -> None:
+def test_regex_with_non_string_input(hass: UniversalAssistant) -> None:
     """Test regex functions with non-string input (automatic conversion)."""
     # Test with integer
 
@@ -139,7 +139,7 @@ def test_regex_with_non_string_input(hass: __HAC_KEEP__) -> None:
     assert result is True
 
 
-def test_regex_edge_cases(hass: __HAC_KEEP__) -> None:
+def test_regex_edge_cases(hass: UniversalAssistant) -> None:
     """Test regex functions with edge cases."""
     # Test with empty string
 
@@ -154,7 +154,7 @@ def test_regex_edge_cases(hass: __HAC_KEEP__) -> None:
         render(hass, """{{ 'test' | regex_match('[') }}""")
 
 
-def test_regex_groups_and_replacement_patterns(hass: __HAC_KEEP__) -> None:
+def test_regex_groups_and_replacement_patterns(hass: UniversalAssistant) -> None:
     """Test regex with groups and replacement patterns."""
     # Test replacement with groups
 

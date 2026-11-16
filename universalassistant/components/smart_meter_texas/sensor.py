@@ -10,7 +10,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import CONF_ADDRESS, UnitOfEnergy
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -20,7 +20,7 @@ from .coordinator import SmartMeterTexasConfigEntry, SmartMeterTexasCoordinator
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: SmartMeterTexasConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

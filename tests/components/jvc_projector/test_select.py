@@ -19,7 +19,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import ATTR_FRIENDLY_NAME, STATE_UNKNOWN, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 INPUT_ENTITY_ID = "select.jvc_projector_input"
@@ -29,7 +29,7 @@ MOTION_ENHANCE_ENTITY_ID = "select.jvc_projector_motion_enhance"
 
 
 async def test_input_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_device: MagicMock,
     mock_integration: MockConfigEntry,
@@ -58,7 +58,7 @@ async def test_input_select(
     indirect=True,
 )
 async def test_motion_enhance_timeout_is_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_device: MagicMock,
     mock_integration: MockConfigEntry,
@@ -79,7 +79,7 @@ async def test_motion_enhance_timeout_is_unknown(
 
 
 async def test_enable_hdr_processing_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_device: MagicMock,
     mock_integration: MockConfigEntry,

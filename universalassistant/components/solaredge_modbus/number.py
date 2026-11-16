@@ -13,7 +13,7 @@ from universalassistant.components.number import (
     NumberMode,
 )
 from universalassistant.const import PERCENTAGE, EntityCategory, UnitOfPower
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import SolarEdgeModbusConfigEntry
@@ -131,7 +131,7 @@ POWER_NUMBERS: tuple[SolarEdgeModbusNumberEntityDescription[PowerControl], ...] 
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SolarEdgeModbusConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

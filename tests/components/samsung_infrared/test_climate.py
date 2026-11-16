@@ -33,7 +33,7 @@ from universalassistant.const import (
     STATE_ON,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.restore_state import STORAGE_KEY as RESTORE_STATE_KEY
 from universalassistant.util.unit_system import (
     METRIC_SYSTEM,
@@ -50,7 +50,7 @@ _STORED_CLIMATE_DATA = {
 }
 
 
-async def test_samsung_infrared_climate_services(hass: __HAC_KEEP__) -> None:
+async def test_samsung_infrared_climate_services(hass: UniversalAssistant) -> None:
     """Test climate services send the correct IR commands."""
     remote_entity_id = "remote.living_room_ir"
     hass.states.async_set(remote_entity_id, STATE_ON)
@@ -116,7 +116,7 @@ async def test_samsung_infrared_climate_services(hass: __HAC_KEEP__) -> None:
 
 
 async def test_samsung_infrared_climate_turn_off_sends_bare_off_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that turning off sends OFF with no temperature, fan, or swing fields.
 
@@ -170,7 +170,7 @@ async def test_samsung_infrared_climate_turn_off_sends_bare_off_command(
 
 
 async def test_samsung_infrared_climate_set_temperature_with_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that set_temperature applies an included HVAC mode atomically."""
     remote_entity_id = "remote.living_room_ir"
@@ -239,7 +239,7 @@ async def test_samsung_infrared_climate_set_temperature_with_hvac_mode(
 
 
 async def test_samsung_infrared_climate_set_hvac_mode_auto_normalizes_fan_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that switching to AUTO resets the reported fan mode to FAN_AUTO.
 
@@ -299,7 +299,7 @@ async def test_samsung_infrared_climate_set_hvac_mode_auto_normalizes_fan_mode(
 
 
 async def test_samsung_infrared_climate_restores_state_after_restart(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that hvac_mode, temperature, and fan_mode survive a restart."""
     remote_entity_id = "remote.living_room_ir"
@@ -374,7 +374,7 @@ async def test_samsung_infrared_climate_restores_state_after_restart(
     ],
 )
 async def test_samsung_infrared_climate_restore_temperature_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     restored_attributes: dict[str, int | str],
     unit_system: UnitSystem,
     expected_temperature: int,
@@ -422,7 +422,7 @@ async def test_samsung_infrared_climate_restore_temperature_unit(
 
 
 async def test_samsung_infrared_climate_restore_data_saved(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test the native temperatures are stored along with the last on mode."""
     remote_entity_id = "remote.living_room_ir"
@@ -484,7 +484,7 @@ async def test_samsung_infrared_climate_restore_data_saved(
     ],
 )
 async def test_samsung_infrared_climate_turn_on_after_restart_resumes_last_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     extra_data: dict[str, Any],
     expected_temperature: int,
 ) -> None:

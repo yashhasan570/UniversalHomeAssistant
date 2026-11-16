@@ -4,7 +4,7 @@ from dataclasses import asdict
 from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import DiscovergyConfigEntry
 
@@ -18,7 +18,7 @@ TO_REDACT_METER = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: DiscovergyConfigEntry
+    hass: UniversalAssistant, entry: DiscovergyConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     flattened_meter: list[dict] = []

@@ -5,7 +5,7 @@ import time
 from typing import override
 
 from universalassistant.components.sensor import SensorDeviceClass, SensorEntity
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType, Undefined
@@ -17,7 +17,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

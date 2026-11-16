@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.bitvis.const import DATA_LISTENER_REGISTRY, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import find_listener_callback, setup_integration
@@ -23,7 +23,7 @@ async def test_setup_entry(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Test that unloading stops the coordinator and unloads platforms."""
     assert DATA_LISTENER_REGISTRY in hass.data
@@ -33,7 +33,7 @@ async def test_unload_entry(
 
 
 async def test_two_entries_share_listener(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_second_config_entry: MockConfigEntry,
     patch_shared_listener: FakeListener,
@@ -61,7 +61,7 @@ async def test_two_entries_share_listener(
 
 
 async def test_unload_after_dynamic_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     patch_shared_listener: FakeListener,
 ) -> None:
@@ -82,7 +82,7 @@ async def test_unload_after_dynamic_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entities_unavailable_before_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:

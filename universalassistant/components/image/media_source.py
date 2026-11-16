@@ -12,13 +12,13 @@ from universalassistant.components.media_source import (
     Unresolvable,
 )
 from universalassistant.const import EntityStateAttribute
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 
 from . import _async_get_image
 from .const import DATA_COMPONENT, DOMAIN
 
 
-async def async_get_media_source(hass: __HAC_KEEP__) -> ImageMediaSource:
+async def async_get_media_source(hass: UniversalAssistant) -> ImageMediaSource:
     """Set up image media source."""
     return ImageMediaSource(hass)
 
@@ -28,7 +28,7 @@ class ImageMediaSource(MediaSource):
 
     name: str = "Image"
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize ImageMediaSource."""
         super().__init__(DOMAIN)
         self.hass = hass

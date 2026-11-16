@@ -2,11 +2,11 @@
 
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_statistics_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_autosetup_sonos,
     soco,
     device_properties_event,

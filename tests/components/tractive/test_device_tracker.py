@@ -8,14 +8,14 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.device_tracker import SourceType
 from universalassistant.components.tractive.const import DOMAIN
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import init_integration
 
 
 async def test_device_tracker(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_tractive_client: AsyncMock,
@@ -41,7 +41,7 @@ async def test_device_tracker(
 
 
 async def test_source_type_phone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tractive_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -68,7 +68,7 @@ async def test_source_type_phone(
 
 
 async def test_source_type_gps(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tractive_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_source_type_gps(
 
 
 async def test_device_tracker_device_assignment(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_tractive_client: AsyncMock,
@@ -118,7 +118,7 @@ async def test_device_tracker_device_assignment(
 
 
 async def test_device_tracker_without_position(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tractive_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

@@ -8,16 +8,16 @@ from pytest_universalassistant.common import MockPlatform, mock_platform
 
 from universalassistant.components import wake_word
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 
 
 def mock_wake_word_entity_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     integration: str,
     async_setup_entry: Callable[
-        [__HAC_KEEP__, ConfigEntry, AddEntitiesCallback],
+        [UniversalAssistant, ConfigEntry, AddEntitiesCallback],
         Coroutine[Any, Any, None],
     ]
     | None = None,

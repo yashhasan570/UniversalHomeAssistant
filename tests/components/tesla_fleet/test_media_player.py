@@ -19,7 +19,7 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import assert_entities, assert_entities_alt, setup_platform
@@ -27,7 +27,7 @@ from .const import COMMAND_OK, VEHICLE_DATA_ALT
 
 
 async def test_media_player(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     normal_config_entry: MockConfigEntry,
@@ -39,7 +39,7 @@ async def test_media_player(
 
 
 async def test_media_player_volume_step(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     normal_config_entry: MockConfigEntry,
 ) -> None:
     """Test volume_up raises the level by exactly one Tesla notch."""
@@ -68,7 +68,7 @@ async def test_media_player_volume_step(
 
 
 async def test_media_player_alt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_vehicle_data: AsyncMock,
@@ -82,7 +82,7 @@ async def test_media_player_alt(
 
 
 async def test_media_player_offline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vehicle_data: AsyncMock,
     normal_config_entry: MockConfigEntry,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_media_player_offline(
 
 
 async def test_media_player_noscope(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     readonly_config_entry: MockConfigEntry,
@@ -107,7 +107,7 @@ async def test_media_player_noscope(
 
 
 async def test_media_player_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     normal_config_entry: MockConfigEntry,
 ) -> None:

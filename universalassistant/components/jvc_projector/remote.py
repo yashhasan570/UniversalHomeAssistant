@@ -8,8 +8,8 @@ from typing import Any, override
 from jvcprojector import command as cmd
 
 from universalassistant.components.remote import RemoteEntity
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import JVCConfigEntry
@@ -70,7 +70,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: JVCConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -117,7 +117,7 @@ class JvcProjectorRemote(JvcProjectorEntity, RemoteEntity):
                 send_command = send_command.replace("_", "-")
 
             if send_command not in COMMANDS:
-                raise __HAC_KEEP__Error(f"{send_command} is not a known command")
+                raise UniversalAssistantError(f"{send_command} is not a known command")
 
             _LOGGER.debug("Sending command '%s'", send_command)
             await self.device.remote(send_command)

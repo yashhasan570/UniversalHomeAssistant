@@ -17,7 +17,7 @@ from universalassistant.components.ruckus_unleashed.const import (
     MANUFACTURER,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC
 
@@ -30,7 +30,7 @@ from . import (
 )
 
 
-async def test_setup_entry_login_error(hass: __HAC_KEEP__) -> None:
+async def test_setup_entry_login_error(hass: UniversalAssistant) -> None:
     """Test entry setup failed due to login error."""
     entry = mock_config_entry()
     with RuckusAjaxApiPatchContext(
@@ -43,7 +43,7 @@ async def test_setup_entry_login_error(hass: __HAC_KEEP__) -> None:
     assert result is False
 
 
-async def test_setup_entry_connection_error(hass: __HAC_KEEP__) -> None:
+async def test_setup_entry_connection_error(hass: UniversalAssistant) -> None:
     """Test entry setup failed due to connection error."""
     entry = mock_config_entry()
     with RuckusAjaxApiPatchContext(
@@ -57,7 +57,7 @@ async def test_setup_entry_connection_error(hass: __HAC_KEEP__) -> None:
 
 
 async def test_router_device_setup(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test a router device is created."""
     entry = await init_integration(hass)
@@ -79,7 +79,7 @@ async def test_router_device_setup(
     assert device.via_device_id is None
 
 
-async def test_unload_entry(hass: __HAC_KEEP__) -> None:
+async def test_unload_entry(hass: UniversalAssistant) -> None:
     """Test successful unload of entry."""
     entry = await init_integration(hass)
 
@@ -101,7 +101,7 @@ async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_setup_entry_error_post_login(
-    hass: __HAC_KEEP__, method: str, error: Exception
+    hass: UniversalAssistant, method: str, error: Exception
 ) -> None:
     """Test entry setup retries on post-login API errors."""
     entry = mock_config_entry()

@@ -12,7 +12,7 @@ from universalassistant.components.light import (
     LightEntity,
     LightEntityDescription,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.color import brightness_to_value, value_to_brightness
 
@@ -52,7 +52,7 @@ TRYDAN_LIGHTS = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: V2CConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

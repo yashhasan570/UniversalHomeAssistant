@@ -204,7 +204,7 @@ class NtfyConfigFlow(ConfigFlow, domain=DOMAIN):
             try:
                 account = await ntfy.account()
                 token = (
-                    (await ntfy.generate_token("__HA_KEEP__")).token
+                    (await ntfy.generate_token("Universal Home Assistant")).token
                     if account.username != "*"
                     else None
                 )
@@ -285,7 +285,7 @@ class NtfyConfigFlow(ConfigFlow, domain=DOMAIN):
             try:
                 account = await ntfy.account()
                 token = (
-                    (await ntfy.generate_token("__HA_KEEP__")).token
+                    (await ntfy.generate_token("Universal Home Assistant")).token
                     if not user_input.get(CONF_TOKEN)
                     else user_input[CONF_TOKEN]
                 )
@@ -349,7 +349,7 @@ class NtfyConfigFlow(ConfigFlow, domain=DOMAIN):
             try:
                 account = await ntfy.account()
                 if not token:
-                    token = (await ntfy.generate_token("__HA_KEEP__")).token
+                    token = (await ntfy.generate_token("Universal Home Assistant")).token
             except NtfyUnauthorizedAuthenticationError:
                 errors["base"] = "invalid_auth"
             except NtfyHTTPError as e:

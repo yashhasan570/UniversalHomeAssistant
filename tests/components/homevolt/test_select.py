@@ -31,8 +31,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 ENTITY_ID = "select.homevolt_ems_battery_mode"
@@ -46,7 +46,7 @@ def platforms(mock_homevolt_client: MagicMock) -> list[Platform]:
 
 
 async def test_select_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -57,7 +57,7 @@ async def test_select_entity(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_select_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_homevolt_client: MagicMock,
 ) -> None:
     """Test a command publishes the verified mode before returning."""
@@ -94,7 +94,7 @@ async def test_select_option(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_select_unknown_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_homevolt_client: MagicMock,
     freezer: FrozenDateTimeFactory,
     mode: int | None,
@@ -113,7 +113,7 @@ async def test_select_unknown_mode(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_select_unavailable_without_local_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_homevolt_client: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -166,7 +166,7 @@ async def test_select_unavailable_without_local_mode(
     ],
 )
 async def test_select_option_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_homevolt_client: MagicMock,
     error: HomevoltError,
     translation_key: str,
@@ -174,7 +174,7 @@ async def test_select_option_error(
     """Test select actions use the shared exception handler."""
     mock_homevolt_client.set_battery_mode.side_effect = error
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,

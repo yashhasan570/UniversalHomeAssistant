@@ -16,13 +16,13 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.airthings.const import DOMAIN
 from universalassistant.components.airthings.coordinator import SCAN_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
-async def _async_refresh(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+async def _async_refresh(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
     freezer.tick(SCAN_INTERVAL)
     async_fire_time_changed(hass)
     await hass.async_block_till_done()
@@ -39,7 +39,7 @@ def _entity_ids(
 
 
 async def test_all_device_types(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     mock_airthings_client: Airthings,
@@ -52,7 +52,7 @@ async def test_all_device_types(
 
 @pytest.mark.parametrize("airthings_fixture", ["wave_plus"])
 async def test_sensors_unavailable_when_device_is_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_airthings_client: Airthings,
     mock_airthings_device: AirthingsDevice,
@@ -102,7 +102,7 @@ async def test_sensors_unavailable_when_device_is_missing(
 
 @pytest.mark.parametrize("airthings_fixture", ["wave_plus"])
 async def test_sensor_unavailable_when_value_is_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_airthings_client: Airthings,
     mock_airthings_device: AirthingsDevice,
@@ -134,7 +134,7 @@ async def test_sensor_unavailable_when_value_is_missing(
 
 @pytest.mark.parametrize("airthings_fixture", ["wave_plus"])
 async def test_sensors_unavailable_on_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_airthings_client: Airthings,
     mock_airthings_device: AirthingsDevice,

@@ -29,7 +29,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import mock_dsm_hardware, mock_dsm_information
@@ -127,7 +127,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 
 async def setup_integration(
-    hass: __HAC_KEEP__, mock_dsm: MagicMock, entry: MockConfigEntry
+    hass: UniversalAssistant, mock_dsm: MagicMock, entry: MockConfigEntry
 ) -> None:
     """Set up the Synology DSM update platform."""
     entry.add_to_hass(hass)
@@ -143,7 +143,7 @@ async def setup_integration(
 
 
 async def test_update_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_dsm: MagicMock,
@@ -156,7 +156,7 @@ async def test_update_entities(
 
 
 async def test_package_installed_and_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_dsm: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -180,7 +180,7 @@ async def test_package_installed_and_removed(
 
 
 async def test_package_update_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_dsm: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -208,7 +208,7 @@ async def test_package_update_failed(
     ],
 )
 async def test_no_package_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_dsm: MagicMock,
     mock_config_entry: MockConfigEntry,
     apis: dict[str, dict],
@@ -226,7 +226,7 @@ async def test_no_package_entities(
 
 
 async def test_all_package_entities_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
     mock_dsm: MagicMock,
@@ -259,7 +259,7 @@ async def test_all_package_entities_disabled(
 
 
 async def test_package_release_notes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_dsm: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -276,7 +276,7 @@ async def test_package_release_notes(
 
 
 async def test_first_visible_package_installed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_dsm: MagicMock,
     mock_config_entry: MockConfigEntry,

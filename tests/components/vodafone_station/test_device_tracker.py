@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.vodafone_station.const import SCAN_INTERVAL
 from universalassistant.components.vodafone_station.coordinator import CONSIDER_HOME_SECONDS
 from universalassistant.const import STATE_HOME, STATE_NOT_HOME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
@@ -24,7 +24,7 @@ from .const import DEVICE_1_HOST, DEVICE_1_MAC
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -47,7 +47,7 @@ async def test_all_entities(
     ],
 )
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -70,7 +70,7 @@ async def test_device_info(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_consider_home(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -97,7 +97,7 @@ async def test_consider_home(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_already_tracked_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

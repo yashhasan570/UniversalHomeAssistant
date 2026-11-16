@@ -11,7 +11,7 @@ from universalassistant.components.button import ButtonEntity, ButtonEntityDescr
 from universalassistant.components.infrared import InfraredEmitterConsumerEntity
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_DEVICE_TYPE, CONF_INFRARED_ENTITY_ID, LGDeviceType
@@ -331,7 +331,7 @@ _DEVICE_NAMES: dict[LGDeviceType, str] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

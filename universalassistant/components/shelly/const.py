@@ -266,7 +266,7 @@ class DeprecatedFirmwareInfo(TypedDict):
 # key: device model
 # value: dict with:
 #   min_firmware: minimum supported firmware version
-#   ha_version: __HA_KEEP__ version when older firmware will be deprecated
+#   ha_version: Universal Home Assistant version when older firmware will be deprecated
 # Example:
 # DEPRECATED_FIRMWARES: dict[str, DeprecatedFirmwareInfo] = {
 #   MODEL_WALL_DISPLAY: DeprecatedFirmwareInfo(
@@ -329,7 +329,7 @@ COMPONENT_ID_PATTERN = re.compile(r"[a-z\d]+:\d+")
 # Firmware ID looks like "20260724-105432/v1.5.0@aa8644cc"
 FW_ID_VERSION_PATTERN = re.compile(r"/(?P<version>[^@]+)")
 
-# Mapping for units that require conversion to a __HA_KEEP__ recognized unit
+# Mapping for units that require conversion to a Universal Home Assistant recognized unit
 # e.g. "m3/min" to "m³/min"
 DEVICE_UNIT_MAP = {
     "m3/min": UnitOfVolumeFlowRate.CUBIC_METERS_PER_MINUTE,

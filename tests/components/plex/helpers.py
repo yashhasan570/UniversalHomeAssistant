@@ -6,7 +6,7 @@ from typing import Any
 from plexwebsocket import SIGNAL_CONNECTION_STATE, STATE_CONNECTED
 from pytest_universalassistant.common import async_fire_time_changed
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.typing import Undefined
 from universalassistant.util import dt as dt_util
 
@@ -39,7 +39,7 @@ def trigger_plex_update(
     callback(msgtype, UPDATE_PAYLOAD if payload is Undefined else payload, None)
 
 
-async def wait_for_debouncer(hass: __HAC_KEEP__) -> None:
+async def wait_for_debouncer(hass: UniversalAssistant) -> None:
     """Move time forward to wait for sensor debouncer."""
     next_update = dt_util.utcnow() + timedelta(seconds=3)
     async_fire_time_changed(hass, next_update)

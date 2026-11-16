@@ -3,7 +3,7 @@
 import probatio
 
 from universalassistant.const import CONF_TOKEN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv, discovery
 from universalassistant.helpers.typing import ConfigType
 
@@ -19,7 +19,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the notify_events component."""
 
     hass.data[DOMAIN] = config[DOMAIN]

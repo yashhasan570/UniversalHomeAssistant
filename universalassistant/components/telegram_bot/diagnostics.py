@@ -6,7 +6,7 @@ from yarl import URL
 
 from universalassistant.components.diagnostics import REDACTED, async_redact_data
 from universalassistant.const import CONF_API_KEY, CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .bot import TelegramBotConfigEntry
 from .const import CONF_API_ENDPOINT, CONF_CHAT_ID, DEFAULT_API_ENDPOINT
@@ -15,7 +15,7 @@ TO_REDACT = [CONF_API_KEY, CONF_CHAT_ID]
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: TelegramBotConfigEntry
+    hass: UniversalAssistant, config_entry: TelegramBotConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
 

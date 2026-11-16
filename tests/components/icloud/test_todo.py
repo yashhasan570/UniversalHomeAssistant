@@ -34,8 +34,8 @@ from universalassistant.components.todo import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 ENTITY_ID = "todo.test_icloud_account_groceries"
@@ -106,7 +106,7 @@ def mock_reminders(icloud_client: AsyncMock) -> MagicMock:
     return service
 
 
-async def _setup(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def _setup(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Set up the config entry with only the to-do platform loaded."""
     config_entry.add_to_hass(hass)
     with patch("universalassistant.components.icloud.PLATFORMS", [Platform.TODO]):
@@ -116,7 +116,7 @@ async def _setup(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
 
 
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -129,7 +129,7 @@ async def test_entities(
 
 
 async def test_completed_reminders_excluded_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
 ) -> None:
@@ -145,7 +145,7 @@ async def test_completed_reminders_excluded_by_default(
 
 
 async def test_include_completed_option(
-    hass: __HAC_KEEP__, reminders: MagicMock
+    hass: UniversalAssistant, reminders: MagicMock
 ) -> None:
     """Test that the option brings completed reminders back."""
     config_entry = MockConfigEntry(
@@ -167,7 +167,7 @@ async def test_include_completed_option(
 
 
 async def test_groups_skipped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
 ) -> None:
@@ -188,7 +188,7 @@ async def test_groups_skipped(
 
 
 async def test_deleted_lists_skipped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -211,7 +211,7 @@ async def test_deleted_lists_skipped(
 
 
 async def test_list_entity_removed_when_list_disappears(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -246,7 +246,7 @@ async def test_list_entity_removed_when_list_disappears(
 
 
 async def test_subtasks_follow_their_parent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
 ) -> None:
@@ -273,7 +273,7 @@ async def test_subtasks_follow_their_parent(
 
 
 async def test_create_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
 ) -> None:
@@ -303,7 +303,7 @@ async def test_create_item(
 
 
 async def test_update_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
 ) -> None:
@@ -331,7 +331,7 @@ async def test_update_item(
 
 
 async def test_delete_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
 ) -> None:
@@ -352,7 +352,7 @@ async def test_delete_item(
 
 
 async def test_partial_delete_still_refreshes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
 ) -> None:
@@ -369,7 +369,7 @@ async def test_partial_delete_still_refreshes(
     await _setup(hass, config_entry)
     before = reminders.list_reminders.call_count
 
-    with pytest.raises(__HAC_KEEP__Error, match="Error updating reminders"):
+    with pytest.raises(UniversalAssistantError, match="Error updating reminders"):
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.REMOVE_ITEM,
@@ -383,16 +383,16 @@ async def test_partial_delete_still_refreshes(
 
 
 async def test_api_error_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
 ) -> None:
-    """Test that an iCloud error surfaces as a __HA_KEEP__ error."""
+    """Test that an iCloud error surfaces as a Universal Home Assistant error."""
     reminders.get.side_effect = RemindersApiError("boom")
 
     await _setup(hass, config_entry)
 
-    with pytest.raises(__HAC_KEEP__Error, match="Error updating reminders"):
+    with pytest.raises(UniversalAssistantError, match="Error updating reminders"):
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.REMOVE_ITEM,
@@ -402,7 +402,7 @@ async def test_api_error_raises(
 
 
 async def test_new_list_added_on_later_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -424,7 +424,7 @@ async def test_new_list_added_on_later_poll(
 
 
 async def test_create_item_with_date_due(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
 ) -> None:
@@ -451,7 +451,7 @@ async def test_create_item_with_date_due(
 
 
 async def test_update_item_with_datetime_due(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
 ) -> None:
@@ -477,7 +477,7 @@ async def test_update_item_with_datetime_due(
     )
 
     assert existing.all_day is False
-    # __HA_KEEP__ hands the platform a timezone-aware value.
+    # Universal Home Assistant hands the platform a timezone-aware value.
     assert existing.due_date.tzinfo is not None
     assert existing.due_date.replace(tzinfo=None) == datetime(2024, 5, 1, 9, 30)
     assert existing.time_zone == "UTC"
@@ -524,7 +524,7 @@ async def test_update_item_with_datetime_due(
     ],
 )
 async def test_item_due_time_zone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
     due_data: dict[str, str | None],
@@ -532,7 +532,7 @@ async def test_item_due_time_zone(
     all_day: bool,
     time_zone: str | None,
 ) -> None:
-    """Test that writes pair due timestamps with the __HA_KEEP__ time zone."""
+    """Test that writes pair due timestamps with the Universal Home Assistant time zone."""
     await hass.config.async_set_time_zone("Europe/Paris")
     existing = _reminder("r1", "Milk", due=datetime(2026, 10, 1, tzinfo=UTC))
     existing.time_zone = "America/New_York"
@@ -607,7 +607,7 @@ async def test_item_due_time_zone(
     ],
 )
 async def test_update_item_with_unchanged_due_time_zone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
     update_data: dict[str, str],
@@ -638,7 +638,7 @@ async def test_update_item_with_unchanged_due_time_zone(
 
 
 async def test_nested_subtasks_follow_their_parent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
 ) -> None:
@@ -666,7 +666,7 @@ async def test_nested_subtasks_follow_their_parent(
 
 
 async def test_orphaned_subtask_is_kept(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
 ) -> None:
@@ -697,7 +697,7 @@ async def test_orphaned_subtask_is_kept(
 
 
 async def test_orphan_parent_returned_after_its_child(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
 ) -> None:
@@ -727,7 +727,7 @@ async def test_orphan_parent_returned_after_its_child(
 
 
 async def test_update_refused_when_title_undecrypted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MagicMock,
     reminders: MagicMock,
 ) -> None:
@@ -742,7 +742,7 @@ async def test_update_refused_when_title_undecrypted(
 
     await _setup(hass, config_entry)
 
-    with pytest.raises(__HAC_KEEP__Error, match="could not be decrypted"):
+    with pytest.raises(UniversalAssistantError, match="could not be decrypted"):
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.UPDATE_ITEM,
@@ -758,7 +758,7 @@ async def test_update_refused_when_title_undecrypted(
 
 
 async def test_missing_reminder_raises_service_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MagicMock,
     reminders: MagicMock,
 ) -> None:
@@ -767,7 +767,7 @@ async def test_missing_reminder_raises_service_error(
 
     await _setup(hass, config_entry)
 
-    with pytest.raises(__HAC_KEEP__Error, match="Error updating reminders"):
+    with pytest.raises(UniversalAssistantError, match="Error updating reminders"):
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.REMOVE_ITEM,
@@ -777,7 +777,7 @@ async def test_missing_reminder_raises_service_error(
 
 
 async def test_undecryptable_reminders_are_left_out(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MagicMock,
     reminders: MagicMock,
 ) -> None:
@@ -808,7 +808,7 @@ async def test_undecryptable_reminders_are_left_out(
 
 
 async def test_warns_once_when_titles_undecrypted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MagicMock,
     reminders: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -832,7 +832,7 @@ async def test_warns_once_when_titles_undecrypted(
 
 
 async def test_entry_loads_when_reminders_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MagicMock,
     reminders: MagicMock,
 ) -> None:
@@ -851,7 +851,7 @@ async def test_entry_loads_when_reminders_fail(
 
 
 async def test_zone_not_found_is_tolerated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -874,7 +874,7 @@ async def test_zone_not_found_is_tolerated(
 
 
 async def test_zone_not_found_logged_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -895,7 +895,7 @@ async def test_zone_not_found_logged_once(
 
 
 async def test_zone_not_found_backs_off_polling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
 ) -> None:
@@ -910,7 +910,7 @@ async def test_zone_not_found_backs_off_polling(
 
 
 async def test_zone_not_found_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -933,7 +933,7 @@ async def test_zone_not_found_recovers(
 
 
 async def test_zone_not_found_keeps_existing_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reminders: MagicMock,
     entity_registry: er.EntityRegistry,

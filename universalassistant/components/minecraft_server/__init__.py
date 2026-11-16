@@ -9,7 +9,7 @@ import dns.rdataclass
 import dns.rdatatype
 
 from universalassistant.const import CONF_ADDRESS, CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -35,7 +35,7 @@ def prevent_dnspython_blocking_operations() -> None:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: MinecraftServerConfigEntry
+    hass: UniversalAssistant, entry: MinecraftServerConfigEntry
 ) -> None:
     """Set up Minecraft Server from a config entry."""
     await hass.async_add_executor_job(prevent_dnspython_blocking_operations)
@@ -50,14 +50,14 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: MinecraftServerConfigEntry
+    hass: UniversalAssistant, config_entry: MinecraftServerConfigEntry
 ) -> None:
     """Unload Minecraft Server config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, config_entry: MinecraftServerConfigEntry
+    hass: UniversalAssistant, config_entry: MinecraftServerConfigEntry
 ) -> None:
     """Migrate old config entry to a new format."""
 
@@ -132,7 +132,7 @@ async def async_migrate_entry(
 
 
 async def _async_migrate_device_identifiers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MinecraftServerConfigEntry,
     old_unique_id: str | None,
 ) -> None:

@@ -8,7 +8,7 @@ from pytest_universalassistant.common import assert_setup_component, async_fire_
 
 from universalassistant.components.tod.binary_sensor import TodEntityStateAttribute
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.sun import get_astral_event_date, get_astral_event_next
 from universalassistant.setup import async_setup_component
@@ -22,7 +22,7 @@ def hass_time_zone() -> str:
 
 
 @pytest.fixture(autouse=True)
-async def setup_fixture(hass: __HAC_KEEP__, hass_time_zone: str) -> None:
+async def setup_fixture(hass: UniversalAssistant, hass_time_zone: str) -> None:
     """Set up things to be run when tests are started."""
     hass.config.latitude = 50.27583
     hass.config.longitude = 18.98583
@@ -30,12 +30,12 @@ async def setup_fixture(hass: __HAC_KEEP__, hass_time_zone: str) -> None:
 
 
 @pytest.fixture
-def hass_tz_info(hass: __HAC_KEEP__) -> tzinfo | None:
+def hass_tz_info(hass: UniversalAssistant) -> tzinfo | None:
     """Return timezone info for the hass timezone."""
     return dt_util.get_time_zone(hass.config.time_zone)
 
 
-async def test_setup(hass: __HAC_KEEP__) -> None:
+async def test_setup(hass: UniversalAssistant) -> None:
     """Test the setup."""
     config = {
         "binary_sensor": [
@@ -59,7 +59,7 @@ async def test_setup(hass: __HAC_KEEP__) -> None:
         assert await async_setup_component(hass, "binary_sensor", config)
 
 
-async def test_setup_no_sensors(hass: __HAC_KEEP__) -> None:
+async def test_setup_no_sensors(hass: UniversalAssistant) -> None:
     """Test setup with no sensors."""
     with assert_setup_component(0):
         assert await async_setup_component(
@@ -68,7 +68,7 @@ async def test_setup_no_sensors(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.freeze_time("2019-01-10 18:43:00-08:00")
-async def test_in_period_on_start(hass: __HAC_KEEP__) -> None:
+async def test_in_period_on_start(hass: UniversalAssistant) -> None:
     """Test simple setting."""
     config = {
         "binary_sensor": [
@@ -89,7 +89,7 @@ async def test_in_period_on_start(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.freeze_time("2019-01-10 22:30:00-08:00")
 async def test_midnight_turnover_before_midnight_inside_period(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test midnight turnover setting before midnight inside period ."""
     config = {
@@ -105,7 +105,7 @@ async def test_midnight_turnover_before_midnight_inside_period(
 
 
 async def test_midnight_turnover_after_midnight_inside_period(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, hass_tz_info
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, hass_tz_info
 ) -> None:
     """Test midnight turnover setting before midnight inside period ."""
     test_time = datetime(2019, 1, 10, 21, 0, 0, tzinfo=hass_tz_info)
@@ -133,7 +133,7 @@ async def test_midnight_turnover_after_midnight_inside_period(
 
 @pytest.mark.freeze_time("2019-01-10 20:30:00-08:00")
 async def test_midnight_turnover_before_midnight_outside_period(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test midnight turnover setting before midnight outside period."""
     config = {
@@ -149,7 +149,7 @@ async def test_midnight_turnover_before_midnight_outside_period(
 
 
 @pytest.mark.freeze_time("2019-01-10 10:00:00-08:00")
-async def test_after_happens_tomorrow(hass: __HAC_KEEP__) -> None:
+async def test_after_happens_tomorrow(hass: UniversalAssistant) -> None:
     """Test when before and after are in the future, after is later than before."""
     config = {
         "binary_sensor": [
@@ -164,7 +164,7 @@ async def test_after_happens_tomorrow(hass: __HAC_KEEP__) -> None:
 
 
 async def test_midnight_turnover_after_midnight_outside_period(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, hass_tz_info
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, hass_tz_info
 ) -> None:
     """Test midnight turnover setting before midnight inside period ."""
     test_time = datetime(2019, 1, 10, 20, 0, 0, tzinfo=hass_tz_info)
@@ -198,7 +198,7 @@ async def test_midnight_turnover_after_midnight_outside_period(
 
 
 async def test_from_sunrise_to_sunset(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, hass_tz_info
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, hass_tz_info
 ) -> None:
     """Test period from sunrise to sunset."""
     test_time = datetime(2019, 1, 12, tzinfo=hass_tz_info)
@@ -257,7 +257,7 @@ async def test_from_sunrise_to_sunset(
 
 
 async def test_from_sunset_to_sunrise(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, hass_tz_info
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, hass_tz_info
 ) -> None:
     """Test period from sunset to sunrise."""
     test_time = datetime(2019, 1, 12, tzinfo=hass_tz_info)
@@ -313,7 +313,7 @@ async def test_from_sunset_to_sunrise(
 
 
 async def test_offset(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, hass_tz_info
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, hass_tz_info
 ) -> None:
     """Test offset."""
     after = datetime(2019, 1, 10, 18, 0, 0, tzinfo=hass_tz_info) + timedelta(
@@ -369,7 +369,7 @@ async def test_offset(
 
 
 async def test_offset_overnight(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, hass_tz_info
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, hass_tz_info
 ) -> None:
     """Test offset overnight."""
     after = datetime(2019, 1, 10, 18, 0, 0, tzinfo=hass_tz_info) + timedelta(
@@ -402,7 +402,7 @@ async def test_offset_overnight(
 
 
 async def test_norwegian_case_winter(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, hass_tz_info
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, hass_tz_info
 ) -> None:
     """Test location in Norway where the sun doesn't set in summer."""
     hass.config.latitude = 69.6
@@ -470,7 +470,7 @@ async def test_norwegian_case_winter(
 
 
 async def test_norwegian_case_summer(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, hass_tz_info
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, hass_tz_info
 ) -> None:
     """Test location in Norway where the sun doesn't set in summer."""
     hass.config.latitude = 69.6
@@ -540,7 +540,7 @@ async def test_norwegian_case_summer(
 
 
 async def test_sun_offset(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, hass_tz_info
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, hass_tz_info
 ) -> None:
     """Test sun event with offset."""
     test_time = datetime(2019, 1, 12, tzinfo=hass_tz_info)
@@ -616,7 +616,7 @@ async def test_sun_offset(
 
 
 async def test_dst1(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, hass_tz_info
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, hass_tz_info
 ) -> None:
     """Test DST when time falls in non-existent hour. Also check 48 hours later."""
     hass.config.time_zone = "CET"
@@ -673,7 +673,7 @@ async def test_dst1(
 
 
 async def test_dst2(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, hass_tz_info
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, hass_tz_info
 ) -> None:
     """Test DST when there's a time switch in the East."""
     hass.config.time_zone = "CET"
@@ -708,7 +708,7 @@ async def test_dst2(
 
 
 async def test_dst3(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, hass_tz_info
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, hass_tz_info
 ) -> None:
     """Test DST when there's a time switch forward in the West."""
     hass.config.time_zone = "US/Pacific"
@@ -745,7 +745,7 @@ async def test_dst3(
 
 
 async def test_dst4(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, hass_tz_info
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, hass_tz_info
 ) -> None:
     """Test DST when there's a time switch backward in the West."""
     hass.config.time_zone = "US/Pacific"
@@ -822,7 +822,7 @@ async def test_dst4(
     ],
 )
 async def test_dst_fall_back_next_day_boundaries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     current_time: str,
     expected_after: str,
@@ -848,7 +848,7 @@ async def test_dst_fall_back_next_day_boundaries(
 
 @pytest.mark.parametrize("hass_time_zone", ["Europe/London"])
 async def test_dst_fall_back_scheduled_off_transition(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Finish today's period before scheduling the next local day."""
@@ -882,7 +882,7 @@ async def test_dst_fall_back_scheduled_off_transition(
 
 
 async def test_dst5(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, hass_tz_info
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, hass_tz_info
 ) -> None:
     """Test DST when end time falls in non-existent hour (1:50am-2:10am)."""
     hass.config.time_zone = "CET"
@@ -939,7 +939,7 @@ async def test_dst5(
 
 
 async def test_dst6(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, hass_tz_info
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, hass_tz_info
 ) -> None:
     """Test DST when start time falls in non-existent hour (2:50am 3:10am)."""
     hass.config.time_zone = "CET"
@@ -998,7 +998,7 @@ async def test_dst6(
 @pytest.mark.freeze_time("2019-01-10 18:43:00")
 @pytest.mark.parametrize("hass_time_zone", ["UTC"])
 async def test_simple_before_after_does_not_loop_utc_not_in_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test simple before after."""
     config = {
@@ -1031,7 +1031,7 @@ async def test_simple_before_after_does_not_loop_utc_not_in_range(
 @pytest.mark.freeze_time("2019-01-10 22:43:00")
 @pytest.mark.parametrize("hass_time_zone", ["UTC"])
 async def test_simple_before_after_does_not_loop_utc_in_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test simple before after."""
     config = {
@@ -1064,7 +1064,7 @@ async def test_simple_before_after_does_not_loop_utc_in_range(
 @pytest.mark.freeze_time("2019-01-11 06:00:00")
 @pytest.mark.parametrize("hass_time_zone", ["UTC"])
 async def test_simple_before_after_does_not_loop_utc_fire_at_before(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test simple before after."""
     config = {
@@ -1097,7 +1097,7 @@ async def test_simple_before_after_does_not_loop_utc_fire_at_before(
 @pytest.mark.freeze_time("2019-01-10 22:00:00")
 @pytest.mark.parametrize("hass_time_zone", ["UTC"])
 async def test_simple_before_after_does_not_loop_utc_fire_at_after(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test simple before after."""
     config = {
@@ -1130,7 +1130,7 @@ async def test_simple_before_after_does_not_loop_utc_fire_at_after(
 @pytest.mark.freeze_time("2019-01-10 22:00:00")
 @pytest.mark.parametrize("hass_time_zone", ["UTC"])
 async def test_simple_before_after_does_not_loop_utc_both_before_now(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test simple before after."""
     config = {
@@ -1163,7 +1163,7 @@ async def test_simple_before_after_does_not_loop_utc_both_before_now(
 @pytest.mark.freeze_time("2019-01-10 17:43:00+01:00")
 @pytest.mark.parametrize("hass_time_zone", ["Europe/Berlin"])
 async def test_simple_before_after_does_not_loop_berlin_not_in_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test simple before after."""
     config = {
@@ -1196,7 +1196,7 @@ async def test_simple_before_after_does_not_loop_berlin_not_in_range(
 @pytest.mark.freeze_time("2019-01-11 00:43:00+01:00")
 @pytest.mark.parametrize("hass_time_zone", ["Europe/Berlin"])
 async def test_simple_before_after_does_not_loop_berlin_in_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test simple before after."""
     config = {
@@ -1227,7 +1227,7 @@ async def test_simple_before_after_does_not_loop_berlin_in_range(
 
 
 async def test_unique_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test unique id."""
     config = {

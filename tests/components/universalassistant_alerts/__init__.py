@@ -1,1 +1,1 @@
-"""Tests for the __HA_KEEP__ alerts integration."""
+"""Tests for the Universal Home Assistant alerts integration."""

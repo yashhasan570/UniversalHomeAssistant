@@ -12,13 +12,13 @@ import probatio
 import universalassistant.config as conf_util
 from universalassistant.const import SERVICE_RELOAD
 from universalassistant.core import (
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error, TemplateError
+from universalassistant.exceptions import UniversalAssistantError, TemplateError
 from universalassistant.helpers import (
     issue_registry as ir,
     service as service_helper,
@@ -40,7 +40,7 @@ _DATA_CACHE: HassKey[dict[str, tuple[str, str | None, template.Template | None]]
 
 def _make_handler(
     cmd: str,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cache: dict[str, tuple[str, str | None, template.Template | None]],
 ) -> Callable[[ServiceCall], Coroutine[Any, Any, ServiceResponse]]:
     """Return a service handler that executes the given shell command."""
@@ -102,7 +102,7 @@ def _make_handler(
                     process._transport.close()  # type: ignore[attr-defined]  # noqa: SLF001
                 del process
 
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="timeout",
                 translation_placeholders={
@@ -142,7 +142,7 @@ def _make_handler(
                 if stderr_data:
                     service_response["stderr"] = stderr_data.decode("utf-8").strip()
             except UnicodeDecodeError as err:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="non_utf8_output",
                     translation_placeholders={"command": cmd},
@@ -154,7 +154,7 @@ def _make_handler(
 
 
 @callback
-def async_register_shell_commands(hass: __HAC_KEEP__, conf: dict[str, str]) -> None:
+def async_register_shell_commands(hass: UniversalAssistant, conf: dict[str, str]) -> None:
     """Register an action for each shell command."""
     cache = hass.data.setdefault(_DATA_CACHE, {})
     for name, command in conf.items():
@@ -186,7 +186,7 @@ async def _async_reload_service_handler(service_call: ServiceCall) -> None:
     try:
         raw_config = await conf_util.async_hass_config_yaml(hass)
     # pylint: disable-next=universal-assistant-action-swallowed-exception
-    except __HAC_KEEP__Error as err:
+    except UniversalAssistantError as err:
         _LOGGER.error("Error loading configuration.yaml: %s", err)
         return
 
@@ -207,7 +207,7 @@ async def _async_reload_service_handler(service_call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the shell_command services."""
     service_helper.async_register_admin_service(
         hass,

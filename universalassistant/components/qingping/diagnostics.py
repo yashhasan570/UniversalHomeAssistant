@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components import bluetooth
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import QingpingConfigEntry
 
@@ -14,7 +14,7 @@ SERVICE_INFO_TO_REDACT = frozenset(
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: QingpingConfigEntry
+    hass: UniversalAssistant, entry: QingpingConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     address = entry.unique_id

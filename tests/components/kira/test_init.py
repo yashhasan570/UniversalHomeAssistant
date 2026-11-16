@@ -9,7 +9,7 @@ from unittest.mock import patch
 import pytest
 
 from universalassistant.components import kira
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 TEST_CONFIG = {
@@ -47,13 +47,13 @@ def work_dir():
     shutil.rmtree(work_dir, ignore_errors=True)
 
 
-async def test_kira_empty_config(hass: __HAC_KEEP__) -> None:
+async def test_kira_empty_config(hass: UniversalAssistant) -> None:
     """Kira component should load a default sensor."""
     await async_setup_component(hass, kira.DOMAIN, {kira.DOMAIN: {}})
     assert len(hass.data[kira.DOMAIN]["sensor"]) == 1
 
 
-async def test_kira_setup(hass: __HAC_KEEP__) -> None:
+async def test_kira_setup(hass: UniversalAssistant) -> None:
     """Ensure platforms are loaded correctly."""
     await async_setup_component(hass, kira.DOMAIN, TEST_CONFIG)
     await hass.async_block_till_done()
@@ -77,7 +77,7 @@ async def test_kira_creates_codes(work_dir) -> None:
     assert os.path.exists(code_path), "Kira component didn't create codes file"
 
 
-async def test_load_codes(hass: __HAC_KEEP__, work_dir) -> None:
+async def test_load_codes(hass: UniversalAssistant, work_dir) -> None:
     """Kira should ignore invalid codes."""
     code_path = os.path.join(work_dir, "codes.yaml")
     await hass.async_add_executor_job(Path(code_path).write_text, KIRA_CODES)

@@ -14,7 +14,7 @@ from universalassistant.components.tailscale.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 OAUTH_INPUT = {
@@ -26,7 +26,7 @@ USER_INPUT = {CONF_TAILNET: "universalassistant.github", **OAUTH_INPUT}
 
 
 async def test_full_user_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tailscale_config_flow: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -62,7 +62,7 @@ async def test_full_user_flow(
     ],
 )
 async def test_full_flow_with_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tailscale_config_flow: MagicMock,
     mock_setup_entry: AsyncMock,
     side_effect: type[Exception],
@@ -94,7 +94,7 @@ async def test_full_flow_with_error(
 
 
 async def test_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the tailnet is only allowed to be configured once."""
@@ -116,7 +116,7 @@ async def test_already_configured(
 
 
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tailscale_config_flow: MagicMock,
     mock_setup_entry: AsyncMock,
@@ -147,7 +147,7 @@ async def test_reauth_flow(
 
 @pytest.mark.usefixtures("mock_tailscale_config_flow", "mock_setup_entry")
 async def test_reauth_flow_migrates_api_key_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_api_key: MockConfigEntry,
 ) -> None:
     """Test reauthentication migrates a legacy API access token entry to OAuth."""
@@ -181,7 +181,7 @@ async def test_reauth_flow_migrates_api_key_entry(
     ],
 )
 async def test_reauth_with_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tailscale_config_flow: MagicMock,
     mock_setup_entry: AsyncMock,

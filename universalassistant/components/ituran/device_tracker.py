@@ -3,7 +3,7 @@
 from typing import override
 
 from universalassistant.components.device_tracker import TrackerEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import IturanConfigEntry, IturanDataUpdateCoordinator
@@ -11,7 +11,7 @@ from .entity import IturanBaseEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: IturanConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -14,7 +14,7 @@ from pytest_universalassistant.common import (
 )
 
 from universalassistant import config_entries, data_entry_flow, setup
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.helpers import config_entry_flow
 
@@ -31,11 +31,11 @@ def _make_discovery_flow_conf(
 
 
 @pytest.fixture
-def async_discovery_flow_conf(hass: __HAC_KEEP__) -> Generator[dict[str, bool]]:
+def async_discovery_flow_conf(hass: UniversalAssistant) -> Generator[dict[str, bool]]:
     """Register a handler with an async discovery function."""
     handler_conf = {"discovered": False}
 
-    async def has_discovered_devices(hass: __HAC_KEEP__) -> bool:
+    async def has_discovered_devices(hass: UniversalAssistant) -> bool:
         """Mock if we have discovered devices."""
         return handler_conf["discovered"]
 
@@ -44,11 +44,11 @@ def async_discovery_flow_conf(hass: __HAC_KEEP__) -> Generator[dict[str, bool]]:
 
 
 @pytest.fixture
-def discovery_flow_conf(hass: __HAC_KEEP__) -> Generator[dict[str, bool]]:
+def discovery_flow_conf(hass: UniversalAssistant) -> Generator[dict[str, bool]]:
     """Register a handler with a async friendly callback function."""
     handler_conf = {"discovered": False}
 
-    def has_discovered_devices(hass: __HAC_KEEP__) -> bool:
+    def has_discovered_devices(hass: UniversalAssistant) -> bool:
         """Mock if we have discovered devices."""
         return handler_conf["discovered"]
 
@@ -58,7 +58,7 @@ def discovery_flow_conf(hass: __HAC_KEEP__) -> Generator[dict[str, bool]]:
 
 
 @pytest.fixture
-def webhook_flow_conf(hass: __HAC_KEEP__) -> Generator[None]:
+def webhook_flow_conf(hass: UniversalAssistant) -> Generator[None]:
     """Register a handler."""
     with patch.dict(config_entries.HANDLERS):
         config_entry_flow.register_webhook_flow("test_single", "Test Single", {}, False)
@@ -69,7 +69,7 @@ def webhook_flow_conf(hass: __HAC_KEEP__) -> Generator[None]:
 
 
 async def test_single_entry_allowed(
-    hass: __HAC_KEEP__, discovery_flow_conf: dict[str, bool]
+    hass: UniversalAssistant, discovery_flow_conf: dict[str, bool]
 ) -> None:
     """Test only a single entry is allowed."""
     flow = config_entries.HANDLERS["test"]()
@@ -85,7 +85,7 @@ async def test_single_entry_allowed(
 
 
 async def test_user_no_devices_found(
-    hass: __HAC_KEEP__, discovery_flow_conf: dict[str, bool]
+    hass: UniversalAssistant, discovery_flow_conf: dict[str, bool]
 ) -> None:
     """Test if no devices found."""
     flow = config_entries.HANDLERS["test"]()
@@ -99,7 +99,7 @@ async def test_user_no_devices_found(
 
 
 async def test_user_has_confirmation(
-    hass: __HAC_KEEP__, discovery_flow_conf: dict[str, bool]
+    hass: UniversalAssistant, discovery_flow_conf: dict[str, bool]
 ) -> None:
     """Test user requires confirmation to setup."""
     discovery_flow_conf["discovered"] = True
@@ -125,7 +125,7 @@ async def test_user_has_confirmation(
 
 
 async def test_user_has_confirmation_async_discovery_flow(
-    hass: __HAC_KEEP__, async_discovery_flow_conf: dict[str, bool]
+    hass: UniversalAssistant, async_discovery_flow_conf: dict[str, bool]
 ) -> None:
     """Test user requires confirmation to setup with an async has_discovered_devices."""
     async_discovery_flow_conf["discovered"] = True
@@ -163,7 +163,7 @@ async def test_user_has_confirmation_async_discovery_flow(
     ],
 )
 async def test_discovery_single_instance(
-    hass: __HAC_KEEP__, discovery_flow_conf: dict[str, bool], source: str
+    hass: UniversalAssistant, discovery_flow_conf: dict[str, bool], source: str
 ) -> None:
     """Test we not allow duplicates."""
     flow = config_entries.HANDLERS["test"]()
@@ -179,7 +179,7 @@ async def test_discovery_single_instance(
 
 
 async def test_discovery_confirm_single_instance(
-    hass: __HAC_KEEP__, discovery_flow_conf: dict[str, bool]
+    hass: UniversalAssistant, discovery_flow_conf: dict[str, bool]
 ) -> None:
     """Test confirming a discovery aborts once an entry exists."""
     flow = config_entries.HANDLERS["test"]()
@@ -206,7 +206,7 @@ async def test_discovery_confirm_single_instance(
     ],
 )
 async def test_discovery_confirmation(
-    hass: __HAC_KEEP__, discovery_flow_conf: dict[str, bool], source: str
+    hass: UniversalAssistant, discovery_flow_conf: dict[str, bool], source: str
 ) -> None:
     """Test we ask for confirmation via discovery."""
     flow = config_entries.HANDLERS["test"]()
@@ -234,7 +234,7 @@ async def test_discovery_confirmation(
     ],
 )
 async def test_discovery_during_onboarding(
-    hass: __HAC_KEEP__, discovery_flow_conf: dict[str, bool], source: str
+    hass: UniversalAssistant, discovery_flow_conf: dict[str, bool], source: str
 ) -> None:
     """Test we create config entry via discovery during onboarding."""
     flow = config_entries.HANDLERS["test"]()
@@ -250,7 +250,7 @@ async def test_discovery_during_onboarding(
 
 
 async def test_multiple_discoveries(
-    hass: __HAC_KEEP__, discovery_flow_conf: dict[str, bool]
+    hass: UniversalAssistant, discovery_flow_conf: dict[str, bool]
 ) -> None:
     """Test we only create one instance for multiple discoveries."""
     mock_platform(hass, "test.config_flow", None)
@@ -268,7 +268,7 @@ async def test_multiple_discoveries(
 
 
 async def test_only_one_in_progress(
-    hass: __HAC_KEEP__, discovery_flow_conf: dict[str, bool]
+    hass: UniversalAssistant, discovery_flow_conf: dict[str, bool]
 ) -> None:
     """Test a user initialized one will finish and cancel discovered one."""
     mock_platform(hass, "test.config_flow", None)
@@ -296,7 +296,7 @@ async def test_only_one_in_progress(
 
 
 async def test_import_abort_discovery(
-    hass: __HAC_KEEP__, discovery_flow_conf: dict[str, bool]
+    hass: UniversalAssistant, discovery_flow_conf: dict[str, bool]
 ) -> None:
     """Test import will finish and cancel discovered one."""
     mock_platform(hass, "test.config_flow", None)
@@ -319,7 +319,7 @@ async def test_import_abort_discovery(
 
 
 async def test_import_no_confirmation(
-    hass: __HAC_KEEP__, discovery_flow_conf: dict[str, bool]
+    hass: UniversalAssistant, discovery_flow_conf: dict[str, bool]
 ) -> None:
     """Test import requires no confirmation to set up."""
     flow = config_entries.HANDLERS["test"]()
@@ -332,7 +332,7 @@ async def test_import_no_confirmation(
 
 
 async def test_import_single_instance(
-    hass: __HAC_KEEP__, discovery_flow_conf: dict[str, bool]
+    hass: UniversalAssistant, discovery_flow_conf: dict[str, bool]
 ) -> None:
     """Test import doesn't create second instance."""
     flow = config_entries.HANDLERS["test"]()
@@ -348,7 +348,7 @@ async def test_import_single_instance(
 
 
 async def test_ignored_discoveries(
-    hass: __HAC_KEEP__, discovery_flow_conf: dict[str, bool]
+    hass: UniversalAssistant, discovery_flow_conf: dict[str, bool]
 ) -> None:
     """Test we can ignore discovered entries."""
     mock_platform(hass, "test.config_flow", None)
@@ -382,7 +382,7 @@ async def test_ignored_discoveries(
 
 
 async def test_webhook_single_entry_allowed(
-    hass: __HAC_KEEP__, webhook_flow_conf: None
+    hass: UniversalAssistant, webhook_flow_conf: None
 ) -> None:
     """Test only a single entry is allowed."""
     flow = config_entries.HANDLERS["test_single"]()
@@ -397,7 +397,7 @@ async def test_webhook_single_entry_allowed(
 
 
 async def test_webhook_multiple_entries_allowed(
-    hass: __HAC_KEEP__, webhook_flow_conf: None
+    hass: UniversalAssistant, webhook_flow_conf: None
 ) -> None:
     """Test multiple entries are allowed when specified."""
     flow = config_entries.HANDLERS["test_multiple"]()
@@ -411,7 +411,7 @@ async def test_webhook_multiple_entries_allowed(
 
 
 async def test_webhook_config_flow_registers_webhook(
-    hass: __HAC_KEEP__, webhook_flow_conf: None
+    hass: UniversalAssistant, webhook_flow_conf: None
 ) -> None:
     """Test setting up an entry creates a webhook."""
     flow = config_entries.HANDLERS["test_single"]()
@@ -428,7 +428,7 @@ async def test_webhook_config_flow_registers_webhook(
 
 
 async def test_webhook_create_cloudhook(
-    hass: __HAC_KEEP__, webhook_flow_conf: None
+    hass: UniversalAssistant, webhook_flow_conf: None
 ) -> None:
     """Test cloudhook will be created if subscribed."""
     assert await setup.async_setup_component(hass, "cloud", {})
@@ -489,7 +489,7 @@ async def test_webhook_create_cloudhook(
 
 
 async def test_webhook_create_cloudhook_aborts_not_connected(
-    hass: __HAC_KEEP__, webhook_flow_conf: None
+    hass: UniversalAssistant, webhook_flow_conf: None
 ) -> None:
     """Test cloudhook aborts if subscribed but not connected."""
     assert await setup.async_setup_component(hass, "cloud", {})
@@ -539,7 +539,7 @@ async def test_webhook_create_cloudhook_aborts_not_connected(
 
 
 async def test_webhook_reconfigure_flow(
-    hass: __HAC_KEEP__, webhook_flow_conf: None
+    hass: UniversalAssistant, webhook_flow_conf: None
 ) -> None:
     """Test webhook reconfigure flow."""
     config_entry = MockConfigEntry(
@@ -581,7 +581,7 @@ async def test_webhook_reconfigure_flow(
 
 
 async def test_webhook_reconfigure_cloudhook(
-    hass: __HAC_KEEP__, webhook_flow_conf: None
+    hass: UniversalAssistant, webhook_flow_conf: None
 ) -> None:
     """Test reconfigure updates to cloudhook if subscribed."""
     assert await setup.async_setup_component(hass, "cloud", {})

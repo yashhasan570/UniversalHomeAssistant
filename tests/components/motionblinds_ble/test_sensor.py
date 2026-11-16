@@ -18,7 +18,7 @@ from universalassistant.components.motionblinds_ble.const import (
     ATTR_SIGNAL_STRENGTH,
 )
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
@@ -87,7 +87,7 @@ from . import setup_integration
     ],
 )
 async def test_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_motion_device: Mock,
     name: str,

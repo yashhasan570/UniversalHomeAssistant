@@ -5,14 +5,14 @@ from typing import Any, override
 import pyvera as veraApi
 
 from universalassistant.components.scene import Scene
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .common import ControllerData, VeraConfigEntry
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: VeraConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

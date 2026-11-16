@@ -21,8 +21,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.translation import LOCALE_EN, async_get_translations
 
@@ -50,7 +50,7 @@ def mock_dsm() -> Generator[MagicMock]:
 
 @pytest.fixture
 async def setup_button_platform(
-    hass: __HAC_KEEP__, mock_dsm: MagicMock
+    hass: UniversalAssistant, mock_dsm: MagicMock
 ) -> MockConfigEntry:
     """Set up the Synology DSM button platform."""
     with (
@@ -80,7 +80,7 @@ async def setup_button_platform(
 
 
 async def test_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_dsm: MagicMock,
@@ -92,7 +92,7 @@ async def test_button(
     )
 
 
-async def test_button_exception_translation(hass: __HAC_KEEP__) -> None:
+async def test_button_exception_translation(hass: UniversalAssistant) -> None:
     """Test every button has a translated API error message."""
     translations = await async_get_translations(hass, LOCALE_EN, "exceptions", [DOMAIN])
 
@@ -106,7 +106,7 @@ async def test_button_exception_translation(hass: __HAC_KEEP__) -> None:
     [("reboot", "reboot"), ("shutdown", "shutdown")],
 )
 async def test_press_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_dsm: MagicMock,
     setup_button_platform: MockConfigEntry,
@@ -134,14 +134,14 @@ async def test_press_button(
     [("reboot", "reboot"), ("shutdown", "shutdown")],
 )
 async def test_press_button_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_dsm: MagicMock,
     setup_button_platform: MockConfigEntry,
     button_key: str,
     api_method: str,
 ) -> None:
-    """Test DSM API errors are converted to __HA_KEEP__ errors."""
+    """Test DSM API errors are converted to Universal Home Assistant errors."""
     entity_id = entity_registry.async_get_entity_id(
         BUTTON_DOMAIN, DOMAIN, f"{SERIAL}_{button_key}"
     )
@@ -150,7 +150,7 @@ async def test_press_button_api_error(
         "API", 1, {}
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

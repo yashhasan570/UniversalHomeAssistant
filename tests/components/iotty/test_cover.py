@@ -24,14 +24,14 @@ from universalassistant.components.cover import (
 from universalassistant.components.iotty.const import DOMAIN
 from universalassistant.components.iotty.coordinator import UPDATE_INTERVAL
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_entry_oauth2_flow
 
 from .conftest import test_sh_one_added
 
 
 async def test_open_ok(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     local_oauth_impl: ClientSession,
     mock_get_devices_twoshutters,
@@ -72,7 +72,7 @@ async def test_open_ok(
 
 
 async def test_close_ok(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     local_oauth_impl: ClientSession,
     mock_get_devices_twoshutters,
@@ -113,7 +113,7 @@ async def test_close_ok(
 
 
 async def test_stop_ok(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     local_oauth_impl: ClientSession,
     mock_get_devices_twoshutters,
@@ -154,7 +154,7 @@ async def test_stop_ok(
 
 
 async def test_set_position_ok(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     local_oauth_impl: ClientSession,
     mock_get_devices_twoshutters,
@@ -195,7 +195,7 @@ async def test_set_position_ok(
 
 
 async def test_devices_insertion_ok(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     local_oauth_impl: ClientSession,
     mock_get_devices_twoshutters,

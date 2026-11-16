@@ -5,7 +5,7 @@ from typing import Any
 from universalassistant.components.camera import diagnostics as camera_diagnostics
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONF_DEVICE_TOKEN
 from .coordinator import SynologyDSMConfigEntry
@@ -14,7 +14,7 @@ TO_REDACT = {CONF_USERNAME, CONF_PASSWORD, CONF_DEVICE_TOKEN}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: SynologyDSMConfigEntry
+    hass: UniversalAssistant, entry: SynologyDSMConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     data = entry.runtime_data

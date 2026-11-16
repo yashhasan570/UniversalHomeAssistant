@@ -9,12 +9,12 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.weather import DOMAIN as WEATHER_DOMAIN, WeatherService
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.freeze_time("2021-11-24T03:00:00+00:00")
 async def test_forecast_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_open_meteo: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -45,7 +45,7 @@ async def test_forecast_service(
 
 @pytest.mark.freeze_time("2021-11-24T03:00:00+00:00")
 async def test_weather_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_open_meteo: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -68,7 +68,7 @@ async def test_weather_state(
 
 
 async def test_weather_without_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_open_meteo: AsyncMock,
 ) -> None:

@@ -7,7 +7,7 @@ from universalassistant.const import (
     CONF_NAME,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError
 
 from .const import (
@@ -22,7 +22,7 @@ PLATFORMS = [Platform.WEATHER]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: MetWeatherConfigEntry
+    hass: UniversalAssistant, config_entry: MetWeatherConfigEntry
 ) -> None:
     """Set up Met as config entry."""
     # Don't setup if tracking home location and latitude or longitude isn't set.
@@ -53,14 +53,14 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: MetWeatherConfigEntry
+    hass: UniversalAssistant, config_entry: MetWeatherConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, config_entry: MetWeatherConfigEntry
+    hass: UniversalAssistant, config_entry: MetWeatherConfigEntry
 ) -> None:
     """Migrate old config entry."""
     if config_entry.version == 1 and config_entry.minor_version < 2:

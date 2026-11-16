@@ -5,7 +5,7 @@ from typing import override
 from pylutron import Button, Keypad, Led, Lutron
 
 from universalassistant.components.select import SelectEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import LutronConfigEntry
@@ -22,7 +22,7 @@ _LED_OPTION_TO_STATE = {v: k for k, v in _LED_STATE_TO_OPTION.items()}
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: LutronConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -57,7 +57,7 @@ class LutronLedSelect(LutronKeypad, SelectEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         area_name: str,
         keypad: Keypad,
         scene_device: Button,

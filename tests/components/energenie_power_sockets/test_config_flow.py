@@ -10,12 +10,12 @@ from universalassistant.components.energenie_power_sockets.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_user_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     demo_config_data: dict,
     mock_get_device: MagicMock,
     mock_search_for_devices: MagicMock,
@@ -38,7 +38,7 @@ async def test_user_flow(
 
 
 async def test_user_flow_already_exists(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     valid_config_entry: MockConfigEntry,
     mock_get_device: MagicMock,
     mock_search_for_devices: MagicMock,
@@ -65,7 +65,7 @@ async def test_user_flow_already_exists(
 
 
 async def test_user_flow_no_new_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     valid_config_entry: MockConfigEntry,
     mock_get_device: MagicMock,
     mock_search_for_devices: MagicMock,
@@ -84,7 +84,7 @@ async def test_user_flow_no_new_device(
 
 
 async def test_user_flow_no_device_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     demo_config_data: dict,
     mock_get_device: MagicMock,
     mock_search_for_devices: MagicMock,
@@ -102,7 +102,7 @@ async def test_user_flow_no_device_found(
 
 
 async def test_user_flow_device_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     demo_config_data: dict,
     mock_get_device: MagicMock,
     mock_search_for_devices: MagicMock,
@@ -127,7 +127,7 @@ async def test_user_flow_device_not_found(
 
 
 async def test_user_flow_no_usb_access(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_get_device: MagicMock,
     mock_search_for_devices: MagicMock,
 ) -> None:

@@ -23,7 +23,7 @@ UNIT_HEAT_PUMP = 2
 
 @dataclass
 class MockModbusApi:
-    """Mocks for the persistent and temporary __HA_KEEP__ Modbus APIs."""
+    """Mocks for the persistent and temporary Universal Home Assistant Modbus APIs."""
 
     get_unit: MagicMock
     temporary_unit: MagicMock
@@ -78,7 +78,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 async def mock_modbus_api(
     mock_modbus_connection: MockModbusConnection,
 ) -> AsyncGenerator[MockModbusApi]:
-    """Route __HA_KEEP__'s shared Modbus API through the in-memory mock."""
+    """Route Universal Home Assistant's shared Modbus API through the in-memory mock."""
     await mock_modbus_connection.connect()
     get_unit = MagicMock(wraps=async_get_unit)
     temporary_unit_factory = MagicMock(wraps=async_get_temporary_unit)
@@ -101,7 +101,7 @@ def mock_config_entry(
     mock_modbus_unit_ventilation: MockModbusUnit,
     mock_modbus_unit_heat_pump: MockModbusUnit,
 ) -> MockConfigEntry:
-    """An aerosmart config entry using __HA_KEEP__'s shared connection."""
+    """An aerosmart config entry using Universal Home Assistant's shared connection."""
     return MockConfigEntry(
         domain=DOMAIN,
         title="aerosmart",

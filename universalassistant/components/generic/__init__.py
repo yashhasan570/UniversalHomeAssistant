@@ -9,7 +9,7 @@ from universalassistant.components.stream import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_AUTHENTICATION, CONF_VERIFY_SSL, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 
 from .const import CONF_FRAMERATE, CONF_LIMIT_REFETCH_TO_URL_CHANGE, SECTION_ADVANCED
@@ -19,12 +19,12 @@ PLATFORMS = [Platform.CAMERA]
 _LOGGER = logging.getLogger(__name__)
 
 
-async def _async_update_listener(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def _async_update_listener(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def _async_migrate_unique_ids(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def _async_migrate_unique_ids(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Migrate entities to the new unique id."""
 
     @callback
@@ -39,7 +39,7 @@ async def _async_migrate_unique_ids(hass: __HAC_KEEP__, entry: ConfigEntry) -> N
     await er.async_migrate_entries(hass, entry.entry_id, _async_migrator)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up generic IP camera from a config entry."""
 
     await _async_migrate_unique_ids(hass, entry)
@@ -48,13 +48,13 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     entry.async_on_unload(entry.add_update_listener(_async_update_listener))
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a config entry."""
 
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Migrate entry."""
     _LOGGER.debug("Migrating from version %s:%s", entry.version, entry.minor_version)
 

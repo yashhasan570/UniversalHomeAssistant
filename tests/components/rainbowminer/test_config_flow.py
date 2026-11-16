@@ -14,7 +14,7 @@ from rainbowminer_api_client import (
 from universalassistant import config_entries
 from universalassistant.components.rainbowminer.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import TEST_HOST, TEST_PORT, VALID_STATUS
@@ -30,7 +30,7 @@ def _user_input(**overrides: str | int) -> dict[str, str | int]:
 
 
 async def test_form(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rainbowminer_client: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -53,7 +53,7 @@ async def test_form(
 
 
 async def test_form_with_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rainbowminer_client: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -77,7 +77,7 @@ async def test_form_with_auth(
 
 
 async def test_form_invalid_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rainbowminer_client: AsyncMock,
 ) -> None:
     """Test we handle invalid auth."""
@@ -105,7 +105,7 @@ async def test_form_invalid_auth(
 
 
 async def test_form_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rainbowminer_client: AsyncMock,
 ) -> None:
     """Test we handle cannot connect error."""
@@ -133,7 +133,7 @@ async def test_form_cannot_connect(
 
 
 async def test_form_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rainbowminer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -152,7 +152,7 @@ async def test_form_already_configured(
 
 
 async def test_form_duplicate_during_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rainbowminer_client: AsyncMock,
 ) -> None:
     """Test a duplicate flow aborts when another flow created an entry meanwhile."""

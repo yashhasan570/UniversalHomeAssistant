@@ -17,7 +17,7 @@ from universalassistant.components.ecovacs.const import CONF_ACCOUNT_CREDENTIALS
 from universalassistant.components.ecovacs.controller import EcovacsController
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CONF_DEVICE_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from .const import (
@@ -35,7 +35,7 @@ from .util import notify_and_wait
     "mock_authenticator", "mock_mqtt_client", "mock_device_execute"
 )
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test loading and unloading the integration."""
@@ -72,7 +72,7 @@ def mock_api_client(mock_authenticator: Mock) -> Mock:
 
 
 async def test_config_entry_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api_client: Mock,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_config_entry_not_ready(
     ids=["invalid_auth", "device_verification_required"],
 )
 async def test_auth_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api_client: Mock,
     side_effect: type[Exception],
@@ -124,7 +124,7 @@ async def test_auth_failed(
 )
 @pytest.mark.usefixtures("mock_authenticator", "mock_mqtt_client", "mock_device_id")
 async def test_migrate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry_data: dict[str, str],
     device_id: str,
 ) -> None:
@@ -142,7 +142,7 @@ async def test_migrate_entry(
 
 @pytest.mark.usefixtures("mock_authenticator", "mock_mqtt_client")
 async def test_migrate_entry_keeps_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test an already stored client device ID is not replaced."""
     entry_data = VALID_ENTRY_DATA_CLOUD | {CONF_DEVICE_ID: "STOREDID"}
@@ -169,7 +169,7 @@ async def test_migrate_entry_keeps_device_id(
 )
 @pytest.mark.usefixtures("mock_mqtt_client")
 async def test_stored_account_credentials_seed_authenticator(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_authenticator_class: Mock,
     account_credentials: AccountCredentials | None,
@@ -188,7 +188,7 @@ async def test_stored_account_credentials_seed_authenticator(
 
 @pytest.mark.usefixtures("mock_mqtt_client")
 async def test_new_account_credentials_are_stored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_authenticator: Mock,
 ) -> None:
@@ -212,7 +212,7 @@ async def test_new_account_credentials_are_stored(
 
 @pytest.mark.usefixtures("mock_mqtt_client")
 async def test_unload_unsubscribes_account_credentials(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_authenticator: Mock,
 ) -> None:
@@ -244,7 +244,7 @@ async def test_devices_in_dr(
 
 
 async def test_device_info_updated_from_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     controller: EcovacsController,
     mock_config_entry: MockConfigEntry,
@@ -293,7 +293,7 @@ async def test_device_info_updated_from_events(
     ],
 )
 async def test_all_entities_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_fixture: str,
     entities: int,
 ) -> None:

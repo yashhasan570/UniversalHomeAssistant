@@ -25,8 +25,8 @@ from universalassistant.components.light import (
     LightEntityFeature,
 )
 from universalassistant.const import CONF_NAME
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_call_later
@@ -180,7 +180,7 @@ def _async_cmd[_YeelightBaseLightT: YeelightBaseLight, **_P, _R](
                 # python-yeelight will auto reconnect
                 if attempts == 0:
                     continue
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     f"Timed out when calling {func.__name__} for bulb "
                     f"{self.device.name} at {self.device.host}: {str(ex) or type(ex)}"
                 ) from ex
@@ -188,13 +188,13 @@ def _async_cmd[_YeelightBaseLightT: YeelightBaseLight, **_P, _R](
                 # A network error happened, the bulb is likely offline now
                 self.device.async_mark_unavailable()
                 self.async_state_changed()
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     f"Error when calling {func.__name__} for bulb "
                     f"{self.device.name} at {self.device.host}: {str(ex) or type(ex)}"
                 ) from ex
             except BulbException as ex:
                 # The bulb likely responded but had an error
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     f"Error when calling {func.__name__} for bulb "
                     f"{self.device.name} at {self.device.host}: {str(ex) or type(ex)}"
                 ) from ex
@@ -204,7 +204,7 @@ def _async_cmd[_YeelightBaseLightT: YeelightBaseLight, **_P, _R](
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: YeelightConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -453,7 +453,7 @@ class YeelightBaseLight(YeelightEntity, LightEntity):
         try:
             await self._async_set_music_mode(music_mode)
         except AssertionError as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_music_mode_failed",
                 translation_placeholders={

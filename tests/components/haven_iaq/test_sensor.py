@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.haven_iaq.const import DOMAIN
 from universalassistant.components.haven_iaq.coordinator import UPDATE_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import (
@@ -37,7 +37,7 @@ def mock_cam_haven_client(mock_haven_client: AsyncMock) -> None:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_haven_client")
 async def test_ram_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -57,7 +57,7 @@ async def test_ram_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_cam_haven_client")
 async def test_cam_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_cam_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -89,7 +89,7 @@ async def test_cam_entities(
     ],
 )
 async def test_particle_count_sensors_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     key: str,
@@ -110,7 +110,7 @@ async def test_particle_count_sensors_disabled_by_default(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_measurement_sensors_unavailable_when_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_haven_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -132,7 +132,7 @@ async def test_measurement_sensors_unavailable_when_not_ready(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_missing_measurement_is_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_haven_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -154,7 +154,7 @@ async def test_missing_measurement_is_unknown(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors_unavailable_after_refresh_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_haven_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

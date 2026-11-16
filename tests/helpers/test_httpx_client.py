@@ -14,7 +14,7 @@ from pytest_universalassistant.common import (
 )
 
 from universalassistant.const import EVENT_HOMEASSISTANT_CLOSE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import httpx_client as client
 from universalassistant.util.ssl import (
     SSL_ALPN_HTTP11,
@@ -24,7 +24,7 @@ from universalassistant.util.ssl import (
 )
 
 
-async def test_get_async_client_with_ssl(hass: __HAC_KEEP__) -> None:
+async def test_get_async_client_with_ssl(hass: UniversalAssistant) -> None:
     """Test init async client with ssl."""
     client.get_async_client(hass)
 
@@ -34,7 +34,7 @@ async def test_get_async_client_with_ssl(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_get_async_client_without_ssl(hass: __HAC_KEEP__) -> None:
+async def test_get_async_client_without_ssl(hass: UniversalAssistant) -> None:
     """Test init async client without ssl."""
     client.get_async_client(hass, verify_ssl=False)
 
@@ -45,7 +45,7 @@ async def test_get_async_client_without_ssl(hass: __HAC_KEEP__) -> None:
 
 
 async def test_create_async_httpx_client_with_ssl_and_cookies(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test init async client with ssl and cookies."""
     client.get_async_client(hass)
@@ -56,7 +56,7 @@ async def test_create_async_httpx_client_with_ssl_and_cookies(
 
 
 async def test_create_async_httpx_client_without_ssl_and_cookies(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test init async client without ssl and cookies."""
     client.get_async_client(hass, verify_ssl=False)
@@ -69,7 +69,7 @@ async def test_create_async_httpx_client_without_ssl_and_cookies(
 
 
 async def test_create_async_httpx_client_default_headers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test init async client with default headers."""
     httpx_client = client.create_async_httpx_client(hass)
@@ -78,7 +78,7 @@ async def test_create_async_httpx_client_default_headers(
 
 
 async def test_create_async_httpx_client_with_headers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test init async client with headers."""
     httpx_client = client.create_async_httpx_client(hass, headers={"x-test": "true"})
@@ -88,7 +88,7 @@ async def test_create_async_httpx_client_with_headers(
     assert httpx_client.headers[client.USER_AGENT] == client.SERVER_SOFTWARE
 
 
-async def test_get_async_client_cleanup(hass: __HAC_KEEP__) -> None:
+async def test_get_async_client_cleanup(hass: UniversalAssistant) -> None:
     """Test init async client with ssl."""
     client.get_async_client(hass)
 
@@ -103,7 +103,7 @@ async def test_get_async_client_cleanup(hass: __HAC_KEEP__) -> None:
     assert hass.data[client.DATA_ASYNC_CLIENT][(True, SSL_ALPN_HTTP11)].is_closed
 
 
-async def test_get_async_client_cleanup_without_ssl(hass: __HAC_KEEP__) -> None:
+async def test_get_async_client_cleanup_without_ssl(hass: UniversalAssistant) -> None:
     """Test init async client without ssl."""
     client.get_async_client(hass, verify_ssl=False)
 
@@ -118,7 +118,7 @@ async def test_get_async_client_cleanup_without_ssl(hass: __HAC_KEEP__) -> None:
     assert hass.data[client.DATA_ASYNC_CLIENT][(False, SSL_ALPN_HTTP11)].is_closed
 
 
-async def test_get_async_client_patched_close(hass: __HAC_KEEP__) -> None:
+async def test_get_async_client_patched_close(hass: UniversalAssistant) -> None:
     """Test closing the async client does not work."""
 
     with patch("httpx2.AsyncClient.aclose") as mock_aclose:
@@ -134,7 +134,7 @@ async def test_get_async_client_patched_close(hass: __HAC_KEEP__) -> None:
         assert mock_aclose.call_count == 0
 
 
-async def test_get_async_client_context_manager(hass: __HAC_KEEP__) -> None:
+async def test_get_async_client_context_manager(hass: UniversalAssistant) -> None:
     """Test using the async client with a context manager does not close the session."""
 
     with patch("httpx2.AsyncClient.aclose") as mock_aclose:
@@ -150,7 +150,7 @@ async def test_get_async_client_context_manager(hass: __HAC_KEEP__) -> None:
         assert mock_aclose.call_count == 0
 
 
-async def test_get_async_client_http2(hass: __HAC_KEEP__) -> None:
+async def test_get_async_client_http2(hass: UniversalAssistant) -> None:
     """Test init async client with HTTP/2 support."""
     http1_client = client.get_async_client(hass)
     http2_client = client.get_async_client(hass, alpn_protocols=SSL_ALPN_HTTP11_HTTP2)
@@ -174,7 +174,7 @@ async def test_get_async_client_http2(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_get_async_client_http2_cleanup(hass: __HAC_KEEP__) -> None:
+async def test_get_async_client_http2_cleanup(hass: UniversalAssistant) -> None:
     """Test cleanup of HTTP/2 async client."""
     client.get_async_client(hass, alpn_protocols=SSL_ALPN_HTTP11_HTTP2)
 
@@ -189,7 +189,7 @@ async def test_get_async_client_http2_cleanup(hass: __HAC_KEEP__) -> None:
     assert hass.data[client.DATA_ASYNC_CLIENT][(True, SSL_ALPN_HTTP11_HTTP2)].is_closed
 
 
-async def test_get_async_client_http2_without_ssl(hass: __HAC_KEEP__) -> None:
+async def test_get_async_client_http2_without_ssl(hass: UniversalAssistant) -> None:
     """Test init async client with HTTP/2 and without SSL."""
     http2_client = client.get_async_client(
         hass, verify_ssl=False, alpn_protocols=SSL_ALPN_HTTP11_HTTP2
@@ -209,7 +209,7 @@ async def test_get_async_client_http2_without_ssl(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_create_async_httpx_client_http2(hass: __HAC_KEEP__) -> None:
+async def test_create_async_httpx_client_http2(hass: UniversalAssistant) -> None:
     """Test create async client with HTTP/2 uses correct ALPN protocols."""
     http1_client = client.create_async_httpx_client(hass)
     http2_client = client.create_async_httpx_client(
@@ -225,7 +225,7 @@ async def test_create_async_httpx_client_http2(hass: __HAC_KEEP__) -> None:
 
 
 async def test_warning_close_session_integration(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test log warning message when closing the session from integration context."""
     with (
@@ -260,15 +260,15 @@ async def test_warning_close_session_integration(
         await httpx_session.aclose()
 
     assert (
-        "Detected that integration 'hue' closes the __HA_KEEP__ httpx client at "
+        "Detected that integration 'hue' closes the Universal Home Assistant httpx client at "
         "universalassistant/components/hue/light.py, line 23: await session.aclose(). "
-        "Please create a bug report at https://github.com/yashhasan570/__HAC_KEEP__/issues?"
+        "Please create a bug report at https://github.com/yashhasan570/UniversalUniversalAssistant/issues?"
         "q=is%3Aopen+is%3Aissue+label%3A%22integration%3A+hue%22"
     ) in caplog.text
 
 
 async def test_warning_close_session_custom(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test log warning message when closing the session from custom context."""
     mock_integration(hass, MockModule("hue"), built_in=False)
@@ -303,7 +303,7 @@ async def test_warning_close_session_custom(
         httpx_session = client.get_async_client(hass)
         await httpx_session.aclose()
     assert (
-        "Detected that custom integration 'hue' closes the __HA_KEEP__ httpx client "
+        "Detected that custom integration 'hue' closes the Universal Home Assistant httpx client "
         "at custom_components/hue/light.py, line 23: await session.aclose(). "
         "Please report it to the author of the 'hue' custom integration"
     ) in caplog.text

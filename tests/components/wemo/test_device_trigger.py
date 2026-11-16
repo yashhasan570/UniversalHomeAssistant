@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_TYPE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -30,7 +30,7 @@ def pywemo_model():
 
 
 async def setup_automation(
-    hass: __HAC_KEEP__, device_id: str, trigger_type: str
+    hass: UniversalAssistant, device_id: str, trigger_type: str
 ) -> None:
     """Set up an automation trigger for testing triggering."""
     return await async_setup_component(
@@ -55,7 +55,7 @@ async def setup_automation(
     )
 
 
-async def test_get_triggers(hass: __HAC_KEEP__, wemo_entity) -> None:
+async def test_get_triggers(hass: UniversalAssistant, wemo_entity) -> None:
     """Test that the triggers appear for a supported device."""
     assert wemo_entity.device_id is not None
 
@@ -99,7 +99,7 @@ async def test_get_triggers(hass: __HAC_KEEP__, wemo_entity) -> None:
 
 
 async def test_fires_on_long_press(
-    hass: __HAC_KEEP__, wemo_entity: er.RegistryEntry
+    hass: UniversalAssistant, wemo_entity: er.RegistryEntry
 ) -> None:
     """Test wemo long press trigger firing."""
     assert await setup_automation(hass, wemo_entity.device_id, EVENT_TYPE_LONG_PRESS)

@@ -2,7 +2,7 @@
 
 from enum import StrEnum
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.helpers.hassio import is_hassio
 from universalassistant.helpers.service import async_register_admin_service
 
@@ -38,7 +38,7 @@ async def _async_handle_create_automatic_service(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register services."""
     if not is_hassio(hass):
         async_register_admin_service(

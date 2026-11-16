@@ -24,10 +24,10 @@ from probatio import from_openapi
 
 from universalassistant.config_entries import SOURCE_HASSIO, ConfigEntry
 from universalassistant.const import CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     OAuth2TokenRequestReauthError,
 )
 from universalassistant.helpers import llm
@@ -78,7 +78,7 @@ def create_mcp_httpx_client(
 ) -> httpx2.AsyncClient:
     """Create an httpx client for talking to an MCP server.
 
-    The caller closes the client, so it cannot be one of the __HA_KEEP__
+    The caller closes the client, so it cannot be one of the Universal Home Assistant
     managed clients. Reuses the shared SSL context instead of loading
     certificates for every client.
     """
@@ -97,7 +97,7 @@ def create_mcp_httpx_client(
 
 @asynccontextmanager
 async def mcp_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     url: str,
     token_manager: TokenManager | None = None,
 ) -> AsyncGenerator[tuple[ClientSession, InitializeResult]]:
@@ -206,7 +206,7 @@ class ModelContextProtocolTool(llm.Tool):
     @override
     async def async_call(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         tool_input: llm.ToolInput,
         llm_context: llm.LLMContext,
     ) -> llm.ToolResult:
@@ -231,7 +231,7 @@ class ModelContextProtocolTool(llm.Tool):
                     )
         except (TimeoutError, httpx2.TimeoutException) as error:
             _LOGGER.debug("Timeout when calling tool: %s", error)
-            raise __HAC_KEEP__Error(f"Timeout when calling tool: {error}") from error
+            raise UniversalAssistantError(f"Timeout when calling tool: {error}") from error
         except OAuth2TokenRequestReauthError as error:
             _LOGGER.debug("OAuth token request failed when calling tool: %s", error)
             self.config_entry.async_start_reauth(hass)
@@ -250,12 +250,12 @@ class ModelContextProtocolTool(llm.Tool):
                 raise ConfigEntryAuthFailed(
                     "The MCP server requires authentication"
                 ) from error
-            raise __HAC_KEEP__Error(f"Error when calling tool: {error}") from error
+            raise UniversalAssistantError(f"Error when calling tool: {error}") from error
         except (httpx2.HTTPError, MCPError) as error:
             _LOGGER.debug(
                 "Error communicating with MCP server when calling tool: %s", error
             )
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Error communicating with MCP server when calling tool: {error}"
             ) from error
         return llm.ToolResult(
@@ -273,7 +273,7 @@ class ModelContextProtocolCoordinator(DataUpdateCoordinator[list[llm.Tool]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ModelContextProtocolConfigEntry,
         token_manager: TokenManager | None = None,
     ) -> None:

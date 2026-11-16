@@ -14,7 +14,7 @@ from pytest_universalassistant.typing import (
 from universalassistant.components import config
 from universalassistant.components.config import DOMAIN, core
 from universalassistant.components.websocket_api import TYPE_RESULT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util, location as location_util
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
@@ -22,7 +22,7 @@ from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
 @pytest.fixture
 async def client(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> MockHAClientWebSocket:
     """Fixture that can interact with the config manager API."""
     with patch.object(config, "SECTIONS", [core]):
@@ -31,7 +31,7 @@ async def client(
 
 
 async def test_validate_config_ok(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test checking config."""
     with patch.object(config, "SECTIONS", [core]):
@@ -92,7 +92,7 @@ async def test_validate_config_ok(
 
 
 async def test_validate_config_requires_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_read_only_access_token: str,
 ) -> None:
@@ -106,7 +106,7 @@ async def test_validate_config_requires_admin(
     assert resp.status == HTTPStatus.UNAUTHORIZED
 
 
-async def test_websocket_core_update(hass: __HAC_KEEP__, client) -> None:
+async def test_websocket_core_update(hass: UniversalAssistant, client) -> None:
     """Test core config update websocket command."""
     assert hass.config.latitude != 60
     assert hass.config.longitude != 50
@@ -189,7 +189,7 @@ async def test_websocket_core_update(hass: __HAC_KEEP__, client) -> None:
 
 
 async def test_websocket_core_update_not_admin(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
 ) -> None:
     """Test core config fails for non admin."""
     hass_admin_user.groups = []
@@ -207,7 +207,7 @@ async def test_websocket_core_update_not_admin(
     assert msg["error"]["code"] == "unauthorized"
 
 
-async def test_websocket_bad_core_update(hass: __HAC_KEEP__, client) -> None:
+async def test_websocket_bad_core_update(hass: UniversalAssistant, client) -> None:
     """Test core config update fails with bad parameters."""
     await client.send_json({"id": 7, "type": "config/core/update", "latituude": 23})
 
@@ -220,7 +220,7 @@ async def test_websocket_bad_core_update(hass: __HAC_KEEP__, client) -> None:
 
 
 async def test_websocket_core_update_invalid_time_zone(
-    hass: __HAC_KEEP__, client: MockHAClientWebSocket
+    hass: UniversalAssistant, client: MockHAClientWebSocket
 ) -> None:
     """Test core config update rejects an invalid time zone."""
     await client.send_json(
@@ -240,7 +240,7 @@ async def test_websocket_core_update_invalid_time_zone(
     assert hass.config.time_zone != "not/a/zone"
 
 
-async def test_detect_config(hass: __HAC_KEEP__, client) -> None:
+async def test_detect_config(hass: UniversalAssistant, client) -> None:
     """Test detect config."""
     with patch(
         "universalassistant.util.location.async_detect_location_info",
@@ -254,7 +254,7 @@ async def test_detect_config(hass: __HAC_KEEP__, client) -> None:
     assert msg["result"] == {}
 
 
-async def test_detect_config_fail(hass: __HAC_KEEP__, client) -> None:
+async def test_detect_config_fail(hass: UniversalAssistant, client) -> None:
     """Test detect config."""
     with patch(
         "universalassistant.util.location.async_detect_location_info",

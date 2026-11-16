@@ -8,7 +8,7 @@ from plexapi.gdm import GDM
 from plexwebsocket import PlexWebsocket
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
 from universalassistant.util.hass_dict import HassKey
 
 from .const import DOMAIN
@@ -39,12 +39,12 @@ class PlexData(TypedDict):
 DATA_PLEX: HassKey[PlexData] = HassKey(DOMAIN)
 
 
-def get_plex_data(hass: __HAC_KEEP__) -> PlexData:
+def get_plex_data(hass: UniversalAssistant) -> PlexData:
     """Get typed data from hass.data."""
     return hass.data[DATA_PLEX]
 
 
-def get_plex_servers(hass: __HAC_KEEP__) -> dict[str, PlexServer]:
+def get_plex_servers(hass: UniversalAssistant) -> dict[str, PlexServer]:
     """Get the Plex servers of all loaded config entries."""
     entries: list[PlexConfigEntry] = hass.config_entries.async_loaded_entries(DOMAIN)
     return {
@@ -53,7 +53,7 @@ def get_plex_servers(hass: __HAC_KEEP__) -> dict[str, PlexServer]:
     }
 
 
-def get_plex_server(hass: __HAC_KEEP__, server_id: str) -> PlexServer:
+def get_plex_server(hass: UniversalAssistant, server_id: str) -> PlexServer:
     """Get a loaded Plex server by its identifier."""
     return get_plex_servers(hass)[server_id]
 

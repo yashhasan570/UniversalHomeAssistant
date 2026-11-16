@@ -16,11 +16,11 @@ from universalassistant.const import (
     CONF_SCAN_INTERVAL,
     CONF_UNIT_SYSTEM,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_duplicate_error(hass: __HAC_KEEP__, config_entry) -> None:
+async def test_duplicate_error(hass: UniversalAssistant, config_entry) -> None:
     """Test that errors are shown when duplicates are added."""
     hass.config.latitude = -41.2
     hass.config.longitude = 174.7
@@ -37,7 +37,7 @@ async def test_duplicate_error(hass: __HAC_KEEP__, config_entry) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_show_form(hass: __HAC_KEEP__) -> None:
+async def test_show_form(hass: UniversalAssistant) -> None:
     """Test that the form is served with no input."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -46,7 +46,7 @@ async def test_show_form(hass: __HAC_KEEP__) -> None:
     assert result["step_id"] == "user"
 
 
-async def test_step_import(hass: __HAC_KEEP__) -> None:
+async def test_step_import(hass: UniversalAssistant) -> None:
     """Test that the import step works."""
     conf = {
         CONF_LATITUDE: -41.2,
@@ -84,7 +84,7 @@ async def test_step_import(hass: __HAC_KEEP__) -> None:
     assert result["result"].unique_id == "-41.2, 174.7"
 
 
-async def test_step_user(hass: __HAC_KEEP__) -> None:
+async def test_step_user(hass: UniversalAssistant) -> None:
     """Test that the user step works."""
     hass.config.latitude = -41.2
     hass.config.longitude = 174.7

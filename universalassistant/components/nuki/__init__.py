@@ -19,7 +19,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -53,11 +53,11 @@ def _get_bridge_data(
 
 
 async def _create_webhook(
-    hass: __HAC_KEEP__, entry: NukiConfigEntry, bridge: NukiBridge
+    hass: UniversalAssistant, entry: NukiConfigEntry, bridge: NukiBridge
 ) -> None:
-    # Create __HAC_KEEP__ webhook
+    # Create UniversalAssistant webhook
     async def handle_webhook(
-        hass: __HAC_KEEP__, webhook_id: str, request: web.Request
+        hass: UniversalAssistant, webhook_id: str, request: web.Request
     ) -> web.Response:
         """Handle webhook callback."""
         try:
@@ -94,7 +94,7 @@ async def _create_webhook(
         webhook.async_unregister(hass, entry.entry_id)
         raise NukiWebhookException(
             f"Error registering URL for webhook {entry.entry_id}: "
-            "__HAC_KEEP__ URL is not available"
+            "UniversalAssistant URL is not available"
         ) from None
 
     url = f"{hass_url}{webhook_url}"
@@ -160,13 +160,13 @@ def _remove_webhook(bridge: NukiBridge, entry_id: str) -> None:
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Nuki Bridge integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: NukiConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: NukiConfigEntry) -> None:
     """Set up the Nuki entry."""
 
     # Migration of entry unique_id
@@ -206,7 +206,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: NukiConfigEntry) -> None:
     try:
         await _create_webhook(hass, entry, bridge)
     except NukiWebhookException as err:
-        _LOGGER.warning("Error registering __HAC_KEEP__ webhook: %s", err)
+        _LOGGER.warning("Error registering UniversalAssistant webhook: %s", err)
 
     async def _stop_nuki(_: Event):
         """Stop and remove the Nuki webhook."""
@@ -241,7 +241,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: NukiConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: NukiConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: NukiConfigEntry) -> None:
     """Unload the Nuki entry."""
     webhook.async_unregister(hass, entry.entry_id)
 

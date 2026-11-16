@@ -29,7 +29,7 @@ from universalassistant.const import (
     STATE_NOT_HOME,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import slugify
 
@@ -55,7 +55,7 @@ SENSORS_ALL_HTTP = [
 ]
 
 
-def _setup_entry(hass: __HAC_KEEP__, config, sensors, unique_id=None):
+def _setup_entry(hass: UniversalAssistant, config, sensors, unique_id=None):
     """Create mock config entry with enabled sensors."""
     entity_reg = er.async_get(hass)
 
@@ -89,7 +89,7 @@ def _setup_entry(hass: __HAC_KEEP__, config, sensors, unique_id=None):
 
 
 async def _test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_devices,
     config,
@@ -193,7 +193,7 @@ async def _test_sensors(
     [None, ROUTER_MAC_ADDR],
 )
 async def test_sensors_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_devices_legacy,
     entry_unique_id,
@@ -210,7 +210,7 @@ async def test_sensors_legacy(
     [None, ROUTER_MAC_ADDR],
 )
 async def test_sensors_http(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_devices_http,
     entry_unique_id,
@@ -223,7 +223,7 @@ async def test_sensors_http(
 
 
 async def _test_loadavg_sensors(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, config
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, config
 ) -> None:
     """Test creating an AsusWRT load average sensors."""
     config_entry, sensor_prefix = _setup_entry(hass, config, SENSORS_LOAD_AVG)
@@ -243,21 +243,21 @@ async def _test_loadavg_sensors(
 
 
 async def test_loadavg_sensors_legacy(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, connect_legacy
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, connect_legacy
 ) -> None:
     """Test creating an AsusWRT load average sensors."""
     await _test_loadavg_sensors(hass, freezer, CONFIG_DATA_TELNET)
 
 
 async def test_loadavg_sensors_http(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, connect_http
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, connect_http
 ) -> None:
     """Test creating an AsusWRT load average sensors."""
     await _test_loadavg_sensors(hass, freezer, CONFIG_DATA_HTTP)
 
 
 async def test_loadavg_sensors_unaivalable_http(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, connect_http
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, connect_http
 ) -> None:
     """Test load average sensors no available using http."""
     config_entry, sensor_prefix = _setup_entry(hass, CONFIG_DATA_HTTP, SENSORS_LOAD_AVG)
@@ -281,7 +281,7 @@ async def test_loadavg_sensors_unaivalable_http(
 
 
 async def test_temperature_sensors_http_fail(
-    hass: __HAC_KEEP__, connect_http_sens_fail
+    hass: UniversalAssistant, connect_http_sens_fail
 ) -> None:
     """Test fail creating AsusWRT temperature sensors."""
     _ = connect_http_sens_fail([AsusData.TEMPERATURE])
@@ -303,7 +303,7 @@ async def test_temperature_sensors_http_fail(
 
 
 async def _test_temperature_sensors(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, config, sensors
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, config, sensors
 ) -> str:
     """Test creating a AsusWRT temperature sensors."""
     config_entry, sensor_prefix = _setup_entry(hass, config, sensors)
@@ -320,7 +320,7 @@ async def _test_temperature_sensors(
 
 
 async def test_temperature_sensors_legacy(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, connect_legacy
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, connect_legacy
 ) -> None:
     """Test creating a AsusWRT temperature sensors."""
     sensor_prefix = await _test_temperature_sensors(
@@ -333,7 +333,7 @@ async def test_temperature_sensors_legacy(
 
 
 async def test_temperature_sensors_http(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, connect_http
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, connect_http
 ) -> None:
     """Test creating a AsusWRT temperature sensors."""
     sensor_prefix = await _test_temperature_sensors(
@@ -348,7 +348,7 @@ async def test_temperature_sensors_http(
 
 
 async def test_cpu_sensors_http_fail(
-    hass: __HAC_KEEP__, connect_http_sens_fail
+    hass: UniversalAssistant, connect_http_sens_fail
 ) -> None:
     """Test fail creating AsusWRT cpu sensors."""
     _ = connect_http_sens_fail([AsusData.CPU])
@@ -372,7 +372,7 @@ async def test_cpu_sensors_http_fail(
 
 
 async def test_cpu_sensors_http(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     connect_http,
     connect_http_sens_detect,
@@ -401,7 +401,7 @@ async def test_cpu_sensors_http(
 
 
 async def test_memory_sensors_http(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, connect_http
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, connect_http
 ) -> None:
     """Test creating AsusWRT memory sensors."""
     config_entry, sensor_prefix = _setup_entry(hass, CONFIG_DATA_HTTP, SENSORS_MEMORY)
@@ -421,7 +421,7 @@ async def test_memory_sensors_http(
 
 
 async def test_uptime_sensors_http(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, connect_http
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, connect_http
 ) -> None:
     """Test creating AsusWRT uptime sensors."""
     config_entry, sensor_prefix = _setup_entry(hass, CONFIG_DATA_HTTP, SENSORS_UPTIME)
@@ -447,7 +447,7 @@ async def test_uptime_sensors_http(
     [OSError, None],
 )
 async def test_connect_fail_legacy(
-    hass: __HAC_KEEP__, connect_legacy, side_effect
+    hass: UniversalAssistant, connect_legacy, side_effect
 ) -> None:
     """Test AsusWRT connect fail."""
 
@@ -472,7 +472,7 @@ async def test_connect_fail_legacy(
     [AsusRouterError, None],
 )
 async def test_connect_fail_http(
-    hass: __HAC_KEEP__, connect_http, side_effect
+    hass: UniversalAssistant, connect_http, side_effect
 ) -> None:
     """Test AsusWRT connect fail."""
 
@@ -493,7 +493,7 @@ async def test_connect_fail_http(
 
 
 async def _test_sensors_polling_fails(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, config, sensors
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, config, sensors
 ) -> None:
     """Test AsusWRT sensors are unavailable when polling fails."""
     config_entry, sensor_prefix = _setup_entry(hass, config, sensors)
@@ -515,7 +515,7 @@ async def _test_sensors_polling_fails(
 
 
 async def test_sensors_polling_fails_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     connect_legacy_sens_fail,
 ) -> None:
@@ -526,7 +526,7 @@ async def test_sensors_polling_fails_legacy(
 
 
 async def test_sensors_polling_fails_http(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     connect_http_sens_fail,
     connect_http_sens_detect,
@@ -546,7 +546,7 @@ async def test_sensors_polling_fails_http(
 
 
 async def test_options_reload(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, connect_legacy
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, connect_legacy
 ) -> None:
     """Test AsusWRT integration is reload changing an options that require this."""
     config_entry = MockConfigEntry(
@@ -575,7 +575,7 @@ async def test_options_reload(
 
 
 async def test_unique_id_migration(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, connect_legacy
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, connect_legacy
 ) -> None:
     """Test AsusWRT entities unique id format migration."""
     config_entry = MockConfigEntry(
@@ -604,7 +604,7 @@ async def test_unique_id_migration(
 
 
 async def test_decorator_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     connect_legacy,
     mock_available_temps,

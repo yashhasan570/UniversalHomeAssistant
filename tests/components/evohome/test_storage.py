@@ -16,7 +16,7 @@ import pytest
 from universalassistant.components.evohome.const import DOMAIN, STORAGE_KEY, STORAGE_VER
 from universalassistant.components.evohome.storage import TokenManager, _TokenStoreT
 from universalassistant.const import CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from .conftest import setup_evohome
@@ -69,7 +69,7 @@ DOMAIN_STORAGE_ROOT: Final = {
 @pytest.mark.parametrize("install", ["minimal"])
 @pytest.mark.parametrize("idx", TEST_STORAGE_NULL)
 async def test_auth_tokens_null(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     config: dict[str, str],
     idx: str,
@@ -96,7 +96,7 @@ async def test_auth_tokens_null(
 @pytest.mark.parametrize("install", ["minimal"])
 @pytest.mark.parametrize("idx", TEST_STORAGE_DATA)
 async def test_auth_tokens_same(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     config: dict[str, str],
     idx: str,
@@ -123,7 +123,7 @@ async def test_auth_tokens_same(
 @pytest.mark.parametrize("install", ["minimal"])
 @pytest.mark.parametrize("idx", TEST_STORAGE_DATA)
 async def test_auth_tokens_past(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     config: dict[str, str],
     idx: str,
@@ -156,7 +156,7 @@ async def test_auth_tokens_past(
 @pytest.mark.parametrize("install", ["minimal"])
 @pytest.mark.parametrize("idx", TEST_STORAGE_DATA)
 async def test_auth_tokens_diff(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     config: dict[str, str],
     idx: str,
@@ -183,7 +183,7 @@ async def test_auth_tokens_diff(
 
 
 async def test_session_id_sans_expires(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
 ) -> None:

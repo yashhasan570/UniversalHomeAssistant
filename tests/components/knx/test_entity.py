@@ -7,7 +7,7 @@ from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.components.knx.const import DOMAIN, KNX_ADDRESS, KNX_MODULE_KEY
 from universalassistant.const import STATE_UNKNOWN, EntityCategory, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import KNXTestKit
@@ -59,7 +59,7 @@ from .conftest import KNXTestKit
     ],
 )
 async def test_yaml_entity_naming(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     config: dict[str, Any],
     expected_entity_id: str,
@@ -96,7 +96,7 @@ async def test_yaml_entity_naming(
     ],
 )
 async def test_yaml_entity_category(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     entity_registry: er.EntityRegistry,
     config: dict[str, Any],
@@ -120,7 +120,7 @@ async def test_yaml_entity_category(
 
 
 async def test_yaml_entity_device_grouping(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -194,7 +194,7 @@ async def test_yaml_entity_device_grouping(
     ],
 )
 async def test_yaml_entity_device_naming(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     config: dict[str, Any],
     expected_friendly_name: str,
@@ -207,7 +207,7 @@ async def test_yaml_entity_device_naming(
 
 
 async def test_xknx_device_named_after_entity_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -241,7 +241,7 @@ async def test_xknx_device_named_after_entity_id(
     ],
 )
 async def test_yaml_device_id_normalization(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     device_registry: dr.DeviceRegistry,
     device_id: str,
@@ -263,7 +263,7 @@ async def test_yaml_device_id_normalization(
 
 
 async def test_disabled_yaml_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -289,12 +289,12 @@ async def test_disabled_yaml_entity(
             {"platform": "switch", "unique_id": "1/2/3", "ui": False, "disabled": True}
         ]
     }
-    # only entities added to __HA_KEEP__ are in the live map
+    # only entities added to Universal Home Assistant are in the live map
     assert not hass.data[KNX_MODULE_KEY].group_address_entities
 
 
 async def test_disable_entity_at_runtime(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,

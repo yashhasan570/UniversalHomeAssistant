@@ -10,7 +10,7 @@ from wiim.models import WiimProbeResult
 from universalassistant.components.wiim.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -28,7 +28,7 @@ DISCOVERY_INFO = ZeroconfServiceInfo(
 
 
 @pytest.mark.usefixtures("mock_probe_player")
-async def test_user_flow_create_entry(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_create_entry(hass: UniversalAssistant) -> None:
     """Test the user flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -49,7 +49,7 @@ async def test_user_flow_create_entry(hass: __HAC_KEEP__) -> None:
 
 
 async def test_user_flow_cannot_connect(
-    hass: __HAC_KEEP__, mock_probe_player: AsyncMock
+    hass: UniversalAssistant, mock_probe_player: AsyncMock
 ) -> None:
     """Test the user flow handles connection failures."""
     result = await hass.config_entries.flow.async_init(
@@ -76,7 +76,7 @@ async def test_user_flow_cannot_connect(
 
 
 async def test_user_flow_no_probe(
-    hass: __HAC_KEEP__, mock_probe_player: AsyncMock
+    hass: UniversalAssistant, mock_probe_player: AsyncMock
 ) -> None:
     """Test the user flow handles connection failures."""
     result = await hass.config_entries.flow.async_init(
@@ -106,7 +106,7 @@ async def test_user_flow_no_probe(
 
 @pytest.mark.usefixtures("mock_probe_player")
 async def test_user_flow_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the user flow aborts for an already configured device."""
     mock_config_entry.add_to_hass(hass)
@@ -127,7 +127,7 @@ async def test_user_flow_already_configured(
 
 
 @pytest.mark.usefixtures("mock_probe_player")
-async def test_zeroconf_flow(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_flow(hass: UniversalAssistant) -> None:
     """Test the zeroconf discovery flow."""
 
     result = await hass.config_entries.flow.async_init(
@@ -149,7 +149,7 @@ async def test_zeroconf_flow(hass: __HAC_KEEP__) -> None:
 
 
 async def test_zeroconf_flow_cannot_connect(
-    hass: __HAC_KEEP__, mock_probe_player: AsyncMock
+    hass: UniversalAssistant, mock_probe_player: AsyncMock
 ) -> None:
     """Test the zeroconf flow aborts on connection errors."""
     mock_probe_player.side_effect = TimeoutError
@@ -165,7 +165,7 @@ async def test_zeroconf_flow_cannot_connect(
 
 
 async def test_zeroconf_flow_no_probe(
-    hass: __HAC_KEEP__, mock_probe_player: AsyncMock
+    hass: UniversalAssistant, mock_probe_player: AsyncMock
 ) -> None:
     """Test the zeroconf flow aborts when probing failed."""
     mock_probe_player.return_value = None
@@ -181,7 +181,7 @@ async def test_zeroconf_flow_no_probe(
 
 
 async def test_zeroconf_flow_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the zeroconf flow aborts for an already configured device."""
     mock_config_entry.add_to_hass(hass)
@@ -206,7 +206,7 @@ async def test_zeroconf_flow_already_configured(
 
 
 async def test_reconfigure_flow_updates_host(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_probe_player: AsyncMock,
 ) -> None:
@@ -238,7 +238,7 @@ async def test_reconfigure_flow_updates_host(
 
 
 async def test_reconfigure_flow_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_probe_player: AsyncMock,
 ) -> None:
@@ -276,7 +276,7 @@ async def test_reconfigure_flow_cannot_connect(
 
 
 async def test_reconfigure_flow_wrong_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_probe_player: AsyncMock,
 ) -> None:

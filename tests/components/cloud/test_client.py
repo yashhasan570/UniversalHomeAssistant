@@ -29,7 +29,7 @@ from universalassistant.components.universalassistant.exposed_entities import (
     async_expose_entity,
 )
 from universalassistant.const import CONTENT_TYPE_JSON, __version__ as HA_VERSION
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -45,7 +45,7 @@ def mock_cloud_inst() -> MagicMock:
     return MagicMock(subscription_expired=False)
 
 
-async def test_handler_alexa(hass: __HAC_KEEP__) -> None:
+async def test_handler_alexa(hass: UniversalAssistant) -> None:
     """Test handler Alexa."""
     hass.states.async_set("switch.test", "on", {"friendly_name": "Test switch"})
     hass.states.async_set("switch.test2", "on", {"friendly_name": "Test switch 2"})
@@ -78,14 +78,14 @@ async def test_handler_alexa(hass: __HAC_KEEP__) -> None:
     assert len(endpoints) == 1
     device = endpoints[0]
 
-    assert device["description"] == "Config description via __HA_KEEP__"
+    assert device["description"] == "Config description via Universal Home Assistant"
     assert device["friendlyName"] == "Config name"
     assert device["displayCategories"] == ["LIGHT"]
-    assert device["manufacturerName"] == "__HA_KEEP__"
+    assert device["manufacturerName"] == "Universal Home Assistant"
 
 
 async def test_handler_alexa_disabled(
-    hass: __HAC_KEEP__, mock_cloud_fixture: CloudPreferences
+    hass: UniversalAssistant, mock_cloud_fixture: CloudPreferences
 ) -> None:
     """Test handler Alexa when user has disabled it."""
     mock_cloud_fixture._prefs[PREF_ENABLE_ALEXA] = False
@@ -100,7 +100,7 @@ async def test_handler_alexa_disabled(
     assert resp["event"]["payload"]["type"] == "BRIDGE_UNREACHABLE"
 
 
-async def test_handler_google_actions(hass: __HAC_KEEP__) -> None:
+async def test_handler_google_actions(hass: UniversalAssistant) -> None:
     """Test handler Google Actions."""
     hass.states.async_set("switch.test", "on", {"friendly_name": "Test switch"})
     hass.states.async_set("switch.test2", "on", {"friendly_name": "Test switch 2"})
@@ -158,7 +158,7 @@ async def test_handler_google_actions(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_handler_google_actions_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_fixture: CloudPreferences,
     intent: str,
     response_payload: dict[str, Any],
@@ -184,7 +184,7 @@ async def test_handler_google_actions_disabled(
 
 
 async def test_handler_ice_servers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     set_cloud_prefs: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
 ) -> None:
@@ -208,7 +208,7 @@ async def test_handler_ice_servers(
 
 
 async def test_handler_ice_servers_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     set_cloud_prefs: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
 ) -> None:
@@ -237,7 +237,7 @@ async def test_handler_ice_servers_disabled(
 
 
 async def test_webhook_msg(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test webhook msg."""
     with patch("hass_nabucasa.Cloud.initialize"):
@@ -262,7 +262,7 @@ async def test_webhook_msg(
     received = []
 
     async def handler(
-        hass: __HAC_KEEP__, webhook_id: str, request: web.Request
+        hass: UniversalAssistant, webhook_id: str, request: web.Request
     ) -> web.Response:
         """Handle a webhook."""
         received.append(request)
@@ -315,7 +315,7 @@ async def test_webhook_msg(
     assert '{"nonexisting": "payload"}' in caplog.text
 
 
-async def test_webhook_msg_local_only(hass: __HAC_KEEP__) -> None:
+async def test_webhook_msg_local_only(hass: UniversalAssistant) -> None:
     """Test a cloudhook for a local_only webhook does not fire the handler."""
     with patch("hass_nabucasa.Cloud.initialize"):
         setup = await async_setup_component(hass, DOMAIN, {"cloud": {}})
@@ -335,7 +335,7 @@ async def test_webhook_msg_local_only(hass: __HAC_KEEP__) -> None:
     received = []
 
     async def handler(
-        hass: __HAC_KEEP__, webhook_id: str, request: web.Request
+        hass: UniversalAssistant, webhook_id: str, request: web.Request
     ) -> web.Response:
         """Handle a webhook."""
         received.append(request)
@@ -362,7 +362,7 @@ async def test_webhook_msg_local_only(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_cloud_setup", "mock_cloud_login")
 async def test_google_config_expose_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test Google config exposing entity method uses latest config."""
@@ -388,7 +388,7 @@ async def test_google_config_expose_entity(
 
 @pytest.mark.usefixtures("mock_cloud_setup", "mock_cloud_login")
 async def test_google_config_should_2fa(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test Google config disabling 2FA method uses latest config."""
@@ -411,7 +411,7 @@ async def test_google_config_should_2fa(
     assert not gconf.should_2fa(state)
 
 
-async def test_set_username(hass: __HAC_KEEP__) -> None:
+async def test_set_username(hass: UniversalAssistant) -> None:
     """Test we set username during login."""
     prefs = MagicMock(
         alexa_enabled=False,
@@ -427,7 +427,7 @@ async def test_set_username(hass: __HAC_KEEP__) -> None:
 
 
 async def test_login_recovers_bad_internet(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test Alexa can recover bad auth."""
     prefs = Mock(
@@ -450,7 +450,7 @@ async def test_login_recovers_bad_internet(
     assert len(client._alexa_config.async_enable_proactive_mode.mock_calls) == 2
 
 
-async def test_system_msg(hass: __HAC_KEEP__) -> None:
+async def test_system_msg(hass: UniversalAssistant) -> None:
     """Test system msg."""
     with patch("hass_nabucasa.Cloud.initialize"):
         setup = await async_setup_component(hass, DOMAIN, {"cloud": {}})
@@ -469,7 +469,7 @@ async def test_system_msg(hass: __HAC_KEEP__) -> None:
     assert cloud.client.relayer_region == "xx-earth-616"
 
 
-async def test_cloud_connection_info(hass: __HAC_KEEP__) -> None:
+async def test_cloud_connection_info(hass: UniversalAssistant) -> None:
     """Test connection info msg."""
     with (
         patch("hass_nabucasa.Cloud.initialize"),
@@ -578,7 +578,7 @@ async def test_async_delete_repair_issue(
     assert issue is None
 
 
-async def test_disconnected(hass: __HAC_KEEP__) -> None:
+async def test_disconnected(hass: UniversalAssistant) -> None:
     """Test cleanup when disconnected from the cloud."""
     prefs = MagicMock(
         alexa_enabled=False,
@@ -595,7 +595,7 @@ async def test_disconnected(hass: __HAC_KEEP__) -> None:
 
 
 async def test_logged_out(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
 ) -> None:
     """Test cleanup when logged out from the cloud."""
@@ -626,7 +626,7 @@ async def test_logged_out(
     alexa_config_mock.async_deinitialize.assert_called_once_with()
 
 
-async def test_remote_enable(hass: __HAC_KEEP__) -> None:
+async def test_remote_enable(hass: UniversalAssistant) -> None:
     """Test enabling remote UI."""
     prefs = MagicMock(async_update=AsyncMock(return_value=None))
     client = CloudClient(hass, prefs, None, {}, {})
@@ -644,7 +644,7 @@ async def test_remote_enable(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_remote_backend_up_updates_remote_domain(
-    hass: __HAC_KEEP__, stored_domain: str | None, expected_calls: int
+    hass: UniversalAssistant, stored_domain: str | None, expected_calls: int
 ) -> None:
     """Test the remote domain preference is synced when the backend is up."""
     prefs = MagicMock(
@@ -663,7 +663,7 @@ async def test_remote_backend_up_updates_remote_domain(
     )
 
 
-async def test_remote_enable_not_allowed(hass: __HAC_KEEP__) -> None:
+async def test_remote_enable_not_allowed(hass: UniversalAssistant) -> None:
     """Test enabling remote UI."""
     prefs = MagicMock(
         async_update=AsyncMock(return_value=None),

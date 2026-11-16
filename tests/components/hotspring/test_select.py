@@ -21,8 +21,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_with_selected_platforms
@@ -33,7 +33,7 @@ HEATING_MODE_ENTITY_ID = "select.connectedspa_ddeeff_heating_mode"
 
 @pytest.mark.usefixtures("mock_hotspring")
 async def test_select_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_fixture: Spa,
     entity_registry: er.EntityRegistry,
@@ -69,7 +69,7 @@ async def test_select_state(
     ],
 )
 async def test_select_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hotspring: MagicMock,
     device_fixture: Spa,
@@ -119,7 +119,7 @@ async def test_select_option(
     ],
 )
 async def test_select_option_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hotspring: MagicMock,
     exception: type[Exception],
@@ -129,7 +129,7 @@ async def test_select_option_error(
     await setup_with_selected_platforms(hass, mock_config_entry, [Platform.SELECT])
     mock_hotspring.set_jet.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error, match=match):
+    with pytest.raises(UniversalAssistantError, match=match):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -143,7 +143,7 @@ async def test_select_option_error(
 
 @pytest.mark.usefixtures("mock_hotspring")
 async def test_unsupported_entities_not_added(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_fixture: Spa,
     entity_registry: er.EntityRegistry,
@@ -161,7 +161,7 @@ async def test_unsupported_entities_not_added(
 
 @pytest.mark.usefixtures("mock_hotspring")
 async def test_heating_mode_without_heatpump(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_fixture: Spa,
 ) -> None:

@@ -30,7 +30,7 @@ from universalassistant.components.here_travel_time.const import (
     TRAVEL_MODE_PUBLIC,
 )
 from universalassistant.const import CONF_API_KEY, CONF_MODE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import (
@@ -55,7 +55,7 @@ def bypass_setup_fixture():
 
 @pytest.fixture(name="user_step_result")
 async def user_step_result_fixture(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> config_entries.ConfigFlowResult:
     """Provide the result of a completed user step."""
     init_result = await hass.config_entries.flow.async_init(
@@ -74,7 +74,7 @@ async def user_step_result_fixture(
 
 @pytest.fixture(name="option_init_result")
 async def option_init_result_fixture(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> config_entries.ConfigFlowResult:
     """Provide the result of a completed options init step."""
     entry = MockConfigEntry(
@@ -105,7 +105,7 @@ async def option_init_result_fixture(
 
 @pytest.fixture(name="origin_step_result")
 async def origin_step_result_fixture(
-    hass: __HAC_KEEP__, user_step_result: config_entries.ConfigFlowResult
+    hass: UniversalAssistant, user_step_result: config_entries.ConfigFlowResult
 ) -> config_entries.ConfigFlowResult:
     """Provide the result of a completed origin by coordinates step."""
     origin_menu_result = await hass.config_entries.flow.async_configure(
@@ -129,7 +129,7 @@ async def origin_step_result_fixture(
     [["origin_coordinates", "origin_entity"]],
 )
 @pytest.mark.usefixtures("valid_response")
-async def test_step_user(hass: __HAC_KEEP__, menu_options) -> None:
+async def test_step_user(hass: UniversalAssistant, menu_options) -> None:
     """Test the user step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -152,7 +152,7 @@ async def test_step_user(hass: __HAC_KEEP__, menu_options) -> None:
 
 @pytest.mark.usefixtures("valid_response")
 async def test_step_origin_coordinates(
-    hass: __HAC_KEEP__, user_step_result: config_entries.ConfigFlowResult
+    hass: UniversalAssistant, user_step_result: config_entries.ConfigFlowResult
 ) -> None:
     """Test the origin coordinates step."""
     menu_result = await hass.config_entries.flow.async_configure(
@@ -175,7 +175,7 @@ async def test_step_origin_coordinates(
 
 @pytest.mark.usefixtures("valid_response")
 async def test_step_origin_entity(
-    hass: __HAC_KEEP__, user_step_result: config_entries.ConfigFlowResult
+    hass: UniversalAssistant, user_step_result: config_entries.ConfigFlowResult
 ) -> None:
     """Test the origin coordinates step."""
     menu_result = await hass.config_entries.flow.async_configure(
@@ -192,7 +192,7 @@ async def test_step_origin_entity(
 
 @pytest.mark.usefixtures("valid_response")
 async def test_step_destination_coordinates(
-    hass: __HAC_KEEP__, origin_step_result: config_entries.ConfigFlowResult
+    hass: UniversalAssistant, origin_step_result: config_entries.ConfigFlowResult
 ) -> None:
     """Test the origin coordinates step."""
     menu_result = await hass.config_entries.flow.async_configure(
@@ -225,7 +225,7 @@ async def test_step_destination_coordinates(
 
 @pytest.mark.usefixtures("valid_response")
 async def test_step_destination_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     origin_step_result: config_entries.ConfigFlowResult,
 ) -> None:
     """Test the origin coordinates step."""
@@ -257,7 +257,7 @@ async def test_step_destination_entity(
 
 
 @pytest.mark.usefixtures("valid_response")
-async def test_reconfigure_destination_entity(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_destination_entity(hass: UniversalAssistant) -> None:
     """Test reconfigure flow when choosing a destination entity."""
     origin_entity_selector_result = await do_common_reconfiguration_steps(hass)
     menu_result = await hass.config_entries.flow.async_configure(
@@ -282,7 +282,7 @@ async def test_reconfigure_destination_entity(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("valid_response")
-async def test_reconfigure_destination_coordinates(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_destination_coordinates(hass: UniversalAssistant) -> None:
     """Test reconfigure flow when choosing destination coordinates."""
     origin_entity_selector_result = await do_common_reconfiguration_steps(hass)
     menu_result = await hass.config_entries.flow.async_configure(
@@ -314,7 +314,7 @@ async def test_reconfigure_destination_coordinates(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def do_common_reconfiguration_steps(hass: __HAC_KEEP__) -> None:
+async def do_common_reconfiguration_steps(hass: UniversalAssistant) -> None:
     """Walk through common flow steps for reconfiguring."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -351,7 +351,7 @@ async def do_common_reconfiguration_steps(hass: __HAC_KEEP__) -> None:
 
 
 async def _finish_flow(
-    hass: __HAC_KEEP__, flow_id: str
+    hass: UniversalAssistant, flow_id: str
 ) -> config_entries.ConfigFlowResult:
     """Enter a valid API key and pick zone.home as origin and destination."""
     result = await hass.config_entries.flow.async_configure(
@@ -373,7 +373,7 @@ async def _finish_flow(
 
 
 @pytest.mark.usefixtures("valid_response")
-async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
+async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -399,7 +399,7 @@ async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("valid_response")
-async def test_form_unknown_error(hass: __HAC_KEEP__) -> None:
+async def test_form_unknown_error(hass: UniversalAssistant) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -425,7 +425,7 @@ async def test_form_unknown_error(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("valid_response")
-async def test_options_flow(hass: __HAC_KEEP__) -> None:
+async def test_options_flow(hass: UniversalAssistant) -> None:
     """Test the options flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -463,7 +463,7 @@ async def test_options_flow(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("valid_response")
 async def test_options_flow_arrival_time_step(
-    hass: __HAC_KEEP__, option_init_result: config_entries.ConfigFlowResult
+    hass: UniversalAssistant, option_init_result: config_entries.ConfigFlowResult
 ) -> None:
     """Test the options flow arrival time type."""
     menu_result = await hass.config_entries.options.async_configure(
@@ -488,7 +488,7 @@ async def test_options_flow_arrival_time_step(
 
 @pytest.mark.usefixtures("valid_response")
 async def test_options_flow_departure_time_step(
-    hass: __HAC_KEEP__, option_init_result: config_entries.ConfigFlowResult
+    hass: UniversalAssistant, option_init_result: config_entries.ConfigFlowResult
 ) -> None:
     """Test the options flow departure time type."""
     menu_result = await hass.config_entries.options.async_configure(
@@ -513,7 +513,7 @@ async def test_options_flow_departure_time_step(
 
 @pytest.mark.usefixtures("valid_response")
 async def test_options_flow_no_time_step(
-    hass: __HAC_KEEP__, option_init_result: config_entries.ConfigFlowResult
+    hass: UniversalAssistant, option_init_result: config_entries.ConfigFlowResult
 ) -> None:
     """Test the options flow arrival time type."""
     menu_result = await hass.config_entries.options.async_configure(

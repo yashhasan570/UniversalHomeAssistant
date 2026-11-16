@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 
 from . import RenaultConfigEntry
@@ -25,7 +25,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: RenaultConfigEntry
+    hass: UniversalAssistant, entry: RenaultConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return {
@@ -41,7 +41,7 @@ async def async_get_config_entry_diagnostics(
 
 
 async def async_get_device_diagnostics(
-    hass: __HAC_KEEP__, entry: RenaultConfigEntry, device: AnyDeviceEntry
+    hass: UniversalAssistant, entry: RenaultConfigEntry, device: AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device."""
     vin = next(iter(device.identifiers))[1]

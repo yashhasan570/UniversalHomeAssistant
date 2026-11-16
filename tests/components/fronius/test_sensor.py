@@ -16,7 +16,7 @@ from universalassistant.components.fronius.coordinator import (
 )
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import mock_responses, setup_fronius_integration
@@ -24,7 +24,7 @@ from . import mock_responses, setup_fronius_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_symo_inverter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
@@ -77,7 +77,7 @@ async def test_symo_inverter(
 
 
 async def test_symo_logger(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test Fronius Symo logger entities."""
 
@@ -97,7 +97,7 @@ async def test_symo_logger(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_symo_meter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -158,7 +158,7 @@ async def test_symo_meter(
     ],
 )
 async def test_symo_inverter_status_forged(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     status_code: int,
     expected_message: str,
@@ -193,7 +193,7 @@ async def test_symo_inverter_status_forged(
     ],
 )
 async def test_symo_meter_forged(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     location_code: int | None,
     expected_code: int | str,
@@ -264,7 +264,7 @@ async def test_symo_meter_forged(
     ],
 )
 async def test_device_without_serial(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,
     fixture_set: str,
@@ -292,7 +292,7 @@ async def test_device_without_serial(
 
 
 async def test_symo_meter_gone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -313,7 +313,7 @@ async def test_symo_meter_gone(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_symo_power_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -378,7 +378,7 @@ async def test_symo_power_flow(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_gen24(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
@@ -418,7 +418,7 @@ async def test_gen24(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_gen24_storage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,
@@ -498,7 +498,7 @@ async def test_gen24_storage(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_primo_s0(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,

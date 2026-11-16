@@ -14,7 +14,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.discovery import load_platform
 from universalassistant.helpers.typing import ConfigType
@@ -85,7 +85,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-def setup(hass: __HAC_KEEP__, hass_config: ConfigType) -> bool:
+def setup(hass: UniversalAssistant, hass_config: ConfigType) -> bool:
     """Set up global ECoalController instance same for sensors and switches."""
 
     conf = hass_config[DOMAIN]

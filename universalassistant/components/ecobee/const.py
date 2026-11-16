@@ -58,7 +58,7 @@ MANUFACTURER = "ecobee"
 
 ECOBEE_AUX_HEAT_ONLY = "auxHeatOnly"
 
-# Translates ecobee API weatherSymbol to __HA_KEEP__ usable names
+# Translates ecobee API weatherSymbol to Universal Home Assistant usable names
 # https://www.ecobee.com/home/developer/api/documentation/v1/objects/WeatherForecast.shtml
 ECOBEE_WEATHER_SYMBOL_TO_HASS = {
     0: ATTR_CONDITION_SUNNY,

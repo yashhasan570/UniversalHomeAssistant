@@ -5,7 +5,7 @@ from enum import StrEnum
 import probatio
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import config_validation as cv
 
 from .const import DATA_BLACKBIRD, DOMAIN
@@ -50,7 +50,7 @@ def _service_handle(service: ServiceCall) -> None:
             device.set_all_zones(source)
 
 
-def setup_services(hass: __HAC_KEEP__) -> None:
+def setup_services(hass: UniversalAssistant) -> None:
     """Register the blackbird services."""
     hass.services.register(
         DOMAIN,

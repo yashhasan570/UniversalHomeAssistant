@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.omnilogic.const import DOMAIN, SCAN_INTERVAL
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def _get_telemetry_data(api: OmniLogic) -> list[dict[str, Any]]:
@@ -23,7 +23,7 @@ async def _get_telemetry_data(api: OmniLogic) -> list[dict[str, Any]]:
 
 
 async def test_rejected_token_logs_in_again(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the next update logs in again after Hayward rejects the token."""
     entry = MockConfigEntry(

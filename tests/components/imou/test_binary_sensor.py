@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
 from universalassistant.components.imou.coordinator import SCAN_INTERVAL
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .const import (
@@ -33,7 +33,7 @@ from .const import (
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_binary_sensor_entities_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -62,7 +62,7 @@ async def test_binary_sensor_entities_snapshot(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_setup_ignores_unknown_binary_sensor_types(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_setup_ignores_unknown_binary_sensor_types(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_door_contact_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_state: str,
 ) -> None:
     """Door contact reports on when open and off when closed."""
@@ -124,7 +124,7 @@ async def test_door_contact_state(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_binary_sensor_added_for_device_discovered_after_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_imou_ha_device_manager: MagicMock,
 ) -> None:
@@ -155,7 +155,7 @@ async def test_binary_sensor_added_for_device_discovered_after_setup(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_binary_sensor_unavailable_when_device_offline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_imou_ha_device_manager: MagicMock,
 ) -> None:
@@ -183,7 +183,7 @@ async def test_binary_sensor_unavailable_when_device_offline(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_entities_removed_when_device_leaves_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,

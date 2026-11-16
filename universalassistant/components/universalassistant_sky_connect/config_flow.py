@@ -1,4 +1,4 @@
-"""Config flow for the __HA_KEEP__ SkyConnect integration."""
+"""Config flow for the Universal Home Assistant SkyConnect integration."""
 
 import logging
 from typing import TYPE_CHECKING, Any, Protocol, override
@@ -26,7 +26,7 @@ from universalassistant.config_entries import (
 from universalassistant.core import callback
 from universalassistant.helpers.service_info.usb import UsbServiceInfo
 
-from . import __HAC_KEEP__SkyConnectConfigEntry
+from . import UniversalAssistantSkyConnectConfigEntry
 from .const import (
     DESCRIPTION,
     DEVICE,
@@ -71,7 +71,7 @@ else:
 
 
 class SkyConnectFirmwareMixin(ConfigEntryBaseFlow, FirmwareInstallFlowProtocol):
-    """Mixin for __HA_KEEP__ SkyConnect firmware methods."""
+    """Mixin for Universal Home Assistant SkyConnect firmware methods."""
 
     context: ConfigFlowContext
 
@@ -117,12 +117,12 @@ class SkyConnectFirmwareMixin(ConfigEntryBaseFlow, FirmwareInstallFlowProtocol):
         )
 
 
-class __HAC_KEEP__SkyConnectConfigFlow(
+class UniversalAssistantSkyConnectConfigFlow(
     SkyConnectFirmwareMixin,
     firmware_config_flow.BaseFirmwareConfigFlow,
     domain=DOMAIN,
 ):
-    """Handle a config flow for __HA_KEEP__ SkyConnect."""
+    """Handle a config flow for Universal Home Assistant SkyConnect."""
 
     VERSION = 1
     MINOR_VERSION = 5
@@ -138,15 +138,15 @@ class __HAC_KEEP__SkyConnectConfigFlow(
     @callback
     @override
     def async_get_options_flow(
-        config_entry: __HAC_KEEP__SkyConnectConfigEntry,
+        config_entry: UniversalAssistantSkyConnectConfigEntry,
     ) -> OptionsFlow:
         """Return the options flow."""
         firmware_type = ApplicationType(config_entry.data[FIRMWARE])
 
         if firmware_type is ApplicationType.CPC:
-            return __HAC_KEEP__SkyConnectMultiPanOptionsFlowHandler(config_entry)
+            return UniversalAssistantSkyConnectMultiPanOptionsFlowHandler(config_entry)
 
-        return __HAC_KEEP__SkyConnectOptionsFlowHandler(config_entry)
+        return UniversalAssistantSkyConnectOptionsFlowHandler(config_entry)
 
     @override
     async def async_step_usb(self, discovery_info: UsbServiceInfo) -> ConfigFlowResult:
@@ -215,10 +215,10 @@ class __HAC_KEEP__SkyConnectConfigFlow(
         )
 
 
-class __HAC_KEEP__SkyConnectMultiPanOptionsFlowHandler(
+class UniversalAssistantSkyConnectMultiPanOptionsFlowHandler(
     silabs_multiprotocol_addon.OptionsFlowHandler
 ):
-    """Multi-PAN options flow for __HA_KEEP__ SkyConnect."""
+    """Multi-PAN options flow for Universal Home Assistant SkyConnect."""
 
     @override
     async def _async_serial_port_settings(
@@ -289,7 +289,7 @@ class __HAC_KEEP__SkyConnectMultiPanOptionsFlowHandler(
         return await super().async_step_flashing_complete(user_input)
 
 
-class __HAC_KEEP__SkyConnectOptionsFlowHandler(
+class UniversalAssistantSkyConnectOptionsFlowHandler(
     SkyConnectFirmwareMixin, firmware_config_flow.BaseFirmwareOptionsFlow
 ):
     """Zigbee and Thread options flow handlers."""

@@ -24,7 +24,7 @@
         "title": "Set up Bitvis Power Hub"
       },
       "zeroconf_confirm": {
-        "description": "Do you want to add the discovered Bitvis Power Hub ({name}) at {host} to __HA_KEEP__?",
+        "description": "Do you want to add the discovered Bitvis Power Hub ({name}) at {host} to Universal Home Assistant?",
         "title": "Discovered Bitvis Power Hub"
       }
     }

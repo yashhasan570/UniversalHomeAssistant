@@ -10,7 +10,7 @@ from pytradfri.device import Device
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.components.tradfri.const import DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .common import CommandStore, setup_integration
 
@@ -31,7 +31,7 @@ def outlet_without_values(outlet: str) -> str:
 
 @pytest.mark.parametrize("device", ["outlet"], indirect=True)
 async def test_switch_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     command_store: CommandStore,
     device: Device,
 ) -> None:
@@ -61,7 +61,7 @@ async def test_switch_available(
     ],
 )
 async def test_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     command_store: CommandStore,
     device: Device,
     service: str,
@@ -94,7 +94,7 @@ async def test_turn_on_off(
 
 @pytest.mark.parametrize("device", ["outlet_without_values"], indirect=True)
 @pytest.mark.usefixtures("device")
-async def test_switch_without_values(hass: __HAC_KEEP__) -> None:
+async def test_switch_without_values(hass: UniversalAssistant) -> None:
     """Test a switch whose control reports no values."""
     await setup_integration(hass)
 

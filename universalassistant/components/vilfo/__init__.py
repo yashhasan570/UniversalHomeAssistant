@@ -8,7 +8,7 @@ from vilfo.exceptions import VilfoException
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_HOST, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.util import Throttle
 
@@ -23,7 +23,7 @@ DEFAULT_SCAN_INTERVAL = timedelta(seconds=30)
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: VilfoConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: VilfoConfigEntry) -> None:
     """Set up Vilfo Router from a config entry."""
     host = entry.data[CONF_HOST]
     access_token = entry.data[CONF_ACCESS_TOKEN]
@@ -40,7 +40,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: VilfoConfigEntry) -> None
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: VilfoConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: VilfoConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 

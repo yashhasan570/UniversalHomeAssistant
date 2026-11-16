@@ -14,14 +14,14 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_binary_sensor_setup_and_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gatus_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -55,7 +55,7 @@ def _to_endpoint_statuses(raw_data: list[dict[str, Any]]) -> list[EndpointStatus
 
 
 async def test_binary_sensor_dynamic_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gatus_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -81,7 +81,7 @@ async def test_binary_sensor_dynamic_update(
 
 
 async def test_binary_sensor_no_group(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gatus_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -100,7 +100,7 @@ async def test_binary_sensor_no_group(
 
 
 async def test_binary_sensor_client_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gatus_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -122,7 +122,7 @@ async def test_binary_sensor_client_error(
 
 
 async def test_binary_sensor_empty_results(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gatus_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -144,7 +144,7 @@ async def test_binary_sensor_empty_results(
 
 
 async def test_binary_sensor_missing_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gatus_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -166,7 +166,7 @@ async def test_binary_sensor_missing_status(
 
 
 async def test_binary_sensor_dynamic_endpoints(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gatus_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -200,7 +200,7 @@ async def test_binary_sensor_dynamic_endpoints(
 
 
 async def test_binary_sensor_readded_endpoint(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gatus_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

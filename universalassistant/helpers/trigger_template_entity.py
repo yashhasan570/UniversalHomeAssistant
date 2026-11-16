@@ -24,7 +24,7 @@ from universalassistant.const import (
     CONF_UNIT_OF_MEASUREMENT,
     EntityStateAttribute,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import TemplateError
 from universalassistant.util.json import JSON_DECODE_EXCEPTIONS, json_loads
 
@@ -159,7 +159,7 @@ class TriggerBaseEntity(Entity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config: ConfigType,
     ) -> None:
         """Initialize the entity."""
@@ -342,7 +342,7 @@ class ManualTriggerEntity(TriggerBaseEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config: ConfigType,
     ) -> None:
         """Initialize the entity."""
@@ -387,7 +387,7 @@ class ManualTriggerSensorEntity(ManualTriggerEntity, SensorEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config: ConfigType,
     ) -> None:
         """Initialize the sensor entity."""

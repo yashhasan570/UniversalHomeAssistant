@@ -15,7 +15,7 @@ from universalassistant.const import (
     MAX_LENGTH_STATE_STATE,
     SERVICE_RELOAD,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import collection, config_validation as cv
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.storage import Store
@@ -130,7 +130,7 @@ class InputTextData:
     yaml_collection: collection.YamlCollection
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up an input text."""
     component = EntityComponent[InputText](_LOGGER, DOMAIN, hass)
 

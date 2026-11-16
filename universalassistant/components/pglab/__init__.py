@@ -14,7 +14,7 @@ from universalassistant.components.mqtt import (
     async_unsubscribe_topics,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 
@@ -27,18 +27,18 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: PGLabConfigEntry
+    hass: UniversalAssistant, config_entry: PGLabConfigEntry
 ) -> None:
     """Set up PG LAB Electronics integration from a config entry."""
 
     async def mqtt_publish(topic: str, payload: str, qos: int, retain: bool) -> None:
-        """Publish an MQTT message using the __HA_KEEP__ MQTT client."""
+        """Publish an MQTT message using the Universal Home Assistant MQTT client."""
         await mqtt.async_publish(hass, topic, payload, qos, retain)
 
     async def mqtt_subscribe(
         sub_state: PyPGLabSubState, topic: str, callback_func: PyPGLabSubscribeCallBack
     ) -> PyPGLabSubState:
-        """Subscribe to MQTT topics using the __HA_KEEP__ MQTT client."""
+        """Subscribe to MQTT topics using the Universal Home Assistant MQTT client."""
 
         @callback
         def mqtt_message_received(msg: ReceiveMessage) -> None:
@@ -73,7 +73,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: PGLabConfigEntry
+    hass: UniversalAssistant, config_entry: PGLabConfigEntry
 ) -> None:
     """Unload a config entry."""
 

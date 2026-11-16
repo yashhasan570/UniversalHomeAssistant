@@ -9,7 +9,7 @@ from brunt import BruntClientAsync, Thing
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import (
@@ -33,7 +33,7 @@ class BruntCoordinator(DataUpdateCoordinator[dict[str | None, Thing]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: BruntConfigEntry,
     ) -> None:
         """Initialize the Brunt coordinator."""

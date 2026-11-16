@@ -6,7 +6,7 @@ from besen.const import FALLBACK_MAX_CHARGE_AMPS, MIN_CHARGE_AMPS
 
 from universalassistant.components.number import NumberDeviceClass, NumberEntity, NumberMode
 from universalassistant.const import EntityCategory, UnitOfElectricCurrent
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import BesenConfigEntry
@@ -17,7 +17,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: BesenConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_with_selected_platforms
@@ -21,7 +21,7 @@ ENTITY_IDS = (
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_hotspring")
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_fixture: Spa,
     entity_registry: er.EntityRegistry,
@@ -39,7 +39,7 @@ async def test_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_hotspring")
 async def test_temperature_sensor_celsius(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_fixture: Spa,
     snapshot: SnapshotAssertion,
@@ -54,7 +54,7 @@ async def test_temperature_sensor_celsius(
 
 @pytest.mark.usefixtures("mock_hotspring")
 async def test_freshwater_iq_sensors_absent_without_iq(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that no FreshWater IQ sensors are created when IQ is not installed."""

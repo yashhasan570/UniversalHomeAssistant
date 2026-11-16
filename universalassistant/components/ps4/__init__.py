@@ -16,8 +16,8 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import ATTR_LOCKED, CONF_REGION, CONF_TOKEN, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import ConfigEntryError, __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ConfigEntryError, UniversalAssistantError
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.json import save_json
@@ -48,7 +48,7 @@ class PS4Data:
     protocol: DDPProtocol
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the PS4 Component."""
     transport, protocol = await async_create_ddp_endpoint()
     hass.data[PS4_DATA] = PS4Data(
@@ -60,17 +60,17 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up PS4 from a config entry."""
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a PS4 config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Migrate old entry."""
     config_entries = hass.config_entries
     data = entry.data
@@ -143,12 +143,12 @@ def format_unique_id(creds, mac_address):
     return f"{mac_address}_{suffix}"
 
 
-def load_games(hass: __HAC_KEEP__, unique_id: str) -> JsonObjectType:
+def load_games(hass: UniversalAssistant, unique_id: str) -> JsonObjectType:
     """Load games for sources."""
     g_file = hass.config.path(GAMES_FILE.format(unique_id))
     try:
         games = load_json_object(g_file)
-    except __HAC_KEEP__Error as error:
+    except UniversalAssistantError as error:
         games = {}
         _LOGGER.error("Failed to load games file: %s", error)
 
@@ -158,7 +158,7 @@ def load_games(hass: __HAC_KEEP__, unique_id: str) -> JsonObjectType:
     return games
 
 
-def save_games(hass: __HAC_KEEP__, games: dict, unique_id: str):
+def save_games(hass: UniversalAssistant, games: dict, unique_id: str):
     """Save games to file."""
     g_file = hass.config.path(GAMES_FILE.format(unique_id))
     try:
@@ -167,7 +167,7 @@ def save_games(hass: __HAC_KEEP__, games: dict, unique_id: str):
         _LOGGER.error("Could not save game list, %s", error)
 
 
-def _reformat_data(hass: __HAC_KEEP__, games: dict, unique_id: str) -> dict:
+def _reformat_data(hass: UniversalAssistant, games: dict, unique_id: str) -> dict:
     """Reformat data to correct format."""
     data_reformatted = False
 

@@ -12,7 +12,7 @@ from universalassistant.components.humidifier import (
     HumidifierEntity,
     HumidifierEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -26,7 +26,7 @@ MODE_OFF = "off"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: EcobeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

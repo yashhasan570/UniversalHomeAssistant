@@ -73,8 +73,8 @@ from universalassistant.components.media_player import (
     RepeatMode,
 )
 from universalassistant.const import ATTR_ENTITY_ID, EVENT_STATE_CHANGED
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.setup import async_setup_component
@@ -122,7 +122,7 @@ from .const import (
 
 
 async def test_initialization(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_config_entry: MockConfigEntry,
     mock_mozart_client: AsyncMock,
@@ -159,7 +159,7 @@ async def test_initialization(
 
 
 async def test_async_update_sources_audio_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -175,7 +175,7 @@ async def test_async_update_sources_audio_only(
 
 
 async def test_async_update_sources_outdated_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mozart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -194,7 +194,7 @@ async def test_async_update_sources_outdated_api(
 
 
 async def test_async_update_sources_remote(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -215,7 +215,7 @@ async def test_async_update_sources_remote(
 
 
 async def test_async_update_sources_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mozart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -248,7 +248,7 @@ async def test_async_update_sources_availability(
 
 
 async def test_async_update_playback_metadata(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -290,7 +290,7 @@ async def test_async_update_playback_metadata(
 
 
 async def test_async_update_playback_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     integration: None,
     mock_mozart_client: AsyncMock,
@@ -313,7 +313,7 @@ async def test_async_update_playback_error(
 
 
 async def test_async_update_playback_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -337,7 +337,7 @@ async def test_async_update_playback_progress(
 
 
 async def test_async_update_playback_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -401,7 +401,7 @@ async def test_async_update_playback_state(
     ],
 )
 async def test_async_update_source_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
     source: Source,
@@ -440,7 +440,7 @@ async def test_async_update_source_change(
 
 
 async def test_async_update_source_change_video(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -470,7 +470,7 @@ async def test_async_update_source_change_video(
 
 
 async def test_async_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -497,7 +497,7 @@ async def test_async_turn_off(
 
 
 async def test_async_set_volume_level(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -531,7 +531,7 @@ async def test_async_set_volume_level(
 
 
 async def test_async_update_beolink_line_in(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mozart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -561,7 +561,7 @@ async def test_async_update_beolink_line_in(
 
 
 async def test_async_update_beolink_listener(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     integration: None,
     mock_mozart_client: AsyncMock,
@@ -609,7 +609,7 @@ async def test_async_update_beolink_listener(
 
 @pytest.mark.usefixtures("integration")
 async def test_group_members_after_entity_id_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -650,7 +650,7 @@ async def test_group_members_after_entity_id_change(
 
 
 async def test_async_update_name_and_beolink(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: DeviceRegistry,
     mock_mozart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -688,7 +688,7 @@ async def test_async_update_name_and_beolink(
 
 
 async def test_async_mute_volume(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -732,7 +732,7 @@ async def test_async_mute_volume(
     ],
 )
 async def test_async_media_play_pause(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
     initial_state: RenderingState,
@@ -761,7 +761,7 @@ async def test_async_media_play_pause(
 
 
 async def test_async_media_stop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -789,7 +789,7 @@ async def test_async_media_stop(
 
 
 async def test_async_media_next_track(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -810,13 +810,13 @@ async def test_async_media_next_track(
         # Seekable source, seek expected
         (TEST_SOURCE, does_not_raise(), 1),
         # Non seekable source, seek shouldn't work
-        (BeoSource.LINE_IN, pytest.raises(__HAC_KEEP__Error), 0),
+        (BeoSource.LINE_IN, pytest.raises(UniversalAssistantError), 0),
         # Malformed source, seek shouldn't work
-        (Source(), pytest.raises(__HAC_KEEP__Error), 0),
+        (Source(), pytest.raises(UniversalAssistantError), 0),
     ],
 )
 async def test_async_media_seek(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
     source: Source,
@@ -847,7 +847,7 @@ async def test_async_media_seek(
 
 
 async def test_async_media_previous_track(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -863,7 +863,7 @@ async def test_async_media_previous_track(
 
 
 async def test_async_clear_playlist(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -890,7 +890,7 @@ async def test_async_clear_playlist(
     ],
 )
 async def test_async_select_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
     source: str,
@@ -915,7 +915,7 @@ async def test_async_select_source(
 
 
 async def test_async_select_sound_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -948,7 +948,7 @@ async def test_async_select_sound_mode(
 
 
 async def test_async_select_sound_mode_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
 ) -> None:
     """Test async_select_sound_mode with an invalid sound_mode."""
@@ -969,7 +969,7 @@ async def test_async_select_sound_mode_invalid(
 
 
 async def test_async_play_media_invalid_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
 ) -> None:
     """Test async_play_media only accepts valid media types."""
@@ -987,11 +987,11 @@ async def test_async_play_media_invalid_type(
 
     assert exc_info.value.translation_domain == DOMAIN
     assert exc_info.value.translation_key == "invalid_media_type"
-    assert exc_info.errisinstance(__HAC_KEEP__Error)
+    assert exc_info.errisinstance(UniversalAssistantError)
 
 
 async def test_async_play_media_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -1014,7 +1014,7 @@ async def test_async_play_media_url(
 
 
 async def test_async_play_media_overlay_absolute_volume_uri(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -1043,12 +1043,12 @@ async def test_async_play_media_overlay_absolute_volume_uri(
 
 
 async def test_async_play_media_overlay_invalid_offset_volume_tts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
-    """Test async_play_media with __HA_KEEP__ invalid offset volume and B&O tts."""
+    """Test async_play_media with Universal Home Assistant invalid offset volume and B&O tts."""
     await hass.services.async_call(
         MEDIA_PLAYER_DOMAIN,
         SERVICE_PLAY_MEDIA,
@@ -1072,11 +1072,11 @@ async def test_async_play_media_overlay_invalid_offset_volume_tts(
 
 
 async def test_async_play_media_overlay_offset_volume_tts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
-    """Test async_play_media with __HA_KEEP__ invalid offset volume and B&O tts."""
+    """Test async_play_media with Universal Home Assistant invalid offset volume and B&O tts."""
     volume_callback = mock_mozart_client.get_volume_notifications.call_args[0][0]
 
     # Set the volume to enable offset
@@ -1101,11 +1101,11 @@ async def test_async_play_media_overlay_offset_volume_tts(
 
 
 async def test_async_play_media_tts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
-    """Test async_play_media with __HA_KEEP__ tts."""
+    """Test async_play_media with Universal Home Assistant tts."""
     await async_setup_component(hass, "media_source", {"media_source": {}})
 
     await hass.services.async_call(
@@ -1123,7 +1123,7 @@ async def test_async_play_media_tts(
 
 
 async def test_async_play_media_radio(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -1145,7 +1145,7 @@ async def test_async_play_media_radio(
 
 
 async def test_async_play_media_favourite(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -1165,7 +1165,7 @@ async def test_async_play_media_favourite(
 
 
 async def test_async_play_media_deezer_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -1189,7 +1189,7 @@ async def test_async_play_media_deezer_flow(
 
 
 async def test_async_play_media_deezer_playlist(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -1212,7 +1212,7 @@ async def test_async_play_media_deezer_playlist(
 
 
 async def test_async_play_media_deezer_track(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -1234,14 +1234,14 @@ async def test_async_play_media_deezer_track(
 
 
 async def test_async_play_media_invalid_deezer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
     """Test async_play_media with an invalid/no Deezer login."""
     mock_mozart_client.start_deezer_flow.side_effect = TEST_DEEZER_INVALID_FLOW
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             MEDIA_PLAYER_DOMAIN,
             SERVICE_PLAY_MEDIA,
@@ -1255,13 +1255,13 @@ async def test_async_play_media_invalid_deezer(
 
     assert exc_info.value.translation_domain == DOMAIN
     assert exc_info.value.translation_key == "play_media_error"
-    assert exc_info.errisinstance(__HAC_KEEP__Error)
+    assert exc_info.errisinstance(UniversalAssistantError)
 
     mock_mozart_client.start_deezer_flow.assert_called_once()
 
 
 async def test_async_play_media_url_m3u(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
 ) -> None:
@@ -1269,7 +1269,7 @@ async def test_async_play_media_url_m3u(
     await async_setup_component(hass, "media_source", {"media_source": {}})
 
     with (
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
         patch(
             "universalassistant.components.bang_olufsen.media_player.async_process_play_media_url",
             return_value="https://test.com/test.m3u",
@@ -1289,7 +1289,7 @@ async def test_async_play_media_url_m3u(
     # Check exception
     assert exc_info.value.translation_domain == DOMAIN
     assert exc_info.value.translation_key == "m3u_invalid_format"
-    assert exc_info.errisinstance(__HAC_KEEP__Error)
+    assert exc_info.errisinstance(UniversalAssistantError)
 
     mock_mozart_client.post_uri_source.assert_not_called()
 
@@ -1332,7 +1332,7 @@ async def test_async_play_media_url_m3u(
     ],
 )
 async def test_async_browse_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     integration: None,
     child: dict[str, str | bool | None],
@@ -1364,7 +1364,7 @@ async def test_async_browse_media(
     ],
 )
 async def test_async_join_players(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     integration: None,
     mock_mozart_client: AsyncMock,
@@ -1427,7 +1427,7 @@ async def test_async_join_players(
     ],
 )
 async def test_async_join_players_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     integration: None,
     mock_mozart_client: AsyncMock,
@@ -1460,7 +1460,7 @@ async def test_async_join_players_invalid(
 
     assert exc_info.value.translation_domain == DOMAIN
     assert exc_info.value.translation_key == error_type
-    assert exc_info.errisinstance(__HAC_KEEP__Error)
+    assert exc_info.errisinstance(UniversalAssistantError)
 
     assert mock_mozart_client.post_beolink_expand.call_count == 0
     assert mock_mozart_client.join_latest_beolink_experience.call_count == 0
@@ -1475,7 +1475,7 @@ async def test_async_join_players_invalid(
 
 
 async def test_async_unjoin_player(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     integration: None,
     mock_mozart_client: AsyncMock,
@@ -1518,7 +1518,7 @@ async def test_async_unjoin_player(
     ],
 )
 async def test_async_beolink_join(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     integration: None,
     mock_mozart_client: AsyncMock,
@@ -1563,7 +1563,7 @@ async def test_async_beolink_join(
     ],
 )
 async def test_async_beolink_join_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     integration: None,
     mock_mozart_client: AsyncMock,
@@ -1626,7 +1626,7 @@ async def test_async_beolink_join_invalid(
     ],
 )
 async def test_async_beolink_expand(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     snapshot: SnapshotAssertion,
     integration: None,
@@ -1674,7 +1674,7 @@ async def test_async_beolink_expand(
 
 
 async def test_async_beolink_unexpand(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     integration: None,
     mock_mozart_client: AsyncMock,
@@ -1697,7 +1697,7 @@ async def test_async_beolink_unexpand(
 
 
 async def test_async_beolink_allstandby(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     integration: None,
     mock_mozart_client: AsyncMock,
@@ -1728,7 +1728,7 @@ async def test_async_beolink_allstandby(
     ],
 )
 async def test_async_set_repeat(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
     repeat: RepeatMode,
@@ -1770,7 +1770,7 @@ async def test_async_set_repeat(
     ],
 )
 async def test_async_set_shuffle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_mozart_client: AsyncMock,
     shuffle: bool,

@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 
 from .account import IcloudConfigEntry, IcloudDevice
@@ -32,7 +32,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: IcloudConfigEntry
+    hass: UniversalAssistant, entry: IcloudConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     account = entry.runtime_data
@@ -49,7 +49,7 @@ async def async_get_config_entry_diagnostics(
 
 
 async def async_get_device_diagnostics(
-    hass: __HAC_KEEP__, entry: IcloudConfigEntry, device: AnyDeviceEntry
+    hass: UniversalAssistant, entry: IcloudConfigEntry, device: AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device."""
     icloud_device = _get_icloud_device(entry, device)

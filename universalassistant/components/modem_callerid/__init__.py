@@ -4,7 +4,7 @@ from phone_modem import PhoneModem
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_DEVICE, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import EXCEPTIONS
@@ -15,7 +15,7 @@ type ModemCallerIdConfigEntry = ConfigEntry[PhoneModem]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: ModemCallerIdConfigEntry
+    hass: UniversalAssistant, entry: ModemCallerIdConfigEntry
 ) -> None:
     """Set up Modem Caller ID from a config entry."""
     device = entry.data[CONF_DEVICE]
@@ -41,7 +41,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: ModemCallerIdConfigEntry
+    hass: UniversalAssistant, entry: ModemCallerIdConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

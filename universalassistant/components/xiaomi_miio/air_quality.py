@@ -13,7 +13,7 @@ from miio import (
 
 from universalassistant.components.air_quality import AirQualityEntity
 from universalassistant.const import CONF_DEVICE, CONF_HOST, CONF_MODEL, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -248,7 +248,7 @@ DEVICE_MAP: dict[str, dict[str, Callable]] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: XiaomiMiioConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -14,8 +14,8 @@ from universalassistant.components.tts import (
     TtsAudioType,
 )
 from universalassistant.config_entries import ConfigSubentry
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -47,7 +47,7 @@ class FishAudioTextToSpeechOption(StrEnum):
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FishAudioConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -162,9 +162,9 @@ class FishAudioTTSEntity(TextToSpeechEntity):
                 format="mp3",
             )
         except RateLimitError as err:
-            raise __HAC_KEEP__Error(f"Rate limited: {err}") from err
+            raise UniversalAssistantError(f"Rate limited: {err}") from err
         except APIError as err:
-            raise __HAC_KEEP__Error(f"TTS request failed: {err}") from err
+            raise UniversalAssistantError(f"TTS request failed: {err}") from err
         except Exception as err:
             raise UnexpectedError(err) from err
 
@@ -193,11 +193,11 @@ class FishAudioTTSEntity(TextToSpeechEntity):
                     yield chunk
 
             except RateLimitError as err:
-                raise __HAC_KEEP__Error(f"Rate limited: {err}") from err
+                raise UniversalAssistantError(f"Rate limited: {err}") from err
             except APIError as err:
-                raise __HAC_KEEP__Error(f"TTS request failed: {err}") from err
+                raise UniversalAssistantError(f"TTS request failed: {err}") from err
             except WebSocketError as err:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     f"Websocket connection closed unexpectedly: {err}"
                 ) from err
             except Exception as err:

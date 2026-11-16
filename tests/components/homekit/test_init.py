@@ -17,7 +17,7 @@ from universalassistant.const import (
     ATTR_SERVICE,
     EVENT_HOMEASSISTANT_STARTED,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -26,7 +26,7 @@ from .util import PATH_HOMEKIT
 from tests.components.logbook.common import MockRow, mock_humanify
 
 
-async def test_humanify_homekit_changed_event(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_humanify_homekit_changed_event(hass: UniversalAssistant, hk_driver) -> None:
     """Test humanifying HomeKit changed event."""
     hass.config.components.add("recorder")
     with patch("universalassistant.components.homekit.HomeKit") as mock_homekit:
@@ -73,7 +73,7 @@ async def test_humanify_homekit_changed_event(hass: __HAC_KEEP__, hk_driver) -> 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_bridge_with_triggers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     demo_cleanup,
     entity_registry: er.EntityRegistry,

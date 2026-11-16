@@ -17,7 +17,7 @@ from universalassistant.components.knx.const import (
 )
 from universalassistant.components.knx.schema import SelectSchema
 from universalassistant.const import CONF_NAME, CONF_PAYLOAD, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.exceptions import ServiceValidationError
 
 from . import KnxEntityGenerator
@@ -25,7 +25,7 @@ from .conftest import KNXTestKit
 
 
 async def test_select_dpt_2_simple(
-    hass: __HAC_KEEP__, knx: KNXTestKit, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, knx: KNXTestKit, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test simple KNX select."""
     _options = [
@@ -103,7 +103,7 @@ async def test_select_dpt_2_simple(
     await knx.assert_no_telegram()
 
 
-async def test_select_dpt_2_restore(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_select_dpt_2_restore(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX select with passive_address and respond_to_read restoring state."""
     _options = [
         {CONF_PAYLOAD: 0b00, SelectConf.OPTION: "No control"},
@@ -140,7 +140,7 @@ async def test_select_dpt_2_restore(hass: __HAC_KEEP__, knx: KNXTestKit) -> None
     await knx.assert_no_telegram()
 
 
-async def test_select_state_restore(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_select_state_restore(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX select with state_address restores state until bus read completes."""
     _options = [
         {CONF_PAYLOAD: 0b00, SelectConf.OPTION: "No control"},
@@ -175,7 +175,7 @@ async def test_select_state_restore(hass: __HAC_KEEP__, knx: KNXTestKit) -> None
 
 
 async def test_select_dpt_20_103_all_options(
-    hass: __HAC_KEEP__, knx: KNXTestKit
+    hass: UniversalAssistant, knx: KNXTestKit
 ) -> None:
     """Test KNX select with state_address, passive_address and respond_to_read."""
     _options = [
@@ -237,7 +237,7 @@ async def test_select_dpt_20_103_all_options(
 
 
 async def test_select_ui_create_custom_raw(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
 ) -> None:
@@ -275,7 +275,7 @@ async def test_select_ui_create_custom_raw(
 
 
 async def test_select_ui_create_custom_typed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
 ) -> None:
@@ -306,7 +306,7 @@ async def test_select_ui_create_custom_typed(
 
 
 async def test_select_ui_create_custom_mixed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
 ) -> None:
@@ -338,7 +338,7 @@ async def test_select_ui_create_custom_mixed(
 
 
 async def test_select_ui_create_from_dpt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
 ) -> None:
@@ -370,7 +370,7 @@ async def test_select_ui_create_from_dpt(
 
 
 async def test_select_ui_create_from_binary_dpt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
 ) -> None:
@@ -401,7 +401,7 @@ async def test_select_ui_create_from_binary_dpt(
 
 
 async def test_select_ui_create_custom_binary_dpt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
 ) -> None:
@@ -528,7 +528,7 @@ async def test_select_ui_load(knx: KNXTestKit) -> None:
     ],
 )
 async def test_select_ui_create_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     knx_config: dict[str, Any],

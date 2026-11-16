@@ -22,7 +22,7 @@ from universalassistant.config_entries import (
     SubentryFlowResult,
 )
 from universalassistant.const import CONF_API_TOKEN, CONF_URL, CONF_VERIFY_SSL
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.selector import (
     BooleanSelector,
@@ -52,7 +52,7 @@ STEP_USER_DATA_SCHEMA = probatio.Schema(
 
 
 async def _validate_input(
-    hass: __HAC_KEEP__, data: dict[str, Any]
+    hass: UniversalAssistant, data: dict[str, Any]
 ) -> tuple[PortainerSystemStatus, list[Endpoint]]:
     """Validate the user input allows us to connect."""
 

@@ -11,12 +11,12 @@ from pytrafikverket import CameraInfoModel
 
 from universalassistant.components.camera import async_get_image
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 
 async def test_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     freezer: FrozenDateTimeFactory,
     monkeypatch: pytest.MonkeyPatch,
@@ -66,5 +66,5 @@ async def test_camera(
         async_fire_time_changed(hass)
         await hass.async_block_till_done()
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await async_get_image(hass, "camera.test_camera")

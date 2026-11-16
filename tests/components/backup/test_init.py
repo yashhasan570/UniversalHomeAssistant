@@ -10,7 +10,7 @@ from pytest_universalassistant.typing import WebSocketGenerator
 from universalassistant.components.backup.const import DATA_MANAGER, DOMAIN
 from universalassistant.components.backup.services import BackupService
 from universalassistant.config_entries import SOURCE_SYSTEM, ConfigEntryState
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.exceptions import ServiceNotFound, Unauthorized
 
 from .common import setup_backup_integration
@@ -18,7 +18,7 @@ from .common import setup_backup_integration
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_setup_with_hassio(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test the setup of the integration with hassio enabled."""
@@ -29,7 +29,7 @@ async def test_setup_with_hassio(
 
 @pytest.mark.parametrize("service_data", [None, {}])
 async def test_create_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_data: dict[str, Any] | None,
 ) -> None:
     """Test generate backup."""
@@ -58,7 +58,7 @@ async def test_create_service(
 
 
 @pytest.mark.usefixtures("supervisor_client")
-async def test_create_service_with_hassio(hass: __HAC_KEEP__) -> None:
+async def test_create_service_with_hassio(hass: UniversalAssistant) -> None:
     """Test action backup.create does not exist with hassio."""
     await setup_backup_integration(hass, with_hassio=True)
 
@@ -116,7 +116,7 @@ async def test_create_service_with_hassio(hass: __HAC_KEEP__) -> None:
 @pytest.mark.parametrize("with_hassio", [True, False])
 @pytest.mark.usefixtures("supervisor_client")
 async def test_create_automatic_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     commands: list[dict[str, Any]],
     expected_kwargs: dict[str, Any],
@@ -146,7 +146,7 @@ async def test_create_automatic_service(
 
 
 async def test_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test setup backup config entry."""
     await setup_backup_integration(hass, with_hassio=False)
@@ -169,7 +169,7 @@ async def test_setup_entry(
 )
 @pytest.mark.usefixtures("supervisor_client")
 async def test_services_require_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_read_only_user: MockUser,
     service: str,
     with_hassio: bool,

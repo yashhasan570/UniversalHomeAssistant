@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import SFRConfigEntry
 
@@ -30,7 +30,7 @@ def _async_redact_data(obj: DataclassInstance | None) -> dict[str, Any] | None:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: SFRConfigEntry
+    hass: UniversalAssistant, entry: SFRConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     data = entry.runtime_data

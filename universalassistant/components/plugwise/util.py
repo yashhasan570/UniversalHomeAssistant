@@ -7,8 +7,8 @@ from plugwise.exceptions import PlugwiseException
 
 from universalassistant.components.automation import automations_with_entity
 from universalassistant.components.script import scripts_with_entity
-from universalassistant.core import CoreState, __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CoreState, UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.issue_registry import (
     IssueSeverity,
@@ -25,7 +25,7 @@ DEPRECATED_REMOVAL_VERSION = "2027.5.0"
 
 
 def deprecate_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     *,
     async_on_unload: Callable[[Callable[[], None]], None],
@@ -78,7 +78,7 @@ def deprecate_entity(
 
 @callback
 def _async_check_deprecated_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     *,
     entity_id: str,
@@ -121,7 +121,7 @@ def _async_check_deprecated_entity(
 
 
 def _automations_and_scripts_using_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     entity_id: str,
 ) -> list[str]:
@@ -149,7 +149,7 @@ def _automations_and_scripts_using_entity(
 
 @callback
 def _async_defer_deprecation_check(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     *,
     async_on_unload: Callable[[Callable[[], None]], None],
@@ -158,10 +158,10 @@ def _async_defer_deprecation_check(
     issue_id: str,
     translation_key: str,
 ) -> None:
-    """Recheck entity references once __HA_KEEP__ has started."""
+    """Recheck entity references once Universal Home Assistant has started."""
 
     @callback
-    def _async_recheck(_: __HAC_KEEP__) -> None:
+    def _async_recheck(_: UniversalAssistant) -> None:
         if entity_id := entity_registry.async_get_entity_id(
             platform_domain, DOMAIN, entity_unique_id
         ):
@@ -193,7 +193,7 @@ def plugwise_command[_PlugwiseEntityT: PlugwiseEntity, **_P, _R](
         try:
             return await func(self, *args, **kwargs)
         except PlugwiseException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="error_communicating_with_api",
                 translation_placeholders={

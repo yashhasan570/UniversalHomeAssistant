@@ -14,8 +14,8 @@ from universalassistant.components.switch import (
     SwitchService,
 )
 from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 AIR_INTAKE_ENTITY_ID = "switch.001122334455_air_intake"
@@ -23,7 +23,7 @@ AIR_EXHAUST_ENTITY_ID = "switch.001122334455_air_exhaust"
 
 
 async def test_switch_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ariaq: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -47,7 +47,7 @@ async def test_switch_setup(
     ],
 )
 async def test_switch_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ariaq: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -76,12 +76,12 @@ async def test_switch_turn_on_off(
     ("exception", "expected_exception"),
     [
         (FlowItAuthError("Auth error"), ConfigEntryAuthFailed),
-        (FlowItCommandError("Command error"), __HAC_KEEP__Error),
-        (FlowItError("Generic error"), __HAC_KEEP__Error),
+        (FlowItCommandError("Command error"), UniversalAssistantError),
+        (FlowItError("Generic error"), UniversalAssistantError),
     ],
 )
 async def test_switch_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ariaq: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,

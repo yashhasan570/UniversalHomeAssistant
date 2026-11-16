@@ -5,13 +5,13 @@ from typing import Any
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 from .const import DATA_PREFERENCES
 
 
 @callback
-def async_setup(hass: __HAC_KEEP__) -> None:
+def async_setup(hass: UniversalAssistant) -> None:
     """Set up the HTTP API for the conversation integration."""
     websocket_api.async_register_command(hass, websocket_get_preferences)
     websocket_api.async_register_command(hass, websocket_set_preferences)
@@ -24,7 +24,7 @@ def async_setup(hass: __HAC_KEEP__) -> None:
 )
 @callback
 def websocket_get_preferences(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -45,7 +45,7 @@ def websocket_get_preferences(
 @websocket_api.require_admin
 @callback
 def websocket_set_preferences(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

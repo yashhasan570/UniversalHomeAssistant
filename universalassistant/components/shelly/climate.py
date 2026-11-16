@@ -20,8 +20,8 @@ from universalassistant.components.climate import (
     RestoreClimate,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, State, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, State, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.entity_registry import RegistryEntry
@@ -281,7 +281,7 @@ RPC_LINKEDGO_THERMOSTAT: dict[str, RpcClimateDescription] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -294,7 +294,7 @@ async def async_setup_entry(
 
 @callback
 def _async_setup_block_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -336,7 +336,7 @@ def _async_setup_block_climate_entities(
 
 @callback
 def _async_restore_block_climate_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
     coordinator: ShellyBlockCoordinator,
@@ -358,7 +358,7 @@ def _async_restore_block_climate_entities(
 
 @callback
 def _async_setup_rpc_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -567,7 +567,7 @@ class BlockSleepingClimate(CoordinatorEntity[ShellyBlockCoordinator], RestoreCli
             )
         except DeviceConnectionError as err:
             self.coordinator.last_update_success = False
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="device_communication_action_error",
                 translation_placeholders={

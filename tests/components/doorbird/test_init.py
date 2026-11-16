@@ -6,7 +6,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from universalassistant.components.doorbird.const import CONF_EVENTS, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import mock_not_found_exception, mock_unauthorized_exception, mock_webhook_call
 from .conftest import DoorbirdMockerType, patch_doorbird_api_entry_points
@@ -22,7 +22,7 @@ async def test_basic_setup(
 
 
 async def test_auth_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     doorbird_mocker: DoorbirdMockerType,
 ) -> None:
     """Test basic setup with an auth failure."""
@@ -69,7 +69,7 @@ async def test_http_schedule_api_missing(
 
 
 async def test_events_changed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     doorbird_mocker: DoorbirdMockerType,
 ) -> None:
     """Test basic setup."""
@@ -90,14 +90,14 @@ async def test_events_changed(
     assert len(api.change_favorite.mock_calls) == 1
     favorite_type, title, url = api.change_favorite.mock_calls[0][1]
     assert favorite_type == "http"
-    assert title == "__HA_KEEP__ (mydoorbird_xyz)"
+    assert title == "Universal Home Assistant (mydoorbird_xyz)"
     assert url == (
         f"http://127.0.0.1:8123/api/doorbird/mydoorbird_xyz?token={entry.entry_id}"
     )
 
 
 async def test_entities_follow_events_changed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     doorbird_mocker: DoorbirdMockerType,
 ) -> None:

@@ -4,7 +4,7 @@ from lg_rs232_tv import LGTV, TVState
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_DEVICE, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import CONF_SET_ID, LOGGER, QUERY_ATTRIBUTES, LGTVRS232ConfigEntry
@@ -12,7 +12,7 @@ from .const import CONF_SET_ID, LOGGER, QUERY_ATTRIBUTES, LGTVRS232ConfigEntry
 PLATFORMS = [Platform.MEDIA_PLAYER]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: LGTVRS232ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: LGTVRS232ConfigEntry) -> None:
     """Set up LG TV RS-232 from a config entry."""
     port = entry.data[CONF_DEVICE]
     tv = LGTV(port, set_id=entry.data[CONF_SET_ID])
@@ -40,7 +40,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: LGTVRS232ConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: LGTVRS232ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: LGTVRS232ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 

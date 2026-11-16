@@ -13,7 +13,7 @@ from universalassistant.components.number import (
 from universalassistant.components.opentherm_gw import DOMAIN
 from universalassistant.components.opentherm_gw.const import OpenThermDeviceIdentifier
 from universalassistant.const import CONF_ID, STATE_UNKNOWN, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -26,7 +26,7 @@ from universalassistant.helpers import entity_registry as er
     ],
 )
 async def test_control_setpoint_number_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_pyotgw: MagicMock,
@@ -85,7 +85,7 @@ async def test_control_setpoint_number_set_value(
     "entity_key", ["control_setpoint_override", "control_setpoint_override_2"]
 )
 async def test_number_added_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_pyotgw: MagicMock,

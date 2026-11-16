@@ -6,13 +6,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.datadog.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .common import MOCK_CONFIG, MOCK_DATA, MOCK_OPTIONS
 
 
-async def test_user_flow_success(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_success(hass: UniversalAssistant) -> None:
     """Test user-initiated config flow."""
     with patch(
         "universalassistant.components.datadog.config_flow.DogStatsd"
@@ -34,7 +34,7 @@ async def test_user_flow_success(hass: __HAC_KEEP__) -> None:
         assert result2["options"] == MOCK_OPTIONS
 
 
-async def test_user_flow_retry_after_connection_fail(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_retry_after_connection_fail(hass: UniversalAssistant) -> None:
     """Test connection failure."""
     with patch(
         "universalassistant.components.datadog.config_flow.DogStatsd",
@@ -62,7 +62,7 @@ async def test_user_flow_retry_after_connection_fail(hass: __HAC_KEEP__) -> None
 
 
 async def test_user_flow_abort_already_configured_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Abort user-initiated config flow if the same host/port is already configured."""
     existing_entry = MockConfigEntry(
@@ -89,7 +89,7 @@ async def test_user_flow_abort_already_configured_service(
     assert result["reason"] == "already_configured"
 
 
-async def test_options_flow_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_options_flow_cannot_connect(hass: UniversalAssistant) -> None:
     """Test that the options flow shows an error when connection fails."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -122,7 +122,7 @@ async def test_options_flow_cannot_connect(hass: __HAC_KEEP__) -> None:
         assert result3["data"] == MOCK_OPTIONS
 
 
-async def test_options_flow(hass: __HAC_KEEP__) -> None:
+async def test_options_flow(hass: UniversalAssistant) -> None:
     """Test updating options after setup."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,

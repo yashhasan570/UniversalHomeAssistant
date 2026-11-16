@@ -22,7 +22,7 @@ from universalassistant.components.flexit.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_DEVICE, CONF_HOST, CONF_PORT, CONF_TYPE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 def test_create_tcp_params() -> None:
@@ -50,7 +50,7 @@ def test_create_serial_params() -> None:
 
 
 async def test_async_setup_entry_success(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test successful setup of the integration."""
     mock_config_entry.add_to_hass(hass)
@@ -62,7 +62,7 @@ async def test_async_setup_entry_success(
 
 
 async def test_async_setup_entry_with_custom_port(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_get_modbus_unit: MagicMock,
 ) -> None:
     """Test setup with custom port."""
@@ -90,7 +90,7 @@ async def test_async_setup_entry_with_custom_port(
 
 
 async def test_async_setup_entry_without_port(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_get_modbus_unit: MagicMock,
 ) -> None:
     """Test setup without port (should use default)."""
@@ -113,7 +113,7 @@ async def test_async_setup_entry_without_port(
 
 
 async def test_async_setup_entry_serial(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_serial_config_entry: MockConfigEntry,
     mock_get_modbus_unit: MagicMock,
 ) -> None:
@@ -139,7 +139,7 @@ async def test_async_setup_entry_serial(
 
 
 async def test_async_setup_entry_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -155,7 +155,7 @@ async def test_async_setup_entry_cannot_connect(
 
 
 async def test_async_setup_entry_coordinator_update_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -170,7 +170,7 @@ async def test_async_setup_entry_coordinator_update_fails(
 
 
 async def test_connection_lost_recovers_on_next_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_connection: MockModbusConnection,
     freezer: FrozenDateTimeFactory,
@@ -193,7 +193,7 @@ async def test_connection_lost_recovers_on_next_update(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test unloading the config entry."""
@@ -205,7 +205,7 @@ async def test_unload_entry(
 
 
 async def test_unload_entry_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test a platform unload failure marks the config entry accordingly."""

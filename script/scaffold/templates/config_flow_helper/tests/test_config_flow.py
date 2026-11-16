@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.NEW_DOMAIN.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
@@ -15,7 +15,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 @pytest.mark.parametrize("platform", ["sensor"])
 async def test_config_flow(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, platform
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, platform
 ) -> None:
     """Test the config flow."""
     input_sensor_entity_id = "sensor.input"
@@ -62,7 +62,7 @@ def get_suggested(schema, key):
 
 
 @pytest.mark.parametrize("platform", ["sensor"])
-async def test_options(hass: __HAC_KEEP__, platform) -> None:
+async def test_options(hass: UniversalAssistant, platform) -> None:
     """Test reconfiguring."""
     input_sensor_1_entity_id = "sensor.input1"
     input_sensor_2_entity_id = "sensor.input2"

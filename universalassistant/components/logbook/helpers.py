@@ -23,7 +23,7 @@ from universalassistant.core import (
     Context,
     Event,
     EventStateChangedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     State,
     callback,
     is_callback,
@@ -46,7 +46,7 @@ from .const import (
 from .models import LogbookConfig
 
 
-def async_filter_entities(hass: __HAC_KEEP__, entity_ids: list[str]) -> list[str]:
+def async_filter_entities(hass: UniversalAssistant, entity_ids: list[str]) -> list[str]:
     """Filter out any entities that logbook will not produce results for."""
     ent_reg = er.async_get(hass)
     return [
@@ -61,7 +61,7 @@ def async_filter_entities(hass: __HAC_KEEP__, entity_ids: list[str]) -> list[str
 
 @callback
 def _async_config_entries_for_ids(
-    hass: __HAC_KEEP__, entity_ids: list[str] | None, device_ids: list[str] | None
+    hass: UniversalAssistant, entity_ids: list[str] | None, device_ids: list[str] | None
 ) -> set[str]:
     """Find the config entry ids for a set of entities or devices."""
     config_entry_ids: set[str] = set()
@@ -83,7 +83,7 @@ def _async_config_entries_for_ids(
 
 
 def async_determine_event_types(
-    hass: __HAC_KEEP__, entity_ids: list[str] | None, device_ids: list[str] | None
+    hass: UniversalAssistant, entity_ids: list[str] | None, device_ids: list[str] | None
 ) -> set[EventType[Any] | str]:
     """Reduce the event types based on the entity ids and device ids."""
     logbook_config: LogbookConfig = hass.data[DOMAIN]
@@ -193,7 +193,7 @@ def event_forwarder_filtered(
 
 @callback
 def async_subscribe_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     subscriptions: list[CALLBACK_TYPE],
     target: Callable[[Event[Any]], None],
     event_types: Collection[EventType[Any] | str],
@@ -254,7 +254,7 @@ def _device_class_is_numeric(device_class: str | None) -> bool:
 
 
 def is_sensor_continuous(
-    hass: __HAC_KEEP__, ent_reg: er.EntityRegistry, entity_id: str
+    hass: UniversalAssistant, ent_reg: er.EntityRegistry, entity_id: str
 ) -> bool:
     """Determine if a sensor is continuous.
 
@@ -322,7 +322,7 @@ def _is_state_filtered(new_state: State, old_state: State) -> bool:
 
 
 def log_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     name: str,
     message: str,
     domain: str | None = None,
@@ -335,7 +335,7 @@ def log_entry(
 
 @callback
 def async_log_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     name: str,
     message: str,
     domain: str | None = None,

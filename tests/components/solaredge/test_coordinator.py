@@ -46,7 +46,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     UnitOfEnergy,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 from universalassistant.util.unit_conversion import EnergyConverter
 
@@ -63,7 +63,7 @@ def enable_all_entities(entity_registry_enabled_by_default: None) -> None:
 async def test_solaredgeoverviewdataservice_energy_values_validity(
     mock_solaredge: MagicMock,
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test overview energy data validity."""
@@ -164,7 +164,7 @@ async def test_solaredgeoverviewdataservice_energy_values_validity(
 )
 async def test_api_error_does_not_leak_secret(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
     solaredge_api: Mock,
@@ -176,7 +176,7 @@ async def test_api_error_does_not_leak_secret(
 
     The Monitoring API key is sent as a query parameter, so the URL embedded
     in a ClientResponseError contains it. Regression test for
-    https://github.com/yashhasan570/__HAC_KEEP__/issues/188395 .
+    https://github.com/yashhasan570/UniversalUniversalAssistant/issues/188395 .
     """
     await setup_integration(hass, mock_config_entry)
 
@@ -206,7 +206,7 @@ async def test_api_error_does_not_leak_secret(
 
 async def test_power_flow_null_response(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
     solaredge_api: Mock,
@@ -216,7 +216,7 @@ async def test_power_flow_null_response(
 
     The API returns "siteCurrentPowerFlow": null for sites without
     power flow reporting. Regression test for
-    https://github.com/yashhasan570/__HAC_KEEP__/issues/188399 .
+    https://github.com/yashhasan570/UniversalUniversalAssistant/issues/188399 .
     """
     await setup_integration(hass, mock_config_entry)
 
@@ -233,7 +233,7 @@ async def test_power_flow_null_response(
 
 
 async def _trigger_and_wait_for_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     coordinator: SolarEdgeModulesCoordinator,
 ) -> None:
@@ -287,7 +287,7 @@ def mock_solar_edge_web() -> AsyncMock:
 
 async def test_modules_coordinator_first_run(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_solar_edge_web: AsyncMock,
 ) -> None:
     """Test the modules coordinator on its first run with no existing statistics."""
@@ -324,7 +324,7 @@ async def test_modules_coordinator_first_run(
 
 async def test_modules_coordinator_subsequent_run(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_solar_edge_web: AsyncMock,
 ) -> None:
@@ -381,7 +381,7 @@ async def test_modules_coordinator_subsequent_run(
 
 async def test_modules_coordinator_subsequent_run_with_gap(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_solar_edge_web: AsyncMock,
 ) -> None:
@@ -432,7 +432,7 @@ async def test_modules_coordinator_subsequent_run_with_gap(
 
 async def test_modules_coordinator_reprocess_same_window_after_gap(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_solar_edge_web: AsyncMock,
 ) -> None:
@@ -444,7 +444,7 @@ async def test_modules_coordinator_reprocess_same_window_after_gap(
     energy data returned by the API, so the gap is simulated by moving the
     returned data instead of the clock.
 
-    Regression test for https://github.com/yashhasan570/__HAC_KEEP__/issues/186653 .
+    Regression test for https://github.com/yashhasan570/UniversalUniversalAssistant/issues/186653 .
     """
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -501,7 +501,7 @@ async def test_modules_coordinator_reprocess_same_window_after_gap(
 
 async def test_modules_coordinator_reprocess_same_window_new_equipment(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_solar_edge_web: AsyncMock,
 ) -> None:
@@ -570,7 +570,7 @@ async def test_modules_coordinator_reprocess_same_window_new_equipment(
 
 async def test_modules_coordinator_first_window_statistic_without_sum(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_solar_edge_web: AsyncMock,
 ) -> None:
@@ -656,7 +656,7 @@ async def test_modules_coordinator_first_window_statistic_without_sum(
 
 async def test_modules_coordinator_window_statistics_without_sum(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_solar_edge_web: AsyncMock,
 ) -> None:
@@ -738,7 +738,7 @@ async def test_modules_coordinator_window_statistics_without_sum(
 
 async def test_modules_coordinator_no_energy_data(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_solar_edge_web: AsyncMock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -771,7 +771,7 @@ async def test_modules_coordinator_no_energy_data(
 
 async def test_modules_coordinator_api_failure(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_web_login: MockConfigEntry,
     solaredge_web_api: AsyncMock,
 ) -> None:
@@ -785,7 +785,7 @@ async def test_modules_coordinator_api_failure(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_legacy_statistic_id_reused(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_solar_edge_web: AsyncMock,
 ) -> None:
     """Test that legacy numeric statistic IDs are reused via name matching."""
@@ -849,7 +849,7 @@ async def test_legacy_statistic_id_reused(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_legacy_statistic_id_ambiguous(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_solar_edge_web: AsyncMock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -899,7 +899,7 @@ async def test_legacy_statistic_id_ambiguous(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_modules_coordinator_skips_non_pv_equipment(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_solar_edge_web: AsyncMock,
 ) -> None:
     """Test that non-PV equipment such as batteries is skipped.

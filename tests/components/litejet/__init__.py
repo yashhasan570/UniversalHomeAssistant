@@ -5,14 +5,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components import scene, switch
 from universalassistant.components.litejet.const import DOMAIN
 from universalassistant.const import CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
 async def async_init_integration(
-    hass: __HAC_KEEP__, use_switch: bool = False, use_scene: bool = False
+    hass: UniversalAssistant, use_switch: bool = False, use_scene: bool = False
 ) -> MockConfigEntry:
-    """Set up the LiteJet integration in __HA_KEEP__."""
+    """Set up the LiteJet integration in Universal Home Assistant."""
 
     registry = er.async_get(hass)
 

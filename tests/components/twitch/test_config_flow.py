@@ -13,7 +13,7 @@ from universalassistant.components.twitch.const import (
     OAUTH2_AUTHORIZE,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResult, FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
@@ -22,7 +22,7 @@ from .conftest import CLIENT_ID, TITLE
 
 
 async def _do_get_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     result: FlowResult,
     hass_client_no_auth: ClientSessionGenerator,
     scopes: list[str],
@@ -49,7 +49,7 @@ async def _do_get_token(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     twitch_mock: AsyncMock,
     scopes: list[str],
@@ -76,7 +76,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     twitch_mock: AsyncMock,
@@ -97,7 +97,7 @@ async def test_already_configured(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     twitch_mock: AsyncMock,
@@ -121,7 +121,7 @@ async def test_reauth(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_reauth_from_import(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     twitch_mock: AsyncMock,
     expires_at: float,
@@ -159,7 +159,7 @@ async def test_reauth_from_import(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_reauth_wrong_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     twitch_mock: AsyncMock,

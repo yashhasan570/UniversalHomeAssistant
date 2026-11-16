@@ -32,7 +32,7 @@ from universalassistant.const import (
     UnitOfTime,
     UnitOfVolume,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -87,7 +87,7 @@ def _charging_power_status_value(field: VolvoCarsApiBaseModel) -> str | None:
         return status
 
     _LOGGER.warning(
-        "Unknown value '%s' for charging_power_status. Please report it at https://github.com/yashhasan570/__HAC_KEEP__/issues/new?template=bug_report.yml",
+        "Unknown value '%s' for charging_power_status. Please report it at https://github.com/yashhasan570/UniversalUniversalAssistant/issues/new?template=bug_report.yml",
         status,
     )
     return None
@@ -388,7 +388,7 @@ _DESCRIPTIONS: tuple[VolvoSensorDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: VolvoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

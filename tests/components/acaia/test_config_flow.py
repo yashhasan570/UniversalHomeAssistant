@@ -15,7 +15,7 @@ from universalassistant.components.acaia.const import (
 )
 from universalassistant.config_entries import SOURCE_BLUETOOTH, SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType, InvalidData
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 
@@ -42,7 +42,7 @@ def mock_discovered_service_info() -> Generator[AsyncMock]:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form(
-    hass: __HAC_KEEP__, mock_verify: AsyncMock, mock_discovered_service_info: AsyncMock
+    hass: UniversalAssistant, mock_verify: AsyncMock, mock_discovered_service_info: AsyncMock
 ) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
@@ -69,7 +69,7 @@ async def test_form(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_bluetooth_discovery(hass: __HAC_KEEP__, mock_verify: AsyncMock) -> None:
+async def test_bluetooth_discovery(hass: UniversalAssistant, mock_verify: AsyncMock) -> None:
     """Test we can discover a device."""
 
     result = await hass.config_entries.flow.async_init(
@@ -102,7 +102,7 @@ async def test_bluetooth_discovery(hass: __HAC_KEEP__, mock_verify: AsyncMock) -
     ],
 )
 async def test_bluetooth_discovery_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_verify: AsyncMock,
     exception: Exception,
     error: str,
@@ -119,7 +119,7 @@ async def test_bluetooth_discovery_errors(
 
 
 async def test_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verify: AsyncMock,
     mock_discovered_service_info: AsyncMock,
@@ -146,7 +146,7 @@ async def test_already_configured(
 
 
 async def test_already_configured_bluetooth_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Ensure configure device is not discovered again."""
@@ -170,7 +170,7 @@ async def test_already_configured_bluetooth_discovery(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_recoverable_config_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_verify: AsyncMock,
     mock_discovered_service_info: AsyncMock,
     exception: Exception,
@@ -206,7 +206,7 @@ async def test_recoverable_config_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_unsupported_device(
-    hass: __HAC_KEEP__, mock_verify: AsyncMock, mock_discovered_service_info: AsyncMock
+    hass: UniversalAssistant, mock_verify: AsyncMock, mock_discovered_service_info: AsyncMock
 ) -> None:
     """Test flow aborts on unsupported device."""
     mock_verify.side_effect = AcaiaUnknownDevice
@@ -228,7 +228,7 @@ async def test_unsupported_device(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_no_bluetooth_devices(
-    hass: __HAC_KEEP__, mock_discovered_service_info: AsyncMock
+    hass: UniversalAssistant, mock_discovered_service_info: AsyncMock
 ) -> None:
     """Test flow aborts on unsupported device."""
     mock_discovered_service_info.return_value = []
@@ -241,7 +241,7 @@ async def test_no_bluetooth_devices(
 
 
 async def test_options_flow_defaults_and_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_scale: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -272,7 +272,7 @@ async def test_options_flow_defaults_and_reload(
     ],
 )
 async def test_options_flow_rejects_out_of_range_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     user_input: dict[str, Any],
 ) -> None:

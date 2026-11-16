@@ -25,7 +25,7 @@ from universalassistant.const import (
     UnitOfDataRate,
     UnitOfInformation,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import init_integration, setup_integration
@@ -34,7 +34,7 @@ from .conftest import VALID_CONFIG
 
 @pytest.mark.usefixtures("mock_lhm_client")
 async def test_migration_to_unique_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -125,7 +125,7 @@ async def test_migration_to_unique_ids(
 )
 @pytest.mark.usefixtures("mock_lhm_client", "recorder_mock")
 async def test_migration_to_sensor_device_classes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     version: int,
     minor_version: int,
@@ -219,7 +219,7 @@ async def test_migration_to_sensor_device_classes(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_migration_to_binary_data_size_units(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_lhm_client: AsyncMock,
     sensor_type: SensorType,
@@ -285,7 +285,7 @@ async def test_migration_to_binary_data_size_units(
 
 @pytest.mark.usefixtures("mock_deprecated_lhm_client")
 async def test_deprecated_version_blocks_setup(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that a deprecated LHM version prevents setup with an error."""
     await init_integration(hass, mock_config_entry)
@@ -296,7 +296,7 @@ async def test_deprecated_version_blocks_setup(
 
 
 async def test_downgrade_to_deprecated_version_fails_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lhm_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

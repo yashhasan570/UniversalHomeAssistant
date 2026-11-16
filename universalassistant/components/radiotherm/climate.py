@@ -16,7 +16,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, PRECISION_HALVES, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import RadioThermConfigEntry, RadioThermUpdateCoordinator
@@ -44,9 +44,9 @@ OPERATION_LIST = [HVACMode.AUTO, HVACMode.COOL, HVACMode.HEAT, HVACMode.OFF]
 CT30_FAN_OPERATION_LIST = [FAN_ON, FAN_AUTO]
 CT80_FAN_OPERATION_LIST = [FAN_ON, STATE_CIRCULATE, FAN_AUTO]
 
-# Mappings from radiotherm json data codes to and from __HA_KEEP__ state
+# Mappings from radiotherm json data codes to and from Universal Home Assistant state
 # flags.  CODE is the thermostat integer code and these map to and
-# from __HA_KEEP__ state flags.
+# from Universal Home Assistant state flags.
 
 # Programmed temperature mode of the thermostat.
 CODE_TO_TEMP_MODE = {
@@ -96,7 +96,7 @@ def round_temp(temperature):
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: RadioThermConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

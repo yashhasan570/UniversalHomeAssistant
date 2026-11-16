@@ -24,7 +24,7 @@ from universalassistant.const import (
     CONF_RADIUS,
     CONF_SHOW_ON_MAP,
 )
-from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__, callback
+from universalassistant.core import Event, EventStateChangedData, UniversalAssistant, callback
 from universalassistant.helpers import (
     aiohttp_client,
     config_validation as cv,
@@ -67,7 +67,7 @@ STEP_COORDINATES_SCHEMA = probatio.Schema(
 
 
 @callback
-def async_get_api(hass: __HAC_KEEP__, api_key: str) -> API:
+def async_get_api(hass: UniversalAssistant, api_key: str) -> API:
     """Get an aiopurpleair API object."""
     session = aiohttp_client.async_get_clientsession(hass)
     return API(api_key, session=session)
@@ -100,7 +100,7 @@ def async_get_nearby_sensors_schema(options: list[SelectOptionDict]) -> probatio
 
 @callback
 def async_get_remove_sensor_options(
-    hass: __HAC_KEEP__, config_entry: PurpleAirConfigEntry
+    hass: UniversalAssistant, config_entry: PurpleAirConfigEntry
 ) -> list[SelectOptionDict]:
     """Return a set of already-configured sensors as SelectOptionDict objects."""
     device_registry = dr.async_get(hass)
@@ -132,7 +132,7 @@ class ValidationResult:
     errors: dict[str, Any] = field(default_factory=dict)
 
 
-async def async_validate_api_key(hass: __HAC_KEEP__, api_key: str) -> ValidationResult:
+async def async_validate_api_key(hass: UniversalAssistant, api_key: str) -> ValidationResult:
     """Validate an API key.
 
     This method returns a dictionary of errors (if appropriate).
@@ -158,7 +158,7 @@ async def async_validate_api_key(hass: __HAC_KEEP__, api_key: str) -> Validation
 
 
 async def async_validate_coordinates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     api_key: str,
     latitude: float,
     longitude: float,

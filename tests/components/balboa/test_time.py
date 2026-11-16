@@ -13,7 +13,7 @@ from universalassistant.components.time import (
     TimeServiceArgument,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -22,7 +22,7 @@ ENTITY_TIME = "time.fakespa_"
 
 
 async def test_times(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -44,7 +44,7 @@ async def test_times(
     ],
 )
 async def test_time(
-    hass: __HAC_KEEP__, client: MagicMock, filter_cycle: int, period: str, value: str
+    hass: UniversalAssistant, client: MagicMock, filter_cycle: int, period: str, value: str
 ) -> None:
     """Test spa filter cycle time."""
     await init_integration(hass)

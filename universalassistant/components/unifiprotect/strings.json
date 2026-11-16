@@ -929,7 +929,7 @@
       "fix_flow": {
         "step": {
           "confirm": {
-            "description": "Starting on July 22nd, 2024, Ubiquiti will require all cloud users to enroll in multi-factor authentication (MFA), which is incompatible with __HA_KEEP__.\n\nIt would be best to migrate to using a [local user]({learn_more}) as soon as possible to keep the integration working.\n\nConfirming this repair will trigger a re-authentication flow to enter the needed authentication credentials.",
+            "description": "Starting on July 22nd, 2024, Ubiquiti will require all cloud users to enroll in multi-factor authentication (MFA), which is incompatible with Universal Home Assistant.\n\nIt would be best to migrate to using a [local user]({learn_more}) as soon as possible to keep the integration working.\n\nConfirming this repair will trigger a re-authentication flow to enter the needed authentication credentials.",
             "title": "Ubiquiti Cloud Users are not Supported"
           }
         }
@@ -949,7 +949,7 @@
       "title": "Insecure camera entity removed"
     },
     "last_event_sensor_deprecated": {
-      "description": "The entity `{entity_id}` is deprecated and will be removed in a future release. Use the event entity `{replacement}` with the **Event received** trigger instead. The event entity's state is the time of the last event __HA_KEEP__ received.\n\nUpdate the following automations and scripts:\n{items}",
+      "description": "The entity `{entity_id}` is deprecated and will be removed in a future release. Use the event entity `{replacement}` with the **Event received** trigger instead. The event entity's state is the time of the last event Universal Home Assistant received.\n\nUpdate the following automations and scripts:\n{items}",
       "title": "[%key:component::unifiprotect::issues::private_only_entity_deprecated::title%]"
     },
     "package_binary_sensor_removed": {
@@ -964,11 +964,11 @@
       "fix_flow": {
         "step": {
           "confirm": {
-            "description": "__HA_KEEP__ could not enable an RTSPS stream for {camera}. You may need to enable a stream manually on the camera, or disable the camera entity if you only need snapshots.",
+            "description": "Universal Home Assistant could not enable an RTSPS stream for {camera}. You may need to enable a stream manually on the camera, or disable the camera entity if you only need snapshots.",
             "title": "[%key:component::unifiprotect::issues::rtsp_disabled::fix_flow::step::start::title%]"
           },
           "start": {
-            "description": "No RTSPS stream is available for the camera {camera}, so it cannot live stream within __HA_KEEP__. Until a stream is enabled, live views fall back to rapidly pulling snapshots (effectively a slideshow), which can put significant load on your UniFi Protect console. Confirm this repair and __HA_KEEP__ will create the highest quality RTSPS stream for you through the UniFi Protect public API.",
+            "description": "No RTSPS stream is available for the camera {camera}, so it cannot live stream within Universal Home Assistant. Until a stream is enabled, live views fall back to rapidly pulling snapshots (effectively a slideshow), which can put significant load on your UniFi Protect console. Confirm this repair and Universal Home Assistant will create the highest quality RTSPS stream for you through the UniFi Protect public API.",
             "title": "No stream is available for camera {camera}"
           }
         }

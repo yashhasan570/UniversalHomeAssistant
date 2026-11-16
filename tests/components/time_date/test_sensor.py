@@ -7,7 +7,7 @@ import pytest
 from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.time_date.const import OPTION_TYPES
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import event
 from universalassistant.util import dt as dt_util
 
@@ -37,7 +37,7 @@ from . import load_int
 )
 async def test_intervals(
     mock_track_interval: Mock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     display_option: str,
     start_time,
@@ -52,7 +52,7 @@ async def test_intervals(
     mock_track_interval.assert_called_once_with(hass, ANY, tracked_time)
 
 
-async def test_states(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+async def test_states(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
     """Test states of sensors."""
     await hass.config.async_set_time_zone("UTC")
     now = dt_util.utc_from_timestamp(1495068856)
@@ -105,7 +105,7 @@ async def test_states(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> Non
 
 
 async def test_states_non_default_timezone(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test states of sensors in a timezone other than UTC."""
     await hass.config.async_set_time_zone("America/New_York")
@@ -225,7 +225,7 @@ async def test_states_non_default_timezone(
 )
 async def test_timezone_intervals(
     mock_track_interval: Mock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     time_zone: str,
     start_time,
@@ -243,7 +243,7 @@ async def test_timezone_intervals(
     assert next_time.timestamp() == tracked_time
 
 
-async def test_icons(hass: __HAC_KEEP__) -> None:
+async def test_icons(hass: UniversalAssistant) -> None:
     """Test attributes of sensors."""
     for option in OPTION_TYPES:
         await load_int(hass, option)

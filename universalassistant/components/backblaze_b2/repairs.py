@@ -11,7 +11,7 @@ from b2sdk.v2.exception import (
 )
 
 from universalassistant.components.repairs import ConfirmRepairFlow
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 
 from .const import CONF_BUCKET, DOMAIN
@@ -26,7 +26,7 @@ ISSUE_BUCKET_NOT_FOUND = "bucket_not_found"
 
 
 def _create_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: BackblazeConfigEntry,
     issue_type: str,
     bucket_name: str,
@@ -51,21 +51,21 @@ def _create_issue(
 
 
 def create_bucket_access_restricted_issue(
-    hass: __HAC_KEEP__, entry: BackblazeConfigEntry, bucket_name: str
+    hass: UniversalAssistant, entry: BackblazeConfigEntry, bucket_name: str
 ) -> None:
     """Create a repair issue for restricted bucket access."""
     _create_issue(hass, entry, ISSUE_BUCKET_ACCESS_RESTRICTED, bucket_name)
 
 
 def create_bucket_not_found_issue(
-    hass: __HAC_KEEP__, entry: BackblazeConfigEntry, bucket_name: str
+    hass: UniversalAssistant, entry: BackblazeConfigEntry, bucket_name: str
 ) -> None:
     """Create a repair issue for non-existent bucket."""
     _create_issue(hass, entry, ISSUE_BUCKET_NOT_FOUND, bucket_name)
 
 
 async def async_check_for_repair_issues(
-    hass: __HAC_KEEP__, entry: BackblazeConfigEntry
+    hass: UniversalAssistant, entry: BackblazeConfigEntry
 ) -> None:
     """Check for common issues that require user action."""
     bucket = entry.runtime_data
@@ -87,7 +87,7 @@ async def async_check_for_repair_issues(
 
 
 async def async_create_fix_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_id: str,
     data: dict[str, str | int | float | None] | None,
 ) -> ConfirmRepairFlow:

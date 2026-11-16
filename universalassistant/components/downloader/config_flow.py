@@ -56,5 +56,5 @@ class DownloaderConfigFlow(ConfigFlow, domain=DOMAIN):
             raise DirectoryDoesNotExist
 
 
-class DirectoryDoesNotExist(exceptions.__HAC_KEEP__Error):
+class DirectoryDoesNotExist(exceptions.UniversalAssistantError):
     """Error to indicate the specified download directory does not exist."""

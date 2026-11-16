@@ -14,8 +14,8 @@ from universalassistant.components.notify import (
     SERVICE_SEND_MESSAGE,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from . import TARGET_NAME, create_entry, setup_integration
 from .conftest import CONTENT, MESSAGE, TARGET, URL_ATTACHMENT
@@ -53,7 +53,7 @@ async def test_send_message_communication_error(
             "universalassistant.components.discord.notify.nextcord.Client",
             return_value=client,
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await discord_notification_service.async_send_message(
             MESSAGE, **{ATTR_TARGET: [TARGET]}
@@ -133,7 +133,7 @@ async def test_get_file_from_url_with_large_attachment_no_header(
     assert result is None
 
 
-async def test_notify_entity_send_message(hass: __HAC_KEEP__) -> None:
+async def test_notify_entity_send_message(hass: UniversalAssistant) -> None:
     """Test sending a message through the notify entity."""
     entry = create_entry(hass, with_subentry=True)
     await setup_integration(hass, entry)
@@ -159,7 +159,7 @@ async def test_notify_entity_send_message(hass: __HAC_KEEP__) -> None:
     channel.send.assert_awaited_once_with(MESSAGE)
 
 
-async def test_notify_entity_target_not_found(hass: __HAC_KEEP__) -> None:
+async def test_notify_entity_target_not_found(hass: UniversalAssistant) -> None:
     """Test the notify entity raises an error for an unknown target."""
     entry = create_entry(hass, with_subentry=True)
     await setup_integration(hass, entry)
@@ -177,7 +177,7 @@ async def test_notify_entity_target_not_found(hass: __HAC_KEEP__) -> None:
             new=AsyncMock(side_effect=not_found),
         ),
         patch("universalassistant.components.discord.notify.nextcord.Client.close"),
-        pytest.raises(__HAC_KEEP__Error, match=f"Target not found for ID: {TARGET}"),
+        pytest.raises(UniversalAssistantError, match=f"Target not found for ID: {TARGET}"),
     ):
         await hass.services.async_call(
             NOTIFY_DOMAIN,
@@ -187,7 +187,7 @@ async def test_notify_entity_target_not_found(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_notify_entity_communication_error(hass: __HAC_KEEP__) -> None:
+async def test_notify_entity_communication_error(hass: UniversalAssistant) -> None:
     """Test the notify entity raises an error when sending fails."""
     entry = create_entry(hass, with_subentry=True)
     await setup_integration(hass, entry)
@@ -202,7 +202,7 @@ async def test_notify_entity_communication_error(hass: __HAC_KEEP__) -> None:
             new=AsyncMock(return_value=channel),
         ),
         patch("universalassistant.components.discord.notify.nextcord.Client.close"),
-        pytest.raises(__HAC_KEEP__Error, match="Error communicating with Discord"),
+        pytest.raises(UniversalAssistantError, match="Error communicating with Discord"),
     ):
         await hass.services.async_call(
             NOTIFY_DOMAIN,

@@ -6,7 +6,7 @@ from typing import Any, override
 from pysmartthings import Attribute, Capability, Command, SmartThings
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
     ordered_list_item_to_percentage,
@@ -27,7 +27,7 @@ PRESET_SMART = "smart"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SmartThingsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

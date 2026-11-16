@@ -10,7 +10,7 @@ from universalassistant import config_entries
 from universalassistant.components.nightscout.const import DOMAIN
 from universalassistant.components.nightscout.utils import hash_from_url
 from universalassistant.const import CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import GLUCOSE_READINGS, SERVER_STATUS, SERVER_STATUS_STATUS_ONLY
@@ -18,7 +18,7 @@ from . import GLUCOSE_READINGS, SERVER_STATUS, SERVER_STATUS_STATUS_ONLY
 CONFIG = {CONF_URL: "https://some.url:1234"}
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test we get the user initiated form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -45,7 +45,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
         assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_user_form_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_user_form_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -76,7 +76,7 @@ async def test_user_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_form_api_key_required(hass: __HAC_KEEP__) -> None:
+async def test_user_form_api_key_required(hass: UniversalAssistant) -> None:
     """Test we handle an unauthorized error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -113,7 +113,7 @@ async def test_user_form_api_key_required(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_form_unexpected_exception(hass: __HAC_KEEP__) -> None:
+async def test_user_form_unexpected_exception(hass: UniversalAssistant) -> None:
     """Test we handle unexpected exception."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -144,7 +144,7 @@ async def test_user_form_unexpected_exception(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_form_duplicate(hass: __HAC_KEEP__) -> None:
+async def test_user_form_duplicate(hass: UniversalAssistant) -> None:
     """Test duplicate entries."""
     with _patch_glucose_readings(), _patch_server_status():
         unique_id = hash_from_url(CONFIG[CONF_URL])

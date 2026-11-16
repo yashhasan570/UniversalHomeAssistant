@@ -19,8 +19,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
 
@@ -40,7 +40,7 @@ SUPPORTED_PRESETS = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ScreenLogicConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -157,7 +157,7 @@ class ScreenLogicClimate(ScreenLogicPushEntity, ClimateEntity, RestoreEntity):
                 int(self._data_key), int(temperature)
             )
         except ScreenLogicCommunicationError as sle:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to set_temperature {temperature} on body"
                 f" {self.entity_data[ATTR.BODY_TYPE][ATTR.VALUE]}:"
                 f" {sle.msg}"
@@ -175,7 +175,7 @@ class ScreenLogicClimate(ScreenLogicPushEntity, ClimateEntity, RestoreEntity):
         try:
             await self.gateway.async_set_heat_mode(int(self._data_key), int(mode.value))
         except ScreenLogicCommunicationError as sle:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to set_hvac_mode {mode.name} on body"
                 f" {self.entity_data[ATTR.BODY_TYPE][ATTR.VALUE]}:"
                 f" {sle.msg}"
@@ -194,7 +194,7 @@ class ScreenLogicClimate(ScreenLogicPushEntity, ClimateEntity, RestoreEntity):
         try:
             await self.gateway.async_set_heat_mode(int(self._data_key), int(mode.value))
         except ScreenLogicCommunicationError as sle:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to set_preset_mode {mode.name} on body"
                 f" {self.entity_data[ATTR.BODY_TYPE][ATTR.VALUE]}:"
                 f" {sle.msg}"

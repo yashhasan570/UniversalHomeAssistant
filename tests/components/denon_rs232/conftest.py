@@ -20,7 +20,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.denon_rs232.config_flow import CONF_MODEL_NAME
 from universalassistant.components.denon_rs232.const import DOMAIN
 from universalassistant.const import CONF_DEVICE, CONF_MODEL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import MOCK_DEVICE, MOCK_MODEL
 
@@ -132,7 +132,7 @@ def mock_receiver(initial_receiver_state: MockState) -> MockReceiver:
 
 
 @pytest.fixture
-def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Create a mock config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -149,14 +149,14 @@ def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 
 @pytest.fixture(autouse=True)
-async def mock_usb_component(hass: __HAC_KEEP__) -> None:
+async def mock_usb_component(hass: UniversalAssistant) -> None:
     """Mock the USB component to prevent setup failures."""
     hass.config.components.add("usb")
 
 
 @pytest.fixture
 async def init_components(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_usb_component: None,
     mock_receiver: MockReceiver,
     mock_config_entry: MockConfigEntry,

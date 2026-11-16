@@ -27,7 +27,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.setup import async_setup_component
@@ -67,14 +67,14 @@ TEST_URL2 = "http:test_url&token=test"
 
 
 @pytest.fixture(autouse=True)
-async def setup_component(hass: __HAC_KEEP__) -> None:
+async def setup_component(hass: UniversalAssistant) -> None:
     """Set up component."""
     assert await async_setup_component(hass, MEDIA_SOURCE_DOMAIN, {})
     assert await async_setup_component(hass, MEDIA_STREAM_DOMAIN, {})
 
 
 async def test_platform_loads_before_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Test that the platform can be loaded before the config entry."""
@@ -85,7 +85,7 @@ async def test_platform_loads_before_config_entry(
 
 
 async def test_resolve(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -136,7 +136,7 @@ async def test_resolve(
 
 
 async def test_browsing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -294,7 +294,7 @@ async def test_browsing(
 
 
 async def test_browsing_h265_encoding(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -346,7 +346,7 @@ async def test_browsing_h265_encoding(
 
 
 async def test_browsing_rec_playback_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -374,7 +374,7 @@ async def test_browsing_rec_playback_unsupported(
 
 
 async def test_browsing_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -391,7 +391,7 @@ async def test_browsing_errors(
 
 
 async def test_browsing_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -431,7 +431,7 @@ async def test_browsing_not_loaded(
 
 
 async def test_browsing_main_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:

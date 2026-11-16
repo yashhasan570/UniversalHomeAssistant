@@ -5,7 +5,7 @@ from typing import Any, cast, override
 from aiocomelit.const import LIGHT, STATE_OFF, STATE_ON
 
 from universalassistant.components.light import ColorMode, LightEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import ObjectClassType
@@ -18,7 +18,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ComelitConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -21,7 +21,7 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.components.stream import FORMAT_CONTENT_TYPE, HLS_PROVIDER
 from universalassistant.const import ATTR_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .browse_media import async_browse_media
@@ -73,7 +73,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: RokuConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -444,7 +444,7 @@ class RokuMediaPlayer(RokuEntity, MediaPlayerEntity):
             await self.coordinator.roku.tune(media_id)
         elif media_type == MediaType.MUSIC:
             if extra.get(ATTR_ARTIST_NAME) is None:
-                extra[ATTR_ARTIST_NAME] = "__HA_KEEP__"
+                extra[ATTR_ARTIST_NAME] = "Universal Home Assistant"
 
             params = {
                 param: extra[attr]

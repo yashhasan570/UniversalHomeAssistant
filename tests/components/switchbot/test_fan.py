@@ -19,8 +19,8 @@ from universalassistant.components.fan import (
     SERVICE_SET_PRESET_MODE,
 )
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF, SERVICE_TURN_ON
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from . import (
     AIR_PURIFIER_JP_SERVICE_INFO,
@@ -68,7 +68,7 @@ from . import (
     ],
 )
 async def test_circulator_fan_controlling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     service: str,
     service_data: dict,
@@ -136,7 +136,7 @@ async def test_circulator_fan_controlling(
     ],
 )
 async def test_air_purifier_controlling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     service_info: BluetoothServiceInfoBleak,
     sensor_type: str,
@@ -199,7 +199,7 @@ async def test_air_purifier_controlling(
     ],
 )
 async def test_exception_handling_air_purifier_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     service_info: BluetoothServiceInfoBleak,
     sensor_type: str,
@@ -226,7 +226,7 @@ async def test_exception_handling_air_purifier_service(
         assert await hass.config_entries.async_setup(entry.entry_id)
         await hass.async_block_till_done(wait_background_tasks=True)
 
-        with pytest.raises(__HAC_KEEP__Error, match=error_message):
+        with pytest.raises(UniversalAssistantError, match=error_message):
             await hass.services.async_call(
                 FAN_DOMAIN,
                 service,
@@ -251,7 +251,7 @@ async def test_exception_handling_air_purifier_service(
     ],
 )
 async def test_circulator_fan_pro_controlling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     service: str,
     service_data: dict,
@@ -302,7 +302,7 @@ async def test_circulator_fan_pro_controlling(
     ],
 )
 async def test_standing_fan_controlling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     service: str,
     service_data: dict,
@@ -347,13 +347,13 @@ async def test_standing_fan_controlling(
     ],
 )
 async def test_exception_handling_standing_fan_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     service: str,
     service_data: dict,
     mock_method: str,
 ) -> None:
-    """Test a communication error raises __HAC_KEEP__Error for the standing fan."""
+    """Test a communication error raises UniversalAssistantError for the standing fan."""
     inject_bluetooth_service_info(hass, STANDING_FAN_SERVICE_INFO)
 
     entry = mock_entry_factory(sensor_type="standing_fan")
@@ -374,7 +374,7 @@ async def test_exception_handling_standing_fan_service(
         await hass.async_block_till_done(wait_background_tasks=True)
 
         with pytest.raises(
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             match="An error occurred while performing the action: Operation failed",
         ):
             await hass.services.async_call(
@@ -396,13 +396,13 @@ async def test_exception_handling_standing_fan_service(
     ],
 )
 async def test_standing_fan_command_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     service: str,
     service_data: dict,
     mock_method: str,
 ) -> None:
-    """Test an unsuccessful command (device returns False) raises __HAC_KEEP__Error."""
+    """Test an unsuccessful command (device returns False) raises UniversalAssistantError."""
     inject_bluetooth_service_info(hass, STANDING_FAN_SERVICE_INFO)
 
     entry = mock_entry_factory(sensor_type="standing_fan")
@@ -419,7 +419,7 @@ async def test_standing_fan_command_failure(
         await hass.async_block_till_done(wait_background_tasks=True)
 
         with pytest.raises(
-            __HAC_KEEP__Error, match="Failed to send the command to the fan"
+            UniversalAssistantError, match="Failed to send the command to the fan"
         ):
             await hass.services.async_call(
                 FAN_DOMAIN,

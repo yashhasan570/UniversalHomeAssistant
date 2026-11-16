@@ -43,8 +43,8 @@ from universalassistant.const import (
     HTTP_BEARER_AUTHENTICATION,
     HTTP_DIGEST_AUTHENTICATION,
 )
-from universalassistant.core import Context, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import Context, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.httpx_client import get_async_client
 from universalassistant.helpers.os_error import os_read_error, os_write_error
@@ -125,7 +125,7 @@ class BaseTelegramBot:
     """The base class for the telegram bot."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, config: TelegramBotConfigEntry, bot: Bot
+        self, hass: UniversalAssistant, config: TelegramBotConfigEntry, bot: Bot
     ) -> None:
         """Initialize the bot base class."""
         self.hass = hass
@@ -286,7 +286,7 @@ class TelegramNotificationService:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         app: BaseTelegramBot | None,
         bot: Bot,
         config: TelegramBotConfigEntry,
@@ -1093,7 +1093,7 @@ class TelegramNotificationService:
             context=context,
         )
         if not file.file_path:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="no_file_path",
             )
@@ -1111,7 +1111,7 @@ class TelegramNotificationService:
         try:
             file_content = await file.download_as_bytearray()
         except (RuntimeError, OSError, TelegramError) as exc:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="action_failed",
                 translation_placeholders={"error": str(exc)},
@@ -1132,7 +1132,7 @@ class TelegramNotificationService:
             os.makedirs(directory_path, exist_ok=True)
 
 
-def initialize_bot(hass: __HAC_KEEP__, p_config: MappingProxyType[str, Any]) -> Bot:
+def initialize_bot(hass: UniversalAssistant, p_config: MappingProxyType[str, Any]) -> Bot:
     """Initialize telegram bot with proxy support."""
 
     api_key: str = p_config[CONF_API_KEY]
@@ -1172,7 +1172,7 @@ def initialize_bot(hass: __HAC_KEEP__, p_config: MappingProxyType[str, Any]) -> 
 
 
 async def load_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     url: str | None,
     filepath: str | None,
     username: str,
@@ -1202,7 +1202,7 @@ async def load_data(
                         url, headers=headers, timeout=DEFAULT_TIMEOUT_SECONDS, **params
                     )
                 except (httpx2.HTTPError, httpx2.InvalidURL) as err:
-                    raise __HAC_KEEP__Error(
+                    raise UniversalAssistantError(
                         translation_domain=DOMAIN,
                         translation_key="failed_to_load_url",
                         translation_placeholders={"error": str(err)},
@@ -1230,11 +1230,11 @@ async def load_data(
 
             # A 200 with data returns early, so a final 200 means an empty body
             if response.status_code == 200:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="failed_to_load_url_empty",
                 )
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="failed_to_load_url_status",
                 translation_placeholders={"status_code": str(response.status_code)},

@@ -7,7 +7,7 @@ from universalassistant.components import wiz
 from universalassistant.components.wiz.binary_sensor import OCCUPANCY_UNIQUE_ID
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, STATE_OFF, STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -24,7 +24,7 @@ from . import (
 
 @pytest.mark.parametrize("occupancy_source", ["pir", "wfsens"])
 async def test_binary_sensor_created_from_push_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     occupancy_source: str,
 ) -> None:
@@ -49,7 +49,7 @@ async def test_binary_sensor_created_from_push_updates(
 
 
 async def test_binary_sensor_restored_from_registry(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a binary sensor restored from registry with state unknown."""
     entry = MockConfigEntry(
@@ -84,7 +84,7 @@ async def test_binary_sensor_restored_from_registry(
 
 
 async def test_binary_sensor_never_created_no_error_on_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a binary sensor does not error on unload."""
     _, entry = await async_setup_integration(hass)

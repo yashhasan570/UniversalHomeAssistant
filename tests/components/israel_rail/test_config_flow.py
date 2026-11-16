@@ -7,14 +7,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.israel_rail import CONF_DESTINATION, CONF_START, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import VALID_CONFIG
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_create_entry(hass: __HAC_KEEP__, mock_israelrail: AsyncMock) -> None:
+async def test_create_entry(hass: UniversalAssistant, mock_israelrail: AsyncMock) -> None:
     """Test that the user step works."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -36,7 +36,7 @@ async def test_create_entry(hass: __HAC_KEEP__, mock_israelrail: AsyncMock) -> N
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_flow_fails(hass: __HAC_KEEP__, mock_israelrail: AsyncMock) -> None:
+async def test_flow_fails(hass: UniversalAssistant, mock_israelrail: AsyncMock) -> None:
     """Test that the user step fails."""
     mock_israelrail.query.side_effect = Exception("error")
     failed_result = await hass.config_entries.flow.async_init(
@@ -71,7 +71,7 @@ async def test_flow_fails(hass: __HAC_KEEP__, mock_israelrail: AsyncMock) -> Non
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_already_configured(
-    hass: __HAC_KEEP__, mock_israelrail: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_israelrail: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that the user step fails when the entry is already configured."""
     mock_config_entry.add_to_hass(hass)

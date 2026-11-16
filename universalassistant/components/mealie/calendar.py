@@ -7,7 +7,7 @@ from aiomealie import Mealplan, MealplanEntryType
 from awesomeversion import AwesomeVersion
 
 from universalassistant.components.calendar import CalendarEntity, CalendarEvent
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import MealieConfigEntry, MealieMealplanCoordinator
@@ -17,7 +17,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MealieConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -82,7 +82,7 @@ class MealieMealplanCalendarEntity(MealieEntity, CalendarEntity):
 
     @override
     async def async_get_events(
-        self, hass: __HAC_KEEP__, start_date: datetime, end_date: datetime
+        self, hass: UniversalAssistant, start_date: datetime, end_date: datetime
     ) -> list[CalendarEvent]:
         """Get all events in a specific time frame."""
         mealplans = (

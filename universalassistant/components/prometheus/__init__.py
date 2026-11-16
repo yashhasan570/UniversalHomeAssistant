@@ -26,7 +26,7 @@ from universalassistant.components.fan import (
     FanEntityCapabilityAttribute,
     FanEntityStateAttribute,
 )
-from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
+from universalassistant.components.http import KEY_HASS, UniversalAssistantView
 from universalassistant.components.humidifier import (
     HumidifierEntityCapabilityAttribute,
     HumidifierEntityStateAttribute,
@@ -56,7 +56,7 @@ from universalassistant.const import (
 from universalassistant.core import (
     Event,
     EventStateChangedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     State,
     callback,
 )
@@ -141,7 +141,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Activate Prometheus component."""
     hass.http.register_view(PrometheusView(config[DOMAIN][CONF_REQUIRES_AUTH]))
 
@@ -1172,7 +1172,7 @@ class PrometheusMetrics:
         return units.get(unit, default)
 
 
-class PrometheusView(__HAC_KEEP__View):
+class PrometheusView(UniversalAssistantView):
     """Handle Prometheus requests."""
 
     url = API_ENDPOINT

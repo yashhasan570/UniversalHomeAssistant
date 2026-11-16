@@ -7,14 +7,14 @@ from pytest_universalassistant.common import MockConfigEntry, get_system_health_
 
 from universalassistant.components.duco.const import DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import setup_integration
 
 
 async def test_system_health_single_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_duco_client: AsyncMock,
 ) -> None:
@@ -28,7 +28,7 @@ async def test_system_health_single_entry(
 
 
 async def test_system_health_single_entry_quota_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_duco_client: AsyncMock,
 ) -> None:
@@ -48,7 +48,7 @@ async def test_system_health_single_entry_quota_error(
     }
 
 
-async def test_system_health_no_loaded_entries(hass: __HAC_KEEP__) -> None:
+async def test_system_health_no_loaded_entries(hass: UniversalAssistant) -> None:
     """Test system health without loaded entries."""
     hass.config.components.add(DOMAIN)
     assert await async_setup_component(hass, "system_health", {})
@@ -58,7 +58,7 @@ async def test_system_health_no_loaded_entries(hass: __HAC_KEEP__) -> None:
 
 
 async def test_system_health_multiple_loaded_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_duco_client: AsyncMock,
 ) -> None:

@@ -10,7 +10,7 @@ from universalassistant.components.light import (
     LightEntity,
 )
 from universalassistant.const import STATE_ON, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.color import rgb_hex_to_rgb_list
@@ -22,7 +22,7 @@ from .models import MySensorsConfigEntry
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MySensorsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

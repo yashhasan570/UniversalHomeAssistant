@@ -14,7 +14,7 @@ from universalassistant.components.binary_sensor import (
 )
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult, OptionsFlow
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_PROTOCOL
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 from . import AlarmDecoderConfigEntry
 from .const import (
@@ -424,7 +424,7 @@ def _connection_title(protocol: str | None, connection: Mapping[str, Any]) -> st
 
 
 async def _async_test_connection(
-    hass: __HAC_KEEP__, protocol: str | None, connection: dict[str, Any]
+    hass: UniversalAssistant, protocol: str | None, connection: dict[str, Any]
 ) -> dict[str, str]:
     """Open and close a connection to the AlarmDecoder; return form errors."""
     baud = None

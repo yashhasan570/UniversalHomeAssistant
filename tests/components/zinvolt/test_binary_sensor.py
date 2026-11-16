@@ -12,14 +12,14 @@ from zinvolt.models import BatteryState
 
 from universalassistant.components.zinvolt.const import DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_zinvolt_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -33,7 +33,7 @@ async def test_all_entities(
 
 
 async def test_offline_battery_on_grid_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zinvolt_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

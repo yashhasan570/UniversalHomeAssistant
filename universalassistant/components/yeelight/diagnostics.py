@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.const import CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import YeelightConfigEntry
 from .const import CONF_DETECTED_MODEL
@@ -13,7 +13,7 @@ CAPABILITIES_TO_INCLUDE = ("model", "fw_ver", "support")
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: YeelightConfigEntry
+    hass: UniversalAssistant, entry: YeelightConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     device = entry.runtime_data

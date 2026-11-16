@@ -6,12 +6,12 @@ from pyaehw4a1 import exceptions
 
 from universalassistant import config_entries
 from universalassistant.components import hisense_aehw4a1
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.setup import async_setup_component
 
 
-async def test_creating_entry_sets_up_climate_discovery(hass: __HAC_KEEP__) -> None:
+async def test_creating_entry_sets_up_climate_discovery(hass: UniversalAssistant) -> None:
     """Test setting up Hisense AEH-W4A1 loads the climate component."""
     with (
         patch(
@@ -38,7 +38,7 @@ async def test_creating_entry_sets_up_climate_discovery(hass: __HAC_KEEP__) -> N
     assert len(mock_setup.mock_calls) == 1
 
 
-async def test_configuring_hisense_w4a1_create_entry(hass: __HAC_KEEP__) -> None:
+async def test_configuring_hisense_w4a1_create_entry(hass: UniversalAssistant) -> None:
     """Test that specifying config will create an entry."""
     with (
         patch(
@@ -61,7 +61,7 @@ async def test_configuring_hisense_w4a1_create_entry(hass: __HAC_KEEP__) -> None
 
 
 async def test_configuring_hisense_w4a1_not_creates_entry_for_device_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that specifying config will not create an entry."""
     with (
@@ -85,7 +85,7 @@ async def test_configuring_hisense_w4a1_not_creates_entry_for_device_not_found(
 
 
 async def test_configuring_hisense_w4a1_not_creates_entry_for_empty_import(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that specifying config will not create an entry."""
     with patch(

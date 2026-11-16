@@ -9,7 +9,7 @@ from universalassistant.components.device_tracker import (
     TrackerEntity,
     TrackerEntityDescription,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import RenaultConfigEntry
@@ -28,7 +28,7 @@ class RenaultTrackerEntityDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: RenaultConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

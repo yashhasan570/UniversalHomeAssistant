@@ -30,7 +30,7 @@ from universalassistant.components.music_assistant.media_browser import (
     async_browse_media,
     async_search_media,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .common import setup_integration_from_fixtures
 
@@ -52,7 +52,7 @@ from .common import setup_integration_from_fixtures
     ],
 )
 async def test_browse_media_root(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
     media_content_id: str,
     media_content_type: str,
@@ -70,7 +70,7 @@ async def test_browse_media_root(
 
 
 async def test_browse_media_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test the async_browse_media method when media is not found."""
@@ -149,7 +149,7 @@ class MockSearchResults:
     ],
 )
 async def test_search_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
     search_query: str,
     media_content_type: str,
@@ -229,7 +229,7 @@ async def test_search_media(
     ],
 )
 async def test_search_media_with_filter_classes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
     search_query: str,
     media_filter_classes: set[MediaClass],
@@ -261,7 +261,7 @@ async def test_search_media_with_filter_classes(
 
 
 async def test_search_media_within_album(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test searching within an album context."""
@@ -309,7 +309,7 @@ async def test_search_media_within_album(
 
 
 async def test_search_media_within_playlist(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test searching within a playlist context."""
@@ -351,7 +351,7 @@ async def test_search_media_within_playlist(
     ],
 )
 async def test_search_media_scoped_to_library(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
     media_content_id: str,
     expected_media_type: MASSMediaType,
@@ -395,7 +395,7 @@ async def test_search_media_scoped_to_library(
     ],
 )
 async def test_browse_media_can_search(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
     media_content_id: str,
     media_content_type: str,
@@ -411,7 +411,7 @@ async def test_browse_media_can_search(
 
 
 async def test_browse_media_root_cannot_search(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test that the root listing does not offer search."""
@@ -423,7 +423,7 @@ async def test_browse_media_root_cannot_search(
 
 
 async def test_browse_artist_search_media_classes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test that an artist listing offers its searchable media classes."""
@@ -441,7 +441,7 @@ async def test_browse_artist_search_media_classes(
     [MediaType.MUSIC, MediaType.ARTIST, None],
 )
 async def test_search_within_artist_ignores_surrounding_media_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
     media_content_type: str | None,
 ) -> None:
@@ -502,7 +502,7 @@ async def test_search_within_artist_ignores_surrounding_media_type(
     ],
 )
 async def test_search_within_artist_with_filter_classes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
     media_content_type: str,
     media_filter_classes: set[MediaClass] | None,
@@ -565,7 +565,7 @@ async def test_search_within_artist_with_filter_classes(
     ],
 )
 async def test_search_media_music_class_searches_music(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
     media_content_id: str | None,
     expected_media_types: list[MASSMediaType],
@@ -621,7 +621,7 @@ async def test_search_media_music_class_searches_music(
     ],
 )
 async def test_search_media_with_unsearchable_filter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
     media_content_id: str | None,
     media_filter_classes: set[MediaClass],
@@ -644,7 +644,7 @@ async def test_search_media_with_unsearchable_filter(
 
 
 async def test_search_media_results_are_browsable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test that every expandable search result can actually be browsed."""
@@ -676,7 +676,7 @@ async def test_search_media_results_are_browsable(
 
 
 async def test_search_media_results_can_search(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test that only artist, album and playlist results can be searched inside."""
@@ -714,7 +714,7 @@ async def test_search_media_results_can_search(
 
 
 async def test_search_media_websocket_from_library_listing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -761,7 +761,7 @@ async def test_search_media_websocket_from_library_listing(
 
 
 async def test_search_media_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test that search errors are properly handled."""

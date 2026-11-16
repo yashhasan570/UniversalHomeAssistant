@@ -1,19 +1,19 @@
 """Tests for the CO2 Signal integration."""
 
-from aioelectricitymaps import __HAC_KEEP__CarbonIntensityResponse
+from aioelectricitymaps import UniversalAssistantCarbonIntensityResponse
 from aioelectricitymaps.models.universal_assistant import (
-    __HAC_KEEP__CarbonIntensityData,
-    __HAC_KEEP__CarbonIntensityUnit,
+    UniversalAssistantCarbonIntensityData,
+    UniversalAssistantCarbonIntensityUnit,
 )
 
-VALID_RESPONSE = __HAC_KEEP__CarbonIntensityResponse(
+VALID_RESPONSE = UniversalAssistantCarbonIntensityResponse(
     status="ok",
     country_code="FR",
-    data=__HAC_KEEP__CarbonIntensityData(
+    data=UniversalAssistantCarbonIntensityData(
         carbon_intensity=45.98623190095805,
         fossil_fuel_percentage=5.461182741937103,
     ),
-    units=__HAC_KEEP__CarbonIntensityUnit(
+    units=UniversalAssistantCarbonIntensityUnit(
         carbon_intensity="gCO2eq/kWh",
     ),
 )

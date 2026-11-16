@@ -1,14 +1,14 @@
-"""The __HA_KEEP__ Labs integration.
+"""The Universal Home Assistant Labs integration.
 
 This integration provides preview features that can be toggled on/off by users.
 Integrations can register lab preview features in their manifest.json which will appear
-in the __HA_KEEP__ Labs UI for users to enable or disable.
+in the Universal Home Assistant Labs UI for users to enable or disable.
 """
 
 import logging
 
 from universalassistant.const import EVENT_LABS_UPDATED
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.generated.labs import LABS_PREVIEW_FEATURES
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.storage import Store
@@ -45,7 +45,7 @@ __all__ = [
 ]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Labs component."""
     store: Store[NativeLabsStoreData] = Store(
         hass, STORAGE_VERSION, STORAGE_KEY, private=True
@@ -110,7 +110,7 @@ def _populate_preview_features(
 
 
 async def _async_scan_all_preview_features(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> dict[str, LabPreviewFeature]:
     """Scan ALL available integrations for lab preview features (loaded or not)."""
     preview_features: dict[str, LabPreviewFeature] = {}

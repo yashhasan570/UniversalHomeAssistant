@@ -15,7 +15,7 @@ from pynintendoparental.exceptions import (
 from pynintendoparental.player import Player
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, SupportsResponse, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, SupportsResponse, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import (
     config_validation as cv,
@@ -61,7 +61,7 @@ class NintendoParentalServiceArgument(StrEnum):
 
 @callback
 def async_setup_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ):
     """Set up the Nintendo Parental services."""
     hass.services.async_register(
@@ -139,7 +139,7 @@ def async_setup_services(
     )
 
 
-def _get_nintendo_device(hass: __HAC_KEEP__, device_id: str) -> Device:
+def _get_nintendo_device(hass: UniversalAssistant, device_id: str) -> Device:
     """Get the Nintendo device from a device ID."""
     config_entry: NintendoParentalControlsConfigEntry
     device, config_entry = service.async_get_device_and_config_entry(
@@ -161,7 +161,7 @@ def _get_nintendo_device(hass: __HAC_KEEP__, device_id: str) -> Device:
     )
 
 
-def _get_nintendo_player(hass: __HAC_KEEP__, device: Device, entity_id: str) -> Player:
+def _get_nintendo_player(hass: UniversalAssistant, device: Device, entity_id: str) -> Player:
     """Return a given player for a given device."""
     prefix = f"{device.device_id}_"
     suffix = f"_{NintendoParentalControlsSensor.PLAYER_PLAYING_TIME}"

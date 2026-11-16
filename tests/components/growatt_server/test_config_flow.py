@@ -34,7 +34,7 @@ from universalassistant.const import (
     CONF_URL,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 FIXTURE_USER_INPUT_PASSWORD = {
@@ -101,7 +101,7 @@ GROWATT_V1_MULTIPLE_PLANTS_RESPONSE = {
 
 
 # Menu navigation tests
-async def test_show_auth_menu(hass: __HAC_KEEP__) -> None:
+async def test_show_auth_menu(hass: UniversalAssistant) -> None:
     """Test that the authentication menu is displayed."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -121,7 +121,7 @@ async def test_show_auth_menu(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_auth_form_display(
-    hass: __HAC_KEEP__, auth_type: str, expected_fields: list[str]
+    hass: UniversalAssistant, auth_type: str, expected_fields: list[str]
 ) -> None:
     """Test that authentication forms are displayed correctly."""
     result = await hass.config_entries.flow.async_init(
@@ -141,7 +141,7 @@ async def test_auth_form_display(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_password_auth_incorrect_login(
-    hass: __HAC_KEEP__, mock_growatt_classic_api
+    hass: UniversalAssistant, mock_growatt_classic_api
 ) -> None:
     """Test password authentication with incorrect credentials, then recovery."""
     # Simulate incorrect login
@@ -184,7 +184,7 @@ async def test_password_auth_incorrect_login(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_password_auth_account_locked(
-    hass: __HAC_KEEP__, mock_growatt_classic_api: MagicMock
+    hass: UniversalAssistant, mock_growatt_classic_api: MagicMock
 ) -> None:
     """Test password authentication when account is locked out."""
     mock_growatt_classic_api.login.return_value = {
@@ -220,7 +220,7 @@ async def test_password_auth_account_locked(
 
 
 async def test_password_auth_no_plants(
-    hass: __HAC_KEEP__, mock_growatt_classic_api
+    hass: UniversalAssistant, mock_growatt_classic_api
 ) -> None:
     """Test password authentication with no plants."""
     # Repatch to return empty plants
@@ -243,7 +243,7 @@ async def test_password_auth_no_plants(
     assert result["reason"] == ABORT_NO_PLANTS
 
 
-async def test_token_auth_no_plants(hass: __HAC_KEEP__, mock_growatt_v1_api) -> None:
+async def test_token_auth_no_plants(hass: UniversalAssistant, mock_growatt_v1_api) -> None:
     """Test token authentication with no plants."""
     # Repatch to return empty plants
     mock_growatt_v1_api.plant_list.return_value = {"plants": []}
@@ -267,7 +267,7 @@ async def test_token_auth_no_plants(hass: __HAC_KEEP__, mock_growatt_v1_api) -> 
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_password_auth_single_plant(
-    hass: __HAC_KEEP__, mock_growatt_classic_api
+    hass: UniversalAssistant, mock_growatt_classic_api
 ) -> None:
     """Test password authentication with single plant."""
     # Repatch plant_list with full plant data for config flow
@@ -297,7 +297,7 @@ async def test_password_auth_single_plant(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_password_auth_multiple_plants(
-    hass: __HAC_KEEP__, mock_growatt_classic_api
+    hass: UniversalAssistant, mock_growatt_classic_api
 ) -> None:
     """Test password authentication with multiple plants."""
     # Repatch plant_list with multiple plants
@@ -359,7 +359,7 @@ async def test_password_auth_multiple_plants(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_token_auth_api_error(
-    hass: __HAC_KEEP__, mock_growatt_v1_api, error_code: int, expected_error: str
+    hass: UniversalAssistant, mock_growatt_v1_api, error_code: int, expected_error: str
 ) -> None:
     """Test token authentication with V1 API error maps to correct error type."""
     result = await hass.config_entries.flow.async_init(
@@ -399,7 +399,7 @@ async def test_token_auth_api_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_token_auth_connection_error(
-    hass: __HAC_KEEP__, mock_growatt_v1_api
+    hass: UniversalAssistant, mock_growatt_v1_api
 ) -> None:
     """Test token authentication with network error, then recovery."""
 
@@ -440,7 +440,7 @@ async def test_token_auth_connection_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_token_auth_invalid_response(
-    hass: __HAC_KEEP__, mock_growatt_v1_api
+    hass: UniversalAssistant, mock_growatt_v1_api
 ) -> None:
     """Test token authentication with invalid response format, then recovery."""
 
@@ -478,7 +478,7 @@ async def test_token_auth_invalid_response(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_token_auth_single_plant(
-    hass: __HAC_KEEP__, mock_growatt_v1_api
+    hass: UniversalAssistant, mock_growatt_v1_api
 ) -> None:
     """Test token authentication with single plant."""
     # Repatch plant_list with full plant data for config flow
@@ -507,7 +507,7 @@ async def test_token_auth_single_plant(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_token_auth_multiple_plants(
-    hass: __HAC_KEEP__, mock_growatt_v1_api
+    hass: UniversalAssistant, mock_growatt_v1_api
 ) -> None:
     """Test token authentication with multiple plants."""
     # Repatch plant_list with multiple plants
@@ -546,7 +546,7 @@ async def test_token_auth_multiple_plants(
 
 
 async def test_password_auth_existing_plant_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_classic_api,
     mock_config_entry_classic: MockConfigEntry,
 ) -> None:
@@ -575,7 +575,7 @@ async def test_password_auth_existing_plant_configured(
 
 
 async def test_token_auth_existing_plant_configured(
-    hass: __HAC_KEEP__, mock_growatt_v1_api, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_growatt_v1_api, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test token authentication with existing plant_id."""
     # Repatch plant_list for this test
@@ -603,7 +603,7 @@ async def test_token_auth_existing_plant_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_password_auth_connection_error(
-    hass: __HAC_KEEP__, mock_growatt_classic_api
+    hass: UniversalAssistant, mock_growatt_classic_api
 ) -> None:
     """Test password authentication with connection error, then recovery."""
     # Simulate connection error on first attempt
@@ -646,7 +646,7 @@ async def test_password_auth_connection_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_password_auth_invalid_response(
-    hass: __HAC_KEEP__, mock_growatt_classic_api
+    hass: UniversalAssistant, mock_growatt_classic_api
 ) -> None:
     """Test password authentication with invalid response format, then recovery."""
     result = await hass.config_entries.flow.async_init(
@@ -687,7 +687,7 @@ async def test_password_auth_invalid_response(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_password_auth_plant_list_error(
-    hass: __HAC_KEEP__, mock_growatt_classic_api
+    hass: UniversalAssistant, mock_growatt_classic_api
 ) -> None:
     """Test password authentication with plant list connection error."""
     result = await hass.config_entries.flow.async_init(
@@ -715,7 +715,7 @@ async def test_password_auth_plant_list_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_password_auth_plant_list_invalid_format(
-    hass: __HAC_KEEP__, mock_growatt_classic_api
+    hass: UniversalAssistant, mock_growatt_classic_api
 ) -> None:
     """Test password authentication with invalid plant list format."""
     result = await hass.config_entries.flow.async_init(
@@ -762,7 +762,7 @@ async def test_password_auth_plant_list_invalid_format(
     ],
 )
 async def test_reauth_password_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_classic_api: MagicMock,
     stored_url: str,
     user_input: dict[str, str],
@@ -825,7 +825,7 @@ async def test_reauth_password_success(
     ],
 )
 async def test_reauth_password_error_then_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_classic_api: MagicMock,
     mock_config_entry_classic: MockConfigEntry,
     login_side_effect: Callable[..., Any] | Exception,
@@ -860,7 +860,7 @@ async def test_reauth_password_error_then_recovery(
 
 
 async def test_reauth_token_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_v1_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -905,7 +905,7 @@ def _make_no_privilege_error() -> growattServer.GrowattV1ApiError:
     ],
 )
 async def test_reauth_token_error_then_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_v1_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     plant_list_side_effect: Exception,
@@ -940,7 +940,7 @@ async def test_reauth_token_error_then_recovery(
 
 
 async def test_reauth_token_non_auth_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_v1_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -977,7 +977,7 @@ async def test_reauth_token_non_auth_api_error(
 
 
 async def test_reauth_password_invalid_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_classic_api: MagicMock,
     mock_config_entry_classic: MockConfigEntry,
 ) -> None:
@@ -1005,7 +1005,7 @@ async def test_reauth_password_invalid_response(
 
 
 async def test_reauth_password_non_auth_login_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_classic_api: MagicMock,
     mock_config_entry_classic: MockConfigEntry,
 ) -> None:
@@ -1044,7 +1044,7 @@ async def test_reauth_password_non_auth_login_failure(
 
 
 async def test_reauth_password_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_classic_api: MagicMock,
     mock_config_entry_classic: MockConfigEntry,
 ) -> None:
@@ -1081,7 +1081,7 @@ async def test_reauth_password_exception(
 
 
 async def test_reauth_token_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_v1_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1117,7 +1117,7 @@ async def test_reauth_token_exception(
     }
 
 
-async def test_reauth_unknown_auth_type(hass: __HAC_KEEP__) -> None:
+async def test_reauth_unknown_auth_type(hass: UniversalAssistant) -> None:
     """Test reauth aborts immediately when the config entry has an unknown auth type."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1160,7 +1160,7 @@ async def test_reauth_unknown_auth_type(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_reconfigure_password_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_classic_api: MagicMock,
     stored_url: str,
     user_input: dict[str, str],
@@ -1223,7 +1223,7 @@ async def test_reconfigure_password_success(
     ],
 )
 async def test_reconfigure_password_error_then_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_classic_api: MagicMock,
     mock_config_entry_classic: MockConfigEntry,
     login_side_effect: Callable[..., Any] | Exception,
@@ -1258,7 +1258,7 @@ async def test_reconfigure_password_error_then_recovery(
 
 
 async def test_reconfigure_token_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_v1_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1295,7 +1295,7 @@ async def test_reconfigure_token_success(
     ],
 )
 async def test_reconfigure_token_error_then_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_v1_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     plant_list_side_effect: Exception,
@@ -1329,7 +1329,7 @@ async def test_reconfigure_token_error_then_recovery(
     assert result["reason"] == "reconfigure_successful"
 
 
-async def test_reconfigure_unknown_auth_type(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_unknown_auth_type(hass: UniversalAssistant) -> None:
     """Test reconfigure aborts with unknown auth type."""
     entry = MockConfigEntry(
         domain=DOMAIN,

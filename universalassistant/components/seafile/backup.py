@@ -26,7 +26,7 @@ from universalassistant.components.backup import (
     suggested_filename,
 )
 from universalassistant.config_entries import ConfigSubentry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.json import json_bytes
 from universalassistant.util.async_ import gather_with_limited_concurrency
 from universalassistant.util.json import json_loads_object
@@ -56,7 +56,7 @@ def suggested_base_name(backup: AgentBackup) -> str:
     return suggested_filename(backup).removesuffix(".tar")
 
 
-async def async_get_backup_agents(hass: __HAC_KEEP__) -> list[BackupAgent]:
+async def async_get_backup_agents(hass: UniversalAssistant) -> list[BackupAgent]:
     """Return a backup agent for every library that stores backups."""
     entries: list[SeafileConfigEntry] = hass.config_entries.async_loaded_entries(DOMAIN)
     return [
@@ -69,7 +69,7 @@ async def async_get_backup_agents(hass: __HAC_KEEP__) -> list[BackupAgent]:
 
 @callback
 def async_register_backup_agents_listener(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     listener: Callable[[], None],
     **kwargs: Any,

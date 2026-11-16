@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.local_todo.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import STORAGE_KEY, TODO_NAME
@@ -15,7 +15,7 @@ from .conftest import STORAGE_KEY, TODO_NAME
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
-async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -41,7 +41,7 @@ async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
 
 
 async def test_duplicate_todo_list_name(
-    hass: __HAC_KEEP__, setup_integration: None, config_entry: MockConfigEntry
+    hass: UniversalAssistant, setup_integration: None, config_entry: MockConfigEntry
 ) -> None:
     """Test two todo-lists cannot be added with the same name."""
 

@@ -7,7 +7,7 @@ import logging
 from typing import Any, Final
 
 from universalassistant.const import ATTR_ENTITY_ID, EntityStateAttribute
-from universalassistant.core import Context, __HAC_KEEP__, ServiceResponse, State
+from universalassistant.core import Context, UniversalAssistant, ServiceResponse, State
 from universalassistant.util.enum import try_parse_enum
 
 from . import CoverEntityFeature, CoverEntityStateAttribute, CoverState
@@ -151,7 +151,7 @@ async def _async_open_cover(
 
 
 async def _async_reproduce_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     state: State,
     *,
     context: Context | None = None,
@@ -228,7 +228,7 @@ async def _async_reproduce_state(
 
 
 async def async_reproduce_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     states: Iterable[State],
     *,
     context: Context | None = None,

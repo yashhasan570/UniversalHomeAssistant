@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -24,7 +24,7 @@ DST_SWITCH_ENTITY_ID = "switch.name_of_the_device_daylight_saving_time"
     [(None, 2), (FSNotImplementedError, 1)],
 )
 async def test_init_with_dst_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -46,7 +46,7 @@ async def test_init_with_dst_availability(
 
 
 async def test_init_device_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -67,7 +67,7 @@ async def test_init_device_not_ready(
 
 
 async def test_init_device_not_ready_transient_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -94,7 +94,7 @@ async def test_init_device_not_ready_transient_connection_error(
 
 
 async def test_dst_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_afsapi: AsyncMock,
 ) -> None:
@@ -127,7 +127,7 @@ async def test_dst_switch(
 
 
 async def test_dst_switch_get(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_afsapi: AsyncMock,
     freezer: FrozenDateTimeFactory,

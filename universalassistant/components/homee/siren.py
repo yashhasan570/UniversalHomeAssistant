@@ -6,7 +6,7 @@ from pyHomee.const import AttributeType
 from pyHomee.model import HomeeNode
 
 from universalassistant.components.siren import SirenEntity, SirenEntityFeature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import HomeeConfigEntry
@@ -17,7 +17,7 @@ PARALLEL_UPDATES = 0
 
 
 async def add_siren_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
     nodes: list[HomeeNode],
@@ -32,7 +32,7 @@ async def add_siren_entities(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

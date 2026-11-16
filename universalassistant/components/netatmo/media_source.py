@@ -15,7 +15,7 @@ from universalassistant.components.media_source import (
     Unresolvable,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 from .const import DOMAIN, MANUFACTURER
 from .coordinator import NetatmoConfigEntry, NetatmoDataHandler, async_get_loaded_entry
@@ -28,7 +28,7 @@ class IncompatibleMediaSource(MediaSourceError):
     """Incompatible media source attributes."""
 
 
-async def async_get_media_source(hass: __HAC_KEEP__) -> NetatmoSource:
+async def async_get_media_source(hass: UniversalAssistant) -> NetatmoSource:
     """Set up Netatmo media source."""
     return NetatmoSource(hass, async_get_loaded_entry(hass))
 
@@ -38,7 +38,7 @@ class NetatmoSource(MediaSource):
 
     name: str = MANUFACTURER
 
-    def __init__(self, hass: __HAC_KEEP__, entry: NetatmoConfigEntry | None) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: NetatmoConfigEntry | None) -> None:
         """Initialize Netatmo source."""
         super().__init__(DOMAIN)
         self.hass = hass

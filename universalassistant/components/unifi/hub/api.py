@@ -17,7 +17,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import aiohttp_client
 from universalassistant.util import ssl as ssl_util
 
@@ -26,7 +26,7 @@ from ..errors import AuthenticationRequired, CannotConnect, MfaRequired
 
 
 async def get_unifi_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: Mapping[str, Any],
 ) -> aiounifi.Controller:
     """Create a aiounifi object and verify authentication."""

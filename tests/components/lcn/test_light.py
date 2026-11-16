@@ -26,7 +26,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MockConfigEntry, MockDeviceConnection, init_integration
@@ -37,7 +37,7 @@ LIGHT_RELAY1 = "light.testmodule_light_relay1"
 
 
 async def test_setup_lcn_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -49,7 +49,7 @@ async def test_setup_lcn_light(
     await snapshot_platform(hass, entity_registry, snapshot, entry.entry_id)
 
 
-async def test_output_turn_on(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+async def test_output_turn_on(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     """Test the output light turns on."""
     await init_integration(hass, entry)
 
@@ -89,7 +89,7 @@ async def test_output_turn_on(hass: __HAC_KEEP__, entry: MockConfigEntry) -> Non
 
 
 async def test_output_turn_on_with_attributes(
-    hass: __HAC_KEEP__, entry: MockConfigEntry
+    hass: UniversalAssistant, entry: MockConfigEntry
 ) -> None:
     """Test the output light turns on."""
     await init_integration(hass, entry)
@@ -115,7 +115,7 @@ async def test_output_turn_on_with_attributes(
         assert state.state == STATE_ON
 
 
-async def test_output_turn_off(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+async def test_output_turn_off(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     """Test the output light turns off."""
     await init_integration(hass, entry)
 
@@ -161,7 +161,7 @@ async def test_output_turn_off(hass: __HAC_KEEP__, entry: MockConfigEntry) -> No
         assert state.state == STATE_OFF
 
 
-async def test_relay_turn_on(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+async def test_relay_turn_on(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     """Test the relay light turns on."""
     await init_integration(hass, entry)
 
@@ -203,7 +203,7 @@ async def test_relay_turn_on(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None
         assert state.state == STATE_ON
 
 
-async def test_relay_turn_off(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+async def test_relay_turn_off(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     """Test the relay light turns off."""
     await init_integration(hass, entry)
 
@@ -253,7 +253,7 @@ async def test_relay_turn_off(hass: __HAC_KEEP__, entry: MockConfigEntry) -> Non
 
 
 async def test_pushed_output_status_change(
-    hass: __HAC_KEEP__, entry: MockConfigEntry
+    hass: UniversalAssistant, entry: MockConfigEntry
 ) -> None:
     """Test the output light changes its state on status received."""
     await init_integration(hass, entry)
@@ -282,7 +282,7 @@ async def test_pushed_output_status_change(
 
 
 async def test_pushed_relay_status_change(
-    hass: __HAC_KEEP__, entry: MockConfigEntry
+    hass: UniversalAssistant, entry: MockConfigEntry
 ) -> None:
     """Test the relay light changes its state on status received."""
     await init_integration(hass, entry)
@@ -328,7 +328,7 @@ async def test_pushed_relay_status_change(
     ],
 )
 async def test_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     entry: MockConfigEntry,
     entity_id: str,
@@ -367,7 +367,7 @@ async def test_availability(
     assert state.state != STATE_UNAVAILABLE
 
 
-async def test_unload_config_entry(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+async def test_unload_config_entry(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     """Test the light is removed when the config entry is unloaded."""
     await init_integration(hass, entry)
 

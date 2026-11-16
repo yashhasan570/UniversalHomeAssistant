@@ -38,8 +38,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.update_coordinator import REQUEST_REFRESH_DEFAULT_COOLDOWN
 
@@ -49,7 +49,7 @@ REFRESH_COOLDOWN = timedelta(seconds=REQUEST_REFRESH_DEFAULT_COOLDOWN)
 
 
 async def _rebuild_device_list_with_update(
-    hass: __HAC_KEEP__, mac: str, **overrides
+    hass: UniversalAssistant, mac: str, **overrides
 ) -> list[OmadaListDevice]:
     """Rebuild device list from fixture with specified overrides for a device."""
     devices_data = await async_load_json_array_fixture(
@@ -65,7 +65,7 @@ async def _rebuild_device_list_with_update(
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_omada_client: MagicMock,
 ) -> MockConfigEntry:
@@ -80,7 +80,7 @@ async def init_integration(
 
 
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -90,7 +90,7 @@ async def test_entities(
 
 
 async def test_firmware_download_in_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_omada_site_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -120,7 +120,7 @@ async def test_firmware_download_in_progress(
 
 
 async def test_install_firmware_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_omada_site_client: MagicMock,
 ) -> None:
@@ -160,7 +160,7 @@ async def test_install_firmware_success(
     ],
 )
 async def test_install_controller_firmware_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_omada_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -217,7 +217,7 @@ async def test_install_controller_firmware_success(
 
 
 async def test_controller_update_check_failure_does_not_block_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_omada_client: MagicMock,
 ) -> None:
@@ -272,7 +272,7 @@ async def test_controller_update_check_failure_does_not_block_setup(
     ],
 )
 async def test_controller_update_without_current_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
     mock_omada_client: MagicMock,
@@ -321,7 +321,7 @@ async def test_controller_update_without_current_version(
     ],
 )
 async def test_controller_update_without_update_sections(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_omada_client: MagicMock,
     update_data: dict[str, None],
@@ -360,7 +360,7 @@ async def test_controller_update_without_update_sections(
     ],
 )
 async def test_install_controller_firmware_without_latest_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_omada_client: MagicMock,
     version_data: dict[str, str | None],
@@ -375,7 +375,7 @@ async def test_install_controller_firmware_without_latest_version(
         assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
         await hass.async_block_till_done()
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -396,7 +396,7 @@ async def test_install_controller_firmware_without_latest_version(
     ],
 )
 async def test_controller_software_update_installed_version_prefers_status_coordinator(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_omada_client: MagicMock,
     hardware_data: dict[str, None],
@@ -436,7 +436,7 @@ async def test_controller_software_update_installed_version_prefers_status_coord
 
 
 async def test_controller_device_sw_version_updates_with_status_coordinator(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_omada_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -492,7 +492,7 @@ async def test_controller_device_sw_version_updates_with_status_coordinator(
     ],
 )
 async def test_install_firmware_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_omada_site_client: MagicMock,
     exception_type: Exception,
@@ -507,7 +507,7 @@ async def test_install_firmware_exceptions(
     )
 
     # Call install service and expect error
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -533,7 +533,7 @@ async def test_install_firmware_exceptions(
     ],
 )
 async def test_install_controller_firmware_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_omada_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -562,7 +562,7 @@ async def test_install_controller_firmware_exceptions(
 
     mock_omada_client.check_firmware_updates.reset_mock()
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -579,7 +579,7 @@ async def test_install_controller_firmware_exceptions(
 
 
 async def test_controller_update_without_hardware_does_not_support_install(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test software-only updates do not expose firmware installation."""
@@ -602,7 +602,7 @@ async def test_controller_update_without_hardware_does_not_support_install(
     ],
 )
 async def test_release_notes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
     entity_name: str,
@@ -678,7 +678,7 @@ async def test_release_notes(
     ],
 )
 async def test_controller_release_notes_content(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
     mock_omada_client: MagicMock,

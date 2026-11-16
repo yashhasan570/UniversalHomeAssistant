@@ -14,12 +14,12 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 
 
 def get_instance_from_options(
-    hass: __HAC_KEEP__, options: Mapping[str, Any]
+    hass: UniversalAssistant, options: Mapping[str, Any]
 ) -> tuple[WebminInstance, URL]:
     """Retrieve a Webmin instance and the base URL from config options."""
 

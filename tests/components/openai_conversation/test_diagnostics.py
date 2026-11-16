@@ -23,7 +23,7 @@ from universalassistant.components.openai_conversation.const import (
     CONF_WEB_SEARCH_USER_LOCATION,
 )
 from universalassistant.const import CONF_LLM_HASS_API, CONF_PROMPT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import llm
 
 
@@ -50,7 +50,7 @@ def mock_conversation_subentry_data() -> dict[str, Any]:
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,

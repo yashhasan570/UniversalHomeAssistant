@@ -16,7 +16,7 @@ from zeroconf import (
 )
 
 from universalassistant.components.zeroconf import DOMAIN, async_get_async_instance
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.generated import zeroconf as zc_gen
 from universalassistant.setup import async_setup_component
 
@@ -30,7 +30,7 @@ PROPERTIES = {
 
 
 async def test_subscribe_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test zeroconf subscribe_discovery."""

@@ -32,7 +32,7 @@ from universalassistant.core import (
     Event,
     EventStateChangedData,
     EventStateReportedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     State,
     callback,
 )
@@ -129,7 +129,7 @@ def _is_decimal_state(state: str) -> bool:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -162,7 +162,7 @@ async def async_setup_entry(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

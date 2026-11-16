@@ -17,7 +17,7 @@ from universalassistant.const import (
     STATE_NOT_HOME,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import ARP
@@ -25,7 +25,7 @@ from .const import ARP
 
 @pytest.mark.usefixtures("mock_opnsense_client")
 async def test_device_tracker_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -56,7 +56,7 @@ async def test_device_tracker_setup(
 
 @pytest.mark.usefixtures("mock_opnsense_client")
 async def test_device_tracker_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -107,7 +107,7 @@ async def test_device_tracker_states(
 
 
 async def test_device_tracker_with_interfaces_filter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_opnsense_client: mock.AsyncMock,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -148,7 +148,7 @@ async def test_device_tracker_with_interfaces_filter(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_device_tracker_coordinator_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_opnsense_client: mock.AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -174,7 +174,7 @@ async def test_device_tracker_coordinator_update_failure(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_device_tracker_device_names(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_opnsense_client: mock.AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -250,7 +250,7 @@ async def test_device_tracker_device_names(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_reload_without_hostname_keeps_device_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_opnsense_client: mock.AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -278,7 +278,7 @@ async def test_reload_without_hostname_keeps_device_name(
     ],
 )
 async def test_disabled_tracker_device_renamed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_opnsense_client: mock.AsyncMock,
     freezer: FrozenDateTimeFactory,

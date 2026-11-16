@@ -18,7 +18,7 @@ from annotatedyaml.loader import (
 )
 import yaml
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 __all__ = [
     "HAS_C_LOADER",
@@ -33,7 +33,7 @@ __all__ = [
 ]
 
 
-class YamlTypeError(__HAC_KEEP__Error):
+class YamlTypeError(UniversalAssistantError):
     """Raised by load_yaml_dict if top level data is not a dict."""
 
 
@@ -42,13 +42,13 @@ def load_yaml(
 ) -> JSON_TYPE | None:
     """Load a YAML file.
 
-    If opening the file raises an OSError it will be wrapped in a __HAC_KEEP__Error,
+    If opening the file raises an OSError it will be wrapped in a UniversalAssistantError,
     except for FileNotFoundError which will be re-raised.
     """
     try:
         return load_annotated_yaml(fname, secrets)
     except annotatedyaml.YAMLException as exc:
-        raise __HAC_KEEP__Error(str(exc)) from exc
+        raise UniversalAssistantError(str(exc)) from exc
 
 
 def load_yaml_dict(
@@ -64,7 +64,7 @@ def load_yaml_dict(
     except annotatedyaml.YamlTypeError as exc:
         raise YamlTypeError(str(exc)) from exc
     except annotatedyaml.YAMLException as exc:
-        raise __HAC_KEEP__Error(str(exc)) from exc
+        raise UniversalAssistantError(str(exc)) from exc
 
 
 def parse_yaml(
@@ -74,7 +74,7 @@ def parse_yaml(
     try:
         return parse_annotated_yaml(content, secrets)
     except annotatedyaml.YAMLException as exc:
-        raise __HAC_KEEP__Error(str(exc)) from exc
+        raise UniversalAssistantError(str(exc)) from exc
 
 
 def secret_yaml(loader: LoaderType, node: yaml.nodes.Node) -> JSON_TYPE:
@@ -82,4 +82,4 @@ def secret_yaml(loader: LoaderType, node: yaml.nodes.Node) -> JSON_TYPE:
     try:
         return annotated_secret_yaml(loader, node)
     except annotatedyaml.YAMLException as exc:
-        raise __HAC_KEEP__Error(str(exc)) from exc
+        raise UniversalAssistantError(str(exc)) from exc

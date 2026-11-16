@@ -13,7 +13,7 @@ from universalassistant.components.trafikverket_ferry.const import DOMAIN
 from universalassistant.components.trafikverket_ferry.coordinator import next_departuredate
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import STATE_UNAVAILABLE, WEEKDAYS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from . import ENTRY_CONFIG
@@ -21,7 +21,7 @@ from . import ENTRY_CONFIG
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_coordinator(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     monkeypatch: pytest.MonkeyPatch,
     get_ferries: list[FerryStopModel],

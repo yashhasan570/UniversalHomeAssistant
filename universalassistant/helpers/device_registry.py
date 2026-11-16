@@ -31,13 +31,13 @@ from yarl import URL
 from universalassistant.const import EVENT_HOMEASSISTANT_STARTED, EVENT_HOMEASSISTANT_STOP
 from universalassistant.core import (
     Event,
-    __HAC_KEEP__,
+    UniversalAssistant,
     ReleaseChannel,
     callback,
     get_release_channel,
     verify_event_loop_thread,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.loader import async_suggest_report_issue
 from universalassistant.util import uuid as uuid_util
 from universalassistant.util.dt import utc_from_timestamp, utcnow
@@ -367,7 +367,7 @@ class DeviceEntryType(StrEnum):
     SERVICE = "service"
 
 
-class DeviceInfoError(__HAC_KEEP__Error):
+class DeviceInfoError(UniversalAssistantError):
     """Raised when device info is invalid."""
 
     def __init__(
@@ -384,7 +384,7 @@ class DeviceInfoError(__HAC_KEEP__Error):
         self.domain = domain
 
 
-class DeviceCollisionError(__HAC_KEEP__Error):
+class DeviceCollisionError(UniversalAssistantError):
     """Raised when a device collision is detected."""
 
 
@@ -2036,7 +2036,7 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
     _device_data: dict[str, DeviceEntry]
     _child_device_data: dict[str, ChildDeviceEntry]
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the device registry."""
         self.hass = hass
         # Devices registered through async_get_or_create in the current setup session
@@ -2427,7 +2427,7 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
             return name.format(**translation_placeholders)
         except KeyError as err:
             if get_release_channel() is not ReleaseChannel.STABLE:
-                raise __HAC_KEEP__Error(f"Missing placeholder {err}") from err
+                raise UniversalAssistantError(f"Missing placeholder {err}") from err
             report_issue = async_suggest_report_issue(
                 self.hass, integration_domain=domain
             )
@@ -2567,14 +2567,14 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
         )
 
         if disabled_by is DeviceEntryDisabler.DEVICE:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "disabled_by=DeviceEntryDisabler.DEVICE is only valid for a child "
                 "device"
             )
 
         config_entry = self.hass.config_entries.async_get_entry(config_entry_id)
         if config_entry is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Can't link device to unknown config entry {config_entry_id}"
             )
 
@@ -2582,7 +2582,7 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
         # "no via device") alongside a via_device_id is contradictory, so reject it too.
         via_device_id = device_info.via_device_id
         if via_device is not Undefined and via_device_id is not Undefined:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Passing both `via_device` and `via_device_id` is not allowed; "
                 "`via_device` is deprecated, pass `via_device_id` only"
             )
@@ -2607,7 +2607,7 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
             and config_subentry_id is not None
             and config_subentry_id not in config_entry.subentries
         ):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Config entry {config_entry_id} has no subentry {config_subentry_id}"
             )
 
@@ -2941,7 +2941,7 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
         """Get child device. Create if it doesn't exist."""
         config_entry = self.hass.config_entries.async_get_entry(config_entry_id)
         if config_entry is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Can't link device to unknown config entry {config_entry_id}"
             )
 
@@ -2950,7 +2950,7 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
             and config_subentry_id is not None
             and config_subentry_id not in config_entry.subentries
         ):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Config entry {config_entry_id} has no subentry {config_subentry_id}"
             )
 
@@ -3308,13 +3308,13 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
                     add_config_entry_id
                 )
             ) is None:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     f"Can't link device to unknown config entry {add_config_entry_id}"
                 )
 
         if add_config_subentry_id is not Undefined:
             if add_config_entry_id is Undefined:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     "Can't add config subentry without specifying config entry"
                 )
             if (
@@ -3323,7 +3323,7 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
                 # raise above if that happens
                 and add_config_subentry_id not in add_config_entry.subentries  # type: ignore[union-attr]
             ):
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     f"Config entry {add_config_entry_id} has no"
                     f" subentry {add_config_subentry_id}"
                 )
@@ -3332,7 +3332,7 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
             remove_config_subentry_id is not Undefined
             and remove_config_entry_id is Undefined
         ):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Can't remove config subentry without specifying config entry"
             )
 
@@ -3340,7 +3340,7 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
             new_config_entry_id is not Undefined
             and self.hass.config_entries.async_get_entry(new_config_entry_id) is None
         ):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Can't move device to unknown config entry {new_config_entry_id}"
             )
 
@@ -3351,18 +3351,18 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
             add_config_entry_id is not Undefined
             or remove_config_entry_id is not Undefined
         ):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Can't combine new_config_entry_id or new_config_subentry_id with "
                 "add_config_entry_id or remove_config_entry_id"
             )
 
         if merge_connections is not Undefined and new_connections is not Undefined:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Cannot define both merge_connections and new_connections"
             )
 
         if merge_identifiers is not Undefined and new_identifiers is not Undefined:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Cannot define both merge_identifiers and new_identifiers"
             )
 
@@ -3381,7 +3381,7 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
         else:
             has_connections = old.connections
         if not has_identifiers and not has_connections:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "A device must have at least one of identifiers or connections"
             )
 
@@ -3391,16 +3391,16 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
             and self.async_get(via_device_id, include_child_devices=False) is None
         ):
             if via_device_id in self._child_device_data:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     f"via_device_id {via_device_id} is a child device, which "
                     "can't be a via device"
                 )
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Can't link device to unknown via device {via_device_id}"
             )
 
         if via_device_id == device_id:
-            raise __HAC_KEEP__Error("A device can not be its own via device")
+            raise UniversalAssistantError("A device can not be its own via device")
 
         # A device belongs to exactly one config entry and subentry:
         # - add_config_entry_id (with an optional add_config_subentry_id) records a
@@ -3476,7 +3476,7 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
                         and via_device_id is not None
                         and via_device_id == old.composite_device_id
                     ):
-                        raise __HAC_KEEP__Error(
+                        raise UniversalAssistantError(
                             "A device can not be its own via device"
                         )
                     self.async_remove_device(device_id)
@@ -3488,7 +3488,7 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
                 # here before mutating the runtime-only sibling pending moves, so the
                 # rejected move leaves no partial state behind.
                 if self._child_devices.get_children_for_device_id(device_id):
-                    raise __HAC_KEEP__Error(
+                    raise UniversalAssistantError(
                         f"Can't move device {device_id}: it has child devices"
                     )
                 # A pre-migration composite's splits share identity, so once one split
@@ -3519,7 +3519,7 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
                 resolved_config_entry is None
                 or target_config_subentry_id not in resolved_config_entry.subentries
             ):
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     f"Config entry {resolved_config_entry_id} has no"
                     f" subentry {target_config_subentry_id}"
                 )
@@ -3557,7 +3557,7 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
         if (
             is_move or "config_subentry_id" in new_values
         ) and self._child_devices.get_children_for_device_id(device_id):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Can't move device {device_id}: it has child devices"
             )
 
@@ -3569,7 +3569,7 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
             # Direct self-references were rejected before the ownership changes above;
             # this catches a composite via_device_id that resolves to device_id.
             if via_device_id == device_id:
-                raise __HAC_KEEP__Error("A device can not be its own via device")
+                raise UniversalAssistantError("A device can not be its own via device")
 
         added_connections: set[tuple[str, str]] | None = None
         added_identifiers: set[tuple[str, str]] | None = None
@@ -3787,12 +3787,12 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
         old_values: dict[str, Any] = {}  # Dict with old key/value pairs
 
         if merge_identifiers is not Undefined and new_identifiers is not Undefined:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Cannot define both merge_identifiers and new_identifiers"
             )
 
         if new_identifiers is not Undefined and not new_identifiers:
-            raise __HAC_KEEP__Error("A child device must have at least one identifier")
+            raise UniversalAssistantError("A child device must have at least one identifier")
 
         added_identifiers: set[tuple[str, str]] | None = None
 
@@ -3999,11 +3999,11 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
             async_remove_device to remove.
         """
         if device_id not in self._devices and device_id in self._child_devices:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Device {device_id} is a child device; use async_update_child_device"
             )
         if disabled_by is DeviceEntryDisabler.DEVICE:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "disabled_by=DeviceEntryDisabler.DEVICE is only valid for a child "
                 "device"
             )
@@ -4122,7 +4122,7 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
             Core 2027.8.
         """
         if device_id not in self._child_devices and device_id in self._devices:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Device {device_id} is a main device; use async_update_device"
             )
         updated = self._async_update_child_device(
@@ -4818,7 +4818,7 @@ class DeviceRegistry(BaseRegistry[dict[str, list[dict[str, Any]]]]):
 
 
 @callback
-def async_get(hass: __HAC_KEEP__) -> DeviceRegistry:
+def async_get(hass: UniversalAssistant) -> DeviceRegistry:
     """Get device registry."""
     try:
         return hass.data[DATA_REGISTRY]
@@ -4828,7 +4828,7 @@ def async_get(hass: __HAC_KEEP__) -> DeviceRegistry:
 
 @callback
 def async_get_device_id_by_identifier(
-    hass: __HAC_KEEP__, identifier: tuple[str, str], *, config_entry_id: str
+    hass: UniversalAssistant, identifier: tuple[str, str], *, config_entry_id: str
 ) -> str:
     """Get the id of the device with the identifier, owned by the config entry.
 
@@ -4851,7 +4851,7 @@ def async_get_device_id_by_identifier(
 
 @overload
 def async_get_device_and_config_entry_for_domain(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_id: str,
     *,
     domain: str,
@@ -4862,7 +4862,7 @@ def async_get_device_and_config_entry_for_domain(
 
 @overload
 def async_get_device_and_config_entry_for_domain(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_id: str,
     *,
     domain: str,
@@ -4873,7 +4873,7 @@ def async_get_device_and_config_entry_for_domain(
 
 @overload
 def async_get_device_and_config_entry_for_domain(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_id: str,
     *,
     domain: str,
@@ -4884,7 +4884,7 @@ def async_get_device_and_config_entry_for_domain(
 
 @callback
 def async_get_device_and_config_entry_for_domain(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_id: str,
     *,
     domain: str,
@@ -4930,14 +4930,14 @@ def async_get_device_and_config_entry_for_domain(
     return registry.async_get(device_id, include_child_devices=False), None
 
 
-def async_setup(hass: __HAC_KEEP__) -> None:
+def async_setup(hass: UniversalAssistant) -> None:
     """Set up device registry."""
     if DATA_REGISTRY in hass.data:
         raise RuntimeError("Device registry is already set up")
     hass.data[DATA_REGISTRY] = DeviceRegistry(hass)
 
 
-async def async_load(hass: __HAC_KEEP__, *, load_empty: bool = False) -> None:
+async def async_load(hass: UniversalAssistant, *, load_empty: bool = False) -> None:
     """Load device registry."""
     await async_get(hass).async_load(load_empty=load_empty)
 
@@ -4969,7 +4969,7 @@ def async_entries_for_area(
 
 @callback
 def async_get_effective_area_id(
-    hass: __HAC_KEEP__, device: AnyDeviceEntry
+    hass: UniversalAssistant, device: AnyDeviceEntry
 ) -> str | None:
     """Return the effective area of a device or child device.
 
@@ -5099,7 +5099,7 @@ def _migrate_device_disabled_by(
 
 @callback
 def async_cleanup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     dev_reg: DeviceRegistry,
     ent_reg: entity_registry.EntityRegistry,
 ) -> None:
@@ -5157,7 +5157,7 @@ def async_cleanup(
 
 
 @callback
-def async_setup_cleanup(hass: __HAC_KEEP__, dev_reg: DeviceRegistry) -> None:
+def async_setup_cleanup(hass: UniversalAssistant, dev_reg: DeviceRegistry) -> None:
     """Clean up device registry when entities removed."""
     from . import entity_registry, label_registry as lr  # noqa: PLC0415
 

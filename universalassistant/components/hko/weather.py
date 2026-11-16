@@ -8,7 +8,7 @@ from universalassistant.components.weather import (
     WeatherEntityFeature,
 )
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -27,7 +27,7 @@ from .coordinator import HKOConfigEntry, HKOUpdateCoordinator
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: HKOConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

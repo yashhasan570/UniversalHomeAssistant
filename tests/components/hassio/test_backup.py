@@ -51,7 +51,7 @@ from universalassistant.components.backup import (
 )
 from universalassistant.components.hassio import DOMAIN
 from universalassistant.components.hassio.backup import RESTORE_JOB_ID_ENV
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -315,7 +315,7 @@ def fixture_supervisor_environ() -> Generator[None]:
 
 @pytest.fixture(autouse=True)
 async def hassio_enabled(
-    hass: __HAC_KEEP__, supervisor_client: AsyncMock
+    hass: UniversalAssistant, supervisor_client: AsyncMock
 ) -> AsyncGenerator[None]:
     """Enable hassio."""
     with (
@@ -327,7 +327,7 @@ async def hassio_enabled(
 
 @pytest.fixture
 async def setup_backup_integration(
-    hass: __HAC_KEEP__, hassio_enabled: None, supervisor_client: AsyncMock
+    hass: UniversalAssistant, hassio_enabled: None, supervisor_client: AsyncMock
 ) -> None:
     """Set up Backup integration."""
     assert await async_setup_component(hass, BACKUP_DOMAIN, {BACKUP_DOMAIN: {}})
@@ -401,7 +401,7 @@ def mock_backup_agent(
 
 
 async def _setup_backup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     domain: str,
     platform: BackupAgentPlatformProtocol,
@@ -478,7 +478,7 @@ async def _setup_backup_platform(
     ],
 )
 async def test_agent_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     mounts: MountsInfo,
@@ -553,7 +553,7 @@ async def test_agent_info(
     ],
 )
 async def test_agent_list_backups(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     backup: supervisor_backups.Backup,
@@ -574,7 +574,7 @@ async def test_agent_list_backups(
 
 @pytest.mark.usefixtures("hassio_client", "setup_backup_integration")
 async def test_agent_download(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     supervisor_client: AsyncMock,
 ) -> None:
@@ -609,7 +609,7 @@ async def test_agent_download(
 )
 @pytest.mark.usefixtures("hassio_client", "setup_backup_integration")
 async def test_agent_download_unavailable_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     supervisor_client: AsyncMock,
     agent_id: str,
@@ -627,7 +627,7 @@ async def test_agent_download_unavailable_backup(
 
 @pytest.mark.usefixtures("hassio_client", "setup_backup_integration")
 async def test_agent_upload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
@@ -722,7 +722,7 @@ async def test_agent_upload(
 )
 @pytest.mark.usefixtures("hassio_client", "setup_backup_integration")
 async def test_agent_upload_path_traversal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     suggested_filename: str,
 ) -> None:
@@ -746,7 +746,7 @@ async def test_agent_upload_path_traversal(
 
 @pytest.mark.usefixtures("hassio_client", "setup_backup_integration")
 async def test_agent_get_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
 ) -> None:
@@ -818,7 +818,7 @@ async def test_agent_get_backup(
     ],
 )
 async def test_agent_get_backup_with_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     backup_info_side_effect: Exception,
@@ -843,7 +843,7 @@ async def test_agent_get_backup_with_error(
 
 @pytest.mark.usefixtures("hassio_client", "setup_backup_integration")
 async def test_agent_delete_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
 ) -> None:
@@ -893,7 +893,7 @@ async def test_agent_delete_backup(
     ],
 )
 async def test_agent_delete_with_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     remove_side_effect: Exception,
@@ -964,7 +964,7 @@ async def test_agent_delete_with_error(
     ],
 )
 async def test_agents_notify_on_mount_added_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_supervisor_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     event_data: dict[str, Any],
@@ -1059,7 +1059,7 @@ DEFAULT_BACKUP_OPTIONS = supervisor_backups.PartialBackupOptions(
     ],
 )
 async def test_reader_writer_create(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_supervisor_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -1152,7 +1152,7 @@ async def test_reader_writer_create(
     [[Mock(slug="core_ssh", version="0.0.0"), SupervisorError("Boom")]],
 )
 async def test_reader_writer_create_addon_folder_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     hass_supervisor_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
@@ -1282,7 +1282,7 @@ async def test_reader_writer_create_addon_folder_error(
 
 @pytest.mark.usefixtures("hassio_client", "setup_backup_integration")
 async def test_reader_writer_create_report_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_supervisor_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -1400,7 +1400,7 @@ async def test_reader_writer_create_report_progress(
 
 @pytest.mark.usefixtures("hassio_client", "setup_backup_integration")
 async def test_reader_writer_create_job_done(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -1613,7 +1613,7 @@ async def test_reader_writer_create_job_done(
     ],
 )
 async def test_reader_writer_create_per_agent_encryption(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_supervisor_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -1771,7 +1771,7 @@ async def test_reader_writer_create_per_agent_encryption(
     ],
 )
 async def test_reader_writer_create_partial_backup_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     side_effect: Exception,
@@ -1849,7 +1849,7 @@ async def test_reader_writer_create_partial_backup_error(
 )
 @pytest.mark.usefixtures("hassio_client", "setup_backup_integration")
 async def test_reader_writer_create_missing_reference_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_supervisor_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     supervisor_event: dict[str, Any],
@@ -1954,7 +1954,7 @@ async def test_reader_writer_create_missing_reference_error(
     ],
 )
 async def test_reader_writer_create_download_remove_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_supervisor_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     exception: Exception,
@@ -2051,7 +2051,7 @@ async def test_reader_writer_create_download_remove_error(
 @pytest.mark.usefixtures("hassio_client", "setup_backup_integration")
 @pytest.mark.parametrize("exception", [SupervisorError("Boom!"), Exception("Boom!")])
 async def test_reader_writer_create_info_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_supervisor_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     exception: Exception,
@@ -2127,7 +2127,7 @@ async def test_reader_writer_create_info_error(
 
 @pytest.mark.usefixtures("hassio_client", "setup_backup_integration")
 async def test_reader_writer_create_remote_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_supervisor_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -2229,7 +2229,7 @@ async def test_reader_writer_create_remote_backup(
             {
                 "code": "universal_assistant_error",
                 "message": (
-                    "Cannot create a backup with database but without __HA_KEEP__"
+                    "Cannot create a backup with database but without Universal Home Assistant"
                 ),
             },
         ),
@@ -2243,7 +2243,7 @@ async def test_reader_writer_create_remote_backup(
     ],
 )
 async def test_reader_writer_create_wrong_parameters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     extra_generate_options: dict[str, Any],
@@ -2294,7 +2294,7 @@ async def test_reader_writer_create_wrong_parameters(
 
 @pytest.mark.usefixtures("hassio_client", "setup_backup_integration")
 async def test_agent_receive_remote_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     supervisor_client: AsyncMock,
 ) -> None:
@@ -2343,7 +2343,7 @@ async def test_agent_receive_remote_backup(
 )
 @pytest.mark.usefixtures("hassio_client", "setup_backup_integration")
 async def test_reader_writer_restore(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_supervisor_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     get_job_result: supervisor_jobs.Job,
@@ -2410,7 +2410,7 @@ async def test_reader_writer_restore(
 
 @pytest.mark.usefixtures("hassio_client", "setup_backup_integration")
 async def test_reader_writer_restore_remote_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_supervisor_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
 ) -> None:
@@ -2519,7 +2519,7 @@ async def test_reader_writer_restore_remote_backup(
 
 @pytest.mark.usefixtures("hassio_client", "setup_backup_integration")
 async def test_reader_writer_restore_report_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_supervisor_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
 ) -> None:
@@ -2641,7 +2641,7 @@ async def test_reader_writer_restore_report_progress(
 )
 @pytest.mark.usefixtures("hassio_client", "setup_backup_integration")
 async def test_reader_writer_restore_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     supervisor_error: Exception,
@@ -2700,7 +2700,7 @@ async def test_reader_writer_restore_error(
 
 @pytest.mark.usefixtures("hassio_client", "setup_backup_integration")
 async def test_reader_writer_restore_late_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_supervisor_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
 ) -> None:
@@ -2802,7 +2802,7 @@ async def test_reader_writer_restore_late_error(
             TEST_BACKUP,
             TEST_BACKUP_DETAILS,
             {"restore_universalassistant": False},
-            "Cannot restore database without __HA_KEEP__",
+            "Cannot restore database without Universal Home Assistant",
         ),
         (
             TEST_BACKUP_4,
@@ -2814,7 +2814,7 @@ async def test_reader_writer_restore_late_error(
 )
 @pytest.mark.usefixtures("hassio_client", "setup_backup_integration")
 async def test_reader_writer_restore_wrong_parameters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     backup: supervisor_backups.Backup,
@@ -2867,7 +2867,7 @@ async def test_reader_writer_restore_wrong_parameters(
 )
 @pytest.mark.usefixtures("hassio_client")
 async def test_restore_progress_after_restart(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     get_job_result: supervisor_jobs.Job,
@@ -2892,7 +2892,7 @@ async def test_restore_progress_after_restart(
 
 @pytest.mark.usefixtures("hassio_client")
 async def test_restore_progress_after_restart_report_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_supervisor_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
 ) -> None:
@@ -2974,7 +2974,7 @@ async def test_restore_progress_after_restart_report_progress(
 
 @pytest.mark.usefixtures("hassio_client")
 async def test_restore_progress_after_restart_unknown_job(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
 ) -> None:
@@ -3069,7 +3069,7 @@ async def test_restore_progress_after_restart_unknown_job(
 )
 @pytest.mark.usefixtures("hassio_client")
 async def test_config_load_config_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,

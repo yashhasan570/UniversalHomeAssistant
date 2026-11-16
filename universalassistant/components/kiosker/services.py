@@ -16,8 +16,8 @@ from kiosker import (
 import probatio
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, ServiceResponse, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, ServiceCall, ServiceResponse, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, selector, service
 
 from .const import DOMAIN
@@ -95,7 +95,7 @@ def handle_kiosker_api_errors(
         try:
             await func(call)
         except ConnectionError as ex:
-            raise __HAC_KEEP__Error(f"Unable to connect to Kiosker: {ex}") from ex
+            raise UniversalAssistantError(f"Unable to connect to Kiosker: {ex}") from ex
         except AuthenticationError as ex:
             raise ServiceValidationError(
                 "Authentication failed. Check your API token."
@@ -166,7 +166,7 @@ async def set_blackout(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the services for the Kiosker integration."""
     hass.services.async_register(
         DOMAIN, KioskerService.NAVIGATE_URL, navigate_url, schema=NAVIGATE_URL_SCHEMA

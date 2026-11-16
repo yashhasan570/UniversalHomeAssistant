@@ -34,7 +34,7 @@
         "description": "The sensor data broadcast by the sensor is encrypted. In order to decrypt it we need a 32 character hexadecimal bindkey."
       },
       "get_encryption_key_4_5_choose_method": {
-        "description": "A Mi device can be set up in __HA_KEEP__ in two different ways.\n\nYou can enter the bindkey yourself, or __HA_KEEP__ can import them from your Mi account.",
+        "description": "A Mi device can be set up in Universal Home Assistant in two different ways.\n\nYou can enter the bindkey yourself, or Universal Home Assistant can import them from your Mi account.",
         "menu_options": {
           "cloud_auth": "Mi account (recommended)",
           "get_encryption_key_4_5": "Enter encryption key manually"

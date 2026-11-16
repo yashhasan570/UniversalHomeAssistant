@@ -26,7 +26,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -74,7 +74,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 
 async def test_image_entity_does_not_expose_last_alarm_pic_attribute(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ezviz_client: AsyncMock,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_image_entity_does_not_expose_last_alarm_pic_attribute(
 
 
 async def test_last_alarm_pic_sensor_not_created(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ezviz_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -136,7 +136,7 @@ async def test_last_alarm_pic_sensor_not_created(
 
 
 async def test_migrated_last_alarm_pic_sensor_is_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ezviz_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -164,7 +164,7 @@ async def test_migrated_last_alarm_pic_sensor_is_removed(
 
 
 async def test_sensor_cleanup_ignores_entries_without_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ezviz_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -196,7 +196,7 @@ async def test_sensor_cleanup_ignores_entries_without_unique_id(
 
 
 async def test_image_entity_created_without_alarm_pic(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ezviz_client: AsyncMock,
 ) -> None:
@@ -232,7 +232,7 @@ async def test_image_entity_created_without_alarm_pic(
     ],
 )
 async def test_image_entity_last_alarm_time_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ezviz_client: AsyncMock,
     last_alarm_time: object,
@@ -254,7 +254,7 @@ async def test_image_entity_last_alarm_time_state(
 
 
 async def test_image_entity_updates_last_alarm_pic_on_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ezviz_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -305,7 +305,7 @@ async def test_image_entity_updates_last_alarm_pic_on_refresh(
 
 
 async def test_image_entity_keeps_last_alarm_pic_when_refresh_omits_it(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ezviz_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -355,7 +355,7 @@ async def test_image_entity_keeps_last_alarm_pic_when_refresh_omits_it(
 
 
 async def test_entity_unavailable_on_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ezviz_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -403,7 +403,7 @@ async def test_entity_unavailable_on_update_failure(
     ],
 )
 async def test_image_entity_decrypts_with_camera_password(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ezviz_client: AsyncMock,
     options: dict[str, str],

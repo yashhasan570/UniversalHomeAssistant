@@ -12,8 +12,8 @@ from universalassistant.components.switch import (
     SwitchEntity,
     SwitchEntityDescription,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -63,7 +63,7 @@ SENSOR_DESCRIPTIONS: tuple[PyLoadSwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: PyLoadConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -96,17 +96,17 @@ class PyLoadSwitchEntity(BasePyLoadEntity, SwitchEntity):
         try:
             await self.entity_description.turn_on_fn(self.coordinator.pyload)
         except CannotConnect as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="service_call_exception",
             ) from e
         except InvalidAuth as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="service_call_auth_exception",
             ) from e
         except ParserError as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="setup_parse_exception",
             ) from e
@@ -119,17 +119,17 @@ class PyLoadSwitchEntity(BasePyLoadEntity, SwitchEntity):
         try:
             await self.entity_description.turn_off_fn(self.coordinator.pyload)
         except CannotConnect as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="service_call_exception",
             ) from e
         except InvalidAuth as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="service_call_auth_exception",
             ) from e
         except ParserError as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="setup_parse_exception",
             ) from e
@@ -142,17 +142,17 @@ class PyLoadSwitchEntity(BasePyLoadEntity, SwitchEntity):
         try:
             await self.entity_description.toggle_fn(self.coordinator.pyload)
         except CannotConnect as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="service_call_exception",
             ) from e
         except InvalidAuth as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="service_call_auth_exception",
             ) from e
         except ParserError as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="setup_parse_exception",
             ) from e

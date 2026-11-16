@@ -27,8 +27,8 @@ from universalassistant.components.conversation.const import (
     UNIVERSAL_ASSISTANT_AGENT,
 )
 from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN
-from universalassistant.core import Context, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import Context, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import chat_session, intent
 from universalassistant.setup import async_setup_component
 
@@ -45,7 +45,7 @@ AGENT_ID_OPTIONS = [
 @pytest.mark.parametrize("sentence", ["turn on kitchen", "turn kitchen on"])
 @pytest.mark.parametrize("conversation_id", ["my_new_conversation", None])
 async def test_turn_on_intent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     conversation_id,
     sentence,
@@ -78,10 +78,10 @@ async def test_turn_on_intent(
     assert result == snapshot
 
 
-async def test_service_fails(hass: __HAC_KEEP__, init_components) -> None:
+async def test_service_fails(hass: UniversalAssistant, init_components) -> None:
     """Test calling the turn on intent."""
     with (
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
         patch(
             "universalassistant.components.conversation.services.async_converse",
             side_effect=intent.IntentHandleError("boom"),
@@ -99,7 +99,7 @@ async def test_service_fails(hass: __HAC_KEEP__, init_components) -> None:
 
 
 @pytest.mark.parametrize("sentence", ["turn off kitchen", "turn kitchen off"])
-async def test_turn_off_intent(hass: __HAC_KEEP__, init_components, sentence) -> None:
+async def test_turn_off_intent(hass: UniversalAssistant, init_components, sentence) -> None:
     """Test calling the turn on intent."""
     hass.states.async_set("light.kitchen", "on")
     calls = async_mock_service(hass, LIGHT_DOMAIN, "turn_off")
@@ -116,7 +116,7 @@ async def test_turn_off_intent(hass: __HAC_KEEP__, init_components, sentence) ->
 
 @pytest.mark.usefixtures("init_components")
 async def test_custom_agent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_admin_user: MockUser,
     mock_conversation_agent: MockAgent,
@@ -152,7 +152,7 @@ async def test_custom_agent(
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_reload(hass: __HAC_KEEP__) -> None:
+async def test_reload(hass: UniversalAssistant) -> None:
     """Test calling the reload service."""
     language = hass.config.language
     agent = async_get_agent(hass)
@@ -198,7 +198,7 @@ async def test_reload(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_prepare_fail(hass: __HAC_KEEP__) -> None:
+async def test_prepare_fail(hass: UniversalAssistant) -> None:
     """Test calling prepare with a non-existent language."""
     agent = async_get_agent(hass)
 
@@ -210,7 +210,7 @@ async def test_prepare_fail(hass: __HAC_KEEP__) -> None:
 
 
 async def test_agent_id_validator_invalid_agent(
-    hass: __HAC_KEEP__, init_components
+    hass: UniversalAssistant, init_components
 ) -> None:
     """Test validating agent id."""
     with pytest.raises(probatio.Invalid):
@@ -221,7 +221,7 @@ async def test_agent_id_validator_invalid_agent(
 
 
 async def test_get_agent_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     mock_conversation_agent: MockAgent,
     snapshot: SnapshotAssertion,
@@ -254,7 +254,7 @@ async def test_get_agent_info(
 
 @pytest.mark.parametrize("agent_id", AGENT_ID_OPTIONS)
 async def test_prepare_agent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     agent_id: str,
 ) -> None:
@@ -272,7 +272,7 @@ async def test_prepare_agent(
     [("response {{ trigger.device_id }}", "response 1234"), ("", "")],
 )
 async def test_async_handle_sentence_triggers(
-    hass: __HAC_KEEP__, response_template: str, expected_response: str
+    hass: UniversalAssistant, response_template: str, expected_response: str
 ) -> None:
     """Test handling sentence triggers with async_handle_sentence_triggers."""
     assert await async_setup_component(hass, "universalassistant", {})
@@ -315,7 +315,7 @@ async def test_async_handle_sentence_triggers(
     assert actual_response == expected_response
 
 
-async def test_async_handle_intents(hass: __HAC_KEEP__) -> None:
+async def test_async_handle_intents(hass: UniversalAssistant) -> None:
     """Test handling registered intents with async_handle_intents."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, DOMAIN, {})

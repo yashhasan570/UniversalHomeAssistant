@@ -15,14 +15,14 @@ from universalassistant.components.rova.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 
 from . import setup_with_selected_platforms
 
 
 async def test_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rova: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -38,7 +38,7 @@ async def test_reload(
 
 
 async def test_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rova: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -62,7 +62,7 @@ async def test_service(
     ],
 )
 async def test_retry_after_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rova: MagicMock,
     mock_config_entry: MockConfigEntry,
     method: str,
@@ -77,7 +77,7 @@ async def test_retry_after_failure(
 
 
 async def test_issue_if_not_rova_area(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rova: MagicMock,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
@@ -102,7 +102,7 @@ async def test_issue_if_not_rova_area(
 
 
 async def test_issue_if_not_rova_area_same_zip_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rova: MagicMock,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,

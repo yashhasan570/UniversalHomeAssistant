@@ -13,7 +13,7 @@ from universalassistant.components.bluetooth import BluetoothServiceInfoBleak
 from universalassistant.components.iseo_argo_ble import config_flow
 from universalassistant.components.iseo_argo_ble.const import CONF_PRIV_SCALAR, DOMAIN
 from universalassistant.const import CONF_ADDRESS, CONF_UUID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.device_registry import format_mac
 
@@ -47,7 +47,7 @@ def _patch_identity() -> Generator[None]:
 
 @pytest.mark.usefixtures("_patch_identity")
 async def test_bluetooth_discovery_confirm_and_register(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_iseo_client: MagicMock,
 ) -> None:
     """Test full bluetooth discovery → confirm → gw_register flow."""
@@ -85,7 +85,7 @@ async def test_bluetooth_discovery_confirm_and_register(
 
 @pytest.mark.usefixtures("_patch_identity")
 async def test_user_step_with_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_iseo_client: MagicMock,
 ) -> None:
     """Test user step shows discovered devices and allows selection."""
@@ -126,7 +126,7 @@ async def test_user_step_with_device(
 
 
 async def test_bluetooth_discovery_abort_if_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test bluetooth discovery aborts for already-configured locks."""
@@ -162,7 +162,7 @@ async def test_bluetooth_discovery_abort_if_already_configured(
     ],
 )
 async def test_bluetooth_discovery_not_iseo(
-    hass: __HAC_KEEP__, address: str, service_uuids: list[str]
+    hass: UniversalAssistant, address: str, service_uuids: list[str]
 ) -> None:
     """Test bluetooth discovery aborts for non-ISEO devices.
 
@@ -194,7 +194,7 @@ async def test_bluetooth_discovery_not_iseo(
     assert result["reason"] == "not_iseo_device"
 
 
-async def test_user_step_no_devices(hass: __HAC_KEEP__) -> None:
+async def test_user_step_no_devices(hass: UniversalAssistant) -> None:
     """Test user step aborts when no ISEO locks found nearby."""
     with patch(
         "universalassistant.components.iseo_argo_ble.config_flow._discover_locks",
@@ -211,7 +211,7 @@ async def test_user_step_no_devices(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("_patch_identity")
 async def test_gw_register_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_iseo_client: MagicMock,
 ) -> None:
     """Test gw_register handles connection error."""
@@ -245,7 +245,7 @@ async def test_gw_register_connection_error(
 
 @pytest.mark.usefixtures("_patch_identity")
 async def test_gw_register_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_iseo_client: MagicMock,
 ) -> None:
     """Test gw_register handles auth error."""
@@ -279,7 +279,7 @@ async def test_gw_register_auth_error(
 
 @pytest.mark.usefixtures("_patch_identity", "mock_iseo_client")
 async def test_gw_register_no_ble_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test gw_register handles case where ble_device is None."""
     result = await hass.config_entries.flow.async_init(
@@ -313,7 +313,7 @@ async def test_gw_register_no_ble_device(
 
 @pytest.mark.usefixtures("_patch_identity")
 async def test_gw_register_unknown_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_iseo_client: MagicMock,
 ) -> None:
     """Test gw_register handles unknown error."""
@@ -345,7 +345,7 @@ async def test_gw_register_unknown_error(
     assert result4["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_discover_locks(hass: __HAC_KEEP__) -> None:
+async def test_discover_locks(hass: UniversalAssistant) -> None:
     """Test _discover_locks skips devices that only look like a lock."""
     non_iseo_info = BluetoothServiceInfoBleak(
         name="Other",

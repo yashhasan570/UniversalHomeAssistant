@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.components.weather import DOMAIN as WEATHER_DOMAIN
 from universalassistant.components.zamg.const import CONF_STATION_ID, DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import FIXTURE_CONFIG_ENTRY
@@ -61,7 +61,7 @@ from .conftest import (
 )
 @pytest.mark.usefixtures("mock_zamg_coordinator")
 async def test_migrate_unique_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     entitydata: dict,
     old_unique_id: str,
@@ -107,7 +107,7 @@ async def test_migrate_unique_ids(
 )
 @pytest.mark.usefixtures("mock_zamg_coordinator")
 async def test_dont_migrate_unique_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     entitydata: dict,
     old_unique_id: str,
@@ -166,7 +166,7 @@ async def test_dont_migrate_unique_ids(
 )
 @pytest.mark.usefixtures("mock_zamg_coordinator")
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     entitydata: dict,
     unique_id: str,

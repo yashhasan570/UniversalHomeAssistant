@@ -21,7 +21,7 @@ from adguardhome import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -57,7 +57,7 @@ class AdGuardHomeCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: AdGuardConfigEntry,
         client: AdGuardHome,
         name: str,
@@ -80,7 +80,7 @@ class AdGuardHomeCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
             return await self._async_fetch()
         except AdGuardHomeAuthenticationError as error:
             # The credentials stopped working, like after a password change in
-            # AdGuard Home. This makes __HA_KEEP__ ask for new ones.
+            # AdGuard Home. This makes Universal Home Assistant ask for new ones.
             raise ConfigEntryAuthFailed(
                 translation_domain=DOMAIN,
                 translation_key="authentication_failed",
@@ -106,7 +106,7 @@ class AdGuardHomeStateCoordinator(AdGuardHomeCoordinator[AdGuardHomeState]):
     """Keep track of what is turned on in AdGuard Home."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: AdGuardConfigEntry, client: AdGuardHome
+        self, hass: UniversalAssistant, entry: AdGuardConfigEntry, client: AdGuardHome
     ) -> None:
         """Initialize the coordinator."""
         # Often, as these back the switches, which can be changed in AdGuard Home.
@@ -145,7 +145,7 @@ class AdGuardHomeStatisticsCoordinator(AdGuardHomeCoordinator[AdGuardHomeStatist
     """Keep track of the statistics of AdGuard Home."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: AdGuardConfigEntry, client: AdGuardHome
+        self, hass: UniversalAssistant, entry: AdGuardConfigEntry, client: AdGuardHome
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(hass, entry, client, "statistics", timedelta(minutes=5))
@@ -165,7 +165,7 @@ class AdGuardHomeUpdateCoordinator(AdGuardHomeCoordinator[AvailableUpdate]):
     """Keep track of updates for AdGuard Home."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: AdGuardConfigEntry, client: AdGuardHome
+        self, hass: UniversalAssistant, entry: AdGuardConfigEntry, client: AdGuardHome
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(hass, entry, client, "update", timedelta(minutes=5))

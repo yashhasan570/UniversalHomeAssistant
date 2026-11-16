@@ -7,7 +7,7 @@ import probatio
 
 from universalassistant.components import websocket_api
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, callback
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_component import EntityComponent
@@ -36,20 +36,20 @@ TIMEOUT_FETCH_WAKE_WORDS = 10
 
 
 @callback
-def async_default_entity(hass: __HAC_KEEP__) -> str | None:
+def async_default_entity(hass: UniversalAssistant) -> str | None:
     """Return the entity id of the default engine."""
     return next(iter(hass.states.async_entity_ids(DOMAIN)), None)
 
 
 @callback
 def async_get_wake_word_detection_entity(
-    hass: __HAC_KEEP__, entity_id: str
+    hass: UniversalAssistant, entity_id: str
 ) -> WakeWordDetectionEntity | None:
     """Return wake word entity."""
     return hass.data[DATA_COMPONENT].get_entity(entity_id)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up wake word."""
     websocket_api.async_register_command(hass, websocket_entity_info)
 
@@ -61,7 +61,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up a config entry."""
     if not await hass.data[DATA_COMPONENT].async_setup_entry(entry):
         raise ConfigEntryError(
@@ -71,7 +71,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.data[DATA_COMPONENT].async_unload_entry(entry)
 
@@ -84,7 +84,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
 )
 @websocket_api.async_response
 async def websocket_entity_info(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
 ) -> None:
     """Get info about wake word entity."""
     entity = hass.data[DATA_COMPONENT].get_entity(msg["entity_id"])

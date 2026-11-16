@@ -10,7 +10,7 @@ from botocore.exceptions import BotoCoreError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PREFIX
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import CONF_BUCKET, DOMAIN
@@ -38,7 +38,7 @@ class S3DataUpdateCoordinator(DataUpdateCoordinator[SensorData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         *,
         entry: S3ConfigEntry,
         client: S3Client,

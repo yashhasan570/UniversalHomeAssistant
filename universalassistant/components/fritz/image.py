@@ -7,7 +7,7 @@ from requests.exceptions import RequestException
 
 from universalassistant.components.image import ImageEntity
 from universalassistant.const import EntityCategory, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -22,7 +22,7 @@ PARALLEL_UPDATES = 0
 
 
 async def _migrate_to_new_unique_id(
-    hass: __HAC_KEEP__, avm_wrapper: AvmWrapper, ssid: str
+    hass: UniversalAssistant, avm_wrapper: AvmWrapper, ssid: str
 ) -> None:
     """Migrate old unique id to new unique id."""
 
@@ -48,7 +48,7 @@ async def _migrate_to_new_unique_id(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FritzConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -75,7 +75,7 @@ class FritzGuestWifiQRImage(CoordinatorEntity[AvmWrapper], ImageEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         avm_wrapper: AvmWrapper,
         ssid: str,
     ) -> None:

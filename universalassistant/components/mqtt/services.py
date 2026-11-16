@@ -6,7 +6,7 @@ from datetime import datetime
 import probatio
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.exceptions import ConfigValidationError, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, event as ev
 from universalassistant.helpers.entity_platform import async_get_platforms
@@ -186,7 +186,7 @@ async def _async_reload_config(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the actions for the MQTT component."""
 
     async_register_admin_service(

@@ -19,14 +19,14 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CONF_TOKEN,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 
 from .coordinator import CookidooConfigEntry
 
 
 async def cookidoo_from_config_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     data: dict[str, Any],
     on_auth_data_update: Callable[[CookidooAuthData], None] | None = None,
 ) -> Cookidoo:
@@ -48,7 +48,7 @@ async def cookidoo_from_config_data(
 
 
 async def cookidoo_from_config_entry(
-    hass: __HAC_KEEP__, entry: CookidooConfigEntry
+    hass: UniversalAssistant, entry: CookidooConfigEntry
 ) -> Cookidoo:
     """Build cookidoo from config entry."""
 

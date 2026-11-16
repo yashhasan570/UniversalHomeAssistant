@@ -20,8 +20,8 @@ from google_maps_routing_api import (
 import probatio
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.issue_registry import (
@@ -46,7 +46,7 @@ _LOGGER = logging.getLogger(__name__)
 CLIENT_TIMEOUT = 30
 
 
-def get_client(hass: __HAC_KEEP__, api_key: str) -> GoogleMapsRoutingApi:
+def get_client(hass: UniversalAssistant, api_key: str) -> GoogleMapsRoutingApi:
     """Return a Google Maps Routes API client."""
     return GoogleMapsRoutingApi(
         session=async_get_clientsession(hass),
@@ -83,7 +83,7 @@ def convert_time(time_str: str) -> dt.datetime:
     return combined
 
 
-def convert_to_waypoint(hass: __HAC_KEEP__, location: str) -> Waypoint | None:
+def convert_to_waypoint(hass: UniversalAssistant, location: str) -> Waypoint | None:
     """Convert a location to a Waypoint.
 
     Will either use coordinates or if none are found, use the location as an address.
@@ -114,7 +114,7 @@ def get_localized_text(text: LocalizedText | None) -> str:
 
 
 async def validate_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     api_key: str,
     origin: str,
     destination: str,
@@ -159,7 +159,7 @@ class PermissionDeniedException(Exception):
     """Permission Denied Error."""
 
 
-def create_routes_api_disabled_issue(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+def create_routes_api_disabled_issue(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Create an issue for the Routes API being disabled."""
     async_create_issue(
         hass,
@@ -178,7 +178,7 @@ def create_routes_api_disabled_issue(hass: __HAC_KEEP__, entry: ConfigEntry) -> 
     )
 
 
-def delete_routes_api_disabled_issue(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+def delete_routes_api_disabled_issue(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Delete the issue for the Routes API being disabled."""
     async_delete_issue(hass, DOMAIN, f"routes_api_disabled_{entry.entry_id}")
 
@@ -187,7 +187,7 @@ async def async_compute_routes(
     client: GoogleMapsRoutingApi,
     origin: str,
     destination: str,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     travel_mode: TravelMode,
     units: str,
     language: str | None = None,
@@ -224,7 +224,7 @@ async def async_compute_routes(
             routing_preference != RoutingPreference.TRAFFIC_AWARE_OPTIMAL
             and routing_traffic_model is not None
         ):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="traffic_model_not_allowed",
             )

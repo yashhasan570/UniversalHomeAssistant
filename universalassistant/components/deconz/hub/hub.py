@@ -10,7 +10,7 @@ from pydeconz.interfaces.groups import GroupHandler
 from pydeconz.models.event import EventType
 
 from universalassistant.config_entries import SOURCE_HASSIO
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
@@ -60,7 +60,7 @@ class DeconzHub:
     """Manages a single deCONZ gateway."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: DeconzConfigEntry, api: DeconzSession
+        self, hass: UniversalAssistant, config_entry: DeconzConfigEntry, api: DeconzSession
     ) -> None:
         """Initialize the system."""
         self.hass = hass
@@ -185,7 +185,7 @@ class DeconzHub:
 
     @staticmethod
     async def async_config_entry_updated(
-        hass: __HAC_KEEP__, config_entry: DeconzConfigEntry
+        hass: UniversalAssistant, config_entry: DeconzConfigEntry
     ) -> None:
         """Handle signals of config entry being updated.
 
@@ -249,7 +249,7 @@ class DeconzHub:
                 entity_id
             ):
                 # Removing an entity from the entity registry will also remove them
-                # from __HA_KEEP__
+                # from Universal Home Assistant
                 entity_registry.async_remove(entity_id)
 
     @callback

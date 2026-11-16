@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.wiz.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_FRIENDLY_NAME, CONF_HOST, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
 
@@ -23,7 +23,7 @@ from . import (
 )
 
 
-async def test_setup_retry(hass: __HAC_KEEP__) -> None:
+async def test_setup_retry(hass: UniversalAssistant) -> None:
     """Test setup is retried on error."""
     bulb = _mocked_wizlight(None, None, FAKE_SOCKET)
     bulb.getMac = AsyncMock(side_effect=OSError)
@@ -38,7 +38,7 @@ async def test_setup_retry(hass: __HAC_KEEP__) -> None:
     assert entry.state is ConfigEntryState.LOADED
 
 
-async def test_cleanup_on_shutdown(hass: __HAC_KEEP__) -> None:
+async def test_cleanup_on_shutdown(hass: UniversalAssistant) -> None:
     """Test the socket is cleaned up on shutdown."""
     bulb = _mocked_wizlight(None, None, FAKE_SOCKET)
     _, entry = await async_setup_integration(hass, wizlight=bulb)
@@ -48,7 +48,7 @@ async def test_cleanup_on_shutdown(hass: __HAC_KEEP__) -> None:
     bulb.async_close.assert_called_once()
 
 
-async def test_cleanup_on_failed_first_update(hass: __HAC_KEEP__) -> None:
+async def test_cleanup_on_failed_first_update(hass: UniversalAssistant) -> None:
     """Test the socket is cleaned up on failed first update."""
     bulb = _mocked_wizlight(None, None, FAKE_SOCKET)
     bulb.updateState = AsyncMock(side_effect=OSError)
@@ -68,7 +68,7 @@ async def test_cleanup_on_failed_first_update(hass: __HAC_KEEP__) -> None:
     bulb.async_close.assert_called_once()
 
 
-async def test_wrong_device_now_has_our_ip(hass: __HAC_KEEP__) -> None:
+async def test_wrong_device_now_has_our_ip(hass: UniversalAssistant) -> None:
     """Test setup is retried when the wrong device is found."""
     bulb = _mocked_wizlight(None, None, FAKE_SOCKET)
     bulb.mac = "dddddddddddd"
@@ -81,7 +81,7 @@ async def test_wrong_device_now_has_our_ip(hass: __HAC_KEEP__) -> None:
         await hass.async_block_till_done(wait_background_tasks=True)
 
 
-async def test_reload_on_title_change(hass: __HAC_KEEP__) -> None:
+async def test_reload_on_title_change(hass: UniversalAssistant) -> None:
     """Test the integration gets reloaded when the title is updated."""
     bulb = _mocked_wizlight(None, None, FAKE_SOCKET)
     _, entry = await async_setup_integration(hass, wizlight=bulb)

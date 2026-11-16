@@ -92,8 +92,8 @@ from universalassistant.components.universalassistant.exposed_entities import as
 from universalassistant.components.intent import async_register_timer_handler
 from universalassistant.components.llm import LLMTools
 from universalassistant.const import CONF_LLM_HASS_API
-from universalassistant.core import Context, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import Context, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import (
     chat_session,
     device_registry as dr,
@@ -124,7 +124,7 @@ ENTITY_ID = "conversation.claude_conversation"
 
 @pytest.fixture
 def mock_config_entry_with_server_tools(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> MockConfigEntry:
     """Configure server tools and adaptive thinking."""
     hass.config_entries.async_update_subentry(
@@ -251,7 +251,7 @@ def diagnostic_requests(
 
 @pytest.fixture
 def mock_code_execution(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Enable server tools before loading the integration."""
     hass.config_entries.async_update_subentry(
@@ -263,7 +263,7 @@ def mock_code_execution(
 
 @pytest.fixture
 def mock_caching_disabled(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Disable prompt caching before loading the integration."""
     hass.config_entries.async_update_subentry(
@@ -299,7 +299,7 @@ def mock_llm_tool() -> Generator[AsyncMock]:
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test entity properties."""
@@ -358,7 +358,7 @@ async def test_translation_key(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_error_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
 ) -> None:
     """Test error handling."""
@@ -377,7 +377,7 @@ async def test_error_handling(
 
 
 async def test_template_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that template error handling works."""
@@ -402,7 +402,7 @@ async def test_template_error(
 
 
 async def test_template_variables(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
 ) -> None:
@@ -453,7 +453,7 @@ async def test_template_variables(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_conversation_agent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test Anthropic Agent."""
     agent = conversation.agent_manager.async_get_agent(
@@ -464,7 +464,7 @@ async def test_conversation_agent(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_unknown_stream_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
 ) -> None:
@@ -558,7 +558,7 @@ async def test_unknown_stream_event(
     ],
 )
 async def test_token_stats_reported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     response_usage: list[MessageDeltaUsage],
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -691,7 +691,7 @@ async def test_token_stats_reported(
     ],
 )
 async def test_token_stats_interrupted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_usage_stream: AsyncMock,
     token_usage_events: list[RawMessageStreamEvent],
     event_slice: slice,
@@ -729,7 +729,7 @@ async def test_token_stats_interrupted(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_token_stats_cancelled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_usage_stream: AsyncMock,
     token_usage_events: list[RawMessageStreamEvent],
     snapshot: SnapshotAssertion,
@@ -758,7 +758,7 @@ async def test_token_stats_cancelled(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_token_stats_missing_message_start(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_usage_stream: AsyncMock,
 ) -> None:
     """Do not fabricate usage when a stream fails before message_start."""
@@ -782,7 +782,7 @@ async def test_token_stats_missing_message_start(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_prompt_caching_system_prompt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
 ) -> None:
     """Ensure system prompt is sent as TextBlockParam with cache_control."""
@@ -805,14 +805,14 @@ async def test_prompt_caching_system_prompt(
     assert len(system) == 1
     block = system[0]
     assert block["type"] == "text"
-    assert "__HA_KEEP__" in block["text"]
+    assert "Universal Home Assistant" in block["text"]
     assert block["cache_control"] == {"type": "ephemeral"}
     assert "cache_control" not in mock_create_stream.call_args.kwargs
 
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_prompt_caching_automatic(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
 ) -> None:
@@ -877,7 +877,7 @@ async def test_prompt_caching_automatic(
     ],
 )
 async def test_cache_diagnostics_trace(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
     diagnostic_requests: list[MessageCreateParamsStreaming],
     response_diagnostics: list[Diagnostics | None],
@@ -907,7 +907,7 @@ async def test_cache_diagnostics_trace(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_cache_diagnostics_conversation_isolation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
     diagnostic_requests: list[MessageCreateParamsStreaming],
 ) -> None:
@@ -942,7 +942,7 @@ async def test_cache_diagnostics_conversation_isolation(
 
 @pytest.mark.usefixtures("mock_code_execution", "mock_init_component")
 async def test_cache_diagnostics_pause_turn(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
     diagnostic_requests: list[MessageCreateParamsStreaming],
 ) -> None:
@@ -993,7 +993,7 @@ async def test_cache_diagnostics_pause_turn(
 
 @pytest.mark.usefixtures("mock_caching_disabled", "mock_init_component")
 async def test_cache_diagnostics_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
     diagnostic_requests: list[MessageCreateParamsStreaming],
 ) -> None:
@@ -1028,7 +1028,7 @@ async def test_cache_diagnostics_disabled(
         pytest.param(
             [
                 *create_server_tool_use_block(
-                    0, "srvtoolu_test", "web_search", ['{"query":"__HA_KEEP__"}']
+                    0, "srvtoolu_test", "web_search", ['{"query":"Universal Home Assistant"}']
                 ),
                 *create_web_search_result_block(1, "srvtoolu_test", []),
                 *create_content_block(2, []),
@@ -1090,7 +1090,7 @@ async def test_cache_diagnostics_disabled(
     ],
 )
 async def test_empty_response_without_completed_turn(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     body_events: list[RawMessageStreamEvent],
     expected_roles: list[str],
     end_events: list[RawMessageStreamEvent],
@@ -1135,7 +1135,7 @@ async def test_empty_response_without_completed_turn(
 @patch("universalassistant.components.llm.async_get_tools", new_callable=AsyncMock)
 async def test_function_call_with_silent_response(
     mock_get_tools: AsyncMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
     events: list[RawMessageStreamEvent],
 ) -> None:
@@ -1185,7 +1185,7 @@ async def test_function_call_with_silent_response(
 @pytest.mark.usefixtures("mock_config_entry_with_assist", "mock_init_component")
 async def test_function_call(
     mock_get_tools: AsyncMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
     tool_call_json_parts: list[str],
     expected_call_tool_args: dict[str, str],
@@ -1229,7 +1229,7 @@ async def test_function_call(
     system = mock_create_stream.mock_calls[1][2]["system"]
     assert isinstance(system, list)
     system_text = " ".join(block["text"] for block in system if "text" in block)
-    assert "You are a voice assistant for __HA_KEEP__." in system_text
+    assert "You are a voice assistant for Universal Home Assistant." in system_text
     assert mock_create_stream.call_args_list[0].kwargs["diagnostics"] == {
         "previous_message_id": None
     }
@@ -1285,7 +1285,7 @@ async def test_function_call(
 @pytest.mark.usefixtures("mock_config_entry_with_assist", "mock_init_component")
 async def test_function_exception(
     mock_get_tools: AsyncMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
 ) -> None:
     """Test function call with exception."""
@@ -1298,7 +1298,7 @@ async def test_function_exception(
     mock_tool.parameters = probatio.Schema(
         {probatio.Optional("param1", description="Test parameters"): str}
     )
-    mock_tool.async_call.side_effect = __HAC_KEEP__Error("Test tool exception")
+    mock_tool.async_call.side_effect = UniversalAssistantError("Test tool exception")
 
     mock_get_tools.return_value = LLMTools(tools=[mock_tool])
 
@@ -1333,7 +1333,7 @@ async def test_function_exception(
         "content": [
             {
                 "content": (
-                    '{"error":"__HAC_KEEP__Error","error_text":"Test tool exception"}'
+                    '{"error":"UniversalAssistantError","error_text":"Test tool exception"}'
                 ),
                 "is_error": True,
                 "tool_use_id": "toolu_0123456789AbCdEfGhIjKlM",
@@ -1361,7 +1361,7 @@ async def test_function_exception(
 
 @pytest.mark.usefixtures("mock_config_entry_with_assist", "mock_init_component")
 async def test_assist_api_tools_conversion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
 ) -> None:
     """Test that we are able to convert actual tools from Assist API."""
@@ -1409,7 +1409,7 @@ async def test_assist_api_tools_conversion(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_unknown_hass_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -1434,7 +1434,7 @@ async def test_unknown_hass_api(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_conversation_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
 ) -> None:
     """Test conversation ID is honored."""
@@ -1513,7 +1513,7 @@ async def test_conversation_id(
     ],
 )
 async def test_stop_reason_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
     stop_reason: StopReason,
     error_message: str,
@@ -1633,7 +1633,7 @@ async def test_stop_reason_error(
     ],
 )
 async def test_invalid_tool_arguments(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
     mock_llm_tool: AsyncMock,
     tool_blocks: list[RawMessageStreamEvent],
@@ -1665,7 +1665,7 @@ async def test_invalid_tool_arguments(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_stream_wrong_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
 ) -> None:
     """Test error if the response is not a stream."""
@@ -1695,7 +1695,7 @@ async def test_stream_wrong_type(
     "mock_config_entry_with_assist", "mock_init_component", "mock_create_stream"
 )
 async def test_double_system_messages(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test error for two or more system prompts."""
     conversation_id = "conversation_id"
@@ -1735,7 +1735,7 @@ async def test_double_system_messages(
 )
 @pytest.mark.usefixtures("mock_model_list")
 async def test_default_options_not_persisted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     subentry_data: dict[str, bool],
@@ -1762,7 +1762,7 @@ async def test_default_options_not_persisted(
 
 
 async def test_missing_capabilities_preserve_saved_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
     mock_create_stream: AsyncMock,
@@ -1797,7 +1797,7 @@ async def test_missing_capabilities_preserve_saved_options(
 
 
 async def test_unsupported_server_tools_preserve_saved_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
     mock_create_stream: AsyncMock,
@@ -1842,7 +1842,7 @@ async def test_unsupported_server_tools_preserve_saved_options(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_extended_thinking(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -1870,7 +1870,7 @@ async def test_extended_thinking(
                     "The user has just",
                     ' greeted me with "Hi".',
                     " This is a simple greeting an",
-                    "d doesn't require any __HA_KEEP__ function",
+                    "d doesn't require any Universal Home Assistant function",
                     " calls. I should respond with",
                     " a friendly greeting and let them know I'm available",
                     " to help with their smart home.",
@@ -1957,7 +1957,7 @@ async def test_extended_thinking(
 @freeze_time("2024-05-24 12:00:00")
 @pytest.mark.usefixtures("mock_init_component")
 async def test_disabled_thinking(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -1992,7 +1992,7 @@ async def test_disabled_thinking(
 @freeze_time("2024-05-24 12:00:00")
 @pytest.mark.usefixtures("mock_init_component")
 async def test_redacted_thinking(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -2026,7 +2026,7 @@ async def test_redacted_thinking(
 @pytest.mark.usefixtures("mock_init_component")
 async def test_extended_thinking_tool_call(
     mock_get_tools: AsyncMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -2105,7 +2105,7 @@ async def test_extended_thinking_tool_call(
 @freeze_time("2025-10-31 12:00:00")
 @pytest.mark.usefixtures("mock_init_component")
 async def test_web_search(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -2184,7 +2184,7 @@ async def test_web_search(
             ),
             *create_content_block(
                 7,
-                ["New __HA_KEEP__ release"],
+                ["New Universal Home Assistant release"],
                 citations=[
                     CitationsWebSearchResultLocation(
                         type="web_search_result_location",
@@ -2195,7 +2195,7 @@ async def test_web_search(
                             " but also..."
                         ),
                         encrypted_index="AAA==",
-                        title="__HA_KEEP__ Release",
+                        title="Universal Home Assistant Release",
                         url="https://www.example.com/todays-news",
                     )
                 ],
@@ -2267,7 +2267,7 @@ async def test_web_search(
     ],
 )
 async def test_web_search_final_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     preamble: list[RawMessageStreamEvent],
@@ -2285,7 +2285,7 @@ async def test_web_search_final_response(
         (
             *preamble,
             *create_server_tool_use_block(
-                1, "srvtoolu_test", "web_search", ['{"query":"__HA_KEEP__"}']
+                1, "srvtoolu_test", "web_search", ['{"query":"Universal Home Assistant"}']
             ),
             *create_web_search_result_block(
                 2,
@@ -2293,7 +2293,7 @@ async def test_web_search_final_response(
                 [
                     WebSearchResultBlock(
                         type="web_search_result",
-                        title="__HA_KEEP__",
+                        title="Universal Home Assistant",
                         url="https://www.universalassistant.io/",
                         encrypted_content="test",
                     )
@@ -2305,7 +2305,7 @@ async def test_web_search_final_response(
 
     result = await conversation.async_converse(
         hass,
-        "Search for __HA_KEEP__",
+        "Search for Universal Home Assistant",
         None,
         Context(),
         agent_id="conversation.claude_conversation",
@@ -2324,7 +2324,7 @@ async def test_web_search_final_response(
 @freeze_time("2025-10-31 12:00:00")
 @pytest.mark.usefixtures("mock_init_component")
 async def test_web_search_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -2402,7 +2402,7 @@ async def test_web_search_error(
 @freeze_time("2025-10-31 12:00:00")
 @pytest.mark.usefixtures("mock_init_component")
 async def test_web_search_dynamic_filtering(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -2546,7 +2546,7 @@ async def test_web_search_dynamic_filtering(
 @freeze_time("2025-10-31 12:00:00")
 @pytest.mark.usefixtures("mock_init_component")
 async def test_bash_code_execution(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -2627,7 +2627,7 @@ async def test_bash_code_execution(
 @freeze_time("2025-10-31 12:00:00")
 @pytest.mark.usefixtures("mock_init_component")
 async def test_bash_code_execution_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -2803,7 +2803,7 @@ async def test_bash_code_execution_error(
 @freeze_time("2025-10-31 12:00:00")
 @pytest.mark.usefixtures("mock_init_component")
 async def test_text_editor_code_execution(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -2854,7 +2854,7 @@ async def test_text_editor_code_execution(
 @freeze_time("2025-10-31 12:00:00")
 @pytest.mark.usefixtures("mock_init_component")
 async def test_tool_search(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -2971,7 +2971,7 @@ async def test_tool_search(
 @freeze_time("2025-10-31 12:00:00")
 @pytest.mark.usefixtures("mock_init_component")
 async def test_tool_search_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -3044,7 +3044,7 @@ async def test_tool_search_error(
 @freeze_time("2025-10-31 12:00:00")
 @pytest.mark.usefixtures("mock_init_component")
 async def test_web_fetch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -3070,11 +3070,11 @@ async def test_web_fetch(
             citations=CitationsConfig(enabled=True),
             source=PlainTextSource(
                 type="text",
-                data="__HA_KEEP__ new version is out!\nMany new features.\n"
+                data="Universal Home Assistant new version is out!\nMany new features.\n"
                 "Anthropic integration now supports web fetch tool.\nEnjoy the release!",
                 media_type="text/plain",
             ),
-            title="Latest __HA_KEEP__ Release Notes",
+            title="Latest Universal Home Assistant Release Notes",
         ),
         retrieved_at="2025-10-31T12:00:00.637242Z",
     )
@@ -3120,7 +3120,7 @@ async def test_web_fetch(
                     CitationCharLocation(
                         type="char_location",
                         document_index=0,
-                        document_title="Latest __HA_KEEP__ Release Notes",
+                        document_title="Latest Universal Home Assistant Release Notes",
                         start_char_index=54,
                         end_char_index=104,
                         cited_text="Anthropic integration now supports web fetch tool.",
@@ -3133,7 +3133,7 @@ async def test_web_fetch(
 
     result = await conversation.async_converse(
         hass,
-        "What's new in __HA_KEEP__? Please check on "
+        "What's new in Universal Home Assistant? Please check on "
         "https://www.universalassistant.io/latest-release-notes/",
         None,
         Context(),
@@ -3160,7 +3160,7 @@ async def test_web_fetch(
 @freeze_time("2025-10-31 12:00:00")
 @pytest.mark.usefixtures("mock_init_component")
 async def test_web_fetch_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -3214,7 +3214,7 @@ async def test_web_fetch_error(
 
     result = await conversation.async_converse(
         hass,
-        "What's new in __HA_KEEP__?",
+        "What's new in Universal Home Assistant?",
         None,
         Context(),
         agent_id="conversation.claude_conversation",
@@ -3230,7 +3230,7 @@ async def test_web_fetch_error(
 
 @pytest.mark.usefixtures("mock_config_entry_with_assist", "mock_init_component")
 async def test_container_reused(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
 ) -> None:
     """Test that container is reused."""
@@ -3334,7 +3334,7 @@ def _create_paused_responses(
     ],
 )
 async def test_resume_pause_turn(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
     captured_requests: list[MessageCreateParamsStreaming],
     code_execution_container: Container,
@@ -3376,7 +3376,7 @@ async def test_resume_pause_turn(
     ],
 )
 async def test_pause_turn_iteration_limit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
     code_execution_container: Container,
     final_tool_arguments: list[str],
@@ -3415,7 +3415,7 @@ async def test_pause_turn_iteration_limit(
 
 @pytest.mark.usefixtures("mock_config_entry_with_server_tools", "mock_init_component")
 async def test_pause_turn_followed_by_local_tool(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
     captured_requests: list[MessageCreateParamsStreaming],
     code_execution_container: Container,
@@ -3615,7 +3615,7 @@ async def test_pause_turn_followed_by_local_tool(
                 conversation.chat_log.AssistantContent(
                     agent_id="conversation.claude_conversation",
                     content="Here's what I found on the web about today's news:\n"
-                    "1. New __HA_KEEP__ release\n"
+                    "1. New Universal Home Assistant release\n"
                     "2. Something incredible happened\n"
                     "Those are the main headlines making news today.",
                     native=ContentDetails(
@@ -3633,7 +3633,7 @@ async def test_pause_turn_followed_by_local_tool(
                                             " but also..."
                                         ),
                                         "encrypted_index": "AAA==",
-                                        "title": "__HA_KEEP__ Release",
+                                        "title": "Universal Home Assistant Release",
                                         "url": "https://www.example.com/todays-news",
                                     },
                                 ],
@@ -3672,11 +3672,11 @@ async def test_pause_turn_followed_by_local_tool(
         pytest.param(
             [
                 conversation.chat_log.SystemContent("You are a helpful assistant."),
-                conversation.chat_log.UserContent("What's new in __HA_KEEP__?"),
+                conversation.chat_log.UserContent("What's new in Universal Home Assistant?"),
                 conversation.chat_log.AssistantContent(
                     agent_id="conversation.claude_conversation",
                     content="Sure, let me check that for you!",
-                    thinking_content="I need to use the web_fetch tool to fetch the latest release notes from the __HA_KEEP__ website.",
+                    thinking_content="I need to use the web_fetch tool to fetch the latest release notes from the Universal Home Assistant website.",
                     native=ContentDetails(thinking_signature="ErU/V+ayA=="),
                     tool_calls=[
                         llm.ToolInput(
@@ -3702,9 +3702,9 @@ async def test_pause_turn_followed_by_local_tool(
                                 "source": {
                                     "type": "text",
                                     "media_type": "text/plain",
-                                    "data": "__HA_KEEP__ new version is out!\nMany new features.\nAnthropic integration now supports web fetch tool.\nEnjoy the release!",
+                                    "data": "Universal Home Assistant new version is out!\nMany new features.\nAnthropic integration now supports web fetch tool.\nEnjoy the release!",
                                 },
-                                "title": "Latest __HA_KEEP__ Release Notes",
+                                "title": "Latest Universal Home Assistant Release Notes",
                                 "citations": {"enabled": True},
                             },
                             "retrieved_at": "2026-04-04T10:30:00Z",
@@ -3727,7 +3727,7 @@ async def test_pause_turn_followed_by_local_tool(
                                         "type": "char_location",
                                         "cited_text": "Anthropic integration now supports web fetch tool.",
                                         "document_index": 0,
-                                        "document_title": "Latest __HA_KEEP__ Release Notes",
+                                        "document_title": "Latest Universal Home Assistant Release Notes",
                                         "start_char_index": 56,
                                         "end_char_index": 105,
                                     },
@@ -3775,7 +3775,7 @@ async def test_pause_turn_followed_by_local_tool(
         pytest.param(
             [
                 conversation.chat_log.SystemContent(
-                    "You are a voice assistant for __HA_KEEP__."
+                    "You are a voice assistant for Universal Home Assistant."
                 ),
                 conversation.chat_log.UserContent("Set humidity to 50%"),
                 conversation.chat_log.AssistantContent(
@@ -3862,7 +3862,7 @@ async def test_pause_turn_followed_by_local_tool(
 )
 @pytest.mark.usefixtures("mock_config_entry_with_assist", "mock_init_component")
 async def test_history_conversion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
     snapshot: SnapshotAssertion,
     content: list[conversation.chat_log.Content],
@@ -3891,7 +3891,7 @@ async def test_history_conversion(
 
 @pytest.mark.usefixtures("mock_config_entry_with_assist", "mock_init_component")
 async def test_history_conversion_skips_whitespace_content(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
 ) -> None:
     """Test that whitespace-only chat log content is not sent to the API.

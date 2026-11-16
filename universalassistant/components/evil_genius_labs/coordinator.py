@@ -9,7 +9,7 @@ from aiohttp import ContentTypeError
 import pyevilgenius
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 UPDATE_INTERVAL = 10
@@ -28,7 +28,7 @@ class EvilGeniusUpdateCoordinator(DataUpdateCoordinator[dict]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: EvilGeniusConfigEntry,
         client: pyevilgenius.EvilGeniusDevice,
     ) -> None:

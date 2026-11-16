@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any, cast
 from pymiele import completed_warnings
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import AnyDeviceEntry, DeviceEntry
 
 from .coordinator import MieleConfigEntry
@@ -28,7 +28,7 @@ def redact_identifiers(in_data: dict[str, Any]) -> dict[str, Any]:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: MieleConfigEntry
+    hass: UniversalAssistant, config_entry: MieleConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
 
@@ -69,7 +69,7 @@ async def async_get_config_entry_diagnostics(
 
 
 async def async_get_device_diagnostics(
-    hass: __HAC_KEEP__, config_entry: MieleConfigEntry, device: AnyDeviceEntry
+    hass: UniversalAssistant, config_entry: MieleConfigEntry, device: AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device."""
     if TYPE_CHECKING:

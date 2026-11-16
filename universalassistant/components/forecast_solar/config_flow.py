@@ -23,7 +23,7 @@ from universalassistant.const import (
 )
 from universalassistant.core import (
     DOMAIN as HOMEASSISTANT_DOMAIN,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
     split_entity_id,
 )
@@ -162,7 +162,7 @@ def _plane_schema(sources: Mapping[str, str]) -> probatio.Schema:
 
 
 def _sensor_errors(
-    hass: __HAC_KEEP__, plane_data: Mapping[str, Any]
+    hass: UniversalAssistant, plane_data: Mapping[str, Any]
 ) -> dict[str, str]:
     """Return a form error per selected sensor that can't be read as an angle."""
     errors: dict[str, str] = {}
@@ -198,7 +198,7 @@ def _sources(data: Mapping[str, Any]) -> dict[str, str]:
     }
 
 
-def _plane_data(hass: __HAC_KEEP__, user_input: Mapping[str, Any]) -> dict[str, Any]:
+def _plane_data(hass: UniversalAssistant, user_input: Mapping[str, Any]) -> dict[str, Any]:
     """Extract a plane's stored fields from a submitted plane form."""
     data = {
         key: user_input[key]

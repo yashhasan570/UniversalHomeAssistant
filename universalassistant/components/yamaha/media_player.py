@@ -17,7 +17,7 @@ from universalassistant.components.media_player import (
     MediaType,
 )
 from universalassistant.const import CONF_HOST, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import PlatformNotReady, ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
@@ -128,7 +128,7 @@ def _discovery(config_info: YamahaConfigInfo) -> list[RXV]:
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

@@ -7,13 +7,13 @@ from unittest.mock import patch
 import pytest
 
 from universalassistant.components.demo import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.json import JSONEncoder
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture
-def mock_history(hass: __HAC_KEEP__) -> None:
+def mock_history(hass: UniversalAssistant) -> None:
     """Mock history component loaded."""
     hass.config.components.add("history")
 
@@ -25,7 +25,7 @@ def mock_device_tracker_update_config() -> Generator[None]:
         yield
 
 
-async def test_setting_up_demo(mock_history: None, hass: __HAC_KEEP__) -> None:
+async def test_setting_up_demo(mock_history: None, hass: UniversalAssistant) -> None:
     """Test if we can set up the demo and dump it to JSON."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     await hass.async_block_till_done()

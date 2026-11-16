@@ -5,7 +5,7 @@ from typing import cast
 from twitchAPI.twitch import Twitch
 
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.config_entry_oauth2_flow import (
     LocalOAuth2Implementation,
     OAuth2Session,
@@ -16,7 +16,7 @@ from .const import OAUTH_SCOPES, PLATFORMS
 from .coordinator import TwitchConfigEntry, TwitchCoordinator
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: TwitchConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: TwitchConfigEntry) -> None:
     """Set up Twitch from a config entry."""
     implementation = cast(
         LocalOAuth2Implementation,
@@ -41,7 +41,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: TwitchConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: TwitchConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: TwitchConfigEntry) -> None:
     """Unload Twitch config entry."""
 
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

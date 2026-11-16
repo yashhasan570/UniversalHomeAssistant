@@ -6,7 +6,7 @@ from aiohttp import web
 from universalassistant.components import webhook
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_WEBHOOK_ID, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 
 from .const import DOMAIN
 
@@ -15,14 +15,14 @@ PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.SENSOR]
 type EcowittConfigEntry = ConfigEntry[EcoWittListener]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: EcowittConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: EcowittConfigEntry) -> None:
     """Set up the Ecowitt component from UI."""
     ecowitt = entry.runtime_data = EcoWittListener()
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     async def handle_webhook(
-        hass: __HAC_KEEP__, webhook_id: str, request: web.Request
+        hass: UniversalAssistant, webhook_id: str, request: web.Request
     ) -> web.Response:
         """Handle webhook callback."""
         return await ecowitt.handler(request)
@@ -41,7 +41,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: EcowittConfigEntry) -> No
     )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: EcowittConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: EcowittConfigEntry) -> None:
     """Unload a config entry."""
     webhook.async_unregister(hass, entry.data[CONF_WEBHOOK_ID])
 

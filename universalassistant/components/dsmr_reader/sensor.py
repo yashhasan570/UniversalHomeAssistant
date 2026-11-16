@@ -5,8 +5,8 @@ from typing import override
 from universalassistant.components import mqtt
 from universalassistant.components.sensor import SensorEntity
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.issue_registry import IssueSeverity, async_create_issue
 from universalassistant.util import slugify
@@ -16,7 +16,7 @@ from .definitions import SENSORS, DSMRReaderSensorEntityDescription
 
 
 async def async_setup_entry(
-    _: __HAC_KEEP__,
+    _: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -60,7 +60,7 @@ class DSMRSensor(SensorEntity):
             await mqtt.async_subscribe(
                 self.hass, self.entity_description.key, message_received, 1
             )
-        except __HAC_KEEP__Error:
+        except UniversalAssistantError:
             async_create_issue(
                 self.hass,
                 DOMAIN,

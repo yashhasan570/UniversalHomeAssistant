@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import REDACTED, async_redact_data
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import GoogleConfigEntry
 from .const import CONF_SECURE_DEVICES_PIN, CONF_SERVICE_ACCOUNT, DATA_CONFIG
@@ -25,7 +25,7 @@ TO_REDACT = [
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: GoogleConfigEntry
+    hass: UniversalAssistant, entry: GoogleConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostic information."""
     config = entry.runtime_data

@@ -29,7 +29,7 @@
         "data_description": {
           "host": "The hostname or IP address of the Cambridge Audio Streamer."
         },
-        "description": "Set up your Cambridge Audio Streamer to integrate with __HA_KEEP__."
+        "description": "Set up your Cambridge Audio Streamer to integrate with Universal Home Assistant."
       }
     }
   },

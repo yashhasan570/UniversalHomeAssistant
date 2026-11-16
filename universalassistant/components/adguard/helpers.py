@@ -10,7 +10,7 @@ from adguardhome import (
     AdGuardHomeError,
 )
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import DOMAIN
 
@@ -18,7 +18,7 @@ from .const import DOMAIN
 def adguard_exception_handler[**_P](
     func: Callable[_P, Coroutine[Any, Any, None]],
 ) -> Callable[_P, Coroutine[Any, Any, None]]:
-    """Decorate AdGuard Home calls to raise translated __HA_KEEP__ errors."""
+    """Decorate AdGuard Home calls to raise translated Universal Home Assistant errors."""
 
     @wraps(func)
     async def handler(*args: _P.args, **kwargs: _P.kwargs) -> None:
@@ -26,20 +26,20 @@ def adguard_exception_handler[**_P](
             await func(*args, **kwargs)
 
         except AdGuardHomeConnectionError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="cannot_connect",
             ) from error
 
         except AdGuardHomeAuthenticationError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="authentication_failed",
             ) from error
 
         except AdGuardHomeError as error:
             # AdGuard Home explains what went wrong, like an unknown list.
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="action_failed",
                 translation_placeholders={"error": str(error)},

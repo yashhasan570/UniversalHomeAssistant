@@ -6,13 +6,13 @@ from universalassistant.components.media_player import ATTR_INPUT_SOURCE_LIST
 from universalassistant.components.webostv.const import CONF_SOURCES, DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CONF_CLIENT_SECRET, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_webostv
 from .const import ENTITY_ID
 
 
-async def test_reauth_setup_entry(hass: __HAC_KEEP__, client) -> None:
+async def test_reauth_setup_entry(hass: UniversalAssistant, client) -> None:
     """Test reauth flow triggered by setup entry."""
     client.is_connected.return_value = False
     client.connect.side_effect = WebOsTvPairError
@@ -32,7 +32,7 @@ async def test_reauth_setup_entry(hass: __HAC_KEEP__, client) -> None:
     assert flow["context"].get("entry_id") == entry.entry_id
 
 
-async def test_key_update_setup_entry(hass: __HAC_KEEP__, client) -> None:
+async def test_key_update_setup_entry(hass: UniversalAssistant, client) -> None:
     """Test key update from setup entry."""
     client.is_connected.return_value = False
     client.client_key = "new_key"
@@ -42,7 +42,7 @@ async def test_key_update_setup_entry(hass: __HAC_KEEP__, client) -> None:
     assert entry.data[CONF_CLIENT_SECRET] == "new_key"
 
 
-async def test_update_options(hass: __HAC_KEEP__, client) -> None:
+async def test_update_options(hass: UniversalAssistant, client) -> None:
     """Test update options triggers reload."""
     config_entry = await setup_webostv(hass)
 
@@ -63,8 +63,8 @@ async def test_update_options(hass: __HAC_KEEP__, client) -> None:
     assert sources == ["Input02", "Live TV"]
 
 
-async def test_disconnect_on_stop(hass: __HAC_KEEP__, client) -> None:
-    """Test we disconnect the client and clear callbacks when __HA_KEEP__s stops."""
+async def test_disconnect_on_stop(hass: UniversalAssistant, client) -> None:
+    """Test we disconnect the client and clear callbacks when Universal Home Assistants stops."""
     config_entry = await setup_webostv(hass)
 
     assert client.disconnect.call_count == 0

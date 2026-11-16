@@ -14,7 +14,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfVolumeFlowRate,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import WaterFurnaceConfigEntry
@@ -177,7 +177,7 @@ SENSORS = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: WaterFurnaceConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

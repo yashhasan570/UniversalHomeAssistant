@@ -16,7 +16,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.haven_iaq.const import DOMAIN
 from universalassistant.config_entries import SOURCE_ZEROCONF, ConfigEntryState
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 
@@ -24,7 +24,7 @@ from . import TEST_HOST, TEST_INFO, TEST_SERIAL, ZEROCONF_DISCOVERY, setup_integ
 
 
 async def test_setup_unload_ram_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_haven_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -59,7 +59,7 @@ async def test_setup_unload_ram_entry(
     ],
 )
 async def test_setup_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_haven_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     error: Exception,
@@ -75,7 +75,7 @@ async def test_setup_error(
 
 
 async def test_setup_wrong_device_then_rediscovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_haven_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

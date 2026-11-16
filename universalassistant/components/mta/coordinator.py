@@ -9,7 +9,7 @@ from pymta import BusFeed, MTAFeedError, SubwayFeed
 
 from universalassistant.config_entries import ConfigEntry, ConfigSubentry
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
@@ -53,7 +53,7 @@ class MTADataUpdateCoordinator(DataUpdateCoordinator[MTAData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: MTAConfigEntry,
         subentry: ConfigSubentry,
     ) -> None:

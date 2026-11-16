@@ -51,11 +51,11 @@ from universalassistant.components.openai_conversation.const import (
     RECOMMENDED_TTS_OPTIONS,
 )
 from universalassistant.const import CONF_API_KEY, CONF_LLM_HASS_API, CONF_PROMPT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test we get the form."""
     # Pretend we already set up a config entry.
     hass.config.components.add("openai_conversation")
@@ -130,7 +130,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_duplicate_entry(hass: __HAC_KEEP__) -> None:
+async def test_duplicate_entry(hass: UniversalAssistant) -> None:
     """Test we abort on duplicate config entry."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -159,7 +159,7 @@ async def test_duplicate_entry(hass: __HAC_KEEP__) -> None:
 
 
 async def test_creating_conversation_subentry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_init_component: None,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -191,7 +191,7 @@ async def test_creating_conversation_subentry(
 
 
 async def test_creating_conversation_subentry_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_init_component,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -212,7 +212,7 @@ async def test_creating_conversation_subentry_not_loaded(
 
 
 async def test_subentry_recommended(
-    hass: __HAC_KEEP__, mock_config_entry, mock_init_component
+    hass: UniversalAssistant, mock_config_entry, mock_init_component
 ) -> None:
     """Test the subentry flow with recommended settings."""
     subentry = next(iter(mock_config_entry.subentries.values()))
@@ -237,7 +237,7 @@ async def test_subentry_recommended(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_subentry_unsupported_model(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the subentry form giving error about models not supported."""
     subentry = next(iter(mock_config_entry.subentries.values()))
@@ -310,7 +310,7 @@ async def test_subentry_unsupported_model(
     ],
 )
 async def test_subentry_reasoning_effort_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component: None,
     model: str,
@@ -353,7 +353,7 @@ async def test_subentry_reasoning_effort_list(
 @pytest.mark.parametrize("subentry_type", ["conversation", "ai_task_data"])
 @pytest.mark.parametrize("reasoning_effort", ["none", "low"])
 async def test_subentry_reasoning_effort(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     model: str,
     subentry_type: str,
@@ -397,7 +397,7 @@ async def test_subentry_reasoning_effort(
     ],
 )
 async def test_subentry_reasoning_summary_visibility(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component: None,
     model: str,
@@ -439,7 +439,7 @@ async def test_subentry_reasoning_summary_visibility(
     ],
 )
 async def test_subentry_reasoning_summary_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component: None,
     model: str,
@@ -471,7 +471,7 @@ async def test_subentry_reasoning_summary_options(
 
 
 async def test_subentry_reasoning_summary_default_sanitized_on_model_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component: None,
 ) -> None:
@@ -539,7 +539,7 @@ async def test_subentry_reasoning_summary_default_sanitized_on_model_switch(
     ],
 )
 async def test_subentry_service_tier_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry,
     mock_init_component,
     model,
@@ -580,7 +580,7 @@ async def test_subentry_service_tier_list(
     ],
 )
 async def test_subentry_unsupported_reasoning_effort(
-    hass: __HAC_KEEP__, mock_config_entry, mock_init_component, parameter, error
+    hass: UniversalAssistant, mock_config_entry, mock_init_component, parameter, error
 ) -> None:
     """Test subentry form error on unsupported reasoning effort."""
     subentry = next(iter(mock_config_entry.subentries.values()))
@@ -649,7 +649,7 @@ async def test_subentry_unsupported_reasoning_effort(
     ],
 )
 async def test_form_invalid_auth(
-    hass: __HAC_KEEP__, side_effect: Exception, error: str
+    hass: UniversalAssistant, side_effect: Exception, error: str
 ) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
@@ -1162,7 +1162,7 @@ async def test_form_invalid_auth(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_subentry_switching(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     current_options: dict[str, str | float | bool | list[str]],
     new_options: tuple[dict[str, str | float | bool | list[str]], ...],
@@ -1212,7 +1212,7 @@ async def test_subentry_switching(
 
 @pytest.mark.parametrize("store_responses", [False, True])
 async def test_subentry_web_search_user_location(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry,
     mock_init_component,
     store_responses: bool,
@@ -1323,7 +1323,7 @@ async def test_subentry_web_search_user_location(
 
 
 async def test_creating_ai_task_subentry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
 ) -> None:
@@ -1365,7 +1365,7 @@ async def test_creating_ai_task_subentry(
 
 
 async def test_ai_task_subentry_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test creating an AI task subentry when entry is not loaded."""
@@ -1406,7 +1406,7 @@ async def test_ai_task_subentry_not_loaded(
     ],
 )
 async def test_creating_ai_task_subentry_additional(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     image_options: dict[str, str],
     image_model: str,
@@ -1482,7 +1482,7 @@ async def test_creating_ai_task_subentry_additional(
     ],
 )
 async def test_ai_task_web_search_supported_models(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     model: str,
     has_web_search: bool,
@@ -1513,7 +1513,7 @@ async def test_ai_task_web_search_supported_models(
 @pytest.mark.parametrize("model", ["gpt-6-luna", "gpt-6-astra", "gpt-6.1-sol"])
 @pytest.mark.parametrize("web_search", [False, True])
 async def test_ai_task_gpt6_saved_search_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     model: str,
     web_search: bool,
@@ -1547,7 +1547,7 @@ async def test_ai_task_gpt6_saved_search_options(
 
 
 async def test_creating_stt_subentry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
 ) -> None:
@@ -1595,7 +1595,7 @@ async def test_creating_stt_subentry(
 
 
 async def test_stt_subentry_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test creating a STT subentry when entry is not loaded."""
@@ -1610,7 +1610,7 @@ async def test_stt_subentry_not_loaded(
 
 
 async def test_stt_reconfigure(
-    hass: __HAC_KEEP__, mock_config_entry, mock_init_component
+    hass: UniversalAssistant, mock_config_entry, mock_init_component
 ) -> None:
     """Test reconfiguring the STT subentry updates prompt and chat model."""
     subentry = [
@@ -1634,7 +1634,7 @@ async def test_stt_reconfigure(
 
 
 async def test_creating_tts_subentry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
 ) -> None:
@@ -1680,7 +1680,7 @@ async def test_creating_tts_subentry(
 
 
 async def test_tts_subentry_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test creating a TTS subentry when entry is not loaded."""
@@ -1695,7 +1695,7 @@ async def test_tts_subentry_not_loaded(
 
 
 async def test_tts_reconfigure(
-    hass: __HAC_KEEP__, mock_config_entry, mock_init_component
+    hass: UniversalAssistant, mock_config_entry, mock_init_component
 ) -> None:
     """Test the tts subentry reconfigure flow."""
     subentry = [
@@ -1718,7 +1718,7 @@ async def test_tts_reconfigure(
     assert subentry.data["tts_speed"] == 0.5
 
 
-async def test_reauth(hass: __HAC_KEEP__) -> None:
+async def test_reauth(hass: UniversalAssistant) -> None:
     """Test we can reauthenticate."""
     # Pretend we already set up a config entry.
     hass.config.components.add("openai_conversation")
@@ -1758,7 +1758,7 @@ async def test_reauth(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_reconfigure(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the API key can be reconfigured."""
     result = await mock_config_entry.start_reconfigure_flow(hass)
@@ -1787,7 +1787,7 @@ async def test_reconfigure(
 
 
 async def test_reconfigure_invalid_auth(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test an invalid API key is rejected during reconfiguration."""
     result = await mock_config_entry.start_reconfigure_flow(hass)
@@ -1843,7 +1843,7 @@ async def test_reconfigure_invalid_auth(
     ],
 )
 async def test_reconfigure_conversation_subentry_llm_api_schema(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
     current_llm_apis: list[str],

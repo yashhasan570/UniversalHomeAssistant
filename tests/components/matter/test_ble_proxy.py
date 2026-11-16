@@ -20,7 +20,7 @@ from universalassistant.components.matter.ble_proxy import (
     _to_advertisement_data,
     create_matter_ble_proxy,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 def _make_service_info(time: float | None = None) -> BluetoothServiceInfoBleak:
@@ -60,7 +60,7 @@ def test_to_advertisement_data_translates_fields() -> None:
     assert ad.service_uuids == list(info.service_uuids)
 
 
-def test_create_matter_ble_proxy_wires_ha_backends(hass: __HAC_KEEP__) -> None:
+def test_create_matter_ble_proxy_wires_ha_backends(hass: UniversalAssistant) -> None:
     """Factory builds MatterBleProxy with HA-backed scan_source and resolver."""
     with patch("universalassistant.components.matter.ble_proxy.MatterBleProxy") as proxy_cls:
         result = create_matter_ble_proxy(hass, "ws://localhost:5580/ble")
@@ -81,7 +81,7 @@ def test_create_matter_ble_proxy_wires_ha_backends(hass: __HAC_KEEP__) -> None:
 
 
 async def test_scan_source_start_registers_passive_callback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """start() registers an HA bluetooth callback in PASSIVE scanning mode."""
     source = HaBluetoothScanSource(hass)
@@ -101,7 +101,7 @@ async def test_scan_source_start_registers_passive_callback(
     assert source._cancel is cancel
 
 
-async def test_scan_source_start_is_idempotent(hass: __HAC_KEEP__) -> None:
+async def test_scan_source_start_is_idempotent(hass: UniversalAssistant) -> None:
     """A second start() with an existing registration is a no-op."""
     source = HaBluetoothScanSource(hass)
     source._cancel = MagicMock()
@@ -113,7 +113,7 @@ async def test_scan_source_start_is_idempotent(hass: __HAC_KEEP__) -> None:
     register.assert_not_called()
 
 
-async def test_scan_source_stop_calls_cancel(hass: __HAC_KEEP__) -> None:
+async def test_scan_source_stop_calls_cancel(hass: UniversalAssistant) -> None:
     """stop() invokes the saved cancel callback and clears state."""
     cancel = MagicMock()
     source = HaBluetoothScanSource(hass)
@@ -125,13 +125,13 @@ async def test_scan_source_stop_calls_cancel(hass: __HAC_KEEP__) -> None:
     assert source._cancel is None
 
 
-async def test_scan_source_stop_without_start_is_noop(hass: __HAC_KEEP__) -> None:
+async def test_scan_source_stop_without_start_is_noop(hass: UniversalAssistant) -> None:
     """stop() before start() does not raise."""
     await HaBluetoothScanSource(hass).stop()
 
 
 async def test_scan_source_callback_forwards_advertisement(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """The registered HA callback translates and forwards advertisements."""
     forwarded: list[AdvertisementData] = []
@@ -164,7 +164,7 @@ async def test_scan_source_callback_forwards_advertisement(
     ],
 )
 async def test_scan_source_drops_replayed_history(
-    hass: __HAC_KEEP__, advert_time: float, expected_count: int
+    hass: UniversalAssistant, advert_time: float, expected_count: int
 ) -> None:
     """History older than _MAX_STALE_ADVERTISEMENT_SECONDS is dropped; fresher entries pass."""
     forwarded: list[AdvertisementData] = []
@@ -193,7 +193,7 @@ async def test_scan_source_drops_replayed_history(
 
 
 async def test_scan_source_callback_swallows_exceptions(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """A raising user callback is logged but does not bubble out of HA."""
     captured: dict[str, object] = {}
@@ -218,7 +218,7 @@ async def test_scan_source_callback_swallows_exceptions(
 
 
 async def test_device_resolver_delegates_to_ha_bluetooth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """resolve() forwards to async_ble_device_from_address with connectable=True."""
     resolver = HaBluetoothDeviceResolver(hass)

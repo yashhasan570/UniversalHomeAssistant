@@ -2,11 +2,11 @@
 
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry,
     setup_voip,
 ) -> None:
@@ -15,7 +15,7 @@ async def test_unload_entry(
 
 
 async def test_user_management(
-    hass: __HAC_KEEP__, config_entry, setup_voip, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, config_entry, setup_voip, snapshot: SnapshotAssertion
 ) -> None:
     """Test creating and removing voip user."""
     user = await hass.auth.async_get_user(config_entry.data["user"])

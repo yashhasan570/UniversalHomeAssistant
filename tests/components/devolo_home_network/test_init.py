@@ -16,7 +16,7 @@ from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.components.update import DOMAIN as UPDATE_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.entity_platform import async_get_platforms
 
@@ -26,7 +26,7 @@ from .mock import MockDevice
 
 
 @pytest.mark.usefixtures("mock_device")
-async def test_setup_entry(hass: __HAC_KEEP__) -> None:
+async def test_setup_entry(hass: UniversalAssistant) -> None:
     """Test setup entry."""
     entry = configure_integration(hass)
     assert await hass.config_entries.async_setup(entry.entry_id)
@@ -34,7 +34,7 @@ async def test_setup_entry(hass: __HAC_KEEP__) -> None:
     assert entry.state is ConfigEntryState.LOADED
 
 
-async def test_setup_device_not_found(hass: __HAC_KEEP__) -> None:
+async def test_setup_device_not_found(hass: UniversalAssistant) -> None:
     """Test setup entry."""
     entry = configure_integration(hass)
     with patch(
@@ -46,7 +46,7 @@ async def test_setup_device_not_found(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_device")
-async def test_unload_entry(hass: __HAC_KEEP__) -> None:
+async def test_unload_entry(hass: UniversalAssistant) -> None:
     """Test unload entry."""
     entry = configure_integration(hass)
     await hass.config_entries.async_setup(entry.entry_id)
@@ -55,7 +55,7 @@ async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     assert entry.state is ConfigEntryState.NOT_LOADED
 
 
-async def test_hass_stop(hass: __HAC_KEEP__, mock_device: MockDevice) -> None:
+async def test_hass_stop(hass: UniversalAssistant, mock_device: MockDevice) -> None:
     """Test universalassistant stop event."""
     entry = configure_integration(hass)
     await hass.config_entries.async_setup(entry.entry_id)
@@ -69,7 +69,7 @@ async def test_hass_stop(hass: __HAC_KEEP__, mock_device: MockDevice) -> None:
     "device", ["mock_device", "mock_repeater_device", "mock_ipv6_device"]
 )
 async def test_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device: str,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -124,7 +124,7 @@ async def test_device(
     ],
 )
 async def test_platforms(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device: str,
     expected_platforms: set[str],
     request: pytest.FixtureRequest,

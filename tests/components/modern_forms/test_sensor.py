@@ -6,13 +6,13 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.sensor import SensorDeviceClass
 from universalassistant.const import ATTR_DEVICE_CLASS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import init_integration, init_integration_gen4, modern_forms_timers_set_mock
 
 
 async def test_sensors(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the creation and values of the Modern Forms sensors."""
 
@@ -33,7 +33,7 @@ async def test_sensors(
 
 
 async def test_active_sensors(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the creation and values of the Modern Forms sensors."""
 
@@ -54,7 +54,7 @@ async def test_active_sensors(
 
 
 async def test_no_sleep_timer_sensors_on_gen4(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test the sleep-timer sensors aren't created for Gen4 fans."""

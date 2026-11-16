@@ -28,7 +28,7 @@ from universalassistant.const import (
     UnitOfSpeed,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import sun
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -61,7 +61,7 @@ _CONDITION_MAP: dict[str, str] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MeteoLtConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -100,7 +100,7 @@ class MeteoLtWeatherEntity(CoordinatorEntity[MeteoLtUpdateCoordinator], WeatherE
         )
 
     def _map_condition(self, condition_code: str | None, datetime_str: str) -> str:
-        """Map a meteo.lt condition code to a __HA_KEEP__ condition string."""
+        """Map a meteo.lt condition code to a Universal Home Assistant condition string."""
         if condition_code is None:
             return ATTR_CONDITION_EXCEPTIONAL
         if condition_code == "clear":

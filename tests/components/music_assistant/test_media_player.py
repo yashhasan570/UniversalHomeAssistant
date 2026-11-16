@@ -62,7 +62,7 @@ from universalassistant.components.music_assistant.services import (
     MusicAssistantServiceArgument,
 )
 from universalassistant.components.tts import DATA_TTS_MANAGER
-from universalassistant.config_entries import ConfigFlow, __HAC_KEEP__Error
+from universalassistant.config_entries import ConfigFlow, UniversalAssistantError
 from universalassistant.const import (
     ATTR_ENTITY_ID,
     SERVICE_MEDIA_NEXT_TRACK,
@@ -81,7 +81,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
@@ -123,7 +123,7 @@ class MockSecondTTSEntity(MockTTSEntity):
 
 
 @pytest.fixture(name="tts_entities")
-async def tts_entities_fixture(hass: __HAC_KEEP__) -> None:
+async def tts_entities_fixture(hass: UniversalAssistant) -> None:
     """Set up two text-to-speech entities, of which the first is the default engine."""
     assert await async_setup_component(hass, "media_source", {})
     for test_domain, tts_entity in (
@@ -161,7 +161,7 @@ def test_player_icon(
 
 
 async def test_media_player(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     music_assistant_client: MagicMock,
@@ -174,7 +174,7 @@ async def test_media_player(
 
 
 async def test_media_player_basic_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test media_player entity basic actions (play/stop/pause etc.)."""
@@ -209,7 +209,7 @@ async def test_media_player_basic_actions(
 
 
 async def test_media_player_seek_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test media_player entity seek action."""
@@ -235,7 +235,7 @@ async def test_media_player_seek_action(
 
 
 async def test_media_player_volume_set_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test media_player entity volume_set action."""
@@ -260,7 +260,7 @@ async def test_media_player_volume_set_action(
 
 
 async def test_media_player_volume_mute_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test media_player entity volume_mute action."""
@@ -285,7 +285,7 @@ async def test_media_player_volume_mute_action(
 
 
 async def test_media_player_turn_on_off_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test media_player entity turn_on/turn_off actions."""
@@ -314,7 +314,7 @@ async def test_media_player_turn_on_off_actions(
 
 
 async def test_media_player_shuffle_set_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test media_player entity shuffle_set action."""
@@ -342,7 +342,7 @@ async def test_media_player_shuffle_set_action(
 
 
 async def test_media_player_repeat_set_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test media_player entity repeat_set action."""
@@ -370,7 +370,7 @@ async def test_media_player_repeat_set_action(
 
 
 async def test_media_player_join_players_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test media_player entity join_players action."""
@@ -397,7 +397,7 @@ async def test_media_player_join_players_action(
     # test again with invalid source player
     music_assistant_client.send_command.reset_mock()
     with pytest.raises(
-        __HAC_KEEP__Error, match="Entity media_player.blah_blah not found"
+        UniversalAssistantError, match="Entity media_player.blah_blah not found"
     ):
         await hass.services.async_call(
             MEDIA_PLAYER_DOMAIN,
@@ -411,7 +411,7 @@ async def test_media_player_join_players_action(
 
 
 async def test_media_player_unjoin_player_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test media_player entity unjoin player action."""
@@ -435,7 +435,7 @@ async def test_media_player_unjoin_player_action(
 
 
 async def test_media_player_clear_playlist_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test media_player entity clear_playlist action."""
@@ -459,7 +459,7 @@ async def test_media_player_clear_playlist_action(
 
 
 async def test_media_player_play_media_action_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test media_player (advanced) play_media action.
@@ -660,7 +660,7 @@ async def test_media_player_play_media_action_legacy(
 
 
 async def test_media_player_play_media_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test media_player (advanced) play_media action.
@@ -866,10 +866,10 @@ async def test_media_player_play_media_action(
 
 
 async def test_media_player_play_media_default_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
-    """Test that play media defaults to the calling __HA_KEEP__ user.
+    """Test that play media defaults to the calling Universal Home Assistant user.
 
     The calling user is forwarded as a soft (required=False) provider-link user
     reference; the server resolves it to a Music Assistant user by provider link
@@ -910,7 +910,7 @@ async def test_media_player_play_media_default_user(
 
 
 async def test_media_player_play_media_default_user_older_server(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test that older servers (no provider-link support) simply do not impersonate."""
@@ -950,7 +950,7 @@ async def test_media_player_play_media_default_user_older_server(
 
 
 async def test_media_player_play_media_explicit_user_override(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test that an explicit username takes precedence over the calling user."""
@@ -990,7 +990,7 @@ async def test_media_player_play_media_explicit_user_override(
 
 
 async def test_media_player_play_media_unknown_username(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test that a username the server does not know raises a translated error."""
@@ -1019,7 +1019,7 @@ async def test_media_player_play_media_unknown_username(
 
 
 async def test_media_player_play_media_user_not_found_without_username(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test that a UserNotFoundError without an explicit username is not mislabeled."""
@@ -1032,7 +1032,7 @@ async def test_media_player_play_media_user_not_found_without_username(
     await setup_integration_from_fixtures(hass, music_assistant_client)
     entity_id = "media_player.test_player_1"
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             DOMAIN,
             MusicAssistantService.PLAY_MEDIA,
@@ -1098,7 +1098,7 @@ async def test_media_player_play_media_user_not_found_without_username(
     ],
 )
 async def test_media_player_play_media_start_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
     service_data: dict[str, Any],
     expected_media: list[str],
@@ -1135,7 +1135,7 @@ async def test_media_player_play_media_start_item(
 
 
 async def test_media_player_play_media_start_item_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test that a start item that is not a single value is rejected."""
@@ -1157,7 +1157,7 @@ async def test_media_player_play_media_start_item_invalid(
 
 @pytest.mark.parametrize("shuffle", [True, False])
 async def test_media_player_play_media_shuffle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
     shuffle: bool,
 ) -> None:
@@ -1196,7 +1196,7 @@ async def test_media_player_play_media_shuffle(
 
 
 async def test_media_player_standard_play_media_default_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test that the standard play_media action also defaults to the calling user."""
@@ -1236,7 +1236,7 @@ async def test_media_player_standard_play_media_default_user(
 
 
 async def test_media_player_play_announcement_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test media_player play_announcement action."""
@@ -1279,7 +1279,7 @@ async def test_media_player_play_announcement_action(
 )
 @pytest.mark.usefixtures("mock_tts_cache_dir", "tts_entities")
 async def test_media_player_play_announcement_action_with_message(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
     tts_entity_id: str,
 ) -> None:
@@ -1351,7 +1351,7 @@ async def test_media_player_play_announcement_action_with_message(
     ],
 )
 async def test_media_player_play_announcement_action_invalid_input(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
     announcement_data: dict[str, str],
 ) -> None:
@@ -1376,7 +1376,7 @@ async def test_media_player_play_announcement_action_invalid_input(
     ids=["unknown tts entity", "unavailable tts entity"],
 )
 async def test_media_player_play_announcement_action_unusable_tts_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
     tts_entity_id: str,
 ) -> None:
@@ -1399,7 +1399,7 @@ async def test_media_player_play_announcement_action_unusable_tts_entity(
 
 
 async def test_media_player_transfer_queue_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test media_player transfer_queu action."""
@@ -1427,7 +1427,7 @@ async def test_media_player_transfer_queue_action(
     )
     # test again with invalid source player
     music_assistant_client.send_command.reset_mock()
-    with pytest.raises(__HAC_KEEP__Error, match="Source player not available."):
+    with pytest.raises(UniversalAssistantError, match="Source player not available."):
         await hass.services.async_call(
             DOMAIN,
             MusicAssistantService.TRANSFER_QUEUE,
@@ -1458,7 +1458,7 @@ async def test_media_player_transfer_queue_action(
 
 
 async def test_media_player_get_queue_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -1480,7 +1480,7 @@ async def test_media_player_get_queue_action(
 
 
 async def test_media_player_select_source_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test media_player entity select source action."""
@@ -1505,7 +1505,7 @@ async def test_media_player_select_source_action(
 
 
 async def test_media_player_select_sound_mode_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test media_player entity select sound mode action."""
@@ -1532,7 +1532,7 @@ async def test_media_player_select_sound_mode_action(
 
 
 async def test_passive_sound_mode_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Verify, that a passive sound mode is ignored."""
@@ -1548,7 +1548,7 @@ async def test_passive_sound_mode_ignored(
 
 
 async def test_media_player_supported_features(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test if media_player entity supported features are cortrectly (re)mapped."""
@@ -1639,7 +1639,7 @@ async def test_media_player_supported_features(
 
 
 async def test_media_image_prefers_current_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test entity_picture prefers current_media.image_url over queue."""
@@ -1677,7 +1677,7 @@ async def test_media_image_prefers_current_media(
 
 
 async def test_media_image_falls_back_to_queue_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test entity_picture falls back to queue image when none."""
@@ -1726,7 +1726,7 @@ async def test_media_image_falls_back_to_queue_item(
     ],
 )
 async def test_search_media_acts_as_calling_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
     user_id: str | None,
     expected_user: LinkedUser | None,
@@ -1754,7 +1754,7 @@ async def test_search_media_acts_as_calling_user(
 
 
 async def test_websocket_search_media_acts_as_calling_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
     music_assistant_client: MagicMock,

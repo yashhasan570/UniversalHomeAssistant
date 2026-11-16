@@ -369,7 +369,7 @@ class GrowattServerConfigFlow(ConfigFlow, domain=DOMAIN):
     async def async_step_plant(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
-        """Handle adding a "plant" to __HA_KEEP__."""
+        """Handle adding a "plant" to Universal Home Assistant."""
         if self.auth_type == AUTH_API_TOKEN:
             # Using V1 API with token
             if not self.plants:

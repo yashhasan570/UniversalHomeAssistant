@@ -10,12 +10,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.flexit_bacnet.const import DOMAIN
 from universalassistant.const import CONF_DEVICE_ID, CONF_IP_ADDRESS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.fixture
-async def flow_id(hass: __HAC_KEEP__) -> str:
+async def flow_id(hass: UniversalAssistant) -> str:
     """Return initial ID for user-initiated configuration flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}

@@ -5,7 +5,7 @@ from typing import override
 
 import pizone
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -47,8 +47,8 @@ class IZoneCoordinatorEntity(CoordinatorEntity[IZoneCoordinator]):
     async def _async_run_and_update(self, coro: Awaitable[None]) -> None:
         """Run a controller/zone command and push local state to the coordinator.
 
-        Rejected commands stay available and raise __HAC_KEEP__Error. Transport
-        failures mark the coordinator unavailable and also raise __HAC_KEEP__Error
+        Rejected commands stay available and raise UniversalAssistantError. Transport
+        failures mark the coordinator unavailable and also raise UniversalAssistantError
         so multi-step service calls stop. A successful command would clear that
         failed flag via async_set_updated_data, but service calls skip unavailable
         entities, so recovery in practice is a later successful coordinator refresh.
@@ -56,7 +56,7 @@ class IZoneCoordinatorEntity(CoordinatorEntity[IZoneCoordinator]):
         try:
             await coro
         except pizone.ControllerCommandError as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_rejected",
                 translation_placeholders={
@@ -66,13 +66,13 @@ class IZoneCoordinatorEntity(CoordinatorEntity[IZoneCoordinator]):
             ) from ex
         except pizone.DeviceReconfigurationError as ex:
             self.coordinator.async_schedule_reconfigure_reload()
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="system_reconfigured",
             ) from ex
         except ConnectionError as ex:
             self.coordinator.async_set_update_error(ex)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="unable_to_connect",
                 translation_placeholders={"uid": self.controller.device_uid},

@@ -20,7 +20,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.systemmonitor.const import DOMAIN
 from universalassistant.components.systemmonitor.coordinator import VirtualMemory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 MOCK_PRESSURE_INFO = {
     "cpu": {"some": {"avg10": 1.1, "avg60": 2.2, "avg300": 3.3, "total": 12345}},
@@ -118,7 +118,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 @pytest.fixture
 async def mock_added_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_psutil: Mock,
     mock_os: Mock,
     mock_config_entry: MockConfigEntry,

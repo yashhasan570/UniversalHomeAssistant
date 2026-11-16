@@ -14,8 +14,8 @@ from universalassistant.components.todo import (
     TodoListEntity,
     TodoListEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -26,7 +26,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: CookidooConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -77,7 +77,7 @@ class CookidooIngredientsTodoListEntity(CookidooBaseEntity, TodoListEntity):
 
         Cookidoo ingredients can be changed in state, but not
         in summary or description. This is currently not
-        possible to distinguish in __HA_KEEP__ and just
+        possible to distinguish in Universal Home Assistant and just
         fails silently.
         """
         try:
@@ -94,7 +94,7 @@ class CookidooIngredientsTodoListEntity(CookidooBaseEntity, TodoListEntity):
                 ]
             )
         except CookidooException as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="todo_update_item_failed",
                 translation_placeholders={"name": item.summary or ""},
@@ -146,7 +146,7 @@ class CookidooAdditionalItemTodoListEntity(CookidooBaseEntity, TodoListEntity):
                 assert item.summary
             await self.coordinator.cookidoo.add_additional_items([item.summary])
         except CookidooException as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="todo_save_item_failed",
                 translation_placeholders={"name": item.summary or ""},
@@ -170,7 +170,7 @@ class CookidooAdditionalItemTodoListEntity(CookidooBaseEntity, TodoListEntity):
             await self.coordinator.cookidoo.edit_additional_items_ownership([new_item])
             await self.coordinator.cookidoo.edit_additional_items([new_item])
         except CookidooException as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="todo_update_item_failed",
                 translation_placeholders={"name": item.summary or ""},
@@ -185,7 +185,7 @@ class CookidooAdditionalItemTodoListEntity(CookidooBaseEntity, TodoListEntity):
         try:
             await self.coordinator.cookidoo.remove_additional_items(uids)
         except CookidooException as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="todo_delete_item_failed",
                 translation_placeholders={"count": str(len(uids))},

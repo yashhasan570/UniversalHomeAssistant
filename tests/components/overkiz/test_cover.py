@@ -39,8 +39,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import CoreState, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -251,7 +251,7 @@ def fixture_platforms() -> Generator[None]:
     ids=[Path(device.fixture).name for device in SNAPSHOT_FIXTURES],
 )
 async def test_cover_entities_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -559,7 +559,7 @@ async def test_cover_entities_snapshot(
     ],
 )
 async def test_cover_service_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     device: FixtureDevice,
@@ -590,7 +590,7 @@ async def test_cover_service_actions(
 
 
 async def test_merged_action_groups_keep_per_device_tracking(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -644,14 +644,14 @@ async def test_merged_action_groups_keep_per_device_tracking(
     ],
 )
 async def test_external_execution_tracks_movement(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
     command_name: str,
     expected_state: CoverState,
 ) -> None:
-    """Test that an execution started outside __HA_KEEP__ reports movement."""
+    """Test that an execution started outside Universal Home Assistant reports movement."""
     await setup_overkiz_integration(fixture=SHUTTER.fixture)
     assert hass.states.get(SHUTTER.entity_id).state == CoverState.CLOSED
 
@@ -698,17 +698,17 @@ async def test_external_execution_tracks_movement(
     ids=["timeout", "client-connector", "server-disconnected"],
 )
 async def test_cover_command_connection_error_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     exception: Exception,
 ) -> None:
-    """Test that connection failures while sending a command raise __HAC_KEEP__Error."""
+    """Test that connection failures while sending a command raise UniversalAssistantError."""
     await setup_overkiz_integration(fixture=SHUTTER.fixture)
 
     mock_client.execute_action_group.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error, match="Failed to connect"):
+    with pytest.raises(UniversalAssistantError, match="Failed to connect"):
         await hass.services.async_call(
             COVER_DOMAIN,
             SERVICE_CLOSE_COVER,
@@ -755,7 +755,7 @@ async def test_cover_command_connection_error_raises(
     ],
 )
 async def test_cover_set_position(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     device: FixtureDevice,
@@ -794,7 +794,7 @@ async def test_cover_set_position(
     ],
 )
 async def test_cover_set_tilt_position(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     device: FixtureDevice,
@@ -821,7 +821,7 @@ async def test_cover_set_tilt_position(
 
 
 async def test_is_closed_falls_back_to_position(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -857,7 +857,7 @@ async def test_is_closed_falls_back_to_position(
 
 
 async def test_cover_tilt_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -949,7 +949,7 @@ async def test_cover_tilt_services(
 
 
 async def test_cover_state_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -1134,7 +1134,7 @@ async def test_cover_state_updates(
     ids=["opening", "closing"],
 )
 async def test_vertical_cover_moving_direction(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -1198,7 +1198,7 @@ async def test_vertical_cover_moving_direction(
     ids=["opening", "closing"],
 )
 async def test_awning_moving_direction(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -1224,7 +1224,7 @@ async def test_awning_moving_direction(
 
 
 async def test_awning_direct_position_mapping(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -1269,7 +1269,7 @@ async def test_awning_direct_position_mapping(
 
 
 async def test_moving_offset_missing_closure_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -1300,7 +1300,7 @@ async def test_moving_offset_missing_closure_states(
 
 
 async def test_moving_offset_none_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -1346,7 +1346,7 @@ async def test_moving_offset_none_values(
 
 
 async def test_tilt_position_none_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -1432,7 +1432,7 @@ async def test_tilt_position_none_value(
     ],
 )
 async def test_cover_speed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     service: str,
@@ -1459,7 +1459,7 @@ async def test_cover_speed(
 
 
 async def test_cover_speed_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -1484,7 +1484,7 @@ async def test_cover_speed_supported(
 
 
 async def test_low_speed_cover_not_created_for_new_installations(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -1504,7 +1504,7 @@ async def test_low_speed_cover_not_created_for_new_installations(
     ],
 )
 async def test_deprecated_low_speed_cover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -1541,7 +1541,7 @@ async def test_deprecated_low_speed_cover(
     ],
 )
 async def test_deprecated_low_speed_cover_used(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -1606,7 +1606,7 @@ async def test_deprecated_low_speed_cover_used(
 
 
 async def test_deprecated_low_speed_cover_issue_removed_with_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -1640,7 +1640,7 @@ async def test_deprecated_low_speed_cover_issue_removed_with_entry(
     ],
 )
 async def test_deprecated_low_speed_cover_checked_after_startup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -1697,7 +1697,7 @@ async def test_deprecated_low_speed_cover_checked_after_startup(
     ],
 )
 async def test_deprecated_low_speed_cover_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     entity_registry: er.EntityRegistry,
@@ -1732,7 +1732,7 @@ async def test_deprecated_low_speed_cover_commands(
 
 
 async def test_set_cover_position_and_tilt_service_is_registered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
 ) -> None:
     """The overkiz.set_cover_position_and_tilt service must be registered."""
@@ -1742,7 +1742,7 @@ async def test_set_cover_position_and_tilt_service_is_registered(
 
 
 async def test_set_cover_position_and_tilt_executes_single_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
 ) -> None:
@@ -1764,7 +1764,7 @@ async def test_set_cover_position_and_tilt_executes_single_command(
         blocking=True,
     )
 
-    # __HA_KEEP__ position 30 -> Overkiz closure 70 (inverted),
+    # Universal Home Assistant position 30 -> Overkiz closure 70 (inverted),
     # tilt 80 -> orientation 20 (inverted).
     assert_command_call(
         mock_client,
@@ -1784,7 +1784,7 @@ async def test_set_cover_position_and_tilt_executes_single_command(
     ids=["closed-tilt-open", "open-tilt-closed", "midpoint"],
 )
 async def test_set_cover_position_and_tilt_inverts_boundaries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     position: int,
@@ -1814,7 +1814,7 @@ async def test_set_cover_position_and_tilt_inverts_boundaries(
 
 
 async def test_set_cover_position_and_tilt_unsupported_command_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
 ) -> None:
@@ -1894,7 +1894,7 @@ async def test_set_cover_position_and_tilt_unsupported_command_raises(
     ],
 )
 async def test_cover_position_from_closure_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,

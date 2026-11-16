@@ -1,16 +1,16 @@
-"""Test to verify that __HA_KEEP__ exceptions work."""
+"""Test to verify that Universal Home Assistant exceptions work."""
 
 from typing import Any
 from unittest.mock import patch
 
 import pytest
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConditionErrorContainer,
     ConditionErrorIndex,
     ConditionErrorMessage,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     TemplateError,
 )
 
@@ -99,40 +99,40 @@ def test_template_message(arg: str | Exception, expected: str) -> None:
     ],
 )
 async def test_universal_assistant_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception_args: tuple[Any, ...],
     exception_kwargs: dict[str, Any],
     args_base_class: tuple[Any],
     message: str,
 ) -> None:
-    """Test edge cases with __HAC_KEEP__Error."""
+    """Test edge cases with UniversalAssistantError."""
 
     with patch(
         "universalassistant.helpers.translation.async_get_cached_translations",
         return_value={"component.test.exceptions.bla.message": "{bla} from cache"},
     ):
-        with pytest.raises(__HAC_KEEP__Error) as exc:
-            raise __HAC_KEEP__Error(*exception_args, **exception_kwargs)
+        with pytest.raises(UniversalAssistantError) as exc:
+            raise UniversalAssistantError(*exception_args, **exception_kwargs)
         assert exc.value.args == args_base_class
         assert str(exc.value) == message
         # Get string of exception again from the cache
         assert str(exc.value) == message
 
 
-async def test_universal_assistant_error_subclass(hass: __HAC_KEEP__) -> None:
-    """Test __str__ method and translation attributes on __HAC_KEEP__Error subclass."""
+async def test_universal_assistant_error_subclass(hass: UniversalAssistant) -> None:
+    """Test __str__ method and translation attributes on UniversalAssistantError subclass."""
 
-    class _SubExceptionDefault(__HAC_KEEP__Error):
+    class _SubExceptionDefault(UniversalAssistantError):
         """Sub class, default with generated message."""
 
-    class _SubExceptionNoSuper(__HAC_KEEP__Error):
+    class _SubExceptionNoSuper(UniversalAssistantError):
         """Sub class which doesn't call super().__init__()."""
 
         # pylint: disable-next=super-init-not-called
         def __init__(self) -> None:
             pass
 
-    class _SubExceptionConstructor(__HAC_KEEP__Error):
+    class _SubExceptionConstructor(UniversalAssistantError):
         """Sub class with constructor, no generated message."""
 
         def __init__(
@@ -149,7 +149,7 @@ async def test_universal_assistant_error_subclass(hass: __HAC_KEEP__) -> None:
             )
             self.custom_arg = custom_arg
 
-    class _SubExceptionConstructorGenerate(__HAC_KEEP__Error):
+    class _SubExceptionConstructorGenerate(UniversalAssistantError):
         """Sub class with constructor, with generated message."""
 
         generate_message: bool = True
@@ -168,15 +168,15 @@ async def test_universal_assistant_error_subclass(hass: __HAC_KEEP__) -> None:
             )
             self.custom_arg = custom_arg
 
-    class _SubExceptionGenerate(__HAC_KEEP__Error):
+    class _SubExceptionGenerate(UniversalAssistantError):
         """Sub class, no generated message."""
 
         generate_message: bool = True
 
-    class _SubClassWithExceptionGroup(__HAC_KEEP__Error, BaseExceptionGroup):
+    class _SubClassWithExceptionGroup(UniversalAssistantError, BaseExceptionGroup):
         """Sub class with exception group, no generated message."""
 
-    class _SubClassWithExceptionGroupGenerate(__HAC_KEEP__Error, BaseExceptionGroup):
+    class _SubClassWithExceptionGroupGenerate(UniversalAssistantError, BaseExceptionGroup):
         """Sub class with exception group and generated message."""
 
         generate_message: bool = True
@@ -186,7 +186,7 @@ async def test_universal_assistant_error_subclass(hass: __HAC_KEEP__) -> None:
         return_value={"component.test.exceptions.bla.message": "{bla} from cache"},
     ):
         # A subclass without a constructor generates a message by default
-        with pytest.raises(__HAC_KEEP__Error) as exc:
+        with pytest.raises(UniversalAssistantError) as exc:
             raise _SubExceptionDefault(
                 translation_domain="test",
                 translation_key="bla",
@@ -199,7 +199,7 @@ async def test_universal_assistant_error_subclass(hass: __HAC_KEEP__) -> None:
 
         # A subclass which doesn't call super should not raise an error when __str__
         # is called and should have None for translation attributes.
-        with pytest.raises(__HAC_KEEP__Error) as exc:
+        with pytest.raises(UniversalAssistantError) as exc:
             raise _SubExceptionNoSuper
         assert str(exc.value) == ""
         assert exc.value.translation_domain is None
@@ -207,7 +207,7 @@ async def test_universal_assistant_error_subclass(hass: __HAC_KEEP__) -> None:
         assert exc.value.translation_placeholders is None
 
         # A subclass with a constructor that does not parse `args` to the super class
-        with pytest.raises(__HAC_KEEP__Error) as exc:
+        with pytest.raises(UniversalAssistantError) as exc:
             raise _SubExceptionConstructor(
                 "custom arg",
                 translation_domain="test",
@@ -219,7 +219,7 @@ async def test_universal_assistant_error_subclass(hass: __HAC_KEEP__) -> None:
         assert exc.value.translation_key == "bla"
         assert exc.value.translation_placeholders == {"bla": "Bla"}
 
-        with pytest.raises(__HAC_KEEP__Error) as exc:
+        with pytest.raises(UniversalAssistantError) as exc:
             raise _SubExceptionConstructor(
                 "custom arg",
             )
@@ -229,7 +229,7 @@ async def test_universal_assistant_error_subclass(hass: __HAC_KEEP__) -> None:
         assert exc.value.translation_placeholders is None
 
         # A subclass with a constructor that generates the message
-        with pytest.raises(__HAC_KEEP__Error) as exc:
+        with pytest.raises(UniversalAssistantError) as exc:
             raise _SubExceptionConstructorGenerate(
                 "custom arg",
                 translation_domain="test",
@@ -243,7 +243,7 @@ async def test_universal_assistant_error_subclass(hass: __HAC_KEEP__) -> None:
 
         # A subclass without overridden constructors and passed args
         # defaults to the passed args
-        with pytest.raises(__HAC_KEEP__Error) as exc:
+        with pytest.raises(UniversalAssistantError) as exc:
             raise _SubExceptionDefault(
                 ValueError("wrong value"),
                 translation_domain="test",
@@ -257,7 +257,7 @@ async def test_universal_assistant_error_subclass(hass: __HAC_KEEP__) -> None:
 
         # A subclass without overridden constructors and passed args
         # and generate_message = True,  generates a message
-        with pytest.raises(__HAC_KEEP__Error) as exc:
+        with pytest.raises(UniversalAssistantError) as exc:
             raise _SubExceptionGenerate(
                 ValueError("wrong value"),
                 translation_domain="test",
@@ -272,7 +272,7 @@ async def test_universal_assistant_error_subclass(hass: __HAC_KEEP__) -> None:
         # A subclass with an ExceptionGroup subclass requires a message to be passed.
         # As we pass args, we will not generate the message.
         # The __str__ constructor defaults to that of the super class.
-        with pytest.raises(__HAC_KEEP__Error) as exc:
+        with pytest.raises(UniversalAssistantError) as exc:
             raise _SubClassWithExceptionGroup(
                 "group message",
                 [ValueError("wrong value"), TypeError("wrong type")],
@@ -285,7 +285,7 @@ async def test_universal_assistant_error_subclass(hass: __HAC_KEEP__) -> None:
         assert exc.value.translation_key == "bla"
         assert exc.value.translation_placeholders == {"bla": "Bla"}
 
-        with pytest.raises(__HAC_KEEP__Error) as exc:
+        with pytest.raises(UniversalAssistantError) as exc:
             raise _SubClassWithExceptionGroup(
                 "group message",
                 [ValueError("wrong value"), TypeError("wrong type")],
@@ -298,7 +298,7 @@ async def test_universal_assistant_error_subclass(hass: __HAC_KEEP__) -> None:
         # A subclass with an ExceptionGroup subclass requires a message to be passed.
         # The `generate_message` flag is set.`
         # The __str__ constructor will return the generated message.
-        with pytest.raises(__HAC_KEEP__Error) as exc:
+        with pytest.raises(UniversalAssistantError) as exc:
             raise _SubClassWithExceptionGroupGenerate(
                 "group message",
                 [ValueError("wrong value"), TypeError("wrong type")],

@@ -20,7 +20,7 @@ from universalassistant.components.energyzero.const import (
     SCAN_INTERVAL,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.parametrize(
@@ -39,7 +39,7 @@ from universalassistant.core import __HAC_KEEP__
 )
 @pytest.mark.freeze_time("2026-04-10 20:32:59")
 async def test_coordinator_requests_both_prices_with_vat(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_energyzero: MagicMock,
     options: dict[str, str],
@@ -83,7 +83,7 @@ async def test_coordinator_requests_both_prices_with_vat(
 
 @pytest.mark.usefixtures("mock_energyzero")
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the EnergyZero configuration entry loading/unloading."""
     mock_config_entry.add_to_hass(hass)
@@ -101,7 +101,7 @@ async def test_load_unload_config_entry(
 @patch("energyzero.api.rest.RESTClient._request", side_effect=EnergyZeroConnectionError)
 async def test_config_flow_entry_not_ready(
     mock_request: MagicMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the EnergyZero configuration entry not ready."""
@@ -128,7 +128,7 @@ async def test_config_flow_entry_not_ready(
     ],
 )
 async def test_missing_tomorrow_prices_do_not_retry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     selected: str,
     missing_streams: tuple[str, ...],
@@ -179,7 +179,7 @@ async def test_missing_tomorrow_prices_do_not_retry(
 @pytest.mark.freeze_time("2026-04-10 20:32:59")
 @pytest.mark.parametrize("selected", ["hourly", "quarter_hourly"])
 async def test_rest_requests_share_price_streams(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     selected: str,
 ) -> None:

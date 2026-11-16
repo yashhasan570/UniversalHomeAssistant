@@ -1,6 +1,6 @@
 {
   "domain": "my",
-  "name": "My __HA_KEEP__",
+  "name": "My Universal Home Assistant",
   "codeowners": ["@universal-assistant/core"],
   "dependencies": ["frontend"],
   "documentation": "https://www.universalassistant.io/integrations/my",

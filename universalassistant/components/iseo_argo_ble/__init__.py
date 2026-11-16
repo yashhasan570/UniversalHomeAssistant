@@ -1,4 +1,4 @@
-"""ISEO Argo BLE Lock — __HA_KEEP__ integration."""
+"""ISEO Argo BLE Lock — Universal Home Assistant integration."""
 
 from cryptography.hazmat.primitives.asymmetric.ec import SECP224R1, derive_private_key
 from iseo_argo_ble import IseoClient
@@ -6,7 +6,7 @@ from iseo_argo_ble import IseoClient
 from universalassistant.components.bluetooth import async_ble_device_from_address
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ADDRESS, CONF_UUID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 
@@ -17,7 +17,7 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 type IseoConfigEntry = ConfigEntry[IseoClient]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: IseoConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: IseoConfigEntry) -> None:
     """Set up ISEO Argo BLE Lock from a config entry."""
     address = entry.data[CONF_ADDRESS]
     ble_device = async_ble_device_from_address(hass, address, connectable=True)
@@ -45,6 +45,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: IseoConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: IseoConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: IseoConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

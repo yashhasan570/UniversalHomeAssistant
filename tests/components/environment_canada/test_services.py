@@ -10,8 +10,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.environment_canada.const import DOMAIN
 from universalassistant.const import CONF_LANGUAGE, CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from . import FIXTURE_USER_INPUT, init_integration
 
@@ -52,7 +52,7 @@ def _precip_mock() -> MagicMock:
 
 
 async def test_get_alerts(
-    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, ec_data: dict[str, Any]
+    hass: UniversalAssistant, snapshot: SnapshotAssertion, ec_data: dict[str, Any]
 ) -> None:
     """Test the get_alerts service returns active alerts."""
     config_entry = await init_integration(hass, ec_data)
@@ -68,13 +68,13 @@ async def test_get_alerts(
 
 
 async def test_get_alerts_not_connected(
-    hass: __HAC_KEEP__, ec_data: dict[str, Any]
+    hass: UniversalAssistant, ec_data: dict[str, Any]
 ) -> None:
     """Test get_alerts raises when weather data is not connected."""
     config_entry = await init_integration(hass, ec_data)
     config_entry.runtime_data.weather_coordinator.ec_data = None
 
-    with pytest.raises(__HAC_KEEP__Error, match="not connected"):
+    with pytest.raises(UniversalAssistantError, match="not connected"):
         await hass.services.async_call(
             DOMAIN,
             SERVICE_GET_ALERTS,
@@ -85,7 +85,7 @@ async def test_get_alerts_not_connected(
 
 
 async def test_get_precipitation_forecast(
-    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, ec_data: dict[str, Any]
+    hass: UniversalAssistant, snapshot: SnapshotAssertion, ec_data: dict[str, Any]
 ) -> None:
     """Test the get_precipitation_forecast service returns the series."""
     config_entry = await init_integration(hass, ec_data)
@@ -115,7 +115,7 @@ async def test_get_precipitation_forecast(
 
 
 async def test_get_precipitation_forecast_options(
-    hass: __HAC_KEEP__, ec_data: dict[str, Any]
+    hass: UniversalAssistant, ec_data: dict[str, Any]
 ) -> None:
     """Test the get_precipitation_forecast service passes requested options."""
     config_entry = await init_integration(hass, ec_data)
@@ -153,7 +153,7 @@ async def test_get_precipitation_forecast_options(
 
 
 async def test_get_precipitation_forecast_options_do_not_leak(
-    hass: __HAC_KEEP__, ec_data: dict[str, Any]
+    hass: UniversalAssistant, ec_data: dict[str, Any]
 ) -> None:
     """Test that options from one call are not carried over to the next."""
     config_entry = await init_integration(hass, ec_data)
@@ -182,7 +182,7 @@ async def test_get_precipitation_forecast_options_do_not_leak(
 
 
 async def test_get_precipitation_forecast_invalid_option(
-    hass: __HAC_KEEP__, ec_data: dict[str, Any]
+    hass: UniversalAssistant, ec_data: dict[str, Any]
 ) -> None:
     """Test the get_precipitation_forecast service rejects out-of-range options."""
     config_entry = await init_integration(hass, ec_data)

@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import (
     motion_detector2_device,
@@ -34,7 +34,7 @@ def platforms() -> Generator[None]:
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smoke_test_button_press(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -59,7 +59,7 @@ async def test_smoke_test_button_press(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_reset_tamper_button_press(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -84,7 +84,7 @@ async def test_reset_tamper_button_press(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_no_reset_tamper_button_without_support(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No tamper reset button is created without the LatestTamper service."""
@@ -100,7 +100,7 @@ async def test_no_reset_tamper_button_without_support(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_siren_test_alarm_button_press(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

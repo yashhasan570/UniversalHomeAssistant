@@ -14,7 +14,7 @@ from typing import Any, cast, overload, override
 from universalassistant.const import FORMAT_DATETIME
 from universalassistant.core import (
     HassJobType,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
     get_hassjob_callable_job_type,
 )
@@ -24,7 +24,7 @@ _LOGGER = logging.getLogger(__name__)
 LOG_FORMAT = "%(asctime)s %(levelname)s (%(threadName)s) [%(name)s] %(message)s"
 
 
-class __HAC_KEEP__LogFormatter(logging.Formatter):
+class UniversalAssistantLogFormatter(logging.Formatter):
     """Formatter with millisecond precision and the local UTC offset in timestamps."""
 
     @override
@@ -38,7 +38,7 @@ class __HAC_KEEP__LogFormatter(logging.Formatter):
         )
 
 
-class __HAC_KEEP__QueueListener(logging.handlers.QueueListener):
+class UniversalAssistantQueueListener(logging.handlers.QueueListener):
     """Custom QueueListener to watch for noisy loggers."""
 
     LOG_COUNTS_RESET_INTERVAL = 300
@@ -106,7 +106,7 @@ class __HAC_KEEP__QueueListener(logging.handlers.QueueListener):
         return excluded
 
 
-class __HAC_KEEP__QueueHandler(logging.handlers.QueueHandler):
+class UniversalAssistantQueueHandler(logging.handlers.QueueHandler):
     """Process the log in another thread."""
 
     listener: logging.handlers.QueueListener | None = None
@@ -143,14 +143,14 @@ class __HAC_KEEP__QueueHandler(logging.handlers.QueueHandler):
 
 
 @callback
-def async_activate_log_queue_handler(hass: __HAC_KEEP__) -> None:
+def async_activate_log_queue_handler(hass: UniversalAssistant) -> None:
     """Migrate the existing log handlers to use the queue.
 
     This allows us to avoid blocking I/O and formatting messages
     in the event loop as log messages are written in another thread.
     """
     simple_queue: SimpleQueue[logging.Handler] = SimpleQueue()
-    queue_handler = __HAC_KEEP__QueueHandler(simple_queue)
+    queue_handler = UniversalAssistantQueueHandler(simple_queue)
     logging.root.addHandler(queue_handler)
 
     migrated_handlers: list[logging.Handler] = []
@@ -160,7 +160,7 @@ def async_activate_log_queue_handler(hass: __HAC_KEEP__) -> None:
         logging.root.removeHandler(handler)
         migrated_handlers.append(handler)
 
-    listener = __HAC_KEEP__QueueListener(simple_queue, *migrated_handlers)
+    listener = UniversalAssistantQueueListener(simple_queue, *migrated_handlers)
     queue_handler.listener = listener
 
     listener.start()
@@ -174,7 +174,7 @@ def log_exception[*_Ts](format_err: Callable[[*_Ts], Any], *args: *_Ts) -> None:
     else:
         # If Python is unable to access the sources files, the call stack frame
         # will be missing information, so let's guard.
-        # https://github.com/yashhasan570/__HAC_KEEP__/issues/24982
+        # https://github.com/yashhasan570/UniversalUniversalAssistant/issues/24982
         module_name = __name__
 
     # Do not print the wrapper in the traceback

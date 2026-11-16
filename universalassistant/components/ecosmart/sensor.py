@@ -9,7 +9,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
     SensorStateClass,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import UNIT_CENTS_PER_KWH
@@ -30,7 +30,7 @@ SPOT_PRICE_DESCRIPTION = SensorEntityDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: EcosmartConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

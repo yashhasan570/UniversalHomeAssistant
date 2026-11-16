@@ -12,7 +12,7 @@ from universalassistant.const import (
     CONF_HOST,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -34,13 +34,13 @@ type UpbConfigEntry = ConfigEntry[upb_lib.UpbPim]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Universal Powerline Bus (UPB) integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, config_entry: UpbConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, config_entry: UpbConfigEntry) -> None:
     """Set up a new config_entry for UPB PIM."""
 
     url = config_entry.data[CONF_DEVICE]
@@ -74,13 +74,13 @@ async def async_setup_entry(hass: __HAC_KEEP__, config_entry: UpbConfigEntry) ->
         element.add_callback(_element_changed)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, config_entry: UpbConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, config_entry: UpbConfigEntry) -> None:
     """Unload the config_entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)
     config_entry.runtime_data.disconnect()
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: UpbConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: UpbConfigEntry) -> None:
     """Migrate entry."""
 
     _LOGGER.debug("Migrating from version %s.%s", entry.version, entry.minor_version)

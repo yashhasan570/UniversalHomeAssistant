@@ -6,8 +6,8 @@ from tesla_powerwall import GridStatus, IslandMode, PowerwallError
 
 from universalassistant.components.switch import SwitchDeviceClass, SwitchEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import PowerwallConfigEntry, PowerwallRuntimeData
@@ -20,7 +20,7 @@ OFF_GRID_STATUSES = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: PowerwallConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -65,7 +65,7 @@ class PowerwallOffGridEnabledEntity(PowerWallEntity, SwitchEntity):
         try:
             await self.power_wall.set_island_mode(island_mode)
         except PowerwallError as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Setting off-grid operation to {island_mode} failed: {ex}"
             ) from ex
 

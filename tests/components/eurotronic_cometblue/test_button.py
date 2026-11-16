@@ -7,14 +7,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from .conftest import setup_with_selected_platforms
 
 
 async def test_button_press_sync_time(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:

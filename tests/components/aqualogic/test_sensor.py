@@ -6,7 +6,7 @@ import pytest
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -17,7 +17,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_processor: MagicMock,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -34,7 +34,7 @@ async def test_sensors(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_sensors_imperial_units(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_processor: MagicMock,
 ) -> None:
     """Test sensors report imperial units when the panel is not metric."""
@@ -49,7 +49,7 @@ async def test_sensors_imperial_units(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_sensors_no_panel(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_processor: MagicMock,
 ) -> None:
     """Test sensors revert to unknown when the panel becomes unavailable."""

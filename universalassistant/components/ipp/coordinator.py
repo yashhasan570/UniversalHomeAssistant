@@ -8,7 +8,7 @@ from pyipp import IPP, IPPError, Printer as IPPPrinter
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_SSL, CONF_VERIFY_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -26,7 +26,7 @@ class IPPDataUpdateCoordinator(DataUpdateCoordinator[IPPPrinter]):
 
     config_entry: IPPConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: IPPConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: IPPConfigEntry) -> None:
         """Initialize global IPP data updater."""
         self.device_id = config_entry.unique_id or config_entry.entry_id
         self.ipp = IPP(

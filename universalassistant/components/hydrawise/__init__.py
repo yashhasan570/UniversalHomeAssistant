@@ -5,7 +5,7 @@ from collections.abc import Iterable
 from pydrawise import Controller, auth, hybrid
 
 from universalassistant.const import CONF_API_KEY, CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -33,14 +33,14 @@ _REQUIRED_AUTH_KEYS = (CONF_USERNAME, CONF_PASSWORD, CONF_API_KEY)
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Hunter Hydrawise integration."""
     async_setup_services(hass)
     return True
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: HydrawiseConfigEntry
+    hass: UniversalAssistant, config_entry: HydrawiseConfigEntry
 ) -> None:
     """Set up Hydrawise from a config entry."""
     if any(k not in config_entry.data for k in _REQUIRED_AUTH_KEYS):
@@ -110,6 +110,6 @@ async def async_setup_entry(
     await hass.config_entries.async_forward_entry_setups(config_entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: HydrawiseConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: HydrawiseConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -50,7 +50,7 @@ from universalassistant.components.recorder.util import session_scope
 from universalassistant.components.recorder.websocket_api import UNIT_SCHEMA
 from universalassistant.components.sensor import UNIT_CONVERTERS
 from universalassistant.const import DEGREE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import recorder as recorder_helper
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -179,7 +179,7 @@ def test_converters_align_with_sensor() -> None:
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_statistics_during_period(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test statistics_during_period."""
     now = get_start_time(dt_util.utcnow())
@@ -261,7 +261,7 @@ async def test_statistics_during_period(
 @pytest.mark.usefixtures("recorder_mock")
 @pytest.mark.parametrize("offset", [0, 1, 2])
 async def test_statistic_during_period(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     offset: int,
 ) -> None:
@@ -721,7 +721,7 @@ def _circular_mean_approx(
     ],
 )
 async def test_statistic_during_period_circular_mean(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     offset: int,
     step_size: float,
@@ -1071,7 +1071,7 @@ async def test_statistic_during_period_circular_mean(
 @pytest.mark.freeze_time(dt.datetime(2022, 10, 21, 7, 25, tzinfo=dt.UTC))
 @pytest.mark.usefixtures("recorder_mock")
 async def test_statistic_during_period_hole(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test statistic_during_period when there are holes in the data."""
     now = dt_util.utcnow()
@@ -1224,7 +1224,7 @@ async def test_statistic_during_period_hole(
 @pytest.mark.freeze_time(dt.datetime(2022, 10, 21, 7, 25, tzinfo=dt.UTC))
 @pytest.mark.usefixtures("recorder_mock")
 async def test_statistic_during_period_hole_circular_mean(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test statistic_during_period when there are holes in the data."""
     now = dt_util.utcnow()
@@ -1384,7 +1384,7 @@ async def test_statistic_during_period_hole_circular_mean(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_statistic_during_period_partial_overlap(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     frozen_time: dt.datetime,
@@ -1791,7 +1791,7 @@ async def test_statistic_during_period_partial_overlap(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_statistic_during_period_calendar(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     calendar_period,
     start_time,
@@ -1847,7 +1847,7 @@ async def test_statistic_during_period_calendar(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_statistics_during_period_unit_conversion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     attributes,
     state,
@@ -1934,7 +1934,7 @@ async def test_statistics_during_period_unit_conversion(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_sum_statistics_during_period_unit_conversion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     attributes,
     state,
@@ -2024,7 +2024,7 @@ async def test_sum_statistics_during_period_unit_conversion(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_statistics_during_period_invalid_unit_conversion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     custom_units,
 ) -> None:
@@ -2066,7 +2066,7 @@ async def test_statistics_during_period_invalid_unit_conversion(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_statistics_during_period_in_the_past(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test statistics_during_period in the past."""
     await hass.config.async_set_time_zone("UTC")
@@ -2322,7 +2322,7 @@ async def test_statistics_during_period_empty_statistic_ids(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_list_statistic_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     units,
     attributes,
@@ -2502,7 +2502,7 @@ async def test_list_statistic_ids(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_list_statistic_ids_unit_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     attributes,
     attributes2,
@@ -2601,7 +2601,7 @@ async def test_update_statistics_issues(hass_ws_client: WebSocketGenerator) -> N
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_clear_statistics(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test removing statistics."""
     now = get_start_time(dt_util.utcnow())
@@ -2745,7 +2745,7 @@ async def test_clear_statistics_time_out(hass_ws_client: WebSocketGenerator) -> 
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_clear_statistics_range(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test removing statistics which overlap a time range."""
     start = dt_util.utcnow().replace(minute=0, second=0, microsecond=0) - timedelta(
@@ -2822,7 +2822,7 @@ async def test_clear_statistics_range(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_clear_statistics_range_latest_short_term(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the latest short term statistic after removing the latest rows."""
     start = dt_util.utcnow().replace(minute=0, second=0, microsecond=0) - timedelta(
@@ -2917,7 +2917,7 @@ async def test_clear_statistics_range_incomplete(
 
 @pytest.mark.parametrize("time_key", ["start_time", "end_time"])
 async def test_async_clear_statistics_range_incomplete(
-    hass: __HAC_KEEP__, recorder_mock: Recorder, time_key: str
+    hass: UniversalAssistant, recorder_mock: Recorder, time_key: str
 ) -> None:
     """Test the recorder refuses a range with only one end."""
     with (
@@ -2976,7 +2976,7 @@ async def test_clear_statistics_requires_admin(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_update_statistics_metadata(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     requested_new_unit,
     websocket_command_extra,
@@ -3092,7 +3092,7 @@ async def test_update_statistics_metadata(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_update_statistics_metadata_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     requested_new_unit,
     websocket_command_extra,
@@ -3222,7 +3222,7 @@ async def test_update_statistics_metadata_time_out(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_change_statistics_unit(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test change unit of recorded statistics."""
     now = get_start_time(dt_util.utcnow())
@@ -3370,7 +3370,7 @@ async def test_change_statistics_unit(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_change_statistics_unit_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -3503,7 +3503,7 @@ async def test_change_statistics_unit_errors(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_recorder_info(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test getting recorder status."""
     client = await hass_ws_client()
@@ -3535,7 +3535,7 @@ async def test_recorder_info(
 )
 async def test_recorder_info_default_url(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     db_url: str,
     db_in_default_location: bool,
@@ -3564,7 +3564,7 @@ async def test_recorder_info_default_url(
 
 
 async def test_recorder_info_no_recorder(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test getting recorder status when recorder is not present."""
     client = await hass_ws_client()
@@ -3576,7 +3576,7 @@ async def test_recorder_info_no_recorder(
 
 
 async def test_recorder_info_bad_recorder_config(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test getting recorder status when recorder is not started."""
     config = {
@@ -3605,7 +3605,7 @@ async def test_recorder_info_bad_recorder_config(
 
 
 async def test_recorder_info_wait_database_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     async_test_recorder: RecorderInstanceContextManager,
 ) -> None:
@@ -3630,7 +3630,7 @@ async def test_recorder_info_wait_database_connect(
 
 
 async def test_recorder_info_migration_queue_exhausted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     async_test_recorder: RecorderInstanceContextManager,
     instrument_migration: InstrumentedMigration,
@@ -3687,7 +3687,7 @@ async def test_recorder_info_migration_queue_exhausted(
 
 
 async def test_backup_start_no_recorder(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_supervisor_access_token: str,
 ) -> None:
@@ -3721,7 +3721,7 @@ async def test_backup_start_no_recorder(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_get_statistics_metadata(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     units,
     attributes,
@@ -3906,7 +3906,7 @@ async def test_get_statistics_metadata(
 )
 async def test_import_statistics(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
     external_metadata_extra: dict[str, str],
@@ -4203,7 +4203,7 @@ async def test_import_statistics(
 )
 async def test_import_statistics_with_error(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
     unit_class: str,
@@ -4303,7 +4303,7 @@ async def test_import_statistics_with_error(
 )
 async def test_adjust_sum_statistics_energy(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
     external_metadata_extra: dict[str, str],
@@ -4520,7 +4520,7 @@ async def test_adjust_sum_statistics_energy(
 )
 async def test_adjust_sum_statistics_gas(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
     external_metadata_extra: dict[str, str],
@@ -4732,7 +4732,7 @@ async def test_adjust_sum_statistics_gas(
 )
 async def test_adjust_sum_statistics_errors(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
     state_unit,
@@ -4903,7 +4903,7 @@ async def test_adjust_sum_statistics_errors(
 
 async def test_import_statistics_with_last_reset(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -4981,7 +4981,7 @@ async def test_import_statistics_with_last_reset(
 
 
 async def test_entity_options_ws(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_setup_recorder_instance: RecorderInstanceGenerator,
     hass_ws_client: WebSocketGenerator,
 ) -> None:

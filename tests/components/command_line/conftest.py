@@ -6,7 +6,7 @@ import pytest
 
 from universalassistant import setup
 from universalassistant.components.command_line.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture(name="get_config")
@@ -62,8 +62,8 @@ async def get_config_to_integration_load() -> dict[str, Any]:
 
 
 @pytest.fixture(name="load_yaml_integration")
-async def load_int(hass: __HAC_KEEP__, get_config: dict[str, Any]) -> None:
-    """Set up the Command Line integration in __HA_KEEP__."""
+async def load_int(hass: UniversalAssistant, get_config: dict[str, Any]) -> None:
+    """Set up the Command Line integration in Universal Home Assistant."""
     await setup.async_setup_component(
         hass,
         DOMAIN,

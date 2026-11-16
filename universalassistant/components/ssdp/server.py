@@ -23,7 +23,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     __version__ as current_version,
 )
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.helpers.instance_id import async_get as async_get_instance_id
 from universalassistant.helpers.network import NoURLAvailableError, get_url
 from universalassistant.helpers.system_info import async_get_system_info
@@ -37,9 +37,9 @@ class HassUpnpServiceDevice(UpnpServerDevice):
     """Hass Device."""
 
     DEVICE_DEFINITION = DeviceInfo(
-        device_type="urn:universalassistant.io:device:__HAC_KEEP__:1",
+        device_type="urn:universalassistant.io:device:UniversalAssistant:1",
         friendly_name="filled_later_on",
-        manufacturer="__HA_KEEP__",
+        manufacturer="Universal Home Assistant",
         manufacturer_url="https://www.universalassistant.io",
         model_description=None,
         model_name="filled_later_on",
@@ -107,7 +107,7 @@ async def _async_find_next_available_port(
 class Server:
     """Class to be visible via SSDP searching and advertisements."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize class."""
         self.hass = hass
         self._upnp_servers: list[UpnpServer] = []
@@ -142,7 +142,7 @@ class Server:
             _LOGGER.warning(
                 "Could not set up UPnP/SSDP server, as a presentation URL could"
                 " not be determined; Please configure your internal URL"
-                " in the __HA_KEEP__ general configuration"
+                " in the Universal Home Assistant general configuration"
             )
             return
 
@@ -150,7 +150,7 @@ class Server:
         HassUpnpServiceDevice.DEVICE_DEFINITION = (
             HassUpnpServiceDevice.DEVICE_DEFINITION._replace(
                 udn=udn,
-                friendly_name=f"{self.hass.config.location_name} (__HA_KEEP__)",
+                friendly_name=f"{self.hass.config.location_name} (Universal Home Assistant)",
                 model_name=model_name,
                 presentation_url=presentation_url,
                 serial_number=serial_number,

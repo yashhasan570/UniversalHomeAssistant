@@ -7,7 +7,7 @@ from homewizard_energy.errors import DisabledError, RequestError, UnauthorizedEr
 from homewizard_energy.models import Batteries, CombinedModels as DeviceResponseEntry
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -33,7 +33,7 @@ class HWEnergyDeviceUpdateCoordinator(DataUpdateCoordinator[DeviceResponseEntry]
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: HomeWizardConfigEntry,
         api: HomeWizardEnergy,
     ) -> None:

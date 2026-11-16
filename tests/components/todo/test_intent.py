@@ -19,7 +19,7 @@ from universalassistant.components.todo import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import intent
 from universalassistant.setup import async_setup_component
 
@@ -27,14 +27,14 @@ from . import MockTodoListEntity, create_mock_platform
 
 
 @pytest.fixture(autouse=True)
-async def setup_intents(hass: __HAC_KEEP__) -> None:
+async def setup_intents(hass: UniversalAssistant) -> None:
     """Set up the intents."""
     assert await async_setup_component(hass, "universalassistant", {})
     await todo_intent.async_setup_intents(hass)
 
 
 async def test_add_item_intent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test adding items to lists using an intent."""
@@ -144,7 +144,7 @@ async def test_add_item_intent(
 
 
 async def test_add_item_intent_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     test_entity: TodoListEntity,
 ) -> None:
     """Test errors with the add item intent."""
@@ -182,7 +182,7 @@ async def test_add_item_intent_errors(
 
 
 async def test_complete_item_intent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the complete item intent."""
     entity1 = MockTodoListEntity(
@@ -226,7 +226,7 @@ async def test_complete_item_intent(
 
 
 async def test_complete_item_intent_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     test_entity: TodoListEntity,
 ) -> None:
     """Test errors with the complete item intent."""
@@ -276,7 +276,7 @@ async def test_complete_item_intent_errors(
 
 
 async def test_complete_item_intent_ha_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     test_entity: TodoListEntity,
 ) -> None:
     """Test error handling of HA errors with the complete item intent."""
@@ -302,7 +302,7 @@ async def test_complete_item_intent_ha_errors(
 
 
 async def test_remove_item_intent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the remove item intent."""
     entity1 = MockTodoListEntity(
@@ -339,7 +339,7 @@ async def test_remove_item_intent(
 
 
 async def test_remove_item_intent_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     test_entity: TodoListEntity,
 ) -> None:
     """Test errors with the remove item intent."""

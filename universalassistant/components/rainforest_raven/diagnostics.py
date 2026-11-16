@@ -5,7 +5,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_MAC
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 from .coordinator import RAVEnConfigEntry
 
@@ -27,7 +27,7 @@ def async_redact_meter_macs(data: dict) -> dict:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: RAVEnConfigEntry
+    hass: UniversalAssistant, config_entry: RAVEnConfigEntry
 ) -> Mapping[str, Any]:
     """Return diagnostics for a config entry."""
 

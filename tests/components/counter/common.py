@@ -6,11 +6,11 @@ components. Instead call the service directly.
 
 from universalassistant.components.counter import DOMAIN, CounterService
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 
 @callback
-def async_increment(hass: __HAC_KEEP__, entity_id: str) -> None:
+def async_increment(hass: UniversalAssistant, entity_id: str) -> None:
     """Increment a counter."""
     hass.async_create_task(
         hass.services.async_call(
@@ -20,7 +20,7 @@ def async_increment(hass: __HAC_KEEP__, entity_id: str) -> None:
 
 
 @callback
-def async_decrement(hass: __HAC_KEEP__, entity_id: str) -> None:
+def async_decrement(hass: UniversalAssistant, entity_id: str) -> None:
     """Decrement a counter."""
     hass.async_create_task(
         hass.services.async_call(
@@ -30,7 +30,7 @@ def async_decrement(hass: __HAC_KEEP__, entity_id: str) -> None:
 
 
 @callback
-def async_reset(hass: __HAC_KEEP__, entity_id: str) -> None:
+def async_reset(hass: UniversalAssistant, entity_id: str) -> None:
     """Reset a counter."""
     hass.async_create_task(
         hass.services.async_call(

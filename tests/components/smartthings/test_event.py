@@ -14,7 +14,7 @@ from universalassistant.components.event import (
     EventEntityStateAttribute,
 )
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -26,7 +26,7 @@ from . import (
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -40,7 +40,7 @@ async def test_all_entities(
 
 @pytest.mark.parametrize("device_fixture", ["heatit_zpushwall"])
 async def test_state_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -72,7 +72,7 @@ async def test_state_update(
 
 @pytest.mark.parametrize("device_fixture", ["heatit_zpushwall"])
 async def test_supported_button_values_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -109,7 +109,7 @@ async def test_supported_button_values_update(
 
 @pytest.mark.parametrize("device_fixture", ["heatit_zpushwall"])
 async def test_no_supported_button_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -146,7 +146,7 @@ async def test_no_supported_button_values(
 
 @pytest.mark.parametrize("device_fixture", ["heatit_zpushwall"])
 async def test_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -177,7 +177,7 @@ async def test_availability(
 
 @pytest.mark.parametrize("device_fixture", ["heatit_zpushwall"])
 async def test_availability_at_start(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     unavailable_device: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

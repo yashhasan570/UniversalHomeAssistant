@@ -6,7 +6,7 @@ from typing import Any, override
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .device import ConfiguredDoorBird, async_reset_device_favorites
@@ -43,7 +43,7 @@ BUTTON_DESCRIPTIONS: tuple[DoorbirdButtonEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: DoorBirdConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

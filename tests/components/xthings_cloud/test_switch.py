@@ -16,14 +16,14 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import get_device_by_id, setup_integration
 
 
 async def test_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -56,7 +56,7 @@ async def test_switches(
     ],
 )
 async def test_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
     entity_id: str,
@@ -78,7 +78,7 @@ async def test_turn_on_off(
 
 
 async def test_plug_unavailable_when_offline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_plug_unavailable_when_offline(
 
 
 async def test_updating_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
     mock_websocket: AsyncMock,

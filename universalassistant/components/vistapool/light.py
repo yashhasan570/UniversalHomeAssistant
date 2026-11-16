@@ -5,8 +5,8 @@ from typing import Any, override
 from aioaquarite import AquariteError
 
 from universalassistant.components.light import ColorMode, LightEntity
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -21,7 +21,7 @@ _VALUE_PATH = "light.status"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: VistapoolConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -81,7 +81,7 @@ class VistapoolLight(VistapoolEntity, LightEntity):
                 self.coordinator.pool_id, _VALUE_PATH, value
             )
         except AquariteError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_failed",
                 translation_placeholders={"entity": self.entity_id},

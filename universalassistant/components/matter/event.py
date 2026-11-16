@@ -13,7 +13,7 @@ from universalassistant.components.event import (
     EventEntityDescription,
 )
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import LOGGER
@@ -36,7 +36,7 @@ EVENT_TYPES_MAP = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MatterConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -93,7 +93,7 @@ class MatterEventEntity(MatterEntity, EventEntity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Handle being added to __HA_KEEP__."""
+        """Handle being added to Universal Home Assistant."""
         await super().async_added_to_hass()
 
         # subscribe to NodeEvent events

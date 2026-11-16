@@ -6,7 +6,7 @@ from pydrawise.diagnostics import redacted_dump
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_API_KEY, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import HydrawiseConfigEntry
 
@@ -14,7 +14,7 @@ TO_REDACT = {CONF_API_KEY, CONF_PASSWORD, CONF_USERNAME}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: HydrawiseConfigEntry
+    hass: UniversalAssistant, entry: HydrawiseConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinators = entry.runtime_data

@@ -19,8 +19,8 @@ from universalassistant.const import (
     CONF_UNIQUE_ID,
     CONF_VALUE_TEMPLATE,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, PlatformNotReady
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError, PlatformNotReady
 from universalassistant.helpers import discovery, template
 from universalassistant.helpers.condition import async_validate_conditions_config
 from universalassistant.helpers.entity import Entity
@@ -55,13 +55,13 @@ DATA_COORDINATORS: HassKey[list[TriggerUpdateCoordinator]] = HassKey(DOMAIN)
 _LOGGER = logging.getLogger(__name__)
 
 type CreateTemplateEntitiesCallback = Callable[
-    [type[TemplateEntity], AddEntitiesCallback, __HAC_KEEP__, list[dict], str | None],
+    [type[TemplateEntity], AddEntitiesCallback, UniversalAssistant, list[dict], str | None],
     None,
 ]
 
 
 @callback
-def templates_with_blueprint(hass: __HAC_KEEP__, blueprint_path: str) -> list[str]:
+def templates_with_blueprint(hass: UniversalAssistant, blueprint_path: str) -> list[str]:
     """Return all template entity ids that reference the blueprint."""
     return [
         entity_id
@@ -73,7 +73,7 @@ def templates_with_blueprint(hass: __HAC_KEEP__, blueprint_path: str) -> list[st
 
 
 @callback
-def blueprint_in_template(hass: __HAC_KEEP__, entity_id: str) -> str | None:
+def blueprint_in_template(hass: UniversalAssistant, entity_id: str) -> str | None:
     """Return the blueprint the template entity is based on or None."""
     for platform in async_get_platforms(hass, DOMAIN):
         if isinstance(
@@ -84,19 +84,19 @@ def blueprint_in_template(hass: __HAC_KEEP__, entity_id: str) -> str | None:
     return None
 
 
-def _blueprint_in_use(hass: __HAC_KEEP__, blueprint_path: str) -> bool:
+def _blueprint_in_use(hass: UniversalAssistant, blueprint_path: str) -> bool:
     """Return True if any template references the blueprint."""
     return len(templates_with_blueprint(hass, blueprint_path)) > 0
 
 
-async def _reload_blueprint_templates(hass: __HAC_KEEP__, blueprint_path: str) -> None:
+async def _reload_blueprint_templates(hass: UniversalAssistant, blueprint_path: str) -> None:
     """Reload all templates that rely on a specific blueprint."""
     await hass.services.async_call(DOMAIN, TemplateService.RELOAD)
 
 
 @singleton(DATA_BLUEPRINTS)
 @callback
-def async_get_blueprints(hass: __HAC_KEEP__) -> blueprint.DomainBlueprints:
+def async_get_blueprints(hass: UniversalAssistant) -> blueprint.DomainBlueprints:
     """Get template blueprints."""
     from .config import TEMPLATE_BLUEPRINT_SCHEMA  # noqa: PLC0415
 
@@ -114,7 +114,7 @@ def async_get_blueprints(hass: __HAC_KEEP__) -> blueprint.DomainBlueprints:
 def async_create_template_tracking_entities(
     entity_cls: type[Entity],
     async_add_entities: AddEntitiesCallback,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     definitions: list[dict],
     unique_id_prefix: str | None,
 ) -> None:
@@ -144,7 +144,7 @@ def _get_config_breadcrumbs(config: ConfigType) -> str:
 
 
 async def validate_actions_and_conditions_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     script_options: tuple[str, ...] | None = None,
 ) -> bool:
@@ -160,7 +160,7 @@ async def validate_actions_and_conditions_config(
             config[CONF_CONDITIONS] = await async_validate_conditions_config(
                 hass, condition_config
             )
-        except (probatio.Invalid, __HAC_KEEP__Error) as err:
+        except (probatio.Invalid, UniversalAssistantError) as err:
             if not breadcrumb:
                 breadcrumb = _get_config_breadcrumbs(config)
             _LOGGER.error(
@@ -179,7 +179,7 @@ async def validate_actions_and_conditions_config(
                 config[script_option] = await async_validate_actions_config(
                     hass, script_config
                 )
-            except (probatio.Invalid, __HAC_KEEP__Error) as err:
+            except (probatio.Invalid, UniversalAssistantError) as err:
                 if not breadcrumb:
                     breadcrumb = _get_config_breadcrumbs(config)
                 _LOGGER.error(
@@ -194,7 +194,7 @@ async def validate_actions_and_conditions_config(
 
 
 def async_create_platform_template_not_supported_issue(
-    hass: __HAC_KEEP__, domain: str
+    hass: UniversalAssistant, domain: str
 ):
     """Create a platform: template not supported issue."""
     learn_more_url = (
@@ -212,7 +212,7 @@ def async_create_platform_template_not_supported_issue(
 
 
 async def async_setup_template_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain: str,
     config: ConfigType,
     state_entity_cls: type[TemplateEntity],
@@ -262,7 +262,7 @@ async def async_setup_template_platform(
 
 
 async def async_setup_template_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
     state_entity_cls: type[TemplateEntity],
@@ -290,7 +290,7 @@ async def async_setup_template_entry(
 
 
 def async_setup_template_preview[T: TemplateEntity](
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     name: str,
     config: ConfigType,
     state_entity_cls: type[T],
@@ -312,7 +312,7 @@ def _humanize(err: Exception, data: Any) -> str:
     return str(err)
 
 
-async def process_config(hass: __HAC_KEEP__, hass_config: ConfigType) -> None:
+async def process_config(hass: UniversalAssistant, hass_config: ConfigType) -> None:
     """Process config."""
     coordinators = hass.data.pop(DATA_COORDINATORS, None)
 
@@ -322,7 +322,7 @@ async def process_config(hass: __HAC_KEEP__, hass_config: ConfigType) -> None:
             await coordinator.async_shutdown()
 
     async def init_coordinator(
-        hass: __HAC_KEEP__, conf_section: dict[str, Any]
+        hass: UniversalAssistant, conf_section: dict[str, Any]
     ) -> TriggerUpdateCoordinator:
         coordinator = TriggerUpdateCoordinator(hass, conf_section)
         await coordinator.async_setup(hass_config)
@@ -337,7 +337,7 @@ async def process_config(hass: __HAC_KEEP__, hass_config: ConfigType) -> None:
                     conf_section[CONF_ACTIONS] = await async_validate_actions_config(
                         hass, actions_config
                     )
-                except (probatio.Invalid, __HAC_KEEP__Error) as err:
+                except (probatio.Invalid, UniversalAssistantError) as err:
                     breadcrumb = "template section"
                     if (unique_id := conf_section.get(CONF_UNIQUE_ID)) is not None:
                         breadcrumb = f"template section with unique_id: {unique_id}"

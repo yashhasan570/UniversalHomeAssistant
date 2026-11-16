@@ -1,4 +1,4 @@
-"""Test __HA_KEEP__ Hardware firmware update entity."""
+"""Test Universal Home Assistant Hardware firmware update entity."""
 
 import asyncio
 from collections.abc import AsyncGenerator, Callable
@@ -50,8 +50,8 @@ from universalassistant.const import EVENT_STATE_CHANGED, EntityCategory, Platfo
 from universalassistant.core import (
     Event,
     EventStateChangedData,
-    __HAC_KEEP__,
-    __HAC_KEEP__Error,
+    UniversalAssistant,
+    UniversalAssistantError,
     State,
     callback,
 )
@@ -107,7 +107,7 @@ TEST_FIRMWARE_ENTITY_DESCRIPTIONS: dict[
 
 
 def _mock_async_create_update_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     session: aiohttp.ClientSession,
     async_add_entities: AddConfigEntryEntitiesCallback,
@@ -151,7 +151,7 @@ def _mock_async_create_update_entity(
 
 
 async def mock_async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry
 ) -> None:
     """Set up test config entry."""
     await hass.config_entries.async_forward_entry_setups(
@@ -160,7 +160,7 @@ async def mock_async_setup_entry(
 
 
 async def mock_async_setup_update_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -222,9 +222,9 @@ class MockFirmwareUpdateEntity(BaseFirmwareUpdateEntity):
 
 @pytest.fixture(name="update_config_entry")
 async def mock_update_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> AsyncGenerator[ConfigEntry]:
-    """Set up a mock __HA_KEEP__ Hardware firmware update entity."""
+    """Set up a mock Universal Home Assistant Hardware firmware update entity."""
     await async_setup_component(hass, HOMEASSISTANT_DOMAIN, {})
     await async_setup_component(hass, DOMAIN, {})
 
@@ -266,7 +266,7 @@ async def mock_update_config_entry(
 
 
 async def test_update_entity_installation(
-    hass: __HAC_KEEP__, update_config_entry: ConfigEntry
+    hass: UniversalAssistant, update_config_entry: ConfigEntry
 ) -> None:
     """Test the Hardware firmware update entity installation."""
 
@@ -318,7 +318,7 @@ async def test_update_entity_installation(
     assert state.attributes["release_url"] == ("https://example.org/release_notes")
 
     async def mock_flash_firmware(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         device: str,
         fw_data: bytes,
         flasher_cls: type[DeviceSpecificFlasher],
@@ -388,7 +388,7 @@ async def test_update_entity_installation(
 
 
 async def test_update_entity_installation_failure(
-    hass: __HAC_KEEP__, update_config_entry: ConfigEntry
+    hass: UniversalAssistant, update_config_entry: ConfigEntry
 ) -> None:
     """Test installation failing during flashing."""
     assert await hass.config_entries.async_setup(update_config_entry.entry_id)
@@ -411,9 +411,9 @@ async def test_update_entity_installation_failure(
     with (
         patch(
             "universalassistant.components.universalassistant_hardware.update.async_flash_silabs_firmware",
-            side_effect=__HAC_KEEP__Error("Failed to flash firmware"),
+            side_effect=UniversalAssistantError("Failed to flash firmware"),
         ),
-        pytest.raises(__HAC_KEEP__Error, match="Failed to flash firmware"),
+        pytest.raises(UniversalAssistantError, match="Failed to flash firmware"),
     ):
         await hass.services.async_call(
             "update",
@@ -432,7 +432,7 @@ async def test_update_entity_installation_failure(
 
 
 async def test_update_entity_installation_probe_failure(
-    hass: __HAC_KEEP__, update_config_entry: ConfigEntry
+    hass: UniversalAssistant, update_config_entry: ConfigEntry
 ) -> None:
     """Test installation failing during post-flashing probing."""
     assert await hass.config_entries.async_setup(update_config_entry.entry_id)
@@ -455,12 +455,12 @@ async def test_update_entity_installation_probe_failure(
     with (
         patch(
             "universalassistant.components.universalassistant_hardware.update.async_flash_silabs_firmware",
-            side_effect=__HAC_KEEP__Error(
+            side_effect=UniversalAssistantError(
                 "Failed to probe the firmware after flashing"
             ),
         ),
         pytest.raises(
-            __HAC_KEEP__Error, match="Failed to probe the firmware after flashing"
+            UniversalAssistantError, match="Failed to probe the firmware after flashing"
         ),
     ):
         await hass.services.async_call(
@@ -480,7 +480,7 @@ async def test_update_entity_installation_probe_failure(
 
 
 async def test_update_entity_state_restoration(
-    hass: __HAC_KEEP__, update_config_entry: ConfigEntry
+    hass: UniversalAssistant, update_config_entry: ConfigEntry
 ) -> None:
     """Test the Hardware firmware update entity state restoration."""
 
@@ -511,7 +511,7 @@ async def test_update_entity_state_restoration(
 
 
 async def test_update_entity_firmware_missing_from_manifest(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     update_config_entry: ConfigEntry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -579,7 +579,7 @@ async def test_update_entity_firmware_missing_from_manifest(
     ],
 )
 async def test_update_entity_release_notes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     update_config_entry: ConfigEntry,
     hass_ws_client: WebSocketGenerator,
     firmware_type: str,
@@ -608,7 +608,7 @@ async def test_update_entity_release_notes(
 
 
 async def test_update_entity_graceful_firmware_type_callback_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     update_config_entry: ConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -654,7 +654,7 @@ async def test_update_entity_graceful_firmware_type_callback_errors(
 
 
 async def test_early_firmware_check_on_unknown_state(
-    hass: __HAC_KEEP__, update_config_entry: ConfigEntry
+    hass: UniversalAssistant, update_config_entry: ConfigEntry
 ) -> None:
     """Test early firmware check fetches manifest without needing manual update."""
     assert await hass.config_entries.async_setup(update_config_entry.entry_id)
@@ -689,7 +689,7 @@ async def test_early_firmware_check_on_unknown_state(
     "error", [aiohttp.ClientError("Network error"), RuntimeError("Unexpected error")]
 )
 async def test_early_firmware_check_handles_errors(
-    hass: __HAC_KEEP__, update_config_entry: ConfigEntry, error: Exception
+    hass: UniversalAssistant, update_config_entry: ConfigEntry, error: Exception
 ) -> None:
     """Test early firmware check gracefully handles errors."""
 
@@ -712,7 +712,7 @@ async def test_early_firmware_check_handles_errors(
 
 
 async def test_early_firmware_check_skipped_with_restored_state(
-    hass: __HAC_KEEP__, update_config_entry: ConfigEntry
+    hass: UniversalAssistant, update_config_entry: ConfigEntry
 ) -> None:
     """Test early firmware check is skipped when state is restored."""
     mock_restore_cache_with_extra_data(

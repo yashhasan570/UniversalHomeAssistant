@@ -6,7 +6,7 @@ from fints.client import BankIdentifier, FinTSOperations
 import pytest
 
 from universalassistant.components.fints.sensor import SEPAAccount
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 BANK_INFORMATION = {
@@ -72,7 +72,7 @@ def mock_bank() -> MagicMock:
 
 
 async def test_setup_platform(
-    hass: __HAC_KEEP__, mock_bank: MagicMock, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, mock_bank: MagicMock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Only configured accounts get a sensor, and the rest are skipped."""
 
@@ -92,7 +92,7 @@ async def test_setup_platform(
 
 
 async def test_account_identifiers_are_not_logged(
-    hass: __HAC_KEEP__, mock_bank: MagicMock, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, mock_bank: MagicMock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """No IBAN or account number ends up in the log of this integration."""
 

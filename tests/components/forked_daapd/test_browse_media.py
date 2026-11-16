@@ -17,14 +17,14 @@ from universalassistant.components.spotify.const import (  # pylint: disable=uni
     MEDIA_PLAYER_PREFIX as SPOTIFY_MEDIA_PLAYER_PREFIX,
 )
 from universalassistant.components.websocket_api import TYPE_RESULT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 TEST_MASTER_ENTITY_NAME = "media_player.owntone_server"
 
 
 async def test_async_browse_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -204,7 +204,7 @@ async def test_async_browse_media(
 
 
 async def test_async_browse_media_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -264,7 +264,7 @@ async def test_async_browse_media_not_found(
 
 
 async def test_async_browse_spotify(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -323,7 +323,7 @@ async def test_async_browse_spotify(
 
 
 async def test_async_browse_media_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -378,7 +378,7 @@ async def test_async_browse_media_source(
 
 
 async def test_async_browse_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -433,7 +433,7 @@ async def test_async_browse_image(
 
 
 async def test_async_browse_image_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
 ) -> None:

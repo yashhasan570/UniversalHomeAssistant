@@ -7,7 +7,7 @@ from aiohpprinter import HpPrinter, HpPrinterData
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import (
     DataUpdateCoordinator,
@@ -27,7 +27,7 @@ class HpPrinterDataUpdateCoordinator(DataUpdateCoordinator[HpPrinterData]):
 
     config_entry: HpPrinterConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: HpPrinterConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: HpPrinterConfigEntry) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,

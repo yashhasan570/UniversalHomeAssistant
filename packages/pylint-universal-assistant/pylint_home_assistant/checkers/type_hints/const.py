@@ -5,7 +5,7 @@ from pylint_universal_assistant.const import ANY_PLATFORM, Module, Platform
 from .models import ClassTypeHintMatch, TypeHintMatch
 
 _COMMON_ARGUMENTS: dict[str, list[str]] = {
-    "hass": ["__HAC_KEEP__", "__HAC_KEEP__ | None"]
+    "hass": ["UniversalAssistant", "UniversalAssistant | None"]
 }
 
 _FORCE_ANNOTATION_PLATFORMS = [Module.CONFIG_FLOW]
@@ -38,7 +38,7 @@ _TEST_FIXTURES: dict[str, list[str] | str] = {
     "entity_registry_enabled_by_default": "None",
     "event_loop": "AbstractEventLoop",
     "freezer": "FrozenDateTimeFactory",
-    "hass": "__HAC_KEEP__",
+    "hass": "UniversalAssistant",
     "hass_access_token": "str",
     "hass_admin_credential": "Credentials",
     "hass_admin_user": "MockUser",
@@ -94,7 +94,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="setup",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigType",
             },
             return_type="bool",
@@ -105,7 +105,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_setup_entry",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigEntry",
             },
             return_type=None,
@@ -115,7 +115,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_remove_entry",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigEntry",
             },
             return_type=None,
@@ -125,7 +125,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_unload_entry",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigEntry",
             },
             return_type=None,
@@ -135,7 +135,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_migrate_entry",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigEntry",
             },
             return_type=None,
@@ -145,7 +145,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_remove_config_entry_device",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigEntry",
                 2: "AnyDeviceEntry",
             },
@@ -156,7 +156,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_reset_platform",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "str",
             },
             return_type=None,
@@ -168,7 +168,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="setup_platform",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigType",
                 2: "AddEntitiesCallback",
                 3: "DiscoveryInfoType | None",
@@ -181,7 +181,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_setup_entry",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigEntry",
                 2: "AddConfigEntryEntitiesCallback",
             },
@@ -194,7 +194,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_get_auth_implementation",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "str",
                 2: "ClientCredential",
             },
@@ -205,7 +205,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_get_authorization_server",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
             },
             return_type="AuthorizationServer",
             mandatory=True,
@@ -216,7 +216,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_pre_backup",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
             },
             return_type=None,
             mandatory=True,
@@ -225,7 +225,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_post_backup",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
             },
             return_type=None,
             mandatory=True,
@@ -236,7 +236,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_get_media_browser_root_object",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "str",
             },
             return_type="list[BrowseMedia]",
@@ -246,7 +246,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_browse_media",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "MediaType | str",
                 2: "str",
                 3: "str",
@@ -258,7 +258,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_play_media",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "str",
                 2: "Chromecast",
                 3: "MediaType | str",
@@ -273,7 +273,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="_async_has_devices",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
             },
             return_type="bool",
             mandatory=True,
@@ -283,7 +283,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_validate_action_config",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigType",
             },
             return_type="ConfigType",
@@ -293,7 +293,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_call_action_from_config",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigType",
                 2: "TemplateVarsType",
                 3: "Context | None",
@@ -305,7 +305,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_get_action_capabilities",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigType",
             },
             return_type="dict[str, Schema]",
@@ -315,7 +315,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_get_actions",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "str",
             },
             return_type=["list[dict[str, str]]", "list[dict[str, Any]]"],
@@ -327,7 +327,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_validate_condition_config",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigType",
             },
             return_type="ConfigType",
@@ -337,7 +337,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_condition_from_config",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigType",
             },
             return_type="ConditionCheckerType",
@@ -347,7 +347,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_get_condition_capabilities",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigType",
             },
             return_type="dict[str, Schema]",
@@ -357,7 +357,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_get_conditions",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "str",
             },
             return_type=["list[dict[str, str]]", "list[dict[str, Any]]"],
@@ -369,7 +369,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="setup_scanner",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigType",
                 2: "SeeCallback",
                 3: "DiscoveryInfoType | None",
@@ -381,7 +381,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_setup_scanner",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigType",
                 2: "AsyncSeeCallback",
                 3: "DiscoveryInfoType | None",
@@ -393,7 +393,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="get_scanner",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigType",
             },
             return_type=["DeviceScanner", None],
@@ -406,7 +406,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_validate_trigger_config",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigType",
             },
             return_type="ConfigType",
@@ -416,7 +416,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_attach_trigger",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigType",
                 2: "TriggerActionType",
                 3: "TriggerInfo",
@@ -428,7 +428,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_get_trigger_capabilities",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigType",
             },
             return_type="dict[str, Schema]",
@@ -438,7 +438,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_get_triggers",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "str",
             },
             return_type=["list[dict[str, str]]", "list[dict[str, Any]]"],
@@ -450,7 +450,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_get_config_entry_diagnostics",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigEntry",
             },
             return_type="Mapping[str, Any]",
@@ -460,7 +460,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="async_get_device_diagnostics",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigEntry",
                 2: "AnyDeviceEntry",
             },
@@ -473,7 +473,7 @@ _FUNCTION_MATCH: dict[str, list[TypeHintMatch]] = {
         TypeHintMatch(
             function_name="get_service",
             arg_types={
-                0: "__HAC_KEEP__",
+                0: "UniversalAssistant",
                 1: "ConfigType",
                 2: "DiscoveryInfoType | None",
             },
@@ -958,7 +958,7 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                 TypeHintMatch(
                     function_name="async_get_events",
                     arg_types={
-                        1: "__HAC_KEEP__",
+                        1: "UniversalAssistant",
                         2: "datetime",
                         3: "datetime",
                     },

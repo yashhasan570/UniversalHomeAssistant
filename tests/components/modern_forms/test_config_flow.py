@@ -12,7 +12,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.modern_forms.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST, CONF_MAC, CONF_NAME, CONTENT_TYPE_JSON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -20,7 +20,7 @@ from . import init_integration, modern_forms_gen4_call_mock
 
 
 async def test_full_user_flow_implementation(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the full manual user flow from start to finish."""
     aioclient_mock.post(
@@ -55,7 +55,7 @@ async def test_full_user_flow_implementation(
 
 
 async def test_full_zeroconf_flow_implementation(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the full manual user flow from start to finish."""
     aioclient_mock.post(
@@ -107,7 +107,7 @@ async def test_full_zeroconf_flow_implementation(
     side_effect=ModernFormsConnectionError,
 )
 async def test_connection_error(
-    update_mock: MagicMock, hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    update_mock: MagicMock, hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test we show user form on Modern Forms connection error."""
     aioclient_mock.post("http://example.com/mf", exc=aiohttp.ClientError)
@@ -146,7 +146,7 @@ async def test_connection_error(
     side_effect=ModernFormsConnectionError,
 )
 async def test_zeroconf_connection_error(
-    update_mock: MagicMock, hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    update_mock: MagicMock, hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test we abort zeroconf flow on Modern Forms connection error."""
     aioclient_mock.post("http://192.168.1.123/mf", exc=aiohttp.ClientError)
@@ -174,7 +174,7 @@ async def test_zeroconf_connection_error(
     side_effect=ModernFormsConnectionError,
 )
 async def test_zeroconf_confirm_connection_error(
-    update_mock: MagicMock, hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    update_mock: MagicMock, hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test we abort zeroconf flow on Modern Forms connection error."""
     aioclient_mock.post("http://192.168.1.123:80/mf", exc=aiohttp.ClientError)
@@ -202,7 +202,7 @@ async def test_zeroconf_confirm_connection_error(
 
 
 async def test_user_device_exists_abort(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test we abort zeroconf flow if Modern Forms device already configured."""
     aioclient_mock.post(
@@ -228,7 +228,7 @@ async def test_user_device_exists_abort(
 
 
 async def test_zeroconf_with_mac_device_exists_abort(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test we abort zeroconf flow if a Modern Forms device already configured."""
     await init_integration(hass, aioclient_mock, skip_setup=True)
@@ -252,7 +252,7 @@ async def test_zeroconf_with_mac_device_exists_abort(
 
 
 async def test_full_user_flow_gen4(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the user flow successfully adds a Gen4 fan."""
     aioclient_mock.post("http://192.168.1.123:80/mf", text="", status=404)

@@ -13,11 +13,11 @@ from universalassistant.components.energyid.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_DEVICE_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
-def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Return a mock config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,

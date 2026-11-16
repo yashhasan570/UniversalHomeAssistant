@@ -24,7 +24,7 @@ from pyzonneplan.const import PriceChart
 
 from universalassistant.components.zonneplan.const import DOMAIN
 from universalassistant.const import CONF_EMAIL, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 MOCK_EMAIL = "user@example.com"
 MOCK_USER_INPUT = {CONF_EMAIL: MOCK_EMAIL}
@@ -134,7 +134,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> MockConfigEntry:
     """Set up the Zonneplan integration."""
     mock_config_entry.add_to_hass(hass)

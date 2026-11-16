@@ -8,8 +8,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 pytestmark = [
@@ -27,7 +27,7 @@ pytestmark = [
     ],
 )
 async def test_buttons(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_elgato: MagicMock,
@@ -64,7 +64,7 @@ async def test_buttons(
     mocked_method.side_effect = ElgatoError
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="An unknown error occurred while communicating with the Elgato device",
     ):
         await hass.services.async_call(
@@ -79,7 +79,7 @@ async def test_buttons(
     mocked_method.side_effect = ElgatoConnectionError
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="An error occurred while communicating with the Elgato device",
     ):
         await hass.services.async_call(

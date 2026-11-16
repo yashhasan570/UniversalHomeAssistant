@@ -25,8 +25,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -37,7 +37,7 @@ HISTORY_DAYS = "number.documents_history_days"
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -59,7 +59,7 @@ async def test_all_entities(
     ],
 )
 async def test_unavailable_without_period(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     keep_days: int,
@@ -73,7 +73,7 @@ async def test_unavailable_without_period(
 
 
 async def test_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_set_value(
 
 
 async def test_set_value_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -108,7 +108,7 @@ async def test_set_value_error(
     await setup_integration(hass, mock_config_entry)
     mock_seafile_client.set_library_history_limit.side_effect = SeafileConnectionError
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -131,7 +131,7 @@ async def test_set_value_error(
     ],
 )
 async def test_follows_history_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     keep_days: int,
@@ -157,7 +157,7 @@ async def test_follows_history_select(
 
 
 async def test_no_number_for_shared_library(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -172,7 +172,7 @@ async def test_no_number_for_shared_library(
 
 
 async def test_number_added_when_shared_as_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

@@ -80,8 +80,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__, ServiceCall
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
 
@@ -105,7 +105,7 @@ def _write_chars(
     )
 
 
-async def test_heatercooler_basic(hass: __HAC_KEEP__, hk_driver: HomeDriver) -> None:
+async def test_heatercooler_basic(hass: UniversalAssistant, hk_driver: HomeDriver) -> None:
     """Test basic HeaterCooler functionality."""
     entity_id = "climate.test"
     base_attrs = {
@@ -159,7 +159,7 @@ async def test_heatercooler_basic(hass: __HAC_KEEP__, hk_driver: HomeDriver) -> 
 
 
 async def test_heatercooler_with_fan_and_swing(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test HeaterCooler with fan and swing mode support."""
     entity_id = "climate.test"
@@ -223,7 +223,7 @@ async def test_heatercooler_with_fan_and_swing(
     ],
 )
 async def test_heatercooler_auto_target_backing_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver: HomeDriver,
     hvac_modes: list[HVACMode],
     expected_auto_mode: HVACMode,
@@ -248,7 +248,7 @@ async def test_heatercooler_auto_target_backing_mode(
 
 
 async def test_heatercooler_off_with_bundled_target_mode(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test a target bundled with off is remembered for the next power on."""
     entity_id = "climate.test"
@@ -287,7 +287,7 @@ async def test_heatercooler_off_with_bundled_target_mode(
 
 
 async def test_heatercooler_off_with_unsupported_bundled_target(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test an unsupported target bundled with off is put back on the tile."""
     entity_id = "climate.test"
@@ -316,7 +316,7 @@ async def test_heatercooler_off_with_unsupported_bundled_target(
 
 
 async def test_heatercooler_rejected_mode_is_not_remembered(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test a rejected mode write does not become the restore mode."""
     entity_id = "climate.test"
@@ -341,7 +341,7 @@ async def test_heatercooler_rejected_mode_is_not_remembered(
         hass,
         CLIMATE_DOMAIN,
         SERVICE_SET_HVAC_MODE,
-        raise_exception=__HAC_KEEP__Error("mode rejected"),
+        raise_exception=UniversalAssistantError("mode rejected"),
     )
     _write_chars(hk_driver, acc, {CHAR_TARGET_HEATER_COOLER_STATE: HC_TARGET_COOL})
     await hass.async_block_till_done()
@@ -357,7 +357,7 @@ async def test_heatercooler_rejected_mode_is_not_remembered(
 
 
 async def test_heatercooler_modes_heat_cool_only_no_auto(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test that Auto is not offered for entities without a range mode."""
     entity_id = "climate.test"
@@ -384,7 +384,7 @@ async def test_heatercooler_modes_heat_cool_only_no_auto(
 
 
 async def test_heatercooler_cooling_only_no_heat_target(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test a cooling-only entity does not expose the Heat target."""
     entity_id = "climate.test"
@@ -414,7 +414,7 @@ async def test_heatercooler_cooling_only_no_heat_target(
 
 
 async def test_heatercooler_temperature_step(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test HeaterCooler relies on the HomeKit default temperature step."""
     entity_id = "climate.test"
@@ -438,7 +438,7 @@ async def test_heatercooler_temperature_step(
 
 
 async def test_heatercooler_fahrenheit(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test HeaterCooler with Fahrenheit units."""
     entity_id = "climate.test"
@@ -468,7 +468,7 @@ async def test_heatercooler_fahrenheit(
 
 
 async def test_heatercooler_fahrenheit_default_temp_range(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test the Celsius default range is not reconverted in Fahrenheit."""
     entity_id = "climate.test"
@@ -495,9 +495,9 @@ async def test_heatercooler_fahrenheit_default_temp_range(
 
 
 async def test_heatercooler_state_updates(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
-    """Test state updates from __HA_KEEP__ to HomeKit."""
+    """Test state updates from Universal Home Assistant to HomeKit."""
     entity_id = "climate.test"
     base_attrs = {
         ATTR_SUPPORTED_FEATURES: ClimateEntityFeature.TARGET_TEMPERATURE,
@@ -572,7 +572,7 @@ async def test_heatercooler_state_updates(
 
 
 async def test_heatercooler_dual_temperature_support(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test HeaterCooler with dual temperature support (TARGET_TEMP_HIGH/LOW)."""
     entity_id = "climate.test"
@@ -618,7 +618,7 @@ async def test_heatercooler_dual_temperature_support(
 
 
 async def test_heatercooler_fan_speed_updates(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test fan speed updates."""
     entity_id = "climate.test"
@@ -657,7 +657,7 @@ async def test_heatercooler_fan_speed_updates(
 
 
 async def test_heatercooler_no_swing_toggle_without_off_mode(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test the swing toggle is not exposed without an advertised off mode."""
     entity_id = "climate.test"
@@ -691,7 +691,7 @@ async def test_heatercooler_no_swing_toggle_without_off_mode(
 
 
 async def test_heatercooler_swing_mode_updates(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test swing mode updates."""
     entity_id = "climate.test"
@@ -730,7 +730,7 @@ async def test_heatercooler_swing_mode_updates(
 
 
 async def test_heatercooler_unavailable_states(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test handling of unavailable and unknown states."""
     entity_id = "climate.test"
@@ -769,7 +769,7 @@ async def test_heatercooler_unavailable_states(
 
 
 async def test_heatercooler_action_derivation(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test action derivation when hvac_action is not provided."""
     entity_id = "climate.test"
@@ -825,7 +825,7 @@ async def test_heatercooler_action_derivation(
 
 
 async def test_heatercooler_set_active_off(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test setting active to off via HomeKit."""
     entity_id = "climate.test"
@@ -860,7 +860,7 @@ async def test_heatercooler_set_active_off(
 
 
 async def test_heatercooler_set_active_off_no_off_mode(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test turning off an entity without an OFF mode issues no service call."""
     entity_id = "climate.test"
@@ -893,7 +893,7 @@ async def test_heatercooler_set_active_off_no_off_mode(
 
 
 async def test_heatercooler_unsupported_target_mode_write_restored(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test an unsupported target mode write restores the characteristic."""
     entity_id = "climate.test"
@@ -912,7 +912,7 @@ async def test_heatercooler_unsupported_target_mode_write_restored(
 
     assert acc.char_target_state.value == HC_TARGET_COOL
 
-    # Heat is not supported; the write must not reach __HA_KEEP__ and
+    # Heat is not supported; the write must not reach Universal Home Assistant and
     # the characteristic must return to the cool target
     call_set_hvac_mode = async_mock_service(hass, CLIMATE_DOMAIN, SERVICE_SET_HVAC_MODE)
     _write_chars(hk_driver, acc, {CHAR_TARGET_HEATER_COOLER_STATE: HC_TARGET_HEAT})
@@ -923,7 +923,7 @@ async def test_heatercooler_unsupported_target_mode_write_restored(
 
 
 async def test_heatercooler_unsupported_target_write_dry_only_entity(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test the restore falls back to the default target for dry only entities."""
     entity_id = "climate.test"
@@ -953,7 +953,7 @@ async def test_heatercooler_unsupported_target_write_dry_only_entity(
 
 
 async def test_heatercooler_set_active_on(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test setting active to on via HomeKit."""
     entity_id = "climate.test"
@@ -987,7 +987,7 @@ async def test_heatercooler_set_active_on(
 
 
 async def test_heatercooler_set_active_on_heat_only(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test turning a heat-only entity on uses a supported mode."""
     entity_id = "climate.test"
@@ -1020,7 +1020,7 @@ async def test_heatercooler_set_active_on_heat_only(
 
 
 async def test_heatercooler_power_on_with_thresholds_uses_activated_mode(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test thresholds batched with Active on resolve against the new mode."""
     entity_id = "climate.test"
@@ -1078,7 +1078,7 @@ async def test_heatercooler_power_on_with_thresholds_uses_activated_mode(
 
 
 async def test_heatercooler_double_off_does_not_corrupt_mode_memory(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test repeated off writes never make off the restore mode."""
     entity_id = "climate.test"
@@ -1113,7 +1113,7 @@ async def test_heatercooler_double_off_does_not_corrupt_mode_memory(
 
 
 async def test_heatercooler_no_off_entity_applies_rest_of_batch(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test a rejected off write does not drop the bundled writes."""
     entity_id = "climate.test"
@@ -1156,7 +1156,7 @@ async def test_heatercooler_no_off_entity_applies_rest_of_batch(
 
 
 async def test_heatercooler_pending_mode_does_not_mask_target_reject(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test an unsupported target is rejected while a mode is pending."""
     entity_id = "climate.test"
@@ -1187,7 +1187,7 @@ async def test_heatercooler_pending_mode_does_not_mask_target_reject(
 
 
 async def test_heatercooler_range_only_one_sided_entity(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test a range only entity with one sided modes gets range writes."""
     entity_id = "climate.test"
@@ -1224,7 +1224,7 @@ async def test_heatercooler_range_only_one_sided_entity(
 
 
 async def test_heatercooler_state_callback_during_write_wins(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test a state reported during the call beats the queued mode values."""
     entity_id = "climate.test"
@@ -1261,7 +1261,7 @@ async def test_heatercooler_state_callback_during_write_wins(
 
 
 async def test_heatercooler_pending_mode_bridges_slow_state_updates(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test an accepted mode stays effective until the entity reports it."""
     entity_id = "climate.test"
@@ -1315,7 +1315,7 @@ async def test_heatercooler_pending_mode_bridges_slow_state_updates(
 
 
 async def test_heatercooler_batch_resolves_after_prior_batch(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test a batch sees the mode applied by the batch before it."""
     entity_id = "climate.test"
@@ -1358,7 +1358,7 @@ async def test_heatercooler_batch_resolves_after_prior_batch(
 
 
 async def test_heatercooler_failed_write_aborts_batch(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test a rejected mode write aborts the rest of the batch."""
     entity_id = "climate.test"
@@ -1384,7 +1384,7 @@ async def test_heatercooler_failed_write_aborts_batch(
         hass,
         CLIMATE_DOMAIN,
         SERVICE_SET_HVAC_MODE,
-        raise_exception=__HAC_KEEP__Error("mode rejected"),
+        raise_exception=UniversalAssistantError("mode rejected"),
     )
     call_set_temperature = async_mock_service(
         hass, CLIMATE_DOMAIN, SERVICE_SET_TEMPERATURE
@@ -1408,7 +1408,7 @@ async def test_heatercooler_failed_write_aborts_batch(
 
 
 async def test_heatercooler_write_batches_are_serialized(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test a second batch waits for the first to finish."""
     entity_id = "climate.test"
@@ -1459,7 +1459,7 @@ async def test_heatercooler_write_batches_are_serialized(
 
 
 async def test_heatercooler_set_chars_dispatch_order(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test fan writes are dispatched after the mode and temperature writes."""
     entity_id = "climate.test"
@@ -1511,7 +1511,7 @@ async def test_heatercooler_set_chars_dispatch_order(
 
 
 async def test_heatercooler_set_target_mode(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test setting target heater cooler state via HomeKit."""
     entity_id = "climate.test"
@@ -1549,7 +1549,7 @@ async def test_heatercooler_set_target_mode(
 
 
 async def test_heatercooler_set_temperature_single(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test setting temperature for single-temperature entities."""
     entity_id = "climate.test"
@@ -1592,7 +1592,7 @@ async def test_heatercooler_set_temperature_single(
 
 
 async def test_heatercooler_set_temperature_dual(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test setting temperature for dual-temperature entities."""
     entity_id = "climate.test"
@@ -1639,7 +1639,7 @@ async def test_heatercooler_set_temperature_dual(
 
 
 async def test_heatercooler_dual_capable_entity_in_single_mode(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test dual capable entities in a single setpoint mode use temperature."""
     entity_id = "climate.test"
@@ -1707,7 +1707,7 @@ async def test_heatercooler_dual_capable_entity_in_single_mode(
 
 
 async def test_heatercooler_range_keys_without_range_capability(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test a cool only entity reporting range keys still gets single writes."""
     entity_id = "climate.test"
@@ -1743,7 +1743,7 @@ async def test_heatercooler_range_keys_without_range_capability(
 
 
 async def test_heatercooler_set_fan_speed(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test setting fan speed via HomeKit."""
     entity_id = "climate.test"
@@ -1787,7 +1787,7 @@ async def test_heatercooler_set_fan_speed(
 
 
 async def test_heatercooler_set_swing_mode(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test setting swing mode via HomeKit."""
     entity_id = "climate.test"
@@ -1829,7 +1829,7 @@ async def test_heatercooler_set_swing_mode(
 
 
 async def test_heatercooler_capitalized_fan_modes(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test capitalized fan modes are sent back to the service unchanged."""
     entity_id = "climate.test"
@@ -1865,7 +1865,7 @@ async def test_heatercooler_capitalized_fan_modes(
 
 
 async def test_heatercooler_capitalized_swing_modes(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test capitalized swing modes are detected and preserved."""
     entity_id = "climate.test"
@@ -1912,7 +1912,7 @@ async def test_heatercooler_capitalized_swing_modes(
 
 
 async def test_heatercooler_swing_mode_fallback(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test swing mode fallback when no swing modes are available."""
     entity_id = "climate.test"
@@ -1945,7 +1945,7 @@ async def test_heatercooler_swing_mode_fallback(
 
 
 async def test_heatercooler_fan_speed_no_fan_modes(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test fan speed handling when no fan modes are available."""
     entity_id = "climate.test"
@@ -1975,7 +1975,7 @@ async def test_heatercooler_fan_speed_no_fan_modes(
 
 
 async def test_heatercooler_swing_mode_no_swing_attribute(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test swing mode handling when swing_on_mode attribute is not available."""
     entity_id = "climate.test"
@@ -2007,7 +2007,7 @@ async def test_heatercooler_swing_mode_no_swing_attribute(
 
 
 async def test_heatercooler_single_temp_no_entity_state(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test single temperature handling when entity state is not available."""
     entity_id = "climate.test"
@@ -2133,7 +2133,7 @@ async def test_heatercooler_single_temp_no_entity_state(
     ],
 )
 async def test_heatercooler_complex_temperature_selection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver: HomeDriver,
     state: str,
     current_temp: float,
@@ -2182,7 +2182,7 @@ async def test_heatercooler_complex_temperature_selection(
     [STATE_UNKNOWN, STATE_UNAVAILABLE, "invalid_mode", HVACMode.AUTO],
 )
 async def test_heatercooler_target_state_unchanged_for_unusable_states(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver, state: str
+    hass: UniversalAssistant, hk_driver: HomeDriver, state: str
 ) -> None:
     """Test the target state is left unchanged for states with no mapping."""
     entity_id = "climate.test"
@@ -2210,7 +2210,7 @@ async def test_heatercooler_target_state_unchanged_for_unusable_states(
 
 
 async def test_heatercooler_derive_action_edge_case(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test the derived current state for modes without a heating/cooling action."""
     entity_id = "climate.test"
@@ -2270,7 +2270,7 @@ async def test_heatercooler_derive_action_edge_case(
 
 
 async def test_heatercooler_heat_cool_no_current_temp_diff(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test HEAT_COOL mode temperature selection when no current temperature available."""
     entity_id = "climate.test"
@@ -2314,7 +2314,7 @@ async def test_heatercooler_heat_cool_no_current_temp_diff(
 
 
 async def test_heatercooler_derive_action_auto_without_thresholds(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test auto mode action derivation without a target temperature range."""
     entity_id = "climate.test"
@@ -2365,7 +2365,7 @@ async def test_heatercooler_derive_action_auto_without_thresholds(
 
 
 async def test_heatercooler_off_at_startup_activates_displayed_mode(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test turning on an off-at-startup entity activates the displayed mode."""
     entity_id = "climate.test"
@@ -2400,7 +2400,7 @@ async def test_heatercooler_off_at_startup_activates_displayed_mode(
     ],
 )
 async def test_heatercooler_unrepresentable_mode_not_restored(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver, mode_sequence: list[HVACMode]
+    hass: UniversalAssistant, hk_driver: HomeDriver, mode_sequence: list[HVACMode]
 ) -> None:
     """Test a mode without a HomeKit target is not restored by Active."""
     entity_id = "climate.test"
@@ -2434,7 +2434,7 @@ async def test_heatercooler_unrepresentable_mode_not_restored(
 
 
 async def test_heatercooler_power_on_restores_last_active_mode(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test going off keeps the last mode on the tile and power-on restores it."""
     entity_id = "climate.test"
@@ -2466,7 +2466,7 @@ async def test_heatercooler_power_on_restores_last_active_mode(
 
 
 async def test_heatercooler_cool_mode_ignores_heating_threshold(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test a heating-threshold write is ignored for a single-setpoint cool entity."""
     entity_id = "climate.test"
@@ -2494,7 +2494,7 @@ async def test_heatercooler_cool_mode_ignores_heating_threshold(
 
 
 async def test_heatercooler_batched_mode_decides_setpoint_side(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test a mode written in the same batch decides the setpoint side."""
     entity_id = "climate.test"
@@ -2536,7 +2536,7 @@ async def test_heatercooler_batched_mode_decides_setpoint_side(
 
 
 async def test_heatercooler_fan_only_target_falls_back(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test a fan-only entity maps Auto to its mode and hides the thresholds."""
     entity_id = "climate.test"
@@ -2566,7 +2566,7 @@ async def test_heatercooler_fan_only_target_falls_back(
 
 
 async def test_heatercooler_off_only_target_falls_back_to_off(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test a degenerate off-only entity maps Auto to off, not an unsupported mode."""
     entity_id = "climate.test"
@@ -2590,7 +2590,7 @@ async def test_heatercooler_off_only_target_falls_back_to_off(
 
 
 async def test_heatercooler_derive_action_cooling_triggered(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test _derive_action returns COOLING for auto mode when temp is significantly higher than target."""
     entity_id = "climate.test"
@@ -2620,7 +2620,7 @@ async def test_heatercooler_derive_action_cooling_triggered(
 
 
 async def test_heatercooler_zero_min_temp_preserved(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test a reported min temperature of 0 is used, not the default floor."""
     entity_id = "climate.test"
@@ -2643,7 +2643,7 @@ async def test_heatercooler_zero_min_temp_preserved(
 
 
 async def test_heatercooler_reports_humidity_via_linked_sensor(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test a reported current humidity is exposed via a linked sensor."""
     entity_id = "climate.test"
@@ -2682,7 +2682,7 @@ async def test_heatercooler_reports_humidity_via_linked_sensor(
 
 
 async def test_heatercooler_custom_fan_modes_no_rotation_speed(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test entities with only custom fan modes skip the rotation speed char."""
     entity_id = "climate.test"
@@ -2711,7 +2711,7 @@ async def test_heatercooler_custom_fan_modes_no_rotation_speed(
 
 
 async def test_heatercooler_custom_swing_modes_no_swing_char(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test entities with only custom swing modes skip the swing char."""
     entity_id = "climate.test"
@@ -2738,7 +2738,7 @@ async def test_heatercooler_custom_swing_modes_no_swing_char(
 
 
 async def test_heatercooler_derive_action_fahrenheit(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test derived action uses a unit independent hysteresis band."""
     entity_id = "climate.test"
@@ -2774,7 +2774,7 @@ async def test_heatercooler_derive_action_fahrenheit(
 
 
 async def test_heatercooler_derive_action_auto_with_thresholds(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test derived action in auto mode using the target temperature range."""
     entity_id = "climate.test"
@@ -2820,7 +2820,7 @@ async def test_heatercooler_derive_action_auto_with_thresholds(
 
 
 async def test_heatercooler_auto_fan_mode_linked_fan_service(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test an auto fan mode exposes the fan through a linked fan service."""
     entity_id = "climate.test"
@@ -2911,7 +2911,7 @@ async def test_heatercooler_auto_fan_mode_linked_fan_service(
     ],
 )
 async def test_heatercooler_category(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver: HomeDriver,
     hvac_modes: list[HVACMode],
     expected_category: int,
@@ -2931,7 +2931,7 @@ async def test_heatercooler_category(
 
 
 async def test_heatercooler_auto_fan_service_without_speeds(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test auto plus on fan modes get a fan service without a speed slider."""
     entity_id = "climate.test"
@@ -2965,7 +2965,7 @@ async def test_heatercooler_auto_fan_service_without_speeds(
 
 
 async def test_heatercooler_fan_active_resets_without_off_mode(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test a fan off write resets to on when the fan has no off mode."""
     entity_id = "climate.test"
@@ -2994,7 +2994,7 @@ async def test_heatercooler_fan_active_resets_without_off_mode(
 
 
 async def test_heatercooler_fan_active_toggles_with_off_mode(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test the fan active toggle maps to the fan off and on modes."""
     entity_id = "climate.test"
@@ -3026,7 +3026,7 @@ async def test_heatercooler_fan_active_toggles_with_off_mode(
 
 
 async def test_heatercooler_cool_only_single_threshold(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test a cool-only entity exposes only the cooling threshold."""
     entity_id = "climate.test"
@@ -3058,7 +3058,7 @@ async def test_heatercooler_cool_only_single_threshold(
 
 
 async def test_heatercooler_heat_only_single_threshold(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test a heat-only entity exposes only the heating threshold."""
     entity_id = "climate.test"
@@ -3090,7 +3090,7 @@ async def test_heatercooler_heat_only_single_threshold(
 
 
 async def test_heatercooler_dry_only_keeps_both_thresholds(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver
+    hass: UniversalAssistant, hk_driver: HomeDriver
 ) -> None:
     """Test a dry-only entity with a setpoint keeps both thresholds."""
     entity_id = "climate.test"

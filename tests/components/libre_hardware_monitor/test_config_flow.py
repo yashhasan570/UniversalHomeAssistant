@@ -14,7 +14,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.libre_hardware_monitor.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import (
@@ -28,7 +28,7 @@ from .conftest import (
 
 
 async def test_create_entry_without_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_lhm_client: AsyncMock,
 ) -> None:
@@ -58,7 +58,7 @@ async def test_create_entry_without_auth(
 
 
 async def test_create_entry_with_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_lhm_client: AsyncMock,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_create_entry_with_auth(
     ],
 )
 async def test_errors_and_flow_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_lhm_client: AsyncMock,
     side_effect: Exception,
@@ -134,7 +134,7 @@ async def test_errors_and_flow_recovery(
 
 
 async def test_lhm_server_already_exists_without_auth(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we only allow a single entry per server."""
     mock_config_entry.add_to_hass(hass)
@@ -157,7 +157,7 @@ async def test_lhm_server_already_exists_without_auth(
 
 
 async def test_lhm_server_already_exists_with_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_auth_config_entry: MockConfigEntry,
 ) -> None:
@@ -182,7 +182,7 @@ async def test_lhm_server_already_exists_with_auth(
 
 
 async def test_reauth_no_previous_credentials(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lhm_client: AsyncMock,
 ) -> None:
@@ -206,7 +206,7 @@ async def test_reauth_no_previous_credentials(
 
 
 async def test_reauth_with_previous_credentials(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_auth_config_entry: MockConfigEntry,
     mock_lhm_client: AsyncMock,
 ) -> None:
@@ -238,7 +238,7 @@ async def test_reauth_with_previous_credentials(
     ],
 )
 async def test_reauth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lhm_client: AsyncMock,
     side_effect: Exception,
@@ -276,7 +276,7 @@ async def test_reauth_errors(
 
 
 async def test_deprecated_version_is_rejected_and_flow_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_lhm_client: AsyncMock,
 ) -> None:
@@ -311,7 +311,7 @@ async def test_deprecated_version_is_rejected_and_flow_recovery(
 
 
 async def test_reauth_deprecated_version_is_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_deprecated_lhm_client: AsyncMock,
 ) -> None:
@@ -342,7 +342,7 @@ async def test_reauth_deprecated_version_is_rejected(
 
 
 async def test_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lhm_client: AsyncMock,
 ) -> None:
@@ -367,7 +367,7 @@ async def test_reconfigure(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_reuses_saved_credentials(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_auth_config_entry: MockConfigEntry,
     mock_lhm_client_class: MagicMock,
     mock_lhm_client: AsyncMock,
@@ -389,7 +389,7 @@ async def test_reconfigure_reuses_saved_credentials(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_with_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_auth_config_entry: MockConfigEntry,
     mock_lhm_client_class: MagicMock,
     mock_lhm_client: AsyncMock,
@@ -438,7 +438,7 @@ async def test_reconfigure_with_auth(
     ],
 )
 async def test_reconfigure_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lhm_client: AsyncMock,
     side_effect: Exception,
@@ -470,7 +470,7 @@ async def test_reconfigure_errors(
 
 
 async def test_reconfigure_deprecated_version_is_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_deprecated_lhm_client: AsyncMock,
 ) -> None:
@@ -502,7 +502,7 @@ async def test_reconfigure_deprecated_version_is_rejected(
 
 
 async def test_reconfigure_lhm_server_already_exists(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lhm_client: AsyncMock,
 ) -> None:

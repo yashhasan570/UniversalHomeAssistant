@@ -11,8 +11,8 @@ from universalassistant.components.alarm_control_panel import (
     AlarmControlPanelEntityFeature,
     AlarmControlPanelState,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -24,7 +24,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: BlinkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -93,7 +93,7 @@ class BlinkSyncModuleHA(
             await self.sync.get_network_info()
 
         except TimeoutError as er:
-            raise __HAC_KEEP__Error("Blink failed to disarm camera") from er
+            raise UniversalAssistantError("Blink failed to disarm camera") from er
         except UnauthorizedError as er:
             self.coordinator.config_entry.async_start_reauth(self.hass)
             raise ConfigEntryAuthFailed("Blink authorization failed") from er
@@ -109,7 +109,7 @@ class BlinkSyncModuleHA(
             await self.sync.get_network_info()
 
         except TimeoutError as er:
-            raise __HAC_KEEP__Error("Blink failed to arm camera away") from er
+            raise UniversalAssistantError("Blink failed to arm camera away") from er
         except UnauthorizedError as er:
             self.coordinator.config_entry.async_start_reauth(self.hass)
             raise ConfigEntryAuthFailed("Blink authorization failed") from er

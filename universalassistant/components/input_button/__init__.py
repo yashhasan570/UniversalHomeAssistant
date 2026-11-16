@@ -8,7 +8,7 @@ import probatio
 
 from universalassistant.components.button import SERVICE_PRESS
 from universalassistant.const import CONF_ICON, CONF_ID, CONF_NAME
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import collection, config_validation as cv
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.storage import Store
@@ -88,7 +88,7 @@ class InputButtonData:
     yaml_collection: collection.YamlCollection
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up an input button."""
     component = EntityComponent[InputButton](_LOGGER, DOMAIN, hass)
 

@@ -5,7 +5,7 @@ from typing import override
 from zinvolt.models import SmartMode
 
 from universalassistant.components.select import SelectEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import ZinvoltConfigEntry, ZinvoltDeviceCoordinator
@@ -23,7 +23,7 @@ HA_TO_MODE = {v: k for k, v in MODE_MAP.items()}
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ZinvoltConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

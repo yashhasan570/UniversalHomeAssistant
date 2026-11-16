@@ -8,7 +8,7 @@ from pyecoforest.exceptions import EcoforestError
 from pyecoforest.models.device import Device
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import POLLING_INTERVAL
@@ -22,7 +22,7 @@ class EcoforestCoordinator(DataUpdateCoordinator[Device]):
     """DataUpdateCoordinator to gather data from ecoforest device."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: EcoforestConfigEntry, api: EcoforestApi
+        self, hass: UniversalAssistant, entry: EcoforestConfigEntry, api: EcoforestApi
     ) -> None:
         """Initialize DataUpdateCoordinator."""
 

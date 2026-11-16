@@ -2,7 +2,7 @@
 
 from google_photos_library_api.api import GooglePhotosLibraryApi
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_entry_oauth2_flow, config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.typing import ConfigType
@@ -17,7 +17,7 @@ __all__ = ["DOMAIN"]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up Google Photos integration."""
 
     async_setup_services(hass)
@@ -26,7 +26,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: GooglePhotosConfigEntry
+    hass: UniversalAssistant, entry: GooglePhotosConfigEntry
 ) -> None:
     """Set up Google Photos from a config entry."""
     implementation = (
@@ -47,6 +47,6 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: GooglePhotosConfigEntry
+    hass: UniversalAssistant, entry: GooglePhotosConfigEntry
 ) -> None:
     """Unload a config entry."""

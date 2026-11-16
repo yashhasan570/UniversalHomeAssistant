@@ -1,4 +1,4 @@
-"""Test the __HA_KEEP__ local auth provider."""
+"""Test the Universal Home Assistant local auth provider."""
 
 import asyncio
 from typing import Any
@@ -15,12 +15,12 @@ from universalassistant.auth.providers import (
     auth_provider_from_config,
     universalassistant as hass_auth,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture
-async def data(hass: __HAC_KEEP__) -> hass_auth.Data:
+async def data(hass: UniversalAssistant) -> hass_auth.Data:
     """Create a loaded data class."""
     data = hass_auth.Data(hass)
     await data.async_load()
@@ -28,7 +28,7 @@ async def data(hass: __HAC_KEEP__) -> hass_auth.Data:
 
 
 @pytest.fixture
-async def load_auth_component(hass: __HAC_KEEP__) -> None:
+async def load_auth_component(hass: UniversalAssistant) -> None:
     """Load the auth component for translations."""
     await async_setup_component(hass, "auth", {})
 
@@ -50,7 +50,7 @@ async def test_not_allow_set_id() -> None:
 
 
 async def test_new_users_populate_values(
-    hass: __HAC_KEEP__, data: hass_auth.Data
+    hass: UniversalAssistant, data: hass_auth.Data
 ) -> None:
     """Test that we populate data for new users."""
     data.add_auth("hello", "test-pass")
@@ -143,7 +143,7 @@ async def test_password_truncated(data: hass_auth.Data) -> None:
         data.validate_login("test-user", pwd_truncated[:71])
 
 
-async def test_login_flow_validates(data: hass_auth.Data, hass: __HAC_KEEP__) -> None:
+async def test_login_flow_validates(data: hass_auth.Data, hass: UniversalAssistant) -> None:
     """Test login flow."""
     data.add_auth("test-user", "test-pass")
     await data.async_save()
@@ -174,7 +174,7 @@ async def test_login_flow_validates(data: hass_auth.Data, hass: __HAC_KEEP__) ->
     assert result["data"].data["username"] == "test-user"
 
 
-async def test_saving_loading(data: hass_auth.Data, hass: __HAC_KEEP__) -> None:
+async def test_saving_loading(data: hass_auth.Data, hass: UniversalAssistant) -> None:
     """Test saving and loading JSON."""
     data.add_auth("test-user", "test-pass")
     data.add_auth("second-user", "second-pass")
@@ -187,7 +187,7 @@ async def test_saving_loading(data: hass_auth.Data, hass: __HAC_KEEP__) -> None:
 
 
 async def test_get_or_create_credentials(
-    hass: __HAC_KEEP__, data: hass_auth.Data
+    hass: UniversalAssistant, data: hass_auth.Data
 ) -> None:
     """Test that we can get or create credentials."""
     manager = await auth_manager_from_config(hass, [{"type": "universalassistant"}], [])
@@ -201,10 +201,10 @@ async def test_get_or_create_credentials(
     assert credentials1 is credentials2
 
 
-async def test_race_condition_in_data_loading(hass: __HAC_KEEP__) -> None:
+async def test_race_condition_in_data_loading(hass: UniversalAssistant) -> None:
     """Test race condition in the hass_auth.Data loading.
 
-    Ref issue: https://github.com/yashhasan570/__HAC_KEEP__/issues/21569
+    Ref issue: https://github.com/yashhasan570/UniversalUniversalAssistant/issues/21569
     """
     counter = 0
 
@@ -258,7 +258,7 @@ def test_change_username_invalid_user(data: hass_auth.Data) -> None:
 
 @pytest.mark.usefixtures("load_auth_component")
 async def test_change_username_not_normalized(
-    data: hass_auth.Data, hass: __HAC_KEEP__
+    data: hass_auth.Data, hass: UniversalAssistant
 ) -> None:
     """Test changing username raises on not normalized username."""
     data.add_auth("test-user", "test-pass")
@@ -270,7 +270,7 @@ async def test_change_username_not_normalized(
 
 
 async def _signed_in_user(
-    hass: __HAC_KEEP__, data: hass_auth.Data, password: str = "test-pass"
+    hass: UniversalAssistant, data: hass_auth.Data, password: str = "test-pass"
 ) -> tuple[hass_auth.HassAuthProvider, User]:
     """Return a provider and a user who signed in with a password."""
     data.add_auth("hello", password)
@@ -288,7 +288,7 @@ async def _signed_in_user(
     [pytest.param("test-pass", id="password"), pytest.param("", id="empty-password")],
 )
 async def test_verify_step_up_accepts_the_current_password(
-    hass: __HAC_KEEP__, data: hass_auth.Data, password: str
+    hass: UniversalAssistant, data: hass_auth.Data, password: str
 ) -> None:
     """Test a signed in user can prove who they are with their password."""
     provider, user = await _signed_in_user(hass, data, password)
@@ -307,7 +307,7 @@ async def test_verify_step_up_accepts_the_current_password(
     ],
 )
 async def test_verify_step_up_rejects_a_wrong_password(
-    hass: __HAC_KEEP__, data: hass_auth.Data, step_up_data: dict[str, Any]
+    hass: UniversalAssistant, data: hass_auth.Data, step_up_data: dict[str, Any]
 ) -> None:
     """Test only the current password verifies the user again."""
     provider, user = await _signed_in_user(hass, data)
@@ -317,7 +317,7 @@ async def test_verify_step_up_rejects_a_wrong_password(
 
 
 async def test_verify_step_up_needs_a_credential_of_this_provider(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test an account without a password login cannot be verified with one."""
     manager = await auth_manager_from_config(hass, [{"type": "universalassistant"}], [])

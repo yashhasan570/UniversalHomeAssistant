@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.victron_ble.const import DOMAIN
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_ADDRESS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .fixtures import VICTRON_VEBUS_SERVICE_INFO, VICTRON_VEBUS_TOKEN
 
@@ -63,7 +63,7 @@ def mock_config_entry(
 @pytest.fixture
 def mock_config_entry_added_to_hass(
     mock_config_entry,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_info: BluetoothServiceInfo,
     access_token: str,
 ) -> MockConfigEntry:

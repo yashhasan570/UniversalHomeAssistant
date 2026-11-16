@@ -11,21 +11,21 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from universalassistant.components import config
 from universalassistant.components.config import DOMAIN, script
 from universalassistant.const import STATE_OFF, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import yaml as yaml_util
 
 
 @pytest.fixture(autouse=True)
-async def setup_script(hass: __HAC_KEEP__, script_config: dict[str, Any]) -> None:
+async def setup_script(hass: UniversalAssistant, script_config: dict[str, Any]) -> None:
     """Set up script integration."""
     assert await async_setup_component(hass, "script", {"script": script_config})
 
 
 @pytest.mark.parametrize("script_config", [{}])
 async def test_get_script_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_config_store: dict[str, Any],
 ) -> None:
@@ -50,7 +50,7 @@ async def test_get_script_config(
 
 @pytest.mark.parametrize("script_config", [{}])
 async def test_update_script_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_config_store: dict[str, Any],
 ) -> None:
@@ -88,7 +88,7 @@ async def test_update_script_config(
 
 @pytest.mark.parametrize("script_config", [{}])
 async def test_invalid_object_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_config_store: dict[str, Any],
 ) -> None:
@@ -151,7 +151,7 @@ async def test_invalid_object_id(
     ],
 )
 async def test_update_script_config_with_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_config_store: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
@@ -201,7 +201,7 @@ async def test_update_script_config_with_error(
     ],
 )
 async def test_update_script_config_with_blueprint_substitution_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_config_store: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
@@ -239,7 +239,7 @@ async def test_update_script_config_with_blueprint_substitution_error(
 
 @pytest.mark.parametrize("script_config", [{}])
 async def test_update_remove_key_script_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_config_store: dict[str, Any],
 ) -> None:
@@ -285,7 +285,7 @@ async def test_update_remove_key_script_config(
     ],
 )
 async def test_delete_script(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     entity_registry: er.EntityRegistry,
     hass_config_store: dict[str, Any],
@@ -324,7 +324,7 @@ async def test_delete_script(
 
 @pytest.mark.parametrize("script_config", [{}])
 async def test_api_calls_require_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_read_only_access_token: str,
     hass_config_store: dict[str, Any],

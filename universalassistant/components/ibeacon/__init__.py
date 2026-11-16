@@ -1,6 +1,6 @@
 """The iBeacon tracker integration."""
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 
@@ -8,7 +8,7 @@ from .const import DOMAIN, PLATFORMS
 from .coordinator import IBeaconConfigEntry, IBeaconCoordinator
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: IBeaconConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: IBeaconConfigEntry) -> None:
     """Set up Bluetooth LE Tracker from a config entry."""
     entry.runtime_data = coordinator = IBeaconCoordinator(
         hass, entry, dr.async_get(hass)
@@ -17,13 +17,13 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: IBeaconConfigEntry) -> No
     await coordinator.async_start()
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: IBeaconConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: IBeaconConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, config_entry: IBeaconConfigEntry, device_entry: AnyDeviceEntry
+    hass: UniversalAssistant, config_entry: IBeaconConfigEntry, device_entry: AnyDeviceEntry
 ) -> bool:
     """Remove iBeacon config entry from a device."""
     coordinator = config_entry.runtime_data

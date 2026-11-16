@@ -13,7 +13,7 @@ from universalassistant.components.recorder import Recorder
 from universalassistant.components.tibber.diagnostics import (
     async_get_config_entry_diagnostics,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 
 from .conftest import create_tibber_device
@@ -22,7 +22,7 @@ from .test_common import mock_get_homes
 
 async def test_entry_diagnostics_empty(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     mock_tibber_setup: MagicMock,
@@ -42,7 +42,7 @@ async def test_entry_diagnostics_empty(
 
 async def test_entry_diagnostics_with_homes(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     mock_tibber_setup: MagicMock,
@@ -74,7 +74,7 @@ async def test_entry_diagnostics_with_homes(
 
 async def test_data_api_diagnostics_no_data(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     data_api_client_mock: MagicMock,
     setup_credentials: None,
@@ -98,7 +98,7 @@ async def test_data_api_diagnostics_no_data(
 
 async def test_data_api_diagnostics_with_devices(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     data_api_client_mock: MagicMock,
     setup_credentials: None,
@@ -161,7 +161,7 @@ async def test_data_api_diagnostics_with_devices(
 )
 async def test_data_api_diagnostics_exceptions(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     tibber_mock: MagicMock,
     setup_credentials: None,

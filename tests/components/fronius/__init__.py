@@ -10,7 +10,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.fronius.const import DOMAIN
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.typing import Undefined
 
 MOCK_HOST = "http://fronius"
@@ -18,7 +18,7 @@ MOCK_UID = "123.4567890"
 
 
 async def setup_fronius_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     is_logger: bool = True,
     unique_id: str = MOCK_UID,
     modbus_port: int | None = None,

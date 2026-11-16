@@ -10,7 +10,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
     BinarySensorEntityDescription,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import HiveConfigEntry
@@ -67,7 +67,7 @@ SENSOR_TYPES: tuple[BinarySensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: HiveConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -101,7 +101,7 @@ class HiveBinarySensorEntity(HiveEntity, BinarySensorEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: HiveConfigEntry,
         hive: Hive,
         hive_device: dict[str, Any],
@@ -133,7 +133,7 @@ class HiveSensorEntity(HiveEntity, BinarySensorEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: HiveConfigEntry,
         hive: Hive,
         hive_device: dict[str, Any],

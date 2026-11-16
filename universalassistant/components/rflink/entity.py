@@ -9,7 +9,7 @@ from rflink.protocol import ProtocolBase
 
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_STATE, STATE_ON
 from universalassistant.core import CALLBACK_TYPE, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.restore_state import RestoreEntity
@@ -310,7 +310,7 @@ class RflinkCommand(RflinkDevice):
         _LOGGER.debug("Sending command: %s to Rflink device: %s", cmd, self._device_id)
 
         if not self.is_connected():
-            raise __HAC_KEEP__Error("Cannot send command, not connected!")
+            raise UniversalAssistantError("Cannot send command, not connected!")
 
         if self._wait_ack:
             # Puts command on outgoing buffer then waits for Rflink to confirm

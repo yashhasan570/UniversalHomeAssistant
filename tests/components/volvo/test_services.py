@@ -15,13 +15,13 @@ from universalassistant.components.volvo.services import (
     _async_image_exists,
     _parse_exterior_image_url,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 
 
 @pytest.mark.usefixtures("mock_api")
 async def test_setup_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: Callable[[], Awaitable[bool]],
 ) -> None:
     """Test setup of services."""
@@ -34,7 +34,7 @@ async def test_setup_services(
 
 @pytest.mark.usefixtures("mock_api")
 async def test_get_image_url_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_get_image_url_all(
     ],
 )
 async def test_get_image_url_selected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_config_entry: MockConfigEntry,
     image_type: str,
@@ -117,7 +117,7 @@ async def test_get_image_url_selected(
     ],
 )
 async def test_invalid_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: Callable[[], Awaitable[bool]],
     entry_id: str,
     translation_key: str,
@@ -146,7 +146,7 @@ async def test_invalid_config_entry(
 
 @pytest.mark.usefixtures("mock_api")
 async def test_invalid_image_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -169,7 +169,7 @@ async def test_invalid_image_type(
     assert exc_info.value.translation_key == "invalid_image_type"
 
 
-async def test_async_image_exists(hass: __HAC_KEEP__) -> None:
+async def test_async_image_exists(hass: UniversalAssistant) -> None:
     """Test _async_image_exists returns True on successful response."""
     client = AsyncMock(spec=AsyncClient)
     response = AsyncMock()
@@ -179,7 +179,7 @@ async def test_async_image_exists(hass: __HAC_KEEP__) -> None:
     assert await _async_image_exists(client, "http://example.com/image.jpg")
 
 
-async def test_async_image_does_not_exist(hass: __HAC_KEEP__) -> None:
+async def test_async_image_does_not_exist(hass: UniversalAssistant) -> None:
     """Test _async_image_exists returns False when image does not exist."""
     client = AsyncMock(spec=AsyncClient)
     client.stream.side_effect = HTTPStatusError(
@@ -191,8 +191,8 @@ async def test_async_image_does_not_exist(hass: __HAC_KEEP__) -> None:
     assert not await _async_image_exists(client, "http://example.com/image.jpg")
 
 
-async def test_async_image_non_404_status_error(hass: __HAC_KEEP__) -> None:
-    """Test _async_image_exists raises __HAC_KEEP__Error on non-404 errors."""
+async def test_async_image_non_404_status_error(hass: UniversalAssistant) -> None:
+    """Test _async_image_exists raises UniversalAssistantError on non-404 errors."""
     client = AsyncMock(spec=AsyncClient)
     client.stream.side_effect = HTTPStatusError(
         "Internal server error",
@@ -200,19 +200,19 @@ async def test_async_image_non_404_status_error(hass: __HAC_KEEP__) -> None:
         response=Response(status_code=500),
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await _async_image_exists(client, "http://example.com/image.jpg")
 
     assert exc_info.value.translation_domain == DOMAIN
     assert exc_info.value.translation_key == "image_error"
 
 
-async def test_async_image_error(hass: __HAC_KEEP__) -> None:
+async def test_async_image_error(hass: UniversalAssistant) -> None:
     """Test _async_image_exists raises."""
     client = AsyncMock(spec=AsyncClient)
     client.stream.side_effect = HTTPError("HTTP error")
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await _async_image_exists(client, "http://example.com/image.jpg")
 
     assert exc_info.value.translation_domain == DOMAIN

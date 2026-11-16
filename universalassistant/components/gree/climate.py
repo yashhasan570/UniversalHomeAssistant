@@ -3,11 +3,8 @@
 import logging
 from typing import Any, override
 
+from greeclimate.air_conditioner import TEMP_MAX, TEMP_MAX_F, TEMP_MIN, TEMP_MIN_F
 from greeclimate.device import (
-    TEMP_MAX,
-    TEMP_MAX_F,
-    TEMP_MIN,
-    TEMP_MIN_F,
     FanSpeed,
     HorizontalSwing,
     Mode,
@@ -31,7 +28,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, PRECISION_WHOLE, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -106,7 +103,7 @@ HORIZONTAL_SWING_MODES_INVERSE: dict[HorizontalSwing, str] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: GreeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

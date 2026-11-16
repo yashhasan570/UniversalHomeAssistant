@@ -36,12 +36,12 @@ from universalassistant.const import (
 from universalassistant.core import (
     CALLBACK_TYPE,
     HassJob,
-    __HAC_KEEP__,
+    UniversalAssistant,
     ReleaseChannel,
     callback,
     get_release_channel,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.event import async_call_later, async_track_time_interval
@@ -104,13 +104,13 @@ from .const import (
 DATA_ANALYTICS_MODIFIERS = "analytics_modifiers"
 
 type AnalyticsModifier = Callable[
-    [__HAC_KEEP__, AnalyticsInput], Awaitable[AnalyticsModifications]
+    [UniversalAssistant, AnalyticsInput], Awaitable[AnalyticsModifications]
 ]
 
 
 @singleton(DATA_ANALYTICS_MODIFIERS)
 def _async_get_modifiers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> dict[str, AnalyticsModifier | None]:
     """Return the analytics modifiers."""
     return {}
@@ -164,14 +164,14 @@ class AnalyticsPlatformProtocol(Protocol):
 
     async def async_modify_analytics(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         analytics_input: AnalyticsInput,
     ) -> AnalyticsModifications:
         """Modify the analytics."""
 
 
 async def _async_get_analytics_platform(
-    hass: __HAC_KEEP__, domain: str
+    hass: UniversalAssistant, domain: str
 ) -> AnalyticsPlatformProtocol | None:
     """Get analytics platform."""
     try:
@@ -185,7 +185,7 @@ async def _async_get_analytics_platform(
 
 
 async def _async_get_modifier(
-    hass: __HAC_KEEP__, domain: str
+    hass: UniversalAssistant, domain: str
 ) -> AnalyticsModifier | None:
     """Get analytics modifier."""
     modifiers = _async_get_modifiers(hass)
@@ -239,11 +239,11 @@ class Analytics:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         snapshots_url: str | None = None,
     ) -> None:
         """Initialize the Analytics class."""
-        self._hass: __HAC_KEEP__ = hass
+        self._hass: UniversalAssistant = hass
         self._snapshots_url = snapshots_url
 
         self._session = async_get_clientsession(hass)
@@ -384,7 +384,7 @@ class Analytics:
 
             try:
                 yaml_configuration = await conf_util.async_hass_config_yaml(hass)
-            except __HAC_KEEP__Error as err:
+            except UniversalAssistantError as err:
                 LOGGER.error(err)
                 return
 
@@ -483,7 +483,7 @@ class Analytics:
                 if response.status == 200:
                     LOGGER.info(
                         (
-                            "Submitted analytics to __HA_KEEP__ servers. "
+                            "Submitted analytics to Universal Home Assistant servers. "
                             "Information submitted includes %s"
                         ),
                         payload,
@@ -573,7 +573,7 @@ class Analytics:
                         await self._save()
 
                     LOGGER.info(
-                        "Submitted snapshot analytics to __HA_KEEP__ servers"
+                        "Submitted snapshot analytics to Universal Home Assistant servers"
                     )
 
                 elif response.status == 400:  # Bad Request
@@ -763,7 +763,7 @@ def _device_payload(device_entry: dr.AnyDeviceEntry) -> dict[str, Any]:
     }
 
 
-async def _async_snapshot_payload(hass: __HAC_KEEP__) -> dict:  # noqa: C901
+async def _async_snapshot_payload(hass: UniversalAssistant) -> dict:  # noqa: C901
     """Return detailed information about entities and devices for a snapshot."""
     dev_reg = dr.async_get(hass)
     ent_reg = er.async_get(hass)
@@ -853,7 +853,7 @@ async def _async_snapshot_payload(hass: __HAC_KEEP__) -> dict:  # noqa: C901
     integrations_info: dict[str, dict[str, Any]] = {}
 
     # We need to refer to other devices, for example in `via_device` field.
-    # We don't however send the original device ids outside of __HA_KEEP__,
+    # We don't however send the original device ids outside of Universal Home Assistant,
     # instead we refer to devices by
     # (integration_domain, index_in_integration_device_list).
     device_id_mapping: dict[str, tuple[str, int]] = {}
@@ -967,7 +967,7 @@ async def _async_snapshot_payload(hass: __HAC_KEEP__) -> dict:  # noqa: C901
     return integrations_info
 
 
-async def async_devices_payload(hass: __HAC_KEEP__) -> dict:
+async def async_devices_payload(hass: UniversalAssistant) -> dict:
     """Return detailed information about entities and devices for a direct download."""
     return {
         "version": f"universal-assistant:{SNAPSHOT_VERSION}",

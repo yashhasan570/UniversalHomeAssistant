@@ -58,7 +58,7 @@ class BroadlinkFlowHandler(ConfigFlow, domain=DOMAIN):
             _LOGGER.error(
                 (
                     "Unsupported device: %s. If it worked before, please open "
-                    "an issue at https://github.com/yashhasan570/__HAC_KEEP__/issues"
+                    "an issue at https://github.com/yashhasan570/UniversalUniversalAssistant/issues"
                 ),
                 hex(device.devtype),
             )

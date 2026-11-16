@@ -9,7 +9,7 @@ from universalassistant.components.bluetooth import (
     BluetoothScanningMode,
     async_register_scanner,
 )
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback as hass_callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback as hass_callback
 
 from ..const import BLEScannerMode
 
@@ -24,7 +24,7 @@ BLE_SCANNER_MODE_TO_BLUETOOTH_SCANNING_MODE = {
 
 
 async def async_connect_scanner(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     coordinator: ShellyRpcCoordinator,
     scanner_mode: BLEScannerMode,
     device_id: str,

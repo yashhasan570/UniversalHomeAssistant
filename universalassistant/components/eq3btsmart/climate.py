@@ -21,8 +21,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, PRECISION_HALVES, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 import universalassistant.util.dt as dt_util
@@ -41,7 +41,7 @@ from .entity import Eq3Entity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: Eq3ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -196,7 +196,7 @@ class Eq3Climate(Eq3Entity, ClimateEntity):
         except Eq3Exception as ex:
             self._target_temperature = previous_temperature
             self.async_write_ha_state()
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_temperature_failed",
             ) from ex
@@ -213,7 +213,7 @@ class Eq3Climate(Eq3Entity, ClimateEntity):
         try:
             await self._thermostat.async_set_mode(HA_TO_EQ_HVAC[hvac_mode])
         except Eq3Exception as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_hvac_mode_failed",
             ) from ex

@@ -23,8 +23,8 @@ from securetar import (
     get_archive_max_ciphertext_size,
 )
 
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.util import dt as dt_util
 from universalassistant.util.async_iterator import (
     Abort,
@@ -37,13 +37,13 @@ from .const import BUF_SIZE, LOGGER, SECURETAR_CREATE_VERSION
 from .models import AddonInfo, AgentBackup, Folder, InvalidBackupFilename
 
 
-class DecryptError(__HAC_KEEP__Error):
+class DecryptError(UniversalAssistantError):
     """Error during decryption."""
 
     _message = "Unexpected error during decryption."
 
 
-class EncryptError(__HAC_KEEP__Error):
+class EncryptError(UniversalAssistantError):
     """Error during encryption."""
 
     _message = "Unexpected error during encryption."
@@ -426,7 +426,7 @@ class _CipherBackupStreamer:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         backup: AgentBackup,
         open_stream: Callable[[], Coroutine[Any, Any, AsyncIterator[bytes]]],
         password: str,
@@ -527,7 +527,7 @@ async def iter_upload_chunks(contents: aiohttp.BodyPartReader) -> AsyncIterator[
 
 
 async def receive_file(
-    hass: __HAC_KEEP__, stream: AsyncIterator[bytes], path: Path
+    hass: UniversalAssistant, stream: AsyncIterator[bytes], path: Path
 ) -> None:
     """Receive a file from a stream and write it to a file."""
     queue: SimpleQueue[tuple[bytes, asyncio.Future[None] | None] | None] = SimpleQueue()

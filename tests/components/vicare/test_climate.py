@@ -17,7 +17,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_component, entity_registry as er
 
 from . import MODULE, setup_integration
@@ -26,7 +26,7 @@ from .conftest import Fixture, MockPyViCare
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -64,7 +64,7 @@ async def test_all_entities(
     ],
 )
 async def test_hvac_action_compressor_phase(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     phase: str | None,
     active: bool,
@@ -118,7 +118,7 @@ async def test_hvac_action_compressor_phase(
 
 
 async def test_hvac_action_multi_compressor_cooling_takes_precedence(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Cooling on any compressor must win over heating/unknown on another.
@@ -169,7 +169,7 @@ async def test_hvac_action_multi_compressor_cooling_takes_precedence(
 
 
 async def test_hvac_mode_cooling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """hvac_mode maps the ViCare cooling operating mode to HVACMode.COOL."""
@@ -196,7 +196,7 @@ async def test_hvac_mode_cooling(
 
 
 async def test_set_hvac_mode_off_uses_standby(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Off sets standby, not forcedReduced, which also maps to off."""

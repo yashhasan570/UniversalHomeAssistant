@@ -14,14 +14,14 @@ from universalassistant.components.cover import (
     SERVICE_STOP_COVER,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import selected_platforms, snapshot_platform_entities
 
 
 async def test_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     netatmo_auth: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -38,7 +38,7 @@ async def test_entity(
 
 
 async def test_cover_setup_and_services(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test setup and services."""
     with selected_platforms([Platform.COVER]):

@@ -20,7 +20,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -28,7 +28,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_powerfox_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -46,7 +46,7 @@ async def test_all_sensors(
     [PowerfoxConnectionError, PowerfoxNoDataError, PowerfoxPrivacyError],
 )
 async def test_update_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_powerfox_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -67,7 +67,7 @@ async def test_update_failed(
 
 
 async def test_skips_gas_sensors_when_report_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_powerfox_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

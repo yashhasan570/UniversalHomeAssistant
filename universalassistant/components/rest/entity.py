@@ -12,8 +12,8 @@ from universalassistant.const import (
     CONF_UNIQUE_ID,
     CONF_UNIT_OF_MEASUREMENT,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, PlatformNotReady
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError, PlatformNotReady
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.template import Template
 from universalassistant.helpers.trigger_template_entity import (
@@ -40,7 +40,7 @@ TRIGGER_ENTITY_OPTIONS = (
 
 
 async def async_get_config_rest_data_and_coordinator(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     entity_domain: str,
     discovery_info: DiscoveryInfoType | None = None,
@@ -61,7 +61,7 @@ async def async_get_config_rest_data_and_coordinator(
     if rest.data is None:
         if rest.last_exception:
             if isinstance(rest.last_exception, ssl.SSLError):
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="ssl_error",
                     translation_placeholders={"resource": rest.url},
@@ -73,7 +73,7 @@ async def async_get_config_rest_data_and_coordinator(
 
 
 def async_get_trigger_entity_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     default_name: str,
 ) -> ConfigType:

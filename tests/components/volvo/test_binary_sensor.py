@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.volvo.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -19,7 +19,7 @@ from universalassistant.helpers import entity_registry as er
     ["ex30_2024", "s90_diesel_2018", "xc40_electric_2024", "xc90_petrol_2019"],
 )
 async def test_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: Callable[[], Awaitable[bool]],
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -46,7 +46,7 @@ async def test_binary_sensor(
     ],
 )
 async def test_unique_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: Callable[[], Awaitable[bool]],
     caplog: pytest.LogCaptureFixture,
 ) -> None:

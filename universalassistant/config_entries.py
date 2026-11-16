@@ -1,4 +1,4 @@
-"""Manage config entries in __HA_KEEP__."""
+"""Manage config entries in Universal Home Assistant."""
 
 import asyncio
 from collections import UserDict, defaultdict
@@ -41,7 +41,7 @@ from .core import (
     Event,
     HassJob,
     HassJobType,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
     verify_event_loop_thread,
 )
@@ -50,7 +50,7 @@ from .exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
     ConfigEntryNotReady,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
 )
 from .helpers import (
     device_registry as dr,
@@ -252,7 +252,7 @@ _DEPRECATED_CONN_CLASS_ASSUMED = DeprecatedConstant("assumed", None, "2027.5.0")
 _DEPRECATED_CONN_CLASS_UNKNOWN = DeprecatedConstant("unknown", None, "2027.5.0")
 
 
-class ConfigError(__HAC_KEEP__Error):
+class ConfigError(UniversalAssistantError):
     """Error while configuring an account."""
 
 
@@ -269,7 +269,7 @@ class OperationNotAllowed(ConfigError):
 
 
 type UpdateListenerType = Callable[
-    [__HAC_KEEP__, ConfigEntry], Coroutine[Any, Any, None]
+    [UniversalAssistant, ConfigEntry], Coroutine[Any, Any, None]
 ]
 
 STATE_KEYS = {
@@ -738,7 +738,7 @@ class ConfigEntry[_DataT = Any]:
 
     async def async_setup(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         *,
         integration: loader.Integration | None = None,
     ) -> None:
@@ -755,7 +755,7 @@ class ConfigEntry[_DataT = Any]:
     @callback
     def __async_handle_config_entry_setup_error(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         integration: loader.Integration,
         exc: BaseException,
         *,
@@ -913,7 +913,7 @@ class ConfigEntry[_DataT = Any]:
 
     async def __async_setup_with_context(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         integration: loader.Integration | None,
     ) -> None:
         """Set up an entry, with current_entry set."""
@@ -1060,7 +1060,7 @@ class ConfigEntry[_DataT = Any]:
             self._async_set_state(hass, ConfigEntryState.SETUP_ERROR, *reason)
 
     @callback
-    def _async_setup_again(self, hass: __HAC_KEEP__, *_: Any) -> None:
+    def _async_setup_again(self, hass: UniversalAssistant, *_: Any) -> None:
         """Schedule setup again.
 
         This method is a callback to ensure that _async_cancel_retry_setup
@@ -1077,7 +1077,7 @@ class ConfigEntry[_DataT = Any]:
             )
 
     async def async_setup_locked(
-        self, hass: __HAC_KEEP__, integration: loader.Integration | None = None
+        self, hass: UniversalAssistant, integration: loader.Integration | None = None
     ) -> None:
         """Set up while holding the setup lock."""
         async with self.setup_lock:
@@ -1096,7 +1096,7 @@ class ConfigEntry[_DataT = Any]:
 
     @callback
     def async_shutdown(self) -> None:
-        """Call when __HA_KEEP__ is stopping."""
+        """Call when Universal Home Assistant is stopping."""
         self.async_cancel_retry_setup()
 
     @callback
@@ -1107,7 +1107,7 @@ class ConfigEntry[_DataT = Any]:
             self._async_cancel_retry_setup = None
 
     async def async_unload(
-        self, hass: __HAC_KEEP__, *, integration: loader.Integration | None = None
+        self, hass: UniversalAssistant, *, integration: loader.Integration | None = None
     ) -> bool:
         """Unload an entry.
 
@@ -1187,7 +1187,7 @@ class ConfigEntry[_DataT = Any]:
                         exc.translation_placeholders,
                         exc.translation_domain,
                     )
-                    if isinstance(exc, __HAC_KEEP__Error)
+                    if isinstance(exc, UniversalAssistantError)
                     else (None, None, None)
                 )
                 self._async_set_state(
@@ -1200,7 +1200,7 @@ class ConfigEntry[_DataT = Any]:
 
         return True
 
-    async def async_remove(self, hass: __HAC_KEEP__) -> None:
+    async def async_remove(self, hass: UniversalAssistant) -> None:
         """Invoke remove callback on component."""
         old_modified_at = self.modified_at
         object.__setattr__(self, "modified_at", utcnow())
@@ -1244,7 +1244,7 @@ class ConfigEntry[_DataT = Any]:
     @callback
     def _async_set_state(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         state: ConfigEntryState,
         reason: str | None,
         error_reason_translation_key: str | None = None,
@@ -1276,7 +1276,7 @@ class ConfigEntry[_DataT = Any]:
 
         self._async_process_on_state_change()
 
-    async def async_migrate(self, hass: __HAC_KEEP__) -> bool:
+    async def async_migrate(self, hass: UniversalAssistant) -> bool:
         """Migrate an entry.
 
         Returns:
@@ -1293,7 +1293,7 @@ class ConfigEntry[_DataT = Any]:
             return False
         # Handler may be a partial
         # Keep for backwards compatibility
-        # https://github.com/yashhasan570/__HAC_KEEP__/pull/67087#discussion_r812559950
+        # https://github.com/yashhasan570/UniversalUniversalAssistant/pull/67087#discussion_r812559950
         while isinstance(handler, functools.partial):
             handler = handler.func  # type: ignore[unreachable]
 
@@ -1371,7 +1371,7 @@ class ConfigEntry[_DataT = Any]:
             self._on_unload = []
         self._on_unload.append(func)
 
-    async def _async_process_on_unload(self, hass: __HAC_KEEP__) -> None:
+    async def _async_process_on_unload(self, hass: UniversalAssistant) -> None:
         """Process the on_unload callbacks and wait for pending tasks."""
         if self._on_unload is not None:
             while self._on_unload:
@@ -1429,7 +1429,7 @@ class ConfigEntry[_DataT = Any]:
     @callback
     def async_start_reauth(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         context: ConfigFlowContext | None = None,
         data: dict[str, Any] | None = None,
     ) -> None:
@@ -1448,7 +1448,7 @@ class ConfigEntry[_DataT = Any]:
     @callback
     def async_start_reauth_if_available(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         context: ConfigFlowContext | None = None,
         data: dict[str, Any] | None = None,
     ) -> None:
@@ -1460,7 +1460,7 @@ class ConfigEntry[_DataT = Any]:
 
     async def _async_init_reauth(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         context: ConfigFlowContext | None = None,
         data: dict[str, Any] | None = None,
     ) -> None:
@@ -1501,7 +1501,7 @@ class ConfigEntry[_DataT = Any]:
         )
 
     @callback
-    def _async_delete_stale_reauth_issue(self, hass: __HAC_KEEP__) -> None:
+    def _async_delete_stale_reauth_issue(self, hass: UniversalAssistant) -> None:
         """Delete the reauth issue unless a reauth flow is active or starting."""
         if (
             # The issue is hidden, keep it for when the entry is enabled again
@@ -1518,7 +1518,7 @@ class ConfigEntry[_DataT = Any]:
 
     @callback
     def async_get_active_flows(
-        self, hass: __HAC_KEEP__, sources: set[str]
+        self, hass: UniversalAssistant, sources: set[str]
     ) -> Generator[ConfigFlowResult]:
         """Get any active flows of certain sources for this entry."""
         return (
@@ -1534,7 +1534,7 @@ class ConfigEntry[_DataT = Any]:
     @callback
     def async_create_task[_R](
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         target: Coroutine[Any, Any, _R],
         name: str | None = None,
         eager_start: bool = True,
@@ -1558,7 +1558,7 @@ class ConfigEntry[_DataT = Any]:
     @callback
     def async_create_background_task[_R](
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         target: Coroutine[Any, Any, _R],
         name: str,
         eager_start: bool = True,
@@ -1601,7 +1601,7 @@ class ConfigEntriesFlowManager(
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entries: ConfigEntries,
         hass_config: ConfigType,
     ) -> None:
@@ -1651,7 +1651,7 @@ class ConfigEntriesFlowManager(
             SOURCE_REAUTH,
             SOURCE_RECONFIGURE,
         } and "entry_id" not in context:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Cannot initialize a {source} flow without a link to the config entry"
             )
 
@@ -1690,7 +1690,7 @@ class ConfigEntriesFlowManager(
             async with interrupt(
                 cancel_init_future,
                 FlowCancelledError,
-                "Config entry initialize canceled: __HA_KEEP__ is shutting down",
+                "Config entry initialize canceled: Universal Home Assistant is shutting down",
             ):
                 flow, result = await self._async_init(flow_id, handler, context, data)
         except FlowCancelledError as ex:
@@ -1804,7 +1804,7 @@ class ConfigEntriesFlowManager(
             return
         flow_type, flow_id = next_flow
         if flow_type not in FlowType:
-            raise __HAC_KEEP__Error(f"Invalid flow type: {flow_type}")
+            raise UniversalAssistantError(f"Invalid flow type: {flow_type}")
         if flow_type == FlowType.CONFIG_FLOW:
             # Raises UnknownFlow if the flow does not exist.
             self.hass.config_entries.flow.async_get(flow_id)
@@ -2088,7 +2088,7 @@ class ConfigEntryItems(UserDict[str, ConfigEntry]):
     - domain -> unique_id -> ConfigEntry
     """
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the container."""
         super().__init__()
         self._hass = hass
@@ -2108,7 +2108,7 @@ class ConfigEntryItems(UserDict[str, ConfigEntry]):
         if entry_id in data:
             # This is likely a bug in a test that is adding the same
             # entry twice. In the future, once we have fixed the tests,
-            # this will raise __HAC_KEEP__Error.
+            # this will raise UniversalAssistantError.
             entry.logger.error("An entry with the id %s already exists", entry_id)
             self._unindex_entry(entry_id)
         data[entry_id] = entry
@@ -2146,7 +2146,7 @@ class ConfigEntryItems(UserDict[str, ConfigEntry]):
         else:
             # Guard against integrations using unhashable unique_id
             # In HA Core 2024.11, the guard was changed from warning to failing
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"The entry unique id {unique_id} is not a string."
             )
 
@@ -2203,7 +2203,7 @@ class ConfigEntryItems(UserDict[str, ConfigEntry]):
         if unique_id is None:
             return None  # type: ignore[unreachable]
         if not isinstance(unique_id, Hashable):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"The entry unique id {unique_id} is not a string."
             )
         entries = self._domain_unique_id_index.get(domain, {}).get(unique_id)
@@ -2215,7 +2215,7 @@ class ConfigEntryItems(UserDict[str, ConfigEntry]):
 class ConfigEntryStore(storage.Store[dict[str, list[dict[str, Any]]]]):
     """Class to help storing config entry data."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize storage class."""
         super().__init__(
             hass,
@@ -2283,7 +2283,7 @@ class ConfigEntries:
     An instance of this object is available via `hass.config_entries`.
     """
 
-    def __init__(self, hass: __HAC_KEEP__, hass_config: ConfigType) -> None:
+    def __init__(self, hass: UniversalAssistant, hass_config: ConfigType) -> None:
         """Initialize the entry manager."""
         self.hass = hass
         self.flow = ConfigEntriesFlowManager(hass, self, hass_config)
@@ -2387,7 +2387,7 @@ class ConfigEntries:
     async def async_add(self, entry: ConfigEntry) -> None:
         """Add and setup an entry."""
         if entry.entry_id in self._entries.data:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"An entry with the id {entry.entry_id} already exists."
             )
 
@@ -2451,7 +2451,7 @@ class ConfigEntries:
 
     @callback
     def _async_shutdown(self, event: Event) -> None:
-        """Call when __HA_KEEP__ is stopping."""
+        """Call when Universal Home Assistant is stopping."""
         for entry in self._entries.values():
             entry.async_shutdown()
         self.flow.async_shutdown()
@@ -3021,7 +3021,7 @@ class ConfigEntries:
             # If the lock was held when the forward started, and it was released
             # during the platform setup, it means they did not await the setup call.
             if not entry.setup_lock.locked():
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     "Detected code that calls async_forward_entry_setups during setup "
                     f"for integration {entry.domain} with title: {entry.title} and "
                     f"entry_id: {entry.entry_id}, without awaiting "
@@ -3141,7 +3141,7 @@ class ConfigEntries:
         This is primarily intended for existing config entries which are loaded at
         startup, awaiting this function will block until the component and all its
         config entries are loaded.
-        Config entries which are created after __HA_KEEP__ is started can't be waited
+        Config entries which are created after Universal Home Assistant is started can't be waited
         for, the function will just return if the config entry is loaded or not.
         """
         if not await async_wait_component(self.hass, entry.domain):
@@ -3619,7 +3619,7 @@ class ConfigFlow(ConfigEntryBaseFlow):
             return
         flow_type, flow_id = next_flow
         if flow_type != FlowType.CONFIG_FLOW:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "next_flow only supports FlowType.CONFIG_FLOW; "
                 "use async_on_create_entry for options or subentry flows"
             )
@@ -3670,7 +3670,7 @@ class ConfigFlow(ConfigEntryBaseFlow):
     ) -> ConfigFlowResult:
         """Finish config flow and create a config entry."""
         if self.source in {SOURCE_REAUTH, SOURCE_RECONFIGURE}:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Creates a new entry in a '{self.source}' flow, "
                 "when it is expected to update an existing entry and abort"
             )
@@ -3887,7 +3887,7 @@ class ConfigFlow(ConfigEntryBaseFlow):
 class _ConfigSubFlowManager:
     """Mixin class for flow managers which manage flows tied to a config entry."""
 
-    hass: __HAC_KEEP__
+    hass: UniversalAssistant
 
     def _async_get_config_entry(self, config_entry_id: str) -> ConfigEntry:
         """Return config entry or raise if not found."""
@@ -3956,7 +3956,7 @@ class ConfigSubentryFlowManager(
 
         unique_id = result.get("unique_id")
         if unique_id is not None and not isinstance(unique_id, str):
-            raise __HAC_KEEP__Error("unique_id must be a string")
+            raise UniversalAssistantError("unique_id must be a string")
 
         self.hass.config_entries.async_add_subentry(
             entry,
@@ -4313,7 +4313,7 @@ class OptionsFlowWithReload(OptionsFlow):
 class EntityRegistryDisabledHandler:
     """Handler when entities related to config entries updated disabled_by."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the handler."""
         self.hass = hass
         self.registry: er.EntityRegistry | None = None
@@ -4416,28 +4416,28 @@ def _handle_entry_updated_filter(
     )
 
 
-async def support_entry_unload(hass: __HAC_KEEP__, domain: str) -> bool:
+async def support_entry_unload(hass: UniversalAssistant, domain: str) -> bool:
     """Test if a domain supports entry unloading."""
     integration = await loader.async_get_integration(hass, domain)
     component = await integration.async_get_component()
     return hasattr(component, "async_unload_entry")
 
 
-async def support_remove_from_device(hass: __HAC_KEEP__, domain: str) -> bool:
+async def support_remove_from_device(hass: UniversalAssistant, domain: str) -> bool:
     """Test if a domain supports being removed from a device."""
     integration = await loader.async_get_integration(hass, domain)
     component = await integration.async_get_component()
     return hasattr(component, "async_remove_config_entry_device")
 
 
-async def _support_single_config_entry_only(hass: __HAC_KEEP__, domain: str) -> bool:
+async def _support_single_config_entry_only(hass: UniversalAssistant, domain: str) -> bool:
     """Test if a domain supports only a single config entry."""
     integration = await loader.async_get_integration(hass, domain)
     return integration.single_config_entry
 
 
 async def _load_integration(
-    hass: __HAC_KEEP__, domain: str, hass_config: ConfigType
+    hass: UniversalAssistant, domain: str, hass_config: ConfigType
 ) -> None:
     try:
         integration = await loader.async_get_integration(hass, domain)
@@ -4459,7 +4459,7 @@ async def _load_integration(
 
 
 async def _async_get_flow_handler(
-    hass: __HAC_KEEP__, domain: str, hass_config: ConfigType
+    hass: UniversalAssistant, domain: str, hass_config: ConfigType
 ) -> type[ConfigFlow]:
     """Get a flow handler for specified domain."""
 
@@ -4478,7 +4478,7 @@ async def _async_get_flow_handler(
 
 
 @callback
-def _abort_reauth_flows(hass: __HAC_KEEP__, domain: str, entry_id: str) -> None:
+def _abort_reauth_flows(hass: UniversalAssistant, domain: str, entry_id: str) -> None:
     """Abort reauth flows for an entry."""
     flow_manager = hass.config_entries.flow
     for progress_flow in flow_manager.async_progress_by_handler(

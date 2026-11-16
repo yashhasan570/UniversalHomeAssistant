@@ -22,7 +22,7 @@ from iaqualink.exception import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -67,7 +67,7 @@ class AqualinkRuntimeData:
     thermostats: list[AqualinkThermostat]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: AqualinkConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: AqualinkConfigEntry) -> None:
     """Set up Aqualink from a config entry."""
     username = entry.data[CONF_USERNAME]
     password = entry.data[CONF_PASSWORD]
@@ -187,7 +187,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: AqualinkConfigEntry) -> N
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: AqualinkConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: AqualinkConfigEntry) -> None:
     """Unload a config entry."""
     await entry.runtime_data.client.close()
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

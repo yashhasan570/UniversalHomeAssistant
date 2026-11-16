@@ -5,8 +5,8 @@ import logging
 import probatio
 
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import Event, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.json import ExtendedJSONEncoder
 from universalassistant.helpers.storage import Store
@@ -49,7 +49,7 @@ __all__ = [
 ]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Initialize the trace integration."""
     hass.data[DATA_TRACE] = {}
     websocket_api.async_setup(hass)
@@ -68,7 +68,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
                     for key, trace_bucket in hass.data[DATA_TRACE].items()
                 }
             )
-        except __HAC_KEEP__Error as exc:
+        except UniversalAssistantError as exc:
             _LOGGER.error("Error storing traces", exc_info=exc)
 
     # Store traces when stopping hass

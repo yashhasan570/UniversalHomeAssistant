@@ -20,10 +20,10 @@ from universalassistant.components.number import (
 )
 from universalassistant.components.openevse.const import DOMAIN
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     ServiceValidationError,
 )
 from universalassistant.helpers import entity_registry as er
@@ -31,7 +31,7 @@ from universalassistant.helpers import entity_registry as er
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -46,7 +46,7 @@ async def test_entities(
 
 
 async def test_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,
 ) -> None:
@@ -86,49 +86,49 @@ async def test_set_value(
         ),
         pytest.param(
             TimeoutError("timed out"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "communication_error",
             None,
             id="timeout_error",
         ),
         pytest.param(
             ServerTimeoutError("timed out"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "communication_error",
             None,
             id="server_timeout_error",
         ),
         pytest.param(
             ParseJSONError("bad json"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "communication_error",
             None,
             id="parse_json_error",
         ),
         pytest.param(
             UnsupportedFeature("old firmware"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "unsupported_feature",
             None,
             id="unsupported_feature",
         ),
         pytest.param(
             ContentTypeError(MagicMock(), (), message="bad content"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "communication_error",
             None,
             id="content_type_error",
         ),
         pytest.param(
             UnknownError("unknown error"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "communication_error",
             None,
             id="unknown_error",
         ),
         pytest.param(
             RuntimeError("runtime error"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "communication_error",
             None,
             id="runtime_error",
@@ -136,7 +136,7 @@ async def test_set_value(
     ],
 )
 async def test_set_value_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,
     raised: Exception,

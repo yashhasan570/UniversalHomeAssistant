@@ -11,13 +11,13 @@ from python_overseerr.exceptions import OverseerrNothingToRequestError
 
 from universalassistant.const import CommonServiceArgument
 from universalassistant.core import (
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import service
 from universalassistant.util.json import JsonValueType
 
@@ -117,7 +117,7 @@ async def _async_get_requests(call: ServiceCall) -> ServiceResponse:
     try:
         requests = await client.get_requests(**kwargs)
     except OverseerrConnectionError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="connection_error",
             translation_placeholders={"error": str(err)},
@@ -154,7 +154,7 @@ async def _async_search_media(call: ServiceCall) -> ServiceResponse:
     try:
         search_results = await client.search(query)
     except OverseerrConnectionError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="connection_error",
             translation_placeholders={"error": str(err)},
@@ -192,7 +192,7 @@ async def _async_request_media(call: ServiceCall) -> ServiceResponse:
             translation_key="nothing_to_request",
         ) from err
     except OverseerrConnectionError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="connection_error",
             translation_placeholders={"error": str(err)},
@@ -218,7 +218,7 @@ def parse_seasons_input(seasons_input: Any | None) -> Literal["all"] | list[int]
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the services for the Seerr integration."""
 
     hass.services.async_register(

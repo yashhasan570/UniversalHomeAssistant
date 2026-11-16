@@ -7,7 +7,7 @@ from typing import Any, Concatenate
 
 from afsapi import AFSAPI, FSApiError, FSConnectionError
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity
 
@@ -32,14 +32,14 @@ def fs_command_exception_wrap[
             return await func(self, *args, **kwargs)
         except FSConnectionError as err:
             command = func.__name__.removeprefix("async_")
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="connection_error",
                 translation_placeholders={"command": command},
             ) from err
         except FSApiError as err:
             command = func.__name__.removeprefix("async_")
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="api_error",
                 translation_placeholders={"command": command, "message": str(err)},

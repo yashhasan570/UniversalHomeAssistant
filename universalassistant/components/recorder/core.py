@@ -34,7 +34,7 @@ from universalassistant.core import (
     CALLBACK_TYPE,
     Event,
     EventStateChangedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     State,
     callback,
 )
@@ -148,7 +148,7 @@ class Recorder(threading.Thread):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         auto_purge: bool,
         auto_repack: bool,
         keep_days: int,
@@ -484,7 +484,7 @@ class Recorder(threading.Thread):
         await self.hass.async_add_executor_job(self.join)
 
     @callback
-    def _async_hass_started(self, hass: __HAC_KEEP__) -> None:
+    def _async_hass_started(self, hass: UniversalAssistant) -> None:
         """Notify that hass has started."""
         self._hass_started.set_result(None)
 
@@ -679,7 +679,7 @@ class Recorder(threading.Thread):
     def _async_setup_periodic_tasks(self) -> None:
         """Prepare periodic tasks."""
         if self.hass.is_stopping or not self._get_session:
-            # __HA_KEEP__ is shutting down
+            # Universal Home Assistant is shutting down
             return
 
         # If the db is using a socket connection, we need to keep alive
@@ -784,7 +784,7 @@ class Recorder(threading.Thread):
             _LOGGER.error(
                 "The database schema version %s is newer than %s which is the maximum "
                 "database schema version supported by the installed version of "
-                "__HA_KEEP__ Core, either upgrade __HA_KEEP__ Core or restore "
+                "Universal Home Assistant Core, either upgrade Universal Home Assistant Core or restore "
                 "the database from a backup compatible with this version",
                 schema_status.current_version,
                 SCHEMA_VERSION,
@@ -822,7 +822,7 @@ class Recorder(threading.Thread):
         # since it can be cpu intensive and we do not want it to compete
         # with startup which is also cpu intensive
         if self._wait_startup_or_shutdown() is SHUTDOWN_TASK:
-            # Shutdown happened before __HA_KEEP__ finished starting
+            # Shutdown happened before Universal Home Assistant finished starting
             self.migration_in_progress = False
             # Make sure we cleanly close the run if
             # we restart before startup finishes

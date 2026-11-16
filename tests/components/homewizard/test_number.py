@@ -12,8 +12,8 @@ from universalassistant.components import number
 from universalassistant.components.homewizard.const import UPDATE_INTERVAL
 from universalassistant.components.number import ATTR_VALUE, SERVICE_SET_VALUE
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -24,7 +24,7 @@ pytestmark = [
 
 @pytest.mark.parametrize("device_fixture", ["HWE-SKT-11", "HWE-SKT-21"])
 async def test_number_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_homewizardenergy: MagicMock,
@@ -71,7 +71,7 @@ async def test_number_entities(
 
     mock_homewizardenergy.system.side_effect = RequestError
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=r"^An error occurred while communicating with your HomeWizard device$",
     ):
         await hass.services.async_call(
@@ -86,7 +86,7 @@ async def test_number_entities(
 
     mock_homewizardenergy.system.side_effect = DisabledError
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=r"^The local API is disabled$",
     ):
         await hass.services.async_call(
@@ -103,6 +103,6 @@ async def test_number_entities(
 @pytest.mark.parametrize(
     "device_fixture", ["HWE-P1", "HWE-WTR", "SDM230", "SDM630", "HWE-KWH1", "HWE-KWH3"]
 )
-async def test_entities_not_created_for_device(hass: __HAC_KEEP__) -> None:
+async def test_entities_not_created_for_device(hass: UniversalAssistant) -> None:
     """Does not load number when device has no support for it."""
     assert not hass.states.get("number.device_status_light_brightness")

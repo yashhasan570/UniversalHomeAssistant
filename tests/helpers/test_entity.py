@@ -41,12 +41,12 @@ from universalassistant.const import (
 from universalassistant.core import (
     Context,
     HassJobType,
-    __HAC_KEEP__,
+    UniversalAssistant,
     ReleaseChannel,
     State,
     callback,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error, NoEntitySpecifiedError
+from universalassistant.exceptions import UniversalAssistantError, NoEntitySpecifiedError
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -88,7 +88,7 @@ def test_generate_entity_id_given_keys() -> None:
     )
 
 
-async def test_generate_entity_id_given_hass(hass: __HAC_KEEP__) -> None:
+async def test_generate_entity_id_given_hass(hass: UniversalAssistant) -> None:
     """Test generating an entity id given hass object."""
     hass.states.async_set("test.overwrite_hidden_true", "test")
 
@@ -99,7 +99,7 @@ async def test_generate_entity_id_given_hass(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_async_update_support(hass: __HAC_KEEP__) -> None:
+async def test_async_update_support(hass: UniversalAssistant) -> None:
     """Test async update getting called."""
     sync_update = []
     async_update = []
@@ -134,7 +134,7 @@ async def test_async_update_support(hass: __HAC_KEEP__) -> None:
     assert len(async_update) == 1
 
 
-async def test_device_class(hass: __HAC_KEEP__) -> None:
+async def test_device_class(hass: UniversalAssistant) -> None:
     """Test device class attribute."""
     ent = entity.Entity()
     ent.entity_id = "test.overwrite_hidden_true"
@@ -150,7 +150,7 @@ async def test_device_class(hass: __HAC_KEEP__) -> None:
 
 
 async def test_warn_slow_update(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Warn we log when entity update takes a long time."""
     update_call = False
@@ -176,7 +176,7 @@ async def test_warn_slow_update(
 
 
 async def test_warn_slow_update_with_exception(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Warn we log when entity update takes a long time and trow exception."""
     update_call = False
@@ -203,7 +203,7 @@ async def test_warn_slow_update_with_exception(
 
 
 async def test_warn_slow_device_update_disabled(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Disable slow update warning with async_device_update."""
     update_call = False
@@ -228,7 +228,7 @@ async def test_warn_slow_device_update_disabled(
         assert update_call
 
 
-async def test_async_schedule_update_ha_state(hass: __HAC_KEEP__) -> None:
+async def test_async_schedule_update_ha_state(hass: UniversalAssistant) -> None:
     """Warn we log when entity update takes a long time and trow exception."""
     update_call = False
 
@@ -248,7 +248,7 @@ async def test_async_schedule_update_ha_state(hass: __HAC_KEEP__) -> None:
     assert update_call is True
 
 
-async def test_async_async_request_call_without_lock(hass: __HAC_KEEP__) -> None:
+async def test_async_async_request_call_without_lock(hass: UniversalAssistant) -> None:
     """Test for async_requests_call works without a lock."""
     updates = []
 
@@ -283,7 +283,7 @@ async def test_async_async_request_call_without_lock(hass: __HAC_KEEP__) -> None
     assert updates == [1, 2]
 
 
-async def test_async_async_request_call_with_lock(hass: __HAC_KEEP__) -> None:
+async def test_async_async_request_call_with_lock(hass: UniversalAssistant) -> None:
     """Test for async_requests_call works with a semaphore."""
     updates = []
 
@@ -334,7 +334,7 @@ async def test_async_async_request_call_with_lock(hass: __HAC_KEEP__) -> None:
     assert updates == [1, 2]
 
 
-async def test_async_parallel_updates_with_zero(hass: __HAC_KEEP__) -> None:
+async def test_async_parallel_updates_with_zero(hass: UniversalAssistant) -> None:
     """Test parallel updates with 0 (disabled)."""
     updates = []
     test_lock = asyncio.Event()
@@ -372,7 +372,7 @@ async def test_async_parallel_updates_with_zero(hass: __HAC_KEEP__) -> None:
 
 
 async def test_async_parallel_updates_with_zero_on_sync_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test parallel updates with 0 (disabled)."""
     updates = []
@@ -413,7 +413,7 @@ async def test_async_parallel_updates_with_zero_on_sync_update(
         await asyncio.sleep(0)
 
 
-async def test_async_parallel_updates_with_one(hass: __HAC_KEEP__) -> None:
+async def test_async_parallel_updates_with_one(hass: UniversalAssistant) -> None:
     """Test parallel updates with 1 (sequential)."""
     updates = []
     test_lock = asyncio.Lock()
@@ -489,7 +489,7 @@ async def test_async_parallel_updates_with_one(hass: __HAC_KEEP__) -> None:
         test_lock.release()
 
 
-async def test_async_parallel_updates_with_two(hass: __HAC_KEEP__) -> None:
+async def test_async_parallel_updates_with_two(hass: UniversalAssistant) -> None:
     """Test parallel updates with 2 (parallel)."""
     updates = []
     test_lock = asyncio.Lock()
@@ -559,7 +559,7 @@ async def test_async_parallel_updates_with_two(hass: __HAC_KEEP__) -> None:
 
 
 async def test_async_parallel_updates_with_one_using_executor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test parallel updates with 1 (sequential) using the executor."""
     test_semaphore = asyncio.Semaphore(1)
@@ -593,7 +593,7 @@ async def test_async_parallel_updates_with_one_using_executor(
     assert locked == [True, True, True]
 
 
-async def test_async_remove_no_platform(hass: __HAC_KEEP__) -> None:
+async def test_async_remove_no_platform(hass: UniversalAssistant) -> None:
     """Test async_remove method when no platform set."""
     ent = entity.Entity()
     ent.hass = hass
@@ -607,7 +607,7 @@ async def test_async_remove_no_platform(hass: __HAC_KEEP__) -> None:
     assert ent._platform_state is entity.EntityPlatformState.REMOVED
 
 
-async def test_async_remove_runs_callbacks(hass: __HAC_KEEP__) -> None:
+async def test_async_remove_runs_callbacks(hass: UniversalAssistant) -> None:
     """Test async_remove runs on_remove callback."""
     result = []
 
@@ -623,7 +623,7 @@ async def test_async_remove_runs_callbacks(hass: __HAC_KEEP__) -> None:
     assert ent._platform_state == entity.EntityPlatformState.REMOVED
 
 
-async def test_async_remove_reports_the_original_error(hass: __HAC_KEEP__) -> None:
+async def test_async_remove_reports_the_original_error(hass: UniversalAssistant) -> None:
     """Test a failing removal surfaces its own exception."""
 
     class MockEntityFailingRemoval(entity.Entity):
@@ -642,7 +642,7 @@ async def test_async_remove_reports_the_original_error(hass: __HAC_KEEP__) -> No
         await ent.async_remove()
 
 
-async def test_async_remove_ignores_in_flight_polling(hass: __HAC_KEEP__) -> None:
+async def test_async_remove_ignores_in_flight_polling(hass: UniversalAssistant) -> None:
     """Test in flight polling is ignored after removing."""
     result = []
 
@@ -664,7 +664,7 @@ async def test_async_remove_ignores_in_flight_polling(hass: __HAC_KEEP__) -> Non
     assert hass.states.get("test.test") is None
 
 
-async def test_async_remove_twice(hass: __HAC_KEEP__) -> None:
+async def test_async_remove_twice(hass: UniversalAssistant) -> None:
     """Test removing an entity twice only cleans up once."""
     result = []
 
@@ -694,7 +694,7 @@ async def test_async_remove_twice(hass: __HAC_KEEP__) -> None:
     assert ent._platform_state is entity.EntityPlatformState.REMOVED
 
 
-async def test_async_remove_cancel_concurrent_waiter(hass: __HAC_KEEP__) -> None:
+async def test_async_remove_cancel_concurrent_waiter(hass: UniversalAssistant) -> None:
     """Test cancelling a concurrent remove does not break the in-progress remove."""
     release = asyncio.Event()
 
@@ -726,7 +726,7 @@ async def test_async_remove_cancel_concurrent_waiter(hass: __HAC_KEEP__) -> None
     assert hass.states.get("test.test") is None
 
 
-async def test_set_context(hass: __HAC_KEEP__) -> None:
+async def test_set_context(hass: UniversalAssistant) -> None:
     """Test setting context."""
     context = Context()
     ent = entity.Entity()
@@ -737,7 +737,7 @@ async def test_set_context(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("hello.world").context == context
 
 
-async def test_set_context_expired(hass: __HAC_KEEP__) -> None:
+async def test_set_context_expired(hass: UniversalAssistant) -> None:
     """Test setting context."""
     context = Context()
 
@@ -754,7 +754,7 @@ async def test_set_context_expired(hass: __HAC_KEEP__) -> None:
 
 
 async def test_warn_disabled(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we warn once if we write to a disabled entity."""
     entry = RegistryEntryWithDefaults(
@@ -782,7 +782,7 @@ async def test_warn_disabled(
     assert caplog.text == ""
 
 
-async def test_disabled_in_entity_registry(hass: __HAC_KEEP__) -> None:
+async def test_disabled_in_entity_registry(hass: UniversalAssistant) -> None:
     """Test entity is removed if we disable entity registry entry."""
     entry = RegistryEntryWithDefaults(
         entity_id="hello.world",
@@ -818,7 +818,7 @@ async def test_disabled_in_entity_registry(hass: __HAC_KEEP__) -> None:
     assert ent.registry_entry == entry2
 
 
-async def test_capability_attrs(hass: __HAC_KEEP__) -> None:
+async def test_capability_attrs(hass: UniversalAssistant) -> None:
     """Test we still include capabilities even when unavailable."""
     with (
         patch.object(entity.Entity, "available", PropertyMock(return_value=False)),
@@ -840,7 +840,7 @@ async def test_capability_attrs(hass: __HAC_KEEP__) -> None:
 
 
 async def test_warn_slow_write_state(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Check that we log a warning if reading properties takes too long."""
     mock_entity = entity.Entity()
@@ -856,13 +856,13 @@ async def test_warn_slow_write_state(
         "Updating state for comp_test.test_entity "
         "(<class 'universalassistant.helpers.entity.Entity'>) "
         "took 10.000 seconds. Please create a bug report at "
-        "https://github.com/yashhasan570/__HAC_KEEP__/issues?"
+        "https://github.com/yashhasan570/UniversalUniversalAssistant/issues?"
         "q=is%3Aopen+is%3Aissue+label%3A%22integration%3A+hue%22"
     ) in caplog.text
 
 
 async def test_warn_slow_write_state_custom_component(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Check that we log a warning if reading properties takes too long."""
 
@@ -888,7 +888,7 @@ async def test_warn_slow_write_state_custom_component(
     ) in caplog.text
 
 
-async def test_setup_source(hass: __HAC_KEEP__) -> None:
+async def test_setup_source(hass: UniversalAssistant) -> None:
     """Check that we register sources correctly."""
     platform = MockEntityPlatform(hass)
 
@@ -914,7 +914,7 @@ async def test_setup_source(hass: __HAC_KEEP__) -> None:
     assert entity.entity_sources(hass) == {}
 
 
-async def test_removing_entity_unavailable(hass: __HAC_KEEP__) -> None:
+async def test_removing_entity_unavailable(hass: UniversalAssistant) -> None:
     """Test removing an entity that is still registered creates an unavailable state."""
     platform = MockEntityPlatform(hass, domain="hello")
     ent = entity.Entity()
@@ -934,7 +934,7 @@ async def test_removing_entity_unavailable(hass: __HAC_KEEP__) -> None:
 
 
 async def test_get_supported_features_entity_registry(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test get_supported_features falls back to entity registry."""
     entity_id = entity_registry.async_get_or_create(
@@ -944,7 +944,7 @@ async def test_get_supported_features_entity_registry(
 
 
 async def test_get_supported_features_prioritize_state(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test get_supported_features gives priority to state."""
     entity_id = entity_registry.async_get_or_create(
@@ -957,13 +957,13 @@ async def test_get_supported_features_prioritize_state(
     assert entity.get_supported_features(hass, entity_id) == 123
 
 
-async def test_get_supported_features_raises_on_unknown(hass: __HAC_KEEP__) -> None:
+async def test_get_supported_features_raises_on_unknown(hass: UniversalAssistant) -> None:
     """Test get_supported_features raises on unknown entity_id."""
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         entity.get_supported_features(hass, "hello.world")
 
 
-async def test_float_conversion(hass: __HAC_KEEP__) -> None:
+async def test_float_conversion(hass: UniversalAssistant) -> None:
     """Test conversion of float state to string rounds."""
     assert 2.4 + 1.2 != 3.6
     with patch.object(entity.Entity, "state", PropertyMock(return_value=2.4 + 1.2)):
@@ -977,21 +977,21 @@ async def test_float_conversion(hass: __HAC_KEEP__) -> None:
     assert state.state == "3.6"
 
 
-async def test_attribution_attribute(hass: __HAC_KEEP__) -> None:
+async def test_attribution_attribute(hass: UniversalAssistant) -> None:
     """Test attribution attribute."""
     mock_entity = entity.Entity()
     mock_entity.hass = hass
     mock_entity.entity_id = "hello.world"
-    mock_entity._attr_attribution = "__HA_KEEP__"
+    mock_entity._attr_attribution = "Universal Home Assistant"
 
     mock_entity.async_schedule_update_ha_state(True)
     await hass.async_block_till_done()
 
     state = hass.states.get(mock_entity.entity_id)
-    assert state.attributes.get(EntityStateAttribute.ATTRIBUTION) == "__HA_KEEP__"
+    assert state.attributes.get(EntityStateAttribute.ATTRIBUTION) == "Universal Home Assistant"
 
 
-async def test_entity_category_property(hass: __HAC_KEEP__) -> None:
+async def test_entity_category_property(hass: UniversalAssistant) -> None:
     """Test entity category property."""
     mock_entity1 = entity.Entity()
     mock_entity1.hass = hass
@@ -1051,14 +1051,14 @@ async def test_entity_description_fallback() -> None:
 
 
 async def _test_friendly_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ent: entity.Entity,
     expected_friendly_name: str | None,
 ) -> None:
     """Test friendly name."""
 
     async def async_setup_entry(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -1091,7 +1091,7 @@ async def _test_friendly_name(
 
 @pytest.mark.parametrize("has_entity_name", [False, True])
 async def test_friendly_name_empty_override_uses_device_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     has_entity_name: bool,
@@ -1149,7 +1149,7 @@ async def test_friendly_name_empty_override_uses_device_name(
     ],
 )
 async def test_friendly_name_attr(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     has_entity_name: bool,
     entity_name: str | None,
     device_name: str | Undefined | None,
@@ -1187,7 +1187,7 @@ async def test_friendly_name_attr(
     ],
 )
 async def test_friendly_name_description(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     has_entity_name: bool,
     entity_name: str | None,
     expected_friendly_name: str | None,
@@ -1225,7 +1225,7 @@ async def test_friendly_name_description(
     ],
 )
 async def test_friendly_name_description_device_class_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     has_entity_name: bool,
     entity_name: str | None,
     expected_friendly_name: str | None,
@@ -1237,7 +1237,7 @@ async def test_friendly_name_description_device_class_name(
     }
 
     async def async_get_translations(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         language: str,
         category: str,
         integrations: Iterable[str] | None = None,
@@ -1325,7 +1325,7 @@ async def test_friendly_name_description_device_class_name(
     ],
 )
 async def test_entity_name_translation_placeholders(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     has_entity_name: bool,
     translation_key: str | None,
     translations: dict[str, str] | None,
@@ -1335,7 +1335,7 @@ async def test_entity_name_translation_placeholders(
     """Test friendly name when the entity name translation has placeholders."""
 
     async def async_get_translations(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         language: str,
         category: str,
         integrations: Iterable[str] | None = None,
@@ -1401,7 +1401,7 @@ async def test_entity_name_translation_placeholders(
             },
             {"placeholder": "special"},
             ReleaseChannel.BETA,
-            "__HAC_KEEP__Error: Missing placeholder '2ndplaceholder'",
+            "UniversalAssistantError: Missing placeholder '2ndplaceholder'",
         ),
         (
             "test_entity",
@@ -1421,7 +1421,7 @@ async def test_entity_name_translation_placeholders(
     ],
 )
 async def test_entity_name_translation_placeholder_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     translation_key: str | None,
     translations: dict[str, str] | None,
     placeholders: dict[str, str] | None,
@@ -1432,7 +1432,7 @@ async def test_entity_name_translation_placeholder_errors(
     """Test entity name translation has placeholder issues."""
 
     async def async_get_translations(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         language: str,
         category: str,
         integrations: Iterable[str] | None = None,
@@ -1442,7 +1442,7 @@ async def test_entity_name_translation_placeholder_errors(
         return translations[language]
 
     async def async_setup_entry(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -1498,7 +1498,7 @@ async def test_entity_name_translation_placeholder_errors(
     ],
 )
 async def test_friendly_name_property(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     has_entity_name: bool,
     entity_name: str | None,
     expected_friendly_name: str | None,
@@ -1536,7 +1536,7 @@ async def test_friendly_name_property(
     ],
 )
 async def test_friendly_name_property_device_class_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     has_entity_name: bool,
     entity_name: str | None,
     expected_friendly_name: str | None,
@@ -1548,7 +1548,7 @@ async def test_friendly_name_property_device_class_name(
     }
 
     async def async_get_translations(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         language: str,
         category: str,
         integrations: Iterable[str] | None = None,
@@ -1592,7 +1592,7 @@ async def test_friendly_name_property_device_class_name(
     ],
 )
 async def test_friendly_name_device_class_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     has_entity_name: bool,
     expected_friendly_name: str | None,
 ) -> None:
@@ -1603,7 +1603,7 @@ async def test_friendly_name_device_class_name(
     }
 
     async def async_get_translations(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         language: str,
         category: str,
         integrations: Iterable[str] | None = None,
@@ -1639,7 +1639,7 @@ async def test_friendly_name_device_class_name(
 
 
 async def test_friendly_name_ignores_area(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1693,7 +1693,7 @@ async def test_friendly_name_ignores_area(
     ],
 )
 async def test_friendly_name_updated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     entity_name: str | None,
@@ -1704,7 +1704,7 @@ async def test_friendly_name_updated(
     """Test friendly name is updated when device or entity registry updates."""
 
     async def async_setup_entry(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -1804,7 +1804,7 @@ async def test_friendly_name_updated(
     ],
 )
 async def test_device_updates_follow_device_id_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     entity_kwargs: dict[str, Any],
@@ -1838,7 +1838,7 @@ async def test_device_updates_follow_device_id_change(
     )
 
     async def async_setup_entry(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -1885,7 +1885,7 @@ async def test_device_updates_follow_device_id_change(
 
 
 async def test_device_entry_cleared_when_detached_from_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1904,7 +1904,7 @@ async def test_device_entry_cleared_when_detached_from_device(
     ent = MockEntity(unique_id="qwer")
 
     async def async_setup_entry(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -1939,7 +1939,7 @@ async def test_device_entry_cleared_when_detached_from_device(
 
 
 async def test_device_entry_cleared_on_registry_detach(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1951,7 +1951,7 @@ async def test_device_entry_cleared_on_registry_detach(
     ent = MockEntity(unique_id="qwer")
 
     async def async_setup_entry(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -1984,7 +1984,7 @@ async def test_device_entry_cleared_on_registry_detach(
     assert ent.device_entry is None
 
 
-async def test_translation_key(hass: __HAC_KEEP__) -> None:
+async def test_translation_key(hass: UniversalAssistant) -> None:
     """Test translation key property."""
     mock_entity1 = entity.Entity()
     mock_entity1.hass = hass
@@ -2004,7 +2004,7 @@ async def test_translation_key(hass: __HAC_KEEP__) -> None:
     assert mock_entity2.translation_key == "from_entity_description"
 
 
-async def test_repr(hass: __HAC_KEEP__) -> None:
+async def test_repr(hass: UniversalAssistant) -> None:
     """Test Entity.__repr__."""
 
     class MyEntity(MockEntity):
@@ -2031,7 +2031,7 @@ async def test_repr(hass: __HAC_KEEP__) -> None:
 
 
 async def test_warn_using_async_update_ha_state(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we warn once when using async_update_ha_state without force_update."""
     ent = entity.Entity()
@@ -2057,7 +2057,7 @@ async def test_warn_using_async_update_ha_state(
 
 
 async def test_warn_no_platform(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we warn am entity does not have a platform."""
     ent = entity.Entity()
@@ -2084,7 +2084,7 @@ async def test_warn_no_platform(
 
 
 async def test_invalid_state(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the entity helper catches InvalidState and sets state to unknown."""
     ent = entity.Entity()
@@ -2113,7 +2113,7 @@ async def test_invalid_state(
 
 
 async def test_suggest_report_issue_built_in(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test _suggest_report_issue for an entity from a built-in integration."""
     mock_entity = entity.Entity()
@@ -2121,7 +2121,7 @@ async def test_suggest_report_issue_built_in(
 
     suggestion = mock_entity._suggest_report_issue()
     assert suggestion == (
-        "create a bug report at https://github.com/yashhasan570/__HAC_KEEP__/issues"
+        "create a bug report at https://github.com/yashhasan570/UniversalUniversalAssistant/issues"
         "?q=is%3Aopen+is%3Aissue"
     )
 
@@ -2131,13 +2131,13 @@ async def test_suggest_report_issue_built_in(
 
     suggestion = mock_entity._suggest_report_issue()
     assert suggestion == (
-        "create a bug report at https://github.com/yashhasan570/__HAC_KEEP__/issues"
+        "create a bug report at https://github.com/yashhasan570/UniversalUniversalAssistant/issues"
         "?q=is%3Aopen+is%3Aissue+label%3A%22integration%3A+test%22"
     )
 
 
 async def test_suggest_report_issue_custom_component(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test _suggest_report_issue for an entity from a custom component."""
 
@@ -2167,7 +2167,7 @@ async def test_suggest_report_issue_custom_component(
 
 
 async def test_reuse_entity_object_after_abort(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test reuse entity object."""
     platform = MockEntityPlatform(hass, domain="test")
@@ -2186,7 +2186,7 @@ async def test_reuse_entity_object_after_abort(
 
 
 async def test_reuse_entity_object_after_entity_registry_remove(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2213,7 +2213,7 @@ async def test_reuse_entity_object_after_entity_registry_remove(
 
 
 async def test_reuse_entity_object_after_entity_registry_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2281,7 +2281,7 @@ class _RenameTrackingEntity(_LifecycleTrackingEntity):
 
 
 def _assert_entity_bookkeeping(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     platform: MockEntityPlatform,
     ent: entity.Entity,
     entity_ids: list[str],
@@ -2295,7 +2295,7 @@ def _assert_entity_bookkeeping(
 
 
 async def test_change_entity_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test changing entity id moves the entity without removing it."""
     entity_registry.async_get_or_create(
@@ -2375,7 +2375,7 @@ async def test_change_entity_id(
     ],
 )
 async def test_change_entity_id_then_remove(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     update_registry: Callable[[er.EntityRegistry], Any],
 ) -> None:
@@ -2472,7 +2472,7 @@ class _NoSuperEntity(_PhaseTrackingEntity):
     ],
 )
 async def test_change_entity_id_phases(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     entity_class: type[_PhaseTrackingEntity],
     phases: list[str],
@@ -2534,7 +2534,7 @@ class _SuspendingEntity(entity.Entity):
 
 
 async def test_change_entity_id_again_while_task_awaits(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test an entity_id change while a task started by the hook awaits."""
     entity_registry.async_get_or_create(
@@ -2566,7 +2566,7 @@ async def test_change_entity_id_again_while_task_awaits(
 
 
 async def test_remove_while_entity_id_change_task_awaits(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test removing the entity while a task started by the hook awaits."""
     entity_registry.async_get_or_create(
@@ -2621,7 +2621,7 @@ class _RaisingAfterWriteEntity(_WritingEntity):
     ],
 )
 async def test_change_entity_id_hook_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
     entity_class: type[_PhaseTrackingEntity],
@@ -2647,7 +2647,7 @@ async def test_change_entity_id_hook_raises(
 
 
 async def test_change_entity_id_then_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -2660,7 +2660,7 @@ async def test_change_entity_id_then_update(
         _attr_unique_id = "5678"
 
     async def async_setup_entry(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -3051,7 +3051,7 @@ def _custom_on_remove() -> None:
     ],
 )
 async def test_change_entity_id_opt_in(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     entity_class: type[entity.Entity],
     re_added: bool,
@@ -3089,7 +3089,7 @@ async def test_change_entity_id_opt_in(
 
 
 async def test_change_entity_id_remove_and_add(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test entities which have not opted in are removed and re-added."""
     entity_registry.async_get_or_create(
@@ -3121,14 +3121,14 @@ async def test_change_entity_id_remove_and_add(
 
 
 async def test_change_entity_id_on_remove_from_setup(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a remove callback registered by platform code does not cause a re-add."""
     on_remove = MagicMock()
     ent = _PlainEntity()
 
     async def async_setup_entry(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -3163,7 +3163,7 @@ async def test_change_entity_id_on_remove_from_setup(
 
 @pytest.mark.parametrize("config_subentry_id", [None, "mock-subentry-id-1"])
 async def test_change_entity_id_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     config_subentry_id: str | None,
@@ -3174,7 +3174,7 @@ async def test_change_entity_id_config_entry(
         _attr_unique_id = "5678"
 
     async def async_setup_entry(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -3499,7 +3499,7 @@ def test_extending_entity_description(snapshot: SnapshotAssertion) -> None:
 
 
 async def test_update_capabilities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test entity capabilities are updated automatically."""
@@ -3551,7 +3551,7 @@ async def test_update_capabilities(
 
 
 async def test_update_capabilities_no_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test entity capabilities are updated automatically."""
@@ -3569,7 +3569,7 @@ async def test_update_capabilities_no_unique_id(
 
 
 async def test_update_capabilities_too_often(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -3610,7 +3610,7 @@ async def test_update_capabilities_too_often(
 
 
 async def test_update_capabilities_too_often_cooldown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
@@ -3662,7 +3662,7 @@ async def test_update_capabilities_too_often_cooldown(
     ],
 )
 async def test_cached_entity_properties(
-    hass: __HAC_KEEP__, property: str, default_value: Any, values: Any
+    hass: UniversalAssistant, property: str, default_value: Any, values: Any
 ) -> None:
     """Test entity properties are cached."""
     ent1 = entity.Entity()
@@ -3694,7 +3694,7 @@ async def test_cached_entity_properties(
     assert type(getattr(ent2, property)) is type(default_value)
 
 
-async def test_cached_entity_property_delete_attr(hass: __HAC_KEEP__) -> None:
+async def test_cached_entity_property_delete_attr(hass: UniversalAssistant) -> None:
     """Test deleting an _attr corresponding to a cached property."""
     property_name = "has_entity_name"
 
@@ -3717,7 +3717,7 @@ async def test_cached_entity_property_delete_attr(hass: __HAC_KEEP__) -> None:
     assert getattr(ent, property_name) is False
 
 
-async def test_cached_entity_property_class_attribute(hass: __HAC_KEEP__) -> None:
+async def test_cached_entity_property_class_attribute(hass: UniversalAssistant) -> None:
     """Test entity properties on class level work in derived classes."""
     property_name = "attribution"
     values = ["abcd", "efgh"]
@@ -3785,7 +3785,7 @@ async def test_cached_entity_property_class_attribute(hass: __HAC_KEEP__) -> Non
         assert getattr(ent[1], property_name) == values[0]
 
 
-async def test_cached_entity_property_override(hass: __HAC_KEEP__) -> None:
+async def test_cached_entity_property_override(hass: UniversalAssistant) -> None:
     """Test overriding cached _attr_ raises."""
 
     class EntityWithClassAttribute1(entity.Entity):
@@ -3827,7 +3827,7 @@ async def test_cached_entity_property_override(hass: __HAC_KEEP__) -> None:
 
 
 async def test_remove_entity_registry(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test removing an entity from the registry."""
     result = []
@@ -3869,7 +3869,7 @@ async def test_remove_entity_registry(
 
 
 async def test_reset_right_after_remove_entity_registry(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test resetting the platform right after removing an entity from the registry.
 
@@ -3915,7 +3915,7 @@ async def test_reset_right_after_remove_entity_registry(
     assert hass.states.get("test.test") is None
 
 
-async def test_get_hassjob_type(hass: __HAC_KEEP__) -> None:
+async def test_get_hassjob_type(hass: UniversalAssistant) -> None:
     """Test get_hassjob_type."""
 
     class AsyncEntity(entity.Entity):
@@ -3938,7 +3938,7 @@ async def test_get_hassjob_type(hass: __HAC_KEEP__) -> None:
     assert ent_1.get_hassjob_type("update_callback") is HassJobType.Callback
 
 
-async def test_async_write_ha_state_thread_safety(hass: __HAC_KEEP__) -> None:
+async def test_async_write_ha_state_thread_safety(hass: UniversalAssistant) -> None:
     """Test async_write_ha_state thread safety."""
     hass.config.debug = True
 
@@ -3960,7 +3960,7 @@ async def test_async_write_ha_state_thread_safety(hass: __HAC_KEEP__) -> None:
 
 
 async def test_async_write_ha_state_thread_safety_always(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test async_write_ha_state thread safe check."""
 
@@ -3985,7 +3985,7 @@ async def test_async_write_ha_state_thread_safety_always(
 
 
 async def test_platform_state(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test platform state."""
 
@@ -4027,7 +4027,7 @@ async def test_platform_state(
     assert hass.states.get("test.test") is None
 
 
-async def test_platform_state_no_platform(hass: __HAC_KEEP__) -> None:
+async def test_platform_state_no_platform(hass: UniversalAssistant) -> None:
     """Test platform state for entities which are not added by an entity platform."""
 
     class MockEntity(entity.Entity):
@@ -4063,7 +4063,7 @@ async def test_platform_state_no_platform(hass: __HAC_KEEP__) -> None:
 
 
 async def test_platform_state_fail_to_add(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test platform state when raising from async_added_to_hass.
 
@@ -4103,7 +4103,7 @@ async def test_platform_state_fail_to_add(
 
 
 async def test_platform_state_cancelled_during_add(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the entity is cleaned up if adding it is cancelled.
 
@@ -4148,7 +4148,7 @@ async def test_platform_state_cancelled_during_add(
 
 
 async def test_platform_state_fail_to_add_rollback_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -4190,7 +4190,7 @@ async def test_platform_state_fail_to_add_rollback_raises(
 
 
 async def test_async_prepare_to_add_to_hass_runs_before_registration(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test async_prepare_to_add_to_hass runs before registration and the state write.
 
@@ -4232,7 +4232,7 @@ async def test_async_prepare_to_add_to_hass_runs_before_registration(
 
 
 async def test_async_prepare_to_add_to_hass_runs_for_disabled_entity(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test async_prepare_to_add_to_hass runs even for a disabled, aborted entity."""
     events: list[str] = []
@@ -4268,7 +4268,7 @@ async def test_async_prepare_to_add_to_hass_runs_for_disabled_entity(
 
 
 async def test_async_prepare_to_add_to_hass_raising_aborts_add(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -4301,12 +4301,12 @@ async def test_async_prepare_to_add_to_hass_raising_aborts_add(
 
 
 async def test_platform_state_write_from_init(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test platform state when an entity attempts to write from init."""
 
     class MockEntity(entity.Entity):
-        def __init__(self, hass: __HAC_KEEP__) -> None:
+        def __init__(self, hass: UniversalAssistant) -> None:
             self.hass = hass
             # The attempt to write when in state NOT_ADDED is prevented because
             # the entity has no entity_id set
@@ -4329,7 +4329,7 @@ async def test_platform_state_write_from_init(
 
 
 async def test_platform_state_write_from_init_entity_id(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test platform state when an entity attempts to write from init.
 
@@ -4339,7 +4339,7 @@ async def test_platform_state_write_from_init_entity_id(
     """
 
     class MockEntity(entity.Entity):
-        def __init__(self, hass: __HAC_KEEP__) -> None:
+        def __init__(self, hass: UniversalAssistant) -> None:
             self.entity_id = "test.test"
             self.hass = hass
             # The attempt to write when in state NOT_ADDED is not prevented because
@@ -4370,7 +4370,7 @@ async def test_platform_state_write_from_init_entity_id(
 
 
 async def test_platform_state_write_from_init_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -4389,7 +4389,7 @@ async def test_platform_state_write_from_init_unique_id(
     class MockEntity(entity.Entity):
         _attr_unique_id = "5678"
 
-        def __init__(self, hass: __HAC_KEEP__) -> None:
+        def __init__(self, hass: UniversalAssistant) -> None:
             self.entity_id = "test.test"
             self.hass = hass
             # The attempt to write when in state NOT_ADDED is not prevented because

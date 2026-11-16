@@ -10,7 +10,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from spinev_ble import ChargerStatus
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 from .const import STATUS
@@ -27,7 +27,7 @@ from .const import STATUS
     ],
 )
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_charger: AsyncMock,

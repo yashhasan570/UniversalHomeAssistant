@@ -10,19 +10,19 @@ from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.components.frontend import DOMAIN
 from universalassistant.components.frontend.storage import async_user_store
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.storage import Store
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(autouse=True)
-async def setup_frontend(hass: __HAC_KEEP__) -> None:
+async def setup_frontend(hass: UniversalAssistant) -> None:
     """Fixture to setup the frontend."""
     await async_setup_component(hass, DOMAIN, {})
 
 
 async def test_get_user_data_empty(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test get_user_data command."""
     client = await hass_ws_client(hass)
@@ -37,7 +37,7 @@ async def test_get_user_data_empty(
 
 
 async def test_get_user_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
     hass_storage: dict[str, Any],
@@ -92,7 +92,7 @@ async def test_get_user_data(
     ],
 )
 async def test_set_user_data_empty(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     subscriptions: list[tuple[int, dict[str, str], Any]],
     events: list[tuple[int, Any]],
@@ -208,7 +208,7 @@ async def test_set_user_data_empty(
     ],
 )
 async def test_set_user_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
     hass_admin_user: MockUser,
@@ -307,7 +307,7 @@ async def test_set_user_data(
 
 
 async def test_get_system_data_empty(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test get_system_data command."""
     client = await hass_ws_client(hass)
@@ -322,7 +322,7 @@ async def test_get_system_data_empty(
 
 
 async def test_get_system_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -366,7 +366,7 @@ async def test_get_system_data(
     ],
 )
 async def test_set_system_data_empty(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     subscriptions: list[tuple[int, dict[str, str], Any]],
     events: list[tuple[int, Any]],
@@ -457,7 +457,7 @@ async def test_set_system_data_empty(
     ],
 )
 async def test_set_system_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
     subscriptions: list[tuple[int, dict[str, str], Any]],
@@ -555,7 +555,7 @@ async def test_set_system_data(
 
 
 async def test_set_system_data_requires_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
 ) -> None:
@@ -578,7 +578,7 @@ async def test_set_system_data_requires_admin(
 
 
 async def test_user_store_concurrent_access(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_admin_user: MockUser,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -615,7 +615,7 @@ async def test_user_store_concurrent_access(
 
 
 async def test_user_store_load_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_admin_user: MockUser,
 ) -> None:
     """Test that load errors are propagated and allow retry."""
@@ -637,7 +637,7 @@ async def test_user_store_load_error(
 
 
 async def test_user_store_concurrent_load_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_admin_user: MockUser,
 ) -> None:
     """Test that concurrent callers all receive the same error."""

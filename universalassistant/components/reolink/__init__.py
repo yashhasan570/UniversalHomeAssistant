@@ -1,4 +1,4 @@
-"""Reolink integration for __HAC_KEEP__."""
+"""Reolink integration for UniversalAssistant."""
 
 from collections.abc import Callable
 from datetime import timedelta
@@ -16,7 +16,7 @@ from reolink_aio.exceptions import (
 )
 
 from universalassistant.const import CONF_PORT, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -77,7 +77,7 @@ FIRMWARE_UPDATE_INTERVAL = timedelta(hours=24)
 CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up Reolink shared code."""
 
     async_setup_services(hass)
@@ -85,7 +85,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: ReolinkConfigEntry
+    hass: UniversalAssistant, config_entry: ReolinkConfigEntry
 ) -> None:
     """Set up Reolink from a config entry."""
     host = ReolinkHost(hass, config_entry.data, config_entry.options, config_entry)
@@ -310,7 +310,7 @@ async def async_setup_entry(
 async def register_callbacks(
     host: ReolinkHost,
     device_coordinator: ReolinkDeviceCoordinator,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Register update callbacks."""
 
@@ -356,7 +356,7 @@ async def register_callbacks(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: ReolinkConfigEntry
+    hass: UniversalAssistant, config_entry: ReolinkConfigEntry
 ) -> None:
     """Unload a config entry."""
     host: ReolinkHost = config_entry.runtime_data.host
@@ -377,7 +377,7 @@ async def async_unload_entry(
 
 
 async def async_remove_entry(
-    hass: __HAC_KEEP__, config_entry: ReolinkConfigEntry
+    hass: UniversalAssistant, config_entry: ReolinkConfigEntry
 ) -> None:
     """Handle removal of an entry."""
     store = get_store(hass, config_entry.entry_id)
@@ -385,7 +385,7 @@ async def async_remove_entry(
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, config_entry: ReolinkConfigEntry, device: dr.AnyDeviceEntry
+    hass: UniversalAssistant, config_entry: ReolinkConfigEntry, device: dr.AnyDeviceEntry
 ) -> bool:
     """Remove a device from a config entry."""
     if not isinstance(device, dr.DeviceEntry):
@@ -472,7 +472,7 @@ async def async_remove_config_entry_device(
 
 
 def migrate_entity_ids(
-    hass: __HAC_KEEP__, config_entry_id: str, host: ReolinkHost
+    hass: UniversalAssistant, config_entry_id: str, host: ReolinkHost
 ) -> None:
     """Migrate entity IDs if needed."""
     device_reg = dr.async_get(hass)

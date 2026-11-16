@@ -5,7 +5,7 @@ import pytest
 
 from universalassistant.components.qnap_qsw.const import ATTR_MAX, DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .util import async_init_integration, init_config_entry
@@ -13,7 +13,7 @@ from .util import async_init_integration, init_config_entry
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_qnap_qsw_create_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test creation of sensors."""
@@ -382,7 +382,7 @@ async def test_qnap_qsw_create_sensors(
 
 
 async def test_cleanup_deprecated_uptime_seconds(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test cleanup of the Uptime seconds sensor entity."""

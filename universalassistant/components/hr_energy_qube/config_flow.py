@@ -10,8 +10,8 @@ from universalassistant.components import zeroconf
 from universalassistant.components.modbus import async_get_temporary_unit
 from universalassistant.config_entries import SOURCE_IGNORE, ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.selector import TextSelector
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -20,7 +20,7 @@ from .const import DEFAULT_PORT, DOMAIN, MDNS_LOOKUP_TIMEOUT, UNIT_ID
 HOST_SCHEMA = probatio.Schema({probatio.Required(CONF_HOST): TextSelector()})
 
 
-async def _async_validate_device(hass: __HAC_KEEP__, host: str) -> str | None:
+async def _async_validate_device(hass: UniversalAssistant, host: str) -> str | None:
     """Verify the device is a Qube; return an error key on failure."""
     try:
         async with async_get_temporary_unit(
@@ -31,7 +31,7 @@ async def _async_validate_device(hass: __HAC_KEEP__, host: str) -> str | None:
                 return None
             # A failed request drops the link; an error reply leaves it up
             return "not_qube_device" if client.is_connected else "cannot_connect"
-    except __HAC_KEEP__Error:
+    except UniversalAssistantError:
         # The device is already in use over different link settings
         return "cannot_connect"
 

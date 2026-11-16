@@ -6,11 +6,11 @@ from unittest.mock import MagicMock
 from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.vera import SubscriptionRegistry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.dt import utcnow
 
 
-async def test_subscription_registry(hass: __HAC_KEEP__) -> None:
+async def test_subscription_registry(hass: UniversalAssistant) -> None:
     """Test subscription registry polling."""
     subscription_registry = SubscriptionRegistry(hass)
     subscription_registry.poll_server_once = poll_server_once_mock = MagicMock()

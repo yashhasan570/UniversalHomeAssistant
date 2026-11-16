@@ -11,14 +11,14 @@ from switchbot_api import Device, PowerState, Remote
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switchbot_cloud.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.core_config import async_process_ha_core_config
 
 from . import AIR_PURIFIER_INFO, configure_integration
 
 
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
     mock_list_devices: AsyncMock,
@@ -53,7 +53,7 @@ async def test_diagnostics(
     ],
 )
 async def test_diagnostics_webhook_registered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_list_devices: AsyncMock,
     mock_get_status: AsyncMock,

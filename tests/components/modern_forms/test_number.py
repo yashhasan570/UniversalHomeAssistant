@@ -13,8 +13,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -25,7 +25,7 @@ from . import (
 
 
 async def test_no_breeze_intensity_without_wind_support(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test the breeze intensity number isn't created for fans without wind support."""
@@ -35,7 +35,7 @@ async def test_no_breeze_intensity_without_wind_support(
 
 
 async def test_breeze_intensity_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -54,7 +54,7 @@ async def test_breeze_intensity_state(
 
 
 async def test_breeze_intensity_state_active(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test the breeze intensity number reads wind_speed from an active breeze."""
@@ -68,7 +68,7 @@ async def test_breeze_intensity_state_active(
 
 
 async def test_set_breeze_intensity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test setting the breeze intensity."""
@@ -91,7 +91,7 @@ async def test_set_breeze_intensity(
 
 
 async def test_set_breeze_intensity_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test error handling of the breeze intensity number."""
@@ -107,7 +107,7 @@ async def test_set_breeze_intensity_connection_error(
             "universalassistant.components.modern_forms.coordinator.ModernFormsDevice.fan",
             side_effect=ModernFormsConnectionError,
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             NUMBER_DOMAIN,

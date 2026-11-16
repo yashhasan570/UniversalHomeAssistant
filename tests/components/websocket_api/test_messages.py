@@ -10,11 +10,11 @@ from universalassistant.components.websocket_api.messages import (
     message_to_json_bytes,
 )
 from universalassistant.const import EVENT_STATE_CHANGED
-from universalassistant.core import Context, Event, __HAC_KEEP__, State, callback
+from universalassistant.core import Context, Event, UniversalAssistant, State, callback
 from universalassistant.util.json import json_loads
 
 
-async def test_cached_event_message(hass: __HAC_KEEP__) -> None:
+async def test_cached_event_message(hass: UniversalAssistant) -> None:
     """Test that we cache event messages."""
 
     events = []
@@ -52,7 +52,7 @@ async def test_cached_event_message(hass: __HAC_KEEP__) -> None:
     assert cache_info.currsize == 2
 
 
-async def test_cached_event_message_is_valid_json(hass: __HAC_KEEP__) -> None:
+async def test_cached_event_message_is_valid_json(hass: UniversalAssistant) -> None:
     """Test the cached event message is valid JSON with the id appended."""
     events = async_capture_events(hass, EVENT_STATE_CHANGED)
     hass.states.async_set("light.window", "on")
@@ -65,7 +65,7 @@ async def test_cached_event_message_is_valid_json(hass: __HAC_KEEP__) -> None:
     assert parsed["event"]["event_type"] == EVENT_STATE_CHANGED
 
 
-async def test_cached_event_message_with_different_idens(hass: __HAC_KEEP__) -> None:
+async def test_cached_event_message_with_different_idens(hass: UniversalAssistant) -> None:
     """Test that we cache event messages when the subscrition idens differ."""
 
     events = []
@@ -96,7 +96,7 @@ async def test_cached_event_message_with_different_idens(hass: __HAC_KEEP__) -> 
     assert cache_info.currsize == 1
 
 
-async def test_state_diff_event(hass: __HAC_KEEP__) -> None:
+async def test_state_diff_event(hass: UniversalAssistant) -> None:
     """Test building state_diff_message."""
     state_change_events = async_capture_events(hass, EVENT_STATE_CHANGED)
     context = Context(user_id="user-id", parent_id="parent-id", id="id")

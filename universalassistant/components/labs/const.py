@@ -1,4 +1,4 @@
-"""Constants for the __HA_KEEP__ Labs integration."""
+"""Constants for the Universal Home Assistant Labs integration."""
 
 from universalassistant.util.hass_dict import HassKey
 

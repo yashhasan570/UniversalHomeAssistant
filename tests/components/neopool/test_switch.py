@@ -32,15 +32,15 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 from .conftest import MOCK_POOL_DATA
 
 
-async def _turn_on(hass: __HAC_KEEP__, entity_id: str) -> None:
+async def _turn_on(hass: UniversalAssistant, entity_id: str) -> None:
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_ON,
@@ -49,7 +49,7 @@ async def _turn_on(hass: __HAC_KEEP__, entity_id: str) -> None:
     )
 
 
-async def _turn_off(hass: __HAC_KEEP__, entity_id: str) -> None:
+async def _turn_off(hass: UniversalAssistant, entity_id: str) -> None:
     await hass.services.async_call(
         SWITCH_DOMAIN,
         SwitchService.TURN_OFF,
@@ -59,7 +59,7 @@ async def _turn_off(hass: __HAC_KEEP__, entity_id: str) -> None:
 
 
 def _entity_id_by_suffix(
-    hass: __HAC_KEEP__, entry: MockConfigEntry, suffix: str
+    hass: UniversalAssistant, entry: MockConfigEntry, suffix: str
 ) -> str:
     """Resolve a switch entity_id by its unique_id suffix."""
     registry = er.async_get(hass)
@@ -73,7 +73,7 @@ def _entity_id_by_suffix(
 
 
 async def test_manual_filtration_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -93,7 +93,7 @@ async def test_manual_filtration_turn_on_off(
 
 
 async def test_manual_filtration_raises_when_not_manual_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -119,7 +119,7 @@ async def test_manual_filtration_raises_when_not_manual_mode(
 
 
 async def test_manual_filtration_raises_when_boost_active(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -144,7 +144,7 @@ async def test_manual_filtration_raises_when_boost_active(
 
 
 async def test_manual_filtration_is_on_reflects_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -174,7 +174,7 @@ async def test_manual_filtration_is_on_reflects_state(
 
 
 async def test_filtration_maps_filtration_reason_to_dedicated_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -206,7 +206,7 @@ async def test_filtration_maps_filtration_reason_to_dedicated_key(
     ids=lambda v: v.name if isinstance(v, BinaryConfigFlag) else v,
 )
 async def test_binary_flag_switch_writes_flag(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     suffix: str,
@@ -226,7 +226,7 @@ async def test_binary_flag_switch_writes_flag(
 
 
 async def test_hidro_cover_enable_bitmask_writes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_switch: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -250,7 +250,7 @@ async def test_hidro_cover_enable_bitmask_writes(
 
 
 async def test_hidro_bitmask_switches_reflect_options_bitfield(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_switch: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -279,7 +279,7 @@ async def test_hidro_bitmask_switches_reflect_options_bitfield(
 
 
 async def test_aux_relay_turn_on_off_writes_relay_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_switch: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -318,7 +318,7 @@ async def test_aux_relay_turn_on_off_writes_relay_state(
     ],
 )
 async def test_aux_relay_refuses_when_not_in_manual_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_switch: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -361,7 +361,7 @@ async def test_aux_relay_refuses_when_not_in_manual_mode(
 
 
 async def test_aux_relay_maps_lib_invalid_state_to_service_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_switch: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -387,22 +387,22 @@ async def test_aux_relay_maps_lib_invalid_state_to_service_validation(
     ],
 )
 async def test_aux_relay_maps_communication_error_to_universal_assistant_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_switch: MockConfigEntry,
     mock_neopool_client: MagicMock,
     write_error: Exception,
 ) -> None:
-    """Communication errors on write are surfaced as translated __HAC_KEEP__Error."""
+    """Communication errors on write are surfaced as translated UniversalAssistantError."""
     await setup_integration(hass, mock_config_entry_switch)
     entity_id = _entity_id_by_suffix(hass, mock_config_entry_switch, "_aux1")
 
     mock_neopool_client.async_set_relay_state.side_effect = write_error
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await _turn_on(hass, entity_id)
 
 
 async def test_backwash_turn_on_starts_and_reports_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -427,7 +427,7 @@ async def test_backwash_turn_on_starts_and_reports_on(
 
 
 async def test_backwash_turn_off_stops_and_reports_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -461,7 +461,7 @@ async def test_backwash_turn_off_stops_and_reports_off(
 
 
 async def test_backwash_turn_on_raises_when_interval_unset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -486,7 +486,7 @@ async def test_backwash_turn_on_raises_when_interval_unset(
 
 
 async def test_backwash_is_on_tracks_remaining_countdown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -515,7 +515,7 @@ async def test_backwash_is_on_tracks_remaining_countdown(
 
 
 async def test_backwash_maps_lib_invalid_state_to_service_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -534,7 +534,7 @@ async def test_backwash_maps_lib_invalid_state_to_service_validation(
 
 @pytest.mark.parametrize("service", [SERVICE_TURN_ON, SERVICE_TURN_OFF])
 async def test_backwash_raises_when_valve_in_auto(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     service: str,
@@ -559,7 +559,7 @@ async def test_backwash_raises_when_valve_in_auto(
 
 
 async def test_backwash_absent_without_filtvalve(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
@@ -583,7 +583,7 @@ async def test_backwash_absent_without_filtvalve(
 
 
 async def test_manual_filtration_absent_without_filt_gpio(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
@@ -608,7 +608,7 @@ async def test_manual_filtration_absent_without_filt_gpio(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_aux_and_cover_absent_when_options_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -629,7 +629,7 @@ async def test_aux_and_cover_absent_when_options_off(
 
 
 async def test_switch_write_schedules_follow_up_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -650,7 +650,7 @@ async def test_switch_write_schedules_follow_up_refresh(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry_switch: MockConfigEntry,

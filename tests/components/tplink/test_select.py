@@ -14,7 +14,7 @@ from universalassistant.components.tplink.const import DOMAIN
 from universalassistant.components.tplink.entity import EXCLUDED_FEATURES
 from universalassistant.components.tplink.select import SELECT_DESCRIPTIONS
 from universalassistant.const import CONF_HOST, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import (
@@ -43,7 +43,7 @@ def mocked_feature_select() -> Feature:
 
 
 async def test_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -64,7 +64,7 @@ async def test_states(
 
 
 async def test_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mocked_feature_select: Feature,
 ) -> None:
@@ -88,7 +88,7 @@ async def test_select(
 
 
 async def test_select_children(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mocked_feature_select: Feature,
@@ -125,7 +125,7 @@ async def test_select_children(
 
 
 async def test_select_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mocked_feature_select: Feature,
 ) -> None:

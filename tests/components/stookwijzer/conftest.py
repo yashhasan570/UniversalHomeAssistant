@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.stookwijzer.const import DOMAIN
 from universalassistant.components.stookwijzer.services import Forecast
 from universalassistant.const import CONF_LATITUDE, CONF_LOCATION, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -108,7 +108,7 @@ def mock_stookwijzer() -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_stookwijzer: MagicMock,
 ) -> MockConfigEntry:

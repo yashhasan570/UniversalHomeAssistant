@@ -14,7 +14,7 @@ from universalassistant.components.media_player import (
     RepeatMode,
 )
 from universalassistant.const import DEVICE_DEFAULT_NAME
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import (
@@ -43,7 +43,7 @@ REPEAT_MODE_MAPPING_TO_ROON = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: RoonConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

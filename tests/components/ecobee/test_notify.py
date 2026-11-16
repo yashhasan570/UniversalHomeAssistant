@@ -6,7 +6,7 @@ from universalassistant.components.notify import (
     DOMAIN as NOTIFY_DOMAIN,
     SERVICE_SEND_MESSAGE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .common import setup_platform
 
@@ -14,7 +14,7 @@ THERMOSTAT_ID = 0
 
 
 async def test_notify_entity_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ecobee: MagicMock,
 ) -> None:
     """Test the notify entity service."""

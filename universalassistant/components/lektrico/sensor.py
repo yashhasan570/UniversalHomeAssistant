@@ -22,7 +22,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfTime,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import IntegrationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
@@ -279,7 +279,7 @@ SENSORS_FOR_LB_3_PHASE: tuple[LektricoSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: LektricoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

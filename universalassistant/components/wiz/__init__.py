@@ -6,7 +6,7 @@ from typing import Any
 from pywizlight import PilotParser, wizlight
 
 from universalassistant.const import CONF_HOST, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -38,7 +38,7 @@ PLATFORMS = [
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, hass_config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, hass_config: ConfigType) -> bool:
     """Set up the wiz integration."""
 
     async def _async_discovery(*_: Any) -> None:
@@ -53,12 +53,12 @@ async def async_setup(hass: __HAC_KEEP__, hass_config: ConfigType) -> bool:
     return True
 
 
-async def _async_update_listener(hass: __HAC_KEEP__, entry: WizConfigEntry) -> None:
+async def _async_update_listener(hass: UniversalAssistant, entry: WizConfigEntry) -> None:
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: WizConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: WizConfigEntry) -> None:
     """Set up the wiz integration from a config entry."""
     ip_address = entry.data[CONF_HOST]
     _LOGGER.debug("Get bulb with IP: %s", ip_address)
@@ -122,7 +122,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: WizConfigEntry) -> None:
     entry.async_on_unload(entry.add_update_listener(_async_update_listener))
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: WizConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: WizConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await entry.runtime_data.bulb.async_close()

@@ -4,14 +4,14 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_MAC, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONF_USE_BLUETOOTH, TO_REDACT
 from .coordinator import LaMarzoccoConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: LaMarzoccoConfigEntry,
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""

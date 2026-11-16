@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 
 import probatio
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.os_error import os_write_error
@@ -62,7 +62,7 @@ async def _async_handle_snapshot_service(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the image services."""
     hass.data[DATA_COMPONENT].async_register_entity_service(
         ImageService.SNAPSHOT, IMAGE_SERVICE_SNAPSHOT, _async_handle_snapshot_service

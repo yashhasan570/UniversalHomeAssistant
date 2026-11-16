@@ -8,7 +8,7 @@ from yarl import URL
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.components.webhook import async_generate_url as webhook_generate_url
 from universalassistant.const import CONF_WEBHOOK_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import CONF_CLOUDHOOK_URL, WithingsConfigEntry
 
@@ -19,7 +19,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: WithingsConfigEntry
+    hass: UniversalAssistant, entry: WithingsConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
 

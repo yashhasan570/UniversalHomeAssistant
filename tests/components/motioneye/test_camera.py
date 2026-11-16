@@ -48,8 +48,8 @@ from universalassistant.components.motioneye.services import (
     MotionEyeServiceArgument,
 )
 from universalassistant.const import ATTR_DEVICE_ID, ATTR_ENTITY_ID, CONF_URL
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 from universalassistant.util.aiohttp import MockRequest
@@ -78,7 +78,7 @@ def aiohttp_server(
     return aiohttp_server
 
 
-async def test_setup_camera(hass: __HAC_KEEP__) -> None:
+async def test_setup_camera(hass: UniversalAssistant) -> None:
     """Test a basic camera."""
     client = create_mock_motioneye_client()
     await setup_mock_motioneye_config_entry(hass, client=client)
@@ -89,7 +89,7 @@ async def test_setup_camera(hass: __HAC_KEEP__) -> None:
     assert entity_state.attributes.get("friendly_name") == TEST_CAMERA_NAME
 
 
-async def test_setup_camera_auth_fail(hass: __HAC_KEEP__) -> None:
+async def test_setup_camera_auth_fail(hass: UniversalAssistant) -> None:
     """Test a successful camera."""
     client = create_mock_motioneye_client()
     client.async_client_login = AsyncMock(side_effect=MotionEyeClientInvalidAuthError)
@@ -97,7 +97,7 @@ async def test_setup_camera_auth_fail(hass: __HAC_KEEP__) -> None:
     assert not hass.states.get(TEST_CAMERA_ENTITY_ID)
 
 
-async def test_setup_camera_client_error(hass: __HAC_KEEP__) -> None:
+async def test_setup_camera_client_error(hass: UniversalAssistant) -> None:
     """Test a successful camera."""
     client = create_mock_motioneye_client()
     client.async_client_login = AsyncMock(side_effect=MotionEyeClientError)
@@ -105,7 +105,7 @@ async def test_setup_camera_client_error(hass: __HAC_KEEP__) -> None:
     assert not hass.states.get(TEST_CAMERA_ENTITY_ID)
 
 
-async def test_setup_camera_empty_data(hass: __HAC_KEEP__) -> None:
+async def test_setup_camera_empty_data(hass: UniversalAssistant) -> None:
     """Test a successful camera."""
     client = create_mock_motioneye_client()
     client.async_get_cameras = AsyncMock(return_value={})
@@ -113,7 +113,7 @@ async def test_setup_camera_empty_data(hass: __HAC_KEEP__) -> None:
     assert not hass.states.get(TEST_CAMERA_ENTITY_ID)
 
 
-async def test_setup_camera_bad_data(hass: __HAC_KEEP__) -> None:
+async def test_setup_camera_bad_data(hass: UniversalAssistant) -> None:
     """Test bad camera data."""
     client = create_mock_motioneye_client()
     cameras = copy.deepcopy(TEST_CAMERAS)
@@ -124,7 +124,7 @@ async def test_setup_camera_bad_data(hass: __HAC_KEEP__) -> None:
     assert not hass.states.get(TEST_CAMERA_ENTITY_ID)
 
 
-async def test_setup_camera_without_streaming(hass: __HAC_KEEP__) -> None:
+async def test_setup_camera_without_streaming(hass: UniversalAssistant) -> None:
     """Test a camera without streaming enabled."""
     client = create_mock_motioneye_client()
     cameras = copy.deepcopy(TEST_CAMERAS)
@@ -137,7 +137,7 @@ async def test_setup_camera_without_streaming(hass: __HAC_KEEP__) -> None:
     assert entity_state.state == "unavailable"
 
 
-async def test_setup_camera_new_data_same(hass: __HAC_KEEP__) -> None:
+async def test_setup_camera_new_data_same(hass: UniversalAssistant) -> None:
     """Test a data refresh with the same data."""
     client = create_mock_motioneye_client()
     await setup_mock_motioneye_config_entry(hass, client=client)
@@ -147,7 +147,7 @@ async def test_setup_camera_new_data_same(hass: __HAC_KEEP__) -> None:
 
 
 async def test_setup_camera_new_data_camera_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -192,7 +192,7 @@ async def test_setup_camera_new_data_camera_removed(
     )
 
 
-async def test_setup_camera_new_data_error(hass: __HAC_KEEP__) -> None:
+async def test_setup_camera_new_data_error(hass: UniversalAssistant) -> None:
     """Test a data refresh that fails."""
     client = create_mock_motioneye_client()
     await setup_mock_motioneye_config_entry(hass, client=client)
@@ -205,7 +205,7 @@ async def test_setup_camera_new_data_error(hass: __HAC_KEEP__) -> None:
     assert entity_state.state == "unavailable"
 
 
-async def test_setup_camera_new_data_without_streaming(hass: __HAC_KEEP__) -> None:
+async def test_setup_camera_new_data_without_streaming(hass: UniversalAssistant) -> None:
     """Test a data refresh without streaming."""
     client = create_mock_motioneye_client()
     await setup_mock_motioneye_config_entry(hass, client=client)
@@ -223,7 +223,7 @@ async def test_setup_camera_new_data_without_streaming(hass: __HAC_KEEP__) -> No
     assert entity_state.state == "unavailable"
 
 
-async def test_unload_camera(hass: __HAC_KEEP__) -> None:
+async def test_unload_camera(hass: UniversalAssistant) -> None:
     """Test unloading camera."""
     client = create_mock_motioneye_client()
     entry = await setup_mock_motioneye_config_entry(hass, client=client)
@@ -233,7 +233,7 @@ async def test_unload_camera(hass: __HAC_KEEP__) -> None:
     assert client.async_client_close.called
 
 
-async def test_get_still_image_from_camera(hass: __HAC_KEEP__) -> None:
+async def test_get_still_image_from_camera(hass: UniversalAssistant) -> None:
     """Test getting a still image."""
 
     client = create_mock_motioneye_client()
@@ -246,20 +246,20 @@ async def test_get_still_image_from_camera(hass: __HAC_KEEP__) -> None:
     client.async_get_camera_snapshot.assert_awaited_once_with(TEST_CAMERA_ID)
 
 
-async def test_get_still_image_client_error(hass: __HAC_KEEP__) -> None:
+async def test_get_still_image_client_error(hass: UniversalAssistant) -> None:
     """Test handling a client error while getting a still image."""
     client = create_mock_motioneye_client()
     client.async_get_camera_snapshot = AsyncMock(side_effect=MotionEyeClientError)
     await setup_mock_motioneye_config_entry(hass, client=client)
     await hass.async_block_till_done()
 
-    with pytest.raises(__HAC_KEEP__Error, match="Unable to get camera snapshot"):
+    with pytest.raises(UniversalAssistantError, match="Unable to get camera snapshot"):
         await async_get_image(hass, TEST_CAMERA_ENTITY_ID, timeout=1)
 
     client.async_get_camera_snapshot.assert_awaited_once_with(TEST_CAMERA_ID)
 
 
-async def test_get_still_image_without_camera(hass: __HAC_KEEP__) -> None:
+async def test_get_still_image_without_camera(hass: UniversalAssistant) -> None:
     """Test getting a still image when camera data is unavailable."""
     client = create_mock_motioneye_client()
     await setup_mock_motioneye_config_entry(hass, client=client)
@@ -274,7 +274,7 @@ async def test_get_still_image_without_camera(hass: __HAC_KEEP__) -> None:
 
 
 async def test_get_stream_from_camera(
-    aiohttp_server: Callable[[], TestServer], hass: __HAC_KEEP__
+    aiohttp_server: Callable[[], TestServer], hass: UniversalAssistant
 ) -> None:
     """Test getting a stream."""
     authorization = None
@@ -315,7 +315,7 @@ async def test_get_stream_from_camera(
 
 
 async def test_get_stream_from_camera_falls_back_to_surveillance_credentials(
-    aiohttp_server: Callable[[], TestServer], hass: __HAC_KEEP__
+    aiohttp_server: Callable[[], TestServer], hass: UniversalAssistant
 ) -> None:
     """Test stream auth falls back to global surveillance credentials."""
     authorization = None
@@ -358,7 +358,7 @@ async def test_get_stream_from_camera_falls_back_to_surveillance_credentials(
 
 
 async def test_stream_auth_header_cleared_when_auth_disabled(
-    aiohttp_server: Callable[[], TestServer], hass: __HAC_KEEP__
+    aiohttp_server: Callable[[], TestServer], hass: UniversalAssistant
 ) -> None:
     """Test stale Basic auth header is cleared when stream auth is disabled."""
     authorizations: list[str | None] = []
@@ -407,7 +407,7 @@ async def test_stream_auth_header_cleared_when_auth_disabled(
     assert authorizations == ["Basic dXNlcjpwYXNzd29yZA==", None]
 
 
-async def test_state_attributes(hass: __HAC_KEEP__) -> None:
+async def test_state_attributes(hass: UniversalAssistant) -> None:
     """Test state attributes are set correctly."""
     client = create_mock_motioneye_client()
     await setup_mock_motioneye_config_entry(hass, client=client)
@@ -429,7 +429,7 @@ async def test_state_attributes(hass: __HAC_KEEP__) -> None:
 
 
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -456,7 +456,7 @@ async def test_device_info(
 
 
 async def test_camera_option_stream_url_template(
-    aiohttp_server: Callable[[], TestServer], hass: __HAC_KEEP__
+    aiohttp_server: Callable[[], TestServer], hass: UniversalAssistant
 ) -> None:
     """Verify camera with a stream URL template option."""
     client = create_mock_motioneye_client()
@@ -494,7 +494,7 @@ async def test_camera_option_stream_url_template(
 
 
 async def test_get_stream_from_camera_with_broken_host(
-    aiohttp_server: Callable[[], TestServer], hass: __HAC_KEEP__
+    aiohttp_server: Callable[[], TestServer], hass: UniversalAssistant
 ) -> None:
     """Test getting a stream with a broken URL (no host)."""
 
@@ -510,7 +510,7 @@ async def test_get_stream_from_camera_with_broken_host(
         await async_get_mjpeg_stream(hass, Mock(), TEST_CAMERA_ENTITY_ID)
 
 
-async def test_set_text_overlay_bad_extra_key(hass: __HAC_KEEP__) -> None:
+async def test_set_text_overlay_bad_extra_key(hass: UniversalAssistant) -> None:
     """Test text overlay with incorrect input data."""
     client = create_mock_motioneye_client()
     await setup_mock_motioneye_config_entry(hass, client=client)
@@ -520,7 +520,7 @@ async def test_set_text_overlay_bad_extra_key(hass: __HAC_KEEP__) -> None:
         await hass.services.async_call(DOMAIN, MotionEyeService.SET_TEXT_OVERLAY, data)
 
 
-async def test_set_text_overlay_bad_entity_identifier(hass: __HAC_KEEP__) -> None:
+async def test_set_text_overlay_bad_entity_identifier(hass: UniversalAssistant) -> None:
     """Test text overlay with bad entity identifier."""
     client = create_mock_motioneye_client()
     await setup_mock_motioneye_config_entry(hass, client=client)
@@ -535,7 +535,7 @@ async def test_set_text_overlay_bad_entity_identifier(hass: __HAC_KEEP__) -> Non
         await hass.services.async_call(DOMAIN, MotionEyeService.SET_TEXT_OVERLAY, data)
 
 
-async def test_set_text_overlay_bad_empty(hass: __HAC_KEEP__) -> None:
+async def test_set_text_overlay_bad_empty(hass: UniversalAssistant) -> None:
     """Test text overlay with incorrect input data."""
     client = create_mock_motioneye_client()
     await setup_mock_motioneye_config_entry(hass, client=client)
@@ -543,7 +543,7 @@ async def test_set_text_overlay_bad_empty(hass: __HAC_KEEP__) -> None:
         await hass.services.async_call(DOMAIN, MotionEyeService.SET_TEXT_OVERLAY, {})
 
 
-async def test_set_text_overlay_bad_no_left_or_right(hass: __HAC_KEEP__) -> None:
+async def test_set_text_overlay_bad_no_left_or_right(hass: UniversalAssistant) -> None:
     """Test text overlay with incorrect input data."""
     client = create_mock_motioneye_client()
     await setup_mock_motioneye_config_entry(hass, client=client)
@@ -553,7 +553,7 @@ async def test_set_text_overlay_bad_no_left_or_right(hass: __HAC_KEEP__) -> None
         await hass.services.async_call(DOMAIN, MotionEyeService.SET_TEXT_OVERLAY, data)
 
 
-async def test_set_text_overlay_good(hass: __HAC_KEEP__) -> None:
+async def test_set_text_overlay_good(hass: UniversalAssistant) -> None:
     """Test a working text overlay."""
     client = create_mock_motioneye_client()
     await setup_mock_motioneye_config_entry(hass, client=client)
@@ -581,7 +581,7 @@ async def test_set_text_overlay_good(hass: __HAC_KEEP__) -> None:
     assert client.async_set_camera.call_args == call(TEST_CAMERA_ID, expected_camera)
 
 
-async def test_set_text_overlay_good_entity_id(hass: __HAC_KEEP__) -> None:
+async def test_set_text_overlay_good_entity_id(hass: UniversalAssistant) -> None:
     """Test a working text overlay with entity_id."""
     client = create_mock_motioneye_client()
     await setup_mock_motioneye_config_entry(hass, client=client)
@@ -600,7 +600,7 @@ async def test_set_text_overlay_good_entity_id(hass: __HAC_KEEP__) -> None:
     assert client.async_set_camera.call_args == call(TEST_CAMERA_ID, expected_camera)
 
 
-async def test_set_text_overlay_bad_device(hass: __HAC_KEEP__) -> None:
+async def test_set_text_overlay_bad_device(hass: UniversalAssistant) -> None:
     """Test a working text overlay."""
     client = create_mock_motioneye_client()
     await setup_mock_motioneye_config_entry(hass, client=client)
@@ -617,7 +617,7 @@ async def test_set_text_overlay_bad_device(hass: __HAC_KEEP__) -> None:
     assert not client.async_set_camera.called
 
 
-async def test_set_text_overlay_no_such_camera(hass: __HAC_KEEP__) -> None:
+async def test_set_text_overlay_no_such_camera(hass: UniversalAssistant) -> None:
     """Test a working text overlay."""
     client = create_mock_motioneye_client()
     await setup_mock_motioneye_config_entry(hass, client=client)
@@ -633,7 +633,7 @@ async def test_set_text_overlay_no_such_camera(hass: __HAC_KEEP__) -> None:
     assert not client.async_set_camera.called
 
 
-async def test_request_action(hass: __HAC_KEEP__) -> None:
+async def test_request_action(hass: UniversalAssistant) -> None:
     """Test requesting an action."""
     client = create_mock_motioneye_client()
     await setup_mock_motioneye_config_entry(hass, client=client)
@@ -649,7 +649,7 @@ async def test_request_action(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_request_snapshot(hass: __HAC_KEEP__) -> None:
+async def test_request_snapshot(hass: UniversalAssistant) -> None:
     """Test requesting a snapshot."""
     client = create_mock_motioneye_client()
     await setup_mock_motioneye_config_entry(hass, client=client)

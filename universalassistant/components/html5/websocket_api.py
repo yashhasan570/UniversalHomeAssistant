@@ -5,7 +5,7 @@ from typing import Any
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.service import async_get_config_entry
 
 from .const import ATTR_VAPID_PUB_KEY, DOMAIN
@@ -14,7 +14,7 @@ WS_TYPE_APPKEY = "notify/html5/appkey"
 
 
 @callback
-def async_register_websocket_api(hass: __HAC_KEEP__) -> None:
+def async_register_websocket_api(hass: UniversalAssistant) -> None:
     """Register the websocket API."""
 
     websocket_api.async_register_command(hass, websocket_appkey)
@@ -27,7 +27,7 @@ def async_register_websocket_api(hass: __HAC_KEEP__) -> None:
 )
 @websocket_api.async_response
 async def websocket_appkey(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

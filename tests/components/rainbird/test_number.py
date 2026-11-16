@@ -13,8 +13,8 @@ from universalassistant.components import number
 from universalassistant.components.rainbird import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import (
@@ -36,7 +36,7 @@ def platforms() -> list[str]:
 
 @pytest.fixture(autouse=True)
 async def setup_config_entry(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> list[Platform]:
     """Fixture to setup the config entry."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -48,7 +48,7 @@ async def setup_config_entry(
     [(RAIN_DELAY, "16"), (RAIN_DELAY_OFF, "0")],
 )
 async def test_number_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_state: str,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_number_values(
 
 
 async def test_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     aioclient_mock: AiohttpClientMocker,
     responses: list[str],
@@ -115,7 +115,7 @@ async def test_set_value(
     ],
 )
 async def test_set_value_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     responses: list[str],
     status: HTTPStatus,
@@ -126,7 +126,7 @@ async def test_set_value_error(
     aioclient_mock.mock_calls.clear()
     responses.append(mock_response_error(status=status))
 
-    with pytest.raises(__HAC_KEEP__Error, match=expected_msg):
+    with pytest.raises(UniversalAssistantError, match=expected_msg):
         await hass.services.async_call(
             number.DOMAIN,
             number.SERVICE_SET_VALUE,
@@ -147,7 +147,7 @@ async def test_set_value_error(
     ],
 )
 async def test_no_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     responses: list[AiohttpClientMockResponse],
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,

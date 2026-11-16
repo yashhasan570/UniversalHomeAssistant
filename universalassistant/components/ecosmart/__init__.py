@@ -8,7 +8,7 @@ from aioecosmart import (
 )
 
 from universalassistant.const import CONF_API_KEY, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -23,13 +23,13 @@ PLATFORMS: list[Platform] = [Platform.SENSOR]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the ecosmart service actions."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: EcosmartConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: EcosmartConfigEntry) -> None:
     """Set up ecosmart from a config entry."""
     client = EcosmartClient(entry.data[CONF_API_KEY], async_get_clientsession(hass))
 
@@ -66,6 +66,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: EcosmartConfigEntry) -> N
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: EcosmartConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: EcosmartConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

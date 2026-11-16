@@ -6,7 +6,7 @@ from typing import Any, TypedDict, final, override
 from universalassistant.components.camera import async_get_image
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_NAME
 from universalassistant.core import callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity import Entity, EntityDescription
 
 from .const import (
@@ -101,7 +101,7 @@ class ImageProcessingEntity(Entity):
             image = await async_get_image(
                 self.hass, self.camera_entity, timeout=self.timeout
             )
-        except __HAC_KEEP__Error as err:
+        except UniversalAssistantError as err:
             _LOGGER.error("Error on receive image from entity: %s", err)
             return
 

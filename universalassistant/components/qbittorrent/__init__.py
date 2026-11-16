@@ -11,7 +11,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -30,7 +30,7 @@ PLATFORMS = [Platform.SENSOR, Platform.SWITCH]
 CONF_ENTRY = "entry"
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up qBittorrent services."""
 
     async_setup_services(hass)
@@ -39,7 +39,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: QBittorrentConfigEntry
+    hass: UniversalAssistant, config_entry: QBittorrentConfigEntry
 ) -> None:
     """Set up qBittorrent from a config entry."""
 
@@ -67,7 +67,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: QBittorrentConfigEntry
+    hass: UniversalAssistant, config_entry: QBittorrentConfigEntry
 ) -> None:
     """Unload qBittorrent config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)

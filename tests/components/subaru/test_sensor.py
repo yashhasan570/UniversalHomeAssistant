@@ -15,7 +15,7 @@ from universalassistant.components.subaru.sensor import (
     SAFETY_SENSORS,
 )
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .api_responses import (
@@ -32,12 +32,12 @@ from .conftest import (
 )
 
 
-async def test_sensors_ev_metric(hass: __HAC_KEEP__, ev_entry) -> None:
+async def test_sensors_ev_metric(hass: UniversalAssistant, ev_entry) -> None:
     """Test sensors supporting metric units."""
     _assert_data(hass, EXPECTED_STATE_EV_METRIC)
 
 
-async def test_sensors_missing_vin_data(hass: __HAC_KEEP__, ev_entry) -> None:
+async def test_sensors_missing_vin_data(hass: UniversalAssistant, ev_entry) -> None:
     """Test for missing VIN dataset."""
     with patch(MOCK_API_FETCH), patch(MOCK_API_GET_DATA, return_value=None):
         advance_time_to_next_fetch(hass)
@@ -46,7 +46,7 @@ async def test_sensors_missing_vin_data(hass: __HAC_KEEP__, ev_entry) -> None:
     _assert_data(hass, EXPECTED_STATE_EV_UNAVAILABLE)
 
 
-def _assert_data(hass: __HAC_KEEP__, expected_state: dict[str, Any]) -> None:
+def _assert_data(hass: UniversalAssistant, expected_state: dict[str, Any]) -> None:
     sensor_list = EV_SENSORS
     sensor_list.extend(API_GEN_2_SENSORS)
     sensor_list.extend(SAFETY_SENSORS)
@@ -69,7 +69,7 @@ def _assert_data(hass: __HAC_KEEP__, expected_state: dict[str, Any]) -> None:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "ev_entry")
 async def test_recommended_tire_pressure_from_vehicle_health(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Recommended tire pressure sensors derive their value from vehicle_health.
@@ -101,7 +101,7 @@ async def test_recommended_tire_pressure_from_vehicle_health(
 
 
 async def test_avg_fuel_consumption_zero_metric(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     subaru_config_entry: MockConfigEntry,
 ) -> None:
     """AVG_FUEL_CONSUMPTION of 0 returns 0 verbatim instead of dividing by zero.
@@ -122,7 +122,7 @@ async def test_avg_fuel_consumption_zero_metric(
 
 
 async def test_enum_unmapped_value_reports_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     subaru_config_entry: MockConfigEntry,
 ) -> None:
     """Unmapped ENUM values report as `unknown`.

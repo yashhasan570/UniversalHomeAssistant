@@ -41,10 +41,10 @@
         "data_description": {
           "host": "The hostname or IP address of the Android TV device."
         },
-        "description": "Enter the IP address of the Android TV you want to add to __HA_KEEP__. It will turn on and a pairing code will be displayed on it that you will need to enter in the next screen."
+        "description": "Enter the IP address of the Android TV you want to add to Universal Home Assistant. It will turn on and a pairing code will be displayed on it that you will need to enter in the next screen."
       },
       "zeroconf_confirm": {
-        "description": "Do you want to add the Android TV ({name}) to __HA_KEEP__? It will turn on and a pairing code will be displayed on it that you will need to enter in the next screen.",
+        "description": "Do you want to add the Android TV ({name}) to Universal Home Assistant? It will turn on and a pairing code will be displayed on it that you will need to enter in the next screen.",
         "title": "Discovered Android TV"
       }
     }
@@ -79,7 +79,7 @@
           "app_delete": "Check this box to delete the application from the list.",
           "app_icon": "Image URL. From the Play Store app page, right click on the icon and select 'Copy image address' and then paste it here. Alternatively, download the image, upload it under /config/www/ and use the URL /local/filename",
           "app_id": "E.g. {example_app_id} for {example_app_play_store_url}",
-          "app_name": "Name of the application as you would like it to be displayed in __HA_KEEP__."
+          "app_name": "Name of the application as you would like it to be displayed in Universal Home Assistant."
         },
         "description": "Configure application ID {app_id}",
         "title": "Configure Android apps"

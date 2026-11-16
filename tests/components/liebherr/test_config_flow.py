@@ -13,7 +13,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.liebherr.const import DOMAIN
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -32,7 +32,7 @@ MOCK_ZEROCONF_SERVICE_INFO = ZeroconfServiceInfo(
 
 
 async def test_form(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_liebherr_client: MagicMock,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_form(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_errors_with_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_liebherr_client: MagicMock,
     side_effect: Exception,
     expected_error: str,
@@ -94,7 +94,7 @@ async def test_form_errors_with_recovery(
 
 
 async def test_form_no_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_liebherr_client: MagicMock,
 ) -> None:
     """Test we handle no devices found."""
@@ -112,7 +112,7 @@ async def test_form_no_devices(
 
 
 async def test_form_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_liebherr_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -133,7 +133,7 @@ async def test_form_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_discovery(
-    hass: __HAC_KEEP__, mock_liebherr_client: MagicMock
+    hass: UniversalAssistant, mock_liebherr_client: MagicMock
 ) -> None:
     """Test zeroconf discovery triggers the config flow."""
     result = await hass.config_entries.flow.async_init(
@@ -153,7 +153,7 @@ async def test_zeroconf_discovery(
 
 
 async def test_zeroconf_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test zeroconf discovery aborts if already configured."""
@@ -170,7 +170,7 @@ async def test_zeroconf_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_liebherr_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -200,7 +200,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors_with_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_liebherr_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,

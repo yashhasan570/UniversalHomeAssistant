@@ -12,7 +12,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.alpha_bidet_infrared.const import DOMAIN
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import MOCK_INFRARED_EMITTER_ENTITY_ID
@@ -26,7 +26,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -63,7 +63,7 @@ async def test_entities(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_button_press_sends_correct_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     entity_id: str,
     expected_code: AlphaBidetJX2Code,
@@ -82,7 +82,7 @@ async def test_button_press_sends_correct_code(
 
 
 @pytest.mark.usefixtures("init_integration")
-async def test_button_availability_follows_ir_entity(hass: __HAC_KEEP__) -> None:
+async def test_button_availability_follows_ir_entity(hass: UniversalAssistant) -> None:
     """Test a button becomes unavailable when the IR entity is unavailable."""
     await assert_availability_follows_source_entity(
         hass, "button.alpha_bidet_jx2_stop", [MOCK_INFRARED_EMITTER_ENTITY_ID]

@@ -10,7 +10,7 @@ from universalassistant.components import conversation
 from universalassistant.components.conversation import DOMAIN, async_get_agent, default_agent
 from universalassistant.components.shopping_list import intent as sl_intent
 from universalassistant.const import MATCH_ALL
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import MockAgent
@@ -25,7 +25,7 @@ def mock_ulid() -> Generator[Mock]:
 
 
 @pytest.fixture
-def mock_agent_support_all(hass: __HAC_KEEP__) -> MockAgent:
+def mock_agent_support_all(hass: UniversalAssistant) -> MockAgent:
     """Mock agent that supports all languages."""
     entry = MockConfigEntry(entry_id="mock-entry-support-all")
     entry.add_to_hass(hass)
@@ -35,7 +35,7 @@ def mock_agent_support_all(hass: __HAC_KEEP__) -> MockAgent:
 
 
 @pytest.fixture
-def mock_conversation_input(hass: __HAC_KEEP__) -> conversation.ConversationInput:
+def mock_conversation_input(hass: UniversalAssistant) -> conversation.ConversationInput:
     """Return a conversation input instance."""
     return conversation.ConversationInput(
         text="Hello",
@@ -59,7 +59,7 @@ def mock_shopping_list_io():
 
 
 @pytest.fixture
-async def sl_setup(hass: __HAC_KEEP__):
+async def sl_setup(hass: UniversalAssistant):
     """Set up the shopping list."""
 
     entry = MockConfigEntry(domain="shopping_list")
@@ -71,7 +71,7 @@ async def sl_setup(hass: __HAC_KEEP__):
 
 
 @pytest.fixture
-async def init_components(hass: __HAC_KEEP__):
+async def init_components(hass: UniversalAssistant):
     """Initialize relevant components with empty configs."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, DOMAIN, {conversation.DOMAIN: {}})

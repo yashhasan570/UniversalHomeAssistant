@@ -20,7 +20,7 @@ from universalassistant.components.youtube.const import (
     SUBENTRY_TYPE_CHANNEL,
 )
 from universalassistant.config_entries import ConfigSubentryData
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import MockYouTube
@@ -63,7 +63,7 @@ def mock_scopes() -> list[str]:
 
 
 @pytest.fixture(autouse=True)
-async def setup_credentials(hass: __HAC_KEEP__) -> None:
+async def setup_credentials(hass: UniversalAssistant) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(
@@ -82,7 +82,7 @@ def mock_expires_at() -> int:
 
 @pytest.fixture(name="config_entry")
 def mock_config_entry(expires_at: int, scopes: list[str]) -> MockConfigEntry:
-    """Create YouTube entry in __HA_KEEP__."""
+    """Create YouTube entry in Universal Home Assistant."""
     return MockConfigEntry(
         domain=DOMAIN,
         title=TITLE,
@@ -117,7 +117,7 @@ def mock_connection(aioclient_mock: AiohttpClientMocker) -> None:
 
 @pytest.fixture(name="setup_integration")
 async def mock_setup_integration(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> Callable[[], Coroutine[Any, Any, MockYouTube]]:
     """Fixture for setting up the component."""
     config_entry.add_to_hass(hass)

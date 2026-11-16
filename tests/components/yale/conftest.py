@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_fixture
 from yalexs.manager.ratelimit import _RateLimitChecker
 
 from universalassistant.components.yale.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .mocks import mock_client_credentials, mock_config_entry
 
@@ -53,7 +53,7 @@ def load_reauth_jwt_wrong_account_fixture() -> str:
 
 
 @pytest.fixture(name="client_credentials", autouse=True)
-async def mock_client_credentials_fixture(hass: __HAC_KEEP__) -> None:
+async def mock_client_credentials_fixture(hass: UniversalAssistant) -> None:
     """Mock client credentials."""
     await mock_client_credentials(hass)
 

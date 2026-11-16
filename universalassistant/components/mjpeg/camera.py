@@ -20,8 +20,8 @@ from universalassistant.const import (
     HTTP_BASIC_AUTHENTICATION,
     HTTP_DIGEST_AUTHENTICATION,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.aiohttp_client import (
     async_aiohttp_proxy_web,
     async_get_clientsession,
@@ -37,7 +37,7 @@ BUFFER_SIZE = 102400
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -157,14 +157,14 @@ class MjpegCamera(Camera):
                 return await response.read()
 
         except TimeoutError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="timeout_getting_image",
                 translation_placeholders={"name": str(self.name)},
             ) from err
 
         except aiohttp.ClientError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="error_getting_image",
                 translation_placeholders={"name": str(self.name)},
@@ -199,14 +199,14 @@ class MjpegCamera(Camera):
                 )
 
         except (TimeoutError, httpx2.TimeoutException) as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="timeout_getting_image",
                 translation_placeholders={"name": str(self.name)},
             ) from err
 
         except httpx2.HTTPError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="error_getting_image",
                 translation_placeholders={"name": str(self.name)},

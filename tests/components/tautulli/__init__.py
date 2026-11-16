@@ -12,7 +12,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     CONTENT_TYPE_JSON,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 API_KEY = "abcd"
 URL = "http://1.2.3.4:8181/test"
@@ -68,7 +68,7 @@ def mock_connection(
 
 
 async def setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     url: str = URL,
     api_key: str = API_KEY,
@@ -76,7 +76,7 @@ async def setup_integration(
     skip_entry_setup: bool = False,
     invalid_auth: bool = False,
 ) -> MockConfigEntry:
-    """Set up the Tautulli integration in __HA_KEEP__."""
+    """Set up the Tautulli integration in Universal Home Assistant."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         unique_id=unique_id,

@@ -12,7 +12,7 @@ import respx
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from . import setup_integration
@@ -34,7 +34,7 @@ TESTDATA_IDS = [f.stem for f in TESTDATA_FILES]
 
 @respx.mock
 async def test_empty_calendar(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     get_events: GetEventsFn,
 ) -> None:
@@ -119,7 +119,7 @@ async def test_empty_calendar(
 @respx.mock
 async def test_api_date_time_event(
     get_events: GetEventsFn,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     ics_content: str,
 ) -> None:
@@ -166,7 +166,7 @@ async def test_api_date_time_event(
 @respx.mock
 async def test_api_date_event(
     get_events: GetEventsFn,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test an event with a start/end date all day event."""
@@ -237,7 +237,7 @@ STATUS_EVENT_ICS = textwrap.dedent(
 )
 @respx.mock
 async def test_event_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     get_events: GetEventsFn,
     status: str,
@@ -275,7 +275,7 @@ CANCELLED_EVENT_ICS = textwrap.dedent(
 
 @respx.mock
 async def test_cancelled_event_is_not_returned(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     get_events: GetEventsFn,
 ) -> None:
@@ -293,7 +293,7 @@ async def test_cancelled_event_is_not_returned(
 @pytest.mark.freeze_time(datetime(2007, 6, 28, 12))
 @respx.mock
 async def test_cancelled_event_does_not_turn_the_entity_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test that an event called off is not picked up as the current event.
@@ -338,7 +338,7 @@ CANCELLED_OCCURRENCE_ICS = textwrap.dedent(
 
 @respx.mock
 async def test_cancelled_occurrence_of_a_series_is_not_returned(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     get_events: GetEventsFn,
 ) -> None:
@@ -367,7 +367,7 @@ async def test_cancelled_occurrence_of_a_series_is_not_returned(
 @respx.mock
 async def test_active_event(
     get_events: GetEventsFn,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test an event with a start/end date time."""
@@ -409,7 +409,7 @@ async def test_active_event(
 @respx.mock
 async def test_upcoming_event(
     get_events: GetEventsFn,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test an event with a start/end date time."""
@@ -450,7 +450,7 @@ async def test_upcoming_event(
 @respx.mock
 async def test_recurring_event(
     get_events: GetEventsFn,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test an event with a recurrence rule."""
@@ -514,7 +514,7 @@ async def test_recurring_event(
 )
 async def test_all_day_iter_order(
     get_events: GetEventsFn,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     event_order: list[str],
 ) -> None:
@@ -558,7 +558,7 @@ async def test_all_day_iter_order(
 @respx.mock
 @pytest.mark.parametrize("ics_filename", TESTDATA_FILES, ids=TESTDATA_IDS)
 async def test_calendar_examples(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     get_events: GetEventsFn,
     ics_filename: pathlib.Path,
@@ -579,7 +579,7 @@ async def test_calendar_examples(
 @respx.mock
 @pytest.mark.freeze_time("2023-01-01 09:59:00+00:00")
 async def test_event_lifecycle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -635,7 +635,7 @@ async def test_event_lifecycle(
 @respx.mock
 @pytest.mark.freeze_time("2023-01-01 09:59:00+00:00")
 async def test_event_edge_during_refresh_interval(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -686,7 +686,7 @@ async def test_event_edge_during_refresh_interval(
 @respx.mock
 @pytest.mark.freeze_time("2026-05-18 06:00:00+00:00")
 async def test_coordinator_refresh_updates_upcoming_event_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test a coordinator refresh updates the materialized upcoming event."""

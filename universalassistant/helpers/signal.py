@@ -5,7 +5,7 @@ import logging
 import signal
 
 from universalassistant.const import RESTART_EXIT_CODE
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.util.hass_dict import HassKey
 
 _LOGGER = logging.getLogger(__name__)
@@ -14,7 +14,7 @@ KEY_HA_STOP: HassKey[asyncio.Task[None]] = HassKey("universalassistant_stop")
 
 
 @callback
-def async_register_signal_handling(hass: __HAC_KEEP__) -> None:
+def async_register_signal_handling(hass: UniversalAssistant) -> None:
     """Register system signal handler for core."""
 
     @callback

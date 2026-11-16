@@ -19,9 +19,9 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.bluetti_modbus.const import CONF_UNIT_ID, DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 from . import setup_integration
 from .conftest import (
@@ -47,7 +47,7 @@ def _user_input(host: str = HOST, unit_id: int = UNIT_ID) -> dict[str, Any]:
     }
 
 
-async def test_user_flow(hass: __HAC_KEEP__, mock_modbus_unit: MockModbusUnit) -> None:
+async def test_user_flow(hass: UniversalAssistant, mock_modbus_unit: MockModbusUnit) -> None:
     """A device on the network is probed and its entry created."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -79,7 +79,7 @@ async def test_user_flow(hass: __HAC_KEEP__, mock_modbus_unit: MockModbusUnit) -
     ],
 )
 async def test_user_flow_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_modbus_unit: MockModbusUnit,
     request_error: Exception,
     teardown_error: Exception | None,
@@ -105,7 +105,7 @@ async def test_user_flow_cannot_connect(
 
 
 async def test_user_flow_unexpected_error(
-    hass: __HAC_KEEP__, mock_modbus_unit: MockModbusUnit
+    hass: UniversalAssistant, mock_modbus_unit: MockModbusUnit
 ) -> None:
     """An unexpected probe failure surfaces unknown, then the flow recovers."""
     mock_modbus_unit.fail_requests(ValueError("unexpected"))
@@ -127,7 +127,7 @@ async def test_user_flow_unexpected_error(
 
 
 async def test_user_flow_rejects_a_zero_serial(
-    hass: __HAC_KEEP__, mock_modbus_unit: MockModbusUnit
+    hass: UniversalAssistant, mock_modbus_unit: MockModbusUnit
 ) -> None:
     """A responder reporting serial 0 is rejected, then the flow recovers."""
     mock_modbus_unit.holding[SERIAL_ADDRESS] = 0
@@ -149,7 +149,7 @@ async def test_user_flow_rejects_a_zero_serial(
 
 
 async def test_user_flow_retries_a_transient_busy_response(
-    hass: __HAC_KEEP__, mock_modbus_unit: MockModbusUnit
+    hass: UniversalAssistant, mock_modbus_unit: MockModbusUnit
 ) -> None:
     """A device that asks for a retry once during the probe does not fail it."""
     read_holding_registers = mock_modbus_unit.read_holding_registers
@@ -176,7 +176,7 @@ async def test_user_flow_retries_a_transient_busy_response(
 
 
 async def test_user_flow_unsupported_device(
-    hass: __HAC_KEEP__, mock_modbus_unit: MockModbusUnit
+    hass: UniversalAssistant, mock_modbus_unit: MockModbusUnit
 ) -> None:
     """A device reporting another model is rejected, then the flow recovers."""
     field = get_device("balco260").get_field("d_inverter_type")
@@ -206,14 +206,14 @@ class _ConflictingUnit:
     """An async context manager standing in for a claimed, incompatible link."""
 
     async def __aenter__(self) -> None:
-        raise __HAC_KEEP__Error("already in use with different link settings")
+        raise UniversalAssistantError("already in use with different link settings")
 
     async def __aexit__(self, *exc_info: object) -> None:
         return None
 
 
 async def test_user_flow_link_settings_in_use(
-    hass: __HAC_KEEP__, mock_modbus_unit: MockModbusUnit
+    hass: UniversalAssistant, mock_modbus_unit: MockModbusUnit
 ) -> None:
     """A link already claimed with different settings recovers once it's free."""
     with patch(
@@ -236,7 +236,7 @@ async def test_user_flow_link_settings_in_use(
 
 
 async def test_user_flow_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -260,7 +260,7 @@ async def test_user_flow_already_configured(
 
 
 async def test_user_flow_probes_only_the_fields_setup_reads(
-    hass: __HAC_KEEP__, mock_modbus_unit: MockModbusUnit
+    hass: UniversalAssistant, mock_modbus_unit: MockModbusUnit
 ) -> None:
     """A register setup leaves out of its read plan is not read by the probe either."""
     fault = get_device("balco260").get_field("d_inverter_fault")
@@ -286,7 +286,7 @@ async def test_user_flow_probes_only_the_fields_setup_reads(
     ],
 )
 async def test_user_flow_rejects_the_same_serial_at_a_different_endpoint(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_modbus_connection: MockModbusConnection,
     mock_config_entry: MockConfigEntry,
     host: str,
@@ -308,7 +308,7 @@ async def test_user_flow_rejects_the_same_serial_at_a_different_endpoint(
 
 
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -389,7 +389,7 @@ def _link_settings_in_use(unit: MockModbusUnit) -> Iterator[None]:
     ],
 )
 async def test_reconfigure_flow_recovers_from_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
     failure: Callable[[MockModbusUnit], AbstractContextManager[None]],
@@ -418,7 +418,7 @@ async def test_reconfigure_flow_recovers_from_error(
 
 
 async def test_reconfigure_flow_rejects_another_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_modbus_connection: MockModbusConnection,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,

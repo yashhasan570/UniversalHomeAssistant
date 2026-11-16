@@ -4,7 +4,7 @@ from requests.exceptions import ConnectTimeout, HTTPError
 from rova.rova import Rova
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers.issue_registry import IssueSeverity, async_create_issue
 
@@ -14,7 +14,7 @@ from .coordinator import RovaConfigEntry, RovaCoordinator
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: RovaConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: RovaConfigEntry) -> None:
     """Set up ROVA from a config entry."""
 
     zip_code = entry.data[CONF_ZIP_CODE]
@@ -51,6 +51,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: RovaConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: RovaConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: RovaConfigEntry) -> None:
     """Unload ROVA config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

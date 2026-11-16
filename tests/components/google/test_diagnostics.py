@@ -11,7 +11,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import TEST_EVENT, ApiResult, ComponentSetup
 
@@ -27,7 +27,7 @@ def mock_test_setup(
 
 @pytest.mark.freeze_time("2023-03-13 12:05:00-07:00")
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     component_setup: ComponentSetup,
     mock_events_list_items: Callable[[list[dict[str, Any]]], None],

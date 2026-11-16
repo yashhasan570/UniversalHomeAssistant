@@ -9,7 +9,7 @@ from pyyardian import AsyncYardianClient, NetworkException, NotAuthorizedExcepti
 from pyyardian.typing import OperationInfo
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -48,7 +48,7 @@ class YardianUpdateCoordinator(DataUpdateCoordinator[YardianCoordinatorData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: YardianConfigEntry,
         controller: AsyncYardianClient,
     ) -> None:

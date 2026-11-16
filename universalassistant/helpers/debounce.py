@@ -6,7 +6,7 @@ from contextlib import asynccontextmanager
 from logging import Logger
 from typing import Any
 
-from universalassistant.core import HassJob, __HAC_KEEP__, callback
+from universalassistant.core import HassJob, UniversalAssistant, callback
 
 
 class Debouncer[_R_co]:
@@ -14,7 +14,7 @@ class Debouncer[_R_co]:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         logger: Logger,
         *,
         cooldown: float,
@@ -161,7 +161,7 @@ class Debouncer[_R_co]:
         self._shutdown_requested = True
         self.async_cancel()
         # Release hard references to parent function
-        # https://github.com/yashhasan570/__HAC_KEEP__/issues/137237
+        # https://github.com/yashhasan570/UniversalUniversalAssistant/issues/137237
         self._function = None
         self._job = None
 

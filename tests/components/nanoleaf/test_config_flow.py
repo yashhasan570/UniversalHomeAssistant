@@ -21,7 +21,7 @@ from universalassistant import config_entries
 from universalassistant.components.nanoleaf.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
 from universalassistant.helpers.service_info.zeroconf import (
@@ -73,7 +73,7 @@ def _mock_nanoleaf(
 
 @pytest.mark.parametrize("error", CONNECT_ERRORS)
 async def test_user_unavailable_user_step_link_step(
-    hass: __HAC_KEEP__, error: NanoleafError
+    hass: UniversalAssistant, error: NanoleafError
 ) -> None:
     """Test we handle library errors in user and link step."""
     result = await hass.config_entries.flow.async_init(
@@ -126,7 +126,7 @@ async def test_user_unavailable_user_step_link_step(
     ],
 )
 async def test_user_error_setup_finish(
-    hass: __HAC_KEEP__, error: Exception, reason: str
+    hass: UniversalAssistant, error: Exception, reason: str
 ) -> None:
     """Test abort flow if on error in setup_finish."""
     result = await hass.config_entries.flow.async_init(
@@ -159,7 +159,7 @@ async def test_user_error_setup_finish(
 
 
 async def test_user_not_authorizing_new_tokens_user_step_link_step(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test we handle NotAuthorizingNewTokens in user step and link step."""
     with (
@@ -212,7 +212,7 @@ async def test_user_not_authorizing_new_tokens_user_step_link_step(
         assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_user_exception_user_step(hass: __HAC_KEEP__) -> None:
+async def test_user_exception_user_step(hass: UniversalAssistant) -> None:
     """Test we handle Exception errors in user step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -268,7 +268,7 @@ async def test_user_exception_user_step(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_discovery_link_unavailable(
-    hass: __HAC_KEEP__, source: type, type_in_discovery_info: str
+    hass: UniversalAssistant, source: type, type_in_discovery_info: str
 ) -> None:
     """Test discovery and abort if device is unavailable."""
     with (
@@ -313,7 +313,7 @@ async def test_discovery_link_unavailable(
     assert result["reason"] == "cannot_connect"
 
 
-async def test_reauth(hass: __HAC_KEEP__) -> None:
+async def test_reauth(hass: UniversalAssistant) -> None:
     """Test Nanoleaf reauth flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -346,7 +346,7 @@ async def test_reauth(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("error", CONNECT_ERRORS)
 async def test_reauth_library_error_aborts_with_cannot_connect(
-    hass: __HAC_KEEP__, error: NanoleafError
+    hass: UniversalAssistant, error: NanoleafError
 ) -> None:
     """Test a library error while requesting a new token aborts the reauth."""
     entry = MockConfigEntry(
@@ -406,7 +406,7 @@ async def test_reauth_library_error_aborts_with_cannot_connect(
     ],
 )
 async def test_import_discovery_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     source: str,
     type_in_discovery: str,
     nanoleaf_conf_file: dict[str, dict[str, str]],
@@ -475,7 +475,7 @@ async def test_import_discovery_integration(
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_ssdp_discovery(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_discovery(hass: UniversalAssistant) -> None:
     """Test SSDP discovery."""
     with (
         patch(
@@ -524,7 +524,7 @@ async def test_ssdp_discovery(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_abort_discovery_flow_with_user_flow(hass: __HAC_KEEP__) -> None:
+async def test_abort_discovery_flow_with_user_flow(hass: UniversalAssistant) -> None:
     """Test abort discovery flow if user flow is already in progress."""
     with (
         patch(
@@ -581,7 +581,7 @@ async def test_abort_discovery_flow_with_user_flow(hass: __HAC_KEEP__) -> None:
         assert not hass.config_entries.flow.async_progress(DOMAIN)
 
 
-async def test_reconfigure(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure(hass: UniversalAssistant) -> None:
     """Test Nanoleaf reconfigure flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -623,7 +623,7 @@ async def test_reconfigure(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_reconfigure_errors(
-    hass: __HAC_KEEP__, error: type[Exception], expected_error: str
+    hass: UniversalAssistant, error: type[Exception], expected_error: str
 ) -> None:
     """Test Nanoleaf reconfigure flow errors and recovery."""
     entry = MockConfigEntry(
@@ -663,7 +663,7 @@ async def test_reconfigure_errors(
     assert entry.data == {CONF_HOST: TEST_OTHER_HOST, CONF_TOKEN: TEST_TOKEN}
 
 
-async def test_reconfigure_unique_id_mismatch(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_unique_id_mismatch(hass: UniversalAssistant) -> None:
     """Test Nanoleaf reconfigure flow aborts for a different device."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -729,7 +729,7 @@ async def test_reconfigure_unique_id_mismatch(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_homekit_discovery_host_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     stored_host: str,
     addresses: list[IPv4Address | IPv6Address],
     expected_host: str,

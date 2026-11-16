@@ -16,7 +16,7 @@ import pytest
 from universalassistant.components import bluetooth
 from universalassistant.components.bluetooth import BluetoothScanningMode
 from universalassistant.components.esphome.const import CONF_BLUETOOTH_SCANNING_MODE
-from universalassistant.core import __HAC_KEEP__, callback as hass_callback
+from universalassistant.core import UniversalAssistant, callback as hass_callback
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import MockBluetoothEntryType, MockESPHomeDevice
@@ -30,7 +30,7 @@ _PROXY_WITH_STATE_AND_MODE = (
 
 
 async def test_bluetooth_connect_with_raw_adv(
-    hass: __HAC_KEEP__, mock_bluetooth_entry_with_raw_adv: MockESPHomeDevice
+    hass: UniversalAssistant, mock_bluetooth_entry_with_raw_adv: MockESPHomeDevice
 ) -> None:
     """Test bluetooth connect with raw advertisements."""
     scanner = bluetooth.async_scanner_by_source(hass, "AA:BB:CC:DD:EE:FC")
@@ -50,7 +50,7 @@ async def test_bluetooth_connect_with_raw_adv(
 
 
 async def test_bluetooth_connect_with_legacy_adv(
-    hass: __HAC_KEEP__, mock_bluetooth_entry_with_legacy_adv: MockESPHomeDevice
+    hass: UniversalAssistant, mock_bluetooth_entry_with_legacy_adv: MockESPHomeDevice
 ) -> None:
     """Test bluetooth connect with legacy advertisements."""
     scanner = bluetooth.async_scanner_by_source(hass, "AA:BB:CC:DD:EE:FC")
@@ -70,7 +70,7 @@ async def test_bluetooth_connect_with_legacy_adv(
 
 
 async def test_bluetooth_device_linked_via_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bluetooth_entry_with_raw_adv: MockESPHomeDevice,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -97,7 +97,7 @@ async def test_bluetooth_device_linked_via_device(
 
 
 async def test_bluetooth_cleanup_on_remove_entry(
-    hass: __HAC_KEEP__, mock_bluetooth_entry_with_raw_adv: MockESPHomeDevice
+    hass: UniversalAssistant, mock_bluetooth_entry_with_raw_adv: MockESPHomeDevice
 ) -> None:
     """Test bluetooth is cleaned up on entry removal."""
     scanner = bluetooth.async_scanner_by_source(hass, "AA:BB:CC:DD:EE:FC")
@@ -116,7 +116,7 @@ async def test_bluetooth_cleanup_on_remove_entry(
 
 
 async def test_scanning_mode_saved_option_applied(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bluetooth_entry: MockBluetoothEntryType,
 ) -> None:
     """A saved CONF_BLUETOOTH_SCANNING_MODE is applied immediately to the proxy."""
@@ -136,7 +136,7 @@ async def test_scanning_mode_saved_option_applied(
 
 
 async def test_scanning_mode_invalid_option_falls_back_to_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bluetooth_entry: MockBluetoothEntryType,
 ) -> None:
     """A malformed saved value falls back to the AUTO default instead of raising."""
@@ -157,7 +157,7 @@ async def test_scanning_mode_invalid_option_falls_back_to_default(
 
 
 async def test_scanning_mode_migration_passive_is_honored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bluetooth_entry: MockBluetoothEntryType,
 ) -> None:
     """Proxy configured PASSIVE in YAML is honored on first state update."""
@@ -194,7 +194,7 @@ async def test_scanning_mode_migration_passive_is_honored(
 
 
 async def test_scanning_mode_migration_waits_for_known_configured_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bluetooth_entry: MockBluetoothEntryType,
 ) -> None:
     """An initial state with configured_mode=None must not commit a migration."""
@@ -241,7 +241,7 @@ async def test_scanning_mode_migration_waits_for_known_configured_mode(
 
 
 async def test_scanning_mode_pending_subscription_unsubscribes_on_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bluetooth_entry: MockBluetoothEntryType,
 ) -> None:
     """Unloading before the first state update cancels the migration subscription."""
@@ -275,7 +275,7 @@ async def test_scanning_mode_pending_subscription_unsubscribes_on_unload(
 
 
 async def test_scanning_mode_migration_active_becomes_auto(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bluetooth_entry: MockBluetoothEntryType,
 ) -> None:
     """Proxy configured ACTIVE migrates to AUTO on first state update."""
@@ -317,7 +317,7 @@ async def test_scanning_mode_migration_active_becomes_auto(
 
 
 async def test_scanning_mode_default_pinned_before_register(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bluetooth_entry: MockBluetoothEntryType,
 ) -> None:
     """The default AUTO is applied immediately so the AUTO worker spawns at register."""
@@ -348,7 +348,7 @@ async def test_scanning_mode_default_pinned_before_register(
 
 
 async def test_bluetooth_disconnect_fails_parked_slot_waiter(
-    hass: __HAC_KEEP__, mock_bluetooth_entry_with_raw_adv: MockESPHomeDevice
+    hass: UniversalAssistant, mock_bluetooth_entry_with_raw_adv: MockESPHomeDevice
 ) -> None:
     """Test a parked BLE slot waiter fails fast when the entry disconnects."""
     entry_data = mock_bluetooth_entry_with_raw_adv.entry.runtime_data

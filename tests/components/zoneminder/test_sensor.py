@@ -10,14 +10,14 @@ from zoneminder.monitor import MonitorState, TimePeriod
 
 from universalassistant.components.zoneminder.const import DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .conftest import create_mock_monitor
 
 
 async def _setup_zm_with_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     zm_config: dict,
     monitors: list,
@@ -61,7 +61,7 @@ async def _setup_zm_with_sensors(
 
 
 async def test_monitor_status_sensor_exists(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -77,7 +77,7 @@ async def test_monitor_status_sensor_exists(
 
 
 async def test_monitor_status_sensor_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -94,7 +94,7 @@ async def test_monitor_status_sensor_value(
 
 
 async def test_monitor_status_sensor_follows_server_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -130,7 +130,7 @@ async def test_monitor_status_sensor_follows_server_change(
     ],
 )
 async def test_monitor_status_sensor_all_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -149,7 +149,7 @@ async def test_monitor_status_sensor_all_states(
 
 
 async def test_monitor_status_sensor_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -168,7 +168,7 @@ async def test_monitor_status_sensor_unavailable(
 
 
 async def test_monitor_status_sensor_null_function(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -199,7 +199,7 @@ async def test_monitor_status_sensor_null_function(
     ],
 )
 async def test_event_sensor_for_each_time_period(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -233,7 +233,7 @@ async def test_event_sensor_for_each_time_period(
 
 
 async def test_event_sensor_unit_of_measurement(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -250,7 +250,7 @@ async def test_event_sensor_unit_of_measurement(
 
 
 async def test_event_sensor_name_format(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -280,7 +280,7 @@ async def test_event_sensor_name_format(
 
 
 async def test_event_sensor_none_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -304,7 +304,7 @@ async def test_event_sensor_none_handling(
 
 
 async def test_run_state_sensor_exists(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -320,7 +320,7 @@ async def test_run_state_sensor_exists(
 
 
 async def test_run_state_sensor_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -342,7 +342,7 @@ async def test_run_state_sensor_value(
 
 
 async def test_run_state_sensor_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -368,7 +368,7 @@ async def test_run_state_sensor_unavailable(
 
 
 async def test_platform_not_ready_empty_monitors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
 ) -> None:
@@ -390,7 +390,7 @@ async def test_platform_not_ready_empty_monitors(
 
 
 async def test_subset_condition_filtering(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -429,7 +429,7 @@ async def test_subset_condition_filtering(
 
 
 async def test_default_conditions_only_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -452,7 +452,7 @@ async def test_default_conditions_only_all(
 
 
 async def test_include_archived_flag(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -482,7 +482,7 @@ async def test_include_archived_flag(
 
 
 async def test_sensor_count_calculation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,

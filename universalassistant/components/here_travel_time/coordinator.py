@@ -26,7 +26,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_MODE, UnitOfLength
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.location import find_coordinates
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -66,7 +66,7 @@ class HERERoutingDataUpdateCoordinator(DataUpdateCoordinator[HERETravelTimeData]
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: HereConfigEntry,
         api_key: str,
     ) -> None:
@@ -191,7 +191,7 @@ class HERETransitDataUpdateCoordinator(
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: HereConfigEntry,
         api_key: str,
     ) -> None:
@@ -293,7 +293,7 @@ class HERETransitDataUpdateCoordinator(
 
 
 def prepare_parameters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: HereConfigEntry,
 ) -> HERETravelTimeAPIParams:
     """Prepare parameters for the HERE api."""

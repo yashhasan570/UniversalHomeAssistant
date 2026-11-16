@@ -18,11 +18,11 @@ from universalassistant.components.speedtestdotnet.coordinator import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 
-async def test_setup_failed(hass: __HAC_KEEP__, mock_api: MagicMock) -> None:
+async def test_setup_failed(hass: UniversalAssistant, mock_api: MagicMock) -> None:
     """Test SpeedTestDotNet failed due to an error."""
 
     entry = MockConfigEntry(
@@ -35,7 +35,7 @@ async def test_setup_failed(hass: __HAC_KEEP__, mock_api: MagicMock) -> None:
     assert entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_entry_lifecycle(hass: __HAC_KEEP__, mock_api: MagicMock) -> None:
+async def test_entry_lifecycle(hass: UniversalAssistant, mock_api: MagicMock) -> None:
     """Test the SpeedTestDotNet entry lifecycle."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -59,7 +59,7 @@ async def test_entry_lifecycle(hass: __HAC_KEEP__, mock_api: MagicMock) -> None:
     assert entry.state is ConfigEntryState.NOT_LOADED
 
 
-async def test_server_not_found(hass: __HAC_KEEP__, mock_api: MagicMock) -> None:
+async def test_server_not_found(hass: UniversalAssistant, mock_api: MagicMock) -> None:
     """Test configured server id is not found."""
 
     entry = MockConfigEntry(
@@ -86,7 +86,7 @@ async def test_server_not_found(hass: __HAC_KEEP__, mock_api: MagicMock) -> None
 
 
 async def test_get_best_server_error(
-    hass: __HAC_KEEP__, mock_api: MagicMock, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, mock_api: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test configured server id is not found."""
 

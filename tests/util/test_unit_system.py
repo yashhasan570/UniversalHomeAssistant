@@ -24,9 +24,9 @@ from universalassistant.const import (
     UnitOfVolumeFlowRate,
     UnitOfVolumetricFlux,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.core_config import async_process_ha_core_config
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.util.unit_system import (  # pylint: disable=universal-assistant-deprecated-import
     _CONF_UNIT_SYSTEM_IMPERIAL,
     _CONF_UNIT_SYSTEM_METRIC,
@@ -198,7 +198,7 @@ def test_temperature_same_unit() -> None:
 
 def test_temperature_unknown_unit() -> None:
     """Test no conversion happens if unknown unit."""
-    with pytest.raises(__HAC_KEEP__Error, match="is not a recognized .* unit"):
+    with pytest.raises(UniversalAssistantError, match="is not a recognized .* unit"):
         METRIC_SYSTEM.temperature(5, "abc")
 
 
@@ -219,7 +219,7 @@ def test_temperature_to_imperial() -> None:
 
 def test_length_unknown_unit() -> None:
     """Test length conversion with unknown from unit."""
-    with pytest.raises(__HAC_KEEP__Error, match="is not a recognized .* unit"):
+    with pytest.raises(UniversalAssistantError, match="is not a recognized .* unit"):
         METRIC_SYSTEM.length(5, "fr")
 
 
@@ -241,7 +241,7 @@ def test_length_to_imperial() -> None:
 
 def test_wind_speed_unknown_unit() -> None:
     """Test wind_speed conversion with unknown from unit."""
-    with pytest.raises(__HAC_KEEP__Error, match="is not a recognized .* unit"):
+    with pytest.raises(UniversalAssistantError, match="is not a recognized .* unit"):
         METRIC_SYSTEM.length(5, "turtles")
 
 
@@ -269,7 +269,7 @@ def test_pressure_same_unit() -> None:
 
 def test_pressure_unknown_unit() -> None:
     """Test no conversion happens if unknown unit."""
-    with pytest.raises(__HAC_KEEP__Error, match="is not a recognized .* unit"):
+    with pytest.raises(UniversalAssistantError, match="is not a recognized .* unit"):
         METRIC_SYSTEM.pressure(5, "K")
 
 
@@ -301,7 +301,7 @@ def test_accumulated_precipitation_same_unit() -> None:
 
 def test_accumulated_precipitation_unknown_unit() -> None:
     """Test no conversion happens if unknown unit."""
-    with pytest.raises(__HAC_KEEP__Error, match="is not a recognized .* unit"):
+    with pytest.raises(UniversalAssistantError, match="is not a recognized .* unit"):
         METRIC_SYSTEM.accumulated_precipitation(5, "K")
 
 
@@ -338,7 +338,7 @@ def test_area_same_unit() -> None:
 
 def test_area_unknown_unit() -> None:
     """Test no conversion happens if unknown unit."""
-    with pytest.raises(__HAC_KEEP__Error, match="is not a recognized .* unit"):
+    with pytest.raises(UniversalAssistantError, match="is not a recognized .* unit"):
         METRIC_SYSTEM.area(5, "abc")
 
 
@@ -1019,7 +1019,7 @@ def test_imperial_converted_units(device_class: SensorDeviceClass) -> None:
 
 
 async def test_imperial_deprecated_log_warning(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test deprecated imperial unit system logs warning."""
     await async_process_ha_core_config(

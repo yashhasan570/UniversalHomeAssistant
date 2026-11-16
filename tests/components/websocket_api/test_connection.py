@@ -20,7 +20,7 @@ from universalassistant.components.websocket_api.messages import (
     message_to_json_bytes,
     result_message,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.redact import REDACTED
 
 
@@ -32,7 +32,7 @@ def send_message() -> Mock:
 
 @pytest.fixture
 def revocable_connection(
-    hass: __HAC_KEEP__, send_message: Mock
+    hass: UniversalAssistant, send_message: Mock
 ) -> Generator[tuple[websocket_api.ActiveConnection, Mock]]:
     """Return an authenticated connection with an observable close callback."""
     hass.data[DOMAIN] = {}
@@ -78,7 +78,7 @@ def revocable_connection(
             " Mock User from 127.0.0.42 (Browser)",
         ),
         (
-            exceptions.__HAC_KEEP__Error("Failed to do X"),
+            exceptions.UniversalAssistantError("Failed to do X"),
             websocket_api.ERR_UNIVERSAL_ASSISTANT_ERROR,
             "Failed to do X",
             "Error handling message: Failed to do X"
@@ -102,7 +102,7 @@ def revocable_connection(
             " Mock User from 127.0.0.42 (Browser)",
         ),
         (
-            exceptions.__HAC_KEEP__Error,
+            exceptions.UniversalAssistantError,
             websocket_api.ERR_UNKNOWN_ERROR,
             "Unknown error",
             "Error handling message: Unknown error"
@@ -112,7 +112,7 @@ def revocable_connection(
     ],
 )
 async def test_exception_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     exc: Exception,
     code: str,
@@ -171,7 +171,7 @@ async def test_exception_handling(
     ],
 )
 async def test_deferred_auth_close_blocks_further_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     revocable_connection: tuple[websocket_api.ActiveConnection, Mock],
     command_error: type[Exception] | None,
     expected: AbstractContextManager[object],
@@ -212,7 +212,7 @@ async def test_deferred_auth_close_blocks_further_commands(
 
 
 async def test_deferred_auth_close_sends_only_the_reply(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     revocable_connection: tuple[websocket_api.ActiveConnection, Mock],
     send_message: Mock,
 ) -> None:
@@ -241,7 +241,7 @@ async def test_deferred_auth_close_sends_only_the_reply(
 
 
 async def test_deferred_auth_close_sends_the_error_reply(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     revocable_connection: tuple[websocket_api.ActiveConnection, Mock],
     send_message: Mock,
 ) -> None:
@@ -250,7 +250,7 @@ async def test_deferred_auth_close_sends_the_error_reply(
 
     @callback
     def revoke_and_fail(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         connection: websocket_api.ActiveConnection,
         msg: dict[str, Any],
     ) -> None:
@@ -287,7 +287,7 @@ async def test_auth_close_from_another_task_is_not_deferred(
 
 
 async def test_deferred_auth_close_runs_during_shutdown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     revocable_connection: tuple[websocket_api.ActiveConnection, Mock],
 ) -> None:
     """Test shutdown closes a revoked socket without waiting for its grace period."""
@@ -330,7 +330,7 @@ async def test_binary_handler_registration() -> None:
 
 
 async def test_credential_redaction(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test credential redaction."""
     send_messages = []

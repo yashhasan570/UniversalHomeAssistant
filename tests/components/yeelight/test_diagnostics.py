@@ -9,13 +9,13 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.yeelight.const import DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import CONFIG_ENTRY_DATA, IP_ADDRESS, MODULE, _mocked_bulb, _patch_discovery
 
 
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -39,7 +39,7 @@ async def test_diagnostics(
 
 
 async def test_diagnostics_unknown_device_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test diagnostics for a device with an unknown type."""

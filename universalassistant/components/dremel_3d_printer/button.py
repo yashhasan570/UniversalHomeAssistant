@@ -7,8 +7,8 @@ from typing import override
 from dremel3dpy import Dremel3DPrinter
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import DremelConfigEntry
@@ -42,7 +42,7 @@ BUTTON_TYPES: tuple[Dremel3DPrinterButtonEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: DremelConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -65,6 +65,6 @@ class Dremel3DPrinterButtonEntity(Dremel3DPrinterEntity, ButtonEntity):
         try:
             self.entity_description.press_fn(self._api)
         except RuntimeError as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "An error occurred while submitting command"
             ) from ex

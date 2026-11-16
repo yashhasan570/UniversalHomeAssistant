@@ -9,13 +9,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.lacrosse_view.const import DOMAIN
 from universalassistant.config_entries import ConfigFlowResult
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
-async def _finish_flow(hass: __HAC_KEEP__, flow_id: str) -> ConfigFlowResult:
+async def _finish_flow(hass: UniversalAssistant, flow_id: str) -> ConfigFlowResult:
     """Log in successfully and select the location."""
     with (
         patch("lacrosse_view.LaCrosse.login", return_value=True),
@@ -34,7 +34,7 @@ async def _finish_flow(hass: __HAC_KEEP__, flow_id: str) -> ConfigFlowResult:
     return result
 
 
-async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -85,7 +85,7 @@ async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_auth_false(hass: __HAC_KEEP__) -> None:
+async def test_form_auth_false(hass: UniversalAssistant) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -110,7 +110,7 @@ async def test_form_auth_false(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
+async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -132,7 +132,7 @@ async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_login_first(hass: __HAC_KEEP__) -> None:
+async def test_form_login_first(hass: UniversalAssistant) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -157,7 +157,7 @@ async def test_form_login_first(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_no_locations(hass: __HAC_KEEP__) -> None:
+async def test_form_no_locations(hass: UniversalAssistant) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -185,7 +185,7 @@ async def test_form_no_locations(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_unexpected_error(hass: __HAC_KEEP__) -> None:
+async def test_form_unexpected_error(hass: UniversalAssistant) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -211,7 +211,7 @@ async def test_form_unexpected_error(hass: __HAC_KEEP__) -> None:
 
 
 async def test_already_configured_device(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we handle invalid auth."""
     mock_config_entry = MockConfigEntry(
@@ -271,7 +271,7 @@ async def test_already_configured_device(
     assert len(mock_setup_entry.mock_calls) == 0
 
 
-async def test_reauth(hass: __HAC_KEEP__) -> None:
+async def test_reauth(hass: UniversalAssistant) -> None:
     """Test reauthentication."""
     data = {
         "username": "test-username",

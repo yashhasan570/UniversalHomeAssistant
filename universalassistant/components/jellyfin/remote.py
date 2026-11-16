@@ -11,7 +11,7 @@ from universalassistant.components.remote import (
     DEFAULT_NUM_REPEATS,
     RemoteEntity,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import LOGGER
@@ -20,7 +20,7 @@ from .entity import JellyfinClientEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: JellyfinConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

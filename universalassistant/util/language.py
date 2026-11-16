@@ -1,4 +1,4 @@
-"""Helper methods for language selection in __HA_KEEP__."""
+"""Helper methods for language selection in Universal Home Assistant."""
 
 from collections.abc import Iterable
 from dataclasses import dataclass

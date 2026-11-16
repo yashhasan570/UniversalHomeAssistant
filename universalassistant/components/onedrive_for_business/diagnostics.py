@@ -5,7 +5,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import OneDriveConfigEntry
 
@@ -13,7 +13,7 @@ TO_REDACT = {"display_name", "email", CONF_ACCESS_TOKEN, CONF_TOKEN}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: OneDriveConfigEntry,
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""

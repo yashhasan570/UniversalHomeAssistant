@@ -20,14 +20,14 @@ from universalassistant.components.input_select.const import (
 )
 from universalassistant.components.select import SelectEntityCapabilityAttribute
 from universalassistant.const import ATTR_ENTITY_ID, CONF_NAME, EntityStateAttribute
-from universalassistant.core import Context, __HAC_KEEP__, State
+from universalassistant.core import Context, UniversalAssistant, State
 from universalassistant.exceptions import ServiceValidationError, Unauthorized
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture
-def storage_setup(hass: __HAC_KEEP__, hass_storage: dict[str, Any]):
+def storage_setup(hass: UniversalAssistant, hass_storage: dict[str, Any]):
     """Storage setup."""
 
     async def _storage(items=None, config=None, minor_version=STORAGE_VERSION_MINOR):
@@ -68,13 +68,13 @@ def storage_setup(hass: __HAC_KEEP__, hass_storage: dict[str, Any]):
         {"bad_initial": {"options": [1, 2], "initial": 3}},
     ],
 )
-async def test_config(hass: __HAC_KEEP__, invalid_config) -> None:
+async def test_config(hass: UniversalAssistant, invalid_config) -> None:
     """Test config."""
 
     assert not await async_setup_component(hass, DOMAIN, {DOMAIN: invalid_config})
 
 
-async def test_select_option(hass: __HAC_KEEP__) -> None:
+async def test_select_option(hass: UniversalAssistant) -> None:
     """Test select_option methods."""
     assert await async_setup_component(
         hass,
@@ -115,7 +115,7 @@ async def test_select_option(hass: __HAC_KEEP__) -> None:
     assert state.state == "another option"
 
 
-async def test_select_next(hass: __HAC_KEEP__) -> None:
+async def test_select_next(hass: UniversalAssistant) -> None:
     """Test select_next methods."""
     assert await async_setup_component(
         hass,
@@ -153,7 +153,7 @@ async def test_select_next(hass: __HAC_KEEP__) -> None:
     assert state.state == "first option"
 
 
-async def test_select_previous(hass: __HAC_KEEP__) -> None:
+async def test_select_previous(hass: UniversalAssistant) -> None:
     """Test select_previous methods."""
     assert await async_setup_component(
         hass,
@@ -191,7 +191,7 @@ async def test_select_previous(hass: __HAC_KEEP__) -> None:
     assert state.state == "last option"
 
 
-async def test_select_first_last(hass: __HAC_KEEP__) -> None:
+async def test_select_first_last(hass: UniversalAssistant) -> None:
     """Test select_first and _last methods."""
     assert await async_setup_component(
         hass,
@@ -231,7 +231,7 @@ async def test_select_first_last(hass: __HAC_KEEP__) -> None:
     assert state.state == "last option"
 
 
-async def test_config_options(hass: __HAC_KEEP__) -> None:
+async def test_config_options(hass: UniversalAssistant) -> None:
     """Test configuration options."""
     count_start = len(hass.states.async_entity_ids())
 
@@ -274,7 +274,7 @@ async def test_config_options(hass: __HAC_KEEP__) -> None:
     assert state_2.attributes.get(EntityStateAttribute.ICON) == "mdi:work"
 
 
-async def test_set_options_service(hass: __HAC_KEEP__) -> None:
+async def test_set_options_service(hass: UniversalAssistant) -> None:
     """Test set_options service."""
     assert await async_setup_component(
         hass,
@@ -351,7 +351,7 @@ async def test_set_options_service(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_set_options_service_duplicate(
-    hass: __HAC_KEEP__, options: list[str], duplicates: str
+    hass: UniversalAssistant, options: list[str], duplicates: str
 ) -> None:
     """Test set_options service with duplicates."""
     assert await async_setup_component(
@@ -395,7 +395,7 @@ async def test_set_options_service_duplicate(
     ]
 
 
-async def test_restore_state(hass: __HAC_KEEP__) -> None:
+async def test_restore_state(hass: UniversalAssistant) -> None:
     """Ensure states are restored on startup."""
     mock_restore_cache(
         hass,
@@ -418,7 +418,7 @@ async def test_restore_state(hass: __HAC_KEEP__) -> None:
     assert state.state == "first option"
 
 
-async def test_initial_state_overrules_restore_state(hass: __HAC_KEEP__) -> None:
+async def test_initial_state_overrules_restore_state(hass: UniversalAssistant) -> None:
     """Ensure states are restored on startup."""
     mock_restore_cache(
         hass,
@@ -445,7 +445,7 @@ async def test_initial_state_overrules_restore_state(hass: __HAC_KEEP__) -> None
 
 
 async def test_input_select_context(
-    hass: __HAC_KEEP__, hass_admin_user: MockUser
+    hass: UniversalAssistant, hass_admin_user: MockUser
 ) -> None:
     """Test that input_select context works."""
     assert await async_setup_component(
@@ -476,7 +476,7 @@ async def test_input_select_context(
 
 
 async def test_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_admin_user: MockUser,
     hass_read_only_user: MockUser,
@@ -562,7 +562,7 @@ async def test_reload(
     assert entity_registry.async_get_entity_id(DOMAIN, DOMAIN, "test_3") is not None
 
 
-async def test_load_from_storage(hass: __HAC_KEEP__, storage_setup) -> None:
+async def test_load_from_storage(hass: UniversalAssistant, storage_setup) -> None:
     """Test set up from storage."""
     assert await storage_setup()
     state = hass.states.get(f"{DOMAIN}.from_storage")
@@ -576,7 +576,7 @@ async def test_load_from_storage(hass: __HAC_KEEP__, storage_setup) -> None:
 
 
 async def test_load_from_storage_duplicate(
-    hass: __HAC_KEEP__, storage_setup, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, storage_setup, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test set up from old storage with duplicates."""
     items = [
@@ -604,7 +604,7 @@ async def test_load_from_storage_duplicate(
     ]
 
 
-async def test_editable_state_attribute(hass: __HAC_KEEP__, storage_setup) -> None:
+async def test_editable_state_attribute(hass: UniversalAssistant, storage_setup) -> None:
     """Test editable attribute."""
     assert await storage_setup(
         config={DOMAIN: {"from_yaml": {"options": ["yaml option", "other option"]}}}
@@ -621,7 +621,7 @@ async def test_editable_state_attribute(hass: __HAC_KEEP__, storage_setup) -> No
 
 
 async def test_ws_list(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, storage_setup
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, storage_setup
 ) -> None:
     """Test listing via WS."""
     assert await storage_setup(
@@ -645,7 +645,7 @@ async def test_ws_list(
 
 
 async def test_ws_delete(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     storage_setup,
@@ -674,7 +674,7 @@ async def test_ws_delete(
 
 
 async def test_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     storage_setup,
@@ -740,7 +740,7 @@ async def test_update(
 
 
 async def test_update_duplicates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     storage_setup,
@@ -792,7 +792,7 @@ async def test_update_duplicates(
 
 
 async def test_ws_create(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     storage_setup,
@@ -830,7 +830,7 @@ async def test_ws_create(
 
 
 async def test_ws_create_duplicates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     storage_setup,
@@ -865,7 +865,7 @@ async def test_ws_create_duplicates(
     assert not hass.states.get(input_entity_id)
 
 
-async def test_setup_no_config(hass: __HAC_KEEP__, hass_admin_user: MockUser) -> None:
+async def test_setup_no_config(hass: UniversalAssistant, hass_admin_user: MockUser) -> None:
     """Test component setup with no config."""
     count_start = len(hass.states.async_entity_ids())
     assert await async_setup_component(hass, DOMAIN, {})

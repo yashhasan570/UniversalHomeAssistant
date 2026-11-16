@@ -9,14 +9,14 @@ from PyViCare.PyViCareUtils import PyViCareDeviceCommunicationError
 from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import MODULE, setup_integration
 from .conftest import Fixture, MockPyViCare
 
 
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_vicare_gas_boiler: MagicMock,
     snapshot: SnapshotAssertion,
@@ -30,7 +30,7 @@ async def test_diagnostics(
 
 
 async def test_diagnostics_with_offline_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_vicare_gas_boiler: MagicMock,
 ) -> None:
@@ -57,7 +57,7 @@ async def test_diagnostics_with_offline_device(
 
 
 async def test_diagnostics_scopes_features_to_their_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:

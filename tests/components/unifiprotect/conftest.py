@@ -51,7 +51,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from . import _patch_discovery
@@ -276,7 +276,7 @@ def _subscribe_public_resync(
 
 @pytest.fixture(name="ufp")
 def mock_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_config_entry: MockConfigEntry,
     ufp_client: ProtectApiClient,
     rtsps_qualities: dict[str, tuple[ChannelQuality, ...]],
@@ -720,7 +720,7 @@ def mock_ufp_public_only(
 
 @pytest.fixture(name="setup_public_only")
 def setup_public_only_fixture(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_public_only: MockUFPFixture,
 ) -> Callable[[], Coroutine[Any, Any, None]]:
     """Return a callable setting up the API-key-only entry with its mock client.

@@ -2,7 +2,7 @@
 
 import pytest
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import slugify
 
 from . import init_integration
@@ -53,7 +53,7 @@ DEVICE_SENSORS_TOKEN_NEEDED_TUPLE = (
 
 
 @pytest.mark.parametrize("mock_bridge", [DUMMY_SWITCHER_SENSORS_DEVICES], indirect=True)
-async def test_sensor_platform(hass: __HAC_KEEP__, mock_bridge) -> None:
+async def test_sensor_platform(hass: UniversalAssistant, mock_bridge) -> None:
     """Test sensor platform."""
     entry = await init_integration(hass)
     assert mock_bridge
@@ -69,7 +69,7 @@ async def test_sensor_platform(hass: __HAC_KEEP__, mock_bridge) -> None:
 
 
 @pytest.mark.parametrize("mock_bridge", [[DUMMY_HEATER_DEVICE]], indirect=True)
-async def test_sensor_platform_token_needed(hass: __HAC_KEEP__, mock_bridge) -> None:
+async def test_sensor_platform_token_needed(hass: UniversalAssistant, mock_bridge) -> None:
     """Test sensor platform."""
     entry = await init_integration(hass, USERNAME, TOKEN)
     assert mock_bridge
@@ -86,7 +86,7 @@ async def test_sensor_platform_token_needed(hass: __HAC_KEEP__, mock_bridge) -> 
 
 @pytest.mark.parametrize("mock_bridge", [[DUMMY_WATER_HEATER_DEVICE]], indirect=True)
 async def test_sensor_update(
-    hass: __HAC_KEEP__, mock_bridge, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_bridge, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test sensor update."""
     await init_integration(hass)
@@ -109,7 +109,7 @@ async def test_sensor_update(
 
 @pytest.mark.parametrize("mock_bridge", [[DUMMY_HEATER_DEVICE]], indirect=True)
 async def test_sensor_update_token_needed(
-    hass: __HAC_KEEP__, mock_bridge, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_bridge, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test sensor update."""
     await init_integration(hass, USERNAME, TOKEN)

@@ -9,7 +9,7 @@ from pysyncthru import ConnectionMode, SyncThru
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -23,7 +23,7 @@ type SyncThruConfigEntry = ConfigEntry[SyncthruCoordinator]
 class SyncthruCoordinator(DataUpdateCoordinator[SyncThru]):
     """Class to manage fetching Syncthru data."""
 
-    def __init__(self, hass: __HAC_KEEP__, entry: SyncThruConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: SyncThruConfigEntry) -> None:
         """Initialize the Syncthru coordinator."""
         super().__init__(
             hass,

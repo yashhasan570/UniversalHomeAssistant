@@ -9,7 +9,7 @@ from universalassistant.components.bluetooth import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ADDRESS, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import DOMAIN
@@ -19,7 +19,7 @@ type AveaConfigEntry = ConfigEntry[avea.Bulb]
 PLATFORMS: list[Platform] = [Platform.LIGHT]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: AveaConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: AveaConfigEntry) -> None:
     """Set up Avea from a config entry."""
     address = entry.data[CONF_ADDRESS]
     ble_device = async_ble_device_from_address(hass, address, connectable=True)
@@ -41,6 +41,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: AveaConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: AveaConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: AveaConfigEntry) -> None:
     """Unload an Avea config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

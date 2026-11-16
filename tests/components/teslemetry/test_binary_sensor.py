@@ -25,7 +25,7 @@ from teslemetry_stream import Signal
 
 from universalassistant.components.binary_sensor import BinarySensorDeviceClass
 from universalassistant.components.bluetooth.const import UNAVAILABLE_TRACK_SECONDS
-from universalassistant.components.bluetooth.manager import __HAC_KEEP__BluetoothManager
+from universalassistant.components.bluetooth.manager import UniversalAssistantBluetoothManager
 from universalassistant.components.teslemetry.const import DOMAIN, SUBENTRY_TYPE_VEHICLE
 from universalassistant.components.teslemetry.coordinator import (
     LOCAL_STATUS_INTERVAL,
@@ -40,7 +40,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -68,7 +68,7 @@ LOCAL_STATUS_KEYS = (
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_legacy: AsyncMock,
@@ -81,7 +81,7 @@ async def test_binary_sensor(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensor_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_vehicle_data: AsyncMock,
@@ -103,7 +103,7 @@ async def test_binary_sensor_refresh(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensors_streaming(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_vehicle_data: AsyncMock,
     mock_add_listener: AsyncMock,
@@ -169,7 +169,7 @@ async def test_binary_sensors_streaming(
     ],
 )
 async def test_driver_seat_belt_warning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_add_listener: AsyncMock,
     driver_seat_belt: bool,
     expected_state: str,
@@ -198,7 +198,7 @@ async def test_driver_seat_belt_warning(
     ["binary_sensor.test_front_driver_window", "binary_sensor.test_charge_cable"],
 )
 async def test_binary_sensors_streaming_restore_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id: str,
     restored_state: str,
 ) -> None:
@@ -212,7 +212,7 @@ async def test_binary_sensors_streaming_restore_unknown(
 
 
 async def test_binary_sensors_connectivity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_vehicle_data: AsyncMock,
     mock_add_listener: AsyncMock,
@@ -262,7 +262,7 @@ def mock_ble_vehicle() -> Generator[VehicleBluetooth]:
         yield vehicle
 
 
-def inject_vehicle_advertisement(hass: __HAC_KEEP__) -> None:
+def inject_vehicle_advertisement(hass: UniversalAssistant) -> None:
     """Make the Bluetooth stack hear one advertisement from the vehicle."""
     inject_advertisement(
         hass,
@@ -271,7 +271,7 @@ def inject_vehicle_advertisement(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def drop_vehicle_from_stack(hass: __HAC_KEEP__, start_monotonic: float) -> None:
+async def drop_vehicle_from_stack(hass: UniversalAssistant, start_monotonic: float) -> None:
     """Advance past the stale and unavailable windows with nothing discovered."""
     advance = (
         CONNECTABLE_FALLBACK_MAXIMUM_STALE_ADVERTISEMENT_SECONDS
@@ -294,7 +294,7 @@ async def drop_vehicle_from_stack(hass: __HAC_KEEP__, start_monotonic: float) ->
     [PRESENCE_ENTITY_ID, SESSION_ENTITY_ID],
 )
 async def test_bluetooth_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     entity_id: str,
@@ -308,7 +308,7 @@ async def test_bluetooth_binary_sensors(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_bluetooth_binary_sensor(
-    hass: __HAC_KEEP__, mock_ble_vehicle: VehicleBluetooth
+    hass: UniversalAssistant, mock_ble_vehicle: VehicleBluetooth
 ) -> None:
     """Tests that the Bluetooth binary sensor follows the stack's presence history.
 
@@ -321,7 +321,7 @@ async def test_bluetooth_binary_sensor(
             "tesla_fleet_api.tesla.vehicle.bluetooth.establish_connection"
         ) as mock_establish_connection,
         patch.object(
-            __HAC_KEEP__BluetoothManager, "async_register_active_scan"
+            UniversalAssistantBluetoothManager, "async_register_active_scan"
         ) as mock_register_active_scan,
     ):
         await setup_ble_platform(hass, [Platform.BINARY_SENSOR])
@@ -342,7 +342,7 @@ async def test_bluetooth_binary_sensor(
 
 
 @pytest.mark.usefixtures("enable_bluetooth", "mock_ble_vehicle")
-async def test_bluetooth_binary_sensor_already_in_range(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_binary_sensor_already_in_range(hass: UniversalAssistant) -> None:
     """Tests that a vehicle the stack already knows about starts on."""
     inject_vehicle_advertisement(hass)
     await hass.async_block_till_done()
@@ -354,7 +354,7 @@ async def test_bluetooth_binary_sensor_already_in_range(hass: __HAC_KEEP__) -> N
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_legacy")
 async def test_bluetooth_binary_sensors_need_a_paired_vehicle(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Tests that a vehicle without a Bluetooth subentry gets no Bluetooth sensors."""
     await setup_platform(hass, [Platform.BINARY_SENSOR])
@@ -365,7 +365,7 @@ async def test_bluetooth_binary_sensors_need_a_paired_vehicle(
 
 @pytest.mark.usefixtures("enable_bluetooth", "mock_ble_vehicle")
 async def test_bluetooth_session_binary_sensor_disabled_by_default(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Tests that the Bluetooth session binary sensor is disabled by default."""
     await setup_ble_platform(hass, [Platform.BINARY_SENSOR])
@@ -377,7 +377,7 @@ async def test_bluetooth_session_binary_sensor_disabled_by_default(
 
 @pytest.mark.usefixtures("enable_bluetooth", "entity_registry_enabled_by_default")
 async def test_bluetooth_session_binary_sensor(
-    hass: __HAC_KEEP__, mock_ble_vehicle: VehicleBluetooth
+    hass: UniversalAssistant, mock_ble_vehicle: VehicleBluetooth
 ) -> None:
     """Tests that the Bluetooth session binary sensor follows the BLE link."""
     await setup_ble_platform(hass, [Platform.BINARY_SENSOR])
@@ -404,7 +404,7 @@ async def test_bluetooth_session_binary_sensor(
 
 @pytest.mark.usefixtures("enable_bluetooth", "entity_registry_enabled_by_default")
 async def test_bluetooth_session_binary_sensor_without_key(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Tests that a failed key load keeps the session entity, unavailable.
 
@@ -446,7 +446,7 @@ async def test_bluetooth_session_binary_sensor_without_key(
 
 @pytest.mark.usefixtures("enable_bluetooth", "mock_ble_vehicle")
 async def test_bluetooth_binary_sensors_removed_with_subentry(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Tests that removing the Bluetooth subentry removes both entities."""
     entry = await setup_ble_platform(hass, [Platform.BINARY_SENSOR])
@@ -477,7 +477,7 @@ async def test_bluetooth_binary_sensors_removed_with_subentry(
     ],
 )
 async def test_gps_state_requires_location_scope(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_metadata: AsyncMock,
     scopes: list[str],
@@ -522,7 +522,7 @@ def _without(*path: str) -> dict[str, Any]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_local_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -539,7 +539,7 @@ async def test_local_binary_sensors(
 
 
 async def test_local_binary_sensors_unpaired(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_powerwall_status: AsyncMock,
 ) -> None:
@@ -562,7 +562,7 @@ async def test_local_binary_sensors_unpaired(
     ],
 )
 async def test_local_binary_sensors_missing_signal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_powerwall_status: AsyncMock,
     status: dict[str, Any],
@@ -581,7 +581,7 @@ async def test_local_binary_sensors_missing_signal(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_local_binary_sensors_first_refresh_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_powerwall_status: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -612,7 +612,7 @@ async def test_local_binary_sensors_first_refresh_failure(
 
 
 async def test_local_binary_sensors_poll_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_powerwall_status: AsyncMock,
     freezer: FrozenDateTimeFactory,

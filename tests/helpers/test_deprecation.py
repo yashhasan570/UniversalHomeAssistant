@@ -14,7 +14,7 @@ from pytest_universalassistant.common import (
     mock_integration,
 )
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.deprecation import (
     DeprecatedAlias,
     DeprecatedConstant,
@@ -241,7 +241,7 @@ def test_deprecated_function_called_from_built_in_integration(
     ],
 )
 def test_deprecated_function_called_from_custom_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     breaks_in_ha_version: str | None,
     extra_msg: str,
@@ -752,7 +752,7 @@ def test_enum_with_deprecated_members_integration_not_found(
     ],
 )
 def test_deprecated_hass_argument(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     positional_arguments: list[str],
     keyword_arguments: dict[str, str],
@@ -832,7 +832,7 @@ def test_deprecated_entity_member_class_attribute(
     assert (
         f"{__name__}::test_deprecated_entity_member_class_attribute.<locals>."
         "LegacyEntity provides the deprecated _attr_value, this will stop working "
-        "in __HA_KEEP__ 2099.1, use _attr_native_value instead"
+        "in Universal Home Assistant 2099.1, use _attr_native_value instead"
     ) in caplog.text
 
     # Writes through either name invalidate the cached native property

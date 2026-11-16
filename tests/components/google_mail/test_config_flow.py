@@ -10,7 +10,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant import config_entries
 from universalassistant.components.google_mail.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
@@ -19,7 +19,7 @@ from .conftest import CLIENT_ID, GOOGLE_AUTH_URI, GOOGLE_TOKEN_URI, SCOPES, TITL
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Check full flow."""
     result = await hass.config_entries.flow.async_init(
@@ -91,7 +91,7 @@ async def test_full_flow(
 )
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     config_entry: MockConfigEntry,
@@ -179,7 +179,7 @@ async def test_reauth(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     config_entry: MockConfigEntry,
 ) -> None:

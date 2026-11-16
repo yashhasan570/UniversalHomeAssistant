@@ -22,14 +22,14 @@ from universalassistant.const import (
     SERVICE_STOP_COVER,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from . import UPDATE_DEBOUNCE_TIME, init_integration
 
 
 async def test_cover_available(
-    hass: __HAC_KEEP__, mock_desk_api: MagicMock, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, mock_desk_api: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test cover available property."""
     entity_id = "cover.test"
@@ -64,7 +64,7 @@ async def test_cover_available(
     ],
 )
 async def test_cover_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_desk_api: MagicMock,
     service: str,
     service_data: dict[str, Any],
@@ -104,7 +104,7 @@ async def test_cover_services(
     ],
 )
 async def test_cover_services_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_desk_api: MagicMock,
     service: str,
     service_data: dict[str, Any],
@@ -115,7 +115,7 @@ async def test_cover_services_exception(
     await init_integration(hass)
     fail_call = getattr(mock_desk_api, mock_method_name)
     fail_call.side_effect = BleakError()
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             COVER_DOMAIN,
             service,

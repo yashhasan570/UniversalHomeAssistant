@@ -13,7 +13,7 @@ from universalassistant.components import websocket_api
 from universalassistant.components.recorder import get_instance
 from universalassistant.components.websocket_api import ActiveConnection, messages
 from universalassistant.const import EVENT_CALL_SERVICE
-from universalassistant.core import CALLBACK_TYPE, Event, __HAC_KEEP__, async_noop, callback
+from universalassistant.core import CALLBACK_TYPE, Event, UniversalAssistant, async_noop, callback
 from universalassistant.helpers.event import async_track_point_in_utc_time
 from universalassistant.helpers.json import json_bytes
 from universalassistant.util import dt as dt_util
@@ -50,7 +50,7 @@ class LogbookLiveStream:
 
 
 @callback
-def async_setup(hass: __HAC_KEEP__) -> None:
+def async_setup(hass: UniversalAssistant) -> None:
     """Set up the logbook websocket API."""
     websocket_api.async_register_command(hass, ws_get_events)
     websocket_api.async_register_command(hass, ws_event_stream)
@@ -75,7 +75,7 @@ def _async_send_empty_response(
 
 
 async def _async_send_historical_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg_id: int,
     start_time: dt,
@@ -155,7 +155,7 @@ async def _async_send_historical_events(
 
 
 async def _async_get_ws_stream_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     msg_id: int,
     start_time: dt,
     end_time: dt,
@@ -255,7 +255,7 @@ async def _async_events_consumer(
 )
 @websocket_api.async_response
 async def ws_event_stream(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle logbook stream events websocket command."""
     start_time_str = msg["start_time"]
@@ -462,7 +462,7 @@ def _ws_formatted_get_events(
 )
 @websocket_api.async_response
 async def ws_get_events(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle logbook get events websocket command."""
     start_time_str = msg["start_time"]
@@ -530,7 +530,7 @@ async def ws_get_events(
 )
 @websocket_api.async_response
 async def ws_get_action_calls(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle logbook get action calls websocket command.
 

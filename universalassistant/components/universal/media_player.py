@@ -34,7 +34,7 @@ from universalassistant.const import (
     EntityStateAttribute,
     Platform,
 )
-from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__, callback
+from universalassistant.core import Event, EventStateChangedData, UniversalAssistant, callback
 from universalassistant.exceptions import TemplateError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_component import EntityComponent
@@ -92,7 +92,7 @@ PLATFORM_SCHEMA = MEDIA_PLAYER_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

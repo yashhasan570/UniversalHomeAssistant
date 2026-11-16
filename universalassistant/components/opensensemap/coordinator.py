@@ -9,7 +9,7 @@ from opensensemap_api.exceptions import OpenSenseMapError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import UnitOfPressure, UnitOfSpeed, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN, LOGGER
@@ -18,7 +18,7 @@ SCAN_INTERVAL = timedelta(minutes=10)
 
 # Stations report the same phenomenon in different units, but the library
 # exposes only values. These map a station's reported unit (normalized to
-# lowercase) to the matching __HA_KEEP__ unit so values convert correctly.
+# lowercase) to the matching Universal Home Assistant unit so values convert correctly.
 TEMPERATURE_UNITS: dict[str, str] = {
     "°c": UnitOfTemperature.CELSIUS,
     "c": UnitOfTemperature.CELSIUS,
@@ -64,7 +64,7 @@ class OpenSenseMapStationData:
 def _detect_unit(
     api: OpenSenseMap, title_key: str, unit_map: dict[str, str]
 ) -> str | None:
-    """Return the __HA_KEEP__ unit for a phenomenon reported by the station."""
+    """Return the Universal Home Assistant unit for a phenomenon reported by the station."""
 
     # The library resolves a measurement by matching localized sensor titles
     # (opensensemap_api._TITLES) and returns the first matching sensor that has a
@@ -90,7 +90,7 @@ class OpenSenseMapCoordinator(DataUpdateCoordinator[OpenSenseMapStationData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: OpenSenseMapConfigEntry,
         api: OpenSenseMap,
     ) -> None:

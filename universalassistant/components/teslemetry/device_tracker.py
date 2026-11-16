@@ -14,7 +14,7 @@ from universalassistant.components.device_tracker import (
     TrackerEntityDescription,
 )
 from universalassistant.const import EntityStateAttribute
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
 
@@ -63,7 +63,7 @@ DESCRIPTIONS: tuple[TeslemetryDeviceTrackerEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: TeslemetryConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

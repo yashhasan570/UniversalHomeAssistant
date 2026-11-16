@@ -12,7 +12,7 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -20,7 +20,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("mock_vallox_client")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -34,7 +34,7 @@ async def test_all_entities(
 
 @pytest.mark.usefixtures("init_integration")
 @pytest.mark.parametrize("metrics", [{"A_CYC_HOME_AIR_TEMP_TARGET": None}])
-async def test_number_value_missing(hass: __HAC_KEEP__) -> None:
+async def test_number_value_missing(hass: UniversalAssistant) -> None:
     """Test a number value the unit does not report."""
     state = hass.states.get("number.vallox_supply_air_temperature_home")
     assert state
@@ -63,7 +63,7 @@ async def test_number_value_missing(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_set_number_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vallox_client: AsyncMock,
     entity_id: str,
     metric_key: str,

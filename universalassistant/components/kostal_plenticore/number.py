@@ -14,7 +14,7 @@ from universalassistant.components.number import (
     NumberMode,
 )
 from universalassistant.const import PERCENTAGE, EntityCategory, UnitOfPower
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -86,7 +86,7 @@ NUMBER_SETTINGS_DATA = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: PlenticoreConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

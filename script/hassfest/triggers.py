@@ -11,7 +11,7 @@ import probatio
 from probatio.humanize import humanize_error
 
 from universalassistant.const import CONF_SELECTOR
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv, selector, trigger
 from universalassistant.util.yaml import load_yaml_dict
 
@@ -192,7 +192,7 @@ def validate_triggers(config: Config, integration: Integration) -> None:  # noqa
                 "triggers", "Registers triggers but has no triggers.yaml"
             )
         return
-    except __HAC_KEEP__Error:
+    except UniversalAssistantError:
         integration.add_error("triggers", "Invalid triggers.yaml")
         return
 

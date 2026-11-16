@@ -17,7 +17,7 @@ from universalassistant.components.panasonic_viera.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_MAC
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import MOCK_CONFIG_DATA, MOCK_DEVICE_INFO, MOCK_ENCRYPTION_DATA, MOCK_MAC
 
@@ -69,7 +69,7 @@ MOCK_NRC_DEVICE_INFO = {
     ],
 )
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_remote: Mock,
     setup_error: URLError | None,

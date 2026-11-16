@@ -34,7 +34,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -77,7 +77,7 @@ INCOMPLETE_WAVE_DEVICE_INFO.address = ""
     ],
 )
 async def test_migration_existing_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_info: BluetoothServiceInfoBleak,
     device_info: AirthingsDevice,
@@ -123,7 +123,7 @@ async def test_migration_existing_entries(
 
 
 async def test_setup_retries_when_device_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test setup is retried with a diagnostic reason when the device is missing."""
@@ -183,7 +183,7 @@ async def test_setup_retries_when_device_not_found(
     ],
 )
 async def test_setup_retries_on_failed_read(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     entry_data: dict[str, str],
     device_info: AirthingsDevice | None,
@@ -229,7 +229,7 @@ async def test_setup_retries_on_failed_read(
     ],
 )
 async def test_sensors_unavailable_while_update_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
     device_info: AirthingsDevice | None,
@@ -275,7 +275,7 @@ async def test_sensors_unavailable_while_update_fails(
 
 
 async def test_sensor_unknown_while_value_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test a sensor is unknown while a successful read lacks its value."""
@@ -319,7 +319,7 @@ async def test_sensor_unknown_while_value_missing(
 
 
 async def test_no_migration_when_device_model_exists(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that migration does not run when device_model already exists."""
     entry = MockConfigEntry(
@@ -344,7 +344,7 @@ async def test_no_migration_when_device_model_exists(
 
 
 async def test_migration_removes_device_without_address(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -390,7 +390,7 @@ async def test_migration_removes_device_without_address(
 
 
 async def test_scan_interval_corentium_home_2(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that coordinator uses radon scan interval for Corentium Home 2."""
     entry = MockConfigEntry(
@@ -454,7 +454,7 @@ async def test_scan_interval_corentium_home_2(
     ],
 )
 async def test_coordinator_default_scan_interval(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_info,
     device_info,
     freezer: FrozenDateTimeFactory,
@@ -491,7 +491,7 @@ async def test_coordinator_default_scan_interval(
 
 
 async def test_device_registry_sw_version_updates_on_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -545,7 +545,7 @@ def _with_mode(
 
 
 async def _setup_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_info: BluetoothServiceInfoBleak,
     device_info: AirthingsDevice,
     connectivity_mode: str | None,
@@ -603,7 +603,7 @@ def _issues(issue_registry: ir.IssueRegistry) -> dict[str, str | None]:
 
 
 async def _refresh_corentium_home_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device_info: AirthingsDevice,
 ) -> None:
@@ -630,7 +630,7 @@ async def _refresh_corentium_home_2(
     ],
 )
 async def test_connectivity_mode_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     connectivity_mode: str | None,
     expected_key: str | None,
@@ -679,7 +679,7 @@ async def test_connectivity_mode_issue(
     ],
 )
 async def test_connectivity_mode_issue_details(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     service_info: BluetoothServiceInfoBleak,
     device_info: AirthingsDevice,
@@ -714,7 +714,7 @@ async def test_connectivity_mode_issue_details(
     ],
 )
 async def test_connectivity_mode_issue_device_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,
@@ -805,7 +805,7 @@ async def test_connectivity_mode_issue_device_name(
     ],
 )
 async def test_connectivity_mode_issue_updated_on_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     freezer: FrozenDateTimeFactory,
     initial_mode: str,
@@ -829,7 +829,7 @@ async def test_connectivity_mode_issue_updated_on_refresh(
 
 
 async def test_connectivity_mode_issue_kept_on_incomplete_read(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -848,7 +848,7 @@ async def test_connectivity_mode_issue_kept_on_incomplete_read(
 
 
 async def test_connectivity_mode_issue_kept_on_reload_until_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test the issue survives an unreadable reload and goes with the entry."""
@@ -872,7 +872,7 @@ async def test_connectivity_mode_issue_kept_on_reload_until_removed(
 
 
 async def test_existing_connectivity_mode_issue_kept_when_setup_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test an existing issue survives a setup that cannot read the device."""
@@ -917,7 +917,7 @@ async def test_existing_connectivity_mode_issue_kept_when_setup_fails(
 
 
 async def test_connectivity_mode_issue_deleted_on_remove(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test the connectivity mode issue is deleted when the entry is removed."""
@@ -941,7 +941,7 @@ async def test_connectivity_mode_issue_deleted_on_remove(
 
 
 async def test_connectivity_mode_issues_are_per_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -993,7 +993,7 @@ async def test_connectivity_mode_issues_are_per_entry(
 
 
 async def test_connectivity_mode_issue_not_created_after_remove(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1042,7 +1042,7 @@ async def test_connectivity_mode_issue_not_created_after_remove(
     ],
 )
 async def test_connectivity_mode_issue_ignores_read_after_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     current_mode: str,
     stale_mode: str,

@@ -7,7 +7,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_CURRENCY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.selector import (
     SelectSelector,
     SelectSelectorConfig,
@@ -24,7 +24,7 @@ def _get_currencies() -> list[str]:
     return sorted(exchangerates.get_ticker())
 
 
-async def _async_get_currencies(hass: __HAC_KEEP__) -> list[str] | None:
+async def _async_get_currencies(hass: UniversalAssistant) -> list[str] | None:
     """Return the currencies blockchain.com quotes, or None if there are none."""
     try:
         currencies = await hass.async_add_executor_job(_get_currencies)

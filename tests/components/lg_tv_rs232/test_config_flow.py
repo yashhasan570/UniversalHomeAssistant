@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.lg_tv_rs232.const import CONF_SET_ID, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_DEVICE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import MOCK_DEVICE, MOCK_SET_ID
@@ -28,7 +28,7 @@ def mock_async_setup_entry(mock_lgtv: MagicMock) -> Generator[AsyncMock]:
 
 
 async def test_user_form_creates_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lgtv: MagicMock,
     mock_async_setup_entry: AsyncMock,
 ) -> None:
@@ -55,7 +55,7 @@ async def test_user_form_creates_entry(
 
 
 async def test_user_form_float_set_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lgtv: MagicMock,
     mock_async_setup_entry: AsyncMock,
 ) -> None:
@@ -79,7 +79,7 @@ async def test_user_form_float_set_id(
 
 
 async def test_user_form_no_tv_shows_troubleshooting(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lgtv: MagicMock,
     mock_async_setup_entry: AsyncMock,
 ) -> None:
@@ -130,7 +130,7 @@ async def test_user_form_no_tv_shows_troubleshooting(
     ],
 )
 async def test_user_form_bad_port_shows_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: Exception,
     error: str,
     mock_lgtv: MagicMock,
@@ -169,7 +169,7 @@ async def test_user_form_bad_port_shows_error(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_duplicate_aborts(hass: __HAC_KEEP__) -> None:
+async def test_user_duplicate_aborts(hass: UniversalAssistant) -> None:
     """Test we abort if the same port and set ID are already configured."""
     entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_DEVICE: MOCK_DEVICE, CONF_SET_ID: MOCK_SET_ID}

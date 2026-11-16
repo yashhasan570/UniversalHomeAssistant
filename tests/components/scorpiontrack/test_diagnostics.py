@@ -15,7 +15,7 @@ from universalassistant.components.scorpiontrack.const import (
     CONF_SHARE_TOKEN,
     DEFAULT_SCAN_INTERVAL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
@@ -33,7 +33,7 @@ pytestmark = pytest.mark.freeze_time("2026-09-07T12:00:00Z")
     ],
 )
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_scorpiontrack_client: AsyncMock,
@@ -69,7 +69,7 @@ async def test_diagnostics(
 
 
 async def test_diagnostics_missing_position(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_scorpiontrack_client: AsyncMock,

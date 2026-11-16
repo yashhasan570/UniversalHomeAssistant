@@ -1,7 +1,7 @@
 """The EnergyZero integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -14,7 +14,7 @@ PLATFORMS: list[Platform] = [Platform.SENSOR]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up EnergyZero services."""
 
     async_setup_services(hass)
@@ -22,7 +22,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: EnergyZeroConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: EnergyZeroConfigEntry) -> None:
     """Set up EnergyZero from a config entry."""
 
     coordinator = EnergyZeroDataUpdateCoordinator(hass, entry)
@@ -37,6 +37,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: EnergyZeroConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: EnergyZeroConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: EnergyZeroConfigEntry) -> None:
     """Unload EnergyZero config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

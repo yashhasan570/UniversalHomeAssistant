@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.fan import DOMAIN as FAN_DOMAIN
 from universalassistant.const import ATTR_ICON, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 
@@ -30,7 +30,7 @@ GET_QUICKMODE = (
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -55,7 +55,7 @@ async def test_all_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_api_error_logged_on_the_edge(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -98,7 +98,7 @@ async def test_api_error_logged_on_the_edge(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_standby_quickmode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that the fan follows the standby quickmode.
@@ -144,7 +144,7 @@ async def test_standby_quickmode(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_standby_quickmode_with_a_second_fan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that a second fan without the quickmode does not stop the refresh."""

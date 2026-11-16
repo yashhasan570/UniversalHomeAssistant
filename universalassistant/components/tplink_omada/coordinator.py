@@ -23,7 +23,7 @@ from tplink_omada_client.devices import (
 from tplink_omada_client.exceptions import OmadaClientException
 
 from universalassistant.components.device_tracker import DOMAIN as DEVICE_TRACKER_DOMAIN
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -54,7 +54,7 @@ class OmadaCoordinator[_T](DataUpdateCoordinator[dict[str, _T]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: OmadaConfigEntry,
         omada_client: OmadaSiteClient,
         name: str,
@@ -94,7 +94,7 @@ class OmadaControllerStatusCoordinator(DataUpdateCoordinator[OmadaControllerStat
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: OmadaConfigEntry,
         omada_client: OmadaClient,
     ) -> None:
@@ -130,7 +130,7 @@ class OmadaControllerUpdateCoordinator(
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: OmadaConfigEntry,
         omada_client: OmadaClient,
     ) -> None:
@@ -162,7 +162,7 @@ class OmadaSwitchPortCoordinator(OmadaCoordinator[OmadaSwitchPortDetails]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: OmadaConfigEntry,
         omada_client: OmadaSiteClient,
         network_switch: OmadaSwitch,
@@ -189,7 +189,7 @@ class OmadaGatewayCoordinator(OmadaCoordinator[OmadaGateway]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: OmadaConfigEntry,
         omada_client: OmadaSiteClient,
         mac: str,
@@ -210,7 +210,7 @@ class OmadaDevicesCoordinator(OmadaCoordinator[OmadaListDevice]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: OmadaConfigEntry,
         omada_client: OmadaSiteClient,
     ) -> None:
@@ -228,7 +228,7 @@ class OmadaClientsCoordinator(OmadaCoordinator[OmadaWirelessClient]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: OmadaConfigEntry,
         omada_client: OmadaSiteClient,
     ) -> None:
@@ -250,7 +250,7 @@ class OmadaKnownClientsCoordinator(OmadaCoordinator[OmadaNetworkClient]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: OmadaConfigEntry,
         omada_client: OmadaSiteClient,
     ) -> None:
@@ -287,7 +287,7 @@ class OmadaVpnPoliciesCoordinator(OmadaCoordinator[OmadaVpnPolicy]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: OmadaConfigEntry,
         omada_client: OmadaSiteClient,
     ) -> None:
@@ -312,7 +312,7 @@ class OmadaFirmwareUpdateCoordinator(OmadaCoordinator[FirmwareUpdateStatus]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: OmadaConfigEntry,
         omada_client: OmadaSiteClient,
         devices_coordinator: OmadaDevicesCoordinator,
@@ -368,7 +368,7 @@ class OmadaFirmwareUpdateCoordinator(OmadaCoordinator[FirmwareUpdateStatus]):
 
 @callback
 def cleanup_client_trackers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     controller: OmadaSiteController,
     known_clients: dict[str, OmadaNetworkClient],
 ) -> None:

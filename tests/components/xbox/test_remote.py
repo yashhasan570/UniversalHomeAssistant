@@ -28,8 +28,8 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 
@@ -45,7 +45,7 @@ def remote_only() -> Generator[None]:
 
 @pytest.mark.usefixtures("xbox_live_client")
 async def test_remotes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -78,7 +78,7 @@ async def test_remotes(
     ],
 )
 async def test_send_button_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     xbox_live_client: AsyncMock,
     config_entry: MockConfigEntry,
     button: str,
@@ -122,7 +122,7 @@ async def test_send_button_command(
     ],
 )
 async def test_send_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     xbox_live_client: AsyncMock,
     config_entry: MockConfigEntry,
     command: str,
@@ -150,7 +150,7 @@ async def test_send_command(
 
 @pytest.mark.parametrize(("text", "expected"), [("Hello", "Hello"), ("text:A", "A")])
 async def test_send_text(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     xbox_live_client: AsyncMock,
     config_entry: MockConfigEntry,
     text: str,
@@ -176,7 +176,7 @@ async def test_send_text(
 
 
 async def test_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     xbox_live_client: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -199,7 +199,7 @@ async def test_turn_on(
 
 
 async def test_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     xbox_live_client: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -238,7 +238,7 @@ async def test_turn_off(
     ],
 )
 async def test_send_command_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     xbox_live_client: AsyncMock,
     config_entry: MockConfigEntry,
     command: str,
@@ -255,7 +255,7 @@ async def test_send_command_exceptions(
     assert config_entry.state is ConfigEntryState.LOADED
 
     getattr(xbox_live_client.smartglass, call_method).side_effect = exception
-    with pytest.raises(__HAC_KEEP__Error) as e:
+    with pytest.raises(UniversalAssistantError) as e:
         await hass.services.async_call(
             REMOTE_DOMAIN,
             SERVICE_SEND_COMMAND,
@@ -285,7 +285,7 @@ async def test_send_command_exceptions(
     ],
 )
 async def test_send_command_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     xbox_live_client: AsyncMock,
     config_entry: MockConfigEntry,
     command: str,
@@ -304,7 +304,7 @@ async def test_send_command_failed(
             hass, "smartglass_command_response_error.json", DOMAIN
         )  # type: ignore[reportArgumentType]
     )
-    with pytest.raises(__HAC_KEEP__Error) as e:
+    with pytest.raises(UniversalAssistantError) as e:
         await hass.services.async_call(
             REMOTE_DOMAIN,
             SERVICE_SEND_COMMAND,
@@ -324,7 +324,7 @@ async def test_send_command_failed(
     ],
 )
 async def test_turn_on_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     xbox_live_client: AsyncMock,
     config_entry: MockConfigEntry,
     exception: Exception,
@@ -340,7 +340,7 @@ async def test_turn_on_exceptions(
 
     xbox_live_client.smartglass.wake_up.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error) as e:
+    with pytest.raises(UniversalAssistantError) as e:
         await hass.services.async_call(
             REMOTE_DOMAIN,
             SERVICE_TURN_ON,
@@ -351,7 +351,7 @@ async def test_turn_on_exceptions(
 
 
 async def test_turn_on_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     xbox_live_client: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -368,7 +368,7 @@ async def test_turn_on_failed(
             hass, "smartglass_command_response_error.json", DOMAIN
         )  # type: ignore[reportArgumentType]
     )
-    with pytest.raises(__HAC_KEEP__Error) as e:
+    with pytest.raises(UniversalAssistantError) as e:
         await hass.services.async_call(
             REMOTE_DOMAIN,
             SERVICE_TURN_ON,
@@ -387,7 +387,7 @@ async def test_turn_on_failed(
     ],
 )
 async def test_turn_off_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     xbox_live_client: AsyncMock,
     config_entry: MockConfigEntry,
     exception: Exception,
@@ -402,7 +402,7 @@ async def test_turn_off_exceptions(
     assert config_entry.state is ConfigEntryState.LOADED
 
     xbox_live_client.smartglass.turn_off.side_effect = exception
-    with pytest.raises(__HAC_KEEP__Error) as e:
+    with pytest.raises(UniversalAssistantError) as e:
         await hass.services.async_call(
             REMOTE_DOMAIN,
             SERVICE_TURN_OFF,

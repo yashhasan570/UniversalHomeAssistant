@@ -11,13 +11,13 @@ from universalassistant.components.fully_kiosk.services import (
     FullyKioskServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 
 
 async def test_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_fully_kiosk: MagicMock,
     init_integration: MockConfigEntry,
@@ -119,7 +119,7 @@ async def test_services(
 
 
 async def test_service_unloaded_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_fully_kiosk: MagicMock,
     init_integration: MockConfigEntry,
@@ -133,7 +133,7 @@ async def test_service_unloaded_entry(
 
     assert device_entry
 
-    with pytest.raises(__HAC_KEEP__Error) as excinfo:
+    with pytest.raises(UniversalAssistantError) as excinfo:
         await hass.services.async_call(
             DOMAIN,
             FullyKioskService.LOAD_URL,
@@ -147,7 +147,7 @@ async def test_service_unloaded_entry(
     assert excinfo.value.translation_key == "service_config_entry_not_loaded"
     mock_fully_kiosk.loadUrl.assert_not_called()
 
-    with pytest.raises(__HAC_KEEP__Error) as excinfo:
+    with pytest.raises(UniversalAssistantError) as excinfo:
         await hass.services.async_call(
             DOMAIN,
             FullyKioskService.START_APPLICATION,
@@ -163,12 +163,12 @@ async def test_service_unloaded_entry(
 
 
 async def test_service_bad_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fully_kiosk: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test Fully Kiosk Browser service invocation with bad device id."""
-    with pytest.raises(__HAC_KEEP__Error) as excinfo:
+    with pytest.raises(UniversalAssistantError) as excinfo:
         await hass.services.async_call(
             DOMAIN,
             FullyKioskService.LOAD_URL,
@@ -185,7 +185,7 @@ async def test_service_bad_device_id(
 
 
 async def test_service_called_with_non_fkb_target_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_fully_kiosk: MagicMock,
     init_integration: MockConfigEntry,
@@ -205,7 +205,7 @@ async def test_service_called_with_non_fkb_target_devices(
         },
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as excinfo:
+    with pytest.raises(UniversalAssistantError) as excinfo:
         await hass.services.async_call(
             DOMAIN,
             FullyKioskService.LOAD_URL,

@@ -20,7 +20,7 @@ from universalassistant.components.cover import (
     CoverState,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -30,7 +30,7 @@ COVER_ZONE_2_ENTITY_ID = "cover.zone_2_damper"
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_airtouch5_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -45,7 +45,7 @@ async def test_all_entities(
 
 
 async def test_cover_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airtouch5_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -82,7 +82,7 @@ async def test_cover_actions(
 
 
 async def test_cover_callbacks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airtouch5_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

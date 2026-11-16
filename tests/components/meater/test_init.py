@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.meater.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -16,7 +16,7 @@ from .const import PROBE_ID
 
 
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_meater_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -32,7 +32,7 @@ async def test_device_info(
 
 
 async def test_load_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_meater_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

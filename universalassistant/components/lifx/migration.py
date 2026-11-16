@@ -1,6 +1,6 @@
 """Migrate the stored form of a LIFX serial."""
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import DOMAIN
@@ -34,7 +34,7 @@ def _raw_unique_id(reg_entity: er.RegistryEntry) -> dict[str, str] | None:
     return {"new_unique_id": f"{raw_serial}{separator}{key}"}
 
 
-async def async_migrate_serials(hass: __HAC_KEEP__, entry: LIFXConfigEntry) -> None:
+async def async_migrate_serials(hass: UniversalAssistant, entry: LIFXConfigEntry) -> None:
     """Replace the MAC-formatted serials an entry registered with the actual serial.
 
     A LIFX serial is not a MAC address and earlier releases stored it colon

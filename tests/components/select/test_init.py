@@ -18,7 +18,7 @@ from universalassistant.components.select import (
     SelectEntity,
 )
 from universalassistant.const import ATTR_ENTITY_ID, CONF_PLATFORM, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.setup import async_setup_component
 
@@ -37,7 +37,7 @@ class MockSelectEntityWithoutOptions(MockSelectEntity):
     _attr_options: list[str] = []
 
 
-async def test_select(hass: __HAC_KEEP__) -> None:
+async def test_select(hass: UniversalAssistant) -> None:
     """Test getting data from the mocked select entity."""
     select = MockSelectEntity()
     assert select.current_option == "option_one"
@@ -99,7 +99,7 @@ async def test_select(hass: __HAC_KEEP__) -> None:
 
 
 async def test_custom_integration_and_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_select_entities: list[MockSelectEntity],
 ) -> None:
     """Test we can only select valid options."""
@@ -229,7 +229,7 @@ async def test_custom_integration_and_validation(
     ids=["without_current_option", "with_stale_current_option"],
 )
 async def test_navigation_services_without_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service: str,
     service_data: dict[str, bool],
     current_option: str | None,

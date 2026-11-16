@@ -22,7 +22,7 @@ from universalassistant.const import (
     EntityCategory,
     EntityStateAttribute,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import AugustConfigEntry
@@ -78,7 +78,7 @@ SENSOR_TYPE_KEYPAD_BATTERY = AugustSensorEntityDescription[KeypadDetail](
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: AugustConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

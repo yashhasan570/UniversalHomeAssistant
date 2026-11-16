@@ -9,7 +9,7 @@ from nibe.exceptions import CoilNotFoundException
 import pytest
 from pytest_universalassistant.common import async_fire_time_changed
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import MockConnection
 
@@ -77,7 +77,7 @@ async def fixture_coils(mock_connection: MockConnection):
 
 
 @pytest.fixture(name="freezer_ticker")
-async def fixture_freezer_ticker(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory):
+async def fixture_freezer_ticker(hass: UniversalAssistant, freezer: FrozenDateTimeFactory):
     """Tick time and perform actions."""
 
     async def ticker(delay, block=True):

@@ -4,7 +4,7 @@ from typing import Any
 
 import pytest
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import init_integration, mock_weather_response
 
@@ -17,7 +17,7 @@ from . import init_integration, mock_weather_response
     ],
 )
 async def test_sensor_values(
-    hass: __HAC_KEEP__, entity_name: str, expected_value: Any
+    hass: UniversalAssistant, entity_name: str, expected_value: Any
 ) -> None:
     """Test that various sensor values match what we expect."""
     with mock_weather_response():

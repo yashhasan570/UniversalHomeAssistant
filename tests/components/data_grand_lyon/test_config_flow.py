@@ -19,14 +19,14 @@ from universalassistant.components.data_grand_lyon.const import (
     SUBENTRY_TYPE_VELOV_STATION,
 )
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 # Main config flow tests
 
 
 async def test_full_user_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_full_user_flow(
     ids=["connection-error", "auth-401", "http-500", "unknown"],
 )
 async def test_form_error_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tcl_client: AsyncMock,
     side_effect: Exception,
     error: str,
@@ -94,7 +94,7 @@ async def test_form_error_recovers(
 
 
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -129,7 +129,7 @@ async def test_reauth_flow(
     ids=["connection-error", "auth-401", "http-500", "unknown"],
 )
 async def test_reauth_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
     side_effect: Exception,
@@ -165,7 +165,7 @@ async def test_reauth_flow_errors(
 
 
 async def test_form_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -186,7 +186,7 @@ async def test_form_already_configured(
 
 
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -223,7 +223,7 @@ async def test_reconfigure_flow(
     ids=["connection-error", "auth-401", "http-500", "unknown"],
 )
 async def test_reconfigure_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
     side_effect: Exception,
@@ -265,7 +265,7 @@ async def test_reconfigure_flow_errors(
 
 @pytest.mark.parametrize("mock_subentries", [[]])
 async def test_stop_subentry_picker_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -302,7 +302,7 @@ async def test_stop_subentry_picker_flow(
 
 @pytest.mark.parametrize("mock_subentries", [[]])
 async def test_stop_subentry_custom_value_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -335,7 +335,7 @@ async def test_stop_subentry_custom_value_flow(
 
 @pytest.mark.parametrize("mock_subentries", [[]])
 async def test_stop_subentry_invalid_stop_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -376,7 +376,7 @@ async def test_stop_subentry_invalid_stop_id(
 
 
 async def test_stop_subentry_picker_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -420,7 +420,7 @@ async def test_stop_subentry_picker_already_configured(
 )
 @pytest.mark.parametrize("mock_subentries", [[]])
 async def test_stop_subentry_picker_load_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
     side_effect: Exception,
@@ -447,7 +447,7 @@ async def test_stop_subentry_picker_load_errors(
 
 @pytest.mark.parametrize("mock_subentries", [[]])
 async def test_velov_station_subentry_picker_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -477,7 +477,7 @@ async def test_velov_station_subentry_picker_flow(
 
 @pytest.mark.parametrize("mock_subentries", [[]])
 async def test_velov_station_subentry_custom_value_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -503,7 +503,7 @@ async def test_velov_station_subentry_custom_value_flow(
 
 @pytest.mark.parametrize("mock_subentries", [[]])
 async def test_velov_station_subentry_invalid_station_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -537,7 +537,7 @@ async def test_velov_station_subentry_invalid_station_id(
 
 
 async def test_velov_station_subentry_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_velov_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -578,7 +578,7 @@ async def test_velov_station_subentry_already_configured(
 )
 @pytest.mark.parametrize("mock_subentries", [[]])
 async def test_velov_station_subentry_picker_load_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
     side_effect: Exception,
@@ -605,7 +605,7 @@ async def test_velov_station_subentry_picker_load_errors(
 
 @pytest.mark.parametrize("mock_subentries", [[]])
 async def test_park_and_ride_subentry_picker_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -635,7 +635,7 @@ async def test_park_and_ride_subentry_picker_flow(
 
 @pytest.mark.parametrize("mock_subentries", [[]])
 async def test_park_and_ride_subentry_custom_value_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -660,7 +660,7 @@ async def test_park_and_ride_subentry_custom_value_flow(
 
 
 async def test_park_and_ride_subentry_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_park_and_ride_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -701,7 +701,7 @@ async def test_park_and_ride_subentry_already_configured(
 )
 @pytest.mark.parametrize("mock_subentries", [[]])
 async def test_park_and_ride_subentry_picker_load_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
     side_effect: Exception,
@@ -733,7 +733,7 @@ async def test_park_and_ride_subentry_picker_load_errors(
 )
 @pytest.mark.usefixtures("mock_tcl_client")
 async def test_line_subentry_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     submitted: str,
     expected: str,
@@ -768,7 +768,7 @@ async def test_line_subentry_flow(
 )
 @pytest.mark.usefixtures("mock_tcl_client")
 async def test_line_subentry_flow_rejects_empty_line_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     line_code: str,
 ) -> None:
@@ -797,7 +797,7 @@ async def test_line_subentry_flow_rejects_empty_line_code(
 
 @pytest.mark.usefixtures("mock_tcl_client")
 async def test_line_subentry_flow_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_line_config_entry: MockConfigEntry,
 ) -> None:
     """Test adding a line that is already configured aborts."""
@@ -837,7 +837,7 @@ async def test_line_subentry_flow_already_configured(
     ],
 )
 async def test_line_subentry_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
     side_effect: Exception,

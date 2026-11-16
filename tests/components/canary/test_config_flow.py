@@ -12,13 +12,13 @@ from universalassistant.components.canary.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_TIMEOUT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import USER_INPUT, _patch_async_setup_entry, init_integration
 
 
-async def test_user_form(hass: __HAC_KEEP__, canary_config_flow) -> None:
+async def test_user_form(hass: UniversalAssistant, canary_config_flow) -> None:
     """Test we get the user initiated form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -42,7 +42,7 @@ async def test_user_form(hass: __HAC_KEEP__, canary_config_flow) -> None:
 
 
 async def test_user_form_cannot_connect(
-    hass: __HAC_KEEP__, canary_config_flow: MagicMock
+    hass: UniversalAssistant, canary_config_flow: MagicMock
 ) -> None:
     """Test we handle errors that should trigger the cannot connect error."""
     canary_config_flow.side_effect = HTTPError()
@@ -82,7 +82,7 @@ async def test_user_form_cannot_connect(
 
 
 async def test_user_form_unexpected_exception(
-    hass: __HAC_KEEP__, canary_config_flow
+    hass: UniversalAssistant, canary_config_flow
 ) -> None:
     """Test we handle unexpected exception."""
     canary_config_flow.side_effect = Exception()
@@ -101,7 +101,7 @@ async def test_user_form_unexpected_exception(
 
 
 async def test_user_form_single_instance_allowed(
-    hass: __HAC_KEEP__, canary_config_flow
+    hass: UniversalAssistant, canary_config_flow
 ) -> None:
     """Test that configuring more than one instance is rejected."""
     await init_integration(hass, skip_entry_setup=True)
@@ -114,7 +114,7 @@ async def test_user_form_single_instance_allowed(
     assert result["reason"] == "single_instance_allowed"
 
 
-async def test_options_flow(hass: __HAC_KEEP__, canary) -> None:
+async def test_options_flow(hass: UniversalAssistant, canary) -> None:
     """Test updating options."""
     with patch("universalassistant.components.canary.PLATFORMS", []):
         entry = await init_integration(hass)

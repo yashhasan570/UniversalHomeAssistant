@@ -10,7 +10,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components import onboarding
 from universalassistant.components.cloud import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
@@ -23,13 +23,13 @@ def mock_onboarding_storage(hass_storage, data):
 
 
 @pytest.fixture(autouse=True)
-async def auth_active(hass: __HAC_KEEP__) -> None:
+async def auth_active(hass: UniversalAssistant) -> None:
     """Ensure auth is always active."""
     await register_auth_provider(hass, {"type": "universalassistant"})
 
 
 @pytest.fixture(name="setup_cloud", autouse=True)
-async def setup_cloud_fixture(hass: __HAC_KEEP__, cloud: MagicMock) -> None:
+async def setup_cloud_fixture(hass: UniversalAssistant, cloud: MagicMock) -> None:
     """Fixture that sets up cloud."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, DOMAIN, {})
@@ -54,7 +54,7 @@ async def setup_cloud_fixture(hass: __HAC_KEEP__, cloud: MagicMock) -> None:
     ],
 )
 async def test_onboarding_view_after_done(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
     cloud: MagicMock,
@@ -76,7 +76,7 @@ async def test_onboarding_view_after_done(
 
 
 async def test_onboarding_cloud_forgot_password(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
     cloud: MagicMock,
@@ -100,7 +100,7 @@ async def test_onboarding_cloud_forgot_password(
 
 
 async def test_onboarding_cloud_login(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
     cloud: MagicMock,
@@ -124,7 +124,7 @@ async def test_onboarding_cloud_login(
 
 
 async def test_onboarding_cloud_logout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
     cloud: MagicMock,
@@ -145,7 +145,7 @@ async def test_onboarding_cloud_logout(
 
 
 async def test_onboarding_cloud_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
     cloud: MagicMock,

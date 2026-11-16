@@ -17,7 +17,7 @@ from universalassistant.components.select import (
     SelectService,
 )
 from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -32,7 +32,7 @@ async def platforms() -> AsyncGenerator[None]:
 
 
 async def setup_select(
-    hass: __HAC_KEEP__, mock_homee: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_homee: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Setups the integration for select tests."""
     mock_homee.nodes = [build_mock_node("selects.json")]
@@ -57,7 +57,7 @@ async def setup_select(
     ],
 )
 async def test_select_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -81,7 +81,7 @@ async def test_select_services(
 
 
 async def test_select_option_service_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -101,7 +101,7 @@ async def test_select_option_service_error(
 
 
 async def test_select_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

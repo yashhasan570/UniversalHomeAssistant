@@ -14,14 +14,14 @@ from universalassistant.components.nice_go.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import setup_integration
 
 
 async def test_form(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_setup_entry: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -57,7 +57,7 @@ async def test_form(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     side_effect: Exception,
     expected_error: str,
@@ -91,7 +91,7 @@ async def test_form_exceptions(
 
 
 async def test_duplicate_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nice_go: AsyncMock,
 ) -> None:
@@ -113,7 +113,7 @@ async def test_duplicate_device(
 
 
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nice_go: AsyncMock,
 ) -> None:
@@ -144,7 +144,7 @@ async def test_reauth(
     [(AuthFailedError, "invalid_auth"), (Exception, "unknown")],
 )
 async def test_reauth_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nice_go: AsyncMock,
     side_effect: Exception,

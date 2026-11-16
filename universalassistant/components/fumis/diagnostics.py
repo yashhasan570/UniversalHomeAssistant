@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import FumisConfigEntry
 
@@ -11,7 +11,7 @@ TO_REDACT_UNIT = {"id", "ip"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: FumisConfigEntry
+    hass: UniversalAssistant, entry: FumisConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     data = await entry.runtime_data.client.raw_status()

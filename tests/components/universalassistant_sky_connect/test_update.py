@@ -10,7 +10,7 @@ from universalassistant.components.universalassistant_hardware.util import (
     ApplicationType,
     FirmwareInfo,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .common import USB_DATA_ZBT1
@@ -18,7 +18,7 @@ from .common import USB_DATA_ZBT1
 UPDATE_ENTITY_ID = "update.universal_assistant_connect_zbt_1_9e2adbd7_firmware"
 
 
-async def test_zbt1_update_entity(hass: __HAC_KEEP__) -> None:
+async def test_zbt1_update_entity(hass: UniversalAssistant) -> None:
     """Test the ZBT-1 firmware update entity."""
     await async_setup_component(hass, "universalassistant", {})
 
@@ -100,7 +100,7 @@ async def test_zbt1_update_entity(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_zbt1_update_entity_state(
-    hass: __HAC_KEEP__, firmware: str, version: str, expected: str
+    hass: UniversalAssistant, firmware: str, version: str, expected: str
 ) -> None:
     """Test the ZBT-1 firmware update entity with different firmware types."""
     await async_setup_component(hass, "universalassistant", {})

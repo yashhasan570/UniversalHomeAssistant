@@ -21,7 +21,7 @@ from universalassistant.const import (
     CONF_SCAN_INTERVAL,
     UnitOfDataRate,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.discovery import async_load_platform
 from universalassistant.helpers.dispatcher import dispatcher_send
@@ -104,7 +104,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the iperf3 component."""
     hass.data[DOMAIN] = {}
 

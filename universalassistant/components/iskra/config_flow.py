@@ -22,7 +22,7 @@ from universalassistant.const import (
     CONF_PROTOCOL,
     CONF_USERNAME,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.selector import (
     NumberSelector,
     NumberSelectorConfig,
@@ -246,9 +246,9 @@ class IskraConfigFlowFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""
 
 
-class UnknownException(__HAC_KEEP__Error):
+class UnknownException(UniversalAssistantError):
     """Error to indicate an unknown exception occurred."""

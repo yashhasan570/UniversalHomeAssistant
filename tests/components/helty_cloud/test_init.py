@@ -11,13 +11,13 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
 
 async def test_setup_and_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_helty_cloud: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -31,7 +31,7 @@ async def test_setup_and_unload(
 
 
 async def test_setup_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_helty_cloud: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -45,7 +45,7 @@ async def test_setup_connection_error(
 
 
 async def test_setup_auth_error_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_helty_cloud: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_setup_auth_error_starts_reauth(
 
 @pytest.mark.parametrize("error", [HeltyCloudNoDataError, HeltyCloudConnectionError])
 async def test_a_unit_with_nothing_to_read_still_loads(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_helty_cloud: AsyncMock,
     mock_config_entry: MockConfigEntry,
     error: type[Exception],
@@ -78,7 +78,7 @@ async def test_a_unit_with_nothing_to_read_still_loads(
 
 
 async def test_poll_auth_error_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_helty_cloud: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

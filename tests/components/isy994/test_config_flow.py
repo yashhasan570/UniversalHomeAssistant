@@ -19,7 +19,7 @@ from universalassistant.components.isy994.const import (
 )
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_IGNORE, SOURCE_SSDP
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME, CONF_VERIFY_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.service_info.ssdp import (
@@ -37,7 +37,7 @@ MOCK_VERIFY_SSL = True
 MOCK_IGNORE_STRING = "{IGNOREME}"
 MOCK_RESTORE_LIGHT_STATE = True
 MOCK_SENSOR_STRING = "IMASENSOR"
-MOCK_VARIABLE_SENSOR_STRING = "__HAC_KEEP__."
+MOCK_VARIABLE_SENSOR_STRING = "UniversalAssistant."
 
 MOCK_USER_INPUT = {
     CONF_HOST: f"http://{MOCK_HOSTNAME}",
@@ -100,7 +100,7 @@ def _get_schema_default(schema, key_name):
     raise KeyError(f"{key_name} not found in schema")
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -128,7 +128,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_invalid_host(hass: __HAC_KEEP__) -> None:
+async def test_form_invalid_host(hass: UniversalAssistant) -> None:
     """Test we handle invalid host."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -156,7 +156,7 @@ async def test_form_invalid_host(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
+async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -182,7 +182,7 @@ async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_unknown_exception(hass: __HAC_KEEP__) -> None:
+async def test_form_unknown_exception(hass: UniversalAssistant) -> None:
     """Test we handle generic exceptions."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -208,7 +208,7 @@ async def test_form_unknown_exception(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_isy_connection_error(hass: __HAC_KEEP__) -> None:
+async def test_form_isy_connection_error(hass: UniversalAssistant) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -234,7 +234,7 @@ async def test_form_isy_connection_error(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_isy_ssl_error(hass: __HAC_KEEP__) -> None:
+async def test_form_isy_ssl_error(hass: UniversalAssistant) -> None:
     """Test we surface ssl_error when pyisy chains an aiohttp.ClientSSLError.
 
     Uses an HTTPS URL so the HTTPS session branch (which honors verify_ssl)
@@ -269,7 +269,7 @@ async def test_form_isy_ssl_error(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("verify_ssl", [True, False])
 async def test_form_forwards_verify_ssl_to_connection(
-    hass: __HAC_KEEP__, verify_ssl: bool
+    hass: UniversalAssistant, verify_ssl: bool
 ) -> None:
     """Test verify_ssl is forwarded to the pyisy Connection used during validation."""
     result = await hass.config_entries.flow.async_init(
@@ -303,7 +303,7 @@ async def test_form_forwards_verify_ssl_to_connection(
     assert mock_connection_cls.call_args.kwargs["verify_ssl"] is verify_ssl
 
 
-async def test_form_isy_parse_response_error(hass: __HAC_KEEP__) -> None:
+async def test_form_isy_parse_response_error(hass: UniversalAssistant) -> None:
     """Test we handle poorly formatted XML response from ISY."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -329,7 +329,7 @@ async def test_form_isy_parse_response_error(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_no_name_in_response(hass: __HAC_KEEP__) -> None:
+async def test_form_no_name_in_response(hass: UniversalAssistant) -> None:
     """Test we handle invalid response from ISY with name not set."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -357,7 +357,7 @@ async def test_form_no_name_in_response(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_existing_config_entry(hass: __HAC_KEEP__) -> None:
+async def test_form_existing_config_entry(hass: UniversalAssistant) -> None:
     """Test if config entry already exists."""
     MockConfigEntry(domain=DOMAIN, unique_id=MOCK_UUID).add_to_hass(hass)
 
@@ -375,7 +375,7 @@ async def test_form_existing_config_entry(hass: __HAC_KEEP__) -> None:
     assert result2["type"] is FlowResultType.ABORT
 
 
-async def test_form_ssdp_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_form_ssdp_already_configured(hass: UniversalAssistant) -> None:
     """Test ssdp abort when the serial number is already configured."""
 
     MockConfigEntry(
@@ -400,7 +400,7 @@ async def test_form_ssdp_already_configured(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.ABORT
 
 
-async def test_form_ssdp(hass: __HAC_KEEP__) -> None:
+async def test_form_ssdp(hass: UniversalAssistant) -> None:
     """Test we can setup from ssdp."""
 
     result = await hass.config_entries.flow.async_init(
@@ -440,7 +440,7 @@ async def test_form_ssdp(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_ssdp_existing_entry(hass: __HAC_KEEP__) -> None:
+async def test_form_ssdp_existing_entry(hass: UniversalAssistant) -> None:
     """Test we update the ip of an existing entry from ssdp."""
 
     entry = MockConfigEntry(
@@ -471,7 +471,7 @@ async def test_form_ssdp_existing_entry(hass: __HAC_KEEP__) -> None:
     assert entry.data[CONF_HOST] == f"http://3.3.3.3:80{ISY_URL_POSTFIX}"
 
 
-async def test_form_ssdp_existing_entry_with_no_port(hass: __HAC_KEEP__) -> None:
+async def test_form_ssdp_existing_entry_with_no_port(hass: UniversalAssistant) -> None:
     """Test we update the ip of an existing entry from ssdp with no port."""
 
     entry = MockConfigEntry(
@@ -503,7 +503,7 @@ async def test_form_ssdp_existing_entry_with_no_port(hass: __HAC_KEEP__) -> None
 
 
 async def test_form_ssdp_existing_entry_with_alternate_port(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test we update the ip of an existing entry from ssdp with an alternate port."""
 
@@ -535,7 +535,7 @@ async def test_form_ssdp_existing_entry_with_alternate_port(
     assert entry.data[CONF_HOST] == f"http://3.3.3.3:1443/{ISY_URL_POSTFIX}"
 
 
-async def test_form_ssdp_existing_entry_no_port_https(hass: __HAC_KEEP__) -> None:
+async def test_form_ssdp_existing_entry_no_port_https(hass: UniversalAssistant) -> None:
     """Test we update the ip of an existing entry from ssdp with no port and https."""
 
     entry = MockConfigEntry(
@@ -566,7 +566,7 @@ async def test_form_ssdp_existing_entry_no_port_https(hass: __HAC_KEEP__) -> Non
     assert entry.data[CONF_HOST] == f"https://3.3.3.3:443/{ISY_URL_POSTFIX}"
 
 
-async def test_form_dhcp(hass: __HAC_KEEP__) -> None:
+async def test_form_dhcp(hass: UniversalAssistant) -> None:
     """Test we can setup from dhcp."""
 
     result = await hass.config_entries.flow.async_init(
@@ -602,7 +602,7 @@ async def test_form_dhcp(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_dhcp_with_polisy(hass: __HAC_KEEP__) -> None:
+async def test_form_dhcp_with_polisy(hass: UniversalAssistant) -> None:
     """Test we can setup from dhcp with polisy."""
 
     result = await hass.config_entries.flow.async_init(
@@ -642,7 +642,7 @@ async def test_form_dhcp_with_polisy(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_dhcp_with_eisy(hass: __HAC_KEEP__) -> None:
+async def test_form_dhcp_with_eisy(hass: UniversalAssistant) -> None:
     """Test we can setup from dhcp with eisy."""
 
     result = await hass.config_entries.flow.async_init(
@@ -682,7 +682,7 @@ async def test_form_dhcp_with_eisy(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_dhcp_existing_entry(hass: __HAC_KEEP__) -> None:
+async def test_form_dhcp_existing_entry(hass: UniversalAssistant) -> None:
     """Test we update the ip of an existing entry from dhcp."""
 
     entry = MockConfigEntry(
@@ -709,7 +709,7 @@ async def test_form_dhcp_existing_entry(hass: __HAC_KEEP__) -> None:
     assert entry.data[CONF_HOST] == f"http://1.2.3.4{ISY_URL_POSTFIX}"
 
 
-async def test_form_dhcp_existing_entry_preserves_port(hass: __HAC_KEEP__) -> None:
+async def test_form_dhcp_existing_entry_preserves_port(hass: UniversalAssistant) -> None:
     """Test we update the ip of an existing entry from dhcp preserves port."""
 
     entry = MockConfigEntry(
@@ -740,7 +740,7 @@ async def test_form_dhcp_existing_entry_preserves_port(hass: __HAC_KEEP__) -> No
     assert entry.data[CONF_USERNAME] == "bob"
 
 
-async def test_form_dhcp_existing_ignored_entry(hass: __HAC_KEEP__) -> None:
+async def test_form_dhcp_existing_ignored_entry(hass: UniversalAssistant) -> None:
     """Test we handled an ignored entry from dhcp."""
 
     entry = MockConfigEntry(
@@ -764,7 +764,7 @@ async def test_form_dhcp_existing_ignored_entry(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_reauth(hass: __HAC_KEEP__) -> None:
+async def test_reauth(hass: UniversalAssistant) -> None:
     """Test we can reauth."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -849,7 +849,7 @@ async def test_reauth(hass: __HAC_KEEP__) -> None:
     assert result4["reason"] == "reauth_successful"
 
 
-async def test_options_flow(hass: __HAC_KEEP__) -> None:
+async def test_options_flow(hass: UniversalAssistant) -> None:
     """Test option flow."""
     entry = MockConfigEntry(domain=DOMAIN)
     entry.add_to_hass(hass)

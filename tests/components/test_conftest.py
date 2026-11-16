@@ -5,7 +5,7 @@ from collections.abc import Callable
 import pytest
 from pytest_universalassistant.common import QualityScaleStatus
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import Unauthorized, UnknownUser
 
 from . import conftest as components_conftest
@@ -19,7 +19,7 @@ from . import conftest as components_conftest
     ],
 )
 async def test_authorization_errors_do_not_require_integration_translations(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monkeypatch: pytest.MonkeyPatch,
     request: pytest.FixtureRequest,
     exception_type: Callable[[], Unauthorized],

@@ -6,8 +6,8 @@ from typing import Any, override
 from pymystrom.exceptions import MyStromConnectionError
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceInfo, format_mac
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -20,7 +20,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MyStromConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -54,7 +54,7 @@ class MyStromSwitch(SwitchEntity):
         try:
             await self.plug.turn_on()
         except MyStromConnectionError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="switch_action_failed",
             ) from err
@@ -65,7 +65,7 @@ class MyStromSwitch(SwitchEntity):
         try:
             await self.plug.turn_off()
         except MyStromConnectionError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="switch_action_failed",
             ) from err

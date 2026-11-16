@@ -14,7 +14,7 @@ import requests
 from requests_mock.mocker import Mocker
 
 from universalassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .conftest import (
@@ -29,7 +29,7 @@ from .conftest import (
 )
 
 
-async def test_signal_messenger_init(hass: __HAC_KEEP__) -> None:
+async def test_signal_messenger_init(hass: UniversalAssistant) -> None:
     """Test that service loads successfully."""
     config = {
         NOTIFY_DOMAIN: {
@@ -52,7 +52,7 @@ async def test_signal_messenger_init(hass: __HAC_KEEP__) -> None:
 
 
 async def test_signal_messenger_init_api_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     requests_mock: Mocker,
     signal_requests_mock_factory: Mocker,
 ) -> None:
@@ -291,7 +291,7 @@ def test_send_message_styled_with_attachment_as_url(
 def test_get_attachments(
     signal_notification_service: SignalNotificationService,
     signal_requests_mock_factory: Mocker,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test getting attachments as URL."""
     signal_requests_mock = signal_requests_mock_factory(True, str(len(CONTENT)))
@@ -308,7 +308,7 @@ def test_get_attachments(
 def test_get_attachments_not_on_allowlist(
     signal_notification_service: SignalNotificationService,
     caplog: pytest.LogCaptureFixture,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test getting attachments as URL that aren't on the allowlist."""
     url = "http://dodgyurl.com"
@@ -327,7 +327,7 @@ def test_get_attachments_not_on_allowlist(
 def test_get_attachments_with_large_attachment(
     signal_notification_service: SignalNotificationService,
     signal_requests_mock_factory: Mocker,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test URL attachment with large Content-Length throws error."""
     signal_requests_mock = signal_requests_mock_factory(True, str(len(CONTENT) + 1))
@@ -344,7 +344,7 @@ def test_get_attachments_with_large_attachment(
 def test_get_attachments_with_large_attachment_no_header(
     signal_notification_service: SignalNotificationService,
     signal_requests_mock_factory: Mocker,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test URL attachment with large content length throws error."""
     signal_requests_mock = signal_requests_mock_factory()
@@ -400,7 +400,7 @@ def test_get_filenames_with_non_list_returns_none(
 
 def test_get_attachments_with_non_list_returns_none(
     signal_notification_service: SignalNotificationService,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test getting attachments with non list data."""
     data = {"urls": URL_ATTACHMENT}
@@ -414,7 +414,7 @@ def test_get_attachments_with_non_list_returns_none(
 def test_get_attachments_with_verify_unset(
     signal_notification_service: SignalNotificationService,
     signal_requests_mock_factory: Mocker,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test getting attachments as URL with verify_ssl unset results in verify=true."""
     signal_requests_mock = signal_requests_mock_factory()
@@ -429,7 +429,7 @@ def test_get_attachments_with_verify_unset(
 def test_get_attachments_with_verify_set_true(
     signal_notification_service: SignalNotificationService,
     signal_requests_mock_factory: Mocker,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test URL attachment with verify_ssl=true uses verify=true."""
     signal_requests_mock = signal_requests_mock_factory()
@@ -444,7 +444,7 @@ def test_get_attachments_with_verify_set_true(
 def test_get_attachments_with_verify_set_false(
     signal_notification_service: SignalNotificationService,
     signal_requests_mock_factory: Mocker,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test URL attachment with verify_ssl=false uses verify=false."""
     signal_requests_mock = signal_requests_mock_factory()
@@ -458,7 +458,7 @@ def test_get_attachments_with_verify_set_false(
 
 def test_get_attachments_with_verify_set_garbage(
     signal_notification_service: SignalNotificationService,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test URL attachment with verify_ssl=garbage returns None."""
     data = {"verify_ssl": "test", "urls": [URL_ATTACHMENT]}

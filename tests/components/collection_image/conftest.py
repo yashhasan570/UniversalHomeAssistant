@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.collection_image.const import DOMAIN
 from universalassistant.components.media_player import BrowseError, BrowseMedia, MediaClass
 from universalassistant.components.media_source import BrowseMediaSource, PlayMedia
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import (
     MOCK_MEDIA_DIR_URI_1,
@@ -113,7 +113,7 @@ def mock_media_source(
     """Patch media-source calls made by the collection-image integration."""
 
     async def browse_side_effect(
-        _hass: __HAC_KEEP__,
+        _hass: UniversalAssistant,
         media_content_id: str,
         *,
         content_filter=None,
@@ -129,7 +129,7 @@ def mock_media_source(
             ) from err
 
     async def resolve_side_effect(
-        _hass: __HAC_KEEP__,
+        _hass: UniversalAssistant,
         media_content_id: str,
         _entity_id: str,
     ) -> PlayMedia:

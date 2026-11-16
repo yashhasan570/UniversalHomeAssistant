@@ -8,8 +8,8 @@ from aiohttp import hdrs
 from hass_nabucasa import remote
 import yarl
 
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.util.network import is_ip_address, is_loopback, normalize_url
 
 from . import http
@@ -22,11 +22,11 @@ TYPE_URL_EXTERNAL = "external_url"
 SUPERVISOR_NETWORK_HOST = "universalassistant"
 
 
-class NoURLAvailableError(__HAC_KEEP__Error):
-    """URL to the __HA_KEEP__ instance is not available."""
+class NoURLAvailableError(UniversalAssistantError):
+    """URL to the Universal Home Assistant instance is not available."""
 
 
-def is_internal_request(hass: __HAC_KEEP__) -> bool:
+def is_internal_request(hass: UniversalAssistant) -> bool:
     """Test if the current request is internal."""
     try:
         get_url(
@@ -38,7 +38,7 @@ def is_internal_request(hass: __HAC_KEEP__) -> bool:
 
 
 def get_supervisor_network_url(
-    hass: __HAC_KEEP__, *, allow_ssl: bool = False
+    hass: UniversalAssistant, *, allow_ssl: bool = False
 ) -> str | None:
     """Get URL for universal assistant within supervisor network."""
     if hass.config.api is None or not is_hassio(hass):
@@ -61,8 +61,8 @@ def get_supervisor_network_url(
     )
 
 
-def is_hass_url(hass: __HAC_KEEP__, url: str) -> bool:
-    """Return if the URL points at this __HA_KEEP__ instance."""
+def is_hass_url(hass: UniversalAssistant, url: str) -> bool:
+    """Return if the URL points at this Universal Home Assistant instance."""
     parsed = yarl.URL(url)
 
     if not parsed.is_absolute():
@@ -111,7 +111,7 @@ def is_hass_url(hass: __HAC_KEEP__, url: str) -> bool:
 
 
 def get_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     require_current_request: bool = False,
     require_ssl: bool = False,
@@ -268,7 +268,7 @@ def _match_request_host_port(url: yarl.URL) -> bool:
 
 
 def _get_internal_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     allow_ip: bool = True,
     require_current_request: bool = False,
@@ -305,7 +305,7 @@ def _get_internal_url(
 
 
 def _get_external_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     allow_cloud: bool = True,
     allow_ip: bool = True,
@@ -346,8 +346,8 @@ def _get_external_url(
     raise NoURLAvailableError
 
 
-def _get_cloud_urls(hass: __HAC_KEEP__) -> list[str]:
-    """Get the __HA_KEEP__ Cloud URLs of this instance, custom domains first."""
+def _get_cloud_urls(hass: UniversalAssistant) -> list[str]:
+    """Get the Universal Home Assistant Cloud URLs of this instance, custom domains first."""
     if "cloud" not in hass.config.components:
         raise NoURLAvailableError
 
@@ -360,8 +360,8 @@ def _get_cloud_urls(hass: __HAC_KEEP__) -> list[str]:
         raise NoURLAvailableError from err
 
 
-def _get_cloud_url(hass: __HAC_KEEP__, require_current_request: bool = False) -> str:
-    """Get external __HA_KEEP__ Cloud URL of this instance."""
+def _get_cloud_url(hass: UniversalAssistant, require_current_request: bool = False) -> str:
+    """Get external Universal Home Assistant Cloud URL of this instance."""
     for cloud_url in map(yarl.URL, _get_cloud_urls(hass)):
         if not require_current_request or _match_request_host_port(cloud_url):
             return normalize_url(str(cloud_url))
@@ -369,7 +369,7 @@ def _get_cloud_url(hass: __HAC_KEEP__, require_current_request: bool = False) ->
     raise NoURLAvailableError
 
 
-def is_cloud_connection(hass: __HAC_KEEP__) -> bool:
+def is_cloud_connection(hass: UniversalAssistant) -> bool:
     """Return True if the current connection is a nabucasa cloud connection."""
 
     if "cloud" not in hass.config.components:

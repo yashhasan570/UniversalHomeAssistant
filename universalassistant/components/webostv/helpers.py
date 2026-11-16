@@ -2,8 +2,8 @@
 
 from aiowebostv import WebOsTvState
 
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import DeviceEntry
 
@@ -12,7 +12,7 @@ from .const import DOMAIN, LIVE_TV_APP_ID
 
 @callback
 def async_get_device_entry_by_device_id(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> DeviceEntry:
     """Get Device Entry from Device Registry by device ID.
 
@@ -26,10 +26,10 @@ def async_get_device_entry_by_device_id(
 
 
 @callback
-def async_get_device_id_from_entity_id(hass: __HAC_KEEP__, entity_id: str) -> str:
+def async_get_device_id_from_entity_id(hass: UniversalAssistant, entity_id: str) -> str:
     """Get device ID from an entity ID.
 
-    Raises __HAC_KEEP__Error if entity or device ID is invalid.
+    Raises UniversalAssistantError if entity or device ID is invalid.
     """
     ent_reg = er.async_get(hass)
     entity_entry = ent_reg.async_get(entity_id)
@@ -39,7 +39,7 @@ def async_get_device_id_from_entity_id(hass: __HAC_KEEP__, entity_id: str) -> st
         or entity_entry.device_id is None
         or entity_entry.platform != DOMAIN
     ):
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="invalid_entity_id",
             translation_placeholders={"entity_id": entity_id},

@@ -10,7 +10,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
 )
 from universalassistant.const import UnitOfVolume
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -54,7 +54,7 @@ SENSORS: tuple[StreamlabsWaterSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: StreamlabsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

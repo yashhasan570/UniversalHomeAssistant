@@ -1,4 +1,4 @@
-"""Test automatic __HA_KEEP__ updates."""
+"""Test automatic Universal Home Assistant updates."""
 
 import asyncio
 from collections.abc import Generator
@@ -10,7 +10,7 @@ from unittest.mock import AsyncMock, Mock, patch
 from uuid import uuid4
 
 from aiohasupervisor import SupervisorError
-from aiohasupervisor.models import __HAC_KEEP__UpdateOptions, Job, UpdateChannel
+from aiohasupervisor.models import UniversalAssistantUpdateOptions, Job, UpdateChannel
 from freezegun.api import FrozenDateTimeFactory
 import probatio
 import pytest
@@ -36,7 +36,7 @@ from universalassistant.components.hassio.const import (
     MAIN_COORDINATOR,
 )
 from universalassistant.const import WEEKDAYS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.storage import Store
@@ -86,7 +86,7 @@ def mock_all(
 
 
 async def _setup_hassio(
-    hass: __HAC_KEEP__, options: dict[str, Any] | None = None
+    hass: UniversalAssistant, options: dict[str, Any] | None = None
 ) -> MockConfigEntry:
     """Set up the hassio integration."""
     config_entry = MockConfigEntry(
@@ -101,7 +101,7 @@ async def _setup_hassio(
     return config_entry
 
 
-async def test_default_settings(hass: __HAC_KEEP__) -> None:
+async def test_default_settings(hass: UniversalAssistant) -> None:
     """Test the settings when the user has not chosen anything yet."""
     await _setup_hassio(hass)
 
@@ -114,7 +114,7 @@ async def test_default_settings(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_stored_settings(hass: __HAC_KEEP__) -> None:
+async def test_stored_settings(hass: UniversalAssistant) -> None:
     """Test the settings are read from the config entry options."""
     await _setup_hassio(
         hass,
@@ -208,7 +208,7 @@ def test_options_schema_to_settings() -> None:
 
 
 async def _refresh_main_coordinator(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Let the main coordinator refresh on its schedule."""
     freezer.tick(HASSIO_MAIN_UPDATE_INTERVAL)
@@ -217,7 +217,7 @@ async def _refresh_main_coordinator(
 
 
 async def test_first_seen_is_set_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     universalassistant_info: AsyncMock,
@@ -255,7 +255,7 @@ async def test_first_seen_is_set_once(
 
 
 async def test_first_seen_survives_reload(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test a reload right after a version is first seen keeps its time."""
     first_seen = dt_util.utcnow()
@@ -270,7 +270,7 @@ async def test_first_seen_survives_reload(
 
 
 async def test_first_seen_survives_restart(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test stored first-seen times are kept and older majors are dropped."""
     hass_storage[STORAGE_KEY] = {
@@ -294,7 +294,7 @@ async def test_first_seen_survives_restart(
 
 @pytest.mark.parametrize("missing", ["version", "version_latest"])
 async def test_first_seen_unknown_version(
-    hass: __HAC_KEEP__, universalassistant_info: AsyncMock, missing: str
+    hass: UniversalAssistant, universalassistant_info: AsyncMock, missing: str
 ) -> None:
     """Test nothing is recorded while Supervisor does not know a version."""
     universalassistant_info.return_value = replace(
@@ -305,17 +305,17 @@ async def test_first_seen_unknown_version(
     assert hass.data[DATA_AUTO_UPDATE].async_get_first_seen("2026.10.2") is None
 
 
-async def test_available(hass: __HAC_KEEP__) -> None:
-    """Test the feature is available on __HA_KEEP__ OS on the stable channel."""
+async def test_available(hass: UniversalAssistant) -> None:
+    """Test the feature is available on Universal Home Assistant OS on the stable channel."""
     await _setup_hassio(hass)
 
     assert hass.data[DATA_AUTO_UPDATE].unavailable_reason is None
 
 
 async def test_unavailable_not_universal_assistant_os(
-    hass: __HAC_KEEP__, supervisor_root_info: AsyncMock
+    hass: UniversalAssistant, supervisor_root_info: AsyncMock
 ) -> None:
-    """Test the feature is unavailable when not on __HA_KEEP__ OS."""
+    """Test the feature is unavailable when not on Universal Home Assistant OS."""
     supervisor_root_info.return_value = replace(
         supervisor_root_info.return_value, hassos=None
     )
@@ -330,7 +330,7 @@ async def test_unavailable_not_universal_assistant_os(
 
 @pytest.mark.parametrize("channel", [UpdateChannel.BETA, UpdateChannel.DEV])
 async def test_unavailable_not_stable_channel(
-    hass: __HAC_KEEP__, supervisor_info: AsyncMock, channel: UpdateChannel
+    hass: UniversalAssistant, supervisor_info: AsyncMock, channel: UpdateChannel
 ) -> None:
     """Test the feature is unavailable on the beta and dev channels."""
     supervisor_info.return_value = replace(
@@ -346,8 +346,8 @@ async def test_unavailable_not_stable_channel(
 CORE_UPDATE_ENTITY_ID = "update.universal_assistant_core_update"
 
 
-async def _call_update_service(hass: __HAC_KEEP__, service: str) -> None:
-    """Call an update action on the __HA_KEEP__ Core update entity."""
+async def _call_update_service(hass: UniversalAssistant, service: str) -> None:
+    """Call an update action on the Universal Home Assistant Core update entity."""
     await hass.services.async_call(
         "update", service, {"entity_id": CORE_UPDATE_ENTITY_ID}, blocking=True
     )
@@ -355,7 +355,7 @@ async def _call_update_service(hass: __HAC_KEEP__, service: str) -> None:
 
 
 async def test_skipped_version_outlives_newer_release(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     universalassistant_info: AsyncMock,
@@ -383,7 +383,7 @@ async def test_skipped_version_outlives_newer_release(
 
 
 async def test_clearing_skipped_version(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test clearing the skip on the update entity allows the version again."""
     await _setup_hassio(hass)
@@ -397,7 +397,7 @@ async def test_clearing_skipped_version(
 
 
 async def test_skipped_version_survives_restart(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test stored skipped versions are kept and older majors are dropped."""
     hass_storage[STORAGE_KEY] = {
@@ -414,7 +414,7 @@ async def test_skipped_version_survives_restart(
 
 
 async def test_store_migration(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test a store without skipped versions is migrated."""
     hass_storage[STORAGE_KEY] = {
@@ -433,7 +433,7 @@ async def test_store_migration(
 
 
 async def test_skipped_version_kept_while_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     universalassistant_info: AsyncMock,
 ) -> None:
@@ -456,7 +456,7 @@ async def test_skipped_version_kept_while_unavailable(
 
 
 async def test_skipped_version_after_rename(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test skipping still reaches the skip list after renaming the entity."""
     await _setup_hassio(hass)
@@ -490,7 +490,7 @@ def _local(day: int, hour: int, minute: int = 0) -> datetime:
 
 
 async def _setup_scheduled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     now: datetime,
@@ -503,7 +503,7 @@ async def _setup_scheduled(
 ) -> None:
     """Set up hassio at a given time with known first-seen times.
 
-    __HA_KEEP__ is already running in tests, so the first check runs
+    Universal Home Assistant is already running in tests, so the first check runs
     during setup.
     """
     freezer.move_to(now)
@@ -533,7 +533,7 @@ def _installed(supervisor_client: AsyncMock) -> list[str | None]:
 
 
 async def test_installs_patch_in_window(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -548,7 +548,7 @@ async def test_installs_patch_in_window(
     )
 
     supervisor_client.universalassistant.update.assert_called_once_with(
-        __HAC_KEEP__UpdateOptions(version="2026.10.2", backup=False)
+        UniversalAssistantUpdateOptions(version="2026.10.2", backup=False)
     )
 
 
@@ -568,7 +568,7 @@ async def test_installs_patch_in_window(
     ],
 )
 async def test_no_install(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -589,7 +589,7 @@ async def test_no_install(
 
 
 async def test_window_crossing_midnight(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -667,7 +667,7 @@ async def test_window_crossing_midnight(
     ],
 )
 async def test_install_candidate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -694,7 +694,7 @@ async def test_install_candidate(
 
 
 async def test_window_offset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -720,7 +720,7 @@ async def test_window_offset(
 
 
 def _core_update_job(done: bool) -> Job:
-    """Return a Supervisor job for updating __HA_KEEP__ Core."""
+    """Return a Supervisor job for updating Universal Home Assistant Core."""
     return Job(
         name="universal_assistant_core_update",
         reference=None,
@@ -736,7 +736,7 @@ def _core_update_job(done: bool) -> Job:
 
 
 async def test_no_install_while_busy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -772,7 +772,7 @@ async def test_no_install_while_busy(
 
 
 async def test_no_install_in_safe_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -791,7 +791,7 @@ async def test_no_install_in_safe_mode(
 
 
 async def test_backup_before_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -814,7 +814,7 @@ async def test_backup_before_update(
 
 
 async def test_one_attempt_per_window(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -830,7 +830,7 @@ async def test_one_attempt_per_window(
         first_seen={"2026.10.2": _local(19, 2)},
     )
 
-    assert "Automatic update to __HA_KEEP__ 2026.10.2 failed" in caplog.text
+    assert "Automatic update to Universal Home Assistant 2026.10.2 failed" in caplog.text
 
     freezer.tick(CHECK_INTERVAL)
     async_fire_time_changed(hass)
@@ -846,7 +846,7 @@ async def test_one_attempt_per_window(
 
 
 async def test_no_install_while_backup_uploads(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -873,7 +873,7 @@ async def test_no_install_while_backup_uploads(
 
 
 async def test_no_install_on_stale_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -902,7 +902,7 @@ async def test_no_install_on_stale_data(
 
 
 async def test_no_retry_after_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -931,7 +931,7 @@ async def test_no_retry_after_reload(
 
 
 async def test_no_retry_after_reload_when_clocks_go_back(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -958,7 +958,7 @@ async def test_no_retry_after_reload_when_clocks_go_back(
 
 
 async def test_unload_during_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -966,7 +966,7 @@ async def test_unload_during_backup(
     """Test unloading while the backup runs stops the update."""
     backup_done = asyncio.Event()
 
-    async def slow_backup(hass: __HAC_KEEP__) -> None:
+    async def slow_backup(hass: UniversalAssistant) -> None:
         await backup_done.wait()
 
     with patch(
@@ -990,14 +990,14 @@ async def test_unload_during_backup(
 
 
 async def test_backup_may_run_past_window(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
 ) -> None:
     """Test the window bounds when the update starts, not when it ends."""
 
-    async def slow_backup(hass: __HAC_KEEP__) -> None:
+    async def slow_backup(hass: UniversalAssistant) -> None:
         freezer.move_to(_local(22, 5, 10))
 
     with patch(
@@ -1017,7 +1017,7 @@ async def test_backup_may_run_past_window(
 
 
 async def test_skipped_during_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -1025,7 +1025,7 @@ async def test_skipped_during_backup(
     """Test nothing installs when the version was skipped while backing up."""
     backup_done = asyncio.Event()
 
-    async def slow_backup(hass: __HAC_KEEP__) -> None:
+    async def slow_backup(hass: UniversalAssistant) -> None:
         await backup_done.wait()
 
     with patch(
@@ -1048,14 +1048,14 @@ async def test_skipped_during_backup(
 
 
 async def test_data_stale_after_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
 ) -> None:
     """Test nothing installs when Supervisor data went stale during the backup."""
 
-    async def backup_while_supervisor_fails(hass: __HAC_KEEP__) -> None:
+    async def backup_while_supervisor_fails(hass: UniversalAssistant) -> None:
         hass.data[MAIN_COORDINATOR].async_set_update_error(UpdateFailed("Boom"))
 
     with patch(
@@ -1075,7 +1075,7 @@ async def test_data_stale_after_backup(
 
 
 async def test_other_update_during_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -1083,7 +1083,7 @@ async def test_other_update_during_backup(
     """Test nothing installs when someone else started an update meanwhile."""
     backup_done = asyncio.Event()
 
-    async def slow_backup(hass: __HAC_KEEP__) -> None:
+    async def slow_backup(hass: UniversalAssistant) -> None:
         await backup_done.wait()
 
     with patch(
@@ -1110,7 +1110,7 @@ async def test_other_update_during_backup(
 
 
 async def test_own_backup_job_after_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -1118,7 +1118,7 @@ async def test_own_backup_job_after_backup(
 ) -> None:
     """Test our own backup still showing as running does not stop the update."""
 
-    async def backup_still_listed(hass: __HAC_KEEP__) -> None:
+    async def backup_still_listed(hass: UniversalAssistant) -> None:
         async_dispatcher_send(
             hass,
             EVENT_SUPERVISOR_EVENT,
@@ -1148,7 +1148,7 @@ async def test_own_backup_job_after_backup(
 
 
 async def test_withdrawn_then_replaced(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -1186,7 +1186,7 @@ async def test_withdrawn_then_replaced(
 
 
 async def test_turned_off_while_saving(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -1215,7 +1215,7 @@ async def test_turned_off_while_saving(
 
 
 async def test_withdrawn_then_replacement_skipped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -1249,7 +1249,7 @@ async def test_withdrawn_then_replacement_skipped(
 
 
 async def _offer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     universalassistant_info: AsyncMock,
     version: str,
@@ -1262,7 +1262,7 @@ async def _offer(
 
 
 async def test_withdrawn_then_new_major(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -1289,7 +1289,7 @@ async def test_withdrawn_then_new_major(
 
 
 async def test_withdrawn_offered_again(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -1316,7 +1316,7 @@ async def test_withdrawn_offered_again(
 
 
 async def test_withdrawn_survives_restart(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -1339,7 +1339,7 @@ async def test_withdrawn_survives_restart(
 
 
 async def test_other_backup_started_after_ours(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     supervisor_client: AsyncMock,
@@ -1353,7 +1353,7 @@ async def test_other_backup_started_after_ours(
 
     backup_manager = Mock(last_event=IdleEvent())
 
-    async def backup_then_another(hass: __HAC_KEEP__) -> None:
+    async def backup_then_another(hass: UniversalAssistant) -> None:
         backup_manager.last_event = uploading
 
     with (

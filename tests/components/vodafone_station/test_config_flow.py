@@ -20,14 +20,14 @@ from universalassistant.components.vodafone_station.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import TEST_HOST, TEST_PASSWORD, TEST_TYPE, TEST_URL, TEST_USERNAME
 
 
 async def test_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vodafone_station_router: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -73,7 +73,7 @@ async def test_user(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_exception_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vodafone_station_router: AsyncMock,
     side_effect: Exception,
     error: str,
@@ -126,7 +126,7 @@ async def test_exception_connection(
 
 
 async def test_duplicate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -152,7 +152,7 @@ async def test_duplicate_entry(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_successful(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -184,7 +184,7 @@ async def test_reauth_successful(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_not_successful(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -224,7 +224,7 @@ async def test_reauth_not_successful(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -246,7 +246,7 @@ async def test_options_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_successful(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -289,7 +289,7 @@ async def test_reconfigure_successful(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,

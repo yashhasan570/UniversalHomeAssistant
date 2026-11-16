@@ -15,14 +15,14 @@ from universalassistant.components.logbook import (
 )
 from universalassistant.components.trace import ATTR_ITEM_ID, ATTR_RUN_ID
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_NAME
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 from .const import ATTR_SOURCE, DOMAIN, EVENT_AUTOMATION_TRIGGERED
 
 
 @callback
 def async_describe_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_describe_event: Callable[
         [str, str, Callable[[LazyEventPartialState], dict[str, Any]]], None
     ],

@@ -13,14 +13,14 @@ from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import paths
 
 from universalassistant.components.miele.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceRegistry
 
 from . import setup_integration
 
 
 async def test_diagnostics_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_miele_client: Generator[MagicMock],
     mock_config_entry: MockConfigEntry,
@@ -42,7 +42,7 @@ async def test_diagnostics_config_entry(
 
 
 async def test_diagnostics_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     device_registry: DeviceRegistry,
     mock_miele_client: Generator[MagicMock],

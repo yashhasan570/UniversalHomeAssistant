@@ -7,7 +7,7 @@ from typing import Any, override
 from androidtv.constants import KEYS
 
 from universalassistant.components.remote import ATTR_NUM_REPEATS, RemoteEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -19,7 +19,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: AndroidTVConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

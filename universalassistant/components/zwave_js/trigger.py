@@ -1,6 +1,6 @@
 """Z-Wave JS trigger dispatcher."""
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.trigger import Trigger
 
 from .triggers import event, value_updated
@@ -11,6 +11,6 @@ TRIGGERS = {
 }
 
 
-async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
+async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
     """Return the triggers for Z-Wave JS."""
     return TRIGGERS

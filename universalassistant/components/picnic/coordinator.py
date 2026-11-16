@@ -13,7 +13,7 @@ from python_picnic_api2.session import PicnicAuthError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
@@ -59,7 +59,7 @@ class PicnicUpdateCoordinator(DataUpdateCoordinator[dict]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         picnic_api_client: PicnicAPI,
         config_entry: PicnicConfigEntry,
     ) -> None:

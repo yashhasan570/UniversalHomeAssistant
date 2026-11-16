@@ -33,7 +33,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_START,
     UnitOfEnergy,
 )
-from universalassistant.core import Event, __HAC_KEEP__, State, callback
+from universalassistant.core import Event, UniversalAssistant, State, callback
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -45,7 +45,7 @@ from universalassistant.util import dt as dt_util
 
 
 @pytest.fixture
-def sensor_config_entry(hass: __HAC_KEEP__) -> er.RegistryEntry:
+def sensor_config_entry(hass: UniversalAssistant) -> er.RegistryEntry:
     """Fixture to create a sensor config entry."""
     sensor_config_entry = MockConfigEntry()
     sensor_config_entry.add_to_hass(hass)
@@ -82,7 +82,7 @@ def sensor_entity_entry(
 
 @pytest.fixture
 def utility_meter_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sensor_entity_entry: er.RegistryEntry,
     tariffs: list[str],
 ) -> MockConfigEntry:
@@ -110,7 +110,7 @@ def utility_meter_config_entry(
     return config_entry
 
 
-def track_entity_registry_actions(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
+def track_entity_registry_actions(hass: UniversalAssistant, entity_id: str) -> list[str]:
     """Track entity registry actions for an entity."""
     events = []
 
@@ -129,7 +129,7 @@ def track_entity_registry_actions(hass: __HAC_KEEP__, entity_id: str) -> list[st
     ["select", "sensor"],
 )
 async def test_platform_config_creates_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     platform_domain: str,
     issue_registry: ir.IssueRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -144,7 +144,7 @@ async def test_platform_config_creates_issue(
     )
 
 
-async def test_restore_state(hass: __HAC_KEEP__) -> None:
+async def test_restore_state(hass: UniversalAssistant) -> None:
     """Test utility sensor restore state."""
     config = {
         "utility_meter": {
@@ -180,7 +180,7 @@ async def test_restore_state(hass: __HAC_KEEP__) -> None:
         "select.energy_bill",
     ],
 )
-async def test_services(hass: __HAC_KEEP__, meter) -> None:
+async def test_services(hass: UniversalAssistant, meter) -> None:
     """Test energy sensor reset service."""
     config = {
         "utility_meter": {
@@ -289,7 +289,7 @@ async def test_services(hass: __HAC_KEEP__, meter) -> None:
     assert state.state == "4"
 
 
-async def test_services_config_entry(hass: __HAC_KEEP__) -> None:
+async def test_services_config_entry(hass: UniversalAssistant) -> None:
     """Test energy sensor reset service."""
     config_entry = MockConfigEntry(
         data={},
@@ -415,7 +415,7 @@ async def test_services_config_entry(hass: __HAC_KEEP__) -> None:
     assert state.state == "4"
 
 
-async def test_cron(hass: __HAC_KEEP__) -> None:
+async def test_cron(hass: UniversalAssistant) -> None:
     """Test cron pattern."""
 
     config = {
@@ -430,7 +430,7 @@ async def test_cron(hass: __HAC_KEEP__) -> None:
     assert await async_setup_component(hass, DOMAIN, config)
 
 
-async def test_cron_and_meter(hass: __HAC_KEEP__) -> None:
+async def test_cron_and_meter(hass: UniversalAssistant) -> None:
     """Test cron pattern and meter type fails."""
     config = {
         "utility_meter": {
@@ -445,7 +445,7 @@ async def test_cron_and_meter(hass: __HAC_KEEP__) -> None:
     assert not await async_setup_component(hass, DOMAIN, config)
 
 
-async def test_both_cron_and_meter(hass: __HAC_KEEP__) -> None:
+async def test_both_cron_and_meter(hass: UniversalAssistant) -> None:
     """Test cron pattern and meter type passes in different meter."""
     config = {
         "utility_meter": {
@@ -464,7 +464,7 @@ async def test_both_cron_and_meter(hass: __HAC_KEEP__) -> None:
     await hass.async_block_till_done()
 
 
-async def test_cron_and_offset(hass: __HAC_KEEP__) -> None:
+async def test_cron_and_offset(hass: UniversalAssistant) -> None:
     """Test cron pattern and offset fails."""
 
     config = {
@@ -480,7 +480,7 @@ async def test_cron_and_offset(hass: __HAC_KEEP__) -> None:
     assert not await async_setup_component(hass, DOMAIN, config)
 
 
-async def test_bad_cron(hass: __HAC_KEEP__) -> None:
+async def test_bad_cron(hass: UniversalAssistant) -> None:
     """Test bad cron pattern."""
 
     config = {
@@ -490,7 +490,7 @@ async def test_bad_cron(hass: __HAC_KEEP__) -> None:
     assert not await async_setup_component(hass, DOMAIN, config)
 
 
-async def test_setup_missing_discovery(hass: __HAC_KEEP__) -> None:
+async def test_setup_missing_discovery(hass: UniversalAssistant) -> None:
     """Test setup with configuration missing discovery_info."""
     assert not await um_select.async_setup_platform(hass, {CONF_PLATFORM: DOMAIN}, None)
     assert not await um_sensor.async_setup_platform(hass, {CONF_PLATFORM: DOMAIN}, None)
@@ -514,7 +514,7 @@ async def test_setup_missing_discovery(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_setup_and_remove_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     tariffs: str,
     expected_entities: list[str],
@@ -572,7 +572,7 @@ async def test_setup_and_remove_config_entry(
     ],
 )
 async def test_async_handle_source_entity_changes_source_entity_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     utility_meter_config_entry: MockConfigEntry,
@@ -644,7 +644,7 @@ async def test_async_handle_source_entity_changes_source_entity_removed(
     ],
 )
 async def test_async_handle_source_entity_changes_source_entity_removed_shared_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     utility_meter_config_entry: MockConfigEntry,
@@ -718,7 +718,7 @@ async def test_async_handle_source_entity_changes_source_entity_removed_shared_d
     ],
 )
 async def test_async_handle_source_entity_changes_source_entity_removed_from_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     utility_meter_config_entry: MockConfigEntry,
@@ -791,7 +791,7 @@ async def test_async_handle_source_entity_changes_source_entity_removed_from_dev
     ],
 )
 async def test_async_handle_source_entity_changes_source_entity_moved_other_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     utility_meter_config_entry: MockConfigEntry,
@@ -874,7 +874,7 @@ async def test_async_handle_source_entity_changes_source_entity_moved_other_devi
     ],
 )
 async def test_async_handle_source_entity_new_entity_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     utility_meter_config_entry: MockConfigEntry,
@@ -942,7 +942,7 @@ async def test_async_handle_source_entity_new_entity_id(
     ],
 )
 async def test_migration_2_1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     sensor_entity_entry: er.RegistryEntry,
@@ -1003,7 +1003,7 @@ async def test_migration_2_1(
     ],
 )
 async def test_migration_2_2_clamps_offset(
-    hass: __HAC_KEEP__, offset: int, expected_offset: int
+    hass: UniversalAssistant, offset: int, expected_offset: int
 ) -> None:
     """Test migration from v2.2 clamps an offset above 27 days."""
     config_entry = MockConfigEntry(
@@ -1035,7 +1035,7 @@ async def test_migration_2_2_clamps_offset(
 
 
 async def test_migration_from_future_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test migration from future version."""
     config_entry = MockConfigEntry(
@@ -1062,7 +1062,7 @@ async def test_migration_from_future_version(
     assert config_entry.state is ConfigEntryState.MIGRATION_ERROR
 
 
-async def test_setup_entry_unregistered_uuid(hass: __HAC_KEEP__) -> None:
+async def test_setup_entry_unregistered_uuid(hass: UniversalAssistant) -> None:
     """Test setup fails when the source is an unknown entity registry id."""
     fake_uuid = "a266a680b608c32770e6c45bfe6b8411"
     config_entry = MockConfigEntry(

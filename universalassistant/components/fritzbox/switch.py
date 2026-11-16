@@ -5,8 +5,8 @@ from typing import Any, override
 from pyfritzhome.devicetypes import FritzhomeTrigger
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -19,7 +19,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FritzboxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -76,7 +76,7 @@ class FritzboxSwitch(FritzBoxDeviceEntity, SwitchEntity):
     def check_lock_state(self) -> None:
         """Raise an Error if manual switching via FRITZ!Box is disabled."""
         if self.data.lock:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="manual_switching_disabled",
             )

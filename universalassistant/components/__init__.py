@@ -1,4 +1,4 @@
-"""Contains components that can be plugged into __HA_KEEP__.
+"""Contains components that can be plugged into Universal Home Assistant.
 
 Component design guidelines:
 - Each component defines a constant DOMAIN that is equal to its filename.

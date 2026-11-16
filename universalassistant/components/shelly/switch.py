@@ -15,8 +15,8 @@ from universalassistant.components.switch import (
     SwitchEntityDescription,
 )
 from universalassistant.const import STATE_ON, EntityCategory
-from universalassistant.core import __HAC_KEEP__, State, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, State, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.entity_registry import RegistryEntry
 from universalassistant.helpers.restore_state import RestoreEntity
@@ -159,7 +159,7 @@ class RpcCircuitBreakerSwitch(RpcSwitch):
             await method(*params)
         except RpcCallError as err:
             if err.code == RPC_ERROR_CODE_REMOTE_DISABLED:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="circuit_breaker_remote_disabled",
                     translation_placeholders={
@@ -487,7 +487,7 @@ RPC_SWITCHES = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -500,7 +500,7 @@ async def async_setup_entry(
 
 @callback
 def _async_setup_block_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -523,7 +523,7 @@ def _async_setup_block_entry(
 
 @callback
 def _async_setup_rpc_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

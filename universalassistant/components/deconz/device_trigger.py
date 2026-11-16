@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_TYPE,
     CONF_UNIQUE_ID,
 )
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
 from universalassistant.helpers.typing import ConfigType
@@ -680,7 +680,7 @@ TRIGGER_SCHEMA = DEVICE_TRIGGER_BASE_SCHEMA.extend(
 
 
 def _get_deconz_event_from_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device: dr.DeviceEntry,
 ) -> DeconzAlarmEvent | DeconzEvent | DeconzPresenceEvent | DeconzRelativeRotaryEvent:
     """Resolve deconz event from device."""
@@ -696,7 +696,7 @@ def _get_deconz_event_from_device(
 
 
 async def async_validate_trigger_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
 ) -> ConfigType:
     """Validate config."""
@@ -725,7 +725,7 @@ async def async_validate_trigger_config(
 
 
 async def async_attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,
@@ -764,7 +764,7 @@ async def async_attach_trigger(
 
 
 async def async_get_triggers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_id: str,
 ) -> list[dict[str, str]]:
     """List device triggers.

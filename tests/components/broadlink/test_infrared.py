@@ -10,8 +10,8 @@ import pytest
 from universalassistant.components.broadlink.const import DOMAIN
 from universalassistant.components.infrared import async_send_command
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import get_device
@@ -21,7 +21,7 @@ NON_IR_DEVICE = "Bedroom"
 
 
 async def test_infrared_setup_works(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -41,7 +41,7 @@ async def test_infrared_setup_works(
 
 
 async def test_infrared_not_created_for_non_ir_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test no infrared entity is created for non-IR devices."""
@@ -58,7 +58,7 @@ async def test_infrared_not_created_for_non_ir_device(
 
 
 async def test_infrared_send_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test sending an IR command dispatches to the Broadlink API."""
@@ -87,11 +87,11 @@ async def test_infrared_send_command(
 
 @pytest.mark.parametrize("error", [BroadlinkException("boom"), OSError("boom")])
 async def test_infrared_send_command_error_translates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     error: Exception,
 ) -> None:
-    """Test that Broadlink API errors translate to __HAC_KEEP__Error."""
+    """Test that Broadlink API errors translate to UniversalAssistantError."""
     device = get_device("Entrance")
     mock_setup = await device.setup_entry(hass)
     mock_setup.api.send_data.side_effect = error
@@ -104,7 +104,7 @@ async def test_infrared_send_command_error_translates(
     )
 
     command = NECCommand(address=0x20, command=0x10)
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await async_send_command(hass, infrared_entity.entity_id, command)
 
     assert exc_info.value.translation_key == "send_command_failed"

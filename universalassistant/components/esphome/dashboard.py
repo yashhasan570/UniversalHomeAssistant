@@ -6,7 +6,7 @@ from typing import Any
 
 from universalassistant.config_entries import SOURCE_REAUTH
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import CALLBACK_TYPE, Event, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, Event, UniversalAssistant, callback
 from universalassistant.helpers.hassio import is_hassio
 from universalassistant.helpers.singleton import singleton
 from universalassistant.helpers.storage import Store
@@ -26,17 +26,17 @@ STORAGE_KEY = "esphome.dashboard"
 STORAGE_VERSION = 1
 
 
-async def async_setup(hass: __HAC_KEEP__) -> None:
+async def async_setup(hass: UniversalAssistant) -> None:
     """Set up the ESPHome dashboard."""
     # Try to restore the dashboard manager from storage
     # to avoid reloading every ESPHome config entry after
-    # __HA_KEEP__ starts and the dashboard is discovered.
+    # Universal Home Assistant starts and the dashboard is discovered.
     await async_get_or_create_dashboard_manager(hass)
 
 
 @singleton(KEY_DASHBOARD_MANAGER, async_=True)
 async def async_get_or_create_dashboard_manager(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> ESPHomeDashboardManager:
     """Get the dashboard manager or create it."""
     manager = ESPHomeDashboardManager(hass)
@@ -47,7 +47,7 @@ async def async_get_or_create_dashboard_manager(
 class ESPHomeDashboardManager:
     """Class to manage the dashboard and restore it from storage."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the dashboard manager."""
         self._hass = hass
         self._store: Store[dict[str, Any]] = Store(hass, STORAGE_VERSION, STORAGE_KEY)
@@ -152,7 +152,7 @@ class ESPHomeDashboardManager:
 
 
 @callback
-def async_get_dashboard(hass: __HAC_KEEP__) -> ESPHomeDashboardCoordinator | None:
+def async_get_dashboard(hass: UniversalAssistant) -> ESPHomeDashboardCoordinator | None:
     """Get an instance of the dashboard if set.
 
     This is only safe to call after `async_setup` has been completed.
@@ -166,7 +166,7 @@ def async_get_dashboard(hass: __HAC_KEEP__) -> ESPHomeDashboardCoordinator | Non
 
 
 async def async_set_dashboard_info(
-    hass: __HAC_KEEP__, addon_slug: str, host: str, port: int
+    hass: UniversalAssistant, addon_slug: str, host: str, port: int
 ) -> None:
     """Set the dashboard info."""
     manager = await async_get_or_create_dashboard_manager(hass)

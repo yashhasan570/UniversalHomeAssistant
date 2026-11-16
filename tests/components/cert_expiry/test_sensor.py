@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.cert_expiry.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT, STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import CoreState, __HAC_KEEP__
+from universalassistant.core import CoreState, UniversalAssistant
 from universalassistant.util.dt import utcnow
 
 from .const import HOST, PORT
@@ -19,7 +19,7 @@ from .helpers import future_timestamp, static_datetime
 
 
 @pytest.mark.freeze_time(static_datetime())
-async def test_async_setup_entry(hass: __HAC_KEEP__) -> None:
+async def test_async_setup_entry(hass: UniversalAssistant) -> None:
     """Test async_setup_entry."""
     assert hass.state is CoreState.running
 
@@ -47,7 +47,7 @@ async def test_async_setup_entry(hass: __HAC_KEEP__) -> None:
     assert state.attributes.get("is_valid")
 
 
-async def test_async_setup_entry_bad_cert(hass: __HAC_KEEP__) -> None:
+async def test_async_setup_entry_bad_cert(hass: UniversalAssistant) -> None:
     """Test async_setup_entry with a bad/expired cert."""
     assert hass.state is CoreState.running
 
@@ -72,7 +72,7 @@ async def test_async_setup_entry_bad_cert(hass: __HAC_KEEP__) -> None:
     assert not state.attributes.get("is_valid")
 
 
-async def test_update_sensor(hass: __HAC_KEEP__) -> None:
+async def test_update_sensor(hass: UniversalAssistant) -> None:
     """Test async_update for sensor."""
     assert hass.state is CoreState.running
 
@@ -122,7 +122,7 @@ async def test_update_sensor(hass: __HAC_KEEP__) -> None:
     assert state.attributes.get("is_valid")
 
 
-async def test_update_sensor_network_errors(hass: __HAC_KEEP__) -> None:
+async def test_update_sensor_network_errors(hass: UniversalAssistant) -> None:
     """Test async_update for sensor."""
     assert hass.state is CoreState.running
 
@@ -222,7 +222,7 @@ async def test_update_sensor_network_errors(hass: __HAC_KEEP__) -> None:
 
 
 async def test_update_sensors_os_error(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that a plain OSError makes the sensor unavailable without a traceback."""
     entry = MockConfigEntry(
@@ -245,7 +245,7 @@ async def test_update_sensors_os_error(
     assert "Unexpected error" not in caplog.text
 
 
-async def test_error_attribute_is_none_when_cert_valid(hass: __HAC_KEEP__) -> None:
+async def test_error_attribute_is_none_when_cert_valid(hass: UniversalAssistant) -> None:
     """Test that the error attribute is None (not the string 'None') for a valid cert.
 
     Regression test: previously str(None) produced the misleading string "None"
@@ -311,7 +311,7 @@ async def test_error_attribute_is_none_when_cert_valid(hass: __HAC_KEEP__) -> No
     assert state.attributes.get("is_valid") is True
 
 
-async def test_async_setup_entry_empty_cert(hass: __HAC_KEEP__) -> None:
+async def test_async_setup_entry_empty_cert(hass: UniversalAssistant) -> None:
     """Test setup when peer certificate is empty (e.g. verify_mode=CERT_NONE)."""
     assert hass.state is CoreState.running
 
@@ -336,7 +336,7 @@ async def test_async_setup_entry_empty_cert(hass: __HAC_KEEP__) -> None:
     assert not state.attributes.get("is_valid")
 
 
-async def test_non_default_port(hass: __HAC_KEEP__) -> None:
+async def test_non_default_port(hass: UniversalAssistant) -> None:
     """Test sensor naming and unique_id when a non-default port is used."""
     assert hass.state is CoreState.running
 

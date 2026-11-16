@@ -1,4 +1,4 @@
-"""API for Minut Point bound to __HA_KEEP__ OAuth."""
+"""API for Minut Point bound to Universal Home Assistant OAuth."""
 
 from aiohttp import ClientSession
 import pypoint

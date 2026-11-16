@@ -11,14 +11,14 @@ from universalassistant.components.opower.const import DOMAIN
 from universalassistant.components.recorder import Recorder
 from universalassistant.components.repairs import DOMAIN as REPAIRS_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
 
 async def test_unsupported_utility_fix_flow(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
 ) -> None:

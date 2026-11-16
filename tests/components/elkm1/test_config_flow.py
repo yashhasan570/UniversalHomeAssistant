@@ -18,7 +18,7 @@ from universalassistant.const import (
     CONF_PROTOCOL,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -58,7 +58,7 @@ def mock_config_entry():
     )
 
 
-async def test_discovery_ignored_entry(hass: __HAC_KEEP__) -> None:
+async def test_discovery_ignored_entry(hass: UniversalAssistant) -> None:
     """Test we abort on ignored entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -79,7 +79,7 @@ async def test_discovery_ignored_entry(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_form_user_with_secure_elk_no_discovery(hass: __HAC_KEEP__) -> None:
+async def test_form_user_with_secure_elk_no_discovery(hass: UniversalAssistant) -> None:
     """Test we can setup a secure elk."""
 
     with _patch_discovery(no_device=True):
@@ -131,7 +131,7 @@ async def test_form_user_with_secure_elk_no_discovery(hass: __HAC_KEEP__) -> Non
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_user_with_insecure_elk_skip_discovery(hass: __HAC_KEEP__) -> None:
+async def test_form_user_with_insecure_elk_skip_discovery(hass: UniversalAssistant) -> None:
     """Test we can setup a insecure elk with skipping discovery."""
 
     with _patch_discovery(), _patch_elk():
@@ -189,7 +189,7 @@ async def test_form_user_with_insecure_elk_skip_discovery(hass: __HAC_KEEP__) ->
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_user_with_insecure_elk_no_discovery(hass: __HAC_KEEP__) -> None:
+async def test_form_user_with_insecure_elk_no_discovery(hass: UniversalAssistant) -> None:
     """Test we can setup a insecure elk."""
 
     with _patch_discovery(), _patch_elk():
@@ -247,7 +247,7 @@ async def test_form_user_with_insecure_elk_no_discovery(hass: __HAC_KEEP__) -> N
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_user_with_insecure_elk_times_out(hass: __HAC_KEEP__) -> None:
+async def test_form_user_with_insecure_elk_times_out(hass: UniversalAssistant) -> None:
     """Test we can setup a insecure elk that times out."""
 
     with _patch_discovery(), _patch_elk():
@@ -332,7 +332,7 @@ async def test_form_user_with_insecure_elk_times_out(hass: __HAC_KEEP__) -> None
 
 
 async def test_form_user_with_secure_elk_no_discovery_ip_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test we abort when we try to configure the same ip."""
     config_entry = MockConfigEntry(
@@ -371,7 +371,7 @@ async def test_form_user_with_secure_elk_no_discovery_ip_already_configured(
     assert result2["reason"] == "address_already_configured"
 
 
-async def test_form_user_with_secure_elk_with_discovery(hass: __HAC_KEEP__) -> None:
+async def test_form_user_with_secure_elk_with_discovery(hass: UniversalAssistant) -> None:
     """Test we can setup a secure elk."""
 
     with _patch_discovery():
@@ -428,7 +428,7 @@ async def test_form_user_with_secure_elk_with_discovery(hass: __HAC_KEEP__) -> N
 
 
 async def test_form_user_with_secure_elk_with_discovery_pick_manual(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test secure elk setup with discovery, manual pick, directed fail."""
 
@@ -489,7 +489,7 @@ async def test_form_user_with_secure_elk_with_discovery_pick_manual(
 
 
 async def test_form_user_with_secure_elk_with_discovery_pick_manual_direct_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test secure elk setup with discovery, manual pick, directed success."""
 
@@ -549,7 +549,7 @@ async def test_form_user_with_secure_elk_with_discovery_pick_manual_direct_disco
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_user_with_tls_elk_no_discovery(hass: __HAC_KEEP__) -> None:
+async def test_form_user_with_tls_elk_no_discovery(hass: UniversalAssistant) -> None:
     """Test we can setup a secure elk."""
 
     with _patch_discovery(no_device=True):
@@ -601,7 +601,7 @@ async def test_form_user_with_tls_elk_no_discovery(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_user_with_non_secure_elk_no_discovery(hass: __HAC_KEEP__) -> None:
+async def test_form_user_with_non_secure_elk_no_discovery(hass: UniversalAssistant) -> None:
     """Test we can setup a non-secure elk."""
 
     with _patch_discovery(no_device=True):
@@ -651,7 +651,7 @@ async def test_form_user_with_non_secure_elk_no_discovery(hass: __HAC_KEEP__) ->
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_user_with_serial_elk_no_discovery(hass: __HAC_KEEP__) -> None:
+async def test_form_user_with_serial_elk_no_discovery(hass: UniversalAssistant) -> None:
     """Test we can setup a serial elk."""
 
     with _patch_discovery(no_device=True):
@@ -701,7 +701,7 @@ async def test_form_user_with_serial_elk_no_discovery(hass: __HAC_KEEP__) -> Non
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we handle cannot connect error."""
     with _patch_discovery(no_device=True):
         result = await hass.config_entries.flow.async_init(
@@ -775,7 +775,7 @@ async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_unknown_exception(hass: __HAC_KEEP__) -> None:
+async def test_unknown_exception(hass: UniversalAssistant) -> None:
     """Test we handle an unknown exception during connecting."""
     with _patch_discovery(no_device=True):
         result = await hass.config_entries.flow.async_init(
@@ -851,7 +851,7 @@ async def test_unknown_exception(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
+async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
     """Test we handle invalid auth error."""
     with _patch_discovery(no_device=True):
         result = await hass.config_entries.flow.async_init(
@@ -920,7 +920,7 @@ async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_invalid_auth_no_password(hass: __HAC_KEEP__) -> None:
+async def test_form_invalid_auth_no_password(hass: UniversalAssistant) -> None:
     """Test we handle invalid auth error when no password is provided."""
     with _patch_discovery(no_device=True):
         result = await hass.config_entries.flow.async_init(
@@ -989,7 +989,7 @@ async def test_form_invalid_auth_no_password(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_import(hass: __HAC_KEEP__) -> None:
+async def test_form_import(hass: UniversalAssistant) -> None:
     """Test we get the form with import source."""
 
     mocked_elk = mock_elk(invalid_auth=False, sync_complete=True)
@@ -1060,7 +1060,7 @@ async def test_form_import(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_import_device_discovered(hass: __HAC_KEEP__) -> None:
+async def test_form_import_device_discovered(hass: UniversalAssistant) -> None:
     """Test we can import with discovery."""
 
     mocked_elk = mock_elk(invalid_auth=False, sync_complete=True)
@@ -1130,7 +1130,7 @@ async def test_form_import_device_discovered(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_import_non_secure_device_discovered(hass: __HAC_KEEP__) -> None:
+async def test_form_import_non_secure_device_discovered(hass: UniversalAssistant) -> None:
     """Test we can import non-secure with discovery."""
 
     mocked_elk = mock_elk(invalid_auth=False, sync_complete=True)
@@ -1173,7 +1173,7 @@ async def test_form_import_non_secure_device_discovered(hass: __HAC_KEEP__) -> N
 
 
 async def test_form_import_non_secure_non_stanadard_port_device_discovered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test we can import non-secure non standard port with discovery."""
 
@@ -1217,7 +1217,7 @@ async def test_form_import_non_secure_non_stanadard_port_device_discovered(
 
 
 async def test_form_import_non_secure_device_discovered_invalid_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test we abort import with invalid auth."""
 
@@ -1240,7 +1240,7 @@ async def test_form_import_non_secure_device_discovered_invalid_auth(
     assert result["reason"] == "invalid_auth"
 
 
-async def test_form_import_existing(hass: __HAC_KEEP__) -> None:
+async def test_form_import_existing(hass: UniversalAssistant) -> None:
     """Test we abort on existing import."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1292,7 +1292,7 @@ async def test_form_import_existing(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_discovered_by_dhcp_or_discovery_mac_mismatch_host_configured(
-    hass: __HAC_KEEP__, source, data
+    hass: UniversalAssistant, source, data
 ) -> None:
     """Test we abort if the host is already configured but the mac does not match."""
     config_entry = MockConfigEntry(
@@ -1322,7 +1322,7 @@ async def test_discovered_by_dhcp_or_discovery_mac_mismatch_host_configured(
     ],
 )
 async def test_discovered_by_dhcp_or_discovery_adds_missing_unique_id(
-    hass: __HAC_KEEP__, source, data
+    hass: UniversalAssistant, source, data
 ) -> None:
     """Test we add a missing unique id to the config entry."""
     config_entry = MockConfigEntry(
@@ -1343,7 +1343,7 @@ async def test_discovered_by_dhcp_or_discovery_adds_missing_unique_id(
     assert config_entry.unique_id == MOCK_MAC
 
 
-async def test_discovered_by_discovery_and_dhcp(hass: __HAC_KEEP__) -> None:
+async def test_discovered_by_discovery_and_dhcp(hass: UniversalAssistant) -> None:
     """Test we get the form with discovery and abort for dhcp source."""
 
     with _patch_discovery(), _patch_elk():
@@ -1381,7 +1381,7 @@ async def test_discovered_by_discovery_and_dhcp(hass: __HAC_KEEP__) -> None:
     assert result3["reason"] == "already_in_progress"
 
 
-async def test_discovered_by_discovery(hass: __HAC_KEEP__) -> None:
+async def test_discovered_by_discovery(hass: UniversalAssistant) -> None:
     """Test we can setup when discovered from discovery."""
 
     with _patch_discovery(), _patch_elk():
@@ -1432,7 +1432,7 @@ async def test_discovered_by_discovery(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_discovered_by_discovery_non_standard_port(hass: __HAC_KEEP__) -> None:
+async def test_discovered_by_discovery_non_standard_port(hass: UniversalAssistant) -> None:
     """Test we can setup when discovered from discovery with a non-standard port."""
 
     with _patch_discovery(), _patch_elk():
@@ -1484,7 +1484,7 @@ async def test_discovered_by_discovery_non_standard_port(hass: __HAC_KEEP__) -> 
 
 
 async def test_discovered_by_discovery_url_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test we abort when we discover a device that is already setup."""
     config_entry = MockConfigEntry(
@@ -1506,7 +1506,7 @@ async def test_discovered_by_discovery_url_already_configured(
     assert result["reason"] == "already_configured"
 
 
-async def test_discovered_by_dhcp_udp_responds(hass: __HAC_KEEP__) -> None:
+async def test_discovered_by_dhcp_udp_responds(hass: UniversalAssistant) -> None:
     """Test we can setup when discovered from dhcp but with udp response."""
 
     with _patch_discovery(), _patch_elk():
@@ -1556,7 +1556,7 @@ async def test_discovered_by_dhcp_udp_responds(hass: __HAC_KEEP__) -> None:
 
 
 async def test_discovered_by_dhcp_udp_responds_with_nonsecure_port(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test setup from dhcp with udp response using non-secure port."""
 
@@ -1606,7 +1606,7 @@ async def test_discovered_by_dhcp_udp_responds_with_nonsecure_port(
 
 
 async def test_discovered_by_dhcp_udp_responds_existing_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test setup from dhcp with udp response and existing config entry."""
     config_entry = MockConfigEntry(
@@ -1659,7 +1659,7 @@ async def test_discovered_by_dhcp_udp_responds_existing_config_entry(
     assert len(mock_setup_entry.mock_calls) == 2
 
 
-async def test_discovered_by_dhcp_no_udp_response(hass: __HAC_KEEP__) -> None:
+async def test_discovered_by_dhcp_no_udp_response(hass: UniversalAssistant) -> None:
     """Test we can setup when discovered from dhcp but no udp response."""
 
     with _patch_discovery(no_device=True), _patch_elk():
@@ -1672,7 +1672,7 @@ async def test_discovered_by_dhcp_no_udp_response(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "cannot_connect"
 
 
-async def test_multiple_instances_with_discovery(hass: __HAC_KEEP__) -> None:
+async def test_multiple_instances_with_discovery(hass: UniversalAssistant) -> None:
     """Test we can setup a secure elk."""
 
     elk_discovery_1 = ElkSystem("aa:bb:cc:dd:ee:ff", "127.0.0.1", 2601)
@@ -1822,7 +1822,7 @@ async def test_multiple_instances_with_discovery(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_multiple_instances_with_tls_v12(hass: __HAC_KEEP__) -> None:
+async def test_multiple_instances_with_tls_v12(hass: UniversalAssistant) -> None:
     """Test we can setup a secure elk with tls v1_2."""
 
     elk_discovery_1 = ElkSystem("aa:bb:cc:dd:ee:ff", "127.0.0.1", 2601)
@@ -1980,7 +1980,7 @@ async def test_multiple_instances_with_tls_v12(hass: __HAC_KEEP__) -> None:
 
 
 async def test_reconfigure_nonsecure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure flow switching to non-secure protocol."""
@@ -2048,7 +2048,7 @@ async def test_reconfigure_nonsecure(
 
 
 async def test_reconfigure_tls(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow switching to TLS 1.2 protocol."""
     mock_config_entry.add_to_hass(hass)
@@ -2089,7 +2089,7 @@ async def test_reconfigure_tls(
 
 
 async def test_reconfigure_device_offline(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow fails when device is offline."""
     mock_config_entry.add_to_hass(hass)
@@ -2150,7 +2150,7 @@ async def test_reconfigure_device_offline(
 
 
 async def test_reconfigure_invalid_auth(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow with invalid authentication."""
     mock_config_entry.add_to_hass(hass)
@@ -2209,7 +2209,7 @@ async def test_reconfigure_invalid_auth(
 
 
 async def test_reconfigure_different_device(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Abort reconfigure if the device unique_id differs."""
     mock_config_entry.add_to_hass(hass)
@@ -2244,7 +2244,7 @@ async def test_reconfigure_different_device(
 
 
 async def test_reconfigure_unknown_error(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow with an unexpected exception."""
     mock_config_entry.add_to_hass(hass)
@@ -2305,7 +2305,7 @@ async def test_reconfigure_unknown_error(
 
 
 async def test_reconfigure_preserves_existing_config_entry_fields(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test reconfigure only updates changed fields, preserves others."""
     # Simulate a config entry imported from yaml with extra fields
@@ -2363,7 +2363,7 @@ async def test_reconfigure_preserves_existing_config_entry_fields(
     assert updated_entry.data["another_field"] == 42
 
 
-async def test_user_setup_replaces_ignored_device(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_replaces_ignored_device(hass: UniversalAssistant) -> None:
     """Test the user flow can replace an ignored device."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -2411,7 +2411,7 @@ async def test_user_setup_replaces_ignored_device(hass: __HAC_KEEP__) -> None:
     assert result3["result"].unique_id == dr.format_mac(MOCK_MAC)
 
 
-async def test_reconfigure_no_unique_id_with_discovery(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_no_unique_id_with_discovery(hass: UniversalAssistant) -> None:
     """Test reconfigure succeeds when entry has no unique_id and device is discovered."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

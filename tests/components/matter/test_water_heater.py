@@ -17,7 +17,7 @@ from universalassistant.components.water_heater import (
     WaterHeaterEntityFeature,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -35,7 +35,7 @@ def platform() -> Platform:
 
 @pytest.mark.usefixtures("matter_devices")
 async def test_water_heaters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -45,7 +45,7 @@ async def test_water_heaters(
 
 @pytest.mark.parametrize("node_fixture", ["silabs_water_heater"])
 async def test_water_heater(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -69,7 +69,7 @@ async def test_water_heater(
 
 @pytest.mark.parametrize("node_fixture", ["silabs_water_heater"])
 async def test_water_heater_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -103,7 +103,7 @@ async def test_water_heater_set_temperature(
     [(STATE_OFF, 0), (STATE_ECO, 4), (STATE_HIGH_DEMAND, 4)],
 )
 async def test_water_heater_set_operation_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     operation_mode: str,
@@ -136,7 +136,7 @@ async def test_water_heater_set_operation_mode(
 
 @pytest.mark.parametrize("node_fixture", ["silabs_water_heater"])
 async def test_water_heater_boostmode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -203,7 +203,7 @@ async def test_water_heater_boostmode(
 
 @pytest.mark.parametrize("node_fixture", ["silabs_water_heater"])
 async def test_update_from_water_heater(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -246,7 +246,7 @@ async def test_update_from_water_heater(
 
 @pytest.mark.parametrize("node_fixture", ["silabs_water_heater"])
 async def test_water_heater_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -297,7 +297,7 @@ async def test_water_heater_turn_on_off(
 
 @pytest.mark.parametrize("node_fixture", ["silabs_water_heater"])
 async def test_async_boost_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:

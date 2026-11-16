@@ -8,7 +8,7 @@ from pytest_universalassistant.components.diagnostics import get_diagnostics_for
 from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import init_integration
 
@@ -18,7 +18,7 @@ FIXED_MOCK_ENTRY_ID = "01JGFJJZ008DNE3BKJ7ZE14YFE"
 @pytest.mark.freeze_time("2025-01-01T00:00:00+00:00")
 @pytest.mark.usefixtures("mock_farmad_client")
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -30,7 +30,7 @@ async def test_diagnostics(
 
 @pytest.mark.freeze_time("2025-01-01T00:00:00+00:00")
 async def test_diagnostics_failed_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_farmad_client: MagicMock,
     snapshot: SnapshotAssertion,

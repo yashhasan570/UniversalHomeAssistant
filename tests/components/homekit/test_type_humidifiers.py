@@ -43,10 +43,10 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 
 
-async def test_humidifier(hass: __HAC_KEEP__, hk_driver, events: list[Event]) -> None:
+async def test_humidifier(hass: UniversalAssistant, hk_driver, events: list[Event]) -> None:
     """Test if humidifier accessory and HA are updated accordingly."""
     entity_id = "humidifier.test"
 
@@ -134,7 +134,7 @@ async def test_humidifier(hass: __HAC_KEEP__, hk_driver, events: list[Event]) ->
 
 
 async def test_dehumidifier(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test if dehumidifier accessory and HA are updated accordingly."""
     entity_id = "humidifier.test"
@@ -226,7 +226,7 @@ async def test_dehumidifier(
 
 
 async def test_hygrostat_power_state(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test if accessory and HA are updated accordingly."""
     entity_id = "humidifier.test"
@@ -308,7 +308,7 @@ async def test_hygrostat_power_state(
 
 
 async def test_hygrostat_get_humidity_range(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test if humidity range is evaluated correctly."""
     entity_id = "humidifier.test"
@@ -372,7 +372,7 @@ async def test_hygrostat_get_humidity_range(
 
 
 async def test_humidifier_with_linked_humidity_sensor(
-    hass: __HAC_KEEP__, hk_driver
+    hass: UniversalAssistant, hk_driver
 ) -> None:
     """Test a humidifier with a linked humidity sensor can update."""
     humidity_sensor_entity_id = "sensor.bedroom_humidity"
@@ -436,7 +436,7 @@ async def test_humidifier_with_linked_humidity_sensor(
 
 
 async def test_humidifier_with_a_missing_linked_humidity_sensor(
-    hass: __HAC_KEEP__, hk_driver
+    hass: UniversalAssistant, hk_driver
 ) -> None:
     """Test a humidifier with a configured linked motion sensor that is missing."""
     humidity_sensor_entity_id = "sensor.bedroom_humidity"
@@ -461,7 +461,7 @@ async def test_humidifier_with_a_missing_linked_humidity_sensor(
 
 
 async def test_humidifier_as_dehumidifier(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     events: list[Event],
     caplog: pytest.LogCaptureFixture,
@@ -507,7 +507,7 @@ async def test_humidifier_as_dehumidifier(
 
 
 async def test_dehumidifier_as_humidifier(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     events: list[Event],
     caplog: pytest.LogCaptureFixture,
@@ -553,7 +553,7 @@ async def test_dehumidifier_as_humidifier(
 
 
 async def test_humidifier_that_reports_current_humidity(
-    hass: __HAC_KEEP__, hk_driver: AccessoryDriver
+    hass: UniversalAssistant, hk_driver: AccessoryDriver
 ) -> None:
     """Test a humidifier that provides current humidity can update."""
     entity_id = "humidifier.test"

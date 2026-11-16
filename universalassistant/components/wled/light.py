@@ -17,7 +17,7 @@ from universalassistant.components.light import (
     LightEntity,
     LightEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.group import IntegrationSpecificGroup
 
@@ -46,7 +46,7 @@ _COLOR_CAPABILITIES = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: WLEDConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -423,7 +423,7 @@ def async_update_segments(
     ):
         new_entities.append(WLEDMainLight(coordinator))
 
-    # Process new segments, add them to __HA_KEEP__
+    # Process new segments, add them to Universal Home Assistant
     for segment_id in segment_ids - current_ids:
         current_ids.add(segment_id)
         new_entities.append(WLEDSegmentLight(coordinator, segment_id))

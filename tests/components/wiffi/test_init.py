@@ -8,10 +8,10 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.wiffi.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def test_setup_start_server_failed(hass: __HAC_KEEP__) -> None:
+async def test_setup_start_server_failed(hass: UniversalAssistant) -> None:
     """Test setup fails when the server can't be started."""
     entry = MockConfigEntry(domain=DOMAIN, data={CONF_PORT: 8189})
     entry.add_to_hass(hass)

@@ -63,7 +63,7 @@ universalassistant:
       # Host is missing
       custom_validator_ok_2:
     pack_custom_validator_bad_1:
-      # This always raises __HAC_KEEP__Error
+      # This always raises UniversalAssistantError
       custom_validator_bad_1:
     pack_custom_validator_bad_2:
       # This always raises ValueError

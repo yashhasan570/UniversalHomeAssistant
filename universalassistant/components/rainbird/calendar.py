@@ -8,8 +8,8 @@ from pyrainbird.data import Schedule, ZoneDuration
 from pyrainbird.timeline import ProgramEvent
 
 from universalassistant.components.calendar import CalendarEntity, CalendarEvent
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -44,7 +44,7 @@ def _calendar_event(schedule: Schedule, program_event: ProgramEvent) -> Calendar
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: RainbirdConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -107,12 +107,12 @@ class RainBirdCalendarEntity(
 
     @override
     async def async_get_events(
-        self, hass: __HAC_KEEP__, start_date: datetime, end_date: datetime
+        self, hass: UniversalAssistant, start_date: datetime, end_date: datetime
     ) -> list[CalendarEvent]:
         """Get all events in a specific time frame."""
         schedule = self.coordinator.data
         if not schedule:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Unable to get events: No data from controller yet"
             )
         cursor = schedule.timeline_tz(start_date.tzinfo).overlapping(

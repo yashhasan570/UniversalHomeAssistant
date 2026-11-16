@@ -41,7 +41,7 @@ from universalassistant.const import (
     CONF_ENTITY_ID,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 _SENSOR_UNIT_ATTRIBUTES = {
     ATTR_UNIT_OF_MEASUREMENT: UnitOfTemperature.CELSIUS,
@@ -58,25 +58,25 @@ _WEATHER_UNIT_ATTRIBUTES = {
 
 
 @pytest.fixture
-async def target_sensors(hass: __HAC_KEEP__) -> dict[str, list[str]]:
+async def target_sensors(hass: UniversalAssistant) -> dict[str, list[str]]:
     """Create multiple sensor entities associated with different targets."""
     return await target_entities(hass, "sensor")
 
 
 @pytest.fixture
-async def target_climates(hass: __HAC_KEEP__) -> dict[str, list[str]]:
+async def target_climates(hass: UniversalAssistant) -> dict[str, list[str]]:
     """Create multiple climate entities associated with different targets."""
     return await target_entities(hass, "climate")
 
 
 @pytest.fixture
-async def target_water_heaters(hass: __HAC_KEEP__) -> dict[str, list[str]]:
+async def target_water_heaters(hass: UniversalAssistant) -> dict[str, list[str]]:
     """Create multiple water_heater entities associated with different targets."""
     return await target_entities(hass, "water_heater")
 
 
 @pytest.fixture
-async def target_weathers(hass: __HAC_KEEP__) -> dict[str, list[str]]:
+async def target_weathers(hass: UniversalAssistant) -> dict[str, list[str]]:
     """Create multiple weather entities associated with different targets."""
     return await target_entities(hass, "weather")
 
@@ -105,7 +105,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_temperature_trigger_options_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -151,7 +151,7 @@ def test_trigger_target_support() -> None:
     ],
 )
 async def test_temperature_trigger_sensor_behavior_each(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_sensors: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -189,7 +189,7 @@ async def test_temperature_trigger_sensor_behavior_each(
     ],
 )
 async def test_temperature_trigger_sensor_crossed_threshold_behavior_first(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_sensors: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -227,7 +227,7 @@ async def test_temperature_trigger_sensor_crossed_threshold_behavior_first(
     ],
 )
 async def test_temperature_trigger_sensor_crossed_threshold_behavior_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_sensors: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -278,7 +278,7 @@ async def test_temperature_trigger_sensor_crossed_threshold_behavior_all(
     ],
 )
 async def test_temperature_trigger_climate_behavior_each(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_climates: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -318,7 +318,7 @@ async def test_temperature_trigger_climate_behavior_each(
     ],
 )
 async def test_temperature_trigger_climate_crossed_threshold_behavior_first(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_climates: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -358,7 +358,7 @@ async def test_temperature_trigger_climate_crossed_threshold_behavior_first(
     ],
 )
 async def test_temperature_trigger_climate_crossed_threshold_behavior_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_climates: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -409,7 +409,7 @@ async def test_temperature_trigger_climate_crossed_threshold_behavior_all(
     ],
 )
 async def test_temperature_trigger_water_heater_behavior_each(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_water_heaters: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -449,7 +449,7 @@ async def test_temperature_trigger_water_heater_behavior_each(
     ],
 )
 async def test_temperature_trigger_water_heater_crossed_threshold_behavior_first(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_water_heaters: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -489,7 +489,7 @@ async def test_temperature_trigger_water_heater_crossed_threshold_behavior_first
     ],
 )
 async def test_temperature_trigger_water_heater_crossed_threshold_behavior_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_water_heaters: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -540,7 +540,7 @@ async def test_temperature_trigger_water_heater_crossed_threshold_behavior_all(
     ],
 )
 async def test_temperature_trigger_weather_behavior_each(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_weathers: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -580,7 +580,7 @@ async def test_temperature_trigger_weather_behavior_each(
     ],
 )
 async def test_temperature_trigger_weather_crossed_threshold_behavior_first(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_weathers: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -620,7 +620,7 @@ async def test_temperature_trigger_weather_crossed_threshold_behavior_first(
     ],
 )
 async def test_temperature_trigger_weather_crossed_threshold_behavior_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_weathers: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -646,7 +646,7 @@ async def test_temperature_trigger_weather_crossed_threshold_behavior_all(
 
 
 async def test_temperature_trigger_unit_conversion_sensor_celsius_to_fahrenheit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test trigger converts sensor value from C to F for comparison."""
     calls: list[str] = []
@@ -703,7 +703,7 @@ async def test_temperature_trigger_unit_conversion_sensor_celsius_to_fahrenheit(
 
 
 async def test_temperature_trigger_unit_conversion_sensor_fahrenheit_to_celsius(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test trigger converts sensor value from F to C for comparison."""
     calls: list[str] = []
@@ -760,7 +760,7 @@ async def test_temperature_trigger_unit_conversion_sensor_fahrenheit_to_celsius(
 
 
 async def test_temperature_trigger_unit_conversion_changed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test temperature changed trigger with unit conversion and above/below limits."""
     calls: list[str] = []
@@ -831,7 +831,7 @@ async def test_temperature_trigger_unit_conversion_changed(
 
 
 async def test_temperature_trigger_unit_conversion_weather(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test temperature trigger with unit conversion for weather entities."""
     calls: list[str] = []
@@ -908,7 +908,7 @@ async def test_temperature_trigger_unit_conversion_weather(
     ],
 )
 async def test_temperature_trigger_unit_conversion_temperature_unit_attribute(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id: str,
     state: str,
     temperature_attribute: str,

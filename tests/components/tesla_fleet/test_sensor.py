@@ -15,7 +15,7 @@ from universalassistant.components.tesla_fleet.coordinator import (
     VEHICLE_INTERVAL,
 )
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import assert_entities, assert_entities_alt, setup_platform
@@ -29,7 +29,7 @@ from .const import (
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     normal_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -62,7 +62,7 @@ async def test_sensors(
     ],
 )
 async def test_sensors_restore(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     normal_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -90,7 +90,7 @@ async def test_sensors_restore(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_charge_energy_reset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     normal_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     mock_vehicle_data: AsyncMock,
@@ -150,7 +150,7 @@ async def test_charge_energy_reset(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_charge_energy_restore_last_reset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     normal_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     mock_vehicle_data: AsyncMock,
@@ -200,7 +200,7 @@ async def test_charge_energy_restore_last_reset(
     ],
 )
 async def test_energy_history_last_reset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     normal_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     mock_energy_history: AsyncMock,
@@ -240,7 +240,7 @@ async def test_energy_history_last_reset(
     ],
 )
 async def test_energy_history_omitted_fields_are_zero(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     normal_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     mock_energy_history: AsyncMock,
@@ -265,7 +265,7 @@ async def test_energy_history_omitted_fields_are_zero(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_energy_history_invalid_first_period(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     normal_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     mock_energy_history: AsyncMock,
@@ -379,7 +379,7 @@ def _energy_history(time_series: list[dict[str, Any]]) -> dict[str, Any]:
     ],
 )
 async def test_energy_history_incomplete_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     normal_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     mock_energy_history: AsyncMock,

@@ -15,14 +15,14 @@ from pytest_universalassistant.typing import MqttMockHAClient
 from universalassistant.components.qbus.const import CONF_SERIAL_NUMBER, DOMAIN
 from universalassistant.components.qbus.entity import QbusEntity
 from universalassistant.const import CONF_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.json import JsonObjectType
 
 from .const import FIXTURE_PAYLOAD_CONFIG, TOPIC_CONFIG
 
 
 @pytest.fixture
-def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Return the default mocked config entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -51,7 +51,7 @@ def mock_publish_state() -> Generator[AsyncMock]:
 
 @pytest.fixture
 async def setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
     mock_config_entry: MockConfigEntry,
     payload_config: JsonObjectType,
@@ -67,7 +67,7 @@ async def setup_integration(
 
 @pytest.fixture
 async def setup_integration_deferred(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
     mock_config_entry: MockConfigEntry,
     payload_config: JsonObjectType,

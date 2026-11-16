@@ -13,14 +13,14 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.google_health.coordinator import POLLING_INTERVAL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 
 @pytest.mark.freeze_time("2026-07-22 00:00:00+00:00")
 @pytest.mark.usefixtures("mock_google_health_client")
 async def test_diagnostics_full_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[], Awaitable[bool]],
@@ -38,7 +38,7 @@ async def test_diagnostics_full_data(
 
 @pytest.mark.freeze_time("2026-07-22 00:00:00+00:00")
 async def test_diagnostics_empty_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_google_health_client: AsyncMock,
     config_entry: MockConfigEntry,
@@ -78,7 +78,7 @@ async def test_diagnostics_empty_data(
 
 @pytest.mark.freeze_time("2026-07-22 00:00:00+00:00")
 async def test_diagnostics_update_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_google_health_client: AsyncMock,
     config_entry: MockConfigEntry,
@@ -118,7 +118,7 @@ async def test_diagnostics_update_failed(
     ],
 )
 async def test_diagnostics_partial_scopes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[], Awaitable[bool]],

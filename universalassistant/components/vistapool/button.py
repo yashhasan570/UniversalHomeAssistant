@@ -7,8 +7,8 @@ from aioaquarite import AquariteError
 
 from universalassistant.components.button import ButtonEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
@@ -37,7 +37,7 @@ def _build_button_entities(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: VistapoolConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -59,7 +59,7 @@ async def async_setup_entry(
 
 
 class VistapoolSyncTimeButton(VistapoolEntity, ButtonEntity):
-    """Set the controller clock to __HA_KEEP__'s current local time.
+    """Set the controller clock to Universal Home Assistant's current local time.
 
     The controller runs its filtration intervals and light schedule on its
     own clock, which drifts over time. The cloud stores that clock as the
@@ -86,7 +86,7 @@ class VistapoolSyncTimeButton(VistapoolEntity, ButtonEntity):
                 self.coordinator.pool_id, _LOCAL_TIME_PATH, local_time
             )
         except AquariteError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_failed",
                 translation_placeholders={"entity": self.entity_id},
@@ -127,7 +127,7 @@ class VistapoolLEDPulseButton(VistapoolEntity, ButtonEntity):
                     self.coordinator.pool_id, _LIGHT_STATUS_PATH, 1
                 )
         except AquariteError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_failed",
                 translation_placeholders={"entity": self.entity_id},

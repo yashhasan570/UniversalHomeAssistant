@@ -14,7 +14,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC
@@ -29,7 +29,7 @@ PLATFORMS = [Platform.MEDIA_PLAYER]
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: AnthemavConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: AnthemavConfigEntry) -> None:
     """Set up Anthem A/V Receivers from a config entry."""
 
     @callback
@@ -76,7 +76,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: AnthemavConfigEntry) -> N
     )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: AnthemavConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: AnthemavConfigEntry) -> None:
     """Unload a config entry."""
     try:
         await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

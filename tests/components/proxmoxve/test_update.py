@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.proxmoxve.coordinator import DEFAULT_UPDATE_INTERVAL
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import AUDIT_PERMISSIONS, MERGED_PERMISSIONS, setup_integration
@@ -62,7 +62,7 @@ ENTITY_ID = "update.pve1_software_update"
     ],
 )
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -88,7 +88,7 @@ async def test_all_entities(
 
 
 async def test_update_entities_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -105,7 +105,7 @@ async def test_update_entities_ignored(
 
 
 async def test_update_unavailable_on_permission_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -130,7 +130,7 @@ async def test_update_unavailable_on_permission_change(
 
 
 async def test_update_unavailable_on_failed_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -162,7 +162,7 @@ async def test_update_unavailable_on_failed_update(
 
 
 async def test_update_up_to_date(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -182,7 +182,7 @@ async def test_update_up_to_date(
 
 
 async def test_update_release_notes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,

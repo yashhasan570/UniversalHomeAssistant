@@ -8,8 +8,8 @@ from typing import Any
 from aiohttp.web import Response
 
 from universalassistant.components import http
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import intent
 from universalassistant.util.decorator import Registry
 
@@ -18,7 +18,7 @@ from .const import DOMAIN, SYN_RESOLUTION_MATCH
 _LOGGER = logging.getLogger(__name__)
 
 HANDLERS: Registry[
-    str, Callable[[__HAC_KEEP__, dict[str, Any]], Coroutine[Any, Any, dict[str, Any]]]
+    str, Callable[[UniversalAssistant, dict[str, Any]], Coroutine[Any, Any, dict[str, Any]]]
 ] = Registry()
 
 INTENTS_API_ENDPOINT = "/api/alexa"
@@ -42,12 +42,12 @@ class CardType(enum.StrEnum):
 
 
 @callback
-def async_setup(hass: __HAC_KEEP__) -> None:
+def async_setup(hass: UniversalAssistant) -> None:
     """Activate Alexa component."""
     hass.http.register_view(AlexaIntentsView)
 
 
-async def async_setup_intents(hass: __HAC_KEEP__) -> None:
+async def async_setup_intents(hass: UniversalAssistant) -> None:
     """Do intents setup.
 
     Right now this module does not expose any, but the intent component breaks
@@ -55,17 +55,17 @@ async def async_setup_intents(hass: __HAC_KEEP__) -> None:
     """
 
 
-class UnknownRequest(__HAC_KEEP__Error):
+class UnknownRequest(UniversalAssistantError):
     """When an unknown Alexa request is passed in."""
 
 
-class AlexaIntentsView(http.__HAC_KEEP__View):
+class AlexaIntentsView(http.UniversalAssistantView):
     """Handle Alexa requests."""
 
     url = INTENTS_API_ENDPOINT
     name = "api:alexa"
 
-    async def post(self, request: http.__HAC_KEEP__Request) -> Response | bytes:
+    async def post(self, request: http.UniversalAssistantRequest) -> Response | bytes:
         """Handle Alexa."""
         hass = request.app[http.KEY_HASS]
         message: dict[str, Any] = await request.json()
@@ -85,7 +85,7 @@ class AlexaIntentsView(http.__HAC_KEEP__View):
                 intent_error_response(
                     hass,
                     message,
-                    "This intent is not yet configured within __HA_KEEP__.",
+                    "This intent is not yet configured within Universal Home Assistant.",
                 )
             )
 
@@ -105,7 +105,7 @@ class AlexaIntentsView(http.__HAC_KEEP__View):
 
 
 def intent_error_response(
-    hass: __HAC_KEEP__, message: dict[str, Any], error: str
+    hass: UniversalAssistant, message: dict[str, Any], error: str
 ) -> dict[str, Any]:
     """Return an Alexa response that will speak the error message."""
     alexa_intent_info = message["request"].get("intent")
@@ -115,7 +115,7 @@ def intent_error_response(
 
 
 async def async_handle_message(
-    hass: __HAC_KEEP__, message: dict[str, Any]
+    hass: UniversalAssistant, message: dict[str, Any]
 ) -> dict[str, Any]:
     """Handle an Alexa intent.
 
@@ -139,7 +139,7 @@ async def async_handle_message(
 @HANDLERS.register("IntentRequest")
 @HANDLERS.register("LaunchRequest")
 async def async_handle_intent(
-    hass: __HAC_KEEP__, message: dict[str, Any]
+    hass: UniversalAssistant, message: dict[str, Any]
 ) -> dict[str, Any]:
     """Handle an intent request.
 
@@ -241,7 +241,7 @@ def resolve_slot_data(key: str, request: dict[str, Any]) -> dict[str, str]:
 class AlexaIntentResponse:
     """Help generating the response for Alexa."""
 
-    def __init__(self, hass: __HAC_KEEP__, intent_info: dict[str, Any] | None) -> None:
+    def __init__(self, hass: UniversalAssistant, intent_info: dict[str, Any] | None) -> None:
         """Initialize the response."""
         self.hass = hass
         self.speech: dict[str, Any] | None = None

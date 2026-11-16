@@ -74,7 +74,7 @@ class SpecializedTurboConfigFlow(ConfigFlow, domain=DOMAIN):
         self,
         wrapped_key: str | None = None,
     ) -> bool:
-        """Run upstream connection setup with __HA_KEEP__'s BLE client."""
+        """Run upstream connection setup with Universal Home Assistant's BLE client."""
         assert self._address is not None
         address = self._address
         ble_device = async_ble_device_from_address(
@@ -270,7 +270,7 @@ class SpecializedTurboConfigFlow(ConfigFlow, domain=DOMAIN):
         self,
         user_input: dict[str, Any] | None = None,
     ) -> ConfigFlowResult:
-        """Accept a wrapped key obtained outside __HA_KEEP__."""
+        """Accept a wrapped key obtained outside Universal Home Assistant."""
         errors: dict[str, str] = {}
         if user_input is not None:
             wrapped_key = user_input[CONF_WRAPPED_KEY].strip()
@@ -349,7 +349,7 @@ class SpecializedTurboConfigFlow(ConfigFlow, domain=DOMAIN):
         return await self.async_step_key_source()
 
     async def _async_fetch_account_key(self, email: str, password: str) -> str:
-        """Fetch a wrapped key with __HA_KEEP__'s managed HTTP client."""
+        """Fetch a wrapped key with Universal Home Assistant's managed HTTP client."""
         assert self._advertisement is not None
         assert self._advertisement.hmi_hardware is not None
         assert self._advertisement.hmi_serial is not None

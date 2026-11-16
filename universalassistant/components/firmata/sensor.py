@@ -5,7 +5,7 @@ from typing import override
 
 from universalassistant.components.sensor import SensorEntity
 from universalassistant.const import CONF_NAME, CONF_PIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FirmataConfigEntry
@@ -17,7 +17,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: FirmataConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

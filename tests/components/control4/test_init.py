@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
@@ -21,7 +21,7 @@ def platforms() -> list[Platform]:
 
 
 async def test_setup_bad_credentials(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_c4_account: MagicMock,
 ) -> None:
@@ -49,7 +49,7 @@ async def test_setup_bad_credentials(
     ],
 )
 async def test_setup_retries_when_first_poll_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_c4_director: MagicMock,
     exception: Exception,
@@ -65,7 +65,7 @@ async def test_setup_retries_when_first_poll_fails(
 
 @pytest.mark.usefixtures("mock_c4_account", "mock_room_variables")
 async def test_setup_when_only_rooms_have_variables(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setup succeeds when no item has the climate, cover or light variables."""

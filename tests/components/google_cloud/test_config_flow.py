@@ -17,7 +17,7 @@ from universalassistant.components.google_cloud.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_PLATFORM
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.setup import async_setup_component
 
@@ -25,7 +25,7 @@ from .conftest import VALID_SERVICE_ACCOUNT_INFO
 
 
 async def test_user_flow_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_process_uploaded_file: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -50,7 +50,7 @@ async def test_user_flow_success(
 
 
 async def test_user_flow_missing_file(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_google_credentials_json: str,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -84,7 +84,7 @@ async def test_user_flow_missing_file(
 
 
 async def test_user_flow_invalid_file(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_invalid_google_credentials_json: str,
     mock_process_uploaded_file: MagicMock,
     mock_setup_entry: AsyncMock,
@@ -119,7 +119,7 @@ async def test_user_flow_invalid_file(
 
 
 async def test_import_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_google_credentials_json: str,
     mock_api_tts_from_service_account_file: AsyncMock,
     mock_api_tts_from_service_account_info: AsyncMock,
@@ -141,7 +141,7 @@ async def test_import_flow(
 
 
 async def test_import_flow_invalid_file(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_invalid_google_credentials_json: str,
     mock_api_tts_from_service_account_file: AsyncMock,
 ) -> None:
@@ -161,7 +161,7 @@ async def test_import_flow_invalid_file(
 
 
 async def test_options_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api_tts_from_service_account_info: AsyncMock,
 ) -> None:

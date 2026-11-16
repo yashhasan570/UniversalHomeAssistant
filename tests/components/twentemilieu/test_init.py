@@ -14,13 +14,13 @@ from universalassistant.components.twentemilieu.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
 @pytest.mark.usefixtures("mock_twentemilieu")
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the Twente Milieu configuration entry loading/unloading."""
@@ -40,7 +40,7 @@ async def test_load_unload_config_entry(
     "side_effect", [TwenteMilieuConnectionError, TwenteMilieuError]
 )
 async def test_config_entry_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_twentemilieu: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],
@@ -58,7 +58,7 @@ async def test_config_entry_not_ready(
 
 @pytest.mark.usefixtures("mock_twentemilieu")
 async def test_migrate_unique_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test migration of sensor entity unique IDs."""

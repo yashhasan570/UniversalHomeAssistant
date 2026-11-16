@@ -31,14 +31,14 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STARTED,
     EntityCategory,
 )
-from universalassistant.core import CoreState, __HAC_KEEP__
+from universalassistant.core import CoreState, UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
 
 
 @pytest.fixture
-def mock_conf(hass: __HAC_KEEP__, cloud_prefs: CloudPreferences) -> CloudGoogleConfig:
+def mock_conf(hass: UniversalAssistant, cloud_prefs: CloudPreferences) -> CloudGoogleConfig:
     """Mock Google conf."""
     return CloudGoogleConfig(
         hass,
@@ -49,19 +49,19 @@ def mock_conf(hass: __HAC_KEEP__, cloud_prefs: CloudPreferences) -> CloudGoogleC
     )
 
 
-def expose_new(hass: __HAC_KEEP__, expose_new: bool) -> None:
+def expose_new(hass: UniversalAssistant, expose_new: bool) -> None:
     """Enable exposing new entities to Google."""
     exposed_entities = hass.data[DATA_EXPOSED_ENTITIES]
     exposed_entities.async_set_expose_new_entities("cloud.google_assistant", expose_new)
 
 
-def expose_entity(hass: __HAC_KEEP__, entity_id: str, should_expose: bool) -> None:
+def expose_entity(hass: UniversalAssistant, entity_id: str, should_expose: bool) -> None:
     """Expose an entity to Google."""
     async_expose_entity(hass, "cloud.google_assistant", entity_id, should_expose)
 
 
 async def test_google_update_report_state(
-    mock_conf: CloudGoogleConfig, hass: __HAC_KEEP__, cloud_prefs: CloudPreferences
+    mock_conf: CloudGoogleConfig, hass: UniversalAssistant, cloud_prefs: CloudPreferences
 ) -> None:
     """Test Google config responds to updating preference."""
     assert await async_setup_component(hass, "universalassistant", {})
@@ -85,7 +85,7 @@ async def test_google_update_report_state(
 
 
 async def test_google_update_report_state_subscription_expired(
-    mock_conf: CloudGoogleConfig, hass: __HAC_KEEP__, cloud_prefs: CloudPreferences
+    mock_conf: CloudGoogleConfig, hass: UniversalAssistant, cloud_prefs: CloudPreferences
 ) -> None:
     """Test Google config not reporting state when subscription has expired."""
     assert await async_setup_component(hass, "universalassistant", {})
@@ -109,7 +109,7 @@ async def test_google_update_report_state_subscription_expired(
 
 
 async def test_sync_entities(
-    mock_conf: CloudGoogleConfig, hass: __HAC_KEEP__, cloud_prefs: CloudPreferences
+    mock_conf: CloudGoogleConfig, hass: UniversalAssistant, cloud_prefs: CloudPreferences
 ) -> None:
     """Test sync devices."""
     assert await async_setup_component(hass, "universalassistant", {})
@@ -131,7 +131,7 @@ async def test_sync_entities(
 
 
 async def test_google_update_expose_trigger_sync(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     cloud_prefs: CloudPreferences,
 ) -> None:
@@ -191,7 +191,7 @@ async def test_google_update_expose_trigger_sync(
 
 @pytest.mark.usefixtures("mock_cloud_login")
 async def test_google_entity_registry_sync(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     cloud_prefs: CloudPreferences,
 ) -> None:
@@ -275,7 +275,7 @@ async def test_google_entity_registry_sync(
 
 @pytest.mark.usefixtures("mock_cloud_login")
 async def test_google_device_registry_sync(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     cloud_prefs: CloudPreferences,
@@ -356,7 +356,7 @@ async def test_google_device_registry_sync(
 
 @pytest.mark.usefixtures("mock_cloud_login")
 async def test_google_device_registry_sync_child_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     cloud_prefs: CloudPreferences,
@@ -409,7 +409,7 @@ async def test_google_device_registry_sync_child_device(
 
 @pytest.mark.usefixtures("mock_cloud_login")
 async def test_sync_google_when_started(
-    hass: __HAC_KEEP__, cloud_prefs: CloudPreferences
+    hass: UniversalAssistant, cloud_prefs: CloudPreferences
 ) -> None:
     """Test Google config syncs on init."""
     config = CloudGoogleConfig(
@@ -423,7 +423,7 @@ async def test_sync_google_when_started(
 
 @pytest.mark.usefixtures("mock_cloud_login")
 async def test_sync_google_on_universal_assistant_start(
-    hass: __HAC_KEEP__, cloud_prefs: CloudPreferences
+    hass: UniversalAssistant, cloud_prefs: CloudPreferences
 ) -> None:
     """Test Google config syncs when universal assistant started."""
     config = CloudGoogleConfig(
@@ -445,7 +445,7 @@ async def test_sync_google_on_universal_assistant_start(
 
 
 async def test_google_config_expose_entity_prefs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_conf: CloudGoogleConfig,
     cloud_prefs: CloudPreferences,
     entity_registry: er.EntityRegistry,
@@ -518,7 +518,7 @@ async def test_google_config_expose_entity_prefs(
 
 @pytest.mark.usefixtures("mock_expired_cloud_login")
 def test_enabled_requires_valid_sub(
-    hass: __HAC_KEEP__, cloud_prefs: CloudPreferences
+    hass: UniversalAssistant, cloud_prefs: CloudPreferences
 ) -> None:
     """Test that google config enabled requires a valid Cloud sub."""
     assert cloud_prefs.google_enabled
@@ -533,7 +533,7 @@ def test_enabled_requires_valid_sub(
 
 
 async def test_setup_google_assistant(
-    hass: __HAC_KEEP__, mock_conf: CloudGoogleConfig, cloud_prefs: CloudPreferences
+    hass: UniversalAssistant, mock_conf: CloudGoogleConfig, cloud_prefs: CloudPreferences
 ) -> None:
     """Test that we set up the google_assistant integration if enabled in cloud."""
     assert await async_setup_component(hass, "universalassistant", {})
@@ -554,7 +554,7 @@ async def test_setup_google_assistant(
 
 @pytest.mark.usefixtures("mock_cloud_login")
 async def test_google_handle_logout(
-    hass: __HAC_KEEP__, cloud_prefs: CloudPreferences
+    hass: UniversalAssistant, cloud_prefs: CloudPreferences
 ) -> None:
     """Test Google config responds to logging out."""
     gconf = CloudGoogleConfig(
@@ -593,7 +593,7 @@ async def test_google_handle_logout(
 
 @pytest.mark.parametrize("google_settings_version", [1, 2])
 async def test_google_config_migrate_expose_entity_prefs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud_prefs: CloudPreferences,
     entity_registry: er.EntityRegistry,
     google_settings_version: int,
@@ -705,7 +705,7 @@ async def test_google_config_migrate_expose_entity_prefs(
 
 
 async def test_google_config_migrate_expose_entity_prefs_v2_no_exposed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud_prefs: CloudPreferences,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -750,7 +750,7 @@ async def test_google_config_migrate_expose_entity_prefs_v2_no_exposed(
 
 
 async def test_google_config_migrate_expose_entity_prefs_v2_exposed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud_prefs: CloudPreferences,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -795,7 +795,7 @@ async def test_google_config_migrate_expose_entity_prefs_v2_exposed(
 
 
 async def test_google_config_migrate_expose_entity_prefs_default_none(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud_prefs: CloudPreferences,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -830,7 +830,7 @@ async def test_google_config_migrate_expose_entity_prefs_default_none(
 
 
 async def test_google_config_migrate_expose_entity_prefs_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud_prefs: CloudPreferences,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -934,7 +934,7 @@ async def test_google_config_migrate_expose_entity_prefs_default(
     ],
 )
 async def test_google_config_migrate_entity_names(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud_prefs: CloudPreferences,
     entity_registry: er.EntityRegistry,
     enabled: bool,
@@ -1001,7 +1001,7 @@ async def test_google_config_migrate_entity_names(
 
 @pytest.mark.usefixtures("mock_cloud_login")
 async def test_google_config_get_agent_user_id(
-    hass: __HAC_KEEP__, cloud_prefs: CloudPreferences
+    hass: UniversalAssistant, cloud_prefs: CloudPreferences
 ) -> None:
     """Test overridden get_agent_user_id_from_webhook method."""
     config = CloudGoogleConfig(
@@ -1016,7 +1016,7 @@ async def test_google_config_get_agent_user_id(
 
 @pytest.mark.usefixtures("mock_cloud_login")
 async def test_google_config_get_agent_users(
-    hass: __HAC_KEEP__, cloud_prefs: CloudPreferences
+    hass: UniversalAssistant, cloud_prefs: CloudPreferences
 ) -> None:
     """Test overridden async_get_agent_users method."""
     username_mock = PropertyMock(return_value="blah")

@@ -12,7 +12,7 @@ from yolink.message_listener import MessageListener
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import (
     aiohttp_client,
@@ -54,7 +54,7 @@ PLATFORMS = [
 class YoLinkHomeMessageListener(MessageListener):
     """YoLink home message listener."""
 
-    def __init__(self, hass: __HAC_KEEP__, entry: YoLinkConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: YoLinkConfigEntry) -> None:
         """Init YoLink home message listener."""
         self._hass = hass
         self._entry = entry
@@ -97,7 +97,7 @@ class YoLinkHomeMessageListener(MessageListener):
             self._hass.bus.async_fire(YOLINK_EVENT, event_data)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up YoLink."""
 
     async_setup_services(hass)
@@ -105,7 +105,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: YoLinkConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: YoLinkConfigEntry) -> None:
     """Set up yolink from a config entry."""
     implementation = await async_get_config_entry_implementation(hass, entry)
 
@@ -175,7 +175,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: YoLinkConfigEntry) -> Non
     )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: YoLinkConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: YoLinkConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await entry.runtime_data.home_instance.async_unload()

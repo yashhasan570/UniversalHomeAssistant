@@ -22,7 +22,7 @@ from securetar import SecureTarArchive, atomic_contents_add
 
 from universalassistant.backup_restore import RESTORE_BACKUP_FILE, RESTORE_BACKUP_RESULT_FILE
 from universalassistant.const import __version__ as HAVERSION
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import (
     instance_id,
     integration_platform,
@@ -247,7 +247,7 @@ class BackupPlatformEvent:
 
 @dataclass(frozen=True, kw_only=True, slots=True)
 class BlockedEvent(ManagerStateEvent):
-    """Backup manager blocked, __HA_KEEP__ is starting."""
+    """Backup manager blocked, Universal Home Assistant is starting."""
 
     manager_state: BackupManagerState = BackupManagerState.BLOCKED
 
@@ -264,10 +264,10 @@ class UploadBackupEvent(ManagerStateEvent):
 class BackupPlatformProtocol(Protocol):
     """Define the format that backup platforms can have."""
 
-    async def async_pre_backup(self, hass: __HAC_KEEP__) -> None:
+    async def async_pre_backup(self, hass: UniversalAssistant) -> None:
         """Perform operations before a backup starts."""
 
-    async def async_post_backup(self, hass: __HAC_KEEP__) -> None:
+    async def async_post_backup(self, hass: UniversalAssistant) -> None:
         """Perform operations after a backup finishes."""
 
 
@@ -353,7 +353,7 @@ class BackupManagerExceptionGroup(BackupManagerError, ExceptionGroup):
 class BackupManager:
     """Define the format that backup managers can have."""
 
-    def __init__(self, hass: __HAC_KEEP__, reader_writer: BackupReaderWriter) -> None:
+    def __init__(self, hass: UniversalAssistant, reader_writer: BackupReaderWriter) -> None:
         """Initialize the backup manager."""
         self.hass = hass
         self.platforms: dict[str, BackupPlatformProtocol] = {}
@@ -396,7 +396,7 @@ class BackupManager:
             on_progress=self.async_on_backup_event
         )
 
-        async def set_manager_idle_after_start(hass: __HAC_KEEP__) -> None:
+        async def set_manager_idle_after_start(hass: UniversalAssistant) -> None:
             """Set manager to idle after start."""
             self.async_on_backup_event(IdleEvent())
 
@@ -520,7 +520,7 @@ class BackupManager:
         )
 
         @callback
-        def check_unavailable_agents_after_start(hass: __HAC_KEEP__) -> None:
+        def check_unavailable_agents_after_start(hass: UniversalAssistant) -> None:
             """Check unavailable agents after start."""
             check_unavailable_agents(hass, self)
 
@@ -528,7 +528,7 @@ class BackupManager:
 
     async def _add_platform(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         integration_domain: str,
         platform: Any,
     ) -> None:
@@ -1768,7 +1768,7 @@ class CoreBackupReaderWriter(BackupReaderWriter):
 
     _local_agent_id = f"{DOMAIN}.local"
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the backup reader/writer."""
         self._hass = hass
         self.temp_backup_dir = Path(hass.config.path("tmp_backups"))
@@ -1797,7 +1797,7 @@ class CoreBackupReaderWriter(BackupReaderWriter):
                 "Addons and folders are not supported by core backup"
             )
         if not include_universalassistant:
-            raise BackupReaderWriterError("__HA_KEEP__ must be included in backup")
+            raise BackupReaderWriterError("Universal Home Assistant must be included in backup")
 
         backup_task = self._hass.async_create_task(
             self._async_create_backup(
@@ -2127,7 +2127,7 @@ class CoreBackupReaderWriter(BackupReaderWriter):
             )
         if not restore_universalassistant and not restore_database:
             raise BackupReaderWriterError(
-                "__HA_KEEP__ or database must be included in restore"
+                "Universal Home Assistant or database must be included in restore"
             )
 
         manager = self._hass.data[DATA_MANAGER]

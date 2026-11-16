@@ -20,7 +20,7 @@ from universalassistant.const import (
     Platform,
     UnitOfLength,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -36,7 +36,7 @@ def geo_location_only() -> Generator[None]:
 
 
 @pytest.mark.usefixtures("geo_location_only")
-async def test_setup_entry(hass: __HAC_KEEP__) -> None:
+async def test_setup_entry(hass: UniversalAssistant) -> None:
     """Test setup of demo platform via config entry."""
     utcnow = dt_util.utcnow()
     # Patching 'utcnow' to gain more control over the timed update.
@@ -75,7 +75,7 @@ async def test_setup_entry(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("geo_location_only")
-async def test_unload_entry(hass: __HAC_KEEP__) -> None:
+async def test_unload_entry(hass: UniversalAssistant) -> None:
     """Test unloading the config entry removes the events and stops updates."""
     utcnow = dt_util.utcnow()
     with freeze_time(utcnow):

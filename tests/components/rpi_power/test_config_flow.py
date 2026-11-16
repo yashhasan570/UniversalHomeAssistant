@@ -6,13 +6,13 @@ from pytest_universalassistant.common import patch
 
 from universalassistant.components.rpi_power.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 MODULE = "universalassistant.components.rpi_power.config_flow.new_under_voltage"
 
 
-async def test_setup(hass: __HAC_KEEP__) -> None:
+async def test_setup(hass: UniversalAssistant) -> None:
     """Test setting up manually."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -27,7 +27,7 @@ async def test_setup(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_not_supported(hass: __HAC_KEEP__) -> None:
+async def test_not_supported(hass: UniversalAssistant) -> None:
     """Test setting up on not supported system."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -40,7 +40,7 @@ async def test_not_supported(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "no_devices_found"
 
 
-async def test_onboarding(hass: __HAC_KEEP__) -> None:
+async def test_onboarding(hass: UniversalAssistant) -> None:
     """Test setting up via onboarding."""
     with patch(MODULE, return_value=MagicMock()):
         result = await hass.config_entries.flow.async_init(
@@ -50,7 +50,7 @@ async def test_onboarding(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_onboarding_not_supported(hass: __HAC_KEEP__) -> None:
+async def test_onboarding_not_supported(hass: UniversalAssistant) -> None:
     """Test setting up via onboarding with unsupported system."""
     with patch(MODULE, return_value=None):
         result = await hass.config_entries.flow.async_init(

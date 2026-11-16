@@ -13,7 +13,7 @@ from universalassistant.components.insteon import (
 )
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN, LockState
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .const import MOCK_USER_INPUT_PLM
@@ -51,7 +51,7 @@ async def mock_connection(*args, **kwargs):
 
 
 async def test_lock_lock(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test locking an Insteon lock device."""
@@ -78,7 +78,7 @@ async def test_lock_lock(
 
 
 async def test_lock_unlock(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test locking an Insteon lock device."""

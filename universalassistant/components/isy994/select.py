@@ -28,8 +28,8 @@ from universalassistant.const import (
     Platform,
     UnitOfTime,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
@@ -51,7 +51,7 @@ BACKLIGHT_MEMORY_FILTER = {"memory": DEV_BL_ADDR, "cmd1": DEV_CMD_MEMORY_WRITE}
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: IsyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -209,7 +209,7 @@ class ISYBacklightSelectEntity(ISYAuxControlEntity, SelectEntity, RestoreEntity)
         if not await self._node.send_cmd(
             CMD_BACKLIGHT, val=BACKLIGHT_INDEX.index(option), uom=ISY_UOM_INDEX
         ):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Could not set backlight to {option} for {self._node.address}"
             )
         self._attr_current_option = option

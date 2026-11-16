@@ -7,7 +7,7 @@ import RFXtrx as rfxtrxmod
 
 from universalassistant.components.cover import CoverEntity, CoverEntityFeature, CoverState
 from universalassistant.config_entries import ConfigSubentry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -36,7 +36,7 @@ def supported(event: rfxtrxmod.RFXtrxEvent) -> bool:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: RfxtrxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

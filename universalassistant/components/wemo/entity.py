@@ -17,9 +17,9 @@ _LOGGER = logging.getLogger(__name__)
 class WemoEntity(CoordinatorEntity[DeviceCoordinator]):
     """Common methods for Wemo entities."""
 
-    # Most pyWeMo devices are associated with a single __HA_KEEP__ entity. When
+    # Most pyWeMo devices are associated with a single Universal Home Assistant entity. When
     # that is not the case, name_suffix & unique_id_suffix can be used to provide
-    # names and unique ids for additional __HA_KEEP__ entities.
+    # names and unique ids for additional Universal Home Assistant entities.
     _name_suffix: str | None = None
     _unique_id_suffix: str | None = None
 

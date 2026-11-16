@@ -8,11 +8,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.blink import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_form_2fa(hass: __HAC_KEEP__) -> None:
+async def test_form_2fa(hass: UniversalAssistant) -> None:
     """Test we get the 2fa form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -56,7 +56,7 @@ async def test_form_2fa(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_2fa_connect_error(hass: __HAC_KEEP__) -> None:
+async def test_form_2fa_connect_error(hass: UniversalAssistant) -> None:
     """Test we report a connect error during 2fa setup."""
 
     result = await hass.config_entries.flow.async_init(
@@ -108,7 +108,7 @@ async def test_form_2fa_connect_error(hass: __HAC_KEEP__) -> None:
     assert result4["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_2fa_invalid_key(hass: __HAC_KEEP__) -> None:
+async def test_form_2fa_invalid_key(hass: UniversalAssistant) -> None:
     """Test we report an error if key is invalid."""
 
     result = await hass.config_entries.flow.async_init(
@@ -162,7 +162,7 @@ async def test_form_2fa_invalid_key(hass: __HAC_KEEP__) -> None:
     assert result4["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_2fa_unknown_error(hass: __HAC_KEEP__) -> None:
+async def test_form_2fa_unknown_error(hass: UniversalAssistant) -> None:
     """Test we report an unknown error during 2fa setup."""
 
     result = await hass.config_entries.flow.async_init(
@@ -214,7 +214,7 @@ async def test_form_2fa_unknown_error(hass: __HAC_KEEP__) -> None:
     assert result4["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_2fa_wrong_pin(hass: __HAC_KEEP__) -> None:
+async def test_form_2fa_wrong_pin(hass: UniversalAssistant) -> None:
     """Test we report invalid auth when send_2fa_code returns False."""
 
     result = await hass.config_entries.flow.async_init(
@@ -266,7 +266,7 @@ async def test_form_2fa_wrong_pin(hass: __HAC_KEEP__) -> None:
     assert result4["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
+async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -295,7 +295,7 @@ async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_start_returns_false(hass: __HAC_KEEP__) -> None:
+async def test_form_start_returns_false(hass: UniversalAssistant) -> None:
     """Test we handle auth failure when blink.start() returns False without raising.
 
     blink.start() catches LoginError/TokenRefreshFailed internally and returns
@@ -328,7 +328,7 @@ async def test_form_start_returns_false(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_unknown_error(hass: __HAC_KEEP__) -> None:
+async def test_form_unknown_error(hass: UniversalAssistant) -> None:
     """Test we handle unknown error at startup."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -357,7 +357,7 @@ async def test_form_unknown_error(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_form_already_configured(hass: UniversalAssistant) -> None:
     """Test we abort when the account is already configured."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -378,7 +378,7 @@ async def test_form_already_configured(hass: __HAC_KEEP__) -> None:
     mock_start.assert_not_called()
 
 
-async def test_form_already_in_progress(hass: __HAC_KEEP__) -> None:
+async def test_form_already_in_progress(hass: UniversalAssistant) -> None:
     """Test we abort when a setup for the same account is in progress."""
     first = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -404,7 +404,7 @@ async def test_form_already_in_progress(hass: __HAC_KEEP__) -> None:
     mock_start.assert_not_called()
 
 
-async def test_reauth_shows_user_step(hass: __HAC_KEEP__) -> None:
+async def test_reauth_shows_user_step(hass: UniversalAssistant) -> None:
     """Test reauth shows the user form."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -416,10 +416,10 @@ async def test_reauth_shows_user_step(hass: __HAC_KEEP__) -> None:
     assert result["step_id"] == "reauth_confirm"
 
 
-async def test_form_user_omits_hardware_id(hass: __HAC_KEEP__) -> None:
+async def test_form_user_omits_hardware_id(hass: UniversalAssistant) -> None:
     """Test initial setup omits hardware_id, letting blinkpy generate a UUID.
 
-    Blink's OAuth endpoint rejects the old hardcoded "__HA_KEEP__"
+    Blink's OAuth endpoint rejects the old hardcoded "Universal Home Assistant"
     literal; a fresh install has no prior hardware_id to reuse.
     """
     result = await hass.config_entries.flow.async_init(
@@ -456,7 +456,7 @@ async def test_form_user_omits_hardware_id(hass: __HAC_KEEP__) -> None:
     assert "hardware_id" not in login_data
 
 
-async def test_reauth_reuses_existing_hardware_id(hass: __HAC_KEEP__) -> None:
+async def test_reauth_reuses_existing_hardware_id(hass: UniversalAssistant) -> None:
     """Test reauth passes along the previously stored, valid hardware_id."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -500,14 +500,14 @@ async def test_reauth_reuses_existing_hardware_id(hass: __HAC_KEEP__) -> None:
     assert login_data["hardware_id"] == "existing-valid-uuid"
 
 
-async def test_reauth_does_not_reuse_legacy_hardware_id(hass: __HAC_KEEP__) -> None:
+async def test_reauth_does_not_reuse_legacy_hardware_id(hass: UniversalAssistant) -> None:
     """Test reauth does not resend the rejected legacy hardware_id."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
         data={
             "username": "blink@example.com",
             "password": "invalid_password",
-            "hardware_id": "__HA_KEEP__",
+            "hardware_id": "Universal Home Assistant",
         },
         version=4,
     )
@@ -543,7 +543,7 @@ async def test_reauth_does_not_reuse_legacy_hardware_id(hass: __HAC_KEEP__) -> N
     assert "hardware_id" not in login_data
 
 
-async def test_reconfigure_reuses_existing_hardware_id(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_reuses_existing_hardware_id(hass: UniversalAssistant) -> None:
     """Test reconfigure reuses the stored, valid hardware_id when re-submitting."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,

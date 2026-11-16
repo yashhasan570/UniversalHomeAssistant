@@ -22,7 +22,7 @@ from universalassistant.components.solaredge_modbus.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF, ConfigEntryState
 from universalassistant.const import CONF_DEVICE, CONF_HOST, CONF_PORT, CONF_TYPE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -91,7 +91,7 @@ def _serial_entry(baudrate: int = DEFAULT_BAUDRATE) -> MockConfigEntry:
     )
 
 
-async def _start_user_flow(hass: __HAC_KEEP__, connection_type: str) -> str:
+async def _start_user_flow(hass: UniversalAssistant, connection_type: str) -> str:
     """Open the flow, pick a connection type, and return the flow ID."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -117,7 +117,7 @@ def _model_registers(model: str) -> dict[int, int]:
     }
 
 
-async def test_user_flow_tcp(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_tcp(hass: UniversalAssistant) -> None:
     """An inverter on the network is probed and its entry created."""
     flow_id = await _start_user_flow(hass, TYPE_TCP)
 
@@ -130,7 +130,7 @@ async def test_user_flow_tcp(hass: __HAC_KEEP__) -> None:
     assert result["result"].unique_id == SERIAL_NUMBER  # the inverter serial
 
 
-async def test_user_flow_serial(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_serial(hass: UniversalAssistant) -> None:
     """An inverter on an RS485 bus is probed and its entry created."""
     flow_id = await _start_user_flow(hass, TYPE_SERIAL)
 
@@ -149,7 +149,7 @@ async def test_user_flow_serial(hass: __HAC_KEEP__) -> None:
 
 
 async def test_user_flow_cannot_connect(
-    hass: __HAC_KEEP__, mock_modbus_unit: MockModbusUnit
+    hass: UniversalAssistant, mock_modbus_unit: MockModbusUnit
 ) -> None:
     """An unresponsive device surfaces cannot_connect, then the flow recovers."""
     mock_modbus_unit.fail_read(40000, ModbusTimeoutError("timed out"))
@@ -171,7 +171,7 @@ async def test_user_flow_cannot_connect(
 
 
 async def test_user_flow_partial_answer(
-    hass: __HAC_KEEP__, mock_modbus_unit: MockModbusUnit
+    hass: UniversalAssistant, mock_modbus_unit: MockModbusUnit
 ) -> None:
     """An inverter that answers in part is not accepted, then the flow recovers.
 
@@ -198,7 +198,7 @@ async def test_user_flow_partial_answer(
 
 
 async def test_user_flow_no_solaredge_device(
-    hass: __HAC_KEEP__, mock_modbus_connection: MockModbusConnection
+    hass: UniversalAssistant, mock_modbus_connection: MockModbusConnection
 ) -> None:
     """A Modbus device without a SunSpec header surfaces no_solaredge_device."""
     # A device that answers reads but is not a SolarEdge inverter.
@@ -219,7 +219,7 @@ async def test_user_flow_no_solaredge_device(
 
 
 async def test_user_flow_no_serial_number(
-    hass: __HAC_KEEP__, mock_modbus_connection: MockModbusConnection
+    hass: UniversalAssistant, mock_modbus_connection: MockModbusConnection
 ) -> None:
     """An inverter without a serial number cannot be identified and is rejected."""
     # A valid inverter image, but with the serial-number registers zeroed out.
@@ -241,7 +241,7 @@ async def test_user_flow_no_serial_number(
 
 
 async def test_user_flow_ev_charger(
-    hass: __HAC_KEEP__, mock_modbus_connection: MockModbusConnection
+    hass: UniversalAssistant, mock_modbus_connection: MockModbusConnection
 ) -> None:
     """A SolarEdge EV charger answers as an inverter, but is rejected."""
     unit = mock_modbus_connection.for_unit(4)
@@ -262,7 +262,7 @@ async def test_user_flow_ev_charger(
 
 
 async def test_user_flow_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Setting up the same inverter twice aborts."""
     mock_config_entry.add_to_hass(hass)
@@ -275,7 +275,7 @@ async def test_user_flow_already_configured(
 
 
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_connection: MockModbusConnection,
 ) -> None:
@@ -300,7 +300,7 @@ async def test_reconfigure_flow(
 
 
 async def test_reconfigure_flow_wrong_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_connection: MockModbusConnection,
 ) -> None:
@@ -324,7 +324,7 @@ async def test_reconfigure_flow_wrong_device(
 
 
 async def test_reconfigure_flow_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -351,7 +351,7 @@ async def test_reconfigure_flow_cannot_connect(
     assert result["reason"] == "reconfigure_successful"
 
 
-async def test_reconfigure_flow_new_line_settings(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_flow_new_line_settings(hass: UniversalAssistant) -> None:
     """New line settings need the entry off the bus before they can be probed."""
     entry = _serial_entry()
     entry.add_to_hass(hass)
@@ -371,7 +371,7 @@ async def test_reconfigure_flow_new_line_settings(hass: __HAC_KEEP__) -> None:
 
 
 async def test_reconfigure_flow_new_line_settings_cannot_connect(
-    hass: __HAC_KEEP__, mock_modbus_unit: MockModbusUnit
+    hass: UniversalAssistant, mock_modbus_unit: MockModbusUnit
 ) -> None:
     """A failed probe puts the entry back on the bus it was taken off."""
     entry = _serial_entry()
@@ -405,7 +405,7 @@ async def test_reconfigure_flow_new_line_settings_cannot_connect(
 
 
 async def test_reconfigure_flow_new_line_settings_wrong_device(
-    hass: __HAC_KEEP__, mock_modbus_connection: MockModbusConnection
+    hass: UniversalAssistant, mock_modbus_connection: MockModbusConnection
 ) -> None:
     """A rejected reconfigure puts the entry back on the bus it was taken off."""
     entry = _serial_entry()
@@ -432,7 +432,7 @@ async def test_reconfigure_flow_new_line_settings_wrong_device(
 
 
 async def test_reconfigure_flow_new_line_settings_while_retrying(
-    hass: __HAC_KEEP__, mock_modbus_unit: MockModbusUnit
+    hass: UniversalAssistant, mock_modbus_unit: MockModbusUnit
 ) -> None:
     """An entry waiting to retry must not connect behind the probe's back.
 
@@ -477,7 +477,7 @@ async def test_reconfigure_flow_new_line_settings_while_retrying(
     assert entry.state is ConfigEntryState.LOADED
 
 
-async def test_zeroconf_discovery(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_discovery(hass: UniversalAssistant) -> None:
     """An announced inverter is probed, confirmed and set up."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_ZEROCONF}, data=_discovery()
@@ -504,7 +504,7 @@ async def test_zeroconf_discovery(hass: __HAC_KEEP__) -> None:
 
 
 async def test_zeroconf_uses_the_announced_device_id(
-    hass: __HAC_KEEP__, mock_modbus_connection: MockModbusConnection
+    hass: UniversalAssistant, mock_modbus_connection: MockModbusConnection
 ) -> None:
     """The announcement's MODBUS_ID says which device to talk to."""
     await async_seed_unit(hass, mock_modbus_connection.for_unit(2))
@@ -531,7 +531,7 @@ async def test_zeroconf_uses_the_announced_device_id(
     ],
 )
 async def test_zeroconf_falls_back_to_the_default_device_id(
-    hass: __HAC_KEEP__, properties: dict[str, Any]
+    hass: UniversalAssistant, properties: dict[str, Any]
 ) -> None:
     """An announcement without a usable device ID gets the factory default."""
     result = await hass.config_entries.flow.async_init(
@@ -548,7 +548,7 @@ async def test_zeroconf_falls_back_to_the_default_device_id(
 
 
 async def test_zeroconf_known_inverter_that_moved_is_followed(
-    hass: __HAC_KEEP__, mock_modbus_connection: MockModbusConnection
+    hass: UniversalAssistant, mock_modbus_connection: MockModbusConnection
 ) -> None:
     """An inverter announcing itself from a new address updates the entry.
 
@@ -573,7 +573,7 @@ async def test_zeroconf_known_inverter_that_moved_is_followed(
 
 
 async def test_zeroconf_known_inverter_is_dropped(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """An inverter that is already set up is dropped when it announces itself.
 
@@ -591,7 +591,7 @@ async def test_zeroconf_known_inverter_is_dropped(
 
 
 async def test_zeroconf_another_inverter_on_a_configured_address(
-    hass: __HAC_KEEP__, mock_modbus_connection: MockModbusConnection
+    hass: UniversalAssistant, mock_modbus_connection: MockModbusConnection
 ) -> None:
     """An address an entry uses can end up hosting a different inverter.
 
@@ -625,7 +625,7 @@ async def test_zeroconf_another_inverter_on_a_configured_address(
 
 
 async def test_zeroconf_unresponsive_device(
-    hass: __HAC_KEEP__, mock_modbus_unit: MockModbusUnit
+    hass: UniversalAssistant, mock_modbus_unit: MockModbusUnit
 ) -> None:
     """An announcement from a device that will not answer is dropped."""
     mock_modbus_unit.fail_read(40000, ModbusTimeoutError("timed out"))

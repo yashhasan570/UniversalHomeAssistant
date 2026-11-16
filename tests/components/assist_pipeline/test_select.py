@@ -16,7 +16,7 @@ from universalassistant.components.assist_pipeline.select import (
 from universalassistant.components.assist_pipeline.vad import VadSensitivity
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -27,7 +27,7 @@ class SelectPlatform(MockPlatform):
 
     async def async_setup_entry(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -44,7 +44,7 @@ class SelectPlatform(MockPlatform):
 
 
 @pytest.fixture
-async def init_select(hass: __HAC_KEEP__, init_components) -> ConfigEntry:
+async def init_select(hass: UniversalAssistant, init_components) -> ConfigEntry:
     """Initialize select entity."""
     mock_platform(hass, "assist_pipeline.select", SelectPlatform())
     config_entry = MockConfigEntry(domain=DOMAIN, state=ConfigEntryState.LOADED)
@@ -57,7 +57,7 @@ async def init_select(hass: __HAC_KEEP__, init_components) -> ConfigEntry:
 
 @pytest.fixture
 async def pipeline_1(
-    hass: __HAC_KEEP__, init_select, pipeline_storage: PipelineStorageCollection
+    hass: UniversalAssistant, init_select, pipeline_storage: PipelineStorageCollection
 ) -> Pipeline:
     """Create a pipeline."""
     return await pipeline_storage.async_create_item(
@@ -79,7 +79,7 @@ async def pipeline_1(
 
 @pytest.fixture
 async def pipeline_2(
-    hass: __HAC_KEEP__, init_select, pipeline_storage: PipelineStorageCollection
+    hass: UniversalAssistant, init_select, pipeline_storage: PipelineStorageCollection
 ) -> Pipeline:
     """Create a pipeline."""
     return await pipeline_storage.async_create_item(
@@ -100,7 +100,7 @@ async def pipeline_2(
 
 
 async def test_select_entity_registering_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_select: ConfigEntry,
     pipeline_data: PipelineData,
     device_registry: dr.DeviceRegistry,
@@ -124,7 +124,7 @@ async def test_select_entity_registering_device(
 
 
 async def test_select_entity_changing_pipelines(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_select: MockConfigEntry,
     pipeline_1: Pipeline,
@@ -145,7 +145,7 @@ async def test_select_entity_changing_pipelines(
     assert state.state == "preferred"
     assert state.attributes["options"] == [
         "preferred",
-        "__HA_KEEP__",
+        "Universal Home Assistant",
         pipeline_1.name,
         pipeline_2.name,
     ]
@@ -185,13 +185,13 @@ async def test_select_entity_changing_pipelines(
     assert state.state == "preferred"
     assert state.attributes["options"] == [
         "preferred",
-        "__HA_KEEP__",
+        "Universal Home Assistant",
         pipeline_1.name,
     ]
 
 
 async def test_select_entity_changing_vad_sensitivity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_select: MockConfigEntry,
 ) -> None:

@@ -5,7 +5,7 @@ from typing import Any, override
 from universalassistant.components.binary_sensor import BinarySensorEntity
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_WEBHOOK_ID, STATE_ON, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__, State, callback
+from universalassistant.core import UniversalAssistant, State, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -26,7 +26,7 @@ from .entity import MobileAppEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

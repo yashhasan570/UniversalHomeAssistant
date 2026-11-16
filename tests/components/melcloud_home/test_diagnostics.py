@@ -9,14 +9,14 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
 
 @pytest.mark.freeze_time("2026-06-08 12:00:00+00:00")
 async def test_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,

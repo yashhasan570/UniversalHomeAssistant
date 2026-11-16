@@ -8,8 +8,8 @@ from aiovitesy.const import SHELFY_MODES
 from aiovitesy.exceptions import VitesyError
 
 from universalassistant.components.select import SelectEntity
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -20,7 +20,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: VitesyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -66,7 +66,7 @@ class VitesyModeSelect(VitesyEntity, SelectEntity):
         try:
             await self.coordinator.api.set_mode(self._device_id, option)
         except VitesyError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_mode_failed",
             ) from err

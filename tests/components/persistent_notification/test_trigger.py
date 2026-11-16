@@ -8,10 +8,10 @@ from universalassistant.components.persistent_notification.services import (
     PersistentNotificationService,
     PersistentNotificationServiceArgument,
 )
-from universalassistant.core import Context, __HAC_KEEP__, callback
+from universalassistant.core import Context, UniversalAssistant, callback
 
 
-async def test_automation_with_pn_trigger(hass: __HAC_KEEP__) -> None:
+async def test_automation_with_pn_trigger(hass: UniversalAssistant) -> None:
     """Test automation with a persistent_notification trigger."""
 
     result_any = []

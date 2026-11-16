@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.worldclock.const import CONF_TIME_FORMAT
 from universalassistant.const import CONF_TIME_ZONE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 
@@ -18,7 +18,7 @@ async def time_zone() -> tzinfo | None:
 
 
 async def test_time_from_config_entry(
-    hass: __HAC_KEEP__, time_zone: tzinfo | None, loaded_entry: MockConfigEntry
+    hass: UniversalAssistant, time_zone: tzinfo | None, loaded_entry: MockConfigEntry
 ) -> None:
     """Test the time at a different location."""
 
@@ -38,7 +38,7 @@ async def test_time_from_config_entry(
     ],
 )
 async def test_time_format(
-    hass: __HAC_KEEP__, time_zone: tzinfo | None, loaded_entry: MockConfigEntry
+    hass: UniversalAssistant, time_zone: tzinfo | None, loaded_entry: MockConfigEntry
 ) -> None:
     """Test time_format setting."""
 

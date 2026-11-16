@@ -3,11 +3,11 @@
 from freezegun.api import FrozenDateTimeFactory
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def async_next_update(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, entry: MockConfigEntry
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, entry: MockConfigEntry
 ) -> None:
     """Advance time to the entry's next scheduled forecast update."""
     freezer.tick(entry.runtime_data.update_interval)

@@ -918,14 +918,20 @@
     "update_error": {
       "message": "An error occurred while retrieving data from {device}"
     },
-    "update_error_device_disconnected": {
-      "message": "An error occurred while retrieving data from {device} because it is disconnected"
+    "update_error_disconnected": {
+      "message": "The device is disconnected"
     },
-    "update_error_reconnect_error": {
-      "message": "An error occurred while reconnecting to {device}"
+    "update_error_mac_mismatch": {
+      "message": "A different device responded at {host}"
+    },
+    "update_error_reconnect": {
+      "message": "The device could not be reconnected"
     },
     "update_error_sleeping_device": {
       "message": "Sleeping device {device} did not update within {period} seconds interval"
+    },
+    "update_error_unreachable": {
+      "message": "The device cannot be reached"
     }
   },
   "issues": {
@@ -953,7 +959,7 @@
         },
         "step": {
           "init": {
-            "description": "Your Shelly device {device_name} with IP address {ip_address} has CoIoT disabled or wrongly configured. To enable push updates, CoIoT must be enabled with __HA_KEEP__'s IP address and CoIoT port.",
+            "description": "Your Shelly device {device_name} with IP address {ip_address} has CoIoT disabled or wrongly configured. To enable push updates, CoIoT must be enabled with Universal Home Assistant's IP address and CoIoT port.",
             "menu_options": {
               "confirm": "Configure CoIoT",
               "ignore": "Ignore"
@@ -972,7 +978,7 @@
         },
         "step": {
           "confirm": {
-            "description": "Your Shelly device {device_name} with IP address {ip_address} is running firmware {firmware}. This firmware version will not be supported by Shelly integration starting from __HA_KEEP__ {ha_version}.\n\nSelect **Submit** button to start the OTA update to the latest stable firmware version.",
+            "description": "Your Shelly device {device_name} with IP address {ip_address} is running firmware {firmware}. This firmware version will not be supported by Shelly integration starting from Universal Home Assistant {ha_version}.\n\nSelect **Submit** button to start the OTA update to the latest stable firmware version.",
             "title": "[%key:component::shelly::issues::deprecated_firmware::title%]"
           }
         }
@@ -1036,7 +1042,7 @@
       "title": "Outbound WebSocket is enabled for {device_name}"
     },
     "push_update_failure": {
-      "description": "__HA_KEEP__ is not receiving push updates from the Shelly device {device_name} with IP address {ip_address}. Check the CoIoT configuration in the web panel of the device and your network configuration.",
+      "description": "Universal Home Assistant is not receiving push updates from the Shelly device {device_name} with IP address {ip_address}. Check the CoIoT configuration in the web panel of the device and your network configuration.",
       "title": "Shelly device {device_name} push update failure"
     },
     "rtsp_disabled": {

@@ -3,7 +3,7 @@
 from Tami4EdgeAPI import Tami4EdgeAPI, exceptions
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 
 from .const import CONF_REFRESH_TOKEN
@@ -12,7 +12,7 @@ from .coordinator import Tami4ConfigEntry, Tami4EdgeCoordinator
 PLATFORMS: list[Platform] = [Platform.BUTTON, Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: Tami4ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: Tami4ConfigEntry) -> None:
     """Set up tami4 from a config entry."""
     refresh_token = entry.data.get(CONF_REFRESH_TOKEN)
 
@@ -31,6 +31,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: Tami4ConfigEntry) -> None
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: Tami4ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: Tami4ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

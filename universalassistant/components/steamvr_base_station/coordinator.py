@@ -22,8 +22,8 @@ from universalassistant.components.bluetooth.passive_update_coordinator import (
     PassiveBluetoothDataUpdateCoordinator,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import DOMAIN
 
@@ -37,7 +37,7 @@ class SteamVRBaseStationCoordinator(PassiveBluetoothDataUpdateCoordinator):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: SteamVRBaseStationConfigEntry,
         station: BaseStationV2,
         device_info: DeviceInfo,
@@ -97,13 +97,13 @@ class SteamVRBaseStationCoordinator(PassiveBluetoothDataUpdateCoordinator):
         try:
             await command
         except LighthouseConnectionError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="cannot_connect",
                 translation_placeholders={"name": self.entry.title},
             ) from err
         except UnsupportedError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="not_supported",
                 translation_placeholders={"name": self.entry.title},

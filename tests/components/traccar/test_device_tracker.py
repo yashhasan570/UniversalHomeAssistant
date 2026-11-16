@@ -15,7 +15,7 @@ from universalassistant.const import (
     STATE_NOT_HOME,
     EntityStateAttribute,
 )
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -29,7 +29,7 @@ def mock_dev_track(mock_device_tracker_conf: list[Device]) -> None:
 
 
 async def test_restore_state(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test that the previous location is restored for a known device."""
     assert await async_setup_component(hass, DEVICE_TRACKER_DOMAIN, {})

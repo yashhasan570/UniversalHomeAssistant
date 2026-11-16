@@ -20,13 +20,13 @@ from universalassistant.components.fish_audio.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_LANGUAGE, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_happy_path(
-    hass: __HAC_KEEP__, mock_fishaudio_client: AsyncMock
+    hass: UniversalAssistant, mock_fishaudio_client: AsyncMock
 ) -> None:
     """Test the full user flow happy path."""
     result = await hass.config_entries.flow.async_init(
@@ -54,7 +54,7 @@ async def test_user_flow_happy_path(
     ],
 )
 async def test_user_flow_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fishaudio_client: AsyncMock,
     mock_setup_entry: AsyncMock,
     side_effect: Exception,
@@ -94,7 +94,7 @@ async def test_user_flow_api_error(
 
 
 async def test_user_flow_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_fishaudio_client: AsyncMock,
 ) -> None:
@@ -114,7 +114,7 @@ async def test_user_flow_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_fishaudio_client")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the reauthentication flow."""
@@ -149,7 +149,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_fishaudio_client: AsyncMock,
     side_effect: Exception,
@@ -183,7 +183,7 @@ async def test_reauth_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_wrong_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_fishaudio_client: AsyncMock,
 ) -> None:
@@ -204,7 +204,7 @@ async def test_reauth_flow_wrong_account(
 
 
 async def test_subflow_happy_path(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fishaudio_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -256,7 +256,7 @@ async def test_subflow_happy_path(
 
 
 async def test_subflow_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fishaudio_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -281,7 +281,7 @@ async def test_subflow_cannot_connect(
 
 
 async def test_subflow_no_models_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fishaudio_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -306,7 +306,7 @@ async def test_subflow_no_models_found(
 
 
 async def test_subflow_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fishaudio_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -355,7 +355,7 @@ async def test_subflow_reconfigure(
 
 
 async def test_subflow_reconfigure_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fishaudio_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -408,7 +408,7 @@ async def test_subflow_reconfigure_already_configured(
 
 
 async def test_subflow_entry_not_loaded(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test creating a TTS subentry when the parent entry is not loaded."""
     mock_config_entry.add_to_hass(hass)

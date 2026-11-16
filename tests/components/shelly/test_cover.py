@@ -36,7 +36,7 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceNotSupported
 from universalassistant.helpers.entity_registry import EntityRegistry
 
@@ -58,7 +58,7 @@ def fixture_platforms():
 
 
 async def test_block_device_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -109,7 +109,7 @@ async def test_block_device_services(
 
 
 async def test_block_device_update(
-    hass: __HAC_KEEP__, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test block device update."""
     monkeypatch.setattr(mock_block_device.blocks[ROLLER_BLOCK_ID], "rollerPos", 0)
@@ -137,7 +137,7 @@ async def test_block_device_update(
     ],
 )
 async def test_block_device_roller_without_positioning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     last_direction: str | None,
@@ -164,7 +164,7 @@ async def test_block_device_roller_without_positioning(
 
 
 async def test_block_device_roller_without_positioning_stopped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -204,7 +204,7 @@ async def test_block_device_roller_without_positioning_stopped(
 
 
 async def test_block_device_no_roller_blocks(
-    hass: __HAC_KEEP__, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test block device without roller blocks."""
     monkeypatch.setattr(mock_block_device.blocks[ROLLER_BLOCK_ID], "type", None)
@@ -214,7 +214,7 @@ async def test_block_device_no_roller_blocks(
 
 
 async def test_rpc_device_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -284,7 +284,7 @@ async def test_rpc_device_services(
 
 
 async def test_rpc_device_no_cover_keys(
-    hass: __HAC_KEEP__, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test RPC device without cover keys."""
     monkeypatch.delitem(mock_rpc_device.status, "cover:0")
@@ -294,7 +294,7 @@ async def test_rpc_device_no_cover_keys(
 
 
 async def test_rpc_device_update(
-    hass: __HAC_KEEP__, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test RPC device update."""
     entity_id = "cover.test_name_test_cover_0"
@@ -327,7 +327,7 @@ async def test_rpc_device_update(
     ],
 )
 async def test_rpc_device_position_control_closed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     device_state: str,
@@ -361,7 +361,7 @@ async def test_rpc_device_position_control_closed(
     ],
 )
 async def test_rpc_device_no_position_control(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     device_state: str,
@@ -389,7 +389,7 @@ async def test_rpc_device_no_position_control(
 
 
 async def test_rpc_cover_tilt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -462,7 +462,7 @@ async def test_rpc_cover_tilt(
 
 
 async def test_rpc_cover_position_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -507,7 +507,7 @@ async def test_rpc_cover_position_update(
 
 
 async def test_rpc_not_initialized_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     freezer: FrozenDateTimeFactory,
@@ -535,7 +535,7 @@ async def test_rpc_not_initialized_update(
 
 
 async def test_rpc_cover_set_position_and_tilt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -567,7 +567,7 @@ async def test_rpc_cover_set_position_and_tilt(
 
 
 async def test_rpc_cover_set_position_and_tilt_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
 ) -> None:
     """Test RPC cover set position and tilt on a cover without tilt."""

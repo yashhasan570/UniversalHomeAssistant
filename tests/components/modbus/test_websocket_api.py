@@ -22,7 +22,7 @@ from universalassistant.components.modbus import async_get_unit
 from universalassistant.components.modbus.const import DATA_MODBUS_HUBS
 from universalassistant.config_entries import ConfigFlow
 from universalassistant.const import SERVICE_RELOAD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 type ConsumerFactory = Callable[[], MockConfigEntry]
@@ -62,7 +62,7 @@ class MockFlow(ConfigFlow):
 
 
 @pytest.fixture(name="consumer")
-def consumer_fixture(hass: __HAC_KEEP__) -> Generator[ConsumerFactory]:
+def consumer_fixture(hass: UniversalAssistant) -> Generator[ConsumerFactory]:
     """Return a factory for config entries that can be set up and unloaded."""
     mock_integration(
         hass,
@@ -84,7 +84,7 @@ def consumer_fixture(hass: __HAC_KEEP__) -> Generator[ConsumerFactory]:
 
 
 async def test_list_connections(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     consumer: ConsumerFactory,
 ) -> None:
@@ -117,7 +117,7 @@ async def test_list_connections(
 
 
 async def test_a_connection_that_is_up_reports_itself_connected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     consumer: ConsumerFactory,
 ) -> None:
@@ -146,7 +146,7 @@ async def test_a_connection_that_is_up_reports_itself_connected(
 
 
 async def test_listing_the_connections_requires_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
 ) -> None:
@@ -162,7 +162,7 @@ async def test_listing_the_connections_requires_admin(
 
 
 async def test_unloading_an_entry_drops_it_from_the_listing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     consumer: ConsumerFactory,
 ) -> None:
@@ -189,7 +189,7 @@ async def test_unloading_an_entry_drops_it_from_the_listing(
 
 
 async def test_no_connections_when_nobody_asked(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Nothing is opened until an integration asks for a unit."""
     assert await async_setup_component(hass, "modbus", {})
@@ -201,7 +201,7 @@ async def test_no_connections_when_nobody_asked(
 
 
 async def test_one_entry_holding_two_units(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     consumer: ConsumerFactory,
 ) -> None:
@@ -223,7 +223,7 @@ async def test_one_entry_holding_two_units(
 
 
 async def test_a_yaml_hub_is_listed_with_the_units_its_entities_address(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_pymodbus: AsyncMock,
 ) -> None:
@@ -250,7 +250,7 @@ async def test_a_yaml_hub_is_listed_with_the_units_its_entities_address(
 
 
 async def test_a_closed_yaml_hub_reports_itself_not_connected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_pymodbus: AsyncMock,
 ) -> None:
@@ -269,7 +269,7 @@ async def test_a_closed_yaml_hub_reports_itself_not_connected(
 
 
 async def test_a_yaml_hub_is_listed_beside_a_connection_to_the_same_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     consumer: ConsumerFactory,
     mock_pymodbus: AsyncMock,
@@ -320,7 +320,7 @@ async def test_a_yaml_hub_is_listed_beside_a_connection_to_the_same_device(
     ],
 )
 async def test_the_endpoint_of_a_yaml_hub_follows_its_transport(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_pymodbus: AsyncMock,
     transport: dict[str, Any],
@@ -350,7 +350,7 @@ async def test_the_endpoint_of_a_yaml_hub_follows_its_transport(
     ],
 )
 async def test_a_yaml_hub_a_reload_leaves_behind_is_not_listed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_pymodbus: AsyncMock,
     fixture: str,

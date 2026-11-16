@@ -119,11 +119,11 @@ CAMERA_MODES = [CAMERA_MODE_STANDARD, CAMERA_MODE_SECURE_VIDEO]
 
 # #### String Constants ####
 BRIDGE_MODEL = "Bridge"
-BRIDGE_NAME = "__HA_KEEP__ Bridge"
+BRIDGE_NAME = "Universal Home Assistant Bridge"
 SHORT_BRIDGE_NAME = "HASS Bridge"
 SHORT_ACCESSORY_NAME = "HASS Accessory"
 BRIDGE_SERIAL_NUMBER = "homekit.bridge"
-MANUFACTURER = "__HA_KEEP__"
+MANUFACTURER = "Universal Home Assistant"
 
 # #### Switch Types ####
 TYPE_FAUCET = "faucet"

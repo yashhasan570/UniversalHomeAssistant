@@ -3,7 +3,7 @@
 import logging
 import uuid
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import singleton, storage
 
@@ -16,7 +16,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @singleton.singleton(DATA_KEY)
-async def async_get(hass: __HAC_KEEP__) -> str:
+async def async_get(hass: UniversalAssistant) -> str:
     """Get unique ID for the hass instance."""
     store = storage.Store[dict[str, str]](hass, DATA_VERSION, DATA_KEY, True)
 
@@ -47,7 +47,7 @@ async def async_get(hass: __HAC_KEEP__) -> str:
     return data["uuid"]
 
 
-async def async_recreate(hass: __HAC_KEEP__) -> str:
+async def async_recreate(hass: UniversalAssistant) -> str:
     """Recreate a new unique ID for the hass instance."""
     store = storage.Store[dict[str, str]](hass, DATA_VERSION, DATA_KEY, True)
 

@@ -6,7 +6,7 @@ from python_snoo.containers import SnooData, SnooDevice
 from python_snoo.snoo import Snoo
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 type SnooConfigEntry = ConfigEntry[dict[str, SnooCoordinator]]
@@ -21,7 +21,7 @@ class SnooCoordinator(DataUpdateCoordinator[SnooData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: SnooConfigEntry,
         device: SnooDevice,
         snoo: Snoo,

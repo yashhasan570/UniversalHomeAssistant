@@ -9,15 +9,15 @@ from pytest_universalassistant.common import async_mock_service
 
 from universalassistant.components.lovelace import DOMAIN, cast as lovelace_cast
 from universalassistant.components.media_player import MediaClass
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.core_config import async_process_ha_core_config
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(autouse=True)
 def mock_onboarding_done() -> Generator[MagicMock]:
-    """Mock that __HA_KEEP__ is currently onboarding.
+    """Mock that Universal Home Assistant is currently onboarding.
 
     Enabled to prevent creating default dashboards during test execution.
     """
@@ -29,7 +29,7 @@ def mock_onboarding_done() -> Generator[MagicMock]:
 
 
 @pytest.fixture
-async def mock_https_url(hass: __HAC_KEEP__) -> None:
+async def mock_https_url(hass: UniversalAssistant) -> None:
     """Mock valid URL."""
     await async_process_ha_core_config(
         hass,
@@ -38,7 +38,7 @@ async def mock_https_url(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.fixture
-async def mock_yaml_dashboard(hass: __HAC_KEEP__) -> AsyncGenerator[None]:
+async def mock_yaml_dashboard(hass: UniversalAssistant) -> AsyncGenerator[None]:
     """Mock the content of a YAML dashboard."""
     # Set up a YAML dashboard with 2 views.
     assert await async_setup_component(
@@ -78,7 +78,7 @@ async def mock_yaml_dashboard(hass: __HAC_KEEP__) -> AsyncGenerator[None]:
         yield
 
 
-async def test_root_object(hass: __HAC_KEEP__) -> None:
+async def test_root_object(hass: UniversalAssistant) -> None:
     """Test getting a root object."""
     assert (
         await lovelace_cast.async_get_media_browser_root_object(hass, "some-type") == []
@@ -98,11 +98,11 @@ async def test_root_object(hass: __HAC_KEEP__) -> None:
     assert item.can_expand is True
 
 
-async def test_browse_media_error(hass: __HAC_KEEP__) -> None:
+async def test_browse_media_error(hass: UniversalAssistant) -> None:
     """Test browse media checks valid URL."""
     assert await async_setup_component(hass, DOMAIN, {})
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await lovelace_cast.async_browse_media(
             hass, "lovelace", "", lovelace_cast.CAST_TYPE_CHROMECAST
         )
@@ -116,7 +116,7 @@ async def test_browse_media_error(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_yaml_dashboard", "mock_https_url")
-async def test_browse_media(hass: __HAC_KEEP__) -> None:
+async def test_browse_media(hass: UniversalAssistant) -> None:
     """Test browse media."""
     top_level_items = await lovelace_cast.async_browse_media(
         hass, "lovelace", "", lovelace_cast.CAST_TYPE_CHROMECAST
@@ -166,7 +166,7 @@ async def test_browse_media(hass: __HAC_KEEP__) -> None:
     assert grandchild_2.can_play is True
     assert grandchild_2.can_expand is False
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await lovelace_cast.async_browse_media(
             hass,
             "lovelace",
@@ -176,7 +176,7 @@ async def test_browse_media(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_yaml_dashboard")
-async def test_play_media(hass: __HAC_KEEP__) -> None:
+async def test_play_media(hass: UniversalAssistant) -> None:
     """Test playing media."""
     calls = async_mock_service(hass, "cast", "show_lovelace_view")
 

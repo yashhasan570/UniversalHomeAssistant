@@ -16,13 +16,13 @@ from universalassistant.components.aquacell.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import TEST_CONFIG_ENTRY, TEST_USER_INPUT
 
 
-async def test_config_flow_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_config_flow_already_configured(hass: UniversalAssistant) -> None:
     """Test already configured."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -51,7 +51,7 @@ async def test_config_flow_already_configured(hass: __HAC_KEEP__) -> None:
 
 
 async def test_full_flow(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_aquacell_api: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_aquacell_api: AsyncMock
 ) -> None:
     """Test the full config flow."""
     result = await hass.config_entries.flow.async_init(
@@ -88,7 +88,7 @@ async def test_full_flow(
     ],
 )
 async def test_form_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: Exception,
     error: str,
     mock_setup_entry: AsyncMock,
@@ -125,7 +125,7 @@ async def test_form_exceptions(
 
 
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_setup_entry: AsyncMock,
     mock_aquacell_api: AsyncMock,
@@ -164,7 +164,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: Exception,
     error: str,
     mock_setup_entry: AsyncMock,

@@ -32,9 +32,9 @@ from universalassistant.components.media_player import (
 from universalassistant.components.tts import TextToSpeechCommonOption
 from universalassistant.config_entries import ConfigSubentry
 from universalassistant.const import ATTR_ENTITY_ID, CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.core_config import async_process_ha_core_config
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.setup import async_setup_component
 
 from tests.components.tts.common import retrieve_media
@@ -54,13 +54,13 @@ def mock_tts_cache_dir_autouse(mock_tts_cache_dir: Path) -> None:
 
 
 @pytest.fixture
-async def calls(hass: __HAC_KEEP__) -> list[ServiceCall]:
+async def calls(hass: UniversalAssistant) -> list[ServiceCall]:
     """Mock media player calls."""
     return async_mock_service(hass, MP_DOMAIN, SERVICE_PLAY_MEDIA)
 
 
 @pytest.fixture(autouse=True)
-async def setup_internal_url(hass: __HAC_KEEP__) -> None:
+async def setup_internal_url(hass: UniversalAssistant) -> None:
     """Set up internal url."""
     await async_process_ha_core_config(
         hass, {"internal_url": "http://example.local:8123"}
@@ -100,7 +100,7 @@ def mock_genai_client() -> Generator[AsyncMock]:
 
 @pytest.fixture(name="setup")
 async def setup_fixture(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict[str, Any],
     mock_genai_client: AsyncMock,
     request: pytest.FixtureRequest,
@@ -161,7 +161,7 @@ def config_fixture() -> dict[str, Any]:
 )
 @pytest.mark.usefixtures("setup")
 async def test_tts_service_speak(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     calls: list[ServiceCall],
     service_data: dict[str, Any],
@@ -213,7 +213,7 @@ def _library_voice(voice_id: str, language_code: str) -> Voice:
     )
 
 
-async def _reload_entry(hass: __HAC_KEEP__) -> None:
+async def _reload_entry(hass: UniversalAssistant) -> None:
     """Reload the config entry so the entity loads the voice library again."""
     entry = hass.config_entries.async_entries(DOMAIN)[0]
     assert await hass.config_entries.async_reload(entry.entry_id)
@@ -223,7 +223,7 @@ async def _reload_entry(hass: __HAC_KEEP__) -> None:
 @pytest.mark.parametrize("setup", ["models/gemini-3.8-flash-tts"], indirect=True)
 @pytest.mark.usefixtures("setup")
 async def test_tts_voice_library(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_genai_client: AsyncMock,
 ) -> None:
     """Test the voice library is loaded page by page and grouped by language."""
@@ -271,7 +271,7 @@ async def test_tts_voice_library(
 @pytest.mark.parametrize("setup", ["models/gemini-3.8-flash-tts"], indirect=True)
 @pytest.mark.usefixtures("setup")
 async def test_tts_voice_library_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_genai_client: AsyncMock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -287,7 +287,7 @@ async def test_tts_voice_library_error(
 @pytest.mark.parametrize("setup", ["models/gemini-3.8-flash-tts"], indirect=True)
 @pytest.mark.usefixtures("setup")
 async def test_tts_voice_library_page_limit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_genai_client: AsyncMock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -310,7 +310,7 @@ async def test_tts_voice_library_page_limit(
 )
 @pytest.mark.usefixtures("setup")
 async def test_tts_voice_library_not_loaded_for_older_model(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_genai_client: AsyncMock,
 ) -> None:
     """Test models without voice library support do not query the voices API."""
@@ -320,7 +320,7 @@ async def test_tts_voice_library_not_loaded_for_older_model(
 
 @pytest.mark.usefixtures("setup")
 async def test_tts_service_speak_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     calls: list[ServiceCall],
 ) -> None:
@@ -366,7 +366,7 @@ async def test_tts_service_speak_error(
 
 
 @pytest.mark.usefixtures("mock_init_component")
-async def test_tts_supported_languages(hass: __HAC_KEEP__) -> None:
+async def test_tts_supported_languages(hass: UniversalAssistant) -> None:
     """Test the supported languages are unique and cover regional variants."""
     entity = hass.data[tts.DOMAIN].get_entity("tts.google_ai_tts")
     languages = entity.supported_languages
@@ -389,7 +389,7 @@ async def test_tts_supported_languages(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_tts_wire_parameters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_genai_transport: AsyncMock,
     model: str,
@@ -474,7 +474,7 @@ def wav_audio() -> bytes:
     [("audio/wav", 0), ("audio/L16;rate=24000", 44)],
 )
 async def test_tts_audio_formats(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     wav_audio: bytes,
     mime_type: str,
     header_size: int,
@@ -533,7 +533,7 @@ async def test_tts_audio_formats(
     ],
 )
 async def test_tts_supported_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     model: str,
     expected_options: list[str],
@@ -551,7 +551,7 @@ async def test_tts_supported_options(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_tts_style_wire_parameters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_genai_transport: AsyncMock,
 ) -> None:
@@ -583,7 +583,7 @@ async def test_tts_style_wire_parameters(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_tts_style_not_supported_by_model(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the style option is rejected for models without speech metadata."""
@@ -612,7 +612,7 @@ async def test_tts_style_not_supported_by_model(
 
 
 @pytest.mark.usefixtures("setup")
-async def test_tts_unsupported_audio_format(hass: __HAC_KEEP__) -> None:
+async def test_tts_unsupported_audio_format(hass: UniversalAssistant) -> None:
     """Keep unsupported audio formats as visible failures."""
     entity = hass.data[tts.DOMAIN].get_entity("tts.google_ai_tts")
     response = entity._genai_client.aio.models.generate_content.return_value
@@ -621,14 +621,14 @@ async def test_tts_unsupported_audio_format(hass: __HAC_KEEP__) -> None:
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="Unsupported audio MIME type: audio/mpeg"
+        UniversalAssistantError, match="Unsupported audio MIME type: audio/mpeg"
     ):
         await entity.async_get_tts_audio("Hello", "en-US", dict(entity.default_options))
 
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_tts_default_model(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_genai_transport: AsyncMock,
 ) -> None:
     """Test the recommended model is used when the subentry sets none."""

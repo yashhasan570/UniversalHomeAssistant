@@ -8,7 +8,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.slack.const import CONF_DEFAULT_CHANNEL, DOMAIN
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 AUTH_URL = "https://slack.com/api/auth.test"
 
@@ -21,8 +21,8 @@ CONF_INPUT = {CONF_API_KEY: TOKEN, CONF_DEFAULT_CHANNEL: "test_channel"}
 CONF_DATA = CONF_INPUT | {CONF_NAME: TEAM_NAME}
 
 
-def create_entry(hass: __HAC_KEEP__) -> ConfigEntry:
-    """Add config entry in __HA_KEEP__."""
+def create_entry(hass: UniversalAssistant) -> ConfigEntry:
+    """Add config entry in Universal Home Assistant."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         data=CONF_DATA,
@@ -55,12 +55,12 @@ def mock_connection(
 
 
 async def async_init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     skip_setup: bool = False,
     error: str | None = None,
 ) -> ConfigEntry:
-    """Set up the Slack integration in __HA_KEEP__."""
+    """Set up the Slack integration in Universal Home Assistant."""
     entry = create_entry(hass)
     mock_connection(aioclient_mock, error)
 

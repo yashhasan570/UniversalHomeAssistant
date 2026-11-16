@@ -6,12 +6,12 @@ from pytest_universalassistant.components.bluetooth import inject_bluetooth_serv
 from universalassistant.components.leaone.const import DOMAIN
 from universalassistant.components.sensor import ATTR_STATE_CLASS
 from universalassistant.const import ATTR_FRIENDLY_NAME, ATTR_UNIT_OF_MEASUREMENT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import SCALE_SERVICE_INFO, SCALE_SERVICE_INFO_2, SCALE_SERVICE_INFO_3
 
 
-async def test_sensors(hass: __HAC_KEEP__) -> None:
+async def test_sensors(hass: UniversalAssistant) -> None:
     """Test setting up creates the sensors."""
     entry = MockConfigEntry(
         domain=DOMAIN,

@@ -11,7 +11,7 @@ from pysmartyplants import EVENT_SENSOR_UPDATE, SensorUpdate
 
 from universalassistant.components import webhook as hass_webhook
 from universalassistant.const import CONF_WEBHOOK_ID
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 from .const import CONF_WEBHOOK_SECRET, DOMAIN, SIGNATURE_HEADER
 
@@ -32,7 +32,7 @@ def _signature_matches(secret: str, body: bytes, provided: str | None) -> bool:
 
 
 async def async_register_webhook(
-    hass: __HAC_KEEP__, entry: SmartyPlantsConfigEntry
+    hass: UniversalAssistant, entry: SmartyPlantsConfigEntry
 ) -> None:
     """Register the push endpoint for this config entry."""
     webhook_id = entry.data.get(CONF_WEBHOOK_ID)
@@ -42,7 +42,7 @@ async def async_register_webhook(
         return
 
     async def _handle(
-        hass: __HAC_KEEP__, webhook_id: str, request: Request
+        hass: UniversalAssistant, webhook_id: str, request: Request
     ) -> Response:
         """Validate and apply one pushed update."""
         body = await request.read()
@@ -79,7 +79,7 @@ async def async_register_webhook(
 
 @callback
 def async_unregister_webhook(
-    hass: __HAC_KEEP__, entry: SmartyPlantsConfigEntry
+    hass: UniversalAssistant, entry: SmartyPlantsConfigEntry
 ) -> None:
     """Remove the push endpoint for this config entry."""
     if webhook_id := entry.data.get(CONF_WEBHOOK_ID):

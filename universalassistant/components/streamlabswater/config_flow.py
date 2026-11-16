@@ -7,13 +7,13 @@ from streamlabswater.streamlabswater import StreamlabsClient
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import DOMAIN, LOGGER
 
 
-async def validate_input(hass: __HAC_KEEP__, api_key: str) -> None:
+async def validate_input(hass: UniversalAssistant, api_key: str) -> None:
     """Validate the user input allows us to connect."""
     client = StreamlabsClient(api_key)
     response = await hass.async_add_executor_job(client.get_locations)
@@ -57,5 +57,5 @@ class StreamlabsConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""

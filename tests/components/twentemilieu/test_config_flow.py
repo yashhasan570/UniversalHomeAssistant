@@ -14,14 +14,14 @@ from universalassistant.components.twentemilieu.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 @pytest.mark.usefixtures("mock_twentemilieu")
-async def test_full_user_flow(hass: __HAC_KEEP__) -> None:
+async def test_full_user_flow(hass: UniversalAssistant) -> None:
     """Test registering an integration and finishing flow works."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -53,7 +53,7 @@ async def test_full_user_flow(hass: __HAC_KEEP__) -> None:
 
 
 async def test_invalid_address(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_twentemilieu: MagicMock,
 ) -> None:
     """Test full user flow when the user enters an incorrect address.
@@ -104,7 +104,7 @@ async def test_invalid_address(
 
 
 async def test_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_twentemilieu: MagicMock,
 ) -> None:
     """Test we show user form on Twente Milieu connection error."""
@@ -157,7 +157,7 @@ async def test_connection_error(
 
 @pytest.mark.usefixtures("mock_twentemilieu")
 async def test_address_already_set_up(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort if address has already been set up."""

@@ -44,7 +44,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import CoreState, __HAC_KEEP__
+from universalassistant.core import CoreState, UniversalAssistant
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -103,7 +103,7 @@ def connect_timeout_fixture() -> Generator[int]:
 )
 @pytest.mark.usefixtures("client")
 async def test_migrate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     unique_id: int | str,
     data: dict[str, Any],
     expected_unique_id: str,
@@ -126,7 +126,7 @@ async def test_migrate_entry(
     assert dict(entry.data) == expected_data
 
 
-async def test_migrate_entry_from_future_version(hass: __HAC_KEEP__) -> None:
+async def test_migrate_entry_from_future_version(hass: UniversalAssistant) -> None:
     """Test migration of a config entry from a future version fails."""
     entry = MockConfigEntry(
         domain=DOMAIN, data={"url": "ws://test.org"}, unique_id="3245146787", version=2
@@ -140,7 +140,7 @@ async def test_migrate_entry_from_future_version(hass: __HAC_KEEP__) -> None:
 
 
 async def test_entry_setup_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     integration: MockConfigEntry,
 ) -> None:
@@ -158,7 +158,7 @@ async def test_entry_setup_unload(
 
 @pytest.mark.usefixtures("integration")
 async def test_universal_assistant_stop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
 ) -> None:
     """Test we clean up on universal assistant stop."""
@@ -168,7 +168,7 @@ async def test_universal_assistant_stop(
 
 
 async def test_universal_assistant_stop_waits_for_neighbors_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
     client: MagicMock,
 ) -> None:
@@ -195,7 +195,7 @@ async def test_universal_assistant_stop_waits_for_neighbors_refresh(
 
 
 @pytest.mark.usefixtures("client", "connect_timeout")
-async def test_initialized_timeout(hass: __HAC_KEEP__) -> None:
+async def test_initialized_timeout(hass: UniversalAssistant) -> None:
     """Test we handle a timeout during client initialization."""
     entry = MockConfigEntry(domain=DOMAIN, data={"url": "ws://test.org"})
     entry.add_to_hass(hass)
@@ -207,7 +207,7 @@ async def test_initialized_timeout(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("client")
-async def test_enabled_statistics(hass: __HAC_KEEP__) -> None:
+async def test_enabled_statistics(hass: UniversalAssistant) -> None:
     """Test that we enabled statistics if the entry is opted in."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -224,7 +224,7 @@ async def test_enabled_statistics(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("client")
-async def test_disabled_statistics(hass: __HAC_KEEP__) -> None:
+async def test_disabled_statistics(hass: UniversalAssistant) -> None:
     """Test that we disabled statistics if the entry is opted out."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -241,7 +241,7 @@ async def test_disabled_statistics(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("client")
-async def test_noop_statistics(hass: __HAC_KEEP__) -> None:
+async def test_noop_statistics(hass: UniversalAssistant) -> None:
     """Test that we don't make statistics calls if user hasn't set preference."""
     entry = MockConfigEntry(domain=DOMAIN, data={"url": "ws://test.org"})
     entry.add_to_hass(hass)
@@ -261,7 +261,7 @@ async def test_noop_statistics(hass: __HAC_KEEP__) -> None:
 
 
 async def test_driver_ready_timeout_during_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     listen_block: asyncio.Event,
 ) -> None:
@@ -298,7 +298,7 @@ async def test_driver_ready_timeout_during_setup(
     ],
 )
 async def test_listen_done_during_setup_before_forward_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     listen_block: asyncio.Event,
     core_state: CoreState,
@@ -336,7 +336,7 @@ async def test_listen_done_during_setup_before_forward_entry(
 
 
 async def test_not_connected_during_setup_after_forward_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     listen_block: asyncio.Event,
 ) -> None:
@@ -384,7 +384,7 @@ async def test_not_connected_during_setup_after_forward_entry(
     ],
 )
 async def test_listen_done_during_setup_after_forward_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     listen_block: asyncio.Event,
     core_state: CoreState,
@@ -451,7 +451,7 @@ async def test_listen_done_during_setup_after_forward_entry(
     ],
 )
 async def test_listen_done_after_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     listen_block: asyncio.Event,
     core_state: CoreState,
@@ -492,7 +492,7 @@ async def test_listen_done_after_setup(
 
 
 async def test_listen_ending_before_cancelling_listen(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
     listen_block: asyncio.Event,
     caplog: pytest.LogCaptureFixture,
@@ -512,7 +512,7 @@ async def test_listen_ending_before_cancelling_listen(
 
 
 async def test_listen_ending_unrecoverable_config_entry_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
     listen_block: asyncio.Event,
     caplog: pytest.LogCaptureFixture,
@@ -535,7 +535,7 @@ async def test_listen_ending_unrecoverable_config_entry_state(
 @pytest.mark.usefixtures("client")
 @pytest.mark.parametrize("platforms", [[Platform.SENSOR]])
 async def test_new_entity_on_value_added(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multisensor_6: Node,
     integration: MockConfigEntry,
 ) -> None:
@@ -572,7 +572,7 @@ async def test_new_entity_on_value_added(
 
 
 async def test_on_node_added_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     multisensor_6_state: NodeDataType,
     client: MagicMock,
@@ -615,7 +615,7 @@ async def test_on_node_added_ready(
 
 
 async def test_check_pre_provisioned_device_update_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     multisensor_6_state: NodeDataType,
     client: MagicMock,
@@ -655,7 +655,7 @@ async def test_check_pre_provisioned_device_update_device(
 
 
 async def test_check_pre_provisioned_device_remove_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     multisensor_6_state: NodeDataType,
     client: MagicMock,
@@ -702,7 +702,7 @@ async def test_check_pre_provisioned_device_remove_device(
 
 @pytest.mark.usefixtures("integration")
 async def test_on_node_added_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     zp3111_not_ready_state: NodeDataType,
@@ -742,7 +742,7 @@ async def test_on_node_added_not_ready(
 
 
 async def test_existing_node_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     multisensor_6: Node,
@@ -771,7 +771,7 @@ async def test_existing_node_ready(
 
 
 async def test_existing_node_reinterview(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client: Client,
     multisensor_6_state: NodeDataType,
@@ -830,7 +830,7 @@ async def test_existing_node_reinterview(
 
 
 async def test_existing_node_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -863,7 +863,7 @@ async def test_existing_node_not_ready(
 
 
 async def test_existing_node_not_replaced_when_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1003,7 +1003,7 @@ async def test_existing_node_not_replaced_when_not_ready(
 
 @pytest.mark.usefixtures("client")
 async def test_null_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     null_name_check: Node,
     integration: MockConfigEntry,
 ) -> None:
@@ -1029,7 +1029,7 @@ async def test_null_name(
     ],
 )
 async def test_start_addon(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     install_addon: AsyncMock,
     set_addon_options: AsyncMock,
     start_addon: AsyncMock,
@@ -1095,7 +1095,7 @@ async def test_start_addon(
     ],
 )
 async def test_start_addon_redacts_set_options_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     install_addon: AsyncMock,
     set_addon_options: AsyncMock,
     start_addon: AsyncMock,
@@ -1126,7 +1126,7 @@ async def test_start_addon_redacts_set_options_error(
 
 @pytest.mark.usefixtures("addon_info")
 async def test_install_addon(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     install_addon: AsyncMock,
     set_addon_options: AsyncMock,
     start_addon: AsyncMock,
@@ -1175,7 +1175,7 @@ async def test_install_addon(
 @pytest.mark.usefixtures("addon_installed", "addon_info", "set_addon_options")
 @pytest.mark.parametrize("addon_info_side_effect", [SupervisorError("Boom")])
 async def test_addon_info_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     install_addon: AsyncMock,
     start_addon: AsyncMock,
 ) -> None:
@@ -1235,7 +1235,7 @@ async def test_addon_info_failure(
     ],
 )
 async def test_addon_options_changed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     install_addon: AsyncMock,
     addon_options: dict[str, Any],
     start_addon: AsyncMock,
@@ -1312,7 +1312,7 @@ async def test_addon_options_changed(
     ],
 )
 async def test_update_addon(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     addon_info: AsyncMock,
     create_backup: AsyncMock,
@@ -1358,7 +1358,7 @@ async def test_update_addon(
 
 
 async def test_issue_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1430,7 +1430,7 @@ async def test_issue_registry(
     ],
 )
 async def test_stop_addon(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     addon_options: dict[str, Any],
     stop_addon: AsyncMock,
     stop_addon_side_effect: Exception | None,
@@ -1473,7 +1473,7 @@ async def test_stop_addon(
 
 @pytest.mark.usefixtures("addon_installed")
 async def test_remove_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     stop_addon: AsyncMock,
     create_backup: AsyncMock,
     uninstall_addon: AsyncMock,
@@ -1583,7 +1583,7 @@ async def test_remove_entry(
 
 @pytest.mark.usefixtures("climate_radio_thermostat_ct100_plus", "lock_schlage_be469")
 async def test_removed_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     integration: MockConfigEntry,
@@ -1620,7 +1620,7 @@ async def test_removed_device(
 
 @pytest.mark.usefixtures("client", "eaton_rf9640_dimmer")
 async def test_suggested_area(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1639,7 +1639,7 @@ async def test_suggested_area(
 
 
 async def test_node_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     multisensor_6_state,
     client: MagicMock,
@@ -1677,7 +1677,7 @@ async def test_node_removed(
 
 
 async def test_endpoint_child_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -1741,7 +1741,7 @@ async def test_endpoint_child_device(
 
 
 async def test_endpoint_group_child_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -1791,7 +1791,7 @@ async def test_endpoint_group_child_device(
 
 
 async def test_endpoint_group_child_device_name_disambiguation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -1827,7 +1827,7 @@ async def test_endpoint_group_child_device_name_disambiguation(
 
 
 async def test_endpoint_child_device_pruned_on_reinterview(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -1897,7 +1897,7 @@ async def test_endpoint_child_device_pruned_on_reinterview(
 
 
 async def test_endpoint_child_device_regrouped_on_reinterview(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -1982,7 +1982,7 @@ async def test_endpoint_child_device_regrouped_on_reinterview(
 
 
 async def test_endpoint_child_device_regroup_stages_entity_on_parent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -2051,7 +2051,7 @@ async def test_endpoint_child_device_regroup_stages_entity_on_parent(
 
 
 async def test_endpoint_child_device_regroup_stages_suffixed_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -2141,7 +2141,7 @@ async def test_endpoint_child_device_regroup_stages_suffixed_entity(
 
 
 async def test_endpoint_child_device_late_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -2203,7 +2203,7 @@ async def test_endpoint_child_device_late_value(
 
 
 async def test_child_device_entity_metadata_rediscovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -2272,7 +2272,7 @@ async def test_child_device_entity_metadata_rediscovery(
 
 
 async def test_replace_same_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     multisensor_6: Node,
     multisensor_6_state: NodeDataType,
@@ -2386,7 +2386,7 @@ async def test_replace_same_node(
 
 
 async def test_replace_different_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     multisensor_6: Node,
     multisensor_6_state: NodeDataType,
@@ -2623,7 +2623,7 @@ async def test_replace_different_node(
 
 
 async def test_replace_node_with_children(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -2737,7 +2737,7 @@ async def test_replace_node_with_children(
 
 
 async def test_replace_node_with_children_while_stopped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -2745,7 +2745,7 @@ async def test_replace_node_with_children_while_stopped(
     climate_heatit_z_trm3_state: NodeDataType,
     integration: MockConfigEntry,
 ) -> None:
-    """Test a node with children replaced while __HA_KEEP__ was stopped.
+    """Test a node with children replaced while Universal Home Assistant was stopped.
 
     No node-removed event fires for an offline replacement, so the stale child devices
     must be reconciled during node registration on the ready event. Otherwise they keep
@@ -2801,7 +2801,7 @@ async def test_replace_node_with_children_while_stopped(
 
 
 async def test_node_model_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     zp3111: Node,
@@ -2896,7 +2896,7 @@ async def test_node_model_change(
 
 @pytest.mark.usefixtures("zp3111", "integration")
 async def test_disabled_node_status_entity_on_node_replaced(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     zp3111_state: NodeDataType,
     client: MagicMock,
 ) -> None:
@@ -2925,7 +2925,7 @@ async def test_disabled_node_status_entity_on_node_replaced(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_remove_entity_on_value_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     zp3111: Node,
     client: MagicMock,
@@ -3058,7 +3058,7 @@ async def test_remove_entity_on_value_removed(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("platforms", [[Platform.SENSOR]])
 async def test_value_removed_and_readded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     zp3111: Node,
     client: MagicMock,
     integration: MockConfigEntry,
@@ -3132,7 +3132,7 @@ async def test_value_removed_and_readded(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("platforms", [[Platform.SENSOR]])
 async def test_value_never_populated_then_added(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     zp3111_state: NodeDataType,
     client: MagicMock,
     integration: MockConfigEntry,
@@ -3200,7 +3200,7 @@ async def test_value_never_populated_then_added(
 
 
 async def test_identify_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     multisensor_6: Node,
     integration: MockConfigEntry,
@@ -3251,7 +3251,7 @@ async def test_identify_event(
 
 
 async def test_server_logging(
-    hass: __HAC_KEEP__, client: MagicMock, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, client: MagicMock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test automatic server logging functionality."""
 
@@ -3346,7 +3346,7 @@ async def test_server_logging(
 
 
 async def test_factory_reset_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     multisensor_6: Node,
@@ -3429,7 +3429,7 @@ async def test_factory_reset_node(
 
 
 async def test_entity_available_when_node_dead(
-    hass: __HAC_KEEP__, client, bulb_6_multi_color, integration
+    hass: UniversalAssistant, client, bulb_6_multi_color, integration
 ) -> None:
     """Test that entities remain available even when the node is dead."""
 
@@ -3465,7 +3465,7 @@ async def test_entity_available_when_node_dead(
 
 
 async def test_driver_ready_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     integration: MockConfigEntry,
 ) -> None:

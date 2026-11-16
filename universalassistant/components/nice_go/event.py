@@ -4,7 +4,7 @@ import logging
 from typing import Any, override
 
 from universalassistant.components.event import EventEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import NiceGOConfigEntry
@@ -15,7 +15,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: NiceGOConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

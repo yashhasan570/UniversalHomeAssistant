@@ -15,7 +15,7 @@ from universalassistant.components.besen.const import DOMAIN
 from universalassistant.components.bluetooth import BluetoothServiceInfoBleak
 from universalassistant.config_entries import SOURCE_BLUETOOTH, SOURCE_USER
 from universalassistant.const import CONF_ADDRESS, CONF_NAME, CONF_PIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_validation as cv
 
@@ -68,7 +68,7 @@ def _assert_create_entry(result: dict) -> None:
 
 
 async def test_bluetooth_step_unsupported_name_aborts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test unsupported Bluetooth discoveries are aborted."""
 
@@ -84,7 +84,7 @@ async def test_bluetooth_step_unsupported_name_aborts(
 
 @pytest.mark.usefixtures("mock_besen_client", "mock_setup_entry")
 async def test_bluetooth_step_sets_discovered_context(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test Bluetooth discovery normalizes the address and asks for confirmation."""
 
@@ -108,7 +108,7 @@ async def test_bluetooth_step_sets_discovered_context(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_bluetooth_confirm_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_besen_client: Mock,
 ) -> None:
     """Test Bluetooth confirmation creates an entry."""
@@ -142,7 +142,7 @@ async def test_bluetooth_confirm_success(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_bluetooth_confirm_errors_can_recover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_besen_client: Mock,
     exception: Exception,
     error: str,
@@ -176,7 +176,7 @@ async def test_bluetooth_confirm_errors_can_recover(
 
 @pytest.mark.usefixtures("mock_besen_client", "mock_setup_entry")
 async def test_bluetooth_confirm_no_connectable_path_can_recover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ble_device: Mock,
 ) -> None:
     """Test Bluetooth confirmation recovers after a path becomes available."""
@@ -207,7 +207,7 @@ async def test_bluetooth_confirm_no_connectable_path_can_recover(
 
 
 async def test_bluetooth_flow_existing_device_aborts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test Bluetooth discovery aborts for an already configured charger."""
@@ -226,7 +226,7 @@ async def test_bluetooth_flow_existing_device_aborts(
 
 @pytest.mark.usefixtures("mock_besen_client", "mock_setup_entry")
 async def test_user_step_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test manual setup creates an entry."""
 
@@ -252,7 +252,7 @@ async def test_user_step_success(
 @pytest.mark.parametrize("invalid_pin", ["12345", "¹²³⁴⁵⁶"])
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_step_rejects_invalid_pin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_besen_client: Mock,
     invalid_pin: str,
 ) -> None:
@@ -297,7 +297,7 @@ async def test_user_step_rejects_invalid_pin(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_step_errors_can_recover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_besen_client: Mock,
     exception: Exception,
     error: str,
@@ -330,7 +330,7 @@ async def test_user_step_errors_can_recover(
 
 @pytest.mark.usefixtures("mock_besen_client", "mock_setup_entry")
 async def test_user_step_no_connectable_path_can_recover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ble_device: Mock,
 ) -> None:
     """Test manual setup recovers after a path becomes available."""
@@ -360,7 +360,7 @@ async def test_user_step_no_connectable_path_can_recover(
 
 
 async def test_user_step_existing_device_aborts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test manual setup aborts for an already configured charger."""
@@ -385,7 +385,7 @@ async def test_user_step_existing_device_aborts(
 
 
 async def test_user_step_no_devices_found_aborts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovered_service_info: Mock,
 ) -> None:
     """Test manual setup aborts when no unconfigured chargers are discovered."""
@@ -403,7 +403,7 @@ async def test_user_step_no_devices_found_aborts(
 
 @pytest.mark.usefixtures("mock_besen_client", "mock_setup_entry")
 async def test_user_step_ignores_bluetooth_flow_in_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test manual setup can finish when a Bluetooth flow is already in progress."""
 
@@ -433,7 +433,7 @@ async def test_user_step_ignores_bluetooth_flow_in_progress(
 
 
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
     mock_setup_entry: AsyncMock,
@@ -474,7 +474,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors_can_recover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
     exception: Exception,
@@ -508,7 +508,7 @@ async def test_reauth_flow_errors_can_recover(
 
 @pytest.mark.usefixtures("mock_besen_client", "mock_setup_entry")
 async def test_reauth_flow_no_connectable_path_can_recover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ble_device: Mock,
 ) -> None:

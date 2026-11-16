@@ -29,8 +29,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 
@@ -53,7 +53,7 @@ def mock_my_pv_client(mock_my_pv_client: AsyncMock) -> AsyncMock:
 
 
 async def setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Set up the my-PV integration."""
@@ -64,7 +64,7 @@ async def setup_integration(
 
 @pytest.mark.usefixtures("mock_my_pv_client")
 async def test_climate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -77,7 +77,7 @@ async def test_climate(
 
 
 async def test_climate_no_temp_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -90,7 +90,7 @@ async def test_climate_no_temp_sensor(
 
 
 async def test_climate_unavailable_not_connected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -125,7 +125,7 @@ async def test_climate_unavailable_not_connected(
     ],
 )
 async def test_climate_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
     service: str,
@@ -164,21 +164,21 @@ async def test_climate_turn_on_off(
     ],
 )
 async def test_climate_turn_on_off_returns_false(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
     service: str,
     method: str,
     is_on: bool,
 ) -> None:
-    """Test for __HAC_KEEP__Error when turning on or off returns False."""
+    """Test for UniversalAssistantError when turning on or off returns False."""
     mock_my_pv_client.is_on = is_on
 
     await setup_integration(hass, mock_config_entry)
 
     setattr(mock_my_pv_client, method, AsyncMock(return_value=False))
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             service,
@@ -192,7 +192,7 @@ async def test_climate_turn_on_off_returns_false(
 
 
 async def test_climate_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -218,16 +218,16 @@ async def test_climate_set_temperature(
 
 
 async def test_climate_set_temperature_returns_false(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
-    """Test for __HAC_KEEP__Error when setting the temperature returns False."""
+    """Test for UniversalAssistantError when setting the temperature returns False."""
     await setup_integration(hass, mock_config_entry)
 
     mock_my_pv_client.set_target_temperature = AsyncMock(return_value=False)
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -243,17 +243,17 @@ async def test_climate_set_temperature_returns_false(
 @pytest.mark.parametrize(
     ("error", "expected_ha_error"),
     [
-        (MyPVConnectionError(), __HAC_KEEP__Error),
+        (MyPVConnectionError(), UniversalAssistantError),
         (MyPVAuthenticationError(), ConfigEntryAuthFailed),
-        (MyPVTooManyRequestsError(), __HAC_KEEP__Error),
+        (MyPVTooManyRequestsError(), UniversalAssistantError),
     ],
 )
 async def test_climate_set_temperature_raises_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
     error: MyPVConnectionError | MyPVAuthenticationError,
-    expected_ha_error: type[__HAC_KEEP__Error],
+    expected_ha_error: type[UniversalAssistantError],
 ) -> None:
     """Test setting the target temperature raises an error."""
     await setup_integration(hass, mock_config_entry)

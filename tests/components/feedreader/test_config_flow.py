@@ -12,7 +12,7 @@ from universalassistant.components.feedreader.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import create_mock_entry
@@ -40,7 +40,7 @@ def setup_entry_fixture(feed_one_event: bytes) -> Mock:
         yield setup_entry
 
 
-async def test_user(hass: __HAC_KEEP__, feedparser, setup_entry) -> None:
+async def test_user(hass: UniversalAssistant, feedparser, setup_entry) -> None:
     """Test starting a flow by user."""
     # init user flow
     result = await hass.config_entries.flow.async_init(
@@ -63,7 +63,7 @@ async def test_user(hass: __HAC_KEEP__, feedparser, setup_entry) -> None:
 
 
 async def test_user_errors(
-    hass: __HAC_KEEP__, feedparser, setup_entry, feed_one_event
+    hass: UniversalAssistant, feedparser, setup_entry, feed_one_event
 ) -> None:
     """Test starting a flow by user which results in an URL error."""
     # init user flow
@@ -95,7 +95,7 @@ async def test_user_errors(
     assert result["options"][CONF_MAX_ENTRIES] == DEFAULT_MAX_ENTRIES
 
 
-async def test_user_already_configured(hass: __HAC_KEEP__, feedparser: Mock) -> None:
+async def test_user_already_configured(hass: UniversalAssistant, feedparser: Mock) -> None:
     """Test that a feed URL can only be configured once."""
     create_mock_entry(VALID_CONFIG_DEFAULT).add_to_hass(hass)
 
@@ -112,7 +112,7 @@ async def test_user_already_configured(hass: __HAC_KEEP__, feedparser: Mock) -> 
     feedparser.assert_not_called()
 
 
-async def test_reconfigure(hass: __HAC_KEEP__, feedparser) -> None:
+async def test_reconfigure(hass: UniversalAssistant, feedparser) -> None:
     """Test starting a reconfigure flow."""
     entry = create_mock_entry(VALID_CONFIG_DEFAULT)
     entry.add_to_hass(hass)
@@ -145,7 +145,7 @@ async def test_reconfigure(hass: __HAC_KEEP__, feedparser) -> None:
 
 
 async def test_reconfigure_errors(
-    hass: __HAC_KEEP__, feedparser, setup_entry, feed_one_event
+    hass: UniversalAssistant, feedparser, setup_entry, feed_one_event
 ) -> None:
     """Test starting a reconfigure flow by user which results in an URL error."""
     entry = create_mock_entry(VALID_CONFIG_DEFAULT)
@@ -187,7 +187,7 @@ async def test_reconfigure_errors(
     }
 
 
-async def test_options_flow(hass: __HAC_KEEP__) -> None:
+async def test_options_flow(hass: UniversalAssistant) -> None:
     """Test options flow."""
     entry = create_mock_entry(VALID_CONFIG_DEFAULT)
     entry.add_to_hass(hass)
@@ -214,7 +214,7 @@ async def test_options_flow(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_feed_htmlentities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     feedparser,
     setup_entry,
     fixture_name,

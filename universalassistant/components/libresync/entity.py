@@ -12,7 +12,7 @@ from aiolibresync import (
 )
 
 from universalassistant.core import callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity
 
@@ -29,11 +29,11 @@ def handle_errors[**P](
         try:
             await func(*args, **kwargs)
         except NotConnectedError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="not_connected"
             ) from err
         except ConfirmationTimeout as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="not_confirmed"
             ) from err
 

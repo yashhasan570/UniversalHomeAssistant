@@ -7,7 +7,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.devolo_home_control.const import DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import configure_integration
@@ -20,7 +20,7 @@ from .mocks import (
 
 
 async def test_brightness_sensor(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
 ) -> None:
     """Test setup of a brightness sensor device."""
     entry = configure_integration(hass)
@@ -40,7 +40,7 @@ async def test_brightness_sensor(
 
 
 async def test_temperature_sensor(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
 ) -> None:
     """Test setup of a temperature sensor device."""
     entry = configure_integration(hass)
@@ -60,7 +60,7 @@ async def test_temperature_sensor(
 
 
 async def test_battery_sensor(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
 ) -> None:
     """Test setup and state change of a battery sensor device."""
     entry = configure_integration(hass)
@@ -84,7 +84,7 @@ async def test_battery_sensor(
 
 
 async def test_consumption_sensor(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
 ) -> None:
     """Test setup and state change of a consumption sensor device."""
     entry = configure_integration(hass)
@@ -122,7 +122,7 @@ async def test_consumption_sensor(
     )
 
 
-async def test_voltage_sensor(hass: __HAC_KEEP__) -> None:
+async def test_voltage_sensor(hass: UniversalAssistant) -> None:
     """Test disabled setup of a voltage sensor device."""
     entry = configure_integration(hass)
     test_gateway = HomeControlMockConsumption()
@@ -137,7 +137,7 @@ async def test_voltage_sensor(hass: __HAC_KEEP__) -> None:
     assert state is None
 
 
-async def test_sensor_change(hass: __HAC_KEEP__) -> None:
+async def test_sensor_change(hass: UniversalAssistant) -> None:
     """Test state change of a sensor device."""
     entry = configure_integration(hass)
     test_gateway = HomeControlMockSensor()
@@ -164,7 +164,7 @@ async def test_sensor_change(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_remove_from_hass(hass: __HAC_KEEP__) -> None:
+async def test_remove_from_hass(hass: UniversalAssistant) -> None:
     """Test removing entity."""
     entry = configure_integration(hass)
     test_gateway = HomeControlMockSensor()
@@ -185,7 +185,7 @@ async def test_remove_from_hass(hass: __HAC_KEEP__) -> None:
 
 
 async def test_deleted_device_removed_once(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test a device with several entities is removed once when it is deleted.
 

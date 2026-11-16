@@ -6,12 +6,12 @@ import pytest
 
 from universalassistant.components.hydrawise.const import DOMAIN
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 
 def test_zones_in_device_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_added_config_entry: ConfigEntry,
     mock_pydrawise: Mock,
@@ -36,7 +36,7 @@ def test_zones_in_device_registry(
 
 
 def test_controller_in_device_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_added_config_entry: ConfigEntry,
     mock_pydrawise: Mock,

@@ -6,13 +6,13 @@ from yarl import URL
 
 from universalassistant.components.diagnostics import REDACTED
 from universalassistant.const import CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import NtfyConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: NtfyConfigEntry
+    hass: UniversalAssistant, config_entry: NtfyConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
 

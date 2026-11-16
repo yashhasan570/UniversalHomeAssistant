@@ -33,7 +33,7 @@ from universalassistant.const import (
     CONF_TYPE,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.trigger import async_initialize_triggers
 from universalassistant.setup import async_setup_component
@@ -66,7 +66,7 @@ from .conftest import WebsocketDataType
     ],
 )
 async def test_get_triggers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -177,7 +177,7 @@ async def test_get_triggers(
     ],
 )
 async def test_get_triggers_for_alarm_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -264,7 +264,7 @@ async def test_get_triggers_for_alarm_event(
     ],
 )
 async def test_get_triggers_manage_unsupported_remotes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -307,7 +307,7 @@ async def test_get_triggers_manage_unsupported_remotes(
     ],
 )
 async def test_functional_device_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
@@ -350,7 +350,7 @@ async def test_functional_device_trigger(
 
 @pytest.mark.skip(reason="Temporarily disabled until automation validation is improved")
 @pytest.mark.usefixtures("config_entry_setup")
-async def test_validate_trigger_unknown_device(hass: __HAC_KEEP__) -> None:
+async def test_validate_trigger_unknown_device(hass: UniversalAssistant) -> None:
     """Test unknown device does not return a trigger config."""
     assert await async_setup_component(
         hass,
@@ -379,7 +379,7 @@ async def test_validate_trigger_unknown_device(hass: __HAC_KEEP__) -> None:
 
 
 async def test_validate_trigger_unsupported_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry_setup: MockConfigEntry,
 ) -> None:
@@ -419,7 +419,7 @@ async def test_validate_trigger_unsupported_device(
 
 
 async def test_validate_trigger_unsupported_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry_setup: MockConfigEntry,
 ) -> None:
@@ -461,7 +461,7 @@ async def test_validate_trigger_unsupported_trigger(
 
 
 async def test_attach_trigger_no_matching_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry_setup: MockConfigEntry,
 ) -> None:
@@ -512,7 +512,7 @@ async def test_attach_trigger_no_matching_event(
 
 
 async def test_child_device_id_resolves_cleanly(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry_setup: MockConfigEntry,
 ) -> None:

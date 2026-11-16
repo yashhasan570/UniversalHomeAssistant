@@ -5,13 +5,13 @@ from unittest.mock import AsyncMock
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import init_integration
 
 
 async def test_invalid_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_israelrail: AsyncMock,
 ) -> None:

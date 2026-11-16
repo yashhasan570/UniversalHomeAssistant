@@ -7,8 +7,8 @@ import logging
 import os
 from typing import Any
 
-from .core import __HAC_KEEP__, callback
-from .exceptions import __HAC_KEEP__Error
+from .core import UniversalAssistant, callback
+from .exceptions import UniversalAssistantError
 from .helpers import singleton
 from .loader import (
     Integration,
@@ -37,7 +37,7 @@ DEPRECATED_PACKAGES: dict[str, tuple[str, str]] = {
 _LOGGER = logging.getLogger(__name__)
 
 
-class RequirementsNotFound(__HAC_KEEP__Error):
+class RequirementsNotFound(UniversalAssistantError):
     """Raised when a component is not found."""
 
     def __init__(self, domain: str, requirements: list[str]) -> None:
@@ -48,7 +48,7 @@ class RequirementsNotFound(__HAC_KEEP__Error):
 
 
 async def async_get_integration_with_requirements(
-    hass: __HAC_KEEP__, domain: str
+    hass: UniversalAssistant, domain: str
 ) -> Integration:
     """Get an integration with all requirements installed, including the dependencies.
 
@@ -61,7 +61,7 @@ async def async_get_integration_with_requirements(
 
 
 async def async_process_requirements(
-    hass: __HAC_KEEP__, name: str, requirements: list[str], is_built_in: bool = True
+    hass: UniversalAssistant, name: str, requirements: list[str], is_built_in: bool = True
 ) -> None:
     """Install the requirements for a component or platform.
 
@@ -74,7 +74,7 @@ async def async_process_requirements(
 
 
 async def async_load_installed_versions(
-    hass: __HAC_KEEP__, requirements: set[str]
+    hass: UniversalAssistant, requirements: set[str]
 ) -> None:
     """Load the installed version of requirements."""
     await _async_get_manager(hass).async_load_installed_versions(requirements)
@@ -82,13 +82,13 @@ async def async_load_installed_versions(
 
 @callback
 @singleton.singleton(DATA_REQUIREMENTS_MANAGER)
-def _async_get_manager(hass: __HAC_KEEP__) -> RequirementsManager:
+def _async_get_manager(hass: UniversalAssistant) -> RequirementsManager:
     """Get the requirements manager."""
     return RequirementsManager(hass)
 
 
 @callback
-def async_clear_install_history(hass: __HAC_KEEP__) -> None:
+def async_clear_install_history(hass: UniversalAssistant) -> None:
     """Forget the install history."""
     _async_get_manager(hass).install_failure_history.clear()
 
@@ -126,7 +126,7 @@ def _install_requirements_if_missing(
 class RequirementsManager:
     """Manage requirements."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Init the requirements manager."""
         self.hass = hass
         self.pip_lock = asyncio.Lock()
@@ -271,7 +271,7 @@ class RequirementsManager:
                             name,
                             f"has requirement '{requirement_string}' which {reason}",
                             (
-                                "This will stop working in __HA_KEEP__ "
+                                "This will stop working in Universal Home Assistant "
                                 f"{breaks_in_ha_version}, please"
                                 if breaks_in_ha_version
                                 else "Please"

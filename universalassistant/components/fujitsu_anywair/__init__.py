@@ -1,1 +1,1 @@
-"""Fujitsu anywAIR virtual integration for __HA_KEEP__."""
+"""Fujitsu anywAIR virtual integration for Universal Home Assistant."""

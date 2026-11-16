@@ -8,7 +8,7 @@ import probatio
 from universalassistant import data_entry_flow
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult, OptionsFlow
 from universalassistant.const import CONF_LLM_HASS_API
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import llm
 from universalassistant.helpers.selector import (
     BooleanSelector,
@@ -27,7 +27,7 @@ MORE_INFO_URL = "https://www.universalassistant.io/integrations/mcp_server/#conf
 ALL_LLM_APIS_TITLE = "All LLM APIs"
 
 
-def _llm_api_names(hass: __HAC_KEEP__) -> dict[str, str]:
+def _llm_api_names(hass: UniversalAssistant) -> dict[str, str]:
     """Return the registered LLM API names keyed by API id."""
     return {api.id: api.name for api in llm.async_get_apis(hass)}
 

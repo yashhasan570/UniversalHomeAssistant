@@ -91,7 +91,7 @@
       "name": "Get Z-Wave parameter"
     },
     "rename_node": {
-      "description": "Renames a node or group (scene) on the ISY. Note: this will not automatically change the __HA_KEEP__ entity name or entity ID to match. The entity name and ID will only be updated after reloading the integration or restarting __HA_KEEP__, and ONLY IF you have not already customized the name within __HA_KEEP__.",
+      "description": "Renames a node or group (scene) on the ISY. Note: this will not automatically change the Universal Home Assistant entity name or entity ID to match. The entity name and ID will only be updated after reloading the integration or restarting Universal Home Assistant, and ONLY IF you have not already customized the name within Universal Home Assistant.",
       "fields": {
         "name": {
           "description": "The new name to use within the ISY.",
@@ -101,7 +101,7 @@
       "name": "Rename node on ISY"
     },
     "send_node_command": {
-      "description": "Sends a command to an ISY device using its __HA_KEEP__ entity ID. Valid commands are: beep, brighten, dim, disable, enable, fade_down, fade_stop, fade_up, fast_off, fast_on, and query.",
+      "description": "Sends a command to an ISY device using its Universal Home Assistant entity ID. Valid commands are: beep, brighten, dim, disable, enable, fade_down, fade_stop, fade_up, fast_off, fast_on, and query.",
       "fields": {
         "command": {
           "description": "The command to be sent to the device.",
@@ -133,7 +133,7 @@
       "name": "Send program command"
     },
     "send_raw_node_command": {
-      "description": "Sends a “raw” (e.g., DON, DOF) ISY REST device command to a node using its __HA_KEEP__ entity ID. This is useful for devices that aren’t fully supported in __HA_KEEP__ yet, such as controls for many NodeServer nodes.",
+      "description": "Sends a “raw” (e.g., DON, DOF) ISY REST device command to a node using its Universal Home Assistant entity ID. This is useful for devices that aren’t fully supported in Universal Home Assistant yet, such as controls for many NodeServer nodes.",
       "fields": {
         "command": {
           "description": "The ISY REST command to be sent to the device.",

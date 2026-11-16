@@ -8,7 +8,7 @@ from typing import Any, override
 from aiokem import AioKem, CommunicationError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN
@@ -36,7 +36,7 @@ class RehlkoUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         logger: logging.Logger,
         config_entry: RehlkoConfigEntry,
         rehlko: AioKem,

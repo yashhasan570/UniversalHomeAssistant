@@ -12,7 +12,7 @@ from yalesmartalarmclient.const import YALE_STATE_ARM_FULL
 from universalassistant.components.yale_smart_alarm.const import DOMAIN, PLATFORMS
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 ENTRY_CONFIG = {
     "username": "test-username",
@@ -30,11 +30,11 @@ async def patch_platform_constant() -> list[Platform]:
 
 @pytest.fixture
 async def load_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_client: Mock,
     load_platforms: list[Platform],
 ) -> tuple[MockConfigEntry, Mock]:
-    """Set up the Yale Smart Living integration in __HA_KEEP__."""
+    """Set up the Yale Smart Living integration in Universal Home Assistant."""
     with patch("universalassistant.components.yale_smart_alarm.PLATFORMS", load_platforms):
         config_entry = MockConfigEntry(
             title=ENTRY_CONFIG["username"],

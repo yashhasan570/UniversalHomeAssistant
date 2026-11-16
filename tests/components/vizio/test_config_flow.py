@@ -24,7 +24,7 @@ from universalassistant.const import (
     CONF_NAME,
     CONF_PIN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import (
@@ -52,7 +52,7 @@ from .const import (
 @pytest.mark.usefixtures(
     "vizio_connect", "vizio_bypass_setup", "vizio_guess_device_type"
 )
-async def test_user_flow_minimum_fields(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_minimum_fields(hass: UniversalAssistant) -> None:
     """Test user config flow with minimum fields."""
     # test form shows
     result = await hass.config_entries.flow.async_init(
@@ -74,7 +74,7 @@ async def test_user_flow_minimum_fields(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_bypass_setup")
-async def test_user_flow_all_fields(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_all_fields(hass: UniversalAssistant) -> None:
     """Test user config flow with all fields."""
     # test form shows
     result = await hass.config_entries.flow.async_init(
@@ -101,7 +101,7 @@ async def test_user_flow_all_fields(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "vizio_connect", "vizio_bypass_update", "vizio_guess_device_type"
 )
-async def test_speaker_options_flow(hass: __HAC_KEEP__) -> None:
+async def test_speaker_options_flow(hass: UniversalAssistant) -> None:
     """Test options config flow for speaker."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -132,7 +132,7 @@ async def test_speaker_options_flow(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_bypass_update")
-async def test_tv_options_flow_no_apps(hass: __HAC_KEEP__) -> None:
+async def test_tv_options_flow_no_apps(hass: UniversalAssistant) -> None:
     """Test options config flow for TV without providing apps option."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -166,7 +166,7 @@ async def test_tv_options_flow_no_apps(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_bypass_update")
-async def test_tv_options_flow_apps_fallback(hass: __HAC_KEEP__) -> None:
+async def test_tv_options_flow_apps_fallback(hass: UniversalAssistant) -> None:
     """Test options config flow falls back to default APPS when coordinator absent."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -202,7 +202,7 @@ async def test_tv_options_flow_apps_fallback(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_bypass_update")
-async def test_tv_options_flow_with_apps(hass: __HAC_KEEP__) -> None:
+async def test_tv_options_flow_with_apps(hass: UniversalAssistant) -> None:
     """Test options config flow for TV with providing apps option."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -237,7 +237,7 @@ async def test_tv_options_flow_with_apps(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_bypass_update")
-async def test_tv_options_flow_start_with_volume(hass: __HAC_KEEP__) -> None:
+async def test_tv_options_flow_start_with_volume(hass: UniversalAssistant) -> None:
     """Test options flow for TV with apps option after volume step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -282,7 +282,7 @@ async def test_tv_options_flow_start_with_volume(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_bypass_setup")
-async def test_user_host_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_user_host_already_configured(hass: UniversalAssistant) -> None:
     """Test host is already configured during user setup."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -310,7 +310,7 @@ async def test_user_host_already_configured(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_bypass_setup")
-async def test_user_serial_number_already_exists(hass: __HAC_KEEP__) -> None:
+async def test_user_serial_number_already_exists(hass: UniversalAssistant) -> None:
     """Test serial_number already configured with different host and name."""
     # Set up new entry
     MockConfigEntry(
@@ -338,7 +338,7 @@ async def test_user_serial_number_already_exists(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("vizio_no_unique_id", "vizio_connect", "vizio_bypass_setup")
-async def test_user_error_on_could_not_connect(hass: __HAC_KEEP__) -> None:
+async def test_user_error_on_could_not_connect(hass: UniversalAssistant) -> None:
     """Test with could_not_connect during user setup due to no connectivity."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -366,7 +366,7 @@ async def test_user_error_on_could_not_connect(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("vizio_cant_connect", "vizio_bypass_setup")
 async def test_user_error_on_could_not_connect_invalid_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test with could_not_connect during user setup due to invalid token."""
     result = await hass.config_entries.flow.async_init(
@@ -396,7 +396,7 @@ async def test_user_error_on_could_not_connect_invalid_token(
 @pytest.mark.usefixtures(
     "vizio_connect", "vizio_bypass_setup", "vizio_complete_pairing"
 )
-async def test_user_tv_pairing_no_apps(hass: __HAC_KEEP__) -> None:
+async def test_user_tv_pairing_no_apps(hass: UniversalAssistant) -> None:
     """Test pairing flow when no access token for TV and no apps configured."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -432,7 +432,7 @@ async def test_user_tv_pairing_no_apps(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "vizio_connect", "vizio_bypass_setup", "vizio_start_pairing_failure"
 )
-async def test_user_start_pairing_failure(hass: __HAC_KEEP__) -> None:
+async def test_user_start_pairing_failure(hass: UniversalAssistant) -> None:
     """Test failure to start pairing from user config flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -474,7 +474,7 @@ async def test_user_start_pairing_failure(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "vizio_connect", "vizio_bypass_setup", "vizio_invalid_pin_failure"
 )
-async def test_user_invalid_pin(hass: __HAC_KEEP__) -> None:
+async def test_user_invalid_pin(hass: UniversalAssistant) -> None:
     """Test failure to complete pairing from user config flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -513,7 +513,7 @@ async def test_user_invalid_pin(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "vizio_connect", "vizio_bypass_setup", "vizio_guess_device_type"
 )
-async def test_user_ignore(hass: __HAC_KEEP__) -> None:
+async def test_user_ignore(hass: UniversalAssistant) -> None:
     """Test user config flow with an existing ignored source."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -539,7 +539,7 @@ async def test_user_ignore(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "vizio_connect", "vizio_bypass_setup", "vizio_guess_device_type"
 )
-async def test_zeroconf_flow(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_flow(hass: UniversalAssistant) -> None:
     """Test zeroconf config flow."""
     discovery_info = dataclasses.replace(MOCK_ZEROCONF_SERVICE_INFO)
     result = await hass.config_entries.flow.async_init(
@@ -575,7 +575,7 @@ async def test_zeroconf_flow(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "vizio_connect", "vizio_bypass_setup", "vizio_guess_device_type"
 )
-async def test_zeroconf_flow_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_flow_already_configured(hass: UniversalAssistant) -> None:
     """Test entity is already configured during zeroconf setup."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -601,7 +601,7 @@ async def test_zeroconf_flow_already_configured(hass: __HAC_KEEP__) -> None:
     "vizio_connect", "vizio_bypass_setup", "vizio_guess_device_type"
 )
 async def test_zeroconf_flow_already_configured_updates_host(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test zeroconf discovery updates the stored host when the IP has changed."""
     config = MOCK_SPEAKER_CONFIG.copy()
@@ -629,7 +629,7 @@ async def test_zeroconf_flow_already_configured_updates_host(
 @pytest.mark.usefixtures(
     "vizio_connect", "vizio_bypass_setup", "vizio_guess_device_type"
 )
-async def test_zeroconf_flow_with_port_in_host(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_flow_with_port_in_host(hass: UniversalAssistant) -> None:
     """Test entity is already configured during zeroconf setup when port is in host."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -655,7 +655,7 @@ async def test_zeroconf_flow_with_port_in_host(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "vizio_connect", "vizio_bypass_setup", "vizio_guess_device_type"
 )
-async def test_zeroconf_dupe_fail(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_dupe_fail(hass: UniversalAssistant) -> None:
     """Test zeroconf config flow when device gets discovered multiple times."""
     discovery_info = dataclasses.replace(MOCK_ZEROCONF_SERVICE_INFO)
     result = await hass.config_entries.flow.async_init(
@@ -679,7 +679,7 @@ async def test_zeroconf_dupe_fail(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "vizio_connect", "vizio_bypass_setup", "vizio_guess_device_type"
 )
-async def test_zeroconf_ignore(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_ignore(hass: UniversalAssistant) -> None:
     """Test zeroconf discovery with an existing ignored source."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -698,7 +698,7 @@ async def test_zeroconf_ignore(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("vizio_guess_device_type", "vizio_no_unique_id")
-async def test_zeroconf_no_unique_id(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_no_unique_id(hass: UniversalAssistant) -> None:
     """Test zeroconf discovery aborts when unique_id is None."""
 
     discovery_info = dataclasses.replace(MOCK_ZEROCONF_SERVICE_INFO)
@@ -713,7 +713,7 @@ async def test_zeroconf_no_unique_id(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "vizio_connect", "vizio_bypass_setup", "vizio_guess_device_type"
 )
-async def test_zeroconf_abort_when_ignored(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_abort_when_ignored(hass: UniversalAssistant) -> None:
     """Test zeroconf discovery aborts when the same host has been ignored."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -736,7 +736,7 @@ async def test_zeroconf_abort_when_ignored(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "vizio_connect", "vizio_bypass_setup", "vizio_guess_device_type"
 )
-async def test_zeroconf_flow_already_configured_hostname(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_flow_already_configured_hostname(hass: UniversalAssistant) -> None:
     """Test already configured during zeroconf when entry uses hostname."""
     config = MOCK_SPEAKER_CONFIG.copy()
     config[CONF_HOST] = "hostname"
@@ -764,7 +764,7 @@ async def test_zeroconf_flow_already_configured_hostname(hass: __HAC_KEEP__) -> 
 @pytest.mark.usefixtures(
     "vizio_bypass_setup", "vizio_invalid_auth", "vizio_complete_pairing"
 )
-async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
+async def test_reauth_flow(hass: UniversalAssistant) -> None:
     """Test reauth flow re-pairs the TV and updates the access token."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -794,7 +794,7 @@ async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "vizio_bypass_setup", "vizio_invalid_auth", "vizio_start_pairing_failure"
 )
-async def test_reauth_flow_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_reauth_flow_cannot_connect(hass: UniversalAssistant) -> None:
     """Test reauth flow shows an error when pairing cannot start."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -836,7 +836,7 @@ async def test_reauth_flow_cannot_connect(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("vizio_bypass_setup", "vizio_connect")
-async def test_reauth_flow_token_still_valid(hass: __HAC_KEEP__) -> None:
+async def test_reauth_flow_token_still_valid(hass: UniversalAssistant) -> None:
     """Test reauth flow finishes without pairing when the token works again."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -859,7 +859,7 @@ async def test_reauth_flow_token_still_valid(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "vizio_bypass_setup", "vizio_connect", "vizio_guess_device_type"
 )
-async def test_reconfigure_flow_speaker(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_flow_speaker(hass: UniversalAssistant) -> None:
     """Test reconfigure flow updates the host of a speaker."""
     entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_SPEAKER_CONFIG, unique_id=UNIQUE_ID
@@ -879,7 +879,7 @@ async def test_reconfigure_flow_speaker(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("vizio_bypass_setup", "vizio_connect")
-async def test_reconfigure_flow_tv_valid_token(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_flow_tv_valid_token(hass: UniversalAssistant) -> None:
     """Test reconfigure flow updates a TV host without re-pairing."""
     entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_USER_VALID_TV_CONFIG, unique_id=UNIQUE_ID
@@ -902,7 +902,7 @@ async def test_reconfigure_flow_tv_valid_token(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "vizio_bypass_setup", "vizio_invalid_auth", "vizio_complete_pairing"
 )
-async def test_reconfigure_flow_repairs_token(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_flow_repairs_token(hass: UniversalAssistant) -> None:
     """Test reconfigure flow re-pairs a TV whose token is rejected."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -930,7 +930,7 @@ async def test_reconfigure_flow_repairs_token(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("vizio_bypass_setup", "vizio_connect")
-async def test_reconfigure_flow_wrong_device(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_flow_wrong_device(hass: UniversalAssistant) -> None:
     """Test reconfigure flow aborts when the new host is a different device."""
     entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_USER_VALID_TV_CONFIG, unique_id=UNIQUE_ID
@@ -953,7 +953,7 @@ async def test_reconfigure_flow_wrong_device(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("vizio_bypass_setup", "vizio_no_unique_id", "vizio_connect")
-async def test_reconfigure_flow_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_flow_cannot_connect(hass: UniversalAssistant) -> None:
     """Test reconfigure flow shows an error when the device is unreachable."""
     entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_USER_VALID_TV_CONFIG, unique_id=UNIQUE_ID
@@ -985,7 +985,7 @@ async def test_reconfigure_flow_cannot_connect(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "vizio_connect", "vizio_bypass_setup", "vizio_guess_device_type"
 )
-async def test_user_flow_resolves_host_without_port(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_resolves_host_without_port(hass: UniversalAssistant) -> None:
     """Test a host entered without a port is resolved before validation."""
     with patch(
         "universalassistant.components.vizio.config_flow.async_resolve_host",
@@ -1011,7 +1011,7 @@ async def test_user_flow_resolves_host_without_port(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "vizio_connect", "vizio_bypass_setup", "vizio_guess_device_type"
 )
-async def test_user_flow_unresolvable_host_errors(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_unresolvable_host_errors(hass: UniversalAssistant) -> None:
     """Test an unresolvable host surfaces as a cannot_determine_port error."""
     with patch(
         "universalassistant.components.vizio.config_flow.async_resolve_host",
@@ -1044,7 +1044,7 @@ async def test_user_flow_unresolvable_host_errors(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_bypass_setup")
-async def test_zeroconf_flow_without_port_resolves(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_flow_without_port_resolves(hass: UniversalAssistant) -> None:
     """Test zeroconf discovery that advertises no port probes for one."""
     discovery_info = dataclasses.replace(MOCK_ZEROCONF_SERVICE_INFO, port=None)
     with patch(
@@ -1061,7 +1061,7 @@ async def test_zeroconf_flow_without_port_resolves(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_bypass_setup")
-async def test_zeroconf_flow_unresolvable_host_aborts(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_flow_unresolvable_host_aborts(hass: UniversalAssistant) -> None:
     """Test zeroconf discovery aborts when no SmartCast port responds."""
     discovery_info = dataclasses.replace(MOCK_ZEROCONF_SERVICE_INFO, port=None)
     with patch(

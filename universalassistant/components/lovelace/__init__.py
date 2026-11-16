@@ -10,8 +10,8 @@ import probatio
 
 from universalassistant.components import frontend, onboarding, websocket_api
 from universalassistant.const import CONF_FILENAME, CONF_ICON, CONF_MODE, CONF_RESOURCES
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import collection, config_validation as cv
 from universalassistant.helpers.storage import Store
 from universalassistant.helpers.translation import async_get_translations
@@ -117,7 +117,7 @@ class LovelaceData:
     yaml_dashboards: dict[str | None, ConfigType]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Lovelace commands."""
     yaml_resources = config[DOMAIN].get(CONF_RESOURCES)
     resource_mode = config[DOMAIN][CONF_RESOURCE_MODE]
@@ -134,7 +134,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         )
 
         # Register lovelace/resources for backwards compatibility, remove in
-        # __HA_KEEP__ Core 2025.1
+        # Universal Home Assistant Core 2025.1
         for command in ("lovelace/resources", "lovelace/resources/list"):
             websocket_api.async_register_command(
                 hass,
@@ -266,7 +266,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 @callback
-def _async_ensure_default_panel(hass: __HAC_KEEP__) -> None:
+def _async_ensure_default_panel(hass: UniversalAssistant) -> None:
     """Ensure a default lovelace panel is registered for backward compatibility."""
     if not frontend.async_panel_exists(hass, DOMAIN):
         frontend.async_register_built_in_panel(hass, DOMAIN)
@@ -274,7 +274,7 @@ def _async_ensure_default_panel(hass: __HAC_KEEP__) -> None:
 
 @callback
 def _register_panel(
-    hass: __HAC_KEEP__, url_path: str | None, mode: str, config: dict, update: bool
+    hass: UniversalAssistant, url_path: str | None, mode: str, config: dict, update: bool
 ) -> None:
     """Register a panel."""
     kwargs = {
@@ -291,7 +291,7 @@ def _register_panel(
 
 
 async def _create_map_dashboard(
-    hass: __HAC_KEEP__, dashboards_collection: dashboard.DashboardsCollection
+    hass: UniversalAssistant, dashboards_collection: dashboard.DashboardsCollection
 ) -> None:
     """Create a map dashboard."""
     translations = await async_get_translations(
@@ -313,7 +313,7 @@ async def _create_map_dashboard(
 
 
 async def _async_migrate_default_config(
-    hass: __HAC_KEEP__, dashboards_collection: dashboard.DashboardsCollection
+    hass: UniversalAssistant, dashboards_collection: dashboard.DashboardsCollection
 ) -> None:
     """Migrate default lovelace storage config to a named dashboard entry.
 
@@ -359,7 +359,7 @@ async def _async_migrate_default_config(
                 CONF_URL_PATH: DOMAIN,
             }
         )
-    except __HAC_KEEP__Error, probatio.Invalid:
+    except UniversalAssistantError, probatio.Invalid:
         _LOGGER.exception("Failed to create dashboard entry during migration")
         return
 

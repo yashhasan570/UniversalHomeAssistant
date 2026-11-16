@@ -28,7 +28,7 @@ from universalassistant.components.calendar import (
 from universalassistant.components.husqvarna_automower.const import DOMAIN
 from universalassistant.components.husqvarna_automower.coordinator import SCAN_INTERVAL
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -57,7 +57,7 @@ def get_events_fixture(
 
 @pytest.mark.freeze_time(dt.datetime(2023, 6, 5, 12))
 async def test_calendar_state_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -72,7 +72,7 @@ async def test_calendar_state_off(
 
 @pytest.mark.freeze_time(dt.datetime(2023, 6, 5, 19))
 async def test_calendar_state_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -87,7 +87,7 @@ async def test_calendar_state_on(
 
 @pytest.mark.freeze_time(dt.datetime(2023, 6, 5))
 async def test_empty_calendar(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -128,7 +128,7 @@ async def test_empty_calendar(
     ],
 )
 async def test_calendar_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,

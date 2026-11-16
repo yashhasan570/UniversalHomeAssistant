@@ -14,7 +14,7 @@ from universalassistant.components.media_player import (
     SearchMedia,
     SearchMediaQuery,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.dt import parse_datetime
 
@@ -28,7 +28,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: JellyfinConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

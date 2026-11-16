@@ -6,7 +6,7 @@ from dropmqttapi.mqttapi import DropAPI
 
 from universalassistant.components import mqtt
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import CONF_COMMAND_TOPIC, DOMAIN
@@ -22,7 +22,7 @@ class DROPDeviceDataUpdateCoordinator(DataUpdateCoordinator[None]):
 
     config_entry: DROPConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, entry: DROPConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: DROPConfigEntry) -> None:
         """Initialize the device."""
         super().__init__(
             hass, _LOGGER, config_entry=entry, name=f"{DOMAIN}-{entry.unique_id}"

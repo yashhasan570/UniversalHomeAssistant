@@ -16,8 +16,8 @@ from universalassistant.components.update import (
     UpdateEntityStateAttribute,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
 
@@ -154,13 +154,13 @@ class RpcLoraAddOnUpdateEntity(ShellyRpcAttributeEntity, UpdateEntity):
         try:
             await self.coordinator.device.trigger_add_on_ota_update()
         except DeviceConnectionError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="ota_update_connection_error",
                 translation_placeholders={"device": self.coordinator.name},
             ) from err
         except RpcCallError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="ota_update_rpc_error",
                 translation_placeholders={"device": self.coordinator.name},
@@ -284,13 +284,13 @@ class RpcBluTrvUpdateEntity(ShellyRpcAttributeEntity, UpdateEntity):
         try:
             await self.coordinator.device.blu_trv_update_firmware(self._id)
         except DeviceConnectionError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="ota_update_connection_error",
                 translation_placeholders={"device": self.coordinator.name},
             ) from err
         except RpcCallError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="ota_update_rpc_error",
                 translation_placeholders={"device": self.coordinator.name},
@@ -355,7 +355,7 @@ RPC_UPDATES: Final = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -368,7 +368,7 @@ async def async_setup_entry(
 
 @callback
 def _async_setup_block_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -385,7 +385,7 @@ def _async_setup_block_entry(
 
 @callback
 def _async_setup_rpc_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -474,7 +474,7 @@ class RestUpdateEntity(ShellyRestAttributeEntity, UpdateEntity):
         try:
             result = await self.coordinator.device.trigger_ota_update(beta=beta)
         except DeviceConnectionError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="ota_update_connection_error",
                 translation_placeholders={"device": self.coordinator.name},
@@ -597,13 +597,13 @@ class RpcUpdateEntity(ShellyRpcAttributeEntity, UpdateEntity):
         try:
             await self.coordinator.device.trigger_ota_update(beta=beta)
         except DeviceConnectionError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="ota_update_connection_error",
                 translation_placeholders={"device": self.coordinator.name},
             ) from err
         except RpcCallError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="ota_update_rpc_error",
                 translation_placeholders={"device": self.coordinator.name},

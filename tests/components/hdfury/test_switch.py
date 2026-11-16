@@ -21,8 +21,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 import universalassistant.helpers.entity_registry as er
 
 from . import setup_integration
@@ -30,7 +30,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switch_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -66,7 +66,7 @@ async def test_switch_entities(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switch_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hdfury_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -95,20 +95,20 @@ async def test_switch_turn_on_off(
     ],
 )
 async def test_switch_turn_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hdfury_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
     method: str,
 ) -> None:
-    """Test switch turn on/off raises __HAC_KEEP__Error on API failure."""
+    """Test switch turn on/off raises UniversalAssistantError on API failure."""
 
     getattr(mock_hdfury_client, method).side_effect = HDFuryError()
 
     await setup_integration(hass, mock_config_entry, [Platform.SWITCH])
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="An error occurred while communicating with HDFury device",
     ):
         await hass.services.async_call(
@@ -120,7 +120,7 @@ async def test_switch_turn_error(
 
 
 async def test_switch_entities_unavailable_on_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hdfury_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

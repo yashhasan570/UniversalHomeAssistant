@@ -12,12 +12,12 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import setup_integration
 
 
-async def test_hold_switch(hass: __HAC_KEEP__, patch_nexia_home: NexiaHome) -> None:
+async def test_hold_switch(hass: UniversalAssistant, patch_nexia_home: NexiaHome) -> None:
     """Test creation of the hold switch."""
 
     await setup_integration(hass, patch_nexia_home)
@@ -28,7 +28,7 @@ async def test_hold_switch(hass: __HAC_KEEP__, patch_nexia_home: NexiaHome) -> N
 
 
 async def test_nexia_sensor_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     patch_nexia_home: NexiaHome,
     freezer: FrozenDateTimeFactory,
 ) -> None:

@@ -14,7 +14,7 @@ from peco import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -45,7 +45,7 @@ class PecoOutageCoordinator(DataUpdateCoordinator[PECOCoordinatorData]):
 
     config_entry: PecoConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, entry: PecoConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: PecoConfigEntry) -> None:
         """Initialize the outage coordinator."""
         super().__init__(
             hass,
@@ -81,7 +81,7 @@ class PecoSmartMeterCoordinator(DataUpdateCoordinator[bool]):
     config_entry: PecoConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: PecoConfigEntry, phone_number: str
+        self, hass: UniversalAssistant, entry: PecoConfigEntry, phone_number: str
     ) -> None:
         """Initialize the smart meter coordinator."""
         super().__init__(

@@ -10,7 +10,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from universalassistant import config_entries
 from universalassistant.components import dialogflow, intent_script
 from universalassistant.components.dialogflow import DOMAIN
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.setup import async_setup_component
@@ -24,7 +24,7 @@ CONTEXT_NAME = "78a5db95-b7d6-4d50-9c9b-2fc73a5e34c3_id_dialog_context"
 
 
 @pytest.fixture
-async def calls(hass: __HAC_KEEP__, fixture) -> list[ServiceCall]:
+async def calls(hass: UniversalAssistant, fixture) -> list[ServiceCall]:
     """Return a list of Dialogflow calls triggered."""
     calls: list[ServiceCall] = []
 
@@ -39,8 +39,8 @@ async def calls(hass: __HAC_KEEP__, fixture) -> list[ServiceCall]:
 
 
 @pytest.fixture
-async def fixture(hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator):
-    """Initialize a __HA_KEEP__ server for testing this module."""
+async def fixture(hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator):
+    """Initialize a Universal Home Assistant server for testing this module."""
     await async_setup_component(hass, dialogflow.DOMAIN, {"dialogflow": {}})
     await async_setup_component(
         hass,
@@ -285,7 +285,7 @@ async def test_intent_request_with_parameters_but_empty_v2(fixture) -> None:
     assert text == "You told us your sign is ."
 
 
-async def test_intent_request_without_slots_v1(hass: __HAC_KEEP__, fixture) -> None:
+async def test_intent_request_without_slots_v1(hass: UniversalAssistant, fixture) -> None:
     """Test a request without slots."""
     mock_client, webhook_id = fixture
     data = Data.v1
@@ -315,7 +315,7 @@ async def test_intent_request_without_slots_v1(hass: __HAC_KEEP__, fixture) -> N
     assert text == "You are both home, you silly"
 
 
-async def test_intent_request_without_slots_v2(hass: __HAC_KEEP__, fixture) -> None:
+async def test_intent_request_without_slots_v2(hass: UniversalAssistant, fixture) -> None:
     """Test a request without slots."""
     mock_client, webhook_id = fixture
     data = Data.v2
@@ -431,7 +431,7 @@ async def test_intent_with_unknown_action_v1(fixture) -> None:
     )
     assert response.status == HTTPStatus.OK
     text = (await response.json()).get("speech")
-    assert text == "This intent is not yet configured within __HA_KEEP__."
+    assert text == "This intent is not yet configured within Universal Home Assistant."
 
 
 async def test_intent_with_unknown_action_v2(fixture) -> None:
@@ -444,4 +444,4 @@ async def test_intent_with_unknown_action_v2(fixture) -> None:
     )
     assert response.status == HTTPStatus.OK
     text = (await response.json()).get("fulfillmentText")
-    assert text == "This intent is not yet configured within __HA_KEEP__."
+    assert text == "This intent is not yet configured within Universal Home Assistant."

@@ -17,7 +17,7 @@ from universalassistant.config_entries import (
     ConfigSubentryData,
 )
 from universalassistant.const import CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er, llm
 from universalassistant.helpers.device_registry import DeviceEntryDisabler
 from universalassistant.helpers.entity_registry import RegistryEntryDisabler
@@ -47,7 +47,7 @@ V21_TEST_OPTIONS = V1_TEST_OPTIONS
     ],
 )
 async def test_init_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
     side_effect,
@@ -65,7 +65,7 @@ async def test_init_error(
 
 @pytest.mark.parametrize("has_token", [True])
 async def test_init_with_api_key(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test initialization with API key - Authorization header should be set."""
     # Create entry with API key in data (version 3.0 after migration)
@@ -84,7 +84,7 @@ async def test_init_with_api_key(
 
 
 async def test_init_without_api_key(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test initialization without API key - Authorization header should not be set."""
     # Create entry without API key in data (version 3.0 after migration)
@@ -102,7 +102,7 @@ async def test_init_without_api_key(
 
 
 async def test_init_connect_timeout(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the client bounds the connect but not the read."""
     mock_config_entry.add_to_hass(hass)
@@ -127,7 +127,7 @@ async def test_init_connect_timeout(
     ],
 )
 async def test_async_setup_entry_auth_failed_on_response_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     status_code: int,
     entry_state: ConfigEntryState,
@@ -155,7 +155,7 @@ async def test_async_setup_entry_auth_failed_on_response_error(
     ],
 )
 async def test_async_setup_entry_not_ready_on_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
 ) -> None:
@@ -172,7 +172,7 @@ async def test_async_setup_entry_not_ready_on_connection_error(
 
 
 async def test_migration_from_v1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -268,7 +268,7 @@ async def test_migration_from_v1(
 
 
 async def test_migration_from_v1_with_multiple_urls(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -376,7 +376,7 @@ async def test_migration_from_v1_with_multiple_urls(
 
 
 async def test_migration_from_v1_with_same_urls(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -554,7 +554,7 @@ async def test_migration_from_v1_with_same_urls(
     ],
 )
 async def test_migration_from_v1_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     config_entry_disabled_by: list[ConfigEntryDisabler | None],
@@ -691,7 +691,7 @@ async def test_migration_from_v1_disabled(
 
 
 async def test_migration_from_v2_1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -830,7 +830,7 @@ async def test_migration_from_v2_1(
     assert device.config_subentry_id == subentry.subentry_id
 
 
-async def test_migration_from_v2_2(hass: __HAC_KEEP__) -> None:
+async def test_migration_from_v2_2(hass: UniversalAssistant) -> None:
     """Test migration from version 2.2."""
     subentry_data = ConfigSubentryData(
         data=V21_TEST_USER_DATA,
@@ -872,7 +872,7 @@ async def test_migration_from_v2_2(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_migration_from_v3_1_without_subentry(hass: __HAC_KEEP__) -> None:
+async def test_migration_from_v3_1_without_subentry(hass: UniversalAssistant) -> None:
     """Test migration from version 3.1 where there is no existing subentry.
 
     This exercises the code path where the model is not moved to a subentry
@@ -999,7 +999,7 @@ async def test_migration_from_v3_1_without_subentry(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_migrate_entry_from_v3_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     config_entry_disabled_by: ConfigEntryDisabler | None,

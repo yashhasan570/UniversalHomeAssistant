@@ -18,7 +18,7 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import FixtureDevice, MockOverkizClient, SetupOverkizIntegration
@@ -51,7 +51,7 @@ def fixture_platforms() -> Generator[None]:
 
 
 async def test_fan_entities_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -72,7 +72,7 @@ async def test_fan_entities_snapshot(
     ids=["air-inlet", "air-outlet", "air-transfer"],
 )
 async def test_fan_set_percentage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     device: FixtureDevice,
@@ -99,7 +99,7 @@ async def test_fan_set_percentage(
 
 
 async def test_fan_set_percentage_zero_turns_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
 ) -> None:
@@ -122,7 +122,7 @@ async def test_fan_set_percentage_zero_turns_off(
 
 
 async def test_fan_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
 ) -> None:
@@ -145,7 +145,7 @@ async def test_fan_turn_off(
 
 
 async def test_fan_turn_on_without_percentage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
 ) -> None:
@@ -168,7 +168,7 @@ async def test_fan_turn_on_without_percentage(
 
 
 async def test_fan_turn_on_with_percentage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
 ) -> None:

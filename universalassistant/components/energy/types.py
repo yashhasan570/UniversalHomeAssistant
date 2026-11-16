@@ -3,7 +3,7 @@
 from collections.abc import Awaitable, Callable
 from typing import Protocol, TypedDict
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 class SolarForecastType(TypedDict):
@@ -13,7 +13,7 @@ class SolarForecastType(TypedDict):
 
 
 type GetSolarForecastType = Callable[
-    [__HAC_KEEP__, str], Awaitable[SolarForecastType | None]
+    [UniversalAssistant, str], Awaitable[SolarForecastType | None]
 ]
 
 
@@ -22,6 +22,6 @@ class EnergyPlatform(Protocol):
 
     @staticmethod
     async def async_get_solar_forecast(
-        hass: __HAC_KEEP__, config_entry_id: str
+        hass: UniversalAssistant, config_entry_id: str
     ) -> SolarForecastType | None:
         """Get forecast for solar production for specific config entry ID."""

@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.const import CONF_TYPE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import ATTR_TYPE_CLOUD
 from .coordinator import EzvizConfigEntry
@@ -48,7 +48,7 @@ DEVICE_KEYS = (
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: EzvizConfigEntry
+    hass: UniversalAssistant, entry: EzvizConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     diagnostics: dict[str, Any] = {

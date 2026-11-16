@@ -10,7 +10,7 @@ from switchbee.api.central_unit import SwitchBeeError
 from switchbee.device import DeviceType, SwitchBeeBaseDevice
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -28,7 +28,7 @@ class SwitchBeeCoordinator(DataUpdateCoordinator[Mapping[int, SwitchBeeBaseDevic
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: SwitchBeeConfigEntry,
         swb_api: CentralUnitPolling | CentralUnitWsRPC,
     ) -> None:

@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.engie_be.const import DOMAIN, PEAKS_SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import (
@@ -27,7 +27,7 @@ from .conftest import (
 
 @pytest.mark.usefixtures("mock_engie_client", "frozen_afternoon")
 async def test_capacity_tariff_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -91,7 +91,7 @@ async def test_capacity_tariff_sensors(
     "mock_engie_client", "frozen_afternoon", "entity_registry_enabled_by_default"
 )
 async def test_capacity_tariff_daily_peak(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -117,7 +117,7 @@ async def test_capacity_tariff_daily_peak(
 
 @pytest.mark.usefixtures("mock_engie_client", "frozen_afternoon")
 async def test_capacity_tariff_fallback_to_previous_month(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -154,7 +154,7 @@ async def test_capacity_tariff_fallback_to_previous_month(
 
 @pytest.mark.usefixtures("mock_engie_client", "frozen_afternoon")
 async def test_capacity_tariff_previous_peak_attribute(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -190,7 +190,7 @@ async def test_capacity_tariff_previous_peak_attribute(
 
 @pytest.mark.usefixtures("mock_engie_client", "frozen_afternoon")
 async def test_capacity_tariff_no_peak_yet(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -214,7 +214,7 @@ async def test_capacity_tariff_no_peak_yet(
 
 @pytest.mark.usefixtures("mock_engie_client")
 async def test_capacity_tariff_scheduled_refresh_across_year_rollover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -282,7 +282,7 @@ async def test_capacity_tariff_scheduled_refresh_across_year_rollover(
 
 @pytest.mark.usefixtures("mock_engie_client", "frozen_afternoon")
 async def test_capacity_tariff_peaks_failure_and_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -357,7 +357,7 @@ async def test_capacity_tariff_peaks_failure_and_recovery(
     ],
 )
 async def test_capacity_tariff_daily_peak_selection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -386,7 +386,7 @@ async def test_capacity_tariff_daily_peak_selection(
 
 @pytest.mark.usefixtures("mock_engie_client", "frozen_afternoon")
 async def test_capacity_tariff_auth_error_triggers_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
 ) -> None:

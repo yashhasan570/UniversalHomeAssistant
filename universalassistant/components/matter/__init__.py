@@ -25,7 +25,7 @@ from universalassistant.components.hassio import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_URL, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -68,7 +68,7 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 @callback
 def get_matter_device_info(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> MatterDeviceInfo | None:
     """Return Matter device info or None if device does not exist."""
     if (
@@ -85,20 +85,20 @@ def get_matter_device_info(
     )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Matter integration services."""
     async_setup_services(hass)
     return True
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: MatterConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: MatterConfigEntry) -> None:
     """Migrate an old config entry."""
     if entry.version == 1 and entry.minor_version < 2:
         _async_migrate_eve_temperature_offset(hass, entry)
         hass.config_entries.async_update_entry(entry, minor_version=2)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: MatterConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: MatterConfigEntry) -> None:
     """Set up Matter from a config entry."""
     if use_addon := entry.data.get(CONF_USE_ADDON):
         await _async_ensure_addon_running(hass, entry)
@@ -151,13 +151,13 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: MatterConfigEntry) -> Non
     ble_proxy: MatterBleProxy | None = None
 
     async def on_hass_stop(event: Event) -> None:
-        """Handle incoming stop event from __HA_KEEP__."""
+        """Handle incoming stop event from Universal Home Assistant."""
         if ble_proxy is not None:
             try:
                 await ble_proxy.disconnect()
             except Exception:  # noqa: BLE001
                 LOGGER.exception(
-                    "Failed to disconnect BLE proxy during __HA_KEEP__ stop"
+                    "Failed to disconnect BLE proxy during Universal Home Assistant stop"
                 )
         await matter_client.disconnect()
 
@@ -202,7 +202,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: MatterConfigEntry) -> Non
     if server_info and server_info.ble_proxy_enabled:
         if "bluetooth" not in hass.config.components:
             LOGGER.warning(
-                "Matter server reports BLE proxy support but __HA_KEEP__'s "
+                "Matter server reports BLE proxy support but Universal Home Assistant's "
                 "bluetooth integration is not loaded; BLE proxy will not be used"
             )
         elif (ble_proxy_url := _derive_ble_proxy_url(entry.data[CONF_URL])) is None:
@@ -261,7 +261,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: MatterConfigEntry) -> Non
 
 @callback
 def _async_migrate_eve_temperature_offset(
-    hass: __HAC_KEEP__, entry: MatterConfigEntry
+    hass: UniversalAssistant, entry: MatterConfigEntry
 ) -> None:
     """Merge legacy EveTemperatureOffset entities into the generic TemperatureOffset entity.
 
@@ -306,7 +306,7 @@ def _derive_ble_proxy_url(matter_ws_url: str) -> str | None:
     return str(parsed.with_path(new_path))
 
 
-async def _async_check_ipv6_enabled(hass: __HAC_KEEP__) -> None:
+async def _async_check_ipv6_enabled(hass: UniversalAssistant) -> None:
     """Raise a repair issue when IPv6 is disabled in Supervisor network settings.
 
     Matter relies on IPv6 to communicate with devices. On Supervised/HAOS
@@ -354,7 +354,7 @@ async def _async_check_ipv6_enabled(hass: __HAC_KEEP__) -> None:
 
 
 async def _client_listen(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MatterConfigEntry,
     matter_client: MatterClient,
     init_ready: asyncio.Event,
@@ -377,7 +377,7 @@ async def _client_listen(
         hass.async_create_task(hass.config_entries.async_reload(entry.entry_id))
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: MatterConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: MatterConfigEntry) -> None:
     """Unload a config entry."""
     try:
         await hass.config_entries.async_unload_platforms_or_raise(
@@ -407,7 +407,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: MatterConfigEntry) -> No
                 ) from err
 
 
-async def async_remove_entry(hass: __HAC_KEEP__, entry: MatterConfigEntry) -> None:
+async def async_remove_entry(hass: UniversalAssistant, entry: MatterConfigEntry) -> None:
     """Config entry is being removed."""
 
     if not entry.data.get(CONF_INTEGRATION_CREATED_ADDON):
@@ -431,7 +431,7 @@ async def async_remove_entry(hass: __HAC_KEEP__, entry: MatterConfigEntry) -> No
 
 
 def _remove_via_devices(
-    hass: __HAC_KEEP__, config_entry: MatterConfigEntry, device_entry: dr.DeviceEntry
+    hass: UniversalAssistant, config_entry: MatterConfigEntry, device_entry: dr.DeviceEntry
 ) -> None:
     """Remove all via devices associated with a device."""
     device_registry = dr.async_get(hass)
@@ -442,7 +442,7 @@ def _remove_via_devices(
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MatterConfigEntry,
     device_entry: dr.AnyDeviceEntry,
 ) -> bool:
@@ -477,7 +477,7 @@ async def async_remove_config_entry_device(
 
 
 async def _async_ensure_addon_running(
-    hass: __HAC_KEEP__, entry: MatterConfigEntry
+    hass: UniversalAssistant, entry: MatterConfigEntry
 ) -> None:
     """Ensure that Matter Server add-on is installed and running."""
     addon_manager = _get_addon_manager(hass)
@@ -507,7 +507,7 @@ async def _async_ensure_addon_running(
 
 
 @callback
-def _get_addon_manager(hass: __HAC_KEEP__) -> AddonManager:
+def _get_addon_manager(hass: UniversalAssistant) -> AddonManager:
     """Ensure that Matter Server add-on is updated and running.
 
     May only be used as part of async_setup_entry above.

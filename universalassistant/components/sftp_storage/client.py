@@ -22,7 +22,7 @@ from universalassistant.components.backup import (
     OnProgressCallback,
     suggested_filename,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.async_iterator import ResourceChunkIterator
 
 from .const import BUF_SIZE, LOGGER
@@ -56,13 +56,13 @@ class RemoteFileReader:
     def __init__(
         self,
         cfg: SFTPConfigEntry,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         file_path: str,
         buffer_size: int = BUF_SIZE,
     ) -> None:
         """Initialize `RemoteFileReader`."""
         self.cfg: SFTPConfigEntry = cfg
-        self.hass: __HAC_KEEP__ = hass
+        self.hass: UniversalAssistant = hass
         self.file_path: str = file_path
         self.buffer_size = buffer_size
         self._client: BackupAgentClient | None = None
@@ -120,10 +120,10 @@ class BackupMetadata:
 class BackupAgentClient:
     """Helper class that manages SSH and SFTP Server connections."""
 
-    def __init__(self, config: SFTPConfigEntry, hass: __HAC_KEEP__) -> None:
+    def __init__(self, config: SFTPConfigEntry, hass: UniversalAssistant) -> None:
         """Initialize `BackupAgentClient`."""
         self.cfg: SFTPConfigEntry = config
-        self.hass: __HAC_KEEP__ = hass
+        self.hass: UniversalAssistant = hass
         self._ssh: SSHClientConnection | None = None
         self._sftp: SFTPClient | None = None
         LOGGER.debug("Initialized with config: %s", self.cfg.runtime_data)

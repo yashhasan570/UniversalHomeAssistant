@@ -6,11 +6,11 @@ import pyzerproc
 
 from universalassistant import config_entries
 from universalassistant.components.zerproc.config_flow import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_flow_success(hass: __HAC_KEEP__) -> None:
+async def test_flow_success(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -42,7 +42,7 @@ async def test_flow_success(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_flow_no_devices_found(hass: __HAC_KEEP__) -> None:
+async def test_flow_no_devices_found(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -72,7 +72,7 @@ async def test_flow_no_devices_found(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 0
 
 
-async def test_flow_exceptions_caught(hass: __HAC_KEEP__) -> None:
+async def test_flow_exceptions_caught(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(

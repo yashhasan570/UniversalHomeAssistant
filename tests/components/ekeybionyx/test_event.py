@@ -11,11 +11,11 @@ from universalassistant.components.event import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_event_entity_setup(
-    hass: __HAC_KEEP__, load_config_entry: None, config_entry: MockConfigEntry
+    hass: UniversalAssistant, load_config_entry: None, config_entry: MockConfigEntry
 ) -> None:
     """Test event entity is set up correctly."""
     # Check that entity was created
@@ -25,7 +25,7 @@ async def test_event_entity_setup(
 
 
 async def test_event_types_attribute(
-    hass: __HAC_KEEP__, load_config_entry: None, config_entry: MockConfigEntry
+    hass: UniversalAssistant, load_config_entry: None, config_entry: MockConfigEntry
 ) -> None:
     """Test event entity has correct event_types attribute."""
     state = hass.states.get(f"event.{config_entry.data['webhooks'][0]['name']}")
@@ -38,7 +38,7 @@ async def test_event_types_attribute(
 
 
 async def test_config_entry_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_config_entry: None,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_config_entry_unload(
 
 
 async def test_webhook_handler_triggers_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     webhook_test_env: TestClient,
 ) -> None:
@@ -91,7 +91,7 @@ async def test_webhook_handler_triggers_event(
 
 
 async def test_webhook_handler_rejects_invalid_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     webhook_test_env: TestClient,
 ) -> None:
@@ -112,7 +112,7 @@ async def test_webhook_handler_rejects_invalid_auth(
 
 
 async def test_webhook_handler_missing_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     webhook_test_env: TestClient,
 ) -> None:
@@ -133,7 +133,7 @@ async def test_webhook_handler_missing_auth(
 
 
 async def test_webhook_handler_invalid_json(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     webhook_test_env: TestClient,
 ) -> None:

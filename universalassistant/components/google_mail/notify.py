@@ -15,7 +15,7 @@ from universalassistant.components.notify import (
     ATTR_TITLE_DEFAULT,
     BaseNotificationService,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -33,7 +33,7 @@ from .const import (
 
 
 async def async_get_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> GMailNotificationService | None:

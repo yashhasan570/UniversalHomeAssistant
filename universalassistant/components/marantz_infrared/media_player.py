@@ -12,7 +12,7 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
 )
 from universalassistant.const import CONF_MODEL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import ExtraStoredData, RestoreEntity
 
@@ -58,7 +58,7 @@ class _MarantzAmplifierExtraData(ExtraStoredData):
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MarantzIrConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

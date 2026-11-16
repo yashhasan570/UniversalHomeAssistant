@@ -13,7 +13,7 @@
       "unknown": "[%key:common::config_flow::error::unknown%]"
     },
     "progress": {
-      "wait_for_magic_link": "Open the sign-in link sent to {email}. __HA_KEEP__ will continue automatically once the link has been opened. __HA_KEEP__ will wait for up to five minutes."
+      "wait_for_magic_link": "Open the sign-in link sent to {email}. Universal Home Assistant will continue automatically once the link has been opened. Universal Home Assistant will wait for up to five minutes."
     },
     "step": {
       "email": {

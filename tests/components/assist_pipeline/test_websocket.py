@@ -25,8 +25,8 @@ from universalassistant.components.assist_pipeline.pipeline import (
     async_get_pipelines,
     async_update_pipeline,
 )
-from universalassistant.core import Context, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import Context, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import chat_session, device_registry as dr
 
 from .conftest import (
@@ -62,7 +62,7 @@ def mock_tts_token() -> Generator[None]:
     ],
 )
 async def test_text_only_pipeline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
     snapshot: SnapshotAssertion,
@@ -129,7 +129,7 @@ async def test_text_only_pipeline(
 
 
 async def test_audio_pipeline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
     snapshot: SnapshotAssertion,
@@ -223,7 +223,7 @@ async def test_audio_pipeline(
 
 
 async def test_audio_pipeline_with_wake_word_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
     snapshot: SnapshotAssertion,
@@ -281,7 +281,7 @@ async def test_audio_pipeline_with_wake_word_timeout(
 
 
 async def test_audio_pipeline_with_wake_word_no_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
     snapshot: SnapshotAssertion,
@@ -388,7 +388,7 @@ async def test_audio_pipeline_with_wake_word_no_timeout(
 
 
 async def test_audio_pipeline_no_wake_word_engine(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
     snapshot: SnapshotAssertion,
@@ -418,7 +418,7 @@ async def test_audio_pipeline_no_wake_word_engine(
 
 
 async def test_audio_pipeline_no_wake_word_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
     snapshot: SnapshotAssertion,
@@ -455,7 +455,7 @@ async def test_audio_pipeline_no_wake_word_entity(
 
 
 async def test_intent_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
     snapshot: SnapshotAssertion,
@@ -527,7 +527,7 @@ async def test_intent_timeout(
 
 
 async def test_text_pipeline_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
     snapshot: SnapshotAssertion,
@@ -580,7 +580,7 @@ async def test_text_pipeline_timeout(
 
 
 async def test_intent_busy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
 ) -> None:
@@ -614,7 +614,7 @@ async def test_intent_busy(
 
 @pytest.mark.usefixtures("init_components")
 async def test_intent_unauthorized(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -655,7 +655,7 @@ async def test_intent_unauthorized(
 
 
 async def test_intent_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
     snapshot: SnapshotAssertion,
@@ -723,7 +723,7 @@ async def test_intent_failed(
 
 
 async def test_audio_pipeline_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
     snapshot: SnapshotAssertion,
@@ -778,7 +778,7 @@ async def test_audio_pipeline_timeout(
 
 
 async def test_stt_provider_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
     snapshot: SnapshotAssertion,
@@ -808,7 +808,7 @@ async def test_stt_provider_missing(
 
 
 async def test_stt_provider_bad_metadata(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
     mock_stt_provider_entity,
@@ -836,7 +836,7 @@ async def test_stt_provider_bad_metadata(
 
 
 async def test_stt_stream_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
     snapshot: SnapshotAssertion,
@@ -910,7 +910,7 @@ async def test_stt_stream_failed(
 
 
 async def test_tts_provider_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
     mock_tts_provider,
@@ -938,7 +938,7 @@ async def test_tts_provider_missing(
 
 
 async def test_tts_provider_bad_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
     mock_tts_provider,
@@ -949,7 +949,7 @@ async def test_tts_provider_bad_options(
 
     with patch(
         "universalassistant.components.tts.SpeechManager.process_options",
-        side_effect=__HAC_KEEP__Error("Language not supported"),
+        side_effect=UniversalAssistantError("Language not supported"),
     ):
         await client.send_json_auto_id(
             {
@@ -967,7 +967,7 @@ async def test_tts_provider_bad_options(
 
 
 async def test_invalid_stage_order(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, init_components
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, init_components
 ) -> None:
     """Test pipeline run with invalid stage order."""
     client = await hass_ws_client(hass)
@@ -987,7 +987,7 @@ async def test_invalid_stage_order(
 
 
 async def test_add_pipeline(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, init_components
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, init_components
 ) -> None:
     """Test we can add a pipeline."""
     client = await hass_ws_client(hass)
@@ -1059,7 +1059,7 @@ async def test_add_pipeline(
 
 
 async def test_add_pipeline_missing_language(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, init_components
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, init_components
 ) -> None:
     """Test we can't add a pipeline without specifying stt or tts language."""
     client = await hass_ws_client(hass)
@@ -1109,7 +1109,7 @@ async def test_add_pipeline_missing_language(
 
 
 async def test_delete_pipeline(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, init_components
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, init_components
 ) -> None:
     """Test we can delete a pipeline."""
     client = await hass_ws_client(hass)
@@ -1205,7 +1205,7 @@ async def test_delete_pipeline(
 
 
 async def test_get_pipeline(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, init_components
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, init_components
 ) -> None:
     """Test we can get a pipeline."""
     client = await hass_ws_client(hass)
@@ -1224,7 +1224,7 @@ async def test_get_pipeline(
         "conversation_language": "en",
         "id": ANY,
         "language": "en",
-        "name": "__HA_KEEP__",
+        "name": "Universal Home Assistant",
         "stt_engine": "stt.mock_stt",
         "stt_language": "en-US",
         "tts_engine": "tts.test",
@@ -1249,7 +1249,7 @@ async def test_get_pipeline(
         "conversation_language": "en",
         "id": ANY,
         "language": "en",
-        "name": "__HA_KEEP__",
+        "name": "Universal Home Assistant",
         # It found these defaults
         "stt_engine": "stt.mock_stt",
         "stt_language": "en-US",
@@ -1322,7 +1322,7 @@ async def test_get_pipeline(
 
 
 async def test_list_pipelines(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, init_components
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, init_components
 ) -> None:
     """Test we can list pipelines."""
     client = await hass_ws_client(hass)
@@ -1337,7 +1337,7 @@ async def test_list_pipelines(
                 "conversation_language": "en",
                 "id": ANY,
                 "language": "en",
-                "name": "__HA_KEEP__",
+                "name": "Universal Home Assistant",
                 "stt_engine": "stt.mock_stt",
                 "stt_language": "en-US",
                 "tts_engine": "tts.test",
@@ -1353,7 +1353,7 @@ async def test_list_pipelines(
 
 
 async def test_update_pipeline(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, init_components
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, init_components
 ) -> None:
     """Test we can list pipelines."""
     client = await hass_ws_client(hass)
@@ -1510,7 +1510,7 @@ async def test_update_pipeline(
 
 
 async def test_set_preferred_pipeline(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, init_components
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, init_components
 ) -> None:
     """Test updating the preferred pipeline."""
     client = await hass_ws_client(hass)
@@ -1552,7 +1552,7 @@ async def test_set_preferred_pipeline(
 
 
 async def test_set_preferred_pipeline_wrong_id(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, init_components
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, init_components
 ) -> None:
     """Test updating the preferred pipeline."""
     client = await hass_ws_client(hass)
@@ -1565,7 +1565,7 @@ async def test_set_preferred_pipeline_wrong_id(
 
 
 async def test_audio_pipeline_debug(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
     snapshot: SnapshotAssertion,
@@ -1673,7 +1673,7 @@ async def test_audio_pipeline_debug(
 
 
 async def test_pipeline_debug_list_runs_wrong_pipeline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
 ) -> None:
@@ -1689,7 +1689,7 @@ async def test_pipeline_debug_list_runs_wrong_pipeline(
 
 
 async def test_pipeline_debug_get_run_wrong_pipeline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
 ) -> None:
@@ -1712,7 +1712,7 @@ async def test_pipeline_debug_get_run_wrong_pipeline(
 
 
 async def test_pipeline_debug_get_run_wrong_pipeline_run(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
 ) -> None:
@@ -1769,7 +1769,7 @@ async def test_pipeline_debug_get_run_wrong_pipeline_run(
 
 
 async def test_list_pipeline_languages(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
 ) -> None:
@@ -1785,7 +1785,7 @@ async def test_list_pipeline_languages(
 
 
 async def test_list_pipeline_languages_with_aliases(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
 ) -> None:
@@ -1815,7 +1815,7 @@ async def test_list_pipeline_languages_with_aliases(
 
 
 async def test_audio_pipeline_with_enhancements(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
     snapshot: SnapshotAssertion,
@@ -1918,7 +1918,7 @@ async def test_audio_pipeline_with_enhancements(
 
 
 async def test_wake_word_cooldown_same_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     mock_wake_word_provider_entity: MockWakeWordEntity,
     hass_ws_client: WebSocketGenerator,
@@ -2000,7 +2000,7 @@ async def test_wake_word_cooldown_same_id(
 
 
 async def test_wake_word_cooldown_different_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     mock_wake_word_provider_entity: MockWakeWordEntity,
     hass_ws_client: WebSocketGenerator,
@@ -2076,7 +2076,7 @@ async def test_wake_word_cooldown_different_ids(
 
 
 async def test_wake_word_cooldown_different_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     mock_wake_word_provider_entity: MockWakeWordEntity,
     mock_wake_word_provider_entity2: MockWakeWordEntity2,
@@ -2205,7 +2205,7 @@ async def test_wake_word_cooldown_different_entities(
 
 
 async def test_device_capture(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
@@ -2310,7 +2310,7 @@ async def test_device_capture(
 
 
 async def test_device_capture_override(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
@@ -2447,7 +2447,7 @@ async def test_device_capture_override(
 
 
 async def test_device_capture_queue_full(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
@@ -2542,7 +2542,7 @@ async def test_device_capture_queue_full(
 
 
 async def test_pipeline_empty_tts_output(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
     snapshot: SnapshotAssertion,
@@ -2592,7 +2592,7 @@ async def test_pipeline_empty_tts_output(
 
 
 async def test_pipeline_list_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     assist_device,
 ) -> None:
@@ -2611,7 +2611,7 @@ async def test_pipeline_list_devices(
 
 
 async def test_stt_cooldown_same_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     mock_stt_provider,
     hass_ws_client: WebSocketGenerator,
@@ -2682,7 +2682,7 @@ async def test_stt_cooldown_same_id(
 
 
 async def test_stt_cooldown_different_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     mock_stt_provider,
     hass_ws_client: WebSocketGenerator,
@@ -2746,7 +2746,7 @@ async def test_stt_cooldown_different_ids(
 
 
 async def test_intent_progress_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
 ) -> None:

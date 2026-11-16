@@ -12,7 +12,7 @@ from cieloconnectapi.model import CieloDevice
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.debounce import Debouncer
@@ -36,7 +36,7 @@ class CieloDataUpdateCoordinator(DataUpdateCoordinator[CieloData]):
 
     config_entry: CieloHomeConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, entry: CieloHomeConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: CieloHomeConfigEntry) -> None:
         """Initialize the coordinator."""
         self.client = CieloClient(
             api_key=entry.data[CONF_API_KEY],

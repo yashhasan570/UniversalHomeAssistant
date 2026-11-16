@@ -9,7 +9,7 @@ from typing import override
 from ohme import ApiException, OhmeApiClient
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN
@@ -37,7 +37,7 @@ class OhmeBaseCoordinator(DataUpdateCoordinator[None]):
     coordinator_name: str = ""
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: OhmeConfigEntry, client: OhmeApiClient
+        self, hass: UniversalAssistant, config_entry: OhmeConfigEntry, client: OhmeApiClient
     ) -> None:
         """Initialise coordinator."""
         super().__init__(

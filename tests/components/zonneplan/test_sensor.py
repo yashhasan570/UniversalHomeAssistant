@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.sensor import ATTR_LAST_RESET
 from universalassistant.components.zonneplan import Platform
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MOCK_ACCOUNT
@@ -34,7 +34,7 @@ def enable_all_entities(entity_registry_enabled_by_default: None) -> None:
     ],
 )
 async def test_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -64,7 +64,7 @@ async def test_sensor(
     ],
 )
 async def test_entities_not_created_for_missing_market_segment(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -113,7 +113,7 @@ async def test_entities_not_created_for_missing_market_segment(
     ],
 )
 async def test_usage_sensor_unknown_until_data_arrives(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
     entity_id: str,
@@ -145,7 +145,7 @@ async def test_usage_sensor_unknown_until_data_arrives(
     ],
 )
 async def test_battery_state_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
     battery_state: str | None,
@@ -166,7 +166,7 @@ async def test_battery_state_unknown(
 
 
 async def test_battery_state_from_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
 ) -> None:
@@ -187,7 +187,7 @@ async def test_battery_state_from_api(
 
 
 async def test_battery_earned_today_without_measurement_groups(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
 ) -> None:

@@ -14,7 +14,7 @@ from universalassistant.components.weatherkit.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 EXAMPLE_CONFIG_DATA = {
     CONF_LATITUDE: 35.4690101707532,
@@ -65,9 +65,9 @@ def mock_weather_response(
 
 
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> MockConfigEntry:
-    """Set up the WeatherKit integration in __HA_KEEP__."""
+    """Set up the WeatherKit integration in Universal Home Assistant."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         title="Home",

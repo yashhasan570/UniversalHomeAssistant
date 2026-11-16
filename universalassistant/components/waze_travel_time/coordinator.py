@@ -12,7 +12,7 @@ from pywaze.route_calculator import CalcRoutesResponse, WazeRouteCalculator, WRC
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import UnitOfLength
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.location import find_coordinates
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util.unit_conversion import DistanceConverter
@@ -183,7 +183,7 @@ class WazeTravelTimeCoordinator(DataUpdateCoordinator[WazeTravelTimeData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: WazeTravelTimeConfigEntry,
         client: WazeRouteCalculator,
     ) -> None:

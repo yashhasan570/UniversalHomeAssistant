@@ -5,13 +5,13 @@ from typing import Any
 
 from powerfox import DeviceReport, HeatMeter, PowerMeter, WaterMeter
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import PowerfoxConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: PowerfoxConfigEntry
+    hass: UniversalAssistant, entry: PowerfoxConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for Powerfox config entry."""
     powerfox_data = entry.runtime_data

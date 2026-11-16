@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, override
 
 from universalassistant.components.event import EventEntity, EventEntityDescription
 from universalassistant.const import ATTR_ID, ATTR_NAME
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -24,7 +24,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: TransmissionConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

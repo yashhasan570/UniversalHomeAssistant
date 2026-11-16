@@ -27,8 +27,8 @@ from universalassistant.components.homekit_controller.const import (
 )
 from universalassistant.components.thread import async_add_dataset, dataset_store
 from universalassistant.const import STATE_OFF, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 
@@ -113,7 +113,7 @@ DEVICE_MIGRATION_TESTS = [
 
 @pytest.mark.parametrize("variant", DEVICE_MIGRATION_TESTS)
 async def test_migrate_device_id_no_serial_skip_if_other_owner(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     variant: DeviceMigrationTest,
 ) -> None:
@@ -146,7 +146,7 @@ async def test_migrate_device_id_no_serial_skip_if_other_owner(
 
 @pytest.mark.parametrize("variant", DEVICE_MIGRATION_TESTS)
 async def test_migrate_device_id_no_serial(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     variant: DeviceMigrationTest,
 ) -> None:
@@ -205,7 +205,7 @@ def allow_deprecated_device_registry_apis() -> Generator[None]:
 
 @pytest.mark.usefixtures("allow_deprecated_device_registry_apis")
 async def test_migrate_device_id_shared_identifier_only_migrates_own(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Migrate this config entry's own split when the legacy identifier is shared.
@@ -269,7 +269,7 @@ async def test_migrate_device_id_shared_identifier_only_migrates_own(
     assert device_registry.async_get(other_device.id).identifiers == before
 
 
-async def test_migrate_ble_unique_id(hass: __HAC_KEEP__) -> None:
+async def test_migrate_ble_unique_id(hass: UniversalAssistant) -> None:
     """Test that a config entry with incorrect unique_id is repaired."""
     accessories = await setup_accessories_from_file(hass, "anker_eufycam.json")
 
@@ -293,7 +293,7 @@ async def test_migrate_ble_unique_id(hass: __HAC_KEEP__) -> None:
     assert config_entry.unique_id == "02:03:ef:02:03:ef"
 
 
-async def test_thread_provision_no_creds(hass: __HAC_KEEP__) -> None:
+async def test_thread_provision_no_creds(hass: UniversalAssistant) -> None:
     """Test that we don't migrate to thread when there are no creds available."""
     accessories = await setup_accessories_from_file(hass, "nanoleaf_strip_nl55.json")
 
@@ -314,7 +314,7 @@ async def test_thread_provision_no_creds(hass: __HAC_KEEP__) -> None:
     await hass.config_entries.async_setup(config_entry.entry_id)
     await hass.async_block_till_done()
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "button",
             "press",
@@ -328,7 +328,7 @@ async def test_thread_provision_no_creds(hass: __HAC_KEEP__) -> None:
 
 
 async def test_thread_provision(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that a when a thread provision works the config entry is updated."""
     await async_add_dataset(
@@ -398,7 +398,7 @@ async def test_thread_provision(
     )
 
 
-async def test_thread_provision_migration_failed(hass: __HAC_KEEP__) -> None:
+async def test_thread_provision_migration_failed(hass: UniversalAssistant) -> None:
     """Test device remains in BLE mode when CoAP migration fails."""
     await async_add_dataset(
         hass,
@@ -433,7 +433,7 @@ async def test_thread_provision_migration_failed(hass: __HAC_KEEP__) -> None:
     # Make sure not disoverable via CoAP
     del fake_controller.discoveries["00:00:00:00:00:00"]
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "button",
             "press",
@@ -449,7 +449,7 @@ async def test_thread_provision_migration_failed(hass: __HAC_KEEP__) -> None:
 
 
 async def test_poll_firmware_version_only_all_watchable_accessory_mode(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test firmware poll only when all chars are watchable."""
 
@@ -512,7 +512,7 @@ async def test_poll_firmware_version_only_all_watchable_accessory_mode(
 
 
 async def test_manual_poll_all_chars(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test that a manual poll will check all chars."""
 
@@ -549,7 +549,7 @@ async def test_manual_poll_all_chars(
 
 
 async def test_poll_all_on_startup_refreshes_stale_values(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test that entities get fresh values on startup instead of stale stored values."""
     # Load actual Ecobee accessory fixture
@@ -635,7 +635,7 @@ async def test_poll_all_on_startup_refreshes_stale_values(
 
 
 async def test_characteristic_polling_batching(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test characteristic polling is batched to max per request."""
 
@@ -719,7 +719,7 @@ async def test_characteristic_polling_batching(
 
 
 async def test_async_setup_handles_unparsable_response(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that async_setup handles ValueError from unparsable accessory responses."""
     accessories = Accessories()
@@ -773,7 +773,7 @@ async def test_async_setup_handles_unparsable_response(
 
 
 async def test_device_via_device_links(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test bridged accessories link to the bridge via via_device_id."""

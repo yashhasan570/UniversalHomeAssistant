@@ -29,7 +29,7 @@ from universalassistant.components.shelly.const import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_MODEL, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import (
     CONNECTION_NETWORK_MAC,
@@ -42,7 +42,7 @@ MOCK_MAC = "123456789ABC"
 
 
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     gen: int | None,
     model=MODEL_25,
     sleep_period=0,
@@ -51,7 +51,7 @@ async def init_integration(
     data: dict[str, Any] | None = None,
     unique_id: str = MOCK_MAC,
 ) -> MockConfigEntry:
-    """Set up the Shelly integration in __HA_KEEP__."""
+    """Set up the Shelly integration in Universal Home Assistant."""
     if data is None:
         data = {
             CONF_HOST: "192.168.1.37",
@@ -79,7 +79,7 @@ async def init_integration(
 
 
 async def mock_block_device_push_update_failure(
-    hass: __HAC_KEEP__, mock_block_device: Mock
+    hass: UniversalAssistant, mock_block_device: Mock
 ) -> None:
     """Create COAP_REPLY updates indicating push update failure."""
     for _ in range(MAX_PUSH_UPDATE_FAILURES):
@@ -112,7 +112,7 @@ def inject_rpc_device_event(
 
 
 async def mock_rest_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     seconds=REST_SENSORS_UPDATE_INTERVAL,
 ) -> None:
@@ -123,7 +123,7 @@ async def mock_rest_update(
 
 
 async def mock_polling_rpc_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     seconds: float = RPC_SENSORS_POLLING_INTERVAL,
 ) -> None:
@@ -134,7 +134,7 @@ async def mock_polling_rpc_update(
 
 
 def register_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain: str,
     object_id: str,
     unique_id: str,
@@ -158,7 +158,7 @@ def register_entity(
 
 
 def get_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain: str,
     unique_id: str,
 ) -> str | None:
@@ -202,7 +202,7 @@ def register_legacy_sub_device(
 
 
 async def snapshot_device_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     config_entry_id: str,
@@ -232,7 +232,7 @@ async def snapshot_device_entities(
 
 
 async def force_uptime_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Force time to a specific point."""

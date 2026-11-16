@@ -32,7 +32,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .test_common import (
     assert_request_calls_service,
@@ -54,7 +54,7 @@ from .test_common import (
     ],
 )
 async def test_discovery_remote(
-    hass: __HAC_KEEP__, current_activity: str, activity_list: list[str]
+    hass: UniversalAssistant, current_activity: str, activity_list: list[str]
 ) -> None:
     """Test discory for a remote entity."""
     request = get_new_request("Alexa.Discovery", "Discover")
@@ -80,7 +80,7 @@ async def test_discovery_remote(
 
 
 @pytest.mark.parametrize("adjust", ["-5", "5", "-80"])
-async def test_api_adjust_brightness(hass: __HAC_KEEP__, adjust: str) -> None:
+async def test_api_adjust_brightness(hass: UniversalAssistant, adjust: str) -> None:
     """Test api adjust brightness process."""
     request = get_new_request(
         "Alexa.BrightnessController", "AdjustBrightness", "light#test"
@@ -108,7 +108,7 @@ async def test_api_adjust_brightness(hass: __HAC_KEEP__, adjust: str) -> None:
     assert msg["header"]["name"] == "Response"
 
 
-async def test_api_set_color_rgb(hass: __HAC_KEEP__) -> None:
+async def test_api_set_color_rgb(hass: UniversalAssistant) -> None:
     """Test api set color process."""
     request = get_new_request("Alexa.ColorController", "SetColor", "light#test")
 
@@ -138,7 +138,7 @@ async def test_api_set_color_rgb(hass: __HAC_KEEP__) -> None:
     assert msg["header"]["name"] == "Response"
 
 
-async def test_api_set_color_temperature(hass: __HAC_KEEP__) -> None:
+async def test_api_set_color_temperature(hass: UniversalAssistant) -> None:
     """Test api set color temperature process."""
     request = get_new_request(
         "Alexa.ColorTemperatureController", "SetColorTemperature", "light#test"
@@ -166,7 +166,7 @@ async def test_api_set_color_temperature(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize(("result", "initial"), [(2500, "3000"), (2000, "2000")])
 async def test_api_decrease_color_temp(
-    hass: __HAC_KEEP__, result: int, initial: str
+    hass: UniversalAssistant, result: int, initial: str
 ) -> None:
     """Test api decrease color temp process."""
     request = get_new_request(
@@ -200,7 +200,7 @@ async def test_api_decrease_color_temp(
 
 @pytest.mark.parametrize(("result", "initial"), [(3500, "3000"), (7000, "7000")])
 async def test_api_increase_color_temp(
-    hass: __HAC_KEEP__, result: int, initial: str
+    hass: UniversalAssistant, result: int, initial: str
 ) -> None:
     """Test api increase color temp process."""
     request = get_new_request(
@@ -241,7 +241,7 @@ async def test_api_increase_color_temp(
     ],
 )
 async def test_api_select_input(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain: str,
     payload: str,
     source_list: list[Any],
@@ -274,7 +274,7 @@ async def test_api_select_input(
     [(["satellite_tv", "game console"]), ([])],
 )
 async def test_api_select_input_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     source_list: list[Any],
 ) -> None:
     """Test api set input process fails."""
@@ -307,7 +307,7 @@ async def test_api_select_input_fails(
     ],
 )
 async def test_api_select_activity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     activity: str,
     activity_list: list[str],
     target_activity_index: int | None,
@@ -335,7 +335,7 @@ async def test_api_select_activity(
 
 @pytest.mark.parametrize(("activity_list"), [(["TV", "MUSIC", "DVD"]), ([])])
 async def test_api_select_activity_fails(
-    hass: __HAC_KEEP__, activity_list: list[str]
+    hass: UniversalAssistant, activity_list: list[str]
 ) -> None:
     """Test api set activity process fails."""
     hass.states.async_set(
@@ -369,7 +369,7 @@ async def test_api_select_activity_fails(
     ],
 )
 async def test_api_remote_set_power_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     current_state: str,
     target_name: str,
     target_service: str,
@@ -393,7 +393,7 @@ async def test_api_remote_set_power_state(
     )
 
 
-async def test_report_lock_state(hass: __HAC_KEEP__) -> None:
+async def test_report_lock_state(hass: UniversalAssistant) -> None:
     """Test LockController implements lockState property."""
     hass.states.async_set("lock.locked", LockState.LOCKED, {})
     hass.states.async_set("lock.unlocked", LockState.UNLOCKED, {})
@@ -425,7 +425,7 @@ async def test_report_lock_state(hass: __HAC_KEEP__) -> None:
     "supported_color_modes", [["brightness"], ["hs"], ["color_temp"]]
 )
 async def test_report_dimmable_light_state(
-    hass: __HAC_KEEP__, supported_color_modes: list[str]
+    hass: UniversalAssistant, supported_color_modes: list[str]
 ) -> None:
     """Test BrightnessController reports brightness correctly."""
     hass.states.async_set(
@@ -455,7 +455,7 @@ async def test_report_dimmable_light_state(
 
 @pytest.mark.parametrize("supported_color_modes", [["hs"], ["rgb"], ["xy"]])
 async def test_report_colored_light_state(
-    hass: __HAC_KEEP__, supported_color_modes: list[str]
+    hass: UniversalAssistant, supported_color_modes: list[str]
 ) -> None:
     """Test ColorController reports color correctly."""
     hass.states.async_set(
@@ -490,7 +490,7 @@ async def test_report_colored_light_state(
     )
 
 
-async def test_report_colored_temp_light_state(hass: __HAC_KEEP__) -> None:
+async def test_report_colored_temp_light_state(hass: UniversalAssistant) -> None:
     """Test ColorTemperatureController reports color temp correctly."""
     hass.states.async_set(
         "light.test_on",
@@ -518,7 +518,7 @@ async def test_report_colored_temp_light_state(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_report_fan_speed_state(hass: __HAC_KEEP__) -> None:
+async def test_report_fan_speed_state(hass: UniversalAssistant) -> None:
     """Test PercentageController, PowerLevelController reports fan speed correctly."""
     hass.states.async_set(
         "fan.off",
@@ -591,7 +591,7 @@ async def test_report_fan_speed_state(hass: __HAC_KEEP__) -> None:
     properties.assert_equal("Alexa.RangeController", "rangeValue", 0)
 
 
-async def test_report_humidifier_humidity_state(hass: __HAC_KEEP__) -> None:
+async def test_report_humidifier_humidity_state(hass: UniversalAssistant) -> None:
     """Test PercentageController, PowerLevelController humidifier humidity reporting."""
     hass.states.async_set(
         "humidifier.dry",
@@ -622,7 +622,7 @@ async def test_report_humidifier_humidity_state(hass: __HAC_KEEP__) -> None:
     properties.assert_equal("Alexa.RangeController", "rangeValue", 80)
 
 
-async def test_report_humidifier_mode(hass: __HAC_KEEP__) -> None:
+async def test_report_humidifier_mode(hass: UniversalAssistant) -> None:
     """Test ModeController reports humidifier mode correctly."""
     hass.states.async_set(
         "humidifier.auto",
@@ -657,7 +657,7 @@ async def test_report_humidifier_mode(hass: __HAC_KEEP__) -> None:
     properties.assert_equal("Alexa.ModeController", "mode", "mode.Medium")
 
 
-async def test_report_fan_preset_mode(hass: __HAC_KEEP__) -> None:
+async def test_report_fan_preset_mode(hass: UniversalAssistant) -> None:
     """Test ModeController reports fan preset_mode correctly."""
     hass.states.async_set(
         "fan.preset_mode",
@@ -711,7 +711,7 @@ async def test_report_fan_preset_mode(hass: __HAC_KEEP__) -> None:
     properties = await reported_properties(hass, "fan.preset_mode")
 
 
-async def test_report_fan_oscillating(hass: __HAC_KEEP__) -> None:
+async def test_report_fan_oscillating(hass: UniversalAssistant) -> None:
     """Test ToggleController reports fan oscillating correctly."""
     hass.states.async_set(
         "fan.oscillating_off",
@@ -735,7 +735,7 @@ async def test_report_fan_oscillating(hass: __HAC_KEEP__) -> None:
     properties.assert_equal("Alexa.ToggleController", "toggleState", "ON")
 
 
-async def test_report_fan_direction(hass: __HAC_KEEP__) -> None:
+async def test_report_fan_direction(hass: UniversalAssistant) -> None:
     """Test ModeController reports fan direction correctly."""
     hass.states.async_set(
         "fan.off", "off", {"friendly_name": "Off fan", "supported_features": 4}
@@ -769,7 +769,7 @@ async def test_report_fan_direction(hass: __HAC_KEEP__) -> None:
     properties.assert_equal("Alexa.ModeController", "mode", "direction.forward")
 
 
-async def test_report_remote_power(hass: __HAC_KEEP__) -> None:
+async def test_report_remote_power(hass: UniversalAssistant) -> None:
     """Test ModeController reports remote power state correctly."""
     hass.states.async_set(
         "remote.off",
@@ -789,7 +789,7 @@ async def test_report_remote_power(hass: __HAC_KEEP__) -> None:
     properties.assert_equal("Alexa.PowerController", "powerState", "ON")
 
 
-async def test_report_remote_activity(hass: __HAC_KEEP__) -> None:
+async def test_report_remote_activity(hass: UniversalAssistant) -> None:
     """Test ModeController reports remote activity correctly."""
     hass.states.async_set(
         "remote.unknown",
@@ -840,7 +840,7 @@ async def test_report_remote_activity(hass: __HAC_KEEP__) -> None:
     properties.assert_equal("Alexa.ModeController", "mode", "activity.DVD")
 
 
-async def test_report_cover_range_value(hass: __HAC_KEEP__) -> None:
+async def test_report_cover_range_value(hass: UniversalAssistant) -> None:
     """Test RangeController reports cover position correctly."""
     hass.states.async_set(
         "cover.fully_open",
@@ -880,7 +880,7 @@ async def test_report_cover_range_value(hass: __HAC_KEEP__) -> None:
     properties.assert_equal("Alexa.RangeController", "rangeValue", 0)
 
 
-async def test_report_valve_range_value(hass: __HAC_KEEP__) -> None:
+async def test_report_valve_range_value(hass: UniversalAssistant) -> None:
     """Test RangeController reports valve position correctly."""
     all_valve_features = (
         ValveEntityFeature.OPEN
@@ -984,7 +984,7 @@ async def test_report_valve_range_value(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_report_valve_controllers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supported_features: ValveEntityFeature,
     has_mode_controller: bool,
     has_range_controller: bool,
@@ -1017,7 +1017,7 @@ async def test_report_valve_controllers(
         properties.assert_not_has_property("Alexa.ToggleController", "toggleState")
 
 
-async def test_report_climate_state(hass: __HAC_KEEP__) -> None:
+async def test_report_climate_state(hass: UniversalAssistant) -> None:
     """Test ThermostatController reports state correctly."""
     for auto_modes in (HVACMode.AUTO, HVACMode.HEAT_COOL):
         hass.states.async_set(
@@ -1149,7 +1149,7 @@ async def test_report_climate_state(hass: __HAC_KEEP__) -> None:
     assert msg["event"]["payload"]["type"] == "INTERNAL_ERROR"
 
 
-async def test_report_on_off_climate_state(hass: __HAC_KEEP__) -> None:
+async def test_report_on_off_climate_state(hass: UniversalAssistant) -> None:
     """Test ThermostatController with on/off features reports state correctly."""
     on_off_features = (
         ClimateEntityFeature.TARGET_TEMPERATURE
@@ -1195,7 +1195,7 @@ async def test_report_on_off_climate_state(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_report_water_heater_state(hass: __HAC_KEEP__) -> None:
+async def test_report_water_heater_state(hass: UniversalAssistant) -> None:
     """Test ThermostatController also reports state correctly for water heaters."""
     for operation_mode in (STATE_ECO, STATE_GAS, STATE_HEAT_PUMP):
         hass.states.async_set(
@@ -1258,7 +1258,7 @@ async def test_report_water_heater_state(hass: __HAC_KEEP__) -> None:
         properties.assert_not_has_property("Alexa.ModeController", "mode")
 
 
-async def test_report_singe_mode_water_heater(hass: __HAC_KEEP__) -> None:
+async def test_report_singe_mode_water_heater(hass: UniversalAssistant) -> None:
     """Test ThermostatController also reports state correctly for water heaters."""
     operation_mode = STATE_ECO
     hass.states.async_set(
@@ -1285,7 +1285,7 @@ async def test_report_singe_mode_water_heater(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_temperature_sensor_sensor(hass: __HAC_KEEP__) -> None:
+async def test_temperature_sensor_sensor(hass: UniversalAssistant) -> None:
     """Test TemperatureSensor reports sensor temperature correctly."""
     for bad_value in (STATE_UNKNOWN, STATE_UNAVAILABLE, "not-number"):
         hass.states.async_set(
@@ -1308,7 +1308,7 @@ async def test_temperature_sensor_sensor(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_temperature_sensor_climate(hass: __HAC_KEEP__) -> None:
+async def test_temperature_sensor_climate(hass: UniversalAssistant) -> None:
     """Test TemperatureSensor reports climate temperature correctly."""
     for bad_value in (STATE_UNKNOWN, STATE_UNAVAILABLE, "not-number"):
         hass.states.async_set(
@@ -1337,7 +1337,7 @@ async def test_temperature_sensor_climate(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_temperature_sensor_water_heater(hass: __HAC_KEEP__) -> None:
+async def test_temperature_sensor_water_heater(hass: UniversalAssistant) -> None:
     """Test TemperatureSensor reports climate temperature correctly."""
     for bad_value in (STATE_UNKNOWN, STATE_UNAVAILABLE, "not-number"):
         hass.states.async_set(
@@ -1368,7 +1368,7 @@ async def test_temperature_sensor_water_heater(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_report_alarm_control_panel_state(hass: __HAC_KEEP__) -> None:
+async def test_report_alarm_control_panel_state(hass: UniversalAssistant) -> None:
     """Test SecurityPanelController implements armState property."""
     hass.states.async_set(
         "alarm_control_panel.armed_away", AlarmControlPanelState.ARMED_AWAY, {}
@@ -1406,7 +1406,7 @@ async def test_report_alarm_control_panel_state(hass: __HAC_KEEP__) -> None:
     properties.assert_equal("Alexa.SecurityPanelController", "armState", "DISARMED")
 
 
-async def test_report_playback_state(hass: __HAC_KEEP__) -> None:
+async def test_report_playback_state(hass: UniversalAssistant) -> None:
     """Test PlaybackStateReporter implements playbackState property."""
     hass.states.async_set(
         "media_player.test",
@@ -1428,7 +1428,7 @@ async def test_report_playback_state(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_report_speaker_volume(hass: __HAC_KEEP__) -> None:
+async def test_report_speaker_volume(hass: UniversalAssistant) -> None:
     """Test Speaker reports volume correctly."""
     hass.states.async_set(
         "media_player.test_speaker",
@@ -1460,7 +1460,7 @@ async def test_report_speaker_volume(hass: __HAC_KEEP__) -> None:
         properties.assert_equal("Alexa.Speaker", "volume", good_value)
 
 
-async def test_report_image_processing(hass: __HAC_KEEP__) -> None:
+async def test_report_image_processing(hass: UniversalAssistant) -> None:
     """Test EventDetectionSensor implements humanPresenceDetectionState property."""
     hass.states.async_set(
         "image_processing.test_face",
@@ -1503,7 +1503,7 @@ async def test_report_image_processing(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.parametrize("domain", ["button", "input_button"])
-async def test_report_button_pressed(hass: __HAC_KEEP__, domain: str) -> None:
+async def test_report_button_pressed(hass: UniversalAssistant, domain: str) -> None:
     """Test button presses report human presence detection events.
 
     For use to trigger routines.
@@ -1522,7 +1522,7 @@ async def test_report_button_pressed(hass: __HAC_KEEP__, domain: str) -> None:
 
 @pytest.mark.parametrize("domain", ["switch", "input_boolean"])
 async def test_toggle_entities_report_contact_events(
-    hass: __HAC_KEEP__, domain: str
+    hass: UniversalAssistant, domain: str
 ) -> None:
     """Test toggles and switches report contact sensor events to trigger routines."""
     hass.states.async_set(
@@ -1559,7 +1559,7 @@ async def test_toggle_entities_report_contact_events(
 
 
 async def test_get_property_blowup(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we handle a property blowing up."""
     hass.states.async_set(

@@ -9,12 +9,12 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from reolink_aio.api import Chime
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "reolink_host")
 async def test_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     reolink_host: MagicMock,
     reolink_chime: Chime,

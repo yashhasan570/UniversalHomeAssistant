@@ -9,11 +9,11 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.nina.const import CONF_REGIONS
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_nina_class: AsyncMock,
     nina_warnings: list[Warning],
@@ -31,7 +31,7 @@ async def setup_platform(
 
 
 async def setup_single_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     platform: Platform | None,
     mock_nina_class: AsyncMock,

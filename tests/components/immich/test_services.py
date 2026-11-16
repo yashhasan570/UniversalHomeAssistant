@@ -12,15 +12,15 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.immich.const import DOMAIN
 from universalassistant.components.immich.services import ImmichService
 from universalassistant.components.media_source import PlayMedia
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_setup_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_immich: Mock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -33,7 +33,7 @@ async def test_setup_services(
 
 
 async def test_upload_file(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_immich: Mock,
     mock_config_entry: MockConfigEntry,
     mock_media_source: Mock,
@@ -59,7 +59,7 @@ async def test_upload_file(
 
 
 async def test_upload_file_to_album(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_immich: Mock,
     mock_config_entry: MockConfigEntry,
     mock_media_source: Mock,
@@ -91,7 +91,7 @@ async def test_upload_file_to_album(
 
 
 async def test_upload_file_config_entry_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_immich: Mock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -115,7 +115,7 @@ async def test_upload_file_config_entry_not_found(
 
 
 async def test_upload_file_config_entry_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_immich: Mock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -140,7 +140,7 @@ async def test_upload_file_config_entry_not_loaded(
 
 
 async def test_upload_file_only_local_media_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_immich: Mock,
     mock_config_entry: MockConfigEntry,
     mock_media_source: Mock,
@@ -176,7 +176,7 @@ async def test_upload_file_only_local_media_supported(
 
 
 async def test_upload_file_album_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_immich: Mock,
     mock_config_entry: MockConfigEntry,
     mock_media_source: Mock,
@@ -213,7 +213,7 @@ async def test_upload_file_album_not_found(
 
 
 async def test_upload_file_upload_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_immich: Mock,
     mock_config_entry: MockConfigEntry,
     mock_media_source: Mock,
@@ -260,7 +260,7 @@ async def test_upload_file_upload_failed(
     ],
 )
 async def test_upload_file_read_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     error_no: int,
     translation_key: str,
     mock_immich: Mock,
@@ -273,7 +273,7 @@ async def test_upload_file_read_error(
     mock_immich.assets.async_upload_asset.side_effect = OSError(
         error_no, os.strerror(error_no), "/media/screenshot.jpg"
     )
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             ImmichService.UPLOAD_FILE,
@@ -293,7 +293,7 @@ async def test_upload_file_read_error(
 
 
 async def test_upload_file_to_album_upload_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_immich: Mock,
     mock_config_entry: MockConfigEntry,
     mock_media_source: Mock,

@@ -15,7 +15,7 @@ from google.genai.types import Part
 from universalassistant.components import stt
 from universalassistant.config_entries import ConfigSubentry
 from universalassistant.const import CONF_PROMPT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import GoogleGenerativeAIConfigEntry
@@ -36,7 +36,7 @@ def _model_requires_interactions_api(model: str) -> bool:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: GoogleGenerativeAIConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

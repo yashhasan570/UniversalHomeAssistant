@@ -11,7 +11,7 @@ from syrupy.filters import props
 from universalassistant import setup
 from universalassistant.components import google_assistant as ga, switch
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .test_http import DUMMY_CONFIG
@@ -28,7 +28,7 @@ async def switch_only() -> None:
 
 
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:

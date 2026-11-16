@@ -16,7 +16,7 @@ from pysnmp.hlapi.v3arch.asyncio.cmdgen import LCD
 from pysnmp.smi import view
 
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers.singleton import singleton
 
 DATA_SNMP_ENGINE = "snmp_engine"
@@ -41,7 +41,7 @@ type RequestArgsType = tuple[
 
 
 async def async_create_command_cmd_args(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     auth_data: UsmUserData | CommunityData,
     target: UdpTransportTarget | Udp6TransportTarget,
 ) -> CommandArgsType:
@@ -54,7 +54,7 @@ async def async_create_command_cmd_args(
 
 
 async def async_create_request_cmd_args(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     auth_data: UsmUserData | CommunityData,
     target: UdpTransportTarget | Udp6TransportTarget,
     object_id: str,
@@ -71,7 +71,7 @@ async def async_create_request_cmd_args(
 
 
 @singleton(DATA_SNMP_ENGINE)
-async def async_get_snmp_engine(hass: __HAC_KEEP__) -> SnmpEngine:
+async def async_get_snmp_engine(hass: UniversalAssistant) -> SnmpEngine:
     """Get the SNMP engine."""
     engine = await hass.async_add_executor_job(_get_snmp_engine)
 

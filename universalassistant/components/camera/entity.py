@@ -17,8 +17,8 @@ from universalassistant.components.labs import async_is_preview_feature_enabled
 from universalassistant.components.stream import Stream, create_stream
 from universalassistant.components.web_rtc import async_get_ice_servers
 from universalassistant.const import CONTENT_TYPE_MULTIPART, EntityStateAttribute
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity import Entity, EntityDescription
 
 from .const import (
@@ -292,7 +292,7 @@ class Camera(Entity, cached_properties=CACHED_PROPERTIES_WITH_ATTR_):
             )
             return
 
-        raise __HAC_KEEP__Error("Camera does not support WebRTC")
+        raise UniversalAssistantError("Camera does not support WebRTC")
 
     def camera_image(
         self, width: int | None = None, height: int | None = None
@@ -466,7 +466,7 @@ class Camera(Entity, cached_properties=CACHED_PROPERTIES_WITH_ATTR_):
             self.async_write_ha_state()
 
     async def _async_get_supported_webrtc_provider[_T](
-        self, fn: Callable[[__HAC_KEEP__, Camera], Coroutine[None, None, _T | None]]
+        self, fn: Callable[[UniversalAssistant, Camera], Coroutine[None, None, _T | None]]
     ) -> _T | None:
         """Get first provider that supports this camera."""
         if CameraEntityFeature.STREAM not in self.supported_features:
@@ -500,7 +500,7 @@ class Camera(Entity, cached_properties=CACHED_PROPERTIES_WITH_ATTR_):
         if self._webrtc_provider:
             await self._webrtc_provider.async_on_webrtc_candidate(session_id, candidate)
         else:
-            raise __HAC_KEEP__Error("Cannot handle WebRTC candidate")
+            raise UniversalAssistantError("Cannot handle WebRTC candidate")
 
     @callback
     def close_webrtc_session(self, session_id: str) -> None:

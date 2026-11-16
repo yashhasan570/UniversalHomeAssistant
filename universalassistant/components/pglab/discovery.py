@@ -16,7 +16,7 @@ from universalassistant.components.mqtt import (
     async_unsubscribe_topics,
 )
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC
 from universalassistant.helpers.dispatcher import (
@@ -70,7 +70,7 @@ class DiscoverDeviceInfo:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: PGLabConfigEntry,
         pglab_device: PyPGLabDevice,
     ) -> None:
@@ -103,7 +103,7 @@ class DiscoverDeviceInfo:
 
 
 async def create_discover_device_info(
-    hass: __HAC_KEEP__, config_entry: PGLabConfigEntry, pglab_device: PyPGLabDevice
+    hass: UniversalAssistant, config_entry: PGLabConfigEntry, pglab_device: PyPGLabDevice
 ) -> DiscoverDeviceInfo:
     """Create a new DiscoverDeviceInfo instance."""
     discovery_info = DiscoverDeviceInfo(hass, config_entry, pglab_device)
@@ -163,7 +163,7 @@ class PGLabDiscovery:
         return pglab_device
 
     def __clean_discovered_device(
-        self, hass: __HAC_KEEP__, device_id: str, config_entry: PGLabConfigEntry
+        self, hass: UniversalAssistant, device_id: str, config_entry: PGLabConfigEntry
     ) -> None:
         """Destroy the device and any entities connected to the device."""
 
@@ -192,7 +192,7 @@ class PGLabDiscovery:
 
     async def start(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         mqtt: PyPGLabMqttClient,
         config_entry: PGLabConfigEntry,
     ) -> None:
@@ -299,7 +299,7 @@ class PGLabDiscovery:
         await async_subscribe_topics(hass, self._substate)
 
     async def register_platform(
-        self, hass: __HAC_KEEP__, platform: Platform, target: Callable[..., Any]
+        self, hass: UniversalAssistant, platform: Platform, target: Callable[..., Any]
     ):
         """Register a callback to create entity of a specific HA platform."""
         disconnect_callback = async_dispatcher_connect(
@@ -307,7 +307,7 @@ class PGLabDiscovery:
         )
         self._disconnect_platform.append(disconnect_callback)
 
-    async def stop(self, hass: __HAC_KEEP__, config_entry: PGLabConfigEntry) -> None:
+    async def stop(self, hass: UniversalAssistant, config_entry: PGLabConfigEntry) -> None:
         """Stop to discovery PG LAB devices."""
         await hass.config_entries.async_unload_platforms(config_entry, PLATFORMS)
 

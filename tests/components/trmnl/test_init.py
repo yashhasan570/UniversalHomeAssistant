@@ -10,7 +10,7 @@ from trmnl.exceptions import TRMNLAuthenticationError
 
 from universalassistant.components.trmnl.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC
 
@@ -18,7 +18,7 @@ from . import setup_integration
 
 
 async def test_load_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_trmnl_client: AsyncMock,
 ) -> None:
@@ -34,7 +34,7 @@ async def test_load_unload_entry(
 
 
 async def test_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_trmnl_client: AsyncMock,
@@ -51,7 +51,7 @@ async def test_device(
 
 
 async def test_stale_device_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_trmnl_client: AsyncMock,
@@ -75,7 +75,7 @@ async def test_stale_device_removed(
 
 
 async def test_reauth_triggered_on_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_trmnl_client: AsyncMock,
 ) -> None:

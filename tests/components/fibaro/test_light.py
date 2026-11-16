@@ -15,14 +15,14 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import init_integration
 
 
 async def test_light_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
@@ -46,7 +46,7 @@ async def test_light_setup(
 
 
 async def test_light_brightness(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_light: Mock,
@@ -68,7 +68,7 @@ async def test_light_brightness(
 
 
 async def test_fgd212_light_brightness_without_setvalue_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_fgd212_light: Mock,
@@ -88,7 +88,7 @@ async def test_fgd212_light_brightness_without_setvalue_action(
 
 
 async def test_dimming_via_multilevel_base_type_without_level_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_multilevel_base_type_light: Mock,
@@ -108,7 +108,7 @@ async def test_dimming_via_multilevel_base_type_without_level_change(
 
 
 async def test_zigbee_light_brightness(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_zigbee_light: Mock,
@@ -130,7 +130,7 @@ async def test_zigbee_light_brightness(
 
 
 async def test_light_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_light: Mock,
@@ -155,7 +155,7 @@ async def test_light_turn_off(
 
 
 async def test_light_set_brightness(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_light: Mock,

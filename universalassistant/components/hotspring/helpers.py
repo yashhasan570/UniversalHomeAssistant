@@ -10,7 +10,7 @@ from hotspring import (
     HotSpringNotReadyError,
 )
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import DOMAIN
 from .entity import HotSpringEntity
@@ -22,7 +22,7 @@ def hotspring_exception_handler[_HotSpringEntityT: HotSpringEntity, **_P](
     """Decorate Hot Spring calls to handle Hot Spring exceptions.
 
     A decorator that wraps the passed in function, catches Hot Spring errors,
-    and raises a translated __HAC_KEEP__Error.
+    and raises a translated UniversalAssistantError.
     """
 
     async def handler(
@@ -31,22 +31,22 @@ def hotspring_exception_handler[_HotSpringEntityT: HotSpringEntity, **_P](
         try:
             await func(self, *args, **kwargs)
         except HotSpringConnectionTimeoutError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="timeout",
             ) from error
         except HotSpringConnectionError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="cannot_connect",
             ) from error
         except HotSpringNotReadyError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="spa_not_connected",
             ) from error
         except HotSpringError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="invalid_response",
             ) from error

@@ -8,14 +8,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_platform
 
 
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_slide_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -31,7 +31,7 @@ async def test_device_info(
 
 
 async def test_raise_config_entry_not_ready_when_offline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_slide_api: AsyncMock,
 ) -> None:
@@ -48,7 +48,7 @@ async def test_raise_config_entry_not_ready_when_offline(
 
 
 async def test_raise_config_entry_not_ready_when_empty_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_slide_api: AsyncMock,
 ) -> None:

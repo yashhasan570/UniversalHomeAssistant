@@ -8,7 +8,7 @@ from aiohttp import hdrs
 from multidict import CIMultiDict, CIMultiDictProxy
 import xmltodict
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import template
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.json import json_dumps
@@ -26,7 +26,7 @@ class RestData:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         method: str,
         resource: str,
         encoding: str,
@@ -121,7 +121,7 @@ class RestData:
                     # strings. This maintains compatibility
                     # after switching from httpx to aiohttp.
                     # See
-                    # https://github.com/yashhasan570/__HAC_KEEP__/issues/148153
+                    # https://github.com/yashhasan570/UniversalUniversalAssistant/issues/148153
                     _LOGGER.debug(
                         "REST query parameter '%s' has type %s, converting to string",
                         key,

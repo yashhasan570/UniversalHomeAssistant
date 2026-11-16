@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -50,7 +50,7 @@ DHCP_DISCOVERY_DUPLICATE_001 = DhcpServiceInfo(
 
 
 async def test_form(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_sma_client: MagicMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_sma_client: MagicMock
 ) -> None:
     """Test we get the form."""
 
@@ -85,7 +85,7 @@ async def test_form(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_sma_client: MagicMock,
     exception: Exception,
     error: str,
@@ -114,7 +114,7 @@ async def test_form_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_device_info_error_closes_session(
-    hass: __HAC_KEEP__, mock_sma_client: MagicMock
+    hass: UniversalAssistant, mock_sma_client: MagicMock
 ) -> None:
     """Test the session is closed when reading the device info fails."""
     result = await hass.config_entries.flow.async_init(
@@ -143,7 +143,7 @@ async def test_form_device_info_error_closes_session(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_already_configured(
-    hass: __HAC_KEEP__, mock_sma_client: AsyncMock
+    hass: UniversalAssistant, mock_sma_client: AsyncMock
 ) -> None:
     """Test starting a flow by user when already configured."""
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_USER_INPUT, unique_id="123456789")
@@ -166,7 +166,7 @@ async def test_form_already_configured(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_dhcp_discovery(hass: __HAC_KEEP__, mock_sma_client: AsyncMock) -> None:
+async def test_dhcp_discovery(hass: UniversalAssistant, mock_sma_client: AsyncMock) -> None:
     """Test we can setup from dhcp discovery."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -190,7 +190,7 @@ async def test_dhcp_discovery(hass: __HAC_KEEP__, mock_sma_client: AsyncMock) ->
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test starting a flow by dhcp when already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -204,7 +204,7 @@ async def test_dhcp_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_updates_host(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test DHCP discovery updates the host of a device that changed IP address."""
     mock_config_entry.add_to_hass(hass)
@@ -223,7 +223,7 @@ async def test_dhcp_updates_host(
 
 
 async def test_dhcp_already_configured_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_sma_client: MagicMock,
 ) -> None:
@@ -257,7 +257,7 @@ async def test_dhcp_already_configured_duplicate(
     ],
 )
 async def test_dhcp_other_device_on_same_host(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     hostname: str,
     result_type: FlowResultType,
@@ -289,7 +289,7 @@ async def test_dhcp_other_device_on_same_host(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_hostname_serial(
-    hass: __HAC_KEEP__, hostname: str, unique_id: str
+    hass: UniversalAssistant, hostname: str, unique_id: str
 ) -> None:
     """Test the serial number is read from the DHCP hostname."""
     result = await hass.config_entries.flow.async_init(
@@ -315,7 +315,7 @@ async def test_dhcp_hostname_serial(
         pytest.param("sma12abc", id="partial_serial"),
     ],
 )
-async def test_dhcp_not_supported(hass: __HAC_KEEP__, hostname: str) -> None:
+async def test_dhcp_not_supported(hass: UniversalAssistant, hostname: str) -> None:
     """Test DHCP discovery aborts for hostnames without a serial number."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -340,7 +340,7 @@ async def test_dhcp_not_supported(hass: __HAC_KEEP__, hostname: str) -> None:
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_exceptions(
-    hass: __HAC_KEEP__, mock_sma_client: AsyncMock, exception: Exception, error: str
+    hass: UniversalAssistant, mock_sma_client: AsyncMock, exception: Exception, error: str
 ) -> None:
     """Test we handle cannot connect error in DHCP flow."""
     result = await hass.config_entries.flow.async_init(
@@ -379,7 +379,7 @@ async def test_dhcp_exceptions(
 
 
 async def test_full_flow_reauth(
-    hass: __HAC_KEEP__, mock_setup_entry: MockConfigEntry, mock_sma_client: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: MockConfigEntry, mock_sma_client: AsyncMock
 ) -> None:
     """Test the full flow of the config flow."""
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_USER_INPUT, unique_id="123456789")
@@ -419,7 +419,7 @@ async def test_full_flow_reauth(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
     error: str,
@@ -457,7 +457,7 @@ async def test_reauth_flow_exceptions(
 
 
 async def test_full_flow_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: MockConfigEntry,
     mock_sma_client: AsyncMock,
 ) -> None:
@@ -494,7 +494,7 @@ async def test_full_flow_reconfigure(
     ],
 )
 async def test_full_flow_reconfigure_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: MockConfigEntry,
     mock_sma_client: AsyncMock,
     exception: Exception,
@@ -534,7 +534,7 @@ async def test_full_flow_reconfigure_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_mismatch_id(
-    hass: __HAC_KEEP__, mock_sma_client: AsyncMock
+    hass: UniversalAssistant, mock_sma_client: AsyncMock
 ) -> None:
     """Test when a mismatch happens during reconfigure."""
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_USER_INPUT, unique_id="123456789")

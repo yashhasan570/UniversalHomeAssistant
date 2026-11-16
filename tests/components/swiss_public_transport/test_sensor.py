@@ -22,7 +22,7 @@ from universalassistant.components.swiss_public_transport.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -31,7 +31,7 @@ from tests.test_config_entries import FrozenDateTimeFactory
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_opendata_client: AsyncMock,
     swiss_public_transport_config_entry: MockConfigEntry,
@@ -53,7 +53,7 @@ async def test_all_entities(
     [OpendataTransportConnectionError, OpendataTransportError],
 )
 async def test_fetching_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_opendata_client: AsyncMock,
     swiss_public_transport_config_entry: MockConfigEntry,
@@ -132,7 +132,7 @@ async def test_fetching_data(
     ],
 )
 async def test_fetching_data_setup_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_opendata_client: AsyncMock,
     swiss_public_transport_config_entry: MockConfigEntry,
     raise_error: Exception,

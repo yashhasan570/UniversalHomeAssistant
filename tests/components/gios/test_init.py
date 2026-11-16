@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.gios.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -15,7 +15,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("init_integration")
 async def test_async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test a successful setup entry."""
@@ -23,7 +23,7 @@ async def test_async_setup_entry(
 
 
 async def test_config_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_gios: MagicMock,
 ) -> None:
@@ -37,7 +37,7 @@ async def test_config_not_ready(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test successful unload of entry."""
@@ -52,7 +52,7 @@ async def test_unload_entry(
 
 
 async def test_migrate_device_and_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     mock_gios: MagicMock,
@@ -74,7 +74,7 @@ async def test_migrate_device_and_config_entry(
 
 
 async def test_migrate_unique_id_to_str(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_gios: MagicMock,
 ) -> None:

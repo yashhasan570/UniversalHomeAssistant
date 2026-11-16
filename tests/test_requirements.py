@@ -9,7 +9,7 @@ import pytest
 from pytest_universalassistant.common import MockModule, mock_integration
 
 from universalassistant import loader, setup
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.loader import async_get_integration
 from universalassistant.requirements import (
     CONSTRAINT_FILE,
@@ -29,7 +29,7 @@ def env_without_wheel_links():
     return env
 
 
-async def test_requirement_installed_in_venv(hass: __HAC_KEEP__) -> None:
+async def test_requirement_installed_in_venv(hass: UniversalAssistant) -> None:
     """Test requirement installed in virtual environment."""
     with (
         patch("os.path.dirname", return_value="ha_package_path"),
@@ -51,7 +51,7 @@ async def test_requirement_installed_in_venv(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_install_existing_package(hass: __HAC_KEEP__) -> None:
+async def test_install_existing_package(hass: UniversalAssistant) -> None:
     """Test an install attempt on an existing package."""
     with patch(
         "universalassistant.util.package.install_package", return_value=True
@@ -69,7 +69,7 @@ async def test_install_existing_package(hass: __HAC_KEEP__) -> None:
     assert len(mock_inst.mock_calls) == 0
 
 
-async def test_install_missing_package(hass: __HAC_KEEP__) -> None:
+async def test_install_missing_package(hass: UniversalAssistant) -> None:
     """Test an install attempt on an existing package."""
     with (
         patch(
@@ -83,7 +83,7 @@ async def test_install_missing_package(hass: __HAC_KEEP__) -> None:
 
 
 async def test_install_skipped_package(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test an install attempt on a dependency that should be skipped."""
     with patch(
@@ -101,7 +101,7 @@ async def test_install_skipped_package(
     assert mock_inst.mock_calls[0].args[0] == "not_skipped==1.2.3"
 
 
-async def test_get_integration_with_requirements(hass: __HAC_KEEP__) -> None:
+async def test_get_integration_with_requirements(hass: UniversalAssistant) -> None:
     """Check getting an integration with loaded requirements."""
     hass.config.skip_pip = False
     mock_integration(
@@ -152,7 +152,7 @@ async def test_get_integration_with_requirements(hass: __HAC_KEEP__) -> None:
     ]
 
 
-async def test_get_integration_with_requirements_cache(hass: __HAC_KEEP__) -> None:
+async def test_get_integration_with_requirements_cache(hass: UniversalAssistant) -> None:
     """Check getting an integration with loaded requirements considers cache.
 
     We want to make sure that we do not check requirements for dependencies
@@ -261,7 +261,7 @@ async def test_get_integration_with_requirements_cache(hass: __HAC_KEEP__) -> No
 
 
 async def test_get_integration_with_requirements_concurrency(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that we don't install the same requirement concurrently."""
     hass.config.skip_pip = False
@@ -291,7 +291,7 @@ async def test_get_integration_with_requirements_concurrency(
 
 
 async def test_get_integration_with_requirements_concurrent_cancelled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Verify cancelling a waiting caller does not break the in-progress load."""
     hass.config.skip_pip = False
@@ -330,7 +330,7 @@ async def test_get_integration_with_requirements_concurrent_cancelled(
 
 
 async def test_get_integration_with_requirements_pip_install_fails_two_passes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Check integration with requirements when pip install fails."""
     hass.config.skip_pip = False
@@ -473,7 +473,7 @@ async def test_get_integration_with_requirements_pip_install_fails_two_passes(
     ]
 
 
-async def test_get_integration_with_missing_dependencies(hass: __HAC_KEEP__) -> None:
+async def test_get_integration_with_missing_dependencies(hass: UniversalAssistant) -> None:
     """Check getting an integration with missing dependencies."""
     hass.config.skip_pip = False
     mock_integration(
@@ -504,7 +504,7 @@ async def test_get_integration_with_missing_dependencies(hass: __HAC_KEEP__) -> 
 
 
 async def test_get_built_in_integration_with_missing_after_dependencies(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Check built-in integration with missing after_dependencies."""
     hass.config.skip_pip = False
@@ -521,7 +521,7 @@ async def test_get_built_in_integration_with_missing_after_dependencies(
 
 
 async def test_get_custom_integration_with_missing_after_dependencies(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Check getting a custom integration with missing after_dependencies."""
     hass.config.skip_pip = False
@@ -540,7 +540,7 @@ async def test_get_custom_integration_with_missing_after_dependencies(
     assert integration.domain == "test_custom_component"
 
 
-async def test_install_with_wheels_index(hass: __HAC_KEEP__) -> None:
+async def test_install_with_wheels_index(hass: UniversalAssistant) -> None:
     """Test an install attempt with wheels index URL."""
     hass.config.skip_pip = False
     mock_integration(hass, MockModule("comp", requirements=["hello==1.0.0"]))
@@ -565,7 +565,7 @@ async def test_install_with_wheels_index(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_install_on_docker(hass: __HAC_KEEP__) -> None:
+async def test_install_on_docker(hass: UniversalAssistant) -> None:
     """Test an install attempt on an docker system env."""
     hass.config.skip_pip = False
     mock_integration(hass, MockModule("comp", requirements=["hello==1.0.0"]))
@@ -588,7 +588,7 @@ async def test_install_on_docker(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_discovery_requirements_mqtt(hass: __HAC_KEEP__) -> None:
+async def test_discovery_requirements_mqtt(hass: UniversalAssistant) -> None:
     """Test that we load discovery requirements."""
     hass.config.skip_pip = False
     mqtt = await loader.async_get_integration(hass, "mqtt")
@@ -606,7 +606,7 @@ async def test_discovery_requirements_mqtt(hass: __HAC_KEEP__) -> None:
     assert mock_process.mock_calls[0][1][1] == mqtt.requirements
 
 
-async def test_discovery_requirements_ssdp(hass: __HAC_KEEP__) -> None:
+async def test_discovery_requirements_ssdp(hass: UniversalAssistant) -> None:
     """Test that we load discovery requirements."""
     hass.config.skip_pip = False
     ssdp = await loader.async_get_integration(hass, "ssdp")
@@ -632,7 +632,7 @@ async def test_discovery_requirements_ssdp(hass: __HAC_KEEP__) -> None:
     [{"zeroconf": ["_googlecast._tcp.local."]}, {"homekit": {"models": ["LIFX"]}}],
 )
 async def test_discovery_requirements_zeroconf(
-    hass: __HAC_KEEP__, partial_manifest
+    hass: UniversalAssistant, partial_manifest
 ) -> None:
     """Test that we load discovery requirements."""
     hass.config.skip_pip = False
@@ -652,7 +652,7 @@ async def test_discovery_requirements_zeroconf(
     assert mock_process.mock_calls[0][1][1] == zeroconf.requirements
 
 
-async def test_discovery_requirements_dhcp(hass: __HAC_KEEP__) -> None:
+async def test_discovery_requirements_dhcp(hass: UniversalAssistant) -> None:
     """Test that we load dhcp discovery requirements."""
     hass.config.skip_pip = False
     dhcp = await loader.async_get_integration(hass, "dhcp")
@@ -682,7 +682,7 @@ async def test_discovery_requirements_dhcp(hass: __HAC_KEEP__) -> None:
             "hello",
             True,
             "Detected that integration",
-            "which is deprecated for testing. This will stop working in __HA_KEEP__"
+            "which is deprecated for testing. This will stop working in Universal Home Assistant"
             " 2020.12, please create a bug report at https://github.com/universal-assistant/"
             "core/issues?q=is%3Aopen+is%3Aissue+label%3A%22integration%3A+test_component%22",
         ),
@@ -690,7 +690,7 @@ async def test_discovery_requirements_dhcp(hass: __HAC_KEEP__) -> None:
             "hello>=1.0.0",
             False,
             "Detected that custom integration",
-            "which is deprecated for testing. This will stop working in __HA_KEEP__"
+            "which is deprecated for testing. This will stop working in Universal Home Assistant"
             " 2020.12, please create a bug report at https://github.com/universal-assistant/"
             "core/issues?q=is%3Aopen+is%3Aissue+label%3A%22integration%3A+test_component%22",
         ),
@@ -699,8 +699,8 @@ async def test_discovery_requirements_dhcp(hass: __HAC_KEEP__) -> None:
             False,
             "Detected that custom integration",
             "which should be replaced by serialx. This will stop"
-            " working in __HA_KEEP__ 2027.2, please create a bug report at "
-            "https://github.com/yashhasan570/__HAC_KEEP__/issues?q=is%3Aopen+is%3Aissue+"
+            " working in Universal Home Assistant 2027.2, please create a bug report at "
+            "https://github.com/yashhasan570/UniversalUniversalAssistant/issues?q=is%3Aopen+is%3Aissue+"
             "label%3A%22integration%3A+test_component%22",
         ),
         (
@@ -708,14 +708,14 @@ async def test_discovery_requirements_dhcp(hass: __HAC_KEEP__) -> None:
             True,
             "Detected that integration",
             "which should be replaced by serialx. This will stop"
-            " working in __HA_KEEP__ 2027.2, please create a bug report at "
-            "https://github.com/yashhasan570/__HAC_KEEP__/issues?q=is%3Aopen+is%3Aissue+"
+            " working in Universal Home Assistant 2027.2, please create a bug report at "
+            "https://github.com/yashhasan570/UniversalUniversalAssistant/issues?q=is%3Aopen+is%3Aissue+"
             "label%3A%22integration%3A+test_component%22",
         ),
     ],
 )
 async def test_install_deprecated_package(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     requirement: str,
     is_built_in: bool,
     deprecation_prefix: str,

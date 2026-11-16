@@ -7,11 +7,11 @@ from pytest_universalassistant.common import MockConfigEntry
 import smarttub
 
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 
-async def test_binary_sensors(spa, setup_entry, hass: __HAC_KEEP__) -> None:
+async def test_binary_sensors(spa, setup_entry, hass: UniversalAssistant) -> None:
     """Test simple binary sensors."""
 
     entity_id = f"binary_sensor.{spa.brand}_{spa.model}_online"
@@ -25,7 +25,7 @@ async def test_binary_sensors(spa, setup_entry, hass: __HAC_KEEP__) -> None:
     assert state.state == STATE_OFF
 
 
-async def test_reminders(spa, setup_entry, hass: __HAC_KEEP__) -> None:
+async def test_reminders(spa, setup_entry, hass: UniversalAssistant) -> None:
     """Test the reminder sensor."""
 
     entity_id = f"binary_sensor.{spa.brand}_{spa.model}_myfilter_reminder"
@@ -53,7 +53,7 @@ def mock_error(spa):
 async def test_error(
     spa: MagicMock,
     spa_state: smarttub.SpaStateFull,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_error: MagicMock,
 ) -> None:
@@ -77,7 +77,7 @@ async def test_error(
 async def test_error_matches_current_code(
     spa: MagicMock,
     spa_state: smarttub.SpaStateFull,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_error: MagicMock,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_error_matches_current_code(
 async def test_error_history_ignored(
     spa: MagicMock,
     spa_state: smarttub.SpaStateFull,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_error: MagicMock,
 ) -> None:
@@ -131,7 +131,7 @@ async def test_error_history_ignored(
 async def test_error_without_history_entry(
     spa: MagicMock,
     spa_state: smarttub.SpaStateFull,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test the sensor is on, with only the code, when no history entry matches."""
@@ -150,7 +150,7 @@ async def test_error_without_history_entry(
     assert "error_title" not in state.attributes
 
 
-async def test_snooze_reminder(spa, setup_entry, hass: __HAC_KEEP__) -> None:
+async def test_snooze_reminder(spa, setup_entry, hass: UniversalAssistant) -> None:
     """Test snoozing a reminder."""
 
     entity_id = f"binary_sensor.{spa.brand}_{spa.model}_myfilter_reminder"
@@ -170,7 +170,7 @@ async def test_snooze_reminder(spa, setup_entry, hass: __HAC_KEEP__) -> None:
     reminder.snooze.assert_called_with(days)
 
 
-async def test_reset_reminder(spa, setup_entry, hass: __HAC_KEEP__) -> None:
+async def test_reset_reminder(spa, setup_entry, hass: UniversalAssistant) -> None:
     """Test snoozing a reminder."""
 
     entity_id = f"binary_sensor.{spa.brand}_{spa.model}_myfilter_reminder"
@@ -190,7 +190,7 @@ async def test_reset_reminder(spa, setup_entry, hass: __HAC_KEEP__) -> None:
     reminder.reset.assert_called_with(days)
 
 
-async def test_cover_sensor(hass: __HAC_KEEP__, spa, setup_entry) -> None:
+async def test_cover_sensor(hass: UniversalAssistant, spa, setup_entry) -> None:
     """Test cover sensor."""
 
     entity_id = f"binary_sensor.{spa.brand}_{spa.model}_cover_sensor"

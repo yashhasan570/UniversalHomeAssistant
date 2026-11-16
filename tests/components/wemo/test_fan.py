@@ -22,7 +22,7 @@ from universalassistant.const import (
     STATE_ON,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import entity_test_helpers
@@ -50,7 +50,7 @@ test_async_update_locked_callback_and_update = (
 
 
 async def test_fan_registry_state_callback(
-    hass: __HAC_KEEP__, pywemo_registry, pywemo_device, wemo_entity
+    hass: UniversalAssistant, pywemo_registry, pywemo_device, wemo_entity
 ) -> None:
     """Verify that the fan receives state updates from the registry."""
     # On state.
@@ -67,7 +67,7 @@ async def test_fan_registry_state_callback(
 
 
 async def test_fan_update_entity(
-    hass: __HAC_KEEP__, pywemo_registry, pywemo_device, wemo_entity
+    hass: UniversalAssistant, pywemo_registry, pywemo_device, wemo_entity
 ) -> None:
     """Verify that the fan performs state updates."""
     await async_setup_component(hass, HA_DOMAIN, {})
@@ -94,7 +94,7 @@ async def test_fan_update_entity(
 
 
 async def test_available_after_update(
-    hass: __HAC_KEEP__, pywemo_registry, pywemo_device, wemo_entity
+    hass: UniversalAssistant, pywemo_registry, pywemo_device, wemo_entity
 ) -> None:
     """Test the availability when an On call fails and after an update."""
     pywemo_device.set_state.side_effect = ActionException
@@ -104,13 +104,13 @@ async def test_available_after_update(
     )
 
 
-async def test_turn_off_state(hass: __HAC_KEEP__, wemo_entity) -> None:
+async def test_turn_off_state(hass: UniversalAssistant, wemo_entity) -> None:
     """Test that the device state is updated after turning off."""
     await entity_test_helpers.test_turn_off_state(hass, wemo_entity, FAN_DOMAIN)
 
 
 async def test_fan_reset_filter_service(
-    hass: __HAC_KEEP__, pywemo_device, wemo_entity
+    hass: UniversalAssistant, pywemo_device, wemo_entity
 ) -> None:
     """Verify that WemoService.RESET_FILTER_LIFE is registered and works."""
     await hass.services.async_call(
@@ -134,7 +134,7 @@ async def test_fan_reset_filter_service(
     ],
 )
 async def test_fan_set_humidity_service(
-    hass: __HAC_KEEP__, pywemo_device, wemo_entity, test_input, expected
+    hass: UniversalAssistant, pywemo_device, wemo_entity, test_input, expected
 ) -> None:
     """Verify that WemoService.SET_HUMIDITY is registered and works."""
     await hass.services.async_call(
@@ -161,7 +161,7 @@ async def test_fan_set_humidity_service(
     ],
 )
 async def test_fan_set_percentage(
-    hass: __HAC_KEEP__, pywemo_device, wemo_entity, percentage, expected_fan_mode
+    hass: UniversalAssistant, pywemo_device, wemo_entity, percentage, expected_fan_mode
 ) -> None:
     """Verify set_percentage works properly through the entire range of FanModes."""
     await hass.services.async_call(
@@ -173,7 +173,7 @@ async def test_fan_set_percentage(
     pywemo_device.set_state.assert_called_with(expected_fan_mode)
 
 
-async def test_fan_mode_high_initially(hass: __HAC_KEEP__, pywemo_device) -> None:
+async def test_fan_mode_high_initially(hass: UniversalAssistant, pywemo_device) -> None:
     """Verify the FanMode is set to High when turned on."""
     pywemo_device.fan_mode = FanMode.Off
     wemo_entity = await async_create_wemo_entity(hass, pywemo_device, "")

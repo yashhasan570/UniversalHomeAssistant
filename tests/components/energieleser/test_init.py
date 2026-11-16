@@ -16,7 +16,7 @@ from universalassistant.components.energieleser.const import CONF_SW_VERSION, DO
 from universalassistant.components.energieleser.coordinator import SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_DEVICE_ID, CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 
 from .conftest import STROMLESER_DEVICE_ID, STROMLESER_SW_VERSION
@@ -24,7 +24,7 @@ from .conftest import STROMLESER_DEVICE_ID, STROMLESER_SW_VERSION
 
 @pytest.mark.usefixtures("mock_energieleser_client")
 async def test_setup_and_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_stromleser_config_entry: MockConfigEntry,
 ) -> None:
     """Test the config entry sets up and unloads cleanly."""
@@ -50,7 +50,7 @@ async def test_setup_and_unload(
     ],
 )
 async def test_setup_retries_on_client_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energieleser_client: AsyncMock,
     mock_stromleser_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -68,7 +68,7 @@ async def test_setup_retries_on_client_error(
 
 @pytest.mark.usefixtures("mock_energieleser_client")
 async def test_device_exposes_discovery_sw_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test the firmware version captured at discovery is set on the device."""
@@ -94,7 +94,7 @@ async def test_device_exposes_discovery_sw_version(
 
 
 async def test_meter_locked_repair_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energieleser_client: AsyncMock,
     mock_stromleser_device: StromleserOneDevice,
     mock_locked_stromleser_device: StromleserOneDevice,
@@ -131,7 +131,7 @@ async def test_meter_locked_repair_issue(
 
 
 async def test_meter_locked_repair_issue_kept_on_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energieleser_client: AsyncMock,
     mock_locked_stromleser_device: StromleserOneDevice,
     mock_stromleser_config_entry: MockConfigEntry,
@@ -156,7 +156,7 @@ async def test_meter_locked_repair_issue_kept_on_reload(
 
 
 async def test_meter_locked_repair_issue_removed_with_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energieleser_client: AsyncMock,
     mock_locked_stromleser_device: StromleserOneDevice,
     mock_stromleser_config_entry: MockConfigEntry,

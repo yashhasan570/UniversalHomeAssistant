@@ -8,7 +8,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from . import (
@@ -19,7 +19,7 @@ from . import (
 
 
 @pytest.mark.usefixtures("mock_aio_discovery")
-async def test_steam_active(hass: __HAC_KEEP__) -> None:
+async def test_steam_active(hass: UniversalAssistant) -> None:
     """Test switches have expected values when steam is active."""
     client, _ = await _async_setup_entry_with_status(hass, MOCK_ASYNC_GET_STATUS_ACTIVE)
     assert len(hass.states.async_all("switch")) == 1
@@ -39,7 +39,7 @@ async def test_steam_active(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_aio_discovery")
-async def test_steam_inactive(hass: __HAC_KEEP__) -> None:
+async def test_steam_inactive(hass: UniversalAssistant) -> None:
     """Test switches have expected values when steam is not active."""
     client, _ = await _async_setup_entry_with_status(
         hass, MOCK_ASYNC_GET_STATUS_INACTIVE

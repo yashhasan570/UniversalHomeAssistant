@@ -5,7 +5,7 @@ from typing import override
 import probatio
 
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv, intent
 
 from . import HumidifierEntityFeature
@@ -20,7 +20,7 @@ INTENT_HUMIDITY = "HassHumidifierSetpoint"
 INTENT_MODE = "HassHumidifierMode"
 
 
-async def async_setup_intents(hass: __HAC_KEEP__) -> None:
+async def async_setup_intents(hass: UniversalAssistant) -> None:
     """Set up the humidifier intents."""
     intent.async_register(hass, HumidityHandler())
     intent.async_register(hass, SetModeHandler())

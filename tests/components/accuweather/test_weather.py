@@ -20,7 +20,7 @@ from universalassistant.components.weather import (
     WeatherService,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -28,7 +28,7 @@ from . import init_integration
 
 
 async def test_weather(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_accuweather_client: AsyncMock,
@@ -40,7 +40,7 @@ async def test_weather(
 
 
 async def test_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_accuweather_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -79,7 +79,7 @@ async def test_availability(
 
 
 async def test_manual_update_entity(
-    hass: __HAC_KEEP__, mock_accuweather_client: AsyncMock
+    hass: UniversalAssistant, mock_accuweather_client: AsyncMock
 ) -> None:
     """Test manual update entity via service universalassistant/update_entity."""
     await init_integration(hass)
@@ -99,7 +99,7 @@ async def test_manual_update_entity(
 
 
 async def test_unsupported_condition_icon_data(
-    hass: __HAC_KEEP__, mock_accuweather_client: AsyncMock
+    hass: UniversalAssistant, mock_accuweather_client: AsyncMock
 ) -> None:
     """Test with unsupported condition icon data."""
     mock_accuweather_client.async_get_current_conditions.return_value["WeatherIcon"] = (
@@ -117,7 +117,7 @@ async def test_unsupported_condition_icon_data(
     ["daily", "hourly"],
 )
 async def test_forecast_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_accuweather_client: AsyncMock,
     forecast_type: str,
@@ -139,7 +139,7 @@ async def test_forecast_service(
 
 
 async def test_forecast_daily_missing_average_humidity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_accuweather_client: AsyncMock,
 ) -> None:
     """Test daily forecast does not crash when average humidity is missing."""
@@ -164,7 +164,7 @@ async def test_forecast_daily_missing_average_humidity(
 
 
 async def test_forecast_subscription(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,

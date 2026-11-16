@@ -9,7 +9,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
@@ -22,7 +22,7 @@ from . import setup_integration
     ],
 )
 async def test_reload_on_server_version_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_immich: Mock,
     mock_config_entry: MockConfigEntry,

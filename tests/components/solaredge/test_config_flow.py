@@ -17,7 +17,7 @@ from universalassistant.components.solaredge.const import (
 )
 from universalassistant.config_entries import SOURCE_IGNORE, SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_NAME, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import API_KEY, PASSWORD, SITE_ID, USERNAME
@@ -37,7 +37,7 @@ def solaredge_web_api_fixture(solaredge_web_api: AsyncMock) -> None:
 
 async def test_user_api_key(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     solaredge_api: Mock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -75,7 +75,7 @@ async def test_user_api_key(
 
 async def test_user_web_login(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     solaredge_web_api: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -113,7 +113,7 @@ async def test_user_web_login(
 
 async def test_user_both_auth(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     solaredge_api: Mock,
     solaredge_web_api: AsyncMock,
     mock_setup_entry: AsyncMock,
@@ -149,7 +149,7 @@ async def test_user_both_auth(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_abort_if_already_setup(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test we abort if the site_id is already setup."""
     MockConfigEntry(
@@ -188,7 +188,7 @@ async def test_abort_if_already_setup(
 
 
 async def test_ignored_entry_does_not_cause_error(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test an ignored entry does not cause an error on new entry."""
     MockConfigEntry(
@@ -223,7 +223,7 @@ async def test_ignored_entry_does_not_cause_error(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_no_auth_provided(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
+async def test_no_auth_provided(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
     """Test error when no authentication method is provided."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -257,7 +257,7 @@ async def test_no_auth_provided(recorder_mock: Recorder, hass: __HAC_KEEP__) -> 
 )
 async def test_api_key_errors(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     solaredge_api: Mock,
     get_details_setup: AsyncMock,
@@ -311,7 +311,7 @@ async def test_api_key_errors(
 )
 async def test_web_login_errors(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     solaredge_web_api: AsyncMock,
     api_exception: Exception,
@@ -355,7 +355,7 @@ async def test_web_login_errors(
 
 async def test_reconfigure_flow_api_key(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     solaredge_api: Mock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -390,7 +390,7 @@ async def test_reconfigure_flow_api_key(
 
 async def test_reconfigure_flow_web_login_and_errors(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     solaredge_web_api: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -478,7 +478,7 @@ async def test_reconfigure_flow_web_login_and_errors(
 )
 async def test_reconfigure_flow_removes_credentials(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     solaredge_api: Mock,
     solaredge_web_api: AsyncMock,
     mock_setup_entry: AsyncMock,

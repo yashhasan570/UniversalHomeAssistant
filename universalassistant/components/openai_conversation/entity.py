@@ -64,8 +64,8 @@ import probatio
 
 from universalassistant.components import conversation
 from universalassistant.config_entries import ConfigSubentry
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, issue_registry as ir, llm
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.json import json_dumps
@@ -484,7 +484,7 @@ async def _transform_stream(  # noqa: C901 - This is complex, but better to have
             elif reason == "content_filter":
                 reason = "content filter triggered"
 
-            raise __HAC_KEEP__Error(f"OpenAI response incomplete: {reason}")
+            raise UniversalAssistantError(f"OpenAI response incomplete: {reason}")
         elif isinstance(event, ResponseFailedEvent):
             if event.response.usage is not None:
                 chat_log.async_trace(
@@ -498,9 +498,9 @@ async def _transform_stream(  # noqa: C901 - This is complex, but better to have
             reason = "unknown reason"
             if event.response.error is not None:
                 reason = event.response.error.message
-            raise __HAC_KEEP__Error(f"OpenAI response failed: {reason}")
+            raise UniversalAssistantError(f"OpenAI response failed: {reason}")
         elif isinstance(event, ResponseErrorEvent):
-            raise __HAC_KEEP__Error(f"OpenAI response error: {event.message}")
+            raise UniversalAssistantError(f"OpenAI response error: {event.message}")
 
 
 class OpenAIBaseLLMEntity(Entity):
@@ -724,7 +724,7 @@ class OpenAIBaseLLMEntity(Entity):
                     continue
                 # pylint: disable-next=universal-assistant-log-and-raise
                 LOGGER.error("Rate limited by OpenAI: %s", err)
-                raise __HAC_KEEP__Error("Rate limited or insufficient funds") from err
+                raise UniversalAssistantError("Rate limited or insufficient funds") from err
             except openai.OpenAIError as err:
                 if (
                     isinstance(err, openai.APIError)
@@ -732,7 +732,7 @@ class OpenAIBaseLLMEntity(Entity):
                 ):
                     # pylint: disable-next=universal-assistant-log-and-raise
                     LOGGER.error("Insufficient funds for OpenAI: %s", err)
-                    raise __HAC_KEEP__Error("Insufficient funds for OpenAI") from err
+                    raise UniversalAssistantError("Insufficient funds for OpenAI") from err
                 if "Verify Organization" in str(err):
                     ir.async_create_issue(
                         self.hass,
@@ -751,14 +751,14 @@ class OpenAIBaseLLMEntity(Entity):
 
                 # pylint: disable-next=universal-assistant-log-and-raise
                 LOGGER.error("Error talking to OpenAI: %s", err)
-                raise __HAC_KEEP__Error("Error talking to OpenAI") from err
+                raise UniversalAssistantError("Error talking to OpenAI") from err
 
             if not chat_log.unresponded_tool_results:
                 break
 
 
 async def async_prepare_files_for_prompt(
-    hass: __HAC_KEEP__, files: list[tuple[Path, str | None]]
+    hass: UniversalAssistant, files: list[tuple[Path, str | None]]
 ) -> ResponseInputMessageContentListParam:
     """Append files to a prompt.
 
@@ -770,13 +770,13 @@ async def async_prepare_files_for_prompt(
 
         for file_path, mime_type in files:
             if not file_path.exists():
-                raise __HAC_KEEP__Error(f"`{file_path}` does not exist")
+                raise UniversalAssistantError(f"`{file_path}` does not exist")
 
             if mime_type is None:
                 mime_type = guess_file_type(file_path)[0]
 
             if not mime_type or not mime_type.startswith(("image/", "application/pdf")):
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     "Only images and PDF are supported by the OpenAI API,"
                     f"`{file_path}` is not an image file or PDF"
                 )

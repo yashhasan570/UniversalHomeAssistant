@@ -3,16 +3,16 @@
 from typing import Any, Literal
 
 from universalassistant.const import UnitOfTemperature
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import API_TEMP_UNITS
 
 
-class UnsupportedProperty(__HAC_KEEP__Error):
+class UnsupportedProperty(UniversalAssistantError):
     """Does not support the requested Smart Home API property."""
 
 
-class NoTokenAvailable(__HAC_KEEP__Error):
+class NoTokenAvailable(UniversalAssistantError):
     """There is no access token available."""
 
 

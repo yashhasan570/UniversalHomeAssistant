@@ -10,7 +10,7 @@ import zigpy.state
 
 from universalassistant.components.zha import silabs_multiprotocol
 from universalassistant.components.zha.helpers import get_zha_data
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 if TYPE_CHECKING:
     from zigpy.application import ControllerApplication
@@ -24,7 +24,7 @@ def required_platform_only():
 
 
 async def test_async_get_channel_active(
-    hass: __HAC_KEEP__, setup_zha: Callable[..., Coroutine[None]]
+    hass: UniversalAssistant, setup_zha: Callable[..., Coroutine[None]]
 ) -> None:
     """Test reading channel with an active ZHA installation."""
     await setup_zha()
@@ -33,7 +33,7 @@ async def test_async_get_channel_active(
 
 
 async def test_async_get_channel_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_app_controller: ControllerApplication,
 ) -> None:
@@ -49,13 +49,13 @@ async def test_async_get_channel_missing(
     assert await silabs_multiprotocol.async_get_channel(hass) is None
 
 
-async def test_async_get_channel_no_zha(hass: __HAC_KEEP__) -> None:
+async def test_async_get_channel_no_zha(hass: UniversalAssistant) -> None:
     """Test reading channel with no ZHA config entries and no database."""
     assert await silabs_multiprotocol.async_get_channel(hass) is None
 
 
 async def test_async_using_multipan_active(
-    hass: __HAC_KEEP__, setup_zha: Callable[..., Coroutine[None]]
+    hass: UniversalAssistant, setup_zha: Callable[..., Coroutine[None]]
 ) -> None:
     """Test async_using_multipan with an active ZHA installation."""
     await setup_zha()
@@ -63,13 +63,13 @@ async def test_async_using_multipan_active(
     assert await silabs_multiprotocol.async_using_multipan(hass) is False
 
 
-async def test_async_using_multipan_no_zha(hass: __HAC_KEEP__) -> None:
+async def test_async_using_multipan_no_zha(hass: UniversalAssistant) -> None:
     """Test async_using_multipan with no ZHA config entries and no database."""
     assert await silabs_multiprotocol.async_using_multipan(hass) is False
 
 
 async def test_change_channel(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_app_controller: ControllerApplication,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_change_channel(
 
 
 async def test_change_channel_no_zha(
-    hass: __HAC_KEEP__, zigpy_app_controller: ControllerApplication
+    hass: UniversalAssistant, zigpy_app_controller: ControllerApplication
 ) -> None:
     """Test changing the channel with no ZHA config entries and no database."""
     task = await silabs_multiprotocol.async_change_channel(hass, 20)
@@ -94,7 +94,7 @@ async def test_change_channel_no_zha(
 
 @pytest.mark.parametrize(("delay", "sleep"), [(0, 0), (5, 0), (15, 15 - 10.27)])
 async def test_change_channel_delay(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_app_controller: ControllerApplication,
     delay: float,

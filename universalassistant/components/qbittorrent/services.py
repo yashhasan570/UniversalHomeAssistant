@@ -5,7 +5,7 @@ from typing import Any
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, SupportsResponse, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, SupportsResponse, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
@@ -92,7 +92,7 @@ async def _handle_get_all_torrents(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the services for the qBittorrent integration."""
 
     hass.services.async_register(

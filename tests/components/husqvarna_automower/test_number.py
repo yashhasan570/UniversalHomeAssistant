@@ -16,8 +16,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.husqvarna_automower.const import EXECUTION_TIME_DELAY
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -26,7 +26,7 @@ from .const import TEST_MOWER_ID
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_number_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -45,7 +45,7 @@ async def test_number_commands(
 
     mocked_method.side_effect = ApiError("Test error")
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Failed to send command: Test error",
     ):
         await hass.services.async_call(
@@ -59,7 +59,7 @@ async def test_number_commands(
 
 
 async def test_number_workarea_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -89,7 +89,7 @@ async def test_number_workarea_commands(
 
     mocked_method.cutting_height.side_effect = ApiError("Test error")
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Failed to send command: Test error",
     ):
         await hass.services.async_call(
@@ -104,7 +104,7 @@ async def test_number_workarea_commands(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_number_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,

@@ -8,12 +8,12 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.light import ATTR_BRIGHTNESS, DOMAIN as LIGHT_DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF, SERVICE_TURN_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_light_setup_with_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     pydeako_deako_mock: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -37,7 +37,7 @@ async def test_light_setup_with_device(
 
 
 async def test_light_initial_props(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     pydeako_deako_mock: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -64,7 +64,7 @@ async def test_light_initial_props(
 
 
 async def test_dimmable_light_props(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     pydeako_deako_mock: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -92,7 +92,7 @@ async def test_dimmable_light_props(
 
 
 async def test_light_power_change_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     pydeako_deako_mock: MagicMock,
 ) -> None:
@@ -122,7 +122,7 @@ async def test_light_power_change_on(
 
 
 async def test_light_power_change_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     pydeako_deako_mock: MagicMock,
 ) -> None:
@@ -160,7 +160,7 @@ async def test_light_power_change_off(
     ],
 )
 async def test_light_brightness_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     pydeako_deako_mock: MagicMock,
     dim_input: int,

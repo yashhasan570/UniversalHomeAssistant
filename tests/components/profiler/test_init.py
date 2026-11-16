@@ -21,12 +21,12 @@ from universalassistant.components.profiler.services import (
     ProfilerService,
     ProfilerServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.util import dt as dt_util
 
 
-async def test_basic_usage(hass: __HAC_KEEP__, tmp_path: Path) -> None:
+async def test_basic_usage(hass: UniversalAssistant, tmp_path: Path) -> None:
     """Test we can setup and the service is registered."""
     test_dir = tmp_path / "profiles"
     test_dir.mkdir()
@@ -60,7 +60,7 @@ async def test_basic_usage(hass: __HAC_KEEP__, tmp_path: Path) -> None:
     await hass.async_block_till_done()
 
 
-async def test_memory_usage(hass: __HAC_KEEP__, tmp_path: Path) -> None:
+async def test_memory_usage(hass: UniversalAssistant, tmp_path: Path) -> None:
     """Test we can setup and the service is registered."""
     test_dir = tmp_path / "profiles"
     test_dir.mkdir()
@@ -95,7 +95,7 @@ async def test_memory_usage(hass: __HAC_KEEP__, tmp_path: Path) -> None:
 
 
 async def test_object_growth_logging(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -117,7 +117,7 @@ async def test_object_growth_logging(
             {ProfilerServiceArgument.SCAN_INTERVAL: 1},
             blocking=True,
         )
-        with pytest.raises(__HAC_KEEP__Error, match="Object logging already started"):
+        with pytest.raises(UniversalAssistantError, match="Object logging already started"):
             await hass.services.async_call(
                 DOMAIN,
                 ProfilerService.START_LOG_OBJECTS,
@@ -142,7 +142,7 @@ async def test_object_growth_logging(
     await hass.async_block_till_done(wait_background_tasks=True)
     assert "Growth" not in caplog.text
 
-    with pytest.raises(__HAC_KEEP__Error, match="Object logging not running"):
+    with pytest.raises(UniversalAssistantError, match="Object logging not running"):
         await hass.services.async_call(
             DOMAIN, ProfilerService.STOP_LOG_OBJECTS, {}, blocking=True
         )
@@ -166,7 +166,7 @@ async def test_object_growth_logging(
 
 
 async def test_dump_log_object(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we can setup and the service is registered and logging works."""
 
@@ -206,7 +206,7 @@ async def test_dump_log_object(
 
 
 async def test_log_thread_frames(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we can log thread frames."""
 
@@ -230,7 +230,7 @@ async def test_log_thread_frames(
 
 
 async def test_log_current_tasks(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we can log current tasks."""
 
@@ -254,7 +254,7 @@ async def test_log_current_tasks(
 
 
 async def test_log_scheduled(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we can log scheduled items in the event loop."""
 
@@ -281,7 +281,7 @@ async def test_log_scheduled(
 
 @pytest.mark.usefixtures("socket_enabled")
 async def test_dump_sockets(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test dumping of sockets to the log."""
     entry = MockConfigEntry(domain=DOMAIN)
@@ -307,11 +307,11 @@ async def test_dump_sockets(
         if sock:
             sock.close()
 
-    assert "Sockets used by __HA_KEEP__" in caplog.text
+    assert "Sockets used by Universal Home Assistant" in caplog.text
     assert f"laddr=('127.0.0.1', {port})" in caplog.text
 
 
-async def test_lru_stats(hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture) -> None:
+async def test_lru_stats(hass: UniversalAssistant, caplog: pytest.LogCaptureFixture) -> None:
     """Test logging lru stats."""
 
     entry = MockConfigEntry(domain=DOMAIN)
@@ -355,7 +355,7 @@ async def test_lru_stats(hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture) -
 
 
 async def test_log_object_sources(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we can setup and the service and we can dump objects to the log."""
 
@@ -384,7 +384,7 @@ async def test_log_object_sources(
             {ProfilerServiceArgument.SCAN_INTERVAL: 10},
             blocking=True,
         )
-        with pytest.raises(__HAC_KEEP__Error, match="Object logging already started"):
+        with pytest.raises(UniversalAssistantError, match="Object logging already started"):
             await hass.services.async_call(
                 DOMAIN,
                 ProfilerService.START_LOG_OBJECT_SOURCES,
@@ -438,14 +438,14 @@ async def test_log_object_sources(
     assert "FakeObject" not in caplog.text
     assert "No new object growth found" not in caplog.text
 
-    with pytest.raises(__HAC_KEEP__Error, match="Object logging not running"):
+    with pytest.raises(UniversalAssistantError, match="Object logging not running"):
         await hass.services.async_call(
             DOMAIN, ProfilerService.STOP_LOG_OBJECT_SOURCES, {}, blocking=True
         )
 
 
 async def test_set_asyncio_debug(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setting asyncio debug."""
 

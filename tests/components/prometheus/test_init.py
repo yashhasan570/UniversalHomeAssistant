@@ -96,7 +96,7 @@ from universalassistant.const import (
     UnitOfRatio,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -110,7 +110,7 @@ PROMETHEUS_PATH = "universalassistant.components.prometheus"
 
 
 class EntityMetric:
-    """Represents a Prometheus metric for a __HA_KEEP__ entity."""
+    """Represents a Prometheus metric for a Universal Home Assistant entity."""
 
     metric_name: str
     labels: dict[str, str]
@@ -483,7 +483,7 @@ def test_entity_metric_with_value_assert_helpers() -> None:
 
 @pytest.fixture(name="client")
 async def setup_prometheus_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     namespace: str,
 ):
@@ -520,7 +520,7 @@ async def generate_latest_metrics(client):
 
 @pytest.mark.parametrize("namespace", [""])
 async def test_setup_enumeration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     entity_registry: er.EntityRegistry,
     namespace: str,
@@ -857,7 +857,7 @@ async def test_climate(
 
 @pytest.mark.parametrize("namespace", [""])
 async def test_climate_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: ClientSessionGenerator,
     climate_entities: dict[str, er.RegistryEntry | dict[str, Any]],
 ) -> None:
@@ -1434,7 +1434,7 @@ async def test_update(
 
 @pytest.mark.parametrize("namespace", [""])
 async def test_renaming_entity_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     client: ClientSessionGenerator,
     sensor_entities: dict[str, er.RegistryEntry],
@@ -1572,7 +1572,7 @@ async def test_renaming_entity_name(
 
 @pytest.mark.parametrize("namespace", [""])
 async def test_renaming_entity_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     client: ClientSessionGenerator,
     sensor_entities: dict[str, er.RegistryEntry],
@@ -1659,7 +1659,7 @@ async def test_renaming_entity_id(
 
 @pytest.mark.parametrize("namespace", [""])
 async def test_deleting_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     client: ClientSessionGenerator,
     sensor_entities: dict[str, er.RegistryEntry],
@@ -1746,7 +1746,7 @@ async def test_deleting_entity(
 
 @pytest.mark.parametrize("namespace", [""])
 async def test_disabling_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     client: ClientSessionGenerator,
     sensor_entities: dict[str, er.RegistryEntry],
@@ -1849,7 +1849,7 @@ async def test_disabling_entity(
 @pytest.mark.parametrize("namespace", [""])
 @pytest.mark.parametrize("unavailable_state", [STATE_UNAVAILABLE, STATE_UNKNOWN])
 async def test_entity_becomes_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     client: ClientSessionGenerator,
     sensor_entities: dict[str, er.RegistryEntry],
@@ -2021,7 +2021,7 @@ async def test_entity_becomes_unavailable(
 
 @pytest.fixture(name="sensor_entities")
 async def sensor_fixture(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> dict[str, er.RegistryEntry]:
     """Simulate sensor entities."""
     data = {}
@@ -2167,7 +2167,7 @@ async def sensor_fixture(
 
 @pytest.fixture(name="climate_entities")
 async def climate_fixture(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> dict[str, er.RegistryEntry | dict[str, Any]]:
     """Simulate climate entities."""
     data = {}
@@ -2244,7 +2244,7 @@ async def climate_fixture(
 
 @pytest.fixture(name="humidifier_entities")
 async def humidifier_fixture(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> dict[str, er.RegistryEntry | dict[str, Any]]:
     """Simulate humidifier entities."""
     data = {}
@@ -2300,7 +2300,7 @@ async def humidifier_fixture(
 
 @pytest.fixture(name="water_heater_entities")
 async def water_heater_fixture(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> dict[str, er.RegistryEntry | dict[str, Any]]:
     """Simulate water_heater entities."""
     data = {}
@@ -2353,7 +2353,7 @@ async def water_heater_fixture(
 
 @pytest.fixture(name="lock_entities")
 async def lock_fixture(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> dict[str, er.RegistryEntry]:
     """Simulate lock entities."""
     data = {}
@@ -2383,7 +2383,7 @@ async def lock_fixture(
 
 @pytest.fixture(name="cover_entities")
 async def cover_fixture(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> dict[str, er.RegistryEntry]:
     """Simulate cover entities."""
     data = {}
@@ -2457,7 +2457,7 @@ async def cover_fixture(
 
 @pytest.fixture(name="input_number_entities")
 async def input_number_fixture(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> dict[str, er.RegistryEntry]:
     """Simulate input_number entities."""
     data = {}
@@ -2508,7 +2508,7 @@ async def input_number_fixture(
 
 @pytest.fixture(name="number_entities")
 async def number_fixture(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> dict[str, er.RegistryEntry]:
     """Simulate number entities."""
     data = {}
@@ -2548,7 +2548,7 @@ async def number_fixture(
 
 @pytest.fixture(name="input_boolean_entities")
 async def input_boolean_fixture(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> dict[str, er.RegistryEntry]:
     """Simulate input_boolean entities."""
     data = {}
@@ -2578,7 +2578,7 @@ async def input_boolean_fixture(
 
 @pytest.fixture(name="binary_sensor_entities")
 async def binary_sensor_fixture(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> dict[str, er.RegistryEntry]:
     """Simulate binary_sensor entities."""
     data = {}
@@ -2608,7 +2608,7 @@ async def binary_sensor_fixture(
 
 @pytest.fixture(name="light_entities")
 async def light_fixture(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> dict[str, er.RegistryEntry]:
     """Simulate light entities."""
     data = {}
@@ -2675,7 +2675,7 @@ async def light_fixture(
 
 @pytest.fixture(name="switch_entities")
 async def switch_fixture(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> dict[str, er.RegistryEntry | dict[str, Any]]:
     """Simulate switch entities."""
     data = {}
@@ -2709,7 +2709,7 @@ async def switch_fixture(
 
 @pytest.fixture(name="fan_entities")
 async def fan_fixture(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> dict[str, er.RegistryEntry]:
     """Simulate fan entities."""
     data = {}
@@ -2749,7 +2749,7 @@ async def fan_fixture(
 
 @pytest.fixture(name="alarm_control_panel_entities")
 async def alarm_control_panel_fixture(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> dict[str, er.RegistryEntry]:
     """Simulate alarm control panel entities."""
     data = {}
@@ -2779,7 +2779,7 @@ async def alarm_control_panel_fixture(
 
 @pytest.fixture(name="person_entities")
 async def person_fixture(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> dict[str, er.RegistryEntry]:
     """Simulate person entities."""
     data = {}
@@ -2809,7 +2809,7 @@ async def person_fixture(
 
 @pytest.fixture(name="device_tracker_entities")
 async def device_tracker_fixture(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> dict[str, er.RegistryEntry]:
     """Simulate device_tracker entities."""
     data = {}
@@ -2839,7 +2839,7 @@ async def device_tracker_fixture(
 
 @pytest.fixture(name="geo_location_entities")
 async def geo_location_fixture(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> dict[str, er.RegistryEntry]:
     """Simulate geo_location entities."""
     data = {}
@@ -2869,7 +2869,7 @@ async def geo_location_fixture(
 
 @pytest.fixture(name="counter_entities")
 async def counter_fixture(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> dict[str, er.RegistryEntry]:
     """Simulate counter entities."""
     data = {}
@@ -2888,7 +2888,7 @@ async def counter_fixture(
 
 @pytest.fixture(name="update_entities")
 async def update_fixture(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> dict[str, er.RegistryEntry]:
     """Simulate update entities."""
     data = {}
@@ -2917,7 +2917,7 @@ async def update_fixture(
 
 
 def set_state_with_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: er.RegistryEntry,
     state,
     additional_attributes=None,
@@ -2953,14 +2953,14 @@ def mock_client_fixture():
         yield counter_client
 
 
-async def test_minimal_config(hass: __HAC_KEEP__, mock_client: mock.MagicMock) -> None:
+async def test_minimal_config(hass: UniversalAssistant, mock_client: mock.MagicMock) -> None:
     """Test the minimal config and defaults of component."""
     config = {prometheus.DOMAIN: {}}
     assert await async_setup_component(hass, prometheus.DOMAIN, config)
     await hass.async_block_till_done()
 
 
-async def test_full_config(hass: __HAC_KEEP__, mock_client: mock.MagicMock) -> None:
+async def test_full_config(hass: UniversalAssistant, mock_client: mock.MagicMock) -> None:
     """Test the full config of component."""
     config = {
         prometheus.DOMAIN: {
@@ -2985,14 +2985,14 @@ async def test_full_config(hass: __HAC_KEEP__, mock_client: mock.MagicMock) -> N
     await hass.async_block_till_done()
 
 
-async def _setup(hass: __HAC_KEEP__, filter_config):
+async def _setup(hass: UniversalAssistant, filter_config):
     """Shared set up for filtering tests."""
     config = {prometheus.DOMAIN: {"filter": filter_config}}
     assert await async_setup_component(hass, prometheus.DOMAIN, config)
     await hass.async_block_till_done()
 
 
-async def test_allowlist(hass: __HAC_KEEP__, mock_client: mock.MagicMock) -> None:
+async def test_allowlist(hass: UniversalAssistant, mock_client: mock.MagicMock) -> None:
     """Test an allowlist only config."""
     await _setup(
         hass,
@@ -3021,7 +3021,7 @@ async def test_allowlist(hass: __HAC_KEEP__, mock_client: mock.MagicMock) -> Non
         mock_client.labels.reset_mock()
 
 
-async def test_denylist(hass: __HAC_KEEP__, mock_client: mock.MagicMock) -> None:
+async def test_denylist(hass: UniversalAssistant, mock_client: mock.MagicMock) -> None:
     """Test a denylist only config."""
     await _setup(
         hass,
@@ -3051,7 +3051,7 @@ async def test_denylist(hass: __HAC_KEEP__, mock_client: mock.MagicMock) -> None
 
 
 async def test_filtered_denylist(
-    hass: __HAC_KEEP__, mock_client: mock.MagicMock
+    hass: UniversalAssistant, mock_client: mock.MagicMock
 ) -> None:
     """Test a denylist config with a filtering allowlist."""
     await _setup(
@@ -3093,7 +3093,7 @@ class InfoMetric(EntityMetric):
 
 @pytest.mark.parametrize("namespace", [""])
 async def test_floor_metric(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     floor_registry: fr.FloorRegistry,
     client: ClientSessionGenerator,
 ) -> None:
@@ -3134,7 +3134,7 @@ async def test_floor_metric(
 
 @pytest.mark.parametrize("namespace", [""])
 async def test_area_metric(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     client: ClientSessionGenerator,
 ) -> None:
@@ -3174,7 +3174,7 @@ async def test_area_metric(
 
 @pytest.mark.parametrize("namespace", [""])
 async def test_delete_floor_of_area(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     floor_registry: fr.FloorRegistry,
     client: ClientSessionGenerator,
@@ -3212,7 +3212,7 @@ async def test_delete_floor_of_area(
 
 @pytest.mark.parametrize("namespace", [""])
 async def test_area_in_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
     client: ClientSessionGenerator,
@@ -3252,7 +3252,7 @@ async def test_area_in_entity(
 
 @pytest.mark.parametrize("namespace", [""])
 async def test_area_in_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -3324,7 +3324,7 @@ async def test_area_in_device(
 
 @pytest.mark.parametrize("namespace", [""])
 async def test_area_inherited_from_parent_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -3371,7 +3371,7 @@ async def test_area_inherited_from_parent_device(
 
 @pytest.mark.parametrize("namespace", [""])
 async def test_area_of_child_device_updated_when_parent_area_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -3433,7 +3433,7 @@ async def test_area_of_child_device_updated_when_parent_area_changes(
 
 @pytest.mark.parametrize("namespace", [""])
 async def test_area_in_entity_on_entity_id_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
     client: ClientSessionGenerator,

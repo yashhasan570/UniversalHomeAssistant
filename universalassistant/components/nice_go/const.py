@@ -27,7 +27,7 @@ UNSUPPORTED_DEVICE_WARNING = (
     "which is not supported by this integration. "
     "We try to support it with a cover and event entity, but nothing else. "
     "Please create an issue with your device model in additional info"
-    " at https://github.com/yashhasan570/__HAC_KEEP__/issues/new"
+    " at https://github.com/yashhasan570/UniversalUniversalAssistant/issues/new"
     "?assignees=&labels=&projects=&template=bug_report.yml"
     "&title=New%%20Nice%%20G.O.%%20device%%20type%%20'%s'%%20found"
 )

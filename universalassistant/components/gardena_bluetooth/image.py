@@ -15,7 +15,7 @@ from gardena_bluetooth.utils import contour_to_svg
 
 from universalassistant.components.image import ImageEntity, ImageEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -56,7 +56,7 @@ DESCRIPTIONS = tuple(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: GardenaBluetoothConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

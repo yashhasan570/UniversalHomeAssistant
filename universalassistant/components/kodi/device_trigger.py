@@ -16,7 +16,7 @@ from universalassistant.core import (
     CALLBACK_TYPE,
     Event,
     HassJob,
-    __HAC_KEEP__,
+    UniversalAssistant,
     async_noop,
     callback,
 )
@@ -37,7 +37,7 @@ TRIGGER_SCHEMA = DEVICE_TRIGGER_BASE_SCHEMA.extend(
 
 
 async def async_get_triggers(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, str]]:
     """List device triggers for Kodi devices."""
     registry = er.async_get(hass)
@@ -70,7 +70,7 @@ async def async_get_triggers(
 
 @callback
 def _attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     event_type,
@@ -101,7 +101,7 @@ def _attach_trigger(
 
 
 async def async_attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,

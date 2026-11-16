@@ -1,4 +1,4 @@
-"""Tuya __HA_KEEP__ Base Device Model."""
+"""Tuya Universal Home Assistant Base Device Model."""
 
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -9,7 +9,7 @@ from tuya_device_handlers.device_wrapper import DeviceWrapper
 from tuya_sharing import CustomerDevice, Manager
 from tuya_sharing.exceptions import TuyaSDKException
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import ChildDeviceInfo, DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity import Entity, EntityDescription
@@ -118,7 +118,7 @@ class TuyaEntity(Entity):
     ) -> bool:
         """Called when Tuya device sends an update with updated properties.
 
-        Returns True if the __HA_KEEP__ state should be written,
+        Returns True if the Universal Home Assistant state should be written,
         or False if the state write should be skipped.
         """
         return True
@@ -133,11 +133,11 @@ class TuyaEntity(Entity):
                 self.device_manager.send_commands, self.device.id, commands
             )
         except TuyaSDKException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="command_rejected"
             ) from err
         except requests.RequestException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="send_command_failed"
             ) from err
 

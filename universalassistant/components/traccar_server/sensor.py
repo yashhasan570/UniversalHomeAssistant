@@ -19,7 +19,7 @@ from universalassistant.const import (
     UnitOfLength,
     UnitOfSpeed,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -103,7 +103,7 @@ TRACCAR_SERVER_SENSOR_ENTITY_DESCRIPTIONS: tuple[
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: TraccarServerConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

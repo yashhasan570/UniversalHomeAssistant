@@ -1,14 +1,14 @@
 """The UniFi AP Direct integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import UniFiDirectConfigEntry, UniFiDirectDataUpdateCoordinator
 
 PLATFORMS = [Platform.DEVICE_TRACKER]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: UniFiDirectConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: UniFiDirectConfigEntry) -> None:
     """Set up UniFi Direct from a config entry."""
     coordinator = UniFiDirectDataUpdateCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()
@@ -17,7 +17,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: UniFiDirectConfigEntry) -
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: UniFiDirectConfigEntry
+    hass: UniversalAssistant, entry: UniFiDirectConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

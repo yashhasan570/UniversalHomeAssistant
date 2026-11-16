@@ -1,11 +1,11 @@
-"""Location helpers for __HA_KEEP__."""
+"""Location helpers for Universal Home Assistant."""
 
 from collections.abc import Iterable
 import logging
 from typing import NamedTuple
 
 from universalassistant.const import EntityStateAttribute
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.util import location as location_util
 
 _LOGGER = logging.getLogger(__name__)
@@ -69,7 +69,7 @@ def closest(latitude: float, longitude: float, states: Iterable[State]) -> State
 
 
 def find_coordinates(
-    hass: __HAC_KEEP__, name: str, recursion_history: list | None = None
+    hass: UniversalAssistant, name: str, recursion_history: list | None = None
 ) -> str | None:
     """Try to resolve the a location from a supplied name or entity_id.
 
@@ -130,7 +130,7 @@ def find_coordinates(
     return entity_state.state
 
 
-def resolve_zone(hass: __HAC_KEEP__, zone_name: str) -> str | None:
+def resolve_zone(hass: UniversalAssistant, zone_name: str) -> str | None:
     """Get a lat/long from a zones friendly_name.
 
     None is returned if no zone is found by that friendly_name.

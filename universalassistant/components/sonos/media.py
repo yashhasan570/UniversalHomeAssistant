@@ -14,7 +14,7 @@ from soco.core import (
 from soco.data_structures import DidlAudioBroadcast, DidlPlaylistContainer
 from soco.music_library import MusicLibrary
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.config_validation import time_period_str
 from universalassistant.helpers.dispatcher import dispatcher_send
 from universalassistant.util import dt as dt_util
@@ -52,7 +52,7 @@ def _timespan_secs(timespan: str | None) -> int | None:
 class SonosMedia:
     """Representation of the current Sonos media."""
 
-    def __init__(self, hass: __HAC_KEEP__, soco: SoCo) -> None:
+    def __init__(self, hass: UniversalAssistant, soco: SoCo) -> None:
         """Initialize a SonosMedia."""
         self.hass = hass
         self.soco = soco

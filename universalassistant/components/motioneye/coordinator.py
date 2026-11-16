@@ -6,7 +6,7 @@ from typing import Any, override
 from motioneye_client.client import MotionEyeClient, MotionEyeClientError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DEFAULT_SCAN_INTERVAL, DOMAIN
@@ -23,7 +23,7 @@ class MotionEyeUpdateCoordinator(DataUpdateCoordinator[dict[str, Any] | None]):
     config_entry: MotionEyeConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: MotionEyeConfigEntry, client: MotionEyeClient
+        self, hass: UniversalAssistant, entry: MotionEyeConfigEntry, client: MotionEyeClient
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(

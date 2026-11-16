@@ -4,12 +4,12 @@ from pytest_universalassistant.common import async_capture_events
 
 from universalassistant.components.shopping_list.common import _get_shopping_data
 from universalassistant.const import EVENT_SHOPPING_LIST_UPDATED
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import intent
 
 
 async def test_add_item_intent_reactivates_first_completed_match(
-    hass: __HAC_KEEP__, sl_setup: None
+    hass: UniversalAssistant, sl_setup: None
 ) -> None:
     """Test reactivating the first completed matching item."""
     shopping_data = _get_shopping_data(hass)
@@ -35,7 +35,7 @@ async def test_add_item_intent_reactivates_first_completed_match(
 
 
 async def test_add_item_intent_keeps_existing_active_match(
-    hass: __HAC_KEEP__, sl_setup: None
+    hass: UniversalAssistant, sl_setup: None
 ) -> None:
     """Test keeping an existing active matching item."""
     shopping_data = _get_shopping_data(hass)
@@ -58,7 +58,7 @@ async def test_add_item_intent_keeps_existing_active_match(
     assert not events
 
 
-async def test_complete_item_intent(hass: __HAC_KEEP__, sl_setup: None) -> None:
+async def test_complete_item_intent(hass: UniversalAssistant, sl_setup: None) -> None:
     """Test complete item."""
     shopping_data = _get_shopping_data(hass)
     await shopping_data.async_add("soda")
@@ -88,7 +88,7 @@ async def test_complete_item_intent(hass: __HAC_KEEP__, sl_setup: None) -> None:
     assert shopping_data.items[2]["complete"]
 
 
-async def test_complete_item_intent_not_found(hass: __HAC_KEEP__, sl_setup) -> None:
+async def test_complete_item_intent_not_found(hass: UniversalAssistant, sl_setup) -> None:
     """Test completing a missing item."""
     response = await intent.async_handle(
         hass, "test", "HassShoppingListCompleteItem", {"item": {"value": "beer"}}
@@ -97,7 +97,7 @@ async def test_complete_item_intent_not_found(hass: __HAC_KEEP__, sl_setup) -> N
     assert response.speech_slots.get("completed_items") == []
 
 
-async def test_recent_items_intent(hass: __HAC_KEEP__, sl_setup) -> None:
+async def test_recent_items_intent(hass: UniversalAssistant, sl_setup) -> None:
     """Test recent items."""
     await intent.async_handle(
         hass, "test", "HassShoppingListAddItem", {"item": {"value": "beer"}}
@@ -117,7 +117,7 @@ async def test_recent_items_intent(hass: __HAC_KEEP__, sl_setup) -> None:
     )
 
 
-async def test_recent_items_intent_no_items(hass: __HAC_KEEP__, sl_setup) -> None:
+async def test_recent_items_intent_no_items(hass: UniversalAssistant, sl_setup) -> None:
     """Test recent items."""
     response = await intent.async_handle(hass, "test", "HassShoppingListLastItems")
 

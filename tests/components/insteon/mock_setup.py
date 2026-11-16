@@ -6,7 +6,7 @@ from pytest_universalassistant.typing import WebSocketGenerator
 from universalassistant.components.insteon.api import async_load_api
 from universalassistant.components.insteon.const import DOMAIN
 from universalassistant.components.usb import DOMAIN as USB_DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -15,7 +15,7 @@ from .mock_devices import MockDevices
 
 
 async def async_mock_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     config_data: dict | None = None,
     config_options: dict | None = None,

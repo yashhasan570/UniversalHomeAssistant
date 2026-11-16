@@ -11,14 +11,14 @@ from universalassistant.components.climate import HVACMode
 from universalassistant.components.nexia.const import DOMAIN
 from universalassistant.components.nexia.services import NexiaService, NexiaServiceArgument
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import setup_integration
 
 ENTITY_ID = "climate.nick_office_nick_office"
 
 
-async def test_climate_zones(hass: __HAC_KEEP__, patch_nexia_home: NexiaHome) -> None:
+async def test_climate_zones(hass: UniversalAssistant, patch_nexia_home: NexiaHome) -> None:
     """Test creation climate zones."""
 
     await setup_integration(hass, patch_nexia_home)
@@ -112,7 +112,7 @@ async def test_climate_zones(hass: __HAC_KEEP__, patch_nexia_home: NexiaHome) ->
     ],
 )
 async def test_set_hvac_run_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     patch_nexia_home: NexiaHome,
     service_data: dict[str, Any],
     expected_hold_calls: int,

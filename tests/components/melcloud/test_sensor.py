@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_platform
@@ -16,7 +16,7 @@ from .conftest import MOCK_MAC, MOCK_SERIAL
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_get_devices")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -28,7 +28,7 @@ async def test_all_entities(
 
 @pytest.mark.usefixtures("mock_get_devices")
 async def test_zone_sensor_unique_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_atw_device: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -73,7 +73,7 @@ async def test_zone_sensor_unique_ids(
 
 @pytest.mark.usefixtures("mock_get_devices")
 async def test_sensors_not_created_when_none(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_atw_device: MagicMock,
 ) -> None:

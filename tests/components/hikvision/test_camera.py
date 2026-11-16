@@ -9,8 +9,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.camera import async_get_image, async_get_stream_source
 from universalassistant.components.hikvision.const import DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -25,7 +25,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -41,7 +41,7 @@ async def test_all_entities(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("amount_of_channels", [2])
 async def test_nvr_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -59,7 +59,7 @@ async def test_nvr_entities(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("amount_of_channels", [2])
 async def test_nvr_entities_with_channel_names(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -85,7 +85,7 @@ async def test_nvr_entities_with_channel_names(
 
 
 async def test_camera_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -103,7 +103,7 @@ async def test_camera_device_info(
 
 
 async def test_camera_no_channels_creates_single_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
 ) -> None:
@@ -121,7 +121,7 @@ async def test_camera_no_channels_creates_single_camera(
 
 
 async def test_camera_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
 ) -> None:
@@ -136,7 +136,7 @@ async def test_camera_image(
 
 
 async def test_camera_image_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
 ) -> None:
@@ -145,12 +145,12 @@ async def test_camera_image_error(
 
     await setup_integration(hass, mock_config_entry)
 
-    with pytest.raises(__HAC_KEEP__Error, match="Error getting image"):
+    with pytest.raises(UniversalAssistantError, match="Error getting image"):
         await async_get_image(hass, "camera.front_camera")
 
 
 async def test_camera_stream_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
 ) -> None:
@@ -169,7 +169,7 @@ async def test_camera_stream_source(
 
 
 async def test_camera_unavailable_when_stream_disconnected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
 ) -> None:
@@ -193,7 +193,7 @@ async def test_camera_unavailable_when_stream_disconnected(
 
 
 async def test_camera_callback_removed_with_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,

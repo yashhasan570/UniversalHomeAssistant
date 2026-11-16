@@ -20,7 +20,7 @@ from universalassistant.const import (
     UnitOfPower,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.unit_system import (
     METRIC_SYSTEM,
     US_CUSTOMARY_SYSTEM,
@@ -29,7 +29,7 @@ from universalassistant.util.unit_system import (
 
 
 async def test_gps_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     gps_sensor: Sensor,
     receive_message: Callable[[str], None],
 ) -> None:
@@ -56,7 +56,7 @@ async def test_gps_sensor(
 
 
 async def test_ir_transceiver(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ir_transceiver: Sensor,
     receive_message: Callable[[str], None],
 ) -> None:
@@ -79,7 +79,7 @@ async def test_ir_transceiver(
 
 
 async def test_battery_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     battery_sensor: Sensor,
     receive_message: Callable[[str], None],
 ) -> None:
@@ -100,7 +100,7 @@ async def test_battery_entity(
 
 
 async def test_power_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     power_sensor: Sensor,
     integration: MockConfigEntry,
 ) -> None:
@@ -118,7 +118,7 @@ async def test_power_sensor(
 
 
 async def test_energy_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     energy_sensor: Sensor,
     integration: MockConfigEntry,
 ) -> None:
@@ -136,7 +136,7 @@ async def test_energy_sensor(
 
 
 async def test_sound_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sound_sensor: Sensor,
     integration: MockConfigEntry,
 ) -> None:
@@ -153,7 +153,7 @@ async def test_sound_sensor(
 
 
 async def test_distance_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     distance_sensor: Sensor,
     integration: MockConfigEntry,
 ) -> None:
@@ -178,7 +178,7 @@ async def test_distance_sensor(
     ],
 )
 async def test_temperature_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     temperature_sensor: Sensor,
     receive_message: Callable[[str], None],
     unit_system: UnitSystem,

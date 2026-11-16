@@ -5,7 +5,7 @@ import logging
 from aio_ownet.exceptions import OWServerError
 
 from universalassistant.const import CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 
@@ -22,7 +22,7 @@ _PLATFORMS = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: OneWireConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: OneWireConfigEntry) -> None:
     """Set up a 1-Wire proxy for a config entry."""
     onewire_hub = OneWireHub(hass, entry)
     try:
@@ -45,7 +45,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: OneWireConfigEntry) -> No
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: OneWireConfigEntry,
     device_entry: dr.AnyDeviceEntry,
 ) -> bool:
@@ -64,7 +64,7 @@ async def async_remove_config_entry_device(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: OneWireConfigEntry
+    hass: UniversalAssistant, config_entry: OneWireConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, _PLATFORMS)

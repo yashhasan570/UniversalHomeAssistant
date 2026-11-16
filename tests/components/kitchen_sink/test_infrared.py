@@ -12,7 +12,7 @@ from universalassistant.components.infrared import (
 )
 from universalassistant.components.kitchen_sink import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -31,14 +31,14 @@ async def infrared_only() -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_comp(hass: __HAC_KEEP__, infrared_only: None) -> None:
+async def setup_comp(hass: UniversalAssistant, infrared_only: None) -> None:
     """Set up demo component."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     await hass.async_block_till_done()
 
 
 async def test_send_receive(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the receiver picks up commands sent by the emitter via dispatcher."""
     signal_callback = Mock()

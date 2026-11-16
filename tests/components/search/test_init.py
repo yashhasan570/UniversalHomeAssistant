@@ -7,7 +7,7 @@ from pytest_universalassistant.typing import WebSocketGenerator
 from pytest_unordered import unordered
 
 from universalassistant.components.search import DOMAIN, ItemType, Searcher
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -20,7 +20,7 @@ from universalassistant.setup import async_setup_component
 
 
 async def test_search(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1114,7 +1114,7 @@ async def test_search(
 
 
 async def test_search_pre_migration_composite_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1235,7 +1235,7 @@ async def test_search_pre_migration_composite_device(
 
 
 async def test_search_label_on_child_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     floor_registry: fr.FloorRegistry,
@@ -1286,7 +1286,7 @@ async def test_search_label_on_child_device(
 
 
 async def test_search_child_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1403,7 +1403,7 @@ AREA_DEFAULT = {"light.enabled", "light.disabled_area_override", "light.child_en
     ],
 )
 async def test_search_include_disabled_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     search_item_ids: dict[str, str],
     item_type: ItemType,
     item_key: str,
@@ -1444,7 +1444,7 @@ async def test_search_include_disabled_entities(
     ],
 )
 async def test_search_related_include_disabled_entities_websocket(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     search_item_ids: dict[str, str],
     extra_msg: dict[str, bool],

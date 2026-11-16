@@ -6,8 +6,8 @@ from switchbee.api.central_unit import SwitchBeeDeviceOfflineError, SwitchBeeErr
 from switchbee.device import ApiStateCommand, DeviceType, SwitchBeeDimmer
 
 from universalassistant.components.light import ATTR_BRIGHTNESS, ColorMode, LightEntity
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import SwitchBeeConfigEntry, SwitchBeeCoordinator
@@ -31,7 +31,7 @@ def _switchbee_brightness_to_hass(value: int) -> int:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SwitchBeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -99,7 +99,7 @@ class SwitchBeeLightEntity(SwitchBeeDeviceEntity[SwitchBeeDimmer], LightEntity):
         try:
             await self.coordinator.api.set_state(self._device.id, state)
         except (SwitchBeeError, SwitchBeeDeviceOfflineError) as exp:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to set {self.name} state {state}, {exp!s}"
             ) from exp
 
@@ -120,7 +120,7 @@ class SwitchBeeLightEntity(SwitchBeeDeviceEntity[SwitchBeeDimmer], LightEntity):
         try:
             await self.coordinator.api.set_state(self._device.id, ApiStateCommand.OFF)
         except (SwitchBeeError, SwitchBeeDeviceOfflineError) as exp:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to turn off {self._attr_name}, {exp!s}"
             ) from exp
 

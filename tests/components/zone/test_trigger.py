@@ -29,14 +29,14 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import Context, __HAC_KEEP__, ServiceCall
+from universalassistant.core import Context, UniversalAssistant, ServiceCall
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.trigger import async_validate_trigger_config
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(autouse=True)
-async def setup_comp(hass: __HAC_KEEP__) -> None:
+async def setup_comp(hass: UniversalAssistant) -> None:
     """Initialize components."""
     mock_component(hass, "group")
     await async_setup_component(
@@ -54,7 +54,7 @@ async def setup_comp(hass: __HAC_KEEP__) -> None:
 
 
 async def test_if_fires_on_zone_enter(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing on zone enter."""
     context = Context()
@@ -141,7 +141,7 @@ async def test_if_fires_on_zone_enter(
     ],
 )
 async def test_if_fires_on_zone_enter_via_in_zones(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     coords: dict[str, float],
 ) -> None:
@@ -179,7 +179,7 @@ async def test_if_fires_on_zone_enter_via_in_zones(
 
 
 async def test_zone_enter_ignores_in_zones_for_other_domains(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test the zone trigger uses coordinates for non device_tracker/person.
 
@@ -230,7 +230,7 @@ async def test_zone_enter_ignores_in_zones_for_other_domains(
 
 
 async def test_zone_trigger_skips_coordinateless_non_tracker(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -266,7 +266,7 @@ async def test_zone_trigger_skips_coordinateless_non_tracker(
 
 
 async def test_if_fires_on_zone_enter_uuid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -348,7 +348,7 @@ async def test_if_fires_on_zone_enter_uuid(
 
 
 async def test_if_not_fires_for_enter_on_zone_leave(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for not firing on zone leave."""
     hass.states.async_set(
@@ -381,7 +381,7 @@ async def test_if_not_fires_for_enter_on_zone_leave(
 
 
 async def test_if_fires_on_zone_leave(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing on zone leave."""
     hass.states.async_set(
@@ -414,7 +414,7 @@ async def test_if_fires_on_zone_leave(
 
 
 async def test_if_not_fires_for_leave_on_zone_enter(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for not firing on zone enter."""
     hass.states.async_set(
@@ -447,7 +447,7 @@ async def test_if_not_fires_for_leave_on_zone_enter(
 
 
 async def test_zone_condition(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for zone condition."""
     hass.states.async_set(
@@ -477,7 +477,7 @@ async def test_zone_condition(
 
 
 async def test_unknown_zone(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test for firing on zone enter."""
     context = Context()
@@ -545,7 +545,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_zone_trigger_options_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -568,7 +568,7 @@ def test_trigger_target_support() -> None:
 
 @pytest.mark.parametrize("trigger_key", ["zone.entered", "zone.left"])
 async def test_zone_trigger_rejects_non_zone_entity_id(
-    hass: __HAC_KEEP__, trigger_key: str
+    hass: UniversalAssistant, trigger_key: str
 ) -> None:
     """Test that the zone option must reference entities in the zone domain."""
     with pytest.raises(probatio.Invalid):
@@ -586,7 +586,7 @@ async def test_zone_trigger_rejects_non_zone_entity_id(
 
 @pytest.fixture
 async def target_zone_entities(
-    hass: __HAC_KEEP__, domain: str
+    hass: UniversalAssistant, domain: str
 ) -> dict[str, list[str]]:
     """Create multiple zone-trackable entities associated with different targets."""
     return await target_entities(hass, domain, domain_excluded="sensor")
@@ -636,7 +636,7 @@ def _parametrize_zone_target_entities() -> list[tuple[dict[str, Any], str, int, 
     _ZONE_TRIGGER_STATES,
 )
 async def test_zone_trigger_behavior_each(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_zone_entities: dict[str, list[str]],
     trigger_target_config: dict[str, Any],
     entity_id: str,
@@ -667,7 +667,7 @@ async def test_zone_trigger_behavior_each(
     _ZONE_TRIGGER_STATES,
 )
 async def test_zone_trigger_behavior_first(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_zone_entities: dict[str, list[str]],
     trigger_target_config: dict[str, Any],
     entity_id: str,
@@ -698,7 +698,7 @@ async def test_zone_trigger_behavior_first(
     _ZONE_TRIGGER_STATES,
 )
 async def test_zone_trigger_behavior_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_zone_entities: dict[str, list[str]],
     trigger_target_config: dict[str, Any],
     entity_id: str,
@@ -728,7 +728,7 @@ async def test_zone_trigger_behavior_all(
     ["zone.occupancy_detected", "zone.occupancy_cleared"],
 )
 async def test_zone_occupancy_trigger_options_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     trigger_key: str,
 ) -> None:
     """Test that occupancy triggers support the expected options."""
@@ -793,7 +793,7 @@ async def test_zone_occupancy_trigger_options_validation(
     ],
 )
 async def test_zone_occupancy_trigger_transitions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     trigger_key: str,
     from_state: str,
@@ -831,7 +831,7 @@ async def test_zone_occupancy_trigger_transitions(
     ],
 )
 async def test_zone_occupancy_trigger_for_duration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
     trigger_key: str,

@@ -13,7 +13,7 @@ from universalassistant.components.camera import (
     CameraEntityFeature,
 )
 from universalassistant.const import CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_aiohttp_proxy_stream
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
@@ -40,7 +40,7 @@ PLATFORM_SCHEMA = CAMERA_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -54,7 +54,7 @@ class FFmpegCamera(Camera):
 
     _attr_supported_features = CameraEntityFeature.STREAM
 
-    def __init__(self, hass: __HAC_KEEP__, config: dict[str, Any]) -> None:
+    def __init__(self, hass: UniversalAssistant, config: dict[str, Any]) -> None:
         """Initialize a FFmpeg camera."""
         super().__init__()
 

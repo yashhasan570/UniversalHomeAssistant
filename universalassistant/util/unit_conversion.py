@@ -1,4 +1,4 @@
-"""Typing Helpers for __HA_KEEP__."""
+"""Typing Helpers for Universal Home Assistant."""
 
 from collections.abc import Callable
 from functools import lru_cache
@@ -34,7 +34,7 @@ from universalassistant.const import (
     UnitOfVolumeFlowRate,
     UnitOfVolumetricFlux,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 # Distance conversion constants
 _MM_TO_M = 0.001  # 1 mm = 0.001 m
@@ -146,7 +146,7 @@ class BaseUnitConverter:
         try:
             return unit_conversion[from_unit], unit_conversion[to_unit]
         except KeyError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 UNIT_NOT_RECOGNIZED_TEMPLATE.format(err.args[0], cls.UNIT_CLASS)
             ) from err
 
@@ -739,7 +739,7 @@ class SpeedConverter(BaseUnitConverter):
             from_unit not in SpeedConverter.VALID_UNITS
             or to_unit not in SpeedConverter.VALID_UNITS
         ):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 UNIT_NOT_RECOGNIZED_TEMPLATE.format(to_unit, cls.UNIT_CLASS)
             )
 
@@ -846,7 +846,7 @@ class TemperatureConverter(BaseUnitConverter):
                 return cls._celsius_to_fahrenheit
             if to_unit == UnitOfTemperature.KELVIN:
                 return cls._celsius_to_kelvin
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 UNIT_NOT_RECOGNIZED_TEMPLATE.format(to_unit, cls.UNIT_CLASS)
             )
 
@@ -855,7 +855,7 @@ class TemperatureConverter(BaseUnitConverter):
                 return cls._fahrenheit_to_celsius
             if to_unit == UnitOfTemperature.KELVIN:
                 return cls._fahrenheit_to_kelvin
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 UNIT_NOT_RECOGNIZED_TEMPLATE.format(to_unit, cls.UNIT_CLASS)
             )
 
@@ -864,10 +864,10 @@ class TemperatureConverter(BaseUnitConverter):
                 return cls._kelvin_to_celsius
             if to_unit == UnitOfTemperature.FAHRENHEIT:
                 return cls._kelvin_to_fahrenheit
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 UNIT_NOT_RECOGNIZED_TEMPLATE.format(to_unit, cls.UNIT_CLASS)
             )
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             UNIT_NOT_RECOGNIZED_TEMPLATE.format(from_unit, cls.UNIT_CLASS)
         )
 

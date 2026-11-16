@@ -23,14 +23,14 @@ from universalassistant.components.version.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_SOURCE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.util import dt as dt_util
 
 from .common import MOCK_VERSION, MOCK_VERSION_DATA, setup_version_integration
 
 
-async def test_reload_config_entry(hass: __HAC_KEEP__) -> None:
+async def test_reload_config_entry(hass: UniversalAssistant) -> None:
     """Test reloading the config entry."""
     config_entry = await setup_version_integration(hass)
     assert config_entry.state is ConfigEntryState.LOADED
@@ -49,7 +49,7 @@ async def test_reload_config_entry(hass: __HAC_KEEP__) -> None:
     assert entry.state is ConfigEntryState.LOADED
 
 
-async def test_basic_form(hass: __HAC_KEEP__) -> None:
+async def test_basic_form(hass: UniversalAssistant) -> None:
     """Test that local source creates an entry without the version_source step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -77,7 +77,7 @@ async def test_basic_form(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_pypi(hass: __HAC_KEEP__) -> None:
+async def test_form_pypi(hass: UniversalAssistant) -> None:
     """Show form when pypi is selected."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -118,7 +118,7 @@ async def test_form_pypi(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_container(hass: __HAC_KEEP__) -> None:
+async def test_form_container(hass: UniversalAssistant) -> None:
     """Show form when container source is selected."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -159,7 +159,7 @@ async def test_form_container(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_supervisor(hass: __HAC_KEEP__) -> None:
+async def test_form_supervisor(hass: UniversalAssistant) -> None:
     """Show form when supervisor source is selected."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,

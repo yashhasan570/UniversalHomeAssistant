@@ -2,7 +2,7 @@
 
 import probatio
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 
 from .const import (
@@ -19,7 +19,7 @@ REMOTE_SERVICE_ACTIVITY_SCHEMA = cv.make_entity_service_schema(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the remote services."""
     component = hass.data[DATA_COMPONENT]
 

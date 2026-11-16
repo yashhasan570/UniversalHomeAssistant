@@ -27,7 +27,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -37,7 +37,7 @@ LOCK_ENTITY_ID = "lock.lock_1a2b"
 
 
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tedee: MagicMock,
 ) -> None:
@@ -54,7 +54,7 @@ async def test_load_unload_config_entry(
 
 
 async def test_reload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tedee: MagicMock,
     hass_client_no_auth: ClientSessionGenerator,
@@ -81,7 +81,7 @@ async def test_reload_config_entry(
     "side_effect", [TedeeClientException(""), TedeeAuthException("")]
 )
 async def test_config_entry_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tedee: MagicMock,
     side_effect: Exception,
@@ -96,7 +96,7 @@ async def test_config_entry_not_ready(
 
 
 async def test_config_entry_not_ready_no_locks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tedee: MagicMock,
 ) -> None:
@@ -112,7 +112,7 @@ async def test_config_entry_not_ready_no_locks(
 
 @pytest.mark.parametrize("method", ["get_local_bridge", "get_locks"])
 async def test_transient_auth_failure_during_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tedee: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -140,7 +140,7 @@ async def test_transient_auth_failure_during_setup(
 
 @pytest.mark.parametrize("method", ["get_local_bridge", "get_locks"])
 async def test_persistent_auth_failure_during_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tedee: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -162,7 +162,7 @@ async def test_persistent_auth_failure_during_setup(
 
 
 async def test_auth_failure_grace_period_survives_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tedee: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -185,7 +185,7 @@ async def test_auth_failure_grace_period_survives_reload(
 
 
 async def test_transient_auth_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tedee: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -219,7 +219,7 @@ async def test_transient_auth_failure(
 
 
 async def test_persistent_auth_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tedee: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -242,7 +242,7 @@ async def test_persistent_auth_failure(
 
 
 async def test_cleanup_on_shutdown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tedee: MagicMock,
 ) -> None:
@@ -257,7 +257,7 @@ async def test_cleanup_on_shutdown(
 
 
 async def test_webhook_cleanup_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tedee: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -276,7 +276,7 @@ async def test_webhook_cleanup_errors(
 
 
 async def test_webhook_registration_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tedee: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -292,7 +292,7 @@ async def test_webhook_registration_errors(
 
 
 async def test_webhook_registration_cleanup_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tedee: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -308,7 +308,7 @@ async def test_webhook_registration_cleanup_errors(
 
 
 async def test_lock_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tedee: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -325,7 +325,7 @@ async def test_lock_device(
 
 
 async def test_bridge_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tedee: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -367,7 +367,7 @@ async def test_bridge_device(
     ],
 )
 async def test_webhook_post(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tedee: MagicMock,
     hass_client_no_auth: ClientSessionGenerator,
@@ -390,7 +390,7 @@ async def test_webhook_post(
     assert resp.status == expected_code
 
 
-async def test_config_flow_entry_migrate_2_1(hass: __HAC_KEEP__) -> None:
+async def test_config_flow_entry_migrate_2_1(hass: UniversalAssistant) -> None:
     """Test that config entry fails setup if the version is from the future."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -403,7 +403,7 @@ async def test_config_flow_entry_migrate_2_1(hass: __HAC_KEEP__) -> None:
 
 
 async def test_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tedee: MagicMock,
 ) -> None:
     """Test migration of the config entry."""

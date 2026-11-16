@@ -2,8 +2,11 @@
 
 from typing import Any, override
 
-from enocean_async import EEP, EEP_SPECIFICATIONS, EEPHandler, EEPMessage, ERP1Telegram
-from enocean_async.esp3.packet import ESP3PacketType
+from enocean_async import EEP, EEP_SPECIFICATIONS
+from enocean_async.eep.handler import EEPHandler
+from enocean_async.eep.message import EEPMessage
+from enocean_async.protocol.erp1.telegram import ERP1Telegram
+from enocean_async.protocol.esp3.packet import ESP3PacketType
 import probatio
 
 from universalassistant.components.switch import (
@@ -11,7 +14,7 @@ from universalassistant.components.switch import (
     SwitchEntity,
 )
 from universalassistant.const import CONF_ID, CONF_NAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -38,7 +41,7 @@ def generate_unique_id(dev_id: list[int], channel: int) -> str:
     return f"{combine_hex(dev_id)}-{channel}"
 
 
-def _migrate_to_new_unique_id(hass: __HAC_KEEP__, dev_id, channel) -> None:
+def _migrate_to_new_unique_id(hass: UniversalAssistant, dev_id, channel) -> None:
     """Migrate old unique ids to new unique ids."""
     old_unique_id = f"{combine_hex(dev_id)}"
 
@@ -64,7 +67,7 @@ def _migrate_to_new_unique_id(hass: __HAC_KEEP__, dev_id, channel) -> None:
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -98,7 +101,7 @@ class EnOceanSwitch(EnOceanEntity, SwitchEntity):
             return
 
         optional = [0x03]
-        optional.extend(self.address.to_bytelist())
+        optional.extend(self.address.bytelist)
         optional.extend([0xFF, 0x00])
         self.send_command(
             data=[0xD2, 0x01, self.channel & 0xFF, 0x64, 0x00, 0x00, 0x00, 0x00, 0x00],
@@ -113,7 +116,7 @@ class EnOceanSwitch(EnOceanEntity, SwitchEntity):
         if not self.address:
             return
         optional = [0x03]
-        optional.extend(self.address.to_bytelist())
+        optional.extend(self.address.bytelist)
         optional.extend([0xFF, 0x00])
         self.send_command(
             data=[0xD2, 0x01, self.channel & 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],
@@ -127,16 +130,16 @@ class EnOceanSwitch(EnOceanEntity, SwitchEntity):
         """Update the internal state of the switch."""
         if telegram.rorg == 0xA5:
             # power meter telegram, turn on if > 1 watts
-            if (eep := EEP_SPECIFICATIONS.get(EEP(0xA5, 0x12, 0x01))) is None:
+            if (eep := EEP_SPECIFICATIONS.get(EEP("A5-12-01"))) is None:
                 LOGGER.warning("EEP A5-12-01 cannot be decoded")
                 return
 
             msg: EEPMessage = EEPHandler(eep).decode(telegram)
 
-            if "DT" in msg.values and msg.values["DT"].raw == 1:
+            if "DT" in msg.raw and msg.raw["DT"] == 1:
                 # this packet reports the current value
-                raw_val = msg.values["MR"].raw
-                divisor = msg.values["DIV"].raw
+                raw_val = msg.raw["MR"]
+                divisor = msg.raw["DIV"]
                 watts = raw_val / (10**divisor)
                 if watts > 1:
                     self._attr_is_on = True
@@ -144,14 +147,14 @@ class EnOceanSwitch(EnOceanEntity, SwitchEntity):
 
         elif telegram.rorg == 0xD2:
             # actuator status telegram
-            if (eep := EEP_SPECIFICATIONS.get(EEP(0xD2, 0x01, 0x01))) is None:
+            if (eep := EEP_SPECIFICATIONS.get(EEP("D2-01-01"))) is None:
                 LOGGER.warning("EEP D2-01-01 cannot be decoded")
                 return
 
             msg = EEPHandler(eep).decode(telegram)
-            if msg.values["CMD"].raw == 4:
-                channel = msg.values["I/O"].raw
-                output = msg.values["OV"].raw
+            if msg.raw["CMD"] == 4:
+                channel = msg.raw["I/O"]
+                output = msg.raw["OV"]
                 if channel == self.channel:
                     self._attr_is_on = output > 0
                     self.schedule_update_ha_state()

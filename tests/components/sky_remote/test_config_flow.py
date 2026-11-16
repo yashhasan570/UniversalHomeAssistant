@@ -8,14 +8,14 @@ from skyboxremote import LEGACY_PORT, SkyBoxConnectionError
 from universalassistant.components.sky_remote.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import SAMPLE_CONFIG
 
 
 async def test_user_flow(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_remote_control
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_remote_control
 ) -> None:
     """Test we can setup an entry."""
 
@@ -37,7 +37,7 @@ async def test_user_flow(
 
 
 async def test_device_exists_abort(
-    hass: __HAC_KEEP__, mock_config_entry, mock_remote_control
+    hass: UniversalAssistant, mock_config_entry, mock_remote_control
 ) -> None:
     """Test we abort flow if device already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -60,7 +60,7 @@ async def test_device_exists_abort(
 
 @pytest.mark.parametrize("mock_remote_control", [LEGACY_PORT], indirect=True)
 async def test_user_flow_legacy_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_remote_control,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_user_flow_legacy_device(
 
 @pytest.mark.parametrize("mock_remote_control", [6], indirect=True)
 async def test_user_flow_unconnectable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_remote_control,
 ) -> None:

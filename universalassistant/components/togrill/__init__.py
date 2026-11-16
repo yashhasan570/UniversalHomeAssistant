@@ -1,7 +1,7 @@
 """The ToGrill integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .coordinator import DeviceNotFound, ToGrillConfigEntry, ToGrillCoordinator
@@ -15,7 +15,7 @@ _PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ToGrillConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ToGrillConfigEntry) -> None:
     """Set up ToGrill Bluetooth from a config entry."""
 
     coordinator = ToGrillCoordinator(hass, entry)
@@ -30,6 +30,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ToGrillConfigEntry) -> No
     await hass.config_entries.async_forward_entry_setups(entry, _PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ToGrillConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ToGrillConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)

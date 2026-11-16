@@ -18,7 +18,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_START,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import Event, __HAC_KEEP__, ServiceCall
+from universalassistant.core import Event, UniversalAssistant, ServiceCall
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.event import track_point_in_utc_time
 from universalassistant.helpers.typing import ConfigType
@@ -68,7 +68,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Pilight component."""
 
     host = config[DOMAIN][CONF_HOST]
@@ -82,13 +82,13 @@ def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         return False
 
     def start_pilight_client(_):
-        """Run when __HA_KEEP__ starts."""
+        """Run when Universal Home Assistant starts."""
         pilight_client.start()
 
     hass.bus.listen_once(EVENT_HOMEASSISTANT_START, start_pilight_client)
 
     def stop_pilight_client(_):
-        """Run once when __HA_KEEP__ stops."""
+        """Run once when Universal Home Assistant stops."""
         pilight_client.stop()
 
     hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, stop_pilight_client)
@@ -154,7 +154,7 @@ class CallRateDelayThrottle:
     it should not block the mainloop.
     """
 
-    def __init__(self, hass: __HAC_KEEP__, delay_seconds: float) -> None:
+    def __init__(self, hass: UniversalAssistant, delay_seconds: float) -> None:
         """Initialize the delay handler."""
         self._delay = timedelta(seconds=max(0.0, delay_seconds))
         self._queue: list[Callable[[Any], None]] = []

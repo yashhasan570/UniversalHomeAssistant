@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
 from universalassistant.components.brother.const import UPDATE_INTERVAL
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -24,7 +24,7 @@ from .conftest import BROTHER_DATA
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_brother_client: AsyncMock,
@@ -39,7 +39,7 @@ async def test_binary_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensors_ink(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_ink_brother_client: AsyncMock,
@@ -68,7 +68,7 @@ async def test_binary_sensors_ink(
     ],
 )
 async def test_binary_sensors_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_brother_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -84,7 +84,7 @@ async def test_binary_sensors_disabled_by_default(
 
 
 async def test_no_binary_sensors_when_printer_errors_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_brother_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_no_binary_sensors_when_printer_errors_unavailable(
     ],
 )
 async def test_binary_sensor_state_reflects_printer_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_brother_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -123,7 +123,7 @@ async def test_binary_sensor_state_reflects_printer_errors(
 
 
 async def test_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_brother_client: AsyncMock,
     mock_config_entry: MockConfigEntry,

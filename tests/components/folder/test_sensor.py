@@ -14,7 +14,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import CONF_PLATFORM
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -24,7 +24,7 @@ ENTITY_ID = "sensor.test_folder"
 
 
 async def test_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     folder_path: str,
@@ -50,7 +50,7 @@ async def test_sensor(
 
 
 async def test_sensor_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     folder_path: str,
@@ -72,7 +72,7 @@ async def test_sensor_update(
 
 
 async def test_yaml_import(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry, folder_path: str
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry, folder_path: str
 ) -> None:
     """Test the YAML platform is imported and reported as deprecated."""
     assert await async_setup_component(
@@ -92,7 +92,7 @@ async def test_yaml_import(
 
 
 async def test_yaml_import_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
     folder_path: str,
@@ -114,7 +114,7 @@ async def test_yaml_import_already_configured(
 
 
 async def test_yaml_import_not_allowed(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry, folder_path: str
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry, folder_path: str
 ) -> None:
     """Test a failed YAML import raises a repair issue explaining why."""
     hass.config.allowlist_external_dirs = set()
@@ -136,7 +136,7 @@ async def test_yaml_import_not_allowed(
 
 
 @pytest.mark.usefixtures("folder_path")
-async def test_yaml_invalid_path(hass: __HAC_KEEP__) -> None:
+async def test_yaml_invalid_path(hass: UniversalAssistant) -> None:
     """Test a YAML path that is not a directory is rejected by the schema."""
     assert await async_setup_component(
         hass,

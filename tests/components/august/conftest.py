@@ -13,7 +13,7 @@ from universalassistant.components.application_credentials import (
     async_import_client_credential,
 )
 from universalassistant.components.august.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 USER_ID = "a76c25e5-49aa-4c14-cd0c-48a6931e2081"
@@ -129,7 +129,7 @@ def load_reauth_jwt_wrong_account_fixture() -> str:
 
 
 @pytest.fixture(name="client_credentials", autouse=True)
-async def mock_client_credentials_fixture(hass: __HAC_KEEP__) -> None:
+async def mock_client_credentials_fixture(hass: UniversalAssistant) -> None:
     """Mock client credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(

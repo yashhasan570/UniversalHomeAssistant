@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.rehlko.coordinator import SCAN_INTERVAL_MINUTES
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -27,7 +27,7 @@ async def platform_sensor_fixture():
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     rehlko_config_entry: MockConfigEntry,
@@ -40,7 +40,7 @@ async def test_sensors(
 
 
 async def test_sensor_availability_device_disconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     generator: dict[str, Any],
     mock_rehlko: AsyncMock,
     load_rehlko_config_entry: None,
@@ -64,7 +64,7 @@ async def test_sensor_availability_device_disconnect(
 
 
 async def test_sensor_availability_poll_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rehlko: AsyncMock,
     load_rehlko_config_entry: None,
     freezer: FrozenDateTimeFactory,

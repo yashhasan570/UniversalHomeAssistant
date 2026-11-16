@@ -107,7 +107,7 @@ class TOTPConfigFlow(ConfigFlow, domain=DOMAIN):
         provisioning_uri = await self.hass.async_add_executor_job(
             pyotp.TOTP(self.user_input[CONF_TOKEN]).provisioning_uri,
             self.user_input[CONF_NAME],
-            "__HA_KEEP__",
+            "Universal Home Assistant",
         )
         data_schema = STEP_CONFIRM_DATA_SCHEMA.extend(
             {

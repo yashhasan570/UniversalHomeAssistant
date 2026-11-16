@@ -8,8 +8,8 @@ from py_nanotts import NanoTTS
 
 from universalassistant.components.tts import CONF_LANG, TextToSpeechEntity, TtsAudioType
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -21,7 +21,7 @@ SAMPLE_CHANNELS = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -55,7 +55,7 @@ class PicoTTSEntity(TextToSpeechEntity):
         try:
             audio = self._engine.speak(message, voice=language)
         except RuntimeError as exc:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="synthesis_error",
                 translation_placeholders={"error": str(exc)},

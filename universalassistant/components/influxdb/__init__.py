@@ -42,7 +42,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     EntityStateAttribute,
 )
-from universalassistant.core import Event, __HAC_KEEP__, State, callback
+from universalassistant.core import Event, UniversalAssistant, State, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, state as state_helper
 from universalassistant.helpers.entity_values import EntityValues
@@ -515,7 +515,7 @@ def get_influx_connection(  # noqa: C901
     return InfluxClient(databases, write_v1, query_v1, close_v1)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: InfluxDBConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: InfluxDBConfigEntry) -> None:
     """Set up InfluxDB from a config entry."""
     data = entry.data
 
@@ -561,7 +561,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: InfluxDBConfigEntry) -> N
     entry.runtime_data = influx_thread
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: InfluxDBConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: InfluxDBConfigEntry) -> None:
     """Unload a config entry."""
     influx_thread = entry.runtime_data
 
@@ -574,7 +574,7 @@ class InfluxThread(threading.Thread):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: InfluxDBConfigEntry,
         influx: InfluxClient,
         event_to_json: Callable[[Event], dict[str, Any] | None],

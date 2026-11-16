@@ -10,13 +10,12 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.humidifier import (
-    ATTR_HUMIDITY,
-    ATTR_MODE,
     DOMAIN as HUMIDIFIER_DOMAIN,
     MODE_AUTO,
     MODE_SLEEP,
-    SERVICE_SET_HUMIDITY,
-    SERVICE_SET_MODE,
+    HumidifierEntityStateAttribute,
+    HumidifierService,
+    HumidifierServiceArgument,
 )
 from universalassistant.components.vesync.const import (
     VS_HUMIDIFIER_MODE_AUTO,
@@ -24,14 +23,9 @@ from universalassistant.components.vesync.const import (
     VS_HUMIDIFIER_MODE_SLEEP,
 )
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
-from universalassistant.const import (
-    ATTR_ENTITY_ID,
-    SERVICE_TURN_OFF,
-    SERVICE_TURN_ON,
-    STATE_UNAVAILABLE,
-)
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .common import (
@@ -47,7 +41,7 @@ NoException = nullcontext()
 
 @pytest.mark.parametrize("device_name", ALL_DEVICE_NAMES)
 async def test_humidifier_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -84,7 +78,7 @@ async def test_humidifier_state(
 
 
 async def test_humidifier_state_assert(
-    hass: __HAC_KEEP__, humidifier_config_entry: MockConfigEntry
+    hass: UniversalAssistant, humidifier_config_entry: MockConfigEntry
 ) -> None:
     """Test the resulting setup state is as expected for the platform."""
 
@@ -101,13 +95,13 @@ async def test_humidifier_state_assert(
 
     state = hass.states.get(ENTITY_HUMIDIFIER)
 
-    # ATTR_HUMIDITY represents the target_humidity which comes from
+    # The humidity attribute represents the target_humidity which comes from
     # configuration.auto_target_humidity node
-    assert state.attributes.get(ATTR_HUMIDITY) == 40
+    assert state.attributes.get(HumidifierEntityStateAttribute.HUMIDITY) == 40
 
 
 async def test_set_target_humidity_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     humidifier_config_entry: MockConfigEntry,
 ) -> None:
     """Test handling of invalid value in set_humidify method."""
@@ -122,8 +116,11 @@ async def test_set_target_humidity_invalid(
     ):
         await hass.services.async_call(
             HUMIDIFIER_DOMAIN,
-            SERVICE_SET_HUMIDITY,
-            {ATTR_ENTITY_ID: ENTITY_HUMIDIFIER, ATTR_HUMIDITY: 20},
+            HumidifierService.SET_HUMIDITY,
+            {
+                CommonServiceArgument.ENTITY_ID: ENTITY_HUMIDIFIER,
+                HumidifierServiceArgument.HUMIDITY: 20,
+            },
             blocking=True,
         )
     await hass.async_block_till_done()
@@ -132,10 +129,10 @@ async def test_set_target_humidity_invalid(
 
 @pytest.mark.parametrize(
     ("api_response", "expectation"),
-    [(True, NoException), (False, pytest.raises(__HAC_KEEP__Error))],
+    [(True, NoException), (False, pytest.raises(UniversalAssistantError))],
 )
 async def test_set_target_humidity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     humidifier_config_entry: MockConfigEntry,
     api_response: bool,
     expectation,
@@ -143,7 +140,7 @@ async def test_set_target_humidity(
     """Test handling of return value from VeSyncHumid200300S.set_humidity."""
 
     # If VeSyncHumid200300S.set_humidity fails (returns False),
-    # then __HAC_KEEP__Error is raised
+    # then UniversalAssistantError is raised
     with (
         expectation,
         patch(
@@ -153,8 +150,11 @@ async def test_set_target_humidity(
     ):
         await hass.services.async_call(
             HUMIDIFIER_DOMAIN,
-            SERVICE_SET_HUMIDITY,
-            {ATTR_ENTITY_ID: ENTITY_HUMIDIFIER, ATTR_HUMIDITY: 54},
+            HumidifierService.SET_HUMIDITY,
+            {
+                CommonServiceArgument.ENTITY_ID: ENTITY_HUMIDIFIER,
+                HumidifierServiceArgument.HUMIDITY: 54,
+            },
             blocking=True,
         )
         await hass.async_block_till_done()
@@ -163,10 +163,10 @@ async def test_set_target_humidity(
 
 @pytest.mark.parametrize(
     ("api_response", "expectation"),
-    [(False, pytest.raises(__HAC_KEEP__Error)), (True, NoException)],
+    [(False, pytest.raises(UniversalAssistantError)), (True, NoException)],
 )
 async def test_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     humidifier_config_entry: MockConfigEntry,
     api_response: bool,
     expectation,
@@ -174,7 +174,7 @@ async def test_turn_on(
     """Test turn_on method."""
 
     # turn_on returns False indicating failure in which case humidifier.turn_on
-    # raises __HAC_KEEP__Error.
+    # raises UniversalAssistantError.
     with (
         expectation,
         patch(
@@ -187,8 +187,8 @@ async def test_turn_on(
         ) as update_mock:
             await hass.services.async_call(
                 HUMIDIFIER_DOMAIN,
-                SERVICE_TURN_ON,
-                {ATTR_ENTITY_ID: ENTITY_HUMIDIFIER},
+                HumidifierService.TURN_ON,
+                {CommonServiceArgument.ENTITY_ID: ENTITY_HUMIDIFIER},
                 blocking=True,
             )
 
@@ -199,10 +199,10 @@ async def test_turn_on(
 
 @pytest.mark.parametrize(
     ("api_response", "expectation"),
-    [(False, pytest.raises(__HAC_KEEP__Error)), (True, NoException)],
+    [(False, pytest.raises(UniversalAssistantError)), (True, NoException)],
 )
 async def test_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     humidifier_config_entry: MockConfigEntry,
     api_response: bool,
     expectation,
@@ -210,7 +210,7 @@ async def test_turn_off(
     """Test turn_off method."""
 
     # turn_off returns False indicating failure in which case humidifier.turn_off
-    # raises __HAC_KEEP__Error.
+    # raises UniversalAssistantError.
     with (
         expectation,
         patch(
@@ -223,8 +223,8 @@ async def test_turn_off(
         ) as update_mock:
             await hass.services.async_call(
                 HUMIDIFIER_DOMAIN,
-                SERVICE_TURN_OFF,
-                {ATTR_ENTITY_ID: ENTITY_HUMIDIFIER},
+                HumidifierService.TURN_OFF,
+                {CommonServiceArgument.ENTITY_ID: ENTITY_HUMIDIFIER},
                 blocking=True,
             )
 
@@ -234,7 +234,7 @@ async def test_turn_off(
 
 
 async def test_set_mode_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     humidifier_config_entry: MockConfigEntry,
 ) -> None:
     """Test handling of invalid value in set_mode method."""
@@ -242,11 +242,14 @@ async def test_set_mode_invalid(
     with patch(
         "pyvesync.devices.vesynchumidifier.VeSyncHumid200300S.set_mode"
     ) as method_mock:
-        with pytest.raises(__HAC_KEEP__Error):
+        with pytest.raises(UniversalAssistantError):
             await hass.services.async_call(
                 HUMIDIFIER_DOMAIN,
-                SERVICE_SET_MODE,
-                {ATTR_ENTITY_ID: ENTITY_HUMIDIFIER, ATTR_MODE: "something_invalid"},
+                HumidifierService.SET_MODE,
+                {
+                    CommonServiceArgument.ENTITY_ID: ENTITY_HUMIDIFIER,
+                    HumidifierServiceArgument.MODE: "something_invalid",
+                },
                 blocking=True,
             )
         await hass.async_block_till_done()
@@ -255,10 +258,10 @@ async def test_set_mode_invalid(
 
 @pytest.mark.parametrize(
     ("api_response", "expectation"),
-    [(True, NoException), (False, pytest.raises(__HAC_KEEP__Error))],
+    [(True, NoException), (False, pytest.raises(UniversalAssistantError))],
 )
 async def test_set_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     humidifier_config_entry: MockConfigEntry,
     api_response: bool,
     expectation,
@@ -266,7 +269,7 @@ async def test_set_mode(
     """Test handling of value in set_mode method."""
 
     # If VeSyncHumid200300S.set_mode fails (returns False),
-    # then __HAC_KEEP__Error is raised
+    # then UniversalAssistantError is raised
     with (
         expectation,
         patch(
@@ -276,8 +279,11 @@ async def test_set_mode(
     ):
         await hass.services.async_call(
             HUMIDIFIER_DOMAIN,
-            SERVICE_SET_MODE,
-            {ATTR_ENTITY_ID: ENTITY_HUMIDIFIER, ATTR_MODE: MODE_AUTO},
+            HumidifierService.SET_MODE,
+            {
+                CommonServiceArgument.ENTITY_ID: ENTITY_HUMIDIFIER,
+                HumidifierServiceArgument.MODE: MODE_AUTO,
+            },
             blocking=True,
         )
     await hass.async_block_till_done()
@@ -285,7 +291,7 @@ async def test_set_mode(
 
 
 async def test_base_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     humidifier_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -296,7 +302,7 @@ async def test_base_unique_id(
 
 
 async def test_invalid_mist_modes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     humidifier,
     manager,
@@ -316,7 +322,7 @@ async def test_invalid_mist_modes(
 
 
 async def test_valid_mist_modes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     humidifier,
     manager,
@@ -337,7 +343,7 @@ async def test_valid_mist_modes(
 
 
 async def test_set_mode_sleep_turns_display_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     humidifier,
     manager,
@@ -361,8 +367,11 @@ async def test_set_mode_sleep_turns_display_off(
     ):
         await hass.services.async_call(
             HUMIDIFIER_DOMAIN,
-            SERVICE_SET_MODE,
-            {ATTR_ENTITY_ID: ENTITY_HUMIDIFIER, ATTR_MODE: MODE_SLEEP},
+            HumidifierService.SET_MODE,
+            {
+                CommonServiceArgument.ENTITY_ID: ENTITY_HUMIDIFIER,
+                HumidifierServiceArgument.MODE: MODE_SLEEP,
+            },
             blocking=True,
         )
         display_mock.assert_called_once_with(False)

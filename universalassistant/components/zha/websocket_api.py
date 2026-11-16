@@ -40,7 +40,7 @@ import zigpy.zdo.types as zdo_types
 from universalassistant.components import websocket_api
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import ATTR_ID, ATTR_NAME
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 
@@ -173,7 +173,7 @@ CLUSTER_BINDING_SCHEMA = probatio.All(
 )
 @websocket_api.async_response
 async def websocket_permit_devices(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Permit ZHA zigbee devices."""
     zha_gateway_proxy = get_zha_gateway_proxy(hass)
@@ -222,7 +222,7 @@ async def websocket_permit_devices(
 @websocket_api.websocket_command({probatio.Required(TYPE): "zha/devices"})
 @websocket_api.async_response
 async def websocket_get_devices(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Get ZHA devices."""
     zha_gateway_proxy: ZHAGatewayProxy = get_zha_gateway_proxy(hass)
@@ -252,7 +252,7 @@ def _get_entity_original_name(
 @websocket_api.websocket_command({probatio.Required(TYPE): "zha/devices/groupable"})
 @websocket_api.async_response
 async def websocket_get_groupable_devices(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Get ZHA devices that can be grouped."""
     zha_gateway_proxy = get_zha_gateway_proxy(hass)
@@ -291,7 +291,7 @@ async def websocket_get_groupable_devices(
 @websocket_api.websocket_command({probatio.Required(TYPE): "zha/groups"})
 @websocket_api.async_response
 async def websocket_get_groups(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Get ZHA groups."""
     zha_gateway_proxy = get_zha_gateway_proxy(hass)
@@ -308,7 +308,7 @@ async def websocket_get_groups(
 )
 @websocket_api.async_response
 async def websocket_get_device(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Get ZHA devices."""
     zha_gateway_proxy = get_zha_gateway_proxy(hass)
@@ -335,7 +335,7 @@ async def websocket_get_device(
 )
 @websocket_api.async_response
 async def websocket_get_group(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Get ZHA group."""
     zha_gateway_proxy = get_zha_gateway_proxy(hass)
@@ -366,7 +366,7 @@ async def websocket_get_group(
 )
 @websocket_api.async_response
 async def websocket_add_group(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Add a new ZHA group."""
     zha_gateway = get_zha_gateway_proxy(hass)
@@ -397,7 +397,7 @@ async def websocket_add_group(
 )
 @websocket_api.async_response
 async def websocket_remove_groups(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Remove the specified ZHA groups."""
     zha_gateway = get_zha_gateway_proxy(hass)
@@ -427,7 +427,7 @@ async def websocket_remove_groups(
 )
 @websocket_api.async_response
 async def websocket_add_group_members(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Add members to a ZHA group."""
     zha_gateway = get_zha_gateway(hass)
@@ -461,7 +461,7 @@ async def websocket_add_group_members(
 )
 @websocket_api.async_response
 async def websocket_remove_group_members(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Remove members from a ZHA group."""
     zha_gateway = get_zha_gateway(hass)
@@ -492,7 +492,7 @@ async def websocket_remove_group_members(
 )
 @websocket_api.async_response
 async def websocket_reconfigure_node(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Reconfigure a ZHA node by its ieee address with a prior re-interview."""
     zha_gateway = get_zha_gateway(hass)
@@ -534,7 +534,7 @@ async def websocket_reconfigure_node(
 )
 @websocket_api.async_response
 async def websocket_update_topology(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Update the ZHA network topology."""
     zha_gateway = get_zha_gateway(hass)
@@ -550,7 +550,7 @@ async def websocket_update_topology(
 )
 @websocket_api.async_response
 async def websocket_device_clusters(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Return a list of device clusters."""
     zha_gateway = get_zha_gateway(hass)
@@ -595,7 +595,7 @@ async def websocket_device_clusters(
 )
 @websocket_api.async_response
 async def websocket_device_cluster_attributes(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Return a list of cluster attributes."""
     zha_gateway = get_zha_gateway(hass)
@@ -641,7 +641,7 @@ async def websocket_device_cluster_attributes(
 )
 @websocket_api.async_response
 async def websocket_device_cluster_commands(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Return a list of cluster commands."""
     from probatio import to_field_list  # noqa: PLC0415
@@ -714,7 +714,7 @@ async def websocket_device_cluster_commands(
 )
 @websocket_api.async_response
 async def websocket_read_zigbee_cluster_attributes(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Read zigbee attribute for cluster on ZHA entity."""
     zha_gateway = get_zha_gateway(hass)
@@ -767,7 +767,7 @@ async def websocket_read_zigbee_cluster_attributes(
 )
 @websocket_api.async_response
 async def websocket_get_bindable_devices(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Directly bind devices."""
     zha_gateway_proxy = get_zha_gateway_proxy(hass)
@@ -802,7 +802,7 @@ async def websocket_get_bindable_devices(
 )
 @websocket_api.async_response
 async def websocket_bind_devices(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Directly bind devices."""
     zha_gateway = get_zha_gateway(hass)
@@ -831,7 +831,7 @@ async def websocket_bind_devices(
 )
 @websocket_api.async_response
 async def websocket_unbind_devices(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Remove a direct binding between devices."""
     zha_gateway = get_zha_gateway(hass)
@@ -863,7 +863,7 @@ async def websocket_unbind_devices(
 )
 @websocket_api.async_response
 async def websocket_bind_group(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Directly bind a device to a group."""
     zha_gateway = get_zha_gateway(hass)
@@ -894,7 +894,7 @@ async def websocket_bind_group(
 )
 @websocket_api.async_response
 async def websocket_unbind_group(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Unbind a device from a group."""
     zha_gateway = get_zha_gateway(hass)
@@ -986,7 +986,7 @@ async def async_binding_operation(
 @websocket_api.websocket_command({probatio.Required(TYPE): "zha/configuration"})
 @websocket_api.async_response
 async def websocket_get_configuration(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Get ZHA configuration."""
     config_entry: ConfigEntry = get_config_entry(hass)
@@ -1031,7 +1031,7 @@ async def websocket_get_configuration(
 )
 @websocket_api.async_response
 async def websocket_update_zha_configuration(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Update the ZHA configuration."""
     config_entry: ConfigEntry = get_config_entry(hass)
@@ -1075,7 +1075,7 @@ async def websocket_update_zha_configuration(
 @websocket_api.websocket_command({probatio.Required(TYPE): "zha/network/settings"})
 @websocket_api.async_response
 async def websocket_get_network_settings(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Get ZHA network settings."""
     backup = async_get_active_network_settings(hass)
@@ -1095,7 +1095,7 @@ async def websocket_get_network_settings(
 @websocket_api.websocket_command({probatio.Required(TYPE): "zha/network/backups/list"})
 @websocket_api.async_response
 async def websocket_list_network_backups(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Get ZHA network settings."""
     zha_gateway = get_zha_gateway(hass)
@@ -1113,7 +1113,7 @@ async def websocket_list_network_backups(
 )
 @websocket_api.async_response
 async def websocket_create_network_backup(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Create a ZHA network backup."""
     zha_gateway = get_zha_gateway(hass)
@@ -1140,7 +1140,7 @@ async def websocket_create_network_backup(
 )
 @websocket_api.async_response
 async def websocket_restore_network_backup(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Restore a ZHA network backup."""
     zha_gateway = get_zha_gateway(hass)
@@ -1172,7 +1172,7 @@ async def websocket_restore_network_backup(
 )
 @websocket_api.async_response
 async def websocket_change_channel(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Migrate the Zigbee network to a new channel."""
     new_channel = cast(Literal["auto"] | int, msg[ATTR_NEW_CHANNEL])
@@ -1181,7 +1181,7 @@ async def websocket_change_channel(
 
 
 @callback
-def async_load_api(hass: __HAC_KEEP__) -> None:
+def async_load_api(hass: UniversalAssistant) -> None:
     """Set up the web socket API."""
     websocket_api.async_register_command(hass, websocket_permit_devices)
     websocket_api.async_register_command(hass, websocket_get_devices)

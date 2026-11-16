@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -23,7 +23,7 @@ async def platforms() -> AsyncGenerator[None]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_state_entity_device_snapshots(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -48,7 +48,7 @@ async def test_state_entity_device_snapshots(
 )
 @pytest.mark.usefixtures("mock_auth_client")
 async def test_last_seen_timestamp_parsing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api_client_init: MagicMock,
     timestamp: str | None,
@@ -68,7 +68,7 @@ async def test_last_seen_timestamp_parsing(
 
 @pytest.mark.usefixtures("mock_auth_client")
 async def test_subscription_end_unknown_without_servicebooking(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api_client_init: MagicMock,
 ) -> None:
@@ -98,7 +98,7 @@ async def test_subscription_end_unknown_without_servicebooking(
 )
 @pytest.mark.usefixtures("mock_auth_client")
 async def test_subscription_end_parsing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api_client_init: MagicMock,
     servicebooking_until: str | None,

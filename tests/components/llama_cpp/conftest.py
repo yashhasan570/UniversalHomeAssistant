@@ -18,7 +18,7 @@ from universalassistant.components.llama_cpp.const import (
 )
 from universalassistant.config_entries import ConfigSubentryData
 from universalassistant.const import CONF_API_KEY, CONF_LLM_HASS_API, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import chat_session, llm
 from universalassistant.setup import async_setup_component
 
@@ -32,7 +32,7 @@ ASSIST_OPTIONS = {CONF_LLM_HASS_API: llm.LLM_API_ASSIST}
 
 
 @pytest.fixture(autouse=True)
-async def setup_universal_assistant(hass: __HAC_KEEP__) -> None:
+async def setup_universal_assistant(hass: UniversalAssistant) -> None:
     """Enable dependencies."""
     assert await async_setup_component(hass, "universalassistant", {})
 
@@ -45,7 +45,7 @@ def mock_platforms() -> list[Platform]:
 
 @pytest.fixture(name="setup_integration")
 async def mock_setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     platforms: list[Platform],
 ) -> AsyncGenerator[None]:
@@ -70,7 +70,7 @@ def config_entry_options_fixture() -> dict[str, Any]:
 
 @pytest.fixture(name="mock_config_entry")
 def mock_config_entry_fixture(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_data: dict[str, Any],
     config_entry_options: dict[str, Any],
 ) -> MockConfigEntry:
@@ -132,7 +132,7 @@ class MockChatLog(conversation.ChatLog):
 
 
 @pytest.fixture
-def mock_chat_log(hass: __HAC_KEEP__) -> Generator[conversation.ChatLog]:
+def mock_chat_log(hass: UniversalAssistant) -> Generator[conversation.ChatLog]:
     """Return mock chat logs."""
     # pylint: disable-next=contextmanager-generator-missing-cleanup
     with (

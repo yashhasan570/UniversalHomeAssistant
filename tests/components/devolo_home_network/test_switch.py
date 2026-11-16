@@ -22,8 +22,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.update_coordinator import REQUEST_REFRESH_DEFAULT_COOLDOWN
 
@@ -33,7 +33,7 @@ from .mock import MockDevice
 
 @pytest.mark.usefixtures("mock_device")
 async def test_switch_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test default setup of the switch component."""
@@ -52,7 +52,7 @@ async def test_switch_setup(
 
 
 async def test_update_guest_wifi_status_auth_failed(
-    hass: __HAC_KEEP__, mock_device: MockDevice
+    hass: UniversalAssistant, mock_device: MockDevice
 ) -> None:
     """Test getting the wifi_status with wrong password triggers the reauth flow."""
     entry = configure_integration(hass)
@@ -75,7 +75,7 @@ async def test_update_guest_wifi_status_auth_failed(
 
 
 async def test_update_enable_guest_wifi(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: MockDevice,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
@@ -151,7 +151,7 @@ async def test_update_enable_guest_wifi(
     mock_device.device.async_set_wifi_guest_access.side_effect = DeviceUnavailable()
 
     with pytest.raises(
-        __HAC_KEEP__Error, match=f"Device {entry.title} did not respond"
+        UniversalAssistantError, match=f"Device {entry.title} did not respond"
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,
@@ -165,7 +165,7 @@ async def test_update_enable_guest_wifi(
 
 
 async def test_update_enable_leds(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: MockDevice,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
@@ -235,7 +235,7 @@ async def test_update_enable_leds(
     mock_device.device.async_set_led_setting.side_effect = DeviceUnavailable()
 
     with pytest.raises(
-        __HAC_KEEP__Error, match=f"Device {entry.title} did not respond"
+        UniversalAssistantError, match=f"Device {entry.title} did not respond"
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,
@@ -256,7 +256,7 @@ async def test_update_enable_leds(
     ],
 )
 async def test_device_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: MockDevice,
     freezer: FrozenDateTimeFactory,
     name: str,
@@ -293,7 +293,7 @@ async def test_device_failure(
     ],
 )
 async def test_auth_failed(
-    hass: __HAC_KEEP__, mock_device: MockDevice, name: str, set_method: str
+    hass: UniversalAssistant, mock_device: MockDevice, name: str, set_method: str
 ) -> None:
     """Test setting unautherized triggers the reauth flow."""
     entry = configure_integration(hass)
@@ -310,7 +310,7 @@ async def test_auth_failed(
     api = getattr(mock_device.device, set_method)
     api.side_effect = DevicePasswordProtected
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -330,7 +330,7 @@ async def test_auth_failed(
     assert flow["context"]["source"] == SOURCE_REAUTH
     assert flow["context"]["entry_id"] == entry.entry_id
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,

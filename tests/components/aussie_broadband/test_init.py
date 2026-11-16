@@ -6,13 +6,13 @@ from aiohttp import ClientConnectionError
 from aussiebb.exceptions import AuthenticationException, UnrecognisedServiceType
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .common import setup_platform
 
 
-async def test_unload(hass: __HAC_KEEP__) -> None:
+async def test_unload(hass: UniversalAssistant) -> None:
     """Test unload."""
     entry = await setup_platform(hass)
     assert await hass.config_entries.async_unload(entry.entry_id)
@@ -20,7 +20,7 @@ async def test_unload(hass: __HAC_KEEP__) -> None:
     assert entry.state is ConfigEntryState.NOT_LOADED
 
 
-async def test_auth_failure(hass: __HAC_KEEP__) -> None:
+async def test_auth_failure(hass: UniversalAssistant) -> None:
     """Test init with an authentication failure."""
     with patch(
         "universalassistant.components.aussie_broadband.config_flow.AussieBroadbandConfigFlow.async_step_reauth",
@@ -36,13 +36,13 @@ async def test_auth_failure(hass: __HAC_KEEP__) -> None:
         mock_async_step_reauth.assert_called_once()
 
 
-async def test_net_failure(hass: __HAC_KEEP__) -> None:
+async def test_net_failure(hass: UniversalAssistant) -> None:
     """Test init with a network failure."""
     entry = await setup_platform(hass, side_effect=ClientConnectionError())
     assert entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_service_failure(hass: __HAC_KEEP__) -> None:
+async def test_service_failure(hass: UniversalAssistant) -> None:
     """Test init with a invalid service."""
     entry = await setup_platform(hass, usage_effect=UnrecognisedServiceType())
     assert entry.state is ConfigEntryState.SETUP_RETRY

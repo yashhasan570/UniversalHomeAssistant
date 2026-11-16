@@ -16,12 +16,12 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     EntityCategory,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
 async def test_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,

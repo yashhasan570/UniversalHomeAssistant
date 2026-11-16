@@ -6,11 +6,11 @@ from pydeako import FindDevicesError
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_deako_async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     pydeako_deako_mock: MagicMock,
     pydeako_discoverer_mock: MagicMock,
@@ -38,7 +38,7 @@ async def test_deako_async_setup_entry(
 
 
 async def test_deako_async_setup_entry_devices_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     pydeako_deako_mock: MagicMock,
     pydeako_discoverer_mock: MagicMock,

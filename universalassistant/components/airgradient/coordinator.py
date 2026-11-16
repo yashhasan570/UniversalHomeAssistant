@@ -7,7 +7,7 @@ from typing import override
 from airgradient import AirGradientClient, AirGradientError, Config, Measures
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -32,7 +32,7 @@ class AirGradientCoordinator(DataUpdateCoordinator[AirGradientData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: AirGradientConfigEntry,
         client: AirGradientClient,
     ) -> None:

@@ -3,7 +3,7 @@
 import pytest
 
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import MOCK_NAME, MOCK_RECORDINGS_LIST
 
@@ -43,7 +43,7 @@ async def mock_tv_recordings_list_unavailable(mock_tv):
 
 
 async def test_recordings_list_api_invalid(
-    mock_tv_api_invalid, mock_config_entry, hass: __HAC_KEEP__
+    mock_tv_api_invalid, mock_config_entry, hass: UniversalAssistant
 ) -> None:
     """Test if sensors are not created if mock_tv is invalid."""
 
@@ -57,7 +57,7 @@ async def test_recordings_list_api_invalid(
 
 
 async def test_recordings_list_valid(
-    mock_tv_api_valid, mock_config_entry, hass: __HAC_KEEP__
+    mock_tv_api_valid, mock_config_entry, hass: UniversalAssistant
 ) -> None:
     """Test if sensors are created correctly."""
 
@@ -71,7 +71,7 @@ async def test_recordings_list_valid(
 
 
 async def test_recordings_list_unavailable(
-    mock_tv_recordings_list_unavailable, mock_config_entry, hass: __HAC_KEEP__
+    mock_tv_recordings_list_unavailable, mock_config_entry, hass: UniversalAssistant
 ) -> None:
     """Test if sensors are created correctly."""
 

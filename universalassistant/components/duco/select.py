@@ -13,8 +13,8 @@ from duco_connectivity import (
 )
 
 from universalassistant.components.select import SelectEntity
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN, VENTILATION_CAPABLE_NODE_TYPES
@@ -50,7 +50,7 @@ def _discover_ventilation_options(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: DucoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -130,12 +130,12 @@ class DucoVentilationStateSelect(DucoEntity, SelectEntity):
             # through keeps newly added Duco states forward-compatible.
             await self.coordinator.async_set_ventilation_state(self._node_id, option)
         except DucoRateLimitError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="rate_limit_exceeded",
             ) from err
         except DucoError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="failed_to_set_state",
             ) from err

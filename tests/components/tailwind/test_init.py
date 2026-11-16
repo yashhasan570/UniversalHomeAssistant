@@ -12,11 +12,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.tailwind.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tailwind: MagicMock,
 ) -> None:
@@ -43,7 +43,7 @@ async def test_load_unload_config_entry(
     ],
 )
 async def test_config_entry_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tailwind: MagicMock,
     side_effect: type[Exception],
@@ -61,7 +61,7 @@ async def test_config_entry_not_ready(
 
 
 async def test_config_entry_authentication_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tailwind: MagicMock,
 ) -> None:

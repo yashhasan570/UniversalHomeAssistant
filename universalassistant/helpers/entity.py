@@ -45,14 +45,14 @@ from universalassistant.core import (
     Context,
     Event,
     HassJobType,
-    __HAC_KEEP__,
+    UniversalAssistant,
     ReleaseChannel,
     callback,
     get_hassjob_callable_job_type,
     get_release_channel,
 )
 from universalassistant.core_config import DATA_CUSTOMIZE
-from universalassistant.exceptions import __HAC_KEEP__Error, NoEntitySpecifiedError
+from universalassistant.exceptions import UniversalAssistantError, NoEntitySpecifiedError
 from universalassistant.loader import async_suggest_report_issue
 from universalassistant.util import ensure_unique_string, slugify
 from universalassistant.util.async_ import wait_shared_future
@@ -89,14 +89,14 @@ CONTEXT_RECENT_TIME_SECONDS = 5  # Time that a context is considered recent
 
 
 @callback
-def async_setup(hass: __HAC_KEEP__) -> None:
+def async_setup(hass: UniversalAssistant) -> None:
     """Set up entity sources."""
     entity_sources(hass)
 
 
 @callback
 @singleton(DATA_ENTITY_SOURCE)
-def entity_sources(hass: __HAC_KEEP__) -> dict[str, EntityInfo]:
+def entity_sources(hass: UniversalAssistant) -> dict[str, EntityInfo]:
     """Get the entity sources.
 
     Items are added to this dict by Entity.async_internal_added_to_hass and
@@ -116,7 +116,7 @@ _ADD_REMOVE_METHODS = (
 def _entity_class_requires_readd(entity_class: type[Entity]) -> bool:
     """Return if an entity_id change must remove and re-add entities of a class.
 
-    Only classes defined outside of __HA_KEEP__ Core count, entities of core
+    Only classes defined outside of Universal Home Assistant Core count, entities of core
     integrations are always changed in place. Add or remove methods in
     _ADD_REMOVE_METHODS defined by such a class are covered when that class, or
     a subclass of it in the MRO, defines async_entity_id_changed. A sibling
@@ -124,7 +124,7 @@ def _entity_class_requires_readd(entity_class: type[Entity]) -> bool:
     remove methods do not count, core handles them in
     async_internal_entity_id_changed.
 
-    This can be removed in __HA_KEEP__ Core 2027.11.
+    This can be removed in Universal Home Assistant Core 2027.11.
     """
     mro = [
         cls
@@ -143,7 +143,7 @@ def generate_entity_id(
     entity_id_format: str,
     name: str | None,
     current_ids: list[str] | None = None,
-    hass: __HAC_KEEP__ | None = None,
+    hass: UniversalAssistant | None = None,
 ) -> str:
     """Generate a unique entity ID based on given entity IDs or used IDs."""
     return async_generate_entity_id(entity_id_format, name, current_ids, hass)
@@ -154,7 +154,7 @@ def async_generate_entity_id(
     entity_id_format: str,
     name: str | None,
     current_ids: Iterable[str] | None = None,
-    hass: __HAC_KEEP__ | None = None,
+    hass: UniversalAssistant | None = None,
 ) -> str:
     """Generate a unique entity ID based on given entity IDs or used IDs."""
     name = (name or DEVICE_DEFAULT_NAME).lower()
@@ -175,7 +175,7 @@ def async_generate_entity_id(
     return test_string
 
 
-def get_capability(hass: __HAC_KEEP__, entity_id: str, capability: str) -> Any | None:
+def get_capability(hass: UniversalAssistant, entity_id: str, capability: str) -> Any | None:
     """Get a capability attribute of an entity.
 
     First try the statemachine, then entity registry.
@@ -185,12 +185,12 @@ def get_capability(hass: __HAC_KEEP__, entity_id: str, capability: str) -> Any |
 
     entity_registry = er.async_get(hass)
     if not (entry := entity_registry.async_get(entity_id)):
-        raise __HAC_KEEP__Error(f"Unknown entity {entity_id}")
+        raise UniversalAssistantError(f"Unknown entity {entity_id}")
 
     return entry.capabilities.get(capability) if entry.capabilities else None
 
 
-def get_device_class(hass: __HAC_KEEP__, entity_id: str) -> str | None:
+def get_device_class(hass: UniversalAssistant, entity_id: str) -> str | None:
     """Get device class of an entity.
 
     First try the statemachine, then entity registry.
@@ -200,22 +200,22 @@ def get_device_class(hass: __HAC_KEEP__, entity_id: str) -> str | None:
 
     entity_registry = er.async_get(hass)
     if not (entry := entity_registry.async_get(entity_id)):
-        raise __HAC_KEEP__Error(f"Unknown entity {entity_id}")
+        raise UniversalAssistantError(f"Unknown entity {entity_id}")
 
     return entry.device_class or entry.original_device_class
 
 
 def get_device_class_or_undefined(
-    hass: __HAC_KEEP__, entity_id: str
+    hass: UniversalAssistant, entity_id: str
 ) -> str | Undefined | None:
     """Get the device class of an entity or Undefined if not found."""
     try:
         return get_device_class(hass, entity_id)
-    except __HAC_KEEP__Error:
+    except UniversalAssistantError:
         return Undefined
 
 
-def get_supported_features(hass: __HAC_KEEP__, entity_id: str) -> int:
+def get_supported_features(hass: UniversalAssistant, entity_id: str) -> int:
     """Get supported features for an entity.
 
     First try the statemachine, then entity registry.
@@ -225,12 +225,12 @@ def get_supported_features(hass: __HAC_KEEP__, entity_id: str) -> int:
 
     entity_registry = er.async_get(hass)
     if not (entry := entity_registry.async_get(entity_id)):
-        raise __HAC_KEEP__Error(f"Unknown entity {entity_id}")
+        raise UniversalAssistantError(f"Unknown entity {entity_id}")
 
     return entry.supported_features or 0
 
 
-def get_unit_of_measurement(hass: __HAC_KEEP__, entity_id: str) -> str | None:
+def get_unit_of_measurement(hass: UniversalAssistant, entity_id: str) -> str | None:
     """Get unit of measurement of an entity.
 
     First try the statemachine, then entity registry.
@@ -240,7 +240,7 @@ def get_unit_of_measurement(hass: __HAC_KEEP__, entity_id: str) -> str | None:
 
     entity_registry = er.async_get(hass)
     if not (entry := entity_registry.async_get(entity_id)):
-        raise __HAC_KEEP__Error(f"Unknown entity {entity_id}")
+        raise UniversalAssistantError(f"Unknown entity {entity_id}")
 
     return entry.unit_of_measurement
 
@@ -284,7 +284,7 @@ _SENTINEL = sentinel("_SENTINEL")
 
 
 class EntityDescription(metaclass=FrozenOrThawed, frozen_or_thawed=True):
-    """A class that describes __HA_KEEP__ entities."""
+    """A class that describes Universal Home Assistant entities."""
 
     # This is the key identifier for this entity
     key: str
@@ -500,7 +500,7 @@ CACHED_PROPERTIES_WITH_ATTR_ = {
 class Entity(
     metaclass=ABCCachedProperties, cached_properties=CACHED_PROPERTIES_WITH_ATTR_
 ):
-    """An abstract class for __HA_KEEP__ entities."""
+    """An abstract class for Universal Home Assistant entities."""
 
     # SAFE TO OVERWRITE
     # The properties and methods here are safe to overwrite when inheriting
@@ -510,7 +510,7 @@ class Entity(
     # Owning hass instance. Set by EntityPlatform by calling add_to_platform_start
     # While not purely typed, it makes typehinting more useful for us
     # and removes the need for constant None checks or asserts.
-    hass: __HAC_KEEP__ = None  # type: ignore[assignment]
+    hass: UniversalAssistant = None  # type: ignore[assignment]
 
     # Owning platform instance. Set by EntityPlatform by calling add_to_platform_start
     # While not purely typed, it makes typehinting more useful for us
@@ -744,7 +744,7 @@ class Entity(
         except KeyError as err:
             if not self._name_translation_placeholders_reported:
                 if get_release_channel() is not ReleaseChannel.STABLE:
-                    raise __HAC_KEEP__Error(f"Missing placeholder {err}") from err
+                    raise UniversalAssistantError(f"Missing placeholder {err}") from err
                 report_issue = self._suggest_report_issue()
                 _LOGGER.warning(
                     (
@@ -996,7 +996,7 @@ class Entity(
         return {}
 
     # DO NOT OVERWRITE
-    # These properties and methods are either managed by __HA_KEEP__ or they
+    # These properties and methods are either managed by Universal Home Assistant or they
     # are used to perform a very specific function. Overwriting these may
     # produce undesirable effects in the entity's operation.
 
@@ -1016,7 +1016,7 @@ class Entity(
         self._context_set = time.time()
 
     async def async_update_ha_state(self, force_refresh: bool = False) -> None:
-        """Update __HA_KEEP__ with current state of entity.
+        """Update Universal Home Assistant with current state of entity.
 
         If force_refresh == True will update entity before setting state.
 
@@ -1446,13 +1446,13 @@ class Entity(
     @callback
     def add_to_platform_start(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         platform: EntityPlatform,
         parallel_updates: asyncio.Semaphore | None,
     ) -> None:
         """Start adding an entity to a platform."""
         if self._platform_state is not EntityPlatformState.NOT_ADDED:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Entity '{self.entity_id}' cannot be added a second time to an entity"
                 " platform"
             )
@@ -1490,7 +1490,7 @@ class Entity(
 
     @final
     async def async_remove(self, *, force_remove: bool = False) -> None:
-        """Remove entity from __HA_KEEP__.
+        """Remove entity from Universal Home Assistant.
 
         If the entity has a non disabled entry in the entity registry,
         the entity's state will be set to unavailable, in the same way
@@ -1514,7 +1514,7 @@ class Entity(
 
     @final
     async def __async_remove_impl(self, force_remove: bool) -> None:
-        """Remove entity from __HA_KEEP__."""
+        """Remove entity from Universal Home Assistant."""
 
         self._platform_state = EntityPlatformState.REMOVED
 
@@ -1767,7 +1767,7 @@ class Entity(
         old_entity_id = old.entity_id
         if _entity_class_requires_readd(type(self)):
             # Backwards compatibility for custom integrations not yet migrated to
-            # async_entity_id_changed, can be removed in __HA_KEEP__ Core 2027.11.
+            # async_entity_id_changed, can be removed in Universal Home Assistant Core 2027.11.
             await self._async_readd_on_entity_id_change(old_entity_id, registry_entry)
             return
 
@@ -1795,7 +1795,7 @@ class Entity(
 
         Used for entities of custom integrations which have not opted in to
         async_entity_id_changed.
-        Can be removed in __HA_KEEP__ Core 2027.11.
+        Can be removed in Universal Home Assistant Core 2027.11.
         """
         await self.async_remove(force_remove=True)
 
@@ -1961,7 +1961,7 @@ class ToggleEntity(
     def toggle(self, **kwargs: Any) -> None:
         """Toggle the entity.
 
-        This method will never be called by __HA_KEEP__ and should not be implemented
+        This method will never be called by Universal Home Assistant and should not be implemented
         by integrations.
         """
 

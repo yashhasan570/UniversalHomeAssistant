@@ -36,7 +36,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfVolumetricFlux,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -233,7 +233,7 @@ DESCRIPTIONS: tuple[SenseCapSensorDescription[Any], ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SenseCapConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -251,7 +251,7 @@ async def async_setup_entry(
 
 
 class SenseCapSensor(LoRaWANEntity[SenseCapDevice], SensorEntity):
-    """__HA_KEEP__ entity representing a SenseCAP device datapoint."""
+    """Universal Home Assistant entity representing a SenseCAP device datapoint."""
 
     coordinator: SenseCapCoordinator
     entity_description: SenseCapSensorDescription[Any]

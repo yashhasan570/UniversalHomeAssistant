@@ -33,7 +33,7 @@ from universalassistant.components.media_player import (
     MediaPlayerEntityFeature,
     MediaPlayerState,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -45,7 +45,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: EpsonConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

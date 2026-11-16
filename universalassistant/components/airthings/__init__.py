@@ -6,7 +6,7 @@ import logging
 from airthings import Airthings
 
 from universalassistant.const import CONF_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import CONF_SECRET
@@ -18,7 +18,7 @@ PLATFORMS: list[Platform] = [Platform.SENSOR]
 SCAN_INTERVAL = timedelta(minutes=6)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: AirthingsConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: AirthingsConfigEntry) -> None:
     """Set up Airthings from a config entry."""
     airthings = Airthings(
         entry.data[CONF_ID],
@@ -35,6 +35,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: AirthingsConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: AirthingsConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: AirthingsConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

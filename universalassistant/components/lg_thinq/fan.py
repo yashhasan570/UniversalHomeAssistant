@@ -13,7 +13,7 @@ from universalassistant.components.fan import (
     FanEntityDescription,
     FanEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
     ordered_list_item_to_percentage,
@@ -67,7 +67,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ThinqConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

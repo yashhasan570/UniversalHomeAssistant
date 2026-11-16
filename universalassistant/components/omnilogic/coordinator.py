@@ -7,7 +7,7 @@ from typing import Any, override
 from omnilogic import OmniLogic, OmniLogicException
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import ALL_ITEM_KINDS, SCAN_INTERVAL
@@ -25,7 +25,7 @@ class OmniLogicUpdateCoordinator(DataUpdateCoordinator[dict[tuple, dict[str, Any
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         api: OmniLogic,
         name: str,
         config_entry: OmniLogicConfigEntry,

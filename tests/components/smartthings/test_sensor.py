@@ -14,7 +14,7 @@ from universalassistant.components.script import scripts_with_entity
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.components.smartthings.const import DOMAIN, MAIN
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -28,7 +28,7 @@ from . import (
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -42,7 +42,7 @@ async def test_all_entities(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_state_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -65,7 +65,7 @@ async def test_state_update(
 
 @pytest.mark.parametrize("device_fixture", ["multipurpose_sensor"])
 async def test_three_axis_none_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -162,7 +162,7 @@ async def test_three_axis_none_value(
     ],
 )
 async def test_create_issue_with_items(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -331,7 +331,7 @@ async def test_create_issue_with_items(
     ],
 )
 async def test_create_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -384,7 +384,7 @@ async def test_create_issue(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -411,7 +411,7 @@ async def test_availability(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_availability_at_start(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     unavailable_device: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -435,7 +435,7 @@ async def test_availability_at_start(
     ],
 )
 async def test_stick_cleaner_operating_state_is_mapped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     reported_state: str,
@@ -459,7 +459,7 @@ async def test_stick_cleaner_operating_state_is_mapped(
 
 @pytest.mark.parametrize("device_fixture", ["da_wm_wm_000001"])
 async def test_partial_power_consumption_report(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -485,7 +485,7 @@ async def test_partial_power_consumption_report(
 
 @pytest.mark.parametrize("device_fixture", ["da_wm_wm_000001"])
 async def test_negative_power_consumption_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

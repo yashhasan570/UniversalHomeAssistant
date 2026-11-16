@@ -16,7 +16,7 @@ from pymiele import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import DOMAIN
@@ -61,7 +61,7 @@ class MieleDataUpdateCoordinator(DataUpdateCoordinator[MieleCoordinatorData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: MieleConfigEntry,
         api: MieleAPI,
     ) -> None:
@@ -144,7 +144,7 @@ class MieleAuxDataUpdateCoordinator(DataUpdateCoordinator[MieleAuxCoordinatorDat
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: MieleConfigEntry,
         api: MieleAPI,
     ) -> None:

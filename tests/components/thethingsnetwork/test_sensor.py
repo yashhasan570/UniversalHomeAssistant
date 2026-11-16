@@ -1,6 +1,6 @@
 """Define tests for the The Things Network sensor."""
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import init_integration
@@ -16,7 +16,7 @@ from .conftest import (
 
 
 async def test_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_ttnclient,

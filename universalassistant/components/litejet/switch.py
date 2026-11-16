@@ -5,8 +5,8 @@ from typing import Any, override
 from pylitejet import LiteJet, LiteJetError
 
 from universalassistant.components.switch import SwitchDeviceClass, SwitchEntity
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -18,7 +18,7 @@ ATTR_NUMBER = "number"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: LiteJetConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -43,7 +43,7 @@ class LiteJetSwitch(SwitchEntity):
     _attr_device_class = SwitchDeviceClass.SWITCH
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry_id: str, system: LiteJet, i: int, name: str
+        self, hass: UniversalAssistant, entry_id: str, system: LiteJet, i: int, name: str
     ) -> None:
         """Initialize a LiteJet switch."""
         self._lj = system
@@ -101,7 +101,7 @@ class LiteJetSwitch(SwitchEntity):
         try:
             await self._lj.press_switch(self._index)
         except LiteJetError as exc:
-            raise __HAC_KEEP__Error from exc
+            raise UniversalAssistantError from exc
 
     @override
     async def async_turn_off(self, **kwargs: Any) -> None:
@@ -109,4 +109,4 @@ class LiteJetSwitch(SwitchEntity):
         try:
             await self._lj.release_switch(self._index)
         except LiteJetError as exc:
-            raise __HAC_KEEP__Error from exc
+            raise UniversalAssistantError from exc

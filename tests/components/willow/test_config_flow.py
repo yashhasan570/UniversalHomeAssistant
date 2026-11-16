@@ -18,7 +18,7 @@ from universalassistant.components.willow.const import (
     OAUTH2_TOKEN,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
@@ -29,7 +29,7 @@ REDIRECT_URI = "https://example.com/auth/external/callback"
 pytestmark = pytest.mark.usefixtures("current_request_with_host", "setup_credentials")
 
 
-async def _initiate_user_flow(hass: __HAC_KEEP__) -> dict:
+async def _initiate_user_flow(hass: UniversalAssistant) -> dict:
     """Start the OAuth2 user flow and return the EXTERNAL_STEP result."""
     return await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -37,7 +37,7 @@ async def _initiate_user_flow(hass: __HAC_KEEP__) -> dict:
 
 
 async def _complete_oauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     result: dict,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
@@ -65,7 +65,7 @@ async def _complete_oauth(
 
 
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_willow_client: MagicMock,
@@ -100,7 +100,7 @@ async def test_full_flow(
 
 
 async def test_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_willow_client: MagicMock,
@@ -125,7 +125,7 @@ async def test_already_configured(
     ],
 )
 async def test_profile_errors_abort(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_willow_client: MagicMock,
@@ -144,7 +144,7 @@ async def test_profile_errors_abort(
 
 
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_willow_client: MagicMock,
@@ -181,7 +181,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_flow_abort(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_willow_client: MagicMock,

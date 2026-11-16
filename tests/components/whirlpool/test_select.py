@@ -12,7 +12,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -20,7 +20,7 @@ from . import init_integration, snapshot_whirlpool_entities, trigger_attr_callba
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, snapshot: SnapshotAssertion, entity_registry: er.EntityRegistry
 ) -> None:
     """Test all entities."""
     await init_integration(hass)
@@ -46,7 +46,7 @@ async def test_all_entities(
     ],
 )
 async def test_select_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id: str,
     mock_fixture: str,
     mock_getter_method_name: str,
@@ -86,7 +86,7 @@ async def test_select_entities(
 
 
 async def test_select_option_value_error(
-    hass: __HAC_KEEP__, mock_refrigerator_api: MagicMock
+    hass: UniversalAssistant, mock_refrigerator_api: MagicMock
 ) -> None:
     """Test handling of ValueError exception when selecting an option."""
     await init_integration(hass)
@@ -131,7 +131,7 @@ def oven_cook_mode_entity(
 
 
 async def test_oven_cook_mode_current(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     oven_cook_mode_entity: tuple[str, str, whirlpool.oven.Cavity],
     request: pytest.FixtureRequest,
 ) -> None:
@@ -147,7 +147,7 @@ async def test_oven_cook_mode_current(
 
 
 async def test_oven_cook_mode_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     oven_cook_mode_entity: tuple[str, str, whirlpool.oven.Cavity],
     request: pytest.FixtureRequest,
 ) -> None:
@@ -171,7 +171,7 @@ async def test_oven_cook_mode_select(
 
 
 async def test_oven_cook_mode_select_from_idle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     oven_cook_mode_entity: tuple[str, str, whirlpool.oven.Cavity],
     request: pytest.FixtureRequest,
 ) -> None:
@@ -196,7 +196,7 @@ async def test_oven_cook_mode_select_from_idle(
 
 
 async def test_oven_cook_mode_select_standby(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     oven_cook_mode_entity: tuple[str, str, whirlpool.oven.Cavity],
     request: pytest.FixtureRequest,
 ) -> None:
@@ -219,7 +219,7 @@ async def test_oven_cook_mode_select_standby(
 
 
 async def test_oven_cook_mode_select_value_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     oven_cook_mode_entity: tuple[str, str, whirlpool.oven.Cavity],
     request: pytest.FixtureRequest,
 ) -> None:

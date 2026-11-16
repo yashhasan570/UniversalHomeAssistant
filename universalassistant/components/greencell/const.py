@@ -1,4 +1,4 @@
-"""Core constants for the Greencell EVSE __HA_KEEP__ integration."""
+"""Core constants for the Greencell EVSE Universal Home Assistant integration."""
 
 from typing import Final
 

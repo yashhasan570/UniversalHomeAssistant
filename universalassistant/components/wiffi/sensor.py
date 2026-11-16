@@ -8,7 +8,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import DEGREE, LIGHT_LUX, UnitOfPressure, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -41,7 +41,7 @@ UOM_MAP = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: WiffiConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

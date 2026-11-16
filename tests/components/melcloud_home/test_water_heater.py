@@ -30,8 +30,8 @@ from universalassistant.components.water_heater import (
     STATE_HIGH_DEMAND,
 )
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, STATE_OFF, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -42,7 +42,7 @@ ATW_UNIT_ID = "atw-unit-uuid-1"
 
 @pytest.mark.usefixtures("mock_melcloud_client")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -59,7 +59,7 @@ async def test_all_entities(
 
 
 async def test_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -86,7 +86,7 @@ async def test_set_temperature(
     ],
 )
 async def test_set_operation_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     operation_mode: str,
@@ -129,18 +129,18 @@ async def test_set_operation_mode(
     ],
 )
 async def test_action_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
     service_data: dict[str, Any],
     exception: type[Exception],
 ) -> None:
-    """Test water heater actions raise __HAC_KEEP__Error on client errors."""
+    """Test water heater actions raise UniversalAssistantError on client errors."""
     await setup_integration(hass, mock_config_entry)
     mock_melcloud_client.control_atw_unit.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             WATER_HEATER_DOMAIN,
             service,
@@ -150,7 +150,7 @@ async def test_action_exceptions(
 
 
 async def test_no_water_heater_without_hot_water(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -165,7 +165,7 @@ async def test_no_water_heater_without_hot_water(
 
 
 async def test_capabilities_without_tank_limits(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -193,7 +193,7 @@ async def test_capabilities_without_tank_limits(
     ],
 )
 async def test_state_off_when_unit_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     setting: str,

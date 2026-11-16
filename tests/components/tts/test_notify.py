@@ -10,7 +10,7 @@ from universalassistant.components.media_player import (
     DOMAIN as MP_DOMAIN,
     SERVICE_PLAY_MEDIA,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.setup import async_setup_component
 
@@ -18,7 +18,7 @@ from .common import MockTTSEntity, MockTTSProvider, mock_config_entry_setup, moc
 
 
 @pytest.fixture(autouse=True)
-async def internal_url_mock(hass: __HAC_KEEP__) -> None:
+async def internal_url_mock(hass: UniversalAssistant) -> None:
     """Mock internal URL of the instance."""
     await async_process_ha_core_config(
         hass,
@@ -36,7 +36,7 @@ async def disable_platforms() -> None:
         yield
 
 
-async def test_setup_legacy_platform(hass: __HAC_KEEP__) -> None:
+async def test_setup_legacy_platform(hass: UniversalAssistant) -> None:
     """Set up the tts notify platform ."""
     config = {
         notify.DOMAIN: {
@@ -53,7 +53,7 @@ async def test_setup_legacy_platform(hass: __HAC_KEEP__) -> None:
     assert hass.services.has_service(notify.DOMAIN, "tts_test")
 
 
-async def test_setup_platform(hass: __HAC_KEEP__) -> None:
+async def test_setup_platform(hass: UniversalAssistant) -> None:
     """Set up the tts notify platform ."""
     config = {
         notify.DOMAIN: {
@@ -70,7 +70,7 @@ async def test_setup_platform(hass: __HAC_KEEP__) -> None:
     assert hass.services.has_service(notify.DOMAIN, "tts_test")
 
 
-async def test_setup_platform_missing_key(hass: __HAC_KEEP__) -> None:
+async def test_setup_platform_missing_key(hass: UniversalAssistant) -> None:
     """Test platform without required tts_service or entity_id key."""
     config = {
         notify.DOMAIN: {
@@ -87,7 +87,7 @@ async def test_setup_platform_missing_key(hass: __HAC_KEEP__) -> None:
 
 
 async def test_setup_legacy_service(
-    hass: __HAC_KEEP__, mock_provider: MockTTSProvider
+    hass: UniversalAssistant, mock_provider: MockTTSProvider
 ) -> None:
     """Set up the legacy platform and call service."""
     calls = async_mock_service(hass, MP_DOMAIN, SERVICE_PLAY_MEDIA)
@@ -125,7 +125,7 @@ async def test_setup_legacy_service(
 
 
 async def test_setup_service(
-    hass: __HAC_KEEP__, mock_tts_entity: MockTTSEntity
+    hass: UniversalAssistant, mock_tts_entity: MockTTSEntity
 ) -> None:
     """Set up platform and call service."""
     calls = async_mock_service(hass, MP_DOMAIN, SERVICE_PLAY_MEDIA)

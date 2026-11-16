@@ -10,7 +10,7 @@ from pyipma.location import Location
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -33,7 +33,7 @@ class IpmaRuntimeData:
     location: Location
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, config_entry: IpmaConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, config_entry: IpmaConfigEntry) -> None:
     """Set up IPMA station as config entry."""
 
     latitude = config_entry.data[CONF_LATITUDE]
@@ -63,6 +63,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, config_entry: IpmaConfigEntry) -
     await hass.config_entries.async_forward_entry_setups(config_entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: IpmaConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: IpmaConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

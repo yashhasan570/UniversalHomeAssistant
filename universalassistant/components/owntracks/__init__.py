@@ -13,7 +13,7 @@ from universalassistant.components import cloud, mqtt, webhook
 from universalassistant.components.device_tracker import TrackerEntityStateAttribute
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_WEBHOOK_ID, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
@@ -70,13 +70,13 @@ CONFIG_SCHEMA = probatio.All(
 )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Initialize OwnTracks component."""
     hass.data[DATA_OWNTRACKS_CONFIG] = config[DOMAIN]
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: OwnTracksConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: OwnTracksConfigEntry) -> None:
     """Set up OwnTracks entry."""
     config = hass.data[DATA_OWNTRACKS_CONFIG]
     max_gps_accuracy = config.get(CONF_MAX_GPS_ACCURACY)
@@ -117,13 +117,13 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: OwnTracksConfigEntry) -> 
     entry.async_on_unload(async_dispatcher_connect(hass, DOMAIN, async_handle_message))
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: OwnTracksConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: OwnTracksConfigEntry) -> None:
     """Unload an OwnTracks config entry."""
     webhook.async_unregister(hass, entry.data[CONF_WEBHOOK_ID])
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_remove_entry(hass: __HAC_KEEP__, entry: OwnTracksConfigEntry) -> None:
+async def async_remove_entry(hass: UniversalAssistant, entry: OwnTracksConfigEntry) -> None:
     """Remove an OwnTracks config entry."""
     if not entry.data.get("cloudhook"):
         return
@@ -153,7 +153,7 @@ async def async_connect_mqtt(hass, component, context):
 
 
 async def handle_webhook(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     webhook_id: str,
     request: web.Request,
     context: OwnTracksContext,

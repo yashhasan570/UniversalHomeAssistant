@@ -4,11 +4,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.local_ip.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_config_flow(hass: __HAC_KEEP__) -> None:
+async def test_config_flow(hass: UniversalAssistant) -> None:
     """Test we can finish a config flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -23,7 +23,7 @@ async def test_config_flow(hass: __HAC_KEEP__) -> None:
     assert state
 
 
-async def test_already_setup(hass: __HAC_KEEP__) -> None:
+async def test_already_setup(hass: UniversalAssistant) -> None:
     """Test we abort if already setup."""
     MockConfigEntry(
         domain=DOMAIN,

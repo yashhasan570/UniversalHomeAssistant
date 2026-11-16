@@ -2,7 +2,7 @@
 
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 
@@ -13,7 +13,7 @@ PLATFORMS = [Platform.DEVICE_TRACKER, Platform.SENSOR]
 type AsusWrtConfigEntry = ConfigEntry[AsusWrtRouter]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: AsusWrtConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: AsusWrtConfigEntry) -> None:
     """Set up AsusWrt platform."""
 
     router = AsusWrtRouter(hass, entry)
@@ -34,7 +34,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: AsusWrtConfigEntry) -> No
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: AsusWrtConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: AsusWrtConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     router = entry.runtime_data
@@ -42,7 +42,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: AsusWrtConfigEntry) -> N
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, config_entry: AsusWrtConfigEntry, device_entry: AnyDeviceEntry
+    hass: UniversalAssistant, config_entry: AsusWrtConfigEntry, device_entry: AnyDeviceEntry
 ) -> bool:
     """Remove a client device which is not connected to the router."""
     if not isinstance(device_entry, dr.DeviceEntry):
@@ -66,7 +66,7 @@ async def async_remove_config_entry_device(
     return True
 
 
-async def update_listener(hass: __HAC_KEEP__, entry: AsusWrtConfigEntry) -> None:
+async def update_listener(hass: UniversalAssistant, entry: AsusWrtConfigEntry) -> None:
     """Reload when the connection data or options requiring a reload change."""
     router = entry.runtime_data
 

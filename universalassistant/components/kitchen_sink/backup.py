@@ -13,7 +13,7 @@ from universalassistant.components.backup import (
     Folder,
     OnProgressCallback,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 from .const import DATA_BACKUP_AGENT_LISTENERS, DOMAIN
 
@@ -21,7 +21,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 async def async_get_backup_agents(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> list[BackupAgent]:
     """Register the backup agents."""
     if not hass.config_entries.async_loaded_entries(DOMAIN):
@@ -32,7 +32,7 @@ async def async_get_backup_agents(
 
 @callback
 def async_register_backup_agents_listener(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     listener: Callable[[], None],
     **kwargs: Any,

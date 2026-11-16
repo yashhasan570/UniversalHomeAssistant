@@ -5,7 +5,7 @@ from typing import Any
 from aiogithubapi import GitHubAPI, GitHubException
 
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import (
     SERVER_SOFTWARE,
     async_get_clientsession,
@@ -15,7 +15,7 @@ from .coordinator import GithubConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: GithubConfigEntry,
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""

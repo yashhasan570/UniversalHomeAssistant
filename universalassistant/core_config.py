@@ -54,7 +54,7 @@ from .const import (
     UnitOfLength,
     __version__,
 )
-from .core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from .core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from .generated.currencies import HISTORIC_CURRENCIES
 from .helpers import config_validation as cv, issue_registry as ir
 from .helpers.entity_values import EntityValues
@@ -187,7 +187,7 @@ _CUSTOMIZE_CONFIG_SCHEMA = probatio.Schema(
 
 
 def _raise_issue_if_imperial_unit_system(
-    hass: __HAC_KEEP__, config: dict[str, Any]
+    hass: UniversalAssistant, config: dict[str, Any]
 ) -> dict[str, Any]:
     if config.get(CONF_UNIT_SYSTEM) == _CONF_UNIT_SYSTEM_IMPERIAL:
         ir.async_create_issue(
@@ -206,7 +206,7 @@ def _raise_issue_if_imperial_unit_system(
     return config
 
 
-def _raise_issue_if_historic_currency(hass: __HAC_KEEP__, currency: str) -> None:
+def _raise_issue_if_historic_currency(hass: UniversalAssistant, currency: str) -> None:
     if currency not in HISTORIC_CURRENCIES:
         ir.async_delete_issue(hass, HOMEASSISTANT_DOMAIN, "historic_currency")
         return
@@ -223,7 +223,7 @@ def _raise_issue_if_historic_currency(hass: __HAC_KEEP__, currency: str) -> None
     )
 
 
-def _raise_issue_if_no_country(hass: __HAC_KEEP__, country: str | None) -> None:
+def _raise_issue_if_no_country(hass: UniversalAssistant, country: str | None) -> None:
     if country is not None:
         ir.async_delete_issue(hass, HOMEASSISTANT_DOMAIN, "country_not_configured")
         return
@@ -351,7 +351,7 @@ CORE_CONFIG_SCHEMA = probatio.All(
 )
 
 
-async def async_process_ha_core_config(hass: __HAC_KEEP__, config: dict) -> None:
+async def async_process_ha_core_config(hass: UniversalAssistant, config: dict) -> None:
     """Process the [universalassistant] section from the configuration.
 
     This method is a coroutine.
@@ -537,11 +537,11 @@ class _ComponentSet(set[str]):
 
 
 class Config:
-    """Configuration settings for __HA_KEEP__."""
+    """Configuration settings for Universal Home Assistant."""
 
     _store: Config._ConfigStore
 
-    def __init__(self, hass: __HAC_KEEP__, config_dir: str) -> None:
+    def __init__(self, hass: UniversalAssistant, config_dir: str) -> None:
         """Initialize a new config object."""
         self.hass = hass
 
@@ -598,13 +598,13 @@ class Config:
         # Dictionary of Media folders that integrations may use
         self.media_dirs: dict[str, str] = {}
 
-        # If __HA_KEEP__ is running in recovery mode
+        # If Universal Home Assistant is running in recovery mode
         self.recovery_mode: bool = False
 
         # Use legacy template behavior
         self.legacy_templates: bool = False
 
-        # If __HA_KEEP__ is running in safe mode
+        # If Universal Home Assistant is running in safe mode
         self.safe_mode: bool = False
 
         self.webrtc = RTCConfiguration()
@@ -617,7 +617,7 @@ class Config:
         self._store = self._ConfigStore(self.hass)
 
     def distance(self, lat: float, lon: float) -> float | None:
-        """Calculate distance from __HA_KEEP__.
+        """Calculate distance from Universal Home Assistant.
 
         Async friendly.
         """
@@ -841,7 +841,7 @@ class Config:
     class _ConfigStore(Store[dict[str, Any]]):
         """Class to help storing Config data."""
 
-        def __init__(self, hass: __HAC_KEEP__) -> None:
+        def __init__(self, hass: UniversalAssistant) -> None:
             """Initialize storage class."""
             super().__init__(
                 hass,

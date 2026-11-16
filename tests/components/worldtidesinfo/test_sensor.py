@@ -9,7 +9,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 import requests
 import requests_mock
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_component import async_update_entity
 from universalassistant.setup import async_setup_component
 
@@ -36,7 +36,7 @@ DATA = {
 
 
 async def test_setup_retries_when_api_unreachable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     requests_mock: requests_mock.Mocker,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -58,7 +58,7 @@ async def test_setup_retries_when_api_unreachable(
 
 
 async def test_update_failure_keeps_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     requests_mock: requests_mock.Mocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

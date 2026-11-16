@@ -12,7 +12,7 @@ from universalassistant.components.unifi.const import (
     CONF_ALLOW_UPTIME_SENSORS,
     CONF_BLOCK_CLIENT,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 CLIENT_DATA = [
     {
@@ -189,7 +189,7 @@ WLAN_DATA = [
 @pytest.mark.parametrize("dpi_group_payload", [DPI_GROUP_DATA])
 @pytest.mark.parametrize("wlan_payload", [WLAN_DATA])
 async def test_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry_setup: MockConfigEntry,
     snapshot: SnapshotAssertion,

@@ -8,7 +8,7 @@ from typing import Any
 from psutil._ntuples import sfan, shwtemp
 import psutil_universal_assistant as ha_psutil
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CPU_SENSOR_PREFIXES
 
@@ -18,7 +18,7 @@ SKIP_DISK_TYPES = {"proc", "tmpfs", "devtmpfs"}
 
 
 def get_all_disk_mounts(
-    hass: __HAC_KEEP__, psutil_wrapper: ha_psutil.PsutilWrapper
+    hass: UniversalAssistant, psutil_wrapper: ha_psutil.PsutilWrapper
 ) -> set[str]:
     """Return all disk mount points on system."""
     disks: set[str] = set()
@@ -51,7 +51,7 @@ def get_all_disk_mounts(
 
 
 def get_all_network_interfaces(
-    hass: __HAC_KEEP__, psutil_wrapper: ha_psutil.PsutilWrapper
+    hass: UniversalAssistant, psutil_wrapper: ha_psutil.PsutilWrapper
 ) -> set[str]:
     """Return all network interfaces on system."""
     interfaces: set[str] = set()
@@ -64,7 +64,7 @@ def get_all_network_interfaces(
     return interfaces
 
 
-def get_all_running_processes(hass: __HAC_KEEP__) -> set[str]:
+def get_all_running_processes(hass: UniversalAssistant) -> set[str]:
     """Return all running processes on system."""
     psutil_wrapper = ha_psutil.PsutilWrapper()
     processes: set[str] = set()

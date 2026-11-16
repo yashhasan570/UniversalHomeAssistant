@@ -5,7 +5,7 @@ from enum import StrEnum
 import probatio
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchDeviceClass
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.typing import VolDictType
 
@@ -37,7 +37,7 @@ SERVICE_TURN_ON_WITH_TIMER_SCHEMA: VolDictType = {
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the services for the Switcher integration."""
 
     service.async_register_platform_entity_service(

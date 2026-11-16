@@ -8,7 +8,7 @@ from universalassistant.components.device_automation import DEVICE_TRIGGER_BASE_
 from universalassistant.components.universalassistant.triggers import event
 from universalassistant.components.universalassistant.triggers.event import EventTriggerArgument
 from universalassistant.const import CONF_DEVICE_ID, CONF_DOMAIN, CONF_PLATFORM, CONF_TYPE
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
 from universalassistant.helpers.typing import ConfigType
@@ -57,7 +57,7 @@ TYPE_SCHEMAS = {
 
 
 async def async_get_triggers(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, str]]:
     """List device triggers for LCN devices."""
     device_registry = dr.async_get(hass)
@@ -80,7 +80,7 @@ async def async_get_triggers(
 
 
 async def async_attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,
@@ -109,7 +109,7 @@ async def async_attach_trigger(
 
 
 async def async_get_trigger_capabilities(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List trigger capabilities."""
     return TYPE_SCHEMAS.get(config[CONF_TYPE], {})

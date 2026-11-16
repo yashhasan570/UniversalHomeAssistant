@@ -22,8 +22,8 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import async_setup_config_entry, async_setup_entity, mock_feature
@@ -57,7 +57,7 @@ def dimmer_fixture():
 
 
 async def test_dimmer_init(
-    dimmer, hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    dimmer, hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test cover default state."""
 
@@ -83,7 +83,7 @@ async def test_dimmer_init(
     assert device.sw_version == "1.23"
 
 
-async def test_dimmer_update(dimmer, hass: __HAC_KEEP__) -> None:
+async def test_dimmer_update(dimmer, hass: UniversalAssistant) -> None:
     """Test light updating."""
 
     feature_mock, entity_id = dimmer
@@ -96,7 +96,7 @@ async def test_dimmer_update(dimmer, hass: __HAC_KEEP__) -> None:
     assert state.state == STATE_ON
 
 
-async def test_dimmer_on(dimmer, hass: __HAC_KEEP__) -> None:
+async def test_dimmer_on(dimmer, hass: UniversalAssistant) -> None:
     """Test light on."""
 
     feature_mock, entity_id = dimmer
@@ -114,7 +114,7 @@ async def test_dimmer_on(dimmer, hass: __HAC_KEEP__) -> None:
     feature_mock.async_on.assert_called_once_with(254)
 
 
-async def test_dimmer_on_with_brightness(dimmer, hass: __HAC_KEEP__) -> None:
+async def test_dimmer_on_with_brightness(dimmer, hass: UniversalAssistant) -> None:
     """Test light on with a brightness value."""
 
     feature_mock, entity_id = dimmer
@@ -137,7 +137,7 @@ async def test_dimmer_on_with_brightness(dimmer, hass: __HAC_KEEP__) -> None:
     feature_mock.async_on.assert_called_once_with(202)
 
 
-async def test_dimmer_off(dimmer, hass: __HAC_KEEP__) -> None:
+async def test_dimmer_off(dimmer, hass: UniversalAssistant) -> None:
     """Test light off."""
 
     feature_mock, entity_id = dimmer
@@ -180,7 +180,7 @@ def wlightboxs_fixture():
 
 
 async def test_wlightbox_s_init(
-    wlightbox_s, hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    wlightbox_s, hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test cover default state."""
 
@@ -206,7 +206,7 @@ async def test_wlightbox_s_init(
     assert device.sw_version == "1.23"
 
 
-async def test_wlightbox_s_update(wlightbox_s, hass: __HAC_KEEP__) -> None:
+async def test_wlightbox_s_update(wlightbox_s, hass: UniversalAssistant) -> None:
     """Test light updating."""
 
     feature_mock, entity_id = wlightbox_s
@@ -220,7 +220,7 @@ async def test_wlightbox_s_update(wlightbox_s, hass: __HAC_KEEP__) -> None:
     assert state.attributes[ATTR_BRIGHTNESS] == 0xAB
 
 
-async def test_wlightbox_s_on(wlightbox_s, hass: __HAC_KEEP__) -> None:
+async def test_wlightbox_s_on(wlightbox_s, hass: UniversalAssistant) -> None:
     """Test light on."""
 
     feature_mock, entity_id = wlightbox_s
@@ -294,7 +294,7 @@ def wlightbox_ct_fixture() -> tuple[MagicMock, str]:
 
 @pytest.mark.parametrize("kelvin_requested", [1000, 2700, 3000, 4000, 5000, 6500, 8000])
 async def test_wlightbox_on_color_temp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     wlightbox_ct: tuple[MagicMock, str],
     kelvin_requested: int,
 ) -> None:
@@ -326,7 +326,7 @@ async def test_wlightbox_on_color_temp(
 
 
 async def test_wlightbox_init(
-    wlightbox, hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    wlightbox, hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test cover default state."""
 
@@ -353,7 +353,7 @@ async def test_wlightbox_init(
     assert device.sw_version == "1.23"
 
 
-async def test_wlightbox_update(wlightbox, hass: __HAC_KEEP__) -> None:
+async def test_wlightbox_update(wlightbox, hass: UniversalAssistant) -> None:
     """Test light updating."""
 
     feature_mock, entity_id = wlightbox
@@ -368,7 +368,7 @@ async def test_wlightbox_update(wlightbox, hass: __HAC_KEEP__) -> None:
     assert state.state == STATE_ON
 
 
-async def test_wlightbox_on_rgbw(wlightbox, hass: __HAC_KEEP__) -> None:
+async def test_wlightbox_on_rgbw(wlightbox, hass: UniversalAssistant) -> None:
     """Test light on."""
 
     feature_mock, entity_id = wlightbox
@@ -385,7 +385,7 @@ async def test_wlightbox_on_rgbw(wlightbox, hass: __HAC_KEEP__) -> None:
     feature_mock.async_on.assert_called_once_with([193, 210, 243, 199])
 
 
-async def test_wlightbox_on_to_last_color(wlightbox, hass: __HAC_KEEP__) -> None:
+async def test_wlightbox_on_to_last_color(wlightbox, hass: UniversalAssistant) -> None:
     """Test light on."""
 
     feature_mock, entity_id = wlightbox
@@ -404,7 +404,7 @@ async def test_wlightbox_on_to_last_color(wlightbox, hass: __HAC_KEEP__) -> None
 
 
 async def test_wlightbox_turn_on_with_zero_brightness_turns_off(
-    wlightbox, hass: __HAC_KEEP__
+    wlightbox, hass: UniversalAssistant
 ) -> None:
     """Test that setting brightness to 0 turns the light off instead of raising ValueError."""
 
@@ -423,7 +423,7 @@ async def test_wlightbox_turn_on_with_zero_brightness_turns_off(
     feature_mock.async_on.assert_not_called()
 
 
-async def test_wlightbox_off(wlightbox, hass: __HAC_KEEP__) -> None:
+async def test_wlightbox_off(wlightbox, hass: UniversalAssistant) -> None:
     """Test light off."""
 
     feature_mock, entity_id = wlightbox
@@ -443,7 +443,7 @@ async def test_wlightbox_off(wlightbox, hass: __HAC_KEEP__) -> None:
 @pytest.mark.parametrize("feature", ALL_LIGHT_FIXTURES, indirect=["feature"])
 async def test_update_failure(
     feature,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -464,7 +464,7 @@ async def test_update_failure(
 
 @pytest.mark.parametrize("feature", ALL_LIGHT_FIXTURES, indirect=["feature"])
 async def test_turn_on_failure(
-    feature, hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    feature, hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that turn_on failures are logged."""
 
@@ -475,7 +475,7 @@ async def test_turn_on_failure(
     await async_setup_entity(hass, entity_id)
 
     feature_mock.sensible_on_value = 123
-    with pytest.raises(__HAC_KEEP__Error) as info:
+    with pytest.raises(UniversalAssistantError) as info:
         await hass.services.async_call(
             "light",
             SERVICE_TURN_ON,
@@ -486,14 +486,14 @@ async def test_turn_on_failure(
     assert info.value.translation_key == "bad_value"
 
 
-async def test_wlightbox_on_effect(wlightbox, hass: __HAC_KEEP__) -> None:
+async def test_wlightbox_on_effect(wlightbox, hass: UniversalAssistant) -> None:
     """Test light on."""
 
     feature_mock, entity_id = wlightbox
 
     await async_setup_entity(hass, entity_id)
 
-    with pytest.raises(__HAC_KEEP__Error) as info:
+    with pytest.raises(UniversalAssistantError) as info:
         await hass.services.async_call(
             "light",
             SERVICE_TURN_ON,
@@ -550,7 +550,7 @@ async def test_wlightbox_on_effect(wlightbox, hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_multichannel_light_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     index: int,
     color_mode: blebox_uniapi.light.BleboxColorMode,
     entity_id: str,

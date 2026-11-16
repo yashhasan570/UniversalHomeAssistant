@@ -1,25 +1,28 @@
 """Test init of Brother integration."""
 
+import logging
 from unittest.mock import AsyncMock
 
-from brother import SnmpError
+from brother import SnmpError, UnsupportedModelError
+from freezegun.api import FrozenDateTimeFactory
 import pytest
-from pytest_universalassistant.common import MockConfigEntry
+from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
 from universalassistant.components.brother.const import (
     CONF_COMMUNITY,
     DOMAIN,
     SECTION_ADVANCED_SETTINGS,
+    UPDATE_INTERVAL,
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_TYPE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import init_integration
 
 
 async def test_async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_brother_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -30,7 +33,7 @@ async def test_async_setup_entry(
 
 
 async def test_config_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_brother_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -44,7 +47,7 @@ async def test_config_not_ready(
 
 @pytest.mark.parametrize("exc", [(SnmpError("SNMP Error")), (ConnectionError)])
 async def test_error_on_init(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exc: Exception,
     mock_config_entry: MockConfigEntry,
     mock_brother: AsyncMock,
@@ -58,8 +61,42 @@ async def test_error_on_init(
     assert mock_config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
+@pytest.mark.parametrize(
+    ("exc", "level"),
+    [
+        (ConnectionError, logging.INFO),
+        (TimeoutError, logging.INFO),
+        (SnmpError("SNMP Error"), logging.ERROR),
+        (UnsupportedModelError("error"), logging.ERROR),
+    ],
+)
+async def test_update_failure_log_level(
+    hass: UniversalAssistant,
+    exc: Exception,
+    level: int,
+    mock_brother_client: AsyncMock,
+    mock_config_entry: MockConfigEntry,
+    freezer: FrozenDateTimeFactory,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    """Test an unreachable printer is logged at info level, not as an error."""
+    await init_integration(hass, mock_config_entry)
+
+    mock_brother_client.async_update.side_effect = exc
+    freezer.tick(UPDATE_INTERVAL)
+    async_fire_time_changed(hass)
+    await hass.async_block_till_done()
+
+    assert [
+        record.levelno
+        for record in caplog.records
+        if record.name.startswith("universalassistant.components.brother")
+        and record.levelno > logging.DEBUG
+    ] == [level]
+
+
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_brother_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -77,7 +114,7 @@ async def test_unload_entry(
 
 
 async def test_migrate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_brother_client: AsyncMock,
 ) -> None:
     """Test entry migration to minor_version=2."""
@@ -100,7 +137,7 @@ async def test_migrate_entry(
 
 
 async def test_serial_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_brother: AsyncMock,
     mock_brother_client: AsyncMock,

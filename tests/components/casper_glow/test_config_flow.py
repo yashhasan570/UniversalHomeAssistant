@@ -16,7 +16,7 @@ from universalassistant.components.bluetooth import BluetoothServiceInfoBleak
 from universalassistant.components.casper_glow.const import DOMAIN
 from universalassistant.config_entries import SOURCE_BLUETOOTH, SOURCE_USER
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.device_registry import format_mac
 
@@ -28,7 +28,7 @@ from . import (
 
 
 async def test_bluetooth_step_success(
-    hass: __HAC_KEEP__, mock_casper_glow: MagicMock
+    hass: UniversalAssistant, mock_casper_glow: MagicMock
 ) -> None:
     """Test bluetooth discovery step success."""
     result = await hass.config_entries.flow.async_init(
@@ -64,7 +64,7 @@ async def test_bluetooth_step_success(
     [(CasperGlowError, "cannot_connect"), (RuntimeError, "unknown")],
 )
 async def test_bluetooth_confirm_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     side_effect: type[Exception],
     reason: str,
 ) -> None:
@@ -84,7 +84,7 @@ async def test_bluetooth_confirm_error(
 
 
 async def test_bluetooth_step_ignores_unrecognized_device(
-    hass: __HAC_KEEP__, mock_casper_glow: MagicMock
+    hass: UniversalAssistant, mock_casper_glow: MagicMock
 ) -> None:
     """Test bluetooth discovery aborts before handshaking with unsupported devices."""
     result = await hass.config_entries.flow.async_init(
@@ -99,7 +99,7 @@ async def test_bluetooth_step_ignores_unrecognized_device(
 
 
 async def test_user_step_success(
-    hass: __HAC_KEEP__, mock_casper_glow: MagicMock
+    hass: UniversalAssistant, mock_casper_glow: MagicMock
 ) -> None:
     """Test user step success path."""
     with patch(
@@ -134,7 +134,7 @@ async def test_user_step_success(
     assert result["result"].unique_id == format_mac(CASPER_GLOW_DISCOVERY_INFO.address)
 
 
-async def test_user_step_no_devices(hass: __HAC_KEEP__) -> None:
+async def test_user_step_no_devices(hass: UniversalAssistant) -> None:
     """Test user step with no devices found."""
     with patch(
         "universalassistant.components.casper_glow.config_flow.async_discovered_service_info",
@@ -152,7 +152,7 @@ async def test_user_step_no_devices(hass: __HAC_KEEP__) -> None:
     [(CasperGlowError, "cannot_connect"), (RuntimeError, "unknown")],
 )
 async def test_user_step_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     side_effect: type[Exception],
     expected_error: str,
 ) -> None:
@@ -197,7 +197,7 @@ async def test_user_step_error(
 
 
 async def test_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test already configured device."""
     mock_config_entry.add_to_hass(hass)
@@ -211,7 +211,7 @@ async def test_already_configured(
     assert result["reason"] == "already_configured"
 
 
-async def test_user_step_skips_unrecognized_device(hass: __HAC_KEEP__) -> None:
+async def test_user_step_skips_unrecognized_device(hass: UniversalAssistant) -> None:
     """Test that devices without a matching local name prefix are skipped."""
     unrecognized_discovery = BluetoothServiceInfoBleak(
         name="",

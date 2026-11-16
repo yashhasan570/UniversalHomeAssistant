@@ -1,1 +1,1 @@
-"""Cribl virtual integration for __HA_KEEP__."""
+"""Cribl virtual integration for Universal Home Assistant."""

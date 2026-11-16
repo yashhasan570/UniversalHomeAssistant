@@ -30,7 +30,7 @@ from universalassistant.components.recorder.statistics import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, UnitOfEnergy, UnitOfVolume
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
@@ -62,7 +62,7 @@ class OpowerCoordinator(DataUpdateCoordinator[dict[str, OpowerData]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: OpowerConfigEntry,
     ) -> None:
         """Initialize the data handler."""

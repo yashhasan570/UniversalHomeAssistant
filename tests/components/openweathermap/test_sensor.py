@@ -13,7 +13,7 @@ from universalassistant.components.openweathermap.const import (
     OWM_MODE_V30,
 )
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_platform
@@ -23,7 +23,7 @@ from . import setup_platform
     "mode", [OWM_MODE_V30, OWM_MODE_FREE_CURRENT, OWM_MODE_AIRPOLLUTION], indirect=True
 )
 async def test_sensor_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -38,7 +38,7 @@ async def test_sensor_states(
 
 @pytest.mark.parametrize("mode", [OWM_MODE_FREE_FORECAST], indirect=True)
 async def test_mode_no_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,

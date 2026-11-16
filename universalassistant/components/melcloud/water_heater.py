@@ -16,7 +16,7 @@ from universalassistant.components.water_heater import (
     WaterHeaterEntityFeature,
 )
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import ATTR_STATUS
@@ -25,7 +25,7 @@ from .entity import MelCloudEntity
 
 
 async def async_setup_entry(
-    _hass: __HAC_KEEP__,
+    _hass: UniversalAssistant,
     entry: MelCloudConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

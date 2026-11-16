@@ -37,7 +37,7 @@ from universalassistant.const import (
     SERVICE_VOLUME_SET,
     SERVICE_VOLUME_UP,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.parametrize(
@@ -45,7 +45,7 @@ from universalassistant.core import __HAC_KEEP__
     [(False, PowerState.STANDBY), (True, PowerState.DEEP_STANDBY)],
 )
 async def test_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     openwebif_device_mock: AsyncMock,
     deep_standby: bool,
@@ -66,7 +66,7 @@ async def test_turn_off(
 
 
 async def test_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     openwebif_device_mock: AsyncMock,
 ) -> None:
@@ -84,7 +84,7 @@ async def test_turn_on(
 
 
 async def test_set_volume_level(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     openwebif_device_mock: AsyncMock,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_set_volume_level(
 
 
 async def test_volume_up(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     openwebif_device_mock: AsyncMock,
 ) -> None:
@@ -122,7 +122,7 @@ async def test_volume_up(
 
 
 async def test_volume_down(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     openwebif_device_mock: AsyncMock,
 ) -> None:
@@ -152,7 +152,7 @@ async def test_volume_down(
     ],
 )
 async def test_remote_control_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     openwebif_device_mock: AsyncMock,
     service: str,
@@ -177,7 +177,7 @@ async def test_remote_control_actions(
 
 @pytest.mark.parametrize("mute", [False, True])
 async def test_volume_mute(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     openwebif_device_mock: AsyncMock,
     mute: bool,
@@ -198,7 +198,7 @@ async def test_volume_mute(
 
 
 async def test_select_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     openwebif_device_mock: AsyncMock,
 ) -> None:
@@ -220,7 +220,7 @@ async def test_select_source(
 
 
 async def test_update_data_standby(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     openwebif_device_mock: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -253,7 +253,7 @@ async def test_update_data_standby(
 
 
 async def test_update_volume(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     openwebif_device_mock: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -280,7 +280,7 @@ async def test_update_volume(
 
 
 async def test_update_volume_none(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     openwebif_device_mock: AsyncMock,
     freezer: FrozenDateTimeFactory,

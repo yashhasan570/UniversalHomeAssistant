@@ -4,7 +4,7 @@ import logging
 from typing import override
 
 from universalassistant.components.binary_sensor import BinarySensorEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -39,7 +39,7 @@ ATTR_RF_LOOP1 = "rf_loop1"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: AlarmDecoderConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

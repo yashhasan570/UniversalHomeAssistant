@@ -13,7 +13,7 @@ from pynordpool.const import AREAS
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_CURRENCY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.selector import (
     SelectOptionDict,
@@ -52,7 +52,7 @@ DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def test_api(hass: __HAC_KEEP__, user_input: dict[str, Any]) -> dict[str, str]:
+async def test_api(hass: UniversalAssistant, user_input: dict[str, Any]) -> dict[str, str]:
     """Test fetch data from Nord Pool."""
     if not user_input.get(CONF_AREAS):
         return {CONF_AREAS: "no_areas"}

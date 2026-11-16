@@ -1,4 +1,4 @@
-"""Test the __HA_KEEP__ analytics sensor module."""
+"""Test the Universal Home Assistant analytics sensor module."""
 
 from dataclasses import replace
 from datetime import timedelta
@@ -21,7 +21,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.analytics_insights.coordinator import RETRY_AFTER
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -29,7 +29,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_analytics_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -56,7 +56,7 @@ async def test_all_entities(
     ],
 )
 async def test_update_error_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_analytics_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -84,7 +84,7 @@ async def test_update_error_recovers(
 
 
 async def test_data_not_modified(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_analytics_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -105,7 +105,7 @@ async def test_data_not_modified(
 
 
 async def test_data_not_modified_uses_other_endpoints(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_analytics_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -129,7 +129,7 @@ async def test_data_not_modified_uses_other_endpoints(
 
 
 async def test_data_not_modified_without_previous_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_analytics_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -141,6 +141,6 @@ async def test_data_not_modified_without_previous_data(
 
     assert mock_config_entry.state is ConfigEntryState.SETUP_RETRY
     assert mock_config_entry.reason == (
-        "__HA_KEEP__ Analytics reported no changes for addons.json, "
+        "Universal Home Assistant Analytics reported no changes for addons.json, "
         "but no previous data is available"
     )

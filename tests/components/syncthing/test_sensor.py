@@ -22,7 +22,7 @@ from universalassistant.components.syncthing.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import dispatcher, entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -30,7 +30,7 @@ from . import FOLDER_ID, SERVER_ID, SERVER_ID_SHORT_HA
 
 
 async def test_sensor_platform_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -41,7 +41,7 @@ async def test_sensor_platform_setup(
 
 
 async def test_sensor_platform_no_sensors_on_config_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_syncthing_client: MagicMock,
@@ -72,7 +72,7 @@ async def test_sensor_platform_no_sensors_on_config_error(
     ],
 )
 async def test_folder_sensor_updates_on_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
     mock_syncthing: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -93,7 +93,7 @@ async def test_folder_sensor_updates_on_event(
 
 
 async def test_folder_sensor_unavailable_on_server_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
     mock_syncthing: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -116,7 +116,7 @@ async def test_folder_sensor_unavailable_on_server_unavailable(
 
 
 async def test_folder_sensor_available_on_server_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
     mock_syncthing: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -145,7 +145,7 @@ async def test_folder_sensor_available_on_server_available(
 
 
 async def test_folder_sensor_polls_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
     mock_syncthing: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -169,7 +169,7 @@ async def test_folder_sensor_polls_status(
 
 
 async def test_folder_sensor_error_makes_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
     mock_syncthing: MagicMock,
     entity_registry: er.EntityRegistry,

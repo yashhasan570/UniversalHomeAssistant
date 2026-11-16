@@ -15,7 +15,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import LIGHT_LUX, PERCENTAGE, EntityCategory, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from ..bridge import HueConfigEntry
@@ -27,7 +27,7 @@ TEMPERATURE_NAME_FORMAT = "{} temperature"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: HueConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

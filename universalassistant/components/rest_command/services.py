@@ -25,13 +25,13 @@ from universalassistant.const import (
     SERVICE_RELOAD,
 )
 from universalassistant.core import (
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.reload import async_integration_yaml_config
 from universalassistant.util.ssl import SSLCipherList
@@ -48,7 +48,7 @@ _LOGGER = logging.getLogger(__package__)
 
 @callback
 def async_register_rest_command(
-    hass: __HAC_KEEP__, name: str, command_config: dict[str, Any]
+    hass: UniversalAssistant, name: str, command_config: dict[str, Any]
 ) -> None:
     """Create service for rest command."""
     websession = async_get_clientsession(
@@ -175,7 +175,7 @@ def async_register_rest_command(
                     else:
                         _content = await response.text()
                 except (JSONDecodeError, AttributeError) as err:
-                    raise __HAC_KEEP__Error(
+                    raise UniversalAssistantError(
                         translation_domain=DOMAIN,
                         translation_key="decoding_error",
                         translation_placeholders={
@@ -185,7 +185,7 @@ def async_register_rest_command(
                     ) from err
 
                 except UnicodeDecodeError as err:
-                    raise __HAC_KEEP__Error(
+                    raise UniversalAssistantError(
                         translation_domain=DOMAIN,
                         translation_key="decoding_error",
                         translation_placeholders={
@@ -204,7 +204,7 @@ def async_register_rest_command(
                 }
 
         except TimeoutError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="timeout",
                 translation_placeholders={"request_url": request_url},
@@ -213,7 +213,7 @@ def async_register_rest_command(
         except aiohttp.ClientError as err:
             # pylint: disable-next=universal-assistant-log-and-raise
             _LOGGER.error("Error fetching data: %s", err)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="client_error",
                 translation_placeholders={"request_url": request_url},
@@ -250,7 +250,7 @@ async def _async_reload_service_handler(service: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the REST command services."""
     hass.services.async_register(
         DOMAIN,

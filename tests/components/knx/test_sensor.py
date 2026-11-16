@@ -31,13 +31,13 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 
 from . import KnxEntityGenerator
 from .conftest import KNXTestKit
 
 
-async def test_sensor(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_sensor(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test simple KNX sensor."""
 
     await knx.setup_integration(
@@ -73,7 +73,7 @@ async def test_sensor(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     await knx.assert_no_telegram()
 
 
-async def test_sensor_restore(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_sensor_restore(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test restoring KNX sensor state."""
     ADDRESS = "2/2/2"
     RAW_FLOAT_21_0 = (0x0C, 0x1A)
@@ -110,7 +110,7 @@ async def test_sensor_restore(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
 
 
 async def test_sensor_restore_ignores_stale_attributes(
-    hass: __HAC_KEEP__, knx: KNXTestKit
+    hass: UniversalAssistant, knx: KNXTestKit
 ) -> None:
     """Test that restoring doesn't reapply attributes the entity doesn't provide."""
     fake_state = State(
@@ -159,7 +159,7 @@ async def test_sensor_restore_ignores_stale_attributes(
 
 
 async def test_last_reported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -193,7 +193,7 @@ async def test_last_reported(
     assert len(events) == 1, events  # last_reported shall not fire state_changed
 
 
-async def test_always_callback(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_always_callback(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX sensor with always_callback."""
 
     await knx.setup_integration(
@@ -250,7 +250,7 @@ async def test_always_callback(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     ],
 )
 async def test_sensor_yaml_attribute_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     knx: KNXTestKit,
     attribute_config: dict[str, Any],
@@ -320,7 +320,7 @@ async def test_sensor_yaml_attribute_validation(
     ],
 )
 async def test_sensor_ui_create(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
     knx_config: dict[str, Any],
@@ -404,7 +404,7 @@ async def test_sensor_ui_load(knx: KNXTestKit) -> None:
     ],
 )
 async def test_sensor_ui_create_attribute_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     knx_config: dict[str, Any],

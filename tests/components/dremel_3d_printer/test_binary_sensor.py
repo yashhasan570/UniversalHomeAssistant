@@ -6,13 +6,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.binary_sensor import BinarySensorDeviceClass
 from universalassistant.components.dremel_3d_printer.const import DOMAIN
 from universalassistant.const import ATTR_DEVICE_CLASS, STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
 @pytest.mark.usefixtures("connection", "entity_registry_enabled_by_default")
 async def test_binary_sensors(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test we get binary sensor data."""
     await hass.config_entries.async_setup(config_entry.entry_id)

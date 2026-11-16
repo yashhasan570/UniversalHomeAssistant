@@ -14,7 +14,7 @@ from universalassistant.components.application_credentials import (
     async_import_client_credential,
 )
 from universalassistant.components.point.const import DOMAIN, OAUTH2_AUTHORIZE, OAUTH2_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.setup import async_setup_component
@@ -26,7 +26,7 @@ REDIRECT_URL = "https://example.com/auth/external/callback"
 
 
 @pytest.fixture(autouse=True)
-async def setup_credentials(hass: __HAC_KEEP__) -> None:
+async def setup_credentials(hass: UniversalAssistant) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(
@@ -38,7 +38,7 @@ async def setup_credentials(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_full_flow(
 )
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauthentication_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     unique_id: str | None,

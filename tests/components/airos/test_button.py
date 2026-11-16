@@ -7,8 +7,8 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -18,7 +18,7 @@ REBOOT_ENTITY_ID = "button.nanostation_5ac_ap_name_restart"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_reboot_button_press_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airos_client: AsyncMock,
     mock_async_get_firmware_data: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -43,7 +43,7 @@ async def test_reboot_button_press_success(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_reboot_button_press_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airos_client: AsyncMock,
     mock_async_get_firmware_data: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -53,7 +53,7 @@ async def test_reboot_button_press_fail(
 
     mock_airos_client.reboot.return_value = False
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "button",
             "press",
@@ -73,7 +73,7 @@ async def test_reboot_button_press_fail(
     ],
 )
 async def test_reboot_button_press_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airos_client: AsyncMock,
     mock_async_get_firmware_data: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -84,7 +84,7 @@ async def test_reboot_button_press_exceptions(
 
     mock_airos_client.login.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "button",
             "press",
@@ -97,7 +97,7 @@ async def test_reboot_button_press_exceptions(
     mock_airos_client.login.side_effect = None
     mock_airos_client.reboot.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "button",
             "press",

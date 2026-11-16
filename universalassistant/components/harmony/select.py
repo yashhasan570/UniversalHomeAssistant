@@ -4,7 +4,7 @@ import logging
 from typing import override
 
 from universalassistant.components.select import SelectEntity
-from universalassistant.core import HassJob, __HAC_KEEP__, callback
+from universalassistant.core import HassJob, UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import ACTIVITY_POWER_OFF, DOMAIN
@@ -18,7 +18,7 @@ TRANSLATABLE_POWER_OFF = "power_off"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: HarmonyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

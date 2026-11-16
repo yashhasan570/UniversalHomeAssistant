@@ -11,13 +11,13 @@ from technove import TechnoVEConnectionError, TechnoVEError
 from universalassistant.components.technove.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST, CONF_MAC, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_technove")
-async def test_full_user_flow_implementation(hass: __HAC_KEEP__) -> None:
+async def test_full_user_flow_implementation(hass: UniversalAssistant) -> None:
     """Test the full manual user flow from start to finish."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -41,7 +41,7 @@ async def test_full_user_flow_implementation(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_technove")
 async def test_user_device_exists_abort(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort the config flow if TechnoVE station is already configured."""
@@ -71,7 +71,7 @@ async def test_user_device_exists_abort(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_connection_error(
-    hass: __HAC_KEEP__, mock_technove: MagicMock, error: type[Exception]
+    hass: UniversalAssistant, mock_technove: MagicMock, error: type[Exception]
 ) -> None:
     """Test we show user form on TechnoVE error."""
     mock_technove.update.side_effect = error
@@ -107,7 +107,7 @@ async def test_connection_error(
 )
 @pytest.mark.usefixtures("mock_setup_entry", "mock_technove")
 async def test_full_user_flow_with_error(
-    hass: __HAC_KEEP__, mock_technove: MagicMock, error: type[Exception]
+    hass: UniversalAssistant, mock_technove: MagicMock, error: type[Exception]
 ) -> None:
     """Test the full manual user flow with some errors in the middle."""
     mock_technove.update.side_effect = error
@@ -141,7 +141,7 @@ async def test_full_user_flow_with_error(
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_technove")
-async def test_full_zeroconf_flow_implementation(hass: __HAC_KEEP__) -> None:
+async def test_full_zeroconf_flow_implementation(hass: UniversalAssistant) -> None:
     """Test the full manual user flow from start to finish."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -179,7 +179,7 @@ async def test_full_zeroconf_flow_implementation(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_technove")
 async def test_zeroconf_during_onboarding(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_onboarding: MagicMock,
 ) -> None:
@@ -217,7 +217,7 @@ async def test_zeroconf_during_onboarding(
     ],
 )
 async def test_zeroconf_connection_error(
-    hass: __HAC_KEEP__, mock_technove: MagicMock, error: type[Exception]
+    hass: UniversalAssistant, mock_technove: MagicMock, error: type[Exception]
 ) -> None:
     """Test we abort zeroconf flow on TechnoVE connection error."""
     mock_technove.update.side_effect = error
@@ -242,7 +242,7 @@ async def test_zeroconf_connection_error(
 
 @pytest.mark.usefixtures("mock_technove")
 async def test_user_station_exists_abort(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we abort user flow if TechnoVE station already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -264,7 +264,7 @@ async def test_user_station_exists_abort(
 
 @pytest.mark.usefixtures("mock_technove")
 async def test_zeroconf_without_mac_station_exists_abort(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort zeroconf flow if TechnoVE station already configured."""
@@ -288,7 +288,7 @@ async def test_zeroconf_without_mac_station_exists_abort(
 
 
 async def test_zeroconf_with_mac_station_exists_abort(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_technove: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_technove: MagicMock
 ) -> None:
     """Test we abort zeroconf flow if TechnoVE station already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -314,7 +314,7 @@ async def test_zeroconf_with_mac_station_exists_abort(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_reconfigure_flow_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_technove: MagicMock,
 ) -> None:
@@ -338,7 +338,7 @@ async def test_full_reconfigure_flow_success(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_reconfigure_flow_unique_id_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_technove: MagicMock,
 ) -> None:
@@ -371,7 +371,7 @@ async def test_full_reconfigure_flow_unique_id_mismatch(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_reconfigure_flow_connection_error_and_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_technove: MagicMock,
     error: type[Exception],

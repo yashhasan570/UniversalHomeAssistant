@@ -7,7 +7,7 @@ from twilio.rest import Client
 from universalassistant.components import webhook
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_WEBHOOK_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_entry_flow, config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -36,7 +36,7 @@ __all__ = [
 ]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Twilio component."""
     if DOMAIN not in config:
         return True
@@ -48,13 +48,13 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-def get_client(hass: __HAC_KEEP__) -> Client:
+def get_client(hass: UniversalAssistant) -> Client:
     """Return the Twilio client."""
     return hass.data[DATA_TWILIO]
 
 
 async def handle_webhook(
-    hass: __HAC_KEEP__, webhook_id: str, request: web.Request
+    hass: UniversalAssistant, webhook_id: str, request: web.Request
 ) -> web.Response:
     """Handle incoming webhook from Twilio for inbound messages and calls."""
     data = dict(await request.post())
@@ -64,14 +64,14 @@ async def handle_webhook(
     return web.Response(text="")
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Configure based on config entry."""
     webhook.async_register(
         hass, DOMAIN, "Twilio", entry.data[CONF_WEBHOOK_ID], handle_webhook
     )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     webhook.async_unregister(hass, entry.data[CONF_WEBHOOK_ID])
 

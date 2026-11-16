@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.melcloud_home.const import DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -28,7 +28,7 @@ def enable_all_entities(entity_registry_enabled_by_default: None) -> None:
 
 @pytest.mark.usefixtures("mock_melcloud_client")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -53,7 +53,7 @@ async def test_all_entities(
     ],
 )
 async def test_atw_frost_protection_active(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     frost_protection: dict[str, bool],
@@ -80,7 +80,7 @@ async def test_atw_frost_protection_active(
     ],
 )
 async def test_holiday_mode_active(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     holiday_mode: dict[str, bool],

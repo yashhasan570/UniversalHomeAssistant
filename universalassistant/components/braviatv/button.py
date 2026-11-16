@@ -10,7 +10,7 @@ from universalassistant.components.button import (
     ButtonEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import BraviaTVConfigEntry, BraviaTVCoordinator
@@ -43,7 +43,7 @@ BUTTONS: tuple[BraviaTVButtonDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: BraviaTVConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -13,9 +13,9 @@ from universalassistant.components.august.const import DOMAIN
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN, LockService, LockState
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     OAuth2TokenRequestReauthError,
     OAuth2TokenRequestTransientError,
 )
@@ -41,7 +41,7 @@ from .mocks import (
 )
 
 
-async def test_august_api_is_failing(hass: __HAC_KEEP__) -> None:
+async def test_august_api_is_failing(hass: UniversalAssistant) -> None:
     """Config entry state is SETUP_RETRY when august api is failing."""
     config_entry, _ = await _create_august_with_devices(
         hass,
@@ -52,7 +52,7 @@ async def test_august_api_is_failing(hass: __HAC_KEEP__) -> None:
     assert config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_august_is_offline(hass: __HAC_KEEP__) -> None:
+async def test_august_is_offline(hass: UniversalAssistant) -> None:
     """Config entry state is SETUP_RETRY when august is offline."""
     config_entry, _ = await _create_august_with_devices(
         hass, authenticate_side_effect=TimeoutError
@@ -60,7 +60,7 @@ async def test_august_is_offline(hass: __HAC_KEEP__) -> None:
     assert config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_august_late_auth_failure(hass: __HAC_KEEP__) -> None:
+async def test_august_late_auth_failure(hass: UniversalAssistant) -> None:
     """Test we can detect a late auth failure."""
     config_entry, _ = await _create_august_with_devices(
         hass,
@@ -75,7 +75,7 @@ async def test_august_late_auth_failure(hass: __HAC_KEEP__) -> None:
     assert flows[0]["step_id"] == "pick_implementation"
 
 
-async def test_unlock_throws_august_api_http_error(hass: __HAC_KEEP__) -> None:
+async def test_unlock_throws_august_api_http_error(hass: UniversalAssistant) -> None:
     """Test unlock throws correct error on http error."""
     mocked_lock_detail = await _mock_operative_august_lock_detail(hass)
     aiohttp_client_response_exception = ClientResponseError(None, None, status=400)
@@ -98,7 +98,7 @@ async def test_unlock_throws_august_api_http_error(hass: __HAC_KEEP__) -> None:
     }
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=(
             "A6697750D607098BAE8D6BAA11EF8063 Name: This should bubble up as its user"
             " consumable"
@@ -109,7 +109,7 @@ async def test_unlock_throws_august_api_http_error(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_lock_throws_august_api_http_error(hass: __HAC_KEEP__) -> None:
+async def test_lock_throws_august_api_http_error(hass: UniversalAssistant) -> None:
     """Test lock throws correct error on http error."""
     mocked_lock_detail = await _mock_operative_august_lock_detail(hass)
     aiohttp_client_response_exception = ClientResponseError(None, None, status=400)
@@ -131,7 +131,7 @@ async def test_lock_throws_august_api_http_error(hass: __HAC_KEEP__) -> None:
         ATTR_ENTITY_ID: "lock.a6697750d607098bae8d6baa11ef8063_name_a6697750d607098bae8d6baa11ef8063_name"
     }
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=(
             "A6697750D607098BAE8D6BAA11EF8063 Name: This should bubble up as its user"
             " consumable"
@@ -143,7 +143,7 @@ async def test_lock_throws_august_api_http_error(hass: __HAC_KEEP__) -> None:
 
 
 async def test_open_throws_hass_service_not_supported_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test open throws correct error on entity does not support this service error."""
     mocked_lock_detail = await _mock_operative_august_lock_detail(hass)
@@ -151,13 +151,13 @@ async def test_open_throws_hass_service_not_supported_error(
     data = {
         ATTR_ENTITY_ID: "lock.a6697750d607098bae8d6baa11ef8063_name_a6697750d607098bae8d6baa11ef8063_name"
     }
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             LOCK_DOMAIN, LockService.OPEN, data, blocking=True
         )
 
 
-async def test_inoperative_locks_are_filtered_out(hass: __HAC_KEEP__) -> None:
+async def test_inoperative_locks_are_filtered_out(hass: UniversalAssistant) -> None:
     """Ensure inoperative locks do not get setup."""
     august_operative_lock = await _mock_operative_august_lock_detail(hass)
     august_inoperative_lock = await _mock_inoperative_august_lock_detail(hass)
@@ -173,7 +173,7 @@ async def test_inoperative_locks_are_filtered_out(hass: __HAC_KEEP__) -> None:
     assert lock_a6697750d607098bae8d6baa11ef8063_name.state == LockState.LOCKED
 
 
-async def test_lock_has_doorsense(hass: __HAC_KEEP__) -> None:
+async def test_lock_has_doorsense(hass: UniversalAssistant) -> None:
     """Check to see if a lock has doorsense."""
     doorsenselock = await _mock_doorsense_enabled_august_lock_detail(hass)
     nodoorsenselock = await _mock_doorsense_missing_august_lock_detail(hass)
@@ -189,7 +189,7 @@ async def test_lock_has_doorsense(hass: __HAC_KEEP__) -> None:
     assert binary_sensor_missing_doorsense_id_name_open is None
 
 
-async def test_load_unload(hass: __HAC_KEEP__) -> None:
+async def test_load_unload(hass: UniversalAssistant) -> None:
     """Config entry can be unloaded."""
 
     august_operative_lock = await _mock_operative_august_lock_detail(hass)
@@ -206,7 +206,7 @@ async def test_load_unload(hass: __HAC_KEEP__) -> None:
 
 
 async def test_load_triggers_ble_discovery(
-    hass: __HAC_KEEP__, mock_discovery: Mock
+    hass: UniversalAssistant, mock_discovery: Mock
 ) -> None:
     """Test loading a lock with offline BLE passes keys to yalexe_ble."""
 
@@ -230,7 +230,7 @@ async def test_load_triggers_ble_discovery(
 
 
 async def test_device_remove_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -257,7 +257,7 @@ async def test_device_remove_devices(
 
 
 async def test_brand_migration_issue(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test removing the brand migration issue."""
     august_operative_lock = await _mock_operative_august_lock_detail(hass)
@@ -271,7 +271,7 @@ async def test_brand_migration_issue(
     assert not issue_registry.async_get_issue(DOMAIN, "yale_brand_migration")
 
 
-async def test_oauth_migration_on_legacy_entry(hass: __HAC_KEEP__) -> None:
+async def test_oauth_migration_on_legacy_entry(hass: UniversalAssistant) -> None:
     """Test that legacy config entry triggers OAuth migration."""
     # Create a legacy config entry without auth_implementation
     legacy_entry = MockConfigEntry(
@@ -302,7 +302,7 @@ async def test_oauth_migration_on_legacy_entry(hass: __HAC_KEEP__) -> None:
     assert flows[0]["context"]["source"] == "reauth"
 
 
-async def test_oauth_implementation_not_available(hass: __HAC_KEEP__) -> None:
+async def test_oauth_implementation_not_available(hass: UniversalAssistant) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""
     await mock_client_credentials(hass)
     entry = await mock_august_config_entry(hass)
@@ -317,7 +317,7 @@ async def test_oauth_implementation_not_available(hass: __HAC_KEEP__) -> None:
     assert entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_oauth_token_request_reauth_error(hass: __HAC_KEEP__) -> None:
+async def test_oauth_token_request_reauth_error(hass: UniversalAssistant) -> None:
     """Test OAuth token request reauth error starts a reauth flow."""
     entry = await mock_august_config_entry(hass)
 
@@ -340,7 +340,7 @@ async def test_oauth_token_request_reauth_error(hass: __HAC_KEEP__) -> None:
 
 
 async def test_oauth_token_request_transient_error_is_retryable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test OAuth token transient request error marks entry for setup retry."""
     entry = await mock_august_config_entry(hass)
@@ -359,7 +359,7 @@ async def test_oauth_token_request_transient_error_is_retryable(
     assert entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_oauth_client_error_is_retryable(hass: __HAC_KEEP__) -> None:
+async def test_oauth_client_error_is_retryable(hass: UniversalAssistant) -> None:
     """Test OAuth transport client errors mark entry for setup retry."""
     entry = await mock_august_config_entry(hass)
 

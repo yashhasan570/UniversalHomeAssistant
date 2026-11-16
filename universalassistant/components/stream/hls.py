@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, cast, override
 
 from aiohttp import web
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 from .const import (
     EXT_X_START_LL_HLS,
@@ -32,7 +32,7 @@ if TYPE_CHECKING:
 
 
 @callback
-def async_setup_hls(hass: __HAC_KEEP__) -> str:
+def async_setup_hls(hass: UniversalAssistant) -> str:
     """Set up api endpoints."""
     hass.http.register_view(HlsPlaylistView())
     hass.http.register_view(HlsSegmentView())
@@ -48,7 +48,7 @@ class HlsStreamOutput(StreamOutput):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         idle_timer: IdleTimer,
         stream_settings: StreamSettings,
         dynamic_stream_settings: DynamicStreamSettings,

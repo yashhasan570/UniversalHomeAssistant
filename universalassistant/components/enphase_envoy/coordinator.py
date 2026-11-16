@@ -13,7 +13,7 @@ from pyenphase.models.home import EnvoyInterfaceInformation
 
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
 from universalassistant.const import CONF_NAME, CONF_PASSWORD, CONF_TOKEN, CONF_USERNAME
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 from universalassistant.helpers.event import async_call_later, async_track_time_interval
@@ -54,7 +54,7 @@ class EnphaseUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         envoy: Envoy,
         entry: EnphaseConfigEntry,
         session: ClientSession,

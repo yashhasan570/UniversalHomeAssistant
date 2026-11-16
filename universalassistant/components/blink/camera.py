@@ -9,10 +9,10 @@ from blinkpy.camera import BlinkCamera as BlinkCameraAPI
 from requests.exceptions import ChunkedEncodingError
 
 from universalassistant.components.camera import Camera
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     ServiceValidationError,
 )
 from universalassistant.helpers.device_registry import DeviceInfo
@@ -29,7 +29,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: BlinkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -81,7 +81,7 @@ class BlinkCamera(CoordinatorEntity[BlinkUpdateCoordinator], Camera):
         try:
             await self._camera.async_arm(True)
         except TimeoutError as er:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="failed_arm",
             ) from er
@@ -98,7 +98,7 @@ class BlinkCamera(CoordinatorEntity[BlinkUpdateCoordinator], Camera):
         try:
             await self._camera.async_arm(False)
         except TimeoutError as er:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="failed_disarm",
             ) from er
@@ -126,7 +126,7 @@ class BlinkCamera(CoordinatorEntity[BlinkUpdateCoordinator], Camera):
         try:
             await self._camera.record()
         except TimeoutError as er:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="failed_clip",
             ) from er
@@ -141,7 +141,7 @@ class BlinkCamera(CoordinatorEntity[BlinkUpdateCoordinator], Camera):
         try:
             await self._camera.snap_picture()
         except TimeoutError as er:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="failed_snap",
             ) from er

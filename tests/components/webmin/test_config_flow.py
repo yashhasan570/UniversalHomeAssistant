@@ -11,7 +11,7 @@ from pytest_universalassistant.common import async_load_json_object_fixture
 from universalassistant import config_entries
 from universalassistant.components.webmin.const import DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import TEST_USER_INPUT
@@ -20,7 +20,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 @pytest.fixture
-async def user_flow(hass: __HAC_KEEP__) -> str:
+async def user_flow(hass: UniversalAssistant) -> str:
     """Return a user-initiated flow after filling in host info."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -38,7 +38,7 @@ async def user_flow(hass: __HAC_KEEP__) -> str:
     ],
 )
 async def test_form_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     user_flow: str,
     mock_setup_entry: AsyncMock,
     fixture: str,
@@ -85,7 +85,7 @@ async def test_form_user(
     ],
 )
 async def test_form_user_errors(
-    hass: __HAC_KEEP__, user_flow: str, exception: Exception, error_type: str
+    hass: UniversalAssistant, user_flow: str, exception: Exception, error_type: str
 ) -> None:
     """Test we handle errors."""
     with patch(
@@ -115,7 +115,7 @@ async def test_form_user_errors(
     assert result["options"] == TEST_USER_INPUT
 
 
-async def test_duplicate_entry(hass: __HAC_KEEP__, user_flow: str) -> None:
+async def test_duplicate_entry(hass: UniversalAssistant, user_flow: str) -> None:
     """Test a successful user initiated flow."""
     with patch(
         "universalassistant.components.webmin.helpers.WebminInstance.update",

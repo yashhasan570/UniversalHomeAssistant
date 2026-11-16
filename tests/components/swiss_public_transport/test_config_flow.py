@@ -17,12 +17,13 @@ from universalassistant.components.swiss_public_transport.const import (
     CONF_TIME_MODE,
     CONF_TIME_OFFSET,
     CONF_TIME_STATION,
+    CONF_TRANSPORTATIONS,
     CONF_VIA,
     DOMAIN,
     MAX_VIA,
 )
 from universalassistant.components.swiss_public_transport.helper import unique_id_from_config
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
@@ -47,6 +48,16 @@ MOCK_USER_DATA_STEP_MANY_VIA = {
 MOCK_USER_DATA_STEP_TOO_MANY_STATIONS = {
     **MOCK_USER_DATA_STEP,
     CONF_VIA: MOCK_USER_DATA_STEP_ONE_VIA[CONF_VIA] * (MAX_VIA + 1),
+}
+
+MOCK_USER_DATA_STEP_ONE_TRANSPORTATION = {
+    **MOCK_USER_DATA_STEP,
+    CONF_TRANSPORTATIONS: ["train"],
+}
+
+MOCK_USER_DATA_STEP_MANY_TRANSPORTATIONS = {
+    **MOCK_USER_DATA_STEP_ONE_VIA,
+    CONF_TRANSPORTATIONS: ["train", "bus"],
 }
 
 MOCK_USER_DATA_STEP_ARRIVAL = {
@@ -93,6 +104,16 @@ MOCK_ADVANCED_DATA_STEP_TIME_OFFSET = {
             "test_start test_destination via"
             " via_station_1, via_station_2, via_station_3",
         ),
+        (
+            MOCK_USER_DATA_STEP_ONE_TRANSPORTATION,
+            None,
+            "test_start test_destination by train",
+        ),
+        (
+            MOCK_USER_DATA_STEP_MANY_TRANSPORTATIONS,
+            None,
+            "test_start test_destination via via_station by bus, train",
+        ),
         (MOCK_USER_DATA_STEP_ARRIVAL, None, "test_start test_destination arrival"),
         (
             MOCK_USER_DATA_STEP_TIME_FIXED,
@@ -107,7 +128,7 @@ MOCK_ADVANCED_DATA_STEP_TIME_OFFSET = {
     ],
 )
 async def test_flow_user_init_data_success(
-    hass: __HAC_KEEP__, user_input, time_mode_input, config_title
+    hass: UniversalAssistant, user_input, time_mode_input, config_title
 ) -> None:
     """Test success response."""
     result = await hass.config_entries.flow.async_init(
@@ -157,7 +178,7 @@ async def test_flow_user_init_data_success(
     ],
 )
 async def test_flow_user_init_data_error_and_recover_on_step_1(
-    hass: __HAC_KEEP__, raise_error, text_error, user_input_error
+    hass: UniversalAssistant, raise_error, text_error, user_input_error
 ) -> None:
     """Test errors in user step."""
     result = await hass.config_entries.flow.async_init(
@@ -203,7 +224,7 @@ async def test_flow_user_init_data_error_and_recover_on_step_1(
     ],
 )
 async def test_flow_user_init_data_error_and_recover_on_step_2(
-    hass: __HAC_KEEP__, raise_error, text_error, user_input
+    hass: UniversalAssistant, raise_error, text_error, user_input
 ) -> None:
     """Test errors in time mode step."""
     result = await hass.config_entries.flow.async_init(
@@ -252,7 +273,7 @@ async def test_flow_user_init_data_error_and_recover_on_step_2(
         assert result["result"].title == "test_start test_destination at 18:03:00"
 
 
-async def test_flow_user_init_data_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_init_data_already_configured(hass: UniversalAssistant) -> None:
     """Test we abort user data set when entry is already configured."""
 
     entry = MockConfigEntry(

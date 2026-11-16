@@ -16,7 +16,7 @@ from universalassistant.const import (
     UnitOfSpeed,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import IrmKmiConfigEntry, IrmKmiCoordinator
@@ -24,7 +24,7 @@ from .entity import IrmKmiBaseEntity
 
 
 async def async_setup_entry(
-    _hass: __HAC_KEEP__,
+    _hass: UniversalAssistant,
     entry: IrmKmiConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

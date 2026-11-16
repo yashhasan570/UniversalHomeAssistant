@@ -104,7 +104,7 @@ from universalassistant.components.zwave_js.const import (
     DOMAIN,
 )
 from universalassistant.components.zwave_js.helpers import get_device_id
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 CONTROLLER_PATCH_PREFIX = "zwave_js_server.model.controller.Controller"
@@ -116,7 +116,7 @@ def platforms() -> list[str]:
     return []
 
 
-def get_device(hass: __HAC_KEEP__, node):
+def get_device(hass: UniversalAssistant, node):
     """Get device ID for a node."""
     dev_reg = dr.async_get(hass)
     device_id = get_device_id(node.client.driver, node)
@@ -126,7 +126,7 @@ def get_device(hass: __HAC_KEEP__, node):
 
 
 async def test_no_driver(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     multisensor_6,
     controller_state,
@@ -151,7 +151,7 @@ async def test_no_driver(
 
 
 async def test_network_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     multisensor_6,
     controller_state,
@@ -277,7 +277,7 @@ async def test_network_status(
 
 
 async def test_subscribe_node_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     multisensor_6_state,
     client,
@@ -348,7 +348,7 @@ async def test_subscribe_node_status(
 
 
 async def test_node_status(
-    hass: __HAC_KEEP__, multisensor_6, integration, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, multisensor_6, integration, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the node status websocket command."""
     entry = integration
@@ -428,7 +428,7 @@ async def neighbors_ok(message: dict[str, Any]) -> dict[str, Any]:
 
 
 async def test_network_neighbors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multisensor_6: Node,
     wallmote_central_scene: Node,
     integration: MockConfigEntry,
@@ -471,7 +471,7 @@ async def test_network_neighbors(
 
 
 async def test_network_neighbors_node_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multisensor_6: Node,
     integration: MockConfigEntry,
     client: MagicMock,
@@ -503,7 +503,7 @@ async def test_network_neighbors_node_failure(
 
 
 async def test_network_neighbors_node_added_while_reading(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multisensor_6: Node,
     wallmote_central_scene: Node,
     integration: MockConfigEntry,
@@ -539,7 +539,7 @@ async def test_network_neighbors_node_added_while_reading(
 
 
 async def test_network_neighbors_rf_disable_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
     client: MagicMock,
     hass_ws_client: WebSocketGenerator,
@@ -571,7 +571,7 @@ async def test_network_neighbors_rf_disable_rejected(
 
 
 async def test_network_neighbors_rf_restore_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
     client: MagicMock,
     hass_ws_client: WebSocketGenerator,
@@ -602,7 +602,7 @@ async def test_network_neighbors_rf_restore_rejected(
 
 
 async def test_network_neighbors_rf_toggle_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
     client: MagicMock,
     hass_ws_client: WebSocketGenerator,
@@ -637,7 +637,7 @@ async def test_network_neighbors_rf_toggle_error(
 
 
 async def test_network_neighbors_cancelled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
     client: MagicMock,
     hass_ws_client: WebSocketGenerator,
@@ -671,7 +671,7 @@ async def test_network_neighbors_cancelled(
 
 
 async def test_network_neighbors_handler_cancelled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multisensor_6: Node,
     integration: MockConfigEntry,
     client: MagicMock,
@@ -727,7 +727,7 @@ async def test_network_neighbors_handler_cancelled(
 
 
 async def test_network_neighbors_concurrent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multisensor_6: Node,
     integration: MockConfigEntry,
     client: MagicMock,
@@ -790,7 +790,7 @@ async def test_network_neighbors_concurrent(
 
 
 async def test_network_neighbors_unload_waits(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
     client: MagicMock,
     hass_ws_client: WebSocketGenerator,
@@ -842,7 +842,7 @@ async def test_network_neighbors_unload_waits(
 
 
 async def test_network_neighbors_invalid_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
     client: MagicMock,
     hass_ws_client: WebSocketGenerator,
@@ -878,7 +878,7 @@ async def test_network_neighbors_invalid_entry(
 
 
 async def test_node_metadata(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     wallmote_central_scene,
     integration,
     hass_ws_client: WebSocketGenerator,
@@ -959,7 +959,7 @@ async def test_node_metadata(
 
 
 async def test_node_alerts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     wallmote_central_scene,
     integration,
@@ -1086,7 +1086,7 @@ async def test_node_alerts(
 
 
 async def test_add_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     nortek_thermostat,
     nortek_thermostat_added_event,
     integration,
@@ -1602,7 +1602,7 @@ async def test_add_node(
 
 
 async def test_grant_security_classes(
-    hass: __HAC_KEEP__, integration, client, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, integration, client, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the grant_security_classes websocket command."""
     entry = integration
@@ -1649,7 +1649,7 @@ async def test_grant_security_classes(
 
 
 async def test_validate_dsk_and_enter_pin(
-    hass: __HAC_KEEP__, integration, client, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, integration, client, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the validate_dsk_and_enter_pin websocket command."""
     entry = integration
@@ -1694,7 +1694,7 @@ async def test_validate_dsk_and_enter_pin(
 
 
 async def test_provision_smart_start_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     integration,
     client,
@@ -1869,7 +1869,7 @@ async def test_provision_smart_start_node(
 
 
 async def test_unprovision_smart_start_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     integration,
     client,
@@ -2045,7 +2045,7 @@ async def test_unprovision_smart_start_node(
 
 
 async def test_get_provisioning_entries(
-    hass: __HAC_KEEP__, integration, client, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, integration, client, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test get_provisioning_entries websocket command."""
     entry = integration
@@ -2106,7 +2106,7 @@ async def test_get_provisioning_entries(
 
 
 async def test_parse_qr_code_string(
-    hass: __HAC_KEEP__, integration, client, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, integration, client, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test parse_qr_code_string websocket command."""
     entry = integration
@@ -2204,7 +2204,7 @@ async def test_parse_qr_code_string(
 
 
 async def test_try_parse_dsk_from_qr_code_string(
-    hass: __HAC_KEEP__, integration, client, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, integration, client, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test try_parse_dsk_from_qr_code_string websocket command."""
     entry = integration
@@ -2271,7 +2271,7 @@ async def test_try_parse_dsk_from_qr_code_string(
 
 
 async def test_supports_feature(
-    hass: __HAC_KEEP__, integration, client, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, integration, client, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test supports_feature websocket command."""
     entry = integration
@@ -2294,7 +2294,7 @@ async def test_supports_feature(
 
 
 async def test_cancel_inclusion_exclusion(
-    hass: __HAC_KEEP__, integration, client, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, integration, client, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test cancelling the inclusion and exclusion process."""
     entry = integration
@@ -2374,7 +2374,7 @@ async def test_cancel_inclusion_exclusion(
 
 
 async def test_remove_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     integration,
     client,
@@ -2484,7 +2484,7 @@ async def test_remove_node(
 
 
 async def test_replace_failed_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     nortek_thermostat,
     integration,
@@ -2870,7 +2870,7 @@ async def test_replace_failed_node(
 
 
 async def test_remove_failed_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     nortek_thermostat,
     integration,
@@ -2956,7 +2956,7 @@ async def test_remove_failed_node(
 
 
 async def test_begin_rebuilding_routes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration,
     client,
     hass_ws_client: WebSocketGenerator,
@@ -3015,7 +3015,7 @@ async def test_begin_rebuilding_routes(
 
 
 async def test_subscribe_rebuild_routes_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration,
     client,
     nortek_thermostat,
@@ -3069,7 +3069,7 @@ async def test_subscribe_rebuild_routes_progress(
 
 
 async def test_subscribe_rebuild_routes_progress_initial_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration,
     client,
     nortek_thermostat,
@@ -3110,7 +3110,7 @@ async def test_subscribe_rebuild_routes_progress_initial_value(
 
 
 async def test_stop_rebuilding_routes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration,
     client,
     hass_ws_client: WebSocketGenerator,
@@ -3169,7 +3169,7 @@ async def test_stop_rebuilding_routes(
 
 
 async def test_rebuild_node_routes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multisensor_6,
     integration,
     client,
@@ -3230,7 +3230,7 @@ async def test_rebuild_node_routes(
 
 
 async def test_refresh_node_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     multisensor_6,
     integration,
@@ -3377,7 +3377,7 @@ async def test_refresh_node_info(
 
 
 async def test_refresh_node_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     multisensor_6,
     integration,
@@ -3454,7 +3454,7 @@ async def test_refresh_node_values(
 
 
 async def test_refresh_node_cc_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multisensor_6,
     client,
     integration,
@@ -3549,7 +3549,7 @@ async def test_refresh_node_cc_values(
 
 
 async def test_set_config_parameter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multisensor_6,
     client,
     hass_ws_client: WebSocketGenerator,
@@ -3780,7 +3780,7 @@ async def test_set_config_parameter(
 
 
 async def test_get_config_parameters(
-    hass: __HAC_KEEP__, multisensor_6, integration, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, multisensor_6, integration, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the get config parameters websocket command."""
     entry = integration
@@ -3853,7 +3853,7 @@ async def test_get_config_parameters(
 
 
 async def test_set_raw_config_parameter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     multisensor_6,
     integration,
@@ -3931,7 +3931,7 @@ async def test_set_raw_config_parameter(
 
 
 async def test_get_raw_config_parameter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multisensor_6,
     integration,
     client,
@@ -4027,7 +4027,7 @@ async def test_get_raw_config_parameter(
 
 
 async def test_subscribe_config_parameter_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multisensor_6,
     integration,
     client,
@@ -4132,7 +4132,7 @@ async def test_subscribe_config_parameter_updates(
     [({"target": "1"}, {"firmware_target": 1}), ({}, {})],
 )
 async def test_firmware_upload_view(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multisensor_6,
     integration,
     hass_client: ClientSessionGenerator,
@@ -4152,7 +4152,7 @@ async def test_firmware_upload_view(
         ) as mock_controller_cmd,
         patch.dict(
             "universalassistant.components.zwave_js.api.USER_AGENT",
-            {"__HAC_KEEP__": "0.0.0"},
+            {"UniversalAssistant": "0.0.0"},
         ),
     ):
         data = {"file": firmware_file}
@@ -4169,13 +4169,13 @@ async def test_firmware_upload_view(
         mock_controller_cmd.assert_not_called()
         assert mock_node_cmd.call_args[0][1:3] == (multisensor_6, [update_data])
         assert mock_node_cmd.call_args[1] == {
-            "additional_user_agent_components": {"__HAC_KEEP__": "0.0.0"},
+            "additional_user_agent_components": {"UniversalAssistant": "0.0.0"},
         }
         assert json.loads(await resp.text()) is None
 
 
 async def test_firmware_upload_view_controller(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     integration,
     hass_client: ClientSessionGenerator,
@@ -4193,7 +4193,7 @@ async def test_firmware_upload_view_controller(
         ) as mock_controller_cmd,
         patch.dict(
             "universalassistant.components.zwave_js.api.USER_AGENT",
-            {"__HAC_KEEP__": "0.0.0"},
+            {"UniversalAssistant": "0.0.0"},
         ),
     ):
         resp = await hass_client.post(
@@ -4207,13 +4207,13 @@ async def test_firmware_upload_view_controller(
             ),
         )
         assert mock_controller_cmd.call_args[1] == {
-            "additional_user_agent_components": {"__HAC_KEEP__": "0.0.0"},
+            "additional_user_agent_components": {"UniversalAssistant": "0.0.0"},
         }
         assert json.loads(await resp.text()) is None
 
 
 async def test_firmware_upload_view_failed_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multisensor_6,
     integration,
     hass_client: ClientSessionGenerator,
@@ -4234,7 +4234,7 @@ async def test_firmware_upload_view_failed_command(
 
 
 async def test_firmware_upload_view_invalid_payload(
-    hass: __HAC_KEEP__, multisensor_6, integration, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, multisensor_6, integration, hass_client: ClientSessionGenerator
 ) -> None:
     """Test an invalid payload for the HTTP firmware upload view."""
     device = get_device(hass, multisensor_6)
@@ -4247,7 +4247,7 @@ async def test_firmware_upload_view_invalid_payload(
 
 
 async def test_firmware_upload_view_no_driver(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     multisensor_6,
     integration,
@@ -4269,7 +4269,7 @@ async def test_firmware_upload_view_no_driver(
     [("post", "/api/zwave_js/firmware/upload/{}")],
 )
 async def test_node_view_non_admin_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multisensor_6,
     integration,
     hass_client: ClientSessionGenerator,
@@ -4293,7 +4293,7 @@ async def test_node_view_non_admin_user(
     ],
 )
 async def test_view_unloaded_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multisensor_6,
     integration,
     hass_client: ClientSessionGenerator,
@@ -4322,7 +4322,7 @@ async def test_view_invalid_device_id(
 
 
 async def test_subscribe_log_updates(
-    hass: __HAC_KEEP__, integration, client, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, integration, client, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the subscribe_log_updates websocket command."""
     entry = integration
@@ -4427,7 +4427,7 @@ async def test_subscribe_log_updates(
 
 
 async def test_update_log_config(
-    hass: __HAC_KEEP__, client, integration, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, client, integration, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that update_log_config WS API call and schema validation works."""
     entry = integration
@@ -4585,7 +4585,7 @@ async def test_update_log_config(
 
 
 async def test_get_log_config(
-    hass: __HAC_KEEP__, client, integration, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, client, integration, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that the get_log_config WS API call works."""
     entry = integration
@@ -4628,7 +4628,7 @@ async def test_get_log_config(
 
 
 async def test_data_collection(
-    hass: __HAC_KEEP__, client, integration, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, client, integration, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that the data collection WS API commands work."""
     entry = integration
@@ -4671,7 +4671,7 @@ async def test_data_collection(
     assert len(client.async_send_command.call_args_list) == 1
     args = client.async_send_command.call_args_list[0][0][0]
     assert args["command"] == "driver.enable_statistics"
-    assert args["applicationName"] == "__HA_KEEP__"
+    assert args["applicationName"] == "Universal Home Assistant"
 
     client.async_send_command.reset_mock()
 
@@ -4764,7 +4764,7 @@ async def test_data_collection(
 
 
 async def test_abort_firmware_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     multisensor_6,
     integration,
@@ -4839,7 +4839,7 @@ async def test_abort_firmware_update(
 
 
 async def test_is_node_firmware_update_in_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     multisensor_6,
     integration,
@@ -4903,7 +4903,7 @@ async def test_is_node_firmware_update_in_progress(
 
 
 async def test_subscribe_firmware_update_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multisensor_6,
     integration,
     client,
@@ -4981,7 +4981,7 @@ async def test_subscribe_firmware_update_status(
 
 
 async def test_subscribe_firmware_update_status_initial_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multisensor_6,
     client,
     integration,
@@ -5037,7 +5037,7 @@ async def test_subscribe_firmware_update_status_initial_value(
 
 
 async def test_subscribe_controller_firmware_update_status(
-    hass: __HAC_KEEP__, integration, client, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, integration, client, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the subscribe_firmware_update_status websocket command for a node."""
     ws_client = await hass_ws_client(hass)
@@ -5103,7 +5103,7 @@ async def test_subscribe_controller_firmware_update_status(
 
 
 async def test_subscribe_controller_firmware_update_status_initial_value(
-    hass: __HAC_KEEP__, client, integration, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, client, integration, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test subscribe_firmware_update_status cmd with in progress update for node."""
     ws_client = await hass_ws_client(hass)
@@ -5152,7 +5152,7 @@ async def test_subscribe_controller_firmware_update_status_initial_value(
 
 
 async def test_subscribe_firmware_update_status_failures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multisensor_6,
     client,
     integration,
@@ -5193,7 +5193,7 @@ async def test_subscribe_firmware_update_status_failures(
 
 
 async def test_get_node_firmware_update_capabilities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     multisensor_6,
     integration,
@@ -5282,7 +5282,7 @@ async def test_get_node_firmware_update_capabilities(
 
 
 async def test_is_any_ota_firmware_update_in_progress(
-    hass: __HAC_KEEP__, client, integration, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, client, integration, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that the is_any_ota_firmware_update_in_progress WS API call works."""
     entry = integration
@@ -5353,7 +5353,7 @@ async def test_is_any_ota_firmware_update_in_progress(
 
 
 async def test_check_for_config_updates(
-    hass: __HAC_KEEP__, client, integration, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, client, integration, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that the check_for_config_updates WS API call works."""
     entry = integration
@@ -5428,7 +5428,7 @@ async def test_check_for_config_updates(
 
 
 async def test_install_config_update(
-    hass: __HAC_KEEP__, client, integration, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, client, integration, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that the install_config_update WS API call works."""
     entry = integration
@@ -5495,7 +5495,7 @@ async def test_install_config_update(
 
 
 async def test_subscribe_controller_statistics(
-    hass: __HAC_KEEP__, integration, client, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, integration, client, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the subscribe_controller_statistics command."""
     entry = integration
@@ -5594,7 +5594,7 @@ async def test_subscribe_controller_statistics(
 
 
 async def test_subscribe_node_statistics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multisensor_6,
     wallmote_central_scene,
     zen_31,
@@ -5782,7 +5782,7 @@ async def _subscribe_node_statistics(
 
 
 async def test_node_statistics_route_with_removed_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multisensor_6: Node,
     wallmote_central_scene: Node,
     integration: MockConfigEntry,
@@ -5821,7 +5821,7 @@ async def test_node_statistics_route_with_removed_node(
 
 
 async def test_node_statistics_route_with_removed_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     multisensor_6: Node,
     wallmote_central_scene: Node,
@@ -5852,7 +5852,7 @@ async def test_node_statistics_route_with_removed_device(
 
 
 async def test_node_statistics_route_with_unloaded_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multisensor_6: Node,
     wallmote_central_scene: Node,
     integration: MockConfigEntry,
@@ -5882,7 +5882,7 @@ async def test_node_statistics_route_with_unloaded_entry(
 
 
 async def test_hard_reset_controller(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -6029,7 +6029,7 @@ async def test_hard_reset_controller(
 
 
 async def test_node_capabilities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multisensor_6: Node,
     integration: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
@@ -6087,7 +6087,7 @@ async def test_node_capabilities(
 
 
 async def test_invoke_cc_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     climate_radio_thermostat_ct100_plus_different_endpoints: Node,
     integration: MockConfigEntry,
@@ -6183,7 +6183,7 @@ async def test_invoke_cc_api(
 
 
 async def test_backup_nvm(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration,
     client,
     hass_ws_client: WebSocketGenerator,
@@ -6299,7 +6299,7 @@ async def test_backup_nvm(
 
 
 async def test_restore_nvm(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration,
     client,
     hass_ws_client: WebSocketGenerator,
@@ -6530,7 +6530,7 @@ async def test_restore_nvm(
 
 
 async def test_cancel_secure_bootstrap_s2(
-    hass: __HAC_KEEP__, client, integration, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, client, integration, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that the cancel_secure_bootstrap_s2 WS API call works."""
     entry = integration
@@ -6596,7 +6596,7 @@ async def test_cancel_secure_bootstrap_s2(
 
 
 async def test_subscribe_s2_inclusion(
-    hass: __HAC_KEEP__, integration, client, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, integration, client, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the subscribe_s2_inclusion websocket command."""
     entry = integration
@@ -6672,7 +6672,7 @@ async def test_subscribe_s2_inclusion(
 
 
 async def test_lookup_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
     client: MagicMock,
     hass_ws_client: WebSocketGenerator,
@@ -6796,7 +6796,7 @@ async def test_lookup_device(
 
 
 async def test_subscribe_new_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration,
     client,
     hass_ws_client: WebSocketGenerator,

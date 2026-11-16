@@ -11,14 +11,14 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.opower.const import DOMAIN
 from universalassistant.components.recorder import Recorder
 from universalassistant.const import ATTR_UNIT_OF_MEASUREMENT, UnitOfEnergy, UnitOfVolume
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
 
 async def test_sensors(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_opower_api: AsyncMock,
@@ -118,7 +118,7 @@ async def test_sensors(
 
 async def test_dynamic_and_stale_devices(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_opower_api: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -191,7 +191,7 @@ async def test_dynamic_and_stale_devices(
 
 async def test_stale_device_removed_on_load(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_opower_api: AsyncMock,
     device_registry: dr.DeviceRegistry,

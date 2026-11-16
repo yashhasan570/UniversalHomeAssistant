@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_capture_even
 from universalassistant.components import notify
 from universalassistant.components.demo import DOMAIN, notify as demo
 from universalassistant.const import Platform
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
@@ -24,7 +24,7 @@ def notify_only() -> Generator[None]:
 
 
 @pytest.fixture(autouse=True)
-async def setup_notify(hass: __HAC_KEEP__, notify_only: None) -> None:
+async def setup_notify(hass: UniversalAssistant, notify_only: None) -> None:
     """Initialize setup demo Notify entity."""
     entry = MockConfigEntry(domain=DOMAIN)
     entry.add_to_hass(hass)
@@ -35,12 +35,12 @@ async def setup_notify(hass: __HAC_KEEP__, notify_only: None) -> None:
 
 
 @pytest.fixture
-def events(hass: __HAC_KEEP__) -> list[Event]:
+def events(hass: UniversalAssistant) -> list[Event]:
     """Fixture that catches notify events."""
     return async_capture_events(hass, demo.EVENT_NOTIFY)
 
 
-async def test_sending_message(hass: __HAC_KEEP__, events: list[Event]) -> None:
+async def test_sending_message(hass: UniversalAssistant, events: list[Event]) -> None:
     """Test sending a message."""
     data = {
         "entity_id": "notify.notifier",
@@ -63,7 +63,7 @@ async def test_sending_message(hass: __HAC_KEEP__, events: list[Event]) -> None:
 
 
 async def test_calling_notify_from_script_loaded_from_yaml(
-    hass: __HAC_KEEP__, events: list[Event]
+    hass: UniversalAssistant, events: list[Event]
 ) -> None:
     """Test if we can call a notify from a script."""
     step = {

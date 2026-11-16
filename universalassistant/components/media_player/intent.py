@@ -10,8 +10,8 @@ from typing import cast, override
 import probatio
 
 from universalassistant.const import STATE_PLAYING
-from universalassistant.core import Context, __HAC_KEEP__, State
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import Context, UniversalAssistant, State
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv, intent
 from universalassistant.helpers.entity_component import EntityComponent
 
@@ -67,7 +67,7 @@ class LastPaused:
         return self.timestamp is not None
 
 
-async def async_setup_intents(hass: __HAC_KEEP__) -> None:
+async def async_setup_intents(hass: UniversalAssistant) -> None:
     """Set up the media_player intents."""
     last_paused = LastPaused()
 
@@ -359,7 +359,7 @@ class MediaSearchAndPlayHandler(intent.IntentHandler):
                 context=intent_obj.context,
                 return_response=True,
             )
-        except __HAC_KEEP__Error as err:
+        except UniversalAssistantError as err:
             _LOGGER.error("Error calling search_media: %s", err)
             raise intent.IntentHandleError(f"Error searching media: {err}") from err
 
@@ -388,7 +388,7 @@ class MediaSearchAndPlayHandler(intent.IntentHandler):
                 blocking=True,
                 context=intent_obj.context,
             )
-        except __HAC_KEEP__Error as err:
+        except UniversalAssistantError as err:
             _LOGGER.error("Error calling play_media: %s", err)
             raise intent.IntentHandleError(f"Error playing media: {err}") from err
 
@@ -504,7 +504,7 @@ class MediaSetVolumeRelativeHandler(intent.IntentHandler):
 
         try:
             await asyncio.gather(*coros)
-        except __HAC_KEEP__Error as err:
+        except UniversalAssistantError as err:
             _LOGGER.error("Error setting relative volume: %s", err)
             raise intent.IntentHandleError(
                 f"Error setting relative volume: {err}"

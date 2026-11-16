@@ -28,13 +28,13 @@ from universalassistant.components.fan import (
     STATE_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import MockGenericDeviceEntryType
 
 
 async def test_fan_entity_with_all_features_old_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -135,7 +135,7 @@ async def test_fan_entity_with_all_features_old_api(
 
 
 async def test_fan_entity_with_all_features_new_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -315,7 +315,7 @@ async def test_fan_entity_with_all_features_new_api(
 
 
 async def test_fan_entity_with_no_features_new_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:

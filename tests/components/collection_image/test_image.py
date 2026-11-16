@@ -20,8 +20,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import CoreState, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from .conftest import MediaSourceMocks, MediaSourceState
 from .const import (
@@ -44,7 +44,7 @@ TEST_TIME_NEXT = "2025-11-08T13:00:00+00:00"
 
 
 async def _verify_path_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
 ):
     client = await hass_client()
@@ -59,7 +59,7 @@ async def _verify_path_image(
 
 @pytest.mark.usefixtures("mock_media_source")
 async def test_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -123,7 +123,7 @@ async def test_image(
     ],
 )
 async def test_image_multi(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     media_source_state: MediaSourceState,
@@ -154,7 +154,7 @@ async def test_image_multi(
 
 
 async def test_image_during_startup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     mock_media_source: MediaSourceMocks,
@@ -186,7 +186,7 @@ async def test_image_during_startup(
 
 @pytest.mark.usefixtures("mock_media_source")
 async def test_image_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     media_source_state: MediaSourceState,
@@ -250,7 +250,7 @@ async def test_image_url(
     ],
 )
 async def test_media_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
     uris: str | list[str],
@@ -280,7 +280,7 @@ async def test_media_error(
 
 
 async def test_unresolvable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     media_source_state: MediaSourceState,
     mock_media_source: MediaSourceMocks,
@@ -308,7 +308,7 @@ async def test_unresolvable(
 
     assert "Mock image failed to resolve" in caplog.text
 
-    with pytest.raises(__HAC_KEEP__Error, match="failed to resolve"):
+    with pytest.raises(UniversalAssistantError, match="failed to resolve"):
         await hass.services.async_call(
             DOMAIN,
             "shuffle",
@@ -350,7 +350,7 @@ async def test_unresolvable(
 )
 @pytest.mark.usefixtures("mock_media_source")
 async def test_image_file_read_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
     error_no: int,
@@ -372,7 +372,7 @@ async def test_image_file_read_error(
     with patch.object(
         Path, "read_bytes", side_effect=OSError(error_no, os.strerror(error_no))
     ):
-        with pytest.raises(__HAC_KEEP__Error) as exc_info:
+        with pytest.raises(UniversalAssistantError) as exc_info:
             await async_get_image(hass, DEFAULT_ENTITY_ID)
         resp = await client.get(f"/api/image_proxy/{DEFAULT_ENTITY_ID}")
 
@@ -384,7 +384,7 @@ async def test_image_file_read_error(
 
 @pytest.mark.usefixtures("mock_media_source")
 async def test_multi_shuffle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     media_source_state: MediaSourceState,
 ) -> None:

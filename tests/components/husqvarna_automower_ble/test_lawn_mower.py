@@ -12,7 +12,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.lawn_mower import LawnMowerActivity
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 pytestmark = pytest.mark.usefixtures("mock_automower_client")
 
@@ -32,7 +32,7 @@ pytestmark = pytest.mark.usefixtures("mock_automower_client")
     ],
 )
 async def test_setup_disconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client: Mock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -78,7 +78,7 @@ async def test_setup_disconnect(
     ],
 )
 async def test_invalid_data_received(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client: Mock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -113,7 +113,7 @@ async def test_invalid_data_received(
     ],
 )
 async def test_bleak_error_data_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client: Mock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -206,7 +206,7 @@ OPERATIONAL_STATES = [
     ],
 )
 async def test_mower_activity_mapping(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client: Mock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

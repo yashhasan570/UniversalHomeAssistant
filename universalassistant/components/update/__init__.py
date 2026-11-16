@@ -8,7 +8,7 @@ import probatio
 
 from universalassistant.components import websocket_api
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_component import EntityComponent
@@ -80,7 +80,7 @@ __all__ = [
 # mypy: disallow-any-generics
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up Select entities."""
     component = hass.data[DATA_COMPONENT] = EntityComponent[UpdateEntity](
         _LOGGER, DOMAIN, hass, SCAN_INTERVAL
@@ -94,7 +94,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up a config entry."""
     if not await hass.data[DATA_COMPONENT].async_setup_entry(entry):
         raise ConfigEntryError(
@@ -104,7 +104,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.data[DATA_COMPONENT].async_unload_entry(entry)
 
@@ -118,7 +118,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
 )
 @websocket_api.async_response
 async def websocket_release_notes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

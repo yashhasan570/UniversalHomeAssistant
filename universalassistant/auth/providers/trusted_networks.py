@@ -18,7 +18,7 @@ from typing import Any, cast, override
 import probatio
 
 from universalassistant.core import callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.network import is_cloud_connection
 
@@ -65,7 +65,7 @@ CONFIG_SCHEMA = AUTH_PROVIDER_SCHEMA.extend(
 )
 
 
-class InvalidUserError(__HAC_KEEP__Error):
+class InvalidUserError(UniversalAssistantError):
     """Raised when try to login as invalid user."""
 
 
@@ -200,7 +200,7 @@ class TrustedNetworksAuthProvider(AuthProvider):
             raise InvalidAuthError("Can't allow access from a proxy server")
 
         if is_cloud_connection(self.hass):
-            raise InvalidAuthError("Can't allow access from __HA_KEEP__ Cloud")
+            raise InvalidAuthError("Can't allow access from Universal Home Assistant Cloud")
 
     @callback
     @override

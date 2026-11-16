@@ -1,4 +1,4 @@
-"""API for Google Mail bound to __HA_KEEP__ OAuth."""
+"""API for Google Mail bound to Universal Home Assistant OAuth."""
 
 from functools import partial
 
@@ -8,11 +8,11 @@ from googleapiclient.discovery import Resource, build
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryNotReady,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     OAuth2TokenRequestError,
     OAuth2TokenRequestReauthError,
 )
@@ -24,7 +24,7 @@ class AsyncConfigEntryAuth:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         oauth2_session: config_entry_oauth2_flow.OAuth2Session,
     ) -> None:
         """Initialize Google Mail Auth."""
@@ -58,7 +58,7 @@ class AsyncConfigEntryAuth:
         except ClientError as ex:
             if setup_in_progress:
                 raise ConfigEntryNotReady from ex
-            raise __HAC_KEEP__Error(ex) from ex
+            raise UniversalAssistantError(ex) from ex
         return self.access_token
 
     async def get_resource(self) -> Resource:

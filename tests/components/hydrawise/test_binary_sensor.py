@@ -16,12 +16,12 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.hydrawise.const import MAIN_SCAN_INTERVAL
 from universalassistant.const import STATE_OFF, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_all_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_add_config_entry: Callable[[], Awaitable[MockConfigEntry]],
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -36,7 +36,7 @@ async def test_all_binary_sensors(
 
 
 async def test_update_data_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_added_config_entry: MockConfigEntry,
     mock_pydrawise: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -56,7 +56,7 @@ async def test_update_data_fails(
 
 
 async def test_controller_offline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_added_config_entry: MockConfigEntry,
     mock_pydrawise: AsyncMock,
     freezer: FrozenDateTimeFactory,

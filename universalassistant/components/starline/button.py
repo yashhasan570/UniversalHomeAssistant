@@ -5,7 +5,7 @@ from typing import override
 from starline import StarlineDevice
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .account import StarlineAccount, StarlineConfigEntry
@@ -34,7 +34,7 @@ BUTTON_TYPES: tuple[ButtonEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: StarlineConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

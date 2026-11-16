@@ -6,14 +6,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from pytest_universalassistant.typing import WebSocketGenerator
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 from .const import ENTITY_ID_ZONE_1
 
 
 async def test_browse_media_root(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_russound_client: AsyncMock,
     hass_ws_client: WebSocketGenerator,
@@ -36,7 +36,7 @@ async def test_browse_media_root(
 
 
 async def test_browse_presets(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_russound_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,

@@ -31,8 +31,8 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import get_reauth_flows, setup_integration
@@ -54,7 +54,7 @@ AUTH_ERRORS = [
 
 
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -69,7 +69,7 @@ async def test_entities(
 
 @pytest.mark.parametrize("service", [SERVICE_TURN_ON, SERVICE_TURN_OFF])
 async def test_turning_on_or_off_writes_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -110,7 +110,7 @@ async def test_turning_on_or_off_writes_state(
     ],
 )
 async def test_effect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
     effect: str,
@@ -127,7 +127,7 @@ async def test_effect(
     assert state.attributes.get(ATTR_EFFECT) == expected_effect
 
 
-async def _call(hass: __HAC_KEEP__, service: str, **data: object) -> None:
+async def _call(hass: UniversalAssistant, service: str, **data: object) -> None:
     await hass.services.async_call(
         LIGHT_DOMAIN,
         service,
@@ -142,18 +142,18 @@ async def _call(hass: __HAC_KEEP__, service: str, **data: object) -> None:
     [(SERVICE_TURN_ON, "turn_on"), (SERVICE_TURN_OFF, "turn_off")],
 )
 async def test_service_maps_nanoleaf_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
     method: str,
     error: NanoleafError,
 ) -> None:
-    """Test library errors become a __HA_KEEP__ error without reauth."""
+    """Test library errors become a Universal Home Assistant error without reauth."""
     await setup_integration(hass, mock_config_entry)
     getattr(mock_nanoleaf, method).side_effect = error
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await _call(hass, service)
     await hass.async_block_till_done()
 
@@ -170,18 +170,18 @@ async def test_service_maps_nanoleaf_errors(
     [(SERVICE_TURN_ON, "turn_on"), (SERVICE_TURN_OFF, "turn_off")],
 )
 async def test_service_auth_error_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
     method: str,
     error: NanoleafError,
 ) -> None:
-    """Test a rejected token raises a __HA_KEEP__ error and starts reauth."""
+    """Test a rejected token raises a Universal Home Assistant error and starts reauth."""
     await setup_integration(hass, mock_config_entry)
     getattr(mock_nanoleaf, method).side_effect = error
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await _call(hass, service)
     await hass.async_block_till_done()
 
@@ -191,7 +191,7 @@ async def test_service_auth_error_starts_reauth(
 
 
 async def test_turn_on_unknown_effect_is_a_validation_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -206,7 +206,7 @@ async def test_turn_on_unknown_effect_is_a_validation_error(
 
 
 async def test_turn_on_effect_rejected_by_library_is_a_validation_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -223,7 +223,7 @@ async def test_turn_on_effect_rejected_by_library_is_a_validation_error(
 
 
 async def test_turn_on_known_effect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -239,7 +239,7 @@ EMERSION_MODES = ["1D", "2D", "3D", "4D"]
 
 
 async def test_effect_list_includes_emersion_modes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -257,7 +257,7 @@ async def test_effect_list_includes_emersion_modes(
 
 
 async def test_effect_list_does_not_duplicate_effect_named_like_a_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -281,7 +281,7 @@ async def test_effect_list_does_not_duplicate_effect_named_like_a_mode(
     [("3D", "3D"), (None, None)],
 )
 async def test_effect_reports_active_emersion_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
     selected_emersion: str | None,
@@ -301,7 +301,7 @@ async def test_effect_reports_active_emersion_mode(
 
 
 async def test_turn_on_emersion_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -316,7 +316,7 @@ async def test_turn_on_emersion_mode(
 
 
 async def test_turn_on_emersion_mode_is_rejected_without_screen_mirroring(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -331,7 +331,7 @@ async def test_turn_on_emersion_mode_is_rejected_without_screen_mirroring(
 
 
 async def test_turn_on_emersion_mode_rejected_by_library_is_a_validation_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

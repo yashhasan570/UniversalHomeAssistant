@@ -19,7 +19,7 @@ from universalassistant.const import (
     CONF_SENDER,
     CONTENT_TYPE_TEXT_PLAIN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -27,7 +27,7 @@ _LOGGER = logging.getLogger(__name__)
 
 CONF_SENDER_NAME = "sender_name"
 
-DEFAULT_SENDER_NAME = "__HA_KEEP__"
+DEFAULT_SENDER_NAME = "Universal Home Assistant"
 
 PLATFORM_SCHEMA = NOTIFY_PLATFORM_SCHEMA.extend(
     {
@@ -40,7 +40,7 @@ PLATFORM_SCHEMA = NOTIFY_PLATFORM_SCHEMA.extend(
 
 
 def get_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> SendgridNotificationService:

@@ -24,7 +24,7 @@ from universalassistant.components.victron_ble.const import (
 )
 from universalassistant.components.victron_ble.sensor import SENSOR_DESCRIPTIONS
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .fixtures import (
@@ -89,7 +89,7 @@ def test_sensor_descriptions_are_json_serializable() -> None:
     Python callables (e.g. a value_fn lambda) cannot be serialized and cause
     repeated 'Bad data' errors in the universalassistant.helpers.storage logger.
 
-    Regression test for https://github.com/yashhasan570/__HAC_KEEP__/issues/167224
+    Regression test for https://github.com/yashhasan570/UniversalUniversalAssistant/issues/167224
     """
     for key, description in SENSOR_DESCRIPTIONS.items():
         serialized = serialize_entity_description(description)
@@ -138,7 +138,7 @@ def test_sensor_descriptions_are_json_serializable() -> None:
     ],
 )
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry_added_to_hass: MockConfigEntry,
@@ -162,7 +162,7 @@ async def test_sensors(
     await snapshot_platform(hass, entity_registry, snapshot, entry.entry_id)
 
 
-def _inject_bad_advertisement(hass: __HAC_KEEP__, seq: int = 0) -> None:
+def _inject_bad_advertisement(hass: UniversalAssistant, seq: int = 0) -> None:
     """Inject a VEBus advertisement that will fail decryption.
 
     Each call uses a unique payload suffix to avoid deduplication by the
@@ -185,7 +185,7 @@ def _inject_bad_advertisement(hass: __HAC_KEEP__, seq: int = 0) -> None:
     )
 
 
-def _inject_unrecognized_mode_advertisement(hass: __HAC_KEEP__, seq: int = 0) -> None:
+def _inject_unrecognized_mode_advertisement(hass: UniversalAssistant, seq: int = 0) -> None:
     """Inject a Victron advertisement with an unrecognized mode byte.
 
     detect_device_type returns None for this payload so the reauth guard
@@ -209,7 +209,7 @@ def _inject_unrecognized_mode_advertisement(hass: __HAC_KEEP__, seq: int = 0) ->
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_reauth_triggered_after_consecutive_failures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_added_to_hass: MockConfigEntry,
 ) -> None:
     """Test that reauth is triggered after consecutive decryption failures."""
@@ -232,7 +232,7 @@ async def test_reauth_triggered_after_consecutive_failures(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_reauth_not_triggered_on_successful_decrypt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_added_to_hass: MockConfigEntry,
 ) -> None:
     """Test that reauth is not triggered when decryption succeeds."""
@@ -257,7 +257,7 @@ async def test_reauth_not_triggered_on_successful_decrypt(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_reauth_triggered_only_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_added_to_hass: MockConfigEntry,
 ) -> None:
     """Test that reauth is only triggered once per failure streak."""
@@ -278,7 +278,7 @@ async def test_reauth_triggered_only_once(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_reauth_not_triggered_on_unknown_enum_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test reauth is NOT triggered when a valid key yields a sparse update.
 
@@ -288,7 +288,7 @@ async def test_reauth_not_triggered_on_unknown_enum_value(
     raises ValueError, producing a sparse update (signal strength only).
     This must not be mistaken for a wrong encryption key.
 
-    Regression test for https://github.com/yashhasan570/__HAC_KEEP__/issues/167105
+    Regression test for https://github.com/yashhasan570/UniversalUniversalAssistant/issues/167105
     """
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -334,7 +334,7 @@ async def test_reauth_not_triggered_on_unknown_enum_value(
     ids=["no_error", "internal_supply_variant", "voltage_high", "network_variant"],
 )
 async def test_charger_error_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     payload_hex: str,
     expected_state: str,
 ) -> None:
@@ -369,7 +369,7 @@ async def test_charger_error_state(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_reauth_not_triggered_on_unrecognized_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_added_to_hass: MockConfigEntry,
 ) -> None:
     """Test reauth is NOT triggered by advertisements with unrecognized mode bytes.
@@ -379,7 +379,7 @@ async def test_reauth_not_triggered_on_unrecognized_mode(
     validate_advertisement_key also returns False for these, but that does
     not mean the encryption key is wrong.
 
-    Regression test for https://github.com/yashhasan570/__HAC_KEEP__/issues/168019
+    Regression test for https://github.com/yashhasan570/UniversalUniversalAssistant/issues/168019
     """
     entry = mock_config_entry_added_to_hass
 
@@ -401,7 +401,7 @@ async def test_reauth_not_triggered_on_unrecognized_mode(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_reauth_still_triggers_across_unrecognized_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_added_to_hass: MockConfigEntry,
 ) -> None:
     """Test that unrecognized-mode advertisements are neutral for the failure counter.
@@ -410,7 +410,7 @@ async def test_reauth_still_triggers_across_unrecognized_mode(
     because unrecognized advertisements should neither increment nor reset the
     consecutive failure counter.
 
-    Regression test for https://github.com/yashhasan570/__HAC_KEEP__/issues/168019
+    Regression test for https://github.com/yashhasan570/UniversalUniversalAssistant/issues/168019
     """
     entry = mock_config_entry_added_to_hass
 

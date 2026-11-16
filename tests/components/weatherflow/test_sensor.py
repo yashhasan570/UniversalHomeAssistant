@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.sensor import ATTR_LAST_RESET
 from universalassistant.const import ATTR_UNIT_OF_MEASUREMENT, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.unit_system import (
     METRIC_SYSTEM,
@@ -37,7 +37,7 @@ VAPOR_PRESSURE = "sensor.st_00000001_vapor_pressure"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -62,7 +62,7 @@ async def test_all_entities(
     ],
 )
 async def test_unit_system(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_udp_endpoint: LocalEndpoint,
     unit_system: UnitSystem,
@@ -77,7 +77,7 @@ async def test_unit_system(
 
 
 async def test_last_reset_only_advances_after_accumulation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_udp_endpoint: LocalEndpoint,
 ) -> None:
@@ -133,7 +133,7 @@ async def test_last_reset_only_advances_after_accumulation(
 
 
 async def test_last_strike_restored_until_next_strike(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_udp_endpoint: LocalEndpoint,
 ) -> None:
@@ -178,7 +178,7 @@ async def test_last_strike_restored_until_next_strike(
 
 
 async def test_last_strike_out_of_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_udp_endpoint: LocalEndpoint,
 ) -> None:
@@ -195,7 +195,7 @@ async def test_last_strike_out_of_range(
 
 
 async def test_last_strike_out_of_range_not_restored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_udp_endpoint: LocalEndpoint,
 ) -> None:

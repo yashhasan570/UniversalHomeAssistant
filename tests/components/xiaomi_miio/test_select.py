@@ -31,14 +31,14 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 
 from . import TEST_MAC
 
 
 @pytest.fixture(autouse=True)
-async def setup_test(hass: __HAC_KEEP__):
+async def setup_test(hass: UniversalAssistant):
     """Initialize test xiaomi_miio for select entity."""
 
     mock_airfresh = MagicMock()
@@ -60,7 +60,7 @@ async def setup_test(hass: __HAC_KEEP__):
         yield mock_airfresh
 
 
-async def test_select_params(hass: __HAC_KEEP__) -> None:
+async def test_select_params(hass: UniversalAssistant) -> None:
     """Test the initial parameters."""
 
     entity_name = "test_airfresh_select"
@@ -72,7 +72,7 @@ async def test_select_params(hass: __HAC_KEEP__) -> None:
     assert select_entity.attributes.get(ATTR_OPTIONS) == ["forward", "left", "right"]
 
 
-async def test_select_bad_attr(hass: __HAC_KEEP__) -> None:
+async def test_select_bad_attr(hass: UniversalAssistant) -> None:
     """Test selecting a different option with invalid option value."""
 
     entity_name = "test_airfresh_select"
@@ -99,7 +99,7 @@ async def test_select_bad_attr(hass: __HAC_KEEP__) -> None:
     assert state.state == "forward"
 
 
-async def test_select_option(hass: __HAC_KEEP__) -> None:
+async def test_select_option(hass: UniversalAssistant) -> None:
     """Test selecting of a option."""
 
     entity_name = "test_airfresh_select"
@@ -125,7 +125,7 @@ async def test_select_option(hass: __HAC_KEEP__) -> None:
     assert state.state == "left"
 
 
-async def test_select_coordinator_update(hass: __HAC_KEEP__, setup_test) -> None:
+async def test_select_coordinator_update(hass: UniversalAssistant, setup_test) -> None:
     """Test coordinator update of a option."""
 
     entity_name = "test_airfresh_select"
@@ -146,7 +146,7 @@ async def test_select_coordinator_update(hass: __HAC_KEEP__, setup_test) -> None
     assert state.state == "left"
 
 
-async def setup_component(hass: __HAC_KEEP__, entity_name: str) -> str:
+async def setup_component(hass: UniversalAssistant, entity_name: str) -> str:
     """Set up component."""
     entity_id = f"{SELECT_DOMAIN}.{entity_name}"
 

@@ -3,13 +3,13 @@
 from unittest.mock import AsyncMock
 
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import async_init_integration, find_update_callback
 from .const import MOCK_SNOO_DATA
 
 
-async def test_sensors(hass: __HAC_KEEP__, bypass_api: AsyncMock) -> None:
+async def test_sensors(hass: UniversalAssistant, bypass_api: AsyncMock) -> None:
     """Test sensors and check test values are correctly set."""
     await async_init_integration(hass)
     assert len(hass.states.async_all("sensor")) == 2

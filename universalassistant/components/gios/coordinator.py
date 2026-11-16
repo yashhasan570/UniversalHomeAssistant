@@ -11,7 +11,7 @@ from gios.model import GiosSensors
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -29,7 +29,7 @@ class GiosDataUpdateCoordinator(DataUpdateCoordinator[GiosSensors]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: GiosConfigEntry,
         gios: Gios,
     ) -> None:

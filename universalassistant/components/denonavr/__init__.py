@@ -7,7 +7,7 @@ from denonavr.exceptions import AvrRequestError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.httpx_client import get_async_client
@@ -38,13 +38,13 @@ _LOGGER = logging.getLogger(__name__)
 type DenonavrConfigEntry = ConfigEntry[DenonAVR]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: DenonavrConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: DenonavrConfigEntry) -> None:
     """Set up the denonavr components from a config entry."""
     # Connect to receiver
     connect_denonavr = ConnectDenonAVR(
@@ -84,7 +84,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: DenonavrConfigEntry) -> N
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: DenonavrConfigEntry
+    hass: UniversalAssistant, config_entry: DenonavrConfigEntry
 ) -> None:
     """Unload a config entry."""
     try:

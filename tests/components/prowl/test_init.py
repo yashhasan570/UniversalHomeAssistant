@@ -13,7 +13,7 @@ from universalassistant.components.prowl.const import CONF_LEGACY_SERVICE_NAME, 
 from universalassistant.components.prowl.notify import ProwlNotificationService
 from universalassistant.config_entries import SOURCE_IMPORT, SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_API_KEY, CONF_NAME, CONF_PLATFORM
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -21,7 +21,7 @@ from .conftest import ENTITY_ID, OTHER_API_KEY, TEST_API_KEY, TEST_NAME
 
 
 async def test_load_reload_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_prowlpy_config_entry: MockConfigEntry,
     mock_prowlpy: AsyncMock,
 ) -> None:
@@ -60,7 +60,7 @@ async def test_load_reload_unload_config_entry(
     ],
 )
 async def test_config_entry_failures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_prowlpy_config_entry: MockConfigEntry,
     mock_prowlpy: AsyncMock,
     prowlpy_side_effect,
@@ -77,7 +77,7 @@ async def test_config_entry_failures(
     assert mock_prowlpy.verify_key.call_count > 0
 
 
-async def _setup_yaml(hass: __HAC_KEEP__, platform_config: dict[str, str]) -> None:
+async def _setup_yaml(hass: UniversalAssistant, platform_config: dict[str, str]) -> None:
     """Set up the Prowl notify platform from YAML."""
     await async_setup_component(
         hass,
@@ -89,7 +89,7 @@ async def _setup_yaml(hass: __HAC_KEEP__, platform_config: dict[str, str]) -> No
 
 @pytest.mark.usefixtures("configure_prowl_through_yaml")
 async def test_yaml_import(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_prowlpy: AsyncMock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -118,7 +118,7 @@ async def test_yaml_import(
 
 
 @pytest.mark.usefixtures("mock_prowlpy")
-async def test_yaml_import_without_name(hass: __HAC_KEEP__) -> None:
+async def test_yaml_import_without_name(hass: UniversalAssistant) -> None:
     """Test the legacy action keeps its default name after the import."""
     await _setup_yaml(hass, {CONF_API_KEY: TEST_API_KEY})
 
@@ -134,7 +134,7 @@ async def test_yaml_import_without_name(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_prowlpy")
 async def test_yaml_import_existing_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_prowlpy_config_entry: MockConfigEntry,
 ) -> None:
     """Test YAML for an API key that was already set up in the UI."""
@@ -162,7 +162,7 @@ async def test_yaml_import_existing_config_entry(
     ],
 )
 async def test_yaml_import_entry_setup_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_prowlpy: AsyncMock,
     issue_registry: ir.IssueRegistry,
     prowlpy_side_effect: Exception | type[Exception],
@@ -190,7 +190,7 @@ async def test_yaml_import_entry_setup_failure(
 
 @pytest.mark.usefixtures("mock_prowlpy")
 async def test_config_entry_without_legacy_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_prowlpy_config_entry: MockConfigEntry,
 ) -> None:
     """Test a config entry set up in the UI does not get a legacy action."""
@@ -225,7 +225,7 @@ async def test_config_entry_without_legacy_service(
 )
 @pytest.mark.usefixtures("mock_prowlpy")
 async def test_yaml_deprecation_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_prowlpy_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
     config: dict[str, Any],
@@ -266,7 +266,7 @@ async def test_yaml_deprecation_issue(
     ],
 )
 async def test_legacy_service_from_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_prowlpy: AsyncMock,
     title: str,
     extra_data: dict[str, str],
@@ -297,7 +297,7 @@ async def test_legacy_service_from_config_entry(
 
 
 @pytest.mark.usefixtures("mock_prowlpy")
-async def test_legacy_service_setup_cancelled_on_unload(hass: __HAC_KEEP__) -> None:
+async def test_legacy_service_setup_cancelled_on_unload(hass: UniversalAssistant) -> None:
     """Test unloading an imported entry cancels a pending legacy action setup."""
     started = asyncio.Event()
     cancelled = asyncio.Event()
@@ -339,7 +339,7 @@ async def test_legacy_service_setup_cancelled_on_unload(hass: __HAC_KEEP__) -> N
 )
 @pytest.mark.usefixtures("mock_prowlpy")
 async def test_setup_with_invalid_yaml_notify_block(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_prowlpy_config_entry: MockConfigEntry,
     notify_block: Any,
 ) -> None:
@@ -353,7 +353,7 @@ async def test_setup_with_invalid_yaml_notify_block(
 
 
 @pytest.mark.usefixtures("mock_prowlpy")
-async def test_yaml_import_of_unvalidated_values(hass: __HAC_KEEP__) -> None:
+async def test_yaml_import_of_unvalidated_values(hass: UniversalAssistant) -> None:
     """Test YAML values are imported as the notify schema reads them."""
     # Setting up the component directly passes the YAML before notify validates it
     config = {
@@ -370,7 +370,7 @@ async def test_yaml_import_of_unvalidated_values(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_prowlpy")
 async def test_yaml_notify_block_without_platform_does_not_reserve_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a YAML notify block without a platform leaves its name to the entry."""
     entry = MockConfigEntry(
@@ -394,7 +394,7 @@ async def test_yaml_notify_block_without_platform_does_not_reserve_name(
 
 @pytest.mark.usefixtures("mock_prowlpy")
 async def test_other_yaml_notify_platform_name_wins_over_imported_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test an imported entry leaves a name used by other YAML notify platforms."""
     entry = MockConfigEntry(
@@ -424,7 +424,7 @@ async def test_other_yaml_notify_platform_name_wins_over_imported_entry(
 
 
 @pytest.mark.usefixtures("mock_prowlpy")
-async def test_legacy_service_not_registered_after_unload(hass: __HAC_KEEP__) -> None:
+async def test_legacy_service_not_registered_after_unload(hass: UniversalAssistant) -> None:
     """Test the notify loader does not register the action of an unloaded entry."""
     started = asyncio.Event()
     release = asyncio.Event()
@@ -456,7 +456,7 @@ async def test_legacy_service_not_registered_after_unload(hass: __HAC_KEEP__) ->
 
 @pytest.mark.usefixtures("mock_prowlpy")
 async def test_legacy_service_of_setup_before_reload_not_registered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a delayed legacy setup from before a reload does not register."""
     release = asyncio.Event()
@@ -496,7 +496,7 @@ async def test_legacy_service_of_setup_before_reload_not_registered(
 
 @pytest.mark.usefixtures("mock_prowlpy")
 async def test_legacy_service_unload_keeps_action_of_other_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test unloading an entry that lost a name collision keeps the other action."""
     entries = [
@@ -526,7 +526,7 @@ async def test_legacy_service_unload_keeps_action_of_other_entry(
 
 @pytest.mark.usefixtures("mock_prowlpy")
 async def test_imported_and_ui_entries_with_the_same_title(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test an imported entry titled like a UI entry still gets a notify entity."""
     for source, api_key in (
@@ -548,7 +548,7 @@ async def test_imported_and_ui_entries_with_the_same_title(
 
 @pytest.mark.usefixtures("mock_prowlpy")
 async def test_legacy_service_keeps_other_yaml_notify_platforms(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the legacy action from an entry keeps other YAML notify platforms."""
     entry = MockConfigEntry(
@@ -572,7 +572,7 @@ async def test_legacy_service_keeps_other_yaml_notify_platforms(
 
 
 @pytest.mark.usefixtures("mock_prowlpy")
-async def test_yaml_service_name_wins_over_imported_entry(hass: __HAC_KEEP__) -> None:
+async def test_yaml_service_name_wins_over_imported_entry(hass: UniversalAssistant) -> None:
     """Test YAML keeps its legacy action after an API key rotation."""
     stale_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -597,7 +597,7 @@ async def test_yaml_service_name_wins_over_imported_entry(hass: __HAC_KEEP__) ->
 
 
 @pytest.mark.usefixtures("mock_prowlpy")
-async def test_yaml_import_multiple_names(hass: __HAC_KEEP__) -> None:
+async def test_yaml_import_multiple_names(hass: UniversalAssistant) -> None:
     """Test several YAML notifiers with the same API key create one entry."""
     await async_setup_component(
         hass,

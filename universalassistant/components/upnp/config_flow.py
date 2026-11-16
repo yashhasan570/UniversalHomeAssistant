@@ -13,7 +13,7 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
     OptionsFlowWithReload,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_DEVICE_TYPE,
     ATTR_UPNP_FRIENDLY_NAME,
@@ -61,7 +61,7 @@ def _is_complete_discovery(discovery_info: SsdpServiceInfo) -> bool:
 
 
 async def _async_discovered_igd_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> list[SsdpServiceInfo]:
     """Discovery IGD devices."""
     return await ssdp.async_get_discovery_info_by_st(
@@ -70,7 +70,7 @@ async def _async_discovered_igd_devices(
 
 
 async def _async_mac_address_from_discovery(
-    hass: __HAC_KEEP__, discovery: SsdpServiceInfo
+    hass: UniversalAssistant, discovery: SsdpServiceInfo
 ) -> str | None:
     """Get the mac address from a discovery."""
     location = get_preferred_location(discovery.ssdp_all_locations)

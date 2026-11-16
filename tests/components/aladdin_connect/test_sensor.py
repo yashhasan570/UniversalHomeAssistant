@@ -13,7 +13,7 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -21,7 +21,7 @@ from . import init_integration
 ENTITY_ID = "sensor.test_door_battery"
 
 
-async def _setup(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+async def _setup(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     """Set up integration with only the sensor platform."""
     with patch("universalassistant.components.aladdin_connect.PLATFORMS", [Platform.SENSOR]):
         await init_integration(hass, entry)
@@ -29,7 +29,7 @@ async def _setup(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -41,7 +41,7 @@ async def test_sensor_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_aladdin_connect_api: AsyncMock,
     freezer: FrozenDateTimeFactory,

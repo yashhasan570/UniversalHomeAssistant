@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.lcn.binary_sensor import SCAN_INTERVAL
 from universalassistant.components.lcn.helpers import get_device_connection
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MockConfigEntry, MockDeviceConnection, init_integration
@@ -20,7 +20,7 @@ BINARY_SENSOR_SENSOR1 = "binary_sensor.testmodule_binary_sensor1"
 
 
 async def test_setup_lcn_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -33,7 +33,7 @@ async def test_setup_lcn_binary_sensor(
 
 
 async def test_pushed_binsensor_status_change(
-    hass: __HAC_KEEP__, entry: MockConfigEntry
+    hass: UniversalAssistant, entry: MockConfigEntry
 ) -> None:
     """Test the binary port sensor changes its state on status received."""
     await init_integration(hass, entry)
@@ -63,7 +63,7 @@ async def test_pushed_binsensor_status_change(
 
 
 async def test_availability(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, entry: MockConfigEntry
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, entry: MockConfigEntry
 ) -> None:
     """Test the availability of binary_sensor entity."""
     await init_integration(hass, entry)
@@ -99,7 +99,7 @@ async def test_availability(
     assert state.state != STATE_UNAVAILABLE
 
 
-async def test_unload_config_entry(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+async def test_unload_config_entry(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     """Test the binary sensor is removed when the config entry is unloaded."""
     await init_integration(hass, entry)
 

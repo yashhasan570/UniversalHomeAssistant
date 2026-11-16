@@ -7,10 +7,10 @@ from bitvis_protobuf.parse import PayloadDiagnostic, PayloadSample
 import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Set up the integration."""
     config_entry.add_to_hass(hass)
 

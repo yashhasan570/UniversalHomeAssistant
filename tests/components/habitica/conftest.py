@@ -37,7 +37,7 @@ from pytest_universalassistant.common import (
 from universalassistant.components.habitica.const import CONF_API_USER, DEFAULT_URL, DOMAIN
 from universalassistant.config_entries import ConfigSubentryData
 from universalassistant.const import CONF_API_KEY, CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 ERROR_RESPONSE = HabiticaErrorResponse(success=False, error="error", message="reason")
 ERROR_NOT_AUTHORIZED = NotAuthorizedError(error=ERROR_RESPONSE, headers={})
@@ -88,7 +88,7 @@ def mock_config_entry_with_subentry() -> MockConfigEntry:
 
 
 @pytest.fixture
-async def set_tz(hass: __HAC_KEEP__) -> None:
+async def set_tz(hass: UniversalAssistant) -> None:
     """Fixture to set timezone."""
     await hass.config.async_set_time_zone("Europe/Berlin")
 
@@ -104,7 +104,7 @@ def mock_get_tasks(task_type: TaskFilter | None = None) -> HabiticaTasksResponse
 
 
 @pytest.fixture(name="habitica")
-async def mock_habiticalib(hass: __HAC_KEEP__) -> AsyncGenerator[AsyncMock]:
+async def mock_habiticalib(hass: UniversalAssistant) -> AsyncGenerator[AsyncMock]:
     """Mock habiticalib."""
 
     with (

@@ -21,7 +21,7 @@ from universalassistant.components.willow.const import (
     OAUTH2_CLIENT_ID,
     OAUTH2_CLIENT_SECRET,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 USER_ID = 42
@@ -94,7 +94,7 @@ def mock_config_entry(expires_at: float) -> MockConfigEntry:
 
 
 @pytest.fixture
-async def setup_credentials(hass: __HAC_KEEP__) -> None:
+async def setup_credentials(hass: UniversalAssistant) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(

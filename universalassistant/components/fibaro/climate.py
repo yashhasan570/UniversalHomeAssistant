@@ -15,7 +15,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, Platform, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FibaroConfigEntry, FibaroController
@@ -105,7 +105,7 @@ OP_MODE_ACTIONS = ("setMode", "setOperatingMode", "setThermostatMode")
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FibaroConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

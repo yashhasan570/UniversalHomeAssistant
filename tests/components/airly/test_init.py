@@ -20,7 +20,7 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import init_integration
@@ -28,7 +28,7 @@ from . import init_integration
 
 @pytest.mark.usefixtures("mock_airly_client")
 async def test_async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test a successful setup entry."""
@@ -41,7 +41,7 @@ async def test_async_setup_entry(
 
 
 async def test_async_setup_entry_with_nearest(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airly_client: MagicMock,
 ) -> None:
     """Test a successful setup entry with nearest station."""
@@ -78,7 +78,7 @@ async def test_async_setup_entry_with_nearest(
     ],
 )
 async def test_config_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_airly_client: MagicMock,
     exception: Exception,
@@ -91,7 +91,7 @@ async def test_config_not_ready(
 
 
 async def test_config_auth_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_airly_client: MagicMock,
 ) -> None:
@@ -111,7 +111,7 @@ async def test_config_auth_failed(
 
 
 @pytest.mark.usefixtures("mock_airly_client")
-async def test_config_without_unique_id(hass: __HAC_KEEP__) -> None:
+async def test_config_without_unique_id(hass: UniversalAssistant) -> None:
     """Test for setup entry without unique_id."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -129,7 +129,7 @@ async def test_config_without_unique_id(hass: __HAC_KEEP__) -> None:
 
 
 async def test_config_with_turned_off_station(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_airly_client: MagicMock,
     mock_airly_no_station_measurements: Measurement,
@@ -144,7 +144,7 @@ async def test_config_with_turned_off_station(
 
 
 async def test_update_interval(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airly_client: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -217,7 +217,7 @@ async def test_update_interval(
 
 @pytest.mark.usefixtures("mock_airly_client")
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test successful unload of entry."""
@@ -236,7 +236,7 @@ async def test_unload_entry(
 @pytest.mark.parametrize("old_identifier", [(DOMAIN, 123, 456), (DOMAIN, "123", "456")])
 @pytest.mark.usefixtures("mock_airly_client")
 async def test_migrate_device_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     old_identifier: tuple[str, Any, Any],
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -267,7 +267,7 @@ async def test_migrate_device_entry(
 
 
 async def test_remove_air_quality_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_airly_client: MagicMock,

@@ -5,7 +5,7 @@ import logging
 
 from knx_telegram_store import KnxTelegramStoreException
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import KNX_MODULE_KEY, KNX_TELEGRAM_BACKEND_SQLITE
 from .telegrams import Telegrams
@@ -17,7 +17,7 @@ _LOGGER = logging.getLogger(__name__)
 LOCK_TIMEOUT = 30
 
 
-def _sqlite_telegrams(hass: __HAC_KEEP__) -> Telegrams | None:
+def _sqlite_telegrams(hass: UniversalAssistant) -> Telegrams | None:
     """Return the telegrams handler whose database file is part of the backup, if any."""
     if (knx_module := hass.data.get(KNX_MODULE_KEY)) is None:
         return None
@@ -27,7 +27,7 @@ def _sqlite_telegrams(hass: __HAC_KEEP__) -> Telegrams | None:
     return telegrams
 
 
-async def async_pre_backup(hass: __HAC_KEEP__) -> None:
+async def async_pre_backup(hass: UniversalAssistant) -> None:
     """Checkpoint the telegram database and hold off writes while it is copied."""
     if (telegrams := _sqlite_telegrams(hass)) is None:
         return
@@ -54,7 +54,7 @@ async def async_pre_backup(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def async_post_backup(hass: __HAC_KEEP__) -> None:
+async def async_post_backup(hass: UniversalAssistant) -> None:
     """Resume writing to the telegram database."""
     if (telegrams := _sqlite_telegrams(hass)) is None or (
         store := telegrams.store

@@ -4,12 +4,12 @@ from unittest.mock import patch
 
 from pytest_universalassistant.typing import RecorderInstanceGenerator
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import recorder
 
 
 async def test_async_migration_in_progress(
-    async_setup_recorder_instance: RecorderInstanceGenerator, hass: __HAC_KEEP__
+    async_setup_recorder_instance: RecorderInstanceGenerator, hass: UniversalAssistant
 ) -> None:
     """Test async_migration_in_progress wraps the recorder."""
     with patch(
@@ -26,7 +26,7 @@ async def test_async_migration_in_progress(
 
 
 async def test_async_migration_is_live(
-    async_setup_recorder_instance: RecorderInstanceGenerator, hass: __HAC_KEEP__
+    async_setup_recorder_instance: RecorderInstanceGenerator, hass: UniversalAssistant
 ) -> None:
     """Test async_migration_in_progress wraps the recorder."""
     with patch(

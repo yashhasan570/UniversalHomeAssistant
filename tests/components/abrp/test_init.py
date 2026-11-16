@@ -22,7 +22,7 @@ from universalassistant.components.abrp.const import ABRP_APP_KEY, DOMAIN, OAUTH
 from universalassistant.components.abrp.coordinator import GARAGE_SCAN_INTERVAL
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
@@ -43,7 +43,7 @@ from .conftest import (
 
 @pytest.mark.usefixtures("mock_abrp_client")
 async def test_setup_and_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_vehicles: MockConfigEntry,
     mock_telemetry_stream: MagicMock,
 ) -> None:
@@ -68,7 +68,7 @@ async def test_setup_and_unload(
 @pytest.mark.parametrize("expires_at", [time.time() - 3600], ids=["expired"])
 @pytest.mark.usefixtures("mock_abrp_client", "mock_telemetry_stream")
 async def test_setup_token_refresh_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -125,7 +125,7 @@ async def test_setup_token_refresh_success(
 )
 @pytest.mark.parametrize("expires_at", [time.time() - 3600], ids=["expired"])
 async def test_setup_token_refresh_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     status: HTTPStatus | None,
@@ -147,7 +147,7 @@ async def test_setup_token_refresh_failure(
     )
 
 
-def _expire_token(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+def _expire_token(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     """Mark the stored token as expired so the next use refreshes it."""
     hass.config_entries.async_update_entry(
         entry,
@@ -157,7 +157,7 @@ def _expire_token(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
 
 @pytest.mark.usefixtures("mock_abrp_client")
 async def test_stream_auth_refreshes_expired_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_vehicles: MockConfigEntry,
     mock_telemetry_stream: MagicMock,
     aioclient_mock: AiohttpClientMocker,
@@ -201,7 +201,7 @@ async def test_stream_auth_refreshes_expired_token(
 )
 @pytest.mark.usefixtures("mock_abrp_client")
 async def test_stream_auth_refresh_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_vehicles: MockConfigEntry,
     mock_telemetry_stream: MagicMock,
     aioclient_mock: AiohttpClientMocker,
@@ -229,7 +229,7 @@ async def test_stream_auth_refresh_failure(
 
 
 async def test_setup_missing_implementation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """A missing OAuth2 implementation surfaces as SETUP_RETRY."""
@@ -264,7 +264,7 @@ async def test_setup_missing_implementation(
     ],
 )
 async def test_garage_fetch_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_abrp_client: AsyncMock,
     side_effect: Exception,
@@ -294,7 +294,7 @@ async def test_garage_fetch_failure(
 )
 @pytest.mark.usefixtures("mock_telemetry_stream")
 async def test_garage_poll_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_vehicles: MockConfigEntry,
     mock_abrp_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -318,7 +318,7 @@ async def test_garage_poll_failure(
 
 @pytest.mark.usefixtures("mock_telemetry_stream")
 async def test_devices_created_from_garage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_vehicles: MockConfigEntry,
     mock_abrp_client: AsyncMock,
     mock_abrp_vehicles: list[AbrpVehicle],
@@ -362,7 +362,7 @@ async def test_devices_created_from_garage(
 
 @pytest.mark.usefixtures("mock_telemetry_stream")
 async def test_display_missing_on_poll_keeps_device_metadata(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_vehicles: MockConfigEntry,
     mock_abrp_client: AsyncMock,
     mock_abrp_vehicles: list[AbrpVehicle],
@@ -391,7 +391,7 @@ async def test_display_missing_on_poll_keeps_device_metadata(
 
 @pytest.mark.usefixtures("mock_abrp_client")
 async def test_connection_logged_once_per_transition(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_vehicles: MockConfigEntry,
     mock_telemetry_stream: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -418,7 +418,7 @@ async def test_connection_logged_once_per_transition(
     ],
 )
 async def test_stream_spawned_for_every_garage_vehicle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_vehicles: MockConfigEntry,
     mock_abrp_client: AsyncMock,
     mock_abrp_vehicles: list[AbrpVehicle],
@@ -447,11 +447,11 @@ async def test_stream_spawned_for_every_garage_vehicle(
 
 @pytest.mark.usefixtures("mock_abrp_client")
 async def test_shutdown_stops_stream(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_vehicles: MockConfigEntry,
     mock_telemetry_stream: MagicMock,
 ) -> None:
-    """__HA_KEEP__ stopping stops the stream without unloading the entry."""
+    """Universal Home Assistant stopping stops the stream without unloading the entry."""
     await setup_integration(hass, config_entry_with_vehicles)
 
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
@@ -468,7 +468,7 @@ async def test_shutdown_stops_stream(
     ],
 )
 async def test_vehicle_added_to_garage_appears_without_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_vehicles: MockConfigEntry,
     mock_abrp_client: AsyncMock,
     mock_abrp_vehicles: list[AbrpVehicle],

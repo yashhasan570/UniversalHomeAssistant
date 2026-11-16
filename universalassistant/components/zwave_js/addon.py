@@ -3,7 +3,7 @@
 from typing import Any, override
 
 from universalassistant.components.hassio import AddonError, AddonManager
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.redact import async_redact_data
 from universalassistant.helpers.singleton import singleton
 
@@ -64,6 +64,6 @@ class ZwaveAddonManager(AddonManager):
 
 @singleton(DATA_ADDON_MANAGER)
 @callback
-def get_addon_manager(hass: __HAC_KEEP__) -> AddonManager:
+def get_addon_manager(hass: UniversalAssistant) -> AddonManager:
     """Get the add-on manager."""
     return ZwaveAddonManager(hass, LOGGER, "Z-Wave JS", ADDON_SLUG)

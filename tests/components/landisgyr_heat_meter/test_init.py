@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.landisgyr_heat_meter.const import DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 API_HEAT_METER_SERVICE = (
@@ -15,7 +15,7 @@ API_HEAT_METER_SERVICE = (
 
 
 @patch(API_HEAT_METER_SERVICE)
-async def test_unload_entry(mock_meter_service: MagicMock, hass: __HAC_KEEP__) -> None:
+async def test_unload_entry(mock_meter_service: MagicMock, hass: UniversalAssistant) -> None:
     """Test removing config entry."""
     mock_entry_data = {
         "device": "/dev/USB0",
@@ -40,7 +40,7 @@ async def test_unload_entry(mock_meter_service: MagicMock, hass: __HAC_KEEP__) -
 @patch(API_HEAT_METER_SERVICE)
 async def test_migrate_entry(
     mock_meter_service: MagicMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test successful migration of entry data from version 1 to 2."""

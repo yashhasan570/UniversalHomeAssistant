@@ -33,13 +33,13 @@ from universalassistant.const import (
 from universalassistant.core import (
     Context,
     EntityServiceResponse,
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error, PlatformNotReady, Unauthorized
+from universalassistant.exceptions import UniversalAssistantError, PlatformNotReady, Unauthorized
 from universalassistant.helpers import config_validation as cv, discovery
 from universalassistant.helpers.entity_component import EntityComponent, async_update_entity
 from universalassistant.helpers.entity_platform import (
@@ -56,7 +56,7 @@ _LOGGER = logging.getLogger(__name__)
 DOMAIN = "test_domain"
 
 
-async def test_setup_loads_platforms(hass: __HAC_KEEP__) -> None:
+async def test_setup_loads_platforms(hass: UniversalAssistant) -> None:
     """Test the loading of the platforms."""
     component_setup = Mock(return_value=True)
     platform_setup = Mock(return_value=None)
@@ -78,7 +78,7 @@ async def test_setup_loads_platforms(hass: __HAC_KEEP__) -> None:
     assert platform_setup.called
 
 
-async def test_setup_recovers_when_setup_raises(hass: __HAC_KEEP__) -> None:
+async def test_setup_recovers_when_setup_raises(hass: UniversalAssistant) -> None:
     """Test the setup if exceptions are happening."""
     platform1_setup = Mock(side_effect=Exception("Broken"))
     platform2_setup = Mock(return_value=None)
@@ -115,7 +115,7 @@ async def test_setup_recovers_when_setup_raises(hass: __HAC_KEEP__) -> None:
 )
 @patch("universalassistant.setup.async_setup_component", return_value=True)
 async def test_setup_does_discovery(
-    mock_setup_component: AsyncMock, mock_setup: AsyncMock, hass: __HAC_KEEP__
+    mock_setup_component: AsyncMock, mock_setup: AsyncMock, hass: UniversalAssistant
 ) -> None:
     """Test setup for discovery."""
     component = EntityComponent(_LOGGER, DOMAIN, hass)
@@ -132,11 +132,11 @@ async def test_setup_does_discovery(
     assert mock_setup.call_args[0] == ("platform_test", {}, {"msg": "discovery_info"})
 
 
-async def test_set_scan_interval_via_config(hass: __HAC_KEEP__) -> None:
+async def test_set_scan_interval_via_config(hass: UniversalAssistant) -> None:
     """Test the setting of the scan interval via configuration."""
 
     async def async_platform_setup(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config: ConfigType,
         async_add_entities: AddEntitiesCallback,
         discovery_info: DiscoveryInfoType | None = None,
@@ -162,11 +162,11 @@ async def test_set_scan_interval_via_config(hass: __HAC_KEEP__) -> None:
     assert mock_track.call_args[0][0] == 30.0
 
 
-async def test_set_entity_namespace_via_config(hass: __HAC_KEEP__) -> None:
+async def test_set_entity_namespace_via_config(hass: UniversalAssistant) -> None:
     """Test setting an entity namespace."""
 
     async def async_platform_setup(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config: ConfigType,
         async_add_entities: AddEntitiesCallback,
         discovery_info: DiscoveryInfoType | None = None,
@@ -192,7 +192,7 @@ async def test_set_entity_namespace_via_config(hass: __HAC_KEEP__) -> None:
     ]
 
 
-async def test_extract_from_service_available_device(hass: __HAC_KEEP__) -> None:
+async def test_extract_from_service_available_device(hass: UniversalAssistant) -> None:
     """Test the extraction of entity from service and device is available."""
     component = EntityComponent(_LOGGER, DOMAIN, hass)
     await component.async_setup({})
@@ -223,7 +223,7 @@ async def test_extract_from_service_available_device(hass: __HAC_KEEP__) -> None
     ) == ["test_domain.test_3"]
 
 
-async def test_platform_not_ready(hass: __HAC_KEEP__) -> None:
+async def test_platform_not_ready(hass: UniversalAssistant) -> None:
     """Test that we retry when platform not ready."""
     platform1_setup = Mock(side_effect=[PlatformNotReady, PlatformNotReady, None])
     mock_integration(hass, MockModule("mod1"))
@@ -264,7 +264,7 @@ async def test_platform_not_ready(hass: __HAC_KEEP__) -> None:
         assert "mod1.test_domain" in hass.config.components
 
 
-async def test_extract_from_service_fails_if_no_entity_id(hass: __HAC_KEEP__) -> None:
+async def test_extract_from_service_fails_if_no_entity_id(hass: UniversalAssistant) -> None:
     """Test the extraction of everything from service."""
     component = EntityComponent(_LOGGER, DOMAIN, hass)
     await component.async_setup({})
@@ -291,7 +291,7 @@ async def test_extract_from_service_fails_if_no_entity_id(hass: __HAC_KEEP__) ->
 
 
 async def test_extract_from_service_filter_out_non_existing_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the extraction of non existing entities from service."""
     component = EntityComponent(_LOGGER, DOMAIN, hass)
@@ -312,7 +312,7 @@ async def test_extract_from_service_filter_out_non_existing_entities(
     ] == ["test_domain.test_2"]
 
 
-async def test_extract_from_service_no_group_expand(hass: __HAC_KEEP__) -> None:
+async def test_extract_from_service_no_group_expand(hass: UniversalAssistant) -> None:
     """Test not expanding a group."""
     component = EntityComponent(_LOGGER, DOMAIN, hass)
     await component.async_setup({})
@@ -327,7 +327,7 @@ async def test_extract_from_service_no_group_expand(hass: __HAC_KEEP__) -> None:
     assert extracted[0].entity_id == "test_domain.test_group"
 
 
-async def test_setup_dependencies_platform(hass: __HAC_KEEP__) -> None:
+async def test_setup_dependencies_platform(hass: UniversalAssistant) -> None:
     """Test we setup the dependencies of a platform.
 
     We're explicitly testing that we process dependencies even if a component
@@ -348,7 +348,7 @@ async def test_setup_dependencies_platform(hass: __HAC_KEEP__) -> None:
     assert "test_component.test_domain" in hass.config.components
 
 
-async def test_setup_entry(hass: __HAC_KEEP__) -> None:
+async def test_setup_entry(hass: UniversalAssistant) -> None:
     """Test setup entry calls async_setup_entry on platform."""
     mock_setup_entry = AsyncMock(return_value=None)
     mock_platform(
@@ -371,7 +371,7 @@ async def test_setup_entry(hass: __HAC_KEEP__) -> None:
     assert component._platforms[entry.entry_id].scan_interval == timedelta(seconds=5)
 
 
-async def test_setup_entry_platform_not_exist(hass: __HAC_KEEP__) -> None:
+async def test_setup_entry_platform_not_exist(hass: UniversalAssistant) -> None:
     """Test setup entry fails if platform does not exist."""
     component = EntityComponent(_LOGGER, DOMAIN, hass)
     entry = MockConfigEntry(domain="non_existing")
@@ -379,7 +379,7 @@ async def test_setup_entry_platform_not_exist(hass: __HAC_KEEP__) -> None:
     assert (await component.async_setup_entry(entry)) is False
 
 
-async def test_setup_entry_fails_duplicate(hass: __HAC_KEEP__) -> None:
+async def test_setup_entry_fails_duplicate(hass: UniversalAssistant) -> None:
     """Test we don't allow setting up a config entry twice."""
     mock_setup_entry = AsyncMock(return_value=None)
     mock_platform(
@@ -403,7 +403,7 @@ async def test_setup_entry_fails_duplicate(hass: __HAC_KEEP__) -> None:
         await component.async_setup_entry(entry)
 
 
-async def test_unload_entry_resets_platform(hass: __HAC_KEEP__) -> None:
+async def test_unload_entry_resets_platform(hass: UniversalAssistant) -> None:
     """Test unloading an entry removes all entities."""
     mock_setup_entry = AsyncMock(return_value=None)
     mock_platform(
@@ -431,7 +431,7 @@ async def test_unload_entry_resets_platform(hass: __HAC_KEEP__) -> None:
 
 
 async def test_unload_entry_tolerates_never_loaded(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test unloading an entry that was never loaded succeeds with a warning."""
     component = EntityComponent(_LOGGER, DOMAIN, hass)
@@ -445,7 +445,7 @@ async def test_unload_entry_tolerates_never_loaded(
     ) in caplog.text
 
 
-async def test_update_entity(hass: __HAC_KEEP__) -> None:
+async def test_update_entity(hass: UniversalAssistant) -> None:
     """Test that we can update an entity with the helper."""
     component = EntityComponent(_LOGGER, DOMAIN, hass)
     await component.async_setup({})
@@ -463,7 +463,7 @@ async def test_update_entity(hass: __HAC_KEEP__) -> None:
     assert entity.async_update_ha_state.mock_calls[-1][1][0] is True
 
 
-async def test_set_service_race(hass: __HAC_KEEP__) -> None:
+async def test_set_service_race(hass: UniversalAssistant) -> None:
     """Test race condition on setting service."""
     exception = False
 
@@ -486,7 +486,7 @@ async def test_set_service_race(hass: __HAC_KEEP__) -> None:
 
 
 async def test_extract_all_omit_entity_id(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test extract all with None and *."""
     component = EntityComponent(_LOGGER, DOMAIN, hass)
@@ -506,7 +506,7 @@ async def test_extract_all_omit_entity_id(
 
 
 async def test_extract_all_use_match_all(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test extract all with None and *."""
     component = EntityComponent(_LOGGER, DOMAIN, hass)
@@ -534,7 +534,7 @@ async def test_extract_all_use_match_all(
     ],
 )
 async def test_register_entity_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     schema: dict | None,
     service_data: dict,
 ) -> None:
@@ -596,7 +596,7 @@ async def test_register_entity_service(
 
 
 async def test_register_entity_service_admin_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_admin_user: MockUser,
     hass_read_only_user: MockUser,
 ) -> None:
@@ -641,7 +641,7 @@ async def test_register_entity_service_admin_only(
     assert calls == [entity]
 
 
-async def test_register_entity_service_response_data(hass: __HAC_KEEP__) -> None:
+async def test_register_entity_service_response_data(hass: UniversalAssistant) -> None:
     """Test an entity service that does support response data."""
     entity = MockEntity(entity_id=f"{DOMAIN}.entity")
 
@@ -674,7 +674,7 @@ async def test_register_entity_service_response_data(hass: __HAC_KEEP__) -> None
 
 
 async def test_register_entity_service_response_data_multiple_matches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test asking for service response data and matching many entities."""
     entity1 = MockEntity(entity_id=f"{DOMAIN}.entity1")
@@ -711,7 +711,7 @@ async def test_register_entity_service_response_data_multiple_matches(
 
 
 async def test_register_entity_service_response_data_multiple_matches_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test service response data with many entities raises exceptions."""
     entity1 = MockEntity(entity_id=f"{DOMAIN}.entity1")
@@ -746,7 +746,7 @@ async def test_register_entity_service_response_data_multiple_matches_raises(
         )
 
 
-async def test_register_batched_entity_service(hass: __HAC_KEEP__) -> None:
+async def test_register_batched_entity_service(hass: UniversalAssistant) -> None:
     """Test registering a batched entity service and calling it."""
     entity1 = MockEntity(entity_id=f"{DOMAIN}.entity1")
     entity2 = MockEntity(entity_id=f"{DOMAIN}.entity2")
@@ -810,7 +810,7 @@ async def test_register_batched_entity_service(hass: __HAC_KEEP__) -> None:
 
 
 async def test_register_batched_entity_service_response_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a batched entity service that supports response data."""
     entity1 = MockEntity(entity_id=f"{DOMAIN}.entity1")
@@ -851,7 +851,7 @@ async def test_register_batched_entity_service_response_data(
 
 
 async def test_register_entity_service_non_entity_service_schema(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test attempting to register a service with a non entity service schema.
 
@@ -870,9 +870,9 @@ async def test_register_entity_service_non_entity_service_schema(
             f"The test_domain.hello_{idx} service registers "
             "an entity service with a non entity service schema"
         )
-        with pytest.raises(__HAC_KEEP__Error, match=expected_message):
+        with pytest.raises(UniversalAssistantError, match=expected_message):
             component.async_register_entity_service(f"hello_{idx}", schema, Mock())
-        with pytest.raises(__HAC_KEEP__Error, match=expected_message):
+        with pytest.raises(UniversalAssistantError, match=expected_message):
             component.async_register_batched_entity_service(
                 f"hello_{idx}", schema, AsyncMock()
             )
@@ -890,7 +890,7 @@ async def test_register_entity_service_non_entity_service_schema(
         )
 
 
-async def test_platforms_shutdown_on_stop(hass: __HAC_KEEP__) -> None:
+async def test_platforms_shutdown_on_stop(hass: UniversalAssistant) -> None:
     """Test that we shutdown platforms on stop."""
     platform1_setup = Mock(side_effect=[PlatformNotReady, PlatformNotReady, None])
     mock_integration(hass, MockModule("mod1"))
@@ -914,7 +914,7 @@ async def test_platforms_shutdown_on_stop(hass: __HAC_KEEP__) -> None:
     assert mock_async_shutdown.called
 
 
-async def test_reset_preserves_only_component_platform(hass: __HAC_KEEP__) -> None:
+async def test_reset_preserves_only_component_platform(hass: UniversalAssistant) -> None:
     """Reset releases entry platforms and permits registering them again."""
     mock_platform(
         hass,
@@ -942,7 +942,7 @@ class MockFlow(ConfigFlow):
 
 
 @pytest.fixture
-def mock_test_config_flow(hass: __HAC_KEEP__) -> Generator[None]:
+def mock_test_config_flow(hass: UniversalAssistant) -> Generator[None]:
     """Mock a config flow for the test integration."""
     mock_platform(hass, "test.config_flow")
 
@@ -957,19 +957,19 @@ def mock_test_config_flow(hass: __HAC_KEEP__) -> Generator[None]:
     [platform for platform in Platform if platform is not Platform.IMAGE_PROCESSING],
 )
 async def test_setup_entry_platform_failed(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, domain: Platform
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, domain: Platform
 ) -> None:
     """Test an entity component raises when a forwarded platform fails to set up."""
     # Some entity components, like conversation, need the core integration
     assert await async_setup_component(hass, "universalassistant", {})
 
     async def async_setup_entry_init(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         await hass.config_entries.async_forward_entry_setups(config_entry, [domain])
 
     async def async_setup_entry_platform(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:

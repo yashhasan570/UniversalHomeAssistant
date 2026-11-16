@@ -9,11 +9,11 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.nature_remo.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_user_flow_success(hass: __HAC_KEEP__, mock_client: AsyncMock) -> None:
+async def test_user_flow_success(hass: UniversalAssistant, mock_client: AsyncMock) -> None:
     """The happy path creates an entry titled with the account nickname."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -39,7 +39,7 @@ async def test_user_flow_success(hass: __HAC_KEEP__, mock_client: AsyncMock) -> 
     ],
 )
 async def test_user_flow_errors_then_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     side_effect: Exception,
     error: str,
@@ -64,7 +64,7 @@ async def test_user_flow_errors_then_recovers(
 
 
 async def test_user_flow_aborts_on_duplicate_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

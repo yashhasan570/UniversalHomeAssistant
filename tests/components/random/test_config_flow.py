@@ -12,7 +12,7 @@ from universalassistant.components.random import async_setup_entry
 from universalassistant.components.random.const import DOMAIN
 from universalassistant.components.sensor import SensorDeviceClass
 from universalassistant.const import UnitOfEnergy, UnitOfPower
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -66,7 +66,7 @@ from universalassistant.data_entry_flow import FlowResultType
     ],
 )
 async def test_config_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_type: str,
     extra_input: dict[str, Any],
     extra_options: dict[str, Any],
@@ -118,7 +118,7 @@ async def test_config_flow(
     ],
 )
 async def test_wrong_uom(
-    hass: __HAC_KEEP__, device_class: SensorDeviceClass, unit_of_measurement: str
+    hass: UniversalAssistant, device_class: SensorDeviceClass, unit_of_measurement: str
 ) -> None:
     """Test entering a wrong unit of measurement."""
 
@@ -171,7 +171,7 @@ async def test_wrong_uom(
     ],
 )
 async def test_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_type: str,
     extra_options,
     options_options,

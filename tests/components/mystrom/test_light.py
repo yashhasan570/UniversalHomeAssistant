@@ -10,15 +10,15 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.light import SCAN_INTERVAL
 from universalassistant.components.mystrom.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF, SERVICE_TURN_ON
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from .test_init import init_integration
 
 
 @pytest.mark.parametrize("service", [SERVICE_TURN_ON, SERVICE_TURN_OFF])
 async def test_light_action_raises_when_bulb_unreachable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     service: str,
@@ -34,7 +34,7 @@ async def test_light_action_raises_when_bulb_unreachable(
     bulb.set_on = AsyncMock(side_effect=MyStromConnectionError())
     bulb.set_off = AsyncMock(side_effect=MyStromConnectionError())
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             "light",
             service,

@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.fressnapf_tracker.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 
 from .conftest import MOCK_SERIAL_NUMBER
@@ -35,7 +35,7 @@ def mock_api_client_malformed_tracker() -> Generator[MagicMock]:
 
 @pytest.mark.usefixtures("mock_auth_client", "mock_api_client_init")
 async def test_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test successful setup of config entry."""
@@ -49,7 +49,7 @@ async def test_setup_entry(
 
 @pytest.mark.usefixtures("mock_auth_client", "mock_api_client_init")
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test successful unload of config entry."""
@@ -68,7 +68,7 @@ async def test_unload_entry(
 
 @pytest.mark.usefixtures("mock_auth_client")
 async def test_setup_entry_tracker_is_valid_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api_client_init: MagicMock,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_state_entity_device_snapshots(
 
 @pytest.mark.usefixtures("mock_auth_client", "mock_api_client_malformed_tracker")
 async def test_invalid_tracker(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -131,7 +131,7 @@ async def test_invalid_tracker(
 
 @pytest.mark.usefixtures("mock_auth_client", "mock_api_client_malformed_tracker")
 async def test_invalid_tracker_already_exists(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -157,7 +157,7 @@ async def test_invalid_tracker_already_exists(
 
 @pytest.mark.usefixtures("mock_auth_client", "mock_api_client_malformed_tracker")
 async def test_invalid_tracker_shared_between_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_email_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,

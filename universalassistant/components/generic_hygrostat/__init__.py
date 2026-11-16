@@ -7,7 +7,7 @@ import probatio
 from universalassistant.components.humidifier import HumidifierDeviceClass
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_DEVICE_CLASS, CONF_NAME, CONF_UNIQUE_ID, Platform
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.helpers import (
     config_validation as cv,
     discovery,
@@ -85,7 +85,7 @@ __all__ = [
 ]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Generic Hygrostat component."""
     if DOMAIN not in config:
         return True
@@ -100,7 +100,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up from a config entry."""
 
     def set_humidifier_entity_id_or_uuid(source_entity_id: str) -> None:
@@ -151,7 +151,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, (Platform.HUMIDIFIER,))
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, config_entry: ConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, config_entry: ConfigEntry) -> None:
     """Migrate old entry."""
     _LOGGER.debug(
         "Migrating from version %s.%s", config_entry.version, config_entry.minor_version
@@ -180,7 +180,7 @@ async def async_migrate_entry(hass: __HAC_KEEP__, config_entry: ConfigEntry) -> 
     )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(
         entry, (Platform.HUMIDIFIER,)

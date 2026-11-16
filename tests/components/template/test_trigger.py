@@ -15,13 +15,13 @@ from universalassistant.const import (
     SERVICE_TURN_OFF,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import Context, __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import Context, UniversalAssistant, ServiceCall, callback
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
 @pytest.fixture(autouse=True)
-def setup_comp(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
+def setup_comp(hass: UniversalAssistant, calls: list[ServiceCall]) -> None:
     """Initialize components."""
     mock_component(hass, "group")
     hass.states.async_set("test.entity", "hello")
@@ -49,7 +49,7 @@ def setup_comp(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
 )
 @pytest.mark.usefixtures("start_ha")
 async def test_if_fires_on_change_bool(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test for firing on boolean change."""
     assert len(calls) == 0
@@ -273,7 +273,7 @@ async def test_if_fires_on_change_bool(
 )
 @pytest.mark.usefixtures("start_ha")
 async def test_general(
-    hass: __HAC_KEEP__, call_setup, calls: list[ServiceCall]
+    hass: UniversalAssistant, call_setup, calls: list[ServiceCall]
 ) -> None:
     """Test for firing on change."""
     assert len(calls) == 0
@@ -311,7 +311,7 @@ async def test_general(
 )
 @pytest.mark.usefixtures("start_ha")
 async def test_if_not_fires_because_fail(
-    hass: __HAC_KEEP__, call_setup, calls: list[ServiceCall]
+    hass: UniversalAssistant, call_setup, calls: list[ServiceCall]
 ) -> None:
     """Test for not firing after TemplateError."""
     assert len(calls) == 0
@@ -350,7 +350,7 @@ async def test_if_not_fires_because_fail(
 )
 @pytest.mark.usefixtures("start_ha")
 async def test_if_fires_on_change_with_template_advanced(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test for firing on change with template advanced."""
     context = Context()
@@ -382,7 +382,7 @@ async def test_if_fires_on_change_with_template_advanced(
     ],
 )
 @pytest.mark.usefixtures("start_ha")
-async def test_if_action(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
+async def test_if_action(hass: UniversalAssistant, calls: list[ServiceCall]) -> None:
     """Test for firing if action."""
     # Condition is not true yet
     hass.bus.async_fire("test_event")
@@ -414,7 +414,7 @@ async def test_if_action(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
 )
 @pytest.mark.usefixtures("start_ha")
 async def test_if_fires_on_change_with_bad_template(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test for firing on change with bad template."""
     assert hass.states.get("automation.automation_0").state == STATE_UNAVAILABLE
@@ -452,7 +452,7 @@ async def test_if_fires_on_change_with_bad_template(
 )
 @pytest.mark.usefixtures("start_ha")
 async def test_wait_template_with_trigger(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test using wait template with 'trigger.entity_id'."""
     await hass.async_block_till_done()
@@ -470,7 +470,7 @@ async def test_wait_template_with_trigger(
 
 
 async def test_if_fires_on_change_with_for(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test for firing on change with for."""
     assert await async_setup_component(
@@ -525,7 +525,7 @@ async def test_if_fires_on_change_with_for(
 )
 @pytest.mark.usefixtures("start_ha")
 async def test_if_fires_on_change_with_for_advanced(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test for firing on change with for advanced."""
     context = Context()
@@ -570,7 +570,7 @@ async def test_if_fires_on_change_with_for_advanced(
 )
 @pytest.mark.usefixtures("start_ha")
 async def test_if_fires_on_change_with_for_0_advanced(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test for firing on change with for: 0 advanced."""
     context = Context()
@@ -612,7 +612,7 @@ async def test_if_fires_on_change_with_for_0_advanced(
 )
 @pytest.mark.usefixtures("start_ha")
 async def test_if_fires_on_change_with_for_2(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test for firing on change with for."""
     context = Context()
@@ -644,7 +644,7 @@ async def test_if_fires_on_change_with_for_2(
 )
 @pytest.mark.usefixtures("start_ha")
 async def test_if_not_fires_on_change_with_for(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test for firing on change with for."""
     hass.states.async_set("test.entity", "world")
@@ -679,7 +679,7 @@ async def test_if_not_fires_on_change_with_for(
 )
 @pytest.mark.usefixtures("start_ha")
 async def test_if_not_fires_when_turned_off_with_for(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test for firing on change with for."""
     hass.states.async_set("test.entity", "world")
@@ -718,7 +718,7 @@ async def test_if_not_fires_when_turned_off_with_for(
 )
 @pytest.mark.usefixtures("start_ha")
 async def test_if_fires_on_change_with_for_template_1(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test for firing on change with for template."""
     hass.states.async_set("test.entity", "world")
@@ -747,7 +747,7 @@ async def test_if_fires_on_change_with_for_template_1(
 )
 @pytest.mark.usefixtures("start_ha")
 async def test_if_fires_on_change_with_for_template_2(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test for firing on change with for template."""
     hass.states.async_set("test.entity", "world")
@@ -776,7 +776,7 @@ async def test_if_fires_on_change_with_for_template_2(
 )
 @pytest.mark.usefixtures("start_ha")
 async def test_if_fires_on_change_with_for_template_3(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test for firing on change with for template."""
     hass.states.async_set("test.entity", "world")
@@ -809,7 +809,7 @@ async def test_if_fires_on_change_with_for_template_3(
 )
 @pytest.mark.usefixtures("start_ha")
 async def test_if_fires_on_change_with_for_template_4(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test for firing on change with for template."""
     hass.states.async_set("test.entity", "world")
@@ -838,7 +838,7 @@ async def test_if_fires_on_change_with_for_template_4(
 )
 @pytest.mark.usefixtures("start_ha")
 async def test_invalid_for_template_1(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test for invalid for template."""
     with mock.patch.object(template_trigger, "_LOGGER") as mock_logger:
@@ -848,7 +848,7 @@ async def test_invalid_for_template_1(
 
 
 async def test_if_fires_on_time_change(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, calls: list[ServiceCall]
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, calls: list[ServiceCall]
 ) -> None:
     """Test for firing on time changes."""
     start_time = dt_util.utcnow() + timedelta(hours=24)

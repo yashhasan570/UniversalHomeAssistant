@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.scene import DOMAIN as SCENE_DOMAIN, SceneService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -20,7 +20,7 @@ def setup_platforms():
 
 
 async def test_scene_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lutron: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -36,7 +36,7 @@ async def test_scene_setup(
 
 
 async def test_scene_activate(
-    hass: __HAC_KEEP__, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test scene activation."""
     mock_config_entry.add_to_hass(hass)

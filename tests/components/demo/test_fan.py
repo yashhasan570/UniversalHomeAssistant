@@ -20,7 +20,7 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 FULL_FAN_ENTITY_IDS = ["fan.living_room_fan", "fan.percentage_full_fan"]
@@ -45,14 +45,14 @@ async def fan_only() -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_comp(hass: __HAC_KEEP__, fan_only: None):
+async def setup_comp(hass: UniversalAssistant, fan_only: None):
     """Initialize components."""
     assert await async_setup_component(hass, fan.DOMAIN, {"fan": {"platform": "demo"}})
     await hass.async_block_till_done()
 
 
 @pytest.mark.parametrize("fan_entity_id", LIMITED_AND_FULL_FAN_ENTITY_IDS)
-async def test_turn_on(hass: __HAC_KEEP__, fan_entity_id) -> None:
+async def test_turn_on(hass: UniversalAssistant, fan_entity_id) -> None:
     """Test turning on the device."""
     state = hass.states.get(fan_entity_id)
     assert state.state == STATE_OFF
@@ -67,7 +67,7 @@ async def test_turn_on(hass: __HAC_KEEP__, fan_entity_id) -> None:
 
 @pytest.mark.parametrize("fan_entity_id", FULL_FAN_ENTITY_IDS)
 async def test_turn_on_with_speed_and_percentage(
-    hass: __HAC_KEEP__, fan_entity_id
+    hass: UniversalAssistant, fan_entity_id
 ) -> None:
     """Test turning on the device."""
     state = hass.states.get(fan_entity_id)
@@ -152,7 +152,7 @@ async def test_turn_on_with_speed_and_percentage(
 
 @pytest.mark.parametrize("fan_entity_id", FANS_WITH_PRESET_MODE_ONLY)
 async def test_turn_on_with_preset_mode_only(
-    hass: __HAC_KEEP__, fan_entity_id
+    hass: UniversalAssistant, fan_entity_id
 ) -> None:
     """Test turning on the device with a preset_mode and no speed setting."""
     state = hass.states.get(fan_entity_id)
@@ -214,7 +214,7 @@ async def test_turn_on_with_preset_mode_only(
 
 @pytest.mark.parametrize("fan_entity_id", FANS_WITH_PRESET_MODES)
 async def test_turn_on_with_preset_mode_and_speed(
-    hass: __HAC_KEEP__, fan_entity_id
+    hass: UniversalAssistant, fan_entity_id
 ) -> None:
     """Test turning on the device with a preset_mode and speed."""
     state = hass.states.get(fan_entity_id)
@@ -291,7 +291,7 @@ async def test_turn_on_with_preset_mode_and_speed(
 
 
 @pytest.mark.parametrize("fan_entity_id", LIMITED_AND_FULL_FAN_ENTITY_IDS)
-async def test_turn_off(hass: __HAC_KEEP__, fan_entity_id) -> None:
+async def test_turn_off(hass: UniversalAssistant, fan_entity_id) -> None:
     """Test turning off the device."""
     state = hass.states.get(fan_entity_id)
     assert state.state == STATE_OFF
@@ -312,7 +312,7 @@ async def test_turn_off(hass: __HAC_KEEP__, fan_entity_id) -> None:
 
 
 @pytest.mark.parametrize("fan_entity_id", LIMITED_AND_FULL_FAN_ENTITY_IDS)
-async def test_turn_off_without_entity_id(hass: __HAC_KEEP__, fan_entity_id) -> None:
+async def test_turn_off_without_entity_id(hass: UniversalAssistant, fan_entity_id) -> None:
     """Test turning off all fans."""
     state = hass.states.get(fan_entity_id)
     assert state.state == STATE_OFF
@@ -333,7 +333,7 @@ async def test_turn_off_without_entity_id(hass: __HAC_KEEP__, fan_entity_id) -> 
 
 
 @pytest.mark.parametrize("fan_entity_id", FULL_FAN_ENTITY_IDS)
-async def test_set_direction(hass: __HAC_KEEP__, fan_entity_id) -> None:
+async def test_set_direction(hass: UniversalAssistant, fan_entity_id) -> None:
     """Test setting the direction of the device."""
     state = hass.states.get(fan_entity_id)
     assert state.state == STATE_OFF
@@ -350,7 +350,7 @@ async def test_set_direction(hass: __HAC_KEEP__, fan_entity_id) -> None:
 
 
 @pytest.mark.parametrize("fan_entity_id", FANS_WITH_PRESET_MODES)
-async def test_set_preset_mode(hass: __HAC_KEEP__, fan_entity_id) -> None:
+async def test_set_preset_mode(hass: UniversalAssistant, fan_entity_id) -> None:
     """Test setting the preset mode of the device."""
     state = hass.states.get(fan_entity_id)
     assert state.state == STATE_OFF
@@ -369,7 +369,7 @@ async def test_set_preset_mode(hass: __HAC_KEEP__, fan_entity_id) -> None:
 
 
 @pytest.mark.parametrize("fan_entity_id", LIMITED_AND_FULL_FAN_ENTITY_IDS)
-async def test_set_preset_mode_invalid(hass: __HAC_KEEP__, fan_entity_id) -> None:
+async def test_set_preset_mode_invalid(hass: UniversalAssistant, fan_entity_id) -> None:
     """Test setting a invalid preset mode for the device."""
     state = hass.states.get(fan_entity_id)
     assert state.state == STATE_OFF
@@ -396,7 +396,7 @@ async def test_set_preset_mode_invalid(hass: __HAC_KEEP__, fan_entity_id) -> Non
 
 
 @pytest.mark.parametrize("fan_entity_id", FULL_FAN_ENTITY_IDS)
-async def test_set_percentage(hass: __HAC_KEEP__, fan_entity_id) -> None:
+async def test_set_percentage(hass: UniversalAssistant, fan_entity_id) -> None:
     """Test setting the percentage speed of the device."""
     state = hass.states.get(fan_entity_id)
     assert state.state == STATE_OFF
@@ -413,7 +413,7 @@ async def test_set_percentage(hass: __HAC_KEEP__, fan_entity_id) -> None:
 
 
 @pytest.mark.parametrize("fan_entity_id", LIMITED_AND_FULL_FAN_ENTITY_IDS)
-async def test_increase_decrease_speed(hass: __HAC_KEEP__, fan_entity_id) -> None:
+async def test_increase_decrease_speed(hass: UniversalAssistant, fan_entity_id) -> None:
     """Test increasing and decreasing the percentage speed of the device."""
     state = hass.states.get(fan_entity_id)
     assert state.state == STATE_OFF
@@ -502,7 +502,7 @@ async def test_increase_decrease_speed(hass: __HAC_KEEP__, fan_entity_id) -> Non
 
 @pytest.mark.parametrize("fan_entity_id", PERCENTAGE_MODEL_FANS)
 async def test_increase_decrease_speed_with_percentage_step(
-    hass: __HAC_KEEP__, fan_entity_id
+    hass: UniversalAssistant, fan_entity_id
 ) -> None:
     """Test increasing speed with a percentage step."""
     await hass.services.async_call(
@@ -537,7 +537,7 @@ async def test_increase_decrease_speed_with_percentage_step(
 
 
 @pytest.mark.parametrize("fan_entity_id", FULL_FAN_ENTITY_IDS)
-async def test_oscillate(hass: __HAC_KEEP__, fan_entity_id) -> None:
+async def test_oscillate(hass: UniversalAssistant, fan_entity_id) -> None:
     """Test oscillating the fan."""
     state = hass.states.get(fan_entity_id)
     assert state.state == STATE_OFF
@@ -565,7 +565,7 @@ async def test_oscillate(hass: __HAC_KEEP__, fan_entity_id) -> None:
 
 
 @pytest.mark.parametrize("fan_entity_id", LIMITED_AND_FULL_FAN_ENTITY_IDS)
-async def test_is_on(hass: __HAC_KEEP__, fan_entity_id) -> None:
+async def test_is_on(hass: UniversalAssistant, fan_entity_id) -> None:
     """Test is on service call."""
     assert not fan.is_on(hass, fan_entity_id)
 

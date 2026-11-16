@@ -43,7 +43,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import CoreState, __HAC_KEEP__
+from universalassistant.core import CoreState, UniversalAssistant
 from universalassistant.exceptions import (
     OAuth2TokenRequestReauthError,
     ServiceValidationError,
@@ -128,7 +128,7 @@ def _attempt_delays(count: int) -> list[int]:
 
 
 async def test_setup_component(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test setup and teardown of the netatmo component."""
     with (
@@ -168,7 +168,7 @@ async def test_setup_component(
 
 
 async def test_setup_component_with_config(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test setup of the netatmo component with dev account."""
     fake_post_hits = 0
@@ -210,7 +210,7 @@ async def test_setup_component_with_config(
 
 
 async def test_setup_component_with_webhook(
-    hass: __HAC_KEEP__, config_entry, netatmo_auth
+    hass: UniversalAssistant, config_entry, netatmo_auth
 ) -> None:
     """Test setup and teardown of the netatmo component with webhook registration."""
     with selected_platforms(
@@ -243,7 +243,7 @@ async def test_setup_component_with_webhook(
 
 
 async def test_no_deprecation_issue_on_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     netatmo_auth: AsyncMock,
     issue_registry: ir.IssueRegistry,
@@ -269,7 +269,7 @@ async def test_no_deprecation_issue_on_setup(
     ],
 )
 async def test_deprecated_webhook_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     netatmo_auth: AsyncMock,
     issue_registry: ir.IssueRegistry,
@@ -295,7 +295,7 @@ async def test_deprecated_webhook_service(
 
 @pytest.mark.parametrize("service", ["register_webhook", "unregister_webhook"])
 async def test_deprecated_webhook_service_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service: str,
 ) -> None:
     """Test calling a webhook action without a loaded entry raises."""
@@ -306,7 +306,7 @@ async def test_deprecated_webhook_service_not_loaded(
 
 
 async def test_setup_without_https(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, config_entry: MockConfigEntry, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test if set up with cloud link and without https."""
     hass.config.components.add("cloud")
@@ -342,7 +342,7 @@ async def test_setup_without_https(
 
 
 async def test_setup_with_cloud(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test if set up with active cloud subscription."""
     await mock_cloud(hass)
@@ -396,7 +396,7 @@ async def test_setup_with_cloud(
         assert not hass.config_entries.async_entries(DOMAIN)
 
 
-async def test_setup_with_cloudhook(hass: __HAC_KEEP__) -> None:
+async def test_setup_with_cloudhook(hass: UniversalAssistant) -> None:
     """Test if set up with active cloud subscription and cloud hook."""
     config_entry = MockConfigEntry(
         domain="netatmo",
@@ -466,7 +466,7 @@ async def test_setup_with_cloudhook(hass: __HAC_KEEP__) -> None:
 
 
 async def test_setup_component_with_delay(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test setup of the netatmo component with delayed startup."""
     hass.set_state(CoreState.not_running)
@@ -528,7 +528,7 @@ async def test_setup_component_with_delay(
 
 
 async def test_setup_component_string_token_scope_missing_some(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a space-separated string token scope with too few scopes.
 
@@ -587,7 +587,7 @@ async def test_setup_component_string_token_scope_missing_some(
 
 
 async def test_setup_component_string_token_scope_no_overlap(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a space-separated string token scope sharing no required scope.
 
@@ -632,7 +632,7 @@ async def test_setup_component_string_token_scope_no_overlap(
 
 
 async def test_setup_component_missing_optional_scopes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     netatmo_auth: AsyncMock,
 ) -> None:
@@ -682,7 +682,7 @@ async def test_setup_component_missing_optional_scopes(
 
 
 async def test_setup_component_missing_optional_scopes_reauth_not_duplicated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     netatmo_auth: AsyncMock,
 ) -> None:
@@ -719,7 +719,7 @@ async def test_setup_component_missing_optional_scopes_reauth_not_duplicated(
 
 
 async def test_setup_component_invalid_token(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test handling of invalid token."""
 
@@ -775,7 +775,7 @@ async def test_setup_component_invalid_token(
 
 
 async def test_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -809,7 +809,7 @@ async def test_devices(
 
 
 async def test_home_devices_registered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
     netatmo_auth: AsyncMock,
@@ -840,7 +840,7 @@ async def test_home_devices_registered(
 
 @contextmanager
 def modified_homesdata(
-    hass: __HAC_KEEP__, modify: Callable[[dict[str, Any]], None]
+    hass: UniversalAssistant, modify: Callable[[dict[str, Any]], None]
 ) -> Iterator[None]:
     """Patch the API so /homesdata reports a modified topology.
 
@@ -868,7 +868,7 @@ def modified_homesdata(
 
 
 async def test_bridge_devices_registered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
     netatmo_auth: AsyncMock,
@@ -895,7 +895,7 @@ async def test_bridge_devices_registered(
 
 
 async def test_module_links_to_its_bridge(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
     netatmo_auth: AsyncMock,
@@ -945,7 +945,7 @@ async def test_module_links_to_its_bridge(
 
 
 async def test_nested_bridges(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -975,7 +975,7 @@ async def test_nested_bridges(
 
 
 async def test_conflicting_claims_resolve_to_the_bridge(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -1006,7 +1006,7 @@ async def test_conflicting_claims_resolve_to_the_bridge(
 
 
 async def test_conflicting_claims_without_a_bridge(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -1038,7 +1038,7 @@ async def test_conflicting_claims_without_a_bridge(
 
 
 async def test_device_hierarchy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -1080,7 +1080,7 @@ async def test_device_hierarchy(
 
 
 async def test_disabled_home_is_not_polled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
     netatmo_auth: AsyncMock,
@@ -1104,7 +1104,7 @@ async def test_disabled_home_is_not_polled(
 
 
 async def test_disabled_home_keeps_its_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
@@ -1139,7 +1139,7 @@ async def test_disabled_home_keeps_its_device(
 
 
 async def test_disabled_home_disables_its_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,
@@ -1217,7 +1217,7 @@ async def test_disabled_home_disables_its_devices(
 
 
 async def test_device_remove_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1266,7 +1266,7 @@ async def test_device_remove_devices(
 
 
 async def test_disabled_home_keeps_its_descendants(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
@@ -1308,7 +1308,7 @@ async def test_disabled_home_keeps_its_descendants(
 
 
 async def test_oauth_implementation_not_available(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""
     config_entry.add_to_hass(hass)
@@ -1357,7 +1357,7 @@ async def test_oauth_implementation_not_available(
     ],
 )
 async def test_entity_unavailable_when_device_unreachable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     platform: str,
@@ -1410,7 +1410,7 @@ async def test_entity_unavailable_when_device_unreachable(
 
 
 async def _setup_switch_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     fake_post: Callable[..., Coroutine[Any, Any, Any]],
 ) -> None:
@@ -1446,7 +1446,7 @@ async def _setup_switch_platform(
     ],
 )
 async def test_entity_stays_available_through_tolerated_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     failure_script: tuple[bool, ...],
@@ -1494,7 +1494,7 @@ async def test_entity_stays_available_through_tolerated_errors(
     ids=["timeout", "api_error", "server_disconnected"],
 )
 async def test_entity_unavailable_after_three_failed_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     error: type[Exception],
@@ -1529,7 +1529,7 @@ async def test_entity_unavailable_after_three_failed_updates(
 
 
 async def test_failed_updates_are_retried_with_escalating_backoff(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1565,7 +1565,7 @@ async def test_failed_updates_are_retried_with_escalating_backoff(
 
 
 async def test_log_when_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1611,7 +1611,7 @@ async def test_log_when_unavailable(
     ids=["timeout", "api_error"],
 )
 async def test_setup_retried_when_homes_cannot_be_fetched(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     error: type[Exception],
@@ -1656,7 +1656,7 @@ async def test_setup_retried_when_homes_cannot_be_fetched(
 
 
 async def test_setup_without_homes(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test that an account without homes still loads, as a retry cannot help."""
 
@@ -1674,7 +1674,7 @@ async def test_setup_without_homes(
 
 
 @contextmanager
-def _cloud_subscribed(hass: __HAC_KEEP__) -> Iterator[None]:
+def _cloud_subscribed(hass: UniversalAssistant) -> Iterator[None]:
     """Make netatmo's webhook setup take the cloud-subscribed path.
 
     Needed so the config entry gets a CONF_CLOUDHOOK_URL, the same way a real
@@ -1701,7 +1701,7 @@ def _cloud_subscribed(hass: __HAC_KEEP__) -> Iterator[None]:
     ],
 )
 async def test_a_cloud_reconnect_registers_the_webhook_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     reconnect_after: int,
@@ -1761,7 +1761,7 @@ async def test_a_cloud_reconnect_registers_the_webhook_once(
 
 
 async def test_a_failed_registration_keeps_the_local_handler(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test that a registration error does not drop a path that may still deliver."""
     with (
@@ -1795,7 +1795,7 @@ async def test_a_failed_registration_keeps_the_local_handler(
 
 
 async def test_a_second_disconnect_replaces_the_pending_retry(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, config_entry: MockConfigEntry, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that overlapping disconnects cannot arm two re-registrations."""
     with (
@@ -1848,7 +1848,7 @@ async def test_a_second_disconnect_replaces_the_pending_retry(
 
 
 async def test_repeated_registrations_add_one_shutdown_listener(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test that reconnect cycles do not stack webhook teardown at shutdown."""
     with (
@@ -1895,7 +1895,7 @@ async def test_repeated_registrations_add_one_shutdown_listener(
 
 
 async def test_a_shutdown_drops_the_webhook_once(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test that a stop the cloud also reports as a disconnect drops once."""
     with (
@@ -1931,7 +1931,7 @@ async def test_a_shutdown_drops_the_webhook_once(
 
 
 async def test_a_failed_registration_is_still_dropped_at_shutdown(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test that a registration that errored is not assumed to be absent."""
     with (
@@ -1963,7 +1963,7 @@ async def test_a_failed_registration_is_still_dropped_at_shutdown(
 
 
 async def test_an_unloaded_entry_cancels_a_pending_registration(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, config_entry: MockConfigEntry, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that a retry armed without a cloud subscription dies with the entry."""
     with (
@@ -2007,7 +2007,7 @@ async def test_an_unloaded_entry_cancels_a_pending_registration(
 
 
 async def test_a_failed_registration_is_retried_with_backoff(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, config_entry: MockConfigEntry, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that a webhook the API refused is registered once it stops refusing."""
     with (
@@ -2069,7 +2069,7 @@ async def test_a_failed_registration_is_retried_with_backoff(
 
 
 async def test_a_webhook_url_that_cannot_work_is_not_retried(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, config_entry: MockConfigEntry, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that a cloud install without https gives up instead of looping."""
     with (
@@ -2104,12 +2104,12 @@ async def test_a_webhook_url_that_cannot_work_is_not_retried(
 
 
 async def test_the_loop_registers_when_the_reconnect_goes_unnoticed(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, config_entry: MockConfigEntry, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that recovery does not depend on the cloud connection event arriving."""
     connected = True
 
-    def is_connected(_: __HAC_KEEP__) -> bool:
+    def is_connected(_: UniversalAssistant) -> bool:
         return connected
 
     with (
@@ -2170,7 +2170,7 @@ async def test_the_loop_registers_when_the_reconnect_goes_unnoticed(
     ],
 )
 async def test_an_unreachable_api_does_not_block_unloading(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, error: Exception
+    hass: UniversalAssistant, config_entry: MockConfigEntry, error: Exception
 ) -> None:
     """Test that the entry unloads when the webhook cannot be dropped."""
     with (
@@ -2199,7 +2199,7 @@ async def test_an_unreachable_api_does_not_block_unloading(
 
 
 async def test_a_reconnect_without_a_disconnect_keeps_the_registration(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test that a webhook already registered is not dropped and added again."""
     with (
@@ -2236,7 +2236,7 @@ async def test_a_reconnect_without_a_disconnect_keeps_the_registration(
 
 
 async def test_a_disconnect_waits_for_a_registration_in_flight(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test that a drop cannot overtake the registration it has to undo."""
     calls: list[str] = []
@@ -2306,7 +2306,7 @@ async def test_a_disconnect_waits_for_a_registration_in_flight(
 
 
 async def test_an_unload_waits_for_a_registration_in_flight(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, config_entry: MockConfigEntry, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that unloading cannot drop a webhook the retry is still adding."""
     calls: list[str] = []
@@ -2366,7 +2366,7 @@ async def test_an_unload_waits_for_a_registration_in_flight(
 
 
 async def test_the_register_action_settles_the_registration(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test that a webhook the action registered is not registered again."""
     with (
@@ -2420,7 +2420,7 @@ async def test_the_register_action_settles_the_registration(
     ],
 )
 async def test_a_child_device_walks_up_to_its_home(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
@@ -2463,7 +2463,7 @@ async def test_a_child_device_walks_up_to_its_home(
 
 
 async def test_a_cloudhook_the_cloud_refuses_is_retried(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, config_entry: MockConfigEntry, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that losing the cloud while building the URL still arms a retry."""
     with (
@@ -2509,7 +2509,7 @@ async def test_a_cloudhook_the_cloud_refuses_is_retried(
 
 
 async def test_a_webhook_never_registered_is_still_dropped(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test that teardown clears a registration an earlier run left behind."""
     hass.config.components.add("cloud")
@@ -2550,7 +2550,7 @@ async def test_a_webhook_never_registered_is_still_dropped(
 
 
 async def _drive_scheduled_updates(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, seconds: int
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, seconds: int
 ) -> None:
     """Fire every scheduled update falling in the given span."""
     for _ in range(seconds // 30):
@@ -2560,7 +2560,7 @@ async def _drive_scheduled_updates(
 
 
 async def test_the_startup_burst_does_not_throttle_the_poll_schedule(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, config_entry: MockConfigEntry, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that the calls made while subscribing cannot breach the rate limit."""
     request_times: list[float] = []
@@ -2588,7 +2588,7 @@ async def test_the_startup_burst_does_not_throttle_the_poll_schedule(
 
 
 async def test_calls_stop_counting_once_they_leave_the_window(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, config_entry: MockConfigEntry, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that the counter only reports the calls made in the trailing hour."""
     await _setup_switch_platform(hass, config_entry, partial(fake_post_request, hass))
@@ -2644,7 +2644,7 @@ async def _force_update(
     ],
 )
 async def test_queue_changes_while_a_fetch_is_awaited(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mutate_queue: Callable[
         [NetatmoDataHandler, list[NetatmoPublisher]], Coroutine[Any, Any, None]

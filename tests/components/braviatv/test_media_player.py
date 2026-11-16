@@ -1,5 +1,6 @@
 """Test the Bravia TV media player."""
 
+from contextlib import AbstractContextManager, nullcontext
 from datetime import UTC, datetime
 from http import HTTPStatus
 from typing import Any
@@ -60,8 +61,8 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -134,7 +135,7 @@ CHANNEL_ATTRIBUTES = {
 
 @pytest.mark.usefixtures("mock_braviatv_client")
 async def test_media_player(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -226,7 +227,7 @@ async def test_media_player(
     ],
 )
 async def test_media_player_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
     power_status: str,
@@ -288,7 +289,7 @@ async def test_media_player_state(
     ],
 )
 async def test_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
     service: str,
@@ -327,7 +328,7 @@ async def test_services(
     ],
 )
 async def test_next_previous_track(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
     playing_info: dict[str, Any],
@@ -346,7 +347,7 @@ async def test_next_previous_track(
 
 
 async def test_select_source_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
 ) -> None:
@@ -371,7 +372,7 @@ async def test_select_source_not_found(
 
 
 async def test_source_list_skips_incomplete_items(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
 ) -> None:
@@ -392,7 +393,7 @@ async def test_source_list_skips_incomplete_items(
 
 
 async def test_source_list_adds_label(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
 ) -> None:
@@ -430,7 +431,7 @@ async def test_source_list_adds_label(
     ],
 )
 async def test_select_source_by_label(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
     source: str,
@@ -482,7 +483,7 @@ async def test_select_source_by_label(
     ],
 )
 async def test_play_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
     media_type: MediaType,
@@ -513,7 +514,7 @@ async def test_play_media(
 
 
 async def test_play_media_invalid_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
 ) -> None:
@@ -552,7 +553,7 @@ async def test_play_media_invalid_type(
     ],
 )
 async def test_command_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
     exception: type[Exception],
@@ -563,10 +564,52 @@ async def test_command_error(
 
     mock_braviatv_client.turn_on.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error, match=message):
+    with pytest.raises(UniversalAssistantError, match=message):
         await hass.services.async_call(
             MP_DOMAIN, SERVICE_TURN_ON, {ATTR_ENTITY_ID: ENTITY_ID}, blocking=True
         )
+
+
+@pytest.mark.parametrize(
+    ("exception", "expected"),
+    [
+        pytest.param(BraviaConnectionError, nullcontext(), id="connection_error"),
+        pytest.param(BraviaConnectionTimeout, nullcontext(), id="connection_timeout"),
+        pytest.param(BraviaTurnedOff, nullcontext(), id="turned_off"),
+        pytest.param(
+            BraviaNotFound,
+            pytest.raises(
+                UniversalAssistantError, match="the Bravia API service is reloading"
+            ),
+            id="not_found",
+        ),
+        pytest.param(
+            BraviaError,
+            pytest.raises(
+                UniversalAssistantError,
+                match="Error sending command to BRAVIA TV-Model: BraviaError",
+            ),
+            id="bravia_error",
+        ),
+    ],
+)
+async def test_turn_off_errors(
+    hass: UniversalAssistant,
+    mock_config_entry: MockConfigEntry,
+    mock_braviatv_client: AsyncMock,
+    exception: type[BraviaError],
+    expected: AbstractContextManager[object],
+) -> None:
+    """Test turn-off suppresses only errors indicating the TV is offline."""
+    await init_integration(hass, mock_config_entry)
+    mock_braviatv_client.turn_off.side_effect = exception
+
+    with expected:
+        await hass.services.async_call(
+            MP_DOMAIN, SERVICE_TURN_OFF, {ATTR_ENTITY_ID: ENTITY_ID}, blocking=True
+        )
+
+    mock_braviatv_client.turn_off.assert_awaited_once_with()
 
 
 @pytest.mark.parametrize(
@@ -584,7 +627,7 @@ async def test_command_error(
     ],
 )
 async def test_browse_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
@@ -611,7 +654,7 @@ async def test_browse_media(
 
 @pytest.mark.usefixtures("mock_braviatv_client")
 async def test_browse_media_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -682,7 +725,7 @@ async def test_browse_media_not_found(
 )
 @pytest.mark.usefixtures("mock_braviatv_client")
 async def test_get_browse_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,

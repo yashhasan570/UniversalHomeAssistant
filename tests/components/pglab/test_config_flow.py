@@ -6,14 +6,14 @@ from pytest_universalassistant.typing import MqttMockHAClient
 from universalassistant.components.mqtt import MQTT_CONNECTION_STATE
 from universalassistant.components.pglab.const import DOMAIN
 from universalassistant.config_entries import SOURCE_MQTT, SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.service_info.mqtt import MqttServiceInfo
 
 
 async def test_mqtt_config_single_instance(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test MQTT flow aborts when an entry already exist."""
 
@@ -28,7 +28,7 @@ async def test_mqtt_config_single_instance(
     assert result["reason"] == "single_instance_allowed"
 
 
-async def test_mqtt_setup(hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient) -> None:
+async def test_mqtt_setup(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient) -> None:
     """Test we can finish a config flow through MQTT with custom prefix."""
     discovery_info = MqttServiceInfo(
         topic="pglab/discovery/E-Board-DD53AC85/config",
@@ -58,7 +58,7 @@ async def test_mqtt_setup(hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient) -> No
 
 
 async def test_mqtt_abort_invalid_topic(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Check MQTT flow aborts if discovery topic is invalid."""
     discovery_info = MqttServiceInfo(
@@ -97,7 +97,7 @@ async def test_mqtt_abort_invalid_topic(
     assert result["reason"] == "invalid_discovery_info"
 
 
-async def test_user_setup(hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient) -> None:
+async def test_user_setup(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient) -> None:
     """Test if the user can finish a config flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -114,7 +114,7 @@ async def test_user_setup(hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient) -> No
 
 
 async def test_user_setup_mqtt_not_connected(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test that the user setup is aborted when MQTT is not connected."""
 
@@ -130,7 +130,7 @@ async def test_user_setup_mqtt_not_connected(
     assert result["reason"] == "mqtt_not_connected"
 
 
-async def test_user_setup_mqtt_not_configured(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_mqtt_not_configured(hass: UniversalAssistant) -> None:
     """Test that the user setup is aborted when MQTT is not configured."""
 
     result = await hass.config_entries.flow.async_init(

@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .coordinator import SabnzbdConfigEntry, SabnzbdUpdateCoordinator
@@ -13,7 +13,7 @@ PLATFORMS = [Platform.BINARY_SENSOR, Platform.BUTTON, Platform.NUMBER, Platform.
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SabnzbdConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SabnzbdConfigEntry) -> None:
     """Set up the SabNzbd Component."""
 
     sab_api = await get_client(hass, entry.data)
@@ -27,6 +27,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SabnzbdConfigEntry) -> No
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SabnzbdConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SabnzbdConfigEntry) -> None:
     """Unload a Sabnzbd config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

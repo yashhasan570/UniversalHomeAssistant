@@ -14,7 +14,7 @@ from universalassistant.components.light import (
 )
 from universalassistant.components.netatmo import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, CONF_WEBHOOK_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -26,7 +26,7 @@ from .common import (
 
 
 async def test_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     netatmo_auth: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -43,7 +43,7 @@ async def test_entity(
 
 
 async def test_camera_light_setup_and_services(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test camera ligiht setup and services."""
     with selected_platforms(["light"]):
@@ -109,7 +109,7 @@ async def test_camera_light_setup_and_services(
         )
 
 
-async def test_setup_component_no_devices(hass: __HAC_KEEP__, config_entry) -> None:
+async def test_setup_component_no_devices(hass: UniversalAssistant, config_entry) -> None:
     """Test setup with no devices."""
     fake_post_hits = 0
 
@@ -157,7 +157,7 @@ async def test_setup_component_no_devices(hass: __HAC_KEEP__, config_entry) -> N
 
 
 async def test_light_setup_and_services(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test setup and services."""
     with selected_platforms(["light"]):
@@ -213,7 +213,7 @@ async def test_light_setup_and_services(
 
 
 async def test_dimmable_light_turn_on_updates_brightness_optimistically(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test that turning on a dimmable light with a brightness updates state immediately.
 

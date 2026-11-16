@@ -1,4 +1,4 @@
-"""Test __HA_KEEP__ executor util."""
+"""Test Universal Home Assistant executor util."""
 
 import concurrent.futures
 import time

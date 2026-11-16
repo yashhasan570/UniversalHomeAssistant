@@ -11,7 +11,7 @@ from universalassistant.components.hive.const import DOMAIN
 from universalassistant.components.hive.services import HiveService
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_DEVICE_CLASS, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 _ENTRY_DATA = {
@@ -107,7 +107,7 @@ def _make_mock_hive(
 
 
 async def test_hub_device_registers_mac_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Hub device entry includes a MAC connection when macAddress is present."""
@@ -131,7 +131,7 @@ async def test_hub_device_registers_mac_connection(
 
 
 async def test_hub_device_no_mac_connection_when_absent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Hub device entry has no MAC connection when macAddress is absent."""
@@ -157,7 +157,7 @@ async def test_hub_device_no_mac_connection_when_absent(
 
 
 async def test_child_device_links_to_hub_via_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """A child device's via_device_id should point at the hub device's id."""
@@ -190,7 +190,7 @@ async def test_child_device_links_to_hub_via_device_id(
 
 
 async def test_hub_diagnostic_sensor_not_linked_to_itself(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """The hub's own diagnostic sensor must not link the hub device to itself."""
@@ -219,7 +219,7 @@ async def test_hub_diagnostic_sensor_not_linked_to_itself(
 
 
 async def test_glass_break_device_class(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test the glass break binary sensor device class."""
@@ -250,7 +250,7 @@ async def test_glass_break_device_class(
 
 
 async def test_all_platforms_forwarded_without_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """All platforms are set up and the entry reloads on a device-less account."""

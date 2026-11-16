@@ -11,8 +11,8 @@ from universalassistant.components.light import (
     LightEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -30,7 +30,7 @@ LIGHT_ENTITY_DESCRIPTION = LightEntityDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FressnapfTrackerConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -94,7 +94,7 @@ class FressnapfTrackerLight(FressnapfTrackerEntity, LightEntity):
         elif not self.coordinator.data.led_activatable.nonempty_battery:
             error_type = "low_battery"
         if error_type is not None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key=error_type,
             )

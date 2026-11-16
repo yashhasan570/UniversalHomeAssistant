@@ -22,7 +22,7 @@ from universalassistant.const import (
     STATE_PAUSED,
     STATE_PLAYING,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import MOCK_SERIAL
@@ -32,7 +32,7 @@ FRIENDLY_NAME = f"Kaleidescape Device {MOCK_SERIAL}"
 
 
 @pytest.mark.usefixtures("mock_device", "mock_integration")
-async def test_entity(hass: __HAC_KEEP__) -> None:
+async def test_entity(hass: UniversalAssistant) -> None:
     """Test entity attributes."""
     entity = hass.states.get(ENTITY_ID)
     assert entity is not None
@@ -41,7 +41,7 @@ async def test_entity(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_integration")
-async def test_update_state(hass: __HAC_KEEP__, mock_device: MagicMock) -> None:
+async def test_update_state(hass: UniversalAssistant, mock_device: MagicMock) -> None:
     """Tests dispatched signals update player."""
     entity = hass.states.get(ENTITY_ID)
     assert entity is not None
@@ -100,7 +100,7 @@ async def test_update_state(hass: __HAC_KEEP__, mock_device: MagicMock) -> None:
 
 
 @pytest.mark.usefixtures("mock_integration")
-async def test_services(hass: __HAC_KEEP__, mock_device: MagicMock) -> None:
+async def test_services(hass: UniversalAssistant, mock_device: MagicMock) -> None:
     """Test service calls."""
     await hass.services.async_call(
         MEDIA_PLAYER_DOMAIN,

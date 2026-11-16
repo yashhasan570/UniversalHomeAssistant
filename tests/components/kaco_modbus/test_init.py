@@ -14,14 +14,14 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.kaco_modbus.const import DOMAIN
 from universalassistant.components.kaco_modbus.coordinator import SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import MOCK_SERIAL
 
 
 async def test_setup_and_unload_entry(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Test a config entry sets up and unloads."""
     assert init_integration.state is ConfigEntryState.LOADED
@@ -33,7 +33,7 @@ async def test_setup_and_unload_entry(
 
 
 async def test_device_registry_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -51,7 +51,7 @@ async def test_device_registry_entry(
 
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_a_silent_inverter_retries_and_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_connection: MockModbusConnection,
     mock_config_entry: MockConfigEntry,
@@ -78,7 +78,7 @@ async def test_a_silent_inverter_retries_and_recovers(
 )
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_another_brand_at_the_same_address_fails_permanently(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test a swapped device is a setup error, not an endless retry.
 
@@ -94,7 +94,7 @@ async def test_another_brand_at_the_same_address_fails_permanently(
 
 
 async def test_a_moved_sunspec_map_reloads_the_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     init_integration: MockConfigEntry,
 ) -> None:

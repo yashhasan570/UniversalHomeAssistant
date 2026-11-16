@@ -2,7 +2,7 @@
 
 from enum import StrEnum
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.helpers.service import async_register_admin_service
 
 from .const import DATA_PERSON, DOMAIN
@@ -26,6 +26,6 @@ async def _async_reload_yaml(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the services for the person integration."""
     async_register_admin_service(hass, DOMAIN, PersonService.RELOAD, _async_reload_yaml)

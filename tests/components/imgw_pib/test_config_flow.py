@@ -8,12 +8,12 @@ import pytest
 
 from universalassistant.components.imgw_pib.const import CONF_STATION_ID, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_create_entry(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_imgw_pib_client: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_imgw_pib_client: AsyncMock
 ) -> None:
     """Test that the user step works."""
     result = await hass.config_entries.flow.async_init(
@@ -37,7 +37,7 @@ async def test_create_entry(
 
 @pytest.mark.parametrize("exc", [ApiError("API Error"), ClientError, TimeoutError])
 async def test_form_no_station_list(
-    hass: __HAC_KEEP__, exc: Exception, mock_imgw_pib_client: AsyncMock
+    hass: UniversalAssistant, exc: Exception, mock_imgw_pib_client: AsyncMock
 ) -> None:
     """Test aborting the flow when we cannot get the list of hydrological stations."""
     mock_imgw_pib_client.update_hydrological_stations.side_effect = exc
@@ -58,7 +58,7 @@ async def test_form_no_station_list(
     ],
 )
 async def test_form_with_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exc: Exception,
     base_error: str,
     mock_setup_entry: AsyncMock,

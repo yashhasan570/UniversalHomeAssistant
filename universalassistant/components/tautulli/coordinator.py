@@ -17,7 +17,7 @@ from pytautulli.exceptions import (
 from pytautulli.models.host_configuration import PyTautulliHostConfiguration
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -33,7 +33,7 @@ class TautulliDataUpdateCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: TautulliConfigEntry,
         host_configuration: PyTautulliHostConfiguration,
         api_client: PyTautulli,

@@ -21,7 +21,7 @@ from universalassistant.const import (
     UnitOfElectricCurrent,
     UnitOfElectricPotential,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er, translation
 from universalassistant.util import dt as dt_util
 
@@ -45,7 +45,7 @@ from .util import (
     ],
 )
 async def test_ups_devices(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, model: str
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, model: str
 ) -> None:
     """Test creation of device sensors."""
 
@@ -80,7 +80,7 @@ async def test_ups_devices(
     ],
 )
 async def test_ups_devices_with_unique_ids(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, model: str, unique_id: str
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, model: str, unique_id: str
 ) -> None:
     """Test creation of device sensors with unique ids."""
 
@@ -114,7 +114,7 @@ async def test_ups_devices_with_unique_ids(
     ],
 )
 async def test_pdu_devices_with_unique_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     model: str,
     unique_id_base: str,
@@ -162,7 +162,7 @@ async def test_pdu_devices_with_unique_ids(
     )
 
 
-async def test_state_sensors(hass: __HAC_KEEP__) -> None:
+async def test_state_sensors(hass: UniversalAssistant) -> None:
     """Test creation of status display sensors."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -188,7 +188,7 @@ async def test_state_sensors(hass: __HAC_KEEP__) -> None:
 
 
 async def test_alarm_sensor_updates_when_alarm_appears_later(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test an alarm sensor when no alarm is reported during setup."""
     entry = MockConfigEntry(
@@ -230,7 +230,7 @@ async def test_alarm_sensor_updates_when_alarm_appears_later(
         assert hass.states.get("sensor.ups1_alarms").state == STATE_UNKNOWN
 
 
-async def test_unknown_state_sensors(hass: __HAC_KEEP__) -> None:
+async def test_unknown_state_sensors(hass: UniversalAssistant) -> None:
     """Test creation of unknown status display sensors."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -256,7 +256,7 @@ async def test_unknown_state_sensors(hass: __HAC_KEEP__) -> None:
 
 
 async def test_null_variable_values(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test variables a NUT driver reports as a literal (null) count as absent."""
     entry = MockConfigEntry(
@@ -298,7 +298,7 @@ async def test_null_variable_values(
 
 
 async def test_stale_options(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test creation of sensors with stale options to remove."""
     config_entry = MockConfigEntry(
@@ -333,7 +333,7 @@ async def test_stale_options(
         assert state.state == "10"
 
 
-async def test_state_ambient_translation(hass: __HAC_KEEP__) -> None:
+async def test_state_ambient_translation(hass: UniversalAssistant) -> None:
     """Test translation of ambient state sensor."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -373,7 +373,7 @@ async def test_state_ambient_translation(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_pdu_devices_ambient_not_present(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     model: str,
     unique_id_base: str,
@@ -405,7 +405,7 @@ async def test_pdu_devices_ambient_not_present(
     ],
 )
 async def test_pdu_dynamic_outlets(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     model: str,
     unique_id_base: str,
@@ -448,7 +448,7 @@ async def test_pdu_dynamic_outlets(
 
 
 async def test_outlet_sensors_without_outlet_count(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test outlet sensors are created when outlet.count is missing."""
     config_entry = MockConfigEntry(

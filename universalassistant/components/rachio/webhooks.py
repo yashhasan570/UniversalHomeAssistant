@@ -4,7 +4,7 @@ from aiohttp import web
 
 from universalassistant.components import cloud, webhook
 from universalassistant.const import CONF_WEBHOOK_ID, URL_API
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
 from .const import (
@@ -80,12 +80,12 @@ SIGNAL_MAP = {
 
 
 @callback
-def async_register_webhook(hass: __HAC_KEEP__, entry: RachioConfigEntry) -> None:
+def async_register_webhook(hass: UniversalAssistant, entry: RachioConfigEntry) -> None:
     """Register a webhook."""
     webhook_id: str = entry.data[CONF_WEBHOOK_ID]
 
     async def _async_handle_rachio_webhook(
-        hass: __HAC_KEEP__, webhook_id: str, request: web.Request
+        hass: UniversalAssistant, webhook_id: str, request: web.Request
     ) -> web.Response:
         """Handle webhook calls from the server."""
         person = entry.runtime_data
@@ -111,14 +111,14 @@ def async_register_webhook(hass: __HAC_KEEP__, entry: RachioConfigEntry) -> None
 
 
 @callback
-def async_unregister_webhook(hass: __HAC_KEEP__, entry: RachioConfigEntry) -> None:
+def async_unregister_webhook(hass: UniversalAssistant, entry: RachioConfigEntry) -> None:
     """Unregister a webhook."""
     webhook_id: str = entry.data[CONF_WEBHOOK_ID]
     webhook.async_unregister(hass, webhook_id)
 
 
 async def async_get_or_create_registered_webhook_id_and_url(
-    hass: __HAC_KEEP__, entry: RachioConfigEntry
+    hass: UniversalAssistant, entry: RachioConfigEntry
 ) -> str:
     """Generate webhook url."""
     config = entry.data.copy()

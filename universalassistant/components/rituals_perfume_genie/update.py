@@ -12,8 +12,8 @@ from universalassistant.components.update import (
     UpdateEntityFeature,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_call_later
@@ -36,7 +36,7 @@ ENTITY_DESCRIPTION = UpdateEntityDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: RitualsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -137,7 +137,7 @@ class RitualsUpdateEntity(DiffuserEntity, UpdateEntity):
         try:
             await self.coordinator.client.update_firmware(self.hub.hash)
         except RitualsGenieError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="firmware_update_failed",
                 translation_placeholders={"error": str(err)},

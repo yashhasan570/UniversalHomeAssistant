@@ -15,7 +15,7 @@ from universalassistant.components.fish_audio.const import (
 )
 from universalassistant.config_entries import ConfigSubentryDataWithId
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import MOCK_CREDITS, MOCK_VOICES
 
@@ -60,7 +60,7 @@ def mock_subentries() -> list[ConfigSubentryDataWithId]:
 
 @pytest.fixture
 def mock_config_entry(
-    hass: __HAC_KEEP__, mock_subentries: list[ConfigSubentryDataWithId]
+    hass: UniversalAssistant, mock_subentries: list[ConfigSubentryDataWithId]
 ) -> MockConfigEntry:
     """Fixture for a config entry with subentries."""
     return MockConfigEntry(

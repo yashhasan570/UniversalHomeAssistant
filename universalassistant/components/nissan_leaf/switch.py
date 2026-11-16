@@ -4,7 +4,7 @@ import logging
 from typing import Any, override
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -16,7 +16,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -51,7 +51,7 @@ class LeafClimateSwitch(LeafEntity, SwitchEntity):
     def log_registration(self) -> None:
         """Log registration."""
         _LOGGER.debug(
-            "Registered LeafClimateSwitch integration with __HA_KEEP__ for VIN %s",
+            "Registered LeafClimateSwitch integration with Universal Home Assistant for VIN %s",
             self.car.leaf.vin,
         )
 

@@ -15,7 +15,7 @@ from universalassistant.components.screenlogic.services import (
     ScreenLogicServiceArgument,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
@@ -42,7 +42,7 @@ def dataset_fixture():
 
 @pytest.fixture(name="service_fixture")
 async def setup_screenlogic_services_fixture(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     request: pytest.FixtureRequest,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
@@ -98,7 +98,7 @@ async def setup_screenlogic_services_fixture(
     ],
 )
 async def test_service_set_color_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_fixture: dict[str, Any],
     data: dict[str, Any],
     target: dict[str, Any],
@@ -148,7 +148,7 @@ async def test_service_set_color_mode(
     ],
 )
 async def test_service_set_color_mode_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_fixture: dict[str, Any],
     data: dict[str, Any],
     target: dict[str, Any],
@@ -194,7 +194,7 @@ async def test_service_set_color_mode_error(
     ],
 )
 async def test_service_start_super_chlorination(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_fixture: dict[str, Any],
     data: dict[str, Any],
     target: dict[str, Any],
@@ -244,7 +244,7 @@ async def test_service_start_super_chlorination(
     ],
 )
 async def test_service_start_super_chlorination_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_fixture: dict[str, Any],
     data: dict[str, Any],
     target: dict[str, Any],
@@ -288,7 +288,7 @@ async def test_service_start_super_chlorination_error(
     ],
 )
 async def test_service_stop_super_chlorination(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_fixture: dict[str, Any],
     data: dict[str, Any],
     target: dict[str, Any],
@@ -334,7 +334,7 @@ async def test_service_stop_super_chlorination(
     ],
 )
 async def test_service_stop_super_chlorination_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_fixture: dict[str, Any],
     data: dict[str, Any],
     target: dict[str, Any],
@@ -364,7 +364,7 @@ async def test_service_stop_super_chlorination_error(
 
 
 async def test_service_config_entry_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:

@@ -11,13 +11,13 @@ from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.components import frontend
 from universalassistant.components.lovelace import DOMAIN, const, dashboard
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(autouse=True)
 def mock_onboarding_done() -> Generator[MagicMock]:
-    """Mock that __HA_KEEP__ is currently onboarding.
+    """Mock that Universal Home Assistant is currently onboarding.
 
     Enabled to prevent creating default dashboards during test execution.
     """
@@ -29,7 +29,7 @@ def mock_onboarding_done() -> Generator[MagicMock]:
 
 
 async def test_lovelace_from_storage_new_installation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -49,7 +49,7 @@ async def test_lovelace_from_storage_new_installation(
 
 
 async def test_lovelace_from_storage_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -137,7 +137,7 @@ async def test_lovelace_from_storage_migration(
 
 
 async def test_lovelace_dashboard_deleted_re_registers_panel(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -181,7 +181,7 @@ async def test_lovelace_dashboard_deleted_re_registers_panel(
 
 
 async def test_lovelace_migration_completes_when_both_files_exist(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -221,7 +221,7 @@ async def test_lovelace_migration_completes_when_both_files_exist(
 
 
 async def test_lovelace_migration_skipped_for_yaml_dashboard(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
@@ -262,7 +262,7 @@ async def test_lovelace_migration_skipped_for_yaml_dashboard(
 
 
 async def test_lovelace_migration_skipped_when_already_migrated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -312,7 +312,7 @@ async def test_lovelace_migration_skipped_when_already_migrated(
 
 
 async def test_lovelace_from_yaml(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test we load lovelace config from yaml."""
     assert await async_setup_component(
@@ -417,7 +417,7 @@ async def test_lovelace_from_yaml(
 
 @pytest.mark.parametrize("url_path", ["test-panel", "test-panel-no-sidebar"])
 async def test_dashboard_from_yaml(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, url_path
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, url_path
 ) -> None:
     """Test we load lovelace dashboard config from yaml."""
     assert await async_setup_component(
@@ -523,7 +523,7 @@ async def test_dashboard_from_yaml(
     assert len(events) == 1
 
 
-async def test_wrong_key_dashboard_from_yaml(hass: __HAC_KEEP__) -> None:
+async def test_wrong_key_dashboard_from_yaml(hass: UniversalAssistant) -> None:
     """Test we don't load lovelace dashboard without hyphen config from yaml."""
     with assert_setup_component(0, "lovelace"):
         assert not await async_setup_component(
@@ -547,7 +547,7 @@ async def test_wrong_key_dashboard_from_yaml(hass: __HAC_KEEP__) -> None:
 
 
 async def test_storage_dashboards(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -714,7 +714,7 @@ async def test_storage_dashboards(
 
 
 async def test_websocket_list_dashboards(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test listing dashboards both storage + YAML."""
     assert await async_setup_component(
@@ -765,7 +765,7 @@ async def test_websocket_list_dashboards(
 
 
 async def test_lovelace_migration_sets_default_panel(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -790,7 +790,7 @@ async def test_lovelace_migration_sets_default_panel(
 
 
 async def test_lovelace_migration_preserves_existing_default_panel(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -822,7 +822,7 @@ async def test_lovelace_migration_preserves_existing_default_panel(
 
 
 async def test_lovelace_no_migration_no_default_panel_set(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -841,7 +841,7 @@ async def test_lovelace_no_migration_no_default_panel_set(
 
 
 async def test_lovelace_info_default(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test lovelace/info returns default resource_mode."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -855,7 +855,7 @@ async def test_lovelace_info_default(
 
 
 async def test_lovelace_info_yaml_resource_mode(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test lovelace/info returns yaml resource_mode."""
     assert await async_setup_component(
@@ -871,7 +871,7 @@ async def test_lovelace_info_yaml_resource_mode(
 
 
 async def test_legacy_yaml_mode_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

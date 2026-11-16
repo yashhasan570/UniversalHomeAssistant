@@ -11,7 +11,7 @@ from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import IP_ADDRESS, LABEL, SERIAL
@@ -73,7 +73,7 @@ def test_entry_serial_returns_none_for_malformed_identity(
 
 
 async def test_migrate_current_entry_to_version_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test migration of a current per-device entry."""
     entry = MockConfigEntry(
@@ -91,7 +91,7 @@ async def test_migrate_current_entry_to_version_2(
 
 
 async def test_migrate_registries_off_the_colon_separated_serial(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -131,7 +131,7 @@ async def test_migrate_registries_off_the_colon_separated_serial(
 
 
 async def test_migrate_leaves_registry_entries_it_cannot_improve_alone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -160,7 +160,7 @@ async def test_migrate_leaves_registry_entries_it_cannot_improve_alone(
 
 @pytest.mark.parametrize("unique_id", ["gg:bb:cc:dd:ee:cc", "d0:73:d5:dd:ee"])
 async def test_migrate_malformed_current_entry_fails_cleanly(
-    hass: __HAC_KEEP__, unique_id: str, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, unique_id: str, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test malformed current entries remain unchanged when migration fails."""
     entry = MockConfigEntry(
@@ -182,7 +182,7 @@ async def test_migrate_malformed_current_entry_fails_cleanly(
 
 @pytest.mark.parametrize("unique_id", [None, DOMAIN])
 async def test_migrate_removes_the_legacy_shared_entry(
-    hass: __HAC_KEEP__, unique_id: str | None
+    hass: UniversalAssistant, unique_id: str | None
 ) -> None:
     """Test the shared entry every device once lived on is dropped, not migrated.
 
@@ -198,7 +198,7 @@ async def test_migrate_removes_the_legacy_shared_entry(
     assert hass.config_entries.async_entries(DOMAIN) == []
 
 
-async def test_migrate_version_2_entry_is_noop(hass: __HAC_KEEP__) -> None:
+async def test_migrate_version_2_entry_is_noop(hass: UniversalAssistant) -> None:
     """Test migration leaves a version 2 entry unchanged."""
     entry = MockConfigEntry(
         domain=DOMAIN,

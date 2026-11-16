@@ -7,7 +7,7 @@ from pypglab.const import SENSOR_REBOOT_TIME, SENSOR_TEMPERATURE, SENSOR_VOLTAGE
 from pypglab.device import Device as PyPGLabDevice
 from pypglab.sensor import StatusSensor as PyPGLabSensors
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 from universalassistant.util.dt import utcnow
 
@@ -22,7 +22,7 @@ class PGLabSensorsCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: PGLabConfigEntry,
         pglab_device: PyPGLabDevice,
     ) -> None:

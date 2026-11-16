@@ -6,7 +6,7 @@ import logging
 from anova_wifi import AnovaApi, APCUpdate, APCWifiDevice
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -34,7 +34,7 @@ class AnovaCoordinator(DataUpdateCoordinator[APCUpdate]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: AnovaConfigEntry,
         anova_device: APCWifiDevice,
     ) -> None:

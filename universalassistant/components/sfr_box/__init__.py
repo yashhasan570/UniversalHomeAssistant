@@ -6,7 +6,7 @@ from sfrbox_api.bridge import SFRBox
 from sfrbox_api.exceptions import SFRBoxAuthenticationError, SFRBoxError
 
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -15,7 +15,7 @@ from .const import DOMAIN, PLATFORMS
 from .coordinator import SFRConfigEntry, SFRDataUpdateCoordinator, SFRRuntimeData
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SFRConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SFRConfigEntry) -> None:
     """Set up SFR box as config entry."""
     box = SFRBox(ip=entry.data[CONF_HOST], client=async_get_clientsession(hass))
     has_auth = False
@@ -88,6 +88,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SFRConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SFRConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SFRConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

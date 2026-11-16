@@ -3,11 +3,11 @@
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.voip.devices import VoIPDevice
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_allow_call(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_voip: None,
     config_entry: MockConfigEntry,
     voip_device: VoIPDevice,

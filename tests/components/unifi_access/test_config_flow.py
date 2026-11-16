@@ -14,14 +14,14 @@ from universalassistant.config_entries import (
     SOURCE_USER,
 )
 from universalassistant.const import CONF_API_TOKEN, CONF_HOST, CONF_VERIFY_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import MOCK_API_TOKEN, MOCK_HOST
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_user_flow(hass: __HAC_KEEP__, mock_client: MagicMock) -> None:
+async def test_user_flow(hass: UniversalAssistant, mock_client: MagicMock) -> None:
     """Test successful user config flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -60,7 +60,7 @@ async def test_user_flow(hass: __HAC_KEEP__, mock_client: MagicMock) -> None:
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_errors(
-    hass: __HAC_KEEP__, mock_client: MagicMock, exception: Exception, error: str
+    hass: UniversalAssistant, mock_client: MagicMock, exception: Exception, error: str
 ) -> None:
     """Test user config flow errors and recovery."""
     result = await hass.config_entries.flow.async_init(
@@ -99,7 +99,7 @@ async def test_user_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_already_configured(
-    hass: __HAC_KEEP__, mock_client: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_client: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test user config flow aborts when already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -122,7 +122,7 @@ async def test_user_flow_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_different_host(
-    hass: __HAC_KEEP__, mock_client: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_client: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test user config flow allows different host."""
     mock_config_entry.add_to_hass(hass)
@@ -145,7 +145,7 @@ async def test_user_flow_different_host(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__, mock_client: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_client: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test successful reauthentication flow."""
     mock_config_entry.add_to_hass(hass)
@@ -176,7 +176,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -212,7 +212,7 @@ async def test_reauth_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__, mock_client: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_client: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test successful reconfiguration flow."""
     mock_config_entry.add_to_hass(hass)
@@ -239,7 +239,7 @@ async def test_reconfigure_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_same_host_new_token(
-    hass: __HAC_KEEP__, mock_client: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_client: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguration flow with same host and new API token."""
     mock_config_entry.add_to_hass(hass)
@@ -265,7 +265,7 @@ async def test_reconfigure_flow_same_host_new_token(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_already_configured(
-    hass: __HAC_KEEP__, mock_client: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_client: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguration flow aborts when host already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -307,7 +307,7 @@ async def test_reconfigure_flow_already_configured(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -358,7 +358,7 @@ async def test_reconfigure_flow_errors(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_ssl_context(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     verify_ssl: bool,
     expected_ssl_context_type: type,
@@ -387,7 +387,7 @@ async def test_user_flow_ssl_context(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_protect_api_key(
-    hass: __HAC_KEEP__, mock_client: MagicMock
+    hass: UniversalAssistant, mock_client: MagicMock
 ) -> None:
     """Test user config flow shows specific error when a Protect API key is used."""
     result = await hass.config_entries.flow.async_init(
@@ -428,7 +428,7 @@ async def test_user_flow_protect_api_key(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_protect_api_key_unreachable(
-    hass: __HAC_KEEP__, mock_client: MagicMock
+    hass: UniversalAssistant, mock_client: MagicMock
 ) -> None:
     """Test user config flow falls back to invalid_auth when Protect is unreachable."""
     result = await hass.config_entries.flow.async_init(
@@ -464,7 +464,7 @@ async def test_user_flow_protect_api_key_unreachable(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_protect_api_key_check_raises(
-    hass: __HAC_KEEP__, mock_client: MagicMock
+    hass: UniversalAssistant, mock_client: MagicMock
 ) -> None:
     """Test user config flow falls back to invalid_auth when protect check raises."""
     result = await hass.config_entries.flow.async_init(
@@ -500,7 +500,7 @@ async def test_user_flow_protect_api_key_check_raises(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_protect_api_key(
-    hass: __HAC_KEEP__, mock_client: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_client: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reauth flow shows specific error when a Protect API key is used."""
     mock_config_entry.add_to_hass(hass)
@@ -534,7 +534,7 @@ async def test_reauth_flow_protect_api_key(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_protect_api_key(
-    hass: __HAC_KEEP__, mock_client: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_client: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow shows specific error when a Protect API key is used."""
     mock_config_entry.add_to_hass(hass)
@@ -586,7 +586,7 @@ DISCOVERY_INFO = {
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_new_device(
-    hass: __HAC_KEEP__, mock_client: MagicMock
+    hass: UniversalAssistant, mock_client: MagicMock
 ) -> None:
     """Test integration discovery shows confirm form for new device."""
     result = await hass.config_entries.flow.async_init(
@@ -601,7 +601,7 @@ async def test_discovery_new_device(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_confirm_success(
-    hass: __HAC_KEEP__, mock_client: MagicMock
+    hass: UniversalAssistant, mock_client: MagicMock
 ) -> None:
     """Test successful discovery confirm creates entry."""
     result = await hass.config_entries.flow.async_init(
@@ -633,7 +633,7 @@ async def test_discovery_confirm_success(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_confirm_errors(
-    hass: __HAC_KEEP__, mock_client: MagicMock
+    hass: UniversalAssistant, mock_client: MagicMock
 ) -> None:
     """Test discovery confirm handles errors and recovery."""
     result = await hass.config_entries.flow.async_init(
@@ -696,7 +696,7 @@ async def test_discovery_confirm_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_already_configured_by_host(
-    hass: __HAC_KEEP__, mock_client: MagicMock
+    hass: UniversalAssistant, mock_client: MagicMock
 ) -> None:
     """Test discovery aborts when host is already configured."""
     entry = MockConfigEntry(
@@ -721,7 +721,7 @@ async def test_discovery_already_configured_by_host(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_updates_host_for_known_mac(
-    hass: __HAC_KEEP__, mock_client: MagicMock
+    hass: UniversalAssistant, mock_client: MagicMock
 ) -> None:
     """Test discovery updates host when MAC matches but IP changed."""
     entry = MockConfigEntry(
@@ -748,7 +748,7 @@ async def test_discovery_updates_host_for_known_mac(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_sets_unique_id_on_manual_entry(
-    hass: __HAC_KEEP__, mock_client: MagicMock
+    hass: UniversalAssistant, mock_client: MagicMock
 ) -> None:
     """Test discovery adds unique_id (MAC) to manually configured entry."""
     entry = MockConfigEntry(
@@ -774,7 +774,7 @@ async def test_discovery_sets_unique_id_on_manual_entry(
 
 
 async def test_discovery_matches_other_announced_address(
-    hass: __HAC_KEEP__, mock_client: MagicMock
+    hass: UniversalAssistant, mock_client: MagicMock
 ) -> None:
     """Test an entry on another interface of the same console is recognised.
 
@@ -806,7 +806,7 @@ async def test_discovery_matches_other_announced_address(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_already_configured_by_host_with_unique_id(
-    hass: __HAC_KEEP__, mock_client: MagicMock
+    hass: UniversalAssistant, mock_client: MagicMock
 ) -> None:
     """Test discovery is a no-op when entry already has unique_id and matching IP."""
     entry = MockConfigEntry(
@@ -834,7 +834,7 @@ async def test_discovery_already_configured_by_host_with_unique_id(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_ignored_entry(
-    hass: __HAC_KEEP__, mock_client: MagicMock
+    hass: UniversalAssistant, mock_client: MagicMock
 ) -> None:
     """Test discovery aborts when ignored entry with same unique_id exists."""
     entry = MockConfigEntry(
@@ -856,7 +856,7 @@ async def test_discovery_ignored_entry(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_fallback_name_from_mac(
-    hass: __HAC_KEEP__, mock_client: MagicMock
+    hass: UniversalAssistant, mock_client: MagicMock
 ) -> None:
     """Test discovery uses MAC-based name when hostname and platform are absent."""
     result = await hass.config_entries.flow.async_init(
@@ -891,7 +891,7 @@ async def test_discovery_fallback_name_from_mac(
     ids=["console-name", "hostname", "product-name"],
 )
 async def test_discovery_name_resolution(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     extra_info: dict[str, str],
     expected_name: str,

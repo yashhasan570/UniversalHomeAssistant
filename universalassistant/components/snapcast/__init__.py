@@ -1,7 +1,7 @@
 """Snapcast Integration."""
 
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -13,13 +13,13 @@ from .services import async_setup_services
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SnapcastConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SnapcastConfigEntry) -> None:
     """Set up Snapcast from a config entry."""
     coordinator = SnapcastUpdateCoordinator(hass, entry)
 
@@ -35,7 +35,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SnapcastConfigEntry) -> N
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SnapcastConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SnapcastConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     # disconnect from server

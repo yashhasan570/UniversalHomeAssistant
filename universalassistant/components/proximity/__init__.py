@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv, issue_registry as ir
 from universalassistant.helpers.event import (
     async_track_entity_registry_updated_event,
@@ -26,7 +26,7 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
 @callback
-def _async_migrate_tracked_entity_removed_issues(hass: __HAC_KEEP__) -> None:
+def _async_migrate_tracked_entity_removed_issues(hass: UniversalAssistant) -> None:
     """Migrate removed tracked entity issues to one issue per config entry."""
     issue_registry = ir.async_get(hass)
     # Issues created before they were per config entry are not linked to one
@@ -59,7 +59,7 @@ def _async_migrate_tracked_entity_removed_issues(hass: __HAC_KEEP__) -> None:
 
 @callback
 def _async_delete_untracked_entity_removed_issues(
-    hass: __HAC_KEEP__, entry: ProximityConfigEntry
+    hass: UniversalAssistant, entry: ProximityConfigEntry
 ) -> None:
     """Delete removed tracked entity issues of entities no longer tracked."""
     issue_registry = ir.async_get(hass)
@@ -77,13 +77,13 @@ def _async_delete_untracked_entity_removed_issues(
             ir.async_delete_issue(hass, DOMAIN, issue_id)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the proximity component."""
     _async_migrate_tracked_entity_removed_issues(hass)
     return True
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: ProximityConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: ProximityConfigEntry) -> None:
     """Migrate old entry."""
     if entry.version == 1:
         hass.config_entries.async_update_entry(
@@ -91,7 +91,7 @@ async def async_migrate_entry(hass: __HAC_KEEP__, entry: ProximityConfigEntry) -
         )
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ProximityConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ProximityConfigEntry) -> None:
     """Set up Proximity from a config entry."""
     _LOGGER.debug("setup %s with config:%s", entry.title, entry.options)
 
@@ -121,6 +121,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ProximityConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, [Platform.SENSOR])
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ProximityConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ProximityConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, [Platform.SENSOR])

@@ -6,7 +6,7 @@ from unittest.mock import mock_open, patch
 import pytest
 
 from universalassistant.components import remember_the_milk as rtm
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import JSON_STRING, LEGACY_JSON_STRING, PROFILE
 
@@ -16,7 +16,7 @@ from .const import JSON_STRING, LEGACY_JSON_STRING, PROFILE
     [JSON_STRING, LEGACY_JSON_STRING],
     ids=["new_format", "legacy_format"],
 )
-def test_config_load(hass: __HAC_KEEP__, json_string: str) -> None:
+def test_config_load(hass: UniversalAssistant, json_string: str) -> None:
     """Test loading from the file.
 
     The legacy configuration file format stored the ids as strings, so
@@ -42,7 +42,7 @@ def test_config_load(hass: __HAC_KEEP__, json_string: str) -> None:
     ids=["legacy_format", "new_format"],
 )
 def test_get_token(
-    hass: __HAC_KEEP__, json_string: str, expected_token: str | None
+    hass: UniversalAssistant, json_string: str, expected_token: str | None
 ) -> None:
     """Test getting the stored token for a profile."""
     config = rtm.RememberTheMilkConfiguration(hass)
@@ -59,7 +59,7 @@ def test_get_token(
 @pytest.mark.parametrize(
     "side_effect", [FileNotFoundError("Missing file"), OSError("IO error")]
 )
-def test_config_load_file_error(hass: __HAC_KEEP__, side_effect: Exception) -> None:
+def test_config_load_file_error(hass: UniversalAssistant, side_effect: Exception) -> None:
     """Test loading with file error."""
     config = rtm.RememberTheMilkConfiguration(hass)
     with (
@@ -76,7 +76,7 @@ def test_config_load_file_error(hass: __HAC_KEEP__, side_effect: Exception) -> N
     assert rtm_id is None
 
 
-def test_config_load_invalid_data(hass: __HAC_KEEP__) -> None:
+def test_config_load_invalid_data(hass: UniversalAssistant) -> None:
     """Test loading invalid data."""
     config = rtm.RememberTheMilkConfiguration(hass)
     with (
@@ -93,7 +93,7 @@ def test_config_load_invalid_data(hass: __HAC_KEEP__) -> None:
     assert rtm_id is None
 
 
-def test_config_set_delete_id(hass: __HAC_KEEP__) -> None:
+def test_config_set_delete_id(hass: UniversalAssistant) -> None:
     """Test setting and deleting an id from the config."""
     hass_id = "123"
     list_id = 1

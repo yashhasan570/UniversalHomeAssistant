@@ -1,4 +1,4 @@
-"""Component to integrate the __HA_KEEP__ cloud."""
+"""Component to integrate the Universal Home Assistant cloud."""
 
 import asyncio
 from collections.abc import Awaitable, Callable
@@ -28,8 +28,8 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, HassJob, __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import Event, HassJob, UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv, entityfilter, start
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.discovery import async_load_platform
@@ -40,7 +40,7 @@ from universalassistant.helpers.dispatcher import (
 from universalassistant.helpers.event import async_call_later
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.loader import async_get_integration
-from universalassistant.util.logging import LOG_FORMAT, __HAC_KEEP__LogFormatter
+from universalassistant.util.logging import LOG_FORMAT, UniversalAssistantLogFormatter
 from universalassistant.util.signal_type import SignalType
 
 # Pre-import backup to avoid it being imported
@@ -198,7 +198,7 @@ __all__ = [
 ]
 
 
-class CloudNotAvailable(__HAC_KEEP__Error):
+class CloudNotAvailable(UniversalAssistantError):
     """Raised when an action requires the cloud but it's not available."""
 
 
@@ -214,7 +214,7 @@ class CloudConnectionState(Enum):
 
 
 @callback
-def async_is_logged_in(hass: __HAC_KEEP__) -> bool:
+def async_is_logged_in(hass: UniversalAssistant) -> bool:
     """Test if user is logged in.
 
     Note: This returns True even if not currently connected to the cloud.
@@ -223,14 +223,14 @@ def async_is_logged_in(hass: __HAC_KEEP__) -> bool:
 
 
 @callback
-def async_is_connected(hass: __HAC_KEEP__) -> bool:
+def async_is_connected(hass: UniversalAssistant) -> bool:
     """Test if connected to the cloud."""
     return DATA_CLOUD in hass.data and hass.data[DATA_CLOUD].iot.connected
 
 
 @callback
 def async_listen_connection_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target: Callable[[CloudConnectionState], Awaitable[None] | None],
 ) -> Callable[[], None]:
     """Notify on connection state changes."""
@@ -238,12 +238,12 @@ def async_listen_connection_change(
 
 
 @callback
-def async_active_subscription(hass: __HAC_KEEP__) -> bool:
+def async_active_subscription(hass: UniversalAssistant) -> bool:
     """Test if user has an active subscription."""
     return async_is_logged_in(hass) and not hass.data[DATA_CLOUD].subscription_expired
 
 
-async def async_get_or_create_cloudhook(hass: __HAC_KEEP__, webhook_id: str) -> str:
+async def async_get_or_create_cloudhook(hass: UniversalAssistant, webhook_id: str) -> str:
     """Get or create a cloudhook."""
     if not async_is_connected(hass):
         raise CloudNotConnected
@@ -259,7 +259,7 @@ async def async_get_or_create_cloudhook(hass: __HAC_KEEP__, webhook_id: str) -> 
     return await async_create_cloudhook(hass, webhook_id)
 
 
-async def async_create_cloudhook(hass: __HAC_KEEP__, webhook_id: str) -> str:
+async def async_create_cloudhook(hass: UniversalAssistant, webhook_id: str) -> str:
     """Create a cloudhook."""
     if not async_is_connected(hass):
         raise CloudNotConnected
@@ -273,7 +273,7 @@ async def async_create_cloudhook(hass: __HAC_KEEP__, webhook_id: str) -> str:
     return cloudhook_url
 
 
-async def async_delete_cloudhook(hass: __HAC_KEEP__, webhook_id: str) -> None:
+async def async_delete_cloudhook(hass: UniversalAssistant, webhook_id: str) -> None:
     """Delete a cloudhook."""
     if DATA_CLOUD not in hass.data:
         raise CloudNotAvailable
@@ -283,7 +283,7 @@ async def async_delete_cloudhook(hass: __HAC_KEEP__, webhook_id: str) -> None:
 
 @callback
 def async_listen_cloudhook_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     webhook_id: str,
     on_change: Callable[[dict[str, Any] | None], None],
 ) -> Callable[[], None]:
@@ -303,7 +303,7 @@ def async_listen_cloudhook_change(
 
 
 @callback
-def async_remote_ui_url(hass: __HAC_KEEP__) -> str:
+def async_remote_ui_url(hass: UniversalAssistant) -> str:
     """Get the remote UI URL."""
     if not async_is_logged_in(hass):
         raise CloudNotAvailable
@@ -324,7 +324,7 @@ def async_remote_ui_url(hass: __HAC_KEEP__) -> str:
 
 
 @callback
-def async_remote_ui_urls(hass: __HAC_KEEP__) -> list[str]:
+def async_remote_ui_urls(hass: UniversalAssistant) -> list[str]:
     """Get the remote UI URLs, custom domains first.
 
     Custom domains are the user facing URLs. The instance domain always
@@ -344,8 +344,8 @@ def async_remote_ui_urls(hass: __HAC_KEEP__) -> list[str]:
     ]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
-    """Initialize the __HA_KEEP__ cloud."""
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    """Initialize the Universal Home Assistant cloud."""
     log_handler = hass.data[DATA_CLOUD_LOG_HANDLER] = await _setup_log_handler(hass)
 
     # Process configs
@@ -477,11 +477,11 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
     await cloud.initialize()
 
-    async def _async_migrate_alexa_settings(_: __HAC_KEEP__) -> None:
+    async def _async_migrate_alexa_settings(_: UniversalAssistant) -> None:
         """Migrate the Alexa entity settings, connected or not."""
         await alexa_config.async_migrate_entity_settings(hass, alexa_conf, prefs, cloud)
 
-    async def _async_migrate_google_settings(_: __HAC_KEEP__) -> None:
+    async def _async_migrate_google_settings(_: UniversalAssistant) -> None:
         """Migrate the Google Assistant entity settings, connected or not."""
         await google_config.async_migrate_entity_settings(
             hass, google_conf, prefs, cloud
@@ -522,7 +522,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def _async_remove_config_entry(hass: __HAC_KEEP__) -> None:
+async def _async_remove_config_entry(hass: UniversalAssistant) -> None:
     """Remove the config entry, it's recreated when a user logs in again."""
     if entries := hass.config_entries.async_entries(DOMAIN):
         # The manifest sets single_config_entry, so there is at most one entry.
@@ -530,7 +530,7 @@ async def _async_remove_config_entry(hass: __HAC_KEEP__) -> None:
 
 
 @callback
-def _handle_prefs_updated(hass: __HAC_KEEP__, cloud: Cloud[CloudClient]) -> None:
+def _handle_prefs_updated(hass: UniversalAssistant, cloud: Cloud[CloudClient]) -> None:
     """Register handler for cloud preferences updates."""
     cur_remote_enabled = cloud.client.prefs.remote_enabled
     cur_cloudhooks = cloud.client.prefs.cloudhooks
@@ -561,10 +561,10 @@ def _handle_prefs_updated(hass: __HAC_KEEP__, cloud: Cloud[CloudClient]) -> None
     cloud.client.prefs.async_listen_updates(on_prefs_updated)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: CloudConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: CloudConfigEntry) -> None:
     """Set up a config entry."""
-    if entry.title == "__HA_KEEP__ Cloud":
-        hass.config_entries.async_update_entry(entry, title="__HA_KEEP__ Link")
+    if entry.title == "Universal Home Assistant Cloud":
+        hass.config_entries.async_update_entry(entry, title="Universal Home Assistant Link")
 
     platforms = PLATFORMS.copy()
     if (cloud := hass.data[DATA_CLOUD]).is_logged_in:
@@ -578,14 +578,14 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: CloudConfigEntry) -> None
     stt_tts_entities_added.set()
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: CloudConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: CloudConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, entry.runtime_data)
 
 
-async def _setup_log_handler(hass: __HAC_KEEP__) -> FixedSizeQueueLogHandler:
+async def _setup_log_handler(hass: UniversalAssistant) -> FixedSizeQueueLogHandler:
     handler = FixedSizeQueueLogHandler()
-    handler.setFormatter(__HAC_KEEP__LogFormatter(LOG_FORMAT))
+    handler.setFormatter(UniversalAssistantLogFormatter(LOG_FORMAT))
 
     integration = await async_get_integration(hass, DOMAIN)
     loggers: set[str] = {integration.pkg_path, *(integration.loggers or [])}

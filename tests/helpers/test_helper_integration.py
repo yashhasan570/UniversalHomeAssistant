@@ -14,7 +14,7 @@ from pytest_universalassistant.common import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device import async_entity_id_to_device_id
 from universalassistant.helpers.event import async_track_entity_registry_updated_event
@@ -29,7 +29,7 @@ SOURCE_DOMAIN = "test"
 
 
 @pytest.fixture
-def source_config_entry(hass: __HAC_KEEP__) -> er.RegistryEntry:
+def source_config_entry(hass: UniversalAssistant) -> er.RegistryEntry:
     """Fixture to create a source config entry."""
     source_config_entry = MockConfigEntry()
     source_config_entry.add_to_hass(hass)
@@ -67,7 +67,7 @@ def source_entity_entry(
 
 @pytest.fixture
 def helper_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     source_entity_entry: er.RegistryEntry,
     use_entity_registry_id: bool,
 ) -> MockConfigEntry:
@@ -150,7 +150,7 @@ def source_entity_removed() -> AsyncMock:
 
 @pytest.fixture
 def mock_helper_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     helper_config_entry: MockConfigEntry,
     source_entity_entry: er.RegistryEntry,
@@ -161,7 +161,7 @@ def mock_helper_integration(
 ) -> None:
     """Mock the helper integration."""
 
-    async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+    async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
         """Mock setup entry."""
         async_handle_source_entity_changes(
             hass,
@@ -186,7 +186,7 @@ def mock_helper_integration(
     mock_platform(hass, f"{HELPER_DOMAIN}.config_flow", None)
 
 
-def track_entity_registry_actions(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
+def track_entity_registry_actions(hass: UniversalAssistant, entity_id: str) -> list[str]:
     """Track entity registry actions for an entity."""
     events = []
 
@@ -201,7 +201,7 @@ def track_entity_registry_actions(hass: __HAC_KEEP__, entity_id: str) -> list[st
 
 
 def listen_entity_registry_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> list[er.EventEntityRegistryUpdatedData]:
     """Track entity registry actions for an entity."""
     events: list[er.EventEntityRegistryUpdatedData] = []
@@ -218,7 +218,7 @@ def listen_entity_registry_events(
 
 @pytest.mark.parametrize("add_helper_config_entry_to_device", [True, False])
 async def test_async_handle_source_entity_changes_deprecated_kwarg(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     add_helper_config_entry_to_device: bool,
 ) -> None:
     """The removed add_helper_config_entry_to_device kwarg is accepted but reported.
@@ -242,7 +242,7 @@ async def test_async_handle_source_entity_changes_deprecated_kwarg(
 
 
 async def test_async_handle_source_entity_changes_rejects_unknown_kwarg(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """An unknown keyword argument still raises, as it did before **kwargs was added.
 
@@ -261,7 +261,7 @@ async def test_async_handle_source_entity_changes_rejects_unknown_kwarg(
 
 
 async def test_async_handle_source_entity_changes_without_deprecated_kwarg(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Not passing the removed add_helper_config_entry_to_device kwarg is not reported."""
     with patch("universalassistant.helpers.helper_integration.report_usage") as report_usage:
@@ -281,7 +281,7 @@ async def test_async_handle_source_entity_changes_without_deprecated_kwarg(
 @pytest.mark.parametrize("use_entity_registry_id", [True, False])
 @pytest.mark.usefixtures("mock_helper_flow", "mock_helper_integration")
 async def test_async_handle_source_entity_changes_source_entity_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     helper_config_entry: MockConfigEntry,
@@ -325,7 +325,7 @@ async def test_async_handle_source_entity_changes_source_entity_removed(
 @pytest.mark.parametrize("use_entity_registry_id", [True, False])
 @pytest.mark.usefixtures("mock_helper_flow", "mock_helper_integration")
 async def test_async_handle_source_entity_changes_source_entity_removed_custom_handler(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     helper_config_entry: MockConfigEntry,
@@ -374,7 +374,7 @@ async def test_async_handle_source_entity_changes_source_entity_removed_custom_h
 @pytest.mark.parametrize("use_entity_registry_id", [True, False])
 @pytest.mark.usefixtures("mock_helper_flow", "mock_helper_integration")
 async def test_async_handle_source_entity_changes_source_entity_removed_from_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     helper_config_entry: MockConfigEntry,
@@ -416,7 +416,7 @@ async def test_async_handle_source_entity_changes_source_entity_removed_from_dev
 @pytest.mark.parametrize("use_entity_registry_id", [True, False])
 @pytest.mark.usefixtures("mock_helper_flow", "mock_helper_integration")
 async def test_async_handle_source_entity_changes_source_entity_moved_other_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     helper_config_entry: MockConfigEntry,
@@ -467,7 +467,7 @@ async def test_async_handle_source_entity_changes_source_entity_moved_other_devi
 @pytest.mark.parametrize("use_entity_registry_id", [True, False])
 @pytest.mark.usefixtures("mock_helper_flow", "mock_helper_integration")
 async def test_async_handle_source_entity_changes_source_entity_added_to_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     helper_config_entry: MockConfigEntry,
     helper_entity_entry: er.RegistryEntry,
@@ -509,7 +509,7 @@ async def test_async_handle_source_entity_changes_source_entity_added_to_device(
 @pytest.mark.parametrize("use_entity_registry_id", [True, False])
 @pytest.mark.usefixtures("mock_helper_flow", "mock_helper_integration")
 async def test_async_handle_source_entity_changes_source_device_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     helper_config_entry: MockConfigEntry,
@@ -584,7 +584,7 @@ async def test_async_handle_source_entity_changes_source_device_removed(
 )
 @pytest.mark.usefixtures("mock_helper_flow", "mock_helper_integration")
 async def test_async_handle_source_entity_new_entity_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     helper_config_entry: MockConfigEntry,
@@ -642,7 +642,7 @@ async def test_async_handle_source_entity_new_entity_id(
     [pytest.param(True, id="composite_id"), pytest.param(False, id="source_split")],
 )
 async def test_async_remove_helper_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     helper_identifiers: set[tuple[str, str]],
@@ -715,7 +715,7 @@ async def test_async_remove_helper_devices(
 
 
 async def test_async_remove_helper_devices_fork(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -786,7 +786,7 @@ async def test_async_remove_helper_devices_fork(
 
 
 async def test_async_remove_helper_devices_fork_child_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -843,7 +843,7 @@ async def test_async_remove_helper_devices_fork_child_source(
 
 
 async def test_async_remove_helper_devices_sweep(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -938,7 +938,7 @@ async def test_async_remove_helper_devices_sweep(
     ],
 )
 async def test_async_remove_helper_devices_sweep_no_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     source_device_id: str | None,
@@ -977,7 +977,7 @@ async def test_async_remove_helper_devices_sweep_no_source(
 
 
 async def test_async_remove_helper_devices_none_source_targeted_noop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1016,7 +1016,7 @@ async def test_async_remove_helper_devices_none_source_targeted_noop(
 
 
 async def test_async_remove_helper_config_entry_from_source_device_deprecated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """The old name is a deprecated alias delegating to async_remove_helper_devices."""
@@ -1043,7 +1043,7 @@ async def test_async_remove_helper_config_entry_from_source_device_deprecated(
 @pytest.mark.parametrize("use_entity_registry_id", [True, False])
 @pytest.mark.usefixtures("source_entity_entry")
 async def test_async_remove_helper_devices_helper_not_in_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     helper_config_entry: MockConfigEntry,

@@ -7,12 +7,12 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -28,7 +28,7 @@ async def test_sensors(
 
 
 async def test_sensors_empty_collection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test sensors when the collection is empty."""
@@ -77,7 +77,7 @@ async def test_sensors_empty_collection(
     ],
 )
 async def test_random_record_format_without_descriptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_discogs_client: MagicMock,
     mock_discogs_data: dict,

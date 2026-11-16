@@ -11,8 +11,8 @@ from universalassistant.components.alarm_control_panel import (
 )
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service import async_register_platform_entity_service
 from universalassistant.helpers.typing import VolDictType
@@ -103,7 +103,7 @@ SET_TIME_SERVICE_SCHEMA = probatio.Schema(
 )
 
 
-def _find_elk_by_prefix(hass: __HAC_KEEP__, prefix: str) -> Elk | None:
+def _find_elk_by_prefix(hass: UniversalAssistant, prefix: str) -> Elk | None:
     """Search all config entries for a given prefix."""
     for entry in hass.config_entries.async_entries(DOMAIN):
         if not entry.runtime_data:
@@ -120,7 +120,7 @@ def _async_get_elk_panel(service: ServiceCall) -> Panel:
     prefix = service.data[ElkM1ServiceArgument.PREFIX]
     elk = _find_elk_by_prefix(service.hass, prefix)
     if elk is None:
-        raise __HAC_KEEP__Error(f"No ElkM1 with prefix '{prefix}' found")
+        raise UniversalAssistantError(f"No ElkM1 with prefix '{prefix}' found")
     return elk.panel
 
 
@@ -142,7 +142,7 @@ def _set_time_service(service: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Create ElkM1 services."""
 
     hass.services.async_register(

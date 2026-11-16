@@ -2,7 +2,7 @@
 
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 TEST_HOST = "192.168.100.50"
 TEST_NAME = "Vallox"
@@ -23,7 +23,7 @@ METRICS_PROFILE_FIREPLACE = {"A_CYC_FIREPLACE_TIMER": 30}
 METRICS_PROFILE_EXTRA = {"A_CYC_EXTRA_TIMER": 30}
 
 
-async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Set up the Vallox integration for testing."""
     config_entry.add_to_hass(hass)
     await hass.config_entries.async_setup(config_entry.entry_id)

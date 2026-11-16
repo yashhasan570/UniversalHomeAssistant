@@ -18,7 +18,7 @@ from universalassistant.components.jvc_projector.coordinator import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.util.dt import utcnow
@@ -32,7 +32,7 @@ from . import MOCK_MAC
     indirect=True,
 )
 async def test_coordinator_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: AsyncMock,
     mock_integration: MockConfigEntry,
 ) -> None:
@@ -46,7 +46,7 @@ async def test_coordinator_update(
 
 
 async def test_coordinator_device_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: AsyncMock,
     mock_integration: MockConfigEntry,
 ) -> None:
@@ -61,7 +61,7 @@ async def test_coordinator_device_on(
     indirect=True,
 )
 async def test_coordinator_setup_connect_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: AsyncMock,
     mock_integration: MockConfigEntry,
 ) -> None:
@@ -75,7 +75,7 @@ async def test_coordinator_setup_connect_error(
     indirect=True,
 )
 async def test_coordinator_setup_power_command_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: AsyncMock,
     mock_integration: MockConfigEntry,
 ) -> None:
@@ -89,7 +89,7 @@ async def test_coordinator_setup_power_command_error(
     indirect=True,
 )
 async def test_coordinator_command_error_keeps_other_entities_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: AsyncMock,
     mock_integration: MockConfigEntry,
 ) -> None:
@@ -114,7 +114,7 @@ async def test_coordinator_command_error_keeps_other_entities_available(
     indirect=True,
 )
 async def test_coordinator_version_timeout_recovers_and_updates_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_device: AsyncMock,
     mock_integration: MockConfigEntry,

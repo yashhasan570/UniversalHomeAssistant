@@ -21,8 +21,8 @@ from universalassistant.const import (
     CONF_PLATFORM,
     CONF_TYPE,
 )
-from universalassistant.core import CALLBACK_TYPE, Context, __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CALLBACK_TYPE, Context, UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -206,7 +206,7 @@ TRIGGER_SCHEMA = probatio.All(
 
 
 async def async_validate_trigger_config(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> ConfigType:
     """Validate config."""
     config = TRIGGER_SCHEMA(config)
@@ -263,7 +263,7 @@ def get_trigger_platform_from_type(trigger_type: str) -> str:
 
 
 async def async_get_triggers(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, Any]]:
     """List device triggers for Z-Wave JS devices."""
     triggers: list[dict] = []
@@ -389,7 +389,7 @@ async def async_get_triggers(
 
 
 async def async_attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,
@@ -434,7 +434,7 @@ async def async_attach_trigger(
             if ATTR_VALUE in config:
                 event_data[ATTR_VALUE_RAW] = config[ATTR_VALUE]
         else:
-            raise __HAC_KEEP__Error(f"Unhandled trigger type {trigger_type}")
+            raise UniversalAssistantError(f"Unhandled trigger type {trigger_type}")
 
         event_config = event.TRIGGER_SCHEMA(event_config)
         return await event.async_attach_trigger(
@@ -456,7 +456,7 @@ async def async_attach_trigger(
                 ],
             )
         else:
-            raise __HAC_KEEP__Error(f"Unhandled trigger type {trigger_type}")
+            raise UniversalAssistantError(f"Unhandled trigger type {trigger_type}")
 
         state_config = await state.async_validate_trigger_config(hass, state_config)
         return await state.async_attach_trigger(
@@ -508,11 +508,11 @@ async def async_attach_trigger(
             hass, zwave_js_config[CONF_OPTIONS], run_action
         )
 
-    raise __HAC_KEEP__Error(f"Unhandled trigger type {trigger_type}")
+    raise UniversalAssistantError(f"Unhandled trigger type {trigger_type}")
 
 
 async def async_get_trigger_capabilities(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List trigger capabilities."""
     trigger_type = config[CONF_TYPE]

@@ -11,7 +11,7 @@ from sense_energy import (
     SenseMFARequiredException,
 )
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -36,7 +36,7 @@ class SenseCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: SenseConfigEntry,
         gateway: ASyncSenseable,
         name: str,
@@ -59,7 +59,7 @@ class SenseTrendCoordinator(SenseCoordinator):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: SenseConfigEntry,
         gateway: ASyncSenseable,
     ) -> None:
@@ -82,7 +82,7 @@ class SenseRealtimeCoordinator(SenseCoordinator):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: SenseConfigEntry,
         gateway: ASyncSenseable,
     ) -> None:

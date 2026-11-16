@@ -31,15 +31,15 @@
   },
   "issues": {
     "deprecated_yaml_import_issue_not_allowed_dir": {
-      "description": "Configuring {integration_title} using YAML is being removed but your configuration could not be imported as the folder {path} is not in the configured allowlist.\n\nPlease add it to `{config_variable}` in configuration.yaml and restart __HA_KEEP__ to import it and fix this issue.",
+      "description": "Configuring {integration_title} using YAML is being removed but your configuration could not be imported as the folder {path} is not in the configured allowlist.\n\nPlease add it to `{config_variable}` in configuration.yaml and restart Universal Home Assistant to import it and fix this issue.",
       "title": "The {integration_title} YAML configuration could not be imported"
     },
     "deprecated_yaml_import_issue_not_dir": {
-      "description": "Configuring {integration_title} using YAML is being removed but your configuration could not be imported as {path} is not a directory.\n\nPlease correct the `{domain}` sensor platform in configuration.yaml and restart __HA_KEEP__ to import it and fix this issue.",
+      "description": "Configuring {integration_title} using YAML is being removed but your configuration could not be imported as {path} is not a directory.\n\nPlease correct the `{domain}` sensor platform in configuration.yaml and restart Universal Home Assistant to import it and fix this issue.",
       "title": "[%key:component::folder::issues::deprecated_yaml_import_issue_not_allowed_dir::title%]"
     },
     "deprecated_yaml_import_issue_not_readable_dir": {
-      "description": "Configuring {integration_title} using YAML is being removed but your configuration could not be imported as the folder {path} is not readable.\n\nPlease make sure __HA_KEEP__ can read the folder and restart __HA_KEEP__ to import it and fix this issue.",
+      "description": "Configuring {integration_title} using YAML is being removed but your configuration could not be imported as the folder {path} is not readable.\n\nPlease make sure Universal Home Assistant can read the folder and restart Universal Home Assistant to import it and fix this issue.",
       "title": "[%key:component::folder::issues::deprecated_yaml_import_issue_not_allowed_dir::title%]"
     }
   },

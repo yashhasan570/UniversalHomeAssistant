@@ -21,7 +21,7 @@ from aioairzone_cloud.const import (
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import AirzoneCloudConfigEntry
 
@@ -133,7 +133,7 @@ def redact_all(
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: AirzoneCloudConfigEntry
+    hass: UniversalAssistant, config_entry: AirzoneCloudConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = config_entry.runtime_data

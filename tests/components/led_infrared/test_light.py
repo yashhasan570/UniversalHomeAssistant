@@ -32,7 +32,7 @@ from universalassistant.components.light import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import LIGHT_ENTITY_ID
@@ -63,7 +63,7 @@ def light_only() -> Generator[None]:
 )
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -617,7 +617,7 @@ _LIGHT_ACTIONS: dict[
 @pytest.mark.parametrize("device_type", list(_LIGHT_ACTIONS))
 @pytest.mark.usefixtures("infrared_codes")
 async def test_light_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     device_type: LEDIrDeviceType,
 ) -> None:

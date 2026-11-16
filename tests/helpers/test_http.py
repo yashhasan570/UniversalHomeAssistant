@@ -6,7 +6,7 @@ from aiohttp import web
 import pytest
 from pytest_universalassistant.typing import ClientSessionGenerator
 
-from universalassistant.helpers.http import MIN_COMPRESSED_RESPONSE_SIZE, __HAC_KEEP__View
+from universalassistant.helpers.http import MIN_COMPRESSED_RESPONSE_SIZE, UniversalAssistantView
 
 
 @pytest.mark.parametrize(
@@ -24,10 +24,10 @@ async def test_json_response_compression_threshold(
     body_size: int,
     expect_compression: bool,
 ) -> None:
-    """Test __HAC_KEEP__View.json only compresses bodies above the threshold."""
+    """Test UniversalAssistantView.json only compresses bodies above the threshold."""
 
     async def handler(request: web.Request) -> web.Response:
-        return __HAC_KEEP__View.json({"data": "x" * body_size})
+        return UniversalAssistantView.json({"data": "x" * body_size})
 
     app = web.Application()
     app.router.add_get("/", handler)

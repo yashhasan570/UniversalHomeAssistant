@@ -22,7 +22,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.engie_be.const import DOMAIN, EPEX_SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import (
@@ -37,7 +37,7 @@ from .conftest import (
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_tomorrow_prices_not_published(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -70,7 +70,7 @@ async def test_tomorrow_prices_not_published(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_tomorrow_prices_partial(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -105,7 +105,7 @@ async def test_tomorrow_prices_partial(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_tomorrow_prices_unavailable_when_fetch_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -128,7 +128,7 @@ async def test_tomorrow_prices_unavailable_when_fetch_fails(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_tomorrow_prices_with_stretched_slot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -168,7 +168,7 @@ async def test_tomorrow_prices_with_stretched_slot(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_binary_sensors_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,

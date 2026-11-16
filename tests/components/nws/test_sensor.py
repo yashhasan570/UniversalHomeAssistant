@@ -13,7 +13,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     UnitOfPressure,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import slugify
 from universalassistant.util.unit_system import METRIC_SYSTEM, US_CUSTOMARY_SYSTEM
@@ -40,7 +40,7 @@ from .const import (
     ],
 )
 async def test_imperial_metric(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     units,
     result_observation,
@@ -86,7 +86,7 @@ async def test_imperial_metric(
     ],
 )
 async def test_pressure_sensors_use_atmospheric_pressure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     units,
     expected_unit,
@@ -132,7 +132,7 @@ async def test_pressure_sensors_use_atmospheric_pressure(
 
 @pytest.mark.parametrize("values", [NONE_OBSERVATION, None])
 async def test_none_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_simple_nws,
     no_weather,

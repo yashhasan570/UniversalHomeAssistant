@@ -9,7 +9,7 @@ from tololib import ToloCommunicationError
 from universalassistant.components.tolo.const import DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -39,7 +39,7 @@ def coordinator_toloclient() -> Mock:
 
 
 @pytest.fixture(name="config_entry")
-async def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Return a MockConfigEntry for testing."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -55,7 +55,7 @@ async def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 
 @pytest.mark.usefixtures("coordinator_toloclient")
-async def test_user_with_timed_out_host(hass: __HAC_KEEP__, toloclient: Mock) -> None:
+async def test_user_with_timed_out_host(hass: UniversalAssistant, toloclient: Mock) -> None:
     """Test a user initiated config flow with provided host which times out."""
     toloclient().get_status.side_effect = ToloCommunicationError
 
@@ -82,7 +82,7 @@ async def test_user_with_timed_out_host(hass: __HAC_KEEP__, toloclient: Mock) ->
 
 
 async def test_user_walkthrough(
-    hass: __HAC_KEEP__, toloclient: Mock, coordinator_toloclient: Mock
+    hass: UniversalAssistant, toloclient: Mock, coordinator_toloclient: Mock
 ) -> None:
     """Test complete user flow with first wrong and then correct host."""
     result = await hass.config_entries.flow.async_init(
@@ -116,7 +116,7 @@ async def test_user_walkthrough(
 
 
 async def test_dhcp(
-    hass: __HAC_KEEP__, toloclient: Mock, coordinator_toloclient: Mock
+    hass: UniversalAssistant, toloclient: Mock, coordinator_toloclient: Mock
 ) -> None:
     """Test starting a flow from discovery."""
     toloclient().get_status.side_effect = lambda *args, **kwargs: object()
@@ -138,7 +138,7 @@ async def test_dhcp(
     assert result["result"].unique_id == "00:11:22:33:44:55"
 
 
-async def test_dhcp_invalid_device(hass: __HAC_KEEP__, toloclient: Mock) -> None:
+async def test_dhcp_invalid_device(hass: UniversalAssistant, toloclient: Mock) -> None:
     """Test starting a flow from discovery."""
     toloclient().get_status.side_effect = lambda *args, **kwargs: None
 
@@ -149,7 +149,7 @@ async def test_dhcp_invalid_device(hass: __HAC_KEEP__, toloclient: Mock) -> None
 
 
 async def test_reconfigure_walkthrough(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     toloclient: Mock,
     coordinator_toloclient: Mock,
     config_entry: MockConfigEntry,
@@ -169,7 +169,7 @@ async def test_reconfigure_walkthrough(
 
 
 async def test_reconfigure_error_then_fix(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     toloclient: Mock,
     coordinator_toloclient: Mock,
     config_entry: MockConfigEntry,
@@ -198,7 +198,7 @@ async def test_reconfigure_error_then_fix(
 
 
 async def test_reconfigure_duplicate_ip(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     toloclient: Mock,
     coordinator_toloclient: Mock,
     config_entry: MockConfigEntry,

@@ -7,7 +7,7 @@ from pybalboa import SpaClient
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.event import async_track_time_interval
 from universalassistant.util import dt as dt_util
@@ -33,7 +33,7 @@ SYNC_TIME_INTERVAL = timedelta(hours=1)
 type BalboaConfigEntry = ConfigEntry[SpaClient]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: BalboaConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: BalboaConfigEntry) -> None:
     """Set up Balboa Spa from a config entry."""
     host = entry.data[CONF_HOST]
 
@@ -53,17 +53,17 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: BalboaConfigEntry) -> Non
     entry.async_on_unload(spa.disconnect)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: BalboaConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: BalboaConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def update_listener(hass: __HAC_KEEP__, entry: BalboaConfigEntry) -> None:
+async def update_listener(hass: UniversalAssistant, entry: BalboaConfigEntry) -> None:
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_setup_time_sync(hass: __HAC_KEEP__, entry: BalboaConfigEntry) -> None:
+async def async_setup_time_sync(hass: UniversalAssistant, entry: BalboaConfigEntry) -> None:
     """Set up the time sync."""
     if not entry.options.get(CONF_SYNC_TIME, DEFAULT_SYNC_TIME):
         return
@@ -74,7 +74,7 @@ async def async_setup_time_sync(hass: __HAC_KEEP__, entry: BalboaConfigEntry) ->
     async def sync_time(now: datetime) -> None:
         now = dt_util.as_local(now)
         if (now.hour, now.minute) != (spa.time_hour, spa.time_minute):
-            _LOGGER.debug("Syncing time with __HA_KEEP__")
+            _LOGGER.debug("Syncing time with Universal Home Assistant")
             await spa.set_time(now.hour, now.minute)
 
     await sync_time(dt_util.utcnow())

@@ -7,11 +7,11 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.tonewinner.const import CONF_SERIAL_PORT, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_MODEL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -39,7 +39,7 @@ async def test_setup_entry(
 
 
 async def test_setup_entry_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -65,7 +65,7 @@ async def test_setup_entry_not_ready(
 
 
 async def test_setup_entry_multiple_times(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_receiver: MagicMock,
 ) -> None:
     """Test that setting up multiple entries doesn't conflict."""
@@ -117,7 +117,7 @@ async def test_setup_entry_multiple_times(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -146,7 +146,7 @@ async def test_unload_entry(
 
 
 async def test_unload_entry_platform_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:

@@ -14,7 +14,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
 )
 from universalassistant.const import REVOLUTIONS_PER_MINUTE, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -82,7 +82,7 @@ ENTITIES: tuple[SmartySensorDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SmartyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

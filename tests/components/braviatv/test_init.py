@@ -34,7 +34,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
 from universalassistant.helpers.update_coordinator import UpdateFailed
@@ -51,7 +51,7 @@ ENTRY_DATA = {
 ENTITY_ID = "media_player.bravia_tv_model"
 
 
-async def tick_update(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+async def tick_update(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
     """Advance time to trigger the next coordinator update."""
     freezer.tick(SCAN_INTERVAL)
     async_fire_time_changed(hass)
@@ -68,7 +68,7 @@ async def tick_update(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> Non
     ],
 )
 async def test_migrate_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     unique_id: str,
     mac: str,
@@ -100,7 +100,7 @@ async def test_migrate_unique_id(
 
 @pytest.mark.usefixtures("mock_braviatv_client")
 async def test_migration_keeps_entities_and_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -140,7 +140,7 @@ async def test_migration_keeps_entities_and_device(
 
 
 async def test_ssdp_callback_triggers_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
@@ -182,7 +182,7 @@ async def test_ssdp_callback_triggers_refresh(
 
 
 async def test_setup_auth_error_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
 ) -> None:
@@ -209,12 +209,12 @@ async def test_setup_auth_error_starts_reauth(
                 **ENTRY_DATA,
                 CONF_USE_PSK: False,
                 CONF_CLIENT_ID: "client-id",
-                CONF_NICKNAME: "__HA_KEEP__ (test)",
+                CONF_NICKNAME: "Universal Home Assistant (test)",
             },
             {
                 "pin": "secret",
                 "clientid": "client-id",
-                "nickname": "__HA_KEEP__ (test)",
+                "nickname": "Universal Home Assistant (test)",
             },
         ),
         (
@@ -232,7 +232,7 @@ async def test_setup_auth_error_starts_reauth(
     ],
 )
 async def test_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_braviatv_client: AsyncMock,
     entry_data: dict[str, str | bool],
     connect_kwargs: dict[str, str],
@@ -258,7 +258,7 @@ async def test_connect(
     ],
 )
 async def test_update_error_reconnects(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
@@ -299,7 +299,7 @@ async def test_update_error_reconnects(
     ],
 )
 async def test_update_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,

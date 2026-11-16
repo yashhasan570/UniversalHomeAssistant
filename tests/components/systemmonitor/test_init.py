@@ -9,13 +9,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.systemmonitor.const import CONF_PROCESS, DOMAIN
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_load_unload_entry(
-    hass: __HAC_KEEP__, mock_added_config_entry: ConfigEntry
+    hass: UniversalAssistant, mock_added_config_entry: ConfigEntry
 ) -> None:
     """Test load and unload an entry."""
 
@@ -36,7 +36,7 @@ async def test_load_unload_entry(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_unload_entry_after_rename(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_added_config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
     entity_id: str,
@@ -56,7 +56,7 @@ async def test_unload_entry_after_rename(
 
 
 async def test_adding_processor_to_options(
-    hass: __HAC_KEEP__, mock_added_config_entry: ConfigEntry
+    hass: UniversalAssistant, mock_added_config_entry: ConfigEntry
 ) -> None:
     """Test options listener."""
     process_sensor = hass.states.get("binary_sensor.system_monitor_process_systemd")
@@ -97,7 +97,7 @@ async def test_adding_processor_to_options(
 
 
 async def test_migrate_process_sensor_to_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_psutil: Mock,
     mock_os: Mock,
     freezer: FrozenDateTimeFactory,
@@ -141,7 +141,7 @@ async def test_migrate_process_sensor_to_binary_sensors(
 
 
 async def test_migration_from_future_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_psutil: Mock,
     mock_os: Mock,
     freezer: FrozenDateTimeFactory,

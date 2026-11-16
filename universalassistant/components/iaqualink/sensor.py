@@ -6,7 +6,7 @@ from iaqualink.device import AqualinkSensor
 
 from universalassistant.components.sensor import SensorDeviceClass, SensorEntity
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import AqualinkConfigEntry
@@ -17,7 +17,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: AqualinkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

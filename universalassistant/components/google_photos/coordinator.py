@@ -1,7 +1,7 @@
 """Coordinator for fetching data from Google Photos API.
 
 This coordinator fetches the list of Google Photos albums that were created by
-__HA_KEEP__, which for large libraries may take some time. The list of album
+Universal Home Assistant, which for large libraries may take some time. The list of album
 ids and titles is cached and this provides a method to refresh urls since they
 are short lived.
 """
@@ -16,7 +16,7 @@ from google_photos_library_api.exceptions import GooglePhotosApiError
 from google_photos_library_api.model import Album, NewAlbum
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 _LOGGER = logging.getLogger(__name__)
@@ -37,7 +37,7 @@ class GooglePhotosUpdateCoordinator(DataUpdateCoordinator[dict[str, str]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: GooglePhotosConfigEntry,
         client: GooglePhotosLibraryApi,
     ) -> None:

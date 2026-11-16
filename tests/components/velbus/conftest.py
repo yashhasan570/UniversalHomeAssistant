@@ -27,7 +27,7 @@ from velbusaio.properties import (
 from universalassistant.components.velbus import VelbusConfigEntry
 from universalassistant.components.velbus.const import DOMAIN
 from universalassistant.const import CONF_NAME, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import PORT_TCP
 
@@ -489,7 +489,7 @@ def mock_cover_no_position() -> AsyncMock:
 
 @pytest.fixture(name="config_entry")
 async def mock_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     controller: AsyncMock,
 ) -> VelbusConfigEntry:
     """Create and register mock config entry."""

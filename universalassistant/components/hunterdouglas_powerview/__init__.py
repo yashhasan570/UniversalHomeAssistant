@@ -10,7 +10,7 @@ from aiopvapi.scenes import Scenes
 from aiopvapi.shades import Shades
 
 from universalassistant.const import CONF_API_VERSION, CONF_HOST, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -33,7 +33,7 @@ PLATFORMS = [
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: PowerviewConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: PowerviewConfigEntry) -> None:
     """Set up Hunter Douglas PowerView from a config entry."""
     config = entry.data
     hub_address: str = config[CONF_HOST]
@@ -127,12 +127,12 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: PowerviewConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: PowerviewConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: PowerviewConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: PowerviewConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: PowerviewConfigEntry) -> None:
     """Migrate entry."""
 
     _LOGGER.debug("Migrating from version %s.%s", entry.version, entry.minor_version)
@@ -149,7 +149,7 @@ async def async_migrate_entry(hass: __HAC_KEEP__, entry: PowerviewConfigEntry) -
 
 
 async def _async_add_missing_entry_unique_id(
-    hass: __HAC_KEEP__, entry: PowerviewConfigEntry
+    hass: UniversalAssistant, entry: PowerviewConfigEntry
 ) -> None:
     """Add the unique id if its missing."""
     address: str = entry.data[CONF_HOST]
@@ -160,7 +160,7 @@ async def _async_add_missing_entry_unique_id(
     )
 
 
-async def _migrate_unique_ids(hass: __HAC_KEEP__, entry: PowerviewConfigEntry) -> None:
+async def _migrate_unique_ids(hass: UniversalAssistant, entry: PowerviewConfigEntry) -> None:
     """Migrate int based unique ids to str."""
     entity_registry = er.async_get(hass)
     registry_entries = er.async_entries_for_config_entry(

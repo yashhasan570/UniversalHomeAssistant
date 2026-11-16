@@ -22,8 +22,8 @@ from universalassistant.const import (
     CONF_ID,
     CONF_NAME,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import (
     collection,
     config_entry_oauth2_flow,
@@ -120,7 +120,7 @@ class ApplicationCredentialsStorageCollection(collection.DictStorageCollection):
         entries = self.hass.config_entries.async_entries(current[CONF_DOMAIN])
         for entry in entries:
             if entry.data.get("auth_implementation") == item_id:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     f"Cannot delete credential in use by integration {entry.domain}"
                 )
 
@@ -148,7 +148,7 @@ class ApplicationCredentialsStorageCollection(collection.DictStorageCollection):
         return credentials
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up Application Credentials."""
     id_manager = collection.IDManager()
     storage_collection = ApplicationCredentialsStorageCollection(
@@ -178,7 +178,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 async def async_import_client_credential(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain: str,
     credential: ClientCredential,
     auth_domain: str | None = None,
@@ -201,7 +201,7 @@ class AuthImplementation(config_entry_oauth2_flow.LocalOAuth2Implementation):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         auth_domain: str,
         credential: ClientCredential,
         authorization_server: AuthorizationServer,
@@ -225,7 +225,7 @@ class AuthImplementation(config_entry_oauth2_flow.LocalOAuth2Implementation):
 
 
 async def _async_provide_implementation(
-    hass: __HAC_KEEP__, domain: str
+    hass: UniversalAssistant, domain: str
 ) -> list[config_entry_oauth2_flow.AbstractOAuth2Implementation]:
     """Return registered OAuth implementations."""
 
@@ -247,7 +247,7 @@ async def _async_provide_implementation(
 
 
 async def _async_config_entry_app_credentials(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
 ) -> str | None:
     """Return the item id of an application credential for an existing ConfigEntry."""
@@ -276,23 +276,23 @@ class ApplicationCredentialsProtocol(Protocol):
     """
 
     async def async_get_authorization_server(
-        self, hass: __HAC_KEEP__
+        self, hass: UniversalAssistant
     ) -> AuthorizationServer:
         """Return authorization server, for the default auth implementation."""
 
     async def async_get_auth_implementation(
-        self, hass: __HAC_KEEP__, auth_domain: str, credential: ClientCredential
+        self, hass: UniversalAssistant, auth_domain: str, credential: ClientCredential
     ) -> config_entry_oauth2_flow.AbstractOAuth2Implementation:
         """Return a custom auth implementation."""
 
     async def async_get_description_placeholders(
-        self, hass: __HAC_KEEP__
+        self, hass: UniversalAssistant
     ) -> dict[str, str]:
         """Return description placeholders for the credentials dialog."""
 
 
 async def _get_platform(
-    hass: __HAC_KEEP__, integration_domain: str
+    hass: UniversalAssistant, integration_domain: str
 ) -> ApplicationCredentialsProtocol | None:
     """Register an application_credentials platform."""
     try:
@@ -319,7 +319,7 @@ async def _get_platform(
     return platform
 
 
-async def _async_integration_config(hass: __HAC_KEEP__, domain: str) -> dict[str, Any]:
+async def _async_integration_config(hass: UniversalAssistant, domain: str) -> dict[str, Any]:
     platform = await _get_platform(hass, domain)
     if platform and hasattr(platform, "async_get_description_placeholders"):
         placeholders = await platform.async_get_description_placeholders(hass)
@@ -332,7 +332,7 @@ async def _async_integration_config(hass: __HAC_KEEP__, domain: str) -> dict[str
 )
 @websocket_api.async_response
 async def handle_integration_list(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle integrations command."""
     domains = await async_get_application_credentials(hass)
@@ -354,7 +354,7 @@ async def handle_integration_list(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def handle_config_entry(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Return application credentials information for a config entry."""
     entry_id = msg["config_entry_id"]

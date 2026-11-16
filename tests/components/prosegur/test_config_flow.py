@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.prosegur.config_flow import CannotConnect, InvalidAuth
 from universalassistant.components.prosegur.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -30,7 +30,7 @@ def _patch_success(contracts: list[dict[str, str]]) -> Generator[None]:
         yield
 
 
-async def test_form(hass: __HAC_KEEP__, mock_list_contracts) -> None:
+async def test_form(hass: UniversalAssistant, mock_list_contracts) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -80,7 +80,7 @@ async def test_form(hass: __HAC_KEEP__, mock_list_contracts) -> None:
 
 
 async def test_form_invalid_auth(
-    hass: __HAC_KEEP__, mock_list_contracts: list[dict[str, str]]
+    hass: UniversalAssistant, mock_list_contracts: list[dict[str, str]]
 ) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
@@ -121,7 +121,7 @@ async def test_form_invalid_auth(
 
 
 async def test_form_cannot_connect(
-    hass: __HAC_KEEP__, mock_list_contracts: list[dict[str, str]]
+    hass: UniversalAssistant, mock_list_contracts: list[dict[str, str]]
 ) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
@@ -162,7 +162,7 @@ async def test_form_cannot_connect(
 
 
 async def test_form_unknown_exception(
-    hass: __HAC_KEEP__, mock_list_contracts: list[dict[str, str]]
+    hass: UniversalAssistant, mock_list_contracts: list[dict[str, str]]
 ) -> None:
     """Test we handle unknown exceptions."""
     result = await hass.config_entries.flow.async_init(
@@ -202,7 +202,7 @@ async def test_form_unknown_exception(
     assert result4["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_reauth_flow(hass: __HAC_KEEP__, mock_list_contracts) -> None:
+async def test_reauth_flow(hass: UniversalAssistant, mock_list_contracts) -> None:
     """Test a reauthentication flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -260,7 +260,7 @@ async def test_reauth_flow(hass: __HAC_KEEP__, mock_list_contracts) -> None:
     ],
 )
 async def test_reauth_flow_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: type[Exception],
     base_error: str,
     mock_list_contracts: list[dict[str, str]],

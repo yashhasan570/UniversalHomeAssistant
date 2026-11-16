@@ -14,11 +14,11 @@ from universalassistant.const import (
     ATTR_UNIT_OF_MEASUREMENT,
     UnitOfEnergy,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_loading_sensors(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, init_integration
+    recorder_mock: Recorder, hass: UniversalAssistant, init_integration
 ) -> None:
     """Test the srp energy sensors."""
     # Validate the Config Entry was initialized
@@ -29,7 +29,7 @@ async def test_loading_sensors(
 
 
 async def test_srp_entity(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, init_integration
+    recorder_mock: Recorder, hass: UniversalAssistant, init_integration
 ) -> None:
     """Test the SrpEntity."""
     usage_state = hass.states.get("sensor.srp_energy_mock_title_energy_usage")
@@ -50,7 +50,7 @@ async def test_srp_entity(
 
 async def test_srp_entity_update_failed(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the SrpEntity."""
@@ -72,7 +72,7 @@ async def test_srp_entity_update_failed(
 
 async def test_srp_entity_timeout(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the SrpEntity timing out."""

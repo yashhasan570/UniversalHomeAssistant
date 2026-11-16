@@ -17,7 +17,7 @@ from universalassistant.components.squeezebox.const import (
     PLAYER_UPDATE_INTERVAL,
 )
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import FAKE_QUERY_RESPONSE, TEST_MAC
@@ -33,7 +33,7 @@ def squeezebox_binary_sensor_platform():
 
 
 async def test_binary_server_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test binary sensor states and attributes."""
@@ -52,7 +52,7 @@ async def test_binary_server_sensor(
 
 @pytest.fixture
 async def mock_player(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     lms: MagicMock,
 ) -> MagicMock:
@@ -72,7 +72,7 @@ async def mock_player(
 
 
 async def test_player_alarm_sensors_device_class(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_player: MagicMock,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_player_alarm_sensors_device_class(
 
 
 async def test_player_alarm_sensors_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_player: MagicMock,
     freezer: FrozenDateTimeFactory,

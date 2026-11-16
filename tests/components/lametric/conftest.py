@@ -19,12 +19,12 @@ from universalassistant.components.application_credentials import (
 )
 from universalassistant.components.lametric.const import DOMAIN
 from universalassistant.const import CONF_API_KEY, CONF_HOST, CONF_MAC
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(autouse=True)
-async def setup_credentials(hass: __HAC_KEEP__) -> None:
+async def setup_credentials(hass: UniversalAssistant) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(
@@ -128,7 +128,7 @@ def mock_lametric(device_fixture: str) -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lametric: MagicMock,
     request: pytest.FixtureRequest,

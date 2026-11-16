@@ -9,14 +9,14 @@ from universalassistant.components.application_credentials import (
     AuthorizationServer,
     ClientCredential,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_entry_oauth2_flow
 
 from .const import DOMAIN
 
 
 async def async_get_auth_implementation(
-    hass: __HAC_KEEP__, auth_domain: str, credential: ClientCredential
+    hass: UniversalAssistant, auth_domain: str, credential: ClientCredential
 ) -> config_entry_oauth2_flow.AbstractOAuth2Implementation:
     """Return auth implementation."""
     return WithingsLocalOAuth2Implementation(
@@ -80,7 +80,7 @@ class WithingsLocalOAuth2Implementation(AuthImplementation):
         return {**token, **new_token}
 
 
-async def async_get_description_placeholders(hass: __HAC_KEEP__) -> dict[str, str]:
+async def async_get_description_placeholders(hass: UniversalAssistant) -> dict[str, str]:
     """Return description placeholders for the credentials dialog."""
     return {
         "developer_dashboard_url": "https://developer.withings.com/dashboard/welcome",

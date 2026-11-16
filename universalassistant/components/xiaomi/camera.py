@@ -22,7 +22,7 @@ from universalassistant.const import (
     CONF_PORT,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import TemplateError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_aiohttp_proxy_stream
@@ -57,7 +57,7 @@ PLATFORM_SCHEMA = CAMERA_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

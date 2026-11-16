@@ -122,7 +122,7 @@ METADATA = {
             "firmware": "2026.0.0",
             "discounted": False,
             "fleet_telemetry": "1.0.2",
-            "name": "__HA_KEEP__",
+            "name": "Universal Home Assistant",
             "config": VEHICLE_CONFIG,
         }
     },
@@ -159,7 +159,7 @@ METADATA_LEGACY = {
             "firmware": "2026.0.0",
             "discounted": True,
             "fleet_telemetry": "unknown",
-            "name": "__HA_KEEP__",
+            "name": "Universal Home Assistant",
             "config": VEHICLE_CONFIG,
         }
     },
@@ -192,7 +192,7 @@ METADATA_OLD_FIRMWARE = {
             "firmware": "2024.20",
             "discounted": False,
             "fleet_telemetry": "1.0.2",
-            "name": "__HA_KEEP__",
+            "name": "Universal Home Assistant",
             "config": VEHICLE_CONFIG,
         }
     },
@@ -215,7 +215,7 @@ METADATA_NOSCOPE = {
             "firmware": "2026.0.0",
             "discounted": True,
             "fleet_telemetry": "unknown",
-            "name": "__HA_KEEP__",
+            "name": "Universal Home Assistant",
             "config": VEHICLE_CONFIG,
         }
     },

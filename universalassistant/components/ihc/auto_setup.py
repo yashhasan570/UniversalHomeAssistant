@@ -8,7 +8,7 @@ import probatio
 
 from universalassistant.config import load_yaml_config_file
 from universalassistant.const import CONF_TYPE, CONF_UNIT_OF_MEASUREMENT, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv, discovery
 
 from .const import (
@@ -84,7 +84,7 @@ AUTO_SETUP_SCHEMA = probatio.Schema(
 )
 
 
-def autosetup_ihc_products(hass: __HAC_KEEP__, config, ihc_controller, controller_id):
+def autosetup_ihc_products(hass: UniversalAssistant, config, ihc_controller, controller_id):
     """Auto setup of IHC products from the IHC project file."""
     if not (project_xml := ihc_controller.get_project()):
         _LOGGER.error("Unable to read project from IHC controller")

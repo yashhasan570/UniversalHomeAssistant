@@ -11,7 +11,7 @@ from universalassistant.components.alarm_control_panel import (
     AlarmControlPanelState,
     CodeFormat,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -46,7 +46,7 @@ ALARM_AREA_ARMED_STATUS: dict[str, int] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ComelitConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

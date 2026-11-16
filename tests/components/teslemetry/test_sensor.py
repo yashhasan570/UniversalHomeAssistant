@@ -39,7 +39,7 @@ from universalassistant.const import (
     EntityCategory,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -111,7 +111,7 @@ def _live_status(**overrides: object) -> dict:
 
 
 async def test_energy_live_status_stream_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energy_live_stream: MagicMock,
 ) -> None:
     """A streamed live_status document drives the energy sensor states."""
@@ -132,7 +132,7 @@ async def test_energy_live_status_stream_updates(
 
 @pytest.mark.usefixtures("mock_energy_only")
 async def test_energy_only_account_streams_live_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_stream_listen: AsyncMock,
     mock_energy_live_stream: MagicMock,
@@ -164,7 +164,7 @@ async def test_energy_only_account_streams_live_status(
     ],
 )
 async def test_energy_percentage_charged_requires_battery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_live_status: AsyncMock,
     mock_site_info: AsyncMock,
     has_battery: bool,
@@ -186,7 +186,7 @@ async def test_energy_percentage_charged_requires_battery(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
@@ -220,7 +220,7 @@ async def test_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors_streaming(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
@@ -345,7 +345,7 @@ async def test_sensors_streaming(
     ],
 )
 async def test_new_streaming_sensors_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_metadata: AsyncMock,
     mock_add_listener: AsyncMock,
@@ -390,7 +390,7 @@ async def test_new_streaming_sensors_disabled_by_default(
     ],
 )
 async def test_hw4_mileage_sensors_gating(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_metadata: AsyncMock,
     mock_products: AsyncMock,
@@ -454,7 +454,7 @@ async def test_hw4_mileage_sensors_gating(
     ids=["tpms_fl", "tpms_fr", "tpms_rl", "tpms_rr", "isolation_resistance"],
 )
 async def test_sensors_streaming_unit_conversion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vehicle_data: AsyncMock,
     mock_add_listener: AsyncMock,
     signal: Signal,
@@ -481,7 +481,7 @@ async def test_sensors_streaming_unit_conversion(
 
 
 async def test_sensors_streaming_dc_charging(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_add_listener: AsyncMock,
 ) -> None:
     """Test streamed charge energy added and charger power cover DC charging."""
@@ -520,7 +520,7 @@ async def test_sensors_streaming_dc_charging(
 
 
 async def test_sensors_streaming_ac_charging_energy_added(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_add_listener: AsyncMock,
 ) -> None:
     """Test charge energy added uses battery energy rather than wall energy on AC."""
@@ -545,7 +545,7 @@ async def test_sensors_streaming_ac_charging_energy_added(
 
 
 async def test_sensors_streaming_dc_charging_ended(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_add_listener: AsyncMock,
 ) -> None:
     """Test charger power drops a lingering DC value once charging stops."""
@@ -650,7 +650,7 @@ async def test_sensors_streaming_dc_charging_ended(
     ],
 )
 async def test_sensors_streaming_charger_power_sequence(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_add_listener: AsyncMock,
     messages: list[dict[Signal, str | float | None]],
     expected_state: str,
@@ -783,7 +783,7 @@ async def test_sensors_streaming_charger_power_sequence(
     ],
 )
 async def test_sensors_streaming_charger_power_restored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_add_listener: AsyncMock,
     restored_state: str,
     messages: list[dict[Signal, str | float | None]],
@@ -884,7 +884,7 @@ async def test_sensors_streaming_charger_power_restored(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors_streaming_active_route(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_add_listener: AsyncMock,
     updates: list[dict[Signal, float | None]],
     expected_delay: list[str],
@@ -918,7 +918,7 @@ async def test_sensors_streaming_active_route(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors_streaming_tpms_none_clears_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vehicle_data: AsyncMock,
     mock_add_listener: AsyncMock,
 ) -> None:
@@ -965,7 +965,7 @@ async def test_sensors_streaming_tpms_none_clears_state(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors_streaming_tpms_warnings(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_add_listener: AsyncMock,
     signal: Signal,
     entity_id: str,
@@ -999,7 +999,7 @@ async def test_sensors_streaming_tpms_warnings(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_cruise_follow_distance_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vehicle_data: AsyncMock,
     mock_add_listener: AsyncMock,
     raw_value: str | None,
@@ -1073,7 +1073,7 @@ async def test_cruise_follow_distance_unknown(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_streaming_enum_none_clears_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_vehicle_data: AsyncMock,
     mock_add_listener: AsyncMock,
@@ -1115,7 +1115,7 @@ def test_energy_history_fields_match_stream_totals() -> None:
 
 
 async def test_energy_history_stream_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energy_totals_stream: MagicMock,
 ) -> None:
     """A streamed energy_totals event drives the history sensors and their last_reset."""
@@ -1137,7 +1137,7 @@ async def test_energy_history_stream_updates(
 
 
 async def test_energy_history_late_event_keeps_previous_day(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_energy_totals_stream: MagicMock,
 ) -> None:
@@ -1159,7 +1159,7 @@ async def test_energy_history_late_event_keeps_previous_day(
 
 
 async def test_energy_history_cache_snapshot_populates_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energy_totals_stream: MagicMock,
 ) -> None:
     """The connect-time snapshot is applied exactly like a live update."""
@@ -1181,7 +1181,7 @@ async def test_energy_history_cache_snapshot_populates_sensors(
     ],
 )
 async def test_energy_history_zero_and_null_totals(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energy_totals_stream: MagicMock,
     totals: dict[str, float | None],
     expected: str,
@@ -1202,12 +1202,12 @@ async def test_energy_history_zero_and_null_totals(
     [pytest.param("", id="not_provided"), pytest.param("Mars/Olympus", id="unknown")],
 )
 async def test_energy_history_time_zone_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_site_info: AsyncMock,
     mock_energy_totals_stream: MagicMock,
     installation_time_zone: str,
 ) -> None:
-    """Without a usable site timezone, last_reset falls back to __HA_KEEP__'s."""
+    """Without a usable site timezone, last_reset falls back to Universal Home Assistant's."""
     site_info = deepcopy(SITE_INFO)
     site_info["response"]["installation_time_zone"] = installation_time_zone
     mock_site_info.side_effect = lambda: deepcopy(site_info)
@@ -1218,7 +1218,7 @@ async def test_energy_history_time_zone_fallback(
     await hass.async_block_till_done()
 
     assert (state := hass.states.get(ENERGY_HISTORY_ENTITY))
-    # __HA_KEEP__ runs on US/Pacific in tests, which was in PDT on this date.
+    # Universal Home Assistant runs on US/Pacific in tests, which was in PDT on this date.
     assert state.attributes["last_reset"] == "2024-09-18T00:00:00-07:00"
 
 
@@ -1241,7 +1241,7 @@ async def test_energy_history_time_zone_fallback(
     ],
 )
 async def test_energy_history_update_entity_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
     mock_add_connection_listener: MagicMock,
@@ -1280,7 +1280,7 @@ async def test_energy_history_update_entity_service(
 
 
 async def test_energy_history_unavailable_while_stream_disconnected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_add_connection_listener: MagicMock,
     mock_energy_totals_stream: MagicMock,
@@ -1334,7 +1334,7 @@ async def test_energy_history_unavailable_while_stream_disconnected(
     ],
 )
 async def test_energy_history_sensors_match_site_components(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_site_info: AsyncMock,
     components: dict[str, bool],
@@ -1367,7 +1367,7 @@ async def test_energy_history_sensors_match_site_components(
     ],
 )
 async def test_location_sensors_require_location_scope(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_metadata: AsyncMock,
     scopes: list[str],
@@ -1389,7 +1389,7 @@ async def test_location_sensors_require_location_scope(
 
 
 async def test_wall_connector_totals_stream_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_wall_connector_totals_stream: MagicMock,
 ) -> None:
@@ -1438,7 +1438,7 @@ async def test_wall_connector_totals_stream_updates(
 
 
 async def test_wall_connector_totals_unavailable_while_stream_disconnected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_add_connection_listener: MagicMock,
     mock_wall_connector_totals_stream: MagicMock,
@@ -1483,7 +1483,7 @@ def _components_without(name: str) -> dict[str, Any]:
 
 
 async def test_local_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1500,7 +1500,7 @@ async def test_local_sensors(
 
 
 async def test_local_sensors_unpaired(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_powerwall_components: AsyncMock,
 ) -> None:
@@ -1519,7 +1519,7 @@ async def test_local_sensors_unpaired(
     ],
 )
 async def test_local_sensors_missing_signal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_powerwall_components: AsyncMock,
     signal: str,
@@ -1537,7 +1537,7 @@ async def test_local_sensors_missing_signal(
 
 
 async def test_local_sensors_first_refresh_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_powerwall_components: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -1565,7 +1565,7 @@ async def test_local_sensors_first_refresh_failure(
 
 
 async def test_local_sensors_poll_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_powerwall_components: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -1623,7 +1623,7 @@ def _without_meter(location: str) -> dict[str, Any]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_local_status_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1640,7 +1640,7 @@ async def test_local_status_sensors(
 
 
 async def test_local_status_sensors_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test the local status sensors are disabled by default."""
@@ -1654,7 +1654,7 @@ async def test_local_status_sensors_disabled_by_default(
 
 
 async def test_local_status_sensors_unpaired(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_powerwall_status: AsyncMock,
 ) -> None:
@@ -1673,7 +1673,7 @@ async def test_local_status_sensors_unpaired(
     ],
 )
 async def test_local_status_sensors_missing_signal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_powerwall_status: AsyncMock,
     location: str,
@@ -1692,7 +1692,7 @@ async def test_local_status_sensors_missing_signal(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_local_status_sensors_first_refresh_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_powerwall_status: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -1723,7 +1723,7 @@ async def test_local_status_sensors_first_refresh_failure(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_local_status_sensors_poll_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_powerwall_status: AsyncMock,
     freezer: FrozenDateTimeFactory,

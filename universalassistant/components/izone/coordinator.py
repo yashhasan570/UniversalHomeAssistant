@@ -7,7 +7,7 @@ from typing import override
 import pizone
 
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN
@@ -32,7 +32,7 @@ class IZoneCoordinator(DataUpdateCoordinator[pizone.Controller]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: IZoneConfigEntry,
         controller: pizone.Controller,
     ) -> None:

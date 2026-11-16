@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -19,7 +19,7 @@ ENTITY_ID = "binary_sensor.nursery_yoto_charging"
 
 @pytest.mark.usefixtures("mock_yoto_client", "entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -32,7 +32,7 @@ async def test_all_entities(
 
 
 async def test_binary_sensor_unavailable_when_offline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

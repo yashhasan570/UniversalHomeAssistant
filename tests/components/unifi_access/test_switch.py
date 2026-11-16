@@ -18,8 +18,8 @@ from unifi_access_api.models.websocket import SettingUpdate, SettingUpdateData
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -46,7 +46,7 @@ def _get_on_connect(mock_client: MagicMock) -> Callable[[], Any]:
 
 
 async def test_switch_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -67,7 +67,7 @@ async def test_switch_entities(
     ],
 )
 async def test_turn_on_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
     entity_id: str,
@@ -95,7 +95,7 @@ async def test_turn_on_switch(
     ],
 )
 async def test_turn_off_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
     entity_id: str,
@@ -132,15 +132,15 @@ async def test_turn_off_switch(
     ],
 )
 async def test_switch_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
     exception: Exception,
 ) -> None:
-    """Test switch raises __HAC_KEEP__Error on API failure."""
+    """Test switch raises UniversalAssistantError on API failure."""
     mock_client.set_emergency_status.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error, match="Failed to set emergency status"):
+    with pytest.raises(UniversalAssistantError, match="Failed to set emergency status"):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -150,7 +150,7 @@ async def test_switch_api_error(
 
 
 async def test_switches_are_independent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -184,7 +184,7 @@ async def test_switches_are_independent(
 
 
 async def test_ws_disconnect_marks_switches_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -201,7 +201,7 @@ async def test_ws_disconnect_marks_switches_unavailable(
 
 
 async def test_ws_reconnect_restores_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -221,7 +221,7 @@ async def test_ws_reconnect_restores_switches(
 
 
 async def test_ws_setting_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -245,7 +245,7 @@ async def test_ws_setting_update(
 
 
 async def test_optimistic_update_before_ws_confirmation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -282,7 +282,7 @@ async def test_optimistic_update_before_ws_confirmation(
 
 
 async def test_no_optimistic_update_when_ws_disconnected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:

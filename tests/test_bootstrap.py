@@ -28,8 +28,8 @@ from universalassistant.const import (
     CONF_DEBUG,
     SIGNAL_BOOTSTRAP_INTEGRATIONS,
 )
-from universalassistant.core import CoreState, __HAC_KEEP__, async_get_hass, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CoreState, UniversalAssistant, async_get_hass, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.translation import async_translations_loaded
 from universalassistant.helpers.typing import ConfigType
@@ -80,14 +80,14 @@ def disable_block_shared_serial(disable_block_shared_serial: None) -> None:
 def mock_http_start_stop() -> Generator[None]:
     """Mock HTTP start and stop."""
     with (
-        patch("universalassistant.components.http.__HAC_KEEP__HTTP.start"),
-        patch("universalassistant.components.http.__HAC_KEEP__HTTP.stop"),
+        patch("universalassistant.components.http.UniversalAssistantHTTP.start"),
+        patch("universalassistant.components.http.UniversalAssistantHTTP.stop"),
     ):
         yield
 
 
 @patch("universalassistant.bootstrap.async_enable_logging", AsyncMock())
-async def test_universal_assistant_core_config_validation(hass: __HAC_KEEP__) -> None:
+async def test_universal_assistant_core_config_validation(hass: UniversalAssistant) -> None:
     """Test if we pass in wrong information for HA conf."""
     # Extensive HA conf validation testing is done
     result = await bootstrap.async_from_config_dict(
@@ -97,7 +97,7 @@ async def test_universal_assistant_core_config_validation(hass: __HAC_KEEP__) ->
 
 
 async def test_async_enable_logging(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test to ensure logging is migrated to the queue handlers."""
 
@@ -186,7 +186,7 @@ async def test_async_enable_logging(
     ],
 )
 async def test_async_enable_logging_log_file_disable_control(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monkeypatch: pytest.MonkeyPatch,
     env: dict[str, str],
     log_file_count: int,
@@ -260,7 +260,7 @@ async def test_async_enable_logging_log_file_disable_control(
     cleanup_log_files()
 
 
-async def test_load_hassio(hass: __HAC_KEEP__) -> None:
+async def test_load_hassio(hass: UniversalAssistant) -> None:
     """Test that we load the hassio integration when using Supervisor."""
     with patch.dict(os.environ, {}, clear=True):
         assert "hassio" not in bootstrap._get_domains(hass, {})
@@ -270,7 +270,7 @@ async def test_load_hassio(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.parametrize("load_registries", [False])
-async def test_empty_setup(hass: __HAC_KEEP__) -> None:
+async def test_empty_setup(hass: UniversalAssistant) -> None:
     """Test an empty set up loads the core."""
     await bootstrap.async_from_config_dict({}, hass)
     for domain in bootstrap.CORE_INTEGRATIONS:
@@ -278,7 +278,7 @@ async def test_empty_setup(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.parametrize("load_registries", [False])
-async def test_config_does_not_turn_off_debug(hass: __HAC_KEEP__) -> None:
+async def test_config_does_not_turn_off_debug(hass: UniversalAssistant) -> None:
     """Test that config does not turn off debug if its turned on by runtime config."""
     # Mock that its turned on from RuntimeConfig
     hass.config.debug = True
@@ -318,7 +318,7 @@ async def test_asyncio_debug_on_turns_hass_debug_on(
 
 
 @pytest.mark.parametrize("load_registries", [False])
-async def test_preload_translations(hass: __HAC_KEEP__) -> None:
+async def test_preload_translations(hass: UniversalAssistant) -> None:
     """Test translations are preloaded for all frontend deps and base platforms."""
     await bootstrap.async_from_config_dict({}, hass)
     await hass.async_block_till_done(wait_background_tasks=True)
@@ -328,7 +328,7 @@ async def test_preload_translations(hass: __HAC_KEEP__) -> None:
 
 
 async def test_core_failure_loads_recovery_mode(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test failing core setup aborts further setup."""
     with patch(
@@ -344,7 +344,7 @@ async def test_core_failure_loads_recovery_mode(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_setting_up_empty_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test default integrations are set up with empty config."""
@@ -358,7 +358,7 @@ async def test_setting_up_empty_config(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_setting_up_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test we set up domains in config."""
@@ -374,12 +374,12 @@ async def test_setting_up_config(
 
 
 @pytest.mark.parametrize("load_registries", [False])
-async def test_setup_after_deps_all_present(hass: __HAC_KEEP__) -> None:
+async def test_setup_after_deps_all_present(hass: UniversalAssistant) -> None:
     """Test after_dependencies when all present."""
     order = []
 
     def gen_domain_setup(domain):
-        async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+        async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
             order.append(domain)
             return True
 
@@ -419,14 +419,14 @@ async def test_setup_after_deps_all_present(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.parametrize("load_registries", [False])
-async def test_setup_after_deps_in_stage_1(hass: __HAC_KEEP__) -> None:
+async def test_setup_after_deps_in_stage_1(hass: UniversalAssistant) -> None:
     """Test after_dependencies are promoted in stage 1."""
     # This test relies on this
     assert "cloud" in bootstrap.STAGE_1_INTEGRATIONS
     order = []
 
     def gen_domain_setup(domain):
-        async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+        async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
             order.append(domain)
             return True
 
@@ -467,7 +467,7 @@ async def test_setup_after_deps_in_stage_1(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_setup_after_deps_manifests_are_loaded_even_if_not_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Ensure we preload manifests for after deps even if they are not setup.
 
@@ -481,7 +481,7 @@ async def test_setup_after_deps_manifests_are_loaded_even_if_not_setup(
     order = []
 
     def gen_domain_setup(domain):
-        async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+        async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
             order.append(domain)
             return True
 
@@ -553,12 +553,12 @@ async def test_setup_after_deps_manifests_are_loaded_even_if_not_setup(
 
 
 @pytest.mark.parametrize("load_registries", [False])
-async def test_setup_frontend_before_recorder(hass: __HAC_KEEP__) -> None:
+async def test_setup_frontend_before_recorder(hass: UniversalAssistant) -> None:
     """Test frontend is setup before recorder."""
     order = []
 
     def gen_domain_setup(domain):
-        async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+        async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
             order.append(domain)
             return True
 
@@ -633,13 +633,13 @@ async def test_setup_frontend_before_recorder(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.parametrize("load_registries", [False])
-async def test_setup_after_deps_via_platform(hass: __HAC_KEEP__) -> None:
+async def test_setup_after_deps_via_platform(hass: UniversalAssistant) -> None:
     """Test after_dependencies set up via platform."""
     order = []
     after_dep_event = asyncio.Event()
 
     def gen_domain_setup(domain):
-        async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+        async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
             if domain == "after_dep_of_platform_int":
                 await after_dep_event.wait()
 
@@ -683,12 +683,12 @@ async def test_setup_after_deps_via_platform(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.parametrize("load_registries", [False])
-async def test_setup_after_deps_not_trigger_load(hass: __HAC_KEEP__) -> None:
+async def test_setup_after_deps_not_trigger_load(hass: UniversalAssistant) -> None:
     """Test after_dependencies does not trigger loading it."""
     order = []
 
     def gen_domain_setup(domain):
-        async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+        async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
             order.append(domain)
             return True
 
@@ -722,12 +722,12 @@ async def test_setup_after_deps_not_trigger_load(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.parametrize("load_registries", [False])
-async def test_setup_after_deps_not_present(hass: __HAC_KEEP__) -> None:
+async def test_setup_after_deps_not_present(hass: UniversalAssistant) -> None:
     """Test after_dependencies when referenced integration doesn't exist."""
     order = []
 
     def gen_domain_setup(domain):
-        async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+        async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
             order.append(domain)
             return True
 
@@ -900,7 +900,7 @@ async def test_setup_hass_invalid_yaml(
 ) -> None:
     """Test it works."""
     with patch(
-        "universalassistant.config.async_hass_config_yaml", side_effect=__HAC_KEEP__Error
+        "universalassistant.config.async_hass_config_yaml", side_effect=UniversalAssistantError
     ):
         hass = await bootstrap.async_setup_hass(
             runner.RuntimeConfig(
@@ -949,7 +949,7 @@ async def test_setup_hass_recovery_mode(
     """Test it works."""
     with (
         patch(
-            "universalassistant.core.__HAC_KEEP__", wraps=core.__HAC_KEEP__
+            "universalassistant.core.UniversalAssistant", wraps=core.UniversalAssistant
         ) as mock_hass,
         patch("universalassistant.components.browser.setup") as browser_setup,
         patch(
@@ -1119,7 +1119,7 @@ async def test_storage_version_too_new_triggers_recovery_mode(
     assert "recovery_mode" in hass.config.components
     assert (
         f"Storage file {storage_key} was created"
-        " by a newer version of __HA_KEEP__" in caplog.text
+        " by a newer version of Universal Home Assistant" in caplog.text
     )
 
 
@@ -1195,7 +1195,7 @@ async def test_setup_recovery_mode_if_no_frontend(
 @pytest.mark.parametrize("load_registries", [False])
 @patch("universalassistant.bootstrap.DEFAULT_INTEGRATIONS", set())
 async def test_empty_integrations_list_is_only_sent_at_the_end_of_bootstrap(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test empty integrations list is only sent at the end of bootstrap."""
     # setup times only tracked when not running
@@ -1204,7 +1204,7 @@ async def test_empty_integrations_list_is_only_sent_at_the_end_of_bootstrap(
     order = []
 
     def gen_domain_setup(domain):
-        async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+        async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
             order.append(domain)
             await asyncio.sleep(0.05)
 
@@ -1258,13 +1258,13 @@ async def test_empty_integrations_list_is_only_sent_at_the_end_of_bootstrap(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_warning_logged_on_wrap_up_timeout(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we log a warning on bootstrap timeout."""
     task: asyncio.Task | None = None
 
     def gen_domain_setup(domain):
-        async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+        async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
             nonlocal task
 
             async def _not_marked_background_task():
@@ -1297,13 +1297,13 @@ async def test_warning_logged_on_wrap_up_timeout(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_tasks_logged_that_block_stage_1(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we log tasks that delay stage 1 startup."""
     task: asyncio.Task | None = None
 
     def gen_domain_setup(domain):
-        async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+        async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
             nonlocal task
 
             async def _not_marked_background_task():
@@ -1346,13 +1346,13 @@ async def test_tasks_logged_that_block_stage_1(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_tasks_logged_that_block_stage_2(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we log tasks that delay stage 2 startup."""
     task: asyncio.Task | None = None
 
     def gen_domain_setup(domain):
-        async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+        async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
             nonlocal task
 
             async def _not_marked_background_task():
@@ -1391,7 +1391,7 @@ async def test_tasks_logged_that_block_stage_2(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_bootstrap_is_cancellation_safe(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test cancellation during async_setup_component does not cancel bootstrap."""
     mock_integration(hass, MockModule(domain="cancel_integration"))
@@ -1405,7 +1405,7 @@ async def test_bootstrap_is_cancellation_safe(
 
 
 @pytest.mark.parametrize("load_registries", [False])
-async def test_bootstrap_empty_integrations(hass: __HAC_KEEP__) -> None:
+async def test_bootstrap_empty_integrations(hass: UniversalAssistant) -> None:
     """Test setting up an empty integrations does not raise."""
     await bootstrap._async_setup_multi_components(hass, set(), {})
     await hass.async_block_till_done()
@@ -1413,7 +1413,7 @@ async def test_bootstrap_empty_integrations(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_bootstrap_log_already_setup_stage(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test logging when all integrations in a stage were already setup."""
     with patch.object(bootstrap, "STAGE_1_INTEGRATIONS", {"frontend"}):
@@ -1440,7 +1440,7 @@ def mock_mqtt_config_flow_fixture() -> Generator[None]:
 @pytest.mark.parametrize("integration", ["mqtt_eventstream", "mqtt_statestream"])
 @pytest.mark.parametrize("load_registries", [False])
 async def test_bootstrap_dependencies(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     integration: str,
     mock_mqtt_config_flow: None,
@@ -1452,7 +1452,7 @@ async def test_bootstrap_dependencies(
     calls: list[str] = []
     assertions: list[bool] = []
 
-    async def async_mqtt_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+    async def async_mqtt_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
         """Assert the mqtt config entry was set up."""
         calls.append("mqtt")
         # assert the integration is not yet set up
@@ -1465,7 +1465,7 @@ async def test_bootstrap_dependencies(
         )
         assertions.append(integration not in hass.config.components)
 
-    async def async_integration_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+    async def async_integration_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
         """Assert the mqtt config entry was set up."""
         calls.append(integration)
         # assert mqtt was already set up
@@ -1537,7 +1537,7 @@ async def test_bootstrap_dependencies(
     }
 
     async def mock_async_get_integrations(
-        hass: __HAC_KEEP__, domains: Iterable[str]
+        hass: UniversalAssistant, domains: Iterable[str]
     ) -> dict[str, Integration | Exception]:
         """Mock integrations."""
         return {domain: integrations[domain]["integration"] for domain in domains}
@@ -1569,7 +1569,7 @@ async def test_bootstrap_dependencies(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_bootstrap_dependency_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test setup when an integration has missing dependencies."""
@@ -1595,7 +1595,7 @@ async def test_bootstrap_dependency_not_found(
     assert "Unable to resolve dependencies for bad_integration" in caplog.text
 
 
-async def test_pre_import_no_requirements(hass: __HAC_KEEP__) -> None:
+async def test_pre_import_no_requirements(hass: UniversalAssistant) -> None:
     """Test pre-imported and do not have any requirements."""
     pre_imports = [
         name.removesuffix("_pre_import")
@@ -1642,7 +1642,7 @@ async def test_bootstrap_does_not_preimport_stage_1_integrations() -> None:
 @pytest.mark.parametrize("load_registries", [False])
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_cancellation_does_not_leak_upward_from_async_setup(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setting up an integration that raises asyncio.CancelledError."""
     await bootstrap._async_setup_multi_components(
@@ -1659,7 +1659,7 @@ async def test_cancellation_does_not_leak_upward_from_async_setup(
 @pytest.mark.parametrize("load_registries", [False])
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_cancellation_does_not_leak_upward_from_async_setup_entry(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setting up an integration that raises asyncio.CancelledError."""
     entry = MockConfigEntry(
@@ -1683,7 +1683,7 @@ async def test_cancellation_does_not_leak_upward_from_async_setup_entry(
 
 
 @pytest.mark.parametrize("load_registries", [False])
-async def test_setup_does_base_platforms_first(hass: __HAC_KEEP__) -> None:
+async def test_setup_does_base_platforms_first(hass: UniversalAssistant) -> None:
     """Test setup does base platforms first.
 
     Its important that base platforms are setup before other integrations
@@ -1693,7 +1693,7 @@ async def test_setup_does_base_platforms_first(hass: __HAC_KEEP__) -> None:
     order = []
 
     def gen_domain_setup(domain):
-        async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+        async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
             order.append(domain)
             return True
 
@@ -1767,7 +1767,7 @@ def test_should_rollover_is_always_false() -> None:
     )
 
 
-async def test_no_base_platforms_loaded_before_recorder(hass: __HAC_KEEP__) -> None:
+async def test_no_base_platforms_loaded_before_recorder(hass: UniversalAssistant) -> None:
     """Verify stage 0 not load base platforms before recorder.
 
     If a stage 0 integration implements base platforms or has a base
@@ -1846,7 +1846,7 @@ async def test_no_base_platforms_loaded_before_recorder(hass: __HAC_KEEP__) -> N
     )
 
 
-async def test_recorder_not_promoted(hass: __HAC_KEEP__) -> None:
+async def test_recorder_not_promoted(hass: UniversalAssistant) -> None:
     """Verify that recorder is not promoted to earlier than its own stage."""
     integrations_before_recorder: set[str] = set()
     for _, integrations, _ in bootstrap.STAGE_0_INTEGRATIONS:

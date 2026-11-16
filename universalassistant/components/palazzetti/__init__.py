@@ -1,7 +1,7 @@
 """The Palazzetti integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import PalazzettiConfigEntry, PalazzettiDataUpdateCoordinator
 
@@ -13,7 +13,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: PalazzettiConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: PalazzettiConfigEntry) -> None:
     """Set up Palazzetti from a config entry."""
 
     coordinator = PalazzettiDataUpdateCoordinator(hass, entry)
@@ -23,7 +23,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: PalazzettiConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: PalazzettiConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: PalazzettiConfigEntry) -> None:
     """Unload a config entry."""
 
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

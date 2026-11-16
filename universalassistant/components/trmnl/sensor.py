@@ -18,7 +18,7 @@ from universalassistant.const import (
     EntityCategory,
     UnitOfElectricPotential,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import TRMNLConfigEntry, TRMNLCoordinator
@@ -75,7 +75,7 @@ SENSOR_DESCRIPTIONS: tuple[TRMNLSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: TRMNLConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -13,7 +13,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -25,7 +25,7 @@ def setup_platforms():
 
 
 async def test_led_select_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lutron: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -44,7 +44,7 @@ async def test_led_select_setup(
 
 
 async def test_led_select_option(
-    hass: __HAC_KEEP__, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test selecting an option for a Lutron LED select entity."""
     mock_config_entry.add_to_hass(hass)
@@ -106,7 +106,7 @@ async def test_led_select_option(
 
 
 async def test_led_select_update(
-    hass: __HAC_KEEP__, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test LED state update from library."""
     mock_config_entry.add_to_hass(hass)
@@ -130,7 +130,7 @@ async def test_led_select_update(
 
 
 async def test_led_select_unknown_state(
-    hass: __HAC_KEEP__, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test handling of unknown LED state from pylutron."""
     mock_config_entry.add_to_hass(hass)

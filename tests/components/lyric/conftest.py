@@ -21,7 +21,7 @@ from universalassistant.components.application_credentials import (
     async_import_client_credential,
 )
 from universalassistant.components.lyric.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 CLIENT_ID = "1234"
@@ -34,7 +34,7 @@ NO_PRIORITY_DATA_MAC_ID = "5CFCE1B67036"
 
 
 @pytest.fixture
-async def setup_credentials(hass: __HAC_KEEP__) -> None:
+async def setup_credentials(hass: UniversalAssistant) -> None:
     """Set up the application credentials required for the Lyric OAuth2 flow."""
     assert await async_setup_component(hass, "application_credentials", {})
     await async_import_client_credential(

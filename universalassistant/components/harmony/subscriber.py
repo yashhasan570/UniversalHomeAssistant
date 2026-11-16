@@ -4,7 +4,7 @@ import asyncio
 import logging
 from typing import Any, NamedTuple
 
-from universalassistant.core import CALLBACK_TYPE, HassJob, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, HassJob, UniversalAssistant, callback
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -25,7 +25,7 @@ class HarmonyCallback(NamedTuple):
 class HarmonySubscriberMixin:
     """Base implementation for a subscriber."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize an subscriber."""
         super().__init__()
         self._hass = hass

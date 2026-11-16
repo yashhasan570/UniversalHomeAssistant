@@ -13,7 +13,7 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -21,7 +21,7 @@ from . import setup_integration
 
 @pytest.mark.freeze_time("2023-10-21")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_smarty: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -35,7 +35,7 @@ async def test_all_entities(
 
 
 async def test_retry_after_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_smarty: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

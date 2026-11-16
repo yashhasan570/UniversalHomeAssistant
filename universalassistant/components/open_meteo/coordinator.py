@@ -15,7 +15,7 @@ from open_meteo import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ZONE, EntityStateAttribute
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -29,7 +29,7 @@ class OpenMeteoDataUpdateCoordinator(DataUpdateCoordinator[Forecast]):
 
     config_entry: OpenMeteoConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: OpenMeteoConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: OpenMeteoConfigEntry) -> None:
         """Initialize the Open-Meteo coordinator."""
         super().__init__(
             hass,

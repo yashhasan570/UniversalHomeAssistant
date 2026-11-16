@@ -8,7 +8,7 @@ from victron_mqtt.testing import finalize_injection, inject_message
 from universalassistant.components.sensor import SensorDeviceClass, SensorStateClass
 from universalassistant.components.victron_gx.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import MOCK_INSTALLATION_ID
@@ -16,7 +16,7 @@ from .const import MOCK_INSTALLATION_ID
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_json_metric_does_not_create_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -45,7 +45,7 @@ async def test_json_metric_does_not_create_entity(
 
 
 async def test_victron_battery_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -122,7 +122,7 @@ async def test_victron_battery_sensor(
 
 
 async def test_victron_enum_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -154,7 +154,7 @@ async def test_victron_enum_sensor(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_victron_main_topic_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -187,7 +187,7 @@ async def test_victron_main_topic_sensor(
 
 
 async def test_native_unit_of_measurement_cost_metric(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
 ) -> None:
     """Test native_unit_of_measurement returns currency for COST metric type."""
@@ -210,7 +210,7 @@ async def test_native_unit_of_measurement_cost_metric(
 
 
 async def test_native_unit_of_measurement_with_device_class(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
 ) -> None:
     """Test native_unit_of_measurement returns unit for metrics with device class."""
@@ -230,7 +230,7 @@ async def test_native_unit_of_measurement_with_device_class(
 
 
 async def test_timestamp_device_class(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
 ) -> None:
     """Test timestamp metrics use the timestamp device class."""
@@ -251,7 +251,7 @@ async def test_timestamp_device_class(
 
 
 async def test_native_unit_of_measurement_special_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
 ) -> None:
     """Test native_unit_of_measurement returns special units like %."""

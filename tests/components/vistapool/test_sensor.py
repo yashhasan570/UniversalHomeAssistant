@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -24,7 +24,7 @@ def _only_sensor_platform() -> Generator[None]:
 
 @pytest.mark.usefixtures("_only_sensor_platform", "entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -61,7 +61,7 @@ async def test_all_entities(
 
 
 async def test_sensors_default_modules(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     mock_pool_data: dict[str, Any],
@@ -90,7 +90,7 @@ async def test_sensors_default_modules(
 
 
 async def test_sensors_hydrolysis_branch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_sensors_hydrolysis_branch(
 
 
 async def test_sensors_all_modules_enabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -143,7 +143,7 @@ async def test_sensors_all_modules_enabled(
 
 
 async def test_sensors_multi_pool(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     mock_pool_data: dict[str, Any],

@@ -23,7 +23,7 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .util import (
@@ -60,7 +60,7 @@ def _patch_kodi_success() -> Generator[None]:
 
 
 @pytest.fixture
-async def user_flow(hass: __HAC_KEEP__) -> str:
+async def user_flow(hass: UniversalAssistant) -> str:
     """Return a user-initiated flow after filling in host info."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -71,7 +71,7 @@ async def user_flow(hass: __HAC_KEEP__) -> str:
     return result["flow_id"]
 
 
-async def test_user_flow(hass: __HAC_KEEP__, user_flow: str) -> None:
+async def test_user_flow(hass: UniversalAssistant, user_flow: str) -> None:
     """Test a successful user initiated flow."""
     with (
         patch(
@@ -105,7 +105,7 @@ async def test_user_flow(hass: __HAC_KEEP__, user_flow: str) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_valid_auth(hass: __HAC_KEEP__, user_flow: str) -> None:
+async def test_form_valid_auth(hass: UniversalAssistant, user_flow: str) -> None:
     """Test we handle valid auth."""
     with (
         patch(
@@ -155,7 +155,7 @@ async def test_form_valid_auth(hass: __HAC_KEEP__, user_flow: str) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_valid_ws_port(hass: __HAC_KEEP__, user_flow: str) -> None:
+async def test_form_valid_ws_port(hass: UniversalAssistant, user_flow: str) -> None:
     """Test we handle valid websocket port."""
     with (
         patch(
@@ -211,7 +211,7 @@ async def test_form_valid_ws_port(hass: __HAC_KEEP__, user_flow: str) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_empty_ws_port(hass: __HAC_KEEP__, user_flow: str) -> None:
+async def test_form_empty_ws_port(hass: UniversalAssistant, user_flow: str) -> None:
     """Test we handle an empty websocket port input."""
     with (
         patch(
@@ -257,7 +257,7 @@ async def test_form_empty_ws_port(hass: __HAC_KEEP__, user_flow: str) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_invalid_auth(hass: __HAC_KEEP__, user_flow: str) -> None:
+async def test_form_invalid_auth(hass: UniversalAssistant, user_flow: str) -> None:
     """Test we handle invalid auth."""
     with (
         patch(
@@ -361,7 +361,7 @@ async def test_form_invalid_auth(hass: __HAC_KEEP__, user_flow: str) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_cannot_connect_http(hass: __HAC_KEEP__, user_flow: str) -> None:
+async def test_form_cannot_connect_http(hass: UniversalAssistant, user_flow: str) -> None:
     """Test we handle cannot connect over HTTP error."""
     with (
         patch(
@@ -388,7 +388,7 @@ async def test_form_cannot_connect_http(hass: __HAC_KEEP__, user_flow: str) -> N
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_exception_http(hass: __HAC_KEEP__, user_flow: str) -> None:
+async def test_form_exception_http(hass: UniversalAssistant, user_flow: str) -> None:
     """Test we handle generic exception over HTTP."""
     with (
         patch(
@@ -415,7 +415,7 @@ async def test_form_exception_http(hass: __HAC_KEEP__, user_flow: str) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_cannot_connect_ws(hass: __HAC_KEEP__, user_flow: str) -> None:
+async def test_form_cannot_connect_ws(hass: UniversalAssistant, user_flow: str) -> None:
     """Test we handle cannot connect over WebSocket error."""
     with (
         patch(
@@ -486,7 +486,7 @@ async def test_form_cannot_connect_ws(hass: __HAC_KEEP__, user_flow: str) -> Non
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_exception_ws(hass: __HAC_KEEP__, user_flow: str) -> None:
+async def test_form_exception_ws(hass: UniversalAssistant, user_flow: str) -> None:
     """Test we handle generic exception over WebSocket."""
     with (
         patch(
@@ -537,7 +537,7 @@ async def test_form_exception_ws(hass: __HAC_KEEP__, user_flow: str) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_discovery(hass: __HAC_KEEP__) -> None:
+async def test_discovery(hass: UniversalAssistant) -> None:
     """Test discovery flow works."""
     with (
         patch(
@@ -582,7 +582,7 @@ async def test_discovery(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_discovery_cannot_connect_http(hass: __HAC_KEEP__) -> None:
+async def test_discovery_cannot_connect_http(hass: UniversalAssistant) -> None:
     """Test discovery aborts if cannot connect."""
     with (
         patch(
@@ -604,7 +604,7 @@ async def test_discovery_cannot_connect_http(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "cannot_connect"
 
 
-async def test_discovery_cannot_connect_ws(hass: __HAC_KEEP__) -> None:
+async def test_discovery_cannot_connect_ws(hass: UniversalAssistant) -> None:
     """Test discovery aborts if cannot connect to websocket."""
     with (
         patch(
@@ -632,7 +632,7 @@ async def test_discovery_cannot_connect_ws(hass: __HAC_KEEP__) -> None:
     assert result["errors"] == {}
 
 
-async def test_discovery_exception_http(hass: __HAC_KEEP__) -> None:
+async def test_discovery_exception_http(hass: UniversalAssistant) -> None:
     """Test we handle generic exception during discovery validation."""
     with (
         patch(
@@ -654,7 +654,7 @@ async def test_discovery_exception_http(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "unknown"
 
 
-async def test_discovery_invalid_auth(hass: __HAC_KEEP__) -> None:
+async def test_discovery_invalid_auth(hass: UniversalAssistant) -> None:
     """Test we handle invalid auth during discovery."""
     with (
         patch(
@@ -677,7 +677,7 @@ async def test_discovery_invalid_auth(hass: __HAC_KEEP__) -> None:
     assert result["errors"] == {}
 
 
-async def test_discovery_duplicate_data(hass: __HAC_KEEP__) -> None:
+async def test_discovery_duplicate_data(hass: UniversalAssistant) -> None:
     """Test discovery aborts if same mDNS packet arrives."""
     with (
         patch(
@@ -706,7 +706,7 @@ async def test_discovery_duplicate_data(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_in_progress"
 
 
-async def test_discovery_updates_unique_id(hass: __HAC_KEEP__) -> None:
+async def test_discovery_updates_unique_id(hass: UniversalAssistant) -> None:
     """Test a duplicate discovery id aborts and updates existing entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -728,7 +728,7 @@ async def test_discovery_updates_unique_id(hass: __HAC_KEEP__) -> None:
     assert entry.data["name"] == "hostname"
 
 
-async def test_discovery_without_unique_id(hass: __HAC_KEEP__) -> None:
+async def test_discovery_without_unique_id(hass: UniversalAssistant) -> None:
     """Test a discovery flow with no unique id aborts."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -751,7 +751,7 @@ REAUTH_ENTRY_DATA = {
 }
 
 
-async def test_reauth(hass: __HAC_KEEP__) -> None:
+async def test_reauth(hass: UniversalAssistant) -> None:
     """Test reauth updates the credentials."""
     entry = MockConfigEntry(domain=DOMAIN, data=REAUTH_ENTRY_DATA, unique_id=UUID)
     entry.add_to_hass(hass)
@@ -793,7 +793,7 @@ async def test_reauth(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_reauth_errors(
-    hass: __HAC_KEEP__, side_effect: type[Exception], error: str
+    hass: UniversalAssistant, side_effect: type[Exception], error: str
 ) -> None:
     """Test reauth handles errors and can recover."""
     entry = MockConfigEntry(domain=DOMAIN, data=REAUTH_ENTRY_DATA, unique_id=UUID)
@@ -856,7 +856,7 @@ def _ws_probe(close_error: Exception | None = None) -> MagicMock:
     [pytest.param(None, id="closed"), pytest.param(TimeoutError(), id="close_error")],
 )
 async def test_ws_probe_closed_after_success(
-    hass: __HAC_KEEP__, user_flow: str, close_error: Exception | None
+    hass: UniversalAssistant, user_flow: str, close_error: Exception | None
 ) -> None:
     """Test the WebSocket probe is closed after a successful check."""
     probe = _ws_probe(close_error)
@@ -887,7 +887,7 @@ async def test_ws_probe_closed_after_success(
     [pytest.param(None, id="closed"), pytest.param(TimeoutError(), id="close_error")],
 )
 async def test_ws_probe_closed_after_failure(
-    hass: __HAC_KEEP__, user_flow: str, close_error: Exception | None
+    hass: UniversalAssistant, user_flow: str, close_error: Exception | None
 ) -> None:
     """Test the WebSocket probe is closed when the check fails."""
     probe = _ws_probe(close_error)

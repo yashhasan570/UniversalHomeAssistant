@@ -1,11 +1,11 @@
-"""API for iotty bound to __HA_KEEP__ OAuth."""
+"""API for iotty bound to Universal Home Assistant OAuth."""
 
 from typing import Any, override
 
 from aiohttp import ClientSession
 from iottycloud.cloudapi import CloudApi
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_entry_oauth2_flow
 
 OAUTH2_CLIENT_ID = "hass-iotty"
@@ -17,7 +17,7 @@ class IottyProxy(CloudApi):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         websession: ClientSession,
         oauth_session: config_entry_oauth2_flow.OAuth2Session,
     ) -> None:

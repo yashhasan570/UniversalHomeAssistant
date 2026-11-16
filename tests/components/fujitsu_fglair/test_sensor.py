@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -19,7 +19,7 @@ def platforms() -> list[str]:
 
 
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_ayla_api: AsyncMock,
@@ -33,7 +33,7 @@ async def test_entities(
 
 
 async def test_no_outside_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_ayla_api: AsyncMock,
     integration_setup: Callable[[], Awaitable[bool]],

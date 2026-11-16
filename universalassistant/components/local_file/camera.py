@@ -6,7 +6,7 @@ from typing import override
 from universalassistant.components.camera import Camera
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_FILE_PATH
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.os_error import os_read_error
@@ -15,7 +15,7 @@ from .util import check_file_path_access
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

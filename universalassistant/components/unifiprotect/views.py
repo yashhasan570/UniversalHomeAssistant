@@ -10,8 +10,8 @@ from aiohttp import web
 from uiprotect.data import Camera, Event
 from uiprotect.exceptions import ClientError
 
-from universalassistant.components.http import __HAC_KEEP__View
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.components.http import UniversalAssistantView
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .data import ProtectData, async_get_data_for_entry_id, async_get_data_for_nvr_id
@@ -133,12 +133,12 @@ def _validate_event(event: Event) -> None:
         raise PermissionError(f"User cannot read media from camera: {event.camera.id}")
 
 
-class ProtectProxyView(__HAC_KEEP__View):
+class ProtectProxyView(UniversalAssistantView):
     """Base class to proxy request to UniFi Protect console."""
 
     requires_auth = True
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize a thumbnail proxy view."""
         self.hass = hass
 

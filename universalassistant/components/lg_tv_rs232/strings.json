@@ -9,7 +9,7 @@
     },
     "step": {
       "troubleshoot": {
-        "description": "__HA_KEEP__ could not communicate with the LG TV over the serial port.\n\nThe most common cause is that **RS-232C Control** is not enabled on the TV. On most LG models this setting is in a hidden service menu (often called **InStart**); the exact location varies by model, so check your TV's documentation.\n\nAlso make sure that:\n- The TV is powered on.\n- The serial cable is a null-modem (cross-over) cable and is fully seated. LG's RS-232 jack is recessed, so push the plug in until it clicks.\n- The correct serial port was selected.\n\nSelect **Submit** to try again.",
+        "description": "Universal Home Assistant could not communicate with the LG TV over the serial port.\n\nThe most common cause is that **RS-232C Control** is not enabled on the TV. On most LG models this setting is in a hidden service menu (often called **InStart**); the exact location varies by model, so check your TV's documentation.\n\nAlso make sure that:\n- The TV is powered on.\n- The serial cable is a null-modem (cross-over) cable and is fully seated. LG's RS-232 jack is recessed, so push the plug in until it clicks.\n- The correct serial port was selected.\n\nSelect **Submit** to try again.",
         "title": "Connection failed"
       },
       "user": {

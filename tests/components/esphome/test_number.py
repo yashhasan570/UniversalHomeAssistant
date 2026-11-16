@@ -22,14 +22,14 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from .conftest import MockGenericDeviceEntryType
 
 
 async def test_generic_number_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -71,7 +71,7 @@ async def test_generic_number_entity(
 
 
 async def test_generic_number_nan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -102,7 +102,7 @@ async def test_generic_number_nan(
 
 
 async def test_generic_number_with_unit_of_measurement_as_empty_string(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -134,7 +134,7 @@ async def test_generic_number_with_unit_of_measurement_as_empty_string(
 
 
 async def test_generic_number_entity_set_when_disconnected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -161,7 +161,7 @@ async def test_generic_number_entity_set_when_disconnected(
 
     mock_client.number_command = Mock(side_effect=APIConnectionError("Not connected"))
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,

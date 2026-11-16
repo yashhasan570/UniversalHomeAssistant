@@ -6,7 +6,7 @@ from universalassistant import config_entries
 from universalassistant.components.network import async_get_source_ip
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -50,7 +50,7 @@ CONFIG_SCHEMA = probatio.Schema(
 type EmulatedRokuConfigEntry = ConfigEntry[EmulatedRoku]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the emulated roku component."""
     if (conf := config.get(DOMAIN)) is None:
         return True
@@ -69,7 +69,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: EmulatedRokuConfigEntry
+    hass: UniversalAssistant, entry: EmulatedRokuConfigEntry
 ) -> None:
     """Set up an emulated roku server from a config entry."""
     config = entry.data
@@ -100,7 +100,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: EmulatedRokuConfigEntry
+    hass: UniversalAssistant, entry: EmulatedRokuConfigEntry
 ) -> None:
     """Unload a config entry."""
     await entry.runtime_data.unload()

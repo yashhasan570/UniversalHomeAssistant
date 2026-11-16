@@ -7,7 +7,7 @@ import probatio
 from universalassistant.components.alarm_control_panel import (
     DOMAIN as ALARM_CONTROL_PANEL_DOMAIN,
 )
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service import async_register_platform_entity_service
 from universalassistant.helpers.typing import VolDictType
@@ -51,7 +51,7 @@ async def _handle_custom_function(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the services for the Envisalink integration."""
     hass.services.async_register(
         DOMAIN,

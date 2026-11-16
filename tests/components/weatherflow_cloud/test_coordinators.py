@@ -22,12 +22,12 @@ from universalassistant.components.weatherflow_cloud.coordinator import (
     WeatherFlowWindCoordinator,
 )
 from universalassistant.config_entries import ConfigEntryAuthFailed
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import UpdateFailed
 
 
 async def test_wind_coordinator_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_rest_api: AsyncMock,
     mock_websocket_api: AsyncMock,
@@ -58,7 +58,7 @@ async def test_wind_coordinator_setup(
 
 
 async def test_observation_coordinator_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_rest_api: AsyncMock,
     mock_websocket_api: AsyncMock,
@@ -87,7 +87,7 @@ async def test_observation_coordinator_setup(
 
 
 async def test_wind_coordinator_message_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_rest_api: AsyncMock,
     mock_websocket_api: AsyncMock,
@@ -123,7 +123,7 @@ async def test_wind_coordinator_message_handling(
 
 
 async def test_observation_coordinator_message_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_rest_api: AsyncMock,
     mock_websocket_api: AsyncMock,
@@ -157,7 +157,7 @@ async def test_observation_coordinator_message_handling(
 
 
 async def test_rest_coordinator_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_rest_api: AsyncMock,
     mock_stations_data: Mock,
@@ -185,7 +185,7 @@ async def test_rest_coordinator_auth_error(
 
 
 async def test_rest_coordinator_other_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_rest_api: AsyncMock,
     mock_stations_data: Mock,

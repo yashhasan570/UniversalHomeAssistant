@@ -16,11 +16,11 @@ from universalassistant.components.water_heater import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, ENTITY_MATCH_ALL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def async_set_away_mode(
-    hass: __HAC_KEEP__, away_mode: bool, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, away_mode: bool, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Turn all or specified water_heater devices away mode on."""
     data = {ATTR_AWAY_MODE: away_mode}
@@ -33,7 +33,7 @@ async def async_set_away_mode(
 
 
 async def async_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     temperature: float,
     entity_id: str = ENTITY_MATCH_ALL,
     operation_mode: str | None = None,
@@ -56,7 +56,7 @@ async def async_set_temperature(
 
 
 async def async_set_operation_mode(
-    hass: __HAC_KEEP__, operation_mode: str, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, operation_mode: str, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Set new target operation mode."""
     data = {ATTR_OPERATION_MODE: operation_mode}
@@ -70,7 +70,7 @@ async def async_set_operation_mode(
     await hass.async_block_till_done()
 
 
-async def async_turn_on(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
+async def async_turn_on(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Turn all or specified water_heater devices on."""
     data = {}
 
@@ -82,7 +82,7 @@ async def async_turn_on(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -
 
 
 async def async_turn_off(
-    hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Turn all or specified water_heater devices off."""
     data = {}

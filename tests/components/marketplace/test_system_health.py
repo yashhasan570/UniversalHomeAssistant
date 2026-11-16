@@ -12,7 +12,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.marketplace.base import MarketplaceManager
 from universalassistant.components.marketplace.const import DOMAIN
 from universalassistant.components.marketplace.enums import DisabledReason
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
@@ -24,13 +24,13 @@ async def _resolve(info: dict[str, Any]) -> dict[str, Any]:
     return info
 
 
-async def _resolved_info(hass: __HAC_KEEP__) -> dict[str, Any]:
+async def _resolved_info(hass: UniversalAssistant) -> dict[str, Any]:
     """Return the system health info with the reachability checks resolved."""
     return await _resolve(await get_system_health_info(hass, DOMAIN))
 
 
 @pytest.mark.usefixtures("init_integration")
-async def test_system_health(hass: __HAC_KEEP__) -> None:
+async def test_system_health(hass: UniversalAssistant) -> None:
     """Test the system health of a set up Marketplace."""
     assert await async_setup_component(hass, "system_health", {})
 
@@ -53,7 +53,7 @@ async def test_system_health(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_system_health_does_not_wait_for_the_rate_limit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a slow answer about the rate limit can not hold up the rest."""
     assert await async_setup_component(hass, "system_health", {})
@@ -70,7 +70,7 @@ async def test_system_health_does_not_wait_for_the_rate_limit(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_system_health_when_github_fails(
-    hass: __HAC_KEEP__, marketplace: MarketplaceManager
+    hass: UniversalAssistant, marketplace: MarketplaceManager
 ) -> None:
     """Test a failing rate limit call does not take the section down."""
     assert await async_setup_component(hass, "system_health", {})
@@ -88,7 +88,7 @@ async def test_system_health_when_github_fails(
 @pytest.mark.parametrize("github_token", [None])
 @pytest.mark.usefixtures("init_integration")
 async def test_system_health_without_github(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the system health leaves the anonymous rate limit alone."""
     assert await async_setup_component(hass, "system_health", {})
@@ -103,7 +103,7 @@ async def test_system_health_without_github(
 
 
 async def test_system_health_when_disabled(
-    hass: __HAC_KEEP__, marketplace: MarketplaceManager
+    hass: UniversalAssistant, marketplace: MarketplaceManager
 ) -> None:
     """Test that a disabled Marketplace reports why."""
     assert await async_setup_component(hass, "system_health", {})
@@ -115,7 +115,7 @@ async def test_system_health_when_disabled(
 
 
 async def test_system_health_after_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     marketplace: MarketplaceManager,
 ) -> None:

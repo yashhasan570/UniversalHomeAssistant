@@ -8,8 +8,8 @@ import probatio
 from sofar_modbus import FeedInLimitationMode, PassiveModeTimeoutAction
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service import (
     async_get_config_entry,
@@ -115,7 +115,7 @@ SET_BATTERY_CUTOFFS_SCHEMA = _ENTRY_SCHEMA.extend(
 
 
 def _get_entry(
-    hass: __HAC_KEEP__, call: ServiceCall, component: str
+    hass: UniversalAssistant, call: ServiceCall, component: str
 ) -> SofarConfigEntry:
     """Return a loaded entry whose inverter serves the needed registers."""
     entry: SofarConfigEntry = async_get_config_entry(
@@ -140,7 +140,7 @@ async def _write(entry: SofarConfigEntry, write: Awaitable[None]) -> None:
             translation_key="invalid_action_value",
         ) from err
     except ModbusError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="write_failed",
         ) from err
@@ -148,7 +148,7 @@ async def _write(entry: SofarConfigEntry, write: Awaitable[None]) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the Sofar services."""
 
     async def _handle_set_feed_in_limit(call: ServiceCall) -> None:

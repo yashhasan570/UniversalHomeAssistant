@@ -18,13 +18,13 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CONF_SENSORS,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import TEST_API_KEY, TEST_ELEVATION, TEST_LATITUDE, TEST_LONGITUDE
 
 
 @pytest.mark.usefixtures("mock_pyopenuv")
-async def test_migrate_entry(hass: __HAC_KEEP__) -> None:
+async def test_migrate_entry(hass: UniversalAssistant) -> None:
     """Test entry migration."""
 
     entry = MockConfigEntry(

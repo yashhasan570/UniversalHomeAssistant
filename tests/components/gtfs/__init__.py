@@ -6,7 +6,7 @@ from typing import Any
 import zipfile
 
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 FIXTURE_DIR = Path(__file__).parent / "fixtures" / "feed"
@@ -21,7 +21,7 @@ def build_feed_zip() -> bytes:
     return buffer.getvalue()
 
 
-async def setup_yaml_sensor(hass: __HAC_KEEP__, **config: Any) -> None:
+async def setup_yaml_sensor(hass: UniversalAssistant, **config: Any) -> None:
     """Set up one legacy YAML GTFS sensor reading feed.zip."""
     assert await async_setup_component(
         hass,

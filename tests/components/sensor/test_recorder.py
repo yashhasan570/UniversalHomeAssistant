@@ -72,7 +72,7 @@ from universalassistant.components.sensor.recorder import (
     UNITS_CHANGED_ISSUE,
 )
 from universalassistant.const import ATTR_FRIENDLY_NAME, DEGREE, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -162,7 +162,7 @@ def disable_deprecated_database_version_issue() -> None:
 
 
 async def async_list_statistic_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     statistic_ids: set[str] | None = None,
     statistic_type: Literal["mean", "sum"] | None = None,
 ) -> list[dict]:
@@ -173,7 +173,7 @@ async def async_list_statistic_ids(
 
 
 async def assert_statistic_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_result: list[dict[str, Any]],
 ) -> None:
     """Assert statistic ids."""
@@ -189,7 +189,7 @@ async def assert_statistic_ids(
 
 
 def assert_issues(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_issues: dict[str, dict[str, Any]],
 ) -> None:
     """Assert statistics issues."""
@@ -221,7 +221,7 @@ def assert_issues(
 
 
 async def assert_validation_result(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MockHAClientWebSocket,
     expected_validation_result: dict[str, list[dict[str, Any]]],
     expected_issues: Iterable[str],
@@ -319,7 +319,7 @@ async def assert_validation_result(
     ],
 )
 async def test_compile_hourly_statistics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class,
     state_unit,
@@ -393,7 +393,7 @@ async def test_compile_hourly_statistics(
     ],
 )
 async def test_compile_hourly_statistics_unhashable_attribute(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     attribute: str,
     value: Any,
@@ -440,7 +440,7 @@ async def test_compile_hourly_statistics_unhashable_attribute(
     ],
 )
 async def test_list_statistic_ids_unhashable_attribute(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     attribute: str,
     value: Any,
 ) -> None:
@@ -472,7 +472,7 @@ async def test_list_statistic_ids_unhashable_attribute(
     ],
 )
 async def test_validate_statistics_unhashable_attribute(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     attribute: str,
     value: Any,
@@ -507,7 +507,7 @@ async def test_validate_statistics_unhashable_attribute(
     ],
 )
 async def test_validate_statistics_unhashable_unit_with_metadata(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     unit: str,
     unit_class: str | None,
@@ -568,7 +568,7 @@ async def test_validate_statistics_unhashable_unit_with_metadata(
     ],
 )
 async def test_compile_hourly_statistics_unhashable_unit_in_history(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     units: list[Any],
 ) -> None:
@@ -606,7 +606,7 @@ async def test_compile_hourly_statistics_unhashable_unit_in_history(
 
 
 async def test_compile_hourly_statistics_angle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test compiling hourly statistics for measurement_angle."""
@@ -680,7 +680,7 @@ async def test_compile_hourly_statistics_angle(
     ],
 )
 async def test_compile_hourly_statistics_with_some_same_last_updated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class,
     state_unit,
@@ -779,7 +779,7 @@ async def test_compile_hourly_statistics_with_some_same_last_updated(
 
 
 async def test_compile_hourly_statistics_with_some_same_last_updated_angle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test compiling stats with same last_updated for angle.
@@ -928,7 +928,7 @@ async def test_compile_hourly_statistics_with_some_same_last_updated_angle(
     ],
 )
 async def test_compile_hourly_statistics_with_all_same_last_updated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     attributes: dict[str, Any],
     display_unit: str,
@@ -1072,7 +1072,7 @@ async def test_compile_hourly_statistics_with_all_same_last_updated(
     ],
 )
 async def test_compile_hourly_statistics_only_state_is_at_end_of_period(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     attributes: dict[str, Any],
     display_unit: str,
@@ -1165,7 +1165,7 @@ async def test_compile_hourly_statistics_only_state_is_at_end_of_period(
     ],
 )
 async def test_compile_hourly_statistics_purged_state_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class,
     state_unit,
@@ -1258,7 +1258,7 @@ async def test_compile_hourly_statistics_purged_state_changes(
     ],
 )
 async def test_compile_hourly_statistics_ignore_future_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class,
     state_unit,
@@ -1332,7 +1332,7 @@ async def test_compile_hourly_statistics_ignore_future_state(
 
 @pytest.mark.parametrize("attributes", [TEMPERATURE_SENSOR_ATTRIBUTES])
 async def test_compile_hourly_statistics_wrong_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     attributes,
 ) -> None:
@@ -1557,7 +1557,7 @@ async def test_compile_hourly_statistics_wrong_unit(
     ],
 )
 async def test_compile_hourly_sum_statistics_amount(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
     units,
@@ -1744,7 +1744,7 @@ async def test_compile_hourly_sum_statistics_amount(
     ],
 )
 async def test_compile_hourly_sum_statistics_amount_reset_every_state_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     state_class,
     device_class,
@@ -1868,7 +1868,7 @@ async def test_compile_hourly_sum_statistics_amount_reset_every_state_change(
     ],
 )
 async def test_compile_hourly_sum_statistics_amount_invalid_last_reset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     state_class,
     device_class,
@@ -1969,7 +1969,7 @@ async def test_compile_hourly_sum_statistics_amount_invalid_last_reset(
     ],
 )
 async def test_compile_hourly_sum_statistics_nan_inf_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     state_class,
     device_class,
@@ -2074,7 +2074,7 @@ async def test_compile_hourly_sum_statistics_nan_inf_state(
             "energy",
             0,
             "",
-            "bug report at https://github.com/yashhasan570/__HAC_KEEP__/issues?q=is%3Aopen+is%3Aissue",
+            "bug report at https://github.com/yashhasan570/UniversalUniversalAssistant/issues?q=is%3Aopen+is%3Aissue",
         ),
         (
             "sensor.power_consumption",
@@ -2085,7 +2085,7 @@ async def test_compile_hourly_sum_statistics_nan_inf_state(
             "power",
             15,
             "from integration demo ",
-            "bug report at https://github.com/yashhasan570/__HAC_KEEP__/issues?q=is%3Aopen+is%3Aissue+label%3A%22integration%3A+demo%22",
+            "bug report at https://github.com/yashhasan570/UniversalUniversalAssistant/issues?q=is%3Aopen+is%3Aissue+label%3A%22integration%3A+demo%22",
         ),
         (
             "sensor.custom_sensor",
@@ -2106,7 +2106,7 @@ async def test_compile_hourly_sum_statistics_nan_inf_state(
     [Platform.SENSOR],
 )
 async def test_compile_hourly_sum_statistics_negative_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     entity_id,
     warning_1,
@@ -2225,7 +2225,7 @@ async def test_compile_hourly_sum_statistics_negative_state(
     ],
 )
 async def test_compile_hourly_sum_statistics_total_no_reset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class,
     state_unit,
@@ -2339,7 +2339,7 @@ async def test_compile_hourly_sum_statistics_total_no_reset(
     ],
 )
 async def test_compile_hourly_sum_statistics_total_increasing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class,
     state_unit,
@@ -2453,7 +2453,7 @@ async def test_compile_hourly_sum_statistics_total_increasing(
     ],
 )
 async def test_compile_hourly_sum_statistics_total_increasing_small_dip(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class,
     state_unit,
@@ -2509,7 +2509,7 @@ async def test_compile_hourly_sum_statistics_total_increasing_small_dip(
         f"strictly increasing. Triggered by state {state}"
         f" (previous state: {previous_state}) "
         f"with last_updated set to {last_updated}. Please create a bug report at "
-        "https://github.com/yashhasan570/__HAC_KEEP__/issues?q=is%3Aopen+is%3Aissue"
+        "https://github.com/yashhasan570/UniversalUniversalAssistant/issues?q=is%3Aopen+is%3Aissue"
     ) in caplog.text
     statistic_ids = await async_list_statistic_ids(hass)
     assert statistic_ids == [
@@ -2564,7 +2564,7 @@ async def test_compile_hourly_sum_statistics_total_increasing_small_dip(
 
 
 async def test_compile_hourly_energy_statistics_unsupported(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test compiling hourly statistics."""
     period0 = get_start_time(dt_util.utcnow())
@@ -2669,7 +2669,7 @@ async def test_compile_hourly_energy_statistics_unsupported(
 
 
 async def test_compile_hourly_energy_statistics_multiple(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test compiling multiple hourly statistics."""
     period0 = get_start_time(dt_util.utcnow())
@@ -2885,7 +2885,7 @@ async def test_compile_hourly_energy_statistics_multiple(
     ],
 )
 async def test_compile_hourly_statistics_unchanged(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class,
     state_unit,
@@ -2932,7 +2932,7 @@ async def test_compile_hourly_statistics_unchanged(
 
 
 async def test_compile_hourly_statistics_unchanged_angle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test compiling hourly stats, no changes for measurement_angle."""
@@ -2983,7 +2983,7 @@ async def test_compile_hourly_statistics_unchanged_angle(
     ],
 )
 async def test_compile_hourly_statistics_partially_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     attributes: dict,
     expected_mean: float,
@@ -3053,7 +3053,7 @@ async def test_compile_hourly_statistics_partially_unavailable(
 )
 @pytest.mark.timeout(25)
 async def test_compile_hourly_statistics_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class,
     state_unit,
@@ -3108,7 +3108,7 @@ async def test_compile_hourly_statistics_unavailable(
 
 
 async def test_compile_hourly_statistics_unavailable_angle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test hourly stats with one sensor unavailable for angle.
@@ -3160,7 +3160,7 @@ async def test_compile_hourly_statistics_unavailable_angle(
 
 
 async def test_compile_hourly_statistics_fails(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test compiling hourly statistics throws."""
     zero = get_start_time(dt_util.utcnow())
@@ -3467,7 +3467,7 @@ async def test_compile_hourly_statistics_fails(
     ],
 )
 async def test_list_statistic_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     state_class: str | SensorStateClass,
     device_class: str | SensorDeviceClass,
     state_unit: str,
@@ -3535,7 +3535,7 @@ async def test_list_statistic_ids(
     [{**ENERGY_SENSOR_ATTRIBUTES, "last_reset": 0}, TEMPERATURE_SENSOR_ATTRIBUTES],
 )
 async def test_list_statistic_ids_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     energy_attributes: dict[str, Any],
 ) -> None:
     """Test listing future statistic ids for unsupported sensor."""
@@ -3575,7 +3575,7 @@ async def test_list_statistic_ids_unsupported(
     ],
 )
 async def test_compile_hourly_statistics_changing_units_1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class,
     state_unit,
@@ -3704,7 +3704,7 @@ async def test_compile_hourly_statistics_changing_units_1(
     ],
 )
 async def test_compile_hourly_statistics_changing_units_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class,
     state_unit,
@@ -3784,7 +3784,7 @@ async def test_compile_hourly_statistics_changing_units_2(
     ],
 )
 async def test_compile_hourly_statistics_changing_units_3(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class,
     state_unit,
@@ -3941,7 +3941,7 @@ async def test_compile_hourly_statistics_changing_units_3(
     ],
 )
 async def test_compile_hourly_statistics_convert_units_1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class,
     state_unit_1,
@@ -4074,7 +4074,7 @@ async def test_compile_hourly_statistics_convert_units_1(
 
 
 async def test_compile_hourly_statistics_convert_zero_to_inverse_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test compiling statistics when a sensor changes to an inverse unit.
@@ -4240,7 +4240,7 @@ async def test_compile_hourly_statistics_convert_zero_to_inverse_unit(
     ],
 )
 async def test_compile_hourly_statistics_equivalent_units_1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class,
     state_unit,
@@ -4390,7 +4390,7 @@ async def test_compile_hourly_statistics_equivalent_units_1(
     ],
 )
 async def test_compile_hourly_statistics_equivalent_units_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class,
     state_unit,
@@ -4475,7 +4475,7 @@ async def test_compile_hourly_statistics_equivalent_units_2(
     ],
 )
 async def test_compile_hourly_statistics_custom_equivalent_units(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class: SensorDeviceClass | None,
     state_unit: str,
@@ -4674,7 +4674,7 @@ async def test_compile_hourly_statistics_custom_equivalent_units(
     ],
 )
 async def test_compile_hourly_statistics_changing_device_class_1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class,
     unit_1,
@@ -4897,7 +4897,7 @@ async def test_compile_hourly_statistics_changing_device_class_1(
     ],
 )
 async def test_compile_hourly_statistics_changing_device_class_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class,
     state_unit,
@@ -5040,7 +5040,7 @@ async def test_compile_hourly_statistics_changing_device_class_2(
     ],
 )
 async def test_compile_hourly_statistics_changing_state_class(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class,
     state_unit,
@@ -5181,7 +5181,7 @@ async def test_compile_hourly_statistics_changing_state_class(
 @pytest.mark.parametrize("recorder_config", [{CONF_COMMIT_INTERVAL: 3600 * 4}])
 @pytest.mark.freeze_time("2021-09-01 05:00")  # August 31st, 23:00 local time
 async def test_compile_statistics_hourly_daily_monthly_summary(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -5556,7 +5556,7 @@ async def test_compile_statistics_hourly_daily_monthly_summary(
 
 
 async def async_record_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     zero: datetime,
     entity_id: str,
@@ -5648,7 +5648,7 @@ async def async_record_states(
     ],
 )
 async def test_validate_unit_change_convertible(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     units,
     attributes,
@@ -5793,7 +5793,7 @@ async def test_validate_unit_change_convertible(
     ],
 )
 async def test_validate_statistics_unit_ignore_device_class(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     units,
     attributes,
@@ -5895,7 +5895,7 @@ async def test_validate_statistics_unit_ignore_device_class(
     ],
 )
 async def test_validate_statistics_unit_change_no_device_class(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     units,
     attributes,
@@ -6040,7 +6040,7 @@ async def test_validate_statistics_unit_change_no_device_class(
     ],
 )
 async def test_validate_statistics_state_class_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     units,
     attributes,
@@ -6108,7 +6108,7 @@ async def test_validate_statistics_state_class_removed(
     ],
 )
 async def test_validate_statistics_state_class_removed_issue_cleaned_up(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     units,
     attributes,
@@ -6167,7 +6167,7 @@ async def test_validate_statistics_state_class_removed_issue_cleaned_up(
     ],
 )
 async def test_validate_statistics_sensor_no_longer_recorded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     units,
     attributes,
@@ -6221,7 +6221,7 @@ async def test_validate_statistics_sensor_no_longer_recorded(
     ],
 )
 async def test_validate_statistics_sensor_not_recorded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     units,
     attributes,
@@ -6272,7 +6272,7 @@ async def test_validate_statistics_sensor_not_recorded(
     ],
 )
 async def test_validate_statistics_sensor_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     units,
     attributes,
@@ -6322,7 +6322,7 @@ async def test_validate_statistics_sensor_removed(
     ],
 )
 async def test_validate_statistics_unit_change_no_conversion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     attributes,
     unit1,
@@ -6476,7 +6476,7 @@ async def test_validate_statistics_unit_change_no_conversion(
     ],
 )
 async def test_validate_statistics_unit_change_equivalent_units(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     attributes,
     unit1,
@@ -6578,7 +6578,7 @@ async def test_validate_statistics_unit_change_equivalent_units(
     ],
 )
 async def test_validate_statistics_unit_change_equivalent_units_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     attributes,
     unit_class,
@@ -6659,7 +6659,7 @@ async def test_validate_statistics_unit_change_equivalent_units_2(
     ],
 )
 async def test_validate_statistics_unit_change_custom_equivalent_units(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     attributes: dict,
     unit1: str,
@@ -6734,7 +6734,7 @@ async def test_validate_statistics_unit_change_custom_equivalent_units(
 
 
 async def test_validate_statistics_other_domain(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test sensor does not raise issues for statistics for other domains."""
     await async_setup_component(hass, DOMAIN, {})
@@ -6767,7 +6767,7 @@ async def test_validate_statistics_other_domain(
     await assert_validation_result(hass, client, {}, {})
 
 
-async def _one_hour_stats(hass: __HAC_KEEP__, start: datetime) -> datetime:
+async def _one_hour_stats(hass: UniversalAssistant, start: datetime) -> datetime:
     """Generate 5-minute statistics for one hour."""
     for _ in range(12):
         do_adhoc_statistics(hass, start=start)
@@ -6783,7 +6783,7 @@ async def _one_hour_stats(hass: __HAC_KEEP__, start: datetime) -> datetime:
     ],
 )
 async def test_update_statistics_issues(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     units,
     attributes,
@@ -6852,7 +6852,7 @@ async def test_update_statistics_issues(
     ],
 )
 async def test_update_statistics_issues_with_custom_equivalent_units(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     attributes: dict,
     unit1: str,
     unit2: str,
@@ -6911,7 +6911,7 @@ async def test_update_statistics_issues_with_custom_equivalent_units(
 
 
 async def async_record_meter_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     zero: datetime,
     entity_id: str,
@@ -6978,7 +6978,7 @@ async def async_record_meter_states(
 
 
 async def async_record_meter_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     zero: datetime,
     entity_id: str,
@@ -7003,7 +7003,7 @@ async def async_record_meter_state(
 
 
 async def async_record_states_partially_unavailable(
-    hass: __HAC_KEEP__, zero: datetime, entity_id: str, attributes: dict[str, Any]
+    hass: UniversalAssistant, zero: datetime, entity_id: str, attributes: dict[str, Any]
 ) -> tuple[datetime, dict[str, list[State]]]:
     """Record some test states.
 
@@ -7036,7 +7036,7 @@ async def async_record_states_partially_unavailable(
 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
-async def test_exclude_attributes(hass: __HAC_KEEP__) -> None:
+async def test_exclude_attributes(hass: UniversalAssistant) -> None:
     """Test sensor attributes to be excluded."""
     entity0 = MockSensor(
         has_entity_name=True,
@@ -7085,7 +7085,7 @@ async def test_exclude_attributes(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_clean_up_repairs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     issue_registry: ir.IssueRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -7169,7 +7169,7 @@ async def test_clean_up_repairs(
 
 
 async def test_validate_statistics_mean_type_changed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

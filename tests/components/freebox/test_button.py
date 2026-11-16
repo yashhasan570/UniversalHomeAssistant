@@ -6,12 +6,12 @@ from pytest_unordered import unordered
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .common import setup_platform
 
 
-async def test_reboot(hass: __HAC_KEEP__, router: Mock) -> None:
+async def test_reboot(hass: UniversalAssistant, router: Mock) -> None:
     """Test reboot button."""
     entry = await setup_platform(hass, BUTTON_DOMAIN)
 
@@ -36,7 +36,7 @@ async def test_reboot(hass: __HAC_KEEP__, router: Mock) -> None:
         mock_service.assert_called_once()
 
 
-async def test_mark_calls_as_read(hass: __HAC_KEEP__, router: Mock) -> None:
+async def test_mark_calls_as_read(hass: UniversalAssistant, router: Mock) -> None:
     """Test mark calls as read button."""
     entry = await setup_platform(hass, BUTTON_DOMAIN)
 

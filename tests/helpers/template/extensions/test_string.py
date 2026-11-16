@@ -2,12 +2,12 @@
 
 import pytest
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from tests.helpers.template.helpers import render
 
 
-def test_ordinal(hass: __HAC_KEEP__) -> None:
+def test_ordinal(hass: UniversalAssistant) -> None:
     """Test the ordinal filter."""
     tests = [
         (1, "1st"),
@@ -24,22 +24,22 @@ def test_ordinal(hass: __HAC_KEEP__) -> None:
         assert render(hass, f"{{{{ {value} | ordinal }}}}") == expected
 
 
-def test_slugify(hass: __HAC_KEEP__) -> None:
+def test_slugify(hass: UniversalAssistant) -> None:
     """Test the slugify filter."""
     # Test as global function
-    assert render(hass, '{{ slugify("__HA_KEEP__") }}') == "universal_assistant"
+    assert render(hass, '{{ slugify("Universal Home Assistant") }}') == "universal_assistant"
 
     # Test as filter
-    assert render(hass, '{{ "__HA_KEEP__" | slugify }}') == "universal_assistant"
+    assert render(hass, '{{ "Universal Home Assistant" | slugify }}') == "universal_assistant"
 
     # Test with custom separator as global
-    assert render(hass, '{{ slugify("__HA_KEEP__", "-") }}') == "universal-assistant"
+    assert render(hass, '{{ slugify("Universal Home Assistant", "-") }}') == "universal-assistant"
 
     # Test with custom separator as filter
-    assert render(hass, '{{ "__HA_KEEP__" | slugify("-") }}') == "universal-assistant"
+    assert render(hass, '{{ "Universal Home Assistant" | slugify("-") }}') == "universal-assistant"
 
 
-def test_urlencode(hass: __HAC_KEEP__) -> None:
+def test_urlencode(hass: UniversalAssistant) -> None:
     """Test the urlencode method."""
     # Test with dictionary
 
@@ -69,7 +69,7 @@ def test_urlencode(hass: __HAC_KEEP__) -> None:
     ],
 )
 def test_urlencode_function(
-    hass: __HAC_KEEP__, template_str: str, expected: str
+    hass: UniversalAssistant, template_str: str, expected: str
 ) -> None:
     """Test the urlencode function renders a query string."""
     assert render(hass, template_str, parse_result=False) == expected
@@ -87,7 +87,7 @@ def test_urlencode_function(
     ],
 )
 def test_urlencode_function_parse_result(
-    hass: __HAC_KEEP__, template_str: str, expected: str
+    hass: UniversalAssistant, template_str: str, expected: str
 ) -> None:
     """Test the urlencode function renders a str with the default parse_result."""
     result = render(hass, template_str)
@@ -95,7 +95,7 @@ def test_urlencode_function_parse_result(
     assert type(result) is str
 
 
-def test_string_functions_with_non_string_input(hass: __HAC_KEEP__) -> None:
+def test_string_functions_with_non_string_input(hass: UniversalAssistant) -> None:
     """Test string functions with non-string input (automatic conversion)."""
     # Test ordinal with integer
     assert render(hass, "{{ 42 | ordinal }}") == "42nd"
@@ -106,7 +106,7 @@ def test_string_functions_with_non_string_input(hass: __HAC_KEEP__) -> None:
     assert result in ["123", 123]
 
 
-def test_ordinal_edge_cases(hass: __HAC_KEEP__) -> None:
+def test_ordinal_edge_cases(hass: UniversalAssistant) -> None:
     """Test ordinal function with edge cases."""
     # Test teens (11th, 12th, 13th should all be 'th')
     teens_tests = [
@@ -135,7 +135,7 @@ def test_ordinal_edge_cases(hass: __HAC_KEEP__) -> None:
         assert render(hass, f"{{{{ {value} | ordinal }}}}") == expected
 
 
-def test_slugify_various_separators(hass: __HAC_KEEP__) -> None:
+def test_slugify_various_separators(hass: UniversalAssistant) -> None:
     """Test slugify with various separators."""
     test_cases = [
         ("Hello World", "_", "hello_world"),
@@ -152,7 +152,7 @@ def test_slugify_various_separators(hass: __HAC_KEEP__) -> None:
         assert render(hass, f'{{{{ "{text}" | slugify("{separator}") }}}}') == expected
 
 
-def test_urlencode_various_types(hass: __HAC_KEEP__) -> None:
+def test_urlencode_various_types(hass: UniversalAssistant) -> None:
     """Test urlencode with various data types."""
     # Test with nested dictionary values
     result = render(

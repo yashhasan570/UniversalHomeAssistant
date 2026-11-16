@@ -19,7 +19,7 @@ from universalassistant.components.water_heater import (
     SERVICE_SET_OPERATION_MODE,
 )
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF, SERVICE_TURN_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import setup_evohome
 from .const import TEST_INSTALLS_WITH_DHW
@@ -27,7 +27,7 @@ from .const import TEST_INSTALLS_WITH_DHW
 
 @pytest.mark.parametrize("install", TEST_INSTALLS_WITH_DHW)
 async def test_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict[str, str],
     install: str,
     snapshot: SnapshotAssertion,
@@ -51,7 +51,7 @@ async def test_setup_platform(
 
 @pytest.mark.parametrize("install", ["default"])
 async def test_entities_update_over_time(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict[str, str],
     install: str,
     snapshot: SnapshotAssertion,
@@ -81,7 +81,7 @@ async def test_entities_update_over_time(
 
 @pytest.mark.parametrize("install", TEST_INSTALLS_WITH_DHW)
 async def test_set_operation_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     dhw_id: str,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
@@ -149,7 +149,7 @@ async def test_set_operation_mode(
 
 
 @pytest.mark.parametrize("install", TEST_INSTALLS_WITH_DHW)
-async def test_set_away_mode(hass: __HAC_KEEP__, dhw_id: str) -> None:
+async def test_set_away_mode(hass: UniversalAssistant, dhw_id: str) -> None:
     """Test SERVICE_SET_AWAY_MODE of an evohome DHW zone."""
 
     # set_away_mode: off
@@ -182,7 +182,7 @@ async def test_set_away_mode(hass: __HAC_KEEP__, dhw_id: str) -> None:
 
 
 @pytest.mark.parametrize("install", TEST_INSTALLS_WITH_DHW)
-async def test_turn_off(hass: __HAC_KEEP__, dhw_id: str) -> None:
+async def test_turn_off(hass: UniversalAssistant, dhw_id: str) -> None:
     """Test SERVICE_TURN_OFF of an evohome DHW zone."""
 
     # turn_off
@@ -200,7 +200,7 @@ async def test_turn_off(hass: __HAC_KEEP__, dhw_id: str) -> None:
 
 
 @pytest.mark.parametrize("install", TEST_INSTALLS_WITH_DHW)
-async def test_turn_on(hass: __HAC_KEEP__, dhw_id: str) -> None:
+async def test_turn_on(hass: UniversalAssistant, dhw_id: str) -> None:
     """Test SERVICE_TURN_ON of an evohome DHW zone."""
 
     # turn_on

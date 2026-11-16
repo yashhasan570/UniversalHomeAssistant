@@ -19,7 +19,7 @@
         },
         "data_description": {
           "language": "Weather information is available in English and French.",
-          "location": "Used to find the nearest weather station when no station is selected. Ignored when a station is selected. Defaults to the home location configured in __HA_KEEP__.",
+          "location": "Used to find the nearest weather station when no station is selected. Ignored when a station is selected. Defaults to the home location configured in Universal Home Assistant.",
           "station": "Select a specific weather station, or leave unselected to use the nearest station based on the specified coordinates."
         },
         "description": "Select a weather station, or specify coordinates to use the closest station.",

@@ -17,7 +17,7 @@ from universalassistant.components.bluetooth import BluetoothServiceInfoBleak
 from universalassistant.components.eurotronic_cometblue import PLATFORMS
 from universalassistant.components.eurotronic_cometblue.const import DOMAIN
 from universalassistant.const import CONF_ADDRESS, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import format_mac
 
 from . import (
@@ -197,7 +197,7 @@ def mock_bluetooth(
     MockCometBlueBleakClient.characteristics = {}
 
 
-# __HA_KEEP__ related fixtures
+# Universal Home Assistant related fixtures
 @pytest.fixture
 def mock_config_entry() -> MockConfigEntry:
     """Create config entry mock from data."""
@@ -223,7 +223,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 async def setup_with_selected_platforms(
-    hass: __HAC_KEEP__, entry: MockConfigEntry, platforms: list[Platform] | None = None
+    hass: UniversalAssistant, entry: MockConfigEntry, platforms: list[Platform] | None = None
 ) -> None:
     """Set up the Eurotronic Comet Blue integration with the selected platforms."""
     entry.add_to_hass(hass)

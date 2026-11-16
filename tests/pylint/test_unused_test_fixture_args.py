@@ -23,14 +23,14 @@ def unused_args_checker_fixture(
     [
         pytest.param(
             """
-def test_something(hass: __HAC_KEEP__) -> None:
+def test_something(hass: UniversalAssistant) -> None:
     assert hass.state
 """,
             id="all_args_used",
         ),
         pytest.param(
             """
-def test_something(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+def test_something(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     hass.states.async_set("sensor.test", "on")
     config_entry.add_to_hass(hass)
 """,
@@ -79,7 +79,7 @@ def test_unused_single_arg(
     """Test that unused fixture arg is flagged."""
     root_node = astroid.parse(
         """
-def test_something(hass: __HAC_KEEP__, enable_bluetooth: None) -> None:
+def test_something(hass: UniversalAssistant, enable_bluetooth: None) -> None:
     assert hass.state
 """,
         "tests.components.test_integration.test_init",
@@ -104,7 +104,7 @@ def test_unused_multiple_args(
     root_node = astroid.parse(
         """
 def test_something(
-    hass: __HAC_KEEP__, enable_bluetooth: None, socket_enabled: None
+    hass: UniversalAssistant, enable_bluetooth: None, socket_enabled: None
 ) -> None:
     assert hass.state
 """,
@@ -142,7 +142,7 @@ def test_async_test_function(
     """Test that async test functions are also checked."""
     root_node = astroid.parse(
         """
-async def test_something(hass: __HAC_KEEP__, enable_bluetooth: None) -> None:
+async def test_something(hass: UniversalAssistant, enable_bluetooth: None) -> None:
     assert hass.state
 """,
         "tests.components.test_integration.test_init",

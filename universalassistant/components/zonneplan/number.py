@@ -12,7 +12,7 @@ from universalassistant.components.number import (
     NumberEntityDescription,
 )
 from universalassistant.const import EntityCategory, UnitOfEnergy, UnitOfPower
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import ZonneplanBatterySettingsCoordinator, ZonneplanConfigEntry
@@ -89,7 +89,7 @@ BACKUP_RESERVE_DESCRIPTION = NumberEntityDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ZonneplanConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

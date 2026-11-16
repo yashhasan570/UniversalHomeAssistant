@@ -8,7 +8,7 @@ from infrared_protocols.codes.alpha_bidet.jx2 import AlphaBidetJX2Code
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_MODEL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import AlphaBidetModel
@@ -39,7 +39,7 @@ MODEL_BUTTONS: dict[
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

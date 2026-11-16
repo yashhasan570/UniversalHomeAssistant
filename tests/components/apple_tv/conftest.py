@@ -20,7 +20,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.apple_tv.const import DOMAIN
 from universalassistant.const import CONF_ADDRESS, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .common import MockPairingHandler, airplay_service, create_conf, mrp_service
 
@@ -285,7 +285,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_async_zeroconf: MagicMock,
     mock_atv: AsyncMock,
     mock_config_entry: MockConfigEntry,

@@ -4,7 +4,7 @@ from aioptdevices.configuration import Configuration
 from aioptdevices.interface import Interface
 
 from universalassistant.const import CONF_API_TOKEN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import DEFAULT_URL
@@ -17,7 +17,7 @@ _PLATFORMS: list[Platform] = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: PTDevicesConfigEntry
+    hass: UniversalAssistant, config_entry: PTDevicesConfigEntry
 ) -> None:
     """Set up PTDevices from a config entry."""
     auth_token: str = config_entry.data[CONF_API_TOKEN]
@@ -40,6 +40,6 @@ async def async_setup_entry(
     await hass.config_entries.async_forward_entry_setups(config_entry, _PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: PTDevicesConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: PTDevicesConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)

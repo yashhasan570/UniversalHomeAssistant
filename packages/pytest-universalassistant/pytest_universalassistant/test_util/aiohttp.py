@@ -21,7 +21,7 @@ from multidict import CIMultiDict
 from yarl import URL
 
 from universalassistant.const import EVENT_HOMEASSISTANT_CLOSE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.json import json_dumps
 from universalassistant.util.json import json_loads
 
@@ -344,7 +344,7 @@ def mock_aiohttp_client() -> Iterator[AiohttpClientMocker]:
     """Context manager to mock aiohttp client."""
     mocker = AiohttpClientMocker()
 
-    def create_session(hass: __HAC_KEEP__, *args: Any, **kwargs: Any) -> ClientSession:
+    def create_session(hass: UniversalAssistant, *args: Any, **kwargs: Any) -> ClientSession:
         session = mocker.create_session(hass.loop)
 
         async def close_session(event):

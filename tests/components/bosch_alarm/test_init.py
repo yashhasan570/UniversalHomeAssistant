@@ -6,7 +6,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
@@ -21,7 +21,7 @@ def disable_platform_only():
 @pytest.mark.parametrize("model", ["solution_3000"])
 @pytest.mark.parametrize("exception", [PermissionError()])
 async def test_incorrect_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_panel: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -35,7 +35,7 @@ async def test_incorrect_auth(
 @pytest.mark.parametrize("model", ["solution_3000"])
 @pytest.mark.parametrize("exception", [TimeoutError()])
 async def test_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_panel: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,

@@ -5,14 +5,14 @@ from pychromecast.controllers.plex import PlexController
 
 from universalassistant.components.cast import DOMAIN as CAST_DOMAIN
 from universalassistant.components.media_player import BrowseMedia, MediaClass, MediaType
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import async_browse_media as async_browse_plex_media, is_plex_media_id
 from .services import process_plex_payload
 
 
 async def async_get_media_browser_root_object(
-    hass: __HAC_KEEP__, cast_type: str
+    hass: UniversalAssistant, cast_type: str
 ) -> list[BrowseMedia]:
     """Create a root object for media browsing."""
     return [
@@ -29,7 +29,7 @@ async def async_get_media_browser_root_object(
 
 
 async def async_browse_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     media_content_type: MediaType | str,
     media_content_id: str,
     cast_type: str,
@@ -45,7 +45,7 @@ async def async_browse_media(
 
 
 def _play_media(
-    hass: __HAC_KEEP__, chromecast: Chromecast, media_type: str, media_id: str
+    hass: UniversalAssistant, chromecast: Chromecast, media_type: str, media_id: str
 ) -> None:
     """Play media."""
     result = process_plex_payload(hass, media_type, media_id)
@@ -56,7 +56,7 @@ def _play_media(
 
 
 async def async_play_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cast_entity_id: str,
     chromecast: Chromecast,
     media_type: MediaType | str,

@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.bosch_alarm.const import DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import call_observable, setup_integration
@@ -27,7 +27,7 @@ async def platforms() -> AsyncGenerator[None]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_panel: AsyncMock,
@@ -41,7 +41,7 @@ async def test_binary_sensor(
 
 @pytest.mark.parametrize("model", ["b5512"])
 async def test_panel_faults(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_panel: AsyncMock,
     area: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -57,7 +57,7 @@ async def test_panel_faults(
 
 @pytest.mark.parametrize("model", ["b5512"])
 async def test_area_ready_to_arm(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_panel: AsyncMock,
     area: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -81,7 +81,7 @@ async def test_area_ready_to_arm(
 @pytest.mark.parametrize("model", ["b5512"])
 @pytest.mark.usefixtures("mock_panel")
 async def test_point_via_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,

@@ -11,7 +11,7 @@ from universalassistant.components.apcupsd.const import DOMAIN
 from universalassistant.components.apcupsd.coordinator import UPDATE_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.entity_platform import async_get_platforms
 from universalassistant.util import slugify, utcnow
@@ -42,7 +42,7 @@ from . import MOCK_MINIMAL_STATUS, MOCK_STATUS
     indirect=True,
 )
 async def test_async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
     init_integration: MockConfigEntry,
@@ -68,7 +68,7 @@ async def test_async_setup_entry(
     [OSError(), asyncio.IncompleteReadError(partial=b"", expected=0)],
 )
 async def test_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     error: Exception,
     mock_config_entry: MockConfigEntry,
     mock_request_status: AsyncMock,
@@ -82,7 +82,7 @@ async def test_connection_error(
 
 
 async def test_unload_remove_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test successful unload and removal of an entry."""
@@ -101,7 +101,7 @@ async def test_unload_remove_entry(
 
 
 async def test_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_request_status: AsyncMock,
     init_integration: MockConfigEntry,
 ) -> None:

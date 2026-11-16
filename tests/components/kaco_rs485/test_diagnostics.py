@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import CYCLES_UNTIL_DARK, run_cycles
 
@@ -24,7 +24,7 @@ from . import CYCLES_UNTIL_DARK, run_cycles
     ],
 )
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     freezer: FrozenDateTimeFactory,
     init_integration: MockConfigEntry,
@@ -42,7 +42,7 @@ async def test_diagnostics(
 
 
 async def test_diagnostics_before_the_first_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_bus: FakeBus,

@@ -9,7 +9,7 @@ from universalassistant.components.bluetooth import (
     async_ble_device_from_address,
 )
 from universalassistant.const import CONF_ADDRESS, CONF_PIN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.typing import ConfigType
@@ -27,7 +27,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: CometBlueConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: CometBlueConfigEntry) -> None:
     """Set up Eurotronic Comet Blue from a config entry."""
 
     address = entry.data[CONF_ADDRESS]
@@ -93,12 +93,12 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: CometBlueConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Eurotronic Comet Blue integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: CometBlueConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: CometBlueConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

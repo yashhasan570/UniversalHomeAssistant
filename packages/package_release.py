@@ -1,4 +1,4 @@
-"""Pin pytest-universalassistant to the __HA_KEEP__ release being published."""
+"""Pin pytest-universalassistant to the Universal Home Assistant release being published."""
 
 from pathlib import Path
 import tomllib

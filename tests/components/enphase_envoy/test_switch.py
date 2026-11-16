@@ -10,8 +10,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.enphase_envoy.const import Platform
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -24,7 +24,7 @@ from . import setup_integration
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
@@ -47,7 +47,7 @@ async def test_switch(
     indirect=["mock_envoy"],
 )
 async def test_no_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -62,7 +62,7 @@ async def test_no_switch(
     ("mock_envoy"), ["envoy_metered_batt_relay"], indirect=["mock_envoy"]
 )
 async def test_switch_grid_operation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -108,7 +108,7 @@ async def test_switch_grid_operation(
 
 @pytest.mark.parametrize("mock_envoy", ["envoy_metered_batt_relay"], indirect=True)
 async def test_switch_grid_operation_with_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -123,7 +123,7 @@ async def test_switch_grid_operation_with_error(
     mock_envoy.go_on_grid.side_effect = EnvoyError("Test")
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=f"Failed to execute async_turn_off for {test_entity}, host",
     ):
         # test grid status switch operation
@@ -135,7 +135,7 @@ async def test_switch_grid_operation_with_error(
         )
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=f"Failed to execute async_turn_on for {test_entity}, host",
     ):
         await hass.services.async_call(
@@ -155,7 +155,7 @@ async def test_switch_grid_operation_with_error(
     indirect=["mock_envoy"],
 )
 async def test_switch_charge_from_grid_operation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     use_serial: str,
@@ -208,7 +208,7 @@ async def test_switch_charge_from_grid_operation(
     indirect=["mock_envoy"],
 )
 async def test_switch_charge_from_grid_operation_with_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     use_serial: str,
@@ -223,7 +223,7 @@ async def test_switch_charge_from_grid_operation_with_error(
     mock_envoy.enable_charge_from_grid.side_effect = EnvoyError("Test")
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=f"Failed to execute async_turn_off for {test_entity}, host",
     ):
         # test grid status switch operation
@@ -235,7 +235,7 @@ async def test_switch_charge_from_grid_operation_with_error(
         )
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=f"Failed to execute async_turn_on for {test_entity}, host",
     ):
         await hass.services.async_call(
@@ -261,7 +261,7 @@ async def test_switch_charge_from_grid_operation_with_error(
     indirect=["mock_envoy"],
 )
 async def test_switch_relay_operation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     entity_states: dict[str, tuple[str, int, int]],
@@ -321,7 +321,7 @@ async def test_switch_relay_operation(
     indirect=["mock_envoy"],
 )
 async def test_switch_relay_operation_with_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     relay: str,
@@ -341,7 +341,7 @@ async def test_switch_relay_operation_with_error(
     mock_envoy.open_dry_contact.side_effect = EnvoyError("Test")
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=f"Failed to execute async_turn_off for {test_entity}, host",
     ):
         await hass.services.async_call(
@@ -352,7 +352,7 @@ async def test_switch_relay_operation_with_error(
         )
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=f"Failed to execute async_turn_on for {test_entity}, host",
     ):
         await hass.services.async_call(

@@ -13,7 +13,7 @@ from universalassistant.components.victron_remote_monitoring.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 CONST_1_HOUR = 3600000
 CONST_12_HOURS = 43200000
@@ -114,7 +114,7 @@ def mock_vrm_client() -> Generator[AsyncMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> MockConfigEntry:
     """Mock Victron VRM Forecasts for testing."""

@@ -5,7 +5,7 @@ from typing import Any, override
 from py_dormakaba_dkey.commands import UnlockStatus
 
 from universalassistant.components.lock import LockEntity
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import DormakabaDkeyConfigEntry, DormakabaDkeyCoordinator
@@ -13,7 +13,7 @@ from .entity import DormakabaDkeyEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: DormakabaDkeyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

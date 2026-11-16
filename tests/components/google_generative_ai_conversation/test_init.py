@@ -27,7 +27,7 @@ from universalassistant.config_entries import (
     ConfigSubentryData,
 )
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import DeviceEntryDisabler
 from universalassistant.helpers.entity_registry import RegistryEntryDisabler
@@ -56,7 +56,7 @@ from . import API_ERROR_500, CLIENT_ERROR_API_KEY_INVALID
     ],
 )
 async def test_config_entry_error(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, side_effect, state, reauth
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, side_effect, state, reauth
 ) -> None:
     """Test different configuration entry errors."""
     mock_client = AsyncMock()
@@ -69,7 +69,7 @@ async def test_config_entry_error(
 
 
 async def test_migration_from_v1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -313,7 +313,7 @@ async def test_migration_from_v1(
     ],
 )
 async def test_migration_from_v1_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     config_entry_disabled_by: list[ConfigEntryDisabler | None],
@@ -472,7 +472,7 @@ async def test_migration_from_v1_disabled(
 
 
 async def test_migration_from_v1_with_multiple_keys(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -578,7 +578,7 @@ async def test_migration_from_v1_with_multiple_keys(
 
 
 async def test_migration_from_v1_with_same_keys(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -757,7 +757,7 @@ async def test_migration_from_v1_with_same_keys(
     ],
 )
 async def test_migration_from_v2_1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     extra_subentries: list[ConfigSubentryData],
@@ -765,7 +765,7 @@ async def test_migration_from_v2_1(
     """Test migration from version 2.1.
 
     This tests we add TTS, AI Task and STT subentries:
-    - Add TTS subentry (Added in __HA_KEEP__ Core 2025.7.0b1)
+    - Add TTS subentry (Added in Universal Home Assistant Core 2025.7.0b1)
     - Add AI Task subentry (Added in version 2.3)
     - Add STT subentry (Added in version 2.3)
     """
@@ -935,7 +935,7 @@ async def test_migration_from_v2_1(
 
 
 async def test_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
     device_registry: dr.DeviceRegistry,
@@ -949,7 +949,7 @@ async def test_devices(
     assert devices == snapshot
 
 
-async def test_migrate_entry_from_v2_2(hass: __HAC_KEEP__) -> None:
+async def test_migrate_entry_from_v2_2(hass: UniversalAssistant) -> None:
     """Test migration from version 2.2."""
     # Create a v2.2 config entry with conversation and TTS subentries
     mock_config_entry = MockConfigEntry(
@@ -1129,7 +1129,7 @@ async def test_migrate_entry_from_v2_2(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_migrate_entry_from_v2_3(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     config_entry_disabled_by: ConfigEntryDisabler | None,

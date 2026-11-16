@@ -4,8 +4,8 @@ from ipaddress import IPv4Address, IPv6Address, ip_interface
 import logging
 from pathlib import Path
 
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv, issue_registry as ir
 from universalassistant.helpers.typing import ConfigType, Undefined
 from universalassistant.util import package
@@ -54,26 +54,26 @@ def _check_docker_without_host_networking() -> bool:
     return False
 
 
-async def async_get_adapters(hass: __HAC_KEEP__) -> list[Adapter]:
+async def async_get_adapters(hass: UniversalAssistant) -> list[Adapter]:
     """Get the network adapter configuration."""
     network: Network = await async_get_network(hass)
     return network.adapters
 
 
 @callback
-def async_get_loaded_adapters(hass: __HAC_KEEP__) -> list[Adapter]:
+def async_get_loaded_adapters(hass: UniversalAssistant) -> list[Adapter]:
     """Get the network adapter configuration."""
     return async_get_loaded_network(hass).adapters
 
 
-async def async_reload_adapters(hass: __HAC_KEEP__) -> None:
+async def async_reload_adapters(hass: UniversalAssistant) -> None:
     """Reload the network adapters."""
     network = await async_get_network(hass)
     await network.async_reload_adapters()
 
 
 async def async_get_source_ip(
-    hass: __HAC_KEEP__, target_ip: str | Undefined = Undefined
+    hass: UniversalAssistant, target_ip: str | Undefined = Undefined
 ) -> str:
     """Get the source ip for a target ip."""
     adapters = await async_get_adapters(hass)
@@ -97,7 +97,7 @@ async def async_get_source_ip(
             " address detection may be inaccurate"
         )
         if source_ip is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Could not determine source ip because the system does not have any"
                 " enabled IPv4 addresses and creating a socket failed"
             )
@@ -107,7 +107,7 @@ async def async_get_source_ip(
 
 
 async def async_get_enabled_source_ips(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> list[IPv4Address | IPv6Address]:
     """Build the list of enabled source ips."""
     return async_get_enabled_source_ips_from_adapters(await async_get_adapters(hass))
@@ -143,7 +143,7 @@ def async_only_default_interface_enabled(adapters: list[Adapter]) -> bool:
     )
 
 
-async def async_get_ipv4_broadcast_addresses(hass: __HAC_KEEP__) -> set[IPv4Address]:
+async def async_get_ipv4_broadcast_addresses(hass: UniversalAssistant) -> set[IPv4Address]:
     """Return a set of broadcast addresses."""
     broadcast_addresses: set[IPv4Address] = {IPv4Address(IPV4_BROADCAST_ADDR)}
     adapters = await async_get_adapters(hass)
@@ -162,7 +162,7 @@ async def async_get_ipv4_broadcast_addresses(hass: __HAC_KEEP__) -> set[IPv4Addr
     return broadcast_addresses
 
 
-async def async_get_announce_addresses(hass: __HAC_KEEP__) -> list[str]:
+async def async_get_announce_addresses(hass: UniversalAssistant) -> list[str]:
     """Return a list of IP addresses to announce/use via zeroconf/ssdp/etc.
 
     The default ip address is always returned first if available.
@@ -186,8 +186,8 @@ async def async_get_announce_addresses(hass: __HAC_KEEP__) -> list[str]:
     return list(addresses)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
-    """Set up network for __HA_KEEP__."""
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    """Set up network for Universal Home Assistant."""
     # Avoid circular issue: http->network->websocket_api->http
     from .websocket import async_register_websocket_commands  # noqa: PLC0415
 

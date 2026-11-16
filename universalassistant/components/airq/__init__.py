@@ -2,7 +2,7 @@
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONF_CLIP_NEGATIVE, CONF_RETURN_AVERAGE
 from .coordinator import AirQCoordinator
@@ -12,7 +12,7 @@ PLATFORMS: list[Platform] = [Platform.NUMBER, Platform.SENSOR]
 AirQConfigEntry = ConfigEntry[AirQCoordinator]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: AirQConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: AirQConfigEntry) -> None:
     """Set up air-Q from a config entry."""
 
     coordinator = AirQCoordinator(
@@ -31,11 +31,11 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: AirQConfigEntry) -> None:
     entry.async_on_unload(entry.add_update_listener(update_listener))
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: AirQConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: AirQConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def update_listener(hass: __HAC_KEEP__, entry: AirQConfigEntry) -> None:
+async def update_listener(hass: UniversalAssistant, entry: AirQConfigEntry) -> None:
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)

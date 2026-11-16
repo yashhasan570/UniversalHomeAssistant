@@ -11,7 +11,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntityDescription,
 )
 from universalassistant.const import ATTR_LAST_TRIP_TIME, EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import HikvisionConfigEntry
@@ -145,7 +145,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: HikvisionConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -170,7 +170,7 @@ async def async_setup_entry(
         ):
             _LOGGER.warning(
                 "Unknown Hikvision sensor type '%s', please report this at "
-                "https://github.com/yashhasan570/__HAC_KEEP__/issues",
+                "https://github.com/yashhasan570/UniversalUniversalAssistant/issues",
                 sensor_type,
             )
 
@@ -207,7 +207,7 @@ class HikvisionBinarySensor(HikvisionEntity, BinarySensorEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: HikvisionConfigEntry,
         description: BinarySensorEntityDescription,
         sensor_type: str,

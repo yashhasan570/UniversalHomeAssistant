@@ -5,7 +5,7 @@ import pytest
 from universalassistant.components import llm as llm_component
 from universalassistant.components.universalassistant.exposed_entities import async_expose_entity
 from universalassistant.components.lawn_mower import llm as lawn_mower_llm
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.helpers import llm
 from universalassistant.setup import async_setup_component
 
@@ -14,7 +14,7 @@ TOOL_NAMES = {"lawn_mower__HassLawnMowerDock", "lawn_mower__HassLawnMowerStartMo
 
 
 @pytest.fixture(autouse=True)
-async def setup_integrations(hass: __HAC_KEEP__) -> None:
+async def setup_integrations(hass: UniversalAssistant) -> None:
     """Set up the integrations and expose a lawn_mower entity."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, "intent", {})
@@ -36,13 +36,13 @@ def _llm_context() -> llm.LLMContext:
     )
 
 
-async def _tool_names(hass: __HAC_KEEP__) -> set[str]:
+async def _tool_names(hass: UniversalAssistant) -> set[str]:
     """Return the names of the tools offered by the lawn_mower platform."""
     result = await llm_component.async_get_tools(hass, _llm_context(), "assist")
     return {tool.name for tool in result.tools}
 
 
-async def test_intent_tool_exposed(hass: __HAC_KEEP__) -> None:
+async def test_intent_tool_exposed(hass: UniversalAssistant) -> None:
     """Test the intent tool is offered for an exposed lawn_mower entity."""
     result = await llm_component.async_get_tools(hass, _llm_context(), "assist")
     tools = {tool.name: tool for tool in result.tools}
@@ -63,13 +63,13 @@ async def test_intent_tool_exposed(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_intent_tool_not_exposed(hass: __HAC_KEEP__) -> None:
+async def test_intent_tool_not_exposed(hass: UniversalAssistant) -> None:
     """Test the intent tool is hidden when no lawn_mower entity is exposed."""
     async_expose_entity(hass, "conversation", ENTITY_ID, False)
     assert not TOOL_NAMES & await _tool_names(hass)
     assert lawn_mower_llm.async_get_tools(hass, _llm_context(), "assist") is None
 
 
-async def test_no_tools_for_other_api(hass: __HAC_KEEP__) -> None:
+async def test_no_tools_for_other_api(hass: UniversalAssistant) -> None:
     """Test the platform returns None for an unsupported API."""
     assert lawn_mower_llm.async_get_tools(hass, _llm_context(), "other") is None

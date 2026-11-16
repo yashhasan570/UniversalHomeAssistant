@@ -11,7 +11,7 @@ import respx
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 from .conftest import CALENDER_URL
@@ -20,7 +20,7 @@ from .conftest import CALENDER_URL
 @respx.mock
 @pytest.mark.freeze_time(dt.datetime(2023, 6, 5))
 async def test_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
@@ -42,7 +42,7 @@ async def test_entry_diagnostics(
 @respx.mock
 @pytest.mark.freeze_time(dt.datetime(2023, 6, 5))
 async def test_entry_diagnostics_setup_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,

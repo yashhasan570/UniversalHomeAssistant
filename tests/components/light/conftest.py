@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock, patch
 import pytest
 
 from universalassistant.components.light import Profiles
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture(autouse=True)
@@ -13,7 +13,7 @@ def mock_light_profiles():
     """Mock loading of profiles."""
     data = {}
 
-    def mock_profiles_class(hass: __HAC_KEEP__) -> Profiles:
+    def mock_profiles_class(hass: UniversalAssistant) -> Profiles:
         profiles = Profiles(hass)
         profiles.data = data
         profiles.async_initialize = AsyncMock()

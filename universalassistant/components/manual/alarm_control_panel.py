@@ -21,7 +21,7 @@ from universalassistant.const import (
     CONF_TRIGGER_TIME,
     CONF_UNIQUE_ID,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
@@ -179,7 +179,7 @@ PLATFORM_SCHEMA = probatio.Schema(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -215,7 +215,7 @@ class ManualAlarm(AlarmControlPanelEntity, RestoreEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         name: str,
         unique_id: str | None,
         code: str | None,

@@ -6,13 +6,13 @@ from aioesphomeapi import APIClient, SubDeviceInfo, SwitchInfo, SwitchState
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import MockESPHomeDeviceType, MockGenericDeviceEntryType
 
 
 async def test_switch_generic_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -54,7 +54,7 @@ async def test_switch_generic_entity(
 
 
 async def test_switch_sub_device_non_zero_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:

@@ -13,10 +13,10 @@ from requests import RequestException
 from universalassistant.components.sensor import SensorStateClass
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     ServiceValidationError,
 )
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -84,7 +84,7 @@ class GrowattCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: GrowattConfigEntry,
         device_id: str,
         device_type: str,
@@ -557,7 +557,7 @@ class GrowattCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 enabled,
             )
         except growattServer.GrowattV1ApiError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="api_error_with_code",
                 translation_placeholders={
@@ -688,7 +688,7 @@ class GrowattCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 periods,
             )
         except growattServer.GrowattV1ApiError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="api_error_with_code",
                 translation_placeholders={
@@ -741,7 +741,7 @@ class GrowattCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 periods,
             )
         except growattServer.GrowattV1ApiError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="api_error_with_code",
                 translation_placeholders={

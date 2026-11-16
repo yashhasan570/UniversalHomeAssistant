@@ -9,7 +9,7 @@ from typing import Any, override
 from ondilo import OndiloError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
@@ -48,7 +48,7 @@ class OndiloIcoPoolsCoordinator(DataUpdateCoordinator[dict[str, OndiloIcoPoolDat
     config_entry: OndiloIcoConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: OndiloIcoConfigEntry, api: OndiloClient
+        self, hass: UniversalAssistant, config_entry: OndiloIcoConfigEntry, api: OndiloClient
     ) -> None:
         """Initialize."""
         super().__init__(
@@ -145,7 +145,7 @@ class OndiloIcoMeasuresCoordinator(DataUpdateCoordinator[OndiloIcoMeasurementDat
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: OndiloIcoConfigEntry,
         api: OndiloClient,
         pool_id: str,

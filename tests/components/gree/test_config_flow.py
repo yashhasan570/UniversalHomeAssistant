@@ -6,7 +6,7 @@ import pytest
 
 from universalassistant import config_entries
 from universalassistant.components.gree.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .common import FakeDiscovery
@@ -16,7 +16,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 @patch("universalassistant.components.gree.config_flow.DISCOVERY_TIMEOUT", 0)
 async def test_creating_entry_sets_up_climate(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test setting up Gree creates the climate components."""
     with patch(
@@ -49,7 +49,7 @@ async def test_creating_entry_sets_up_climate(
 
 @patch("universalassistant.components.gree.config_flow.DISCOVERY_TIMEOUT", 0)
 async def test_creating_entry_has_no_devices(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test setup can succeed after no devices were initially discovered."""
     with patch(

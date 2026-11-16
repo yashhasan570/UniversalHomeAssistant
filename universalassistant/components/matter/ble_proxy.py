@@ -1,9 +1,9 @@
 """BLE proxy client for the Matter integration.
 
-Thin __HA_KEEP__ adapter around the `matter_ble_proxy` library: the protocol
+Thin Universal Home Assistant adapter around the `matter_ble_proxy` library: the protocol
 logic, command dispatch, binary frame handling, and connection bookkeeping live
 in the library; this module only provides HA-specific `BleScanSource` and
-`BleDeviceResolver` backends that wire into __HA_KEEP__'s bluetooth
+`BleDeviceResolver` backends that wire into Universal Home Assistant's bluetooth
 component (which transparently supports ESPHome BLE proxies).
 
 See `docs/ble-proxy-protocol.md` in the matter-server repository for the
@@ -30,7 +30,7 @@ from universalassistant.components.bluetooth import (
     async_ble_device_from_address,
     async_register_callback,
 )
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -40,13 +40,13 @@ _MAX_STALE_ADVERTISEMENT_SECONDS = 30
 
 
 class HaBluetoothScanSource(BleScanSource):
-    """`BleScanSource` backed by __HA_KEEP__'s bluetooth component.
+    """`BleScanSource` backed by Universal Home Assistant's bluetooth component.
 
     HA owns the BLE adapter; we only register an advertisement callback so the
     adapter is never started/stopped from here.
     """
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize."""
         self._hass = hass
         self._cancel: CALLBACK_TYPE | None = None
@@ -92,7 +92,7 @@ class HaBluetoothScanSource(BleScanSource):
 class HaBluetoothDeviceResolver(BleDeviceResolver):
     """`BleDeviceResolver` that asks HA's bluetooth registry for a `BLEDevice`."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize."""
         self._hass = hass
 
@@ -117,8 +117,8 @@ def _to_advertisement_data(
     )
 
 
-def create_matter_ble_proxy(hass: __HAC_KEEP__, ws_url: str) -> MatterBleProxy:
-    """Return a `MatterBleProxy` wired into __HA_KEEP__'s bluetooth component."""
+def create_matter_ble_proxy(hass: UniversalAssistant, ws_url: str) -> MatterBleProxy:
+    """Return a `MatterBleProxy` wired into Universal Home Assistant's bluetooth component."""
     return MatterBleProxy(
         ws_url=ws_url,
         scan_source=HaBluetoothScanSource(hass),

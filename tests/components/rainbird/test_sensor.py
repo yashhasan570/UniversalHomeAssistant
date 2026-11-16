@@ -9,7 +9,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMockRespons
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import (
@@ -33,7 +33,7 @@ def platforms() -> list[str]:
 
 @pytest.fixture(autouse=True)
 async def setup_config_entry(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> list[Platform]:
     """Fixture to setup the config entry."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -45,7 +45,7 @@ async def setup_config_entry(
     [(RAIN_DELAY, "16"), (RAIN_DELAY_OFF, "0")],
 )
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     expected_state: str,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_sensors(
 
 
 async def test_program_next_run_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test a disabled next run sensor is created for each program."""
@@ -82,7 +82,7 @@ async def test_program_next_run_disabled_by_default(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("setup_config_entry", [None])
 async def test_program_next_run(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     responses: list[AiohttpClientMockResponse],
     config_entry: MockConfigEntry,
@@ -126,7 +126,7 @@ async def test_program_next_run(
     ],
 )
 async def test_sensor_no_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     responses: list[AiohttpClientMockResponse],
     config_entry_unique_id: str | None,

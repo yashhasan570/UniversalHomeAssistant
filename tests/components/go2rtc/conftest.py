@@ -29,7 +29,7 @@ from universalassistant.components.go2rtc.const import DOMAIN, RECOMMENDED_VERSI
 from universalassistant.components.go2rtc.server import Server
 from universalassistant.config_entries import ConfigEntry, ConfigFlow
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import MockCamera
@@ -202,7 +202,7 @@ def mock_get_binary(go2rtc_binary: str) -> Generator[Mock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     rest_client: AsyncMock,
     mock_is_docker_env: Generator[Mock],
     mock_get_binary: Generator[Mock],
@@ -216,7 +216,7 @@ TEST_DOMAIN = "test"
 
 
 @pytest.fixture
-def integration_config_entry(hass: __HAC_KEEP__) -> ConfigEntry:
+def integration_config_entry(hass: UniversalAssistant) -> ConfigEntry:
     """Test mock config entry."""
     entry = MockConfigEntry(domain=TEST_DOMAIN)
     entry.add_to_hass(hass)
@@ -230,14 +230,14 @@ def camera_unique_id() -> str | None:
 
 
 async def _setup_test_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration_config_entry: ConfigEntry,
     cameras: list[MockCamera],
 ) -> None:
     """Set up the test integration with the given cameras."""
 
     async def async_setup_entry_init(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -245,7 +245,7 @@ async def _setup_test_integration(
         )
 
     async def async_unload_entry_init(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         """Unload test config entry."""
         await hass.config_entries.async_forward_entry_unload(
@@ -270,7 +270,7 @@ async def _setup_test_integration(
 
 @pytest.fixture
 async def init_test_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration_config_entry: ConfigEntry,
     camera_unique_id: str | None,
 ) -> MockCamera:
@@ -282,7 +282,7 @@ async def init_test_integration(
 
 @pytest.fixture
 async def init_test_integration_two_cameras(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration_config_entry: ConfigEntry,
 ) -> tuple[MockCamera, MockCamera]:
     """Initialize components with two cameras."""

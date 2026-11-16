@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import NiceGOConfigEntry, NiceGOUpdateCoordinator
 
@@ -16,7 +16,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: NiceGOConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: NiceGOConfigEntry) -> None:
     """Set up Nice G.O. from a config entry."""
 
     coordinator = NiceGOUpdateCoordinator(hass, entry)
@@ -39,7 +39,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: NiceGOConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: NiceGOConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: NiceGOConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await entry.runtime_data.api.close()

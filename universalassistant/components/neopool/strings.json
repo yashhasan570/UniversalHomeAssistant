@@ -2,7 +2,7 @@
   "config": {
     "abort": {
       "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
-      "reconfigure_unload_failed": "The existing configuration could not be unloaded. Please restart __HA_KEEP__ and try again.",
+      "reconfigure_unload_failed": "The existing configuration could not be unloaded. Please restart Universal Home Assistant and try again.",
       "serial_mismatch": "The device at this address has a different serial number than the one originally configured."
     },
     "error": {
@@ -631,7 +631,7 @@
   },
   "services": {
     "get_device_time": {
-      "description": "Read the current wall-clock time from the device RTC and report its drift from __HA_KEEP__.",
+      "description": "Read the current wall-clock time from the device RTC and report its drift from Universal Home Assistant.",
       "fields": {
         "device_id": {
           "description": "The NeoPool device to target. Optional when only one is configured.",
@@ -641,7 +641,7 @@
       "name": "Get device time"
     },
     "set_device_time": {
-      "description": "Write the current __HA_KEEP__ time to the device RTC.",
+      "description": "Write the current Universal Home Assistant time to the device RTC.",
       "fields": {
         "device_id": {
           "description": "The NeoPool device to target. Optional when only one is configured.",

@@ -13,12 +13,12 @@ from syrupy.assertion import SnapshotAssertion
 from zeversolar.exceptions import ZeverSolarError
 
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     init_integration: MockConfigEntry,
@@ -34,7 +34,7 @@ async def test_sensors(
 
 
 async def test_sensor_update_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_zeversolar_client: MagicMock,
     freezer: FrozenDateTimeFactory,

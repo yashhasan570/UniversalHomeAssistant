@@ -1,7 +1,7 @@
-"""Test for a __HA_KEEP__ bridge that changes humidifier min/max at runtime."""
+"""Test for a Universal Home Assistant bridge that changes humidifier min/max at runtime."""
 
 from universalassistant.components.humidifier import ATTR_MAX_HUMIDITY, ATTR_MIN_HUMIDITY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from ..common import (
@@ -12,7 +12,7 @@ from ..common import (
 
 
 async def test_humidifier_change_range_at_runtime(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that min max can be changed at runtime."""
 

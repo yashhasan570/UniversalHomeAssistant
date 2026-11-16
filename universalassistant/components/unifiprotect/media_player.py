@@ -23,8 +23,8 @@ from universalassistant.components.media_player import (
     MediaType,
     async_process_play_media_url,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -58,7 +58,7 @@ def _has_speaker(public: PublicDeviceModel) -> bool:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: UFPConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -198,7 +198,7 @@ class ProtectMediaPlayer(ProtectDeviceEntity, MediaPlayerEntity):
             media_id = async_process_play_media_url(self.hass, play_item.url)
 
         if media_type != MediaType.MUSIC:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="only_music_supported",
             )
@@ -212,7 +212,7 @@ class ProtectMediaPlayer(ProtectDeviceEntity, MediaPlayerEntity):
             await camera.wait_until_audio_completes()
         except StreamError as err:
             _LOGGER.debug("Error playing audio: %s", err)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="stream_error",
             ) from err

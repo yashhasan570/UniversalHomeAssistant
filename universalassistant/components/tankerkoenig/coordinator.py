@@ -17,7 +17,7 @@ from aiotankerkoenig import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import ATTR_ID, CONF_API_KEY, CONF_SHOW_ON_MAP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -37,7 +37,7 @@ class TankerkoenigDataUpdateCoordinator(DataUpdateCoordinator[dict[str, PriceInf
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: TankerkoenigConfigEntry,
         update_interval: int,
     ) -> None:

@@ -16,7 +16,7 @@ from universalassistant.components.media_player import (
     DOMAIN as MP_DOMAIN,
     SERVICE_PLAY_MEDIA,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from tests.components.tts.common import retrieve_media
@@ -38,7 +38,7 @@ def mock_tts_cache_dir_autouse(mock_tts_cache_dir: Path) -> None:
     """Mock the TTS cache dir with empty dir."""
 
 
-async def test_setup_component(hass: __HAC_KEEP__) -> None:
+async def test_setup_component(hass: UniversalAssistant) -> None:
     """Test setup component."""
     config = {tts.DOMAIN: {"platform": "marytts"}}
 
@@ -48,7 +48,7 @@ async def test_setup_component(hass: __HAC_KEEP__) -> None:
 
 
 async def test_service_say(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test service call say."""
     calls = async_mock_service(hass, MP_DOMAIN, SERVICE_PLAY_MEDIA)
@@ -68,7 +68,7 @@ async def test_service_say(
             "marytts_say",
             {
                 "entity_id": "media_player.something",
-                tts.ATTR_MESSAGE: "__HAC_KEEP__",
+                tts.ATTR_MESSAGE: "UniversalAssistant",
             },
             blocking=True,
         )
@@ -82,13 +82,13 @@ async def test_service_say(
         await hass.async_block_till_done(wait_background_tasks=True)
 
     mock_speak.assert_called_once()
-    mock_speak.assert_called_with("__HAC_KEEP__", {})
+    mock_speak.assert_called_with("UniversalAssistant", {})
 
     assert len(calls) == 1
 
 
 async def test_service_say_with_effect(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test service call say with effects."""
     calls = async_mock_service(hass, MP_DOMAIN, SERVICE_PLAY_MEDIA)
@@ -108,7 +108,7 @@ async def test_service_say_with_effect(
             "marytts_say",
             {
                 "entity_id": "media_player.something",
-                tts.ATTR_MESSAGE: "__HAC_KEEP__",
+                tts.ATTR_MESSAGE: "UniversalAssistant",
             },
             blocking=True,
         )
@@ -122,13 +122,13 @@ async def test_service_say_with_effect(
         await hass.async_block_till_done(wait_background_tasks=True)
 
     mock_speak.assert_called_once()
-    mock_speak.assert_called_with("__HAC_KEEP__", {"Volume": "amount:2.0;"})
+    mock_speak.assert_called_with("UniversalAssistant", {"Volume": "amount:2.0;"})
 
     assert len(calls) == 1
 
 
 async def test_service_say_http_error(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test service call say."""
     calls = async_mock_service(hass, MP_DOMAIN, SERVICE_PLAY_MEDIA)
@@ -148,7 +148,7 @@ async def test_service_say_http_error(
             "marytts_say",
             {
                 "entity_id": "media_player.something",
-                tts.ATTR_MESSAGE: "__HAC_KEEP__",
+                tts.ATTR_MESSAGE: "UniversalAssistant",
             },
         )
         await hass.async_block_till_done()

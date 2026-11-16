@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_array_fi
 
 from universalassistant.components.airnow.const import DOMAIN
 from universalassistant.const import CONF_API_KEY, CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.json import JsonArrayType
 
 TEST_API_KEY = "abc123"
@@ -19,7 +19,7 @@ TEST_LONGITUDE = -118.244842
 
 @pytest.fixture(name="config_entry")
 def config_entry_fixture(
-    hass: __HAC_KEEP__, config: dict[str, Any], options: dict[str, Any]
+    hass: UniversalAssistant, config: dict[str, Any], options: dict[str, Any]
 ) -> MockConfigEntry:
     """Define a config entry fixture."""
     entry = MockConfigEntry(

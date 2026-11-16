@@ -14,7 +14,7 @@ from universalassistant.components.webhook import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_WEBHOOK_ID, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.config_entry_oauth2_flow import OAuth2Session
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -32,7 +32,7 @@ class ToonDataUpdateCoordinator(DataUpdateCoordinator[Status]):
     config_entry: ToonConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: ToonConfigEntry, session: OAuth2Session
+        self, hass: UniversalAssistant, entry: ToonConfigEntry, session: OAuth2Session
     ) -> None:
         """Initialize global Toon data updater."""
         self.session = session
@@ -107,7 +107,7 @@ class ToonDataUpdateCoordinator(DataUpdateCoordinator[Status]):
         )
 
     async def handle_webhook(
-        self, hass: __HAC_KEEP__, webhook_id: str, request: web.Request
+        self, hass: UniversalAssistant, webhook_id: str, request: web.Request
     ) -> None:
         """Handle webhook callback."""
         try:

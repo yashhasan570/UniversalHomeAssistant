@@ -45,7 +45,7 @@ from universalassistant.const import (
     CONF_TARGET,
     SERVICE_TURN_OFF,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -68,7 +68,7 @@ _LOGGER = logging.getLogger(__name__)
     ],
 )
 async def test_calendar_trigger_options_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -269,7 +269,7 @@ TARGET_TEST_SECOND_END_CALL_DATA = [
 class FakeSchedule:
     """Test fixture class for return events in a specific date range."""
 
-    def __init__(self, hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+    def __init__(self, hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
         """Initialize FakeSchedule."""
         self.hass = hass
         self.freezer = freezer
@@ -298,7 +298,7 @@ class FakeSchedule:
 
 
 @pytest.fixture
-def fake_schedule(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> FakeSchedule:
+def fake_schedule(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> FakeSchedule:
     """Fixture that tests can use to make fake events."""
 
     # Setup start time for all tests
@@ -315,7 +315,7 @@ def mock_test_entity(test_entities: list[MockCalendarEntity]) -> MockCalendarEnt
 
 @pytest.fixture(name="setup_platform", autouse=True)
 async def mock_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_integration: None,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -326,7 +326,7 @@ async def mock_setup_platform(
 
 @pytest.fixture
 def target_calendars(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     area_registry: ar.AreaRegistry,
     label_registry: lr.LabelRegistry,
@@ -378,7 +378,7 @@ def target_calendars(
 
 @asynccontextmanager
 async def create_automation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     trigger_format: TriggerFormat,
     event_type: str,
     offset: dt.timedelta | None = None,
@@ -414,7 +414,7 @@ async def create_automation(
 
 
 @pytest.fixture
-def calls_data(hass: __HAC_KEEP__) -> Callable[[], list[dict[str, Any]]]:
+def calls_data(hass: UniversalAssistant) -> Callable[[], list[dict[str, Any]]]:
     """Fixture to return payload data for automation calls."""
     service_calls = async_mock_service(hass, "test", "automation")
 
@@ -435,7 +435,7 @@ def mock_update_interval() -> Generator[None]:
 
 
 async def test_event_start_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls_data: Callable[[], list[dict[str, Any]]],
     fake_schedule: FakeSchedule,
     test_entity: MockCalendarEntity,
@@ -471,7 +471,7 @@ async def test_event_start_trigger(
     ],
 )
 async def test_event_start_trigger_with_offset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls_data: Callable[[], list[dict[str, Any]]],
     fake_schedule: FakeSchedule,
     test_entity: MockCalendarEntity,
@@ -504,7 +504,7 @@ async def test_event_start_trigger_with_offset(
 
 
 async def test_event_end_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls_data: Callable[[], list[dict[str, Any]]],
     fake_schedule: FakeSchedule,
     test_entity: MockCalendarEntity,
@@ -544,7 +544,7 @@ async def test_event_end_trigger(
     ],
 )
 async def test_event_end_trigger_with_offset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls_data: Callable[[], list[dict[str, Any]]],
     fake_schedule: FakeSchedule,
     test_entity: MockCalendarEntity,
@@ -575,7 +575,7 @@ async def test_event_end_trigger_with_offset(
 
 
 async def test_calendar_trigger_with_no_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls_data: Callable[[], list[dict[str, Any]]],
     fake_schedule: FakeSchedule,
     trigger_format: TriggerFormat,
@@ -594,7 +594,7 @@ async def test_calendar_trigger_with_no_events(
 
 
 async def test_multiple_start_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls_data: Callable[[], list[dict[str, Any]]],
     fake_schedule: FakeSchedule,
     test_entity: MockCalendarEntity,
@@ -625,7 +625,7 @@ async def test_multiple_start_events(
 
 
 async def test_multiple_end_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls_data: Callable[[], list[dict[str, Any]]],
     fake_schedule: FakeSchedule,
     test_entity: MockCalendarEntity,
@@ -657,7 +657,7 @@ async def test_multiple_end_events(
 
 
 async def test_multiple_events_sharing_start_time(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls_data: Callable[[], list[dict[str, Any]]],
     fake_schedule: FakeSchedule,
     test_entity: MockCalendarEntity,
@@ -689,7 +689,7 @@ async def test_multiple_events_sharing_start_time(
 
 
 async def test_overlap_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls_data: Callable[[], list[dict[str, Any]]],
     fake_schedule: FakeSchedule,
     test_entity: MockCalendarEntity,
@@ -721,7 +721,7 @@ async def test_overlap_events(
 
 
 async def test_invalid_calendar_id(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test creating a trigger with an invalid calendar id."""
     assert await async_setup_component(
@@ -742,7 +742,7 @@ async def test_invalid_calendar_id(
 
 
 async def test_legacy_entity_type(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test creating a trigger with an invalid calendar id."""
     assert await async_setup_component(
@@ -763,7 +763,7 @@ async def test_legacy_entity_type(
 
 
 async def test_update_next_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls_data: Callable[[], list[dict[str, Any]]],
     fake_schedule: FakeSchedule,
     test_entity: MockCalendarEntity,
@@ -803,7 +803,7 @@ async def test_update_next_event(
 
 
 async def test_update_missed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls_data: Callable[[], list[dict[str, Any]]],
     fake_schedule: FakeSchedule,
     test_entity: MockCalendarEntity,
@@ -892,7 +892,7 @@ async def test_update_missed(
     ids=["basic", "more-fields", "all-day"],
 )
 async def test_event_payload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls_data: Callable[[], list[dict[str, Any]]],
     fake_schedule: FakeSchedule,
     test_entity: MockCalendarEntity,
@@ -916,7 +916,7 @@ async def test_event_payload(
 
 
 async def test_trigger_timestamp_window_edge(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls_data: Callable[[], list[dict[str, Any]]],
     fake_schedule: FakeSchedule,
     test_entity: MockCalendarEntity,
@@ -945,7 +945,7 @@ async def test_trigger_timestamp_window_edge(
 
 
 async def test_event_start_trigger_dst(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls_data: Callable[[], list[dict[str, Any]]],
     fake_schedule: FakeSchedule,
     test_entity: MockCalendarEntity,
@@ -996,7 +996,7 @@ async def test_event_start_trigger_dst(
 
 
 async def test_event_start_trigger_dst_fall_back(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls_data: Callable[[], list[dict[str, Any]]],
     fake_schedule: FakeSchedule,
     test_entity: MockCalendarEntity,
@@ -1097,7 +1097,7 @@ async def test_event_start_trigger_dst_fall_back(
 
 
 async def test_event_start_trigger_dst_fall_back_same_window(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls_data: Callable[[], list[dict[str, Any]]],
     fake_schedule: FakeSchedule,
     test_entity: MockCalendarEntity,
@@ -1174,7 +1174,7 @@ async def test_event_start_trigger_dst_fall_back_same_window(
     ],
 )
 async def test_event_start_trigger_dst_fall_back_with_offset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls_data: Callable[[], list[dict[str, Any]]],
     fake_schedule: FakeSchedule,
     test_entity: MockCalendarEntity,
@@ -1215,7 +1215,7 @@ async def test_event_start_trigger_dst_fall_back_with_offset(
 
 
 async def test_event_start_trigger_all_day_and_timed_dst_fall_back(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls_data: Callable[[], list[dict[str, Any]]],
     fake_schedule: FakeSchedule,
     test_entity: MockCalendarEntity,
@@ -1285,7 +1285,7 @@ async def test_event_start_trigger_all_day_and_timed_dst_fall_back(
 
 
 async def test_event_end_trigger_all_day_dst_fall_back(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls_data: Callable[[], list[dict[str, Any]]],
     fake_schedule: FakeSchedule,
     test_entity: MockCalendarEntity,
@@ -1321,7 +1321,7 @@ async def test_event_end_trigger_all_day_dst_fall_back(
 
 
 async def test_config_entry_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls_data: Callable[[], list[dict[str, Any]]],
     fake_schedule: FakeSchedule,
     test_entities: list[MockCalendarEntity],
@@ -1359,7 +1359,7 @@ async def test_config_entry_reload(
 
 
 async def test_config_entry_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls_data: Callable[[], list[dict[str, Any]]],
     fake_schedule: FakeSchedule,
     test_entities: list[MockCalendarEntity],
@@ -1443,7 +1443,7 @@ async def test_config_entry_unload(
     ],
 )
 async def test_trigger_with_targets(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls_data: Callable[[], list[dict[str, Any]]],
     fake_schedule: FakeSchedule,
     test_entities: list[MockCalendarEntity],

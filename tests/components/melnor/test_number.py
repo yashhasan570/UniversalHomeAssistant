@@ -1,6 +1,6 @@
 """Test the Melnor sensors."""
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import (
     mock_config_entry,
@@ -10,7 +10,7 @@ from .conftest import (
 )
 
 
-async def test_manual_watering_minutes(hass: __HAC_KEEP__) -> None:
+async def test_manual_watering_minutes(hass: UniversalAssistant) -> None:
     """Test the manual watering duration number."""
 
     entry = mock_config_entry(hass)
@@ -49,7 +49,7 @@ async def test_manual_watering_minutes(hass: __HAC_KEEP__) -> None:
         assert device.zone1.manual_watering_minutes == 10
 
 
-async def test_frequency_interval_hours(hass: __HAC_KEEP__) -> None:
+async def test_frequency_interval_hours(hass: UniversalAssistant) -> None:
     """Test the interval hours number."""
 
     entry = mock_config_entry(hass)
@@ -88,7 +88,7 @@ async def test_frequency_interval_hours(hass: __HAC_KEEP__) -> None:
         assert device.zone1.frequency.interval_hours == 10
 
 
-async def test_frequency_duration_minutes(hass: __HAC_KEEP__) -> None:
+async def test_frequency_duration_minutes(hass: UniversalAssistant) -> None:
     """Test the duration minutes number."""
 
     entry = mock_config_entry(hass)

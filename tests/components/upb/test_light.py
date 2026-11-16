@@ -15,7 +15,7 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 LIGHT_ENTITY_ID = "light.test_light"
@@ -50,7 +50,7 @@ def mock_upb(mock_upb_device: UpbDevice) -> Generator[MagicMock]:
         yield upb
 
 
-async def setup_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def setup_integration(hass: UniversalAssistant) -> MockConfigEntry:
     """Set up the UPB integration."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -67,7 +67,7 @@ async def setup_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 @pytest.mark.usefixtures("mock_upb")
 async def test_element_callback_removed_with_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_upb_device: UpbDevice,
 ) -> None:
@@ -87,7 +87,7 @@ async def test_element_callback_removed_with_entity(
 
 @pytest.mark.usefixtures("mock_upb")
 async def test_element_callback_kept_on_entity_id_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_upb_device: UpbDevice,
 ) -> None:

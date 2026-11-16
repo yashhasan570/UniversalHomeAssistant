@@ -15,7 +15,7 @@ from pytest_universalassistant.components.bluetooth import (
 from universalassistant.components.bluetooth.models import BluetoothServiceInfoBleak
 from universalassistant.components.melnor.const import DOMAIN
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 FAKE_ADDRESS_1 = "FAKE-ADDRESS-1"
 FAKE_ADDRESS_2 = "FAKE-ADDRESS-2"
@@ -210,7 +210,7 @@ class MockValve:
         self._frequency.start_time = value
 
 
-def mock_config_entry(hass: __HAC_KEEP__):
+def mock_config_entry(hass: UniversalAssistant):
     """Return a mock config entry."""
 
     entry = MockConfigEntry(

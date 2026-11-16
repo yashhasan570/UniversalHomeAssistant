@@ -23,8 +23,8 @@ from universalassistant.const import (
     CONF_TYPE,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import Context, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import Context, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -144,14 +144,14 @@ _ACTION_SCHEMA = probatio.TaggedUnion(
 
 
 async def async_validate_action_config(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> ConfigType:
     """Validate config."""
     return async_validate_entity_schema(hass, config, _ACTION_SCHEMA)
 
 
 async def async_get_actions(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, Any]]:
     """List device actions for Z-Wave JS devices."""
     registry = er.async_get(hass)
@@ -256,7 +256,7 @@ async def async_get_actions(
 
 
 async def async_call_action_from_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     variables: TemplateVarsType,
     context: Context | None,
@@ -264,7 +264,7 @@ async def async_call_action_from_config(
     """Execute a device action."""
     action_type = service = config[CONF_TYPE]
     if action_type not in ACTION_TYPES:
-        raise __HAC_KEEP__Error(f"Unhandled action type {action_type}")
+        raise UniversalAssistantError(f"Unhandled action type {action_type}")
 
     # Don't include domain, subtype or any null/empty values in the service call
     service_data = {
@@ -288,7 +288,7 @@ async def async_call_action_from_config(
 
 
 async def async_get_action_capabilities(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List action capabilities."""
     action_type = config[CONF_TYPE]

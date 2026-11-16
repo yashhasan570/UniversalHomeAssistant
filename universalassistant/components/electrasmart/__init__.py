@@ -4,7 +4,7 @@ from electrasmart.api import ElectraAPI, ElectraApiError, ElectraIntruderLockout
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_TOKEN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -16,7 +16,7 @@ type ElectraSmartConfigEntry = ConfigEntry[ElectraAPI]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: ElectraSmartConfigEntry
+    hass: UniversalAssistant, entry: ElectraSmartConfigEntry
 ) -> None:
     """Set up Electra Smart Air Conditioner from a config entry."""
     api = ElectraAPI(
@@ -35,14 +35,14 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: ElectraSmartConfigEntry
+    hass: UniversalAssistant, entry: ElectraSmartConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def update_listener(
-    hass: __HAC_KEEP__, config_entry: ElectraSmartConfigEntry
+    hass: UniversalAssistant, config_entry: ElectraSmartConfigEntry
 ) -> None:
     """Update listener."""
     await hass.config_entries.async_reload(config_entry.entry_id)

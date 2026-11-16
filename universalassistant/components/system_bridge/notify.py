@@ -20,8 +20,8 @@ from universalassistant.components.notify import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ENTITY_ID, CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__, ServiceResponse
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, ServiceResponse
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from universalassistant.util.hass_dict import HassKey
@@ -48,7 +48,7 @@ _LEGACY_SERVICES: HassKey[dict[str, list[SystemBridgeNotificationService]]] = Ha
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: SystemBridgeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -68,7 +68,7 @@ async def _async_send_notification(
     try:
         response = await coordinator.websocket_client.send_notification(notification)
     except (ConnectionClosedException, ConnectionResetError) as e:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="send_message_failed",
             translation_placeholders={
@@ -77,7 +77,7 @@ async def _async_send_notification(
             },
         ) from e
     if response.type == EventType.ERROR:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="notification_failed",
             translation_placeholders={"error": response.message or ""},
@@ -141,7 +141,7 @@ class SystemBridgeNotifyEntity(SystemBridgeEntity, NotifyEntity):
 
 
 async def async_get_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> SystemBridgeNotificationService | None:

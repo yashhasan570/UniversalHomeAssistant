@@ -27,7 +27,7 @@ from universalassistant.components.event import (
     EventEntity,
     EventEntityDescription,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FlicButtonConfigEntry, FlicButtonData
@@ -113,7 +113,7 @@ TWIST_DEFAULT_BUTTON_DESCRIPTION = EventEntityDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FlicButtonConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

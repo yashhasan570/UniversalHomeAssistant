@@ -4,7 +4,7 @@
     "data_description_location": "Pick the location where to search for gas stations.",
     "data_description_name": "The name of the particular region to be added.",
     "data_description_radius": "The radius in kilometers to search for gas stations around the selected location.",
-    "data_description_stations": "Select the stations you want to add to __HA_KEEP__."
+    "data_description_stations": "Select the stations you want to add to Universal Home Assistant."
   },
   "config": {
     "abort": {

@@ -5,7 +5,7 @@ from modbus_connection import ModbusTcpParams
 
 from universalassistant.components.modbus import async_get_unit
 from universalassistant.const import CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONF_UNIT_ID
 from .coordinator import KacoConfigEntry, KacoDataUpdateCoordinator
@@ -13,7 +13,7 @@ from .coordinator import KacoConfigEntry, KacoDataUpdateCoordinator
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: KacoConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: KacoConfigEntry) -> None:
     """Set up KACO Modbus from a config entry."""
     # Shared with any other integration on this gateway, and closed when the
     # last entry holding a unit on it unloads.
@@ -31,6 +31,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: KacoConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: KacoConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: KacoConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 
 import probatio
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.util import dt as dt_util
 
@@ -24,7 +24,7 @@ async def _async_set_value(entity: DateTimeEntity, service_call: ServiceCall) ->
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the date/time services."""
     hass.data[DATA_COMPONENT].async_register_entity_service(
         DateTimeService.SET_VALUE,

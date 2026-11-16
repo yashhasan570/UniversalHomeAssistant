@@ -13,7 +13,7 @@ from universalassistant.const import (
     CONF_STATE,
     CONF_TYPE,
 )
-from universalassistant.core import CALLBACK_TYPE, Context, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, Context, UniversalAssistant, callback
 from universalassistant.helpers import (
     condition,
     config_validation as cv,
@@ -111,7 +111,7 @@ TRIGGER_SCHEMA = probatio.TaggedUnion(
 
 
 async def async_call_action_from_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     variables: TemplateVarsType,
     context: Context | None,
@@ -135,7 +135,7 @@ async def async_call_action_from_config(
 
 @callback
 def async_condition_from_config(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> condition.ConditionCheckerType:
     """Evaluate state based on configuration."""
     if config[CONF_TYPE] == CONF_IS_ON:
@@ -156,7 +156,7 @@ def async_condition_from_config(
 
 
 async def async_attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,
@@ -184,7 +184,7 @@ async def async_attach_trigger(
 
 
 async def _async_get_automations(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_id: str,
     automation_templates: list[dict[str, str]],
     domain: str,
@@ -214,21 +214,21 @@ async def _async_get_automations(
 
 
 async def async_get_actions(
-    hass: __HAC_KEEP__, device_id: str, domain: str
+    hass: UniversalAssistant, device_id: str, domain: str
 ) -> list[dict[str, str]]:
     """List device actions."""
     return await _async_get_automations(hass, device_id, ENTITY_ACTIONS, domain)
 
 
 async def async_get_conditions(
-    hass: __HAC_KEEP__, device_id: str, domain: str
+    hass: UniversalAssistant, device_id: str, domain: str
 ) -> list[dict[str, str]]:
     """List device conditions."""
     return await _async_get_automations(hass, device_id, ENTITY_CONDITIONS, domain)
 
 
 async def async_get_triggers(
-    hass: __HAC_KEEP__, device_id: str, domain: str
+    hass: UniversalAssistant, device_id: str, domain: str
 ) -> list[dict[str, str]]:
     """List device triggers."""
     triggers = await entity.async_get_triggers(hass, device_id, domain)
@@ -239,7 +239,7 @@ async def async_get_triggers(
 
 
 async def async_get_condition_capabilities(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List condition capabilities."""
     return {
@@ -250,7 +250,7 @@ async def async_get_condition_capabilities(
 
 
 async def async_get_trigger_capabilities(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List trigger capabilities."""
     if config[CONF_TYPE] not in [CONF_TURNED_ON, CONF_TURNED_OFF]:

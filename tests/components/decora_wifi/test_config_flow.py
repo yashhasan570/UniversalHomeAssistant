@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.decora_wifi.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import TEST_USER_ID, TEST_USERNAME, USER_INPUT
@@ -15,7 +15,7 @@ from .const import TEST_USER_ID, TEST_USERNAME, USER_INPUT
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_success(
-    hass: __HAC_KEEP__, mock_decora_wifi: MagicMock
+    hass: UniversalAssistant, mock_decora_wifi: MagicMock
 ) -> None:
     """Test a successful user-initiated config flow."""
     result = await hass.config_entries.flow.async_init(
@@ -43,7 +43,7 @@ async def test_user_flow_success(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_error_and_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_decora_wifi: MagicMock,
     login_return_value: bool | None,
     login_side_effect: Exception | None,
@@ -73,7 +73,7 @@ async def test_user_flow_error_and_recovery(
 
 
 async def test_user_flow_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_decora_wifi: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

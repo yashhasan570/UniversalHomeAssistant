@@ -1,10 +1,10 @@
-"""Philips IR Remote integration for __HA_KEEP__."""
+"""Philips IR Remote integration for Universal Home Assistant."""
 
 from dataclasses import dataclass
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 PLATFORMS = [Platform.MEDIA_PLAYER]
 
@@ -25,12 +25,12 @@ class PhilipsIrRuntimeData:
 type PhilipsIrConfigEntry = ConfigEntry[PhilipsIrRuntimeData]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: PhilipsIrConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: PhilipsIrConfigEntry) -> None:
     """Set up Philips IR from a config entry."""
     entry.runtime_data = PhilipsIrRuntimeData()
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: PhilipsIrConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: PhilipsIrConfigEntry) -> None:
     """Unload a Philips IR config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

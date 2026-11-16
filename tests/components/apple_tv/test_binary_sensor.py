@@ -7,18 +7,18 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.apple_tv.const import DOMAIN
 from universalassistant.const import CONF_ADDRESS, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .common import create_conf, mrp_service
 
 
 async def test_keyboard_focus_entity_created_on_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_async_zeroconf: MagicMock,
 ) -> None:
     """Test the keyboard focus binary sensor is created when the device supports it.
 
-    Regression test for https://github.com/yashhasan570/__HAC_KEEP__/issues/170075 — the
+    Regression test for https://github.com/yashhasan570/UniversalUniversalAssistant/issues/170075 — the
     initial SIGNAL_CONNECTED dispatch happens in async_first_connect (before platform
     forwarding), so the binary_sensor platform must also handle the already-connected
     case rather than relying solely on the dispatcher signal.

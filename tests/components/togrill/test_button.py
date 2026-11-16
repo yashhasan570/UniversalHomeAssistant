@@ -10,15 +10,15 @@ from togrill_bluetooth.packets import PacketA5Write
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import TOGRILL_SERVICE_INFO, setup_entry
 
 
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_entry: MockConfigEntry,
@@ -34,7 +34,7 @@ async def test_setup(
 
 
 async def test_press(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry: MockConfigEntry,
     mock_client: Mock,
 ) -> None:
@@ -57,7 +57,7 @@ async def test_press(
 
 
 async def test_press_disconnected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry: MockConfigEntry,
     mock_client: Mock,
 ) -> None:
@@ -69,7 +69,7 @@ async def test_press_disconnected(
 
     mock_client.is_connected = False
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

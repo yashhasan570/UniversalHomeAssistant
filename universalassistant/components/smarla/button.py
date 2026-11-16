@@ -7,7 +7,7 @@ from pysmarlaapi.federwiege.services.classes import Property
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FederwiegeConfigEntry
@@ -33,7 +33,7 @@ BUTTONS: list[SmarlaButtonEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: FederwiegeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -52,4 +52,4 @@ class SmarlaButton(SmarlaBaseEntity, ButtonEntity):
     @override
     def press(self) -> None:
         """Press the button."""
-        self._property.set("Sent from __HA_KEEP__")
+        self._property.set("Sent from Universal Home Assistant")

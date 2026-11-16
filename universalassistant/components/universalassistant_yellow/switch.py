@@ -1,4 +1,4 @@
-"""__HA_KEEP__ Yellow switch entities."""
+"""Universal Home Assistant Yellow switch entities."""
 
 import logging
 
@@ -8,34 +8,34 @@ from universalassistant.components.universalassistant_hardware.coordinator impor
 from universalassistant.components.universalassistant_hardware.switch import (
     BaseBetaFirmwareSwitch,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-from . import __HAC_KEEP__YellowConfigEntry
+from . import UniversalAssistantYellowConfigEntry
 from .const import DOMAIN, MANUFACTURER, MODEL
 
 _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
-    config_entry: __HAC_KEEP__YellowConfigEntry,
+    hass: UniversalAssistant,
+    config_entry: UniversalAssistantYellowConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
-    """Set up the switch platform for __HA_KEEP__ Yellow."""
+    """Set up the switch platform for Universal Home Assistant Yellow."""
     async_add_entities(
         [BetaFirmwareSwitch(config_entry.runtime_data.coordinator, config_entry)]
     )
 
 
 class BetaFirmwareSwitch(BaseBetaFirmwareSwitch):
-    """__HA_KEEP__ Yellow beta firmware switch."""
+    """Universal Home Assistant Yellow beta firmware switch."""
 
     def __init__(
         self,
         coordinator: FirmwareUpdateCoordinator,
-        config_entry: __HAC_KEEP__YellowConfigEntry,
+        config_entry: UniversalAssistantYellowConfigEntry,
     ) -> None:
         """Initialize the beta firmware switch."""
         super().__init__(coordinator, config_entry)

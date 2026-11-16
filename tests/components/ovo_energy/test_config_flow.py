@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.ovo_energy.const import CONF_ACCOUNT, DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 FIXTURE_REAUTH_INPUT = {CONF_PASSWORD: "something1"}
@@ -46,7 +46,7 @@ def _patch_success() -> Generator[None]:
         yield
 
 
-async def test_show_form(hass: __HAC_KEEP__) -> None:
+async def test_show_form(hass: UniversalAssistant) -> None:
     """Test that the setup form is served."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -56,7 +56,7 @@ async def test_show_form(hass: __HAC_KEEP__) -> None:
     assert result["step_id"] == "user"
 
 
-async def test_authorization_error(hass: __HAC_KEEP__) -> None:
+async def test_authorization_error(hass: UniversalAssistant) -> None:
     """Test we show user form on connection error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -91,7 +91,7 @@ async def test_authorization_error(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_connection_error(hass: __HAC_KEEP__) -> None:
+async def test_connection_error(hass: UniversalAssistant) -> None:
     """Test we show user form on connection error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -121,7 +121,7 @@ async def test_connection_error(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_full_flow_implementation(hass: __HAC_KEEP__) -> None:
+async def test_full_flow_implementation(hass: UniversalAssistant) -> None:
     """Test registering an integration and finishing flow works."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -159,7 +159,7 @@ async def test_full_flow_implementation(hass: __HAC_KEEP__) -> None:
     assert result2["result"].unique_id == UNIQUE_ID
 
 
-async def test_reauth_authorization_error(hass: __HAC_KEEP__) -> None:
+async def test_reauth_authorization_error(hass: UniversalAssistant) -> None:
     """Test we show user form on authorization error."""
     mock_config = MockConfigEntry(
         domain=DOMAIN, unique_id=UNIQUE_ID, data=FIXTURE_USER_INPUT
@@ -193,7 +193,7 @@ async def test_reauth_authorization_error(hass: __HAC_KEEP__) -> None:
     assert result3["reason"] == "reauth_successful"
 
 
-async def test_reauth_connection_error(hass: __HAC_KEEP__) -> None:
+async def test_reauth_connection_error(hass: UniversalAssistant) -> None:
     """Test we show user form on connection error."""
     mock_config = MockConfigEntry(
         domain=DOMAIN, unique_id=UNIQUE_ID, data=FIXTURE_USER_INPUT
@@ -229,7 +229,7 @@ async def test_reauth_connection_error(hass: __HAC_KEEP__) -> None:
     assert result3["reason"] == "reauth_successful"
 
 
-async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
+async def test_reauth_flow(hass: UniversalAssistant) -> None:
     """Test reauth works."""
     mock_config = MockConfigEntry(
         domain=DOMAIN, unique_id=UNIQUE_ID, data=FIXTURE_USER_INPUT

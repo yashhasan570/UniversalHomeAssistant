@@ -14,7 +14,7 @@ from universalassistant.components.lock import (
     LockEntityStateAttribute,
 )
 from universalassistant.const import ATTR_BATTERY_LEVEL
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
 from universalassistant.util import dt as dt_util
@@ -29,7 +29,7 @@ LOCK_JAMMED_ERR = 531
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: AugustConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

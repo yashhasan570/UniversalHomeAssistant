@@ -11,7 +11,7 @@ from aiowebdav2.exceptions import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME, CONF_VERIFY_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 
 from .const import CONF_BACKUP_PATH, DATA_BACKUP_AGENT_LISTENERS, DOMAIN
@@ -22,7 +22,7 @@ type WebDavConfigEntry = ConfigEntry[Client]
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: WebDavConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: WebDavConfigEntry) -> None:
     """Set up WebDAV from a config entry."""
     client = async_create_client(
         hass=hass,
@@ -62,5 +62,5 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: WebDavConfigEntry) -> Non
     entry.async_on_unload(entry.async_on_state_change(async_notify_backup_listeners))
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: WebDavConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: WebDavConfigEntry) -> None:
     """Unload a WebDAV config entry."""

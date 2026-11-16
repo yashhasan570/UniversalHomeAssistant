@@ -13,7 +13,7 @@ from universalassistant.components.freshr.coordinator import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import DEVICE_ID, MagicMock, MockConfigEntry
@@ -21,7 +21,7 @@ from .conftest import DEVICE_ID, MagicMock, MockConfigEntry
 
 @pytest.mark.usefixtures("init_integration")
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test unloading the config entry."""
@@ -40,7 +40,7 @@ async def test_unload_entry(
     ],
 )
 async def test_setup_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_freshr_client: MagicMock,
     exception: Exception,
@@ -56,7 +56,7 @@ async def test_setup_errors(
 
 
 async def test_setup_no_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_freshr_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -76,7 +76,7 @@ async def test_setup_no_devices(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_stale_device_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_freshr_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -109,7 +109,7 @@ async def test_stale_device_removed(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_stale_device_not_removed_on_poll_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_freshr_client: MagicMock,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,
@@ -131,7 +131,7 @@ async def test_stale_device_not_removed_on_poll_error(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_readings_login_error_triggers_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_freshr_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

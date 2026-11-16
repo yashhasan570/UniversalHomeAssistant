@@ -8,14 +8,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from . import init_integration
 
 
 async def test_emheat_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     device: MagicMock,
 ) -> None:
@@ -45,7 +45,7 @@ async def test_emheat_switch(
     device.set_system_mode.reset_mock()
     device.system_mode = "heat"
     device.set_system_mode.side_effect = SomeComfortError
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -57,7 +57,7 @@ async def test_emheat_switch(
     device.set_system_mode.reset_mock()
     device.system_mode = "emheat"
     device.set_system_mode.side_effect = SomeComfortError
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,

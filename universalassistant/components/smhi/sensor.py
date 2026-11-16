@@ -18,7 +18,7 @@ from universalassistant.const import (
     PERCENTAGE,
     UnitOfSpeed,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -251,7 +251,7 @@ FIRE_SENSOR_DESCRIPTIONS: tuple[SMHIFireEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SMHIConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

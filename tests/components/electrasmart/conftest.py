@@ -13,7 +13,7 @@ from universalassistant.components.electrasmart.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture(name="mock_device")
@@ -74,7 +74,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 @pytest.fixture(name="setup_integration")
 async def setup_integration(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_api: Mock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_api: Mock
 ) -> None:
     """Set up the integration with a single mocked AC."""
     config_entry.add_to_hass(hass)

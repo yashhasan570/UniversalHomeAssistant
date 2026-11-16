@@ -22,7 +22,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.util import dt as dt_util
 
 from .const import (
@@ -51,9 +51,9 @@ class ONVIFDevice:
     device: ONVIFCamera
     events: EventManager
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: ONVIFConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: ONVIFConfigEntry) -> None:
         """Initialize the device."""
-        self.hass: __HAC_KEEP__ = hass
+        self.hass: UniversalAssistant = hass
         self.config_entry: ONVIFConfigEntry = config_entry
         self._original_options = dict(config_entry.options)
         self.available: bool = True
@@ -68,7 +68,7 @@ class ONVIFDevice:
         self._dt_diff_seconds: float = 0
 
     async def _async_update_listener(
-        self, hass: __HAC_KEEP__, entry: ONVIFConfigEntry
+        self, hass: UniversalAssistant, entry: ONVIFConfigEntry
     ) -> None:
         """Handle options update."""
         if self._original_options != entry.options:
@@ -684,7 +684,7 @@ class ONVIFDevice:
 
 
 def get_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     host: str,
     port: int,
     username: str | None,

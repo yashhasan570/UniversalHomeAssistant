@@ -5,7 +5,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import REDACTED
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import IZoneConfigEntry
 from .discovery import DATA_DISCOVERY_SERVICE
@@ -42,7 +42,7 @@ def _redact_data(data: Any) -> Any:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: IZoneConfigEntry
+    hass: UniversalAssistant, entry: IZoneConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     controller = entry.runtime_data.controller

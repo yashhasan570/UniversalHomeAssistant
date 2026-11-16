@@ -7,8 +7,8 @@ import motionmount
 
 from universalassistant.components.number import NumberEntity
 from universalassistant.const import PERCENTAGE
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import MotionMountConfigEntry
@@ -19,7 +19,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MotionMountConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -66,7 +66,7 @@ class MotionMountExtension(MotionMountEntity, NumberEntity):
             socket.gaierror,
             motionmount.NotConnectedError,
         ) as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="failed_communication",
             ) from ex
@@ -104,7 +104,7 @@ class MotionMountTurn(MotionMountEntity, NumberEntity):
             socket.gaierror,
             motionmount.NotConnectedError,
         ) as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="failed_communication",
             ) from ex

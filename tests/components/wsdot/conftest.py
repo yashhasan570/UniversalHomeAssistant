@@ -11,7 +11,7 @@ from wsdot import TravelTime, WsdotTravelError
 from universalassistant.components.wsdot.const import DOMAIN
 from universalassistant.config_entries import ConfigSubentryData
 from universalassistant.const import CONF_API_KEY, CONF_ID, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -91,7 +91,7 @@ def mock_config_entry(
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> MockConfigEntry:
     """Set up wsdot integration with subentries for testing."""

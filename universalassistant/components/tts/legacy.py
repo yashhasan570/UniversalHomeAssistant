@@ -22,7 +22,7 @@ from universalassistant.const import (
     CONF_NAME,
     CONF_PLATFORM,
 )
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.helpers import config_validation as cv, discovery
 from universalassistant.helpers.service import async_set_service_schema
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -94,7 +94,7 @@ SCHEMA_SERVICE_SAY = probatio.Schema(
 
 
 async def async_setup_legacy(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> list[Coroutine[Any, Any, None]]:
     """Set up legacy text-to-speech providers."""
     # Load service descriptions from tts/services.yaml
@@ -203,7 +203,7 @@ async def async_setup_legacy(
 class Provider:
     """Represent a single TTS provider."""
 
-    hass: __HAC_KEEP__ | None = None
+    hass: UniversalAssistant | None = None
     name: str | None = None
     has_entity: bool = False
 

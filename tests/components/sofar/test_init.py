@@ -44,7 +44,7 @@ from universalassistant.components.sofar.const import (
 from universalassistant.components.sofar.coordinator import SofarRuntimeData
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_PORT, STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -88,7 +88,7 @@ def _heal_after_one_failure(unit: MockModbusUnit, address: int) -> None:
 
 
 async def test_setup_and_unload_entry(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Test a config entry sets up and unloads with runtime_data populated."""
     entry = init_integration
@@ -117,7 +117,7 @@ async def test_setup_and_unload_entry(
     ],
 )
 async def test_setup_connects_over_the_configured_link(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connection: MockModbusConnection,
     data: dict[str, Any],
     expected_params: ModbusSerialParams | ModbusTcpParams,
@@ -142,7 +142,7 @@ async def test_setup_connects_over_the_configured_link(
 
 @pytest.mark.parametrize("key", ["serial_number", "waiting_time"])
 async def test_setup_removes_stale_sensor_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connection: MockModbusConnection,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -169,12 +169,12 @@ async def test_setup_removes_stale_sensor_entities(
     assert entity_registry.async_get(entry.entity_id) is None
 
 
-def _seed_without_extra_data(hass: __HAC_KEEP__, entity_id: str) -> None:
+def _seed_without_extra_data(hass: UniversalAssistant, entity_id: str) -> None:
     """Restore a total the way a non-sensor entity stores it: no extra data."""
     mock_restore_cache(hass, [State(entity_id, "120.0")])
 
 
-def _seed_with_unusable_value(hass: __HAC_KEEP__, entity_id: str) -> None:
+def _seed_with_unusable_value(hass: UniversalAssistant, entity_id: str) -> None:
     """Restore a total that was unknown when it was written."""
     mock_restore_cache_with_extra_data(
         hass,
@@ -195,11 +195,11 @@ def _seed_with_unusable_value(hass: __HAC_KEEP__, entity_id: str) -> None:
     ],
 )
 async def test_setup_skips_seeding_an_unusable_restored_total(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connection: MockModbusConnection,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
-    seed_restore_cache: Callable[[__HAC_KEEP__, str], None],
+    seed_restore_cache: Callable[[UniversalAssistant, str], None],
 ) -> None:
     """Test a restored total without a usable number seeds no high-water mark."""
     mock_config_entry.add_to_hass(hass)
@@ -240,7 +240,7 @@ METER_ENERGY_KEYS = (
 
 
 async def test_setup_creates_no_meter_sensors_a_model_denies(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connection: MockModbusConnection,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -274,7 +274,7 @@ async def test_setup_creates_no_meter_sensors_a_model_denies(
 
 
 async def test_setup_keeps_meter_sensors_a_model_serves(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connection: MockModbusConnection,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -315,7 +315,7 @@ async def test_setup_keeps_meter_sensors_a_model_serves(
 )
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_setup_removes_entities_the_inverter_does_not_serve(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connection: MockModbusConnection,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -346,7 +346,7 @@ async def test_setup_removes_entities_the_inverter_does_not_serve(
 
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_setup_while_asleep_keeps_what_only_setup_finds(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_connection: MockModbusConnection,
 ) -> None:
@@ -386,7 +386,7 @@ async def test_setup_while_asleep_keeps_what_only_setup_finds(
 )
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_fault_log_timing_out_at_setup_keeps_its_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_connection: MockModbusConnection,
     stored: dict[str, Any],
@@ -420,7 +420,7 @@ async def test_fault_log_timing_out_at_setup_keeps_its_event(
 
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_busy_charge_cutoff_mask_keeps_its_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_connection: MockModbusConnection,
 ) -> None:
@@ -455,7 +455,7 @@ async def test_busy_charge_cutoff_mask_keeps_its_sensor(
 
 
 async def test_setup_keeps_meter_sensors_when_no_mask_is_published(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connection: MockModbusConnection,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -491,7 +491,7 @@ def _unrecognized_entry(connection: MockModbusConnection) -> MockConfigEntry:
 
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_setup_takes_the_type_from_the_masks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connection: MockModbusConnection,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -514,7 +514,7 @@ async def test_setup_takes_the_type_from_the_masks(
 
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_setup_fails_when_the_masks_decline(
-    hass: __HAC_KEEP__, mock_connection: MockModbusConnection
+    hass: UniversalAssistant, mock_connection: MockModbusConnection
 ) -> None:
     """Test setup fails permanently when no mask settles the type."""
     entry = _unrecognized_entry(mock_connection)
@@ -529,7 +529,7 @@ async def test_setup_fails_when_the_masks_decline(
 
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_setup_while_asleep_fills_in_without_a_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
     device_registry: dr.DeviceRegistry,
@@ -573,7 +573,7 @@ async def test_setup_while_asleep_fills_in_without_a_reload(
 
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_setup_while_asleep_reloads_once_for_what_the_inverter_serves(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
     mock_connection: MockModbusConnection,
@@ -622,7 +622,7 @@ async def test_setup_while_asleep_reloads_once_for_what_the_inverter_serves(
 
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_setup_while_asleep_builds_from_the_stored_components(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_connection: MockModbusConnection,
 ) -> None:
@@ -655,7 +655,7 @@ async def test_setup_while_asleep_builds_from_the_stored_components(
 
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_setup_takes_the_type_once_the_masks_answer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_connection: MockModbusConnection,
 ) -> None:
@@ -698,7 +698,7 @@ async def test_setup_takes_the_type_once_the_masks_answer(
 )
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_setup_while_asleep_fills_in_a_mask_typed_inverter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_connection: MockModbusConnection,
     entity_registry: er.EntityRegistry,
@@ -733,7 +733,7 @@ async def test_setup_while_asleep_fills_in_a_mask_typed_inverter(
 
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_setup_while_asleep_keeps_meter_sensors_of_an_unsettled_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connection: MockModbusConnection,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -764,7 +764,7 @@ async def test_setup_while_asleep_keeps_meter_sensors_of_an_unsettled_type(
 
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_setup_while_asleep_keeps_the_device_versions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connection: MockModbusConnection,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -797,7 +797,7 @@ async def test_setup_while_asleep_keeps_the_device_versions(
 )
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_setup_retries_unless_the_inverter_is_silent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connection: MockModbusConnection,
     mock_config_entry: MockConfigEntry,
     error: Exception,
@@ -813,7 +813,7 @@ async def test_setup_retries_unless_the_inverter_is_silent(
 
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_setup_retries_without_the_adapter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setup retries when the link itself cannot be opened."""
@@ -830,7 +830,7 @@ async def test_setup_retries_without_the_adapter(
 
 
 async def test_settings_failure_does_not_block_reading_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connection: MockModbusConnection,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -858,7 +858,7 @@ async def test_settings_failure_does_not_block_reading_sensors(
 
 
 async def test_settings_recover_without_a_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test the settings coordinator recovers on its own once the link heals."""
@@ -893,14 +893,14 @@ async def test_settings_recover_without_a_reload(
 
 
 async def test_sensor_platform_is_forwarded(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Test the sensor platform is set up as part of config entry setup."""
     assert hass.states.async_entity_ids("sensor")
 
 
 async def test_device_info_carries_the_firmware_versions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -916,7 +916,7 @@ async def test_device_info_carries_the_firmware_versions(
 
 
 async def test_device_versions_need_a_reload_to_recover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -971,7 +971,7 @@ async def test_device_versions_need_a_reload_to_recover(
 
 
 async def test_every_component_failing_recovers_on_a_later_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
     entity_registry: er.EntityRegistry,
@@ -1013,7 +1013,7 @@ async def test_every_component_failing_recovers_on_a_later_poll(
     ],
 )
 async def test_unreachable_inverter_is_logged_at_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
     mock_connection: MockModbusConnection,
@@ -1035,7 +1035,7 @@ async def test_unreachable_inverter_is_logged_at_info(
 
 
 async def test_unreachable_adapter_is_logged_at_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
     mock_connection: MockModbusConnection,
@@ -1060,7 +1060,7 @@ async def test_unreachable_adapter_is_logged_at_info(
 
 
 async def test_component_failure_is_logged_once_until_it_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
     mock_connection: MockModbusConnection,
@@ -1086,7 +1086,7 @@ async def test_component_failure_is_logged_once_until_it_recovers(
 
 
 async def test_pv_strings_become_their_own_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -1109,7 +1109,7 @@ async def test_pv_strings_become_their_own_devices(
 
 
 async def test_pv_aggregate_stays_on_the_inverter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
@@ -1129,7 +1129,7 @@ async def test_pv_aggregate_stays_on_the_inverter(
 
 
 async def test_only_wired_battery_strings_become_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1182,7 +1182,7 @@ async def test_only_wired_battery_strings_become_devices(
 
 
 async def test_total_survives_a_torn_first_poll_after_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_connection: MockModbusConnection,
     mock_config_entry: MockConfigEntry,
@@ -1221,7 +1221,7 @@ async def test_total_survives_a_torn_first_poll_after_reload(
 
 
 async def test_battery_string_appears_once_its_block_answers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1261,7 +1261,7 @@ async def test_battery_string_appears_once_its_block_answers(
 
 
 async def _setup_hybrid(
-    hass: __HAC_KEEP__, connection: MockModbusConnection
+    hass: UniversalAssistant, connection: MockModbusConnection
 ) -> MockConfigEntry:
     """Set up a hybrid entry against a connection the caller still owns."""
     entry = MockConfigEntry(
@@ -1308,7 +1308,7 @@ async def _setup_hybrid(
     ],
 )
 async def test_only_absent_battery_strings_can_be_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     identifiers: set[tuple[str, str]],
@@ -1331,7 +1331,7 @@ async def test_only_absent_battery_strings_can_be_removed(
 
 
 async def test_bts_packs_become_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test each pack of a BTS tower gets its own device on the inverter."""
@@ -1358,7 +1358,7 @@ async def test_bts_packs_become_devices(
 
 
 async def test_hybrid_without_a_tower_gets_no_packs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test a tower-typed hybrid running another battery gets no packs."""
@@ -1375,7 +1375,7 @@ async def test_hybrid_without_a_tower_gets_no_packs(
 
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_a_known_tower_survives_a_silent_probe(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_connection: MockModbusConnection,
 ) -> None:
@@ -1405,7 +1405,7 @@ async def test_a_known_tower_survives_a_silent_probe(
 
 
 async def test_only_silent_bts_packs_can_be_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     device_registry: dr.DeviceRegistry,
@@ -1448,7 +1448,7 @@ async def test_only_silent_bts_packs_can_be_removed(
 
 
 async def test_an_absent_string_is_removable_while_the_entry_is_unloaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -1472,7 +1472,7 @@ async def test_an_absent_string_is_removable_while_the_entry_is_unloaded(
 
 
 async def test_a_removed_string_comes_back_without_a_restart(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
@@ -1519,7 +1519,7 @@ async def test_a_removed_string_comes_back_without_a_restart(
 )
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_migrate_entry_adds_the_connection_type(
-    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, data: dict[str, Any]
+    hass: UniversalAssistant, snapshot: SnapshotAssertion, data: dict[str, Any]
 ) -> None:
     """Test migration marks legacy entries as TCP and keeps a set type."""
     entry = MockConfigEntry(
@@ -1567,7 +1567,7 @@ async def test_migrate_entry_adds_the_connection_type(
 )
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_setup_remembers_the_fault_log(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_connection: MockModbusConnection,
     stored: dict[str, Any],

@@ -3,8 +3,8 @@
 from typing import override
 
 from universalassistant.components.select import SelectEntity
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import QubeConfigEntry
@@ -18,7 +18,7 @@ SG_READY_OPTIONS = ["off", "block", "plus", "max"]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: QubeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -60,12 +60,12 @@ class QubeSGReadySelect(QubeEntity, SelectEntity):
         try:
             success = await self.coordinator.client.set_sg_ready_mode(option)
         except OSError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="switch_command_failed",
             ) from err
         if not success:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="switch_command_failed",
             )

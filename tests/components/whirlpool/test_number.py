@@ -10,8 +10,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration, snapshot_whirlpool_entities, trigger_attr_callback
@@ -45,7 +45,7 @@ def oven_number_entity(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, snapshot: SnapshotAssertion, entity_registry: er.EntityRegistry
 ) -> None:
     """Test all entities."""
     await init_integration(hass)
@@ -53,7 +53,7 @@ async def test_all_entities(
 
 
 async def test_target_temperature_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     oven_number_entity: tuple[str, str, whirlpool.oven.Cavity],
     request: pytest.FixtureRequest,
 ) -> None:
@@ -70,7 +70,7 @@ async def test_target_temperature_value(
 
 
 async def test_set_target_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     oven_number_entity: tuple[str, str, whirlpool.oven.Cavity],
     request: pytest.FixtureRequest,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_set_target_temperature(
 
 
 async def test_set_fractional_target_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     oven_number_entity: tuple[str, str, whirlpool.oven.Cavity],
     request: pytest.FixtureRequest,
 ) -> None:
@@ -117,17 +117,17 @@ async def test_set_fractional_target_temperature(
 
 
 async def test_set_target_temperature_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     oven_number_entity: tuple[str, str, whirlpool.oven.Cavity],
     request: pytest.FixtureRequest,
 ) -> None:
-    """Test a failed request raises __HAC_KEEP__Error."""
+    """Test a failed request raises UniversalAssistantError."""
     entity_id, mock_fixture, _ = oven_number_entity
     mock = request.getfixturevalue(mock_fixture)
     mock.set_cook.return_value = False
     await init_integration(hass)
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -140,7 +140,7 @@ async def test_set_target_temperature_failure(
 
 
 async def test_set_target_temperature_value_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     oven_number_entity: tuple[str, str, whirlpool.oven.Cavity],
     request: pytest.FixtureRequest,
 ) -> None:
@@ -164,7 +164,7 @@ async def test_set_target_temperature_value_error(
 
 @pytest.mark.parametrize("current_mode", [whirlpool.oven.CookMode.Standby, None])
 async def test_set_target_temperature_from_idle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     oven_number_entity: tuple[str, str, whirlpool.oven.Cavity],
     request: pytest.FixtureRequest,
     current_mode: whirlpool.oven.CookMode | None,

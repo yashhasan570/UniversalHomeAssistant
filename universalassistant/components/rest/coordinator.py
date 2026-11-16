@@ -4,7 +4,7 @@ from datetime import timedelta
 import logging
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import template
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -20,7 +20,7 @@ class RestCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         rest: RestData,
         config_entry: RestConfigEntry | None,
         resource_template: template.Template | None,

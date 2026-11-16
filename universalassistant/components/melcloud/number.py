@@ -18,8 +18,8 @@ from universalassistant.components.number import (
     NumberEntityDescription,
 )
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -60,7 +60,7 @@ ATW_ZONE_NUMBERS: tuple[MelcloudNumberEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    _hass: __HAC_KEEP__,
+    _hass: UniversalAssistant,
     entry: MelCloudConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -123,7 +123,7 @@ class AtwZoneNumber(AtwZoneEntity, NumberEntity):
         try:
             await self.entity_description.set_fn(self._zone, value)
         except ClientError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_number_failed",
             ) from err

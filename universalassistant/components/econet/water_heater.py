@@ -18,7 +18,7 @@ from universalassistant.components.water_heater import (
     WaterHeaterEntityFeature,
 )
 from universalassistant.const import ATTR_TEMPERATURE, STATE_OFF, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import EconetConfigEntry
@@ -46,14 +46,14 @@ SUPPORT_FLAGS_HEATER = (
 
 
 def _operation_mode_to_ha(mode: WaterHeaterOperationMode | None) -> str:
-    """Translate an EcoNet operation mode to a __HA_KEEP__ state."""
+    """Translate an EcoNet operation mode to a Universal Home Assistant state."""
     if mode in (None, WaterHeaterOperationMode.VACATION):
         return STATE_OFF
     return ECONET_STATE_TO_HA[mode]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: EconetConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

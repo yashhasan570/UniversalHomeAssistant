@@ -6,11 +6,11 @@ from pytest_universalassistant.common import MockConfigEntry
 from zeversolar.exceptions import ZeverSolarTimeout
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_async_setup_entry_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_zeversolar_client: MagicMock,
 ) -> None:

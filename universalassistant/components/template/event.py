@@ -15,7 +15,7 @@ from universalassistant.components.event import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_DEVICE_CLASS, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -77,7 +77,7 @@ EVENT_CONFIG_ENTRY_SCHEMA = EVENT_COMMON_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -95,7 +95,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -112,7 +112,7 @@ async def async_setup_entry(
 
 @callback
 def async_create_preview_event(
-    hass: __HAC_KEEP__, name: str, config: dict[str, Any]
+    hass: UniversalAssistant, name: str, config: dict[str, Any]
 ) -> StateEventEntity:
     """Create a preview event."""
     return async_setup_template_preview(
@@ -197,7 +197,7 @@ class StateEventEntity(TemplateEntity, AbstractTemplateEvent):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config: dict[str, Any],
         unique_id: str | None,
     ) -> None:
@@ -217,7 +217,7 @@ class TriggerEventEntity(TriggerEntity, AbstractTemplateEvent, RestoreEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         coordinator: TriggerUpdateCoordinator,
         config: ConfigType,
     ) -> None:

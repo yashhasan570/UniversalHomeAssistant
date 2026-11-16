@@ -1,4 +1,4 @@
-"""Test __HA_KEEP__ ulid util methods."""
+"""Test Universal Home Assistant ulid util methods."""
 
 import uuid
 

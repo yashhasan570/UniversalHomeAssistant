@@ -9,7 +9,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.vicare.const import DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.helpers.device_registry import format_mac
@@ -29,7 +29,7 @@ DHCP_INFO = DhcpServiceInfo(
 
 
 async def _do_oauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     result: dict,
@@ -64,7 +64,7 @@ async def _do_oauth_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -84,7 +84,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -111,7 +111,7 @@ async def test_reauth_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth_preserves_existing_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -134,7 +134,7 @@ async def test_reauth_preserves_existing_data(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -161,7 +161,7 @@ async def test_reconfigure_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_dhcp_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -179,7 +179,7 @@ async def test_dhcp_flow(
     assert result["result"].unique_id == format_mac(DHCP_INFO.macaddress)
 
 
-async def test_dhcp_single_instance_allowed(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_single_instance_allowed(hass: UniversalAssistant) -> None:
     """Test that configuring more than one instance is rejected."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -196,7 +196,7 @@ async def test_dhcp_single_instance_allowed(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "single_instance_allowed"
 
 
-async def test_user_input_single_instance_allowed(hass: __HAC_KEEP__) -> None:
+async def test_user_input_single_instance_allowed(hass: UniversalAssistant) -> None:
     """Test that configuring more than one instance is rejected."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,

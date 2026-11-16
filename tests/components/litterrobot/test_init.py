@@ -23,7 +23,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -31,7 +31,7 @@ from .common import ACCOUNT_USER_ID, CONFIG, DOMAIN, VACUUM_ENTITY_ID
 from .conftest import ROBOT_4_DATA, setup_integration
 
 
-async def test_unload_entry(hass: __HAC_KEEP__, mock_account: MagicMock) -> None:
+async def test_unload_entry(hass: UniversalAssistant, mock_account: MagicMock) -> None:
     """Test being able to unload an entry."""
     entry = await setup_integration(hass, mock_account, VACUUM_DOMAIN)
 
@@ -51,9 +51,9 @@ async def test_unload_entry(hass: __HAC_KEEP__, mock_account: MagicMock) -> None
 
 
 async def test_shutdown_disconnects_account(
-    hass: __HAC_KEEP__, mock_account: MagicMock
+    hass: UniversalAssistant, mock_account: MagicMock
 ) -> None:
-    """Test the account is disconnected when __HA_KEEP__ stops."""
+    """Test the account is disconnected when Universal Home Assistant stops."""
     await setup_integration(hass, mock_account, VACUUM_DOMAIN)
 
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
@@ -63,7 +63,7 @@ async def test_shutdown_disconnects_account(
 
 
 async def test_shutdown_during_first_refresh_disconnects_account(
-    hass: __HAC_KEEP__, mock_account: MagicMock
+    hass: UniversalAssistant, mock_account: MagicMock
 ) -> None:
     """Test a stop during the first refresh still disconnects the account."""
 
@@ -86,7 +86,7 @@ async def test_shutdown_during_first_refresh_disconnects_account(
     ],
 )
 async def test_entry_not_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     side_effect: LitterRobotException,
     expected_state: ConfigEntryState,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_entry_not_setup(
 
 
 async def test_unique_id_migration(
-    hass: __HAC_KEEP__, mock_account: MagicMock
+    hass: UniversalAssistant, mock_account: MagicMock
 ) -> None:
     """Test that legacy entries get unique_id set during migration."""
     entry = MockConfigEntry(
@@ -140,7 +140,7 @@ async def test_unique_id_migration(
 
 
 async def test_unique_id_migration_unsupported_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that migration fails for entries with version > 1."""
     entry = MockConfigEntry(
@@ -159,7 +159,7 @@ async def test_unique_id_migration_unsupported_version(
 
 
 async def test_unique_id_migration_conflict(
-    hass: __HAC_KEEP__, mock_account: MagicMock
+    hass: UniversalAssistant, mock_account: MagicMock
 ) -> None:
     """Test that migration skips unique_id when another entry owns it."""
     # First entry already has the unique_id
@@ -215,7 +215,7 @@ async def test_unique_id_migration_conflict(
     ],
 )
 async def test_unique_id_migration_connection_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     side_effect: type[Exception],
     state: ConfigEntryState,
     reason: str,
@@ -243,7 +243,7 @@ async def test_unique_id_migration_connection_failure(
 
 
 async def test_device_remove_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -270,7 +270,7 @@ async def test_device_remove_devices(
 
 
 async def test_update_auth_error_triggers_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_account: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -303,7 +303,7 @@ async def test_update_auth_error_triggers_reauth(
 
 
 async def test_dynamic_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_account: MagicMock,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,

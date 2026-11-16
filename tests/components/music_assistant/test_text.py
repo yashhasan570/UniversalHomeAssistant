@@ -13,7 +13,7 @@ from universalassistant.components.text import (
     SERVICE_SET_VALUE,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.translation import LOCALE_EN, async_get_translations
 
@@ -25,7 +25,7 @@ from .common import (
 
 
 async def test_text_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     music_assistant_client: MagicMock,
@@ -36,7 +36,7 @@ async def test_text_entities(
 
 
 async def test_text_set_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test text set action."""
@@ -70,7 +70,7 @@ async def test_text_set_action(
 
 
 async def test_external_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test external value update."""
@@ -104,7 +104,7 @@ async def test_external_update(
 
 
 async def test_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -118,7 +118,7 @@ async def test_ignored(
 
 
 async def test_name_translation_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Verify available translation keys are in strings.json."""
     # verify, that PLAYER_OPTIONS_TRANSLATION_KEYS_text matches strings.json

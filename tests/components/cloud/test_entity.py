@@ -1,4 +1,4 @@
-"""Tests for helpers in the __HA_KEEP__ Cloud conversation entity."""
+"""Tests for helpers in the Universal Home Assistant Cloud conversation entity."""
 
 import base64
 from collections.abc import Callable
@@ -20,14 +20,14 @@ from universalassistant.components.cloud.entity import (
     _format_structured_output,
     _format_tool,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er, llm, selector
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture
-def cloud_entity(hass: __HAC_KEEP__) -> BaseCloudLLMEntity:
+def cloud_entity(hass: UniversalAssistant) -> BaseCloudLLMEntity:
     """Return a CloudLLMTaskEntity attached to hass."""
     cloud = MagicMock()
     cloud.llm = MagicMock()
@@ -61,7 +61,7 @@ class DummyTool(llm.Tool):
     description = "Test tool"
     parameters = probatio.Schema({probatio.Required("value"): str})
 
-    async def async_call(self, hass: __HAC_KEEP__, tool_input, llm_context):
+    async def async_call(self, hass: UniversalAssistant, tool_input, llm_context):
         """No-op implementation."""
         return {"value": "done"}
 
@@ -278,14 +278,14 @@ async def test_prepare_files_for_prompt_invalid_type(
     ]
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Only images and PDF are currently supported as attachments",
     ):
         await cloud_entity._async_prepare_files_for_prompt(attachments)
 
 
 async def test_prepare_chat_for_generation_appends_attachments(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud_entity: BaseCloudLLMEntity,
     mock_prepare_files_for_prompt: AsyncMock,
 ) -> None:
@@ -336,7 +336,7 @@ async def test_prepare_chat_for_generation_appends_attachments(
 
 
 async def test_prepare_chat_for_generation_passes_messages_through(
-    hass: __HAC_KEEP__, cloud_entity: BaseCloudLLMEntity
+    hass: UniversalAssistant, cloud_entity: BaseCloudLLMEntity
 ) -> None:
     """Test that prepared messages are forwarded unchanged."""
     chat_log = conversation.ChatLog(hass, "conversation-id")
@@ -385,7 +385,7 @@ async def test_prepare_chat_for_generation_passes_messages_through(
 
 
 async def test_async_handle_chat_log_service_sets_structured_output_non_strict(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     entity_registry: er.EntityRegistry,
     mock_cloud_login: None,

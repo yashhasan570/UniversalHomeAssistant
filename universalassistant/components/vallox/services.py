@@ -6,8 +6,8 @@ import logging
 import probatio
 from vallox_websocket_api import Profile, ValloxApiException
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import DOMAIN, PRESET_MODE_TO_VALLOX_PROFILE, PROFILE_DURATION_INDEFINITE
 from .coordinator import ValloxConfigEntry, ValloxDataUpdateCoordinator
@@ -53,7 +53,7 @@ SERVICE_SCHEMA_SET_PROFILE = probatio.Schema(
 
 
 def _get_coordinator(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> ValloxDataUpdateCoordinator:
     """Return the coordinator for the Vallox config entry."""
     entries: list[ValloxConfigEntry] = hass.config_entries.async_loaded_entries(DOMAIN)
@@ -72,7 +72,7 @@ async def _async_set_profile_fan_speed(call: ServiceCall, profile: Profile) -> N
     try:
         await coordinator.client.set_fan_speed(profile, fan_speed)
     except ValloxApiException as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="failed_to_set_fan_speed_for_profile",
             translation_placeholders={
@@ -117,7 +117,7 @@ async def _async_set_profile(call: ServiceCall) -> None:
             translation_key = "failed_to_set_profile_for_duration"
         else:
             translation_key = "failed_to_set_profile"
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key=translation_key,
             translation_placeholders=placeholders,
@@ -127,7 +127,7 @@ async def _async_set_profile(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the Vallox services."""
     hass.services.async_register(
         DOMAIN,

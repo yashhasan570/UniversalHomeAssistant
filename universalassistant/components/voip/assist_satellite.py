@@ -27,8 +27,8 @@ from universalassistant.components.assist_satellite import (
 from universalassistant.components.intent import TimerEventType, TimerInfo
 from universalassistant.components.network import async_get_source_ip
 from universalassistant.components.tts import TextToSpeechCommonOption
-from universalassistant.core import Context, __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import Context, UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import VoipConfigEntry
@@ -69,7 +69,7 @@ _TONE_FILENAMES: dict[Tones, str] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: VoipConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -105,7 +105,7 @@ class VoipAssistSatellite(VoIPEntity, AssistSatelliteEntity, RtpDatagramProtocol
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         voip_device: VoIPDevice,
         config_entry: VoipConfigEntry,
         tones=Tones.LISTENING | Tones.PROCESSING | Tones.ERROR,
@@ -235,7 +235,7 @@ class VoipAssistSatellite(VoIPEntity, AssistSatelliteEntity, RtpDatagramProtocol
         Optionally run a voice pipeline after the announcement has finished.
         """
         if announcement.media_id_source != "tts":
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="non_tts_announcement",
             )

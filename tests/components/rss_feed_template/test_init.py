@@ -8,13 +8,13 @@ import pytest
 from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.rss_feed_template import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture
 async def mock_http_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
 ) -> TestClient:
     """Set up test fixture."""
@@ -42,7 +42,7 @@ async def test_get_nonexistant_feed(mock_http_client) -> None:
     assert resp.status == HTTPStatus.NOT_FOUND
 
 
-async def test_get_rss_feed(mock_http_client, hass: __HAC_KEEP__) -> None:
+async def test_get_rss_feed(mock_http_client, hass: UniversalAssistant) -> None:
     """Test if we can retrieve the correct rss feed."""
     hass.states.async_set("test.test1", "a_state_1")
     hass.states.async_set("test.test2", "a_state_2")

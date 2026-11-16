@@ -14,7 +14,7 @@ from asyncarve import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_CLIENT_SECRET
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -29,7 +29,7 @@ class ArveCoordinator(DataUpdateCoordinator[ArveSensProData]):
     config_entry: ArveConfigEntry
     devices: ArveDevices
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: ArveConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: ArveConfigEntry) -> None:
         """Initialize Arve coordinator."""
         super().__init__(
             hass,

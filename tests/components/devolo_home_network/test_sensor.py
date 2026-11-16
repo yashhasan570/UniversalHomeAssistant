@@ -17,7 +17,7 @@ from universalassistant.components.devolo_home_network.const import (
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import configure_integration
@@ -27,7 +27,7 @@ from .mock import MockDevice
 
 @pytest.mark.usefixtures("mock_device")
 async def test_sensor_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test default setup of the sensor component."""
@@ -62,7 +62,7 @@ async def test_sensor_setup(
 
 
 async def test_expensive_coordinator_not_refreshed_when_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: MockDevice,
 ) -> None:
     """Test that neighboring access points are not scanned if no entity wants them."""
@@ -112,7 +112,7 @@ async def test_expensive_coordinator_not_refreshed_when_disabled(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.freeze_time("2023-01-13 12:00:00+00:00")
 async def test_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: MockDevice,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
@@ -155,7 +155,7 @@ async def test_sensor(
 
 
 async def test_update_plc_phyrates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: MockDevice,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
@@ -212,7 +212,7 @@ async def test_update_plc_phyrates(
 
 
 async def test_update_plc_phyrates_missing_data_rate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: MockDevice,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
@@ -255,7 +255,7 @@ async def test_update_plc_phyrates_missing_data_rate(
 
 
 async def test_update_last_update_auth_failed(
-    hass: __HAC_KEEP__, mock_device: MockDevice
+    hass: UniversalAssistant, mock_device: MockDevice
 ) -> None:
     """Test getting last update state with wrong password triggers reauth flow."""
     entry = configure_integration(hass)

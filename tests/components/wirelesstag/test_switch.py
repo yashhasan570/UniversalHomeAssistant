@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from universalassistant.const import SERVICE_TURN_OFF, SERVICE_TURN_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -45,7 +45,7 @@ def _mock_water_tag() -> MagicMock:
     ],
 )
 async def test_moisture_switch_uses_cap_sensor_endpoint(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service: str,
     expected_method: str,
     entity_registry: er.EntityRegistry,

@@ -10,7 +10,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.ekeybionyx.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
@@ -94,7 +94,7 @@ def mock_webhooks(
         json=[
             {
                 "functionWebhookId": "946DA01F-9ABD-4D9D-80C7-02AF85C822B9",
-                "integrationName": "__HA_KEEP__",
+                "integrationName": "Universal Home Assistant",
                 "locationName": (
                     "A simple string containing 0 to 128"
                     " word, space and punctuation characters."
@@ -131,8 +131,8 @@ def mock_add_webhook(
         status=HTTPStatus.CREATED,
         json={
             "functionWebhookId": "946DA01F-9ABD-4D9D-80C7-02AF85C822A8",
-            "integrationName": "__HA_KEEP__",
-            "locationName": "__HA_KEEP__",
+            "integrationName": "Universal Home Assistant",
+            "locationName": "Universal Home Assistant",
             "functionName": "Test",
             "expiresAt": "2022-05-16T04:11:28.0000000+00:00",
             "modificationState": None,
@@ -161,7 +161,7 @@ def mock_token_hex():
 
 
 @pytest.fixture(name="config_entry")
-def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Create mocked config entry."""
     return MockConfigEntry(
         title="test@test.com",
@@ -188,7 +188,7 @@ def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 @pytest.fixture
 async def load_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Set up the config entry."""
@@ -199,7 +199,7 @@ async def load_config_entry(
 
 @pytest.fixture
 async def webhook_test_env(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_config_entry: None,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> TestClient:

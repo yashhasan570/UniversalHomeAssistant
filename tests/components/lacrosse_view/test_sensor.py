@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.lacrosse_view.const import DOMAIN, SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import (
     MOCK_ENTRY_DATA,
@@ -31,7 +31,7 @@ from . import (
 )
 
 
-async def test_entities_added(hass: __HAC_KEEP__) -> None:
+async def test_entities_added(hass: UniversalAssistant) -> None:
     """Test the entities are added."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=MOCK_ENTRY_DATA)
     config_entry.add_to_hass(hass)
@@ -56,7 +56,7 @@ async def test_entities_added(hass: __HAC_KEEP__) -> None:
 
 
 async def test_sensor_permission(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test if it raises a warning when there is no permission to read the sensor."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=MOCK_ENTRY_DATA)
@@ -86,7 +86,7 @@ async def test_sensor_permission(
 
 
 async def test_field_not_supported(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test if it raises a warning when the field is not supported."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=MOCK_ENTRY_DATA)
@@ -123,7 +123,7 @@ async def test_field_not_supported(
     ],
 )
 async def test_field_types(
-    hass: __HAC_KEEP__, test_input: Sensor, expected: Any, entity_id: str
+    hass: UniversalAssistant, test_input: Sensor, expected: Any, entity_id: str
 ) -> None:
     """Test the different data types for fields."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=MOCK_ENTRY_DATA)
@@ -151,7 +151,7 @@ async def test_field_types(
     assert hass.states.get(f"sensor.test_{entity_id}").state == expected
 
 
-async def test_no_field(hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture) -> None:
+async def test_no_field(hass: UniversalAssistant, caplog: pytest.LogCaptureFixture) -> None:
     """Test behavior when the expected field is not present."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=MOCK_ENTRY_DATA)
     config_entry.add_to_hass(hass)
@@ -178,7 +178,7 @@ async def test_no_field(hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture) ->
     assert hass.states.get("sensor.test_temperature").state == "unavailable"
 
 
-async def test_field_data_missing(hass: __HAC_KEEP__) -> None:
+async def test_field_data_missing(hass: UniversalAssistant) -> None:
     """Test behavior when field data is missing."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=MOCK_ENTRY_DATA)
     config_entry.add_to_hass(hass)
@@ -205,7 +205,7 @@ async def test_field_data_missing(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("sensor.test_temperature").state == "unavailable"
 
 
-async def test_no_readings(hass: __HAC_KEEP__) -> None:
+async def test_no_readings(hass: UniversalAssistant) -> None:
     """Test behavior when there are no readings."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=MOCK_ENTRY_DATA)
     config_entry.add_to_hass(hass)
@@ -232,7 +232,7 @@ async def test_no_readings(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("sensor.test_temperature").state == "unavailable"
 
 
-async def test_mixed_readings(hass: __HAC_KEEP__) -> None:
+async def test_mixed_readings(hass: UniversalAssistant) -> None:
     """Test a device without readings does not fail setup for the whole entry."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=MOCK_ENTRY_DATA)
     config_entry.add_to_hass(hass)
@@ -281,7 +281,7 @@ async def test_mixed_readings(hass: __HAC_KEEP__) -> None:
 
 
 async def test_stale_reading(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test that a stale spot reading is ignored and sensor reports unavailable."""
@@ -312,7 +312,7 @@ async def test_stale_reading(
 
 
 async def test_stale_reading_retains_previous_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test that a stale reading retains the previous valid sensor value."""
@@ -354,7 +354,7 @@ async def test_stale_reading_retains_previous_value(
         assert state.state == "2"
 
 
-async def test_other_error(hass: __HAC_KEEP__) -> None:
+async def test_other_error(hass: UniversalAssistant) -> None:
     """Test behavior when there is an error."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=MOCK_ENTRY_DATA)
     config_entry.add_to_hass(hass)

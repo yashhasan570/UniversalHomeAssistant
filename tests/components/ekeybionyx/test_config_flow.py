@@ -18,7 +18,7 @@ from universalassistant.components.ekeybionyx.const import (
     OAUTH2_TOKEN,
     SCOPE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.setup import async_setup_component
@@ -30,7 +30,7 @@ CLIENT_SECRET = "5678"
 
 
 @pytest.fixture
-async def setup_credentials(hass: __HAC_KEEP__) -> None:
+async def setup_credentials(hass: UniversalAssistant) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(
@@ -42,7 +42,7 @@ async def setup_credentials(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     setup_credentials: None,
@@ -152,7 +152,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_no_own_system(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     setup_credentials: None,
@@ -201,7 +201,7 @@ async def test_no_own_system(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_no_available_webhooks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     setup_credentials: None,
@@ -251,7 +251,7 @@ async def test_no_available_webhooks(
 @pytest.mark.usefixtures("current_request_with_host")
 @patch("universalassistant.components.ekeybionyx.config_flow.DELETION_POLL_INTERVAL", 0)
 async def test_cleanup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     setup_credentials: None,
@@ -316,7 +316,7 @@ async def test_cleanup(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_error_on_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     setup_credentials: None,

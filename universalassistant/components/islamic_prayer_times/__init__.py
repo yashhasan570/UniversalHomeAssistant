@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 
 from .coordinator import (
@@ -18,7 +18,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: IslamicPrayerTimesConfigEntry
+    hass: UniversalAssistant, config_entry: IslamicPrayerTimesConfigEntry
 ) -> None:
     """Set up the Islamic Prayer Component."""
 
@@ -45,7 +45,7 @@ async def async_setup_entry(
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, config_entry: IslamicPrayerTimesConfigEntry
+    hass: UniversalAssistant, config_entry: IslamicPrayerTimesConfigEntry
 ) -> None:
     """Migrate old entry."""
     _LOGGER.debug("Migrating from version %s", config_entry.version)
@@ -68,7 +68,7 @@ async def async_migrate_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: IslamicPrayerTimesConfigEntry
+    hass: UniversalAssistant, config_entry: IslamicPrayerTimesConfigEntry
 ) -> None:
     """Unload Islamic Prayer entry from config_entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)
@@ -78,7 +78,7 @@ async def async_unload_entry(
 
 
 async def async_options_updated(
-    hass: __HAC_KEEP__, entry: IslamicPrayerTimesConfigEntry
+    hass: UniversalAssistant, entry: IslamicPrayerTimesConfigEntry
 ) -> None:
     """Triggered by config entry options updates."""
     coordinator = entry.runtime_data

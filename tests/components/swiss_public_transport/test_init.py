@@ -1,5 +1,6 @@
 """Test the swiss_public_transport integration."""
 
+from typing import Any
 from unittest.mock import AsyncMock, patch
 
 import pytest
@@ -11,13 +12,14 @@ from universalassistant.components.swiss_public_transport.const import (
     CONF_TIME_FIXED,
     CONF_TIME_OFFSET,
     CONF_TIME_STATION,
+    CONF_TRANSPORTATIONS,
     CONF_VIA,
     DOMAIN,
 )
 from universalassistant.components.swiss_public_transport.helper import unique_id_from_config
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 MOCK_DATA_STEP_BASE = {
@@ -88,7 +90,7 @@ CONNECTIONS = [
     ],
 )
 async def test_migration_from(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     from_version,
     from_minor_version,
@@ -140,7 +142,46 @@ async def test_migration_from(
         )
 
 
-async def test_migrate_error_from_future(hass: __HAC_KEEP__) -> None:
+@pytest.mark.parametrize(
+    ("config_data", "transportations"),
+    [
+        pytest.param(MOCK_DATA_STEP_BASE, None, id="no_filter"),
+        pytest.param(
+            {**MOCK_DATA_STEP_BASE, CONF_TRANSPORTATIONS: ["train", "tram"]},
+            ["train", "tram"],
+            id="train_and_tram",
+        ),
+    ],
+)
+async def test_setup_entry_transportations(
+    hass: UniversalAssistant,
+    config_data: dict[str, Any],
+    transportations: list[str] | None,
+) -> None:
+    """Test the transportation filter is passed to the client."""
+    config_entry = MockConfigEntry(
+        domain=DOMAIN,
+        data=config_data,
+        version=3,
+        unique_id=unique_id_from_config(config_data),
+    )
+    config_entry.add_to_hass(hass)
+
+    with patch(
+        "universalassistant.components.swiss_public_transport.OpendataTransport",
+        return_value=AsyncMock(),
+    ) as mock:
+        mock().connections = CONNECTIONS
+        mock.reset_mock()
+
+        await hass.config_entries.async_setup(config_entry.entry_id)
+        await hass.async_block_till_done()
+
+    assert config_entry.state is ConfigEntryState.LOADED
+    assert mock.call_args.kwargs["transportations"] == transportations
+
+
+async def test_migrate_error_from_future(hass: UniversalAssistant) -> None:
     """Test a future version isn't migrated."""
 
     mock_entry = MockConfigEntry(

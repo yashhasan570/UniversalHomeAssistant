@@ -2,7 +2,7 @@
 
 from typing import override
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.llm import (
     LLMContext,
     Tool,
@@ -35,7 +35,7 @@ class GetDateTimeTool(Tool):
     @override
     async def async_call(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         tool_input: ToolInput,
         llm_context: LLMContext,
     ) -> ToolResult:
@@ -54,7 +54,7 @@ class GetDateTimeTool(Tool):
 
 @callback
 def async_get_tools(
-    hass: __HAC_KEEP__, llm_context: LLMContext, api_id: str
+    hass: UniversalAssistant, llm_context: LLMContext, api_id: str
 ) -> LLMTools:
     """Return the always-available LLM tools."""
     return LLMTools(tools=[GetDateTimeTool()])

@@ -8,8 +8,8 @@ from lacrosse_view import LaCrosse, Location, LoginError
 import probatio
 
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigFlow, ConfigFlowResult
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import DOMAIN
@@ -23,7 +23,7 @@ STEP_USER_DATA_SCHEMA = probatio.Schema(
 _LOGGER = logging.getLogger(__name__)
 
 
-async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> list[Location]:
+async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> list[Location]:
     """Validate the user input allows us to connect."""
 
     api = LaCrosse(async_get_clientsession(hass))
@@ -138,13 +138,13 @@ class LaCrosseViewConfigFlow(ConfigFlow, domain=DOMAIN):
         return await self.async_step_user()
 
 
-class InvalidAuth(__HAC_KEEP__Error):
+class InvalidAuth(UniversalAssistantError):
     """Error to indicate there is invalid auth."""
 
 
-class NoLocations(__HAC_KEEP__Error):
+class NoLocations(UniversalAssistantError):
     """Error to indicate there are no locations."""
 
 
-class NonExistentEntry(__HAC_KEEP__Error):
+class NonExistentEntry(UniversalAssistantError):
     """Error to indicate that the entry does not exist when it should."""

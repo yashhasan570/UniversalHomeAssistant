@@ -23,7 +23,7 @@ from universalassistant.const import (
     UnitOfVolume,
     UnitOfVolumeFlowRate,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 from universalassistant.util import dt as dt_util
@@ -217,7 +217,7 @@ DESCRIPTIONS: list[WatergateSensorEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: WatergateConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

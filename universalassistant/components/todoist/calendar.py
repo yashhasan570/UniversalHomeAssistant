@@ -15,7 +15,7 @@ from universalassistant.components.calendar import (
     CalendarEvent,
 )
 from universalassistant.const import CONF_ID, CONF_NAME, CONF_TOKEN, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -86,7 +86,7 @@ SCAN_INTERVAL = timedelta(minutes=1)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: TodoistConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -104,7 +104,7 @@ async def async_setup_entry(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -240,7 +240,7 @@ class TodoistProjectEntity(CoordinatorEntity[TodoistCoordinator], CalendarEntity
     @override
     async def async_get_events(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         start_date: datetime,
         end_date: datetime,
     ) -> list[CalendarEvent]:

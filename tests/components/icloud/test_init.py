@@ -21,7 +21,7 @@ from universalassistant.components.icloud.config_flow import (
 from universalassistant.components.icloud.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.dispatcher import DATA_DISPATCHER
 
@@ -84,7 +84,7 @@ def mock_controller_auth_required_service():
 
 
 @pytest.mark.usefixtures("service_2fa")
-async def test_setup_2fa(hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture) -> None:
+async def test_setup_2fa(hass: UniversalAssistant, caplog: pytest.LogCaptureFixture) -> None:
     """Test that a 2FA challenge starts reauth and is not reported as a bad password."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_CONFIG, entry_id="test", unique_id=USERNAME
@@ -113,7 +113,7 @@ async def test_setup_2fa(hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture) -
 
 @pytest.mark.usefixtures("service_2fa_failed")
 async def test_setup_password_failed(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that a rejected password is reported as such, not as a 2FA prompt."""
     config_entry = MockConfigEntry(
@@ -139,7 +139,7 @@ async def test_setup_password_failed(
 
 
 @pytest.mark.usefixtures("service_2fa")
-async def test_unique_id_set_on_setup(hass: __HAC_KEEP__) -> None:
+async def test_unique_id_set_on_setup(hass: UniversalAssistant) -> None:
     """Test that unique_id is set on setup."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_CONFIG, entry_id="test", unique_id=None
@@ -159,7 +159,7 @@ async def test_unique_id_set_on_setup(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("service_2fa")
 async def test_reload_unsubscribes_platform_listeners(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test that reload detaches the old account's dispatcher listeners.
 
@@ -195,7 +195,7 @@ async def test_reload_unsubscribes_platform_listeners(
 
 
 @pytest.mark.usefixtures("service_auth_required")
-async def test_setup_auth_required(hass: __HAC_KEEP__) -> None:
+async def test_setup_auth_required(hass: UniversalAssistant) -> None:
     """Test that an auth-required login failure starts reauth."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_CONFIG, entry_id="test", unique_id=USERNAME
@@ -212,7 +212,7 @@ async def test_setup_auth_required(hass: __HAC_KEEP__) -> None:
 
 
 async def test_auth_required_on_first_fetch_fails_authentication(
-    hass: __HAC_KEEP__, service_2fa: Mock
+    hass: UniversalAssistant, service_2fa: Mock
 ) -> None:
     """Test that losing the session before the first fetch fails setup as auth.
 
@@ -232,7 +232,7 @@ async def test_auth_required_on_first_fetch_fails_authentication(
     await hass.config_entries.async_setup(config_entry.entry_id)
     await hass.async_block_till_done()
 
-    # SETUP_ERROR with a reauth flow: __HA_KEEP__ owns the reauth lifecycle
+    # SETUP_ERROR with a reauth flow: Universal Home Assistant owns the reauth lifecycle
     # and stops re-attempting the login while the user is being asked.
     assert config_entry.state is ConfigEntryState.SETUP_ERROR
     assert [
@@ -243,7 +243,7 @@ async def test_auth_required_on_first_fetch_fails_authentication(
 
 
 async def test_invalid_token_on_first_fetch_starts_reauth(
-    hass: __HAC_KEEP__, service_2fa: Mock
+    hass: UniversalAssistant, service_2fa: Mock
 ) -> None:
     """Test that a token rejected on the first fetch asks the user to log in.
 
@@ -272,7 +272,7 @@ async def test_invalid_token_on_first_fetch_starts_reauth(
 
 
 async def test_2fa_required_exception_on_first_fetch_starts_reauth(
-    hass: __HAC_KEEP__, service_2fa: Mock
+    hass: UniversalAssistant, service_2fa: Mock
 ) -> None:
     """Test that a 2FA challenge raised by the first fetch asks for a code.
 
@@ -336,7 +336,7 @@ async def test_2fa_required_exception_on_first_fetch_starts_reauth(
     ],
 )
 async def test_auth_response_on_first_fetch_starts_reauth(
-    hass: __HAC_KEEP__, service_2fa: Mock, status: AppleAuthError
+    hass: UniversalAssistant, service_2fa: Mock, status: AppleAuthError
 ) -> None:
     """Test that an authentication status on the first fetch starts reauth.
 
@@ -368,7 +368,7 @@ async def test_auth_response_on_first_fetch_starts_reauth(
 
 
 async def test_other_api_error_on_first_fetch_does_not_start_reauth(
-    hass: __HAC_KEEP__, service_2fa: Mock
+    hass: UniversalAssistant, service_2fa: Mock
 ) -> None:
     """Test that a non-authentication API error does not ask the user to log in.
 
@@ -399,7 +399,7 @@ async def test_other_api_error_on_first_fetch_does_not_start_reauth(
 
 
 async def test_other_api_error_at_login_is_retried(
-    hass: __HAC_KEEP__, service_2fa: Mock
+    hass: UniversalAssistant, service_2fa: Mock
 ) -> None:
     """Test that a server-side failure while logging in is retried.
 
@@ -428,7 +428,7 @@ async def test_other_api_error_at_login_is_retried(
 
 
 async def test_2fa_status_on_first_fetch_asks_for_a_code(
-    hass: __HAC_KEEP__, service_2fa: Mock
+    hass: UniversalAssistant, service_2fa: Mock
 ) -> None:
     """Test that a 409 status is treated as the challenge it reports.
 
@@ -467,7 +467,7 @@ async def test_2fa_status_on_first_fetch_asks_for_a_code(
 
 
 async def test_service_not_activated_is_not_treated_as_auth_error(
-    hass: __HAC_KEEP__, service_2fa: Mock
+    hass: UniversalAssistant, service_2fa: Mock
 ) -> None:
     """Test that an inactive iCloud service does not ask the user to log in.
 
@@ -497,7 +497,7 @@ async def test_service_not_activated_is_not_treated_as_auth_error(
 
 
 async def test_2fa_required_exception_at_login_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that a 2FA challenge raised while logging in starts reauth.
 
@@ -527,7 +527,7 @@ async def test_2fa_required_exception_at_login_starts_reauth(
 
 
 async def test_password_reauth_reports_a_login_it_cannot_complete(
-    hass: __HAC_KEEP__, service_auth_required: Mock
+    hass: UniversalAssistant, service_auth_required: Mock
 ) -> None:
     """Test that a login iCloud keeps rejecting is reported, not raised.
 
@@ -576,7 +576,7 @@ async def test_password_reauth_reports_a_login_it_cannot_complete(
     ids=["exception", "status"],
 )
 async def test_password_reauth_recovers_from_a_rejected_session(
-    hass: __HAC_KEEP__, service_auth_required: Mock, rejection: Exception
+    hass: UniversalAssistant, service_auth_required: Mock, rejection: Exception
 ) -> None:
     """Test that reauth discards a stored session iCloud is rejecting.
 
@@ -634,7 +634,7 @@ async def test_password_reauth_recovers_from_a_rejected_session(
 
 
 async def test_transient_error_in_reauth_keeps_the_stored_session(
-    hass: __HAC_KEEP__, service_auth_required: Mock
+    hass: UniversalAssistant, service_auth_required: Mock
 ) -> None:
     """Test that an outage during reauth does not discard the session.
 
@@ -678,7 +678,7 @@ async def test_transient_error_in_reauth_keeps_the_stored_session(
 
 
 async def test_reauth_login_challenged_asks_for_a_code(
-    hass: __HAC_KEEP__, service_auth_required: Mock
+    hass: UniversalAssistant, service_auth_required: Mock
 ) -> None:
     """Test that a login ending in a challenge asks for the code.
 
@@ -733,7 +733,7 @@ async def test_reauth_login_challenged_asks_for_a_code(
 
 
 async def test_reauth_login_challenged_by_status_asks_for_a_code(
-    hass: __HAC_KEEP__, service_auth_required: Mock
+    hass: UniversalAssistant, service_auth_required: Mock
 ) -> None:
     """Test that a challenge carried by a status asks for the code as well.
 
@@ -784,7 +784,7 @@ async def test_reauth_login_challenged_by_status_asks_for_a_code(
 
 
 async def test_reauth_login_rejected_by_status_is_reported(
-    hass: __HAC_KEEP__, service_auth_required: Mock
+    hass: UniversalAssistant, service_auth_required: Mock
 ) -> None:
     """Test that a status that is not a challenge is still reported.
 
@@ -832,7 +832,7 @@ async def test_reauth_login_rejected_by_status_is_reported(
 
 
 async def test_reauth_rejects_a_wrong_password(
-    hass: __HAC_KEEP__, service_auth_required: Mock
+    hass: UniversalAssistant, service_auth_required: Mock
 ) -> None:
     """Test that a password iCloud rejects is reported on the password field."""
     config_entry = MockConfigEntry(
@@ -871,7 +871,7 @@ async def test_reauth_rejects_a_wrong_password(
 
 
 async def test_auth_status_at_login_starts_reauth(
-    hass: __HAC_KEEP__, service_2fa: Mock
+    hass: UniversalAssistant, service_2fa: Mock
 ) -> None:
     """Test that an authentication status while logging in asks the user.
 
@@ -918,7 +918,7 @@ async def test_auth_status_at_login_starts_reauth(
     ],
 )
 async def test_a_challenge_that_cannot_send_a_code_is_retried(
-    hass: __HAC_KEEP__, service_2fa: Mock, failure: Exception
+    hass: UniversalAssistant, service_2fa: Mock, failure: Exception
 ) -> None:
     """Test that setup is retried when the challenge can deliver no code.
 
@@ -949,7 +949,7 @@ async def test_a_challenge_that_cannot_send_a_code_is_retried(
 
 
 async def test_a_flagged_challenge_that_cannot_send_a_code_is_retried(
-    hass: __HAC_KEEP__, service_2fa: Mock
+    hass: UniversalAssistant, service_2fa: Mock
 ) -> None:
     """Test that setup is retried when the login ends in a challenge nothing can send.
 
@@ -975,7 +975,7 @@ async def test_a_flagged_challenge_that_cannot_send_a_code_is_retried(
 
 
 async def test_reauth_challenge_without_a_delivery_route_asks_for_the_password(
-    hass: __HAC_KEEP__, service_auth_required: Mock
+    hass: UniversalAssistant, service_auth_required: Mock
 ) -> None:
     """Test that a challenge that can send no code does not open code entry.
 
@@ -1042,7 +1042,7 @@ async def test_reauth_challenge_without_a_delivery_route_asks_for_the_password(
 
 
 async def test_reauth_device_fetch_rejected_as_a_failed_login_is_reported(
-    hass: __HAC_KEEP__, service_auth_required: Mock
+    hass: UniversalAssistant, service_auth_required: Mock
 ) -> None:
     """Test that a rejected token from the device fetch is handled.
 
@@ -1086,7 +1086,7 @@ async def test_reauth_device_fetch_rejected_as_a_failed_login_is_reported(
 
 
 async def test_an_undeliverable_challenge_drops_the_stored_session(
-    hass: __HAC_KEEP__, service_2fa: Mock
+    hass: UniversalAssistant, service_2fa: Mock
 ) -> None:
     """Test that a challenge with no delivery route clears the stored session.
 

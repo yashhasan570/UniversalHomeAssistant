@@ -2,18 +2,23 @@
 
 from unittest.mock import AsyncMock
 
-from pytest_universalassistant.common import MockConfigEntry
+from freezegun.api import FrozenDateTimeFactory
+from pypalazzetti.exceptions import CommunicationError, ValidationError
+import pytest
+from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 from syrupy.assertion import SnapshotAssertion
 
+from universalassistant.components.palazzetti.const import SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.const import STATE_UNAVAILABLE
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
 
 
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_palazzetti_client: AsyncMock,
 ) -> None:
@@ -29,7 +34,7 @@ async def test_load_unload_config_entry(
 
 
 async def test_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_palazzetti_client: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -43,3 +48,94 @@ async def test_device(
     )
     assert device is not None
     assert device == snapshot
+
+
+@pytest.mark.parametrize(
+    "exception",
+    [
+        pytest.param(CommunicationError, id="communication_error"),
+        pytest.param(ValidationError, id="validation_error"),
+    ],
+)
+async def test_setup_entry_failure(
+    hass: UniversalAssistant,
+    mock_config_entry: MockConfigEntry,
+    mock_palazzetti_client: AsyncMock,
+    exception: type[Exception],
+) -> None:
+    """Test setup entry failure when coordinator raises an exception."""
+    mock_palazzetti_client.connect.side_effect = exception
+
+    await setup_integration(hass, mock_config_entry)
+
+    assert mock_config_entry.state is ConfigEntryState.SETUP_RETRY
+
+
+async def test_setup_entry_connect_false(
+    hass: UniversalAssistant,
+    mock_config_entry: MockConfigEntry,
+    mock_palazzetti_client: AsyncMock,
+) -> None:
+    """Test setup entry failure when connect returns False."""
+    mock_palazzetti_client.connect.return_value = False
+
+    await setup_integration(hass, mock_config_entry)
+
+    assert mock_config_entry.state is ConfigEntryState.SETUP_RETRY
+
+
+async def test_setup_entry_update_false(
+    hass: UniversalAssistant,
+    mock_config_entry: MockConfigEntry,
+    mock_palazzetti_client: AsyncMock,
+) -> None:
+    """Test setup entry failure when update_state returns False."""
+    mock_palazzetti_client.update_state.return_value = False
+
+    await setup_integration(hass, mock_config_entry)
+
+    assert mock_config_entry.state is ConfigEntryState.SETUP_RETRY
+
+
+@pytest.mark.parametrize(
+    "exception",
+    [
+        pytest.param(CommunicationError, id="communication_error"),
+        pytest.param(ValidationError, id="validation_error"),
+    ],
+)
+async def test_update_failure(
+    hass: UniversalAssistant,
+    mock_config_entry: MockConfigEntry,
+    mock_palazzetti_client: AsyncMock,
+    freezer: FrozenDateTimeFactory,
+    exception: type[Exception],
+) -> None:
+    """Test coordinator update failure on exception."""
+    await setup_integration(hass, mock_config_entry)
+    assert mock_config_entry.state is ConfigEntryState.LOADED
+
+    mock_palazzetti_client.update_state.side_effect = exception
+    freezer.tick(SCAN_INTERVAL)
+    async_fire_time_changed(hass)
+    await hass.async_block_till_done(wait_background_tasks=True)
+
+    assert hass.states.get("climate.stove").state == STATE_UNAVAILABLE
+
+
+async def test_update_state_false(
+    hass: UniversalAssistant,
+    mock_config_entry: MockConfigEntry,
+    mock_palazzetti_client: AsyncMock,
+    freezer: FrozenDateTimeFactory,
+) -> None:
+    """Test coordinator update failure when update_state returns False."""
+    await setup_integration(hass, mock_config_entry)
+    assert mock_config_entry.state is ConfigEntryState.LOADED
+
+    mock_palazzetti_client.update_state.return_value = False
+    freezer.tick(SCAN_INTERVAL)
+    async_fire_time_changed(hass)
+    await hass.async_block_till_done(wait_background_tasks=True)
+
+    assert hass.states.get("climate.stove").state == STATE_UNAVAILABLE

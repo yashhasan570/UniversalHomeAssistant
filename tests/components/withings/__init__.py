@@ -16,7 +16,7 @@ from pytest_universalassistant.common import (
 )
 
 from universalassistant.components.webhook import async_generate_url
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.core_config import async_process_ha_core_config
 
 
@@ -29,7 +29,7 @@ class WebhookResponse:
 
 
 async def call_webhook(
-    hass: __HAC_KEEP__, webhook_id: str, data: dict[str, Any], client: TestClient
+    hass: UniversalAssistant, webhook_id: str, data: dict[str, Any], client: TestClient
 ) -> WebhookResponse:
     """Call the webhook."""
     webhook_url = async_generate_url(hass, webhook_id)
@@ -49,7 +49,7 @@ async def call_webhook(
 
 
 async def setup_integration(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, enable_webhooks: bool = True
+    hass: UniversalAssistant, config_entry: MockConfigEntry, enable_webhooks: bool = True
 ) -> None:
     """Fixture for setting up the component."""
     config_entry.add_to_hass(hass)
@@ -64,7 +64,7 @@ async def setup_integration(
 
 
 async def prepare_webhook_setup(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Prepare webhooks by advancing past the registration delay."""
     freezer.tick(timedelta(seconds=1))

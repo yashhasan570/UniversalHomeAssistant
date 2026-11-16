@@ -9,10 +9,10 @@ import requests_mock
 
 from universalassistant.components.youless.const import DOMAIN
 from universalassistant.const import CONF_DEVICE, CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def init_component(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def init_component(hass: UniversalAssistant) -> MockConfigEntry:
     """Check if the setup of the integration succeeds."""
     with requests_mock.Mocker() as mock:
         mock.get(

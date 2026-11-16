@@ -5,11 +5,11 @@ from unittest.mock import AsyncMock
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_setup_entry_client_creation_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_altruist_client_fails_once: None,
 ) -> None:
@@ -21,7 +21,7 @@ async def test_setup_entry_client_creation_failure(
 
 
 async def test_setup_entry_fetch_data_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_altruist_client: AsyncMock,
 ) -> None:
@@ -34,7 +34,7 @@ async def test_setup_entry_fetch_data_failure(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_altruist_client: AsyncMock,
 ) -> None:

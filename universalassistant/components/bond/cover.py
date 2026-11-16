@@ -10,7 +10,7 @@ from universalassistant.components.cover import (
     CoverEntity,
     CoverEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import BondConfigEntry
@@ -30,7 +30,7 @@ def _hass_to_bond_position(hass_position: int) -> int:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: BondConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

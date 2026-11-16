@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 
@@ -24,7 +24,7 @@ from .conftest import Fixture, MockPyViCare
     ],
 )
 async def test_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vicare_gas_boiler: MagicMock,
     snapshot: SnapshotAssertion,
     entity_id: str,
@@ -35,7 +35,7 @@ async def test_binary_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -66,7 +66,7 @@ async def test_all_entities(
 
 
 async def test_holiday(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the holiday program while it is scheduled."""
@@ -100,7 +100,7 @@ async def test_holiday(
 
 
 async def test_room_window_and_condensation_risk(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the open window and condensation risk of each room."""

@@ -16,7 +16,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 import universalassistant.util.dt as dt_util
 
@@ -215,7 +215,7 @@ TIME_SENSORS: tuple[JewishCalendarTimestampSensorDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: JewishCalendarConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

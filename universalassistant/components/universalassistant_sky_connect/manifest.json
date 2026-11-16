@@ -1,6 +1,6 @@
 {
   "domain": "universalassistant_sky_connect",
-  "name": "__HA_KEEP__ Connect ZBT-1",
+  "name": "Universal Home Assistant Connect ZBT-1",
   "categories": ["hubs_protocols.wireless_protocols"],
   "codeowners": ["@universal-assistant/core"],
   "config_flow": true,
@@ -24,7 +24,7 @@
     },
     {
       "description": "*universal assistant connect zbt-1*",
-      "known_devices": ["__HA_KEEP__ Connect ZBT-1"],
+      "known_devices": ["Universal Home Assistant Connect ZBT-1"],
       "pid": "EA60",
       "vid": "10C4"
     }

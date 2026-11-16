@@ -1,13 +1,13 @@
 """The Spin EV Charger integration."""
 
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 
 from .const import PLATFORMS
 from .coordinator import SpinEvConfigEntry, SpinEvCoordinator
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SpinEvConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SpinEvConfigEntry) -> None:
     """Set up a charger from a config entry."""
     coordinator = SpinEvCoordinator(hass, entry)
 
@@ -25,11 +25,11 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SpinEvConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SpinEvConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SpinEvConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_reload_entry(hass: __HAC_KEEP__, entry: SpinEvConfigEntry) -> None:
+async def async_reload_entry(hass: UniversalAssistant, entry: SpinEvConfigEntry) -> None:
     """Reload the entry so a changed connection mode takes effect."""
     await hass.config_entries.async_reload(entry.entry_id)

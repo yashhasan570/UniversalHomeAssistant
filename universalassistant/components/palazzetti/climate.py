@@ -11,17 +11,19 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN, FAN_AUTO, FAN_HIGH, FAN_MODES
 from .coordinator import PalazzettiConfigEntry, PalazzettiDataUpdateCoordinator
 from .entity import PalazzettiEntity
 
+PARALLEL_UPDATES = 1
+
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: PalazzettiConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -83,7 +85,7 @@ class PalazzettiClimateEntity(PalazzettiEntity, ClimateEntity):
         try:
             await self.coordinator.client.set_on(hvac_mode != HVACMode.OFF)
         except CommunicationError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="cannot_connect"
             ) from err
         except ValidationError as err:
@@ -111,7 +113,7 @@ class PalazzettiClimateEntity(PalazzettiEntity, ClimateEntity):
         try:
             await self.coordinator.client.set_target_temperature(temperature)
         except CommunicationError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="cannot_connect"
             ) from err
         except ValidationError as err:
@@ -142,7 +144,7 @@ class PalazzettiClimateEntity(PalazzettiEntity, ClimateEntity):
             else:
                 await self.coordinator.client.set_fan_speed(FAN_MODES.index(fan_mode))
         except CommunicationError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="cannot_connect"
             ) from err
         except ValidationError as err:

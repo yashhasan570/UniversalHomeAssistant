@@ -16,15 +16,15 @@ from universalassistant.components.victron_gx.const import (
     DOMAIN,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import MOCK_INSTALLATION_ID
 
 
 async def test_victron_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -76,7 +76,7 @@ async def test_victron_switch(
 
 
 async def test_victron_switch_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -145,7 +145,7 @@ async def test_victron_switch_actions(
     ],
 )
 async def test_switch_action_transport_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
     topic: str,
@@ -173,7 +173,7 @@ async def test_switch_action_transport_failure(
 
     with (
         patch.object(victron_hub._client, "publish", return_value=result) as publish,
-        pytest.raises(__HAC_KEEP__Error) as err,
+        pytest.raises(UniversalAssistantError) as err,
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,
@@ -183,7 +183,7 @@ async def test_switch_action_transport_failure(
         )
 
     publish.assert_called_once()
-    assert type(err.value) is __HAC_KEEP__Error
+    assert type(err.value) is UniversalAssistantError
     assert isinstance(err.value.__cause__, error_type)
     assert err.value.translation_domain == DOMAIN
     assert err.value.translation_key == translation_key

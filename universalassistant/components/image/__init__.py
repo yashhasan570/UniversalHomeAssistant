@@ -8,17 +8,17 @@ from typing import Final, override
 
 from aiohttp import hdrs, web
 
-from universalassistant.components.http import KEY_AUTHENTICATED, KEY_HASS, __HAC_KEEP__View
+from universalassistant.components.http import KEY_AUTHENTICATED, KEY_HASS, UniversalAssistantView
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONTENT_TYPE_MULTIPART, EVENT_HOMEASSISTANT_STOP
 from universalassistant.core import (
     DOMAIN as HOMEASSISTANT_DOMAIN,
     Event,
     EventStateChangedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
 )
-from universalassistant.exceptions import ConfigEntryError, __HAC_KEEP__Error
+from universalassistant.exceptions import ConfigEntryError, UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.event import (
@@ -96,7 +96,7 @@ async def _async_get_image(image_entity: ImageEntity, timeout: int) -> Image:
                 content_type = valid_image_content_type(image_entity.content_type)
                 return Image(content_type, image_bytes)
 
-    raise __HAC_KEEP__Error(
+    raise UniversalAssistantError(
         translation_domain=DOMAIN,
         translation_key="image_unavailable",
         translation_placeholders={"entity_id": image_entity.entity_id},
@@ -104,7 +104,7 @@ async def _async_get_image(image_entity: ImageEntity, timeout: int) -> Image:
 
 
 async def async_get_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id: str,
     timeout: int = 10,
 ) -> Image:
@@ -112,7 +112,7 @@ async def async_get_image(
     component = hass.data[DATA_COMPONENT]
 
     if (image := component.get_entity(entity_id)) is None:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="entity_not_found",
             translation_placeholders={"entity_id": entity_id},
@@ -121,7 +121,7 @@ async def async_get_image(
     return await _async_get_image(image, timeout)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the image component."""
     component = hass.data[DATA_COMPONENT] = EntityComponent[ImageEntity](
         _LOGGER, DOMAIN, hass, SCAN_INTERVAL
@@ -155,7 +155,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up a config entry."""
     if not await hass.data[DATA_COMPONENT].async_setup_entry(entry):
         raise ConfigEntryError(
@@ -165,12 +165,12 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.data[DATA_COMPONENT].async_unload_entry(entry)
 
 
-class ImageView(__HAC_KEEP__View):
+class ImageView(UniversalAssistantView):
     """View to serve an image."""
 
     name = "api:image:image"
@@ -221,7 +221,7 @@ class ImageView(__HAC_KEEP__View):
         # to verify that the image exists.
         try:
             image = await _async_get_image(image_entity, IMAGE_TIMEOUT)
-        except (__HAC_KEEP__Error, ValueError) as ex:
+        except (UniversalAssistantError, ValueError) as ex:
             raise web.HTTPInternalServerError from ex
 
         return web.Response(
@@ -240,7 +240,7 @@ class ImageView(__HAC_KEEP__View):
         """Serve image."""
         try:
             image = await _async_get_image(image_entity, IMAGE_TIMEOUT)
-        except (__HAC_KEEP__Error, ValueError) as ex:
+        except (UniversalAssistantError, ValueError) as ex:
             raise web.HTTPInternalServerError from ex
 
         return web.Response(

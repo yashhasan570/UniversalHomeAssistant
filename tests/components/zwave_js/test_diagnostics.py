@@ -26,14 +26,14 @@ from universalassistant.components.zwave_js.helpers import (
     get_value_id_from_unique_id,
 )
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .common import PROPERTY_ULTRAVIOLET
 
 
 async def test_config_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     integration,
     config_entry_diagnostics,
@@ -51,7 +51,7 @@ async def test_config_entry_diagnostics(
 
 
 async def test_device_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client,
@@ -140,7 +140,7 @@ async def test_device_diagnostics(
 
 
 async def test_device_diagnostics_error(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, integration
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, integration
 ) -> None:
     """Test the device diagnostics raises exception when an invalid device is used."""
     device = device_registry.async_get_or_create(
@@ -157,7 +157,7 @@ async def test_empty_zwave_value_matcher() -> None:
 
 
 async def test_device_diagnostics_missing_primary_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client,
@@ -228,7 +228,7 @@ async def test_device_diagnostics_missing_primary_value(
 
 
 async def test_device_diagnostics_secret_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client,
     multisensor_6_state,
@@ -274,7 +274,7 @@ async def test_device_diagnostics_secret_value(
 
 @pytest.mark.parametrize("platforms", [[Platform.SENSOR]])
 async def test_device_diagnostics_includes_child_device_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client,
     climate_heatit_z_trm3,

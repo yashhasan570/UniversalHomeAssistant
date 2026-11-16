@@ -20,7 +20,7 @@ from universalassistant.components.light import (
     LightEntityFeature,
     brightness_supported,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -78,7 +78,7 @@ BLOCK_LIGHTS = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -91,7 +91,7 @@ async def async_setup_entry(
 
 @callback
 def _async_setup_block_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -639,7 +639,7 @@ LIGHTS: Final = {
 
 @callback
 def _async_setup_rpc_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

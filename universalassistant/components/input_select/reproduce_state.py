@@ -7,7 +7,7 @@ from typing import Any
 
 from universalassistant.components.select import SelectEntityCapabilityAttribute
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import Context, __HAC_KEEP__, State
+from universalassistant.core import Context, UniversalAssistant, State
 
 from .const import DOMAIN, InputSelectService, InputSelectServiceArgument
 
@@ -15,7 +15,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def _async_reproduce_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     state: State,
     *,
     context: Context | None = None,
@@ -61,7 +61,7 @@ async def _async_reproduce_state(
 
 
 async def async_reproduce_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     states: Iterable[State],
     *,
     context: Context | None = None,

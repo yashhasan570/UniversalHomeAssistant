@@ -10,8 +10,8 @@ from python_otbr_api.tlv_parser import TLVError
 from zeroconf.asyncio import AsyncServiceInfo
 
 from universalassistant.components.thread import dataset_store, discovery
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from . import (
     DATASET_1,
@@ -80,7 +80,7 @@ DATASET_1_OTHER_SECURITY_POLICY = (
 )
 
 
-async def test_add_invalid_dataset(hass: __HAC_KEEP__) -> None:
+async def test_add_invalid_dataset(hass: UniversalAssistant) -> None:
     """Test adding an invalid dataset."""
     with pytest.raises(TLVError, match="expected 173 bytes for tag 222, got 2"):
         await dataset_store.async_add_dataset(hass, "source", "DEADBEEF")
@@ -89,7 +89,7 @@ async def test_add_invalid_dataset(hass: __HAC_KEEP__) -> None:
     assert len(store.datasets) == 0
 
 
-async def test_add_dataset_twice(hass: __HAC_KEEP__) -> None:
+async def test_add_dataset_twice(hass: UniversalAssistant) -> None:
     """Test adding dataset twice does nothing."""
     assert (
         await dataset_store.async_add_dataset(hass, "source", DATASET_1)
@@ -105,7 +105,7 @@ async def test_add_dataset_twice(hass: __HAC_KEEP__) -> None:
     assert list(store.datasets.values())[0].created == created
 
 
-async def test_add_dataset_reordered(hass: __HAC_KEEP__) -> None:
+async def test_add_dataset_reordered(hass: UniversalAssistant) -> None:
     """Test adding dataset with keys in a different order does nothing."""
     await dataset_store.async_add_dataset(hass, "source", DATASET_1)
 
@@ -123,7 +123,7 @@ async def test_add_dataset_reordered(hass: __HAC_KEEP__) -> None:
     assert list(store.datasets.values())[0].tlv == DATASET_1
 
 
-async def test_delete_dataset_twice(hass: __HAC_KEEP__) -> None:
+async def test_delete_dataset_twice(hass: UniversalAssistant) -> None:
     """Test deleting dataset twice raises."""
     await dataset_store.async_add_dataset(hass, "source", DATASET_1)
     await dataset_store.async_add_dataset(hass, "source", DATASET_2)
@@ -139,7 +139,7 @@ async def test_delete_dataset_twice(hass: __HAC_KEEP__) -> None:
     assert len(store.datasets) == 1
 
 
-async def test_delete_preferred_dataset(hass: __HAC_KEEP__) -> None:
+async def test_delete_preferred_dataset(hass: UniversalAssistant) -> None:
     """Test deleting preferred dataset raises."""
     await dataset_store.async_add_dataset(hass, "source", DATASET_1)
 
@@ -147,12 +147,12 @@ async def test_delete_preferred_dataset(hass: __HAC_KEEP__) -> None:
     dataset_id = list(store.datasets.values())[0].id
     store.preferred_dataset = dataset_id
 
-    with pytest.raises(__HAC_KEEP__Error, match="attempt to remove preferred dataset"):
+    with pytest.raises(UniversalAssistantError, match="attempt to remove preferred dataset"):
         store.async_delete(dataset_id)
     assert len(store.datasets) == 1
 
 
-async def test_get_dataset(hass: __HAC_KEEP__) -> None:
+async def test_get_dataset(hass: UniversalAssistant) -> None:
     """Test get the preferred dataset."""
     assert await dataset_store.async_get_dataset(hass, "blah") is None
 
@@ -163,7 +163,7 @@ async def test_get_dataset(hass: __HAC_KEEP__) -> None:
     assert (await dataset_store.async_get_dataset(hass, dataset_id)) == DATASET_1
 
 
-async def test_get_preferred_dataset(hass: __HAC_KEEP__) -> None:
+async def test_get_preferred_dataset(hass: UniversalAssistant) -> None:
     """Test get the preferred dataset."""
     assert await dataset_store.async_get_preferred_dataset(hass) is None
 
@@ -176,7 +176,7 @@ async def test_get_preferred_dataset(hass: __HAC_KEEP__) -> None:
     assert (await dataset_store.async_get_preferred_dataset(hass)) == DATASET_1
 
 
-async def test_dataset_properties(hass: __HAC_KEEP__) -> None:
+async def test_dataset_properties(hass: UniversalAssistant) -> None:
     """Test dataset entry properties."""
     datasets = [
         {"source": "Google", "tlv": DATASET_1},
@@ -210,7 +210,7 @@ async def test_dataset_properties(hass: __HAC_KEEP__) -> None:
     assert dataset == dataset_2
     assert dataset.channel == 15
     assert dataset.extended_pan_id == "1111111122222233"
-    assert dataset.network_name == "__HAC_KEEP__!"
+    assert dataset.network_name == "UniversalAssistant!"
     assert dataset.pan_id == "1234"
 
     dataset = store.async_get(dataset_3.id)
@@ -229,18 +229,18 @@ async def test_dataset_properties(hass: __HAC_KEEP__) -> None:
     ("dataset", "error"),
     [
         (DATASET_1_BAD_CHANNEL, TLVError),
-        (DATASET_1_NO_EXTPANID, __HAC_KEEP__Error),
-        (DATASET_1_NO_ACTIVETIMESTAMP, __HAC_KEEP__Error),
+        (DATASET_1_NO_EXTPANID, UniversalAssistantError),
+        (DATASET_1_NO_ACTIVETIMESTAMP, UniversalAssistantError),
     ],
 )
-async def test_add_bad_dataset(hass: __HAC_KEEP__, dataset, error) -> None:
+async def test_add_bad_dataset(hass: UniversalAssistant, dataset, error) -> None:
     """Test adding a bad dataset."""
     with pytest.raises(error):
         await dataset_store.async_add_dataset(hass, "test", dataset)
 
 
 async def test_update_dataset_newer(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test updating a dataset."""
     await dataset_store.async_add_dataset(hass, "test", DATASET_1)
@@ -264,7 +264,7 @@ async def test_update_dataset_newer(
 
 
 async def test_update_dataset_older(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test updating a dataset."""
     await dataset_store.async_add_dataset(hass, "test", DATASET_1_LARGER_TIMESTAMP)
@@ -299,7 +299,7 @@ async def test_update_dataset_older(
     ],
 )
 async def test_update_dataset_equivalent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     stored: str,
     updated: str,
@@ -324,7 +324,7 @@ async def test_update_dataset_equivalent(
 
 
 async def test_update_dataset_changed_security_policy(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test a genuine security policy change with the same timestamp warns.
 
@@ -344,7 +344,7 @@ async def test_update_dataset_changed_security_policy(
     )
 
 
-async def test_load_datasets(hass: __HAC_KEEP__) -> None:
+async def test_load_datasets(hass: UniversalAssistant) -> None:
     """Make sure that we can load/save data correctly."""
 
     datasets = [
@@ -379,7 +379,7 @@ async def test_load_datasets(hass: __HAC_KEEP__) -> None:
 
     assert store1.preferred_dataset == dataset_1_store_1.id
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         store1.async_delete(dataset_1_store_1.id)
     store1.async_delete(dataset_2_store_1.id)
 
@@ -404,7 +404,7 @@ async def test_load_datasets(hass: __HAC_KEEP__) -> None:
 
 
 async def test_loading_datasets_from_storage(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test loading stored datasets on start."""
     hass_storage[dataset_store.STORAGE_KEY] = {
@@ -447,7 +447,7 @@ async def test_loading_datasets_from_storage(
 
 
 async def test_migrate_drop_bad_datasets(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test migrating the dataset store when the store has bad datasets."""
     hass_storage[dataset_store.STORAGE_KEY] = {
@@ -488,7 +488,7 @@ async def test_migrate_drop_bad_datasets(
 
 
 async def test_migrate_drop_bad_datasets_preferred(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test migrating the dataset store when the store has bad datasets."""
     hass_storage[dataset_store.STORAGE_KEY] = {
@@ -519,7 +519,7 @@ async def test_migrate_drop_bad_datasets_preferred(
 
 
 async def test_migrate_drop_duplicate_datasets(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test migrating the dataset store when the store has duplicated datasets."""
     hass_storage[dataset_store.STORAGE_KEY] = {
@@ -554,7 +554,7 @@ async def test_migrate_drop_duplicate_datasets(
 
 
 async def test_migrate_drop_duplicate_datasets_2(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test migrating the dataset store when the store has duplicated datasets."""
     hass_storage[dataset_store.STORAGE_KEY] = {
@@ -589,7 +589,7 @@ async def test_migrate_drop_duplicate_datasets_2(
 
 
 async def test_migrate_drop_duplicate_datasets_preferred(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test migrating the dataset store when the store has duplicated datasets."""
     hass_storage[dataset_store.STORAGE_KEY] = {
@@ -625,7 +625,7 @@ async def test_migrate_drop_duplicate_datasets_preferred(
 
 
 async def test_migrate_set_default_border_agent_id(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test migrating the dataset store adds default border agent."""
     hass_storage[dataset_store.STORAGE_KEY] = {
@@ -649,11 +649,11 @@ async def test_migrate_set_default_border_agent_id(
     assert store.datasets[store._preferred_dataset].preferred_extended_address is None
 
 
-async def test_set_preferred_border_agent_id(hass: __HAC_KEEP__) -> None:
+async def test_set_preferred_border_agent_id(hass: UniversalAssistant) -> None:
     """Test set the preferred border agent ID of a dataset."""
     assert await dataset_store.async_get_preferred_dataset(hass) is None
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await dataset_store.async_add_dataset(
             hass, "source", DATASET_3, preferred_border_agent_id="blah"
         )
@@ -661,7 +661,7 @@ async def test_set_preferred_border_agent_id(hass: __HAC_KEEP__) -> None:
     store = await dataset_store.async_get_store(hass)
     assert len(store.datasets) == 0
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await dataset_store.async_add_dataset(
             hass, "source", DATASET_3, preferred_border_agent_id="bleh"
         )
@@ -671,7 +671,7 @@ async def test_set_preferred_border_agent_id(hass: __HAC_KEEP__) -> None:
     assert len(store.datasets) == 1
     assert list(store.datasets.values())[0].preferred_border_agent_id is None
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await dataset_store.async_add_dataset(
             hass, "source", DATASET_2, preferred_border_agent_id="blah"
         )
@@ -679,7 +679,7 @@ async def test_set_preferred_border_agent_id(hass: __HAC_KEEP__) -> None:
 
     store = await dataset_store.async_get_store(hass)
     dataset_id = list(store.datasets.values())[0].id
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await store.async_set_preferred_border_agent(dataset_id, "blah", None)
     assert list(store.datasets.values())[0].preferred_border_agent_id is None
 
@@ -687,7 +687,7 @@ async def test_set_preferred_border_agent_id(hass: __HAC_KEEP__) -> None:
     assert len(store.datasets) == 2
     assert list(store.datasets.values())[1].preferred_border_agent_id is None
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await dataset_store.async_add_dataset(
             hass, "source", DATASET_1_LARGER_TIMESTAMP, preferred_border_agent_id="blah"
         )
@@ -695,7 +695,7 @@ async def test_set_preferred_border_agent_id(hass: __HAC_KEEP__) -> None:
 
 
 async def test_set_preferred_border_agent_id_and_extended_address(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test set the preferred border agent ID and extended address of a dataset."""
     assert await dataset_store.async_get_preferred_dataset(hass) is None
@@ -754,7 +754,7 @@ async def test_set_preferred_border_agent_id_and_extended_address(
     assert list(store.datasets.values())[2].preferred_extended_address == "bleh"
 
 
-async def test_set_preferred_extended_address(hass: __HAC_KEEP__) -> None:
+async def test_set_preferred_extended_address(hass: UniversalAssistant) -> None:
     """Test set the preferred extended address of a dataset."""
     assert await dataset_store.async_get_preferred_dataset(hass) is None
 
@@ -790,7 +790,7 @@ async def test_set_preferred_extended_address(hass: __HAC_KEEP__) -> None:
     assert list(store.datasets.values())[2].preferred_extended_address == "blah"
 
 
-async def test_refresh_preferred_extended_address(hass: __HAC_KEEP__) -> None:
+async def test_refresh_preferred_extended_address(hass: UniversalAssistant) -> None:
     """Test the preferred extended address is refreshed when the border agent ID matches.
 
     An OTBR upgrade can regenerate the extended address while keeping the same
@@ -849,7 +849,7 @@ async def test_refresh_preferred_extended_address(hass: __HAC_KEEP__) -> None:
 
 
 async def test_automatically_set_preferred_dataset(
-    hass: __HAC_KEEP__, mock_async_zeroconf: MagicMock
+    hass: UniversalAssistant, mock_async_zeroconf: MagicMock
 ) -> None:
     """Test automatically setting the first dataset as the preferred dataset."""
     add_service_listener_called = asyncio.Event()
@@ -914,7 +914,7 @@ async def test_automatically_set_preferred_dataset(
 
 
 async def test_automatically_set_preferred_dataset_already_set(
-    hass: __HAC_KEEP__, mock_async_zeroconf: MagicMock
+    hass: UniversalAssistant, mock_async_zeroconf: MagicMock
 ) -> None:
     """Test a preference chosen during discovery is not overwritten.
 
@@ -979,7 +979,7 @@ async def test_automatically_set_preferred_dataset_already_set(
 
 
 async def test_automatically_set_preferred_dataset_deleted(
-    hass: __HAC_KEEP__, mock_async_zeroconf: MagicMock
+    hass: UniversalAssistant, mock_async_zeroconf: MagicMock
 ) -> None:
     """Test a dataset deleted during discovery is not set as preferred.
 
@@ -1038,7 +1038,7 @@ async def test_automatically_set_preferred_dataset_deleted(
 
 
 async def test_automatically_set_preferred_dataset_own_and_other_router(
-    hass: __HAC_KEEP__, mock_async_zeroconf: MagicMock
+    hass: UniversalAssistant, mock_async_zeroconf: MagicMock
 ) -> None:
     """Test automatically setting the first dataset as the preferred dataset.
 
@@ -1117,7 +1117,7 @@ async def test_automatically_set_preferred_dataset_own_and_other_router(
 
 
 async def test_automatically_set_preferred_dataset_other_router(
-    hass: __HAC_KEEP__, mock_async_zeroconf: MagicMock
+    hass: UniversalAssistant, mock_async_zeroconf: MagicMock
 ) -> None:
     """Test automatically setting the first dataset as the preferred dataset.
 
@@ -1185,7 +1185,7 @@ async def test_automatically_set_preferred_dataset_other_router(
 
 
 async def test_automatically_set_preferred_dataset_no_router(
-    hass: __HAC_KEEP__, mock_async_zeroconf: MagicMock
+    hass: UniversalAssistant, mock_async_zeroconf: MagicMock
 ) -> None:
     """Test automatically setting the first dataset as the preferred dataset.
 
@@ -1241,7 +1241,7 @@ async def test_automatically_set_preferred_dataset_no_router(
     assert await dataset_store.async_get_preferred_dataset(hass) is None
 
 
-async def test_add_dataset_returns_stored(hass: __HAC_KEEP__) -> None:
+async def test_add_dataset_returns_stored(hass: UniversalAssistant) -> None:
     """Test adding a dataset for a new network reports it was stored."""
     store = await dataset_store.async_get_store(hass)
 
@@ -1255,7 +1255,7 @@ async def test_add_dataset_returns_stored(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_add_dataset_discarded_by_concurrent_write(hass: __HAC_KEEP__) -> None:
+async def test_add_dataset_discarded_by_concurrent_write(hass: UniversalAssistant) -> None:
     """Test an add beaten to the store by a newer dataset is discarded."""
     await dataset_store.async_add_dataset(hass, "test", DATASET_1)
     store = await dataset_store.async_get_store(hass)
@@ -1270,7 +1270,7 @@ async def test_add_dataset_discarded_by_concurrent_write(hass: __HAC_KEEP__) -> 
     assert list(store.datasets.values())[0].tlv == DATASET_1_LARGER_TIMESTAMP
 
 
-async def test_add_dataset_stored_refreshes_border_agent(hass: __HAC_KEEP__) -> None:
+async def test_add_dataset_stored_refreshes_border_agent(hass: UniversalAssistant) -> None:
     """Test STORED covers an identical dataset refreshing the border agent."""
     await dataset_store.async_add_dataset(hass, "test", DATASET_1)
     store = await dataset_store.async_get_store(hass)
@@ -1290,7 +1290,7 @@ async def test_add_dataset_stored_refreshes_border_agent(hass: __HAC_KEEP__) -> 
     assert entry.preferred_extended_address == "AEEB2F594B570BBF"
 
 
-async def test_add_dataset_discarded_keeps_border_agent(hass: __HAC_KEEP__) -> None:
+async def test_add_dataset_discarded_keeps_border_agent(hass: UniversalAssistant) -> None:
     """Test DISCARDED means nothing about the entry changed."""
     await dataset_store.async_add_dataset(
         hass,

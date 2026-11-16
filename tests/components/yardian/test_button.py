@@ -7,7 +7,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -15,7 +15,7 @@ from . import setup_integration
 
 @patch("universalassistant.components.yardian.PLATFORMS", [Platform.BUTTON])
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_yardian_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -29,7 +29,7 @@ async def test_all_entities(
 
 @patch("universalassistant.components.yardian.button.BUTTON_REFRESH_DELAY", 0)
 async def test_stop_all_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_yardian_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

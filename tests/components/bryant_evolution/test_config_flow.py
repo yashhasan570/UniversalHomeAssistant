@@ -10,11 +10,11 @@ from universalassistant import config_entries
 from universalassistant.components.bryant_evolution.const import CONF_SYSTEM_ZONE, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_FILENAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_form_success(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_form_success(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -50,7 +50,7 @@ async def test_form_success(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> 
 
 
 async def test_form_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_evolution_client_factory: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -106,7 +106,7 @@ async def test_form_cannot_connect(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_cannot_connect_bad_file(
-    hass: __HAC_KEEP__, mock_evolution_client_factory: AsyncMock
+    hass: UniversalAssistant, mock_evolution_client_factory: AsyncMock
 ) -> None:
     """Test we handle cannot connect error from a missing file."""
     mock_evolution_client_factory.side_effect = FileNotFoundError("test error")
@@ -136,7 +136,7 @@ async def test_form_cannot_connect_bad_file(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure(
-    hass: __HAC_KEEP__, mock_evolution_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_evolution_entry: MockConfigEntry
 ) -> None:
     """Test that reconfigure discovers additional systems and zones."""
 

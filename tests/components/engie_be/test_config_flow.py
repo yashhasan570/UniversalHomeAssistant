@@ -20,7 +20,7 @@ from universalassistant.components.engie_be.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -34,7 +34,7 @@ USER_INPUT = {
 
 
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_engie_client: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -84,7 +84,7 @@ async def test_full_flow(
     ],
 )
 async def test_user_step_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_engie_client: MagicMock,
     mock_setup_entry: AsyncMock,
     exception: Exception,
@@ -128,7 +128,7 @@ async def test_user_step_errors(
     ],
 )
 async def test_mfa_submit_errors_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_engie_client: MagicMock,
     mock_auth_flow: MagicMock,
     mock_setup_entry: AsyncMock,
@@ -163,7 +163,7 @@ async def test_mfa_submit_errors_recovery(
 
 
 async def test_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_engie_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -189,7 +189,7 @@ async def test_already_configured(
 
 
 async def test_two_accounts_get_distinct_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_engie_client: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -216,7 +216,7 @@ async def test_two_accounts_get_distinct_entries(
 
 
 async def test_jwt_subject_missing_shows_form_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_engie_client: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -248,7 +248,7 @@ async def test_jwt_subject_missing_shows_form_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_engie_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -298,7 +298,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_engie_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -333,7 +333,7 @@ async def test_reauth_flow_errors(
 
 
 async def test_reauth_flow_unique_id_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_engie_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -354,7 +354,7 @@ async def test_reauth_flow_unique_id_mismatch(
 
 
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_engie_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -411,7 +411,7 @@ async def test_reconfigure_flow(
     ],
 )
 async def test_reconfigure_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_engie_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -457,7 +457,7 @@ async def test_reconfigure_flow_errors(
 
 
 async def test_reconfigure_flow_unique_id_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_engie_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

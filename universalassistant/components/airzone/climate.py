@@ -44,8 +44,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import TEMP_UNIT_LIB_TO_HASS
@@ -96,7 +96,7 @@ HVAC_MODE_HASS_TO_LIB: Final[dict[HVACMode, OperationMode]] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: AirzoneConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -234,7 +234,7 @@ class AirzoneClimate(AirzoneZoneEntity, ClimateEntity):
         await self._async_update_hvac_params(params)
 
         if slave_raise:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Mode can't be changed on slave zone {self.entity_id}"
             )
 

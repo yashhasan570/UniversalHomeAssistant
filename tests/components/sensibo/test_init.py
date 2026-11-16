@@ -14,14 +14,14 @@ from pytest_universalassistant.typing import WebSocketGenerator
 from universalassistant.components.sensibo.const import DOMAIN
 from universalassistant.components.sensibo.util import NoDevicesError, NoUsernameError
 from universalassistant.config_entries import SOURCE_USER, ConfigEntry, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
 from . import ENTRY_CONFIG
 
 
-async def test_load_unload_entry(hass: __HAC_KEEP__, mock_client: MagicMock) -> None:
+async def test_load_unload_entry(hass: UniversalAssistant, mock_client: MagicMock) -> None:
     """Test setup and unload config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -43,7 +43,7 @@ async def test_load_unload_entry(hass: __HAC_KEEP__, mock_client: MagicMock) -> 
     assert entry.state is ConfigEntryState.NOT_LOADED
 
 
-async def test_migrate_entry(hass: __HAC_KEEP__, mock_client: MagicMock) -> None:
+async def test_migrate_entry(hass: UniversalAssistant, mock_client: MagicMock) -> None:
     """Test migrate entry unique id."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -96,7 +96,7 @@ async def test_migrate_entry(hass: __HAC_KEEP__, mock_client: MagicMock) -> None
 )
 @pytest.mark.usefixtures("mock_client")
 async def test_migrate_entry_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     side_effect: type[Exception],
     state: ConfigEntryState,
     reason: str,
@@ -126,7 +126,7 @@ async def test_migrate_entry_fails(
 
 
 async def test_device_remove_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     load_int: ConfigEntry,
@@ -164,7 +164,7 @@ async def test_device_remove_devices(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_automatic_device_addition_and_removal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     get_data: tuple[SensiboData, dict[str, Any], dict[str, Any]],

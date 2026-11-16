@@ -31,7 +31,7 @@ from universalassistant.const import (
     EntityStateAttribute,
     UnitOfLength,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -86,7 +86,7 @@ def _generate_mock_feed_entry(
     return feed_entry
 
 
-async def test_setup(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+async def test_setup(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
     """Test the general setup of the platform."""
     # Set up some mock feed entries for this test.
     mock_entry_1 = _generate_mock_feed_entry(
@@ -218,7 +218,7 @@ async def test_setup(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None
             await hass.async_block_till_done()
 
 
-async def test_setup_with_custom_location(hass: __HAC_KEEP__) -> None:
+async def test_setup_with_custom_location(hass: UniversalAssistant) -> None:
     """Test the setup with a custom location."""
     # Set up some mock feed entries for this test.
     mock_entry_1 = _generate_mock_feed_entry("1234", "Title 1", 20.5, (-31.1, 150.1))

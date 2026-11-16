@@ -74,7 +74,7 @@ from universalassistant.const import (
 from universalassistant.core import (
     Event as HassEvent,
     EventStateReportedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
 )
 from universalassistant.helpers import device_registry as dr, entity_registry as er
@@ -101,7 +101,7 @@ def platforms() -> list[Platform]:
 @pytest.mark.parametrize("platforms", [("binary_sensor",)])
 @pytest.mark.parametrize("appliance", [ApplianceType.WASHER], indirect=True)
 async def test_coordinator_failure_refresh_and_stream(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -223,6 +223,7 @@ async def test_coordinator_failure_refresh_and_stream(
 async def test_coordinator_not_fetching_on_disconnected_appliance(
     client: MagicMock,
     config_entry: MockConfigEntry,
+    caplog: pytest.LogCaptureFixture,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
     appliance: HomeAppliance,
 ) -> None:
@@ -234,6 +235,8 @@ async def test_coordinator_not_fetching_on_disconnected_appliance(
 
     for method in INITIAL_FETCH_CLIENT_METHODS:
         assert getattr(client, method).call_count == 0
+    assert "is unavailable" in caplog.text
+    assert "Error fetching" not in caplog.text
 
 
 @pytest.mark.parametrize(
@@ -285,7 +288,7 @@ async def test_coordinator_update_failing(
     ],
 )
 async def test_event_listener(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -352,7 +355,7 @@ async def test_event_listener(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.WASHER], indirect=True)
 async def tests_receive_setting_and_status_for_first_time_at_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -407,7 +410,7 @@ async def tests_receive_setting_and_status_for_first_time_at_events(
 
 
 async def test_event_listener_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client_with_exception: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -465,7 +468,7 @@ async def _setup_with_token_refresh_on_connect(
     ],
 )
 async def test_event_listener_token_refresh_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     token_expiration_time: float,
     aioclient_mock: AiohttpClientMocker,
@@ -535,7 +538,7 @@ async def test_event_listener_token_refresh_error(
 @pytest.mark.parametrize("platforms", [("sensor",)])
 @pytest.mark.parametrize("appliance", [ApplianceType.WASHER], indirect=True)
 async def test_event_listener_token_refresh_reauth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     token_expiration_time: float,
     aioclient_mock: AiohttpClientMocker,
@@ -626,7 +629,7 @@ async def test_event_listener_token_refresh_reauth_error(
     ],
 )
 async def test_event_listener_resilience(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -722,7 +725,7 @@ async def test_event_listener_resilience(
 
 
 async def test_devices_updated_on_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -774,7 +777,7 @@ async def test_devices_updated_on_refresh(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.WASHER], indirect=True)
 async def test_paired_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -809,7 +812,7 @@ async def test_paired_event(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.WASHER], indirect=True)
 async def test_paired_disconnected_devices_not_fetching(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -844,7 +847,7 @@ async def test_paired_disconnected_devices_not_fetching(
 
 
 async def test_coordinator_disabling_updates_for_appliance(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -965,7 +968,7 @@ async def test_coordinator_disabling_updates_for_appliance(
 
 
 async def test_coordinator_disabling_updates_for_appliance_is_gone_after_entry_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -1032,7 +1035,7 @@ async def test_coordinator_disabling_updates_for_appliance_is_gone_after_entry_r
 
 @pytest.mark.parametrize("appliance", [ApplianceType.DISHWASHER], indirect=True)
 async def test_auth_error_while_updating_appliance(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -1084,7 +1087,7 @@ async def test_auth_error_while_updating_appliance(
     ],
 )
 async def test_other_errors_while_updating_appliance(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -1165,7 +1168,7 @@ async def test_fetch_base_program_options_when_active_favorite_program(
     ],
 )
 async def test_fetch_base_program_options_when_favorite_program_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -1280,7 +1283,7 @@ async def test_fetch_base_program_options_when_favorite_program_event(
 )
 @pytest.mark.parametrize("appliance", [ApplianceType.DISHWASHER], indirect=True)
 async def test_fetch_options_for_selected_program_when_active_program_finishes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -1452,7 +1455,7 @@ async def test_fetch_options_for_selected_program_when_active_program_finishes(
     ],
 )
 async def test_option_values_kept_after_changing_program(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],

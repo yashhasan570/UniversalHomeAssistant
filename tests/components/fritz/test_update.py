@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.fritz.const import DOMAIN
 from universalassistant.components.update import ATTR_LATEST_VERSION
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .const import (
@@ -31,7 +31,7 @@ AVAILABLE_UPDATE = {
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_update_entities_initialized(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     fc_class_mock,
     fh_class_mock,
@@ -51,7 +51,7 @@ async def test_update_entities_initialized(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_update_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     fc_class_mock,
     fh_class_mock,
@@ -73,7 +73,7 @@ async def test_update_available(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_available_update_can_be_installed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     fc_class_mock,
     fh_class_mock,
@@ -119,7 +119,7 @@ async def test_available_update_can_be_installed(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "fh_class_mock")
 async def test_update_available_version_normalized(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fc_class_mock,
     latest_version: str,
     expected_version: str,

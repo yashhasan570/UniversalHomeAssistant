@@ -21,7 +21,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -57,7 +57,7 @@ def mock_dummy_device_from_host_light_fan():
 
 
 async def test_loading_light_fan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     dummy_device_from_host_light_fan,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_loading_light_fan(
 
 
 async def test_on_off_fan_state(
-    hass: __HAC_KEEP__, dummy_device_from_host_light_fan
+    hass: UniversalAssistant, dummy_device_from_host_light_fan
 ) -> None:
     """Test the change of state of the fan switches."""
     await setup_integration(hass)
@@ -125,7 +125,7 @@ async def test_on_off_fan_state(
 
 
 async def test_speed_fan_state(
-    hass: __HAC_KEEP__, dummy_device_from_host_light_fan
+    hass: UniversalAssistant, dummy_device_from_host_light_fan
 ) -> None:
     """Test the change of speed of the fan switches."""
     await setup_integration(hass)
@@ -171,7 +171,7 @@ async def test_speed_fan_state(
 
 
 async def test_direction_fan_state(
-    hass: __HAC_KEEP__, dummy_device_from_host_light_fan
+    hass: UniversalAssistant, dummy_device_from_host_light_fan
 ) -> None:
     """Test the change of direction of the fan switches."""
     await setup_integration(hass)

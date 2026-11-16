@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.lg_tv_rs232.const import CONF_SET_ID, DOMAIN
 from universalassistant.const import CONF_DEVICE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import MOCK_DEVICE, MOCK_SET_ID
 
@@ -72,7 +72,7 @@ def mock_lgtv(initial_tv_state: TVState) -> MockLGTV:
 
 
 @pytest.fixture
-def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Create a mock config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -85,14 +85,14 @@ def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 
 @pytest.fixture(autouse=True)
-async def mock_usb_component(hass: __HAC_KEEP__) -> None:
+async def mock_usb_component(hass: UniversalAssistant) -> None:
     """Mock the USB component to prevent setup failures."""
     hass.config.components.add("usb")
 
 
 @pytest.fixture
 async def init_components(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_usb_component: None,
     mock_lgtv: MockLGTV,
     mock_config_entry: MockConfigEntry,

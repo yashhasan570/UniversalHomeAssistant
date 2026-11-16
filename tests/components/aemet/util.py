@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_value_fi
 
 from universalassistant.components.aemet.const import CONF_RADAR_UPDATES, DOMAIN
 from universalassistant.const import CONF_API_KEY, CONF_LATITUDE, CONF_LONGITUDE, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 FORECAST_DAILY_DATA_MOCK = {
     ATTR_DATA: load_json_value_fixture("aemet/town-28065-forecast-daily-data.json"),
@@ -66,8 +66,8 @@ def mock_api_call(cmd: str, fetch_data: bool = False) -> dict[str, Any]:
     return {}
 
 
-async def async_init_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
-    """Set up the AEMET OpenData integration in __HA_KEEP__."""
+async def async_init_integration(hass: UniversalAssistant) -> MockConfigEntry:
+    """Set up the AEMET OpenData integration in Universal Home Assistant."""
 
     config_entry = MockConfigEntry(
         domain=DOMAIN,

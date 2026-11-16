@@ -22,13 +22,13 @@ from universalassistant.components.aerosmart.const import (
 )
 from universalassistant.components.modbus import async_get_temporary_unit
 from universalassistant.const import CONF_DEVICE, CONF_HOST, CONF_PORT, CONF_TYPE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import MockModbusApi
 
 
-async def _start_flow(hass: __HAC_KEEP__, connection_type: str) -> str:
+async def _start_flow(hass: UniversalAssistant, connection_type: str) -> str:
     """Open the config flow and select a connection type."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -46,7 +46,7 @@ async def _start_flow(hass: __HAC_KEEP__, connection_type: str) -> str:
 
 @pytest.mark.usefixtures("mock_modbus_unit_ventilation", "mock_modbus_unit_heat_pump")
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_modbus_unit_ventilation: MockModbusUnit,
     mock_modbus_unit_heat_pump: MockModbusUnit,
@@ -83,7 +83,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("mock_modbus_unit_ventilation", "mock_modbus_unit_heat_pump")
 async def test_same_unit_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_modbus_api: MockModbusApi,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -169,7 +169,7 @@ async def test_same_unit_ids(
     ],
 )
 async def test_fractional_connection_values_are_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection_type: str,
     invalid_field: str,
     data: dict[str, object],
@@ -203,7 +203,7 @@ async def test_fractional_connection_values_are_rejected(
 
 @pytest.mark.usefixtures("mock_modbus_unit_ventilation", "mock_modbus_unit_heat_pump")
 async def test_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_modbus_api: MockModbusApi,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -249,7 +249,7 @@ async def test_cannot_connect(
 )
 @pytest.mark.usefixtures("mock_modbus_unit_ventilation", "mock_modbus_unit_heat_pump")
 async def test_controller_read_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     request: pytest.FixtureRequest,
     mock_modbus_api: MockModbusApi,
     mock_modbus_connection: MockModbusConnection,
@@ -295,7 +295,7 @@ async def test_controller_read_failure(
 
 @pytest.mark.usefixtures("mock_modbus_unit_ventilation", "mock_modbus_unit_heat_pump")
 async def test_duplicate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The same connection and both unit IDs abort as already configured."""
@@ -318,7 +318,7 @@ async def test_duplicate_entry(
 
 @pytest.mark.usefixtures("mock_modbus_unit_ventilation", "mock_modbus_unit_heat_pump")
 async def test_duplicate_serial_entry_ignores_baudrate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """The serial bus identity does not include its configurable baud rate."""
     MockConfigEntry(
@@ -349,7 +349,7 @@ async def test_duplicate_serial_entry_ignores_baudrate(
 
 @pytest.mark.usefixtures("mock_modbus_unit_ventilation", "mock_modbus_unit_heat_pump")
 async def test_concurrent_flows_create_one_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_modbus_api: MockModbusApi,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -385,7 +385,7 @@ async def test_concurrent_flows_create_one_entry(
 
 @pytest.mark.usefixtures("mock_modbus_unit_ventilation", "mock_modbus_unit_heat_pump")
 async def test_serial_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_modbus_api: MockModbusApi,
 ) -> None:

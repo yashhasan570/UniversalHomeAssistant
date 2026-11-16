@@ -14,8 +14,8 @@ from universalassistant.components.light import (
     LightEntity,
     LightEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.color import color_hsv_to_RGB, color_RGB_to_hsv
 
@@ -30,7 +30,7 @@ EFFECT_EXPERT_STYLES = {"FOLLOW_AUDIO", "FOLLOW_COLOR", "Lounge light"}
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: PhilipsTVConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -277,11 +277,11 @@ class PhilipsTVLightEntity(PhilipsJsEntity, LightEntity):
         }
 
         if not await self._tv.setAmbilightCached(data):
-            raise __HAC_KEEP__Error("Failed to set ambilight color")
+            raise UniversalAssistantError("Failed to set ambilight color")
 
         if effect.style != self._tv.ambilight_mode:
             if not await self._tv.setAmbilightMode(effect.style):
-                raise __HAC_KEEP__Error("Failed to set ambilight mode")
+                raise UniversalAssistantError("Failed to set ambilight mode")
 
     async def _set_ambilight_expert_config(
         self, effect: AmbilightEffect, hs_color: tuple[float, float], brightness: int
@@ -315,7 +315,7 @@ class PhilipsTVLightEntity(PhilipsJsEntity, LightEntity):
             config["tuning"] = 0
 
         if not await self._tv.setAmbilightCurrentConfiguration(config):
-            raise __HAC_KEEP__Error("Failed to set ambilight mode")
+            raise UniversalAssistantError("Failed to set ambilight mode")
 
     async def _set_ambilight_config(self, effect: AmbilightEffect):
         """Set ambilight via current configuration."""
@@ -326,7 +326,7 @@ class PhilipsTVLightEntity(PhilipsJsEntity, LightEntity):
         }
 
         if await self._tv.setAmbilightCurrentConfiguration(config) is False:
-            raise __HAC_KEEP__Error("Failed to set ambilight mode")
+            raise UniversalAssistantError("Failed to set ambilight mode")
 
     @override
     async def async_turn_on(self, **kwargs: Any) -> None:
@@ -336,7 +336,7 @@ class PhilipsTVLightEntity(PhilipsJsEntity, LightEntity):
         attr_effect = cast(str, kwargs.get(ATTR_EFFECT, self.effect))
 
         if not self._tv.on:
-            raise __HAC_KEEP__Error("TV is not available")
+            raise UniversalAssistantError("TV is not available")
 
         effect = AmbilightEffect.from_str(attr_effect)
 
@@ -375,10 +375,10 @@ class PhilipsTVLightEntity(PhilipsJsEntity, LightEntity):
         """Turn of ambilight."""
 
         if not self._tv.on:
-            raise __HAC_KEEP__Error("TV is not available")
+            raise UniversalAssistantError("TV is not available")
 
         if await self._tv.setAmbilightMode("internal") is False:
-            raise __HAC_KEEP__Error("Failed to set ambilight mode")
+            raise UniversalAssistantError("Failed to set ambilight mode")
 
         await self._set_ambilight_config(AmbilightEffect(EFFECT_MODE, "OFF", ""))
 

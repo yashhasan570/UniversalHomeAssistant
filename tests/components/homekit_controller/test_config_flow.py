@@ -20,7 +20,7 @@ from universalassistant import config_entries
 from universalassistant.components.homekit_controller import config_flow
 from universalassistant.components.homekit_controller.const import DOMAIN, KNOWN_DEVICES
 from universalassistant.components.homekit_controller.storage import async_get_entity_storage
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
@@ -167,7 +167,7 @@ def test_valid_pairing_codes(pairing_code) -> None:
 
 
 def get_flow_context(
-    hass: __HAC_KEEP__, result: config_flow.ConfigFlowResult
+    hass: UniversalAssistant, result: config_flow.ConfigFlowResult
 ) -> dict[str, Any]:
     """Get the flow context from the result of async_init or async_configure."""
     flow = next(
@@ -239,7 +239,7 @@ def setup_mock_accessory(controller):
 @pytest.mark.parametrize("upper_case_props", [True, False])
 @pytest.mark.parametrize("missing_csharp", [True, False])
 async def test_discovery_works(
-    hass: __HAC_KEEP__, controller, upper_case_props, missing_csharp
+    hass: UniversalAssistant, controller, upper_case_props, missing_csharp
 ) -> None:
     """Test a device being discovered."""
     device = setup_mock_accessory(controller)
@@ -273,7 +273,7 @@ async def test_discovery_works(
     assert result["data"] == {}
 
 
-async def test_abort_duplicate_flow(hass: __HAC_KEEP__, controller) -> None:
+async def test_abort_duplicate_flow(hass: UniversalAssistant, controller) -> None:
     """Already paired."""
     device = setup_mock_accessory(controller)
     discovery_info = get_device_discovery_info(device)
@@ -296,7 +296,7 @@ async def test_abort_duplicate_flow(hass: __HAC_KEEP__, controller) -> None:
     assert result["reason"] == "already_in_progress"
 
 
-async def test_pair_already_paired_1(hass: __HAC_KEEP__, controller) -> None:
+async def test_pair_already_paired_1(hass: UniversalAssistant, controller) -> None:
     """Already paired."""
     device = setup_mock_accessory(controller)
     # Flag device as already paired
@@ -312,7 +312,7 @@ async def test_pair_already_paired_1(hass: __HAC_KEEP__, controller) -> None:
     assert result["reason"] == "already_paired"
 
 
-async def test_unknown_domain_type(hass: __HAC_KEEP__, controller) -> None:
+async def test_unknown_domain_type(hass: UniversalAssistant, controller) -> None:
     """Test that aiohomekit can reject discoveries it doesn't support."""
     device = setup_mock_accessory(controller)
     # Flag device as already paired
@@ -329,7 +329,7 @@ async def test_unknown_domain_type(hass: __HAC_KEEP__, controller) -> None:
     assert result["reason"] == "ignored_model"
 
 
-async def test_id_missing(hass: __HAC_KEEP__, controller) -> None:
+async def test_id_missing(hass: UniversalAssistant, controller) -> None:
     """Test id is missing."""
     device = setup_mock_accessory(controller)
     discovery_info = get_device_discovery_info(device)
@@ -347,7 +347,7 @@ async def test_id_missing(hass: __HAC_KEEP__, controller) -> None:
     assert result["reason"] == "invalid_properties"
 
 
-async def test_discovery_ignored_model(hass: __HAC_KEEP__, controller) -> None:
+async def test_discovery_ignored_model(hass: UniversalAssistant, controller) -> None:
     """Already paired."""
     device = setup_mock_accessory(controller)
     discovery_info = get_device_discovery_info(device)
@@ -365,7 +365,7 @@ async def test_discovery_ignored_model(hass: __HAC_KEEP__, controller) -> None:
 
 
 async def test_discovery_ignored_hk_bridge(
-    hass: __HAC_KEEP__, controller, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, controller, device_registry: dr.DeviceRegistry
 ) -> None:
     """Ensure we ignore bridges and accessories from the homekit integration."""
     device = setup_mock_accessory(controller)
@@ -393,7 +393,7 @@ async def test_discovery_ignored_hk_bridge(
 
 
 async def test_discovery_ignored_hk_bridge_shared_mac(
-    hass: __HAC_KEEP__, controller: FakeController, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, controller: FakeController, device_registry: dr.DeviceRegistry
 ) -> None:
     """Ignore a homekit bridge even when another config entry shares its MAC.
 
@@ -431,7 +431,7 @@ async def test_discovery_ignored_hk_bridge_shared_mac(
 
 
 async def test_discovery_does_not_ignore_non_homekit(
-    hass: __HAC_KEEP__, controller, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, controller, device_registry: dr.DeviceRegistry
 ) -> None:
     """Do not ignore devices that are not from the homekit integration."""
     device = setup_mock_accessory(controller)
@@ -457,7 +457,7 @@ async def test_discovery_does_not_ignore_non_homekit(
     assert result["type"] is FlowResultType.FORM
 
 
-async def test_discovery_broken_pairing_flag(hass: __HAC_KEEP__, controller) -> None:
+async def test_discovery_broken_pairing_flag(hass: UniversalAssistant, controller) -> None:
     """Test handling existing pairing with wrong zeroconf pairing flag.
 
     We have seen this particular implementation error in 2 different devices.
@@ -494,7 +494,7 @@ async def test_discovery_broken_pairing_flag(hass: __HAC_KEEP__, controller) -> 
     assert result["reason"] == "already_paired"
 
 
-async def test_discovery_invalid_config_entry(hass: __HAC_KEEP__, controller) -> None:
+async def test_discovery_invalid_config_entry(hass: UniversalAssistant, controller) -> None:
     """There is already a config entry for the pairing id but it's invalid."""
     pairing = await controller.add_paired_device(Accessories(), "00:00:00:00:00:00")
 
@@ -532,7 +532,7 @@ async def test_discovery_invalid_config_entry(hass: __HAC_KEEP__, controller) ->
     assert result["type"] is FlowResultType.FORM
 
 
-async def test_discovery_ignored_config_entry(hass: __HAC_KEEP__, controller) -> None:
+async def test_discovery_ignored_config_entry(hass: UniversalAssistant, controller) -> None:
     """There is already a config entry but it is ignored."""
     pairing = await controller.add_paired_device(Accessories(), "00:00:00:00:00:00")
 
@@ -570,7 +570,7 @@ async def test_discovery_ignored_config_entry(hass: __HAC_KEEP__, controller) ->
     assert result["reason"] == "already_configured"
 
 
-async def test_discovery_already_configured(hass: __HAC_KEEP__, controller) -> None:
+async def test_discovery_already_configured(hass: UniversalAssistant, controller) -> None:
     """Already configured."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -602,7 +602,7 @@ async def test_discovery_already_configured(hass: __HAC_KEEP__, controller) -> N
 
 
 async def test_discovery_already_configured_update_csharp(
-    hass: __HAC_KEEP__, controller
+    hass: UniversalAssistant, controller
 ) -> None:
     """Already configured and csharp changes."""
     entry = MockConfigEntry(
@@ -643,7 +643,7 @@ async def test_discovery_already_configured_update_csharp(
 
 @pytest.mark.parametrize(("exception", "expected"), PAIRING_START_ABORT_ERRORS)
 async def test_pair_abort_errors_on_start(
-    hass: __HAC_KEEP__, controller, exception, expected
+    hass: UniversalAssistant, controller, exception, expected
 ) -> None:
     """Test various pairing errors."""
 
@@ -667,7 +667,7 @@ async def test_pair_abort_errors_on_start(
 
 @pytest.mark.parametrize(("exception", "expected"), PAIRING_TRY_LATER_ERRORS)
 async def test_pair_try_later_errors_on_start(
-    hass: __HAC_KEEP__, controller, exception, expected
+    hass: UniversalAssistant, controller, exception, expected
 ) -> None:
     """Test various pairing errors."""
 
@@ -707,7 +707,7 @@ async def test_pair_try_later_errors_on_start(
 
 @pytest.mark.parametrize(("exception", "expected"), PAIRING_START_FORM_ERRORS)
 async def test_pair_form_errors_on_start(
-    hass: __HAC_KEEP__, controller, exception, expected
+    hass: UniversalAssistant, controller, exception, expected
 ) -> None:
     """Test various pairing errors."""
 
@@ -759,7 +759,7 @@ async def test_pair_form_errors_on_start(
 
 @pytest.mark.parametrize(("exception", "expected"), PAIRING_FINISH_ABORT_ERRORS)
 async def test_pair_abort_errors_on_finish(
-    hass: __HAC_KEEP__, controller, exception, expected
+    hass: UniversalAssistant, controller, exception, expected
 ) -> None:
     """Test various pairing errors."""
     device = setup_mock_accessory(controller)
@@ -802,7 +802,7 @@ async def test_pair_abort_errors_on_finish(
 
 @pytest.mark.parametrize(("exception", "expected"), PAIRING_FINISH_FORM_ERRORS)
 async def test_pair_form_errors_on_finish(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     controller: FakeController,
     exception: type[Exception],
     expected: str,
@@ -860,7 +860,7 @@ async def test_pair_form_errors_on_finish(
 
 
 async def test_pair_unknown_errors(
-    hass: __HAC_KEEP__, controller: FakeController
+    hass: UniversalAssistant, controller: FakeController
 ) -> None:
     """Test describing unknown errors."""
     device = setup_mock_accessory(controller)
@@ -918,7 +918,7 @@ async def test_pair_unknown_errors(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_works(hass: __HAC_KEEP__, controller) -> None:
+async def test_user_works(hass: UniversalAssistant, controller) -> None:
     """Test user initiated disovers devices."""
     setup_mock_accessory(controller)
 
@@ -953,7 +953,7 @@ async def test_user_works(hass: __HAC_KEEP__, controller) -> None:
 
 
 async def test_user_pairing_with_insecure_setup_code(
-    hass: __HAC_KEEP__, controller
+    hass: UniversalAssistant, controller
 ) -> None:
     """Test user initiated disovers devices."""
     device = setup_mock_accessory(controller)
@@ -997,7 +997,7 @@ async def test_user_pairing_with_insecure_setup_code(
     assert result["title"] == "Koogeek-LS1-20833F"
 
 
-async def test_user_no_devices(hass: __HAC_KEEP__, controller) -> None:
+async def test_user_no_devices(hass: UniversalAssistant, controller) -> None:
     """Test user initiated pairing where no devices discovered."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -1006,7 +1006,7 @@ async def test_user_no_devices(hass: __HAC_KEEP__, controller) -> None:
     assert result["reason"] == "no_devices"
 
 
-async def test_user_no_unpaired_devices(hass: __HAC_KEEP__, controller) -> None:
+async def test_user_no_unpaired_devices(hass: UniversalAssistant, controller) -> None:
     """Test user initiated pairing where no unpaired devices discovered."""
     device = setup_mock_accessory(controller)
 
@@ -1024,7 +1024,7 @@ async def test_user_no_unpaired_devices(hass: __HAC_KEEP__, controller) -> None:
 
 
 async def test_discovery_dismiss_existing_flow_on_paired(
-    hass: __HAC_KEEP__, controller
+    hass: UniversalAssistant, controller
 ) -> None:
     """Test that existing flows get dismissed once paired to something else."""
     device = setup_mock_accessory(controller)
@@ -1067,7 +1067,7 @@ async def test_discovery_dismiss_existing_flow_on_paired(
 
 
 async def test_mdns_update_to_paired_during_pairing(
-    hass: __HAC_KEEP__, controller
+    hass: UniversalAssistant, controller
 ) -> None:
     """Test we do not abort pairing if mdns reflects paired during pairing."""
     device = setup_mock_accessory(controller)
@@ -1139,7 +1139,7 @@ async def test_mdns_update_to_paired_during_pairing(
     assert result["data"] == {}
 
 
-async def test_discovery_no_bluetooth_support(hass: __HAC_KEEP__, controller) -> None:
+async def test_discovery_no_bluetooth_support(hass: UniversalAssistant, controller) -> None:
     """Test discovery with bluetooth support not available."""
     with patch(
         "universalassistant.components.homekit_controller.config_flow.aiohomekit_const.BLE_TRANSPORT_SUPPORTED",
@@ -1154,7 +1154,7 @@ async def test_discovery_no_bluetooth_support(hass: __HAC_KEEP__, controller) ->
     assert result["reason"] == "ignored_model"
 
 
-async def test_bluetooth_not_homekit(hass: __HAC_KEEP__, controller) -> None:
+async def test_bluetooth_not_homekit(hass: UniversalAssistant, controller) -> None:
     """Test bluetooth discovery with a non-homekit device."""
     with patch(
         "universalassistant.components.homekit_controller.config_flow.aiohomekit_const.BLE_TRANSPORT_SUPPORTED",
@@ -1170,7 +1170,7 @@ async def test_bluetooth_not_homekit(hass: __HAC_KEEP__, controller) -> None:
 
 
 async def test_bluetooth_valid_device_no_discovery(
-    hass: __HAC_KEEP__, controller
+    hass: UniversalAssistant, controller
 ) -> None:
     """Test bluetooth discovery  with a homekit device and discovery fails."""
     with patch(
@@ -1187,7 +1187,7 @@ async def test_bluetooth_valid_device_no_discovery(
 
 
 async def test_bluetooth_valid_device_discovery_paired(
-    hass: __HAC_KEEP__, controller
+    hass: UniversalAssistant, controller
 ) -> None:
     """Test bluetooth discovery  with a homekit device and discovery works."""
     setup_mock_accessory(controller)
@@ -1207,7 +1207,7 @@ async def test_bluetooth_valid_device_discovery_paired(
 
 
 async def test_bluetooth_valid_device_discovery_unpaired(
-    hass: __HAC_KEEP__, controller
+    hass: UniversalAssistant, controller
 ) -> None:
     """Test bluetooth discovery with a homekit device and discovery works."""
     setup_mock_accessory(controller)
@@ -1246,7 +1246,7 @@ async def test_bluetooth_valid_device_discovery_unpaired(
 
 
 async def test_discovery_updates_ip_when_config_entry_set_up(
-    hass: __HAC_KEEP__, controller
+    hass: UniversalAssistant, controller
 ) -> None:
     """Already configured updates ip when config entry set up."""
     entry = MockConfigEntry(
@@ -1285,7 +1285,7 @@ async def test_discovery_updates_ip_when_config_entry_set_up(
 
 
 async def test_discovery_updates_ip_config_entry_not_set_up(
-    hass: __HAC_KEEP__, controller
+    hass: UniversalAssistant, controller
 ) -> None:
     """Already configured updates ip when the config entry is not set up."""
     entry = MockConfigEntry(

@@ -28,7 +28,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfVolume,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
@@ -72,7 +72,7 @@ WEBHOOK_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: PlaatoConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: PlaatoConfigEntry) -> None:
     """Configure based on config entry."""
     if entry.data[CONF_USE_WEBHOOK]:
         async_setup_webhook(hass, entry)
@@ -87,7 +87,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: PlaatoConfigEntry) -> Non
 
 
 @callback
-def async_setup_webhook(hass: __HAC_KEEP__, entry: PlaatoConfigEntry) -> None:
+def async_setup_webhook(hass: UniversalAssistant, entry: PlaatoConfigEntry) -> None:
     """Init webhook based on config entry."""
     webhook_id = entry.data[CONF_WEBHOOK_ID]
     device_name = entry.data[CONF_DEVICE_NAME]
@@ -105,7 +105,7 @@ def async_setup_webhook(hass: __HAC_KEEP__, entry: PlaatoConfigEntry) -> None:
 
 
 async def async_setup_coordinator(
-    hass: __HAC_KEEP__, entry: PlaatoConfigEntry
+    hass: UniversalAssistant, entry: PlaatoConfigEntry
 ) -> None:
     """Init auth token based on config entry."""
     auth_token = entry.data[CONF_TOKEN]
@@ -126,7 +126,7 @@ async def async_setup_coordinator(
             coordinator.platforms.append(platform)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: PlaatoConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: PlaatoConfigEntry) -> None:
     """Unload a config entry."""
     if entry.data[CONF_USE_WEBHOOK]:
         await async_unload_webhook(hass, entry)
@@ -135,7 +135,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: PlaatoConfigEntry) -> No
     await async_unload_coordinator(hass, entry)
 
 
-async def async_unload_webhook(hass: __HAC_KEEP__, entry: PlaatoConfigEntry) -> None:
+async def async_unload_webhook(hass: UniversalAssistant, entry: PlaatoConfigEntry) -> None:
     """Unload webhook based entry."""
     if entry.data[CONF_WEBHOOK_ID] is not None:
         webhook.async_unregister(hass, entry.data[CONF_WEBHOOK_ID])
@@ -143,7 +143,7 @@ async def async_unload_webhook(hass: __HAC_KEEP__, entry: PlaatoConfigEntry) -> 
 
 
 async def async_unload_coordinator(
-    hass: __HAC_KEEP__, entry: PlaatoConfigEntry
+    hass: UniversalAssistant, entry: PlaatoConfigEntry
 ) -> None:
     """Unload auth token based entry."""
     coordinator = entry.runtime_data.coordinator
@@ -152,13 +152,13 @@ async def async_unload_coordinator(
     )
 
 
-async def _async_update_listener(hass: __HAC_KEEP__, entry: PlaatoConfigEntry) -> None:
+async def _async_update_listener(hass: UniversalAssistant, entry: PlaatoConfigEntry) -> None:
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
 async def handle_webhook(
-    hass: __HAC_KEEP__, webhook_id: str, request: web.Request
+    hass: UniversalAssistant, webhook_id: str, request: web.Request
 ) -> web.Response | None:
     """Handle incoming webhook from Plaato."""
     try:

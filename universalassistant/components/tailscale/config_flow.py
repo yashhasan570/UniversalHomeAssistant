@@ -7,7 +7,7 @@ import probatio
 from tailscale import Tailscale, TailscaleAuthenticationError, TailscaleError
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import CONF_OAUTH_CLIENT_ID, CONF_OAUTH_CLIENT_SECRET, CONF_TAILNET, DOMAIN
@@ -27,7 +27,7 @@ STEP_REAUTH_SCHEMA = probatio.Schema(OAUTH_SCHEMA)
 
 
 async def validate_input(
-    hass: __HAC_KEEP__, *, tailnet: str, user_input: Mapping[str, Any]
+    hass: UniversalAssistant, *, tailnet: str, user_input: Mapping[str, Any]
 ) -> None:
     """Try using the given tailnet & OAuth credentials against the Tailscale API."""
     session = async_get_clientsession(hass)
@@ -41,7 +41,7 @@ async def validate_input(
         await tailscale.devices()
     finally:
         # Requesting an access token schedules a task that expires it; closing
-        # cancels it. The session is owned by __HA_KEEP__ and left open.
+        # cancels it. The session is owned by Universal Home Assistant and left open.
         await tailscale.close()
 
 

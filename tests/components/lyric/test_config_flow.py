@@ -15,7 +15,7 @@ from universalassistant.components.application_credentials import (
 )
 from universalassistant.components.lyric.const import DOMAIN, OAUTH2_AUTHORIZE, OAUTH2_TOKEN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.setup import async_setup_component
@@ -25,7 +25,7 @@ CLIENT_SECRET = "5678"
 
 
 @pytest.fixture
-async def mock_impl(hass: __HAC_KEEP__) -> None:
+async def mock_impl(hass: UniversalAssistant) -> None:
     """Mock implementation."""
     await async_setup_component(hass, DOMAIN, {})
     await hass.async_block_till_done()
@@ -35,7 +35,7 @@ async def mock_impl(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_abort_if_no_configuration(hass: __HAC_KEEP__) -> None:
+async def test_abort_if_no_configuration(hass: UniversalAssistant) -> None:
     """Check flow abort when no configuration."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -46,7 +46,7 @@ async def test_abort_if_no_configuration(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_impl")
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -112,7 +112,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_impl")
 async def test_reauthentication_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:

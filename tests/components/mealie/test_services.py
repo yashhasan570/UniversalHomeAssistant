@@ -26,8 +26,8 @@ from universalassistant.components.mealie.services import (
     MealieServiceArgument,
 )
 from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 
 from . import setup_integration
 
@@ -88,7 +88,7 @@ from . import setup_integration
     ],
 )
 async def test_service_add_ingredient(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     data: dict[str, str | float],
@@ -152,7 +152,7 @@ async def test_service_add_ingredient(
     ],
 )
 async def test_service_add_ingredient_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     data: dict[str, str | int | None],
@@ -186,7 +186,7 @@ async def test_service_add_ingredient_invalid(
     ],
 )
 async def test_service_add_ingredient_requires_food_or_note(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     data: dict[str, str | int],
@@ -210,7 +210,7 @@ async def test_service_add_ingredient_requires_food_or_note(
 
 
 async def test_service_add_ingredient_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -220,7 +220,7 @@ async def test_service_add_ingredient_error(
     mock_mealie_client.get_shopping_lists.reset_mock()
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="An error occurred adding an item to Supermarket"
+        UniversalAssistantError, match="An error occurred adding an item to Supermarket"
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -234,7 +234,7 @@ async def test_service_add_ingredient_error(
 
 
 async def test_service_mealplan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -323,7 +323,7 @@ async def test_service_mealplan(
 
 
 async def test_service_recipe(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -359,7 +359,7 @@ async def test_service_recipe(
     ],
 )
 async def test_service_get_recipes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -385,7 +385,7 @@ async def test_service_get_recipes(
 
 
 async def test_service_import_recipe(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -426,7 +426,7 @@ async def test_service_import_recipe(
 
 
 async def test_service_set_random_mealplan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -469,7 +469,7 @@ async def test_service_set_random_mealplan(
 
 
 async def test_service_set_random_mealplan_invalid_entry_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -518,7 +518,7 @@ async def test_service_set_random_mealplan_invalid_entry_type(
     ],
 )
 async def test_service_set_mealplan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -565,7 +565,7 @@ async def test_service_set_mealplan(
 
 
 async def test_service_set_mealplan_invalid_entry_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -591,7 +591,7 @@ async def test_service_set_mealplan_invalid_entry_type(
 
 
 async def test_service_delete_mealplan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -623,7 +623,7 @@ async def test_service_delete_mealplan(
 
 
 async def test_service_delete_mealplan_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -670,7 +670,7 @@ async def test_service_delete_mealplan_not_found(
     ],
 )
 async def test_service_update_mealplan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -737,7 +737,7 @@ async def test_service_update_mealplan(
 
 
 async def test_service_update_mealplan_invalid_entry_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -764,7 +764,7 @@ async def test_service_update_mealplan_invalid_entry_type(
 
 
 async def test_service_update_mealplan_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -791,7 +791,7 @@ async def test_service_update_mealplan_not_found(
 
 
 async def test_service_get_shopping_list_items(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -811,7 +811,7 @@ async def test_service_get_shopping_list_items(
 
 
 async def test_service_get_shopping_list_items_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -821,7 +821,7 @@ async def test_service_get_shopping_list_items_connection_error(
 
     mock_mealie_client.get_shopping_items.side_effect = MealieConnectionError
 
-    with pytest.raises(__HAC_KEEP__Error, match="Error connecting to Mealie instance"):
+    with pytest.raises(UniversalAssistantError, match="Error connecting to Mealie instance"):
         await hass.services.async_call(
             DOMAIN,
             MealieService.GET_SHOPPING_LIST_ITEMS,
@@ -841,7 +841,7 @@ async def test_service_get_shopping_list_items_connection_error(
     ],
 )
 async def test_service_parse_ingredient(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -885,7 +885,7 @@ async def test_service_parse_ingredient(
             {MealieServiceArgument.INGREDIENT: "1 can acorn squash"},
             "parse_ingredient",
             MealieConnectionError,
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "Error connecting to Mealie instance",
             True,
             id="parse-ingredient-connection-error",
@@ -895,7 +895,7 @@ async def test_service_parse_ingredient(
             {},
             "get_mealplans",
             MealieConnectionError,
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "Error connecting to Mealie instance",
             True,
         ),
@@ -904,7 +904,7 @@ async def test_service_parse_ingredient(
             {MealieServiceArgument.RECIPE_ID: "recipe_id"},
             "get_recipe",
             MealieConnectionError,
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "Error connecting to Mealie instance",
             True,
         ),
@@ -922,7 +922,7 @@ async def test_service_parse_ingredient(
             {},
             "get_recipes",
             MealieConnectionError,
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "Error connecting to Mealie instance",
             True,
         ),
@@ -940,7 +940,7 @@ async def test_service_parse_ingredient(
             {MealieServiceArgument.URL: "http://example.com"},
             "import_recipe",
             MealieConnectionError,
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "Error connecting to Mealie instance",
             True,
         ),
@@ -961,7 +961,7 @@ async def test_service_parse_ingredient(
             },
             "random_mealplan",
             MealieConnectionError,
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "Error connecting to Mealie instance",
             True,
         ),
@@ -974,7 +974,7 @@ async def test_service_parse_ingredient(
             },
             "set_mealplan",
             MealieConnectionError,
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "Error connecting to Mealie instance",
             True,
         ),
@@ -983,7 +983,7 @@ async def test_service_parse_ingredient(
             {MealieServiceArgument.MEALPLAN_ID: "16"},
             "delete_mealplan",
             MealieConnectionError,
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "Error connecting to Mealie instance",
             False,
         ),
@@ -997,14 +997,14 @@ async def test_service_parse_ingredient(
             },
             "update_mealplan",
             MealieConnectionError,
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "Error connecting to Mealie instance",
             True,
         ),
     ],
 )
 async def test_services_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -1096,7 +1096,7 @@ async def test_services_connection_error(
     ],
 )
 async def test_service_entry_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,

@@ -8,11 +8,11 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.ourgroceries import ClientError, InvalidLoginException
 from universalassistant.components.ourgroceries.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_load_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: None,
     ourgroceries_config_entry: MockConfigEntry | None,
 ) -> None:
@@ -41,7 +41,7 @@ def login_with_error(exception, ourgroceries: AsyncMock):
     ],
 )
 async def test_init_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     login_with_error,
     setup_integration: None,
     status: ConfigEntryState,
@@ -54,7 +54,7 @@ async def test_init_failure(
 @pytest.mark.parametrize("exception", [InvalidLoginException])
 @pytest.mark.usefixtures("login_with_error", "setup_integration")
 async def test_init_invalid_login_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ourgroceries_config_entry: MockConfigEntry,
 ) -> None:
     """Test an invalid login fails setup and starts a reauth flow."""

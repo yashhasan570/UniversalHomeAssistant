@@ -1,4 +1,4 @@
-"""Integrate Sofar devices into __HA_KEEP__."""
+"""Integrate Sofar devices into Universal Home Assistant."""
 
 from datetime import timedelta
 import logging
@@ -19,7 +19,7 @@ from universalassistant.components.sensor import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_TYPE, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -68,7 +68,7 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
 @callback
-def _async_remove_stale_sensors(hass: __HAC_KEEP__, serial: str) -> None:
+def _async_remove_stale_sensors(hass: UniversalAssistant, serial: str) -> None:
     """Drop removed sensors so they don't linger unavailable."""
     registry = er.async_get(hass)
     for key in _REMOVED_SENSOR_KEYS:
@@ -80,7 +80,7 @@ def _async_remove_stale_sensors(hass: __HAC_KEEP__, serial: str) -> None:
 
 
 def _async_seed_high_water_marks(
-    hass: __HAC_KEEP__, serial: str, device: SofarInverter
+    hass: UniversalAssistant, serial: str, device: SofarInverter
 ) -> None:
     """Prime high-water marks before the first poll has nothing to compare."""
     registry = er.async_get(hass)
@@ -106,7 +106,7 @@ def _async_seed_high_water_marks(
 
 @callback
 def _async_store_served(
-    hass: __HAC_KEEP__, entry: SofarConfigEntry, served: frozenset[str]
+    hass: UniversalAssistant, entry: SofarConfigEntry, served: frozenset[str]
 ) -> None:
     """Remember what the inverter serves for a setup it sleeps through."""
     hass.config_entries.async_update_entry(
@@ -114,7 +114,7 @@ def _async_store_served(
     )
 
 
-async def _async_refresh_versions(hass: __HAC_KEEP__, entry: SofarConfigEntry) -> None:
+async def _async_refresh_versions(hass: UniversalAssistant, entry: SofarConfigEntry) -> None:
     """Read the firmware versions a setup without the inverter missed."""
     await entry.runtime_data.readings.device.async_read_identity()
     dr.async_get(hass).async_get_or_create_from_info(
@@ -123,13 +123,13 @@ async def _async_refresh_versions(hass: __HAC_KEEP__, entry: SofarConfigEntry) -
     )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Sofar integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SofarConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SofarConfigEntry) -> None:
     """Set up Sofar from a config entry."""
     serial = entry.unique_id
     assert serial is not None
@@ -227,7 +227,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SofarConfigEntry) -> None
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: SofarConfigEntry,
     device_entry: dr.AnyDeviceEntry,
 ) -> bool:
@@ -263,7 +263,7 @@ async def async_remove_config_entry_device(
     return True
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: SofarConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: SofarConfigEntry) -> None:
     """Migrate an old config entry."""
     if entry.version == 1 and entry.minor_version == 1:
         hass.config_entries.async_update_entry(
@@ -271,6 +271,6 @@ async def async_migrate_entry(hass: __HAC_KEEP__, entry: SofarConfigEntry) -> No
         )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SofarConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SofarConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

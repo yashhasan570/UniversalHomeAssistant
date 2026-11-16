@@ -10,7 +10,7 @@ from aiovitesy.exceptions import CannotAuthenticate, VitesyError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -49,7 +49,7 @@ class VitesyDataUpdateCoordinator(DataUpdateCoordinator[dict[str, VitesyDevice]]
 
     config_entry: VitesyConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: VitesyConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: VitesyConfigEntry) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,

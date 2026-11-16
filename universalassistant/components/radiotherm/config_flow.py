@@ -9,8 +9,8 @@ from radiotherm.validate import RadiothermTstatError
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
 from .const import DOMAIN
@@ -19,11 +19,11 @@ from .data import RadioThermInitData, async_get_init_data
 _LOGGER = logging.getLogger(__name__)
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""
 
 
-async def validate_connection(hass: __HAC_KEEP__, host: str) -> RadioThermInitData:
+async def validate_connection(hass: UniversalAssistant, host: str) -> RadioThermInitData:
     """Validate the connection."""
     try:
         return await async_get_init_data(hass, host)

@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 CHARGING_ENTITY = "binary_sensor.battery_1_charging"
@@ -20,7 +20,7 @@ BATTERY_STATUS_REGISTER = 57734
 
 
 async def _setup_binary_sensor_platform(
-    hass: __HAC_KEEP__, entry: MockConfigEntry
+    hass: UniversalAssistant, entry: MockConfigEntry
 ) -> None:
     with patch(
         "universalassistant.components.solaredge_modbus.PLATFORMS",
@@ -32,7 +32,7 @@ async def _setup_binary_sensor_platform(
 
 
 async def test_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -44,7 +44,7 @@ async def test_binary_sensors(
 
 
 async def test_no_on_grid_sensor_without_grid_status_extension(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -68,7 +68,7 @@ async def test_no_on_grid_sensor_without_grid_status_extension(
     ],
 )
 async def test_battery_charging(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
     status: int,
@@ -76,7 +76,7 @@ async def test_battery_charging(
 ) -> None:
     """The charging sensor follows the battery status, and admits ignorance.
 
-    __HA_KEEP__'s battery-charging triggers and conditions key on this
+    Universal Home Assistant's battery-charging triggers and conditions key on this
     device class, so the status enum alone would leave them out of reach.
     """
     # The battery block is word-swapped, which the encoder can do itself.
@@ -101,7 +101,7 @@ async def test_battery_charging(
     ],
 )
 async def test_inverter_problem(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
     status: int,

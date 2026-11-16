@@ -7,7 +7,7 @@ import aiosomecomfort
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -27,7 +27,7 @@ type HoneywellConfigEntry = ConfigEntry[HoneywellData]
 
 @callback
 def _async_migrate_data_to_options(
-    hass: __HAC_KEEP__, config_entry: HoneywellConfigEntry
+    hass: UniversalAssistant, config_entry: HoneywellConfigEntry
 ) -> None:
     if not MIGRATE_OPTIONS_KEYS.intersection(config_entry.data):
         return
@@ -44,7 +44,7 @@ def _async_migrate_data_to_options(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: HoneywellConfigEntry
+    hass: UniversalAssistant, config_entry: HoneywellConfigEntry
 ) -> None:
     """Set up the Honeywell thermostat."""
     _async_migrate_data_to_options(hass, config_entry)
@@ -91,7 +91,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: HoneywellConfigEntry
+    hass: UniversalAssistant, config_entry: HoneywellConfigEntry
 ) -> None:
     """Unload the config and platforms."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)

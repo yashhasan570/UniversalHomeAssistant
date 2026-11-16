@@ -25,7 +25,7 @@ from universalassistant.components.elmax.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import ConfigFlowResult
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -110,7 +110,7 @@ def mock_setup_entry() -> Generator[None]:
         yield
 
 
-async def _finish_cloud_flow(hass: __HAC_KEEP__, flow_id: str) -> ConfigFlowResult:
+async def _finish_cloud_flow(hass: UniversalAssistant, flow_id: str) -> ConfigFlowResult:
     """Log in to the cloud and pick the panel."""
     await hass.config_entries.flow.async_configure(
         flow_id,
@@ -128,7 +128,7 @@ async def _finish_cloud_flow(hass: __HAC_KEEP__, flow_id: str) -> ConfigFlowResu
     )
 
 
-async def _finish_reauth(hass: __HAC_KEEP__, flow_id: str) -> ConfigFlowResult:
+async def _finish_reauth(hass: UniversalAssistant, flow_id: str) -> ConfigFlowResult:
     """Submit valid reauth credentials."""
     result = await hass.config_entries.flow.async_configure(
         flow_id,
@@ -142,7 +142,7 @@ async def _finish_reauth(hass: __HAC_KEEP__, flow_id: str) -> ConfigFlowResult:
     return result
 
 
-async def test_show_menu(hass: __HAC_KEEP__) -> None:
+async def test_show_menu(hass: UniversalAssistant) -> None:
     """Test that the form is served with no input."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -151,7 +151,7 @@ async def test_show_menu(hass: __HAC_KEEP__) -> None:
     assert result["step_id"] == "choose_mode"
 
 
-async def test_direct_setup(hass: __HAC_KEEP__) -> None:
+async def test_direct_setup(hass: UniversalAssistant) -> None:
     """Test the standard direct setup case."""
     show_form_result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -178,7 +178,7 @@ async def test_direct_setup(hass: __HAC_KEEP__) -> None:
         assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_direct_show_form(hass: __HAC_KEEP__) -> None:
+async def test_direct_show_form(hass: UniversalAssistant) -> None:
     """Test the standard direct show form case."""
     show_form_result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -198,7 +198,7 @@ async def test_direct_show_form(hass: __HAC_KEEP__) -> None:
         assert result["errors"] is None
 
 
-async def test_cloud_setup(hass: __HAC_KEEP__) -> None:
+async def test_cloud_setup(hass: UniversalAssistant) -> None:
     """Test the standard cloud setup case."""
     # Setup once.
     show_form_result = await hass.config_entries.flow.async_init(
@@ -231,7 +231,7 @@ async def test_cloud_setup(hass: __HAC_KEEP__) -> None:
         assert result["result"].unique_id == MOCK_PANEL_ID
 
 
-async def test_zeroconf_form_setup_api_not_supported(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_form_setup_api_not_supported(hass: UniversalAssistant) -> None:
     """Test the zeroconf setup case."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -242,7 +242,7 @@ async def test_zeroconf_form_setup_api_not_supported(hass: __HAC_KEEP__) -> None
     assert result["reason"] == "not_supported"
 
 
-async def test_zeroconf_discovery(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_discovery(hass: UniversalAssistant) -> None:
     """Test discovery of Elmax local api panel."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -254,7 +254,7 @@ async def test_zeroconf_discovery(hass: __HAC_KEEP__) -> None:
     assert result["errors"] is None
 
 
-async def test_zeroconf_discovery_ipv6(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_discovery_ipv6(hass: UniversalAssistant) -> None:
     """Test discovery of Elmax local api panel."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -266,7 +266,7 @@ async def test_zeroconf_discovery_ipv6(hass: __HAC_KEEP__) -> None:
     assert result["errors"] is None
 
 
-async def test_zeroconf_setup_show_form(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_setup_show_form(hass: UniversalAssistant) -> None:
     """Test discovery shows a form when activated."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -282,7 +282,7 @@ async def test_zeroconf_setup_show_form(hass: __HAC_KEEP__) -> None:
     assert result["step_id"] == "zeroconf_setup"
 
 
-async def test_zeroconf_setup(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_setup(hass: UniversalAssistant) -> None:
     """Test the successful creation of config entry via discovery flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -304,7 +304,7 @@ async def test_zeroconf_setup(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.parametrize("base_uri", [MOCK_DIRECT_BASE_URI_V6])
-async def test_zeroconf_ipv6_setup(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_ipv6_setup(hass: UniversalAssistant) -> None:
     """Test the successful creation of config entry via discovery flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -325,7 +325,7 @@ async def test_zeroconf_ipv6_setup(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_zeroconf_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_already_configured(hass: UniversalAssistant) -> None:
     """Ensure local discovery aborts when same panel is already added to ha."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -351,7 +351,7 @@ async def test_zeroconf_already_configured(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_zeroconf_panel_changed_ip(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_panel_changed_ip(hass: UniversalAssistant) -> None:
     """Ensure local discovery updates the panel data when a the panel changes its IP."""
     # Simulate an entry already exists for ip MOCK_DIRECT_HOST.
     config_entry = MockConfigEntry(
@@ -391,7 +391,7 @@ async def test_zeroconf_panel_changed_ip(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_one_config_allowed_cloud(hass: __HAC_KEEP__) -> None:
+async def test_one_config_allowed_cloud(hass: UniversalAssistant) -> None:
     """Test that only one Elmax configuration is allowed for each panel."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -432,7 +432,7 @@ async def test_one_config_allowed_cloud(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_cloud_invalid_credentials(hass: __HAC_KEEP__) -> None:
+async def test_cloud_invalid_credentials(hass: UniversalAssistant) -> None:
     """Test that invalid credentials throws an error."""
     with patch(
         "elmax_api.http.Elmax.login",
@@ -461,7 +461,7 @@ async def test_cloud_invalid_credentials(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_cloud_connection_error(hass: __HAC_KEEP__) -> None:
+async def test_cloud_connection_error(hass: UniversalAssistant) -> None:
     """Test other than invalid credentials throws an error."""
     with patch(
         "elmax_api.http.Elmax.login",
@@ -490,7 +490,7 @@ async def test_cloud_connection_error(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_direct_connection_error(hass: __HAC_KEEP__) -> None:
+async def test_direct_connection_error(hass: UniversalAssistant) -> None:
     """Test network error while dealing with direct panel APIs."""
     with patch(
         "elmax_api.http.ElmaxLocal.login",
@@ -529,7 +529,7 @@ async def test_direct_connection_error(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_direct_wrong_panel_code(hass: __HAC_KEEP__) -> None:
+async def test_direct_wrong_panel_code(hass: UniversalAssistant) -> None:
     """Test wrong code being specified while dealing with direct panel APIs."""
     with patch(
         "elmax_api.http.ElmaxLocal.login",
@@ -568,7 +568,7 @@ async def test_direct_wrong_panel_code(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_unhandled_error(hass: __HAC_KEEP__) -> None:
+async def test_unhandled_error(hass: UniversalAssistant) -> None:
     """Test unhandled exceptions."""
     with patch(
         "elmax_api.http.Elmax.get_panel_status",
@@ -610,7 +610,7 @@ async def test_unhandled_error(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_invalid_pin(hass: __HAC_KEEP__) -> None:
+async def test_invalid_pin(hass: UniversalAssistant) -> None:
     """Test error is thrown when a wrong pin is used to pair a panel."""
     # Simulate bad pin response.
     with patch(
@@ -653,7 +653,7 @@ async def test_invalid_pin(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_no_online_panel(hass: __HAC_KEEP__) -> None:
+async def test_no_online_panel(hass: UniversalAssistant) -> None:
     """Test no-online panel is available."""
     # Simulate low-level api returns no panels.
     with patch(
@@ -682,7 +682,7 @@ async def test_no_online_panel(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_show_reauth(hass: __HAC_KEEP__) -> None:
+async def test_show_reauth(hass: UniversalAssistant) -> None:
     """Test that the reauth form shows."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -701,7 +701,7 @@ async def test_show_reauth(hass: __HAC_KEEP__) -> None:
     assert result["step_id"] == "reauth_confirm"
 
 
-async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
+async def test_reauth_flow(hass: UniversalAssistant) -> None:
     """Test that the reauth flow works."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -735,7 +735,7 @@ async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_reauth_panel_disappeared(hass: __HAC_KEEP__) -> None:
+async def test_reauth_panel_disappeared(hass: UniversalAssistant) -> None:
     """Test that the case where panel is no longer associated with the user."""
     # Simulate a first setup
     entry = MockConfigEntry(
@@ -774,7 +774,7 @@ async def test_reauth_panel_disappeared(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_reauth_invalid_pin(hass: __HAC_KEEP__) -> None:
+async def test_reauth_invalid_pin(hass: UniversalAssistant) -> None:
     """Test that the case where panel is no longer associated with the user."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -812,7 +812,7 @@ async def test_reauth_invalid_pin(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_reauth_bad_login(hass: __HAC_KEEP__) -> None:
+async def test_reauth_bad_login(hass: UniversalAssistant) -> None:
     """Test bad login attempt at reauth time."""
     entry = MockConfigEntry(
         domain=DOMAIN,

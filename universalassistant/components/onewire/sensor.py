@@ -22,7 +22,7 @@ from universalassistant.const import (
     UnitOfPressure,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -360,7 +360,7 @@ def get_sensor_types(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: OneWireConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

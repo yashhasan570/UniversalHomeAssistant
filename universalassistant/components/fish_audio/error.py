@@ -2,12 +2,12 @@
 
 import logging
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 _LOGGER = logging.getLogger(__package__)
 
 
-class FishAudioError(__HAC_KEEP__Error):
+class FishAudioError(UniversalAssistantError):
     """Base class for Fish Audio errors."""
 
 

@@ -31,8 +31,8 @@ from systembridgeconnector.models.settings import (
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.system_bridge.const import DOMAIN
 from universalassistant.const import ATTR_FRIENDLY_NAME, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import FIXTURE_COMMAND, FIXTURE_REQUEST_ID, FIXTURE_UUID, setup_integration
@@ -53,7 +53,7 @@ def button_only() -> Generator[None]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_button_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -75,7 +75,7 @@ async def test_button_platform(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_power_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_client: MagicMock,
     entity_id: str,
     method: str,
@@ -111,19 +111,24 @@ async def test_power_button(
             "A connection error occurred",
             id="connection_closed",
         ),
+        pytest.param(
+            ConnectionResetError,
+            "A connection error occurred",
+            id="connection_reset",
+        ),
     ],
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_power_button_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_client: MagicMock,
-    side_effect: list[Response] | Exception,
+    side_effect: list[Response] | Exception | type[Exception],
     match: str,
 ) -> None:
     """Test a failed power command raises."""
     mock_websocket_client.power_shutdown.side_effect = side_effect
 
-    with pytest.raises(__HAC_KEEP__Error, match=match):
+    with pytest.raises(UniversalAssistantError, match=match):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -134,7 +139,7 @@ async def test_power_button_failure(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_command_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_client: MagicMock,
 ) -> None:
     """Test pressing a saved command's button runs it."""
@@ -194,7 +199,7 @@ async def test_command_button(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_command_button_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_client: MagicMock,
     side_effect: list[ExecuteResult] | Exception,
     match: str,
@@ -202,7 +207,7 @@ async def test_command_button_failure(
     """Test a saved command that fails raises."""
     mock_websocket_client.execute_command.side_effect = side_effect
 
-    with pytest.raises(__HAC_KEEP__Error, match=match):
+    with pytest.raises(UniversalAssistantError, match=match):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -212,7 +217,7 @@ async def test_command_button_failure(
 
 
 async def test_command_buttons_follow_settings(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_websocket_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -247,7 +252,7 @@ async def test_command_buttons_follow_settings(
 
 
 async def test_settings_change_while_fetching_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_websocket_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -277,11 +282,11 @@ async def test_settings_change_while_fetching_commands(
 
 @pytest.mark.usefixtures("mock_version", "mock_websocket_client")
 async def test_command_button_deleted_while_stopped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
-    """Test a button whose command was deleted while __HA_KEEP__ was stopped goes."""
+    """Test a button whose command was deleted while Universal Home Assistant was stopped goes."""
     mock_config_entry.add_to_hass(hass)
     entity_registry.async_get_or_create(
         BUTTON_DOMAIN,
@@ -298,7 +303,7 @@ async def test_command_button_deleted_while_stopped(
 
 
 async def test_command_buttons_without_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_version: MagicMock,
     mock_websocket_client: MagicMock,

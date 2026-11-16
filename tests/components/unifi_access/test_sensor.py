@@ -22,7 +22,7 @@ from unifi_access_api.models.websocket import (
 )
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -41,7 +41,7 @@ def _get_ws_handlers(
 
 
 async def test_sensor_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -60,7 +60,7 @@ async def test_sensor_entities(
 
 
 async def test_sensor_lock_rule_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -80,7 +80,7 @@ async def test_sensor_lock_rule_state(
 
 
 async def test_sensor_no_active_rule(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -94,7 +94,7 @@ async def test_sensor_no_active_rule(
 
 
 async def test_sensor_not_created_when_lock_rules_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -108,7 +108,7 @@ async def test_sensor_not_created_when_lock_rules_unsupported(
 
 
 async def test_sensor_created_for_supported_doors_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -133,7 +133,7 @@ async def test_sensor_created_for_supported_doors_only(
 
 
 async def test_sensor_created_after_websocket_update_when_initial_fetch_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -176,7 +176,7 @@ async def test_sensor_created_after_websocket_update_when_initial_fetch_fails(
 
 
 async def test_sensor_placeholder_created_only_for_transient_error_doors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -200,7 +200,7 @@ async def test_sensor_placeholder_created_only_for_transient_error_doors(
 
 
 async def test_sensor_lock_rule_websocket_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -235,7 +235,7 @@ async def test_sensor_lock_rule_websocket_update(
 
 
 async def test_sensor_lock_rule_websocket_rule_cleared(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -267,7 +267,7 @@ async def test_sensor_lock_rule_websocket_rule_cleared(
 
 
 async def test_sensor_partial_websocket_update_preserves_lock_rule(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:

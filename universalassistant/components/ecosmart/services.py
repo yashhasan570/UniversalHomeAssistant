@@ -12,13 +12,13 @@ import probatio
 
 from universalassistant.const import CommonServiceArgument
 from universalassistant.core import (
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import service
 from universalassistant.helpers.selector import DeviceSelector
 from universalassistant.util.json import JsonValueType
@@ -43,7 +43,7 @@ GET_FORECASTS_SCHEMA = probatio.Schema(
 
 
 def _coordinator_and_grid_exit_point(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> tuple[EcosmartCoordinator, str]:
     """Return the coordinator and grid exit point behind a connection point device.
 
@@ -100,24 +100,24 @@ async def _async_get_forecasts(call: ServiceCall) -> ServiceResponse:
     try:
         forecast = await coordinator.client.forecast(poc, FORECAST_HOURS)
     except EcosmartAuthError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN, translation_key="invalid_auth"
         ) from err
     except EcosmartRateLimitError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="forecast_rate_limited",
             translation_placeholders={"retry_after": str(retry_delay(err))},
         ) from err
     except EcosmartError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN, translation_key="cannot_connect"
         ) from err
     return _serialize(forecast)
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the ecosmart service actions."""
     hass.services.async_register(
         DOMAIN,

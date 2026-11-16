@@ -13,7 +13,7 @@ from zigpy.types import Channels
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_UNIQUE_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from .const import CONF_ALARM_MASTER_CODE
@@ -78,7 +78,7 @@ def get_application_state_diagnostics(app: ControllerApplication) -> dict:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     zha_data = get_zha_data(hass)
@@ -121,7 +121,7 @@ async def async_get_config_entry_diagnostics(
 
 
 async def async_get_device_diagnostics(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry, device: dr.AnyDeviceEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry, device: dr.AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device."""
     if (group_id := _group_id_from_device(config_entry.entry_id, device)) is not None:

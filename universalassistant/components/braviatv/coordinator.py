@@ -1,6 +1,7 @@
 """Update coordinator for Bravia TV integration."""
 
 from collections.abc import Awaitable, Callable, Coroutine, Iterable
+from contextlib import suppress
 from datetime import datetime, timedelta
 from functools import wraps
 import logging
@@ -19,10 +20,10 @@ from pybravia import (
 from universalassistant.components.media_player import MediaType
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_CLIENT_ID, CONF_PIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     ServiceValidationError,
 )
 from universalassistant.helpers.debounce import Debouncer
@@ -60,7 +61,7 @@ def catch_braviatv_errors[_BraviaTVCoordinatorT: BraviaTVCoordinator, **_P](
         try:
             await func(self, *args, **kwargs)
         except BraviaNotFound as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_error_not_found",
                 translation_placeholders={
@@ -68,7 +69,7 @@ def catch_braviatv_errors[_BraviaTVCoordinatorT: BraviaTVCoordinator, **_P](
                 },
             ) from err
         except (BraviaConnectionError, BraviaConnectionTimeout, BraviaTurnedOff) as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_error_offline",
                 translation_placeholders={
@@ -76,7 +77,7 @@ def catch_braviatv_errors[_BraviaTVCoordinatorT: BraviaTVCoordinator, **_P](
                 },
             ) from err
         except BraviaError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_error",
                 translation_placeholders={
@@ -96,7 +97,7 @@ class BraviaTVCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: BraviaTVConfigEntry,
         client: BraviaClient,
     ) -> None:
@@ -337,7 +338,8 @@ class BraviaTVCoordinator(DataUpdateCoordinator[None]):
     @catch_braviatv_errors
     async def async_turn_off(self) -> None:
         """Turn off device."""
-        await self.client.turn_off()
+        with suppress(BraviaConnectionError, BraviaConnectionTimeout, BraviaTurnedOff):
+            await self.client.turn_off()
 
     @catch_braviatv_errors
     async def async_set_volume_level(self, volume: float) -> None:

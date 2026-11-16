@@ -29,8 +29,8 @@ from universalassistant.components.select import (
 )
 from universalassistant.components.wled.const import DOMAIN, SCAN_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 pytestmark = pytest.mark.usefixtures("init_integration")
@@ -44,7 +44,7 @@ def override_platforms() -> Generator[None]:
 
 
 async def test_snapshots(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -87,7 +87,7 @@ async def test_snapshots(
     ],
 )
 async def test_color_palette_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -114,7 +114,7 @@ async def test_color_palette_state(
 
     # Test invalid response, not becoming unavailable
     method_mock.side_effect = WLEDError
-    with pytest.raises(__HAC_KEEP__Error, match="Invalid response from WLED API"):
+    with pytest.raises(UniversalAssistantError, match="Invalid response from WLED API"):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -132,7 +132,7 @@ async def test_color_palette_state(
 
     # Test connection error, leading to becoming unavailable
     method_mock.side_effect = WLEDConnectionError
-    with pytest.raises(__HAC_KEEP__Error, match="Error communicating with WLED API"):
+    with pytest.raises(UniversalAssistantError, match="Error communicating with WLED API"):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -151,7 +151,7 @@ async def test_color_palette_state(
 
 @pytest.mark.parametrize("device_fixture", ["rgb_single_segment"])
 async def test_color_palette_dynamically_handle_segments(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_wled: MagicMock,
 ) -> None:
@@ -190,13 +190,13 @@ async def test_color_palette_dynamically_handle_segments(
     assert segment1.state == STATE_UNAVAILABLE
 
 
-async def test_preset_unavailable_without_presets(hass: __HAC_KEEP__) -> None:
+async def test_preset_unavailable_without_presets(hass: UniversalAssistant) -> None:
     """Test WLED preset entity is unavailable when presets are not available."""
     assert (state := hass.states.get("select.wled_rgb_light_preset"))
     assert state.state == STATE_UNAVAILABLE
 
 
-async def test_playlist_unavailable_without_playlists(hass: __HAC_KEEP__) -> None:
+async def test_playlist_unavailable_without_playlists(hass: UniversalAssistant) -> None:
     """Test WLED playlist entity is unavailable when playlists are not available."""
     assert (state := hass.states.get("select.wled_rgb_light_playlist"))
     assert state.state == STATE_UNAVAILABLE
@@ -242,7 +242,7 @@ PLAYLIST = {"ps": [1], "dur": [100], "transition": [7], "repeat": 0, "end": 0, "
     ],
 )
 async def test_select_load_new_options_after_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_wled: MagicMock,
     entity_id: str,

@@ -1,4 +1,4 @@
-"""__HA_KEEP__ wrapper for a pyWeMo device."""
+"""Universal Home Assistant wrapper for a pyWeMo device."""
 
 import asyncio
 from dataclasses import dataclass, fields
@@ -19,7 +19,7 @@ from universalassistant.const import (
     CONF_TYPE,
     CONF_UNIQUE_ID,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import CONNECTION_UPNP, DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -84,13 +84,13 @@ class Options:
 
 
 class DeviceCoordinator(DataUpdateCoordinator[None]):
-    """__HA_KEEP__ wrapper for a pyWeMo device."""
+    """Universal Home Assistant wrapper for a pyWeMo device."""
 
     config_entry: ConfigEntry
     options: Options | None = None
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: ConfigEntry, wemo: WeMoDevice
+        self, hass: UniversalAssistant, config_entry: ConfigEntry, wemo: WeMoDevice
     ) -> None:
         """Initialize DeviceCoordinator."""
         super().__init__(
@@ -187,7 +187,7 @@ class DeviceCoordinator(DataUpdateCoordinator[None]):
             self.supports_long_press = False
 
     async def async_set_options(
-        self, hass: __HAC_KEEP__, config_entry: ConfigEntry
+        self, hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         """Update the configuration options for the device."""
         options = Options(**config_entry.options)
@@ -225,7 +225,7 @@ class DeviceCoordinator(DataUpdateCoordinator[None]):
         """Return True if polling is needed to update the state for the device.
 
         The alternative, when this returns False, is to rely on the subscription
-        "push updates" to update the device state in __HA_KEEP__.
+        "push updates" to update the device state in Universal Home Assistant.
         """
         if isinstance(self.wemo, Insight) and self.wemo.get_state() == 0:
             # The WeMo Insight device does not send subscription updates for the
@@ -290,7 +290,7 @@ def _device_info(wemo: WeMoDevice) -> DeviceInfo:
 
 
 async def async_register_device(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry, wemo: WeMoDevice
+    hass: UniversalAssistant, config_entry: ConfigEntry, wemo: WeMoDevice
 ) -> DeviceCoordinator:
     """Register a device with universal assistant and enable pywemo event callbacks."""
     device = DeviceCoordinator(hass, config_entry, wemo)
@@ -313,16 +313,16 @@ async def async_register_device(
 
 
 @callback
-def async_get_coordinator(hass: __HAC_KEEP__, device_id: str) -> DeviceCoordinator:
+def async_get_coordinator(hass: UniversalAssistant, device_id: str) -> DeviceCoordinator:
     """Return DeviceCoordinator for device_id."""
     return _async_coordinators(hass)[device_id]
 
 
 @callback
-def _async_coordinators(hass: __HAC_KEEP__) -> dict[str, DeviceCoordinator]:
+def _async_coordinators(hass: UniversalAssistant) -> dict[str, DeviceCoordinator]:
     return hass.data[DATA_WEMO].config_entry_data.device_coordinators
 
 
 @callback
-def _async_registry(hass: __HAC_KEEP__) -> SubscriptionRegistry:
+def _async_registry(hass: UniversalAssistant) -> SubscriptionRegistry:
     return hass.data[DATA_WEMO].registry

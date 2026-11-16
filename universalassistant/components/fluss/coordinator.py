@@ -11,7 +11,7 @@ from fluss_api import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.debounce import Debouncer
@@ -27,7 +27,7 @@ class FlussDataUpdateCoordinator(DataUpdateCoordinator[dict[str, dict[str, Any]]
     """Manages fetching Fluss device data on a schedule."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: FlussConfigEntry, api_key: str
+        self, hass: UniversalAssistant, config_entry: FlussConfigEntry, api_key: str
     ) -> None:
         """Initialize the coordinator."""
         self.api = FlussApiClient(api_key, session=async_get_clientsession(hass))

@@ -6,7 +6,7 @@ import probatio
 
 from universalassistant.components import websocket_api
 from universalassistant.components.websocket_api import ActiveConnection
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv, label_registry as lr
 from universalassistant.helpers.label_registry import LabelEntry
 
@@ -41,7 +41,7 @@ SUPPORTED_LABEL_THEME_COLORS = {
 
 
 @callback
-def async_setup(hass: __HAC_KEEP__) -> bool:
+def async_setup(hass: UniversalAssistant) -> bool:
     """Register the Label Registry WS commands."""
     websocket_api.async_register_command(hass, websocket_list_labels)
     websocket_api.async_register_command(hass, websocket_create_label)
@@ -57,7 +57,7 @@ def async_setup(hass: __HAC_KEEP__) -> bool:
 )
 @callback
 def websocket_list_labels(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle list labels command."""
     registry = lr.async_get(hass)
@@ -81,7 +81,7 @@ def websocket_list_labels(
 @websocket_api.require_admin
 @callback
 def websocket_create_label(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Create label command."""
     registry = lr.async_get(hass)
@@ -107,7 +107,7 @@ def websocket_create_label(
 @websocket_api.require_admin
 @callback
 def websocket_delete_label(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Delete label command."""
     registry = lr.async_get(hass)
@@ -135,7 +135,7 @@ def websocket_delete_label(
 @websocket_api.require_admin
 @callback
 def websocket_update_label(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle update label websocket command."""
     registry = lr.async_get(hass)

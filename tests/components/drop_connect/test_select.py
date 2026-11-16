@@ -10,7 +10,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .common import (
     TEST_DATA_HUB,
@@ -20,7 +20,7 @@ from .common import (
 )
 
 
-async def test_selects_hub(hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient) -> None:
+async def test_selects_hub(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient) -> None:
     """Test DROP binary sensors for hubs."""
     entry = config_entry_hub()
     entry.add_to_hass(hass)

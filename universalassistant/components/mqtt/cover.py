@@ -26,7 +26,7 @@ from universalassistant.const import (
     STATE_OPEN,
     STATE_OPENING,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.service_info.mqtt import ReceivePayloadType
@@ -215,7 +215,7 @@ DISCOVERY_SCHEMA = probatio.All(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

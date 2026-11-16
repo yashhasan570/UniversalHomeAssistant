@@ -14,8 +14,8 @@ from universalassistant.config_entries import (
     OptionsFlowWithReload,
 )
 from universalassistant.const import CONF_API_KEY, CONF_API_TOKEN
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 
 from . import CoinbaseConfigEntry, get_accounts
@@ -50,7 +50,7 @@ def get_user_from_client(api_key, api_token):
     return client.get_portfolios()["portfolios"][0]["name"]
 
 
-async def validate_api(hass: __HAC_KEEP__, data):
+async def validate_api(hass: UniversalAssistant, data):
     """Validate the credentials."""
 
     try:
@@ -84,7 +84,7 @@ def _get_accounts_and_exchange_rates(
 
 
 async def validate_options(
-    hass: __HAC_KEEP__, config_entry: CoinbaseConfigEntry, options
+    hass: UniversalAssistant, config_entry: CoinbaseConfigEntry, options
 ):
     """Validate the requested resources are provided by API."""
 
@@ -285,29 +285,29 @@ class OptionsFlowHandler(OptionsFlowWithReload):
         )
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(__HAC_KEEP__Error):
+class InvalidAuth(UniversalAssistantError):
     """Error to indicate there is invalid auth."""
 
 
-class InvalidSecret(__HAC_KEEP__Error):
+class InvalidSecret(UniversalAssistantError):
     """Error to indicate auth failed due to invalid secret."""
 
 
-class InvalidKey(__HAC_KEEP__Error):
+class InvalidKey(UniversalAssistantError):
     """Error to indicate auth failed due to invalid key."""
 
 
-class AlreadyConfigured(__HAC_KEEP__Error):
+class AlreadyConfigured(UniversalAssistantError):
     """Error to indicate Coinbase API Key is already configured."""
 
 
-class CurrencyUnavailable(__HAC_KEEP__Error):
+class CurrencyUnavailable(UniversalAssistantError):
     """Error to indicate the requested currency resource is not provided by the API."""
 
 
-class ExchangeRateUnavailable(__HAC_KEEP__Error):
+class ExchangeRateUnavailable(UniversalAssistantError):
     """Error to indicate the requested exchange rate is not provided by the API."""

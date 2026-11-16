@@ -21,7 +21,7 @@ from universalassistant.const import (
     UnitOfSpeed,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import (
@@ -158,7 +158,7 @@ UNIT_OF_MEASUREMENT_MAP = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: LaCrosseConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -173,7 +173,7 @@ async def async_setup_entry(
                 message = (
                     f"Unsupported sensor field: {field}\nPlease create an issue on "
                     "GitHub."
-                    " https://github.com/yashhasan570/__HAC_KEEP__/issues/new?assignees="
+                    " https://github.com/yashhasan570/UniversalUniversalAssistant/issues/new?assignees="
                     "&labels=&template=bug_report.yml&integration_name=LaCrosse%20View"
                     "&integration_link="
                     "https://www.universalassistant.io/integrations/lacrosse_view/"

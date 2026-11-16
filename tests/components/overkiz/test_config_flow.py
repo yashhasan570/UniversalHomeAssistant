@@ -38,7 +38,7 @@ from universalassistant.components.application_credentials import (
 )
 from universalassistant.components.overkiz.const import CONF_GATEWAY_ID, DOMAIN
 from universalassistant.const import CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -112,7 +112,7 @@ def _patch_client_success() -> Generator[None]:
         yield
 
 
-async def test_form_cloud(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_form_cloud(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -157,7 +157,7 @@ async def test_form_cloud(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> No
 
 
 async def test_form_only_cloud_supported(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
@@ -195,7 +195,7 @@ async def test_form_only_cloud_supported(
 
 
 async def test_form_local_happy_flow(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test local API configuration flow."""
     result = await hass.config_entries.flow.async_init(
@@ -265,7 +265,7 @@ async def test_form_local_happy_flow(
     ],
 )
 async def test_form_invalid_auth_cloud(
-    hass: __HAC_KEEP__, side_effect: Exception, error: str
+    hass: UniversalAssistant, side_effect: Exception, error: str
 ) -> None:
     """Test we handle invalid auth (cloud)."""
     result = await hass.config_entries.flow.async_init(
@@ -320,7 +320,7 @@ async def test_form_invalid_auth_cloud(
     ],
 )
 async def test_form_invalid_hardware_cloud(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     side_effect: Exception,
     description_placeholder: str,
     server: str,
@@ -372,7 +372,7 @@ async def test_form_invalid_hardware_cloud(
     ],
 )
 async def test_form_invalid_hardware_cloud_local(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     side_effect: Exception,
     description_placeholder: str,
     server: str,
@@ -442,7 +442,7 @@ async def test_form_invalid_hardware_cloud_local(
     ],
 )
 async def test_form_invalid_auth_local(
-    hass: __HAC_KEEP__, side_effect: Exception, error: str
+    hass: UniversalAssistant, side_effect: Exception, error: str
 ) -> None:
     """Test we handle invalid auth (local)."""
     result = await hass.config_entries.flow.async_init(
@@ -504,7 +504,7 @@ async def test_form_invalid_auth_local(
     ],
 )
 async def test_form_invalid_cozytouch_auth(
-    hass: __HAC_KEEP__, side_effect: Exception, error: str
+    hass: UniversalAssistant, side_effect: Exception, error: str
 ) -> None:
     """Test we handle invalid auth (cloud)."""
     result = await hass.config_entries.flow.async_init(
@@ -544,7 +544,7 @@ async def test_form_invalid_cozytouch_auth(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_cloud_abort_on_duplicate_entry(hass: __HAC_KEEP__) -> None:
+async def test_cloud_abort_on_duplicate_entry(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     MockConfigEntry(
@@ -594,7 +594,7 @@ async def test_cloud_abort_on_duplicate_entry(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_local_abort_on_duplicate_entry(hass: __HAC_KEEP__) -> None:
+async def test_local_abort_on_duplicate_entry(hass: UniversalAssistant) -> None:
     """Test local API configuration is aborted if gateway already exists."""
 
     MockConfigEntry(
@@ -651,7 +651,7 @@ async def test_local_abort_on_duplicate_entry(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_cloud_allow_multiple_unique_entries(hass: __HAC_KEEP__) -> None:
+async def test_cloud_allow_multiple_unique_entries(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     MockConfigEntry(
@@ -709,7 +709,7 @@ async def test_cloud_allow_multiple_unique_entries(hass: __HAC_KEEP__) -> None:
     assert result["result"].unique_id == TEST_GATEWAY_ID
 
 
-async def test_cloud_reauth_success(hass: __HAC_KEEP__) -> None:
+async def test_cloud_reauth_success(hass: UniversalAssistant) -> None:
     """Test reauthentication flow."""
 
     mock_entry = MockConfigEntry(
@@ -754,7 +754,7 @@ async def test_cloud_reauth_success(hass: __HAC_KEEP__) -> None:
         assert mock_entry.data["password"] == TEST_PASSWORD2
 
 
-async def test_cloud_reauth_wrong_account(hass: __HAC_KEEP__) -> None:
+async def test_cloud_reauth_wrong_account(hass: UniversalAssistant) -> None:
     """Test reauthentication flow."""
 
     mock_entry = MockConfigEntry(
@@ -797,7 +797,7 @@ async def test_cloud_reauth_wrong_account(hass: __HAC_KEEP__) -> None:
         assert result["reason"] == "reauth_wrong_account"
 
 
-async def test_local_reauth_legacy(hass: __HAC_KEEP__) -> None:
+async def test_local_reauth_legacy(hass: UniversalAssistant) -> None:
     """Test legacy reauthentication flow with username/password."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -850,7 +850,7 @@ async def test_local_reauth_legacy(hass: __HAC_KEEP__) -> None:
         assert "password" not in mock_entry.data
 
 
-async def test_local_reauth_success(hass: __HAC_KEEP__) -> None:
+async def test_local_reauth_success(hass: UniversalAssistant) -> None:
     """Test modern local reauth flow."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -900,7 +900,7 @@ async def test_local_reauth_success(hass: __HAC_KEEP__) -> None:
         assert "password" not in mock_entry.data
 
 
-async def test_local_reauth_wrong_account(hass: __HAC_KEEP__) -> None:
+async def test_local_reauth_wrong_account(hass: UniversalAssistant) -> None:
     """Test local reauth flow with wrong gateway account."""
 
     mock_entry = MockConfigEntry(
@@ -946,7 +946,7 @@ async def test_local_reauth_wrong_account(hass: __HAC_KEEP__) -> None:
         assert result3["reason"] == "reauth_wrong_account"
 
 
-async def test_cloud_reconfigure_success(hass: __HAC_KEEP__) -> None:
+async def test_cloud_reconfigure_success(hass: UniversalAssistant) -> None:
     """Test reconfiguration flow on a cloud entry."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -990,7 +990,7 @@ async def test_cloud_reconfigure_success(hass: __HAC_KEEP__) -> None:
     assert mock_entry.data["password"] == TEST_PASSWORD2
 
 
-async def test_cloud_reconfigure_wrong_account(hass: __HAC_KEEP__) -> None:
+async def test_cloud_reconfigure_wrong_account(hass: UniversalAssistant) -> None:
     """Test reconfiguration aborts when the gateway account differs."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1032,7 +1032,7 @@ async def test_cloud_reconfigure_wrong_account(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "reconfigure_wrong_account"
 
 
-async def test_local_reconfigure_success(hass: __HAC_KEEP__) -> None:
+async def test_local_reconfigure_success(hass: UniversalAssistant) -> None:
     """Test reconfiguration flow on a local entry."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1080,7 +1080,7 @@ async def test_local_reconfigure_success(hass: __HAC_KEEP__) -> None:
     assert mock_entry.data["verify_ssl"] is True
 
 
-async def test_local_reconfigure_wrong_account(hass: __HAC_KEEP__) -> None:
+async def test_local_reconfigure_wrong_account(hass: UniversalAssistant) -> None:
     """Test local reconfiguration aborts when the gateway account differs."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1125,7 +1125,7 @@ async def test_local_reconfigure_wrong_account(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "reconfigure_wrong_account"
 
 
-async def test_reconfigure_switch_cloud_to_local(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_switch_cloud_to_local(hass: UniversalAssistant) -> None:
     """Test reconfiguring a cloud entry to use the local API."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1175,7 +1175,7 @@ async def test_reconfigure_switch_cloud_to_local(hass: __HAC_KEEP__) -> None:
     assert "password" not in mock_entry.data
 
 
-async def test_dhcp_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_dhcp_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test that DHCP discovery for new bridge works."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -1234,7 +1234,7 @@ async def test_dhcp_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> Non
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_dhcp_flow_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_flow_already_configured(hass: UniversalAssistant) -> None:
     """Test that DHCP doesn't setup already configured gateways."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1257,7 +1257,7 @@ async def test_dhcp_flow_already_configured(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_zeroconf_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_zeroconf_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test that zeroconf discovery for new bridge works."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -1313,7 +1313,7 @@ async def test_zeroconf_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) ->
 
 
 async def test_local_zeroconf_flow(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test that zeroconf discovery for new local bridge works."""
     result = await hass.config_entries.flow.async_init(
@@ -1370,7 +1370,7 @@ async def test_local_zeroconf_flow(
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_zeroconf_flow_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_flow_already_configured(hass: UniversalAssistant) -> None:
     """Test that zeroconf doesn't setup already configured gateways."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1390,7 +1390,7 @@ async def test_zeroconf_flow_already_configured(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.fixture
-async def setup_rexel_credentials(hass: __HAC_KEEP__) -> None:
+async def setup_rexel_credentials(hass: UniversalAssistant) -> None:
     """Set up the application credential used by the Rexel OAuth2 flow."""
     assert await async_setup_component(hass, "application_credentials", {})
     await async_import_client_credential(
@@ -1402,7 +1402,7 @@ async def setup_rexel_credentials(hass: __HAC_KEEP__) -> None:
 
 
 async def _async_rexel_oauth_external_step(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     flow_id: str,
@@ -1430,7 +1430,7 @@ async def _async_rexel_oauth_external_step(
 
 @pytest.mark.usefixtures("current_request_with_host", "setup_rexel_credentials")
 async def test_rexel_full_flow_single_gateway(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_setup_entry: AsyncMock,
@@ -1481,7 +1481,7 @@ async def test_rexel_full_flow_single_gateway(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_rexel_flow_reimports_removed_credential(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """The Rexel flow re-imports its client credential if the user removed it."""
     assert await async_setup_component(hass, "application_credentials", {})
@@ -1504,7 +1504,7 @@ async def test_rexel_flow_reimports_removed_credential(
 
 @pytest.mark.usefixtures("current_request_with_host", "setup_rexel_credentials")
 async def test_rexel_full_flow_multiple_gateways(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_setup_entry: AsyncMock,
@@ -1552,7 +1552,7 @@ async def test_rexel_full_flow_multiple_gateways(
 
 @pytest.mark.usefixtures("current_request_with_host", "setup_rexel_credentials")
 async def test_rexel_flow_no_gateways(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -1586,7 +1586,7 @@ async def test_rexel_flow_no_gateways(
 
 @pytest.mark.usefixtures("current_request_with_host", "setup_rexel_credentials")
 async def test_rexel_flow_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -1620,7 +1620,7 @@ async def test_rexel_flow_cannot_connect(
 
 @pytest.mark.usefixtures("current_request_with_host", "setup_rexel_credentials")
 async def test_rexel_reauth_wrong_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_rexel_config_entry: MockConfigEntry,
@@ -1655,7 +1655,7 @@ async def test_rexel_reauth_wrong_account(
 
 @pytest.mark.usefixtures("current_request_with_host", "setup_rexel_credentials")
 async def test_rexel_reauth_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_rexel_config_entry: MockConfigEntry,
@@ -1689,7 +1689,7 @@ async def test_rexel_reauth_success(
 
 @pytest.mark.usefixtures("current_request_with_host", "setup_rexel_credentials")
 async def test_rexel_reconfigure_wrong_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_rexel_config_entry: MockConfigEntry,
@@ -1724,7 +1724,7 @@ async def test_rexel_reconfigure_wrong_account(
 
 @pytest.mark.usefixtures("current_request_with_host", "setup_rexel_credentials")
 async def test_rexel_reconfigure_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_rexel_config_entry: MockConfigEntry,
@@ -1757,7 +1757,7 @@ async def test_rexel_reconfigure_success(
 
 
 async def test_somfy_full_flow_single_site(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """A single-site Somfy account auto-selects and stores a token bundle."""
     result = await hass.config_entries.flow.async_init(
@@ -1823,7 +1823,7 @@ async def test_somfy_full_flow_single_site(
 
 
 async def test_somfy_full_flow_multiple_sites(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """A multi-site Somfy account shows the gateway selection step."""
     result = await hass.config_entries.flow.async_init(
@@ -1897,7 +1897,7 @@ async def test_somfy_full_flow_multiple_sites(
 
 
 async def test_somfy_flow_no_sites(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """A Somfy account without sites aborts."""
     result = await hass.config_entries.flow.async_init(
@@ -1956,7 +1956,7 @@ async def test_somfy_flow_no_sites(
     ],
 )
 async def test_somfy_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     side_effect: type[Exception],
     error: str,
@@ -2022,7 +2022,7 @@ async def test_somfy_flow_errors(
 
 
 async def test_somfy_reauth_success(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Somfy reauth re-runs username/password login for the same gateway."""
     mock_entry = MockConfigEntry(
@@ -2086,7 +2086,7 @@ async def test_somfy_reauth_success(
 
 
 async def test_somfy_reauth_wrong_account(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Somfy reauth with a different gateway aborts."""
     mock_entry = MockConfigEntry(
@@ -2154,7 +2154,7 @@ async def test_somfy_reauth_wrong_account(
     ],
 )
 async def test_somfy_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_somfy_config_entry: MockConfigEntry,
     gateway_id: str,
     reason: str,

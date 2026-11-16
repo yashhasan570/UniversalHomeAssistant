@@ -4,14 +4,14 @@ from typing import Any
 
 from ical.diagnostics import redact_ics
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from .coordinator import RemoteCalendarConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: RemoteCalendarConfigEntry
+    hass: UniversalAssistant, entry: RemoteCalendarConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data

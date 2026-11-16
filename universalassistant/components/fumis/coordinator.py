@@ -13,7 +13,7 @@ from fumis import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_MAC, CONF_PIN
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -40,7 +40,7 @@ class FumisDataUpdateCoordinator(DataUpdateCoordinator[FumisInfo]):
 
     config_entry: FumisConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, entry: FumisConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: FumisConfigEntry) -> None:
         """Initialize the coordinator."""
         self.client = Fumis(
             mac=entry.data[CONF_MAC],

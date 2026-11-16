@@ -1,4 +1,4 @@
-"""API for Ondilo ICO bound to __HA_KEEP__ OAuth."""
+"""API for Ondilo ICO bound to Universal Home Assistant OAuth."""
 
 from asyncio import run_coroutine_threadsafe
 from typing import TYPE_CHECKING
@@ -17,7 +17,7 @@ class OndiloClient(Ondilo):
 
     def __init__(
         self,
-        hass: core.__HAC_KEEP__,
+        hass: core.UniversalAssistant,
         config_entry: OndiloIcoConfigEntry,
         implementation: config_entry_oauth2_flow.AbstractOAuth2Implementation,
     ) -> None:

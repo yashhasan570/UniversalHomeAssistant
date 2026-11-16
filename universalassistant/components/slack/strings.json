@@ -31,7 +31,7 @@
           "api_key": "The Slack API token to use for sending Slack messages.",
           "default_channel": "The channel to post to if no channel is specified when sending a message.",
           "icon": "Use one of the Slack emojis as an icon for the supplied username.",
-          "username": "__HA_KEEP__ will post to Slack using the username specified."
+          "username": "Universal Home Assistant will post to Slack using the username specified."
         },
         "description": "Refer to the documentation on getting your Slack API key."
       }

@@ -16,7 +16,7 @@ from universalassistant.components.alarm_control_panel import AlarmControlPanelS
 from universalassistant.components.yale_smart_alarm.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from .conftest import ENTRY_CONFIG, OPTIONS_CONFIG
@@ -32,7 +32,7 @@ from .conftest import ENTRY_CONFIG, OPTIONS_CONFIG
     ],
 )
 async def test_coordinator_setup_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_data: YaleSmartAlarmData,
     p_error: Exception,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_coordinator_setup_errors(
 
 
 async def test_coordinator_setup_and_update_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_config_entry: tuple[MockConfigEntry, Mock],
     get_data: YaleSmartAlarmData,
 ) -> None:

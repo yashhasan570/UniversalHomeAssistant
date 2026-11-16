@@ -9,7 +9,7 @@ import probatio
 from universalassistant.components.modbus import async_get_temporary_unit
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.selector import (
     NumberSelector,
     NumberSelectorConfig,
@@ -123,7 +123,7 @@ class BluettiModbusFlowHandler(ConfigFlow, domain=DOMAIN):
             ) as unit:
                 device = restricted_device(unit)
                 await device.async_update_with_retry()
-        except __HAC_KEEP__Error:
+        except UniversalAssistantError:
             # Claimed by another entry with link settings one shared connection
             # cannot honour; retrying won't help.
             return {"base": "link_settings_in_use"}, None

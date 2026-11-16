@@ -12,7 +12,7 @@ from universalassistant.components.light import (
     VALID_BRIGHTNESS,
     VALID_BRIGHTNESS_PCT,
 )
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service import async_register_platform_entity_service
@@ -260,6 +260,14 @@ LIFX_PAINT_THEME_SCHEMA = cv.make_entity_service_schema(
     }
 )
 
+LIFX_SET_MOOD_SCHEMA = cv.make_entity_service_schema(
+    {
+        probatio.Required(LIFXServiceArgument.MOOD): probatio.In(
+            ThemeLibrary.get_available_themes()
+        ),
+    }
+)
+
 SERVICES_SCHEMA = {
     LIFXService.EFFECT_COLORSWEEP: LIFX_EFFECT_COLORSWEEP_SCHEMA,
     LIFXService.EFFECT_COLORLOOP: LIFX_EFFECT_COLORLOOP_SCHEMA,
@@ -270,6 +278,7 @@ SERVICES_SCHEMA = {
     LIFXService.EFFECT_SKY: LIFX_EFFECT_SKY_SCHEMA,
     LIFXService.EFFECT_STOP: LIFX_EFFECT_STOP_SCHEMA,
     LIFXService.PAINT_THEME: LIFX_PAINT_THEME_SCHEMA,
+    LIFXService.SET_MOOD: LIFX_SET_MOOD_SCHEMA,
 }
 
 
@@ -301,7 +310,7 @@ async def _async_start_effect(service: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the LIFX actions."""
     async_register_platform_entity_service(
         hass,

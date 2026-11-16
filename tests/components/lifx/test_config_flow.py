@@ -4,6 +4,8 @@ from collections.abc import AsyncGenerator, Callable, Generator
 from contextlib import contextmanager
 from dataclasses import replace
 from ipaddress import IPv4Address, IPv6Address
+from socket import AF_INET, AF_INET6, IPPROTO_UDP, SOCK_DGRAM
+from typing import Any
 from unittest.mock import AsyncMock, patch
 
 from lifx import (
@@ -18,10 +20,9 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.lifx import DOMAIN
-from universalassistant.components.lifx.config_flow import LIFXConfigFlow
 from universalassistant.components.lifx.const import CONF_SERIAL
 from universalassistant.const import CONF_DEVICE, CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -30,6 +31,10 @@ from . import DHCP_FORMATTED_MAC, IP_ADDRESS, LABEL, SERIAL
 from .helpers import LEGACY_SERIAL, create_mock_device_without_state, create_mock_light
 
 OLD_IP_ADDRESS = "127.0.0.2"
+THREAD_IP_ADDRESS = "fd00::1"
+IPV4_LOOKUP = (AF_INET, SOCK_DGRAM, IPPROTO_UDP, "", (IP_ADDRESS, 0))
+IPV6_LOOKUP = (AF_INET6, SOCK_DGRAM, IPPROTO_UDP, "", (THREAD_IP_ADDRESS, 0, 0, 0))
+LINK_LOCAL_LOOKUP = (AF_INET6, SOCK_DGRAM, IPPROTO_UDP, "", ("fe80::1", 0, 0, 7))
 
 type DiscoveryData = DhcpServiceInfo | ZeroconfServiceInfo | dict[str, str]
 
@@ -126,7 +131,7 @@ def _mock_broadcast_discovery(
     ids=["wifi", "thread"],
 )
 async def test_zeroconf_discovery_creates_version_2_entry(
-    hass: __HAC_KEEP__, mock_light: Light, address: IPv4Address | IPv6Address
+    hass: UniversalAssistant, mock_light: Light, address: IPv4Address | IPv6Address
 ) -> None:
     """Test mDNS discovery creates a per-device version 2 entry."""
     mock_light.ip = str(address)
@@ -155,7 +160,7 @@ async def test_zeroconf_discovery_creates_version_2_entry(
 
 
 async def test_discovery_during_onboarding_skips_confirmation(
-    hass: __HAC_KEEP__, mock_light: Light
+    hass: UniversalAssistant, mock_light: Light
 ) -> None:
     """Test a device discovered before onboarding finishes is added on its own."""
     with (
@@ -194,7 +199,7 @@ async def test_discovery_during_onboarding_skips_confirmation(
     ],
 )
 async def test_serial_discovery_repairs_configured_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     source: str,
     data: DiscoveryData,
     entry_version: int,
@@ -224,7 +229,7 @@ async def test_serial_discovery_repairs_configured_entry(
 
 @pytest.mark.parametrize(("source", "data"), SERIAL_DISCOVERY_SOURCES)
 async def test_serial_discovery_repairs_entry_that_has_not_been_migrated(
-    hass: __HAC_KEEP__, source: str, data: DiscoveryData
+    hass: UniversalAssistant, source: str, data: DiscoveryData
 ) -> None:
     """Test serial discovery matches an entry that holds a colon separated ID."""
     config_entry = MockConfigEntry(
@@ -255,7 +260,7 @@ async def test_serial_discovery_repairs_entry_that_has_not_been_migrated(
     ],
 )
 async def test_dhcp_repairs_entry_for_each_serial_mac_candidate(
-    hass: __HAC_KEEP__, dhcp_mac: str
+    hass: UniversalAssistant, dhcp_mac: str
 ) -> None:
     """Test DHCP matches both MAC addresses derived from a device serial."""
     unrelated_entry = MockConfigEntry(
@@ -300,7 +305,7 @@ async def test_dhcp_repairs_entry_for_each_serial_mac_candidate(
 
 
 async def test_dhcp_reloads_a_retrying_entry_found_at_the_same_host(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test DHCP wakes a retrying entry whose device kept its address."""
     config_entry = MockConfigEntry(
@@ -334,7 +339,7 @@ async def test_dhcp_reloads_a_retrying_entry_found_at_the_same_host(
 
 
 async def test_dhcp_repairs_entry_that_has_not_been_migrated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test DHCP matches an entry that still holds a colon separated unique ID."""
     config_entry = MockConfigEntry(
@@ -363,7 +368,7 @@ async def test_dhcp_repairs_entry_that_has_not_been_migrated(
 
 
 async def test_homekit_repairs_entry_identified_by_ip(
-    hass: __HAC_KEEP__, mock_light: Light
+    hass: UniversalAssistant, mock_light: Light
 ) -> None:
     """Test HomeKit discovery identifies by IP before repairing an entry."""
     config_entry = MockConfigEntry(
@@ -395,7 +400,7 @@ async def test_homekit_repairs_entry_identified_by_ip(
     config_entry.mock_state(hass, config_entries.ConfigEntryState.NOT_LOADED)
 
 
-async def test_ip_discovery_aborts_for_matching_flow(hass: __HAC_KEEP__) -> None:
+async def test_ip_discovery_aborts_for_matching_flow(hass: UniversalAssistant) -> None:
     """Test IP-only discovery does not duplicate an in-progress flow."""
     with (
         patch.object(
@@ -419,7 +424,7 @@ async def test_ip_discovery_aborts_for_matching_flow(hass: __HAC_KEEP__) -> None
 
 
 async def test_ip_discovery_aborts_when_device_is_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test IP-only discovery aborts when the device cannot be identified."""
     with patch(
@@ -438,7 +443,7 @@ async def test_ip_discovery_aborts_when_device_is_missing(
 
 @pytest.mark.parametrize(("source", "data"), DISCOVERY_SOURCES)
 async def test_discovery_rejects_a_device_that_is_not_a_light(
-    hass: __HAC_KEEP__, source: str, data: DiscoveryData
+    hass: UniversalAssistant, source: str, data: DiscoveryData
 ) -> None:
     """Test a discovered relay-only device is turned down rather than added."""
     with (
@@ -460,19 +465,43 @@ async def test_discovery_rejects_a_device_that_is_not_a_light(
     assert not hass.config_entries.async_entries(DOMAIN)
 
 
-def test_flow_matching_uses_host() -> None:
-    """Test unidentified flows match by their target host."""
-    flow = LIFXConfigFlow()
-    other_flow = LIFXConfigFlow()
-    flow.host = IP_ADDRESS
-    other_flow.host = IP_ADDRESS
+async def test_ip_discovery_matches_in_progress_flow_by_host(
+    hass: UniversalAssistant, mock_light: Light
+) -> None:
+    """Test IP-only discovery aborts while a flow for the same host is in progress."""
+    with patch(
+        "universalassistant.components.lifx.config_flow.find_by_ip",
+        return_value=mock_light,
+    ) as mock_find_by_ip:
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN,
+            context={"source": config_entries.SOURCE_HOMEKIT},
+            data=_homekit_info(),
+        )
 
-    assert flow.is_matching(other_flow)
+        assert result["type"] is FlowResultType.FORM
+        assert result["step_id"] == "discovery_confirm"
+
+        duplicate_result = await hass.config_entries.flow.async_init(
+            DOMAIN,
+            context={"source": config_entries.SOURCE_DHCP},
+            data=_dhcp_info(),
+        )
+
+    assert duplicate_result["type"] is FlowResultType.ABORT
+    assert duplicate_result["reason"] == "already_in_progress"
+    # The second flow matched on its host before connecting to the device
+    mock_find_by_ip.assert_awaited_once()
+
+    result = await hass.config_entries.flow.async_configure(result["flow_id"], {})
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["result"].unique_id == SERIAL
 
 
 @pytest.mark.parametrize(("source", "data"), DISCOVERY_SOURCES)
 async def test_discovery_does_not_match_shared_legacy_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_light: Light,
     source: str,
     data: DiscoveryData,
@@ -510,7 +539,7 @@ async def test_discovery_does_not_match_shared_legacy_entry(
 
 @pytest.mark.parametrize(("source", "data"), DISCOVERY_SOURCES)
 async def test_discovery_with_unchanged_host_does_not_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_light: Light,
     source: str,
     data: DiscoveryData,
@@ -550,7 +579,7 @@ async def test_discovery_with_unchanged_host_does_not_reload(
     ],
 )
 async def test_zeroconf_without_valid_serial_falls_back_to_ip(
-    hass: __HAC_KEEP__, mock_light: Light, info: ZeroconfServiceInfo
+    hass: UniversalAssistant, mock_light: Light, info: ZeroconfServiceInfo
 ) -> None:
     """Test invalid mDNS identity falls back to targeted IP identification."""
     with patch(
@@ -594,7 +623,7 @@ async def test_zeroconf_without_valid_serial_falls_back_to_ip(
     ],
 )
 async def test_discovery_source_creates_version_2_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_light: Light,
     source: str,
     data: DiscoveryData,
@@ -627,7 +656,7 @@ async def test_discovery_source_creates_version_2_entry(
 
 
 async def test_reconfigure_updates_the_host(
-    hass: __HAC_KEEP__, mock_light: Light
+    hass: UniversalAssistant, mock_light: Light
 ) -> None:
     """Test reconfiguring an entry points it at a new address."""
     entry = MockConfigEntry(
@@ -656,7 +685,7 @@ async def test_reconfigure_updates_the_host(
 
 
 async def test_reconfigure_rejects_a_different_device(
-    hass: __HAC_KEEP__, mock_light: Light
+    hass: UniversalAssistant, mock_light: Light
 ) -> None:
     """Test an address that now answers for another device is refused."""
     entry = MockConfigEntry(
@@ -682,7 +711,7 @@ async def test_reconfigure_rejects_a_different_device(
 
 
 async def test_reconfigure_with_an_unreachable_host(
-    hass: __HAC_KEEP__, mock_light: Light
+    hass: UniversalAssistant, mock_light: Light
 ) -> None:
     """Test an address nothing answers at returns to the form."""
     entry = MockConfigEntry(
@@ -720,7 +749,7 @@ async def test_reconfigure_with_an_unreachable_host(
 
 
 async def test_manual_host_creates_version_2_entry(
-    hass: __HAC_KEEP__, mock_light: Light
+    hass: UniversalAssistant, mock_light: Light
 ) -> None:
     """Test manual host setup uses targeted identification."""
     result = await hass.config_entries.flow.async_init(
@@ -741,8 +770,20 @@ async def test_manual_host_creates_version_2_entry(
     assert result["result"].version == 2
 
 
+@pytest.mark.parametrize(
+    ("lookup", "resolved_address"),
+    [
+        pytest.param([IPV4_LOOKUP], IP_ADDRESS, id="ipv4-only"),
+        pytest.param([IPV6_LOOKUP], THREAD_IP_ADDRESS, id="ipv6-only"),
+        pytest.param([LINK_LOCAL_LOOKUP], "fe80::1%7", id="ipv6-link-local"),
+        pytest.param([IPV6_LOOKUP, IPV4_LOOKUP], THREAD_IP_ADDRESS, id="system-order"),
+    ],
+)
 async def test_manual_hostname_is_stored_as_an_address(
-    hass: __HAC_KEEP__, mock_light: Light
+    hass: UniversalAssistant,
+    mock_light: Light,
+    lookup: list[tuple[Any, ...]],
+    resolved_address: str,
 ) -> None:
     """Test a hostname is resolved before the entry records where to reach it."""
     result = await hass.config_entries.flow.async_init(
@@ -753,16 +794,13 @@ async def test_manual_hostname_is_stored_as_an_address(
             "universalassistant.components.lifx.config_flow.find_by_ip",
             return_value=mock_light,
         ) as find_by_ip,
-        patch(
-            "universalassistant.components.lifx.util.gethostbyname",
-            return_value=IP_ADDRESS,
-        ),
+        patch.object(hass.loop, "getaddrinfo", return_value=lookup),
     ):
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"], {CONF_HOST: "lifx.example.com"}
         )
 
-    find_by_ip.assert_awaited_once_with(IP_ADDRESS)
+    find_by_ip.assert_awaited_once_with(resolved_address)
     assert result["type"] is FlowResultType.CREATE_ENTRY
     assert result["data"] == {CONF_HOST: IP_ADDRESS, CONF_SERIAL: SERIAL}
     assert result["result"].unique_id == SERIAL
@@ -777,7 +815,7 @@ async def test_manual_hostname_is_stored_as_an_address(
     ],
 )
 async def test_manual_serial_creates_version_2_entry(
-    hass: __HAC_KEEP__, mock_light: Light, entered_serial: str
+    hass: UniversalAssistant, mock_light: Light, entered_serial: str
 ) -> None:
     """Test manual serial setup broadcasts for the device that owns the serial."""
     result = await hass.config_entries.flow.async_init(
@@ -800,7 +838,7 @@ async def test_manual_serial_creates_version_2_entry(
 
 
 async def test_manual_serial_that_answers_no_broadcast(
-    hass: __HAC_KEEP__, mock_light: Light
+    hass: UniversalAssistant, mock_light: Light
 ) -> None:
     """Test a serial no device answers for returns to the form."""
     result = await hass.config_entries.flow.async_init(
@@ -830,7 +868,7 @@ async def test_manual_serial_that_answers_no_broadcast(
 
 
 async def test_manual_host_and_serial_connects_directly(
-    hass: __HAC_KEEP__, mock_light: Light
+    hass: UniversalAssistant, mock_light: Light
 ) -> None:
     """Test giving both identifiers skips discovery entirely."""
     result = await hass.config_entries.flow.async_init(
@@ -859,7 +897,7 @@ async def test_manual_host_and_serial_connects_directly(
 
 
 async def test_manual_setup_rejects_a_malformed_serial(
-    hass: __HAC_KEEP__, mock_light: Light
+    hass: UniversalAssistant, mock_light: Light
 ) -> None:
     """Test the manual step reports a serial it cannot act on."""
     result = await hass.config_entries.flow.async_init(
@@ -885,7 +923,7 @@ async def test_manual_setup_rejects_a_malformed_serial(
 
 
 async def test_manual_host_while_discovery_is_pending(
-    hass: __HAC_KEEP__, mock_light: Light
+    hass: UniversalAssistant, mock_light: Light
 ) -> None:
     """Test a manual add wins over a discovery flow parked on its confirm form."""
     with patch(
@@ -924,7 +962,7 @@ async def test_manual_host_while_discovery_is_pending(
     ],
 )
 async def test_manual_host_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_light: Light,
     find_error: Exception | None,
 ) -> None:
@@ -962,7 +1000,7 @@ async def test_manual_host_cannot_connect(
     ],
 )
 async def test_manual_host_cannot_read_device_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     factory: Callable[[], Device],
 ) -> None:
     """Test manual setup rejects a device whose state cannot be read."""
@@ -996,7 +1034,7 @@ async def test_manual_host_cannot_read_device_state(
 
 
 async def test_pick_broadcast_discovered_device(
-    hass: __HAC_KEEP__, mock_light: Light
+    hass: UniversalAssistant, mock_light: Light
 ) -> None:
     """Test selecting a metadata-only broadcast discovery result."""
     discovered = DiscoveredDevice(serial=SERIAL, ip=IP_ADDRESS)
@@ -1022,7 +1060,7 @@ async def test_pick_broadcast_discovered_device(
     assert result["result"].unique_id == SERIAL
 
 
-async def test_pick_device_without_discovery_results(hass: __HAC_KEEP__) -> None:
+async def test_pick_device_without_discovery_results(hass: UniversalAssistant) -> None:
     """Test the picker aborts when broadcast discovery is empty."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -1035,7 +1073,7 @@ async def test_pick_device_without_discovery_results(hass: __HAC_KEEP__) -> None
 
 
 async def test_pick_device_cannot_validate_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a disappeared broadcast result aborts cleanly."""
     discovered = DiscoveredDevice(serial=SERIAL, ip=IP_ADDRESS)

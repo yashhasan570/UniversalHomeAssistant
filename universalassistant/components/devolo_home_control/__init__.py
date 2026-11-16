@@ -13,7 +13,7 @@ from devolo_home_control_api.mydevolo import Mydevolo
 from universalassistant.components import zeroconf
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 
@@ -25,7 +25,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: DevoloHomeControlConfigEntry
+    hass: UniversalAssistant, entry: DevoloHomeControlConfigEntry
 ) -> None:
     """Set up the devolo account from a config entry."""
     mydevolo = configure_mydevolo(entry.data)
@@ -73,7 +73,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: DevoloHomeControlConfigEntry
+    hass: UniversalAssistant, entry: DevoloHomeControlConfigEntry
 ) -> None:
     """Unload a config entry."""
     try:
@@ -88,7 +88,7 @@ async def async_unload_entry(
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: DevoloHomeControlConfigEntry,
     device_entry: AnyDeviceEntry,
 ) -> bool:

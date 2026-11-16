@@ -63,7 +63,7 @@ from universalassistant.const import (
 from universalassistant.core import (
     DOMAIN as HOMEASSISTANT_DOMAIN,
     Context,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
 )
 from universalassistant.helpers import (
@@ -95,7 +95,7 @@ class OrderBeerIntentHandler(intent.IntentHandler):
 
 
 @pytest.fixture
-async def init_components(hass: __HAC_KEEP__) -> None:
+async def init_components(hass: UniversalAssistant) -> None:
     """Initialize relevant components with empty configs."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, DOMAIN, {})
@@ -113,7 +113,7 @@ async def init_components(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("init_components")
 async def test_hidden_entities_skipped(
-    hass: __HAC_KEEP__, er_kwargs: dict[str, Any], entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, er_kwargs: dict[str, Any], entity_registry: er.EntityRegistry
 ) -> None:
     """Test we skip hidden entities."""
 
@@ -132,7 +132,7 @@ async def test_hidden_entities_skipped(
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_exposed_domains(hass: __HAC_KEEP__) -> None:
+async def test_exposed_domains(hass: UniversalAssistant) -> None:
     """Test that we can't interact with entities that aren't exposed."""
     hass.states.async_set(
         "lock.front_door", "off", attributes={ATTR_FRIENDLY_NAME: "Front Door"}
@@ -158,7 +158,7 @@ async def test_exposed_domains(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("init_components")
 async def test_exposed_areas(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -224,7 +224,7 @@ async def test_exposed_areas(
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_conversation_agent(hass: __HAC_KEEP__) -> None:
+async def test_conversation_agent(hass: UniversalAssistant) -> None:
     """Test DefaultAgent."""
     agent = async_get_agent(hass)
     with patch(
@@ -243,7 +243,7 @@ async def test_conversation_agent(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_punctuation(hass: __HAC_KEEP__) -> None:
+async def test_punctuation(hass: UniversalAssistant) -> None:
     """Test punctuation is handled properly."""
     hass.states.async_set(
         "light.test_light",
@@ -275,7 +275,7 @@ async def test_punctuation(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("init_components")
 async def test_punctuation_in_alias(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     sentence: str,
 ) -> None:
@@ -314,7 +314,7 @@ async def test_punctuation_in_alias(
 )
 @pytest.mark.usefixtures("init_components")
 async def test_punctuation_in_area_alias(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
     sentence: str,
@@ -348,7 +348,7 @@ async def test_punctuation_in_area_alias(
 
 
 async def test_expose_flag_automatically_set(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test DefaultAgent sets the expose flag on all entities automatically."""
@@ -361,7 +361,7 @@ async def test_expose_flag_automatically_set(
 
     assert await async_setup_component(hass, DOMAIN, {})
     await hass.async_block_till_done()
-    with patch("universalassistant.components.http.__HAC_KEEP__HTTP.start"):
+    with patch("universalassistant.components.http.UniversalAssistantHTTP.start"):
         await hass.async_start()
 
     # After setting up conversation, the expose flag should now be set on all entities
@@ -385,7 +385,7 @@ async def test_expose_flag_automatically_set(
 
 @pytest.mark.usefixtures("init_components")
 async def test_unexposed_entities_skipped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -438,7 +438,7 @@ async def test_unexposed_entities_skipped(
 
 @pytest.mark.usefixtures("init_components")
 async def test_duplicated_names_resolved_with_device_area(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -504,7 +504,7 @@ async def test_duplicated_names_resolved_with_device_area(
 
 @pytest.mark.usefixtures("init_components")
 async def test_device_rename_refreshes_slot_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -552,7 +552,7 @@ async def test_device_rename_refreshes_slot_list(
 
 @pytest.mark.usefixtures("init_components")
 async def test_entity_moved_to_device_refreshes_slot_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -605,7 +605,7 @@ async def test_entity_moved_to_device_refreshes_slot_list(
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_trigger_sentences(hass: __HAC_KEEP__) -> None:
+async def test_trigger_sentences(hass: UniversalAssistant) -> None:
     """Test registering/unregistering/matching a few trigger sentences."""
     trigger_sentences = ["It's party time", "It is time to party"]
     trigger_response = "Cowabunga!"
@@ -651,7 +651,7 @@ async def test_trigger_sentences(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("init_components")
 async def test_trigger_sentence_response_translation(
-    hass: __HAC_KEEP__, language: str, expected: str
+    hass: UniversalAssistant, language: str, expected: str
 ) -> None:
     """Test translation of default response 'done'."""
     hass.config.language = language
@@ -683,7 +683,7 @@ async def test_trigger_sentence_response_translation(
 
 
 @pytest.mark.usefixtures("init_components", "sl_setup")
-async def test_shopping_list_add_item(hass: __HAC_KEEP__) -> None:
+async def test_shopping_list_add_item(hass: UniversalAssistant) -> None:
     """Test adding an item to the shopping list through the default agent."""
     result = await conversation.async_converse(
         hass, "add apples to my shopping list", None, Context()
@@ -695,7 +695,7 @@ async def test_shopping_list_add_item(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_nevermind_intent(hass: __HAC_KEEP__) -> None:
+async def test_nevermind_intent(hass: UniversalAssistant) -> None:
     """Test HassNevermind intent through the default agent."""
     result = await conversation.async_converse(hass, "nevermind", None, Context())
     assert result.response.intent is not None
@@ -706,19 +706,19 @@ async def test_nevermind_intent(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_respond_intent(hass: __HAC_KEEP__) -> None:
+async def test_respond_intent(hass: UniversalAssistant) -> None:
     """Test HassRespond intent through the default agent."""
     result = await conversation.async_converse(hass, "hello", None, Context())
     assert result.response.intent is not None
     assert result.response.intent.intent_type == intent.INTENT_RESPOND
 
     assert result.response.response_type is intent.IntentResponseType.ACTION_DONE
-    assert result.response.speech["plain"]["speech"] == "Hello from __HA_KEEP__."
+    assert result.response.speech["plain"]["speech"] == "Hello from Universal Home Assistant."
 
 
 @pytest.mark.usefixtures("init_components")
 async def test_satellite_area_context(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -843,7 +843,7 @@ async def test_satellite_area_context(
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_error_no_device(hass: __HAC_KEEP__) -> None:
+async def test_error_no_device(hass: UniversalAssistant) -> None:
     """Test error message when device/entity doesn't exist."""
     result = await conversation.async_converse(
         hass, "turn on missing entity", None, Context(), None
@@ -858,7 +858,7 @@ async def test_error_no_device(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_error_no_device_exposed(hass: __HAC_KEEP__) -> None:
+async def test_error_no_device_exposed(hass: UniversalAssistant) -> None:
     """Test error message when device/entity exists but is not exposed."""
     hass.states.async_set("light.kitchen_light", "off")
     expose_entity(hass, "light.kitchen_light", False)
@@ -876,7 +876,7 @@ async def test_error_no_device_exposed(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_error_no_device_exposed_query(hass: __HAC_KEEP__) -> None:
+async def test_error_no_device_exposed_query(hass: UniversalAssistant) -> None:
     """Test error message when querying an entity that exists but is not exposed."""
     hass.states.async_set("light.kitchen_light", "off")
     expose_entity(hass, "light.kitchen_light", False)
@@ -894,7 +894,7 @@ async def test_error_no_device_exposed_query(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_query_state_no_device_exposed(hass: __HAC_KEEP__) -> None:
+async def test_query_state_no_device_exposed(hass: UniversalAssistant) -> None:
     """Test that a query without a name is answered when no entity is exposed."""
     hass.states.async_set("light.kitchen_light", "off")
     expose_entity(hass, "light.kitchen_light", False)
@@ -911,7 +911,7 @@ async def test_query_state_no_device_exposed(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_error_no_area(hass: __HAC_KEEP__) -> None:
+async def test_error_no_area(hass: UniversalAssistant) -> None:
     """Test error message when area doesn't exist."""
     result = await conversation.async_converse(
         hass, "turn on the lights in missing area", None, Context(), None
@@ -926,7 +926,7 @@ async def test_error_no_area(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_error_no_floor(hass: __HAC_KEEP__) -> None:
+async def test_error_no_floor(hass: UniversalAssistant) -> None:
     """Test error message when floor doesn't exist."""
     result = await conversation.async_converse(
         hass, "turn on all the lights on missing floor", None, Context(), None
@@ -942,7 +942,7 @@ async def test_error_no_floor(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("init_components")
 async def test_error_no_device_in_area(
-    hass: __HAC_KEEP__, area_registry: ar.AreaRegistry
+    hass: UniversalAssistant, area_registry: ar.AreaRegistry
 ) -> None:
     """Test error message when area exists but is does not contain a device/entity."""
     area_kitchen = area_registry.async_get_or_create("kitchen_id")
@@ -962,7 +962,7 @@ async def test_error_no_device_in_area(
 
 @pytest.mark.usefixtures("init_components")
 async def test_error_no_device_on_floor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     floor_registry: fr.FloorRegistry,
 ) -> None:
     """Test error message when floor exists but is does not contain a device/entity."""
@@ -981,7 +981,7 @@ async def test_error_no_device_on_floor(
 
 @pytest.mark.usefixtures("init_components")
 async def test_error_no_device_on_floor_exposed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     area_registry: ar.AreaRegistry,
     floor_registry: fr.FloorRegistry,
@@ -1039,7 +1039,7 @@ async def test_error_no_device_on_floor_exposed(
 
 @pytest.mark.usefixtures("init_components")
 async def test_error_device_in_other_area(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     area_registry: ar.AreaRegistry,
 ) -> None:
@@ -1183,7 +1183,7 @@ def test_match_error_response_names_the_failed_scope(
 
 @pytest.mark.usefixtures("init_components")
 async def test_error_multiple_targets_without_name_is_spoken(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     area_registry: ar.AreaRegistry,
 ) -> None:
@@ -1243,7 +1243,7 @@ def test_match_error_response_multiple_targets_without_name() -> None:
 
 @pytest.mark.usefixtures("init_components")
 async def test_error_text_prefers_the_language_over_english(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a language that translates only some errors still answers in itself.
 
@@ -1270,7 +1270,7 @@ async def test_error_text_prefers_the_language_over_english(
 
 @pytest.mark.usefixtures("init_components")
 async def test_error_no_device_in_area_exposed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     area_registry: ar.AreaRegistry,
 ) -> None:
@@ -1305,7 +1305,7 @@ async def test_error_no_device_in_area_exposed(
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_error_no_domain(hass: __HAC_KEEP__) -> None:
+async def test_error_no_domain(hass: UniversalAssistant) -> None:
     """Test error message when no devices/entities exist for a domain."""
 
     # We don't have a sentence for turning on all fans
@@ -1337,7 +1337,7 @@ async def test_error_no_domain(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_error_no_domain_exposed(hass: __HAC_KEEP__) -> None:
+async def test_error_no_domain_exposed(hass: UniversalAssistant) -> None:
     """Test error when entities exist but are not exposed."""
     hass.states.async_set("fan.test_fan", "off")
     expose_entity(hass, "fan.test_fan", False)
@@ -1370,7 +1370,7 @@ async def test_error_no_domain_exposed(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("init_components")
 async def test_error_no_domain_in_area(
-    hass: __HAC_KEEP__, area_registry: ar.AreaRegistry
+    hass: UniversalAssistant, area_registry: ar.AreaRegistry
 ) -> None:
     """Test error message when no devices/entities for a domain exist in an area."""
     area_kitchen = area_registry.async_get_or_create("kitchen_id")
@@ -1389,7 +1389,7 @@ async def test_error_no_domain_in_area(
 
 @pytest.mark.usefixtures("init_components")
 async def test_error_no_domain_in_area_exposed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     area_registry: ar.AreaRegistry,
 ) -> None:
@@ -1425,7 +1425,7 @@ async def test_error_no_domain_in_area_exposed(
 
 @pytest.mark.usefixtures("init_components")
 async def test_error_no_domain_on_floor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     floor_registry: fr.FloorRegistry,
 ) -> None:
@@ -1467,7 +1467,7 @@ async def test_error_no_domain_on_floor(
 
 @pytest.mark.usefixtures("init_components")
 async def test_error_no_domain_on_floor_exposed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     area_registry: ar.AreaRegistry,
     floor_registry: fr.FloorRegistry,
@@ -1505,7 +1505,7 @@ async def test_error_no_domain_on_floor_exposed(
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_error_no_device_class(hass: __HAC_KEEP__) -> None:
+async def test_error_no_device_class(hass: UniversalAssistant) -> None:
     """Test error message when no entities of a device class exist."""
     # Create a cover entity that is not a window.
     # This ensures that the filtering below won't exit early because there are
@@ -1546,7 +1546,7 @@ async def test_error_no_device_class(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_error_no_device_class_exposed(hass: __HAC_KEEP__) -> None:
+async def test_error_no_device_class_exposed(hass: UniversalAssistant) -> None:
     """Test error message when entities of a device class exist but aren't exposed."""
     # Create a cover entity that is not a window.
     # This ensures that the filtering below won't exit early because there are
@@ -1595,7 +1595,7 @@ async def test_error_no_device_class_exposed(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("init_components")
 async def test_error_no_device_class_in_area(
-    hass: __HAC_KEEP__, area_registry: ar.AreaRegistry
+    hass: UniversalAssistant, area_registry: ar.AreaRegistry
 ) -> None:
     """Test error message when no entities of a device class exist in an area."""
     area_bedroom = area_registry.async_get_or_create("bedroom_id")
@@ -1614,7 +1614,7 @@ async def test_error_no_device_class_in_area(
 
 @pytest.mark.usefixtures("init_components")
 async def test_error_no_device_class_in_area_exposed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     area_registry: ar.AreaRegistry,
 ) -> None:
@@ -1649,7 +1649,7 @@ async def test_error_no_device_class_in_area_exposed(
 
 @pytest.mark.usefixtures("init_components")
 async def test_error_no_device_class_on_floor_exposed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     area_registry: ar.AreaRegistry,
     floor_registry: fr.FloorRegistry,
@@ -1706,7 +1706,7 @@ async def test_error_no_device_class_on_floor_exposed(
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_error_no_intent(hass: __HAC_KEEP__) -> None:
+async def test_error_no_intent(hass: UniversalAssistant) -> None:
     """Test response with an intent match failure."""
     with patch(
         "universalassistant.components.conversation.default_agent.recognize_best",
@@ -1728,7 +1728,7 @@ async def test_error_no_intent(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("init_components")
 async def test_error_duplicate_names(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test error message when multiple devices have the same name (or alias)."""
     kitchen_light_1 = entity_registry.async_get_or_create("light", "demo", "1234")
@@ -1780,7 +1780,7 @@ async def test_error_duplicate_names(
 
 @pytest.mark.usefixtures("init_components")
 async def test_duplicate_names_but_one_is_exposed(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test duplicate names where only one is exposed."""
     kitchen_light_1 = entity_registry.async_get_or_create("light", "demo", "1234")
@@ -1816,7 +1816,7 @@ async def test_duplicate_names_but_one_is_exposed(
 
 @pytest.mark.usefixtures("init_components")
 async def test_error_duplicate_names_same_area(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1861,7 +1861,7 @@ async def test_error_duplicate_names_same_area(
 
 @pytest.mark.usefixtures("init_components")
 async def test_duplicate_names_same_area_but_one_is_exposed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1903,7 +1903,7 @@ async def test_duplicate_names_same_area_but_one_is_exposed(
 
 @pytest.mark.usefixtures("init_components")
 async def test_duplicate_names_different_areas(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -1981,7 +1981,7 @@ async def test_duplicate_names_different_areas(
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_error_wrong_state(hass: __HAC_KEEP__) -> None:
+async def test_error_wrong_state(hass: UniversalAssistant) -> None:
     """Test error message when no entities are in the correct state."""
     assert await async_setup_component(hass, media_player.DOMAIN, {})
     await hass.async_block_till_done()
@@ -2002,7 +2002,7 @@ async def test_error_wrong_state(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_error_feature_not_supported(hass: __HAC_KEEP__) -> None:
+async def test_error_feature_not_supported(hass: UniversalAssistant) -> None:
     """Test error message when no devices support a required feature."""
     assert await async_setup_component(hass, media_player.DOMAIN, {})
     await hass.async_block_till_done()
@@ -2028,7 +2028,7 @@ async def test_error_feature_not_supported(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("init_components")
 async def test_error_no_timer_support(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -2059,7 +2059,7 @@ async def test_error_no_timer_support(
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_error_timer_not_found(hass: __HAC_KEEP__) -> None:
+async def test_error_timer_not_found(hass: UniversalAssistant) -> None:
     """Test error message when a timer cannot be matched."""
     device_id = "test_device"
 
@@ -2083,7 +2083,7 @@ async def test_error_timer_not_found(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("init_components")
 async def test_error_multiple_timers_matched(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -2133,7 +2133,7 @@ async def test_error_multiple_timers_matched(
 
 @pytest.mark.usefixtures("init_components")
 async def test_no_states_matched_default_error(
-    hass: __HAC_KEEP__, area_registry: ar.AreaRegistry
+    hass: UniversalAssistant, area_registry: ar.AreaRegistry
 ) -> None:
     """Test default response when no states match and slots are missing."""
     area_kitchen = area_registry.async_get_or_create("kitchen_id")
@@ -2169,7 +2169,7 @@ async def test_no_states_matched_default_error(
 )
 @pytest.mark.usefixtures("init_components")
 async def test_empty_aliases(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
     floor_registry: fr.FloorRegistry,
@@ -2226,7 +2226,7 @@ async def test_empty_aliases(
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_all_domains_loaded(hass: __HAC_KEEP__) -> None:
+async def test_all_domains_loaded(hass: UniversalAssistant) -> None:
     """Test that sentences for all domains are always loaded."""
 
     # light domain is not loaded
@@ -2247,7 +2247,7 @@ async def test_all_domains_loaded(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("init_components")
 async def test_same_named_entities_in_different_areas(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -2344,7 +2344,7 @@ async def test_same_named_entities_in_different_areas(
 
 @pytest.mark.usefixtures("init_components")
 async def test_same_aliased_entities_in_different_areas(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -2434,7 +2434,7 @@ async def test_same_aliased_entities_in_different_areas(
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_device_id_in_handler(hass: __HAC_KEEP__) -> None:
+async def test_device_id_in_handler(hass: UniversalAssistant) -> None:
     """Test that the default agent passes device_id to intent handler."""
     device_id = "test_device"
 
@@ -2467,7 +2467,7 @@ async def test_device_id_in_handler(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_name_wildcard_lower_priority(hass: __HAC_KEEP__) -> None:
+async def test_name_wildcard_lower_priority(hass: UniversalAssistant) -> None:
     """Test default agent deprioritizes wildcard name slot."""
 
     class OrderBeerIntentHandler(intent.IntentHandler):
@@ -2520,7 +2520,7 @@ async def test_name_wildcard_lower_priority(hass: __HAC_KEEP__) -> None:
 
 
 async def test_intent_entity_added_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -2595,7 +2595,7 @@ async def test_intent_entity_added_removed(
 
 
 async def test_intent_alias_added_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -2652,7 +2652,7 @@ async def test_intent_alias_added_removed(
 
 
 async def test_intent_entity_renamed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -2701,7 +2701,7 @@ async def test_intent_entity_renamed(
 
 
 async def test_intent_entity_remove_custom_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -2756,7 +2756,7 @@ async def test_intent_entity_remove_custom_name(
 
 
 async def test_intent_entity_fail_if_unexposed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -2792,7 +2792,7 @@ async def test_intent_entity_fail_if_unexposed(
 
 
 async def test_intent_entity_exposed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -2834,7 +2834,7 @@ async def test_intent_entity_exposed(
 
 
 async def test_intent_conversion_not_expose_new(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     hass_admin_user: MockUser,
     entity_registry: er.EntityRegistry,
@@ -2883,7 +2883,7 @@ async def test_intent_conversion_not_expose_new(
 
 
 async def test_custom_sentences(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -2914,7 +2914,7 @@ async def test_custom_sentences(
 
 
 async def test_custom_sentences_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test custom sentences with a custom intent in config."""
@@ -2946,7 +2946,7 @@ async def test_custom_sentences_config(
     assert data["response"]["speech"]["plain"]["speech"] == "Stealth mode engaged"
 
 
-async def test_language_region(hass: __HAC_KEEP__, init_components) -> None:
+async def test_language_region(hass: UniversalAssistant, init_components) -> None:
     """Test regional languages."""
     hass.states.async_set("light.kitchen", "off")
     calls = async_mock_service(hass, LIGHT_DOMAIN, "turn_on")
@@ -2970,7 +2970,7 @@ async def test_language_region(hass: __HAC_KEEP__, init_components) -> None:
     assert call.data == {"entity_id": ["light.kitchen"]}
 
 
-async def test_non_default_response(hass: __HAC_KEEP__, init_components) -> None:
+async def test_non_default_response(hass: UniversalAssistant, init_components) -> None:
     """Test intent response that is not the default."""
     hass.states.async_set("cover.front_door", "closed")
     calls = async_mock_service(hass, "cover", SERVICE_OPEN_COVER)
@@ -2993,7 +2993,7 @@ async def test_non_default_response(hass: __HAC_KEEP__, init_components) -> None
 
 
 async def test_turn_on_area(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
@@ -3067,7 +3067,7 @@ async def test_turn_on_area(
 
 
 async def test_light_area_same_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
@@ -3132,7 +3132,7 @@ async def test_light_area_same_name(
 
 
 async def test_custom_sentences_priority(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_admin_user: MockUser,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -3189,7 +3189,7 @@ async def test_custom_sentences_priority(
 
 
 async def test_config_sentences_priority(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_admin_user: MockUser,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -3253,7 +3253,7 @@ async def test_config_sentences_priority(
 
 
 async def test_query_same_name_different_areas(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
@@ -3323,7 +3323,7 @@ async def test_query_same_name_different_areas(
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_intent_cache_exposed(hass: __HAC_KEEP__) -> None:
+async def test_intent_cache_exposed(hass: UniversalAssistant) -> None:
     """Test that intent recognition results are cached for exposed entities."""
     agent = async_get_agent(hass)
 
@@ -3362,7 +3362,7 @@ async def test_intent_cache_exposed(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_intent_cache_all_entities(hass: __HAC_KEEP__) -> None:
+async def test_intent_cache_all_entities(hass: UniversalAssistant) -> None:
     """Test that intent recognition results are cached for all entities."""
     agent = async_get_agent(hass)
 
@@ -3401,7 +3401,7 @@ async def test_intent_cache_all_entities(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_entities_names_are_not_templates(hass: __HAC_KEEP__) -> None:
+async def test_entities_names_are_not_templates(hass: UniversalAssistant) -> None:
     """Test that entities names are not treated as hassil templates."""
     # Contains hassil template characters
     hass.states.async_set(
@@ -3455,7 +3455,7 @@ async def test_entities_names_are_not_templates(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("init_components")
 async def test_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     language: str,
     light_name: str,
     on_sentence: str,
@@ -3501,7 +3501,7 @@ async def test_turn_on_off(
 )
 @pytest.mark.usefixtures("init_components")
 async def test_handle_intents_with_response_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
     area_registry: ar.AreaRegistry,
     error_code: intent.IntentResponseErrorCode,
@@ -3571,7 +3571,7 @@ async def test_handle_intents_with_response_errors(
 )
 @pytest.mark.usefixtures("init_components")
 async def test_handle_failed_intents(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
     area_registry: ar.AreaRegistry,
     side_effect: intent.IntentError,
@@ -3616,7 +3616,7 @@ async def test_handle_failed_intents(
 
 @pytest.mark.usefixtures("init_components")
 async def test_handle_intents_filters_results(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
     area_registry: ar.AreaRegistry,
 ) -> None:
@@ -3692,7 +3692,7 @@ async def test_handle_intents_filters_results(
 
 @pytest.mark.usefixtures("init_components")
 async def test_state_names_are_not_translated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
 ) -> None:
     """Test that state names are not translated in responses."""
@@ -3717,7 +3717,7 @@ async def test_state_names_are_not_translated(
 
 
 async def test_language_with_alternative_code(
-    hass: __HAC_KEEP__, init_components
+    hass: UniversalAssistant, init_components
 ) -> None:
     """Test different codes for the same language."""
     entity_ids: dict[str, str] = {}
@@ -3753,7 +3753,7 @@ async def test_language_with_alternative_code(
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_intent_tool_call_in_chat_log(hass: __HAC_KEEP__) -> None:
+async def test_intent_tool_call_in_chat_log(hass: UniversalAssistant) -> None:
     """Test that intent tool calls are stored in the chat log."""
     hass.states.async_set(
         "light.test_light", "off", attributes={ATTR_FRIENDLY_NAME: "Test Light"}
@@ -3805,7 +3805,7 @@ async def test_intent_tool_call_in_chat_log(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_trigger_tool_call_in_chat_log(hass: __HAC_KEEP__) -> None:
+async def test_trigger_tool_call_in_chat_log(hass: UniversalAssistant) -> None:
     """Test that trigger tool calls are stored in the chat log."""
     trigger_sentence = "test automation trigger"
     trigger_response = "Trigger activated!"
@@ -3852,7 +3852,7 @@ async def test_trigger_tool_call_in_chat_log(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_no_tool_call_on_no_intent_match(hass: __HAC_KEEP__) -> None:
+async def test_no_tool_call_on_no_intent_match(hass: UniversalAssistant) -> None:
     """Test that no tool call is stored when no intent is matched."""
     result = await conversation.async_converse(
         hass, "this is a random sentence that should not match", None, Context(), None
@@ -3878,7 +3878,7 @@ async def test_no_tool_call_on_no_intent_match(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_intent_tool_call_with_error_response(hass: __HAC_KEEP__) -> None:
+async def test_intent_tool_call_with_error_response(hass: UniversalAssistant) -> None:
     """Test that intent tool calls store error information correctly."""
     # Request to turn on a non-existent device
     result = await conversation.async_converse(
@@ -3913,7 +3913,7 @@ async def test_intent_tool_call_with_error_response(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("init_components")
 async def test_intent_cache_is_per_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -3972,7 +3972,7 @@ async def test_intent_cache_is_per_device(
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_prepare_builds_what_recognition_needs(hass: __HAC_KEEP__) -> None:
+async def test_prepare_builds_what_recognition_needs(hass: UniversalAssistant) -> None:
     """Test recognition reuses everything prepare built."""
     hass.states.async_set(
         "light.kitchen", "off", attributes={ATTR_FRIENDLY_NAME: "Kitchen light"}
@@ -4031,7 +4031,7 @@ async def test_prepare_builds_what_recognition_needs(hass: __HAC_KEEP__) -> None
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_prepare_strict_intents_only(hass: __HAC_KEEP__) -> None:
+async def test_prepare_strict_intents_only(hass: UniversalAssistant) -> None:
     """Test a strict prepare skips what only the fallbacks use."""
     hass.states.async_set(
         "light.kitchen", "off", attributes={ATTR_FRIENDLY_NAME: "Kitchen light"}

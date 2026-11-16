@@ -13,12 +13,12 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.aerosmart.const import DOMAIN, READINGS_SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 
 async def test_device_info_includes_model_and_software_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit_ventilation: MockModbusUnit,
@@ -47,7 +47,7 @@ async def test_device_info_includes_model_and_software_version(
     ],
 )
 async def test_device_info_recovers_after_initial_general_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
@@ -96,7 +96,7 @@ async def test_device_info_recovers_after_initial_general_failure(
 
 
 async def test_update_failed_marks_entities_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit_ventilation: MockModbusUnit,
     freezer: FrozenDateTimeFactory,
@@ -126,7 +126,7 @@ async def test_update_failed_marks_entities_unavailable(
 
 
 async def test_recovers_after_transient_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit_ventilation: MockModbusUnit,
     freezer: FrozenDateTimeFactory,
@@ -157,7 +157,7 @@ async def test_recovers_after_transient_failure(
 
 
 async def test_partial_failure_only_marks_its_subsystem_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit_ventilation: MockModbusUnit,
     freezer: FrozenDateTimeFactory,

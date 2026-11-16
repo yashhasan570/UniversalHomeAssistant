@@ -6,7 +6,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.update import DOMAIN as UPDATE_DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .common import ALL_DEVICE_NAMES, mock_devices_response
@@ -14,7 +14,7 @@ from .common import ALL_DEVICE_NAMES, mock_devices_response
 
 @pytest.mark.parametrize("device_name", ALL_DEVICE_NAMES)
 async def test_update_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,

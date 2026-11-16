@@ -9,7 +9,7 @@ from universalassistant.components.water_heater import (
     SERVICE_SET_TEMPERATURE,
 )
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import UID, init_integration
@@ -18,7 +18,7 @@ WATER_HEATER_ID = "water_heater.atag_thermostat_atag"
 
 
 async def test_water_heater(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -32,7 +32,7 @@ async def test_water_heater(
 
 
 async def test_setting_target_temperature(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setting the water heater device."""
     await init_integration(hass, aioclient_mock)

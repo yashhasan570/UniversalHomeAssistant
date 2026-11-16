@@ -6,7 +6,7 @@ from urllib.parse import quote
 
 from universalassistant.components.camera import Camera, CameraEntityFeature
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -41,7 +41,7 @@ PTZ_GOTO_PRESET_COMMAND = "ptz_goto_preset"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: FoscamConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

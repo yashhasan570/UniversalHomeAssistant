@@ -13,7 +13,7 @@ from universalassistant.components.light import (
     LightServiceArgument,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -30,7 +30,7 @@ SUPPORT_DEMO_HS_WHITE = {ColorMode.HS, ColorMode.WHITE}
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -145,7 +145,7 @@ class DemoLight(LightEntity):
     def available(self) -> bool:
         """Return availability."""
         # This demo light is always available, but well-behaving components
-        # should implement this to inform __HA_KEEP__ accordingly.
+        # should implement this to inform Universal Home Assistant accordingly.
         return True
 
     @override
@@ -182,7 +182,7 @@ class DemoLight(LightEntity):
             self._attr_brightness = kwargs[LightServiceArgument.WHITE]
 
         # As we have disabled polling, we need to inform
-        # __HA_KEEP__ about updates in our state ourselves.
+        # Universal Home Assistant about updates in our state ourselves.
         self.async_write_ha_state()
 
     @override
@@ -191,5 +191,5 @@ class DemoLight(LightEntity):
         self._attr_is_on = False
 
         # As we have disabled polling, we need to inform
-        # __HA_KEEP__ about updates in our state ourselves.
+        # Universal Home Assistant about updates in our state ourselves.
         self.async_write_ha_state()

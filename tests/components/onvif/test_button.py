@@ -4,14 +4,14 @@ from unittest.mock import AsyncMock
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonDeviceClass
 from universalassistant.const import ATTR_DEVICE_CLASS, ATTR_ENTITY_ID, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import MAC, setup_onvif_integration
 
 
 async def test_reboot_button(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test states of the Reboot button."""
     await setup_onvif_integration(hass)
@@ -26,7 +26,7 @@ async def test_reboot_button(
     assert entry.unique_id == f"{MAC}_reboot"
 
 
-async def test_reboot_button_press(hass: __HAC_KEEP__) -> None:
+async def test_reboot_button_press(hass: UniversalAssistant) -> None:
     """Test Reboot button press."""
     _, camera, _ = await setup_onvif_integration(hass)
     devicemgmt = await camera.create_devicemgmt_service()
@@ -44,7 +44,7 @@ async def test_reboot_button_press(hass: __HAC_KEEP__) -> None:
 
 
 async def test_set_dateandtime_button(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test states of the SetDateAndTime button."""
     await setup_onvif_integration(hass)
@@ -58,7 +58,7 @@ async def test_set_dateandtime_button(
     assert entry.unique_id == f"{MAC}_setsystemdatetime"
 
 
-async def test_set_dateandtime_button_press(hass: __HAC_KEEP__) -> None:
+async def test_set_dateandtime_button_press(hass: UniversalAssistant) -> None:
     """Test SetDateAndTime button press."""
     _, _camera, device = await setup_onvif_integration(hass)
     device.async_manually_set_date_and_time = AsyncMock(return_value=True)

@@ -24,7 +24,7 @@ from universalassistant.components.calendar import (
 )
 from universalassistant.components.group import DOMAIN, SERVICE_RELOAD
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from universalassistant.setup import async_setup_component
@@ -78,7 +78,7 @@ class MockCalendarEntity(CalendarEntity):
 
     async def async_get_events(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         start_date: dt.datetime,
         end_date: dt.datetime,
     ) -> list[CalendarEvent]:
@@ -92,14 +92,14 @@ class MockCalendarEntity(CalendarEntity):
 
 
 @pytest.fixture(autouse=True)
-async def set_time_zone(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+async def set_time_zone(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
     """Use UTC to keep member state attributes readable."""
     await hass.config.async_set_time_zone("UTC")
     freezer.move_to(NOW)
 
 
 @pytest.fixture
-def calendar_platform(hass: __HAC_KEEP__) -> list[MockCalendarEntity]:
+def calendar_platform(hass: UniversalAssistant) -> list[MockCalendarEntity]:
     """Register a calendar platform providing calendar.work and calendar.home."""
     entities = [
         MockCalendarEntity("Work", [MEETING]),
@@ -107,7 +107,7 @@ def calendar_platform(hass: __HAC_KEEP__) -> list[MockCalendarEntity]:
     ]
 
     async def async_setup_platform(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config: ConfigType,
         async_add_entities: AddEntitiesCallback,
         discovery_info: DiscoveryInfoType | None = None,
@@ -123,7 +123,7 @@ def calendar_platform(hass: __HAC_KEEP__) -> list[MockCalendarEntity]:
 
 
 async def _setup_groups(
-    hass: __HAC_KEEP__, groups: Sequence[ConfigType] = (FAMILY_GROUP,)
+    hass: UniversalAssistant, groups: Sequence[ConfigType] = (FAMILY_GROUP,)
 ) -> None:
     """Set up the test calendars and the given calendar groups."""
     await async_setup_component(
@@ -137,7 +137,7 @@ async def _setup_groups(
 
 
 async def _update_member(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity: MockCalendarEntity,
     events: list[CalendarEvent],
     available: bool = True,
@@ -150,7 +150,7 @@ async def _update_member(
 
 
 async def test_state(
-    hass: __HAC_KEEP__, calendar_platform: list[MockCalendarEntity]
+    hass: UniversalAssistant, calendar_platform: list[MockCalendarEntity]
 ) -> None:
     """Test calendar group state follows the earliest member event."""
     work, home = calendar_platform
@@ -211,7 +211,7 @@ async def test_state(
 
 
 @pytest.mark.usefixtures("calendar_platform")
-async def test_all_day_event(hass: __HAC_KEEP__) -> None:
+async def test_all_day_event(hass: UniversalAssistant) -> None:
     """Test an all day member event is preferred when it started earlier."""
     await _setup_groups(hass)
 
@@ -225,7 +225,7 @@ async def test_all_day_event(hass: __HAC_KEEP__) -> None:
 
 
 async def test_event_ends(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     calendar_platform: list[MockCalendarEntity],
 ) -> None:
@@ -249,7 +249,7 @@ async def test_event_ends(
 
 
 async def test_event_in_repeated_dst_hour(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     calendar_platform: list[MockCalendarEntity],
 ) -> None:
@@ -279,7 +279,7 @@ async def test_event_in_repeated_dst_hour(
 
 
 async def test_events_ordered_across_repeated_dst_hour(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     calendar_platform: list[MockCalendarEntity],
 ) -> None:
@@ -324,7 +324,7 @@ async def test_events_ordered_across_repeated_dst_hour(
 
 
 async def test_state_membership_cycle(
-    hass: __HAC_KEEP__, calendar_platform: list[MockCalendarEntity]
+    hass: UniversalAssistant, calendar_platform: list[MockCalendarEntity]
 ) -> None:
     """Test a group including itself doesn't keep its own previous event."""
     work, home = calendar_platform
@@ -360,7 +360,7 @@ async def test_state_membership_cycle(
 
 
 async def test_get_events(
-    hass: __HAC_KEEP__, calendar_platform: list[MockCalendarEntity]
+    hass: UniversalAssistant, calendar_platform: list[MockCalendarEntity]
 ) -> None:
     """Test the group returns the events of all members."""
     await _setup_groups(hass)
@@ -437,7 +437,7 @@ async def test_get_events(
 )
 @pytest.mark.usefixtures("calendar_platform")
 async def test_get_events_nested_groups(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     groups: list[ConfigType],
     expected_summaries: list[str],
 ) -> None:
@@ -461,7 +461,7 @@ async def test_get_events_nested_groups(
 
 
 async def test_nested_group_report_refreshes_member_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     calendar_platform: list[MockCalendarEntity],
 ) -> None:
@@ -503,7 +503,7 @@ async def test_nested_group_report_refreshes_member_events(
     assert group.event.summary == "Movie"
 
 
-async def test_reload(hass: __HAC_KEEP__) -> None:
+async def test_reload(hass: UniversalAssistant) -> None:
     """Test reloading YAML calendar groups."""
     await async_setup_component(
         hass,
@@ -530,7 +530,7 @@ async def test_reload(hass: __HAC_KEEP__) -> None:
 
 
 async def test_subscribe_updates_on_member_report(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     calendar_platform: list[MockCalendarEntity],
 ) -> None:
@@ -578,7 +578,7 @@ async def test_subscribe_updates_on_member_report(
 
 
 @pytest.mark.usefixtures("calendar_platform")
-async def test_config_entry(hass: __HAC_KEEP__) -> None:
+async def test_config_entry(hass: UniversalAssistant) -> None:
     """Test a calendar group set up from a config entry."""
     await _setup_groups(hass, [])
     config_entry = MockConfigEntry(
@@ -604,7 +604,7 @@ async def test_config_entry(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("calendar_platform")
 async def test_config_flow_preview(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the calendar group preview."""
     await _setup_groups(hass, [])
@@ -649,7 +649,7 @@ async def test_config_flow_preview(
 
 
 async def test_config_flow_preview_calendar_not_loaded(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the preview is unavailable before the calendar integration is loaded."""
     assert await async_setup_component(hass, DOMAIN, {})

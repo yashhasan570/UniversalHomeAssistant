@@ -15,7 +15,7 @@ from universalassistant.core import (
     CALLBACK_TYPE,
     Event,
     EventStateChangedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
 )
 from universalassistant.exceptions import (
@@ -58,7 +58,7 @@ class EnergyIDRuntimeData:
     unavailable_logged: bool = False
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: EnergyIDConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: EnergyIDConfigEntry) -> None:
     """Set up EnergyID from a config entry."""
     session = async_get_clientsession(hass)
     client = WebhookClient(
@@ -153,7 +153,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: EnergyIDConfigEntry) -> N
 
 
 async def config_entry_update_listener(
-    hass: __HAC_KEEP__, entry: EnergyIDConfigEntry
+    hass: UniversalAssistant, entry: EnergyIDConfigEntry
 ) -> None:
     """Handle config entry updates, including subentry changes."""
     _LOGGER.debug("Config entry updated for %s, reloading listeners", entry.entry_id)
@@ -161,7 +161,7 @@ async def config_entry_update_listener(
 
 
 @callback
-def update_listeners(hass: __HAC_KEEP__, entry: EnergyIDConfigEntry) -> None:
+def update_listeners(hass: UniversalAssistant, entry: EnergyIDConfigEntry) -> None:
     """Set up or update state listeners and queue initial states."""
     runtime_data = entry.runtime_data
     client = runtime_data.client
@@ -311,7 +311,7 @@ def update_listeners(hass: __HAC_KEEP__, entry: EnergyIDConfigEntry) -> None:
 
 @callback
 def _async_handle_state_change(
-    hass: __HAC_KEEP__, entry_id: str, event: Event[EventStateChangedData]
+    hass: UniversalAssistant, entry_id: str, event: Event[EventStateChangedData]
 ) -> None:
     """Handle state changes for tracked entities."""
     entity_id = event.data["entity_id"]
@@ -376,7 +376,7 @@ def _async_handle_state_change(
     client.get_or_create_sensor(energyid_key).update(value, new_state.last_updated)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: EnergyIDConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: EnergyIDConfigEntry) -> None:
     """Unload a config entry."""
     _LOGGER.debug("Unloading EnergyID entry for %s", entry.title)
 

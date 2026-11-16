@@ -95,7 +95,7 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType, UnknownFlow
 from universalassistant.helpers import (
     config_entry_oauth2_flow,
@@ -113,7 +113,7 @@ REDIRECT = "https://example.com/auth/external/callback"
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_oauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -177,7 +177,7 @@ async def test_oauth_flow(
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -223,7 +223,7 @@ async def test_reauth(
 
 
 async def _complete_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     entry: MockConfigEntry,
@@ -265,7 +265,7 @@ async def _complete_reauth(
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_loaded_schedules_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -281,7 +281,7 @@ async def test_reauth_loaded_schedules_reload(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth_not_loaded_schedules_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -305,7 +305,7 @@ async def test_reauth_not_loaded_schedules_reload(
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_account_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -362,7 +362,7 @@ async def test_reauth_account_mismatch(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_duplicate_unique_id_abort(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -413,7 +413,7 @@ async def test_duplicate_unique_id_abort(
     ],
 )
 async def test_oauth_error_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     exception: Exception,
@@ -457,7 +457,7 @@ async def test_oauth_error_handling(
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_token_response: dict[str, Any],
@@ -501,7 +501,7 @@ async def test_reconfigure(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reconfigure_not_loaded_schedules_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_token_response: dict[str, Any],
@@ -550,7 +550,7 @@ async def test_reconfigure_not_loaded_schedules_reload(
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_account_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_token_response: dict[str, Any],
@@ -606,7 +606,7 @@ async def test_reconfigure_account_mismatch(
     ],
 )
 async def test_reconfigure_oauth_error_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_token_response: dict[str, Any],
@@ -642,7 +642,7 @@ async def test_reconfigure_oauth_error_handling(
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_oauth_error_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_token_response: dict[str, Any],
@@ -705,7 +705,7 @@ async def test_reconfigure_oauth_error_recovery(
 
 
 async def test_migrate_error_from_future(
-    hass: __HAC_KEEP__, mock_metadata: AsyncMock
+    hass: UniversalAssistant, mock_metadata: AsyncMock
 ) -> None:
     """Test a future version isn't migrated."""
 
@@ -788,7 +788,7 @@ def _link_calls(vehicle: AsyncMock) -> list[str]:
     ]
 
 
-async def _setup_account_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def _setup_account_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Set up an account entry with no vehicle subentry."""
     entry = mock_config_entry()
     entry.add_to_hass(hass)
@@ -798,7 +798,7 @@ async def _setup_account_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     return entry
 
 
-async def _setup_paired_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def _setup_paired_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Set up an entry whose only account vehicle is already BLE-paired."""
     entry = _entry_with_ble()
     entry.add_to_hass(hass)
@@ -827,7 +827,7 @@ async def _setup_paired_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 
 async def _start_pairing_at_scan(
-    hass: __HAC_KEEP__, entry: MockConfigEntry
+    hass: UniversalAssistant, entry: MockConfigEntry
 ) -> SubentryFlowResult:
     """Open the add flow and advance past VIN selection to the scan step."""
     result = await hass.config_entries.subentries.async_init(
@@ -846,7 +846,7 @@ async def _start_pairing_at_scan(
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_subentry_pairing_already_whitelisted(hass: __HAC_KEEP__) -> None:
+async def test_subentry_pairing_already_whitelisted(hass: UniversalAssistant) -> None:
     """The add flow creates the subentry when the key is already whitelisted."""
     entry = await _setup_account_entry(hass)
     vehicle = _mock_vehicle(on_whitelist=True)
@@ -879,7 +879,7 @@ async def test_subentry_pairing_already_whitelisted(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_subentry_pairing_duplicate_vin_aborts(hass: __HAC_KEEP__) -> None:
+async def test_subentry_pairing_duplicate_vin_aborts(hass: UniversalAssistant) -> None:
     """A second flow racing on the same VIN aborts with already_configured."""
     entry = await _setup_account_entry(hass)
     vehicle = _mock_vehicle(on_whitelist=True)
@@ -918,7 +918,7 @@ async def test_subentry_pairing_duplicate_vin_aborts(hass: __HAC_KEEP__) -> None
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_subentry_pairing_requires_key_approval(hass: __HAC_KEEP__) -> None:
+async def test_subentry_pairing_requires_key_approval(hass: UniversalAssistant) -> None:
     """Pairing walks through instructions and key install when not whitelisted."""
     entry = await _setup_account_entry(hass)
     vehicle = _mock_vehicle(on_whitelist=False)
@@ -981,7 +981,7 @@ async def test_subentry_pairing_requires_key_approval(hass: __HAC_KEEP__) -> Non
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_subentry_handshake_fails_after_pairing(hass: __HAC_KEEP__) -> None:
+async def test_subentry_handshake_fails_after_pairing(hass: UniversalAssistant) -> None:
     """A handshake failure after the key was added says so; retrying finishes without re-pairing."""
     entry = await _setup_account_entry(hass)
     vehicle = _mock_vehicle()
@@ -1046,7 +1046,7 @@ def _connect_failure(*chain: BaseException) -> BluetoothTransportError:
 
 
 async def _connect_fails_then_pairs(
-    hass: __HAC_KEEP__, error: BaseException, expected: str
+    hass: UniversalAssistant, error: BaseException, expected: str
 ) -> None:
     """Fail the first Bluetooth connect, check the error, then pair on retry."""
     entry = await _setup_account_entry(hass)
@@ -1134,7 +1134,7 @@ async def _connect_fails_then_pairs(
 )
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subentry_scan_connect_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     error: BleakError | BluetoothTransportError,
     rssi: int,
     expected: str,
@@ -1165,7 +1165,7 @@ async def test_subentry_scan_connect_fails(
 )
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subentry_scan_connect_fails_vehicle_gone(
-    hass: __HAC_KEEP__, error: BluetoothTransportError
+    hass: UniversalAssistant, error: BluetoothTransportError
 ) -> None:
     """A vehicle no longer advertising when the connect fails is reported not found."""
     await _connect_fails_then_pairs(hass, error, "device_not_found")
@@ -1199,7 +1199,7 @@ async def test_subentry_scan_connect_fails_vehicle_gone(
 )
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subentry_authorize_failure(
-    hass: __HAC_KEEP__, error: type[TeslaFleetError], expected: str
+    hass: UniversalAssistant, error: type[TeslaFleetError], expected: str
 ) -> None:
     """Each pairing failure surfaces its own error, not a blanket timeout."""
     entry = await _setup_account_entry(hass)
@@ -1269,7 +1269,7 @@ async def test_subentry_authorize_failure(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subentry_authorize_unexpected_error_disconnects(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """An exception outside the handled set still disconnects before propagating."""
     entry = await _setup_account_entry(hass)
@@ -1306,7 +1306,7 @@ async def test_subentry_authorize_unexpected_error_disconnects(
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_subentry_authorize_existing_key_finishes(hass: __HAC_KEEP__) -> None:
+async def test_subentry_authorize_existing_key_finishes(hass: UniversalAssistant) -> None:
     """Approving the key after a timeout, then retrying, completes the pairing."""
     entry = await _setup_account_entry(hass)
     vehicle = _mock_vehicle(on_whitelist=False)
@@ -1392,7 +1392,7 @@ async def test_subentry_authorize_existing_key_finishes(hass: __HAC_KEEP__) -> N
 )
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subentry_handshake_error_recovers(
-    hass: __HAC_KEEP__, handshake_error: Exception
+    hass: UniversalAssistant, handshake_error: Exception
 ) -> None:
     """A handshake failure re-shows the scan form; retrying then pairs."""
     entry = await _setup_account_entry(hass)
@@ -1442,7 +1442,7 @@ async def test_subentry_handshake_error_recovers(
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_subentry_pairing_abandoned(hass: __HAC_KEEP__) -> None:
+async def test_subentry_pairing_abandoned(hass: UniversalAssistant) -> None:
     """Abandoning the flow mid-pairing cancels the pair task and disconnects."""
     entry = await _setup_account_entry(hass)
     vehicle = _mock_vehicle(on_whitelist=False)
@@ -1494,7 +1494,7 @@ async def test_subentry_pairing_abandoned(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subentry_abandoned_during_connect_disconnects(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Closing the dialog while connect is in flight still drops the link it opens."""
     entry = await _setup_account_entry(hass)
@@ -1544,7 +1544,7 @@ async def test_subentry_abandoned_during_connect_disconnects(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subentry_scan_device_not_found(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """The scan step re-shows the form with an error when no device is found."""
     entry = await _setup_account_entry(hass)
@@ -1609,7 +1609,7 @@ async def test_subentry_scan_device_not_found(
 )
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subentry_scan_key_load_recovers(
-    hass: __HAC_KEEP__, key_error: Exception
+    hass: UniversalAssistant, key_error: Exception
 ) -> None:
     """A Bluetooth key-load failure re-shows the scan form; a loadable key then pairs."""
     entry = await _setup_account_entry(hass)
@@ -1654,7 +1654,7 @@ async def test_subentry_scan_key_load_recovers(
     vehicle.connect.assert_awaited_once()
 
 
-def _inject_vehicle_advertisement(hass: __HAC_KEEP__) -> None:
+def _inject_vehicle_advertisement(hass: UniversalAssistant) -> None:
     """Inject an advertisement carrying the test vehicle's BLE name."""
     name = TeslaBluetooth().get_name(VIN)
     inject_advertisement(
@@ -1666,7 +1666,7 @@ def _inject_vehicle_advertisement(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subentry_scan_waits_for_advertisement_after_active_scan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A vehicle found by the active scan is connected only once it is heard again."""
     entry = await _setup_account_entry(hass)
@@ -1710,7 +1710,7 @@ async def test_subentry_scan_waits_for_advertisement_after_active_scan(
         events.append("advertisement after the active window ends")
         _advertise(auto_scanner.source, True, fresh_device)
 
-    async def _active_scan(hass: __HAC_KEEP__) -> None:
+    async def _active_scan(hass: UniversalAssistant) -> None:
         events.append("active scan")
         # The name is only in the scan response, so the vehicle first appears during the active scan.
         _inject_vehicle_advertisement(hass)
@@ -1757,13 +1757,13 @@ async def test_subentry_scan_waits_for_advertisement_after_active_scan(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subentry_scan_connects_when_not_heard_after_active_scan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """The flow still connects when the vehicle is not heard again after the active scan."""
     entry = await _setup_account_entry(hass)
     vehicle = _mock_vehicle()
 
-    async def _active_scan(hass: __HAC_KEEP__) -> None:
+    async def _active_scan(hass: UniversalAssistant) -> None:
         _inject_vehicle_advertisement(hass)
 
     with (
@@ -1793,7 +1793,7 @@ async def test_subentry_scan_connects_when_not_heard_after_active_scan(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subentry_scan_known_vehicle_skips_active_scan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A vehicle whose name is already known is connected without an active scan."""
     entry = await _setup_account_entry(hass)
@@ -1826,7 +1826,7 @@ async def test_subentry_scan_known_vehicle_skips_active_scan(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subentry_add_flow_keeps_device_on_parent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1932,7 +1932,7 @@ async def test_subentry_add_flow_keeps_device_on_parent(
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_subentry_add_flow_no_available_vehicles(hass: __HAC_KEEP__) -> None:
+async def test_subentry_add_flow_no_available_vehicles(hass: UniversalAssistant) -> None:
     """The add flow aborts when every account vehicle is already added."""
     entry = await _setup_paired_entry(hass)
 
@@ -1946,7 +1946,7 @@ async def test_subentry_add_flow_no_available_vehicles(hass: __HAC_KEEP__) -> No
 
 
 @pytest.mark.usefixtures("enable_bluetooth", "mock_energy_only")
-async def test_subentry_add_flow_account_has_no_vehicles(hass: __HAC_KEEP__) -> None:
+async def test_subentry_add_flow_account_has_no_vehicles(hass: UniversalAssistant) -> None:
     """The add flow aborts when the account has no vehicles to add."""
     entry = await _setup_account_entry(hass)
 
@@ -1961,7 +1961,7 @@ async def test_subentry_add_flow_account_has_no_vehicles(hass: __HAC_KEEP__) -> 
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subentry_add_flow_hides_unsupported_vehicles(
-    hass: __HAC_KEEP__, mock_products: AsyncMock, mock_metadata: AsyncMock
+    hass: UniversalAssistant, mock_products: AsyncMock, mock_metadata: AsyncMock
 ) -> None:
     """Only vehicles that report no command protocol support are left out."""
     products = deepcopy(PRODUCTS)
@@ -1998,7 +1998,7 @@ async def test_subentry_add_flow_hides_unsupported_vehicles(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subentry_add_flow_keeps_vehicle_without_metadata(
-    hass: __HAC_KEEP__, mock_metadata: AsyncMock, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, mock_metadata: AsyncMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """A vehicle missing from refreshed metadata is offered as unknown support."""
     entry = await _setup_account_entry(hass)
@@ -2026,7 +2026,7 @@ async def test_subentry_add_flow_keeps_vehicle_without_metadata(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subentry_add_flow_only_unsupported_vehicles(
-    hass: __HAC_KEEP__, mock_metadata: AsyncMock
+    hass: UniversalAssistant, mock_metadata: AsyncMock
 ) -> None:
     """The add flow aborts when no account vehicle supports the command protocol."""
     metadata = deepcopy(METADATA)
@@ -2043,7 +2043,7 @@ async def test_subentry_add_flow_only_unsupported_vehicles(
     assert result["reason"] == "no_supported_vehicles"
 
 
-async def test_subentry_add_flow_no_bluetooth(hass: __HAC_KEEP__) -> None:
+async def test_subentry_add_flow_no_bluetooth(hass: UniversalAssistant) -> None:
     """The add flow aborts immediately when no Bluetooth integration is set up."""
     entry = await _setup_account_entry(hass)
 
@@ -2057,7 +2057,7 @@ async def test_subentry_add_flow_no_bluetooth(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_subentry_add_flow_entry_not_loaded(hass: __HAC_KEEP__) -> None:
+async def test_subentry_add_flow_entry_not_loaded(hass: UniversalAssistant) -> None:
     """The add flow aborts when the parent entry is not loaded."""
     entry = mock_config_entry()
     entry.add_to_hass(hass)
@@ -2073,7 +2073,7 @@ async def test_subentry_add_flow_entry_not_loaded(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_subentry_reconfigure_updates_address(hass: __HAC_KEEP__) -> None:
+async def test_subentry_reconfigure_updates_address(hass: UniversalAssistant) -> None:
     """Reconfigure re-scans and re-pairs an already added vehicle, updating its address."""
     entry = await _setup_paired_entry(hass)
     subentry = next(iter(entry.get_subentries_of_type(SUBENTRY_TYPE_VEHICLE)))
@@ -2115,7 +2115,7 @@ async def test_subentry_reconfigure_updates_address(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subentry_reconfigure_reloads_onto_new_address(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Reconfigure reloads the entry so the live router uses the new address."""
     entry = await _setup_paired_entry(hass)
@@ -2167,7 +2167,7 @@ async def test_subentry_reconfigure_reloads_onto_new_address(
     assert mock_ble_device.call_args.args[1] == NEW_ADDRESS
 
 
-async def test_subentry_reconfigure_no_bluetooth(hass: __HAC_KEEP__) -> None:
+async def test_subentry_reconfigure_no_bluetooth(hass: UniversalAssistant) -> None:
     """Reconfigure aborts immediately when no Bluetooth integration is set up."""
     # No enable_bluetooth fixture here, so the scanner count is zero.
     entry = await _setup_paired_entry(hass)
@@ -2180,7 +2180,7 @@ async def test_subentry_reconfigure_no_bluetooth(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_subentry_reconfigure_device_not_found(hass: __HAC_KEEP__) -> None:
+async def test_subentry_reconfigure_device_not_found(hass: UniversalAssistant) -> None:
     """Reconfigure re-shows the scan form when the vehicle cannot be found."""
     entry = await _setup_paired_entry(hass)
     subentry = next(iter(entry.get_subentries_of_type(SUBENTRY_TYPE_VEHICLE)))
@@ -2379,7 +2379,7 @@ def _local_client(public_key: str, state: str) -> dict[str, Any]:
         "public_key": public_key,
         "state": state,
         "type": "CUSTOMER_MOBILE_APP",
-        "description": "__HA_KEEP__",
+        "description": "Universal Home Assistant",
         "key_type": "RSA",
         "roles": ["CUSTOMER"],
         "verification": "PRESENCE_PROOF",
@@ -2390,7 +2390,7 @@ def _local_client(public_key: str, state: str) -> dict[str, Any]:
 
 
 async def _start_add_flow_select_site(
-    hass: __HAC_KEEP__, entry: MockConfigEntry
+    hass: UniversalAssistant, entry: MockConfigEntry
 ) -> SubentryFlowResult:
     """Start the add flow and select the battery site, returning the next step."""
     result = await hass.config_entries.subentries.async_init(
@@ -2403,7 +2403,7 @@ async def _start_add_flow_select_site(
     )
 
 
-async def _setup_account_no_subentry(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def _setup_account_no_subentry(hass: UniversalAssistant) -> MockConfigEntry:
     """Set up an account entry with no local-control subentry (nothing opted in)."""
     entry = mock_config_entry()
     entry.add_to_hass(hass)
@@ -2431,7 +2431,7 @@ def _credentials_host_is_blank(result: SubentryFlowResult) -> bool:
 
 @pytest.mark.usefixtures("mock_rsa_key")
 async def test_energy_subentry_pairing_requires_key_approval(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Pairing registers the key, then advances to credentials once approved."""
     entry = await _setup_account_no_subentry(hass)
@@ -2500,7 +2500,7 @@ async def test_energy_subentry_pairing_requires_key_approval(
     ],
 )
 async def test_subentry_lookup_failure_recovers(
-    hass: __HAC_KEEP__, error: type[BaseException], expected_error: str
+    hass: UniversalAssistant, error: type[BaseException], expected_error: str
 ) -> None:
     """A failed authorized-clients read re-shows the form; a retry recovers."""
     entry = await _setup_account_no_subentry(hass)
@@ -2580,7 +2580,7 @@ async def test_subentry_lookup_failure_recovers(
     ],
 )
 async def test_subentry_credentials_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client_kwargs: dict[str, Exception],
     expected_error: str,
 ) -> None:
@@ -2629,7 +2629,7 @@ async def test_subentry_credentials_errors(
 
 @pytest.mark.usefixtures("mock_rsa_key")
 async def test_subentry_credentials_prefills_discovered_host(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A discovered gateway address pre-fills the credentials CONF_HOST default."""
     entry = await _setup_account_no_subentry(hass)
@@ -2655,7 +2655,7 @@ async def test_subentry_credentials_prefills_discovered_host(
 
 
 @pytest.mark.usefixtures("mock_rsa_key")
-async def test_add_flow_lists_only_not_added_sites(hass: __HAC_KEEP__) -> None:
+async def test_add_flow_lists_only_not_added_sites(hass: UniversalAssistant) -> None:
     """The add flow offers battery sites that have not already been added."""
     entry = await _setup_account_no_subentry(hass)
 
@@ -2672,7 +2672,7 @@ async def test_add_flow_lists_only_not_added_sites(hass: __HAC_KEEP__) -> None:
     assert set(schema[site_field].container) == {str(SITE_ID)}
 
 
-async def test_add_flow_aborts_when_all_sites_added(hass: __HAC_KEEP__) -> None:
+async def test_add_flow_aborts_when_all_sites_added(hass: UniversalAssistant) -> None:
     """The add flow aborts when every battery site is already paired."""
     entry = _entry_with_powerwall()
     entry.add_to_hass(hass)
@@ -2695,7 +2695,7 @@ async def test_add_flow_aborts_when_all_sites_added(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "all_sites_added"
 
 
-async def test_add_flow_aborts_when_no_powerwall(hass: __HAC_KEEP__) -> None:
+async def test_add_flow_aborts_when_no_powerwall(hass: UniversalAssistant) -> None:
     """The add flow aborts when the account has no Powerwall-capable site."""
     products = deepcopy(PRODUCTS)
     products["response"] = [
@@ -2743,7 +2743,7 @@ async def test_add_flow_aborts_when_no_powerwall(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_rsa_key")
 async def test_add_flow_creates_subentry_bound_to_existing_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """The add flow creates a subentry for the site and reuses its device."""
@@ -2802,7 +2802,7 @@ async def test_add_flow_creates_subentry_bound_to_existing_device(
 
 
 @pytest.mark.usefixtures("mock_rsa_key")
-async def test_subentry_credentials_password_truncated(hass: __HAC_KEEP__) -> None:
+async def test_subentry_credentials_password_truncated(hass: UniversalAssistant) -> None:
     """A full Wi-Fi password is trimmed to its final five characters."""
     entry = await _setup_account_no_subentry(hass)
 
@@ -2836,7 +2836,7 @@ async def test_subentry_credentials_password_truncated(hass: __HAC_KEEP__) -> No
 
 @pytest.mark.usefixtures("mock_rsa_key")
 async def test_wall_connector_only_site_not_offered_for_local_control(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A wall-connector-only site can't do local control; only a Powerwall can."""
     products = deepcopy(PRODUCTS)
@@ -2879,7 +2879,7 @@ async def test_wall_connector_only_site_not_offered_for_local_control(
     assert set(schema[site_field].container) == {str(SITE_ID)}
 
 
-async def test_add_flow_aborts_when_entry_not_loaded(hass: __HAC_KEEP__) -> None:
+async def test_add_flow_aborts_when_entry_not_loaded(hass: UniversalAssistant) -> None:
     """The add flow aborts when the account entry is not loaded."""
     entry = mock_config_entry()
     entry.add_to_hass(hass)
@@ -2895,7 +2895,7 @@ async def test_add_flow_aborts_when_entry_not_loaded(hass: __HAC_KEEP__) -> None
 
 @pytest.mark.usefixtures("mock_rsa_key")
 async def test_gateway_discovery_failure_leaves_host_blank(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A failed gateway-address discovery leaves the host field blank and proceeds."""
     entry = await _setup_account_no_subentry(hass)
@@ -2921,7 +2921,7 @@ async def test_gateway_discovery_failure_leaves_host_blank(
 
 @pytest.mark.usefixtures("mock_rsa_key")
 async def test_gateway_discovery_empty_leaves_host_blank(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Discovery returning no address (without raising) leaves the host blank and proceeds."""
     entry = await _setup_account_no_subentry(hass)
@@ -2946,7 +2946,7 @@ async def test_gateway_discovery_empty_leaves_host_blank(
 
 
 @pytest.mark.usefixtures("mock_rsa_key")
-async def test_pending_key_resumes_without_reregister(hass: __HAC_KEEP__) -> None:
+async def test_pending_key_resumes_without_reregister(hass: UniversalAssistant) -> None:
     """A key already pending on the gateway resumes pairing without re-adding it."""
     entry = await _setup_account_no_subentry(hass)
 
@@ -2973,7 +2973,7 @@ async def test_pending_key_resumes_without_reregister(hass: __HAC_KEEP__) -> Non
 
 @pytest.mark.usefixtures("mock_rsa_key")
 async def test_timed_out_key_reregisters_for_a_fresh_window(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A key whose approval window expired is re-registered, not left stuck."""
     entry = await _setup_account_no_subentry(hass)
@@ -3000,7 +3000,7 @@ async def test_timed_out_key_reregisters_for_a_fresh_window(
 
 
 @pytest.mark.usefixtures("mock_rsa_key")
-async def test_unrecognized_state_recovers(hass: __HAC_KEEP__) -> None:
+async def test_unrecognized_state_recovers(hass: UniversalAssistant) -> None:
     """An unrecognized authorized-client state re-shows the form; a retry recovers."""
     entry = await _setup_account_no_subentry(hass)
 
@@ -3062,7 +3062,7 @@ async def test_unrecognized_state_recovers(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_add_authorized_client_failure_recovers(
-    hass: __HAC_KEEP__, error: type[BaseException], expected_error: str
+    hass: UniversalAssistant, error: type[BaseException], expected_error: str
 ) -> None:
     """A failure registering the key re-shows the form; a retry pairs and recovers."""
     entry = await _setup_account_no_subentry(hass)
@@ -3135,7 +3135,7 @@ async def test_add_authorized_client_failure_recovers(
     ],
 )
 async def test_pair_step_second_lookup_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     second_lookup: BaseException | AuthorizedClients,
     expected_error: str,
 ) -> None:
@@ -3195,7 +3195,7 @@ async def test_pair_step_second_lookup_errors(
 
 @pytest.mark.usefixtures("mock_rsa_key")
 async def test_pair_step_timeout_retry_reopens_window_and_succeeds(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Submitting the expired form reopens the window and pairing can complete."""
     entry = await _setup_account_no_subentry(hass)
@@ -3270,7 +3270,7 @@ async def test_pair_step_timeout_retry_reopens_window_and_succeeds(
     ],
 )
 async def test_pair_step_timeout_retry_failure_recovers(
-    hass: __HAC_KEEP__, error: type[BaseException], expected_error: str
+    hass: UniversalAssistant, error: type[BaseException], expected_error: str
 ) -> None:
     """A failed re-registration after expiry re-shows the form; a retry recovers."""
     entry = await _setup_account_no_subentry(hass)
@@ -3364,7 +3364,7 @@ async def test_pair_step_timeout_retry_failure_recovers(
     ],
 )
 async def test_rsa_key_load_failure_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     patch_target: str,
     error: type[Exception] | Exception,
 ) -> None:
@@ -3407,7 +3407,7 @@ async def test_rsa_key_load_failure_recovers(
     assert subentry.data[CONF_HOST] == HOST
 
 
-async def _setup_paired_account(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def _setup_paired_account(hass: UniversalAssistant) -> MockConfigEntry:
     """Set up an account whose battery site is already paired for local control."""
     entry = _entry_with_powerwall()
     entry.add_to_hass(hass)
@@ -3423,7 +3423,7 @@ async def _setup_paired_account(hass: __HAC_KEEP__) -> MockConfigEntry:
     return entry
 
 
-async def _setup_cloud_only_account(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def _setup_cloud_only_account(hass: UniversalAssistant) -> MockConfigEntry:
     """Set up a paired account whose local control failed to initialize at setup.
 
     The RSA key the local gateway client needs cannot be loaded, so the integration
@@ -3445,7 +3445,7 @@ async def _setup_cloud_only_account(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 @pytest.mark.usefixtures("mock_rsa_key")
 async def test_reconfigure_updates_credentials_and_schedules_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Reconfiguring a paired site updates its credentials and reloads the entry."""
     entry = await _setup_paired_account(hass)
@@ -3486,7 +3486,7 @@ async def test_reconfigure_updates_credentials_and_schedules_reload(
 
 @pytest.mark.usefixtures("mock_rsa_key")
 async def test_reconfigure_unchanged_credentials_still_schedules_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Reconfiguring with unchanged credentials still reloads the entry."""
     entry = await _setup_paired_account(hass)
@@ -3524,7 +3524,7 @@ async def test_reconfigure_unchanged_credentials_still_schedules_reload(
     mock_reload.assert_called_once_with(entry.entry_id)
 
 
-async def test_reconfigure_aborts_when_entry_not_loaded(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_aborts_when_entry_not_loaded(hass: UniversalAssistant) -> None:
     """Reconfigure aborts when the account entry is not loaded."""
     entry = _entry_with_powerwall()
     entry.add_to_hass(hass)
@@ -3537,7 +3537,7 @@ async def test_reconfigure_aborts_when_entry_not_loaded(hass: __HAC_KEEP__) -> N
 
 
 @pytest.mark.usefixtures("mock_rsa_key")
-async def test_reconfigure_aborts_when_site_not_resolved(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_aborts_when_site_not_resolved(hass: UniversalAssistant) -> None:
     """Reconfigure aborts when no resolved energy site matches the subentry."""
     entry = await _setup_paired_account(hass)
     subentry_id = entry.get_subentries_of_type(SUBENTRY_TYPE_ENERGY_SITE)[0].subentry_id
@@ -3552,7 +3552,7 @@ async def test_reconfigure_aborts_when_site_not_resolved(hass: __HAC_KEEP__) -> 
 
 @pytest.mark.usefixtures("mock_rsa_key")
 async def test_reconfigure_prefills_existing_host_when_discovery_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A failed discovery on reconfigure keeps the subentry's known host default.
 
@@ -3588,7 +3588,7 @@ async def test_reconfigure_prefills_existing_host_when_discovery_fails(
 
 
 @pytest.mark.usefixtures("mock_rsa_key")
-async def test_reconfigure_aborts_when_rsa_key_load_fails(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_aborts_when_rsa_key_load_fails(hass: UniversalAssistant) -> None:
     """Reconfigure aborts when the integration's RSA key cannot be loaded."""
     entry = await _setup_paired_account(hass)
     subentry_id = entry.get_subentries_of_type(SUBENTRY_TYPE_ENERGY_SITE)[0].subentry_id
@@ -3617,7 +3617,7 @@ async def test_reconfigure_aborts_when_rsa_key_load_fails(hass: __HAC_KEEP__) ->
     ],
 )
 async def test_reconfigure_aborts_when_local_and_cloud_lookups_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_local_authorized_clients: AsyncMock,
     error: type[BaseException],
     expected_reason: str,
@@ -3650,7 +3650,7 @@ async def test_reconfigure_aborts_when_local_and_cloud_lookups_fail(
 
 @pytest.mark.usefixtures("mock_rsa_key")
 async def test_reconfigure_reads_authorized_clients_locally(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_local_authorized_clients: AsyncMock,
 ) -> None:
     """A paired site's verified key is confirmed on the gateway, not the cloud.
@@ -3684,7 +3684,7 @@ async def test_reconfigure_reads_authorized_clients_locally(
 
 @pytest.mark.usefixtures("mock_rsa_key")
 async def test_reconfigure_cloud_only_site_skips_local_lookup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_local_authorized_clients: AsyncMock,
 ) -> None:
     """A site whose local control failed at setup is looked up only in the cloud."""
@@ -3708,7 +3708,7 @@ async def test_reconfigure_cloud_only_site_skips_local_lookup(
 
 @pytest.mark.usefixtures("mock_rsa_key")
 async def test_reconfigure_registers_key_via_cloud_not_local_gateway(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_local_authorized_clients: AsyncMock,
 ) -> None:
     """Registering an unknown key goes to the cloud site, not the local gateway.

@@ -64,8 +64,8 @@ from universalassistant.components.backup.manager import (
 from universalassistant.components.backup.services import BackupService
 from universalassistant.components.http.server import MAX_CLIENT_SIZE
 from universalassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import CoreState, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.util import dt as dt_util
 
@@ -128,7 +128,7 @@ def mock_read_backup(backup_path: Path) -> AgentBackup:
 
 @pytest.mark.usefixtures("mock_ha_version")
 async def test_create_backup_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test create backup service."""
@@ -322,7 +322,7 @@ async def test_create_backup_service(
     ],
 )
 async def test_async_create_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     manager_kwargs: dict[str, Any],
     expected_writer_kwargs: dict[str, Any],
@@ -353,7 +353,7 @@ async def test_async_create_backup(
 
 
 async def test_create_backup_when_busy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test generate backup with busy manager."""
@@ -395,12 +395,12 @@ async def test_create_backup_when_busy(
         ),
         (
             {"include_universalassistant": False},
-            "__HA_KEEP__ must be included in backup",
+            "Universal Home Assistant must be included in backup",
         ),
     ],
 )
 async def test_create_backup_wrong_parameters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     parameters: dict[str, Any],
     expected_error: str,
@@ -525,7 +525,7 @@ async def test_create_backup_wrong_parameters(
     ],
 )
 async def test_initiate_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     mocked_json_bytes: Mock,
@@ -704,7 +704,7 @@ async def test_initiate_backup(
 @pytest.mark.usefixtures("mock_ha_version")
 @pytest.mark.parametrize("exception", [BackupAgentError("Boom!"), Exception("Boom!")])
 async def test_initiate_backup_with_agent_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     generate_backup_id: MagicMock,
     hass_storage: dict[str, Any],
@@ -959,7 +959,7 @@ async def test_initiate_backup_with_agent_error(
     ],
 )
 async def test_create_backup_success_clears_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     hass_ws_client: WebSocketGenerator,
     create_backup_command: dict[str, Any],
@@ -1321,7 +1321,7 @@ async def delayed_boom(*args, **kwargs) -> tuple[NewBackup, Any]:
     ],
 )
 async def test_create_backup_failure_raises_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     hass_ws_client: WebSocketGenerator,
     create_backup: AsyncMock,
@@ -1369,7 +1369,7 @@ async def test_create_backup_failure_raises_issue(
     "exception", [BackupReaderWriterError("Boom!"), BaseException("Boom!")]
 )
 async def test_initiate_backup_non_agent_upload_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     generate_backup_id: MagicMock,
     hass_storage: dict[str, Any],
@@ -1462,7 +1462,7 @@ async def test_initiate_backup_non_agent_upload_error(
     "exception", [BackupReaderWriterError("Boom!"), Exception("Boom!")]
 )
 async def test_initiate_backup_with_task_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     generate_backup_id: MagicMock,
     create_backup: AsyncMock,
@@ -1552,7 +1552,7 @@ async def test_initiate_backup_with_task_error(
     ],
 )
 async def test_initiate_backup_file_error_upload_to_agents(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     generate_backup_id: MagicMock,
     open_call_count: int,
@@ -1676,7 +1676,7 @@ async def test_initiate_backup_file_error_upload_to_agents(
     ],
 )
 async def test_initiate_backup_file_error_create_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     generate_backup_id: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -1784,7 +1784,7 @@ def _mock_local_backup_agent(name: str) -> Mock:
     [(_mock_local_backup_agent, 2), (mock_backup_agent, 1)],
 )
 async def test_loading_platform_with_listener(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     agent_creator: Callable[[str], Mock],
     num_local_agents: int,
@@ -1842,7 +1842,7 @@ async def test_loading_platform_with_listener(
     ],
 )
 async def test_not_loading_bad_platforms(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     platform_mock: Mock,
 ) -> None:
     """Test not loading bad backup platforms."""
@@ -1856,11 +1856,11 @@ async def test_not_loading_bad_platforms(
     assert platform_mock.mock_calls == []
 
 
-async def test_exception_platform_pre(hass: __HAC_KEEP__) -> None:
+async def test_exception_platform_pre(hass: UniversalAssistant) -> None:
     """Test exception in pre step."""
 
-    async def _mock_step(hass: __HAC_KEEP__) -> None:
-        raise __HAC_KEEP__Error("Test exception")
+    async def _mock_step(hass: UniversalAssistant) -> None:
+        raise UniversalAssistantError("Test exception")
 
     remote_agent = mock_backup_agent("remote")
     await setup_backup_platform(
@@ -1889,7 +1889,7 @@ async def test_exception_platform_pre(hass: __HAC_KEEP__) -> None:
     [
         (None, BackupManagerError, "Error during post-backup: Test exception"),
         (
-            __HAC_KEEP__Error("Boom"),
+            UniversalAssistantError("Boom"),
             BackupManagerExceptionGroup,
             (
                 "Multiple errors when creating backup: Error during pre-backup: Boom, "
@@ -1907,7 +1907,7 @@ async def test_exception_platform_pre(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_exception_platform_post(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     unhandled_error: Exception | None,
     expected_exception: type[Exception],
     expected_msg: str,
@@ -1923,7 +1923,7 @@ async def test_exception_platform_post(
             # when post backup fails
             async_pre_backup=AsyncMock(side_effect=unhandled_error),
             async_post_backup=AsyncMock(
-                side_effect=__HAC_KEEP__Error("Test exception")
+                side_effect=UniversalAssistantError("Test exception")
             ),
             async_get_backup_agents=AsyncMock(return_value=[remote_agent]),
         ),
@@ -1979,7 +1979,7 @@ async def test_exception_platform_post(
     ],
 )
 async def test_receive_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     agent_id_params: str,
     open_call_count: int,
@@ -2042,7 +2042,7 @@ async def test_receive_backup(
     ],
 )
 async def test_receive_large_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     upload_size: int,
     min_chunk_count: int,
@@ -2109,7 +2109,7 @@ class _DisconnectingBodyPartReader:
         return self._chunk
 
 
-async def test_receive_backup_stream_error_resets_state(hass: __HAC_KEEP__) -> None:
+async def test_receive_backup_stream_error_resets_state(hass: UniversalAssistant) -> None:
     """Test the backup manager returns to IDLE when the upload stream fails.
 
     A client disconnect (or other stream error) mid-upload must not wedge the
@@ -2141,7 +2141,7 @@ async def test_receive_backup_stream_error_resets_state(hass: __HAC_KEEP__) -> N
 
 
 async def test_receive_backup_unparsable_file_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test the temp file is removed when the uploaded backup can't be parsed."""
@@ -2170,7 +2170,7 @@ async def test_receive_backup_unparsable_file_removed(
 
 
 async def test_receive_backup_valid_filename(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test receive backup with a valid filename."""
@@ -2217,7 +2217,7 @@ async def test_receive_backup_valid_filename(
     ],
 )
 async def test_receive_backup_path_traversal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     suggested_filename: str,
 ) -> None:
@@ -2249,7 +2249,7 @@ async def test_receive_backup_path_traversal(
     ],
 )
 async def test_receive_backup_rejects_unsafe_inner_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     name: str,
 ) -> None:
@@ -2271,7 +2271,7 @@ async def test_receive_backup_rejects_unsafe_inner_name(
 
 
 async def test_receive_backup_busy_manager(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     create_backup: AsyncMock,
@@ -2335,7 +2335,7 @@ async def test_receive_backup_busy_manager(
 
 @pytest.mark.parametrize("exception", [BackupAgentError("Boom!"), Exception("Boom!")])
 async def test_receive_backup_agent_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
@@ -2567,7 +2567,7 @@ async def test_receive_backup_agent_error(
 
 @pytest.mark.parametrize("exception", [asyncio.CancelledError("Boom!")])
 async def test_receive_backup_non_agent_upload_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
@@ -2680,7 +2680,7 @@ async def test_receive_backup_non_agent_upload_error(
     ],
 )
 async def test_receive_backup_file_write_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     open_call_count: int,
@@ -2778,7 +2778,7 @@ async def test_receive_backup_file_write_error(
     ],
 )
 async def test_receive_backup_read_tar_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     exception: Exception,
@@ -2930,7 +2930,7 @@ async def test_receive_backup_read_tar_error(
     ],
 )
 async def test_receive_backup_file_read_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     open_call_count: int,
@@ -3094,7 +3094,7 @@ async def test_receive_backup_file_read_error(
     ],
 )
 async def test_restore_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     agent_id: str,
     backup_id: str,
@@ -3198,7 +3198,7 @@ async def test_restore_backup(
     ("agent_id", "dir"), [(LOCAL_AGENT_ID, "backups"), ("test.remote", "tmp_backups")]
 )
 async def test_restore_backup_wrong_password(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     agent_id: str,
     dir: str,
@@ -3294,13 +3294,13 @@ async def test_restore_backup_wrong_password(
         ),
         (
             {"restore_database": False, "restore_universalassistant": False},
-            "__HA_KEEP__ or database must be included in restore",
+            "Universal Home Assistant or database must be included in restore",
             "backup_reader_writer_error",
         ),
     ],
 )
 async def test_restore_backup_wrong_parameters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     parameters: dict[str, Any],
     expected_error: str,
@@ -3366,7 +3366,7 @@ async def test_restore_backup_wrong_parameters(
 
 
 async def test_restore_backup_when_busy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test restore backup with busy manager."""
@@ -3412,7 +3412,7 @@ async def test_restore_backup_when_busy(
     ],
 )
 async def test_restore_backup_agent_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     exception: Exception,
     error_code: str,
@@ -3543,7 +3543,7 @@ async def test_restore_backup_agent_error(
     ],
 )
 async def test_restore_backup_file_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     download_call_count: int,
     open_call_count: int,
@@ -3770,7 +3770,7 @@ async def test_restore_backup_file_error(
     ],
 )
 async def test_initiate_backup_per_agent_encryption(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     generate_backup_id: MagicMock,
     commands: dict[str, Any],
@@ -3937,7 +3937,7 @@ async def test_initiate_backup_per_agent_encryption(
     ],
 )
 async def test_restore_progress_after_restart(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     restore_result: dict[str, Any],
     last_action_event: dict[str, Any],
@@ -3967,7 +3967,7 @@ async def test_restore_progress_after_restart(
 
 
 async def test_restore_progress_after_restart_fail_to_remove(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -3999,11 +3999,11 @@ async def test_restore_progress_after_restart_fail_to_remove(
 
 
 async def test_manager_blocked_until_universal_assistant_started(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
-    """Test backup manager's state is blocked until __HA_KEEP__ has started."""
+    """Test backup manager's state is blocked until Universal Home Assistant has started."""
 
     hass.set_state(CoreState.not_running)
 
@@ -4013,14 +4013,14 @@ async def test_manager_blocked_until_universal_assistant_started(
     assert manager.state == BackupManagerState.BLOCKED
     assert manager.last_action_event is None
 
-    # Fired when __HA_KEEP__ changes to starting state
+    # Fired when Universal Home Assistant changes to starting state
     hass.bus.async_fire(EVENT_HOMEASSISTANT_START)
     await hass.async_block_till_done()
     await hass.async_block_till_done()
     assert manager.state == BackupManagerState.BLOCKED
     assert manager.last_action_event is None
 
-    # Fired when __HA_KEEP__ changes to running state
+    # Fired when Universal Home Assistant changes to running state
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
     await hass.async_block_till_done()
     assert manager.state == BackupManagerState.IDLE
@@ -4028,7 +4028,7 @@ async def test_manager_blocked_until_universal_assistant_started(
 
 
 async def test_manager_not_blocked_after_restore(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test restore backup progress after restart."""
@@ -4063,7 +4063,7 @@ async def test_manager_not_blocked_after_restore(
 
 
 async def test_upload_progress_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     generate_backup_id: MagicMock,
 ) -> None:
@@ -4143,7 +4143,7 @@ async def test_upload_progress_event(
 
 
 async def test_upload_progress_debounced(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     generate_backup_id: MagicMock,
 ) -> None:
@@ -4235,7 +4235,7 @@ async def test_upload_progress_debounced(
 
 @pytest.mark.usefixtures("generate_backup_id")
 async def test_upload_progress_replayed_on_subscribe(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test that a new subscriber gets the latest upload progress of each agent."""
@@ -4292,7 +4292,7 @@ async def test_upload_progress_replayed_on_subscribe(
 
 @pytest.mark.usefixtures("generate_backup_id")
 async def test_upload_progress_dropped_after_failed_upload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test that buffered progress of a failed upload is not sent later."""
@@ -4332,7 +4332,7 @@ async def test_upload_progress_dropped_after_failed_upload(
 
 @pytest.mark.usefixtures("generate_backup_id")
 async def test_failed_upload_closes_stream(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test the stream opened by an agent is closed when the upload fails."""
@@ -4504,7 +4504,7 @@ def _rename_agent_storage(
     ],
 )
 async def test_rename_agent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
     stored_agents: dict[str, Any],
@@ -4538,7 +4538,7 @@ async def test_rename_agent(
     ],
 )
 async def test_rename_agent_failed_uploads_of_new_agent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     overwrite_orphaned_settings: bool,
     expected_failed_agent_ids: list[str],
@@ -4561,7 +4561,7 @@ async def test_rename_agent_failed_uploads_of_new_agent(
 
 
 async def test_rename_agent_same_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -4627,7 +4627,7 @@ async def test_rename_agent_same_id(
     ],
 )
 async def test_rename_agent_already_exists(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     stored_agents: dict[str, Any],
     stored_agent_ids: list[str],
@@ -4652,7 +4652,7 @@ async def test_rename_agent_already_exists(
 
 
 async def test_rename_agent_other_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test renaming an agent to an agent ID of another integration fails."""

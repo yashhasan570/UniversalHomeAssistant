@@ -8,7 +8,7 @@ from typing import Any, override
 from pypoint import PointSession
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util.dt import parse_datetime
@@ -26,7 +26,7 @@ class PointDataUpdateCoordinator(DataUpdateCoordinator[dict[str, dict[str, Any]]
     config_entry: PointConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, point: PointSession, config_entry: PointConfigEntry
+        self, hass: UniversalAssistant, point: PointSession, config_entry: PointConfigEntry
     ) -> None:
         """Initialize."""
         super().__init__(

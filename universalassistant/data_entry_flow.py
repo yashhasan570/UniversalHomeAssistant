@@ -15,8 +15,8 @@ from typing import Any, Generic, TypedDict, TypeVar, cast
 
 import probatio
 
-from .core import __HAC_KEEP__, callback
-from .exceptions import __HAC_KEEP__Error
+from .core import UniversalAssistant, callback
+from .exceptions import UniversalAssistantError
 from .helpers.deprecation import deprecated_function
 from .helpers.field_visibility import VISIBLE_SCHEMA, FieldCondition, get_hidden_fields
 from .helpers.frame import ReportBehavior, report_usage
@@ -111,7 +111,7 @@ class BaseServiceInfo:
     """Base class for discovery ServiceInfo."""
 
 
-class FlowError(__HAC_KEEP__Error):
+class FlowError(UniversalAssistantError):
     """Base class for data entry errors."""
 
 
@@ -223,7 +223,7 @@ class FlowManager(abc.ABC, Generic[_FlowContextT, _FlowResultT, _HandlerT]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
     ) -> None:
         """Initialize the flow manager."""
         self.hass = hass
@@ -680,7 +680,7 @@ class FlowHandler(Generic[_FlowContextT, _FlowResultT, _HandlerT]):
     # While not purely typed, it makes typehinting more useful for us
     # and removes the need for constant None checks or asserts.
     flow_id: str = None  # type: ignore[assignment]
-    hass: __HAC_KEEP__ = None  # type: ignore[assignment]
+    hass: UniversalAssistant = None  # type: ignore[assignment]
     handler: _HandlerT = None  # type: ignore[assignment]
     # Ensure the attribute has a subscriptable, but immutable, default value.
     context: _FlowContextT = MappingProxyType({})  # type: ignore[assignment]
@@ -878,7 +878,7 @@ class FlowHandler(Generic[_FlowContextT, _FlowResultT, _HandlerT]):
             _LOGGER.warning(
                 (
                     "%s::%s calls async_show_progress without passing a progress task, "
-                    "this is not valid and will break in __HA_KEEP__ Core 2024.8. "
+                    "this is not valid and will break in Universal Home Assistant Core 2024.8. "
                     "Please %s"
                 ),
                 cls.__module__,
@@ -966,7 +966,7 @@ class FlowHandler(Generic[_FlowContextT, _FlowResultT, _HandlerT]):
         """Notification that the flow has been removed."""
 
     @staticmethod
-    async def async_setup_preview(hass: __HAC_KEEP__) -> None:
+    async def async_setup_preview(hass: UniversalAssistant) -> None:
         """Set up preview."""
 
     @callback

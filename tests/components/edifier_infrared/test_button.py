@@ -15,7 +15,7 @@ from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, Button
 from universalassistant.components.edifier_infrared.button import COMMAND_SET_BUTTONS
 from universalassistant.components.edifier_infrared.const import SUPPORTED_COMMAND_SETS
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 BLUETOOTH_BUTTON_ENTITY_ID = "button.edifier_r1700bts_bluetooth"
@@ -29,7 +29,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -50,7 +50,7 @@ async def test_entities(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_button_press_sends_correct_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     entity_id: str,
     expected_code: EdifierR1700BTsCode,
@@ -69,7 +69,7 @@ async def test_button_press_sends_correct_code(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_button_availability_follows_ir_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test button becomes unavailable when IR entity is unavailable."""
     await assert_availability_follows_source_entity(

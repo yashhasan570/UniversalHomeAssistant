@@ -28,8 +28,8 @@ from universalassistant.components.alarm_control_panel import (
     AlarmControlPanelEntityFeature,
     AlarmControlPanelState,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import SimpliSafe, SimpliSafeConfigEntry
@@ -101,7 +101,7 @@ WEBSOCKET_EVENTS_TO_LISTEN_FOR = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SimpliSafeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -152,7 +152,7 @@ class SimpliSafeAlarm(SimpliSafeEntity, AlarmControlPanelEntity):
         try:
             await self._system.async_set_off()
         except SimplipyError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f'Error while disarming "{self._system.system_id}": {err}'
             ) from err
 
@@ -165,7 +165,7 @@ class SimpliSafeAlarm(SimpliSafeEntity, AlarmControlPanelEntity):
         try:
             await self._system.async_set_home()
         except SimplipyError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f'Error while arming (home) "{self._system.system_id}": {err}'
             ) from err
 
@@ -178,7 +178,7 @@ class SimpliSafeAlarm(SimpliSafeEntity, AlarmControlPanelEntity):
         try:
             await self._system.async_set_away()
         except SimplipyError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f'Error while arming (away) "{self._system.system_id}": {err}'
             ) from err
 

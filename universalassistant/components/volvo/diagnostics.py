@@ -4,7 +4,7 @@ from dataclasses import asdict
 from typing import Any
 
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.redact import async_redact_data
 
 from .const import CONF_VIN
@@ -26,7 +26,7 @@ _TO_REDACT_DATA = [
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: VolvoConfigEntry
+    hass: UniversalAssistant, entry: VolvoConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     context = entry.runtime_data.interval_coordinators[0].context

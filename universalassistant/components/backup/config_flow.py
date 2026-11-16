@@ -1,4 +1,4 @@
-"""Config flow for __HA_KEEP__ Backup integration."""
+"""Config flow for Universal Home Assistant Backup integration."""
 
 from typing import Any
 
@@ -8,7 +8,7 @@ from .const import DOMAIN
 
 
 class BackupConfigFlow(ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for __HA_KEEP__ Backup."""
+    """Handle a config flow for Universal Home Assistant Backup."""
 
     VERSION = 1
 

@@ -13,7 +13,7 @@
     "flow_title": "Bosch SHC: {name}",
     "step": {
       "confirm_discovery": {
-        "description": "Smart Home Controller I: Please press the front-side button until LED starts flashing.\nSmart Home Controller II: Press the function button shortly. Cloud and network lights start blinking orange.\nDevice is now ready to be paired.\n\nReady to continue to set up {model} @ {host} with __HA_KEEP__?"
+        "description": "Smart Home Controller I: Please press the front-side button until LED starts flashing.\nSmart Home Controller II: Press the function button shortly. Cloud and network lights start blinking orange.\nDevice is now ready to be paired.\n\nReady to continue to set up {model} @ {host} with Universal Home Assistant?"
       },
       "credentials": {
         "data": {
@@ -37,7 +37,7 @@
         "data_description": {
           "host": "The hostname or IP address of your Bosch Smart Home Controller."
         },
-        "description": "Set up your Bosch Smart Home Controller to allow monitoring and control with __HA_KEEP__.",
+        "description": "Set up your Bosch Smart Home Controller to allow monitoring and control with Universal Home Assistant.",
         "title": "SHC authentication parameters"
       }
     }
@@ -54,6 +54,12 @@
       },
       "schedule_override_active": {
         "name": "Schedule override active"
+      },
+      "siren_acoustic_alarm": {
+        "name": "Acoustic alarm"
+      },
+      "siren_visual_alarm": {
+        "name": "Visual alarm"
       },
       "summer_mode": {
         "name": "Heating break"
@@ -97,6 +103,12 @@
     "number": {
       "bypass_timeout": {
         "name": "Break function timeout"
+      },
+      "dimmer_max": {
+        "name": "Maximum brightness"
+      },
+      "dimmer_min": {
+        "name": "Minimum brightness"
       },
       "dimmer_speed": {
         "name": "Dimming speed"

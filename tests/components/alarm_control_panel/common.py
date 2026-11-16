@@ -24,11 +24,11 @@ from universalassistant.const import (
     SERVICE_ALARM_DISARM,
     SERVICE_ALARM_TRIGGER,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def async_alarm_disarm(
-    hass: __HAC_KEEP__, code: str | None = None, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, code: str | None = None, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the alarm the command for disarm."""
     data = {}
@@ -41,7 +41,7 @@ async def async_alarm_disarm(
 
 
 async def async_alarm_arm_home(
-    hass: __HAC_KEEP__, code: str | None = None, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, code: str | None = None, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the alarm the command for disarm."""
     data = {}
@@ -54,7 +54,7 @@ async def async_alarm_arm_home(
 
 
 async def async_alarm_arm_away(
-    hass: __HAC_KEEP__, code: str | None = None, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, code: str | None = None, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the alarm the command for disarm."""
     data = {}
@@ -67,7 +67,7 @@ async def async_alarm_arm_away(
 
 
 async def async_alarm_arm_night(
-    hass: __HAC_KEEP__, code: str | None = None, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, code: str | None = None, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the alarm the command for disarm."""
     data = {}
@@ -80,7 +80,7 @@ async def async_alarm_arm_night(
 
 
 async def async_alarm_arm_vacation(
-    hass: __HAC_KEEP__, code: str | None = None, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, code: str | None = None, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the alarm the command for vacation mode."""
     data = {}
@@ -95,7 +95,7 @@ async def async_alarm_arm_vacation(
 
 
 async def async_alarm_trigger(
-    hass: __HAC_KEEP__, code: str | None = None, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, code: str | None = None, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the alarm the command for disarm."""
     data = {}
@@ -108,7 +108,7 @@ async def async_alarm_trigger(
 
 
 async def async_alarm_arm_custom_bypass(
-    hass: __HAC_KEEP__, code: str | None = None, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, code: str | None = None, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the alarm the command for disarm."""
     data = {}

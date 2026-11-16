@@ -10,13 +10,13 @@ from universalassistant.components.event import (
     EventEntityStateAttribute,
 )
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import ConfigEntryFactoryType, RtspEventMock
 
 
 async def test_doorbell_event_entity_created_and_triggered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_factory: ConfigEntryFactoryType,
     mock_rtsp_event: RtspEventMock,
 ) -> None:
@@ -67,7 +67,7 @@ async def test_doorbell_event_entity_created_and_triggered(
     ],
 )
 async def test_doorbell_event_entity_filtering(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_factory: ConfigEntryFactoryType,
     mock_rtsp_event: RtspEventMock,
     model: str,

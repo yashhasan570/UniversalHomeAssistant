@@ -29,7 +29,7 @@ from universalassistant.components.insteon.api.properties import (
     TYPE,
     update_property,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .mock_devices import MockDevices
 
@@ -47,7 +47,7 @@ def iolinc_properties_data_fixture():
 
 
 async def _setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     address: str,
     properties_data: dict[str, Any],
@@ -62,7 +62,7 @@ async def _setup(
 
 
 async def test_get_properties(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     kpl_properties_data,
     iolinc_properties_data,
@@ -124,7 +124,7 @@ async def test_get_properties(
 
 
 async def test_get_read_only_properties(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, iolinc_properties_data
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, iolinc_properties_data
 ) -> None:
     """Test getting an Insteon device's properties."""
     mock_read_only = ExtendedProperty(
@@ -165,7 +165,7 @@ async def test_get_read_only_properties(
 
 
 async def test_get_unknown_properties(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, iolinc_properties_data
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, iolinc_properties_data
 ) -> None:
     """Test getting an Insteon device's properties."""
 
@@ -205,7 +205,7 @@ async def test_get_unknown_properties(
 
 
 async def test_change_bool_property(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, kpl_properties_data
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, kpl_properties_data
 ) -> None:
     """Test changing a bool type properties."""
     ws_client, devices = await _setup(
@@ -228,7 +228,7 @@ async def test_change_bool_property(
 
 
 async def test_change_int_property(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, kpl_properties_data
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, kpl_properties_data
 ) -> None:
     """Test changing a int type properties."""
     ws_client, devices = await _setup(
@@ -252,7 +252,7 @@ async def test_change_int_property(
 
 
 async def test_change_advanced_property(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, kpl_properties_data
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, kpl_properties_data
 ) -> None:
     """Test changing a property that is only listed under advanced."""
     ws_client, devices = await _setup(
@@ -283,7 +283,7 @@ async def test_change_advanced_property(
     ],
 )
 async def test_change_property_out_of_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     kpl_properties_data,
     prop_name: str,
@@ -320,7 +320,7 @@ def test_change_mask_outside_buttons() -> None:
 
 
 async def test_get_properties_schema_ranges(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, kpl_properties_data
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, kpl_properties_data
 ) -> None:
     """Test the schema carries the documented range of each integer property."""
     ws_client, devices = await _setup(
@@ -354,7 +354,7 @@ async def test_get_properties_schema_ranges(
 
 
 async def test_change_ramp_rate_property(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, kpl_properties_data
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, kpl_properties_data
 ) -> None:
     """Test changing an Insteon device's ramp rate properties."""
     ws_client, devices = await _setup(
@@ -378,7 +378,7 @@ async def test_change_ramp_rate_property(
 
 
 async def test_change_radio_button_group(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, kpl_properties_data
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, kpl_properties_data
 ) -> None:
     """Test changing an Insteon device's properties."""
     ws_client, devices = await _setup(
@@ -424,7 +424,7 @@ async def test_change_radio_button_group(
 
 
 async def test_change_toggle_property(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, kpl_properties_data
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, kpl_properties_data
 ) -> None:
     """Update a button's toggle mode."""
     ws_client, devices = await _setup(
@@ -450,7 +450,7 @@ async def test_change_toggle_property(
 
 
 async def test_change_relay_mode(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, iolinc_properties_data
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, iolinc_properties_data
 ) -> None:
     """Update a device's relay mode."""
     ws_client, devices = await _setup(
@@ -475,7 +475,7 @@ async def test_change_relay_mode(
 
 
 async def test_change_float_property(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, iolinc_properties_data
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, iolinc_properties_data
 ) -> None:
     """Update a float type property."""
     ws_client, devices = await _setup(
@@ -501,7 +501,7 @@ async def test_change_float_property(
 
 
 async def test_write_properties(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, kpl_properties_data
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, kpl_properties_data
 ) -> None:
     """Test getting an Insteon device's properties."""
     ws_client, devices = await _setup(
@@ -519,7 +519,7 @@ async def test_write_properties(
 
 
 async def test_write_properties_failure(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, kpl_properties_data
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, kpl_properties_data
 ) -> None:
     """Test getting an Insteon device's properties."""
     ws_client, devices = await _setup(
@@ -536,7 +536,7 @@ async def test_write_properties_failure(
 
 
 async def test_load_properties(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, kpl_properties_data
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, kpl_properties_data
 ) -> None:
     """Test getting an Insteon device's properties."""
     ws_client, devices = await _setup(
@@ -555,7 +555,7 @@ async def test_load_properties(
 
 
 async def test_load_properties_failure(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, kpl_properties_data
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, kpl_properties_data
 ) -> None:
     """Test getting an Insteon device's properties."""
     ws_client, devices = await _setup(
@@ -574,7 +574,7 @@ async def test_load_properties_failure(
 
 
 async def test_reset_properties(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, kpl_properties_data
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, kpl_properties_data
 ) -> None:
     """Test getting an Insteon device's properties."""
     ws_client, devices = await _setup(
@@ -597,7 +597,7 @@ async def test_reset_properties(
 
 
 async def test_bad_address(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, kpl_properties_data
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, kpl_properties_data
 ) -> None:
     """Test for a bad Insteon address."""
     ws_client, _devices = await _setup(

@@ -15,7 +15,7 @@ from pytest_universalassistant.common import MockConfigEntry, get_schema_suggest
 from universalassistant.components.scorpiontrack.const import CONF_SHARE_TOKEN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_UNIT_OF_MEASUREMENT, UnitOfSpeed
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 
@@ -35,7 +35,7 @@ from . import setup_integration
     ],
 )
 async def test_reconfigure_same_share(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_share: ScorpionTrackShare,
     mock_scorpiontrack_client: AsyncMock,
@@ -86,7 +86,7 @@ async def test_reconfigure_same_share(
 
 
 async def test_reconfigure_rejects_different_share(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_share: ScorpionTrackShare,
     mock_scorpiontrack_client: AsyncMock,
@@ -117,7 +117,7 @@ async def test_reconfigure_rejects_different_share(
     ],
 )
 async def test_reconfigure_validation_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_share: ScorpionTrackShare,
     mock_scorpiontrack_client: AsyncMock,
@@ -158,7 +158,7 @@ async def test_reconfigure_validation_error(
 
 
 async def test_reconfigure_malformed_link(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Recover from an empty token by submitting a valid token."""

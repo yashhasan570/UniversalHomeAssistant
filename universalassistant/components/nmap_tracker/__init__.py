@@ -18,7 +18,7 @@ from universalassistant.components.device_tracker import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_EXCLUDE, CONF_HOSTS, EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import CoreState, __HAC_KEEP__, callback
+from universalassistant.core import CoreState, UniversalAssistant, callback
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -91,7 +91,7 @@ class NmapTrackedDevices:
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: NmapTrackerConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: NmapTrackerConfigEntry) -> None:
     """Set up Nmap Tracker from a config entry."""
     if (devices := hass.data.get(NMAP_TRACKER_DATA)) is None:
         devices = hass.data[NMAP_TRACKER_DATA] = NmapTrackedDevices()
@@ -102,7 +102,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: NmapTrackerConfigEntry) -
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: NmapTrackerConfigEntry
+    hass: UniversalAssistant, entry: NmapTrackerConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
@@ -111,7 +111,7 @@ async def async_unload_entry(
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, entry: NmapTrackerConfigEntry
+    hass: UniversalAssistant, entry: NmapTrackerConfigEntry
 ) -> None:
     """Migrate config entry."""
     _LOGGER.debug(
@@ -141,7 +141,7 @@ async def async_migrate_entry(
 
 
 @callback
-def _async_untrack_devices(hass: __HAC_KEEP__, entry: NmapTrackerConfigEntry) -> None:
+def _async_untrack_devices(hass: UniversalAssistant, entry: NmapTrackerConfigEntry) -> None:
     """Remove tracking for devices owned by this config entry."""
     devices = hass.data[NMAP_TRACKER_DATA]
     remove_mac_addresses = [
@@ -165,7 +165,7 @@ class NmapDeviceScanner:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: NmapTrackerConfigEntry,
         devices: NmapTrackedDevices,
     ) -> None:

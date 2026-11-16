@@ -7,7 +7,7 @@ from solarman_opendata.solarman import Solarman
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -23,7 +23,7 @@ class SolarmanDeviceUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     config_entry: SolarmanConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: SolarmanConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: SolarmanConfigEntry) -> None:
         """Initialize the Solarman device coordinator."""
 
         super().__init__(

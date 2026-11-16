@@ -22,7 +22,7 @@ from universalassistant.const import (
     CONF_PORT,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -68,7 +68,7 @@ def smile_user_schema(discovery_info: ZeroconfServiceInfo | None) -> probatio.Sc
     return schema
 
 
-async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> Smile:
+async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> Smile:
     """Validate whether the user input allows us to connect to the gateway.
 
     Data has the keys from the schema with values provided by the user.
@@ -86,7 +86,7 @@ async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> Smile:
 
 
 async def verify_connection(
-    hass: __HAC_KEEP__, user_input: dict[str, Any]
+    hass: UniversalAssistant, user_input: dict[str, Any]
 ) -> tuple[Smile | None, dict[str, str]]:
     """Verify and return the gateway connection or an error."""
     errors: dict[str, str] = {}

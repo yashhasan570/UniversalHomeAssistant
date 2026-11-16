@@ -8,14 +8,14 @@ from pvo import PVOutput, PVOutputAuthenticationError, PVOutputError, System
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import CONF_SYSTEM_ID, DOMAIN, LOGGER
 
 
 async def validate_input(
-    hass: __HAC_KEEP__, *, api_key: str, system_id: int
+    hass: UniversalAssistant, *, api_key: str, system_id: int
 ) -> System:
     """Try using the given system ID and API key against the PVOutput API."""
     session = async_get_clientsession(hass)

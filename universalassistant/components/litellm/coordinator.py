@@ -12,7 +12,7 @@ from openai.resources.chat import AsyncChat  # noqa: F401
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, CONF_URL
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.httpx_client import get_async_client
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -32,7 +32,7 @@ class LiteLLMDataUpdateCoordinator(DataUpdateCoordinator[None]):
 
     config_entry: LiteLLMConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: LiteLLMConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: LiteLLMConfigEntry) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,

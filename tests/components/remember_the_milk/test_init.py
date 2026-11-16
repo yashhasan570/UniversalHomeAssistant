@@ -20,7 +20,7 @@ from universalassistant.config_entries import (
     ConfigSubentry,
     ConfigSubentryDataWithId,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -38,7 +38,7 @@ CONFIG = {
 
 
 @pytest.fixture
-def config_entry_with_subentry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def config_entry_with_subentry(hass: UniversalAssistant) -> MockConfigEntry:
     """Return a mock config entry with one list subentry."""
     entry = MockConfigEntry(
         data=CREATE_ENTRY_DATA,
@@ -59,7 +59,7 @@ def config_entry_with_subentry(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 @pytest.mark.usefixtures("client", "storage")
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test loading and unloading a config entry."""
@@ -96,7 +96,7 @@ async def test_load_unload_config_entry(
     ],
 )
 async def test_config_entry_check_token_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -113,7 +113,7 @@ async def test_config_entry_check_token_fails(
 
 @pytest.mark.usefixtures("client", "storage")
 async def test_import_creates_deprecation_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test a successful YAML import creates a deprecation repair issue."""
@@ -143,7 +143,7 @@ async def test_import_creates_deprecation_issue(
 )
 @pytest.mark.usefixtures("storage")
 async def test_coordinator_update_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -159,7 +159,7 @@ async def test_coordinator_update_errors(
 @pytest.mark.parametrize("ignore_missing_translations", [[]])
 @pytest.mark.usefixtures("client")
 async def test_import_without_token_creates_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     storage: MagicMock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -181,7 +181,7 @@ async def test_import_without_token_creates_issue(
 
 @pytest.mark.usefixtures("storage")
 async def test_remove_subentry_deletes_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry_with_subentry: MockConfigEntry,
     rtm_list_mock: Callable[[int, str], MagicMock],
@@ -205,7 +205,7 @@ async def test_remove_subentry_deletes_list(
 
 @pytest.mark.usefixtures("storage")
 async def test_rename_subentry_does_not_delete_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry_with_subentry: MockConfigEntry,
     rtm_list_mock: Callable[[int, str], MagicMock],
@@ -235,7 +235,7 @@ async def test_rename_subentry_does_not_delete_list(
 )
 @pytest.mark.usefixtures("storage")
 async def test_remove_subentry_delete_list_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry_with_subentry: MockConfigEntry,
     side_effect: Exception,
@@ -259,7 +259,7 @@ async def test_remove_subentry_delete_list_error(
 
 @pytest.mark.usefixtures("storage")
 async def test_coordinator_creates_subentry_for_new_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     rtm_list_mock: Callable[[int, str], MagicMock],
@@ -282,7 +282,7 @@ async def test_coordinator_creates_subentry_for_new_list(
 
 @pytest.mark.usefixtures("storage")
 async def test_coordinator_removes_subentry_when_list_gone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry_with_subentry: MockConfigEntry,
 ) -> None:
@@ -298,7 +298,7 @@ async def test_coordinator_removes_subentry_when_list_gone(
 
 @pytest.mark.usefixtures("client", "storage")
 async def test_coordinator_updates_subentry_title_on_rename(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_subentry: MockConfigEntry,
     rtm_list_mock: Callable[[int, str], MagicMock],
 ) -> None:
@@ -318,7 +318,7 @@ async def test_coordinator_updates_subentry_title_on_rename(
 
 @pytest.mark.usefixtures("storage")
 async def test_coordinator_ignores_filtered_lists(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     make_rtm_list_mock: Callable[..., MagicMock],
@@ -346,7 +346,7 @@ async def test_coordinator_ignores_filtered_lists(
 
 @pytest.mark.usefixtures("storage")
 async def test_coordinator_skips_tasks_for_filtered_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     rtm_list_mock: Callable[[int, str], MagicMock],
@@ -392,7 +392,7 @@ async def test_coordinator_skips_tasks_for_filtered_list(
 )
 @pytest.mark.usefixtures("storage")
 async def test_coordinator_lists_fetch_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -407,7 +407,7 @@ async def test_coordinator_lists_fetch_errors(
 
 @pytest.mark.usefixtures("storage")
 async def test_coordinator_does_not_delete_server_removed_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     rtm_list_mock: Callable[[int, str], MagicMock],
@@ -441,7 +441,7 @@ async def test_coordinator_does_not_delete_server_removed_list(
 
 @pytest.mark.usefixtures("storage")
 async def test_coordinator_sync_multiple_new_lists_no_deletion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     make_rtm_list_mock: Callable[..., MagicMock],
@@ -481,7 +481,7 @@ async def test_coordinator_sync_multiple_new_lists_no_deletion(
 
 @pytest.mark.usefixtures("storage")
 async def test_coordinator_sync_multiple_lists_single_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     make_rtm_list_mock: Callable[..., MagicMock],
@@ -513,7 +513,7 @@ async def test_coordinator_sync_multiple_lists_single_reload(
 
 @pytest.mark.usefixtures("storage")
 async def test_coordinator_sync_no_changes_no_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_subentry: MockConfigEntry,
     rtm_list_mock: Callable[[int, str], MagicMock],
     freezer: FrozenDateTimeFactory,
@@ -536,7 +536,7 @@ async def test_coordinator_sync_no_changes_no_reload(
 
 @pytest.mark.usefixtures("client", "storage")
 async def test_coordinator_polls_when_no_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     rtm_list_mock: Callable[[int, str], MagicMock],
     freezer: FrozenDateTimeFactory,
@@ -567,7 +567,7 @@ async def test_coordinator_polls_when_no_entities(
 
 @pytest.mark.usefixtures("client", "storage")
 async def test_update_listener_registered_before_forward(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test that a subentry added during platform forwarding triggers a reload.

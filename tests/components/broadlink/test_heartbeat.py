@@ -6,7 +6,7 @@ import pytest
 from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.broadlink.heartbeat import BroadlinkHeartbeat
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from . import get_device
@@ -14,7 +14,7 @@ from . import get_device
 DEVICE_PING = "universalassistant.components.broadlink.heartbeat.blk.ping"
 
 
-async def test_heartbeat_trigger_startup(hass: __HAC_KEEP__) -> None:
+async def test_heartbeat_trigger_startup(hass: UniversalAssistant) -> None:
     """Test that the heartbeat is initialized with the first config entry."""
     device = get_device("Office")
 
@@ -27,7 +27,7 @@ async def test_heartbeat_trigger_startup(hass: __HAC_KEEP__) -> None:
 
 
 async def test_heartbeat_ignore_oserror(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that an OSError is ignored."""
     device = get_device("Office")
@@ -39,7 +39,7 @@ async def test_heartbeat_ignore_oserror(
     assert "Failed to send heartbeat to" in caplog.text
 
 
-async def test_heartbeat_trigger_right_time(hass: __HAC_KEEP__) -> None:
+async def test_heartbeat_trigger_right_time(hass: UniversalAssistant) -> None:
     """Test that the heartbeat is triggered at the right time."""
     device = get_device("Office")
 
@@ -56,7 +56,7 @@ async def test_heartbeat_trigger_right_time(hass: __HAC_KEEP__) -> None:
     assert mock_ping.call_args == call(device.host)
 
 
-async def test_heartbeat_do_not_trigger_before_time(hass: __HAC_KEEP__) -> None:
+async def test_heartbeat_do_not_trigger_before_time(hass: UniversalAssistant) -> None:
     """Test that the heartbeat is not triggered before the time."""
     device = get_device("Office")
 
@@ -73,7 +73,7 @@ async def test_heartbeat_do_not_trigger_before_time(hass: __HAC_KEEP__) -> None:
     assert mock_ping.call_count == 0
 
 
-async def test_heartbeat_unload(hass: __HAC_KEEP__) -> None:
+async def test_heartbeat_unload(hass: UniversalAssistant) -> None:
     """Test that the heartbeat is deactivated when the last config entry is removed."""
     device = get_device("Office")
 
@@ -92,7 +92,7 @@ async def test_heartbeat_unload(hass: __HAC_KEEP__) -> None:
     assert mock_ping.call_count == 0
 
 
-async def test_heartbeat_do_not_unload(hass: __HAC_KEEP__) -> None:
+async def test_heartbeat_do_not_unload(hass: UniversalAssistant) -> None:
     """Test heartbeat is not deactivated until the last config entry is removed."""
     device_a = get_device("Office")
     device_b = get_device("Bedroom")

@@ -12,7 +12,7 @@ from universalassistant.const import (
     UnitOfLength,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import (
     PRO_200B_SERVICE_INFO,
@@ -22,7 +22,7 @@ from . import (
 )
 
 
-async def test_sensors_unusable_signal(hass: __HAC_KEEP__) -> None:
+async def test_sensors_unusable_signal(hass: UniversalAssistant) -> None:
     """Test setting up creates the sensors when there is unusable signal."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -56,7 +56,7 @@ async def test_sensors_unusable_signal(hass: __HAC_KEEP__) -> None:
     await hass.async_block_till_done()
 
 
-async def test_sensors_poor_signal(hass: __HAC_KEEP__) -> None:
+async def test_sensors_poor_signal(hass: UniversalAssistant) -> None:
     """Test setting up creates the sensors when there is poor signal."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -90,7 +90,7 @@ async def test_sensors_poor_signal(hass: __HAC_KEEP__) -> None:
     await hass.async_block_till_done()
 
 
-async def test_sensors_good_signal(hass: __HAC_KEEP__) -> None:
+async def test_sensors_good_signal(hass: UniversalAssistant) -> None:
     """Test setting up creates the sensors when there is good signal."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -124,7 +124,7 @@ async def test_sensors_good_signal(hass: __HAC_KEEP__) -> None:
     await hass.async_block_till_done()
 
 
-async def test_sensors_pro_200b(hass: __HAC_KEEP__) -> None:
+async def test_sensors_pro_200b(hass: UniversalAssistant) -> None:
     """Test the Pro-200B."""
     entry = MockConfigEntry(
         domain=DOMAIN,

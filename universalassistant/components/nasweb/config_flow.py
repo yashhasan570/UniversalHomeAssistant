@@ -10,9 +10,9 @@ from webio_api.api_client import AuthError
 from universalassistant import config_entries
 from universalassistant.config_entries import ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_UNIQUE_ID, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import AbortFlow
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.network import NoURLAvailableError
 
 from .const import DOMAIN
@@ -34,7 +34,7 @@ STEP_USER_DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> dict[str, Any]:
+async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> dict[str, Any]:
     """Validate user-provided data."""
     webio_api = WebioAPI(data[CONF_HOST], data[CONF_USERNAME], data[CONF_PASSWORD])
     if not await webio_api.check_connection():
@@ -120,17 +120,17 @@ class NASwebConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(__HAC_KEEP__Error):
+class InvalidAuth(UniversalAssistantError):
     """Error to indicate there is invalid auth."""
 
 
-class MissingNASwebData(__HAC_KEEP__Error):
+class MissingNASwebData(UniversalAssistantError):
     """Error to indicate missing information from NASweb."""
 
 
-class MissingNASwebStatus(__HAC_KEEP__Error):
+class MissingNASwebStatus(UniversalAssistantError):
     """Error to indicate there was no status received from NASweb."""

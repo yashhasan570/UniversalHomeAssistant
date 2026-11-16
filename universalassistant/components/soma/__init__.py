@@ -8,7 +8,7 @@ import probatio
 
 from universalassistant.config_entries import SOURCE_IMPORT, ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_validation as cv, issue_registry as ir
 from universalassistant.helpers.typing import ConfigType
@@ -43,7 +43,7 @@ type SomaConfigEntry = ConfigEntry[SomaData]
 PLATFORMS = [Platform.COVER, Platform.SENSOR]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Soma component."""
     if DOMAIN not in config:
         return True
@@ -53,7 +53,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def _async_import_yaml(hass: __HAC_KEEP__, import_data: dict[str, Any]) -> None:
+async def _async_import_yaml(hass: UniversalAssistant, import_data: dict[str, Any]) -> None:
     """Import the YAML configuration and raise a deprecation issue."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -94,7 +94,7 @@ async def _async_import_yaml(hass: __HAC_KEEP__, import_data: dict[str, Any]) ->
     )
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SomaConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SomaConfigEntry) -> None:
     """Set up Soma from a config entry."""
 
     def _setup_api() -> tuple[SomaApi, dict[str, Any]]:
@@ -107,6 +107,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SomaConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SomaConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SomaConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import selected_platforms, snapshot_platform_entities
@@ -16,7 +16,7 @@ from .common import selected_platforms, snapshot_platform_entities
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     netatmo_auth: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -34,7 +34,7 @@ async def test_entity(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_button_setup_and_services(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test setup and services."""
     with selected_platforms([Platform.BUTTON]):

@@ -23,13 +23,13 @@ from universalassistant.const import STATE_UNAVAILABLE
 from .const import NYMO_DEVICE_ID, NYMO_DEVICE_ID_2
 
 if TYPE_CHECKING:
-    from universalassistant.core import __HAC_KEEP__
+    from universalassistant.core import UniversalAssistant
     from universalassistant.helpers.device_registry import DeviceRegistry
     from universalassistant.helpers.entity_registry import EntityRegistry
 
 
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """The integration loads and can be unloaded cleanly."""
     assert init_integration.state is ConfigEntryState.LOADED
@@ -49,7 +49,7 @@ async def test_load_unload_config_entry(
     ],
 )
 async def test_config_entry_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api_client_class: AsyncMock,
     api_error: Exception,
@@ -88,7 +88,7 @@ async def test_device_info(
 
 
 async def test_device_added_dynamically(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device_registry: DeviceRegistry,
     entity_registry: EntityRegistry,

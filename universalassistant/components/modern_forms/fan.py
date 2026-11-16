@@ -5,8 +5,8 @@ from typing import Any, override
 from aiomodernforms.const import FAN_POWER_OFF, FAN_POWER_ON
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
     percentage_to_ranged_value,
@@ -24,7 +24,7 @@ PRESET_MODE_BREEZE = "breeze"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ModernFormsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -160,7 +160,7 @@ class ModernFormsFanEntity(FanEntity, ModernFormsDeviceEntity):
     ) -> None:
         """Set a Modern Forms light sleep timer."""
         if not self.coordinator.data.has_sleep_timer():
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="sleep_timer_not_supported",
             )
@@ -172,7 +172,7 @@ class ModernFormsFanEntity(FanEntity, ModernFormsDeviceEntity):
     ) -> None:
         """Clear a Modern Forms fan sleep timer."""
         if not self.coordinator.data.has_sleep_timer():
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="sleep_timer_not_supported",
             )

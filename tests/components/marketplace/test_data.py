@@ -16,8 +16,8 @@ from universalassistant.components.marketplace.utils.backup import Backup
 from universalassistant.components.marketplace.utils.data import MarketplaceData
 from universalassistant.components.marketplace.utils.storage import async_load_from_storage
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import create_install_folders, setup_integration
@@ -42,7 +42,7 @@ RESTORED_REPOSITORIES = {
 }
 
 
-async def _mocked_repositories(hass: __HAC_KEEP__, key: str) -> Any:
+async def _mocked_repositories(hass: UniversalAssistant, key: str) -> Any:
     """Return the restored repositories, and nothing for the other keys."""
     return RESTORED_REPOSITORIES if key == "repositories" else {}
 
@@ -164,7 +164,7 @@ async def test_restore_integration_categories(
     }
     stored["1296269"]["integration_categories"] = stored_categories
 
-    async def mocked_load(hass: __HAC_KEEP__, storage_key: str) -> Any:
+    async def mocked_load(hass: UniversalAssistant, storage_key: str) -> Any:
         """Return the stored repositories."""
         return stored if storage_key == "repositories" else {}
 
@@ -187,7 +187,7 @@ async def test_restore_skips_placeholder_repository(
     """Test the placeholder repository id is not restored."""
     data = MarketplaceData(marketplace)
 
-    async def mocked_load(hass: __HAC_KEEP__, key: str) -> Any:
+    async def mocked_load(hass: UniversalAssistant, key: str) -> Any:
         """Return a stored repository carrying the placeholder id."""
         if key != "repositories":
             return {}
@@ -221,7 +221,7 @@ async def test_restore_skips_a_broken_entry(
     create_install_folders(config_dir, RESTORED_REPOSITORIES)
     data = MarketplaceData(marketplace)
 
-    async def mocked_load(hass: __HAC_KEEP__, key: str) -> Any:
+    async def mocked_load(hass: UniversalAssistant, key: str) -> Any:
         """Return the stored repositories with a broken one among them."""
         if key != "repositories":
             return {}
@@ -247,7 +247,7 @@ async def test_restore_names_the_legacy_file_it_could_not_read(
 
     with patch(
         "universalassistant.components.marketplace.utils.data.async_load_from_storage",
-        side_effect=__HAC_KEEP__Error(
+        side_effect=UniversalAssistantError(
             "Error while loading /config/.storage/hacs.hacs: unexpected character"
         ),
     ):
@@ -277,7 +277,7 @@ async def test_restore_an_entry_with_an_unreadable_field(
     }
     stored["1296269"][key] = value
 
-    async def mocked_load(hass: __HAC_KEEP__, storage_key: str) -> Any:
+    async def mocked_load(hass: UniversalAssistant, storage_key: str) -> Any:
         """Return the stored repositories, one with a field that is broken."""
         return stored if storage_key == "repositories" else {}
 
@@ -292,7 +292,7 @@ async def test_restore_an_entry_with_an_unreadable_field(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_unrestorable_entry_is_kept_in_storage(
-    hass: __HAC_KEEP__, marketplace: MarketplaceManager, config_dir: Path
+    hass: UniversalAssistant, marketplace: MarketplaceManager, config_dir: Path
 ) -> None:
     """Test an entry that can not be restored is written back as it was."""
     create_install_folders(config_dir, RESTORED_REPOSITORIES)
@@ -355,9 +355,9 @@ async def test_restore_unreadable_data(
     data = MarketplaceData(marketplace)
     load = async_load_from_storage
 
-    async def load_from_storage(hass: __HAC_KEEP__, key: str) -> Any:
+    async def load_from_storage(hass: UniversalAssistant, key: str) -> Any:
         if key == unreadable:
-            raise __HAC_KEEP__Error("Not valid JSON")
+            raise UniversalAssistantError("Not valid JSON")
         return await load(hass, key)
 
     with patch(
@@ -545,7 +545,7 @@ async def test_write_while_disabled(
 
 @pytest.mark.usefixtures("stored_repositories")
 async def test_write_on_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -562,7 +562,7 @@ async def test_write_on_unload(
 
 @pytest.mark.usefixtures("stored_repositories")
 async def test_installs_deleted_by_hand_are_forgotten(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     config_dir: Path,
     entity_registry: er.EntityRegistry,
@@ -587,14 +587,14 @@ async def test_installs_deleted_by_hand_are_forgotten(
 
 @pytest.mark.usefixtures("stored_repositories")
 async def test_install_waiting_on_its_backup_stays_installed(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, config_dir: Path
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, config_dir: Path
 ) -> None:
     """Test an install whose backup could not be put back yet is not forgotten."""
     folder = config_dir / "www" / "community" / "plugin-basic"
     backup = config_dir / ".storage" / "marketplace_backups" / "interrupted"
     (backup / "content").mkdir(parents=True)
     (backup / "target").write_text("www/community/plugin-basic")
-    # An update moved it into the backup, then __HA_KEEP__ stopped
+    # An update moved it into the backup, then Universal Home Assistant stopped
     folder.rmdir()
 
     with patch.object(Backup, "restore", side_effect=OSError("Read-only")):
@@ -607,7 +607,7 @@ async def test_install_waiting_on_its_backup_stays_installed(
 
 @pytest.mark.usefixtures("stored_repositories")
 async def test_broken_symlink_stays_installed(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, config_dir: Path
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, config_dir: Path
 ) -> None:
     """Test a folder that is a symlink to something not there right now stays."""
     folder = config_dir / "www" / "community" / "plugin-basic"
@@ -628,7 +628,7 @@ async def test_broken_symlink_stays_installed(
     ],
 )
 async def test_template_deleted_by_hand(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
     config_dir: Path,

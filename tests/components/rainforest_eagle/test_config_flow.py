@@ -14,12 +14,12 @@ from universalassistant.components.rainforest_eagle.const import (
 from universalassistant.components.rainforest_eagle.data import CannotConnect, InvalidAuth
 from universalassistant.config_entries import ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_TYPE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def _async_configure_success(
-    hass: __HAC_KEEP__, flow_id: str
+    hass: UniversalAssistant, flow_id: str
 ) -> ConfigFlowResult:
     """Configure the user step with a connected EAGLE-200 meter."""
     with (
@@ -46,7 +46,7 @@ async def _async_configure_success(
     return result
 
 
-async def test_form_multiple_meters_first_connected(hass: __HAC_KEEP__) -> None:
+async def test_form_multiple_meters_first_connected(hass: UniversalAssistant) -> None:
     """Test EAGLE-200 flow with multiple meters, one connected."""
 
     result = await hass.config_entries.flow.async_init(
@@ -100,7 +100,7 @@ async def test_form_multiple_meters_first_connected(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_eagle_200_meters_none_connected(hass: __HAC_KEEP__) -> None:
+async def test_form_eagle_200_meters_none_connected(hass: UniversalAssistant) -> None:
     """Test EAGLE-200 flow with all meters disconnected."""
 
     result = await hass.config_entries.flow.async_init(
@@ -142,7 +142,7 @@ async def test_form_eagle_200_meters_none_connected(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_eagle_200_no_meters(hass: __HAC_KEEP__) -> None:
+async def test_form_eagle_200_no_meters(hass: UniversalAssistant) -> None:
     """Test EAGLE-200 flow with an empty list of meters."""
 
     result = await hass.config_entries.flow.async_init(
@@ -176,7 +176,7 @@ async def test_form_eagle_200_no_meters(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_eagle_100(hass: __HAC_KEEP__) -> None:
+async def test_form_eagle_100(hass: UniversalAssistant) -> None:
     """Test EAGLE-100 flow with legacy response."""
 
     result = await hass.config_entries.flow.async_init(
@@ -200,7 +200,7 @@ async def test_form_eagle_100(hass: __HAC_KEEP__) -> None:
             return_value=eagle_100_response,
         ),
         patch(
-            "universalassistant.core.__HAC_KEEP__.async_add_executor_job",
+            "universalassistant.core.UniversalAssistant.async_add_executor_job",
             return_value=eagle_100_response,
         ),
         patch(
@@ -230,7 +230,7 @@ async def test_form_eagle_100(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_unknown_device_type(hass: __HAC_KEEP__) -> None:
+async def test_form_unknown_device_type(hass: UniversalAssistant) -> None:
     """Test flow when device type cannot be determined."""
 
     result = await hass.config_entries.flow.async_init(
@@ -254,7 +254,7 @@ async def test_form_unknown_device_type(hass: __HAC_KEEP__) -> None:
             return_value=unknown_device_response,
         ),
         patch(
-            "universalassistant.core.__HAC_KEEP__.async_add_executor_job",
+            "universalassistant.core.UniversalAssistant.async_add_executor_job",
             return_value=unknown_device_response,
         ),
     ):
@@ -274,7 +274,7 @@ async def test_form_unknown_device_type(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_unsupported_device_type(hass: __HAC_KEEP__) -> None:
+async def test_form_unsupported_device_type(hass: UniversalAssistant) -> None:
     """Test flow when device type is unsupported."""
 
     result = await hass.config_entries.flow.async_init(
@@ -303,7 +303,7 @@ async def test_form_unsupported_device_type(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_unexpected_exception(hass: __HAC_KEEP__) -> None:
+async def test_form_unexpected_exception(hass: UniversalAssistant) -> None:
     """Test flow when an unexpected exception occurs."""
 
     result = await hass.config_entries.flow.async_init(
@@ -332,7 +332,7 @@ async def test_form_unexpected_exception(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
+async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -358,7 +358,7 @@ async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}

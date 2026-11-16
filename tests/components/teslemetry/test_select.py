@@ -20,8 +20,8 @@ from universalassistant.components.select import (
 from universalassistant.components.teslemetry.coordinator import VEHICLE_INTERVAL
 from universalassistant.components.teslemetry.select import HIGH, LEVEL, LOW, MEDIUM, OFF
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import assert_entities, reload_platform, setup_platform
@@ -47,7 +47,7 @@ VEHICLE_VIN = "LRW3F7EK4NC700000"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_legacy: AsyncMock,
@@ -90,7 +90,7 @@ async def test_select(
     ],
 )
 async def test_rear_seat_heater_configurations(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_metadata: AsyncMock,
     config: dict[str, int | bool],
@@ -123,7 +123,7 @@ async def test_rear_seat_heater_configurations(
     assert (created & ALL_REAR_KEYS) == expected
 
 
-async def test_select_services(hass: __HAC_KEEP__, mock_vehicle_data) -> None:
+async def test_select_services(hass: UniversalAssistant, mock_vehicle_data) -> None:
     """Tests that the select services work."""
     mock_vehicle_data.return_value = VEHICLE_DATA_ALT
     await setup_platform(hass, [Platform.SELECT])
@@ -209,7 +209,7 @@ async def test_select_services(hass: __HAC_KEEP__, mock_vehicle_data) -> None:
     ],
 )
 async def test_seat_cooler_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_metadata: AsyncMock,
     mock_vehicle_data: AsyncMock,
     entity_id: str,
@@ -245,7 +245,7 @@ async def test_seat_cooler_services(
 
 
 async def test_seat_cooler_polling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_metadata: AsyncMock,
     mock_vehicle_data: AsyncMock,
 ) -> None:
@@ -268,9 +268,9 @@ async def test_seat_cooler_polling(
 
 @pytest.mark.parametrize("response", COMMAND_ERRORS)
 async def test_select_command_errors(
-    hass: __HAC_KEEP__, mock_vehicle_data: AsyncMock, response: dict
+    hass: UniversalAssistant, mock_vehicle_data: AsyncMock, response: dict
 ) -> None:
-    """Tests that vehicle command failures raise __HAC_KEEP__Error."""
+    """Tests that vehicle command failures raise UniversalAssistantError."""
     mock_vehicle_data.return_value = VEHICLE_DATA_ALT
     await setup_platform(hass, [Platform.SELECT])
 
@@ -279,7 +279,7 @@ async def test_select_command_errors(
             "tesla_fleet_api.teslemetry.Vehicle.remote_seat_heater_request",
             return_value=response,
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             SELECT_DOMAIN,
@@ -292,8 +292,8 @@ async def test_select_command_errors(
         )
 
 
-async def test_select_command_exception(hass: __HAC_KEEP__) -> None:
-    """Tests that an energy command SDK exception raises __HAC_KEEP__Error."""
+async def test_select_command_exception(hass: UniversalAssistant) -> None:
+    """Tests that an energy command SDK exception raises UniversalAssistantError."""
     await setup_platform(hass, [Platform.SELECT])
 
     with (
@@ -301,7 +301,7 @@ async def test_select_command_exception(hass: __HAC_KEEP__) -> None:
             "tesla_fleet_api.teslemetry.EnergySite.operation",
             side_effect=InvalidCommand,
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             SELECT_DOMAIN,
@@ -315,7 +315,7 @@ async def test_select_command_exception(hass: __HAC_KEEP__) -> None:
 
 
 async def test_select_invalid_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_vehicle_data: AsyncMock,
@@ -337,7 +337,7 @@ async def test_select_invalid_data(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_select_streaming(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vehicle_data: AsyncMock,
     mock_add_listener: AsyncMock,
 ) -> None:
@@ -382,7 +382,7 @@ async def test_select_streaming(
     ],
 )
 async def test_select_streaming_climate_start(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_add_listener: AsyncMock,
     hvac_power: str,
     ac_enabled: bool,
@@ -427,7 +427,7 @@ async def test_select_streaming_climate_start(
 
 
 async def _drive_polling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_vehicle_data: AsyncMock,
     mock_add_listener: AsyncMock,
@@ -442,7 +442,7 @@ async def _drive_polling(
 
 
 async def _drive_streaming(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_vehicle_data: AsyncMock,
     mock_add_listener: AsyncMock,
@@ -473,14 +473,14 @@ async def _drive_streaming(
     ],
 )
 async def test_steering_wheel_heat_levels(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_vehicle_data: AsyncMock,
     mock_metadata: AsyncMock,
     mock_add_listener: AsyncMock,
     metadata: dict,
     driver: Callable[
-        [__HAC_KEEP__, FrozenDateTimeFactory, AsyncMock, AsyncMock, int],
+        [UniversalAssistant, FrozenDateTimeFactory, AsyncMock, AsyncMock, int],
         Awaitable[None],
     ],
     value: int,
@@ -500,7 +500,7 @@ async def test_steering_wheel_heat_levels(
 
 
 async def test_export_rule_restore(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_site_info: AsyncMock,
 ) -> None:
     """Test export rule entity when value is missing due to VPP enrollment."""
@@ -600,7 +600,7 @@ async def test_export_rule_restore(
     ],
 )
 async def test_export_rule_update_attrs_logic(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_site_info: AsyncMock,
     mock_energy_info_stream: MagicMock,
     previous_data: dict,

@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry, get_system_health_
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.portainer.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import setup_integration
@@ -17,7 +17,7 @@ MOCK_HEALTH_URL = "https://127.0.0.1:9000/api/system/status"
 
 
 async def test_system_health(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
     mock_portainer_client: AsyncMock,
@@ -38,7 +38,7 @@ async def test_system_health(
 
 
 async def test_system_health_failed_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
     mock_portainer_client: AsyncMock,

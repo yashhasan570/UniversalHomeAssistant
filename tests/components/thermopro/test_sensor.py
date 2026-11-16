@@ -9,12 +9,12 @@ from pytest_universalassistant.components.bluetooth import (
 from universalassistant.components.sensor import ATTR_STATE_CLASS
 from universalassistant.components.thermopro.const import DOMAIN
 from universalassistant.const import ATTR_FRIENDLY_NAME, ATTR_UNIT_OF_MEASUREMENT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import TP357_SERVICE_INFO, TP962R_SERVICE_INFO, TP962R_SERVICE_INFO_2
 
 
-async def test_sensors_tp962r(hass: __HAC_KEEP__) -> None:
+async def test_sensors_tp962r(hass: UniversalAssistant) -> None:
     """Test setting up creates the sensors."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -96,7 +96,7 @@ async def test_sensors_tp962r(hass: __HAC_KEEP__) -> None:
     await hass.async_block_till_done()
 
 
-async def test_sensors(hass: __HAC_KEEP__) -> None:
+async def test_sensors(hass: UniversalAssistant) -> None:
     """Test setting up creates the sensors."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -130,7 +130,7 @@ async def test_sensors(hass: __HAC_KEEP__) -> None:
     await hass.async_block_till_done()
 
 
-async def test_sensors_restored_on_restart(hass: __HAC_KEEP__) -> None:
+async def test_sensors_restored_on_restart(hass: UniversalAssistant) -> None:
     """Test sensors are restored on restart before a new advertisement arrives."""
     entry = MockConfigEntry(
         domain=DOMAIN,

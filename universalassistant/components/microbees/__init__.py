@@ -9,7 +9,7 @@ from microBeesPy import MicroBees
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_entry_oauth2_flow
 
@@ -19,11 +19,11 @@ from .coordinator import MicroBeesUpdateCoordinator
 _LOGGER = logging.getLogger(__name__)
 
 
-type MicroBeesConfigEntry = ConfigEntry[__HAC_KEEP__MicroBeesData]
+type MicroBeesConfigEntry = ConfigEntry[UniversalAssistantMicroBeesData]
 
 
 @dataclass(frozen=True, kw_only=True)
-class __HAC_KEEP__MicroBeesData:
+class UniversalAssistantMicroBeesData:
     """Microbees data stored in the config entry runtime_data."""
 
     connector: MicroBees
@@ -31,7 +31,7 @@ class __HAC_KEEP__MicroBeesData:
     session: config_entry_oauth2_flow.OAuth2Session
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: MicroBeesConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: MicroBeesConfigEntry) -> None:
     """Migrate entry."""
     _LOGGER.debug("Migrating from version %s.%s", entry.version, entry.minor_version)
 
@@ -46,7 +46,7 @@ async def async_migrate_entry(hass: __HAC_KEEP__, entry: MicroBeesConfigEntry) -
     _LOGGER.debug("Migration successful")
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: MicroBeesConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: MicroBeesConfigEntry) -> None:
     """Set up microBees from a config entry."""
     implementation = (
         await config_entry_oauth2_flow.async_get_config_entry_implementation(
@@ -68,7 +68,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: MicroBeesConfigEntry) -> 
     microbees = MicroBees(token=session.token[CONF_ACCESS_TOKEN])
     coordinator = MicroBeesUpdateCoordinator(hass, entry, microbees)
     await coordinator.async_config_entry_first_refresh()
-    entry.runtime_data = __HAC_KEEP__MicroBeesData(
+    entry.runtime_data = UniversalAssistantMicroBeesData(
         connector=microbees,
         coordinator=coordinator,
         session=session,
@@ -76,6 +76,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: MicroBeesConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: MicroBeesConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: MicroBeesConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

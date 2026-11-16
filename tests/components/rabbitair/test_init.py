@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.rabbitair.const import DOMAIN
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_HOST, CONF_MAC
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import format_mac
 
@@ -48,7 +48,7 @@ def rabbitair_connect() -> Generator[None]:
 
 @pytest.mark.usefixtures("rabbitair_connect")
 async def test_device_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:

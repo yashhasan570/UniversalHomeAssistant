@@ -8,7 +8,7 @@ from hole import Hole
 
 from universalassistant.components.update import UpdateEntity, UpdateEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import PiHoleConfigEntry, PiHoleUpdateCoordinator
@@ -61,7 +61,7 @@ UPDATE_ENTITY_TYPES: tuple[PiHoleUpdateEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: PiHoleConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

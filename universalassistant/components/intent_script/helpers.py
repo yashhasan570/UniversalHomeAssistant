@@ -7,8 +7,8 @@ import probatio
 
 from universalassistant.components.script import CONF_MODE
 from universalassistant.const import CONF_ACTION, CONF_DESCRIPTION
-from universalassistant.core import __HAC_KEEP__, ServiceCall
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv, intent, script, template
 from universalassistant.helpers.reload import async_integration_yaml_config
 from universalassistant.helpers.script import async_validate_actions_config
@@ -26,7 +26,7 @@ from .const import (
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_reload(hass: __HAC_KEEP__, service_call: ServiceCall) -> None:
+async def async_reload(hass: UniversalAssistant, service_call: ServiceCall) -> None:
     """Handle reload Intent Script service call."""
     new_config = await async_integration_yaml_config(hass, DOMAIN)
     existing_intents = hass.data[DOMAIN]
@@ -46,7 +46,7 @@ async def async_reload(hass: __HAC_KEEP__, service_call: ServiceCall) -> None:
 
 
 async def async_load_intents(
-    hass: __HAC_KEEP__, intents: dict[str, ConfigType]
+    hass: UniversalAssistant, intents: dict[str, ConfigType]
 ) -> None:
     """Load YAML intents into the intent system."""
     hass.data[DOMAIN] = intents
@@ -55,7 +55,7 @@ async def async_load_intents(
         if CONF_ACTION in conf:
             try:
                 actions = await async_validate_actions_config(hass, conf[CONF_ACTION])
-            except (probatio.Invalid, __HAC_KEEP__Error) as exc:
+            except (probatio.Invalid, UniversalAssistantError) as exc:
                 if isinstance(exc, probatio.Invalid):
                     exc.prepend([CONF_ACTION])
                 _LOGGER.error(
@@ -119,7 +119,7 @@ class ScriptIntentHandler(intent.IntentHandler):
         card: _IntentCardData | None = self.config.get(CONF_CARD)
         action: script.Script | None = self.config.get(CONF_ACTION)
         is_async_action: bool = self.config[CONF_ASYNC_ACTION]
-        hass: __HAC_KEEP__ = intent_obj.hass
+        hass: UniversalAssistant = intent_obj.hass
         intent_slots = self.async_validate_slots(intent_obj.slots)
         slots: dict[str, Any] = {
             key: value["value"] for key, value in intent_slots.items()

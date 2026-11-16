@@ -18,7 +18,7 @@ from universalassistant.core import (
     CALLBACK_TYPE,
     Event,
     EventStateChangedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     State,
     async_get_hass_or_none,
     callback,
@@ -51,7 +51,7 @@ _LOGGER = logging.getLogger(__name__)
 
 @callback
 def _async_connected_device_registered(
-    hass: __HAC_KEEP__, mac: str, ip_address: str | None, hostname: str | None
+    hass: UniversalAssistant, mac: str, ip_address: str | None, hostname: str | None
 ) -> None:
     """Register a newly seen connected device.
 
@@ -97,7 +97,7 @@ class BaseTrackerEntity(Entity):
                 (
                     "%s::%s is overriding the deprecated battery_level property on "
                     "a subclass of BaseTrackerEntity, this will be unsupported from "
-                    "__HA_KEEP__ 2027.7, please %s"
+                    "Universal Home Assistant 2027.7, please %s"
                 ),
                 cls.__module__,
                 cls.__name__,
@@ -110,7 +110,7 @@ class BaseTrackerEntity(Entity):
 
         Percentage from 0-100.
 
-        The property is deprecated and will be removed in __HA_KEEP__ 2027.7.
+        The property is deprecated and will be removed in Universal Home Assistant 2027.7.
         """
         return None
 
@@ -160,7 +160,7 @@ class TrackerEntity(
     _attr_in_zones: list[str] | None = None
     _attr_latitude: float | None = None
     _attr_location_accuracy: float = 0
-    # _attr_location_name is deprecated and will be removed in __HA_KEEP__ 2027.7
+    # _attr_location_name is deprecated and will be removed in Universal Home Assistant 2027.7
     _attr_location_name: str | None = None
     _attr_longitude: float | None = None
     _attr_source_type: SourceType = SourceType.GPS
@@ -186,7 +186,7 @@ class TrackerEntity(
                 (
                     "%s::%s is overriding the deprecated location_name property on "
                     "an instance of TrackerEntity, this will be unsupported from "
-                    "__HA_KEEP__ 2027.7, please %s"
+                    "Universal Home Assistant 2027.7, please %s"
                 ),
                 cls.__module__,
                 cls.__name__,
@@ -227,7 +227,7 @@ class TrackerEntity(
     def location_name(self) -> str | None:
         """Return a location name for the current location of the device.
 
-        The property is deprecated and will be removed in __HA_KEEP__ 2027.7.
+        The property is deprecated and will be removed in Universal Home Assistant 2027.7.
         """
         if (location_name := self._attr_location_name) is not None:
             if (
@@ -243,7 +243,7 @@ class TrackerEntity(
                     (
                         "%s::%s is setting the deprecated _attr_location_name attribute "
                         "on an instance of TrackerEntity, this will be unsupported from "
-                        "__HA_KEEP__ 2027.7, please %s"
+                        "Universal Home Assistant 2027.7, please %s"
                     ),
                     self.__class__.__module__,
                     self.__class__.__name__,

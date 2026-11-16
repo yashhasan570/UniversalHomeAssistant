@@ -19,13 +19,13 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import Context, __HAC_KEEP__, State
+from universalassistant.core import Context, UniversalAssistant, State
 
 ENTITY_ID = "light.honeywell_string_lights"
 
 
 async def test_turn_on_off_sends_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
     init_string_lights: MockConfigEntry,
 ) -> None:
@@ -73,7 +73,7 @@ async def test_turn_on_off_sends_commands(
 
 
 async def test_restore_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -89,7 +89,7 @@ async def test_restore_state(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__, init_string_lights: MockConfigEntry
+    hass: UniversalAssistant, init_string_lights: MockConfigEntry
 ) -> None:
     """Test unloading the config entry removes the entity."""
     assert hass.states.get(ENTITY_ID) is not None

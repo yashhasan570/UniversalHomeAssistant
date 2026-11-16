@@ -12,7 +12,7 @@ from universalassistant.const import (
     CONF_IP_ADDRESS,
     CONF_PLATFORM,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_entry_oauth2_flow, config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.util import Throttle
@@ -42,7 +42,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Smappee component."""
     hass.data[DOMAIN] = {}
 
@@ -76,7 +76,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SmappeeConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SmappeeConfigEntry) -> None:
     """Set up Smappee from a zeroconf or config entry."""
     if CONF_IP_ADDRESS in entry.data:
         if helper.is_smappee_genius(entry.data[CONF_SERIALNUMBER]):
@@ -116,7 +116,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SmappeeConfigEntry) -> No
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SmappeeConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SmappeeConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
@@ -124,7 +124,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: SmappeeConfigEntry) -> N
 class SmappeeBase:
     """An object to hold the PySmappee instance."""
 
-    def __init__(self, hass: __HAC_KEEP__, smappee: Smappee) -> None:
+    def __init__(self, hass: UniversalAssistant, smappee: Smappee) -> None:
         """Initialize the Smappee API wrapper class."""
         self.hass = hass
         self.smappee = smappee

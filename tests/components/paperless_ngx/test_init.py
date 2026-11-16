@@ -13,13 +13,13 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
 
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test loading and unloading the integration."""
@@ -34,7 +34,7 @@ async def test_load_unload_config_entry(
 
 
 async def test_load_config_status_forbidden(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_paperless: AsyncMock,
 ) -> None:
@@ -66,7 +66,7 @@ async def test_load_config_status_forbidden(
     ],
 )
 async def test_setup_config_error_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_paperless: AsyncMock,
     side_effect: Exception,

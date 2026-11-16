@@ -11,7 +11,7 @@ from motioneye_client.const import (
 import probatio
 
 from universalassistant.components.camera import DOMAIN as CAMERA_DOMAIN
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import DOMAIN
@@ -70,7 +70,7 @@ SCHEMA_SERVICE_SET_TEXT = probatio.Schema(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the services for the motionEye integration."""
 
     service.async_register_platform_entity_service(

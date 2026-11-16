@@ -9,8 +9,8 @@ from universalassistant.components.cover import (
     CoverEntity,
     CoverEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import SomaConfigEntry
@@ -19,7 +19,7 @@ from .utils import is_api_response_success
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: SomaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -76,7 +76,7 @@ class SomaTilt(SomaEntity, CoverEntity):
         """Close the cover tilt."""
         response = self.api.set_shade_position(self.device["mac"], 100)
         if not is_api_response_success(response):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Error while closing the cover ({self.name}): {response['msg']}"
             )
         self.set_position(0)
@@ -86,7 +86,7 @@ class SomaTilt(SomaEntity, CoverEntity):
         """Open the cover tilt."""
         response = self.api.set_shade_position(self.device["mac"], -100)
         if not is_api_response_success(response):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Error while opening the cover ({self.name}): {response['msg']}"
             )
         self.set_position(100)
@@ -96,7 +96,7 @@ class SomaTilt(SomaEntity, CoverEntity):
         """Stop the cover tilt."""
         response = self.api.stop_shade(self.device["mac"])
         if not is_api_response_success(response):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Error while stopping the cover ({self.name}): {response['msg']}"
             )
         # Set cover position to some value where up/down are both enabled
@@ -111,7 +111,7 @@ class SomaTilt(SomaEntity, CoverEntity):
         target_api_position = 100 - ((kwargs[ATTR_TILT_POSITION] / 50) * 100)
         response = self.api.set_shade_position(self.device["mac"], target_api_position)
         if not is_api_response_success(response):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Error while setting the cover position ({self.name}):"
                 f" {response['msg']}"
             )
@@ -158,7 +158,7 @@ class SomaShade(SomaEntity, CoverEntity):
         """Close the cover."""
         response = self.api.set_shade_position(self.device["mac"], 100)
         if not is_api_response_success(response):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Error while closing the cover ({self.name}): {response['msg']}"
             )
 
@@ -167,7 +167,7 @@ class SomaShade(SomaEntity, CoverEntity):
         """Open the cover."""
         response = self.api.set_shade_position(self.device["mac"], 0)
         if not is_api_response_success(response):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Error while opening the cover ({self.name}): {response['msg']}"
             )
 
@@ -176,7 +176,7 @@ class SomaShade(SomaEntity, CoverEntity):
         """Stop the cover."""
         response = self.api.stop_shade(self.device["mac"])
         if not is_api_response_success(response):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Error while stopping the cover ({self.name}): {response['msg']}"
             )
         # Set cover position to some value where up/down are both enabled
@@ -190,7 +190,7 @@ class SomaShade(SomaEntity, CoverEntity):
             self.device["mac"], 100 - kwargs[ATTR_POSITION]
         )
         if not is_api_response_success(response):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Error while setting the cover position ({self.name}):"
                 f" {response['msg']}"
             )

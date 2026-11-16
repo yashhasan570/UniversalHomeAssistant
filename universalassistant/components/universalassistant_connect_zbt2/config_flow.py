@@ -1,4 +1,4 @@
-"""Config flow for the __HA_KEEP__ Connect ZBT-2 integration."""
+"""Config flow for the Universal Home Assistant Connect ZBT-2 integration."""
 
 import logging
 from typing import TYPE_CHECKING, Any, Protocol, override
@@ -23,7 +23,7 @@ from universalassistant.config_entries import (
 from universalassistant.core import callback
 from universalassistant.helpers.service_info.usb import UsbServiceInfo
 
-from . import __HAC_KEEP__ConnectZBT2ConfigEntry
+from . import UniversalAssistantConnectZBT2ConfigEntry
 from .const import (
     DEVICE,
     DOMAIN,
@@ -66,7 +66,7 @@ else:
 
 
 class ZBT2FirmwareMixin(ConfigEntryBaseFlow, FirmwareInstallFlowProtocol):
-    """Mixin for __HA_KEEP__ Connect ZBT-2 firmware methods."""
+    """Mixin for Universal Home Assistant Connect ZBT-2 firmware methods."""
 
     context: ConfigFlowContext
 
@@ -100,12 +100,12 @@ class ZBT2FirmwareMixin(ConfigEntryBaseFlow, FirmwareInstallFlowProtocol):
         )
 
 
-class __HAC_KEEP__ConnectZBT2ConfigFlow(
+class UniversalAssistantConnectZBT2ConfigFlow(
     ZBT2FirmwareMixin,
     firmware_config_flow.BaseFirmwareConfigFlow,
     domain=DOMAIN,
 ):
-    """Handle a config flow for __HA_KEEP__ Connect ZBT-2."""
+    """Handle a config flow for Universal Home Assistant Connect ZBT-2."""
 
     VERSION = 1
     MINOR_VERSION = 2
@@ -120,10 +120,10 @@ class __HAC_KEEP__ConnectZBT2ConfigFlow(
     @callback
     @override
     def async_get_options_flow(
-        config_entry: __HAC_KEEP__ConnectZBT2ConfigEntry,
+        config_entry: UniversalAssistantConnectZBT2ConfigEntry,
     ) -> OptionsFlow:
         """Return the options flow."""
-        return __HAC_KEEP__ConnectZBT2OptionsFlowHandler(config_entry)
+        return UniversalAssistantConnectZBT2OptionsFlowHandler(config_entry)
 
     @override
     async def async_step_usb(self, discovery_info: UsbServiceInfo) -> ConfigFlowResult:
@@ -185,7 +185,7 @@ class __HAC_KEEP__ConnectZBT2ConfigFlow(
         )
 
 
-class __HAC_KEEP__ConnectZBT2OptionsFlowHandler(
+class UniversalAssistantConnectZBT2OptionsFlowHandler(
     ZBT2FirmwareMixin, firmware_config_flow.BaseFirmwareOptionsFlow
 ):
     """Zigbee and Thread options flow handlers."""

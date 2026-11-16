@@ -22,7 +22,7 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -60,7 +60,7 @@ MOCK_MAC_ADDR = "AA:BB:CC:DD:EE:FF"
 async def test_auth_fail(
     gogogate2api_mock: MagicMock,
     async_setup_entry_mock: MagicMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     side_effect: Exception,
     error: str,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_auth_fail(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_homekit_unique_id_already_setup(hass: __HAC_KEEP__) -> None:
+async def test_form_homekit_unique_id_already_setup(hass: UniversalAssistant) -> None:
     """Test that we abort from homekit if gogogate2 is already setup."""
 
     result = await hass.config_entries.flow.async_init(
@@ -146,7 +146,7 @@ async def test_form_homekit_unique_id_already_setup(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.ABORT
 
 
-async def test_form_homekit_ip_address_already_setup(hass: __HAC_KEEP__) -> None:
+async def test_form_homekit_ip_address_already_setup(hass: UniversalAssistant) -> None:
     """Test that we abort from homekit if gogogate2 is already setup."""
 
     entry = MockConfigEntry(
@@ -171,7 +171,7 @@ async def test_form_homekit_ip_address_already_setup(hass: __HAC_KEEP__) -> None
     assert result["type"] is FlowResultType.ABORT
 
 
-async def test_form_homekit_ip_address(hass: __HAC_KEEP__) -> None:
+async def test_form_homekit_ip_address(hass: UniversalAssistant) -> None:
     """Test homekit includes the defaults ip address."""
 
     result = await hass.config_entries.flow.async_init(
@@ -202,7 +202,7 @@ async def test_form_homekit_ip_address(hass: __HAC_KEEP__) -> None:
 @patch("universalassistant.components.gogogate2.async_setup_entry", return_value=None)
 @patch("universalassistant.components.gogogate2.common.ISmartGateApi")
 async def test_discovered_dhcp(
-    ismartgateapi_mock, async_setup_entry_mock, hass: __HAC_KEEP__
+    ismartgateapi_mock, async_setup_entry_mock, hass: UniversalAssistant
 ) -> None:
     """Test we get the form with homekit and abort for dhcp source when we get both."""
     api: ISmartGateApi = MagicMock(spec=ISmartGateApi)
@@ -256,7 +256,7 @@ async def test_discovered_dhcp(
     }
 
 
-async def test_discovered_by_homekit_and_dhcp(hass: __HAC_KEEP__) -> None:
+async def test_discovered_by_homekit_and_dhcp(hass: UniversalAssistant) -> None:
     """Test we get the form with homekit and abort for dhcp source when we get both."""
 
     result = await hass.config_entries.flow.async_init(

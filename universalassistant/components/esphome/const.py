@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
 DOMAIN = "esphome"
 
-CLIENT_INFO = f"__HA_KEEP__ {ha_version}"
+CLIENT_INFO = f"Universal Home Assistant {ha_version}"
 
 ESPHOME_DATA: HassKey[DomainData] = HassKey(DOMAIN)
 

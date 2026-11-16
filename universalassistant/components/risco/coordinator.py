@@ -8,7 +8,7 @@ from pyrisco import CannotConnectError, OperationError, RiscoCloud, Unauthorized
 from pyrisco.cloud.alarm import Alarm
 from pyrisco.cloud.event import Event
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.storage import Store
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -22,7 +22,7 @@ LAST_EVENT_TIMESTAMP_KEY = "last_event_timestamp"
 _LOGGER = logging.getLogger(__name__)
 
 
-def last_event_store(hass: __HAC_KEEP__, entry_id: str) -> Store[dict[str, Any]]:
+def last_event_store(hass: UniversalAssistant, entry_id: str) -> Store[dict[str, Any]]:
     """Return the store holding the timestamp of the last fetched event."""
     return Store(
         hass, LAST_EVENT_STORAGE_VERSION, f"risco_{entry_id}_last_event_timestamp"
@@ -36,7 +36,7 @@ class RiscoDataUpdateCoordinator(DataUpdateCoordinator[Alarm]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: RiscoConfigEntry,
         risco: RiscoCloud,
     ) -> None:
@@ -66,7 +66,7 @@ class RiscoEventsDataUpdateCoordinator(DataUpdateCoordinator[list[Event]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: RiscoConfigEntry,
         risco: RiscoCloud,
     ) -> None:

@@ -14,7 +14,7 @@ from tololib import (
 
 from universalassistant.components.number import NumberEntity, NumberEntityDescription
 from universalassistant.const import EntityCategory, UnitOfTime
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import ToloConfigEntry, ToloSaunaUpdateCoordinator
@@ -62,7 +62,7 @@ NUMBERS = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ToloConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

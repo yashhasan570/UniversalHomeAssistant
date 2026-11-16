@@ -15,7 +15,7 @@ from universalassistant.components.valve import (
     ValveEntityDescription,
     ValveEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import ChildDeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -70,7 +70,7 @@ VALVES: dict[DeviceCategory, tuple[TuyaValveEntityDescription, ...]] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: TuyaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -144,7 +144,7 @@ class TuyaValveEntity(TuyaEntity, ValveEntity):
     ) -> bool:
         """Called when Tuya device sends an update with updated properties.
 
-        Returns True if the __HA_KEEP__ state should be written,
+        Returns True if the Universal Home Assistant state should be written,
         or False if the state write should be skipped.
         """
         return not self._dpcode_wrapper.skip_update(

@@ -11,7 +11,7 @@ from universalassistant.components.advantage_air.const import (
     AdvantageAirServiceArgument,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -19,7 +19,7 @@ from . import add_mock_config
 
 
 async def test_sensor_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_get: AsyncMock,
     mock_update: AsyncMock,
@@ -111,7 +111,7 @@ async def test_sensor_platform(
 
 
 async def test_sensor_platform_disabled_entity(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_get: AsyncMock
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_get: AsyncMock
 ) -> None:
     """Test sensor platform disabled entity."""
 

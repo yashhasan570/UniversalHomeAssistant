@@ -9,7 +9,7 @@ import probatio
 from universalassistant.components import webhook
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_WEBHOOK_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_entry_flow, config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -36,7 +36,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the IFTTT service component."""
     async_setup_services(hass)
 
@@ -52,7 +52,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 async def handle_webhook(
-    hass: __HAC_KEEP__, webhook_id: str, request: web.Request
+    hass: UniversalAssistant, webhook_id: str, request: web.Request
 ) -> None:
     """Handle webhook callback."""
     body = await request.text()
@@ -75,14 +75,14 @@ async def handle_webhook(
     hass.bus.async_fire(EVENT_RECEIVED, data)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Configure based on config entry."""
     webhook.async_register(
         hass, DOMAIN, "IFTTT", entry.data[CONF_WEBHOOK_ID], handle_webhook
     )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     webhook.async_unregister(hass, entry.data[CONF_WEBHOOK_ID])
 

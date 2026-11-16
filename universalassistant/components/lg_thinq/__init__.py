@@ -15,7 +15,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -53,7 +53,7 @@ PLATFORMS = [
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ThinqConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ThinqConfigEntry) -> None:
     """Set up an entry."""
     entry.runtime_data = ThinqData()
 
@@ -83,7 +83,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ThinqConfigEntry) -> None
 
 
 async def async_setup_coordinators(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ThinqConfigEntry,
     thinq_api: ThinQApi,
 ) -> None:
@@ -114,7 +114,7 @@ async def async_setup_coordinators(
 
 
 @callback
-def async_cleanup_device_registry(hass: __HAC_KEEP__, entry: ThinqConfigEntry) -> None:
+def async_cleanup_device_registry(hass: UniversalAssistant, entry: ThinqConfigEntry) -> None:
     """Clean up device registry."""
     new_device_unique_ids = [
         coordinator.unique_id
@@ -134,7 +134,7 @@ def async_cleanup_device_registry(hass: __HAC_KEEP__, entry: ThinqConfigEntry) -
 
 
 async def async_setup_mqtt(
-    hass: __HAC_KEEP__, entry: ThinqConfigEntry, thinq_api: ThinQApi, client_id: str
+    hass: UniversalAssistant, entry: ThinqConfigEntry, thinq_api: ThinQApi, client_id: str
 ) -> None:
     """Set up MQTT connection."""
     mqtt_client = ThinQMQTT(hass, thinq_api, client_id, entry.runtime_data.coordinators)
@@ -180,6 +180,6 @@ async def async_setup_mqtt(
     )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ThinqConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ThinqConfigEntry) -> None:
     """Unload the entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

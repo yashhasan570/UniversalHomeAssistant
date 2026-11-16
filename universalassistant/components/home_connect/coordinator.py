@@ -32,7 +32,7 @@ from aiohomeconnect.model.error import (
 from aiohomeconnect.model.program import EnumerateProgram, ProgramDefinitionOption
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryNotReady,
@@ -40,7 +40,11 @@ from universalassistant.exceptions import (
     OAuth2TokenRequestReauthError,
 )
 from universalassistant.helpers import device_registry as dr
-from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from universalassistant.helpers.update_coordinator import (
+    DataUpdateCoordinator,
+    UpdateFailed,
+    UpdateFailedUnreachable,
+)
 
 from .const import (
     API_DEFAULT_RETRY_AFTER,
@@ -115,7 +119,7 @@ class HomeConnectRuntimeData:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: HomeConnectConfigEntry,
         client: HomeConnectClient,
     ) -> None:
@@ -278,7 +282,7 @@ class HomeConnectApplianceCoordinator(DataUpdateCoordinator[HomeConnectAppliance
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: HomeConnectConfigEntry,
         client: HomeConnectClient,
         global_listeners: dict[
@@ -672,7 +676,7 @@ class HomeConnectApplianceCoordinator(DataUpdateCoordinator[HomeConnectAppliance
         )
         if not appliance.connected:
             self.data.update(HomeConnectApplianceData.empty(appliance))
-            raise UpdateFailed(
+            raise UpdateFailedUnreachable(
                 translation_domain=DOMAIN,
                 translation_key="appliance_disconnected",
                 translation_placeholders={

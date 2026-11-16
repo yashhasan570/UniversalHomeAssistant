@@ -37,7 +37,7 @@ from .errors import CannotConnect
 LOGGER = logging.getLogger(__name__)
 
 HUE_MANUFACTURERURL = ("http://www.philips.com", "http://www.philips-hue.com")
-HUE_IGNORED_BRIDGE_NAMES = ["__HA_KEEP__ Bridge", "Espalexa"]
+HUE_IGNORED_BRIDGE_NAMES = ["Universal Home Assistant Bridge", "Espalexa"]
 HUE_MANUAL_BRIDGE_ID = "manual"
 
 BSB002_MODEL_ID = "BSB002"

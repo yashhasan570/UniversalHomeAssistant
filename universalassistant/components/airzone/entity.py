@@ -23,7 +23,7 @@ from aioairzone.const import (
 )
 from aioairzone.exceptions import AirzoneError
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -98,7 +98,7 @@ class AirzoneSystemEntity(AirzoneEntity):
         try:
             await self.coordinator.airzone.set_sys_parameters(_params)
         except AirzoneError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to set system {self.entity_id}: {error}"
             ) from error
 
@@ -145,7 +145,7 @@ class AirzoneHotWaterEntity(AirzoneEntity):
         try:
             await self.coordinator.airzone.set_dhw_parameters(_params)
         except AirzoneError as error:
-            raise __HAC_KEEP__Error(f"Failed to set DHW: {error}") from error
+            raise UniversalAssistantError(f"Failed to set DHW: {error}") from error
 
         self.coordinator.async_set_updated_data(self.coordinator.airzone.data())
 
@@ -236,7 +236,7 @@ class AirzoneZoneEntity(AirzoneEntity):
         try:
             await self.coordinator.airzone.set_hvac_parameters(_params)
         except AirzoneError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to set zone {self.entity_id}: {error}"
             ) from error
 

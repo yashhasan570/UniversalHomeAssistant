@@ -11,7 +11,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components import sensor
 from universalassistant.components.foobot import sensor as foobot
 from universalassistant.const import UnitOfDensity, UnitOfRatio, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import PlatformNotReady
 from universalassistant.setup import async_setup_component
 
@@ -23,7 +23,7 @@ VALID_CONFIG = {
 
 
 async def test_default_setup(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the default setup."""
     aioclient_mock.get(
@@ -53,7 +53,7 @@ async def test_default_setup(
 
 
 async def test_setup_timeout_error(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Expected failures caused by a timeout in API response."""
     fake_async_add_entities = MagicMock()
@@ -64,7 +64,7 @@ async def test_setup_timeout_error(
 
 
 async def test_setup_permanent_error(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Expected failures caused by permanent errors in API response."""
     fake_async_add_entities = MagicMock()
@@ -79,7 +79,7 @@ async def test_setup_permanent_error(
 
 
 async def test_setup_temporary_error(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Expected failures caused by temporary errors in API response."""
     fake_async_add_entities = MagicMock()

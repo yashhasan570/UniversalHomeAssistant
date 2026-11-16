@@ -5,7 +5,7 @@ from datetime import datetime
 import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import DEFAULT_CHARGE_POINT, init_integration
@@ -80,7 +80,7 @@ grid_entity_ids = {
 
 
 async def test_sensors_created(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -102,7 +102,7 @@ async def test_sensors_created(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -133,7 +133,7 @@ async def test_sensors(
 
 
 async def test_timestamp_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -155,7 +155,7 @@ async def test_timestamp_sensors(
 
 
 async def test_sensor_update(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test if the sensors get updated when there is new data."""
     client, _, _ = await init_integration(

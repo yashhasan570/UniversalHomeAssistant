@@ -14,14 +14,14 @@ from universalassistant.components.vera import (
     DOMAIN,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import ComponentFactory, ConfigSource, new_simple_controller_config
 
 
 async def test_init(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     vera_component_factory: ComponentFactory,
 ) -> None:
@@ -49,7 +49,7 @@ async def test_init(
 
 
 async def test_multiple_controllers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     vera_component_factory: ComponentFactory,
 ) -> None:
@@ -103,7 +103,7 @@ async def test_multiple_controllers(
 
 
 async def test_unload(
-    hass: __HAC_KEEP__, vera_component_factory: ComponentFactory
+    hass: UniversalAssistant, vera_component_factory: ComponentFactory
 ) -> None:
     """Test function."""
     vera_device1: pv.VeraBinarySensor = MagicMock(spec=pv.VeraBinarySensor)
@@ -125,7 +125,7 @@ async def test_unload(
 
 
 async def test_async_setup_entry_error(
-    hass: __HAC_KEEP__, vera_component_factory: ComponentFactory
+    hass: UniversalAssistant, vera_component_factory: ComponentFactory
 ) -> None:
     """Test function."""
 
@@ -157,7 +157,7 @@ async def test_async_setup_entry_error(
     ],
 )
 async def test_exclude_and_light_ids(
-    hass: __HAC_KEEP__, vera_component_factory: ComponentFactory, options
+    hass: UniversalAssistant, vera_component_factory: ComponentFactory, options
 ) -> None:
     """Test device exclusion, marking switches as lights and fixing the data type."""
     vera_device1: pv.VeraBinarySensor = MagicMock(spec=pv.VeraBinarySensor)

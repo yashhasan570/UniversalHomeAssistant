@@ -10,8 +10,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.fumis.const import DOMAIN
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 pytestmark = pytest.mark.parametrize(
@@ -21,7 +21,7 @@ pytestmark = pytest.mark.parametrize(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_buttons(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -32,7 +32,7 @@ async def test_buttons(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_sync_clock(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fumis: MagicMock,
 ) -> None:
     """Test pressing the sync clock button."""
@@ -48,13 +48,13 @@ async def test_sync_clock(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_sync_clock_error_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fumis: MagicMock,
 ) -> None:
     """Test error handling for button press."""
     mock_fumis.set_clock.side_effect = FumisConnectionError
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

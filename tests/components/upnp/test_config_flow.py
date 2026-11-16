@@ -19,7 +19,7 @@ from universalassistant.components.upnp.const import (
     DOMAIN,
     ST_IGD_V1,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_DEVICE_TYPE,
@@ -44,7 +44,7 @@ from .conftest import (
     "mock_setup_entry",
     "mock_mac_address_from_host",
 )
-async def test_flow_ssdp(hass: __HAC_KEEP__) -> None:
+async def test_flow_ssdp(hass: UniversalAssistant) -> None:
     """Test config flow: discovered + configured through ssdp."""
     # Discovered via step ssdp.
     result = await hass.config_entries.flow.async_init(
@@ -78,7 +78,7 @@ async def test_flow_ssdp(hass: __HAC_KEEP__) -> None:
     "mock_setup_entry",
     "mock_mac_address_from_host",
 )
-async def test_flow_ssdp_ignore(hass: __HAC_KEEP__) -> None:
+async def test_flow_ssdp_ignore(hass: UniversalAssistant) -> None:
     """Test config flow: discovered + ignore through ssdp."""
     # Discovered via step ssdp.
     result = await hass.config_entries.flow.async_init(
@@ -108,7 +108,7 @@ async def test_flow_ssdp_ignore(hass: __HAC_KEEP__) -> None:
     assert result["result"].unique_id == TEST_USN
 
 
-async def test_flow_ssdp_incomplete_discovery(hass: __HAC_KEEP__) -> None:
+async def test_flow_ssdp_incomplete_discovery(hass: UniversalAssistant) -> None:
     """Test config flow: incomplete discovery through ssdp."""
     # Discovered via step ssdp.
     result = await hass.config_entries.flow.async_init(
@@ -129,7 +129,7 @@ async def test_flow_ssdp_incomplete_discovery(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "incomplete_discovery"
 
 
-async def test_flow_ssdp_non_igd_device(hass: __HAC_KEEP__) -> None:
+async def test_flow_ssdp_non_igd_device(hass: UniversalAssistant) -> None:
     """Test config flow: incomplete discovery through ssdp."""
     # Discovered via step ssdp.
     result = await hass.config_entries.flow.async_init(
@@ -155,7 +155,7 @@ async def test_flow_ssdp_non_igd_device(hass: __HAC_KEEP__) -> None:
     "mock_setup_entry",
     "mock_no_mac_address_from_host",
 )
-async def test_flow_ssdp_no_mac_address(hass: __HAC_KEEP__) -> None:
+async def test_flow_ssdp_no_mac_address(hass: UniversalAssistant) -> None:
     """Test config flow: discovered + configured through ssdp."""
     # Discovered via step ssdp.
     result = await hass.config_entries.flow.async_init(
@@ -185,7 +185,7 @@ async def test_flow_ssdp_no_mac_address(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_mac_address_from_host")
-async def test_flow_ssdp_discovery_changed_udn_match_mac(hass: __HAC_KEEP__) -> None:
+async def test_flow_ssdp_discovery_changed_udn_match_mac(hass: UniversalAssistant) -> None:
     """Test config flow: ssdp discovery, same device, new UDN, matched on MAC."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -217,7 +217,7 @@ async def test_flow_ssdp_discovery_changed_udn_match_mac(hass: __HAC_KEEP__) -> 
 
 
 @pytest.mark.usefixtures("mock_mac_address_from_host")
-async def test_flow_ssdp_discovery_changed_udn_match_host(hass: __HAC_KEEP__) -> None:
+async def test_flow_ssdp_discovery_changed_udn_match_host(hass: UniversalAssistant) -> None:
     """Test config flow: ssdp discovery, same device, new UDN, matched on host."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -253,7 +253,7 @@ async def test_flow_ssdp_discovery_changed_udn_match_host(hass: __HAC_KEEP__) ->
     "mock_setup_entry",
 )
 async def test_flow_ssdp_discovery_changed_udn_but_st_differs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test config flow: ssdp discovery, same device, new UDN, different ST."""
     entry = MockConfigEntry(
@@ -308,7 +308,7 @@ async def test_flow_ssdp_discovery_changed_udn_but_st_differs(
 
 
 @pytest.mark.usefixtures("mock_mac_address_from_host")
-async def test_flow_ssdp_discovery_changed_location(hass: __HAC_KEEP__) -> None:
+async def test_flow_ssdp_discovery_changed_location(hass: UniversalAssistant) -> None:
     """Test config flow: discovery through ssdp, same device, but new location."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -343,7 +343,7 @@ async def test_flow_ssdp_discovery_changed_location(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_mac_address_from_host")
-async def test_flow_ssdp_discovery_ignored_entry(hass: __HAC_KEEP__) -> None:
+async def test_flow_ssdp_discovery_ignored_entry(hass: UniversalAssistant) -> None:
     """Test config flow: ssdp, same device, new UDN, matched on MAC."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -370,7 +370,7 @@ async def test_flow_ssdp_discovery_ignored_entry(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_mac_address_from_host")
 async def test_flow_ssdp_discovery_changed_udn_ignored_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test config flow: ssdp, same device, new UDN, matched on MAC, ignored."""
     entry = MockConfigEntry(
@@ -406,7 +406,7 @@ async def test_flow_ssdp_discovery_changed_udn_ignored_entry(
     "mock_setup_entry",
     "mock_mac_address_from_host",
 )
-async def test_flow_user(hass: __HAC_KEEP__) -> None:
+async def test_flow_user(hass: UniversalAssistant) -> None:
     """Test config flow: discovered + configured through user."""
     # Discovered via step user.
     result = await hass.config_entries.flow.async_init(
@@ -438,7 +438,7 @@ async def test_flow_user(hass: __HAC_KEEP__) -> None:
     "mock_setup_entry",
     "mock_mac_address_from_host",
 )
-async def test_flow_user_no_discovery(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_no_discovery(hass: UniversalAssistant) -> None:
     """Test config flow: user, but no discovery."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -452,7 +452,7 @@ async def test_flow_user_no_discovery(hass: __HAC_KEEP__) -> None:
     "mock_setup_entry",
     "mock_mac_address_from_host",
 )
-async def test_flow_ssdp_with_mismatched_udn(hass: __HAC_KEEP__) -> None:
+async def test_flow_ssdp_with_mismatched_udn(hass: UniversalAssistant) -> None:
     """Test config flow: UDN differs in SSDP-discovery vs device description."""
     # Discovered via step ssdp.
     test_discovery = copy.deepcopy(TEST_DISCOVERY)
@@ -485,7 +485,7 @@ async def test_flow_ssdp_with_mismatched_udn(hass: __HAC_KEEP__) -> None:
 
 
 async def test_options_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that the options flow works."""
     result = await hass.config_entries.options.async_init(mock_config_entry.entry_id)

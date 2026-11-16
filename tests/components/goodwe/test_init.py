@@ -8,14 +8,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.goodwe import CONF_MODEL_FAMILY, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .conftest import TEST_HOST, TEST_PORT
 
 
 async def test_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_inverter: MagicMock,
 ) -> None:
     """Test config entry migration."""
@@ -38,7 +38,7 @@ async def test_migration(
     assert config_entry.data[CONF_PORT] == TEST_PORT
 
 
-async def test_setup_connect_not_ready(hass: __HAC_KEEP__) -> None:
+async def test_setup_connect_not_ready(hass: UniversalAssistant) -> None:
     """Test that setup raises ConfigEntryNotReady when inverter is unreachable."""
     config_entry = MockConfigEntry(
         version=2,

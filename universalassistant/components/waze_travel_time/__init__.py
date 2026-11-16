@@ -6,7 +6,7 @@ import logging
 from pywaze.route_calculator import WazeRouteCalculator
 
 from universalassistant.const import CONF_REGION, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.httpx_client import get_async_client
 from universalassistant.helpers.typing import ConfigType
@@ -33,14 +33,14 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up Waze."""
     async_setup_services(hass)
     return True
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: WazeTravelTimeConfigEntry
+    hass: UniversalAssistant, config_entry: WazeTravelTimeConfigEntry
 ) -> None:
     """Load the saved entities."""
     if SEMAPHORE_KEY not in hass.data:
@@ -61,14 +61,14 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: WazeTravelTimeConfigEntry
+    hass: UniversalAssistant, config_entry: WazeTravelTimeConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, config_entry: WazeTravelTimeConfigEntry
+    hass: UniversalAssistant, config_entry: WazeTravelTimeConfigEntry
 ) -> None:
     """Migrate an old config entry."""
 

@@ -27,7 +27,7 @@ from universalassistant.const import (
     CONF_TYPE,
     EVENT_HOMEASSISTANT_STARTED,
 )
-from universalassistant.core import CoreState, __HAC_KEEP__, callback
+from universalassistant.core import CoreState, UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -78,7 +78,7 @@ MAP_KODI_MEDIA_TYPES: dict[MediaType | str, str] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: KodiConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -267,8 +267,8 @@ class KodiEntity(MediaPlayerEntity):
                 )
             )
 
-        # If __HA_KEEP__ is already in a running state, start the watchdog
-        # immediately, else trigger it after __HA_KEEP__ has finished starting.
+        # If Universal Home Assistant is already in a running state, start the watchdog
+        # immediately, else trigger it after Universal Home Assistant has finished starting.
         if self.hass.state is CoreState.running:
             await start_watchdog()
         else:

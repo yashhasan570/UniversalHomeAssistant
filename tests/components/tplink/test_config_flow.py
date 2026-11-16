@@ -34,7 +34,7 @@ from universalassistant.const import (
     CONF_PORT,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -86,7 +86,7 @@ from .const import (
     ],
 )
 async def test_discovery(
-    hass: __HAC_KEEP__, device_config, expected_entry_data, credentials_hash
+    hass: UniversalAssistant, device_config, expected_entry_data, credentials_hash
 ) -> None:
     """Test setting up discovery."""
     ip_address = device_config.host
@@ -167,7 +167,7 @@ async def test_discovery(
 
 @pytest.mark.usefixtures("mock_init")
 async def test_discovery_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
 ) -> None:
@@ -230,7 +230,7 @@ async def test_discovery_camera(
 
 @pytest.mark.usefixtures("mock_init")
 async def test_discovery_pick_device_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
 ) -> None:
@@ -298,7 +298,7 @@ async def test_discovery_pick_device_camera(
 
 @pytest.mark.usefixtures("mock_init")
 async def test_discovery_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
 ) -> None:
@@ -344,7 +344,7 @@ async def test_discovery_auth(
 
 @pytest.mark.usefixtures("mock_init")
 async def test_discovery_auth_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
 ) -> None:
@@ -418,7 +418,7 @@ async def test_discovery_auth_camera(
 )
 @pytest.mark.usefixtures("mock_init")
 async def test_discovery_auth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connect: AsyncMock,
     error_type: Exception,
     errors_msg: str,
@@ -476,7 +476,7 @@ async def test_discovery_auth_errors(
 
 @pytest.mark.usefixtures("mock_init")
 async def test_discovery_new_credentials(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connect: AsyncMock,
 ) -> None:
     """Test setting up discovery with new credentials."""
@@ -525,7 +525,7 @@ async def test_discovery_new_credentials(
 
 @pytest.mark.usefixtures("mock_init")
 async def test_discovery_new_credentials_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connect: AsyncMock,
 ) -> None:
     """Test setting up discovery with new invalid credentials."""
@@ -585,7 +585,7 @@ async def test_discovery_new_credentials_invalid(
     assert result3["context"]["unique_id"] == MAC_ADDRESS
 
 
-async def test_discovery_with_existing_device_present(hass: __HAC_KEEP__) -> None:
+async def test_discovery_with_existing_device_present(hass: UniversalAssistant) -> None:
     """Test setting up discovery."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: IP_ADDRESS2}, unique_id="dd:dd:dd:dd:dd:dd"
@@ -665,7 +665,7 @@ async def test_discovery_with_existing_device_present(hass: __HAC_KEEP__) -> Non
     assert result2["reason"] == "no_devices_found"
 
 
-async def test_discovery_no_device(hass: __HAC_KEEP__) -> None:
+async def test_discovery_no_device(hass: UniversalAssistant) -> None:
     """Test discovery without device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -679,7 +679,7 @@ async def test_discovery_no_device(hass: __HAC_KEEP__) -> None:
     assert result2["reason"] == "no_devices_found"
 
 
-async def test_manual(hass: __HAC_KEEP__) -> None:
+async def test_manual(hass: UniversalAssistant) -> None:
     """Test manually setup."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -739,7 +739,7 @@ async def test_manual(hass: __HAC_KEEP__) -> None:
 
 
 async def test_manual_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
 ) -> None:
@@ -853,7 +853,7 @@ async def test_manual_camera(
     ],
 )
 async def test_manual_camera_no_hls(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
     exception: Exception,
@@ -926,7 +926,7 @@ async def test_manual_camera_no_hls(
 
 
 async def test_manual_camera_no_live_view(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
 ) -> None:
@@ -961,7 +961,7 @@ async def test_manual_camera_no_live_view(
     assert result["result"].unique_id == MAC_ADDRESS3
 
 
-async def test_manual_no_capabilities(hass: __HAC_KEEP__) -> None:
+async def test_manual_no_capabilities(hass: UniversalAssistant) -> None:
     """Test manually setup without successful get_capabilities."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -989,7 +989,7 @@ async def test_manual_no_capabilities(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_init")
 async def test_manual_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
 ) -> None:
@@ -1029,7 +1029,7 @@ async def test_manual_auth(
 
 
 async def test_manual_auth_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
 ) -> None:
@@ -1096,7 +1096,7 @@ async def test_manual_auth_camera(
 )
 @pytest.mark.usefixtures("mock_init")
 async def test_manual_auth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
     error_type: Exception,
@@ -1158,7 +1158,7 @@ async def test_manual_auth_errors(
     ],
 )
 async def test_manual_port_override(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connect: AsyncMock,
     mock_discovery: AsyncMock,
     host_str: str,
@@ -1233,7 +1233,7 @@ async def test_manual_port_override(
 
 
 async def test_manual_port_override_invalid(
-    hass: __HAC_KEEP__, mock_connect: AsyncMock, mock_discovery: AsyncMock
+    hass: UniversalAssistant, mock_connect: AsyncMock, mock_discovery: AsyncMock
 ) -> None:
     """Test manually setup."""
     result = await hass.config_entries.flow.async_init(
@@ -1258,7 +1258,7 @@ async def test_manual_port_override_invalid(
     assert result2["context"]["unique_id"] == MAC_ADDRESS
 
 
-async def test_discovered_by_discovery_and_dhcp(hass: __HAC_KEEP__) -> None:
+async def test_discovered_by_discovery_and_dhcp(hass: UniversalAssistant) -> None:
     """Test we get the form with discovery and abort for dhcp source."""
 
     with _patch_discovery(), _patch_single_discovery(), _patch_connect():
@@ -1352,7 +1352,7 @@ async def test_discovered_by_discovery_and_dhcp(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_discovered_by_dhcp_or_discovery(
-    hass: __HAC_KEEP__, source: str, data: dict
+    hass: UniversalAssistant, source: str, data: dict
 ) -> None:
     """Test we can setup when discovered from dhcp or discovery."""
 
@@ -1406,7 +1406,7 @@ async def test_discovered_by_dhcp_or_discovery(
     ],
 )
 async def test_discovered_by_dhcp_or_discovery_failed_to_get_device(
-    hass: __HAC_KEEP__, source: str, data: dict
+    hass: UniversalAssistant, source: str, data: dict
 ) -> None:
     """Test we abort if we cannot get the unique id when discovered from dhcp."""
 
@@ -1424,7 +1424,7 @@ async def test_discovered_by_dhcp_or_discovery_failed_to_get_device(
 
 
 async def test_integration_discovery_with_ip_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
@@ -1496,7 +1496,7 @@ async def test_integration_discovery_with_ip_change(
 
 
 async def test_integration_discovery_with_connection_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
@@ -1583,7 +1583,7 @@ async def test_integration_discovery_with_connection_change(
 
 
 async def test_dhcp_discovery_with_ip_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
@@ -1615,7 +1615,7 @@ async def test_dhcp_discovery_with_ip_change(
 
 
 async def test_dhcp_discovery_discover_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
@@ -1639,7 +1639,7 @@ async def test_dhcp_discovery_discover_fail(
 
 
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_added_config_entry: MockConfigEntry,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
@@ -1673,7 +1673,7 @@ async def test_reauth(
 
 
 async def test_reauth_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_camera_config_entry: MockConfigEntry,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
@@ -1716,7 +1716,7 @@ async def test_reauth_camera(
 
 
 async def test_reauth_try_connect_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_added_config_entry: MockConfigEntry,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
@@ -1751,7 +1751,7 @@ async def test_reauth_try_connect_all(
 
 
 async def test_reauth_try_connect_all_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_added_config_entry: MockConfigEntry,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
@@ -1802,7 +1802,7 @@ async def test_reauth_try_connect_all_fail(
 
 
 async def test_reauth_update_with_encryption_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
     caplog: pytest.LogCaptureFixture,
@@ -1884,7 +1884,7 @@ async def test_reauth_update_with_encryption_change(
 
 
 async def test_reauth_update_from_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
@@ -1933,7 +1933,7 @@ async def test_reauth_update_from_discovery(
 
 
 async def test_reauth_update_from_discovery_with_ip_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
@@ -1982,7 +1982,7 @@ async def test_reauth_update_from_discovery_with_ip_change(
 
 
 async def test_reauth_no_update_if_config_and_ip_the_same(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
@@ -2043,7 +2043,7 @@ async def test_reauth_no_update_if_config_and_ip_the_same(
     ids=["invalid-auth", "unknown-error"],
 )
 async def test_reauth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_added_config_entry: MockConfigEntry,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
@@ -2108,7 +2108,7 @@ async def test_reauth_errors(
     ids=["invalid-auth", "unknown-error"],
 )
 async def test_pick_device_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
     error_type: type[Exception],
@@ -2151,7 +2151,7 @@ async def test_pick_device_errors(
 
 @pytest.mark.usefixtures("mock_init")
 async def test_discovery_timeout_try_connect_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
 ) -> None:
@@ -2177,7 +2177,7 @@ async def test_discovery_timeout_try_connect_all(
 
 @pytest.mark.usefixtures("mock_init")
 async def test_discovery_timeout_try_connect_all_needs_creds(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
 ) -> None:
@@ -2215,7 +2215,7 @@ async def test_discovery_timeout_try_connect_all_needs_creds(
 
 @pytest.mark.usefixtures("mock_init")
 async def test_discovery_timeout_try_connect_all_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
 ) -> None:
@@ -2262,7 +2262,7 @@ async def test_discovery_timeout_try_connect_all_fail(
 
 
 async def test_reauth_update_other_flows(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
 ) -> None:
@@ -2329,7 +2329,7 @@ async def test_reauth_update_other_flows(
     ],
 )
 async def test_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_added_config_entry: MockConfigEntry,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
@@ -2363,7 +2363,7 @@ async def test_reconfigure(
 
 
 async def test_reconfigure_auth_discovered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_added_config_entry: MockConfigEntry,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
@@ -2420,7 +2420,7 @@ async def test_reconfigure_auth_discovered(
 
 
 async def test_reconfigure_auth_try_connect_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_added_config_entry: MockConfigEntry,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
@@ -2458,7 +2458,7 @@ async def test_reconfigure_auth_try_connect_all(
 
 
 async def test_reconfigure_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_camera_config_entry: MockConfigEntry,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,

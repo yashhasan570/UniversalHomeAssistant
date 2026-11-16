@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.blebox.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from tests.components.light.conftest import mock_light_profiles  # noqa: F401
@@ -126,7 +126,7 @@ def feature_fixture(request: pytest.FixtureRequest) -> Any:
 
 
 async def async_setup_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     *,
     assert_success: bool = False,
@@ -140,7 +140,7 @@ async def async_setup_config_entry(
 
 
 async def async_setup_entities(
-    hass: __HAC_KEEP__, entity_ids: list[str]
+    hass: UniversalAssistant, entity_ids: list[str]
 ) -> list[er.RegistryEntry]:
     """Return configured entries with the given entity ids."""
 
@@ -154,7 +154,7 @@ async def async_setup_entities(
     return [entity_registry.async_get(entity_id) for entity_id in entity_ids]
 
 
-async def async_setup_entity(hass: __HAC_KEEP__, entity_id: str) -> er.RegistryEntry:
+async def async_setup_entity(hass: UniversalAssistant, entity_id: str) -> er.RegistryEntry:
     """Return a configured entry with the given entity_id."""
 
     return (await async_setup_entities(hass, [entity_id]))[0]

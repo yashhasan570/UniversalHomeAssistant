@@ -8,7 +8,7 @@ from aiohttp import web
 import probatio
 
 from universalassistant import core as ha
-from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
+from universalassistant.components.http import KEY_HASS, UniversalAssistantView
 from universalassistant.const import (
     ATTR_ENTITY_ID,
     ATTR_LOCATION,
@@ -23,7 +23,7 @@ from universalassistant.const import (
     CONF_URL,
     EntityStateAttribute,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.util import dt as dt_util
@@ -243,7 +243,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Register the SpaceAPI with the HTTP interface."""
     hass.data[DATA_SPACEAPI] = config[DOMAIN]
     hass.http.register_view(APISpaceApiView)
@@ -251,7 +251,7 @@ def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-class APISpaceApiView(__HAC_KEEP__View):
+class APISpaceApiView(UniversalAssistantView):
     """View to provide details according to the SpaceAPI."""
 
     url = URL_API_SPACEAPI
@@ -264,7 +264,7 @@ class APISpaceApiView(__HAC_KEEP__View):
 
     @staticmethod
     def get_sensor_data(
-        hass: __HAC_KEEP__, spaceapi: dict[str, Any], entity_id: str
+        hass: UniversalAssistant, spaceapi: dict[str, Any], entity_id: str
     ) -> dict[str, str | float | dict[str, str]] | None:
         """Get data from a sensor."""
         if not (sensor_state := hass.states.get(entity_id)):

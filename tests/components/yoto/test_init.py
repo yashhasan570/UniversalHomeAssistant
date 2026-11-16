@@ -14,7 +14,7 @@ from universalassistant.components.yoto.const import (
     STATUS_PUSH_INTERVAL,
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     OAuth2TokenRequestConnectionError,
     OAuth2TokenRequestError,
@@ -32,7 +32,7 @@ pytestmark = pytest.mark.usefixtures("setup_credentials")
 
 
 async def test_setup_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -47,7 +47,7 @@ async def test_setup_unload(
 
 
 async def test_setup_retries_on_api_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -59,7 +59,7 @@ async def test_setup_retries_on_api_failure(
 
 
 async def test_mqtt_event_updates_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -82,7 +82,7 @@ async def test_mqtt_event_updates_entity(
 
 
 async def test_client_gets_token_from_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -100,7 +100,7 @@ async def test_client_gets_token_from_config_entry(
 
 
 async def test_status_push_tick(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -118,7 +118,7 @@ async def test_status_push_tick(
 
 
 async def test_status_push_tick_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -139,7 +139,7 @@ async def test_status_push_tick_error(
 
 
 async def test_status_push_skipped_when_mqtt_disconnected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -157,7 +157,7 @@ async def test_status_push_skipped_when_mqtt_disconnected(
 
 
 async def test_periodic_poll_refreshes_players(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -174,7 +174,7 @@ async def test_periodic_poll_refreshes_players(
 
 
 async def test_setup_retries_when_implementation_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Missing OAuth2 implementation defers setup as not-ready."""
@@ -195,7 +195,7 @@ async def test_setup_retries_when_implementation_missing(
     ],
 )
 async def test_setup_retries_on_token_validation_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
 ) -> None:
@@ -210,7 +210,7 @@ async def test_setup_retries_on_token_validation_error(
 
 
 async def test_setup_reauth_on_invalid_refresh_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """An unrecoverable token refresh at setup starts a reauth flow."""
@@ -228,7 +228,7 @@ async def test_setup_reauth_on_invalid_refresh_token(
 
 
 async def test_setup_reauth_on_authentication_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -245,7 +245,7 @@ async def test_setup_reauth_on_authentication_error(
 
 
 async def test_poll_reauth_on_authentication_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -265,7 +265,7 @@ async def test_poll_reauth_on_authentication_error(
 
 
 async def test_setup_retries_when_mqtt_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -278,7 +278,7 @@ async def test_setup_retries_when_mqtt_unavailable(
 
 
 async def test_setup_succeeds_without_card_library(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -291,7 +291,7 @@ async def test_setup_succeeds_without_card_library(
 
 
 async def test_periodic_poll_fails_on_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -323,7 +323,7 @@ def _build_second_player() -> YotoPlayer:
 
 
 async def test_dynamic_device_added(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -349,7 +349,7 @@ async def test_dynamic_device_added(
 
 
 async def test_subscription_failure_does_not_fail_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -376,7 +376,7 @@ async def test_subscription_failure_does_not_fail_refresh(
 
 
 async def test_stale_device_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,

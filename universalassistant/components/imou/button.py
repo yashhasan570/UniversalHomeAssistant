@@ -11,7 +11,7 @@ from universalassistant.components.button import (
     ButtonEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import PTZ_MOVE_DURATION_MS, imou_device_identifier
@@ -77,7 +77,7 @@ def _iter_buttons(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ImouConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

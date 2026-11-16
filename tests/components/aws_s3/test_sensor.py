@@ -16,14 +16,14 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.aws_s3.coordinator import SCAN_INTERVAL
 from universalassistant.components.backup import AgentBackup
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
 
 
 async def test_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -47,7 +47,7 @@ async def test_sensor(
 
 
 async def test_sensor_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -86,7 +86,7 @@ async def test_sensor_availability(
     ],
 )
 async def test_calculate_backups_size(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

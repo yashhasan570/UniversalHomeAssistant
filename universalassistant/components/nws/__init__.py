@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     Platform,
 )
-from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__, callback
+from universalassistant.core import Event, EventStateChangedData, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -84,13 +84,13 @@ class NWSData:
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the National Weather Service (NWS) integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: NWSConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: NWSConfigEntry) -> None:
     """Set up a National Weather Service entry."""
     api_key = entry.data[CONF_API_KEY]
     location_entity_id: str | None = None
@@ -286,7 +286,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: NWSConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: NWSConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: NWSConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
@@ -307,7 +307,7 @@ def device_info(entry: NWSConfigEntry, nws_data: NWSData) -> DeviceInfo:
     )
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: NWSConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: NWSConfigEntry) -> None:
     """Migrate config entry."""
 
     if entry.version < 2:

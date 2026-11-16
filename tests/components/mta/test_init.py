@@ -14,12 +14,12 @@ from universalassistant.components.mta.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import ConfigEntryState, ConfigSubentry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_setup_entry_no_subentries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setting up an entry without subentries."""
@@ -33,7 +33,7 @@ async def test_setup_entry_no_subentries(
 
 
 async def test_setup_entry_with_subway_subentry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_with_subway_subentry: MockConfigEntry,
     mock_subway_feed: MagicMock,
 ) -> None:
@@ -53,7 +53,7 @@ async def test_setup_entry_with_subway_subentry(
 
 
 async def test_setup_entry_with_bus_subentry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_with_bus_subentry: MockConfigEntry,
     mock_bus_feed: MagicMock,
 ) -> None:
@@ -73,7 +73,7 @@ async def test_setup_entry_with_bus_subentry(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_with_subway_subentry: MockConfigEntry,
     mock_subway_feed: MagicMock,
 ) -> None:
@@ -96,7 +96,7 @@ async def test_unload_entry(
 
 
 async def test_setup_entry_with_unknown_subentry_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that unknown subentry types are skipped."""
@@ -126,7 +126,7 @@ async def test_setup_entry_with_unknown_subentry_type(
 
 
 async def test_setup_entry_coordinator_fetch_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_with_subway_subentry: MockConfigEntry,
     mock_subway_feed: MagicMock,
 ) -> None:
@@ -145,7 +145,7 @@ async def test_setup_entry_coordinator_fetch_error(
 
 @pytest.mark.freeze_time("2023-10-21")
 async def test_sensor_no_arrivals(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_with_subway_subentry: MockConfigEntry,
     mock_subway_feed: MagicMock,
     entity_registry: er.EntityRegistry,

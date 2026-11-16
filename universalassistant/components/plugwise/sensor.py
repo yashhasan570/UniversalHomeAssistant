@@ -1,4 +1,4 @@
-"""Plugwise Sensor component for __HA_KEEP__."""
+"""Plugwise Sensor component for Universal Home Assistant."""
 
 from dataclasses import dataclass
 from typing import override
@@ -20,10 +20,11 @@ from universalassistant.const import (
     UnitOfPower,
     UnitOfPressure,
     UnitOfTemperature,
+    UnitOfTime,
     UnitOfVolume,
     UnitOfVolumeFlowRate,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import PlugwiseConfigEntry, PlugwiseDataUpdateCoordinator
@@ -395,11 +396,123 @@ SENSORS: tuple[PlugwiseSensorEntityDescription, ...] = (
         entity_category=EntityCategory.DIAGNOSTIC,
         state_class=SensorStateClass.MEASUREMENT,
     ),
+    PlugwiseSensorEntityDescription(
+        key="dhw_flow",
+        translation_key="dhw_flow",
+        native_unit_of_measurement=UnitOfVolumeFlowRate.LITERS_PER_MINUTE,
+        device_class=SensorDeviceClass.VOLUME_FLOW_RATE,
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_registry_enabled_default=False,
+    ),
+    PlugwiseSensorEntityDescription(
+        key="maximum_modulation_level",
+        translation_key="maximum_modulation_level",
+        native_unit_of_measurement=PERCENTAGE,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_registry_enabled_default=False,
+    ),
+    PlugwiseSensorEntityDescription(
+        key="oem_fault_code",
+        translation_key="oem_fault_code",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
+    ),
+    PlugwiseSensorEntityDescription(
+        key="fault_flags",
+        translation_key="fault_flags",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
+    ),
+    PlugwiseSensorEntityDescription(
+        key="oem_diagnostic_code",
+        translation_key="oem_diagnostic_code",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
+    ),
+    PlugwiseSensorEntityDescription(
+        key="burner_starts",
+        translation_key="burner_starts",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        entity_registry_enabled_default=False,
+    ),
+    PlugwiseSensorEntityDescription(
+        key="failed_burner_starts",
+        translation_key="failed_burner_starts",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        entity_registry_enabled_default=False,
+    ),
+    PlugwiseSensorEntityDescription(
+        key="failed_burner_flame_ignitions",
+        translation_key="failed_burner_flame_ignitions",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        entity_registry_enabled_default=False,
+    ),
+    PlugwiseSensorEntityDescription(
+        key="heating_pump_starts",
+        translation_key="heating_pump_starts",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        entity_registry_enabled_default=False,
+    ),
+    PlugwiseSensorEntityDescription(
+        key="dhw_burner_starts",
+        translation_key="dhw_burner_starts",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        entity_registry_enabled_default=False,
+    ),
+    PlugwiseSensorEntityDescription(
+        key="dhw_pump_starts",
+        translation_key="dhw_pump_starts",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        entity_registry_enabled_default=False,
+    ),
+    PlugwiseSensorEntityDescription(
+        key="burner_operation_time",
+        translation_key="burner_operation_time",
+        native_unit_of_measurement=UnitOfTime.HOURS,
+        device_class=SensorDeviceClass.DURATION,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        entity_registry_enabled_default=False,
+    ),
+    PlugwiseSensorEntityDescription(
+        key="heating_pump_operation_time",
+        translation_key="heating_pump_operation_time",
+        native_unit_of_measurement=UnitOfTime.HOURS,
+        device_class=SensorDeviceClass.DURATION,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        entity_registry_enabled_default=False,
+    ),
+    PlugwiseSensorEntityDescription(
+        key="dhw_burner_operation_time",
+        translation_key="dhw_burner_operation_time",
+        native_unit_of_measurement=UnitOfTime.HOURS,
+        device_class=SensorDeviceClass.DURATION,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        entity_registry_enabled_default=False,
+    ),
+    PlugwiseSensorEntityDescription(
+        key="dhw_pump_operation_time",
+        translation_key="dhw_pump_operation_time",
+        native_unit_of_measurement=UnitOfTime.HOURS,
+        device_class=SensorDeviceClass.DURATION,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        entity_registry_enabled_default=False,
+    ),
 )
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: PlugwiseConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

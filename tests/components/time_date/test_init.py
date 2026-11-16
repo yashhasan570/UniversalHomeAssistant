@@ -1,11 +1,11 @@
 """The tests for the Time & Date component."""
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import load_int
 
 
-async def test_setup_and_remove_config_entry(hass: __HAC_KEEP__) -> None:
+async def test_setup_and_remove_config_entry(hass: UniversalAssistant) -> None:
     """Test setting up and removing a config entry."""
     entry = await load_int(hass)
 

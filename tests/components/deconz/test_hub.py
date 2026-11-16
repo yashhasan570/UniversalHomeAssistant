@@ -11,7 +11,7 @@ from universalassistant.components.deconz.config_flow import DECONZ_MANUFACTURER
 from universalassistant.components.deconz.const import DOMAIN
 from universalassistant.config_entries import SOURCE_SSDP
 from universalassistant.const import STATE_OFF, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_MANUFACTURER_URL,
@@ -49,7 +49,7 @@ async def test_device_registry_entry(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_connection_status_signalling(
-    hass: __HAC_KEEP__, mock_websocket_state
+    hass: UniversalAssistant, mock_websocket_state
 ) -> None:
     """Make sure that connection status triggers a dispatcher send."""
     assert hass.states.get("binary_sensor.presence").state == STATE_OFF
@@ -66,7 +66,7 @@ async def test_connection_status_signalling(
 
 
 async def test_update_address(
-    hass: __HAC_KEEP__, config_entry_setup: MockConfigEntry
+    hass: UniversalAssistant, config_entry_setup: MockConfigEntry
 ) -> None:
     """Make sure that connection status triggers a dispatcher send."""
     assert config_entry_setup.data["host"] == "1.2.3.4"

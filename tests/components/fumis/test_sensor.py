@@ -5,7 +5,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .const import UNIQUE_ID
@@ -18,7 +18,7 @@ pytestmark = pytest.mark.parametrize(
 @pytest.mark.freeze_time("2026-04-20 12:00:00+00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -52,7 +52,7 @@ async def test_sensors_disabled_by_default(
 @pytest.mark.parametrize("device_fixture", ["info_minimal"])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_sensors_unknown_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test sensor returns unknown when stove status is unmapped."""
@@ -68,7 +68,7 @@ async def test_sensors_unknown_status(
 @pytest.mark.parametrize("device_fixture", ["info_error_alert"])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_sensors_active_error_and_alert(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:

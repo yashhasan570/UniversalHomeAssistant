@@ -13,7 +13,7 @@ import probatio
 
 from universalassistant.components import websocket_api
 from universalassistant.components.websocket_api import ERR_NOT_SUPPORTED, ActiveConnection
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 
 from .adapter import MatterAdapter
@@ -36,7 +36,7 @@ TOPOLOGY_SCHEMA_VERSION = 13
 
 
 @callback
-def async_register_api(hass: __HAC_KEEP__) -> None:
+def async_register_api(hass: UniversalAssistant) -> None:
     """Register all of our api endpoints."""
     websocket_api.async_register_command(hass, websocket_commission)
     websocket_api.async_register_command(hass, websocket_commission_on_network)
@@ -53,18 +53,18 @@ def async_register_api(hass: __HAC_KEEP__) -> None:
 
 def async_get_node(
     func: Callable[
-        [__HAC_KEEP__, ActiveConnection, dict[str, Any], MatterAdapter, MatterNode],
+        [UniversalAssistant, ActiveConnection, dict[str, Any], MatterAdapter, MatterNode],
         Coroutine[Any, Any, None],
     ],
 ) -> Callable[
-    [__HAC_KEEP__, ActiveConnection, dict[str, Any], MatterAdapter],
+    [UniversalAssistant, ActiveConnection, dict[str, Any], MatterAdapter],
     Coroutine[Any, Any, None],
 ]:
     """Decorate async function to get node."""
 
     @wraps(func)
     async def async_get_node_func(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         connection: ActiveConnection,
         msg: dict[str, Any],
         matter: MatterAdapter,
@@ -82,17 +82,17 @@ def async_get_node(
 
 def async_get_matter_adapter(
     func: Callable[
-        [__HAC_KEEP__, ActiveConnection, dict[str, Any], MatterAdapter],
+        [UniversalAssistant, ActiveConnection, dict[str, Any], MatterAdapter],
         Coroutine[Any, Any, None],
     ],
 ) -> Callable[
-    [__HAC_KEEP__, ActiveConnection, dict[str, Any]], Coroutine[Any, Any, None]
+    [UniversalAssistant, ActiveConnection, dict[str, Any]], Coroutine[Any, Any, None]
 ]:
     """Decorate function to get the MatterAdapter."""
 
     @wraps(func)
     async def _get_matter(
-        hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+        hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
     ) -> None:
         """Provide the Matter client to the function."""
         matter = get_matter(hass)
@@ -104,18 +104,18 @@ def async_get_matter_adapter(
 
 def async_handle_failed_command[**_P](
     func: Callable[
-        Concatenate[__HAC_KEEP__, ActiveConnection, dict[str, Any], _P],
+        Concatenate[UniversalAssistant, ActiveConnection, dict[str, Any], _P],
         Coroutine[Any, Any, None],
     ],
 ) -> Callable[
-    Concatenate[__HAC_KEEP__, ActiveConnection, dict[str, Any], _P],
+    Concatenate[UniversalAssistant, ActiveConnection, dict[str, Any], _P],
     Coroutine[Any, Any, None],
 ]:
     """Decorate function to handle MatterError and send relevant error."""
 
     @wraps(func)
     async def async_handle_failed_command_func(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         connection: ActiveConnection,
         msg: dict[str, Any],
         *args: _P.args,
@@ -146,7 +146,7 @@ def async_handle_failed_command[**_P](
 @async_handle_failed_command
 @async_get_matter_adapter
 async def websocket_commission(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     matter: MatterAdapter,
@@ -170,7 +170,7 @@ async def websocket_commission(
 @async_handle_failed_command
 @async_get_matter_adapter
 async def websocket_commission_on_network(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     matter: MatterAdapter,
@@ -193,7 +193,7 @@ async def websocket_commission_on_network(
 @async_handle_failed_command
 @async_get_matter_adapter
 async def websocket_set_thread_dataset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     matter: MatterAdapter,
@@ -217,7 +217,7 @@ async def websocket_set_thread_dataset(
 @async_handle_failed_command
 @async_get_matter_adapter
 async def websocket_set_wifi_credentials(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     matter: MatterAdapter,
@@ -240,7 +240,7 @@ async def websocket_set_wifi_credentials(
 @async_get_matter_adapter
 @async_get_node
 async def websocket_node_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     matter: MatterAdapter,
@@ -262,7 +262,7 @@ async def websocket_node_diagnostics(
 @async_get_matter_adapter
 @async_get_node
 async def websocket_ping_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     matter: MatterAdapter,
@@ -285,7 +285,7 @@ async def websocket_ping_node(
 @async_get_matter_adapter
 @async_get_node
 async def websocket_open_commissioning_window(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     matter: MatterAdapter,
@@ -309,7 +309,7 @@ async def websocket_open_commissioning_window(
 @async_get_matter_adapter
 @async_get_node
 async def websocket_remove_matter_fabric(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     matter: MatterAdapter,
@@ -334,7 +334,7 @@ async def websocket_remove_matter_fabric(
 @async_get_matter_adapter
 @async_get_node
 async def websocket_interview_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     matter: MatterAdapter,
@@ -364,7 +364,7 @@ def _topology_supported(
 
 @callback
 def _serialize_topology(
-    hass: __HAC_KEEP__, matter: MatterAdapter, topology: NetworkTopology
+    hass: UniversalAssistant, matter: MatterAdapter, topology: NetworkTopology
 ) -> dict[str, Any]:
     """Serialize a topology snapshot, annotating nodes with HA device ids."""
     server_info = matter.matter_client.server_info
@@ -392,7 +392,7 @@ def _serialize_topology(
 @async_handle_failed_command
 @async_get_matter_adapter
 async def websocket_network_topology(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     matter: MatterAdapter,
@@ -414,7 +414,7 @@ async def websocket_network_topology(
 @async_handle_failed_command
 @async_get_matter_adapter
 async def websocket_subscribe_network_topology(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     matter: MatterAdapter,

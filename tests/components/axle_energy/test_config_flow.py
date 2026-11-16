@@ -9,14 +9,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.axle_energy.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.setup import async_setup_component
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
-async def test_user(hass: __HAC_KEEP__) -> None:
+async def test_user(hass: UniversalAssistant) -> None:
     """Configure the feed through the UI."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -40,7 +40,7 @@ async def test_user(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_user_errors(
-    hass: __HAC_KEEP__, mock_client: AsyncMock, error: Exception, message: str
+    hass: UniversalAssistant, mock_client: AsyncMock, error: Exception, message: str
 ) -> None:
     """Show recoverable setup failures."""
     mock_client.get_event.side_effect = error
@@ -64,7 +64,7 @@ async def test_user_errors(
 
 
 async def test_duplicate(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_client: AsyncMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_client: AsyncMock
 ) -> None:
     """Reject the same key without making another API request."""
     mock_config_entry.add_to_hass(hass)
@@ -82,7 +82,7 @@ async def test_duplicate(
 
 @pytest.mark.parametrize("api_key", ["replacement-token", "test-token"])
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_setup_entry: AsyncMock,
@@ -122,7 +122,7 @@ async def test_reauth(
     ],
 )
 async def test_reauth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_setup_entry: AsyncMock,
@@ -163,7 +163,7 @@ async def test_reauth_errors(
 
 @pytest.mark.parametrize("api_key", ["replacement-token", "test-token"])
 async def test_reauth_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_setup_entry: AsyncMock,
@@ -210,7 +210,7 @@ async def test_reauth_duplicate(
 
 @pytest.mark.parametrize("api_key", ["replacement-token", "test-token"])
 async def test_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_setup_entry: AsyncMock,
@@ -252,7 +252,7 @@ async def test_reconfigure(
     ],
 )
 async def test_reconfigure_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_setup_entry: AsyncMock,
@@ -295,7 +295,7 @@ async def test_reconfigure_errors(
 
 @pytest.mark.parametrize("api_key", ["replacement-token", "test-token"])
 async def test_reconfigure_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_setup_entry: AsyncMock,

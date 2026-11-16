@@ -23,7 +23,7 @@ from pyoverkiz.models import (
 from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.overkiz.const import UPDATE_INTERVAL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import MockOverkizClient
 
@@ -38,7 +38,7 @@ def assert_command_call(
     """Assert the latest command sent through the mocked Overkiz client."""
     assert mock_client.execute_action_group.await_count == 1
     kwargs = mock_client.execute_action_group.await_args.kwargs
-    assert kwargs["label"] == "__HA_KEEP__"
+    assert kwargs["label"] == "Universal Home Assistant"
     actions = kwargs["actions"]
     assert len(actions) == 1
     assert actions[0].device_url == device_url
@@ -60,7 +60,7 @@ def assert_commands_call(
     """
     assert mock_client.execute_action_group.await_count == 1
     kwargs = mock_client.execute_action_group.await_args.kwargs
-    assert kwargs["label"] == "__HA_KEEP__"
+    assert kwargs["label"] == "Universal Home Assistant"
     actions = kwargs["actions"]
     assert len(actions) == 1
     assert actions[0].device_url == device_url
@@ -112,7 +112,7 @@ def execution_registered_event(
     device_url: str,
     command_name: str,
     *,
-    label: str = "__HA_KEEP__",
+    label: str = "Universal Home Assistant",
     source: str | None = None,
 ) -> ExecutionRegisteredEvent:
     """Build an EXECUTION_REGISTERED event for a single device command."""
@@ -148,7 +148,7 @@ def gateway_alive_event(gateway_id: str) -> GatewayAliveEvent:
 
 
 async def async_deliver_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_client: MockOverkizClient,
     *event_batches: list[Event],

@@ -4,7 +4,7 @@ import logging
 
 from tuya_sharing import Manager
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.typing import ConfigType
 
@@ -27,14 +27,14 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 logging.getLogger("tuya_sharing").setLevel(logging.CRITICAL)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Tuya Services."""
     async_setup_services(hass)
 
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: TuyaConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: TuyaConfigEntry) -> None:
     """Async setup hass config entry."""
     listener = DeviceListener(hass, entry)
     await hass.async_add_executor_job(listener.initialize)
@@ -68,7 +68,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: TuyaConfigEntry) -> None:
 
 
 async def cleanup_device_registry(
-    hass: __HAC_KEEP__, device_manager: Manager, entry: TuyaConfigEntry
+    hass: UniversalAssistant, device_manager: Manager, entry: TuyaConfigEntry
 ) -> None:
     """Unlink device registry entry if there are no remaining entities."""
     device_registry = dr.async_get(hass)
@@ -81,7 +81,7 @@ async def cleanup_device_registry(
                 break
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: TuyaConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: TuyaConfigEntry) -> None:
     """Unloading the Tuya platforms."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     listener = entry.runtime_data
@@ -91,7 +91,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: TuyaConfigEntry) -> None
     manager.remove_device_listener(listener)
 
 
-async def async_remove_entry(hass: __HAC_KEEP__, entry: TuyaConfigEntry) -> None:
+async def async_remove_entry(hass: UniversalAssistant, entry: TuyaConfigEntry) -> None:
     """Remove a config entry.
 
     This will revoke the credentials from Tuya.

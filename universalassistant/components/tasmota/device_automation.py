@@ -5,7 +5,7 @@ from hatasmota.models import DiscoveryHashType
 from hatasmota.trigger import TasmotaTrigger
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers.device_registry import (
     EVENT_DEVICE_REGISTRY_UPDATED,
     EventDeviceRegistryUpdatedData,
@@ -17,12 +17,12 @@ from .const import DATA_REMOVE_DISCOVER_COMPONENT, DATA_UNSUB
 from .discovery import TASMOTA_DISCOVERY_ENTITY_NEW
 
 
-async def async_remove_automations(hass: __HAC_KEEP__, device_id: str) -> None:
+async def async_remove_automations(hass: UniversalAssistant, device_id: str) -> None:
     """Remove automations for a Tasmota device."""
     await device_trigger.async_remove_triggers(hass, device_id)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, config_entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, config_entry: ConfigEntry) -> None:
     """Set up Tasmota device automation dynamically through discovery."""
 
     async def async_device_removed(

@@ -13,7 +13,7 @@ from pymelcloud.atw_device import (
 )
 
 from universalassistant.components.select import SelectEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import MelCloudConfigEntry, MelCloudDeviceUpdateCoordinator
@@ -46,7 +46,7 @@ COOLING_MODES = {ZONE_OPERATION_MODE_COOL_THERMOSTAT, ZONE_OPERATION_MODE_COOL_F
 
 
 async def async_setup_entry(
-    _hass: __HAC_KEEP__,
+    _hass: UniversalAssistant,
     entry: MelCloudConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

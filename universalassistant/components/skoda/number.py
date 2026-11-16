@@ -13,7 +13,7 @@ from universalassistant.components.number import (
     NumberEntityDescription,
 )
 from universalassistant.const import PERCENTAGE, EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -74,7 +74,7 @@ NUMBER_TYPES: tuple[SkodaNumberEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SkodaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

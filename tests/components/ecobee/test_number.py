@@ -12,7 +12,7 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import setup_platform
@@ -26,7 +26,7 @@ THERMOSTAT_ID = 0
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -35,7 +35,7 @@ async def test_all_entities(
     await snapshot_platform(hass, entity_registry, snapshot, config_entry.entry_id)
 
 
-async def test_set_min_time_home(hass: __HAC_KEEP__) -> None:
+async def test_set_min_time_home(hass: UniversalAssistant) -> None:
     """Test the number can set min time home."""
     target_value = 40
     with patch(
@@ -56,7 +56,7 @@ async def test_set_min_time_home(hass: __HAC_KEEP__) -> None:
         mock_set_min_home_time.assert_called_once_with(THERMOSTAT_ID, target_value)
 
 
-async def test_set_min_time_away(hass: __HAC_KEEP__) -> None:
+async def test_set_min_time_away(hass: UniversalAssistant) -> None:
     """Test the number can set min time away."""
     target_value = 0
     with patch(
@@ -77,7 +77,7 @@ async def test_set_min_time_away(hass: __HAC_KEEP__) -> None:
         mock_set_min_away_time.assert_called_once_with(THERMOSTAT_ID, target_value)
 
 
-async def test_set_compressor_protection_min_temp(hass: __HAC_KEEP__) -> None:
+async def test_set_compressor_protection_min_temp(hass: UniversalAssistant) -> None:
     """Test the number can set minimum compressor operating temp.
 
     Ecobee runs in Fahrenheit; the test rig runs in Celsius. Conversions are necessary
@@ -101,7 +101,7 @@ async def test_set_compressor_protection_min_temp(hass: __HAC_KEEP__) -> None:
         mock_set_compressor_min_temp.assert_called_once_with(1, 32)
 
 
-async def test_set_fan_min_on_time(hass: __HAC_KEEP__) -> None:
+async def test_set_fan_min_on_time(hass: UniversalAssistant) -> None:
     """Test the number can set fan minimum on time."""
     target_value = 25
     with patch(

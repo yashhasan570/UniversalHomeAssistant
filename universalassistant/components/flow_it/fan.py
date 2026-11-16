@@ -11,8 +11,8 @@ from universalassistant.components.fan import (
     FanEntityDescription,
     FanEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
     ordered_list_item_to_percentage,
@@ -35,7 +35,7 @@ PRESET_MODES = [Speed.AUTO, Speed.BOOST]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: AriaQConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -104,7 +104,7 @@ class AriaQVmcFan(AriaQVmcEntity, FanEntity):
                 translation_key="auth_failed",
             ) from err
         except (FlowItCommandError, FlowItError) as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
             ) from err

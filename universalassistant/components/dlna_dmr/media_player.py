@@ -32,8 +32,8 @@ from universalassistant.components.media_player import (
     async_process_play_media_url,
 )
 from universalassistant.const import CONF_DEVICE_ID, CONF_MAC, CONF_TYPE, CONF_URL
-from universalassistant.core import CoreState, __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CoreState, UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
@@ -87,14 +87,14 @@ def catch_request_errors[_DlnaDmrEntityT: DlnaDmrEntity, **_P, _R](
         except UpnpConnectionError as err:
             # Inform user explicitly of connection issues (like device turned off)
             self.check_available = True
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="request_connection_error",
                 translation_placeholders={"action": func.__name__},
             ) from err
         except UpnpError as err:
             self.check_available = True
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="request_error",
                 translation_placeholders={
@@ -107,7 +107,7 @@ def catch_request_errors[_DlnaDmrEntityT: DlnaDmrEntity, **_P, _R](
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: config_entries.ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -331,7 +331,7 @@ class DlnaDmrEntity(MediaPlayerEntity):
         self.async_write_ha_state()
 
     async def async_config_update_listener(
-        self, hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
+        self, hass: UniversalAssistant, entry: config_entries.ConfigEntry
     ) -> None:
         """Handle options update by modifying self in-place."""
         _LOGGER.debug(
@@ -722,7 +722,7 @@ class DlnaDmrEntity(MediaPlayerEntity):
         metadata: dict[str, Any] = extra.get("metadata") or {}
 
         if not title:
-            title = extra.get("title") or metadata.get("title") or "__HA_KEEP__"
+            title = extra.get("title") or metadata.get("title") or "Universal Home Assistant"
         if thumb := extra.get("thumb"):
             metadata["album_art_uri"] = thumb
 

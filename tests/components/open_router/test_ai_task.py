@@ -20,8 +20,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components import ai_task, media_source
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er, selector
 
 from . import setup_integration
@@ -57,7 +57,7 @@ def _image_completion(
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -74,7 +74,7 @@ async def test_all_entities(
 
 
 async def test_generate_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
 ) -> None:
@@ -118,7 +118,7 @@ async def test_generate_data(
 
 
 async def test_generate_structured_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
 ) -> None:
@@ -194,7 +194,7 @@ async def test_generate_structured_data(
 
 
 async def test_generate_invalid_structured_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
 ) -> None:
@@ -226,7 +226,7 @@ async def test_generate_invalid_structured_data(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="Error with OpenRouter structured response"
+        UniversalAssistantError, match="Error with OpenRouter structured response"
     ):
         await ai_task.async_generate_data(
             hass,
@@ -248,11 +248,11 @@ async def test_generate_invalid_structured_data(
 
 
 async def test_generate_data_empty_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
 ) -> None:
-    """Test AI Task raises __HAC_KEEP__Error when API returns empty choices."""
+    """Test AI Task raises UniversalAssistantError when API returns empty choices."""
     await setup_integration(hass, mock_config_entry)
 
     mock_openai_client.chat.completions.create = AsyncMock(
@@ -271,7 +271,7 @@ async def test_generate_data_empty_response(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="OpenRouter returned an empty response"
+        UniversalAssistantError, match="OpenRouter returned an empty response"
     ):
         await ai_task.async_generate_data(
             hass,
@@ -282,7 +282,7 @@ async def test_generate_data_empty_response(
 
 
 async def test_generate_data_with_attachments(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
 ) -> None:
@@ -388,7 +388,7 @@ async def test_generate_data_with_attachments(
 )
 @pytest.mark.usefixtures("mock_openai_client")
 async def test_generate_image_feature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     supports_image: bool,
 ) -> None:
@@ -402,7 +402,7 @@ async def test_generate_image_feature(
 
 
 async def test_generate_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
 ) -> None:
@@ -444,7 +444,7 @@ async def test_generate_image(
 
 
 async def test_generate_image_no_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
 ) -> None:
@@ -455,7 +455,7 @@ async def test_generate_image_no_image(
         return_value=_image_completion(None, content="I cannot generate that image")
     )
 
-    with pytest.raises(__HAC_KEEP__Error, match="OpenRouter did not return an image"):
+    with pytest.raises(UniversalAssistantError, match="OpenRouter did not return an image"):
         await ai_task.async_generate_image(
             hass,
             task_name="Test Task",
@@ -479,7 +479,7 @@ async def test_generate_image_no_image(
     ],
 )
 async def test_generate_image_invalid_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
     images: list[dict[str, Any]],
@@ -492,7 +492,7 @@ async def test_generate_image_invalid_image(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="OpenRouter returned an invalid image"
+        UniversalAssistantError, match="OpenRouter returned an invalid image"
     ):
         await ai_task.async_generate_image(
             hass,
@@ -503,7 +503,7 @@ async def test_generate_image_invalid_image(
 
 
 async def test_generate_data_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
 ) -> None:
@@ -515,7 +515,7 @@ async def test_generate_data_api_error(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Error communicating with the OpenRouter API: boom",
     ) as exc_info:
         await ai_task.async_generate_data(
@@ -528,7 +528,7 @@ async def test_generate_data_api_error(
 
 
 async def test_generate_data_invalid_tool_arguments(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
 ) -> None:
@@ -570,7 +570,7 @@ async def test_generate_data_invalid_tool_arguments(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="OpenRouter returned invalid tool arguments"
+        UniversalAssistantError, match="OpenRouter returned invalid tool arguments"
     ) as exc_info:
         await ai_task.async_generate_data(
             hass,
@@ -603,7 +603,7 @@ async def test_generate_data_invalid_tool_arguments(
 )
 @pytest.mark.usefixtures("mock_openai_client")
 async def test_generate_data_invalid_attachment(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     exists: bool,
     mime_type: str,
@@ -623,7 +623,7 @@ async def test_generate_data_invalid_attachment(
             ),
         ),
         patch("pathlib.Path.exists", return_value=exists),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await ai_task.async_generate_data(
             hass,
@@ -645,7 +645,7 @@ async def test_generate_data_invalid_attachment(
 )
 @pytest.mark.usefixtures("mock_openai_client")
 async def test_response_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     generate: Callable[..., Awaitable[Any]],
 ) -> None:
@@ -658,7 +658,7 @@ async def test_response_not_found(
             "OpenRouterAITaskEntity._async_handle_chat_log",
         ),
         pytest.raises(
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             match="Last content in chat log is not an AssistantContent",
         ) as exc_info,
     ):

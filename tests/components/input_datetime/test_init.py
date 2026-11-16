@@ -32,7 +32,7 @@ from universalassistant.const import (
     FORMAT_TIME,
     EntityStateAttribute,
 )
-from universalassistant.core import Context, CoreState, __HAC_KEEP__, State
+from universalassistant.core import Context, CoreState, UniversalAssistant, State
 from universalassistant.exceptions import Unauthorized
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
@@ -44,7 +44,7 @@ INITIAL_DATETIME = f"{INITIAL_DATE} {INITIAL_TIME}"
 
 
 @pytest.fixture
-def storage_setup(hass: __HAC_KEEP__, hass_storage: dict[str, Any]):
+def storage_setup(hass: UniversalAssistant, hass_storage: dict[str, Any]):
     """Storage setup."""
 
     async def _storage(items=None, config=None):
@@ -78,7 +78,7 @@ def storage_setup(hass: __HAC_KEEP__, hass_storage: dict[str, Any]):
 
 
 async def async_set_date_and_time(
-    hass: __HAC_KEEP__, entity_id: str, dt_value: dt.datetime
+    hass: UniversalAssistant, entity_id: str, dt_value: dt.datetime
 ) -> None:
     """Set date and / or time of input_datetime."""
     await hass.services.async_call(
@@ -94,7 +94,7 @@ async def async_set_date_and_time(
 
 
 async def async_set_datetime(
-    hass: __HAC_KEEP__, entity_id: str, dt_value: dt.datetime
+    hass: UniversalAssistant, entity_id: str, dt_value: dt.datetime
 ) -> None:
     """Set date and / or time of input_datetime."""
     await hass.services.async_call(
@@ -106,7 +106,7 @@ async def async_set_datetime(
 
 
 async def async_set_timestamp(
-    hass: __HAC_KEEP__, entity_id: str, timestamp: float
+    hass: UniversalAssistant, entity_id: str, timestamp: float
 ) -> None:
     """Set date and / or time of input_datetime."""
     await hass.services.async_call(
@@ -131,7 +131,7 @@ def test_invalid_configs(config) -> None:
         CONFIG_SCHEMA({DOMAIN: config})
 
 
-async def test_set_datetime(hass: __HAC_KEEP__) -> None:
+async def test_set_datetime(hass: UniversalAssistant) -> None:
     """Test set_datetime method using date & time."""
     await async_setup_component(
         hass, DOMAIN, {DOMAIN: {"test_datetime": {"has_time": True, "has_date": True}}}
@@ -159,7 +159,7 @@ async def test_set_datetime(hass: __HAC_KEEP__) -> None:
     assert state.attributes["timestamp"] == dt_obj.timestamp()
 
 
-async def test_set_datetime_2(hass: __HAC_KEEP__) -> None:
+async def test_set_datetime_2(hass: UniversalAssistant) -> None:
     """Test set_datetime method using datetime."""
     await async_setup_component(
         hass, DOMAIN, {DOMAIN: {"test_datetime": {"has_time": True, "has_date": True}}}
@@ -187,7 +187,7 @@ async def test_set_datetime_2(hass: __HAC_KEEP__) -> None:
     assert state.attributes["timestamp"] == dt_obj.timestamp()
 
 
-async def test_set_datetime_3(hass: __HAC_KEEP__) -> None:
+async def test_set_datetime_3(hass: UniversalAssistant) -> None:
     """Test set_datetime method using timestamp."""
     await async_setup_component(
         hass, DOMAIN, {DOMAIN: {"test_datetime": {"has_time": True, "has_date": True}}}
@@ -215,7 +215,7 @@ async def test_set_datetime_3(hass: __HAC_KEEP__) -> None:
     assert state.attributes["timestamp"] == dt_obj.timestamp()
 
 
-async def test_set_datetime_4(hass: __HAC_KEEP__) -> None:
+async def test_set_datetime_4(hass: UniversalAssistant) -> None:
     """Test set_datetime method using timestamp 0."""
     await async_setup_component(
         hass, DOMAIN, {DOMAIN: {"test_datetime": {"has_time": True, "has_date": True}}}
@@ -243,7 +243,7 @@ async def test_set_datetime_4(hass: __HAC_KEEP__) -> None:
     assert state.attributes["timestamp"] == 0
 
 
-async def test_set_datetime_time(hass: __HAC_KEEP__) -> None:
+async def test_set_datetime_time(hass: UniversalAssistant) -> None:
     """Test set_datetime method with only time."""
     await async_setup_component(
         hass, DOMAIN, {DOMAIN: {"test_time": {"has_time": True, "has_date": False}}}
@@ -263,7 +263,7 @@ async def test_set_datetime_time(hass: __HAC_KEEP__) -> None:
     assert state.attributes["timestamp"] == (19 * 3600) + (46 * 60) + 30
 
 
-async def test_set_invalid(hass: __HAC_KEEP__) -> None:
+async def test_set_invalid(hass: UniversalAssistant) -> None:
     """Test set_datetime method with only time."""
     initial = "2017-01-01"
     await async_setup_component(
@@ -293,7 +293,7 @@ async def test_set_invalid(hass: __HAC_KEEP__) -> None:
     assert state.state == initial
 
 
-async def test_set_invalid_2(hass: __HAC_KEEP__) -> None:
+async def test_set_invalid_2(hass: UniversalAssistant) -> None:
     """Test set_datetime method with date and datetime."""
     initial = "2017-01-01"
     await async_setup_component(
@@ -323,7 +323,7 @@ async def test_set_invalid_2(hass: __HAC_KEEP__) -> None:
     assert state.state == initial
 
 
-async def test_set_datetime_date(hass: __HAC_KEEP__) -> None:
+async def test_set_datetime_date(hass: UniversalAssistant) -> None:
     """Test set_datetime method with only date."""
     await async_setup_component(
         hass, DOMAIN, {DOMAIN: {"test_date": {"has_time": False, "has_date": True}}}
@@ -348,7 +348,7 @@ async def test_set_datetime_date(hass: __HAC_KEEP__) -> None:
 
 
 async def test_restore_state(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Ensure states are restored on startup."""
     mock_restore_cache(
@@ -408,7 +408,7 @@ async def test_restore_state(
 
 
 async def test_default_value(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test default value if none has been set via initial or restore state."""
     await async_setup_component(
@@ -438,7 +438,7 @@ async def test_default_value(
 
 
 async def test_input_datetime_context(
-    hass: __HAC_KEEP__, hass_admin_user: MockUser
+    hass: UniversalAssistant, hass_admin_user: MockUser
 ) -> None:
     """Test that input_datetime context works."""
     assert await async_setup_component(
@@ -463,7 +463,7 @@ async def test_input_datetime_context(
 
 
 async def test_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_admin_user: MockUser,
     hass_read_only_user: MockUser,
@@ -541,7 +541,7 @@ async def test_reload(
     assert entity_registry.async_get_entity_id(DOMAIN, DOMAIN, "dt3") is None
 
 
-async def test_load_from_storage(hass: __HAC_KEEP__, storage_setup) -> None:
+async def test_load_from_storage(hass: UniversalAssistant, storage_setup) -> None:
     """Test set up from storage."""
     assert await storage_setup()
     state = hass.states.get(f"{DOMAIN}.datetime_from_storage")
@@ -549,7 +549,7 @@ async def test_load_from_storage(hass: __HAC_KEEP__, storage_setup) -> None:
     assert state.attributes.get(InputDatetimeEntityStateAttribute.EDITABLE)
 
 
-async def test_editable_state_attribute(hass: __HAC_KEEP__, storage_setup) -> None:
+async def test_editable_state_attribute(hass: UniversalAssistant, storage_setup) -> None:
     """Test editable attribute."""
     assert await storage_setup(
         config={
@@ -574,7 +574,7 @@ async def test_editable_state_attribute(hass: __HAC_KEEP__, storage_setup) -> No
 
 
 async def test_ws_list(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, storage_setup
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, storage_setup
 ) -> None:
     """Test listing via WS."""
     assert await storage_setup(config={DOMAIN: {"from_yaml": {CONF_HAS_DATE: True}}})
@@ -596,7 +596,7 @@ async def test_ws_list(
 
 
 async def test_ws_delete(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     storage_setup,
@@ -627,7 +627,7 @@ async def test_ws_delete(
 
 
 async def test_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     storage_setup,
@@ -674,7 +674,7 @@ async def test_update(
 
 
 async def test_ws_create(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     storage_setup,
@@ -710,7 +710,7 @@ async def test_ws_create(
     assert state.attributes[InputDatetimeEntityStateAttribute.EDITABLE]
 
 
-async def test_setup_no_config(hass: __HAC_KEEP__, hass_admin_user: MockUser) -> None:
+async def test_setup_no_config(hass: UniversalAssistant, hass_admin_user: MockUser) -> None:
     """Test component setup with no config."""
     count_start = len(hass.states.async_entity_ids())
     assert await async_setup_component(hass, DOMAIN, {})
@@ -728,7 +728,7 @@ async def test_setup_no_config(hass: __HAC_KEEP__, hass_admin_user: MockUser) ->
     assert count_start == len(hass.states.async_entity_ids())
 
 
-async def test_timestamp(hass: __HAC_KEEP__) -> None:
+async def test_timestamp(hass: UniversalAssistant) -> None:
     """Test timestamp."""
     await hass.config.async_set_time_zone("America/Los_Angeles")
 
@@ -855,7 +855,7 @@ async def test_timestamp(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_invalid_initial(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, config, error
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, config, error
 ) -> None:
     """Test configuration is rejected if the initial value is invalid."""
     assert not await async_setup_component(

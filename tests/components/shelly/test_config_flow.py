@@ -54,7 +54,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import (
     ATTR_PROPERTIES_ID,
@@ -67,7 +67,7 @@ from . import init_integration
 
 
 async def _async_inject_ble_discovery(
-    hass: __HAC_KEEP__, info: BluetoothServiceInfoBleak
+    hass: UniversalAssistant, info: BluetoothServiceInfoBleak
 ) -> None:
     """Inject BLE discovery info and wait for processing."""
     with patch.object(hass.config_entries.flow, "async_init"):
@@ -459,7 +459,7 @@ def create_mock_rpc_device(
     ],
 )
 async def test_form(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     gen: int,
     model: str,
     port: int,
@@ -507,7 +507,7 @@ async def test_form(
 
 
 async def test_form_https_verify_ssl_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     mock_setup_entry: AsyncMock,
     mock_setup: AsyncMock,
@@ -548,7 +548,7 @@ async def test_form_https_verify_ssl_disabled_by_default(
 
 
 async def test_form_https_verify_ssl_enabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     mock_setup_entry: AsyncMock,
     mock_setup: AsyncMock,
@@ -601,7 +601,7 @@ async def test_form_https_verify_ssl_enabled(
     ],
 )
 async def test_form_enhanced_security(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     gen: int,
     model: str,
     mock_rpc_device: Mock,
@@ -643,7 +643,7 @@ async def test_form_enhanced_security(
 
 
 async def test_form_enhanced_security_older_firmware(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     mock_setup_entry: AsyncMock,
     mock_setup: AsyncMock,
@@ -682,7 +682,7 @@ async def test_form_enhanced_security_older_firmware(
 
 
 async def test_form_enhanced_security_with_https_port(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     mock_setup_entry: AsyncMock,
     mock_setup: AsyncMock,
@@ -723,7 +723,7 @@ async def test_form_enhanced_security_with_https_port(
 
 
 async def test_user_flow_overrides_existing_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     mock_setup_entry: AsyncMock,
     mock_setup: AsyncMock,
@@ -782,7 +782,7 @@ async def test_user_flow_overrides_existing_discovery(
 
 
 async def test_form_gen1_custom_port(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     mock_setup_entry: AsyncMock,
     mock_setup: AsyncMock,
@@ -859,7 +859,7 @@ async def test_form_gen1_custom_port(
     ],
 )
 async def test_form_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     gen: int,
     model: str,
     user_input: dict[str, str],
@@ -917,7 +917,7 @@ async def test_form_auth(
     ],
 )
 async def test_form_errors_get_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     mock_setup: AsyncMock,
     mock_setup_entry: AsyncMock,
@@ -962,7 +962,7 @@ async def test_form_errors_get_info(
 
 
 async def test_form_missing_model_key(
-    hass: __HAC_KEEP__, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test we handle missing Shelly model key."""
     result = await hass.config_entries.flow.async_init(
@@ -983,7 +983,7 @@ async def test_form_missing_model_key(
 
 
 async def test_form_missing_model_key_auth_enabled(
-    hass: __HAC_KEEP__, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test we handle missing Shelly model key when auth enabled."""
     result = await hass.config_entries.flow.async_init(
@@ -1013,7 +1013,7 @@ async def test_form_missing_model_key_auth_enabled(
 
 
 async def test_form_missing_model_key_zeroconf(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -1042,7 +1042,7 @@ async def test_form_missing_model_key_zeroconf(
     ],
 )
 async def test_form_errors_test_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     mock_setup_entry: AsyncMock,
     mock_setup: AsyncMock,
@@ -1094,7 +1094,7 @@ async def test_form_errors_test_connection(
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_form_already_configured(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     entry = MockConfigEntry(
@@ -1123,7 +1123,7 @@ async def test_form_already_configured(hass: __HAC_KEEP__) -> None:
 
 
 async def test_user_setup_ignored_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     mock_setup_entry: AsyncMock,
     mock_setup: AsyncMock,
@@ -1162,7 +1162,7 @@ async def test_user_setup_ignored_device(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_no_devices_discovered(
-    hass: __HAC_KEEP__, mock_block_device: Mock, mock_setup: AsyncMock
+    hass: UniversalAssistant, mock_block_device: Mock, mock_setup: AsyncMock
 ) -> None:
     """Test user flow with no discovered devices redirects to manual entry."""
     # mock_discovery fixture already returns empty list by default
@@ -1196,7 +1196,7 @@ async def test_user_flow_no_devices_discovered(
 
 
 async def test_user_flow_with_zeroconf_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
 ) -> None:
     """Test user flow shows discovered Zeroconf devices."""
@@ -1255,7 +1255,7 @@ async def test_user_flow_with_zeroconf_devices(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_select_zeroconf_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_rpc_device: Mock,
     mock_setup: AsyncMock,
@@ -1296,7 +1296,7 @@ async def test_user_flow_select_zeroconf_device(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_select_manual_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_block_device: Mock,
     mock_setup: AsyncMock,
@@ -1345,7 +1345,7 @@ async def test_user_flow_select_manual_entry(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_both_ble_and_zeroconf_prefers_zeroconf(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_rpc_device: Mock,
     mock_setup: AsyncMock,
@@ -1404,7 +1404,7 @@ async def test_user_flow_both_ble_and_zeroconf_prefers_zeroconf(
 
 @pytest.mark.usefixtures("mock_ble_rpc_device_class")
 async def test_user_flow_with_ble_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_ble_rpc_device: AsyncMock,
 ) -> None:
@@ -1508,7 +1508,7 @@ async def test_user_flow_with_ble_devices(
 
 
 async def test_user_flow_filters_already_configured_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
 ) -> None:
     """Test already configured devices are filtered from discovery list."""
@@ -1585,7 +1585,7 @@ async def test_user_flow_filters_already_configured_devices(
 
 
 async def test_user_flow_includes_ignored_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
 ) -> None:
     """Test ignored devices are included in discovery list for reconfiguration."""
@@ -1645,7 +1645,7 @@ async def test_user_flow_includes_ignored_devices(
 
 
 async def test_user_flow_aborts_when_another_flow_finishes_while_in_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
 ) -> None:
     """Test user flow aborts when another flow creates config entry."""
@@ -1697,7 +1697,7 @@ async def test_user_flow_aborts_when_another_flow_finishes_while_in_progress(
 
 
 async def test_user_flow_zeroconf_device_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
 ) -> None:
     """Test connection error when getting info from Zeroconf device."""
@@ -1723,7 +1723,7 @@ async def test_user_flow_zeroconf_device_connection_error(
 
 
 async def test_user_flow_zeroconf_device_validation_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
 ) -> None:
     """Test connection error during validation of Zeroconf device."""
@@ -1761,7 +1761,7 @@ async def test_user_flow_zeroconf_device_validation_connection_error(
 
 
 async def test_user_flow_zeroconf_device_requires_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_block_device: Mock,
 ) -> None:
@@ -1820,7 +1820,7 @@ async def test_user_flow_zeroconf_device_requires_auth(
 
 
 async def test_user_flow_zeroconf_invalid_mac_filtered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
 ) -> None:
     """Test Zeroconf device with invalid MAC is filtered."""
@@ -1870,7 +1870,7 @@ async def test_user_flow_zeroconf_invalid_mac_filtered(
 
 
 async def test_user_flow_zeroconf_no_ipv4_filtered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
 ) -> None:
     """Test Zeroconf device with no IPv4 address is filtered."""
@@ -1920,7 +1920,7 @@ async def test_user_flow_zeroconf_no_ipv4_filtered(
 
 
 async def test_user_flow_ble_device_without_rpc_over_ble_filtered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
 ) -> None:
     """Test BLE device without RPC-over-BLE is filtered."""
@@ -1985,7 +1985,7 @@ async def test_user_flow_ble_device_without_rpc_over_ble_filtered(
 
 
 async def test_user_flow_select_zeroconf_device_mac_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
 ) -> None:
     """Test MAC address mismatch when selecting Zeroconf device."""
@@ -2023,7 +2023,7 @@ async def test_user_flow_select_zeroconf_device_mac_mismatch(
 
 
 async def test_user_flow_select_zeroconf_device_custom_port_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
 ) -> None:
     """Test custom port not supported when selecting Zeroconf device."""
@@ -2068,7 +2068,7 @@ async def test_user_flow_select_zeroconf_device_custom_port_not_supported(
 
 
 async def test_user_flow_select_zeroconf_device_not_fully_provisioned(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
 ) -> None:
     """Test firmware not fully provisioned when selecting Zeroconf device."""
@@ -2107,7 +2107,7 @@ async def test_user_flow_select_zeroconf_device_not_fully_provisioned(
 
 @pytest.mark.usefixtures("mock_ble_rpc_device_class")
 async def test_user_flow_select_ble_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_ble_rpc_device: AsyncMock,
 ) -> None:
@@ -2186,7 +2186,7 @@ async def test_user_flow_select_ble_device(
 
 
 async def test_user_flow_filters_devices_with_active_discovery_flows(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
     mock_rpc_device: Mock,
 ) -> None:
@@ -2250,7 +2250,7 @@ async def test_user_flow_filters_devices_with_active_discovery_flows(
     ],
 )
 async def test_form_auth_errors_test_connection_gen1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     mock_setup: AsyncMock,
     mock_setup_entry: AsyncMock,
@@ -2317,7 +2317,7 @@ async def test_form_auth_errors_test_connection_gen1(
     ],
 )
 async def test_form_auth_errors_test_connection_gen2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     mock_setup: AsyncMock,
     mock_setup_entry: AsyncMock,
@@ -2394,7 +2394,7 @@ async def test_form_auth_errors_test_connection_gen2(
     ],
 )
 async def test_zeroconf(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     gen: int,
     model: str,
     get_info: dict[str, Any],
@@ -2458,7 +2458,7 @@ async def test_zeroconf(
     ],
 )
 async def test_zeroconf_enhanced_security(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     gen: int,
     model: str,
     get_info: dict[str, Any],
@@ -2506,7 +2506,7 @@ async def test_zeroconf_enhanced_security(
 
 
 async def test_zeroconf_enhanced_security_with_https_port(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     mock_setup_entry: AsyncMock,
     mock_setup: AsyncMock,
@@ -2559,7 +2559,7 @@ async def test_zeroconf_enhanced_security_with_https_port(
 
 
 async def test_zeroconf_sleeping_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     mock_setup_entry: AsyncMock,
@@ -2613,7 +2613,7 @@ async def test_zeroconf_sleeping_device(
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_zeroconf_sleeping_device_error(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_sleeping_device_error(hass: UniversalAssistant) -> None:
     """Test sleeping device configuration via zeroconf with error."""
     with (
         patch(
@@ -2641,7 +2641,7 @@ async def test_zeroconf_sleeping_device_error(hass: __HAC_KEEP__) -> None:
 
 
 async def test_options_flow_abort_setup_retry(
-    hass: __HAC_KEEP__, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test ble options abort if device is in setup retry."""
     monkeypatch.setattr(
@@ -2658,7 +2658,7 @@ async def test_options_flow_abort_setup_retry(
 
 
 async def test_options_flow_abort_no_scripts_support(
-    hass: __HAC_KEEP__, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test ble options abort if device does not support scripts."""
     monkeypatch.setattr(
@@ -2673,7 +2673,7 @@ async def test_options_flow_abort_no_scripts_support(
 
 
 async def test_options_flow_abort_zigbee_firmware(
-    hass: __HAC_KEEP__, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test ble options abort if Zigbee firmware is active."""
     monkeypatch.setattr(mock_rpc_device, "zigbee_firmware", True)
@@ -2693,7 +2693,7 @@ async def test_options_flow_abort_zigbee_firmware(
     ],
 )
 async def test_zeroconf_already_configured(
-    hass: __HAC_KEEP__, configured_host: str, expected_host: str
+    hass: UniversalAssistant, configured_host: str, expected_host: str
 ) -> None:
     """Test zeroconf updates a configured IP but keeps a configured hostname."""
 
@@ -2718,7 +2718,7 @@ async def test_zeroconf_already_configured(
     assert entry.data[CONF_HOST] == expected_host
 
 
-async def test_zeroconf_ignored(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_ignored(hass: UniversalAssistant) -> None:
     """Test zeroconf when the device was previously ignored."""
 
     entry = MockConfigEntry(
@@ -2743,7 +2743,7 @@ async def test_zeroconf_ignored(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_zeroconf_with_wifi_ap_ip(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_with_wifi_ap_ip(hass: UniversalAssistant) -> None:
     """Test we ignore the Wi-FI AP IP."""
 
     entry = MockConfigEntry(
@@ -2770,7 +2770,7 @@ async def test_zeroconf_with_wifi_ap_ip(hass: __HAC_KEEP__) -> None:
     assert entry.data[CONF_HOST] == "2.2.2.2"
 
 
-async def test_zeroconf_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we get the form."""
     with patch(
         "universalassistant.components.shelly.config_flow.get_info",
@@ -2787,7 +2787,7 @@ async def test_zeroconf_cannot_connect(hass: __HAC_KEEP__) -> None:
 
 
 async def test_zeroconf_require_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     mock_setup_entry: AsyncMock,
     mock_setup: AsyncMock,
@@ -2837,7 +2837,7 @@ async def test_zeroconf_require_auth(
     ],
 )
 async def test_reauth_successful(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     gen: int,
     user_input: dict[str, str],
     mock_block_device: Mock,
@@ -2884,7 +2884,7 @@ async def test_reauth_successful(
     ],
 )
 async def test_reauth_unsuccessful(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     gen: int,
     user_input: dict[str, str],
     exc: Exception,
@@ -2925,7 +2925,7 @@ async def test_reauth_unsuccessful(
     assert result["reason"] == abort_reason
 
 
-async def test_reauth_get_info_error(hass: __HAC_KEEP__) -> None:
+async def test_reauth_get_info_error(hass: UniversalAssistant) -> None:
     """Test reauthentication flow failed with error in get_info()."""
     entry = MockConfigEntry(
         domain=DOMAIN, unique_id="test-mac", data={CONF_HOST: "0.0.0.0", CONF_GEN: 2}
@@ -2949,7 +2949,7 @@ async def test_reauth_get_info_error(hass: __HAC_KEEP__) -> None:
 
 
 async def test_reauth_enhanced_security(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
 ) -> None:
     """Test reauth flow with enhanced_security does not upgrade port from 80."""
@@ -2991,7 +2991,7 @@ async def test_reauth_enhanced_security(
 
 
 async def test_options_flow_disabled_gen_1(
-    hass: __HAC_KEEP__, mock_block_device: Mock, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, mock_block_device: Mock, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test options are disabled for gen1 devices."""
     await async_setup_component(hass, "config", {})
@@ -3012,7 +3012,7 @@ async def test_options_flow_disabled_gen_1(
 
 
 async def test_options_flow_enabled_gen_2(
-    hass: __HAC_KEEP__, mock_rpc_device: Mock, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, mock_rpc_device: Mock, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test options are enabled for gen2 devices."""
     await async_setup_component(hass, "config", {})
@@ -3033,7 +3033,7 @@ async def test_options_flow_enabled_gen_2(
 
 
 async def test_options_flow_disabled_sleepy_gen_2(
-    hass: __HAC_KEEP__, mock_rpc_device: Mock, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, mock_rpc_device: Mock, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test options are disabled for sleepy gen2 devices."""
     await async_setup_component(hass, "config", {})
@@ -3053,7 +3053,7 @@ async def test_options_flow_disabled_sleepy_gen_2(
     await hass.config_entries.async_unload(entry.entry_id)
 
 
-async def test_options_flow_ble(hass: __HAC_KEEP__, mock_rpc_device: Mock) -> None:
+async def test_options_flow_ble(hass: UniversalAssistant, mock_rpc_device: Mock) -> None:
     """Test setting ble options for gen2 devices."""
     entry = await init_integration(hass, 2)
     result = await hass.config_entries.options.async_init(entry.entry_id)
@@ -3129,7 +3129,7 @@ async def test_options_flow_ble(hass: __HAC_KEEP__, mock_rpc_device: Mock) -> No
 
 
 async def test_zeroconf_already_configured_triggers_refresh_mac_in_name(
-    hass: __HAC_KEEP__, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test zeroconf discovery triggers refresh when the mac is in the device name."""
     entry = MockConfigEntry(
@@ -3177,7 +3177,7 @@ async def test_zeroconf_already_configured_triggers_refresh_mac_in_name(
     ],
 )
 async def test_zeroconf_already_configured_triggers_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     configured_host: str,
@@ -3221,7 +3221,7 @@ async def test_zeroconf_already_configured_triggers_refresh(
 
 
 async def test_zeroconf_host_update_loaded_entry(
-    hass: __HAC_KEEP__, mock_rpc_device: Mock, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, mock_rpc_device: Mock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test zeroconf updating the host of a loaded entry reloads it without warning."""
     entry = MockConfigEntry(
@@ -3258,7 +3258,7 @@ async def test_zeroconf_host_update_loaded_entry(
 
 
 async def test_zeroconf_sleeping_device_not_triggers_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     caplog: pytest.LogCaptureFixture,
@@ -3316,7 +3316,7 @@ async def test_zeroconf_sleeping_device_not_triggers_refresh(
 
 
 async def test_zeroconf_sleeping_device_attempts_configure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     caplog: pytest.LogCaptureFixture,
@@ -3383,7 +3383,7 @@ async def test_zeroconf_sleeping_device_attempts_configure(
 
 
 async def test_zeroconf_sleeping_device_attempts_configure_ws_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     caplog: pytest.LogCaptureFixture,
@@ -3453,7 +3453,7 @@ async def test_zeroconf_sleeping_device_attempts_configure_ws_disabled(
 
 
 async def test_zeroconf_sleeping_device_attempts_configure_no_url_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     caplog: pytest.LogCaptureFixture,
@@ -3522,7 +3522,7 @@ async def test_zeroconf_sleeping_device_attempts_configure_no_url_available(
 
 
 async def test_sleeping_device_gen2_with_new_firmware(
-    hass: __HAC_KEEP__, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test sleeping device Gen2 with firmware 1.0.0 or later."""
     monkeypatch.setitem(mock_rpc_device.status["sys"], "wakeup_period", 666)
@@ -3561,7 +3561,7 @@ async def test_sleeping_device_gen2_with_new_firmware(
 
 @pytest.mark.parametrize(CONF_GEN, [1, 2, 3])
 async def test_reconfigure_successful(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     gen: int,
     mock_block_device: Mock,
     mock_rpc_device: Mock,
@@ -3595,7 +3595,7 @@ async def test_reconfigure_successful(
 
 @pytest.mark.parametrize("gen", [1, 2, 3])
 async def test_reconfigure_unsuccessful(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     gen: int,
     mock_block_device: Mock,
     mock_rpc_device: Mock,
@@ -3639,7 +3639,7 @@ async def test_reconfigure_unsuccessful(
     ],
 )
 async def test_reconfigure_with_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exc: Exception,
     base_error: str,
     mock_rpc_device: Mock,
@@ -3700,7 +3700,7 @@ async def test_reconfigure_with_exception(
     ],
 )
 async def test_reconfigure_enhanced_security(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     port: int,
     entry_data: dict[str, int | str],
@@ -3738,7 +3738,7 @@ async def test_reconfigure_enhanced_security(
     assert entry.data == entry_data
 
 
-async def test_zeroconf_rejects_ipv6(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_rejects_ipv6(hass: UniversalAssistant) -> None:
     """Test zeroconf discovery rejects ipv6."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -3759,7 +3759,7 @@ async def test_zeroconf_rejects_ipv6(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_rpc_device", "mock_zeroconf")
 async def test_zeroconf_wrong_device_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_setup: AsyncMock,
 ) -> None:
@@ -3811,7 +3811,7 @@ async def test_zeroconf_wrong_device_name(
     "mock_rpc_device", "mock_zeroconf", "mock_ble_rpc_device_class"
 )
 async def test_bluetooth_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_setup: AsyncMock,
     mock_ble_rpc_device: AsyncMock,
@@ -3878,7 +3878,7 @@ async def test_bluetooth_discovery(
 
 @pytest.mark.usefixtures("mock_ble_rpc_device_class", "mock_setup_entry")
 async def test_bluetooth_provisioning_clears_match_history(
-    hass: __HAC_KEEP__, mock_setup: AsyncMock, mock_ble_rpc_device: AsyncMock
+    hass: UniversalAssistant, mock_setup: AsyncMock, mock_ble_rpc_device: AsyncMock
 ) -> None:
     """Test bluetooth provisioning clears match history."""
     # Configure mock BLE device for this test
@@ -3949,7 +3949,7 @@ async def test_bluetooth_provisioning_clears_match_history(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_bluetooth_discovery_no_rpc_over_ble(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test bluetooth discovery without RPC-over-BLE enabled."""
     result = await hass.config_entries.flow.async_init(
@@ -3964,7 +3964,7 @@ async def test_bluetooth_discovery_no_rpc_over_ble(
 
 @pytest.mark.usefixtures("mock_ble_rpc_device_class", "mock_setup_entry")
 async def test_bluetooth_factory_reset_rediscovery(
-    hass: __HAC_KEEP__, mock_setup: AsyncMock, mock_ble_rpc_device: AsyncMock
+    hass: UniversalAssistant, mock_setup: AsyncMock, mock_ble_rpc_device: AsyncMock
 ) -> None:
     """Test device rediscovery after factory reset with BLE."""
     # Configure mock BLE device for this test
@@ -4038,7 +4038,7 @@ async def test_bluetooth_factory_reset_rediscovery(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_bluetooth_discovery_invalid_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test bluetooth discovery with invalid device name."""
     result = await hass.config_entries.flow.async_init(
@@ -4053,7 +4053,7 @@ async def test_bluetooth_discovery_invalid_name(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_bluetooth_discovery_mac_in_manufacturer_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test bluetooth discovery with MAC in manufacturer data (newer devices)."""
     # Inject BLE device so it's available in the bluetooth scanner
@@ -4077,7 +4077,7 @@ async def test_bluetooth_discovery_mac_in_manufacturer_data(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_bluetooth_discovery_mac_unknown_model(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test bluetooth discovery with MAC but unknown model ID."""
     # Inject BLE device so it's available in the bluetooth scanner
@@ -4100,7 +4100,7 @@ async def test_bluetooth_discovery_mac_unknown_model(
 
 @pytest.mark.usefixtures("mock_rpc_device", "mock_zeroconf")
 async def test_bluetooth_discovery_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test bluetooth discovery when device is already configured."""
     # Inject BLE device so it's available in the bluetooth scanner
@@ -4129,7 +4129,7 @@ async def test_bluetooth_discovery_already_configured(
 
 
 async def test_bluetooth_discovery_already_configured_clears_match_history(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test bluetooth discovery clears match history when device already configured."""
     # Inject BLE device so it's available in the bluetooth scanner
@@ -4165,7 +4165,7 @@ async def test_bluetooth_discovery_already_configured_clears_match_history(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_bluetooth_discovery_no_ble_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test bluetooth discovery when BLE device cannot be found."""
     result = await hass.config_entries.flow.async_init(
@@ -4182,7 +4182,7 @@ async def test_bluetooth_discovery_no_ble_device(
     "mock_rpc_device", "mock_zeroconf", "mock_ble_rpc_device_class"
 )
 async def test_bluetooth_wifi_scan_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_setup: AsyncMock,
     mock_ble_rpc_device: AsyncMock,
@@ -4255,7 +4255,7 @@ async def test_bluetooth_wifi_scan_success(
     "mock_rpc_device", "mock_zeroconf", "mock_ble_rpc_device_class"
 )
 async def test_bluetooth_wifi_scan_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_setup: AsyncMock,
     mock_ble_rpc_device: AsyncMock,
@@ -4338,7 +4338,7 @@ async def test_bluetooth_wifi_scan_failure(
     "mock_rpc_device", "mock_zeroconf", "mock_ble_rpc_device_class"
 )
 async def test_bluetooth_wifi_scan_ble_not_permitted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ble_rpc_device: AsyncMock,
 ) -> None:
     """Test WiFi scan when BLE is not permitted (cloud bound device)."""
@@ -4370,7 +4370,7 @@ async def test_bluetooth_wifi_scan_ble_not_permitted(
     "mock_rpc_device", "mock_zeroconf", "mock_ble_rpc_device_class"
 )
 async def test_bluetooth_wifi_credentials_and_provision_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_setup: AsyncMock,
     mock_ble_rpc_device: AsyncMock,
@@ -4444,7 +4444,7 @@ async def test_bluetooth_wifi_credentials_and_provision_success(
     "mock_rpc_device", "mock_zeroconf", "mock_ble_rpc_device_class"
 )
 async def test_bluetooth_wifi_provision_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_setup: AsyncMock,
     mock_ble_rpc_device: AsyncMock,
@@ -4538,7 +4538,7 @@ async def test_bluetooth_wifi_provision_failure(
 
 @pytest.mark.usefixtures("mock_ble_rpc_device_class")
 async def test_bluetooth_wifi_scan_unexpected_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ble_rpc_device: AsyncMock,
 ) -> None:
     """Test unexpected exception during WiFi scan."""
@@ -4566,7 +4566,7 @@ async def test_bluetooth_wifi_scan_unexpected_exception(
 
 @pytest.mark.usefixtures("mock_zeroconf", "mock_ble_rpc_device_class")
 async def test_bluetooth_provision_unexpected_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ble_rpc_device: AsyncMock,
 ) -> None:
     """Test unexpected exception during provisioning."""
@@ -4613,7 +4613,7 @@ async def test_bluetooth_provision_unexpected_exception(
     "mock_rpc_device", "mock_zeroconf", "mock_ble_rpc_device_class"
 )
 async def test_bluetooth_provision_device_connection_error_after_wifi(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ble_rpc_device: AsyncMock,
 ) -> None:
     """Test device connection error after WiFi provisioning."""
@@ -4672,7 +4672,7 @@ async def test_bluetooth_provision_device_connection_error_after_wifi(
     "mock_rpc_device", "mock_zeroconf", "mock_ble_rpc_device_class"
 )
 async def test_bluetooth_provision_requires_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_setup: AsyncMock,
     mock_ble_rpc_device: AsyncMock,
@@ -4751,7 +4751,7 @@ async def test_bluetooth_provision_requires_auth(
 
 @pytest.mark.usefixtures("mock_zeroconf", "mock_ble_rpc_device_class")
 async def test_bluetooth_provision_validate_input_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ble_rpc_device: AsyncMock,
     mock_ble_rpc_device_class: MagicMock,
 ) -> None:
@@ -4825,7 +4825,7 @@ async def test_bluetooth_provision_validate_input_fails(
 
 @pytest.mark.usefixtures("mock_zeroconf", "mock_ble_rpc_device_class")
 async def test_bluetooth_provision_firmware_not_fully_provisioned(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ble_rpc_device: AsyncMock,
 ) -> None:
     """Test device firmware not fully provisioned after WiFi provisioning."""
@@ -4879,7 +4879,7 @@ async def test_bluetooth_provision_firmware_not_fully_provisioned(
 
 @pytest.mark.usefixtures("mock_zeroconf", "mock_ble_rpc_device_class")
 async def test_bluetooth_provision_with_zeroconf_discovery_fast_path(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_setup: AsyncMock,
     mock_ble_rpc_device: AsyncMock,
@@ -4967,7 +4967,7 @@ async def test_bluetooth_provision_with_zeroconf_discovery_fast_path(
 
 @pytest.mark.usefixtures("mock_zeroconf", "mock_ble_rpc_device_class")
 async def test_bluetooth_provision_timeout_active_lookup_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ble_rpc_device: AsyncMock,
 ) -> None:
     """Test WiFi provisioning times out and active lookup fails (lines 545-547)."""
@@ -5037,7 +5037,7 @@ async def test_bluetooth_provision_timeout_active_lookup_fails(
 
 @pytest.mark.usefixtures("mock_ble_rpc_device_class", "mock_setup_entry")
 async def test_bluetooth_provision_timeout_ble_fallback_succeeds(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup: AsyncMock,
     mock_ble_rpc_device: AsyncMock,
     mock_ble_rpc_device_class: MagicMock,
@@ -5121,7 +5121,7 @@ async def test_bluetooth_provision_timeout_ble_fallback_succeeds(
 
 @pytest.mark.usefixtures("mock_ble_rpc_device_class")
 async def test_bluetooth_provision_timeout_ble_fallback_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ble_rpc_device: AsyncMock,
 ) -> None:
     """Test WiFi provisioning timeout with BLE fallback failure."""
@@ -5183,7 +5183,7 @@ async def test_bluetooth_provision_timeout_ble_fallback_fails(
 
 @pytest.mark.usefixtures("mock_ble_rpc_device_class")
 async def test_bluetooth_provision_timeout_ble_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ble_rpc_device: AsyncMock,
 ) -> None:
     """Test WiFi provisioning timeout with BLE raising exception."""
@@ -5258,7 +5258,7 @@ async def test_bluetooth_provision_timeout_ble_exception(
 
 @pytest.mark.usefixtures("mock_ble_rpc_device_class", "mock_setup_entry")
 async def test_bluetooth_provision_secure_device(
-    hass: __HAC_KEEP__, mock_setup: AsyncMock, mock_ble_rpc_device: AsyncMock
+    hass: UniversalAssistant, mock_setup: AsyncMock, mock_ble_rpc_device: AsyncMock
 ) -> None:
     """Test provisioning disables AP and BLE RPC."""
     # Configure mock BLE device
@@ -5312,7 +5312,7 @@ async def test_bluetooth_provision_secure_device(
 
 @pytest.mark.usefixtures("mock_ble_rpc_device_class", "mock_setup_entry")
 async def test_bluetooth_provision_secure_device_with_restart_required(
-    hass: __HAC_KEEP__, mock_setup: AsyncMock, mock_ble_rpc_device: AsyncMock
+    hass: UniversalAssistant, mock_setup: AsyncMock, mock_ble_rpc_device: AsyncMock
 ) -> None:
     """Test provisioning when BLE disable requires restart."""
     # Configure mock BLE device
@@ -5366,7 +5366,7 @@ async def test_bluetooth_provision_secure_device_with_restart_required(
 
 @pytest.mark.usefixtures("mock_ble_rpc_device_class", "mock_setup_entry")
 async def test_bluetooth_provision_secure_device_fails_gracefully(
-    hass: __HAC_KEEP__, mock_setup: AsyncMock, mock_ble_rpc_device: AsyncMock
+    hass: UniversalAssistant, mock_setup: AsyncMock, mock_ble_rpc_device: AsyncMock
 ) -> None:
     """Test provisioning succeeds even when secure device calls fail."""
     # Configure mock BLE device
@@ -5415,7 +5415,7 @@ async def test_bluetooth_provision_secure_device_fails_gracefully(
 
 
 async def test_zeroconf_aborts_idle_ble_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_setup: AsyncMock,
 ) -> None:
@@ -5470,7 +5470,7 @@ async def test_zeroconf_aborts_idle_ble_flow(
 
 @pytest.mark.usefixtures("mock_zeroconf", "mock_ble_rpc_device_class")
 async def test_bluetooth_flow_abort_cleans_up_ble_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ble_rpc_device: AsyncMock,
 ) -> None:
     """Test that aborting BLE flow cleans up the BLE connection."""
@@ -5511,7 +5511,7 @@ async def test_bluetooth_flow_abort_cleans_up_ble_connection(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_bluetooth_ble_initialize_failure_cleans_up(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that initialize failure properly cleans up the device."""
     mock_device = create_mock_rpc_device()
@@ -5553,7 +5553,7 @@ async def test_bluetooth_ble_initialize_failure_cleans_up(
 
 @pytest.mark.usefixtures("mock_zeroconf", "mock_ble_rpc_device_class")
 async def test_bluetooth_ble_shutdown_exception_handled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ble_rpc_device: AsyncMock,
 ) -> None:
     """Test that shutdown exceptions during cleanup are handled gracefully."""
@@ -5591,7 +5591,7 @@ async def test_bluetooth_ble_shutdown_exception_handled(
 
 @pytest.mark.usefixtures("mock_zeroconf", "mock_ble_rpc_device_class")
 async def test_bluetooth_provision_ble_reconnect_fails_during_ip_fetch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ble_rpc_device: AsyncMock,
 ) -> None:
     """Test BLE reconnection fails during IP fetch fallback after provisioning."""
@@ -5678,7 +5678,7 @@ async def test_bluetooth_provision_ble_reconnect_fails_during_ip_fetch(
     ],
 )
 async def test_form_unsupported_device(
-    hass: __HAC_KEEP__, get_info: dict[str, Any], model_name: str
+    hass: UniversalAssistant, get_info: dict[str, Any], model_name: str
 ) -> None:
     """Test user flow aborts for a device model not supported by aioshelly."""
     result = await hass.config_entries.flow.async_init(
@@ -5699,7 +5699,7 @@ async def test_form_unsupported_device(
     assert result["description_placeholders"] == {"model": model_name}
 
 
-async def test_zeroconf_unsupported_device(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_unsupported_device(hass: UniversalAssistant) -> None:
     """Test zeroconf discovery aborts for a device model not supported by aioshelly."""
     with patch(
         "universalassistant.components.shelly.config_flow.get_info",
@@ -5722,7 +5722,7 @@ async def test_zeroconf_unsupported_device(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_bluetooth_discovery_unsupported_device(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_discovery_unsupported_device(hass: UniversalAssistant) -> None:
     """Test bluetooth discovery aborts before provisioning for unsupported model."""
     await _async_inject_ble_discovery(hass, BLE_DISCOVERY_INFO_UNSUPPORTED_MODEL)
 
@@ -5739,7 +5739,7 @@ async def test_bluetooth_discovery_unsupported_device(hass: __HAC_KEEP__) -> Non
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_bluetooth_discovery_unsupported_device_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test already configured check runs before the unsupported model check."""
     await _async_inject_ble_discovery(hass, BLE_DISCOVERY_INFO_UNSUPPORTED_MODEL)
@@ -5767,7 +5767,7 @@ async def test_bluetooth_discovery_unsupported_device_already_configured(
 
 
 async def test_user_flow_select_ble_unsupported_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery: AsyncMock,
 ) -> None:
     """Test selecting an unsupported BLE device aborts before provisioning."""

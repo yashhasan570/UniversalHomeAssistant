@@ -10,7 +10,7 @@ from universalassistant.components.lifx import DOMAIN
 from universalassistant.components.lifx.const import CONF_SERIAL, LIFXService
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.setup import async_setup_component
 
@@ -26,21 +26,27 @@ SERVICES = (
     LIFXService.EFFECT_SKY,
     LIFXService.EFFECT_STOP,
     LIFXService.PAINT_THEME,
+    LIFXService.SET_MOOD,
 )
 
 
 @pytest.mark.usefixtures("mock_discovery")
-async def test_services_registered_without_entry(hass: __HAC_KEEP__) -> None:
+async def test_services_registered_without_entry(hass: UniversalAssistant) -> None:
     """Test all actions are registered during component setup."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     await hass.async_block_till_done()
 
-    for service in (*SERVICES, "set_state", "set_hev_cycle_state"):
+    for service in (
+        *SERVICES,
+        LIFXService.SET_MOOD,
+        "set_state",
+        "set_hev_cycle_state",
+    ):
         assert hass.services.has_service(DOMAIN, service)
 
 
 @pytest.mark.usefixtures("mock_discovery")
-async def test_service_without_loaded_entry_raises(hass: __HAC_KEEP__) -> None:
+async def test_service_without_loaded_entry_raises(hass: UniversalAssistant) -> None:
     """Test the effect actions raise when no config entry is loaded."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     await hass.async_block_till_done()
@@ -62,7 +68,7 @@ async def test_service_without_loaded_entry_raises(hass: __HAC_KEEP__) -> None:
 @pytest.mark.parametrize("service", ["set_state", "set_hev_cycle_state"])
 @pytest.mark.usefixtures("mock_discovery")
 async def test_entity_action_does_not_control_device_after_failed_setup(
-    hass: __HAC_KEEP__, service: str
+    hass: UniversalAssistant, service: str
 ) -> None:
     """Test registered entity actions cannot command a device that failed setup."""
     entry = MockConfigEntry(

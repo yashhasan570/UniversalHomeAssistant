@@ -7,7 +7,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import DOMAIN
 
@@ -38,7 +38,7 @@ class PlaceholderHub:
         return True
 
 
-async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> dict[str, Any]:
+async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> dict[str, Any]:
     """Validate the user input allows us to connect.
 
     Data has the keys from STEP_USER_DATA_SCHEMA with values provided by the user.

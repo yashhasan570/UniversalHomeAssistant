@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any, override
 
 from apyhiveapi import Hive
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -21,7 +21,7 @@ class HiveEntity(Entity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: HiveConfigEntry,
         hive: Hive,
         hive_device: dict[str, Any],
@@ -51,7 +51,7 @@ class HiveEntity(Entity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """When entity is added to __HA_KEEP__."""
+        """When entity is added to Universal Home Assistant."""
         self.async_on_remove(
             async_dispatcher_connect(self.hass, DOMAIN, self.async_write_ha_state)
         )

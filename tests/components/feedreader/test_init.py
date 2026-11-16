@@ -13,7 +13,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.feedreader.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.util import dt as dt_util
 
@@ -33,7 +33,7 @@ from .const import (
     [VALID_CONFIG_DEFAULT, VALID_CONFIG_1, VALID_CONFIG_100, VALID_CONFIG_5],
 )
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     events: list[Event],
     feed_one_event: bytes,
     hass_storage: dict[str, Any],
@@ -54,7 +54,7 @@ async def test_setup(
 
 
 async def test_setup_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     feed_one_event,
 ) -> None:
     """Test setup error."""
@@ -71,7 +71,7 @@ async def test_setup_error(
 
 
 async def test_storage_data_writing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     events: list[Event],
     feed_one_event: bytes,
     hass_storage: dict[str, Any],
@@ -94,7 +94,7 @@ async def test_storage_data_writing(
     assert hass_storage[DOMAIN]["data"] == storage_data
 
 
-async def test_feed(hass: __HAC_KEEP__, events, feed_one_event) -> None:
+async def test_feed(hass: UniversalAssistant, events, feed_one_event) -> None:
     """Test simple rss feed with valid data."""
     assert await async_setup_config_entry(
         hass, VALID_CONFIG_DEFAULT, return_value=feed_one_event
@@ -112,7 +112,7 @@ async def test_feed(hass: __HAC_KEEP__, events, feed_one_event) -> None:
     assert events[0].data.published_parsed.tm_min == 10
 
 
-async def test_atom_feed(hass: __HAC_KEEP__, events, feed_atom_event) -> None:
+async def test_atom_feed(hass: UniversalAssistant, events, feed_atom_event) -> None:
     """Test simple atom feed with valid data."""
     assert await async_setup_config_entry(
         hass, VALID_CONFIG_DEFAULT, return_value=feed_atom_event
@@ -131,7 +131,7 @@ async def test_atom_feed(hass: __HAC_KEEP__, events, feed_atom_event) -> None:
 
 
 async def test_feed_identical_timestamps(
-    hass: __HAC_KEEP__, events, feed_identically_timed_events
+    hass: UniversalAssistant, events, feed_identically_timed_events
 ) -> None:
     """Test feed with 2 entries with identical timestamps."""
     with (
@@ -186,7 +186,7 @@ async def test_feed_identical_timestamps(
 
 
 async def test_feed_with_only_summary(
-    hass: __HAC_KEEP__, events, feed_only_summary
+    hass: UniversalAssistant, events, feed_only_summary
 ) -> None:
     """Test simple feed with only summary, no content."""
     assert await async_setup_config_entry(
@@ -201,7 +201,7 @@ async def test_feed_with_only_summary(
 
 
 async def test_feed_updates(
-    hass: __HAC_KEEP__, events, feed_one_event, feed_two_event
+    hass: UniversalAssistant, events, feed_one_event, feed_two_event
 ) -> None:
     """Test feed updates."""
     side_effect = [
@@ -237,7 +237,7 @@ async def test_feed_updates(
 
 
 async def test_unsorted_feed_updates(
-    hass: __HAC_KEEP__, events, feed_unsorted, feed_unsorted_update
+    hass: UniversalAssistant, events, feed_unsorted, feed_unsorted_update
 ) -> None:
     """Test feed updates."""
     side_effect = [
@@ -265,7 +265,7 @@ async def test_unsorted_feed_updates(
 
 
 async def test_feed_default_max_length(
-    hass: __HAC_KEEP__, events, feed_21_events
+    hass: UniversalAssistant, events, feed_21_events
 ) -> None:
     """Test long feed beyond the default 20 entry limit."""
     assert await async_setup_config_entry(
@@ -276,7 +276,7 @@ async def test_feed_default_max_length(
     assert len(events) == 20
 
 
-async def test_feed_max_length(hass: __HAC_KEEP__, events, feed_21_events) -> None:
+async def test_feed_max_length(hass: UniversalAssistant, events, feed_21_events) -> None:
     """Test long feed beyond a configured 5 entry limit."""
     assert await async_setup_config_entry(
         hass, VALID_CONFIG_5, return_value=feed_21_events
@@ -287,7 +287,7 @@ async def test_feed_max_length(hass: __HAC_KEEP__, events, feed_21_events) -> No
 
 
 async def test_feed_without_publication_date_and_title(
-    hass: __HAC_KEEP__, events, feed_three_events
+    hass: UniversalAssistant, events, feed_three_events
 ) -> None:
     """Test simple feed with entry without publication date and title."""
     assert await async_setup_config_entry(
@@ -299,7 +299,7 @@ async def test_feed_without_publication_date_and_title(
 
 
 async def test_feed_with_unrecognized_publication_date(
-    hass: __HAC_KEEP__, events, feed_four_events
+    hass: UniversalAssistant, events, feed_four_events
 ) -> None:
     """Test simple feed with entry with unrecognized publication date."""
     assert await async_setup_config_entry(
@@ -311,7 +311,7 @@ async def test_feed_with_unrecognized_publication_date(
 
 
 async def test_feed_without_items(
-    hass: __HAC_KEEP__, events, feed_without_items, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, events, feed_without_items, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test simple feed without any items."""
     assert "No new entries to be published in feed" not in caplog.text
@@ -324,7 +324,7 @@ async def test_feed_without_items(
     assert len(events) == 0
 
 
-async def test_feed_invalid_data(hass: __HAC_KEEP__, events) -> None:
+async def test_feed_invalid_data(hass: UniversalAssistant, events) -> None:
     """Test feed with invalid data."""
     assert await async_setup_config_entry(
         hass, VALID_CONFIG_DEFAULT, return_value=bytes("INVALID DATA", "utf-8")
@@ -335,7 +335,7 @@ async def test_feed_invalid_data(hass: __HAC_KEEP__, events) -> None:
 
 
 async def test_feed_parsing_failed(
-    hass: __HAC_KEEP__, events, feed_one_event, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, events, feed_one_event, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test feed where parsing fails."""
     assert "Error fetching feed data" not in caplog.text
@@ -351,7 +351,7 @@ async def test_feed_parsing_failed(
 
 
 async def test_feed_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
     feed_one_event,
@@ -409,7 +409,7 @@ async def test_feed_errors(
 
 
 async def test_feed_atom_htmlentities(
-    hass: __HAC_KEEP__, feed_atom_htmlentities, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, feed_atom_htmlentities, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test ATOM feed author with HTML Entities."""
 
@@ -428,7 +428,7 @@ async def test_feed_atom_htmlentities(
         assert device_entry.manufacturer == "Juan Pérez"
 
 
-async def test_feedparser_user_agent(hass: __HAC_KEEP__, feed_one_event) -> None:
+async def test_feedparser_user_agent(hass: UniversalAssistant, feed_one_event) -> None:
     """Test that the correct user-agent is used for feedparser requests."""
     entry = create_mock_entry(VALID_CONFIG_DEFAULT)
     entry.add_to_hass(hass)

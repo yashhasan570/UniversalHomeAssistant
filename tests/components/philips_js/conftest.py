@@ -8,7 +8,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.philips_js.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import MOCK_CONFIG, MOCK_ENTITY_ID, MOCK_NAME, MOCK_SERIAL_NO, MOCK_SYSTEM
@@ -60,7 +60,7 @@ def mock_tv():
 
 
 @pytest.fixture
-async def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Get standard player."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_CONFIG, title=MOCK_NAME, unique_id=MOCK_SERIAL_NO
@@ -70,7 +70,7 @@ async def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 
 @pytest.fixture
-async def mock_entity(hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry) -> str:
+async def mock_entity(hass: UniversalAssistant, mock_config_entry: MockConfigEntry) -> str:
     """Get standard player."""
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
     await hass.async_block_till_done()

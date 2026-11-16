@@ -31,14 +31,14 @@ from universalassistant.components.google_travel_time.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigFlowResult
 from universalassistant.const import CONF_API_KEY, CONF_LANGUAGE, CONF_MODE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import DEFAULT_OPTIONS, MOCK_CONFIG, RECONFIGURE_CONFIG
 
 
 async def assert_common_reconfigure_steps(
-    hass: __HAC_KEEP__, reconfigure_result: ConfigFlowResult, routes_mock: AsyncMock
+    hass: UniversalAssistant, reconfigure_result: ConfigFlowResult, routes_mock: AsyncMock
 ) -> None:
     """Step through and assert the happy case reconfigure flow."""
     routes_mock.async_compute_routes.return_value = None
@@ -56,7 +56,7 @@ async def assert_common_reconfigure_steps(
 
 
 async def assert_common_create_steps(
-    hass: __HAC_KEEP__, result: ConfigFlowResult
+    hass: UniversalAssistant, result: ConfigFlowResult
 ) -> None:
     """Step through and assert the happy case create flow."""
     result = await hass.config_entries.flow.async_configure(
@@ -73,7 +73,7 @@ async def assert_common_create_steps(
 
 
 @pytest.mark.usefixtures("routes_mock", "mock_setup_entry")
-async def test_minimum_fields(hass: __HAC_KEEP__) -> None:
+async def test_minimum_fields(hass: UniversalAssistant) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -139,7 +139,7 @@ async def test_minimum_fields(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_errors(
-    hass: __HAC_KEEP__, routes_mock: AsyncMock, exception: Exception, error: str
+    hass: UniversalAssistant, routes_mock: AsyncMock, exception: Exception, error: str
 ) -> None:
     """Test errors in the flow."""
     routes_mock.async_compute_routes.side_effect = exception
@@ -167,7 +167,7 @@ async def test_errors(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure(
-    hass: __HAC_KEEP__, mock_config: MockConfigEntry, routes_mock: AsyncMock
+    hass: UniversalAssistant, mock_config: MockConfigEntry, routes_mock: AsyncMock
 ) -> None:
     """Test reconfigure flow."""
     result = await mock_config.start_reconfigure_flow(hass)
@@ -200,7 +200,7 @@ async def test_reconfigure(
     ],
 )
 async def test_reconfigure_invalid_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config: MockConfigEntry,
     routes_mock: AsyncMock,
     exception: Exception,
@@ -232,7 +232,7 @@ async def test_reconfigure_invalid_config_entry(
     [(MOCK_CONFIG, DEFAULT_OPTIONS)],
 )
 @pytest.mark.usefixtures("routes_mock")
-async def test_options_flow(hass: __HAC_KEEP__, mock_config: MockConfigEntry) -> None:
+async def test_options_flow(hass: UniversalAssistant, mock_config: MockConfigEntry) -> None:
     """Test options flow."""
     result = await hass.config_entries.options.async_init(mock_config.entry_id)
 
@@ -287,7 +287,7 @@ async def test_options_flow(hass: __HAC_KEEP__, mock_config: MockConfigEntry) ->
 )
 @pytest.mark.usefixtures("routes_mock")
 async def test_options_flow_departure_time(
-    hass: __HAC_KEEP__, mock_config: MockConfigEntry
+    hass: UniversalAssistant, mock_config: MockConfigEntry
 ) -> None:
     """Test options flow with departure time."""
     result = await hass.config_entries.options.async_init(mock_config.entry_id)
@@ -348,7 +348,7 @@ async def test_options_flow_departure_time(
 )
 @pytest.mark.usefixtures("routes_mock")
 async def test_options_flow_traffic_model_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config: MockConfigEntry,
     travel_routing_preference: str,
     traffic_model: str,
@@ -432,7 +432,7 @@ async def test_options_flow_traffic_model_error(
 )
 @pytest.mark.usefixtures("routes_mock")
 async def test_reset_departure_time(
-    hass: __HAC_KEEP__, mock_config: MockConfigEntry
+    hass: UniversalAssistant, mock_config: MockConfigEntry
 ) -> None:
     """Test resetting departure time."""
     result = await hass.config_entries.options.async_init(mock_config.entry_id)
@@ -480,7 +480,7 @@ async def test_reset_departure_time(
 )
 @pytest.mark.usefixtures("routes_mock")
 async def test_reset_arrival_time(
-    hass: __HAC_KEEP__, mock_config: MockConfigEntry
+    hass: UniversalAssistant, mock_config: MockConfigEntry
 ) -> None:
     """Test resetting arrival time."""
     result = await hass.config_entries.options.async_init(mock_config.entry_id)
@@ -527,7 +527,7 @@ async def test_reset_arrival_time(
 )
 @pytest.mark.usefixtures("routes_mock")
 async def test_reset_options_flow_fields(
-    hass: __HAC_KEEP__, mock_config: MockConfigEntry
+    hass: UniversalAssistant, mock_config: MockConfigEntry
 ) -> None:
     """Test resetting options flow fields that are not time related to None."""
     result = await hass.config_entries.options.async_init(mock_config.entry_id)
@@ -559,7 +559,7 @@ async def test_reset_options_flow_fields(
     [(MOCK_CONFIG, DEFAULT_OPTIONS)],
 )
 @pytest.mark.usefixtures("routes_mock", "mock_setup_entry")
-async def test_dupe(hass: __HAC_KEEP__, mock_config: MockConfigEntry) -> None:
+async def test_dupe(hass: UniversalAssistant, mock_config: MockConfigEntry) -> None:
     """Test setting up the same entry data twice is OK."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}

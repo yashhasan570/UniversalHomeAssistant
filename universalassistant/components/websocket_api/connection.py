@@ -11,8 +11,8 @@ import probatio
 from probatio.humanize import humanize_error
 
 from universalassistant.auth.models import RefreshToken, User
-from universalassistant.core import Context, __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, Unauthorized
+from universalassistant.core import Context, UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError, Unauthorized
 from universalassistant.helpers.http import current_request
 from universalassistant.helpers.redact import async_redact_data
 from universalassistant.util.json import JsonValueType
@@ -48,8 +48,8 @@ REDACT_KEYS = {
     "auth_token",
 }
 
-type MessageHandler = Callable[[__HAC_KEEP__, ActiveConnection, dict[str, Any]], None]
-type BinaryHandler = Callable[[__HAC_KEEP__, ActiveConnection, bytes], None]
+type MessageHandler = Callable[[UniversalAssistant, ActiveConnection, dict[str, Any]], None]
+type BinaryHandler = Callable[[UniversalAssistant, ActiveConnection, bytes], None]
 
 
 class ActiveConnection:
@@ -76,7 +76,7 @@ class ActiveConnection:
     def __init__(
         self,
         logger: WebSocketAdapter,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         send_message: Callable[[bytes | str | dict[str, Any]], None],
         user: User,
         refresh_token: RefreshToken | None,
@@ -381,7 +381,7 @@ class ActiveConnection:
         elif isinstance(err, TimeoutError):
             code = const.ERR_TIMEOUT
             err_message = "Timeout"
-        elif isinstance(err, __HAC_KEEP__Error):
+        elif isinstance(err, UniversalAssistantError):
             err_message = str(err)
             code = const.ERR_UNIVERSAL_ASSISTANT_ERROR
             translation_domain = err.translation_domain

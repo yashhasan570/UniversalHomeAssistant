@@ -9,7 +9,7 @@ import pytest
 
 from universalassistant.components.modbus import get_hub
 from universalassistant.components.modbus.const import DATA_MODBUS_HUBS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 def _caller_in(root: Path, path: str) -> ModuleType:
@@ -39,7 +39,7 @@ def _caller_in(root: Path, path: str) -> ModuleType:
 
 
 @pytest.fixture(name="hub")
-def hub_fixture(hass: __HAC_KEEP__) -> object:
+def hub_fixture(hass: UniversalAssistant) -> object:
     """Put one hub in place for get_hub to return."""
     hub = object()
     hass.data[DATA_MODBUS_HUBS] = {"hub": hub}
@@ -47,7 +47,7 @@ def hub_fixture(hass: __HAC_KEEP__) -> object:
 
 
 async def test_a_custom_integration_is_warned(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hub: object,
     tmp_path: Path,
     caplog: pytest.LogCaptureFixture,
@@ -69,7 +69,7 @@ async def test_a_custom_integration_is_warned(
 
 
 async def test_a_core_integration_is_not_warned(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hub: object,
     tmp_path: Path,
     caplog: pytest.LogCaptureFixture,
@@ -83,7 +83,7 @@ async def test_a_core_integration_is_not_warned(
 
 
 async def test_a_caller_outside_any_integration_is_not_warned(
-    hass: __HAC_KEEP__, hub: object, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, hub: object, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Nothing to name and nobody to tell, so it stays quiet."""
     assert get_hub(hass, "hub") is hub

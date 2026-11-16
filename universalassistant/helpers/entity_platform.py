@@ -17,7 +17,7 @@ from universalassistant.core import (
     CALLBACK_TYPE,
     DOMAIN as HOMEASSISTANT_DOMAIN,
     CoreState,
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     SupportsResponse,
     callback,
@@ -28,7 +28,7 @@ from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
     ConfigEntryNotReady,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     PlatformNotReady,
 )
 from universalassistant.generated import languages
@@ -74,7 +74,7 @@ _LOGGER = getLogger(__name__)
 
 @callback
 def async_create_platform_config_not_supported_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration_domain: str,
     platform_domain: str,
     *,
@@ -157,7 +157,7 @@ class EntityPlatformModule(Protocol):
 
     async def async_setup_platform(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config: ConfigType,
         async_add_entities: AddEntitiesCallback,
         discovery_info: DiscoveryInfoType | None = None,
@@ -166,7 +166,7 @@ class EntityPlatformModule(Protocol):
 
     def setup_platform(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config: ConfigType,
         add_entities: AddEntitiesCallback,
         discovery_info: DiscoveryInfoType | None = None,
@@ -175,7 +175,7 @@ class EntityPlatformModule(Protocol):
 
     async def async_setup_entry(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: config_entries.ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -187,7 +187,7 @@ class PlatformData:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         *,
         domain: str,
         platform_name: str,
@@ -263,7 +263,7 @@ class EntityPlatform:
     def __init__(
         self,
         *,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         logger: Logger,
         domain: str,
         platform_name: str,
@@ -345,7 +345,7 @@ class EntityPlatform:
           to that number.
 
         The default value for parallel requests is decided based on the first
-        entity of the platform which is added to __HA_KEEP__. It's 1 if the
+        entity of the platform which is added to Universal Home Assistant. It's 1 if the
         entity implements the update method, else it's 0.
         """
         if self.parallel_updates_created:
@@ -437,7 +437,7 @@ class EntityPlatform:
 
     @callback
     def async_shutdown(self) -> None:
-        """Call when __HA_KEEP__ is stopping."""
+        """Call when Universal Home Assistant is stopping."""
         self.async_cancel_retry_setup()
         self.async_unsub_polling()
 
@@ -759,7 +759,7 @@ class EntityPlatform:
             not self.config_entry
             or config_subentry_id not in self.config_entry.subentries
         ):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Can't add entities to unknown subentry"
                 f" {config_subentry_id} of config entry"
                 f" {self.config_entry.entry_id if self.config_entry else None}"
@@ -1023,7 +1023,7 @@ class EntityPlatform:
                             breaks_in_ha_version="2027.2.0",
                         )
                     else:
-                        raise __HAC_KEEP__Error(
+                        raise UniversalAssistantError(
                             f"Invalid entity ID: {entity.entity_id}"
                         )
                 try:
@@ -1041,7 +1041,7 @@ class EntityPlatform:
                 except ValueError:
                     # This error handling should be removed once we remove
                     # the invalid entity ID deprecation above.
-                    raise __HAC_KEEP__Error(
+                    raise UniversalAssistantError(
                         f"Invalid entity ID: {entity.entity_id}"
                     ) from None
 
@@ -1079,7 +1079,7 @@ class EntityPlatform:
                     device = self._async_get_entity_device(
                         entity, self.config_entry.entry_id, config_subentry_id
                     )
-                except (__HAC_KEEP__Error, TypeError) as exc:
+                except (UniversalAssistantError, TypeError) as exc:
                     # A TypeError signals a bad key in the device info passed as
                     # keyword arguments.
                     self.logger.error(
@@ -1155,7 +1155,7 @@ class EntityPlatform:
                     translation_key=entity.translation_key,
                     unit_of_measurement=entity.unit_of_measurement,
                 )
-            except __HAC_KEEP__Error as exc:
+            except UniversalAssistantError as exc:
                 self.logger.error(
                     "%s: Not adding entity %s, entity registry error: %s",
                     self.platform_name,
@@ -1436,7 +1436,7 @@ def async_get_current_platform() -> EntityPlatform:
 
 @callback
 def async_get_platforms(
-    hass: __HAC_KEEP__, integration_name: str
+    hass: UniversalAssistant, integration_name: str
 ) -> list[EntityPlatform]:
     """Find existing platforms."""
     if (

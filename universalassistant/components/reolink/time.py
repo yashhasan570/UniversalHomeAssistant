@@ -10,7 +10,7 @@ from reolink_aio.enums import SpotlightModeEnum
 
 from universalassistant.components.time import TimeEntity, TimeEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import ReolinkChannelCoordinatorEntity, ReolinkChannelEntityDescription
@@ -93,7 +93,7 @@ TIME_ENTITIES = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ReolinkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -37,7 +37,7 @@ from universalassistant.components.light import (
     ColorMode,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import MockGenericDeviceEntryType
 
@@ -45,7 +45,7 @@ LIGHT_COLOR_CAPABILITY_UNKNOWN = 1 << 8  # 256
 
 
 async def test_light_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -86,7 +86,7 @@ async def test_light_on_off(
 
 
 async def test_light_brightness(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -213,7 +213,7 @@ async def test_light_brightness(
 
 
 async def test_light_legacy_brightness(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -268,7 +268,7 @@ async def test_light_legacy_brightness(
 
 
 async def test_light_brightness_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -343,7 +343,7 @@ async def test_light_brightness_on_off(
 
 
 async def test_light_legacy_white_converted_to_brightness(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -397,7 +397,7 @@ async def test_light_legacy_white_converted_to_brightness(
 
 
 async def test_light_legacy_white_with_rgb(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -461,7 +461,7 @@ async def test_light_legacy_white_with_rgb(
 
 
 async def test_light_brightness_on_off_with_unknown_color_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -537,7 +537,7 @@ async def test_light_brightness_on_off_with_unknown_color_mode(
 
 
 async def test_light_on_and_brightness(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -581,7 +581,7 @@ async def test_light_on_and_brightness(
 
 
 async def test_rgb_color_temp_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -676,7 +676,7 @@ async def test_rgb_color_temp_light(
 
 
 async def test_light_rgb(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -798,7 +798,7 @@ async def test_light_rgb(
 
 
 async def test_light_rgbw(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -967,7 +967,7 @@ async def test_light_rgbw(
 
 
 async def test_light_rgbww_with_cold_warm_white_support(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -1175,7 +1175,7 @@ async def test_light_rgbww_with_cold_warm_white_support(
 
 
 async def test_light_rgbww_without_cold_warm_white_support(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -1413,7 +1413,7 @@ async def test_light_rgbww_without_cold_warm_white_support(
 
 
 async def test_light_color_temp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -1487,7 +1487,7 @@ async def test_light_color_temp(
 
 
 async def test_light_color_temp_no_mireds_set(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -1582,7 +1582,7 @@ async def test_light_color_temp_no_mireds_set(
 
 
 async def test_light_color_temp_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -1666,7 +1666,7 @@ async def test_light_color_temp_legacy(
 
 
 async def test_light_rgb_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -1765,7 +1765,7 @@ async def test_light_rgb_legacy(
 
 
 async def test_light_effects(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -1823,7 +1823,7 @@ async def test_light_effects(
 
 
 async def test_only_cold_warm_white_support(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -1956,7 +1956,7 @@ async def test_only_cold_warm_white_support(
 
 
 async def test_cold_warm_white_no_mireds_set(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -2021,7 +2021,7 @@ async def test_cold_warm_white_no_mireds_set(
 
 
 async def test_light_no_color_modes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -2064,7 +2064,7 @@ async def test_light_no_color_modes(
 
 
 async def test_light_turn_on_before_state_received(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:

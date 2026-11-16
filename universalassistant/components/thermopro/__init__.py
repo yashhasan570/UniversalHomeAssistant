@@ -14,7 +14,7 @@ from universalassistant.components.bluetooth.passive_update_processor import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
@@ -30,7 +30,7 @@ type ThermoProConfigEntry = ConfigEntry[PassiveBluetoothProcessorCoordinator]
 
 
 def process_service_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ThermoProConfigEntry,
     data: ThermoProBluetoothDeviceData,
     service_info: BluetoothServiceInfoBleak,
@@ -43,7 +43,7 @@ def process_service_info(
     return update
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ThermoProConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ThermoProConfigEntry) -> None:
     """Set up ThermoPro BLE device from a config entry."""
     address = entry.unique_id
     assert address is not None
@@ -60,6 +60,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ThermoProConfigEntry) -> 
     entry.async_on_unload(coordinator.async_start())
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ThermoProConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ThermoProConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -1,17 +1,17 @@
-"""Utility functions for __HA_KEEP__ SkyConnect integration."""
+"""Utility functions for Universal Home Assistant SkyConnect integration."""
 
 import logging
 
 from universalassistant.helpers.service_info.usb import UsbServiceInfo
 
-from . import __HAC_KEEP__SkyConnectConfigEntry
+from . import UniversalAssistantSkyConnectConfigEntry
 from .const import HardwareVariant
 
 _LOGGER = logging.getLogger(__name__)
 
 
 def get_usb_service_info(
-    config_entry: __HAC_KEEP__SkyConnectConfigEntry,
+    config_entry: UniversalAssistantSkyConnectConfigEntry,
 ) -> UsbServiceInfo:
     """Return UsbServiceInfo."""
     return UsbServiceInfo(
@@ -25,7 +25,7 @@ def get_usb_service_info(
 
 
 def get_hardware_variant(
-    config_entry: __HAC_KEEP__SkyConnectConfigEntry,
+    config_entry: UniversalAssistantSkyConnectConfigEntry,
 ) -> HardwareVariant:
     """Get the hardware variant from the config entry."""
     return HardwareVariant.from_usb_product_name(config_entry.data["product"])

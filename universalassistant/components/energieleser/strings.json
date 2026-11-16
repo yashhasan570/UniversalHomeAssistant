@@ -35,7 +35,7 @@
         "title": "Add an energieleser device"
       },
       "zeroconf_confirm": {
-        "description": "Found a {device_type} ({device_id}) at {host}. Add it to __HA_KEEP__?",
+        "description": "Found a {device_type} ({device_id}) at {host}. Add it to Universal Home Assistant?",
         "title": "Add discovered device"
       }
     }

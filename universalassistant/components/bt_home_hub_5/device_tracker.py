@@ -12,7 +12,7 @@ from universalassistant.components.device_tracker import (
     DeviceScanner,
 )
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -26,7 +26,7 @@ PLATFORM_SCHEMA = DEVICE_TRACKER_PLATFORM_SCHEMA.extend(
 
 
 def get_scanner(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> BTHomeHub5DeviceScanner | None:
     """Return a BT Home Hub 5 scanner if successful."""
     scanner = BTHomeHub5DeviceScanner(config[DEVICE_TRACKER_DOMAIN])

@@ -20,7 +20,7 @@ from pythonxbox.api.provider.titlehub.models import Title
 from pythonxbox.common.exceptions import RateLimitExceededException
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN
@@ -64,7 +64,7 @@ class XboxBaseCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: XboxConfigEntry,
         client: XboxLiveClient,
     ) -> None:
@@ -128,7 +128,7 @@ class XboxConsoleStatusCoordinator(XboxBaseCoordinator[dict[str, ConsoleData]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: XboxConfigEntry,
         client: XboxLiveClient,
         consoles: dict[str, SmartglassConsole],
@@ -198,7 +198,7 @@ class XboxPresenceCoordinator(XboxBaseCoordinator[XboxData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: XboxConfigEntry,
         client: XboxLiveClient,
     ) -> None:

@@ -18,7 +18,7 @@ from universalassistant.components.insteon.config_flow import (
 from universalassistant.components.insteon.const import CONF_HUB_VERSION, DOMAIN
 from universalassistant.config_entries import ConfigFlowResult
 from universalassistant.const import CONF_DEVICE, CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.service_info.usb import UsbServiceInfo
@@ -42,7 +42,7 @@ async def mock_successful_connection(*args, **kwargs):
     return True
 
 
-async def mock_usb_list(hass: __HAC_KEEP__):
+async def mock_usb_list(hass: UniversalAssistant):
     """Return a mock list of USB devices."""
     return USB_PORTS
 
@@ -62,7 +62,7 @@ async def mock_failed_connection(*args, **kwargs):
     raise ConnectionError("Connection failed")
 
 
-async def _init_form(hass: __HAC_KEEP__, modem_type: str) -> ConfigFlowResult:
+async def _init_form(hass: UniversalAssistant, modem_type: str) -> ConfigFlowResult:
     """Run the user form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -76,7 +76,7 @@ async def _init_form(hass: __HAC_KEEP__, modem_type: str) -> ConfigFlowResult:
 
 
 async def _device_form(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     flow_id: str,
     connection: Callable[..., Any],
     user_input: dict[str, Any] | None,
@@ -97,7 +97,7 @@ async def _device_form(
     return result, mock_setup_entry
 
 
-async def test_form_select_modem(hass: __HAC_KEEP__) -> None:
+async def test_form_select_modem(hass: UniversalAssistant) -> None:
     """Test we get a modem form."""
 
     result = await _init_form(hass, STEP_HUB_V2)
@@ -105,7 +105,7 @@ async def test_form_select_modem(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.FORM
 
 
-async def test_fail_on_existing(hass: __HAC_KEEP__) -> None:
+async def test_fail_on_existing(hass: UniversalAssistant) -> None:
     """Test we fail if the integration is already configured."""
     MockConfigEntry(domain=DOMAIN).add_to_hass(hass)
 
@@ -116,7 +116,7 @@ async def test_fail_on_existing(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "single_instance_allowed"
 
 
-async def test_form_select_plm(hass: __HAC_KEEP__) -> None:
+async def test_form_select_plm(hass: UniversalAssistant) -> None:
     """Test we set up the PLM correctly."""
 
     result = await _init_form(hass, STEP_PLM)
@@ -131,7 +131,7 @@ async def test_form_select_plm(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_select_plm_no_usb(hass: __HAC_KEEP__) -> None:
+async def test_form_select_plm_no_usb(hass: UniversalAssistant) -> None:
     """Test we set up the PLM when no comm ports are found."""
 
     temp_usb_list = dict(USB_PORTS)
@@ -146,7 +146,7 @@ async def test_form_select_plm_no_usb(hass: __HAC_KEEP__) -> None:
     assert result2["step_id"] == STEP_PLM_MANUALLY
 
 
-async def test_form_select_plm_manual(hass: __HAC_KEEP__) -> None:
+async def test_form_select_plm_manual(hass: UniversalAssistant) -> None:
     """Test we set up the PLM correctly."""
 
     result = await _init_form(hass, STEP_PLM)
@@ -166,7 +166,7 @@ async def test_form_select_plm_manual(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_select_hub_v1(hass: __HAC_KEEP__) -> None:
+async def test_form_select_hub_v1(hass: UniversalAssistant) -> None:
     """Test we set up the Hub v1 correctly."""
 
     result = await _init_form(hass, STEP_HUB_V1)
@@ -184,7 +184,7 @@ async def test_form_select_hub_v1(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_select_hub_v2(hass: __HAC_KEEP__) -> None:
+async def test_form_select_hub_v2(hass: UniversalAssistant) -> None:
     """Test we set up the Hub v2 correctly."""
 
     result = await _init_form(hass, STEP_HUB_V2)
@@ -202,7 +202,7 @@ async def test_form_select_hub_v2(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_discovery_dhcp(hass: __HAC_KEEP__) -> None:
+async def test_form_discovery_dhcp(hass: UniversalAssistant) -> None:
     """Test the discovery of the Hub via DHCP."""
     discovery_info = DhcpServiceInfo("1.2.3.4", "", "aabbccddeeff")
     result = await hass.config_entries.flow.async_init(
@@ -224,7 +224,7 @@ async def test_form_discovery_dhcp(hass: __HAC_KEEP__) -> None:
     assert found_host
 
 
-async def test_failed_connection_plm(hass: __HAC_KEEP__) -> None:
+async def test_failed_connection_plm(hass: UniversalAssistant) -> None:
     """Test a failed connection with the PLM."""
 
     result = await _init_form(hass, STEP_PLM)
@@ -241,7 +241,7 @@ async def test_failed_connection_plm(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_failed_connection_plm_manually(hass: __HAC_KEEP__) -> None:
+async def test_failed_connection_plm_manually(hass: UniversalAssistant) -> None:
     """Test a failed connection with the PLM."""
 
     result = await _init_form(hass, STEP_PLM)
@@ -261,7 +261,7 @@ async def test_failed_connection_plm_manually(hass: __HAC_KEEP__) -> None:
     assert result4["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_failed_connection_hub(hass: __HAC_KEEP__) -> None:
+async def test_failed_connection_hub(hass: UniversalAssistant) -> None:
     """Test a failed connection with a Hub."""
 
     result = await _init_form(hass, STEP_HUB_V2)
@@ -278,7 +278,7 @@ async def test_failed_connection_hub(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_discovery_via_usb(hass: __HAC_KEEP__) -> None:
+async def test_discovery_via_usb(hass: UniversalAssistant) -> None:
     """Test usb flow."""
     discovery_info = UsbServiceInfo(
         device="/dev/ttyINSTEON",
@@ -306,7 +306,7 @@ async def test_discovery_via_usb(hass: __HAC_KEEP__) -> None:
     assert result2["data"] == {"device": "/dev/ttyINSTEON"}
 
 
-async def test_discovery_via_usb_already_setup(hass: __HAC_KEEP__) -> None:
+async def test_discovery_via_usb_already_setup(hass: UniversalAssistant) -> None:
     """Test usb flow -- already setup."""
 
     MockConfigEntry(

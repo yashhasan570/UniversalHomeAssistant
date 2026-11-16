@@ -11,7 +11,7 @@ from pytest_universalassistant.common import get_fixture_path
 
 from universalassistant.components.backup import DOMAIN
 from universalassistant.components.backup.manager import NewBackup, WrittenBackup
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -37,7 +37,7 @@ def hass_config_dir(tmp_path: Path, available_backups: list[Path]) -> str:
 
 
 @pytest.fixture(name="instance_id", autouse=True)
-def instance_id_fixture(hass: __HAC_KEEP__) -> Generator[None]:
+def instance_id_fixture(hass: UniversalAssistant) -> Generator[None]:
     """Mock instance ID."""
     with patch(
         "universalassistant.components.backup.manager.instance_id.async_get",
@@ -77,7 +77,7 @@ def mock_create_backup() -> Generator[AsyncMock]:
 
 
 @pytest.fixture(name="mock_ha_version")
-def mock_ha_version_fixture(hass: __HAC_KEEP__) -> Generator[None]:
+def mock_ha_version_fixture(hass: UniversalAssistant) -> Generator[None]:
     """Mock HA version.
 
     The HA version is included in backup metadata. We mock it for the benefit
@@ -94,7 +94,7 @@ def mock_backups() -> Generator[None]:
     from universalassistant.components.backup import backup as core_backup  # noqa: PLC0415
 
     class CoreLocalBackupAgent(core_backup.CoreLocalBackupAgent):
-        def __init__(self, hass: __HAC_KEEP__) -> None:
+        def __init__(self, hass: UniversalAssistant) -> None:
             super().__init__(hass)
             self._backup_dir = get_fixture_path("test_backups", DOMAIN)
 

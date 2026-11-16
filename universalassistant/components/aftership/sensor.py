@@ -6,7 +6,7 @@ from typing import Any, Final, override
 from pyaftership import AfterShip, AfterShipException
 
 from universalassistant.components.sensor import SensorEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -28,7 +28,7 @@ PLATFORM_SCHEMA: Final = cv.removed(DOMAIN, raise_if_present=False)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: AfterShipConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

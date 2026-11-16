@@ -19,7 +19,7 @@ from universalassistant.const import (
     SERVICE_ALARM_DISARM,
     SERVICE_ALARM_TRIGGER,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.typing import Undefined
@@ -28,7 +28,7 @@ from .conftest import MockAlarmControlPanel
 
 
 async def help_test_async_alarm_control_panel_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id: str,
     service: str,
     code: str | Undefined | None = Undefined,
@@ -45,7 +45,7 @@ async def help_test_async_alarm_control_panel_service(
 
 
 async def test_set_mock_alarm_control_panel_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_alarm_control_panel_entity: MockAlarmControlPanel,
 ) -> None:
@@ -76,7 +76,7 @@ async def test_set_mock_alarm_control_panel_options(
 
 
 async def test_default_code_option_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_alarm_control_panel_entity: MockAlarmControlPanel,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_default_code_option_update(
     [(CodeFormat.TEXT, AlarmControlPanelEntityFeature.ARM_AWAY)],
 )
 async def test_alarm_control_panel_arm_with_code(
-    hass: __HAC_KEEP__, mock_alarm_control_panel_entity: MockAlarmControlPanel
+    hass: UniversalAssistant, mock_alarm_control_panel_entity: MockAlarmControlPanel
 ) -> None:
     """Test alarm control panel entity with open service."""
     state = hass.states.get(mock_alarm_control_panel_entity.entity_id)
@@ -136,7 +136,7 @@ async def test_alarm_control_panel_arm_with_code(
     [(CodeFormat.NUMBER, False)],
 )
 async def test_alarm_control_panel_with_no_code(
-    hass: __HAC_KEEP__, mock_alarm_control_panel_entity: MockAlarmControlPanel
+    hass: UniversalAssistant, mock_alarm_control_panel_entity: MockAlarmControlPanel
 ) -> None:
     """Test alarm control panel entity without code."""
     await help_test_async_alarm_control_panel_service(
@@ -174,7 +174,7 @@ async def test_alarm_control_panel_with_no_code(
     [(CodeFormat.NUMBER, True)],
 )
 async def test_alarm_control_panel_with_default_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_alarm_control_panel_entity: MockAlarmControlPanel,
 ) -> None:
@@ -213,7 +213,7 @@ async def test_alarm_control_panel_with_default_code(
 
 
 async def test_alarm_control_panel_not_log_deprecated_state_warning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_alarm_control_panel_entity: MockAlarmControlPanel,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

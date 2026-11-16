@@ -8,7 +8,7 @@ from ring_doorbell import Auth, Ring
 
 from universalassistant.components.camera import DOMAIN as CAMERA_DOMAIN
 from universalassistant.const import APPLICATION_NAME, CONF_DEVICE_ID, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -31,7 +31,7 @@ def get_auth_user_agent() -> str:
     return f"{APPLICATION_NAME}/{DOMAIN}-integration"
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: RingConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: RingConfigEntry) -> None:
     """Set up a config entry."""
 
     def token_updater(token: dict[str, Any]) -> None:
@@ -77,19 +77,19 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: RingConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: RingConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: RingConfigEntry) -> None:
     """Unload Ring entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, entry: RingConfigEntry, device_entry: dr.AnyDeviceEntry
+    hass: UniversalAssistant, entry: RingConfigEntry, device_entry: dr.AnyDeviceEntry
 ) -> bool:
     """Remove a config entry from a device."""
     return True
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: RingConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: RingConfigEntry) -> None:
     """Migrate old config entry."""
     entry_version = entry.version
     entry_minor_version = entry.minor_version

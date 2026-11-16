@@ -14,7 +14,7 @@ from universalassistant.components.mqtt import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import CALLBACK_TYPE, Event, __HAC_KEEP__
+from universalassistant.core import CALLBACK_TYPE, Event, UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -36,7 +36,7 @@ class QbusControllerCoordinator(DataUpdateCoordinator[QbusMqttDevice | None]):
 
     _STATE_REQUEST_DELAY = 3
 
-    def __init__(self, hass: __HAC_KEEP__, entry: QbusConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: QbusConfigEntry) -> None:
         """Initialize Qbus coordinator."""
 
         _LOGGER.debug("%s - Initializing coordinator", entry.unique_id)
@@ -199,7 +199,7 @@ class QbusConfigCoordinator:
 
     _qbus_config: QbusDiscovery | None = None
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize config coordinator."""
 
         self._hass = hass
@@ -212,7 +212,7 @@ class QbusConfigCoordinator:
         )
 
     @classmethod
-    def get_or_create(cls, hass: __HAC_KEEP__) -> QbusConfigCoordinator:
+    def get_or_create(cls, hass: UniversalAssistant) -> QbusConfigCoordinator:
         """Get the coordinator and create if necessary."""
         if (coordinator := hass.data.get(QBUS_KEY)) is None:
             coordinator = cls(hass)

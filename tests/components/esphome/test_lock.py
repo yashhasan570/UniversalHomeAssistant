@@ -12,13 +12,13 @@ from aioesphomeapi import (
 
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN, LockService, LockState
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import MockGenericDeviceEntryType
 
 
 async def test_lock_entity_no_open(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -55,7 +55,7 @@ async def test_lock_entity_no_open(
 
 
 async def test_lock_entity_start_locked(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -81,7 +81,7 @@ async def test_lock_entity_start_locked(
 
 
 async def test_lock_entity_supports_open(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -137,7 +137,7 @@ async def test_lock_entity_supports_open(
 
 
 async def test_lock_entity_none_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:

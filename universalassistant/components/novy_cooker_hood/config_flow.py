@@ -16,7 +16,7 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
 )
 from universalassistant.const import CONF_CODE
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er, selector
 
 from .const import (
@@ -71,7 +71,7 @@ class NovyCookerHoodConfigFlow(ConfigFlow, domain=DOMAIN):
         """Show the transmitter+code picker shared by user and reconfigure steps."""
         try:
             transmitters = async_get_transmitters(self.hass, FREQUENCY, MODULATION)
-        except __HAC_KEEP__Error:
+        except UniversalAssistantError:
             return self.async_abort(reason="no_transmitters")
 
         if not transmitters:
@@ -136,7 +136,7 @@ class NovyCookerHoodConfigFlow(ConfigFlow, domain=DOMAIN):
             await async_send_command(self.hass, self._transmitter_entity_id, command)
             await asyncio.sleep(_TOGGLE_GAP)
             await async_send_command(self.hass, self._transmitter_entity_id, command)
-        except __HAC_KEEP__Error:
+        except UniversalAssistantError:
             return await self.async_step_test_failed()
         return self.async_show_menu(
             step_id="test_light",

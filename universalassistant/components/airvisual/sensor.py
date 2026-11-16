@@ -19,7 +19,7 @@ from universalassistant.const import (
     UnitOfDensity,
     UnitOfRatio,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_CITY
@@ -102,7 +102,7 @@ POLLUTANT_UNITS = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: AirVisualConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

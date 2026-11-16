@@ -6,7 +6,7 @@ from aussiebb.const import FETCH_TYPES
 from aussiebb.exceptions import AuthenticationException
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -19,7 +19,7 @@ PLATFORMS = [Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: AussieBroadbandConfigEntry
+    hass: UniversalAssistant, entry: AussieBroadbandConfigEntry
 ) -> None:
     """Set up Aussie Broadband from a config entry."""
     # Login to the Aussie Broadband API and retrieve the current service list
@@ -53,7 +53,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: AussieBroadbandConfigEntry
+    hass: UniversalAssistant, entry: AussieBroadbandConfigEntry
 ) -> None:
     """Unload the config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

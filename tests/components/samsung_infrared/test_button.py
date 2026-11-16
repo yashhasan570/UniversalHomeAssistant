@@ -12,7 +12,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -24,7 +24,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -74,7 +74,7 @@ async def test_entities(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_button_press_sends_correct_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     entity_id: str,
     expected_code: SamsungTVCode,
@@ -95,7 +95,7 @@ async def test_button_press_sends_correct_code(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_button_availability_follows_ir_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test button becomes unavailable when IR entity is unavailable."""
     entity_id = "button.samsung_tv_source"

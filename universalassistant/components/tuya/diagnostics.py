@@ -6,7 +6,7 @@ from tuya_device_handlers.helpers.diagnostics import customer_device_as_dict
 from tuya_sharing import CustomerDevice
 
 from universalassistant.components.diagnostics import REDACTED
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 
@@ -22,14 +22,14 @@ _REDACTED_DPCODES = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: TuyaConfigEntry
+    hass: UniversalAssistant, entry: TuyaConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return _async_get_diagnostics(hass, entry)
 
 
 async def async_get_device_diagnostics(
-    hass: __HAC_KEEP__, entry: TuyaConfigEntry, device: AnyDeviceEntry
+    hass: UniversalAssistant, entry: TuyaConfigEntry, device: AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device entry."""
     return _async_get_diagnostics(hass, entry, device)
@@ -37,7 +37,7 @@ async def async_get_device_diagnostics(
 
 @callback
 def _async_get_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: TuyaConfigEntry,
     device: AnyDeviceEntry | None = None,
 ) -> dict[str, Any]:
@@ -72,7 +72,7 @@ def _async_get_diagnostics(
 
 @callback
 def _async_device_as_dict(
-    hass: __HAC_KEEP__, entry: TuyaConfigEntry, device: CustomerDevice
+    hass: UniversalAssistant, entry: TuyaConfigEntry, device: CustomerDevice
 ) -> dict[str, Any]:
     """Represent a Tuya device as a dictionary."""
 
@@ -84,7 +84,7 @@ def _async_device_as_dict(
         if key in _REDACTED_DPCODES:
             data["status"][key] = REDACTED
 
-    # Gather information how this Tuya device is represented in __HA_KEEP__
+    # Gather information how this Tuya device is represented in Universal Home Assistant
     device_registry = dr.async_get(hass)
     entity_registry = er.async_get(hass)
     hass_device = device_registry.async_get_device_by_identifier(

@@ -10,7 +10,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import FGLairConfigEntry, FGLairCoordinator
@@ -18,7 +18,7 @@ from .entity import FGLairEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FGLairConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

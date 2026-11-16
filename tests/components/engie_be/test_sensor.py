@@ -44,7 +44,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import (
@@ -78,7 +78,7 @@ def _prices_by_ban(
 
 @pytest.mark.usefixtures("mock_engie_client", "entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -102,7 +102,7 @@ async def test_sensors(
 
 @pytest.mark.usefixtures("mock_engie_client")
 async def test_slot_aware_naming(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -150,7 +150,7 @@ async def test_slot_aware_naming(
 
 @pytest.mark.usefixtures("mock_engie_client")
 async def test_excl_vat_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -203,7 +203,7 @@ def _single_period_prices(ean: str) -> EanPrices:
 
 
 async def test_duplicate_type_suffix(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -236,7 +236,7 @@ async def test_duplicate_type_suffix(
 
 
 async def test_type_fallback_when_service_point_lookup_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -294,7 +294,7 @@ def _empty_address_relations() -> CustomerAccountRelations:
     ],
 )
 async def test_device_name_falls_back_to_ban(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -328,7 +328,7 @@ async def test_device_name_falls_back_to_ban(
     ],
 )
 async def test_period_window_creates_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -361,7 +361,7 @@ async def test_period_window_creates_sensors(
 
 
 async def test_period_window_uses_brussels_date(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -390,7 +390,7 @@ async def test_period_window_uses_brussels_date(
     ],
 )
 async def test_period_window_skips_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -414,7 +414,7 @@ async def test_period_window_skips_sensors(
 
 
 async def test_period_window_refresh_makes_existing_sensors_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -499,7 +499,7 @@ def _degraded_ean_absent() -> EngieBePricesData:
     ],
 )
 async def test_available_degrades_for_missing_slot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     degraded_data: Callable[[], EngieBePricesData],
@@ -524,7 +524,7 @@ async def test_available_degrades_for_missing_slot(
 
 
 async def test_recovering_ban_adds_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -570,7 +570,7 @@ async def test_recovering_ban_adds_entities(
 
 
 async def test_period_gap_heals(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -624,7 +624,7 @@ def _add_offtake_slot(
 
 
 async def test_new_slot_code_appears(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -669,7 +669,7 @@ async def test_new_slot_code_appears(
 
 
 async def test_no_duplicate_entities_on_repeated_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -695,7 +695,7 @@ async def test_no_duplicate_entities_on_repeated_refresh(
 
 
 async def test_late_service_point_failure_falls_back(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -769,7 +769,7 @@ def _single_ban_prices_response(ean: str, price_value: float) -> PricesResponse:
 
 
 async def _setup_two_bans(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
 ) -> None:
@@ -789,7 +789,7 @@ async def _setup_two_bans(
 
 
 async def test_single_ban_transient_failure_goes_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -817,7 +817,7 @@ async def test_single_ban_transient_failure_goes_unavailable(
 
 
 async def test_all_bans_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -843,7 +843,7 @@ async def test_all_bans_fail(
 
 
 async def test_unexpected_exception_is_not_swallowed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -861,7 +861,7 @@ async def test_unexpected_exception_is_not_swallowed(
 
 
 async def test_failure_and_recovery_are_logged_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -921,7 +921,7 @@ async def test_failure_and_recovery_are_logged_once(
 
 
 async def test_recovery_after_all_bans_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -956,7 +956,7 @@ async def test_recovery_after_all_bans_fail(
 
 
 async def test_service_point_transient_failure_is_retried(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -986,7 +986,7 @@ async def test_service_point_transient_failure_is_retried(
 
 
 async def test_service_point_success_without_ean_is_cached_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -1011,7 +1011,7 @@ async def test_service_point_success_without_ean_is_cached_once(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_epex_entities_on_household_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -1039,7 +1039,7 @@ async def test_epex_entities_on_household_device(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_epex_sensors_unknown_during_slot_gap(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -1100,7 +1100,7 @@ async def test_epex_sensors_unknown_during_slot_gap(
 
 
 async def test_epex_sensors_update_on_quarter_boundaries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -1132,7 +1132,7 @@ async def test_epex_sensors_update_on_quarter_boundaries(
 
 
 def _epex_state(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, key: str
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, key: str
 ) -> str:
     """Return the state of one EPEX entity of the dynamic household."""
     platform = "binary_sensor" if key == "epex_tomorrow_available" else "sensor"
@@ -1159,7 +1159,7 @@ def _epex_state(
     ],
 )
 async def test_epex_sensors_on_dst_days(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -1184,7 +1184,7 @@ async def test_epex_sensors_on_dst_days(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_epex_empty_payload_keeps_entities_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -1219,7 +1219,7 @@ async def test_epex_empty_payload_keeps_entities_unknown(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_epex_slot_gap_heals_on_next_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -1248,7 +1248,7 @@ async def test_epex_slot_gap_heals_on_next_refresh(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "frozen_afternoon")
 async def test_epex_sensors_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,

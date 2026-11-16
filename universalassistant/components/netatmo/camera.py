@@ -8,8 +8,8 @@ from pyatmo import ApiError as NetatmoApiError, modules as NaModules
 from pyatmo.event import Event as NaEvent
 
 from universalassistant.components.camera import Camera, CameraEntityFeature
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -41,7 +41,7 @@ DEFAULT_QUALITY = "high"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: NetatmoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -302,7 +302,7 @@ class NetatmoCamera(NetatmoModuleEntity, Camera):
                 person_id_errors.append(person)
 
         if person_id_errors:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="persons_not_registered",
                 translation_placeholders={
@@ -338,7 +338,7 @@ class NetatmoCamera(NetatmoModuleEntity, Camera):
     async def _service_set_camera_light(self, **kwargs: Any) -> None:
         """Service to set light mode."""
         if not isinstance(self.device, NaModules.netatmo.NOC):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="no_floodlight",
                 translation_placeholders={

@@ -23,7 +23,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import entity_registry as er
 
 _ENTITY_ID = "select.lg_ac_energy_limit"
@@ -49,7 +49,7 @@ def has_receiver() -> bool:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -69,7 +69,7 @@ async def test_entities(
     ],
 )
 async def test_select_option_sends_correct_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     previous_option: str,
     option: str,
@@ -108,7 +108,7 @@ async def test_select_option_sends_correct_code(
 
 
 async def test_state_restored_on_restart(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     platforms: list[Platform],
@@ -127,7 +127,7 @@ async def test_state_restored_on_restart(
 
 
 @pytest.mark.usefixtures("init_integration")
-async def test_availability_follows_emitter(hass: __HAC_KEEP__) -> None:
+async def test_availability_follows_emitter(hass: UniversalAssistant) -> None:
     """Test select availability follows the infrared emitter."""
     await assert_availability_follows_source_entity(
         hass, _ENTITY_ID, [EMITTER_ENTITY_ID]

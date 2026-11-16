@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.yamaha_musiccast.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import TEST_DEVICE_ID, TEST_ZONE
@@ -15,7 +15,7 @@ from .conftest import TEST_DEVICE_ID, TEST_ZONE
 
 @pytest.mark.usefixtures("mock_musiccast_device")
 async def test_device_via_device_links(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:

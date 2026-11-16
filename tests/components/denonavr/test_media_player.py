@@ -30,7 +30,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import (
@@ -51,7 +51,7 @@ ENTITY_ID = f"{media_player.DOMAIN}.{TEST_NAME}"
 
 
 async def setup_denonavr(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     serial_number: str | None = TEST_SERIALNUMBER,
     options: Mapping[str, Any] | None = None,
 ) -> MockConfigEntry:
@@ -86,7 +86,7 @@ async def setup_denonavr(
 
 @pytest.mark.usefixtures("client")
 async def test_setup_without_serial_number(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test a receiver reporting no serial number still gets its media player."""
     entry = await setup_denonavr(hass, serial_number=None)
@@ -96,7 +96,7 @@ async def test_setup_without_serial_number(
     )
 
 
-async def test_get_command(hass: __HAC_KEEP__, client: MagicMock) -> None:
+async def test_get_command(hass: UniversalAssistant, client: MagicMock) -> None:
     """Test generic command functionality."""
     await setup_denonavr(hass)
 
@@ -110,7 +110,7 @@ async def test_get_command(hass: __HAC_KEEP__, client: MagicMock) -> None:
     client.async_get_command.assert_awaited_with("test_command")
 
 
-async def test_dynamic_eq(hass: __HAC_KEEP__, client: MagicMock) -> None:
+async def test_dynamic_eq(hass: UniversalAssistant, client: MagicMock) -> None:
     """Test that dynamic eq method works."""
     await setup_denonavr(hass)
 
@@ -131,7 +131,7 @@ async def test_dynamic_eq(hass: __HAC_KEEP__, client: MagicMock) -> None:
     client.async_dynamic_eq_off.assert_called_once()
 
 
-async def test_update_audyssey(hass: __HAC_KEEP__, client: MagicMock) -> None:
+async def test_update_audyssey(hass: UniversalAssistant, client: MagicMock) -> None:
     """Test that dynamic eq method works."""
     await setup_denonavr(hass)
 
@@ -149,7 +149,7 @@ async def test_update_audyssey(hass: __HAC_KEEP__, client: MagicMock) -> None:
 
 
 async def test_setup_retry_on_request_error(
-    hass: __HAC_KEEP__, client: MagicMock
+    hass: UniversalAssistant, client: MagicMock
 ) -> None:
     """Test that a failed request during setup retries the config entry."""
     client.async_update.side_effect = AvrInvalidResponseError(
@@ -190,7 +190,7 @@ async def test_setup_retry_on_request_error(
     ],
 )
 async def test_malformed_response_marks_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     freezer: FrozenDateTimeFactory,
     exception: Exception,
@@ -223,7 +223,7 @@ async def test_malformed_response_marks_unavailable(
     ],
 )
 async def test_telnet_outlives_zone_entity_removal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     entity_registry: er.EntityRegistry,
     unload_options: dict[str, bool],

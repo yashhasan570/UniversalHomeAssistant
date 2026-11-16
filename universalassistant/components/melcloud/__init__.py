@@ -8,7 +8,7 @@ from aiohttp import ClientConnectionError, ClientResponseError
 from pymelcloud import get_devices
 
 from universalassistant.const import CONF_TOKEN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -31,13 +31,13 @@ PLATFORMS = [
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the MELCloud integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: MelCloudConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: MelCloudConfigEntry) -> None:
     """Establish connection with MELCloud."""
     try:
         async with asyncio.timeout(10):
@@ -95,7 +95,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: MelCloudConfigEntry) -> N
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: MelCloudConfigEntry
+    hass: UniversalAssistant, config_entry: MelCloudConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)

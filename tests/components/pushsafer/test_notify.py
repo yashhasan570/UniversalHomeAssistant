@@ -6,7 +6,7 @@ from unittest.mock import patch
 import requests
 
 from universalassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
@@ -18,7 +18,7 @@ def _response(body: bytes) -> requests.Response:
     return response
 
 
-async def test_send_message_with_unparsable_response(hass: __HAC_KEEP__) -> None:
+async def test_send_message_with_unparsable_response(hass: UniversalAssistant) -> None:
     """Test a sent message doesn't fail on a response that isn't a single JSON object."""
     assert await async_setup_component(
         hass,

@@ -19,13 +19,13 @@ from universalassistant.components.binary_sensor import BinarySensorDeviceClass
 from universalassistant.components.event import EventDeviceClass
 from universalassistant.const import CommonServiceArgument, Platform
 from universalassistant.core import (
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -120,7 +120,7 @@ TRIGGER_ALARM_WEBHOOK_SCHEMA = probatio.Schema(
 
 
 @callback
-def _async_get_ufp_instance(hass: __HAC_KEEP__, device_id: str) -> ProtectApiClient:
+def _async_get_ufp_instance(hass: UniversalAssistant, device_id: str) -> ProtectApiClient:
     device_registry = dr.async_get(hass)
     device_entry = device_registry.async_get(device_id)
 
@@ -135,7 +135,7 @@ def _async_get_ufp_instance(hass: __HAC_KEEP__, device_id: str) -> ProtectApiCli
     if ufp_instance.is_public_only:
         # Actions read/write through the private bootstrap, which an
         # API-key-only entry never initializes.
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="public_only_no_actions",
         )
@@ -180,7 +180,7 @@ async def _async_service_call_nvr(
         )
     except (ClientError, ValidationError) as err:
         _LOGGER.debug("Error calling UniFi Protect service: %s", err)
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="service_error",
         ) from err
@@ -234,19 +234,19 @@ def _async_unique_id_to_mac(unique_id: str) -> str:
 
 @callback
 def _async_device_name(
-    hass: __HAC_KEEP__, device_id: str | None, fallback: str
+    hass: UniversalAssistant, device_id: str | None, fallback: str
 ) -> str:
-    """Return the name of a __HA_KEEP__ device for an error message."""
+    """Return the name of a Universal Home Assistant device for an error message."""
     device = dr.async_get(hass).async_get(device_id) if device_id else None
     return (device and (device.name_by_user or device.name)) or fallback
 
 
 @callback
 def _async_device_not_available(
-    hass: __HAC_KEEP__, device_id: str | None, mac: str
-) -> __HAC_KEEP__Error:
+    hass: UniversalAssistant, device_id: str | None, mac: str
+) -> UniversalAssistantError:
     """Return the error for a device the public API does not know."""
-    return __HAC_KEEP__Error(
+    return UniversalAssistantError(
         translation_domain=DOMAIN,
         translation_key="device_not_available",
         translation_placeholders={
@@ -257,7 +257,7 @@ def _async_device_not_available(
 
 @callback
 def _async_get_public_chime(
-    hass: __HAC_KEEP__, public_bootstrap: PublicBootstrap, device_id: str
+    hass: UniversalAssistant, public_bootstrap: PublicBootstrap, device_id: str
 ) -> PublicChime:
     """Get the public chime of a device.
 
@@ -336,7 +336,7 @@ async def set_chime_paired_doorbells(call: ServiceCall) -> None:
         await chime.set_camera_ids(sorted(doorbell_ids))
     except (ClientError, ValidationError) as err:
         _LOGGER.debug("Error pairing UniFi Protect chime: %s", err)
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="service_error",
         ) from err
@@ -363,7 +363,7 @@ async def _async_ptz_command(
         return await func(**kwargs)
     except (ClientError, ValidationError) as err:
         _LOGGER.debug("Error calling UniFi Protect PTZ command: %s", err)
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="service_error",
         ) from err
@@ -374,7 +374,7 @@ def _async_get_public_camera(camera: Camera) -> PublicCamera:
     """Get the public camera matching a private camera."""
     if (public := camera.api.public_bootstrap.cameras.get(camera.id)) is not None:
         return public
-    raise __HAC_KEEP__Error(
+    raise UniversalAssistantError(
         translation_domain=DOMAIN,
         translation_key="device_not_available",
         translation_placeholders={"device_name": camera.display_name},
@@ -413,7 +413,7 @@ async def get_user_keyring_info(call: ServiceCall) -> ServiceResponse:
     camera = _async_get_ufp_camera(call)
     ulp_users = camera.api.bootstrap.ulp_users.as_list()
     if not ulp_users:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="no_users_found",
         )
@@ -458,7 +458,7 @@ async def trigger_alarm_webhook(call: ServiceCall) -> None:
             call.data[ProtectServiceArgument.TRIGGER_ID]
         )
     except ClientError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="command_error",
             translation_placeholders={"error": str(err)},
@@ -506,7 +506,7 @@ SERVICES = [
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the global UniFi Protect services."""
 
     for name, method, schema, supports_response in SERVICES:

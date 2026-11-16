@@ -15,7 +15,7 @@ from universalassistant.components.airq.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -40,7 +40,7 @@ DEFAULT_OPTIONS = {
 
 
 async def test_user_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airq: AsyncMock,
 ) -> None:
     """Test successful user config flow from start to entry creation."""
@@ -70,7 +70,7 @@ async def test_user_flow(
     ],
 )
 async def test_user_flow_errors_recover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airq: AsyncMock,
     side_effect: Exception,
     expected_error: str,
@@ -101,7 +101,7 @@ async def test_user_flow_errors_recover(
 
 
 async def test_duplicate_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airq: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -123,7 +123,7 @@ async def test_duplicate_error(
     "user_input", [{}, {CONF_RETURN_AVERAGE: False}, {CONF_CLIP_NEGATIVE: False}]
 )
 async def test_options_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     user_input: dict,
 ) -> None:
@@ -144,7 +144,7 @@ async def test_options_flow(
     assert result["data"] == mock_config_entry.options == DEFAULT_OPTIONS | user_input
 
 
-async def test_zeroconf_discovery(hass: __HAC_KEEP__, mock_airq: AsyncMock) -> None:
+async def test_zeroconf_discovery(hass: UniversalAssistant, mock_airq: AsyncMock) -> None:
     """Test zeroconf discovery and successful setup."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -177,7 +177,7 @@ async def test_zeroconf_discovery(hass: __HAC_KEEP__, mock_airq: AsyncMock) -> N
     ],
 )
 async def test_zeroconf_discovery_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airq: AsyncMock,
     side_effect: Exception,
     expected_error: str,
@@ -218,7 +218,7 @@ async def test_zeroconf_discovery_errors(
 
 
 async def test_zeroconf_discovery_already_configured(
-    hass: __HAC_KEEP__, mock_airq: AsyncMock
+    hass: UniversalAssistant, mock_airq: AsyncMock
 ) -> None:
     """Test zeroconf discovery aborts if device is already configured."""
     MockConfigEntry(
@@ -238,7 +238,7 @@ async def test_zeroconf_discovery_already_configured(
 
 
 async def test_zeroconf_updates_ip_on_already_configured(
-    hass: __HAC_KEEP__, mock_airq: AsyncMock
+    hass: UniversalAssistant, mock_airq: AsyncMock
 ) -> None:
     """Test zeroconf updates the IP address if device is already configured."""
     entry = MockConfigEntry(
@@ -260,7 +260,7 @@ async def test_zeroconf_updates_ip_on_already_configured(
 
 
 async def test_user_flow_succeeds_during_zeroconf_discovery(
-    hass: __HAC_KEEP__, mock_airq: AsyncMock
+    hass: UniversalAssistant, mock_airq: AsyncMock
 ) -> None:
     """Test manual user flow does not abort when a zeroconf flow is in progress.
 
@@ -318,7 +318,7 @@ async def test_user_flow_succeeds_during_zeroconf_discovery(
 
 
 async def test_zeroconf_discovery_missing_id(
-    hass: __HAC_KEEP__, mock_airq: AsyncMock
+    hass: UniversalAssistant, mock_airq: AsyncMock
 ) -> None:
     """Test zeroconf discovery aborts if device ID is missing from properties."""
     discovery_info = ZeroconfServiceInfo(

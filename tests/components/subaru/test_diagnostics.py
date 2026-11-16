@@ -12,7 +12,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.subaru.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from .api_responses import TEST_VIN_2_EV
@@ -25,7 +25,7 @@ from .conftest import (
 
 
 async def test_config_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
     ev_entry,
@@ -41,7 +41,7 @@ async def test_config_entry_diagnostics(
 
 
 async def test_device_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -68,7 +68,7 @@ async def test_device_diagnostics(
 
 
 async def test_device_diagnostics_vehicle_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
     ev_entry,

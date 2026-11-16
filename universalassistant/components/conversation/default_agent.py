@@ -1,4 +1,4 @@
-"""Standard conversation implementation for __HA_KEEP__."""
+"""Standard conversation implementation for Universal Home Assistant."""
 
 import asyncio
 from collections import OrderedDict
@@ -46,7 +46,7 @@ from universalassistant.const import EVENT_STATE_CHANGED, MATCH_ALL
 from universalassistant.core import (
     Event,
     EventStateChangedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     State,
     callback,
 )
@@ -143,10 +143,10 @@ class IntentMatchingStage(Enum):
     """Match against exposed entities only."""
 
     UNEXPOSED_ENTITIES = auto()
-    """Match against unexposed entities in __HA_KEEP__."""
+    """Match against unexposed entities in Universal Home Assistant."""
 
     UNKNOWN_NAMES = auto()
-    """Capture names that are not known to __HA_KEEP__."""
+    """Capture names that are not known to Universal Home Assistant."""
 
 
 @dataclass(frozen=True)
@@ -211,7 +211,7 @@ class IntentCache:
 
 
 async def async_setup_default_agent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_component: EntityComponent[ConversationEntity],
 ) -> None:
     """Set up entity registry listener for the default agent."""
@@ -225,7 +225,7 @@ async def async_setup_default_agent(
         async_should_expose(hass, DOMAIN, event.data["entity_id"])
 
     @callback
-    def async_hass_started(hass: __HAC_KEEP__) -> None:
+    def async_hass_started(hass: UniversalAssistant) -> None:
         """Set expose flag on all entities."""
         for state in hass.states.async_all():
             async_should_expose(hass, DOMAIN, state.entity_id)
@@ -244,10 +244,10 @@ _MATCH_ERROR_CODES = (
 class DefaultAgent(ConversationEntity):
     """Default agent for conversation agent."""
 
-    _attr_name = "__HA_KEEP__"
+    _attr_name = "Universal Home Assistant"
     _attr_supported_features = ConversationEntityFeature.CONTROL
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the default agent."""
         self.hass = hass
 
@@ -1054,7 +1054,7 @@ class DefaultAgent(ConversationEntity):
         return maybe_result
 
     def _get_unexposed_entity_names(self) -> TextSlotList:
-        """Get slot list with unexposed entity names in __HA_KEEP__."""
+        """Get slot list with unexposed entity names in Universal Home Assistant."""
         if self._unexposed_names_list is None:
             self._unexposed_names_list = TextSlotList(
                 name="name",
@@ -1940,7 +1940,7 @@ def _collect_list_references(expression: Expression, list_names: set[str]) -> No
 
 
 def _get_debug_targets(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     result: RecognizeResult,
     satellite_area: ar.AreaEntry | None = None,
 ) -> Iterable[tuple[State, bool]]:

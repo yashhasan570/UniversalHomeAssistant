@@ -1,8 +1,8 @@
-"""Test for a __HA_KEEP__ bridge that changes climate features at runtime."""
+"""Test for a Universal Home Assistant bridge that changes climate features at runtime."""
 
 from universalassistant.components.climate import ATTR_SWING_MODES, ClimateEntityFeature
 from universalassistant.const import ATTR_SUPPORTED_FEATURES
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from ..common import (
@@ -13,7 +13,7 @@ from ..common import (
 
 
 async def test_cover_add_feature_at_runtime(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that new features can be added at runtime."""
 

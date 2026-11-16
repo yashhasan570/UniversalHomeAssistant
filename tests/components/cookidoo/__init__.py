@@ -2,11 +2,11 @@
 
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cookidoo_config_entry: MockConfigEntry,
 ) -> None:
     """Mock setup of the cookidoo integration."""

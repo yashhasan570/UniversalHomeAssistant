@@ -19,7 +19,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.mcp.const import DOMAIN
 from universalassistant.const import CONF_API_TOKEN, CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import API_TOKEN, TEST_API_NAME
 
@@ -35,7 +35,7 @@ from .conftest import API_TOKEN, TEST_API_NAME
     ],
 )
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_mcp_client: AsyncMock,
     snapshot: SnapshotAssertion,

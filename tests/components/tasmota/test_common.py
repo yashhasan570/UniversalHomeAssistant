@@ -30,7 +30,7 @@ from pytest_universalassistant.typing import (
 
 from universalassistant.components.tasmota.const import DEFAULT_PREFIX
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 DEFAULT_CONFIG = {
@@ -60,7 +60,7 @@ DEFAULT_CONFIG = {
         "13": 0,  # Allow immediate action on single button press
         "17": 1,  # Show Color string as hex or comma-separated
         "20": 0,  # Update of Dimmer/Color/CT without turning power on
-        "30": 0,  # Enforce __HA_KEEP__ auto-discovery as light
+        "30": 0,  # Enforce Universal Home Assistant auto-discovery as light
         "68": 0,  # Multi-channel PWM instead of a single light
         "73": 0,  # Enable Buttons decoupling and send multi-press
         "82": 0,  # Reduce the CT range from 153..500 to 200.380
@@ -95,7 +95,7 @@ DEFAULT_CONFIG_9_0_0_3 = {
         "13": 0,  # Allow immediate action on single button press
         "17": 1,  # Show Color string as hex or comma-separated
         "20": 0,  # Update of Dimmer/Color/CT without turning power on
-        "30": 0,  # Enforce __HA_KEEP__ auto-discovery as light
+        "30": 0,  # Enforce Universal Home Assistant auto-discovery as light
         "68": 0,  # Multi-channel PWM instead of a single light
         "73": 0,  # Enable Buttons decoupling and send multi-press
         "80": 0,  # Blinds and shutters support
@@ -117,7 +117,7 @@ DEFAULT_SENSOR_CONFIG = {
 
 
 async def remove_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_id: str,
 ) -> None:
@@ -128,7 +128,7 @@ async def remove_device(
 
 
 async def help_test_availability_when_connection_lost(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_client_mock: MqttMockPahoClient,
     mqtt_mock: MqttMockHAClient,
     domain: str,
@@ -194,7 +194,7 @@ async def help_test_availability_when_connection_lost(
 
 
 async def help_test_deep_sleep_availability_when_connection_lost(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_client_mock: MqttMockPahoClient,
     mqtt_mock: MqttMockHAClient,
     domain: str,
@@ -264,7 +264,7 @@ async def help_test_deep_sleep_availability_when_connection_lost(
 
 
 async def help_test_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
     domain: str,
     config: dict[str, Any],
@@ -312,7 +312,7 @@ async def help_test_availability(
 
 
 async def help_test_deep_sleep_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
     domain: str,
     config: dict[str, Any],
@@ -361,7 +361,7 @@ async def help_test_deep_sleep_availability(
 
 
 async def help_test_availability_discovery_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
     domain: str,
     config: dict[str, Any],
@@ -437,7 +437,7 @@ async def help_test_availability_discovery_update(
 
 
 async def help_test_availability_poll_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_client_mock: MqttMockPahoClient,
     mqtt_mock: MqttMockHAClient,
     domain: str,
@@ -510,7 +510,7 @@ async def help_test_availability_poll_state(
 
 
 async def help_test_discovery_removal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
     caplog: pytest.LogCaptureFixture,
     domain: str,
@@ -578,7 +578,7 @@ async def help_test_discovery_removal(
 
 
 async def help_test_discovery_update_unchanged(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
     caplog: pytest.LogCaptureFixture,
     domain: str,
@@ -632,7 +632,7 @@ async def help_test_discovery_update_unchanged(
 
 
 async def help_test_discovery_device_remove(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
     domain: str,
     unique_id: str,
@@ -675,7 +675,7 @@ async def help_test_discovery_device_remove(
 
 
 async def help_test_entity_id_update_subscriptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
     domain: str,
     config: dict[str, Any],
@@ -735,7 +735,7 @@ async def help_test_entity_id_update_subscriptions(
 
 
 async def help_test_entity_id_update_discovery_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
     domain: str,
     config: dict[str, Any],

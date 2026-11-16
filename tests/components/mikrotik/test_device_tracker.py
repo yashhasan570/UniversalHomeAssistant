@@ -11,7 +11,7 @@ from pytest_universalassistant.common import async_fire_time_changed, patch
 from universalassistant.components import device_tracker, mikrotik
 from universalassistant.components.mikrotik.const import ARP, DHCP, MIKROTIK_SERVICES, PING
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util.dt import utcnow
 
@@ -55,7 +55,7 @@ def mock_command(
 
 
 async def _poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     responses: dict[str, Any],
     delay: timedelta = timedelta(seconds=10),
@@ -74,7 +74,7 @@ async def _poll(
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_device_trackers(hass: __HAC_KEEP__) -> None:
+async def test_device_trackers(hass: UniversalAssistant) -> None:
     """Test device_trackers created by mikrotik."""
 
     # test devices are added from wireless list only
@@ -140,7 +140,7 @@ async def test_device_trackers(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_tracker_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     dhcp_data: list[dict[str, Any]],
@@ -161,7 +161,7 @@ async def test_tracker_device(
 
 
 async def test_existing_device_name_kept_without_hostname(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -201,7 +201,7 @@ async def test_existing_device_name_kept_without_hostname(
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_force_dhcp(hass: __HAC_KEEP__) -> None:
+async def test_force_dhcp(hass: UniversalAssistant) -> None:
     """Test updating hub that supports wireless with forced dhcp method."""
 
     # hub supports wireless by default, force_dhcp is enabled to override
@@ -216,7 +216,7 @@ async def test_force_dhcp(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_hub_not_support_wireless(hass: __HAC_KEEP__) -> None:
+async def test_hub_not_support_wireless(hass: UniversalAssistant) -> None:
     """Test device_trackers created when hub doesn't support wireless."""
 
     await setup_mikrotik_entry(hass, support_wireless=False)
@@ -230,7 +230,7 @@ async def test_hub_not_support_wireless(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_hub_capsman(hass: __HAC_KEEP__) -> None:
+async def test_hub_capsman(hass: UniversalAssistant) -> None:
     """Test device_trackers created when hub is a CAPsMAN manager."""
 
     await setup_mikrotik_entry(
@@ -247,7 +247,7 @@ async def test_hub_capsman(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_hub_wifi(hass: __HAC_KEEP__) -> None:
+async def test_hub_wifi(hass: UniversalAssistant) -> None:
     """Test device_trackers created when hub supports the legacy wifi driver."""
 
     await setup_mikrotik_entry(
@@ -264,7 +264,7 @@ async def test_hub_wifi(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_hub_wireless_and_wifi(hass: __HAC_KEEP__) -> None:
+async def test_hub_wireless_and_wifi(hass: UniversalAssistant) -> None:
     """Test a hub exposing both the legacy wireless package and the wifi driver.
 
     The legacy ``wireless`` package can linger on a hub acting as a CAPsMAN for
@@ -292,7 +292,7 @@ async def test_hub_wireless_and_wifi(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_wired_device_without_active_address_is_not_home(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test a wired device is tracked once active and marked away when inactive."""
@@ -326,7 +326,7 @@ async def test_wired_device_without_active_address_is_not_home(
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_arp_ping_success(hass: __HAC_KEEP__) -> None:
+async def test_arp_ping_success(hass: UniversalAssistant) -> None:
     """Test arp ping devices to confirm they are connected."""
     ping_replies = [{"seq": "0"}, {"seq": "1"}, {"seq": "2"}]
 
@@ -342,7 +342,7 @@ async def test_arp_ping_success(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_arp_ping_timeout(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test arp ping timeout so devices are shown away."""
     ping_replies = [{"seq": "0"}, {"seq": "1"}, {"seq": "2"}]
@@ -372,7 +372,7 @@ async def test_arp_ping_timeout(
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_device_trackers_numerical_name(hass: __HAC_KEEP__) -> None:
+async def test_device_trackers_numerical_name(hass: UniversalAssistant) -> None:
     """Test device_trackers created by mikrotik with numerical device name."""
 
     await setup_mikrotik_entry(
@@ -389,7 +389,7 @@ async def test_device_trackers_numerical_name(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_hub_wifiwave2(hass: __HAC_KEEP__) -> None:
+async def test_hub_wifiwave2(hass: UniversalAssistant) -> None:
     """Test device_trackers created when hub supports wifiwave2."""
 
     await setup_mikrotik_entry(
@@ -410,7 +410,7 @@ async def test_hub_wifiwave2(hass: __HAC_KEEP__) -> None:
 
 
 async def test_restoring_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntryFactory,
 ) -> None:
@@ -460,7 +460,7 @@ async def test_restoring_devices(
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_update_failed(hass: __HAC_KEEP__) -> None:
+async def test_update_failed(hass: UniversalAssistant) -> None:
     """Test failing to connect during update."""
 
     await setup_mikrotik_entry(hass)

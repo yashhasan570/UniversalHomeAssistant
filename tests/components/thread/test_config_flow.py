@@ -6,19 +6,19 @@ from unittest.mock import patch
 import pytest
 
 from universalassistant.components import thread
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
 TEST_ZEROCONF_RECORD = ZeroconfServiceInfo(
     ip_address=ip_address("127.0.0.1"),
     ip_addresses=[ip_address("127.0.0.1")],
-    hostname="__HAC_KEEP__ OpenThreadBorderRouter #0BBF",
-    name="__HAC_KEEP__ OpenThreadBorderRouter #0BBF._meshcop._udp.local.",
+    hostname="UniversalAssistant OpenThreadBorderRouter #0BBF",
+    name="UniversalAssistant OpenThreadBorderRouter #0BBF._meshcop._udp.local.",
     port=8080,
     properties={
         "rv": "1",
-        "vn": "__HAC_KEEP__",
+        "vn": "UniversalAssistant",
         "mn": "OpenThreadBorderRouter",
         "nn": "OpenThread HC",
         "xp": "\xe6\x0f\xc7\xc1\x86!,\xe5",
@@ -35,7 +35,7 @@ TEST_ZEROCONF_RECORD = ZeroconfServiceInfo(
 )
 
 
-async def test_import(hass: __HAC_KEEP__) -> None:
+async def test_import(hass: UniversalAssistant) -> None:
     """Test the import flow."""
     with patch(
         "universalassistant.components.thread.async_setup_entry",
@@ -60,7 +60,7 @@ async def test_import(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("source", ["import", "user"])
 async def test_single_instance_allowed_zeroconf(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     source: str,
 ) -> None:
     """Test zeroconf single instance allowed abort reason."""
@@ -88,7 +88,7 @@ async def test_single_instance_allowed_zeroconf(
     assert len(mock_setup_entry.mock_calls) == 0
 
 
-async def test_user(hass: __HAC_KEEP__) -> None:
+async def test_user(hass: UniversalAssistant) -> None:
     """Test the user flow."""
     with patch(
         "universalassistant.components.thread.async_setup_entry",
@@ -111,7 +111,7 @@ async def test_user(hass: __HAC_KEEP__) -> None:
     assert config_entry.unique_id is None
 
 
-async def test_zeroconf(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf(hass: UniversalAssistant) -> None:
     """Test the zeroconf flow."""
     result = await hass.config_entries.flow.async_init(
         thread.DOMAIN, context={"source": "zeroconf"}, data=TEST_ZEROCONF_RECORD
@@ -138,7 +138,7 @@ async def test_zeroconf(hass: __HAC_KEEP__) -> None:
     assert config_entry.unique_id is None
 
 
-async def test_zeroconf_setup_onboarding(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_setup_onboarding(hass: UniversalAssistant) -> None:
     """Test we automatically finish a zeroconf flow during onboarding."""
     with (
         patch(
@@ -164,7 +164,7 @@ async def test_zeroconf_setup_onboarding(hass: __HAC_KEEP__) -> None:
     ("first_source", "second_source"), [("import", "user"), ("user", "import")]
 )
 async def test_import_and_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     first_source: str,
     second_source: str,
 ) -> None:
@@ -196,7 +196,7 @@ async def test_import_and_user(
 
 @pytest.mark.parametrize("source", ["import", "user"])
 async def test_zeroconf_then_import_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     source: str,
 ) -> None:
     """Test single instance allowed abort reason for import/user flow."""
@@ -226,7 +226,7 @@ async def test_zeroconf_then_import_user(
 
 @pytest.mark.parametrize("source", ["import", "user"])
 async def test_zeroconf_in_progress_then_import_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     source: str,
 ) -> None:
     """Test priority (import/user) flow with zeroconf flow in progress."""

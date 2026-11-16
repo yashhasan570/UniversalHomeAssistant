@@ -21,8 +21,8 @@ from universalassistant.components.notify import (
     NotifyEntityDescription,
     NotifyEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.os_error import os_read_error
 
@@ -37,7 +37,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: NtfyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -129,18 +129,18 @@ class NtfyNotifyEntity(NtfyBaseEntity, NotifyEntity):
             await self.ntfy.publish(msg, attachment)
         except NtfyUnauthorizedAuthenticationError as e:
             self.config_entry.async_start_reauth(self.hass)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="authentication_error",
             ) from e
         except NtfyHTTPError as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_key="publish_failed_request_error",
                 translation_domain=DOMAIN,
                 translation_placeholders={"error_msg": e.error},
             ) from e
         except NtfyException as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_key="publish_failed_exception",
                 translation_domain=DOMAIN,
             ) from e
@@ -154,13 +154,13 @@ class NtfyNotifyEntity(NtfyBaseEntity, NotifyEntity):
             await self.ntfy.clear(self.topic, params[NtfyServiceArgument.SEQUENCE_ID])
         except NtfyUnauthorizedAuthenticationError as e:
             self.config_entry.async_start_reauth(self.hass)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="authentication_error",
             ) from e
         except NtfyException as e:
             _LOGGER.debug("Exception:", exc_info=True)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_key="clear_failed",
                 translation_domain=DOMAIN,
             ) from e
@@ -174,13 +174,13 @@ class NtfyNotifyEntity(NtfyBaseEntity, NotifyEntity):
             await self.ntfy.delete(self.topic, params[NtfyServiceArgument.SEQUENCE_ID])
         except NtfyUnauthorizedAuthenticationError as e:
             self.config_entry.async_start_reauth(self.hass)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="authentication_error",
             ) from e
         except NtfyException as e:
             _LOGGER.debug("Exception:", exc_info=True)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_key="delete_failed",
                 translation_domain=DOMAIN,
             ) from e

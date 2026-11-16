@@ -8,7 +8,7 @@ from pysensibo.exceptions import AuthenticationError, SensiboError
 from pysensibo.model import SensiboData
 
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -28,7 +28,7 @@ class SensiboDataUpdateCoordinator(DataUpdateCoordinator[SensiboData]):
 
     config_entry: SensiboConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: SensiboConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: SensiboConfigEntry) -> None:
         """Initialize the Sensibo coordinator."""
         super().__init__(
             hass,

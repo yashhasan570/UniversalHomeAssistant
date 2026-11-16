@@ -14,7 +14,7 @@ from universalassistant.components.squeezebox.const import (
     PLAYER_UPDATE_INTERVAL,
 )
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import FAKE_QUERY_RESPONSE, TEST_ALARM_NEXT_TIME, TEST_MAC
@@ -28,7 +28,7 @@ def squeezebox_sensor_platform():
 
 
 async def test_server_sensor(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test that server sensor reports correct player count."""
 
@@ -47,7 +47,7 @@ async def test_server_sensor(
 
 
 async def test_player_sensor_next_alarm(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,
     lms: MagicMock,

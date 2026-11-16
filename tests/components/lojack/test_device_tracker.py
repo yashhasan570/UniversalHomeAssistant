@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.lojack.const import DEFAULT_UPDATE_INTERVAL, DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -34,7 +34,7 @@ def only_device_tracker_platform():
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lojack_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -47,7 +47,7 @@ async def test_all_entities(
 
 
 async def test_device_tracker_becomes_unavailable_on_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lojack_client: MagicMock,
     mock_device: MagicMock,

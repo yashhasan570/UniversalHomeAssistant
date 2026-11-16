@@ -16,7 +16,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.google_tasks import DOMAIN
 from universalassistant.components.google_tasks.const import OAUTH2_TOKEN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
 )
@@ -28,7 +28,7 @@ from .conftest import LIST_TASK_LIST_RESPONSE, LIST_TASKS_RESPONSE_WATER
     "api_responses", [[LIST_TASK_LIST_RESPONSE, LIST_TASKS_RESPONSE_WATER]]
 )
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration_setup: Callable[[], Awaitable[bool]],
     config_entry: MockConfigEntry,
     setup_credentials: None,
@@ -52,7 +52,7 @@ async def test_setup(
     "api_responses", [[LIST_TASK_LIST_RESPONSE, LIST_TASKS_RESPONSE_WATER]]
 )
 async def test_expired_token_refresh_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration_setup: Callable[[], Awaitable[bool]],
     aioclient_mock: AiohttpClientMocker,
     config_entry: MockConfigEntry,
@@ -104,7 +104,7 @@ async def test_expired_token_refresh_success(
     ids=["unauthorized", "internal_server_error", "client_error"],
 )
 async def test_expired_token_refresh_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration_setup: Callable[[], Awaitable[bool]],
     aioclient_mock: AiohttpClientMocker,
     config_entry: MockConfigEntry,
@@ -151,7 +151,7 @@ async def test_expired_token_refresh_failure(
     ],
 )
 async def test_setup_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_credentials: None,
     integration_setup: Callable[[], Awaitable[bool]],
     mock_http_response: Mock,
@@ -164,7 +164,7 @@ async def test_setup_error(
 
 
 async def test_oauth_implementation_not_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""

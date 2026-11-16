@@ -5,7 +5,7 @@ from typing import Any
 
 import pytest
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import TemplateError
 
 from tests.helpers.template.helpers import render
@@ -25,7 +25,7 @@ from tests.helpers.template.helpers import render
         ({"foo": "bar", "baz": "qux"}, False),
     ],
 )
-def test_is_list(hass: __HAC_KEEP__, value: Any, expected: bool) -> None:
+def test_is_list(hass: UniversalAssistant, value: Any, expected: bool) -> None:
     """Test list test."""
     assert render(hass, "{{ value is list }}", {"value": value}) == expected
 
@@ -44,7 +44,7 @@ def test_is_list(hass: __HAC_KEEP__, value: Any, expected: bool) -> None:
         ({"foo": "bar", "baz": "qux"}, False),
     ],
 )
-def test_is_set(hass: __HAC_KEEP__, value: Any, expected: bool) -> None:
+def test_is_set(hass: UniversalAssistant, value: Any, expected: bool) -> None:
     """Test set test."""
     assert render(hass, "{{ value is set }}", {"value": value}) == expected
 
@@ -63,7 +63,7 @@ def test_is_set(hass: __HAC_KEEP__, value: Any, expected: bool) -> None:
         ({"foo": "bar", "baz": "qux"}, False),
     ],
 )
-def test_is_tuple(hass: __HAC_KEEP__, value: Any, expected: bool) -> None:
+def test_is_tuple(hass: UniversalAssistant, value: Any, expected: bool) -> None:
     """Test tuple test."""
     assert render(hass, "{{ value is tuple }}", {"value": value}) == expected
 
@@ -81,7 +81,7 @@ def test_is_tuple(hass: __HAC_KEEP__, value: Any, expected: bool) -> None:
         ({"foo": "bar", "baz": "qux"}, {"expected7": {"foo", "baz"}}),
     ],
 )
-def test_set(hass: __HAC_KEEP__, value: Any, expected: bool) -> None:
+def test_set(hass: UniversalAssistant, value: Any, expected: bool) -> None:
     """Test set conversion."""
     assert (
         render(hass, "{{ set(value) }}", {"value": value}) == list(expected.values())[0]
@@ -101,7 +101,7 @@ def test_set(hass: __HAC_KEEP__, value: Any, expected: bool) -> None:
         ({"foo": "bar", "baz": "qux"}, {"expected7": ("foo", "baz")}),
     ],
 )
-def test_tuple(hass: __HAC_KEEP__, value: Any, expected: bool) -> None:
+def test_tuple(hass: UniversalAssistant, value: Any, expected: bool) -> None:
     """Test tuple conversion."""
     result = render(hass, "{{ tuple(value) }}", {"value": value})
     expected_value = list(expected.values())[0]
@@ -119,7 +119,7 @@ def test_tuple(hass: __HAC_KEEP__, value: Any, expected: bool) -> None:
         ([1, 2, 3, 4], [3, 4], [(1, 3), (2, 4)]),
     ],
 )
-def test_zip(hass: __HAC_KEEP__, cola, colb, expected) -> None:
+def test_zip(hass: UniversalAssistant, cola, colb, expected) -> None:
     """Test zip."""
     for tpl in (
         "{{ zip(cola, colb) | list }}",
@@ -135,7 +135,7 @@ def test_zip(hass: __HAC_KEEP__, cola, colb, expected) -> None:
         (["ax", "by", "cz"], [("a", "b", "c"), ("x", "y", "z")]),
     ],
 )
-def test_unzip(hass: __HAC_KEEP__, col, expected) -> None:
+def test_unzip(hass: UniversalAssistant, col, expected) -> None:
     """Test unzipping using zip."""
     for tpl in (
         "{{ zip(*col) | list }}",
@@ -144,7 +144,7 @@ def test_unzip(hass: __HAC_KEEP__, col, expected) -> None:
         assert render(hass, tpl, {"col": col}) == expected
 
 
-def test_shuffle(hass: __HAC_KEEP__) -> None:
+def test_shuffle(hass: UniversalAssistant) -> None:
     """Test shuffle."""
     # Test basic shuffle
     result = render(hass, "{{ shuffle([1, 2, 3, 4, 5]) }}")
@@ -174,7 +174,7 @@ def test_shuffle(hass: __HAC_KEEP__) -> None:
     ],
 )
 def test_shuffle_falsy_seed_is_deterministic(
-    hass: __HAC_KEEP__, template: str, seed: Any
+    hass: UniversalAssistant, template: str, seed: Any
 ) -> None:
     """Test shuffle with a falsy seed still uses that seed."""
     expected = list(range(10))
@@ -182,7 +182,7 @@ def test_shuffle_falsy_seed_is_deterministic(
     assert render(hass, template) == expected
 
 
-def test_flatten(hass: __HAC_KEEP__) -> None:
+def test_flatten(hass: UniversalAssistant) -> None:
     """Test flatten."""
     # Test basic flattening
     assert render(hass, "{{ flatten([[1, 2], [3, 4]]) }}") == [1, 2, 3, 4]
@@ -208,7 +208,7 @@ def test_flatten(hass: __HAC_KEEP__) -> None:
     assert render(hass, "{{ flatten([1, 2, 3]) }}") == [1, 2, 3]
 
 
-def test_intersect(hass: __HAC_KEEP__) -> None:
+def test_intersect(hass: UniversalAssistant) -> None:
     """Test intersect."""
     # Test basic intersection
     result = render(hass, "{{ [1, 2, 3, 4] | intersect([3, 4, 5, 6]) | sort }}")
@@ -227,7 +227,7 @@ def test_intersect(hass: __HAC_KEEP__) -> None:
     assert result == []
 
 
-def test_difference(hass: __HAC_KEEP__) -> None:
+def test_difference(hass: UniversalAssistant) -> None:
     """Test difference."""
     # Test basic difference
     result = render(hass, "{{ [1, 2, 3, 4] | difference([3, 4, 5, 6]) | sort }}")
@@ -246,7 +246,7 @@ def test_difference(hass: __HAC_KEEP__) -> None:
     assert result == []
 
 
-def test_union(hass: __HAC_KEEP__) -> None:
+def test_union(hass: UniversalAssistant) -> None:
     """Test union."""
     # Test basic union
     result = render(hass, "{{ [1, 2, 3] | union([3, 4, 5]) | sort }}")
@@ -265,7 +265,7 @@ def test_union(hass: __HAC_KEEP__) -> None:
     assert result == [1, 2, 3]
 
 
-def test_symmetric_difference(hass: __HAC_KEEP__) -> None:
+def test_symmetric_difference(hass: UniversalAssistant) -> None:
     """Test symmetric_difference."""
     # Test basic symmetric difference
     result = render(
@@ -288,7 +288,7 @@ def test_symmetric_difference(hass: __HAC_KEEP__) -> None:
     assert result == [1, 2, 3]
 
 
-def test_collection_functions_as_tests(hass: __HAC_KEEP__) -> None:
+def test_collection_functions_as_tests(hass: UniversalAssistant) -> None:
     """Test that type checking functions work as tests."""
     # Test various type checking functions
     assert render(hass, "{{ [1,2,3] is list }}")
@@ -296,7 +296,7 @@ def test_collection_functions_as_tests(hass: __HAC_KEEP__) -> None:
     assert render(hass, "{{ (1,2,3) is tuple }}")
 
 
-def test_collection_error_handling(hass: __HAC_KEEP__) -> None:
+def test_collection_error_handling(hass: UniversalAssistant) -> None:
     """Test error handling in collection functions."""
 
     # Test flatten with non-iterable

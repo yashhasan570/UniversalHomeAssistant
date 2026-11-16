@@ -15,7 +15,7 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
 )
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_API_KEY, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.config_entry_oauth2_flow import AbstractOAuth2FlowHandler
 from universalassistant.helpers.selector import (
@@ -34,7 +34,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def _create_volvo_cars_api(
-    hass: __HAC_KEEP__, access_token: str, api_key: str
+    hass: UniversalAssistant, access_token: str, api_key: str
 ) -> VolvoCarsApi:
     web_session = aiohttp_client.async_get_clientsession(hass)
     auth = ConfigFlowVolvoAuth(web_session, access_token)

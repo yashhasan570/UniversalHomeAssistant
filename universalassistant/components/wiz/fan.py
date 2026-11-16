@@ -11,7 +11,7 @@ from universalassistant.components.fan import (
     FanEntity,
     FanEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity import ToggleEntity
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
@@ -26,7 +26,7 @@ PRESET_MODE_BREEZE = "breeze"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: WizConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

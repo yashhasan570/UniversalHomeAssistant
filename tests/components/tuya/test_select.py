@@ -15,7 +15,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -31,7 +31,7 @@ def platform_autouse():
 
 @pytest.mark.usefixtures("no_quirk")
 async def test_platform_setup_and_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_devices: list[CustomerDevice],
@@ -66,7 +66,7 @@ async def test_platform_setup_and_discovery(
 )
 @pytest.mark.freeze_time("2024-01-01")
 async def test_selective_state_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -97,7 +97,7 @@ async def test_selective_state_update(
     ["cl_zah67ekd"],
 )
 async def test_select_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -127,7 +127,7 @@ async def test_select_option(
     ["cl_zah67ekd"],
 )
 async def test_select_invalid_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -153,7 +153,7 @@ async def test_select_invalid_option(
 
 @pytest.mark.parametrize("mock_device_code", ["hwsb_ircs2n82vgrozoew"])
 async def test_hwsb_select_with_quirk(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,

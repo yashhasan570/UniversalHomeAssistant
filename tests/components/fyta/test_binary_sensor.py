@@ -1,4 +1,4 @@
-"""Test the __HA_KEEP__ fyta binary sensor module."""
+"""Test the Universal Home Assistant fyta binary sensor module."""
 
 from datetime import timedelta
 from unittest.mock import AsyncMock
@@ -17,7 +17,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.fyta.const import DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_platform
@@ -25,7 +25,7 @@ from . import setup_platform
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_fyta_connector: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -45,7 +45,7 @@ async def test_all_entities(
     ],
 )
 async def test_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: Exception,
     mock_fyta_connector: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -66,7 +66,7 @@ async def test_connection_error(
 
 
 async def test_add_remove_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fyta_connector: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

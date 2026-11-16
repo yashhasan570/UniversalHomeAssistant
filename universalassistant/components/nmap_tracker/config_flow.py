@@ -18,7 +18,7 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
     OptionsFlowWithReload,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.selector import TextSelector, TextSelectorConfig
 from universalassistant.helpers.typing import VolDictType
@@ -40,7 +40,7 @@ MAX_CONSIDER_HOME = MAX_SCAN_INTERVAL * 6
 DEFAULT_NETWORK_PREFIX = 24
 
 
-async def async_get_network(hass: __HAC_KEEP__) -> str:
+async def async_get_network(hass: UniversalAssistant) -> str:
     """Search adapters for the network."""
     # We want the local ip that is most likely to be
     # on the LAN and not the WAN so we use MDNS_TARGET_IP
@@ -136,7 +136,7 @@ def normalize_input(user_input: dict[str, Any]) -> dict[str, str]:
 
 
 async def _async_build_schema_with_user_input(
-    hass: __HAC_KEEP__, user_input: dict[str, Any], include_options: bool
+    hass: UniversalAssistant, user_input: dict[str, Any], include_options: bool
 ) -> probatio.Schema:
     hosts = user_input.get(CONF_HOSTS_LIST, [await async_get_network(hass)])
     ip_exclude = user_input.get(

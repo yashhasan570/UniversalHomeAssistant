@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.event import EventEntityStateAttribute
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import build_mock_node, setup_integration
@@ -49,7 +49,7 @@ async def platforms() -> AsyncGenerator[None]:
     ],
 )
 async def test_event_triggers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -84,7 +84,7 @@ async def test_event_triggers(
     ],
 )
 async def test_event_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

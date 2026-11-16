@@ -18,7 +18,7 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import DEVICE_LIST, DEVICE_LIST_URL
@@ -35,7 +35,7 @@ def _patch_device_list(requests_mock: Mocker) -> Generator[None]:
 
 
 @pytest.mark.usefixtures("access_token", "device_list")
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test we get the form and can setup from user input."""
 
     result = await hass.config_entries.flow.async_init(
@@ -74,7 +74,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("access_token")
-async def test_form_invalid_auth(hass: __HAC_KEEP__, requests_mock: Mocker) -> None:
+async def test_form_invalid_auth(hass: UniversalAssistant, requests_mock: Mocker) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -116,7 +116,7 @@ async def test_form_invalid_auth(hass: __HAC_KEEP__, requests_mock: Mocker) -> N
 
 
 @pytest.mark.usefixtures("access_token", "device_list_timeout")
-async def test_form_cannot_connect(hass: __HAC_KEEP__, requests_mock: Mocker) -> None:
+async def test_form_cannot_connect(hass: UniversalAssistant, requests_mock: Mocker) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -151,7 +151,7 @@ async def test_form_cannot_connect(hass: __HAC_KEEP__, requests_mock: Mocker) ->
 
 
 @pytest.mark.usefixtures("access_token")
-async def test_reauth(hass: __HAC_KEEP__, requests_mock: Mocker) -> None:
+async def test_reauth(hass: UniversalAssistant, requests_mock: Mocker) -> None:
     """Test we can reauth."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -231,7 +231,7 @@ async def test_reauth(hass: __HAC_KEEP__, requests_mock: Mocker) -> None:
 
 
 @pytest.mark.usefixtures("access_token")
-async def test_form_no_devices(hass: __HAC_KEEP__, requests_mock: Mocker) -> None:
+async def test_form_no_devices(hass: UniversalAssistant, requests_mock: Mocker) -> None:
     """Test a device list response that contains no values will raise an error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}

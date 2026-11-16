@@ -7,7 +7,7 @@ from pycasperglow import CasperGlowError
 from universalassistant.components.bluetooth.passive_update_coordinator import (
     PassiveBluetoothCoordinatorEntity,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo, format_mac
 
@@ -38,7 +38,7 @@ class CasperGlowEntity(PassiveBluetoothCoordinatorEntity[CasperGlowCoordinator])
         try:
             await coro
         except CasperGlowError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="communication_error",
                 translation_placeholders={"error": str(err)},

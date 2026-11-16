@@ -41,8 +41,8 @@ from universalassistant.const import (
     SERVICE_STOP_COVER,
     SERVICE_STOP_COVER_TILT,
 )
-from universalassistant.core import __HAC_KEEP__, State
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, State
+from universalassistant.exceptions import UniversalAssistantError
 
 from . import (
     GARAGE_DOOR_OPENER_SERVICE_INFO,
@@ -56,7 +56,7 @@ ROLLER_SHADE_ENTITY_ID = "cover.test_name"
 
 
 async def test_curtain3_setup(
-    hass: __HAC_KEEP__, mock_entry_factory: Callable[[str], MockConfigEntry]
+    hass: UniversalAssistant, mock_entry_factory: Callable[[str], MockConfigEntry]
 ) -> None:
     """Test setting up the Curtain3."""
     inject_bluetooth_service_info(hass, WOCURTAIN3_SERVICE_INFO)
@@ -85,7 +85,7 @@ async def test_curtain3_setup(
 
 
 async def test_curtain3_controlling(
-    hass: __HAC_KEEP__, mock_entry_factory: Callable[[str], MockConfigEntry]
+    hass: UniversalAssistant, mock_entry_factory: Callable[[str], MockConfigEntry]
 ) -> None:
     """Test Curtain3 controlling."""
     inject_bluetooth_service_info(hass, WOCURTAIN3_SERVICE_INFO)
@@ -186,7 +186,7 @@ async def test_curtain3_controlling(
 
 
 async def test_curtain3_custom_speed_controlling(
-    hass: __HAC_KEEP__, mock_entry_factory: Callable[[str], MockConfigEntry]
+    hass: UniversalAssistant, mock_entry_factory: Callable[[str], MockConfigEntry]
 ) -> None:
     """Test Curtain3 controlling with custom speed."""
     inject_bluetooth_service_info(hass, WOCURTAIN3_SERVICE_INFO)
@@ -242,7 +242,7 @@ async def test_curtain3_custom_speed_controlling(
     ],
 )
 async def test_curtain3_speed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     speed: str,
     expected_value: int,
@@ -304,7 +304,7 @@ async def test_curtain3_speed(
 
 
 async def test_curtain_speed_not_supported(
-    hass: __HAC_KEEP__, mock_entry_factory: Callable[[str], MockConfigEntry]
+    hass: UniversalAssistant, mock_entry_factory: Callable[[str], MockConfigEntry]
 ) -> None:
     """Test a non-Curtain-3 curtain does not expose the speed feature."""
     # A Curtain (not Curtain 3) advertises the "c" device type in its service data.
@@ -345,7 +345,7 @@ async def test_curtain_speed_not_supported(
 
 
 async def test_blindtilt_setup(
-    hass: __HAC_KEEP__, mock_entry_factory: Callable[[str], MockConfigEntry]
+    hass: UniversalAssistant, mock_entry_factory: Callable[[str], MockConfigEntry]
 ) -> None:
     """Test setting up the blindtilt."""
     inject_bluetooth_service_info(hass, WOBLINDTILT_SERVICE_INFO)
@@ -377,7 +377,7 @@ async def test_blindtilt_setup(
 
 
 async def test_blindtilt_controlling(
-    hass: __HAC_KEEP__, mock_entry_factory: Callable[[str], MockConfigEntry]
+    hass: UniversalAssistant, mock_entry_factory: Callable[[str], MockConfigEntry]
 ) -> None:
     """Test blindtilt controlling."""
     inject_bluetooth_service_info(hass, WOBLINDTILT_SERVICE_INFO)
@@ -512,7 +512,7 @@ async def test_blindtilt_controlling(
 
 
 async def test_blindtilt_idle_advertisement(
-    hass: __HAC_KEEP__, mock_entry_factory: Callable[[str], MockConfigEntry]
+    hass: UniversalAssistant, mock_entry_factory: Callable[[str], MockConfigEntry]
 ) -> None:
     """Test blindtilt handles BLE advertisement without motionDirection."""
     inject_bluetooth_service_info(hass, WOBLINDTILT_SERVICE_INFO)
@@ -543,7 +543,7 @@ async def test_blindtilt_idle_advertisement(
 
 
 async def test_roller_shade_setup(
-    hass: __HAC_KEEP__, mock_entry_factory: Callable[[str], MockConfigEntry]
+    hass: UniversalAssistant, mock_entry_factory: Callable[[str], MockConfigEntry]
 ) -> None:
     """Test setting up the RollerShade."""
     inject_bluetooth_service_info(hass, WOCURTAIN3_SERVICE_INFO)
@@ -576,7 +576,7 @@ async def test_roller_shade_setup(
 
 
 async def test_roller_shade_controlling(
-    hass: __HAC_KEEP__, mock_entry_factory: Callable[[str], MockConfigEntry]
+    hass: UniversalAssistant, mock_entry_factory: Callable[[str], MockConfigEntry]
 ) -> None:
     """Test Roller Shade controlling."""
     inject_bluetooth_service_info(hass, ROLLER_SHADE_SERVICE_INFO)
@@ -712,7 +712,7 @@ async def test_roller_shade_controlling(
     ],
 )
 async def test_roller_shade_speed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     speed: str,
     expected_mode: int,
@@ -897,7 +897,7 @@ async def test_roller_shade_speed(
     ],
 )
 async def test_exception_handling_cover_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     sensor_type: str,
     service_info: BluetoothServiceInfoBleak,
@@ -923,7 +923,7 @@ async def test_exception_handling_cover_service(
         assert await hass.config_entries.async_setup(entry.entry_id)
         await hass.async_block_till_done(wait_background_tasks=True)
 
-        with pytest.raises(__HAC_KEEP__Error, match=error_message):
+        with pytest.raises(UniversalAssistantError, match=error_message):
             await hass.services.async_call(
                 COVER_DOMAIN,
                 service,
@@ -940,7 +940,7 @@ async def test_exception_handling_cover_service(
     ],
 )
 async def test_garage_door_opener_controlling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     service: str,
     mock_method: str,

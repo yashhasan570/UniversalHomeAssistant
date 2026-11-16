@@ -19,7 +19,7 @@ from universalassistant.components.axis.const import DOMAIN
 from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
 from universalassistant.config_entries import SOURCE_ZEROCONF, ConfigEntryState
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -51,7 +51,7 @@ async def test_device_registry_entry(
 @pytest.mark.parametrize("api_discovery_items", [API_DISCOVERY_MQTT])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_device_support_mqtt(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Successful setup."""
     mqtt_call = call(f"axis/{MAC}/#", mock.ANY, 0, "utf-8", ANY)
@@ -76,7 +76,7 @@ async def test_device_support_mqtt(
 @pytest.mark.parametrize("api_discovery_items", [API_DISCOVERY_MQTT])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_device_support_mqtt_without_required_event_keys(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -110,7 +110,7 @@ async def test_device_support_mqtt_low_privilege(mqtt_mock: MqttMockHAClient) ->
 
 
 async def test_update_address(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     mock_requests: Callable[[str], None],
 ) -> None:
@@ -139,7 +139,7 @@ async def test_update_address(
 
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_device_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rtsp_event: RtspEventMock,
     mock_rtsp_signal_state: RtspStateType,
 ) -> None:
@@ -176,7 +176,7 @@ async def test_device_unavailable(
 
 @pytest.mark.usefixtures("mock_default_requests")
 async def test_device_trigger_reauth_flow(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Failed authentication trigger a reauthentication flow."""
     config_entry.add_to_hass(hass)
@@ -221,7 +221,7 @@ async def test_shutdown(config_entry_data: MappingProxyType[str, Any]) -> None:
 )
 @pytest.mark.usefixtures("mock_default_requests")
 async def test_get_axis_api_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     side_effect: Exception,
     state: ConfigEntryState,

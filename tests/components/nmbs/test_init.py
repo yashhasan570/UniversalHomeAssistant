@@ -6,11 +6,11 @@ from pyrail import ApiUnavailableError
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nmbs_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -24,7 +24,7 @@ async def test_setup_entry(
 
 
 async def test_setup_entry_api_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nmbs_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -41,7 +41,7 @@ async def test_setup_entry_api_unavailable(
 
 
 async def test_setup_entry_station_list_not_modified(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nmbs_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

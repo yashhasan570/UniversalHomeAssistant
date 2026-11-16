@@ -10,7 +10,7 @@ from sfrbox_api.models import SystemInfo
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 pytestmark = pytest.mark.usefixtures(
     "dsl_get_info", "ftth_get_info", "system_get_info", "voip_get_info", "wan_get_info"
@@ -32,7 +32,7 @@ def override_platforms() -> Generator[None]:
     [("adsl", "ftth_get_info"), ("ftth", "dsl_get_info")],
 )
 async def test_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_auth: ConfigEntry,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,

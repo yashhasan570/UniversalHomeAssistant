@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -26,7 +26,7 @@ def event_only() -> Generator[None]:
 @pytest.mark.freeze_time("2025-01-01T03:30:00.000Z")
 @pytest.mark.usefixtures("mock_bring_client")
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     bring_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,

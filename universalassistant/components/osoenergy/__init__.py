@@ -8,7 +8,7 @@ from apyosoenergyapi.helper.osoenergy_exceptions import OSOEnergyReauthRequired
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import aiohttp_client, config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -33,13 +33,13 @@ PLATFORM_LOOKUP = {
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the OSO Energy integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: OSOEnergyConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: OSOEnergyConfigEntry) -> None:
     """Set up OSO Energy from a config entry."""
     subscription_key = entry.data[CONF_API_KEY]
     websession = aiohttp_client.async_get_clientsession(hass)
@@ -65,6 +65,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: OSOEnergyConfigEntry) -> 
         await hass.config_entries.async_forward_entry_setups(entry, platforms)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: OSOEnergyConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: OSOEnergyConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

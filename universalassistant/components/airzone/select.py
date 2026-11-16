@@ -33,7 +33,7 @@ from aioairzone.const import (
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import AirzoneConfigEntry, AirzoneUpdateCoordinator
@@ -174,7 +174,7 @@ ZONE_SELECT_TYPES: Final[tuple[AirzoneSelectDescription, ...]] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: AirzoneConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

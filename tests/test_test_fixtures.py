@@ -15,9 +15,9 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 import pytest_socket
 
 from universalassistant import loader
-from universalassistant.core import __HAC_KEEP__, async_get_hass
+from universalassistant.core import UniversalAssistant, async_get_hass
 from universalassistant.helpers import translation
-from universalassistant.helpers.http import __HAC_KEEP__View
+from universalassistant.helpers.http import UniversalAssistantView
 from universalassistant.setup import async_setup_component
 
 
@@ -76,7 +76,7 @@ def test_sockets_enabled() -> None:
         mysocket.connect(("127.0.0.2", 1234))
 
 
-async def test_hass_cv(hass: __HAC_KEEP__) -> None:
+async def test_hass_cv(hass: UniversalAssistant) -> None:
     """Test hass context variable.
 
     When tests are using the `hass`, this tests that the hass context variable was set
@@ -85,24 +85,24 @@ async def test_hass_cv(hass: __HAC_KEEP__) -> None:
     assert async_get_hass() is hass
 
 
-async def test_custom_integrations_disabled(hass: __HAC_KEEP__) -> None:
+async def test_custom_integrations_disabled(hass: UniversalAssistant) -> None:
     """Test the default custom integration policy."""
     with pytest.raises(loader.IntegrationNotFound):
         await loader.async_get_integration(hass, "test_package")
 
 
 @pytest.mark.parametrize("custom_integrations_enabled", [True])
-async def test_custom_integrations_enabled(hass: __HAC_KEEP__) -> None:
+async def test_custom_integrations_enabled(hass: UniversalAssistant) -> None:
     """Load a custom integration using the enabling policy."""
     integration = await loader.async_get_integration(hass, "test_package")
     assert not integration.is_built_in
     assert await async_setup_component(hass, "test_package", {})
 
 
-def register_view(hass: __HAC_KEEP__) -> None:
+def register_view(hass: UniversalAssistant) -> None:
     """Register a view."""
 
-    class TestView(__HAC_KEEP__View):
+    class TestView(UniversalAssistantView):
         """Test view to serve the test."""
 
         requires_auth = False
@@ -117,7 +117,7 @@ def register_view(hass: __HAC_KEEP__) -> None:
 
 
 async def test_aiohttp_client_frozen_router_view(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test aiohttp_client fixture patches frozen router for views."""
@@ -134,7 +134,7 @@ async def test_aiohttp_client_frozen_router_view(
     assert result["test"] is True
 
 
-async def test_evict_faked_translations_assumptions(hass: __HAC_KEEP__) -> None:
+async def test_evict_faked_translations_assumptions(hass: UniversalAssistant) -> None:
     """Test assumptions made when detecting translations for mocked integrations.
 
     If this test fails, the evict_faked_translations may need to be updated.
@@ -156,9 +156,9 @@ async def test_evict_faked_translations_assumptions(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_evict_faked_translations(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     translations_once,
-    prepare_integration: Callable[[__HAC_KEEP__], None],
+    prepare_integration: Callable[[UniversalAssistant], None],
 ) -> None:
     """Test the evict_faked_translations fixture.
 

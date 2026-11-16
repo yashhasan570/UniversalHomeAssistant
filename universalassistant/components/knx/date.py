@@ -9,7 +9,7 @@ from xknx.dpt.dpt_11 import KNXDate as XKNXDate
 from universalassistant import config_entries
 from universalassistant.components.date import DateEntity
 from universalassistant.const import CONF_NAME, STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
     async_get_current_platform,
@@ -36,7 +36,7 @@ from .storage.knx_selector import state_and_passive
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: config_entries.ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

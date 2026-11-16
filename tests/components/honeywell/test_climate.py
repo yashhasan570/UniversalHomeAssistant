@@ -44,8 +44,8 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.dt import utcnow
 
@@ -55,7 +55,7 @@ FAN_ACTION = "fan_action"
 
 
 async def test_no_thermostat_options(
-    hass: __HAC_KEEP__, device: MagicMock, config_entry: MagicMock
+    hass: UniversalAssistant, device: MagicMock, config_entry: MagicMock
 ) -> None:
     """Test climate entity setup without additional options."""
     device._data = {}
@@ -66,7 +66,7 @@ async def test_no_thermostat_options(
 
 
 async def test_static_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device: MagicMock,
     config_entry: MagicMock,
@@ -88,7 +88,7 @@ async def test_static_attributes(
 
 
 async def test_dynamic_attributes(
-    hass: __HAC_KEEP__, device: MagicMock, config_entry: MagicMock
+    hass: UniversalAssistant, device: MagicMock, config_entry: MagicMock
 ) -> None:
     """Test dynamic attributes."""
     await init_integration(hass, config_entry)
@@ -145,7 +145,7 @@ async def test_dynamic_attributes(
 
 
 async def test_mode_service_calls(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device: MagicMock,
     config_entry: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -200,7 +200,7 @@ async def test_mode_service_calls(
 
     device.set_system_mode.reset_mock()
     device.set_system_mode.side_effect = aiosomecomfort.SomeComfortError
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_HVAC_MODE,
@@ -211,7 +211,7 @@ async def test_mode_service_calls(
 
     device.set_system_mode.reset_mock()
     device.set_system_mode.side_effect = aiosomecomfort.UnexpectedResponse
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_HVAC_MODE,
@@ -221,7 +221,7 @@ async def test_mode_service_calls(
 
 
 async def test_fan_modes_service_calls(
-    hass: __HAC_KEEP__, device: MagicMock, config_entry: MagicMock
+    hass: UniversalAssistant, device: MagicMock, config_entry: MagicMock
 ) -> None:
     """Test controlling the fan modes through service calls."""
     await init_integration(hass, config_entry)
@@ -259,7 +259,7 @@ async def test_fan_modes_service_calls(
     device.set_fan_mode.reset_mock()
 
     device.set_fan_mode.side_effect = aiosomecomfort.SomeComfortError
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_FAN_MODE,
@@ -268,7 +268,7 @@ async def test_fan_modes_service_calls(
         )
 
     device.set_fan_mode.side_effect = aiosomecomfort.UnexpectedResponse
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_FAN_MODE,
@@ -278,7 +278,7 @@ async def test_fan_modes_service_calls(
 
 
 async def test_service_calls_off_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device: MagicMock,
     config_entry: MagicMock,
 ) -> None:
@@ -336,7 +336,7 @@ async def test_service_calls_off_mode(
     device.set_setpoint_heat.reset_mock()
     device.set_setpoint_heat.side_effect = aiosomecomfort.UnexpectedResponse
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -441,7 +441,7 @@ async def test_service_calls_off_mode(
 
 
 async def test_service_calls_cool_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device: MagicMock,
     config_entry: MagicMock,
 ) -> None:
@@ -532,7 +532,7 @@ async def test_service_calls_cool_mode(
     device.raw_ui_data["StatusHeat"] = 2
     device.raw_ui_data["StatusCool"] = 2
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -561,7 +561,7 @@ async def test_service_calls_cool_mode(
 
     device.raw_ui_data["StatusHeat"] = 2
     device.raw_ui_data["StatusCool"] = 2
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -573,7 +573,7 @@ async def test_service_calls_cool_mode(
     assert exc_info.value.translation_key == "set_hold_failed"
 
     reset_mock(device)
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -587,7 +587,7 @@ async def test_service_calls_cool_mode(
     reset_mock(device)
 
     device.set_hold_cool.side_effect = aiosomecomfort.SomeComfortError
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -604,7 +604,7 @@ async def test_service_calls_cool_mode(
     device.raw_ui_data["StatusHeat"] = 2
     device.raw_ui_data["StatusCool"] = 2
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -621,7 +621,7 @@ async def test_service_calls_cool_mode(
 
     device.raw_ui_data["StatusHeat"] = 2
     device.raw_ui_data["StatusCool"] = 2
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -639,7 +639,7 @@ async def test_service_calls_cool_mode(
     device.raw_ui_data["StatusCool"] = 2
     device.system_mode = "Junk"
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -653,7 +653,7 @@ async def test_service_calls_cool_mode(
 
 
 async def test_service_calls_heat_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device: MagicMock,
     config_entry: MagicMock,
 ) -> None:
@@ -692,7 +692,7 @@ async def test_service_calls_heat_mode(
     assert exc_info.value.translation_key == "temp_failed_value"
 
     device.set_hold_heat.side_effect = aiosomecomfort.UnexpectedResponse
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -736,7 +736,7 @@ async def test_service_calls_heat_mode(
     device.raw_ui_data["StatusHeat"] = 2
     device.raw_ui_data["StatusCool"] = 2
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -767,7 +767,7 @@ async def test_service_calls_heat_mode(
     device.raw_ui_data["StatusHeat"] = 2
     device.raw_ui_data["StatusCool"] = 2
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -811,7 +811,7 @@ async def test_service_calls_heat_mode(
 
     device.set_hold_heat.side_effect = aiosomecomfort.UnexpectedResponse
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -820,7 +820,7 @@ async def test_service_calls_heat_mode(
         )
 
     reset_mock(device)
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -834,7 +834,7 @@ async def test_service_calls_heat_mode(
     device.set_hold_heat.reset_mock()
     device.set_hold_cool.reset_mock()
     device.set_hold_heat.side_effect = aiosomecomfort.SomeComfortError
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -849,7 +849,7 @@ async def test_service_calls_heat_mode(
     device.raw_ui_data["StatusHeat"] = 2
     device.raw_ui_data["StatusCool"] = 2
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -866,7 +866,7 @@ async def test_service_calls_heat_mode(
     device.raw_ui_data["StatusHeat"] = 2
     device.raw_ui_data["StatusCool"] = 2
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -881,7 +881,7 @@ async def test_service_calls_heat_mode(
 
 
 async def test_service_calls_auto_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device: MagicMock,
     config_entry: MagicMock,
 ) -> None:
@@ -978,7 +978,7 @@ async def test_service_calls_auto_mode(
     device.raw_ui_data["StatusHeat"] = 2
     device.raw_ui_data["StatusCool"] = 2
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -1006,7 +1006,7 @@ async def test_service_calls_auto_mode(
 
     reset_mock(device)
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -1019,7 +1019,7 @@ async def test_service_calls_auto_mode(
 
     reset_mock(device)
     device.set_hold_cool.side_effect = aiosomecomfort.SomeComfortError
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -1036,7 +1036,7 @@ async def test_service_calls_auto_mode(
     device.raw_ui_data["StatusHeat"] = 2
     device.raw_ui_data["StatusCool"] = 2
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -1053,7 +1053,7 @@ async def test_service_calls_auto_mode(
     device.raw_ui_data["StatusHeat"] = 2
     device.raw_ui_data["StatusCool"] = 2
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -1067,7 +1067,7 @@ async def test_service_calls_auto_mode(
 
 
 async def test_async_update_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device: MagicMock,
     config_entry: MagicMock,
     client: MagicMock,
@@ -1173,7 +1173,7 @@ async def test_async_update_errors(
 
 
 async def test_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device: MagicMock,
     config_entry: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -1193,7 +1193,7 @@ async def test_unique_id(
 
 
 async def test_preset_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device: MagicMock,
     config_entry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,

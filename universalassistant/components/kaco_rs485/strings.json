@@ -23,7 +23,7 @@
           "port": "[%key:common::config_flow::data::port%]"
         },
         "data_description": {
-          "port": "The list shows the serial ports __HA_KEEP__ has detected, including USB adapters and ESPHome serial proxies."
+          "port": "The list shows the serial ports Universal Home Assistant has detected, including USB adapters and ESPHome serial proxies."
         },
         "description": "Choose the serial port the inverters are wired to.",
         "title": "Select the RS485 port"

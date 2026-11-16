@@ -23,7 +23,7 @@ from universalassistant.components.valve import ValveState
 from universalassistant.components.watergate.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import UpdateFailed
 
 from . import init_integration
@@ -33,7 +33,7 @@ NEGATIVE_VOLUME_ENTITY_ID = "sensor.sonic_water_meter_negative_volume"
 
 
 async def test_async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
 ) -> None:
@@ -61,7 +61,7 @@ async def test_async_setup_entry(
 
 
 async def test_handle_webhook(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
@@ -99,7 +99,7 @@ async def test_handle_webhook(
 
 
 async def test_coordinator_fetches_auto_shut_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
 ) -> None:
@@ -111,7 +111,7 @@ async def test_coordinator_fetches_auto_shut_off(
 
 
 async def test_setup_retry_when_device_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
 ) -> None:
@@ -129,7 +129,7 @@ async def test_setup_retry_when_device_unavailable(
 
 
 async def test_update_failure_is_translated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -153,7 +153,7 @@ async def test_update_failure_is_translated(
 
 
 async def test_device_state_missing_from_the_v1_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -173,7 +173,7 @@ async def test_device_state_missing_from_the_v1_fallback(
 
 
 async def test_device_state_v2_is_not_probed_again_after_falling_back(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -194,7 +194,7 @@ async def test_device_state_v2_is_not_probed_again_after_falling_back(
 
 
 async def test_unreachable_device_does_not_fall_back_to_device_state_v1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -222,7 +222,7 @@ async def test_unreachable_device_does_not_fall_back_to_device_state_v1(
 
 
 async def test_device_state_v2_survives_a_blip_that_ends_during_the_first_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
 ) -> None:
@@ -239,7 +239,7 @@ async def test_device_state_v2_survives_a_blip_that_ends_during_the_first_update
 
 
 async def test_confirmed_device_state_v2_is_never_downgraded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -267,7 +267,7 @@ async def test_confirmed_device_state_v2_is_never_downgraded(
 
 
 async def test_unload_clears_device_webhook_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
 ) -> None:
@@ -284,7 +284,7 @@ async def test_unload_clears_device_webhook_url(
     "side_effect", [WatergateApiException("offline"), TimeoutError]
 )
 async def test_unload_succeeds_when_device_unreachable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
     side_effect: Exception | type[Exception],
@@ -300,7 +300,7 @@ async def test_unload_succeeds_when_device_unreachable(
 
 
 async def test_reload_registers_webhook_again(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
 ) -> None:
@@ -319,7 +319,7 @@ async def test_reload_registers_webhook_again(
 
 
 async def test_webhook_online_event_refreshes_coordinator(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
@@ -339,7 +339,7 @@ async def test_webhook_online_event_refreshes_coordinator(
 
 
 async def test_webhook_telemetry_without_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
@@ -369,7 +369,7 @@ async def test_webhook_telemetry_without_errors(
 
 
 async def test_webhook_without_body_is_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
@@ -384,7 +384,7 @@ async def test_webhook_without_body_is_rejected(
 
 
 async def test_webhook_is_acknowledged_without_coordinator_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
@@ -408,7 +408,7 @@ async def test_webhook_is_acknowledged_without_coordinator_data(
     [("battery", True), ("external+battery", True), ("external", False)],
 )
 async def test_power_supply_is_only_fetched_with_a_battery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
     power_supply: str,
@@ -426,7 +426,7 @@ async def test_power_supply_is_only_fetched_with_a_battery(
 
 
 async def test_power_supply_failure_does_not_fail_the_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
 ) -> None:
@@ -442,7 +442,7 @@ async def test_power_supply_failure_does_not_fail_the_update(
 
 
 async def test_power_supply_failure_is_logged_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
     freezer: FrozenDateTimeFactory,
@@ -469,7 +469,7 @@ async def test_power_supply_failure_is_logged_once(
 
 
 async def test_power_supply_webhook_refreshes_the_battery_voltage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],

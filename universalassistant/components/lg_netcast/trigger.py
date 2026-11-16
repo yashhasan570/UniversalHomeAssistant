@@ -3,7 +3,7 @@
 from typing import cast
 
 from universalassistant.const import CONF_PLATFORM
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
 from universalassistant.helpers.trigger import (
     TriggerActionType,
     TriggerInfo,
@@ -29,7 +29,7 @@ def _get_trigger_platform(config: ConfigType) -> TriggerProtocol:
 
 
 async def async_validate_trigger_config(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> ConfigType:
     """Validate config."""
     platform = _get_trigger_platform(config)
@@ -37,7 +37,7 @@ async def async_validate_trigger_config(
 
 
 async def async_attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,

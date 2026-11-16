@@ -10,7 +10,7 @@ from universalassistant.components.calendar import (
     CalendarEntityDescription,
     CalendarEvent,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -24,7 +24,7 @@ CALENDAR_TYPE = CalendarEntityDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SonarrConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -69,7 +69,7 @@ class SonarrCalendarEntity(SonarrEntity[list[SonarrCalendar]], CalendarEntity):
 
     @override
     async def async_get_events(
-        self, hass: __HAC_KEEP__, start_date: datetime, end_date: datetime
+        self, hass: UniversalAssistant, start_date: datetime, end_date: datetime
     ) -> list[CalendarEvent]:
         """Get all events in a specific time frame."""
         episodes = cast(

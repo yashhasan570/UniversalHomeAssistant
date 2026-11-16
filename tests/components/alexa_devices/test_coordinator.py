@@ -15,7 +15,7 @@ from universalassistant.components.alexa_devices.const import DOMAIN
 from universalassistant.components.alexa_devices.coordinator import SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -23,7 +23,7 @@ from .const import TEST_DEVICE_1, TEST_DEVICE_1_SN, TEST_DEVICE_2, TEST_DEVICE_2
 
 
 async def test_coordinator_stale_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -61,7 +61,7 @@ async def test_coordinator_stale_device(
 
 
 async def test_coordinator_stale_device_clears_dnd_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -89,7 +89,7 @@ async def test_coordinator_stale_device_clears_dnd_state(
 
 
 async def test_coordinator_load_previous_devices_from_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -144,7 +144,7 @@ async def test_coordinator_load_previous_devices_from_registry(
     ],
 )
 async def test_async_update_data_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],
@@ -181,7 +181,7 @@ async def test_async_update_data_errors(
     ],
 )
 async def test_sync_history_state_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],
@@ -229,7 +229,7 @@ async def test_sync_history_state_error(
     ],
 )
 async def test_sync_state_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     method_name: str,
@@ -262,7 +262,7 @@ async def test_sync_state_error(
     ],
 )
 async def test_device_state_sync_failure_logged_on_first_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -284,7 +284,7 @@ async def test_device_state_sync_failure_logged_on_first_refresh(
 
 
 async def test_device_state_sync_on_device_list_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,

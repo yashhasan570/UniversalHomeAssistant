@@ -19,7 +19,7 @@ from universalassistant.components.energyid.energyid_sensor_mapping_flow import 
 )
 from universalassistant.components.sensor import SensorDeviceClass, SensorStateClass
 from universalassistant.const import CONF_DEVICE_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import InvalidData
 from universalassistant.helpers import entity_registry as er
 
@@ -30,7 +30,7 @@ TEST_RECORD_NAME = "My Test Site"
 
 
 @pytest.fixture
-def mock_parent_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def mock_parent_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Return a mock parent config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -48,7 +48,7 @@ def mock_parent_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 
 async def test_user_step_form(
-    hass: __HAC_KEEP__, mock_parent_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_parent_entry: MockConfigEntry
 ) -> None:
     """Test the user step form is shown."""
     mock_parent_entry.add_to_hass(hass)
@@ -62,7 +62,7 @@ async def test_user_step_form(
 
 
 async def test_successful_creation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_parent_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -89,7 +89,7 @@ async def test_successful_creation(
 
 
 async def test_entity_already_mapped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_parent_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -126,7 +126,7 @@ async def test_entity_already_mapped(
 
 
 async def test_entity_not_found(
-    hass: __HAC_KEEP__, mock_parent_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_parent_entry: MockConfigEntry
 ) -> None:
     """Test error when entity is not found."""
     mock_parent_entry.add_to_hass(hass)
@@ -145,7 +145,7 @@ async def test_entity_not_found(
 
 
 async def test_no_entity_selected(
-    hass: __HAC_KEEP__, mock_parent_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_parent_entry: MockConfigEntry
 ) -> None:
     """Test error when no entity is selected."""
     mock_parent_entry.add_to_hass(hass)
@@ -165,7 +165,7 @@ async def test_no_entity_selected(
 
 
 async def test_entity_disappears_after_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_parent_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -191,7 +191,7 @@ async def test_entity_disappears_after_validation(
 
 
 async def test_no_suitable_entities(
-    hass: __HAC_KEEP__, mock_parent_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_parent_entry: MockConfigEntry
 ) -> None:
     """Test form when no suitable entities exist."""
     mock_parent_entry.add_to_hass(hass)
@@ -213,7 +213,7 @@ async def test_no_suitable_entities(
     ],
 )
 def test_get_suggested_entities_no_suitable_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     entities_to_create: list[tuple[str, str, str, str]],
 ) -> None:
@@ -226,7 +226,7 @@ def test_get_suggested_entities_no_suitable_entities(
 
 
 async def test_duplicate_entity_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_parent_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -260,7 +260,7 @@ async def test_duplicate_entity_key(
 
 
 def test_validate_mapping_input_none_entity(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test _validate_mapping_input returns error for None entity."""
     errors = _validate_mapping_input(None, set(), entity_registry)
@@ -268,7 +268,7 @@ def test_validate_mapping_input_none_entity(
 
 
 def test_validate_mapping_input_empty_string(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test _validate_mapping_input returns error for empty string."""
     errors = _validate_mapping_input("", set(), entity_registry)
@@ -276,7 +276,7 @@ def test_validate_mapping_input_empty_string(
 
 
 def test_validate_mapping_input_already_mapped(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test _validate_mapping_input returns error when entity is mapped."""
     entity_entry = entity_registry.async_get_or_create(
@@ -290,7 +290,7 @@ def test_validate_mapping_input_already_mapped(
 
 
 def test_get_suggested_entities_with_state_class(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test _get_suggested_entities includes measurement sensors."""
     entity_entry = entity_registry.async_get_or_create(
@@ -337,7 +337,7 @@ def test_get_suggested_entities_with_state_class(
     ids=lambda x: x["name"],
 )
 def test_get_suggested_entities_with_device_class(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, test_case: dict[str, Any]
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, test_case: dict[str, Any]
 ) -> None:
     """Test _get_suggested_entities includes various device classes."""
     entity_entry = entity_registry.async_get_or_create(
@@ -359,7 +359,7 @@ def test_get_suggested_entities_with_device_class(
 
 
 async def test_subentry_entity_not_found_after_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test subentry flow error when entity disappears before lookup."""

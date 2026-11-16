@@ -13,7 +13,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.arcam_fmj.const import DOMAIN
 from universalassistant.config_entries import SOURCE_SSDP, SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_SOURCE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_DEVICE_TYPE,
@@ -79,7 +79,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
         yield mock_setup
 
 
-async def test_ssdp(hass: __HAC_KEEP__) -> None:
+async def test_ssdp(hass: UniversalAssistant) -> None:
     """Test a ssdp import flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -96,7 +96,7 @@ async def test_ssdp(hass: __HAC_KEEP__) -> None:
     assert result["result"].unique_id == MOCK_UUID
 
 
-async def test_ssdp_abort(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_abort(hass: UniversalAssistant) -> None:
     """Test a ssdp import flow."""
     entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_CONFIG_ENTRY, title=MOCK_NAME, unique_id=MOCK_UUID
@@ -123,7 +123,7 @@ async def test_ssdp_abort(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_ssdp_unable_to_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     dummy_client: MagicMock,
     connect_exception: type[Exception],
 ) -> None:
@@ -139,7 +139,7 @@ async def test_ssdp_unable_to_connect(
     assert result["reason"] == "cannot_connect"
 
 
-async def test_ssdp_invalid_id(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_invalid_id(hass: UniversalAssistant) -> None:
     """Test a ssdp with invalid  UDN."""
     discover = replace(
         MOCK_DISCOVER, upnp=MOCK_DISCOVER.upnp | {ATTR_UPNP_UDN: "invalid"}
@@ -154,7 +154,7 @@ async def test_ssdp_invalid_id(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "cannot_connect"
 
 
-async def test_ssdp_update(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_update(hass: UniversalAssistant) -> None:
     """Test a ssdp import flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -175,7 +175,7 @@ async def test_ssdp_update(hass: __HAC_KEEP__) -> None:
     assert entry.data[CONF_HOST] == MOCK_HOST
 
 
-async def test_user(hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker) -> None:
+async def test_user(hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker) -> None:
     """Test a manual user configuration flow."""
 
     result = await hass.config_entries.flow.async_init(
@@ -203,7 +203,7 @@ async def test_user(hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker) -> 
 
 
 async def test_invalid_ssdp(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test a a config flow where ssdp fails."""
     user_input = {
@@ -224,7 +224,7 @@ async def test_invalid_ssdp(
 
 
 async def test_user_wrong(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test a manual user configuration flow with no ssdp response."""
     user_input = {
@@ -256,7 +256,7 @@ async def test_user_wrong(
     ],
 )
 async def test_user_unable_to_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     dummy_client: MagicMock,
     connect_exception: type[Exception],
@@ -290,7 +290,7 @@ async def test_user_unable_to_connect(
 
 
 async def test_reconfigure(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test reconfiguring an existing entry."""
     entry = MockConfigEntry(
@@ -318,7 +318,7 @@ async def test_reconfigure(
 
 
 async def test_reconfigure_no_ssdp(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test reconfiguring when the new host does not respond to ssdp."""
     entry = MockConfigEntry(
@@ -346,7 +346,7 @@ async def test_reconfigure_no_ssdp(
 
 
 async def test_reconfigure_unique_id_mismatch(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test reconfiguring against a different device aborts."""
     entry = MockConfigEntry(
@@ -385,7 +385,7 @@ async def test_reconfigure_unique_id_mismatch(
     ],
 )
 async def test_reconfigure_unable_to_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     dummy_client: MagicMock,
     connect_exception: type[Exception],

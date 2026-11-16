@@ -6,9 +6,9 @@ from devolo_home_control_api.devices.zwave import Zwave
 from devolo_home_control_api.exceptions import SwitchingProtected
 from devolo_home_control_api.homecontrol import HomeControl
 
-from universalassistant.components.light import ATTR_BRIGHTNESS, ColorMode, LightEntity
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.components.light import ColorMode, LightEntity, LightServiceArgument
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import DevoloHomeControlConfigEntry
@@ -17,7 +17,7 @@ from .entity import DevoloMultiLevelSwitchDeviceEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: DevoloHomeControlConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -71,8 +71,10 @@ class DevoloLightDeviceEntity(DevoloMultiLevelSwitchDeviceEntity, LightEntity):
     @override
     def turn_on(self, **kwargs: Any) -> None:
         """Turn device on."""
-        if kwargs.get(ATTR_BRIGHTNESS) is not None:
-            self._set_brightness(round(kwargs[ATTR_BRIGHTNESS] / 255 * 100))
+        if kwargs.get(LightServiceArgument.BRIGHTNESS) is not None:
+            self._set_brightness(
+                round(kwargs[LightServiceArgument.BRIGHTNESS] / 255 * 100)
+            )
         else:
             # Turn on the light device to the latest known
             # value. The value is known by the device itself.
@@ -86,7 +88,7 @@ class DevoloLightDeviceEntity(DevoloMultiLevelSwitchDeviceEntity, LightEntity):
     def _set_brightness(self, value: int) -> None:
         """Set the brightness to the given value."""
         if not self._multi_level_switch_property.set(value):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_failed",
             )
@@ -99,7 +101,7 @@ class DevoloLightDeviceEntity(DevoloMultiLevelSwitchDeviceEntity, LightEntity):
             return
         try:
             if not self._binary_switch_property.set(state):
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="set_failed",
                 )

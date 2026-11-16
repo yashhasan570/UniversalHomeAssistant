@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any
 
 from icmplib import NameLookupError, async_ping
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import ICMP_TIMEOUT, PING_TIMEOUT
 
@@ -31,7 +31,7 @@ class PingData:
     data: dict[str, Any] | None = None
     is_alive: bool = False
 
-    def __init__(self, hass: __HAC_KEEP__, host: str, count: int) -> None:
+    def __init__(self, hass: UniversalAssistant, host: str, count: int) -> None:
         """Initialize the data object."""
         self.hass = hass
         self.ip_address = host
@@ -42,7 +42,7 @@ class PingDataICMPLib(PingData):
     """The Class for handling the data retrieval using icmplib."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, host: str, count: int, privileged: bool | None
+        self, hass: UniversalAssistant, host: str, count: int, privileged: bool | None
     ) -> None:
         """Initialize the data object."""
         super().__init__(hass, host, count)
@@ -91,7 +91,7 @@ class PingDataSubProcess(PingData):
     """The Class for handling the data retrieval using the ping binary."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, host: str, count: int, privileged: bool | None
+        self, hass: UniversalAssistant, host: str, count: int, privileged: bool | None
     ) -> None:
         """Initialize the data object."""
         super().__init__(hass, host, count)

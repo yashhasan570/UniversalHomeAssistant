@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from functools import partial
 from typing import TYPE_CHECKING, Any
 
-from universalassistant.core import HassJobType, __HAC_KEEP__, callback
+from universalassistant.core import HassJobType, UniversalAssistant, callback
 
 from . import debug_info
 from .client import async_subscribe_internal
@@ -17,7 +17,7 @@ from .models import MessageCallbackType
 class EntitySubscription:
     """Class to hold data about an active entity topic subscription."""
 
-    hass: __HAC_KEEP__
+    hass: UniversalAssistant
     topic: str | None
     message_callback: MessageCallbackType
     should_subscribe: bool | None
@@ -28,7 +28,7 @@ class EntitySubscription:
     job_type: HassJobType | None
 
     def resubscribe_if_necessary(
-        self, hass: __HAC_KEEP__, other: EntitySubscription | None
+        self, hass: UniversalAssistant, other: EntitySubscription | None
     ) -> None:
         """Re-subscribe to the new topic if necessary."""
         if not self._should_resubscribe(other):
@@ -83,7 +83,7 @@ class EntitySubscription:
 
 @callback
 def async_prepare_subscribe_topics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sub_state: dict[str, EntitySubscription] | None,
     topics: dict[str, dict[str, Any]],
 ) -> dict[str, EntitySubscription]:
@@ -135,7 +135,7 @@ def async_prepare_subscribe_topics(
 
 
 async def async_subscribe_topics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sub_state: dict[str, EntitySubscription],
 ) -> None:
     """(Re)Subscribe to a set of MQTT topics."""
@@ -144,7 +144,7 @@ async def async_subscribe_topics(
 
 @callback
 def async_subscribe_topics_internal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sub_state: dict[str, EntitySubscription],
 ) -> None:
     """(Re)Subscribe to a set of MQTT topics.
@@ -159,7 +159,7 @@ def async_subscribe_topics_internal(
 if TYPE_CHECKING:
 
     def async_unsubscribe_topics(
-        hass: __HAC_KEEP__, sub_state: dict[str, EntitySubscription] | None
+        hass: UniversalAssistant, sub_state: dict[str, EntitySubscription] | None
     ) -> dict[str, EntitySubscription]:
         """Unsubscribe from all MQTT topics managed by async_subscribe_topics."""
 

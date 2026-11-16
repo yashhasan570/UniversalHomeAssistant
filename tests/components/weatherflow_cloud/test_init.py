@@ -7,13 +7,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from websockets.exceptions import ConnectionClosedError
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.ssl import client_context
 
 
 @pytest.mark.usefixtures("mock_rest_api")
 async def test_websocket_connect_called_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -28,7 +28,7 @@ async def test_websocket_connect_called_once(
 
 @pytest.mark.usefixtures("mock_rest_api")
 async def test_entry_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -47,7 +47,7 @@ async def test_entry_unload(
 
 @pytest.mark.usefixtures("mock_rest_api")
 async def test_setup_failure_cleans_up_websocket(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -65,7 +65,7 @@ async def test_setup_failure_cleans_up_websocket(
 
 @pytest.mark.usefixtures("mock_rest_api")
 async def test_websocket_connect_failure_sets_entry_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

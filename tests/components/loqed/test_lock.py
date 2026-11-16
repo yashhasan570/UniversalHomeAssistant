@@ -14,12 +14,12 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 
 async def test_lock_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
 ) -> None:
     """Test the lock entity."""
@@ -32,7 +32,7 @@ async def test_lock_entity(
 
 
 async def test_lock_responds_to_bolt_state_updates(
-    hass: __HAC_KEEP__, integration: MockConfigEntry, lock: loqed.Lock
+    hass: UniversalAssistant, integration: MockConfigEntry, lock: loqed.Lock
 ) -> None:
     """Tests the lock responding to updates."""
     coordinator = integration.runtime_data
@@ -48,7 +48,7 @@ async def test_lock_responds_to_bolt_state_updates(
 
 
 async def test_lock_unknown_bolt_state_is_unknown(
-    hass: __HAC_KEEP__, integration: MockConfigEntry, lock: loqed.Lock
+    hass: UniversalAssistant, integration: MockConfigEntry, lock: loqed.Lock
 ) -> None:
     """Test an unknown bolt state from the bridge is shown as unknown, not unlocked."""
     lock.bolt_state = "unknown"
@@ -60,7 +60,7 @@ async def test_lock_unknown_bolt_state_is_unknown(
 
 
 async def test_lock_transition_to_unlocked(
-    hass: __HAC_KEEP__, integration: MockConfigEntry, lock: loqed.Lock
+    hass: UniversalAssistant, integration: MockConfigEntry, lock: loqed.Lock
 ) -> None:
     """Tests the lock transitions to unlocked state."""
 
@@ -77,7 +77,7 @@ async def test_lock_transition_to_unlocked(
 
 
 async def test_lock_transition_to_locked(
-    hass: __HAC_KEEP__, integration: MockConfigEntry, lock: loqed.Lock
+    hass: UniversalAssistant, integration: MockConfigEntry, lock: loqed.Lock
 ) -> None:
     """Tests the lock transitions to locked state."""
 
@@ -94,7 +94,7 @@ async def test_lock_transition_to_locked(
 
 
 async def test_lock_transition_to_open(
-    hass: __HAC_KEEP__, integration: MockConfigEntry, lock: loqed.Lock
+    hass: UniversalAssistant, integration: MockConfigEntry, lock: loqed.Lock
 ) -> None:
     """Tests the lock transitions to open state."""
 
@@ -123,18 +123,18 @@ async def test_lock_transition_to_open(
     [TimeoutError, aiohttp.ClientError],
 )
 async def test_lock_action_raises_on_communication_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
     lock: loqed.Lock,
     service: str,
     mock_method: str,
     exception: type[Exception],
 ) -> None:
-    """Test lock actions raise __HAC_KEEP__Error on bridge communication failure."""
+    """Test lock actions raise UniversalAssistantError on bridge communication failure."""
     entity_id = "lock.home"
     getattr(lock, mock_method).side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "lock", service, {ATTR_ENTITY_ID: entity_id}, blocking=True
         )

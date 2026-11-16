@@ -26,8 +26,8 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 from universalassistant.helpers.storage import STORAGE_DIR
 
@@ -57,7 +57,7 @@ def _async_short_mac(mac: str) -> str:
     return _async_unifi_mac_from_hass(mac)[-6:]
 
 
-async def _async_resolve(hass: __HAC_KEEP__, host: str) -> str | int | None:
+async def _async_resolve(hass: UniversalAssistant, host: str) -> str | int | None:
     """Resolve a hostname to an ip."""
     with contextlib.suppress(OSError):
         return next(
@@ -118,7 +118,7 @@ def async_entry_is_public_only(entry: UFPConfigEntry) -> bool:
 
 @callback
 def async_create_api_client(
-    hass: __HAC_KEEP__, entry: UFPConfigEntry
+    hass: UniversalAssistant, entry: UFPConfigEntry
 ) -> ProtectApiClient:
     """Create ProtectApiClient from config entry."""
 
@@ -139,7 +139,7 @@ def async_create_api_client(
 
 @callback
 def async_create_session_client(
-    hass: __HAC_KEEP__, entry: UFPConfigEntry
+    hass: UniversalAssistant, entry: UFPConfigEntry
 ) -> ProtectApiClient | None:
     """Create a client that can clear the entry's stored private session.
 
@@ -155,7 +155,7 @@ def async_create_session_client(
 
 @callback
 def _async_create_full_client(
-    hass: __HAC_KEEP__, entry: UFPConfigEntry
+    hass: UniversalAssistant, entry: UFPConfigEntry
 ) -> ProtectApiClient:
     """Create a full-access (local user) ProtectApiClient from a config entry."""
     public_api_session = async_create_clientsession(hass)
@@ -194,7 +194,7 @@ def async_ufp_instance_command[_EntityT, **_P](
     """Decorate UniFi Protect entity instance commands to handle exceptions.
 
     A decorator that wraps the passed in function, catches Protect errors,
-    and re-raises them as __HAC_KEEP__Error with translations.
+    and re-raises them as UniversalAssistantError with translations.
     """
 
     @wraps(func)
@@ -202,12 +202,12 @@ def async_ufp_instance_command[_EntityT, **_P](
         try:
             await func(self, *args, **kwargs)
         except NotAuthorized as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="not_authorized",
             ) from err
         except ClientError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_error",
                 translation_placeholders={"error": str(err)},

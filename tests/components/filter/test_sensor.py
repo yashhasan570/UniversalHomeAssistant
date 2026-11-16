@@ -46,7 +46,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     UnitOfTemperature,
 )
-from universalassistant.core import CoreState, __HAC_KEEP__, State
+from universalassistant.core import CoreState, UniversalAssistant, State
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -64,7 +64,7 @@ def values_fixture() -> list[State]:
     return values
 
 
-async def test_setup_fail(hass: __HAC_KEEP__) -> None:
+async def test_setup_fail(hass: UniversalAssistant) -> None:
     """Test if filter doesn't exist."""
     config = {
         "sensor": {
@@ -79,7 +79,7 @@ async def test_setup_fail(hass: __HAC_KEEP__) -> None:
 
 
 async def test_chain(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, values: list[State]
+    recorder_mock: Recorder, hass: UniversalAssistant, values: list[State]
 ) -> None:
     """Test if filter chaining works."""
     config = {
@@ -129,7 +129,7 @@ async def test_chain(
 )
 async def test_unit_of_measurement_reset(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     readings: list[tuple[str, str | None]],
     expected_states: list[str],
 ) -> None:
@@ -158,7 +158,7 @@ async def test_unit_of_measurement_reset(
 
 async def test_from_config_entry(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     loaded_entry: MockConfigEntry,
 ) -> None:
     """Test if filter works loaded from config entry."""
@@ -182,7 +182,7 @@ async def test_from_config_entry(
 )
 async def test_from_config_entry_duration(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     loaded_entry: MockConfigEntry,
 ) -> None:
     """Test if filter works loaded from config entry with duration."""
@@ -193,7 +193,7 @@ async def test_from_config_entry_duration(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     filter_config_entry: MockConfigEntry,
     sensor_entity_entry: er.RegistryEntry,
@@ -209,7 +209,7 @@ async def test_device_id(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_device_id_yaml(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     sensor_entity_entry: er.RegistryEntry,
     caplog: pytest.LogCaptureFixture,
@@ -239,7 +239,7 @@ async def test_device_id_yaml(
 @pytest.mark.parametrize("missing", [True, False])
 async def test_chain_history(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     values: list[State],
     missing: bool,
 ) -> None:
@@ -299,7 +299,7 @@ async def test_chain_history(
             assert state.state == "17.05"
 
 
-async def test_source_state_none(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
+async def test_source_state_none(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
     """Test is source sensor state is null and sets state to STATE_UNKNOWN."""
 
     await async_setup_component(
@@ -366,7 +366,7 @@ async def test_source_state_none(recorder_mock: Recorder, hass: __HAC_KEEP__) ->
     assert state.state == STATE_UNKNOWN
 
 
-async def test_history_time(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
+async def test_history_time(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
     """Test loading from history based on a time window."""
     config = {
         "sensor": {
@@ -427,12 +427,12 @@ POWER_ATTRIBUTES = {
 )
 async def test_source_state_set_while_starting(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     recorded_states: list[str],
     source_state: str,
     expected_state: str,
 ) -> None:
-    """Test the filter picks up a source state set before __HA_KEEP__ started."""
+    """Test the filter picks up a source state set before Universal Home Assistant started."""
     hass.set_state(CoreState.not_running)
     fake_states = {
         "sensor.test_monitored": [
@@ -463,7 +463,7 @@ async def test_source_state_set_while_starting(
         )
         await hass.async_block_till_done()
 
-    # Not tracked yet, so this is only seen once __HA_KEEP__ has started
+    # Not tracked yet, so this is only seen once Universal Home Assistant has started
     hass.states.async_set("sensor.test_monitored", source_state, POWER_ATTRIBUTES)
     await hass.async_block_till_done()
 
@@ -478,7 +478,7 @@ async def test_source_state_set_while_starting(
 
 
 async def test_replayed_source_state_not_filtered_twice(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test the current source state is not filtered again if it was replayed."""
     hass.states.async_set("sensor.test_monitored", "20")
@@ -517,7 +517,7 @@ async def test_replayed_source_state_not_filtered_twice(
 
 
 async def test_setup(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    recorder_mock: Recorder, hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test if filter attributes are inherited."""
     config = {
@@ -559,7 +559,7 @@ async def test_setup(
         assert entity_id == "sensor.test"
 
 
-async def test_invalid_state(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
+async def test_invalid_state(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
     """Test if filter attributes are inherited."""
     config = {
         "sensor": {
@@ -595,7 +595,7 @@ async def test_invalid_state(recorder_mock: Recorder, hass: __HAC_KEEP__) -> Non
         assert state.state == STATE_UNAVAILABLE
 
 
-async def test_timestamp_state(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
+async def test_timestamp_state(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
     """Test if filter state is a datetime."""
     config = {
         "sensor": {
@@ -777,7 +777,7 @@ def test_time_sma_window() -> None:
     assert filtered == [10, 10, 15, 25, 35, 50, 52.5]
 
 
-async def test_reload(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
+async def test_reload(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
     """Verify we can reload filter sensors."""
     hass.states.async_set("sensor.test_monitored", 12345)
     await async_setup_component(

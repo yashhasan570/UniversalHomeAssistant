@@ -11,8 +11,8 @@ from universalassistant.components.water_heater import (
     WaterHeaterEntityFeature,
 )
 from universalassistant.const import ATTR_TEMPERATURE, STATE_OFF
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -23,7 +23,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MyPVConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -95,7 +95,7 @@ class MyPVWaterHeater(MyPVBaseEntity, WaterHeaterEntity):
         if not await self.coordinator.set_target_temperature(
             float(kwargs[ATTR_TEMPERATURE])
         ):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="unknown_error"
             )
 
@@ -111,7 +111,7 @@ class MyPVWaterHeater(MyPVBaseEntity, WaterHeaterEntity):
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Turn the water heater on."""
         if not await self.coordinator.turn_on():
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="unknown_error"
             )
 
@@ -119,6 +119,6 @@ class MyPVWaterHeater(MyPVBaseEntity, WaterHeaterEntity):
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Turn the water heater off."""
         if not await self.coordinator.turn_off():
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="unknown_error"
             )

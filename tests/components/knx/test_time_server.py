@@ -3,7 +3,7 @@
 import pytest
 from pytest_universalassistant.typing import WebSocketGenerator
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import KNXTestKit
 
@@ -67,7 +67,7 @@ RAW_DATETIME = (0x7E, 0x01, 0x1D, 0x8C, 0x02, 0x03, 0x20, 0xC0)
     ],
 )
 async def test_time_server_write_format(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     config: dict,
@@ -106,7 +106,7 @@ async def test_time_server_write_format(
 
 @pytest.mark.freeze_time(FREEZE_TIME)
 async def test_time_server_load_from_config_store(
-    hass: __HAC_KEEP__, knx: KNXTestKit, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, knx: KNXTestKit, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test time server is loaded correctly from config store."""
     await hass.config.async_set_time_zone("Europe/Vienna")
@@ -142,7 +142,7 @@ async def test_time_server_load_from_config_store(
     ],
 )
 async def test_time_server_invalid_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     invalid_config: dict,

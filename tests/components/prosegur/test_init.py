@@ -5,7 +5,7 @@ from unittest.mock import patch
 import pytest
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.parametrize(
@@ -16,7 +16,7 @@ from universalassistant.core import __HAC_KEEP__
     ],
 )
 async def test_setup_entry_fail_retrieve(
-    hass: __HAC_KEEP__, mock_config_entry, error
+    hass: UniversalAssistant, mock_config_entry, error
 ) -> None:
     """Test loading the Prosegur entry."""
 
@@ -32,7 +32,7 @@ async def test_setup_entry_fail_retrieve(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration,
     mock_config_entry,
     aioclient_mock: AiohttpClientMocker,

@@ -7,7 +7,7 @@ import threading
 
 import pytest
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.async_iterator import (
     Abort,
     AsyncIteratorReader,
@@ -24,7 +24,7 @@ def _read_all(reader: AsyncIteratorReader) -> bytes:
     return output
 
 
-async def test_async_iterator_reader(hass: __HAC_KEEP__) -> None:
+async def test_async_iterator_reader(hass: UniversalAssistant) -> None:
     """Test the async iterator reader."""
     data = b"hello world" * 1000
 
@@ -44,7 +44,7 @@ async def test_async_iterator_reader(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_async_iterator_reader_read_all(
-    hass: __HAC_KEEP__, read_args: tuple[int, ...]
+    hass: UniversalAssistant, read_args: tuple[int, ...]
 ) -> None:
     """Test read() without a size returns the rest of the stream."""
 
@@ -65,7 +65,7 @@ async def test_async_iterator_reader_read_all(
     )
 
 
-async def test_async_iterator_reader_empty_chunk(hass: __HAC_KEEP__) -> None:
+async def test_async_iterator_reader_empty_chunk(hass: UniversalAssistant) -> None:
     """Test an empty chunk is not treated as the end of the stream."""
 
     async def async_gen() -> AsyncIterator[bytes]:
@@ -77,7 +77,7 @@ async def test_async_iterator_reader_empty_chunk(hass: __HAC_KEEP__) -> None:
     assert await hass.async_add_executor_job(_read_all, reader) == b"helloworld"
 
 
-async def test_async_iterator_reader_abort_early(hass: __HAC_KEEP__) -> None:
+async def test_async_iterator_reader_abort_early(hass: UniversalAssistant) -> None:
     """Test abort the async iterator reader."""
     evt = asyncio.Event()
 
@@ -92,7 +92,7 @@ async def test_async_iterator_reader_abort_early(hass: __HAC_KEEP__) -> None:
         await fut
 
 
-async def test_async_iterator_reader_abort_late(hass: __HAC_KEEP__) -> None:
+async def test_async_iterator_reader_abort_late(hass: UniversalAssistant) -> None:
     """Test abort the async iterator reader."""
     evt = asyncio.Event()
 
@@ -114,7 +114,7 @@ def _write_all(writer: AsyncIteratorWriter, data: list[bytes]) -> bytes:
     assert writer.write(b"") == 0
 
 
-async def test_async_iterator_writer(hass: __HAC_KEEP__) -> None:
+async def test_async_iterator_writer(hass: UniversalAssistant) -> None:
     """Test the async iterator writer."""
     chunk = b"hello world" * 1000
     chunks = [chunk] * 10
@@ -132,7 +132,7 @@ async def test_async_iterator_writer(hass: __HAC_KEEP__) -> None:
     assert writer.tell() == len(read)
 
 
-async def test_async_iterator_writer_abort_early(hass: __HAC_KEEP__) -> None:
+async def test_async_iterator_writer_abort_early(hass: UniversalAssistant) -> None:
     """Test the async iterator writer."""
     chunk = b"hello world" * 1000
     chunks = [chunk] * 10
@@ -145,7 +145,7 @@ async def test_async_iterator_writer_abort_early(hass: __HAC_KEEP__) -> None:
         await fut
 
 
-async def test_async_iterator_writer_abort_late(hass: __HAC_KEEP__) -> None:
+async def test_async_iterator_writer_abort_late(hass: UniversalAssistant) -> None:
     """Test the async iterator writer."""
     chunk = b"hello world" * 1000
     chunks = [chunk] * 10
@@ -159,7 +159,7 @@ async def test_async_iterator_writer_abort_late(hass: __HAC_KEEP__) -> None:
         await fut
 
 
-async def test_async_iterator_reader_exhausted(hass: __HAC_KEEP__) -> None:
+async def test_async_iterator_reader_exhausted(hass: UniversalAssistant) -> None:
     """Test that read() returns empty bytes after stream exhaustion."""
 
     async def async_gen() -> AsyncIterator[bytes]:
@@ -176,7 +176,7 @@ async def test_async_iterator_reader_exhausted(hass: __HAC_KEEP__) -> None:
     assert await hass.async_add_executor_job(_read_then_read_again) == b"hello"
 
 
-async def test_async_iterator_reader_aclose(hass: __HAC_KEEP__) -> None:
+async def test_async_iterator_reader_aclose(hass: UniversalAssistant) -> None:
     """Test aclose closes a partially read stream."""
     closed = asyncio.Event()
 
@@ -195,7 +195,7 @@ async def test_async_iterator_reader_aclose(hass: __HAC_KEEP__) -> None:
     assert closed.is_set()
 
 
-async def test_async_iterator_reader_close_from_thread(hass: __HAC_KEEP__) -> None:
+async def test_async_iterator_reader_close_from_thread(hass: UniversalAssistant) -> None:
     """Test close called from a thread closes a partially read stream."""
     closed = asyncio.Event()
 
@@ -218,7 +218,7 @@ async def test_async_iterator_reader_close_from_thread(hass: __HAC_KEEP__) -> No
         await closed.wait()
 
 
-async def test_async_iterator_reader_aclose_during_read(hass: __HAC_KEEP__) -> None:
+async def test_async_iterator_reader_aclose_during_read(hass: UniversalAssistant) -> None:
     """Test aclose aborts an ongoing read before closing the stream."""
     reading = asyncio.Event()
     closed = asyncio.Event()
@@ -242,7 +242,7 @@ async def test_async_iterator_reader_aclose_during_read(hass: __HAC_KEEP__) -> N
 
 
 async def test_async_iterator_reader_aclose_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test aclose of a stream which can't be closed."""
 
@@ -275,7 +275,7 @@ async def test_async_close_iterator_error(caplog: pytest.LogCaptureFixture) -> N
     assert "Boom!" in caplog.text
 
 
-async def test_async_iterator_writer_aclose(hass: __HAC_KEEP__) -> None:
+async def test_async_iterator_writer_aclose(hass: UniversalAssistant) -> None:
     """Test aclose unblocks a thread writing to the writer."""
     writer = AsyncIteratorWriter(hass.loop)
 
@@ -387,7 +387,7 @@ async def test_resource_chunk_iterator_close(
 
 @pytest.mark.parametrize("chunks_read", [0, 1])
 async def test_resource_chunk_iterator_garbage_collected(
-    hass: __HAC_KEEP__, chunks_read: int
+    hass: UniversalAssistant, chunks_read: int
 ) -> None:
     """Test the resource is closed on the event loop when garbage collected."""
     resource = MockResource([b"hello", b"world"])
@@ -402,7 +402,7 @@ async def test_resource_chunk_iterator_garbage_collected(
 
 
 async def test_resource_chunk_iterator_garbage_collected_in_thread(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the resource is closed on the event loop when collected in a thread."""
     resource = MockResource([b"hello"])

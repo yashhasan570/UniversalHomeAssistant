@@ -7,7 +7,7 @@ from lupupy.exceptions import LupusecException
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import device_registry as dr
 
@@ -26,7 +26,7 @@ PLATFORMS: list[Platform] = [
 type LupusecConfigEntry = ConfigEntry[lupupy.Lupusec]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: LupusecConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: LupusecConfigEntry) -> None:
     """Set up this integration using UI."""
 
     host = entry.data[CONF_HOST]

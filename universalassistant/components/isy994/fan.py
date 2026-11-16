@@ -7,7 +7,7 @@ from pyisy.constants import ISY_VALUE_UNKNOWN, PROTO_INSTEON
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
     percentage_to_ranged_value,
@@ -23,7 +23,7 @@ SPEED_RANGE = (1, 255)  # off is not included
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: IsyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

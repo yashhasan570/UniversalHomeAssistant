@@ -12,20 +12,20 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components import camera, image_processing as ip
 from universalassistant.components.openalpr_cloud.image_processing import OPENALPR_API_URL
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from tests.components.image_processing import common
 
 
 @pytest.fixture(autouse=True)
-async def setup_universalassistant(hass: __HAC_KEEP__) -> None:
+async def setup_universalassistant(hass: UniversalAssistant) -> None:
     """Set up the universalassistant integration."""
     await async_setup_component(hass, "universalassistant", {})
 
 
 @pytest.fixture
-async def setup_openalpr_cloud(hass: __HAC_KEEP__) -> None:
+async def setup_openalpr_cloud(hass: UniversalAssistant) -> None:
     """Set up openalpr cloud."""
     config = {
         ip.DOMAIN: {
@@ -47,7 +47,7 @@ async def setup_openalpr_cloud(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.fixture
-async def alpr_events(hass: __HAC_KEEP__) -> list[Event]:
+async def alpr_events(hass: UniversalAssistant) -> list[Event]:
     """Listen for events."""
     return async_capture_events(hass, "image_processing.found_plate")
 
@@ -60,7 +60,7 @@ PARAMS = {
 }
 
 
-async def test_setup_platform(hass: __HAC_KEEP__) -> None:
+async def test_setup_platform(hass: UniversalAssistant) -> None:
     """Set up platform with one entity."""
     config = {
         ip.DOMAIN: {
@@ -79,7 +79,7 @@ async def test_setup_platform(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("image_processing.openalpr_demo_camera")
 
 
-async def test_setup_platform_name(hass: __HAC_KEEP__) -> None:
+async def test_setup_platform_name(hass: UniversalAssistant) -> None:
     """Set up platform with one entity and set name."""
     config = {
         ip.DOMAIN: {
@@ -98,7 +98,7 @@ async def test_setup_platform_name(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("image_processing.test_local")
 
 
-async def test_setup_platform_without_api_key(hass: __HAC_KEEP__) -> None:
+async def test_setup_platform_without_api_key(hass: UniversalAssistant) -> None:
     """Set up platform with one entity without api_key."""
     config = {
         ip.DOMAIN: {
@@ -114,7 +114,7 @@ async def test_setup_platform_without_api_key(hass: __HAC_KEEP__) -> None:
         await hass.async_block_till_done()
 
 
-async def test_setup_platform_without_region(hass: __HAC_KEEP__) -> None:
+async def test_setup_platform_without_region(hass: UniversalAssistant) -> None:
     """Set up platform with one entity without region."""
     config = {
         ip.DOMAIN: {
@@ -133,7 +133,7 @@ async def test_setup_platform_without_region(hass: __HAC_KEEP__) -> None:
 async def test_openalpr_process_image(
     alpr_events,
     setup_openalpr_cloud,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Set up and scan a picture and test plates from event."""
@@ -170,7 +170,7 @@ async def test_openalpr_process_image(
 async def test_openalpr_process_image_api_error(
     alpr_events,
     setup_openalpr_cloud,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Set up and scan a picture and test api error."""
@@ -195,7 +195,7 @@ async def test_openalpr_process_image_api_error(
 async def test_openalpr_process_image_api_timeout(
     alpr_events,
     setup_openalpr_cloud,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Set up and scan a picture and test api error."""

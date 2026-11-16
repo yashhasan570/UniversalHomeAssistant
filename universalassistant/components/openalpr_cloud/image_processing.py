@@ -24,7 +24,7 @@ from universalassistant.const import (
     CONF_REGION,
     CONF_SOURCE,
 )
-from universalassistant.core import __HAC_KEEP__, callback, split_entity_id
+from universalassistant.core import UniversalAssistant, callback, split_entity_id
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
@@ -67,7 +67,7 @@ PLATFORM_SCHEMA = IMAGE_PROCESSING_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

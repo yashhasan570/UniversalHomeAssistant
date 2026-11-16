@@ -42,8 +42,8 @@ from universalassistant.components.marketplace.utils.backup import (
 from universalassistant.components.marketplace.utils.storage import async_load_from_storage
 from universalassistant.config import async_hass_config_yaml
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.template import MAX_CUSTOM_TEMPLATE_SIZE
 from universalassistant.loader import Integration
@@ -137,7 +137,7 @@ def _release(
     responses.add(asset, mocked_response(asset, content=_zip(files)), keep=True)
 
 
-def _custom_components(hass: __HAC_KEEP__) -> ModuleType:
+def _custom_components(hass: UniversalAssistant) -> ModuleType:
     """Return a root module the loader resolves custom integrations from."""
     root = ModuleType("custom_components")
     root.__path__ = [hass.config.path("custom_components")]
@@ -605,7 +605,7 @@ async def test_release_with_an_extra_directory_keeps_the_integration(
     ],
 )
 async def test_release_the_loader_refuses_keeps_the_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     response_mocker: MarketplaceResponses,
     manifest: dict[str, Any],
@@ -673,7 +673,7 @@ async def test_persistent_directory_has_to_be_a_directory_inside(
     ],
 )
 async def test_invalid_theme_keeps_the_configuration_loadable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     response_mocker: MarketplaceResponses,
     config_dir: Path,
@@ -723,12 +723,12 @@ async def test_template_larger_than_core_reads_is_refused(
 
 
 async def test_template_that_is_not_utf8_keeps_the_old_one(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     response_mocker: MarketplaceResponses,
     config_dir: Path,
 ) -> None:
-    """Test a template __HA_KEEP__ can not read is not written over a working one."""
+    """Test a template Universal Home Assistant can not read is not written over a working one."""
     repository = marketplace.repositories.get_by_id(TEMPLATE_ID)
     await repository.async_install_repository()
     await hass.async_block_till_done()
@@ -839,7 +839,7 @@ async def test_second_install_of_a_repository_waits_its_turn(
 
 
 async def test_failed_step_after_writing_keeps_the_install(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
@@ -849,7 +849,7 @@ async def test_failed_step_after_writing_keeps_the_install(
     with patch.object(
         PluginRepository,
         "update_dashboard_resources",
-        side_effect=__HAC_KEEP__Error("The resources are read only"),
+        side_effect=UniversalAssistantError("The resources are read only"),
     ):
         await client.send_json_auto_id(
             {
@@ -871,7 +871,7 @@ async def test_failed_step_after_writing_keeps_the_install(
 
 
 async def test_install_tells_the_panel_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -895,7 +895,7 @@ async def test_install_tells_the_panel_once(
 
 
 async def test_uninstall_during_an_install_is_refused(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -935,7 +935,7 @@ async def test_uninstall_during_an_install_is_refused(
 
 
 async def test_valid_release_updates_the_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     response_mocker: MarketplaceResponses,
 ) -> None:
@@ -1094,7 +1094,7 @@ async def test_unexpected_post_install_failure_is_logged_with_its_traceback(
 
 
 async def test_cancelled_install_waits_for_the_file_being_written(
-    hass: __HAC_KEEP__, marketplace: MarketplaceManager
+    hass: UniversalAssistant, marketplace: MarketplaceManager
 ) -> None:
     """Test a cancelled install rolls back after the write it was waiting on.
 

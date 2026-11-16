@@ -9,7 +9,7 @@
       "description": "Sets the value of a date/time.",
       "fields": {
         "datetime": {
-          "description": "The date/time to set. The time zone of the __HA_KEEP__ instance is assumed.",
+          "description": "The date/time to set. The time zone of the Universal Home Assistant instance is assumed.",
           "name": "Date & Time"
         }
       },

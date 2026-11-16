@@ -22,12 +22,12 @@ from universalassistant.components.mysensors.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_DEVICE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(name="mqtt")
-def mock_mqtt_fixture(hass: __HAC_KEEP__) -> None:
+def mock_mqtt_fixture(hass: UniversalAssistant) -> None:
     """Mock the MQTT integration."""
     hass.config.components.add(MQTT_DOMAIN)
 
@@ -111,7 +111,7 @@ def transport_write(transport: MagicMock) -> MagicMock:
 
 
 @pytest.fixture(name="serial_entry")
-async def serial_entry_fixture(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def serial_entry_fixture(hass: UniversalAssistant) -> MockConfigEntry:
     """Create a config entry for a serial gateway."""
     return MockConfigEntry(
         domain=DOMAIN,
@@ -139,7 +139,7 @@ def config_entry_fixture(
 
 @pytest.fixture(name="integration")
 async def integration_fixture(
-    hass: __HAC_KEEP__, transport: MagicMock, config_entry: MockConfigEntry
+    hass: UniversalAssistant, transport: MagicMock, config_entry: MockConfigEntry
 ) -> AsyncGenerator[MockConfigEntry]:
     """Set up the mysensors integration with a config entry."""
     config: dict[str, Any] = {}

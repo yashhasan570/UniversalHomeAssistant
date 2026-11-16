@@ -13,7 +13,7 @@ from tplink_omada_client.exceptions import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.typing import ConfigType
@@ -38,14 +38,14 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 type OmadaConfigEntry = ConfigEntry[OmadaSiteController]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up TP-Link Omada integration."""
     async_setup_services(hass)
 
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: OmadaConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: OmadaConfigEntry) -> None:
     """Set up TP-Link Omada from a config entry."""
 
     try:
@@ -93,13 +93,13 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: OmadaConfigEntry) -> None
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: OmadaConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: OmadaConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 def _remove_old_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: OmadaConfigEntry,
     omada_devices: dict[str, OmadaListDevice],
     controller_mac: str,
@@ -116,7 +116,7 @@ def _remove_old_devices(
             device_registry.async_remove_device(registered_device.id)
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: OmadaConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: OmadaConfigEntry) -> None:
     """Migrate old config entry to a new format."""
 
     if entry.version == 1:

@@ -766,7 +766,7 @@
       "title": "Template actions option requires a trigger"
     },
     "config_format_triggers": {
-      "description": "A trigger template configuration needs a trigger and at least one domain when defining an entity. This will be a configuration validation error in __HA_KEEP__ Core 2026.5.\n\nPlease remove the orphaned trigger from the configuration.\n\n```\n{config}\n```",
+      "description": "A trigger template configuration needs a trigger and at least one domain when defining an entity. This will be a configuration validation error in Universal Home Assistant Core 2026.5.\n\nPlease remove the orphaned trigger from the configuration.\n\n```\n{config}\n```",
       "title": "Incomplete template configuration"
     }
   },

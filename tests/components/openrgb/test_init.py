@@ -14,12 +14,12 @@ from universalassistant.components.openrgb import async_remove_config_entry_devi
 from universalassistant.components.openrgb.const import DOMAIN, SCAN_INTERVAL, UID_SEPARATOR
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
 async def test_entry_setup_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
 ) -> None:
@@ -40,7 +40,7 @@ async def test_entry_setup_unload(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_remove_config_entry_device_server(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -66,7 +66,7 @@ async def test_remove_config_entry_device_server(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_remove_config_entry_device_still_connected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -96,7 +96,7 @@ async def test_remove_config_entry_device_still_connected(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_remove_config_entry_device_disconnected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -142,7 +142,7 @@ async def test_remove_config_entry_device_disconnected(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_remove_config_entry_device_with_multiple_identifiers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -206,7 +206,7 @@ async def test_remove_config_entry_device_with_multiple_identifiers(
     ],
 )
 async def test_setup_entry_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     exception: Exception,
@@ -224,7 +224,7 @@ async def test_setup_entry_exceptions(
 
 
 async def test_reconnection_on_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -278,7 +278,7 @@ async def test_reconnection_on_update_failure(
     ],
 )
 async def test_reconnection_fails_second_attempt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -330,7 +330,7 @@ async def test_reconnection_fails_second_attempt(
 
 
 async def test_normal_update_without_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -409,7 +409,7 @@ def _key(entry: MockConfigEntry, serial: str, location: str) -> str:
     ],
 )
 async def test_device_key_replaces_unstable_location(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     mock_openrgb_device: MagicMock,
@@ -432,7 +432,7 @@ async def test_device_key_replaces_unstable_location(
 
 
 async def test_device_key_keeps_padded_serial_location(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     mock_openrgb_device: MagicMock,
@@ -467,7 +467,7 @@ async def test_device_key_keeps_padded_serial_location(
     ],
 )
 async def test_device_key_replaces_i2c_bus(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     mock_openrgb_device: MagicMock,
@@ -495,7 +495,7 @@ async def test_device_key_replaces_i2c_bus(
 
 
 async def test_device_key_survives_renumbered_i2c_bus(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     mock_openrgb_device: MagicMock,
@@ -519,7 +519,7 @@ async def test_device_key_survives_renumbered_i2c_bus(
 
 
 async def test_device_key_keeps_unsplittable_i2c_location(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     mock_openrgb_device: MagicMock,
@@ -545,7 +545,7 @@ async def test_device_key_keeps_unsplittable_i2c_location(
 
 
 async def test_device_key_survives_changed_connection_path(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     mock_openrgb_device: MagicMock,
@@ -576,7 +576,7 @@ async def test_device_key_survives_changed_connection_path(
 
 
 async def test_migrate_hid_device_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     mock_openrgb_device: MagicMock,
@@ -633,7 +633,7 @@ async def test_migrate_hid_device_key(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_migrate_i2c_device_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -681,7 +681,7 @@ async def test_migrate_i2c_device_key(
 )
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_migrate_leaves_other_keys_alone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     legacy_serial: str,
@@ -705,7 +705,7 @@ async def test_migrate_leaves_other_keys_alone(
 
 
 async def test_migrate_keeps_existing_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     mock_openrgb_device: MagicMock,
@@ -756,7 +756,7 @@ async def test_migrate_keeps_existing_duplicate(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_migrate_ignores_non_device_keys(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -782,7 +782,7 @@ async def test_migrate_ignores_non_device_keys(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_migrate_skipped_for_current_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -804,7 +804,7 @@ async def test_migrate_skipped_for_current_version(
 
 
 async def test_migrate_device_with_two_openrgb_identifiers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     mock_openrgb_device: MagicMock,
@@ -844,7 +844,7 @@ async def test_migrate_device_with_two_openrgb_identifiers(
 
 
 async def test_device_key_treats_reserved_serial_as_absent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     mock_openrgb_device: MagicMock,

@@ -33,7 +33,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import CoreState, __HAC_KEEP__, callback
+from universalassistant.core import CoreState, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import (
     aiohttp_client,
@@ -101,7 +101,7 @@ WEBSOCKET_EVENTS_TO_FIRE_HASS_EVENT = [
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the integration."""
     async_setup_services(hass)
     return True
@@ -109,7 +109,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 @callback
 def _async_register_base_station(
-    hass: __HAC_KEEP__, entry: SimpliSafeConfigEntry, system: SystemType
+    hass: UniversalAssistant, entry: SimpliSafeConfigEntry, system: SystemType
 ) -> None:
     """Register a new bridge."""
     device_registry = dr.async_get(hass)
@@ -141,7 +141,7 @@ def _async_register_base_station(
 
 @callback
 def _async_register_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SimpliSafeConfigEntry,
     system: SystemType,
     camera: Camera,
@@ -172,7 +172,7 @@ def _async_register_camera(
 
 @callback
 def _async_standardize_config_entry(
-    hass: __HAC_KEEP__, entry: SimpliSafeConfigEntry
+    hass: UniversalAssistant, entry: SimpliSafeConfigEntry
 ) -> None:
     """Bring a config entry up to current standards."""
     if CONF_TOKEN not in entry.data:
@@ -197,7 +197,7 @@ def _async_standardize_config_entry(
         hass.config_entries.async_update_entry(entry, **entry_updates)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SimpliSafeConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SimpliSafeConfigEntry) -> None:
     """Set up SimpliSafe as config entry."""
     _async_standardize_config_entry(hass, entry)
 
@@ -226,7 +226,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SimpliSafeConfigEntry) ->
     current_options = {**entry.options}
 
     async def async_reload_entry(
-        _: __HAC_KEEP__, updated_entry: SimpliSafeConfigEntry
+        _: UniversalAssistant, updated_entry: SimpliSafeConfigEntry
     ) -> None:
         """Handle an options update.
 
@@ -247,7 +247,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SimpliSafeConfigEntry) ->
     entry.async_on_unload(entry.add_update_listener(async_reload_entry))
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SimpliSafeConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SimpliSafeConfigEntry) -> None:
     """Unload a SimpliSafe config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
@@ -256,7 +256,7 @@ class SimpliSafe:
     """Define a SimpliSafe data object."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: SimpliSafeConfigEntry, api: API
+        self, hass: UniversalAssistant, entry: SimpliSafeConfigEntry, api: API
     ) -> None:
         """Initialize."""
         self._api = api

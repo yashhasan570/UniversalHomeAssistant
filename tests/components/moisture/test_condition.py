@@ -25,19 +25,19 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 _MOISTURE_UNIT_ATTRS = {ATTR_UNIT_OF_MEASUREMENT: "%"}
 
 
 @pytest.fixture
-async def target_binary_sensors(hass: __HAC_KEEP__) -> dict[str, list[str]]:
+async def target_binary_sensors(hass: UniversalAssistant) -> dict[str, list[str]]:
     """Create multiple binary sensor entities associated with different targets."""
     return await target_entities(hass, "binary_sensor")
 
 
 @pytest.fixture
-async def target_sensors(hass: __HAC_KEEP__) -> dict[str, list[str]]:
+async def target_sensors(hass: UniversalAssistant) -> dict[str, list[str]]:
     """Create multiple sensor entities associated with different targets."""
     return await target_entities(hass, "sensor")
 
@@ -61,7 +61,7 @@ _CONDITION_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_moisture_condition_options_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     condition_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -104,7 +104,7 @@ def test_condition_target_support() -> None:
     ],
 )
 async def test_moisture_binary_sensor_condition_behavior_any(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_binary_sensors: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -148,7 +148,7 @@ async def test_moisture_binary_sensor_condition_behavior_any(
     ],
 )
 async def test_moisture_binary_sensor_condition_behavior_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_binary_sensors: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -183,7 +183,7 @@ async def test_moisture_binary_sensor_condition_behavior_all(
     ),
 )
 async def test_moisture_sensor_condition_behavior_any(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_sensors: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -218,7 +218,7 @@ async def test_moisture_sensor_condition_behavior_any(
     ),
 )
 async def test_moisture_sensor_condition_behavior_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_sensors: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,

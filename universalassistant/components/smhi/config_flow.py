@@ -7,7 +7,7 @@ from pysmhi import SmhiForecastException, SMHIPointForecast
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_LATITUDE, CONF_LOCATION, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     aiohttp_client,
     device_registry as dr,
@@ -19,7 +19,7 @@ from .const import DEFAULT_NAME, DOMAIN, HOME_LOCATION_NAME
 
 
 async def async_check_location(
-    hass: __HAC_KEEP__, longitude: float, latitude: float
+    hass: UniversalAssistant, longitude: float, latitude: float
 ) -> bool:
     """Return true if location is ok."""
     session = aiohttp_client.async_get_clientsession(hass)

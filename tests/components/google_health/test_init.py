@@ -15,7 +15,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant import config_entries
 from universalassistant.components.google_health.coordinator import POLLING_INTERVAL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
 )
@@ -24,7 +24,7 @@ from universalassistant.util import dt as dt_util
 
 @pytest.mark.usefixtures("mock_google_health_client")
 async def test_setup_and_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[], Awaitable[bool]],
 ) -> None:
@@ -47,7 +47,7 @@ async def test_setup_and_unload(
 
 
 async def test_setup_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_google_health_client: AsyncMock,
     integration_setup: Callable[[], Awaitable[bool]],
@@ -62,7 +62,7 @@ async def test_setup_api_error(
 
 
 async def test_setup_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_google_health_client: AsyncMock,
     integration_setup: Callable[[], Awaitable[bool]],
@@ -85,7 +85,7 @@ async def test_setup_auth_error(
     "scopes", ["https://www.googleapis.com/auth/health.activity_and_fitness.readonly"]
 )
 async def test_setup_missing_scopes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[], Awaitable[bool]],
 ) -> None:
@@ -109,7 +109,7 @@ async def test_setup_missing_scopes(
     ],
 )
 async def test_setup_missing_activity_scope(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[], Awaitable[bool]],
 ) -> None:
@@ -139,7 +139,7 @@ async def test_setup_missing_activity_scope(
     ],
 )
 async def test_setup_missing_measurements_scope(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[], Awaitable[bool]],
 ) -> None:
@@ -170,7 +170,7 @@ async def test_setup_missing_measurements_scope(
     ],
 )
 async def test_setup_missing_sleep_scope(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[], Awaitable[bool]],
 ) -> None:
@@ -195,7 +195,7 @@ async def test_setup_missing_sleep_scope(
     ],
 )
 async def test_setup_missing_nutrition_scope(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[], Awaitable[bool]],
 ) -> None:
@@ -208,7 +208,7 @@ async def test_setup_missing_nutrition_scope(
 
 
 async def test_setup_oauth_implementation_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""
@@ -226,7 +226,7 @@ async def test_setup_oauth_implementation_unavailable(
 
 @pytest.mark.usefixtures("mock_google_health_client")
 async def test_runtime_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[], Awaitable[bool]],
     mock_google_health_client: AsyncMock,

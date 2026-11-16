@@ -15,7 +15,7 @@ from universalassistant.components.alarm_control_panel import (
     AlarmControlPanelState,
 )
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity import EntityDescription
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -214,7 +214,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: OverkizDataConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

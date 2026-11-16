@@ -18,7 +18,7 @@ from universalassistant.config_entries import (
     ConfigSubentryData,
 )
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import client_error, setup_integration
@@ -26,7 +26,7 @@ from .conftest import TEST_API_KEY, TEST_COMPANY, TEST_PRICES, TEST_STATION
 
 
 async def test_setup_and_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_braendstofpriser: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -48,7 +48,7 @@ async def test_setup_and_unload_entry(
 
 
 async def test_reload_on_subentry_added(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_braendstofpriser: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -86,7 +86,7 @@ async def test_reload_on_subentry_added(
 
 
 async def test_skips_non_station_subentries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_braendstofpriser: AsyncMock,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -112,7 +112,7 @@ async def test_skips_non_station_subentries(
 
 
 async def test_stations_use_flist(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_braendstofpriser: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -133,7 +133,7 @@ async def test_stations_use_flist(
     ids=["auth_failed", "cannot_connect"],
 )
 async def test_setup_error_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_braendstofpriser: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -156,7 +156,7 @@ async def test_setup_error_handling(
     indirect=["mock_config_entry"],
 )
 async def test_remove_station(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_braendstofpriser: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -198,7 +198,7 @@ async def test_remove_station(
 
 
 async def test_api_keys_update_independently(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_braendstofpriser: AsyncMock,
     mock_braendstofpriser_class: MagicMock,
     mock_other_braendstofpriser: MagicMock,

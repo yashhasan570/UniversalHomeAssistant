@@ -2,7 +2,7 @@
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -19,14 +19,14 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 type DeconzConfigEntry = ConfigEntry[DeconzHub]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up services."""
     async_setup_services(hass)
     return True
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: DeconzConfigEntry
+    hass: UniversalAssistant, config_entry: DeconzConfigEntry
 ) -> None:
     """Set up a deCONZ bridge for a config entry.
 
@@ -62,7 +62,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: DeconzConfigEntry
+    hass: UniversalAssistant, config_entry: DeconzConfigEntry
 ) -> None:
     """Unload deCONZ config entry."""
     hub = config_entry.runtime_data
@@ -83,7 +83,7 @@ async def async_unload_entry(
 
 
 async def async_update_master_hub(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: DeconzConfigEntry,
     *,
     master: bool | None = None,

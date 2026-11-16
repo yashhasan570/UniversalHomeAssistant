@@ -1,4 +1,4 @@
-"""Test the __HA_KEEP__ Connect ZBT-2 hardware platform."""
+"""Test the Universal Home Assistant Connect ZBT-2 hardware platform."""
 
 from pytest_universalassistant.common import MockConfigEntry
 from pytest_universalassistant.typing import WebSocketGenerator
@@ -7,7 +7,7 @@ from universalassistant.components.universalassistant_connect_zbt2.const import 
 from universalassistant.components.usb import DOMAIN as USB_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 CONFIG_ENTRY_DATA = {
@@ -23,7 +23,7 @@ CONFIG_ENTRY_DATA = {
 
 
 async def test_hardware_info(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, addon_store_info
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, addon_store_info
 ) -> None:
     """Test we can get the board info."""
     assert await async_setup_component(hass, USB_DOMAIN, {})
@@ -34,7 +34,7 @@ async def test_hardware_info(
         data=CONFIG_ENTRY_DATA,
         domain=DOMAIN,
         options={},
-        title="__HA_KEEP__ Connect ZBT-2",
+        title="Universal Home Assistant Connect ZBT-2",
         unique_id="unique_1",
         version=1,
         minor_version=1,
@@ -61,7 +61,7 @@ async def test_hardware_info(
                     "manufacturer": "Nabu Casa",
                     "description": "ZBT-2",
                 },
-                "name": "__HA_KEEP__ Connect ZBT-2",
+                "name": "Universal Home Assistant Connect ZBT-2",
                 "url": "https://support.nabucasa.com/hc/en-us/categories/24734620813469-Universal-Assistant-Connect-ZBT-1",
             }
         ]
@@ -69,11 +69,11 @@ async def test_hardware_info(
 
 
 async def test_hardware_info_ignored_entry(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, addon_store_info
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, addon_store_info
 ) -> None:
     """Test ignored discovery entries don't crash hardware info.
 
-    Regression test for https://github.com/yashhasan570/__HAC_KEEP__/issues/170270
+    Regression test for https://github.com/yashhasan570/UniversalUniversalAssistant/issues/170270
     """
     assert await async_setup_component(hass, USB_DOMAIN, {})
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
@@ -83,7 +83,7 @@ async def test_hardware_info_ignored_entry(
         data=CONFIG_ENTRY_DATA,
         domain=DOMAIN,
         options={},
-        title="__HA_KEEP__ Connect ZBT-2",
+        title="Universal Home Assistant Connect ZBT-2",
         unique_id="normal_1",
         version=1,
         minor_version=1,
@@ -96,7 +96,7 @@ async def test_hardware_info_ignored_entry(
         data={},
         domain=DOMAIN,
         options={},
-        title="__HA_KEEP__ Connect ZBT-2",
+        title="Universal Home Assistant Connect ZBT-2",
         unique_id="ignored_1",
         version=1,
         minor_version=2,
@@ -124,7 +124,7 @@ async def test_hardware_info_ignored_entry(
                     "manufacturer": "Nabu Casa",
                     "description": "ZBT-2",
                 },
-                "name": "__HA_KEEP__ Connect ZBT-2",
+                "name": "Universal Home Assistant Connect ZBT-2",
                 "url": "https://support.nabucasa.com/hc/en-us/categories/24734620813469-Universal-Assistant-Connect-ZBT-1",
             }
         ]

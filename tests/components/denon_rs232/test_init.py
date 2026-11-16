@@ -10,14 +10,14 @@ from universalassistant.components.denon_rs232.config_flow import CONF_MODEL_NAM
 from universalassistant.components.denon_rs232.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_DEVICE, CONF_MODEL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import MOCK_MODEL
 from .conftest import MockReceiver
 
 
 async def test_remove_entry_while_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_receiver: MockReceiver,
     init_components: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -40,7 +40,7 @@ async def test_remove_entry_while_loaded(
 
 
 async def test_setup_retry_hides_api_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_receiver: MockReceiver,
     mock_usb_component: None,
     caplog: pytest.LogCaptureFixture,
@@ -73,7 +73,7 @@ async def test_setup_retry_hides_api_key(
 
 
 async def test_setup_serial_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Retry setup when the serial transport cannot be opened."""

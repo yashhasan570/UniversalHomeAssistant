@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.melcloud.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -46,7 +46,7 @@ def mock_request_info():
         yield mock_ri
 
 
-async def test_form(hass: __HAC_KEEP__, mock_login, mock_get_devices) -> None:
+async def test_form(hass: UniversalAssistant, mock_login, mock_get_devices) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -82,7 +82,7 @@ async def test_form(hass: __HAC_KEEP__, mock_login, mock_get_devices) -> None:
     ],
 )
 async def test_form_errors(
-    hass: __HAC_KEEP__, mock_login, mock_get_devices, error, reason
+    hass: UniversalAssistant, mock_login, mock_get_devices, error, reason
 ) -> None:
     """Test we handle cannot connect error."""
     mock_login.side_effect = error
@@ -111,7 +111,7 @@ async def test_form_errors(
     ],
 )
 async def test_form_response_errors(
-    hass: __HAC_KEEP__, mock_login, mock_get_devices, mock_request_info, error, message
+    hass: UniversalAssistant, mock_login, mock_get_devices, mock_request_info, error, message
 ) -> None:
     """Test we handle response errors."""
     mock_login.side_effect = ClientResponseError(mock_request_info(), (), status=error)
@@ -130,7 +130,7 @@ async def test_form_response_errors(
     assert result["reason"] == message
 
 
-async def test_token_refresh(hass: __HAC_KEEP__, mock_login, mock_get_devices) -> None:
+async def test_token_refresh(hass: UniversalAssistant, mock_login, mock_get_devices) -> None:
     """Re-configuration with existing username should refresh token."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -170,7 +170,7 @@ async def test_token_refresh(hass: __HAC_KEEP__, mock_login, mock_get_devices) -
 
 
 async def test_token_reauthentication(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_login,
     mock_get_devices,
 ) -> None:
@@ -209,7 +209,7 @@ async def test_token_reauthentication(
     ],
 )
 async def test_form_errors_reauthentication(
-    hass: __HAC_KEEP__, mock_login, error, reason
+    hass: UniversalAssistant, mock_login, error, reason
 ) -> None:
     """Test we handle cannot connect error."""
     mock_login.side_effect = error
@@ -259,7 +259,7 @@ async def test_form_errors_reauthentication(
     ],
 )
 async def test_client_errors_reauthentication(
-    hass: __HAC_KEEP__, mock_login, mock_request_info, error, reason
+    hass: UniversalAssistant, mock_login, mock_request_info, error, reason
 ) -> None:
     """Test we handle cannot connect error."""
     mock_login.side_effect = ClientResponseError(mock_request_info(), (), status=error)
@@ -309,7 +309,7 @@ async def test_client_errors_reauthentication(
     ],
 )
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__, mock_login, mock_request_info, error, reason
+    hass: UniversalAssistant, mock_login, mock_request_info, error, reason
 ) -> None:
     """Test re-configuration flow."""
     mock_login.side_effect = ClientResponseError(mock_request_info(), (), status=error)
@@ -368,7 +368,7 @@ async def test_reconfigure_flow(
     ],
 )
 async def test_form_errors_reconfigure(
-    hass: __HAC_KEEP__, mock_login, error, reason
+    hass: UniversalAssistant, mock_login, error, reason
 ) -> None:
     """Test we handle cannot connect error."""
     mock_login.side_effect = error

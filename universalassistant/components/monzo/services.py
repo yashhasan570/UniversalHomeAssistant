@@ -9,9 +9,9 @@ from aiohttp import ClientError
 from monzopy import AuthorisationExpiredError, InvalidMonzoAPIResponseError
 import probatio
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.exceptions import (
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     OAuth2TokenRequestReauthError,
     ServiceValidationError,
 )
@@ -191,14 +191,14 @@ async def _async_transfer(
         )
     except (AuthorisationExpiredError, OAuth2TokenRequestReauthError) as err:
         coordinator.config_entry.async_start_reauth(call.hass)
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="authentication_expired",
         ) from err
     except InvalidMonzoAPIResponseError as err:
         if reason := _transfer_rejection_reason(err):
             account = coordinator.data.accounts[account_id]
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="transfer_rejected",
                 translation_placeholders={
@@ -207,18 +207,18 @@ async def _async_transfer(
                     "reason": reason,
                 },
             ) from err
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="transfer_status_unknown",
         ) from err
     except (ClientError, TimeoutError) as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="transfer_status_unknown",
         ) from err
 
     if not transfer_succeeded:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="transfer_failed",
         )
@@ -241,7 +241,7 @@ async def _async_withdraw_from_pot(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up Monzo actions."""
     service.async_register_admin_service(
         hass,

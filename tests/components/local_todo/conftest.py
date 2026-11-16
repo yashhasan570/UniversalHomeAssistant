@@ -14,7 +14,7 @@ from universalassistant.components.local_todo.const import (
     CONF_TODO_LIST_NAME,
     DOMAIN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 TODO_NAME = "My Tasks"
 FRIENDLY_NAME = "My tasks"
@@ -36,7 +36,7 @@ class FakeStore(LocalTodoListStore):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         path: Path,
         ics_content: str | None,
         read_side_effect: Any | None = None,
@@ -79,7 +79,7 @@ def mock_store(ics_content: str, store_read_side_effect: Any | None) -> Generato
 
     stores: dict[Path, FakeStore] = {}
 
-    def new_store(hass: __HAC_KEEP__, path: Path) -> FakeStore:
+    def new_store(hass: UniversalAssistant, path: Path) -> FakeStore:
         if path not in stores:
             stores[path] = FakeStore(hass, path, ics_content, store_read_side_effect)
         return stores[path]
@@ -98,7 +98,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 
 @pytest.fixture(name="setup_integration")
-async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Set up the integration."""
     config_entry.add_to_hass(hass)
     await hass.config_entries.async_setup(config_entry.entry_id)

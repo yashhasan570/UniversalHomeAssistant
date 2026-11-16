@@ -25,7 +25,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.event import async_track_state_change_event
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -44,7 +44,7 @@ def listeners_without_writes(listeners: dict[str, int]) -> dict[str, int]:
 
 
 @contextmanager
-def assert_no_listener_leak(hass: __HAC_KEEP__) -> Iterator[None]:
+def assert_no_listener_leak(hass: UniversalAssistant) -> Iterator[None]:
     """Capture bus listeners on entry, assert no leak on exit.
 
     EVENT_STATE_CHANGED is excluded because unrelated components can
@@ -72,7 +72,7 @@ def test_setup() -> None:
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_during_period(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test history_during_period."""
     now = dt_util.utcnow()
@@ -207,7 +207,7 @@ async def test_history_during_period(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_during_period_impossible_conditions(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test history_during_period returns when condition cannot be true."""
     await async_setup_component(hass, DOMAIN, {})
@@ -270,7 +270,7 @@ async def test_history_during_period_impossible_conditions(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_during_period_significant_domain(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     time_zone,
 ) -> None:
@@ -438,7 +438,7 @@ async def test_history_during_period_significant_domain(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_during_period_bad_start_time(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test history_during_period bad state time."""
     await async_setup_component(
@@ -463,7 +463,7 @@ async def test_history_during_period_bad_start_time(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_during_period_bad_end_time(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test history_during_period bad end time."""
     now = dt_util.utcnow()
@@ -491,7 +491,7 @@ async def test_history_during_period_bad_end_time(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_stream_historical_only(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test history stream."""
     now = dt_util.utcnow()
@@ -581,7 +581,7 @@ async def test_history_stream_historical_only(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_stream_significant_domain_historical_only(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the stream with climate domain with historical states only."""
     now = dt_util.utcnow()
@@ -783,7 +783,7 @@ async def test_history_stream_significant_domain_historical_only(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_stream_bad_start_time(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test history stream bad state time."""
     await async_setup_component(
@@ -808,7 +808,7 @@ async def test_history_stream_bad_start_time(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_stream_end_time_before_start_time(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test history stream with an end_time before the start_time."""
     end_time = dt_util.utcnow() - timedelta(seconds=2)
@@ -837,7 +837,7 @@ async def test_history_stream_end_time_before_start_time(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_stream_bad_end_time(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test history stream bad end time."""
     now = dt_util.utcnow()
@@ -865,7 +865,7 @@ async def test_history_stream_bad_end_time(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_stream_live_no_attributes_minimal_response(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test history stream with live data, no_attributes and minimal_response."""
     now = dt_util.utcnow()
@@ -959,7 +959,7 @@ async def test_history_stream_live_no_attributes_minimal_response(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_stream_live(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test history stream with history and live data."""
     now = dt_util.utcnow()
@@ -1073,7 +1073,7 @@ async def test_history_stream_live(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_stream_live_minimal_response(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test history stream with history and live data and minimal_response."""
     now = dt_util.utcnow()
@@ -1179,7 +1179,7 @@ async def test_history_stream_live_minimal_response(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_stream_live_no_attributes(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test history stream with history and live data and no_attributes."""
     now = dt_util.utcnow()
@@ -1281,7 +1281,7 @@ async def test_history_stream_live_no_attributes(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_stream_live_no_attributes_minimal_response_specific_entities(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test history stream with no_attributes and minimal_response.
 
@@ -1379,7 +1379,7 @@ async def test_history_stream_live_no_attributes_minimal_response_specific_entit
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_stream_live_with_future_end_time(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test history stream with history and live data with future end time."""
     now = dt_util.utcnow()
@@ -1489,7 +1489,7 @@ async def test_history_stream_live_with_future_end_time(
 @pytest.mark.parametrize("include_start_time_state", [True, False])
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_stream_before_history_starts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     include_start_time_state,
 ) -> None:
@@ -1540,7 +1540,7 @@ async def test_history_stream_before_history_starts(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_stream_for_entity_with_no_possible_changes(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test history stream with no possible changes.
 
@@ -1595,7 +1595,7 @@ async def test_history_stream_for_entity_with_no_possible_changes(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_overflow_queue(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test overflowing the history stream queue."""
     now = dt_util.utcnow()
@@ -1706,7 +1706,7 @@ async def test_overflow_queue(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_during_period_for_invalid_entity_ids(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test history_during_period for valid and invalid entity ids."""
     now = dt_util.utcnow()
@@ -1866,7 +1866,7 @@ async def test_history_during_period_for_invalid_entity_ids(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_stream_for_invalid_entity_ids(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test history stream for invalid and valid entity ids."""
 
@@ -2045,7 +2045,7 @@ async def test_history_stream_for_invalid_entity_ids(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_stream_historical_only_with_start_time_state_past(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -2161,7 +2161,7 @@ async def test_history_stream_historical_only_with_start_time_state_past(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_stream_live_chained_events(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test history stream with history with a chained event."""
     now = dt_util.utcnow()
@@ -2243,7 +2243,7 @@ async def test_history_stream_live_chained_events(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_during_period_filters_unauthorized_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_read_only_user: MockUser,
     hass_read_only_access_token: str,
     hass_ws_client: WebSocketGenerator,
@@ -2295,7 +2295,7 @@ async def test_history_during_period_filters_unauthorized_entities(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_stream_filters_unauthorized_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_read_only_user: MockUser,
     hass_read_only_access_token: str,
     hass_ws_client: WebSocketGenerator,

@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.linkplay.const import DOMAIN
 from universalassistant.config_entries import SOURCE_IGNORE, SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -52,7 +52,7 @@ ZEROCONF_DISCOVERY_RE_ENTRY = ZeroconfServiceInfo(
 
 @pytest.mark.usefixtures("mock_linkplay_factory_bridge", "mock_setup_entry")
 async def test_user_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test user setup config flow."""
     result = await hass.config_entries.flow.async_init(
@@ -78,7 +78,7 @@ async def test_user_flow(
 
 @pytest.mark.usefixtures("mock_linkplay_factory_bridge")
 async def test_user_flow_re_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test user setup flow when entry with same unique id exists."""
 
@@ -108,7 +108,7 @@ async def test_user_flow_re_entry(
 
 @pytest.mark.usefixtures("mock_linkplay_factory_bridge", "mock_setup_entry")
 async def test_zeroconf_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test Zeroconf flow."""
     result = await hass.config_entries.flow.async_init(
@@ -134,7 +134,7 @@ async def test_zeroconf_flow(
 
 
 async def test_zeroconf_flow_ignored_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_linkplay_factory_bridge: AsyncMock,
 ) -> None:
     """Test Zeroconf discovery does not probe a device with an ignored entry."""
@@ -160,7 +160,7 @@ async def test_zeroconf_flow_ignored_entry(
 
 
 async def test_zeroconf_flow_same_uuid_does_not_probe(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_linkplay_factory_bridge: AsyncMock,
 ) -> None:
     """Test Zeroconf discovery aborts before probing when the UUID matches."""
@@ -187,7 +187,7 @@ async def test_zeroconf_flow_same_uuid_does_not_probe(
 
 @pytest.mark.usefixtures("mock_linkplay_factory_bridge")
 async def test_zeroconf_flow_re_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test Zeroconf flow when an entry with the same unique id already exists."""
 
@@ -213,7 +213,7 @@ async def test_zeroconf_flow_re_entry(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_linkplay_factory_bridge: AsyncMock,
 ) -> None:
     """Test flow when the device discovered through Zeroconf cannot be reached."""
@@ -233,7 +233,7 @@ async def test_zeroconf_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_flow_ignores_wiim_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_linkplay_factory_bridge: AsyncMock,
 ) -> None:
     """Test Zeroconf discovery is ignored for WiiM devices."""
@@ -251,7 +251,7 @@ async def test_zeroconf_flow_ignores_wiim_device(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_linkplay_factory_bridge: AsyncMock,
 ) -> None:
     """Test flow when the device cannot be reached."""
@@ -294,7 +294,7 @@ async def test_user_flow_errors(
 
 @pytest.mark.usefixtures("mock_linkplay_factory_bridge")
 async def test_zeroconf_no_probe_existing_device(
-    hass: __HAC_KEEP__, mock_linkplay_factory_bridge: AsyncMock
+    hass: UniversalAssistant, mock_linkplay_factory_bridge: AsyncMock
 ) -> None:
     """Test we do not probe the device is the host is already configured."""
     entry = MockConfigEntry(

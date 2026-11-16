@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.sfr_box.const import DOMAIN
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 
@@ -22,7 +22,7 @@ def override_platforms() -> Generator[None]:
 
 @pytest.mark.usefixtures("system_get_info", "dsl_get_info", "wan_get_info")
 async def test_setup_unload_entry(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry
 ) -> None:
     """Test entry setup and unload."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -38,7 +38,7 @@ async def test_setup_unload_entry(
 
 
 async def test_setup_entry_exception(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry
 ) -> None:
     """Test ConfigEntryNotReady when API raises an exception during entry setup."""
     with patch(
@@ -53,7 +53,7 @@ async def test_setup_entry_exception(
 
 
 async def test_setup_entry_auth_exception(
-    hass: __HAC_KEEP__, config_entry_with_auth: ConfigEntry
+    hass: UniversalAssistant, config_entry_with_auth: ConfigEntry
 ) -> None:
     """Test ConfigEntryNotReady when API raises an exception during authentication."""
     with patch(
@@ -68,7 +68,7 @@ async def test_setup_entry_auth_exception(
 
 
 async def test_setup_entry_invalid_auth(
-    hass: __HAC_KEEP__, config_entry_with_auth: ConfigEntry
+    hass: UniversalAssistant, config_entry_with_auth: ConfigEntry
 ) -> None:
     """Test ConfigEntryAuthFailed when API raises an exception during authentication."""
     with patch(
@@ -84,7 +84,7 @@ async def test_setup_entry_invalid_auth(
 
 @pytest.mark.usefixtures("system_get_info", "dsl_get_info", "wan_get_info")
 async def test_device_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,

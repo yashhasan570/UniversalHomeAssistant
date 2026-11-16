@@ -5,7 +5,7 @@ import logging
 from universalassistant.components.bluetooth import async_ble_device_from_address
 from universalassistant.config_entries import SOURCE_INTEGRATION_DISCOVERY, ConfigEntry
 from universalassistant.const import CONF_ADDRESS, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 
@@ -16,7 +16,7 @@ PLATFORMS = [Platform.LIGHT]
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up Kuler Sky from a config entry."""
     ble_device = async_ble_device_from_address(
         hass, entry.data[CONF_ADDRESS], connectable=True
@@ -29,12 +29,12 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, config_entry: ConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, config_entry: ConfigEntry) -> None:
     """Migrate old entry."""
     _LOGGER.debug("Migrating from version %s", config_entry.version)
 

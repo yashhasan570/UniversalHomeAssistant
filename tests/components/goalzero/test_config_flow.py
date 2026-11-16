@@ -6,7 +6,7 @@ from goalzero import exceptions
 
 from universalassistant.components.goalzero.const import DEFAULT_NAME, DOMAIN, MANUFACTURER
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
@@ -23,7 +23,7 @@ def _patch_setup():
     return patch("universalassistant.components.goalzero.async_setup_entry")
 
 
-async def test_flow_user(hass: __HAC_KEEP__) -> None:
+async def test_flow_user(hass: UniversalAssistant) -> None:
     """Test user initialized flow."""
     mocked_yeti = await create_mocked_yeti()
     with patch_config_flow_yeti(mocked_yeti), _patch_setup():
@@ -41,7 +41,7 @@ async def test_flow_user(hass: __HAC_KEEP__) -> None:
         assert result["result"].unique_id == MAC
 
 
-async def test_flow_user_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_already_configured(hass: UniversalAssistant) -> None:
     """Test user initialized flow with duplicate server."""
     create_entry(hass)
     result = await hass.config_entries.flow.async_init(
@@ -60,7 +60,7 @@ async def test_flow_user_already_configured(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_flow_user_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_cannot_connect(hass: UniversalAssistant) -> None:
     """Test user initialized flow with unreachable server."""
     with patch_config_flow_yeti(await create_mocked_yeti()) as yetimock:
         yetimock.side_effect = exceptions.ConnectError
@@ -88,7 +88,7 @@ async def test_flow_user_cannot_connect(hass: __HAC_KEEP__) -> None:
         assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_user_invalid_host(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_invalid_host(hass: UniversalAssistant) -> None:
     """Test user initialized flow with invalid server."""
     with patch_config_flow_yeti(await create_mocked_yeti()) as yetimock:
         yetimock.side_effect = exceptions.InvalidHost
@@ -116,7 +116,7 @@ async def test_flow_user_invalid_host(hass: __HAC_KEEP__) -> None:
         assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_user_unknown_error(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_unknown_error(hass: UniversalAssistant) -> None:
     """Test user initialized flow with unreachable server."""
     with patch_config_flow_yeti(await create_mocked_yeti()) as yetimock:
         yetimock.side_effect = Exception
@@ -144,7 +144,7 @@ async def test_flow_user_unknown_error(hass: __HAC_KEEP__) -> None:
         assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_dhcp_discovery(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_discovery(hass: UniversalAssistant) -> None:
     """Test we can process the discovery from dhcp."""
 
     mocked_yeti = await create_mocked_yeti()
@@ -175,7 +175,7 @@ async def test_dhcp_discovery(hass: __HAC_KEEP__) -> None:
         assert result["reason"] == "already_configured"
 
 
-async def test_dhcp_discovery_failed(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_discovery_failed(hass: UniversalAssistant) -> None:
     """Test failed setup from dhcp."""
     mocked_yeti = await create_mocked_yeti()
     with patch_config_flow_yeti(mocked_yeti) as yetimock:

@@ -22,7 +22,7 @@ from universalassistant.components.homekit_controller.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP, STATE_OFF, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
@@ -50,7 +50,7 @@ def create_motion_sensor_service(accessory: Accessory) -> None:
 
 
 async def test_unload_on_stop(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test async_unload is called on stop."""
     await setup_test_component(hass, get_next_aid(), create_motion_sensor_service)
@@ -64,7 +64,7 @@ async def test_unload_on_stop(
 
 
 async def test_async_remove_entry(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test unpairing a component."""
     helper = await setup_test_component(
@@ -93,7 +93,7 @@ def create_alive_service(accessory: Accessory) -> Service:
 
 
 async def test_device_remove_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -122,7 +122,7 @@ async def test_device_remove_devices(
 
 
 async def test_offline_device_raises(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int], controller
+    hass: UniversalAssistant, get_next_aid: Callable[[], int], controller
 ) -> None:
     """Test an offline device raises ConfigEntryNotReady."""
 
@@ -177,7 +177,7 @@ async def test_offline_device_raises(
 
 @pytest.mark.usefixtures("fake_ble_discovery")
 async def test_ble_device_only_checks_is_available(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int], controller
+    hass: UniversalAssistant, get_next_aid: Callable[[], int], controller
 ) -> None:
     """Test a BLE device only checks is_available."""
 
@@ -246,7 +246,7 @@ async def test_ble_device_only_checks_is_available(
 
 @pytest.mark.usefixtures("fake_ble_discovery", "fake_ble_pairing")
 async def test_ble_device_populates_connections(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     get_next_aid: Callable[[], int],
     controller,
@@ -276,7 +276,7 @@ async def test_ble_device_populates_connections(
 
 @pytest.mark.parametrize("example", FIXTURES, ids=lambda val: str(val.stem))
 async def test_snapshots(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -325,7 +325,7 @@ async def test_snapshots(
 
 @pytest.mark.usefixtures("fake_ble_discovery", "fake_ble_pairing")
 async def test_ble_device_polls_after_reload(
-    hass: __HAC_KEEP__, controller: FakeController
+    hass: UniversalAssistant, controller: FakeController
 ) -> None:
     """Test a BLE device is polled again after its entry is reloaded."""
     accessory = Accessory.create_with_info(

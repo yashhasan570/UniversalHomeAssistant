@@ -9,7 +9,7 @@ from pynecil import CharSetting, SettingsDataResponse, TempUnit
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import MIN_BOOST_TEMP, MIN_BOOST_TEMP_F
@@ -104,7 +104,7 @@ SWITCH_DESCRIPTIONS: tuple[IronOSSwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: IronOSConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -15,12 +15,12 @@ from universalassistant.components.telegram_bot.const import (
 )
 from universalassistant.config_entries import ConfigEntryState, ConfigSubentryData
 from universalassistant.const import CONF_API_KEY, CONF_PLATFORM
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
 async def test_migration_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_external_calls: None,
 ) -> None:
     """Test migrate config entry from unsupported version."""
@@ -44,7 +44,7 @@ async def test_migration_error(
 
 
 async def test_migrate_entry_from_1_1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_external_calls: None,
 ) -> None:
     """Test migrate config entry from 1.1, chaining through to the latest version."""
@@ -82,7 +82,7 @@ async def test_migrate_entry_from_1_1(
     ],
 )
 async def test_migrate_entry_to_per_chat_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_external_calls: None,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -177,7 +177,7 @@ async def test_migrate_entry_to_per_chat_devices(
 
 
 async def test_per_chat_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
     device_registry: dr.DeviceRegistry,
@@ -210,7 +210,7 @@ async def test_per_chat_devices(
 
 
 async def test_remove_chat_subentry_removes_per_chat_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
     device_registry: dr.DeviceRegistry,

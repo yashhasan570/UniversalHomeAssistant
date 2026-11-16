@@ -9,7 +9,7 @@ from freezegun.api import FrozenDateTimeFactory
 import pytest
 from pytest_universalassistant.common import async_capture_events, flush_store
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import category_registry as cr
 from universalassistant.util.dt import UTC
 
@@ -25,7 +25,7 @@ async def test_list_categories_for_scope(
 
 
 async def test_create_category(
-    hass: __HAC_KEEP__, category_registry: cr.CategoryRegistry
+    hass: UniversalAssistant, category_registry: cr.CategoryRegistry
 ) -> None:
     """Make sure that we can create new categories."""
     update_events = async_capture_events(hass, cr.EVENT_CATEGORY_REGISTRY_UPDATED)
@@ -53,7 +53,7 @@ async def test_create_category(
 
 
 async def test_create_category_with_name_already_in_use(
-    hass: __HAC_KEEP__, category_registry: cr.CategoryRegistry
+    hass: UniversalAssistant, category_registry: cr.CategoryRegistry
 ) -> None:
     """Make sure that we can't create a category with the same name within a scope."""
     update_events = async_capture_events(hass, cr.EVENT_CATEGORY_REGISTRY_UPDATED)
@@ -80,7 +80,7 @@ async def test_create_category_with_name_already_in_use(
 
 
 async def test_create_category_with_duplicate_name_in_other_scopes(
-    hass: __HAC_KEEP__, category_registry: cr.CategoryRegistry
+    hass: UniversalAssistant, category_registry: cr.CategoryRegistry
 ) -> None:
     """Make we can create the same category in multiple scopes."""
     update_events = async_capture_events(hass, cr.EVENT_CATEGORY_REGISTRY_UPDATED)
@@ -103,7 +103,7 @@ async def test_create_category_with_duplicate_name_in_other_scopes(
 
 
 async def test_delete_category(
-    hass: __HAC_KEEP__, category_registry: cr.CategoryRegistry
+    hass: UniversalAssistant, category_registry: cr.CategoryRegistry
 ) -> None:
     """Make sure that we can delete a category."""
     update_events = async_capture_events(hass, cr.EVENT_CATEGORY_REGISTRY_UPDATED)
@@ -154,7 +154,7 @@ async def test_delete_non_existing_category(
 
 
 async def test_update_category(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     category_registry: cr.CategoryRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -213,7 +213,7 @@ async def test_update_category(
 
 
 async def test_update_category_with_same_data(
-    hass: __HAC_KEEP__, category_registry: cr.CategoryRegistry
+    hass: UniversalAssistant, category_registry: cr.CategoryRegistry
 ) -> None:
     """Make sure that we can reapply the same data to a category and it won't update."""
     update_events = async_capture_events(hass, cr.EVENT_CATEGORY_REGISTRY_UPDATED)
@@ -295,7 +295,7 @@ async def test_update_category_with_name_already_in_use(
 
 
 async def test_load_categories(
-    hass: __HAC_KEEP__, category_registry: cr.CategoryRegistry
+    hass: UniversalAssistant, category_registry: cr.CategoryRegistry
 ) -> None:
     """Make sure that we can load/save data correctly."""
     category1 = category_registry.async_create(
@@ -357,7 +357,7 @@ async def test_load_categories(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_loading_categories_from_storage(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test loading stored categories on start."""
     date_1 = datetime(2024, 2, 14, 12, 0, 0)
@@ -436,7 +436,7 @@ async def test_loading_categories_from_storage(
 
 
 async def test_async_create_thread_safety(
-    hass: __HAC_KEEP__, category_registry: cr.CategoryRegistry
+    hass: UniversalAssistant, category_registry: cr.CategoryRegistry
 ) -> None:
     """Test async_create raises when called from wrong thread."""
     with pytest.raises(
@@ -449,7 +449,7 @@ async def test_async_create_thread_safety(
 
 
 async def test_async_delete_thread_safety(
-    hass: __HAC_KEEP__, category_registry: cr.CategoryRegistry
+    hass: UniversalAssistant, category_registry: cr.CategoryRegistry
 ) -> None:
     """Test async_delete raises when called from wrong thread."""
     any_category = category_registry.async_create(name="any", scope="any")
@@ -468,7 +468,7 @@ async def test_async_delete_thread_safety(
 
 
 async def test_async_update_thread_safety(
-    hass: __HAC_KEEP__, category_registry: cr.CategoryRegistry
+    hass: UniversalAssistant, category_registry: cr.CategoryRegistry
 ) -> None:
     """Test async_update raises when called from wrong thread."""
     any_category = category_registry.async_create(name="any", scope="any")
@@ -489,7 +489,7 @@ async def test_async_update_thread_safety(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_migration_from_1_1(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test migration from version 1.1."""
     hass_storage[cr.STORAGE_KEY] = {

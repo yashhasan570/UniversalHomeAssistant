@@ -88,7 +88,7 @@ class ConnectDenonAVR:
             timeout=self._timeout,
             add_zones=self._zones,
         )
-        # Use httpx2.AsyncClient getter provided by __HA_KEEP__
+        # Use httpx2.AsyncClient getter provided by Universal Home Assistant
         receiver.set_async_client_getter(self._async_client_getter)
         await receiver.async_setup()
         # Do an initial update if telnet is used.

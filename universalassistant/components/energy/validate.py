@@ -14,10 +14,10 @@ from universalassistant.const import (
     UnitOfVolume,
     UnitOfVolumeFlowRate,
 )
-from universalassistant.core import __HAC_KEEP__, callback, valid_entity_id
+from universalassistant.core import UniversalAssistant, callback, valid_entity_id
 
 from . import data
-from .const import DOMAIN
+from .const import BATTERY_DIRECTIONS, DOMAIN
 
 ENERGY_USAGE_DEVICE_CLASSES = (sensor.SensorDeviceClass.ENERGY,)
 ENERGY_USAGE_UNITS: dict[str, tuple[UnitOfEnergy, ...]] = {
@@ -79,7 +79,7 @@ WATER_UNIT_ERROR = "entity_unexpected_unit_water"
 WATER_PRICE_UNIT_ERROR = "entity_unexpected_unit_water_price"
 
 
-def _get_placeholders(hass: __HAC_KEEP__, issue_type: str) -> dict[str, str] | None:
+def _get_placeholders(hass: UniversalAssistant, issue_type: str) -> dict[str, str] | None:
     currency = hass.config.currency
     if issue_type == ENERGY_UNIT_ERROR:
         return {
@@ -146,7 +146,7 @@ class ValidationIssues:
 
     def add_issue(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         issue_type: str,
         affected_entity: str,
         detail: float | str | None = None,
@@ -195,7 +195,7 @@ class EnergyPreferencesValidation:
 
 @callback
 def _async_validate_stat_common(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     metadata: dict[str, tuple[int, recorder.models.StatisticMetaData]],
     stat_id: str,
     allowed_device_classes: Sequence[str],
@@ -255,7 +255,7 @@ def _async_validate_stat_common(
 
 @callback
 def _async_validate_usage_stat(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     metadata: dict[str, tuple[int, recorder.models.StatisticMetaData]],
     stat_id: str,
     allowed_device_classes: Sequence[str],
@@ -303,7 +303,7 @@ def _async_validate_usage_stat(
 
 @callback
 def _async_validate_price_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id: str,
     issues: ValidationIssues,
     allowed_units: tuple[str, ...],
@@ -328,7 +328,7 @@ def _async_validate_price_entity(
 
 @callback
 def _async_validate_gas_price_unit_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     usage_entity_id: str,
     price_entity_id: str,
     issues: ValidationIssues,
@@ -358,13 +358,14 @@ def _async_validate_gas_price_unit_mismatch(
 
 @callback
 def _async_validate_power_stat(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     metadata: dict[str, tuple[int, recorder.models.StatisticMetaData]],
     stat_id: str,
     allowed_device_classes: Sequence[str],
     allowed_units: Mapping[str, Sequence[str]],
     unit_error: str,
     issues: ValidationIssues,
+    check_negative: bool = False,
 ) -> None:
     """Validate a power statistic."""
     entity_id = _async_validate_stat_common(
@@ -375,7 +376,7 @@ def _async_validate_power_stat(
         allowed_units,
         unit_error,
         issues,
-        check_negative=False,
+        check_negative=check_negative,
     )
 
     if entity_id is None:
@@ -393,7 +394,7 @@ def _async_validate_power_stat(
 
 @callback
 def _async_validate_cost_stat(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     metadata: dict[str, tuple[int, recorder.models.StatisticMetaData]],
     stat_id: str,
     issues: ValidationIssues,
@@ -435,7 +436,7 @@ def _async_validate_cost_stat(
 
 @callback
 def _async_validate_auto_generated_cost_entity(
-    hass: __HAC_KEEP__, energy_entity_id: str, issues: ValidationIssues
+    hass: UniversalAssistant, energy_entity_id: str, issues: ValidationIssues
 ) -> None:
     """Validate that the auto generated cost entity is correct."""
     if energy_entity_id not in hass.data[DOMAIN]["cost_sensors"]:
@@ -448,7 +449,7 @@ def _async_validate_auto_generated_cost_entity(
 
 
 def _validate_grid_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     source: data.GridSourceType,
     statistics_metadata: dict[str, tuple[int, recorder.models.StatisticMetaData]],
     wanted_statistics_metadata: set[str],
@@ -586,7 +587,7 @@ def _validate_grid_source(
 
 
 def _validate_gas_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     source: data.GasSourceType,
     statistics_metadata: dict[str, tuple[int, recorder.models.StatisticMetaData]],
     wanted_statistics_metadata: set[str],
@@ -670,7 +671,7 @@ def _validate_gas_source(
 
 
 def _validate_water_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     source: data.WaterSourceType,
     statistics_metadata: dict[str, tuple[int, recorder.models.StatisticMetaData]],
     wanted_statistics_metadata: set[str],
@@ -744,7 +745,81 @@ def _validate_water_source(
         )
 
 
-async def async_validate(hass: __HAC_KEEP__) -> EnergyPreferencesValidation:
+def _validate_battery_source(
+    hass: UniversalAssistant,
+    source: data.BatterySourceType,
+    sources: list[data.SourceType],
+    statistics_metadata: dict[str, tuple[int, recorder.models.StatisticMetaData]],
+    wanted_statistics_metadata: set[str],
+    source_result: ValidationIssues,
+    validate_calls: list[functools.partial[None]],
+) -> None:
+    """Validate battery energy source."""
+    energy_stats = [
+        source.get("stat_energy_from"),
+        source.get("stat_energy_to"),
+        *(source.get(energy_key) for energy_key, _ in BATTERY_DIRECTIONS),
+    ]
+    for stat in energy_stats:
+        if stat is None:
+            continue
+        wanted_statistics_metadata.add(stat)
+        validate_calls.append(
+            functools.partial(
+                _async_validate_usage_stat,
+                hass,
+                statistics_metadata,
+                stat,
+                ENERGY_USAGE_DEVICE_CLASSES,
+                ENERGY_USAGE_UNITS,
+                ENERGY_UNIT_ERROR,
+                source_result,
+            )
+        )
+
+    if power_config := source.get("power_config"):
+        for _, power_key in BATTERY_DIRECTIONS:
+            if (stat_rate := power_config.get(power_key)) is None:
+                continue
+            wanted_statistics_metadata.add(stat_rate)
+            validate_calls.append(
+                functools.partial(
+                    _async_validate_power_stat,
+                    hass,
+                    statistics_metadata,
+                    stat_rate,
+                    POWER_USAGE_DEVICE_CLASSES,
+                    POWER_USAGE_UNITS,
+                    POWER_UNIT_ERROR,
+                    source_result,
+                    check_negative=True,
+                )
+            )
+
+    grids = [grid for grid in sources if grid["type"] == "grid"]
+    # The dashboard has nowhere to draw a flow from or to a missing source
+    for stat, has_source, issue_type in (
+        (
+            source.get("stat_energy_from_grid"),
+            any(grid["stat_energy_from"] is not None for grid in grids),
+            "battery_from_grid_without_grid_import",
+        ),
+        (
+            source.get("stat_energy_to_grid"),
+            any(grid["stat_energy_to"] is not None for grid in grids),
+            "battery_to_grid_without_grid_export",
+        ),
+        (
+            source.get("stat_energy_from_solar"),
+            any(solar["type"] == "solar" for solar in sources),
+            "battery_from_solar_without_solar",
+        ),
+    ):
+        if stat is not None and not has_source:
+            source_result.add_issue(hass, issue_type, stat)
+
+
+async def async_validate(hass: UniversalAssistant) -> EnergyPreferencesValidation:
     """Validate the energy configuration."""
     manager: data.EnergyManager = await data.async_get_manager(hass)
     statistics_metadata: dict[str, tuple[int, recorder.models.StatisticMetaData]] = {}
@@ -836,31 +911,14 @@ async def async_validate(hass: __HAC_KEEP__) -> EnergyPreferencesValidation:
                 )
 
         elif source["type"] == "battery":
-            wanted_statistics_metadata.add(source["stat_energy_from"])
-            validate_calls.append(
-                functools.partial(
-                    _async_validate_usage_stat,
-                    hass,
-                    statistics_metadata,
-                    source["stat_energy_from"],
-                    ENERGY_USAGE_DEVICE_CLASSES,
-                    ENERGY_USAGE_UNITS,
-                    ENERGY_UNIT_ERROR,
-                    source_result,
-                )
-            )
-            wanted_statistics_metadata.add(source["stat_energy_to"])
-            validate_calls.append(
-                functools.partial(
-                    _async_validate_usage_stat,
-                    hass,
-                    statistics_metadata,
-                    source["stat_energy_to"],
-                    ENERGY_USAGE_DEVICE_CLASSES,
-                    ENERGY_USAGE_UNITS,
-                    ENERGY_UNIT_ERROR,
-                    source_result,
-                )
+            _validate_battery_source(
+                hass,
+                source,
+                manager.data["energy_sources"],
+                statistics_metadata,
+                wanted_statistics_metadata,
+                source_result,
+                validate_calls,
             )
 
     for device in manager.data["device_consumption"]:

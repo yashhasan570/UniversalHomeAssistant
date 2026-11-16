@@ -1,4 +1,4 @@
-"""Provide __HA_KEEP__ app management."""
+"""Provide Universal Home Assistant app management."""
 
 from urllib.parse import urlsplit
 
@@ -7,7 +7,7 @@ from universalassistant.components.hassio import (
     HassioNotReadyError,
     get_addons_info,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.hassio import is_hassio
 from universalassistant.helpers.singleton import singleton
@@ -18,7 +18,7 @@ DATA_APP_MANAGER = f"{DOMAIN}_app_manager"
 
 
 @callback
-def async_check_app_running(hass: __HAC_KEEP__, url: str) -> None:
+def async_check_app_running(hass: UniversalAssistant, url: str) -> None:
     """Explain connection failures when the configured local app is offline."""
     if not is_hassio(hass):
         return
@@ -44,6 +44,6 @@ def async_check_app_running(hass: __HAC_KEEP__, url: str) -> None:
 
 @singleton(DATA_APP_MANAGER)
 @callback
-def get_app_manager(hass: __HAC_KEEP__) -> AddonManager:
+def get_app_manager(hass: UniversalAssistant) -> AddonManager:
     """Get the app manager."""
     return AddonManager(hass, LOGGER, APP_NAME, APP_SLUG)

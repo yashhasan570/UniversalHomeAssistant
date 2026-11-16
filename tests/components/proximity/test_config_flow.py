@@ -14,7 +14,7 @@ from universalassistant.components.proximity.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_ZONE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -50,7 +50,7 @@ from universalassistant.data_entry_flow import FlowResultType
     ],
 )
 async def test_user_flow(
-    hass: __HAC_KEEP__, user_input: dict, expected_result: dict
+    hass: UniversalAssistant, user_input: dict, expected_result: dict
 ) -> None:
     """Test starting a flow by user."""
     result = await hass.config_entries.flow.async_init(
@@ -102,7 +102,7 @@ async def test_user_flow(
     ],
 )
 async def test_options_flow(
-    hass: __HAC_KEEP__, user_input: dict[str, Any], expected_setup_calls: int
+    hass: UniversalAssistant, user_input: dict[str, Any], expected_setup_calls: int
 ) -> None:
     """Test options flow updates the entry and reloads it if changed."""
 
@@ -141,7 +141,7 @@ async def test_options_flow(
     assert mock_setup_entry.call_count == expected_setup_calls
 
 
-async def test_abort_duplicated_entry(hass: __HAC_KEEP__) -> None:
+async def test_abort_duplicated_entry(hass: UniversalAssistant) -> None:
     """Test if we abort on duplicate user input data."""
     DATA = {
         CONF_ZONE: "zone.home",
@@ -174,7 +174,7 @@ async def test_abort_duplicated_entry(hass: __HAC_KEEP__) -> None:
         await hass.async_block_till_done()
 
 
-async def test_avoid_duplicated_title(hass: __HAC_KEEP__) -> None:
+async def test_avoid_duplicated_title(hass: UniversalAssistant) -> None:
     """Test if we avoid duplicate titles."""
     MockConfigEntry(
         domain=DOMAIN,

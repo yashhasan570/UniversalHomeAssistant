@@ -17,7 +17,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.bluetooth import BluetoothServiceInfoBleak
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import format_mac
 import universalassistant.util.dt as dt_util
@@ -26,7 +26,7 @@ from . import CASPER_GLOW_DISCOVERY_INFO, setup_integration
 
 
 async def test_async_setup_entry_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
 ) -> None:
@@ -37,7 +37,7 @@ async def test_async_setup_entry_success(
 
 
 async def test_async_setup_entry_device_not_found(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup raises ConfigEntryNotReady when BLE device is not found."""
     mock_config_entry.add_to_hass(hass)
@@ -53,7 +53,7 @@ async def test_async_setup_entry_device_not_found(
 
 
 async def test_async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test unloading a config entry."""
     result = await hass.config_entries.async_unload(config_entry.entry_id)
@@ -63,7 +63,7 @@ async def test_async_unload_entry(
 
 
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -90,7 +90,7 @@ def mock_monotonic() -> Generator[None]:
         yield
 
 
-async def _trigger_poll(hass: __HAC_KEEP__) -> None:
+async def _trigger_poll(hass: UniversalAssistant) -> None:
     """Trigger a debounced coordinator poll.
 
     Each call produces a unique manufacturer_data key so habluetooth's
@@ -121,7 +121,7 @@ async def _trigger_poll(hass: __HAC_KEEP__) -> None:
 
 
 async def test_poll_bleak_error_logs_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -142,7 +142,7 @@ async def test_poll_bleak_error_logs_unavailable(
 
 
 async def test_poll_generic_exception_logs_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -156,7 +156,7 @@ async def test_poll_generic_exception_logs_unavailable(
 
 
 async def test_poll_recovery_logs_back_online(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     caplog: pytest.LogCaptureFixture,

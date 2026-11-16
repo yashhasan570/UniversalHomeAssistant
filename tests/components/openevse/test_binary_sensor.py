@@ -13,13 +13,13 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -34,7 +34,7 @@ async def test_entities(
 
 
 async def test_disabled_by_default_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,
@@ -74,7 +74,7 @@ async def test_disabled_by_default_entities(
 
 
 async def test_missing_sensor_graceful_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,
 ) -> None:
@@ -97,7 +97,7 @@ async def test_missing_sensor_graceful_handling(
 
 
 async def test_binary_sensor_unavailable_on_coordinator_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,
@@ -131,7 +131,7 @@ async def test_binary_sensor_unavailable_on_coordinator_timeout(
     ],
 )
 async def test_station_status_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,
     raw_status: str | None,

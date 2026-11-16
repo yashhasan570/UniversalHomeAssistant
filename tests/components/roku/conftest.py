@@ -9,7 +9,7 @@ from rokuecp import Device as RokuDevice
 
 from universalassistant.components.roku.const import DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 def app_icon_url(*args, **kwargs):
@@ -38,7 +38,7 @@ def mock_setup_entry() -> Generator[None]:
 
 @pytest.fixture
 async def mock_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     request: pytest.FixtureRequest,
 ) -> RokuDevice:
     """Return the mocked roku device."""
@@ -77,7 +77,7 @@ def mock_roku(mock_device: RokuDevice) -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_device: RokuDevice,
     mock_roku: MagicMock,

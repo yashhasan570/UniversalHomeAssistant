@@ -12,12 +12,12 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.components.media_source import const, models
 from universalassistant.components.media_source.const import DATA_MEDIA_SOURCE_PLATFORMS
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.setup import async_setup_component
 
 
-async def test_async_browse_media(hass: __HAC_KEEP__) -> None:
+async def test_async_browse_media(hass: UniversalAssistant) -> None:
     """Test browse media."""
     assert await async_setup_component(hass, media_source.DOMAIN, {})
     await hass.async_block_till_done()
@@ -75,7 +75,7 @@ async def test_async_browse_media(hass: __HAC_KEEP__) -> None:
     assert media.children[0].title == "My media"
 
 
-async def test_async_resolve_media(hass: __HAC_KEEP__) -> None:
+async def test_async_resolve_media(hass: UniversalAssistant) -> None:
     """Test browse media."""
     assert await async_setup_component(hass, media_source.DOMAIN, {})
     await hass.async_block_till_done()
@@ -91,7 +91,7 @@ async def test_async_resolve_media(hass: __HAC_KEEP__) -> None:
 
 
 async def test_async_resolve_media_no_entity(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test browse media."""
     assert await async_setup_component(hass, media_source.DOMAIN, {})
@@ -106,7 +106,7 @@ async def test_async_resolve_media_no_entity(
         )
 
 
-async def test_async_unresolve_media(hass: __HAC_KEEP__) -> None:
+async def test_async_unresolve_media(hass: UniversalAssistant) -> None:
     """Test browse media."""
     assert await async_setup_component(hass, media_source.DOMAIN, {})
     await hass.async_block_till_done()
@@ -126,7 +126,7 @@ async def test_async_unresolve_media(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_browse_resolve_without_setup(hass: __HAC_KEEP__) -> None:
+async def test_browse_resolve_without_setup(hass: UniversalAssistant) -> None:
     """Test browse and resolve work without being setup."""
     with pytest.raises(BrowseError):
         await media_source.async_browse_media(hass, None)
@@ -140,7 +140,7 @@ async def test_browse_resolve_without_setup(hass: __HAC_KEEP__) -> None:
         await media_source.async_resolve_media(hass, None, None)
 
 
-async def test_async_search_media(hass: __HAC_KEEP__) -> None:
+async def test_async_search_media(hass: UniversalAssistant) -> None:
     """Test search media helper."""
     assert await async_setup_component(hass, media_source.DOMAIN, {})
     await hass.async_block_till_done()
@@ -165,7 +165,7 @@ async def test_async_search_media(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_async_search_media_not_supported(hass: __HAC_KEEP__) -> None:
+async def test_async_search_media_not_supported(hass: UniversalAssistant) -> None:
     """Test searching a source without search support raises a BrowseError."""
     assert await async_setup_component(hass, media_source.DOMAIN, {})
     await hass.async_block_till_done()
@@ -181,7 +181,7 @@ async def test_async_search_media_not_supported(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_async_search_media_root_not_supported(hass: __HAC_KEEP__) -> None:
+async def test_async_search_media_root_not_supported(hass: UniversalAssistant) -> None:
     """Test searching the aggregate root of multiple sources is not supported."""
     assert await async_setup_component(hass, media_source.DOMAIN, {})
     await hass.async_block_till_done()
@@ -195,7 +195,7 @@ async def test_async_search_media_root_not_supported(hass: __HAC_KEEP__) -> None
         )
 
 
-async def test_async_get_media_image(hass: __HAC_KEEP__) -> None:
+async def test_async_get_media_image(hass: UniversalAssistant) -> None:
     """Test getting an image from a source that provides images."""
     assert await async_setup_component(hass, media_source.DOMAIN, {})
     await hass.async_block_till_done()
@@ -225,7 +225,7 @@ async def test_async_get_media_image(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_async_get_media_image_none(
-    hass: __HAC_KEEP__, media_content_id: str
+    hass: UniversalAssistant, media_content_id: str
 ) -> None:
     """Test no image is returned if the source can not provide one."""
     assert await async_setup_component(hass, media_source.DOMAIN, {})
@@ -234,7 +234,7 @@ async def test_async_get_media_image_none(
     assert await media_source.async_get_media_image(hass, media_content_id) is None
 
 
-async def test_async_get_media_image_without_setup(hass: __HAC_KEEP__) -> None:
+async def test_async_get_media_image_without_setup(hass: UniversalAssistant) -> None:
     """Test no image is returned if media source is not set up."""
     assert (
         await media_source.async_get_media_image(
@@ -244,17 +244,17 @@ async def test_async_get_media_image_without_setup(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_async_get_media_image_error(hass: __HAC_KEEP__) -> None:
+async def test_async_get_media_image_error(hass: UniversalAssistant) -> None:
     """Test errors of the source are raised."""
     assert await async_setup_component(hass, media_source.DOMAIN, {})
     await hass.async_block_till_done()
     source = models.MediaSource("plain")
     source.async_get_media_image = AsyncMock(
-        side_effect=__HAC_KEEP__Error("Unable to get image")
+        side_effect=UniversalAssistantError("Unable to get image")
     )
     hass.data[DATA_MEDIA_SOURCE_PLATFORMS].async_get_platform = AsyncMock(
         return_value=source
     )
 
-    with pytest.raises(__HAC_KEEP__Error, match="Unable to get image"):
+    with pytest.raises(UniversalAssistantError, match="Unable to get image"):
         await media_source.async_get_media_image(hass, f"{const.URI_SCHEME}plain/item")

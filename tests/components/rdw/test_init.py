@@ -7,11 +7,11 @@ from pytest_universalassistant.common import MockConfigEntry
 from vehicle import RDWConnectionError, RDWError
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_rdw: MagicMock,
 ) -> None:
@@ -30,7 +30,7 @@ async def test_load_unload_config_entry(
 
 @pytest.mark.parametrize("side_effect", [RDWConnectionError, RDWError])
 async def test_config_entry_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rdw: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],

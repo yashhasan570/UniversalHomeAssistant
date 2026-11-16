@@ -16,14 +16,14 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.components.sonos import DOMAIN
 from universalassistant.components.sonos.const import SCAN_INTERVAL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from .conftest import MockSoCo, SonosMockEvent, group_speakers, ungroup_speakers
 
 
 async def test_fallback_to_polling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry,
     soco,
     fire_zgs_event,
@@ -61,7 +61,7 @@ async def test_fallback_to_polling(
 
 
 async def test_subscription_creation_fails(
-    hass: __HAC_KEEP__, async_setup_sonos, config_entry: MockConfigEntry
+    hass: UniversalAssistant, async_setup_sonos, config_entry: MockConfigEntry
 ) -> None:
     """Test that subscription creation failures are handled."""
     with patch(
@@ -89,7 +89,7 @@ def _create_avtransport_sonos_event(
     return SonosMockEvent(soco, soco.avTransport, variables)
 
 
-async def _media_play(hass: __HAC_KEEP__, entity: str) -> None:
+async def _media_play(hass: UniversalAssistant, entity: str) -> None:
     """Call media play service."""
     await hass.services.async_call(
         MP_DOMAIN,
@@ -102,7 +102,7 @@ async def _media_play(hass: __HAC_KEEP__, entity: str) -> None:
 
 
 async def test_zgs_event_group_speakers(
-    hass: __HAC_KEEP__, sonos_setup_two_speakers: list[MockSoCo]
+    hass: UniversalAssistant, sonos_setup_two_speakers: list[MockSoCo]
 ) -> None:
     """Tests grouping and ungrouping two speakers."""
     # When Sonos speakers are grouped; one of the speakers is the coordinator
@@ -165,7 +165,7 @@ async def test_zgs_event_group_speakers(
 
 
 async def test_zgs_avtransport_group_speakers(
-    hass: __HAC_KEEP__, sonos_setup_two_speakers: list[MockSoCo]
+    hass: UniversalAssistant, sonos_setup_two_speakers: list[MockSoCo]
 ) -> None:
     """Test processing avtransport and zgs events to change group membership."""
     soco_lr = sonos_setup_two_speakers[0]
@@ -194,7 +194,7 @@ async def test_zgs_avtransport_group_speakers(
 
 
 async def test_async_offline_without_subscription_lock(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     soco: MockSoCo,
 ) -> None:

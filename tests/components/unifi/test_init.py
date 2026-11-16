@@ -20,7 +20,7 @@ from universalassistant.components.unifi.errors import AuthenticationRequired, C
 from universalassistant.components.update import ATTR_INSTALLED_VERSION
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -32,7 +32,7 @@ from .conftest import (
 
 
 async def test_setup_entry_fails_config_entry_not_ready(
-    hass: __HAC_KEEP__, config_entry_factory: ConfigEntryFactoryType
+    hass: UniversalAssistant, config_entry_factory: ConfigEntryFactoryType
 ) -> None:
     """Failed authentication trigger a reauthentication flow."""
     with patch(
@@ -45,7 +45,7 @@ async def test_setup_entry_fails_config_entry_not_ready(
 
 
 async def test_setup_entry_fails_trigger_reauth_flow(
-    hass: __HAC_KEEP__, config_entry_factory: ConfigEntryFactoryType
+    hass: UniversalAssistant, config_entry_factory: ConfigEntryFactoryType
 ) -> None:
     """Failed authentication trigger a reauthentication flow."""
     with (
@@ -81,7 +81,7 @@ async def test_setup_entry_fails_trigger_reauth_flow(
     ],
 )
 async def test_wireless_clients(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     config_entry_factory: ConfigEntryFactoryType,
 ) -> None:
@@ -166,7 +166,7 @@ async def test_wireless_clients(
     ],
 )
 async def test_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     client_payload: list[dict[str, Any]],
@@ -216,7 +216,7 @@ async def test_remove_config_entry_device(
 
 
 async def test_remove_config_entry_device_rejects_child_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     config_entry_factory: ConfigEntryFactoryType,
@@ -305,7 +305,7 @@ DISABLED_ENTITIES = (
 
 @pytest.mark.parametrize("device_payload", [[ADOPTED_DEVICE, PENDING_DEVICE]])
 async def test_device_pending_adoption(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
@@ -407,7 +407,7 @@ async def test_device_pending_adoption(
 
 @pytest.mark.parametrize("device_payload", [[ADOPTED_DEVICE]])
 async def test_device_without_loaded_entities_readopted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,
@@ -473,7 +473,7 @@ async def test_device_without_loaded_entities_readopted(
     ],
 )
 async def test_disabled_entity_removed_from_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry_setup: MockConfigEntry,
     entity_id: str,
@@ -505,7 +505,7 @@ async def test_disabled_entity_removed_from_registry(
 
 @pytest.mark.parametrize("device_payload", [[ADOPTED_PENDING_DEVICE]])
 async def test_entity_not_added_retried(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,
     config_entry_factory: ConfigEntryFactoryType,

@@ -14,7 +14,7 @@ from universalassistant.components.honeywell.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 # The away temperatures are options, not fields on the user form.
@@ -33,7 +33,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
         yield mock_setup
 
 
-async def test_show_authenticate_form(hass: __HAC_KEEP__) -> None:
+async def test_show_authenticate_form(hass: UniversalAssistant) -> None:
     """Test that the config form is shown."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -45,7 +45,7 @@ async def test_show_authenticate_form(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_connection_error(hass: __HAC_KEEP__, client: MagicMock) -> None:
+async def test_connection_error(hass: UniversalAssistant, client: MagicMock) -> None:
     """Test that an error message is shown on connection fail."""
     client.login.side_effect = aiosomecomfort.device.ConnectionError
     result = await hass.config_entries.flow.async_init(
@@ -72,7 +72,7 @@ async def test_connection_error(hass: __HAC_KEEP__, client: MagicMock) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_auth_error(hass: __HAC_KEEP__, client: MagicMock) -> None:
+async def test_auth_error(hass: UniversalAssistant, client: MagicMock) -> None:
     """Test that an error message is shown on login fail."""
     client.login.side_effect = aiosomecomfort.device.AuthError
 
@@ -99,7 +99,7 @@ async def test_auth_error(hass: __HAC_KEEP__, client: MagicMock) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_create_entry(hass: __HAC_KEEP__) -> None:
+async def test_create_entry(hass: UniversalAssistant) -> None:
     """Test that the config entry is created."""
     with patch(
         "universalassistant.components.honeywell.async_setup_entry",
@@ -123,7 +123,7 @@ async def test_create_entry(hass: __HAC_KEEP__) -> None:
 
 
 async def test_show_option_form(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test that the option form is shown."""
     config_entry.add_to_hass(hass)
@@ -143,7 +143,7 @@ async def test_show_option_form(
 
 
 async def test_create_option_entry(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test that the config entry is created."""
     config_entry.add_to_hass(hass)
@@ -172,7 +172,7 @@ async def test_create_option_entry(
     }
 
 
-async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
+async def test_reauth_flow(hass: UniversalAssistant) -> None:
     """Test a successful reauth flow."""
 
     mock_entry = MockConfigEntry(
@@ -206,7 +206,7 @@ async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_reauth_flow_auth_error(hass: __HAC_KEEP__, client: MagicMock) -> None:
+async def test_reauth_flow_auth_error(hass: UniversalAssistant, client: MagicMock) -> None:
     """Test an authorization error reauth flow."""
 
     mock_entry = MockConfigEntry(
@@ -257,7 +257,7 @@ async def test_reauth_flow_auth_error(hass: __HAC_KEEP__, client: MagicMock) -> 
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_connnection_error(
-    hass: __HAC_KEEP__, client: MagicMock, error: type[Exception]
+    hass: UniversalAssistant, client: MagicMock, error: type[Exception]
 ) -> None:
     """Test a connection error reauth flow."""
 

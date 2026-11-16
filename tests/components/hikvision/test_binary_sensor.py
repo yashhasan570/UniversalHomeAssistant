@@ -14,7 +14,7 @@ from universalassistant.components.hikvision.binary_sensor import (
 )
 from universalassistant.components.hikvision.const import DOMAIN
 from universalassistant.const import STATE_OFF, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -29,7 +29,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -49,7 +49,7 @@ async def test_all_entities(
 
 
 async def test_binary_sensor_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -67,7 +67,7 @@ async def test_binary_sensor_device_info(
 
 
 async def test_binary_sensor_callback_registered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
 ) -> None:
@@ -79,7 +79,7 @@ async def test_binary_sensor_callback_registered(
 
 
 async def test_binary_sensor_no_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -100,7 +100,7 @@ async def test_binary_sensor_no_sensors(
 
 @pytest.mark.parametrize("amount_of_channels", [2])
 async def test_binary_sensor_nvr_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -138,7 +138,7 @@ async def test_binary_sensor_nvr_device(
 
 @pytest.mark.parametrize("amount_of_channels", [2])
 async def test_binary_sensor_duplicate_channels_deduplicated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -174,7 +174,7 @@ async def test_binary_sensor_duplicate_channels_deduplicated(
 
 
 async def test_binary_sensor_state_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
 ) -> None:
@@ -195,7 +195,7 @@ async def test_binary_sensor_state_on(
 
 
 async def test_binary_sensor_device_class_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -217,7 +217,7 @@ async def test_binary_sensor_device_class_unknown(
 
 
 async def test_binary_sensor_videoloss_silently_skipped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -246,7 +246,7 @@ def test_every_pyhik_sensor_type_is_handled() -> None:
 
 
 async def test_binary_sensor_update_callback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
 ) -> None:
@@ -284,7 +284,7 @@ async def test_binary_sensor_update_callback(
 
 
 async def test_binary_sensor_unavailable_when_stream_disconnected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
 ) -> None:

@@ -9,7 +9,7 @@ from sofar_modbus import ChargerUseMode, EpsControlMode, SofarInverter
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import SofarConfigEntry
@@ -52,7 +52,7 @@ SELECT_DESCRIPTIONS: tuple[SofarSelectEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SofarConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

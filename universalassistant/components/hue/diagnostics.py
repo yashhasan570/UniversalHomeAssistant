@@ -2,13 +2,13 @@
 
 from typing import Any
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .bridge import HueConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: HueConfigEntry
+    hass: UniversalAssistant, entry: HueConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     bridge = entry.runtime_data

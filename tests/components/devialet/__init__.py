@@ -9,7 +9,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.devialet.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_NAME, CONTENT_TYPE_JSON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
 NAME = "Livingroom"
@@ -53,14 +53,14 @@ MOCK_ZEROCONF_DATA = ZeroconfServiceInfo(
 
 
 def mock_unavailable(aioclient_mock: AiohttpClientMocker) -> None:
-    """Mock the Devialet connection for __HA_KEEP__."""
+    """Mock the Devialet connection for Universal Home Assistant."""
     aioclient_mock.get(
         f"http://{HOST}{UrlSuffix.GET_GENERAL_INFO}", exc=ServerTimeoutError
     )
 
 
 def mock_idle(aioclient_mock: AiohttpClientMocker) -> None:
-    """Mock the Devialet connection for __HA_KEEP__."""
+    """Mock the Devialet connection for Universal Home Assistant."""
     aioclient_mock.get(
         f"http://{HOST}{UrlSuffix.GET_GENERAL_INFO}",
         text=load_fixture("general_info.json", DOMAIN),
@@ -74,7 +74,7 @@ def mock_idle(aioclient_mock: AiohttpClientMocker) -> None:
 
 
 def mock_playing(aioclient_mock: AiohttpClientMocker) -> None:
-    """Mock the Devialet connection for __HA_KEEP__."""
+    """Mock the Devialet connection for Universal Home Assistant."""
     aioclient_mock.get(
         f"http://{HOST}{UrlSuffix.GET_GENERAL_INFO}",
         text=load_fixture("general_info.json", DOMAIN),
@@ -119,13 +119,13 @@ def mock_playing(aioclient_mock: AiohttpClientMocker) -> None:
 
 
 async def setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     skip_entry_setup: bool = False,
     state: str = "playing",
     serial: str = SERIAL,
 ) -> MockConfigEntry:
-    """Set up the Devialet integration in __HA_KEEP__."""
+    """Set up the Devialet integration in Universal Home Assistant."""
 
     if state == "playing":
         mock_playing(aioclient_mock)

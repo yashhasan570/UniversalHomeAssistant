@@ -6,7 +6,7 @@ from typing import Any
 from vegehub import VegeHub, update_data_to_ha_dict
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 _LOGGER = logging.getLogger(__name__)
@@ -20,7 +20,7 @@ class VegeHubCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     config_entry: VegeHubConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: VegeHubConfigEntry, vegehub: VegeHub
+        self, hass: UniversalAssistant, config_entry: VegeHubConfigEntry, vegehub: VegeHub
     ) -> None:
         """Initialize VegeHub data coordinator."""
         super().__init__(

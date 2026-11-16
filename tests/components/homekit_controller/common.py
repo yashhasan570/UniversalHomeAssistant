@@ -32,7 +32,7 @@ from universalassistant.components.homekit_controller.const import (
 from universalassistant.components.homekit_controller.utils import async_get_controller
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, State, callback
+from universalassistant.core import UniversalAssistant, State, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 from universalassistant.setup import async_setup_component
@@ -109,7 +109,7 @@ class Helper:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entity_id: str,
         pairing: FakePairing,
         accessory: Accessory,
@@ -176,14 +176,14 @@ class Helper:
         return state
 
 
-async def time_changed(hass: __HAC_KEEP__, seconds: int) -> None:
+async def time_changed(hass: UniversalAssistant, seconds: int) -> None:
     """Trigger time changed."""
     next_update = dt_util.utcnow() + timedelta(seconds)
     async_fire_time_changed(hass, next_update)
     await hass.async_block_till_done()
 
 
-async def setup_accessories_from_file(hass: __HAC_KEEP__, path: str) -> Accessories:
+async def setup_accessories_from_file(hass: UniversalAssistant, path: str) -> Accessories:
     """Load an collection of accessory defs from JSON data."""
     accessories_fixture = await hass.async_add_executor_job(
         load_fixture, os.path.join("homekit_controller", path)
@@ -192,7 +192,7 @@ async def setup_accessories_from_file(hass: __HAC_KEEP__, path: str) -> Accessor
     return Accessories.from_list(accessories_json)
 
 
-async def setup_platform(hass: __HAC_KEEP__) -> FakeController:
+async def setup_platform(hass: UniversalAssistant) -> FakeController:
     """Load the platform but with a fake Controller API."""
     config = {"discovery": {}}
 
@@ -205,7 +205,7 @@ async def setup_platform(hass: __HAC_KEEP__) -> FakeController:
 
 
 async def setup_test_accessories(
-    hass: __HAC_KEEP__, accessories: list[Accessory], connection: str | None = None
+    hass: UniversalAssistant, accessories: list[Accessory], connection: str | None = None
 ) -> tuple[MockConfigEntry, AbstractPairing]:
     """Load a fake homekit device based on captured JSON profile."""
     fake_controller = await setup_platform(hass)
@@ -215,7 +215,7 @@ async def setup_test_accessories(
 
 
 async def setup_test_accessories_with_controller(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     accessories: list[Accessory],
     fake_controller: FakeController,
     connection: str | None = None,
@@ -250,8 +250,8 @@ async def setup_test_accessories_with_controller(
     return config_entry, pairing
 
 
-async def device_config_changed(hass: __HAC_KEEP__, accessories: Accessories):
-    """Discover new devices added to __HA_KEEP__ at runtime."""
+async def device_config_changed(hass: UniversalAssistant, accessories: Accessories):
+    """Discover new devices added to Universal Home Assistant at runtime."""
     # Update the accessories our FakePairing knows about
     controller = hass.data[CONTROLLER]
     pairing: AbstractPairing = controller.pairings["00:00:00:00:00:00"]
@@ -281,7 +281,7 @@ async def device_config_changed(hass: __HAC_KEEP__, accessories: Accessories):
 
 
 async def setup_test_component(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aid: int,
     setup_accessory: Callable[[Accessory], Service | None],
     capitalize: bool = False,
@@ -306,7 +306,7 @@ async def setup_test_component(
             domain = HOMEKIT_ACCESSORY_DISPATCH[service_name]
             break
 
-    assert domain, "Cannot map test homekit services to __HA_KEEP__ domain"
+    assert domain, "Cannot map test homekit services to Universal Home Assistant domain"
 
     config_entry, pairing = await setup_test_accessories(hass, [accessory], connection)
     entity = "testdevice" if suffix is None else f"testdevice_{suffix}"
@@ -314,7 +314,7 @@ async def setup_test_component(
 
 
 async def assert_devices_and_entities_created(
-    hass: __HAC_KEEP__, config_entry_id: str, expected: DeviceTestInfo
+    hass: UniversalAssistant, config_entry_id: str, expected: DeviceTestInfo
 ):
     """Check all expected devices and entities are loaded correctly."""
     entity_registry = er.async_get(hass)

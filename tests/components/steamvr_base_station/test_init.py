@@ -16,7 +16,7 @@ from universalassistant.components.bluetooth import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.util import dt as dt_util
 
@@ -27,7 +27,7 @@ SWITCH = "switch.lhb_747a9bc5"
 
 
 async def test_setup_and_unload(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Test a station is set up and unloaded."""
     assert init_integration.state is ConfigEntryState.LOADED
@@ -36,7 +36,7 @@ async def test_setup_and_unload(
 
 
 async def test_setup_retries_until_in_range(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup is retried while no scanner can see the station."""
     mock_config_entry.add_to_hass(hass)
@@ -47,7 +47,7 @@ async def test_setup_retries_until_in_range(
 
 
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -67,7 +67,7 @@ async def test_device_info(
 
 @pytest.mark.usefixtures("station_in_range", "device_info_unreachable")
 async def test_setup_retries_when_unreachable(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup is retried when the station does not accept a connection."""
     mock_config_entry.add_to_hass(hass)
@@ -77,7 +77,7 @@ async def test_setup_retries_when_unreachable(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_unavailable_and_recovery(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the station goes unavailable without advertisements and recovers."""
     assert hass.states.get(SWITCH).state == STATE_ON

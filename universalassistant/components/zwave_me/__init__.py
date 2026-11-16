@@ -1,6 +1,6 @@
 """The Z-Wave-Me WS integration."""
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 
@@ -8,7 +8,7 @@ from .const import PLATFORMS
 from .controller import ZWaveMeConfigEntry, ZWaveMeController
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ZWaveMeConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ZWaveMeConfigEntry) -> None:
     """Set up Z-Wave-Me from a config entry."""
     controller = ZWaveMeController(hass, entry)
 
@@ -21,7 +21,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ZWaveMeConfigEntry) -> No
     controller.remove_stale_devices(registry)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ZWaveMeConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ZWaveMeConfigEntry) -> None:
     """Unload a config entry."""
 
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
@@ -29,7 +29,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: ZWaveMeConfigEntry) -> N
 
 
 async def async_setup_platforms(
-    hass: __HAC_KEEP__, entry: ZWaveMeConfigEntry, controller: ZWaveMeController
+    hass: UniversalAssistant, entry: ZWaveMeConfigEntry, controller: ZWaveMeController
 ) -> None:
     """Set up platforms."""
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)

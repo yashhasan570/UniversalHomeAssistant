@@ -4,7 +4,7 @@ from contextlib import suppress
 import io
 import wave
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 
 def convert_to_wav(audio_data: bytes, mime_type: str) -> bytes:
@@ -46,7 +46,7 @@ def _parse_audio_mime_type(mime_type: str) -> dict[str, int]:
 
     """
     if not mime_type.lower().startswith("audio/l"):
-        raise __HAC_KEEP__Error(f"Unsupported audio MIME type: {mime_type}")
+        raise UniversalAssistantError(f"Unsupported audio MIME type: {mime_type}")
 
     bits_per_sample = 16
     rate = 24000

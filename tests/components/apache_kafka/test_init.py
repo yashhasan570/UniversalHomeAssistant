@@ -10,7 +10,7 @@ import pytest
 
 from universalassistant.components import apache_kafka
 from universalassistant.const import STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 APACHE_KAFKA_PATH = "universalassistant.components.apache_kafka"
@@ -58,7 +58,7 @@ def mock_client_stop():
 
 
 async def test_minimal_config(
-    hass: __HAC_KEEP__, mock_client: MockKafkaClient
+    hass: UniversalAssistant, mock_client: MockKafkaClient
 ) -> None:
     """Test the minimal config and defaults of component."""
     config = {apache_kafka.DOMAIN: MIN_CONFIG}
@@ -67,7 +67,7 @@ async def test_minimal_config(
     mock_client.start.assert_called_once()
 
 
-async def test_full_config(hass: __HAC_KEEP__, mock_client: MockKafkaClient) -> None:
+async def test_full_config(hass: UniversalAssistant, mock_client: MockKafkaClient) -> None:
     """Test the full config of component."""
     config = {
         apache_kafka.DOMAIN: {
@@ -88,7 +88,7 @@ async def test_full_config(hass: __HAC_KEEP__, mock_client: MockKafkaClient) -> 
     mock_client.start.assert_called_once()
 
 
-async def _setup(hass: __HAC_KEEP__, filter_config: dict[str, Any]) -> None:
+async def _setup(hass: UniversalAssistant, filter_config: dict[str, Any]) -> None:
     """Shared set up for filtering tests."""
     config = {apache_kafka.DOMAIN: {"filter": filter_config}}
     config[apache_kafka.DOMAIN].update(MIN_CONFIG)
@@ -98,7 +98,7 @@ async def _setup(hass: __HAC_KEEP__, filter_config: dict[str, Any]) -> None:
 
 
 async def _run_filter_tests(
-    hass: __HAC_KEEP__, tests: list[FilterTest], mock_client: MockKafkaClient
+    hass: UniversalAssistant, tests: list[FilterTest], mock_client: MockKafkaClient
 ) -> None:
     """Run a series of filter tests on apache kafka."""
     for test in tests:
@@ -112,7 +112,7 @@ async def _run_filter_tests(
             mock_client.send_and_wait.assert_not_called()
 
 
-async def test_allowlist(hass: __HAC_KEEP__, mock_client: MockKafkaClient) -> None:
+async def test_allowlist(hass: UniversalAssistant, mock_client: MockKafkaClient) -> None:
     """Test an allowlist only config."""
     await _setup(
         hass,
@@ -135,7 +135,7 @@ async def test_allowlist(hass: __HAC_KEEP__, mock_client: MockKafkaClient) -> No
     await _run_filter_tests(hass, tests, mock_client)
 
 
-async def test_denylist(hass: __HAC_KEEP__, mock_client: MockKafkaClient) -> None:
+async def test_denylist(hass: UniversalAssistant, mock_client: MockKafkaClient) -> None:
     """Test a denylist only config."""
     await _setup(
         hass,
@@ -159,7 +159,7 @@ async def test_denylist(hass: __HAC_KEEP__, mock_client: MockKafkaClient) -> Non
 
 
 async def test_filtered_allowlist(
-    hass: __HAC_KEEP__, mock_client: MockKafkaClient
+    hass: UniversalAssistant, mock_client: MockKafkaClient
 ) -> None:
     """Test an allowlist config with a filtering denylist."""
     await _setup(
@@ -185,7 +185,7 @@ async def test_filtered_allowlist(
 
 
 async def test_filtered_denylist(
-    hass: __HAC_KEEP__, mock_client: MockKafkaClient
+    hass: UniversalAssistant, mock_client: MockKafkaClient
 ) -> None:
     """Test a denylist config with a filtering allowlist."""
     await _setup(

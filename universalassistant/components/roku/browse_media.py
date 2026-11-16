@@ -10,7 +10,7 @@ from universalassistant.components.media_player import (
     MediaClass,
     MediaType,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.network import is_internal_request
 
 from .coordinator import RokuDataUpdateCoordinator
@@ -63,7 +63,7 @@ def get_thumbnail_url_full(
 
 
 async def async_browse_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     coordinator: RokuDataUpdateCoordinator,
     get_browse_image_url: GetBrowseImageUrlType,
     media_content_id: str | None,
@@ -104,7 +104,7 @@ async def async_browse_media(
 
 
 async def root_payload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     coordinator: RokuDataUpdateCoordinator,
     get_browse_image_url: GetBrowseImageUrlType,
 ) -> BrowseMedia:

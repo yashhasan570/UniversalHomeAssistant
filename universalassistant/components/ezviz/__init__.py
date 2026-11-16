@@ -13,7 +13,7 @@ from pyezvizapi.exceptions import (
 
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import CONF_TIMEOUT, CONF_TYPE, CONF_URL, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.typing import ConfigType
@@ -55,13 +55,13 @@ PLATFORMS_BY_TYPE: dict[str, list] = {
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the EZVIZ integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: EzvizConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: EzvizConfigEntry) -> None:
     """Set up EZVIZ from a config entry."""
     sensor_type: str = entry.data[CONF_TYPE]
     ezviz_client = None
@@ -142,7 +142,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: EzvizConfigEntry) -> None
                 )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: EzvizConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: EzvizConfigEntry) -> None:
     """Unload a config entry."""
     sensor_type = entry.data[CONF_TYPE]
 

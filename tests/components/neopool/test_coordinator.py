@@ -17,7 +17,7 @@ from universalassistant.components.neopool.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 
 from . import setup_integration
@@ -26,7 +26,7 @@ from .conftest import MOCK_POOL_DATA, MOCK_SERIAL, _read_all_timers
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_update_data_populates_firmware(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -40,7 +40,7 @@ async def test_update_data_populates_firmware(
 
 
 async def test_transient_modbus_failure_after_first_success_marks_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -60,7 +60,7 @@ async def test_transient_modbus_failure_after_first_success_marks_unavailable(
 
 
 async def test_corrupt_gpio_creates_repair_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -80,7 +80,7 @@ async def test_corrupt_gpio_creates_repair_issue(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_clean_gpio_does_not_create_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -91,7 +91,7 @@ async def test_clean_gpio_does_not_create_issue(
 
 
 async def test_corrupt_gpio_self_heals_on_next_clean_read(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -115,7 +115,7 @@ async def test_corrupt_gpio_self_heals_on_next_clean_read(
 
 
 async def test_corrupt_gpio_issue_per_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -160,7 +160,7 @@ async def test_corrupt_gpio_issue_per_entry(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_corrupt_gpio_clears_stale_issue_from_previous_session(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -183,7 +183,7 @@ async def test_corrupt_gpio_clears_stale_issue_from_previous_session(
 
 
 async def test_corrupt_gpio_logs_error_only_on_state_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -211,7 +211,7 @@ async def test_corrupt_gpio_logs_error_only_on_state_change(
 
 
 async def test_corrupt_gpio_updates_issue_on_value_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -243,7 +243,7 @@ async def test_corrupt_gpio_updates_issue_on_value_change(
 
 
 async def test_follow_up_refresh_callback_runs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -262,7 +262,7 @@ async def test_follow_up_refresh_callback_runs(
 
 
 async def test_timer_block_data_merged_into_coordinator(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -321,7 +321,7 @@ def _capture_timer_calls(mock_neopool_client: MagicMock) -> list[tuple]:
 
 
 async def _poll_once_more(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     coordinator: object,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -332,7 +332,7 @@ async def _poll_once_more(
 
 
 async def test_no_filtration_polled_when_all_entities_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -367,7 +367,7 @@ async def test_no_filtration_polled_when_all_entities_disabled(
 
 
 async def test_aux_base_polls_but_b_subtimer_gated_when_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -403,7 +403,7 @@ async def test_aux_base_polls_but_b_subtimer_gated_when_disabled(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_aux_b_subtimer_polls_when_enabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:

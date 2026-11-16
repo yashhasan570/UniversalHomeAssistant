@@ -6,7 +6,7 @@ import pytest
 from pytest_universalassistant.components.recorder.common import async_wait_recording_done
 from pytest_universalassistant.typing import RecorderInstanceContextManager
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -19,7 +19,7 @@ async def mock_recorder_before_hass(
 @pytest.mark.parametrize("enable_schema_validation", [True])
 @pytest.mark.parametrize("db_engine", ["mysql", "postgresql"])
 async def test_validate_db_schema_fix_float_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_test_recorder: RecorderInstanceContextManager,
     caplog: pytest.LogCaptureFixture,
     db_engine: str,
@@ -57,7 +57,7 @@ async def test_validate_db_schema_fix_float_issue(
 @pytest.mark.parametrize("enable_schema_validation", [True])
 @pytest.mark.parametrize("db_engine", ["mysql"])
 async def test_validate_db_schema_fix_utf8_issue_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_test_recorder: RecorderInstanceContextManager,
     caplog: pytest.LogCaptureFixture,
     db_engine: str,
@@ -90,7 +90,7 @@ async def test_validate_db_schema_fix_utf8_issue_states(
 @pytest.mark.parametrize("enable_schema_validation", [True])
 @pytest.mark.parametrize("db_engine", ["mysql"])
 async def test_validate_db_schema_fix_utf8_issue_state_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_test_recorder: RecorderInstanceContextManager,
     caplog: pytest.LogCaptureFixture,
     db_engine: str,
@@ -123,7 +123,7 @@ async def test_validate_db_schema_fix_utf8_issue_state_attributes(
 @pytest.mark.parametrize("enable_schema_validation", [True])
 @pytest.mark.parametrize("db_engine", ["mysql"])
 async def test_validate_db_schema_fix_collation_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_test_recorder: RecorderInstanceContextManager,
     caplog: pytest.LogCaptureFixture,
     db_engine: str,

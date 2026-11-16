@@ -5,7 +5,7 @@ from typing import Any, Concatenate
 
 from elgato import ElgatoConnectionError, ElgatoError
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import DOMAIN
 from .coordinator import ElgatoData
@@ -45,7 +45,7 @@ def elgato_device_action[_ElgatoEntityT: ElgatoEntity, **_P](
     it answers nothing while it erases a flash slot, and enough traffic in
     that window takes its HTTP server down and restarts the light.
 
-    Elgato errors become a translated ``__HAC_KEEP__Error``.
+    Elgato errors become a translated ``UniversalAssistantError``.
 
     And the device is asked for its new state afterwards, outside the lock,
     because that is another request and it has to queue like the rest.
@@ -60,12 +60,12 @@ def elgato_device_action[_ElgatoEntityT: ElgatoEntity, **_P](
         except ElgatoConnectionError as error:
             self.coordinator.last_update_success = False
             self.coordinator.async_update_listeners()
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="communication_error",
             ) from error
         except ElgatoError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="unknown_error",
             ) from error

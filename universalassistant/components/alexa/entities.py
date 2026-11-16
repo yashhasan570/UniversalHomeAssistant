@@ -87,7 +87,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     __version__,
 )
-from universalassistant.core import __HAC_KEEP__, State, callback
+from universalassistant.core import UniversalAssistant, State, callback
 from universalassistant.helpers import entity_registry as er, intent, network
 from universalassistant.helpers.entity import entity_sources
 from universalassistant.helpers.entity_component import DATA_INSTANCES
@@ -313,7 +313,7 @@ class AlexaEntity:
     """
 
     def __init__(
-        self, hass: __HAC_KEEP__, config: AbstractConfig, entity: State
+        self, hass: UniversalAssistant, config: AbstractConfig, entity: State
     ) -> None:
         """Initialize Alexa Entity."""
         self.hass = hass
@@ -340,7 +340,7 @@ class AlexaEntity:
     def description(self) -> str:
         """Return the Alexa API description."""
         description = self.entity_conf.get(CONF_DESCRIPTION) or self.entity_id
-        return f"{description} via __HA_KEEP__".translate(TRANSLATION_TABLE)
+        return f"{description} via Universal Home Assistant".translate(TRANSLATION_TABLE)
 
     def alexa_id(self) -> str:
         """Return the Alexa API entity id."""
@@ -356,7 +356,7 @@ class AlexaEntity:
     def default_display_categories(self) -> list[str] | None:
         """Return a list of default display categories.
 
-        This can be overridden by the user in the __HA_KEEP__ configuration.
+        This can be overridden by the user in the Universal Home Assistant configuration.
 
         See also DisplayCategory.
         """
@@ -386,9 +386,9 @@ class AlexaEntity:
             "endpointId": self.alexa_id(),
             "friendlyName": self.friendly_name(),
             "description": self.description(),
-            "manufacturerName": "__HA_KEEP__",
+            "manufacturerName": "Universal Home Assistant",
             "additionalAttributes": {
-                "manufacturer": "__HA_KEEP__",
+                "manufacturer": "Universal Home Assistant",
                 "model": self.entity.domain,
                 "softwareVersion": __version__,
                 "customIdentifier": f"{self.config.user_identifier()}-{self.entity_id}",
@@ -416,7 +416,7 @@ class AlexaEntity:
 
 @callback
 def async_get_camera_entity(
-    hass: __HAC_KEEP__, entity_id: str
+    hass: UniversalAssistant, entity_id: str
 ) -> camera.Camera | None:
     """Return the camera entity, regardless of whether it is turned on."""
     if (component := hass.data.get(DATA_INSTANCES, {}).get(CAMERA_DOMAIN)) is None:
@@ -427,7 +427,7 @@ def async_get_camera_entity(
 
 @callback
 def async_get_entities(
-    hass: __HAC_KEEP__, config: AbstractConfig
+    hass: UniversalAssistant, config: AbstractConfig
 ) -> list[AlexaEntity]:
     """Return all entities that are supported by Alexa."""
     entities: list[AlexaEntity] = []

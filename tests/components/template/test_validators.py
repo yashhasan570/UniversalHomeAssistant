@@ -7,7 +7,7 @@ import pytest
 from universalassistant.components.template import validators as cv
 from universalassistant.components.template.template_entity import TemplateEntity
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.template import Template
 
 from .conftest import Brewery
@@ -56,7 +56,7 @@ def check_for_error(value: Any, expected: Any, caplog_text: str, error: str) -> 
         assert error not in caplog_text
 
 
-def create_test_entity(hass: __HAC_KEEP__, config: dict) -> TemplateEntity:
+def create_test_entity(hass: UniversalAssistant, config: dict) -> TemplateEntity:
     """Create a template result handler."""
 
     class Test(TemplateEntity):
@@ -116,7 +116,7 @@ def create_test_entity(hass: __HAC_KEEP__, config: dict) -> TemplateEntity:
     ],
 )
 async def test_enum(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict,
     error: str,
     value: Any,
@@ -138,7 +138,7 @@ async def test_enum(
     ],
 )
 async def test_enum_deprecated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     value: Any,
     expected: Brewery | None,
     caplog: pytest.LogCaptureFixture,
@@ -168,7 +168,7 @@ async def test_enum_deprecated(
     ],
 )
 async def test_none_on_unknown_and_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     value: Any,
 ) -> None:
     """Test enum validator."""
@@ -226,7 +226,7 @@ async def test_none_on_unknown_and_unavailable(
     ],
 )
 async def test_enum_with_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict,
     error: str,
     value: Any,
@@ -288,7 +288,7 @@ async def test_enum_with_on_off(
     ],
 )
 async def test_enum_with_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict,
     error: str,
     value: Any,
@@ -349,7 +349,7 @@ async def test_enum_with_on(
     ],
 )
 async def test_enum_with_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict,
     error: str,
     value: Any,
@@ -403,7 +403,7 @@ async def test_enum_with_off(
     ],
 )
 async def test_boolean(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict,
     error: str,
     value: Any,
@@ -456,7 +456,7 @@ async def test_boolean(
     ],
 )
 async def test_boolean_as_true(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict,
     error: str,
     value: Any,
@@ -510,7 +510,7 @@ async def test_boolean_as_true(
     ],
 )
 async def test_boolean_as_false(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict,
     error: str,
     value: Any,
@@ -567,7 +567,7 @@ async def test_boolean_as_false(
     ],
 )
 async def test_number_as_float(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict,
     error: str,
     value: Any,
@@ -623,7 +623,7 @@ async def test_number_as_float(
     ],
 )
 async def test_number_as_int(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict,
     error: str,
     value: Any,
@@ -684,7 +684,7 @@ async def test_number_as_int(
     ],
 )
 async def test_number_with_minimum(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict,
     error: str,
     value: Any,
@@ -741,7 +741,7 @@ async def test_number_with_minimum(
     ],
 )
 async def test_number_with_maximum(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict,
     error: str,
     value: Any,
@@ -796,7 +796,7 @@ async def test_number_with_maximum(
     ],
 )
 async def test_number_in_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict,
     error: str,
     value: Any,
@@ -847,7 +847,7 @@ async def test_number_in_range(
     ],
 )
 async def test_list_of_strings(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict,
     error: str,
     value: Any,
@@ -862,7 +862,7 @@ async def test_list_of_strings(
 
 
 async def test_list_of_strings_none_on_empty(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test result as a list of strings with an empty list returning None."""
     entity = create_test_entity(hass, {"default_entity_id": "test.test"})
@@ -909,7 +909,7 @@ async def test_list_of_strings_none_on_empty(
     ],
 )
 async def test_item_in_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict,
     error: str,
     value: Any,
@@ -970,7 +970,7 @@ async def test_item_in_list(
     ],
 )
 async def test_string_item_in_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict,
     error: str,
     value: Any,
@@ -1002,7 +1002,7 @@ async def test_string_item_in_list(
     ],
 )
 async def test_item_in_list_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict,
     error: str,
     caplog: pytest.LogCaptureFixture,
@@ -1043,7 +1043,7 @@ async def test_item_in_list_changes(
     [None, []],
 )
 async def test_empty_items_in_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict,
     error: str,
     value: Any,
@@ -1098,7 +1098,7 @@ async def test_empty_items_in_list(
     ],
 )
 async def test_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict,
     error: str,
     value: Any,
@@ -1142,7 +1142,7 @@ async def test_url(
     ],
 )
 async def test_string(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict,
     error: str,
     value: Any,
@@ -1181,7 +1181,7 @@ async def test_string(
     ],
 )
 def test_entity_config_identifier(
-    hass: __HAC_KEEP__, name: str, entity_config: dict[str, str], expected: str
+    hass: UniversalAssistant, name: str, entity_config: dict[str, str], expected: str
 ) -> None:
     """Test the entity config identifier for every fallback."""
     config = {"name": Template(name, hass), **entity_config}

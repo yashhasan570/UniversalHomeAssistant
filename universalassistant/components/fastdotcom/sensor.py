@@ -8,7 +8,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import UnitOfDataRate
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -18,7 +18,7 @@ from .coordinator import FastdotcomConfigEntry, FastdotcomDataUpdateCoordinator
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FastdotcomConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

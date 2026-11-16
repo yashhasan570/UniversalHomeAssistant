@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.vlc_telnet.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.hassio import HassioServiceInfo
 
@@ -42,7 +42,7 @@ from universalassistant.helpers.service_info.hassio import HassioServiceInfo
     ],
 )
 async def test_user_flow(
-    hass: __HAC_KEEP__, input_data: dict[str, Any], entry_data: dict[str, Any]
+    hass: UniversalAssistant, input_data: dict[str, Any], entry_data: dict[str, Any]
 ) -> None:
     """Test successful user flow."""
     result = await hass.config_entries.flow.async_init(
@@ -74,7 +74,7 @@ async def test_user_flow(
 
 
 @pytest.mark.parametrize("source", [config_entries.SOURCE_USER])
-async def test_abort_already_configured(hass: __HAC_KEEP__, source: str) -> None:
+async def test_abort_already_configured(hass: UniversalAssistant, source: str) -> None:
     """Test we handle already configured host."""
     entry_data = {
         "password": "test-password",
@@ -106,7 +106,7 @@ async def test_abort_already_configured(hass: __HAC_KEEP__, source: str) -> None
     ],
 )
 async def test_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     error: str,
     connect_side_effect: Exception | None,
     login_side_effect: Exception | None,
@@ -156,7 +156,7 @@ async def test_errors(
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
+async def test_reauth_flow(hass: UniversalAssistant) -> None:
     """Test successful reauth flow."""
     entry_data: dict[str, Any] = {
         "password": "old-password",
@@ -200,7 +200,7 @@ async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_reauth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     error: str,
     connect_side_effect: Exception | None,
     login_side_effect: Exception | None,
@@ -258,7 +258,7 @@ async def test_reauth_errors(
     assert result3["reason"] == "reauth_successful"
 
 
-async def test_hassio_flow(hass: __HAC_KEEP__) -> None:
+async def test_hassio_flow(hass: UniversalAssistant) -> None:
     """Test successful hassio flow."""
     with (
         patch("universalassistant.components.vlc_telnet.config_flow.Client.connect"),
@@ -300,7 +300,7 @@ async def test_hassio_flow(hass: __HAC_KEEP__) -> None:
         assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_hassio_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_hassio_already_configured(hass: UniversalAssistant) -> None:
     """Test successful hassio flow."""
 
     entry_data = {
@@ -333,7 +333,7 @@ async def test_hassio_already_configured(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_hassio_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     error: str,
     connect_side_effect: Exception | None,
     login_side_effect: Exception | None,

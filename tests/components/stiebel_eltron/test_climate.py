@@ -23,8 +23,8 @@ from universalassistant.components.stiebel_eltron.climate import (
     PRESET_READY,
     PRESET_WATER_HEATING,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from tests.components.climate.common import (
@@ -37,7 +37,7 @@ CLIMATE_ENTITY_ID = "climate.stiebel_eltron_lwz"
 
 
 async def _setup_integration(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Set up the integration."""
     config_entry.add_to_hass(hass)
@@ -46,7 +46,7 @@ async def _setup_integration(
 
 
 async def test_climate_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -84,7 +84,7 @@ async def test_climate_entity(
     ],
 )
 async def test_climate_entity_operating_modes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lwz_api: MagicMock,
     operating_mode: OperatingMode,
@@ -105,7 +105,7 @@ async def test_climate_entity_operating_modes(
 
 
 async def test_climate_entity_set_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lwz_api: MagicMock,
 ) -> None:
@@ -126,7 +126,7 @@ async def test_climate_entity_set_hvac_mode(
 
 
 async def test_climate_entity_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lwz_api: MagicMock,
 ) -> None:
@@ -138,7 +138,7 @@ async def test_climate_entity_set_temperature(
 
 
 async def test_climate_entity_set_hvac_mode_handles_api_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lwz_api: MagicMock,
 ) -> None:
@@ -146,12 +146,12 @@ async def test_climate_entity_set_hvac_mode_handles_api_exception(
     await _setup_integration(hass, mock_config_entry)
 
     mock_lwz_api.set_operation.side_effect = ModbusError("write failed")
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await async_set_hvac_mode(hass, HVACMode.AUTO, CLIMATE_ENTITY_ID)
 
 
 async def test_climate_entity_set_preset_mode_handles_api_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lwz_api: MagicMock,
 ) -> None:
@@ -159,12 +159,12 @@ async def test_climate_entity_set_preset_mode_handles_api_exception(
     await _setup_integration(hass, mock_config_entry)
 
     mock_lwz_api.set_operation.side_effect = ModbusError("write failed")
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await async_set_preset_mode(hass, PRESET_COMFORT, CLIMATE_ENTITY_ID)
 
 
 async def test_climate_entity_set_temperature_handles_api_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lwz_api: MagicMock,
 ) -> None:
@@ -173,7 +173,7 @@ async def test_climate_entity_set_temperature_handles_api_exception(
     await _setup_integration(hass, mock_config_entry)
 
     mock_lwz_api.set_target_temp.side_effect = ModbusError("write failed")
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await async_set_temperature(hass, 24.0, CLIMATE_ENTITY_ID)
 
     # ensure the API was attempted and no unhandled exception propagated
@@ -181,7 +181,7 @@ async def test_climate_entity_set_temperature_handles_api_exception(
 
 
 async def test_climate_entity_set_preset_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lwz_api: MagicMock,
 ) -> None:

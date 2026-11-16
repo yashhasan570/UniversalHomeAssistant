@@ -23,14 +23,14 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import KnxEntityGenerator
 from .conftest import KNXTestKit
 
 
 async def test_button_simple(
-    hass: __HAC_KEEP__, knx: KNXTestKit, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, knx: KNXTestKit, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test KNX button with default payload."""
     await knx.setup_integration(
@@ -66,7 +66,7 @@ async def test_button_simple(
     await knx.assert_telegram_count(0)
 
 
-async def test_button_raw(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_button_raw(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX button with raw payload."""
     await knx.setup_integration(
         {
@@ -85,7 +85,7 @@ async def test_button_raw(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     await knx.assert_write("1/2/3", False)
 
 
-async def test_button_type(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_button_type(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX button with encoded payload."""
     await knx.setup_integration(
         {
@@ -120,7 +120,7 @@ async def test_button_type(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     ],
 )
 async def test_button_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     knx: KNXTestKit,
     conf_type: str,
@@ -174,7 +174,7 @@ async def test_button_invalid(
     ],
 )
 async def test_button_ui_create(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
     knx_config: dict[str, Any],
@@ -192,7 +192,7 @@ async def test_button_ui_create(
     await knx.assert_write("1/1/1", (1,))
 
 
-async def test_button_ui_load(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_button_ui_load(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test loading a button from storage."""
     await knx.setup_integration(config_store_fixture="config_store_button.json")
 
@@ -250,7 +250,7 @@ async def test_button_ui_load(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     ],
 )
 async def test_button_ui_create_data_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     knx_config: dict[str, Any],

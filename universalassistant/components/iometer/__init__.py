@@ -3,7 +3,7 @@
 from iometer import IOmeterSSEClient
 
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .coordinator import IOmeterConfigEntry, IOMeterCoordinator
@@ -11,7 +11,7 @@ from .coordinator import IOmeterConfigEntry, IOMeterCoordinator
 PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: IOmeterConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: IOmeterConfigEntry) -> None:
     """Set up IOmeter from a config entry."""
     host = entry.data[CONF_HOST]
     session = async_get_clientsession(hass)
@@ -30,6 +30,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: IOmeterConfigEntry) -> No
     entry.async_on_unload(coordinator.async_stop)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: IOmeterConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: IOmeterConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

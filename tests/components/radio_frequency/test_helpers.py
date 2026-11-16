@@ -24,7 +24,7 @@ from universalassistant.components.radio_frequency import (
     RadioFrequencyTransmitterConsumerEntity,
 )
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 CONSUMER_ENTITY_ID = "test_domain.consumer"
 
@@ -55,7 +55,7 @@ class MockConsumerEntity(
 
 @pytest.fixture
 async def mock_consumer_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
     mock_rf_receiver_entity: MockRadioFrequencyReceiverEntity,
 ) -> MockConsumerEntity:
@@ -67,7 +67,7 @@ async def mock_consumer_entity(
 
 
 @pytest.mark.usefixtures("mock_consumer_entity")
-async def test_availability_follows_rf_entities(hass: __HAC_KEEP__) -> None:
+async def test_availability_follows_rf_entities(hass: UniversalAssistant) -> None:
     """Test the consumer is available only while all RF entities are available."""
     await assert_availability_follows_source_entity(
         hass, CONSUMER_ENTITY_ID, [ENTITY_ID, RECEIVER_ENTITY_ID]
@@ -87,7 +87,7 @@ async def test_send_command(
 
 
 async def test_receiver_resubscribes_after_receiver_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_receiver_entity: MockRadioFrequencyReceiverEntity,
     mock_consumer_entity: MockConsumerEntity,
 ) -> None:
@@ -107,7 +107,7 @@ async def test_receiver_resubscribes_after_receiver_unavailable(
 
 
 async def test_receiver_resubscribes_after_replaced_while_transmitter_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
     mock_rf_receiver_entity: MockRadioFrequencyReceiverEntity,
 ) -> None:

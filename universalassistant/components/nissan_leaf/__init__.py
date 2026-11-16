@@ -15,7 +15,7 @@ from pycarwings2.responses import (
 )
 
 from universalassistant.const import CONF_PASSWORD, CONF_REGION, CONF_USERNAME, Platform
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.discovery import load_platform
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -93,7 +93,7 @@ CONFIG_SCHEMA = probatio.Schema(
 PLATFORMS = [Platform.BINARY_SENSOR, Platform.BUTTON, Platform.SENSOR, Platform.SWITCH]
 
 
-def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Nissan Leaf integration."""
 
     def setup_leaf(car_config: dict[str, Any]) -> None:
@@ -165,7 +165,7 @@ class LeafDataStore:
     """Nissan Leaf Data Store."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, leaf: Leaf, car_config: dict[str, Any]
+        self, hass: UniversalAssistant, leaf: Leaf, car_config: dict[str, Any]
     ) -> None:
         """Initialise the data store."""
         self.hass = hass

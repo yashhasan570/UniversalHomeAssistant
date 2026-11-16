@@ -9,11 +9,11 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.open_meteo.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ZONE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_open_meteo: AsyncMock,
 ) -> None:
@@ -37,7 +37,7 @@ async def test_load_unload_config_entry(
 )
 async def test_config_entry_not_ready(
     mock_forecast: MagicMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the Open-Meteo configuration entry not ready."""
@@ -50,7 +50,7 @@ async def test_config_entry_not_ready(
     assert mock_config_entry.error_reason_translation_key == "communication_error"
 
 
-async def test_config_entry_zone_removed(hass: __HAC_KEEP__) -> None:
+async def test_config_entry_zone_removed(hass: UniversalAssistant) -> None:
     """Test the Open-Meteo configuration entry not ready."""
     mock_config_entry = MockConfigEntry(
         title="My Castle",
@@ -70,7 +70,7 @@ async def test_config_entry_zone_removed(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_open_meteo")
-async def test_migrate_unique_id(hass: __HAC_KEEP__) -> None:
+async def test_migrate_unique_id(hass: UniversalAssistant) -> None:
     """Test the zone is removed as unique ID from an existing entry."""
     mock_config_entry = MockConfigEntry(
         title="Home",

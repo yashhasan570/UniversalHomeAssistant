@@ -5,8 +5,8 @@ from dataclasses import asdict, dataclass
 from typing import Final, cast
 
 from universalassistant.components.stream import Orientation
-from universalassistant.core import Event, __HAC_KEEP__, callback, split_entity_id
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import Event, UniversalAssistant, callback, split_entity_id
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.storage import Store
 from universalassistant.helpers.typing import Undefined
@@ -30,7 +30,7 @@ class CameraPreferences:
 
     _preload_prefs: dict[str, dict[str, bool | Orientation]]
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize camera prefs."""
         self._hass = hass
         # The orientation prefs are stored in in the entity registry options
@@ -106,7 +106,7 @@ class CameraPreferences:
         orientation is stored in the Entity Registry
 
         Returns a dict with the preferences on success.
-        Raises __HAC_KEEP__Error on failure.
+        Raises UniversalAssistantError on failure.
         """
         dynamic_stream_settings = self._dynamic_stream_settings_by_entity_id.get(
             entity_id
@@ -123,7 +123,7 @@ class CameraPreferences:
                     entity_id, DOMAIN, {PREF_ORIENTATION: orientation}
                 )
             else:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     "Orientation is only supported on entities set up through config"
                     " flows"
                 )
@@ -156,9 +156,9 @@ class CameraPreferences:
 
 
 async def get_dynamic_camera_stream_settings(
-    hass: __HAC_KEEP__, entity_id: str
+    hass: UniversalAssistant, entity_id: str
 ) -> DynamicStreamSettings:
     """Get dynamic stream settings for a camera entity."""
     if DATA_CAMERA_PREFS not in hass.data:
-        raise __HAC_KEEP__Error("Camera integration not set up")
+        raise UniversalAssistantError("Camera integration not set up")
     return await hass.data[DATA_CAMERA_PREFS].get_dynamic_stream_settings(entity_id)

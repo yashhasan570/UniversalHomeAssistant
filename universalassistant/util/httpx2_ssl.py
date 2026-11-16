@@ -3,11 +3,11 @@
 httpx2 and httpcore2 build their default SSL contexts with truststore. On Linux,
 truststore reloads the system CA store on every TLS handshake, which blocks the
 event loop. This replaces truststore's SSLContext with one verified against
-certifi, matching httpx and the rest of __HA_KEEP__.
+certifi, matching httpx and the rest of Universal Home Assistant.
 
 The certifi CA data is shared with universalassistant.util.ssl. Unlike that module,
 REQUESTS_CA_BUNDLE is not honored here, matching httpx: it only applies to the
-SSL contexts __HA_KEEP__ creates for its own HTTP client helpers.
+SSL contexts Universal Home Assistant creates for its own HTTP client helpers.
 """
 
 from os import environ

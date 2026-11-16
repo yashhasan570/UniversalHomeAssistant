@@ -1,4 +1,4 @@
-"""Test the __HA_KEEP__ Connect ZBT-2 config flow."""
+"""Test the Universal Home Assistant Connect ZBT-2 config flow."""
 
 from collections.abc import Generator
 from unittest.mock import ANY, AsyncMock, Mock, call, patch
@@ -24,7 +24,7 @@ from universalassistant.components.universalassistant_hardware.util import (
 )
 from universalassistant.components.usb import DOMAIN as USB_DOMAIN, USBDevice
 from universalassistant.config_entries import ConfigFlowResult
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.usb import UsbServiceInfo
 from universalassistant.setup import async_setup_component
@@ -52,11 +52,11 @@ def setup_entry_fixture() -> Generator[AsyncMock]:
         yield mock_setup_entry
 
 
-async def test_config_flow_zigbee(hass: __HAC_KEEP__) -> None:
+async def test_config_flow_zigbee(hass: UniversalAssistant) -> None:
     """Test Zigbee config flow for Connect ZBT-2."""
     fw_type = ApplicationType.EZSP
     fw_version = "7.4.4.0 build 0"
-    model = "__HA_KEEP__ Connect ZBT-2"
+    model = "Universal Home Assistant Connect ZBT-2"
     usb_data = USB_DATA_ZBT2
 
     result = await hass.config_entries.flow.async_init(
@@ -153,13 +153,13 @@ async def test_config_flow_zigbee(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("addon_installed", "supervisor")
 async def test_config_flow_thread(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     start_addon: AsyncMock,
 ) -> None:
     """Test Thread config flow for Connect ZBT-2."""
     fw_type = ApplicationType.SPINEL
     fw_version = "2.4.4.0"
-    model = "__HA_KEEP__ Connect ZBT-2"
+    model = "Universal Home Assistant Connect ZBT-2"
     usb_data = USB_DATA_ZBT2
 
     result = await hass.config_entries.flow.async_init(
@@ -236,11 +236,11 @@ async def test_config_flow_thread(
 @pytest.mark.parametrize(
     ("usb_data", "model"),
     [
-        (USB_DATA_ZBT2, "__HA_KEEP__ Connect ZBT-2"),
+        (USB_DATA_ZBT2, "Universal Home Assistant Connect ZBT-2"),
     ],
 )
 async def test_options_flow(
-    usb_data: UsbServiceInfo, model: str, hass: __HAC_KEEP__
+    usb_data: UsbServiceInfo, model: str, hass: UniversalAssistant
 ) -> None:
     """Test the options flow for Connect ZBT-2."""
     config_entry = MockConfigEntry(
@@ -406,7 +406,7 @@ async def test_options_flow(
     }
 
 
-async def test_duplicate_discovery(hass: __HAC_KEEP__) -> None:
+async def test_duplicate_discovery(hass: UniversalAssistant) -> None:
     """Test config flow unique_id deduplication."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": "usb"}, data=USB_DATA_ZBT2
@@ -422,7 +422,7 @@ async def test_duplicate_discovery(hass: __HAC_KEEP__) -> None:
     assert result_duplicate["reason"] == "already_in_progress"
 
 
-async def test_duplicate_discovery_updates_usb_path(hass: __HAC_KEEP__) -> None:
+async def test_duplicate_discovery_updates_usb_path(hass: UniversalAssistant) -> None:
     """Test config flow unique_id deduplication updates USB path."""
     config_entry = MockConfigEntry(
         domain="universalassistant_connect_zbt2",
@@ -454,7 +454,7 @@ async def test_duplicate_discovery_updates_usb_path(hass: __HAC_KEEP__) -> None:
     assert config_entry.data["device"] == USB_DATA_ZBT2.device
 
 
-async def test_firmware_callback_auto_creates_entry(hass: __HAC_KEEP__) -> None:
+async def test_firmware_callback_auto_creates_entry(hass: UniversalAssistant) -> None:
     """Test firmware notification triggers import flow creating entry."""
     await async_setup_component(hass, HOMEASSISTANT_HARDWARE_DOMAIN, {})
     await async_setup_component(hass, USB_DOMAIN, {})
@@ -511,7 +511,7 @@ async def test_firmware_callback_auto_creates_entry(hass: __HAC_KEEP__) -> None:
     assert not hass.config_entries.flow.async_progress_by_handler(DOMAIN)
 
 
-async def test_firmware_callback_updates_existing_entry(hass: __HAC_KEEP__) -> None:
+async def test_firmware_callback_updates_existing_entry(hass: UniversalAssistant) -> None:
     """Test that firmware notification updates existing config entry device path."""
     await async_setup_component(hass, HOMEASSISTANT_HARDWARE_DOMAIN, {})
     await async_setup_component(hass, USB_DOMAIN, {})

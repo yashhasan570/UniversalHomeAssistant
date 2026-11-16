@@ -15,7 +15,7 @@ from universalassistant.components import bluetooth
 from universalassistant.components.bluetooth import BluetoothReachabilityIntent
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ADDRESS, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import CALLBACK_TYPE, CoreState, Event, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, CoreState, Event, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 
 from .config_cache import async_get_validated_config
@@ -40,7 +40,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: YALEXSBLEConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: YALEXSBLEConfigEntry) -> None:
     """Set up Yale Access Bluetooth from a config entry."""
     local_name = entry.data[CONF_LOCAL_NAME]
     address = entry.data[CONF_ADDRESS]
@@ -176,6 +176,6 @@ async def _async_wait_for_first_update(push_lock: PushLock, local_name: str) -> 
         ) from ex
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: YALEXSBLEConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: YALEXSBLEConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

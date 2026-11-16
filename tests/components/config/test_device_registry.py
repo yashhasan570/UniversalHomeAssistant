@@ -11,7 +11,7 @@ from pytest_unordered import unordered
 
 from universalassistant.components.config import DOMAIN, device_registry
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, label_registry as lr
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
@@ -19,7 +19,7 @@ from universalassistant.util.dt import utcnow
 
 @pytest.fixture(name="client")
 async def client_fixture(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> MockHAClientWebSocket:
     """Fixture that can interact with the config manager API."""
     device_registry.async_setup(hass)
@@ -28,7 +28,7 @@ async def client_fixture(
 
 @pytest.mark.usefixtures("freezer")
 async def test_list_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MockHAClientWebSocket,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -194,7 +194,7 @@ def _storage_device_v1_12(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_list_composite_splits(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MockHAClientWebSocket,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -286,7 +286,7 @@ async def test_list_composite_splits(
     ],
 )
 async def test_update_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MockHAClientWebSocket,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,
@@ -341,7 +341,7 @@ async def test_update_device(
 
 
 async def test_update_device_labels(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MockHAClientWebSocket,
     device_registry: dr.DeviceRegistry,
     label_registry: lr.LabelRegistry,
@@ -403,7 +403,7 @@ async def test_update_device_labels(
     ],
 )
 async def test_update_device_strips_unknown_labels(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MockHAClientWebSocket,
     device_registry: dr.DeviceRegistry,
     label_registry: lr.LabelRegistry,
@@ -440,7 +440,7 @@ async def test_update_device_strips_unknown_labels(
 
 
 async def test_update_device_unknown_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MockHAClientWebSocket,
 ) -> None:
     """Test updating an unknown device returns an error."""
@@ -460,7 +460,7 @@ async def test_update_device_unknown_device(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_update_device_composite(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MockHAClientWebSocket,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -517,7 +517,7 @@ async def test_update_device_composite(
 
 _DEPRECATION_WARNING = (
     "The websocket command config/device_registry/remove_config_entry is "
-    "deprecated and will be removed in __HA_KEEP__ 2027.9"
+    "deprecated and will be removed in Universal Home Assistant 2027.9"
 )
 
 # The new command and its deprecated alias share an implementation, so tests that
@@ -548,7 +548,7 @@ async def _send_remove_device(
 
 @pytest.mark.parametrize(("command", "deprecated"), _REMOVE_DEVICE_COMMANDS)
 async def test_remove_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -562,7 +562,7 @@ async def test_remove_device(
     can_remove = False
 
     async def async_remove_config_entry_device(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry, device_entry: dr.AnyDeviceEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry, device_entry: dr.AnyDeviceEntry
     ) -> bool:
         return can_remove
 
@@ -639,7 +639,7 @@ async def test_remove_device(
 
 
 async def test_remove_device_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -648,7 +648,7 @@ async def test_remove_device_fails(
     ws_client = await hass_ws_client(hass)
 
     async def async_remove_config_entry_device(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry, device_entry: dr.AnyDeviceEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry, device_entry: dr.AnyDeviceEntry
     ) -> bool:
         return True
 
@@ -739,7 +739,7 @@ async def test_remove_device_fails(
 
 
 async def test_remove_device_if_integration_removes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -753,7 +753,7 @@ async def test_remove_device_if_integration_removes(
     can_remove = False
 
     async def async_remove_config_entry_device(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry, device_entry: dr.AnyDeviceEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry, device_entry: dr.AnyDeviceEntry
     ) -> bool:
         if can_remove:
             device_registry.async_remove_device(device_entry.id)
@@ -827,7 +827,7 @@ async def test_remove_device_if_integration_removes(
 @pytest.mark.parametrize(("command", "deprecated"), _REMOVE_DEVICE_COMMANDS)
 @pytest.mark.parametrize("load_registries", [False])
 async def test_remove_device_composite(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MockHAClientWebSocket,
     hass_storage: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
@@ -878,7 +878,7 @@ async def test_remove_device_composite(
 
 
 async def test_remove_config_entry_from_device_deprecated_config_entry_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -887,7 +887,7 @@ async def test_remove_config_entry_from_device_deprecated_config_entry_mismatch(
     ws_client = await hass_ws_client(hass)
 
     async def async_remove_config_entry_device(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry, device_entry: dr.AnyDeviceEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry, device_entry: dr.AnyDeviceEntry
     ) -> bool:
         return True
 
@@ -939,7 +939,7 @@ async def test_remove_config_entry_from_device_deprecated_config_entry_mismatch(
 
 
 async def test_list_linked_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MockHAClientWebSocket,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -1001,7 +1001,7 @@ async def test_list_linked_devices(
 
 
 async def test_list_linked_devices_unknown_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MockHAClientWebSocket,
 ) -> None:
     """Test listing linked devices for an unknown device returns an error."""
@@ -1019,7 +1019,7 @@ async def test_list_linked_devices_unknown_device(
 
 
 def _create_parent_and_child(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     *,
     domain: str = "test",
@@ -1042,7 +1042,7 @@ def _create_parent_and_child(
 
 
 async def test_list_devices_with_child_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -1113,7 +1113,7 @@ async def test_list_devices_with_child_devices(
     ],
 )
 async def test_update_child_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     label_registry: lr.LabelRegistry,
@@ -1148,7 +1148,7 @@ async def test_update_child_device(
 
 
 async def test_update_child_device_area_round_trip(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -1188,7 +1188,7 @@ async def test_update_child_device_area_round_trip(
 
 
 async def test_remove_config_entry_from_child_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -1200,7 +1200,7 @@ async def test_remove_config_entry_from_child_device(
     removed_devices: list[str] = []
 
     async def async_remove_config_entry_device(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         device_entry: dr.AnyDeviceEntry,
     ) -> bool:
@@ -1236,7 +1236,7 @@ async def test_remove_config_entry_from_child_device(
 
 
 async def test_remove_config_entry_from_parent_with_children(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -1247,7 +1247,7 @@ async def test_remove_config_entry_from_parent_with_children(
     consulted_devices: list[str] = []
 
     async def async_remove_config_entry_device(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         device_entry: dr.AnyDeviceEntry,
     ) -> bool:
@@ -1274,7 +1274,7 @@ async def test_remove_config_entry_from_parent_with_children(
 
 
 async def test_list_linked_devices_child_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:

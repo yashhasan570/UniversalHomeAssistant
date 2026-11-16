@@ -15,7 +15,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     EVENT_STATE_CHANGED,
 )
-from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__
+from universalassistant.core import Event, EventStateChangedData, UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entityfilter import FILTER_SCHEMA, EntityFilter
 from universalassistant.helpers.typing import ConfigType
@@ -47,7 +47,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Activate the Apache Kafka integration."""
     conf = config[DOMAIN]
 
@@ -88,7 +88,7 @@ class KafkaManager:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         ip_address: str,
         port: int,
         topic: str,

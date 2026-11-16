@@ -17,8 +17,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_with_selected_platforms
@@ -26,7 +26,7 @@ from . import setup_with_selected_platforms
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_technove")
 async def test_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -76,7 +76,7 @@ async def test_switches(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_switch_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_technove: MagicMock,
     entity_id: str,
     service: str,
@@ -114,7 +114,7 @@ async def test_switch_services(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_invalid_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_technove: MagicMock,
     entity_id: str,
     method: str,
@@ -124,7 +124,7 @@ async def test_invalid_response(
     method_mock = getattr(mock_technove, method)
 
     method_mock.side_effect = TechnoVEError
-    with pytest.raises(__HAC_KEEP__Error, match="Invalid response from TechnoVE API"):
+    with pytest.raises(UniversalAssistantError, match="Invalid response from TechnoVE API"):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -152,7 +152,7 @@ async def test_invalid_response(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_technove: MagicMock,
     entity_id: str,
     method: str,
@@ -163,7 +163,7 @@ async def test_connection_error(
 
     method_mock.side_effect = TechnoVEConnectionError
     with pytest.raises(
-        __HAC_KEEP__Error, match="Error communicating with TechnoVE API"
+        UniversalAssistantError, match="Error communicating with TechnoVE API"
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,
@@ -179,7 +179,7 @@ async def test_connection_error(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_disable_charging_auto_charge(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_technove: MagicMock,
 ) -> None:
     """Test failure to disable charging when the station is in auto charge mode."""

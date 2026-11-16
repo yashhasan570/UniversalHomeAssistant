@@ -6,17 +6,17 @@ from universalassistant.components.google_assistant_sdk.helpers import (
     best_matching_language_code,
     default_language_code,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-def test_default_language_codes(hass: __HAC_KEEP__) -> None:
+def test_default_language_codes(hass: UniversalAssistant) -> None:
     """Test all supported languages have a default language_code."""
     for language_code in SUPPORTED_LANGUAGE_CODES:
         lang = language_code.split("-", maxsplit=1)[0]
         assert DEFAULT_LANGUAGE_CODES.get(lang)
 
 
-def test_default_language_code(hass: __HAC_KEEP__) -> None:
+def test_default_language_code(hass: UniversalAssistant) -> None:
     """Test default_language_code."""
     assert default_language_code(hass) == "en-US"
 
@@ -49,7 +49,7 @@ def test_default_language_code(hass: __HAC_KEEP__) -> None:
     assert default_language_code(hass) == "en-US"
 
 
-def test_best_matching_language_code(hass: __HAC_KEEP__) -> None:
+def test_best_matching_language_code(hass: UniversalAssistant) -> None:
     """Test best_matching_language_code."""
     hass.config.language = "es"
     hass.config.country = "MX"

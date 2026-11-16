@@ -12,7 +12,7 @@ import probatio
 
 from universalassistant.components import http, websocket_api
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -57,12 +57,12 @@ class DiagnosticsPlatformData:
     """Diagnostic platform data."""
 
     config_entry_diagnostics: (
-        Callable[[__HAC_KEEP__, ConfigEntry], Coroutine[Any, Any, Mapping[str, Any]]]
+        Callable[[UniversalAssistant, ConfigEntry], Coroutine[Any, Any, Mapping[str, Any]]]
         | None
     )
     device_diagnostics: (
         Callable[
-            [__HAC_KEEP__, ConfigEntry, dr.AnyDeviceEntry],
+            [UniversalAssistant, ConfigEntry, dr.AnyDeviceEntry],
             Coroutine[Any, Any, Mapping[str, Any]],
         ]
         | None
@@ -76,7 +76,7 @@ class DiagnosticsData:
     platforms: dict[str, DiagnosticsPlatformData] = field(default_factory=dict)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up Diagnostics integration."""
     hass.data[_DIAGNOSTICS_DATA] = DiagnosticsData()
 
@@ -95,12 +95,12 @@ class DiagnosticsProtocol(Protocol):
     """Define the format that diagnostics platforms can have."""
 
     async def async_get_config_entry_diagnostics(
-        self, hass: __HAC_KEEP__, config_entry: ConfigEntry
+        self, hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> Mapping[str, Any]:
         """Return diagnostics for a config entry."""
 
     async def async_get_device_diagnostics(
-        self, hass: __HAC_KEEP__, config_entry: ConfigEntry, device: dr.AnyDeviceEntry
+        self, hass: UniversalAssistant, config_entry: ConfigEntry, device: dr.AnyDeviceEntry
     ) -> Mapping[str, Any]:
         """Return diagnostics for a device.
 
@@ -110,7 +110,7 @@ class DiagnosticsProtocol(Protocol):
 
 @callback
 def _register_diagnostics_platform(
-    hass: __HAC_KEEP__, integration_domain: str, platform: DiagnosticsProtocol
+    hass: UniversalAssistant, integration_domain: str, platform: DiagnosticsProtocol
 ) -> None:
     """Register a diagnostics platform."""
     diagnostics_data = hass.data[_DIAGNOSTICS_DATA]
@@ -124,7 +124,7 @@ def _register_diagnostics_platform(
 @websocket_api.websocket_command({probatio.Required("type"): "diagnostics/list"})
 @callback
 def handle_info(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
 ) -> None:
     """List all possible diagnostic handlers."""
     diagnostics_data = hass.data[_DIAGNOSTICS_DATA]
@@ -150,7 +150,7 @@ def handle_info(
 )
 @callback
 def handle_get(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
 ) -> None:
     """List all diagnostic handlers for a domain."""
     domain = msg["domain"]
@@ -192,7 +192,7 @@ def async_format_manifest(manifest: Manifest) -> Manifest:
 
 
 async def _async_get_json_file_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     data: Mapping[str, Any],
     data_issues: list[dict[str, Any]] | None,
     filename: str,
@@ -244,7 +244,7 @@ async def _async_get_json_file_response(
     )
 
 
-class DownloadDiagnosticsView(http.__HAC_KEEP__View):
+class DownloadDiagnosticsView(http.UniversalAssistantView):
     """Download diagnostics view."""
 
     url = "/api/diagnostics/{d_type}/{d_id}"

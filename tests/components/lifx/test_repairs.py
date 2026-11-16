@@ -10,7 +10,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from universalassistant.components.lifx import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -19,7 +19,7 @@ from . import IP_ADDRESS
 MALFORMED_UNIQUE_ID = "gg:bb:cc:dd:ee:cc"
 
 
-async def _setup_malformed_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def _setup_malformed_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Set up an entry whose stored serial cannot be migrated."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -35,7 +35,7 @@ async def _setup_malformed_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 
 async def test_invalid_serial_fix_flow_removes_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -67,7 +67,7 @@ async def test_invalid_serial_fix_flow_removes_entry(
 
 
 async def test_removing_entry_deletes_invalid_serial_issue(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test deleting the entry by hand also clears its repair issue."""
     entry = await _setup_malformed_entry(hass)
@@ -81,7 +81,7 @@ async def test_removing_entry_deletes_invalid_serial_issue(
 
 
 async def test_invalid_serial_fix_flow_entry_already_removed(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test confirming the repair after the entry was deleted by hand."""
     assert await async_setup_component(hass, "repairs", {})

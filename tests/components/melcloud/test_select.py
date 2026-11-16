@@ -12,7 +12,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_platform
@@ -22,7 +22,7 @@ OPERATION_MODE_ENTITY = "select.ecodan_zone_1_operation_mode"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_get_devices")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -45,7 +45,7 @@ async def test_all_entities(
 )
 @pytest.mark.usefixtures("mock_get_devices")
 async def test_select_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_atw_device: MagicMock,
     current_mode: str,
@@ -78,7 +78,7 @@ async def test_select_option(
 )
 @pytest.mark.usefixtures("mock_get_devices")
 async def test_current_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_atw_device: MagicMock,
     operation_mode: str,

@@ -26,7 +26,7 @@ from universalassistant.components.homee.const import (
     PRESET_SUMMER,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -55,7 +55,7 @@ async def platforms() -> AsyncGenerator[None]:
     ],
 )
 async def test_percentage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
     speed: int,
@@ -78,7 +78,7 @@ async def test_percentage(
     ],
 )
 async def test_preset_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
     mode_value: int,
@@ -115,7 +115,7 @@ async def test_preset_mode(
     ],
 )
 async def test_fan_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
     service: str,
@@ -140,7 +140,7 @@ async def test_fan_services(
 
 
 async def test_turn_on_preset_last_value_zero(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
 ) -> None:
@@ -163,7 +163,7 @@ async def test_turn_on_preset_last_value_zero(
 
 
 async def test_turn_on_invalid_preset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
 ) -> None:
@@ -184,7 +184,7 @@ async def test_turn_on_invalid_preset(
 
 
 async def test_fan_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

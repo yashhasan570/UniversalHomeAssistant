@@ -3,7 +3,7 @@
 import pytest
 
 from universalassistant.components.drop_connect.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from .common import config_entry_hub, config_entry_softener
@@ -14,7 +14,7 @@ SOFTENER_IDENTIFIER = (DOMAIN, "DROP-1_C0FFEE_0")
 
 @pytest.mark.usefixtures("mqtt_mock")
 async def test_sub_device_links_to_hub(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test a sub-device links to its hub via via_device_id when the hub exists."""
@@ -42,7 +42,7 @@ async def test_sub_device_links_to_hub(
 
 @pytest.mark.usefixtures("mqtt_mock")
 async def test_sub_device_without_hub(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test a sub-device set up without its hub is not linked and does not crash."""

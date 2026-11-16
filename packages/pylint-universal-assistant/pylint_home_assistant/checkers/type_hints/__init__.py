@@ -45,7 +45,7 @@ class HassTypeHintChecker(BaseChecker):
         "E7407": (
             "%s should be defined with `%s`",
             "universal-assistant-function-async-mismatch",
-            "Used when a function __HA_KEEP__ awaits is not a coroutine, "
+            "Used when a function Universal Home Assistant awaits is not a coroutine, "
             "or a function it runs in the executor is a coroutine",
         ),
         "R7401": (
@@ -209,7 +209,7 @@ class HassTypeHintChecker(BaseChecker):
     ) -> None:
         if self._ignore_function_match(node, annotations, match):
             return
-        # Nested functions are not loaded by __HA_KEEP__
+        # Nested functions are not loaded by Universal Home Assistant
         if match.coroutine is not None and node.parent is self._module_node:
             expected_coroutine = (
                 # explicit

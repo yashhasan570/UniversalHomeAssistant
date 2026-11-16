@@ -26,7 +26,7 @@ from universalassistant.components.homekit.type_heater_coolers import HeaterCool
 from universalassistant.components.homekit.type_thermostats import Thermostat
 from universalassistant.components.homekit.util import get_aid_storage_filename_for_entry_id
 from universalassistant.const import ATTR_SUPPORTED_FEATURES, CONF_NAME, CONF_PORT, CONF_TYPE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entityfilter import (
     CONF_EXCLUDE_DOMAINS,
     CONF_EXCLUDE_ENTITIES,
@@ -77,7 +77,7 @@ async def _async_stop_bridge(homekit: HomeKit) -> None:
 
 
 async def _async_start_bridge(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
     entity_config: dict[str, Any] | None = None,
     homekit_mode: str = HOMEKIT_MODE_BRIDGE,
@@ -127,7 +127,7 @@ async def _async_start_bridge(
 
 @pytest.mark.usefixtures("mock_async_zeroconf", "hk_driver")
 async def test_existing_entity_stays_thermostat(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test a previously bridged entity keeps the Thermostat."""
@@ -151,7 +151,7 @@ async def test_existing_entity_stays_thermostat(
 
 @pytest.mark.usefixtures("mock_async_zeroconf", "hk_driver")
 async def test_new_entity_routes_to_heater_cooler(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a never bridged entity gets the HeaterCooler."""
     entry = MockConfigEntry(
@@ -170,7 +170,7 @@ async def test_new_entity_routes_to_heater_cooler(
 
 @pytest.mark.usefixtures("mock_async_zeroconf", "hk_driver")
 async def test_reset_does_not_allocate_for_unbridged_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test resetting an entity another bridge owns does not allocate."""
     entry = MockConfigEntry(
@@ -194,7 +194,7 @@ async def test_reset_does_not_allocate_for_unbridged_entities(
 
 @pytest.mark.usefixtures("mock_async_zeroconf", "hk_driver")
 async def test_failed_accessory_creation_is_not_recorded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a failed accessory creation does not persist the auto routing."""
     entry = MockConfigEntry(
@@ -222,7 +222,7 @@ async def test_failed_accessory_creation_is_not_recorded(
 
 @pytest.mark.usefixtures("mock_async_zeroconf", "hk_driver")
 async def test_heater_cooler_choice_survives_restart(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the automatic HeaterCooler choice persists across restarts."""
     entry = MockConfigEntry(
@@ -246,7 +246,7 @@ async def test_heater_cooler_choice_survives_restart(
 
 @pytest.mark.usefixtures("mock_async_zeroconf", "hk_driver")
 async def test_gained_humidity_setpoint_drops_stored_choice(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a stored HeaterCooler choice is dropped for a humidity setpoint."""
     entry = MockConfigEntry(
@@ -277,7 +277,7 @@ async def test_gained_humidity_setpoint_drops_stored_choice(
 
 @pytest.mark.usefixtures("mock_async_zeroconf", "hk_driver")
 async def test_automatic_keeps_explicit_choice(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test an explicit type updates the stored routing for automatic."""
     entry = MockConfigEntry(
@@ -310,7 +310,7 @@ async def test_automatic_keeps_explicit_choice(
 
 @pytest.mark.usefixtures("mock_async_zeroconf", "hk_driver")
 async def test_accessory_mode_existing_pairing_stays_thermostat(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test an existing accessory mode pairing keeps the Thermostat."""
     entry = MockConfigEntry(
@@ -329,7 +329,7 @@ async def test_accessory_mode_existing_pairing_stays_thermostat(
 
 @pytest.mark.usefixtures("mock_async_zeroconf", "hk_driver")
 async def test_stored_thermostat_survives_pairing_reset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a stored Thermostat choice is kept when the entity looks new."""
     entry = MockConfigEntry(
@@ -359,7 +359,7 @@ async def test_stored_thermostat_survives_pairing_reset(
 
 @pytest.mark.usefixtures("mock_async_zeroconf", "hk_driver")
 async def test_accessory_mode_new_pairing_routes_heater_cooler(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a brand new accessory mode pairing picks the HeaterCooler."""
     entry = MockConfigEntry(
@@ -378,7 +378,7 @@ async def test_accessory_mode_new_pairing_routes_heater_cooler(
 
 @pytest.mark.usefixtures("mock_async_zeroconf", "hk_driver")
 async def test_explicit_heater_cooler_wins_over_humidity_safeguard(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test an explicit heater_cooler type wins for a humidity entity."""
@@ -407,7 +407,7 @@ async def test_explicit_heater_cooler_wins_over_humidity_safeguard(
 
 @pytest.mark.usefixtures("mock_async_zeroconf", "hk_driver")
 async def test_explicit_type_wins_for_existing_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test an entity with a configured type uses it."""

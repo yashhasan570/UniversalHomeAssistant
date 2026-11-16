@@ -32,8 +32,8 @@ from universalassistant.const import (
     SERVICE_TURN_OFF,
     SERVICE_TURN_ON,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import utcnow
 
@@ -57,7 +57,7 @@ def ceiling_fan_with_breeze(name: str):
 
 
 async def turn_fan_on(
-    hass: core.__HAC_KEEP__,
+    hass: core.UniversalAssistant,
     fan_id: str,
     percentage: int | None = None,
     preset_mode: str | None = None,
@@ -78,7 +78,7 @@ async def turn_fan_on(
 
 
 async def test_entity_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -98,7 +98,7 @@ async def test_entity_registry(
     assert device.configuration_url == "http://some host"
 
 
-async def test_non_standard_speed_list(hass: __HAC_KEEP__) -> None:
+async def test_non_standard_speed_list(hass: UniversalAssistant) -> None:
     """Tests device is registered with custom speed list if speeds differ from 3."""
     await setup_platform(
         hass,
@@ -128,7 +128,7 @@ async def test_non_standard_speed_list(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_fan_speed_with_no_max_speed(hass: __HAC_KEEP__) -> None:
+async def test_fan_speed_with_no_max_speed(hass: UniversalAssistant) -> None:
     """Tests fans without max speed (increase/decrease) map speed to HA standard."""
     await setup_platform(
         hass,
@@ -142,7 +142,7 @@ async def test_fan_speed_with_no_max_speed(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("fan.name_1").attributes["percentage"] == 100
 
 
-async def test_turn_on_fan_with_speed(hass: __HAC_KEEP__) -> None:
+async def test_turn_on_fan_with_speed(hass: UniversalAssistant) -> None:
     """Tests that turn on command delegates to set speed API."""
     await setup_platform(
         hass, FAN_DOMAIN, ceiling_fan("name-1"), bond_device_id="test-device-id"
@@ -154,7 +154,7 @@ async def test_turn_on_fan_with_speed(hass: __HAC_KEEP__) -> None:
     mock_set_speed.assert_called_with("test-device-id", Action.set_speed(1))
 
 
-async def test_turn_on_fan_with_percentage_3_speeds(hass: __HAC_KEEP__) -> None:
+async def test_turn_on_fan_with_percentage_3_speeds(hass: UniversalAssistant) -> None:
     """Tests that turn on command delegates to set speed API."""
     await setup_platform(
         hass, FAN_DOMAIN, ceiling_fan("name-1"), bond_device_id="test-device-id"
@@ -178,7 +178,7 @@ async def test_turn_on_fan_with_percentage_3_speeds(hass: __HAC_KEEP__) -> None:
     mock_set_speed.assert_called_with("test-device-id", Action.set_speed(3))
 
 
-async def test_turn_on_fan_with_percentage_6_speeds(hass: __HAC_KEEP__) -> None:
+async def test_turn_on_fan_with_percentage_6_speeds(hass: UniversalAssistant) -> None:
     """Tests that turn on command delegates to set speed API."""
     await setup_platform(
         hass,
@@ -206,7 +206,7 @@ async def test_turn_on_fan_with_percentage_6_speeds(hass: __HAC_KEEP__) -> None:
     mock_set_speed.assert_called_with("test-device-id", Action.set_speed(6))
 
 
-async def test_turn_on_fan_preset_mode(hass: __HAC_KEEP__) -> None:
+async def test_turn_on_fan_preset_mode(hass: UniversalAssistant) -> None:
     """Tests that turn on command delegates to breeze on API."""
     await setup_platform(
         hass,
@@ -238,7 +238,7 @@ async def test_turn_on_fan_preset_mode(hass: __HAC_KEEP__) -> None:
     mock_set_preset_mode.assert_called_with("test-device-id", Action(Action.BREEZE_ON))
 
 
-async def test_turn_on_fan_preset_mode_not_supported(hass: __HAC_KEEP__) -> None:
+async def test_turn_on_fan_preset_mode_not_supported(hass: UniversalAssistant) -> None:
     """Tests calling breeze mode on a fan that does not support it raises."""
     await setup_platform(
         hass,
@@ -271,7 +271,7 @@ async def test_turn_on_fan_preset_mode_not_supported(hass: __HAC_KEEP__) -> None
         )
 
 
-async def test_turn_on_fan_with_off_with_breeze(hass: __HAC_KEEP__) -> None:
+async def test_turn_on_fan_with_off_with_breeze(hass: UniversalAssistant) -> None:
     """Tests that turn off command delegates to turn off API."""
     await setup_platform(
         hass,
@@ -294,7 +294,7 @@ async def test_turn_on_fan_with_off_with_breeze(hass: __HAC_KEEP__) -> None:
     ]
 
 
-async def test_turn_on_fan_without_speed(hass: __HAC_KEEP__) -> None:
+async def test_turn_on_fan_without_speed(hass: UniversalAssistant) -> None:
     """Tests that turn on command delegates to turn on API."""
     await setup_platform(
         hass, FAN_DOMAIN, ceiling_fan("name-1"), bond_device_id="test-device-id"
@@ -306,7 +306,7 @@ async def test_turn_on_fan_without_speed(hass: __HAC_KEEP__) -> None:
     mock_turn_on.assert_called_with("test-device-id", Action.turn_on())
 
 
-async def test_turn_on_fan_with_off_percentage(hass: __HAC_KEEP__) -> None:
+async def test_turn_on_fan_with_off_percentage(hass: UniversalAssistant) -> None:
     """Tests that turn off command delegates to turn off API."""
     await setup_platform(
         hass, FAN_DOMAIN, ceiling_fan("name-1"), bond_device_id="test-device-id"
@@ -318,7 +318,7 @@ async def test_turn_on_fan_with_off_percentage(hass: __HAC_KEEP__) -> None:
     mock_turn_off.assert_called_with("test-device-id", Action.turn_off())
 
 
-async def test_set_speed_off(hass: __HAC_KEEP__) -> None:
+async def test_set_speed_off(hass: UniversalAssistant) -> None:
     """Tests that set_speed(off) command delegates to turn off API."""
     await setup_platform(
         hass, FAN_DOMAIN, ceiling_fan("name-1"), bond_device_id="test-device-id"
@@ -336,7 +336,7 @@ async def test_set_speed_off(hass: __HAC_KEEP__) -> None:
     mock_turn_off.assert_called_with("test-device-id", Action.turn_off())
 
 
-async def test_turn_off_fan(hass: __HAC_KEEP__) -> None:
+async def test_turn_off_fan(hass: UniversalAssistant) -> None:
     """Tests that turn off command delegates to API."""
     await setup_platform(
         hass, FAN_DOMAIN, ceiling_fan("name-1"), bond_device_id="test-device-id"
@@ -354,7 +354,7 @@ async def test_turn_off_fan(hass: __HAC_KEEP__) -> None:
     mock_turn_off.assert_called_once_with("test-device-id", Action.turn_off())
 
 
-async def test_set_speed_belief_speed_zero(hass: __HAC_KEEP__) -> None:
+async def test_set_speed_belief_speed_zero(hass: UniversalAssistant) -> None:
     """Tests that set power belief service delegates to API."""
     await setup_platform(
         hass, FAN_DOMAIN, ceiling_fan("name-1"), bond_device_id="test-device-id"
@@ -374,14 +374,14 @@ async def test_set_speed_belief_speed_zero(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_set_speed_belief_speed_api_error(hass: __HAC_KEEP__) -> None:
+async def test_set_speed_belief_speed_api_error(hass: UniversalAssistant) -> None:
     """Tests that set power belief service delegates to API."""
     await setup_platform(
         hass, FAN_DOMAIN, ceiling_fan("name-1"), bond_device_id="test-device-id"
     )
 
     with (
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
         patch_bond_action_returns_clientresponseerror(),
         patch_bond_device_state(),
     ):
@@ -393,7 +393,7 @@ async def test_set_speed_belief_speed_api_error(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_set_speed_belief_speed_100(hass: __HAC_KEEP__) -> None:
+async def test_set_speed_belief_speed_100(hass: UniversalAssistant) -> None:
     """Tests that set power belief service delegates to API."""
     await setup_platform(
         hass, FAN_DOMAIN, ceiling_fan("name-1"), bond_device_id="test-device-id"
@@ -412,7 +412,7 @@ async def test_set_speed_belief_speed_100(hass: __HAC_KEEP__) -> None:
     mock_action.assert_called_with("test-device-id", Action.set_speed_belief(3))
 
 
-async def test_update_reports_fan_on(hass: __HAC_KEEP__) -> None:
+async def test_update_reports_fan_on(hass: UniversalAssistant) -> None:
     """Tests that update sets correct state when Bond API reports fan power is on."""
     await setup_platform(hass, FAN_DOMAIN, ceiling_fan("name-1"))
 
@@ -423,7 +423,7 @@ async def test_update_reports_fan_on(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("fan.name_1").state == "on"
 
 
-async def test_update_reports_fan_off(hass: __HAC_KEEP__) -> None:
+async def test_update_reports_fan_off(hass: UniversalAssistant) -> None:
     """Tests that update sets correct state when Bond API reports fan power is off."""
     await setup_platform(hass, FAN_DOMAIN, ceiling_fan("name-1"))
 
@@ -434,7 +434,7 @@ async def test_update_reports_fan_off(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("fan.name_1").state == "off"
 
 
-async def test_update_reports_direction_forward(hass: __HAC_KEEP__) -> None:
+async def test_update_reports_direction_forward(hass: UniversalAssistant) -> None:
     """Tests update sets correct direction when Bond API reports forward."""
     await setup_platform(hass, FAN_DOMAIN, ceiling_fan("name-1"))
 
@@ -445,7 +445,7 @@ async def test_update_reports_direction_forward(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("fan.name_1").attributes[ATTR_DIRECTION] == DIRECTION_FORWARD
 
 
-async def test_update_reports_direction_reverse(hass: __HAC_KEEP__) -> None:
+async def test_update_reports_direction_reverse(hass: UniversalAssistant) -> None:
     """Tests update sets correct direction when Bond API reports reverse."""
     await setup_platform(hass, FAN_DOMAIN, ceiling_fan("name-1"))
 
@@ -456,7 +456,7 @@ async def test_update_reports_direction_reverse(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("fan.name_1").attributes[ATTR_DIRECTION] == DIRECTION_REVERSE
 
 
-async def test_set_fan_direction(hass: __HAC_KEEP__) -> None:
+async def test_set_fan_direction(hass: UniversalAssistant) -> None:
     """Tests that set direction command delegates to API."""
     await setup_platform(
         hass, FAN_DOMAIN, ceiling_fan("name-1"), bond_device_id="test-device-id"
@@ -476,7 +476,7 @@ async def test_set_fan_direction(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_fan_available(hass: __HAC_KEEP__) -> None:
+async def test_fan_available(hass: UniversalAssistant) -> None:
     """Tests that available state is updated based on API errors."""
     await help_test_entity_available(
         hass, FAN_DOMAIN, ceiling_fan("name-1"), "fan.name_1"
@@ -484,7 +484,7 @@ async def test_fan_available(hass: __HAC_KEEP__) -> None:
 
 
 async def test_setup_smart_by_bond_fan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -515,7 +515,7 @@ async def test_setup_smart_by_bond_fan(
 
 
 async def test_setup_hub_template_fan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:

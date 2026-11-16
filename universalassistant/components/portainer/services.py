@@ -6,7 +6,7 @@ from enum import StrEnum
 import probatio
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import (
     config_validation as cv,
@@ -181,7 +181,7 @@ async def recreate_container(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up services."""
 
     service.async_register_admin_service(

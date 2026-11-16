@@ -6,7 +6,7 @@ from kaleidescape import const as kaleidescape_const
 import pytest
 
 from universalassistant.const import ATTR_FRIENDLY_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import MOCK_SERIAL
@@ -17,7 +17,7 @@ FRIENDLY_NAME = f"Kaleidescape Device {MOCK_SERIAL}"
 
 @pytest.mark.usefixtures("mock_integration")
 async def test_sensors(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_device: MagicMock
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_device: MagicMock
 ) -> None:
     """Test sensors."""
     entity = hass.states.get(f"{ENTITY_ID}_media_location")

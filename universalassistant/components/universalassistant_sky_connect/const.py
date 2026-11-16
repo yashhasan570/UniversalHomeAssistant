@@ -1,4 +1,4 @@
-"""Constants for the __HA_KEEP__ SkyConnect integration."""
+"""Constants for the Universal Home Assistant SkyConnect integration."""
 
 import dataclasses
 import enum
@@ -37,13 +37,13 @@ class HardwareVariant(VariantInfo, enum.Enum):
     SKYCONNECT = (
         "SkyConnect v1.0",
         "SkyConnect",
-        "__HA_KEEP__ SkyConnect",
+        "Universal Home Assistant SkyConnect",
     )
 
     CONNECT_ZBT1 = (
-        "__HA_KEEP__ Connect ZBT-1",
+        "Universal Home Assistant Connect ZBT-1",
         "Connect ZBT-1",
-        "__HA_KEEP__ Connect ZBT-1",
+        "Universal Home Assistant Connect ZBT-1",
     )
 
     @classmethod

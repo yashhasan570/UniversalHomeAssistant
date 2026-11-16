@@ -20,13 +20,13 @@ from universalassistant.components.open_router.const import (
 )
 from universalassistant.config_entries import ConfigEntryState, ConfigSubentryData
 from universalassistant.const import CONF_API_KEY, CONF_LLM_HASS_API, CONF_MODEL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
 
 async def test_migrate_entry_from_v1_1_to_v1_4(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client_setup: AsyncMock,
 ) -> None:
     """Test migration from version 1.1 to 1.4."""
@@ -100,7 +100,7 @@ async def test_migrate_entry_from_v1_1_to_v1_4(
 
 
 async def test_migrate_entry_from_v1_2_to_v1_4(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client_setup: AsyncMock,
 ) -> None:
     """Test migration from version 1.2 to 1.4."""
@@ -164,7 +164,7 @@ async def test_migrate_entry_from_v1_2_to_v1_4(
 
 
 async def test_migrate_entry_web_search_not_reapplied(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client_setup: AsyncMock,
 ) -> None:
     """Test the web search migration is not reapplied to a 1.3 entry."""
@@ -207,7 +207,7 @@ async def test_migrate_entry_web_search_not_reapplied(
 
 
 async def test_migrate_entry_v1_3_to_v1_4_unknown_model(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client_setup: AsyncMock,
 ) -> None:
     """Test migration backfills empty modalities for an unknown model."""
@@ -246,7 +246,7 @@ async def test_migrate_entry_v1_3_to_v1_4_unknown_model(
 
 
 async def test_migrate_entry_v1_3_to_v1_4_keeps_existing_modalities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client_setup: AsyncMock,
 ) -> None:
     """Test migration does not overwrite already stored output modalities."""
@@ -313,7 +313,7 @@ async def test_migrate_entry_v1_3_to_v1_4_keeps_existing_modalities(
     ],
 )
 async def test_migrate_entry_v1_3_to_v1_4_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client_setup: AsyncMock,
     side_effect: Exception,
     state: ConfigEntryState,
@@ -354,7 +354,7 @@ async def test_migrate_entry_v1_3_to_v1_4_api_error(
 
 
 async def test_migrate_entry_from_future_version_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test migration fails for future versions."""
     entry = MockConfigEntry(
@@ -399,7 +399,7 @@ async def test_migrate_entry_from_future_version_fails(
     ],
 )
 async def test_setup_entry_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,

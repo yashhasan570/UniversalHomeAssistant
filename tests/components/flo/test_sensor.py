@@ -12,13 +12,13 @@ from universalassistant.components.universalassistant import (
 )
 from universalassistant.components.sensor import ATTR_STATE_CLASS, SensorStateClass
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
 
 @pytest.mark.usefixtures("aioclient_mock_fixture")
-async def test_sensors(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def test_sensors(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Test Flo by Moen sensors."""
     hass.config.units = US_CUSTOMARY_SYSTEM
     config_entry.add_to_hass(hass)
@@ -87,7 +87,7 @@ async def test_sensors(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> Non
 
 @pytest.mark.usefixtures("aioclient_mock_fixture")
 async def test_manual_update_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -111,7 +111,7 @@ async def test_manual_update_entity(
 @pytest.mark.parametrize("device_info_response", [225, 212, 220], indirect=True)
 @pytest.mark.usefixtures("aioclient_mock_fixture")
 async def test_water_temperature_placeholder_is_not_published(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """A valve with no temperature sensor reports a placeholder, not a reading."""
     hass.config.units = US_CUSTOMARY_SYSTEM
@@ -131,7 +131,7 @@ async def test_water_temperature_placeholder_is_not_published(
 @pytest.mark.parametrize("device_info_response", [211.9, 70], indirect=True)
 @pytest.mark.usefixtures("aioclient_mock_fixture")
 async def test_water_temperature_below_threshold_is_published(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, device_info_response: str
+    hass: UniversalAssistant, config_entry: MockConfigEntry, device_info_response: str
 ) -> None:
     """Anything below boiling is a real reading and is published."""
     hass.config.units = US_CUSTOMARY_SYSTEM

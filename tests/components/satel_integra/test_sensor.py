@@ -19,7 +19,7 @@ from universalassistant.components.satel_integra.coordinator import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
 
@@ -37,7 +37,7 @@ async def sensor_only() -> AsyncGenerator[None]:
 
 
 async def test_sensor_not_created_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
     entity_registry: EntityRegistry,
@@ -55,7 +55,7 @@ async def test_sensor_not_created_by_default(
 
 
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_satel: AsyncMock,
     mock_config_entry_with_temperature_zone: MockConfigEntry,
@@ -82,7 +82,7 @@ async def test_sensors(
 
 
 async def test_temperature_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_temperature_zone: MockConfigEntry,
     entity_registry: EntityRegistry,
@@ -113,7 +113,7 @@ async def test_temperature_sensor(
 
 
 async def test_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_temperature_zone: MockConfigEntry,
 ) -> None:

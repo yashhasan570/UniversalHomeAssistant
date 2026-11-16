@@ -7,7 +7,7 @@ from togrill_bluetooth.client import Client
 from togrill_bluetooth.exceptions import BaseError
 from togrill_bluetooth.packets import PacketWrite
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN
@@ -29,7 +29,7 @@ class ToGrillEntity(CoordinatorEntity[ToGrillCoordinator]):
     def _get_client(self) -> Client:
         client = self.coordinator.client
         if client is None or not client.is_connected:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="disconnected"
             )
         return client
@@ -40,12 +40,12 @@ class ToGrillEntity(CoordinatorEntity[ToGrillCoordinator]):
             await client.write(packet)
         except BleakError as exc:
             LOGGER.debug("Failed to write", exc_info=True)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="communication_failed"
             ) from exc
         except BaseError as exc:
             LOGGER.debug("Failed to write", exc_info=True)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="rejected"
             ) from exc
         await self.coordinator.async_request_refresh()

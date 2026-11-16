@@ -19,8 +19,8 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import ConfigEntryError, __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ConfigEntryError, UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -58,7 +58,7 @@ class NetioDataUpdateCoordinator(DataUpdateCoordinator[dict[int, Netio.OUTPUT]])
     device: Netio
     device_info: DeviceInfo
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: NetioConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: NetioConfigEntry) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,
@@ -117,7 +117,7 @@ class NetioDataUpdateCoordinator(DataUpdateCoordinator[dict[int, Netio.OUTPUT]])
                 self.device.set_output, output_id, action
             )
         except (AuthError, CommunicationError, requests.RequestException) as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Error setting output {output_id}: {err}"
             ) from err
 

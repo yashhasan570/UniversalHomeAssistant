@@ -2,13 +2,13 @@
 
 from typing import Any
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import GoodweConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: GoodweConfigEntry
+    hass: UniversalAssistant, config_entry: GoodweConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     inverter = config_entry.runtime_data.inverter

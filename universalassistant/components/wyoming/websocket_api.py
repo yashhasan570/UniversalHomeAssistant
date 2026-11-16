@@ -6,7 +6,7 @@ from typing import Any
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 from .const import DOMAIN
 from .models import WyomingConfigEntry
@@ -15,7 +15,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @callback
-def async_register_websocket_api(hass: __HAC_KEEP__) -> None:
+def async_register_websocket_api(hass: UniversalAssistant) -> None:
     """Register the websocket API."""
     websocket_api.async_register_command(hass, websocket_info)
 
@@ -24,7 +24,7 @@ def async_register_websocket_api(hass: __HAC_KEEP__) -> None:
 @websocket_api.require_admin
 @websocket_api.websocket_command({probatio.Required("type"): "wyoming/info"})
 def websocket_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

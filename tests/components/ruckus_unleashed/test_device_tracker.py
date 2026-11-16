@@ -20,7 +20,7 @@ from universalassistant.const import (
     STATE_NOT_HOME,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 from universalassistant.util import utcnow
@@ -37,7 +37,7 @@ from . import (
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_client_connected(hass: __HAC_KEEP__) -> None:
+async def test_client_connected(hass: UniversalAssistant) -> None:
     """Test client connected."""
     await init_integration(hass)
 
@@ -52,7 +52,7 @@ async def test_client_connected(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_client_disconnected(hass: __HAC_KEEP__) -> None:
+async def test_client_disconnected(hass: UniversalAssistant) -> None:
     """Test client disconnected."""
     await init_integration(hass)
 
@@ -67,7 +67,7 @@ async def test_client_disconnected(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_clients_update_failed(hass: __HAC_KEEP__) -> None:
+async def test_clients_update_failed(hass: UniversalAssistant) -> None:
     """Test failed update."""
     await init_integration(hass)
 
@@ -84,7 +84,7 @@ async def test_clients_update_failed(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_clients_update_auth_failed(hass: __HAC_KEEP__) -> None:
+async def test_clients_update_auth_failed(hass: UniversalAssistant) -> None:
     """Test failed update with bad auth."""
     await init_integration(hass)
 
@@ -101,7 +101,7 @@ async def test_clients_update_auth_failed(hass: __HAC_KEEP__) -> None:
 
 
 async def test_restoring_clients(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -135,7 +135,7 @@ async def test_restoring_clients(
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_mac_filter_tracks_only_allowed(hass: __HAC_KEEP__) -> None:
+async def test_mac_filter_tracks_only_allowed(hass: UniversalAssistant) -> None:
     """Test that only allowed MACs are tracked when filter is set."""
     entry = mock_config_entry(options={CONF_MAC_FILTER: [TEST_CLIENT[API_CLIENT_MAC]]})
     entry.add_to_hass(hass)
@@ -154,7 +154,7 @@ async def test_mac_filter_tracks_only_allowed(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_empty_mac_filter_tracks_all(hass: __HAC_KEEP__) -> None:
+async def test_empty_mac_filter_tracks_all(hass: UniversalAssistant) -> None:
     """Test that an empty filter tracks all clients."""
     entry = mock_config_entry(options={CONF_MAC_FILTER: []})
     entry.add_to_hass(hass)
@@ -171,7 +171,7 @@ async def test_empty_mac_filter_tracks_all(hass: __HAC_KEEP__) -> None:
 
 
 async def test_mac_filter_restore_respects_filter(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that restore_entities respects the MAC filter."""
     entry = mock_config_entry(options={CONF_MAC_FILTER: [TEST_CLIENT[API_CLIENT_MAC]]})
@@ -207,7 +207,7 @@ async def test_mac_filter_restore_respects_filter(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_client_device_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -231,7 +231,7 @@ async def test_client_device_name(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_client_without_hostname(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -257,7 +257,7 @@ async def test_client_without_hostname(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_client_hostname_change_renames_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -305,7 +305,7 @@ async def test_client_hostname_change_renames_device(
     ],
 )
 async def test_restoring_client_name_with_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     device_name: str,
@@ -343,7 +343,7 @@ async def test_restoring_client_name_with_device(
 
 
 async def test_restoring_client_name_without_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:

@@ -1,14 +1,14 @@
 """application_credentials platform for Google Drive."""
 
 from universalassistant.components.application_credentials import AuthorizationServer
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.config_entry_oauth2_flow import (
     AUTH_CALLBACK_PATH,
     MY_AUTH_CALLBACK_PATH,
 )
 
 
-async def async_get_authorization_server(hass: __HAC_KEEP__) -> AuthorizationServer:
+async def async_get_authorization_server(hass: UniversalAssistant) -> AuthorizationServer:
     """Return authorization server."""
     return AuthorizationServer(
         "https://accounts.google.com/o/oauth2/v2/auth",
@@ -16,7 +16,7 @@ async def async_get_authorization_server(hass: __HAC_KEEP__) -> AuthorizationSer
     )
 
 
-async def async_get_description_placeholders(hass: __HAC_KEEP__) -> dict[str, str]:
+async def async_get_description_placeholders(hass: UniversalAssistant) -> dict[str, str]:
     """Return description placeholders for the credentials dialog."""
     if "my" in hass.config.components:
         redirect_url = MY_AUTH_CALLBACK_PATH

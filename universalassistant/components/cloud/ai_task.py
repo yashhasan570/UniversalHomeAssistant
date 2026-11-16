@@ -1,4 +1,4 @@
-"""AI Task integration for __HA_KEEP__ Cloud."""
+"""AI Task integration for Universal Home Assistant Cloud."""
 
 import io
 from json import JSONDecodeError
@@ -16,8 +16,8 @@ from hass_nabucasa.llm import (
 from PIL import Image
 
 from universalassistant.components import ai_task, conversation
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.json import json_loads
 
@@ -47,7 +47,7 @@ def _convert_image_for_editing(data: bytes) -> tuple[bytes, str]:
 
 
 async def async_prepare_image_generation_attachments(
-    hass: __HAC_KEEP__, attachments: list[conversation.Attachment]
+    hass: UniversalAssistant, attachments: list[conversation.Attachment]
 ) -> list[LLMImageAttachment]:
     """Load attachment data for image generation."""
 
@@ -57,22 +57,22 @@ async def async_prepare_image_generation_attachments(
             if not attachment.mime_type or not attachment.mime_type.startswith(
                 "image/"
             ):
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     "Only image attachments are supported for image generation"
                 )
             path = attachment.path
             if not path.exists():
-                raise __HAC_KEEP__Error(f"`{path}` does not exist")
+                raise UniversalAssistantError(f"`{path}` does not exist")
 
             data = path.read_bytes()
             mime_type = attachment.mime_type
 
             try:
                 data, mime_type = _convert_image_for_editing(data)
-            except __HAC_KEEP__Error:
+            except UniversalAssistantError:
                 raise
             except Exception as err:
-                raise __HAC_KEEP__Error("Failed to process image attachment") from err
+                raise UniversalAssistantError("Failed to process image attachment") from err
 
             items.append(
                 LLMImageAttachment(
@@ -88,17 +88,17 @@ async def async_prepare_image_generation_attachments(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: CloudConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
-    """Set up __HA_KEEP__ Cloud AI Task entity."""
+    """Set up Universal Home Assistant Cloud AI Task entity."""
     cloud = hass.data[DATA_CLOUD]
     async_add_entities([CloudAITaskEntity(cloud, config_entry)])
 
 
 class CloudAITaskEntity(BaseCloudLLMEntity, ai_task.AITaskEntity):
-    """__HA_KEEP__ Cloud AI Task entity."""
+    """Universal Home Assistant Cloud AI Task entity."""
 
     _attr_has_entity_name = True
     _attr_supported_features = (
@@ -127,7 +127,7 @@ class CloudAITaskEntity(BaseCloudLLMEntity, ai_task.AITaskEntity):
         )
 
         if not isinstance(chat_log.content[-1], conversation.AssistantContent):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Last content in chat log is not an AssistantContent"
             )
 
@@ -147,7 +147,7 @@ class CloudAITaskEntity(BaseCloudLLMEntity, ai_task.AITaskEntity):
                 err,
                 text,
             )
-            raise __HAC_KEEP__Error("Error with OpenAI structured response") from err
+            raise UniversalAssistantError("Error with OpenAI structured response") from err
 
         return ai_task.GenDataTaskResult(
             conversation_id=chat_log.conversation_id,
@@ -178,15 +178,15 @@ class CloudAITaskEntity(BaseCloudLLMEntity, ai_task.AITaskEntity):
                     attachments=attachments,
                 )
         except LLMAuthenticationError as err:
-            raise __HAC_KEEP__Error("Cloud LLM authentication failed") from err
+            raise UniversalAssistantError("Cloud LLM authentication failed") from err
         except LLMRateLimitError as err:
-            raise __HAC_KEEP__Error("Cloud LLM is rate limited") from err
+            raise UniversalAssistantError("Cloud LLM is rate limited") from err
         except LLMResponseError as err:
-            raise __HAC_KEEP__Error(str(err)) from err
+            raise UniversalAssistantError(str(err)) from err
         except LLMServiceError as err:
-            raise __HAC_KEEP__Error("Error talking to Cloud LLM") from err
+            raise UniversalAssistantError("Error talking to Cloud LLM") from err
         except LLMError as err:
-            raise __HAC_KEEP__Error(str(err)) from err
+            raise UniversalAssistantError(str(err)) from err
 
         return ai_task.GenImageTaskResult(
             conversation_id=chat_log.conversation_id,

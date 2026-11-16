@@ -7,13 +7,13 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.buienradar.const import DOMAIN
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 TEST_CFG_DATA = {CONF_LATITUDE: 51.5288504, CONF_LONGITUDE: 5.4002156}
 
 
 async def test_smoke_test_setup_component(
-    aioclient_mock: AiohttpClientMocker, hass: __HAC_KEEP__
+    aioclient_mock: AiohttpClientMocker, hass: UniversalAssistant
 ) -> None:
     """Smoke test for successfully set-up with default config."""
     aioclient_mock.get(

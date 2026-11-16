@@ -2,7 +2,7 @@
 
 from typing import TYPE_CHECKING
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 
 from .const import CONF_ACCOUNT_NUMBER, DOMAIN
@@ -19,7 +19,7 @@ def consent_required_issue_id(account_number: str) -> str:
 
 
 def async_create_consent_required_issue(
-    hass: __HAC_KEEP__, entry: AnglianWaterConfigEntry
+    hass: UniversalAssistant, entry: AnglianWaterConfigEntry
 ) -> None:
     """Create a repair issue directing the user to accept updated terms."""
     account_number = entry.data[CONF_ACCOUNT_NUMBER]
@@ -39,7 +39,7 @@ def async_create_consent_required_issue(
 
 
 def async_delete_consent_required_issue(
-    hass: __HAC_KEEP__, account_number: str
+    hass: UniversalAssistant, account_number: str
 ) -> None:
     """Delete the consent-required repair issue if it exists."""
     ir.async_delete_issue(

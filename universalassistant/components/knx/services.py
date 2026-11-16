@@ -14,13 +14,13 @@ from xknx.telegram.apci import GroupValueRead, GroupValueResponse, GroupValueWri
 
 from universalassistant.const import SERVICE_RELOAD, Platform
 from universalassistant.core import (
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service import (
     async_register_admin_service,
@@ -68,7 +68,7 @@ READ_RESPONSE_TIMEOUT = 2.0
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register KNX integration services."""
     hass.services.async_register(
         DOMAIN,
@@ -122,12 +122,12 @@ def async_setup_services(hass: __HAC_KEEP__) -> None:
 
 
 @callback
-def get_knx_module(hass: __HAC_KEEP__) -> KNXModule:
+def get_knx_module(hass: UniversalAssistant) -> KNXModule:
     """Return KNXModule instance."""
     try:
         return hass.data[KNX_MODULE_KEY]
     except KeyError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN, translation_key="integration_not_loaded"
         ) from err
 
@@ -163,7 +163,7 @@ async def service_event_register_modify(call: ServiceCall) -> None:
 
         if not _error_gas:
             return
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="service_event_register_ga_not_found",
             translation_placeholders={
@@ -359,7 +359,7 @@ async def _read_with_response(knx_module: KNXModule, address: str) -> ServiceRes
     )
     telegram = await value_reader.read()
     if telegram is None:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="service_read_no_response",
             translation_placeholders={"address": address},

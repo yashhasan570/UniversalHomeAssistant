@@ -13,7 +13,7 @@ from pytest_universalassistant.common import (
 
 from universalassistant.components.rainmachine.const import DOMAIN
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PASSWORD, CONF_PORT, CONF_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
@@ -36,7 +36,7 @@ def config_fixture() -> dict[str, Any]:
 
 @pytest.fixture(name="config_entry")
 def config_entry_fixture(
-    hass: __HAC_KEEP__, config: dict[str, Any], controller_mac: str
+    hass: UniversalAssistant, config: dict[str, Any], controller_mac: str
 ) -> MockConfigEntry:
     """Define a config entry fixture."""
     entry = MockConfigEntry(
@@ -152,7 +152,7 @@ def data_zones_fixture():
 
 @pytest.fixture(name="setup_rainmachine")
 async def setup_rainmachine_fixture(
-    hass: __HAC_KEEP__, client: AsyncMock, config: dict[str, Any]
+    hass: UniversalAssistant, client: AsyncMock, config: dict[str, Any]
 ) -> AsyncGenerator[None]:
     """Define a fixture to set up RainMachine."""
     with (

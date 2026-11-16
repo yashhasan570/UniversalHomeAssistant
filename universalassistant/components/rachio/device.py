@@ -8,11 +8,11 @@ from rachiopy import Rachio
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryNotReady,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
 )
 
 from .const import (
@@ -46,7 +46,7 @@ type RachioResponse = tuple[dict[str, Any], Any]
 def raise_for_status(response: RachioResponse) -> None:
     """Raise if a Rachio API response was not successful."""
     if not HTTPStatus.OK <= int(response[0][KEY_STATUS]) < HTTPStatus.MULTIPLE_CHOICES:
-        raise __HAC_KEEP__Error(f"API Error: {response}")
+        raise UniversalAssistantError(f"API Error: {response}")
 
 
 class RachioPerson:
@@ -62,11 +62,11 @@ class RachioPerson:
         self._controllers: list[RachioIro] = []
         self._base_stations: list[RachioBaseStation] = []
 
-    async def async_setup(self, hass: __HAC_KEEP__) -> None:
+    async def async_setup(self, hass: UniversalAssistant) -> None:
         """Create rachio devices."""
         await hass.async_add_executor_job(self._setup, hass)
 
-    def _setup(self, hass: __HAC_KEEP__) -> None:
+    def _setup(self, hass: UniversalAssistant) -> None:
         """Rachio device setup."""
         rachio = self.rachio
 
@@ -158,7 +158,7 @@ class RachioIro:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         rachio: Rachio,
         data: dict[str, Any],
         webhooks: list[dict[str, Any]],

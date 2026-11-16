@@ -8,13 +8,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.pushbullet.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_START
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import MOCK_CONFIG
 
 
 async def test_async_setup_entry_success(
-    hass: __HAC_KEEP__, requests_mock_fixture
+    hass: UniversalAssistant, requests_mock_fixture
 ) -> None:
     """Test pushbullet successful setup."""
     entry = MockConfigEntry(
@@ -35,7 +35,7 @@ async def test_async_setup_entry_success(
         mock_start.assert_called_once()
 
 
-async def test_setup_entry_failed_invalid_key(hass: __HAC_KEEP__) -> None:
+async def test_setup_entry_failed_invalid_key(hass: UniversalAssistant) -> None:
     """Test pushbullet failed setup due to invalid key starts reauth."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -56,7 +56,7 @@ async def test_setup_entry_failed_invalid_key(hass: __HAC_KEEP__) -> None:
     assert flows[0]["context"]["entry_id"] == entry.entry_id
 
 
-async def test_setup_entry_failed_conn_error(hass: __HAC_KEEP__) -> None:
+async def test_setup_entry_failed_conn_error(hass: UniversalAssistant) -> None:
     """Test pushbullet failed setup due to conn error."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -72,7 +72,7 @@ async def test_setup_entry_failed_conn_error(hass: __HAC_KEEP__) -> None:
     assert entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_async_unload_entry(hass: __HAC_KEEP__, requests_mock_fixture) -> None:
+async def test_async_unload_entry(hass: UniversalAssistant, requests_mock_fixture) -> None:
     """Test pushbullet unload entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,

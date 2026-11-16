@@ -26,7 +26,7 @@ from universalassistant.components.backup import (
     AgentBackup,
 )
 from universalassistant.components.google_drive import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .conftest import CONFIG_ENTRY_TITLE, TEST_AGENT_ID
@@ -93,7 +93,7 @@ async def consume_stream(
 
 @pytest.fixture(autouse=True)
 async def setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_api: MagicMock,
 ) -> None:
@@ -108,7 +108,7 @@ async def setup_integration(
 
 
 async def test_agents_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test backup agent info following config entry unload and setup."""
@@ -153,7 +153,7 @@ async def test_agents_info(
 
 
 async def test_agents_list_backups(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_api: MagicMock,
     snapshot: SnapshotAssertion,
@@ -176,7 +176,7 @@ async def test_agents_list_backups(
 
 
 async def test_agents_list_backups_ignores_unreadable_metadata(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_api: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -219,7 +219,7 @@ async def test_agents_list_backups_ignores_unreadable_metadata(
     ],
 )
 async def test_agents_list_backups_ignores_wrong_typed_metadata(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_api: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -254,7 +254,7 @@ async def test_agents_list_backups_ignores_wrong_typed_metadata(
 
 
 async def test_agents_list_backups_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
     mock_api: MagicMock,
@@ -283,7 +283,7 @@ async def test_agents_list_backups_fail(
     ids=["found", "not_found"],
 )
 async def test_agents_get_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_api: MagicMock,
     backup_id: str,
@@ -305,7 +305,7 @@ async def test_agents_get_backup(
 
 
 async def test_agents_download(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_api: MagicMock,
     snapshot: SnapshotAssertion,
@@ -332,7 +332,7 @@ async def test_agents_download(
 
 
 async def test_agents_download_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
     mock_api: MagicMock,
@@ -359,7 +359,7 @@ async def test_agents_download_fail(
 
 
 async def test_agents_download_file_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_api: MagicMock,
 ) -> None:
@@ -381,7 +381,7 @@ async def test_agents_download_file_not_found(
 
 
 async def test_agents_download_metadata_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_api: MagicMock,
 ) -> None:
@@ -404,7 +404,7 @@ async def test_agents_download_metadata_not_found(
 
 
 async def test_agents_upload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
     mock_api: MagicMock,
@@ -441,7 +441,7 @@ async def test_agents_upload(
 
 
 async def test_agents_upload_create_folder_if_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
     mock_api: MagicMock,
@@ -450,7 +450,7 @@ async def test_agents_upload_create_folder_if_missing(
     """Test agent upload backup creates folder if missing."""
     mock_api.list_files = AsyncMock(return_value={"files": []})
     mock_api.create_file = AsyncMock(
-        return_value={"id": "new folder id", "name": "__HA_KEEP__"}
+        return_value={"id": "new folder id", "name": "Universal Home Assistant"}
     )
     mock_api.resumable_upload_file = AsyncMock(side_effect=consume_stream)
 
@@ -493,7 +493,7 @@ async def test_agents_upload_create_folder_if_missing(
     ],
 )
 async def test_agents_upload_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_api: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -530,7 +530,7 @@ async def test_agents_upload_progress(
 
 
 async def test_agents_upload_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
     mock_api: MagicMock,
@@ -572,7 +572,7 @@ async def test_agents_upload_fail(
 
 
 async def test_agents_delete(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_api: MagicMock,
     snapshot: SnapshotAssertion,
@@ -598,7 +598,7 @@ async def test_agents_delete(
 
 
 async def test_agents_delete_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
     mock_api: MagicMock,
@@ -631,7 +631,7 @@ async def test_agents_delete_fail(
 
 
 async def test_agents_delete_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_api: MagicMock,
 ) -> None:
@@ -704,7 +704,7 @@ def downloaded_responses(
     ],
 )
 async def test_can_decrypt_on_download_closes_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     downloaded_responses: list[AsyncMock],
     password: str,
@@ -785,7 +785,7 @@ async def test_agents_download_closes_response_on_read_error(
 
 
 async def test_agents_download_empty_chunk_before_eof(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_api: MagicMock,
     downloaded_responses: list[AsyncMock],

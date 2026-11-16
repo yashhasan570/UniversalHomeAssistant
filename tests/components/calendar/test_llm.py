@@ -10,7 +10,7 @@ from universalassistant.components import calendar, llm as llm_component
 from universalassistant.components.calendar import llm as calendar_llm
 from universalassistant.components.calendar.services import SERVICE_GET_EVENTS_SCHEMA
 from universalassistant.components.universalassistant.exposed_entities import async_expose_entity
-from universalassistant.core import Context, __HAC_KEEP__, SupportsResponse
+from universalassistant.core import Context, UniversalAssistant, SupportsResponse
 from universalassistant.helpers import entity_registry as er, llm
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -19,7 +19,7 @@ ENTITY_ID = "calendar.test_calendar"
 
 
 @pytest.fixture(autouse=True)
-async def setup_integrations(hass: __HAC_KEEP__) -> None:
+async def setup_integrations(hass: UniversalAssistant) -> None:
     """Set up the integrations and expose a calendar."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, "calendar", {})
@@ -40,7 +40,7 @@ def _llm_context() -> llm.LLMContext:
     )
 
 
-async def test_get_tools_no_exposed_calendar(hass: __HAC_KEEP__) -> None:
+async def test_get_tools_no_exposed_calendar(hass: UniversalAssistant) -> None:
     """Test no calendar tool is offered when no calendar is exposed."""
     async_expose_entity(hass, "conversation", ENTITY_ID, False)
     result = await llm_component.async_get_tools(hass, _llm_context(), "assist")
@@ -48,12 +48,12 @@ async def test_get_tools_no_exposed_calendar(hass: __HAC_KEEP__) -> None:
     assert calendar_llm.async_get_tools(hass, _llm_context(), "assist") is None
 
 
-async def test_no_tools_for_other_api(hass: __HAC_KEEP__) -> None:
+async def test_no_tools_for_other_api(hass: UniversalAssistant) -> None:
     """Test the platform returns None for an unsupported API."""
     assert calendar_llm.async_get_tools(hass, _llm_context(), "other") is None
 
 
-async def test_calendar_get_events_tool(hass: __HAC_KEEP__) -> None:
+async def test_calendar_get_events_tool(hass: UniversalAssistant) -> None:
     """Test the calendar get events tool is exposed and works via the platform."""
     llm_context = _llm_context()
     result = await llm_component.async_get_tools(hass, llm_context, "assist")
@@ -79,7 +79,7 @@ async def test_calendar_get_events_tool(hass: __HAC_KEEP__) -> None:
                     {
                         "start": "2025-09-17",
                         "end": "2025-09-18",
-                        "summary": "__HA_KEEP__ 12th birthday",
+                        "summary": "Universal Home Assistant 12th birthday",
                         "description": "",
                     },
                     {
@@ -118,7 +118,7 @@ async def test_calendar_get_events_tool(hass: __HAC_KEEP__) -> None:
                 {
                     "start": "2025-09-17",
                     "end": "2025-09-18",
-                    "summary": "__HA_KEEP__ 12th birthday",
+                    "summary": "Universal Home Assistant 12th birthday",
                     "description": "",
                     "all_day": True,
                 },
@@ -143,7 +143,7 @@ async def test_calendar_get_events_tool(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_calendar_get_events_tool_not_found(hass: __HAC_KEEP__) -> None:
+async def test_calendar_get_events_tool_not_found(hass: UniversalAssistant) -> None:
     """Test the tool reports when the requested calendar no longer matches."""
     llm_context = _llm_context()
     result = await llm_component.async_get_tools(hass, llm_context, "assist")
@@ -163,7 +163,7 @@ async def test_calendar_get_events_tool_not_found(hass: __HAC_KEEP__) -> None:
 
 
 async def test_calendar_get_events_tool_uses_aliases(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test exposed calendar aliases are offered as valid tool values."""
     entry = entity_registry.async_get_or_create(

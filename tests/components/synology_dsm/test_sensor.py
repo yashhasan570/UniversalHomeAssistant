@@ -18,7 +18,7 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .common import (
@@ -100,7 +100,7 @@ def mock_dsm_without_usb():
 
 @pytest.fixture
 async def setup_dsm_with_usb(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_dsm_with_usb: MagicMock,
 ):
     """Mock setup of synology dsm config entry with USB."""
@@ -131,7 +131,7 @@ async def setup_dsm_with_usb(
 
 @pytest.fixture
 async def setup_dsm_without_usb(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_dsm_without_usb: MagicMock,
 ):
     """Mock setup of synology dsm config entry without USB."""
@@ -159,7 +159,7 @@ async def setup_dsm_without_usb(
 
 
 async def test_external_usb(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     setup_dsm_with_usb: MagicMock,
 ) -> None:
@@ -218,7 +218,7 @@ async def test_external_usb(
 
 
 async def test_external_usb_new_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
     setup_dsm_with_usb: MagicMock,
@@ -298,7 +298,7 @@ async def test_external_usb_new_device(
 
 @pytest.mark.usefixtures("mock_dsm_with_usb_no_devices")
 async def test_external_usb_first_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     setup_dsm_with_usb: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -345,7 +345,7 @@ async def test_external_usb_first_device(
 
 
 async def test_external_usb_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
     setup_dsm_with_usb: MagicMock,
@@ -412,7 +412,7 @@ async def test_external_usb_availability(
 
 
 async def test_no_external_usb(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_dsm_without_usb: MagicMock,
 ) -> None:
     """Test Synology DSM without USB."""
@@ -423,7 +423,7 @@ async def test_no_external_usb(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.freeze_time("2024-01-01T12:00:00+00:00")
 async def test_uptime_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
     setup_dsm_with_usb: MagicMock,
@@ -449,7 +449,7 @@ async def test_uptime_sensor(
 
 
 async def test_hub_device_info_mac_connections(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     setup_dsm_with_usb: MagicMock,
 ) -> None:
@@ -465,7 +465,7 @@ async def test_hub_device_info_mac_connections(
 
 
 async def test_storage_device_via_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     setup_dsm_with_usb: MagicMock,
 ) -> None:

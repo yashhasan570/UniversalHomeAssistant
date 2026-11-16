@@ -14,14 +14,14 @@ from universalassistant.components.lorawan import (
     NoSupportedDevicesError,
     async_validate_devices,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .conftest import RegisterBackend
 from .helpers import DESCRIPTOR, ExampleDevices
 
 
-async def test_no_connections(hass: __HAC_KEEP__) -> None:
+async def test_no_connections(hass: UniversalAssistant) -> None:
     """An initialized registry without connections cannot validate devices."""
     assert await async_setup_component(hass, "lorawan", {})
     with pytest.raises(NoConnectionsError):
@@ -33,7 +33,7 @@ async def test_no_connections(hass: __HAC_KEEP__) -> None:
     [(True, nullcontext()), (False, pytest.raises(NoSupportedDevicesError))],
 )
 async def test_matching_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     registered_backend: RegisterBackend,
     supported: bool,
     outcome: AbstractContextManager[object],
@@ -71,7 +71,7 @@ async def test_matching_devices(
 
 @pytest.mark.parametrize("error", [None, ConnectionUnavailable])
 async def test_later_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     registered_backend: RegisterBackend,
     error: type[ConnectionUnavailable] | None,
 ) -> None:
@@ -85,7 +85,7 @@ async def test_later_connection(
 
 
 async def test_unavailable_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     registered_backend: RegisterBackend,
 ) -> None:
     """A registered connection that cannot replay devices is unavailable."""
@@ -99,7 +99,7 @@ async def test_unavailable_connection(
 
 
 async def test_empty_and_unavailable_connections(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     registered_backend: RegisterBackend,
 ) -> None:
     """An empty usable connection means no supported devices were found."""
@@ -115,7 +115,7 @@ async def test_empty_and_unavailable_connections(
 
 @pytest.mark.parametrize("error", [RuntimeError, asyncio.CancelledError])
 async def test_interrupted_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     registered_backend: RegisterBackend,
     error: type[Exception | asyncio.CancelledError],
 ) -> None:

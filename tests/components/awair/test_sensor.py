@@ -14,7 +14,7 @@ from universalassistant.components.awair.sensor import (
     SENSOR_TYPES_DUST,
 )
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_awair
@@ -27,7 +27,7 @@ SENSOR_TYPES_MAP = {
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_awair_gen1_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     user,
     cloud_devices,
@@ -44,7 +44,7 @@ async def test_awair_gen1_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_awair_gen2_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     user,
     cloud_devices,
@@ -61,7 +61,7 @@ async def test_awair_gen2_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_local_awair_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     local_devices,
     local_data,
@@ -77,7 +77,7 @@ async def test_local_awair_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_awair_mint_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     user,
     cloud_devices,
@@ -94,7 +94,7 @@ async def test_awair_mint_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_awair_glow_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     user,
     cloud_devices,
@@ -111,7 +111,7 @@ async def test_awair_glow_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_awair_omni_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     user,
     cloud_devices,
@@ -127,7 +127,7 @@ async def test_awair_omni_sensors(
 
 
 async def test_awair_offline(
-    hass: __HAC_KEEP__, user, cloud_devices, awair_offline
+    hass: UniversalAssistant, user, cloud_devices, awair_offline
 ) -> None:
     """Test expected behavior when an Awair is offline."""
 
@@ -147,7 +147,7 @@ async def test_awair_offline(
 
 
 async def test_awair_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     user,
     cloud_devices,

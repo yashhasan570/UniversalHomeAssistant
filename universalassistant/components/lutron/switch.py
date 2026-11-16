@@ -6,7 +6,7 @@ from typing import Any, override
 from pylutron import Button, Keypad, Led, Lutron, Output
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import LutronConfigEntry
@@ -14,7 +14,7 @@ from .entity import LutronDevice, LutronKeypad
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: LutronConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -91,7 +91,7 @@ class LutronLed(LutronKeypad, SwitchEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         area_name: str,
         keypad: Keypad,
         scene_device: Button,

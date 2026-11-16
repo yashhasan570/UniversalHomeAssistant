@@ -4,14 +4,14 @@ from pytest_universalassistant.common import SnapshotAssertion
 
 from universalassistant.components.prana.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import async_init_integration
 
 
 async def test_async_setup_entry_and_unload_entry(
-    hass: __HAC_KEEP__, mock_config_entry, mock_prana_api
+    hass: UniversalAssistant, mock_config_entry, mock_prana_api
 ) -> None:
     """Test async_setup_entry creates coordinator and forwards."""
 
@@ -26,7 +26,7 @@ async def test_async_setup_entry_and_unload_entry(
 
 
 async def test_device_info_registered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry,
     mock_prana_api,
     device_registry: dr.DeviceRegistry,

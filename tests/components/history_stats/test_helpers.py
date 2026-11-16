@@ -6,7 +6,7 @@ from zoneinfo import ZoneInfo
 import pytest
 
 from universalassistant.components.history_stats.helpers import pretty_ratio
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 # Falls back on 2026-11-01 and springs forward on 2026-03-08
 TIME_ZONE = "US/Pacific"
@@ -46,14 +46,14 @@ TIME_ZONE = "US/Pacific"
     ],
 )
 async def test_pretty_ratio(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     value: float,
     start: datetime,
     end: datetime,
     expected: float,
 ) -> None:
     """Test the ratio uses the real length of the period."""
-    # Naive bounds are in the time zone of __HA_KEEP__, not of the host
+    # Naive bounds are in the time zone of Universal Home Assistant, not of the host
     await hass.config.async_set_time_zone(TIME_ZONE)
 
     assert pretty_ratio(value, (start, end)) == expected

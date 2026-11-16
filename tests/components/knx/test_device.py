@@ -12,7 +12,7 @@ from universalassistant.components.knx.storage.config_store import (
     STORAGE_KEY as KNX_CONFIG_STORAGE_KEY,
 )
 from universalassistant.const import SERVICE_RELOAD, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -20,7 +20,7 @@ from .conftest import KNXTestKit, _patch_telegram_store
 
 
 async def test_create_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     device_registry: dr.DeviceRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -51,7 +51,7 @@ async def test_create_device(
 
 
 async def test_remove_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -86,7 +86,7 @@ async def test_remove_device(
 
 
 async def test_remove_yaml_device_blocked(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     device_registry: dr.DeviceRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -117,7 +117,7 @@ async def test_remove_yaml_device_blocked(
 
 
 async def test_remove_interface_device_blocked(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     device_registry: dr.DeviceRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -141,7 +141,7 @@ async def test_remove_interface_device_blocked(
 
 
 async def test_remove_device_ignores_foreign_platform_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -170,7 +170,7 @@ async def test_remove_device_ignores_foreign_platform_entities(
 
 
 async def test_remove_device_ignores_other_config_entry_knx_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -203,7 +203,7 @@ async def test_remove_device_ignores_other_config_entry_knx_entities(
 
 @pytest.mark.parametrize("entity_count", [1, 2])
 async def test_yaml_device_name_updates_on_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     device_registry: dr.DeviceRegistry,
     entity_count: int,

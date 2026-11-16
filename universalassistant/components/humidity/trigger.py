@@ -15,7 +15,7 @@ from universalassistant.components.weather import (
     DOMAIN as WEATHER_DOMAIN,
     WeatherEntityStateAttribute,
 )
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.automation import DomainSpec
 from universalassistant.helpers.trigger import (
     EntityNumericalStateChangedTriggerBase,
@@ -83,6 +83,6 @@ TRIGGERS: dict[str, type[Trigger]] = {
 }
 
 
-async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
+async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
     """Return the triggers for humidity."""
     return TRIGGERS

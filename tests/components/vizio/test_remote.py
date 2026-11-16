@@ -21,7 +21,7 @@ from universalassistant.const import (
     STATE_OFF,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import slugify
@@ -49,7 +49,7 @@ def remote_only() -> Generator[None]:
 )
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_remote_entity_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     config_entry_fixture: str,
@@ -63,7 +63,7 @@ async def test_remote_entity_setup(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_remote_is_off_when_device_off(
-    hass: __HAC_KEEP__, mock_speaker_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_speaker_config_entry: MockConfigEntry
 ) -> None:
     """Test remote state is off when device is off."""
     with patch(
@@ -84,7 +84,7 @@ async def test_remote_is_off_when_device_off(
 )
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_speaker_config_entry: MockConfigEntry,
     service: str,
     mock_method: str,
@@ -119,7 +119,7 @@ async def test_turn_on_off(
 )
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_send_command_tv_valid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tv_config_entry: MockConfigEntry,
     command: str,
     expected_key: str,
@@ -144,7 +144,7 @@ async def test_send_command_tv_valid(
 @pytest.mark.parametrize("command", ["INVALID_KEY", "not_a_key"])
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_send_command_tv_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tv_config_entry: MockConfigEntry,
     command: str,
 ) -> None:
@@ -176,7 +176,7 @@ async def test_send_command_tv_invalid(
 )
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_send_command_speaker_valid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_speaker_config_entry: MockConfigEntry,
     command: str,
     expected_key: str,
@@ -211,7 +211,7 @@ async def test_send_command_speaker_valid(
 )
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_send_command_speaker_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_speaker_config_entry: MockConfigEntry,
     command: str,
 ) -> None:
@@ -231,7 +231,7 @@ async def test_send_command_speaker_invalid(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_send_command_multiple(
-    hass: __HAC_KEEP__, mock_tv_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_tv_config_entry: MockConfigEntry
 ) -> None:
     """Test send_command with multiple commands in one call."""
     await setup_integration(hass, mock_tv_config_entry)
@@ -254,7 +254,7 @@ async def test_send_command_multiple(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_send_command_invalid_skips_valid(
-    hass: __HAC_KEEP__, mock_tv_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_tv_config_entry: MockConfigEntry
 ) -> None:
     """Test that no commands are sent when one command in the list is invalid."""
     await setup_integration(hass, mock_tv_config_entry)
@@ -278,7 +278,7 @@ async def test_send_command_invalid_skips_valid(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_send_command_delay_between_repeats(
-    hass: __HAC_KEEP__, mock_tv_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_tv_config_entry: MockConfigEntry
 ) -> None:
     """Test delay is applied between repeats but not after the last one."""
     await setup_integration(hass, mock_tv_config_entry)

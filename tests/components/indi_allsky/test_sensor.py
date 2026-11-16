@@ -18,7 +18,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.indi_allsky.coordinator import IndiAllSkyData
 from universalassistant.components.indi_allsky.sensor import _parse_timestamp
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -29,7 +29,7 @@ from . import setup_integration
     "entity_registry_enabled_by_default", "mock_indi_allsky_client"
 )
 async def test_sensor_setup_and_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -44,7 +44,7 @@ async def test_sensor_setup_and_states(
 
 @pytest.mark.usefixtures("mock_indi_allsky_client")
 async def test_disabled_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -77,7 +77,7 @@ async def test_disabled_sensors(
 
 
 async def test_exposure_sensor_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_exposure_data: ExposureData,
@@ -173,7 +173,7 @@ async def test_exposure_sensor_updates(
 
 
 async def test_hardware_sensor_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_sensor_data: SensorData,
@@ -249,7 +249,7 @@ async def test_hardware_sensor_updates(
 
 
 async def test_hardware_sensor_fallback_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -288,7 +288,7 @@ async def test_hardware_sensor_fallback_updates(
 
 
 async def test_consecutive_sensor_updates_merging(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -360,7 +360,7 @@ async def test_consecutive_sensor_updates_merging(
 
 
 async def test_dynamic_hardware_sensor_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -459,7 +459,7 @@ async def test_dynamic_hardware_sensor_discovery(
 
 
 async def test_initial_sensor_fetch_preserved(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_sensor_data: SensorData,
@@ -487,7 +487,7 @@ async def test_initial_sensor_fetch_preserved(
 
 
 async def test_exposure_complete_triggers_sensor_fetch_and_queues_trailing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_exposure_data: ExposureData,
@@ -529,7 +529,7 @@ async def test_exposure_complete_triggers_sensor_fetch_and_queues_trailing(
 
 
 async def test_periodic_sensor_polling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -548,7 +548,7 @@ async def test_periodic_sensor_polling(
 
 
 async def test_periodic_sensor_polling_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indi_allsky_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -578,7 +578,7 @@ async def test_periodic_sensor_polling_disabled(
 
 
 async def test_dynamic_sensor_edge_cases(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_exposure_data: ExposureData,

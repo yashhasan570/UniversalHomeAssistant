@@ -16,7 +16,7 @@ from universalassistant.components.switch import (
     SwitchEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import ChildDeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -986,7 +986,7 @@ SWITCHES: dict[DeviceCategory, tuple[TuyaSwitchEntityDescription, ...]] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: TuyaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -1029,7 +1029,7 @@ async def async_setup_entry(
 
 
 def _check_deprecation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device: CustomerDevice,
     description: TuyaSwitchEntityDescription,
     entity_registry: er.EntityRegistry,
@@ -1101,7 +1101,7 @@ class TuyaSwitchEntity(TuyaEntity, SwitchEntity):
     ) -> bool:
         """Called when Tuya device sends an update with updated properties.
 
-        Returns True if the __HA_KEEP__ state should be written,
+        Returns True if the Universal Home Assistant state should be written,
         or False if the state write should be skipped.
         """
         return not self._dpcode_wrapper.skip_update(

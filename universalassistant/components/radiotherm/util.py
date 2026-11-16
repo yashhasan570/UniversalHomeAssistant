@@ -2,11 +2,11 @@
 
 from radiotherm.thermostat import CommonThermostat
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 
-async def async_set_time(hass: __HAC_KEEP__, device: CommonThermostat) -> None:
+async def async_set_time(hass: UniversalAssistant, device: CommonThermostat) -> None:
     """Sync time to the thermostat."""
     await hass.async_add_executor_job(_set_time, device)
 

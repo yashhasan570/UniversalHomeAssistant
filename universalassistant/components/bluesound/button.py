@@ -8,7 +8,7 @@ from pyblu import Player
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
 from universalassistant.const import CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import BluesoundCoordinator
@@ -21,7 +21,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: BluesoundConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

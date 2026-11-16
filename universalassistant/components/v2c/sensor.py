@@ -22,7 +22,7 @@ from universalassistant.const import (
     UnitOfPower,
     UnitOfTime,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
@@ -142,7 +142,7 @@ TRYDAN_SENSORS = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: V2CConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

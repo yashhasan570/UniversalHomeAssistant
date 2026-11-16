@@ -32,8 +32,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
 
@@ -58,7 +58,7 @@ async def switches_only() -> AsyncGenerator[None]:
 
 @pytest.mark.usefixtures("mock_satel")
 async def test_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry_with_subentries: MockConfigEntry,
     entity_registry: EntityRegistry,
@@ -85,7 +85,7 @@ async def test_switches(
     ],
 )
 async def test_switch_initial_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
     output_state: bool | None,
@@ -106,7 +106,7 @@ async def test_switch_initial_state(
 
 
 async def test_switch_callback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
 ) -> None:
@@ -127,7 +127,7 @@ async def test_switch_callback(
 
 
 async def test_switch_change_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
 ) -> None:
@@ -176,7 +176,7 @@ async def test_switch_change_state(
     ],
 )
 async def test_switch_command_validation_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
     result_code: SatelResultCode,
@@ -238,7 +238,7 @@ async def test_switch_command_validation_error(
     ],
 )
 async def test_switch_command_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
     exception: Exception,
@@ -250,7 +250,7 @@ async def test_switch_command_error(
 
     mock_satel.set_output.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -260,7 +260,7 @@ async def test_switch_command_error(
 
     assert err.value.translation_domain == DOMAIN
     assert err.value.translation_key == translation_key
-    assert type(err.value) is __HAC_KEEP__Error
+    assert type(err.value) is UniversalAssistantError
     assert err.value.translation_placeholders == translation_placeholders
     state = hass.states.get("switch.switchable_output")
     assert state is not None
@@ -268,7 +268,7 @@ async def test_switch_command_error(
 
 
 async def test_switch_last_reported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -294,7 +294,7 @@ async def test_switch_last_reported(
 
 
 async def test_switch_actions_require_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
 ) -> None:
@@ -326,7 +326,7 @@ async def test_switch_actions_require_code(
 
 
 async def test_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
 ) -> None:

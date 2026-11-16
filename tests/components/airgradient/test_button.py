@@ -15,15 +15,15 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import async_load_config_fixture, load_config_fixture, setup_integration
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     airgradient_devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -37,7 +37,7 @@ async def test_all_entities(
 
 
 async def test_pressing_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -66,7 +66,7 @@ async def test_pressing_button(
 
 
 async def test_cloud_creates_no_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -106,7 +106,7 @@ async def test_cloud_creates_no_button(
     ],
 )
 async def test_v1_action_capabilities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_v1_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     model: str,
@@ -140,7 +140,7 @@ async def test_v1_action_capabilities(
     ],
 )
 async def test_exception_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -149,7 +149,7 @@ async def test_exception_handling(
     """Test exception handling."""
     await setup_integration(hass, mock_config_entry)
     mock_airgradient_client.request_co2_calibration.side_effect = exception
-    with pytest.raises(__HAC_KEEP__Error, match=error_message):
+    with pytest.raises(UniversalAssistantError, match=error_message):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

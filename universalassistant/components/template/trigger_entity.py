@@ -8,7 +8,7 @@ from typing import Any, override
 import probatio
 
 from universalassistant.const import CONF_CONDITIONS, CONF_VARIABLES
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import TemplateError
 from universalassistant.helpers import condition
 from universalassistant.helpers.script_variables import ScriptVariables
@@ -41,7 +41,7 @@ class TriggerEntity(  # pylint: disable=universal-assistant-enforce-class-module
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         coordinator: TriggerUpdateCoordinator,
         config: dict,
     ) -> None:
@@ -61,7 +61,7 @@ class TriggerEntity(  # pylint: disable=universal-assistant-enforce-class-module
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Handle being added to __HA_KEEP__."""
+        """Handle being added to Universal Home Assistant."""
 
         # Setup condition before calling async_added_to_hass to ensure
         # the condition is available before a trigger can occur
@@ -87,7 +87,7 @@ class TriggerEntity(  # pylint: disable=universal-assistant-enforce-class-module
 
     @override
     async def async_will_remove_from_hass(self) -> None:
-        """Clean up conditions when removing from __HA_KEEP__."""
+        """Clean up conditions when removing from Universal Home Assistant."""
         await super().async_will_remove_from_hass()
         if self._cond_func:
             self._cond_func.async_unload()

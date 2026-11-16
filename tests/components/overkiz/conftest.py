@@ -13,7 +13,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.overkiz.config_flow import OverkizConfigFlow
 from universalassistant.components.overkiz.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import DEFAULT_SETUP_FIXTURE, load_setup_fixture
 from .test_config_flow import TEST_EMAIL, TEST_GATEWAY_ID, TEST_PASSWORD, TEST_SERVER
@@ -181,7 +181,7 @@ def mock_client() -> MockOverkizClient:
 
 @pytest.fixture
 def setup_overkiz_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MockOverkizClient,
 ) -> SetupOverkizIntegration:

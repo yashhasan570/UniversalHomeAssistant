@@ -5,7 +5,7 @@ import asyncio
 from google_weather_api import GoogleWeatherApi
 
 from universalassistant.const import CONF_API_KEY, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.typing import ConfigType
@@ -26,14 +26,14 @@ _PLATFORMS: list[Platform] = [Platform.SENSOR, Platform.WEATHER]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Google Weather integration."""
     async_setup_services(hass)
     return True
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: GoogleWeatherConfigEntry
+    hass: UniversalAssistant, entry: GoogleWeatherConfigEntry
 ) -> None:
     """Set up Google Weather from a config entry."""
 
@@ -88,14 +88,14 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: GoogleWeatherConfigEntry
+    hass: UniversalAssistant, entry: GoogleWeatherConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)
 
 
 async def async_update_options(
-    hass: __HAC_KEEP__, entry: GoogleWeatherConfigEntry
+    hass: UniversalAssistant, entry: GoogleWeatherConfigEntry
 ) -> None:
     """Update options."""
     await hass.config_entries.async_reload(entry.entry_id)

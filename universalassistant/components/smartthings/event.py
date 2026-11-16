@@ -5,7 +5,7 @@ from typing import cast, override
 from pysmartthings import Attribute, Capability, Component, DeviceEvent, SmartThings
 
 from universalassistant.components.event import EventDeviceClass, EventEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FullDevice, SmartThingsConfigEntry
@@ -44,7 +44,7 @@ BUTTON_EVENT_TYPES = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SmartThingsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -1,6 +1,6 @@
 {
   "domain": "labs",
-  "name": "__HA_KEEP__ Labs",
+  "name": "Universal Home Assistant Labs",
   "codeowners": ["@universal-assistant/core"],
   "documentation": "https://www.universalassistant.io/integrations/labs",
   "integration_type": "system",

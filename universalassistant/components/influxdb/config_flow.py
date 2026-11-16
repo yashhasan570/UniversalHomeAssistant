@@ -22,7 +22,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.selector import (
     FileSelector,
     FileSelectorConfig,
@@ -113,7 +113,7 @@ INFLUXDB_V2_SCHEMA = probatio.Schema(
 
 
 async def _validate_influxdb_connection(
-    hass: __HAC_KEEP__, data: dict[str, Any]
+    hass: UniversalAssistant, data: dict[str, Any]
 ) -> dict[str, str]:
     """Validate connection to influxdb."""
 
@@ -144,7 +144,7 @@ async def _validate_influxdb_connection(
     return errors
 
 
-async def _save_uploaded_cert_file(hass: __HAC_KEEP__, uploaded_file_id: str) -> Path:
+async def _save_uploaded_cert_file(hass: UniversalAssistant, uploaded_file_id: str) -> Path:
     """Move the uploaded file to storage directory."""
 
     def _process_upload() -> Path:

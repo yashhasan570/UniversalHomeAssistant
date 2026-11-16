@@ -3,7 +3,7 @@
 import asyncio
 import logging
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.device_registry import format_mac
 
 from .const import PROVISIONING_FUTURES
@@ -15,7 +15,7 @@ __all__ = ["async_register_next_flow"]
 
 @callback
 def async_get_provisioning_futures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> dict[str, asyncio.Future[str]]:
     """Get the provisioning futures registry, creating it if needed.
 
@@ -25,7 +25,7 @@ def async_get_provisioning_futures(
     return hass.data.setdefault(PROVISIONING_FUTURES, {})
 
 
-def async_register_next_flow(hass: __HAC_KEEP__, ble_mac: str, flow_id: str) -> None:
+def async_register_next_flow(hass: UniversalAssistant, ble_mac: str, flow_id: str) -> None:
     """Register a next flow for a provisioned device.
 
     Called by other integrations (e.g., ESPHome) when they discover a device
@@ -33,7 +33,7 @@ def async_register_next_flow(hass: __HAC_KEEP__, ble_mac: str, flow_id: str) -> 
     device, the Future will be resolved with the flow_id.
 
     Args:
-        hass: __HA_KEEP__ instance
+        hass: Universal Home Assistant instance
         ble_mac: Bluetooth MAC address of the provisioned device
         flow_id: Config flow ID to chain to
 

@@ -22,8 +22,8 @@ from universalassistant.const import (
     CONF_OPTIONS,
     SERVICE_RELOAD,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import collection, config_validation as cv
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.storage import Store
@@ -68,7 +68,7 @@ def _unique(options: Any) -> Any:
     try:
         return probatio.Unique()(options)
     except probatio.Invalid as exc:
-        raise __HAC_KEEP__Error("Duplicate options are not allowed") from exc
+        raise UniversalAssistantError("Duplicate options are not allowed") from exc
 
 
 STORAGE_FIELDS: VolDictType = {
@@ -156,7 +156,7 @@ class InputSelectData:
     yaml_collection: collection.YamlCollection
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up an input select."""
     component = EntityComponent[InputSelect](_LOGGER, DOMAIN, hass)
 

@@ -14,14 +14,14 @@ from pythonkuma import (
 from universalassistant.components.uptime_kuma.const import DOMAIN
 from universalassistant.config_entries import SOURCE_HASSIO, SOURCE_IGNORE, SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_URL, CONF_VERIFY_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import ADDON_SERVICE_INFO
 
 
 @pytest.mark.usefixtures("mock_pythonkuma")
-async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -59,7 +59,7 @@ async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     ],
 )
 async def test_form_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_pythonkuma: AsyncMock,
     raise_error: Exception,
@@ -105,7 +105,7 @@ async def test_form_errors(
 
 
 async def test_form_error_unsupported_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_pythonkuma: AsyncMock,
 ) -> None:
@@ -154,7 +154,7 @@ async def test_form_error_unsupported_version(
 
 @pytest.mark.usefixtures("mock_pythonkuma")
 async def test_form_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort when entry is already configured."""
@@ -180,7 +180,7 @@ async def test_form_already_configured(
 
 @pytest.mark.usefixtures("mock_pythonkuma")
 async def test_flow_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test reauth flow."""
@@ -212,7 +212,7 @@ async def test_flow_reauth(
 )
 @pytest.mark.usefixtures("mock_pythonkuma")
 async def test_flow_reauth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_pythonkuma: AsyncMock,
     raise_error: Exception,
@@ -251,7 +251,7 @@ async def test_flow_reauth_errors(
 
 @pytest.mark.usefixtures("mock_pythonkuma")
 async def test_flow_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure flow."""
@@ -291,7 +291,7 @@ async def test_flow_reconfigure(
 )
 @pytest.mark.usefixtures("mock_pythonkuma")
 async def test_flow_reconfigure_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_pythonkuma: AsyncMock,
     raise_error: Exception,
@@ -342,7 +342,7 @@ async def test_flow_reconfigure_errors(
 
 @pytest.mark.usefixtures("mock_pythonkuma")
 async def test_hassio_addon_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_pythonkuma: AsyncMock,
 ) -> None:
@@ -376,7 +376,7 @@ async def test_hassio_addon_discovery(
 
 @pytest.mark.usefixtures("mock_pythonkuma")
 async def test_hassio_addon_discovery_confirm_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Test config flow initiated by Supervisor.
@@ -411,7 +411,7 @@ async def test_hassio_addon_discovery_confirm_only(
 
 @pytest.mark.usefixtures("mock_pythonkuma")
 async def test_hassio_addon_discovery_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test config flow initiated by Supervisor."""
     entry = MockConfigEntry(
@@ -444,7 +444,7 @@ async def test_hassio_addon_discovery_already_configured(
     ],
 )
 async def test_hassio_addon_discovery_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_pythonkuma: AsyncMock,
     raise_error: Exception,
@@ -486,7 +486,7 @@ async def test_hassio_addon_discovery_errors(
 
 @pytest.mark.usefixtures("mock_pythonkuma")
 async def test_hassio_addon_discovery_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test we abort discovery flow if discovery was ignored."""
 
@@ -510,7 +510,7 @@ async def test_hassio_addon_discovery_ignored(
 
 @pytest.mark.usefixtures("mock_pythonkuma")
 async def test_hassio_addon_discovery_update_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test we abort discovery flow if already configured and update info."""
 

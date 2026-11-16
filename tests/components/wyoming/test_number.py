@@ -4,13 +4,13 @@ from unittest.mock import patch
 
 from universalassistant.components.wyoming.devices import SatelliteDevice
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import reload_satellite
 
 
 async def test_auto_gain_number(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     satellite_config_entry: ConfigEntry,
     satellite_device: SatelliteDevice,
 ) -> None:
@@ -57,7 +57,7 @@ async def test_auto_gain_number(
 
 
 async def test_volume_multiplier_number(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     satellite_config_entry: ConfigEntry,
     satellite_device: SatelliteDevice,
 ) -> None:

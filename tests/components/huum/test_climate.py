@@ -27,8 +27,8 @@ from universalassistant.components.huum.const import (
     CONFIG_DEFAULT_MIN_TEMP,
 )
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 ENTITY_ID = "climate.huum_sauna"
@@ -42,7 +42,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_climate_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -53,7 +53,7 @@ async def test_climate_entity(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_huum_client: AsyncMock,
 ) -> None:
     """Test setting HVAC mode."""
@@ -73,7 +73,7 @@ async def test_set_hvac_mode(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_huum_client: AsyncMock,
 ) -> None:
     """Test setting the temperature."""
@@ -93,7 +93,7 @@ async def test_set_temperature(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_hvac_mode_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_huum_client: AsyncMock,
 ) -> None:
     """Test setting HVAC mode to off."""
@@ -109,7 +109,7 @@ async def test_set_hvac_mode_off(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_temperature_not_heating(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_huum_client: AsyncMock,
 ) -> None:
     """Test setting temperature is ignored when not heating."""
@@ -128,14 +128,14 @@ async def test_set_temperature_not_heating(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on_safety_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_huum_client: AsyncMock,
 ) -> None:
-    """Test that SafetyException is raised as __HAC_KEEP__Error."""
+    """Test that SafetyException is raised as UniversalAssistantError."""
     mock_huum_client.turn_on.side_effect = SafetyException("Door is open")
     mock_huum_client.status.return_value.status = SaunaStatus.ONLINE_HEATING
 
-    with pytest.raises(__HAC_KEEP__Error, match="Unable to turn on the sauna"):
+    with pytest.raises(UniversalAssistantError, match="Unable to turn on the sauna"):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -166,18 +166,18 @@ async def test_turn_on_safety_exception(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_action_communication_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_huum_client: AsyncMock,
     service: str,
     service_data: dict[str, int | HVACMode],
     client_method: str,
 ) -> None:
-    """Test that API errors during actions are raised as __HAC_KEEP__Error."""
+    """Test that API errors during actions are raised as UniversalAssistantError."""
     getattr(mock_huum_client, client_method).side_effect = RequestError()
     mock_huum_client.status.return_value.status = SaunaStatus.ONLINE_HEATING
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="An error occurred while communicating with the Huum sauna",
     ):
         await hass.services.async_call(
@@ -190,7 +190,7 @@ async def test_action_communication_error(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_temperature_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_huum_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:

@@ -19,7 +19,7 @@ from universalassistant.components.image import DOMAIN as IMAGE_DOMAIN
 from universalassistant.components.vodafone_station.const import SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -29,7 +29,7 @@ from .const import TEST_SERIAL_NUMBER
 
 @pytest.mark.freeze_time("2026-01-05T15:00:00+00:00")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -45,7 +45,7 @@ async def test_all_entities(
 
 @pytest.mark.freeze_time("2023-12-02T13:00:00+00:00")
 async def test_image_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -93,7 +93,7 @@ async def test_image_entity(
 
 @pytest.mark.freeze_time("2023-12-02T13:00:00+00:00")
 async def test_image_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     freezer: FrozenDateTimeFactory,
     mock_vodafone_station_router: AsyncMock,
@@ -147,7 +147,7 @@ async def test_image_update(
 
 
 async def test_no_wifi_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

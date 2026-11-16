@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.irm_kmi.const import CONF_LANGUAGE_OVERRIDE, DOMAIN
 from universalassistant.components.weather import DOMAIN as WEATHER_DOMAIN, WeatherService
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 import universalassistant.helpers.entity_registry as er
 
@@ -20,7 +20,7 @@ from .const import WEATHER_ENTITY_ID
 
 
 async def _get_forecast(
-    hass: __HAC_KEEP__, forecast_type: str
+    hass: UniversalAssistant, forecast_type: str
 ) -> list[dict[str, Any]]:
     """Return the forecast from weather.get_forecasts."""
     response = await hass.services.async_call(
@@ -40,7 +40,7 @@ async def _get_forecast(
 @pytest.mark.parametrize("forecast_fixture", ["forecast_nl.json"])
 @pytest.mark.freeze_time("2023-12-28T15:30:00+01:00")
 async def test_weather_nl(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -59,7 +59,7 @@ async def test_weather_nl(
 )
 @pytest.mark.freeze_time("2025-09-22T15:30:00+01:00")
 async def test_forecast_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     forecast_type: str,
@@ -74,7 +74,7 @@ async def test_forecast_service(
 @pytest.mark.parametrize("forecast_fixture", ["high_low_temp.json"])
 @pytest.mark.freeze_time("2024-01-21T14:15:00+01:00")
 async def test_daily_forecast_night_low_above_day_high(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test a night low above the day high is swapped into the first day."""
@@ -138,7 +138,7 @@ async def test_daily_forecast_night_low_above_day_high(
 )
 @pytest.mark.freeze_time("2024-01-23T14:15:00+01:00")
 async def test_forecast_language(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     hass_language: str,
@@ -166,7 +166,7 @@ async def test_forecast_language(
 @pytest.mark.parametrize("forecast_fixture", ["high_low_temp.json"])
 @pytest.mark.freeze_time("2024-01-21T14:15:00+01:00")
 async def test_forecasts_do_not_mutate_coordinator_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reading the daily forecast does not change the twice daily forecast."""
@@ -227,7 +227,7 @@ async def test_forecasts_do_not_mutate_coordinator_data(
     ],
 )
 async def test_daily_forecast_borrowed_templow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_irm_kmi_api: MagicMock,
     daily_forecast: list[ExtendedForecast],

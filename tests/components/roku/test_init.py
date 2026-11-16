@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from rokuecp import RokuConnectionError
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @patch(
@@ -14,7 +14,7 @@ from universalassistant.core import __HAC_KEEP__
     side_effect=RokuConnectionError,
 )
 async def test_config_entry_not_ready(
-    mock_request: MagicMock, hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    mock_request: MagicMock, hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the Roku configuration entry not ready."""
     mock_config_entry.add_to_hass(hass)
@@ -26,7 +26,7 @@ async def test_config_entry_not_ready(
 
 
 async def test_config_entry_no_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_roku: AsyncMock,
 ) -> None:
@@ -40,7 +40,7 @@ async def test_config_entry_no_unique_id(
 
 
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_roku: AsyncMock,
 ) -> None:

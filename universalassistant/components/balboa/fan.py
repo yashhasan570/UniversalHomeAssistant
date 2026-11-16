@@ -7,7 +7,7 @@ from pybalboa import SpaControl
 from pybalboa.enums import OffOnState, UnknownState
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
     percentage_to_ranged_value,
@@ -19,7 +19,7 @@ from .entity import BalboaEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: BalboaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

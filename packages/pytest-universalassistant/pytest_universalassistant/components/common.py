@@ -25,7 +25,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     EntityCategory,
 )
-from universalassistant.core import Context, __HAC_KEEP__, callback
+from universalassistant.core import Context, UniversalAssistant, callback
 from universalassistant.helpers import (
     area_registry as ar,
     config_validation as cv,
@@ -53,7 +53,7 @@ from pytest_universalassistant.common import MockConfigEntry, mock_device_regist
 
 
 async def target_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain: str,
     *,
     domain_excluded: str | None = None,
@@ -1624,7 +1624,7 @@ def parametrize_numerical_state_value_crossed_threshold_trigger_states(
 
 
 async def arm_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     trigger: str,
     trigger_options: dict[str, Any] | None,
     trigger_target: dict,
@@ -1659,7 +1659,7 @@ async def arm_trigger(
 
 
 async def create_target_condition(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     condition: str,
     target: dict,
@@ -1679,7 +1679,7 @@ async def create_target_condition(
 
 
 def set_or_remove_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id: str,
     state: StateDescription,
 ) -> None:
@@ -1707,7 +1707,7 @@ def other_states(state: StrEnum | Iterable[StrEnum]) -> list[str]:
 
 
 async def _validate_condition_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     condition: str,
     options: dict[str, Any] | None,
     *,
@@ -1751,7 +1751,7 @@ def _assert_yaml_has_field(
 
 
 async def assert_condition_options_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     condition: str,
     base_options: dict[str, Any] | None,
     *,
@@ -1821,7 +1821,7 @@ async def assert_condition_options_supported(
 
 
 async def _validate_trigger_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     trigger: str,
     options: dict[str, Any] | None,
     *,
@@ -1842,7 +1842,7 @@ async def _validate_trigger_options(
 
 
 async def assert_trigger_options_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     trigger: str,
     base_options: dict[str, Any] | None,
     *,
@@ -1909,7 +1909,7 @@ async def assert_trigger_options_supported(
 
 
 async def assert_condition_behavior_any(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     target_entities: dict[str, list[str]],
     condition_target_config: dict,
@@ -1962,7 +1962,7 @@ async def assert_condition_behavior_any(
 
 
 async def assert_condition_behavior_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     target_entities: dict[str, list[str]],
     condition_target_config: dict,
@@ -2010,7 +2010,7 @@ async def assert_condition_behavior_all(
 
 
 async def assert_trigger_behavior_each(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     target_entities: dict[str, list[str]],
     trigger_target_config: dict,
@@ -2064,7 +2064,7 @@ async def assert_trigger_behavior_each(
 
 
 async def assert_trigger_behavior_first(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     target_entities: dict[str, list[str]],
     trigger_target_config: dict,
@@ -2115,7 +2115,7 @@ async def assert_trigger_behavior_first(
 
 
 async def assert_trigger_behavior_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     target_entities: dict[str, list[str]],
     trigger_target_config: dict,
@@ -2704,7 +2704,7 @@ def parametrize_numerical_attribute_condition_above_below_all(
 
 
 async def assert_trigger_ignores_limit_entities_with_wrong_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     trigger: str,
     trigger_options: dict[str, Any],
@@ -2779,7 +2779,7 @@ async def assert_trigger_ignores_limit_entities_with_wrong_unit(
 
 
 async def assert_numerical_condition_unit_conversion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     condition: str,
     entity_id: str,
@@ -2864,7 +2864,7 @@ async def assert_numerical_condition_unit_conversion(
 
 
 async def assert_availability_follows_source_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id: str,
     source_entity_ids: list[str],
 ) -> None:

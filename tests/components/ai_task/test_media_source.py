@@ -11,11 +11,11 @@ from pytest_universalassistant.common import MockUser
 from universalassistant.components import media_source
 from universalassistant.components.ai_task.const import DATA_MEDIA_SOURCE, DOMAIN
 from universalassistant.components.ai_task.media_source import async_get_media_source
-from universalassistant.core import Context, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, Unauthorized
+from universalassistant.core import Context, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, Unauthorized
 
 
-async def test_local_media_source(hass: __HAC_KEEP__, init_components: None) -> None:
+async def test_local_media_source(hass: UniversalAssistant, init_components: None) -> None:
     """Test that the image media source is created."""
     item = await media_source.async_browse_media(hass, "media-source://")
 
@@ -34,12 +34,12 @@ async def test_local_media_source(hass: __HAC_KEEP__, init_components: None) -> 
     assert source.url_prefix == "/ai_task"
 
 
-async def test_media_source_no_media_dirs(hass: __HAC_KEEP__) -> None:
+async def test_media_source_no_media_dirs(hass: UniversalAssistant) -> None:
     """Test an error is raised when no media directories are configured."""
     hass.config.media_dirs = {}
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="AI Task media source requires at least one media directory configured",
     ):
         await async_get_media_source(hass)
@@ -57,7 +57,7 @@ def _write_image(path: Path, days_old: int) -> None:
 
 
 @pytest.fixture
-async def image_dir(hass: __HAC_KEEP__, init_components: None, tmp_path: Path) -> Path:
+async def image_dir(hass: UniversalAssistant, init_components: None, tmp_path: Path) -> Path:
     """Point the AI generated images at a temporary directory."""
     await hass.async_add_executor_job(_write_image, tmp_path / OLD_IMAGE, 31)
     await hass.async_add_executor_job(_write_image, tmp_path / RECENT_IMAGE, 29)
@@ -73,7 +73,7 @@ async def image_dir(hass: __HAC_KEEP__, init_components: None, tmp_path: Path) -
     ],
 )
 async def test_clear_images(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     image_dir: Path,
     service_data: dict[str, int],
     expected_images: list[str],
@@ -86,7 +86,7 @@ async def test_clear_images(
 
 
 async def test_clear_images_no_directory(
-    hass: __HAC_KEEP__, init_components: None, tmp_path: Path
+    hass: UniversalAssistant, init_components: None, tmp_path: Path
 ) -> None:
     """Test clearing images before any image was generated."""
     hass.data[DATA_MEDIA_SOURCE].media_dirs["image"] = str(tmp_path / "missing")
@@ -97,7 +97,7 @@ async def test_clear_images_no_directory(
 
 
 async def test_clear_images_remove_error(
-    hass: __HAC_KEEP__, image_dir: Path, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, image_dir: Path, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test images that can't be removed are logged and kept."""
     with patch.object(Path, "unlink", side_effect=OSError("No access")):
@@ -109,7 +109,7 @@ async def test_clear_images_remove_error(
 
 
 async def test_clear_images_requires_admin(
-    hass: __HAC_KEEP__, image_dir: Path, hass_read_only_user: MockUser
+    hass: UniversalAssistant, image_dir: Path, hass_read_only_user: MockUser
 ) -> None:
     """Test only admins can clear images."""
     with pytest.raises(Unauthorized):

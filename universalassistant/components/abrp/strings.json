@@ -4,7 +4,7 @@
       "already_configured": "[%key:common::config_flow::abort::already_configured_account%]",
       "api_unauthorized": "Could not verify your A Better Routeplanner account.",
       "cannot_connect": "Failed to connect to A Better Routeplanner.",
-      "cloud_not_enabled": "Please make sure you run __HA_KEEP__ with `{default_config}` enabled in your configuration.yaml.",
+      "cloud_not_enabled": "Please make sure you run Universal Home Assistant with `{default_config}` enabled in your configuration.yaml.",
       "missing_configuration": "[%key:common::config_flow::abort::oauth2_missing_configuration%]",
       "no_vehicles": "No vehicles were found on this A Better Routeplanner account.",
       "wrong_account": "The account you signed in with does not match the account being re-authenticated. Please sign in with the same A Better Routeplanner account."

@@ -9,7 +9,7 @@ from universalassistant.components.aquacell.const import (
     CONF_REFRESH_TOKEN_CREATION_TIME,
 )
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 TEST_CONFIG_ENTRY = {
     CONF_EMAIL: "test@test.com",
@@ -35,7 +35,7 @@ TEST_USER_INPUT = {
 DSN = "DSN"
 
 
-async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Fixture for setting up the component."""
     config_entry.add_to_hass(hass)
 

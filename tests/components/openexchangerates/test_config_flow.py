@@ -14,12 +14,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.openexchangerates.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.fixture(name="currencies", autouse=True)
-def currencies_fixture(hass: __HAC_KEEP__) -> Generator[AsyncMock]:
+def currencies_fixture(hass: UniversalAssistant) -> Generator[AsyncMock]:
     """Mock currencies."""
     with patch(
         "universalassistant.components.openexchangerates.config_flow.Client.get_currencies",
@@ -29,7 +29,7 @@ def currencies_fixture(hass: __HAC_KEEP__) -> Generator[AsyncMock]:
 
 
 async def test_user_create_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_latest_rates_config_flow: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -57,7 +57,7 @@ async def test_user_create_entry(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_invalid_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_latest_rates_config_flow: AsyncMock,
 ) -> None:
     """Test we handle invalid auth."""
@@ -86,7 +86,7 @@ async def test_form_invalid_auth(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_latest_rates_config_flow: AsyncMock,
 ) -> None:
     """Test we handle cannot connect error."""
@@ -115,7 +115,7 @@ async def test_form_cannot_connect(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_unknown_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_latest_rates_config_flow: AsyncMock,
 ) -> None:
     """Test we handle unknown error."""
@@ -143,7 +143,7 @@ async def test_form_unknown_error(
 
 
 async def test_already_configured_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_latest_rates_config_flow: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -164,7 +164,7 @@ async def test_already_configured_service(
     assert result["reason"] == "already_configured"
 
 
-async def test_no_currencies(hass: __HAC_KEEP__, currencies: AsyncMock) -> None:
+async def test_no_currencies(hass: UniversalAssistant, currencies: AsyncMock) -> None:
     """Test we abort if the service fails to retrieve currencies."""
     currencies.side_effect = OpenExchangeRatesClientError()
     result = await hass.config_entries.flow.async_init(
@@ -174,7 +174,7 @@ async def test_no_currencies(hass: __HAC_KEEP__, currencies: AsyncMock) -> None:
     assert result["reason"] == "cannot_connect"
 
 
-async def test_currencies_timeout(hass: __HAC_KEEP__, currencies: AsyncMock) -> None:
+async def test_currencies_timeout(hass: UniversalAssistant, currencies: AsyncMock) -> None:
     """Test we abort if the service times out retrieving currencies."""
 
     async def currencies_side_effect():
@@ -195,7 +195,7 @@ async def test_currencies_timeout(hass: __HAC_KEEP__, currencies: AsyncMock) -> 
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_latest_rates_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_latest_rates_config_flow: AsyncMock,
 ) -> None:
     """Test we abort if the service times out retrieving latest rates."""
@@ -232,7 +232,7 @@ async def test_latest_rates_timeout(
 
 
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_latest_rates_config_flow: AsyncMock,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,

@@ -11,7 +11,7 @@ from universalassistant.components.fan import (
     FanEntity,
     FanEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
     percentage_to_ranged_value,
@@ -24,7 +24,7 @@ from .entity import BAFEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: BAFConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

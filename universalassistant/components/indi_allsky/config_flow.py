@@ -22,8 +22,8 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.selector import (
@@ -94,7 +94,7 @@ STEP_CREDENTIALS_SCHEMA = probatio.Schema(
 REAUTH_CONFIRM_SCHEMA = STEP_CREDENTIALS_SCHEMA
 
 
-async def validate_input(hass: __HAC_KEEP__, data: Mapping[str, Any]) -> None:
+async def validate_input(hass: UniversalAssistant, data: Mapping[str, Any]) -> None:
     """Validate that the user input allows us to connect to INDI Allsky."""
     username = data.get(CONF_USERNAME)
     password = data.get(CONF_PASSWORD)
@@ -424,17 +424,17 @@ class IndiAllSkyConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class MissingCredentials(__HAC_KEEP__Error):
+class MissingCredentials(UniversalAssistantError):
     """Error to indicate one credential field was provided without the other."""
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(__HAC_KEEP__Error):
+class InvalidAuth(UniversalAssistantError):
     """Error to indicate there is invalid auth."""
 
 
-class Unknown(__HAC_KEEP__Error):
+class Unknown(UniversalAssistantError):
     """Unexpected error."""

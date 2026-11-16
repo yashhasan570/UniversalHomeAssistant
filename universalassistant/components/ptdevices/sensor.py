@@ -22,7 +22,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfVolume,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import PTDevicesConfigEntry, PTDevicesCoordinator
@@ -148,7 +148,7 @@ SENSOR_DESCRIPTIONS: tuple[PTDevicesSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: PTDevicesConfigEntry,
     async_add_entity: AddConfigEntryEntitiesCallback,
 ) -> None:

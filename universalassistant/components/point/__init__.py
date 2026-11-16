@@ -8,7 +8,7 @@ from pypoint import PointSession
 
 from universalassistant.components import webhook
 from universalassistant.const import CONF_WEBHOOK_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.config_entry_oauth2_flow import (
@@ -26,7 +26,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS = [Platform.BINARY_SENSOR, Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: PointConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: PointConfigEntry) -> None:
     """Set up Minut Point from a config entry."""
 
     if "auth_implementation" not in entry.data:
@@ -62,7 +62,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: PointConfigEntry) -> None
 
 
 async def async_setup_webhook(
-    hass: __HAC_KEEP__, entry: PointConfigEntry, session: PointSession
+    hass: UniversalAssistant, entry: PointConfigEntry, session: PointSession
 ) -> None:
     """Set up a webhook to handle binary sensor events."""
     if CONF_WEBHOOK_ID not in entry.data:
@@ -89,7 +89,7 @@ async def async_setup_webhook(
     )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: PointConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: PointConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(
         entry, [*PLATFORMS, Platform.ALARM_CONTROL_PANEL]
@@ -101,7 +101,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: PointConfigEntry) -> Non
 
 
 async def handle_webhook(
-    hass: __HAC_KEEP__, webhook_id: str, request: web.Request
+    hass: UniversalAssistant, webhook_id: str, request: web.Request
 ) -> None:
     """Handle webhook callback."""
     try:

@@ -25,7 +25,7 @@ from aiowithings.util import to_enum
 from yarl import URL
 
 from universalassistant.components import cloud
-from universalassistant.components.http import __HAC_KEEP__View
+from universalassistant.components.http import UniversalAssistantView
 from universalassistant.components.webhook import (
     async_generate_id as webhook_generate_id,
     async_generate_url as webhook_generate_url,
@@ -40,7 +40,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.config_entry_oauth2_flow import (
@@ -99,7 +99,7 @@ class WithingsData:
         }
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: WithingsConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: WithingsConfigEntry) -> None:
     """Set up Withings from a config entry."""
     if CONF_WEBHOOK_ID not in entry.data or entry.unique_id is None:
         new_data = entry.data.copy()
@@ -166,8 +166,8 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: WithingsConfigEntry) -> N
             )
 
     @callback
-    def _async_register_webhook_later(_: __HAC_KEEP__) -> None:
-        """Register the webhook once __HA_KEEP__ answers for it."""
+    def _async_register_webhook_later(_: UniversalAssistant) -> None:
+        """Register the webhook once Universal Home Assistant answers for it."""
         entry.async_on_unload(
             async_call_later(
                 hass,
@@ -188,7 +188,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: WithingsConfigEntry) -> N
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: WithingsConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: WithingsConfigEntry) -> None:
     """Unload Withings config entry."""
     webhook_unregister(hass, entry.data[CONF_WEBHOOK_ID])
 
@@ -225,7 +225,7 @@ async def async_subscribe_webhooks(client: WithingsClient, webhook_url: str) -> 
 class WithingsWebhookManager:
     """Manager that manages the Withings webhooks."""
 
-    def __init__(self, hass: __HAC_KEEP__, entry: WithingsConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: WithingsConfigEntry) -> None:
         """Initialize webhook manager."""
         self.hass = hass
         self.entry = entry
@@ -432,7 +432,7 @@ async def async_unsubscribe_webhooks(client: WithingsClient) -> None:
 
 
 async def _async_cloudhook_generate_url(
-    hass: __HAC_KEEP__, entry: WithingsConfigEntry
+    hass: UniversalAssistant, entry: WithingsConfigEntry
 ) -> str:
     """Generate the full URL for a webhook_id."""
     if CONF_CLOUDHOOK_URL not in entry.data:
@@ -448,7 +448,7 @@ async def _async_cloudhook_generate_url(
     return str(entry.data[CONF_CLOUDHOOK_URL])
 
 
-async def async_remove_entry(hass: __HAC_KEEP__, entry: WithingsConfigEntry) -> None:
+async def async_remove_entry(hass: UniversalAssistant, entry: WithingsConfigEntry) -> None:
     """Cleanup when entry is removed."""
     if cloud.async_active_subscription(hass):
         try:
@@ -462,16 +462,16 @@ async def async_remove_entry(hass: __HAC_KEEP__, entry: WithingsConfigEntry) -> 
 
 def json_message_response(message: str, message_code: int) -> Response:
     """Produce common json output."""
-    return __HAC_KEEP__View.json({"message": message, "code": message_code})
+    return UniversalAssistantView.json({"message": message, "code": message_code})
 
 
 def get_webhook_handler(
     withings_data: WithingsData,
-) -> Callable[[__HAC_KEEP__, str, Request], Awaitable[Response | None]]:
+) -> Callable[[UniversalAssistant, str, Request], Awaitable[Response | None]]:
     """Return webhook handler."""
 
     async def async_webhook_handler(
-        hass: __HAC_KEEP__, webhook_id: str, request: Request
+        hass: UniversalAssistant, webhook_id: str, request: Request
     ) -> Response | None:
         # Handle http post calls to the path.
         if not request.body_exists:

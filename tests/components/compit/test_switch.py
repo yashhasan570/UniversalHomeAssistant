@@ -14,14 +14,14 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration, snapshot_compit_entities
 
 
 async def test_switch_entities_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
@@ -34,7 +34,7 @@ async def test_switch_entities_snapshot(
 
 
 async def test_switch_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
 ) -> None:
@@ -59,7 +59,7 @@ async def test_switch_turn_on(
 
 
 async def test_switch_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
 ) -> None:
@@ -88,7 +88,7 @@ async def test_switch_turn_off(
     ],
 )
 async def test_switch_unknown_device_parameters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
     mock_return_value: Any,

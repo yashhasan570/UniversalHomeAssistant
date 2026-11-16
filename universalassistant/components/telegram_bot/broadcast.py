@@ -2,13 +2,13 @@
 
 from telegram import Bot
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .bot import BaseTelegramBot, TelegramBotConfigEntry
 
 
 async def async_setup_bot_platform(
-    hass: __HAC_KEEP__, bot: Bot, config: TelegramBotConfigEntry
+    hass: UniversalAssistant, bot: Bot, config: TelegramBotConfigEntry
 ) -> BaseTelegramBot | None:
     """Set up the Telegram broadcast platform."""
     return None

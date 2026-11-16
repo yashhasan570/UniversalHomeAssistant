@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 import probatio
 import pyotgw.vars as gw_vars
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 import universalassistant.util.dt as dt_util
@@ -67,7 +67,7 @@ def _get_gateway(call: ServiceCall) -> OpenThermGatewayHub:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register services for the component."""
     service_reset_schema = probatio.Schema(
         {

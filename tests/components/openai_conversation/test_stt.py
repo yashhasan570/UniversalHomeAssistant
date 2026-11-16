@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components import stt
 from universalassistant.components.openai_conversation.const import CONF_CHAT_MODEL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def _async_get_audio_stream(data: bytes) -> AsyncIterable[bytes]:
@@ -20,7 +20,7 @@ async def _async_get_audio_stream(data: bytes) -> AsyncIterable[bytes]:
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_stt_entity_properties(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test STT entity properties."""
     entity: stt.SpeechToTextEntity = hass.data[stt.DOMAIN].get_entity("stt.openai_stt")
@@ -50,7 +50,7 @@ async def test_stt_entity_properties(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_stt_process_audio_stream_success_wav(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_transcription: AsyncMock,
 ) -> None:
@@ -126,7 +126,7 @@ async def test_stt_process_audio_stream_success_wav(
     indirect=["mock_stt_subentry_data"],
 )
 async def test_stt_process_audio_stream_success_ogg(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_transcription: AsyncMock,
     model: str,
@@ -184,7 +184,7 @@ async def test_stt_process_audio_stream_success_ogg(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_stt_process_audio_stream_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_transcription: AsyncMock,
 ) -> None:
@@ -214,7 +214,7 @@ async def test_stt_process_audio_stream_api_error(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_stt_process_audio_stream_empty_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_transcription: AsyncMock,
 ) -> None:

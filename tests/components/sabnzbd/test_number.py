@@ -19,14 +19,14 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 
 @patch("universalassistant.components.sabnzbd.PLATFORMS", [Platform.NUMBER])
 async def test_number_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -44,7 +44,7 @@ async def test_number_setup(
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_number_set(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sabnzbd: AsyncMock,
     number: str,
     input_number: float,
@@ -72,7 +72,7 @@ async def test_number_set(
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_number_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sabnzbd: AsyncMock,
     number: str,
     input_number: float,
@@ -83,7 +83,7 @@ async def test_number_exception(
     function.side_effect = SabnzbdApiException("Boom")
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Unable to send command to SABnzbd due to a connection"
         " error, try again later",
     ):
@@ -106,7 +106,7 @@ async def test_number_exception(
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_number_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     sabnzbd: AsyncMock,
     number: str,

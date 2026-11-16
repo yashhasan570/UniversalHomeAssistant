@@ -14,13 +14,13 @@ from universalassistant.components.universalassistant import (
     SERVICE_UPDATE_ENTITY,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
 @pytest.mark.freeze_time("2026-04-19 13:00:00+00:00")
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -34,7 +34,7 @@ async def test_diagnostics(
 
 @pytest.mark.freeze_time("2026-04-19 13:00:00+00:00")
 async def test_diagnostics_no_gas_today(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_easyenergy: MagicMock,
     init_integration: MockConfigEntry,

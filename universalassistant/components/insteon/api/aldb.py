@@ -7,7 +7,7 @@ from pyinsteon import devices
 from pyinsteon.constants import ALDBStatus
 
 from universalassistant.components import websocket_api
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 
 from ..const import DEVICE_ADDRESS, ID, INSTEON_DEVICE_NOT_FOUND, TYPE
@@ -79,7 +79,7 @@ def any_aldb_loading() -> bool:
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_get_aldb(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -116,7 +116,7 @@ async def websocket_get_aldb(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_change_aldb_record(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -149,7 +149,7 @@ async def websocket_change_aldb_record(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_create_aldb_record(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -179,7 +179,7 @@ async def websocket_create_aldb_record(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_write_aldb(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -202,7 +202,7 @@ async def websocket_write_aldb(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_load_aldb(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -224,7 +224,7 @@ async def websocket_load_aldb(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_reset_aldb(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -246,7 +246,7 @@ async def websocket_reset_aldb(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_add_default_links(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -270,7 +270,7 @@ async def websocket_add_default_links(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_notify_on_aldb_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -314,7 +314,7 @@ async def websocket_notify_on_aldb_status(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_notify_on_aldb_status_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

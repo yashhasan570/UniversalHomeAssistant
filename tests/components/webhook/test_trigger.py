@@ -10,12 +10,12 @@ from pytest_universalassistant.common import async_capture_events
 from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.webhook import DOMAIN
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(autouse=True)
-async def setup_http(hass: __HAC_KEEP__) -> None:
+async def setup_http(hass: UniversalAssistant) -> None:
     """Set up http."""
     assert await async_setup_component(hass, "http", {})
     assert await async_setup_component(hass, DOMAIN, {})
@@ -23,7 +23,7 @@ async def setup_http(hass: __HAC_KEEP__) -> None:
 
 
 async def test_webhook_json(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test triggering with a JSON webhook."""
     events = []
@@ -64,7 +64,7 @@ async def test_webhook_json(
 
 
 async def test_webhook_post(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test triggering with a POST webhook."""
     # Set up fake cloud
@@ -116,7 +116,7 @@ async def test_webhook_post(
     await hass.async_block_till_done()
     assert len(events) == 1
 
-    # Request from __HA_KEEP__ Cloud remote UI
+    # Request from Universal Home Assistant Cloud remote UI
     with patch(
         "hass_nabucasa.remote.is_cloud_request", Mock(get=Mock(return_value=True))
     ):
@@ -128,7 +128,7 @@ async def test_webhook_post(
 
 
 async def test_webhook_allowed_methods_internet(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test the webhook obeys allowed_methods and local_only options."""
     events = []
@@ -177,7 +177,7 @@ async def test_webhook_allowed_methods_internet(
 
 
 async def test_webhook_query(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test triggering with a query POST webhook."""
     events = []
@@ -214,7 +214,7 @@ async def test_webhook_query(
 
 
 async def test_webhook_multiple(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test triggering multiple triggers with a POST webhook."""
     events1 = []
@@ -271,7 +271,7 @@ async def test_webhook_multiple(
 
 
 async def test_webhook_reload(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test reloading a webhook."""
     events = []
@@ -334,7 +334,7 @@ async def test_webhook_reload(
 
 
 async def test_webhook_template(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test triggering with a template webhook."""
     # Set up fake cloud
@@ -378,7 +378,7 @@ async def test_webhook_template(
 
 
 async def test_webhook_template_uses_state(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test a template webhook ID is rendered with states, once at setup."""
     events = async_capture_events(hass, "test_success")
@@ -443,7 +443,7 @@ async def test_webhook_template_uses_state(
 
 
 async def test_webhook_template_hash(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test a template webhook ID can use hash functions."""
     events = async_capture_events(hass, "test_success")
@@ -474,7 +474,7 @@ async def test_webhook_template_hash(
 
 
 async def test_webhook_template_wait_for_trigger(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test a template webhook ID in a wait is rendered with variables and states."""
     events = async_capture_events(hass, "test_success")
@@ -526,7 +526,7 @@ async def test_webhook_template_wait_for_trigger(
 
 
 async def test_webhook_query_json_header_no_payload(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test requests with application/json header but no payload."""
     events = async_capture_events(hass, "test_success")

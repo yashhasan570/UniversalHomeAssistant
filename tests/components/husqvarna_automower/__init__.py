@@ -2,15 +2,15 @@
 
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Fixture for setting up the component."""
     # We lock the timezone, because the timezone is passed to the library to generate
     # some values like the next start sensor. This is needed, as the device is not aware
     # of its own timezone. So we assume the device is in the timezone selected in
-    # the __HA_KEEP__ config.
+    # the Universal Home Assistant config.
     await hass.config.async_set_time_zone("Europe/Berlin")
     config_entry.add_to_hass(hass)
     await hass.config_entries.async_setup(config_entry.entry_id)

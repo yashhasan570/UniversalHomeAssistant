@@ -16,7 +16,7 @@ from universalassistant.const import (
     UnitOfEnergy,
     UnitOfPower,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -76,7 +76,7 @@ DIAGNOSTICS = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: RAVEnConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

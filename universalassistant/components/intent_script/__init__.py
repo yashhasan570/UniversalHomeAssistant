@@ -4,7 +4,7 @@ import probatio
 
 from universalassistant.components.script import CONF_MODE
 from universalassistant.const import CONF_ACTION, CONF_DESCRIPTION, CONF_TYPE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv, script
 from universalassistant.helpers.typing import ConfigType
 
@@ -58,7 +58,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the intent script component."""
     intents = config[DOMAIN]
 

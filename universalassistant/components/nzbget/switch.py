@@ -4,7 +4,7 @@ from typing import Any, override
 
 from universalassistant.components.switch import SwitchEntity
 from universalassistant.const import CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import NZBGetConfigEntry, NZBGetDataUpdateCoordinator
@@ -12,7 +12,7 @@ from .entity import NZBGetEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: NZBGetConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

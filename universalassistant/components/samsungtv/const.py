@@ -9,7 +9,7 @@ ATTR_PROPERTIES = "properties"
 
 DEFAULT_MANUFACTURER = "Samsung"
 
-VALUE_CONF_NAME = "__HAC_KEEP__"
+VALUE_CONF_NAME = "UniversalAssistant"
 VALUE_CONF_ID = "ha.component.samsung"
 
 CONF_MANUFACTURER = "manufacturer"

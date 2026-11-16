@@ -22,7 +22,7 @@ from universalassistant.config_entries import (
 )
 from universalassistant.const import CONF_HOST, CONF_NAME
 from universalassistant.core import callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_FRIENDLY_NAME,
     SsdpServiceInfo,
@@ -259,5 +259,5 @@ class OptionsFlowHandler(OptionsFlow):
         return self.async_show_form(step_id="init", data_schema=data_schema)
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""

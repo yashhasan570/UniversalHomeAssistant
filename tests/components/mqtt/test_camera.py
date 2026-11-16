@@ -42,7 +42,7 @@ from pytest_universalassistant.typing import (
 from universalassistant.components import camera
 from universalassistant.components.mqtt.camera import MQTT_CAMERA_ATTRIBUTES_BLOCKED
 from universalassistant.components.mqtt.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 DEFAULT_CONFIG = {DOMAIN: {camera.DOMAIN: {"name": "test", "topic": "test_topic"}}}
 
@@ -52,7 +52,7 @@ DEFAULT_CONFIG = {DOMAIN: {camera.DOMAIN: {"name": "test", "topic": "test_topic"
     [{DOMAIN: {camera.DOMAIN: {"topic": "test/camera", "name": "Test Camera"}}}],
 )
 async def test_run_camera_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mqtt_mock_entry: MqttMockHAClientGenerator,
 ) -> None:
@@ -86,7 +86,7 @@ async def test_run_camera_setup(
     ],
 )
 async def test_run_camera_b64_encoded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mqtt_mock_entry: MqttMockHAClientGenerator,
 ) -> None:
@@ -122,7 +122,7 @@ async def test_run_camera_b64_encoded(
     ],
 )
 async def test_camera_b64_encoded_with_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mqtt_mock_entry: MqttMockHAClientGenerator,
 ) -> None:
@@ -147,7 +147,7 @@ async def test_camera_b64_encoded_with_availability(
 
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG])
 async def test_availability_when_connection_lost(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test availability after MQTT disconnection."""
     await help_test_availability_when_connection_lost(
@@ -157,7 +157,7 @@ async def test_availability_when_connection_lost(
 
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG])
 async def test_availability_without_topic(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test availability without defined availability topic."""
     await help_test_availability_without_topic(
@@ -166,7 +166,7 @@ async def test_availability_without_topic(
 
 
 async def test_default_availability_payload(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test availability by default payload with defined topic."""
     await help_test_default_availability_payload(
@@ -175,7 +175,7 @@ async def test_default_availability_payload(
 
 
 async def test_custom_availability_payload(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test availability by custom payload with defined topic."""
     await help_test_custom_availability_payload(
@@ -184,7 +184,7 @@ async def test_custom_availability_payload(
 
 
 async def test_setting_attribute_via_mqtt_json_message(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test the setting of attribute via MQTT with JSON payload."""
     await help_test_setting_attribute_via_mqtt_json_message(
@@ -193,7 +193,7 @@ async def test_setting_attribute_via_mqtt_json_message(
 
 
 async def test_setting_blocked_attribute_via_mqtt_json_message(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test the setting of attribute via MQTT with JSON payload."""
     await help_test_setting_blocked_attribute_via_mqtt_json_message(
@@ -206,7 +206,7 @@ async def test_setting_blocked_attribute_via_mqtt_json_message(
 
 
 async def test_setting_attribute_with_template(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test the setting of attribute via MQTT with JSON payload."""
     await help_test_setting_attribute_with_template(
@@ -215,7 +215,7 @@ async def test_setting_attribute_with_template(
 
 
 async def test_update_with_json_attrs_not_dict(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -226,7 +226,7 @@ async def test_update_with_json_attrs_not_dict(
 
 
 async def test_update_with_json_attrs_bad_json(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -237,7 +237,7 @@ async def test_update_with_json_attrs_bad_json(
 
 
 async def test_discovery_update_attr(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test update of discovered MQTTAttributes."""
     await help_test_discovery_update_attr(
@@ -267,14 +267,14 @@ async def test_discovery_update_attr(
     ],
 )
 async def test_unique_id(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test unique id option only creates one camera per unique_id."""
     await help_test_unique_id(hass, mqtt_mock_entry, camera.DOMAIN)
 
 
 async def test_discovery_removal_camera(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test removal of discovered camera."""
     data = json.dumps(DEFAULT_CONFIG[DOMAIN][camera.DOMAIN])
@@ -282,7 +282,7 @@ async def test_discovery_removal_camera(
 
 
 async def test_discovery_update_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
 ) -> None:
     """Test update of discovered camera."""
@@ -295,7 +295,7 @@ async def test_discovery_update_camera(
 
 
 async def test_discovery_update_unchanged_camera(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test update of discovered camera."""
     data1 = '{ "name": "Beer", "topic": "test_topic"}'
@@ -309,7 +309,7 @@ async def test_discovery_update_unchanged_camera(
 
 @pytest.mark.no_fail_on_log_exception
 async def test_discovery_broken(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test handling of bad discovery message."""
     data1 = '{ "name": "Beer" }'
@@ -319,7 +319,7 @@ async def test_discovery_broken(
 
 
 async def test_entity_device_info_with_connection(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test MQTT camera device registry integration."""
     await help_test_entity_device_info_with_connection(
@@ -328,7 +328,7 @@ async def test_entity_device_info_with_connection(
 
 
 async def test_entity_device_info_with_identifier(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test MQTT camera device registry integration."""
     await help_test_entity_device_info_with_identifier(
@@ -337,7 +337,7 @@ async def test_entity_device_info_with_identifier(
 
 
 async def test_entity_device_info_update(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test device registry update."""
     await help_test_entity_device_info_update(
@@ -346,7 +346,7 @@ async def test_entity_device_info_update(
 
 
 async def test_entity_device_info_remove(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test device registry remove."""
     await help_test_entity_device_info_remove(
@@ -355,7 +355,7 @@ async def test_entity_device_info_remove(
 
 
 async def test_entity_id_update_subscriptions(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test MQTT subscriptions are managed when entity_id is updated."""
     await help_test_entity_id_update_subscriptions(
@@ -368,7 +368,7 @@ async def test_entity_id_update_subscriptions(
 
 
 async def test_entity_id_update_discovery_update(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test MQTT discovery update when entity_id is updated."""
     await help_test_entity_id_update_discovery_update(
@@ -377,7 +377,7 @@ async def test_entity_id_update_discovery_update(
 
 
 async def test_entity_debug_info_message(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test MQTT debug info."""
     await help_test_entity_debug_info_message(
@@ -392,7 +392,7 @@ async def test_entity_debug_info_message(
 
 
 async def test_reloadable(
-    hass: __HAC_KEEP__, mqtt_client_mock: MqttMockPahoClient
+    hass: UniversalAssistant, mqtt_client_mock: MqttMockPahoClient
 ) -> None:
     """Test reloading the MQTT platform."""
     domain = camera.DOMAIN
@@ -406,7 +406,7 @@ async def test_reloadable(
     ids=["platform_key", "listed"],
 )
 async def test_setup_manual_entity_from_yaml(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setup manual configured MQTT entity."""
     await mqtt_mock_entry()
@@ -415,7 +415,7 @@ async def test_setup_manual_entity_from_yaml(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test unloading the config entry."""
     domain = camera.DOMAIN

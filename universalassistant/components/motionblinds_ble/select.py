@@ -8,7 +8,7 @@ from motionblindsble.device import MotionDevice
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import MotionConfigEntry
@@ -31,7 +31,7 @@ SELECT_TYPES: dict[str, SelectEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MotionConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

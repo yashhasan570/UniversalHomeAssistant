@@ -17,7 +17,7 @@ from universalassistant.components.teslemetry.const import (
 )
 from universalassistant.config_entries import ConfigSubentryData
 from universalassistant.const import CONF_ADDRESS, CONF_HOST, CONF_PASSWORD, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .const import ADDRESS, VIN
@@ -76,7 +76,7 @@ def mock_ble_config_entry() -> MockConfigEntry:
 
 
 async def setup_ble_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     platforms: list[Platform] | None = None,
 ) -> MockConfigEntry:
     """Set up the Teslemetry platform for a BLE paired vehicle."""
@@ -95,7 +95,7 @@ async def setup_ble_platform(
 
 
 async def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     platforms: list[Platform] | None = None,
 ) -> MockConfigEntry:
     """Set up the Teslemetry platform."""
@@ -114,7 +114,7 @@ async def setup_platform(
 
 
 async def setup_paired_platform(
-    hass: __HAC_KEEP__, platforms: list[Platform]
+    hass: UniversalAssistant, platforms: list[Platform]
 ) -> MockConfigEntry:
     """Set up the Teslemetry platform with the energy site paired locally."""
     entry = mock_config_entry()
@@ -151,7 +151,7 @@ async def setup_paired_platform(
 
 
 async def reload_platform(
-    hass: __HAC_KEEP__, entry: MockConfigEntry, platforms: list[Platform] | None = None
+    hass: UniversalAssistant, entry: MockConfigEntry, platforms: list[Platform] | None = None
 ):
     """Reload the Teslemetry platform."""
 
@@ -164,7 +164,7 @@ async def reload_platform(
 
 
 def assert_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry_id: str,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -181,7 +181,7 @@ def assert_entities(
 
 
 def assert_entities_alt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry_id: str,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,

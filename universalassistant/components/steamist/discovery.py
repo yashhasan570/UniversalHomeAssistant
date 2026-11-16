@@ -9,7 +9,7 @@ from discovery30303 import AIODiscovery30303, Device30303
 from universalassistant import config_entries
 from universalassistant.components import network
 from universalassistant.const import CONF_MODEL, CONF_NAME
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, discovery_flow
 from universalassistant.util.network import is_ip_address
 
@@ -33,7 +33,7 @@ def async_is_steamist_device(device: Device30303) -> bool:
 
 @callback
 def async_update_entry_from_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SteamistConfigEntry,
     device: Device30303,
 ) -> bool:
@@ -54,7 +54,7 @@ def async_update_entry_from_discovery(
 
 
 async def async_discover_devices(
-    hass: __HAC_KEEP__, timeout: int, address: str | None = None
+    hass: UniversalAssistant, timeout: int, address: str | None = None
 ) -> list[Device30303]:
     """Discover devices."""
     if address:
@@ -103,7 +103,7 @@ def async_find_discovery_by_ip(
     return None
 
 
-async def async_discover_device(hass: __HAC_KEEP__, host: str) -> Device30303 | None:
+async def async_discover_device(hass: UniversalAssistant, host: str) -> Device30303 | None:
     """Direct discovery to a single ip instead of broadcast."""
     return async_find_discovery_by_ip(
         await async_discover_devices(hass, DISCOVER_SCAN_TIMEOUT, host), host
@@ -111,14 +111,14 @@ async def async_discover_device(hass: __HAC_KEEP__, host: str) -> Device30303 | 
 
 
 @callback
-def async_get_discovery(hass: __HAC_KEEP__, host: str) -> Device30303 | None:
+def async_get_discovery(hass: UniversalAssistant, host: str) -> Device30303 | None:
     """Check if a device was already discovered via a broadcast discovery."""
     return async_find_discovery_by_ip(hass.data[DATA_DISCOVERY], host)
 
 
 @callback
 def async_trigger_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     discovered_devices: list[Device30303],
 ) -> None:
     """Trigger config flows for discovered devices."""

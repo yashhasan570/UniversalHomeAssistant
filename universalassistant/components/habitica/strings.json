@@ -107,10 +107,10 @@
           "username": "Email or username (case-sensitive)"
         },
         "data_description": {
-          "password": "Password for the account to connect __HA_KEEP__ to Habitica",
-          "username": "Email or username (case-sensitive) to connect __HA_KEEP__ to your Habitica account"
+          "password": "Password for the account to connect Universal Home Assistant to Habitica",
+          "username": "Email or username (case-sensitive) to connect Universal Home Assistant to your Habitica account"
         },
-        "description": "Enter your login details to start using Habitica with __HA_KEEP__\n\n[Forgot your password?]({forgot_password})",
+        "description": "Enter your login details to start using Habitica with Universal Home Assistant\n\n[Forgot your password?]({forgot_password})",
         "title": "[%key:component::habitica::config::step::user::menu_options::login%]"
       },
       "reauth_confirm": {
@@ -135,7 +135,7 @@
               "password": "[%key:component::habitica::config::step::login::data_description::password%]",
               "username": "[%key:component::habitica::config::step::login::data_description::username%]"
             },
-            "description": "Enter your login details below to re-authorize the __HA_KEEP__ integration with Habitica",
+            "description": "Enter your login details below to re-authorize the Universal Home Assistant integration with Habitica",
             "name": "Re-authorize via login"
           }
         },

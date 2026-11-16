@@ -19,7 +19,7 @@ from universalassistant.const import (
     CONF_USERNAME,
 )
 from universalassistant.data_entry_flow import AbortFlow
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import CONF_RTSP_PORT, CONF_STREAM, DOMAIN, LOGGER
 
@@ -124,13 +124,13 @@ class FoscamConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(__HAC_KEEP__Error):
+class InvalidAuth(UniversalAssistantError):
     """Error to indicate there is invalid auth."""
 
 
-class InvalidResponse(__HAC_KEEP__Error):
+class InvalidResponse(UniversalAssistantError):
     """Error to indicate there is invalid response."""

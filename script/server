@@ -9,5 +9,5 @@ cd "$(dirname "$0")/.."
 # Ensure translations are up to date
 python3 -m script.translations develop --all
 
-# Start __HA_KEEP__
+# Start Universal Home Assistant
 python3 -m universalassistant -c config

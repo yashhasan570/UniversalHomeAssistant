@@ -4,12 +4,12 @@ import requests_mock
 
 from universalassistant.components.plex.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
 async def test_cleanup_orphaned_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     entry,
@@ -50,7 +50,7 @@ async def test_cleanup_orphaned_devices(
 
 
 async def test_migrate_transient_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     entry,

@@ -13,7 +13,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STARTED,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -92,7 +92,7 @@ CONFIG_SCHEMA = probatio.Schema(
 
 
 async def start_emulated_hue_bridge(
-    hass: __HAC_KEEP__, config: Config, app: web.Application
+    hass: UniversalAssistant, config: Config, app: web.Application
 ) -> None:
     """Start the emulated hue bridge."""
     protocol = await async_create_upnp_datagram_endpoint(
@@ -125,7 +125,7 @@ async def start_emulated_hue_bridge(
     hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, stop_emulated_hue_bridge)
 
 
-async def async_setup(hass: __HAC_KEEP__, yaml_config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, yaml_config: ConfigType) -> bool:
     """Activate the emulated_hue component."""
     local_ip = await async_get_source_ip(hass)
     config = Config(hass, yaml_config.get(DOMAIN, {}), local_ip)

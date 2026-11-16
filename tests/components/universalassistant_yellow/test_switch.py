@@ -16,7 +16,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -55,7 +55,7 @@ TEST_MANIFEST = FirmwareManifest(
     ],
 )
 async def test_switch_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service: str,
     target_state: str,
     expected_prerelease: bool,
@@ -76,7 +76,7 @@ async def test_switch_turn_on_off(
 
     # Set up the Yellow integration
     yellow_config_entry = MockConfigEntry(
-        title="__HA_KEEP__ Yellow",
+        title="Universal Home Assistant Yellow",
         domain=DOMAIN,
         data={
             "firmware": "ezsp",

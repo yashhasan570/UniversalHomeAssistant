@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 import logging
 from typing import Any, override
 
+from pymystrom.bulb import MyStromBulb
 from pymystrom.exceptions import MyStromConnectionError
 from pymystrom.pir import MyStromPir
 from pymystrom.switch import MyStromSwitch
@@ -23,7 +24,7 @@ from universalassistant.const import (
     UnitOfPower,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.dt import utcnow
@@ -42,6 +43,18 @@ class MyStromSensorEntityDescription[_DeviceT](SensorEntityDescription):
     # Only needed where nothing else on the device polls; a switch is kept
     # fresh by its own entity refreshing the shared device.
     update_fn: Callable[[_DeviceT], Coroutine[Any, Any, None]] | None = None
+
+
+SENSOR_TYPES_BULB: tuple[MyStromSensorEntityDescription[MyStromBulb], ...] = (
+    MyStromSensorEntityDescription(
+        key="consumption",
+        device_class=SensorDeviceClass.POWER,
+        state_class=SensorStateClass.MEASUREMENT,
+        native_unit_of_measurement=UnitOfPower.WATT,
+        value_fn=lambda device: device.consumption,
+        update_fn=lambda device: device.get_state(),
+    ),
+)
 
 
 SENSOR_TYPES_PIR: tuple[MyStromSensorEntityDescription[MyStromPir], ...] = (
@@ -109,7 +122,7 @@ SENSOR_TYPES_SWITCH: tuple[MyStromSensorEntityDescription[MyStromSwitch], ...] =
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MyStromConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -119,6 +132,11 @@ async def async_setup_entry(
 
     entities: list[MyStromSensorBase] = []
     match device:
+        case MyStromBulb():
+            entities = [
+                MyStromSensor(device, entry.title, description, info["mac"])
+                for description in SENSOR_TYPES_BULB
+            ]
         case MyStromPir():
             entities = [
                 MyStromSensor(device, entry.title, description, info["mac"])
@@ -148,7 +166,7 @@ class MyStromSensorBase(SensorEntity):
 
     def __init__(
         self,
-        device: MyStromSwitch,
+        device: MyStromSwitch | MyStromBulb | MyStromPir,
         name: str,
         key: str,
         mac: str,

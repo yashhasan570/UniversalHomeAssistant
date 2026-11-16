@@ -6,8 +6,8 @@ from pyvlx import Node, PyVLX, PyVLXException
 
 from universalassistant.components.button import ButtonDeviceClass, ButtonEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -19,7 +19,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: VeluxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -42,7 +42,7 @@ class VeluxIdentifyButton(VeluxEntity, ButtonEntity):
     _attr_device_class = ButtonDeviceClass.IDENTIFY
     _attr_entity_category = EntityCategory.DIAGNOSTIC
 
-    def __init__(self, hass: __HAC_KEEP__, node: Node, config_entry_id: str) -> None:
+    def __init__(self, hass: UniversalAssistant, node: Node, config_entry_id: str) -> None:
         """Initialize the Velux identify button."""
         super().__init__(hass, node, config_entry_id)
         self._attr_unique_id = f"{self._attr_unique_id}_identify"
@@ -75,7 +75,7 @@ class VeluxGatewayRebootButton(ButtonEntity):
         try:
             await self.pyvlx.reboot_gateway()
         except PyVLXException as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="reboot_failed",
             ) from ex

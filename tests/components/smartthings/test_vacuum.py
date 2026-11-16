@@ -19,7 +19,7 @@ from universalassistant.components.vacuum import (
     VacuumActivity,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -31,7 +31,7 @@ from . import (
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -53,7 +53,7 @@ async def test_all_entities(
     ],
 )
 async def test_vacuum_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     action: str,
@@ -78,7 +78,7 @@ async def test_vacuum_actions(
 
 @pytest.mark.parametrize("device_fixture", ["da_rvc_map_01011"])
 async def test_state_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -101,7 +101,7 @@ async def test_state_update(
 
 @pytest.mark.parametrize("device_fixture", ["da_rvc_map_01011"])
 async def test_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -125,7 +125,7 @@ async def test_availability(
 
 @pytest.mark.parametrize("device_fixture", ["da_rvc_map_01011"])
 async def test_availability_at_start(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     unavailable_device: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -136,7 +136,7 @@ async def test_availability_at_start(
 
 @pytest.mark.parametrize("device_fixture", ["da_rvc_map_01011"])
 async def test_fan_speed_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -161,7 +161,7 @@ async def test_fan_speed_update(
 
 @pytest.mark.parametrize("device_fixture", ["da_rvc_map_01011"])
 async def test_vacuum_set_fan_speed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

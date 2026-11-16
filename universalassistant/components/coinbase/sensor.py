@@ -4,7 +4,7 @@ import logging
 from typing import override
 
 from universalassistant.components.sensor import SensorEntity, SensorStateClass
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -42,7 +42,7 @@ ATTRIBUTION = "Data provided by coinbase.com"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: CoinbaseConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

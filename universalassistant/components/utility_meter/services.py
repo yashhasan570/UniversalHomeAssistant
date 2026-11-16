@@ -9,7 +9,7 @@ import probatio
 from universalassistant.components.select import DOMAIN as SELECT_DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback, split_entity_id
+from universalassistant.core import UniversalAssistant, ServiceCall, callback, split_entity_id
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.service import async_register_platform_entity_service
@@ -59,7 +59,7 @@ async def async_reset_meters(service_call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the services."""
 
     hass.services.async_register(

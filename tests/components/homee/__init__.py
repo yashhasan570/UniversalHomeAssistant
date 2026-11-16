@@ -7,10 +7,10 @@ from pyHomee.model import HomeeAttribute, HomeeNode
 from pytest_universalassistant.common import MockConfigEntry, load_json_object_fixture
 
 from universalassistant.components.homee.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Set up the component."""
     config_entry.add_to_hass(hass)
 
@@ -52,7 +52,7 @@ def build_mock_node(file: str) -> AsyncMock:
 
 
 async def async_update_attribute_value(
-    hass: __HAC_KEEP__, attribute: AsyncMock, value: float
+    hass: UniversalAssistant, attribute: AsyncMock, value: float
 ) -> None:
     """Set the current_value of an attribute and notify hass."""
     attribute.current_value = value

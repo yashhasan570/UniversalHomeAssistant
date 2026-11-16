@@ -8,7 +8,7 @@ from universalassistant.const import Platform, UnitOfArea, UnitOfTemperature
 
 DOMAIN = "tplink"
 
-DISCOVERY_TIMEOUT = 5  # __HA_KEEP__ will complain if startup takes > 10s
+DISCOVERY_TIMEOUT = 5  # Universal Home Assistant will complain if startup takes > 10s
 CONNECT_TIMEOUT = 5
 
 # Identifier used for primary control state.

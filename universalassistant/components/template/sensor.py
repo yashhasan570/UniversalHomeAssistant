@@ -28,7 +28,7 @@ from universalassistant.const import (
     CONF_UNIT_OF_MEASUREMENT,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -104,7 +104,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -122,7 +122,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -138,7 +138,7 @@ async def async_setup_entry(
 
 @callback
 def async_create_preview_sensor(
-    hass: __HAC_KEEP__, name: str, config: dict[str, Any]
+    hass: UniversalAssistant, name: str, config: dict[str, Any]
 ) -> StateSensorEntity:
     """Create a preview sensor."""
     return async_setup_template_preview(
@@ -255,7 +255,7 @@ class StateSensorEntity(TemplateEntity, AbstractTemplateSensor):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config: dict[str, Any],
         unique_id: str | None,
     ) -> None:
@@ -271,7 +271,7 @@ class TriggerSensorEntity(TriggerEntity, AbstractTemplateSensor):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         coordinator: TriggerUpdateCoordinator,
         config: ConfigType,
     ) -> None:

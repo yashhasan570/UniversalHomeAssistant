@@ -12,8 +12,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 
@@ -26,7 +26,7 @@ def freezer():
 
 @pytest.fixture
 async def setup_redgtech_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_redgtech_api: MagicMock,
 ) -> MagicMock:
@@ -38,7 +38,7 @@ async def setup_redgtech_integration(
 
 
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     setup_redgtech_integration,
@@ -49,7 +49,7 @@ async def test_entities(
 
 
 async def test_switch_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_redgtech_integration: MagicMock,
 ) -> None:
     """Test turning a switch on."""
@@ -67,7 +67,7 @@ async def test_switch_turn_on(
 
 
 async def test_switch_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_redgtech_integration: MagicMock,
 ) -> None:
     """Test turning a switch off."""
@@ -85,7 +85,7 @@ async def test_switch_turn_off(
 
 
 async def test_switch_toggle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_redgtech_integration: MagicMock,
 ) -> None:
     """Test toggling a switch."""
@@ -116,7 +116,7 @@ async def test_switch_toggle(
     ],
 )
 async def test_exception_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_redgtech_integration: MagicMock,
     exception: Exception,
     error_message: str,
@@ -125,7 +125,7 @@ async def test_exception_handling(
     mock_api = setup_redgtech_integration
     mock_api.set_switch_state.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error, match=error_message):
+    with pytest.raises(UniversalAssistantError, match=error_message):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -135,7 +135,7 @@ async def test_exception_handling(
 
 
 async def test_switch_auth_error_with_retry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_redgtech_integration: MagicMock,
 ) -> None:
     """Test handling auth errors with token renewal."""
@@ -143,9 +143,9 @@ async def test_switch_auth_error_with_retry(
     # Mock fails with auth error
     mock_api.set_switch_state.side_effect = RedgtechAuthError("Auth failed")
 
-    # Expect __HAC_KEEP__Error to be raised
+    # Expect UniversalAssistantError to be raised
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Authentication failed when controlling Redgtech switch",
     ):
         await hass.services.async_call(
@@ -158,7 +158,7 @@ async def test_switch_auth_error_with_retry(
 
 @freeze_time("2023-01-01 12:00:00")
 async def test_coordinator_data_update_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_redgtech_integration: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -190,7 +190,7 @@ async def test_coordinator_data_update_success(
 
 @freeze_time("2023-01-01 12:00:00")
 async def test_coordinator_connection_error_during_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_redgtech_integration: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -213,7 +213,7 @@ async def test_coordinator_connection_error_during_update(
 
 @freeze_time("2023-01-01 12:00:00")
 async def test_coordinator_auth_error_with_token_renewal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_redgtech_integration: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

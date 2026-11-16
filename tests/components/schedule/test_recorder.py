@@ -14,14 +14,14 @@ from universalassistant.components.schedule.const import (
     ScheduleEntityStateAttribute,
 )
 from universalassistant.const import EntityStateAttribute
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
 @pytest.mark.usefixtures("recorder_mock", "enable_custom_integrations")
 async def test_exclude_attributes(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test attributes to be excluded."""
     freezer.move_to("2024-08-02 06:30:00-07:00")  # Before Friday event

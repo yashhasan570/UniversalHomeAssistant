@@ -228,7 +228,7 @@ class AirPurifier(Fan):
     def run(self) -> None:
         """Handle accessory driver started event.
 
-        Run inside the __HA_KEEP__ event loop.
+        Run inside the Universal Home Assistant event loop.
         """
         if self.linked_humidity_sensor:
             self._subscriptions.append(

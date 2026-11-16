@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_NOT_HOME, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -16,7 +16,7 @@ pytestmark = pytest.mark.usefixtures("entity_registry_enabled_by_default")
 
 
 async def test_device_tracker_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -31,7 +31,7 @@ async def test_device_tracker_entities(
 
 
 async def test_device_tracker_not_created_without_sim_module(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:
@@ -46,7 +46,7 @@ async def test_device_tracker_not_created_without_sim_module(
 
 
 async def test_device_tracker_no_gps_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:
@@ -65,7 +65,7 @@ async def test_device_tracker_no_gps_data(
 
 
 async def test_device_tracker_with_gps_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:

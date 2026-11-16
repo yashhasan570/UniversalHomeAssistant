@@ -1,4 +1,4 @@
-"""Sensor for __HA_KEEP__ analytics."""
+"""Sensor for Universal Home Assistant analytics."""
 
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -10,7 +10,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
@@ -88,7 +88,7 @@ GENERAL_SENSORS = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: AnalyticsInsightsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -134,7 +134,7 @@ async def async_setup_entry(
 class HomeassistantAnalyticsSensor(
     CoordinatorEntity[HomeassistantAnalyticsDataUpdateCoordinator], SensorEntity
 ):
-    """__HA_KEEP__ Analytics Sensor."""
+    """Universal Home Assistant Analytics Sensor."""
 
     _attr_has_entity_name = True
     _attr_entity_category = EntityCategory.DIAGNOSTIC

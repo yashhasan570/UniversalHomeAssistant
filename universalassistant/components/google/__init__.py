@@ -18,7 +18,7 @@ from universalassistant.const import (
     CONF_OFFSET,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -82,13 +82,13 @@ DEVICE_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Google Calendar integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: GoogleConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: GoogleConfigEntry) -> None:
     """Set up Google from a config entry."""
     # Validate google_calendars.yaml (if present) as soon as possible to return
     # helpful error messages.
@@ -148,13 +148,13 @@ def async_entry_has_scopes(entry: GoogleConfigEntry) -> bool:
     return access.scope in token_scopes
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: GoogleConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: GoogleConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await entry.runtime_data.store.async_flush()
 
 
-async def async_remove_entry(hass: __HAC_KEEP__, entry: GoogleConfigEntry) -> None:
+async def async_remove_entry(hass: UniversalAssistant, entry: GoogleConfigEntry) -> None:
     """Handle removal of a local storage."""
     if hasattr(entry, "runtime_data"):
         store = entry.runtime_data.store
@@ -164,7 +164,7 @@ async def async_remove_entry(hass: __HAC_KEEP__, entry: GoogleConfigEntry) -> No
 
 
 def get_calendar_info(
-    hass: __HAC_KEEP__, calendar: Mapping[str, Any]
+    hass: UniversalAssistant, calendar: Mapping[str, Any]
 ) -> dict[str, Any]:
     """Convert data from Google into DEVICE_SCHEMA."""
     calendar_info: dict[str, Any] = DEVICE_SCHEMA(

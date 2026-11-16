@@ -10,7 +10,7 @@ from tesla_fleet_api.exceptions import InvalidToken, MissingToken, TeslaFleetErr
 from universalassistant import config_entries
 from universalassistant.components.tessie.const import DOMAIN
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .common import ERROR_CONNECTION, TEST_CONFIG, TEST_STATE_OF_ALL_VEHICLES
@@ -37,7 +37,7 @@ def mock_async_setup_entry() -> Iterator[AsyncMock]:
 
 
 async def test_form(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_flow_list_vehicles: AsyncMock,
     mock_async_setup_entry: AsyncMock,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_form(
 
 
 async def test_abort(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a duplicate entry aborts."""
 
@@ -97,7 +97,7 @@ async def test_abort(
     ],
 )
 async def test_form_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     side_effect: BaseException,
     error: dict[str, str],
     mock_config_flow_list_vehicles: AsyncMock,
@@ -128,7 +128,7 @@ async def test_form_errors(
 
 
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_flow_list_vehicles: AsyncMock,
     mock_async_setup_entry: AsyncMock,
 ) -> None:
@@ -169,7 +169,7 @@ async def test_reauth(
     ],
 )
 async def test_reauth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_flow_list_vehicles: AsyncMock,
     mock_async_setup_entry: AsyncMock,
     side_effect: BaseException,

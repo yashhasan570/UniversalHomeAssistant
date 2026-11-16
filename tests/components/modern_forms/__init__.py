@@ -14,11 +14,11 @@ from yarl import URL
 
 from universalassistant.components.modern_forms.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_MAC, CONTENT_TYPE_JSON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def modern_forms_call_mock(
-    hass: __HAC_KEEP__, method: str, url: str, data: dict[str, Any]
+    hass: UniversalAssistant, method: str, url: str, data: dict[str, Any]
 ) -> AiohttpClientMockResponse:
     """Set up the basic returns based on info or status request."""
     if COMMAND_QUERY_STATIC_DATA in data:
@@ -33,7 +33,7 @@ async def modern_forms_call_mock(
 
 
 async def modern_forms_no_light_call_mock(
-    hass: __HAC_KEEP__, method: str, url: str, data: dict[str, Any]
+    hass: UniversalAssistant, method: str, url: str, data: dict[str, Any]
 ) -> AiohttpClientMockResponse:
     """Set up the basic returns based on info or status request."""
     if COMMAND_QUERY_STATIC_DATA in data:
@@ -48,7 +48,7 @@ async def modern_forms_no_light_call_mock(
 
 
 async def modern_forms_timers_set_mock(
-    hass: __HAC_KEEP__, method: str, url: str, data: dict[str, Any]
+    hass: UniversalAssistant, method: str, url: str, data: dict[str, Any]
 ) -> AiohttpClientMockResponse:
     """Set up the basic returns based on info or status request."""
     if COMMAND_QUERY_STATIC_DATA in data:
@@ -63,7 +63,7 @@ async def modern_forms_timers_set_mock(
 
 
 async def modern_forms_breeze_call_mock(
-    hass: __HAC_KEEP__, method: str, url: str, data: dict[str, Any]
+    hass: UniversalAssistant, method: str, url: str, data: dict[str, Any]
 ) -> AiohttpClientMockResponse:
     """Set up the basic returns for a breeze-capable Modern Forms fan."""
     if COMMAND_QUERY_STATIC_DATA in data:
@@ -78,7 +78,7 @@ async def modern_forms_breeze_call_mock(
 
 
 async def modern_forms_breeze_active_call_mock(
-    hass: __HAC_KEEP__, method: str, url: str, data: dict[str, Any]
+    hass: UniversalAssistant, method: str, url: str, data: dict[str, Any]
 ) -> AiohttpClientMockResponse:
     """Set up the basic returns for a breeze-capable fan with breeze active."""
     if COMMAND_QUERY_STATIC_DATA in data:
@@ -93,7 +93,7 @@ async def modern_forms_breeze_active_call_mock(
 
 
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     rgbw: bool = False,
     skip_setup: bool = False,
@@ -101,7 +101,7 @@ async def init_integration(
         [str, str, dict[str, Any]], Coroutine[Any, Any, AiohttpClientMockResponse]
     ] = modern_forms_call_mock,
 ) -> MockConfigEntry:
-    """Set up the Modern Forms integration in __HA_KEEP__."""
+    """Set up the Modern Forms integration in Universal Home Assistant."""
 
     aioclient_mock.post(
         "http://192.168.1.123:80/mf",
@@ -125,7 +125,7 @@ async def init_integration(
 
 
 async def modern_forms_gen4_call_mock(
-    hass: __HAC_KEEP__, method: str, url: URL, data: dict[str, Any]
+    hass: UniversalAssistant, method: str, url: URL, data: dict[str, Any]
 ) -> AiohttpClientMockResponse:
     """Route Gen4 /device and /fixture requests to their fixtures."""
     fixture = (
@@ -139,11 +139,11 @@ async def modern_forms_gen4_call_mock(
 
 
 async def init_integration_gen4(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     skip_setup: bool = False,
     mock_type: Callable[
-        [__HAC_KEEP__, str, URL, dict[str, Any]],
+        [UniversalAssistant, str, URL, dict[str, Any]],
         Coroutine[Any, Any, AiohttpClientMockResponse],
     ] = modern_forms_gen4_call_mock,
 ) -> MockConfigEntry:

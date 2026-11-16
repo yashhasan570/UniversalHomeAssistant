@@ -20,7 +20,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import AQUA_CONTOUR_SERVICE_INFO, setup_entry
@@ -56,7 +56,7 @@ def mock_chars(mock_read_char_raw):
     ],
 )
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_read_char_raw: dict[str, bytes],
     service_info: BluetoothServiceInfo,
@@ -74,7 +74,7 @@ async def test_setup(
 
 
 async def test_state_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_read_char_raw: dict[str, bytes],
     scan_step: Callable[[], Awaitable[None]],
@@ -104,7 +104,7 @@ async def test_state_change(
 
 
 async def test_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry: MockConfigEntry,
     mock_client: Mock,
     mock_read_char_raw: dict[str, bytes],

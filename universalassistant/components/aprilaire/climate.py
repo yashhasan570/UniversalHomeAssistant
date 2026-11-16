@@ -22,7 +22,7 @@ from universalassistant.const import (
     PRECISION_WHOLE,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -66,7 +66,7 @@ FAN_MODE_MAP = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: AprilaireConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

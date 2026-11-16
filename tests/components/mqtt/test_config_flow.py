@@ -80,7 +80,7 @@ from universalassistant.const import (
     CONF_PROTOCOL,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import (
     config_validation as cv,
@@ -343,7 +343,7 @@ def mock_process_uploaded_file(
 
     @contextmanager
     def _mock_process_uploaded_file(
-        hass: __HAC_KEEP__, file_id: str
+        hass: UniversalAssistant, file_id: str
     ) -> Iterator[Path | None]:
         if file_id == file_id_ca:
             with open(tmp_path / "ca.crt", "wb") as cafile:
@@ -397,7 +397,7 @@ def mock_get_addon_discovery_info(get_addon_discovery_info: AsyncMock) -> None:
 
 @pytest.mark.usefixtures("mqtt_client_mock")
 async def test_user_connection_works(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_try_connection: MagicMock,
     mock_finish_setup: MagicMock,
 ) -> None:
@@ -426,7 +426,7 @@ async def test_user_connection_works(
 
 @pytest.mark.usefixtures("mqtt_client_mock", "supervisor", "supervisor_client")
 async def test_user_connection_works_with_supervisor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_try_connection: MagicMock,
     mock_finish_setup: MagicMock,
 ) -> None:
@@ -463,7 +463,7 @@ async def test_user_connection_works_with_supervisor(
 
 @pytest.mark.usefixtures("mqtt_client_mock")
 async def test_user_v5_connection_works(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_try_connection: MagicMock,
     mock_finish_setup: MagicMock,
 ) -> None:
@@ -490,7 +490,7 @@ async def test_user_v5_connection_works(
 
 
 async def test_user_connection_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_try_connection_time_out: MagicMock,
     mock_finish_setup: MagicMock,
 ) -> None:
@@ -524,7 +524,7 @@ async def test_user_connection_fails(
 
 @pytest.mark.parametrize("hass_config", [{"mqtt": {"sensor": {"state_topic": "test"}}}])
 async def test_manual_config_set(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_try_connection: MqttMockPahoClient,
     mock_finish_setup: MagicMock,
 ) -> None:
@@ -554,7 +554,7 @@ async def test_manual_config_set(
     assert config_entry.title == MOCK_BROKER_ENTRY_DATA["broker"]
 
 
-async def test_user_single_instance(hass: __HAC_KEEP__) -> None:
+async def test_user_single_instance(hass: UniversalAssistant) -> None:
     """Test we only allow a single config flow."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -569,7 +569,7 @@ async def test_user_single_instance(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "single_instance_allowed"
 
 
-async def test_hassio_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_hassio_already_configured(hass: UniversalAssistant) -> None:
     """Test we only allow a single config flow."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -584,7 +584,7 @@ async def test_hassio_already_configured(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "single_instance_allowed"
 
 
-async def test_hassio_ignored(hass: __HAC_KEEP__) -> None:
+async def test_hassio_ignored(hass: UniversalAssistant) -> None:
     """Test we supervisor discovered instance can be ignored."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -614,7 +614,7 @@ async def test_hassio_ignored(hass: __HAC_KEEP__) -> None:
 
 
 async def test_hassio_confirm(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_try_connection_success: MqttMockPahoClient,
     mock_finish_setup: MagicMock,
 ) -> None:
@@ -651,7 +651,7 @@ async def test_hassio_confirm(
 
 
 async def test_hassio_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_try_connection_time_out: MagicMock,
     mock_finish_setup: MagicMock,
 ) -> None:
@@ -711,7 +711,7 @@ async def test_hassio_cannot_connect(
     ],
 )
 async def test_addon_flow_with_supervisor_addon_running(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_try_connection_success: MagicMock,
     mock_finish_setup: MagicMock,
 ) -> None:
@@ -765,7 +765,7 @@ async def test_addon_flow_with_supervisor_addon_running(
     ],
 )
 async def test_addon_flow_with_supervisor_addon_installed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_try_connection_success: MagicMock,
     mock_finish_setup: MagicMock,
 ) -> None:
@@ -832,7 +832,7 @@ async def test_addon_flow_with_supervisor_addon_installed(
     ],
 )
 async def test_addon_flow_with_supervisor_addon_running_connection_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_try_connection: MagicMock,
 ) -> None:
     """Test we perform an auto config flow with a supervised install.
@@ -864,7 +864,7 @@ async def test_addon_flow_with_supervisor_addon_running_connection_fails(
     "addon_installed",
 )
 async def test_addon_not_running_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     start_addon: AsyncMock,
 ) -> None:
     """Test we perform an auto config flow with a supervised install.
@@ -907,7 +907,7 @@ async def test_addon_not_running_api_error(
     "addon_installed",
 )
 async def test_addon_discovery_info_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     addon_info: AsyncMock,
     get_addon_discovery_info: AsyncMock,
 ) -> None:
@@ -951,7 +951,7 @@ async def test_addon_discovery_info_error(
     "addon_installed",
 )
 async def test_addon_info_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     addon_info: AsyncMock,
 ) -> None:
     """Test we perform an auto config flow with a supervised install.
@@ -999,7 +999,7 @@ async def test_addon_info_error(
     ],
 )
 async def test_addon_flow_with_supervisor_addon_not_installed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_try_connection_success: MagicMock,
     mock_finish_setup: MagicMock,
 ) -> None:
@@ -1062,7 +1062,7 @@ async def test_addon_flow_with_supervisor_addon_not_installed(
     "start_addon",
 )
 async def test_addon_not_installed_failures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     install_addon: AsyncMock,
 ) -> None:
     """Test we perform an auto config flow with a supervised install.
@@ -1099,7 +1099,7 @@ async def test_addon_not_installed_failures(
 
 
 async def test_option_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
 ) -> None:
     """Test config flow options."""
@@ -1202,7 +1202,7 @@ async def test_option_flow(
     ],
 )
 async def test_bad_certificate_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     mock_ssl_context: dict[str, MagicMock],
     mock_process_uploaded_file: MagicMock,
@@ -1316,7 +1316,7 @@ async def test_bad_certificate_validation(
 )
 @pytest.mark.usefixtures("mock_reload_after_entry_update")
 async def test_keepalive_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     mock_try_connection: MagicMock,
     input_value: str,
@@ -1352,7 +1352,7 @@ async def test_keepalive_validation(
 
 
 async def test_disable_birth_will(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     mock_try_connection: MagicMock,
     mock_reload_after_entry_update: MagicMock,
@@ -1417,7 +1417,7 @@ async def test_disable_birth_will(
 
 
 async def test_invalid_discovery_prefix(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     mock_try_connection: MagicMock,
     mock_reload_after_entry_update: MagicMock,
@@ -1493,7 +1493,7 @@ def get_default(schema: probatio.Schema, key: str) -> Any | None:
 
 @pytest.mark.usefixtures("mock_reload_after_entry_update")
 async def test_option_flow_default_suggested_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     mock_try_connection_success: MqttMockPahoClient,
 ) -> None:
@@ -1635,7 +1635,7 @@ async def test_option_flow_default_suggested_values(
 )
 @pytest.mark.usefixtures("mock_reload_after_entry_update")
 async def test_step_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_client_mock: MqttMockPahoClient,
     mock_try_connection: MagicMock,
     test_input: dict[str, Any],
@@ -1711,7 +1711,7 @@ async def test_step_reauth(
     "mqtt_client_mock", "mock_reload_after_entry_update", "supervisor", "addon_running"
 )
 async def test_step_hassio_reauth(
-    hass: __HAC_KEEP__, mock_try_connection: MagicMock, addon_info: AsyncMock
+    hass: UniversalAssistant, mock_try_connection: MagicMock, addon_info: AsyncMock
 ) -> None:
     """Test reauth step works when Mosquitto add-on was re-installed."""
 
@@ -1791,7 +1791,7 @@ async def test_step_hassio_reauth(
     "mqtt_client_mock", "mock_reload_after_entry_update", "supervisor", "addon_running"
 )
 async def test_step_hassio_reauth_no_discovery_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_try_connection: MagicMock,
     addon_info: AsyncMock,
     broker: str,
@@ -1842,7 +1842,7 @@ async def test_step_hassio_reauth_no_discovery_info(
 
 
 async def test_reconfigure_user_connection_fails(
-    hass: __HAC_KEEP__, mock_try_connection_time_out: MagicMock
+    hass: UniversalAssistant, mock_try_connection_time_out: MagicMock
 ) -> None:
     """Test if connection cannot be made."""
     config_entry = MockConfigEntry(
@@ -1887,7 +1887,7 @@ async def test_reconfigure_user_connection_fails(
 
 
 async def test_options_bad_birth_message_fails(
-    hass: __HAC_KEEP__, mock_try_connection: MqttMockPahoClient
+    hass: UniversalAssistant, mock_try_connection: MqttMockPahoClient
 ) -> None:
     """Test bad birth message."""
     config_entry = MockConfigEntry(
@@ -1931,7 +1931,7 @@ async def test_options_bad_birth_message_fails(
 
 
 async def test_options_bad_will_message_fails(
-    hass: __HAC_KEEP__, mock_try_connection: MagicMock
+    hass: UniversalAssistant, mock_try_connection: MagicMock
 ) -> None:
     """Test bad will message."""
     config_entry = MockConfigEntry(
@@ -1980,7 +1980,7 @@ async def test_options_bad_will_message_fails(
 )
 @pytest.mark.usefixtures("mock_ssl_context", "mock_process_uploaded_file")
 async def test_reconfigure_with_tls_client_key_formats(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_try_connection_success: MqttMockPahoClient,
     mock_context_client_key: bytes,
 ) -> None:
@@ -2116,7 +2116,7 @@ async def test_reconfigure_with_tls_client_key_formats(
 
 @pytest.mark.usefixtures("mock_ssl_context")
 async def test_setup_with_advanced_settings(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_try_connection: MagicMock,
     mock_process_uploaded_file: MagicMock,
 ) -> None:
@@ -2258,7 +2258,7 @@ async def test_setup_with_advanced_settings(
     ],
 )
 async def test_setup_with_certificates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_try_connection: MagicMock,
     mock_process_uploaded_file: MagicMock,
     client_key_password: str,
@@ -2376,7 +2376,7 @@ async def test_setup_with_certificates(
 
 @pytest.mark.usefixtures("mock_ssl_context", "mock_process_uploaded_file")
 async def test_change_websockets_transport_to_tcp(
-    hass: __HAC_KEEP__, mock_try_connection: MagicMock
+    hass: UniversalAssistant, mock_try_connection: MagicMock
 ) -> None:
     """Test reconfiguration flow changing websockets transport settings."""
     config_entry = MockConfigEntry(
@@ -2445,7 +2445,7 @@ async def test_change_websockets_transport_to_tcp(
     ],
 )
 async def test_reconfigure_flow_form(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_try_connection: MagicMock,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     mock_process_uploaded_file: MagicMock,
@@ -2533,7 +2533,7 @@ async def test_reconfigure_flow_form(
     ],
 )
 async def test_reconfigure_no_changed_password(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
 ) -> None:
     """Test reconfigure flow."""
@@ -2594,7 +2594,7 @@ async def test_reconfigure_no_changed_password(
 )
 @pytest.mark.usefixtures("mock_reload_after_entry_update")
 async def test_migrate_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     version: int,
     minor_version: int,
@@ -4090,7 +4090,7 @@ async def test_migrate_config_entry(
     ],
 )
 async def test_subentry_configflow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     mock_reload_after_entry_update: MagicMock,
     config_subentries_data: dict[str, Any],
@@ -4265,7 +4265,7 @@ async def test_subentry_configflow(
 )
 @pytest.mark.usefixtures("mock_reload_after_entry_update")
 async def test_subentry_configflow_unit_of_measurement_context(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     platform: str,
     expected_context: dict[str, str],
@@ -4323,7 +4323,7 @@ async def test_subentry_configflow_unit_of_measurement_context(
     ids=["notify"],
 )
 async def test_subentry_reconfigure_remove_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -4447,7 +4447,7 @@ async def test_subentry_reconfigure_remove_entity(
     ids=["notify"],
 )
 async def test_subentry_reconfigure_edit_entity_multi_entitites(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     mock_reload_after_entry_update: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -4885,7 +4885,7 @@ async def test_subentry_reconfigure_edit_entity_multi_entitites(
     ],
 )
 async def test_subentry_reconfigure_edit_entity_single_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -5031,7 +5031,7 @@ async def test_subentry_reconfigure_edit_entity_single_entity(
     ids=["sensor_last_reset_template"],
 )
 async def test_subentry_reconfigure_edit_entity_reset_fields(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -5168,7 +5168,7 @@ async def test_subentry_reconfigure_edit_entity_reset_fields(
     ids=["notify_notify"],
 )
 async def test_subentry_reconfigure_add_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -5280,7 +5280,7 @@ async def test_subentry_reconfigure_add_entity(
     ],
 )
 async def test_subentry_reconfigure_update_device_properties(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -5436,7 +5436,7 @@ async def test_subentry_reconfigure_update_device_properties(
     ],
 )
 async def test_subentry_reconfigure_availablity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
 ) -> None:
     """Test the subentry ConfigFlow reconfigure and update device properties."""
@@ -5561,7 +5561,7 @@ async def test_subentry_reconfigure_availablity(
     ],
 )
 async def test_subentry_reconfigure_export_settings(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     flow_step: str,
@@ -5632,7 +5632,7 @@ async def test_subentry_reconfigure_export_settings(
 
 
 async def test_subentry_configflow_section_feature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
 ) -> None:
     """Test subentry sections are hidden with no configurable options."""

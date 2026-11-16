@@ -9,8 +9,8 @@ from typing import TYPE_CHECKING
 import probatio
 import yarl
 
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import aiohttp_client, config_validation as cv
 from universalassistant.util import yaml as yaml_util
 
@@ -43,7 +43,7 @@ COMMUNITY_TOPIC_SCHEMA = probatio.Schema(
 )
 
 
-class UnsupportedUrl(__HAC_KEEP__Error):
+class UnsupportedUrl(UniversalAssistantError):
     """When the function doesn't support the url."""
 
 
@@ -115,7 +115,7 @@ def _extract_blueprint_from_community_topic(
 
         try:
             data = yaml_util.parse_yaml(block_content)
-        except __HAC_KEEP__Error:
+        except UniversalAssistantError:
             if block_syntax == "yaml":
                 raise
 
@@ -129,7 +129,7 @@ def _extract_blueprint_from_community_topic(
         break
 
     if blueprint is None:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             "No valid blueprint found in the topic. Blueprint syntax blocks need to be"
             " marked as YAML or no syntax."
         )
@@ -140,7 +140,7 @@ def _extract_blueprint_from_community_topic(
 
 
 async def fetch_blueprint_from_community_post(
-    hass: __HAC_KEEP__, url: str
+    hass: UniversalAssistant, url: str
 ) -> ImportedBlueprint:
     """Get blueprints from a community post url.
 
@@ -158,7 +158,7 @@ async def fetch_blueprint_from_community_post(
 
 
 async def fetch_blueprint_from_github_url(
-    hass: __HAC_KEEP__, url: str
+    hass: UniversalAssistant, url: str
 ) -> ImportedBlueprint:
     """Get a blueprint from a github url."""
     import_url = _get_github_import_url(url)
@@ -178,7 +178,7 @@ async def fetch_blueprint_from_github_url(
 
 
 async def fetch_blueprint_from_github_gist_url(
-    hass: __HAC_KEEP__, url: str
+    hass: UniversalAssistant, url: str
 ) -> ImportedBlueprint:
     """Get a blueprint from a Github Gist."""
     if not url.startswith("https://gist.github.com/"):
@@ -213,7 +213,7 @@ async def fetch_blueprint_from_github_gist_url(
         break
 
     if blueprint is None:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             "No valid blueprint found in the gist. The blueprint file needs to end with"
             " '.yaml'"
         )
@@ -226,11 +226,11 @@ async def fetch_blueprint_from_github_gist_url(
 
 
 async def fetch_blueprint_from_website_url(
-    hass: __HAC_KEEP__, url: str
+    hass: UniversalAssistant, url: str
 ) -> ImportedBlueprint:
     """Get a blueprint from our website."""
     if (WEBSITE_PATTERN.match(url)) is None:
-        raise UnsupportedUrl("Not a __HA_KEEP__ website URL")
+        raise UnsupportedUrl("Not a Universal Home Assistant website URL")
 
     session = aiohttp_client.async_get_clientsession(hass)
 
@@ -246,7 +246,7 @@ async def fetch_blueprint_from_website_url(
 
 
 async def fetch_blueprint_from_generic_url(
-    hass: __HAC_KEEP__, url: str
+    hass: UniversalAssistant, url: str
 ) -> ImportedBlueprint:
     """Get a blueprint from a generic website."""
     session = aiohttp_client.async_get_clientsession(hass)
@@ -272,7 +272,7 @@ FETCH_FUNCTIONS = (
 )
 
 
-async def fetch_blueprint_from_url(hass: __HAC_KEEP__, url: str) -> ImportedBlueprint:
+async def fetch_blueprint_from_url(hass: UniversalAssistant, url: str) -> ImportedBlueprint:
     """Get a blueprint from a url.
 
     The returned blueprint will only be validated with BLUEPRINT_SCHEMA, not the domain
@@ -284,4 +284,4 @@ async def fetch_blueprint_from_url(hass: __HAC_KEEP__, url: str) -> ImportedBlue
             imported_bp.blueprint.update_metadata(source_url=url)
             return imported_bp
 
-    raise __HAC_KEEP__Error("Unsupported URL")
+    raise UniversalAssistantError("Unsupported URL")

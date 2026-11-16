@@ -16,7 +16,7 @@ from plugwise.exceptions import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -40,7 +40,7 @@ class PlugwiseDataUpdateCoordinator(DataUpdateCoordinator[dict[str, GwEntityData
 
     config_entry: PlugwiseConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: PlugwiseConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: PlugwiseConfigEntry) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,

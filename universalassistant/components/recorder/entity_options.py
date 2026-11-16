@@ -7,12 +7,12 @@ from typing import Any
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.recorder import get_instance
 
 
-def is_entity_recorded(hass: __HAC_KEEP__, entity_id: str) -> bool:
+def is_entity_recorded(hass: UniversalAssistant, entity_id: str) -> bool:
     """Check if an entity is being recorded.
 
     Async friendly.
@@ -22,7 +22,7 @@ def is_entity_recorded(hass: __HAC_KEEP__, entity_id: str) -> bool:
 
 
 @callback
-def async_setup(hass: __HAC_KEEP__) -> None:
+def async_setup(hass: UniversalAssistant) -> None:
     """Set up the recorder entity options."""
     websocket_api.async_register_command(hass, ws_get_entity_options)
 
@@ -55,7 +55,7 @@ class RecorderEntityOptions:
 )
 @callback
 def ws_get_entity_options(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Get recorder settings for a single entity."""
     entity_id: str = msg["entity_id"]

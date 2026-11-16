@@ -7,7 +7,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.foscam.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import setup_mock_foscam_camera
@@ -15,7 +15,7 @@ from .const import ENTRY_ID, VALID_CONFIG
 
 
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:

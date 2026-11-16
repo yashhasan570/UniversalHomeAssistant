@@ -6,14 +6,14 @@ from pytest_universalassistant.common import snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import MockConfigEntry, setup_platform
 
 
 async def test_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ring_client: Mock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -26,7 +26,7 @@ async def test_states(
 
 
 async def test_button_opens_door(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ring_client,
     mock_ring_devices,
 ) -> None:

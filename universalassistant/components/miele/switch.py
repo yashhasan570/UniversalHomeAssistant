@@ -9,8 +9,8 @@ from aiohttp import ClientResponseError
 from pymiele import MieleDevice
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -112,7 +112,7 @@ SWITCH_TYPES: Final[tuple[MieleSwitchDefinition, ...]] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MieleConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -169,7 +169,7 @@ class MieleSwitch(MieleEntity, SwitchEntity):
             await self.api.send_action(self._device_id, mode)
         except ClientResponseError as err:
             _LOGGER.debug("Error setting switch state for %s: %s", self.entity_id, err)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_state_error",
                 translation_placeholders={
@@ -205,7 +205,7 @@ class MielePowerSwitch(MieleSwitch):
             await self.api.send_action(self._device_id, mode)
         except ClientResponseError as err:
             _LOGGER.debug("Error setting switch state for %s: %s", self.entity_id, err)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_state_error",
                 translation_placeholders={

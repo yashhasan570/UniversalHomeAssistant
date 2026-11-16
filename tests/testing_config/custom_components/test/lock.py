@@ -6,7 +6,7 @@ Call init before using it in your tests to ensure clean test data.
 from pytest_universalassistant.common import MockEntity
 
 from universalassistant.components.lock import LockEntity, LockEntityFeature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -39,7 +39,7 @@ def init(empty=False):
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities_callback: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

@@ -16,7 +16,7 @@ from universalassistant.components.pvpc_hourly_pricing.const import (
     TARIFFS,
 )
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
@@ -28,7 +28,7 @@ _MOCK_TIME_BAD_AUTH_RESPONSES = datetime(2023, 1, 8, 12, 0, tzinfo=dt_util.UTC)
 
 
 async def test_config_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
     pvpc_aioclient_mock: AiohttpClientMocker,
@@ -173,7 +173,7 @@ async def test_config_flow(
 
 
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     pvpc_aioclient_mock: AiohttpClientMocker,
 ) -> None:

@@ -1,7 +1,7 @@
 """Provides triggers for selects."""
 
 from universalassistant.components.input_select import DOMAIN as INPUT_SELECT_DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.automation import DomainSpec
 from universalassistant.helpers.trigger import (
     ENTITY_STATE_TRIGGER_SCHEMA,
@@ -29,6 +29,6 @@ TRIGGERS: dict[str, type[Trigger]] = {
 }
 
 
-async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
+async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
     """Return the triggers for selects."""
     return TRIGGERS

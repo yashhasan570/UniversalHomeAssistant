@@ -57,7 +57,7 @@ from universalassistant.components.esphome.const import NO_WAKE_WORD
 from universalassistant.components.select import DOMAIN as SELECT_DOMAIN, SelectService
 from universalassistant.components.tts import TextToSpeechCommonOption
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, intent as intent_helper
 from universalassistant.helpers.network import get_url
 from universalassistant.setup import async_setup_component
@@ -83,7 +83,7 @@ def mock_wav() -> bytes:
 
 
 async def test_no_satellite_without_voice_assistant(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_no_satellite_without_voice_assistant(
 
 
 async def test_pipeline_api_audio(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -437,7 +437,7 @@ async def test_pipeline_api_audio(
 
 @pytest.mark.usefixtures("socket_enabled")
 async def test_pipeline_udp_audio(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     mock_wav: bytes,
@@ -645,7 +645,7 @@ async def test_udp_errors() -> None:
 
 
 async def test_pipeline_media_player(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     mock_wav: bytes,
@@ -793,7 +793,7 @@ async def test_pipeline_media_player(
 
 
 async def test_timer_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -862,7 +862,7 @@ async def test_timer_events(
 
 
 async def test_unknown_timer_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -905,7 +905,7 @@ async def test_unknown_timer_event(
 
 
 async def test_streaming_tts_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     mock_wav: bytes,
@@ -984,7 +984,7 @@ async def test_streaming_tts_errors(
 
 
 async def test_tts_format_from_media_player(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -1079,7 +1079,7 @@ async def test_tts_format_from_media_player(
     ],
 )
 async def test_tts_partial_format_from_media_player(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     sample_rate: int,
@@ -1145,7 +1145,7 @@ async def test_tts_partial_format_from_media_player(
 
 
 async def test_pipeline_audio_settings(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -1186,7 +1186,7 @@ async def test_pipeline_audio_settings(
 
 
 async def test_announce_message(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -1257,7 +1257,7 @@ async def test_announce_message(
 
 
 async def test_announce_media_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     device_registry: dr.DeviceRegistry,
@@ -1354,7 +1354,7 @@ async def test_announce_media_id(
 
 
 async def test_announce_message_with_preannounce(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -1425,7 +1425,7 @@ async def test_announce_message_with_preannounce(
 
 
 async def test_non_default_supported_features(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -1448,7 +1448,7 @@ async def test_non_default_supported_features(
 
 
 async def test_start_conversation_message(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -1538,7 +1538,7 @@ async def test_start_conversation_message(
 
 
 async def test_start_conversation_media_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     device_registry: dr.DeviceRegistry,
@@ -1654,7 +1654,7 @@ async def test_start_conversation_media_id(
 
 
 async def test_start_conversation_message_with_preannounce(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -1744,7 +1744,7 @@ async def test_start_conversation_message_with_preannounce(
 
 
 async def test_satellite_unloaded_on_disconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -1773,7 +1773,7 @@ async def test_satellite_unloaded_on_disconnect(
 
 
 async def test_pipeline_abort(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -1844,7 +1844,7 @@ async def test_pipeline_abort(
 
 
 async def test_get_set_configuration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -1891,7 +1891,7 @@ async def test_get_set_configuration(
 
 
 async def test_intent_progress_optimization(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -1963,7 +1963,7 @@ async def test_intent_progress_optimization(
 
 
 async def test_wake_word_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -2099,7 +2099,7 @@ async def test_wake_word_select(
 
 
 async def test_secondary_pipeline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -2252,7 +2252,7 @@ async def test_secondary_pipeline(
 
 @pytest.mark.timeout(5)
 async def test_pipeline_start_missing_wake_word_entity_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -2383,7 +2383,7 @@ async def test_pipeline_start_missing_wake_word_entity_state(
 
 
 async def test_custom_wake_words(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_client: ClientSessionGenerator,
@@ -2430,7 +2430,7 @@ async def test_custom_wake_words(
     # Verify details
     for eww in external_wake_words:
         if eww.id == "hey_universal_assistant":
-            assert eww.wake_word == "Hey __HA_KEEP__"
+            assert eww.wake_word == "Hey Universal Home Assistant"
         else:
             assert eww.wake_word == "Choo Choo Homie"
 
@@ -2460,7 +2460,7 @@ async def test_custom_wake_words(
 
 
 async def test_multichannel_audio(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -2535,7 +2535,7 @@ async def test_multichannel_audio(
     ],
 )
 async def test_multichannel_audio_picked_at_start(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     prefers_unprocessed_audio: bool,
@@ -2640,7 +2640,7 @@ async def test_multichannel_audio_picked_at_start(
     ],
 )
 async def test_multichannel_audio_unknown_stt_engine(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     get_pipeline: dict[str, Any],
@@ -2719,7 +2719,7 @@ async def test_multichannel_audio_unknown_stt_engine(
     ],
 )
 async def test_wake_word_audio_subscription(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     wanted: bool,
@@ -2746,7 +2746,7 @@ async def test_wake_word_audio_subscription(
 
 
 async def test_wake_word_audio_subscribed_again_when_the_answer_moves(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -2795,7 +2795,7 @@ async def test_wake_word_audio_subscribed_again_when_the_answer_moves(
     ],
 )
 async def test_wake_word_audio(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     prefers_unprocessed_audio: bool,
@@ -2885,7 +2885,7 @@ async def test_wake_word_audio(
 
 
 async def test_empty_audio_frame_does_not_end_stream(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -2930,7 +2930,7 @@ async def test_empty_audio_frame_does_not_end_stream(
 
 
 async def test_multichannel_audio_fallback_channel_0(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -3033,7 +3033,7 @@ class _ChunkedMockResultStream(MockResultStream):
     """MockResultStream that yields pre-defined chunks."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, extension: str, chunks: list[bytes]
+        self, hass: UniversalAssistant, extension: str, chunks: list[bytes]
     ) -> None:
         super().__init__(hass, extension, b"")
         self.chunks = chunks
@@ -3082,7 +3082,7 @@ class _ChunkedMockResultStream(MockResultStream):
     ],
 )
 async def test_stream_tts_audio_invalid_wav(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     wav_data: bytes,
@@ -3105,7 +3105,7 @@ async def test_stream_tts_audio_invalid_wav(
 
 
 async def test_stream_tts_audio_junk_chunk_skipping(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -3137,7 +3137,7 @@ async def test_stream_tts_audio_junk_chunk_skipping(
 
 
 async def test_stream_tts_audio_byte_fragmentation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -3161,7 +3161,7 @@ async def test_stream_tts_audio_byte_fragmentation(
 
 
 async def test_stream_tts_audio_multi_chunk_pacing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -3191,7 +3191,7 @@ async def test_stream_tts_audio_multi_chunk_pacing(
 
 
 async def test_stream_tts_audio_cancel_between_chunks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -3221,7 +3221,7 @@ async def test_stream_tts_audio_cancel_between_chunks(
 
 
 async def test_stream_tts_audio_cancel_inner_loop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -3253,7 +3253,7 @@ async def test_stream_tts_audio_cancel_inner_loop(
 
 
 async def test_stream_tts_audio_odd_junk_padding(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -3286,7 +3286,7 @@ async def test_stream_tts_audio_odd_junk_padding(
 
 
 async def test_stream_tts_audio_trailing_metadata(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -3338,7 +3338,7 @@ async def test_stream_tts_audio_trailing_metadata(
     ],
 )
 async def test_wake_word_audio_waits_for_the_satellite_configuration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     active_wake_words: list[str],

@@ -17,7 +17,7 @@ from universalassistant.config_entries import (
     SubentryFlowResult,
 )
 from universalassistant.const import CONF_API_KEY, CONF_LANGUAGE, CONF_NAME
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.selector import (
     LanguageSelector,
     LanguageSelectorConfig,
@@ -163,7 +163,7 @@ def get_model_selection_schema(
 
 
 async def _validate_api_key(
-    hass: __HAC_KEEP__, api_key: str
+    hass: UniversalAssistant, api_key: str
 ) -> tuple[str, AsyncFishAudio]:
     """Validate the user input allows us to connect."""
     client = AsyncFishAudio(api_key=api_key)

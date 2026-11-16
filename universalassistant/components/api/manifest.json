@@ -1,6 +1,6 @@
 {
   "domain": "api",
-  "name": "__HA_KEEP__ API",
+  "name": "Universal Home Assistant API",
   "codeowners": ["@universal-assistant/core"],
   "dependencies": ["http"],
   "documentation": "https://www.universalassistant.io/integrations/api",

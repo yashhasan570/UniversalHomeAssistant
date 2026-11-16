@@ -1,6 +1,6 @@
 """Unit tests for the Threema Gateway API client wrapper.
 
-`ThreemaAPIClient` only wires __HA_KEEP__'s shared aiohttp session into
+`ThreemaAPIClient` only wires Universal Home Assistant's shared aiohttp session into
 `aiothreema.ThreemaGatewayClient`. The Gateway HTTP protocol, encryption,
 and key generation are implemented and tested in that library itself, so
 this file only tests the wiring this integration owns.
@@ -13,7 +13,7 @@ from unittest.mock import MagicMock, patch
 from aiothreema import ThreemaGatewayClient
 
 from universalassistant.components.threema.client import ThreemaAPIClient
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import MOCK_API_SECRET, MOCK_GATEWAY_ID, MOCK_PRIVATE_KEY
 
@@ -26,15 +26,15 @@ def _patch_session(session: MagicMock):
     )
 
 
-def test_is_a_threema_gateway_client(hass: __HAC_KEEP__) -> None:
+def test_is_a_threema_gateway_client(hass: UniversalAssistant) -> None:
     """Test the wrapper is usable wherever a ThreemaGatewayClient is expected."""
     with _patch_session(MagicMock()):
         client = ThreemaAPIClient(hass, MOCK_GATEWAY_ID, MOCK_API_SECRET)
     assert isinstance(client, ThreemaGatewayClient)
 
 
-def test_uses_universal_assistants_shared_session(hass: __HAC_KEEP__) -> None:
-    """Test the client is wired to __HA_KEEP__'s shared aiohttp session."""
+def test_uses_universal_assistants_shared_session(hass: UniversalAssistant) -> None:
+    """Test the client is wired to Universal Home Assistant's shared aiohttp session."""
     mock_session = MagicMock()
     with patch(
         "universalassistant.components.threema.client.async_get_clientsession",
@@ -46,7 +46,7 @@ def test_uses_universal_assistants_shared_session(hass: __HAC_KEEP__) -> None:
     assert client._session is mock_session
 
 
-def test_passes_through_credentials(hass: __HAC_KEEP__) -> None:
+def test_passes_through_credentials(hass: UniversalAssistant) -> None:
     """Test gateway id, API secret, and private key are passed through as-is."""
     with _patch_session(MagicMock()):
         client = ThreemaAPIClient(
@@ -57,7 +57,7 @@ def test_passes_through_credentials(hass: __HAC_KEEP__) -> None:
     assert client.private_key == MOCK_PRIVATE_KEY
 
 
-def test_private_key_defaults_to_none(hass: __HAC_KEEP__) -> None:
+def test_private_key_defaults_to_none(hass: UniversalAssistant) -> None:
     """Test private_key defaults to None for simple (non-E2E) mode."""
     with _patch_session(MagicMock()):
         client = ThreemaAPIClient(hass, MOCK_GATEWAY_ID, MOCK_API_SECRET)

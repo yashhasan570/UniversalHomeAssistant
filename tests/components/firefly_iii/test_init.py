@@ -11,7 +11,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
@@ -25,7 +25,7 @@ from . import setup_integration
     ],
 )
 async def test_setup_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_firefly_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,

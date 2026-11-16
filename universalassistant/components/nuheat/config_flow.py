@@ -10,8 +10,8 @@ import requests.exceptions
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import CONF_SERIAL_NUMBER, DOMAIN
 
@@ -26,7 +26,7 @@ DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def validate_input(hass: __HAC_KEEP__, data):
+async def validate_input(hass: UniversalAssistant, data):
     """Validate the user input allows us to connect.
 
     Data has the keys from DATA_SCHEMA with values provided by the user.
@@ -98,13 +98,13 @@ class NuHeatConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(__HAC_KEEP__Error):
+class InvalidAuth(UniversalAssistantError):
     """Error to indicate there is invalid auth."""
 
 
-class InvalidThermostat(__HAC_KEEP__Error):
+class InvalidThermostat(UniversalAssistantError):
     """Error to indicate there is invalid thermostat."""

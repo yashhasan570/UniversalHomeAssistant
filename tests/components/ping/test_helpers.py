@@ -6,7 +6,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.ping.helpers import PingDataSubProcess
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -28,7 +28,7 @@ class MockAsyncSubprocess:
 
 @pytest.mark.parametrize("exc", [TypeError, ProcessLookupError])
 async def test_async_ping_expected_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     exc: Exception,
@@ -43,7 +43,7 @@ async def test_async_ping_expected_exceptions(
 
 
 async def test_async_ping_unexpected_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -110,7 +110,7 @@ UNREACHABLE_OUTPUT = (
     ],
 )
 async def test_async_ping_subprocess_output(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     stdout: bytes,
     returncode: int,
     expected: dict[str, str] | None,
@@ -128,7 +128,7 @@ async def test_async_ping_subprocess_output(
 
 
 async def test_async_ping_subprocess_command_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test a ping binary failure is logged and reported as not alive."""

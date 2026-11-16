@@ -16,7 +16,7 @@ from universalassistant.components.fan import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import ConfigEntryFactoryType, WebsocketDataType
@@ -45,7 +45,7 @@ from .conftest import ConfigEntryFactoryType, WebsocketDataType
     ],
 )
 async def test_fans(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     aioclient_mock: AiohttpClientMocker,

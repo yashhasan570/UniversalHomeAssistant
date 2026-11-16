@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.automation import DOMAIN as AUTOMATION_DOMAIN
 from universalassistant.components.roborock.const import DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -28,7 +28,7 @@ def platforms() -> list[Platform]:
 
 
 async def test_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     setup_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -61,7 +61,7 @@ def setup_coordinator_side_effect(
     ],
 )
 async def test_binary_sensors_coordinator_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
     fake_devices: list[FakeDevice],
     side_effect: Any,
@@ -86,7 +86,7 @@ async def test_binary_sensors_coordinator_state(
 
 @pytest.mark.parametrize("platforms", [[Platform.BINARY_SENSOR]])
 async def test_zeo_request_protocols_filtered_by_schema(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
     fake_devices: list[FakeDevice],
 ) -> None:
@@ -130,7 +130,7 @@ async def test_zeo_request_protocols_filtered_by_schema(
 
 
 async def test_zeo_unreported_protocol_is_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
     fake_devices: list[FakeDevice],
 ) -> None:
@@ -175,7 +175,7 @@ def register_mop_drying_sensor(
 
 
 async def test_mop_drying_sensor_not_created_for_new_installs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     setup_entry: MockConfigEntry,
@@ -192,7 +192,7 @@ async def test_mop_drying_sensor_not_created_for_new_installs(
 
 
 async def test_mop_drying_sensor_deprecated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     mock_roborock_entry: MockConfigEntry,
@@ -218,7 +218,7 @@ async def test_mop_drying_sensor_deprecated(
 )
 @pytest.mark.usefixtures("dock_type")
 async def test_mop_drying_sensor_removed_for_dock_without_drying(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     mock_roborock_entry: MockConfigEntry,
@@ -240,7 +240,7 @@ async def test_mop_drying_sensor_removed_for_dock_without_drying(
 
 
 async def test_mop_drying_repair_cleared_when_dock_replaced(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     mock_roborock_entry: MockConfigEntry,
@@ -270,7 +270,7 @@ async def test_mop_drying_repair_cleared_when_dock_replaced(
 
 
 async def test_mop_drying_sensor_removed_when_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     mock_roborock_entry: MockConfigEntry,
@@ -293,7 +293,7 @@ async def test_mop_drying_sensor_removed_when_disabled(
 
 
 async def test_mop_drying_sensor_kept_when_used_by_automation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     mock_roborock_entry: MockConfigEntry,

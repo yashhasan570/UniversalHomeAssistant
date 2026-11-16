@@ -11,7 +11,7 @@ from infrared_protocols.codes.marantz.audio import MarantzAudioCode
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
 from universalassistant.const import CONF_MODEL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import MarantzIrConfigEntry
@@ -48,7 +48,7 @@ BUTTON_DESCRIPTIONS: tuple[MarantzIrButtonEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MarantzIrConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

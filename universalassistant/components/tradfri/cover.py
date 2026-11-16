@@ -9,7 +9,7 @@ from universalassistant.components.cover import (
     CoverEntity,
     CoverEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_GATEWAY_ID
@@ -18,7 +18,7 @@ from .entity import TradfriBaseEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: TradfriConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -38,7 +38,7 @@ async def async_setup_entry(
 
 
 class TradfriCover(TradfriBaseEntity, CoverEntity):
-    """The platform class required by __HA_KEEP__."""
+    """The platform class required by Universal Home Assistant."""
 
     _attr_name = None
     _attr_supported_features = (

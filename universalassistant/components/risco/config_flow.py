@@ -17,7 +17,7 @@ from universalassistant.const import (
     CONF_TYPE,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.data_entry_flow import SectionConfig, section
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -64,7 +64,7 @@ HA_STATES = [
 
 
 async def validate_cloud_input(
-    hass: __HAC_KEEP__, data: dict[str, Any]
+    hass: UniversalAssistant, data: dict[str, Any]
 ) -> dict[str, str]:
     """Validate the user input allows us to connect to Risco Cloud.
 
@@ -81,7 +81,7 @@ async def validate_cloud_input(
 
 
 async def validate_local_input(
-    hass: __HAC_KEEP__, data: Mapping[str, str]
+    hass: UniversalAssistant, data: Mapping[str, str]
 ) -> dict[str, Any]:
     """Validate the user input allows us to connect to a local panel.
 

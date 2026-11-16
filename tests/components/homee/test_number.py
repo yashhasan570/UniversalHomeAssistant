@@ -13,7 +13,7 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import build_mock_node, setup_integration
@@ -27,7 +27,7 @@ async def platforms() -> AsyncGenerator[None]:
 
 
 async def setup_numbers(
-    hass: __HAC_KEEP__, mock_homee: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_homee: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Set up the number platform."""
     mock_homee.nodes = [build_mock_node("numbers.json")]
@@ -43,7 +43,7 @@ async def setup_numbers(
     ],
 )
 async def test_value_fn(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -63,7 +63,7 @@ async def test_value_fn(
     ],
 )
 async def test_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -88,7 +88,7 @@ async def test_set_value(
 
 
 async def test_set_value_not_editable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_set_value_not_editable(
 
 
 async def test_number_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

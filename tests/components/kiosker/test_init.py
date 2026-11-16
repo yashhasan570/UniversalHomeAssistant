@@ -7,14 +7,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.kiosker.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
 
 
 async def test_async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_kiosker_api: MagicMock,
 ) -> None:
@@ -28,7 +28,7 @@ async def test_async_setup_entry(
 
 
 async def test_async_setup_entry_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_kiosker_api: MagicMock,
 ) -> None:
@@ -40,7 +40,7 @@ async def test_async_setup_entry_failure(
 
 
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_kiosker_api: MagicMock,
     device_registry: dr.DeviceRegistry,

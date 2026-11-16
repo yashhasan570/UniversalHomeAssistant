@@ -11,8 +11,8 @@ from universalassistant.components.device_tracker import (
     AsyncSeeCallback,
     SourceType,
 )
-from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.components.http import KEY_HASS, UniversalAssistantView
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -34,7 +34,7 @@ PLATFORM_SCHEMA = DEVICE_TRACKER_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_scanner(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_see: AsyncSeeCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -45,7 +45,7 @@ async def async_setup_scanner(
     return True
 
 
-class MerakiView(__HAC_KEEP__View):
+class MerakiView(UniversalAssistantView):
     """View to handle Meraki requests."""
 
     url = URL

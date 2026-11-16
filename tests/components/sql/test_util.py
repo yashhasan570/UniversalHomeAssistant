@@ -12,13 +12,13 @@ from universalassistant.components.sql.util import (
     resolve_db_url,
     validate_sql_select,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.template import Template
 
 
 async def test_resolve_db_url_when_none_configured(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test return recorder db_url if provided db_url is None."""
     db_url = None
@@ -27,7 +27,7 @@ async def test_resolve_db_url_when_none_configured(
     assert resolved_url == get_instance(hass).db_url
 
 
-async def test_resolve_db_url_when_configured(hass: __HAC_KEEP__) -> None:
+async def test_resolve_db_url_when_configured(hass: UniversalAssistant) -> None:
     """Test return provided db_url if it's set."""
     db_url = "mssql://"
     resolved_url = resolve_db_url(hass, db_url)
@@ -66,7 +66,7 @@ async def test_resolve_db_url_when_configured(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_invalid_sql_queries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sql_query: str,
     expected_error_message: str,
 ) -> None:

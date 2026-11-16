@@ -70,7 +70,7 @@ from universalassistant.components.mqtt.const import (
     DOMAIN,
 )
 from universalassistant.const import ATTR_TEMPERATURE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.util.unit_system import (
     METRIC_SYSTEM,
@@ -111,7 +111,7 @@ DEFAULT_CONFIG = {
 
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG])
 async def test_setup_params(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test the initial parameters."""
     await mqtt_mock_entry()
@@ -151,7 +151,7 @@ async def test_setup_params(
     ],
 )
 async def test_preset_none_in_preset_modes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mqtt_mock_entry: MqttMockHAClientGenerator,
 ) -> None:
@@ -162,7 +162,7 @@ async def test_preset_none_in_preset_modes(
 
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG])
 async def test_supported_features(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test the supported_features."""
     await mqtt_mock_entry()
@@ -185,7 +185,7 @@ async def test_supported_features(
 
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG])
 async def test_get_hvac_modes(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test that the operation list returns the correct modes."""
     await mqtt_mock_entry()
@@ -204,7 +204,7 @@ async def test_get_hvac_modes(
 
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG])
 async def test_set_operation_bad_attr_and_state(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting operation mode without required attribute.
 
@@ -226,7 +226,7 @@ async def test_set_operation_bad_attr_and_state(
 
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG])
 async def test_set_operation(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting of new operation mode."""
     mqtt_mock = await mqtt_mock_entry()
@@ -250,7 +250,7 @@ async def test_set_operation(
     ],
 )
 async def test_set_operation_pessimistic(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting operation mode in pessimistic mode."""
     await hass.async_block_till_done()
@@ -293,7 +293,7 @@ async def test_set_operation_pessimistic(
     ],
 )
 async def test_set_operation_optimistic(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting operation mode in optimistic mode."""
     await mqtt_mock_entry()
@@ -323,7 +323,7 @@ async def test_set_operation_optimistic(
     ],
 )
 async def test_set_operation_with_power_command(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting of new operation mode with power command enabled."""
     mqtt_mock = await mqtt_mock_entry()
@@ -373,7 +373,7 @@ async def test_set_operation_with_power_command(
     ],
 )
 async def test_turn_on_and_off_optimistic_with_power_command(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting of turn on/off with power command enabled."""
     mqtt_mock = await mqtt_mock_entry()
@@ -433,7 +433,7 @@ async def test_turn_on_and_off_optimistic_with_power_command(
     ],
 )
 async def test_turn_on_and_off_without_power_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     climate_on: str | None,
     climate_off: str | None,
@@ -475,7 +475,7 @@ async def test_turn_on_and_off_without_power_command(
 
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG])
 async def test_set_fan_mode_bad_attr(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting fan mode without required attribute."""
     await mqtt_mock_entry()
@@ -498,7 +498,7 @@ async def test_set_fan_mode_bad_attr(
     ],
 )
 async def test_set_fan_mode_pessimistic(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting of new fan mode in pessimistic mode."""
     await mqtt_mock_entry()
@@ -530,7 +530,7 @@ async def test_set_fan_mode_pessimistic(
     ],
 )
 async def test_set_fan_mode_optimistic(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting of new fan mode in optimistic mode."""
     await mqtt_mock_entry()
@@ -553,7 +553,7 @@ async def test_set_fan_mode_optimistic(
 
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG])
 async def test_set_fan_mode(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting of new fan mode."""
     mqtt_mock = await mqtt_mock_entry()
@@ -570,7 +570,7 @@ async def test_set_fan_mode(
 
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG])
 async def test_set_swing_mode_bad_attr(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting swing mode without required attribute."""
     await mqtt_mock_entry()
@@ -607,7 +607,7 @@ async def test_set_swing_mode_bad_attr(
     ],
 )
 async def test_set_swing_pessimistic(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting swing mode in pessimistic mode."""
     await mqtt_mock_entry()
@@ -658,7 +658,7 @@ async def test_set_swing_pessimistic(
     ],
 )
 async def test_set_swing_optimistic(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting swing mode in optimistic mode."""
     await mqtt_mock_entry()
@@ -694,7 +694,7 @@ async def test_set_swing_optimistic(
 
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG])
 async def test_set_swing(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting of new swing mode."""
     mqtt_mock = await mqtt_mock_entry()
@@ -720,7 +720,7 @@ async def test_set_swing(
 
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG])
 async def test_set_target_temperature(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting the target temperature."""
     mqtt_mock = await mqtt_mock_entry()
@@ -760,7 +760,7 @@ async def test_set_target_temperature(
 
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG])
 async def test_set_target_humidity(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting the target humidity."""
     mqtt_mock = await mqtt_mock_entry()
@@ -787,7 +787,7 @@ async def test_set_target_humidity(
     ],
 )
 async def test_set_target_temperature_pessimistic(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting the target temperature."""
     await mqtt_mock_entry()
@@ -819,7 +819,7 @@ async def test_set_target_temperature_pessimistic(
     ],
 )
 async def test_set_target_temperature_optimistic(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting the target temperature optimistic."""
     await mqtt_mock_entry()
@@ -842,7 +842,7 @@ async def test_set_target_temperature_optimistic(
 
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG])
 async def test_set_target_temperature_low_high(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting the low/high target temperature."""
     mqtt_mock = await mqtt_mock_entry()
@@ -877,7 +877,7 @@ async def test_set_target_temperature_low_high(
     ],
 )
 async def test_set_target_temperature_low_highpessimistic(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting the low/high target temperature."""
     await mqtt_mock_entry()
@@ -928,7 +928,7 @@ async def test_set_target_temperature_low_highpessimistic(
     ],
 )
 async def test_set_target_temperature_low_high_optimistic(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting the low/high target temperature optimistic."""
     await mqtt_mock_entry()
@@ -1001,7 +1001,7 @@ SETPOINT_STATE_TOPICS = {
     ],
 )
 async def test_set_temperature_resets_other_setpoints_optimistic(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     expected: list[tuple[float | None, float | None, float | None]],
 ) -> None:
@@ -1108,7 +1108,7 @@ async def test_set_temperature_resets_other_setpoints_optimistic(
     ],
 )
 async def test_received_setpoint_resets_other_setpoints(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     messages: list[tuple[str, str]],
     expected: tuple[float | None, float | None, float | None],
@@ -1129,7 +1129,7 @@ async def test_received_setpoint_resets_other_setpoints(
 SWAP_MODES = {"modes": ["off", "auto", "heat_cool", "heat", "cool"]}
 
 
-def _setpoints(hass: __HAC_KEEP__) -> tuple[float | None, float | None, float | None]:
+def _setpoints(hass: UniversalAssistant) -> tuple[float | None, float | None, float | None]:
     """Return the single and range setpoints of the climate entity."""
     state = hass.states.get(ENTITY_CLIMATE)
     return (
@@ -1144,7 +1144,7 @@ def _setpoints(hass: __HAC_KEEP__) -> tuple[float | None, float | None, float | 
     [help_custom_config(climate.DOMAIN, DEFAULT_CONFIG, (SWAP_MODES,))],
 )
 async def test_set_hvac_mode_swaps_setpoints_optimistic(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test inactive optimistic setpoints are parked and restored on mode changes."""
     await mqtt_mock_entry()
@@ -1241,7 +1241,7 @@ async def test_set_hvac_mode_swaps_setpoints_optimistic(
     ],
 )
 async def test_set_hvac_mode_keeps_setpoints(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     messages: list[tuple[str, str]],
     expected: list[tuple[float | None, float | None, float | None]],
@@ -1269,7 +1269,7 @@ async def test_set_hvac_mode_keeps_setpoints(
     ],
 )
 async def test_set_target_humidity_optimistic(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting the target humidity optimistic."""
     await mqtt_mock_entry()
@@ -1300,7 +1300,7 @@ async def test_set_target_humidity_optimistic(
     ],
 )
 async def test_set_target_humidity_pessimistic(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting the target humidity."""
     await mqtt_mock_entry()
@@ -1331,7 +1331,7 @@ async def test_set_target_humidity_pessimistic(
     ],
 )
 async def test_receive_mqtt_temperature(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test getting the current temperature via MQTT."""
     await mqtt_mock_entry()
@@ -1352,7 +1352,7 @@ async def test_receive_mqtt_temperature(
     ],
 )
 async def test_receive_mqtt_humidity(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test getting the current humidity via MQTT."""
     await mqtt_mock_entry()
@@ -1373,7 +1373,7 @@ async def test_receive_mqtt_humidity(
     ],
 )
 async def test_handle_target_humidity_received(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting the target humidity via MQTT."""
     await mqtt_mock_entry()
@@ -1392,7 +1392,7 @@ async def test_handle_target_humidity_received(
     [help_custom_config(climate.DOMAIN, DEFAULT_CONFIG, ({"action_topic": "action"},))],
 )
 async def test_handle_action_received(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test getting the action received via MQTT."""
     await mqtt_mock_entry()
@@ -1431,7 +1431,7 @@ async def test_handle_action_received(
 
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG])
 async def test_set_preset_mode_optimistic(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting of the preset mode."""
     mqtt_mock = await mqtt_mock_entry()
@@ -1487,7 +1487,7 @@ async def test_set_preset_mode_optimistic(
     ],
 )
 async def test_set_preset_mode_explicit_optimistic(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting of the preset mode."""
     mqtt_mock = await mqtt_mock_entry()
@@ -1543,7 +1543,7 @@ async def test_set_preset_mode_explicit_optimistic(
     ],
 )
 async def test_set_preset_mode_pessimistic(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1593,7 +1593,7 @@ async def test_set_preset_mode_pessimistic(
 
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG])
 async def test_availability_when_connection_lost(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test availability after MQTT disconnection."""
     await help_test_availability_when_connection_lost(
@@ -1603,7 +1603,7 @@ async def test_availability_when_connection_lost(
 
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG])
 async def test_availability_without_topic(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test availability without defined availability topic."""
     await help_test_availability_without_topic(
@@ -1612,7 +1612,7 @@ async def test_availability_without_topic(
 
 
 async def test_default_availability_payload(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test availability by default payload with defined topic."""
     await help_test_default_availability_payload(
@@ -1621,7 +1621,7 @@ async def test_default_availability_payload(
 
 
 async def test_custom_availability_payload(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test availability by custom payload with defined topic."""
     await help_test_custom_availability_payload(
@@ -1647,7 +1647,7 @@ async def test_custom_availability_payload(
     ],
 )
 async def test_get_target_temperature_low_high_with_templates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1757,7 +1757,7 @@ async def test_get_target_temperature_low_high_with_templates(
     ],
 )
 async def test_get_with_templates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1920,7 +1920,7 @@ async def test_get_with_templates(
     ],
 )
 async def test_set_and_templates(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setting various attributes with templates."""
     mqtt_mock = await mqtt_mock_entry()
@@ -2051,7 +2051,7 @@ async def test_set_and_templates(
     [help_custom_config(climate.DOMAIN, DEFAULT_CONFIG, ({"min_temp": 26},))],
 )
 async def test_min_temp_custom(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test a custom min temp."""
     await mqtt_mock_entry()
@@ -2068,7 +2068,7 @@ async def test_min_temp_custom(
     [help_custom_config(climate.DOMAIN, DEFAULT_CONFIG, ({"max_temp": 60},))],
 )
 async def test_max_temp_custom(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test a custom max temp."""
     await mqtt_mock_entry()
@@ -2085,7 +2085,7 @@ async def test_max_temp_custom(
     [help_custom_config(climate.DOMAIN, DEFAULT_CONFIG, ({"min_humidity": 42},))],
 )
 async def test_min_humidity_custom(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test a custom min humidity."""
     await mqtt_mock_entry()
@@ -2102,7 +2102,7 @@ async def test_min_humidity_custom(
     [help_custom_config(climate.DOMAIN, DEFAULT_CONFIG, ({"max_humidity": 58},))],
 )
 async def test_max_humidity_custom(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test a custom max humidity."""
     await mqtt_mock_entry()
@@ -2119,7 +2119,7 @@ async def test_max_humidity_custom(
     [help_custom_config(climate.DOMAIN, DEFAULT_CONFIG, ({"temp_step": 0.01},))],
 )
 async def test_temp_step_custom(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test a custom temp step."""
     await mqtt_mock_entry()
@@ -2147,7 +2147,7 @@ async def test_temp_step_custom(
     ],
 )
 async def test_temperature_unit(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test that setting temperature unit converts temperature values."""
     await mqtt_mock_entry()
@@ -2221,7 +2221,7 @@ async def test_temperature_unit(
     ],
 )
 async def test_alt_temperature_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     units: UnitSystem,
     initial: float,
@@ -2245,7 +2245,7 @@ async def test_alt_temperature_unit(
 
 
 async def test_setting_attribute_via_mqtt_json_message(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test the setting of attribute via MQTT with JSON payload."""
     await help_test_setting_attribute_via_mqtt_json_message(
@@ -2254,7 +2254,7 @@ async def test_setting_attribute_via_mqtt_json_message(
 
 
 async def test_setting_blocked_attribute_via_mqtt_json_message(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test the setting of attribute via MQTT with JSON payload."""
     await help_test_setting_blocked_attribute_via_mqtt_json_message(
@@ -2267,7 +2267,7 @@ async def test_setting_blocked_attribute_via_mqtt_json_message(
 
 
 async def test_setting_attribute_with_template(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test the setting of attribute via MQTT with JSON payload."""
     await help_test_setting_attribute_with_template(
@@ -2276,7 +2276,7 @@ async def test_setting_attribute_with_template(
 
 
 async def test_update_with_json_attrs_not_dict(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2287,7 +2287,7 @@ async def test_update_with_json_attrs_not_dict(
 
 
 async def test_update_with_json_attrs_bad_json(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2298,7 +2298,7 @@ async def test_update_with_json_attrs_bad_json(
 
 
 async def test_discovery_update_attr(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test update of discovered MQTTAttributes."""
     await help_test_discovery_update_attr(
@@ -2330,7 +2330,7 @@ async def test_discovery_update_attr(
     ],
 )
 async def test_unique_id(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test unique id option only creates one climate per unique_id."""
     await help_test_unique_id(hass, mqtt_mock_entry, climate.DOMAIN)
@@ -2355,7 +2355,7 @@ async def test_unique_id(
     ],
 )
 async def test_encoding_subscribable_topics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     topic: str,
     value: str,
@@ -2377,7 +2377,7 @@ async def test_encoding_subscribable_topics(
 
 
 async def test_discovery_removal_climate(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test removal of discovered climate."""
     data = json.dumps(DEFAULT_CONFIG[DOMAIN][climate.DOMAIN])
@@ -2385,7 +2385,7 @@ async def test_discovery_removal_climate(
 
 
 async def test_discovery_update_climate(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test update of discovered climate."""
     config1 = {"name": "Beer"}
@@ -2396,7 +2396,7 @@ async def test_discovery_update_climate(
 
 
 async def test_discovery_update_unchanged_climate(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test update of discovered climate."""
     data1 = '{ "name": "Beer" }'
@@ -2410,7 +2410,7 @@ async def test_discovery_update_unchanged_climate(
 
 @pytest.mark.no_fail_on_log_exception
 async def test_discovery_broken(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test handling of bad discovery message."""
     data1 = '{ "name": "Beer", "power_command_topic": "test_topic#" }'
@@ -2421,7 +2421,7 @@ async def test_discovery_broken(
 
 
 async def test_entity_device_info_with_connection(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test MQTT climate device registry integration."""
     await help_test_entity_device_info_with_connection(
@@ -2430,7 +2430,7 @@ async def test_entity_device_info_with_connection(
 
 
 async def test_entity_device_info_with_identifier(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test MQTT climate device registry integration."""
     await help_test_entity_device_info_with_identifier(
@@ -2439,7 +2439,7 @@ async def test_entity_device_info_with_identifier(
 
 
 async def test_entity_device_info_update(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test device registry update."""
     await help_test_entity_device_info_update(
@@ -2448,7 +2448,7 @@ async def test_entity_device_info_update(
 
 
 async def test_entity_device_info_remove(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test device registry remove."""
     await help_test_entity_device_info_remove(
@@ -2457,7 +2457,7 @@ async def test_entity_device_info_remove(
 
 
 async def test_entity_id_update_subscriptions(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test MQTT subscriptions are managed when entity_id is updated."""
     config = {
@@ -2475,7 +2475,7 @@ async def test_entity_id_update_subscriptions(
 
 
 async def test_entity_id_update_discovery_update(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test MQTT discovery update when entity_id is updated."""
     await help_test_entity_id_update_discovery_update(
@@ -2484,7 +2484,7 @@ async def test_entity_id_update_discovery_update(
 
 
 async def test_entity_debug_info_message(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test MQTT debug info."""
     config = {
@@ -2510,7 +2510,7 @@ async def test_entity_debug_info_message(
 
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG])
 async def test_precision_default(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test that setting precision to tenths works as intended."""
     mqtt_mock = await mqtt_mock_entry()
@@ -2528,7 +2528,7 @@ async def test_precision_default(
     [help_custom_config(climate.DOMAIN, DEFAULT_CONFIG, ({"precision": 0.5},))],
 )
 async def test_precision_halves(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test that setting precision to halves works as intended."""
     mqtt_mock = await mqtt_mock_entry()
@@ -2546,7 +2546,7 @@ async def test_precision_halves(
     [help_custom_config(climate.DOMAIN, DEFAULT_CONFIG, ({"precision": 1.0},))],
 )
 async def test_precision_whole(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test that setting precision to whole works as intended."""
     mqtt_mock = await mqtt_mock_entry()
@@ -2638,7 +2638,7 @@ async def test_precision_whole(
     ],
 )
 async def test_publishing_with_custom_encoding(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
     service: str,
@@ -2733,7 +2733,7 @@ async def test_publishing_with_custom_encoding(
     ],
 )
 async def test_humidity_configuration_validity(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator, valid: bool
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator, valid: bool
 ) -> None:
     """Test the validity of humidity configurations."""
     assert await mqtt_mock_entry()
@@ -2742,7 +2742,7 @@ async def test_humidity_configuration_validity(
 
 
 async def test_reloadable(
-    hass: __HAC_KEEP__, mqtt_client_mock: MqttMockPahoClient
+    hass: UniversalAssistant, mqtt_client_mock: MqttMockPahoClient
 ) -> None:
     """Test reloading the MQTT platform."""
     domain = climate.DOMAIN
@@ -2756,7 +2756,7 @@ async def test_reloadable(
     ids=["platform_key", "listed"],
 )
 async def test_setup_manual_entity_from_yaml(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setup manual configured MQTT entity."""
     await mqtt_mock_entry()
@@ -2765,7 +2765,7 @@ async def test_setup_manual_entity_from_yaml(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test unloading the config entry."""
     domain = climate.DOMAIN
@@ -2825,7 +2825,7 @@ async def test_unload_entry(
     ],
 )
 async def test_skipped_async_ha_write_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     topic: str,
     payload1: str,
@@ -2856,7 +2856,7 @@ async def test_skipped_async_ha_write_state(
     ids=VALUE_TEMPLATE_KEYS,
 )
 async def test_value_template_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2870,7 +2870,7 @@ async def test_value_template_fails(
 
 
 async def test_entity_icon_and_entity_picture(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock_entry: MqttMockHAClientGenerator,
 ) -> None:
     """Test the entity name setup."""

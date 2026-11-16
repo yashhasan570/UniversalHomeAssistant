@@ -11,7 +11,7 @@ from xknx.telegram import GroupAddress, IndividualAddress, Telegram
 
 from universalassistant.components.repairs import RepairsFlow, RepairsFlowResult
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import issue_registry as ir, selector
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 
@@ -38,7 +38,7 @@ CONF_KEYRING_FILE: Final = "knxkeys_file"
 
 
 async def async_create_fix_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_id: str,
     data: dict[str, str | int | float | None] | None,
 ) -> RepairsFlow:
@@ -57,7 +57,7 @@ async def async_create_fix_flow(
 
 @callback
 def async_create_entity_validation_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_id: str,
     platform: Platform,
     unique_ids: list[str],
@@ -85,7 +85,7 @@ def async_create_entity_validation_issue(
 
 @callback
 def async_create_expose_validation_issue(
-    hass: __HAC_KEEP__, config_entry_id: str, entity_ids: list[str]
+    hass: UniversalAssistant, config_entry_id: str, entity_ids: list[str]
 ) -> None:
     """Create a repair issue for invalid expose configurations in the config store."""
     _LOGGER.error(
@@ -108,7 +108,7 @@ def async_create_expose_validation_issue(
 
 @callback
 def async_create_time_server_validation_issue(
-    hass: __HAC_KEEP__, config_entry_id: str
+    hass: UniversalAssistant, config_entry_id: str
 ) -> None:
     """Create a repair issue for an invalid time server configuration."""
     _LOGGER.error(
@@ -253,7 +253,7 @@ class DataSecureGroupIssueRepairFlow(RepairsFlow):
 
 @callback
 def async_create_telegram_storage_issue(
-    hass: __HAC_KEEP__, config_entry_id: str
+    hass: UniversalAssistant, config_entry_id: str
 ) -> None:
     """Create a repair issue for storage initialization failure."""
     ir.async_create_issue(
@@ -268,7 +268,7 @@ def async_create_telegram_storage_issue(
 
 
 @callback
-def async_delete_telegram_storage_issue(hass: __HAC_KEEP__) -> None:
+def async_delete_telegram_storage_issue(hass: UniversalAssistant) -> None:
     """Delete the repair issue for storage initialization failure."""
     ir.async_delete_issue(
         hass,

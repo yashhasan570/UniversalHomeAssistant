@@ -26,11 +26,11 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_migration_v1_1_to_v1_3(
-    hass: __HAC_KEEP__, mock_config_entry_old, mock_apis_single_fp
+    hass: UniversalAssistant, mock_config_entry_old, mock_apis_single_fp
 ) -> None:
     """Test migration from v1.1 to v1.3."""
     mock_config_entry_old.add_to_hass(hass)
@@ -58,7 +58,7 @@ async def test_migration_v1_1_to_v1_3(
     }
 
 
-async def test_migration_v1_1_error(hass: __HAC_KEEP__, mock_apis_single_fp) -> None:
+async def test_migration_v1_1_error(hass: UniversalAssistant, mock_apis_single_fp) -> None:
     """Test migration failure when cloud lookup fails."""
     mock_config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -82,7 +82,7 @@ async def test_migration_v1_1_error(hass: __HAC_KEEP__, mock_apis_single_fp) -> 
 
 
 async def test_migration_v1_2_to_v1_3(
-    hass: __HAC_KEEP__, mock_config_entry_v1_2_old_options, mock_apis_single_fp
+    hass: UniversalAssistant, mock_config_entry_v1_2_old_options, mock_apis_single_fp
 ) -> None:
     """Test migration from v1.2 with old option keys to v1.3 with new keys."""
     mock_config_entry_v1_2_old_options.add_to_hass(hass)
@@ -102,7 +102,7 @@ async def test_migration_v1_2_to_v1_3(
 
 
 async def test_migration_v1_2_to_v1_3_defaults(
-    hass: __HAC_KEEP__, mock_apis_single_fp
+    hass: UniversalAssistant, mock_apis_single_fp
 ) -> None:
     """Test migration from v1.2 with no options defaults to local."""
     mock_config_entry = MockConfigEntry(
@@ -139,7 +139,7 @@ async def test_migration_v1_2_to_v1_3_defaults(
     }
 
 
-async def test_init_with_no_username(hass: __HAC_KEEP__, mock_apis_single_fp) -> None:
+async def test_init_with_no_username(hass: UniversalAssistant, mock_apis_single_fp) -> None:
     """Test the case where we completely fail to initialize."""
     mock_config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -171,7 +171,7 @@ async def test_init_with_no_username(hass: __HAC_KEEP__, mock_apis_single_fp) ->
     [aiohttp.ClientConnectionError, ConnectionError, TimeoutError],
 )
 async def test_connectivity_error_during_setup_retries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_current: MockConfigEntry,
     mock_apis_single_fp: tuple[AsyncMock, AsyncMock, MagicMock],
     setup_error: type[Exception],
@@ -192,7 +192,7 @@ async def test_connectivity_error_during_setup_retries(
 
 
 async def test_update_options_change_read_mode_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_current: MockConfigEntry,
     mock_apis_single_fp,
 ) -> None:
@@ -226,7 +226,7 @@ async def test_update_options_change_read_mode_only(
 
 
 async def test_update_options_change_control_mode_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_current: MockConfigEntry,
     mock_apis_single_fp,
 ) -> None:
@@ -260,7 +260,7 @@ async def test_update_options_change_control_mode_only(
 
 
 async def test_update_options_change_both_modes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_current: MockConfigEntry,
     mock_apis_single_fp,
 ) -> None:
@@ -294,7 +294,7 @@ async def test_update_options_change_both_modes(
 
 
 async def test_update_options_no_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_current: MockConfigEntry,
     mock_apis_single_fp,
 ) -> None:
@@ -358,7 +358,7 @@ async def test_update_options_no_change(
 
 
 async def test_coordinator_performs_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_current: MockConfigEntry,
     mock_apis_single_fp,
 ) -> None:

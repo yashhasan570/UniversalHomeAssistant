@@ -10,7 +10,7 @@ from universalassistant.components.logbook import (
     LOGBOOK_ENTRY_NAME,
 )
 from universalassistant.const import EntityStateAttribute
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.util.event_type import EventType
 
 from .const import DOMAIN
@@ -29,7 +29,7 @@ EVENT_TO_DESCRIPTION: dict[EventType[Any] | str, str] = {
 
 @callback
 def async_describe_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_describe_event: Callable[[str, str, Callable[[Event], dict[str, str]]], None],
 ) -> None:
     """Describe logbook events."""

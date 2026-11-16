@@ -13,7 +13,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import UnitOfElectricCurrent, UnitOfEnergy, UnitOfPower
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -22,7 +22,7 @@ from .entity import SpinEvEntity
 
 PARALLEL_UPDATES = 0
 
-# "unavailable" is reserved for entities __HA_KEEP__ cannot read.
+# "unavailable" is reserved for entities Universal Home Assistant cannot read.
 CHARGER_STATES: dict[ChargerState, str] = {
     **{state: state.name.lower() for state in ChargerState},
     ChargerState.UNAVAILABLE: "out_of_service",
@@ -82,7 +82,7 @@ SENSORS: tuple[SpinEvSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SpinEvConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

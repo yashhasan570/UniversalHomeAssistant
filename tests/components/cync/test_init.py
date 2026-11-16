@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.cync.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -22,7 +22,7 @@ from universalassistant.helpers import (
     ],
 )
 async def test_preserve_registry_identifiers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -95,7 +95,7 @@ async def test_preserve_registry_identifiers(
 
 
 async def test_preserve_device_without_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,

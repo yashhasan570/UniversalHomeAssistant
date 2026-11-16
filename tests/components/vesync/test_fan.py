@@ -19,8 +19,8 @@ from universalassistant.components.fan import (
     FanServiceArgument,
 )
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .common import (
@@ -44,7 +44,7 @@ async def _fail_without_response(
 
 @pytest.mark.parametrize("device_name", ALL_DEVICE_NAMES)
 async def test_fan_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -88,7 +88,7 @@ async def test_fan_state(
     ],
 )
 async def test_turn_on_off_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fan_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     action: str,
@@ -130,20 +130,20 @@ async def test_turn_on_off_success(
     ],
 )
 async def test_turn_on_off_raises_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fan_config_entry: MockConfigEntry,
     action: str,
     command: str,
 ) -> None:
     """Test turn_on and turn_off raises errors when fails."""
 
-    # returns False indicating failure in which case raises __HAC_KEEP__Error.
+    # returns False indicating failure in which case raises UniversalAssistantError.
     with (
         patch(
             command,
             return_value=False,
         ) as method_mock,
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             FAN_DOMAIN,
@@ -158,7 +158,7 @@ async def test_turn_on_off_raises_error(
 
 @pytest.mark.parametrize(
     ("api_response", "expectation"),
-    [(True, NoException), (False, pytest.raises(__HAC_KEEP__Error))],
+    [(True, NoException), (False, pytest.raises(UniversalAssistantError))],
 )
 @pytest.mark.parametrize(
     ("preset_mode", "patch_target"),
@@ -173,7 +173,7 @@ async def test_turn_on_off_raises_error(
     ],
 )
 async def test_set_preset_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fan_config_entry: MockConfigEntry,
     api_response: bool,
     expectation,
@@ -182,7 +182,7 @@ async def test_set_preset_mode(
 ) -> None:
     """Test set_preset_mode method via turn on for test coverage."""
 
-    # If VeSyncTowerFan.mode fails (returns False), then __HAC_KEEP__Error is raised
+    # If VeSyncTowerFan.mode fails (returns False), then UniversalAssistantError is raised
     with (
         expectation,
         patch(
@@ -209,7 +209,7 @@ async def test_set_preset_mode(
 
 
 async def test_out_of_range_fan_level(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -229,7 +229,7 @@ async def test_out_of_range_fan_level(
 
 
 async def test_set_preset_mode_eco(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -276,11 +276,11 @@ async def test_set_preset_mode_eco(
     [
         ("true", True, NoException),
         ("false", True, NoException),
-        ("true", False, pytest.raises(__HAC_KEEP__Error)),
+        ("true", False, pytest.raises(UniversalAssistantError)),
     ],
 )
 async def test_pedestal_fan_oscillation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     pedestal_fan_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     action: str,
@@ -336,10 +336,10 @@ async def test_pedestal_fan_oscillation(
 )
 @pytest.mark.parametrize(
     ("api_response", "expectation"),
-    [(True, NoException), (False, pytest.raises(__HAC_KEEP__Error))],
+    [(True, NoException), (False, pytest.raises(UniversalAssistantError))],
 )
 async def test_oscillation_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fan_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     action: str,
@@ -406,7 +406,7 @@ async def test_oscillation_success(
     ],
 )
 async def test_set_percentage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     service: str,
@@ -521,7 +521,7 @@ async def test_set_percentage(
     ],
 )
 async def test_set_percentage_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     details: dict[str, int | str],
@@ -544,7 +544,7 @@ async def test_set_percentage_failure(
         patch.object(
             VeSyncTowerFan, command, autospec=True, side_effect=_fail_command
         ) as command_mock,
-        pytest.raises(__HAC_KEEP__Error, match=message),
+        pytest.raises(UniversalAssistantError, match=message),
     ):
         await hass.services.async_call(
             FAN_DOMAIN,
@@ -589,7 +589,7 @@ async def test_set_percentage_failure(
     ],
 )
 async def test_percentage_in_preset_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     device_name: str,
@@ -642,7 +642,7 @@ async def test_percentage_in_preset_mode(
     ],
 )
 async def test_command_failure_without_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     service: str,
@@ -662,7 +662,7 @@ async def test_command_failure_without_response(
         patch.object(
             VeSyncTowerFan, command, autospec=True, side_effect=_fail_without_response
         ) as command_mock,
-        pytest.raises(__HAC_KEEP__Error, match=message),
+        pytest.raises(UniversalAssistantError, match=message),
     ):
         await hass.services.async_call(
             FAN_DOMAIN,
@@ -675,7 +675,7 @@ async def test_command_failure_without_response(
 
 
 async def test_pedestal_fan_oscillation_failure_without_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     pedestal_fan_config_entry: MockConfigEntry,
 ) -> None:
     """Test a failed pedestal oscillation with no API response raises an error."""
@@ -693,7 +693,7 @@ async def test_pedestal_fan_oscillation_failure_without_response(
             side_effect=_fail_without_response,
         ),
         pytest.raises(
-            __HAC_KEEP__Error, match="Failed to set oscillation, no response found."
+            UniversalAssistantError, match="Failed to set oscillation, no response found."
         ),
     ):
         await hass.services.async_call(
@@ -717,7 +717,7 @@ async def test_pedestal_fan_oscillation_failure_without_response(
     ],
 )
 async def test_pedestal_fan_oscillating_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     vertical: int,
@@ -743,7 +743,7 @@ async def test_pedestal_fan_oscillating_state(
 
 
 async def test_preset_mode_not_reported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -761,7 +761,7 @@ async def test_preset_mode_not_reported(
 
 
 async def test_unknown_preset_mode_logs_warning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
@@ -781,7 +781,7 @@ async def test_unknown_preset_mode_logs_warning(
 
 
 async def test_set_preset_mode_pet(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:

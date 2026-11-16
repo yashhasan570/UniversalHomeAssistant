@@ -21,7 +21,7 @@ from universalassistant.const import (
     CONF_PROFILE_NAME,
     CONF_SERVICE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.json import JSONEncoder
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -37,7 +37,7 @@ async def get_available_regions(hass, service):
 
 
 async def async_get_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> AWSNotify | None:

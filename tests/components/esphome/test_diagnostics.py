@@ -12,7 +12,7 @@ from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
 from universalassistant.components import bluetooth
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .common import MockDashboardRefresh
 from .conftest import MockESPHomeDevice, MockESPHomeDeviceType
@@ -20,7 +20,7 @@ from .conftest import MockESPHomeDevice, MockESPHomeDeviceType
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
     mock_dashboard: dict[str, Any],
@@ -34,7 +34,7 @@ async def test_diagnostics(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_diagnostics_with_dashboard_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_esphome_device: MockESPHomeDeviceType,
     mock_dashboard: dict[str, Any],
@@ -61,7 +61,7 @@ async def test_diagnostics_with_dashboard_data(
 
 
 async def test_diagnostics_with_bluetooth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_bluetooth_entry_with_raw_adv: MockESPHomeDevice,
 ) -> None:

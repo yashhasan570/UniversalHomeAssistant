@@ -3,7 +3,7 @@
 from typing import override
 
 from universalassistant.components.sensor import SensorEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -13,7 +13,7 @@ from .entity import AlarmDecoderEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: AlarmDecoderConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

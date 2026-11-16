@@ -18,7 +18,7 @@ from samsungtvws.exceptions import ResponseError
 from samsungtvws.remote import ChannelEmitCommand
 
 from universalassistant.components.samsungtv.const import DOMAIN, WEBSOCKET_SSL_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import SAMPLE_DEVICE_INFO_WIFI
 
@@ -169,7 +169,7 @@ def rest_api_fixture() -> Generator[Mock]:
 
 
 @pytest.fixture(name="rest_api_non_ssl_only")
-def rest_api_fixture_non_ssl_only(hass: __HAC_KEEP__) -> Generator[None]:
+def rest_api_fixture_non_ssl_only(hass: UniversalAssistant) -> Generator[None]:
     """Patch the samsungtvws SamsungTVAsyncRest non-ssl only."""
 
     class MockSamsungTVAsyncRest:

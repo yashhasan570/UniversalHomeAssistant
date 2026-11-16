@@ -34,7 +34,7 @@ from universalassistant.components.template.config import (
 )
 from universalassistant.components.template.const import TemplateService
 from universalassistant.const import STATE_ON
-from universalassistant.core import Context, __HAC_KEEP__, callback
+from universalassistant.core import Context, UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util, yaml as yaml_util
@@ -126,7 +126,7 @@ def patch_invalid_blueprint_with_multiple_entities() -> Iterator[None]:
 
 
 async def test_inverted_binary_sensor(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test inverted binary sensor blueprint."""
     hass.states.async_set("binary_sensor.foo", "on", {"friendly_name": "Foo"})
@@ -194,7 +194,7 @@ async def test_inverted_binary_sensor(
         )
 
 
-async def test_reload_template_when_blueprint_changes(hass: __HAC_KEEP__) -> None:
+async def test_reload_template_when_blueprint_changes(hass: UniversalAssistant) -> None:
     """Test a template is updated at reload if the blueprint has changed."""
     hass.states.async_set("binary_sensor.foo", "on", {"friendly_name": "Foo"})
     config = {
@@ -257,7 +257,7 @@ async def test_reload_template_when_blueprint_changes(hass: __HAC_KEEP__) -> Non
     assert not_inverted.state == "on"
 
 
-async def test_init_attribute_variables_from_blueprint(hass: __HAC_KEEP__) -> None:
+async def test_init_attribute_variables_from_blueprint(hass: UniversalAssistant) -> None:
     """Test blueprint initializes icon, name, and picture with variables."""
     blueprint = "test_init_attribute_variables.yaml"
     source = "switch.foo"
@@ -344,7 +344,7 @@ async def test_init_attribute_variables_from_blueprint(hass: __HAC_KEEP__) -> No
 
 
 async def test_init_attribute_variables_from_blueprint_listed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a state-based blueprint using the listed platform format with variables.
 
@@ -391,7 +391,7 @@ async def test_init_attribute_variables_from_blueprint_listed(
     ],
 )
 async def test_trigger_event_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     blueprint: str,
 ) -> None:
@@ -472,7 +472,7 @@ async def test_trigger_event_sensor(
     ],
 )
 async def test_blueprint_template_override(
-    hass: __HAC_KEEP__, blueprint: str, override: dict
+    hass: UniversalAssistant, blueprint: str, override: dict
 ) -> None:
     """Test blueprint template where the template config overrides the blueprint."""
     assert await async_setup_component(
@@ -541,7 +541,7 @@ async def test_blueprint_template_override(
         await template.async_get_blueprints(hass).async_remove_blueprint(blueprint)
 
 
-async def test_domain_blueprint(hass: __HAC_KEEP__) -> None:
+async def test_domain_blueprint(hass: UniversalAssistant) -> None:
     """Test DomainBlueprint services."""
     reload_handler_calls = async_mock_service(hass, DOMAIN, TemplateService.RELOAD)
     mock_create_file = MagicMock()
@@ -583,7 +583,7 @@ async def test_domain_blueprint(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_invalid_blueprint(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     blueprint_patch: Callable[[], contextlib.AbstractContextManager[None]],
     error: str,
     caplog: pytest.LogCaptureFixture,
@@ -611,7 +611,7 @@ async def test_invalid_blueprint(
     assert "invalid.yaml" not in blueprints
 
 
-async def test_no_blueprint(hass: __HAC_KEEP__) -> None:
+async def test_no_blueprint(hass: UniversalAssistant) -> None:
     """Test templates without blueprints."""
     with patch_blueprint(
         "inverted_binary_sensor.yaml",
@@ -671,7 +671,7 @@ async def test_no_blueprint(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.freeze_time("2025-06-13 00:00:00+00:00")
 async def test_variables_for_entity(
-    hass: __HAC_KEEP__, domain: str, set_state: str, expected: str
+    hass: UniversalAssistant, domain: str, set_state: str, expected: str
 ) -> None:
     """Test regular template entities via blueprint with variables defined."""
     hass.states.async_set("sensor.test_state", set_state)

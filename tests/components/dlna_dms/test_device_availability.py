@@ -15,7 +15,7 @@ from universalassistant.components.dlna_dms.const import DOMAIN
 from universalassistant.components.dlna_dms.dms import get_domain_data
 from universalassistant.components.media_player import BrowseError
 from universalassistant.components.media_source import Unresolvable
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
 
 from .conftest import (
@@ -56,7 +56,7 @@ async def connected_source_mock(
 
 @pytest.fixture
 async def disconnected_source_mock(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     upnp_factory_mock: Mock,
     config_entry_mock: MockConfigEntry,
     ssdp_scanner_mock: Mock,
@@ -101,14 +101,14 @@ async def disconnected_source_mock(
     )
 
 
-async def assert_source_available(hass: __HAC_KEEP__) -> None:
+async def assert_source_available(hass: UniversalAssistant) -> None:
     """Assert that the DmsDeviceSource under test can be used."""
     assert await media_source.async_browse_media(
         hass, f"media-source://{DOMAIN}/{MOCK_SOURCE_ID}/:{DUMMY_OBJECT_ID}"
     )
 
 
-async def assert_source_unavailable(hass: __HAC_KEEP__) -> None:
+async def assert_source_unavailable(hass: UniversalAssistant) -> None:
     """Assert that the DmsDeviceSource under test cannot be used."""
     with pytest.raises(Unresolvable, match="DMS is not connected"):
         await media_source.async_browse_media(
@@ -117,7 +117,7 @@ async def assert_source_unavailable(hass: __HAC_KEEP__) -> None:
 
 
 async def test_unavailable_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     upnp_factory_mock: Mock,
     ssdp_scanner_mock: Mock,
     disconnected_source_mock: None,
@@ -163,7 +163,7 @@ async def test_unavailable_device(
 
 
 async def test_become_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     upnp_factory_mock: Mock,
     ssdp_scanner_mock: Mock,
     disconnected_source_mock: None,
@@ -193,7 +193,7 @@ async def test_become_available(
 
 
 async def test_alive_but_gone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     upnp_factory_mock: Mock,
     ssdp_scanner_mock: Mock,
     disconnected_source_mock: None,
@@ -285,7 +285,7 @@ async def test_alive_but_gone(
 
 
 async def test_multiple_ssdp_alive(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     upnp_factory_mock: Mock,
     ssdp_scanner_mock: Mock,
     disconnected_source_mock: None,
@@ -334,7 +334,7 @@ async def test_multiple_ssdp_alive(
 
 
 async def test_ssdp_byebye(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ssdp_scanner_mock: Mock,
     connected_source_mock: None,
 ) -> None:
@@ -369,7 +369,7 @@ async def test_ssdp_byebye(
 
 
 async def test_ssdp_update_seen_bootid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ssdp_scanner_mock: Mock,
     upnp_factory_mock: Mock,
     disconnected_source_mock: None,
@@ -481,7 +481,7 @@ async def test_ssdp_update_seen_bootid(
 
 
 async def test_ssdp_update_missed_bootid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ssdp_scanner_mock: Mock,
     upnp_factory_mock: Mock,
     disconnected_source_mock: None,
@@ -551,7 +551,7 @@ async def test_ssdp_update_missed_bootid(
 
 
 async def test_ssdp_bootid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     upnp_factory_mock: Mock,
     ssdp_scanner_mock: Mock,
     disconnected_source_mock: None,
@@ -617,7 +617,7 @@ async def test_ssdp_bootid(
 
 async def test_repeated_connect(
     caplog: pytest.LogCaptureFixture,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     upnp_factory_mock: Mock,
     connected_source_mock: None,
 ) -> None:
@@ -635,7 +635,7 @@ async def test_repeated_connect(
 
 
 async def test_become_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connected_source_mock: None,
     dms_device_mock: Mock,
 ) -> None:

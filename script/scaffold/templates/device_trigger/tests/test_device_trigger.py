@@ -7,13 +7,13 @@ from universalassistant.components import automation
 from universalassistant.components.device_automation import DeviceAutomationType
 from universalassistant.components.NEW_DOMAIN import DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 async def test_get_triggers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -50,7 +50,7 @@ async def test_get_triggers(
 
 
 async def test_if_fires_on_state_change(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for turn_on and turn_off triggers firing."""
     hass.states.async_set("NEW_DOMAIN.entity", STATE_OFF)

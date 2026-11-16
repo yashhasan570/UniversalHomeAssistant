@@ -13,8 +13,8 @@ from universalassistant.components.fan import (
     FanEntity,
     FanEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
     percentage_to_ranged_value,
@@ -33,7 +33,7 @@ PRESET_MODE_BREEZE = "Breeze"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: BondConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -136,7 +136,7 @@ class BondFan(BondEntity, FanEntity):
                 self._device_id, Action.set_power_state_belief(power_state)
             )
         except ClientResponseError as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "The bond API returned an error calling set_power_state_belief for"
                 f" {self.entity_id}.  Code: {ex.status}  Message: {ex.message}"
             ) from ex
@@ -161,7 +161,7 @@ class BondFan(BondEntity, FanEntity):
                 self._device_id, Action.set_speed_belief(bond_speed)
             )
         except ClientResponseError as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "The bond API returned an error calling set_speed_belief for"
                 f" {self.entity_id}.  Code: {ex.code}  Message: {ex.message}"
             ) from ex

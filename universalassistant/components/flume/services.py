@@ -5,7 +5,7 @@ from enum import StrEnum
 import probatio
 
 from universalassistant.core import (
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -40,7 +40,7 @@ LIST_NOTIFICATIONS_SERVICE_SCHEMA = probatio.All(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register services."""
 
     @callback

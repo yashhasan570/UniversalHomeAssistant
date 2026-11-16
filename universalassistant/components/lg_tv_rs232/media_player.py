@@ -13,8 +13,8 @@ from universalassistant.components.media_player import (
     MediaPlayerEntityFeature,
     MediaPlayerState,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -54,20 +54,20 @@ _BASE_SUPPORTED_FEATURES = (
 def catch_command_errors[**_P](
     func: Callable[_P, Coroutine[Any, Any, None]],
 ) -> Callable[_P, Coroutine[Any, Any, None]]:
-    """Translate LG library errors raised by an action into __HAC_KEEP__Error."""
+    """Translate LG library errors raised by an action into UniversalAssistantError."""
 
     @wraps(func)
     async def wrapper(*args: _P.args, **kwargs: _P.kwargs) -> None:
         try:
             await func(*args, **kwargs)
         except CommandRejected as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_rejected",
                 translation_placeholders={"error": str(err)},
             ) from err
         except (ConnectionError, OSError, TimeoutError) as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={"error": str(err)},
@@ -77,7 +77,7 @@ def catch_command_errors[**_P](
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: LGTVRS232ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

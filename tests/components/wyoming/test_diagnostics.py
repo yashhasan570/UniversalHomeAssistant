@@ -6,12 +6,12 @@ from pytest_universalassistant.components.diagnostics import get_diagnostics_for
 from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.usefixtures("init_wyoming_stt")
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     stt_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -25,7 +25,7 @@ async def test_diagnostics(
 
 @pytest.mark.usefixtures("init_satellite")
 async def test_diagnostics_satellite(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     satellite_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,

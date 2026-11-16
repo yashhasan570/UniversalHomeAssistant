@@ -13,7 +13,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import Control4ConfigEntry, get_items_of_category
@@ -38,7 +38,7 @@ _LOGGER = logging.getLogger(__name__)
 
 CONTROL4_CATEGORY = "comfort"
 
-# Map Control4 HVAC modes to __HA_KEEP__
+# Map Control4 HVAC modes to Universal Home Assistant
 C4_TO_HA_HVAC_MODE = {
     "Off": HVACMode.OFF,
     "Cool": HVACMode.COOL,
@@ -48,7 +48,7 @@ C4_TO_HA_HVAC_MODE = {
 
 HA_TO_C4_HVAC_MODE = {v: k for k, v in C4_TO_HA_HVAC_MODE.items()}
 
-# Map Control4 HVAC states to __HA_KEEP__ HVAC actions
+# Map Control4 HVAC states to Universal Home Assistant HVAC actions
 C4_TO_HA_HVAC_ACTION = {
     "off": HVACAction.OFF,
     "heat": HVACAction.HEATING,
@@ -60,7 +60,7 @@ C4_TO_HA_HVAC_ACTION = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: Control4ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

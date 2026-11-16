@@ -20,7 +20,7 @@ from universalassistant.const import (
     UnitOfSoundPressure,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -144,7 +144,7 @@ SENSOR_TYPES_DUST: tuple[AwairSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: AwairConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

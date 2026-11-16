@@ -14,7 +14,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.typing import StateType
 
@@ -24,7 +24,7 @@ from .const import MOCK_WEBHOOK_ID
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
@@ -47,7 +47,7 @@ async def test_event(
     ],
 )
 async def test_auto_shut_off_webhook(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],

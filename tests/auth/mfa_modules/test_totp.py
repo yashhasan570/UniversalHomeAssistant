@@ -8,12 +8,12 @@ from pytest_universalassistant.common import MockUser
 from universalassistant import data_entry_flow
 from universalassistant.auth import auth_manager_from_config, models as auth_models
 from universalassistant.auth.mfa_modules import auth_mfa_module_from_config
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 MOCK_CODE = "123456"
 
 
-async def test_validating_mfa(hass: __HAC_KEEP__) -> None:
+async def test_validating_mfa(hass: UniversalAssistant) -> None:
     """Test validating mfa code."""
     totp_auth_module = await auth_mfa_module_from_config(hass, {"type": "totp"})
     await totp_auth_module.async_setup_user("test-user", {})
@@ -22,7 +22,7 @@ async def test_validating_mfa(hass: __HAC_KEEP__) -> None:
         assert await totp_auth_module.async_validate("test-user", {"code": MOCK_CODE})
 
 
-async def test_validating_mfa_invalid_code(hass: __HAC_KEEP__) -> None:
+async def test_validating_mfa_invalid_code(hass: UniversalAssistant) -> None:
     """Test validating an invalid mfa code."""
     totp_auth_module = await auth_mfa_module_from_config(hass, {"type": "totp"})
     await totp_auth_module.async_setup_user("test-user", {})
@@ -34,7 +34,7 @@ async def test_validating_mfa_invalid_code(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_validating_mfa_invalid_user(hass: __HAC_KEEP__) -> None:
+async def test_validating_mfa_invalid_user(hass: UniversalAssistant) -> None:
     """Test validating an mfa code with invalid user."""
     totp_auth_module = await auth_mfa_module_from_config(hass, {"type": "totp"})
     await totp_auth_module.async_setup_user("test-user", {})
@@ -45,7 +45,7 @@ async def test_validating_mfa_invalid_user(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_setup_depose_user(hass: __HAC_KEEP__) -> None:
+async def test_setup_depose_user(hass: UniversalAssistant) -> None:
     """Test despose user."""
     totp_auth_module = await auth_mfa_module_from_config(hass, {"type": "totp"})
     result = await totp_auth_module.async_setup_user("test-user", {})
@@ -64,7 +64,7 @@ async def test_setup_depose_user(hass: __HAC_KEEP__) -> None:
     assert len(totp_auth_module._users) == 1
 
 
-async def test_login_flow_validates_mfa(hass: __HAC_KEEP__) -> None:
+async def test_login_flow_validates_mfa(hass: UniversalAssistant) -> None:
     """Test login flow with mfa enabled."""
     hass.auth = await auth_manager_from_config(
         hass,
@@ -132,7 +132,7 @@ async def test_login_flow_validates_mfa(hass: __HAC_KEEP__) -> None:
         assert result["data"].id == "mock-id"
 
 
-async def test_race_condition_in_data_loading(hass: __HAC_KEEP__) -> None:
+async def test_race_condition_in_data_loading(hass: UniversalAssistant) -> None:
     """Test race condition in the data loading."""
     counter = 0
 

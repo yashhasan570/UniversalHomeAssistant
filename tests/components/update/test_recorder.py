@@ -19,7 +19,7 @@ from universalassistant.components.update.const import (
     DOMAIN,
 )
 from universalassistant.const import ATTR_ENTITY_PICTURE, CONF_PLATFORM
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -28,7 +28,7 @@ from .common import MockUpdateEntity
 
 async def test_exclude_attributes(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_update_entities: list[MockUpdateEntity],
 ) -> None:
     """Test update attributes to be excluded."""

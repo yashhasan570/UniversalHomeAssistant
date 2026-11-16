@@ -19,8 +19,8 @@ from universalassistant.components.switch import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH
 from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -28,7 +28,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("mock_portainer_client")
 async def test_all_switch_entities_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -63,7 +63,7 @@ async def test_all_switch_entities_snapshot(
 )
 @pytest.mark.parametrize("service_call", [SERVICE_TURN_ON, SERVICE_TURN_OFF])
 async def test_turn_off_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -109,13 +109,13 @@ async def test_turn_off_on(
 @pytest.mark.parametrize(
     ("raise_exception", "expected_exception"),
     [
-        (PortainerAuthenticationError, __HAC_KEEP__Error),
-        (PortainerConnectionError, __HAC_KEEP__Error),
-        (PortainerTimeoutError, __HAC_KEEP__Error),
+        (PortainerAuthenticationError, UniversalAssistantError),
+        (PortainerConnectionError, UniversalAssistantError),
+        (PortainerTimeoutError, UniversalAssistantError),
     ],
 )
 async def test_turn_off_on_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -144,7 +144,7 @@ async def test_turn_off_on_exceptions(
 
 
 async def test_switch_invalid_auth_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -154,7 +154,7 @@ async def test_switch_invalid_auth_starts_reauth(
         "auth"
     )
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,

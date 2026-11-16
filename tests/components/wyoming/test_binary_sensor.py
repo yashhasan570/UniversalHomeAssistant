@@ -5,7 +5,7 @@ import pytest
 from universalassistant.components.wyoming.devices import SatelliteDevice
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import reload_satellite
@@ -13,7 +13,7 @@ from . import reload_satellite
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_assist_in_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     satellite_config_entry: ConfigEntry,
     satellite_device: SatelliteDevice,
 ) -> None:
@@ -43,7 +43,7 @@ async def test_assist_in_progress(
 
 
 async def test_assist_in_progress_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     satellite_device: SatelliteDevice,
 ) -> None:

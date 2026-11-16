@@ -16,7 +16,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv, state as state_helper
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.event import async_track_time_interval
@@ -44,7 +44,7 @@ CONFIG_SCHEMA = probatio.Schema(
 
 
 async def async_send_to_emoncms(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     emoncms_client: EmoncmsClient,
     whitelist: list[str],
     node: str | int,
@@ -73,7 +73,7 @@ async def async_send_to_emoncms(
             _LOGGER.debug("Sent data to Emoncms: %s", payload_dict)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Emoncms history component."""
     conf = config[DOMAIN]
     whitelist = conf.get(CONF_WHITELIST)

@@ -20,8 +20,8 @@ from universalassistant.components.humidifier import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from . import EVAPORATIVE_HUMIDIFIER_SERVICE_INFO, HUMIDIFIER_SERVICE_INFO
 
@@ -67,7 +67,7 @@ from . import EVAPORATIVE_HUMIDIFIER_SERVICE_INFO, HUMIDIFIER_SERVICE_INFO
     ],
 )
 async def test_humidifier_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     service: str,
     service_data: dict,
@@ -144,7 +144,7 @@ async def test_humidifier_services(
     ],
 )
 async def test_exception_handling_humidifier_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     service: str,
     service_data: dict,
@@ -168,7 +168,7 @@ async def test_exception_handling_humidifier_service(
         assert await hass.config_entries.async_setup(entry.entry_id)
         await hass.async_block_till_done(wait_background_tasks=True)
 
-        with pytest.raises(__HAC_KEEP__Error, match=error_message):
+        with pytest.raises(UniversalAssistantError, match=error_message):
             await hass.services.async_call(
                 HUMIDIFIER_DOMAIN,
                 service,
@@ -187,7 +187,7 @@ async def test_exception_handling_humidifier_service(
     ],
 )
 async def test_evaporative_humidifier_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     service: str,
     service_data: dict,
@@ -229,7 +229,7 @@ async def test_evaporative_humidifier_services(
     ],
 )
 async def test_evaporative_humidifier_services_with_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     service: str,
     service_data: dict,
@@ -255,7 +255,7 @@ async def test_evaporative_humidifier_services_with_exception(
         await hass.async_block_till_done(wait_background_tasks=True)
 
         with pytest.raises(
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             match="An error occurred while performing the action: Operation failed",
         ):
             await hass.services.async_call(

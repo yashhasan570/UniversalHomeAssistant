@@ -21,8 +21,8 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -63,21 +63,21 @@ _FULL_PLAY_CAPS = (
     ],
 )
 async def test_async_media_previous_track_maps_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_afsapi: AsyncMock,
     error: Exception,
     translation_key: str,
     message: str | None,
 ) -> None:
-    """Test previous track maps API failures to __HA_KEEP__ errors."""
+    """Test previous track maps API failures to Universal Home Assistant errors."""
     mock_afsapi.get_power.return_value = True
     mock_afsapi.get_play_caps.return_value = _FULL_PLAY_CAPS
     mock_afsapi.rewind.side_effect = error
 
     await setup_integration(hass, config_entry)
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             MEDIA_PLAYER_DOMAIN,
             SERVICE_MEDIA_PREVIOUS_TRACK,
@@ -94,7 +94,7 @@ async def test_async_media_previous_track_maps_errors(
 
 
 async def test_async_media_caps(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_afsapi: AsyncMock,
 ) -> None:
@@ -119,7 +119,7 @@ async def test_async_media_caps(
 
 
 async def test_media_player_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -146,7 +146,7 @@ async def test_media_player_on(
 
 
 async def test_async_update_disconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,

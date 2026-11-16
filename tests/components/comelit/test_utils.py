@@ -24,8 +24,8 @@ from universalassistant.const import (
     STATE_ON,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from . import setup_integration
 
@@ -36,7 +36,7 @@ ENTITY_ID_3 = "humidifier.climate0_humidifier"
 
 
 async def test_device_remove_stale(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_device_remove_stale(
     ],
 )
 async def test_bridge_api_call_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
     side_effect: type[Exception],
@@ -109,7 +109,7 @@ async def test_bridge_api_call_exceptions(
     mock_serial_bridge.set_device_status.side_effect = side_effect
 
     # Call API
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -123,7 +123,7 @@ async def test_bridge_api_call_exceptions(
 
 
 async def test_bridge_api_call_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:

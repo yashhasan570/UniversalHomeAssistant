@@ -7,7 +7,7 @@ from typing import override
 from pylamarzocco.const import WeekDay
 
 from universalassistant.components.calendar import CalendarEntity, CalendarEvent
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -31,7 +31,7 @@ WEEKDAY_TO_ENUM = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: LaMarzoccoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -77,7 +77,7 @@ class LaMarzoccoCalendarEntity(LaMarzoccoBaseEntity, CalendarEntity):
     @override
     async def async_get_events(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         start_date: datetime,
         end_date: datetime,
     ) -> list[CalendarEvent]:

@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CONF_RADIUS,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr
 
@@ -42,7 +42,7 @@ TEST_LONGITUDE = -0.2416796
     ],
 )
 async def test_create_entry_by_coordinates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     check_api_key_errors: str,
     check_api_key_side_effect: type[Exception],
     get_nearby_sensors_errors: str,
@@ -124,7 +124,7 @@ async def test_create_entry_by_coordinates(
 
 
 @pytest.mark.usefixtures("config_entry", "setup_config_entry")
-async def test_duplicate_error(hass: __HAC_KEEP__) -> None:
+async def test_duplicate_error(hass: UniversalAssistant) -> None:
     """Test that the proper error is shown when adding a duplicate config entry."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -150,7 +150,7 @@ async def test_duplicate_error(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("setup_config_entry")
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_aiopurpleair: AsyncMock,
     error_msg: str,
     side_effect: type[Exception],
@@ -194,7 +194,7 @@ async def test_reauth(
 )
 @pytest.mark.usefixtures("setup_config_entry")
 async def test_options_add_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_aiopurpleair: AsyncMock,
     config_entry: MockConfigEntry,
     error_msg: str,
@@ -267,7 +267,7 @@ async def test_options_add_sensor(
 
 @pytest.mark.usefixtures("setup_config_entry")
 async def test_options_add_sensor_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test adding a duplicate sensor via the options flow."""
@@ -309,7 +309,7 @@ async def test_options_add_sensor_duplicate(
 
 @pytest.mark.usefixtures("setup_config_entry")
 async def test_options_remove_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -345,7 +345,7 @@ async def test_options_remove_sensor(
 
 @pytest.mark.usefixtures("setup_config_entry")
 async def test_options_settings(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test setting settings via the options flow."""
     result = await hass.config_entries.options.async_init(config_entry.entry_id)

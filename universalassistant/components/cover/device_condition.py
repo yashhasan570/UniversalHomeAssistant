@@ -11,7 +11,7 @@ from universalassistant.const import (
     CONF_ENTITY_ID,
     CONF_TYPE,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import (
     condition,
     config_validation as cv,
@@ -66,7 +66,7 @@ CONDITION_SCHEMA = probatio.TaggedUnion(
 
 
 async def async_get_conditions(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, str]]:
     """List device conditions for Cover devices."""
     registry = er.async_get(hass)
@@ -103,7 +103,7 @@ async def async_get_conditions(
 
 
 async def async_get_condition_capabilities(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List condition capabilities."""
     if config[CONF_TYPE] not in ["is_position", "is_tilt_position"]:
@@ -125,7 +125,7 @@ async def async_get_condition_capabilities(
 
 @callback
 def async_condition_from_config(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> condition.ConditionCheckerType:
     """Create a function to test a device condition."""
     registry = er.async_get(hass)
@@ -141,7 +141,7 @@ def async_condition_from_config(
         elif config[CONF_TYPE] == "is_closing":
             state = CoverState.CLOSING
 
-        def test_is_state(hass: __HAC_KEEP__, variables: TemplateVarsType) -> bool:
+        def test_is_state(hass: UniversalAssistant, variables: TemplateVarsType) -> bool:
             """Test if an entity is a certain state."""
             return condition.state(hass, entity_id, state)
 
@@ -156,7 +156,7 @@ def async_condition_from_config(
 
     @callback
     def check_numeric_state(
-        hass: __HAC_KEEP__, variables: TemplateVarsType = None
+        hass: UniversalAssistant, variables: TemplateVarsType = None
     ) -> bool:
         """Return whether the criteria are met."""
         return condition.async_numeric_state(

@@ -13,7 +13,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from universalassistant.components.recorder import get_instance, history
 from universalassistant.components.recorder.db_schema import States
 from universalassistant.components.recorder.util import session_scope
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.util import dt as dt_util
 
 
@@ -26,7 +26,7 @@ async def mock_recorder_before_hass(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_oldest_ts_preserved_after_sqlalchemy_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:

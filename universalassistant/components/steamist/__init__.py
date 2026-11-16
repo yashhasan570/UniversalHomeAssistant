@@ -6,7 +6,7 @@ from typing import Any
 from aiosteamist import Steamist
 
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.event import async_track_time_interval
@@ -27,7 +27,7 @@ DISCOVERY_INTERVAL = timedelta(minutes=15)
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the steamist component."""
     hass.data[DATA_DISCOVERY] = []
 
@@ -43,7 +43,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SteamistConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SteamistConfigEntry) -> None:
     """Set up Steamist from a config entry."""
     host = entry.data[CONF_HOST]
     coordinator = SteamistDataUpdateCoordinator(
@@ -59,6 +59,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SteamistConfigEntry) -> N
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SteamistConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SteamistConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

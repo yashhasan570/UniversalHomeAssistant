@@ -52,7 +52,7 @@ from universalassistant.components.bluetooth.const import (
     SOURCE_LOCAL,
     UNAVAILABLE_TRACK_SECONDS,
 )
-from universalassistant.components.bluetooth.manager import __HAC_KEEP__BluetoothManager
+from universalassistant.components.bluetooth.manager import UniversalAssistantBluetoothManager
 from universalassistant.components.bluetooth.match import (
     ADDRESS,
     CONNECTABLE,
@@ -68,7 +68,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STARTED,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -77,7 +77,7 @@ from universalassistant.util.async_ import get_scheduled_timer_handles
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_setup_and_stop(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test we and setup and stop the scanner."""
     mock_bt = [
@@ -109,7 +109,7 @@ async def test_setup_and_stop(
 )
 @pytest.mark.usefixtures("one_adapter")
 async def test_setup_and_stop_passive(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bleak_scanner_start: MagicMock,
     options: dict[str, Any],
 ) -> None:
@@ -166,7 +166,7 @@ async def test_setup_and_stop_passive(
 
 @pytest.mark.skipif(sys.platform != "linux", reason="Requires Linux BlueZ scanner")
 async def test_setup_and_stop_old_bluez(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bleak_scanner_start: MagicMock,
     one_adapter_old_bluez: None,
 ) -> None:
@@ -216,7 +216,7 @@ async def test_setup_and_stop_old_bluez(
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_setup_and_stop_no_bluetooth(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we fail gracefully when bluetooth is not available."""
     mock_bt = [
@@ -245,7 +245,7 @@ async def test_setup_and_stop_no_bluetooth(
 
 @pytest.mark.usefixtures("macos_adapter")
 async def test_setup_and_stop_broken_bluetooth(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we fail gracefully when bluetooth/dbus is broken."""
     mock_bt = []
@@ -271,7 +271,7 @@ async def test_setup_and_stop_broken_bluetooth(
 
 @pytest.mark.usefixtures("macos_adapter")
 async def test_setup_and_stop_broken_bluetooth_hanging(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we fail gracefully when bluetooth/dbus is hanging."""
     mock_bt = []
@@ -301,7 +301,7 @@ async def test_setup_and_stop_broken_bluetooth_hanging(
 
 @pytest.mark.usefixtures("macos_adapter")
 async def test_setup_and_retry_adapter_not_yet_available(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we retry if the adapter is not yet available."""
     mock_bt = []
@@ -341,7 +341,7 @@ async def test_setup_and_retry_adapter_not_yet_available(
 
 @pytest.mark.usefixtures("macos_adapter")
 async def test_no_race_during_manual_reload_in_retry_state(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we can successfully reload when the entry is in a retry state."""
     mock_bt = []
@@ -382,7 +382,7 @@ async def test_no_race_during_manual_reload_in_retry_state(
 
 @pytest.mark.usefixtures("macos_adapter")
 async def test_calling_async_discovered_devices_no_bluetooth(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we fail gracefully when there is no bluetooth."""
     mock_bt = []
@@ -409,7 +409,7 @@ async def test_calling_async_discovered_devices_no_bluetooth(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_discovery_match_by_service_uuid(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test bluetooth discovery match by service_uuid."""
     mock_bt = [
@@ -464,7 +464,7 @@ async def test_discovery_match_by_service_uuid(
 @pytest.mark.usefixtures("mock_bluetooth_adapters")
 async def test_discovery_match_by_service_uuid_and_short_local_name(
     mock_async_get_bluetooth: AsyncMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bleak_scanner_start: MagicMock,
 ) -> None:
     """Test bluetooth discovery match by service_uuid and short local name."""
@@ -507,7 +507,7 @@ def _domains_from_mock_config_flow(mock_config_flow: Mock) -> list[str]:
 
 @pytest.mark.usefixtures("macos_adapter")
 async def test_discovery_match_by_service_uuid_connectable(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test discovery match by service_uuid, connectable."""
     mock_bt = [
@@ -559,7 +559,7 @@ async def test_discovery_match_by_service_uuid_connectable(
 
 @pytest.mark.usefixtures("macos_adapter")
 async def test_discovery_match_by_service_uuid_not_connectable(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test discovery match by service_uuid, not connectable."""
     mock_bt = [
@@ -609,7 +609,7 @@ async def test_discovery_match_by_service_uuid_not_connectable(
 
 @pytest.mark.usefixtures("macos_adapter")
 async def test_discovery_match_by_name_connectable_false(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test discovery match by name with non-connectable."""
     mock_bt = [
@@ -688,7 +688,7 @@ async def test_discovery_match_by_name_connectable_false(
 
 @pytest.mark.usefixtures("macos_adapter")
 async def test_discovery_match_by_local_name(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test bluetooth discovery match by local_name."""
     mock_bt = [{"domain": "switchbot", "local_name": "wohand"}]
@@ -727,7 +727,7 @@ async def test_discovery_match_by_local_name(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_discovery_match_by_service_uuid_when_name_changes_from_mac(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test discovery matches when name changes from MAC."""
     mock_bt = [
@@ -788,7 +788,7 @@ async def test_discovery_match_by_service_uuid_when_name_changes_from_mac(
 
 @pytest.mark.usefixtures("macos_adapter")
 async def test_discovery_match_by_manufacturer_id_and_manufacturer_data_start(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test bluetooth discovery match by manufacturer_id and manufacturer_data_start."""
     mock_bt = [
@@ -865,7 +865,7 @@ async def test_discovery_match_by_manufacturer_id_and_manufacturer_data_start(
 
 @pytest.mark.usefixtures("macos_adapter")
 async def test_discovery_match_by_service_data_uuid_then_others(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test bluetooth discovery match by service_data_uuid and then other fields."""
     mock_bt = [
@@ -1020,7 +1020,7 @@ async def test_discovery_match_by_service_data_uuid_then_others(
 
 @pytest.mark.usefixtures("macos_adapter")
 async def test_discovery_match_by_service_data_uuid_when_format_changes(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test bluetooth discovery match by service_data_uuid when format changes."""
     mock_bt = [
@@ -1104,7 +1104,7 @@ async def test_discovery_match_by_service_data_uuid_when_format_changes(
 
 @pytest.mark.usefixtures("macos_adapter")
 async def test_discovery_match_by_service_data_uuid_bthome(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test bluetooth discovery match by service_data_uuid for bthome."""
     mock_bt = [
@@ -1147,7 +1147,7 @@ async def test_discovery_match_by_service_data_uuid_bthome(
 
 @pytest.mark.usefixtures("macos_adapter")
 async def test_discovery_match_first_by_service_uuid_and_then_manufacturer_id(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test discovery matches for service_uuid then mfr_id."""
     mock_bt = [
@@ -1212,7 +1212,7 @@ async def test_discovery_match_first_by_service_uuid_and_then_manufacturer_id(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_rediscovery(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test bluetooth discovery can be re-enabled for a given domain."""
     mock_bt = [
@@ -1260,7 +1260,7 @@ async def test_rediscovery(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_clear_address_from_match_history(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test clearing match history without re-triggering discovery."""
     mock_bt = [
@@ -1316,7 +1316,7 @@ async def test_clear_address_from_match_history(
 
 @pytest.mark.usefixtures("macos_adapter")
 async def test_async_discovered_device_api(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test the async_discovered_device API."""
     mock_bt = []
@@ -1424,7 +1424,7 @@ async def test_async_discovered_device_api(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_register_callbacks(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test registering a callback."""
     mock_bt = []
@@ -1572,7 +1572,7 @@ async def test_register_callbacks(
 )
 @pytest.mark.usefixtures("enable_bluetooth", "mock_bleak_scanner_start")
 async def test_register_callbacks_history_replay_order(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: list[tuple[str, str, float]],
     matcher: BluetoothCallbackMatcher | None,
     replay: BluetoothCallbackReplay,
@@ -1613,7 +1613,7 @@ async def test_register_callbacks_history_replay_order(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_register_callbacks_raises_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bleak_scanner_start: MagicMock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1678,7 +1678,7 @@ async def test_register_callbacks_raises_exception(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_register_callback_by_address(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test registering a callback by address."""
     mock_bt = []
@@ -1796,7 +1796,7 @@ async def test_register_callback_by_address(
 )
 @pytest.mark.usefixtures("enable_bluetooth", "mock_bleak_scanner_start")
 async def test_register_callback_registers_active_scan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matcher: dict[str, str],
     mode: BluetoothScanningMode,
     kwargs: dict[str, float],
@@ -1818,7 +1818,7 @@ async def test_register_callback_registers_active_scan(
 
         mock_cancel = Mock()
         with patch.object(
-            __HAC_KEEP__BluetoothManager,
+            UniversalAssistantBluetoothManager,
             "async_register_active_scan",
             return_value=mock_cancel,
         ) as mock_register:
@@ -1850,7 +1850,7 @@ async def test_register_callback_registers_active_scan(
 )
 @pytest.mark.usefixtures("enable_bluetooth", "mock_bleak_scanner_start")
 async def test_register_callback_skips_active_scan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matcher: dict[str, str],
     mode: BluetoothScanningMode,
     kwargs: dict[str, float],
@@ -1870,7 +1870,7 @@ async def test_register_callback_skips_active_scan(
             return None
 
         with patch.object(
-            __HAC_KEEP__BluetoothManager, "async_register_active_scan"
+            UniversalAssistantBluetoothManager, "async_register_active_scan"
         ) as mock_register:
             cancel = bluetooth.async_register_callback(
                 hass, _cb, matcher, mode, **kwargs
@@ -1881,7 +1881,7 @@ async def test_register_callback_skips_active_scan(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_register_callback_by_address_connectable_only(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test registering a callback by address connectable only."""
     mock_bt = []
@@ -1961,7 +1961,7 @@ async def test_register_callback_by_address_connectable_only(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_register_callback_by_manufacturer_id(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test registering a callback by manufacturer_id."""
     mock_bt = []
@@ -2017,7 +2017,7 @@ async def test_register_callback_by_manufacturer_id(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_register_callback_by_connectable(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test registering a callback by connectable."""
     mock_bt = []
@@ -2073,7 +2073,7 @@ async def test_register_callback_by_connectable(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_not_filtering_wanted_apple_devices(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test filtering noisy apple devices."""
     mock_bt = []
@@ -2134,7 +2134,7 @@ async def test_not_filtering_wanted_apple_devices(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_filtering_noisy_apple_devices(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test filtering noisy apple devices."""
     mock_bt = []
@@ -2185,7 +2185,7 @@ async def test_filtering_noisy_apple_devices(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_register_callback_by_address_connectable_manufacturer_id(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test registering a callback by address, manufacturer_id, and connectable."""
     mock_bt = []
@@ -2240,7 +2240,7 @@ async def test_register_callback_by_address_connectable_manufacturer_id(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_register_callback_by_manufacturer_id_and_address(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test registering a callback by manufacturer_id and address."""
     mock_bt = []
@@ -2306,7 +2306,7 @@ async def test_register_callback_by_manufacturer_id_and_address(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_register_callback_by_service_uuid_and_address(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test registering a callback by service_uuid and address."""
     mock_bt = []
@@ -2380,7 +2380,7 @@ async def test_register_callback_by_service_uuid_and_address(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_register_callback_by_service_data_uuid_and_address(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test registering a callback by service_data_uuid and address."""
     mock_bt = []
@@ -2454,7 +2454,7 @@ async def test_register_callback_by_service_data_uuid_and_address(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_register_callback_by_local_name(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test registering a callback by local_name."""
     mock_bt = []
@@ -2518,7 +2518,7 @@ async def test_register_callback_by_local_name(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_register_callback_by_local_name_overly_broad(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test registering a callback by local_name that is too broad."""
     mock_bt = []
@@ -2544,7 +2544,7 @@ async def test_register_callback_by_local_name_overly_broad(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_register_callback_by_service_data_uuid(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test registering a callback by service_data_uuid."""
     mock_bt = []
@@ -2600,7 +2600,7 @@ async def test_register_callback_by_service_data_uuid(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_register_callback_survives_reload(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test registering a callback by address survives bluetooth being reloaded."""
     mock_bt = []
@@ -2664,7 +2664,7 @@ async def test_register_callback_survives_reload(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_process_advertisements_bail_on_good_advertisement(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test as soon as we see a 'good' advertisement we return it."""
     done = asyncio.Future()
@@ -2704,7 +2704,7 @@ async def test_process_advertisements_bail_on_good_advertisement(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_process_advertisements_ignore_bad_advertisement(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Check that we ignore bad advertisements."""
     done = asyncio.Event()
@@ -2760,7 +2760,7 @@ async def test_process_advertisements_ignore_bad_advertisement(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_process_advertisements_timeout(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test we timeout if no advertisements at all."""
 
@@ -2775,7 +2775,7 @@ async def test_process_advertisements_timeout(
 
 @pytest.mark.usefixtures("enable_bluetooth", "mock_bleak_scanner_start")
 async def test_process_advertisements_triggers_active_scan_of_correct_duration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """async_process_advertisements triggers active scan now."""
 
@@ -2787,12 +2787,12 @@ async def test_process_advertisements_triggers_active_scan_of_correct_duration(
 
     with (
         patch.object(
-            __HAC_KEEP__BluetoothManager,
+            UniversalAssistantBluetoothManager,
             "async_register_active_scan",
             return_value=mock_cancel,
         ) as mock_register,
         patch.object(
-            __HAC_KEEP__BluetoothManager, "async_request_active_scan"
+            UniversalAssistantBluetoothManager, "async_request_active_scan"
         ) as mock_request_active_scan,
         pytest.raises(TimeoutError),
     ):
@@ -2810,7 +2810,7 @@ async def test_process_advertisements_triggers_active_scan_of_correct_duration(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_wrapped_instance_with_filter(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test wrapped instance with a filter works like BleakScanner."""
     with patch(
@@ -2885,7 +2885,7 @@ async def test_wrapped_instance_with_filter(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_wrapped_instance_with_service_uuids(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test wrapped instance with service_uuids list."""
     with patch(
@@ -2943,7 +2943,7 @@ async def test_wrapped_instance_with_service_uuids(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_wrapped_instance_with_service_uuids_with_coro_callback(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test wrapped instance with service_uuids list.
 
@@ -3004,7 +3004,7 @@ async def test_wrapped_instance_with_service_uuids_with_coro_callback(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_wrapped_instance_with_broken_callbacks(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test broken callbacks do not cause the scanner to fail."""
     with (
@@ -3053,7 +3053,7 @@ async def test_wrapped_instance_with_broken_callbacks(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_wrapped_instance_changes_uuids(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test consumers can use the wrapped instance can change the uuids later."""
     with patch(
@@ -3109,7 +3109,7 @@ async def test_wrapped_instance_changes_uuids(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_wrapped_instance_changes_filters(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test consumers can use the wrapped instance can change the filter later."""
     with patch(
@@ -3166,7 +3166,7 @@ async def test_wrapped_instance_changes_filters(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_wrapped_instance_unsupported_filter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bleak_scanner_start: MagicMock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -3192,7 +3192,7 @@ async def test_wrapped_instance_unsupported_filter(
 
 @pytest.mark.usefixtures("macos_adapter")
 async def test_async_ble_device_from_address(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test the async_ble_device_from_address api."""
     set_manager(None)
@@ -3251,7 +3251,7 @@ async def test_async_ble_device_from_address(
 
 @pytest.mark.usefixtures("macos_adapter")
 async def test_can_unsetup_bluetooth_single_adapter_macos(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test we can setup and unsetup bluetooth."""
     entry = MockConfigEntry(domain=bluetooth.DOMAIN, data={}, unique_id=DEFAULT_ADDRESS)
@@ -3267,7 +3267,7 @@ async def test_can_unsetup_bluetooth_single_adapter_macos(
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_default_address_config_entries_removed_linux(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bleak_scanner_start: MagicMock,
 ) -> None:
     """Test default address entries are removed on linux."""
@@ -3279,7 +3279,7 @@ async def test_default_address_config_entries_removed_linux(
 
 
 @pytest.mark.usefixtures("one_adapter", "mock_bleak_scanner_start")
-async def test_unload_cancels_expire_devices_timer(hass: __HAC_KEEP__) -> None:
+async def test_unload_cancels_expire_devices_timer(hass: UniversalAssistant) -> None:
     """Test unloading an adapter cancels the scanner expire devices timer."""
 
     def _expire_devices_timers() -> list[asyncio.TimerHandle]:
@@ -3307,7 +3307,7 @@ async def test_unload_cancels_expire_devices_timer(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_can_unsetup_bluetooth_single_adapter_linux(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test we can setup and unsetup bluetooth."""
     entry = MockConfigEntry(
@@ -3325,7 +3325,7 @@ async def test_can_unsetup_bluetooth_single_adapter_linux(
 
 @pytest.mark.usefixtures("two_adapters")
 async def test_can_unsetup_bluetooth_multiple_adapters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bleak_scanner_start: MagicMock,
 ) -> None:
     """Test we can setup and unsetup bluetooth with multiple adapters."""
@@ -3355,7 +3355,7 @@ async def test_can_unsetup_bluetooth_multiple_adapters(
 
 @pytest.mark.usefixtures("enable_bluetooth", "two_adapters")
 async def test_three_adapters_one_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bleak_scanner_start: MagicMock,
 ) -> None:
     """Test three adapters but one is missing results in a retry on setup."""
@@ -3369,7 +3369,7 @@ async def test_three_adapters_one_missing(
 
 
 @pytest.mark.usefixtures("one_adapter")
-async def test_auto_detect_bluetooth_adapters_linux(hass: __HAC_KEEP__) -> None:
+async def test_auto_detect_bluetooth_adapters_linux(hass: UniversalAssistant) -> None:
     """Test we auto detect bluetooth adapters on linux."""
     assert await async_setup_component(hass, bluetooth.DOMAIN, {})
     await hass.async_block_till_done()
@@ -3379,7 +3379,7 @@ async def test_auto_detect_bluetooth_adapters_linux(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("two_adapters")
 async def test_auto_detect_bluetooth_adapters_linux_multiple(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test we auto detect bluetooth adapters on linux with multiple adapters."""
     assert await async_setup_component(hass, bluetooth.DOMAIN, {})
@@ -3389,7 +3389,7 @@ async def test_auto_detect_bluetooth_adapters_linux_multiple(
 
 
 async def test_auto_detect_bluetooth_adapters_skips_crashed(
-    hass: __HAC_KEEP__, crashed_adapter: None
+    hass: UniversalAssistant, crashed_adapter: None
 ) -> None:
     """Test we skip crashed adapters on linux."""
     assert await async_setup_component(hass, bluetooth.DOMAIN, {})
@@ -3399,7 +3399,7 @@ async def test_auto_detect_bluetooth_adapters_skips_crashed(
 
 
 async def test_auto_detect_bluetooth_adapters_linux_none_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test we auto detect bluetooth adapters on linux with no adapters found."""
     with (
@@ -3416,7 +3416,7 @@ async def test_auto_detect_bluetooth_adapters_linux_none_found(
     assert len(hass.config_entries.flow.async_progress(bluetooth.DOMAIN)) == 0
 
 
-async def test_auto_detect_bluetooth_adapters_macos(hass: __HAC_KEEP__) -> None:
+async def test_auto_detect_bluetooth_adapters_macos(hass: UniversalAssistant) -> None:
     """Test we auto detect bluetooth adapters on macos."""
     with patch("bluetooth_adapters.systems.platform.system", return_value="Darwin"):
         assert await async_setup_component(hass, bluetooth.DOMAIN, {})
@@ -3425,7 +3425,7 @@ async def test_auto_detect_bluetooth_adapters_macos(hass: __HAC_KEEP__) -> None:
     assert len(hass.config_entries.flow.async_progress(bluetooth.DOMAIN)) == 1
 
 
-async def test_no_auto_detect_bluetooth_adapters_windows(hass: __HAC_KEEP__) -> None:
+async def test_no_auto_detect_bluetooth_adapters_windows(hass: UniversalAssistant) -> None:
     """Test we auto detect bluetooth adapters on windows."""
     with patch(
         "bluetooth_adapters.systems.platform.system",
@@ -3439,7 +3439,7 @@ async def test_no_auto_detect_bluetooth_adapters_windows(hass: __HAC_KEEP__) -> 
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_getting_the_scanner_returns_the_wrapped_instance(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test getting the scanner returns the wrapped instance."""
     scanner = bluetooth.async_get_scanner(hass)
@@ -3447,7 +3447,7 @@ async def test_getting_the_scanner_returns_the_wrapped_instance(
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_scanner_count_connectable(hass: __HAC_KEEP__) -> None:
+async def test_scanner_count_connectable(hass: UniversalAssistant) -> None:
     """Test getting the connectable scanner count."""
     scanner = FakeScanner("any", "any")
     cancel = bluetooth.async_register_scanner(hass, scanner)
@@ -3456,7 +3456,7 @@ async def test_scanner_count_connectable(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_scanner_remove(hass: __HAC_KEEP__) -> None:
+async def test_scanner_remove(hass: UniversalAssistant) -> None:
     """Test permanently removing a scanner."""
     scanner = FakeScanner("any", "any")
     cancel = bluetooth.async_register_scanner(hass, scanner)
@@ -3468,12 +3468,12 @@ async def test_scanner_remove(hass: __HAC_KEEP__) -> None:
     )
     cancel()
     bluetooth.async_remove_scanner(hass, scanner.source)
-    manager: __HAC_KEEP__BluetoothManager = _get_manager()
+    manager: UniversalAssistantBluetoothManager = _get_manager()
     assert not manager.storage.async_get_advertisement_history(scanner.source)
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_scanner_count(hass: __HAC_KEEP__) -> None:
+async def test_scanner_count(hass: UniversalAssistant) -> None:
     """Test getting the connectable and non-connectable scanner count."""
     scanner = FakeScanner("any", "any")
     cancel = bluetooth.async_register_scanner(hass, scanner)
@@ -3483,7 +3483,7 @@ async def test_scanner_count(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("macos_adapter")
 async def test_migrate_single_entry_macos(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test we can migrate a single entry on MacOS."""
     entry = MockConfigEntry(domain=bluetooth.DOMAIN, data={})
@@ -3495,7 +3495,7 @@ async def test_migrate_single_entry_macos(
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_migrate_single_entry_linux(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test we can migrate a single entry on Linux."""
     entry = MockConfigEntry(domain=bluetooth.DOMAIN, data={})
@@ -3507,7 +3507,7 @@ async def test_migrate_single_entry_linux(
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_discover_new_usb_adapters(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test we can discover new usb adapters."""
     entry = MockConfigEntry(
@@ -3568,7 +3568,7 @@ async def test_discover_new_usb_adapters(
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_discover_new_usb_adapters_with_firmware_fallback_delay(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test we can discover new usb adapters with a firmware fallback delay."""
     entry = MockConfigEntry(
@@ -3648,7 +3648,7 @@ async def test_discover_new_usb_adapters_with_firmware_fallback_delay(
 
 @pytest.mark.usefixtures("no_adapters")
 async def test_issue_outdated_haos_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bleak_scanner_start: MagicMock,
     operating_system_85: None,
     issue_registry: ir.IssueRegistry,
@@ -3665,7 +3665,7 @@ async def test_issue_outdated_haos_removed(
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_haos_9_or_later(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bleak_scanner_start: MagicMock,
     operating_system_90: None,
     issue_registry: ir.IssueRegistry,
@@ -3685,7 +3685,7 @@ async def test_haos_9_or_later(
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_title_updated_if_mac_address(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test the title is updated if it is the mac address."""
     entry = MockConfigEntry(
@@ -3699,7 +3699,7 @@ async def test_title_updated_if_mac_address(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_cleanup_orphened_remote_scanner_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the remote scanner config entries get cleaned up when orphened."""
     connector = (
@@ -3729,7 +3729,7 @@ async def test_cleanup_orphened_remote_scanner_config_entry(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_fix_incorrect_mac_remote_scanner_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the remote scanner config entries can replace a incorrect mac."""
     source_entry = MockConfigEntry(domain="test")

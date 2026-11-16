@@ -7,7 +7,7 @@ from universalassistant.components.cover import (
     CoverEntity,
     CoverEntityStateAttribute,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.enum import try_parse_enum
 
@@ -16,7 +16,7 @@ from .entity import DynaliteBase, async_setup_entry_base
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: DynaliteConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -34,7 +34,7 @@ async def async_setup_entry(
 
 
 class DynaliteCover(DynaliteBase, CoverEntity):
-    """Representation of a Dynalite Channel as a __HA_KEEP__ Cover."""
+    """Representation of a Dynalite Channel as a Universal Home Assistant Cover."""
 
     def __init__(self, device: Any, bridge: DynaliteBridge) -> None:
         """Initialize the cover."""

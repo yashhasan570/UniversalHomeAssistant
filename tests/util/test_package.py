@@ -1,4 +1,4 @@
-"""Test __HA_KEEP__ package util methods."""
+"""Test Universal Home Assistant package util methods."""
 
 import asyncio
 from collections.abc import Generator
@@ -486,7 +486,7 @@ def test_check_package_global(caplog: pytest.LogCaptureFixture) -> None:
 
 def test_check_package_fragment(caplog: pytest.LogCaptureFixture) -> None:
     """Test for an installed package with a fragment."""
-    url = "git+https://github.com/yashhasan570/__HAC_KEEP__"
+    url = "git+https://github.com/yashhasan570/UniversalUniversalAssistant"
 
     assert not package.is_installed(TEST_ZIP_REQ)
     assert package.is_installed(f"{url}#universalassistant>=1")
@@ -508,7 +508,7 @@ def test_get_is_installed() -> None:
 
     # URL-based requirements should always return False, as no version check is possible
     assert not package.is_installed(
-        "universalassistant@git+https://github.com/yashhasan570/__HAC_KEEP__.git@dev"
+        "universalassistant@git+https://github.com/yashhasan570/UniversalUniversalAssistant.git@dev"
     )
 
 

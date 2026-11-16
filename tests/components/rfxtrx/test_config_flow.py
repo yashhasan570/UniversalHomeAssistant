@@ -12,7 +12,7 @@ from universalassistant.components import rfxtrx
 from universalassistant.components.rfxtrx import DOMAIN
 from universalassistant.components.usb import SerialDevice
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -32,7 +32,7 @@ def com_port() -> SerialDevice:
 
 
 async def start_options_flow(
-    hass: __HAC_KEEP__, entry: MockConfigEntry
+    hass: UniversalAssistant, entry: MockConfigEntry
 ) -> config_entries.ConfigFlowResult:
     """Start the options flow with the entry under test."""
     entry.add_to_hass(hass)
@@ -44,7 +44,7 @@ async def start_options_flow(
 
 
 async def start_add_device_flow(
-    hass: __HAC_KEEP__, entry: MockConfigEntry
+    hass: UniversalAssistant, entry: MockConfigEntry
 ) -> config_entries.ConfigFlowResult:
     """Start the add device subentry flow with the entry under test."""
     entry.add_to_hass(hass)
@@ -59,7 +59,7 @@ async def start_add_device_flow(
 
 
 async def start_reconfigure_flow(
-    hass: __HAC_KEEP__, entry: MockConfigEntry, subentry_id: str, next_step_id: str
+    hass: UniversalAssistant, entry: MockConfigEntry, subentry_id: str, next_step_id: str
 ) -> config_entries.SubentryFlowResult:
     """Start the reconfigure subentry flow and pick a menu option."""
     result = await entry.start_subentry_reconfigure_flow(hass, subentry_id)
@@ -70,14 +70,14 @@ async def start_reconfigure_flow(
     )
 
 
-async def async_wait_for_reload(hass: __HAC_KEEP__) -> None:
+async def async_wait_for_reload(hass: UniversalAssistant) -> None:
     """Wait for the entry's debounced reload to complete."""
     await hass.async_block_till_done()
     await asyncio.sleep(0)
     await hass.async_block_till_done()
 
 
-async def test_setup_network(transport_mock, hass: __HAC_KEEP__) -> None:
+async def test_setup_network(transport_mock, hass: UniversalAssistant) -> None:
     """Test we can setup network."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -116,7 +116,7 @@ async def test_setup_network(transport_mock, hass: __HAC_KEEP__) -> None:
     "universalassistant.components.rfxtrx.config_flow.usb.async_scan_serial_ports",
     return_value=[com_port()],
 )
-async def test_setup_serial(com_mock, transport_mock, hass: __HAC_KEEP__) -> None:
+async def test_setup_serial(com_mock, transport_mock, hass: UniversalAssistant) -> None:
     """Test we can setup serial."""
     port = com_port()
 
@@ -158,7 +158,7 @@ async def test_setup_serial(com_mock, transport_mock, hass: __HAC_KEEP__) -> Non
     return_value=[com_port()],
 )
 async def test_setup_serial_manual(
-    com_mock, transport_mock, hass: __HAC_KEEP__
+    com_mock, transport_mock, hass: UniversalAssistant
 ) -> None:
     """Test we can setup serial with manual entry."""
     result = await hass.config_entries.flow.async_init(
@@ -202,7 +202,7 @@ async def test_setup_serial_manual(
     assert result["result"].unique_id == DOMAIN
 
 
-async def test_setup_network_fail(transport_mock: Mock, hass: __HAC_KEEP__) -> None:
+async def test_setup_network_fail(transport_mock: Mock, hass: UniversalAssistant) -> None:
     """Test we can setup network."""
     transport_mock.return_value.connect.side_effect = RFXtrxTransportError
     result = await hass.config_entries.flow.async_init(
@@ -244,7 +244,7 @@ async def test_setup_network_fail(transport_mock: Mock, hass: __HAC_KEEP__) -> N
     return_value=[com_port()],
 )
 async def test_setup_serial_fail(
-    com_mock: MagicMock, transport_mock: Mock, hass: __HAC_KEEP__
+    com_mock: MagicMock, transport_mock: Mock, hass: UniversalAssistant
 ) -> None:
     """Test setup serial failed connection."""
     transport_mock.return_value.connect.side_effect = RFXtrxTransportError
@@ -289,7 +289,7 @@ async def test_setup_serial_fail(
     return_value=[com_port()],
 )
 async def test_setup_serial_manual_fail(
-    com_mock: MagicMock, transport_mock: Mock, hass: __HAC_KEEP__
+    com_mock: MagicMock, transport_mock: Mock, hass: UniversalAssistant
 ) -> None:
     """Test setup serial failed connection."""
     transport_mock.return_value.connect.side_effect = RFXtrxTransportError
@@ -335,7 +335,7 @@ async def test_setup_serial_manual_fail(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_options_global(hass: __HAC_KEEP__) -> None:
+async def test_options_global(hass: UniversalAssistant) -> None:
     """Test if we can set global options."""
 
     entry = MockConfigEntry(
@@ -370,7 +370,7 @@ async def test_options_global(hass: __HAC_KEEP__) -> None:
     assert not set(entry.data["protocols"]) ^ set(SOME_PROTOCOLS)
 
 
-async def test_no_protocols(hass: __HAC_KEEP__) -> None:
+async def test_no_protocols(hass: UniversalAssistant) -> None:
     """Test we set protocols to None if none are selected."""
 
     entry = MockConfigEntry(
@@ -405,7 +405,7 @@ async def test_no_protocols(hass: __HAC_KEEP__) -> None:
     assert entry.data["protocols"] is None
 
 
-async def test_options_add_device(hass: __HAC_KEEP__) -> None:
+async def test_options_add_device(hass: UniversalAssistant) -> None:
     """Test we can add a device."""
 
     entry = MockConfigEntry(
@@ -463,7 +463,7 @@ async def test_options_add_device(hass: __HAC_KEEP__) -> None:
 
 
 async def test_options_replace_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     rfxtrx: Mock,
@@ -564,7 +564,7 @@ async def test_options_replace_device(
 
 
 async def test_options_reconfigure_invalid_and_duplicate_event_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test entering an invalid or already configured event code on reconfigure."""
 
@@ -657,7 +657,7 @@ async def test_options_reconfigure_invalid_and_duplicate_event_code(
 
 
 async def test_options_reconfigure_ignores_broken_subentries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test add/reconfigure ignore non-device and invalid-event subentries."""
 
@@ -716,7 +716,7 @@ async def test_options_reconfigure_ignores_broken_subentries(
 
 
 async def test_options_replace_device_with_existing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -813,7 +813,7 @@ async def test_options_replace_device_with_existing(
 
 
 async def test_options_replace_device_coalesces_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test replacing a device only reloads the entry once.
@@ -890,7 +890,7 @@ async def test_options_replace_device_coalesces_reload(
         assert mock_setup_entry.call_count == 1
 
 
-async def test_options_add_device_data_bits_conflict(hass: __HAC_KEEP__) -> None:
+async def test_options_add_device_data_bits_conflict(hass: UniversalAssistant) -> None:
     """Test data_bits masking a new device onto an already-configured one.
 
     The unmasked event code is validated as free before `data_bits` is even
@@ -951,7 +951,7 @@ async def test_options_add_device_data_bits_conflict(hass: __HAC_KEEP__) -> None
 
 
 async def _add_device_in_other_flow(
-    hass: __HAC_KEEP__, entry: MockConfigEntry, event_code: str
+    hass: UniversalAssistant, entry: MockConfigEntry, event_code: str
 ) -> None:
     """Add a device through a separate, concurrent subentry flow."""
     result = await hass.config_entries.subentries.async_init(
@@ -968,7 +968,7 @@ async def _add_device_in_other_flow(
 
 
 async def test_options_add_device_race_conflict_returns_to_event_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a race-added conflicting device is reported on the event code step."""
 
@@ -1012,7 +1012,7 @@ async def test_options_add_device_race_conflict_returns_to_event_code(
 
 
 async def test_options_reconfigure_race_conflict_returns_to_event_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a race-added conflict during reconfigure is reported on its first step."""
 
@@ -1074,7 +1074,7 @@ async def test_options_reconfigure_race_conflict_returns_to_event_code(
 
 
 async def test_options_add_device_matching_masked_device_unmasked(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test entering a masked device's exact event code is caught as a duplicate.
 
@@ -1133,7 +1133,7 @@ async def test_options_add_device_matching_masked_device_unmasked(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_options_add_duplicate_device(hass: __HAC_KEEP__) -> None:
+async def test_options_add_duplicate_device(hass: UniversalAssistant) -> None:
     """Test we can not add a duplicate device."""
 
     entry = MockConfigEntry(
@@ -1192,7 +1192,7 @@ async def test_options_add_duplicate_device(hass: __HAC_KEEP__) -> None:
 
 
 async def test_options_add_and_configure_device(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test we can add and reconfigure a device."""
 
@@ -1289,7 +1289,7 @@ async def test_options_add_and_configure_device(
 
 
 async def test_options_reconfigure_keeps_matching_event_codes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test reconfiguring unrelated options keeps other matching codes.
 
@@ -1346,7 +1346,7 @@ async def test_options_reconfigure_keeps_matching_event_codes(
 
 
 async def test_options_configure_rfy_cover_device(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test we can configure the venetion blind mode of an Rfy cover."""
 
@@ -1417,7 +1417,7 @@ async def test_options_configure_rfy_cover_device(
     assert subentry.data["venetian_blind_mode"] == "EU"
 
 
-async def _setup_entry_with_off_delay(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def _setup_entry_with_off_delay(hass: UniversalAssistant) -> MockConfigEntry:
     """Set up an entry with a single device that has an off delay."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1445,7 +1445,7 @@ async def _setup_entry_with_off_delay(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 
 async def test_options_reconfigure_options_uses_current_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test configuring options starts from the device's current options."""
     entry = await _setup_entry_with_off_delay(hass)
@@ -1458,7 +1458,7 @@ async def test_options_reconfigure_options_uses_current_options(
     assert get_schema_suggested_value(result["data_schema"].schema, "off_delay") == 5
 
 
-async def test_options_replace_device_resets_options(hass: __HAC_KEEP__) -> None:
+async def test_options_replace_device_resets_options(hass: UniversalAssistant) -> None:
     """Test replacing with a new event code doesn't carry over old options."""
     entry = await _setup_entry_with_off_delay(hass)
     subentry = next(iter(entry.subentries.values()))
@@ -1474,7 +1474,7 @@ async def test_options_replace_device_resets_options(hass: __HAC_KEEP__) -> None
 
 
 async def test_options_reconfigure_keeps_codes_added_while_open(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test an event code recorded while the options form is open is kept."""
     entry = MockConfigEntry(

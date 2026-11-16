@@ -5,7 +5,7 @@ from typing import Any
 from tesla_fleet_api.router import VehicleRouter
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.entity_platform import async_get_platforms
@@ -88,7 +88,7 @@ def _async_vehicle_entity_sources(
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: TeslemetryConfigEntry
+    hass: UniversalAssistant, entry: TeslemetryConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     entity_entries = er.async_entries_for_config_entry(

@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.axle_energy.const import DOMAIN
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.parametrize(
@@ -39,7 +39,7 @@ from universalassistant.core import __HAC_KEEP__
     ],
 )
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
@@ -68,7 +68,7 @@ async def test_diagnostics(
 
 
 async def test_diagnostics_multiple_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
@@ -98,7 +98,7 @@ async def test_diagnostics_multiple_entries(
 
 @pytest.mark.parametrize("opted_out", [True, None])
 async def test_diagnostics_participation_without_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,

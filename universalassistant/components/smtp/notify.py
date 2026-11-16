@@ -36,9 +36,9 @@ from universalassistant.const import (
     Platform,
     __version__,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -113,7 +113,7 @@ MAP_X_PRIORITY = {
 
 
 async def async_get_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> MailNotificationService | None:
@@ -151,7 +151,7 @@ async def async_get_service(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: SmtpConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -311,7 +311,7 @@ class MailNotifyEntity(NotifyEntity):
                 ),
             )
 
-        msg.add_header("X-Mailer", "__HA_KEEP__")
+        msg.add_header("X-Mailer", "Universal Home Assistant")
         msg.add_header("User-Agent", f"{APPLICATION_NAME}/{__version__}")
         msg.add_header("Date", email.utils.format_datetime(dt_util.now()))
         msg.add_header("Message-Id", email.utils.make_msgid())
@@ -323,7 +323,7 @@ class MailNotifyEntity(NotifyEntity):
                 break
             except aiosmtplib.SMTPAuthenticationError as e:
                 self._entry.async_start_reauth(self.hass)
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="authentication_error",
                 ) from e
@@ -332,7 +332,7 @@ class MailNotifyEntity(NotifyEntity):
                     "Error sending mail at attempt %s:", attempt + 1, exc_info=True
                 )
                 if attempt == RETRIES - 1:
-                    raise __HAC_KEEP__Error(
+                    raise UniversalAssistantError(
                         translation_domain=DOMAIN,
                         translation_key="send_mail_connection_error",
                     ) from e
@@ -402,7 +402,7 @@ class MailNotificationService(SmtpClient, BaseNotificationService):
         else:
             msg["From"] = self._sender
 
-        msg["X-Mailer"] = "__HA_KEEP__"
+        msg["X-Mailer"] = "Universal Home Assistant"
         msg["Date"] = email.utils.format_datetime(dt_util.now())
         msg["Message-Id"] = email.utils.make_msgid()
 
@@ -422,7 +422,7 @@ class MailNotificationService(SmtpClient, BaseNotificationService):
                     mail.quit()
                 if attempt == self.tries - 1:
                     _LOGGER.debug("Full exception:", exc_info=True)
-                    raise __HAC_KEEP__Error(
+                    raise UniversalAssistantError(
                         translation_domain=DOMAIN,
                         translation_key="send_mail_connection_error",
                     ) from e
@@ -436,7 +436,7 @@ class MailNotificationService(SmtpClient, BaseNotificationService):
                     mail.quit()
                 if attempt == self.tries - 1:
                     _LOGGER.debug("Full exception:", exc_info=True)
-                    raise __HAC_KEEP__Error(
+                    raise UniversalAssistantError(
                         translation_domain=DOMAIN,
                         translation_key="send_mail_connection_error",
                     ) from e

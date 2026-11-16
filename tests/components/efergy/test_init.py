@@ -6,13 +6,13 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.efergy.const import DEFAULT_NAME, DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import _patch_efergy_status, create_entry, init_integration, setup_platform
 
 
-async def test_setup(hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker) -> None:
+async def test_setup(hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker) -> None:
     """Test unload."""
     entry = await init_integration(hass, aioclient_mock)
     assert entry.state is ConfigEntryState.LOADED
@@ -24,7 +24,7 @@ async def test_setup(hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker) ->
     assert not hass.data.get(DOMAIN)
 
 
-async def test_async_setup_entry_not_ready(hass: __HAC_KEEP__) -> None:
+async def test_async_setup_entry_not_ready(hass: UniversalAssistant) -> None:
     """Test that it throws ConfigEntryNotReady when exception occurs during setup."""
     entry = create_entry(hass)
     with _patch_efergy_status() as efergymock:
@@ -35,7 +35,7 @@ async def test_async_setup_entry_not_ready(hass: __HAC_KEEP__) -> None:
         assert not hass.data.get(DOMAIN)
 
 
-async def test_async_setup_entry_auth_failed(hass: __HAC_KEEP__) -> None:
+async def test_async_setup_entry_auth_failed(hass: UniversalAssistant) -> None:
     """Test that it throws ConfigEntryAuthFailed when authentication fails."""
     entry = create_entry(hass)
     with _patch_efergy_status() as efergymock:
@@ -47,7 +47,7 @@ async def test_async_setup_entry_auth_failed(hass: __HAC_KEEP__) -> None:
 
 
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:

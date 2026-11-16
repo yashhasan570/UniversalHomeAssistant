@@ -11,7 +11,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_START,
     Platform,
 )
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, discovery
 from universalassistant.helpers.typing import ConfigType
@@ -28,14 +28,14 @@ _LOGGER = logging.getLogger(__name__)
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the pushbullet component."""
 
     hass.data[DATA_HASS_CONFIG] = config
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: PushbulletConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: PushbulletConfigEntry) -> None:
     """Set up pushbullet from a config entry."""
 
     try:
@@ -72,7 +72,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: PushbulletConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: PushbulletConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: PushbulletConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await hass.async_add_executor_job(entry.runtime_data.close)

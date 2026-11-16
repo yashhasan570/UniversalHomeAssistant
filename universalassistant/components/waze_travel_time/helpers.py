@@ -5,7 +5,7 @@ import logging
 from pywaze.route_calculator import WazeRouteCalculator, WRCError
 
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.httpx_client import get_async_client
 from universalassistant.helpers.location import find_coordinates
 
@@ -15,7 +15,7 @@ _LOGGER = logging.getLogger(__name__)
 def base_coordinates_to_tuple(
     base_coordinates: dict[str, float] | None,
 ) -> tuple[float, float] | None:
-    """Convert __HA_KEEP__ location data to Waze base coordinates."""
+    """Convert Universal Home Assistant location data to Waze base coordinates."""
     if base_coordinates is None:
         return None
 
@@ -32,7 +32,7 @@ def default_base_coordinates_for_region(region: str) -> dict[str, float]:
 
 
 async def is_valid_config_entry(
-    hass: __HAC_KEEP__, origin: str, destination: str, region: str
+    hass: UniversalAssistant, origin: str, destination: str, region: str
 ) -> bool:
     """Return whether the config entry data is valid."""
     resolved_origin = find_coordinates(hass, origin)

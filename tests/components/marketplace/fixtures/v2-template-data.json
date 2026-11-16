@@ -28,7 +28,7 @@
   },
   "624674515": {
     "manifest": { "name": "Easy Time" },
-    "description": "Easy Time calculations for __HA_KEEP__ templates",
+    "description": "Easy Time calculations for Universal Home Assistant templates",
     "etag_releases": "W/\"cb5270c4f648e2958b5a46e2b201c340bd69c41076aced8dd815ca8c760930e9\"",
     "etag_repository": "W/\"f62c55fc627398ee323e8494062f79b3e77a0af75fbdec8de4b69461a675b5c5\"",
     "full_name": "Petro31/easy-time-jinja",

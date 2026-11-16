@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.kitchen_sink import DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -30,14 +30,14 @@ def switch_only() -> Generator[None]:
 
 
 @pytest.fixture(autouse=True)
-async def setup_comp(hass: __HAC_KEEP__, switch_only: None) -> None:
+async def setup_comp(hass: UniversalAssistant, switch_only: None) -> None:
     """Set up demo component."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     await hass.async_block_till_done()
 
 
 async def test_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -56,7 +56,7 @@ async def test_state(
 
 
 async def test_via_device_relationships(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test devices linked to a hub through their via device."""
@@ -94,7 +94,7 @@ async def test_via_device_relationships(
 
 
 @pytest.mark.parametrize("switch_entity_id", SWITCH_ENTITY_IDS)
-async def test_turn_on(hass: __HAC_KEEP__, switch_entity_id: str) -> None:
+async def test_turn_on(hass: UniversalAssistant, switch_entity_id: str) -> None:
     """Test switch turn on method."""
     await hass.services.async_call(
         SWITCH_DOMAIN,
@@ -120,7 +120,7 @@ async def test_turn_on(hass: __HAC_KEEP__, switch_entity_id: str) -> None:
 
 
 @pytest.mark.parametrize("switch_entity_id", SWITCH_ENTITY_IDS)
-async def test_turn_off(hass: __HAC_KEEP__, switch_entity_id: str) -> None:
+async def test_turn_off(hass: UniversalAssistant, switch_entity_id: str) -> None:
     """Test switch turn off method."""
     await hass.services.async_call(
         SWITCH_DOMAIN,

@@ -11,13 +11,13 @@ from universalassistant.components.homekit.aidmanager import (
     get_aid_storage_filename_for_entry_id,
     get_system_unique_id,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.storage import STORAGE_DIR
 
 
 async def test_aid_generation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -91,7 +91,7 @@ async def test_aid_generation(
 
 
 async def test_no_aid_collision(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -122,7 +122,7 @@ async def test_no_aid_collision(
 
 
 async def test_aid_generation_no_unique_ids_handles_collision(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -621,7 +621,7 @@ async def test_aid_generation_no_unique_ids_handles_collision(
 
 
 async def test_handle_unique_id_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test handling unique id changes."""
@@ -649,7 +649,7 @@ async def test_handle_unique_id_change(
 
 
 async def test_entity_is_allocated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -691,7 +691,7 @@ async def test_entity_is_allocated(
     assert aid_storage.entity_is_allocated(light_ent.entity_id)
 
 
-async def test_accessory_type_round_trip(hass: __HAC_KEEP__) -> None:
+async def test_accessory_type_round_trip(hass: UniversalAssistant) -> None:
     """Test the stored accessory type persists through storage."""
     config_entry = MockConfigEntry(domain="test", data={})
     config_entry.add_to_hass(hass)
@@ -720,7 +720,7 @@ async def test_accessory_type_round_trip(hass: __HAC_KEEP__) -> None:
 
 
 async def test_accessory_type_survives_repeated_unique_id_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -753,7 +753,7 @@ async def test_accessory_type_survives_repeated_unique_id_changes(
 
 
 async def test_accessory_type_survives_entity_renames(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:

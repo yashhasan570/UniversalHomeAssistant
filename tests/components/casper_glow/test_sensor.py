@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.sensor import SensorDeviceClass
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -21,7 +21,7 @@ DIMMING_END_TIME_ENTITY_ID = "sensor.jar_dimming_end_time"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -41,7 +41,7 @@ async def test_entities(
     ],
 )
 async def test_battery_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     battery_level: BatteryLevel,
@@ -58,7 +58,7 @@ async def test_battery_state(
 
 
 async def test_battery_state_updated_via_callback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     fire_callbacks: Callable[[GlowState], Awaitable[None]],
@@ -75,7 +75,7 @@ async def test_battery_state_updated_via_callback(
 
 
 async def test_dimming_end_time_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -90,7 +90,7 @@ async def test_dimming_end_time_disabled_by_default(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_dimming_end_time_when_enabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -108,7 +108,7 @@ async def test_dimming_end_time_when_enabled(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_dimming_end_time_unknown_when_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     fire_callbacks: Callable[[GlowState], Awaitable[None]],
@@ -132,7 +132,7 @@ async def test_dimming_end_time_unknown_when_off(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_dimming_end_time_unknown_when_off_partial_callback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     fire_callbacks: Callable[[GlowState], Awaitable[None]],
@@ -156,7 +156,7 @@ async def test_dimming_end_time_unknown_when_off_partial_callback(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_dimming_end_time_unknown_when_paused(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     fire_callbacks: Callable[[GlowState], Awaitable[None]],
@@ -187,7 +187,7 @@ async def test_dimming_end_time_unknown_when_paused(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_dimming_end_time_unknown_when_paused_partial_callback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     fire_callbacks: Callable[[GlowState], Awaitable[None]],
@@ -211,7 +211,7 @@ async def test_dimming_end_time_unknown_when_paused_partial_callback(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_dimming_end_time_variance_reset_on_resume(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     fire_callbacks: Callable[[GlowState], Awaitable[None]],
@@ -239,7 +239,7 @@ async def test_dimming_end_time_variance_reset_on_resume(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_dimming_end_time_jitter_suppression(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     fire_callbacks: Callable[[GlowState], Awaitable[None]],
@@ -263,7 +263,7 @@ async def test_dimming_end_time_jitter_suppression(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_dimming_end_time_updates_on_significant_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     fire_callbacks: Callable[[GlowState], Awaitable[None]],

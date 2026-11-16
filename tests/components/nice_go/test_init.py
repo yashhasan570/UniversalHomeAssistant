@@ -14,14 +14,14 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.nice_go.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CONF_EMAIL, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers import issue_registry as ir
 
 from . import setup_integration
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__, mock_nice_go: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_nice_go: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the unload entry."""
 
@@ -34,7 +34,7 @@ async def test_unload_entry(
 
 
 async def test_setup_failure_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -47,7 +47,7 @@ async def test_setup_failure_api_error(
 
 
 async def test_auth_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -60,7 +60,7 @@ async def test_auth_api_error(
 
 
 async def test_setup_failure_auth_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -96,7 +96,7 @@ def _barrier_needing_firmware_update(api: AsyncMock) -> Barrier:
 
 
 async def test_firmware_update_required(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
@@ -120,7 +120,7 @@ async def test_firmware_update_required(
 
 
 async def test_firmware_update_required_shared_barrier(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
@@ -182,7 +182,7 @@ def _state_update(reported: str) -> dict[str, Any]:
 
 
 async def test_firmware_update_required_resolved(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
@@ -218,7 +218,7 @@ async def test_firmware_update_required_resolved(
 
 
 async def test_update_refresh_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -244,7 +244,7 @@ async def test_update_refresh_token(
 
 
 async def test_update_refresh_token_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -272,7 +272,7 @@ async def test_update_refresh_token_api_error(
 
 
 async def test_update_refresh_token_auth_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -302,7 +302,7 @@ async def test_update_refresh_token_auth_failed(
 
 
 async def test_client_listen_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -326,7 +326,7 @@ async def test_client_listen_api_error(
 
 
 async def test_client_listen_auth_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -346,7 +346,7 @@ async def test_client_listen_auth_failed(
 
 
 async def test_on_data_none_parsed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -384,7 +384,7 @@ async def test_on_data_none_parsed(
 
 
 async def test_on_connected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -403,7 +403,7 @@ async def test_on_connected(
 
 
 async def test_on_connection_lost(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -435,7 +435,7 @@ async def test_on_connection_lost(
 
 
 async def test_on_connection_lost_reconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -459,7 +459,7 @@ async def test_on_connection_lost_reconnect(
 
 
 async def test_no_connection_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -499,7 +499,7 @@ async def test_no_connection_state(
 
 
 async def test_connection_attempts_exhausted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -520,7 +520,7 @@ async def test_connection_attempts_exhausted(
 
 
 async def test_reconnect_hass_stopping(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,

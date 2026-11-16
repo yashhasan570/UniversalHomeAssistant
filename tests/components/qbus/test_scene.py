@@ -5,7 +5,7 @@ from pytest_universalassistant.typing import MqttMockHAClient
 
 from universalassistant.components.scene import DOMAIN as SCENE_DOMAIN, SceneService
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 _PAYLOAD_SCENE_STATE = '{"id":"UL25","properties":{"value":true},"type":"state"}'
 _PAYLOAD_SCENE_ACTIVATE = '{"id": "UL25", "type": "action", "action": "active"}'
@@ -17,7 +17,7 @@ _SCENE_ENTITY_ID = "scene.ctd_000001_watching_tv"
 
 
 async def test_scene(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
     setup_integration: None,
 ) -> None:

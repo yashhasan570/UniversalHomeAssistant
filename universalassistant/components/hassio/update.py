@@ -18,10 +18,10 @@ from universalassistant.core import (
     CALLBACK_TYPE,
     Event,
     EventStateChangedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_track_state_change_event
 
@@ -52,7 +52,7 @@ OS_UPDATE_REBOOT_NOTICE = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -196,7 +196,7 @@ class SupervisorAddonUpdateEntity(HassioAddonEntity, UpdateEntity):
             await update_addon(
                 self.hass, self._addon_slug, backup, self.title, self.installed_version
             )
-        except __HAC_KEEP__Error:
+        except UniversalAssistantError:
             self._update_ongoing = False
             self._version_before_update = None
             self._attr_in_progress = False
@@ -244,7 +244,7 @@ class SupervisorAddonUpdateEntity(HassioAddonEntity, UpdateEntity):
 
 
 class SupervisorOSUpdateEntity(HassioOSEntity, UpdateEntity):
-    """Update entity to handle updates for the __HA_KEEP__ Operating System."""
+    """Update entity to handle updates for the Universal Home Assistant Operating System."""
 
     _attr_supported_features = (
         UpdateEntityFeature.INSTALL
@@ -252,7 +252,7 @@ class SupervisorOSUpdateEntity(HassioOSEntity, UpdateEntity):
         | UpdateEntityFeature.BACKUP
         | UpdateEntityFeature.RELEASE_NOTES
     )
-    _attr_title = "__HA_KEEP__ Operating System"
+    _attr_title = "Universal Home Assistant Operating System"
 
     @property
     @override
@@ -302,7 +302,7 @@ class SupervisorOSUpdateEntity(HassioOSEntity, UpdateEntity):
 
 
 class SupervisorSupervisorUpdateEntity(HassioSupervisorEntity, UpdateEntity):
-    """Update entity to handle updates for the __HA_KEEP__ Supervisor.
+    """Update entity to handle updates for the Universal Home Assistant Supervisor.
 
     The Supervisor update API blocks for the entire container download, then
     Supervisor restarts itself. The base UpdateEntity always resets
@@ -315,7 +315,7 @@ class SupervisorSupervisorUpdateEntity(HassioSupervisorEntity, UpdateEntity):
     _attr_supported_features = (
         UpdateEntityFeature.INSTALL | UpdateEntityFeature.PROGRESS
     )
-    _attr_title = "__HA_KEEP__ Supervisor"
+    _attr_title = "Universal Home Assistant Supervisor"
     _update_ongoing: bool = False
     _version_before_update: str | None = None
 
@@ -376,8 +376,8 @@ class SupervisorSupervisorUpdateEntity(HassioSupervisorEntity, UpdateEntity):
             self._version_before_update = None
             self._attr_in_progress = False
             self.async_write_ha_state()
-            raise __HAC_KEEP__Error(
-                f"Error updating __HA_KEEP__ Supervisor: {err}"
+            raise UniversalAssistantError(
+                f"Error updating Universal Home Assistant Supervisor: {err}"
             ) from err
 
     @callback
@@ -421,7 +421,7 @@ class SupervisorSupervisorUpdateEntity(HassioSupervisorEntity, UpdateEntity):
 
 
 class SupervisorCoreUpdateEntity(HassioCoreEntity, UpdateEntity):
-    """Update entity to handle updates for __HA_KEEP__ Core."""
+    """Update entity to handle updates for Universal Home Assistant Core."""
 
     _attr_supported_features = (
         UpdateEntityFeature.INSTALL
@@ -429,7 +429,7 @@ class SupervisorCoreUpdateEntity(HassioCoreEntity, UpdateEntity):
         | UpdateEntityFeature.BACKUP
         | UpdateEntityFeature.PROGRESS
     )
-    _attr_title = "__HA_KEEP__ Core"
+    _attr_title = "Universal Home Assistant Core"
     _unsub_skipped_version: CALLBACK_TYPE | None = None
 
     @property
@@ -456,7 +456,7 @@ class SupervisorCoreUpdateEntity(HassioCoreEntity, UpdateEntity):
         """URL to the full release notes of the latest version available."""
         version = AwesomeVersion(self.latest_version)
         if version.dev:
-            return "https://github.com/yashhasan570/__HAC_KEEP__/commits/dev"
+            return "https://github.com/yashhasan570/UniversalUniversalAssistant/commits/dev"
         subdomain = "rc" if version.beta else "www"
         return f"https://{subdomain}.universalassistant.io/latest-release-notes/"
 

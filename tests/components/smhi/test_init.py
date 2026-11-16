@@ -6,14 +6,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.smhi.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import ENTITY_ID, TEST_CONFIG, TEST_CONFIG_MIGRATE
 
 
 async def test_load_and_unload_config_entry(
-    hass: __HAC_KEEP__, load_int: MockConfigEntry
+    hass: UniversalAssistant, load_int: MockConfigEntry
 ) -> None:
     """Test remove entry."""
 
@@ -30,7 +30,7 @@ async def test_load_and_unload_config_entry(
 
 
 async def test_migrate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: SMHIPointForecast,
     mock_fire_client: SMHIFirePointForecast,
@@ -65,7 +65,7 @@ async def test_migrate_entry(
 
 
 async def test_migrate_from_future_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: SMHIPointForecast,
     mock_fire_client: SMHIFirePointForecast,
 ) -> None:

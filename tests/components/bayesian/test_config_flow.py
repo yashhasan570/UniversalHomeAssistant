@@ -37,11 +37,11 @@ from universalassistant.const import (
     CONF_STATE,
     CONF_VALUE_TEMPLATE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_config_flow_step_user(hass: __HAC_KEEP__) -> None:
+async def test_config_flow_step_user(hass: UniversalAssistant) -> None:
     """Test the config flow with an example."""
     with patch(
         "universalassistant.components.bayesian.async_setup_entry", return_value=None
@@ -74,7 +74,7 @@ async def test_config_flow_step_user(hass: __HAC_KEEP__) -> None:
         assert result1["next_flow"][0] == FlowType.CONFIG_SUBENTRIES_FLOW
 
 
-async def test_subentry_flow(hass: __HAC_KEEP__) -> None:
+async def test_subentry_flow(hass: UniversalAssistant) -> None:
     """Test the subentry flow with a full example."""
     with patch(
         "universalassistant.components.bayesian.async_setup_entry", return_value=None
@@ -233,7 +233,7 @@ False
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_single_state_observation(hass: __HAC_KEEP__) -> None:
+async def test_single_state_observation(hass: UniversalAssistant) -> None:
     """Test a Bayesian sensor with just one state observation added.
 
     This test combines the config flow for a single state observation.
@@ -312,7 +312,7 @@ async def test_single_state_observation(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_single_numeric_state_observation(hass: __HAC_KEEP__) -> None:
+async def test_single_numeric_state_observation(hass: UniversalAssistant) -> None:
     """Test a Bayesian sensor with just one numeric_state observation added.
 
     Combines the config flow and the options flow for a
@@ -381,7 +381,7 @@ async def test_single_numeric_state_observation(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_multi_numeric_state_observation(hass: __HAC_KEEP__) -> None:
+async def test_multi_numeric_state_observation(hass: UniversalAssistant) -> None:
     """Test a Bayesian sensor with just more than one numeric_state observation added.
 
     Technically a subset of the tests in test_config_flow() but may help to
@@ -519,7 +519,7 @@ async def test_multi_numeric_state_observation(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_single_template_observation(hass: __HAC_KEEP__) -> None:
+async def test_single_template_observation(hass: UniversalAssistant) -> None:
     """Test a Bayesian sensor with just one template observation added.
 
     Technically a subset of the tests in test_config_flow() but may help to
@@ -601,7 +601,7 @@ async def test_single_template_observation(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_basic_options(hass: __HAC_KEEP__) -> None:
+async def test_basic_options(hass: UniversalAssistant) -> None:
     """Test reconfiguring the basic options using an options flow."""
     config_entry = MockConfigEntry(
         data={},
@@ -685,7 +685,7 @@ async def test_basic_options(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_reconfiguring_observations(hass: __HAC_KEEP__) -> None:
+async def test_reconfiguring_observations(hass: UniversalAssistant) -> None:
     """Test editing observations through options flow, once of each of the 3 types."""
     # Setup the config entry
     config_entry = MockConfigEntry(
@@ -1013,7 +1013,7 @@ False
     ]
 
 
-async def test_invalid_configs(hass: __HAC_KEEP__) -> None:
+async def test_invalid_configs(hass: UniversalAssistant) -> None:
     """Test that invalid configs are refused."""
     with patch(
         "universalassistant.components.bayesian.async_setup_entry", return_value=None

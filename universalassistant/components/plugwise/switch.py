@@ -1,4 +1,4 @@
-"""Plugwise Switch component for __HAC_KEEP__."""
+"""Plugwise Switch component for UniversalAssistant."""
 
 from dataclasses import dataclass
 from typing import Any, override
@@ -11,7 +11,7 @@ from universalassistant.components.switch import (
     SwitchEntityDescription,
 )
 from universalassistant.const import EntityCategory, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -54,7 +54,7 @@ SWITCHES: tuple[PlugwiseSwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: PlugwiseConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

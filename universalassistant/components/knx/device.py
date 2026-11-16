@@ -1,11 +1,11 @@
-"""Handle __HA_KEEP__ Devices for the KNX integration."""
+"""Handle Universal Home Assistant Devices for the KNX integration."""
 
 from xknx import XKNX
 from xknx.core import XknxConnectionState
 from xknx.io.gateway_scanner import GatewayDescriptor
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 
@@ -15,7 +15,7 @@ from .const import DOMAIN
 class KNXInterfaceDevice:
     """Class for KNX Interface Device handling."""
 
-    def __init__(self, hass: __HAC_KEEP__, entry: ConfigEntry, xknx: XKNX) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: ConfigEntry, xknx: XKNX) -> None:
         """Initialize interface device class."""
         self.hass = hass
         self.device_registry = dr.async_get(hass)

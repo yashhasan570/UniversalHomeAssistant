@@ -49,7 +49,7 @@ class GreencellEntity(Entity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Register the entity with __HA_KEEP__."""
+        """Register the entity with Universal Home Assistant."""
         self.async_on_remove(
             async_dispatcher_connect(
                 self.hass,

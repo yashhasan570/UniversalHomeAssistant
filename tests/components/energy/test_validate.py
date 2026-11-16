@@ -7,7 +7,7 @@ import pytest
 from universalassistant.components.energy import validate
 from universalassistant.components.energy.data import EnergyManager
 from universalassistant.const import UnitOfEnergy
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.json import JSON_DUMP
 
 ENERGY_UNITS_STRING = ", ".join(tuple(UnitOfEnergy))
@@ -23,7 +23,7 @@ async def setup_energy_for_validation(
     return mock_energy_manager
 
 
-async def test_validation_empty_config(hass: __HAC_KEEP__) -> None:
+async def test_validation_empty_config(hass: UniversalAssistant) -> None:
     """Test validating an empty config."""
     assert (await validate.async_validate(hass)).as_dict() == {
         "energy_sources": [],
@@ -48,7 +48,7 @@ async def test_validation_empty_config(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energy_manager,
     mock_get_metadata,
     state_class,
@@ -56,7 +56,14 @@ async def test_validation(
     extra,
 ) -> None:
     """Test validating success."""
-    for key in ("device_cons", "battery_import", "battery_export", "solar_production"):
+    for key in (
+        "device_cons",
+        "battery_import",
+        "battery_export",
+        "battery_from_solar",
+        "battery_to_home",
+        "solar_production",
+    ):
         hass.states.async_set(
             f"sensor.{key}",
             "123",
@@ -76,13 +83,18 @@ async def test_validation(
                     "stat_energy_from": "sensor.battery_import",
                     "stat_energy_to": "sensor.battery_export",
                 },
+                {
+                    "type": "battery",
+                    "stat_energy_from_solar": "sensor.battery_from_solar",
+                    "stat_energy_to_home": "sensor.battery_to_home",
+                },
                 {"type": "solar", "stat_energy_from": "sensor.solar_production"},
             ],
             "device_consumption": [{"stat_consumption": "sensor.device_cons"}],
         }
     )
     assert (await validate.async_validate(hass)).as_dict() == {
-        "energy_sources": [[], []],
+        "energy_sources": [[], [], []],
         "device_consumption": [[]],
         "device_consumption_gas": [],
         "device_consumption_water": [],
@@ -90,7 +102,7 @@ async def test_validation(
 
 
 async def test_validation_device_consumption_entity_missing(
-    hass: __HAC_KEEP__, mock_energy_manager
+    hass: UniversalAssistant, mock_energy_manager
 ) -> None:
     """Test validating missing entity for device."""
     await mock_energy_manager.async_update(
@@ -118,7 +130,7 @@ async def test_validation_device_consumption_entity_missing(
 
 
 async def test_validation_device_consumption_stat_missing(
-    hass: __HAC_KEEP__, mock_energy_manager
+    hass: UniversalAssistant, mock_energy_manager
 ) -> None:
     """Test validating missing statistic for device with non entity stats."""
     await mock_energy_manager.async_update(
@@ -141,7 +153,7 @@ async def test_validation_device_consumption_stat_missing(
 
 
 async def test_validation_device_consumption_entity_unavailable(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating missing stat for device."""
     await mock_energy_manager.async_update(
@@ -166,7 +178,7 @@ async def test_validation_device_consumption_entity_unavailable(
 
 
 async def test_validation_device_consumption_entity_non_numeric(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating missing stat for device."""
     await mock_energy_manager.async_update(
@@ -191,7 +203,7 @@ async def test_validation_device_consumption_entity_non_numeric(
 
 
 async def test_validation_device_consumption_entity_unexpected_unit(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating missing stat for device."""
     await mock_energy_manager.async_update(
@@ -224,7 +236,7 @@ async def test_validation_device_consumption_entity_unexpected_unit(
 
 
 async def test_validation_device_consumption_recorder_not_tracked(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
 ) -> None:
     """Test validating device based on untracked entity."""
     mock_is_entity_recorded["sensor.not_recorded"] = False
@@ -249,7 +261,7 @@ async def test_validation_device_consumption_recorder_not_tracked(
 
 
 async def test_validation_device_consumption_no_last_reset(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating device based on untracked entity."""
     await mock_energy_manager.async_update(
@@ -282,7 +294,7 @@ async def test_validation_device_consumption_no_last_reset(
 
 
 async def test_validation_solar(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating missing stat for device."""
     await mock_energy_manager.async_update(
@@ -337,7 +349,7 @@ async def test_validation_solar(
     ],
 )
 async def test_validation_home(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energy_manager: EnergyManager,
     unit: str,
     issues: list[dict[str, Any]],
@@ -365,7 +377,7 @@ async def test_validation_home(
 
 
 async def test_validation_battery(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating missing stat for device."""
     await mock_energy_manager.async_update(
@@ -417,8 +429,178 @@ async def test_validation_battery(
     }
 
 
+BATTERY_DIRECTIONS = {
+    "type": "battery",
+    "stat_energy_from_grid": "sensor.battery_from_grid",
+    "stat_energy_from_solar": "sensor.battery_from_solar",
+    "stat_energy_to_home": "sensor.battery_to_home",
+    "stat_energy_to_grid": "sensor.battery_to_grid",
+}
+
+
+@pytest.mark.usefixtures("mock_get_metadata")
+async def test_validation_battery_directions(
+    hass: UniversalAssistant, mock_energy_manager: EnergyManager
+) -> None:
+    """Test validating the energy statistics of a battery measured per direction."""
+    await mock_energy_manager.async_update(
+        {
+            "energy_sources": [
+                BATTERY_DIRECTIONS,
+                {
+                    "type": "grid",
+                    "stat_energy_from": "sensor.grid_import",
+                    "stat_energy_to": "sensor.grid_export",
+                    "cost_adjustment_day": 0.0,
+                },
+                {"type": "solar", "stat_energy_from": "sensor.solar_production"},
+            ]
+        }
+    )
+    for key in ("battery_from_grid", "battery_from_solar", "battery_to_home"):
+        hass.states.async_set(
+            f"sensor.{key}",
+            "10.10",
+            {
+                "device_class": "energy",
+                "unit_of_measurement": UnitOfEnergy.KILO_WATT_HOUR,
+                "state_class": "total_increasing",
+            },
+        )
+    hass.states.async_set(
+        "sensor.battery_to_grid",
+        "10.10",
+        {
+            "device_class": "energy",
+            "unit_of_measurement": "beers",
+            "state_class": "total_increasing",
+        },
+    )
+
+    result = (await validate.async_validate(hass)).as_dict()
+    assert result["energy_sources"][0] == [
+        {
+            "type": "entity_unexpected_unit_energy",
+            "affected_entities": {("sensor.battery_to_grid", "beers")},
+            "translation_placeholders": {"energy_units": ENERGY_UNITS_STRING},
+        },
+    ]
+
+
+@pytest.mark.usefixtures("mock_get_metadata")
+@pytest.mark.parametrize(
+    ("other_sources", "issues"),
+    [
+        pytest.param(
+            [],
+            [
+                {
+                    "type": "battery_from_grid_without_grid_import",
+                    "affected_entities": {("sensor.battery_from_grid", None)},
+                    "translation_placeholders": None,
+                },
+                {
+                    "type": "battery_to_grid_without_grid_export",
+                    "affected_entities": {("sensor.battery_to_grid", None)},
+                    "translation_placeholders": None,
+                },
+                {
+                    "type": "battery_from_solar_without_solar",
+                    "affected_entities": {("sensor.battery_from_solar", None)},
+                    "translation_placeholders": None,
+                },
+            ],
+            id="no_sources",
+        ),
+        pytest.param(
+            [
+                {
+                    "type": "grid",
+                    "stat_energy_from": "sensor.grid_import",
+                    "stat_energy_to": None,
+                    "cost_adjustment_day": 0.0,
+                },
+                {"type": "solar", "stat_energy_from": "sensor.solar_production"},
+            ],
+            [
+                {
+                    "type": "battery_to_grid_without_grid_export",
+                    "affected_entities": {("sensor.battery_to_grid", None)},
+                    "translation_placeholders": None,
+                },
+            ],
+            id="grid_import_only",
+        ),
+        pytest.param(
+            [
+                {
+                    "type": "grid",
+                    "stat_energy_from": None,
+                    "stat_energy_to": "sensor.grid_export",
+                    "cost_adjustment_day": 0.0,
+                },
+            ],
+            [
+                {
+                    "type": "battery_from_grid_without_grid_import",
+                    "affected_entities": {("sensor.battery_from_grid", None)},
+                    "translation_placeholders": None,
+                },
+                {
+                    "type": "battery_from_solar_without_solar",
+                    "affected_entities": {("sensor.battery_from_solar", None)},
+                    "translation_placeholders": None,
+                },
+            ],
+            id="grid_export_only",
+        ),
+        pytest.param(
+            [
+                {
+                    "type": "grid",
+                    "stat_energy_from": "sensor.grid_import",
+                    "stat_energy_to": "sensor.grid_export",
+                    "cost_adjustment_day": 0.0,
+                },
+                {"type": "solar", "stat_energy_from": "sensor.solar_production"},
+            ],
+            [],
+            id="all_sources",
+        ),
+    ],
+)
+async def test_validation_battery_directions_without_source(
+    hass: UniversalAssistant,
+    mock_energy_manager: EnergyManager,
+    other_sources: list[dict[str, Any]],
+    issues: list[dict[str, Any]],
+) -> None:
+    """Test a battery direction without its source type is a warning."""
+    await mock_energy_manager.async_update(
+        {"energy_sources": [BATTERY_DIRECTIONS, *other_sources]}
+    )
+    for key in (
+        "battery_from_grid",
+        "battery_from_solar",
+        "battery_to_home",
+        "battery_to_grid",
+    ):
+        hass.states.async_set(
+            f"sensor.{key}",
+            "10.10",
+            {
+                "device_class": "energy",
+                "unit_of_measurement": UnitOfEnergy.KILO_WATT_HOUR,
+                "state_class": "total_increasing",
+            },
+        )
+
+    result = (await validate.async_validate(hass)).as_dict()
+    assert result["energy_sources"][0] == issues
+
+
 async def test_validation_grid(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
 ) -> None:
     """Test validating grid with sensors for energy and cost/compensation."""
     mock_is_entity_recorded["sensor.grid_cost_1"] = False
@@ -506,7 +688,7 @@ async def test_validation_grid(
 
 
 async def test_validation_grid_external_cost_compensation(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
 ) -> None:
     """Test validating grid with non entity stats for energy and cost/compensation."""
     mock_get_metadata["external:grid_cost_1"] = None
@@ -572,7 +754,7 @@ async def test_validation_grid_external_cost_compensation(
 
 
 async def test_validation_grid_price_not_exist(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata, mock_is_entity_recorded
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata, mock_is_entity_recorded
 ) -> None:
     """Test validating grid with errors.
 
@@ -640,7 +822,7 @@ async def test_validation_grid_price_not_exist(
 
 
 async def test_validation_grid_auto_cost_entity_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energy_manager,
     mock_get_metadata,
     mock_is_entity_recorded,
@@ -726,7 +908,7 @@ async def test_validation_grid_auto_cost_entity_errors(
     ],
 )
 async def test_validation_grid_price_errors(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata, state, unit, expected
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata, state, unit, expected
 ) -> None:
     """Test validating grid with price data that gives errors."""
     hass.states.async_set(
@@ -768,7 +950,7 @@ async def test_validation_grid_price_errors(
 
 
 async def test_validation_gas(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
 ) -> None:
     """Test validating gas with sensors for energy and cost/compensation."""
     mock_is_entity_recorded["sensor.gas_cost_1"] = False
@@ -958,7 +1140,7 @@ async def test_validation_gas(
 )
 @pytest.mark.usefixtures("mock_is_entity_recorded", "mock_get_metadata")
 async def test_validation_gas_price_unit_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energy_manager: EnergyManager,
     usage_device_class: str,
     usage_unit: str,
@@ -1002,7 +1184,7 @@ async def test_validation_gas_price_unit_mismatch(
 
 @pytest.mark.usefixtures("mock_is_entity_recorded", "mock_get_metadata")
 async def test_validation_gas_price_not_exist(
-    hass: __HAC_KEEP__, mock_energy_manager: EnergyManager
+    hass: UniversalAssistant, mock_energy_manager: EnergyManager
 ) -> None:
     """Test validating gas when the price entity does not exist."""
     await mock_energy_manager.async_update(
@@ -1045,7 +1227,7 @@ async def test_validation_gas_price_not_exist(
 
 
 async def test_validation_gas_no_costs_tracking(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
 ) -> None:
     """Test validating gas with sensors without cost tracking."""
     await mock_energy_manager.async_update(
@@ -1080,7 +1262,7 @@ async def test_validation_gas_no_costs_tracking(
 
 
 async def test_validation_grid_no_costs_tracking(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
 ) -> None:
     """Test validating grid with sensors for energy without cost tracking."""
     await mock_energy_manager.async_update(
@@ -1129,7 +1311,7 @@ async def test_validation_grid_no_costs_tracking(
 
 
 async def test_validation_water(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
 ) -> None:
     """Test validating water with sensors for energy and cost/compensation."""
     mock_is_entity_recorded["sensor.water_cost_1"] = False
@@ -1263,7 +1445,7 @@ async def test_validation_water(
 
 
 async def test_validation_water_no_costs_tracking(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
 ) -> None:
     """Test validating water with sensors without cost tracking."""
     await mock_energy_manager.async_update(
@@ -1298,7 +1480,7 @@ async def test_validation_water_no_costs_tracking(
 
 
 async def test_validation_device_consumption_water_entity_missing(
-    hass: __HAC_KEEP__, mock_energy_manager
+    hass: UniversalAssistant, mock_energy_manager
 ) -> None:
     """Test validating missing entity for water device."""
     await mock_energy_manager.async_update(
@@ -1326,7 +1508,7 @@ async def test_validation_device_consumption_water_entity_missing(
 
 
 async def test_validation_device_consumption_water_entity_unexpected_unit(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating water device with unexpected unit."""
     await mock_energy_manager.async_update(
@@ -1361,7 +1543,7 @@ async def test_validation_device_consumption_water_entity_unexpected_unit(
 
 
 async def test_validation_device_consumption_water_valid_units(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating water device with valid water units."""
     await mock_energy_manager.async_update(
@@ -1410,7 +1592,7 @@ async def test_validation_device_consumption_water_valid_units(
 
 
 async def test_validation_device_consumption_water_recorder_not_tracked(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
 ) -> None:
     """Test validating water device based on untracked entity."""
     mock_is_entity_recorded["sensor.not_recorded"] = False
@@ -1435,7 +1617,7 @@ async def test_validation_device_consumption_water_recorder_not_tracked(
 
 
 async def test_validation_device_consumption_gas_entity_missing(
-    hass: __HAC_KEEP__, mock_energy_manager
+    hass: UniversalAssistant, mock_energy_manager
 ) -> None:
     """Test validating missing entity for gas device."""
     await mock_energy_manager.async_update(
@@ -1463,7 +1645,7 @@ async def test_validation_device_consumption_gas_entity_missing(
 
 
 async def test_validation_device_consumption_gas_entity_unexpected_unit(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating gas device with unexpected unit."""
     await mock_energy_manager.async_update(
@@ -1499,7 +1681,7 @@ async def test_validation_device_consumption_gas_entity_unexpected_unit(
 
 
 async def test_validation_device_consumption_gas_valid_units(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating gas devices with volume and energy units."""
     await mock_energy_manager.async_update(
@@ -1535,7 +1717,7 @@ async def test_validation_device_consumption_gas_valid_units(
 
 
 async def test_validation_device_consumption_gas_recorder_not_tracked(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
 ) -> None:
     """Test validating gas device based on untracked entity."""
     mock_is_entity_recorded["sensor.not_recorded"] = False

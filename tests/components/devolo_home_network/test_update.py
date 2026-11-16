@@ -14,8 +14,8 @@ from universalassistant.components.devolo_home_network.const import (
 from universalassistant.components.update import DOMAIN as UPDATE_DOMAIN, UpdateService
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import STATE_OFF, STATE_UNAVAILABLE, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import configure_integration
@@ -25,7 +25,7 @@ from .mock import MockDevice
 
 @pytest.mark.usefixtures("mock_device")
 async def test_update_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test default setup of the update component."""
@@ -41,7 +41,7 @@ async def test_update_setup(
 
 
 async def test_update_firmware(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: MockDevice,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -90,7 +90,7 @@ async def test_update_firmware(
 
 
 async def test_device_failure_check(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: MockDevice,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -116,7 +116,7 @@ async def test_device_failure_check(
 
 
 async def test_device_failure_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: MockDevice,
 ) -> None:
     """Test device failure when starting update."""
@@ -130,7 +130,7 @@ async def test_device_failure_update(
     mock_device.device.async_start_firmware_update.side_effect = DeviceUnavailable
 
     # Emulate update start
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -139,7 +139,7 @@ async def test_device_failure_update(
         )
 
 
-async def test_auth_failed(hass: __HAC_KEEP__, mock_device: MockDevice) -> None:
+async def test_auth_failed(hass: UniversalAssistant, mock_device: MockDevice) -> None:
     """Test updating unauthorized triggers the reauth flow."""
     entry = configure_integration(hass)
     device_name = entry.title.replace(" ", "_").lower()
@@ -150,7 +150,7 @@ async def test_auth_failed(hass: __HAC_KEEP__, mock_device: MockDevice) -> None:
 
     mock_device.device.async_start_firmware_update.side_effect = DevicePasswordProtected
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         assert await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,

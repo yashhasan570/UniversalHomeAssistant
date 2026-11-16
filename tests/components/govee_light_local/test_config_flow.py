@@ -9,7 +9,7 @@ import pytest
 
 from universalassistant import config_entries
 from universalassistant.components.govee_light_local.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import (
@@ -32,7 +32,7 @@ def _get_devices(mock_govee_api: AsyncMock) -> list[GoveeDevice]:
 
 
 async def test_creating_entry_has_no_devices(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_govee_api: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_govee_api: AsyncMock
 ) -> None:
     """Test setting up Govee with no devices."""
 
@@ -60,7 +60,7 @@ async def test_creating_entry_has_no_devices(
 
 @pytest.mark.usefixtures("mock_network_adapters")
 async def test_creating_entry_has_with_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_govee_api: AsyncMock,
 ) -> None:
@@ -94,7 +94,7 @@ async def test_creating_entry_has_with_devices(
 
 
 async def test_creating_entry_errno(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_govee_api: AsyncMock,
 ) -> None:
@@ -122,7 +122,7 @@ async def test_creating_entry_errno(
 
 
 async def test_creating_entry_no_listening_addresses(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_govee_api: AsyncMock,
 ) -> None:
@@ -152,7 +152,7 @@ async def test_creating_entry_no_listening_addresses(
 
 @pytest.mark.usefixtures("mock_network_adapters")
 async def test_creating_entry_with_partial_bind(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_govee_api: AsyncMock,
 ) -> None:

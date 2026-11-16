@@ -19,7 +19,7 @@ from tplink_omada_client.devices import OmadaListDevice
 
 from universalassistant.components.tplink_omada.const import DOMAIN
 from universalassistant.components.tplink_omada.coordinator import POLL_DEVICES
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 POLL_INTERVAL = timedelta(seconds=POLL_DEVICES)
@@ -33,7 +33,7 @@ def patch_binary_sensor_platforms() -> Generator[None]:
 
 
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -43,7 +43,7 @@ async def test_entities(
 
 
 async def test_no_gateway_creates_no_port_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_omada_client: MagicMock,
     mock_omada_site_client: MagicMock,
@@ -62,7 +62,7 @@ async def test_no_gateway_creates_no_port_sensors(
 
 
 async def test_disconnected_device_sensor_not_registered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_omada_client: MagicMock,
     mock_omada_site_client: MagicMock,
@@ -108,7 +108,7 @@ async def test_disconnected_device_sensor_not_registered(
 
 
 async def _set_test_device_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_site_client: MagicMock,
     dev_index: int,
     status: int,
@@ -124,7 +124,7 @@ async def _set_test_device_status(
 
 
 async def _remove_test_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_site_client: MagicMock,
     dev_index: int,
 ) -> None:
@@ -137,7 +137,7 @@ async def _remove_test_device(
 
 
 async def test_gateway_port_disappears_from_port_status_becomes_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_omada_client: MagicMock,
     mock_omada_site_client: MagicMock,
@@ -173,7 +173,7 @@ async def test_gateway_port_disappears_from_port_status_becomes_unavailable(
 
 
 async def test_gateway_disappearing_from_coordinator_is_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_omada_client: MagicMock,
     mock_omada_site_client: MagicMock,

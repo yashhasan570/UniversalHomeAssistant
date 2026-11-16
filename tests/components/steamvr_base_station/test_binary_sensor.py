@@ -8,7 +8,7 @@ from pytest_universalassistant.components.bluetooth import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import make_service_info, payload
@@ -23,7 +23,7 @@ def platforms() -> list[Platform]:
 
 
 async def test_binary_sensor_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -38,7 +38,7 @@ async def test_binary_sensor_entities(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_fault_follows_advertisements(
-    hass: __HAC_KEEP__, fault: int, expected: str
+    hass: UniversalAssistant, fault: int, expected: str
 ) -> None:
     """Test the fault sensor reflects the advertised fault flag."""
     inject_bluetooth_service_info_bleak(hass, make_service_info(payload(fault=fault)))

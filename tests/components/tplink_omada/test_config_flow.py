@@ -16,7 +16,7 @@ from universalassistant.components.tplink_omada.config_flow import create_omada_
 from universalassistant.components.tplink_omada.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 MOCK_USER_DATA = {
@@ -36,7 +36,7 @@ MOCK_ENTRY_DATA = {
 
 
 async def test_form_single_site(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_client: MagicMock,
     mock_setup_entry: MagicMock,
 ) -> None:
@@ -60,7 +60,7 @@ async def test_form_single_site(
 
 
 async def test_form_multiple_sites(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_client: MagicMock,
     mock_setup_entry: MagicMock,
 ) -> None:
@@ -116,7 +116,7 @@ async def test_form_multiple_sites(
     ],
 )
 async def test_form_errors_and_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_client: MagicMock,
     mock_setup_entry: MagicMock,
     side_effect: Exception,
@@ -152,7 +152,7 @@ async def test_form_errors_and_recovery(
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_no_sites(hass: __HAC_KEEP__, mock_omada_client: MagicMock) -> None:
+async def test_form_no_sites(hass: UniversalAssistant, mock_omada_client: MagicMock) -> None:
     """Test we handle the case when no sites are found."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -179,7 +179,7 @@ async def test_form_no_sites(hass: __HAC_KEEP__, mock_omada_client: MagicMock) -
 
 
 async def test_form_single_site_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_client: MagicMock,
 ) -> None:
     """Test that setting up the same controller and site twice is rejected."""
@@ -204,7 +204,7 @@ async def test_form_single_site_already_configured(
 
 
 async def test_form_multiple_sites_second_site_allowed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_client: MagicMock,
     mock_setup_entry: MagicMock,
 ) -> None:
@@ -243,7 +243,7 @@ async def test_form_multiple_sites_second_site_allowed(
 
 
 async def test_form_multiple_sites_duplicate_site_aborts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_client: MagicMock,
 ) -> None:
     """Test that selecting an already-configured site aborts the flow."""
@@ -288,7 +288,7 @@ async def test_form_multiple_sites_duplicate_site_aborts(
     ],
 )
 async def test_async_step_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_omada_client: MagicMock,
     controller_id: str,
@@ -323,7 +323,7 @@ async def test_async_step_reauth(
     ],
 )
 async def test_async_step_reauth_invalid_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_omada_client: MagicMock,
     side_effect: Exception,
@@ -357,7 +357,7 @@ async def test_async_step_reauth_invalid_auth(
     assert result["reason"] == "reauth_successful"
 
 
-async def test_create_omada_client_parses_args(hass: __HAC_KEEP__) -> None:
+async def test_create_omada_client_parses_args(hass: UniversalAssistant) -> None:
     """Test config arguments are passed to Omada client."""
 
     with (
@@ -379,7 +379,7 @@ async def test_create_omada_client_parses_args(hass: __HAC_KEEP__) -> None:
     mock_clientsession.assert_called_once_with(hass, verify_ssl=True)
 
 
-async def test_create_omada_client_adds_missing_scheme(hass: __HAC_KEEP__) -> None:
+async def test_create_omada_client_adds_missing_scheme(hass: UniversalAssistant) -> None:
     """Test config arguments are passed to Omada client."""
 
     with (
@@ -410,7 +410,7 @@ async def test_create_omada_client_adds_missing_scheme(hass: __HAC_KEEP__) -> No
 
 
 async def test_create_omada_client_with_ip_creates_clientsession(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test config arguments are passed to Omada client."""
 

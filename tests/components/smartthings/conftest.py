@@ -29,7 +29,7 @@ from universalassistant.components.smartthings.const import (
     SCOPES,
 )
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_CLIENT_ID, CONF_CLIENT_SECRET
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import DEVICE_FIXTURES, get_device_response, get_device_status, get_fixture_name
@@ -52,7 +52,7 @@ def mock_expires_at() -> int:
 
 
 @pytest.fixture(autouse=True)
-async def setup_credentials(hass: __HAC_KEEP__) -> None:
+async def setup_credentials(hass: UniversalAssistant) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(

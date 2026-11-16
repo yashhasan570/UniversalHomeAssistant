@@ -33,7 +33,7 @@
           "broker": "The hostname or IP address of your MQTT broker.",
           "password": "The password to log in to your MQTT broker.",
           "port": "The port your MQTT broker listens to. For example 1883.",
-          "protocol": "The MQTT protocol version that is used. Note that __HA_KEEP__ will silently change to version 5 if your broker supports it.",
+          "protocol": "The MQTT protocol version that is used. Note that Universal Home Assistant will silently change to version 5 if your broker supports it.",
           "username": "The username to log in to your MQTT broker."
         },
         "description": "Please enter the connection information of your MQTT broker.",
@@ -56,7 +56,7 @@
             "data_description": {
               "certificate": "The custom CA certificate file to validate your MQTT broker's certificate.",
               "client_cert": "The client certificate to authenticate against your MQTT broker.",
-              "client_id": "The unique ID to identify the __HA_KEEP__ MQTT API as MQTT client. It is recommended to leave this option blank.",
+              "client_id": "The unique ID to identify the Universal Home Assistant MQTT API as MQTT client. It is recommended to leave this option blank.",
               "client_key": "The private key file that belongs to your client certificate.",
               "client_key_password": "The password for the private key file (if set).",
               "keepalive": "A value less than 90 seconds is advised. Defaults to 60 seconds.",
@@ -72,8 +72,8 @@
         }
       },
       "hassio_confirm": {
-        "description": "Do you want to configure __HA_KEEP__ to connect to the MQTT broker provided by the {addon} app?",
-        "title": "MQTT broker via __HA_KEEP__ app"
+        "description": "Do you want to configure Universal Home Assistant to connect to the MQTT broker provided by the {addon} app?",
+        "title": "MQTT broker via Universal Home Assistant app"
       },
       "install_addon": {
         "title": "Installing app"
@@ -256,7 +256,7 @@
             "water_heater_feature_power": "[%key:component::mqtt::config_subentries::device::step::entity_platform_config::data::climate_feature_power%]"
           },
           "data_description": {
-            "alarm_control_panel_code_mode": "Configures how the alarm control panel validates the code. A local code is configured with the entity and is validated by __HA_KEEP__. A remote code is sent to the device and validated remotely. [Learn more.]({url}#code)",
+            "alarm_control_panel_code_mode": "Configures how the alarm control panel validates the code. A local code is configured with the entity and is validated by Universal Home Assistant. A remote code is sent to the device and validated remotely. [Learn more.]({url}#code)",
             "climate_feature_action": "The climate supports reporting the current action.",
             "climate_feature_current_humidity": "The climate supports reporting the current humidity.",
             "climate_feature_current_temperature": "The climate supports reporting the current temperature.",
@@ -316,7 +316,7 @@
             "discovery_payload": "The JSON [discovery payload]({url}#device-discovery-payload) that contains information about the MQTT device.",
             "discovery_topic": "The [discovery topic]({url}#discovery-topic) to publish the discovery payload, used to trigger MQTT discovery. An empty payload published to this topic will remove the device and discovered entities."
           },
-          "description": "To allow setup via MQTT [discovery]({url}#device-discovery-payload), the discovery payload needs to be published to the discovery topic. Copy the information from the fields below. __HA_KEEP__ will detect if the setup of the MQTT device was tried via MQTT discovery instead, and will offer a repair flow to clean up the redundant subentry. You can also choose to change the identifiers if you do not want to remove the subentry.",
+          "description": "To allow setup via MQTT [discovery]({url}#device-discovery-payload), the discovery payload needs to be published to the discovery topic. Copy the information from the fields below. Universal Home Assistant will detect if the setup of the MQTT device was tried via MQTT discovery instead, and will offer a repair flow to clean up the redundant subentry. You can also choose to change the identifiers if you do not want to remove the subentry.",
           "title": "[%key:component::mqtt::config_subentries::device::step::export::title%]"
         },
         "export_yaml": {
@@ -326,7 +326,7 @@
           "data_description": {
             "yaml": "Place YAML configuration in your [configuration.yaml]({url}#yaml-configuration-listed-per-item)."
           },
-          "description": "You can copy the configuration below and place it your configuration.yaml file. __HA_KEEP__ will detect if the setup of the MQTT device was tried via YAML instead, and will offer a repair flow to clean up the redundant subentry. You can also choose to change the identifiers if you do not want to remove the subentry.",
+          "description": "You can copy the configuration below and place it your configuration.yaml file. Universal Home Assistant will detect if the setup of the MQTT device was tried via YAML instead, and will offer a repair flow to clean up the redundant subentry. You can also choose to change the identifiers if you do not want to remove the subentry.",
           "title": "[%key:component::mqtt::config_subentries::device::step::export::title%]"
         },
         "mqtt_platform_config": {
@@ -1131,11 +1131,11 @@
   },
   "issues": {
     "invalid_platform_config": {
-      "description": "__HA_KEEP__ detected an invalid config for a manually configured item.\n\nPlatform domain: **{domain}**\nConfiguration file: **{config_file}**\nNear line: **{line}**\nConfiguration found:\n```yaml\n{config}\n```\nError: **{error}**.\n\nMake sure the configuration is valid and [reload](/config/tools/yaml) the manually configured MQTT items or restart __HA_KEEP__ to fix this issue.",
+      "description": "Universal Home Assistant detected an invalid config for a manually configured item.\n\nPlatform domain: **{domain}**\nConfiguration file: **{config_file}**\nNear line: **{line}**\nConfiguration found:\n```yaml\n{config}\n```\nError: **{error}**.\n\nMake sure the configuration is valid and [reload](/config/tools/yaml) the manually configured MQTT items or restart Universal Home Assistant to fix this issue.",
       "title": "Invalid config found for MQTT {domain} item"
     },
     "protocol_5_migration": {
-      "description": "The automatic migration to MQTT protocol version 5 failed. The currently configured protocol version for MQTT broker {broker} is {protocol}, but this protocol version is deprecated, and support for it will be removed.\n\nMake sure your broker supports protocol version 5. Update your MQTT broker's connection settings, and restart __HA_KEEP__ to fix this issue.",
+      "description": "The automatic migration to MQTT protocol version 5 failed. The currently configured protocol version for MQTT broker {broker} is {protocol}, but this protocol version is deprecated, and support for it will be removed.\n\nMake sure your broker supports protocol version 5. Update your MQTT broker's connection settings, and restart Universal Home Assistant to fix this issue.",
       "title": "MQTT protocol migration failed"
     },
     "subentry_migration_discovery": {
@@ -1161,7 +1161,7 @@
       "title": "MQTT device \"{name}\" subentry migration to YAML"
     },
     "yaml_setup_without_active_setup": {
-      "description": "__HA_KEEP__ detected manually configured MQTT items, but these items cannot be loaded because MQTT is not set up correctly. Make sure the MQTT broker is set up correctly, or remove the MQTT configuration from your `configuration.yaml` file and restart __HA_KEEP__ to fix this issue.",
+      "description": "Universal Home Assistant detected manually configured MQTT items, but these items cannot be loaded because MQTT is not set up correctly. Make sure the MQTT broker is set up correctly, or remove the MQTT configuration from your `configuration.yaml` file and restart Universal Home Assistant to fix this issue.",
       "title": "MQTT is not set up correctly"
     }
   },
@@ -1196,21 +1196,21 @@
           "will_topic": "Will message topic"
         },
         "data_description": {
-          "birth_enable": "When set, __HA_KEEP__ will publish an online message to your MQTT broker when MQTT is ready.",
+          "birth_enable": "When set, Universal Home Assistant will publish an online message to your MQTT broker when MQTT is ready.",
           "birth_payload": "The \"birth\" message that is published when MQTT is ready and connected.",
           "birth_qos": "The quality of service of the \"birth\" message that is published when MQTT is ready and connected",
-          "birth_retain": "When set, __HA_KEEP__ will retain the \"birth\" message published to your MQTT broker.",
-          "birth_topic": "The MQTT topic where __HA_KEEP__ will publish a \"birth\" message.",
+          "birth_retain": "When set, Universal Home Assistant will retain the \"birth\" message published to your MQTT broker.",
+          "birth_topic": "The MQTT topic where Universal Home Assistant will publish a \"birth\" message.",
           "discovery": "Option to enable MQTT automatic discovery.",
           "discovery_prefix": "The prefix of configuration topics the MQTT integration will subscribe to.",
           "discovery_qos": "The quality of service for discovery subscriptions to your MQTT broker.",
-          "will_enable": "When set, __HA_KEEP__ will ask your broker to publish a \"will\" message when MQTT is stopped or when it loses the connection to your broker.",
+          "will_enable": "When set, Universal Home Assistant will ask your broker to publish a \"will\" message when MQTT is stopped or when it loses the connection to your broker.",
           "will_payload": "The message your MQTT broker \"will\" publish when the MQTT integration is stopped or when the connection is lost.",
           "will_qos": "The quality of service of the \"will\" message that is published by your MQTT broker.",
           "will_retain": "When set, your MQTT broker will retain the \"will\" message.",
           "will_topic": "The MQTT topic your MQTT broker will publish a \"will\" message to."
         },
-        "description": "Discovery - If discovery is enabled (recommended), __HA_KEEP__ will automatically discover devices and entities which publish their configuration on the MQTT broker. If discovery is disabled, all configuration must be done manually.\nDiscovery prefix - The prefix a configuration topic for automatic discovery must start with.\nBirth message - The birth message will be sent each time __HA_KEEP__ (re)connects to the MQTT broker.\nWill message - The will message will be sent each time __HA_KEEP__ loses its connection to the broker, both in case of a clean (e.g. __HA_KEEP__ shutting down) and in case of an unclean (e.g. __HA_KEEP__ crashing or losing its network connection) disconnect.",
+        "description": "Discovery - If discovery is enabled (recommended), Universal Home Assistant will automatically discover devices and entities which publish their configuration on the MQTT broker. If discovery is disabled, all configuration must be done manually.\nDiscovery prefix - The prefix a configuration topic for automatic discovery must start with.\nBirth message - The birth message will be sent each time Universal Home Assistant (re)connects to the MQTT broker.\nWill message - The will message will be sent each time Universal Home Assistant loses its connection to the broker, both in case of a clean (e.g. Universal Home Assistant shutting down) and in case of an unclean (e.g. Universal Home Assistant crashing or losing its network connection) disconnect.",
         "title": "MQTT options"
       }
     }

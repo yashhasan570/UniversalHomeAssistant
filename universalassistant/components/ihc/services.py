@@ -4,7 +4,7 @@ from enum import StrEnum
 
 import probatio
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 
 from .const import DOMAIN, IHC_CONTROLLER, IHC_CONTROLLER_INDEX
@@ -60,7 +60,7 @@ PULSE_SCHEMA = probatio.Schema(
 )
 
 
-def setup_services(hass: __HAC_KEEP__) -> None:
+def setup_services(hass: UniversalAssistant) -> None:
     """Register the IHC services."""
 
     def _get_controller(call):

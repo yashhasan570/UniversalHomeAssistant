@@ -8,14 +8,14 @@ from vehicle.exceptions import RDWConnectionError, RDWUnknownLicensePlateError
 
 from universalassistant.components.rdw.const import CONF_LICENSE_PLATE, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 @pytest.mark.usefixtures("mock_rdw")
-async def test_full_user_flow(hass: __HAC_KEEP__) -> None:
+async def test_full_user_flow(hass: UniversalAssistant) -> None:
     """Test the full user configuration flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -42,7 +42,7 @@ async def test_full_user_flow(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_user_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rdw: MagicMock,
     side_effect: type[Exception],
     expected_error: dict[str, str],
@@ -74,7 +74,7 @@ async def test_user_flow_errors(
 
 @pytest.mark.usefixtures("mock_rdw")
 async def test_user_flow_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the user flow when the vehicle is already configured."""

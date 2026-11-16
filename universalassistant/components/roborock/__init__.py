@@ -17,7 +17,7 @@ from roborock.map.map_parser import MapParserConfig
 from roborock.mqtt.session import MqttSessionUnauthorized
 
 from universalassistant.const import CONF_USERNAME, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -57,13 +57,13 @@ SCAN_INTERVAL = timedelta(seconds=30)
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: RoborockConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: RoborockConfigEntry) -> None:
     """Set up roborock from a config entry."""
     await async_cleanup_map_storage(hass, entry.entry_id)
 
@@ -162,7 +162,7 @@ def _is_device_disabled(
 
 
 def _remove_stale_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: RoborockConfigEntry,
     devices: list[RoborockDevice],
 ) -> None:
@@ -187,7 +187,7 @@ def _remove_stale_devices(
         device_registry.async_remove_device(device.id)
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: RoborockConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: RoborockConfigEntry) -> None:
     """Migrate old configuration entries to the new format."""
     _LOGGER.debug(
         "Migrating configuration from version %s.%s",
@@ -208,7 +208,7 @@ async def async_migrate_entry(hass: __HAC_KEEP__, entry: RoborockConfigEntry) ->
 
 
 async def async_setup_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: RoborockConfigEntry,
     device: RoborockDevice,
 ) -> None:
@@ -292,12 +292,12 @@ async def async_setup_device(
     )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: RoborockConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: RoborockConfigEntry) -> None:
     """Handle removal of an entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_remove_entry(hass: __HAC_KEEP__, entry: RoborockConfigEntry) -> None:
+async def async_remove_entry(hass: UniversalAssistant, entry: RoborockConfigEntry) -> None:
     """Handle removal of an entry."""
     store = CacheStore(hass, entry.entry_id)
     await store.async_remove()

@@ -3,12 +3,12 @@
 import asyncio
 from unittest.mock import patch
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .test_common import get_default_config
 
 
-async def test_enable_proactive_mode_in_parallel(hass: __HAC_KEEP__) -> None:
+async def test_enable_proactive_mode_in_parallel(hass: UniversalAssistant) -> None:
     """Test enabling proactive mode does not happen in parallel."""
     config = get_default_config(hass)
 

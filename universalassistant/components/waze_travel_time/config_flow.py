@@ -11,7 +11,7 @@ from universalassistant.config_entries import (
     OptionsFlow,
 )
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE, CONF_NAME, CONF_REGION
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.selector import (
     BooleanSelector,
     DurationSelector,
@@ -119,7 +119,7 @@ CONFIG_SCHEMA = probatio.Schema(
 
 
 def default_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> dict[str, str | bool | list[str] | dict[str, int] | dict[str, float]]:
     """Get the default options."""
     defaults = DEFAULT_OPTIONS.copy()

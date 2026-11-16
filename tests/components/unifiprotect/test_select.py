@@ -57,8 +57,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import patch_ufp_method
@@ -83,7 +83,7 @@ pytestmark = pytest.mark.usefixtures("mock_private_only_entities_registered")
 
 
 async def test_select_camera_remove(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera, unadopted_camera: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera, unadopted_camera: Camera
 ) -> None:
     """Test removing and re-adding a camera device."""
 
@@ -97,7 +97,7 @@ async def test_select_camera_remove(
 
 
 async def test_select_light_remove(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """Test removing and re-adding a light device."""
 
@@ -111,7 +111,7 @@ async def test_select_light_remove(
 
 
 async def test_select_viewer_remove(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, viewer: Viewer
+    hass: UniversalAssistant, ufp: MockUFPFixture, viewer: Viewer
 ) -> None:
     """Test removing and re-adding a light device."""
 
@@ -125,7 +125,7 @@ async def test_select_viewer_remove(
 
 
 async def test_select_setup_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     light: Light,
@@ -154,7 +154,7 @@ async def test_select_setup_light(
 
 
 async def test_select_setup_viewer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     viewer: Viewer,
@@ -183,7 +183,7 @@ async def test_select_setup_viewer(
 
 
 async def test_select_setup_camera_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -218,7 +218,7 @@ async def test_select_setup_camera_all(
 
 
 async def test_select_camera_hdr_mode_public_update(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """Test the HDR mode select reads updates from the public devices WS."""
 
@@ -244,7 +244,7 @@ async def test_select_camera_hdr_mode_public_update(
 
 
 async def test_select_camera_hdr_mode_unavailable_without_public(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """The migrated HDR mode select is unavailable without a public object."""
 
@@ -265,7 +265,7 @@ async def test_select_camera_hdr_mode_unavailable_without_public(
 
 
 async def test_select_camera_hdr_mode_unavailable_on_public_disconnect(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """HDR mode availability follows the public object's connection state."""
 
@@ -286,7 +286,7 @@ async def test_select_camera_hdr_mode_unavailable_on_public_disconnect(
 
 
 async def test_select_setup_camera_none(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -318,7 +318,7 @@ async def test_select_setup_camera_none(
 
 
 async def test_select_update_liveview(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, viewer: Viewer, liveview: Liveview
+    hass: UniversalAssistant, ufp: MockUFPFixture, viewer: Viewer, liveview: Liveview
 ) -> None:
     """Test select entity update (new Liveview)."""
 
@@ -354,7 +354,7 @@ async def test_select_update_liveview(
 
 
 async def test_select_doorbell_options_follow_public_nvr(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """The doorbell text options come from the public NVR and follow its frames."""
     nvr = ufp.api.public_bootstrap.nvr
@@ -392,7 +392,7 @@ async def test_select_doorbell_options_follow_public_nvr(
 
 
 async def test_select_doorbell_options_without_public_settings(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """Without public doorbell settings only the built-in messages are offered."""
     ufp.api.public_bootstrap.nvr.doorbell_settings = None
@@ -410,7 +410,7 @@ async def test_select_doorbell_options_without_public_settings(
 
 
 async def test_select_update_doorbell_message(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """Test select entity update (change doorbell message)."""
 
@@ -460,7 +460,7 @@ async def test_select_update_doorbell_message(
 
 
 async def test_select_set_option_light_motion(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """Test Light Mode select (public API)."""
 
@@ -490,7 +490,7 @@ async def test_select_set_option_light_motion(
 
 
 async def test_select_light_motion_public_value(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """Light Mode select reads from the public object and refreshes on a WS update."""
 
@@ -515,7 +515,7 @@ async def test_select_light_motion_public_value(
 
 
 async def test_select_light_motion_unavailable_without_public(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """The migrated light motion select is unavailable without a public object."""
 
@@ -528,7 +528,7 @@ async def test_select_light_motion_unavailable_without_public(
 
 
 async def test_select_light_motion_none(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """A light that does not report a public mode leaves the select unknown."""
 
@@ -548,7 +548,7 @@ async def test_select_light_motion_none(
 
 
 async def test_select_set_option_light_camera(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light, camera: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light, camera: Camera
 ) -> None:
     """Test Paired Camera select."""
 
@@ -584,7 +584,7 @@ async def test_select_set_option_light_camera(
 
 
 async def test_select_set_option_camera_recording(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """Test Recording Mode select."""
 
@@ -617,7 +617,7 @@ async def test_select_set_option_camera_recording(
     ],
 )
 async def test_select_camera_ir_current_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     mode: IRLEDMode,
@@ -646,7 +646,7 @@ async def test_select_camera_ir_current_option(
     ],
 )
 async def test_select_set_option_camera_ir(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     option: str,
@@ -676,7 +676,7 @@ async def test_select_set_option_camera_ir(
 
 @pytest.mark.parametrize("message", ["Test", "Back at 5:30"])
 async def test_select_set_option_camera_doorbell_custom(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera, message: str
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera, message: str
 ) -> None:
     """Test Doorbell Text select (user defined message)."""
 
@@ -711,7 +711,7 @@ async def test_select_set_option_camera_doorbell_custom(
 
 
 async def test_select_set_option_camera_doorbell_unifi(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """Test Doorbell Text select (unifi message)."""
 
@@ -744,7 +744,7 @@ async def test_select_set_option_camera_doorbell_unifi(
 
 
 async def test_select_set_option_camera_doorbell_default(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """Test Doorbell Text select (default message)."""
 
@@ -783,7 +783,7 @@ async def test_select_set_option_camera_doorbell_default(
     ],
 )
 async def test_select_set_option_camera_hdr_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     option: str,
@@ -816,7 +816,7 @@ async def test_select_set_option_camera_hdr_mode(
 
 
 async def test_select_set_option_viewer(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, viewer: Viewer, liveview: Liveview
+    hass: UniversalAssistant, ufp: MockUFPFixture, viewer: Viewer, liveview: Liveview
 ) -> None:
     """Test Liveview select."""
 
@@ -846,7 +846,7 @@ async def test_select_set_option_viewer(
 # --- PTZ Patrol Test Helpers ---
 
 
-def _get_ptz_entity_id(hass: __HAC_KEEP__, camera: Camera, key: str) -> str | None:
+def _get_ptz_entity_id(hass: UniversalAssistant, camera: Camera, key: str) -> str | None:
     """Get PTZ entity ID by unique_id from entity registry."""
     entity_registry = er.async_get(hass)
     unique_id = f"{camera.mac}_{key}"
@@ -878,7 +878,7 @@ def _make_patrols(camera_id: str) -> list[PTZPatrol]:
 
 
 async def _setup_ptz_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     ptz_camera: Camera,
     *,
@@ -894,7 +894,7 @@ async def _setup_ptz_camera(
 
 
 async def test_select_ptz_patrol_setup(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, ptz_camera: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, ptz_camera: Camera
 ) -> None:
     """Test PTZ patrol select entity setup."""
     await _setup_ptz_camera(hass, ufp, ptz_camera, patrols=_make_patrols(ptz_camera.id))
@@ -913,7 +913,7 @@ async def test_select_ptz_patrol_setup(
 
 
 async def test_select_ptz_patrol_start(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, ptz_camera: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, ptz_camera: Camera
 ) -> None:
     """Test starting a PTZ patrol."""
     await _setup_ptz_camera(
@@ -933,7 +933,7 @@ async def test_select_ptz_patrol_start(
 
 
 async def test_select_ptz_patrol_stop(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, ptz_camera: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, ptz_camera: Camera
 ) -> None:
     """Test stopping a PTZ patrol."""
     await _setup_ptz_camera(
@@ -953,9 +953,9 @@ async def test_select_ptz_patrol_stop(
 
 
 async def test_select_ptz_patrol_client_error(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, ptz_camera: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, ptz_camera: Camera
 ) -> None:
-    """Test a failed patrol command raises __HAC_KEEP__Error."""
+    """Test a failed patrol command raises UniversalAssistantError."""
     await _setup_ptz_camera(
         hass, ufp, ptz_camera, patrols=_make_patrols(ptz_camera.id)[:1]
     )
@@ -964,7 +964,7 @@ async def test_select_ptz_patrol_client_error(
     assert entity_id is not None
     public = ufp.api.public_bootstrap.cameras[ptz_camera.id]
     public.ptz_patrol_start.side_effect = ClientError("boom")
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "select",
             "select_option",
@@ -974,7 +974,7 @@ async def test_select_ptz_patrol_client_error(
 
 
 async def test_select_ptz_patrol_active_state(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, ptz_camera: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, ptz_camera: Camera
 ) -> None:
     """Test PTZ patrol shows the active patrol from the public camera."""
     prime = ufp.api.update_public.side_effect
@@ -996,7 +996,7 @@ async def test_select_ptz_patrol_active_state(
 
 
 async def test_select_ptz_patrol_websocket_update(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, ptz_camera: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, ptz_camera: Camera
 ) -> None:
     """Test PTZ patrol state updates via websocket."""
     patrols = _make_patrols(ptz_camera.id)
@@ -1030,7 +1030,7 @@ async def test_select_ptz_patrol_websocket_update(
 
 
 async def test_select_ptz_patrol_unavailable_without_public(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, ptz_camera: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, ptz_camera: Camera
 ) -> None:
     """Test the PTZ patrol select is unavailable without a public camera."""
 
@@ -1048,7 +1048,7 @@ async def test_select_ptz_patrol_unavailable_without_public(
 
 
 async def test_select_ptz_patrol_unavailable_on_public_disconnect(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, ptz_camera: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, ptz_camera: Camera
 ) -> None:
     """Test PTZ patrol availability follows the public camera's state."""
     await _setup_ptz_camera(hass, ufp, ptz_camera, patrols=_make_patrols(ptz_camera.id))
@@ -1065,7 +1065,7 @@ async def test_select_ptz_patrol_unavailable_on_public_disconnect(
 
 
 async def test_select_ptz_camera_adopt(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, ptz_camera: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, ptz_camera: Camera
 ) -> None:
     """Test adopting a new PTZ camera creates patrol entity."""
     ufp.api.bootstrap.nvr.system_info.ustorage = None
@@ -1113,7 +1113,7 @@ def _make_public_bootstrap(arm_mode: Mock | None, profiles: dict[str, Mock]) -> 
 
 
 async def test_select_nvr_arm_profile_not_created_without_public_bootstrap(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
 ) -> None:
     """Arm profile select is NOT created when has_public_bootstrap is False."""
@@ -1124,7 +1124,7 @@ async def test_select_nvr_arm_profile_not_created_without_public_bootstrap(
 
 
 async def test_select_nvr_arm_profile_not_created_without_arm_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
 ) -> None:
     """Arm profile select is NOT created when arm_mode is None (old firmware)."""
@@ -1138,7 +1138,7 @@ async def test_select_nvr_arm_profile_not_created_without_arm_mode(
 
 
 async def test_select_nvr_arm_profile_not_created_without_profiles(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
 ) -> None:
     """Arm profile select is NOT created when no arm profiles exist."""
@@ -1152,7 +1152,7 @@ async def test_select_nvr_arm_profile_not_created_without_profiles(
 
 
 async def test_select_nvr_arm_profile_created(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     nvr: NVR,
@@ -1180,7 +1180,7 @@ async def test_select_nvr_arm_profile_created(
 
 
 async def test_select_nvr_arm_profile_duplicate_names(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
 ) -> None:
     """Duplicate profile names are disambiguated with an id suffix."""
@@ -1207,7 +1207,7 @@ async def test_select_nvr_arm_profile_duplicate_names(
 
 
 async def test_select_nvr_arm_profile_duplicate_names_select_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
 ) -> None:
     """Selecting a disambiguated duplicate name maps back to the correct id."""
@@ -1233,7 +1233,7 @@ async def test_select_nvr_arm_profile_duplicate_names_select_option(
 
 
 async def test_select_nvr_arm_profile_select_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
 ) -> None:
     """Selecting an arm profile calls set_current_arm_profile_public."""
@@ -1259,10 +1259,10 @@ async def test_select_nvr_arm_profile_select_option(
 
 
 async def test_select_nvr_arm_profile_global_alarm_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
 ) -> None:
-    """GlobalAlarmManagerError on profile change raises __HAC_KEEP__Error."""
+    """GlobalAlarmManagerError on profile change raises UniversalAssistantError."""
     profile_home = _make_arm_profile("p1", "Home")
     profiles = {"p1": profile_home}
     arm_mode = _make_nvr_arm_mode(profile_id="p1")
@@ -1275,7 +1275,7 @@ async def test_select_nvr_arm_profile_global_alarm_error(
 
     await init_entry(hass, ufp, [])
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             "select",
             "select_option",
@@ -1286,7 +1286,7 @@ async def test_select_nvr_arm_profile_global_alarm_error(
 
 
 async def test_select_nvr_arm_profile_ws_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     nvr: NVR,
 ) -> None:
@@ -1376,7 +1376,7 @@ def _make_streamless_public_camera(camera: Camera, **kwargs: Any) -> Mock:
     ],
 )
 async def test_public_only_select_end_to_end(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     request: pytest.FixtureRequest,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1464,7 +1464,7 @@ async def test_public_only_select_end_to_end(
     ],
 )
 async def test_public_only_select_follows_public_ws(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     request: pytest.FixtureRequest,
     entity_registry: er.EntityRegistry,
     ufp_public_only: MockUFPFixture,
@@ -1513,7 +1513,7 @@ async def test_public_only_select_sensor_has_none(
 
 
 async def test_public_only_select_added_after_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     light: Light,
     ufp_public_only: MockUFPFixture,
@@ -1568,7 +1568,7 @@ async def test_public_only_select_sense_registry_cleanup(
 
 
 async def test_public_only_select_nvr_arm_profile(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
@@ -1603,7 +1603,7 @@ async def test_public_only_select_nvr_arm_profile(
 
 
 async def test_public_only_select_nvr_arm_profile_ws_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
@@ -1639,7 +1639,7 @@ async def test_public_only_select_nvr_arm_profile_ws_update(
 
 
 async def test_public_only_select_nvr_arm_profile_follows_public_ws(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
@@ -1675,7 +1675,7 @@ async def test_public_only_select_nvr_arm_profile_follows_public_ws(
     ],
 )
 async def test_public_only_select_nvr_arm_profile_follows_public_resync(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
@@ -1715,7 +1715,7 @@ async def test_public_only_select_nvr_arm_profile_follows_public_resync(
 
 
 async def test_select_nvr_arm_profile_decoupled_from_private_websocket(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture
+    hass: UniversalAssistant, ufp: MockUFPFixture
 ) -> None:
     """Arm profile availability follows the public WS only: private loss is a no-op."""
     profiles = {"p1": _make_arm_profile("p1", "Home")}
@@ -1745,7 +1745,7 @@ async def test_select_nvr_arm_profile_decoupled_from_private_websocket(
     ],
 )
 async def test_select_camera_read_only_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,

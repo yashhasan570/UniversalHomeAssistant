@@ -9,7 +9,7 @@ from aiohttp import ClientConnectionError
 from faadelays import Airport
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -23,7 +23,7 @@ type FAAConfigEntry = ConfigEntry[FAADataUpdateCoordinator]
 class FAADataUpdateCoordinator(DataUpdateCoordinator[Airport]):
     """Class to manage fetching FAA API data from a single endpoint."""
 
-    def __init__(self, hass: __HAC_KEEP__, entry: FAAConfigEntry, code: str) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: FAAConfigEntry, code: str) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,

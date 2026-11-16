@@ -3,12 +3,12 @@
 from universalassistant.components.matrix import MatrixBot
 from universalassistant.components.matrix.const import DOMAIN, MatrixService
 from universalassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import TEST_NOTIFIER_NAME
 
 
-async def test_services(hass: __HAC_KEEP__, matrix_bot: MatrixBot) -> None:
+async def test_services(hass: UniversalAssistant, matrix_bot: MatrixBot) -> None:
     """Test hass/MatrixBot state."""
 
     services = hass.services.async_services()

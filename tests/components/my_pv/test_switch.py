@@ -26,8 +26,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -55,7 +55,7 @@ def mock_my_pv_client(mock_my_pv_client: AsyncMock) -> AsyncMock:
 
 
 async def test_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -69,7 +69,7 @@ async def test_switch(
 
 
 async def test_water_heater_switch_no_temp_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -81,7 +81,7 @@ async def test_water_heater_switch_no_temp_sensor(
 
 
 async def test_water_heater_switch_temp_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_water_heater_switch_temp_sensor(
     ["switch.my_pv_ac_elwa_2", "switch.my_pv_ac_elwa_2_boost_mode"],
 )
 async def test_switch_unavailable_not_connected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
     entity: str,
@@ -114,7 +114,7 @@ async def test_switch_unavailable_not_connected(
 
 
 async def test_switch_unavailable_setup_value_none(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -149,7 +149,7 @@ async def test_switch_unavailable_setup_value_none(
     ],
 )
 async def test_switch_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
     entity: str,
@@ -186,7 +186,7 @@ async def test_switch_turn_on_off(
     ],
 )
 async def test_switch_toggle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
     entity: str,
@@ -222,14 +222,14 @@ async def test_switch_toggle(
     ],
 )
 async def test_switch_toggle_returns_false(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
     entity: str,
     method: str,
     expected_args: tuple,
 ) -> None:
-    """Test for __HAC_KEEP__Error when toggle method returns false."""
+    """Test for UniversalAssistantError when toggle method returns false."""
     mock_my_pv_client.is_on = False
 
     await setup_integration(hass, mock_config_entry)
@@ -237,7 +237,7 @@ async def test_switch_toggle_returns_false(
     client_method = getattr(mock_my_pv_client, method)
     client_method.return_value = False
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TOGGLE,
@@ -267,7 +267,7 @@ async def test_switch_toggle_returns_false(
             "turn_off",
             (),
             MyPVConnectionError(),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             STATE_ON,
         ),
         (
@@ -283,7 +283,7 @@ async def test_switch_toggle_returns_false(
             "turn_off",
             (),
             MyPVTooManyRequestsError(),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             STATE_ON,
         ),
         (
@@ -291,7 +291,7 @@ async def test_switch_toggle_returns_false(
             "set_setup_value",
             ("bstmode", True),
             MyPVConnectionError(),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             STATE_OFF,
         ),
         (
@@ -307,23 +307,23 @@ async def test_switch_toggle_returns_false(
             "set_setup_value",
             ("bstmode", True),
             MyPVTooManyRequestsError(),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             STATE_OFF,
         ),
     ],
 )
 async def test_switch_toggle_raises_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
     entity: str,
     method: str,
     expected_args: tuple,
     error: MyPVConnectionError | MyPVAuthenticationError,
-    expected_ha_error: type[__HAC_KEEP__Error],
+    expected_ha_error: type[UniversalAssistantError],
     expected_state: str,
 ) -> None:
-    """Test for __HAC_KEEP__Error when method raises error."""
+    """Test for UniversalAssistantError when method raises error."""
     await setup_integration(hass, mock_config_entry)
 
     client_method = getattr(mock_my_pv_client, method)

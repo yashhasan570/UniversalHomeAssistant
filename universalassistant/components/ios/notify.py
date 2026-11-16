@@ -14,7 +14,7 @@ from universalassistant.components.notify import (
     ATTR_TITLE_DEFAULT,
     BaseNotificationService,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from universalassistant.util import dt as dt_util
 
@@ -26,7 +26,7 @@ PUSH_URL = "https://ios-push.universalassistant.io/push"
 
 
 def log_rate_limits(
-    hass: __HAC_KEEP__, target: str, resp: dict[str, Any], level: int = 20
+    hass: UniversalAssistant, target: str, resp: dict[str, Any], level: int = 20
 ) -> None:
     """Output rate limit log line at given level."""
     rate_limits = resp["rateLimits"]
@@ -49,7 +49,7 @@ def log_rate_limits(
 
 
 def get_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> iOSNotificationService | None:

@@ -1,4 +1,4 @@
-"""Edifier infrared integration for __HA_KEEP__."""
+"""Edifier infrared integration for Universal Home Assistant."""
 
 from infrared_protocols.codes.edifier.models import (
     MODEL_TO_COMMAND_SET,
@@ -8,7 +8,7 @@ from infrared_protocols.codes.edifier.models import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_MODEL, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 
 from .const import CONF_COMMAND_SET, CONF_INFRARED_ENTITY_ID, DOMAIN
@@ -16,12 +16,12 @@ from .const import CONF_COMMAND_SET, CONF_INFRARED_ENTITY_ID, DOMAIN
 PLATFORMS = [Platform.BUTTON, Platform.MEDIA_PLAYER]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up Edifier IR from a config entry."""
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Migrate old config entries."""
     if entry.version == 1:
         data = {**entry.data}
@@ -89,6 +89,6 @@ async def async_migrate_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload an Edifier IR config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

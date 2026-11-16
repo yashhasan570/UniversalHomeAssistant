@@ -32,12 +32,12 @@ from universalassistant.const import (
     SERVICE_TURN_OFF,
     SERVICE_TURN_ON,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 
 async def test_climate_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
 ) -> None:
     """Test the Coolmaster climate state."""
@@ -49,7 +49,7 @@ async def test_climate_state(
 
 
 async def test_climate_friendly_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
 ) -> None:
     """Test the Coolmaster climate friendly name."""
@@ -61,7 +61,7 @@ async def test_climate_friendly_name(
 
 
 async def test_climate_supported_features(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
 ) -> None:
     """Test the Coolmaster climate supported features."""
@@ -81,7 +81,7 @@ async def test_climate_supported_features(
 
 
 async def test_climate_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
 ) -> None:
     """Test the Coolmaster climate current temperature."""
@@ -93,7 +93,7 @@ async def test_climate_temperature(
 
 
 async def test_climate_thermostat(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
 ) -> None:
     """Test the Coolmaster climate thermostat."""
@@ -105,7 +105,7 @@ async def test_climate_thermostat(
 
 
 async def test_climate_hvac_modes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
 ) -> None:
     """Test the Coolmaster climate hvac modes."""
@@ -127,7 +127,7 @@ async def test_climate_hvac_modes(
 
 
 async def test_climate_fan_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
 ) -> None:
     """Test the Coolmaster climate fan mode."""
@@ -139,7 +139,7 @@ async def test_climate_fan_mode(
 
 
 async def test_climate_unknown_fan_mode_warning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -182,7 +182,7 @@ async def test_climate_unknown_fan_mode_warning(
 
 
 async def test_climate_fan_modes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
 ) -> None:
     """Test the Coolmaster climate fan modes."""
@@ -200,7 +200,7 @@ async def test_climate_fan_modes(
 
 
 async def test_climate_swing_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
 ) -> None:
     """Test the Coolmaster climate swing mode."""
@@ -209,7 +209,7 @@ async def test_climate_swing_mode(
 
 
 async def test_climate_swing_modes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
 ) -> None:
     """Test the Coolmaster climate swing modes."""
@@ -218,7 +218,7 @@ async def test_climate_swing_modes(
 
 
 async def test_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
 ) -> None:
     """Test the Coolmaster climate set temperature."""
@@ -238,7 +238,7 @@ async def test_set_temperature(
 
 @pytest.mark.parametrize("target_fan_mode", FAN_MODES)
 async def test_set_fan_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     target_fan_mode: str,
 ) -> None:
@@ -261,7 +261,7 @@ async def test_set_fan_mode(
 
 
 async def test_set_swing_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
 ) -> None:
     """Test the Coolmaster climate set swing mode."""
@@ -280,11 +280,11 @@ async def test_set_swing_mode(
 
 
 async def test_set_swing_mode_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
 ) -> None:
     """Test the Coolmaster climate set swing mode with error."""
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_SWING_MODE,
@@ -297,7 +297,7 @@ async def test_set_swing_mode_error(
 
 
 async def test_set_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
 ) -> None:
     """Test the Coolmaster climate set hvac mode."""
@@ -316,7 +316,7 @@ async def test_set_hvac_mode(
 
 
 async def test_set_hvac_mode_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
 ) -> None:
     """Test the Coolmaster climate set hvac mode to off."""
@@ -335,7 +335,7 @@ async def test_set_hvac_mode_off(
 
 
 async def test_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
 ) -> None:
     """Test the Coolmaster climate turn on."""
@@ -353,7 +353,7 @@ async def test_turn_on(
 
 
 async def test_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
 ) -> None:
     """Test the Coolmaster climate turn off."""

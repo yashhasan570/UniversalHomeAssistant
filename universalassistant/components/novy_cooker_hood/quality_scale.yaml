@@ -95,7 +95,7 @@ rules:
     status: exempt
     comment: |
       The integration does not raise its own exceptions. Underlying transmit
-      errors already surface as translated `__HAC_KEEP__Error`s from the
+      errors already surface as translated `UniversalAssistantError`s from the
       `radio_frequency` integration.
   icon-translations:
     status: exempt

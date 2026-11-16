@@ -4,7 +4,7 @@ from collections.abc import Callable
 from typing import Any
 from unittest.mock import MagicMock, call, patch
 
-from lifx import HSBK, CeilingLight, Device, LifxError
+from lifx import HSBK, CeilingLight, Device, FirmwareEffect, LifxError
 import pytest
 from pytest_universalassistant.common import (
     async_mock_restore_state_shutdown_restart,
@@ -30,8 +30,8 @@ from universalassistant.components.light import (
     ColorMode,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, Platform
-from universalassistant.core import __HAC_KEEP__, State
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, State
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.restore_state import STORAGE_KEY as RESTORE_STATE_KEY
 
@@ -118,7 +118,7 @@ def entity_id_for(key: str) -> str:
 
 
 async def _setup_components(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     factory: Callable[[], Device],
     keys: tuple[str, ...],
@@ -131,7 +131,7 @@ async def _setup_components(
 
 
 async def _call(
-    hass: __HAC_KEEP__, domain: str, service: str, key: str, **data: Any
+    hass: UniversalAssistant, domain: str, service: str, key: str, **data: Any
 ) -> None:
     """Call an action on one component entity."""
     await hass.services.async_call(
@@ -141,7 +141,7 @@ async def _call(
 
 @pytest.mark.parametrize(("factory", "keys"), COMPONENTS)
 async def test_components_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     factory: Callable[[], Device],
     keys: tuple[str, ...],
@@ -158,7 +158,7 @@ async def test_components_disabled_by_default(
 
 
 async def test_component_entity_id_changes_in_place(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a component keeps working under its new entity_id after a rename."""
     device = await _setup_components(
@@ -188,7 +188,7 @@ async def test_component_entity_id_changes_in_place(
 
 @pytest.mark.parametrize(("factory", "keys"), COMPONENTS)
 async def test_components_report_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     factory: Callable[[], Device],
     keys: tuple[str, ...],
@@ -221,7 +221,7 @@ async def test_components_report_state(
     ],
 )
 async def test_multizone_component_reports_average_color(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     factory: Callable[[], Device],
     keys: tuple[str, ...],
@@ -271,7 +271,7 @@ async def test_multizone_component_reports_average_color(
     ],
 )
 async def test_components_report_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     factory: Callable[[], Device],
     keys: tuple[str, ...],
@@ -291,7 +291,7 @@ async def test_components_report_off(
 
 
 async def test_plain_matrix_has_no_components(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a matrix light that is neither a Ceiling nor a Mirror gets none."""
     await async_setup_lifx_entry(hass, create_mock_matrix_light())
@@ -325,7 +325,7 @@ async def test_plain_matrix_has_no_components(
     ],
 )
 async def test_turn_on_without_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     factory: Callable[[], Device],
     keys: tuple[str, ...],
@@ -350,7 +350,7 @@ async def test_turn_on_without_attributes(
 
 
 async def test_uplight_turn_on_with_brightness(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a brightness change keeps the uplight's colour temperature."""
     device = await _setup_components(
@@ -364,7 +364,7 @@ async def test_uplight_turn_on_with_brightness(
 
 @pytest.mark.parametrize(("factory", "keys", "key", "field", "turn_on"), MANY_ZONE)
 async def test_hue_change_keeps_each_zone_distinct(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     factory: Callable[[], Device],
     keys: tuple[str, ...],
@@ -397,7 +397,7 @@ async def test_hue_change_keeps_each_zone_distinct(
     ],
 )
 async def test_hue_change_on_an_off_component(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     stored: list[HSBK] | None,
     expected_brightness: float,
@@ -433,7 +433,7 @@ async def test_hue_change_on_an_off_component(
     ],
 )
 async def test_turn_on_reads_before_a_partial_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     data: dict[str, Any],
     extra_reads: int,
@@ -453,7 +453,7 @@ async def test_turn_on_reads_before_a_partial_change(
 
 
 async def test_turn_on_refuses_to_merge_over_stale_state(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a partial change is refused when the device cannot be read."""
     device = await _setup_components(
@@ -461,7 +461,7 @@ async def test_turn_on_refuses_to_merge_over_stale_state(
     )
     device.refresh_state.side_effect = LifxError("unreachable")
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await _call(
             hass, LIGHT_DOMAIN, SERVICE_TURN_ON, "downlight", hs_color=(1.0, 1.0)
         )
@@ -470,7 +470,7 @@ async def test_turn_on_refuses_to_merge_over_stale_state(
 
 
 async def test_turn_on_with_zero_brightness_turns_off(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test core redirects a turn on at zero brightness to turning the component off."""
     device = await _setup_components(
@@ -484,7 +484,7 @@ async def test_turn_on_with_zero_brightness_turns_off(
 
 
 async def test_turn_on_with_a_brightness_step(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a relative step resolves against the component's own brightness."""
     device = await _setup_components(
@@ -505,7 +505,7 @@ async def test_turn_on_with_a_brightness_step(
 
 @pytest.mark.parametrize(("factory", "keys", "key", "turn_on", "turn_off"), ON_OFF)
 async def test_turn_off_with_a_transition(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     factory: Callable[[], Device],
     keys: tuple[str, ...],
@@ -529,12 +529,12 @@ async def test_turn_off_with_a_transition(
     ],
 )
 async def test_device_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     service: str,
     method: str,
 ) -> None:
-    """Test a library failure surfaces as a __HA_KEEP__ error."""
+    """Test a library failure surfaces as a Universal Home Assistant error."""
     device = await _setup_components(
         hass, entity_registry, create_mock_mirror_light, MIRROR_KEYS
     )
@@ -543,12 +543,12 @@ async def test_device_error(
     await async_trigger_update(hass)
     getattr(device, method).side_effect = LifxError("boom")
 
-    with pytest.raises(__HAC_KEEP__Error, match="boom"):
+    with pytest.raises(UniversalAssistantError, match="boom"):
         await _call(hass, LIGHT_DOMAIN, service, "front")
 
 
 async def test_write_stops_a_software_effect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_effect_conductor: MagicMock,
 ) -> None:
@@ -564,8 +564,45 @@ async def test_write_stops_a_software_effect(
     device.turn_front_off.assert_awaited_once()
 
 
+@pytest.mark.parametrize(
+    ("service", "data", "stop_calls"),
+    [
+        pytest.param(
+            SERVICE_TURN_ON,
+            {ATTR_BRIGHTNESS: 255},
+            [call(FirmwareEffect.OFF)],
+            id="brightness",
+        ),
+        pytest.param(
+            SERVICE_TURN_ON,
+            {ATTR_COLOR_TEMP_KELVIN: 3500},
+            [call(FirmwareEffect.OFF)],
+            id="kelvin",
+        ),
+        pytest.param(SERVICE_TURN_ON, {}, [], id="turn_on"),
+        pytest.param(SERVICE_TURN_OFF, {}, [], id="turn_off"),
+    ],
+)
+async def test_color_change_stops_a_firmware_effect(
+    hass: UniversalAssistant,
+    entity_registry: er.EntityRegistry,
+    service: str,
+    data: dict[str, Any],
+    stop_calls: list[Any],
+) -> None:
+    """Test only a color change on a component stops the firmware effect."""
+    device = await _setup_components(
+        hass, entity_registry, create_mock_ceiling_light, CEILING_KEYS
+    )
+    device.state.effect = FirmwareEffect.MORPH
+
+    await _call(hass, LIGHT_DOMAIN, service, "uplight", **data)
+
+    assert device.set_effect.await_args_list == stop_calls
+
+
 async def test_stopping_a_software_effect_can_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_effect_conductor: MagicMock,
 ) -> None:
@@ -575,7 +612,7 @@ async def test_stopping_a_software_effect_can_fail(
     )
     mock_effect_conductor.stop.side_effect = LifxError("restore boom")
 
-    with pytest.raises(__HAC_KEEP__Error, match="restore boom"):
+    with pytest.raises(UniversalAssistantError, match="restore boom"):
         await _call(hass, LIGHT_DOMAIN, SERVICE_TURN_OFF, "front")
     device.turn_front_off.assert_not_awaited()
 
@@ -598,7 +635,7 @@ async def test_stopping_a_software_effect_can_fail(
     ],
 )
 async def test_set_state_power(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     is_on: bool,
     data: dict[str, Any],
@@ -619,7 +656,7 @@ async def test_set_state_power(
 
 
 async def test_set_state_zero_brightness_turns_off(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test lifx.set_state asking to turn on at zero brightness turns off.
 
@@ -650,7 +687,7 @@ async def test_set_state_zero_brightness_turns_off(
     ],
 )
 async def test_set_state_remembers_a_color_while_off(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, data: dict[str, Any]
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, data: dict[str, Any]
 ) -> None:
     """Test a colour set with the component left off is kept for its next turn on."""
     device = await _setup_components(
@@ -678,7 +715,7 @@ async def test_set_state_remembers_a_color_while_off(
 
 
 async def test_set_state_ignores_zones(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test multizone zones do not narrow a change to a matrix component."""
     device = await _setup_components(
@@ -716,7 +753,7 @@ async def test_set_state_ignores_zones(
     ],
 )
 async def test_set_state_forwards_a_firmware_effect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     factory: Callable[[], Device],
     keys: tuple[str, ...],
@@ -758,7 +795,7 @@ async def test_set_state_forwards_a_firmware_effect(
     ],
 )
 async def test_lifx_actions_refused_by_components(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     service: str,
     data: dict[str, Any],
@@ -776,7 +813,7 @@ async def test_lifx_actions_refused_by_components(
 
 @pytest.mark.parametrize(("factory", "keys"), COMPONENTS)
 async def test_main_entity_writes_every_zone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     factory: Callable[[], Device],
     keys: tuple[str, ...],
@@ -801,7 +838,7 @@ RESTORED = [[30.0, 0.5, 0.9, 3500]]
 
 
 async def _setup_with_restored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     colors: object,
     *,
@@ -828,7 +865,7 @@ async def _setup_with_restored(
 
 
 async def test_restored_colors_used_after_restart(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a bare turn on after a restart uses the remembered colour."""
     device = await _setup_with_restored(hass, entity_registry, RESTORED)
@@ -857,7 +894,7 @@ async def test_restored_colors_used_after_restart(
     ],
 )
 async def test_restored_colors_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     colors: list[list[float]] | None,
     is_on: bool,
@@ -879,7 +916,7 @@ async def test_restored_colors_ignored(
 
 
 async def test_restored_colors_used_only_once(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the restored colours are used only once."""
     device = await _setup_with_restored(hass, entity_registry, RESTORED)
@@ -895,7 +932,7 @@ async def test_restored_colors_used_only_once(
 
 
 async def test_dark_restored_colors_not_merged_onto(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a hue-only change does not merge onto dark restored colours."""
     device = await _setup_with_restored(hass, entity_registry, [[30.0, 0.5, 0.0, 3500]])
@@ -918,7 +955,7 @@ async def test_dark_restored_colors_not_merged_onto(
     ],
 )
 async def test_malformed_restored_colors_ignored(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, colors: object
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, colors: object
 ) -> None:
     """Test saved colours that cannot be read are dropped rather than failing."""
     device = await _setup_with_restored(hass, entity_registry, colors)
@@ -945,7 +982,7 @@ async def test_malformed_restored_colors_ignored(
     ],
 )
 async def test_colors_saved_for_restart(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_storage: dict[str, Any],
     restored: list[list[float]] | None,
@@ -969,7 +1006,7 @@ async def test_colors_saved_for_restart(
 
 @pytest.mark.parametrize(("factory", "keys"), COMPONENTS)
 async def test_enabling_one_component_enables_the_other(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     factory: Callable[[], Device],
     keys: tuple[str, ...],
@@ -984,7 +1021,7 @@ async def test_enabling_one_component_enables_the_other(
 
 
 async def test_disabling_one_component_disables_the_other(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test disabling either component entity disables its partner."""
     await _setup_components(
@@ -1003,7 +1040,7 @@ async def test_disabling_one_component_disables_the_other(
 
 
 async def test_rename_and_disable_together(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a rename in the same update as a disable still reaches the partner."""
     await _setup_components(
@@ -1024,7 +1061,7 @@ async def test_rename_and_disable_together(
 
 
 async def test_rename_alone_does_not_sync(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test renaming a component leaves its partner as it was."""
     await async_setup_lifx_entry(hass, create_mock_ceiling_light())
@@ -1041,7 +1078,7 @@ async def test_rename_alone_does_not_sync(
 
 
 async def test_component_sync_stops_on_unload(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test unloading the entry removes the registry listener."""
     entry = await async_setup_lifx_entry(hass, create_mock_ceiling_light())
@@ -1058,7 +1095,7 @@ async def test_component_sync_stops_on_unload(
 
 
 async def test_rename_then_later_disable_still_syncs(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a disable that arrives after an earlier, separate rename still syncs."""
     await _setup_components(
@@ -1081,7 +1118,7 @@ async def test_rename_then_later_disable_still_syncs(
 
 
 async def test_disabling_the_main_light_disables_its_components(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test components cannot stay enabled once their main light is disabled."""
     await _setup_components(
@@ -1101,7 +1138,7 @@ async def test_disabling_the_main_light_disables_its_components(
 
 
 async def test_enabling_a_component_enables_the_main_light(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test enabling a component brings back the main light it depends on."""
     await _setup_components(
@@ -1127,7 +1164,7 @@ async def test_enabling_a_component_enables_the_main_light(
     ],
 )
 async def test_unrelated_light_disable_does_not_touch_components(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, platform: str
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, platform: str
 ) -> None:
     """Test disabling a light that is not this device's leaves its lights alone."""
     await _setup_components(
@@ -1148,7 +1185,7 @@ async def test_unrelated_light_disable_does_not_touch_components(
 
 
 async def test_enabling_the_main_light_leaves_components_disabled(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test re-enabling the main light does not switch its components on too."""
     await _setup_components(

@@ -9,15 +9,15 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components import http, image_processing as ip
 from universalassistant.const import ATTR_ENTITY_PICTURE
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.setup import async_setup_component
 
 from . import common
 
 
 @pytest.fixture(autouse=True)
-async def setup_universalassistant(hass: __HAC_KEEP__):
+async def setup_universalassistant(hass: UniversalAssistant):
     """Set up the universalassistant integration."""
     await async_setup_component(hass, "universalassistant", {})
 
@@ -31,14 +31,14 @@ def aiohttp_unused_port_factory(
     return unused_tcp_port_factory
 
 
-def get_url(hass: __HAC_KEEP__) -> str:
+def get_url(hass: UniversalAssistant) -> str:
     """Return camera url."""
     state = hass.states.get("camera.demo_camera")
     return f"{hass.config.internal_url}{state.attributes.get(ATTR_ENTITY_PICTURE)}"
 
 
 async def setup_image_processing(
-    hass: __HAC_KEEP__, aiohttp_unused_port_factory: Callable[[], int]
+    hass: UniversalAssistant, aiohttp_unused_port_factory: Callable[[], int]
 ) -> None:
     """Set up things to be run when tests are started."""
     await async_setup_component(
@@ -53,7 +53,7 @@ async def setup_image_processing(
     await hass.async_block_till_done()
 
 
-async def setup_image_processing_face(hass: __HAC_KEEP__) -> None:
+async def setup_image_processing_face(hass: UniversalAssistant) -> None:
     """Set up things to be run when tests are started."""
     config = {ip.DOMAIN: {"platform": "demo"}, "camera": {"platform": "demo"}}
 
@@ -63,7 +63,7 @@ async def setup_image_processing_face(hass: __HAC_KEEP__) -> None:
     return async_capture_events(hass, "image_processing.detect_face")
 
 
-async def test_setup_component(hass: __HAC_KEEP__) -> None:
+async def test_setup_component(hass: UniversalAssistant) -> None:
     """Set up demo platform on image_process component."""
     config = {ip.DOMAIN: {"platform": "demo"}}
 
@@ -72,7 +72,7 @@ async def test_setup_component(hass: __HAC_KEEP__) -> None:
         await hass.async_block_till_done()
 
 
-async def test_setup_component_with_service(hass: __HAC_KEEP__) -> None:
+async def test_setup_component_with_service(hass: UniversalAssistant) -> None:
     """Set up demo platform on image_process component test service."""
     config = {ip.DOMAIN: {"platform": "demo"}}
 
@@ -90,7 +90,7 @@ async def test_setup_component_with_service(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_get_image_from_camera(
     mock_camera_read,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_unused_port_factory: Callable[[], int],
 ) -> None:
     """Grab an image from camera entity."""
@@ -108,12 +108,12 @@ async def test_get_image_from_camera(
 
 @patch(
     "universalassistant.components.image_processing.entity.async_get_image",
-    side_effect=__HAC_KEEP__Error(),
+    side_effect=UniversalAssistantError(),
 )
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_get_image_without_exists_camera(
     mock_image,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_unused_port_factory: Callable[[], int],
 ) -> None:
     """Try to get image without exists camera."""
@@ -131,7 +131,7 @@ async def test_get_image_without_exists_camera(
 
 
 async def test_face_event_call(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Set up and scan a picture and test faces from event."""
     face_events = await setup_image_processing_face(hass)
@@ -161,7 +161,7 @@ async def test_face_event_call(
     new_callable=PropertyMock(return_value=None),
 )
 async def test_face_event_call_no_confidence(
-    mock_config, hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    mock_config, hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Set up and scan a picture and test faces from event."""
     face_events = await setup_image_processing_face(hass)
@@ -188,7 +188,7 @@ async def test_face_event_call_no_confidence(
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_update_missing_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_unused_port_factory: Callable[[], int],
     caplog: pytest.LogCaptureFixture,
 ) -> None:

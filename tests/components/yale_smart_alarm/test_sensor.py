@@ -5,11 +5,11 @@ from unittest.mock import Mock
 from pytest_universalassistant.common import MockConfigEntry
 from yalesmartalarmclient import YaleSmartAlarmData
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_coordinator_setup_and_update_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_config_entry: tuple[MockConfigEntry, Mock],
     get_data: YaleSmartAlarmData,
 ) -> None:

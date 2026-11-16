@@ -5,7 +5,7 @@ import pytest
 from universalassistant.components.energy import validate
 from universalassistant.components.energy.data import EnergyManager
 from universalassistant.const import UnitOfVolumeFlowRate
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 FLOW_RATE_UNITS_STRING = ", ".join(tuple(UnitOfVolumeFlowRate))
 
@@ -19,7 +19,7 @@ async def setup_energy_for_validation(
 
 
 async def test_validation_gas_flow_rate_valid(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating gas with valid flow rate sensor."""
     await mock_energy_manager.async_update(
@@ -62,7 +62,7 @@ async def test_validation_gas_flow_rate_valid(
 
 
 async def test_validation_gas_flow_rate_wrong_unit(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating gas with flow rate sensor having wrong unit."""
     await mock_energy_manager.async_update(
@@ -115,7 +115,7 @@ async def test_validation_gas_flow_rate_wrong_unit(
 
 
 async def test_validation_gas_flow_rate_wrong_state_class(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating gas with flow rate sensor having wrong state class."""
     await mock_energy_manager.async_update(
@@ -166,7 +166,7 @@ async def test_validation_gas_flow_rate_wrong_state_class(
 
 
 async def test_validation_gas_flow_rate_entity_missing(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating gas with missing flow rate sensor."""
     mock_get_metadata["sensor.missing_flow_rate"] = None
@@ -214,7 +214,7 @@ async def test_validation_gas_flow_rate_entity_missing(
 
 
 async def test_validation_gas_without_flow_rate(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating gas without flow rate sensor still works."""
     await mock_energy_manager.async_update(
@@ -247,7 +247,7 @@ async def test_validation_gas_without_flow_rate(
 
 
 async def test_validation_water_flow_rate_valid(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating water with valid flow rate sensor."""
     await mock_energy_manager.async_update(
@@ -290,7 +290,7 @@ async def test_validation_water_flow_rate_valid(
 
 
 async def test_validation_water_flow_rate_wrong_unit(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating water with flow rate sensor having wrong unit."""
     await mock_energy_manager.async_update(
@@ -343,7 +343,7 @@ async def test_validation_water_flow_rate_wrong_unit(
 
 
 async def test_validation_water_flow_rate_wrong_state_class(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating water with flow rate sensor having wrong state class."""
     await mock_energy_manager.async_update(
@@ -396,7 +396,7 @@ async def test_validation_water_flow_rate_wrong_state_class(
 
 
 async def test_validation_water_flow_rate_entity_missing(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating water with missing flow rate sensor."""
     mock_get_metadata["sensor.missing_flow_rate"] = None
@@ -444,7 +444,7 @@ async def test_validation_water_flow_rate_entity_missing(
 
 
 async def test_validation_water_without_flow_rate(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating water without flow rate sensor still works."""
     await mock_energy_manager.async_update(
@@ -477,7 +477,7 @@ async def test_validation_water_without_flow_rate(
 
 
 async def test_validation_gas_flow_rate_different_units(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating gas with flow rate sensors using different valid units."""
     await mock_energy_manager.async_update(
@@ -543,7 +543,7 @@ async def test_validation_gas_flow_rate_different_units(
 
 
 async def test_validation_gas_flow_rate_recorder_untracked(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
 ) -> None:
     """Test validating gas with flow rate sensor not tracked by recorder."""
     mock_is_entity_recorded["sensor.untracked_flow_rate"] = False
@@ -587,7 +587,7 @@ async def test_validation_gas_flow_rate_recorder_untracked(
 
 
 async def test_validation_water_flow_rate_recorder_untracked(
-    hass: __HAC_KEEP__, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
+    hass: UniversalAssistant, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
 ) -> None:
     """Test validating water with flow rate sensor not tracked by recorder."""
     mock_is_entity_recorded["sensor.untracked_flow_rate"] = False

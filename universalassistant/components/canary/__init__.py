@@ -7,7 +7,7 @@ from canary.api import Api
 from requests.exceptions import ConnectTimeout, HTTPError
 
 from universalassistant.const import CONF_PASSWORD, CONF_TIMEOUT, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import CONF_FFMPEG_ARGUMENTS, DEFAULT_FFMPEG_ARGUMENTS, DEFAULT_TIMEOUT
@@ -22,7 +22,7 @@ PLATFORMS: Final[list[Platform]] = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: CanaryConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: CanaryConfigEntry) -> None:
     """Set up Canary from a config entry."""
     if not entry.options:
         options = {
@@ -48,12 +48,12 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: CanaryConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: CanaryConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: CanaryConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def _async_update_listener(hass: __HAC_KEEP__, entry: CanaryConfigEntry) -> None:
+async def _async_update_listener(hass: UniversalAssistant, entry: CanaryConfigEntry) -> None:
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)
 

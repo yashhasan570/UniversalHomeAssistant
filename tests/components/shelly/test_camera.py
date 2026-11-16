@@ -29,8 +29,8 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_registry import EntityRegistry
 
 from . import MOCK_MAC, init_integration, patch_platforms, register_entity
@@ -47,7 +47,7 @@ def fixture_platforms() -> Generator[None]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_camera_entity_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_camera_rpc_device: Mock,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -64,7 +64,7 @@ async def test_camera_entity_setup(
 
 
 async def test_camera_state_streaming(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_camera_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -82,7 +82,7 @@ async def test_camera_state_streaming(
 
 
 async def test_camera_state_recording(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_camera_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -100,7 +100,7 @@ async def test_camera_state_recording(
 
 
 async def test_camera_use_stream_for_stills(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_camera_rpc_device: Mock,
 ) -> None:
     """Test use_stream_for_stills returns False (still images from HTTP snapshot)."""
@@ -111,7 +111,7 @@ async def test_camera_use_stream_for_stills(
 
 
 async def test_camera_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_camera_rpc_device: Mock,
 ) -> None:
     """Test async_camera_image returns snapshot from the device."""
@@ -143,7 +143,7 @@ async def test_camera_image(
     ],
 )
 async def test_camera_image_exc(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_camera_rpc_device: Mock,
     exception: Exception,
     error: str,
@@ -154,12 +154,12 @@ async def test_camera_image_exc(
     camera = get_camera_from_entity_id(hass, CAMERA_ENTITY_ID)
     mock_camera_rpc_device.camera_get_image = AsyncMock(side_effect=exception)
 
-    with pytest.raises(__HAC_KEEP__Error, match=error):
+    with pytest.raises(UniversalAssistantError, match=error):
         await camera.async_camera_image()
 
 
 async def test_camera_image_reauth_error(
-    hass: __HAC_KEEP__, mock_camera_rpc_device: Mock
+    hass: UniversalAssistant, mock_camera_rpc_device: Mock
 ) -> None:
     """Test camera snapshot with authentication error starts reauth."""
     entry = await init_integration(hass, 3, model=MODEL_CAMERA)
@@ -185,7 +185,7 @@ async def test_camera_image_reauth_error(
 
 
 async def test_camera_stream_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_camera_rpc_device: Mock,
 ) -> None:
     """Test stream_source returns the RTSP URL for go2rtc."""
@@ -198,7 +198,7 @@ async def test_camera_stream_source(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_camera_stream_source_stream_1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_camera_rpc_device: Mock,
 ) -> None:
     """Test stream_source returns correct RTSP URL for stream 1."""
@@ -217,7 +217,7 @@ async def test_camera_stream_source_stream_1(
     ],
 )
 async def test_camera_stream_source_with_credentials(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_camera_rpc_device: Mock,
     password: str,
     expected_password: str,
@@ -242,7 +242,7 @@ async def test_camera_stream_source_with_credentials(
 
 
 async def test_camera_off_when_streamer_stopped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_camera_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -253,12 +253,12 @@ async def test_camera_off_when_streamer_stopped(
 
     await init_integration(hass, 3, model=MODEL_CAMERA)
 
-    with pytest.raises(__HAC_KEEP__Error, match="Camera is off"):
+    with pytest.raises(UniversalAssistantError, match="Camera is off"):
         get_camera_from_entity_id(hass, CAMERA_ENTITY_ID)
 
 
 async def test_camera_properties_when_device_not_initialized(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_camera_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -274,7 +274,7 @@ async def test_camera_properties_when_device_not_initialized(
 
 
 async def test_camera_not_created_when_rtsp_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_camera_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -291,7 +291,7 @@ async def test_camera_not_created_when_rtsp_disabled(
 
 
 async def test_rpc_camera_removal_when_rtsp_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_camera_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,

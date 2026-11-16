@@ -6,7 +6,7 @@ from unittest.mock import Mock, PropertyMock
 import blebox_uniapi
 import pytest
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import async_setup_entity, mock_feature
 
@@ -43,7 +43,7 @@ def tv_lift_box_fixture(caplog: pytest.LogCaptureFixture):
 
 
 async def test_tvliftbox_init(
-    tvliftbox, hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    tvliftbox, hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test tvLiftBox initialisation."""
     caplog.set_level(logging.ERROR)
@@ -79,7 +79,7 @@ def gatebox_second_output_fixture(caplog: pytest.LogCaptureFixture):
 
 
 async def test_gatebox_second_output_init(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     gatebox_second_output: tuple[Mock, str],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -106,7 +106,7 @@ async def test_button_translation_key(
     expected_entity_id: str,
     expected_name: str,
     tvliftbox: tuple[blebox_uniapi.button.Button, str],
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test that the correct translation_key is assigned based on query_string."""

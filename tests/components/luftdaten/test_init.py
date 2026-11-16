@@ -8,13 +8,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.luftdaten.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.httpx_client import get_async_client
 
 
 @pytest.mark.usefixtures("mock_luftdaten")
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_luftdaten_class: MagicMock,
 ) -> None:
@@ -37,7 +37,7 @@ async def test_load_unload_config_entry(
 
 @pytest.mark.parametrize("side_effect", [LuftdatenConnectionError, LuftdatenError])
 async def test_config_entry_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_luftdaten: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],
@@ -54,7 +54,7 @@ async def test_config_entry_not_ready(
 
 
 async def test_config_entry_not_ready_no_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_luftdaten: MagicMock,
 ) -> None:
@@ -69,7 +69,7 @@ async def test_config_entry_not_ready_no_data(
 
 
 async def test_setting_unique_id(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_luftdaten: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_luftdaten: MagicMock
 ) -> None:
     """Test we set unique ID if not set yet."""
     mock_config_entry.add_to_hass(hass)

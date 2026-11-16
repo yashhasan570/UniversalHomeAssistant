@@ -14,7 +14,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from universalassistant import config_entries, setup
 from universalassistant.components.home_connect.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState, ConfigFlowContext
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow, device_registry as dr
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -95,7 +95,7 @@ DHCP_DISCOVERY = (
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -147,7 +147,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow_china_region(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -201,7 +201,7 @@ async def test_full_flow_china_region(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_prevent_reconfiguring_same_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     config_entry: MockConfigEntry,
@@ -253,7 +253,7 @@ async def test_prevent_reconfiguring_same_account(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     config_entry: MockConfigEntry,
@@ -307,7 +307,7 @@ async def test_reauth_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth_flow_with_different_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     config_entry: MockConfigEntry,
@@ -380,7 +380,7 @@ async def test_reauth_flow_with_different_account(
     ],
 )
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     config_entry: MockConfigEntry,
@@ -431,7 +431,7 @@ async def test_reconfigure_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_zeroconf_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -492,7 +492,7 @@ async def test_zeroconf_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_zeroconf_flow_already_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     config_entry: MockConfigEntry,
@@ -512,7 +512,7 @@ async def test_zeroconf_flow_already_setup(
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.parametrize("dhcp_discovery", DHCP_DISCOVERY)
 async def test_dhcp_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     dhcp_discovery: DhcpServiceInfo,
@@ -574,7 +574,7 @@ async def test_dhcp_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_dhcp_flow_already_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test DHCP discovery with already setup device."""
@@ -613,7 +613,7 @@ async def test_dhcp_flow_already_setup(
     indirect=["appliance"],
 )
 async def test_dhcp_flow_complete_device_information(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     config_entry: MockConfigEntry,

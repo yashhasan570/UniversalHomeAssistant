@@ -13,12 +13,12 @@ from universalassistant.components.media_source import (
     PlayMedia,
     Unresolvable,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import DOMAIN, FOLDER_IMAGE
 
 
-async def async_get_media_source(hass: __HAC_KEEP__) -> ImageUploadMediaSource:
+async def async_get_media_source(hass: UniversalAssistant) -> ImageUploadMediaSource:
     """Set up image media source."""
     return ImageUploadMediaSource(hass)
 
@@ -28,7 +28,7 @@ class ImageUploadMediaSource(MediaSource):
 
     name: str = "Image upload"
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize ImageMediaSource."""
         super().__init__(DOMAIN)
         self.hass = hass

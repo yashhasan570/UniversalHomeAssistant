@@ -8,7 +8,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.doorbird.const import API_URL, DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import mock_not_found_exception, mock_webhook_call
@@ -44,7 +44,7 @@ async def test_non_webhook_with_wrong_token(
     ],
 )
 async def test_webhook_event_entity_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     doorbird_mocker: DoorbirdMockerType,
     schedule_side_effect: Exception | None,
@@ -78,7 +78,7 @@ async def test_webhook_event_entity_id(
     ],
 )
 async def test_webhook_event_entity_id_after_entity_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     entity_registry: er.EntityRegistry,
     doorbird_mocker: DoorbirdMockerType,

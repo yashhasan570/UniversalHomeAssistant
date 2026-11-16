@@ -11,7 +11,7 @@ from pylitterbot.sleep_schedule import DayOfWeek, SleepScheduleDay
 
 from universalassistant.components.time import TimeEntity, TimeEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -110,7 +110,7 @@ ROBOT_TIME_MAP: dict[type[Robot], tuple[RobotTimeEntityDescription[Any], ...]] =
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: LitterRobotConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

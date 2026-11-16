@@ -18,7 +18,7 @@ from universalassistant.components.mysensors.const import (
 )
 from universalassistant.components.mysensors.gateway import is_serial_port
 from universalassistant.const import CONF_DEVICE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.parametrize(
@@ -32,7 +32,7 @@ from universalassistant.core import __HAC_KEEP__
     ],
 )
 def test_is_serial_port_windows(
-    hass: __HAC_KEEP__, port: str, expect_valid: bool
+    hass: UniversalAssistant, port: str, expect_valid: bool
 ) -> None:
     """Test windows serial port."""
 
@@ -45,7 +45,7 @@ def test_is_serial_port_windows(
             assert expect_valid
 
 
-async def test_mqtt_gateway(hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient) -> None:
+async def test_mqtt_gateway(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient) -> None:
     """Test the MQTT gateway subscribes and publishes through MQTT."""
     entry = MockConfigEntry(
         domain=DOMAIN,

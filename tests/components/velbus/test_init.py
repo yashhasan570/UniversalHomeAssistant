@@ -15,8 +15,8 @@ from universalassistant.components.velbus import (
 from universalassistant.components.velbus.const import DOMAIN
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
 from universalassistant.const import CONF_NAME, CONF_PORT, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import init_integration
@@ -24,7 +24,7 @@ from .const import PORT_TCP
 
 
 async def test_setup_connection_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: VelbusConfigEntry,
     controller: MagicMock,
 ) -> None:
@@ -35,7 +35,7 @@ async def test_setup_connection_failed(
 
 
 async def test_setup_start_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: VelbusConfigEntry,
     controller: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -50,7 +50,7 @@ async def test_setup_start_failed(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
 ) -> None:
     """Test being able to unload an entry."""
@@ -68,7 +68,7 @@ async def test_unload_entry(
 
 
 async def test_device_identifier_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -113,7 +113,7 @@ async def test_device_identifier_migration(
 
 
 async def test_migrate_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     controller: MagicMock,
 ) -> None:
     """Test successful migration of entry data."""
@@ -137,7 +137,7 @@ async def test_migrate_config_entry(
 
 
 async def test_migrate_config_entry_32(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     controller: MagicMock,
 ) -> None:
     """Test successful migration of entry data."""
@@ -171,7 +171,7 @@ async def test_migrate_config_entry_32(
     [("vid:pid_serial_manufacturer_decription", "serial"), (None, None)],
 )
 async def test_migrate_config_entry_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     controller: AsyncMock,
     unique_id: str,
     expected: str,
@@ -191,7 +191,7 @@ async def test_migrate_config_entry_unique_id(
 
 
 async def test_api_call(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_relay: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -199,7 +199,7 @@ async def test_api_call(
     await init_integration(hass, config_entry)
 
     mock_relay.turn_on.side_effect = OSError()
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -209,7 +209,7 @@ async def test_api_call(
 
 
 async def test_device_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -241,7 +241,7 @@ async def test_device_registry(
 
 
 async def test_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -276,7 +276,7 @@ async def test_remove_config_entry_device(
 
 
 async def test_remove_config_entry_device_detaches_subdevices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -398,7 +398,7 @@ _PROPERTY_KEY_MAP = {
     ],
 )
 async def test_migrate_property_unique_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: VelbusConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -436,7 +436,7 @@ async def test_migrate_property_unique_ids(
 
 
 async def test_migrate_property_unique_ids_remove_stale(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: VelbusConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -480,7 +480,7 @@ async def test_migrate_property_unique_ids_remove_stale(
 
 
 async def test_migrate_property_unique_ids_preserves_entity_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: VelbusConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,

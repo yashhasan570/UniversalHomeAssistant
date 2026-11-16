@@ -11,11 +11,11 @@ from universalassistant.components.worldclock.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_TIME_ZONE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -43,7 +43,7 @@ async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_options_flow(hass: __HAC_KEEP__, loaded_entry: MockConfigEntry) -> None:
+async def test_options_flow(hass: UniversalAssistant, loaded_entry: MockConfigEntry) -> None:
     """Test options flow."""
 
     result = await hass.config_entries.options.async_init(loaded_entry.entry_id)
@@ -75,7 +75,7 @@ async def test_options_flow(hass: __HAC_KEEP__, loaded_entry: MockConfigEntry) -
 
 
 async def test_entry_already_exist(
-    hass: __HAC_KEEP__, loaded_entry: MockConfigEntry
+    hass: UniversalAssistant, loaded_entry: MockConfigEntry
 ) -> None:
     """Test abort when entry already exist."""
 

@@ -16,7 +16,7 @@ UID_SEPARATOR = "||"
 
 # Defaults
 DEFAULT_PORT = 6742
-DEFAULT_CLIENT_NAME = "__HA_KEEP__"
+DEFAULT_CLIENT_NAME = "Universal Home Assistant"
 
 # Update interval
 SCAN_INTERVAL = timedelta(seconds=15)

@@ -18,11 +18,11 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import Event, __HAC_KEEP__, State
+from universalassistant.core import Event, UniversalAssistant, State
 
 
 async def test_switch_set_state(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test if accessory and HA are updated accordingly."""
     code = "1234"
@@ -122,7 +122,7 @@ async def test_switch_set_state(
 
 @pytest.mark.parametrize("config", [{}, {ATTR_CODE: None}])
 async def test_no_alarm_code(
-    hass: __HAC_KEEP__, hk_driver, config, events: list[Event]
+    hass: UniversalAssistant, hk_driver, config, events: list[Event]
 ) -> None:
     """Test accessory if security_system doesn't require an alarm_code."""
     entity_id = "alarm_control_panel.test"
@@ -146,7 +146,7 @@ async def test_no_alarm_code(
     assert events[-1].data[ATTR_VALUE] is None
 
 
-async def test_arming(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_arming(hass: UniversalAssistant, hk_driver) -> None:
     """Test to make sure arming sets the right state."""
     entity_id = "alarm_control_panel.test"
 
@@ -225,7 +225,7 @@ async def test_arming(hass: __HAC_KEEP__, hk_driver) -> None:
     ],
 )
 async def test_arming_without_away_keeps_target(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     hk_driver: HomeDriver,
     features: AlarmControlPanelEntityFeature,
@@ -268,7 +268,7 @@ async def test_arming_without_away_keeps_target(
     assert "invalid value" not in caplog.text
 
 
-async def test_supported_states(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_supported_states(hass: UniversalAssistant, hk_driver) -> None:
     """Test different supported states."""
     code = "1234"
     config = {ATTR_CODE: code}
@@ -386,7 +386,7 @@ async def test_supported_states(hass: __HAC_KEEP__, hk_driver) -> None:
 
 
 async def test_supported_states_without_arm_home_log_no_error(
-    hass: __HAC_KEEP__, hk_driver, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, hk_driver, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test restricting the valid values does not log the HAP default as invalid."""
     entity_id = "alarm_control_panel.test"
@@ -417,7 +417,7 @@ async def test_supported_states_without_arm_home_log_no_error(
     ],
 )
 async def test_handle_non_alarm_states(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event], state: str
+    hass: UniversalAssistant, hk_driver, events: list[Event], state: str
 ) -> None:
     """Test we can handle states that should not raise."""
     code = "1234"
@@ -449,7 +449,7 @@ async def test_handle_non_alarm_states(
     ],
 )
 async def test_set_if_valid_guards_frozen_valid_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     hk_driver: HomeDriver,
     build_features: AlarmControlPanelEntityFeature,
@@ -496,7 +496,7 @@ async def test_set_if_valid_guards_frozen_valid_values(
 
 
 async def test_skip_warning_logged_once_per_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     hk_driver: HomeDriver,
 ) -> None:

@@ -66,7 +66,7 @@ def mock_nintendo_device(
     players.add_player(mock_nintendo_player)
     mock = AsyncMock(spec=Device)
     mock.device_id = "testdevid"
-    mock.name = "__HA_KEEP__ Test"
+    mock.name = "Universal Home Assistant Test"
     mock.extra = {
         "firmwareVersion": {"displayedVersion": "99.99.99"},
         "serialNumber": "SN12345678",

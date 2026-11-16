@@ -9,7 +9,7 @@ from pytradfri.gateway import Gateway
 
 from universalassistant.components import tradfri
 from universalassistant.components.tradfri.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -18,7 +18,7 @@ from .common import CommandStore
 
 
 async def test_entry_setup_unload(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, mock_api_factory: MagicMock
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, mock_api_factory: MagicMock
 ) -> None:
     """Test config entry setup and unload."""
     config_entry = MockConfigEntry(
@@ -54,7 +54,7 @@ async def test_entry_setup_unload(
 
 
 async def test_remove_stale_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test remove stale device registry entries."""
@@ -101,7 +101,7 @@ async def test_remove_stale_devices(
 
 
 async def test_migrate_config_entry_and_identifiers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     command_store: CommandStore,
     gateway_response: str,

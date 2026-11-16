@@ -1,6 +1,6 @@
 {
   "domain": "universalassistant_hardware",
-  "name": "__HA_KEEP__ Hardware",
+  "name": "Universal Home Assistant Hardware",
   "after_dependencies": ["hassio"],
   "codeowners": ["@universal-assistant/core"],
   "dependencies": ["repairs", "usb"],

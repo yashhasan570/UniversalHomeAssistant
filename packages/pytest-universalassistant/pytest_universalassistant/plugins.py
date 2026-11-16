@@ -1,4 +1,4 @@
-"""__HA_KEEP__ pytest fixtures and hooks."""
+"""Universal Home Assistant pytest fixtures and hooks."""
 
 import asyncio
 from collections.abc import AsyncGenerator, Callable, Coroutine, Generator, Sequence
@@ -44,16 +44,16 @@ import requests_mock
 import respx
 from syrupy.assertion import SnapshotAssertion
 
-# Setup patching of JSON functions before any other __HA_KEEP__ imports
+# Setup patching of JSON functions before any other Universal Home Assistant imports
 from . import patch_json  # isort:skip
 
 from universalassistant import block_async_io, block_shared_serial
 from universalassistant.exceptions import ServiceNotFound
 
-# Setup patching of recorder functions before any other __HA_KEEP__ imports
+# Setup patching of recorder functions before any other Universal Home Assistant imports
 from . import patch_recorder  # isort:skip
 
-# Setup patching of dt_util time functions before any other __HA_KEEP__ imports
+# Setup patching of dt_util time functions before any other Universal Home Assistant imports
 from . import patch_time  # isort:skip
 
 from universalassistant import components, core as ha, loader, runner
@@ -84,7 +84,7 @@ from universalassistant.core import (
     Context,
     CoreState,
     HassJob,
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
 )
@@ -113,7 +113,7 @@ from universalassistant.util.json import json_loads
 
 from . import _paths
 from .ignore_uncaught_exceptions import IGNORE_UNCAUGHT_EXCEPTIONS
-from .syrupy import __HAC_KEEP__SnapshotExtension
+from .syrupy import UniversalAssistantSnapshotExtension
 from .typing import (
     ClientSessionGenerator,
     MockHAClientWebSocket,
@@ -422,7 +422,7 @@ def long_repr_strings() -> Generator[None]:
 
 @pytest.fixture(autouse=True)
 async def configure_event_loop() -> None:
-    """Configure the loop the way __HA_KEEP__ configures its own."""
+    """Configure the loop the way Universal Home Assistant configures its own."""
     runner.configure_event_loop(asyncio.get_running_loop())
 
 
@@ -742,8 +742,8 @@ async def hass(
     request: pytest.FixtureRequest,
     mock_recorder_before_hass: None,
     custom_integrations_enabled: bool,
-) -> AsyncGenerator[__HAC_KEEP__]:
-    """Create a test instance of __HA_KEEP__."""
+) -> AsyncGenerator[UniversalAssistant]:
+    """Create a test instance of Universal Home Assistant."""
 
     loop = asyncio.get_running_loop()
     hass_fixture_setup.append(True)
@@ -812,7 +812,7 @@ async def hass(
 @pytest.fixture
 async def stop_hass() -> AsyncGenerator[None]:
     """Make sure all hass are stopped."""
-    orig_hass = ha.__HAC_KEEP__
+    orig_hass = ha.UniversalAssistant
 
     event_loop = asyncio.get_running_loop()
     created = []
@@ -822,7 +822,7 @@ async def stop_hass() -> AsyncGenerator[None]:
         created.append(hass_inst)
         return hass_inst
 
-    with patch("universalassistant.core.__HAC_KEEP__", mock_hass):
+    with patch("universalassistant.core.UniversalAssistant", mock_hass):
         yield
 
     for hass_inst in created:
@@ -875,7 +875,7 @@ def mock_device_tracker_conf() -> Generator[list[Device]]:
 
 @pytest.fixture
 async def hass_admin_credential(
-    hass: __HAC_KEEP__, local_auth: universalassistant.HassAuthProvider
+    hass: UniversalAssistant, local_auth: universalassistant.HassAuthProvider
 ) -> Credentials:
     """Provide credentials for admin user."""
     return Credentials(
@@ -889,9 +889,9 @@ async def hass_admin_credential(
 
 @pytest.fixture
 async def hass_access_token(
-    hass: __HAC_KEEP__, hass_admin_user: MockUser, hass_admin_credential: Credentials
+    hass: UniversalAssistant, hass_admin_user: MockUser, hass_admin_credential: Credentials
 ) -> str:
-    """Return an access token to access __HA_KEEP__."""
+    """Return an access token to access Universal Home Assistant."""
     await hass.auth.async_link_user(hass_admin_user, hass_admin_credential)
 
     refresh_token = await hass.auth.async_create_refresh_token(
@@ -902,33 +902,33 @@ async def hass_access_token(
 
 @pytest.fixture
 def hass_owner_user(
-    hass: __HAC_KEEP__, local_auth: universalassistant.HassAuthProvider
+    hass: UniversalAssistant, local_auth: universalassistant.HassAuthProvider
 ) -> MockUser:
-    """Return a __HA_KEEP__ owner user."""
+    """Return a Universal Home Assistant owner user."""
     return MockUser(is_owner=True).add_to_hass(hass)
 
 
 @pytest.fixture
 async def hass_admin_user(
-    hass: __HAC_KEEP__, local_auth: universalassistant.HassAuthProvider
+    hass: UniversalAssistant, local_auth: universalassistant.HassAuthProvider
 ) -> MockUser:
-    """Return a __HA_KEEP__ admin user."""
+    """Return a Universal Home Assistant admin user."""
     admin_group = await hass.auth.async_get_group(GROUP_ID_ADMIN)
     return MockUser(groups=[admin_group]).add_to_hass(hass)
 
 
 @pytest.fixture
 async def hass_read_only_user(
-    hass: __HAC_KEEP__, local_auth: universalassistant.HassAuthProvider
+    hass: UniversalAssistant, local_auth: universalassistant.HassAuthProvider
 ) -> MockUser:
-    """Return a __HA_KEEP__ read only user."""
+    """Return a Universal Home Assistant read only user."""
     read_only_group = await hass.auth.async_get_group(GROUP_ID_READ_ONLY)
     return MockUser(groups=[read_only_group]).add_to_hass(hass)
 
 
 @pytest.fixture
 async def hass_read_only_access_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_read_only_user: MockUser,
     local_auth: universalassistant.HassAuthProvider,
 ) -> str:
@@ -950,9 +950,9 @@ async def hass_read_only_access_token(
 
 @pytest.fixture
 async def hass_supervisor_user(
-    hass: __HAC_KEEP__, local_auth: universalassistant.HassAuthProvider
+    hass: UniversalAssistant, local_auth: universalassistant.HassAuthProvider
 ) -> MockUser:
-    """Return the __HA_KEEP__ Supervisor user.
+    """Return the Universal Home Assistant Supervisor user.
 
     The user is published the same way the hassio integration does, so
     commands restricted to the Supervisor accept it.
@@ -967,17 +967,17 @@ async def hass_supervisor_user(
 
 @pytest.fixture
 async def hass_supervisor_access_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_supervisor_user: MockUser,
     local_auth: universalassistant.HassAuthProvider,
 ) -> str:
-    """Return a __HA_KEEP__ Supervisor access token."""
+    """Return a Universal Home Assistant Supervisor access token."""
     refresh_token = await hass.auth.async_create_refresh_token(hass_supervisor_user)
     return hass.auth.async_create_access_token(refresh_token)
 
 
 @pytest.fixture
-async def local_auth(hass: __HAC_KEEP__) -> universalassistant.HassAuthProvider:
+async def local_auth(hass: UniversalAssistant) -> universalassistant.HassAuthProvider:
     """Load local auth provider."""
     prv = universalassistant.HassAuthProvider(
         hass, hass.auth._store, {"type": "universalassistant"}
@@ -989,7 +989,7 @@ async def local_auth(hass: __HAC_KEEP__) -> universalassistant.HassAuthProvider:
 
 @pytest.fixture
 def hass_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_client: ClientSessionGenerator,
     hass_access_token: str,
     socket_enabled: None,
@@ -1007,7 +1007,7 @@ def hass_client(
 
 @pytest.fixture
 def hass_client_no_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_client: ClientSessionGenerator,
     socket_enabled: None,
 ) -> ClientSessionGenerator:
@@ -1048,13 +1048,13 @@ def current_request_with_host(current_request: MagicMock) -> None:
 def hass_ws_client(
     aiohttp_client: ClientSessionGenerator,
     hass_access_token: str,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     socket_enabled: None,
 ) -> WebSocketGenerator:
     """Websocket client fixture connected to websocket server."""
 
     async def create_client(
-        hass: __HAC_KEEP__ = hass,
+        hass: UniversalAssistant = hass,
         access_token: str | None = hass_access_token,
         supervisor_unix_socket: bool = False,
     ) -> MockHAClientWebSocket:
@@ -1147,7 +1147,7 @@ def mqtt_config_entry_options() -> dict[str, Any] | None:
 
 
 @pytest.fixture
-def mqtt_client_mock(hass: __HAC_KEEP__) -> Generator[MqttMockPahoClient]:
+def mqtt_client_mock(hass: UniversalAssistant) -> Generator[MqttMockPahoClient]:
     """Fixture to mock MQTT client."""
 
     mid: int = 0
@@ -1221,7 +1221,7 @@ def mqtt_client_mock(hass: __HAC_KEEP__) -> Generator[MqttMockPahoClient]:
 
 @pytest.fixture
 async def mqtt_mock(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hass_config: None,
     mqtt_client_mock: MqttMockPahoClient,
     mqtt_config_entry_data: dict[str, Any] | None,
@@ -1235,7 +1235,7 @@ async def mqtt_mock(
 
 @asynccontextmanager
 async def _mqtt_mock_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_client_mock: MqttMockPahoClient,
     mqtt_config_entry_data: dict[str, Any] | None,
     mqtt_config_entry_options: dict[str, Any] | None,
@@ -1272,7 +1272,7 @@ async def _mqtt_mock_entry(
     mock_mqtt_instance = None
 
     async def _setup_mqtt_entry(
-        setup_entry: Callable[[__HAC_KEEP__, ConfigEntry], Coroutine[Any, Any, bool]],
+        setup_entry: Callable[[UniversalAssistant, ConfigEntry], Coroutine[Any, Any, bool]],
     ) -> MagicMock:
         """Set up the MQTT config entry."""
         assert await setup_entry(hass, entry)
@@ -1319,7 +1319,7 @@ def hass_config() -> ConfigType:
 
 
 @pytest.fixture
-def mock_hass_config(hass: __HAC_KEEP__, hass_config: ConfigType) -> Generator[None]:
+def mock_hass_config(hass: UniversalAssistant, hass_config: ConfigType) -> Generator[None]:
     """Fixture to mock the content of main configuration.
 
     Patches universalassistant.config.load_yaml_config_file and hass.config_entries
@@ -1357,7 +1357,7 @@ def hass_config_yaml_files(hass_config_yaml: str) -> dict[str, str]:
 
 @pytest.fixture
 def mock_hass_config_yaml(
-    hass: __HAC_KEEP__, hass_config_yaml_files: dict[str, str]
+    hass: UniversalAssistant, hass_config_yaml_files: dict[str, str]
 ) -> Generator[None]:
     """Fixture to mock the content of the yaml configuration files.
 
@@ -1370,7 +1370,7 @@ def mock_hass_config_yaml(
 
 @pytest.fixture
 async def mqtt_mock_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_client_mock: MqttMockPahoClient,
     mqtt_config_entry_data: dict[str, Any] | None,
     mqtt_config_entry_options: dict[str, Any] | None,
@@ -1379,7 +1379,7 @@ async def mqtt_mock_entry(
     """Set up an MQTT config entry."""
 
     async def _async_setup_config_entry(
-        hass: __HAC_KEEP__, entry: ConfigEntry
+        hass: UniversalAssistant, entry: ConfigEntry
     ) -> bool:
         """Help set up the config entry."""
         assert await hass.config_entries.async_setup(entry.entry_id)
@@ -1471,7 +1471,7 @@ def evict_faked_translations(translations_once) -> Generator[_patch]:
     real_component_strings = translation_helper._async_get_component_strings
 
     def _async_get_cached_translations(
-        _hass: __HAC_KEEP__,
+        _hass: UniversalAssistant,
         _language: str,
         _category: str,
         _integration: str | None = None,
@@ -1595,7 +1595,7 @@ def mock_async_zeroconf(mock_zeroconf: MagicMock) -> Generator[MagicMock]:
 
 
 @pytest.fixture
-def enable_custom_integrations(hass: __HAC_KEEP__) -> None:
+def enable_custom_integrations(hass: UniversalAssistant) -> None:
     """Enable custom integrations defined in the test dir."""
     hass.data.pop(loader.DATA_CUSTOM_COMPONENTS, None)
 
@@ -1824,7 +1824,7 @@ def recorder_db_url(
 
 
 async def _async_init_recorder_component(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     add_config: dict[str, Any] | None = None,
     db_url: str | None = None,
     *,
@@ -1895,7 +1895,7 @@ async def async_test_recorder(
     @contextmanager
     def debug_session_scope(
         *,
-        hass: __HAC_KEEP__ | None = None,
+        hass: UniversalAssistant | None = None,
         session: Session | None = None,
         exception_filter: Callable[[Exception], bool] | None = None,
         read_only: bool = False,
@@ -2011,7 +2011,7 @@ async def async_test_recorder(
 
         @asynccontextmanager
         async def async_test_recorder(
-            hass: __HAC_KEEP__,
+            hass: UniversalAssistant,
             config: ConfigType | None = None,
             *,
             expected_setup_result: bool = True,
@@ -2028,7 +2028,7 @@ async def async_test_recorder(
             )
             await hass.async_block_till_done()
             instance = hass.data[recorder.DATA_INSTANCE]
-            # The recorder's worker is not started until __HA_KEEP__ is running
+            # The recorder's worker is not started until Universal Home Assistant is running
             if hass.state is CoreState.running and wait_recorder:
                 await async_recorder_block_till_done(hass)
             try:
@@ -2049,7 +2049,7 @@ async def async_setup_recorder_instance(
     async with AsyncExitStack() as stack:
 
         async def async_setup_recorder(
-            hass: __HAC_KEEP__,
+            hass: UniversalAssistant,
             config: ConfigType | None = None,
             *,
             expected_setup_result: bool = True,
@@ -2075,7 +2075,7 @@ async def async_setup_recorder_instance(
 async def recorder_mock(
     recorder_config: dict[str, Any] | None,
     async_test_recorder: RecorderInstanceContextManager,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> AsyncGenerator[recorder.Recorder]:
     """Fixture with in-memory recorder."""
     async with async_test_recorder(hass, recorder_config) as instance:
@@ -2093,7 +2093,7 @@ def mock_recorder_before_hass() -> None:
 
 # Radio frequency test fixtures
 @pytest.fixture(name="init_radio_frequency")
-async def init_radio_frequency_fixture(hass: __HAC_KEEP__) -> None:
+async def init_radio_frequency_fixture(hass: UniversalAssistant) -> None:
     """Set up the Radio Frequency integration for testing."""
     from .components.radio_frequency.common import init_radio_frequency_fixture_helper  # noqa: PLC0415
 
@@ -2102,7 +2102,7 @@ async def init_radio_frequency_fixture(hass: __HAC_KEEP__) -> None:
 
 @pytest.fixture(name="mock_rf_entity")
 async def mock_rf_entity_fixture(
-    hass: __HAC_KEEP__, init_radio_frequency: None
+    hass: UniversalAssistant, init_radio_frequency: None
 ) -> MockRadioFrequencyEntity:
     """Return a mock radio frequency entity."""
     from .components.radio_frequency.common import mock_rf_entity_fixture_helper  # noqa: PLC0415
@@ -2112,7 +2112,7 @@ async def mock_rf_entity_fixture(
 
 @pytest.fixture(name="mock_rf_receiver_entity")
 async def mock_rf_receiver_entity_fixture(
-    hass: __HAC_KEEP__, init_radio_frequency: None
+    hass: UniversalAssistant, init_radio_frequency: None
 ) -> MockRadioFrequencyReceiverEntity:
     """Return a mock radio frequency receiver entity."""
     from .components.radio_frequency.common import (  # noqa: PLC0415
@@ -2124,7 +2124,7 @@ async def mock_rf_receiver_entity_fixture(
 
 # Infrared test fixtures
 @pytest.fixture(name="init_infrared")
-async def init_infrared_fixture(hass: __HAC_KEEP__) -> None:
+async def init_infrared_fixture(hass: UniversalAssistant) -> None:
     """Set up the Infrared integration for testing."""
     from .components.infrared.common import init_infrared_fixture_helper  # noqa: PLC0415
 
@@ -2133,7 +2133,7 @@ async def init_infrared_fixture(hass: __HAC_KEEP__) -> None:
 
 @pytest.fixture(name="mock_infrared_emitter_entity")
 async def mock_infrared_emitter_entity_fixture(
-    hass: __HAC_KEEP__, init_infrared: None
+    hass: UniversalAssistant, init_infrared: None
 ) -> MockInfraredEmitterEntity:
     """Return a mock infrared emitter entity."""
     from .components.infrared.common import mock_infrared_emitter_entity_fixture_helper  # noqa: PLC0415
@@ -2143,7 +2143,7 @@ async def mock_infrared_emitter_entity_fixture(
 
 @pytest.fixture(name="mock_infrared_receiver_entity")
 async def mock_infrared_receiver_entity_fixture(
-    hass: __HAC_KEEP__, init_infrared: None
+    hass: UniversalAssistant, init_infrared: None
 ) -> MockInfraredReceiverEntity:
     """Return a mock infrared receiver entity."""
     from .components.infrared.common import mock_infrared_receiver_entity_fixture_helper  # noqa: PLC0415
@@ -2176,7 +2176,7 @@ def macos_adapter() -> Generator[None]:
 
 
 @pytest.fixture
-def register_hci0_scanner(hass: __HAC_KEEP__) -> Generator[None]:
+def register_hci0_scanner(hass: UniversalAssistant) -> Generator[None]:
     """Register an hci0 scanner."""
     from universalassistant.components import bluetooth  # noqa: PLC0415
 
@@ -2191,7 +2191,7 @@ def register_hci0_scanner(hass: __HAC_KEEP__) -> Generator[None]:
 
 
 @pytest.fixture
-def register_hci1_scanner(hass: __HAC_KEEP__) -> Generator[None]:
+def register_hci1_scanner(hass: UniversalAssistant) -> Generator[None]:
     """Register an hci1 scanner."""
     from universalassistant.components import bluetooth  # noqa: PLC0415
 
@@ -2206,7 +2206,7 @@ def register_hci1_scanner(hass: __HAC_KEEP__) -> Generator[None]:
 
 
 @pytest.fixture
-def register_non_connectable_scanner(hass: __HAC_KEEP__) -> Generator[None]:
+def register_non_connectable_scanner(hass: UniversalAssistant) -> Generator[None]:
     """Register an non connectable remote scanner."""
     from habluetooth import BaseHaRemoteScanner  # noqa: PLC0415
 
@@ -2225,7 +2225,7 @@ def register_non_connectable_scanner(hass: __HAC_KEEP__) -> Generator[None]:
 
 @pytest.fixture(name="enable_bluetooth")
 async def mock_enable_bluetooth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bleak_scanner_start: MagicMock,
     mock_bluetooth_adapters: None,
 ) -> AsyncGenerator[None]:
@@ -2374,49 +2374,49 @@ def mock_bluetooth(
 
 
 @pytest.fixture
-def category_registry(hass: __HAC_KEEP__) -> cr.CategoryRegistry:
+def category_registry(hass: UniversalAssistant) -> cr.CategoryRegistry:
     """Return the category registry from the current hass instance."""
     return cr.async_get(hass)
 
 
 @pytest.fixture
-def area_registry(hass: __HAC_KEEP__) -> ar.AreaRegistry:
+def area_registry(hass: UniversalAssistant) -> ar.AreaRegistry:
     """Return the area registry from the current hass instance."""
     return ar.async_get(hass)
 
 
 @pytest.fixture
-def device_registry(hass: __HAC_KEEP__) -> dr.DeviceRegistry:
+def device_registry(hass: UniversalAssistant) -> dr.DeviceRegistry:
     """Return the device registry from the current hass instance."""
     return dr.async_get(hass)
 
 
 @pytest.fixture
-def entity_registry(hass: __HAC_KEEP__) -> er.EntityRegistry:
+def entity_registry(hass: UniversalAssistant) -> er.EntityRegistry:
     """Return the entity registry from the current hass instance."""
     return er.async_get(hass)
 
 
 @pytest.fixture
-def floor_registry(hass: __HAC_KEEP__) -> fr.FloorRegistry:
+def floor_registry(hass: UniversalAssistant) -> fr.FloorRegistry:
     """Return the floor registry from the current hass instance."""
     return fr.async_get(hass)
 
 
 @pytest.fixture
-def issue_registry(hass: __HAC_KEEP__) -> ir.IssueRegistry:
+def issue_registry(hass: UniversalAssistant) -> ir.IssueRegistry:
     """Return the issue registry from the current hass instance."""
     return ir.async_get(hass)
 
 
 @pytest.fixture
-def label_registry(hass: __HAC_KEEP__) -> lr.LabelRegistry:
+def label_registry(hass: UniversalAssistant) -> lr.LabelRegistry:
     """Return the label registry from the current hass instance."""
     return lr.async_get(hass)
 
 
 @pytest.fixture
-def service_calls(hass: __HAC_KEEP__) -> Generator[list[ServiceCall]]:
+def service_calls(hass: UniversalAssistant) -> Generator[list[ServiceCall]]:
     """Track all service calls."""
     calls = []
 
@@ -2455,8 +2455,8 @@ def service_calls(hass: __HAC_KEEP__) -> Generator[list[ServiceCall]]:
 
 @pytest.fixture
 def snapshot(snapshot: SnapshotAssertion) -> SnapshotAssertion:
-    """Return snapshot assertion fixture with the __HA_KEEP__ extension."""
-    return snapshot.use_extension(__HAC_KEEP__SnapshotExtension)
+    """Return snapshot assertion fixture with the Universal Home Assistant extension."""
+    return snapshot.use_extension(UniversalAssistantSnapshotExtension)
 
 
 @pytest.fixture
@@ -2505,7 +2505,7 @@ def disable_http_server() -> Generator[None]:
     that setup integrations which depend on the HTTP component.
     """
     with (
-        patch("universalassistant.components.http.__HAC_KEEP__HTTP.async_bind"),
-        patch("universalassistant.components.http.__HAC_KEEP__HTTP.start"),
+        patch("universalassistant.components.http.UniversalAssistantHTTP.async_bind"),
+        patch("universalassistant.components.http.UniversalAssistantHTTP.start"),
     ):
         yield

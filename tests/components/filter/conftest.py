@@ -22,7 +22,7 @@ from universalassistant.components.filter.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigEntry
 from universalassistant.const import CONF_ENTITY_ID, CONF_NAME
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -68,9 +68,9 @@ async def get_config_to_integration_load() -> dict[str, Any]:
 
 @pytest.fixture(name="loaded_entry")
 async def load_integration(
-    hass: __HAC_KEEP__, get_config: dict[str, Any], values: list[State]
+    hass: UniversalAssistant, get_config: dict[str, Any], values: list[State]
 ) -> MockConfigEntry:
-    """Set up the Filter integration in __HA_KEEP__."""
+    """Set up the Filter integration in Universal Home Assistant."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
         source=SOURCE_USER,
@@ -92,7 +92,7 @@ async def load_integration(
 
 
 @pytest.fixture
-def sensor_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def sensor_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Fixture to create a sensor config entry."""
     sensor_config_entry = MockConfigEntry()
     sensor_config_entry.add_to_hass(hass)
@@ -129,7 +129,7 @@ def sensor_entity_entry(
 
 @pytest.fixture
 def filter_config_entry(
-    hass: __HAC_KEEP__, sensor_entity_entry: er.RegistryEntry
+    hass: UniversalAssistant, sensor_entity_entry: er.RegistryEntry
 ) -> MockConfigEntry:
     """Fixture to create a filter config entry for the source entity."""
     config_entry = MockConfigEntry(

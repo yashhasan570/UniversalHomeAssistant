@@ -8,7 +8,7 @@ from typing import override
 from motionblinds import DEVICE_TYPES_WIFI, MotionGateway, ParseException
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import (
@@ -36,7 +36,7 @@ class DataUpdateCoordinatorMotionBlinds(
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: MotionBlindsConfigEntry,
         logger: logging.Logger,
         gateway: MotionGateway,

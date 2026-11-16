@@ -9,7 +9,7 @@ from universalassistant.components.event import (
     EventDeviceClass,
     EventEntity,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -22,7 +22,7 @@ from .util import enumerate_buttons
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: LutronCasetaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -45,7 +45,7 @@ class LutronCasetaButtonEvent(LutronCasetaEntity, EventEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         device: dict[str, Any],
         data: LutronCasetaData,
         button_name: str,

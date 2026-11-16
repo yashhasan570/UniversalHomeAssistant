@@ -9,7 +9,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import aiohttp_client
 
 from .const import DEFAULT_PORT
@@ -19,7 +19,7 @@ PLATFORMS = [Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: RainbowMinerConfigEntry
+    hass: UniversalAssistant, entry: RainbowMinerConfigEntry
 ) -> None:
     """Set up RainbowMiner from a config entry."""
     api = RainbowMinerClient(
@@ -37,7 +37,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: RainbowMinerConfigEntry
+    hass: UniversalAssistant, entry: RainbowMinerConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

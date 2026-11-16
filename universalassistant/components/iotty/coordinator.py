@@ -18,7 +18,7 @@ from iottycloud.shutter import Shutter
 from iottycloud.verbs import OPEN_PERCENTAGE, RESULT, STATUS
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import aiohttp_client, device_registry as dr
 from universalassistant.helpers.config_entry_oauth2_flow import OAuth2Session
@@ -60,7 +60,7 @@ class IottyDataUpdateCoordinator(DataUpdateCoordinator[IottyData]):
     _device_registry: dr.DeviceRegistry
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: IottyConfigEntry, session: OAuth2Session
+        self, hass: UniversalAssistant, entry: IottyConfigEntry, session: OAuth2Session
     ) -> None:
         """Initialize the coordinator."""
         _LOGGER.debug("Initializing iotty data update coordinator")

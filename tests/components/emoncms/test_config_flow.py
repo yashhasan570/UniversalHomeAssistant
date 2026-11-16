@@ -14,7 +14,7 @@ from universalassistant.components.emoncms.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import setup_integration
@@ -34,7 +34,7 @@ USER_INPUT = {
     ],
 )
 async def test_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     emoncms_client: AsyncMock,
     url: str,
     api_key: str,
@@ -67,7 +67,7 @@ async def test_reconfigure(
 
 
 async def test_reconfigure_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     emoncms_client: AsyncMock,
 ) -> None:
     """Test reconfigure flow with API error."""
@@ -105,7 +105,7 @@ async def test_reconfigure_api_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_failure(
-    hass: __HAC_KEEP__, emoncms_client: AsyncMock
+    hass: UniversalAssistant, emoncms_client: AsyncMock
 ) -> None:
     """Test emoncms failure when adding a new entry."""
     result = await hass.config_entries.flow.async_init(
@@ -132,7 +132,7 @@ async def test_user_flow_failure(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_manual_mode(
-    hass: __HAC_KEEP__, emoncms_client: AsyncMock
+    hass: UniversalAssistant, emoncms_client: AsyncMock
 ) -> None:
     """Test we get the user forms and the entry in manual mode."""
     result = await hass.config_entries.flow.async_init(
@@ -160,7 +160,7 @@ async def test_user_flow_manual_mode(
 
 
 async def test_user_flow_auto_mode(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, emoncms_client: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, emoncms_client: AsyncMock
 ) -> None:
     """Test we get the user form and the entry in automatic mode."""
     result = await hass.config_entries.flow.async_init(
@@ -184,7 +184,7 @@ async def test_user_flow_auto_mode(
 
 
 async def test_options_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     emoncms_client: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -206,7 +206,7 @@ async def test_options_flow(
 
 
 async def test_options_flow_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     emoncms_client: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -233,7 +233,7 @@ async def test_options_flow_failure(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_unique_id_exists(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     emoncms_client: AsyncMock,
     config_entry_unique_id: MockConfigEntry,
 ) -> None:

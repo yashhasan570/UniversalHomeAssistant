@@ -12,7 +12,7 @@ from azure.core.pipeline.transport._aiohttp import (
 from azure.storage.blob.aio import ContainerClient
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -32,7 +32,7 @@ type AzureStorageConfigEntry = ConfigEntry[ContainerClient]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: AzureStorageConfigEntry
+    hass: UniversalAssistant, entry: AzureStorageConfigEntry
 ) -> None:
     """Set up Azure Storage integration."""
     # set increase aiohttp timeout for long running operations (up/download)
@@ -87,6 +87,6 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: AzureStorageConfigEntry
+    hass: UniversalAssistant, entry: AzureStorageConfigEntry
 ) -> None:
     """Unload an Azure Storage config entry."""

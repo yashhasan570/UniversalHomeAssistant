@@ -6,13 +6,14 @@ from datetime import datetime, timedelta
 import logging
 from typing import Any, override
 
-from greeclimate.device import Device, DeviceInfo
+from greeclimate.air_conditioner import AirConditionerDevice
+from greeclimate.device import DeviceInfo
 from greeclimate.discovery import Discovery, Listener
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 from greeclimate.network import Response
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.json import json_dumps
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -46,7 +47,10 @@ class DeviceDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     config_entry: GreeConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: GreeConfigEntry, device: Device
+        self,
+        hass: UniversalAssistant,
+        config_entry: GreeConfigEntry,
+        device: AirConditionerDevice,
     ) -> None:
         """Initialize the data update coordinator."""
         super().__init__(
@@ -147,7 +151,7 @@ class DeviceDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 class DiscoveryService(Listener):
     """Discovery event handler for gree devices."""
 
-    def __init__(self, hass: __HAC_KEEP__, entry: GreeConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: GreeConfigEntry) -> None:
         """Initialize discovery service."""
         super().__init__()
         self.hass = hass
@@ -159,7 +163,7 @@ class DiscoveryService(Listener):
     async def device_found(self, device_info: DeviceInfo) -> None:
         """Handle new device found on the network."""
 
-        device = Device(device_info)
+        device = AirConditionerDevice(device_info)
         try:
             await device.bind()
         except DeviceNotBoundError:

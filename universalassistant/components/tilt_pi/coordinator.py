@@ -7,7 +7,7 @@ from tiltpi import TiltHydrometerData, TiltPiClient, TiltPiError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -25,7 +25,7 @@ class TiltPiDataUpdateCoordinator(DataUpdateCoordinator[dict[str, TiltHydrometer
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: TiltPiConfigEntry,
     ) -> None:
         """Initialize the coordinator."""

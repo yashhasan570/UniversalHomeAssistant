@@ -5,7 +5,7 @@ import probatio
 
 from universalassistant.config_entries import SOURCE_IMPORT, ConfigEntry
 from universalassistant.const import CONF_DEVICE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.dispatcher import (
@@ -24,7 +24,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the EnOcean component."""
     # support for text-based configuration (legacy)
     if DOMAIN not in config:
@@ -45,7 +45,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: EnOceanConfigEntry
+    hass: UniversalAssistant, config_entry: EnOceanConfigEntry
 ) -> None:
     """Set up an EnOcean gateway for the given entry."""
     gateway = Gateway(port=config_entry.data[CONF_DEVICE])
@@ -57,7 +57,7 @@ async def async_setup_entry(
     try:
         await gateway.start()
     except ConnectionError as err:
-        gateway.stop()
+        await gateway.stop()
         raise ConfigEntryNotReady(f"Failed to start EnOcean gateway: {err}") from err
 
     config_entry.runtime_data = gateway
@@ -68,8 +68,8 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: EnOceanConfigEntry
+    hass: UniversalAssistant, config_entry: EnOceanConfigEntry
 ) -> None:
     """Unload EnOcean config entry: stop the gateway."""
 
-    config_entry.runtime_data.stop()
+    await config_entry.runtime_data.stop()

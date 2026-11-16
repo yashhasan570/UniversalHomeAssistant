@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.huum.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 TEST_USERNAME = "huum@sauna.org"
@@ -17,7 +17,7 @@ TEST_PASSWORD = "ukuuku"
 
 
 @pytest.mark.usefixtures("mock_huum_client")
-async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -46,7 +46,7 @@ async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
 
 @pytest.mark.usefixtures("mock_huum_client", "mock_setup_entry")
 async def test_signup_flow_already_set_up(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that we handle already existing entities with same id."""
     mock_config_entry.add_to_hass(hass)
@@ -78,7 +78,7 @@ async def test_signup_flow_already_set_up(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_huum_errors(
-    hass: __HAC_KEEP__, mock_huum_client: AsyncMock, raises: Exception, error_base: str
+    hass: UniversalAssistant, mock_huum_client: AsyncMock, raises: Exception, error_base: str
 ) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
@@ -110,7 +110,7 @@ async def test_huum_errors(
 
 @pytest.mark.usefixtures("mock_huum_client")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reauthentication flow succeeds with valid credentials."""
@@ -145,7 +145,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_huum_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     raises: Exception,
@@ -181,7 +181,7 @@ async def test_reauth_errors(
 
 @pytest.mark.usefixtures("mock_huum_client", "mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfiguration flow."""
@@ -209,7 +209,7 @@ async def test_reconfigure_flow(
 
 @pytest.mark.usefixtures("mock_huum_client", "mock_setup_entry")
 async def test_reconfigure_flow_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfiguration flow aborts when username already configured."""
@@ -251,7 +251,7 @@ async def test_reconfigure_flow_already_configured(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_huum_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     raises: Exception,

@@ -43,8 +43,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -69,7 +69,7 @@ async def test_climate_find_valid_targets() -> None:
     [[Platform.CLIMATE]],
 )
 async def test_climate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     load_int: ConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -87,7 +87,7 @@ async def test_climate(
 
 
 async def test_climate_fan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -113,7 +113,7 @@ async def test_climate_fan(
     }
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Climate fan mode not_in_ha is not supported by the integration",
     ):
         await hass.services.async_call(
@@ -153,7 +153,7 @@ async def test_climate_fan(
     async_fire_time_changed(hass)
     await hass.async_block_till_done()
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_FAN_MODE,
@@ -167,7 +167,7 @@ async def test_climate_fan(
 
 
 async def test_climate_swing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -197,7 +197,7 @@ async def test_climate_swing(
     await hass.async_block_till_done()
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Climate swing mode not_in_ha is not supported by the integration",
     ):
         await hass.services.async_call(
@@ -235,7 +235,7 @@ async def test_climate_swing(
     async_fire_time_changed(hass)
     await hass.async_block_till_done()
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_SWING_MODE,
@@ -249,7 +249,7 @@ async def test_climate_swing(
 
 
 async def test_climate_horizontal_swing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -283,7 +283,7 @@ async def test_climate_horizontal_swing(
     await hass.async_block_till_done()
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Climate horizontal swing mode not_in_ha is not"
         " supported by the integration",
     ):
@@ -323,7 +323,7 @@ async def test_climate_horizontal_swing(
     async_fire_time_changed(hass)
     await hass.async_block_till_done()
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_SWING_HORIZONTAL_MODE,
@@ -340,7 +340,7 @@ async def test_climate_horizontal_swing(
 
 
 async def test_climate_temperatures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -448,7 +448,7 @@ async def test_climate_temperatures(
     async_fire_time_changed(hass)
     await hass.async_block_till_done()
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -462,7 +462,7 @@ async def test_climate_temperatures(
 
 
 async def test_climate_temperature_is_none(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -507,7 +507,7 @@ async def test_climate_temperature_is_none(
 
 
 async def test_climate_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -568,7 +568,7 @@ async def test_climate_hvac_mode(
 
 
 async def test_climate_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -613,7 +613,7 @@ async def test_climate_on_off(
 
 
 async def test_climate_service_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -636,7 +636,7 @@ async def test_climate_service_failed(
         "result": {"status": "Error", "failureReason": "Did not work"}
     }
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_TURN_OFF,
@@ -649,7 +649,7 @@ async def test_climate_service_failed(
 
 
 async def test_climate_assumed_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -687,7 +687,7 @@ async def test_climate_assumed_state(
 
 
 async def test_climate_no_fan_no_swing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -720,7 +720,7 @@ async def test_climate_no_fan_no_swing(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_climate_set_timer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -748,7 +748,7 @@ async def test_climate_set_timer(
             blocking=True,
         )
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             SensiboService.ENABLE_TIMER,
@@ -797,7 +797,7 @@ async def test_climate_set_timer(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_climate_pure_boost(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -888,7 +888,7 @@ async def test_climate_pure_boost(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_climate_climate_react(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -1039,7 +1039,7 @@ async def test_climate_climate_react(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_climate_climate_react_fahrenheit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -1175,7 +1175,7 @@ async def test_climate_climate_react_fahrenheit(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_climate_full_ac_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -1248,7 +1248,7 @@ async def test_climate_full_ac_state(
 
 
 async def test_climate_full_ac_state_keeps_device_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -1273,7 +1273,7 @@ async def test_climate_full_ac_state_keeps_device_data(
     # A failed call does not refresh the coordinator, so the next call
     # works on the same device data.
     mock_client.async_set_ac_states.return_value = {"result": {"status": "Failed"}}
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN, SensiboService.FULL_STATE, service_data, blocking=True
         )
@@ -1295,7 +1295,7 @@ async def test_climate_full_ac_state_keeps_device_data(
 
 
 async def test_climate_fan_mode_and_swing_mode_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -1332,7 +1332,7 @@ async def test_climate_fan_mode_and_swing_mode_not_supported(
 
 
 async def test_climate_get_device_capabilities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,

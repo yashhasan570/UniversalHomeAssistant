@@ -10,8 +10,8 @@ from pykmtronic.hub import KMTronicHubAPI
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult, OptionsFlow
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import aiohttp_client
 
 from .const import CONF_REVERSE, DOMAIN
@@ -28,7 +28,7 @@ DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def validate_input(hass: __HAC_KEEP__, data):
+async def validate_input(hass: UniversalAssistant, data):
     """Validate the user input allows us to connect."""
     session = aiohttp_client.async_get_clientsession(hass)
     auth = Auth(
@@ -87,11 +87,11 @@ class KmtronicConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(__HAC_KEEP__Error):
+class InvalidAuth(UniversalAssistantError):
     """Error to indicate there is invalid auth."""
 
 

@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.smarla.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import (
@@ -23,7 +23,7 @@ from .const import (
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_connection")
-async def test_config_flow(hass: __HAC_KEEP__) -> None:
+async def test_config_flow(hass: UniversalAssistant) -> None:
     """Test creating a config entry."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -45,7 +45,7 @@ async def test_config_flow(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_connection")
-async def test_malformed_token(hass: __HAC_KEEP__) -> None:
+async def test_malformed_token(hass: UniversalAssistant) -> None:
     """Test we show user form on malformed token input."""
     with patch(
         "universalassistant.components.smarla.config_flow.Connection", side_effect=ValueError
@@ -83,7 +83,7 @@ async def test_malformed_token(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_validation_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connection: MagicMock,
     exception: type[Exception],
     error_key: str,
@@ -119,7 +119,7 @@ async def test_validation_exception(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_connection")
 async def test_device_exists_abort(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we abort config flow if Smarla device already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -144,7 +144,7 @@ async def test_device_exists_abort(
 @pytest.mark.usefixtures("mock_setup_entry", "mock_connection")
 async def test_reauth_successful(
     mock_config_entry: MockConfigEntry,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a successful reauthentication flow."""
     mock_config_entry.add_to_hass(hass)
@@ -168,7 +168,7 @@ async def test_reauth_successful(
 @pytest.mark.usefixtures("mock_setup_entry", "mock_connection")
 async def test_reauth_mismatch(
     mock_config_entry: MockConfigEntry,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a reauthentication flow with mismatched serial number."""
     mock_config_entry.add_to_hass(hass)

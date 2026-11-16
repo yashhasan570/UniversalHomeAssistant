@@ -14,8 +14,8 @@ from universalassistant.components.universalassistant_yellow import (
     RADIO_DEVICE as YELLOW_RADIO_DEVICE,
     hardware as yellow_hardware,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import issue_registry as ir
 
 from ..const import DOMAIN
@@ -38,11 +38,11 @@ class HardwareType(enum.StrEnum):
 ISSUE_WRONG_SILABS_FIRMWARE_INSTALLED = "wrong_silabs_firmware_installed"
 
 
-def _detect_radio_hardware(hass: __HAC_KEEP__, device: str) -> HardwareType:
+def _detect_radio_hardware(hass: UniversalAssistant, device: str) -> HardwareType:
     """Identify the radio hardware with the given serial port."""
     try:
         yellow_hardware.async_info(hass)
-    except __HAC_KEEP__Error:
+    except UniversalAssistantError:
         pass
     else:
         if device == YELLOW_RADIO_DEVICE:
@@ -50,7 +50,7 @@ def _detect_radio_hardware(hass: __HAC_KEEP__, device: str) -> HardwareType:
 
     try:
         info = skyconnect_hardware.async_info(hass)
-    except __HAC_KEEP__Error:
+    except UniversalAssistantError:
         pass
     else:
         for hardware_info in info:
@@ -64,7 +64,7 @@ def _detect_radio_hardware(hass: __HAC_KEEP__, device: str) -> HardwareType:
 
 
 async def warn_on_wrong_silabs_firmware(
-    hass: __HAC_KEEP__, device: str, config_entry_id: str | None = None
+    hass: UniversalAssistant, device: str, config_entry_id: str | None = None
 ) -> bool:
     """Create a repair issue if the wrong type of SiLabs firmware is detected."""
     # Only consider actual serial ports

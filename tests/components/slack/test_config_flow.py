@@ -9,7 +9,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant import config_entries
 from universalassistant.components.slack.const import DOMAIN
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
@@ -24,7 +24,7 @@ from . import (
 
 
 async def test_flow_user(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test user initialized flow."""
     mock_connection(aioclient_mock)
@@ -43,7 +43,7 @@ async def test_flow_user(
 
 
 async def test_flow_user_already_configured(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test user initialized flow with duplicate server."""
     create_entry(hass)
@@ -61,7 +61,7 @@ async def test_flow_user_already_configured(
 
 
 async def test_flow_user_invalid_auth(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test user initialized flow with invalid token."""
     mock_connection(aioclient_mock, "invalid_auth")
@@ -88,7 +88,7 @@ async def test_flow_user_invalid_auth(
 
 
 async def test_flow_user_cannot_connect(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test user initialized flow with unreachable server."""
     mock_connection(aioclient_mock, "cannot_connect")
@@ -115,7 +115,7 @@ async def test_flow_user_cannot_connect(
 
 
 async def test_flow_user_unknown_error(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test user initialized flow with unreachable server."""
     with patch(
@@ -144,7 +144,7 @@ async def test_flow_user_unknown_error(
 
 
 async def test_flow_reauth(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test reauth flow updates the API key."""
     entry = create_entry(hass)
@@ -163,7 +163,7 @@ async def test_flow_reauth(
 
 @pytest.mark.parametrize("error", ["invalid_auth", "cannot_connect"])
 async def test_flow_reauth_errors(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, error: str
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, error: str
 ) -> None:
     """Test reauth flow handles errors and can recover."""
     entry = create_entry(hass)
@@ -188,7 +188,7 @@ async def test_flow_reauth_errors(
 
 
 async def test_flow_reauth_unknown_error(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test reauth flow handles unexpected errors and can recover."""
     entry = create_entry(hass)
@@ -213,7 +213,7 @@ async def test_flow_reauth_unknown_error(
 
 
 async def test_flow_reauth_wrong_account(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test reauth flow aborts when the API key belongs to another workspace."""
     entry = create_entry(hass)

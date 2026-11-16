@@ -8,7 +8,7 @@ from aiostreammagic import StreamMagicClient
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import CambridgeAudioConfigEntry
@@ -75,7 +75,7 @@ CONTROL_ENTITIES: tuple[CambridgeAudioSwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: CambridgeAudioConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

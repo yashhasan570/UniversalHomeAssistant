@@ -7,7 +7,7 @@ from pypalazzetti.exceptions import CommunicationError, ValidationError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -24,7 +24,7 @@ class PalazzettiDataUpdateCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: PalazzettiConfigEntry,
     ) -> None:
         """Initialize global Palazzetti data updater."""
@@ -43,8 +43,8 @@ class PalazzettiDataUpdateCoordinator(DataUpdateCoordinator[None]):
     @override
     async def _async_setup(self) -> None:
         try:
-            await self.client.connect()
-            await self.client.update_state()
+            if not await self.client.connect() or not await self.client.update_state():
+                raise UpdateFailed("Error communicating with the API")
         except (CommunicationError, ValidationError) as err:
             raise UpdateFailed(f"Error communicating with the API: {err}") from err
 
@@ -52,6 +52,7 @@ class PalazzettiDataUpdateCoordinator(DataUpdateCoordinator[None]):
     async def _async_update_data(self) -> None:
         """Fetch data from Palazzetti."""
         try:
-            await self.client.update_state()
+            if not await self.client.update_state():
+                raise UpdateFailed("Error communicating with the API")
         except (CommunicationError, ValidationError) as err:
             raise UpdateFailed(f"Error communicating with the API: {err}") from err

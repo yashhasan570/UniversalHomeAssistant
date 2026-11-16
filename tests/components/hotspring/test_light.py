@@ -25,8 +25,8 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_with_selected_platforms
@@ -35,7 +35,7 @@ ENTITY_ID = "light.connectedspa_ddeeff_light_zone_1"
 
 
 async def test_light_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hotspring: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -47,7 +47,7 @@ async def test_light_state(
 
 
 async def test_turn_on_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_hotspring: MagicMock,
     device_fixture: Spa,
@@ -79,7 +79,7 @@ async def test_turn_on_default(
 
 
 async def test_turn_on_with_brightness(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_hotspring: MagicMock,
     device_fixture: Spa,
@@ -110,7 +110,7 @@ async def test_turn_on_with_brightness(
 
 
 async def test_turn_on_with_rgb_color_when_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_hotspring: MagicMock,
 ) -> None:
@@ -130,7 +130,7 @@ async def test_turn_on_with_rgb_color_when_off(
 
 
 async def test_turn_on_with_rgb_color_when_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hotspring: MagicMock,
     device_fixture: Spa,
@@ -164,7 +164,7 @@ async def test_turn_on_with_rgb_color_when_on(
 
 
 async def test_turn_on_with_rgb_color_and_brightness(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_hotspring: MagicMock,
 ) -> None:
@@ -185,7 +185,7 @@ async def test_turn_on_with_rgb_color_and_brightness(
 
 
 async def test_rgb_color_active_custom(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hotspring: MagicMock,
     device_fixture: Spa,
@@ -214,7 +214,7 @@ async def test_rgb_color_active_custom(
 
 
 async def test_rgb_color_all_zero(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hotspring: MagicMock,
     device_fixture: Spa,
@@ -243,7 +243,7 @@ async def test_rgb_color_all_zero(
 
 
 async def test_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hotspring: MagicMock,
     device_fixture: Spa,
@@ -296,7 +296,7 @@ async def test_turn_off(
     ],
 )
 async def test_turn_on_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_hotspring: MagicMock,
     exception: type[Exception],
@@ -305,7 +305,7 @@ async def test_turn_on_error(
     """Test exception handling when turning on light."""
     mock_hotspring.set_light_brightness.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error, match=match):
+    with pytest.raises(UniversalAssistantError, match=match):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_ON,
@@ -325,7 +325,7 @@ async def test_turn_on_error(
     ],
 )
 async def test_turn_off_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_hotspring: MagicMock,
     exception: type[Exception],
@@ -334,7 +334,7 @@ async def test_turn_off_error(
     """Test exception handling when turning off light."""
     mock_hotspring.turn_off_light.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error, match=match):
+    with pytest.raises(UniversalAssistantError, match=match):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_OFF,
@@ -344,7 +344,7 @@ async def test_turn_off_error(
 
 
 async def test_disabled_zone_not_added(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hotspring: MagicMock,
     device_fixture: Spa,

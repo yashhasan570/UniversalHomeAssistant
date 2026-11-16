@@ -13,12 +13,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.mastodon.const import CONF_BASE_URL, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_CLIENT_ID, CONF_CLIENT_SECRET
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_flow(hass: __HAC_KEEP__, mock_mastodon_client: AsyncMock) -> None:
+async def test_full_flow(hass: UniversalAssistant, mock_mastodon_client: AsyncMock) -> None:
     """Test full flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -49,7 +49,7 @@ async def test_full_flow(hass: __HAC_KEEP__, mock_mastodon_client: AsyncMock) ->
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_flow_with_path(
-    hass: __HAC_KEEP__, mock_mastodon_client: AsyncMock
+    hass: UniversalAssistant, mock_mastodon_client: AsyncMock
 ) -> None:
     """Test full flow, where a path is accidentally specified."""
     result = await hass.config_entries.flow.async_init(
@@ -81,7 +81,7 @@ async def test_full_flow_with_path(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_flow_fallback_to_instance_v1(
-    hass: __HAC_KEEP__, mock_mastodon_client: AsyncMock
+    hass: UniversalAssistant, mock_mastodon_client: AsyncMock
 ) -> None:
     """Test full flow where instance_v2 fails and falls back to instance_v1."""
     mock_mastodon_client.instance_v2.side_effect = MastodonNotFoundError(
@@ -128,7 +128,7 @@ async def test_full_flow_fallback_to_instance_v1(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     exception: Exception,
     error: str,
@@ -172,7 +172,7 @@ async def test_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -202,7 +202,7 @@ async def test_duplicate(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -225,7 +225,7 @@ async def test_reauth_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_wrong_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -259,7 +259,7 @@ async def test_reauth_flow_wrong_account(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -294,7 +294,7 @@ async def test_reauth_flow_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -324,7 +324,7 @@ async def test_reconfigure_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_wrong_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -362,7 +362,7 @@ async def test_reconfigure_flow_wrong_account(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,

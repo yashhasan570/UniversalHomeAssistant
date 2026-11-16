@@ -7,14 +7,14 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import publish_besen_state
 from .conftest import charger_state, setup_integration
 
 
 async def test_setup_entry_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
 ) -> None:
@@ -38,7 +38,7 @@ async def test_setup_entry_success(
 
 
 async def test_setup_entry_no_connectable_path(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
     mock_ble_device: Mock,
@@ -56,7 +56,7 @@ async def test_setup_entry_no_connectable_path(
 
 
 async def test_setup_entry_auth_error_fails_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_setup_entry_auth_error_fails_setup(
     ],
 )
 async def test_runtime_pin_rejection_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
     auth_failed: bool,
@@ -106,7 +106,7 @@ async def test_runtime_pin_rejection_starts_reauth(
 
 
 async def test_setup_entry_connect_error_retries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
 ) -> None:
@@ -124,7 +124,7 @@ async def test_setup_entry_connect_error_retries(
 
 
 async def test_unload_skips_shutdown_when_platform_unload_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
 ) -> None:

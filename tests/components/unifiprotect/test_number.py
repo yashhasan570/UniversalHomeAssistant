@@ -38,8 +38,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 from universalassistant.helpers.entity_platform import async_get_platforms
@@ -68,7 +68,7 @@ from .utils import (
 
 
 async def test_number_sensor_camera_remove(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera: Camera, unadopted_camera: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera: Camera, unadopted_camera: Camera
 ) -> None:
     """Test removing and re-adding a camera device."""
 
@@ -81,7 +81,7 @@ async def test_number_sensor_camera_remove(
 
 
 async def test_number_sensor_light_remove(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """Test removing and re-adding a light device."""
 
@@ -94,7 +94,7 @@ async def test_number_sensor_light_remove(
 
 
 async def test_number_setup_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     light: Light,
@@ -121,7 +121,7 @@ async def test_number_setup_light(
 
 
 async def test_number_setup_camera_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -157,7 +157,7 @@ async def test_number_setup_camera_all(
 
 
 async def test_number_setup_camera_none(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera: Camera
 ) -> None:
     """Test number entity setup for camera devices (no features)."""
 
@@ -172,7 +172,7 @@ async def test_number_setup_camera_none(
 
 
 async def test_number_no_mic_level_for_hot_plugged_mic(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -194,7 +194,7 @@ async def test_number_no_mic_level_for_hot_plugged_mic(
 
 
 async def test_number_setup_camera_missing_attr(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera: Camera
 ) -> None:
     """Test number entity setup for camera devices (no features, bad attrs)."""
 
@@ -205,7 +205,7 @@ async def test_number_setup_camera_missing_attr(
 
 
 async def test_number_light_sensitivity(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """Test sensitivity number entity for lights (public API)."""
 
@@ -236,7 +236,7 @@ async def test_number_light_sensitivity(
 
 
 async def test_number_light_sensitivity_public_value(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """Sensitivity reads from the public object and refreshes on a public WS update."""
 
@@ -256,7 +256,7 @@ async def test_number_light_sensitivity_public_value(
 
 
 async def test_number_light_sensitivity_unavailable_without_public(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """The migrated sensitivity number is unavailable without a public object."""
 
@@ -269,7 +269,7 @@ async def test_number_light_sensitivity_unavailable_without_public(
 
 
 async def test_number_light_duration(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """Test auto-shutoff duration number entity for lights (public API)."""
 
@@ -299,7 +299,7 @@ async def test_number_light_duration(
 
 
 async def test_number_light_duration_public_value(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """Duration reads from the public object (ms) and refreshes on a public WS update."""
 
@@ -319,7 +319,7 @@ async def test_number_light_duration_public_value(
 
 
 async def test_number_light_duration_unavailable_without_public(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """The migrated duration number is unavailable without a public object."""
 
@@ -332,7 +332,7 @@ async def test_number_light_duration_unavailable_without_public(
 
 
 async def test_number_light_duration_unavailable_on_public_disconnect(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """Duration availability follows the public object's connection state."""
 
@@ -352,7 +352,7 @@ async def test_number_light_duration_unavailable_on_public_disconnect(
 
 
 async def test_number_light_duration_none(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """A light that does not report a public duration leaves the number unknown."""
 
@@ -375,7 +375,7 @@ async def test_number_light_duration_none(
     "description", [d for d in CAMERA_NUMBERS if not d.is_public_value]
 )
 async def test_number_camera_simple(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     camera_all_features: Camera,
     description: ProtectNumberEntityDescription,
@@ -405,7 +405,7 @@ async def test_number_camera_simple(
 
 
 async def test_number_camera_mic_volume_set(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera_all_features: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera_all_features: Camera
 ) -> None:
     """The migrated mic volume number writes through the public object."""
     setup_public_camera(ufp)
@@ -432,7 +432,7 @@ async def test_number_camera_mic_volume_set(
 
 
 async def test_number_camera_mic_volume_public_value(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera: Camera
 ) -> None:
     """Mic volume reads from the public object and refreshes on a public WS update."""
 
@@ -452,7 +452,7 @@ async def test_number_camera_mic_volume_public_value(
 
 
 async def test_number_camera_mic_volume_unavailable_while_mic_disabled(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera: Camera
 ) -> None:
     """A microphone disabled on the camera leaves the mic volume unavailable."""
 
@@ -472,7 +472,7 @@ async def test_number_camera_mic_volume_unavailable_while_mic_disabled(
 
 
 async def test_number_camera_mic_volume_unavailable_without_public(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera: Camera
 ) -> None:
     """The migrated mic volume number is unavailable without a public object."""
 
@@ -493,7 +493,7 @@ async def test_number_camera_mic_volume_unavailable_without_public(
 
 
 async def test_number_camera_mic_volume_unavailable_on_public_disconnect(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera: Camera
 ) -> None:
     """Mic volume availability follows the public object's connection state."""
 
@@ -513,7 +513,7 @@ async def test_number_camera_mic_volume_unavailable_on_public_disconnect(
 
 
 async def test_number_sense_sensitivity_public_value(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, sensor_all: Sensor
+    hass: UniversalAssistant, ufp: MockUFPFixture, sensor_all: Sensor
 ) -> None:
     """Motion sensitivity reads from the public object and refreshes on a WS update."""
 
@@ -533,7 +533,7 @@ async def test_number_sense_sensitivity_public_value(
 
 
 async def test_number_sense_sensitivity_ignores_local_permissions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
@@ -562,7 +562,7 @@ async def test_number_sense_sensitivity_ignores_local_permissions(
 
 
 async def test_number_sense_sensitivity_set(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, sensor_all: Sensor
+    hass: UniversalAssistant, ufp: MockUFPFixture, sensor_all: Sensor
 ) -> None:
     """Setting the motion sensitivity calls the public API setter."""
 
@@ -591,7 +591,7 @@ async def test_number_sense_sensitivity_set(
 
 
 async def test_number_sense_sensitivity_unavailable_without_public(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, sensor_all: Sensor
+    hass: UniversalAssistant, ufp: MockUFPFixture, sensor_all: Sensor
 ) -> None:
     """The migrated motion sensitivity number is unavailable without a public object."""
 
@@ -604,7 +604,7 @@ async def test_number_sense_sensitivity_unavailable_without_public(
 
 
 async def test_number_sense_sensitivity_unavailable_on_public_disconnect(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, sensor_all: Sensor
+    hass: UniversalAssistant, ufp: MockUFPFixture, sensor_all: Sensor
 ) -> None:
     """Motion sensitivity availability follows the public object's connection state."""
 
@@ -641,7 +641,7 @@ def _paired_ring_settings(
 
 
 async def test_chime_ring_volume_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     chime: Chime,
@@ -672,7 +672,7 @@ async def test_chime_ring_volume_setup(
 
 
 async def test_chime_ring_volume_ignores_local_permissions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     chime: Chime,
     doorbell: Camera,
@@ -690,7 +690,7 @@ async def test_chime_ring_volume_ignores_local_permissions(
 
 
 async def test_chime_ring_volume_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     chime: Chime,
     doorbell: Camera,
@@ -723,7 +723,7 @@ async def test_chime_ring_volume_set_value(
     ],
 )
 async def test_chime_ring_volume_set_value_without_ringtone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     chime: Chime,
     doorbell: Camera,
@@ -748,7 +748,7 @@ async def test_chime_ring_volume_set_value_without_ringtone(
         failing_camera_id
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             "number",
             "set_value",
@@ -761,7 +761,7 @@ async def test_chime_ring_volume_set_value_without_ringtone(
 
 
 async def test_chime_volume_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     chime: Chime,
     doorbell: Camera,
@@ -784,7 +784,7 @@ async def test_chime_volume_set_value(
 
 
 async def test_chime_volume_set_value_without_public_chime(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     chime: Chime,
     doorbell: Camera,
@@ -793,7 +793,7 @@ async def test_chime_volume_set_value_without_public_chime(
     await init_entry(hass, ufp, [chime, doorbell], regenerate_ids=False)
     assert chime.id not in ufp.api.public_bootstrap.chimes
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             "number",
             "set_value",
@@ -807,7 +807,7 @@ async def test_chime_volume_set_value_without_public_chime(
 
 
 async def test_chime_ring_volume_multiple_cameras(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     chime: Chime,
     doorbell: Camera,
@@ -884,7 +884,7 @@ async def test_chime_ring_volume_multiple_cameras(
     ],
 )
 async def test_chime_ring_volume_follows_public(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     chime: Chime,
     doorbell: Camera,
@@ -950,7 +950,7 @@ def _ring_volume_unique_ids(
 
 
 async def test_chime_ring_volume_added_when_public_arrives(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
     ufp: MockUFPFixture,
@@ -981,7 +981,7 @@ async def test_chime_ring_volume_added_when_public_arrives(
 
 
 async def _pair_second_doorbell(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     chime: Chime,
     doorbell: Camera,
@@ -1011,7 +1011,7 @@ async def _pair_second_doorbell(
     ],
 )
 async def test_chime_ring_volume_added_for_new_pairing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     chime: Chime,
     doorbell: Camera,
@@ -1024,7 +1024,7 @@ async def test_chime_ring_volume_added_for_new_pairing(
 
 
 async def test_chime_ring_volume_ignores_unrelated_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     chime: Chime,
     doorbell: Camera,
@@ -1036,7 +1036,7 @@ async def test_chime_ring_volume_ignores_unrelated_change(
 
 
 async def _offer_public_chime(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     chime: Chime,
     ring_settings: list[PublicRingSettings],
@@ -1049,7 +1049,7 @@ async def _offer_public_chime(
 
 
 async def test_chime_ring_volume_skips_chime_adopted_elsewhere(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     chime: Chime,
     doorbell: Camera,
@@ -1068,7 +1068,7 @@ async def test_chime_ring_volume_skips_chime_adopted_elsewhere(
 
 
 async def test_chime_ring_volume_waits_for_private_adopt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     chime: Chime,
     doorbell: Camera,
@@ -1088,7 +1088,7 @@ async def test_chime_ring_volume_waits_for_private_adopt(
 
 
 async def test_chime_ring_volume_restored_on_readopt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     chime: Chime,
@@ -1161,7 +1161,7 @@ async def test_chime_ring_volume_restored_on_readopt(
     ],
 )
 async def test_public_only_number_end_to_end(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     request: pytest.FixtureRequest,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1217,7 +1217,7 @@ async def test_public_only_number_end_to_end(
 
 
 async def test_public_only_number_light_duration_setter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     light: Light,
     ufp_public_only: MockUFPFixture,
@@ -1250,7 +1250,7 @@ def _add_public_cameras(ufp: MockUFPFixture, *cameras: Camera) -> None:
 
 
 async def test_public_only_chime_ring_volume(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     chime: Chime,
     doorbell: Camera,
     ufp_public_only: MockUFPFixture,
@@ -1278,7 +1278,7 @@ async def test_public_only_chime_ring_volume(
 
 
 async def test_public_only_chime_ring_volume_for_added_chime(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     chime: Chime,
     doorbell: Camera,
     ufp_public_only: MockUFPFixture,
@@ -1302,13 +1302,13 @@ async def test_public_only_chime_ring_volume_for_added_chime(
 
 
 async def _reconnect_public_devices_ws(
-    _hass: __HAC_KEEP__, ufp: MockUFPFixture
+    _hass: UniversalAssistant, ufp: MockUFPFixture
 ) -> None:
     """Finish the library's resync after a public websocket reconnect."""
     ufp.public_resync()
 
 
-async def _refresh_manually(hass: __HAC_KEEP__, _ufp: MockUFPFixture) -> None:
+async def _refresh_manually(hass: UniversalAssistant, _ufp: MockUFPFixture) -> None:
     """Refresh through the update_entity action."""
     await async_update_entity(hass, RING_VOLUME_ENTITY)
 
@@ -1321,12 +1321,12 @@ async def _refresh_manually(hass: __HAC_KEEP__, _ufp: MockUFPFixture) -> None:
     ],
 )
 async def test_public_only_chime_ring_volume_added_on_resync(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     chime: Chime,
     doorbell: Camera,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
-    resync: Callable[[__HAC_KEEP__, MockUFPFixture], Coroutine[Any, Any, None]],
+    resync: Callable[[UniversalAssistant, MockUFPFixture], Coroutine[Any, Any, None]],
 ) -> None:
     """A pairing seen only by a resync is added without a device frame."""
     doorbell2 = _second_doorbell(doorbell)
@@ -1352,7 +1352,7 @@ async def test_public_only_chime_ring_volume_added_on_resync(
 
 
 async def test_public_only_chime_ring_volume_added_with_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     chime: Chime,
     doorbell: Camera,
     ufp_public_only: MockUFPFixture,
@@ -1380,7 +1380,7 @@ async def test_public_only_chime_ring_volume_added_with_camera(
 
 
 async def test_public_only_chime_ring_volume_skips_unknown_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     chime: Chime,
     doorbell: Camera,
@@ -1443,7 +1443,7 @@ async def test_public_only_number_gated_out(
 
 
 async def test_public_only_number_added_after_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     light: Light,
     ufp_public_only: MockUFPFixture,
@@ -1501,7 +1501,7 @@ async def test_public_only_number_sense_registry_cleanup(
 
 
 async def test_number_camera_read_only_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,

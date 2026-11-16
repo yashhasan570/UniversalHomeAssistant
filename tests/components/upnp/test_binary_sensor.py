@@ -6,12 +6,12 @@ from async_upnp_client.profiles.igd import IgdDevice, IgdState
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
 from universalassistant.components.upnp.const import DEFAULT_SCAN_INTERVAL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 
 async def test_upnp_binary_sensors(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test normal sensors."""
     # First poll.

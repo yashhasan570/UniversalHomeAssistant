@@ -25,7 +25,7 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CONF_STATE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 
 from .conftest import (
@@ -43,7 +43,7 @@ from .conftest import (
 )
 
 
-async def test_migration_1_2(hass: __HAC_KEEP__, mock_pyairvisual) -> None:
+async def test_migration_1_2(hass: UniversalAssistant, mock_pyairvisual) -> None:
     """Test migrating from version 1 to 2."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -103,7 +103,7 @@ async def test_migration_1_2(hass: __HAC_KEEP__, mock_pyairvisual) -> None:
 
 
 async def test_migration_2_3(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pyairvisual,
     device_registry: dr.DeviceRegistry,
     issue_registry: ir.IssueRegistry,

@@ -14,11 +14,11 @@ from universalassistant.components.trafikverket_ferry.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_API_KEY, CONF_NAME, CONF_WEEKDAY, WEEKDAYS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -62,7 +62,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
     assert result2["result"].unique_id == "eker\u00f6-slagsta-10:00-['mon', 'fri']"
 
 
-async def test_no_time(hass: __HAC_KEEP__) -> None:
+async def test_no_time(hass: UniversalAssistant) -> None:
     """Test flow without specify time."""
 
     result = await hass.config_entries.flow.async_init(
@@ -123,7 +123,7 @@ async def test_no_time(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_flow_fails(
-    hass: __HAC_KEEP__, side_effect: str, base_error: str
+    hass: UniversalAssistant, side_effect: str, base_error: str
 ) -> None:
     """Test config flow errors."""
     result4 = await hass.config_entries.flow.async_init(
@@ -172,7 +172,7 @@ async def test_flow_fails(
     assert result4["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
+async def test_reauth_flow(hass: UniversalAssistant) -> None:
     """Test a reauthentication flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -238,7 +238,7 @@ async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_reauth_flow_error(
-    hass: __HAC_KEEP__, side_effect: Exception, p_error: str
+    hass: UniversalAssistant, side_effect: Exception, p_error: str
 ) -> None:
     """Test a reauthentication flow with error."""
     entry = MockConfigEntry(

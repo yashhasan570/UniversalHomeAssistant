@@ -7,7 +7,7 @@ from typing import override
 from pyecoforest.models.device import Device
 
 from universalassistant.components.number import NumberEntity, NumberEntityDescription
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import EcoforestConfigEntry
@@ -34,7 +34,7 @@ NUMBER_ENTITIES = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: EcoforestConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

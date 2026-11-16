@@ -12,7 +12,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -31,7 +31,7 @@ from universalassistant.data_entry_flow import FlowResultType
     ],
 )
 async def test_global_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connection: Mock,
     endpoint: str,
     expected_endpoint: str,
@@ -62,7 +62,7 @@ async def test_global_key(
     await hass.async_block_till_done(wait_background_tasks=True)
 
 
-async def test_scoped_key(hass: __HAC_KEEP__, mock_connection: Mock) -> None:
+async def test_scoped_key(hass: UniversalAssistant, mock_connection: Mock) -> None:
     """Scoped keys need a tenant UUID but do not require write access."""
     mock_connection.tenants.side_effect = AuthenticationError()
     result = await hass.config_entries.flow.async_init(
@@ -80,7 +80,7 @@ async def test_scoped_key(hass: __HAC_KEEP__, mock_connection: Mock) -> None:
     assert result["step_id"] == "applications"
 
 
-async def test_invalid_auth(hass: __HAC_KEEP__, mock_connection: Mock) -> None:
+async def test_invalid_auth(hass: UniversalAssistant, mock_connection: Mock) -> None:
     """A tenant read disambiguates a scoped key from a rejected credential."""
     mock_connection.tenants.side_effect = AuthenticationError("bad key")
     result = await hass.config_entries.flow.async_init(
@@ -113,7 +113,7 @@ async def test_invalid_auth(hass: __HAC_KEEP__, mock_connection: Mock) -> None:
 
 
 async def test_reauth(
-    hass: __HAC_KEEP__, connection_entry: MockConfigEntry, mock_connection: Mock
+    hass: UniversalAssistant, connection_entry: MockConfigEntry, mock_connection: Mock
 ) -> None:
     """Replace the key while preserving network and device identity."""
     result = await connection_entry.start_reauth_flow(hass)
@@ -126,7 +126,7 @@ async def test_reauth(
     await hass.async_block_till_done(wait_background_tasks=True)
 
 
-async def test_initial_form(hass: __HAC_KEEP__) -> None:
+async def test_initial_form(hass: UniversalAssistant) -> None:
     """Show connection fields before attempting network access."""
     result = await hass.config_entries.flow.async_init(
         "chirpstack", context={"source": SOURCE_USER}
@@ -137,7 +137,7 @@ async def test_initial_form(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("endpoint", ["ftp://server", "http://[invalid"])
 async def test_invalid_endpoint(
-    hass: __HAC_KEEP__, mock_connection: Mock, endpoint: str
+    hass: UniversalAssistant, mock_connection: Mock, endpoint: str
 ) -> None:
     """Keep malformed endpoints in the connection form."""
     with patch(
@@ -175,7 +175,7 @@ async def test_invalid_endpoint(
     ],
 )
 async def test_tenant_listing_failure(
-    hass: __HAC_KEEP__, mock_connection: Mock, error: Exception, error_key: str
+    hass: UniversalAssistant, mock_connection: Mock, error: Exception, error_key: str
 ) -> None:
     """Connection failures allow a retry in the same form."""
     mock_connection.tenants.side_effect = error
@@ -204,7 +204,7 @@ async def test_tenant_listing_failure(
     await hass.async_block_till_done()
 
 
-async def test_multiple_tenants(hass: __HAC_KEEP__, mock_connection: Mock) -> None:
+async def test_multiple_tenants(hass: UniversalAssistant, mock_connection: Mock) -> None:
     """Offer a tenant selector when a key can access several tenants."""
     mock_connection.tenants.return_value = {"tenant": "Home", "second": "Office"}
     result = await hass.config_entries.flow.async_init(
@@ -230,7 +230,7 @@ async def test_multiple_tenants(hass: __HAC_KEEP__, mock_connection: Mock) -> No
     ],
 )
 async def test_application_listing_failure(
-    hass: __HAC_KEEP__, mock_connection: Mock, error: Exception, error_key: str
+    hass: UniversalAssistant, mock_connection: Mock, error: Exception, error_key: str
 ) -> None:
     """Keep the chosen tenant when application enumeration fails."""
     mock_connection.applications.side_effect = error
@@ -259,7 +259,7 @@ async def test_application_listing_failure(
     await hass.async_block_till_done()
 
 
-async def test_no_applications(hass: __HAC_KEEP__, mock_connection: Mock) -> None:
+async def test_no_applications(hass: UniversalAssistant, mock_connection: Mock) -> None:
     """Explain that an application must first be created on the server."""
     mock_connection.applications.return_value = {}
     result = await hass.config_entries.flow.async_init(
@@ -273,7 +273,7 @@ async def test_no_applications(hass: __HAC_KEEP__, mock_connection: Mock) -> Non
     mock_connection.inventory.assert_not_awaited()
 
 
-async def test_empty_selection(hass: __HAC_KEEP__, mock_connection: Mock) -> None:
+async def test_empty_selection(hass: UniversalAssistant, mock_connection: Mock) -> None:
     """An existing application must be selected before creating an entry."""
     result = await hass.config_entries.flow.async_init(
         "chirpstack",
@@ -307,7 +307,7 @@ async def test_empty_selection(hass: __HAC_KEEP__, mock_connection: Mock) -> Non
     ],
 )
 async def test_inventory_access_failure(
-    hass: __HAC_KEEP__, mock_connection: Mock, error: Exception, error_key: str
+    hass: UniversalAssistant, mock_connection: Mock, error: Exception, error_key: str
 ) -> None:
     """Retry inventory connection failures without losing the application selection."""
     mock_connection.inventory.side_effect = error
@@ -337,7 +337,7 @@ async def test_inventory_access_failure(
 
 
 async def test_inventory_auth_failure(
-    hass: __HAC_KEEP__, mock_connection: Mock
+    hass: UniversalAssistant, mock_connection: Mock
 ) -> None:
     """A key without inventory access can be replaced in the same flow."""
     mock_connection.inventory.side_effect = AuthenticationError()
@@ -379,7 +379,7 @@ async def test_inventory_auth_failure(
     ],
 )
 async def test_reauth_rejected_inventory(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection_entry: MockConfigEntry,
     mock_connection: Mock,
     error: Exception,
@@ -405,7 +405,7 @@ async def test_reauth_rejected_inventory(
     await hass.async_block_till_done()
 
 
-async def test_duplicate_network(hass: __HAC_KEEP__, mock_connection: Mock) -> None:
+async def test_duplicate_network(hass: UniversalAssistant, mock_connection: Mock) -> None:
     """The same endpoint and tenant cannot create another provider entry."""
     entry = MockConfigEntry(domain="chirpstack", unique_id="tenant")
     entry.add_to_hass(hass)
@@ -420,7 +420,7 @@ async def test_duplicate_network(hass: __HAC_KEEP__, mock_connection: Mock) -> N
 
 
 async def test_reenter_key_after_tenant_auth_failure(
-    hass: __HAC_KEEP__, mock_connection: Mock
+    hass: UniversalAssistant, mock_connection: Mock
 ) -> None:
     """A bad key can be corrected without abandoning the config flow."""
     mock_connection.tenants.side_effect = AuthenticationError("Rejected")
@@ -461,7 +461,7 @@ async def test_reenter_key_after_tenant_auth_failure(
     ],
 )
 async def test_unexpected_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connection: Mock,
     method: str,
     step: str,
@@ -493,7 +493,7 @@ async def test_unexpected_error(
 
 
 async def test_unexpected_validation_error(
-    hass: __HAC_KEEP__, mock_connection: Mock
+    hass: UniversalAssistant, mock_connection: Mock
 ) -> None:
     """Unexpected validation failures preserve the application selection form."""
     mock_connection.inventory.side_effect = RuntimeError("unexpected")

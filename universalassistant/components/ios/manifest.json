@@ -1,6 +1,6 @@
 {
   "domain": "ios",
-  "name": "__HA_KEEP__ iOS",
+  "name": "Universal Home Assistant iOS",
   "categories": [
     "presence_location.phones_companion_apps",
     "messaging_notifications.push_notifications"

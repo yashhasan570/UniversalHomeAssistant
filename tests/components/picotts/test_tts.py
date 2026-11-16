@@ -15,14 +15,14 @@ from universalassistant.components import tts
 from universalassistant.components.media_player import ATTR_MEDIA_CONTENT_ID
 from universalassistant.components.picotts.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.core_config import async_process_ha_core_config
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 from tests.components.tts.common import retrieve_media
 
 
-async def get_tts_audio(hass: __HAC_KEEP__) -> bytes:
+async def get_tts_audio(hass: UniversalAssistant) -> bytes:
     """Get TTS audio from the Pico TTS entity."""
     stream = tts.async_create_stream(hass, "tts.pico_tts_en_us", "en-US")
     stream.async_set_message("Hello world")
@@ -40,7 +40,7 @@ def mock_tts_cache_dir_autouse(mock_tts_cache_dir: Path) -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_internal_url(hass: __HAC_KEEP__) -> None:
+async def setup_internal_url(hass: UniversalAssistant) -> None:
     """Set up internal url."""
     await async_process_ha_core_config(
         hass, {"internal_url": "http://example.local:8123"}
@@ -49,7 +49,7 @@ async def setup_internal_url(hass: __HAC_KEEP__) -> None:
 
 @pytest.fixture
 async def setup_picotts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nanotts: MagicMock,
     config: dict[str, Any],
 ) -> None:
@@ -80,7 +80,7 @@ def config_fixture() -> dict[str, Any]:
     ],
 )
 async def test_tts_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     service_calls: list[ServiceCall],
     mock_nanotts: MagicMock,
@@ -117,7 +117,7 @@ async def test_tts_service(
 
 @pytest.mark.usefixtures("setup_picotts")
 async def test_get_tts_audio_wav(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nanotts: MagicMock,
 ) -> None:
     """Test raw PCM from the engine is wrapped in a WAV container."""
@@ -138,13 +138,13 @@ async def test_get_tts_audio_wav(
 
 @pytest.mark.usefixtures("setup_picotts")
 async def test_get_tts_audio_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nanotts: MagicMock,
 ) -> None:
     """Test get_tts_audio when synthesis fails."""
     mock_nanotts.speak.side_effect = RuntimeError("pico_putTextUtf8 failed")
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await get_tts_audio(hass)
 
     assert exc_info.value.translation_key == "synthesis_error"

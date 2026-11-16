@@ -19,7 +19,7 @@ from universalassistant.const import (
     CONF_LOCATION,
     CONF_LONGITUDE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 TEST_API_KEY = "abcde12345"
 TEST_ELEVATION = 0
@@ -28,7 +28,7 @@ TEST_LONGITUDE = -0.3817765
 
 
 @pytest.fixture
-async def set_time_zone(hass: __HAC_KEEP__) -> None:
+async def set_time_zone(hass: UniversalAssistant) -> None:
     """Set the time zone for the tests."""
     # Set our timezone to CST/Regina so we can check calculations
     # This keeps UTC-6 all year round
@@ -57,7 +57,7 @@ def client_fixture(data_protection_window, data_uv_index):
 
 @pytest.fixture(name="config_entry")
 def config_entry_fixture(
-    hass: __HAC_KEEP__, config: dict[str, Any]
+    hass: UniversalAssistant, config: dict[str, Any]
 ) -> MockConfigEntry:
     """Define a config entry fixture."""
     entry = MockConfigEntry(
@@ -107,7 +107,7 @@ async def mock_pyopenuv_fixture(client, set_time_zone):
 
 @pytest.fixture(name="setup_config_entry")
 async def setup_config_entry_fixture(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_pyopenuv: None
+    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_pyopenuv: None
 ) -> None:
     """Define a fixture to set up openuv."""
     assert await hass.config_entries.async_setup(config_entry.entry_id)

@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.hortimax.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import API_KEY, ORGANISATION_ID
@@ -19,7 +19,7 @@ NEW_API_KEY = "new-api-key"
 
 
 @pytest.mark.usefixtures("mock_hortos_client", "mock_setup_entry")
-async def test_full_flow(hass: __HAC_KEEP__) -> None:
+async def test_full_flow(hass: UniversalAssistant) -> None:
     """Test the happy path creates an entry keyed on the organisation."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -47,7 +47,7 @@ async def test_full_flow(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_errors_recover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hortos_client: AsyncMock,
     side_effect: Exception,
     error: str,
@@ -75,7 +75,7 @@ async def test_errors_recover(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_no_devices_recovers(
-    hass: __HAC_KEEP__, mock_hortos_client: AsyncMock
+    hass: UniversalAssistant, mock_hortos_client: AsyncMock
 ) -> None:
     """Test an API key without controllers is rejected."""
     mock_hortos_client.get_device_names.return_value = []
@@ -100,7 +100,7 @@ async def test_no_devices_recovers(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_missing_organisation_is_an_error(
-    hass: __HAC_KEEP__, mock_hortos_client: AsyncMock
+    hass: UniversalAssistant, mock_hortos_client: AsyncMock
 ) -> None:
     """Test an entry is never created without the id it is keyed on."""
     tokens = mock_hortos_client.authenticate.return_value
@@ -133,7 +133,7 @@ async def test_missing_organisation_is_an_error(
 
 @pytest.mark.usefixtures("mock_hortos_client", "mock_setup_entry")
 async def test_duplicate_organisation_aborts(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the same organisation cannot be configured twice."""
     mock_config_entry.add_to_hass(hass)
@@ -150,7 +150,7 @@ async def test_duplicate_organisation_aborts(
 
 
 @pytest.mark.usefixtures("mock_hortos_client", "mock_setup_entry")
-async def test_reauth(hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry) -> None:
+async def test_reauth(hass: UniversalAssistant, mock_config_entry: MockConfigEntry) -> None:
     """Test reauthentication replaces the API key."""
     mock_config_entry.add_to_hass(hass)
 
@@ -181,7 +181,7 @@ async def test_reauth(hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry) ->
     ],
 )
 async def test_reauth_errors_recover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hortos_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -212,7 +212,7 @@ async def test_reauth_errors_recover(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_wrong_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hortos_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

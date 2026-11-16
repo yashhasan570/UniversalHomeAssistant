@@ -5,7 +5,7 @@ from pathlib import Path
 
 from aiohttp import web
 
-from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
+from universalassistant.components.http import KEY_HASS, UniversalAssistantView
 
 from .const import CONNECTION_TEST_DATA
 
@@ -16,7 +16,7 @@ CONNECTION_TEST_FILENAME = "connection_test.mp3"
 CONNECTION_TEST_URL_BASE = "/api/assist_satellite/connection_test"
 
 
-class ConnectionTestView(__HAC_KEEP__View):
+class ConnectionTestView(UniversalAssistantView):
     """View to serve an audio sample for connection test."""
 
     requires_auth = False

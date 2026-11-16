@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Literal, TypedDict, override
 
-from universalassistant.core import Event, __HAC_KEEP__, callback, verify_event_loop_thread
+from universalassistant.core import Event, UniversalAssistant, callback, verify_event_loop_thread
 from universalassistant.util.dt import utc_from_timestamp, utcnow
 from universalassistant.util.event_type import EventType
 from universalassistant.util.hass_dict import HassKey
@@ -92,7 +92,7 @@ class CategoryRegistryStore(Store[CategoryRegistryStoreData]):
 class CategoryRegistry(BaseRegistry[CategoryRegistryStoreData]):
     """Class to hold a registry of categories by scope."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the category registry."""
         self.hass = hass
         self.categories: dict[str, dict[str, CategoryEntry]] = {}
@@ -261,12 +261,12 @@ class CategoryRegistry(BaseRegistry[CategoryRegistryStoreData]):
 
 @callback
 @singleton(DATA_REGISTRY)
-def async_get(hass: __HAC_KEEP__) -> CategoryRegistry:
+def async_get(hass: UniversalAssistant) -> CategoryRegistry:
     """Get category registry."""
     return CategoryRegistry(hass)
 
 
-async def async_load(hass: __HAC_KEEP__, *, load_empty: bool = False) -> None:
+async def async_load(hass: UniversalAssistant, *, load_empty: bool = False) -> None:
     """Load category registry."""
     assert DATA_REGISTRY not in hass.data
     await async_get(hass).async_load(load_empty=load_empty)

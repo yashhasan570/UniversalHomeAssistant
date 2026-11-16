@@ -9,7 +9,7 @@ from universalassistant import config as hass_config
 from universalassistant.components.intent_script.const import DOMAIN
 from universalassistant.components.intent_script.services import IntentScriptService
 from universalassistant.const import ATTR_FRIENDLY_NAME, CONF_ACTION
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     area_registry as ar,
     entity_registry as er,
@@ -20,7 +20,7 @@ from universalassistant.helpers import (
 from universalassistant.setup import async_setup_component
 
 
-async def test_intent_script(hass: __HAC_KEEP__) -> None:
+async def test_intent_script(hass: UniversalAssistant) -> None:
     """Test intent scripts work."""
     calls = async_mock_service(hass, "test", "service")
 
@@ -72,7 +72,7 @@ async def test_intent_script(hass: __HAC_KEEP__) -> None:
     assert response.card["simple"]["content"] == "Content for Paulus"
 
 
-async def test_intent_script_wait_response(hass: __HAC_KEEP__) -> None:
+async def test_intent_script_wait_response(hass: UniversalAssistant) -> None:
     """Test intent scripts work."""
     calls = async_mock_service(hass, "test", "service")
 
@@ -127,7 +127,7 @@ async def test_intent_script_wait_response(hass: __HAC_KEEP__) -> None:
     assert response.card["simple"]["content"] == "Content for Paulus"
 
 
-async def test_intent_script_service_response(hass: __HAC_KEEP__) -> None:
+async def test_intent_script_service_response(hass: UniversalAssistant) -> None:
     """Test intent scripts work."""
     calls = async_mock_service(
         hass, "test", "service", response={"some_key": "some value"}
@@ -159,7 +159,7 @@ async def test_intent_script_service_response(hass: __HAC_KEEP__) -> None:
     assert response.speech["plain"]["speech"] == "The service returned some value"
 
 
-async def test_intent_script_falsy_reprompt(hass: __HAC_KEEP__) -> None:
+async def test_intent_script_falsy_reprompt(hass: UniversalAssistant) -> None:
     """Test intent scripts work."""
     calls = async_mock_service(hass, "test", "service")
 
@@ -210,7 +210,7 @@ async def test_intent_script_falsy_reprompt(hass: __HAC_KEEP__) -> None:
 
 
 async def test_intent_script_targets(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
     floor_registry: fr.FloorRegistry,
@@ -310,7 +310,7 @@ async def test_intent_script_targets(
 
 
 async def test_intent_script_action_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -429,7 +429,7 @@ async def test_intent_script_action_validation(
     assert response.speech["plain"]["speech"] == "Done"
 
 
-async def test_reload(hass: __HAC_KEEP__) -> None:
+async def test_reload(hass: UniversalAssistant) -> None:
     """Verify we can reload intent config."""
 
     config = {"intent_script": {"NewIntent1": {"speech": {"text": "HelloWorld123"}}}}
@@ -475,7 +475,7 @@ async def test_reload(hass: __HAC_KEEP__) -> None:
     assert intents.get("NewIntent2") is None
 
 
-async def test_reload_unloads_scripts(hass: __HAC_KEEP__) -> None:
+async def test_reload_unloads_scripts(hass: UniversalAssistant) -> None:
     """Test that reloading intent scripts unloads the action scripts."""
     await async_setup_component(
         hass,

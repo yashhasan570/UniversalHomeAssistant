@@ -13,8 +13,8 @@ from universalassistant.components.smlight.services import (
     SmlightServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import setup_integration
@@ -59,7 +59,7 @@ TEST_RTTTL_NO_BPM = "S:o=5:16e6,16e6"
     ids=["all_fields", "no_duration", "no_bpm"],
 )
 async def test_play_rtttl_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ultima_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -88,7 +88,7 @@ async def test_play_rtttl_service(
 
 
 async def test_play_rtttl_service_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -123,7 +123,7 @@ async def test_play_rtttl_service_not_supported(
 
 @pytest.mark.usefixtures("mock_smlight_client")
 async def test_play_rtttl_service_no_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test play_rtttl service raises for unknown device."""
@@ -147,7 +147,7 @@ async def test_play_rtttl_service_no_device(
 
 
 async def test_play_rtttl_service_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ultima_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -163,7 +163,7 @@ async def test_play_rtttl_service_error(
     assert len(devices) == 1
     device_id = devices[0].id
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             SmlightService.PLAY_RTTTL,

@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.flow_it.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -22,7 +22,7 @@ USER_INPUT = {
 }
 
 
-async def test_user_flow(hass: __HAC_KEEP__, mock_ariaq: AsyncMock) -> None:
+async def test_user_flow(hass: UniversalAssistant, mock_ariaq: AsyncMock) -> None:
     """Test we get the form and create an entry."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -49,7 +49,7 @@ async def test_user_flow(hass: __HAC_KEEP__, mock_ariaq: AsyncMock) -> None:
     ],
 )
 async def test_user_flow_exceptions(
-    hass: __HAC_KEEP__, mock_ariaq: AsyncMock, exception: Exception, error: str
+    hass: UniversalAssistant, mock_ariaq: AsyncMock, exception: Exception, error: str
 ) -> None:
     """Test we handle exceptions."""
     result = await hass.config_entries.flow.async_init(
@@ -79,7 +79,7 @@ async def test_user_flow_exceptions(
     assert result["result"].unique_id == "001122334455"
 
 
-async def test_zeroconf(hass: __HAC_KEEP__, mock_ariaq: AsyncMock) -> None:
+async def test_zeroconf(hass: UniversalAssistant, mock_ariaq: AsyncMock) -> None:
     """Test zeroconf discovery."""
     discovery_info = ZeroconfServiceInfo(
         ip_address=ip_address("1.1.1.1"),
@@ -127,7 +127,7 @@ async def test_zeroconf(hass: __HAC_KEEP__, mock_ariaq: AsyncMock) -> None:
     ],
 )
 async def test_zeroconf_exceptions(
-    hass: __HAC_KEEP__, mock_ariaq: AsyncMock, exception: Exception, error: str
+    hass: UniversalAssistant, mock_ariaq: AsyncMock, exception: Exception, error: str
 ) -> None:
     """Test zeroconf exceptions."""
     discovery_info = ZeroconfServiceInfo(
@@ -180,7 +180,7 @@ async def test_zeroconf_exceptions(
 
 
 async def test_user_already_configured(
-    hass: __HAC_KEEP__, mock_ariaq: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_ariaq: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test user already configured."""
     result = await hass.config_entries.flow.async_init(
@@ -197,7 +197,7 @@ async def test_user_already_configured(
 
 
 async def test_zeroconf_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test zeroconf already configured aborts."""
     discovery_info = ZeroconfServiceInfo(
@@ -220,7 +220,7 @@ async def test_zeroconf_already_configured(
     assert result["reason"] == "already_configured"
 
 
-async def test_user_flow_with_http(hass: __HAC_KEEP__, mock_ariaq: AsyncMock) -> None:
+async def test_user_flow_with_http(hass: UniversalAssistant, mock_ariaq: AsyncMock) -> None:
     """Test form with http:// already in host."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -238,7 +238,7 @@ async def test_user_flow_with_http(hass: __HAC_KEEP__, mock_ariaq: AsyncMock) ->
 
 
 async def test_reauth_flow(
-    hass: __HAC_KEEP__, mock_ariaq: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_ariaq: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reauthentication flow."""
     result = await mock_config_entry.start_reauth_flow(hass)
@@ -273,7 +273,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_flow_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ariaq: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: type[Exception],
@@ -301,7 +301,7 @@ async def test_reauth_flow_exceptions(
 
 
 async def test_reauth_flow_unique_id_mismatch(
-    hass: __HAC_KEEP__, mock_ariaq: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_ariaq: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reauthentication aborts when a different device responds."""
     result = await mock_config_entry.start_reauth_flow(hass)

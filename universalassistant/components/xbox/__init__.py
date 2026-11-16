@@ -8,7 +8,7 @@ from pythonxbox.api.client import XboxLiveClient
 
 from universalassistant.config_entries import ConfigSubentry
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.config_entry_oauth2_flow import (
@@ -41,7 +41,7 @@ PLATFORMS = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: XboxConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: XboxConfigEntry) -> None:
     """Set up xbox from a config entry."""
 
     implementation = await async_get_config_entry_implementation(hass, entry)
@@ -68,19 +68,19 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: XboxConfigEntry) -> None:
     entry.async_on_unload(entry.add_update_listener(_async_update_listener))
 
 
-async def _async_update_listener(hass: __HAC_KEEP__, entry: XboxConfigEntry) -> None:
+async def _async_update_listener(hass: UniversalAssistant, entry: XboxConfigEntry) -> None:
     """Handle update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: XboxConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: XboxConfigEntry) -> None:
     """Unload a config entry."""
 
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: XboxConfigEntry,
     device_entry: dr.AnyDeviceEntry,
 ) -> bool:
@@ -100,7 +100,7 @@ async def async_remove_config_entry_device(
     )
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: XboxConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: XboxConfigEntry) -> None:
     """Migrate config entry."""
 
     if entry.version == 1 and entry.minor_version < 3:
@@ -133,7 +133,7 @@ async def async_migrate_entry(hass: __HAC_KEEP__, entry: XboxConfigEntry) -> Non
                 unique_id=client.xuid,
                 title=(
                     own.people[0].gamertag
-                    if entry.title == "__HA_KEEP__ Cloud"
+                    if entry.title == "Universal Home Assistant Cloud"
                     else entry.title
                 ),
                 minor_version=2,

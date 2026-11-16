@@ -11,7 +11,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.lidarr.const import DEFAULT_NAME, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_SOURCE, CONTENT_TYPE_JSON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import API_URL, CONF_DATA, MOCK_INPUT, URL, ComponentSetup
@@ -19,7 +19,7 @@ from .conftest import API_URL, CONF_DATA, MOCK_INPUT, URL, ComponentSetup
 
 @asynccontextmanager
 async def _patch_connection(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> AsyncGenerator[None]:
     """Mock a working Lidarr connection and skip entry setup."""
     aioclient_mock.clear_requests()
@@ -37,7 +37,7 @@ async def _patch_connection(
         yield
 
 
-async def test_flow_user_form(hass: __HAC_KEEP__, connection) -> None:
+async def test_flow_user_form(hass: UniversalAssistant, connection) -> None:
     """Test that the user set up form is served."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -58,7 +58,7 @@ async def test_flow_user_form(hass: __HAC_KEEP__, connection) -> None:
 
 @pytest.mark.usefixtures("invalid_auth")
 async def test_flow_user_invalid_auth(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test invalid authentication."""
     result = await hass.config_entries.flow.async_init(
@@ -80,7 +80,7 @@ async def test_flow_user_invalid_auth(
 
 @pytest.mark.usefixtures("cannot_connect")
 async def test_flow_user_cannot_connect(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test connection error."""
     result = await hass.config_entries.flow.async_init(
@@ -103,7 +103,7 @@ async def test_flow_user_cannot_connect(
 
 @pytest.mark.usefixtures("wrong_app")
 async def test_wrong_app(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test we show user form on wrong app."""
     result = await hass.config_entries.flow.async_init(
@@ -126,7 +126,7 @@ async def test_wrong_app(
 
 @pytest.mark.usefixtures("zeroconf_failed")
 async def test_zeroconf_failed(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test we show user form on zeroconf failure."""
     result = await hass.config_entries.flow.async_init(
@@ -149,7 +149,7 @@ async def test_zeroconf_failed(
 
 @pytest.mark.usefixtures("unknown")
 async def test_flow_user_unknown_error(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test unknown error."""
     result = await hass.config_entries.flow.async_init(
@@ -173,7 +173,7 @@ async def test_flow_user_unknown_error(
 
 
 async def test_flow_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     connection,
     config_entry: MockConfigEntry,

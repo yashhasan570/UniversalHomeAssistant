@@ -8,13 +8,13 @@ import pytest
 from pytest_universalassistant.common import get_system_health_info
 
 from universalassistant.components.lovelace import DOMAIN, dashboard
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(autouse=True)
 def mock_onboarding_done() -> Generator[MagicMock]:
-    """Mock that __HA_KEEP__ is currently onboarding.
+    """Mock that Universal Home Assistant is currently onboarding.
 
     Enabled to prevent creating default dashboards during test execution.
     """
@@ -25,7 +25,7 @@ def mock_onboarding_done() -> Generator[MagicMock]:
         yield mock_onboarding
 
 
-async def test_system_health_info_autogen(hass: __HAC_KEEP__) -> None:
+async def test_system_health_info_autogen(hass: UniversalAssistant) -> None:
     """Test system health info endpoint."""
     assert await async_setup_component(hass, DOMAIN, {})
     assert await async_setup_component(hass, "system_health", {})
@@ -34,7 +34,7 @@ async def test_system_health_info_autogen(hass: __HAC_KEEP__) -> None:
 
 
 async def test_system_health_info_storage_migration(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test system health info endpoint after migration from old storage."""
     assert await async_setup_component(hass, "system_health", {})
@@ -52,7 +52,7 @@ async def test_system_health_info_storage_migration(
     assert info == {"dashboards": 2, "mode": "storage", "resources": 0, "views": 0}
 
 
-async def test_system_health_info_yaml(hass: __HAC_KEEP__) -> None:
+async def test_system_health_info_yaml(hass: UniversalAssistant) -> None:
     """Test system health info endpoint."""
     assert await async_setup_component(hass, "system_health", {})
     assert await async_setup_component(
@@ -80,7 +80,7 @@ async def test_system_health_info_yaml(hass: __HAC_KEEP__) -> None:
     assert info == {"dashboards": 2, "mode": "yaml", "resources": 0, "views": 1}
 
 
-async def test_system_health_info_yaml_not_found(hass: __HAC_KEEP__) -> None:
+async def test_system_health_info_yaml_not_found(hass: UniversalAssistant) -> None:
     """Test system health info endpoint."""
     assert await async_setup_component(hass, "system_health", {})
     assert await async_setup_component(

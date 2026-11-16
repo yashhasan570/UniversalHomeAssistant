@@ -11,14 +11,14 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
 
 @pytest.mark.usefixtures("mock_my_pv_client")
 async def test_setup_entry_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test successful setup of a config entry."""
@@ -28,7 +28,7 @@ async def test_setup_entry_success(
 
 
 async def test_setup_entry_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -43,7 +43,7 @@ async def test_setup_entry_cannot_connect(
 
 
 async def test_setup_entry_unsupported_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -59,7 +59,7 @@ async def test_setup_entry_unsupported_device(
 
 
 async def test_setup_entry_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -74,7 +74,7 @@ async def test_setup_entry_auth_error(
 
 
 async def test_setup_entry_failed_first_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -90,7 +90,7 @@ async def test_setup_entry_failed_first_refresh(
 
 @pytest.mark.usefixtures("mock_my_pv_client")
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test unloading a config entry."""

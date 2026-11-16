@@ -14,7 +14,7 @@ from universalassistant.components.nobo_hub.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_IP_ADDRESS, CONF_MAC, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import (
@@ -37,7 +37,7 @@ def platforms(request: pytest.FixtureRequest) -> list[Platform]:
 
 
 async def test_setup_uses_stored_ip(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nobo_class: MagicMock,
 ) -> None:
@@ -53,7 +53,7 @@ async def test_setup_uses_stored_ip(
 
 
 async def test_setup_rediscovery_updates_ip(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nobo_class: MagicMock,
 ) -> None:
@@ -75,7 +75,7 @@ async def test_setup_rediscovery_updates_ip(
 
 
 async def test_setup_retries_when_rediscovery_finds_nothing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nobo_class: MagicMock,
 ) -> None:
@@ -98,7 +98,7 @@ async def test_setup_retries_when_rediscovery_finds_nothing(
 
 
 async def test_setup_retries_when_rediscovered_ip_also_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nobo_class: MagicMock,
 ) -> None:
@@ -123,7 +123,7 @@ async def test_setup_retries_when_rediscovered_ip_also_fails(
 
 
 async def test_setup_does_not_catch_plain_os_error_on_rediscovered_ip(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nobo_class: MagicMock,
 ) -> None:
@@ -154,7 +154,7 @@ async def test_setup_does_not_catch_plain_os_error_on_rediscovered_ip(
     ids=["Constant", "Now", "already_lowercase", "no_options"],
 )
 async def test_migrate_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nobo_class: MagicMock,
     stored_options: dict[str, str],
     expected_options: dict[str, str],
@@ -181,7 +181,7 @@ async def test_migrate_options(
 
 
 async def test_migrate_data_drops_auto_discovered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nobo_class: MagicMock,
 ) -> None:
     """The auto_discovered key is stripped from entry.data on migration."""
@@ -210,7 +210,7 @@ async def test_migrate_data_drops_auto_discovered(
 
 
 async def test_setup_registers_hub_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_nobo_class: MagicMock,
@@ -235,7 +235,7 @@ async def test_setup_registers_hub_device(
 
 
 async def test_setup_registers_hub_device_with_mac(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_nobo_class: MagicMock,
 ) -> None:
@@ -294,7 +294,7 @@ async def test_zone_and_component_devices_link_to_hub(
 
 
 @pytest.mark.usefixtures("init_integration")
-async def test_entity_available_when_hub_connected(hass: __HAC_KEEP__) -> None:
+async def test_entity_available_when_hub_connected(hass: UniversalAssistant) -> None:
     """Entities are available when the hub reports connected."""
     state = hass.states.get(GLOBAL_ENTITY)
     assert state is not None
@@ -303,7 +303,7 @@ async def test_entity_available_when_hub_connected(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entity_unavailable_on_disconnect_and_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nobo_hub: MagicMock,
 ) -> None:
     """Entities become unavailable on disconnect and recover on reconnect."""
@@ -318,7 +318,7 @@ async def test_entity_unavailable_on_disconnect_and_recovers(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_log_on_disconnect_and_reconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nobo_hub: MagicMock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -342,7 +342,7 @@ async def test_log_on_disconnect_and_reconnect(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_connection_callbacks_deregistered_on_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nobo_hub: MagicMock,
 ) -> None:
@@ -359,7 +359,7 @@ async def test_connection_callbacks_deregistered_on_unload(
 @pytest.mark.parametrize("platforms", [[Platform.CLIMATE]], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_zone_removed_during_disconnect_stays_unavailable_on_reconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nobo_hub: MagicMock,
 ) -> None:
     """A zone removed via the Nobø app while disconnected stays unavailable on reconnect.
@@ -386,7 +386,7 @@ async def test_zone_removed_during_disconnect_stays_unavailable_on_reconnect(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_removed_zone_removes_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nobo_hub: MagicMock,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
@@ -406,7 +406,7 @@ async def test_removed_zone_removes_device(
 @pytest.mark.parametrize("platforms", [[Platform.SENSOR]], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_removed_component_removes_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nobo_hub: MagicMock,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
@@ -423,7 +423,7 @@ async def test_removed_component_removes_device(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_disconnected_hub_does_not_remove_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nobo_hub: MagicMock,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
@@ -447,7 +447,7 @@ async def test_disconnected_hub_does_not_remove_devices(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_disconnect_does_not_readd_entities_on_reconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nobo_hub: MagicMock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -475,7 +475,7 @@ async def test_disconnect_does_not_readd_entities_on_reconnect(
 @pytest.mark.parametrize("platforms", [[Platform.CLIMATE]], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_buffered_remove_then_readd_same_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nobo_hub: MagicMock,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -513,11 +513,11 @@ async def test_buffered_remove_then_readd_same_id(
 
 @pytest.mark.usefixtures("mock_nobo_class")
 async def test_stale_device_pruned_at_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
-    """A device for a zone removed while __HA_KEEP__ was down is pruned at setup."""
+    """A device for a zone removed while Universal Home Assistant was down is pruned at setup."""
     mock_config_entry.add_to_hass(hass)
     stale_device = (DOMAIN, f"{SERIAL}:99")
     device_registry.async_get_or_create(

@@ -21,7 +21,7 @@ from universalassistant.const import (
     CONF_TYPE,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -37,12 +37,12 @@ from .const import (
 )
 
 
-async def test_async_setup(hass: __HAC_KEEP__) -> None:
+async def test_async_setup(hass: UniversalAssistant) -> None:
     """Test the midea domain can be set up without any config entries."""
     assert await async_setup_component(hass, DOMAIN, {})
 
 
-async def test_unload_entry(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def test_unload_entry(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Test async_unload_entry unloads platforms and closes the device."""
     config_entry.add_to_hass(hass)
     device = DummyDevice(DeviceType.AC)
@@ -58,9 +58,9 @@ async def test_unload_entry(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -
 
 
 async def test_close_on_universalassistant_stop(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
-    """Test the device is closed when __HA_KEEP__ stops."""
+    """Test the device is closed when Universal Home Assistant stops."""
     config_entry.add_to_hass(hass)
     device = DummyDevice(DeviceType.AC)
     with patch(
@@ -77,7 +77,7 @@ async def test_close_on_universalassistant_stop(
 
 
 async def test_logs_once_when_device_unavailable_and_back(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -107,7 +107,7 @@ async def test_logs_once_when_device_unavailable_and_back(
 
 
 async def test_async_setup_entry_paths(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test async_setup_entry for success and no-device return."""
     config_entry.add_to_hass(hass)
@@ -133,7 +133,7 @@ async def test_async_setup_entry_paths(
 
 
 async def test_setup_entry_not_ready_on_connect_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test async_setup_entry raises ConfigEntryNotReady when connect returns False.
@@ -157,7 +157,7 @@ async def test_setup_entry_not_ready_on_connect_failure(
 
 
 async def test_setup_entry_recovers_ip_on_connect_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test async_setup_entry loads successfully after discovering a moved device.
@@ -188,7 +188,7 @@ async def test_setup_entry_recovers_ip_on_connect_failure(
 
 
 async def test_setup_entry_no_recovery_when_device_not_discovered(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test the stored IP is left untouched when discovery finds no match."""
     config_entry.add_to_hass(hass)
@@ -210,7 +210,7 @@ async def test_setup_entry_no_recovery_when_device_not_discovered(
 
 
 async def test_migrate_entry_backfills_mac_and_serial_number(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test migration to minor_version 2 backfills mac and serial number."""
     entry = MockConfigEntry(domain=DOMAIN, data=ENTRY_DATA, minor_version=1)
@@ -240,7 +240,7 @@ async def test_migrate_entry_backfills_mac_and_serial_number(
 
 
 async def test_migrate_entry_drops_empty_mac_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test migration removes a leftover empty network-mac connection."""
@@ -295,7 +295,7 @@ async def test_migrate_entry_drops_empty_mac_connection(
     assert device_entry.connections == {(dr.CONNECTION_NETWORK_MAC, TEST_MAC_ADDRESS)}
 
 
-async def test_migrate_entry_without_discovery_result(hass: __HAC_KEEP__) -> None:
+async def test_migrate_entry_without_discovery_result(hass: UniversalAssistant) -> None:
     """Test migration still completes when discovery finds nothing."""
     entry = MockConfigEntry(domain=DOMAIN, data=ENTRY_DATA, minor_version=1)
     entry.add_to_hass(hass)
@@ -337,7 +337,7 @@ async def test_migrate_entry_without_discovery_result(hass: __HAC_KEEP__) -> Non
     ],
 )
 async def test_setup_converts_stored_subtype(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     stored_subtype: str | None,
     expected: int,

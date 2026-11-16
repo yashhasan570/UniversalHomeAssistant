@@ -7,11 +7,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.slimproto.const import DEFAULT_NAME, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_full_user_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_full_user_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test the full user configuration flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -26,7 +26,7 @@ async def test_full_user_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test abort if SlimProto Player is already configured."""
     mock_config_entry.add_to_hass(hass)

@@ -6,14 +6,14 @@ from devolo_home_control_api.devices.zwave import Zwave
 from devolo_home_control_api.homecontrol import HomeControl
 
 from universalassistant.components.climate import (
-    ATTR_TEMPERATURE,
     ClimateEntity,
     ClimateEntityFeature,
+    ClimateServiceArgument,
     HVACMode,
 )
 from universalassistant.const import PRECISION_HALVES, PRECISION_TENTHS, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import DevoloHomeControlConfigEntry
@@ -22,7 +22,7 @@ from .entity import DevoloMultiLevelSwitchDeviceEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: DevoloHomeControlConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -101,8 +101,10 @@ class DevoloClimateDeviceEntity(DevoloMultiLevelSwitchDeviceEntity, ClimateEntit
     @override
     def set_temperature(self, **kwargs: Any) -> None:
         """Set new target temperature."""
-        if not self._multi_level_switch_property.set(kwargs[ATTR_TEMPERATURE]):
-            raise __HAC_KEEP__Error(
+        if not self._multi_level_switch_property.set(
+            kwargs[ClimateServiceArgument.TEMPERATURE]
+        ):
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_failed",
             )

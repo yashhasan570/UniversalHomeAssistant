@@ -19,7 +19,7 @@ from universalassistant import config_entries
 from universalassistant.components.skoda.const import CONF_VIN, DOMAIN
 from universalassistant.config_entries import ConfigFlowResult
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_validation as cv
 
@@ -49,7 +49,7 @@ API_ERRORS = [
 ]
 
 
-async def _init_flow(hass: __HAC_KEEP__) -> ConfigFlowResult:
+async def _init_flow(hass: UniversalAssistant) -> ConfigFlowResult:
     """Start the user config flow."""
     return await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -57,7 +57,7 @@ async def _init_flow(hass: __HAC_KEEP__) -> ConfigFlowResult:
 
 
 async def _configure_flow(
-    hass: __HAC_KEEP__, flow_id: str, user_input: dict | None = None
+    hass: UniversalAssistant, flow_id: str, user_input: dict | None = None
 ) -> ConfigFlowResult:
     """Submit the vehicle data form."""
     return await hass.config_entries.flow.async_configure(
@@ -65,7 +65,7 @@ async def _configure_flow(
     )
 
 
-async def test_form_shown(hass: __HAC_KEEP__) -> None:
+async def test_form_shown(hass: UniversalAssistant) -> None:
     """Test we get the form."""
     result = await _init_flow(hass)
 
@@ -85,7 +85,7 @@ def _serialized_api_key_field(result: ConfigFlowResult) -> dict:
     )
 
 
-async def test_user_form_masks_api_key(hass: __HAC_KEEP__) -> None:
+async def test_user_form_masks_api_key(hass: UniversalAssistant) -> None:
     """Test the API key is entered in a masked password field."""
     result = await _init_flow(hass)
 
@@ -93,7 +93,7 @@ async def test_user_form_masks_api_key(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_skoda_client")
-async def test_success(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_success(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test successful flow with a vehicle that reports its name."""
     result = await _init_flow(hass)
     result = await _configure_flow(hass, result["flow_id"])
@@ -109,7 +109,7 @@ async def test_success(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
 
 
 async def test_success_without_vehicle_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_skoda_client: AsyncMock,
 ) -> None:
@@ -126,7 +126,7 @@ async def test_success_without_vehicle_name(
 
 
 async def test_invalid_vin_length(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_skoda_client: AsyncMock,
 ) -> None:
@@ -149,7 +149,7 @@ async def test_invalid_vin_length(
 
 @pytest.mark.usefixtures("mock_skoda_client")
 async def test_duplicate_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that the same VIN cannot be configured twice."""
     mock_config_entry.add_to_hass(hass)
@@ -163,7 +163,7 @@ async def test_duplicate_entry(
 
 @pytest.mark.parametrize(("exception", "expected_error"), API_ERRORS)
 async def test_api_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: Exception,
     expected_error: str,
     mock_setup_entry: AsyncMock,
@@ -189,7 +189,7 @@ async def test_api_errors(
 
 
 async def test_reauth_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     mock_skoda_client: AsyncMock,
@@ -216,7 +216,7 @@ async def test_reauth_success(
 
 @pytest.mark.parametrize(("exception", "expected_error"), API_ERRORS)
 async def test_reauth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: Exception,
     expected_error: str,
     mock_config_entry: MockConfigEntry,

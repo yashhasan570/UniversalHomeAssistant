@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.update import ATTR_INSTALLED_VERSION
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import entity_registry as er
 
 
@@ -32,7 +32,7 @@ async def update_only() -> AsyncGenerator[None]:
 
 @pytest.mark.usefixtures("mock_pynecil", "ble_device")
 async def test_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -62,7 +62,7 @@ async def test_update(
 
 @pytest.mark.usefixtures("ble_device", "mock_pynecil")
 async def test_update_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_ironosupdate: AsyncMock,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_update_unavailable(
 
 @pytest.mark.usefixtures("ble_device")
 async def test_update_restore_last_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_pynecil: AsyncMock,
 ) -> None:

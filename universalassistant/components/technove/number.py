@@ -13,7 +13,7 @@ from universalassistant.components.number import (
     NumberMode,
 )
 from universalassistant.const import EntityCategory, UnitOfElectricCurrent
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -65,7 +65,7 @@ NUMBERS = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: TechnoVEConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

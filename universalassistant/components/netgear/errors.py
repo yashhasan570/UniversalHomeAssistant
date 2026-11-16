@@ -1,9 +1,9 @@
 """Errors for the Netgear component."""
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 
-class NetgearException(__HAC_KEEP__Error):
+class NetgearException(UniversalAssistantError):
     """Base class for Netgear exceptions."""
 
 

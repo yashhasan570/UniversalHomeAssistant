@@ -17,7 +17,7 @@ from universalassistant.components.cloud.prefs import (
     GOOGLE_SETTINGS_VERSION,
     CloudPreferences,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 PIPELINE_DATA = {
@@ -27,7 +27,7 @@ PIPELINE_DATA = {
             "conversation_language": "language_1",
             "id": "01GX8ZWBAQYWNB1XV3EXEZ75DY",
             "language": "language_1",
-            "name": "__HA_KEEP__ Cloud",
+            "name": "Universal Home Assistant Cloud",
             "stt_engine": "cloud",
             "stt_language": "language_1",
             "tts_engine": "cloud",
@@ -87,7 +87,7 @@ PIPELINE_DATA = {
 }
 
 
-async def mock_cloud(hass: __HAC_KEEP__, config: dict[str, Any] | None = None) -> None:
+async def mock_cloud(hass: UniversalAssistant, config: dict[str, Any] | None = None) -> None:
     """Mock cloud."""
     # The universalassistant integration is needed by cloud. It's not in it's requirements
     # because it's always setup by bootstrap. Set it up manually in tests.
@@ -99,7 +99,7 @@ async def mock_cloud(hass: __HAC_KEEP__, config: dict[str, Any] | None = None) -
         await cloud_inst.initialize()
 
 
-def mock_cloud_prefs(hass: __HAC_KEEP__, prefs: dict[str, Any]) -> CloudPreferences:
+def mock_cloud_prefs(hass: UniversalAssistant, prefs: dict[str, Any]) -> CloudPreferences:
     """Fixture for cloud component."""
     prefs_to_set = {
         PREF_ALEXA_SETTINGS_VERSION: ALEXA_SETTINGS_VERSION,

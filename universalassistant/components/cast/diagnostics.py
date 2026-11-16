@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.media_player import DOMAIN as MEDIA_PLAYER_DOMAIN
 from universalassistant.const import CONF_UUID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import CastConfigEntry
@@ -12,7 +12,7 @@ from .const import CONF_IGNORE_CEC, CONF_KNOWN_HOSTS, DOMAIN
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: CastConfigEntry
+    hass: UniversalAssistant, entry: CastConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     runtime_data = entry.runtime_data

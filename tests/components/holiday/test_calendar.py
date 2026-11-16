@@ -18,7 +18,7 @@ from universalassistant.components.holiday.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_COUNTRY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -28,7 +28,7 @@ from universalassistant.util import dt as dt_util
     "time_zone", ["Asia/Tokyo", "Europe/Berlin", "America/Chicago", "US/Hawaii"]
 )
 async def test_holiday_calendar_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     time_zone: str,
 ) -> None:
@@ -116,7 +116,7 @@ async def test_holiday_calendar_entity(
     "time_zone", ["Asia/Tokyo", "Europe/Berlin", "America/Chicago", "US/Hawaii"]
 )
 async def test_default_language(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     time_zone: str,
 ) -> None:
@@ -193,7 +193,7 @@ async def test_default_language(
     "time_zone", ["Asia/Tokyo", "Europe/Berlin", "America/Chicago", "US/Hawaii"]
 )
 async def test_no_language(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     time_zone: str,
 ) -> None:
@@ -240,7 +240,7 @@ async def test_no_language(
     "time_zone", ["Asia/Tokyo", "Europe/Berlin", "America/Chicago", "US/Hawaii"]
 )
 async def test_no_next_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     time_zone: str,
 ) -> None:
@@ -273,7 +273,7 @@ async def test_no_next_event(
     "time_zone", ["Asia/Tokyo", "Europe/Berlin", "America/Chicago", "US/Hawaii"]
 )
 async def test_language_not_exist(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     time_zone: str,
 ) -> None:
@@ -362,7 +362,7 @@ async def test_language_not_exist(
 
 
 async def test_categories(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test if there is no next event."""
@@ -435,7 +435,7 @@ async def test_categories(
 
 
 async def test_no_update_when_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,

@@ -7,7 +7,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.agent_dvr.const import DOMAIN
 from universalassistant.components.alarm_control_panel import AlarmControlPanelState
 from universalassistant.const import CONTENT_TYPE_JSON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_component import async_update_entity
 
 from . import init_integration
@@ -26,7 +26,7 @@ ENTITY_ID = "alarm_control_panel.desktop_alarm_panel"
     ids=["home", "night", "away", "no_active_profile"],
 )
 async def test_armed_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     profiles: list[dict],
     expected: AlarmControlPanelState,

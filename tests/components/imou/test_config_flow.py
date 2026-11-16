@@ -24,7 +24,7 @@ from universalassistant.config_entries import (
     ConfigEntryDisabler,
     ConfigEntryState,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -40,7 +40,7 @@ NEW_APP_SECRET = "new_app_secret"
 
 
 async def test_user_flow_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_imou_openapi_client: AsyncMock,
 ) -> None:
@@ -66,7 +66,7 @@ async def test_user_flow_success(
 
 
 async def test_user_flow_duplicate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_imou_openapi_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -98,7 +98,7 @@ async def test_user_flow_duplicate_entry(
     ],
 )
 async def test_user_flow_exception_then_recover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_imou_openapi_client: AsyncMock,
     side_effect: Exception,
@@ -138,7 +138,7 @@ async def test_user_flow_exception_then_recover(
 
 @pytest.mark.parametrize("region", ["sg", "eu", "na", "cn"])
 async def test_user_flow_success_per_region(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_imou_openapi_client: AsyncMock,
     region: str,
@@ -176,7 +176,7 @@ async def test_user_flow_success_per_region(
     ],
 )
 async def test_user_flow_uses_region_host(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     region: str,
     host: str,
@@ -211,7 +211,7 @@ async def test_user_flow_uses_region_host(
 
 
 async def test_dhcp_discovery_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_imou_openapi_client: AsyncMock,
 ) -> None:
@@ -238,7 +238,7 @@ async def test_dhcp_discovery_success(
 
 
 async def test_dhcp_discovery_aborts_when_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Any existing Imou entry suppresses further DHCP discovery."""
@@ -255,7 +255,7 @@ async def test_dhcp_discovery_aborts_when_already_configured(
 
 
 async def test_dhcp_discovery_aborts_when_user_flow_in_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """DHCP discovery does not sit beside an unfinished manual setup."""
     result = await hass.config_entries.flow.async_init(
@@ -275,7 +275,7 @@ async def test_dhcp_discovery_aborts_when_user_flow_in_progress(
 
 
 async def test_dhcp_discovery_invalid_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_imou_openapi_client: AsyncMock,
 ) -> None:
@@ -317,7 +317,7 @@ async def test_dhcp_discovery_invalid_auth(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_imou_openapi_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -351,7 +351,7 @@ async def test_reauth_flow_success(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_exception_then_recover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_imou_openapi_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -386,7 +386,7 @@ async def test_reauth_flow_exception_then_recover(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_unique_id_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_imou_openapi_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -406,7 +406,7 @@ async def test_reauth_unique_id_mismatch(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_imou_openapi_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -433,7 +433,7 @@ async def test_reconfigure_flow_success(
 
 @pytest.mark.usefixtures("mock_imou_ha_device_manager")
 async def test_reconfigure_migrates_legacy_region_before_saving(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A disabled legacy entry keeps the region chosen while it is reconfigured."""
     entry = MockConfigEntry(
@@ -492,7 +492,7 @@ async def test_reconfigure_migrates_legacy_region_before_saving(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_exception_then_recover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_imou_openapi_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -531,7 +531,7 @@ async def test_reconfigure_flow_exception_then_recover(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_unique_id_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_imou_openapi_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

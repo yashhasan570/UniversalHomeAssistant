@@ -5,11 +5,11 @@ from unittest.mock import AsyncMock, patch
 from universalassistant.components.geonetnz_volcano.const import DOMAIN
 from universalassistant.config_entries import async_setup_component
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE, CONF_RADIUS
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 
 
-async def test_component_unload_config_entry(hass: __HAC_KEEP__, config_entry) -> None:
+async def test_component_unload_config_entry(hass: UniversalAssistant, config_entry) -> None:
     """Test that loading and unloading of a config entry works."""
     config_entry.add_to_hass(hass)
     with patch(
@@ -27,7 +27,7 @@ async def test_component_unload_config_entry(hass: __HAC_KEEP__, config_entry) -
 
 
 async def test_import(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test yaml import."""

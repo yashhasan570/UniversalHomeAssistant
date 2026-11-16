@@ -15,7 +15,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.smhi import PLATFORMS
 from universalassistant.components.smhi.const import DOMAIN
 from universalassistant.const import CONF_LATITUDE, CONF_LOCATION, CONF_LONGITUDE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import TEST_CONFIG
 
@@ -37,7 +37,7 @@ async def patch_platform_constant() -> list[Platform]:
 
 @pytest.fixture
 async def load_int(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: SMHIPointForecast,
     mock_fire_client: SMHIFirePointForecast,
     load_platforms: list[Platform],
@@ -65,7 +65,7 @@ async def load_int(
 
 @pytest.fixture(name="mock_client")
 async def get_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_data: tuple[list[SMHIForecast], list[SMHIForecast], list[SMHIForecast]],
 ) -> AsyncGenerator[MagicMock]:
     """Mock SMHIPointForecast client."""
@@ -89,7 +89,7 @@ async def get_client(
 
 @pytest.fixture(name="mock_fire_client")
 async def get_fire_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_fire_data: tuple[list[SMHIFireForecast], list[SMHIFireForecast]],
 ) -> AsyncGenerator[MagicMock]:
     """Mock SMHIFirePointForecast client."""
@@ -106,7 +106,7 @@ async def get_fire_client(
 
 @pytest.fixture(name="get_data")
 async def get_data_from_library(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     load_json: dict[str, Any],
 ) -> AsyncGenerator[tuple[list[SMHIForecast], list[SMHIForecast], list[SMHIForecast]]]:
@@ -131,7 +131,7 @@ async def get_data_from_library(
 
 @pytest.fixture(name="get_fire_data")
 async def get_fire_data_from_library(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     load_fire_json: dict[str, Any],
 ) -> AsyncGenerator[tuple[list[SMHIFireForecast], list[SMHIFireForecast]]]:

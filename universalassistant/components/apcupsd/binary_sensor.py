@@ -6,7 +6,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
     BinarySensorEntityDescription,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import APCUPSdConfigEntry
@@ -23,7 +23,7 @@ _VALUE_ONLINE_MASK: Final = 0b1000
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: APCUPSdConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

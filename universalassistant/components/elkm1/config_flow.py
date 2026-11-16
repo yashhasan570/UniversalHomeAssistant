@@ -18,7 +18,7 @@ from universalassistant.const import (
     CONF_USERNAME,
 )
 from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.typing import DiscoveryInfoType, VolDictType
@@ -474,5 +474,5 @@ class Elkm1ConfigFlow(ConfigFlow, domain=DOMAIN):
         return hostname_from_url(url) in existing_hosts
 
 
-class InvalidAuth(__HAC_KEEP__Error):
+class InvalidAuth(UniversalAssistantError):
     """Error to indicate there is invalid auth."""

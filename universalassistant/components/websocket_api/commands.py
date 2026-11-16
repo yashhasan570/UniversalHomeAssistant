@@ -23,14 +23,14 @@ from universalassistant.core import (
     Context,
     Event,
     EventStateChangedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceResponse,
     State,
     async_noop,
     callback,
 )
 from universalassistant.exceptions import (
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     ServiceNotFound,
     ServiceValidationError,
     TemplateError,
@@ -110,8 +110,8 @@ _LOGGER = logging.getLogger(__name__)
 
 @callback
 def async_register_commands(
-    hass: __HAC_KEEP__,
-    async_reg: Callable[[__HAC_KEEP__, const.WebSocketCommandHandler], None],
+    hass: UniversalAssistant,
+    async_reg: Callable[[UniversalAssistant, const.WebSocketCommandHandler], None],
 ) -> None:
     """Register commands."""
     async_reg(hass, handle_call_service)
@@ -192,7 +192,7 @@ def _forward_events_unconditional(
     }
 )
 def handle_subscribe_events(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle subscribe events command."""
     event_type = msg["event_type"]
@@ -233,7 +233,7 @@ def handle_subscribe_events(
     }
 )
 def handle_subscribe_bootstrap_integrations(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle subscribe bootstrap integrations command."""
 
@@ -257,7 +257,7 @@ def handle_subscribe_bootstrap_integrations(
     }
 )
 def handle_subscribe_system_state(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle subscribe system state command."""
 
@@ -286,7 +286,7 @@ def handle_subscribe_system_state(
     }
 )
 def handle_dismiss_system_state(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle dismiss system state command."""
     system_state_helper.async_dismiss(hass)
@@ -301,7 +301,7 @@ def handle_dismiss_system_state(
     }
 )
 def handle_unsubscribe_events(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle unsubscribe events command."""
     subscription = msg["subscription"]
@@ -325,7 +325,7 @@ def handle_unsubscribe_events(
 )
 @decorators.async_response
 async def handle_call_service(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle call service command."""
     try:
@@ -382,7 +382,7 @@ async def handle_call_service(
             translation_key=err.translation_key,
             translation_placeholders=err.translation_placeholders,
         )
-    except __HAC_KEEP__Error as err:
+    except UniversalAssistantError as err:
         connection.logger.error(
             "Error during service call to %s.%s: %s", msg["domain"], msg["service"], err
         )
@@ -402,7 +402,7 @@ async def handle_call_service(
 
 @callback
 def _async_get_allowed_states(
-    hass: __HAC_KEEP__, connection: ActiveConnection
+    hass: UniversalAssistant, connection: ActiveConnection
 ) -> list[State]:
     user = connection.user
     if user.is_admin or user.permissions.access_all_entities(POLICY_READ):
@@ -418,7 +418,7 @@ def _async_get_allowed_states(
 @callback
 @decorators.websocket_command({probatio.Required("type"): "get_states"})
 def handle_get_states(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle get states command."""
     states = _async_get_allowed_states(hass, connection)
@@ -494,7 +494,7 @@ def _forward_entity_changes(
     }
 )
 def handle_subscribe_entities(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle subscribe entities command."""
     entity_ids = set(msg.get("entity_ids", [])) or None
@@ -581,7 +581,7 @@ def _send_handle_entities_init_response(
     )
 
 
-async def _async_get_all_condition_descriptions_json(hass: __HAC_KEEP__) -> bytes:
+async def _async_get_all_condition_descriptions_json(hass: UniversalAssistant) -> bytes:
     """Return JSON of descriptions (i.e. user documentation) for all condition."""
     descriptions = await async_get_all_condition_descriptions(hass)
     if ALL_CONDITION_DESCRIPTIONS_JSON_CACHE in hass.data:
@@ -607,7 +607,7 @@ async def _async_get_all_condition_descriptions_json(hass: __HAC_KEEP__) -> byte
 )
 @decorators.async_response
 async def handle_subscribe_condition_platforms(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle subscribe conditions command."""
 
@@ -630,7 +630,7 @@ async def handle_subscribe_condition_platforms(
     connection.send_message(construct_event_message(msg["id"], conditions_json))
 
 
-async def _async_get_all_service_descriptions_json(hass: __HAC_KEEP__) -> bytes:
+async def _async_get_all_service_descriptions_json(hass: UniversalAssistant) -> bytes:
     """Return JSON of descriptions (i.e. user documentation) for all service calls."""
     descriptions = await async_get_all_service_descriptions(hass)
     if ALL_SERVICE_DESCRIPTIONS_JSON_CACHE in hass.data:
@@ -648,14 +648,14 @@ async def _async_get_all_service_descriptions_json(hass: __HAC_KEEP__) -> bytes:
 @decorators.websocket_command({probatio.Required("type"): "get_services"})
 @decorators.async_response
 async def handle_get_services(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle get services command."""
     payload = await _async_get_all_service_descriptions_json(hass)
     connection.send_message(construct_result_message(msg["id"], payload))
 
 
-async def _async_get_all_trigger_descriptions_json(hass: __HAC_KEEP__) -> bytes:
+async def _async_get_all_trigger_descriptions_json(hass: UniversalAssistant) -> bytes:
     """Return JSON of descriptions (i.e. user documentation) for all triggers."""
     descriptions = await async_get_all_trigger_descriptions(hass)
     if ALL_TRIGGER_DESCRIPTIONS_JSON_CACHE in hass.data:
@@ -681,7 +681,7 @@ async def _async_get_all_trigger_descriptions_json(hass: __HAC_KEEP__) -> bytes:
 )
 @decorators.async_response
 async def handle_subscribe_trigger_platforms(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle subscribe triggers command."""
 
@@ -707,7 +707,7 @@ async def handle_subscribe_trigger_platforms(
 @callback
 @decorators.websocket_command({probatio.Required("type"): "get_config"})
 def handle_get_config(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle get config command."""
     config = hass.config.as_dict()
@@ -726,7 +726,7 @@ def handle_get_config(
 )
 @decorators.async_response
 async def handle_manifest_list(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle integrations command."""
     ints_or_excs = await async_get_integrations(
@@ -750,7 +750,7 @@ async def handle_manifest_list(
 )
 @decorators.async_response
 async def handle_manifest_get(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle integrations command."""
     try:
@@ -764,7 +764,7 @@ async def handle_manifest_get(
 @callback
 @decorators.websocket_command({probatio.Required("type"): "integration/setup_info"})
 def handle_integration_setup_info(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle integrations command."""
     connection.send_result(
@@ -779,7 +779,7 @@ def handle_integration_setup_info(
 @callback
 @decorators.websocket_command({probatio.Required("type"): "ping"})
 def handle_ping(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle ping command."""
     connection.send_message(pong_message(msg["id"]))
@@ -790,14 +790,14 @@ def handle_ping(
     {probatio.Required("type"): "slugify", probatio.Required("text"): str}
 )
 def handle_slugify(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle slugify command."""
     connection.send_result(msg["id"], {"slug": slugify(msg["text"])})
 
 
 @lru_cache
-def _cached_template(template_str: str, hass: __HAC_KEEP__) -> template.Template:
+def _cached_template(template_str: str, hass: UniversalAssistant) -> template.Template:
     """Return a cached template."""
     return template.Template(template_str, hass)
 
@@ -815,7 +815,7 @@ def _cached_template(template_str: str, hass: __HAC_KEEP__) -> template.Template
 )
 @decorators.async_response
 async def handle_render_template(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle render_template command."""
     template_str = msg["template"]
@@ -913,7 +913,7 @@ def _serialize_entity_sources(
 @callback
 @decorators.websocket_command({probatio.Required("type"): "entity/source"})
 def handle_entity_source(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle entity source command."""
     all_entity_sources = entity.entity_sources(hass)
@@ -941,7 +941,7 @@ def handle_entity_source(
     }
 )
 def handle_extract_from_target(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle extract from target command."""
 
@@ -978,7 +978,7 @@ def handle_extract_from_target(
     }
 )
 def handle_explain_target(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle explain target command."""
     explanation = target_helpers.async_explain_target(
@@ -1035,7 +1035,7 @@ def handle_explain_target(
 )
 @decorators.async_response
 async def handle_get_triggers_for_target(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle get triggers for target command.
 
@@ -1058,7 +1058,7 @@ async def handle_get_triggers_for_target(
 )
 @decorators.async_response
 async def handle_get_conditions_for_target(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle get conditions for target command.
 
@@ -1081,7 +1081,7 @@ async def handle_get_conditions_for_target(
 )
 @decorators.async_response
 async def handle_get_services_for_target(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle get services for target command.
 
@@ -1105,7 +1105,7 @@ async def handle_get_services_for_target(
 @decorators.require_admin
 @decorators.async_response
 async def handle_subscribe_trigger(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle subscribe trigger command."""
     # Validating the trigger config can fail on bad user input. Handle those
@@ -1117,7 +1117,7 @@ async def handle_subscribe_trigger(
         err.prepend(["trigger"])
         connection.send_error(msg["id"], const.ERR_INVALID_FORMAT, str(err))
         return
-    except __HAC_KEEP__Error as err:
+    except UniversalAssistantError as err:
         connection.send_error(
             msg["id"],
             const.ERR_UNIVERSAL_ASSISTANT_ERROR,
@@ -1170,7 +1170,7 @@ async def handle_subscribe_trigger(
 @decorators.require_admin
 @decorators.async_response
 async def handle_test_condition(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle test condition command."""
     # Validating and instantiating the condition can fail on bad user input.
@@ -1184,7 +1184,7 @@ async def handle_test_condition(
         err.prepend(["condition"])
         connection.send_error(msg["id"], const.ERR_INVALID_FORMAT, str(err))
         return
-    except __HAC_KEEP__Error as err:
+    except UniversalAssistantError as err:
         connection.send_error(
             msg["id"],
             const.ERR_UNIVERSAL_ASSISTANT_ERROR,
@@ -1202,7 +1202,7 @@ async def handle_test_condition(
     try:
         with trace.suppress_template_error_logging():
             check_result = condition.async_check(variables=msg.get("variables"))
-    except __HAC_KEEP__Error as err:
+    except UniversalAssistantError as err:
         connection.send_error(
             msg["id"],
             const.ERR_UNIVERSAL_ASSISTANT_ERROR,
@@ -1233,7 +1233,7 @@ async def handle_test_condition(
 )
 @decorators.async_response
 async def handle_subscribe_condition(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle subscribe condition command."""
     try:
@@ -1243,7 +1243,7 @@ async def handle_subscribe_condition(
         err.prepend(["condition"])
         connection.send_error(msg["id"], const.ERR_INVALID_FORMAT, str(err))
         return
-    except __HAC_KEEP__Error as err:
+    except UniversalAssistantError as err:
         connection.send_error(
             msg["id"],
             const.ERR_UNIVERSAL_ASSISTANT_ERROR,
@@ -1266,7 +1266,7 @@ async def handle_subscribe_condition(
         try:
             with trace.suppress_template_error_logging():
                 new_event_data = {"result": condition.async_check()}
-        except __HAC_KEEP__Error as err:
+        except UniversalAssistantError as err:
             new_event_data = {"error": str(err)}
 
         # Template errors (e.g. undefined variables) are recorded in the trace
@@ -1317,7 +1317,7 @@ async def handle_subscribe_condition(
 @decorators.require_admin
 @decorators.async_response
 async def handle_execute_script(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle execute script command."""
     # Circular dep
@@ -1368,7 +1368,7 @@ async def handle_execute_script(
 )
 @decorators.require_admin
 def handle_fire_event(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle fire event command."""
     context = connection.context(msg)
@@ -1404,7 +1404,7 @@ def _drop_list_index(err: probatio.Invalid) -> None:
 )
 @decorators.async_response
 async def handle_validate_config(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle validate config command."""
     # Circular dep
@@ -1436,7 +1436,7 @@ async def handle_validate_config(
                 raise
         except (
             probatio.Invalid,
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
         ) as err:
             result[key] = {"valid": False, "error": str(err)}
         else:
@@ -1453,7 +1453,7 @@ async def handle_validate_config(
     }
 )
 def handle_supported_features(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle setting supported features."""
     connection.set_supported_features(msg["features"])
@@ -1464,7 +1464,7 @@ def handle_supported_features(
 @decorators.websocket_command({"type": "integration/descriptions"})
 @decorators.async_response
 async def handle_integration_descriptions(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Get metadata for all brands and integrations."""
     connection.send_result(msg["id"], await async_get_integration_descriptions(hass))
@@ -1478,7 +1478,7 @@ async def handle_integration_descriptions(
 )
 @decorators.async_response
 async def handle_integration_wait(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle wait for integration command."""
 

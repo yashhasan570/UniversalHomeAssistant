@@ -22,7 +22,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import mock_dsm_hardware, mock_dsm_information
@@ -49,7 +49,7 @@ def mock_dsm():
 
 
 async def test_fan_speed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_dsm: MagicMock,
@@ -91,7 +91,7 @@ async def test_fan_speed(
     ],
 )
 async def test_fan_speed_select_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_dsm: MagicMock,
     fan_speed: str,
     fan_speed_parameter: FanSpeed,
@@ -133,7 +133,7 @@ async def test_fan_speed_select_option(
 
 
 async def test_fan_speed_supported_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_dsm: MagicMock,

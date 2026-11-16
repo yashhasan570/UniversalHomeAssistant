@@ -3,14 +3,14 @@
 from collections.abc import Iterable
 from typing import Any
 
-from universalassistant.core import Context, __HAC_KEEP__, State
+from universalassistant.core import Context, UniversalAssistant, State
 from universalassistant.helpers.state import async_reproduce_state
 
 from . import get_entity_ids
 
 
 async def async_reproduce_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     states: Iterable[State],
     *,
     context: Context | None = None,

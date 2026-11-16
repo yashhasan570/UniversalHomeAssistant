@@ -13,9 +13,9 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.kaco_modbus.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 from . import MOCK_MODEL, MOCK_SERIAL, MOCK_USER_INPUT
 
@@ -29,7 +29,7 @@ def _serving(image: dict[int, int]) -> _patch:
 
     @asynccontextmanager
     async def _get_unit(
-        hass: __HAC_KEEP__, params: ModbusTcpParams, unit_id: int
+        hass: UniversalAssistant, params: ModbusTcpParams, unit_id: int
     ) -> AsyncIterator[MockModbusUnit]:
         yield connection.for_unit(unit_id)
 
@@ -43,7 +43,7 @@ def _raising(error: Exception) -> _patch:
 
 @pytest.mark.usefixtures("mock_temporary_unit")
 async def test_user_step_success(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test the form renders and a successful flow creates an entry."""
     result = await hass.config_entries.flow.async_init(
@@ -80,13 +80,13 @@ async def test_user_step_success(
         ),
         (lambda: _raising(ModbusTimeoutError("no answer")), "cannot_connect"),
         # The device is already held on different link settings.
-        (lambda: _raising(__HAC_KEEP__Error("in use")), "cannot_connect"),
+        (lambda: _raising(UniversalAssistantError("in use")), "cannot_connect"),
         (lambda: _raising(RuntimeError("boom")), "unknown"),
     ],
 )
 @pytest.mark.usefixtures("mock_temporary_unit")
 async def test_user_step_errors_then_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     failure: Callable[[], _patch],
     expected_error: str,
@@ -115,7 +115,7 @@ async def test_user_step_errors_then_recovers(
 
 @pytest.mark.usefixtures("mock_temporary_unit")
 async def test_user_step_aborts_when_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the same inverter cannot be added twice, even at a new address."""
     mock_config_entry.add_to_hass(hass)
@@ -133,7 +133,7 @@ async def test_user_step_aborts_when_already_configured(
 
 @pytest.mark.usefixtures("mock_temporary_unit", "mock_get_unit")
 async def test_reconfigure_moves_the_entry_to_a_new_address(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test an inverter that changed address keeps its entry and history."""
     mock_config_entry.add_to_hass(hass)
@@ -154,7 +154,7 @@ async def test_reconfigure_moves_the_entry_to_a_new_address(
 
 
 @pytest.mark.usefixtures("mock_temporary_unit")
-async def test_reconfigure_rejects_a_different_inverter(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_rejects_a_different_inverter(hass: UniversalAssistant) -> None:
     """Test an address answering as another inverter is refused.
 
     Accepting it would hand this entry's entities, and their history, to a
@@ -179,7 +179,7 @@ async def test_reconfigure_rejects_a_different_inverter(hass: __HAC_KEEP__) -> N
 
 @pytest.mark.usefixtures("mock_temporary_unit", "mock_get_unit")
 async def test_reconfigure_errors_then_recovers(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test a failure shows on the reconfigure form, which still completes.
 

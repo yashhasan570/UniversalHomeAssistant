@@ -1,4 +1,4 @@
-"""State wrapper classes and helpers for __HA_KEEP__ templates."""
+"""State wrapper classes and helpers for Universal Home Assistant templates."""
 
 from collections.abc import Generator, Iterable
 from datetime import datetime
@@ -13,7 +13,7 @@ from typing_extensions import Sentinel as sentinel
 from universalassistant.const import STATE_UNKNOWN, EntityStateAttribute
 from universalassistant.core import (
     Context,
-    __HAC_KEEP__,
+    UniversalAssistant,
     State,
     valid_domain,
     valid_entity_id,
@@ -71,7 +71,7 @@ CACHED_TEMPLATE_NO_COLLECT_LRU: LRU[State, TemplateState] = LRU(CACHED_TEMPLATE_
 ENTITY_COUNT_GROWTH_FACTOR = 1.2
 
 
-def _template_state_no_collect(hass: __HAC_KEEP__, state: State) -> TemplateState:
+def _template_state_no_collect(hass: UniversalAssistant, state: State) -> TemplateState:
     """Return a TemplateState for a state without collecting."""
     if template_state := CACHED_TEMPLATE_NO_COLLECT_LRU.get(state):
         return template_state
@@ -80,7 +80,7 @@ def _template_state_no_collect(hass: __HAC_KEEP__, state: State) -> TemplateStat
     return template_state
 
 
-def _template_state(hass: __HAC_KEEP__, state: State) -> TemplateState:
+def _template_state(hass: UniversalAssistant, state: State) -> TemplateState:
     """Return a TemplateState for a state that collects."""
     if template_state := CACHED_TEMPLATE_LRU.get(state):
         return template_state
@@ -90,7 +90,7 @@ def _template_state(hass: __HAC_KEEP__, state: State) -> TemplateState:
 
 
 @cache
-def _domain_states(hass: __HAC_KEEP__, name: str) -> DomainStates:
+def _domain_states(hass: UniversalAssistant, name: str) -> DomainStates:
     return DomainStates(hass, name)
 
 
@@ -106,7 +106,7 @@ class AllStates:
     __delitem__ = _readonly
     __slots__ = ("_hass",)
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize all states."""
         self._hass = hass
 
@@ -170,7 +170,7 @@ class AllStates:
 class StateTranslated:
     """Class to represent a translated state in a template."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize all states."""
         self._hass = hass
 
@@ -201,7 +201,7 @@ class StateTranslated:
 class StateAttrTranslated:
     """Class to represent a translated state attribute value in a template."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize."""
         self._hass = hass
 
@@ -249,7 +249,7 @@ class DomainStates:
     __setitem__ = _readonly
     __delitem__ = _readonly
 
-    def __init__(self, hass: __HAC_KEEP__, domain: str) -> None:
+    def __init__(self, hass: UniversalAssistant, domain: str) -> None:
         """Initialize the domain states."""
         self._hass = hass
         self._domain = domain
@@ -302,7 +302,7 @@ class TemplateStateBase(State):
 
     # Inheritance is done so functions that check against State keep working
     # pylint: disable-next=super-init-not-called
-    def __init__(self, hass: __HAC_KEEP__, collect: bool, entity_id: str) -> None:
+    def __init__(self, hass: UniversalAssistant, collect: bool, entity_id: str) -> None:
         """Initialize template state."""
         self._hass = hass
         self._collect = collect
@@ -445,7 +445,7 @@ class TemplateState(TemplateStateBase):
     __slots__ = ()
 
     # Inheritance is done so functions that check against State keep working
-    def __init__(self, hass: __HAC_KEEP__, state: State, collect: bool = True) -> None:
+    def __init__(self, hass: UniversalAssistant, state: State, collect: bool = True) -> None:
         """Initialize template state."""
         super().__init__(hass, collect, state.entity_id)
         self._state = state
@@ -462,7 +462,7 @@ class TemplateStateFromEntityId(TemplateStateBase):
     __slots__ = ()
 
     def __init__(
-        self, hass: __HAC_KEEP__, entity_id: str, collect: bool = True
+        self, hass: UniversalAssistant, entity_id: str, collect: bool = True
     ) -> None:
         """Initialize template state."""
         super().__init__(hass, collect, entity_id)
@@ -484,7 +484,7 @@ class TemplateStateFromEntityId(TemplateStateBase):
 _create_template_state_no_collect = partial(TemplateState, collect=False)
 
 
-def _collect_state(hass: __HAC_KEEP__, entity_id: str) -> None:
+def _collect_state(hass: UniversalAssistant, entity_id: str) -> None:
     if (
         entity_collect := render_info_cv.get()
     ) is not None and entity_collect.collecting:
@@ -492,7 +492,7 @@ def _collect_state(hass: __HAC_KEEP__, entity_id: str) -> None:
 
 
 def _state_generator(
-    hass: __HAC_KEEP__, domain: str | None
+    hass: UniversalAssistant, domain: str | None
 ) -> Generator[TemplateState]:
     """State generator for a domain or all states."""
     states = hass.states
@@ -513,19 +513,19 @@ def _state_generator(
         yield _template_state_no_collect(hass, state)
 
 
-def _get_state_if_valid(hass: __HAC_KEEP__, entity_id: str) -> TemplateState | None:
+def _get_state_if_valid(hass: UniversalAssistant, entity_id: str) -> TemplateState | None:
     state = hass.states.get(entity_id)
     if state is None and not valid_entity_id(entity_id):
         raise TemplateError(f"Invalid entity ID '{entity_id}'")
     return _get_template_state_from_state(hass, entity_id, state)
 
 
-def _get_state(hass: __HAC_KEEP__, entity_id: str) -> TemplateState | None:
+def _get_state(hass: UniversalAssistant, entity_id: str) -> TemplateState | None:
     return _get_template_state_from_state(hass, entity_id, hass.states.get(entity_id))
 
 
 def _get_template_state_from_state(
-    hass: __HAC_KEEP__, entity_id: str, state: State | None
+    hass: UniversalAssistant, entity_id: str, state: State | None
 ) -> TemplateState | None:
     if state is None:
         # Only need to collect if none, if not none collect first actual
@@ -536,7 +536,7 @@ def _get_template_state_from_state(
 
 
 def _resolve_state(
-    hass: __HAC_KEEP__, entity_id_or_state: Any
+    hass: UniversalAssistant, entity_id_or_state: Any
 ) -> State | TemplateState | None:
     """Return state or entity_id if given."""
     if isinstance(entity_id_or_state, State):

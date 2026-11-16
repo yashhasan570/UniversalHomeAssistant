@@ -5,7 +5,7 @@ from typing import override
 from duotecno.unit import ControlUnit, VirtualUnit
 
 from universalassistant.components.binary_sensor import BinarySensorEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import DuotecnoConfigEntry
@@ -13,7 +13,7 @@ from .entity import DuotecnoEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: DuotecnoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -8,8 +8,8 @@ import pyfttt
 import requests
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 
 from .const import (
@@ -64,7 +64,7 @@ def _trigger_service(call: ServiceCall) -> None:
             if res.status_code != HTTPStatus.OK:
                 _LOGGER.error("IFTTT reported error sending event to %s", target)
     except requests.exceptions.RequestException as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="trigger_failed",
         ) from err
@@ -84,7 +84,7 @@ async def _push_state_update(service: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the services for the IFTTT integration."""
     hass.services.async_register(
         DOMAIN, IftttService.TRIGGER, _trigger_service, schema=SERVICE_TRIGGER_SCHEMA

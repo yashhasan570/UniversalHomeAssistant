@@ -4,7 +4,7 @@ from universalassistant.components.application_credentials import (
     AuthorizationServer,
     ClientCredential,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_entry_oauth2_flow
 
 from .const import OAUTH2_AUTHORIZE, OAUTH2_TOKEN
@@ -12,7 +12,7 @@ from .oauth2 import ElectricKiwiLocalOAuth2Implementation
 
 
 async def async_get_auth_implementation(
-    hass: __HAC_KEEP__, auth_domain: str, credential: ClientCredential
+    hass: UniversalAssistant, auth_domain: str, credential: ClientCredential
 ) -> config_entry_oauth2_flow.AbstractOAuth2Implementation:
     """Return auth implementation."""
     return ElectricKiwiLocalOAuth2Implementation(
@@ -23,7 +23,7 @@ async def async_get_auth_implementation(
     )
 
 
-async def async_get_authorization_server(hass: __HAC_KEEP__) -> AuthorizationServer:
+async def async_get_authorization_server(hass: UniversalAssistant) -> AuthorizationServer:
     """Return authorization server."""
     return AuthorizationServer(
         authorize_url=OAUTH2_AUTHORIZE,
@@ -31,7 +31,7 @@ async def async_get_authorization_server(hass: __HAC_KEEP__) -> AuthorizationSer
     )
 
 
-async def async_get_description_placeholders(hass: __HAC_KEEP__) -> dict[str, str]:
+async def async_get_description_placeholders(hass: UniversalAssistant) -> dict[str, str]:
     """Return description placeholders for the credentials dialog."""
     return {
         "more_info_url": "https://www.universalassistant.io/integrations/electric_kiwi/"

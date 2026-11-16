@@ -10,7 +10,7 @@ from universalassistant.components.event import (
     EventEntity,
     EventEntityDescription,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -48,7 +48,7 @@ EVENT_DESCRIPTIONS: list[WeatherFlowEventEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: WeatherFlowConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

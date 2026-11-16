@@ -9,8 +9,8 @@ from universalassistant.components.cover import (
     CoverEntity,
     CoverEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -24,7 +24,7 @@ STATUS_CLOSED = "Closed"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FlussConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -78,7 +78,7 @@ class FlussCover(FlussEntity, CoverEntity):
         try:
             await self.coordinator.api.async_open_device(self.device_id)
         except FlussApiClientError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="command_failed"
             ) from err
         await self.coordinator.async_request_refresh()
@@ -89,7 +89,7 @@ class FlussCover(FlussEntity, CoverEntity):
         try:
             await self.coordinator.api.async_close_device(self.device_id)
         except FlussApiClientError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="command_failed"
             ) from err
         await self.coordinator.async_request_refresh()

@@ -27,7 +27,7 @@ from universalassistant.config_entries import (
     ConfigFlow,
     ConfigFlowResult,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.service_info.usb import UsbServiceInfo
 from universalassistant.setup import async_setup_component
 
@@ -50,7 +50,7 @@ USB0_PORT = USBDevice(
 
 @pytest.fixture(name="setup_ports")
 async def setup_ports_fixture(
-    hass: __HAC_KEEP__, force_usb_polling_watcher: None
+    hass: UniversalAssistant, force_usb_polling_watcher: None
 ) -> AsyncGenerator[None]:
     """Set up the USB integration with a local and a remote serial port."""
     with (
@@ -73,7 +73,7 @@ async def setup_ports_fixture(
 
 
 async def _async_get_serial_ports(
-    hass_ws_client: WebSocketGenerator, hass: __HAC_KEEP__
+    hass_ws_client: WebSocketGenerator, hass: UniversalAssistant
 ) -> list[dict[str, Any]]:
     """Return the result of the `usb/list_serial_ports` command with usage."""
     ws_client = await hass_ws_client(hass)
@@ -101,7 +101,7 @@ async def _async_get_serial_ports(
     ],
 )
 async def test_config_entry_consumers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     data: dict[str, Any],
     options: dict[str, Any],
@@ -148,7 +148,7 @@ async def test_config_entry_consumers(
     ],
 )
 async def test_config_entry_upb_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device: str,
 ) -> None:
@@ -183,7 +183,7 @@ async def test_config_entry_upb_url(
     ],
 )
 async def test_config_entry_active_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     state: ConfigEntryState,
     active: bool,
@@ -210,7 +210,7 @@ async def test_config_entry_active_states(
     ],
 )
 async def test_config_entry_non_serial_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     data: dict[str, Any],
 ) -> None:
@@ -234,7 +234,7 @@ async def test_config_entry_non_serial_values(
     ],
 )
 async def test_config_entry_ignored_and_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     source: str,
     disabled_by: ConfigEntryDisabler | None,
@@ -257,7 +257,7 @@ async def test_config_entry_ignored_and_disabled(
 
 @pytest.mark.usefixtures("setup_ports")
 async def test_socket_path_psk_not_exposed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test the noise PSK in zwave_js's esphome socket path is stripped."""
@@ -291,7 +291,7 @@ async def test_socket_path_psk_not_exposed(
     ],
 )
 async def test_non_usb_serial_domains(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     domain: str,
     data: dict[str, Any],
@@ -307,7 +307,7 @@ async def test_non_usb_serial_domains(
 
 @pytest.mark.usefixtures("setup_ports")
 async def test_config_entry_unknown_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test config entries of integrations that fail to resolve are ignored."""
@@ -322,7 +322,7 @@ async def test_config_entry_unknown_integration(
 
 @pytest.mark.usefixtures("setup_ports")
 async def test_config_entry_without_usb_dependency(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test config entries of integrations not depending on `usb` are ignored."""
@@ -338,7 +338,7 @@ async def test_config_entry_without_usb_dependency(
 
 @pytest.mark.usefixtures("setup_ports")
 async def test_config_entry_after_dependency(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test config entries of integrations depending on `usb` after setup."""
@@ -357,7 +357,7 @@ async def test_config_entry_after_dependency(
 
 @pytest.mark.usefixtures("setup_ports")
 async def test_remote_port_consumer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test a config entry using a remote serial port."""
@@ -387,7 +387,7 @@ async def test_remote_port_consumer(
     ],
 )
 async def test_configured_port_not_scanned(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device: str,
     present: bool,
@@ -435,7 +435,7 @@ async def test_configured_port_not_scanned(
 
 @pytest.mark.usefixtures("setup_ports")
 async def test_app_consumers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test detecting serial ports configured in the options of apps."""
@@ -503,7 +503,7 @@ async def test_app_consumers(
 
 @pytest.mark.usefixtures("setup_ports")
 async def test_app_consumers_without_supervisor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test apps are not considered without a supervisor."""
@@ -518,7 +518,7 @@ async def test_app_consumers_without_supervisor(
 
 @pytest.mark.usefixtures("setup_ports")
 async def test_app_consumers_supervisor_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test apps are not considered when the supervisor is not ready yet."""
@@ -536,7 +536,7 @@ async def test_app_consumers_supervisor_not_ready(
 
 @pytest.mark.usefixtures("setup_ports")
 async def test_multiple_consumers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test a port used by both an integration and an app."""
@@ -585,7 +585,7 @@ class MockUsbFlow(ConfigFlow):
 
 @pytest.mark.usefixtures("setup_ports")
 async def test_discovery_flows(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test that in-progress discovery flows are listed for their serial port."""

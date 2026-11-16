@@ -6,7 +6,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.tessie.helpers import charge_state_to_option
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.typing import StateType
 
@@ -30,7 +30,7 @@ def test_charge_state_to_option(value: StateType, expected: str | None) -> None:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,

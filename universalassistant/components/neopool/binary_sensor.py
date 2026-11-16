@@ -21,7 +21,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -45,7 +45,7 @@ class NeoPoolBinarySensorEntityDescription(BinarySensorEntityDescription):
     """Describes a NeoPool binary sensor entity."""
 
     supported_fn: _SupportedFn | None = None
-    value_fn: Callable[[dict[str, Any], __HAC_KEEP__], bool | None] | None = None
+    value_fn: Callable[[dict[str, Any], UniversalAssistant], bool | None] | None = None
 
 
 def _gpio_ok(gpio_key: str) -> _SupportedFn:
@@ -53,7 +53,7 @@ def _gpio_ok(gpio_key: str) -> _SupportedFn:
     return lambda data: gpio_key not in data or is_valid_relay_gpio(data[gpio_key] or 0)
 
 
-def _pool_cover_open(data: dict[str, Any], hass: __HAC_KEEP__) -> bool | None:
+def _pool_cover_open(data: dict[str, Any], hass: UniversalAssistant) -> bool | None:
     """Invert the raw cover state for the OPENING device class.
 
     The cover bit is only valid when cover detection is enabled
@@ -349,7 +349,7 @@ _ENTITY_OPTION_KEY: dict[str, str] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: NeoPoolConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

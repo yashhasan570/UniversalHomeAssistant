@@ -6,14 +6,14 @@ from pytest_universalassistant.plugins import MockConfigEntry
 
 from universalassistant.components.fing.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import init_integration
 
 
 @pytest.mark.parametrize("api_type", ["new", "old"])
 async def test_setup_entry_new_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mocked_fing_agent: AsyncMock,
     api_type: str,
@@ -30,7 +30,7 @@ async def test_setup_entry_new_api(
 
 @pytest.mark.parametrize("api_type", ["new"])
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mocked_fing_agent: AsyncMock,
 ) -> None:

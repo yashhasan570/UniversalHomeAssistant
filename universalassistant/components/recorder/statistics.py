@@ -36,8 +36,8 @@ from universalassistant.const import (
     EVENT_RECORDER_HOURLY_STATISTICS_GENERATED,
     EntityStateAttribute,
 )
-from universalassistant.core import __HAC_KEEP__, callback, valid_entity_id
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback, valid_entity_id
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.frame import report_usage
 from universalassistant.helpers.recorder import DATA_RECORDER, get_instance, session_scope
 from universalassistant.helpers.singleton import singleton
@@ -363,7 +363,7 @@ def _get_unit_converter(
 
 
 def get_display_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     statistic_id: str,
     unit_class: str | None,
     statistic_unit: str | None,
@@ -453,7 +453,7 @@ def _get_unit_converter_func(
             return conv.converter_factory_allow_none(
                 from_unit=from_unit, to_unit=to_unit
             )
-    raise __HAC_KEEP__Error
+    raise UniversalAssistantError
 
 
 def can_convert_units(
@@ -714,7 +714,7 @@ _warn_custom_units_error: set[str] = set()
 
 
 def _get_custom_equivalent_units(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> dict[str, dict[str | None, str]]:
     """Check whether any integration supplies custom equivalent units."""
     custom_equivalent_units_per_entity: dict[str, dict[str | None, str]] = {}
@@ -978,7 +978,7 @@ def get_metadata_with_session(
 
 
 def get_metadata(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     statistic_ids: set[str] | None = None,
     statistic_type: Literal["mean", "sum"] | None = None,
@@ -1029,7 +1029,7 @@ def clear_statistics_range(
 
 @callback
 def async_update_statistics_metadata(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     statistic_id: str,
     *,
     new_statistic_id: str | Undefined = Undefined,
@@ -1062,10 +1062,10 @@ def async_update_statistics_metadata(
 
     if new_unit_of_measurement is not Undefined and new_unit_class is not None:
         if (converter := UNIT_CLASS_TO_UNIT_CONVERTER.get(new_unit_class)) is None:
-            raise __HAC_KEEP__Error(f"Unsupported unit_class: '{new_unit_class}'")
+            raise UniversalAssistantError(f"Unsupported unit_class: '{new_unit_class}'")
 
         if new_unit_of_measurement not in converter.VALID_UNITS:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Unsupported unit_of_measurement '{new_unit_of_measurement}' "
                 f"for unit_class '{new_unit_class}'"
             )
@@ -1106,7 +1106,7 @@ def update_statistics_metadata(
 
 
 async def async_list_statistic_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     statistic_ids: set[str] | None = None,
     statistic_type: Literal["mean", "sum"] | None = None,
 ) -> list[dict]:
@@ -1136,7 +1136,7 @@ async def async_list_statistic_ids(
 
 
 def _statistic_by_id_from_metadata(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     metadata: dict[str, tuple[int, StatisticMetaData]],
 ) -> dict[str, dict[str, Any]]:
     """Return a list of results for a given metadata dict."""
@@ -1181,7 +1181,7 @@ def _flatten_list_statistic_ids_metadata_result(
 
 
 def list_statistic_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     statistic_ids: set[str] | None = None,
     statistic_type: Literal["mean", "sum"] | None = None,
 ) -> list[dict]:
@@ -1848,7 +1848,7 @@ def _get_newest_sum_statistic(
 
 
 def statistic_during_period(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     start_time: datetime | None,
     end_time: datetime | None,
     statistic_id: str,
@@ -2056,7 +2056,7 @@ def _extract_metadata_and_discard_impossible_columns(
 
 
 def _augment_result_with_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     session: Session,
     start_time: datetime,
     units: dict[str, str] | None,
@@ -2113,7 +2113,7 @@ def _augment_result_with_change(
 
 
 def _statistics_during_period_with_session(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     session: Session,
     start_time: datetime,
     end_time: datetime | None,
@@ -2246,7 +2246,7 @@ def _statistics_during_period_with_session(
 
 
 def statistics_during_period(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     start_time: datetime,
     end_time: datetime | None,
     statistic_ids: set[str] | None,
@@ -2308,7 +2308,7 @@ def _get_last_statistics_short_term_stmt(
 
 
 def _get_last_statistics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     number_of_stats: int,
     statistic_id: str,
     convert_units: bool,
@@ -2351,7 +2351,7 @@ def _get_last_statistics(
 
 
 def get_last_statistics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     number_of_stats: int,
     statistic_id: str,
     convert_units: bool,
@@ -2364,7 +2364,7 @@ def get_last_statistics(
 
 
 def get_last_short_term_statistics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     number_of_stats: int,
     statistic_id: str,
     convert_units: bool,
@@ -2401,7 +2401,7 @@ def _latest_short_term_statistics_by_ids_stmt(
 
 
 def get_latest_short_term_statistics_with_session(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     session: Session,
     statistic_ids: set[str],
     types: set[Literal["last_reset", "max", "mean", "min", "state", "sum"]],
@@ -2503,7 +2503,7 @@ def _generate_statistics_at_time_stmt_dependent_sub_query(
 ) -> StatementLambdaElement:
     """Create the statement for finding the statistics for a given time."""
     # This query is the result of significant research in
-    # https://github.com/yashhasan570/__HAC_KEEP__/issues/132865
+    # https://github.com/yashhasan570/UniversalUniversalAssistant/issues/132865
     # A reverse index scan with a limit 1 is the fastest way to get the
     # last start_time_ts before a specific point in time for all supported
     # databases. Since all databases support this query as a join
@@ -2556,7 +2556,7 @@ def _statistics_at_time(
         )
         return cast(list[Row], execute_stmt_lambda_element(session, stmt))
     rows: list[Row] = []
-    # https://github.com/yashhasan570/__HAC_KEEP__/issues/132865
+    # https://github.com/yashhasan570/UniversalUniversalAssistant/issues/132865
     # If we include the start time state we need to limit the
     # number of metadata_ids we query for at a time to avoid
     # hitting limits in the MySQL optimizer that prevent
@@ -2667,7 +2667,7 @@ def _build_converted_stats(
 
 
 def _sorted_statistics_to_dict(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     stats: Iterable[Row[Any]],
     statistic_ids: set[str] | None,
     _metadata: dict[str, tuple[int, StatisticMetaData]],
@@ -2751,7 +2751,7 @@ def _sorted_statistics_to_dict(
     return result
 
 
-def validate_statistics(hass: __HAC_KEEP__) -> dict[str, list[ValidationIssue]]:
+def validate_statistics(hass: UniversalAssistant) -> dict[str, list[ValidationIssue]]:
     """Validate statistics."""
     custom_equivalent_units_per_entity = _get_custom_equivalent_units(hass)
 
@@ -2766,7 +2766,7 @@ def validate_statistics(hass: __HAC_KEEP__) -> dict[str, list[ValidationIssue]]:
     return platform_validation
 
 
-def update_statistics_issues(hass: __HAC_KEEP__) -> None:
+def update_statistics_issues(hass: UniversalAssistant) -> None:
     """Update statistics issues."""
     custom_equivalent_units_per_entity = _get_custom_equivalent_units(hass)
 
@@ -2782,7 +2782,7 @@ def update_statistics_issues(hass: __HAC_KEEP__) -> None:
 
 @callback
 def _async_import_statistics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     metadata: StatisticMetaData,
     statistics: Iterable[StatisticData],
 ) -> None:
@@ -2807,10 +2807,10 @@ def _async_import_statistics(
 
     if (unit_class := metadata["unit_class"]) is not None:
         if (converter := UNIT_CLASS_TO_UNIT_CONVERTER.get(unit_class)) is None:
-            raise __HAC_KEEP__Error(f"Unsupported unit_class: '{unit_class}'")
+            raise UniversalAssistantError(f"Unsupported unit_class: '{unit_class}'")
 
         if metadata["unit_of_measurement"] not in converter.VALID_UNITS:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Unsupported unit_of_measurement '{metadata['unit_of_measurement']}' "
                 f"for unit_class '{unit_class}'"
             )
@@ -2818,11 +2818,11 @@ def _async_import_statistics(
     for statistic in statistics:
         start = statistic["start"]
         if start.tzinfo is None or start.tzinfo.utcoffset(start) is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Naive timestamp: no or invalid timezone info provided"
             )
         if start.minute != 0 or start.second != 0 or start.microsecond != 0:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Invalid timestamp: timestamps must be from the"
                 " top of the hour (minutes and seconds = 0)"
             )
@@ -2835,7 +2835,7 @@ def _async_import_statistics(
                 last_reset.tzinfo is None
                 or last_reset.tzinfo.utcoffset(last_reset) is None
             ):
-                raise __HAC_KEEP__Error("Naive timestamp")
+                raise UniversalAssistantError("Naive timestamp")
             statistic["last_reset"] = dt_util.as_utc(last_reset)
 
     # Insert job in recorder's queue
@@ -2844,7 +2844,7 @@ def _async_import_statistics(
 
 @callback
 def async_import_statistics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     metadata: StatisticMetaData,
     statistics: Iterable[StatisticData],
     *,
@@ -2855,11 +2855,11 @@ def async_import_statistics(
     This inserts an import_statistics job in the recorder's queue.
     """
     if not valid_entity_id(metadata["statistic_id"]):
-        raise __HAC_KEEP__Error("Invalid statistic_id")
+        raise UniversalAssistantError("Invalid statistic_id")
 
     # The source must not be empty and must be aligned with the statistic_id
     if not metadata["source"] or metadata["source"] != DOMAIN:
-        raise __HAC_KEEP__Error("Invalid source")
+        raise UniversalAssistantError("Invalid source")
 
     if "mean_type" not in metadata and not _called_from_ws_api:  # type: ignore[unreachable]
         report_usage(  # type: ignore[unreachable]
@@ -2879,7 +2879,7 @@ def async_import_statistics(
 
 @callback
 def async_add_external_statistics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     metadata: StatisticMetaData,
     statistics: Iterable[StatisticData],
     *,
@@ -2891,12 +2891,12 @@ def async_add_external_statistics(
     """
     # The statistic_id has same limitations as an entity_id, but with a ':' as separator
     if not valid_statistic_id(metadata["statistic_id"]):
-        raise __HAC_KEEP__Error("Invalid statistic_id")
+        raise UniversalAssistantError("Invalid statistic_id")
 
     # The source must not be empty and must be aligned with the statistic_id
     domain, _object_id = split_statistic_id(metadata["statistic_id"])
     if not metadata["source"] or metadata["source"] != domain:
-        raise __HAC_KEEP__Error("Invalid source")
+        raise UniversalAssistantError("Invalid source")
 
     if "mean_type" not in metadata and not _called_from_ws_api:  # type: ignore[unreachable]
         report_usage(  # type: ignore[unreachable]
@@ -2966,7 +2966,7 @@ def _import_statistics_with_session(
 
 @singleton(DATA_SHORT_TERM_STATISTICS_RUN_CACHE)
 def get_short_term_statistics_run_cache(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> ShortTermStatisticsRunCache:
     """Get the short term statistics run cache."""
     return ShortTermStatisticsRunCache()
@@ -3161,7 +3161,7 @@ def change_statistics_unit(
 
 
 async def async_change_statistics_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     statistic_id: str,
     *,
     new_unit_of_measurement: str,
@@ -3172,14 +3172,14 @@ async def async_change_statistics_unit(
         partial(get_metadata, hass, statistic_ids={statistic_id})
     )
     if statistic_id not in metadatas:
-        raise __HAC_KEEP__Error(f"No metadata found for {statistic_id}")
+        raise UniversalAssistantError(f"No metadata found for {statistic_id}")
 
     metadata = metadatas[statistic_id][1]
 
     if not can_convert_units(
         metadata["unit_class"], old_unit_of_measurement, new_unit_of_measurement
     ):
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             f"Can't convert {old_unit_of_measurement} to {new_unit_of_measurement}"
         )
 

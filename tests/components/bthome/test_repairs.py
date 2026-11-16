@@ -15,7 +15,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from universalassistant.components.bluetooth import BluetoothChange
 from universalassistant.components.bthome import get_encryption_issue_id
 from universalassistant.components.bthome.const import CONF_BINDKEY, DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -25,7 +25,7 @@ BINDKEY = "231d39c1d7cc1ab1aee224cd096db932"
 
 
 async def _setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> tuple[MockConfigEntry, Callable[[object, BluetoothChange], None]]:
     """Set up a BTHome config entry and capture the Bluetooth callback."""
     entry = MockConfigEntry(
@@ -57,7 +57,7 @@ async def _setup_entry(
 
 
 async def test_encryption_downgrade_creates_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test unencrypted payloads create a repair issue."""
@@ -87,7 +87,7 @@ async def test_encryption_downgrade_creates_issue(
 
 
 async def test_encryption_downgrade_links_existing_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -125,7 +125,7 @@ async def test_encryption_downgrade_links_existing_issue(
 
 
 async def test_unlinked_issue_removed_with_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test a persisted issue not yet linked to the entry is removed with it."""
@@ -150,7 +150,7 @@ async def test_unlinked_issue_removed_with_entry(
 
 
 async def test_encryption_downgrade_warning_only_logged_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -186,7 +186,7 @@ async def test_encryption_downgrade_warning_only_logged_once(
 
 
 async def test_issue_cleared_when_encryption_resumes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test issue is cleared when encrypted data resumes."""
@@ -209,7 +209,7 @@ async def test_issue_cleared_when_encryption_resumes(
 
 
 async def test_repair_flow_removes_bindkey_and_reloads_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -243,7 +243,7 @@ async def test_repair_flow_removes_bindkey_and_reloads_entry(
 
 
 async def test_repair_flow_aborts_when_entry_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
 ) -> None:

@@ -10,11 +10,11 @@ from universalassistant.components.universalassistant_hardware.helpers import (
     async_register_firmware_info_provider,
 )
 from universalassistant.components.thread import async_add_dataset
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryError,
     ConfigEntryNotReady,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
 )
 from universalassistant.helpers import config_validation as cv, issue_registry as ir
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -35,7 +35,7 @@ _LOGGER = logging.getLogger(__name__)
 CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the OpenThread Border Router component."""
     websocket_api.async_setup(hass)
 
@@ -44,7 +44,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: OTBRConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: OTBRConfigEntry) -> None:
     """Set up an OpenThread Border Router config entry."""
     api = python_otbr_api.OTBR(entry.data["url"], async_get_clientsession(hass), 10)
 
@@ -69,7 +69,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: OTBRConfigEntry) -> None:
             translation_key="border_agent_id_unsupported",
         ) from err
     except (
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         aiohttp.ClientError,
         TimeoutError,
     ) as err:
@@ -94,10 +94,10 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: OTBRConfigEntry) -> None:
         await async_notify_firmware_info(hass, DOMAIN, fw_info)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: OTBRConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: OTBRConfigEntry) -> None:
     """Unload a config entry."""
 
 
-async def async_reload_entry(hass: __HAC_KEEP__, entry: OTBRConfigEntry) -> None:
+async def async_reload_entry(hass: UniversalAssistant, entry: OTBRConfigEntry) -> None:
     """Handle an options update."""
     await hass.config_entries.async_reload(entry.entry_id)

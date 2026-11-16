@@ -16,7 +16,7 @@ from universalassistant.core import (
     Context,
     Event,
     EventStateChangedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     State,
     callback,
     split_entity_id,
@@ -111,7 +111,7 @@ class GroupEntity(Entity):
         self.async_on_remove(start.async_at_start(self.hass, self._update_at_start))
 
     @callback
-    def _update_at_start(self, _: __HAC_KEEP__) -> None:
+    def _update_at_start(self, _: UniversalAssistant) -> None:
         """Update the group state at start."""
         self.async_update_group_state()
         self.async_write_ha_state()
@@ -169,7 +169,7 @@ class Group(Entity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         name: str,
         *,
         created_by_service: bool,
@@ -201,7 +201,7 @@ class Group(Entity):
     @staticmethod
     @callback
     def async_create_group_entity(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         name: str,
         *,
         created_by_service: bool,
@@ -238,7 +238,7 @@ class Group(Entity):
 
     @staticmethod
     async def async_create_group(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         name: str,
         *,
         created_by_service: bool,
@@ -369,7 +369,7 @@ class Group(Entity):
             registry.state_group_mapping.pop(self.entity_id)
 
     @callback
-    def _async_start(self, _: __HAC_KEEP__ | None = None) -> None:
+    def _async_start(self, _: UniversalAssistant | None = None) -> None:
         """Start tracking members and write state."""
         self._reset_tracked_state()
         self._async_start_tracking()
@@ -390,7 +390,7 @@ class Group(Entity):
 
     @callback
     def _async_stop(self) -> None:
-        """Unregister the group from __HA_KEEP__.
+        """Unregister the group from Universal Home Assistant.
 
         This method must be run in the event loop.
         """
@@ -406,7 +406,7 @@ class Group(Entity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Handle addition to __HA_KEEP__."""
+        """Handle addition to Universal Home Assistant."""
         self._registry = self.hass.data[REG_KEY]
         self._set_tracked(self._entity_ids)
         self.async_on_remove(start.async_at_start(self.hass, self._async_start))
@@ -414,7 +414,7 @@ class Group(Entity):
 
     @override
     async def async_will_remove_from_hass(self) -> None:
-        """Handle removal from __HA_KEEP__."""
+        """Handle removal from Universal Home Assistant."""
         self._async_stop()
 
     async def _async_state_changed_listener(
@@ -521,7 +521,7 @@ class Group(Entity):
             self._state = STATE_OFF
 
 
-def async_get_component(hass: __HAC_KEEP__) -> EntityComponent[Group]:
+def async_get_component(hass: UniversalAssistant) -> EntityComponent[Group]:
     """Get the group entity component."""
     if (component := hass.data.get(DATA_COMPONENT)) is None:
         component = hass.data[DATA_COMPONENT] = EntityComponent[Group](

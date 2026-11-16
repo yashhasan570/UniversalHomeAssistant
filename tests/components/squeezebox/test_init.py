@@ -11,8 +11,8 @@ from universalassistant.components.squeezebox import async_remove_config_entry_d
 from universalassistant.components.squeezebox.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceRegistry
 
@@ -36,7 +36,7 @@ def mock_discovery():
 
 
 async def test_init_api_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test init fail due to API fail."""
@@ -52,7 +52,7 @@ async def test_init_api_fail(
 
 
 async def test_init_timeout_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test init fail due to TimeoutError."""
@@ -69,7 +69,7 @@ async def test_init_timeout_error(
 
 
 async def test_init_unauthorized(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test init fail due to unauthorized error."""
@@ -91,7 +91,7 @@ async def test_init_unauthorized(
 
 
 async def test_init_missing_uuid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test init fail due to missing UUID in server status."""
@@ -111,7 +111,7 @@ async def test_init_missing_uuid(
 
 
 async def test_device_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: DeviceRegistry,
     config_entry: MockConfigEntry,
     configured_player: MagicMock,
@@ -126,7 +126,7 @@ async def test_device_registry(
 
 
 async def test_device_registry_numeric_firmware(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: DeviceRegistry,
     config_entry: MockConfigEntry,
     lms: MagicMock,
@@ -147,7 +147,7 @@ async def test_device_registry_numeric_firmware(
 
 
 async def test_device_registry_server_merged(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: DeviceRegistry,
     config_entry: MockConfigEntry,
     configured_players: MagicMock,
@@ -171,7 +171,7 @@ async def test_device_registry_server_merged(
     ],
 )
 async def test_remove_device_blocked(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_squeezebox: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     is_service: bool,
@@ -196,12 +196,12 @@ async def test_remove_device_blocked(
         )
 
     assert device is not None
-    with pytest.raises(__HAC_KEEP__Error, match=expected_error):
+    with pytest.raises(UniversalAssistantError, match=expected_error):
         await async_remove_config_entry_device(hass, entry, device)
 
 
 async def test_remove_device_allowed_offline_player(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_squeezebox: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -220,7 +220,7 @@ async def test_remove_device_allowed_offline_player(
 
 
 async def test_remove_device_allowed_stale_player(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_squeezebox: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -238,7 +238,7 @@ async def test_remove_device_allowed_stale_player(
 
 
 async def test_remove_device_rejects_child_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_squeezebox: MockConfigEntry,
 ) -> None:
     """Test that removal is rejected for an unexpected child device."""

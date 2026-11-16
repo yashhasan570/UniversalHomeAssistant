@@ -16,7 +16,7 @@ from universalassistant.components.zha.helpers import (
     get_zha_gateway_proxy,
 )
 from universalassistant.const import CONF_DEVICE_ID, CONF_UNIQUE_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -50,7 +50,7 @@ def sensor_platform_only():
 
 @pytest.fixture
 async def mock_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ):
@@ -81,7 +81,7 @@ async def mock_devices(
 
 
 async def test_zha_logbook_event_device_with_triggers(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, mock_devices
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, mock_devices
 ) -> None:
     """Test ZHA logbook events with device and triggers."""
 
@@ -170,7 +170,7 @@ async def test_zha_logbook_event_device_with_triggers(
 
 
 async def test_zha_logbook_event_device_no_triggers(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, mock_devices
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, mock_devices
 ) -> None:
     """Test ZHA logbook events with device and without triggers."""
 
@@ -285,7 +285,7 @@ async def test_zha_logbook_event_device_no_triggers(
 
 
 async def test_zha_logbook_event_device_no_device(
-    hass: __HAC_KEEP__, mock_devices
+    hass: UniversalAssistant, mock_devices
 ) -> None:
     """Test ZHA logbook events without device and without triggers."""
 

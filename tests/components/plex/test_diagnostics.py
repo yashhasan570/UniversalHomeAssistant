@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.plex.const import DOMAIN
 from universalassistant.components.plex.server import PlexServer
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import DEFAULT_DATA, DEFAULT_OPTIONS
 
@@ -44,7 +44,7 @@ from .const import DEFAULT_DATA, DEFAULT_OPTIONS
     ],
 )
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     setup_plex_server: Callable[..., Awaitable[PlexServer]],
     mock_websocket: MagicMock,

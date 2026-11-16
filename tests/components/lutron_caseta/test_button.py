@@ -2,14 +2,14 @@
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import MockBridge, async_setup_integration
 
 
 async def test_button_unique_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a button unique id."""
     await async_setup_integration(hass, MockBridge)
@@ -28,7 +28,7 @@ async def test_button_unique_id(
 
 
 async def test_pico_button_disabled_by_default(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that unnamed caseta pico button entities are disabled by default."""
     await async_setup_integration(hass, MockBridge)
@@ -38,7 +38,7 @@ async def test_pico_button_disabled_by_default(
     assert entry.disabled_by is er.RegistryEntryDisabler.INTEGRATION
 
 
-async def test_button_press(hass: __HAC_KEEP__) -> None:
+async def test_button_press(hass: UniversalAssistant) -> None:
     """Test a button press."""
     await async_setup_integration(hass, MockBridge)
 

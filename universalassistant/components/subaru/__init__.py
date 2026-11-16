@@ -11,7 +11,7 @@ from universalassistant.const import (
     CONF_PIN,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import aiohttp_client, config_validation as cv
 from universalassistant.helpers.device_registry import DeviceInfo
@@ -46,13 +46,13 @@ _LOGGER = logging.getLogger(__name__)
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Subaru integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SubaruConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SubaruConfigEntry) -> None:
     """Set up Subaru from a config entry."""
     config = entry.data
     websession = aiohttp_client.async_create_clientsession(hass)
@@ -98,7 +98,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SubaruConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SubaruConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SubaruConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 

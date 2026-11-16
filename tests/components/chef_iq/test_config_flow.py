@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.chef_iq.const import DOMAIN
 from universalassistant.config_entries import SOURCE_BLUETOOTH, SOURCE_IGNORE, SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 
@@ -24,7 +24,7 @@ DISCOVERY = "universalassistant.components.chef_iq.config_flow.async_discovered_
 
 
 async def test_async_step_bluetooth_valid_device(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test discovery via bluetooth with a valid device."""
     result = await hass.config_entries.flow.async_init(
@@ -52,7 +52,7 @@ async def test_async_step_bluetooth_valid_device(
     ],
 )
 async def test_async_step_bluetooth_not_supported(
-    hass: __HAC_KEEP__, service_info: BluetoothServiceInfo
+    hass: UniversalAssistant, service_info: BluetoothServiceInfo
 ) -> None:
     """Test bluetooth discovery rejects advertisements that are not a probe."""
     result = await hass.config_entries.flow.async_init(
@@ -64,7 +64,7 @@ async def test_async_step_bluetooth_not_supported(
     assert result["reason"] == "not_supported"
 
 
-async def test_async_step_user_no_devices_found(hass: __HAC_KEEP__) -> None:
+async def test_async_step_user_no_devices_found(hass: UniversalAssistant) -> None:
     """Test setup from service info cache with no devices found."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -75,7 +75,7 @@ async def test_async_step_user_no_devices_found(hass: __HAC_KEEP__) -> None:
 
 
 async def test_async_step_user_with_found_devices(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test setup from service info cache with devices found."""
     with patch(DISCOVERY, return_value=[CHEFIQ_TEMPERATURE_SERVICE_INFO]):
@@ -103,7 +103,7 @@ async def test_async_step_user_with_found_devices(
     ],
 )
 async def test_async_step_user_no_eligible_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     discovered: list[BluetoothServiceInfo],
     existing_entry: bool,
@@ -125,7 +125,7 @@ async def test_async_step_user_no_eligible_devices(
 
 
 async def test_async_step_bluetooth_devices_already_setup(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we can't start a flow if there is already a config entry."""
     mock_config_entry.add_to_hass(hass)
@@ -138,7 +138,7 @@ async def test_async_step_bluetooth_devices_already_setup(
     assert result["reason"] == "already_configured"
 
 
-async def test_async_step_bluetooth_already_in_progress(hass: __HAC_KEEP__) -> None:
+async def test_async_step_bluetooth_already_in_progress(hass: UniversalAssistant) -> None:
     """Test we can't start a flow for the same device twice."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -158,7 +158,7 @@ async def test_async_step_bluetooth_already_in_progress(hass: __HAC_KEEP__) -> N
 
 
 async def test_async_step_user_device_added_between_steps(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -182,7 +182,7 @@ async def test_async_step_user_device_added_between_steps(
 
 
 async def test_async_step_user_replace_ignored(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test setup from service info can replace an ignored entry."""
     entry = MockConfigEntry(
@@ -209,7 +209,7 @@ async def test_async_step_user_replace_ignored(
 
 
 async def test_async_step_user_takes_precedence_over_discovery(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test manual setup takes precedence over discovery."""
     result = await hass.config_entries.flow.async_init(

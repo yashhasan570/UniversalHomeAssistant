@@ -18,7 +18,7 @@ from universalassistant.components.humidifier import (
     HumidifierEntity,
     HumidifierEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 
 
@@ -31,7 +31,7 @@ class MockHumidifierEntity(MockEntity, HumidifierEntity):
         return 0
 
 
-async def test_sync_turn_on(hass: __HAC_KEEP__) -> None:
+async def test_sync_turn_on(hass: UniversalAssistant) -> None:
     """Test if async turn_on calls sync turn_on."""
     humidifier = MockHumidifierEntity()
     humidifier.hass = hass
@@ -42,7 +42,7 @@ async def test_sync_turn_on(hass: __HAC_KEEP__) -> None:
     assert humidifier.turn_on.called
 
 
-async def test_sync_turn_off(hass: __HAC_KEEP__) -> None:
+async def test_sync_turn_off(hass: UniversalAssistant) -> None:
     """Test if async turn_off calls sync turn_off."""
     humidifier = MockHumidifierEntity()
     humidifier.hass = hass
@@ -54,7 +54,7 @@ async def test_sync_turn_off(hass: __HAC_KEEP__) -> None:
 
 
 async def test_humidity_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     register_test_integration: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

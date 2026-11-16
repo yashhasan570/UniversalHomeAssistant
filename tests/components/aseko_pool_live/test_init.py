@@ -5,10 +5,10 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.aseko_pool_live.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def test_migrate_entry_unknown_version(hass: __HAC_KEEP__) -> None:
+async def test_migrate_entry_unknown_version(hass: UniversalAssistant) -> None:
     """Test migration from an unknown version raises an error."""
     entry = MockConfigEntry(
         domain=DOMAIN,

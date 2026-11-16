@@ -5,10 +5,10 @@ from unittest.mock import MagicMock
 from pytest_universalassistant.common import MockConfigEntry
 from wiim.consts import PlayingStatus
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Set up the component."""
     config_entry.add_to_hass(hass)
 
@@ -16,7 +16,7 @@ async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -
     await hass.async_block_till_done()
 
 
-async def fire_general_update(hass: __HAC_KEEP__, mock_device: MagicMock) -> None:
+async def fire_general_update(hass: UniversalAssistant, mock_device: MagicMock) -> None:
     """Trigger the registered general update callback on the mock device."""
     assert mock_device.general_event_callback is not None
     mock_device.general_event_callback(mock_device)
@@ -24,7 +24,7 @@ async def fire_general_update(hass: __HAC_KEEP__, mock_device: MagicMock) -> Non
 
 
 async def fire_transport_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: MagicMock,
     transport_state: PlayingStatus,
 ) -> None:

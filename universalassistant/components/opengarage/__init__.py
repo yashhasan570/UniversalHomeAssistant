@@ -3,7 +3,7 @@
 import opengarage
 
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_VERIFY_SSL, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import CONF_DEVICE_KEY
@@ -18,7 +18,7 @@ PLATFORMS = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: OpenGarageConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: OpenGarageConfigEntry) -> None:
     """Set up OpenGarage from a config entry."""
     open_garage_connection = opengarage.OpenGarage(
         f"{entry.data[CONF_HOST]}:{entry.data[CONF_PORT]}",
@@ -35,6 +35,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: OpenGarageConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: OpenGarageConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: OpenGarageConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

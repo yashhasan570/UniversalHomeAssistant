@@ -5,13 +5,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.time_date.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_DISPLAY_OPTIONS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def load_int(
-    hass: __HAC_KEEP__, display_option: str | None = None
+    hass: UniversalAssistant, display_option: str | None = None
 ) -> MockConfigEntry:
-    """Set up the Time & Date integration in __HA_KEEP__."""
+    """Set up the Time & Date integration in Universal Home Assistant."""
     if display_option is None:
         display_option = "time"
     config_entry = MockConfigEntry(

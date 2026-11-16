@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from victron_vrm.models.aggregations import ForecastAggregations
 
 from universalassistant.components.victron_remote_monitoring.coordinator import get_forecast
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.parametrize(
@@ -47,7 +47,7 @@ from universalassistant.core import __HAC_KEEP__
     ],
 )
 async def test_forecast_uses_local_midnight(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vrm_client: MagicMock,
     now_utc: str,
     today_start_utc: str,
@@ -134,7 +134,7 @@ async def test_forecast_uses_local_midnight(
     ],
 )
 async def test_forecast_dst_day_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vrm_client: MagicMock,
     now_utc: str,
     today_start_utc: str,
@@ -195,7 +195,7 @@ async def test_forecast_dst_day_range(
 
 
 async def test_hourly_forecasts_during_fall_back(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vrm_client: MagicMock,
 ) -> None:
     """The next hour follows elapsed time during the repeated local hour."""
@@ -253,7 +253,7 @@ async def test_hourly_forecasts_during_fall_back(
     ],
 )
 async def test_refreshes_at_local_midnight(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vrm_client: MagicMock,
     freezer: FrozenDateTimeFactory,

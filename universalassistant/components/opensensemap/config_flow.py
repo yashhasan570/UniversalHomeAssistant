@@ -7,17 +7,17 @@ from opensensemap_api.exceptions import OpenSenseMapError
 import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import CONF_STATION_ID, DOMAIN, ERROR_CANNOT_CONNECT, ERROR_INVALID_STATION
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate the openSenseMap API is unreachable."""
 
 
-class InvalidStation(__HAC_KEEP__Error):
+class InvalidStation(UniversalAssistantError):
     """Error to indicate the station ID does not exist."""
 
 

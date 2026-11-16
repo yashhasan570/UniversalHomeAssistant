@@ -5,12 +5,12 @@ from aiosomecomfort.location import Location
 import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.parametrize(("unit", "temp"), [("C", 5), ("F", -15)])
 async def test_outdoor_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     location: Location,
     device_with_outdoor_sensor: Device,
@@ -37,7 +37,7 @@ async def test_outdoor_sensor(
 
 @pytest.mark.parametrize(("unit", "temp"), [("C", 5), ("F", -15)])
 async def test_indoor_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     location: Location,
     device: Device,

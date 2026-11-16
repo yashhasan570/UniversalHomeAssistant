@@ -5,7 +5,7 @@ from typing import override
 from tailscale import Device, Tailscale, TailscaleAuthenticationError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -28,7 +28,7 @@ class TailscaleDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Device]]):
 
     config_entry: TailscaleConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: TailscaleConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: TailscaleConfigEntry) -> None:
         """Initialize the Tailscale coordinator."""
         session = async_get_clientsession(hass)
         self.tailscale = Tailscale(

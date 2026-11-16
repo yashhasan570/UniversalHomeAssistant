@@ -13,7 +13,7 @@ from universalassistant.components import device_tracker, sensor
 from universalassistant.components.asuswrt.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_PROTOCOL, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import slugify
@@ -28,8 +28,8 @@ from .common import (
 )
 
 
-async def test_disconnect_on_stop(hass: __HAC_KEEP__, connect_legacy) -> None:
-    """Test we close the connection with the router when __HA_KEEP__s stops."""
+async def test_disconnect_on_stop(hass: UniversalAssistant, connect_legacy) -> None:
+    """Test we close the connection with the router when Universal Home Assistants stops."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
         data=CONFIG_DATA_TELNET,
@@ -50,7 +50,7 @@ async def test_disconnect_on_stop(hass: __HAC_KEEP__, connect_legacy) -> None:
 
 @pytest.mark.usefixtures("connect_http", "connect_http_sens_detect")
 async def test_device_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -87,7 +87,7 @@ async def test_device_registry(
 
 @pytest.mark.usefixtures("connect_legacy")
 async def test_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -159,7 +159,7 @@ async def test_remove_config_entry_device(
 
 @pytest.mark.usefixtures("connect_legacy")
 async def test_remove_config_entry_device_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,

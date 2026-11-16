@@ -7,7 +7,7 @@ from aioswitcher.device import SwitcherBase
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_TOKEN, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.typing import ConfigType
 
@@ -33,13 +33,13 @@ type SwitcherConfigEntry = ConfigEntry[dict[str, SwitcherDataUpdateCoordinator]]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Switcher integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SwitcherConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SwitcherConfigEntry) -> None:
     """Set up Switcher from a config entry."""
 
     token = entry.data.get(CONF_TOKEN)
@@ -99,13 +99,13 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SwitcherConfigEntry) -> N
     )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SwitcherConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SwitcherConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: SwitcherConfigEntry,
     device_entry: dr.AnyDeviceEntry,
 ) -> bool:

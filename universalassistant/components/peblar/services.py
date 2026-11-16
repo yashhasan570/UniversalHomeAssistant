@@ -15,13 +15,13 @@ import probatio
 
 from universalassistant.const import CONF_ALIAS, CONF_DESCRIPTION, CommonServiceArgument
 from universalassistant.core import (
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.service import (
     async_get_config_entry,
     async_register_admin_service,
@@ -83,7 +83,7 @@ AUTHORIZE_SCHEMA = probatio.All(
 )
 
 
-def _get_rfid_peblar(hass: __HAC_KEEP__, entry_id: str) -> Peblar:
+def _get_rfid_peblar(hass: UniversalAssistant, entry_id: str) -> Peblar:
     """Return the client, for a charger that has an RFID reader.
 
     The standalone authorization list lives on the reader, so a charger
@@ -102,7 +102,7 @@ def _get_rfid_peblar(hass: __HAC_KEEP__, entry_id: str) -> Peblar:
     return entry.runtime_data.user_configuration_coordinator.peblar
 
 
-def _get_authorizing_api(hass: __HAC_KEEP__, entry_id: str) -> PeblarApi:
+def _get_authorizing_api(hass: UniversalAssistant, entry_id: str) -> PeblarApi:
     """Return the local REST API, for a charger that authorizes sessions.
 
     Presenting a token lives on the local REST API rather than the web
@@ -143,7 +143,7 @@ def _get_authorizing_api(hass: __HAC_KEEP__, entry_id: str) -> PeblarApi:
     return runtime_data.data_coordinator.api
 
 
-def _get_autocharge_peblar(hass: __HAC_KEEP__, entry_id: str) -> Peblar:
+def _get_autocharge_peblar(hass: UniversalAssistant, entry_id: str) -> Peblar:
     """Return the client, for a charger that can do autocharge.
 
     Autocharge identifies a car by what its own controller presents over
@@ -165,29 +165,29 @@ def _get_autocharge_peblar(hass: __HAC_KEEP__, entry_id: str) -> Peblar:
 
 @asynccontextmanager
 async def _handle_peblar_errors(
-    hass: __HAC_KEEP__, entry_id: str
+    hass: UniversalAssistant, entry_id: str
 ) -> AsyncIterator[None]:
-    """Translate Peblar library errors into __HA_KEEP__ errors."""
+    """Translate Peblar library errors into Universal Home Assistant errors."""
     try:
         yield
 
     except PeblarAuthenticationError as error:
         # Reload the config entry to trigger reauth flow
         hass.config_entries.async_schedule_reload(entry_id)
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="authentication_error",
         ) from error
 
     except PeblarConnectionError as error:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="communication_error",
             translation_placeholders={"error": str(error)},
         ) from error
 
     except PeblarError as error:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="unknown_error",
             translation_placeholders={"error": str(error)},
@@ -195,7 +195,7 @@ async def _handle_peblar_errors(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register RFID management services."""
 
     async def _handle_list_rfid_tokens(call: ServiceCall) -> ServiceResponse:

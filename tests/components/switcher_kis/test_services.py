@@ -13,8 +13,8 @@ from universalassistant.components.switcher_kis.services import (
     SwitcherServiceArgument,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceNotSupported
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceNotSupported
 from universalassistant.helpers.config_validation import time_period_str
 from universalassistant.util import slugify
 
@@ -32,7 +32,7 @@ from .consts import (
 
 @pytest.mark.parametrize("mock_bridge", [[DUMMY_WATER_HEATER_DEVICE]], indirect=True)
 async def test_turn_on_with_timer_service(
-    hass: __HAC_KEEP__, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test the turn on with timer service."""
     await init_integration(hass)
@@ -72,7 +72,7 @@ async def test_turn_on_with_timer_service(
 
 @pytest.mark.parametrize("mock_bridge", [[DUMMY_HEATER_DEVICE]], indirect=True)
 async def test_turn_on_with_timer_service_token_needed(
-    hass: __HAC_KEEP__, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test the turn on with timer service."""
     await init_integration(hass, USERNAME, TOKEN)
@@ -111,7 +111,7 @@ async def test_turn_on_with_timer_service_token_needed(
 
 
 @pytest.mark.parametrize("mock_bridge", [[DUMMY_WATER_HEATER_DEVICE]], indirect=True)
-async def test_set_auto_off_service(hass: __HAC_KEEP__, mock_bridge, mock_api) -> None:
+async def test_set_auto_off_service(hass: UniversalAssistant, mock_bridge, mock_api) -> None:
     """Test the set auto off service."""
     await init_integration(hass)
     assert mock_bridge
@@ -140,7 +140,7 @@ async def test_set_auto_off_service(hass: __HAC_KEEP__, mock_bridge, mock_api) -
 
 @pytest.mark.parametrize("mock_bridge", [[DUMMY_HEATER_DEVICE]], indirect=True)
 async def test_set_auto_off_service_token_needed(
-    hass: __HAC_KEEP__, mock_bridge, mock_api
+    hass: UniversalAssistant, mock_bridge, mock_api
 ) -> None:
     """Test the set auto off service."""
     await init_integration(hass, USERNAME, TOKEN)
@@ -168,7 +168,7 @@ async def test_set_auto_off_service_token_needed(
 
 @pytest.mark.parametrize("mock_bridge", [[DUMMY_WATER_HEATER_DEVICE]], indirect=True)
 async def test_set_auto_off_service_fail(
-    hass: __HAC_KEEP__, mock_bridge, mock_api
+    hass: UniversalAssistant, mock_bridge, mock_api
 ) -> None:
     """Test set auto off service failed."""
     await init_integration(hass)
@@ -181,7 +181,7 @@ async def test_set_auto_off_service_fail(
         "universalassistant.components.switcher_kis.entity.SwitcherApi.set_auto_shutdown",
         return_value=None,
     ) as mock_set_auto_shutdown:
-        with pytest.raises(__HAC_KEEP__Error):
+        with pytest.raises(UniversalAssistantError):
             await hass.services.async_call(
                 DOMAIN,
                 SwitcherService.SET_AUTO_OFF,
@@ -203,7 +203,7 @@ async def test_set_auto_off_service_fail(
 
 @pytest.mark.parametrize("mock_bridge", [[DUMMY_HEATER_DEVICE]], indirect=True)
 async def test_set_auto_off_service_fail_token_needed(
-    hass: __HAC_KEEP__, mock_bridge, mock_api
+    hass: UniversalAssistant, mock_bridge, mock_api
 ) -> None:
     """Test set auto off service failed."""
     await init_integration(hass, USERNAME, TOKEN)
@@ -217,7 +217,7 @@ async def test_set_auto_off_service_fail_token_needed(
             "universalassistant.components.switcher_kis.entity.SwitcherApi.set_auto_shutdown",
             return_value=None,
         ) as mock_set_auto_shutdown,
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -238,7 +238,7 @@ async def test_set_auto_off_service_fail_token_needed(
 
 @pytest.mark.parametrize("mock_bridge", [[DUMMY_PLUG_DEVICE]], indirect=True)
 async def test_plug_unsupported_services(
-    hass: __HAC_KEEP__, mock_bridge, mock_api, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, mock_bridge, mock_api, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test plug device unsupported services."""
     await init_integration(hass)

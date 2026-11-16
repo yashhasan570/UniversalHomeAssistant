@@ -9,14 +9,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.todo import ATTR_ITEM, DOMAIN as TODO_DOMAIN, TodoServices
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 
 from .conftest import ENTITY_ID
 
 
 async def test_cart_list_with_items(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration,
     get_items,
     snapshot: SnapshotAssertion,
@@ -30,7 +30,7 @@ async def test_cart_list_with_items(
 
 
 async def test_cart_list_empty_items(
-    hass: __HAC_KEEP__, mock_picnic_api: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_picnic_api: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test loading of shopping cart without items."""
     mock_picnic_api.get_cart.return_value = Cart(items=[])
@@ -44,7 +44,7 @@ async def test_cart_list_empty_items(
 
 
 async def test_cart_list_unexpected_response(
-    hass: __HAC_KEEP__, mock_picnic_api: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_picnic_api: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test loading of shopping cart without expected response."""
     mock_picnic_api.get_cart.return_value = {}
@@ -57,7 +57,7 @@ async def test_cart_list_unexpected_response(
 
 
 async def test_cart_list_null_response(
-    hass: __HAC_KEEP__, mock_picnic_api: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_picnic_api: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test loading of shopping cart without response."""
     mock_picnic_api.get_cart.return_value = None
@@ -70,7 +70,7 @@ async def test_cart_list_null_response(
 
 
 async def test_create_todo_list_item(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry, mock_picnic_api: MagicMock
+    hass: UniversalAssistant, init_integration: MockConfigEntry, mock_picnic_api: MagicMock
 ) -> None:
     """Test for creating a picnic cart item."""
     assert len(mock_picnic_api.get_cart.mock_calls) == 1
@@ -103,7 +103,7 @@ async def test_create_todo_list_item(
 
 
 async def test_create_todo_list_item_not_found(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry, mock_picnic_api: MagicMock
+    hass: UniversalAssistant, init_integration: MockConfigEntry, mock_picnic_api: MagicMock
 ) -> None:
     """Test for creating a picnic cart item when ID is not found."""
     mock_picnic_api.search = Mock()

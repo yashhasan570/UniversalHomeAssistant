@@ -5,7 +5,7 @@ import logging
 from aiokem import AioKem, AuthenticationError
 
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.util import dt as dt_util
@@ -24,7 +24,7 @@ PLATFORMS = [Platform.BINARY_SENSOR, Platform.SENSOR]
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: RehlkoConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: RehlkoConfigEntry) -> None:
     """Set up Rehlko from a config entry."""
     websession = async_get_clientsession(hass)
     rehlko = AioKem(session=websession, home_timezone=dt_util.get_default_time_zone())
@@ -92,7 +92,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: RehlkoConfigEntry) -> Non
     rehlko.set_timeout(100)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: RehlkoConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: RehlkoConfigEntry) -> None:
     """Unload a config entry."""
     await entry.runtime_data.rehlko.close()
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

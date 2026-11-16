@@ -6,7 +6,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -15,7 +15,7 @@ charge_point_buttons = ["stop_charge_session", "reset", "reboot"]
 
 
 async def test_buttons_created(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -28,7 +28,7 @@ async def test_buttons_created(
 
 @pytest.mark.freeze_time("2023-01-13 12:00:00+00:00")
 async def test_charge_point_buttons(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test the underlying charge point buttons."""
     await init_integration(hass, config_entry, Platform.BUTTON)

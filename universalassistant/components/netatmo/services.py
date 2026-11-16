@@ -4,7 +4,7 @@ import probatio
 
 from universalassistant.components.camera import DOMAIN as CAMERA_DOMAIN
 from universalassistant.components.climate import DOMAIN as CLIMATE_DOMAIN
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv, issue_registry as ir
 from universalassistant.helpers.service import async_register_platform_entity_service
@@ -14,7 +14,7 @@ from .const import CAMERA_LIGHT_MODES, DOMAIN, NetatmoService, NetatmoServiceArg
 from .coordinator import NetatmoConfigEntry, async_get_loaded_entry
 
 
-def _get_loaded_entry(hass: __HAC_KEEP__) -> NetatmoConfigEntry:
+def _get_loaded_entry(hass: UniversalAssistant) -> NetatmoConfigEntry:
     """Return the loaded config entry or raise if unavailable."""
     if (entry := async_get_loaded_entry(hass)) is None:
         raise ServiceValidationError(
@@ -24,7 +24,7 @@ def _get_loaded_entry(hass: __HAC_KEEP__) -> NetatmoConfigEntry:
     return entry
 
 
-def _deprecate(hass: __HAC_KEEP__, service: str) -> None:
+def _deprecate(hass: UniversalAssistant, service: str) -> None:
     """Warn and raise a repair issue for the deprecated webhook actions."""
     ir.async_create_issue(
         hass,
@@ -54,7 +54,7 @@ async def _unregister_webhook(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the Netatmo services."""
     hass.services.async_register(
         DOMAIN, NetatmoService.REGISTER_WEBHOOK, _register_webhook

@@ -13,12 +13,12 @@ from universalassistant.components.downloader.const import (
     DOWNLOAD_COMPLETED_EVENT,
     DOWNLOAD_FAILED_EVENT,
 )
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 
 
 @pytest.fixture
 async def setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> MockConfigEntry:
     """Set up the downloader integration for testing."""
@@ -30,7 +30,7 @@ async def setup_integration(
 
 @pytest.fixture
 def mock_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     download_dir: Path,
 ) -> MockConfigEntry:
     """Return a mocked config entry."""
@@ -64,7 +64,7 @@ def download_url() -> str:
 
 
 @pytest.fixture
-def download_completed(hass: __HAC_KEEP__) -> asyncio.Event:
+def download_completed(hass: UniversalAssistant) -> asyncio.Event:
     """Return an asyncio event to wait for download completion."""
     download_event = asyncio.Event()
 
@@ -79,7 +79,7 @@ def download_completed(hass: __HAC_KEEP__) -> asyncio.Event:
 
 
 @pytest.fixture
-def download_failed(hass: __HAC_KEEP__) -> asyncio.Event:
+def download_failed(hass: UniversalAssistant) -> asyncio.Event:
     """Return an asyncio event to wait for download failure."""
     download_event = asyncio.Event()
 

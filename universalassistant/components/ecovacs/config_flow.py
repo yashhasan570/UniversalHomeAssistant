@@ -29,7 +29,7 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import aiohttp_client, selector
 from universalassistant.helpers.typing import VolDictType
 from universalassistant.util.ssl import get_default_no_verify_context
@@ -64,7 +64,7 @@ def _validate_url(
 
 
 async def _validate_input(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     user_input: dict[str, Any],
     device_id: str,
     authenticator: Authenticator,
@@ -105,7 +105,7 @@ async def _validate_input(
 
 
 async def _validate_mqtt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     user_input: dict[str, Any],
     device_id: str,
     authenticator: Authenticator,

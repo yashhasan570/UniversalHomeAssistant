@@ -9,14 +9,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.nfandroidtv.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import CONF_CONFIG_FLOW, CONF_DATA, NAME
 
 
 @pytest.mark.usefixtures("mock_notifications_android_tv")
-async def test_flow_user(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_flow_user(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test user initialized flow."""
 
     result = await hass.config_entries.flow.async_init(
@@ -38,7 +38,7 @@ async def test_flow_user(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> Non
 
 @pytest.mark.usefixtures("mock_notifications_android_tv")
 async def test_flow_user_already_configured(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test user initialized flow with duplicate server."""
 
@@ -64,7 +64,7 @@ async def test_flow_user_already_configured(
     [(ConnectError, "cannot_connect"), (ValueError, "unknown")],
 )
 async def test_flow_user_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_notifications_android_tv: MagicMock,
     exception: Exception,
@@ -99,7 +99,7 @@ async def test_flow_user_errors(
 
 @pytest.mark.usefixtures("mock_notifications_android_tv")
 async def test_flow_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure flow."""
@@ -127,7 +127,7 @@ async def test_flow_reconfigure(
     ("exception", "error"), [(ConnectError, "cannot_connect"), (ValueError, "unknown")]
 )
 async def test_flow_reconfigure_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_notifications_android_tv: MagicMock,
     config_entry: MockConfigEntry,
     exception: Exception,
@@ -167,7 +167,7 @@ async def test_flow_reconfigure_errors(
 
 @pytest.mark.usefixtures("mock_notifications_android_tv")
 async def test_flow_reconfigure_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure flow aborts if already configured."""

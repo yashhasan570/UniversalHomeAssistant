@@ -10,7 +10,7 @@ from aioqsw.exceptions import QswError
 from aioqsw.localapi import QnapQswApi
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN, QSW_TIMEOUT_SEC
@@ -38,7 +38,7 @@ class QswDataCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     config_entry: QnapQswConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: QnapQswConfigEntry, qsw: QnapQswApi
+        self, hass: UniversalAssistant, config_entry: QnapQswConfigEntry, qsw: QnapQswApi
     ) -> None:
         """Initialize."""
         self.qsw = qsw
@@ -68,7 +68,7 @@ class QswFirmwareCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     config_entry: QnapQswConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: QnapQswConfigEntry, qsw: QnapQswApi
+        self, hass: UniversalAssistant, config_entry: QnapQswConfigEntry, qsw: QnapQswApi
     ) -> None:
         """Initialize."""
         self.qsw = qsw

@@ -258,7 +258,7 @@ def validate_number_attributes(
         "value_type": str(transcoder.value_type),
     }
 
-    # Infinity is not supported by __HA_KEEP__ frontend so user defined
+    # Infinity is not supported by Universal Home Assistant frontend so user defined
     # config is required if xknx DPTNumeric subclass defines it as limit.
     if min_config is None and transcoder.value_min == -math.inf:
         raise probatio.Invalid(

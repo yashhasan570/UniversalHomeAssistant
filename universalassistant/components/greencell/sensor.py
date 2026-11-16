@@ -1,4 +1,4 @@
-"""__HA_KEEP__ integration module for Greencell EVSE sensor entities over MQTT."""
+"""Universal Home Assistant integration module for Greencell EVSE sensor entities over MQTT."""
 
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -22,8 +22,8 @@ from universalassistant.const import (
     UnitOfElectricPotential,
     UnitOfPower,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import ConfigEntryNotReady, __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import ConfigEntryNotReady, UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -127,7 +127,7 @@ SENSOR_DESCRIPTIONS = (
 
 # --- Config Flow Setup ---
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: GreencellConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -243,7 +243,7 @@ async def async_setup_entry(
             unsub = await mqtt.async_subscribe(hass, topic, handler)
             if unsub is not None:
                 entry.async_on_unload(unsub)
-    except __HAC_KEEP__Error as err:
+    except UniversalAssistantError as err:
         raise ConfigEntryNotReady(f"MQTT is unavailable: {err}") from err
 
     async_add_entities(sensors)

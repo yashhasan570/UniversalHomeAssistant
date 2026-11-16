@@ -33,11 +33,11 @@ from universalassistant.components.mcp.coordinator import (
 )
 from universalassistant.config_entries import SOURCE_HASSIO, SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_API_TOKEN, CONF_TOKEN, CONF_URL
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     OAuth2TokenRequestError,
     OAuth2TokenRequestReauthError,
 )
@@ -260,7 +260,7 @@ def fake_sse_mcp_server() -> Generator[FakeMcpServer]:
 
 
 @pytest.mark.usefixtures("fake_mcp_server")
-async def test_init(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def test_init(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Test the integration is initialized and can be unloaded cleanly."""
     await hass.config_entries.async_setup(config_entry.entry_id)
     assert config_entry.state is ConfigEntryState.LOADED
@@ -279,7 +279,7 @@ async def test_init(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     ],
 )
 async def test_mcp_server_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     fake_mcp_server: FakeMcpServer,
     error: httpx2.Response | Exception | ErrorData,
@@ -296,7 +296,7 @@ async def test_mcp_server_failure(
 
 @respx.mock
 async def test_mcp_server_setup_auth_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test setup auth failure triggers reauth."""
@@ -311,7 +311,7 @@ async def test_mcp_server_setup_auth_failure(
 
 @respx.mock
 async def test_mcp_server_setup_auth_failure_with_www_authenticate_header(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test setup auth failure with WWW-Authenticate header parses header and triggers reauth."""
@@ -339,7 +339,7 @@ async def test_mcp_server_setup_auth_failure_with_www_authenticate_header(
 
 @respx.mock
 async def test_mcp_server_http_transport_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test the integration fails to setup if the HTTP transport fails."""
@@ -358,7 +358,7 @@ async def test_mcp_server_http_transport_failure(
     ],
 )
 async def test_mcp_server_sse_transport_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     fake_sse_mcp_server: FakeMcpServer,
     error: Exception | ErrorData,
@@ -375,7 +375,7 @@ async def test_mcp_server_sse_transport_failure(
 
 @pytest.mark.parametrize("status_code", [405, 404])
 async def test_mcp_client_fallback_to_sse_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     fake_sse_mcp_server: FakeMcpServer,
     status_code: int,
@@ -394,7 +394,7 @@ async def test_mcp_client_fallback_to_sse_success(
 @respx.mock
 @pytest.mark.usefixtures("credential")
 async def test_mcp_server_authentication_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_auth: MockConfigEntry,
 ) -> None:
     """Test the integration fails to setup if the server fails authentication."""
@@ -413,7 +413,7 @@ async def test_mcp_server_authentication_failure(
 
 @pytest.mark.usefixtures("fake_mcp_server")
 async def test_api_token(
-    hass: __HAC_KEEP__, config_entry_with_api_token: MockConfigEntry
+    hass: UniversalAssistant, config_entry_with_api_token: MockConfigEntry
 ) -> None:
     """Test the token provided by the app discovery is sent on every request."""
     await hass.config_entries.async_setup(config_entry_with_api_token.entry_id)
@@ -436,7 +436,7 @@ async def test_api_token(
 
 @pytest.mark.usefixtures("fake_mcp_server")
 async def test_api_token_changed(
-    hass: __HAC_KEEP__, config_entry_with_api_token: MockConfigEntry
+    hass: UniversalAssistant, config_entry_with_api_token: MockConfigEntry
 ) -> None:
     """Test tools held by an ongoing conversation use a new app token."""
     await hass.config_entries.async_setup(config_entry_with_api_token.entry_id)
@@ -461,7 +461,7 @@ async def test_api_token_changed(
 
 @pytest.mark.usefixtures("credential", "fake_mcp_server")
 async def test_oauth_preferred_over_api_token(
-    hass: __HAC_KEEP__, config_entry_with_auth: MockConfigEntry
+    hass: UniversalAssistant, config_entry_with_auth: MockConfigEntry
 ) -> None:
     """Test OAuth is used when the entry also has a token from the app discovery."""
     hass.config_entries.async_update_entry(
@@ -478,7 +478,7 @@ async def test_oauth_preferred_over_api_token(
 
 
 async def test_api_token_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fake_mcp_server: FakeMcpServer,
     config_entry_with_api_token: MockConfigEntry,
 ) -> None:
@@ -524,7 +524,7 @@ async def test_api_token_rejected(
     ],
 )
 async def test_list_tools_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     fake_mcp_server: FakeMcpServer,
     error: httpx2.Response | ErrorData,
@@ -537,7 +537,7 @@ async def test_list_tools_failure(
 
 
 async def test_llm_get_api_tools(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     fake_mcp_server: FakeMcpServer,
 ) -> None:
@@ -596,7 +596,7 @@ async def test_llm_get_api_tools(
     ],
 )
 async def test_llm_tool_annotations(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     fake_mcp_server: FakeMcpServer,
     remote_annotations: ToolAnnotations | None,
@@ -654,7 +654,7 @@ async def test_llm_tool_annotations(
     ],
 )
 async def test_call_tool(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     fake_mcp_server: FakeMcpServer,
     call_tool_result: CallToolResult,
@@ -701,13 +701,13 @@ async def test_call_tool(
     ],
 )
 async def test_call_tool_user_meta(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fake_mcp_server: FakeMcpServer,
     source: str,
     context: Context | None,
     expected_meta: dict[str, str] | None,
 ) -> None:
-    """Test the __HA_KEEP__ user is only passed to MCP servers from apps."""
+    """Test the Universal Home Assistant user is only passed to MCP servers from apps."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
         source=source,
@@ -754,7 +754,7 @@ async def test_call_tool_user_meta(
     ],
 )
 async def test_call_tool_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     fake_mcp_server: FakeMcpServer,
     error: httpx2.Response | ErrorData,
@@ -774,7 +774,7 @@ async def test_call_tool_fails(
     assert tool.name == "search_memory"
 
     fake_mcp_server.call_tool_error = error
-    with pytest.raises(__HAC_KEEP__Error, match=expected_message):
+    with pytest.raises(UniversalAssistantError, match=expected_message):
         await tool.async_call(
             hass,
             llm.ToolInput(
@@ -786,10 +786,10 @@ async def test_call_tool_fails(
 
 @pytest.mark.usefixtures("fake_mcp_server")
 async def test_convert_tool_schema_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
-    """Test a failure converting an MCP tool schema to a __HA_KEEP__ schema."""
+    """Test a failure converting an MCP tool schema to a Universal Home Assistant schema."""
     with patch(
         "universalassistant.components.mcp.coordinator.from_openapi",
         side_effect=ValueError,
@@ -799,7 +799,7 @@ async def test_convert_tool_schema_fails(
 
 
 async def test_oauth_implementation_not_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_auth: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""
@@ -814,7 +814,7 @@ async def test_oauth_implementation_not_available(
 
 
 async def test_tool_call_no_auth_auth_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     fake_mcp_server: FakeMcpServer,
 ) -> None:
@@ -844,7 +844,7 @@ async def test_tool_call_no_auth_auth_failure(
 
 
 async def test_tool_call_no_auth_auth_failure_with_www_authenticate_header(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     fake_mcp_server: FakeMcpServer,
 ) -> None:
@@ -886,7 +886,7 @@ async def test_tool_call_no_auth_auth_failure_with_www_authenticate_header(
 
 @pytest.mark.usefixtures("credential", "fake_mcp_server")
 async def test_tool_call_expired_oauth_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_auth: MockConfigEntry,
 ) -> None:
     """Test tool call token refresh failure when OAuth is configured."""
@@ -923,7 +923,7 @@ async def test_tool_call_expired_oauth_failure(
 
 @pytest.mark.usefixtures("credential")
 async def test_mcp_server_setup_oauth_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_auth: MockConfigEntry,
 ) -> None:
     """Test setup OAuth failure triggers reauth."""
@@ -950,7 +950,7 @@ async def test_mcp_server_setup_oauth_failure(
     ],
 )
 async def test_list_tools_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     fake_mcp_server: FakeMcpServer,
     error: Exception,
@@ -970,12 +970,12 @@ async def test_list_tools_timeout(
     ],
 )
 async def test_tool_call_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     fake_mcp_server: FakeMcpServer,
     error: Exception,
 ) -> None:
-    """Test tool call timing out raises __HAC_KEEP__Error."""
+    """Test tool call timing out raises UniversalAssistantError."""
     await hass.config_entries.async_setup(config_entry.entry_id)
     assert config_entry.state is ConfigEntryState.LOADED
 
@@ -986,7 +986,7 @@ async def test_tool_call_timeout(
 
     fake_mcp_server.call_tool_error = error
 
-    with pytest.raises(__HAC_KEEP__Error, match="Timeout when calling tool"):
+    with pytest.raises(UniversalAssistantError, match="Timeout when calling tool"):
         await tool.async_call(
             hass,
             llm.ToolInput(
@@ -998,7 +998,7 @@ async def test_tool_call_timeout(
 
 @pytest.mark.usefixtures("credential", "fake_mcp_server")
 async def test_tool_call_transient_oauth_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_auth: MockConfigEntry,
 ) -> None:
     """Test tool call transient token refresh failure does not trigger reauth."""
@@ -1018,7 +1018,7 @@ async def test_tool_call_transient_oauth_failure(
                 request_info=Mock(), history=(), domain=DOMAIN
             ),
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await tool.async_call(
             hass,
@@ -1035,7 +1035,7 @@ async def test_tool_call_transient_oauth_failure(
 
 @pytest.mark.usefixtures("credential")
 async def test_mcp_server_setup_transient_oauth_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_auth: MockConfigEntry,
 ) -> None:
     """Test setup transient OAuth failure does not trigger reauth."""
@@ -1053,11 +1053,11 @@ async def test_mcp_server_setup_transient_oauth_failure(
 
 
 async def test_tool_call_http_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     fake_mcp_server: FakeMcpServer,
 ) -> None:
-    """Test tool call HTTP error raises __HAC_KEEP__Error."""
+    """Test tool call HTTP error raises UniversalAssistantError."""
     await hass.config_entries.async_setup(config_entry.entry_id)
     assert config_entry.state is ConfigEntryState.LOADED
 
@@ -1069,7 +1069,7 @@ async def test_tool_call_http_error(
     fake_mcp_server.call_tool_error = httpx2.HTTPError("Connection timed out or failed")
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Error communicating with MCP server when calling tool",
     ):
         await tool.async_call(
@@ -1083,7 +1083,7 @@ async def test_tool_call_http_error(
 
 @pytest.mark.usefixtures("fake_sse_mcp_server")
 async def test_sse_client_does_not_build_ssl_context(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test the SSE transport does not load certificates in the event loop."""
@@ -1096,12 +1096,12 @@ async def test_sse_client_does_not_build_ssl_context(
 
 @pytest.mark.usefixtures("fake_mcp_server")
 async def test_streamable_http_client_closed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test the httpx client passed to the streamable HTTP transport.
 
-    It identifies as __HA_KEEP__ and is closed once the client exits.
+    It identifies as Universal Home Assistant and is closed once the client exits.
     """
     created_clients: list[httpx2.AsyncClient] = []
 
@@ -1124,7 +1124,7 @@ async def test_streamable_http_client_closed(
 
 
 @pytest.mark.usefixtures("fake_mcp_server")
-async def test_llm_api_id(hass: __HAC_KEEP__) -> None:
+async def test_llm_api_id(hass: UniversalAssistant) -> None:
     """Test the LLM API id of a discovered server survives a reinstall of the app."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

@@ -8,7 +8,7 @@ from zigpy.backups import NetworkBackup
 from universalassistant.components.universalassistant_hardware.silabs_multiprotocol_addon import (
     is_multiprotocol_url,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import api
 
@@ -16,14 +16,14 @@ from . import api
 ZHA_CHANNEL_CHANGE_TIME_S = 10.27
 
 
-def _get_zha_url(hass: __HAC_KEEP__) -> str | None:
+def _get_zha_url(hass: UniversalAssistant) -> str | None:
     """Return the ZHA radio path, or None if there's no ZHA config entry."""
     with contextlib.suppress(ValueError):
         return api.async_get_radio_path(hass)
     return None
 
 
-async def _get_zha_channel(hass: __HAC_KEEP__) -> int | None:
+async def _get_zha_channel(hass: UniversalAssistant) -> int | None:
     """Get ZHA channel, or None if there's no ZHA config entry."""
     zha_network_settings: NetworkBackup | None
     with contextlib.suppress(ValueError):
@@ -36,7 +36,7 @@ async def _get_zha_channel(hass: __HAC_KEEP__) -> int | None:
 
 
 async def async_change_channel(
-    hass: __HAC_KEEP__, channel: int, delay: float = 0
+    hass: UniversalAssistant, channel: int, delay: float = 0
 ) -> asyncio.Task | None:
     """Set the channel to be used.
 
@@ -55,7 +55,7 @@ async def async_change_channel(
     return hass.async_create_task(finish_migration())
 
 
-async def async_get_channel(hass: __HAC_KEEP__) -> int | None:
+async def async_get_channel(hass: UniversalAssistant) -> int | None:
     """Return the channel.
 
     Returns None if not configured.
@@ -68,7 +68,7 @@ async def async_get_channel(hass: __HAC_KEEP__) -> int | None:
     return await _get_zha_channel(hass)
 
 
-async def async_using_multipan(hass: __HAC_KEEP__) -> bool:
+async def async_using_multipan(hass: UniversalAssistant) -> bool:
     """Return if the multiprotocol device is used.
 
     Returns False if not configured.

@@ -12,7 +12,7 @@ from universalassistant.components.image import (
     ImageEntityDescription,
     infer_image_type,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -66,7 +66,7 @@ IMAGE_DESCRIPTIONS: tuple[IndiAllSkyImageEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: IndiAllSkyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -85,7 +85,7 @@ class IndiAllSkyImageEntity(IndiAllSkyEntity, ImageEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         coordinator: IndiAllSkyDataUpdateCoordinator,
         entry: IndiAllSkyConfigEntry,
         description: IndiAllSkyImageEntityDescription,

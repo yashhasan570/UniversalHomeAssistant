@@ -14,7 +14,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     STATE_ON,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.template import Template, is_template_string
 from universalassistant.helpers.typing import ConfigType
@@ -48,7 +48,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the emulated_kasa component."""
     if not (conf := config.get(DOMAIN)):
         return True

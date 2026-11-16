@@ -21,7 +21,7 @@
           "email": "The email address for your Specialized account.",
           "password": "The password is sent to Specialized only to retrieve the bike key."
         },
-        "description": "Your password is used only to retrieve this bike's encryption key. __HA_KEEP__ stores the per-bike wrapped key, not your password or account tokens.",
+        "description": "Your password is used only to retrieve this bike's encryption key. Universal Home Assistant stores the per-bike wrapped key, not your password or account tokens.",
         "title": "Sign in to Specialized"
       },
       "bluetooth_confirm": {

@@ -9,7 +9,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.laundrify.const import DOMAIN, MANUFACTURER
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import VALID_ACCESS_TOKEN, VALID_ACCOUNT_ID
 
@@ -31,11 +31,11 @@ def laundrify_sensor_fixture() -> LaundrifyDevice:
 
 @pytest.fixture(name="laundrify_config_entry")
 async def laundrify_setup_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     laundrify_api_mock,
     access_token: str = VALID_ACCESS_TOKEN,
 ) -> MockConfigEntry:
-    """Create laundrify entry in __HA_KEEP__."""
+    """Create laundrify entry in Universal Home Assistant."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         unique_id=VALID_ACCOUNT_ID,

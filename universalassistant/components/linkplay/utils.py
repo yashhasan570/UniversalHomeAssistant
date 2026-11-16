@@ -4,12 +4,12 @@ from aiohttp import ClientSession
 from linkplay.utils import async_create_unverified_client_session
 
 from universalassistant.const import EVENT_HOMEASSISTANT_CLOSE
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 
 from .const import SESSION_KEY
 
 
-async def async_get_client_session(hass: __HAC_KEEP__) -> ClientSession:
+async def async_get_client_session(hass: UniversalAssistant) -> ClientSession:
     """Get a ClientSession that can be used with LinkPlay devices."""
     if SESSION_KEY not in hass.data:
         clientsession: ClientSession = await async_create_unverified_client_session()

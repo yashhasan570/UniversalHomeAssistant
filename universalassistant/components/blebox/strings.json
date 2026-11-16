@@ -18,7 +18,7 @@
     "flow_title": "{name} ({host})",
     "step": {
       "confirm_discovery": {
-        "description": "Do you want to add the BleBox device **{name}** at `{host}` to __HA_KEEP__?",
+        "description": "Do you want to add the BleBox device **{name}** at `{host}` to Universal Home Assistant?",
         "title": "BleBox device discovered"
       },
       "reauth_confirm": {
@@ -62,7 +62,7 @@
           "port": "The port of your BleBox device.",
           "username": "The username for your BleBox device."
         },
-        "description": "Set up your BleBox to integrate with __HA_KEEP__.",
+        "description": "Set up your BleBox to integrate with Universal Home Assistant.",
         "title": "Set up your BleBox device"
       }
     }

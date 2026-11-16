@@ -10,12 +10,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.mpd.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_mpd_client: AsyncMock,
 ) -> None:
@@ -70,7 +70,7 @@ async def test_full_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_errors(
-    hass: __HAC_KEEP__, mock_mpd_client: AsyncMock, exception: Exception, error: str
+    hass: UniversalAssistant, mock_mpd_client: AsyncMock, exception: Exception, error: str
 ) -> None:
     """Test we handle errors correctly."""
     result = await hass.config_entries.flow.async_init(
@@ -103,7 +103,7 @@ async def test_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_password_required(
-    hass: __HAC_KEEP__, mock_mpd_client: AsyncMock
+    hass: UniversalAssistant, mock_mpd_client: AsyncMock
 ) -> None:
     """Test we report invalid auth when a required password is missing."""
     result = await hass.config_entries.flow.async_init(
@@ -134,7 +134,7 @@ async def test_password_required(
 
 
 async def test_existing_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we abort if an entry already exists."""
     mock_config_entry.add_to_hass(hass)

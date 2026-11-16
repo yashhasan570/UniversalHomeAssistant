@@ -1,4 +1,4 @@
-"""Test functional utility functions for __HA_KEEP__ templates."""
+"""Test functional utility functions for Universal Home Assistant templates."""
 
 import random
 from unittest.mock import MagicMock, patch
@@ -6,14 +6,14 @@ from unittest.mock import MagicMock, patch
 import pytest
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import TemplateError
 from universalassistant.helpers import template
 
 from tests.helpers.template.helpers import render
 
 
-def test_apply(hass: __HAC_KEEP__) -> None:
+def test_apply(hass: UniversalAssistant) -> None:
     """Test apply."""
     tpl = """
     {%- macro add_foo(arg) -%}
@@ -28,7 +28,7 @@ def test_apply(hass: __HAC_KEEP__) -> None:
     ) == [1, 2, 3, 4, 5]
 
 
-def test_apply_macro_with_arguments(hass: __HAC_KEEP__) -> None:
+def test_apply_macro_with_arguments(hass: UniversalAssistant) -> None:
     """Test apply macro with positional, named, and mixed arguments."""
     # Test macro with positional arguments
     tpl = """
@@ -58,7 +58,7 @@ def test_apply_macro_with_arguments(hass: __HAC_KEEP__) -> None:
     assert render(hass, tpl) == "Welcome John..."
 
 
-def test_as_function(hass: __HAC_KEEP__) -> None:
+def test_as_function(hass: UniversalAssistant) -> None:
     """Test as_function."""
     tpl = """
         {%- macro macro_double(num, returns) -%}
@@ -70,7 +70,7 @@ def test_as_function(hass: __HAC_KEEP__) -> None:
     assert render(hass, tpl) == 10
 
 
-def test_as_function_no_arguments(hass: __HAC_KEEP__) -> None:
+def test_as_function_no_arguments(hass: UniversalAssistant) -> None:
     """Test as_function with no arguments."""
     tpl = """
         {%- macro macro_get_hello(returns) -%}
@@ -82,13 +82,13 @@ def test_as_function_no_arguments(hass: __HAC_KEEP__) -> None:
     assert render(hass, tpl) == "Hello"
 
 
-def test_ord(hass: __HAC_KEEP__) -> None:
+def test_ord(hass: UniversalAssistant) -> None:
     """Test the ord filter."""
     assert render(hass, '{{ "d" | ord }}') == 100
 
 
 @patch.object(random, "choice")
-def test_random_every_time(test_choice: MagicMock, hass: __HAC_KEEP__) -> None:
+def test_random_every_time(test_choice: MagicMock, hass: UniversalAssistant) -> None:
     """Ensure the random filter runs every time, not just once."""
     tpl = template.Template("{{ [1,2] | random }}", hass)
     test_choice.return_value = "foo"
@@ -98,14 +98,14 @@ def test_random_every_time(test_choice: MagicMock, hass: __HAC_KEEP__) -> None:
 
 
 def test_render_with_possible_json_value_valid_with_is_defined(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Render with possible JSON value with known JSON object."""
     tpl = template.Template("{{ value_json.hello|is_defined }}", hass)
     assert tpl.async_render_with_possible_json_value('{"hello": "world"}') == "world"
 
 
-def test_render_with_possible_json_value_undefined_json(hass: __HAC_KEEP__) -> None:
+def test_render_with_possible_json_value_undefined_json(hass: UniversalAssistant) -> None:
     """Render with possible JSON value with unknown JSON object."""
     tpl = template.Template("{{ value_json.bye|is_defined }}", hass)
     assert (
@@ -115,14 +115,14 @@ def test_render_with_possible_json_value_undefined_json(hass: __HAC_KEEP__) -> N
 
 
 def test_render_with_possible_json_value_undefined_json_error_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Render with possible JSON value with unknown JSON object."""
     tpl = template.Template("{{ value_json.bye|is_defined }}", hass)
     assert tpl.async_render_with_possible_json_value('{"hello": "world"}', "") == ""
 
 
-def test_iif(hass: __HAC_KEEP__) -> None:
+def test_iif(hass: UniversalAssistant) -> None:
     """Test the immediate if function/filter."""
 
     result = render(hass, "{{ (1 == 1) | iif }}")
@@ -170,7 +170,7 @@ def test_iif(hass: __HAC_KEEP__) -> None:
     ],
 )
 def test_contains(
-    hass: __HAC_KEEP__, seq: list, value: object, expected: bool
+    hass: UniversalAssistant, seq: list, value: object, expected: bool
 ) -> None:
     """Test contains."""
     assert (
@@ -332,7 +332,7 @@ def test_contains(
     ids=["calendar", "workday", "weather", "vacuum"],
 )
 async def test_merge_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_response: dict,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -348,7 +348,7 @@ async def test_merge_response(
 
 
 async def test_merge_response_with_entity_id_in_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test the merge_response function/filter with empty lists."""
@@ -385,7 +385,7 @@ async def test_merge_response_with_entity_id_in_response(
 
 
 async def test_merge_response_with_empty_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test the merge_response function/filter with empty lists."""
@@ -400,7 +400,7 @@ async def test_merge_response_with_empty_response(
     assert render(hass, _template) == snapshot(name="b_rendered")
 
 
-async def test_merge_response_dict_after_single_list(hass: __HAC_KEEP__) -> None:
+async def test_merge_response_dict_after_single_list(hass: UniversalAssistant) -> None:
     """Test a dict response following a single list response is merged."""
 
     service_response = {
@@ -415,7 +415,7 @@ async def test_merge_response_dict_after_single_list(hass: __HAC_KEEP__) -> None
 
 
 async def test_response_empty_dict(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test the merge_response function/filter with empty dict."""
@@ -428,7 +428,7 @@ async def test_response_empty_dict(
 
 
 async def test_response_incorrect_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test the merge_response function/filter with incorrect response."""
@@ -439,7 +439,7 @@ async def test_response_incorrect_value(
         render(hass, _template)
 
 
-async def test_merge_response_with_incorrect_response(hass: __HAC_KEEP__) -> None:
+async def test_merge_response_with_incorrect_response(hass: UniversalAssistant) -> None:
     """Test the merge_response function/filter with empty response should raise."""
 
     service_response = {"calendar.sports": []}
@@ -456,7 +456,7 @@ async def test_merge_response_with_incorrect_response(hass: __HAC_KEEP__) -> Non
 
 
 async def test_merge_response_not_mutate_original_object(
-    hass: __HAC_KEEP__, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, snapshot: SnapshotAssertion
 ) -> None:
     """Test the merge_response does not mutate original service response value."""
 
@@ -472,7 +472,7 @@ async def test_merge_response_not_mutate_original_object(
     assert render(hass, _template)
 
 
-def test_typeof(hass: __HAC_KEEP__) -> None:
+def test_typeof(hass: UniversalAssistant) -> None:
     """Test the typeof debug filter/function."""
     assert render(hass, "{{ True | typeof }}") == "bool"
     assert render(hass, "{{ typeof(True) }}") == "bool"
@@ -489,11 +489,11 @@ def test_typeof(hass: __HAC_KEEP__) -> None:
     assert render(hass, "{{ None | typeof }}") == "NoneType"
     assert render(hass, "{{ typeof(None) }}") == "NoneType"
 
-    assert render(hass, "{{ '__HA_KEEP__' | typeof }}") == "str"
-    assert render(hass, "{{ typeof('__HA_KEEP__') }}") == "str"
+    assert render(hass, "{{ 'Universal Home Assistant' | typeof }}") == "str"
+    assert render(hass, "{{ typeof('Universal Home Assistant') }}") == "str"
 
 
-def test_combine(hass: __HAC_KEEP__) -> None:
+def test_combine(hass: UniversalAssistant) -> None:
     """Test combine filter and function."""
     assert render(hass, "{{ {'a': 1, 'b': 2} | combine({'b': 3, 'c': 4}) }}") == {
         "a": 1,

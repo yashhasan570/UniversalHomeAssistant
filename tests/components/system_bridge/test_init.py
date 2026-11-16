@@ -17,6 +17,7 @@ from systembridgeconnector.exceptions import (
     DataMissingException,
 )
 from systembridgeconnector.models.fixtures.modules.system import FIXTURE_SYSTEM
+from systembridgeconnector.models.keys import KeyClient, NewKey
 from systembridgeconnector.models.modules import GetData, Module, ModulesData
 from systembridgeconnector.models.system_control import PowerState, PowerStateEvent
 
@@ -32,17 +33,17 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
 
-from . import FIXTURE_USER_INPUT, FIXTURE_UUID
+from . import FIXTURE_KEY, FIXTURE_OLD_TOKEN, FIXTURE_USER_INPUT, FIXTURE_UUID
 
 
 @pytest.mark.usefixtures("mock_version")
 async def test_entry_setup_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:
@@ -62,6 +63,73 @@ async def test_entry_setup_unload(
     mock_websocket_client.close.assert_awaited_once()
 
 
+async def _setup_with_old_token(
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+) -> None:
+    """Set up an entry that still holds the token from before keys."""
+    mock_config_entry.add_to_hass(hass)
+    hass.config_entries.async_update_entry(
+        mock_config_entry,
+        data={**mock_config_entry.data, CONF_TOKEN: FIXTURE_OLD_TOKEN},
+    )
+    await hass.config_entries.async_setup(mock_config_entry.entry_id)
+    await hass.async_block_till_done()
+
+
+@pytest.mark.usefixtures("mock_version", "mock_websocket_client")
+async def test_setup_exchanges_old_token(
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+) -> None:
+    """Test an entry with the token from before keys trades it for a key."""
+    with patch(
+        "universalassistant.components.system_bridge.HTTPClient.exchange_key",
+        return_value=NewKey(
+            key=FIXTURE_KEY,
+            client=KeyClient(id="ha", name="Home", kind="universal-assistant"),
+        ),
+    ) as mock_exchange:
+        await _setup_with_old_token(hass, mock_config_entry)
+
+    assert mock_config_entry.state is ConfigEntryState.LOADED
+    assert mock_config_entry.data[CONF_TOKEN] == FIXTURE_KEY
+    assert mock_exchange.call_args.args[0].kind == "universal-assistant"
+
+
+@pytest.mark.usefixtures("mock_version", "mock_websocket_client")
+async def test_setup_exchange_refused(
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+) -> None:
+    """Test a token System Bridge turns away asks to sign in again."""
+    with patch(
+        "universalassistant.components.system_bridge.HTTPClient.exchange_key",
+        side_effect=AuthenticationException,
+    ):
+        await _setup_with_old_token(hass, mock_config_entry)
+
+    assert mock_config_entry.state is ConfigEntryState.SETUP_ERROR
+    assert [
+        flow["context"]["source"] for flow in hass.config_entries.flow.async_progress()
+    ] == [SOURCE_REAUTH]
+
+
+@pytest.mark.parametrize("side_effect", [ConnectionErrorException, TimeoutError])
+@pytest.mark.usefixtures("mock_version", "mock_websocket_client")
+async def test_setup_exchange_retried(
+    hass: UniversalAssistant,
+    mock_config_entry: MockConfigEntry,
+    side_effect: type[Exception],
+) -> None:
+    """Test an exchange that can't reach System Bridge is tried again."""
+    with patch(
+        "universalassistant.components.system_bridge.HTTPClient.exchange_key",
+        side_effect=side_effect,
+    ):
+        await _setup_with_old_token(hass, mock_config_entry)
+
+    assert mock_config_entry.state is ConfigEntryState.SETUP_RETRY
+    assert mock_config_entry.data[CONF_TOKEN] == FIXTURE_OLD_TOKEN
+
+
 @pytest.mark.parametrize(
     ("version", "requests_audio"),
     [
@@ -72,7 +140,7 @@ async def test_entry_setup_unload(
 )
 @pytest.mark.usefixtures("mock_version")
 async def test_setup_requests_audio_when_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
     version: str,
@@ -96,7 +164,7 @@ async def test_setup_requests_audio_when_supported(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_setup_without_audio_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:
@@ -118,7 +186,7 @@ async def test_setup_without_audio_data(
     assert mock_config_entry.state is ConfigEntryState.LOADED
 
 
-async def test_migration_minor_1_to_2(hass: __HAC_KEEP__) -> None:
+async def test_migration_minor_1_to_2(hass: UniversalAssistant) -> None:
     """Test migration."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -156,7 +224,7 @@ async def test_migration_minor_1_to_2(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_version", "mock_websocket_client")
 async def test_migration_minor_2_to_3(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test migration of entity unique ids."""
@@ -207,7 +275,7 @@ async def test_migration_minor_2_to_3(
     assert config_entry.state is ConfigEntryState.LOADED
 
 
-async def test_migration_minor_future_version(hass: __HAC_KEEP__) -> None:
+async def test_migration_minor_future_version(hass: UniversalAssistant) -> None:
     """Test migration."""
     config_entry_data = {
         CONF_API_KEY: FIXTURE_USER_INPUT[CONF_TOKEN],
@@ -241,7 +309,7 @@ async def test_migration_minor_future_version(hass: __HAC_KEEP__) -> None:
     assert config_entry.state is ConfigEntryState.LOADED
 
 
-async def test_setup_timeout(hass: __HAC_KEEP__) -> None:
+async def test_setup_timeout(hass: UniversalAssistant) -> None:
     """Test setup with timeout error."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -264,7 +332,7 @@ async def test_setup_timeout(hass: __HAC_KEEP__) -> None:
 
 
 async def test_unsupported_version_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_version: AsyncMock,
     issue_registry: ir.IssueRegistry,
@@ -302,7 +370,7 @@ async def test_unsupported_version_issue(
     ],
 )
 async def test_version_check_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_version: MagicMock,
     side_effect: type[Exception],
@@ -320,7 +388,7 @@ async def test_version_check_failure(
 
 @pytest.mark.usefixtures("mock_websocket_client")
 async def test_unsupported_version_issue_deleted_once_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_version: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -344,7 +412,7 @@ async def test_unsupported_version_issue_deleted_once_supported(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_get_data_authentication_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:
@@ -384,7 +452,7 @@ async def test_get_data_authentication_failure(
 )
 @pytest.mark.usefixtures("mock_version")
 async def test_register_data_listener_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
     side_effect: type[Exception],
@@ -417,7 +485,7 @@ async def test_register_data_listener_failure(
 )
 @pytest.mark.usefixtures("mock_version")
 async def test_listener_disconnect_marks_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -444,7 +512,7 @@ async def test_listener_disconnect_marks_unavailable(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_reconnect_backoff_and_logging(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -531,7 +599,7 @@ async def test_reconnect_backoff_and_logging(
 )
 @pytest.mark.usefixtures("mock_version")
 async def test_power_state_marks_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -593,7 +661,7 @@ async def test_power_state_marks_unavailable(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_power_state_during_registration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -638,7 +706,7 @@ async def test_power_state_during_registration(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_power_state_while_fetching_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -684,7 +752,7 @@ async def test_power_state_while_fetching_commands(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_power_state_while_waiting_for_registration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -731,7 +799,7 @@ async def test_power_state_while_waiting_for_registration(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_power_state_from_running_listener(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -775,7 +843,7 @@ async def test_power_state_from_running_listener(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_power_state_resumed_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_client: MagicMock,
 ) -> None:
     """Test the host waking while connected changes nothing."""
@@ -793,10 +861,10 @@ async def test_power_state_resumed_ignored(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_universalassistant_stop_closes_websocket(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_client: MagicMock,
 ) -> None:
-    """Test the WebSocket is closed when __HA_KEEP__ stops."""
+    """Test the WebSocket is closed when Universal Home Assistant stops."""
     mock_websocket_client.close.assert_not_awaited()
 
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
@@ -816,7 +884,7 @@ async def test_universalassistant_stop_closes_websocket(
 )
 @pytest.mark.usefixtures("mock_version")
 async def test_get_data_failure_closes_websocket(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
     side_effect: type[Exception] | None,
@@ -836,7 +904,7 @@ async def test_get_data_failure_closes_websocket(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_platform_setup_failure_cleans_up(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:

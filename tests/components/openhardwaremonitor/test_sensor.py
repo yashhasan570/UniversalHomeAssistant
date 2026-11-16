@@ -3,11 +3,11 @@
 from pytest_universalassistant.common import async_load_fixture
 import requests_mock
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
-async def test_setup(hass: __HAC_KEEP__, requests_mock: requests_mock.Mocker) -> None:
+async def test_setup(hass: UniversalAssistant, requests_mock: requests_mock.Mocker) -> None:
     """Test for successfully setting up the platform."""
     config = {
         "sensor": {

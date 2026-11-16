@@ -18,12 +18,12 @@ from universalassistant.components.glances.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import MOCK_USER_INPUT
 
 
-async def test_successful_config_entry(hass: __HAC_KEEP__) -> None:
+async def test_successful_config_entry(hass: UniversalAssistant) -> None:
     """Test that Glances is configured successfully."""
 
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_USER_INPUT)
@@ -43,7 +43,7 @@ async def test_successful_config_entry(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_setup_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     error: Exception,
     entry_state: ConfigEntryState,
     mock_api: MagicMock,
@@ -59,7 +59,7 @@ async def test_setup_error(
 
 
 async def test_entity_unavailable_on_update_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_api: MagicMock,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_entity_unavailable_on_update_error(
 
 
 async def test_dedicated_httpx_client_uses_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """The integration's dedicated httpx client uses DEFAULT_TIMEOUT."""
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_USER_INPUT)
@@ -101,7 +101,7 @@ async def test_dedicated_httpx_client_uses_timeout(
         assert kwargs["verify_ssl"] == MOCK_USER_INPUT["verify_ssl"]
 
 
-async def test_unload_entry(hass: __HAC_KEEP__) -> None:
+async def test_unload_entry(hass: UniversalAssistant) -> None:
     """Test removing Glances."""
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_USER_INPUT)
     entry.add_to_hass(hass)

@@ -10,14 +10,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.any_list.const import CONF_REFRESH_TOKEN, CONF_USER_LOCALE
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 from .conftest import USER_ID
 
 
 async def test_setup_and_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_anylist_client: MagicMock,
 ) -> None:
@@ -39,7 +39,7 @@ async def test_setup_and_unload(
 
 
 async def test_unload_ignores_close_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_anylist_client: MagicMock,
 ) -> None:
@@ -53,7 +53,7 @@ async def test_unload_ignores_close_timeout(
 
 
 async def test_rotated_tokens_are_persisted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_anylist_client: MagicMock,
 ) -> None:
@@ -77,7 +77,7 @@ async def test_rotated_tokens_are_persisted(
 
 
 async def test_setup_auth_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_anylist_client: MagicMock,
 ) -> None:
@@ -93,7 +93,7 @@ async def test_setup_auth_failure(
 
 
 async def test_setup_retries_on_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_anylist_client: MagicMock,
 ) -> None:
@@ -108,7 +108,7 @@ async def test_setup_retries_on_connection_error(
 
 
 async def test_runtime_sync_failure_marks_entities_unavailable_and_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_anylist_client: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -143,7 +143,7 @@ async def test_runtime_sync_failure_marks_entities_unavailable_and_recovers(
 
 
 async def test_runtime_auth_failure_marks_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_anylist_client: MagicMock,
 ) -> None:

@@ -6,7 +6,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import REDACTED, async_redact_data
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import HotSpringConfigEntry
 
@@ -23,7 +23,7 @@ def _redact_mac(value: str, patterns: list[str]) -> str:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: HotSpringConfigEntry
+    hass: UniversalAssistant, entry: HotSpringConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data

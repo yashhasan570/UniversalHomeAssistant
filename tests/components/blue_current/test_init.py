@@ -20,7 +20,7 @@ from universalassistant.components.blue_current.services import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_DEVICE_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.device_registry import DeviceRegistry
 
@@ -28,7 +28,7 @@ from . import init_integration
 
 
 async def test_load_unload_entry(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test load and unload entry."""
     with (
@@ -59,7 +59,7 @@ async def test_load_unload_entry(
     ],
 )
 async def test_config_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     api_error: BlueCurrentException,
     config_state: ConfigEntryState,
@@ -77,7 +77,7 @@ async def test_config_exceptions(
 
 
 async def test_connect_websocket_error(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test reconnect when connect throws a WebsocketError."""
 
@@ -92,7 +92,7 @@ async def test_connect_websocket_error(
 
 
 async def test_connect_request_limit_reached_error(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test reconnect when connect throws a RequestLimitReached."""
 
@@ -108,7 +108,7 @@ async def test_connect_request_limit_reached_error(
 
 
 async def test_start_charging_action(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, device_registry: DeviceRegistry
+    hass: UniversalAssistant, config_entry: MockConfigEntry, device_registry: DeviceRegistry
 ) -> None:
     """Test the start charing action when a charging card is provided."""
     integration = await init_integration(hass, config_entry, Platform.BUTTON)
@@ -128,7 +128,7 @@ async def test_start_charging_action(
 
 
 async def test_start_charging_action_without_card(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, device_registry: DeviceRegistry
+    hass: UniversalAssistant, config_entry: MockConfigEntry, device_registry: DeviceRegistry
 ) -> None:
     """Test the start charing action when no charging card is provided."""
     integration = await init_integration(hass, config_entry, Platform.BUTTON)
@@ -147,7 +147,7 @@ async def test_start_charging_action_without_card(
 
 
 async def test_start_charging_action_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     device_registry: DeviceRegistry,
 ) -> None:

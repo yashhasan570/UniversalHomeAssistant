@@ -22,14 +22,14 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.util import dt as dt_util
 
 from . import KnxEntityGenerator
 from .conftest import KNXTestKit
 
 
-async def test_cover_basic(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_cover_basic(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX cover basic."""
     await knx.setup_integration(
         {
@@ -102,7 +102,7 @@ async def test_cover_basic(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     events.pop()
 
 
-async def test_cover_tilt_absolute(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_cover_tilt_absolute(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX cover tilt."""
     await knx.setup_integration(
         {
@@ -160,7 +160,7 @@ async def test_cover_tilt_absolute(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     await knx.assert_write("1/0/5", (0x00,))
 
 
-async def test_cover_tilt_move_short(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_cover_tilt_move_short(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX cover tilt."""
     await knx.setup_integration(
         {
@@ -186,7 +186,7 @@ async def test_cover_tilt_move_short(hass: __HAC_KEEP__, knx: KNXTestKit) -> Non
 
 
 async def test_cover_restore_assumed_state(
-    hass: __HAC_KEEP__, knx: KNXTestKit
+    hass: UniversalAssistant, knx: KNXTestKit
 ) -> None:
     """Test a cover without position feedback restores its state and is assumed."""
     mock_restore_cache(
@@ -225,7 +225,7 @@ async def test_cover_restore_assumed_state(
     [STATE_UNKNOWN, STATE_UNAVAILABLE],
 )
 async def test_cover_restore_unknown_state(
-    hass: __HAC_KEEP__, knx: KNXTestKit, restored_state: str
+    hass: UniversalAssistant, knx: KNXTestKit, restored_state: str
 ) -> None:
     """Test a cover doesn't restore a non-numeric position."""
     mock_restore_cache(
@@ -250,7 +250,7 @@ async def test_cover_restore_unknown_state(
     )
 
 
-async def test_cover_restore_readable(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_cover_restore_readable(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test a readable cover shows the restored state until the bus read completes."""
     mock_restore_cache(
         hass,
@@ -285,7 +285,7 @@ async def test_cover_restore_readable(hass: __HAC_KEEP__, knx: KNXTestKit) -> No
 
 
 async def test_cover_restore_set_same_position(
-    hass: __HAC_KEEP__, knx: KNXTestKit
+    hass: UniversalAssistant, knx: KNXTestKit
 ) -> None:
     """Test moving a restored cover to the position it was restored to."""
     mock_restore_cache(
@@ -321,7 +321,7 @@ async def test_cover_restore_set_same_position(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_cover_assumed_state_not_recorded(
-    hass: __HAC_KEEP__, knx: KNXTestKit
+    hass: UniversalAssistant, knx: KNXTestKit
 ) -> None:
     """Test `assumed_state` is excluded from recording.
 

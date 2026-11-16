@@ -2,7 +2,7 @@
 
 from universalassistant.components import scene
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import async_init_integration
@@ -14,7 +14,7 @@ ENTITY_OTHER_SCENE_NUMBER = 2
 
 
 async def test_disabled_by_default(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_litejet
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_litejet
 ) -> None:
     """Test the scene is disabled by default."""
     await async_init_integration(hass)
@@ -28,7 +28,7 @@ async def test_disabled_by_default(
     assert entry.disabled_by is er.RegistryEntryDisabler.INTEGRATION
 
 
-async def test_activate(hass: __HAC_KEEP__, mock_litejet) -> None:
+async def test_activate(hass: UniversalAssistant, mock_litejet) -> None:
     """Test activating the scene."""
 
     await async_init_integration(hass, use_scene=True)
@@ -46,7 +46,7 @@ async def test_activate(hass: __HAC_KEEP__, mock_litejet) -> None:
     mock_litejet.activate_scene.assert_called_once_with(ENTITY_SCENE_NUMBER)
 
 
-async def test_connected_event(hass: __HAC_KEEP__, mock_litejet) -> None:
+async def test_connected_event(hass: UniversalAssistant, mock_litejet) -> None:
     """Test handling an event from LiteJet."""
 
     await async_init_integration(hass, use_scene=True)

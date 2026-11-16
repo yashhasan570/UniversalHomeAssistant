@@ -12,7 +12,7 @@ from sensoterra.customerapi import (
 from sensoterra.probe import Probe, Sensor
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -27,7 +27,7 @@ class SensoterraCoordinator(DataUpdateCoordinator[list[Probe]]):
     config_entry: SensoterraConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: SensoterraConfigEntry, api: CustomerApi
+        self, hass: UniversalAssistant, config_entry: SensoterraConfigEntry, api: CustomerApi
     ) -> None:
         """Initialize Sensoterra coordinator."""
         super().__init__(

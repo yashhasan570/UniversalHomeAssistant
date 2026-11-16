@@ -9,12 +9,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.nyt_games.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_flow(hass: __HAC_KEEP__, mock_nyt_games_client: AsyncMock) -> None:
+async def test_full_flow(hass: UniversalAssistant, mock_nyt_games_client: AsyncMock) -> None:
     """Test full flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -35,7 +35,7 @@ async def test_full_flow(hass: __HAC_KEEP__, mock_nyt_games_client: AsyncMock) -
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_stripping_token(
-    hass: __HAC_KEEP__, mock_nyt_games_client: AsyncMock
+    hass: UniversalAssistant, mock_nyt_games_client: AsyncMock
 ) -> None:
     """Test stripping token."""
     result = await hass.config_entries.flow.async_init(
@@ -64,7 +64,7 @@ async def test_stripping_token(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nyt_games_client: AsyncMock,
     exception: Exception,
     error: str,
@@ -98,7 +98,7 @@ async def test_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nyt_games_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -122,7 +122,7 @@ async def test_duplicate(
 
 
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nyt_games_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -151,7 +151,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nyt_games_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: type[Exception],
@@ -182,7 +182,7 @@ async def test_reauth_flow_errors(
 
 
 async def test_reauth_flow_unique_id_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nyt_games_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -201,7 +201,7 @@ async def test_reauth_flow_unique_id_mismatch(
 
 
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nyt_games_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -230,7 +230,7 @@ async def test_reconfigure_flow(
     ],
 )
 async def test_reconfigure_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nyt_games_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: type[Exception],
@@ -261,7 +261,7 @@ async def test_reconfigure_flow_errors(
 
 
 async def test_reconfigure_flow_unique_id_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nyt_games_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

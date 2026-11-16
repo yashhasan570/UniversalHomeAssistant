@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, override
 from pyvlx import PyVLXException
 from pyvlx.opening_device import OpeningDevice, Position
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import LOGGER
@@ -31,7 +31,7 @@ class VeluxLimitationCoordinator(DataUpdateCoordinator[VeluxLimitationData | Non
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: VeluxConfigEntry,
         node: OpeningDevice,
     ) -> None:

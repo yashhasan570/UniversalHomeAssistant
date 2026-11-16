@@ -12,7 +12,7 @@ from yolink.const import OAUTH2_AUTHORIZE, OAUTH2_TOKEN
 from universalassistant import config_entries, setup
 from universalassistant.components import application_credentials
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
@@ -21,7 +21,7 @@ CLIENT_SECRET = "6789"
 DOMAIN = "yolink"
 
 
-async def test_abort_if_no_configuration(hass: __HAC_KEEP__) -> None:
+async def test_abort_if_no_configuration(hass: UniversalAssistant) -> None:
     """Check flow abort when no configuration."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -30,7 +30,7 @@ async def test_abort_if_no_configuration(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "missing_credentials"
 
 
-async def test_abort_if_existing_entry(hass: __HAC_KEEP__) -> None:
+async def test_abort_if_existing_entry(hass: UniversalAssistant) -> None:
     """Check flow abort when an entry already exist."""
     MockConfigEntry(domain=DOMAIN, unique_id=DOMAIN).add_to_hass(hass)
     result = await hass.config_entries.flow.async_init(
@@ -42,7 +42,7 @@ async def test_abort_if_existing_entry(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -116,7 +116,7 @@ async def test_full_flow(
 
 
 @pytest.mark.usefixtures("current_request_with_host")
-async def test_abort_if_authorization_timeout(hass: __HAC_KEEP__) -> None:
+async def test_abort_if_authorization_timeout(hass: UniversalAssistant) -> None:
     """Check yolink authorization timeout."""
     assert await setup.async_setup_component(
         hass,
@@ -142,7 +142,7 @@ async def test_abort_if_authorization_timeout(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauthentication(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:

@@ -7,7 +7,7 @@ from pytest_universalassistant.components.diagnostics import get_diagnostics_for
 from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.tplink.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import _mocked_device, initialize_config_entry_for_device
 
@@ -30,7 +30,7 @@ from . import _mocked_device, initialize_config_entry_for_device
     ],
 )
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mocked_dev: Device,
     fixture_file: str,

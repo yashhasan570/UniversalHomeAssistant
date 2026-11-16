@@ -6,13 +6,13 @@ from aionotion import (
 )
 from aionotion.client import Client
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.instance_id import async_get
 
 
 async def async_get_client_with_credentials(
-    hass: __HAC_KEEP__, email: str, password: str
+    hass: UniversalAssistant, email: str, password: str
 ) -> Client:
     """Get a Notion client with credentials."""
     session = aiohttp_client.async_get_clientsession(hass)
@@ -21,7 +21,7 @@ async def async_get_client_with_credentials(
 
 
 async def async_get_client_with_refresh_token(
-    hass: __HAC_KEEP__, user_uuid: str, refresh_token: str
+    hass: UniversalAssistant, user_uuid: str, refresh_token: str
 ) -> Client:
     """Get a Notion client with credentials."""
     session = aiohttp_client.async_get_clientsession(hass)

@@ -1,4 +1,4 @@
-"""Tests for the __HA_KEEP__ Connect ZBT-2 diagnostics data."""
+"""Tests for the Universal Home Assistant Connect ZBT-2 diagnostics data."""
 
 from pytest_universalassistant.common import MockConfigEntry
 from pytest_universalassistant.components.diagnostics import get_diagnostics_for_config_entry
@@ -6,14 +6,14 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .common import USB_DATA_ZBT2
 
 
 async def test_diagnostics_for_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:

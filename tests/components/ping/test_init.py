@@ -7,13 +7,13 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 
 @pytest.mark.usefixtures("patch_setup")
 async def test_config_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test for setup success."""
@@ -23,7 +23,7 @@ async def test_config_setup(
 
 
 async def test_device_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -70,7 +70,7 @@ async def test_device_migration(
     ],
 )
 async def test_icmp_privilege_detection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     patch_ping: Host,
     socket_side_effect: list[Exception | None],

@@ -20,7 +20,7 @@ from universalassistant.const import (
     UnitOfElectricCurrent,
     UnitOfPower,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import SOLAR_CUSTOM_POWER_MAXIMUM, SOLAR_CUSTOM_POWER_MINIMUM
@@ -86,7 +86,7 @@ USER_CONFIG_DESCRIPTIONS = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: PeblarConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

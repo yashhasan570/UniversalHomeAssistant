@@ -8,8 +8,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components import button
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 pytestmark = [
@@ -20,14 +20,14 @@ pytestmark = [
 
 @pytest.mark.parametrize("device_fixture", ["SDM230", "SDM630", "HWE-KWH1", "HWE-KWH3"])
 async def test_identify_button_entity_not_loaded_when_not_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Does not load button when device has no support for it."""
     assert not hass.states.get("button.device_identify")
 
 
 async def test_identify_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_homewizardenergy: MagicMock,
@@ -60,7 +60,7 @@ async def test_identify_button(
     mock_homewizardenergy.identify.side_effect = RequestError()
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=r"^An error occurred while communicating with your HomeWizard device$",
     ):
         await hass.services.async_call(
@@ -78,7 +78,7 @@ async def test_identify_button(
     mock_homewizardenergy.identify.side_effect = DisabledError()
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=r"^The local API is disabled$",
     ):
         await hass.services.async_call(

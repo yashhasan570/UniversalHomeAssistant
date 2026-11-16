@@ -5,12 +5,12 @@ from unittest.mock import MagicMock
 from freezegun.api import FrozenDateTimeFactory
 from pytest_universalassistant.common import async_fire_time_changed
 
-from universalassistant.helpers.device_registry import __HAC_KEEP__
+from universalassistant.helpers.device_registry import UniversalAssistant
 from universalassistant.helpers.entity_platform import timedelta
 
 
 async def update_callback_entity(
-    hass: __HAC_KEEP__, mock_velux_node: MagicMock
+    hass: UniversalAssistant, mock_velux_node: MagicMock
 ) -> None:
     """Simulate an update triggered by the pyvlx lib for a Velux node."""
 
@@ -21,7 +21,7 @@ async def update_callback_entity(
 
 
 async def update_polled_entities(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Simulate an update trigger from polling."""
     # just fire a time changed event to trigger the polling

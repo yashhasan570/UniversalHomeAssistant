@@ -29,8 +29,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MOCK_DEVICE, SSEStreamHelper
@@ -49,7 +49,7 @@ def enable_all_entities(entity_registry_enabled_by_default: None) -> None:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -95,7 +95,7 @@ async def test_switches(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_switch_service_calls(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_liebherr_client: MagicMock,
     entity_id: str,
     service: str,
@@ -114,7 +114,7 @@ async def test_switch_service_calls(
 
 
 @pytest.mark.usefixtures("init_integration")
-async def test_switch_updates_optimistically(hass: __HAC_KEEP__) -> None:
+async def test_switch_updates_optimistically(hass: UniversalAssistant) -> None:
     """Test switch state updates before an SSE event arrives."""
     entity_id = "switch.test_fridge_partymode"
     state = hass.states.get(entity_id)
@@ -142,7 +142,7 @@ async def test_switch_updates_optimistically(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_switch_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_liebherr_client: MagicMock,
     entity_id: str,
     method: str,
@@ -153,7 +153,7 @@ async def test_switch_failure(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="An error occurred while communicating with the device",
     ):
         await hass.services.async_call(
@@ -166,7 +166,7 @@ async def test_switch_failure(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_switch_when_control_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_liebherr_client: MagicMock,
     sse_helper: SSEStreamHelper,
 ) -> None:
@@ -190,7 +190,7 @@ async def test_switch_when_control_missing(
 
 
 async def test_single_zone_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_liebherr_client: MagicMock,

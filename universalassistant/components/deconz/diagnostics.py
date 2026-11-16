@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_API_KEY, CONF_UNIQUE_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import DeconzConfigEntry
 
@@ -13,7 +13,7 @@ REDACT_DECONZ_CONFIG = {"bridgeid", "mac", "panid"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: DeconzConfigEntry
+    hass: UniversalAssistant, config_entry: DeconzConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     hub = config_entry.runtime_data

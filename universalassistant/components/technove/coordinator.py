@@ -11,7 +11,7 @@ from technove import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -25,7 +25,7 @@ class TechnoVEDataUpdateCoordinator(DataUpdateCoordinator[TechnoVEStation]):
 
     config_entry: TechnoVEConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: TechnoVEConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: TechnoVEConfigEntry) -> None:
         """Initialize global TechnoVE data updater."""
         self.technove = TechnoVE(
             config_entry.data[CONF_HOST],

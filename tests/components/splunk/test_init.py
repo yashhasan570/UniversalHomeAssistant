@@ -12,7 +12,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.splunk.const import CONF_FILTER, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_SSL, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.setup import async_setup_component
 
@@ -20,7 +20,7 @@ YAML_FILTER = {"include_domains": ["sensor"]}
 
 
 async def test_setup_entry_success(
-    hass: __HAC_KEEP__, mock_hass_splunk: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_hass_splunk: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test successful setup from config entry."""
     mock_config_entry.add_to_hass(hass)
@@ -60,7 +60,7 @@ async def test_setup_entry_success(
     ],
 )
 async def test_setup_entry_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hass_splunk: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception | list[bool],
@@ -80,7 +80,7 @@ async def test_setup_entry_error(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__, mock_hass_splunk: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_hass_splunk: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test unloading a config entry."""
     mock_config_entry.add_to_hass(hass)
@@ -97,7 +97,7 @@ async def test_unload_entry(
 
 
 async def test_setup_without_yaml(
-    hass: __HAC_KEEP__, mock_hass_splunk: AsyncMock
+    hass: UniversalAssistant, mock_hass_splunk: AsyncMock
 ) -> None:
     """Test setup without YAML succeeds."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -121,7 +121,7 @@ async def test_setup_without_yaml(
     ],
 )
 async def test_event_listener_with_filter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hass_splunk: AsyncMock,
     mock_config_entry: MockConfigEntry,
     yaml_config: ConfigType,
@@ -152,7 +152,7 @@ async def test_event_listener_with_filter(
 
 
 async def test_yaml_connection_settings_not_imported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test YAML connection settings are ignored and no config entry is created."""
@@ -178,7 +178,7 @@ async def test_yaml_connection_settings_not_imported(
 
 
 async def test_event_listener_unauthorized(
-    hass: __HAC_KEEP__, mock_hass_splunk: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_hass_splunk: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test event listener triggers reauth on unauthorized error."""
     mock_config_entry.add_to_hass(hass)
@@ -236,7 +236,7 @@ async def test_event_listener_unauthorized(
     ],
 )
 async def test_event_listener_error_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hass_splunk: AsyncMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -296,7 +296,7 @@ async def test_event_listener_error_handling(
     ],
 )
 async def test_event_listener_repeated_failures_log_at_debug(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hass_splunk: AsyncMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -355,7 +355,7 @@ async def test_event_listener_repeated_failures_log_at_debug(
     ],
 )
 async def test_event_listener_different_failure_during_outage_logs_at_debug(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hass_splunk: AsyncMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -394,7 +394,7 @@ async def test_event_listener_different_failure_during_outage_logs_at_debug(
 
 
 async def test_event_listener_recovery_logs_once_at_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hass_splunk: AsyncMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -426,7 +426,7 @@ async def test_event_listener_recovery_logs_once_at_info(
 
 
 async def test_event_listener_failure_after_recovery_logs_at_natural_level(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hass_splunk: AsyncMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -464,7 +464,7 @@ async def test_event_listener_failure_after_recovery_logs_at_natural_level(
 
 
 async def test_event_listener_coalesced_send_is_not_a_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hass_splunk: AsyncMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -508,7 +508,7 @@ async def test_event_listener_coalesced_send_is_not_a_recovery(
 
 
 async def test_event_listener_no_recovery_message_without_prior_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hass_splunk: AsyncMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,

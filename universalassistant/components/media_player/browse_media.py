@@ -10,8 +10,8 @@ from urllib.parse import quote
 import yarl
 
 from universalassistant.components.http.auth import async_sign_path
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.network import (
     NoURLAvailableError,
     get_supervisor_network_url,
@@ -32,13 +32,13 @@ PATHS_WITHOUT_AUTH = (
 
 @callback
 def async_process_play_media_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     media_content_id: str,
     *,
     allow_relative_url: bool = False,
     for_supervisor_network: bool = False,
 ) -> str:
-    """Update a media URL with authentication if it points at __HA_KEEP__."""
+    """Update a media URL with authentication if it points at Universal Home Assistant."""
     parsed = yarl.URL(media_content_id)
 
     if parsed.scheme and parsed.scheme not in ("http", "https"):
@@ -86,7 +86,7 @@ def async_process_play_media_url(
                     and (not hass.config.external_url or not hass.config.internal_url)
                 ):
                     translation_key = "no_url_available_configure_urls"
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key=translation_key,
                 ) from err

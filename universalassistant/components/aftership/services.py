@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Final
 
 import probatio
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
@@ -47,7 +47,7 @@ REMOVE_TRACKING_SERVICE_SCHEMA: Final = probatio.Schema(
 
 
 async def handle_add_tracking(call: ServiceCall) -> None:
-    """Call when a user adds a new Aftership tracking from __HA_KEEP__."""
+    """Call when a user adds a new Aftership tracking from Universal Home Assistant."""
     entry: AfterShipConfigEntry = service.async_get_config_entry(
         call.hass, DOMAIN, None
     )
@@ -60,7 +60,7 @@ async def handle_add_tracking(call: ServiceCall) -> None:
 
 
 async def handle_remove_tracking(call: ServiceCall) -> None:
-    """Call when a user removes an Aftership tracking from __HA_KEEP__."""
+    """Call when a user removes an Aftership tracking from Universal Home Assistant."""
     entry: AfterShipConfigEntry = service.async_get_config_entry(
         call.hass, DOMAIN, None
     )
@@ -72,7 +72,7 @@ async def handle_remove_tracking(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register services."""
     hass.services.async_register(
         DOMAIN,

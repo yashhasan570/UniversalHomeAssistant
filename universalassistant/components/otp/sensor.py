@@ -9,7 +9,7 @@ import pyotp
 from universalassistant.components.sensor import SensorEntity
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_NAME, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
@@ -20,7 +20,7 @@ TIME_STEP = 30  # Default time step assumed by Google Authenticator
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -57,7 +57,7 @@ class TOTPSensor(SensorEntity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Handle when an entity is about to be added to __HA_KEEP__."""
+        """Handle when an entity is about to be added to Universal Home Assistant."""
         self._call_loop()
 
     @override

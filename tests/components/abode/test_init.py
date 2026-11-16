@@ -14,13 +14,13 @@ from universalassistant.components.abode.services import AbodeService, AbodeServ
 from universalassistant.components.alarm_control_panel import DOMAIN as ALARM_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from .common import setup_platform
 
 
-async def test_change_settings(hass: __HAC_KEEP__) -> None:
+async def test_change_settings(hass: UniversalAssistant) -> None:
     """Test change_setting service."""
     await setup_platform(hass, ALARM_DOMAIN)
 
@@ -38,7 +38,7 @@ async def test_change_settings(hass: __HAC_KEEP__) -> None:
         mock_set_setting.assert_called_once()
 
 
-async def test_change_settings_error(hass: __HAC_KEEP__) -> None:
+async def test_change_settings_error(hass: UniversalAssistant) -> None:
     """Test change_setting service reports errors."""
     await setup_platform(hass, ALARM_DOMAIN)
 
@@ -47,7 +47,7 @@ async def test_change_settings_error(hass: __HAC_KEEP__) -> None:
             "jaraco.abode.client.Client.set_setting",
             side_effect=AbodeException((2, "Request failed")),
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -63,7 +63,7 @@ async def test_change_settings_error(hass: __HAC_KEEP__) -> None:
     assert exc_info.value.translation_placeholders == {"error": "(2, 'Request failed')"}
 
 
-async def test_add_unique_id(hass: __HAC_KEEP__) -> None:
+async def test_add_unique_id(hass: UniversalAssistant) -> None:
     """Test unique_id is set to Abode username."""
     mock_entry = await setup_platform(hass, ALARM_DOMAIN)
     # Set unique_id to None to match previous config entries
@@ -80,7 +80,7 @@ async def test_add_unique_id(hass: __HAC_KEEP__) -> None:
     assert mock_entry.unique_id == mock_entry.data[CONF_USERNAME]
 
 
-async def test_unload_entry(hass: __HAC_KEEP__) -> None:
+async def test_unload_entry(hass: UniversalAssistant) -> None:
     """Test unloading the Abode entry."""
     mock_entry = await setup_platform(hass, ALARM_DOMAIN)
 
@@ -93,7 +93,7 @@ async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     mock_events_stop.assert_called_once()
 
 
-async def test_invalid_credentials(hass: __HAC_KEEP__) -> None:
+async def test_invalid_credentials(hass: UniversalAssistant) -> None:
     """Test Abode credentials changing."""
     with patch(
         "universalassistant.components.abode.Abode",
@@ -114,7 +114,7 @@ async def test_invalid_credentials(hass: __HAC_KEEP__) -> None:
     assert not hass.config_entries.flow.async_progress()
 
 
-async def test_raise_config_entry_not_ready_when_offline(hass: __HAC_KEEP__) -> None:
+async def test_raise_config_entry_not_ready_when_offline(hass: UniversalAssistant) -> None:
     """Config entry state is SETUP_RETRY when abode is offline."""
     with patch(
         "universalassistant.components.abode.Abode",

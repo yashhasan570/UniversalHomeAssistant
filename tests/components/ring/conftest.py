@@ -11,7 +11,7 @@ import ring_doorbell
 from universalassistant.components.ring import DOMAIN
 from universalassistant.components.ring.const import CONF_CONFIG_ENTRY_MINOR_VERSION
 from universalassistant.const import CONF_DEVICE_ID, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .device_mocks import get_devices_data, get_mock_devices
 
@@ -131,7 +131,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 @pytest.fixture
 async def mock_added_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ring_auth: Mock,
     mock_ring_client: Mock,

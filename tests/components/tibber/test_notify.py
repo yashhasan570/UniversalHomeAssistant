@@ -6,12 +6,12 @@ from unittest.mock import MagicMock
 import pytest
 
 from universalassistant.components.recorder import Recorder
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 
 async def test_notification_services(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, mock_tibber_setup: MagicMock
+    recorder_mock: Recorder, hass: UniversalAssistant, mock_tibber_setup: MagicMock
 ) -> None:
     """Test create entry from user input."""
     # Assert notify entity has been added
@@ -33,7 +33,7 @@ async def test_notification_services(
 
     calls.side_effect = TimeoutError
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         # Test notify entity service
         await hass.services.async_call(
             "notify",

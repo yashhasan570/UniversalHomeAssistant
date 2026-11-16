@@ -14,7 +14,7 @@ from universalassistant.components.openweathermap.const import (
 )
 from universalassistant.components.openweathermap.services import OpenWeatherMapService
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -25,7 +25,7 @@ ENTITY_ID = "weather.openweathermap"
 
 @pytest.mark.parametrize("mode", [OWM_MODE_V30], indirect=True)
 async def test_get_minute_forecast(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     owm_client_mock: MagicMock,
@@ -48,7 +48,7 @@ async def test_get_minute_forecast(
     "mode", [OWM_MODE_FREE_CURRENT, OWM_MODE_FREE_FORECAST], indirect=True
 )
 async def test_get_minute_forecast_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     owm_client_mock: MagicMock,
@@ -75,7 +75,7 @@ async def test_get_minute_forecast_unavailable(
     "mode", [OWM_MODE_V30, OWM_MODE_FREE_CURRENT, OWM_MODE_FREE_FORECAST], indirect=True
 )
 async def test_weather_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,

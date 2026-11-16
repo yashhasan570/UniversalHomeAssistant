@@ -9,7 +9,7 @@ from aiohttp import ClientError, ClientResponseError
 from pydactyl import AsyncPterodactylClient
 from pydactyl.exceptions import BadRequestError, PterodactylApiError
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -64,7 +64,7 @@ class PterodactylAPI:
     pterodactyl: AsyncPterodactylClient | None
     game_servers: list[PterodactylGameServer]
 
-    def __init__(self, hass: __HAC_KEEP__, host: str, api_key: str) -> None:
+    def __init__(self, hass: UniversalAssistant, host: str, api_key: str) -> None:
         """Initialize the Pterodactyl API."""
         self.hass = hass
         self.host = host

@@ -29,7 +29,7 @@ from universalassistant.const import (
     UnitOfFrequency,
     UnitOfPower,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import PlatformNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -62,7 +62,7 @@ PLATFORM_TIMEOUT = 8
 
 
 def _migrate_to_new_unique_id(
-    hass: __HAC_KEEP__, model: str, serial_number: str
+    hass: UniversalAssistant, model: str, serial_number: str
 ) -> None:
     """Migrate old unique ids to new unique ids."""
     ent_reg = er.async_get(hass)
@@ -107,7 +107,7 @@ def _migrate_to_new_unique_id(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

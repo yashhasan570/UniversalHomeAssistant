@@ -14,7 +14,7 @@ from pytest_universalassistant.components.bluetooth import (
 
 from universalassistant.components.private_ble_device.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 MAC_RPA_VALID_1 = "40:01:02:0a:c4:a6"
@@ -25,7 +25,7 @@ MAC_STATIC = "00:01:ff:a0:3a:76"
 DUMMY_IRK = "00000000000000000000000000000000"
 
 
-async def async_mock_config_entry(hass: __HAC_KEEP__, irk: str = DUMMY_IRK) -> None:
+async def async_mock_config_entry(hass: UniversalAssistant, irk: str = DUMMY_IRK) -> None:
     """Create a test device for a dummy IRK."""
     entry = MockConfigEntry(
         version=1,
@@ -42,7 +42,7 @@ async def async_mock_config_entry(hass: __HAC_KEEP__, irk: str = DUMMY_IRK) -> N
 
 
 async def async_inject_broadcast(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mac: str = MAC_RPA_VALID_1,
     mfr_data: bytes = b"",
     broadcast_time: float | None = None,
@@ -68,7 +68,7 @@ async def async_inject_broadcast(
     await hass.async_block_till_done()
 
 
-async def async_move_time_forwards(hass: __HAC_KEEP__, offset: float):
+async def async_move_time_forwards(hass: UniversalAssistant, offset: float):
     """Mock time advancing from now to now+offset."""
     with patch_bluetooth_time(
         time.monotonic() + offset,

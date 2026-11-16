@@ -7,8 +7,8 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_API_VERSION, CONF_HOST, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -22,7 +22,7 @@ POWERVIEW_G2_SUFFIX = "._powerview._tcp.local."
 POWERVIEW_G3_SUFFIX = "._PowerView-G3._tcp.local."
 
 
-async def validate_input(hass: __HAC_KEEP__, hub_address: str) -> dict[str, str]:
+async def validate_input(hass: UniversalAssistant, hub_address: str) -> dict[str, str]:
     """Validate the user input allows us to connect.
 
     Data has the keys from DATA_SCHEMA with values provided by the user.
@@ -191,5 +191,5 @@ class PowerviewConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class UnsupportedDevice(__HAC_KEEP__Error):
+class UnsupportedDevice(UniversalAssistantError):
     """Error to indicate the device is not supported."""

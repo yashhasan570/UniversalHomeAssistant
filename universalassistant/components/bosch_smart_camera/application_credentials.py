@@ -4,7 +4,7 @@ import base64
 from typing import override
 
 from universalassistant.components.application_credentials import ClientCredential
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.config_entry_oauth2_flow import (
     AbstractOAuth2Implementation,
     LocalOAuth2ImplementationWithPkce,
@@ -27,7 +27,7 @@ OAUTH2_SCOPES = "email offline_access profile openid"
 
 
 async def async_get_auth_implementation(
-    hass: __HAC_KEEP__, auth_domain: str, credential: ClientCredential
+    hass: UniversalAssistant, auth_domain: str, credential: ClientCredential
 ) -> AbstractOAuth2Implementation:
     """Return the auth implementation."""
     return BoschCameraOAuth2Implementation(

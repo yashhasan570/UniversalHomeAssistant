@@ -15,7 +15,7 @@ from zwave_js_server.model.value import (
 )
 
 from universalassistant.core import callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import ChildDeviceInfo, DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -490,7 +490,7 @@ class ZWaveBaseEntity(Entity):
                 value, new_value, options=options, wait_for_result=wait_for_result
             )
         except BaseZwaveJSServerError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Unable to set value {value.value_id}: {err}"
             ) from err
 

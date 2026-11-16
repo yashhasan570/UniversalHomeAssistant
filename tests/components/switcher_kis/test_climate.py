@@ -25,8 +25,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.util import slugify
 
 from . import init_integration
@@ -37,7 +37,7 @@ ENTITY_ID = f"{CLIMATE_DOMAIN}.{slugify(DEVICE.name)}"
 
 @pytest.mark.parametrize("mock_bridge", [[DEVICE]], indirect=True)
 async def test_climate_hvac_mode(
-    hass: __HAC_KEEP__, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test climate hvac mode service."""
     await init_integration(hass)
@@ -92,7 +92,7 @@ async def test_climate_hvac_mode(
 
 @pytest.mark.parametrize("mock_bridge", [[DEVICE]], indirect=True)
 async def test_climate_temperature(
-    hass: __HAC_KEEP__, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test climate temperature service."""
     await init_integration(hass)
@@ -148,7 +148,7 @@ async def test_climate_temperature(
 
 @pytest.mark.parametrize("mock_bridge", [[DEVICE]], indirect=True)
 async def test_climate_fan_level(
-    hass: __HAC_KEEP__, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test climate fan level service."""
     await init_integration(hass)
@@ -183,7 +183,7 @@ async def test_climate_fan_level(
 
 @pytest.mark.parametrize("mock_bridge", [[DEVICE]], indirect=True)
 async def test_climate_swing(
-    hass: __HAC_KEEP__, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test climate swing service."""
     await init_integration(hass)
@@ -238,7 +238,7 @@ async def test_climate_swing(
 
 
 @pytest.mark.parametrize("mock_bridge", [[DEVICE]], indirect=True)
-async def test_control_device_fail(hass: __HAC_KEEP__, mock_bridge, mock_api) -> None:
+async def test_control_device_fail(hass: UniversalAssistant, mock_bridge, mock_api) -> None:
     """Test control device fail."""
     await init_integration(hass)
     assert mock_bridge
@@ -252,7 +252,7 @@ async def test_control_device_fail(hass: __HAC_KEEP__, mock_bridge, mock_api) ->
         "universalassistant.components.switcher_kis.entity.SwitcherApi.control_breeze_device",
         side_effect=RuntimeError("fake error"),
     ) as mock_control_device:
-        with pytest.raises(__HAC_KEEP__Error):
+        with pytest.raises(UniversalAssistantError):
             await hass.services.async_call(
                 CLIMATE_DOMAIN,
                 SERVICE_SET_HVAC_MODE,
@@ -273,7 +273,7 @@ async def test_control_device_fail(hass: __HAC_KEEP__, mock_bridge, mock_api) ->
         "universalassistant.components.switcher_kis.entity.SwitcherApi.control_breeze_device",
         return_value=SwitcherBaseResponse(None),
     ) as mock_control_device:
-        with pytest.raises(__HAC_KEEP__Error):
+        with pytest.raises(UniversalAssistantError):
             await hass.services.async_call(
                 CLIMATE_DOMAIN,
                 SERVICE_SET_HVAC_MODE,
@@ -291,7 +291,7 @@ async def test_control_device_fail(hass: __HAC_KEEP__, mock_bridge, mock_api) ->
 
 @pytest.mark.parametrize("mock_bridge", [[DEVICE]], indirect=True)
 async def test_bad_update_discard(
-    hass: __HAC_KEEP__, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test that a bad update from device is discarded."""
     await init_integration(hass)
@@ -314,7 +314,7 @@ async def test_bad_update_discard(
 
 @pytest.mark.parametrize("mock_bridge", [[DEVICE]], indirect=True)
 async def test_climate_control_errors(
-    hass: __HAC_KEEP__, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test control with settings not supported by device."""
     await init_integration(hass)

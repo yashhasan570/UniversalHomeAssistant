@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.scene import DOMAIN as SCENE_DOMAIN, SceneService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import ConfigEntryFactoryType, WebsocketDataType
@@ -39,7 +39,7 @@ TEST_DATA = [
 
 @pytest.mark.parametrize(("group_payload", "expected"), TEST_DATA)
 async def test_scenes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     mock_put_request: Callable[[str, str], AiohttpClientMocker],
@@ -82,7 +82,7 @@ async def test_scenes(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_only_new_scenes_are_created(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_data: WebsocketDataType,
 ) -> None:
     """Test that scenes works."""

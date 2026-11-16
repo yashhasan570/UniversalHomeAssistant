@@ -12,7 +12,7 @@ from universalassistant.components import automation
 from universalassistant.components.device_automation import DeviceAutomationType
 from universalassistant.components.homekit_controller.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -75,7 +75,7 @@ def create_doorbell(accessory: Accessory) -> None:
 
 
 async def test_enumerate_remote(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     get_next_aid: Callable[[], int],
@@ -127,7 +127,7 @@ async def test_enumerate_remote(
 
 
 async def test_enumerate_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     get_next_aid: Callable[[], int],
@@ -178,7 +178,7 @@ async def test_enumerate_button(
 
 
 async def test_enumerate_doorbell(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     get_next_aid: Callable[[], int],
@@ -229,7 +229,7 @@ async def test_enumerate_doorbell(
 
 
 async def test_handle_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     get_next_aid: Callable[[], int],
@@ -352,7 +352,7 @@ async def test_handle_events(
 
 
 async def test_handle_events_late_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     get_next_aid: Callable[[], int],

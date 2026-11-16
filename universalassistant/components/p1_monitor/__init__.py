@@ -1,7 +1,7 @@
 """The P1 Monitor integration."""
 
 from universalassistant.const import CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import LOGGER
@@ -10,7 +10,7 @@ from .coordinator import P1MonitorConfigEntry, P1MonitorDataUpdateCoordinator
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: P1MonitorConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: P1MonitorConfigEntry) -> None:
     """Set up P1 Monitor from a config entry."""
 
     coordinator = P1MonitorDataUpdateCoordinator(hass, entry)
@@ -26,7 +26,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: P1MonitorConfigEntry) -> 
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, config_entry: P1MonitorConfigEntry
+    hass: UniversalAssistant, config_entry: P1MonitorConfigEntry
 ) -> None:
     """Migrate old entry."""
     LOGGER.debug("Migrating from version %s", config_entry.version)
@@ -49,6 +49,6 @@ async def async_migrate_entry(
         LOGGER.debug("Migration to version %s successful", config_entry.version)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: P1MonitorConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: P1MonitorConfigEntry) -> None:
     """Unload P1 Monitor config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

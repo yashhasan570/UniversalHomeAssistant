@@ -16,8 +16,8 @@ from universalassistant.const import (
     CONF_TYPE,
     SERVICE_SELECT_OPTION,
 )
-from universalassistant.core import Context, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import Context, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.entity import get_capability
 from universalassistant.helpers.typing import ConfigType, TemplateVarsType
@@ -75,14 +75,14 @@ _ACTION_SCHEMA = probatio.TaggedUnion(
 
 
 async def async_validate_action_config(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> ConfigType:
     """Validate config."""
     return async_validate_entity_schema(hass, config, _ACTION_SCHEMA)
 
 
 async def async_get_actions(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, str]]:
     """List device actions for Select devices."""
     registry = er.async_get(hass)
@@ -106,7 +106,7 @@ async def async_get_actions(
 
 
 async def async_call_action_from_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     variables: TemplateVarsType,
     context: Context | None,
@@ -128,7 +128,7 @@ async def async_call_action_from_config(
 
 
 async def async_get_action_capabilities(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List action capabilities."""
     if config[CONF_TYPE] in {SERVICE_SELECT_NEXT, SERVICE_SELECT_PREVIOUS}:
@@ -140,7 +140,7 @@ async def async_get_action_capabilities(
 
     if config[CONF_TYPE] == SERVICE_SELECT_OPTION:
         options: list[str] = []
-        with suppress(__HAC_KEEP__Error):
+        with suppress(UniversalAssistantError):
             entry = async_get_entity_registry_entry_or_raise(
                 hass, config[CONF_ENTITY_ID]
             )

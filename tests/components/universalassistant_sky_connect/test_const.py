@@ -1,4 +1,4 @@
-"""Test the __HA_KEEP__ SkyConnect constants."""
+"""Test the Universal Home Assistant SkyConnect constants."""
 
 import pytest
 
@@ -9,7 +9,7 @@ from universalassistant.components.universalassistant_sky_connect.const import H
     ("usb_product_name", "expected_variant"),
     [
         ("SkyConnect v1.0", HardwareVariant.SKYCONNECT),
-        ("__HA_KEEP__ Connect ZBT-1", HardwareVariant.CONNECT_ZBT1),
+        ("Universal Home Assistant Connect ZBT-1", HardwareVariant.CONNECT_ZBT1),
     ],
 )
 def test_hardware_variant(

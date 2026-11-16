@@ -17,8 +17,8 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CONF_NAME,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.selector import LocationSelector, LocationSelectorConfig
 
 from .const import DOMAIN
@@ -27,7 +27,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def validate_input(
-    hass: __HAC_KEEP__, latitude: float, longitude: float, api_key: str
+    hass: UniversalAssistant, latitude: float, longitude: float, api_key: str
 ) -> dict[str, Any]:
     """Validate that the user input allows us to connect to DataPoint.
 
@@ -159,5 +159,5 @@ class MetOfficeConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""

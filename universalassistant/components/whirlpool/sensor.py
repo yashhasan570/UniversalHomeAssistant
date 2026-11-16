@@ -24,7 +24,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import Platform, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
@@ -271,7 +271,7 @@ DEPRECATED_OVEN_SENSOR_KEYS = ("oven_cook_mode", "oven_target_temperature")
 
 
 def _build_oven_cavity_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     oven: Oven,
     cavity: OvenCavity,
@@ -296,7 +296,7 @@ def _build_oven_cavity_sensors(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: WhirlpoolConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -7,7 +7,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant import config_entries
 from universalassistant.components.atag import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import UID, USER_INPUT, init_integration, mock_connection
@@ -16,7 +16,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 async def test_show_form(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test that the form is served with no input."""
     mock_connection(aioclient_mock)
@@ -29,7 +29,7 @@ async def test_show_form(
 
 
 async def test_adding_second_device(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test that only one Atag configuration is allowed."""
     await init_integration(hass, aioclient_mock, unique_id=UID)
@@ -68,7 +68,7 @@ async def test_adding_second_device(
 
 
 async def test_connection_error(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test we show user form on Atag connection error."""
     mock_connection(aioclient_mock, conn_error=True)
@@ -98,7 +98,7 @@ async def test_connection_error(
 
 
 async def test_unauthorized(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test we show correct form when Unauthorized error is raised."""
     mock_connection(aioclient_mock, authorized=False)
@@ -127,7 +127,7 @@ async def test_unauthorized(
 
 
 async def test_full_flow_implementation(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test registering an integration and finishing flow works."""
     mock_connection(aioclient_mock)

@@ -1,10 +1,10 @@
 {
   "exceptions": {
     "not_hassio": {
-      "message": "__HA_KEEP__ is not running on __HA_KEEP__ OS, the Hardkernel entry will be removed"
+      "message": "Universal Home Assistant is not running on Universal Home Assistant OS, the Hardkernel entry will be removed"
     },
     "unsupported_board": {
-      "message": "__HA_KEEP__ is not running on a Hardkernel board ({board}), the Hardkernel entry will be removed"
+      "message": "Universal Home Assistant is not running on a Hardkernel board ({board}), the Hardkernel entry will be removed"
     }
   }
 }

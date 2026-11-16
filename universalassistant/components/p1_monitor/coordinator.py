@@ -14,7 +14,7 @@ from p1monitor import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -48,7 +48,7 @@ class P1MonitorDataUpdateCoordinator(DataUpdateCoordinator[P1MonitorData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: P1MonitorConfigEntry,
     ) -> None:
         """Initialize global P1 Monitor data updater."""

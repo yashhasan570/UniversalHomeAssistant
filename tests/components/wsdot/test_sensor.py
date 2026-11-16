@@ -5,12 +5,12 @@ from unittest.mock import AsyncMock
 from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_travel_sensor_details(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_travel_time: AsyncMock,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,

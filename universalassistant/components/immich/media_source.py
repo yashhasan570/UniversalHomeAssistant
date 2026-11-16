@@ -7,7 +7,7 @@ from aiohttp.web import HTTPNotFound, Request, Response, StreamResponse
 from aioimmich.assets.models import AssetType, ImmichAsset
 from aioimmich.exceptions import ImmichError, ImmichForbiddenError
 
-from universalassistant.components.http import __HAC_KEEP__View
+from universalassistant.components.http import UniversalAssistantView
 from universalassistant.components.media_player import (
     BrowseError,
     MediaClass,
@@ -22,7 +22,7 @@ from universalassistant.components.media_source import (
     Unresolvable,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.aiohttp_client import ChunkAsyncStreamIterator
 
 from .const import DOMAIN
@@ -31,14 +31,14 @@ from .coordinator import ImmichConfigEntry
 LOGGER = getLogger(__name__)
 
 
-async def async_get_media_source(hass: __HAC_KEEP__) -> MediaSource:
+async def async_get_media_source(hass: UniversalAssistant) -> MediaSource:
     """Set up Immich media source."""
     hass.http.register_view(ImmichMediaView(hass))
     return ImmichMediaSource(hass)
 
 
 @callback
-def _async_get_loaded_entry(hass: __HAC_KEEP__, unique_id: str) -> ImmichConfigEntry:
+def _async_get_loaded_entry(hass: UniversalAssistant, unique_id: str) -> ImmichConfigEntry:
     """Return the loaded config entry with the given unique ID."""
     entry: ImmichConfigEntry | None = (
         hass.config_entries.async_entry_for_domain_unique_id(DOMAIN, unique_id)
@@ -135,7 +135,7 @@ class ImmichMediaSource(MediaSource):
 
     name = "Immich"
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize Immich media source."""
         super().__init__(DOMAIN)
         self.hass = hass
@@ -481,13 +481,13 @@ class ImmichMediaSource(MediaSource):
         return SearchMedia(result=_parse_assets(results, identifier))
 
 
-class ImmichMediaView(__HAC_KEEP__View):
+class ImmichMediaView(UniversalAssistantView):
     """Immich Media Finder View."""
 
     url = "/immich/{source_dir_id}/{location:.*}"
     name = "immich"
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the media view."""
         self.hass = hass
 

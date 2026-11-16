@@ -1,4 +1,4 @@
-"""Decorators for the __HA_KEEP__ API."""
+"""Decorators for the Universal Home Assistant API."""
 
 from collections.abc import Callable, Coroutine
 from functools import wraps
@@ -8,7 +8,7 @@ from aiohttp.web import Request, Response, StreamResponse
 
 from universalassistant.auth.models import User
 from universalassistant.exceptions import Unauthorized
-from universalassistant.helpers.http import __HAC_KEEP__View
+from universalassistant.helpers.http import UniversalAssistantView
 
 type _ResponseType = Response | StreamResponse
 type _FuncType[_T, **_P, _R] = Callable[
@@ -18,7 +18,7 @@ type _FuncType[_T, **_P, _R] = Callable[
 
 @overload
 def require_admin[
-    ___HAC_KEEP__ViewT: __HAC_KEEP__View,
+    _UniversalAssistantViewT: UniversalAssistantView,
     **_P,
     _ResponseT: _ResponseType,
 ](
@@ -27,47 +27,47 @@ def require_admin[
     perm_category: str | None = None,
     permission: str | None = None,
 ) -> Callable[
-    [_FuncType[___HAC_KEEP__ViewT, _P, _ResponseT]],
-    _FuncType[___HAC_KEEP__ViewT, _P, _ResponseT],
+    [_FuncType[_UniversalAssistantViewT, _P, _ResponseT]],
+    _FuncType[_UniversalAssistantViewT, _P, _ResponseT],
 ]: ...
 
 
 @overload
 def require_admin[
-    ___HAC_KEEP__ViewT: __HAC_KEEP__View,
+    _UniversalAssistantViewT: UniversalAssistantView,
     **_P,
     _ResponseT: _ResponseType,
 ](
-    _func: _FuncType[___HAC_KEEP__ViewT, _P, _ResponseT],
-) -> _FuncType[___HAC_KEEP__ViewT, _P, _ResponseT]: ...
+    _func: _FuncType[_UniversalAssistantViewT, _P, _ResponseT],
+) -> _FuncType[_UniversalAssistantViewT, _P, _ResponseT]: ...
 
 
 def require_admin[
-    ___HAC_KEEP__ViewT: __HAC_KEEP__View,
+    _UniversalAssistantViewT: UniversalAssistantView,
     **_P,
     _ResponseT: _ResponseType,
 ](
-    _func: _FuncType[___HAC_KEEP__ViewT, _P, _ResponseT] | None = None,
+    _func: _FuncType[_UniversalAssistantViewT, _P, _ResponseT] | None = None,
     *,
     perm_category: str | None = None,
     permission: str | None = None,
 ) -> (
     Callable[
-        [_FuncType[___HAC_KEEP__ViewT, _P, _ResponseT]],
-        _FuncType[___HAC_KEEP__ViewT, _P, _ResponseT],
+        [_FuncType[_UniversalAssistantViewT, _P, _ResponseT]],
+        _FuncType[_UniversalAssistantViewT, _P, _ResponseT],
     ]
-    | _FuncType[___HAC_KEEP__ViewT, _P, _ResponseT]
+    | _FuncType[_UniversalAssistantViewT, _P, _ResponseT]
 ):
-    """__HA_KEEP__ API decorator to require user to be an admin."""
+    """Universal Home Assistant API decorator to require user to be an admin."""
 
     def decorator_require_admin(
-        func: _FuncType[___HAC_KEEP__ViewT, _P, _ResponseT],
-    ) -> _FuncType[___HAC_KEEP__ViewT, _P, _ResponseT]:
+        func: _FuncType[_UniversalAssistantViewT, _P, _ResponseT],
+    ) -> _FuncType[_UniversalAssistantViewT, _P, _ResponseT]:
         """Wrap the provided with_admin function."""
 
         @wraps(func)
         async def with_admin(
-            self: ___HAC_KEEP__ViewT,
+            self: _UniversalAssistantViewT,
             request: Request,
             *args: _P.args,
             **kwargs: _P.kwargs,

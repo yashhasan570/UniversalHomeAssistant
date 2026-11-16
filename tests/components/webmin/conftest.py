@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 TEST_USER_INPUT = {
     CONF_HOST: "192.168.1.1",
@@ -37,9 +37,9 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 async def async_init_integration(
-    hass: __HAC_KEEP__, with_mac_address: bool = True
+    hass: UniversalAssistant, with_mac_address: bool = True
 ) -> MockConfigEntry:
-    """Set up the Webmin integration in __HA_KEEP__."""
+    """Set up the Webmin integration in Universal Home Assistant."""
     entry = MockConfigEntry(domain=DOMAIN, options=TEST_USER_INPUT, title="name")
     entry.add_to_hass(hass)
 

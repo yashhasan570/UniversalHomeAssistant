@@ -17,7 +17,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_object_f
 
 from universalassistant.components.bluetti_modbus.const import CONF_UNIT_ID, DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 HOST = "1.2.3.4"
 PORT = 502
@@ -51,7 +51,7 @@ def mock_shared_connection(
 
     @asynccontextmanager
     async def async_temporary_unit(
-        hass: __HAC_KEEP__, params: Any, unit_id: int
+        hass: UniversalAssistant, params: Any, unit_id: int
     ) -> AsyncIterator[ModbusUnit]:
         yield mock_modbus_connection.for_unit(unit_id)
 

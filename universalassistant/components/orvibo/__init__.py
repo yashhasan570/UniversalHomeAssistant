@@ -6,7 +6,7 @@ from orvibo.s20 import S20, S20Exception
 
 from universalassistant import core
 from universalassistant.const import CONF_HOST, CONF_MAC, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import DOMAIN
@@ -17,7 +17,7 @@ PLATFORMS = [Platform.SWITCH]
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: core.__HAC_KEEP__, entry: S20ConfigEntry) -> None:
+async def async_setup_entry(hass: core.UniversalAssistant, entry: S20ConfigEntry) -> None:
     """Set up platform from a ConfigEntry."""
 
     try:
@@ -43,7 +43,7 @@ async def async_setup_entry(hass: core.__HAC_KEEP__, entry: S20ConfigEntry) -> N
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: S20ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: S20ConfigEntry) -> None:
     """Unload a config entry."""
 
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

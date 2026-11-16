@@ -18,7 +18,7 @@ from universalassistant.const import (
     CONF_LOCATION,
     CONF_LONGITUDE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 USER_INPUT = {CONF_API_KEY: "test-key"}
@@ -27,7 +27,7 @@ SECOND_LOCATION_INPUT = {CONF_LOCATION: {CONF_LATITUDE: 48.86, CONF_LONGITUDE: 2
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_foreca_client")
-async def test_full_flow(hass: __HAC_KEEP__) -> None:
+async def test_full_flow(hass: UniversalAssistant) -> None:
     """Test the API key is all the entry needs."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -44,7 +44,7 @@ async def test_full_flow(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
     assert result["title"] == "Foreca"
     assert result["data"] == {CONF_API_KEY: "test-key"}
-    # A new entry starts with the __HA_KEEP__ home location, so setting the
+    # A new entry starts with the Universal Home Assistant home location, so setting the
     # integration up produces a weather entity without a second step.
     assert [subentry["data"] for subentry in result["subentries"]] == [
         {CONF_LATITUDE: hass.config.latitude, CONF_LONGITUDE: hass.config.longitude}
@@ -62,7 +62,7 @@ async def test_full_flow(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_errors_then_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_foreca_client: MagicMock,
     exception: type[Exception],
     error: str,
@@ -87,7 +87,7 @@ async def test_errors_then_recovers(
 
 @pytest.mark.usefixtures("mock_foreca_client")
 async def test_add_second_location(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test a second location is added to the same entry as a subentry."""
     mock_config_entry.add_to_hass(hass)
@@ -109,7 +109,7 @@ async def test_add_second_location(
 
 @pytest.mark.usefixtures("mock_foreca_client")
 async def test_duplicate_location_aborts(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test adding a location that is already configured aborts."""
     mock_config_entry.add_to_hass(hass)
@@ -136,7 +136,7 @@ async def test_duplicate_location_aborts(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_subentry_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_foreca_client: MagicMock,
     exception: type[Exception],
@@ -165,7 +165,7 @@ async def test_subentry_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_entry_title_falls_back_without_location_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_foreca_client: MagicMock,
 ) -> None:
@@ -188,7 +188,7 @@ async def test_entry_title_falls_back_without_location_name(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_foreca_client")
 async def test_duplicate_api_key_aborts(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the same API key cannot be set up twice."""
     mock_config_entry.add_to_hass(hass)

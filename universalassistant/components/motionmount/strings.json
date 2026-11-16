@@ -41,7 +41,7 @@
           "host": "The hostname or IP address of the MotionMount.",
           "port": "The port of the MotionMount."
         },
-        "description": "Set up your MotionMount to integrate with __HA_KEEP__.",
+        "description": "Set up your MotionMount to integrate with Universal Home Assistant.",
         "title": "Link your MotionMount"
       },
       "zeroconf_confirm": {

@@ -4,7 +4,10 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import override
 
-from enocean_async import EEP, EEP_SPECIFICATIONS, EEPHandler, EEPMessage, ERP1Telegram
+from enocean_async import EEP, EEP_SPECIFICATIONS
+from enocean_async.eep.handler import EEPHandler
+from enocean_async.eep.message import EEPMessage
+from enocean_async.protocol.erp1.telegram import ERP1Telegram
 import probatio
 
 from universalassistant.components.sensor import (
@@ -24,7 +27,7 @@ from universalassistant.const import (
     UnitOfPower,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -102,7 +105,7 @@ PLATFORM_SCHEMA = SENSOR_PLATFORM_SCHEMA.extend(
 
 
 def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -186,14 +189,14 @@ class EnOceanPowerSensor(EnOceanSensor):
         if telegram.rorg != 0xA5:
             return
 
-        if (eep := EEP_SPECIFICATIONS.get(EEP(0xA5, 0x12, 0x01))) is None:
+        if (eep := EEP_SPECIFICATIONS.get(EEP("A5-12-01"))) is None:
             return
         msg: EEPMessage = EEPHandler(eep).decode(telegram)
 
-        if "DT" in msg.values and msg.values["DT"].raw == 1:
+        if "DT" in msg.raw and msg.raw["DT"] == 1:
             # this packet reports the current value
-            raw_val = msg.values["MR"].raw
-            divisor = msg.values["DIV"].raw
+            raw_val = msg.raw["MR"]
+            divisor = msg.raw["DIV"]
             self._attr_native_value = raw_val / (10**divisor)
             self.schedule_update_ha_state()
 

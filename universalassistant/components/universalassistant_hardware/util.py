@@ -1,4 +1,4 @@
-"""Utility functions for __HA_KEEP__ SkyConnect integration."""
+"""Utility functions for Universal Home Assistant SkyConnect integration."""
 
 import asyncio
 from collections import defaultdict
@@ -22,8 +22,8 @@ from universalassistant.components.hassio import (
     get_supervisor_client,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.hassio import is_hassio
 from universalassistant.helpers.importlib import async_import_module
 from universalassistant.helpers.singleton import singleton
@@ -139,7 +139,7 @@ class FlasherType(StrEnum):
 
 
 async def async_get_flasher_cls(
-    hass: __HAC_KEEP__, flasher_type: FlasherType
+    hass: UniversalAssistant, flasher_type: FlasherType
 ) -> type[DeviceSpecificFlasher]:
     """Return a device specific flasher class, importing the flasher on first use."""
     flasher_module = await async_import_module(hass, FLASHER_MODULE)
@@ -148,7 +148,7 @@ async def async_get_flasher_cls(
 
 @singleton(OTBR_ADDON_MANAGER_DATA)
 @callback
-def get_otbr_addon_manager(hass: __HAC_KEEP__) -> WaitingAddonManager:
+def get_otbr_addon_manager(hass: UniversalAssistant) -> WaitingAddonManager:
     """Get the OTBR add-on manager."""
     return WaitingAddonManager(
         hass,
@@ -159,7 +159,7 @@ def get_otbr_addon_manager(hass: __HAC_KEEP__) -> WaitingAddonManager:
 
 
 @callback
-def get_z2m_addon_manager(hass: __HAC_KEEP__, slug: str) -> WaitingAddonManager:
+def get_z2m_addon_manager(hass: UniversalAssistant, slug: str) -> WaitingAddonManager:
     """Get the Z2M add-on manager."""
     return WaitingAddonManager(
         hass,
@@ -175,7 +175,7 @@ class OwningAddon:
 
     slug: str
 
-    def _get_addon_manager(self, hass: __HAC_KEEP__) -> WaitingAddonManager:
+    def _get_addon_manager(self, hass: UniversalAssistant) -> WaitingAddonManager:
         return WaitingAddonManager(
             hass,
             _LOGGER,
@@ -183,7 +183,7 @@ class OwningAddon:
             self.slug,
         )
 
-    async def is_running(self, hass: __HAC_KEEP__) -> bool:
+    async def is_running(self, hass: UniversalAssistant) -> bool:
         """Check if the add-on is running."""
         addon_manager = self._get_addon_manager(hass)
 
@@ -195,7 +195,7 @@ class OwningAddon:
             return addon_info.state is AddonState.RUNNING
 
     @asynccontextmanager
-    async def temporarily_stop(self, hass: __HAC_KEEP__) -> AsyncGenerator[None]:
+    async def temporarily_stop(self, hass: UniversalAssistant) -> AsyncGenerator[None]:
         """Temporarily stop the add-on, restarting it after completion."""
         addon_manager = self._get_addon_manager(hass)
 
@@ -223,7 +223,7 @@ class OwningIntegration:
 
     config_entry_id: str
 
-    async def is_running(self, hass: __HAC_KEEP__) -> bool:
+    async def is_running(self, hass: UniversalAssistant) -> bool:
         """Check if the integration is running."""
         if (entry := hass.config_entries.async_get_entry(self.config_entry_id)) is None:
             return False
@@ -235,7 +235,7 @@ class OwningIntegration:
         )
 
     @asynccontextmanager
-    async def temporarily_stop(self, hass: __HAC_KEEP__) -> AsyncGenerator[None]:
+    async def temporarily_stop(self, hass: UniversalAssistant) -> AsyncGenerator[None]:
         """Temporarily stop the integration, restarting it after completion."""
         if (entry := hass.config_entries.async_get_entry(self.config_entry_id)) is None:
             yield
@@ -263,7 +263,7 @@ class FirmwareInfo:
     source: str
     owners: list[OwningAddon | OwningIntegration]
 
-    async def is_running(self, hass: __HAC_KEEP__) -> bool:
+    async def is_running(self, hass: UniversalAssistant) -> bool:
         """Check if the firmware owner is running."""
         states = await asyncio.gather(*(o.is_running(hass) for o in self.owners))
         if not states:
@@ -273,7 +273,7 @@ class FirmwareInfo:
 
 
 async def get_otbr_addon_firmware_info(
-    hass: __HAC_KEEP__, otbr_addon_manager: AddonManager
+    hass: UniversalAssistant, otbr_addon_manager: AddonManager
 ) -> FirmwareInfo | None:
     """Get firmware info from the OTBR add-on."""
     try:
@@ -298,7 +298,7 @@ async def get_otbr_addon_firmware_info(
 
 
 async def get_z2m_addon_firmware_info(
-    hass: __HAC_KEEP__, z2m_addon_manager: AddonManager
+    hass: UniversalAssistant, z2m_addon_manager: AddonManager
 ) -> FirmwareInfo | None:
     """Get firmware info from a Z2M add-on."""
     try:
@@ -324,7 +324,7 @@ async def get_z2m_addon_firmware_info(
 
 
 async def guess_hardware_owners(
-    hass: __HAC_KEEP__, device_path: str
+    hass: UniversalAssistant, device_path: str
 ) -> list[FirmwareInfo]:
     """Guess the firmware info based on installed addons and other integrations."""
     device_guesses: defaultdict[str, list[FirmwareInfo]] = defaultdict(list)
@@ -391,7 +391,7 @@ async def guess_hardware_owners(
     return device_guesses.get(device_path, [])
 
 
-async def guess_firmware_info(hass: __HAC_KEEP__, device_path: str) -> FirmwareInfo:
+async def guess_firmware_info(hass: UniversalAssistant, device_path: str) -> FirmwareInfo:
     """Guess the firmware type based on installed addons and other integrations."""
 
     hardware_owners = await guess_hardware_owners(hass, device_path)
@@ -455,7 +455,7 @@ async def probe_silabs_firmware_info(
 
 
 async def probe_silabs_firmware_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device: str,
     *,
     application_probe_methods: Sequence[tuple[ApplicationType, int]],
@@ -482,7 +482,7 @@ async def probe_silabs_firmware_type(
 
 @asynccontextmanager
 async def async_firmware_flashing_context(
-    hass: __HAC_KEEP__, device: str, source_domain: str
+    hass: UniversalAssistant, device: str, source_domain: str
 ) -> AsyncGenerator[None]:
     """Register a device as having its firmware being actively interacted with."""
     async with async_firmware_update_context(hass, device, source_domain):
@@ -497,7 +497,7 @@ async def async_firmware_flashing_context(
 
 
 async def async_flash_silabs_firmware(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device: str,
     fw_data: bytes,
     flasher_cls: type[DeviceSpecificFlasher],
@@ -520,11 +520,11 @@ async def async_flash_silabs_firmware(
         # Flash the firmware, with progress
         await flasher.flash_firmware(fw_image, progress_callback=progress_callback)
     except PermissionError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             "Failed to flash firmware: Device is used by another application"
         ) from err
     except Exception as err:
-        raise __HAC_KEEP__Error("Failed to flash firmware") from err
+        raise UniversalAssistantError("Failed to flash firmware") from err
 
     probed_firmware_info = await probe_silabs_firmware_info(
         device,
@@ -534,7 +534,7 @@ async def async_flash_silabs_firmware(
     )
 
     if probed_firmware_info is None:
-        raise __HAC_KEEP__Error("Failed to probe the firmware after flashing")
+        raise UniversalAssistantError("Failed to probe the firmware after flashing")
 
     return probed_firmware_info
 
@@ -584,7 +584,7 @@ def humanize_rpi_firmware_version(version: str | None) -> str | None:
 
 
 async def async_get_raspberry_pi_firmware_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> RaspberryPiFirmwareInfo | None:
     """Return the firmware info, or None if the Supervisor doesn't expose it.
 
@@ -601,7 +601,7 @@ async def async_get_raspberry_pi_firmware_info(
         return None
 
 
-async def async_update_raspberry_pi_firmware(hass: __HAC_KEEP__) -> None:
+async def async_update_raspberry_pi_firmware(hass: UniversalAssistant) -> None:
     """Trigger the Raspberry Pi firmware (bootloader EEPROM and VL805) update.
 
     The Supervisor always raises a reboot-required issue and suggestion on
@@ -612,6 +612,6 @@ async def async_update_raspberry_pi_firmware(hass: __HAC_KEEP__) -> None:
     try:
         await client.os.update_raspberry_pi_firmware()
     except SupervisorError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             f"Error updating Raspberry Pi firmware: {err}"
         ) from err

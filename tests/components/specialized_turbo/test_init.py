@@ -24,7 +24,7 @@ from universalassistant.components.specialized_turbo.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.util import dt as dt_util
 
@@ -42,7 +42,7 @@ from .conftest import (
 
 
 async def test_setup_and_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_library: MockLibrary,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_setup_and_unload_entry(
 
 
 async def test_runtime_uses_managed_ble_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_library: MockLibrary,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_runtime_uses_managed_ble_client(
 
 
 async def test_periodic_poll_reuses_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_library: MockLibrary,
 ) -> None:
@@ -125,7 +125,7 @@ async def test_periodic_poll_reuses_connection(
 
 
 async def test_setup_succeeds_without_bike_in_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_library: MockLibrary,
 ) -> None:
@@ -145,7 +145,7 @@ async def test_setup_succeeds_without_bike_in_range(
     ids=["tcu1", "name_only"],
 )
 async def test_setup_supported_bike_variants(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_library: MockLibrary,
     service_info: BluetoothServiceInfoBleak,
 ) -> None:
@@ -165,7 +165,7 @@ async def test_setup_supported_bike_variants(
 
 
 async def test_setup_encrypted_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     encrypted_config_entry: MockConfigEntry,
     mock_library: MockLibrary,
 ) -> None:
@@ -179,7 +179,7 @@ async def test_setup_encrypted_entry(
 
 
 async def test_setup_encrypted_entry_with_partial_advertisement(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     encrypted_config_entry: MockConfigEntry,
     mock_library: MockLibrary,
 ) -> None:
@@ -201,7 +201,7 @@ async def test_setup_encrypted_entry_with_partial_advertisement(
     ],
 )
 async def test_encryption_error_starts_reauthentication(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_library: MockLibrary,
     error: Exception,
@@ -219,7 +219,7 @@ async def test_encryption_error_starts_reauthentication(
 
 
 async def test_key_error_without_hmi_does_not_start_broken_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_library: MockLibrary,
 ) -> None:
@@ -231,7 +231,7 @@ async def test_key_error_without_hmi_does_not_start_broken_reauth(
 
 
 async def test_monitor_start_failure_disconnects(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_library: MockLibrary,
 ) -> None:
@@ -244,7 +244,7 @@ async def test_monitor_start_failure_disconnects(
 
 
 async def test_unload_waits_for_in_flight_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_library: MockLibrary,
 ) -> None:
@@ -287,7 +287,7 @@ async def test_unload_waits_for_in_flight_connection(
 
 
 async def test_unload_tolerates_library_cleanup_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_library: MockLibrary,
     caplog: pytest.LogCaptureFixture,

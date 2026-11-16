@@ -41,8 +41,8 @@ from universalassistant.const import (
     STATE_PLAYING,
     STATE_UNKNOWN,
 )
-from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import Event, EventStateChangedData, UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.event import async_track_state_change_event
 
 from .common import create_conf, mrp_service
@@ -76,7 +76,7 @@ pytestmark = pytest.mark.usefixtures("init_integration")
     ],
 )
 async def test_play_media_from_media_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_atv: AsyncMock,
     play_item: PlayMedia,
     expected_stream_arg: str,
@@ -102,7 +102,7 @@ async def test_play_media_from_media_source(
 
 @pytest.mark.parametrize("media_type", [MediaType.APP, MediaType.URL])
 async def test_play_media_launches_app(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_atv: AsyncMock,
     media_type: MediaType,
 ) -> None:
@@ -142,7 +142,7 @@ async def test_play_media_launches_app(
     ],
 )
 async def test_play_media_selects_streaming_method(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_atv: AsyncMock,
     media_type: MediaType,
     media_id: str,
@@ -167,7 +167,7 @@ async def test_play_media_selects_streaming_method(
 
 
 async def test_play_media_falls_back_to_play_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_atv: AsyncMock,
 ) -> None:
     """When StreamFile is unavailable, play_url is used for video."""
@@ -189,14 +189,14 @@ async def test_play_media_falls_back_to_play_url(
 
 
 async def test_play_media_raises_when_no_streaming_method(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_atv: AsyncMock,
 ) -> None:
-    """Raise __HAC_KEEP__Error when no streaming method is available."""
+    """Raise UniversalAssistantError when no streaming method is available."""
     mock_atv.features.set_state(FeatureName.StreamFile, FeatureState.Unsupported)
     mock_atv.features.set_state(FeatureName.PlayUrl, FeatureState.Unsupported)
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             MP_DOMAIN,
             SERVICE_PLAY_MEDIA,
@@ -244,7 +244,7 @@ async def test_play_media_raises_when_no_streaming_method(
     ],
 )
 async def test_play_media_raises_ha_error_on_pyatv_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_atv: AsyncMock,
     stream_attr: str,
     media_type: MediaType,
@@ -253,11 +253,11 @@ async def test_play_media_raises_ha_error_on_pyatv_failure(
     exc_class: type[Exception],
     expected_translation_key: str,
 ) -> None:
-    """Pyatv streaming exceptions surface as a translated __HAC_KEEP__Error."""
+    """Pyatv streaming exceptions surface as a translated UniversalAssistantError."""
     mock_atv.features.set_state(FeatureName.StreamFile, stream_file_state)
     getattr(mock_atv.stream, stream_attr).side_effect = exc_class("error")
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             MP_DOMAIN,
             SERVICE_PLAY_MEDIA,
@@ -291,7 +291,7 @@ async def test_play_media_raises_ha_error_on_pyatv_failure(
 )
 @pytest.mark.parametrize("exc_class", [TimeoutError, ConnectionLostError])
 async def test_command_raises_ha_error_on_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_atv: AsyncMock,
     service: str,
     service_data: dict[str, float],
@@ -299,10 +299,10 @@ async def test_command_raises_ha_error_on_failure(
     method: str,
     exc_class: type[Exception],
 ) -> None:
-    """Test a failing command surfaces as a translated __HAC_KEEP__Error."""
+    """Test a failing command surfaces as a translated UniversalAssistantError."""
     getattr(getattr(mock_atv, interface), method).side_effect = exc_class("error")
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             MP_DOMAIN,
             service,
@@ -315,7 +315,7 @@ async def test_command_raises_ha_error_on_failure(
 
 
 async def test_browse_media_uses_media_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """async_browse_media routes to media_source when streaming is available."""
@@ -360,7 +360,7 @@ async def test_browse_media_uses_media_source(
     ],
 )
 async def test_disconnect_does_not_report_power_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_atv: AsyncMock,
     callback_name: str,
     callback_args: tuple[Exception, ...],
@@ -404,7 +404,7 @@ async def test_disconnect_does_not_report_power_off(
 
 
 async def test_remote_turn_off_reports_off(
-    hass: __HAC_KEEP__, mock_atv: AsyncMock
+    hass: UniversalAssistant, mock_atv: AsyncMock
 ) -> None:
     """Closing the connection after turning the remote off reports off."""
     await hass.services.async_call(
@@ -427,7 +427,7 @@ async def test_remote_turn_off_reports_off(
     ],
 )
 async def test_connected_power_off_remains_immediate(
-    hass: __HAC_KEEP__, mock_atv: AsyncMock, device_state: DeviceState
+    hass: UniversalAssistant, mock_atv: AsyncMock, device_state: DeviceState
 ) -> None:
     """A connected device's genuine power-off still takes effect immediately."""
     mock_atv.power.power_state = PowerState.Off

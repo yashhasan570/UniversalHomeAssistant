@@ -44,7 +44,7 @@
   {
     "slug": "host",
     "name": "This machine",
-    "description": "The machine __HA_KEEP__ runs on, like its CPU, disks and files.",
+    "description": "The machine Universal Home Assistant runs on, like its CPU, disks and files.",
     "icon": "mdi:server"
   },
   {

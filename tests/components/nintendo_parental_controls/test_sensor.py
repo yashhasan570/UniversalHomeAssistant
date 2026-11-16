@@ -11,14 +11,14 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nintendo_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -35,7 +35,7 @@ async def test_sensor(
 
 
 async def test_player_sensor_none_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nintendo_client: AsyncMock,
     freezer: FrozenDateTimeFactory,

@@ -3,8 +3,8 @@
 import pytest
 
 from universalassistant.components.input_select import DOMAIN
-from universalassistant.core import __HAC_KEEP__, State
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, State
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.state import async_reproduce_state
 from universalassistant.setup import async_setup_component
 
@@ -21,7 +21,7 @@ ENTITY = "input_select.test_select"
 
 
 async def test_reproducing_states(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test reproducing Input select states."""
 
@@ -63,7 +63,7 @@ async def test_reproducing_states(
     assert hass.states.get(ENTITY).state == VALID_OPTION3
 
     # Test setting state to invalid state
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await async_reproduce_state(hass, [State(ENTITY, INVALID_OPTION)])
 
     # The entity state should be unchanged

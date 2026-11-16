@@ -3,7 +3,7 @@
 from collections.abc import Mapping
 from typing import Any
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import UpdateFailed
 
 from .const import (
@@ -28,7 +28,7 @@ class SensorUpdateFailed(UpdateFailed):
     """Raised when a plane sensor can't be read, before the API is called."""
 
 
-def sensor_angle(hass: __HAC_KEEP__, entity_id: str, sensor_key: str) -> float:
+def sensor_angle(hass: UniversalAssistant, entity_id: str, sensor_key: str) -> float:
     """Return a sensor's angle, raising if it can't be used."""
     min_value, max_value = ANGLE_RANGES[sensor_key]
     if (sensor := hass.states.get(entity_id)) is None:

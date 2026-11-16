@@ -17,7 +17,7 @@ from pytest_universalassistant.common import (
 from universalassistant.components.lock import DOMAIN, LockEntity, LockEntityFeature
 from universalassistant.config_entries import ConfigEntry, ConfigFlow
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -61,7 +61,7 @@ class MockFlow(ConfigFlow):
 
 
 @pytest.fixture(autouse=True)
-def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
+def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
     """Mock config flow."""
     mock_platform(hass, f"{TEST_DOMAIN}.config_flow")
 
@@ -83,7 +83,7 @@ async def lock_supported_features() -> LockEntityFeature:
 
 @pytest.fixture(name="mock_lock_entity")
 async def setup_lock_platform_test_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     code_format: str | None,
     supported_features: LockEntityFeature,
@@ -91,7 +91,7 @@ async def setup_lock_platform_test_entity(
     """Set up lock entity using an entity platform."""
 
     async def async_setup_entry_init(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -113,7 +113,7 @@ async def setup_lock_platform_test_entity(
     )
 
     async def async_setup_entry_platform(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:

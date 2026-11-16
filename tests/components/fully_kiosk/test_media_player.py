@@ -10,14 +10,14 @@ from universalassistant.components import media_player
 from universalassistant.components.fully_kiosk.const import DOMAIN, MEDIA_SUPPORT_FULLYKIOSK
 from universalassistant.components.media_source import DOMAIN as MS_DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 async def test_media_player(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_fully_kiosk: MagicMock,
@@ -101,7 +101,7 @@ async def test_media_player(
 
 @pytest.mark.parametrize("media_content_type", ["video", "video/mp4"])
 async def test_media_player_video(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fully_kiosk: MagicMock,
     init_integration: MockConfigEntry,
     media_content_type: str,
@@ -134,12 +134,12 @@ async def test_media_player_video(
 
 
 async def test_media_player_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fully_kiosk: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test Fully Kiosk media player for unsupported media."""
-    with pytest.raises(__HAC_KEEP__Error) as error:
+    with pytest.raises(UniversalAssistantError) as error:
         await hass.services.async_call(
             media_player.DOMAIN,
             "play_media",
@@ -154,7 +154,7 @@ async def test_media_player_unsupported(
 
 
 async def test_browse_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_fully_kiosk: MagicMock,
     init_integration: MockConfigEntry,

@@ -7,7 +7,7 @@ from uuid import uuid4
 
 from aiohasupervisor import (
     AddonNotSupportedArchitectureError,
-    AddonNotSupported__HAC_KEEP__VersionError,
+    AddonNotSupportedUniversalAssistantVersionError,
     AddonNotSupportedMachineTypeError,
     SupervisorError,
     SupervisorNotFoundError,
@@ -21,7 +21,7 @@ from universalassistant.components.hassio.addon_manager import (
     AddonManager,
     AddonState,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.usefixtures("addon_not_installed")
@@ -46,9 +46,9 @@ async def test_not_installed_raises_exception(addon_manager: AddonManager) -> No
         AddonNotSupportedArchitectureError(
             "Add-on test not supported on this platform, supported architectures: test"
         ),
-        AddonNotSupported__HAC_KEEP__VersionError(
+        AddonNotSupportedUniversalAssistantVersionError(
             "Add-on test not supported on this system, requires"
-            " __HA_KEEP__ version 2026.1.0 or greater"
+            " Universal Home Assistant version 2026.1.0 or greater"
         ),
         AddonNotSupportedMachineTypeError(
             "Add-on test not supported on this machine, supported machine types: test"
@@ -220,7 +220,7 @@ async def test_get_addon_info_error(
 
 
 async def test_set_addon_options(
-    hass: __HAC_KEEP__, addon_manager: AddonManager, set_addon_options: AsyncMock
+    hass: UniversalAssistant, addon_manager: AddonManager, set_addon_options: AsyncMock
 ) -> None:
     """Test set addon options."""
     await addon_manager.async_set_addon_options({"test_key": "test"})
@@ -296,7 +296,7 @@ async def test_configure_addon_unchanged(
 
 
 async def test_set_addon_options_error(
-    hass: __HAC_KEEP__, addon_manager: AddonManager, set_addon_options: AsyncMock
+    hass: UniversalAssistant, addon_manager: AddonManager, set_addon_options: AsyncMock
 ) -> None:
     """Test set addon options raises error."""
     set_addon_options.side_effect = SupervisorError("Boom")
@@ -819,7 +819,7 @@ async def test_schedule_update_addon_logs_error(
 
 
 async def test_create_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     addon_manager: AddonManager,
     addon_info: AsyncMock,
     addon_installed: AsyncMock,
@@ -836,7 +836,7 @@ async def test_create_backup(
 
 
 async def test_create_backup_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     addon_manager: AddonManager,
     addon_info: AsyncMock,
     addon_installed: AsyncMock,

@@ -10,11 +10,11 @@ from universalassistant.components.mqtt.subscription import (
     async_subscribe_topics,
     async_unsubscribe_topics,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 
 async def test_subscribe_topics(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test subscription to topics."""
     await mqtt_mock_entry()
@@ -65,7 +65,7 @@ async def test_subscribe_topics(
 
 
 async def test_modify_topics(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test modification of topics."""
     await mqtt_mock_entry()
@@ -130,7 +130,7 @@ async def test_modify_topics(
 
 
 async def test_qos_encoding_default(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test default qos and encoding."""
     mqtt_mock = await mqtt_mock_entry()
@@ -150,7 +150,7 @@ async def test_qos_encoding_default(
 
 
 async def test_qos_encoding_custom(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test custom qos and encoding."""
     mqtt_mock = await mqtt_mock_entry()
@@ -177,7 +177,7 @@ async def test_qos_encoding_custom(
 
 
 async def test_no_change(
-    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test subscription to topics without change."""
     mqtt_mock = await mqtt_mock_entry()

@@ -20,7 +20,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_FRIENDLY_NAME,
@@ -131,7 +131,7 @@ def fritz_fixture() -> Mock:
         yield fritz
 
 
-async def test_user(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_user(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test starting a flow by user."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -151,7 +151,7 @@ async def test_user(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert not result["result"].unique_id
 
 
-async def test_user_auth_failed(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_user_auth_failed(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test starting a flow by user with authentication failure."""
     fritz().login.side_effect = [LoginError("Boom"), mock.DEFAULT]
 
@@ -175,7 +175,7 @@ async def test_user_auth_failed(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_not_successful(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_user_not_successful(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test starting a flow by user but no connection found."""
     fritz().login.side_effect = OSError("Boom")
 
@@ -192,7 +192,7 @@ async def test_user_not_successful(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert result["reason"] == "no_devices_found"
 
 
-async def test_user_already_configured(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_user_already_configured(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test starting a flow by user when already configured."""
     mock_config = MockConfigEntry(
         domain=DOMAIN,
@@ -218,7 +218,7 @@ async def test_user_already_configured(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_reauth_success(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_reauth_success(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test starting a reauthentication flow."""
     mock_config = MockConfigEntry(
         domain=DOMAIN,
@@ -245,7 +245,7 @@ async def test_reauth_success(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert mock_config.data[CONF_PASSWORD] == "other_fake_password"
 
 
-async def test_reauth_auth_failed(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_reauth_auth_failed(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test starting a reauthentication flow with authentication failure."""
     fritz().login.side_effect = LoginError("Boom")
 
@@ -284,7 +284,7 @@ async def test_reauth_auth_failed(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert result["reason"] == "reauth_successful"
 
 
-async def test_reauth_not_successful(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_reauth_not_successful(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test starting a reauthentication flow but no connection found."""
     fritz().login.side_effect = OSError("Boom")
 
@@ -311,7 +311,7 @@ async def test_reauth_not_successful(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert result["reason"] == "no_devices_found"
 
 
-async def test_reconfigure_success(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_reconfigure_success(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test starting a reconfigure flow."""
     mock_config = MockConfigEntry(
         domain=DOMAIN,
@@ -342,7 +342,7 @@ async def test_reconfigure_success(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert mock_config.data[CONF_VERIFY_SSL] is True
 
 
-async def test_reconfigure_failed(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_reconfigure_failed(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test starting a reconfigure flow with failure."""
     fritz().login.side_effect = [OSError("Boom"), None]
 
@@ -405,7 +405,7 @@ async def test_reconfigure_failed(hass: __HAC_KEEP__, fritz: Mock) -> None:
     ],
 )
 async def test_ssdp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fritz: Mock,
     test_data: SsdpServiceInfo,
     expected_host: str | None,
@@ -435,7 +435,7 @@ async def test_ssdp(
     assert result["result"].unique_id == "only-a-test"
 
 
-async def test_ssdp_no_friendly_name(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_ssdp_no_friendly_name(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test starting a flow from discovery without friendly name."""
     MOCK_NO_NAME = dataclasses.replace(MOCK_SSDP_DATA["ip4_valid"])
     MOCK_NO_NAME.upnp = MOCK_NO_NAME.upnp.copy()
@@ -459,7 +459,7 @@ async def test_ssdp_no_friendly_name(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert result["result"].unique_id == "only-a-test"
 
 
-async def test_ssdp_auth_failed(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_ssdp_auth_failed(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test starting a flow from discovery with authentication failure."""
     fritz().login.side_effect = LoginError("Boom")
 
@@ -486,7 +486,7 @@ async def test_ssdp_auth_failed(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_ssdp_not_successful(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_ssdp_not_successful(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test starting a flow from discovery but no device found."""
     fritz().login.side_effect = OSError("Boom")
 
@@ -504,7 +504,7 @@ async def test_ssdp_not_successful(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert result["reason"] == "no_devices_found"
 
 
-async def test_ssdp_not_supported(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_ssdp_not_supported(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test starting a flow from discovery with unsupported device."""
     fritz().get_device_elements.side_effect = HTTPError("Boom")
 
@@ -531,7 +531,7 @@ async def test_ssdp_not_supported(hass: __HAC_KEEP__, fritz: Mock) -> None:
     ],
 )
 async def test_ssdp_smarthome_capabilities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fritz: Mock,
     capabilities: bool | None,
     expected_type: str,
@@ -552,7 +552,7 @@ async def test_ssdp_smarthome_capabilities(
 
 
 async def test_ssdp_already_in_progress_unique_id(
-    hass: __HAC_KEEP__, fritz: Mock
+    hass: UniversalAssistant, fritz: Mock
 ) -> None:
     """Test starting a flow from discovery twice."""
     result = await hass.config_entries.flow.async_init(
@@ -568,7 +568,7 @@ async def test_ssdp_already_in_progress_unique_id(
     assert result["reason"] == "already_in_progress"
 
 
-async def test_ssdp_already_in_progress_host(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_ssdp_already_in_progress_host(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test starting a flow from discovery twice."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_SSDP}, data=MOCK_SSDP_DATA["ip4_valid"]
@@ -648,7 +648,7 @@ async def test_ssdp_already_in_progress_host(hass: __HAC_KEEP__, fritz: Mock) ->
     ],
 )
 async def test_ssdp_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fritz: Mock,
     configured_host: str,
     ssdp_host: str,
@@ -725,7 +725,7 @@ async def test_ssdp_already_configured(
     ],
 )
 async def test_ssdp_already_configured_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fritz: Mock,
     existing_host: str,
     discovery_info: SsdpServiceInfo,
@@ -753,7 +753,7 @@ async def test_ssdp_already_configured_unique_id(
     assert mock_config.data[CONF_HOST] == expected_host
 
 
-async def test_ssdp_ignored_entry(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_ssdp_ignored_entry(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test discovery of an ignored device is aborted without updating it."""
     mock_config = MockConfigEntry(
         domain=DOMAIN, unique_id="only-a-test", source=SOURCE_IGNORE, data={}

@@ -3,7 +3,7 @@
 from collections.abc import Callable, Collection, Coroutine
 from typing import Any
 
-from universalassistant.core import CALLBACK_TYPE, Event, __HAC_KEEP__, valid_entity_id
+from universalassistant.core import CALLBACK_TYPE, Event, UniversalAssistant, valid_entity_id
 
 from . import device_registry as dr, entity_registry as er
 from .deprecation import deprecated_function
@@ -12,7 +12,7 @@ from .frame import ReportBehavior, report_usage
 
 
 def async_handle_source_entity_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     helper_config_entry_id: str,
     set_source_entity_id_or_uuid: Callable[[str], None],
@@ -139,7 +139,7 @@ def async_handle_source_entity_changes(
 
 
 def async_remove_helper_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     helper_config_entry_id: str,
     source_device_id: str | None,
@@ -311,7 +311,7 @@ def _sweep_helper_devices(
     breaks_in_ha_version="2027.8.0",
 )
 def async_remove_helper_config_entry_from_source_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     helper_config_entry_id: str,
     source_device_id: str,

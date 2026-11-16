@@ -20,7 +20,7 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -32,7 +32,7 @@ def setup_platforms():
 
 
 async def test_light_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lutron: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -52,7 +52,7 @@ async def test_light_setup(
 
 
 async def test_light_turn_on_off(
-    hass: __HAC_KEEP__, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test light turn on and off."""
     mock_config_entry.add_to_hass(hass)
@@ -86,7 +86,7 @@ async def test_light_turn_on_off(
 
 
 async def test_light_update(
-    hass: __HAC_KEEP__, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test light state update from library."""
     mock_config_entry.add_to_hass(hass)
@@ -113,7 +113,7 @@ async def test_light_update(
 
 
 async def test_light_transition(
-    hass: __HAC_KEEP__, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test light turn on/off with transition."""
     mock_config_entry.add_to_hass(hass)
@@ -150,7 +150,7 @@ async def test_light_transition(
 
 
 async def test_light_flash(
-    hass: __HAC_KEEP__, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test light flash."""
     mock_config_entry.add_to_hass(hass)
@@ -182,7 +182,7 @@ async def test_light_flash(
 
 
 async def test_light_brightness_restore(
-    hass: __HAC_KEEP__, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test light brightness restore logic."""
     mock_config_entry.add_to_hass(hass)
@@ -228,7 +228,7 @@ async def test_light_brightness_restore(
 
 
 async def test_light_state_published_without_waiting_for_a_report(
-    hass: __HAC_KEEP__, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """State follows the command without waiting for the controller to report.
 
@@ -272,7 +272,7 @@ async def test_light_state_published_without_waiting_for_a_report(
 
 
 async def test_a_later_report_wins_over_the_commanded_value(
-    hass: __HAC_KEEP__, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """The controller remains authoritative when it does report."""
     mock_config_entry.add_to_hass(hass)

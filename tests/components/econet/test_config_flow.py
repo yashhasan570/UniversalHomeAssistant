@@ -11,11 +11,11 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.econet.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_bad_credentials(hass: __HAC_KEEP__) -> None:
+async def test_bad_credentials(hass: UniversalAssistant) -> None:
     """Test when provided credentials are rejected."""
 
     result = await hass.config_entries.flow.async_init(
@@ -66,7 +66,7 @@ async def test_bad_credentials(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_generic_error_from_library(
-    hass: __HAC_KEEP__, side_effect: Exception
+    hass: UniversalAssistant, side_effect: Exception
 ) -> None:
     """Test when connection fails."""
 
@@ -109,7 +109,7 @@ async def test_generic_error_from_library(
         assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_auth_worked(hass: __HAC_KEEP__) -> None:
+async def test_auth_worked(hass: UniversalAssistant) -> None:
     """Test when provided credentials are accepted."""
 
     result = await hass.config_entries.flow.async_init(
@@ -141,7 +141,7 @@ async def test_auth_worked(hass: __HAC_KEEP__) -> None:
         assert result["result"].unique_id == "admin@localhost.com"
 
 
-async def test_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_already_configured(hass: UniversalAssistant) -> None:
     """Test when provided credentials are already configured."""
     config = {
         CONF_EMAIL: "admin@localhost.com",
@@ -176,7 +176,7 @@ async def test_already_configured(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_reauth(hass: __HAC_KEEP__) -> None:
+async def test_reauth(hass: UniversalAssistant) -> None:
     """Test reauth flow updates the password."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -222,7 +222,7 @@ async def test_reauth(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_reauth_errors(
-    hass: __HAC_KEEP__, side_effect: Exception, error: str
+    hass: UniversalAssistant, side_effect: Exception, error: str
 ) -> None:
     """Test reauth flow handles errors and can recover."""
     entry = MockConfigEntry(

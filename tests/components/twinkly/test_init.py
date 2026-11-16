@@ -10,7 +10,7 @@ from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN
 from universalassistant.components.twinkly.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_ID, CONF_MODEL, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -19,7 +19,7 @@ from .const import TEST_MAC, TEST_MODEL
 
 @pytest.mark.usefixtures("mock_twinkly_client")
 async def test_load_unload_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the load/unload of the config entry."""
 
@@ -33,7 +33,7 @@ async def test_load_unload_entry(
 
 
 async def test_config_entry_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_twinkly_client: AsyncMock,
 ) -> None:
@@ -47,7 +47,7 @@ async def test_config_entry_not_ready(
 
 @pytest.mark.usefixtures("mock_twinkly_client")
 async def test_mac_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -86,7 +86,7 @@ async def test_mac_migration(
 
 
 async def test_mac_migration_cannot_connect(
-    hass: __HAC_KEEP__, mock_twinkly_client: AsyncMock
+    hass: UniversalAssistant, mock_twinkly_client: AsyncMock
 ) -> None:
     """Test the MAC migration is retried when the device cannot be reached."""
     mock_twinkly_client.get_details.side_effect = TimeoutError
@@ -117,7 +117,7 @@ async def test_mac_migration_cannot_connect(
 
 @pytest.mark.usefixtures("mock_twinkly_client")
 async def test_request_retried_once_on_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_twinkly_client: AsyncMock,
 ) -> None:
@@ -132,7 +132,7 @@ async def test_request_retried_once_on_timeout(
 
 
 async def test_request_gives_up_after_the_retry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_twinkly_client: AsyncMock,
 ) -> None:

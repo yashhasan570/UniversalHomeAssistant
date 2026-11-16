@@ -26,7 +26,7 @@ from universalassistant.data_entry_flow import FlowResultType
 from .const import NYMO_CLIENT_ID, NYMO_CLIENT_SECRET
 
 if TYPE_CHECKING:
-    from universalassistant.core import __HAC_KEEP__
+    from universalassistant.core import UniversalAssistant
 
 # Prevent the flow from actually setting up the full integration when an entry is created
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
@@ -38,7 +38,7 @@ USER_INPUT = {
 
 
 @pytest.mark.usefixtures("mock_api_client_class")
-async def test_user_flow(hass: __HAC_KEEP__) -> None:
+async def test_user_flow(hass: UniversalAssistant) -> None:
     """The happy path: submit valid credentials and an entry is created."""
     # Start the flow — form should be visible for the user.
     result = await hass.config_entries.flow.async_init(
@@ -66,7 +66,7 @@ async def test_user_flow(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_user_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api_client_class: AsyncMock,
     side_effect: Exception,
     error_key: str,
@@ -100,7 +100,7 @@ async def test_user_flow_errors(
 
 @pytest.mark.usefixtures("mock_api_client_class")
 async def test_user_flow_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Setting up the same account twice aborts with 'already_configured'."""

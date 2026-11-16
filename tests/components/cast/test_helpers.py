@@ -17,7 +17,7 @@ from universalassistant.components.cast.helpers import (
     PlaylistSupported,
     parse_playlist,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.parametrize(
@@ -41,7 +41,7 @@ from universalassistant.core import __HAC_KEEP__
     ],
 )
 async def test_hls_playlist_supported(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, url, fixture, content_type
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, url, fixture, content_type
 ) -> None:
     """Test playlist parsing of HLS playlist."""
     headers = {"content-type": content_type}
@@ -106,7 +106,7 @@ async def test_hls_playlist_supported(
     ],
 )
 async def test_parse_playlist(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     url,
     fixture,
@@ -138,7 +138,7 @@ async def test_parse_playlist(
     ],
 )
 async def test_parse_bad_playlist(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, url, fixture
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, url, fixture
 ) -> None:
     """Test playlist parsing of HLS playlist."""
     aioclient_mock.get(url, text=await async_load_fixture(hass, fixture, DOMAIN))
@@ -154,7 +154,7 @@ async def test_parse_bad_playlist(
     ],
 )
 async def test_parse_http_error(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, url, exc
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, url, exc
 ) -> None:
     """Test playlist parsing of HLS playlist when aioclient raises."""
     aioclient_mock.get(url, text="", exc=exc)
@@ -163,7 +163,7 @@ async def test_parse_http_error(
 
 
 async def test_connection_status_queued_before_invalidation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a queued connection callback is ignored after invalidation."""
     entry = MockConfigEntry(domain=DOMAIN)
@@ -204,7 +204,7 @@ async def test_connection_status_queued_before_invalidation(
 
 
 async def test_invalidated_listener_does_not_process_callback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test invalidated listeners do not process connection callbacks."""
     entry = MockConfigEntry(domain=DOMAIN)

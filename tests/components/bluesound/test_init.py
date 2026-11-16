@@ -14,7 +14,7 @@ from universalassistant.components.bluesound.coordinator import (
 from universalassistant.components.media_player import ATTR_INPUT_SOURCE_LIST
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_PLAYING, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import PlayerMocks
@@ -23,7 +23,7 @@ ENTITY_ID = "media_player.player_name1111"
 
 
 async def test_setup_entry(
-    hass: __HAC_KEEP__, setup_config_entry: None, config_entry: MockConfigEntry
+    hass: UniversalAssistant, setup_config_entry: None, config_entry: MockConfigEntry
 ) -> None:
     """Test a successful setup entry."""
     assert hass.states.get("media_player.player_name1111").state == "playing"
@@ -37,7 +37,7 @@ async def test_setup_entry(
 
 
 async def test_setup_entry_player_unreachable(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, player_mocks: PlayerMocks
+    hass: UniversalAssistant, config_entry: MockConfigEntry, player_mocks: PlayerMocks
 ) -> None:
     """Test setup is retried when the player is unreachable."""
     player_mocks.player_data.player.sync_status.side_effect = PlayerUnreachableError(
@@ -58,7 +58,7 @@ async def test_setup_entry_player_unreachable(
 
 @pytest.mark.parametrize("method", ["presets", "inputs", "status"])
 async def test_setup_entry_first_refresh_player_unreachable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     player_mocks: PlayerMocks,
     method: str,
@@ -80,7 +80,7 @@ async def test_setup_entry_first_refresh_player_unreachable(
 
 
 async def test_unload_entry_while_player_is_offline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_config_entry: None,
     config_entry: MockConfigEntry,
     player_mocks: PlayerMocks,
@@ -103,7 +103,7 @@ async def test_unload_entry_while_player_is_offline(
 
 
 async def test_non_default_port_links_to_leader_via_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_config_entry: None,
     config_entry_non_default_port: MockConfigEntry,
     player_mocks: PlayerMocks,
@@ -130,7 +130,7 @@ async def test_non_default_port_links_to_leader_via_device_id(
 
 
 async def test_non_default_port_without_leader_has_no_via_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_non_default_port: MockConfigEntry,
     player_mocks: PlayerMocks,
     device_registry: dr.DeviceRegistry,
@@ -150,7 +150,7 @@ async def test_non_default_port_without_leader_has_no_via_device_id(
 
 
 async def test_log_when_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     setup_config_entry: None,
     player_mocks: PlayerMocks,
@@ -188,7 +188,7 @@ async def test_log_when_unavailable(
 
 
 async def test_presets_and_inputs_updated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     setup_config_entry: None,
     player_mocks: PlayerMocks,
@@ -216,7 +216,7 @@ async def test_presets_and_inputs_updated(
     ],
 )
 async def test_presets_and_inputs_poll_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     setup_config_entry: None,
     player_mocks: PlayerMocks,
@@ -237,7 +237,7 @@ async def test_presets_and_inputs_poll_error(
     ["status_long_polling_mock", "sync_status_long_polling_mock"],
 )
 async def test_unexpected_error_while_polling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_config_entry: None,
     player_mocks: PlayerMocks,
     long_polling_mock: str,

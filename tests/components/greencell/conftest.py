@@ -17,7 +17,7 @@ from universalassistant.components.greencell.const import (
 )
 from universalassistant.components.mqtt import ReceiveMessage
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.service_info.mqtt import MqttServiceInfo
 
 # Test constants
@@ -117,7 +117,7 @@ def platforms() -> list[Platform]:
 
 @pytest.fixture
 async def setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mqtt_mock: MqttMockHAClient,
     platforms: list[Platform],

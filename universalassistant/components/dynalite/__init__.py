@@ -1,7 +1,7 @@
 """Support for the Dynalite networks."""
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -17,7 +17,7 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 type DynaliteConfigEntry = ConfigEntry[DynaliteBridge]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Dynalite platform."""
     async_setup_services(hass)
 
@@ -26,7 +26,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_entry_changed(hass: __HAC_KEEP__, entry: DynaliteConfigEntry) -> None:
+async def async_entry_changed(hass: UniversalAssistant, entry: DynaliteConfigEntry) -> None:
     """Reload entry since the data has changed."""
     LOGGER.debug("Reconfiguring entry %s", entry.data)
     bridge = entry.runtime_data
@@ -34,7 +34,7 @@ async def async_entry_changed(hass: __HAC_KEEP__, entry: DynaliteConfigEntry) ->
     LOGGER.debug("Reconfiguring entry finished %s", entry.data)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: DynaliteConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: DynaliteConfigEntry) -> None:
     """Set up a bridge from a config entry."""
     LOGGER.debug("Setting up entry %s", entry.data)
     bridge = DynaliteBridge(hass, convert_config(entry.data))
@@ -47,7 +47,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: DynaliteConfigEntry) -> N
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: DynaliteConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: DynaliteConfigEntry) -> None:
     """Unload a config entry."""
     LOGGER.debug("Unloading entry %s", entry.data)
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

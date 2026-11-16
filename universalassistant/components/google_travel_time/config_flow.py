@@ -11,7 +11,7 @@ from universalassistant.config_entries import (
     OptionsFlow,
 )
 from universalassistant.const import CONF_API_KEY, CONF_LANGUAGE, CONF_MODE
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.selector import (
     SelectSelector,
@@ -94,7 +94,7 @@ OPTIONS_SCHEMA = probatio.Schema(
 )
 
 
-def default_options(hass: __HAC_KEEP__) -> dict[str, str]:
+def default_options(hass: UniversalAssistant) -> dict[str, str]:
     """Get the default options."""
     return {
         CONF_MODE: "driving",
@@ -151,7 +151,7 @@ class GoogleOptionsFlow(OptionsFlow):
 
 
 async def validate_input(
-    hass: __HAC_KEEP__, user_input: dict[str, Any]
+    hass: UniversalAssistant, user_input: dict[str, Any]
 ) -> dict[str, str] | None:
     """Validate the user input allows us to connect."""
     try:

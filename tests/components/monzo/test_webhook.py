@@ -30,7 +30,7 @@ from universalassistant.components.monzo.webhook import WEBHOOK_RETRY_DELAY
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.components.webhook import async_generate_path
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import OAuth2TokenRequestReauthError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.config_entry_oauth2_flow import (
@@ -64,7 +64,7 @@ TRANSACTION = {
 
 
 async def test_registers_one_remote_webhook_per_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_registers_one_remote_webhook_per_account(
 
 
 async def test_new_account_event_and_webhook_are_discovered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -132,7 +132,7 @@ async def test_new_account_event_and_webhook_are_discovered(
 
 
 async def test_account_discovered_during_initial_webhook_registration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -186,7 +186,7 @@ async def test_account_discovered_during_initial_webhook_registration(
 
 
 async def test_removed_account_entities_are_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -224,7 +224,7 @@ async def test_removed_account_entities_are_removed(
 
 
 async def test_registers_non_https_remote_webhook(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
 ) -> None:
@@ -243,7 +243,7 @@ async def test_registers_non_https_remote_webhook(
 
 
 async def test_reuses_webhook_and_removes_exact_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
 ) -> None:
@@ -266,7 +266,7 @@ async def test_reuses_webhook_and_removes_exact_duplicate(
 
 
 async def test_reuses_previously_persisted_webhooks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
 ) -> None:
@@ -288,7 +288,7 @@ async def test_reuses_previously_persisted_webhooks(
 
 
 async def test_replaces_previous_owned_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
 ) -> None:
@@ -317,7 +317,7 @@ async def test_replaces_previous_owned_url(
 
 
 async def test_partial_registration_is_rolled_back(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
 ) -> None:
@@ -337,7 +337,7 @@ async def test_partial_registration_is_rolled_back(
 
 
 async def test_rollback_failure_does_not_abort_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -357,7 +357,7 @@ async def test_rollback_failure_does_not_abort_setup(
 
 
 async def test_transaction_payload_is_preserved_and_data_is_refreshed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
@@ -386,7 +386,7 @@ async def test_transaction_payload_is_preserved_and_data_is_refreshed(
 
 
 async def test_webhook_response_does_not_wait_for_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
@@ -450,7 +450,7 @@ async def test_webhook_response_does_not_wait_for_refresh(
     ],
 )
 async def test_invalid_webhook_is_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
@@ -472,7 +472,7 @@ async def test_invalid_webhook_is_ignored(
 
 
 async def test_invalid_json_webhook_is_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
@@ -495,7 +495,7 @@ async def test_invalid_json_webhook_is_ignored(
 
 
 async def test_unload_preserves_remote_and_removes_local_webhooks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
@@ -520,7 +520,7 @@ async def test_unload_preserves_remote_and_removes_local_webhooks(
 
 
 async def test_uses_and_removes_cloudhook(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
 ) -> None:
@@ -561,7 +561,7 @@ async def test_uses_and_removes_cloudhook(
 
 
 async def test_removal_refreshes_expired_token_without_updating_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
 ) -> None:
@@ -604,7 +604,7 @@ async def test_removal_refreshes_expired_token_without_updating_entry(
 
 
 async def test_remote_cleanup_failure_still_removes_cloudhook(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
 ) -> None:
@@ -628,7 +628,7 @@ async def test_remote_cleanup_failure_still_removes_cloudhook(
 
 
 async def test_uses_external_url_until_cloud_connects(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
 ) -> None:
@@ -661,7 +661,7 @@ async def test_uses_external_url_until_cloud_connects(
 
 
 async def test_temporary_cloud_disconnect_preserves_cloudhook(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
 ) -> None:
@@ -686,7 +686,7 @@ async def test_temporary_cloud_disconnect_preserves_cloudhook(
 
 
 async def test_cloud_subscription_loss_falls_back_to_external_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
 ) -> None:
@@ -731,7 +731,7 @@ async def test_cloud_subscription_loss_falls_back_to_external_url(
 
 
 async def test_cloudhook_change_is_persisted_and_reconciled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
 ) -> None:
@@ -775,7 +775,7 @@ async def test_cloudhook_change_is_persisted_and_reconciled(
 
 
 async def test_removed_cloudhook_falls_back_to_external_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
 ) -> None:
@@ -810,7 +810,7 @@ async def test_removed_cloudhook_falls_back_to_external_url(
 
 
 async def test_external_url_change_is_reconciled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
 ) -> None:
@@ -846,7 +846,7 @@ async def test_external_url_change_is_reconciled(
 
 
 async def test_external_url_removal_cleans_up_remote_webhooks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
 ) -> None:
@@ -873,7 +873,7 @@ async def test_external_url_removal_cleans_up_remote_webhooks(
 
 
 async def test_external_url_cleanup_auth_failure_starts_reauthentication(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
 ) -> None:
@@ -895,7 +895,7 @@ async def test_external_url_cleanup_auth_failure_starts_reauthentication(
 
 
 async def test_external_url_cleanup_oauth_failure_starts_reauthentication(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -926,7 +926,7 @@ async def test_external_url_cleanup_oauth_failure_starts_reauthentication(
 
 
 async def test_external_url_cleanup_failure_is_retried_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -966,7 +966,7 @@ async def test_external_url_cleanup_failure_is_retried_once(
 
 
 async def test_no_external_url_skips_remote_registration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
 ) -> None:
@@ -982,7 +982,7 @@ async def test_no_external_url_skips_remote_registration(
 
 
 async def test_cloudhook_creation_failure_is_retried(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -1015,7 +1015,7 @@ async def test_cloudhook_creation_failure_is_retried(
 
 
 async def test_retry_is_cancelled_when_callback_url_becomes_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -1054,7 +1054,7 @@ async def test_retry_is_cancelled_when_callback_url_becomes_unavailable(
 
 
 async def test_registration_auth_failure_starts_reauthentication(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
 ) -> None:
@@ -1070,7 +1070,7 @@ async def test_registration_auth_failure_starts_reauthentication(
 
 
 async def test_registration_oauth_failure_starts_reauthentication(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -1096,7 +1096,7 @@ async def test_registration_oauth_failure_starts_reauthentication(
 
 
 async def test_registration_failure_is_retried(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

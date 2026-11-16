@@ -1,1 +1,1 @@
-"""__HA_KEEP__ mypy plugins."""
+"""Universal Home Assistant mypy plugins."""

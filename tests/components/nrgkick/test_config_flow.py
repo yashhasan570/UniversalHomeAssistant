@@ -16,7 +16,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.nrgkick.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -69,7 +69,7 @@ ZEROCONF_DISCOVERY_INFO_NO_SERIAL = ZeroconfServiceInfo(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_user_flow(hass: __HAC_KEEP__, mock_nrgkick_api: AsyncMock) -> None:
+async def test_user_flow(hass: UniversalAssistant, mock_nrgkick_api: AsyncMock) -> None:
     """Test we can set up successfully without credentials."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -89,7 +89,7 @@ async def test_user_flow(hass: __HAC_KEEP__, mock_nrgkick_api: AsyncMock) -> Non
 
 
 async def test_user_flow_with_credentials(
-    hass: __HAC_KEEP__, mock_nrgkick_api: AsyncMock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_nrgkick_api: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we can setup when authentication is required."""
     result = await hass.config_entries.flow.async_init(
@@ -140,7 +140,7 @@ async def test_user_flow_with_credentials(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_host_input(
-    hass: __HAC_KEEP__, mock_nrgkick_api: AsyncMock, host: str, expected_host: str
+    hass: UniversalAssistant, mock_nrgkick_api: AsyncMock, host: str, expected_host: str
 ) -> None:
     """Test the host input is reduced to the host and an explicitly given port."""
     result = await hass.config_entries.flow.async_init(
@@ -159,7 +159,7 @@ async def test_user_flow_host_input(
 @pytest.mark.parametrize("url", ["http://", "", "http://[::1", "http://."])
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_invalid_host_input(
-    hass: __HAC_KEEP__, mock_nrgkick_api: AsyncMock, url: str
+    hass: UniversalAssistant, mock_nrgkick_api: AsyncMock, url: str
 ) -> None:
     """Test we handle invalid host input during normalization."""
     result = await hass.config_entries.flow.async_init(
@@ -182,7 +182,7 @@ async def test_form_invalid_host_input(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_fallback_title_when_device_name_missing(
-    hass: __HAC_KEEP__, mock_nrgkick_api: AsyncMock
+    hass: UniversalAssistant, mock_nrgkick_api: AsyncMock
 ) -> None:
     """Test we fall back to a default title when device name is missing."""
     mock_nrgkick_api.get_info.return_value = {"general": {"serial_number": "ABC"}}
@@ -203,7 +203,7 @@ async def test_form_fallback_title_when_device_name_missing(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_invalid_response_when_serial_missing(
-    hass: __HAC_KEEP__, mock_nrgkick_api: AsyncMock, mock_info_data: dict[str, Any]
+    hass: UniversalAssistant, mock_nrgkick_api: AsyncMock, mock_info_data: dict[str, Any]
 ) -> None:
     """Test we handle invalid device info response."""
     mock_nrgkick_api.get_info.return_value = {"general": {"device_name": "NRGkick"}}
@@ -238,7 +238,7 @@ async def test_form_invalid_response_when_serial_missing(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_errors(
-    hass: __HAC_KEEP__, mock_nrgkick_api: AsyncMock, exception: Exception, error: str
+    hass: UniversalAssistant, mock_nrgkick_api: AsyncMock, exception: Exception, error: str
 ) -> None:
     """Test errors are handled and the flow can recover to CREATE_ENTRY."""
     result = await hass.config_entries.flow.async_init(
@@ -276,7 +276,7 @@ async def test_user_flow_errors(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_auth_errors(
-    hass: __HAC_KEEP__, mock_nrgkick_api: AsyncMock, exception: Exception, error: str
+    hass: UniversalAssistant, mock_nrgkick_api: AsyncMock, exception: Exception, error: str
 ) -> None:
     """Test errors are handled and the flow can recover to CREATE_ENTRY."""
     result = await hass.config_entries.flow.async_init(
@@ -315,7 +315,7 @@ async def test_user_flow_auth_errors(
 
 
 async def test_user_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_nrgkick_api: AsyncMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_nrgkick_api: AsyncMock
 ) -> None:
     """Test we handle already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -333,7 +333,7 @@ async def test_user_already_configured(
 
 
 async def test_user_auth_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_nrgkick_api: AsyncMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_nrgkick_api: AsyncMock
 ) -> None:
     """Test we handle already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -365,7 +365,7 @@ async def test_user_auth_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_discovery(
-    hass: __HAC_KEEP__, mock_nrgkick_api: AsyncMock
+    hass: UniversalAssistant, mock_nrgkick_api: AsyncMock
 ) -> None:
     """Test zeroconf discovery without credentials."""
     result = await hass.config_entries.flow.async_init(
@@ -389,7 +389,7 @@ async def test_zeroconf_discovery(
 
 
 async def test_zeroconf_discovery_with_credentials(
-    hass: __HAC_KEEP__, mock_nrgkick_api: AsyncMock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_nrgkick_api: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test zeroconf discovery flow (auth required)."""
 
@@ -432,7 +432,7 @@ async def test_zeroconf_discovery_with_credentials(
     ],
 )
 async def test_zeroconf_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nrgkick_api: AsyncMock,
     exception: Exception,
     reason: str,
@@ -450,7 +450,7 @@ async def test_zeroconf_errors(
 
 
 async def test_zeroconf_already_configured(
-    hass: __HAC_KEEP__, mock_nrgkick_api: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_nrgkick_api: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test zeroconf discovery when device is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -466,7 +466,7 @@ async def test_zeroconf_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_json_api_disabled(
-    hass: __HAC_KEEP__, mock_nrgkick_api: AsyncMock
+    hass: UniversalAssistant, mock_nrgkick_api: AsyncMock
 ) -> None:
     """Test zeroconf discovery when JSON API is disabled."""
     result = await hass.config_entries.flow.async_init(
@@ -492,7 +492,7 @@ async def test_zeroconf_json_api_disabled(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_json_api_disabled_stale_mdns(
-    hass: __HAC_KEEP__, mock_nrgkick_api: AsyncMock
+    hass: UniversalAssistant, mock_nrgkick_api: AsyncMock
 ) -> None:
     """Test zeroconf discovery when JSON API is disabled."""
     mock_nrgkick_api.test_connection.side_effect = NRGkickAPIDisabledError
@@ -531,7 +531,7 @@ async def test_zeroconf_json_api_disabled_stale_mdns(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_json_api_disabled_errors(
-    hass: __HAC_KEEP__, mock_nrgkick_api: AsyncMock, exception: Exception, error: str
+    hass: UniversalAssistant, mock_nrgkick_api: AsyncMock, exception: Exception, error: str
 ) -> None:
     """Test zeroconf discovery when JSON API is disabled."""
     result = await hass.config_entries.flow.async_init(
@@ -567,7 +567,7 @@ async def test_zeroconf_json_api_disabled_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_json_api_disabled_with_credentials(
-    hass: __HAC_KEEP__, mock_nrgkick_api: AsyncMock
+    hass: UniversalAssistant, mock_nrgkick_api: AsyncMock
 ) -> None:
     """Test JSON API disabled flow that requires authentication afterwards."""
     result = await hass.config_entries.flow.async_init(
@@ -611,7 +611,7 @@ async def test_zeroconf_json_api_disabled_with_credentials(
     ],
 )
 async def test_zeroconf_enable_json_api_auth_errors(
-    hass: __HAC_KEEP__, mock_nrgkick_api, exception: Exception, error: str
+    hass: UniversalAssistant, mock_nrgkick_api, exception: Exception, error: str
 ) -> None:
     """Test JSON API enable auth step reports errors."""
     result = await hass.config_entries.flow.async_init(
@@ -655,7 +655,7 @@ async def test_zeroconf_enable_json_api_auth_errors(
     ],
 )
 async def test_zeroconf_auth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nrgkick_api: AsyncMock,
     exception: Exception,
     error: str,
@@ -690,7 +690,7 @@ async def test_zeroconf_auth_errors(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_zeroconf_no_serial_number(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_no_serial_number(hass: UniversalAssistant) -> None:
     """Test zeroconf discovery without serial number."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -704,7 +704,7 @@ async def test_zeroconf_no_serial_number(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:
@@ -740,7 +740,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
     exception: Exception,
@@ -778,7 +778,7 @@ async def test_reauth_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_unique_id_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:
@@ -805,7 +805,7 @@ async def test_reauth_flow_unique_id_mismatch(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:
@@ -837,7 +837,7 @@ async def test_reconfigure_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_with_credentials(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:
@@ -884,7 +884,7 @@ async def test_reconfigure_flow_with_credentials(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
     exception: Exception,
@@ -929,7 +929,7 @@ async def test_reconfigure_flow_errors(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_auth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
     exception: Exception,
@@ -974,7 +974,7 @@ async def test_reconfigure_flow_auth_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_unique_id_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:

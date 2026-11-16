@@ -10,8 +10,8 @@ from typing import Any, final, override
 import probatio
 
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.entity import Entity, EntityDescription
@@ -106,7 +106,7 @@ class CalendarEvent:
         try:
             CALENDAR_EVENT_SCHEMA(dataclasses.asdict(self, dict_factory=skip_none))
         except probatio.Invalid as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to validate CalendarEvent: {err}"
             ) from err
 
@@ -374,7 +374,7 @@ class CalendarEntity(Entity):
         """Fetch events and push them to the listeners of that range."""
         try:
             events = await self.async_get_events(self.hass, start_date, end_date)
-        except __HAC_KEEP__Error as err:
+        except UniversalAssistantError as err:
             _LOGGER.debug(
                 "Error fetching calendar events for %s: %s",
                 self.entity_id,
@@ -390,7 +390,7 @@ class CalendarEntity(Entity):
 
     async def async_get_events(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         start_date: dt.datetime,
         end_date: dt.datetime,
     ) -> list[CalendarEvent]:

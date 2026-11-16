@@ -7,7 +7,7 @@ from aio_wattwaechter.models import SystemInfo
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_MAC, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import WattwaechterConfigEntry
 
@@ -34,7 +34,7 @@ def _flatten_system(system: SystemInfo) -> dict[str, dict[str, Any]]:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: WattwaechterConfigEntry
+    hass: UniversalAssistant, entry: WattwaechterConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     data = entry.runtime_data.data

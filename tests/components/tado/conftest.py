@@ -10,12 +10,13 @@ from pytest_universalassistant.common import (
     MockConfigEntry,
     async_fire_time_changed,
     async_load_fixture,
+    async_load_json_object_fixture,
     load_json_object_fixture,
 )
 import requests_mock
 
 from universalassistant.components.tado import CONF_REFRESH_TOKEN, DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -62,8 +63,18 @@ def mock_config_entry() -> MockConfigEntry:
 
 
 @pytest.fixture
-async def init_integration(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory):
-    """Set up the tado integration in __HA_KEEP__."""
+def zone_states_overrides() -> dict[str, str]:
+    """Return zone state fixtures to use instead of the ones in zone_states.json."""
+    return {}
+
+
+@pytest.fixture
+async def init_integration(
+    hass: UniversalAssistant,
+    freezer: FrozenDateTimeFactory,
+    zone_states_overrides: dict[str, str],
+):
+    """Set up the tado integration in Universal Home Assistant."""
 
     token_fixture = "token.json"
     devices_fixture = "devices.json"
@@ -107,6 +118,14 @@ async def init_integration(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory):
 
     # Zone Default Overlay
     zone_def_overlay = "zone_default_overlay.json"
+
+    zone_states = await async_load_json_object_fixture(
+        hass, zone_states_fixture, DOMAIN
+    )
+    for zone_id, fixture in zone_states_overrides.items():
+        zone_states["zoneStates"][zone_id] = await async_load_json_object_fixture(
+            hass, fixture, DOMAIN
+        )
 
     with (
         requests_mock.mock() as m,
@@ -173,7 +192,7 @@ async def init_integration(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory):
         )
         m.get(
             "https://my.tado.com/api/v2/homes/1/zoneStates",
-            text=await async_load_fixture(hass, zone_states_fixture, DOMAIN),
+            json=zone_states,
         )
         m.get(
             "https://my.tado.com/api/v2/homes/1/zones/6/capabilities",

@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import VenstarColorTouchMock
@@ -33,7 +33,7 @@ TEST_DATA = {
 TEST_ID = "VenstarUniqueID"
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -63,7 +63,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -100,7 +100,7 @@ async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_unknown_error(hass: __HAC_KEEP__) -> None:
+async def test_unknown_error(hass: UniversalAssistant) -> None:
     """Test we handle unknown error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -137,7 +137,7 @@ async def test_unknown_error(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_already_configured(hass: UniversalAssistant) -> None:
     """Test when provided credentials are already configured."""
     MockConfigEntry(domain=DOMAIN, data=TEST_DATA, unique_id=TEST_ID).add_to_hass(hass)
 
@@ -168,7 +168,7 @@ async def test_already_configured(hass: __HAC_KEEP__) -> None:
     assert result2["reason"] == "already_configured"
 
 
-async def test_import(hass: __HAC_KEEP__) -> None:
+async def test_import(hass: UniversalAssistant) -> None:
     """Test importing a YAML configuration creates an entry."""
     with (
         patch(
@@ -201,7 +201,7 @@ async def test_import(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_import_error(
-    hass: __HAC_KEEP__, update_info: Callable[..., bool], reason: str
+    hass: UniversalAssistant, update_info: Callable[..., bool], reason: str
 ) -> None:
     """Test import errors abort the flow instead of showing a form."""
     with patch(
@@ -216,7 +216,7 @@ async def test_import_error(
     assert result["reason"] == reason
 
 
-async def test_import_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_import_already_configured(hass: UniversalAssistant) -> None:
     """Test importing an already configured host aborts."""
     MockConfigEntry(domain=DOMAIN, data=TEST_DATA, unique_id=TEST_ID).add_to_hass(hass)
 

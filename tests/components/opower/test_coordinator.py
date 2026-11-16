@@ -25,7 +25,7 @@ from universalassistant.components.recorder.statistics import (
     statistics_during_period,
 )
 from universalassistant.const import UnitOfEnergy
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.util import dt as dt_util
 from universalassistant.util.unit_conversion import EnergyConverter
@@ -33,7 +33,7 @@ from universalassistant.util.unit_conversion import EnergyConverter
 
 async def test_coordinator_first_run(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_opower_api: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -80,7 +80,7 @@ async def test_coordinator_first_run(
 
 async def test_coordinator_subsequent_run(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_opower_api: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -144,7 +144,7 @@ async def test_coordinator_subsequent_run(
 
 async def test_coordinator_uses_import_export_registers(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_opower_api: AsyncMock,
 ) -> None:
@@ -205,7 +205,7 @@ async def test_coordinator_uses_import_export_registers(
 
 async def test_coordinator_falls_back_to_sign_split(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_opower_api: AsyncMock,
 ) -> None:
@@ -272,7 +272,7 @@ async def test_coordinator_falls_back_to_sign_split(
 
 async def test_coordinator_subsequent_run_no_energy_data(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_opower_api: AsyncMock,
     caplog: pytest.LogCaptureFixture,
@@ -309,7 +309,7 @@ async def test_coordinator_subsequent_run_no_energy_data(
 
 async def test_coordinator_migration(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
     mock_opower_api: AsyncMock,
@@ -390,7 +390,7 @@ async def test_coordinator_migration(
 )
 async def test_coordinator_api_exceptions(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_opower_api: AsyncMock,
     method: str,
@@ -426,7 +426,7 @@ async def test_coordinator_api_exceptions(
 
 async def test_coordinator_updates_with_finer_grained_data(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_opower_api: AsyncMock,
 ) -> None:
@@ -503,7 +503,7 @@ async def test_coordinator_updates_with_finer_grained_data(
 
 async def test_coordinator_migration_empty_source_stats(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
     mock_opower_api: AsyncMock,
@@ -552,7 +552,7 @@ async def test_coordinator_migration_empty_source_stats(
 
 async def test_coordinator_migration_negative_state(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_opower_api: AsyncMock,
 ) -> None:
@@ -603,7 +603,7 @@ async def test_coordinator_migration_negative_state(
 
 async def test_coordinator_no_new_cost_reads_after_initial_load(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_opower_api: AsyncMock,
 ) -> None:
@@ -645,7 +645,7 @@ async def test_coordinator_no_new_cost_reads_after_initial_load(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_coordinator_initial_import_keeps_older_billing_history(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_opower_api: AsyncMock,
 ) -> None:
@@ -705,7 +705,7 @@ async def test_coordinator_initial_import_keeps_older_billing_history(
     ],
 )
 async def test_coordinator_subsequent_run_fetches_only_account_resolution(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_opower_api: AsyncMock,
     read_resolution: ReadResolution,
@@ -756,7 +756,7 @@ async def test_coordinator_subsequent_run_fetches_only_account_resolution(
     ],
 )
 async def test_coordinator_subsequent_run_time_gaps(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_opower_api: AsyncMock,
     second_run_hours: list[tuple[int, float, float]],

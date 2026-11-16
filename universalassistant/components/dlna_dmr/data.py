@@ -10,7 +10,7 @@ from async_upnp_client.client_factory import UpnpFactory
 from async_upnp_client.event_handler import UpnpEventHandler
 
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import CALLBACK_TYPE, Event, __HAC_KEEP__
+from universalassistant.core import CALLBACK_TYPE, Event, UniversalAssistant
 from universalassistant.helpers import aiohttp_client
 
 from .const import DOMAIN_DATA, LOGGER
@@ -34,7 +34,7 @@ class DlnaDmrData:
     event_notifier_refs: defaultdict[EventListenAddr, int]
     stop_listener_remove: CALLBACK_TYPE | None = None
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize global data."""
         self.lock = asyncio.Lock()
         session = aiohttp_client.async_get_clientsession(hass, verify_ssl=False)
@@ -44,7 +44,7 @@ class DlnaDmrData:
         self.event_notifier_refs = defaultdict(int)
 
     async def async_cleanup_event_notifiers(self, event: Event) -> None:
-        """Clean up resources when __HA_KEEP__ is stopped."""
+        """Clean up resources when Universal Home Assistant is stopped."""
         LOGGER.debug("Cleaning resources in DlnaDmrData")
         async with self.lock:
             tasks = (
@@ -55,7 +55,7 @@ class DlnaDmrData:
             self.event_notifier_refs = defaultdict(int)
 
     async def async_get_event_notifier(
-        self, listen_addr: EventListenAddr, hass: __HAC_KEEP__
+        self, listen_addr: EventListenAddr, hass: UniversalAssistant
     ) -> UpnpEventHandler:
         """Return existing event notifier for the listen_addr, or create one.
 
@@ -115,7 +115,7 @@ class DlnaDmrData:
                 self.stop_listener_remove = None
 
 
-def get_domain_data(hass: __HAC_KEEP__) -> DlnaDmrData:
+def get_domain_data(hass: UniversalAssistant) -> DlnaDmrData:
     """Obtain this integration's domain data, creating it if needed.
 
     Creation is deferred to the first caller rather than done at setup, to

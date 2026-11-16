@@ -5,7 +5,7 @@ from typing import override
 
 import probatio
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import area_registry as ar, config_validation as cv, intent
 
 from . import DOMAIN, VacuumEntityFeature
@@ -18,7 +18,7 @@ INTENT_VACUUM_RETURN_TO_BASE = "HassVacuumReturnToBase"
 INTENT_VACUUM_CLEAN_AREA = "HassVacuumCleanArea"
 
 
-async def async_setup_intents(hass: __HAC_KEEP__) -> None:
+async def async_setup_intents(hass: UniversalAssistant) -> None:
     """Set up the vacuum intents."""
     intent.async_register(
         hass,

@@ -18,7 +18,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 def mock_session_response(*args, **kwargs):
@@ -65,7 +65,7 @@ def mock_session_send():
         yield mock_session_send
 
 
-def test_config_missing_optional_params(hass: __HAC_KEEP__, mock_session_send) -> None:
+def test_config_missing_optional_params(hass: UniversalAssistant, mock_session_send) -> None:
     """Test the setup without optional parameters."""
     config = {
         DEVICE_TRACKER_DOMAIN: tomato.PLATFORM_SCHEMA(
@@ -91,7 +91,7 @@ def test_config_missing_optional_params(hass: __HAC_KEEP__, mock_session_send) -
 
 @mock.patch("os.access", return_value=True)
 @mock.patch("os.path.isfile", mock.Mock(return_value=True))
-def test_config_default_nonssl_port(hass: __HAC_KEEP__, mock_session_send) -> None:
+def test_config_default_nonssl_port(hass: UniversalAssistant, mock_session_send) -> None:
     """Test the setup without a default port set without ssl enabled."""
     config = {
         DEVICE_TRACKER_DOMAIN: tomato.PLATFORM_SCHEMA(
@@ -110,7 +110,7 @@ def test_config_default_nonssl_port(hass: __HAC_KEEP__, mock_session_send) -> No
 
 @mock.patch("os.access", return_value=True)
 @mock.patch("os.path.isfile", mock.Mock(return_value=True))
-def test_config_default_ssl_port(hass: __HAC_KEEP__, mock_session_send) -> None:
+def test_config_default_ssl_port(hass: UniversalAssistant, mock_session_send) -> None:
     """Test the setup without a default port set with ssl enabled."""
     config = {
         DEVICE_TRACKER_DOMAIN: tomato.PLATFORM_SCHEMA(
@@ -131,7 +131,7 @@ def test_config_default_ssl_port(hass: __HAC_KEEP__, mock_session_send) -> None:
 @mock.patch("os.access", return_value=True)
 @mock.patch("os.path.isfile", mock.Mock(return_value=True))
 def test_config_verify_ssl_but_no_ssl_enabled(
-    hass: __HAC_KEEP__, mock_session_send
+    hass: UniversalAssistant, mock_session_send
 ) -> None:
     """Test the setup with a string with ssl_verify but ssl not enabled."""
     config = {
@@ -163,7 +163,7 @@ def test_config_verify_ssl_but_no_ssl_enabled(
 
 @mock.patch("os.access", return_value=True)
 @mock.patch("os.path.isfile", mock.Mock(return_value=True))
-def test_config_valid_verify_ssl_path(hass: __HAC_KEEP__, mock_session_send) -> None:
+def test_config_valid_verify_ssl_path(hass: UniversalAssistant, mock_session_send) -> None:
     """Test the setup with a string for ssl_verify.
 
     Representing the absolute path to a CA certificate bundle.
@@ -197,7 +197,7 @@ def test_config_valid_verify_ssl_path(hass: __HAC_KEEP__, mock_session_send) -> 
     )
 
 
-def test_config_valid_verify_ssl_bool(hass: __HAC_KEEP__, mock_session_send) -> None:
+def test_config_valid_verify_ssl_bool(hass: UniversalAssistant, mock_session_send) -> None:
     """Test the setup with a bool for ssl_verify."""
     config = {
         DEVICE_TRACKER_DOMAIN: tomato.PLATFORM_SCHEMA(
@@ -298,7 +298,7 @@ def test_config_errors() -> None:
 
 
 @mock.patch("requests.Session.send", side_effect=mock_session_response)
-def test_config_bad_credentials(hass: __HAC_KEEP__, mock_exception_logger) -> None:
+def test_config_bad_credentials(hass: UniversalAssistant, mock_exception_logger) -> None:
     """Test the setup with bad credentials."""
     config = {
         DEVICE_TRACKER_DOMAIN: tomato.PLATFORM_SCHEMA(
@@ -321,7 +321,7 @@ def test_config_bad_credentials(hass: __HAC_KEEP__, mock_exception_logger) -> No
 
 
 @mock.patch("requests.Session.send", side_effect=mock_session_response)
-def test_bad_response(hass: __HAC_KEEP__, mock_exception_logger) -> None:
+def test_bad_response(hass: UniversalAssistant, mock_exception_logger) -> None:
     """Test the setup with bad response from router."""
     config = {
         DEVICE_TRACKER_DOMAIN: tomato.PLATFORM_SCHEMA(
@@ -344,7 +344,7 @@ def test_bad_response(hass: __HAC_KEEP__, mock_exception_logger) -> None:
 
 
 @mock.patch("requests.Session.send", side_effect=mock_session_response)
-def test_scan_devices(hass: __HAC_KEEP__, mock_exception_logger) -> None:
+def test_scan_devices(hass: UniversalAssistant, mock_exception_logger) -> None:
     """Test scanning for new devices."""
     config = {
         DEVICE_TRACKER_DOMAIN: tomato.PLATFORM_SCHEMA(
@@ -363,7 +363,7 @@ def test_scan_devices(hass: __HAC_KEEP__, mock_exception_logger) -> None:
 
 
 @mock.patch("requests.Session.send", side_effect=mock_session_response)
-def test_bad_connection(hass: __HAC_KEEP__, mock_exception_logger) -> None:
+def test_bad_connection(hass: UniversalAssistant, mock_exception_logger) -> None:
     """Test the router with a connection error."""
     config = {
         DEVICE_TRACKER_DOMAIN: tomato.PLATFORM_SCHEMA(
@@ -391,7 +391,7 @@ def test_bad_connection(hass: __HAC_KEEP__, mock_exception_logger) -> None:
 
 
 @mock.patch("requests.Session.send", side_effect=mock_session_response)
-def test_router_timeout(hass: __HAC_KEEP__, mock_exception_logger) -> None:
+def test_router_timeout(hass: UniversalAssistant, mock_exception_logger) -> None:
     """Test the router with a timeout error."""
     config = {
         DEVICE_TRACKER_DOMAIN: tomato.PLATFORM_SCHEMA(
@@ -419,7 +419,7 @@ def test_router_timeout(hass: __HAC_KEEP__, mock_exception_logger) -> None:
 
 
 @mock.patch("requests.Session.send", side_effect=mock_session_response)
-def test_get_device_name(hass: __HAC_KEEP__, mock_exception_logger) -> None:
+def test_get_device_name(hass: UniversalAssistant, mock_exception_logger) -> None:
     """Test getting device names."""
     config = {
         DEVICE_TRACKER_DOMAIN: tomato.PLATFORM_SCHEMA(

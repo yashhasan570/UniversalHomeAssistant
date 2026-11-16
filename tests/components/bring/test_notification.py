@@ -10,12 +10,12 @@ from universalassistant.components.bring.const import DOMAIN
 from universalassistant.components.bring.services import BringService, BringServiceArgument
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 
 
 async def test_send_notification(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     bring_config_entry: MockConfigEntry,
     mock_bring_client: AsyncMock,
 ) -> None:
@@ -45,7 +45,7 @@ async def test_send_notification(
 
 
 async def test_send_notification_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     bring_config_entry: MockConfigEntry,
     mock_bring_client: AsyncMock,
 ) -> None:
@@ -57,7 +57,7 @@ async def test_send_notification_exception(
 
     assert bring_config_entry.state is ConfigEntryState.LOADED
     mock_bring_client.notify.side_effect = BringRequestException
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             DOMAIN,
             BringService.SEND_MESSAGE,
@@ -71,7 +71,7 @@ async def test_send_notification_exception(
 
 
 async def test_send_notification_service_validation_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     bring_config_entry: MockConfigEntry,
     mock_bring_client: AsyncMock,
 ) -> None:

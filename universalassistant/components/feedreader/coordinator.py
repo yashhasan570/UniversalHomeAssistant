@@ -12,7 +12,7 @@ import feedparser
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_URL
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.storage import Store
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -44,7 +44,7 @@ class FeedReaderCoordinator(
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: FeedReaderConfigEntry,
         storage: StoredData,
     ) -> None:
@@ -220,7 +220,7 @@ class FeedReaderCoordinator(
 class StoredData:
     """Represent a data storage."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize data storage."""
         self._data: dict[str, struct_time] = {}
         self.hass = hass

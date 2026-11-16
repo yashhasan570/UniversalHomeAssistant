@@ -12,8 +12,8 @@ from universalassistant.components.notify import (
     BaseNotificationService,
 )
 from universalassistant.const import CONF_EVENT, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
 from .const import ATTR_ATTACHMENTS, ATTR_EVENT, CONF_DEVICE_KEY, CONF_SALT, DOMAIN
@@ -22,7 +22,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_get_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> SimplePushNotificationService | None:
@@ -104,7 +104,7 @@ class SimplePushNotificationService(BaseNotificationService):
                 translation_key="title_or_message_too_long",
             ) from err
         except UnknownError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="send_message_failed",
             ) from err

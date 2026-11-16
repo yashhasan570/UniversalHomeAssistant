@@ -25,7 +25,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     EntityStateAttribute,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -84,7 +84,7 @@ def add_defaults(
 
 
 async def async_get_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> GroupNotifyPlatform:
@@ -95,7 +95,7 @@ async def async_get_service(
 class GroupNotifyPlatform(BaseNotificationService):
     """Implement the notification service for the group notify platform."""
 
-    def __init__(self, hass: __HAC_KEEP__, entities: list[dict[str, Any]]) -> None:
+    def __init__(self, hass: UniversalAssistant, entities: list[dict[str, Any]]) -> None:
         """Initialize the service."""
         self.hass = hass
         self.entities = entities
@@ -127,7 +127,7 @@ class GroupNotifyPlatform(BaseNotificationService):
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -144,7 +144,7 @@ async def async_setup_entry(
 
 @callback
 def async_create_preview_notify(
-    hass: __HAC_KEEP__, name: str, validated_config: dict[str, Any]
+    hass: UniversalAssistant, name: str, validated_config: dict[str, Any]
 ) -> NotifyGroup:
     """Create a preview notify group."""
     return NotifyGroup(

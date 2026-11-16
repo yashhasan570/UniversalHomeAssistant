@@ -12,7 +12,7 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CONF_UNIQUE_ID,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import RainMachineConfigEntry
 from .const import LOGGER
@@ -37,7 +37,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: RainMachineConfigEntry
+    hass: UniversalAssistant, entry: RainMachineConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     data = entry.runtime_data

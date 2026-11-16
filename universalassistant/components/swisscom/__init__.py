@@ -2,7 +2,7 @@
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from .coordinator import SwisscomConfigEntry, SwisscomDataUpdateCoordinator
@@ -10,7 +10,7 @@ from .coordinator import SwisscomConfigEntry, SwisscomDataUpdateCoordinator
 PLATFORMS: list[Platform] = [Platform.DEVICE_TRACKER]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SwisscomConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SwisscomConfigEntry) -> None:
     """Set up Swisscom Internet-Box from a config entry."""
     coordinator = SwisscomDataUpdateCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()
@@ -19,13 +19,13 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SwisscomConfigEntry) -> N
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SwisscomConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SwisscomConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, entry: SwisscomConfigEntry, device_entry: dr.AnyDeviceEntry
+    hass: UniversalAssistant, entry: SwisscomConfigEntry, device_entry: dr.AnyDeviceEntry
 ) -> bool:
     """Allow removing a client device which is not currently connected.
 

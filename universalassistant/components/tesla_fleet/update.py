@@ -7,7 +7,7 @@ from tesla_fleet_api.const import Scope
 from tesla_fleet_api.tesla.vehicle.fleet import VehicleFleet
 
 from universalassistant.components.update import UpdateEntity, UpdateEntityFeature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import TeslaFleetConfigEntry
@@ -28,7 +28,7 @@ SCHEDULED_THRESHOLD_SECONDS = 120
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: TeslaFleetConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -8,7 +8,7 @@ from aiohttp import hdrs, web
 import probatio
 
 from universalassistant.const import CONF_PLATFORM, CONF_WEBHOOK_ID
-from universalassistant.core import CALLBACK_TYPE, HassJob, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, HassJob, UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.template import Template
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
@@ -55,7 +55,7 @@ class TriggerInstance:
 
 
 async def _handle_webhook(
-    hass: __HAC_KEEP__, webhook_id: str, request: web.Request
+    hass: UniversalAssistant, webhook_id: str, request: web.Request
 ) -> None:
     """Handle incoming webhook."""
     base_result: dict[str, Any] = {"platform": "webhook", "webhook_id": webhook_id}
@@ -79,7 +79,7 @@ async def _handle_webhook(
 
 
 async def async_attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,

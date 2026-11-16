@@ -22,7 +22,7 @@ from universalassistant.core import (
     CALLBACK_TYPE,
     Event,
     EventStateChangedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     State,
     callback,
 )
@@ -94,7 +94,7 @@ class AlexaDirective:
         self.instance = None
         self.entity_id = None
 
-    def load_entity(self, hass: __HAC_KEEP__, config: AbstractConfig) -> None:
+    def load_entity(self, hass: UniversalAssistant, config: AbstractConfig) -> None:
         """Set attributes related to the entity for this request.
 
         Sets these attributes when self.has_endpoint is True:
@@ -271,7 +271,7 @@ class AlexaResponse:
 
 
 async def async_enable_proactive_mode(
-    hass: __HAC_KEEP__, smart_home_config: AbstractConfig
+    hass: UniversalAssistant, smart_home_config: AbstractConfig
 ) -> CALLBACK_TYPE | None:
     """Enable the proactive mode.
 
@@ -282,7 +282,7 @@ async def async_enable_proactive_mode(
 
     @callback
     def extra_significant_check(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         old_state: str,
         old_attrs: Mapping[Any, Any],
         old_extra_arg: Any,
@@ -387,7 +387,7 @@ async def async_enable_proactive_mode(
 
 
 async def async_send_changereport_message(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: AbstractConfig,
     alexa_entity: AlexaEntity,
     alexa_properties: list[dict[str, Any]],
@@ -475,7 +475,7 @@ async def async_send_changereport_message(
 
 
 async def async_send_add_or_update_message(
-    hass: __HAC_KEEP__, config: AbstractConfig, entity_ids: list[str]
+    hass: UniversalAssistant, config: AbstractConfig, entity_ids: list[str]
 ) -> aiohttp.ClientResponse:
     """Send an AddOrUpdateReport message for entities.
 
@@ -516,7 +516,7 @@ async def async_send_add_or_update_message(
 
 
 async def async_send_delete_message(
-    hass: __HAC_KEEP__, config: AbstractConfig, entity_ids: list[str]
+    hass: UniversalAssistant, config: AbstractConfig, entity_ids: list[str]
 ) -> aiohttp.ClientResponse:
     """Send an DeleteReport message for entities.
 
@@ -555,7 +555,7 @@ async def async_send_delete_message(
 
 
 async def async_send_doorbell_event_message(
-    hass: __HAC_KEEP__, config: AbstractConfig, alexa_entity: AlexaEntity
+    hass: UniversalAssistant, config: AbstractConfig, alexa_entity: AlexaEntity
 ) -> None:
     """Send a DoorbellPress event message for an Alexa entity.
 

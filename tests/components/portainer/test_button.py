@@ -21,8 +21,8 @@ from universalassistant.components.button import ButtonService
 from universalassistant.components.portainer.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -32,7 +32,7 @@ UPDATE_STACK_ENTITY_ID = "button.webstack_update_stack"
 
 
 async def test_all_button_entities_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -56,7 +56,7 @@ async def test_all_button_entities_snapshot(
     ],
 )
 async def test_buttons_containers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     action: str,
@@ -88,7 +88,7 @@ async def test_buttons_containers(
     ],
 )
 async def test_buttons_containers_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -103,7 +103,7 @@ async def test_buttons_containers_exceptions(
     method_mock = getattr(mock_portainer_client, client_method)
     method_mock.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -113,7 +113,7 @@ async def test_buttons_containers_exceptions(
 
 
 async def test_buttons_invalid_auth_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -123,7 +123,7 @@ async def test_buttons_invalid_auth_starts_reauth(
         "auth"
     )
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -169,7 +169,7 @@ async def test_buttons_invalid_auth_starts_reauth(
     ],
 )
 async def test_buttons_endpoint(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -198,7 +198,7 @@ async def test_buttons_endpoint(
     ],
 )
 async def test_buttons_endpoints_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -210,7 +210,7 @@ async def test_buttons_endpoints_exceptions(
     method_mock = getattr(mock_portainer_client, client_method)
     method_mock.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -222,7 +222,7 @@ async def test_buttons_endpoints_exceptions(
 
 
 async def test_button_update_stack(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -250,7 +250,7 @@ async def test_button_update_stack(
     ],
 )
 async def test_button_update_stack_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -260,7 +260,7 @@ async def test_button_update_stack_exceptions(
     await setup_integration(hass, mock_config_entry)
     mock_portainer_client.update_stack.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -271,7 +271,7 @@ async def test_button_update_stack_exceptions(
 
 
 async def test_button_update_stack_not_for_kubernetes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

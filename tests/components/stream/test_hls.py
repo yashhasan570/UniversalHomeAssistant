@@ -20,7 +20,7 @@ from universalassistant.components.stream.const import (
     NUM_PLAYLIST_SEGMENTS,
 )
 from universalassistant.components.stream.core import Orientation, Part
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -47,7 +47,7 @@ HLS_CONFIG = {
 
 
 @pytest.fixture
-async def setup_component(hass: __HAC_KEEP__) -> None:
+async def setup_component(hass: UniversalAssistant) -> None:
     """Test fixture to setup the stream component."""
     await async_setup_component(hass, DOMAIN, HLS_CONFIG)
 
@@ -70,7 +70,7 @@ class HlsClient:
 
 
 @pytest.fixture
-def hls_stream(hass: __HAC_KEEP__, hass_client: ClientSessionGenerator):
+def hls_stream(hass: UniversalAssistant, hass_client: ClientSessionGenerator):
     """Create test fixture for creating an HLS client for a stream."""
 
     async def create_client_for_stream(stream):
@@ -140,7 +140,7 @@ def make_playlist(
 
 
 async def test_hls_stream(
-    hass: __HAC_KEEP__, setup_component, hls_stream, stream_worker_sync, h264_video
+    hass: UniversalAssistant, setup_component, hls_stream, stream_worker_sync, h264_video
 ) -> None:
     """Test hls stream.
 
@@ -201,7 +201,7 @@ async def test_hls_stream(
 
 
 async def test_stream_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     setup_component,
     stream_worker_sync,
@@ -258,7 +258,7 @@ async def test_stream_timeout(
 
 
 async def test_stream_timeout_after_stop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     setup_component,
     stream_worker_sync,
@@ -293,7 +293,7 @@ async def test_stream_timeout_after_stop(
     ],
 )
 async def test_stream_retries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_component,
     should_retry,
     exception,
@@ -351,7 +351,7 @@ async def test_stream_retries(
 
 
 async def test_hls_playlist_view_no_output(
-    hass: __HAC_KEEP__, setup_component, hls_stream
+    hass: UniversalAssistant, setup_component, hls_stream
 ) -> None:
     """Test rendering the hls playlist with no output segments."""
     stream = create_stream(hass, STREAM_SOURCE, {}, dynamic_stream_settings())
@@ -365,7 +365,7 @@ async def test_hls_playlist_view_no_output(
 
 
 async def test_hls_playlist_view(
-    hass: __HAC_KEEP__, setup_component, hls_stream, stream_worker_sync
+    hass: UniversalAssistant, setup_component, hls_stream, stream_worker_sync
 ) -> None:
     """Test rendering the hls playlist with 1 and 2 output segments."""
     stream = create_stream(hass, STREAM_SOURCE, {}, dynamic_stream_settings())
@@ -398,7 +398,7 @@ async def test_hls_playlist_view(
 
 
 async def test_hls_max_segments(
-    hass: __HAC_KEEP__, setup_component, hls_stream, stream_worker_sync
+    hass: UniversalAssistant, setup_component, hls_stream, stream_worker_sync
 ) -> None:
     """Test hls playlist with more segments than the deque can hold."""
     stream = create_stream(hass, STREAM_SOURCE, {}, dynamic_stream_settings())
@@ -448,7 +448,7 @@ async def test_hls_max_segments(
 
 
 async def test_hls_playlist_view_discontinuity(
-    hass: __HAC_KEEP__, setup_component, hls_stream, stream_worker_sync
+    hass: UniversalAssistant, setup_component, hls_stream, stream_worker_sync
 ) -> None:
     """Test a discontinuity across segments in the stream with 3 segments."""
 
@@ -486,7 +486,7 @@ async def test_hls_playlist_view_discontinuity(
 
 
 async def test_hls_max_segments_discontinuity(
-    hass: __HAC_KEEP__, setup_component, hls_stream, stream_worker_sync
+    hass: UniversalAssistant, setup_component, hls_stream, stream_worker_sync
 ) -> None:
     """Test a discontinuity with more segments than the segment deque can hold."""
     stream = create_stream(hass, STREAM_SOURCE, {}, dynamic_stream_settings())
@@ -527,7 +527,7 @@ async def test_hls_max_segments_discontinuity(
 
 
 async def test_remove_incomplete_segment_on_exit(
-    hass: __HAC_KEEP__, setup_component, stream_worker_sync
+    hass: UniversalAssistant, setup_component, stream_worker_sync
 ) -> None:
     """Test that the incomplete segment gets removed when the worker thread quits."""
     stream = create_stream(hass, STREAM_SOURCE, {}, dynamic_stream_settings())
@@ -556,7 +556,7 @@ async def test_remove_incomplete_segment_on_exit(
 
 
 async def test_hls_stream_rotate(
-    hass: __HAC_KEEP__, setup_component, hls_stream, stream_worker_sync, h264_video
+    hass: UniversalAssistant, setup_component, hls_stream, stream_worker_sync, h264_video
 ) -> None:
     """Test hls stream with rotation applied.
 

@@ -7,11 +7,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_minimal_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -25,7 +25,7 @@ async def test_minimal_setup(
 
 
 async def test_setup_entry_raises_on_login_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -40,7 +40,7 @@ async def test_setup_entry_raises_on_login_fail(
 
 
 async def test_unload_entry_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -58,7 +58,7 @@ async def test_unload_entry_success(
 
 
 async def test_unload_entry_logs_on_disconnect_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
@@ -81,11 +81,11 @@ async def test_unload_entry_logs_on_disconnect_error(
 
 
 async def test_universalassistant_stop_disconnects_websocket(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
-    """Test that WebSocket is disconnected on __HA_KEEP__ stop event."""
+    """Test that WebSocket is disconnected on Universal Home Assistant stop event."""
     mock_config_entry.add_to_hass(hass)
 
     await hass.config_entries.async_setup(mock_config_entry.entry_id)
@@ -100,7 +100,7 @@ async def test_universalassistant_stop_disconnects_websocket(
 
 
 async def test_universalassistant_stop_logs_on_disconnect_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,

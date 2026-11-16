@@ -25,7 +25,7 @@ from universalassistant.const import (
     STATE_ON,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
@@ -112,7 +112,7 @@ SUPPORT_FLAGS = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: EcobeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -128,7 +128,7 @@ async def async_setup_entry(
                 (
                     "Model number for ecobee thermostat %s not recognized. "
                     "Please visit this link to open a new issue: "
-                    "https://github.com/yashhasan570/__HAC_KEEP__/issues "
+                    "https://github.com/yashhasan570/UniversalUniversalAssistant/issues "
                     "and include the following information: "
                     "Unrecognized model number: %s"
                 ),
@@ -169,7 +169,7 @@ class Thermostat(ClimateEntity):
         data: EcobeeData,
         thermostat_index: int,
         thermostat: dict,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
     ) -> None:
         """Initialize the thermostat."""
         self.data = data

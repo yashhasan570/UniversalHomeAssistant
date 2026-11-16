@@ -27,7 +27,7 @@ ALL_FAN_MODES: Final = [
     FAN_HIGH,
 ]
 
-# __HA_KEEP__ fan mode → the name the library uses on the wire.
+# Universal Home Assistant fan mode → the name the library uses on the wire.
 FAN_MODE_MAP: Final = {
     FAN_LOW: "LOW",
     FAN_MEDIUM_LOW: "MIDLOW",

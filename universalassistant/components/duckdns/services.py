@@ -6,8 +6,8 @@ from aiohttp import ClientError
 import probatio
 
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_DOMAIN, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.selector import ConfigEntrySelector
@@ -39,7 +39,7 @@ SERVICE_TXT_SCHEMA = probatio.Schema(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up services for Habitica integration."""
 
     hass.services.async_register(
@@ -66,7 +66,7 @@ async def update_domain_service(call: ServiceCall) -> None:
             entry.data[CONF_ACCESS_TOKEN],
             txt=call.data.get(DuckDnsServiceArgument.TXT),
         ):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="update_failed",
                 translation_placeholders={
@@ -74,7 +74,7 @@ async def update_domain_service(call: ServiceCall) -> None:
                 },
             )
     except ClientError as e:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="connection_error",
             translation_placeholders={

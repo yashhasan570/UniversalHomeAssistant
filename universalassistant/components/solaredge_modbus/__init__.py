@@ -21,11 +21,11 @@ from solaredged import (
 
 from universalassistant.components.modbus import async_get_unit
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryError,
     ConfigEntryNotReady,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
 )
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.event import async_track_time_interval
@@ -67,7 +67,7 @@ PLATFORMS = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: SolarEdgeModbusConfigEntry
+    hass: UniversalAssistant, entry: SolarEdgeModbusConfigEntry
 ) -> None:
     """Set up SolarEdge Modbus from a config entry."""
     serial_number = entry.unique_id
@@ -78,7 +78,7 @@ async def async_setup_entry(
         unit = async_get_unit(
             hass, entry, create_modbus_params(entry.data), entry.data[CONF_UNIT_ID]
         )
-    except __HAC_KEEP__Error as err:
+    except UniversalAssistantError as err:
         # The device is already in use over different link settings, which one
         # shared connection cannot honour.
         raise ConfigEntryError(
@@ -238,7 +238,7 @@ def _probed_blocks(solaredge: SolarEdge) -> dict[str, int]:
 
 
 async def _async_reload_when_attachments_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SolarEdgeModbusConfigEntry,
     unit: ModbusUnit,
     _now: datetime,
@@ -308,7 +308,7 @@ async def _async_reload_when_attachments_change(
 
 
 def _async_remove_stale_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SolarEdgeModbusConfigEntry,
     solaredge: SolarEdge,
     serial_number: str,
@@ -350,7 +350,7 @@ def _async_remove_stale_devices(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: SolarEdgeModbusConfigEntry
+    hass: UniversalAssistant, entry: SolarEdgeModbusConfigEntry
 ) -> None:
     """Unload SolarEdge Modbus config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

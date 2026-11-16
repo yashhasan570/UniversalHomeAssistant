@@ -28,8 +28,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .utils import (
@@ -168,7 +168,7 @@ def _set_channel_state(
     getattr(relay, channel.attr)[0].state = state
 
 
-def _state(hass: __HAC_KEEP__, entity_id: str) -> str:
+def _state(hass: UniversalAssistant, entity_id: str) -> str:
     state = hass.states.get(entity_id)
     assert state is not None
     return state.state
@@ -203,7 +203,7 @@ def _remove_channel(ufp: MockUFPFixture, relay: Mock, channel: _Channel) -> None
 
 
 async def test_relay_entities_not_created_without_public_bootstrap(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture
+    hass: UniversalAssistant, ufp: MockUFPFixture
 ) -> None:
     """Relay inputs and outputs require the public bootstrap."""
     ufp.api.has_public_bootstrap = False
@@ -252,7 +252,7 @@ async def test_relay_entities_not_created_without_public_bootstrap(
     ],
 )
 async def test_relay_channel_enumeration_names_and_unique_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     relay_kwargs: dict[str, list[Mock]],
@@ -279,7 +279,7 @@ async def test_relay_channel_enumeration_names_and_unique_ids(
 
 
 async def test_relay_input_unique_id_does_not_depend_on_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp_with_relay: tuple[MockUFPFixture, Mock],
 ) -> None:
@@ -354,7 +354,7 @@ async def test_relay_input_unique_id_does_not_depend_on_name(
     ],
 )
 async def test_relay_channel_initial_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_relay: tuple[MockUFPFixture, Mock],
     entity_id: str,
     attr: str,
@@ -375,7 +375,7 @@ async def test_relay_channel_initial_state(
 
 @_CHANNELS
 async def test_relay_channel_transitions_both_ways_from_public_ws(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_relay: tuple[MockUFPFixture, Mock],
     channel: _Channel,
 ) -> None:
@@ -397,7 +397,7 @@ async def test_relay_channel_transitions_both_ways_from_public_ws(
 
 
 async def test_relay_input_update_preserves_other_input(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture
+    hass: UniversalAssistant, ufp: MockUFPFixture
 ) -> None:
     """A realistic full inputs update retains both input channels."""
     relay = _make_real_relay(ufp)
@@ -443,7 +443,7 @@ async def test_relay_input_update_preserves_other_input(
 
 
 async def test_relay_entities_created_for_relay_added_from_public_ws(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture
+    hass: UniversalAssistant, ufp: MockUFPFixture
 ) -> None:
     """A relay added after setup creates its input and output entities."""
     ufp.api.has_public_bootstrap = True
@@ -460,7 +460,7 @@ async def test_relay_entities_created_for_relay_added_from_public_ws(
 
 
 async def test_relay_input_created_when_added_after_setup(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture
+    hass: UniversalAssistant, ufp: MockUFPFixture
 ) -> None:
     """An input added to an existing relay creates a binary sensor."""
     relay = _make_relay(inputs=[])
@@ -478,7 +478,7 @@ async def test_relay_input_created_when_added_after_setup(
 
 @_CHANNELS
 async def test_relay_channel_unavailable_when_disconnected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_relay: tuple[MockUFPFixture, Mock],
     channel: _Channel,
 ) -> None:
@@ -505,7 +505,7 @@ async def test_relay_channel_unavailable_when_disconnected(
     [DeviceState.DISCONNECTED, DeviceState.CONNECTING, DeviceState.UNKNOWN],
 )
 async def test_relay_channel_unavailable_when_not_connected_at_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     channel: _Channel,
     state: DeviceState,
@@ -521,7 +521,7 @@ async def test_relay_channel_unavailable_when_not_connected_at_setup(
 
 @_CHANNELS
 async def test_relay_channel_devices_ws_disconnect_reconnect_resync(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_relay: tuple[MockUFPFixture, Mock],
     channel: _Channel,
 ) -> None:
@@ -549,7 +549,7 @@ async def test_relay_channel_devices_ws_disconnect_reconnect_resync(
 
 @_CHANNELS
 async def test_relay_channel_availability_follows_public_websocket_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_relay: tuple[MockUFPFixture, Mock],
     channel: _Channel,
 ) -> None:
@@ -572,7 +572,7 @@ async def test_relay_channel_availability_follows_public_websocket_only(
 
 
 async def test_public_only_relay_channels_resignaled_after_reconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
 ) -> None:
@@ -605,7 +605,7 @@ async def test_public_only_relay_channels_resignaled_after_reconnect(
     ],
 )
 async def test_relay_channel_unavailable_when_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_relay: tuple[MockUFPFixture, Mock],
     channel: _Channel,
     remove: Callable[[MockUFPFixture, Mock, _Channel], None],
@@ -622,7 +622,7 @@ async def test_relay_channel_unavailable_when_missing(
 
 
 async def test_relay_readopted_with_new_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_relay: tuple[MockUFPFixture, Mock],
 ) -> None:
     """A relay re-adopted under a new id keeps its entities working."""
@@ -661,7 +661,7 @@ async def test_relay_readopted_with_new_id(
 
 
 async def test_relay_readopted_during_websocket_outage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_relay: tuple[MockUFPFixture, Mock],
 ) -> None:
     """A relay re-adopted while the devices websocket was down is found by mac."""
@@ -691,7 +691,7 @@ async def test_relay_readopted_during_websocket_outage(
 
 
 async def test_relay_channels_share_relay_device_linked_to_nvr(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     ufp_with_relay: tuple[MockUFPFixture, Mock],
@@ -722,7 +722,7 @@ async def test_relay_channels_share_relay_device_linked_to_nvr(
 
 @pytest.mark.parametrize("output_id", [0, 3])
 async def test_relay_switch_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     output_id: int,
 ) -> None:
@@ -758,16 +758,16 @@ async def test_relay_switch_turn_on_off(
     ],
 )
 async def test_relay_switch_command_error_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_relay: tuple[MockUFPFixture, Mock],
     error: Exception,
 ) -> None:
-    """``activate_output`` errors are surfaced as :class:`__HAC_KEEP__Error`."""
+    """``activate_output`` errors are surfaced as :class:`UniversalAssistantError`."""
     ufp, relay = ufp_with_relay
     await init_entry(hass, ufp, [])
     relay.activate_output.side_effect = error
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -793,7 +793,7 @@ async def test_relay_switch_command_error_raises(
     ],
 )
 async def test_relay_switch_command_without_output_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_relay: tuple[MockUFPFixture, Mock],
     break_relay: Callable[[MockUFPFixture, Mock], None],
 ) -> None:
@@ -802,7 +802,7 @@ async def test_relay_switch_command_without_output_raises(
     await init_entry(hass, ufp, [])
     break_relay(ufp, relay)
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -813,7 +813,7 @@ async def test_relay_switch_command_without_output_raises(
 
 
 async def test_relay_switch_ws_update_no_state_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_relay: tuple[MockUFPFixture, Mock],
 ) -> None:
     """WS update with the same state does not trigger an unnecessary state write."""
@@ -836,7 +836,7 @@ async def test_relay_switch_ws_update_no_state_change(
 
 
 async def test_relay_ws_update_without_subscription_is_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
 ) -> None:
     """A public relay WS update for an unsubscribed relay is a no-op."""
@@ -852,7 +852,7 @@ async def test_relay_ws_update_without_subscription_is_ignored(
 
 
 async def test_public_ws_state_change_without_public_bootstrap(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
 ) -> None:
     """Public WS state changes flip the flag but no-op without a bootstrap."""
@@ -873,7 +873,7 @@ async def test_public_ws_state_change_without_public_bootstrap(
 
 
 async def test_events_ws_state_change_without_public_bootstrap(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
 ) -> None:
     """Events WS state changes flip the flag but no-op without a bootstrap."""
@@ -894,7 +894,7 @@ async def test_events_ws_state_change_without_public_bootstrap(
 
 
 async def test_relay_public_ws_message_without_public_old_obj(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_relay: tuple[MockUFPFixture, Mock],
 ) -> None:
     """A new_obj=None message without a PublicDeviceModel old_obj is ignored."""
@@ -917,7 +917,7 @@ async def test_relay_public_ws_message_without_public_old_obj(
 
 
 async def test_relay_switch_public_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
@@ -943,7 +943,7 @@ async def test_relay_switch_public_only(
 
 @pytest.fixture(name="setup_hybrid")
 def setup_hybrid_fixture(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture
+    hass: UniversalAssistant, ufp: MockUFPFixture
 ) -> Callable[[], Coroutine[Any, Any, None]]:
     """Return a callable setting up the hybrid entry with an empty public bootstrap."""
     ufp.api.has_public_bootstrap = True
@@ -971,7 +971,7 @@ def _add_relay_frame(ufp: MockUFPFixture, relay: Mock) -> None:
     ],
 )
 async def test_relay_switch_added_after_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     request: pytest.FixtureRequest,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -1005,7 +1005,7 @@ async def test_relay_switch_added_after_setup(
 
 
 async def test_relay_switch_hybrid_startup_relay_not_added_twice(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     ufp_with_relay: tuple[MockUFPFixture, Mock],
 ) -> None:

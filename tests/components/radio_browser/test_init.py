@@ -7,11 +7,11 @@ from radios import RadioBrowserConnectionError
 
 from universalassistant.components.radio_browser.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_setup_and_unload(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setting up and unloading the integration."""
     mock_config_entry.add_to_hass(hass)
@@ -31,7 +31,7 @@ async def test_setup_and_unload(
 
 
 async def test_setup_retry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup is retried, with a translated reason, when the API is down."""
     mock_config_entry.add_to_hass(hass)

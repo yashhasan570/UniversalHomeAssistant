@@ -6,7 +6,7 @@ from mozart_api.models import PairedRemote
 
 from universalassistant.components.event import EventDeviceClass, EventEntity
 from universalassistant.const import CONF_MODEL
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -28,7 +28,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: BeoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -93,7 +93,7 @@ class BeoButtonEvent(BeoEvent):
 
         self._attr_unique_id = f"{self._unique_id}_{button_type}"
 
-        # Make the native button name __HA_KEEP__ compatible
+        # Make the native button name Universal Home Assistant compatible
         self._attr_translation_key = button_type.lower()
 
         self._button_type = button_type
@@ -139,7 +139,7 @@ class BeoRemoteKeyEvent(BeoEvent):
             identifiers={(DOMAIN, f"{remote.serial_number}_{self._unique_id}")},
         )
 
-        # Make the native key name __HA_KEEP__ compatible
+        # Make the native key name Universal Home Assistant compatible
         self._attr_translation_key = key_type.lower().replace("/", "_")
 
         self._key_type = key_type

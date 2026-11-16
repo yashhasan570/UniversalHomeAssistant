@@ -11,7 +11,7 @@ from universalassistant import core as ha
 from universalassistant.components.demo import DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
@@ -27,7 +27,7 @@ async def sensor_only() -> None:
 
 @pytest.mark.parametrize(("entity_id", "delta"), [("sensor.total_energy_kwh", 0.5)])
 async def test_energy_sensor(
-    hass: __HAC_KEEP__, entity_id, delta, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, entity_id, delta, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test energy sensors increase periodically."""
     assert await async_setup_component(
@@ -48,7 +48,7 @@ async def test_energy_sensor(
 
 @pytest.mark.parametrize(("entity_id", "delta"), [("sensor.total_energy_kwh", 0.5)])
 async def test_restore_state(
-    hass: __HAC_KEEP__, entity_id, delta, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, entity_id, delta, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test energy sensors restore state."""
     fake_state = ha.State(

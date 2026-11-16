@@ -17,7 +17,7 @@ from universalassistant.const import (
     UnitOfPower,
     UnitOfVolume,
 )
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -151,7 +151,7 @@ SENSOR_DESCRIPTIONS: tuple[SensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: EarnEP1ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

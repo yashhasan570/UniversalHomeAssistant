@@ -13,7 +13,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -52,7 +52,7 @@ def async_hydrate_station_data(data: dict[str, Any]) -> dict[str, Any]:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: AmbientStationConfigEntry
+    hass: UniversalAssistant, entry: AmbientStationConfigEntry
 ) -> None:
     """Set up the Ambient PWS as config entry."""
     if not entry.unique_id:
@@ -84,7 +84,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: AmbientStationConfigEntry
+    hass: UniversalAssistant, entry: AmbientStationConfigEntry
 ) -> None:
     """Unload an Ambient PWS config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
@@ -92,7 +92,7 @@ async def async_unload_entry(
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, entry: AmbientStationConfigEntry
+    hass: UniversalAssistant, entry: AmbientStationConfigEntry
 ) -> None:
     """Migrate old entry."""
     version = entry.version
@@ -118,7 +118,7 @@ class AmbientStation:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: AmbientStationConfigEntry,
         websocket: Websocket,
     ) -> None:

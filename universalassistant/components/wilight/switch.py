@@ -6,7 +6,7 @@ from pywilight.const import ITEM_SWITCH, SWITCH_PAUSE_VALVE, SWITCH_VALVE
 from pywilight.wilight_device import PyWiLightDevice
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import ATTR_PAUSE_TIME, ATTR_WATERING_TIME
@@ -45,7 +45,7 @@ def entities_from_discovered_wilight(api_device: PyWiLightDevice) -> tuple[Any]:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: WiLightConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

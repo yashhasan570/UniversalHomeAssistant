@@ -14,11 +14,11 @@ from universalassistant.components.recorder.models import (
 )
 from universalassistant.components.recorder.util import session_scope
 from universalassistant.const import DEGREE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_passing_mutually_exclusive_options_to_get_many(
-    async_setup_recorder_instance: RecorderInstanceGenerator, hass: __HAC_KEEP__
+    async_setup_recorder_instance: RecorderInstanceGenerator, hass: UniversalAssistant
 ) -> None:
     """Test passing mutually exclusive options to get_many."""
     instance = await async_setup_recorder_instance(
@@ -45,7 +45,7 @@ async def test_passing_mutually_exclusive_options_to_get_many(
 
 
 async def test_unsafe_calls_to_statistics_meta_manager(
-    async_setup_recorder_instance: RecorderInstanceGenerator, hass: __HAC_KEEP__
+    async_setup_recorder_instance: RecorderInstanceGenerator, hass: UniversalAssistant
 ) -> None:
     """Test we raise for non-threadsafe statistics_meta_manager calls."""
     instance = await async_setup_recorder_instance(
@@ -65,7 +65,7 @@ async def test_unsafe_calls_to_statistics_meta_manager(
 
 async def test_invalid_mean_types(
     async_setup_recorder_instance: RecorderInstanceGenerator,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test passing invalid mean types will be skipped and logged."""

@@ -16,7 +16,7 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import CHARGER_STATUS
@@ -30,7 +30,7 @@ def fixture_platforms() -> Generator[None]:
 
 
 async def test_binary_sensor_entities_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -45,7 +45,7 @@ async def test_binary_sensor_entities_snapshot(
 
 
 async def test_cable_lock_state_is_on_when_charger_is_unlocked(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -62,7 +62,7 @@ async def test_cable_lock_state_is_on_when_charger_is_unlocked(
 
 
 async def test_charging_enabled_is_off_when_charger_is_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -79,7 +79,7 @@ async def test_charging_enabled_is_off_when_charger_is_disabled(
 
 
 async def test_binary_sensors_unavailable_when_coordinator_update_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,

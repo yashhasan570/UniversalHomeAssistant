@@ -8,7 +8,7 @@ import pytest
 from universalassistant import config_entries, setup
 from universalassistant.components.nextbus.const import CONF_AGENCY, CONF_ROUTE, DOMAIN
 from universalassistant.const import CONF_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -30,7 +30,7 @@ def mock_nextbus() -> Generator[MagicMock]:
 
 
 async def test_user_config(
-    hass: __HAC_KEEP__, mock_setup_entry: MagicMock, mock_nextbus_lists: MagicMock
+    hass: UniversalAssistant, mock_setup_entry: MagicMock, mock_nextbus_lists: MagicMock
 ) -> None:
     """Test we get the form."""
     await setup.async_setup_component(hass, "persistent_notification", {})

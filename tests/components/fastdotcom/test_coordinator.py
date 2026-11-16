@@ -9,11 +9,11 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.fastdotcom.const import DEFAULT_NAME, DOMAIN
 from universalassistant.components.fastdotcom.coordinator import DEFAULT_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_fastdotcom_data_update_coordinator(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the update coordinator."""
     config_entry = MockConfigEntry(

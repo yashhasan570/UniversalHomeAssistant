@@ -1,14 +1,14 @@
 """Support for testing internet speed via Fast.com."""
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.start import async_at_started
 
 from .const import PLATFORMS
 from .coordinator import FastdotcomConfigEntry, FastdotcomDataUpdateCoordinator
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: FastdotcomConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: FastdotcomConfigEntry) -> None:
     """Set up Fast.com from a config entry."""
     coordinator = FastdotcomDataUpdateCoordinator(hass, entry)
     entry.runtime_data = coordinator
@@ -18,7 +18,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: FastdotcomConfigEntry) ->
         PLATFORMS,
     )
 
-    async def _async_finish_startup(hass: __HAC_KEEP__) -> None:
+    async def _async_finish_startup(hass: UniversalAssistant) -> None:
         """Run this only when HA has finished its startup."""
         if entry.state is ConfigEntryState.LOADED:
             await coordinator.async_refresh()
@@ -30,6 +30,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: FastdotcomConfigEntry) ->
     async_at_started(hass, _async_finish_startup)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: FastdotcomConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: FastdotcomConfigEntry) -> None:
     """Unload Fast.com config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

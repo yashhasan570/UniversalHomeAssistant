@@ -4,7 +4,7 @@ from electrickiwi_api import ElectricKiwiApi
 from electrickiwi_api.exceptions import ApiException, AuthException
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -29,7 +29,7 @@ PLATFORMS: list[Platform] = [Platform.SELECT, Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: ElectricKiwiConfigEntry
+    hass: UniversalAssistant, entry: ElectricKiwiConfigEntry
 ) -> None:
     """Set up Electric Kiwi from a config entry."""
     implementation = (
@@ -67,14 +67,14 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: ElectricKiwiConfigEntry
+    hass: UniversalAssistant, entry: ElectricKiwiConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, config_entry: ElectricKiwiConfigEntry
+    hass: UniversalAssistant, config_entry: ElectricKiwiConfigEntry
 ) -> None:
     """Migrate old entry."""
     if config_entry.version == 1 and config_entry.minor_version == 1:

@@ -11,12 +11,12 @@ from universalassistant.components.derivative.const import (
     DerivativeEntityStateAttribute,
 )
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.event import async_track_entity_registry_updated_event
 
 
-def track_entity_registry_actions(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
+def track_entity_registry_actions(hass: UniversalAssistant, entity_id: str) -> list[str]:
     """Track entity registry actions for an entity."""
     events = []
 
@@ -31,7 +31,7 @@ def track_entity_registry_actions(hass: __HAC_KEEP__, entity_id: str) -> list[st
 
 
 async def test_setup_and_remove_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test setting up and removing a config entry."""
@@ -87,7 +87,7 @@ async def test_setup_and_remove_config_entry(
 
 
 async def test_async_handle_source_entity_changes_source_entity_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     derivative_config_entry: MockConfigEntry,
@@ -136,7 +136,7 @@ async def test_async_handle_source_entity_changes_source_entity_removed(
 
 
 async def test_async_handle_source_entity_changes_source_entity_removed_shared_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     derivative_config_entry: MockConfigEntry,
@@ -186,7 +186,7 @@ async def test_async_handle_source_entity_changes_source_entity_removed_shared_d
 
 
 async def test_async_handle_source_entity_changes_source_entity_removed_from_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     derivative_config_entry: MockConfigEntry,
@@ -236,7 +236,7 @@ async def test_async_handle_source_entity_changes_source_entity_removed_from_dev
 
 
 async def test_async_handle_source_entity_changes_source_entity_moved_other_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     derivative_config_entry: MockConfigEntry,
@@ -296,7 +296,7 @@ async def test_async_handle_source_entity_changes_source_entity_moved_other_devi
 
 
 async def test_async_handle_source_entity_new_entity_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     derivative_config_entry: MockConfigEntry,
@@ -350,7 +350,7 @@ async def test_async_handle_source_entity_new_entity_id(
         ({"unit_prefix": "none"}, None),
     ],
 )
-async def test_migration_1_1(hass: __HAC_KEEP__, unit_prefix, expect_prefix) -> None:
+async def test_migration_1_1(hass: UniversalAssistant, unit_prefix, expect_prefix) -> None:
     """Test migration from v1.1 deletes "none" unit_prefix."""
 
     config_entry = MockConfigEntry(
@@ -381,7 +381,7 @@ async def test_migration_1_1(hass: __HAC_KEEP__, unit_prefix, expect_prefix) -> 
 
 
 async def test_migration_1_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     sensor_device: dr.DeviceEntry,
@@ -431,7 +431,7 @@ async def test_migration_1_2(
         ({"unit_prefix": "\u03bc"}, "\u03bc"),
     ],
 )
-async def test_migration_1_4(hass: __HAC_KEEP__, unit_prefix, expect_prefix) -> None:
+async def test_migration_1_4(hass: UniversalAssistant, unit_prefix, expect_prefix) -> None:
     """Test migration from v1.4 migrates to Greek Mu char" unit_prefix."""
 
     config_entry = MockConfigEntry(
@@ -462,7 +462,7 @@ async def test_migration_1_4(hass: __HAC_KEEP__, unit_prefix, expect_prefix) -> 
 
 
 async def test_migration_from_future_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test migration from future version."""
 

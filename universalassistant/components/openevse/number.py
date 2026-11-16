@@ -12,7 +12,7 @@ from universalassistant.components.number import (
     NumberEntityDescription,
 )
 from universalassistant.const import EntityCategory, UnitOfElectricCurrent
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import OpenEVSEConfigEntry
@@ -49,7 +49,7 @@ NUMBER_TYPES: tuple[OpenEVSENumberDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: OpenEVSEConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

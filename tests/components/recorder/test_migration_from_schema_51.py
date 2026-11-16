@@ -23,7 +23,7 @@ from universalassistant.components.recorder.const import UNIT_CLASS_SCHEMA_VERSI
 from universalassistant.components.recorder.db_schema import StatisticsMeta
 from universalassistant.components.recorder.models import StatisticMeanType
 from universalassistant.components.recorder.util import session_scope
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import instrument_migration
 
@@ -38,7 +38,7 @@ async def mock_recorder_before_hass(
     """Set up recorder."""
 
 
-async def _async_wait_migration_done(hass: __HAC_KEEP__) -> None:
+async def _async_wait_migration_done(hass: UniversalAssistant) -> None:
     """Wait for the migration to be done."""
     await recorder.get_instance(hass).async_block_till_done()
     await async_recorder_block_till_done(hass)

@@ -5,13 +5,13 @@ from unittest.mock import Mock
 from pytest_universalassistant.components.diagnostics import get_diagnostics_for_config_entry
 from pytest_universalassistant.typing import ClientSessionGenerator
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import MockSchlageConfigEntry
 
 
 async def test_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_added_config_entry: MockSchlageConfigEntry,
     mock_lock: Mock,

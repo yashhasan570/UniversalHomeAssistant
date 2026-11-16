@@ -10,7 +10,7 @@ from yalexs.manager.gateway import Config as YaleXSConfig
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryNotReady,
@@ -30,7 +30,7 @@ from .util import async_create_august_clientsession
 type AugustConfigEntry = ConfigEntry[AugustData]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: AugustConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: AugustConfigEntry) -> None:
     """Set up August from a config entry."""
     # Check if this is a legacy config entry that needs migration to OAuth
     if "auth_implementation" not in entry.data:
@@ -58,18 +58,18 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: AugustConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_remove_entry(hass: __HAC_KEEP__, entry: AugustConfigEntry) -> None:
+async def async_remove_entry(hass: UniversalAssistant, entry: AugustConfigEntry) -> None:
     """Remove an August config entry."""
     ir.async_delete_issue(hass, DOMAIN, "yale_brand_migration")
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: AugustConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: AugustConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_setup_august(
-    hass: __HAC_KEEP__, entry: AugustConfigEntry, august_gateway: AugustGateway
+    hass: UniversalAssistant, entry: AugustConfigEntry, august_gateway: AugustGateway
 ) -> None:
     """Set up the August component."""
     config = cast(YaleXSConfig, entry.data)
@@ -85,7 +85,7 @@ async def async_setup_august(
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: AugustConfigEntry,
     device_entry: dr.AnyDeviceEntry,
 ) -> bool:

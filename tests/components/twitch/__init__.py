@@ -7,11 +7,11 @@ from pytest_universalassistant.common import MockConfigEntry, async_load_json_ar
 from twitchAPI.object.base import TwitchObject
 
 from universalassistant.components.twitch.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.json import JsonArrayType
 
 
-async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Fixture for setting up the component."""
     config_entry.add_to_hass(hass)
 
@@ -27,7 +27,7 @@ class TwitchIterObject[TwitchT: TwitchObject]:
     total: int
 
     def __init__(
-        self, hass: __HAC_KEEP__, fixture: str, target_type: type[TwitchT]
+        self, hass: UniversalAssistant, fixture: str, target_type: type[TwitchT]
     ) -> None:
         """Initialize object."""
         self.hass = hass
@@ -47,7 +47,7 @@ class TwitchIterObject[TwitchT: TwitchObject]:
 
 
 async def get_generator[TwitchT: TwitchObject](
-    hass: __HAC_KEEP__, fixture: str, target_type: type[TwitchT]
+    hass: UniversalAssistant, fixture: str, target_type: type[TwitchT]
 ) -> AsyncGenerator[TwitchT]:
     """Return async generator."""
     data = await async_load_json_array_fixture(hass, fixture, DOMAIN)

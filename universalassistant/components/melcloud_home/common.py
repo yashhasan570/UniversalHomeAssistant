@@ -13,7 +13,7 @@ from aiomelcloudhome import (
 )
 
 from universalassistant.core import callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -52,22 +52,22 @@ async def perform_action(
         await coroutine
     except MelCloudHomeAuthenticationError as err:
         coordinator.config_entry.async_start_reauth(coordinator.hass)
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="invalid_auth",
         ) from err
     except MelCloudHomeConnectionError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="cannot_connect",
         ) from err
     except MelCloudHomeTimeoutError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="timeout_connect",
         ) from err
     except MelCloudHomeError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="api_error",
         ) from err

@@ -11,19 +11,19 @@ from zeroconf import DNSCache, ServiceInfo
 
 from universalassistant.components.thread import dataset_store
 from universalassistant.components.thread.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import DATASET_1
 
 TEST_ZEROCONF_RECORD_1 = ServiceInfo(
     type_="_meshcop._udp.local.",
-    name="__HAC_KEEP__ OpenThreadBorderRouter #0BBF._meshcop._udp.local.",
+    name="UniversalAssistant OpenThreadBorderRouter #0BBF._meshcop._udp.local.",
     addresses=["127.0.0.1", "fe80::10ed:6406:4ee9:85e5"],
     port=8080,
     properties={
         "rv": "1",
-        "vn": "__HAC_KEEP__",
+        "vn": "UniversalAssistant",
         "mn": "OpenThreadBorderRouter",
         "nn": "OpenThread HC",
         "xp": "\xe6\x0f\xc7\xc1\x86!,\xe5",
@@ -180,7 +180,7 @@ def ndb() -> Mock:
 
 
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_async_zeroconf: MagicMock,
     ndb: Mock,
     hass_client: ClientSessionGenerator,

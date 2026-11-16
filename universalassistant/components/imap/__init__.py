@@ -6,7 +6,7 @@ from aioimaplib import IMAP4_SSL, AioImapException
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -37,13 +37,13 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 type ImapConfigEntry = ConfigEntry[ImapDataUpdateCoordinator]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up imap services."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ImapConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ImapConfigEntry) -> None:
     """Set up imap from a config entry."""
     try:
         imap_client: IMAP4_SSL = await connect_to_server(dict(entry.data))
@@ -75,7 +75,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ImapConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ImapConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ImapConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     coordinator = entry.runtime_data

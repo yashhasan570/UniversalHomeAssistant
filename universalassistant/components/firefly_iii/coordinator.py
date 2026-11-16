@@ -17,7 +17,7 @@ from pyfirefly.models import Account, Bill, Budget, Category, Currency
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, CONF_URL, CONF_VERIFY_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 from universalassistant.helpers.update_coordinator import (
@@ -52,7 +52,7 @@ class FireflyDataUpdateCoordinator(DataUpdateCoordinator[FireflyCoordinatorData]
 
     config_entry: FireflyConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: FireflyConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: FireflyConfigEntry) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,

@@ -4,8 +4,8 @@ from typing import TYPE_CHECKING
 
 import probatio
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 
 from .const import (
@@ -27,7 +27,7 @@ async def _async_install(entity: UpdateEntity, service_call: ServiceCall) -> Non
         entity.installed_version == entity.latest_version
         or entity.latest_version is None
     ):
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="no_update_available",
             translation_placeholders={"entity_id": entity.entity_id},
@@ -38,7 +38,7 @@ async def _async_install(entity: UpdateEntity, service_call: ServiceCall) -> Non
         version is not None
         and UpdateEntityFeature.SPECIFIC_VERSION not in entity.supported_features
     ):
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="specific_version_not_supported",
             translation_placeholders={"entity_id": entity.entity_id},
@@ -48,7 +48,7 @@ async def _async_install(entity: UpdateEntity, service_call: ServiceCall) -> Non
     if (
         backup := service_call.data[UpdateServiceArgument.BACKUP]
     ) and UpdateEntityFeature.BACKUP not in entity.supported_features:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="backup_not_supported",
             translation_placeholders={"entity_id": entity.entity_id},
@@ -56,7 +56,7 @@ async def _async_install(entity: UpdateEntity, service_call: ServiceCall) -> Non
 
     # Update is already in progress.
     if entity.in_progress is not False:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="update_in_progress",
             translation_placeholders={"entity_id": entity.entity_id},
@@ -68,7 +68,7 @@ async def _async_install(entity: UpdateEntity, service_call: ServiceCall) -> Non
 async def _async_skip(entity: UpdateEntity, service_call: ServiceCall) -> None:
     """Service call wrapper to validate the call."""
     if entity.auto_update:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="skip_not_supported",
             translation_placeholders={"entity_id": entity.entity_id},
@@ -79,7 +79,7 @@ async def _async_skip(entity: UpdateEntity, service_call: ServiceCall) -> None:
 async def _async_clear_skipped(entity: UpdateEntity, service_call: ServiceCall) -> None:
     """Service call wrapper to validate the call."""
     if entity.auto_update:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="clear_skipped_not_supported",
             translation_placeholders={"entity_id": entity.entity_id},
@@ -88,7 +88,7 @@ async def _async_clear_skipped(entity: UpdateEntity, service_call: ServiceCall) 
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the update services."""
     component = hass.data[DATA_COMPONENT]
 

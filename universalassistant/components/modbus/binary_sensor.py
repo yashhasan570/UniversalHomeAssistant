@@ -10,7 +10,7 @@ from universalassistant.const import (
     CONF_UNIQUE_ID,
     STATE_ON,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -34,7 +34,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -62,7 +62,7 @@ class ModbusBinarySensor(ModbusBaseEntity, RestoreEntity, BinarySensorEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         hub: ModbusHub,
         entry: dict[str, Any],
         slave_count: int,
@@ -74,7 +74,7 @@ class ModbusBinarySensor(ModbusBaseEntity, RestoreEntity, BinarySensorEntity):
         super().__init__(hass, hub, entry)
 
     async def async_setup_slaves(
-        self, hass: __HAC_KEEP__, slave_count: int, entry: dict[str, Any]
+        self, hass: UniversalAssistant, slave_count: int, entry: dict[str, Any]
     ) -> list[SlaveSensor]:
         """Add slaves as needed (1 read for multiple sensors)."""
 

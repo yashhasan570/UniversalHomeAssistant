@@ -23,7 +23,7 @@ from universalassistant.components.lorawan import async_register_connection
 from universalassistant.components.lorawan.connection import DATA_REGISTRY
 from universalassistant.config_entries import SOURCE_INTEGRATION_DISCOVERY
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.service_info.lorawan import LoRaWANDiscoveryInfo
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -33,7 +33,7 @@ from .helpers import DESCRIPTOR
 
 
 async def test_registration_and_reconnect(
-    hass: __HAC_KEEP__, registered_backend: RegisterBackend
+    hass: UniversalAssistant, registered_backend: RegisterBackend
 ) -> None:
     """The registry tracks active connections, withdrawals, and replacements."""
     first, unregister = await registered_backend("network", [DESCRIPTOR])
@@ -64,7 +64,7 @@ async def test_registration_and_reconnect(
 
 
 async def test_discovery_replay_and_live_events(
-    hass: __HAC_KEEP__, registered_backend: RegisterBackend
+    hass: UniversalAssistant, registered_backend: RegisterBackend
 ) -> None:
     """Discover once per connection replay and for each later device addition."""
     with patch(
@@ -119,7 +119,7 @@ async def test_discovery_replay_and_live_events(
 
 @pytest.mark.parametrize("event_class", [UpdatedEvent, RemovedEvent])
 async def test_discovery_ignores_updates_and_removals(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     registered_backend: RegisterBackend,
     event_class: type[UpdatedEvent | RemovedEvent],
 ) -> None:
@@ -136,7 +136,7 @@ async def test_discovery_ignores_updates_and_removals(
 
 
 async def test_discovery_ignores_device_activity(
-    hass: __HAC_KEEP__, registered_backend: RegisterBackend
+    hass: UniversalAssistant, registered_backend: RegisterBackend
 ) -> None:
     """Uplink and status traffic does not start discovery."""
     with patch(
@@ -154,7 +154,7 @@ async def test_discovery_ignores_device_activity(
 
 
 async def test_discovery_of_another_vendor(
-    hass: __HAC_KEEP__, registered_backend: RegisterBackend
+    hass: UniversalAssistant, registered_backend: RegisterBackend
 ) -> None:
     """Replay discovers each matching domain once; later additions discover again."""
     with (
@@ -198,7 +198,7 @@ async def test_discovery_of_another_vendor(
 
 
 async def test_duplicate_registration(
-    hass: __HAC_KEEP__, registered_backend: RegisterBackend
+    hass: UniversalAssistant, registered_backend: RegisterBackend
 ) -> None:
     """An active provider cannot be replaced without withdrawal."""
     backend, _ = await registered_backend("network", [DESCRIPTOR])
@@ -214,7 +214,7 @@ async def test_duplicate_registration(
     "error", [ConnectionUnavailable("offline"), asyncio.CancelledError()]
 )
 async def test_registration_failure(
-    hass: __HAC_KEEP__, connection_entry: MockConfigEntry, error: BaseException
+    hass: UniversalAssistant, connection_entry: MockConfigEntry, error: BaseException
 ) -> None:
     """Failure and cancellation clean up discovery and allow a later attempt."""
     assert await async_setup_component(hass, "lorawan", {})
@@ -236,7 +236,7 @@ async def test_registration_failure(
 
 
 async def test_concurrent_registration(
-    hass: __HAC_KEEP__, connection_entry: MockConfigEntry
+    hass: UniversalAssistant, connection_entry: MockConfigEntry
 ) -> None:
     """The entry is reserved while existing devices are being replayed."""
     assert await async_setup_component(hass, "lorawan", {})
@@ -273,7 +273,7 @@ async def test_concurrent_registration(
 
 
 async def test_disconnect_during_registration(
-    hass: __HAC_KEEP__, connection_entry: MockConfigEntry
+    hass: UniversalAssistant, connection_entry: MockConfigEntry
 ) -> None:
     """A disconnect during replay cannot publish or discover a stale connection."""
     assert await async_setup_component(hass, "lorawan", {})
@@ -317,7 +317,7 @@ async def test_disconnect_during_registration(
 
 
 async def test_shutdown_releases_subscriptions(
-    hass: __HAC_KEEP__, registered_backend: RegisterBackend
+    hass: UniversalAssistant, registered_backend: RegisterBackend
 ) -> None:
     """HA shutdown releases discovery without closing provider-owned transports."""
     backend, _ = await registered_backend("network", [DESCRIPTOR])
@@ -333,7 +333,7 @@ async def test_shutdown_releases_subscriptions(
 
 @pytest.mark.parametrize("stack_type", ["example", "other_stack"])
 async def test_discovery_matches_connection_stack(
-    hass: __HAC_KEEP__, registered_backend: RegisterBackend, stack_type: str
+    hass: UniversalAssistant, registered_backend: RegisterBackend, stack_type: str
 ) -> None:
     """Identical brand IDs in different catalogs discover only the matching stack."""
     with (

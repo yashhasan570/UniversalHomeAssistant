@@ -15,7 +15,7 @@ import requests
 from universalassistant import config_entries
 from universalassistant.components.picnic.const import DOMAIN
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_COUNTRY_CODE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -44,7 +44,7 @@ def picnic_api():
         yield picnic_mock
 
 
-async def test_form(hass: __HAC_KEEP__, picnic_api) -> None:
+async def test_form(hass: UniversalAssistant, picnic_api) -> None:
     """Test we get the form and a config entry is created."""
 
     result = await hass.config_entries.flow.async_init(
@@ -78,7 +78,7 @@ async def test_form(hass: __HAC_KEEP__, picnic_api) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_2fa_required(hass: __HAC_KEEP__, picnic_api) -> None:
+async def test_form_2fa_required(hass: UniversalAssistant, picnic_api) -> None:
     """Test the full 2FA flow."""
     picnic_api.return_value.login.side_effect = Picnic2FARequired
 
@@ -127,7 +127,7 @@ async def test_form_2fa_required(hass: __HAC_KEEP__, picnic_api) -> None:
 
 
 async def test_form_2fa_channel_cannot_connect(
-    hass: __HAC_KEEP__, picnic_api: MagicMock
+    hass: UniversalAssistant, picnic_api: MagicMock
 ) -> None:
     """Test we handle connection errors in the first 2fa step."""
     picnic_api.return_value.login.side_effect = Picnic2FARequired
@@ -178,7 +178,7 @@ async def test_form_2fa_channel_cannot_connect(
 
 
 async def test_form_2fa_channel_exception(
-    hass: __HAC_KEEP__, picnic_api: MagicMock
+    hass: UniversalAssistant, picnic_api: MagicMock
 ) -> None:
     """Test we handle random exceptions in the first 2fa step."""
     picnic_api.return_value.login.side_effect = Picnic2FARequired
@@ -226,7 +226,7 @@ async def test_form_2fa_channel_exception(
         assert result_step_2fa_verify["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_2fa_wrong_code(hass: __HAC_KEEP__, picnic_api: MagicMock) -> None:
+async def test_form_2fa_wrong_code(hass: UniversalAssistant, picnic_api: MagicMock) -> None:
     """Test the full 2FA flow with incorrect code."""
     picnic_api.return_value.login.side_effect = Picnic2FARequired
     picnic_api.return_value.verify_2fa_code.side_effect = Picnic2FAError
@@ -275,7 +275,7 @@ async def test_form_2fa_wrong_code(hass: __HAC_KEEP__, picnic_api: MagicMock) ->
 
 
 async def test_form_2fa_cannot_connect(
-    hass: __HAC_KEEP__, picnic_api: MagicMock
+    hass: UniversalAssistant, picnic_api: MagicMock
 ) -> None:
     """Test we handle connection errors in the last 2fa step."""
     picnic_api.return_value.login.side_effect = Picnic2FARequired
@@ -326,7 +326,7 @@ async def test_form_2fa_cannot_connect(
         assert result_step_2fa_verify["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_2fa_exception(hass: __HAC_KEEP__, picnic_api: MagicMock) -> None:
+async def test_form_2fa_exception(hass: UniversalAssistant, picnic_api: MagicMock) -> None:
     """Test we handle random exceptions in the last 2fa step."""
     picnic_api.return_value.login.side_effect = Picnic2FARequired
     picnic_api.return_value.verify_2fa_code.side_effect = Exception
@@ -374,7 +374,7 @@ async def test_form_2fa_exception(hass: __HAC_KEEP__, picnic_api: MagicMock) -> 
         assert result_step_2fa_verify["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_invalid_auth(hass: __HAC_KEEP__, picnic_api: MagicMock) -> None:
+async def test_form_invalid_auth(hass: UniversalAssistant, picnic_api: MagicMock) -> None:
     """Test we handle invalid authentication."""
     picnic_api.return_value.login.side_effect = PicnicAuthError
 
@@ -407,7 +407,7 @@ async def test_form_invalid_auth(hass: __HAC_KEEP__, picnic_api: MagicMock) -> N
         assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_cannot_connect(hass: __HAC_KEEP__, picnic_api: MagicMock) -> None:
+async def test_form_cannot_connect(hass: UniversalAssistant, picnic_api: MagicMock) -> None:
     """Test we handle connection errors."""
     picnic_api.return_value.login.side_effect = requests.exceptions.ConnectionError
 
@@ -440,7 +440,7 @@ async def test_form_cannot_connect(hass: __HAC_KEEP__, picnic_api: MagicMock) ->
         assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_exception(hass: __HAC_KEEP__, picnic_api: MagicMock) -> None:
+async def test_form_exception(hass: UniversalAssistant, picnic_api: MagicMock) -> None:
     """Test we handle random exceptions."""
     picnic_api.return_value.login.side_effect = Exception
 
@@ -473,7 +473,7 @@ async def test_form_exception(hass: __HAC_KEEP__, picnic_api: MagicMock) -> None
         assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_already_configured(hass: __HAC_KEEP__, picnic_api) -> None:
+async def test_form_already_configured(hass: UniversalAssistant, picnic_api) -> None:
     """Test that an entry with unique id can only be added once."""
     # Create a mocked config entry and make sure to use the same
     # user_id as set for the picnic_api mock response.
@@ -501,7 +501,7 @@ async def test_form_already_configured(hass: __HAC_KEEP__, picnic_api) -> None:
     assert result_configure["reason"] == "already_configured"
 
 
-async def test_step_reauth(hass: __HAC_KEEP__, picnic_api) -> None:
+async def test_step_reauth(hass: UniversalAssistant, picnic_api) -> None:
     """Test the re-auth flow."""
     # Create a mocked config entry
     conf = {CONF_ACCESS_TOKEN: "a3p98fsen.a39p3fap", CONF_COUNTRY_CODE: "NL"}
@@ -540,7 +540,7 @@ async def test_step_reauth(hass: __HAC_KEEP__, picnic_api) -> None:
     assert len(hass.config_entries.async_entries()) == 1
 
 
-async def test_step_reauth_failed(hass: __HAC_KEEP__, picnic_api: MagicMock) -> None:
+async def test_step_reauth_failed(hass: UniversalAssistant, picnic_api: MagicMock) -> None:
     """Test the re-auth flow when authentication fails."""
     picnic_api.return_value.login.side_effect = PicnicAuthError
 
@@ -593,7 +593,7 @@ async def test_step_reauth_failed(hass: __HAC_KEEP__, picnic_api: MagicMock) -> 
 
 
 async def test_step_reauth_different_account(
-    hass: __HAC_KEEP__, picnic_api: MagicMock
+    hass: UniversalAssistant, picnic_api: MagicMock
 ) -> None:
     """Test the re-auth flow when authentication is done with a different account."""
     # Create a mocked config entry, unique_id should be different

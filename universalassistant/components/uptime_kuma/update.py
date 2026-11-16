@@ -11,7 +11,7 @@ from universalassistant.components.update import (
     UpdateEntityFeature,
 )
 from universalassistant.const import CONF_URL, EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -35,7 +35,7 @@ class UptimeKumaUpdate(StrEnum):
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: UptimeKumaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

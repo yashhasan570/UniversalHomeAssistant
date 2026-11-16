@@ -7,13 +7,13 @@ from pyeconet.errors import InvalidResponseFormat
 import pytest
 
 from universalassistant.const import ATTR_FRIENDLY_NAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 pytestmark = pytest.mark.parametrize("platform", [Platform.WATER_HEATER])
 
 
 async def test_water_heater_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: Callable[[], Awaitable[None]],
     mock_api: MagicMock,
 ) -> None:

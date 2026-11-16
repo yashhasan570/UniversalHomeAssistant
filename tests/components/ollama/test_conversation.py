@@ -17,8 +17,8 @@ from universalassistant.components import conversation, ollama
 from universalassistant.components.conversation import trace
 from universalassistant.components.llm import LLMTools
 from universalassistant.const import ATTR_SUPPORTED_FEATURES, CONF_LLM_HASS_API, MATCH_ALL
-from universalassistant.core import Context, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import Context, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -49,7 +49,7 @@ async def stream_generator(response: dict | list[dict]) -> AsyncGenerator[dict]:
 
 @pytest.mark.parametrize("agent_id", [None, "conversation.ollama_conversation"])
 async def test_chat(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
     agent_id: str,
@@ -104,13 +104,13 @@ async def test_chat(
     # AGENT_DETAIL event contains the raw prompt passed to the model
     detail_event = trace_events[1]
     assert (
-        "You are a voice assistant for __HA_KEEP__."
+        "You are a voice assistant for Universal Home Assistant."
         in detail_event["data"]["messages"][0]["content"]
     )
 
 
 async def test_chat_stream(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
 ) -> None:
@@ -157,7 +157,7 @@ async def test_chat_stream(
 
 
 async def test_thinking_content(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
 ) -> None:
@@ -222,7 +222,7 @@ async def test_thinking_content(
 
 
 async def test_template_variables(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that template variables work."""
     context = Context(user_id="12345")
@@ -299,7 +299,7 @@ async def test_template_variables(
 @patch("universalassistant.components.llm.async_get_tools", new_callable=AsyncMock)
 async def test_function_call(
     mock_get_tools,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_with_assist: MockConfigEntry,
     mock_init_component,
     tool_args: dict[str, Any],
@@ -387,7 +387,7 @@ async def test_function_call(
 @patch("universalassistant.components.llm.async_get_tools", new_callable=AsyncMock)
 async def test_function_exception(
     mock_get_tools,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_with_assist: MockConfigEntry,
     mock_init_component,
 ) -> None:
@@ -401,7 +401,7 @@ async def test_function_exception(
     mock_tool.parameters = probatio.Schema(
         {probatio.Optional("param1", description="Test parameters"): str}
     )
-    mock_tool.async_call.side_effect = __HAC_KEEP__Error("Test tool exception")
+    mock_tool.async_call.side_effect = UniversalAssistantError("Test tool exception")
 
     mock_get_tools.return_value = LLMTools(tools=[mock_tool])
 
@@ -470,7 +470,7 @@ async def test_function_exception(
 
 
 async def test_history_conversion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
     mock_chat_log: MockChatLog,  # noqa: F811
@@ -575,7 +575,7 @@ async def test_history_conversion(
 
 
 async def test_unknown_hass_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     mock_init_component,
@@ -604,7 +604,7 @@ async def test_unknown_hass_api(
 
 
 async def test_message_history_trimming(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
     freezer: FrozenDateTimeFactory,
@@ -706,7 +706,7 @@ async def test_message_history_trimming(
 
 
 async def test_message_history_unlimited(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_init_component
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_init_component
 ) -> None:
     """Test that message history is not trimmed when max_history = 0."""
     conversation_id = "1234"
@@ -748,7 +748,7 @@ async def test_message_history_unlimited(
 
 
 async def test_error_handling(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_init_component
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_init_component
 ) -> None:
     """Test error handling during converse."""
     with patch(
@@ -769,7 +769,7 @@ async def test_error_handling(
     [httpx2.ConnectError("unreachable"), ResponseError("model not found", 404)],
 )
 async def test_stream_error_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
     error: Exception,
@@ -794,7 +794,7 @@ async def test_stream_error_handling(
 
 
 async def test_template_error(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that template error handling works."""
     subentry = next(iter(mock_config_entry.subentries.values()))
@@ -820,7 +820,7 @@ async def test_template_error(
 
 
 async def test_conversation_agent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
     device_registry: dr.DeviceRegistry,
@@ -855,7 +855,7 @@ async def test_conversation_agent(
 
 
 async def test_conversation_agent_with_assist(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_with_assist: MockConfigEntry,
     mock_init_component,
 ) -> None:
@@ -881,7 +881,7 @@ async def test_conversation_agent_with_assist(
     ],
 )
 async def test_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
     expected_options: dict[str, Any],
@@ -912,7 +912,7 @@ async def test_options(
     ids=["no_think", "think"],
 )
 async def test_reasoning_filter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
     think: bool,

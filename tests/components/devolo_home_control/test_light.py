@@ -7,7 +7,7 @@ import pytest
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.devolo_home_control.const import DOMAIN
-from universalassistant.components.light import ATTR_BRIGHTNESS, DOMAIN as LIGHT_DOMAIN
+from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN, LightServiceArgument
 from universalassistant.const import (
     ATTR_ENTITY_ID,
     SERVICE_TURN_OFF,
@@ -16,8 +16,8 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import configure_integration
@@ -25,7 +25,7 @@ from .mocks import BinarySwitchPropertyMock, HomeControlMock, HomeControlMockLig
 
 
 async def test_light_without_binary_sensor(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
 ) -> None:
     """Test setup and state change of a light without an additional binary sensor."""
     entry = configure_integration(hass)
@@ -50,7 +50,7 @@ async def test_light_without_binary_sensor(
     await hass.async_block_till_done()
     state = hass.states.get(f"{LIGHT_DOMAIN}.test_test")
     assert state.state == STATE_ON
-    assert state.attributes[ATTR_BRIGHTNESS] == 255
+    assert state.attributes[LightServiceArgument.BRIGHTNESS] == 255
 
     # Test setting brightness
     with patch(
@@ -77,7 +77,10 @@ async def test_light_without_binary_sensor(
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_ON,
-            {ATTR_ENTITY_ID: f"{LIGHT_DOMAIN}.test_test", ATTR_BRIGHTNESS: 50},
+            {
+                ATTR_ENTITY_ID: f"{LIGHT_DOMAIN}.test_test",
+                LightServiceArgument.BRIGHTNESS: 50,
+            },
             blocking=True,
         )  # In reality, this leads to a websocket message like already tested above
         set_value.assert_called_once_with(round(50 / 255 * 100))
@@ -87,12 +90,15 @@ async def test_light_without_binary_sensor(
             "devolo_home_control_api.properties.multi_level_switch_property.MultiLevelSwitchProperty.set",
             return_value=False,
         ),
-        pytest.raises(__HAC_KEEP__Error) as error,
+        pytest.raises(UniversalAssistantError) as error,
     ):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_ON,
-            {ATTR_ENTITY_ID: f"{LIGHT_DOMAIN}.test_test", ATTR_BRIGHTNESS: 50},
+            {
+                ATTR_ENTITY_ID: f"{LIGHT_DOMAIN}.test_test",
+                LightServiceArgument.BRIGHTNESS: 50,
+            },
             blocking=True,
         )
     assert error.value.translation_key == "set_failed"
@@ -106,7 +112,7 @@ async def test_light_without_binary_sensor(
 
 
 async def test_light_with_binary_sensor(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
 ) -> None:
     """Test setup and state change of a light with an additional binary sensor."""
     entry = configure_integration(hass)
@@ -134,7 +140,7 @@ async def test_light_with_binary_sensor(
     await hass.async_block_till_done()
     state = hass.states.get(f"{LIGHT_DOMAIN}.test_test")
     assert state.state == STATE_ON
-    assert state.attributes[ATTR_BRIGHTNESS] == 255
+    assert state.attributes[LightServiceArgument.BRIGHTNESS] == 255
 
     # Test setting brightness
     with patch(
@@ -162,7 +168,7 @@ async def test_light_with_binary_sensor(
             "devolo_home_control_api.properties.binary_switch_property.BinarySwitchProperty.set",
             return_value=False,
         ),
-        pytest.raises(__HAC_KEEP__Error) as error,
+        pytest.raises(UniversalAssistantError) as error,
     ):
         await hass.services.async_call(
             LIGHT_DOMAIN,
@@ -190,7 +196,7 @@ async def test_light_with_binary_sensor(
     assert error.value.translation_domain == DOMAIN
 
 
-async def test_remove_from_hass(hass: __HAC_KEEP__) -> None:
+async def test_remove_from_hass(hass: UniversalAssistant) -> None:
     """Test removing entity."""
     entry = configure_integration(hass)
     test_gateway = HomeControlMockLight()

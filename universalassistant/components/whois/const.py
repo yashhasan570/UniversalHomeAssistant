@@ -18,7 +18,7 @@ ATTR_NAME_SERVERS = "name_servers"
 ATTR_REGISTRAR = "registrar"
 ATTR_UPDATED = "updated"
 
-# Mapping of ICANN status codes to __HA_KEEP__ status types.
+# Mapping of ICANN status codes to Universal Home Assistant status types.
 # From https://www.icann.org/resources/pages/epp-status-codes-2014-06-16-en
 STATUS_TYPES = {
     "addPeriod": "add_period",

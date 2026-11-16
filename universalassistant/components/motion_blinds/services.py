@@ -3,7 +3,7 @@
 import probatio
 
 from universalassistant.components.cover import DOMAIN as COVER_DOMAIN
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.typing import VolDictType
 
@@ -23,7 +23,7 @@ SET_ABSOLUTE_POSITION_SCHEMA: VolDictType = {
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the services for the Motionblinds integration."""
 
     service.async_register_platform_entity_service(

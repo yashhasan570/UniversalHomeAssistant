@@ -6,12 +6,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.sharkiq import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONFIG, ENTRY_ID, UNIQUE_ID
 
 
-async def test_setup_sign_in_failed(hass: __HAC_KEEP__) -> None:
+async def test_setup_sign_in_failed(hass: UniversalAssistant) -> None:
     """Test setup fails without starting reauth when signing in fails."""
     entry = MockConfigEntry(
         domain=DOMAIN, unique_id=UNIQUE_ID, data=CONFIG, entry_id=ENTRY_ID

@@ -35,7 +35,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -52,7 +52,7 @@ from .conftest import MOCK_TEST_CONFIG, TEST_INSTANCE_ID
     ],
 )
 async def test_setup_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -65,7 +65,7 @@ async def test_setup_exceptions(
 
 
 async def test_migrations(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
 ) -> None:
     """Test migration from v1 config entry."""
@@ -100,7 +100,7 @@ async def test_migrations(
     ids=("Present container", "Stale container"),
 )
 async def test_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -125,7 +125,7 @@ async def test_remove_config_entry_device(
 
 
 async def test_migration_v3_to_v5(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -189,7 +189,7 @@ async def test_migration_v3_to_v5(
 
 
 async def test_migration_v5_1_to_v5_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -300,7 +300,7 @@ async def test_migration_v5_1_to_v5_2(
     ],
 )
 async def test_migration_v5_2_to_v5_3(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     entity_registry: er.EntityRegistry,
     unique_id_suffix: str,
@@ -335,7 +335,7 @@ async def test_migration_v5_2_to_v5_3(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_portainer_watcher: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -352,7 +352,7 @@ async def test_unload_entry(
 
 
 async def test_watcher_start_stop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_portainer_watcher: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -375,7 +375,7 @@ async def test_watcher_start_stop(
 
 
 async def test_migration_v4_to_v5(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
 ) -> None:
     """Test v4 config entry migration updates unique_id."""
@@ -432,7 +432,7 @@ async def test_migration_v4_to_v5(
     ],
 )
 async def test_migration_v4_to_v5_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     exception: type[Exception],
     state: ConfigEntryState,
@@ -460,7 +460,7 @@ async def test_migration_v4_to_v5_exceptions(
 
 
 async def test_device_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -477,7 +477,7 @@ async def test_device_registry(
 
 
 async def test_container_stack_device_links(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -529,7 +529,7 @@ async def test_container_stack_device_links(
 
 
 async def test_docker_system_df_refresh_runs_on_ha_start(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -543,7 +543,7 @@ async def test_docker_system_df_refresh_runs_on_ha_start(
 
 
 async def test_new_endpoint_callback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -598,7 +598,7 @@ async def test_new_endpoint_callback(
 
 
 async def test_removed_endpoint_stops_event_listener(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_portainer_event_listeners: dict[int, MagicMock],
     mock_config_entry: MockConfigEntry,
@@ -619,7 +619,7 @@ async def test_removed_endpoint_stops_event_listener(
 
 
 async def test_new_container_callback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -651,7 +651,7 @@ async def test_new_container_callback(
 
 
 async def test_swarm_stacks_fetched_by_swarm_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -666,7 +666,7 @@ async def test_swarm_stacks_fetched_by_swarm_id(
 
 
 async def test_new_stack_callback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -698,7 +698,7 @@ async def test_new_stack_callback(
 
 
 async def test_stack_recreated_with_new_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,

@@ -26,10 +26,10 @@ from universalassistant.core import (
     CALLBACK_TYPE,
     Event,
     EventStateChangedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.event import (
@@ -199,7 +199,7 @@ PLATFORM_SCHEMA = probatio.Schema(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -466,7 +466,7 @@ class ManualMQTTAlarm(AlarmControlPanelEntity):
         if not alarm_code or code == alarm_code:
             return
 
-        raise __HAC_KEEP__Error("Invalid alarm code provided")
+        raise UniversalAssistantError("Invalid alarm code provided")
 
     @property
     @override

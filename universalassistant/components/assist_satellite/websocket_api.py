@@ -7,8 +7,8 @@ from typing import Any
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.util import uuid as uuid_util
 
@@ -25,7 +25,7 @@ CONNECTION_TEST_TIMEOUT = 30
 
 
 @callback
-def async_register_websocket_api(hass: __HAC_KEEP__) -> None:
+def async_register_websocket_api(hass: UniversalAssistant) -> None:
     """Register the websocket API."""
     websocket_api.async_register_command(hass, websocket_intercept_wake_word)
     websocket_api.async_register_command(hass, websocket_get_configuration)
@@ -42,7 +42,7 @@ def async_register_websocket_api(hass: __HAC_KEEP__) -> None:
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_intercept_wake_word(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -64,7 +64,7 @@ async def websocket_intercept_wake_word(
                     {"wake_word_phrase": wake_word_phrase},
                 )
             )
-        except __HAC_KEEP__Error as err:
+        except UniversalAssistantError as err:
             connection.send_error(msg["id"], "universal_assistant_error", str(err))
 
     task = hass.async_create_task(intercept_wake_word(), "intercept_wake_word")
@@ -80,7 +80,7 @@ async def websocket_intercept_wake_word(
     }
 )
 def websocket_get_configuration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -118,7 +118,7 @@ def websocket_get_configuration(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_set_wake_words(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -168,11 +168,11 @@ async def websocket_set_wake_words(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_test_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
-    """Test the connection between the device and __HA_KEEP__.
+    """Test the connection between the device and Universal Home Assistant.
 
     Send an announcement to the device with a special media id.
     """

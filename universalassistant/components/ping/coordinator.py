@@ -6,7 +6,7 @@ import logging
 from typing import Any, override
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .helpers import PingDataICMPLib, PingDataSubProcess
@@ -33,7 +33,7 @@ class PingUpdateCoordinator(DataUpdateCoordinator[PingResult]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: PingConfigEntry,
         ping: PingDataSubProcess | PingDataICMPLib,
     ) -> None:

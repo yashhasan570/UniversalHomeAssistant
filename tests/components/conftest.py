@@ -17,7 +17,7 @@ from aiohasupervisor import SupervisorClient, SupervisorNotFoundError
 from aiohasupervisor.addons import AddonsClient
 from aiohasupervisor.backups import BackupsClient
 from aiohasupervisor.discovery import DiscoveryClient
-from aiohasupervisor.universalassistant import __HAC_KEEP__Client
+from aiohasupervisor.universalassistant import UniversalAssistantClient
 from aiohasupervisor.host import HostClient
 from aiohasupervisor.ingress import IngressClient
 from aiohasupervisor.jobs import JobsClient
@@ -27,8 +27,8 @@ from aiohasupervisor.models import (
     Discovery,
     DockerNetwork,
     GreenInfo,
-    __HAC_KEEP__Info,
-    __HAC_KEEP__Stats,
+    UniversalAssistantInfo,
+    UniversalAssistantStats,
     HostInfo,
     InstalledAddon,
     JobsInfo,
@@ -73,7 +73,7 @@ from universalassistant.core import (
     Context,
     EntityServiceResponse,
     HassJobType,
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceRegistry,
     ServiceResponse,
@@ -87,7 +87,7 @@ from universalassistant.data_entry_flow import (
     FlowResultType,
     section,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error, Unauthorized
+from universalassistant.exceptions import UniversalAssistantError, Unauthorized
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.translation import async_get_translations
 from universalassistant.helpers.typing import VolSchemaType
@@ -179,7 +179,7 @@ def tts_mutagen_mock_fixture() -> Generator[MagicMock]:
 
 
 @pytest.fixture(name="mock_conversation_agent")
-def mock_conversation_agent_fixture(hass: __HAC_KEEP__) -> MockAgent:
+def mock_conversation_agent_fixture(hass: UniversalAssistant) -> MockAgent:
     """Mock a conversation agent."""
     from .conversation.common import mock_conversation_agent_fixture_helper  # noqa: PLC0415
 
@@ -232,7 +232,7 @@ def mock_legacy_device_scanner() -> MockScanner:
 
 
 @pytest.fixture
-def mock_legacy_device_tracker_setup() -> Callable[[__HAC_KEEP__, MockScanner], None]:
+def mock_legacy_device_tracker_setup() -> Callable[[UniversalAssistant, MockScanner], None]:
     """Return setup callable for legacy device tracker setup."""
     from .device_tracker.common import mock_legacy_device_tracker_setup  # noqa: PLC0415
 
@@ -241,7 +241,7 @@ def mock_legacy_device_tracker_setup() -> Callable[[__HAC_KEEP__, MockScanner], 
 
 @pytest.fixture(name="addon_manager")
 def addon_manager_fixture(
-    hass: __HAC_KEEP__, supervisor_client: AsyncMock
+    hass: UniversalAssistant, supervisor_client: AsyncMock
 ) -> AddonManager:
     """Return an AddonManager instance."""
     from .hassio.common import mock_addon_manager  # noqa: PLC0415
@@ -609,8 +609,8 @@ def host_info_fixture(supervisor_client: AsyncMock) -> AsyncMock:
 
 @pytest.fixture(name="universalassistant_info")
 def universalassistant_info_fixture(supervisor_client: AsyncMock) -> AsyncMock:
-    """Mock __HA_KEEP__ info API from supervisor."""
-    supervisor_client.universalassistant.info.return_value = __HAC_KEEP__Info(
+    """Mock Universal Home Assistant info API from supervisor."""
+    supervisor_client.universalassistant.info.return_value = UniversalAssistantInfo(
         version="1.0.0",
         version_latest="1.0.0",
         update_available=False,
@@ -736,8 +736,8 @@ def os_info_fixture(supervisor_client: AsyncMock) -> AsyncMock:
 
 @pytest.fixture(name="universalassistant_stats")
 def universalassistant_stats_fixture(supervisor_client: AsyncMock) -> AsyncMock:
-    """Mock __HA_KEEP__ stats API from supervisor."""
-    supervisor_client.universalassistant.stats.return_value = __HAC_KEEP__Stats(
+    """Mock Universal Home Assistant stats API from supervisor."""
+    supervisor_client.universalassistant.stats.return_value = UniversalAssistantStats(
         cpu_percent=0.99,
         memory_usage=182611968,
         memory_limit=3977146368,
@@ -780,7 +780,7 @@ def supervisor_client() -> Generator[AsyncMock]:
     supervisor_client.addons = AsyncMock(spec=AddonsClient)
     supervisor_client.backups = AsyncMock(spec=BackupsClient)
     supervisor_client.discovery = AsyncMock(spec=DiscoveryClient)
-    supervisor_client.universalassistant = AsyncMock(spec=__HAC_KEEP__Client)
+    supervisor_client.universalassistant = AsyncMock(spec=UniversalAssistantClient)
     supervisor_client.host = AsyncMock(spec=HostClient)
     supervisor_client.ingress = AsyncMock(spec=IngressClient)
     supervisor_client.jobs = AsyncMock(spec=JobsClient)
@@ -869,7 +869,7 @@ def hassio_env(
 @pytest.fixture
 async def hassio_stubs(
     hassio_env: None,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     supervisor_client: AsyncMock,
@@ -903,7 +903,7 @@ def _validate_translation_placeholders(
 
 
 async def _validate_translation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     translation_errors: dict[str, str],
     ignore_translations_for_mock_domains: set[str],
     category: str,
@@ -979,7 +979,7 @@ async def _validate_translation(
 
 
 async def _validate_abort_translation_not_duplicated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     translation_errors: dict[str, str],
     ignore_translations_for_mock_domains: set[str],
     category: str,
@@ -1059,7 +1059,7 @@ def _get_integration_quality_scale_rule(integration: str, rule: str) -> str:
 
 
 async def _check_step_or_section_translations(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     translation_errors: dict[str, str],
     category: str,
     integration: str,
@@ -1279,8 +1279,8 @@ def _get_request_quality_scale(
 
 
 async def _check_exception_translation(
-    hass: __HAC_KEEP__,
-    exception: __HAC_KEEP__Error,
+    hass: UniversalAssistant,
+    exception: UniversalAssistantError,
     translation_errors: dict[str, str],
     request: pytest.FixtureRequest,
     ignore_translations_for_mock_domains: set[str],
@@ -1322,7 +1322,7 @@ name/description translations are not required.
 
 
 async def _check_service_registration_translation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain: str,
     service_name: str,
     description_placeholders: Mapping[str, str] | None,
@@ -1434,7 +1434,7 @@ async def check_translations(
                 target,
                 return_response,
             )
-        except __HAC_KEEP__Error as err:
+        except UniversalAssistantError as err:
             translation_coros.add(
                 _check_exception_translation(
                     self._hass,

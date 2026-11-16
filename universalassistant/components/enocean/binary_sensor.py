@@ -2,7 +2,7 @@
 
 from typing import override
 
-from enocean_async import ERP1Telegram
+from enocean_async.protocol.erp1.telegram import ERP1Telegram
 import probatio
 
 from universalassistant.components.binary_sensor import (
@@ -12,7 +12,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
 )
 from universalassistant.const import CONF_DEVICE_CLASS, CONF_ID, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -35,7 +35,7 @@ PLATFORM_SCHEMA = BINARY_SENSOR_PLATFORM_SCHEMA.extend(
 
 
 def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -111,7 +111,7 @@ class EnOceanBinarySensor(EnOceanEntity, BinarySensorEntity):
         self.hass.bus.fire(
             EVENT_BUTTON_PRESSED,
             {
-                "id": self.address.to_bytelist(),
+                "id": self.address.bytelist,
                 "pushed": pushed,
                 "which": self.which,
                 "onoff": self.onoff,

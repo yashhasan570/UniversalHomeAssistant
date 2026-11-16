@@ -28,7 +28,7 @@ from aiocomelit.exceptions import (
 from aiohttp import ClientSession
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -47,7 +47,7 @@ class ComelitBaseCoordinator[T: _ComelitDataType](DataUpdateCoordinator[T]):
     api: ComelitHttpApi
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: ComelitConfigEntry, device: str, host: str
+        self, hass: UniversalAssistant, entry: ComelitConfigEntry, device: str, host: str
     ) -> None:
         """Initialize the scanner."""
 
@@ -157,7 +157,7 @@ class ComelitSerialBridge[T: _ComelitDataType](ComelitBaseCoordinator[T]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: ComelitConfigEntry,
         host: str,
         port: int,
@@ -202,7 +202,7 @@ class ComelitVedoSystem[T: _ComelitDataType](ComelitBaseCoordinator[T]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: ComelitConfigEntry,
         host: str,
         port: int,

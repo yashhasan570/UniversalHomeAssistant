@@ -31,12 +31,12 @@ from universalassistant.components.matter.api import (
     TYPE,
 )
 from universalassistant.components.matter.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 
 async def test_commission(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     matter_client: MagicMock,
     integration: MockConfigEntry,
@@ -72,7 +72,7 @@ async def test_commission(
 
 
 async def test_commission_on_network(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     matter_client: MagicMock,
     integration: MockConfigEntry,
@@ -108,7 +108,7 @@ async def test_commission_on_network(
 
 
 async def test_set_thread_dataset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     matter_client: MagicMock,
     integration: MockConfigEntry,
@@ -148,7 +148,7 @@ async def test_set_thread_dataset(
 
 
 async def test_set_wifi_credentials(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     matter_client: MagicMock,
     integration: MockConfigEntry,
@@ -199,7 +199,7 @@ async def test_set_wifi_credentials(
 # setup (mock) integration with a random node fixture
 @pytest.mark.parametrize("node_fixture", ["mock_onoff_light"])
 async def test_node_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     matter_client: MagicMock,
@@ -267,7 +267,7 @@ async def test_node_diagnostics(
 # setup (mock) integration with a random node fixture
 @pytest.mark.parametrize("node_fixture", ["mock_onoff_light"])
 async def test_ping_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     matter_client: MagicMock,
@@ -321,7 +321,7 @@ async def test_ping_node(
 # setup (mock) integration with a random node fixture
 @pytest.mark.parametrize("node_fixture", ["mock_onoff_light"])
 async def test_open_commissioning_window(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     matter_client: MagicMock,
@@ -381,7 +381,7 @@ async def test_open_commissioning_window(
 # setup (mock) integration with a random node fixture
 @pytest.mark.parametrize("node_fixture", ["mock_onoff_light"])
 async def test_remove_matter_fabric(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     matter_client: MagicMock,
@@ -431,7 +431,7 @@ async def test_remove_matter_fabric(
 # setup (mock) integration with a random node fixture
 @pytest.mark.parametrize("node_fixture", ["mock_onoff_light"])
 async def test_interview_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     matter_client: MagicMock,
@@ -525,7 +525,7 @@ def _expected_topology(
 @pytest.mark.usefixtures("matter_node")
 @pytest.mark.parametrize("node_fixture", ["mock_onoff_light"])
 async def test_network_topology(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     matter_client: MagicMock,
@@ -563,7 +563,7 @@ async def test_network_topology(
 )
 @pytest.mark.usefixtures("integration")
 async def test_network_topology_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     matter_client: MagicMock,
     command: str,
@@ -595,7 +595,7 @@ async def test_network_topology_not_supported(
 @pytest.mark.usefixtures("matter_node")
 @pytest.mark.parametrize("node_fixture", ["mock_onoff_light"])
 async def test_subscribe_network_topology(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     matter_client: MagicMock,
@@ -675,7 +675,7 @@ async def test_subscribe_network_topology(
 
 @pytest.mark.usefixtures("integration")
 async def test_subscribe_network_topology_fetch_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     matter_client: MagicMock,
 ) -> None:

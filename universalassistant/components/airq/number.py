@@ -9,7 +9,7 @@ from aioairq.core import AirQ
 
 from universalassistant.components.number import NumberEntity, NumberEntityDescription
 from universalassistant.const import UnitOfRatio
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -40,7 +40,7 @@ AIRQ_LED_BRIGHTNESS = AirQBrightnessDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: AirQConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

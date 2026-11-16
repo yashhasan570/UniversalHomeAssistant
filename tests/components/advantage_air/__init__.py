@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_object_f
 
 from universalassistant.components.advantage_air.const import DOMAIN
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 TEST_SYSTEM_DATA = load_json_object_fixture("getSystemData.json", DOMAIN)
 TEST_SYSTEM_DATA_NO_RID = load_json_object_fixture("getSystemDataNoRid.json", DOMAIN)
@@ -45,7 +45,7 @@ def patch_update(return_value=True, side_effect=None):
     )
 
 
-async def add_mock_config(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def add_mock_config(hass: UniversalAssistant) -> MockConfigEntry:
     """Create a fake Advantage Air Config Entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,

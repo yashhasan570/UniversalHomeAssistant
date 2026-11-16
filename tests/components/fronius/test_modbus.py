@@ -33,7 +33,7 @@ from universalassistant.components.number import (
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import MOCK_HOST, mock_responses, setup_fronius_integration
@@ -73,7 +73,7 @@ LIMITS = [
 
 
 def assert_state(
-    hass: __HAC_KEEP__, entity_id: str, expected_state: str | float
+    hass: UniversalAssistant, entity_id: str, expected_state: str | float
 ) -> None:
     """Assert the state of an entity."""
     state = hass.states.get(entity_id)
@@ -87,7 +87,7 @@ def assert_state(
     [pytest.param(True, id="float"), pytest.param(False, id="int_sf")],
 )
 async def test_gen24_storage_mppt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     device_registry: dr.DeviceRegistry,
@@ -146,7 +146,7 @@ async def test_gen24_storage_mppt(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_verto_plus_five_modules(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
 ) -> None:
@@ -204,7 +204,7 @@ async def test_verto_plus_five_modules(
     ],
 )
 async def test_hybrid_bidirectional_storage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     storage_id_str: str,
@@ -250,7 +250,7 @@ async def test_hybrid_bidirectional_storage(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_datamanager_multiple_inverters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
 ) -> None:
@@ -302,7 +302,7 @@ async def test_datamanager_multiple_inverters(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_custom_modbus_port(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     mock_modbus_unavailable: MagicMock,
@@ -324,7 +324,7 @@ async def test_custom_modbus_port(
 
 
 async def test_modbus_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -346,7 +346,7 @@ async def test_modbus_unavailable(
 
 
 async def test_no_mppt_model(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     entity_registry: er.EntityRegistry,
@@ -388,7 +388,7 @@ async def test_no_mppt_model(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_not_implemented_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     freezer: FrozenDateTimeFactory,
@@ -425,7 +425,7 @@ async def test_not_implemented_values(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_data_type_changed_at_runtime(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     freezer: FrozenDateTimeFactory,
@@ -456,7 +456,7 @@ async def test_data_type_changed_at_runtime(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_connection_lost_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     freezer: FrozenDateTimeFactory,
@@ -490,7 +490,7 @@ async def test_connection_lost_recovers(
 
 
 async def test_modbus_retried_after_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_modbus_unavailable: MagicMock,
     mock_modbus_connection: MockModbusConnection,
@@ -534,7 +534,7 @@ async def test_modbus_retried_after_setup(
 
 
 async def test_control_refused_creates_no_control_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     entity_registry: er.EntityRegistry,
@@ -567,7 +567,7 @@ async def test_control_refused_creates_no_control_entities(
 
 
 async def _setup_with_controls(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     connection: MockModbusConnection,
     auto_revert_power_limit: bool = False,
@@ -592,7 +592,7 @@ async def _setup_with_controls(
 
 
 async def _turn_on_limit(
-    hass: __HAC_KEEP__, number: str, switch: str, limit: float
+    hass: UniversalAssistant, number: str, switch: str, limit: float
 ) -> None:
     """Set a limit and put it into effect."""
     await hass.services.async_call(
@@ -609,7 +609,7 @@ async def _turn_on_limit(
     )
 
 
-async def _turn_on_power_limit(hass: __HAC_KEEP__, limit: float) -> None:
+async def _turn_on_power_limit(hass: UniversalAssistant, limit: float) -> None:
     """Set the AC power limit and put it into effect."""
     await _turn_on_limit(hass, POWER_LIMIT, POWER_LIMITING, limit)
 
@@ -622,7 +622,7 @@ def _model(config_entry: MockConfigEntry, model: str) -> Controls | Storage:
 
 @pytest.mark.parametrize(("number", "switch", "limit", "model", "enable_field"), LIMITS)
 async def test_limit_carries_the_configured_fallback_period(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     number: str,
@@ -631,7 +631,7 @@ async def test_limit_carries_the_configured_fallback_period(
     model: str,
     enable_field: str,
 ) -> None:
-    """Test the inverter is told when to revert a limit __HA_KEEP__ set."""
+    """Test the inverter is told when to revert a limit Universal Home Assistant set."""
     config_entry = await _setup_with_controls(
         hass, aioclient_mock, mock_fronius_modbus, auto_revert_power_limit=True
     )
@@ -646,7 +646,7 @@ async def test_limit_carries_the_configured_fallback_period(
 
 @pytest.mark.parametrize(("number", "switch", "limit", "model", "enable_field"), LIMITS)
 async def test_active_limit_is_sent_again_before_it_reverts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     freezer: FrozenDateTimeFactory,
@@ -677,7 +677,7 @@ async def test_active_limit_is_sent_again_before_it_reverts(
 
 
 async def test_heartbeat_leaves_a_released_limit_released(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     freezer: FrozenDateTimeFactory,
@@ -706,7 +706,7 @@ async def test_heartbeat_leaves_a_released_limit_released(
 
 
 async def test_limit_without_a_fallback_period_is_left_alone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     freezer: FrozenDateTimeFactory,
@@ -730,7 +730,7 @@ async def test_limit_without_a_fallback_period_is_left_alone(
 
 @pytest.mark.parametrize(("number", "switch", "limit", "model", "enable_field"), LIMITS)
 async def test_turning_the_setting_off_frees_a_running_limit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     freezer: FrozenDateTimeFactory,
@@ -743,7 +743,7 @@ async def test_turning_the_setting_off_frees_a_running_limit(
     """Test a limit stops reverting as soon as the setting is turned off.
 
     The inverter would otherwise keep counting down the period it was given
-    with the limit, and drop it once __HA_KEEP__ stops refreshing it.
+    with the limit, and drop it once Universal Home Assistant stops refreshing it.
     """
     config_entry = await _setup_with_controls(
         hass, aioclient_mock, mock_fronius_modbus, auto_revert_power_limit=True
@@ -771,7 +771,7 @@ async def test_turning_the_setting_off_frees_a_running_limit(
 
 
 async def test_heartbeat_stops_with_the_limit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     freezer: FrozenDateTimeFactory,
@@ -828,7 +828,7 @@ async def test_heartbeat_stops_with_the_limit(
     ],
 )
 async def test_a_failed_resend_of_the_limit_is_logged(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     freezer: FrozenDateTimeFactory,
@@ -853,7 +853,7 @@ async def test_a_failed_resend_of_the_limit_is_logged(
 
 
 async def test_unconfigured_device_is_left_alone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
 ) -> None:
@@ -876,7 +876,7 @@ async def test_unconfigured_device_is_left_alone(
 
 @pytest.mark.parametrize(("number", "switch", "limit", "model", "enable_field"), LIMITS)
 async def test_heartbeat_leaves_a_limit_released_on_the_device_released(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     freezer: FrozenDateTimeFactory,
@@ -916,7 +916,7 @@ async def test_heartbeat_leaves_a_limit_released_on_the_device_released(
     ],
 )
 async def test_controls_enabled_later_get_their_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     freezer: FrozenDateTimeFactory,
@@ -958,7 +958,7 @@ async def test_controls_enabled_later_get_their_entities(
 
 
 async def test_readings_recover_when_only_the_controls_came_up(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     freezer: FrozenDateTimeFactory,
@@ -991,7 +991,7 @@ async def test_readings_recover_when_only_the_controls_came_up(
 
 
 async def test_unloading_stops_the_heartbeat(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     freezer: FrozenDateTimeFactory,
@@ -1021,7 +1021,7 @@ async def test_unloading_stops_the_heartbeat(
 
 
 async def test_heartbeat_does_not_undo_a_write_it_overlaps(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     freezer: FrozenDateTimeFactory,
@@ -1080,7 +1080,7 @@ async def test_heartbeat_does_not_undo_a_write_it_overlaps(
 
 
 async def test_clearing_the_period_is_tried_again(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     freezer: FrozenDateTimeFactory,
@@ -1128,7 +1128,7 @@ async def test_clearing_the_period_is_tried_again(
 
 
 async def test_wrongly_registered_sensors_are_moved_over(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     entity_registry: er.EntityRegistry,
@@ -1194,7 +1194,7 @@ async def test_wrongly_registered_sensors_are_moved_over(
 
 
 async def test_battery_settings_leave_a_foreign_period_alone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
 ) -> None:
@@ -1224,7 +1224,7 @@ async def test_battery_settings_leave_a_foreign_period_alone(
 
 
 async def test_battery_writes_do_not_hold_back_the_power_limit_beat(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     freezer: FrozenDateTimeFactory,

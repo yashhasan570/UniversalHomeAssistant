@@ -17,7 +17,7 @@ from universalassistant.components.tado.const import (
 from universalassistant.components.tado.helper import decide_duration, decide_overlay_mode
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -53,7 +53,7 @@ def tado() -> Tado:
 
 
 def dummy_tado_connector(
-    hass: __HAC_KEEP__, entry: ConfigEntry, tado: Tado
+    hass: UniversalAssistant, entry: ConfigEntry, tado: Tado
 ) -> TadoDataUpdateCoordinator:
     """Return dummy tado connector."""
     return TadoDataUpdateCoordinator(hass, entry, tado)
@@ -61,7 +61,7 @@ def dummy_tado_connector(
 
 @pytest.mark.parametrize("entry", [CONST_OVERLAY_TADO_MODE], indirect=True)
 async def test_overlay_mode_duration_set(
-    hass: __HAC_KEEP__, entry: ConfigEntry, tado: Tado
+    hass: UniversalAssistant, entry: ConfigEntry, tado: Tado
 ) -> None:
     """Test overlay method selection when duration is set."""
     tado = dummy_tado_connector(hass=hass, entry=entry, tado=tado)
@@ -72,7 +72,7 @@ async def test_overlay_mode_duration_set(
 
 @pytest.mark.parametrize("entry", [CONST_OVERLAY_TADO_MODE], indirect=True)
 async def test_overlay_mode_next_time_block_fallback(
-    hass: __HAC_KEEP__, entry: ConfigEntry, tado: Tado
+    hass: UniversalAssistant, entry: ConfigEntry, tado: Tado
 ) -> None:
     """Test overlay method selection when duration is not set."""
     tado = dummy_tado_connector(hass=hass, entry=entry, tado=tado)
@@ -83,7 +83,7 @@ async def test_overlay_mode_next_time_block_fallback(
 
 @pytest.mark.parametrize("entry", [CONST_OVERLAY_TADO_DEFAULT], indirect=True)
 async def test_overlay_mode_tado_default_fallback(
-    hass: __HAC_KEEP__, entry: ConfigEntry, tado: Tado
+    hass: UniversalAssistant, entry: ConfigEntry, tado: Tado
 ) -> None:
     """Test overlay method selection when tado default is selected."""
     zone_fallback = CONST_OVERLAY_MANUAL
@@ -106,7 +106,7 @@ async def test_overlay_mode_tado_default_fallback(
 
 @pytest.mark.parametrize("entry", [CONST_OVERLAY_MANUAL], indirect=True)
 async def test_duration_enabled_without_tado_default(
-    hass: __HAC_KEEP__, entry: ConfigEntry, tado: Tado
+    hass: UniversalAssistant, entry: ConfigEntry, tado: Tado
 ) -> None:
     """Test duration decide method when overlay is timer and duration is set."""
     overlay = CONST_OVERLAY_TIMER
@@ -121,7 +121,7 @@ async def test_duration_enabled_without_tado_default(
 
 @pytest.mark.parametrize("entry", [CONST_OVERLAY_TIMER], indirect=True)
 async def test_duration_enabled_with_tado_default(
-    hass: __HAC_KEEP__, entry: ConfigEntry, tado: Tado
+    hass: UniversalAssistant, entry: ConfigEntry, tado: Tado
 ) -> None:
     """Test overlay method selection with timer overlay and None duration."""
     zone_fallback = CONST_OVERLAY_TIMER

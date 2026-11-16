@@ -13,8 +13,8 @@ from universalassistant.components.collection_image.services import (
 )
 from universalassistant.components.media_source import PlayMedia
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from .conftest import MediaSourceMocks, MediaSourceState
 from .const import DEFAULT_ENTITY_ID, MOCK_MEDIA_DIR_URI_1, MOCK_MEDIA_IMAGE_URI_2
@@ -22,7 +22,7 @@ from .helpers import directory, image
 
 
 async def _setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Set up the Collection Image integration."""
@@ -32,7 +32,7 @@ async def _setup_integration(
 
 
 async def test_shuffle_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_media_source,
 ) -> None:
@@ -55,7 +55,7 @@ async def test_shuffle_action(
 
 
 async def test_navigation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     media_source_state: MediaSourceState,
     mock_media_source: MediaSourceMocks,
@@ -178,7 +178,7 @@ async def test_navigation(
 
     # Now there are no images, go to unavailable
     media_source_state.browse_results = {MOCK_MEDIA_DIR_URI_1: directory("My pictures")}
-    with pytest.raises(__HAC_KEEP__Error, match="No image files were found"):
+    with pytest.raises(UniversalAssistantError, match="No image files were found"):
         await hass.services.async_call(
             DOMAIN,
             CollectionImageService.SELECT_NEXT,
@@ -191,7 +191,7 @@ async def test_navigation(
 
 
 async def test_first_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     media_source_state: MediaSourceState,
     mock_media_source: MediaSourceMocks,
@@ -217,7 +217,7 @@ async def test_first_unavailable(
     assert state and state.state != STATE_UNAVAILABLE
 
     media_source_state.browse_results = {MOCK_MEDIA_DIR_URI_1: directory("My pictures")}
-    with pytest.raises(__HAC_KEEP__Error, match="No image files were found"):
+    with pytest.raises(UniversalAssistantError, match="No image files were found"):
         await hass.services.async_call(
             DOMAIN,
             CollectionImageService.SELECT_FIRST,
@@ -229,7 +229,7 @@ async def test_first_unavailable(
 
 
 async def test_select_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_media_source: MediaSourceMocks,
 ) -> None:
@@ -257,7 +257,7 @@ async def test_select_image(
 
 
 async def test_select_image_invalid_media_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     media_source_state: MediaSourceState,
     mock_media_source: MediaSourceMocks,
@@ -269,7 +269,7 @@ async def test_select_image_invalid_media_type(
     )
     await _setup_integration(hass, config_entry)
 
-    with pytest.raises(__HAC_KEEP__Error, match="which is not an image"):
+    with pytest.raises(UniversalAssistantError, match="which is not an image"):
         await hass.services.async_call(
             DOMAIN,
             CollectionImageService.SELECT_IMAGE,

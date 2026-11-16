@@ -29,8 +29,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import configure_mock
@@ -43,7 +43,7 @@ from .const import DEFAULT_VIN
     ["ex30_2024", "s90_diesel_2018", "xc40_electric_2024", "xc90_petrol_2019"],
 )
 async def test_lock(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: Callable[[], Awaitable[bool]],
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -63,7 +63,7 @@ async def test_lock(
     [SERVICE_UNLOCK, SERVICE_LOCK],
 )
 async def test_unlock_lock(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
     action: str,
@@ -90,7 +90,7 @@ async def test_unlock_lock(
     [SERVICE_UNLOCK, SERVICE_LOCK],
 )
 async def test_unlock_lock_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
     action: str,
@@ -105,7 +105,7 @@ async def test_unlock_lock_error(
     entity_id = "lock.volvo_xc40_lock"
     assert hass.states.get(entity_id).state == LockState.LOCKED
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             LOCK_DOMAIN,
             action,
@@ -118,7 +118,7 @@ async def test_unlock_lock_error(
 
 @pytest.mark.usefixtures("full_model")
 async def test_unlock_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
 ) -> None:
@@ -137,7 +137,7 @@ async def test_unlock_failure(
     entity_id = "lock.volvo_xc40_lock"
     assert hass.states.get(entity_id).state == LockState.LOCKED
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.UNLOCK,
@@ -151,7 +151,7 @@ async def test_unlock_failure(
 @pytest.mark.freeze_time("2025-05-31T10:00:00+00:00")
 @pytest.mark.usefixtures("full_model")
 async def test_lock_unavailable_when_api_field_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
@@ -175,7 +175,7 @@ async def test_lock_unavailable_when_api_field_missing(
 
 @pytest.mark.usefixtures("full_model")
 async def test_ha_lock_triggers_location_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
 ) -> None:
@@ -199,7 +199,7 @@ async def test_ha_lock_triggers_location_update(
 
 @pytest.mark.usefixtures("full_model")
 async def test_ha_unlock_does_not_trigger_location_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
 ) -> None:

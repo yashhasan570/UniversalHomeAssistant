@@ -11,7 +11,7 @@ import zigpy.state
 
 from universalassistant.components.zha import api
 from universalassistant.components.zha.helpers import get_zha_gateway_proxy
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 if TYPE_CHECKING:
     from zigpy.application import ControllerApplication
@@ -25,7 +25,7 @@ def required_platform_only():
 
 
 async def test_async_get_network_settings_active(
-    hass: __HAC_KEEP__, setup_zha: Callable[..., Coroutine[None]]
+    hass: UniversalAssistant, setup_zha: Callable[..., Coroutine[None]]
 ) -> None:
     """Test reading settings with an active ZHA installation."""
     await setup_zha()
@@ -35,7 +35,7 @@ async def test_async_get_network_settings_active(
 
 
 async def test_async_get_network_settings_inactive(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_app_controller: ControllerApplication,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_async_get_network_settings_inactive(
 
 
 async def test_async_get_network_settings_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_app_controller: ControllerApplication,
 ) -> None:
@@ -83,14 +83,14 @@ async def test_async_get_network_settings_missing(
     assert settings is None
 
 
-async def test_async_get_network_settings_failure(hass: __HAC_KEEP__) -> None:
+async def test_async_get_network_settings_failure(hass: UniversalAssistant) -> None:
     """Test reading settings with no ZHA config entries and no database."""
     with pytest.raises(ValueError):
         await api.async_get_network_settings(hass)
 
 
 async def test_async_get_radio_type_active(
-    hass: __HAC_KEEP__, setup_zha: Callable[..., Coroutine[None]]
+    hass: UniversalAssistant, setup_zha: Callable[..., Coroutine[None]]
 ) -> None:
     """Test reading the radio type with an active ZHA installation."""
     await setup_zha()
@@ -100,7 +100,7 @@ async def test_async_get_radio_type_active(
 
 
 async def test_async_get_radio_path_active(
-    hass: __HAC_KEEP__, setup_zha: Callable[..., Coroutine[None]]
+    hass: UniversalAssistant, setup_zha: Callable[..., Coroutine[None]]
 ) -> None:
     """Test reading the radio path with an active ZHA installation."""
     await setup_zha()
@@ -110,7 +110,7 @@ async def test_async_get_radio_path_active(
 
 
 async def test_change_channel(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_app_controller: ControllerApplication,
 ) -> None:
@@ -122,7 +122,7 @@ async def test_change_channel(
 
 
 async def test_change_channel_auto(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_app_controller: ControllerApplication,
 ) -> None:

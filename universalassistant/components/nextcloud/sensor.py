@@ -17,7 +17,7 @@ from universalassistant.const import (
     UnitOfInformation,
     UnitOfTime,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.dt import utc_from_timestamp
 
@@ -598,7 +598,7 @@ SENSORS: Final[list[NextcloudSensorEntityDescription]] = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: NextcloudConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

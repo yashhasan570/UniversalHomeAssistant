@@ -8,7 +8,7 @@ from powersensor_local.zeroconf_devices import PowersensorZeroconfDevices
 from universalassistant.components import zeroconf
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 
@@ -21,7 +21,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: PowersensorConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: PowersensorConfigEntry) -> None:
     """Set up integration from a config entry."""
     with_solar = ROLE_SOLAR in entry.data[CFG_ROLES].values()
     vhh = VirtualHousehold(with_solar, logger=_LOGGER)
@@ -58,7 +58,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: PowersensorConfigEntry) -
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: PowersensorConfigEntry
+    hass: UniversalAssistant, entry: PowersensorConfigEntry
 ) -> None:
     """Unload a config entry."""
     # Stop events before unloading platforms: the platform's listeners are only
@@ -70,7 +70,7 @@ async def async_unload_entry(
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: PowersensorConfigEntry,
     device_entry: dr.AnyDeviceEntry,
 ) -> bool:

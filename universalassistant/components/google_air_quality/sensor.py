@@ -15,7 +15,7 @@ from universalassistant.components.sensor import (
 )
 from universalassistant.config_entries import ConfigSubentry
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE, UnitOfRatio
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
@@ -190,7 +190,7 @@ AIR_QUALITY_SENSOR_TYPES: tuple[AirQualitySensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: GoogleAirQualityConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -46,7 +46,7 @@
         "data_description": {
           "conf_calendar_title": "Details included (in parentheses) after the event summary/title can be the pickup state, the name of the next rotating category, or no details at all."
         },
-        "description": "Customize how Ridwell events appear in __HA_KEEP__."
+        "description": "Customize how Ridwell events appear in Universal Home Assistant."
       }
     }
   },

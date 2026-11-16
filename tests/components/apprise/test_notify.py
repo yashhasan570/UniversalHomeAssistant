@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from universalassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
@@ -21,7 +21,7 @@ def reset_log_level():
     logger.setLevel(orig_level)
 
 
-async def test_apprise_config_load_fail01(hass: __HAC_KEEP__) -> None:
+async def test_apprise_config_load_fail01(hass: UniversalAssistant) -> None:
     """Test apprise configuration failures 1."""
 
     config = {
@@ -39,7 +39,7 @@ async def test_apprise_config_load_fail01(hass: __HAC_KEEP__) -> None:
         assert not hass.services.has_service(NOTIFY_DOMAIN, "test")
 
 
-async def test_apprise_config_load_fail02(hass: __HAC_KEEP__) -> None:
+async def test_apprise_config_load_fail02(hass: UniversalAssistant) -> None:
     """Test apprise configuration failures 2."""
 
     config = {
@@ -63,7 +63,7 @@ async def test_apprise_config_load_fail02(hass: __HAC_KEEP__) -> None:
         assert not hass.services.has_service(NOTIFY_DOMAIN, "test")
 
 
-async def test_apprise_config_load_okay(hass: __HAC_KEEP__, tmp_path: Path) -> None:
+async def test_apprise_config_load_okay(hass: UniversalAssistant, tmp_path: Path) -> None:
     """Test apprise configuration failures."""
 
     # Test cases where our URL is invalid
@@ -81,7 +81,7 @@ async def test_apprise_config_load_okay(hass: __HAC_KEEP__, tmp_path: Path) -> N
     assert hass.services.has_service(NOTIFY_DOMAIN, "test")
 
 
-async def test_apprise_url_load_fail(hass: __HAC_KEEP__) -> None:
+async def test_apprise_url_load_fail(hass: UniversalAssistant) -> None:
     """Test apprise url failure."""
 
     config = {
@@ -102,7 +102,7 @@ async def test_apprise_url_load_fail(hass: __HAC_KEEP__) -> None:
         assert not hass.services.has_service(NOTIFY_DOMAIN, "test")
 
 
-async def test_apprise_notification(hass: __HAC_KEEP__) -> None:
+async def test_apprise_notification(hass: UniversalAssistant) -> None:
     """Test apprise notification."""
 
     config = {
@@ -140,7 +140,7 @@ async def test_apprise_notification(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_apprise_multiple_notification(hass: __HAC_KEEP__) -> None:
+async def test_apprise_multiple_notification(hass: UniversalAssistant) -> None:
     """Test apprise notification."""
 
     config = {
@@ -182,7 +182,7 @@ async def test_apprise_multiple_notification(hass: __HAC_KEEP__) -> None:
 
 
 async def test_apprise_notification_with_target(
-    hass: __HAC_KEEP__, tmp_path: Path
+    hass: UniversalAssistant, tmp_path: Path
 ) -> None:
     """Test apprise notification with a target."""
 

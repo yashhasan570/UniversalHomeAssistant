@@ -12,7 +12,7 @@ import probatio
 from universalassistant.components.conversation import DOMAIN as CONVERSATION_DOMAIN
 from universalassistant.components.universalassistant import async_should_expose
 from universalassistant.components.llm import LLMTools
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import (
     area_registry as ar,
     config_validation as cv,
@@ -55,7 +55,7 @@ TIMER_INTENTS = {
 
 INTENT_TITLES = LLM_INTENTS | TIMER_INTENTS
 
-# Every intent here acts on __HA_KEEP__'s own entities and timers, so none
+# Every intent here acts on Universal Home Assistant's own entities and timers, so none
 # of them reaches an open world.
 _CONTROL = ToolAnnotations(idempotent=True, open_world=False)
 _REPEATS = ToolAnnotations(open_world=False)
@@ -114,7 +114,7 @@ class ScheduleCommandTool(Tool):
 
     @override
     async def async_call(
-        self, hass: __HAC_KEEP__, tool_input: ToolInput, llm_context: LLMContext
+        self, hass: UniversalAssistant, tool_input: ToolInput, llm_context: LLMContext
     ) -> ToolResult:
         """Start a timer that runs the command when it finishes."""
         data = self.parameters(tool_input.tool_args)
@@ -133,7 +133,7 @@ class ScheduleCommandTool(Tool):
 
 
 DEVICE_CONTROL_TOOL_USAGE_PROMPT = (
-    "When controlling __HA_KEEP__ always call the intent tools. "
+    "When controlling Universal Home Assistant always call the intent tools. "
     "Use intent__HassTurnOn to lock and intent__HassTurnOff to unlock a lock. "
     "When controlling a device, prefer passing just name and domain. "
     "When controlling an area, prefer passing just area name and domain."
@@ -142,7 +142,7 @@ DEVICE_CONTROL_TOOL_USAGE_PROMPT = (
 
 @callback
 def async_get_tools(
-    hass: __HAC_KEEP__, llm_context: LLMContext, api_id: str
+    hass: UniversalAssistant, llm_context: LLMContext, api_id: str
 ) -> LLMTools | None:
     """Return the generic intent tools and the device control prompt."""
     if api_id != LLM_API_ASSIST:

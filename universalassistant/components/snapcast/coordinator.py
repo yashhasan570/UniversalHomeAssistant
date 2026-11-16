@@ -7,7 +7,7 @@ from snapcast.control.server import Snapserver
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 _LOGGER = logging.getLogger(__name__)
@@ -20,7 +20,7 @@ class SnapcastUpdateCoordinator(DataUpdateCoordinator[None]):
 
     config_entry: SnapcastConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: SnapcastConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: SnapcastConfigEntry) -> None:
         """Initialize coordinator."""
         host = config_entry.data[CONF_HOST]
         port = config_entry.data[CONF_PORT]

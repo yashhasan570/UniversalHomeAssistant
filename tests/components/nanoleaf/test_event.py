@@ -7,7 +7,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
@@ -24,7 +24,7 @@ from . import setup_integration
     ],
 )
 async def test_touch_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -48,7 +48,7 @@ async def test_touch_events(
 
 
 async def test_unknown_touch_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,

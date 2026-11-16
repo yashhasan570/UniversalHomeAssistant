@@ -6,7 +6,7 @@ import logging
 import sys
 from types import ModuleType
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.async_ import wait_shared_future
 from universalassistant.util.hass_dict import HassKey
 
@@ -25,7 +25,7 @@ def _get_module(cache: dict[str, ModuleType], name: str) -> ModuleType:
     return cache[name]
 
 
-async def async_import_module(hass: __HAC_KEEP__, name: str) -> ModuleType:
+async def async_import_module(hass: UniversalAssistant, name: str) -> ModuleType:
     """Import a module or return it from the cache."""
     cache = hass.data.setdefault(DATA_IMPORT_CACHE, {})
     if module := cache.get(name):

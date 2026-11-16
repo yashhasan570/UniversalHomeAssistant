@@ -24,9 +24,9 @@ from universalassistant.components.climate import (
 )
 from universalassistant.components.tesla_fleet.coordinator import VEHICLE_INTERVAL
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     ServiceNotSupported,
     ServiceValidationError,
 )
@@ -45,7 +45,7 @@ from .const import (
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_climate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     normal_config_entry: MockConfigEntry,
@@ -57,7 +57,7 @@ async def test_climate(
 
 
 async def test_climate_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     normal_config_entry: MockConfigEntry,
@@ -129,7 +129,7 @@ async def test_climate_services(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_climate_overheat_protection_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     normal_config_entry: MockConfigEntry,
@@ -217,7 +217,7 @@ async def test_climate_overheat_protection_services(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_climate_alt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_vehicle_data: AsyncMock,
@@ -232,7 +232,7 @@ async def test_climate_alt(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_climate_offline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_vehicle_data: AsyncMock,
@@ -246,7 +246,7 @@ async def test_climate_offline(
 
 
 async def test_invalid_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     normal_config_entry: MockConfigEntry,
 ) -> None:
     """Tests service error is handled."""
@@ -260,7 +260,7 @@ async def test_invalid_error(
             side_effect=InvalidCommand,
         ) as mock_on,
         pytest.raises(
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             match="Command failed: The data request or command is unknown.",
         ),
     ):
@@ -275,7 +275,7 @@ async def test_invalid_error(
 
 @pytest.mark.parametrize("response", COMMAND_ERRORS)
 async def test_errors(
-    hass: __HAC_KEEP__, response: str, normal_config_entry: MockConfigEntry
+    hass: UniversalAssistant, response: str, normal_config_entry: MockConfigEntry
 ) -> None:
     """Tests service reason is handled."""
 
@@ -287,7 +287,7 @@ async def test_errors(
             "tesla_fleet_api.tesla.VehicleFleet.auto_conditioning_start",
             return_value=response,
         ) as mock_on,
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
@@ -299,7 +299,7 @@ async def test_errors(
 
 
 async def test_ignored_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     normal_config_entry: MockConfigEntry,
 ) -> None:
     """Tests ignored error is handled."""
@@ -321,7 +321,7 @@ async def test_ignored_error(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_asleep_or_offline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vehicle_data: AsyncMock,
     mock_wake_up: AsyncMock,
     mock_vehicle_state: AsyncMock,
@@ -347,7 +347,7 @@ async def test_asleep_or_offline(
     # Run a command but fail trying to wake up the vehicle
     mock_wake_up.side_effect = InvalidCommand
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Failed to wake up vehicle",
     ):
         await hass.services.async_call(
@@ -366,7 +366,7 @@ async def test_asleep_or_offline(
     mock_vehicle_state.return_value = VEHICLE_ASLEEP
     with (
         patch("universalassistant.components.tesla_fleet.helpers.asyncio.sleep"),
-        pytest.raises(__HAC_KEEP__Error, match="Could not wake up vehicle"),
+        pytest.raises(UniversalAssistantError, match="Could not wake up vehicle"),
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
@@ -391,7 +391,7 @@ async def test_asleep_or_offline(
 
 
 async def test_climate_noscope(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     readonly_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -433,7 +433,7 @@ async def test_climate_noscope(
     ],
 )
 async def test_climate_notemp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     normal_config_entry: MockConfigEntry,
     entity_id: str,
     high: int,

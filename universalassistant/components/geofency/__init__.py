@@ -8,7 +8,7 @@ import probatio
 from universalassistant.components import webhook
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import ATTR_NAME, CONF_WEBHOOK_ID, STATE_NOT_HOME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_entry_flow, config_validation as cv
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.typing import ConfigType
@@ -76,7 +76,7 @@ WEBHOOK_SCHEMA = probatio.Schema(
 _DATA_GEOFENCY: HassKey[list[str]] = HassKey(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, hass_config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, hass_config: ConfigType) -> bool:
     """Set up the Geofency component."""
     mobile_beacons = hass_config.get(DOMAIN, {}).get(CONF_MOBILE_BEACONS, [])
     hass.data[_DATA_GEOFENCY] = [slugify(beacon) for beacon in mobile_beacons]
@@ -84,7 +84,7 @@ async def async_setup(hass: __HAC_KEEP__, hass_config: ConfigType) -> bool:
 
 
 async def handle_webhook(
-    hass: __HAC_KEEP__, webhook_id: str, request: web.Request
+    hass: UniversalAssistant, webhook_id: str, request: web.Request
 ) -> web.Response:
     """Handle incoming webhook from Geofency."""
     try:
@@ -135,7 +135,7 @@ def _set_location(hass, data, location_name):
     return web.Response(text=f"Setting location for {device}")
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: GeofencyConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: GeofencyConfigEntry) -> None:
     """Configure based on config entry."""
     entry.runtime_data = set()
     webhook.async_register(
@@ -145,7 +145,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: GeofencyConfigEntry) -> N
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: GeofencyConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: GeofencyConfigEntry) -> None:
     """Unload a config entry."""
     webhook.async_unregister(hass, entry.data[CONF_WEBHOOK_ID])
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

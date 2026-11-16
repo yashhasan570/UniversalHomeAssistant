@@ -47,8 +47,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -61,7 +61,7 @@ pytestmark = [
 
 
 async def test_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -80,7 +80,7 @@ async def test_update(
 
 
 async def test_up_to_date(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_firmware_catalog: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -101,7 +101,7 @@ async def test_up_to_date(
 
 
 async def test_elgato_ships_nothing_for_this_board(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_firmware_catalog: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -120,7 +120,7 @@ async def test_elgato_ships_nothing_for_this_board(
 
 
 async def test_install(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_elgato: MagicMock,
     mock_firmware_catalog: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -190,14 +190,14 @@ async def test_install(
 
 
 async def test_install_that_never_comes_back(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_elgato: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test a device that takes the firmware and never reports it.
 
     Without a way out, the entity would sit there saying it is installing
-    for as long as __HA_KEEP__ runs.
+    for as long as Universal Home Assistant runs.
     """
     await hass.services.async_call(
         UPDATE_DOMAIN,
@@ -218,7 +218,7 @@ async def test_install_that_never_comes_back(
 
 
 async def test_install_on_a_device_that_stays_away(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_elgato: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -244,7 +244,7 @@ async def test_install_on_a_device_that_stays_away(
 
 
 async def test_a_second_install_is_turned_away(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_elgato: MagicMock,
 ) -> None:
     """Test two installs at once do not both reach the device."""
@@ -268,12 +268,12 @@ async def test_a_second_install_is_turned_away(
         return_exceptions=True,
     )
 
-    assert sum(isinstance(result, __HAC_KEEP__Error) for result in results) == 1
+    assert sum(isinstance(result, UniversalAssistantError) for result in results) == 1
     assert mock_elgato.update_firmware.call_count == 1
 
 
 async def test_catalog_refresh_during_an_install(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_elgato: MagicMock,
     mock_firmware_catalog: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -311,7 +311,7 @@ async def test_catalog_refresh_during_an_install(
 
 
 async def test_download_does_not_hold_the_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_elgato: MagicMock,
     mock_firmware_catalog: MagicMock,
 ) -> None:
@@ -354,7 +354,7 @@ async def test_download_does_not_hold_the_device(
 
 
 async def test_device_page_follows_the_firmware(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_elgato: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -392,14 +392,14 @@ async def test_device_page_follows_the_firmware(
 
 
 async def test_install_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_elgato: MagicMock,
 ) -> None:
     """Test a device refusing the firmware it was handed."""
     mock_elgato.update_firmware.side_effect = ElgatoError
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="An unknown error occurred while communicating with the Elgato device",
     ):
         await hass.services.async_call(
@@ -418,7 +418,7 @@ async def test_install_error(
     [ElgatoConnectionError, ElgatoError],
 )
 async def test_elgato_unreachable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_firmware_catalog: MagicMock,
     freezer: FrozenDateTimeFactory,
     side_effect: type[Exception],
@@ -457,7 +457,7 @@ async def test_elgato_unreachable(
     ],
 )
 async def test_download_failure_leaves_the_light_alone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_elgato: MagicMock,
     mock_firmware_catalog: MagicMock,
     side_effect: type[Exception],
@@ -471,7 +471,7 @@ async def test_download_failure_leaves_the_light_alone(
     """
     mock_firmware_catalog.download.side_effect = side_effect
 
-    with pytest.raises(__HAC_KEEP__Error, match=message):
+    with pytest.raises(UniversalAssistantError, match=message):
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -489,7 +489,7 @@ async def test_download_failure_leaves_the_light_alone(
 
 
 async def test_install_rejected_by_the_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_elgato: MagicMock,
 ) -> None:
     """Test a device turning the firmware away for a reason worth reading."""
@@ -497,7 +497,7 @@ async def test_install_rejected_by_the_device(
         "Battery is at 11%, connect the device to power before updating its firmware"
     )
 
-    with pytest.raises(__HAC_KEEP__Error, match="Battery is at 11%"):
+    with pytest.raises(UniversalAssistantError, match="Battery is at 11%"):
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -507,7 +507,7 @@ async def test_install_rejected_by_the_device(
 
 
 async def test_install_keeps_the_device_to_itself(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_elgato: MagicMock,
 ) -> None:
     """Test a poll cannot land in the middle of an install.
@@ -557,7 +557,7 @@ async def test_install_keeps_the_device_to_itself(
 
 
 async def test_manual_update_check(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_firmware_catalog: MagicMock,
 ) -> None:
     """Test asking for an update check reaches Elgato.
@@ -579,7 +579,7 @@ async def test_manual_update_check(
 
 
 async def test_install_keeps_the_device_from_everyone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_elgato: MagicMock,
 ) -> None:
     """Test a light command cannot land in the middle of an install either.
@@ -623,7 +623,7 @@ async def test_install_keeps_the_device_from_everyone(
 
 
 async def test_one_catalog_for_every_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_firmware_catalog: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

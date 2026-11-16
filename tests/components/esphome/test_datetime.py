@@ -10,13 +10,13 @@ from universalassistant.components.datetime import (
     SERVICE_SET_VALUE,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import MockGenericDeviceEntryType
 
 
 async def test_generic_datetime_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -54,7 +54,7 @@ async def test_generic_datetime_entity(
 
 
 async def test_generic_datetime_missing_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:

@@ -8,10 +8,10 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.fritzbox_callmonitor.const import CONF_PHONEBOOK, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def test_setup_insufficient_permissions(hass: __HAC_KEEP__) -> None:
+async def test_setup_insufficient_permissions(hass: UniversalAssistant) -> None:
     """Test setup fails when the user lacks permissions."""
     entry = MockConfigEntry(
         domain=DOMAIN,

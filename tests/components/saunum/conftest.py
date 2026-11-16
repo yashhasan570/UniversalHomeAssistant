@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.saunum.const import DOMAIN
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture(autouse=True)
@@ -90,7 +90,7 @@ def mock_saunum_client(mock_saunum_client_class: MagicMock) -> MagicMock:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_saunum_client: MagicMock,
     platforms: list[Platform],

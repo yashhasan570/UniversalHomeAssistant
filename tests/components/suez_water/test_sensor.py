@@ -16,14 +16,14 @@ from universalassistant.components.suez_water.const import DATA_REFRESH_INTERVAL
 from universalassistant.components.suez_water.coordinator import PySuezError
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_sensors_valid_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     suez_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -52,7 +52,7 @@ async def test_sensors_valid_state(
     ],
 )
 async def test_sensors_failed_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     suez_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

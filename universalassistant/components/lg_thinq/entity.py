@@ -10,7 +10,7 @@ from thinqconnect.devices.const import Location
 from thinqconnect.integration import PropertyState
 
 from universalassistant.core import callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.entity import EntityDescription
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -122,7 +122,7 @@ class ThinQEntity(CoordinatorEntity[DeviceDataUpdateCoordinator]):
         except (TimeoutError, ClientError) as exc:
             if on_fail_method:
                 on_fail_method()
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="connection_error",
             ) from exc

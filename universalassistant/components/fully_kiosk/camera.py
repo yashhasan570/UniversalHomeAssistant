@@ -5,8 +5,8 @@ from typing import override
 from fullykiosk import FullyKioskError
 
 from universalassistant.components.camera import Camera, CameraEntityFeature
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import FullyKioskConfigEntry, FullyKioskDataUpdateCoordinator
@@ -14,7 +14,7 @@ from .entity import FullyKioskEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FullyKioskConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -44,7 +44,7 @@ class FullyCameraEntity(FullyKioskEntity, Camera):
         try:
             image_bytes: bytes = await self.coordinator.fully.getCamshot()
         except FullyKioskError as err:
-            raise __HAC_KEEP__Error(err) from err
+            raise UniversalAssistantError(err) from err
         else:
             return image_bytes
 

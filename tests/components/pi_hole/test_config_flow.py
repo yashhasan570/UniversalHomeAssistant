@@ -18,7 +18,7 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
@@ -46,7 +46,7 @@ def _patch_valid_hole() -> Generator[None]:
         yield
 
 
-async def test_flow_user_with_api_key_v6(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_with_api_key_v6(hass: UniversalAssistant) -> None:
     """Test user initialized flow with api key needed."""
     mocked_hole = _create_mocked_hole(has_data=False, api_version=6)
     with (
@@ -97,7 +97,7 @@ async def test_flow_user_with_api_key_v6(hass: __HAC_KEEP__) -> None:
         assert result["reason"] == "already_configured"
 
 
-async def test_flow_user_with_api_key_v5(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_with_api_key_v5(hass: UniversalAssistant) -> None:
     """Test user initialized flow with api key needed."""
     mocked_hole = _create_mocked_hole(api_version=5)
     with (
@@ -153,7 +153,7 @@ async def test_flow_user_with_api_key_v5(hass: __HAC_KEEP__) -> None:
         assert result["reason"] == "already_configured"
 
 
-async def test_flow_user_invalid(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_invalid(hass: UniversalAssistant) -> None:
     """Test user initialized flow with completely invalid server."""
     mocked_hole = _create_mocked_hole(raise_exception=True)
     with _patch_config_flow_hole(mocked_hole), _patch_init_hole(mocked_hole):
@@ -180,7 +180,7 @@ async def test_flow_user_invalid(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_user_invalid_v6(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_invalid_v6(hass: UniversalAssistant) -> None:
     """Test user flow with invalid server (V6 API, wrong password)."""
     mocked_hole = _create_mocked_hole(
         has_data=True, api_version=6, incorrect_app_password=True
@@ -209,7 +209,7 @@ async def test_flow_user_invalid_v6(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_reauth(hass: __HAC_KEEP__) -> None:
+async def test_flow_reauth(hass: UniversalAssistant) -> None:
     """Test reauth flow."""
     mocked_hole = _create_mocked_hole(has_data=False, api_version=5)
     entry = MockConfigEntry(
@@ -237,7 +237,7 @@ async def test_flow_reauth(hass: __HAC_KEEP__) -> None:
         assert entry.data[CONF_API_KEY] == "newkey"
 
 
-async def test_flow_user_invalid_host(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_invalid_host(hass: UniversalAssistant) -> None:
     """Test user initialized flow with invalid server host address."""
     mocked_hole = _create_mocked_hole(api_version=6, wrong_host=True)
     with _patch_config_flow_hole(mocked_hole), _patch_init_hole(mocked_hole):
@@ -264,7 +264,7 @@ async def test_flow_user_invalid_host(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_error_response(hass: __HAC_KEEP__) -> None:
+async def test_flow_error_response(hass: UniversalAssistant) -> None:
     """Test user initialized flow but dataotherbase errors occur."""
     mocked_hole = _create_mocked_hole(api_version=5, ftl_error=True, has_data=False)
     with _patch_config_flow_hole(mocked_hole), _patch_init_hole(mocked_hole):
@@ -292,7 +292,7 @@ async def test_flow_error_response(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_reconfigure_flow(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_flow(hass: UniversalAssistant) -> None:
     """Test reconfiguring the Pi-hole connection."""
     entry = MockConfigEntry(domain=DOMAIN, data=CONFIG_ENTRY_WITH_API_KEY)
     entry.add_to_hass(hass)
@@ -347,7 +347,7 @@ async def test_reconfigure_flow(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_reconfigure_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hole_kwargs: dict[str, Any],
     expected_errors: dict[str, str],
 ) -> None:
@@ -377,7 +377,7 @@ async def test_reconfigure_flow_errors(
     assert entry.data == CONFIG_ENTRY_WITH_API_KEY
 
 
-async def test_reconfigure_flow_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_flow_already_configured(hass: UniversalAssistant) -> None:
     """Test reconfiguring to the host and location of another entry aborts."""
     MockConfigEntry(domain=DOMAIN, data=CONFIG_ENTRY_WITH_API_KEY).add_to_hass(hass)
     entry = MockConfigEntry(
@@ -405,7 +405,7 @@ async def test_reconfigure_flow_already_configured(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_reconfigure_flow_host_without_port(
-    hass: __HAC_KEEP__, use_ssl: bool, port: int
+    hass: UniversalAssistant, use_ssl: bool, port: int
 ) -> None:
     """Test the reconfigure form for an entry whose host has no port."""
     entry = MockConfigEntry(

@@ -17,7 +17,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.hortimax.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -26,7 +26,7 @@ from .conftest import DEVICE, DEVICE_LABEL, load_readouts
 
 @pytest.mark.usefixtures("mock_hortos_client")
 async def test_load_and_unload(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the entry loads and unloads cleanly."""
     await setup_integration(hass, mock_config_entry)
@@ -38,7 +38,7 @@ async def test_load_and_unload(
 
 
 async def test_connection_error_retries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hortos_client: AsyncMock,
 ) -> None:
@@ -51,7 +51,7 @@ async def test_connection_error_retries(
 
 
 async def test_no_controllers_still_loads(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hortos_client: AsyncMock,
 ) -> None:
@@ -69,7 +69,7 @@ async def test_no_controllers_still_loads(
 
 
 async def test_new_controller_is_added(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hortos_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -134,7 +134,7 @@ async def test_new_controller_is_added(
 
 
 async def test_auth_error_sets_error_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hortos_client: AsyncMock,
 ) -> None:
@@ -147,7 +147,7 @@ async def test_auth_error_sets_error_state(
 
 
 async def test_readout_auth_error_sets_error_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hortos_client: AsyncMock,
 ) -> None:
@@ -162,7 +162,7 @@ async def test_readout_auth_error_sets_error_state(
 
 
 async def test_failed_poll_registers_no_controller(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hortos_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -187,7 +187,7 @@ async def test_failed_poll_registers_no_controller(
 
 @pytest.mark.usefixtures("mock_hortos_client")
 async def test_renamed_source_follows(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hortos_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -224,7 +224,7 @@ async def test_renamed_source_follows(
 
 @pytest.mark.usefixtures("mock_hortos_client")
 async def test_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:

@@ -20,13 +20,13 @@ from universalassistant.components.fritz.const import (
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import MOCK_USER_DATA
 
 
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fc_class_mock,
     fh_class_mock,
     fs_class_mock,
@@ -45,7 +45,7 @@ async def test_setup(
 
 
 async def test_options_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fc_class_mock,
     fh_class_mock,
     fs_class_mock,
@@ -80,7 +80,7 @@ async def test_options_reload(
     "error",
     FRITZ_AUTH_EXCEPTIONS,
 )
-async def test_setup_auth_fail(hass: __HAC_KEEP__, error) -> None:
+async def test_setup_auth_fail(hass: UniversalAssistant, error) -> None:
     """Test starting a flow by user with an already configured device."""
 
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_USER_DATA)
@@ -100,7 +100,7 @@ async def test_setup_auth_fail(hass: __HAC_KEEP__, error) -> None:
     "error",
     FRITZ_EXCEPTIONS,
 )
-async def test_setup_fail(hass: __HAC_KEEP__, error) -> None:
+async def test_setup_fail(hass: UniversalAssistant, error) -> None:
     """Test starting a flow by user with an already configured device."""
 
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_USER_DATA)
@@ -118,7 +118,7 @@ async def test_setup_fail(hass: __HAC_KEEP__, error) -> None:
     assert entry.error_reason_translation_key == "error_connecting"
 
 
-async def test_setup_fail_parse_error(hass: __HAC_KEEP__, fc_class_mock) -> None:
+async def test_setup_fail_parse_error(hass: UniversalAssistant, fc_class_mock) -> None:
     """Test setup failure due to parse error while fetching device data."""
 
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_USER_DATA)
@@ -145,7 +145,7 @@ async def test_setup_fail_parse_error(hass: __HAC_KEEP__, fc_class_mock) -> None
     ],
 )
 async def test_upnp_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fc_class_mock,
     fh_class_mock,
     fs_class_mock,
@@ -171,13 +171,13 @@ async def test_upnp_missing(
 
 
 async def test_execute_action_while_shutdown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     fc_class_mock,
     fh_class_mock,
     fs_class_mock,
 ) -> None:
-    """Test Fritz!Tools actions executed during shutdown of __HAC_KEEP__."""
+    """Test Fritz!Tools actions executed during shutdown of UniversalAssistant."""
 
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_USER_DATA)
     entry.add_to_hass(hass)
@@ -195,5 +195,5 @@ async def test_execute_action_while_shutdown(
     )
 
     assert re.search(
-        r"Cannot execute (.+): __HAC_KEEP__ is shutting down", caplog.text
+        r"Cannot execute (.+): UniversalAssistant is shutting down", caplog.text
     )

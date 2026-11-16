@@ -1,4 +1,4 @@
-"""Map Matter Nodes and Attributes to __HA_KEEP__ entities."""
+"""Map Matter Nodes and Attributes to Universal Home Assistant entities."""
 
 from collections.abc import Generator
 

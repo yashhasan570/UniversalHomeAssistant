@@ -10,13 +10,13 @@ from python_snoo.containers import SnooData
 from universalassistant.components.snoo.const import DOMAIN
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 def create_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> MockConfigEntry:
-    """Add config entry in __HA_KEEP__."""
+    """Add config entry in Universal Home Assistant."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         title="test-username",
@@ -32,8 +32,8 @@ def create_entry(
     return entry
 
 
-async def async_init_integration(hass: __HAC_KEEP__) -> ConfigEntry:
-    """Set up the Snoo integration in __HA_KEEP__."""
+async def async_init_integration(hass: UniversalAssistant) -> ConfigEntry:
+    """Set up the Snoo integration in Universal Home Assistant."""
 
     entry = create_entry(hass)
 

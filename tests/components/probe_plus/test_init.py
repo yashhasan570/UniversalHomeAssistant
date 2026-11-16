@@ -8,13 +8,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.probe_plus.const import DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
 @pytest.mark.usefixtures("mock_probe_plus")
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test loading and unloading the config entry."""
@@ -75,7 +75,7 @@ async def test_load_unload_config_entry(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_migrate_entity_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     legacy_unique_id: str,
     expected_unique_id: str,
@@ -109,7 +109,7 @@ async def test_migrate_entity_unique_id(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_migrate_entry_no_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test migration when unique_id is None."""
     entry = MockConfigEntry(
@@ -131,7 +131,7 @@ async def test_migrate_entry_no_unique_id(
 
 
 async def test_migrate_entry_future_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test migration fails for future major version."""
     entry = MockConfigEntry(

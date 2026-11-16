@@ -7,7 +7,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import OpenEVSEConfigEntry
 
@@ -71,7 +71,7 @@ def _to_json_safe(val: Any) -> Any:
 
 
 async def async_get_config_entry_diagnostics(
-    _hass: __HAC_KEEP__, config_entry: OpenEVSEConfigEntry
+    _hass: UniversalAssistant, config_entry: OpenEVSEConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = config_entry.runtime_data

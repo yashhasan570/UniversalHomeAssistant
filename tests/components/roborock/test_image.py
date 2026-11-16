@@ -17,7 +17,7 @@ from roborock.devices.traits.v1.map_content import MapContent
 from universalassistant.components.roborock.const import V1_LOCAL_NOT_CLEANING_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from .conftest import FakeDevice, make_home_trait
@@ -40,7 +40,7 @@ def platforms() -> list[Platform]:
 
 
 async def test_floorplan_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
     fake_devices: list[FakeDevice],
@@ -91,7 +91,7 @@ async def test_floorplan_image(
 
 
 async def test_fail_updating_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
     fake_vacuum: FakeDevice,
@@ -126,7 +126,7 @@ async def test_fail_updating_image(
 
 
 async def test_map_status_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
     fake_vacuum: FakeDevice,
@@ -201,7 +201,7 @@ async def test_map_status_change(
     ],
 )
 async def test_image_entity_naming(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_roborock_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
@@ -230,7 +230,7 @@ async def test_image_entity_naming(
 
 
 async def test_q10_map_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
     fake_q10_vacuum: FakeDevice,
@@ -279,7 +279,7 @@ async def test_q10_map_image(
 
 
 async def test_q7_map_image_push_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
     fake_devices: list[FakeDevice],
@@ -310,7 +310,7 @@ async def test_q7_map_image_push_update(
 
 
 async def test_map_load_delayed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
 ) -> None:
@@ -394,7 +394,7 @@ async def test_map_load_delayed(
 
 
 async def test_q7_map_image_coordinator_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
     fake_q7_vacuum: FakeDevice,
@@ -455,7 +455,7 @@ async def test_q7_map_image_coordinator_update(
 
 
 async def test_q7_map_initial_fetch_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
     fake_q7_vacuum: FakeDevice,
     caplog: pytest.LogCaptureFixture,

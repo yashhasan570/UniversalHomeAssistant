@@ -12,8 +12,8 @@ from universalassistant.components.notify import (
     ATTR_TITLE_DEFAULT,
     BaseNotificationService,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.os_error import os_read_error
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -38,7 +38,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_get_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> PushoverNotificationService | None:
@@ -61,7 +61,7 @@ class PushoverNotificationService(BaseNotificationService):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         pushover: PushoverAPI,
         user_key: str,
         entry_id: str,
@@ -132,7 +132,7 @@ class PushoverNotificationService(BaseNotificationService):
                 ttl=ttl,
             )
         except BadAPIRequestError as err:
-            raise __HAC_KEEP__Error(str(err)) from err
+            raise UniversalAssistantError(str(err)) from err
 
         # Only track receipts for tagged messages. Untagged priority-2 messages
         # are intentionally not tracked: they cannot be cancelled programmatically

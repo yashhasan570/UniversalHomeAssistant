@@ -12,8 +12,8 @@ from universalassistant.components.vacuum import (
     VacuumActivity,
     VacuumEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 from universalassistant.util.unit_system import METRIC_SYSTEM
@@ -86,7 +86,7 @@ SUPPORT_BRAAVA = SUPPORT_IROBOT | VacuumEntityFeature.FAN_SPEED
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: RoombaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -271,7 +271,7 @@ class IRobotVacuum(IRobotEntity, StateVacuumEntity):
                 translation_placeholders={"command": command},
             ) from err
         except RoombaConnectionError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="not_connected"
             ) from err
 
@@ -280,7 +280,7 @@ class IRobotVacuum(IRobotEntity, StateVacuumEntity):
         try:
             await self.vacuum.set_preference(preference, setting)
         except RoombaConnectionError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="not_connected"
             ) from err
 

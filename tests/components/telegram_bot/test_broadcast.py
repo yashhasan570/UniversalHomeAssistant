@@ -5,11 +5,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.telegram_bot.bot import TelegramBotConfigEntry
 from universalassistant.components.telegram_bot.const import DEFAULT_TIMEOUT_SECONDS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:

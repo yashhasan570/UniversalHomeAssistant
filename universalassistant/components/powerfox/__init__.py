@@ -11,7 +11,7 @@ from powerfox import (
 )
 
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -25,7 +25,7 @@ from .coordinator import (
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: PowerfoxConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: PowerfoxConfigEntry) -> None:
     """Set up Powerfox from a config entry."""
     client = Powerfox(
         username=entry.data[CONF_EMAIL],
@@ -77,6 +77,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: PowerfoxConfigEntry) -> N
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: PowerfoxConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: PowerfoxConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

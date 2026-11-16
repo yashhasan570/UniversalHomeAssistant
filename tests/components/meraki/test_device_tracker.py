@@ -15,13 +15,13 @@ from universalassistant.components.meraki.device_tracker import (
     URL,
 )
 from universalassistant.const import CONF_PLATFORM
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture
 async def meraki_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
 ) -> TestClient:
     """Meraki mock client."""
@@ -89,7 +89,7 @@ async def test_invalid_or_missing_data(
 
 
 async def test_data_will_be_saved(
-    mock_device_tracker_conf: list[legacy.Device], hass: __HAC_KEEP__, meraki_client
+    mock_device_tracker_conf: list[legacy.Device], hass: UniversalAssistant, meraki_client
 ) -> None:
     """Test with valid data."""
     data = {

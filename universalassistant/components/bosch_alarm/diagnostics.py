@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONF_INSTALLER_CODE, CONF_USER_CODE
 from .types import BoschAlarmConfigEntry
@@ -13,7 +13,7 @@ TO_REDACT = [CONF_INSTALLER_CODE, CONF_USER_CODE, CONF_PASSWORD]
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: BoschAlarmConfigEntry
+    hass: UniversalAssistant, entry: BoschAlarmConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
 

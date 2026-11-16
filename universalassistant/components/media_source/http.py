@@ -16,13 +16,13 @@ from universalassistant.components.media_player import (
     async_process_play_media_url,
 )
 from universalassistant.components.websocket_api import ActiveConnection
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .error import Unresolvable
 from .helper import async_browse_media, async_resolve_media, async_search_media
 
 
-def async_setup(hass: __HAC_KEEP__) -> None:
+def async_setup(hass: UniversalAssistant) -> None:
     """Set up the HTTP views and WebSocket commands for media sources."""
     websocket_api.async_register_command(hass, websocket_browse_media)
     websocket_api.async_register_command(hass, websocket_search_media)
@@ -40,7 +40,7 @@ def async_setup(hass: __HAC_KEEP__) -> None:
 )
 @websocket_api.async_response
 async def websocket_browse_media(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Browse available media."""
     try:
@@ -63,7 +63,7 @@ async def websocket_browse_media(
 )
 @websocket_api.async_response
 async def websocket_search_media(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Search available media."""
     try:
@@ -91,7 +91,7 @@ async def websocket_search_media(
 )
 @websocket_api.async_response
 async def websocket_resolve_media(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Resolve media."""
     try:

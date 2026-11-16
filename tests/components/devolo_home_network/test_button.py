@@ -10,8 +10,8 @@ from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, Button
 from universalassistant.components.devolo_home_network.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import configure_integration
@@ -20,7 +20,7 @@ from .mock import MockDevice
 
 @pytest.mark.usefixtures("mock_device")
 async def test_button_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test default setup of the button component."""
@@ -71,7 +71,7 @@ async def test_button_setup(
 )
 @pytest.mark.freeze_time("2023-01-13 12:00:00+00:00")
 async def test_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: MockDevice,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -106,7 +106,7 @@ async def test_button(
     # Emulate device failure
     setattr(api, trigger_method, AsyncMock())
     getattr(api, trigger_method).side_effect = DeviceUnavailable
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -115,7 +115,7 @@ async def test_button(
         )
 
 
-async def test_auth_failed(hass: __HAC_KEEP__, mock_device: MockDevice) -> None:
+async def test_auth_failed(hass: UniversalAssistant, mock_device: MockDevice) -> None:
     """Test setting unautherized triggers the reauth flow."""
     entry = configure_integration(hass)
     device_name = entry.title.replace(" ", "_").lower()
@@ -126,7 +126,7 @@ async def test_auth_failed(hass: __HAC_KEEP__, mock_device: MockDevice) -> None:
 
     mock_device.device.async_start_wps.side_effect = DevicePasswordProtected
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

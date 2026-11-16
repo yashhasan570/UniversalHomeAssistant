@@ -5,7 +5,7 @@ from elmax_api.http import Elmax, ElmaxLocal, GenericElmax
 from elmax_api.model.panel import PanelEntry
 
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 
 from .common import DirectPanel, build_direct_ssl_context, get_direct_api_url
@@ -78,7 +78,7 @@ async def _check_cloud_panel_status(client: Elmax, panel_id: str) -> PanelEntry:
     return panel
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ElmaxConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ElmaxConfigEntry) -> None:
     """Set up elmax-cloud from a config entry."""
     try:
         client, panel = await _load_elmax_panel_client(entry)
@@ -114,11 +114,11 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ElmaxConfigEntry) -> None
     await hass.config_entries.async_forward_entry_setups(entry, ELMAX_PLATFORMS)
 
 
-async def async_reload_entry(hass: __HAC_KEEP__, entry: ElmaxConfigEntry) -> None:
+async def async_reload_entry(hass: UniversalAssistant, entry: ElmaxConfigEntry) -> None:
     """Handle an options update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ElmaxConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ElmaxConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, ELMAX_PLATFORMS)

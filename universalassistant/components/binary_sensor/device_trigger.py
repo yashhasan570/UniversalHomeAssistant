@@ -10,7 +10,7 @@ from universalassistant.components.device_automation import (
 from universalassistant.components.universalassistant.triggers import state as state_trigger
 from universalassistant.components.universalassistant.triggers.state import StateTriggerArgument
 from universalassistant.const import CONF_ENTITY_ID, CONF_FOR, CONF_TYPE
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.entity import get_device_class
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
@@ -211,7 +211,7 @@ TRIGGER_SCHEMA = DEVICE_TRIGGER_BASE_SCHEMA.extend(
 
 
 async def async_attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,
@@ -238,7 +238,7 @@ async def async_attach_trigger(
 
 
 async def async_get_triggers(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, str]]:
     """List device triggers."""
     triggers: list[dict[str, str]] = []
@@ -272,7 +272,7 @@ async def async_get_triggers(
 
 
 async def async_get_trigger_capabilities(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List trigger capabilities."""
     return {

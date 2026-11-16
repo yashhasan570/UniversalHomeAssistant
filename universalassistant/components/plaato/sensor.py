@@ -6,7 +6,7 @@ from pyplaato.models.device import PlaatoDevice
 from pyplaato.plaato import ATTR_TEMP, PlaatoKeg
 
 from universalassistant.components.sensor import SensorDeviceClass, SensorEntity
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
     async_dispatcher_send,
@@ -20,7 +20,7 @@ from .entity import PlaatoEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: PlaatoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

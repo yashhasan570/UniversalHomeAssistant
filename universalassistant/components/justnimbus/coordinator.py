@@ -8,7 +8,7 @@ import justnimbus
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_CLIENT_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import CONF_ZIP_CODE, DOMAIN
@@ -24,7 +24,7 @@ class JustNimbusCoordinator(DataUpdateCoordinator[justnimbus.JustNimbusModel]):
     config_entry: JustNimbusConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: JustNimbusConfigEntry
+        self, hass: UniversalAssistant, config_entry: JustNimbusConfigEntry
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(

@@ -19,14 +19,14 @@ from universalassistant.components.syncthing.const import (
     SERVER_AVAILABLE,
     SERVER_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import dispatcher
 
 from . import SERVER_ID
 
 
 async def test_syncthing_client_reconnect_on_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
     mock_syncthing_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -100,7 +100,7 @@ async def test_syncthing_client_reconnect_on_error(
     ],
 )
 async def test_client_dispatches_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
     mock_syncthing_client: MagicMock,
     event_fixture: str,

@@ -1,4 +1,4 @@
-"""Test the __HA_KEEP__ solarlog sensor module."""
+"""Test the Universal Home Assistant solarlog sensor module."""
 
 from datetime import timedelta
 from unittest.mock import AsyncMock
@@ -8,26 +8,28 @@ import pytest
 from pytest_universalassistant.common import (
     MockConfigEntry,
     async_fire_time_changed,
+    async_load_json_object_fixture,
     snapshot_platform,
 )
 from solarlog_cli.solarlog_exceptions import (
     SolarLogConnectionError,
     SolarLogUpdateError,
 )
-from solarlog_cli.solarlog_models import InverterData
+from solarlog_cli.solarlog_models import BatteryData, InverterData, SolarlogData
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.solarlog.const import DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
+from universalassistant.setup import async_setup_component
 
 from . import setup_platform
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_solarlog_connector: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -40,7 +42,7 @@ async def test_all_entities(
 
 
 async def test_add_remove_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_solarlog_connector: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: DeviceRegistry,
@@ -82,9 +84,89 @@ async def test_add_remove_entities(
     assert hass.states.get("sensor.inverter_3_consumption_year").state == "0.454"
 
 
+async def test_battery_data_survives_basic_refresh(
+    hass: UniversalAssistant,
+    mock_solarlog_connector: AsyncMock,
+    mock_config_entry: MockConfigEntry,
+    freezer: FrozenDateTimeFactory,
+) -> None:
+    """Test battery data is preserved across a basic refresh and updated by a device refresh."""
+
+    async def return_basic_data() -> SolarlogData:
+        return SolarlogData.from_dict(
+            await async_load_json_object_fixture(hass, "solarlog_data.json", DOMAIN)
+        )
+
+    mock_solarlog_connector.update_basic_data.side_effect = return_basic_data
+
+    await setup_platform(hass, mock_config_entry, [Platform.SENSOR])
+    await async_setup_component(hass, "universalassistant", {})
+
+    assert hass.states.get("sensor.solarlog_charging_power").state == "50.0"
+    assert hass.states.get("sensor.solarlog_discharging_power").state == "0.0"
+    assert hass.states.get("sensor.solarlog_charge_level").state == "45.0"
+
+    freezer.tick(delta=timedelta(minutes=1))
+    async_fire_time_changed(hass)
+    await hass.async_block_till_done()
+
+    assert mock_solarlog_connector.update_basic_data.await_count == 2
+    assert mock_solarlog_connector.update_battery_data.await_count == 2
+    assert hass.states.get("sensor.solarlog_charging_power").state == "50.0"
+    assert hass.states.get("sensor.solarlog_discharging_power").state == "0.0"
+    assert hass.states.get("sensor.solarlog_charge_level").state == "45.0"
+
+    mock_solarlog_connector.update_device_list.return_value = {}
+    mock_solarlog_connector.update_inverter_data.return_value = {}
+    mock_solarlog_connector.update_battery_data.side_effect = [
+        SolarLogUpdateError(),
+        BatteryData(
+            charge_power=100.0,
+            discharge_power=25.0,
+            level=80.0,
+            voltage=50.0,
+        ),
+    ]
+    freezer.tick(delta=timedelta(minutes=2))
+    async_fire_time_changed(hass)
+    await hass.async_block_till_done()
+
+    assert hass.states.get("sensor.solarlog_charging_power").state == STATE_UNAVAILABLE
+    assert (
+        hass.states.get("sensor.solarlog_discharging_power").state == STATE_UNAVAILABLE
+    )
+    assert hass.states.get("sensor.solarlog_charge_level").state == STATE_UNAVAILABLE
+
+    freezer.tick(delta=timedelta(minutes=1))
+    async_fire_time_changed(hass)
+    await hass.async_block_till_done()
+
+    assert hass.states.get("sensor.solarlog_charging_power").state == "100.0"
+    assert hass.states.get("sensor.solarlog_discharging_power").state == "25.0"
+    assert hass.states.get("sensor.solarlog_charge_level").state == "80.0"
+
+    mock_solarlog_connector.update_battery_data.side_effect = None
+    mock_solarlog_connector.update_battery_data.return_value = BatteryData(
+        charge_power=150.0,
+        discharge_power=35.0,
+        level=90.0,
+        voltage=50.0,
+    )
+    await hass.services.async_call(
+        "universalassistant",
+        "update_entity",
+        {"entity_id": "sensor.solarlog_charging_power"},
+        blocking=True,
+    )
+
+    assert hass.states.get("sensor.solarlog_charging_power").state == "150.0"
+    assert hass.states.get("sensor.solarlog_discharging_power").state == "35.0"
+    assert hass.states.get("sensor.solarlog_charge_level").state == "90.0"
+
+
 @pytest.mark.usefixtures("mock_solarlog_connector")
 async def test_inverter_via_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: DeviceRegistry,
     entity_registry: EntityRegistry,
@@ -114,7 +196,7 @@ async def test_inverter_via_device_id(
     ],
 )
 async def test_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: Exception,
     mock_solarlog_connector: AsyncMock,
     mock_config_entry: MockConfigEntry,

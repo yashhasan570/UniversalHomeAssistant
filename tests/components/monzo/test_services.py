@@ -19,9 +19,9 @@ from universalassistant.components.monzo.const import (
 )
 from universalassistant.components.monzo.services import MonzoService, MonzoServiceArgument
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, Context, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, Context, UniversalAssistant
 from universalassistant.exceptions import (
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     OAuth2TokenRequestReauthError,
     ServiceValidationError,
     Unauthorized,
@@ -44,7 +44,7 @@ class TransferDevices:
 
 @pytest.fixture
 async def transfer_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     polling_config_entry: MockConfigEntry,
     monzo: AsyncMock,
@@ -65,7 +65,7 @@ async def transfer_devices(
 
 
 async def _async_call_transfer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: TransferDevices,
     service_name: str,
     amount: object = 0.29,
@@ -97,7 +97,7 @@ async def test_device_models_support_selector_filtering(
 
 
 async def test_non_transfer_account_is_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     polling_config_entry: MockConfigEntry,
     transfer_devices: TransferDevices,
@@ -132,7 +132,7 @@ async def test_non_transfer_account_is_rejected(
     ],
 )
 async def test_transfer_and_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     transfer_devices: TransferDevices,
     service_name: str,
@@ -163,7 +163,7 @@ async def test_transfer_and_refresh(
     ],
 )
 async def test_invalid_amount(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     transfer_devices: TransferDevices,
     amount: object,
 ) -> None:
@@ -185,7 +185,7 @@ async def test_invalid_amount(
     ],
 )
 async def test_invalid_resource_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     transfer_devices: TransferDevices,
     account_device: str,
     pot_device: str,
@@ -208,7 +208,7 @@ async def test_invalid_resource_type(
 
 
 async def test_missing_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     transfer_devices: TransferDevices,
 ) -> None:
     """Test a missing selected device is rejected."""
@@ -229,7 +229,7 @@ async def test_missing_device(
 
 
 async def test_device_from_other_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     transfer_devices: TransferDevices,
 ) -> None:
@@ -276,7 +276,7 @@ async def test_device_from_other_integration(
     ],
 )
 async def test_devices_from_different_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     transfer_devices: TransferDevices,
     other_entry_state: ConfigEntryState,
@@ -310,7 +310,7 @@ async def test_devices_from_different_entries(
 
 
 async def test_pot_must_belong_to_selected_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     polling_config_entry: MockConfigEntry,
     transfer_devices: TransferDevices,
@@ -349,7 +349,7 @@ async def test_pot_must_belong_to_selected_account(
 
 
 async def test_transfer_requires_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_read_only_user: MockUser,
     monzo: AsyncMock,
     transfer_devices: TransferDevices,
@@ -372,14 +372,14 @@ async def test_transfer_requires_admin(
 
 
 async def test_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     transfer_devices: TransferDevices,
 ) -> None:
-    """Test a Monzo API error is exposed as a __HA_KEEP__ error."""
+    """Test a Monzo API error is exposed as a Universal Home Assistant error."""
     monzo.user_account.pot_deposit.side_effect = InvalidMonzoAPIResponseError
 
-    with pytest.raises(__HAC_KEEP__Error) as error:
+    with pytest.raises(UniversalAssistantError) as error:
         await _async_call_transfer(
             hass, transfer_devices, MonzoService.DEPOSIT_INTO_POT, 1
         )
@@ -397,15 +397,15 @@ async def test_api_error(
     ],
 )
 async def test_transport_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     transfer_devices: TransferDevices,
     api_error: Exception,
 ) -> None:
-    """Test a transport error is exposed as a __HA_KEEP__ error."""
+    """Test a transport error is exposed as a Universal Home Assistant error."""
     monzo.user_account.pot_deposit.side_effect = api_error
 
-    with pytest.raises(__HAC_KEEP__Error) as error:
+    with pytest.raises(UniversalAssistantError) as error:
         await _async_call_transfer(
             hass, transfer_devices, MonzoService.DEPOSIT_INTO_POT, 1
         )
@@ -416,14 +416,14 @@ async def test_transport_error(
 
 
 async def test_false_transfer_result_is_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     transfer_devices: TransferDevices,
 ) -> None:
-    """Test a false transfer result is exposed as a __HA_KEEP__ error."""
+    """Test a false transfer result is exposed as a Universal Home Assistant error."""
     monzo.user_account.pot_deposit.return_value = False
 
-    with pytest.raises(__HAC_KEEP__Error) as error:
+    with pytest.raises(UniversalAssistantError) as error:
         await _async_call_transfer(
             hass, transfer_devices, MonzoService.DEPOSIT_INTO_POT, 1
         )
@@ -434,7 +434,7 @@ async def test_false_transfer_result_is_failure(
 
 
 async def test_api_rejection_details(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monzo: AsyncMock,
     transfer_devices: TransferDevices,
 ) -> None:
@@ -446,7 +446,7 @@ async def test_api_rejection_details(
         }
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as error:
+    with pytest.raises(UniversalAssistantError) as error:
         await _async_call_transfer(
             hass, transfer_devices, MonzoService.DEPOSIT_INTO_POT, 1
         )
@@ -473,7 +473,7 @@ async def test_api_rejection_details(
     ],
 )
 async def test_expired_authorisation_starts_reauthentication(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     polling_config_entry: MockConfigEntry,
     monzo: AsyncMock,
     transfer_devices: TransferDevices,
@@ -484,7 +484,7 @@ async def test_expired_authorisation_starts_reauthentication(
 
     with (
         patch.object(polling_config_entry, "async_start_reauth") as start_reauth,
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await _async_call_transfer(
             hass, transfer_devices, MonzoService.DEPOSIT_INTO_POT, 1

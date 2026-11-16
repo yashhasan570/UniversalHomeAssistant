@@ -4,12 +4,12 @@ import pytest
 from Tami4EdgeAPI import exceptions
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import create_config_entry
 
 
-async def test_init_success(mock_api, hass: __HAC_KEEP__) -> None:
+async def test_init_success(mock_api, hass: UniversalAssistant) -> None:
     """Test setup and that we can create the entry."""
 
     entry = await create_config_entry(hass)
@@ -19,7 +19,7 @@ async def test_init_success(mock_api, hass: __HAC_KEEP__) -> None:
 @pytest.mark.parametrize(
     "mock_get_device", [exceptions.APIRequestFailedException], indirect=True
 )
-async def test_init_with_api_error(mock_api, hass: __HAC_KEEP__) -> None:
+async def test_init_with_api_error(mock_api, hass: UniversalAssistant) -> None:
     """Test init with api error."""
 
     entry = await create_config_entry(hass)
@@ -41,7 +41,7 @@ async def test_init_with_api_error(mock_api, hass: __HAC_KEEP__) -> None:
     indirect=["mock__get_devices_metadata"],
 )
 async def test_init_error_raised(
-    mock_api, hass: __HAC_KEEP__, expected_state: ConfigEntryState
+    mock_api, hass: UniversalAssistant, expected_state: ConfigEntryState
 ) -> None:
     """Test init when an error is raised."""
 
@@ -49,7 +49,7 @@ async def test_init_error_raised(
     assert entry.state is expected_state
 
 
-async def test_load_unload(mock_api, hass: __HAC_KEEP__) -> None:
+async def test_load_unload(mock_api, hass: UniversalAssistant) -> None:
     """Config entry can be unloaded."""
 
     entry = await create_config_entry(hass)

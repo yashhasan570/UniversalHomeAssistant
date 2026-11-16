@@ -6,7 +6,7 @@ from androidtvremote2 import AndroidTVRemote, ConnectionClosed
 
 from universalassistant.const import CONF_MAC, CONF_NAME
 from universalassistant.core import callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.entity import Entity
 
@@ -73,7 +73,7 @@ class AndroidTVRemoteBaseEntity(Entity):
         try:
             self._api.send_key_command(key_code, direction)
         except ConnectionClosed as exc:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="connection_closed"
             ) from exc
 
@@ -86,6 +86,6 @@ class AndroidTVRemoteBaseEntity(Entity):
         try:
             self._api.send_launch_app_command(app_link)
         except ConnectionClosed as exc:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="connection_closed"
             ) from exc

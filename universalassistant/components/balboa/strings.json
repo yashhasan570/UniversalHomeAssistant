@@ -117,7 +117,7 @@
     "step": {
       "init": {
         "data": {
-          "sync_time": "Keep your Balboa spa's time synchronized with __HA_KEEP__"
+          "sync_time": "Keep your Balboa spa's time synchronized with Universal Home Assistant"
         }
       }
     }

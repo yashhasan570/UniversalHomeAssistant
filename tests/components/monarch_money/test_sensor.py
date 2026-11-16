@@ -16,7 +16,7 @@ from typedmonarchmoney.models import MonarchBudget
 
 from universalassistant.components.monarch_money.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -24,7 +24,7 @@ from . import setup_integration
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -41,7 +41,7 @@ async def test_all_entities(
 
 
 async def test_budget_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -105,7 +105,7 @@ async def test_budget_sensors(
 
 
 async def test_budget_sensors_discover_and_recover_categories(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -184,7 +184,7 @@ async def test_budget_sensors_discover_and_recover_categories(
     ],
 )
 async def test_budget_sensors_recover_when_current_month_appears(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -266,7 +266,7 @@ async def test_budget_sensors_recover_when_current_month_appears(
     ],
 )
 async def test_account_owner_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_config_api: AsyncMock,
     entity_registry: er.EntityRegistry,

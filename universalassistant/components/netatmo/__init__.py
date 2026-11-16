@@ -4,7 +4,7 @@ import logging
 
 from universalassistant.components import cloud
 from universalassistant.const import CONF_WEBHOOK_ID, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import (
     aiohttp_client,
@@ -31,14 +31,14 @@ _LOGGER = logging.getLogger(__name__)
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Netatmo component."""
     async_setup_services(hass)
 
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: NetatmoConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: NetatmoConfigEntry) -> None:
     """Set up Netatmo from a config entry."""
     implementation = await async_get_config_entry_implementation(hass, entry)
 
@@ -115,13 +115,13 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: NetatmoConfigEntry) -> No
 
 
 async def async_config_entry_updated(
-    hass: __HAC_KEEP__, entry: NetatmoConfigEntry
+    hass: UniversalAssistant, entry: NetatmoConfigEntry
 ) -> None:
     """Handle signals of config entry being updated."""
     async_dispatcher_send(hass, f"signal-{DOMAIN}-public-update-{entry.entry_id}")
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: NetatmoConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: NetatmoConfigEntry) -> None:
     """Unload a config entry."""
     # Through the manager, so the drop cannot overtake a registration in flight.
     # A setup that never got as far as the data handler has nothing to drop.
@@ -131,7 +131,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: NetatmoConfigEntry) -> N
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_remove_entry(hass: __HAC_KEEP__, entry: NetatmoConfigEntry) -> None:
+async def async_remove_entry(hass: UniversalAssistant, entry: NetatmoConfigEntry) -> None:
     """Cleanup when entry is removed."""
     if CONF_WEBHOOK_ID in entry.data and cloud.async_active_subscription(hass):
         try:
@@ -144,7 +144,7 @@ async def async_remove_entry(hass: __HAC_KEEP__, entry: NetatmoConfigEntry) -> N
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, config_entry: NetatmoConfigEntry, device_entry: AnyDeviceEntry
+    hass: UniversalAssistant, config_entry: NetatmoConfigEntry, device_entry: AnyDeviceEntry
 ) -> bool:
     """Remove a config entry from a device."""
     account = config_entry.runtime_data.account

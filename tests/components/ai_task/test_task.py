@@ -19,7 +19,7 @@ from universalassistant.components.ai_task.const import DATA_MEDIA_SOURCE
 from universalassistant.components.conversation import async_get_chat_log
 from universalassistant.components.llm import AssistAPI
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import chat_session
 from universalassistant.util import dt as dt_util
@@ -28,7 +28,7 @@ from .conftest import TEST_ENTITY_ID, MockAITaskEntity
 
 
 async def test_generate_data_preferred_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
     mock_ai_task_entity: MockAITaskEntity,
     hass_ws_client: WebSocketGenerator,
@@ -124,7 +124,7 @@ async def test_generate_data_preferred_entity(
 
 
 async def test_generate_data_unknown_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
 ) -> None:
     """Test generating data with an unknown entity."""
@@ -142,7 +142,7 @@ async def test_generate_data_unknown_entity(
 
 @pytest.mark.freeze_time("2025-06-14 22:59:00")
 async def test_run_data_task_updates_chat_log(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -165,7 +165,7 @@ async def test_run_data_task_updates_chat_log(
 
 
 async def test_generate_data_attachments_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
     mock_ai_task_entity: MockAITaskEntity,
 ) -> None:
@@ -192,7 +192,7 @@ async def test_generate_data_attachments_not_supported(
 
 
 async def test_generate_data_mixed_attachments(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
     mock_ai_task_entity: MockAITaskEntity,
 ) -> None:
@@ -297,7 +297,7 @@ async def test_generate_data_mixed_attachments(
 
 
 async def test_generate_data_content_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
     mock_ai_task_entity: MockAITaskEntity,
 ) -> None:
@@ -341,7 +341,7 @@ async def test_generate_data_content_type(
 
 
 async def test_generate_data_non_local_attachment(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
     mock_ai_task_entity: MockAITaskEntity,
 ) -> None:
@@ -375,7 +375,7 @@ async def test_generate_data_non_local_attachment(
 
 @pytest.mark.freeze_time("2025-06-14 22:59:00")
 async def test_generate_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
     mock_ai_task_entity: MockAITaskEntity,
 ) -> None:

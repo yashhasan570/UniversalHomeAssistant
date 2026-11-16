@@ -7,7 +7,7 @@ import pytest
 from pytest_universalassistant.common import assert_setup_component
 
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 COMPONENT = "comfoconnect"
@@ -64,7 +64,7 @@ def mock_comfoconnect_disconnect() -> Generator[MagicMock]:
 
 @pytest.fixture
 async def setup_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bridge_discover: MagicMock,
     mock_comfoconnect_command: MagicMock,
     mock_comfoconnect_connect: MagicMock,
@@ -76,7 +76,7 @@ async def setup_sensor(
 
 
 @pytest.mark.usefixtures("setup_sensor")
-async def test_sensors(hass: __HAC_KEEP__) -> None:
+async def test_sensors(hass: UniversalAssistant) -> None:
     """Test the sensors."""
     state = hass.states.get("sensor.comfoairq_inside_humidity")
     assert state is not None

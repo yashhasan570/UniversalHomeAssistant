@@ -10,7 +10,7 @@ from spinev_ble import ChargerState
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -31,7 +31,7 @@ def platforms() -> Generator[None]:
 
 @pytest.mark.usefixtures("mock_charger")
 async def test_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -60,7 +60,7 @@ async def test_binary_sensors(
     ],
 )
 async def test_plug_follows_the_charger_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_charger: AsyncMock,
     state: ChargerState | None,
@@ -82,7 +82,7 @@ async def test_plug_follows_the_charger_state(
     ],
 )
 async def test_problem_follows_the_alarms(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_charger: AsyncMock,
     alarms: tuple[str, ...],

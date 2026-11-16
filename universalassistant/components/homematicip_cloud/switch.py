@@ -6,7 +6,7 @@ from homematicip.base.enums import DeviceType
 from homematicip.group import ExtendedLinkedSwitchingGroup, SwitchingGroup
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import LIGHT_OWNED_DEVICE_TYPES, SWITCH_CHANNEL_TYPES
@@ -18,7 +18,7 @@ CHANNEL_NAMED_DEVICE_TYPES = (DeviceType.DIN_RAIL_SWITCH,)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: HomematicIPConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

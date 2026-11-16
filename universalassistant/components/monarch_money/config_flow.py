@@ -14,8 +14,8 @@ from typedmonarchmoney.models import MonarchSubscription
 
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_EMAIL, CONF_ID, CONF_PASSWORD, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.selector import (
     TextSelector,
     TextSelectorConfig,
@@ -57,7 +57,7 @@ STEP_MFA_DATA_SCHEMA = probatio.Schema(
 
 
 async def validate_login(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     data: dict[str, Any],
     email: str | None = None,
     password: str | None = None,
@@ -197,9 +197,9 @@ class MonarchMoneyConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class InvalidAuth(__HAC_KEEP__Error):
+class InvalidAuth(UniversalAssistantError):
     """Error to indicate there is invalid auth."""
 
 
-class BadMFA(__HAC_KEEP__Error):
+class BadMFA(UniversalAssistantError):
     """Error to indicate the MFA code was bad."""

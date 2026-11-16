@@ -25,8 +25,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 
 from . import (
@@ -46,7 +46,7 @@ def platform_autouse():
 
 @pytest.mark.usefixtures("no_quirk")
 async def test_platform_setup_and_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_devices: list[CustomerDevice],
@@ -70,7 +70,7 @@ async def test_platform_setup_and_discovery(
     [(SERVICE_TURN_ON, True), (SERVICE_TURN_OFF, False)],
 )
 async def test_kg_switch_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -104,7 +104,7 @@ async def test_kg_switch_commands(
     "code", ["switch_1", *(f"switch_{index}" for index in range(7, 23))]
 )
 async def test_kg_switch_reports(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -152,7 +152,7 @@ async def test_kg_switch_reports(
 )
 @pytest.mark.freeze_time("2024-01-01")
 async def test_selective_state_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -196,7 +196,7 @@ async def test_selective_state_update(
     ],
 )
 async def test_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -245,18 +245,18 @@ async def test_action(
     ],
 )
 async def test_action_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
     side_effect: Exception,
     expected_message: str,
 ) -> None:
-    """Test errors while sending a command are raised as __HA_KEEP__ errors."""
+    """Test errors while sending a command are raised as Universal Home Assistant errors."""
     await initialize_entry(hass, mock_manager, mock_config_entry, mock_device)
     mock_manager.send_commands.side_effect = side_effect
 
-    with pytest.raises(__HAC_KEEP__Error, match=re.escape(expected_message)):
+    with pytest.raises(UniversalAssistantError, match=re.escape(expected_message)):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -279,7 +279,7 @@ async def test_action_error(
     ],
 )
 async def test_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -298,7 +298,7 @@ async def test_state(
 
 @pytest.mark.parametrize("mock_device_code", ["hwsb_ircs2n82vgrozoew"])
 async def test_hwsb_switch_with_quirk(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -332,7 +332,7 @@ def ggq_indexed_switch(mock_device: CustomerDevice) -> None:
 @pytest.mark.usefixtures("ggq_indexed_switch")
 @pytest.mark.parametrize("mock_device_code", ["ggq_7ytb3h8u"])
 async def test_ggq_deprecated_switch_enabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -366,7 +366,7 @@ async def test_ggq_deprecated_switch_enabled(
 @pytest.mark.usefixtures("ggq_indexed_switch")
 @pytest.mark.parametrize("mock_device_code", ["ggq_7ytb3h8u"])
 async def test_ggq_deprecated_switch_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -392,7 +392,7 @@ async def test_ggq_deprecated_switch_disabled(
 @pytest.mark.usefixtures("ggq_indexed_switch")
 @pytest.mark.parametrize("mock_device_code", ["ggq_7ytb3h8u"])
 async def test_ggq_deprecated_switch_not_created(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,

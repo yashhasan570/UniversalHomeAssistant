@@ -7,7 +7,7 @@ from wiffi import WiffiTcpServer
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PORT, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.event import async_track_time_interval
@@ -25,7 +25,7 @@ PLATFORMS = [Platform.BINARY_SENSOR, Platform.SENSOR]
 type WiffiConfigEntry = ConfigEntry[WiffiIntegrationApi]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: WiffiConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: WiffiConfigEntry) -> None:
     """Set up wiffi from a config entry."""
 
     # create api object
@@ -53,7 +53,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: WiffiConfigEntry) -> None
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: WiffiConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: WiffiConfigEntry) -> None:
     """Unload a config entry."""
     api = entry.runtime_data
     await api.server.close_server()

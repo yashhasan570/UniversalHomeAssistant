@@ -31,7 +31,7 @@ from universalassistant.const import (
     CONF_TOKEN,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -54,7 +54,7 @@ class SystemBridgeDataUpdateCoordinator(DataUpdateCoordinator[SystemBridgeData])
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         LOGGER: logging.Logger,
         *,
         entry: SystemBridgeConfigEntry,
@@ -111,7 +111,7 @@ class SystemBridgeDataUpdateCoordinator(DataUpdateCoordinator[SystemBridgeData])
         await self.websocket_client.close()
         if self.listen_task is not None:
             self.listen_task.cancel(
-                msg="WebSocket closed on __HA_KEEP__ shutdown",
+                msg="WebSocket closed on Universal Home Assistant shutdown",
             )
 
     @override
@@ -365,7 +365,7 @@ class SystemBridgeDataUpdateCoordinator(DataUpdateCoordinator[SystemBridgeData])
                 # refresh ends, so the built-in recovery log isn't reliable
                 self.last_update_success = True
 
-            # Clean disconnect WebSocket on __HA_KEEP__ shutdown
+            # Clean disconnect WebSocket on Universal Home Assistant shutdown
             self.unsub = self.hass.bus.async_listen_once(
                 EVENT_HOMEASSISTANT_STOP, self.close_websocket
             )

@@ -10,7 +10,7 @@ from aioridwell.model import RidwellAccount, RidwellPickupEvent
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -29,7 +29,7 @@ class RidwellDataUpdateCoordinator(
 
     config_entry: RidwellConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: RidwellConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: RidwellConfigEntry) -> None:
         """Initialize."""
         # These will be filled in by async_initialize; we give them these defaults to
         # avoid arduous typing checks down the line:

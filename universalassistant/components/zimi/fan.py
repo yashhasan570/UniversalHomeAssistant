@@ -5,7 +5,7 @@ import math
 from typing import Any, override
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
     percentage_to_ranged_value,
@@ -20,7 +20,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ZimiConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

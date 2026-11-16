@@ -32,7 +32,7 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .common import find_entity_id, send_attributes_report
 from .conftest import SIG_EP_INPUT, SIG_EP_OUTPUT, SIG_EP_PROFILE, SIG_EP_TYPE
@@ -62,7 +62,7 @@ def fan_platform_only():
 
 
 async def test_fan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:
@@ -148,7 +148,7 @@ async def test_fan(
     assert len(cluster.write_attributes.mock_calls) == 0
 
 
-async def async_turn_on(hass: __HAC_KEEP__, entity_id, percentage=None):
+async def async_turn_on(hass: UniversalAssistant, entity_id, percentage=None):
     """Turn fan on."""
     data = {
         key: value
@@ -159,14 +159,14 @@ async def async_turn_on(hass: __HAC_KEEP__, entity_id, percentage=None):
     await hass.services.async_call(FAN_DOMAIN, SERVICE_TURN_ON, data, blocking=True)
 
 
-async def async_turn_off(hass: __HAC_KEEP__, entity_id):
+async def async_turn_off(hass: UniversalAssistant, entity_id):
     """Turn fan off."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
 
     await hass.services.async_call(FAN_DOMAIN, SERVICE_TURN_OFF, data, blocking=True)
 
 
-async def async_set_percentage(hass: __HAC_KEEP__, entity_id, percentage=None):
+async def async_set_percentage(hass: UniversalAssistant, entity_id, percentage=None):
     """Set percentage for specified fan."""
     data = {
         key: value
@@ -179,7 +179,7 @@ async def async_set_percentage(hass: __HAC_KEEP__, entity_id, percentage=None):
     )
 
 
-async def async_set_preset_mode(hass: __HAC_KEEP__, entity_id, preset_mode=None):
+async def async_set_preset_mode(hass: UniversalAssistant, entity_id, preset_mode=None):
     """Set preset_mode for specified fan."""
     data = {
         key: value

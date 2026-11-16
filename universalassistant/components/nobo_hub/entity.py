@@ -4,7 +4,7 @@ from typing import override
 
 from pynobo import nobo
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.entity import Entity
 
@@ -17,7 +17,7 @@ class NoboBaseEntity(Entity):
     _attr_has_entity_name = True
     _attr_should_poll = False
 
-    def __init__(self, hass: __HAC_KEEP__, hub: nobo, entry_id: str) -> None:
+    def __init__(self, hass: UniversalAssistant, hub: nobo, entry_id: str) -> None:
         """Initialize the entity."""
         self._nobo = hub
         self._attr_available = hub.connected

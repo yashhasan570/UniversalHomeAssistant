@@ -22,8 +22,8 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
 )
 from universalassistant.const import CONF_URL
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.service_info.hassio import HassioServiceInfo
 
@@ -40,26 +40,26 @@ if TYPE_CHECKING:
 _LOGGER = logging.getLogger(__name__)
 
 
-class AlreadyConfigured(__HAC_KEEP__Error):
+class AlreadyConfigured(UniversalAssistantError):
     """Raised when the router is already configured."""
 
 
 @callback
-def get_addon_manager(hass: __HAC_KEEP__, slug: str) -> AddonManager:
+def get_addon_manager(hass: UniversalAssistant, slug: str) -> AddonManager:
     """Get the add-on manager."""
     return AddonManager(hass, _LOGGER, "OpenThread Border Router", slug)
 
 
-def _is_yellow(hass: __HAC_KEEP__) -> bool:
-    """Return True if __HA_KEEP__ is running on a __HA_KEEP__ Yellow."""
+def _is_yellow(hass: UniversalAssistant) -> bool:
+    """Return True if Universal Home Assistant is running on a Universal Home Assistant Yellow."""
     try:
         yellow_hardware.async_info(hass)
-    except __HAC_KEEP__Error:
+    except UniversalAssistantError:
         return False
     return True
 
 
-async def _title(hass: __HAC_KEEP__, discovery_info: HassioServiceInfo) -> str:
+async def _title(hass: UniversalAssistant, discovery_info: HassioServiceInfo) -> str:
     """Return config entry title."""
     device: str | None = None
     addon_manager = get_addon_manager(hass, discovery_info.slug)
@@ -69,13 +69,13 @@ async def _title(hass: __HAC_KEEP__, discovery_info: HassioServiceInfo) -> str:
         device = addon_info.options.get("device")
 
     if _is_yellow(hass) and device == "/dev/ttyAMA1":
-        return f"__HA_KEEP__ Yellow ({discovery_info.name})"
+        return f"Universal Home Assistant Yellow ({discovery_info.name})"
 
     if device and ("Connect_ZBT-1" in device or "SkyConnect" in device):
-        return f"__HA_KEEP__ Connect ZBT-1 ({discovery_info.name})"
+        return f"Universal Home Assistant Connect ZBT-1 ({discovery_info.name})"
 
     if device and "Nabu_Casa_ZBT-2" in device:
-        return f"__HA_KEEP__ Connect ZBT-2 ({discovery_info.name})"
+        return f"Universal Home Assistant Connect ZBT-2 ({discovery_info.name})"
 
     return discovery_info.name
 
@@ -126,7 +126,7 @@ class OTBRConfigFlow(ConfigFlow, domain=DOMAIN):
             data = config_entry.runtime_data
             try:
                 other_border_agent_id = await data.get_border_agent_id()
-            except __HAC_KEEP__Error:
+            except UniversalAssistantError:
                 _LOGGER.debug(
                     "Could not read border agent id from %s", data.url, exc_info=True
                 )

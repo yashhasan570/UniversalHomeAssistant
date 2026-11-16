@@ -7,7 +7,7 @@ from pyefergy import exceptions
 from universalassistant.components.efergy.const import DEFAULT_NAME, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_SOURCE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import CONF_DATA, HID, _patch_efergy, _patch_efergy_status, create_entry
@@ -17,7 +17,7 @@ def _patch_setup():
     return patch("universalassistant.components.efergy.async_setup_entry")
 
 
-async def test_flow_user(hass: __HAC_KEEP__) -> None:
+async def test_flow_user(hass: UniversalAssistant) -> None:
     """Test user initialized flow."""
     with _patch_efergy(), _patch_setup():
         result = await hass.config_entries.flow.async_init(
@@ -37,7 +37,7 @@ async def test_flow_user(hass: __HAC_KEEP__) -> None:
         assert result["result"].unique_id == HID
 
 
-async def test_flow_user_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_cannot_connect(hass: UniversalAssistant) -> None:
     """Test user initialized flow with unreachable service."""
     with _patch_efergy_status() as efergymock:
         efergymock.side_effect = exceptions.ConnectError
@@ -56,7 +56,7 @@ async def test_flow_user_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_user_invalid_auth(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_invalid_auth(hass: UniversalAssistant) -> None:
     """Test user initialized flow with invalid authentication."""
     with _patch_efergy_status() as efergymock:
         efergymock.side_effect = exceptions.InvalidAuth
@@ -75,7 +75,7 @@ async def test_flow_user_invalid_auth(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_user_unknown(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_unknown(hass: UniversalAssistant) -> None:
     """Test user initialized flow with unknown error."""
     with _patch_efergy_status() as efergymock:
         efergymock.side_effect = Exception
@@ -94,7 +94,7 @@ async def test_flow_user_unknown(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_reauth(hass: __HAC_KEEP__) -> None:
+async def test_flow_reauth(hass: UniversalAssistant) -> None:
     """Test reauth step."""
     entry = create_entry(hass)
     result = await entry.start_reauth_flow(hass)

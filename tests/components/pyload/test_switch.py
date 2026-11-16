@@ -17,8 +17,8 @@ from universalassistant.components.switch import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 # Maps entity to the mock calls to assert
@@ -47,7 +47,7 @@ def switch_only() -> Generator[None]:
 
 
 async def test_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -73,7 +73,7 @@ async def test_state(
     ],
 )
 async def test_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_pyloadapi: AsyncMock,
     service_call: str,
@@ -122,7 +122,7 @@ async def test_turn_on_off(
     ],
 )
 async def test_turn_on_off_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_pyloadapi: AsyncMock,
     service_call: str,
@@ -147,12 +147,12 @@ async def test_turn_on_off_errors(
     mock_pyloadapi.toggle_reconnect.side_effect = side_effect
 
     for entity_entry in entity_entries:
-        with pytest.raises(__HAC_KEEP__Error) as exc_info:
+        with pytest.raises(UniversalAssistantError) as exc_info:
             await hass.services.async_call(
                 SWITCH_DOMAIN,
                 service_call,
                 {ATTR_ENTITY_ID: entity_entry.entity_id},
                 blocking=True,
             )
-        assert type(exc_info.value) is __HAC_KEEP__Error
+        assert type(exc_info.value) is UniversalAssistantError
         assert exc_info.value.translation_key == translation_key

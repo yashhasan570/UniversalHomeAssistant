@@ -18,7 +18,7 @@ from universalassistant.components.melcloud_home.const import DOMAIN
 from universalassistant.components.melcloud_home.coordinator import TELEMETRY_UPDATE_INTERVAL
 from universalassistant.components.sensor import ATTR_LAST_RESET
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -35,7 +35,7 @@ def enable_all_entities(entity_registry_enabled_by_default: None) -> None:
 @pytest.mark.usefixtures("mock_melcloud_client")
 @pytest.mark.freeze_time("2026-06-08 12:00:00+00:00")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -52,7 +52,7 @@ async def test_all_entities(
 
 
 async def test_energy_measure_per_unit_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_energy_measure_per_unit_type(
     ],
 )
 async def test_operation_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     operation_mode: str,
@@ -113,7 +113,7 @@ async def test_operation_status(
 )
 @pytest.mark.freeze_time("2026-06-30 23:58:00+00:00")
 async def test_energy_last_reset_month_rollover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -148,7 +148,7 @@ async def test_energy_last_reset_month_rollover(
 
 
 async def test_outdoor_temperature_sensor_added_when_reported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -169,7 +169,7 @@ async def test_outdoor_temperature_sensor_added_when_reported(
 
 
 async def test_outdoor_temperature_sensor_restored_without_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -191,7 +191,7 @@ async def test_outdoor_temperature_sensor_restored_without_value(
 
 
 async def test_outdoor_temperature_not_fetched_without_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

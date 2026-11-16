@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.hlk_sw16.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.helpers import issue_registry as ir, translation
 from universalassistant.setup import async_setup_component
 
@@ -33,7 +33,7 @@ YAML_CONFIG = {
     ],
 )
 async def test_import_creates_deprecation_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     existing_host: str,
     entry_count: int,
@@ -74,7 +74,7 @@ async def test_import_creates_deprecation_issue(
     [pytest.param(TimeoutError, "cannot_connect", id="cannot_connect")],
 )
 async def test_import_abort_creates_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     side_effect: type[Exception],
     reason: str,
@@ -101,12 +101,12 @@ async def test_import_abort_creates_issue(
 
 
 async def test_import_partial_failure_keeps_yaml(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test a failed device import prevents the remove-your-YAML issue."""
     client = await create_mock_hlk_sw16_connection(False)
 
-    async def connect(hass: __HAC_KEEP__, user_input: dict[str, Any]) -> object:
+    async def connect(hass: UniversalAssistant, user_input: dict[str, Any]) -> object:
         if user_input[CONF_HOST] == "127.0.0.2":
             raise TimeoutError
         return client
@@ -141,7 +141,7 @@ async def test_import_partial_failure_keeps_yaml(
     assert len(issue_registry.issues) == 1
 
 
-async def test_import_finishes_before_setup_returns(hass: __HAC_KEEP__) -> None:
+async def test_import_finishes_before_setup_returns(hass: UniversalAssistant) -> None:
     """Test all YAML devices are imported before the integration setup returns."""
     await translation.async_load_integrations(hass, {DOMAIN})
     config = {

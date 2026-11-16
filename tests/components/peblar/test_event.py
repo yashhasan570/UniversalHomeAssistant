@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -41,7 +41,7 @@ def _history(session_number: int, auth_token: str | None) -> PeblarMeterHistory:
     )
 
 
-async def _async_poll(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+async def _async_poll(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
     """Let the authorization coordinator run one poll."""
     freezer.tick(timedelta(minutes=5))
     async_fire_time_changed(hass)
@@ -51,7 +51,7 @@ async def _async_poll(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> Non
 @pytest.mark.parametrize("init_integration", [Platform.EVENT], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -63,7 +63,7 @@ async def test_entities(
 @pytest.mark.parametrize("init_integration", [Platform.EVENT], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_a_session_already_running_is_not_reported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test the session in progress at startup does not fire an event.
@@ -99,7 +99,7 @@ async def test_only_the_recent_past_is_asked_for(mock_peblar: MagicMock) -> None
 @pytest.mark.parametrize("init_integration", [Platform.EVENT], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_a_new_session_names_who_started_it(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -124,7 +124,7 @@ async def test_a_new_session_names_who_started_it(
 @pytest.mark.parametrize("init_integration", [Platform.EVENT], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_the_same_session_is_only_reported_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -148,7 +148,7 @@ async def test_the_same_session_is_only_reported_once(
 @pytest.mark.parametrize("init_integration", [Platform.EVENT], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_the_same_card_twice_is_reported_twice(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -183,7 +183,7 @@ async def test_the_same_card_twice_is_reported_twice(
     ids=["nothing charged in the window", "charged without a card", "card deleted"],
 )
 async def test_nothing_to_report(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     freezer: FrozenDateTimeFactory,
     history: PeblarMeterHistory,
@@ -205,13 +205,13 @@ async def test_nothing_to_report(
 @pytest.mark.parametrize("mock_peblar", [{"HwHasRfid": False}], indirect=True)
 @pytest.mark.parametrize("init_integration", [Platform.EVENT], indirect=True)
 @pytest.mark.usefixtures("init_integration")
-async def test_no_reader_no_entity(hass: __HAC_KEEP__) -> None:
+async def test_no_reader_no_entity(hass: UniversalAssistant) -> None:
     """Test a charger without a reader shows nobody in."""
     assert hass.states.get(ENTITY_ID) is None
 
 
 async def test_a_charger_without_meter_history(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -236,7 +236,7 @@ async def test_a_charger_without_meter_history(
 
 
 async def test_a_read_that_failed_once_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -267,7 +267,7 @@ async def test_a_read_that_failed_once_recovers(
 
 
 async def test_a_new_session_after_a_failed_read_is_reported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

@@ -24,7 +24,7 @@ from universalassistant.components.powerwall.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.dt import utcnow
 
 from .mocks import (
@@ -34,7 +34,7 @@ from .mocks import (
 )
 
 
-async def test_update_data_reauthenticate_on_access_denied(hass: __HAC_KEEP__) -> None:
+async def test_update_data_reauthenticate_on_access_denied(hass: UniversalAssistant) -> None:
     """Test PowerwallDataManager reauths on AccessDeniedError."""
 
     mock_powerwall = await _mock_powerwall_with_fixtures(hass)
@@ -96,7 +96,7 @@ async def test_update_data_reauthenticate_on_access_denied(hass: __HAC_KEEP__) -
         assert reauth_flow["context"]["source"] == "reauth"
 
 
-async def test_init_uses_cookie_if_present(hass: __HAC_KEEP__) -> None:
+async def test_init_uses_cookie_if_present(hass: UniversalAssistant) -> None:
     """Tests if the init will use the auth cookie if present.
 
     If the cookie is present, the login step will be skipped and info
@@ -129,7 +129,7 @@ async def test_init_uses_cookie_if_present(hass: __HAC_KEEP__) -> None:
         assert mock_powerwall.get_gateway_din.called
 
 
-async def test_init_uses_password_if_no_cookies(hass: __HAC_KEEP__) -> None:
+async def test_init_uses_password_if_no_cookies(hass: UniversalAssistant) -> None:
     """Tests if the init will use the password if no auth cookie present."""
     mock_powerwall = await _mock_powerwall_with_fixtures(hass)
 
@@ -157,7 +157,7 @@ async def test_init_uses_password_if_no_cookies(hass: __HAC_KEEP__) -> None:
         assert mock_powerwall.get_charge.called
 
 
-async def test_init_saves_the_cookie(hass: __HAC_KEEP__) -> None:
+async def test_init_saves_the_cookie(hass: UniversalAssistant) -> None:
     """Tests that the cookie is properly saved."""
     mock_powerwall = await _mock_powerwall_with_fixtures(hass)
     mock_jar = MagicMock(CookieJar)
@@ -191,7 +191,7 @@ async def test_init_saves_the_cookie(hass: __HAC_KEEP__) -> None:
         assert config_entry.data[CONFIG_ENTRY_COOKIE] == "somecookie"
 
 
-async def test_retry_ignores_cookie(hass: __HAC_KEEP__) -> None:
+async def test_retry_ignores_cookie(hass: UniversalAssistant) -> None:
     """Tests that retrying uses the password instead."""
     mock_powerwall = await _mock_powerwall_with_fixtures(hass)
 
@@ -231,7 +231,7 @@ async def test_retry_ignores_cookie(hass: __HAC_KEEP__) -> None:
         assert mock_powerwall.get_charge.call_count == 2
 
 
-async def test_reauth_ignores_and_clears_cookie(hass: __HAC_KEEP__) -> None:
+async def test_reauth_ignores_and_clears_cookie(hass: UniversalAssistant) -> None:
     """Tests that the reauth flow uses password and clears the cookie."""
     mock_powerwall = await _mock_powerwall_with_fixtures(hass)
 
@@ -286,7 +286,7 @@ async def test_reauth_ignores_and_clears_cookie(hass: __HAC_KEEP__) -> None:
         assert config_entry.data[CONFIG_ENTRY_COOKIE] is None
 
 
-async def test_init_retries_with_password(hass: __HAC_KEEP__) -> None:
+async def test_init_retries_with_password(hass: UniversalAssistant) -> None:
     """Tests that the init retries with password if cookie fails."""
     mock_powerwall = await _mock_powerwall_with_fixtures(hass)
 
@@ -320,7 +320,7 @@ async def test_init_retries_with_password(hass: __HAC_KEEP__) -> None:
         assert mock_powerwall.get_gateway_din.call_count == 2
 
 
-async def test_setup_pw3_restricted(hass: __HAC_KEEP__) -> None:
+async def test_setup_pw3_restricted(hass: UniversalAssistant) -> None:
     """Test setup completes for a PW3-style restricted gateway."""
     mock_powerwall = await _mock_powerwall_restricted(hass)
 
@@ -365,7 +365,7 @@ async def test_setup_pw3_restricted(hass: __HAC_KEEP__) -> None:
     mock_powerwall.get_backup_reserve_percentage.assert_not_called()
 
 
-async def test_setup_non_404_api_error_propagates(hass: __HAC_KEEP__) -> None:
+async def test_setup_non_404_api_error_propagates(hass: UniversalAssistant) -> None:
     """Non-404 ApiError from get_gateway_din should surface as ConfigEntryNotReady."""
     mock_powerwall = await _mock_powerwall_with_fixtures(hass)
     mock_powerwall.get_gateway_din.side_effect = ApiError(
@@ -387,7 +387,7 @@ async def test_setup_non_404_api_error_propagates(hass: __HAC_KEEP__) -> None:
     assert config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_setup_api_changed(hass: __HAC_KEEP__) -> None:
+async def test_setup_api_changed(hass: UniversalAssistant) -> None:
     """Test setup fails when the Powerwall API has changed."""
     mock_powerwall = await _mock_powerwall_with_fixtures(hass)
     config_entry = MockConfigEntry(domain=DOMAIN, data={CONF_IP_ADDRESS: "1.2.3.4"})
@@ -417,7 +417,7 @@ async def test_setup_api_changed(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_refresh_log_level(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
     exception: Exception,

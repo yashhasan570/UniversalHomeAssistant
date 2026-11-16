@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.fireservicerota.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 MOCK_CONF = {
@@ -39,7 +39,7 @@ MOCK_TOKEN_INFO = {
 }
 
 
-async def test_show_form(hass: __HAC_KEEP__) -> None:
+async def test_show_form(hass: UniversalAssistant) -> None:
     """Test that the form is served with no input."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -48,7 +48,7 @@ async def test_show_form(hass: __HAC_KEEP__) -> None:
     assert result["step_id"] == "user"
 
 
-async def test_abort_if_already_setup(hass: __HAC_KEEP__) -> None:
+async def test_abort_if_already_setup(hass: UniversalAssistant) -> None:
     """Test abort if already setup."""
     entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_CONF, unique_id=MOCK_CONF[CONF_USERNAME]
@@ -69,7 +69,7 @@ async def test_abort_if_already_setup(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_invalid_credentials(hass: __HAC_KEEP__) -> None:
+async def test_invalid_credentials(hass: UniversalAssistant) -> None:
     """Test that invalid credentials throws an error."""
 
     with patch(
@@ -108,7 +108,7 @@ async def test_invalid_credentials(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_step_user(hass: __HAC_KEEP__) -> None:
+async def test_step_user(hass: UniversalAssistant) -> None:
     """Test the start of the config flow."""
 
     with (
@@ -156,7 +156,7 @@ async def test_step_user(hass: __HAC_KEEP__) -> None:
         assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_reauth(hass: __HAC_KEEP__) -> None:
+async def test_reauth(hass: UniversalAssistant) -> None:
     """Test the start of the config flow."""
     entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_CONF, unique_id=MOCK_CONF[CONF_USERNAME]

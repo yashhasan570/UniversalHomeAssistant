@@ -15,7 +15,7 @@ from universalassistant.components.vesync import async_remove_config_entry_devic
 from universalassistant.components.vesync.const import DOMAIN
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
@@ -28,7 +28,7 @@ from universalassistant.helpers import device_registry as dr, entity_registry as
     ],
 )
 async def test_async_setup_entry_login_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     manager: VeSync,
     exception: Exception,
@@ -46,7 +46,7 @@ async def test_async_setup_entry_login_errors(
 
 
 async def test_async_setup_entry__no_devices(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry, manager: VeSync
+    hass: UniversalAssistant, config_entry: ConfigEntry, manager: VeSync
 ) -> None:
     """Test setup connects to vesync and creates empty config when no devices."""
     with patch.object(hass.config_entries, "async_forward_entry_setups") as setups_mock:
@@ -72,7 +72,7 @@ async def test_async_setup_entry__no_devices(
 
 
 async def test_async_setup_entry__loads_fans(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry, manager: VeSync, fan
+    hass: UniversalAssistant, config_entry: ConfigEntry, manager: VeSync, fan
 ) -> None:
     """Test setup connects to vesync and loads fan."""
     manager._dev_list["fans"].append(fan)
@@ -99,7 +99,7 @@ async def test_async_setup_entry__loads_fans(
 
 
 async def test_migrate_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     switch_old_id_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -153,7 +153,7 @@ async def test_migrate_config_entry(
 
 
 async def test_async_remove_config_entry_device_positive(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry: ConfigEntry,
     manager: VeSync,
@@ -176,7 +176,7 @@ async def test_async_remove_config_entry_device_positive(
 
 
 async def test_async_remove_config_entry_device_negative(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry: ConfigEntry,
     manager: VeSync,

@@ -11,6 +11,8 @@ from systembridgeconnector.exceptions import (
     ConnectionErrorException,
     DataMissingException,
 )
+from systembridgeconnector.http_client import HTTPClient
+from systembridgeconnector.keys import is_client_key
 from systembridgeconnector.models.modules import Module
 from systembridgeconnector.version import Version
 
@@ -23,7 +25,7 @@ from universalassistant.const import (
     CONF_TOKEN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -38,6 +40,7 @@ from universalassistant.helpers.issue_registry import (
 )
 from universalassistant.helpers.typing import ConfigType
 
+from .config_flow import async_get_key_client
 from .const import AUDIO_MIN_VERSION, DATA_WAIT_TIMEOUT, DOMAIN, MODULES
 from .coordinator import SystemBridgeConfigEntry, SystemBridgeDataUpdateCoordinator
 from .services import async_setup_services
@@ -60,7 +63,7 @@ PLATFORMS = [
 ]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the System Bridge services."""
 
     async_setup_services(hass)
@@ -68,7 +71,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SystemBridgeConfigEntry,
 ) -> None:
     """Set up System Bridge from a config entry."""
@@ -135,6 +138,9 @@ async def async_setup_entry(
         )
     # The host has been updated since the issue was raised
     async_delete_issue(hass, DOMAIN, unsupported_issue_id)
+
+    if not is_client_key(entry.data[CONF_TOKEN]):
+        await _async_exchange_token(hass, entry)
 
     coordinator = SystemBridgeDataUpdateCoordinator(
         hass,
@@ -211,15 +217,61 @@ async def async_setup_entry(
     )
 
 
+async def _async_exchange_token(
+    hass: UniversalAssistant, entry: SystemBridgeConfigEntry
+) -> None:
+    """Trade the shared token from before keys for this Universal Home Assistant's key."""
+    http_client = HTTPClient(
+        entry.data[CONF_HOST],
+        entry.data[CONF_PORT],
+        entry.data[CONF_TOKEN],
+        session=async_get_clientsession(hass),
+    )
+    try:
+        async with asyncio.timeout(DATA_WAIT_TIMEOUT):
+            new_key = await http_client.exchange_key(await async_get_key_client(hass))
+    except AuthenticationException as exception:
+        raise ConfigEntryAuthFailed(
+            translation_domain=DOMAIN,
+            translation_key="authentication_failed",
+            translation_placeholders={
+                "title": entry.title,
+                "host": entry.data[CONF_HOST],
+            },
+        ) from exception
+    except ConnectionErrorException as exception:
+        raise ConfigEntryNotReady(
+            translation_domain=DOMAIN,
+            translation_key="connection_failed",
+            translation_placeholders={
+                "title": entry.title,
+                "host": entry.data[CONF_HOST],
+            },
+        ) from exception
+    except TimeoutError as exception:
+        raise ConfigEntryNotReady(
+            translation_domain=DOMAIN,
+            translation_key="timeout",
+            translation_placeholders={
+                "title": entry.title,
+                "host": entry.data[CONF_HOST],
+            },
+        ) from exception
+
+    hass.config_entries.async_update_entry(
+        entry, data={**entry.data, CONF_TOKEN: new_key.key}
+    )
+
+
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: SystemBridgeConfigEntry
+    hass: UniversalAssistant, entry: SystemBridgeConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, config_entry: SystemBridgeConfigEntry
+    hass: UniversalAssistant, config_entry: SystemBridgeConfigEntry
 ) -> None:
     """Migrate old entry."""
     _LOGGER.debug(

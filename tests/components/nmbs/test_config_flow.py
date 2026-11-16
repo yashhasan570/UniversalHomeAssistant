@@ -15,7 +15,7 @@ from universalassistant.components.nmbs.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 DUMMY_DATA_IMPORT: dict[str, Any] = {
@@ -38,7 +38,7 @@ DUMMY_DATA: dict[str, Any] = {
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_flow(hass: __HAC_KEEP__, mock_nmbs_client: AsyncMock) -> None:
+async def test_full_flow(hass: UniversalAssistant, mock_nmbs_client: AsyncMock) -> None:
     """Test the full flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -70,7 +70,7 @@ async def test_full_flow(hass: __HAC_KEEP__, mock_nmbs_client: AsyncMock) -> Non
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_same_station(hass: __HAC_KEEP__, mock_nmbs_client: AsyncMock) -> None:
+async def test_same_station(hass: UniversalAssistant, mock_nmbs_client: AsyncMock) -> None:
     """Test selecting the same station."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -100,7 +100,7 @@ async def test_same_station(hass: __HAC_KEEP__, mock_nmbs_client: AsyncMock) -> 
 
 
 async def test_abort_if_exists(
-    hass: __HAC_KEEP__, mock_nmbs_client: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_nmbs_client: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test aborting the flow if the entry already exists."""
     mock_config_entry.add_to_hass(hass)
@@ -124,7 +124,7 @@ async def test_abort_if_exists(
 
 
 async def test_dont_abort_if_exists_when_vias_differs(
-    hass: __HAC_KEEP__, mock_nmbs_client: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_nmbs_client: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test aborting the flow if the entry already exists."""
     mock_config_entry.add_to_hass(hass)
@@ -149,7 +149,7 @@ async def test_dont_abort_if_exists_when_vias_differs(
 
 
 async def test_unavailable_api(
-    hass: __HAC_KEEP__, mock_nmbs_client: AsyncMock
+    hass: UniversalAssistant, mock_nmbs_client: AsyncMock
 ) -> None:
     """Test starting a flow by user and api is unavailable."""
     mock_nmbs_client.get_stations.side_effect = ApiUnavailableError(
@@ -165,7 +165,7 @@ async def test_unavailable_api(
 
 
 async def test_api_not_modified(
-    hass: __HAC_KEEP__, mock_nmbs_client: AsyncMock
+    hass: UniversalAssistant, mock_nmbs_client: AsyncMock
 ) -> None:
     """Test starting a flow when the station list is not modified."""
     mock_nmbs_client.get_stations.return_value = None

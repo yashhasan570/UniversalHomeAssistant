@@ -14,7 +14,7 @@ from universalassistant.components.blink.const import DOMAIN
 from universalassistant.components.blink.coordinator import SCAN_INTERVAL
 from universalassistant.components.blink.services import BlinkService
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -28,7 +28,7 @@ PIN = "1234"
     [(ClientError, False), (TimeoutError, False), (None, False)],
 )
 async def test_setup_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_blink_api: MagicMock,
     mock_blink_auth_api: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -47,7 +47,7 @@ async def test_setup_not_ready(
 
 
 async def test_setup_not_ready_authkey_required(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_blink_api: MagicMock,
     mock_blink_auth_api: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -65,7 +65,7 @@ async def test_setup_not_ready_authkey_required(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_blink_api: MagicMock,
     mock_blink_auth_api: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -82,7 +82,7 @@ async def test_unload_entry(
 
 
 async def test_scheduled_refresh_is_not_forced(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_blink_api: MagicMock,
     mock_blink_auth_api: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -106,7 +106,7 @@ async def test_scheduled_refresh_is_not_forced(
 
 
 async def test_migrate_V0(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_blink_api: MagicMock,
     mock_blink_auth_api: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -124,7 +124,7 @@ async def test_migrate_V0(
 
 @pytest.mark.parametrize(("version"), [1, 2])
 async def test_migrate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_blink_api: MagicMock,
     mock_blink_auth_api: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -150,7 +150,7 @@ async def test_migrate(
 
 
 async def test_migrate_v3_to_v5(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_blink_api: MagicMock,
     mock_blink_auth_api: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -158,7 +158,7 @@ async def test_migrate_v3_to_v5(
     """Test migration from version 3 to 5.
 
     device_id is renamed to hardware_id (v3->v4), then the legacy
-    "__HA_KEEP__" value carried over from device_id is dropped (v4->v5)
+    "Universal Home Assistant" value carried over from device_id is dropped (v4->v5)
     since Blink's OAuth endpoint rejects it.
     """
     mock_config_entry.add_to_hass(hass)
@@ -166,7 +166,7 @@ async def test_migrate_v3_to_v5(
     # Set up v3 config entry with device_id set to the legacy literal
     data = {**mock_config_entry.data}
     data.pop("hardware_id", None)
-    data["device_id"] = "__HA_KEEP__"
+    data["device_id"] = "Universal Home Assistant"
     hass.config_entries.async_update_entry(
         mock_config_entry,
         version=3,
@@ -183,7 +183,7 @@ async def test_migrate_v3_to_v5(
 
 
 async def test_migrate_v4_drops_legacy_hardware_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_blink_api: MagicMock,
     mock_blink_auth_api: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -193,7 +193,7 @@ async def test_migrate_v4_drops_legacy_hardware_id(
     hass.config_entries.async_update_entry(
         mock_config_entry,
         version=4,
-        data={**mock_config_entry.data, "hardware_id": "__HA_KEEP__"},
+        data={**mock_config_entry.data, "hardware_id": "Universal Home Assistant"},
     )
 
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
@@ -205,7 +205,7 @@ async def test_migrate_v4_drops_legacy_hardware_id(
 
 
 async def test_migrate_v4_keeps_valid_hardware_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_blink_api: MagicMock,
     mock_blink_auth_api: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -236,7 +236,7 @@ async def test_migrate_v4_keeps_valid_hardware_id(
     ],
 )
 async def test_remove_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     mock_blink_api: MagicMock,

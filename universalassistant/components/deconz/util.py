@@ -2,7 +2,7 @@
 
 from typing import TYPE_CHECKING
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 from .const import DOMAIN
 from .hub import DeconzHub
@@ -19,7 +19,7 @@ def serial_from_unique_id(unique_id: str | None) -> str | None:
 
 
 @callback
-def get_master_hub(hass: __HAC_KEEP__) -> DeconzHub:
+def get_master_hub(hass: UniversalAssistant) -> DeconzHub:
     """Return the gateway which is marked as master."""
     entry: DeconzConfigEntry
     hub: DeconzHub

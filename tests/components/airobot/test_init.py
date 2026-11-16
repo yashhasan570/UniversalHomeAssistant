@@ -9,13 +9,13 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.airobot.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 
 @pytest.mark.usefixtures("init_integration")
 async def test_setup_entry_success(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test successful setup of a config entry."""
     assert mock_config_entry.state is ConfigEntryState.LOADED
@@ -30,7 +30,7 @@ async def test_setup_entry_success(
     ],
 )
 async def test_setup_entry_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airobot_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -48,7 +48,7 @@ async def test_setup_entry_exceptions(
 
 
 async def test_setup_entry_auth_error_triggers_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airobot_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -69,7 +69,7 @@ async def test_setup_entry_auth_error_triggers_reauth(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_unload_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test unloading a config entry."""
     assert mock_config_entry.state is ConfigEntryState.LOADED
@@ -82,7 +82,7 @@ async def test_unload_entry(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_device_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,

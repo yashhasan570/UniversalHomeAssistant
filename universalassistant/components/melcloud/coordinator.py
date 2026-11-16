@@ -9,7 +9,7 @@ from pymelcloud import Device
 from pymelcloud.atw_device import Zone
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.debounce import Debouncer
@@ -43,7 +43,7 @@ class MelCloudDeviceUpdateCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         device: Device,
         config_entry: MelCloudConfigEntry,
     ) -> None:

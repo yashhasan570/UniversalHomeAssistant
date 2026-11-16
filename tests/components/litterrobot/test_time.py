@@ -15,8 +15,8 @@ from universalassistant.components.time import (
     TimeServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import create_mock_account, setup_integration
@@ -26,7 +26,7 @@ SLEEP_START_TIME_ENTITY_ID = "time.test_sleep_mode_start_time"
 
 @pytest.mark.freeze_time(datetime(2023, 7, 1, 12))
 async def test_sleep_mode_start_time(
-    hass: __HAC_KEEP__, mock_account: MagicMock
+    hass: UniversalAssistant, mock_account: MagicMock
 ) -> None:
     """Tests the sleep mode start time."""
     await setup_integration(hass, mock_account, TIME_DOMAIN)
@@ -49,12 +49,12 @@ async def test_sleep_mode_start_time(
 
 
 async def test_time_command_exception(
-    hass: __HAC_KEEP__, mock_account_with_side_effects: MagicMock
+    hass: UniversalAssistant, mock_account_with_side_effects: MagicMock
 ) -> None:
-    """Test that LitterRobotException is wrapped in __HAC_KEEP__Error."""
+    """Test that LitterRobotException is wrapped in UniversalAssistantError."""
     await setup_integration(hass, mock_account_with_side_effects, TIME_DOMAIN)
 
-    with pytest.raises(__HAC_KEEP__Error, match="Invalid command: oops"):
+    with pytest.raises(UniversalAssistantError, match="Invalid command: oops"):
         await hass.services.async_call(
             TIME_DOMAIN,
             TimeService.SET_VALUE,
@@ -68,7 +68,7 @@ async def test_time_command_exception(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_litter_robot_5_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_account_with_litterrobot_5: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -108,7 +108,7 @@ async def test_litter_robot_5_all_entities(
     ],
 )
 async def test_litter_robot_5_sleep_schedule(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_account_with_litterrobot_5: MagicMock,
     entity_id: str,
     state: str,
@@ -137,7 +137,7 @@ async def test_litter_robot_5_sleep_schedule(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_litter_robot_5_no_sleep_schedule(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Tests time entities when the robot reports no sleep schedule."""
     mock_account = create_mock_account(robot_data={"sleepSchedules": []}, v5=True)
@@ -162,16 +162,16 @@ async def test_litter_robot_5_no_sleep_schedule(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_litter_robot_5_set_time_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_account_with_litterrobot_5: MagicMock,
 ) -> None:
-    """Test that a rejected schedule update raises __HAC_KEEP__Error."""
+    """Test that a rejected schedule update raises UniversalAssistantError."""
     await setup_integration(hass, mock_account_with_litterrobot_5, TIME_DOMAIN)
 
     robot = mock_account_with_litterrobot_5.robots[0]
     robot.set_sleep_mode.return_value = False
 
-    with pytest.raises(__HAC_KEEP__Error, match="Unable to update"):
+    with pytest.raises(UniversalAssistantError, match="Unable to update"):
         await hass.services.async_call(
             TIME_DOMAIN,
             TimeService.SET_VALUE,
@@ -184,7 +184,7 @@ async def test_litter_robot_5_set_time_failed(
 
 
 async def test_litter_robot_4_has_no_time_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_account_with_litterrobot_4: MagicMock,
 ) -> None:
     """Test that a Litter-Robot 4 creates no time entities."""

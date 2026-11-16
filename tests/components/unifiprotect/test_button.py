@@ -10,7 +10,7 @@ from uiprotect.data.public_devices import SensorFeatureCapability
 from universalassistant.components.unifiprotect.button import SENSOR_BUTTONS
 from universalassistant.components.unifiprotect.const import DEFAULT_ATTRIBUTION, DOMAIN
 from universalassistant.const import ATTR_ATTRIBUTION, ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .utils import (
@@ -26,7 +26,7 @@ from .utils import (
 
 
 async def test_button_chime_remove(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, chime: Chime
+    hass: UniversalAssistant, ufp: MockUFPFixture, chime: Chime
 ) -> None:
     """Test removing and re-adding a light device."""
 
@@ -46,7 +46,7 @@ async def test_button_chime_remove(
     ],
 )
 async def test_chime_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     chime: Chime,
@@ -81,7 +81,7 @@ async def test_chime_button(
 
 
 async def test_adopt_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     chime: Chime,
@@ -125,7 +125,7 @@ async def test_adopt_button(
 
 
 async def test_adopt_button_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     chime: Chime,
@@ -154,7 +154,7 @@ CLEAR_TAMPER = next(d for d in SENSOR_BUTTONS if d.key == "clear_tamper")
 
 
 async def test_button_sense_capability_creation_filter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
@@ -170,7 +170,7 @@ async def test_button_sense_capability_creation_filter(
 
 
 async def test_button_sense_capability_registry_cleanup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
@@ -189,7 +189,7 @@ async def test_button_sense_capability_registry_cleanup(
 
 
 async def test_button_sense_no_capability_map_skips_clear_tamper(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     sensor_all: Sensor,

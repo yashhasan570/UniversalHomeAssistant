@@ -13,7 +13,7 @@ from universalassistant.components.nobo_hub.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_IP_ADDRESS, CONF_MAC
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -27,7 +27,7 @@ DHCP_DISCOVERY = DhcpServiceInfo(
 
 
 async def test_configure_with_discover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Test configure with discover."""
@@ -100,7 +100,7 @@ async def test_configure_with_discover(
     ids=["sibling_different_ip", "replaced_hub"],
 )
 async def test_configure_filters_configured_hubs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     discovered: list[tuple[str, str]],
     expected_devices: set[str],
@@ -149,7 +149,7 @@ async def test_configure_filters_configured_hubs(
 
 
 async def test_configure_skips_user_step_when_all_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Flow falls through to manual when every discovered hub matches a configured pair."""
@@ -189,7 +189,7 @@ async def test_configure_skips_user_step_when_all_configured(
 
 
 async def test_configure_manual(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Test manual configuration when no hubs are discovered."""
@@ -237,7 +237,7 @@ async def test_configure_manual(
 
 
 async def test_configure_user_selected_manual(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Test configuration when user selects manual."""
@@ -290,7 +290,7 @@ async def test_configure_user_selected_manual(
 
 
 async def test_configure_invalid_serial_suffix(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Invalid serial suffix surfaces an error; valid suffix recovers."""
@@ -336,7 +336,7 @@ async def test_configure_invalid_serial_suffix(
 
 
 async def test_configure_invalid_serial_undiscovered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Invalid serial in the manual step surfaces an error; valid serial recovers."""
@@ -374,7 +374,7 @@ async def test_configure_invalid_serial_undiscovered(
 
 
 async def test_configure_invalid_ip_address(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Invalid IP surfaces an error; valid IP recovers."""
@@ -423,7 +423,7 @@ async def test_configure_invalid_ip_address(
     ids=["serial_mismatch", "tcp_failure"],
 )
 async def test_configure_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     connect_outcome: dict[str, object],
     expected_error: str,
@@ -484,7 +484,7 @@ async def test_configure_cannot_connect(
 
 
 async def test_dhcp_discovery_new_hub(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """A DHCP-discovered hub routes to `selected` for the user to enter the suffix."""
@@ -532,7 +532,7 @@ async def test_dhcp_discovery_new_hub(
 
 
 async def test_dhcp_discovery_backfill_aborts_when_ip_matches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
 ) -> None:
@@ -565,7 +565,7 @@ async def test_dhcp_discovery_backfill_aborts_when_ip_matches(
 
 
 async def test_dhcp_discovery_backfill_proceeds_when_ip_mismatched(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
 ) -> None:
@@ -625,7 +625,7 @@ async def test_dhcp_discovery_backfill_proceeds_when_ip_mismatched(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_discovery_skips_broadcast_when_mac_known(
-    hass: __HAC_KEEP__, mock_unload_entry: AsyncMock
+    hass: UniversalAssistant, mock_unload_entry: AsyncMock
 ) -> None:
     """A configured entry with a stored MAC refreshes its IP without broadcasting."""
     config_entry = MockConfigEntry(
@@ -656,7 +656,7 @@ async def test_dhcp_discovery_skips_broadcast_when_mac_known(
 
 
 async def test_dhcp_discovery_aborts_when_ignored_mac_matches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Rediscovery of a previously-ignored hub aborts on matching MAC."""
@@ -678,7 +678,7 @@ async def test_dhcp_discovery_aborts_when_ignored_mac_matches(
 
 
 async def test_dhcp_discovery_proceeds_when_ignored_mac_differs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """A sibling hub (different MAC, same serial prefix) is not shadowed by an ignored entry.
@@ -729,7 +729,7 @@ async def test_dhcp_discovery_proceeds_when_ignored_mac_differs(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_discovery_configured_wins_over_ignored_mac(
-    hass: __HAC_KEEP__, mock_unload_entry: AsyncMock
+    hass: UniversalAssistant, mock_unload_entry: AsyncMock
 ) -> None:
     """A configured entry's IP refresh wins over an ignored entry with the same MAC.
 
@@ -771,7 +771,7 @@ async def test_dhcp_discovery_configured_wins_over_ignored_mac(
     assert configured_entry.data[CONF_IP_ADDRESS] == "192.168.1.106"
 
 
-async def test_dhcp_discovery_no_broadcast(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_discovery_no_broadcast(hass: UniversalAssistant) -> None:
     """DHCP at an IP that emits no Nobø broadcast aborts cleanly."""
     with patch(
         "universalassistant.components.nobo_hub.config_flow.nobo.async_discover_hubs",
@@ -789,7 +789,7 @@ async def test_dhcp_discovery_no_broadcast(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_changes_ip(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """A new IP is probed before save when the entry is not loaded."""
@@ -839,7 +839,7 @@ async def test_reconfigure_flow_changes_ip(
 )
 @pytest.mark.usefixtures("mock_setup_entry", "mock_unload_entry")
 async def test_reconfigure_flow_rejects_bad_ip(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     submitted_ip: str,
     connect_outcome: dict[str, object],
@@ -888,7 +888,7 @@ async def test_reconfigure_flow_rejects_bad_ip(
 
 
 async def test_reconfigure_flow_unchanged_ip_skips_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
@@ -913,7 +913,7 @@ async def test_reconfigure_flow_unchanged_ip_skips_reload(
 
 
 async def test_reconfigure_flow_changed_ip_triggers_reload_and_skips_probe(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
@@ -945,7 +945,7 @@ async def test_reconfigure_flow_changed_ip_triggers_reload_and_skips_probe(
 
 
 async def test_options_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
 ) -> None:

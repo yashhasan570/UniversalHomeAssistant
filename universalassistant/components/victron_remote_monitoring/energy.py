@@ -1,11 +1,11 @@
 """Victron Remote Monitoring energy platform."""
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def async_get_solar_forecast(
-    hass: __HAC_KEEP__, config_entry_id: str
+    hass: UniversalAssistant, config_entry_id: str
 ) -> dict[str, dict[str, float | int]] | None:
     """Get solar forecast for a config entry ID."""
     if (

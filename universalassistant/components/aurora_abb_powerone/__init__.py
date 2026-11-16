@@ -11,14 +11,14 @@
 # sudo chmod 777 /dev/ttyUSB0
 
 from universalassistant.const import CONF_ADDRESS, CONF_PORT, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import AuroraAbbConfigEntry, AuroraAbbDataUpdateCoordinator
 
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: AuroraAbbConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: AuroraAbbConfigEntry) -> None:
     """Set up Aurora ABB PowerOne from a config entry."""
 
     comport = entry.data[CONF_PORT]
@@ -30,7 +30,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: AuroraAbbConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: AuroraAbbConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: AuroraAbbConfigEntry) -> None:
     """Unload a config entry."""
 
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

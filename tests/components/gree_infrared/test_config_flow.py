@@ -22,7 +22,7 @@ from universalassistant.components.gree_infrared.const import (
 )
 from universalassistant.components.infrared import DATA_COMPONENT
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType, InvalidData
 from universalassistant.helpers import entity_registry as er
 
@@ -31,7 +31,7 @@ SECOND_RECEIVER_ENTITY_ID = "infrared.second_ir_receiver"
 
 
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
-async def test_user_flow_success(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_success(hass: UniversalAssistant) -> None:
     """Test successful config flow with default modes (cool + dry)."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -60,7 +60,7 @@ async def test_user_flow_success(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "mock_infrared_emitter_entity", "mock_infrared_receiver_entity"
 )
-async def test_user_flow_with_heat_and_receiver(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_with_heat_and_receiver(hass: UniversalAssistant) -> None:
     """Test config flow with heat mode and optional receiver."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -86,7 +86,7 @@ async def test_user_flow_with_heat_and_receiver(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
-async def test_user_flow_requires_hvac_mode(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_requires_hvac_mode(hass: UniversalAssistant) -> None:
     """Test the flow rejects an empty list of supported modes."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -116,7 +116,7 @@ async def test_user_flow_requires_hvac_mode(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
 async def test_user_flow_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the flow aborts when the emitter is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -140,7 +140,7 @@ async def test_user_flow_already_configured(
     "mock_infrared_emitter_entity", "mock_infrared_receiver_entity"
 )
 async def test_user_flow_receiver_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the flow aborts when the receiver is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -165,7 +165,7 @@ async def test_user_flow_receiver_already_configured(
 
 
 @pytest.mark.usefixtures("init_infrared")
-async def test_user_flow_no_emitters(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_no_emitters(hass: UniversalAssistant) -> None:
     """Test the flow aborts when no infrared emitters exist."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -176,7 +176,7 @@ async def test_user_flow_no_emitters(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_infrared_receiver_entity")
-async def test_user_flow_no_emitters_receiver_only(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_no_emitters_receiver_only(hass: UniversalAssistant) -> None:
     """Test the flow aborts when only a receiver is available, since AC needs an emitter."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -195,7 +195,7 @@ async def test_user_flow_no_emitters_receiver_only(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_user_flow_title_from_entity_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     entity_name: str | None,
     expected_title: str,
@@ -221,7 +221,7 @@ async def test_user_flow_title_from_entity_name(
 
 @pytest.fixture
 async def mock_second_infrared_entities(
-    hass: __HAC_KEEP__, init_infrared: None
+    hass: UniversalAssistant, init_infrared: None
 ) -> None:
     """Add a second infrared emitter and receiver to choose from."""
     await hass.data[DATA_COMPONENT].async_add_entities(
@@ -236,7 +236,7 @@ async def mock_second_infrared_entities(
     "mock_infrared_emitter_entity", "mock_infrared_receiver_entity"
 )
 async def test_reconfigure_flow_suggests_current_values(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the reconfigure form is pre-filled with the current entry data."""
     mock_config_entry.add_to_hass(hass)
@@ -293,7 +293,7 @@ async def test_reconfigure_flow_suggests_current_values(
     ],
 )
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     user_input: dict[str, Any],
 ) -> None:
@@ -338,7 +338,7 @@ async def test_reconfigure_flow(
     ],
 )
 async def test_reconfigure_flow_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     user_input: dict[str, Any],
 ) -> None:
@@ -368,7 +368,7 @@ async def test_reconfigure_flow_already_configured(
     "mock_infrared_emitter_entity", "mock_infrared_receiver_entity"
 )
 async def test_reconfigure_flow_requires_hvac_mode(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure rejects an empty list of supported modes."""
     mock_config_entry.add_to_hass(hass)
@@ -400,7 +400,7 @@ async def test_reconfigure_flow_requires_hvac_mode(
 
 @pytest.mark.usefixtures("mock_infrared_receiver_entity")
 async def test_reconfigure_flow_no_emitters(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure aborts when only a receiver exists."""
     mock_config_entry.add_to_hass(hass)

@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_entry
 
@@ -23,7 +23,7 @@ def mock_switch_chars(mock_read_char_raw):
 
 
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_entry: MockConfigEntry,
     mock_switch_chars: dict[str, bytes],
@@ -41,7 +41,7 @@ async def test_setup(
 
 
 async def test_switching(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry: MockConfigEntry,
     mock_client: Mock,
     mock_switch_chars: dict[str, bytes],

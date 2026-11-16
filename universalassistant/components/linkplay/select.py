@@ -10,7 +10,7 @@ from linkplay.consts import AudioOutputHwMode
 from linkplay.manufacturers import MANUFACTURER_WIIM
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import LinkPlayConfigEntry
@@ -62,7 +62,7 @@ SELECT_TYPES_WIIM: tuple[LinkPlaySelectEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: LinkPlayConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

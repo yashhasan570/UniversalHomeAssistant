@@ -6,7 +6,7 @@ from copy import deepcopy
 from typing import Any
 from urllib.parse import unquote
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import DOMAIN
 
@@ -84,7 +84,7 @@ def _reference_parts(reference: str) -> list[str]:
     if reference == "#":
         return []
     if not reference.startswith("#/"):
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="unsupported_schema_reference",
             translation_placeholders={"reference": reference},
@@ -105,13 +105,13 @@ def _resolve_reference(reference: str, root: dict[str, Any]) -> dict[str, Any] |
             else:
                 target = target[part]
     except (KeyError, IndexError, TypeError, ValueError) as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="invalid_schema_reference",
             translation_placeholders={"reference": reference},
         ) from err
     if not isinstance(target, (dict, bool)):
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="unsupported_schema_reference",
             translation_placeholders={"reference": reference},

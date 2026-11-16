@@ -11,13 +11,13 @@ from pytest_universalassistant.typing import WebSocketGenerator
 from universalassistant import config_entries
 from universalassistant.components.time_date.const import DOMAIN
 from universalassistant.const import CONF_DISPLAY_OPTIONS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
-async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test we get the forms."""
 
     result = await hass.config_entries.flow.async_init(
@@ -35,7 +35,7 @@ async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_flow_does_not_allow_beat(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_does_not_allow_beat(hass: UniversalAssistant) -> None:
     """Test we get the forms."""
 
     result = await hass.config_entries.flow.async_init(
@@ -50,7 +50,7 @@ async def test_user_flow_does_not_allow_beat(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_single_instance(hass: __HAC_KEEP__) -> None:
+async def test_single_instance(hass: UniversalAssistant) -> None:
     """Test we get the forms."""
 
     entry = MockConfigEntry(
@@ -71,7 +71,7 @@ async def test_single_instance(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_timezone_not_set(hass: __HAC_KEEP__) -> None:
+async def test_timezone_not_set(hass: UniversalAssistant) -> None:
     """Test time zone not set."""
     hass.config.time_zone = None
 
@@ -90,7 +90,7 @@ async def test_timezone_not_set(hass: __HAC_KEEP__) -> None:
 
 
 async def test_config_flow_preview(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
 ) -> None:

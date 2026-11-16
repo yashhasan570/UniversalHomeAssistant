@@ -6,10 +6,10 @@ from typing import Any
 import probatio
 from probatio.humanize import humanize_error
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 
-class BlueprintException(__HAC_KEEP__Error):
+class BlueprintException(UniversalAssistantError):
     """Base exception for blueprint errors."""
 
     def __init__(self, domain: str | None, msg: str) -> None:

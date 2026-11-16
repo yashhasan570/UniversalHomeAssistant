@@ -52,9 +52,9 @@ from mcp.shared.message import SessionMessage
 import pydantic
 
 from universalassistant.components import conversation
-from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
+from universalassistant.components.http import KEY_HASS, UniversalAssistantView
 from universalassistant.const import CONF_LLM_HASS_API, CONTENT_TYPE_JSON
-from universalassistant.core import Context, __HAC_KEEP__, callback
+from universalassistant.core import Context, UniversalAssistant, callback
 from universalassistant.helpers import llm
 
 from .const import CONF_ALL_LLM_APIS, CONF_READ_ONLY, CONF_REQUIRE_ADMIN, DOMAIN
@@ -83,7 +83,7 @@ MESSAGES_API = f"/{DOMAIN}/messages/{{session_id}}"
 
 
 @callback
-def async_register(hass: __HAC_KEEP__) -> None:
+def async_register(hass: UniversalAssistant) -> None:
     """Register the websocket API."""
     hass.http.register_view(ModelContextProtocolSSEView())
     hass.http.register_view(ModelContextProtocolMessagesView())
@@ -91,7 +91,7 @@ def async_register(hass: __HAC_KEEP__) -> None:
     hass.http.register_view(ModelContextProtocolStreamableApiView())
 
 
-def async_get_config_entry(hass: __HAC_KEEP__) -> MCPServerConfigEntry:
+def async_get_config_entry(hass: UniversalAssistant) -> MCPServerConfigEntry:
     """Get the first enabled MCP server config entry.
 
     The ConfigEntry contains a reference to the actual MCP server used to
@@ -110,7 +110,7 @@ def async_get_config_entry(hass: __HAC_KEEP__) -> MCPServerConfigEntry:
 
 
 def _entry_llm_api_ids(
-    hass: __HAC_KEEP__, entry: MCPServerConfigEntry
+    hass: UniversalAssistant, entry: MCPServerConfigEntry
 ) -> str | list[str]:
     """Return the LLM APIs served by the config entry."""
     if entry.data[CONF_ALL_LLM_APIS]:
@@ -193,7 +193,7 @@ async def create_mcp_server(
     return server, options
 
 
-class ModelContextProtocolSSEView(__HAC_KEEP__View):
+class ModelContextProtocolSSEView(UniversalAssistantView):
     """Model Context Protocol SSE endpoint."""
 
     name = f"{DOMAIN}:sse"
@@ -248,7 +248,7 @@ class ModelContextProtocolSSEView(__HAC_KEEP__View):
             return response
 
 
-class ModelContextProtocolMessagesView(__HAC_KEEP__View):
+class ModelContextProtocolMessagesView(UniversalAssistantView):
     """Model Context Protocol messages endpoint."""
 
     name = f"{DOMAIN}:messages"
@@ -370,7 +370,7 @@ async def _async_handle_streamable_message(
         )
 
 
-class ModelContextProtocolStreamableView(__HAC_KEEP__View):
+class ModelContextProtocolStreamableView(UniversalAssistantView):
     """Model Context Protocol Streamable HTTP endpoint.
 
     This serves the configured LLM APIs and requires admin access when the
@@ -393,7 +393,7 @@ class ModelContextProtocolStreamableView(__HAC_KEEP__View):
         )
 
 
-class ModelContextProtocolStreamableApiView(__HAC_KEEP__View):
+class ModelContextProtocolStreamableApiView(UniversalAssistantView):
     """Model Context Protocol Streamable HTTP endpoint for a specific LLM API.
 
     The LLM API is selected by its ID in the URL. These endpoints require

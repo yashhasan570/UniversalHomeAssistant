@@ -3,7 +3,7 @@
 from aioelectricitymaps import ElectricityMaps
 
 from universalassistant.const import CONF_API_KEY, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .coordinator import CO2SignalConfigEntry, CO2SignalCoordinator
@@ -11,7 +11,7 @@ from .coordinator import CO2SignalConfigEntry, CO2SignalCoordinator
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: CO2SignalConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: CO2SignalConfigEntry) -> None:
     """Set up CO2 Signal from a config entry."""
     session = async_get_clientsession(hass)
     coordinator = CO2SignalCoordinator(
@@ -23,6 +23,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: CO2SignalConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: CO2SignalConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: CO2SignalConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

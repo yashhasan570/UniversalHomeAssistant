@@ -7,7 +7,7 @@ from lojack_api import ApiError, AuthenticationError, LoJackClient
 from lojack_api.device import Vehicle
 from lojack_api.models import Location
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -35,7 +35,7 @@ class LoJackCoordinator(DataUpdateCoordinator[Location]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         client: LoJackClient,
         entry: LoJackConfigEntry,
         vehicle: Vehicle,

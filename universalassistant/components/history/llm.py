@@ -10,7 +10,7 @@ import probatio
 from universalassistant.components.llm import LLMTools
 from universalassistant.components.recorder import get_instance, statistics
 from universalassistant.components.recorder.models import StatisticMeanType
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.llm import (
     LLM_API_UNIVERSAL_ASSISTANT,
@@ -78,7 +78,7 @@ def _to_csv(header: list[str], rows: list[list[str]]) -> str:
 
 
 def _get_statistics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     start_time: datetime,
     end_time: datetime,
     entity_ids: list[str],
@@ -221,7 +221,7 @@ class GetHistoryTool(Tool):
 
     @override
     async def async_call(
-        self, hass: __HAC_KEEP__, tool_input: ToolInput, llm_context: LLMContext
+        self, hass: UniversalAssistant, tool_input: ToolInput, llm_context: LLMContext
     ) -> ToolResult:
         """Query the long-term statistics."""
         args = self.parameters(tool_input.tool_args)
@@ -278,9 +278,9 @@ class GetHistoryTool(Tool):
 
 @callback
 def async_get_tools(
-    hass: __HAC_KEEP__, llm_context: LLMContext, api_id: str
+    hass: UniversalAssistant, llm_context: LLMContext, api_id: str
 ) -> LLMTools | None:
-    """Return the history LLM tools for the __HA_KEEP__ API."""
+    """Return the history LLM tools for the Universal Home Assistant API."""
     if api_id != LLM_API_UNIVERSAL_ASSISTANT:
         return None
 

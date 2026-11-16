@@ -12,14 +12,14 @@ from universalassistant.components.html5.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import ATTR_VAPID_PRV_KEY, MOCK_CONF, MOCK_CONF_PUB_KEY
 
 
 async def test_step_user_success(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test a successful user config flow."""
     result = await hass.config_entries.flow.async_init(
@@ -45,7 +45,7 @@ async def test_step_user_success(
 
 
 async def test_step_user_success_generate(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test a successful user config flow, generating a key pair."""
     result = await hass.config_entries.flow.async_init(
@@ -76,7 +76,7 @@ async def test_step_user_success_generate(
 
 @pytest.mark.parametrize("exception", [ValueError, binascii.Error])
 async def test_step_user_form_invalid_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     exception: Exception,
 ) -> None:

@@ -39,7 +39,7 @@ from systembridgeconnector.models.modules.networks import (
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 SECOND_DISPLAY = replace(
@@ -73,7 +73,7 @@ def sensor_only() -> Generator[None]:
 )
 @pytest.mark.freeze_time("1970-01-01 00:00:00")
 async def test_sensor_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -90,7 +90,7 @@ async def test_sensor_platform(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_sensor_memory_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:
@@ -123,7 +123,7 @@ async def test_sensor_memory_missing(
     "entity_id", ["sensor.hostname_swap_usage", "sensor.hostname_swap_used"]
 )
 async def test_sensor_swap_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
     memory: Memory | None,
@@ -147,7 +147,7 @@ async def test_sensor_swap_missing(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_sensor_load_average_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:
@@ -171,7 +171,7 @@ async def test_sensor_load_average_missing(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_sensor_battery_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -208,7 +208,7 @@ async def test_sensor_battery_missing(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_sensor_battery_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
 ) -> None:
@@ -223,7 +223,7 @@ async def test_sensor_battery_removed(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_sensor_battery_empty(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:
@@ -264,7 +264,7 @@ async def test_sensor_battery_empty(
     ],
 )
 async def test_sensor_battery_state_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
     entity_id: str,
@@ -314,7 +314,7 @@ async def test_sensor_battery_state_unknown(
     ],
 )
 async def test_sensor_battery_info_enabled_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     entity_id: str,
@@ -333,7 +333,7 @@ async def test_sensor_battery_info_enabled_default(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_sensor_memory_free_uses_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:
@@ -377,7 +377,7 @@ async def test_sensor_memory_free_uses_available(
     ],
 )
 async def test_sensor_network_data_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
     networks: Networks | None,
@@ -409,7 +409,7 @@ async def test_sensor_network_data_missing(
 
 @pytest.mark.usefixtures("mock_version", "entity_registry_enabled_by_default")
 async def test_sensor_network_interface_added(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:
@@ -454,7 +454,7 @@ async def test_sensor_network_interface_added(
 
 @pytest.mark.usefixtures("mock_version", "entity_registry_enabled_by_default")
 async def test_sensor_network_interface_wifi_added(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:
@@ -499,7 +499,7 @@ async def test_sensor_network_interface_wifi_added(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_sensor_battery_added(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:
@@ -561,7 +561,7 @@ async def test_sensor_battery_added(
     ],
 )
 async def test_sensor_disk_data_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
     disks: Disks | None,
@@ -590,7 +590,7 @@ async def test_sensor_disk_data_missing(
 
 @pytest.mark.usefixtures("mock_version", "entity_registry_enabled_by_default")
 async def test_sensor_disk_added(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:
@@ -663,7 +663,7 @@ async def test_sensor_disk_added(
     ],
 )
 async def test_sensor_device_found_by_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
     displays: list[Display],

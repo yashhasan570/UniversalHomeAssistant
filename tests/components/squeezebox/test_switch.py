@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.squeezebox.const import DOMAIN, PLAYER_UPDATE_INTERVAL
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_registry import EntityRegistry
 
 from .conftest import TEST_ALARM_ID, TEST_MAC
@@ -30,7 +30,7 @@ def squeezebox_alarm_platform():
 
 @pytest.fixture
 async def mock_alarms_player(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     lms: MagicMock,
 ) -> MagicMock:
@@ -56,7 +56,7 @@ async def mock_alarms_player(
 
 
 async def test_entity_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     mock_alarms_player: MagicMock,
     snapshot: SnapshotAssertion,
@@ -67,7 +67,7 @@ async def test_entity_registry(
 
 
 async def test_switch_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     mock_alarms_player: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -86,7 +86,7 @@ async def test_switch_state(
 
 
 async def test_switch_deleted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     mock_alarms_player: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -105,7 +105,7 @@ async def test_switch_deleted(
 
 
 async def test_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     mock_alarms_player: MagicMock,
 ) -> None:
@@ -125,7 +125,7 @@ async def test_turn_on(
 
 
 async def test_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     mock_alarms_player: MagicMock,
 ) -> None:
@@ -145,7 +145,7 @@ async def test_turn_off(
 
 
 async def test_alarms_enabled_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     mock_alarms_player: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -166,7 +166,7 @@ async def test_alarms_enabled_state(
 
 
 async def test_alarms_enabled_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     mock_alarms_player: MagicMock,
 ) -> None:
@@ -184,7 +184,7 @@ async def test_alarms_enabled_turn_on(
 
 
 async def test_alarms_enabled_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     mock_alarms_player: MagicMock,
 ) -> None:

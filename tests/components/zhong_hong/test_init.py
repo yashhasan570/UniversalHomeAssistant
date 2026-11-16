@@ -14,7 +14,7 @@ from universalassistant.components.zhong_hong.const import (
 )
 from universalassistant.config_entries import ConfigEntryDisabler, ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PORT, STATE_OFF
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -25,7 +25,7 @@ YAML_CONFIG = {CLIMATE_DOMAIN: {"platform": DOMAIN, CONF_HOST: HOST}}
 
 
 async def test_setup_and_unload(
-    hass: __HAC_KEEP__, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the gateway is listening while the entry is loaded."""
     await setup_integration(hass, mock_config_entry)
@@ -47,7 +47,7 @@ async def test_setup_and_unload(
     ids=["discovery_fails", "no_devices_found"],
 )
 async def test_setup_retries_without_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_config_entry: MockConfigEntry,
     attribute: str,
@@ -63,7 +63,7 @@ async def test_setup_retries_without_devices(
 
 
 async def test_setup_stops_listener_when_first_refresh_fails(
-    hass: __HAC_KEEP__, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the listener is stopped when the entry fails after it was started.
 
@@ -80,7 +80,7 @@ async def test_setup_stops_listener_when_first_refresh_fails(
 
 
 async def test_setup_asks_for_the_state_of_every_device(
-    hass: __HAC_KEEP__, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the entities have state without waiting for someone to touch a unit.
 
@@ -95,7 +95,7 @@ async def test_setup_asks_for_the_state_of_every_device(
 
 
 async def test_yaml_import(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -118,7 +118,7 @@ async def test_yaml_import(
 
 
 async def test_yaml_import_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
@@ -151,7 +151,7 @@ async def test_yaml_import_already_configured(
     ids=["cannot_connect", "no_devices_found"],
 )
 async def test_yaml_import_with_an_unreachable_gateway(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     issue_registry: ir.IssueRegistry,
     attribute: str,
@@ -183,7 +183,7 @@ async def test_yaml_import_with_an_unreachable_gateway(
 
 
 async def test_unique_ids_are_migrated_off_the_address(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -210,7 +210,7 @@ async def test_unique_ids_are_migrated_off_the_address(
 
 
 async def test_two_gateways_with_the_same_address(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -218,7 +218,7 @@ async def test_two_gateways_with_the_same_address(
 
     `(1, 1)` is the first address on any bus, so two gateways having one is
     the ordinary case rather than a corner one. Identified by address alone
-    both entities collided and __HA_KEEP__ added only the first.
+    both entities collided and Universal Home Assistant added only the first.
     """
     other_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -238,7 +238,7 @@ async def test_two_gateways_with_the_same_address(
 
 
 async def test_the_old_unique_id_is_left_with_its_owner(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

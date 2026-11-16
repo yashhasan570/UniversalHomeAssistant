@@ -1,4 +1,4 @@
-"""Map Z-Wave nodes and values to __HA_KEEP__ entities."""
+"""Map Z-Wave nodes and values to Universal Home Assistant entities."""
 
 from collections.abc import Generator
 from dataclasses import dataclass

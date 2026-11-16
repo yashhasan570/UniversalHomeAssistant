@@ -4,7 +4,7 @@
 from datetime import datetime
 from functools import partial
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.event import async_call_later
 from universalassistant.util import dt as dt_util
 
@@ -22,7 +22,7 @@ from ..helpers import savable_state
 
 @callback
 def store_live_activity_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     webhook_id: str,
     activity_tag: str,
     token: str,
@@ -42,7 +42,7 @@ def store_live_activity_token(
 
 @callback
 def remove_live_activity_token(
-    hass: __HAC_KEEP__, webhook_id: str, activity_tag: str
+    hass: UniversalAssistant, webhook_id: str, activity_tag: str
 ) -> None:
     """Remove a stored Live Activity token, returning whether one existed."""
     live_activity_tokens = hass.data[DOMAIN][DATA_LIVE_ACTIVITY_TOKENS]
@@ -62,7 +62,7 @@ def remove_live_activity_token(
 
 
 @callback
-def async_schedule_next_cleanup(hass: __HAC_KEEP__) -> None:
+def async_schedule_next_cleanup(hass: UniversalAssistant) -> None:
     """Schedule a single cleanup sweep for the earliest token expiry.
 
     Cancels any previously scheduled sweep first, so calling this whenever the
@@ -95,7 +95,7 @@ def async_schedule_next_cleanup(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def async_cleanup_expired_live_activity_tokens(hass: __HAC_KEEP__) -> None:
+async def async_cleanup_expired_live_activity_tokens(hass: UniversalAssistant) -> None:
     """Remove expired Live Activity tokens and reschedule the next sweep."""
     now = dt_util.utcnow().timestamp()
     tokens = hass.data[DOMAIN][DATA_LIVE_ACTIVITY_TOKENS]

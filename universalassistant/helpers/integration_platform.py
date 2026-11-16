@@ -9,7 +9,7 @@ from types import ModuleType
 from typing import Any
 
 from universalassistant.const import EVENT_COMPONENT_LOADED
-from universalassistant.core import Event, HassJob, __HAC_KEEP__, callback
+from universalassistant.core import Event, HassJob, UniversalAssistant, callback
 from universalassistant.loader import (
     Integration,
     async_get_integration,
@@ -32,13 +32,13 @@ class IntegrationPlatform:
     """An integration platform."""
 
     platform_name: str
-    process_job: HassJob[[__HAC_KEEP__, str, Any], Awaitable[None] | None]
+    process_job: HassJob[[UniversalAssistant, str, Any], Awaitable[None] | None]
     seen_components: set[str]
 
 
 @callback
 def _async_integration_platform_component_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration_platforms: list[IntegrationPlatform],
     event: Event[EventComponentLoaded],
 ) -> None:
@@ -95,7 +95,7 @@ def _async_integration_platform_component_loaded(
 
 
 async def _async_process_integration_platforms_for_component(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: Integration,
     platforms_that_exist: list[str],
     integration_platforms_by_name: dict[str, IntegrationPlatform],
@@ -122,7 +122,7 @@ async def _async_process_integration_platforms_for_component(
 
 @callback
 def _process_integration_platforms(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: Integration,
     platforms: dict[str, ModuleType],
     integration_platforms_by_name: dict[str, IntegrationPlatform],
@@ -171,10 +171,10 @@ async def _async_import_platform(
 
 
 async def async_process_integration_platforms(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     platform_name: str,
     # Any = platform.
-    process_platform: Callable[[__HAC_KEEP__, str, Any], Awaitable[None] | None],
+    process_platform: Callable[[UniversalAssistant, str, Any], Awaitable[None] | None],
     wait_for_platforms: bool = False,
 ) -> None:
     """Process a specific platform for all current and future loaded integrations."""
@@ -234,7 +234,7 @@ async def async_process_integration_platforms(
 
 
 async def _async_process_integration_platforms(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     platform_name: str,
     top_level_components: set[str],
     process_job: HassJob,
@@ -266,7 +266,7 @@ async def _async_process_integration_platforms(
 
 
 # Any = platform.
-type ProcessPlatform[_R] = Callable[[__HAC_KEEP__, str, Any], _R | Awaitable[_R]]
+type ProcessPlatform[_R] = Callable[[UniversalAssistant, str, Any], _R | Awaitable[_R]]
 
 
 class LazyIntegrationPlatforms[_R]:
@@ -286,7 +286,7 @@ class LazyIntegrationPlatforms[_R]:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         platform_name: str,
         process_platform: ProcessPlatform[_R],
     ) -> None:

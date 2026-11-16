@@ -16,8 +16,8 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.bluetti_modbus.const import DOMAIN, SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -27,7 +27,7 @@ VOLTAGE_ENTITY = "sensor.balco_260_battery_voltage"
 
 
 async def test_load_unload_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """The entry loads, produces entities, and unloads cleanly."""
     await setup_integration(hass, mock_config_entry)
@@ -44,7 +44,7 @@ async def test_load_unload_entry(
 
 
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -67,7 +67,7 @@ async def test_device_info(
 
 
 async def test_setup_retry_when_device_unresponsive(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -80,19 +80,19 @@ async def test_setup_retry_when_device_unresponsive(
 
 
 async def test_setup_error_when_link_settings_are_in_use(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Another integration holding the device on other link settings is fatal."""
     with patch(
         "universalassistant.components.bluetti_modbus.async_get_unit",
-        side_effect=__HAC_KEEP__Error("already in use with different link settings"),
+        side_effect=UniversalAssistantError("already in use with different link settings"),
     ):
         await setup_integration(hass, mock_config_entry)
 
     assert mock_config_entry.state is ConfigEntryState.SETUP_ERROR
 
 
-async def _tick(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+async def _tick(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
     freezer.tick(SCAN_INTERVAL)
     async_fire_time_changed(hass)
     await hass.async_block_till_done(wait_background_tasks=True)
@@ -111,7 +111,7 @@ async def _tick(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
     ],
 )
 async def test_failed_refresh_goes_unavailable_then_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
     mock_config_entry: MockConfigEntry,
@@ -142,7 +142,7 @@ async def test_failed_refresh_goes_unavailable_then_recovers(
 
 
 async def test_transient_busy_response_is_retried(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -168,7 +168,7 @@ async def test_transient_busy_response_is_retried(
 
 
 async def test_dead_link_on_the_retry_still_fails_the_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -189,7 +189,7 @@ async def test_dead_link_on_the_retry_still_fails_the_refresh(
 
 
 async def test_identity_mismatch_goes_unavailable_until_resolved(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
     mock_config_entry: MockConfigEntry,
@@ -215,7 +215,7 @@ async def test_identity_mismatch_goes_unavailable_until_resolved(
 
 
 async def test_excluded_fields_are_dropped_from_the_read_plan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:

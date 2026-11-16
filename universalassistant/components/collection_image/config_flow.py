@@ -8,7 +8,7 @@ from universalassistant.components.image import DOMAIN as IMAGE_DOMAIN
 from universalassistant.components.media_player import BrowseError, MediaClass
 from universalassistant.components.media_source import URI_SCHEME, async_browse_media
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.selector import MediaSelector
 
 from .const import CONF_MEDIA, DOMAIN
@@ -25,7 +25,7 @@ STEP_USER_DATA_SCHEMA = probatio.Schema(
 
 
 async def _async_validate_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     user_input: dict[str, Any],
 ) -> tuple[str | None, dict[str, str], dict[str, str]]:
     """Validate selected directories and return title and form errors."""

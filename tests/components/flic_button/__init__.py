@@ -11,7 +11,7 @@ from pytest_universalassistant.components.bluetooth import (
 )
 
 from universalassistant.components.bluetooth.models import BluetoothServiceInfoBleak
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 # Test Bluetooth addresses (one per supported device type)
 FLIC2_ADDRESS = "AA:BB:CC:DD:EE:F0"
@@ -96,7 +96,7 @@ def service_info_for_device_type(device_type: DeviceType) -> BluetoothServiceInf
     return create_flic2_service_info()
 
 
-async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Set up the Flic Button integration for tests."""
     config_entry.add_to_hass(hass)
     await hass.config_entries.async_setup(config_entry.entry_id)

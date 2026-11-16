@@ -40,7 +40,7 @@
         "description": "Please provide your SwitchBot app username and password. This data won't be saved and only used to retrieve your device's encryption key. Usernames and passwords are case-sensitive."
       },
       "encrypted_choose_method": {
-        "description": "An encrypted SwitchBot device can be set up in __HA_KEEP__ in two different ways.\n\nYou can enter the key ID and encryption key yourself, or __HA_KEEP__ can import them from your SwitchBot account.",
+        "description": "An encrypted SwitchBot device can be set up in Universal Home Assistant in two different ways.\n\nYou can enter the key ID and encryption key yourself, or Universal Home Assistant can import them from your SwitchBot account.",
         "menu_options": {
           "encrypted_auth": "SwitchBot account (recommended)",
           "encrypted_key": "Enter encryption key manually"

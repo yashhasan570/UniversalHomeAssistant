@@ -1,4 +1,4 @@
-"""__HA_KEEP__ Hardware firmware utilities."""
+"""Universal Home Assistant Hardware firmware utilities."""
 
 from universalassistant.components.universalassistant_hardware.util import (
     ApplicationType,
@@ -6,7 +6,7 @@ from universalassistant.components.universalassistant_hardware.util import (
     OwningIntegration,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 from .const import DOMAIN
 from .helpers import get_zha_gateway
@@ -14,7 +14,7 @@ from .helpers import get_zha_gateway
 
 @callback
 def get_firmware_info(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry
 ) -> FirmwareInfo | None:
     """Return firmware information for the ZHA instance, synchronously."""
 

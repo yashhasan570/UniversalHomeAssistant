@@ -24,7 +24,7 @@ from music_assistant_models.player import Player
 
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
 from universalassistant.const import CONF_TOKEN, CONF_URL, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -77,7 +77,7 @@ class MusicAssistantEntryData:
     platform_handlers: dict[Platform, PlayerAddCallback] = field(default_factory=dict)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Music Assistant component."""
     async_setup_services(hass)
 
@@ -85,7 +85,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(  # noqa: C901
-    hass: __HAC_KEEP__, entry: MusicAssistantConfigEntry
+    hass: UniversalAssistant, entry: MusicAssistantConfigEntry
 ) -> None:
     """Set up Music Assistant from a config entry."""
     http_session = async_get_clientsession(hass, verify_ssl=False)
@@ -115,7 +115,7 @@ async def async_setup_entry(  # noqa: C901
         raise ConfigEntryNotReady(f"Invalid server version: {err}") from err
     except (AuthenticationRequired, AuthenticationFailed, InvalidToken) as err:
         assert mass.server_info is not None
-        # Users cannot reauthenticate when running as __HA_KEEP__ addon,
+        # Users cannot reauthenticate when running as Universal Home Assistant addon,
         # so raising ConfigEntryAuthFailed in that case would be incorrect.
         # Instead we should wait until the addon discovery is completed,
         # as that will set up authentication and reload the entry automatically.
@@ -140,7 +140,7 @@ async def async_setup_entry(  # noqa: C901
     async_delete_issue(hass, DOMAIN, f"invalid_server_version_{entry.entry_id}")
 
     async def on_hass_stop(event: Event) -> None:
-        """Handle incoming stop event from __HA_KEEP__."""
+        """Handle incoming stop event from Universal Home Assistant."""
         await mass.disconnect()
 
     entry.async_on_unload(
@@ -262,11 +262,11 @@ async def async_setup_entry(  # noqa: C901
             ATTR_CONF_EXPOSE_PLAYER_TO_HA, True
         )
         if not exposed:
-            # player is disabled or no longer exposed to __HA_KEEP__;
+            # player is disabled or no longer exposed to Universal Home Assistant;
             # also drops a device kept at setup for an unregistered player
             remove_player(player_id)
         elif exposed and player_id not in entry.runtime_data.discovered_players:
-            # player is now enabled and exposed to __HA_KEEP__
+            # player is now enabled and exposed to Universal Home Assistant
             if not (player := mass.players.get(player_id)):
                 return  # guard
             add_player(player)
@@ -286,7 +286,7 @@ async def async_setup_entry(  # noqa: C901
 
 
 async def _client_listen(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MusicAssistantConfigEntry,
     mass: MusicAssistantClient,
     init_ready: asyncio.Event,
@@ -310,7 +310,7 @@ async def _client_listen(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: MusicAssistantConfigEntry
+    hass: UniversalAssistant, entry: MusicAssistantConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
@@ -321,7 +321,7 @@ async def async_unload_entry(
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MusicAssistantConfigEntry,
     device_entry: dr.AnyDeviceEntry,
 ) -> bool:

@@ -13,7 +13,7 @@ from pytest_universalassistant.common import (
     flush_store,
 )
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -30,7 +30,7 @@ async def test_list_labels(label_registry: lr.LabelRegistry) -> None:
 
 @pytest.mark.usefixtures("freezer")
 async def test_create_label(
-    hass: __HAC_KEEP__, label_registry: lr.LabelRegistry
+    hass: UniversalAssistant, label_registry: lr.LabelRegistry
 ) -> None:
     """Make sure that we can create labels."""
     update_events = async_capture_events(hass, lr.EVENT_LABEL_REGISTRY_UPDATED)
@@ -63,7 +63,7 @@ async def test_create_label(
 
 
 async def test_create_label_with_name_already_in_use(
-    hass: __HAC_KEEP__, label_registry: lr.LabelRegistry
+    hass: UniversalAssistant, label_registry: lr.LabelRegistry
 ) -> None:
     """Make sure that we can't create a label with a ID already in use."""
     update_events = async_capture_events(hass, lr.EVENT_LABEL_REGISTRY_UPDATED)
@@ -95,7 +95,7 @@ async def test_create_label_with_id_already_in_use(
 
 
 async def test_delete_label(
-    hass: __HAC_KEEP__, label_registry: lr.LabelRegistry
+    hass: UniversalAssistant, label_registry: lr.LabelRegistry
 ) -> None:
     """Make sure that we can delete a label."""
     update_events = async_capture_events(hass, lr.EVENT_LABEL_REGISTRY_UPDATED)
@@ -130,7 +130,7 @@ async def test_delete_non_existing_label(label_registry: lr.LabelRegistry) -> No
 
 
 async def test_update_label(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     label_registry: lr.LabelRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -187,7 +187,7 @@ async def test_update_label(
 
 
 async def test_update_label_with_same_data(
-    hass: __HAC_KEEP__, label_registry: lr.LabelRegistry
+    hass: UniversalAssistant, label_registry: lr.LabelRegistry
 ) -> None:
     """Make sure that we can reapply the same data to the label and it won't update."""
     update_events = async_capture_events(hass, lr.EVENT_LABEL_REGISTRY_UPDATED)
@@ -266,7 +266,7 @@ async def test_update_label_with_normalized_name_already_in_use(
 
 
 async def test_load_labels(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     label_registry: lr.LabelRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -306,7 +306,7 @@ async def test_load_labels(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_loading_label_from_storage(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test loading stored labels on start."""
     hass_storage[lr.STORAGE_KEY] = {
@@ -358,7 +358,7 @@ async def test_async_get_label_by_name_not_found(
 
 
 async def test_labels_removed_from_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     label_registry: lr.LabelRegistry,
 ) -> None:
@@ -420,7 +420,7 @@ async def test_labels_removed_from_devices(
 
 
 async def test_labels_removed_from_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     label_registry: lr.LabelRegistry,
 ) -> None:
@@ -473,7 +473,7 @@ async def test_labels_removed_from_entities(
 
 
 async def test_async_create_thread_safety(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     label_registry: lr.LabelRegistry,
 ) -> None:
     """Test async_create raises when called from wrong thread."""
@@ -485,7 +485,7 @@ async def test_async_create_thread_safety(
 
 
 async def test_async_delete_thread_safety(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     label_registry: lr.LabelRegistry,
 ) -> None:
     """Test async_delete raises when called from wrong thread."""
@@ -499,7 +499,7 @@ async def test_async_delete_thread_safety(
 
 
 async def test_async_update_thread_safety(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     label_registry: lr.LabelRegistry,
 ) -> None:
     """Test async_update raises when called from wrong thread."""
@@ -516,7 +516,7 @@ async def test_async_update_thread_safety(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_migration_from_1_1(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test migration from version 1.1."""
     hass_storage[lr.STORAGE_KEY] = {
@@ -564,7 +564,7 @@ async def test_migration_from_1_1(
 
 
 async def test_async_get_missing_label_ids(
-    hass: __HAC_KEEP__, label_registry: lr.LabelRegistry
+    hass: UniversalAssistant, label_registry: lr.LabelRegistry
 ) -> None:
     """Test getting label ids missing from the registry."""
     label_registry.async_create("mock")

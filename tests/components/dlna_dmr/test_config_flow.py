@@ -19,7 +19,7 @@ from universalassistant.components.dlna_dmr.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_DEVICE_ID, CONF_HOST, CONF_MAC, CONF_TYPE, CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_DEVICE_TYPE,
@@ -112,7 +112,7 @@ def mock_setup_entry() -> Generator[Mock]:
         yield setup_entry_mock
 
 
-async def test_user_flow_undiscovered_manual(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_undiscovered_manual(hass: UniversalAssistant) -> None:
     """Test user-init'd flow, no discovered devices, user entering a valid URL."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -138,7 +138,7 @@ async def test_user_flow_undiscovered_manual(hass: __HAC_KEEP__) -> None:
 
 
 async def test_user_flow_discovered_manual(
-    hass: __HAC_KEEP__, ssdp_scanner_mock: Mock
+    hass: UniversalAssistant, ssdp_scanner_mock: Mock
 ) -> None:
     """Test user-init'd flow, with discovered devices, user entering a valid URL."""
     ssdp_scanner_mock.async_get_discovery_info_by_st.side_effect = [
@@ -178,7 +178,7 @@ async def test_user_flow_discovered_manual(
     assert result["options"] == {CONF_POLL_AVAILABILITY: True}
 
 
-async def test_user_flow_selected(hass: __HAC_KEEP__, ssdp_scanner_mock: Mock) -> None:
+async def test_user_flow_selected(hass: UniversalAssistant, ssdp_scanner_mock: Mock) -> None:
     """Test user-init'd flow, user selects discovered device."""
     ssdp_scanner_mock.async_get_discovery_info_by_st.side_effect = [
         [MOCK_DISCOVERY],
@@ -210,7 +210,7 @@ async def test_user_flow_selected(hass: __HAC_KEEP__, ssdp_scanner_mock: Mock) -
 
 
 async def test_user_flow_uncontactable(
-    hass: __HAC_KEEP__, domain_data_mock: Mock
+    hass: UniversalAssistant, domain_data_mock: Mock
 ) -> None:
     """Test user-init'd config flow with user entering an uncontactable URL."""
     # Device is not contactable
@@ -240,7 +240,7 @@ async def test_user_flow_uncontactable(
 
 
 async def test_user_flow_embedded_st(
-    hass: __HAC_KEEP__, domain_data_mock: Mock
+    hass: UniversalAssistant, domain_data_mock: Mock
 ) -> None:
     """Test user-init'd flow for device with an embedded DMR."""
     # Device is the wrong type
@@ -281,7 +281,7 @@ async def test_user_flow_embedded_st(
     assert result["options"] == {CONF_POLL_AVAILABILITY: True}
 
 
-async def test_user_flow_wrong_st(hass: __HAC_KEEP__, domain_data_mock: Mock) -> None:
+async def test_user_flow_wrong_st(hass: UniversalAssistant, domain_data_mock: Mock) -> None:
     """Test user-init'd config flow with user entering a URL for the wrong device."""
     # Device has a sub device of the right type
     upnp_device = domain_data_mock.upnp_factory.async_create_device.return_value
@@ -310,7 +310,7 @@ async def test_user_flow_wrong_st(hass: __HAC_KEEP__, domain_data_mock: Mock) ->
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_ssdp_flow_success(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_flow_success(hass: UniversalAssistant) -> None:
     """Test that SSDP discovery with an available device works."""
     logging.getLogger("universalassistant.components.dlna_dmr.config_flow").setLevel(
         logging.DEBUG
@@ -341,7 +341,7 @@ async def test_ssdp_flow_success(hass: __HAC_KEEP__) -> None:
 
 
 async def test_ssdp_flow_unavailable(
-    hass: __HAC_KEEP__, domain_data_mock: Mock
+    hass: UniversalAssistant, domain_data_mock: Mock
 ) -> None:
     """Test that SSDP discovery with an unavailable device still succeeds.
 
@@ -375,7 +375,7 @@ async def test_ssdp_flow_unavailable(
 
 
 async def test_ssdp_flow_existing(
-    hass: __HAC_KEEP__, config_entry_mock: MockConfigEntry
+    hass: UniversalAssistant, config_entry_mock: MockConfigEntry
 ) -> None:
     """Test that SSDP discovery of existing config entry updates the URL."""
     config_entry_mock.add_to_hass(hass)
@@ -400,7 +400,7 @@ async def test_ssdp_flow_existing(
 
 
 async def test_ssdp_flow_duplicate_location(
-    hass: __HAC_KEEP__, config_entry_mock: MockConfigEntry, mock_get_mac_address: Mock
+    hass: UniversalAssistant, config_entry_mock: MockConfigEntry, mock_get_mac_address: Mock
 ) -> None:
     """Test that discovery of device with URL matching existing entry gets aborted."""
     # Prevent matching based on MAC address
@@ -420,7 +420,7 @@ async def test_ssdp_flow_duplicate_location(
 
 
 async def test_ssdp_duplicate_mac_ignored_entry(
-    hass: __HAC_KEEP__, config_entry_mock: MockConfigEntry
+    hass: UniversalAssistant, config_entry_mock: MockConfigEntry
 ) -> None:
     """Test SSDP with different UDN but matching MAC for ignored entry is ignored."""
     # Add an ignored entry
@@ -445,7 +445,7 @@ async def test_ssdp_duplicate_mac_ignored_entry(
 
 
 async def test_ssdp_duplicate_mac_configured_entry(
-    hass: __HAC_KEEP__, config_entry_mock: MockConfigEntry
+    hass: UniversalAssistant, config_entry_mock: MockConfigEntry
 ) -> None:
     """Test SSDP with different UDN but matching MAC for existing entry is ignored."""
     config_entry_mock.add_to_hass(hass)
@@ -468,7 +468,7 @@ async def test_ssdp_duplicate_mac_configured_entry(
 
 
 async def test_ssdp_add_mac(
-    hass: __HAC_KEEP__, config_entry_mock_no_mac: MockConfigEntry
+    hass: UniversalAssistant, config_entry_mock_no_mac: MockConfigEntry
 ) -> None:
     """Test adding of MAC to existing entry that didn't have one."""
     config_entry_mock_no_mac.add_to_hass(hass)
@@ -488,7 +488,7 @@ async def test_ssdp_add_mac(
 
 
 async def test_ssdp_dont_remove_mac(
-    hass: __HAC_KEEP__, config_entry_mock: MockConfigEntry
+    hass: UniversalAssistant, config_entry_mock: MockConfigEntry
 ) -> None:
     """SSDP with failure to resolve MAC should not remove MAC from config entry."""
     config_entry_mock.add_to_hass(hass)
@@ -509,7 +509,7 @@ async def test_ssdp_dont_remove_mac(
 
 
 async def test_ssdp_flow_upnp_udn(
-    hass: __HAC_KEEP__, config_entry_mock: MockConfigEntry
+    hass: UniversalAssistant, config_entry_mock: MockConfigEntry
 ) -> None:
     """Test that SSDP discovery ignores the root device's UDN."""
     config_entry_mock.add_to_hass(hass)
@@ -533,7 +533,7 @@ async def test_ssdp_flow_upnp_udn(
     assert config_entry_mock.data[CONF_URL] == NEW_DEVICE_LOCATION
 
 
-async def test_ssdp_missing_services(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_missing_services(hass: UniversalAssistant) -> None:
     """Test SSDP ignores devices that are missing required services."""
     # No service list at all
     discovery = dataclasses.replace(MOCK_DISCOVERY)
@@ -576,7 +576,7 @@ async def test_ssdp_missing_services(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "not_dmr"
 
 
-async def test_ssdp_single_service(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_single_service(hass: UniversalAssistant) -> None:
     """Test SSDP discovery info with only one service defined.
 
     THe etree_to_dict function turns multiple services into a list of dicts, but
@@ -598,7 +598,7 @@ async def test_ssdp_single_service(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "not_dmr"
 
 
-async def test_ssdp_ignore_device(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_ignore_device(hass: UniversalAssistant) -> None:
     """Test SSDP discovery ignores certain devices."""
     discovery = dataclasses.replace(MOCK_DISCOVERY)
     discovery.x_universalassistant_matching_domains = {DOMAIN, "other_domain"}
@@ -641,7 +641,7 @@ async def test_ssdp_ignore_device(hass: __HAC_KEEP__) -> None:
         assert result["reason"] == "alternative_integration"
 
 
-async def test_ignore_flow(hass: __HAC_KEEP__, ssdp_scanner_mock: Mock) -> None:
+async def test_ignore_flow(hass: UniversalAssistant, ssdp_scanner_mock: Mock) -> None:
     """Test ignoring an SSDP discovery fills in config entry data from SSDP."""
     # Device found via SSDP, matching the 2nd device type tried
     ssdp_scanner_mock.async_get_discovery_info_by_udn_st.side_effect = [
@@ -671,7 +671,7 @@ async def test_ignore_flow(hass: __HAC_KEEP__, ssdp_scanner_mock: Mock) -> None:
 
 
 async def test_ignore_flow_no_ssdp(
-    hass: __HAC_KEEP__, ssdp_scanner_mock: Mock
+    hass: UniversalAssistant, ssdp_scanner_mock: Mock
 ) -> None:
     """Test ignoring a flow without SSDP info still creates a config entry."""
     # Nothing found from SSDP
@@ -696,7 +696,7 @@ async def test_ignore_flow_no_ssdp(
 
 
 async def test_get_mac_address_ipv4(
-    hass: __HAC_KEEP__, mock_get_mac_address: Mock
+    hass: UniversalAssistant, mock_get_mac_address: Mock
 ) -> None:
     """Test getting MAC address from IPv4 address for SSDP discovery."""
     # Init'ing the flow should be enough to get the MAC address
@@ -712,7 +712,7 @@ async def test_get_mac_address_ipv4(
 
 
 async def test_get_mac_address_ipv6(
-    hass: __HAC_KEEP__, mock_get_mac_address: Mock
+    hass: UniversalAssistant, mock_get_mac_address: Mock
 ) -> None:
     """Test getting MAC address from IPv6 address for SSDP discovery."""
     # Use a scoped link-local IPv6 address for the host
@@ -737,7 +737,7 @@ async def test_get_mac_address_ipv6(
 
 
 async def test_get_mac_address_host(
-    hass: __HAC_KEEP__, mock_get_mac_address: Mock
+    hass: UniversalAssistant, mock_get_mac_address: Mock
 ) -> None:
     """Test getting MAC address from hostname for manual location entry."""
     # Create device via manual URL entry, so that it must be contacted directly,
@@ -764,7 +764,7 @@ async def test_get_mac_address_host(
 
 
 async def test_options_flow(
-    hass: __HAC_KEEP__, config_entry_mock: MockConfigEntry
+    hass: UniversalAssistant, config_entry_mock: MockConfigEntry
 ) -> None:
     """Test config flow options."""
     config_entry_mock.add_to_hass(hass)

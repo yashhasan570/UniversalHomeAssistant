@@ -15,7 +15,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.slide_local.const import CONF_INVERT_POSITION, DOMAIN
 from universalassistant.config_entries import SOURCE_HOMEKIT, SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_API_VERSION, CONF_HOST, CONF_PASSWORD, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -67,7 +67,7 @@ DISCOVERY_PARAMS = pytest.mark.parametrize(
 
 
 async def test_user(
-    hass: __HAC_KEEP__, mock_slide_api: AsyncMock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_slide_api: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we get the form."""
 
@@ -96,7 +96,7 @@ async def test_user(
 
 
 async def test_user_api_1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_slide_api: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -132,7 +132,7 @@ async def test_user_api_1(
 
 
 async def test_user_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_slide_api: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -192,7 +192,7 @@ async def test_user_api_error(
     ],
 )
 async def test_api_1_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: Exception,
     error: str,
     mock_slide_api: AsyncMock,
@@ -247,7 +247,7 @@ async def test_api_1_exceptions(
     ],
 )
 async def test_api_2_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: Exception,
     error: str,
     mock_slide_api: AsyncMock,
@@ -290,7 +290,7 @@ async def test_api_2_exceptions(
 
 
 async def test_abort_if_already_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_slide_api: AsyncMock,
 ) -> None:
     """Test we abort if the device is already setup."""
@@ -318,7 +318,7 @@ async def test_abort_if_already_setup(
 
 
 async def test_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_slide_api: AsyncMock,
     mock_config_entry: AsyncMock,
     mock_setup_entry: AsyncMock,
@@ -350,7 +350,7 @@ async def test_reconfigure(
 @DISCOVERY_PARAMS
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_slide_api: AsyncMock,
     source: str,
     discovery_info: ZeroconfServiceInfo,
@@ -377,7 +377,7 @@ async def test_zeroconf(
 @DISCOVERY_PARAMS
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_duplicate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_slide_api: AsyncMock,
     source: str,
     discovery_info: ZeroconfServiceInfo,
@@ -401,7 +401,7 @@ async def test_zeroconf_duplicate_entry(
 @DISCOVERY_PARAMS
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_update_duplicate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_slide_api: AsyncMock,
     source: str,
     discovery_info: ZeroconfServiceInfo,
@@ -435,7 +435,7 @@ async def test_zeroconf_update_duplicate_entry(
 @DISCOVERY_PARAMS
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: Exception,
     mock_slide_api: AsyncMock,
     source: str,
@@ -458,7 +458,7 @@ async def test_zeroconf_connection_error(
 
 
 async def test_options_flow(
-    hass: __HAC_KEEP__, mock_slide_api: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_slide_api: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test options flow works correctly."""
     await setup_platform(hass, mock_config_entry, [Platform.COVER])

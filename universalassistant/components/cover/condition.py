@@ -4,7 +4,7 @@ from collections.abc import Mapping
 from typing import override
 
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.condition import Condition, EntityConditionBase
 
 from .const import DOMAIN, CoverDeviceClass, CoverEntityStateAttribute
@@ -108,6 +108,6 @@ CONDITIONS: dict[str, type[Condition]] = {
 }
 
 
-async def async_get_conditions(hass: __HAC_KEEP__) -> dict[str, type[Condition]]:
+async def async_get_conditions(hass: UniversalAssistant) -> dict[str, type[Condition]]:
     """Return the conditions for covers."""
     return CONDITIONS

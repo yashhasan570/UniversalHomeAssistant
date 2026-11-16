@@ -6,7 +6,7 @@ from typing import override
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import collection, entity_registry as er, restore_state
 
 from .const import OPTION_PREFERRED
@@ -21,7 +21,7 @@ def indexed_select_key(key: str, index: int) -> str:
 
 @callback
 def get_chosen_pipeline(
-    hass: __HAC_KEEP__, domain: str, unique_id_prefix: str
+    hass: UniversalAssistant, domain: str, unique_id_prefix: str
 ) -> str | None:
     """Get the chosen pipeline for a domain."""
     ent_reg = er.async_get(hass)
@@ -44,7 +44,7 @@ def get_chosen_pipeline(
 
 @callback
 def get_vad_sensitivity(
-    hass: __HAC_KEEP__, domain: str, unique_id_prefix: str
+    hass: UniversalAssistant, domain: str, unique_id_prefix: str
 ) -> VadSensitivity:
     """Get the chosen vad sensitivity for a domain."""
     ent_reg = er.async_get(hass)
@@ -76,7 +76,7 @@ class AssistPipelineSelect(SelectEntity, restore_state.RestoreEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         domain: str,
         unique_id_prefix: str,
         index: int = 0,
@@ -98,7 +98,7 @@ class AssistPipelineSelect(SelectEntity, restore_state.RestoreEntity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """When entity is added to __HA_KEEP__."""
+        """When entity is added to Universal Home Assistant."""
         await super().async_added_to_hass()
 
         pipeline_data = self.hass.data[KEY_ASSIST_PIPELINE]
@@ -159,14 +159,14 @@ class VadSensitivitySelect(SelectEntity, restore_state.RestoreEntity):
     _attr_current_option = VadSensitivity.DEFAULT.value
     _attr_options = [vs.value for vs in VadSensitivity]
 
-    def __init__(self, hass: __HAC_KEEP__, unique_id_prefix: str) -> None:
+    def __init__(self, hass: UniversalAssistant, unique_id_prefix: str) -> None:
         """Initialize a pipeline selector."""
         self._attr_unique_id = f"{unique_id_prefix}-vad_sensitivity"
         self.hass = hass
 
     @override
     async def async_added_to_hass(self) -> None:
-        """When entity is added to __HA_KEEP__."""
+        """When entity is added to Universal Home Assistant."""
         await super().async_added_to_hass()
 
         state = await self.async_get_last_state()

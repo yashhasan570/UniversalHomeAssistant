@@ -3,10 +3,10 @@
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.devolo_home_control.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-def configure_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
+def configure_integration(hass: UniversalAssistant) -> MockConfigEntry:
     """Configure the integration."""
     config = {
         "username": "test-username",

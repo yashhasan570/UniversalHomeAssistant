@@ -26,7 +26,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfTime,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import CONNECTION_BLUETOOTH, DeviceInfo
 from universalassistant.helpers.entity import EntityDescription
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -181,7 +181,7 @@ def sensor_update_to_bluetooth_data_update(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: AranetConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -5,12 +5,12 @@ from unittest.mock import Mock, patch
 
 from pytest_universalassistant.common import async_fire_time_changed
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
-async def test_temperature_readback(hass: __HAC_KEEP__) -> None:
+async def test_temperature_readback(hass: UniversalAssistant) -> None:
     """Test for reading sensors."""
     mock_temper_device = Mock()
     mock_temper_device.get_temperature.return_value = 12.3

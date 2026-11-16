@@ -41,7 +41,7 @@ rules:
     status: todo
     comment: |
       The lock, switch, and select platform actions do not translate pyschlage
-      failures into __HAC_KEEP__Error.
+      failures into UniversalAssistantError.
   config-entry-unloading: done
   docs-configuration-parameters:
     status: exempt

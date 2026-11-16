@@ -21,7 +21,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     EntityStateAttribute,
 )
-from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__, callback
+from universalassistant.core import Event, EventStateChangedData, UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -48,7 +48,7 @@ PLATFORM_SCHEMA = EVENT_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    _: __HAC_KEEP__,
+    _: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     __: DiscoveryInfoType | None = None,
@@ -66,7 +66,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -88,7 +88,7 @@ async def async_setup_entry(
 
 @callback
 def async_create_preview_event(
-    hass: __HAC_KEEP__, name: str, validated_config: dict[str, Any]
+    hass: UniversalAssistant, name: str, validated_config: dict[str, Any]
 ) -> EventGroup:
     """Create a preview sensor."""
     return EventGroup(

@@ -6,7 +6,7 @@ import datetime as dt
 import time
 from typing import TYPE_CHECKING, Any
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.typing import DiscoveryInfoType
 from universalassistant.util import dt as dt_util
@@ -31,7 +31,7 @@ class TimestampedPublishMessage:
 
 
 def log_message(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id: str,
     topic: str,
     payload: PublishPayloadType,
@@ -61,7 +61,7 @@ def log_message(
 
 
 def add_subscription(
-    hass: __HAC_KEEP__, subscription: str, entity_id: str | None
+    hass: UniversalAssistant, subscription: str, entity_id: str | None
 ) -> None:
     """Prepare debug data for subscription."""
     if entity_id:
@@ -78,7 +78,7 @@ def add_subscription(
 
 
 def remove_subscription(
-    hass: __HAC_KEEP__, subscription: str, entity_id: str | None
+    hass: UniversalAssistant, subscription: str, entity_id: str | None
 ) -> None:
     """Remove debug data for subscription if it exists."""
     if entity_id and entity_id in (
@@ -91,7 +91,7 @@ def remove_subscription(
 
 
 def add_entity_discovery_data(
-    hass: __HAC_KEEP__, discovery_data: DiscoveryInfoType, entity_id: str
+    hass: UniversalAssistant, discovery_data: DiscoveryInfoType, entity_id: str
 ) -> None:
     """Add discovery data."""
     entity_info = hass.data[DATA_MQTT].debug_info_entities.setdefault(
@@ -101,7 +101,7 @@ def add_entity_discovery_data(
 
 
 def update_entity_discovery_data(
-    hass: __HAC_KEEP__, discovery_payload: DiscoveryInfoType, entity_id: str
+    hass: UniversalAssistant, discovery_payload: DiscoveryInfoType, entity_id: str
 ) -> None:
     """Update discovery data."""
     discovery_data = hass.data[DATA_MQTT].debug_info_entities[entity_id][
@@ -112,14 +112,14 @@ def update_entity_discovery_data(
     discovery_data[ATTR_DISCOVERY_PAYLOAD] = discovery_payload
 
 
-def remove_entity_data(hass: __HAC_KEEP__, entity_id: str) -> None:
+def remove_entity_data(hass: UniversalAssistant, entity_id: str) -> None:
     """Remove discovery data."""
     if entity_id in (debug_info_entities := hass.data[DATA_MQTT].debug_info_entities):
         del debug_info_entities[entity_id]
 
 
 def rename_entity_data(
-    hass: __HAC_KEEP__, old_entity_id: str, new_entity_id: str
+    hass: UniversalAssistant, old_entity_id: str, new_entity_id: str
 ) -> None:
     """Move debug data to a new entity_id."""
     debug_info_entities = hass.data[DATA_MQTT].debug_info_entities
@@ -128,7 +128,7 @@ def rename_entity_data(
 
 
 def add_trigger_discovery_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     discovery_hash: tuple[str, str],
     discovery_data: DiscoveryInfoType,
     device_id: str,
@@ -141,7 +141,7 @@ def add_trigger_discovery_data(
 
 
 def update_trigger_discovery_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     discovery_hash: tuple[str, str],
     discovery_payload: DiscoveryInfoType,
 ) -> None:
@@ -152,13 +152,13 @@ def update_trigger_discovery_data(
 
 
 def remove_trigger_discovery_data(
-    hass: __HAC_KEEP__, discovery_hash: tuple[str, str]
+    hass: UniversalAssistant, discovery_hash: tuple[str, str]
 ) -> None:
     """Remove discovery data."""
     hass.data[DATA_MQTT].debug_info_triggers.pop(discovery_hash, None)
 
 
-def _info_for_entity(hass: __HAC_KEEP__, entity_id: str) -> dict[str, Any]:
+def _info_for_entity(hass: UniversalAssistant, entity_id: str) -> dict[str, Any]:
     entity_info = hass.data[DATA_MQTT].debug_info_entities[entity_id]
     monotonic_time_diff = time.time() - time.monotonic()
     subscriptions = [
@@ -213,7 +213,7 @@ def _info_for_entity(hass: __HAC_KEEP__, entity_id: str) -> dict[str, Any]:
 
 
 def _info_for_trigger(
-    hass: __HAC_KEEP__, trigger_key: tuple[str, str]
+    hass: UniversalAssistant, trigger_key: tuple[str, str]
 ) -> dict[str, Any]:
     trigger = hass.data[DATA_MQTT].debug_info_triggers[trigger_key]
     discovery_data = None
@@ -225,7 +225,7 @@ def _info_for_trigger(
     return {"discovery_data": discovery_data, "trigger_key": trigger_key}
 
 
-def info_for_config_entry(hass: __HAC_KEEP__) -> dict[str, list[Any]]:
+def info_for_config_entry(hass: UniversalAssistant) -> dict[str, list[Any]]:
     """Get debug info for all entities and triggers."""
 
     mqtt_data = hass.data[DATA_MQTT]
@@ -243,7 +243,7 @@ def info_for_config_entry(hass: __HAC_KEEP__) -> dict[str, list[Any]]:
     return mqtt_info
 
 
-def info_for_device(hass: __HAC_KEEP__, device_id: str) -> dict[str, list[Any]]:
+def info_for_device(hass: UniversalAssistant, device_id: str) -> dict[str, list[Any]]:
     """Get debug info for a device."""
 
     mqtt_data = hass.data[DATA_MQTT]

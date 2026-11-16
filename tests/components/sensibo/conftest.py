@@ -12,7 +12,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.sensibo.const import DOMAIN, PLATFORMS
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import ENTRY_CONFIG
 
@@ -34,7 +34,7 @@ async def patch_platform_constant() -> list[Platform]:
 
 @pytest.fixture
 async def load_int(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: SensiboClient,
     load_platforms: list[Platform],
 ) -> MockConfigEntry:
@@ -58,7 +58,7 @@ async def load_int(
 
 @pytest.fixture(name="mock_client")
 async def get_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_data: tuple[SensiboData, dict[str, Any], dict[str, Any]],
 ) -> AsyncGenerator[MagicMock]:
     """Mock SensiboClient."""
@@ -79,7 +79,7 @@ async def get_client(
 
 @pytest.fixture(name="get_data")
 async def get_data_from_library(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     load_json: tuple[dict[str, Any], dict[str, Any]],
 ) -> AsyncGenerator[tuple[SensiboData, dict[str, Any], dict[str, Any]]]:

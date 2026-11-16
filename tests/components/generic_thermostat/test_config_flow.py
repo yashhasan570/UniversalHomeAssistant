@@ -34,7 +34,7 @@ from universalassistant.const import (
     STATE_OFF,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.schema_config_entry_flow import SchemaFlowError
 from universalassistant.util.unit_system import (
     METRIC_SYSTEM,
@@ -45,7 +45,7 @@ from universalassistant.util.unit_system import (
 SNAPSHOT_FLOW_PROPS = props("type", "title", "result", "error")
 
 
-async def test_config_flow(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
+async def test_config_flow(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
     """Test the config flow."""
     with patch(
         "universalassistant.components.generic_thermostat.async_setup_entry",
@@ -86,7 +86,7 @@ async def test_config_flow(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> N
     assert config_entry.title == "My thermostat"
 
 
-async def test_options(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
+async def test_options(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
     """Test reconfiguring."""
 
     config_entry = MockConfigEntry(
@@ -154,7 +154,7 @@ async def test_options(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
 
 
 async def test_config_flow_preset_accepts_float(
-    hass: __HAC_KEEP__, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, snapshot: SnapshotAssertion
 ) -> None:
     """Test the config flow with preset is a float."""
     with patch(
@@ -201,7 +201,7 @@ async def test_config_flow_preset_accepts_float(
     }
 
 
-async def test_config_flow_with_keep_alive(hass: __HAC_KEEP__) -> None:
+async def test_config_flow_with_keep_alive(hass: UniversalAssistant) -> None:
     """Test the config flow when keep_alive is set."""
     with patch(
         "universalassistant.components.generic_thermostat.async_setup_entry",
@@ -289,7 +289,7 @@ async def test_validate_config_min_max_duration() -> None:
     ],
 )
 async def test_config_flow_stores_precision_and_temp_step(
-    hass: __HAC_KEEP__, precision: str, temp_step: str
+    hass: UniversalAssistant, precision: str, temp_step: str
 ) -> None:
     """Test precision and target_temp_step are stored in the options."""
     with patch(
@@ -338,7 +338,7 @@ async def test_config_flow_stores_precision_and_temp_step(
     ],
 )
 async def test_validate_config_min_max_temp_valid(
-    hass: __HAC_KEEP__, units: UnitSystem, user_input: dict[str, float]
+    hass: UniversalAssistant, units: UnitSystem, user_input: dict[str, float]
 ) -> None:
     """Test _validate_config accepts a minimum temperature up to the maximum."""
     hass.config.units = units
@@ -357,7 +357,7 @@ async def test_validate_config_min_max_temp_valid(
     ],
 )
 async def test_validate_config_min_temp_above_max_temp(
-    hass: __HAC_KEEP__, user_input: dict[str, float]
+    hass: UniversalAssistant, user_input: dict[str, float]
 ) -> None:
     """Test _validate_config rejects a minimum temperature above the maximum."""
     handler = MagicMock()

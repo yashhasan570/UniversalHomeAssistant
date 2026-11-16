@@ -54,13 +54,13 @@ from universalassistant.components.cloud.http_api import validate_language_voice
 from universalassistant.components.google_assistant.helpers import GoogleEntity  # pylint: disable=universal-assistant-component-root-import
 from universalassistant.components.universalassistant import exposed_entities
 from universalassistant.components.websocket_api import ERR_INVALID_FORMAT
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import entity_registry as er
 from universalassistant.loader import async_get_loaded_integration
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 from universalassistant.util.location import LocationInfo
-from universalassistant.util.logging import __HAC_KEEP__LogFormatter
+from universalassistant.util.logging import UniversalAssistantLogFormatter
 
 from tests.components.google_assistant import MockConfig
 
@@ -71,7 +71,7 @@ PIPELINE_DATA_LEGACY = {
             "conversation_language": "language_1",
             "id": "12345",
             "language": "language_1",
-            "name": "__HA_KEEP__ Cloud",
+            "name": "Universal Home Assistant Cloud",
             "stt_engine": "cloud",
             "stt_language": "language_1",
             "tts_engine": "cloud",
@@ -91,7 +91,7 @@ PIPELINE_DATA = {
             "conversation_language": "language_1",
             "id": "12345",
             "language": "language_1",
-            "name": "__HA_KEEP__ Cloud",
+            "name": "Universal Home Assistant Cloud",
             "stt_engine": "stt.universal_assistant_link",
             "stt_language": "language_1",
             "tts_engine": "cloud",
@@ -111,7 +111,7 @@ PIPELINE_DATA_OTHER = {
             "conversation_language": "language_1",
             "id": "12345",
             "language": "language_1",
-            "name": "__HA_KEEP__",
+            "name": "Universal Home Assistant",
             "stt_engine": "stt.other",
             "stt_language": "language_1",
             "tts_engine": "other",
@@ -128,7 +128,7 @@ SUBSCRIPTION_INFO_URL = "https://api-test.hass.io/payments/subscription_info"
 
 
 @pytest.fixture(name="setup_cloud")
-async def setup_cloud_fixture(hass: __HAC_KEEP__, cloud: MagicMock) -> None:
+async def setup_cloud_fixture(hass: UniversalAssistant, cloud: MagicMock) -> None:
     """Fixture that sets up cloud."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(
@@ -193,7 +193,7 @@ async def test_google_actions_sync_fails(
 )
 @pytest.mark.usefixtures("setup_cloud")
 async def test_login_view_missing_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_client: ClientSessionGenerator,
     entity_id: str,
@@ -222,7 +222,7 @@ async def test_login_view_missing_entity(
 @pytest.mark.parametrize("pipeline_data", [PIPELINE_DATA, PIPELINE_DATA_LEGACY])
 @pytest.mark.usefixtures("cloud")
 async def test_login_view_existing_pipeline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_storage: dict[str, Any],
     pipeline_data: dict[str, Any],
@@ -256,7 +256,7 @@ async def test_login_view_existing_pipeline(
 
 @pytest.mark.usefixtures("cloud")
 async def test_login_view_create_pipeline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -289,12 +289,12 @@ async def test_login_view_create_pipeline(
         hass,
         stt_engine_id="stt.universal_assistant_link",
         tts_engine_id="tts.universal_assistant_link",
-        pipeline_name="__HA_KEEP__ Link",
+        pipeline_name="Universal Home Assistant Link",
     )
 
 
 async def test_auto_login_creates_pipeline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_storage: dict[str, Any],
@@ -325,7 +325,7 @@ async def test_auto_login_creates_pipeline(
         hass,
         stt_engine_id="stt.universal_assistant_link",
         tts_engine_id="tts.universal_assistant_link",
-        pipeline_name="__HA_KEEP__ Link",
+        pipeline_name="Universal Home Assistant Link",
     )
 
 
@@ -826,7 +826,7 @@ async def register_auto_login(
     assert req.status == HTTPStatus.OK
 
 
-def pending_controller(hass: __HAC_KEEP__) -> AutoLoginController:
+def pending_controller(hass: UniversalAssistant) -> AutoLoginController:
     """Return the controller core is holding for the pending registration."""
     controller = hass.data[DATA_PENDING_AUTO_LOGIN]
     assert controller is not None
@@ -834,7 +834,7 @@ def pending_controller(hass: __HAC_KEEP__) -> AutoLoginController:
 
 
 async def fail_auto_login(
-    hass: __HAC_KEEP__, cloud: MagicMock, reason: LoginFailedReason
+    hass: UniversalAssistant, cloud: MagicMock, reason: LoginFailedReason
 ) -> None:
     """Give up on the pending auto-login the way hass_nabucasa does."""
     controller = pending_controller(hass)
@@ -854,7 +854,7 @@ async def get_cloud_status(
 
 @pytest.mark.usefixtures("setup_cloud")
 async def test_register_auto_login_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -871,7 +871,7 @@ async def test_register_auto_login_status(
 
 @pytest.mark.usefixtures("setup_cloud")
 async def test_register_auto_login_reports_normalized_email(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -888,7 +888,7 @@ async def test_register_auto_login_reports_normalized_email(
 
 @pytest.mark.usefixtures("setup_cloud")
 async def test_register_auto_login_already_given_up(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -929,7 +929,7 @@ async def test_register_auto_login_already_given_up(
 
 @pytest.mark.usefixtures("setup_cloud")
 async def test_register_auto_login_replaces_pending(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -955,7 +955,7 @@ async def test_register_auto_login_replaces_pending(
 
 @pytest.mark.usefixtures("setup_cloud")
 async def test_auto_login_hidden_while_logged_in(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -995,7 +995,7 @@ async def test_register_auto_login_while_logged_in(
 
 @pytest.mark.usefixtures("setup_cloud")
 async def test_auto_login_hidden_from_non_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -1013,7 +1013,7 @@ async def test_auto_login_hidden_from_non_admin(
 
 @pytest.mark.usefixtures("setup_cloud")
 async def test_cancel_auto_login(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -1043,7 +1043,7 @@ async def test_cancel_auto_login(
 )
 @pytest.mark.usefixtures("setup_cloud")
 async def test_clearing_auto_login_pushes_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -1075,7 +1075,7 @@ async def test_clearing_auto_login_pushes_event(
 )
 @pytest.mark.usefixtures("setup_cloud")
 async def test_auto_login_command_without_pending(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_ws_client: WebSocketGenerator,
     command: str,
@@ -1115,7 +1115,7 @@ async def test_auto_login_command_without_pending(
 )
 @pytest.mark.usefixtures("setup_cloud")
 async def test_auto_login_failure_pushed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -1157,7 +1157,7 @@ async def test_auto_login_failure_pushed(
 )
 @pytest.mark.usefixtures("setup_cloud")
 async def test_auto_login_command_after_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -1179,7 +1179,7 @@ async def test_auto_login_command_after_failure(
 
 @pytest.mark.usefixtures("setup_cloud")
 async def test_cancel_auto_login_after_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -1201,7 +1201,7 @@ async def test_cancel_auto_login_after_failure(
 
 @pytest.mark.usefixtures("setup_cloud")
 async def test_interactive_login_failure_not_pushed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -1222,7 +1222,7 @@ async def test_interactive_login_failure_not_pushed(
 
 @pytest.mark.usefixtures("setup_cloud")
 async def test_auto_login_cleared_on_login(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -1249,7 +1249,7 @@ async def test_auto_login_cleared_on_login(
 
 @pytest.mark.usefixtures("setup_cloud")
 async def test_login_view_while_auto_login_pending(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -1278,7 +1278,7 @@ async def test_login_view_while_auto_login_pending(
 
 @pytest.mark.usefixtures("setup_cloud")
 async def test_login_dispatches_event_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
 ) -> None:
     """Test a login outside the login view dispatches exactly one event."""
@@ -1293,7 +1293,7 @@ async def test_login_dispatches_event_once(
 
 @pytest.mark.usefixtures("setup_cloud")
 async def test_logout_clears_auto_login(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -1324,7 +1324,7 @@ async def test_logout_clears_auto_login(
 )
 @pytest.mark.usefixtures("setup_cloud")
 async def test_auto_login_command_keeps_pending(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -1350,7 +1350,7 @@ async def test_auto_login_command_keeps_pending(
 
 @pytest.mark.usefixtures("setup_cloud")
 async def test_resend_auto_login_confirm_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -1372,7 +1372,7 @@ async def test_resend_auto_login_confirm_error(
 
 @pytest.mark.usefixtures("setup_cloud")
 async def test_auto_login_failed_pushed_without_pending(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1400,7 +1400,7 @@ async def test_auto_login_failed_pushed_without_pending(
 
 @pytest.mark.usefixtures("setup_cloud")
 async def test_resend_auto_login_confirm_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -1423,7 +1423,7 @@ async def test_resend_auto_login_confirm_timeout(
 
 @pytest.mark.usefixtures("setup_cloud")
 async def test_remove_data_cancels_auto_login(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -1446,7 +1446,7 @@ async def test_remove_data_cancels_auto_login(
 
 @pytest.mark.usefixtures("setup_cloud")
 async def test_remove_data_logged_in_keeps_auto_login(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -1470,7 +1470,7 @@ async def test_remove_data_logged_in_keeps_auto_login(
 
 @pytest.mark.usefixtures("setup_cloud")
 async def test_remove_data_failure_still_cancels_auto_login(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -1644,7 +1644,7 @@ async def test_resend_confirm_view_unknown_error(
 
 
 async def test_websocket_remove_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     cloud: MagicMock,
     setup_cloud: None,
@@ -1663,7 +1663,7 @@ async def test_websocket_remove_data(
 
 
 async def test_websocket_remove_data_logged_in(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     cloud: MagicMock,
     setup_cloud: None,
@@ -1683,7 +1683,7 @@ async def test_websocket_remove_data_logged_in(
 
 
 async def test_websocket_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     cloud: MagicMock,
     setup_cloud: None,
@@ -1760,7 +1760,7 @@ async def test_websocket_status(
 
 
 async def test_websocket_status_not_logged_in(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     cloud: MagicMock,
     setup_cloud: None,
@@ -1781,7 +1781,7 @@ async def test_websocket_status_not_logged_in(
 
 
 async def test_websocket_subscription_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
     cloud: MagicMock,
@@ -1798,7 +1798,7 @@ async def test_websocket_subscription_info(
 
 
 async def test_websocket_subscription_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
     cloud: MagicMock,
@@ -1818,7 +1818,7 @@ async def test_websocket_subscription_fail(
 
 
 async def test_websocket_subscription_not_logged_in(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     cloud: MagicMock,
     setup_cloud: None,
@@ -1839,7 +1839,7 @@ async def test_websocket_subscription_not_logged_in(
 
 
 async def test_websocket_update_preferences(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     cloud: MagicMock,
     setup_cloud: None,
@@ -1879,7 +1879,7 @@ async def test_websocket_update_preferences(
     ("language", "voice"), [("en-GB", "bad_voice"), ("bad_language", "RyanNeural")]
 )
 async def test_websocket_update_preferences_bad_voice(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     cloud: MagicMock,
     setup_cloud: None,
@@ -1903,7 +1903,7 @@ async def test_websocket_update_preferences_bad_voice(
 
 
 async def test_websocket_update_preferences_alexa_report_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     setup_cloud: None,
 ) -> None:
@@ -1938,7 +1938,7 @@ async def test_websocket_update_preferences_alexa_report_state(
 
 
 async def test_websocket_update_preferences_require_relink(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     setup_cloud: None,
 ) -> None:
@@ -1971,7 +1971,7 @@ async def test_websocket_update_preferences_require_relink(
 
 
 async def test_websocket_update_preferences_no_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     setup_cloud: None,
 ) -> None:
@@ -2004,7 +2004,7 @@ async def test_websocket_update_preferences_no_token(
 
 
 async def test_websocket_cloud_onboarding_postpone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     cloud: MagicMock,
     setup_cloud: None,
@@ -2031,7 +2031,7 @@ async def test_websocket_cloud_onboarding_postpone(
 
 
 async def test_websocket_cloud_onboarding_complete(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     cloud: MagicMock,
     setup_cloud: None,
@@ -2087,7 +2087,7 @@ async def test_websocket_cloud_onboarding_complete(
 
 
 async def test_websocket_cloud_onboarding_complete_invalid_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     cloud: MagicMock,
     setup_cloud: None,
@@ -2104,7 +2104,7 @@ async def test_websocket_cloud_onboarding_complete_invalid_item(
 
 
 async def test_enabling_webhook(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     cloud: MagicMock,
     setup_cloud: None,
@@ -2125,7 +2125,7 @@ async def test_enabling_webhook(
 
 
 async def test_disabling_webhook(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     cloud: MagicMock,
     setup_cloud: None,
@@ -2145,7 +2145,7 @@ async def test_disabling_webhook(
 
 
 async def test_enabling_remote(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     cloud: MagicMock,
     setup_cloud: None,
@@ -2173,7 +2173,7 @@ async def test_enabling_remote(
 
 
 async def test_enabling_remote_remote_activation_not_allowed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     cloud: MagicMock,
     setup_cloud: None,
@@ -2202,7 +2202,7 @@ async def test_enabling_remote_remote_activation_not_allowed(
 
 
 async def test_list_google_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     setup_cloud: None,
@@ -2267,7 +2267,7 @@ async def test_list_google_entities(
 
 
 async def test_get_google_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     setup_cloud: None,
@@ -2346,7 +2346,7 @@ async def test_get_google_entity(
 
 
 async def test_update_google_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     setup_cloud: None,
 ) -> None:
@@ -2381,7 +2381,7 @@ async def test_update_google_entity(
 
 
 async def test_list_alexa_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     setup_cloud: None,
@@ -2440,7 +2440,7 @@ async def test_list_alexa_entities(
 
 
 async def test_get_alexa_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     setup_cloud: None,
@@ -2497,7 +2497,7 @@ async def test_get_alexa_entity(
 
 
 async def test_update_alexa_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     setup_cloud: None,
@@ -2525,7 +2525,7 @@ async def test_update_alexa_entity(
 
 
 async def test_sync_alexa_entities_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     setup_cloud: None,
 ) -> None:
@@ -2547,7 +2547,7 @@ async def test_sync_alexa_entities_timeout(
 
 
 async def test_sync_alexa_entities_no_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     setup_cloud: None,
 ) -> None:
@@ -2569,7 +2569,7 @@ async def test_sync_alexa_entities_no_token(
 
 
 async def test_enable_alexa_state_report_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     setup_cloud: None,
 ) -> None:
@@ -2591,7 +2591,7 @@ async def test_enable_alexa_state_report_fail(
 
 
 async def test_tts_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     setup_cloud: None,
 ) -> None:
@@ -2628,7 +2628,7 @@ async def test_tts_info(
     ],
 )
 async def test_api_calls_require_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_cloud: None,
     hass_client: ClientSessionGenerator,
     hass_read_only_access_token: str,
@@ -2670,7 +2670,7 @@ async def test_support_package_requires_admin(
     ],
 )
 async def test_ws_commands_require_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_cloud: None,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
@@ -2687,7 +2687,7 @@ async def test_ws_commands_require_admin(
 
 
 async def test_login_view_dispatch_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -2712,7 +2712,7 @@ async def test_login_view_dispatch_event(
 
 @pytest.mark.usefixtures("setup_cloud")
 async def test_cloud_events_server_initiated_logout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -2735,7 +2735,7 @@ async def test_cloud_events_server_initiated_logout(
 
 @pytest.mark.usefixtures("cloud", "setup_cloud")
 async def test_cloud_events_subscription(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -2769,7 +2769,7 @@ async def test_cloud_events_subscription(
 
 @pytest.mark.usefixtures("setup_cloud")
 async def test_cloud_events_auto_login_push(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -2792,11 +2792,11 @@ async def test_cloud_events_auto_login_push(
 
 
 # Pin the log timestamp offset so the snapshot does not depend on the host timezone
-@patch.object(__HAC_KEEP__LogFormatter, "converter", time.gmtime)
+@patch.object(UniversalAssistantLogFormatter, "converter", time.gmtime)
 @patch("universalassistant.components.cloud.helpers.FixedSizeQueueLogHandler.MAX_RECORDS", 3)
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_download_support_package(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     set_cloud_prefs: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     hass_client: ClientSessionGenerator,
@@ -2816,9 +2816,9 @@ async def test_download_support_package(
     )
 
     def async_register_mock_platform(
-        hass: __HAC_KEEP__, register: system_health.SystemHealthRegistration
+        hass: UniversalAssistant, register: system_health.SystemHealthRegistration
     ) -> None:
-        async def mock_empty_info(hass: __HAC_KEEP__) -> dict[str, Any]:
+        async def mock_empty_info(hass: UniversalAssistant) -> dict[str, Any]:
             return {}
 
         register.async_register_info(mock_empty_info, "/config/mock_integration")
@@ -2892,7 +2892,7 @@ async def test_download_support_package(
         patch(
             "universalassistant.components.universalassistant.system_health.system_info.async_get_system_info",
             return_value={
-                "installation_type": "__HA_KEEP__ Core",
+                "installation_type": "Universal Home Assistant Core",
                 "version": "2025.2.0",
                 "dev": False,
                 "hassio": False,
@@ -2921,11 +2921,11 @@ async def test_download_support_package(
 
 
 # Pin the log timestamp offset so the snapshot does not depend on the host timezone
-@patch.object(__HAC_KEEP__LogFormatter, "converter", time.gmtime)
+@patch.object(UniversalAssistantLogFormatter, "converter", time.gmtime)
 @patch("universalassistant.components.cloud.helpers.FixedSizeQueueLogHandler.MAX_RECORDS", 3)
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_download_support_package_custom_components_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     set_cloud_prefs: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     hass_client: ClientSessionGenerator,
@@ -2945,9 +2945,9 @@ async def test_download_support_package_custom_components_error(
     )
 
     def async_register_mock_platform(
-        hass: __HAC_KEEP__, register: system_health.SystemHealthRegistration
+        hass: UniversalAssistant, register: system_health.SystemHealthRegistration
     ) -> None:
-        async def mock_empty_info(hass: __HAC_KEEP__) -> dict[str, Any]:
+        async def mock_empty_info(hass: UniversalAssistant) -> dict[str, Any]:
             return {}
 
         register.async_register_info(mock_empty_info, "/config/mock_integration")
@@ -3009,7 +3009,7 @@ async def test_download_support_package_custom_components_error(
         patch(
             "universalassistant.components.universalassistant.system_health.system_info.async_get_system_info",
             return_value={
-                "installation_type": "__HA_KEEP__ Core",
+                "installation_type": "Universal Home Assistant Core",
                 "version": "2025.2.0",
                 "dev": False,
                 "hassio": False,
@@ -3042,11 +3042,11 @@ async def test_download_support_package_custom_components_error(
 
 
 # Pin the log timestamp offset so the snapshot does not depend on the host timezone
-@patch.object(__HAC_KEEP__LogFormatter, "converter", time.gmtime)
+@patch.object(UniversalAssistantLogFormatter, "converter", time.gmtime)
 @patch("universalassistant.components.cloud.helpers.FixedSizeQueueLogHandler.MAX_RECORDS", 3)
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_download_support_package_integration_load_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud: MagicMock,
     set_cloud_prefs: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     hass_client: ClientSessionGenerator,
@@ -3066,9 +3066,9 @@ async def test_download_support_package_integration_load_error(
     )
 
     def async_register_mock_platform(
-        hass: __HAC_KEEP__, register: system_health.SystemHealthRegistration
+        hass: UniversalAssistant, register: system_health.SystemHealthRegistration
     ) -> None:
-        async def mock_empty_info(hass: __HAC_KEEP__) -> dict[str, Any]:
+        async def mock_empty_info(hass: UniversalAssistant) -> dict[str, Any]:
             return {}
 
         register.async_register_info(mock_empty_info, "/config/mock_integration")
@@ -3133,7 +3133,7 @@ async def test_download_support_package_integration_load_error(
         patch(
             "universalassistant.components.universalassistant.system_health.system_info.async_get_system_info",
             return_value={
-                "installation_type": "__HA_KEEP__ Core",
+                "installation_type": "Universal Home Assistant Core",
                 "version": "2025.2.0",
                 "dev": False,
                 "hassio": False,
@@ -3170,7 +3170,7 @@ async def test_download_support_package_integration_load_error(
 
 
 async def test_websocket_ice_servers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     cloud: MagicMock,
     setup_cloud: None,

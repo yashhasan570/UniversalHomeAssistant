@@ -15,7 +15,7 @@ from universalassistant.components.application_credentials import (
     async_import_client_credential,
 )
 from universalassistant.components.netatmo.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .common import fake_get_image, fake_post_request
@@ -25,7 +25,7 @@ CLIENT_SECRET = "5678"
 
 
 @pytest.fixture(autouse=True)
-async def setup_credentials(hass: __HAC_KEEP__) -> None:
+async def setup_credentials(hass: UniversalAssistant) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(
@@ -36,7 +36,7 @@ async def setup_credentials(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.fixture(name="config_entry")
-def mock_config_entry_fixture(hass: __HAC_KEEP__) -> MockConfigEntry:
+def mock_config_entry_fixture(hass: UniversalAssistant) -> MockConfigEntry:
     """Mock a config entry."""
     mock_entry = MockConfigEntry(
         domain="netatmo",
@@ -89,7 +89,7 @@ def mock_config_entry_fixture(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 
 @pytest.fixture(name="netatmo_auth")
-def netatmo_auth(hass: __HAC_KEEP__) -> Generator[None]:
+def netatmo_auth(hass: UniversalAssistant) -> Generator[None]:
     """Restrict loaded platforms to list given."""
     with patch(
         "universalassistant.components.netatmo.api.AsyncConfigEntryNetatmoAuth"

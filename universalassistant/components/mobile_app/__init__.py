@@ -1,4 +1,4 @@
-"""Integrates Native Apps to __HA_KEEP__."""
+"""Integrates Native Apps to Universal Home Assistant."""
 # pylint: disable=universal-assistant-use-runtime-data  # Uses legacy hass.data[DOMAIN] pattern
 
 import asyncio
@@ -14,7 +14,7 @@ from universalassistant.components.webhook import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import ATTR_DEVICE_ID, CONF_WEBHOOK_ID, Platform
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -72,7 +72,7 @@ PLATFORMS = [
 CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the mobile app component."""
     store = _MobileAppStore(
         hass, STORAGE_VERSION, STORAGE_KEY, minor_version=STORAGE_VERSION_MINOR
@@ -94,7 +94,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         DATA_REGISTRATION_LOCK: asyncio.Lock(),
     }
 
-    # Tokens can expire while __HA_KEEP__ is stopped.
+    # Tokens can expire while Universal Home Assistant is stopped.
     hass.async_create_task(async_cleanup_expired_live_activity_tokens(hass))
 
     hass.http.register_view(RegistrationsView())
@@ -125,7 +125,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 async def _async_setup_cloudhook(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ConfigEntry,
     user_id: str,
     webhook_id: str,
@@ -197,7 +197,7 @@ async def _async_setup_cloudhook(
     entry.async_on_unload(cloud.async_listen_connection_change(hass, manage_cloudhook))
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up a mobile_app entry."""
     registration = entry.data
 
@@ -244,12 +244,12 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     await hass_notify.async_reload(hass, DOMAIN)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a mobile app entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_remove_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_remove_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Cleanup when entry is removed."""
     await async_retire_webhook(hass, entry.data)
 

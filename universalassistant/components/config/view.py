@@ -1,4 +1,4 @@
-"""Component to configure __HA_KEEP__ via an API."""
+"""Component to configure Universal Home Assistant via an API."""
 
 import asyncio
 from collections.abc import Callable, Coroutine
@@ -9,10 +9,10 @@ from typing import Any, cast, override
 from aiohttp import web
 import probatio
 
-from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View, require_admin
+from universalassistant.components.http import KEY_HASS, UniversalAssistantView, require_admin
 from universalassistant.const import CONF_ID
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.util.file import write_utf8_file_atomic
 from universalassistant.util.yaml import dump, load_yaml
 from universalassistant.util.yaml.loader import JSON_TYPE
@@ -21,7 +21,7 @@ from .const import ACTION_CREATE_UPDATE, ACTION_DELETE
 
 
 class BaseEditConfigView[_DataT: (dict[str, dict[str, Any]], list[dict[str, Any]])](
-    __HAC_KEEP__View
+    UniversalAssistantView
 ):
     """Configure a Group endpoint."""
 
@@ -35,7 +35,7 @@ class BaseEditConfigView[_DataT: (dict[str, dict[str, Any]], list[dict[str, Any]
         post_write_hook: Callable[[str, str], Coroutine[Any, Any, None]] | None = None,
         data_schema: Callable[[dict[str, Any]], Any] | None = None,
         data_validator: Callable[
-            [__HAC_KEEP__, str, dict[str, Any]],
+            [UniversalAssistant, str, dict[str, Any]],
             Coroutine[Any, Any, dict[str, Any] | None],
         ]
         | None = None,
@@ -61,14 +61,14 @@ class BaseEditConfigView[_DataT: (dict[str, dict[str, Any]], list[dict[str, Any]
         raise NotImplementedError
 
     def _get_value(
-        self, hass: __HAC_KEEP__, data: _DataT, config_key: str
+        self, hass: UniversalAssistant, data: _DataT, config_key: str
     ) -> dict[str, Any] | None:
         """Get value."""
         raise NotImplementedError
 
     def _write_value(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         data: _DataT,
         config_key: str,
         new_value: dict[str, Any],
@@ -77,7 +77,7 @@ class BaseEditConfigView[_DataT: (dict[str, dict[str, Any]], list[dict[str, Any]
         raise NotImplementedError
 
     def _delete_value(
-        self, hass: __HAC_KEEP__, data: _DataT, config_key: str
+        self, hass: UniversalAssistant, data: _DataT, config_key: str
     ) -> dict[str, Any] | None:
         """Delete value."""
         raise NotImplementedError
@@ -118,7 +118,7 @@ class BaseEditConfigView[_DataT: (dict[str, dict[str, Any]], list[dict[str, Any]
             else:
                 # We either have a data_schema or a data_validator, ignore mypy
                 self.data_schema(data)  # type: ignore[misc]
-        except (probatio.Invalid, __HAC_KEEP__Error) as err:
+        except (probatio.Invalid, UniversalAssistantError) as err:
             return self.json_message(
                 f"Message malformed: {err}", HTTPStatus.BAD_REQUEST
             )
@@ -158,7 +158,7 @@ class BaseEditConfigView[_DataT: (dict[str, dict[str, Any]], list[dict[str, Any]
 
         return self.json({"result": "ok"})
 
-    async def read_config(self, hass: __HAC_KEEP__) -> _DataT:
+    async def read_config(self, hass: UniversalAssistant) -> _DataT:
         """Read the config."""
         current = await hass.async_add_executor_job(_read, hass.config.path(self.path))
         if not current:
@@ -176,7 +176,7 @@ class EditKeyBasedConfigView(BaseEditConfigView[dict[str, dict[str, Any]]]):
 
     @override
     def _get_value(
-        self, hass: __HAC_KEEP__, data: dict[str, dict[str, Any]], config_key: str
+        self, hass: UniversalAssistant, data: dict[str, dict[str, Any]], config_key: str
     ) -> dict[str, Any] | None:
         """Get value."""
         return data.get(config_key)
@@ -184,7 +184,7 @@ class EditKeyBasedConfigView(BaseEditConfigView[dict[str, dict[str, Any]]]):
     @override
     def _write_value(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         data: dict[str, dict[str, Any]],
         config_key: str,
         new_value: dict[str, Any],
@@ -194,7 +194,7 @@ class EditKeyBasedConfigView(BaseEditConfigView[dict[str, dict[str, Any]]]):
 
     @override
     def _delete_value(
-        self, hass: __HAC_KEEP__, data: dict[str, dict[str, Any]], config_key: str
+        self, hass: UniversalAssistant, data: dict[str, dict[str, Any]], config_key: str
     ) -> dict[str, Any]:
         """Delete value."""
         return data.pop(config_key)
@@ -210,7 +210,7 @@ class EditIdBasedConfigView(BaseEditConfigView[list[dict[str, Any]]]):
 
     @override
     def _get_value(
-        self, hass: __HAC_KEEP__, data: list[dict[str, Any]], config_key: str
+        self, hass: UniversalAssistant, data: list[dict[str, Any]], config_key: str
     ) -> dict[str, Any] | None:
         """Get value."""
         return next((val for val in data if val.get(CONF_ID) == config_key), None)
@@ -218,7 +218,7 @@ class EditIdBasedConfigView(BaseEditConfigView[list[dict[str, Any]]]):
     @override
     def _write_value(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         data: list[dict[str, Any]],
         config_key: str,
         new_value: dict[str, Any],
@@ -232,7 +232,7 @@ class EditIdBasedConfigView(BaseEditConfigView[list[dict[str, Any]]]):
 
     @override
     def _delete_value(
-        self, hass: __HAC_KEEP__, data: list[dict[str, Any]], config_key: str
+        self, hass: UniversalAssistant, data: list[dict[str, Any]], config_key: str
     ) -> None:
         """Delete value."""
         index = next(

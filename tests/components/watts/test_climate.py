@@ -29,15 +29,15 @@ from universalassistant.components.watts.services import (
     WattsVisionServiceArgument,
 )
 from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_watts_client: AsyncMock,
@@ -51,7 +51,7 @@ async def test_entities(
 
 
 async def test_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_set_temperature(
 
 
 async def test_fast_polling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -130,7 +130,7 @@ async def test_fast_polling(
 
 
 async def test_set_hvac_mode_heat(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -153,7 +153,7 @@ async def test_set_hvac_mode_heat(
 
 
 async def test_set_hvac_mode_auto(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -176,7 +176,7 @@ async def test_set_hvac_mode_auto(
 
 
 async def test_set_hvac_mode_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -199,7 +199,7 @@ async def test_set_hvac_mode_off(
 
 
 async def test_set_preset_mode_comfort(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -222,7 +222,7 @@ async def test_set_preset_mode_comfort(
 
 
 async def test_set_preset_mode_defrost(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -245,7 +245,7 @@ async def test_set_preset_mode_defrost(
 
 
 async def test_set_preset_mode_timer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -268,7 +268,7 @@ async def test_set_preset_mode_timer(
 
 
 async def test_set_preset_mode_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -278,7 +278,7 @@ async def test_set_preset_mode_error(
     mock_watts_client.set_thermostat_mode.side_effect = RuntimeError("API Error")
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="An error occurred while setting the preset mode"
+        UniversalAssistantError, match="An error occurred while setting the preset mode"
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
@@ -299,7 +299,7 @@ async def test_set_preset_mode_error(
     ],
 )
 async def test_activate_timer_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     duration: timedelta,
@@ -326,7 +326,7 @@ async def test_activate_timer_mode(
 
 @pytest.mark.parametrize("temperature", [4.5, 30.5])
 async def test_activate_timer_mode_temperature_out_of_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     temperature: float,
@@ -350,7 +350,7 @@ async def test_activate_timer_mode_temperature_out_of_range(
 
 
 async def test_activate_timer_mode_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -360,7 +360,7 @@ async def test_activate_timer_mode_error(
     mock_watts_client.activate_thermostat_timer.side_effect = RuntimeError("API Error")
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="An error occurred while activating timer mode"
+        UniversalAssistantError, match="An error occurred while activating timer mode"
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -375,7 +375,7 @@ async def test_activate_timer_mode_error(
 
 
 async def test_set_temperature_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -386,7 +386,7 @@ async def test_set_temperature_api_error(
     mock_watts_client.set_thermostat_temperature.side_effect = RuntimeError("API Error")
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="An error occurred while setting the temperature"
+        UniversalAssistantError, match="An error occurred while setting the temperature"
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
@@ -400,7 +400,7 @@ async def test_set_temperature_api_error(
 
 
 async def test_set_hvac_mode_value_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -410,7 +410,7 @@ async def test_set_hvac_mode_value_error(
     mock_watts_client.set_thermostat_mode.side_effect = ValueError("Invalid mode")
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="An error occurred while setting the HVAC mode"
+        UniversalAssistantError, match="An error occurred while setting the HVAC mode"
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,

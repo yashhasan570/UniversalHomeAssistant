@@ -8,7 +8,7 @@ from switchbee.api import CentralUnitPolling, CentralUnitWsRPC, is_wsrpc_api
 from switchbee.api.central_unit import SwitchBeeError
 
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -50,7 +50,7 @@ async def get_api_object(
     return api
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SwitchBeeConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SwitchBeeConfigEntry) -> None:
     """Set up SwitchBee Smart Home from a config entry."""
 
     central_unit = entry.data[CONF_HOST]
@@ -68,20 +68,20 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SwitchBeeConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SwitchBeeConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SwitchBeeConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def update_listener(
-    hass: __HAC_KEEP__, config_entry: SwitchBeeConfigEntry
+    hass: UniversalAssistant, config_entry: SwitchBeeConfigEntry
 ) -> None:
     """Update listener."""
     await hass.config_entries.async_reload(config_entry.entry_id)
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, config_entry: SwitchBeeConfigEntry
+    hass: UniversalAssistant, config_entry: SwitchBeeConfigEntry
 ) -> None:
     """Migrate old entry."""
     _LOGGER.debug("Migrating from version %s", config_entry.version)

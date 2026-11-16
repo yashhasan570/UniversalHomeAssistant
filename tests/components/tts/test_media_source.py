@@ -13,7 +13,7 @@ from universalassistant.components.tts.media_source import (
     generate_media_source_id,
     parse_media_source_id,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .common import (
@@ -40,7 +40,7 @@ class MSProvider(MockTTSProvider):
 
 
 @pytest.fixture(autouse=True)
-async def setup_media_source(hass: __HAC_KEEP__) -> None:
+async def setup_media_source(hass: UniversalAssistant) -> None:
     """Set up media source."""
     assert await async_setup_component(hass, "media_source", {})
 
@@ -57,7 +57,7 @@ async def setup_media_source(hass: __HAC_KEEP__) -> None:
     ],
     indirect=["setup"],
 )
-async def test_browsing(hass: __HAC_KEEP__, setup: str) -> None:
+async def test_browsing(hass: UniversalAssistant, setup: str) -> None:
     """Test browsing TTS media source."""
     item = await media_source.async_browse_media(hass, "media-source://tts")
 
@@ -106,7 +106,7 @@ async def test_browsing(hass: __HAC_KEEP__, setup: str) -> None:
     ],
 )
 async def test_legacy_resolving(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_provider: MSProvider,
     extra_options: str,
@@ -160,7 +160,7 @@ async def test_legacy_resolving(
     ],
 )
 async def test_resolving(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_tts_entity: MSEntity,
     extra_options: str,
@@ -216,7 +216,7 @@ async def test_resolving(
     [MSEntity(DEFAULT_LANG)],
 )
 async def test_resolving_sets_path_when_cached_on_disk(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_tts_cache_dir: Path,
     mock_tts_entity: MSEntity,
@@ -243,7 +243,7 @@ async def test_resolving_sets_path_when_cached_on_disk(
     [MSEntity(DEFAULT_LANG)],
 )
 async def test_resolving_no_path_without_file_cache(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_tts_cache_dir: Path,
     mock_tts_entity: MSEntity,
@@ -272,7 +272,7 @@ async def test_resolving_no_path_without_file_cache(
     ],
     indirect=["setup"],
 )
-async def test_resolving_errors(hass: __HAC_KEEP__, setup: str, engine: str) -> None:
+async def test_resolving_errors(hass: UniversalAssistant, setup: str, engine: str) -> None:
     """Test resolving."""
     # No message added
     with pytest.raises(media_source.Unresolvable):
@@ -318,7 +318,7 @@ async def test_resolving_errors(hass: __HAC_KEEP__, setup: str, engine: str) -> 
     indirect=["setup"],
 )
 async def test_generate_media_source_id_and_parse_media_source_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup: str,
     result_engine: str,
 ) -> None:

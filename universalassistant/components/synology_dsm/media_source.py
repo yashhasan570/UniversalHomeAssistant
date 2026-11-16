@@ -17,7 +17,7 @@ from universalassistant.components.media_source import (
     PlayMedia,
     Unresolvable,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import DOMAIN, SHARED_SUFFIX
 from .coordinator import SynologyDSMConfigEntry, SynologyDSMData
@@ -25,7 +25,7 @@ from .coordinator import SynologyDSMConfigEntry, SynologyDSMData
 LOGGER = getLogger(__name__)
 
 
-async def async_get_media_source(hass: __HAC_KEEP__) -> MediaSource:
+async def async_get_media_source(hass: UniversalAssistant) -> MediaSource:
     """Set up Synology media source."""
     entries = hass.config_entries.async_entries(
         DOMAIN, include_disabled=False, include_ignore=False
@@ -70,7 +70,7 @@ class SynologyPhotosMediaSource(MediaSource):
     name = "Synology Photos"
 
     def __init__(
-        self, hass: __HAC_KEEP__, entries: list[SynologyDSMConfigEntry]
+        self, hass: UniversalAssistant, entries: list[SynologyDSMConfigEntry]
     ) -> None:
         """Initialize Synology source."""
         super().__init__(DOMAIN)
@@ -265,13 +265,13 @@ class SynologyPhotosMediaSource(MediaSource):
         return str(thumbnail)
 
 
-class SynologyDsmMediaView(http.__HAC_KEEP__View):
+class SynologyDsmMediaView(http.UniversalAssistantView):
     """Synology Media Finder View."""
 
     url = "/synology_dsm/{source_dir_id}/{location:.*}"
     name = "synology_dsm"
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the media view."""
         self.hass = hass
 

@@ -6,7 +6,7 @@ from typing import override
 from pybalboa import EVENT_UPDATE, SpaClient
 
 from universalassistant.components.event import EventEntity
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_track_time_interval
 
@@ -42,7 +42,7 @@ FAULT_EVENT_TYPES = sorted(set(FAULT_MESSAGE_CODE_MAP.values()))
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: BalboaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

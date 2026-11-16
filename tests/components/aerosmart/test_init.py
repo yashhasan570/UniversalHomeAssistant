@@ -7,12 +7,12 @@ from modbus_connection.mock import MockModbusConnection, MockModbusUnit
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 
 async def test_setup_entry_translates_shared_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """A shared Modbus link conflict becomes a translated setup error."""
@@ -20,7 +20,7 @@ async def test_setup_entry_translates_shared_connection_error(
 
     with patch(
         "universalassistant.components.aerosmart.async_get_unit",
-        side_effect=__HAC_KEEP__Error("incompatible shared connection"),
+        side_effect=UniversalAssistantError("incompatible shared connection"),
     ):
         await hass.config_entries.async_setup(mock_config_entry.entry_id)
         await hass.async_block_till_done()
@@ -33,7 +33,7 @@ async def test_setup_entry_translates_shared_connection_error(
 
 
 async def test_setup_entry_retries_after_connect_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit_ventilation: MockModbusUnit,
 ) -> None:
@@ -51,11 +51,11 @@ async def test_setup_entry_retries_after_connect_failure(
 
 
 async def test_unload_releases_shared_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_connection: MockModbusConnection,
 ) -> None:
-    """Unloading lets __HA_KEEP__ release its shared connection holds."""
+    """Unloading lets Universal Home Assistant release its shared connection holds."""
     mock_config_entry.add_to_hass(hass)
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
     await hass.async_block_till_done()

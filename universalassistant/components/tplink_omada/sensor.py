@@ -18,7 +18,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import PERCENTAGE, EntityCategory, UnitOfPower
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
@@ -66,7 +66,7 @@ def _map_device_status(device: OmadaListDevice) -> str | None:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: OmadaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

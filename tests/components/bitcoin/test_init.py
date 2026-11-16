@@ -9,14 +9,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.bitcoin.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_CURRENCY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
 
 @pytest.mark.usefixtures("mock_statistics", "mock_exchangerates")
 async def test_load_unload_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test loading and unloading the config entry."""
     await setup_integration(hass, mock_config_entry)
@@ -29,7 +29,7 @@ async def test_load_unload_entry(
 
 @pytest.mark.usefixtures("mock_exchangerates")
 async def test_setup_retries_when_api_unreachable(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_statistics: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_statistics: MagicMock
 ) -> None:
     """Test setup is retried when blockchain.com cannot be reached."""
     mock_statistics.side_effect = OSError("boom")
@@ -40,7 +40,7 @@ async def test_setup_retries_when_api_unreachable(
 
 @pytest.mark.usefixtures("mock_statistics")
 async def test_setup_retries_when_no_rates_quoted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_exchangerates: MagicMock,
 ) -> None:
@@ -53,7 +53,7 @@ async def test_setup_retries_when_no_rates_quoted(
 
 @pytest.mark.usefixtures("mock_statistics")
 async def test_setup_without_usd_but_with_chosen_currency(
-    hass: __HAC_KEEP__, mock_exchangerates: MagicMock
+    hass: UniversalAssistant, mock_exchangerates: MagicMock
 ) -> None:
     """Test setup succeeds when USD is missing but the chosen currency is not."""
     mock_exchangerates.return_value = {

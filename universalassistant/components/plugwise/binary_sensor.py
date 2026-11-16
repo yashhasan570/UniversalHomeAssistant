@@ -1,4 +1,4 @@
-"""Plugwise Binary Sensor component for __HA_KEEP__."""
+"""Plugwise Binary Sensor component for Universal Home Assistant."""
 
 from collections.abc import Mapping
 from dataclasses import dataclass
@@ -12,7 +12,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import PlugwiseConfigEntry, PlugwiseDataUpdateCoordinator
@@ -81,7 +81,7 @@ BINARY_SENSORS: tuple[PlugwiseBinarySensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: PlugwiseConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

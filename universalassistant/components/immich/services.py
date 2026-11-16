@@ -8,7 +8,7 @@ import probatio
 
 from universalassistant.components.media_source import async_resolve_media
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import service
 from universalassistant.helpers.os_error import os_read_error
@@ -92,7 +92,7 @@ async def _async_upload_file(service_call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up services for immich integration."""
 
     hass.services.async_register(

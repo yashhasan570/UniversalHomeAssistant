@@ -5,7 +5,7 @@ from typing import Any
 
 from universalassistant.components.bluetooth import async_last_service_info
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import SteamVRBaseStationConfigEntry
 
@@ -13,7 +13,7 @@ TO_REDACT = {"discovery_keys", "serial", "title", "unique_id"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: SteamVRBaseStationConfigEntry
+    hass: UniversalAssistant, entry: SteamVRBaseStationConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data

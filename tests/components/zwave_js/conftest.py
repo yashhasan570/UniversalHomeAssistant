@@ -24,7 +24,7 @@ from universalassistant.components.zwave_js import PLATFORMS
 from universalassistant.components.zwave_js.const import DOMAIN
 from universalassistant.components.zwave_js.helpers import SERVER_VERSION_TIMEOUT
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.json import JsonArrayType
 
 # State fixtures
@@ -1037,7 +1037,7 @@ def zooz_zac36_titan_valve_actuator_fixture(
 
 @pytest.fixture(name="integration")
 async def integration_fixture(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     platforms: list[Platform],
     caplog: pytest.LogCaptureFixture,

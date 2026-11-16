@@ -22,8 +22,8 @@ from universalassistant.components.time import (
     TimeServiceArgument,
 )
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_platform as ep, entity_registry as er
 
 from . import setup_integration
@@ -34,7 +34,7 @@ PARTIAL = timedelta(seconds=2)
 
 
 def _time_entity_id(
-    hass: __HAC_KEEP__, entry: MockConfigEntry, key_lower_suffix: str
+    hass: UniversalAssistant, entry: MockConfigEntry, key_lower_suffix: str
 ) -> str:
     """Resolve a time entity by its trailing unique_id segment."""
     registry = er.async_get(hass)
@@ -54,7 +54,7 @@ def _time_entity_id(
     return entries[0].entity_id
 
 
-def _time_entity(hass: __HAC_KEEP__, entity_id: str) -> Any:
+def _time_entity(hass: UniversalAssistant, entity_id: str) -> Any:
     """Return the live NeoPoolTime object for entity_id."""
     for platform in ep.async_get_platforms(hass, "neopool"):
         if entity_id in platform.entities:
@@ -62,7 +62,7 @@ def _time_entity(hass: __HAC_KEEP__, entity_id: str) -> Any:
     raise AssertionError(f"no time entity {entity_id}")
 
 
-async def _set_time(hass: __HAC_KEEP__, entity_id: str, value: dt_time) -> None:
+async def _set_time(hass: UniversalAssistant, entity_id: str, value: dt_time) -> None:
     await hass.services.async_call(
         TIME_DOMAIN,
         TimeService.SET_VALUE,
@@ -72,7 +72,7 @@ async def _set_time(hass: __HAC_KEEP__, entity_id: str, value: dt_time) -> None:
 
 
 def _set_time_nowait(
-    hass: __HAC_KEEP__, entity_id: str, value: dt_time
+    hass: UniversalAssistant, entity_id: str, value: dt_time
 ) -> asyncio.Task[None]:
     """Start a blocking set_value as a task so the freezer can drive the flush.
 
@@ -83,7 +83,7 @@ def _set_time_nowait(
     return hass.async_create_task(_set_time(hass, entity_id, value))
 
 
-async def _let_park(hass: __HAC_KEEP__) -> None:
+async def _let_park(hass: UniversalAssistant) -> None:
     """Yield enough for a scheduled set_value task to reach its await point.
 
     ``async_block_till_done`` waits on hass-tracked tasks, so it would block on
@@ -95,7 +95,7 @@ async def _let_park(hass: __HAC_KEEP__) -> None:
 
 
 async def _write(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     entity_id: str,
     value: dt_time,
@@ -110,14 +110,14 @@ async def _write(
     await task
 
 
-async def _flush(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+async def _flush(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
     """Advance past the debounce cooldown and let the pending write run."""
     freezer.tick(FLUSH)
     async_fire_time_changed(hass)
     await hass.async_block_till_done()
 
 
-async def _advance(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+async def _advance(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
     """Advance by less than the cooldown; a pending write must not fire yet.
 
     Uses event-loop yields rather than ``async_block_till_done`` so a set_value
@@ -129,7 +129,7 @@ async def _advance(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
 
 
 async def _poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_client: MagicMock,
     data: dict[str, Any],
@@ -165,7 +165,7 @@ async def _poll(
 
 
 async def test_native_value_decodes_seconds_since_midnight(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -186,7 +186,7 @@ async def test_native_value_decodes_seconds_since_midnight(
 
 
 async def test_native_value_returns_none_when_data_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -215,7 +215,7 @@ async def test_native_value_returns_none_when_data_missing(
 
 
 async def test_native_value_handles_out_of_range_seconds(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -236,7 +236,7 @@ async def test_native_value_handles_out_of_range_seconds(
 
 
 async def test_set_value_on_start_writes_timer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -256,7 +256,7 @@ async def test_set_value_on_start_writes_timer(
 
 
 async def test_set_value_on_stop_writes_timer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -276,7 +276,7 @@ async def test_set_value_on_stop_writes_timer(
 
 
 async def test_pending_value_shown_optimistically_before_write(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -306,13 +306,13 @@ async def test_pending_value_shown_optimistically_before_write(
     ],
 )
 async def test_set_value_maps_communication_error_to_universal_assistant_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
     write_error: Exception,
 ) -> None:
-    """A failed timer write surfaces to the blocking caller as __HAC_KEEP__Error."""
+    """A failed timer write surfaces to the blocking caller as UniversalAssistantError."""
     await setup_integration(hass, mock_config_entry_timers)
 
     entity_id = _time_entity_id(hass, mock_config_entry_timers, "filtration1_start")
@@ -320,7 +320,7 @@ async def test_set_value_maps_communication_error_to_universal_assistant_error(
 
     task = _set_time_nowait(hass, entity_id, dt_time(6, 0))
     await _flush(hass, freezer)
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await task
 
     assert err.value.translation_key == "modbus_communication_error"
@@ -328,7 +328,7 @@ async def test_set_value_maps_communication_error_to_universal_assistant_error(
 
 
 async def test_unexpected_write_error_reaches_caller(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -346,7 +346,7 @@ async def test_unexpected_write_error_reaches_caller(
 
 
 async def test_post_write_merge_failure_reaches_caller(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -369,7 +369,7 @@ async def test_post_write_merge_failure_reaches_caller(
 
 
 async def test_optimistic_state_rolls_back_on_write_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -394,7 +394,7 @@ async def test_optimistic_state_rolls_back_on_write_failure(
     assert state.state == "08:00:00"
 
     await _flush(hass, freezer)
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await task
 
     state = hass.states.get(entity_id)
@@ -403,7 +403,7 @@ async def test_optimistic_state_rolls_back_on_write_failure(
 
 
 async def test_rapid_set_value_coalesces_via_debounce(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -439,7 +439,7 @@ async def test_rapid_set_value_coalesces_via_debounce(
 
 
 async def test_sibling_writes_to_same_block_are_serialized(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -486,7 +486,7 @@ async def test_sibling_writes_to_same_block_are_serialized(
 
 
 async def test_repeated_set_value_writes_only_latest(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -509,7 +509,7 @@ async def test_repeated_set_value_writes_only_latest(
 
 
 async def test_settle_restarts_timer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -536,7 +536,7 @@ async def test_settle_restarts_timer(
 
 
 async def test_no_write_when_settled_value_unchanged(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -565,7 +565,7 @@ async def test_no_write_when_settled_value_unchanged(
 
 
 async def test_coalesced_callers_all_succeed_together(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -588,7 +588,7 @@ async def test_coalesced_callers_all_succeed_together(
 
 
 async def test_coalesced_callers_all_raise_together(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -608,11 +608,11 @@ async def test_coalesced_callers_all_raise_together(
     results = await asyncio.gather(*tasks, return_exceptions=True)
 
     assert mock_neopool_client.write_timer.await_count == 1
-    assert all(isinstance(r, __HAC_KEEP__Error) for r in results)
+    assert all(isinstance(r, UniversalAssistantError) for r in results)
 
 
 async def test_external_cancel_propagates_but_spares_coalesced_caller(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -637,7 +637,7 @@ async def test_external_cancel_propagates_but_spares_coalesced_caller(
 
 
 async def test_failed_write_survives_a_cancelled_coalesced_caller(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -677,7 +677,7 @@ async def test_failed_write_survives_a_cancelled_coalesced_caller(
         await victim
 
     release.set()
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await survivor
     await hass.async_block_till_done()
 
@@ -689,7 +689,7 @@ async def test_failed_write_survives_a_cancelled_coalesced_caller(
 
 
 async def test_write_queued_during_flush_gets_its_own_outcome(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -732,7 +732,7 @@ async def test_write_queued_during_flush_gets_its_own_outcome(
 
 
 async def test_same_value_queued_during_flush_still_resolves(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -774,7 +774,7 @@ async def test_same_value_queued_during_flush_still_resolves(
 
 
 async def test_optimistic_value_survives_overlapping_flush(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -820,7 +820,7 @@ async def test_optimistic_value_survives_overlapping_flush(
 
 
 async def test_write_works_after_entity_id_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
@@ -850,7 +850,7 @@ async def test_write_works_after_entity_id_change(
 
 
 async def test_pending_write_dropped_on_remove(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -870,7 +870,7 @@ async def test_pending_write_dropped_on_remove(
 
 
 async def test_flush_aborts_when_removed_while_holding_lock(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -897,7 +897,7 @@ async def test_flush_aborts_when_removed_while_holding_lock(
 
 
 async def test_inflight_write_skips_coordinator_on_remove(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -935,7 +935,7 @@ async def test_inflight_write_skips_coordinator_on_remove(
 
 
 async def test_client_close_waits_for_all_overlapping_flushes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -988,7 +988,7 @@ async def test_client_close_waits_for_all_overlapping_flushes(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_neopool_client")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry_timers: MockConfigEntry,
@@ -1003,7 +1003,7 @@ async def test_all_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_setup_when_modules_absent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry_timers: MockConfigEntry,

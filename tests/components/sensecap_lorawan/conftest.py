@@ -17,7 +17,7 @@ from sensecap_lorawan import S2101
 
 from universalassistant.components.lorawan import async_register_connection
 from universalassistant.config_entries import ConfigEntry, ConfigFlow
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -50,16 +50,16 @@ def mock_connection(descriptor: DeviceDescriptor, stack: str) -> MockConnection:
 
 @pytest.fixture
 def connection_integration(
-    hass: __HAC_KEEP__, mock_connection: MockConnection
+    hass: UniversalAssistant, mock_connection: MockConnection
 ) -> Generator[None]:
     """Provide a connection through the shared integration's public interface."""
 
-    async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+    async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
         entry.async_on_unload(
             await async_register_connection(hass, entry, connection=mock_connection)
         )
 
-    async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+    async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
         """Unload a config entry."""
 
     mock_integration(
@@ -78,7 +78,7 @@ def connection_integration(
 
 @pytest.fixture
 def connection_entry(
-    hass: __HAC_KEEP__, connection_integration: None
+    hass: UniversalAssistant, connection_integration: None
 ) -> MockConfigEntry:
     """Create the connection integration's entry."""
     entry = MockConfigEntry(domain="test_connection", entry_id="network")
@@ -87,7 +87,7 @@ def connection_entry(
 
 
 @pytest.fixture
-def config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Create the single SenseCAP entry."""
     entry = MockConfigEntry(
         domain="sensecap_lorawan", unique_id="sensecap_lorawan", title="SenseCAP"

@@ -10,7 +10,7 @@ from aiohttp import ClientError as AiohttpClientError
 from botocore.exceptions import ClientError, ConnectionError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 
 from .const import (
@@ -39,7 +39,7 @@ async def _async_safe_client_close(client: S3Client | None) -> None:
         _LOGGER.debug("Failed to close aiobotocore client", exc_info=True)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: IDriveE2ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: IDriveE2ConfigEntry) -> None:
     """Set up IDrive e2 from a config entry."""
 
     session = AioSession()
@@ -90,7 +90,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: IDriveE2ConfigEntry) -> N
     entry.async_on_unload(entry.async_on_state_change(notify_backup_listeners))
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: IDriveE2ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: IDriveE2ConfigEntry) -> None:
     """Unload a config entry."""
     client = entry.runtime_data
     await client.close()

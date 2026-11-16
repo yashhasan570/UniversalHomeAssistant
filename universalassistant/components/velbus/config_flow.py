@@ -16,8 +16,8 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
 )
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import selector
 from universalassistant.helpers.service_info.usb import UsbServiceInfo
 
@@ -26,7 +26,7 @@ from .const import CONF_TLS, CONF_VLP_FILE, DOMAIN
 STORAGE_PATH: Final = ".storage/velbus.{key}.vlp"
 
 
-class InvalidVlpFile(__HAC_KEEP__Error):
+class InvalidVlpFile(UniversalAssistantError):
     """Error to indicate that the uploaded file is not a valid VLP file."""
 
 
@@ -242,7 +242,7 @@ class VelbusConfigFlow(ConfigFlow, domain=DOMAIN):
         return await self.async_step_network()
 
 
-def save_uploaded_vlp_file(hass: __HAC_KEEP__, uploaded_file_id: str) -> str:
+def save_uploaded_vlp_file(hass: UniversalAssistant, uploaded_file_id: str) -> str:
     """Validate the uploaded file and move it to the storage directory.
 
     Blocking function needs to be called in executor.

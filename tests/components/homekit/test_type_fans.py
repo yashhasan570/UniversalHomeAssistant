@@ -31,11 +31,11 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNKNOWN,
 )
-from universalassistant.core import CoreState, Event, __HAC_KEEP__
+from universalassistant.core import CoreState, Event, UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
-async def test_fan_basic(hass: __HAC_KEEP__, hk_driver, events: list[Event]) -> None:
+async def test_fan_basic(hass: UniversalAssistant, hk_driver, events: list[Event]) -> None:
     """Test fan with char state."""
     entity_id = "fan.demo"
 
@@ -114,7 +114,7 @@ async def test_fan_basic(hass: __HAC_KEEP__, hk_driver, events: list[Event]) -> 
 
 
 async def test_fan_direction(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test fan with direction."""
     entity_id = "fan.demo"
@@ -194,7 +194,7 @@ async def test_fan_direction(
 
 
 async def test_fan_oscillate(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test fan with oscillate."""
     entity_id = "fan.demo"
@@ -268,7 +268,7 @@ async def test_fan_oscillate(
     assert events[-1].data[ATTR_VALUE] is True
 
 
-async def test_fan_speed(hass: __HAC_KEEP__, hk_driver, events: list[Event]) -> None:
+async def test_fan_speed(hass: UniversalAssistant, hk_driver, events: list[Event]) -> None:
     """Test fan with speed."""
     entity_id = "fan.demo"
 
@@ -371,7 +371,7 @@ async def test_fan_speed(hass: __HAC_KEEP__, hk_driver, events: list[Event]) -> 
 
 
 async def test_fan_set_all_one_shot(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test fan with speed."""
     entity_id = "fan.demo"
@@ -566,7 +566,7 @@ async def test_fan_set_all_one_shot(
 
 
 async def test_fan_restore(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, hk_driver
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, hk_driver
 ) -> None:
     """Test setting up an entity from state in the event registry."""
     hass.set_state(CoreState.not_running)
@@ -608,7 +608,7 @@ async def test_fan_restore(
 
 
 async def test_fan_multiple_preset_modes(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver, events: list[Event]
+    hass: UniversalAssistant, hk_driver: HomeDriver, events: list[Event]
 ) -> None:
     """Test fan with multiple preset modes."""
     entity_id = "fan.demo"
@@ -693,7 +693,7 @@ async def test_fan_multiple_preset_modes(
 
 
 async def test_fan_single_preset_mode(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test fan with a single preset mode."""
     entity_id = "fan.demo"

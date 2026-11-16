@@ -13,8 +13,8 @@ from universalassistant.components.number import (
     NumberMode,
 )
 from universalassistant.const import EntityCategory, UnitOfTime
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -86,7 +86,7 @@ NUMBERS: tuple[HDFuryNumberEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: HDFuryConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -122,7 +122,7 @@ class HDFuryNumber(HDFuryEntity, NumberEntity):
                 self.coordinator.client, str(int(value))
             )
         except HDFuryError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="communication_error",
             ) from error

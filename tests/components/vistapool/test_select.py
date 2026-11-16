@@ -16,8 +16,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 
@@ -29,7 +29,7 @@ def _only_select_platform() -> Generator[None]:
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -56,7 +56,7 @@ async def test_all_entities(
     ],
 )
 async def test_select_current_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     raw_value: int | str,
@@ -84,7 +84,7 @@ async def test_select_current_option(
     ],
 )
 async def test_select_current_option_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     raw_value: Any,
@@ -129,7 +129,7 @@ async def test_select_current_option_unknown(
     ],
 )
 async def test_select_option_writes_index(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     mock_pool_data: dict[str, Any],
@@ -169,7 +169,7 @@ async def test_select_option_writes_index(
     ],
 )
 async def test_filtration_timer_speed_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     raw_value: int,
@@ -197,12 +197,12 @@ async def test_filtration_timer_speed_options(
 
 
 async def test_select_option_raises_on_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     mock_pool_data: dict[str, Any],
 ) -> None:
-    """Test select_option re-raises as __HAC_KEEP__Error when the library fails."""
+    """Test select_option re-raises as UniversalAssistantError when the library fails."""
     mock_vistapool_client.fetch_pool_data.return_value = mock_pool_data
     mock_vistapool_client.set_value.side_effect = AquariteError("boom")
     mock_config_entry.add_to_hass(hass)
@@ -210,7 +210,7 @@ async def test_select_option_raises_on_api_error(
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
     await hass.async_block_till_done()
 
-    with pytest.raises(__HAC_KEEP__Error) as excinfo:
+    with pytest.raises(UniversalAssistantError) as excinfo:
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -230,7 +230,7 @@ _LIGHT_SCHEDULE_DATA = {
 
 
 async def test_light_selects_not_created_without_scheduling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     mock_pool_data: dict[str, Any],
@@ -256,7 +256,7 @@ async def test_light_selects_not_created_without_scheduling(
     ],
 )
 async def test_light_mode_current_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     mode: int,
@@ -284,7 +284,7 @@ async def test_light_mode_current_option(
     ],
 )
 async def test_light_mode_unknown_after_partial_push(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     light_data: dict[str, Any],
@@ -313,7 +313,7 @@ async def test_light_mode_unknown_after_partial_push(
     ],
 )
 async def test_light_mode_select_writes_one_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     option: str,
@@ -354,7 +354,7 @@ async def test_light_mode_select_writes_one_command(
     ],
 )
 async def test_light_schedule_frequency_maps_raw_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     raw: int,
@@ -374,7 +374,7 @@ async def test_light_schedule_frequency_maps_raw_values(
 
 
 async def test_light_schedule_frequency_writes_raw_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -401,7 +401,7 @@ async def test_light_schedule_frequency_writes_raw_value(
 
 
 async def test_select_reflects_choice_before_push(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     mock_pool_data: dict[str, Any],
@@ -427,7 +427,7 @@ async def test_select_reflects_choice_before_push(
 
 
 async def test_light_mode_raises_on_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -440,7 +440,7 @@ async def test_light_mode_raises_on_api_error(
     await hass.async_block_till_done()
     assert hass.states.get("select.my_pool_light_mode").state == "auto"
 
-    with pytest.raises(__HAC_KEEP__Error) as excinfo:
+    with pytest.raises(UniversalAssistantError) as excinfo:
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -457,7 +457,7 @@ async def test_light_mode_raises_on_api_error(
 
 
 async def test_light_schedule_frequency_created_for_zero_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:

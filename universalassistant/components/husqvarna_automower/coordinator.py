@@ -17,7 +17,7 @@ from aioautomower.model import MowerDictionary, MowerStates
 from aioautomower.session import AutomowerSession
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -40,7 +40,7 @@ class AutomowerDataUpdateCoordinator(DataUpdateCoordinator[MowerDictionary]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: AutomowerConfigEntry,
         api: AutomowerSession,
     ) -> None:
@@ -164,7 +164,7 @@ class AutomowerDataUpdateCoordinator(DataUpdateCoordinator[MowerDictionary]):
 
     async def client_listen(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: AutomowerConfigEntry,
         automower_client: AutomowerSession,
     ) -> None:

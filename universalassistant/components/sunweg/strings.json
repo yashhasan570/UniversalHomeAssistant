@@ -1,7 +1,7 @@
 {
   "issues": {
     "integration_removed": {
-      "description": "The SunWEG integration has been removed from __HA_KEEP__.\n\nThe library that __HA_KEEP__ uses to connect with SunWEG services, [doesn't work as expected anymore, demanding daily token renew]({issue}).\n\nTo resolve this issue, please remove the (now defunct) integration entries from your __HA_KEEP__ setup. [View your existing SunWEG integration entries]({entries}).",
+      "description": "The SunWEG integration has been removed from Universal Home Assistant.\n\nThe library that Universal Home Assistant uses to connect with SunWEG services, [doesn't work as expected anymore, demanding daily token renew]({issue}).\n\nTo resolve this issue, please remove the (now defunct) integration entries from your Universal Home Assistant setup. [View your existing SunWEG integration entries]({entries}).",
       "title": "The SunWEG integration has been removed"
     }
   }

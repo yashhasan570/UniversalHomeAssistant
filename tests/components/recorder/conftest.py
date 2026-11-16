@@ -15,7 +15,7 @@ from universalassistant.components import recorder
 from universalassistant.components.recorder import db_schema
 from universalassistant.components.recorder.const import MAX_IDS_FOR_INDEXED_GROUP_BY
 from universalassistant.components.recorder.util import session_scope
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 def pytest_configure(config):
@@ -43,7 +43,7 @@ def skip_by_db_engine(request: pytest.FixtureRequest, recorder_db_url: str) -> N
 
 
 @pytest.fixture
-def recorder_dialect_name(hass: __HAC_KEEP__, db_engine: str) -> Generator[None]:
+def recorder_dialect_name(hass: UniversalAssistant, db_engine: str) -> Generator[None]:
     """Patch the recorder dialect."""
     if instance := hass.data.get(recorder.DATA_INSTANCE):
         instance.__dict__.pop("dialect_name", None)
@@ -76,7 +76,7 @@ class InstrumentedMigration:
 
 @pytest.fixture(name="instrument_migration")
 def instrument_migration_fixture(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> Generator[InstrumentedMigration]:
     """Instrument recorder migration."""
     with instrument_migration(hass) as instrumented_migration:
@@ -85,7 +85,7 @@ def instrument_migration_fixture(
 
 @contextmanager
 def instrument_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> Generator[InstrumentedMigration]:
     """Instrument recorder migration."""
 
@@ -142,7 +142,7 @@ def instrument_migration(
 
     def _instrument_apply_update(
         instance: recorder.Recorder,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         engine: Engine,
         session_maker: Callable[[], Session],
         new_version: int,

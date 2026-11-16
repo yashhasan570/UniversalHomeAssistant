@@ -11,7 +11,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import PERCENTAGE, EntityCategory, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .common import sensor_unique_id
@@ -22,7 +22,7 @@ SENSOR_ID_WIRED = "WIRE"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: GogoGateConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

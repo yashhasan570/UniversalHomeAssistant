@@ -35,7 +35,7 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.components.philips_infrared.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 MEDIA_PLAYER_ENTITY_ID = "media_player.philips_tv"
@@ -43,7 +43,7 @@ MEDIA_PLAYER_ENTITY_ID = "media_player.philips_tv"
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -76,7 +76,7 @@ async def test_entities(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_media_player_action_sends_correct_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     service: str,
     service_data: dict[str, bool],
@@ -117,7 +117,7 @@ async def test_media_player_action_sends_correct_code(
 )
 @pytest.mark.usefixtures("mock_philips_to_command")
 async def test_state_changing_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     platforms: list[Platform],
@@ -146,7 +146,7 @@ async def test_state_changing_commands(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_play_pause_alternates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Test consecutive play/pause calls alternate between play and pause."""
@@ -177,7 +177,7 @@ async def test_play_pause_alternates(
 )
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
 async def test_restore_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     platforms: list[Platform],
     restored_state: MediaPlayerState,
@@ -196,7 +196,7 @@ async def test_restore_state(
 
 
 async def _setup_with_restored_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     platforms: list[Platform],
     restored_states: list[State],
@@ -212,7 +212,7 @@ async def _setup_with_restored_states(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_toggle_flips_between_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_philips_to_command: MagicMock,
 ) -> None:
     """The RC-6 toggle bit must alternate so the TV sees distinct presses."""
@@ -230,7 +230,7 @@ async def test_toggle_flips_between_commands(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_media_player_availability_follows_ir_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test media player becomes unavailable when IR entity is unavailable."""
     await assert_availability_follows_source_entity(

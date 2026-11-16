@@ -15,8 +15,8 @@ from universalassistant.components.button import (
 from universalassistant.components.nam import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import ATTR_DEVICE_CLASS, STATE_UNKNOWN, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -25,7 +25,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("mock_nam_client")
 async def test_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -43,7 +43,7 @@ async def test_button(
 
 
 async def test_button_press(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nam_client: MagicMock,
 ) -> None:
@@ -69,7 +69,7 @@ async def test_button_press(
 
 @pytest.mark.parametrize(("exc"), [ApiError("API Error"), ClientError, TimeoutError])
 async def test_button_press_exc(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nam_client: MagicMock,
     exc: Exception | type[Exception],
@@ -79,7 +79,7 @@ async def test_button_press_exc(
 
     mock_nam_client.async_restart.side_effect = exc
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="An error occurred while calling action for"
         " button.nettigo_air_monitor_restart",
     ):
@@ -92,7 +92,7 @@ async def test_button_press_exc(
 
 
 async def test_button_press_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nam_client: MagicMock,
 ) -> None:
@@ -101,7 +101,7 @@ async def test_button_press_auth_error(
 
     mock_nam_client.async_restart.side_effect = AuthFailedError("auth error")
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Authentication failed for 10.10.2.3",
     ):
         await hass.services.async_call(

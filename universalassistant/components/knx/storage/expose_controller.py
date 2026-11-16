@@ -8,7 +8,7 @@ from xknx import XKNX
 from xknx.dpt import DPTBase
 from xknx.telegram.address import parse_device_group_address
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import (
     config_validation as cv,
     selector,
@@ -129,7 +129,7 @@ def validate_stored_expose_config(config: dict) -> ExposeConfig:
     return validate_config_store_data(EXPOSE_STORE_SCHEMA, config)
 
 
-def _to_expose_options(hass: __HAC_KEEP__, option: ExposeOption) -> KnxExposeOptions:
+def _to_expose_options(hass: UniversalAssistant, option: ExposeOption) -> KnxExposeOptions:
     """Convert a validated expose option to expose options."""
     assert option.ga.write is not None  # write is required
     assert option.ga.dpt is not None  # dpt is required
@@ -166,7 +166,7 @@ class ExposeController:
 
     @callback
     def start(
-        self, hass: __HAC_KEEP__, xknx: XKNX, config: dict[str, ExposeConfig]
+        self, hass: UniversalAssistant, xknx: XKNX, config: dict[str, ExposeConfig]
     ) -> None:
         """Update entity expose configuration."""
         if self._entity_exposes:
@@ -177,7 +177,7 @@ class ExposeController:
     @callback
     def update_entity_expose(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         xknx: XKNX,
         entity_id: str,
         expose_config: ExposeConfig,

@@ -10,14 +10,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import call_webhook, prepare_webhook_setup, setup_integration
 from .conftest import USER_ID, WEBHOOK_ID
 
 
 async def test_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     withings: AsyncMock,
     webhook_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
@@ -65,7 +65,7 @@ async def test_binary_sensor(
 
 
 async def test_polling_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,

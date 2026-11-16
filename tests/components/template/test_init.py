@@ -14,8 +14,8 @@ from universalassistant import config
 from universalassistant.components.template import DOMAIN
 from universalassistant.components.template.const import TemplateService
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -54,7 +54,7 @@ from universalassistant.util import dt as dt_util
     ],
 )
 @pytest.mark.usefixtures("start_ha")
-async def test_reloadable(hass: __HAC_KEEP__) -> None:
+async def test_reloadable(hass: UniversalAssistant) -> None:
     """Test that we can reload."""
     hass.states.async_set("sensor.test_sensor", "mytest")
     await hass.async_block_till_done()
@@ -106,7 +106,7 @@ async def test_reloadable(hass: __HAC_KEEP__) -> None:
     ],
 )
 @pytest.mark.usefixtures("start_ha")
-async def test_reloadable_can_remove(hass: __HAC_KEEP__) -> None:
+async def test_reloadable_can_remove(hass: UniversalAssistant) -> None:
     """Test that we can reload and remove all template sensors."""
     hass.states.async_set("sensor.test_sensor", "mytest")
     await hass.async_block_till_done()
@@ -135,14 +135,14 @@ async def test_reloadable_can_remove(hass: __HAC_KEEP__) -> None:
     ],
 )
 @pytest.mark.usefixtures("start_ha")
-async def test_reloadable_stops_on_invalid_config(hass: __HAC_KEEP__) -> None:
+async def test_reloadable_stops_on_invalid_config(hass: UniversalAssistant) -> None:
     """Test we stop the reload if configuration.yaml is completely broken."""
     hass.states.async_set("sensor.test_sensor", "mytest")
     await hass.async_block_till_done()
     assert hass.states.get("sensor.state").state == "mytest"
     assert len(hass.states.async_all()) == 2
 
-    with pytest.raises(__HAC_KEEP__Error, match="Error reloading template entities: "):
+    with pytest.raises(UniversalAssistantError, match="Error reloading template entities: "):
         await async_yaml_patch_helper(hass, "configuration.yaml.corrupt")
 
     assert hass.states.get("sensor.state").state == "mytest"
@@ -164,7 +164,7 @@ async def test_reloadable_stops_on_invalid_config(hass: __HAC_KEEP__) -> None:
     ],
 )
 @pytest.mark.usefixtures("start_ha")
-async def test_reloadable_handles_partial_valid_config(hass: __HAC_KEEP__) -> None:
+async def test_reloadable_handles_partial_valid_config(hass: UniversalAssistant) -> None:
     """Test we can still setup valid sensors when config has a broken entry."""
     hass.states.async_set("sensor.test_sensor", "mytest")
     await hass.async_block_till_done()
@@ -198,7 +198,7 @@ async def test_reloadable_handles_partial_valid_config(hass: __HAC_KEEP__) -> No
     ],
 )
 @pytest.mark.usefixtures("start_ha")
-async def test_reloadable_multiple_platforms(hass: __HAC_KEEP__) -> None:
+async def test_reloadable_multiple_platforms(hass: UniversalAssistant) -> None:
     """Test that we can reload."""
     hass.states.async_set("sensor.test_sensor", "mytest")
     await hass.async_block_till_done()
@@ -230,7 +230,7 @@ async def test_reloadable_multiple_platforms(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("start_ha")
 async def test_reload_sensors_that_reference_other_template_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that we can reload sensor that reference other template sensors."""
     await async_yaml_patch_helper(hass, "ref_configuration.yaml")
@@ -248,7 +248,7 @@ async def test_reload_sensors_that_reference_other_template_sensors(
     assert hass.states.get("sensor.test3").state == "2"
 
 
-async def async_yaml_patch_helper(hass: __HAC_KEEP__, filename: str) -> None:
+async def async_yaml_patch_helper(hass: UniversalAssistant, filename: str) -> None:
     """Help update configuration.yaml."""
     yaml_path = get_fixture_path(filename, "template")
     with patch.object(config, "YAML_CONFIG_FILE", yaml_path):
@@ -381,7 +381,7 @@ async def async_yaml_patch_helper(hass: __HAC_KEEP__, filename: str) -> None:
     ],
 )
 async def test_change_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     config_entry_options: dict[str, str],
@@ -503,7 +503,7 @@ async def test_change_device(
     ],
 )
 async def test_link_to_main_or_child_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     linked_device: str,
@@ -546,7 +546,7 @@ async def test_link_to_main_or_child_device(
 
 
 async def test_setup_removes_stale_helper_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -606,7 +606,7 @@ async def test_setup_removes_stale_helper_device(
 
 
 async def test_setup_removes_stale_helper_device_without_source_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -656,7 +656,7 @@ async def test_setup_removes_stale_helper_device_without_source_device(
 
 
 async def test_fail_non_numerical_number_settings(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that non numerical number options causes config entry setup to fail.
 
@@ -693,7 +693,7 @@ async def test_fail_non_numerical_number_settings(
 
 
 async def test_migration_1_1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -739,7 +739,7 @@ async def test_migration_1_1(
 
 
 async def test_migration_1_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test migration from v1.2 renames the advanced_options section."""
 
@@ -772,7 +772,7 @@ async def test_migration_1_2(
 
 
 async def test_migration_from_future_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test migration from future version."""
     config_entry = MockConfigEntry(

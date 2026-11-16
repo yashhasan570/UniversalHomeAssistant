@@ -29,7 +29,7 @@ from universalassistant.const import (
     EntityCategory,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
@@ -124,7 +124,7 @@ async def binary_sensor_only() -> AsyncGenerator[None]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_satel")
 async def test_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry_with_subentries: MockConfigEntry,
     entity_registry: EntityRegistry,
@@ -151,6 +151,7 @@ async def test_binary_sensors(
     assert device_entry == snapshot(name="device-output")
 
 
+@pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize(
     ("device_state", "expected_state"),
     [
@@ -160,7 +161,7 @@ async def test_binary_sensors(
     ],
 )
 async def test_binary_sensor_initial_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
     device_state: bool | None,
@@ -172,6 +173,8 @@ async def test_binary_sensor_initial_state(
     async def mock_start(**_: object) -> None:
         mock_satel.state.outputs[1].active = device_state
         mock_satel.state.zones[1].violated = device_state
+        mock_satel.state.zones[1].tampered = device_state
+        mock_satel.state.zones[1].bypassed = device_state
         get_output_changed_callback(mock_satel)()
         get_zone_changed_callback(mock_satel)()
 
@@ -181,35 +184,22 @@ async def test_binary_sensor_initial_state(
 
     assert hass.states.get("binary_sensor.zone").state == expected_state
     assert hass.states.get("binary_sensor.output").state == expected_state
+    assert hass.states.get("binary_sensor.zone_tamper").state == expected_state
+    assert hass.states.get("binary_sensor.zone_bypass").state == expected_state
 
 
-async def test_binary_sensor_callback(
-    hass: __HAC_KEEP__,
+async def test_output_callback(
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
 ) -> None:
-    """Test binary sensors correctly change state after a callback from the panel."""
+    """Test output state updates after callbacks."""
     await setup_integration(hass, mock_config_entry_with_subentries)
 
-    assert hass.states.get("binary_sensor.zone").state == STATE_OFF
-    assert hass.states.get("binary_sensor.output").state == STATE_OFF
-
-    zone_update_method = get_zone_changed_callback(mock_satel)
-    output_update_method = get_output_changed_callback(mock_satel)
-
-    mock_satel.state.outputs[1].active = True
-    mock_satel.state.zones[1].violated = True
-    output_update_method()
-    zone_update_method()
-    assert hass.states.get("binary_sensor.zone").state == STATE_ON
-    assert hass.states.get("binary_sensor.output").state == STATE_ON
-
-    mock_satel.state.outputs[1].active = False
-    mock_satel.state.zones[1].violated = False
-    output_update_method()
-    zone_update_method()
-    assert hass.states.get("binary_sensor.zone").state == STATE_OFF
-    assert hass.states.get("binary_sensor.output").state == STATE_OFF
+    for value, state in (True, STATE_ON), (False, STATE_OFF), (None, STATE_UNKNOWN):
+        mock_satel.state.outputs[1].active = value
+        get_output_changed_callback(mock_satel)()
+        assert hass.states.is_state("binary_sensor.output", state)
 
 
 @pytest.mark.parametrize(
@@ -220,7 +210,7 @@ async def test_binary_sensor_callback(
     ],
 )
 async def test_system_status_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
     entity_registry: EntityRegistry,
@@ -261,7 +251,7 @@ async def test_system_status_sensor(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize(("key", "trouble"), SPECIFIC_TROUBLE_CASES)
 async def test_specific_system_trouble_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
     entity_registry: EntityRegistry,
@@ -298,7 +288,7 @@ async def test_specific_system_trouble_sensor(
 
 
 async def test_other_specific_trouble_sensors_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
     entity_registry: EntityRegistry,
@@ -318,8 +308,56 @@ async def test_other_specific_trouble_sensors_disabled_by_default(
         assert registry_entry.disabled_by is er.RegistryEntryDisabler.INTEGRATION
 
 
+@pytest.mark.usefixtures("entity_registry_enabled_by_default")
+@pytest.mark.parametrize(
+    ("entity_id", "field"),
+    [
+        ("binary_sensor.zone", "violated"),
+        ("binary_sensor.zone_tamper", "tampered"),
+        ("binary_sensor.zone_bypass", "bypassed"),
+    ],
+)
+async def test_zone_status_callback(
+    hass: UniversalAssistant,
+    mock_satel: AsyncMock,
+    mock_config_entry_with_subentries: MockConfigEntry,
+    entity_id: str,
+    field: str,
+) -> None:
+    """Test zone status updates after callbacks."""
+    await setup_integration(hass, mock_config_entry_with_subentries)
+
+    for value, state in (True, STATE_ON), (False, STATE_OFF), (None, STATE_UNKNOWN):
+        setattr(mock_satel.state.zones[1], field, value)
+        get_zone_changed_callback(mock_satel)()
+        assert hass.states.is_state(entity_id, state)
+
+
+async def test_zone_statuses_disabled_by_default(
+    hass: UniversalAssistant,
+    mock_satel: AsyncMock,
+    mock_config_entry_with_subentries: MockConfigEntry,
+    entity_registry: EntityRegistry,
+) -> None:
+    """Test extra zone statuses are disabled on the existing zone device."""
+    await setup_integration(hass, mock_config_entry_with_subentries)
+    zone = entity_registry.async_get("binary_sensor.zone")
+    assert zone is not None
+    assert zone.disabled_by is None
+    for key in ("tamper", "bypass"):
+        entity_id = entity_registry.async_get_entity_id(
+            "binary_sensor", DOMAIN, f"1234567890_zones_1_{key}"
+        )
+        assert entity_id is not None
+        entry = entity_registry.async_get(entity_id)
+        assert entry is not None
+        assert entry.disabled_by is er.RegistryEntryDisabler.INTEGRATION
+        assert entry.device_id == zone.device_id
+        assert entry.config_subentry_id == zone.config_subentry_id
+
+
 async def test_binary_sensor_last_reported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -350,7 +388,7 @@ async def test_binary_sensor_last_reported(
 
 @pytest.mark.parametrize("unique_id_suffix", ["zones_1", "system_trouble"])
 async def test_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
     entity_registry: EntityRegistry,

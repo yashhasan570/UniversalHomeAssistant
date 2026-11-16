@@ -20,7 +20,7 @@ from universalassistant.components.recorder.statistics import (
     list_statistic_ids,
 )
 from universalassistant.components.repairs import DOMAIN as REPAIRS_DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -36,13 +36,13 @@ DEMO_ISSUE_IDS = (
 
 
 @pytest.fixture
-def mock_history(hass: __HAC_KEEP__) -> None:
+def mock_history(hass: UniversalAssistant) -> None:
     """Mock history component loaded."""
     hass.config.components.add("history")
 
 
 @pytest.mark.usefixtures("recorder_mock", "mock_history")
-async def test_demo_statistics(hass: __HAC_KEEP__) -> None:
+async def test_demo_statistics(hass: UniversalAssistant) -> None:
     """Test that the kitchen sink component makes some statistics available."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     await hass.async_block_till_done()
@@ -77,7 +77,7 @@ async def test_demo_statistics(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("recorder_mock", "mock_history")
-async def test_demo_statistics_growth(hass: __HAC_KEEP__) -> None:
+async def test_demo_statistics_growth(hass: UniversalAssistant) -> None:
     """Test that the kitchen sink sum statistics adds to the previous state."""
     hass.config.units = US_CUSTOMARY_SYSTEM
 
@@ -118,7 +118,7 @@ async def test_demo_statistics_growth(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("recorder_mock", "mock_history")
 async def test_statistics_issues(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -138,7 +138,7 @@ async def test_statistics_issues(
 @pytest.mark.freeze_time("2023-10-21")
 @pytest.mark.usefixtures("mock_history")
 async def test_issues_created(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -362,7 +362,7 @@ async def test_issues_created(
 
 @pytest.mark.usefixtures("mock_history")
 async def test_issues_linked_to_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test the demo issues are linked to the config entry and removed with it."""
@@ -384,7 +384,7 @@ async def test_issues_linked_to_config_entry(
 
 
 async def test_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test we can call the service."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -405,7 +405,7 @@ async def test_service(
 
 
 @pytest.fixture
-async def setup_kitchen_sink_with_repairs(hass: __HAC_KEEP__) -> None:
+async def setup_kitchen_sink_with_repairs(hass: UniversalAssistant) -> None:
     """Set up kitchen_sink integration with labs and repairs."""
     assert await async_setup_component(hass, "labs", {})
     assert await async_setup_component(hass, "repairs", {})
@@ -414,7 +414,7 @@ async def setup_kitchen_sink_with_repairs(hass: __HAC_KEEP__) -> None:
 
 
 async def test_special_repair_issue_not_created_when_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     setup_kitchen_sink_with_repairs: None,
 ) -> None:
@@ -425,7 +425,7 @@ async def test_special_repair_issue_not_created_when_disabled(
 
 
 async def test_special_repair_issue_created_when_enabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     hass_ws_client: WebSocketGenerator,
     setup_kitchen_sink_with_repairs: None,
@@ -458,7 +458,7 @@ async def test_special_repair_issue_created_when_enabled(
 
 
 async def test_special_repair_preview_feature_toggle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -507,7 +507,7 @@ async def test_special_repair_preview_feature_toggle(
 
 
 async def test_preview_feature_event_handler_registered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that preview feature event handler is registered on setup."""
     # Setup kitchen_sink

@@ -9,7 +9,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
     BinarySensorEntity,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -39,7 +39,7 @@ DEVICES: dict[str, Any] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: PointConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -66,7 +66,7 @@ async def async_setup_entry(
 
 
 class MinutPointBinarySensor(MinutPointEntity, BinarySensorEntity):
-    """The platform class required by __HA_KEEP__."""
+    """The platform class required by Universal Home Assistant."""
 
     def __init__(
         self, coordinator: PointDataUpdateCoordinator, device_id: str, key: str

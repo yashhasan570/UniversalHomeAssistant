@@ -7,7 +7,7 @@ from steamloop import (
 )
 
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 
@@ -17,7 +17,7 @@ from .types import TraneConfigEntry
 PLATFORMS = [Platform.CLIMATE, Platform.SWITCH]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: TraneConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: TraneConfigEntry) -> None:
     """Set up Trane Local from a config entry."""
     conn = ThermostatConnection(
         entry.data[CONF_HOST],
@@ -55,7 +55,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: TraneConfigEntry) -> None
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: TraneConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: TraneConfigEntry) -> None:
     """Unload a Trane Local config entry."""
     try:
         await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

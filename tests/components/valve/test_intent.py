@@ -10,12 +10,12 @@ from universalassistant.components.valve import (
     SERVICE_SET_VALVE_POSITION,
     ValveState,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import intent
 from universalassistant.setup import async_setup_component
 
 
-async def test_open_valve_intent(hass: __HAC_KEEP__) -> None:
+async def test_open_valve_intent(hass: UniversalAssistant) -> None:
     """Test HassTurnOn intent for valves."""
     assert await async_setup_component(hass, "intent", {})
 
@@ -36,7 +36,7 @@ async def test_open_valve_intent(hass: __HAC_KEEP__) -> None:
     assert call.data == {"entity_id": entity_id}
 
 
-async def test_close_valve_intent(hass: __HAC_KEEP__) -> None:
+async def test_close_valve_intent(hass: UniversalAssistant) -> None:
     """Test HassTurnOff intent for valves."""
     assert await async_setup_component(hass, "intent", {})
 
@@ -57,7 +57,7 @@ async def test_close_valve_intent(hass: __HAC_KEEP__) -> None:
     assert call.data == {"entity_id": entity_id}
 
 
-async def test_set_valve_position(hass: __HAC_KEEP__) -> None:
+async def test_set_valve_position(hass: UniversalAssistant) -> None:
     """Test HassSetPosition intent for valves."""
     assert await async_setup_component(hass, "intent", {})
 

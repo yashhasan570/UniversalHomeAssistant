@@ -22,8 +22,8 @@ from universalassistant.const import (
     ATTR_ENTITY_ID,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -44,7 +44,7 @@ from .common import (
 
 
 async def test_set_config_parameter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -349,7 +349,7 @@ async def test_set_config_parameter(
     )
 
     # Test unknown endpoint throws error when None are remaining
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             ZWaveJSService.SET_CONFIG_PARAMETER,
@@ -548,7 +548,7 @@ async def test_set_config_parameter(
 
 
 async def test_set_config_parameter_gather(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     multisensor_6,
     climate_radio_thermostat_ct100_plus_different_endpoints,
@@ -557,7 +557,7 @@ async def test_set_config_parameter_gather(
     """Test the set_config_parameter service gather functionality."""
     # Test setting config parameter by property and validate that the first node
     # which triggers an error doesn't prevent the second one to be called.
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             ZWaveJSService.SET_CONFIG_PARAMETER,
@@ -588,7 +588,7 @@ async def test_set_config_parameter_gather(
 
 
 async def test_bulk_set_config_parameters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     client,
@@ -838,7 +838,7 @@ async def test_bulk_set_config_parameters(
 
 
 async def test_bulk_set_config_parameters_gather(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     multisensor_6,
     climate_radio_thermostat_ct100_plus_different_endpoints,
@@ -847,7 +847,7 @@ async def test_bulk_set_config_parameters_gather(
     """Test the bulk_set_partial_config_parameters service gather functionality."""
     # Test bulk setting config parameter by property and validate that the first node
     # which triggers an error doesn't prevent the second one to be called.
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             ZWaveJSService.BULK_SET_PARTIAL_CONFIG_PARAMETERS,
@@ -878,7 +878,7 @@ async def test_bulk_set_config_parameters_gather(
 
 
 async def test_refresh_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     climate_radio_thermostat_ct100_plus_different_endpoints,
     integration,
@@ -978,7 +978,7 @@ async def test_refresh_value(
 
 
 async def test_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     client,
@@ -1116,7 +1116,7 @@ async def test_set_value(
         "result": {"status": 2, "message": "test"}
     }
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             ZWaveJSService.SET_VALUE,
@@ -1176,7 +1176,7 @@ async def test_set_value(
 
 
 async def test_set_value_string(
-    hass: __HAC_KEEP__, client, climate_danfoss_lc_13, lock_schlage_be469, integration
+    hass: UniversalAssistant, client, climate_danfoss_lc_13, lock_schlage_be469, integration
 ) -> None:
     """Test set_value service converts number to string when needed."""
 
@@ -1208,7 +1208,7 @@ async def test_set_value_string(
 
 
 async def test_set_value_options(
-    hass: __HAC_KEEP__, client, aeon_smart_switch_6, integration
+    hass: UniversalAssistant, client, aeon_smart_switch_6, integration
 ) -> None:
     """Test set_value service with options."""
     await hass.services.async_call(
@@ -1240,7 +1240,7 @@ async def test_set_value_options(
 
 
 async def test_set_value_gather(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     multisensor_6,
     climate_radio_thermostat_ct100_plus_different_endpoints,
@@ -1249,7 +1249,7 @@ async def test_set_value_gather(
     """Test the set_value service gather functionality."""
     # Test setting value by property and validate that the first node
     # which triggers an error doesn't prevent the second one to be called.
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             ZWaveJSService.SET_VALUE,
@@ -1283,7 +1283,7 @@ async def test_set_value_gather(
 
 
 async def test_multicast_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     client,
@@ -1523,7 +1523,7 @@ async def test_multicast_set_value(
         "result": {"status": 2, "message": "test"}
     }
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             ZWaveJSService.MULTICAST_SET_VALUE,
@@ -1544,7 +1544,7 @@ async def test_multicast_set_value(
 
     # Test that when we get an exception from the library we raise an exception
     client.async_send_command.side_effect = FailedZWaveCommand("test", 12, "test")
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             ZWaveJSService.MULTICAST_SET_VALUE,
@@ -1599,7 +1599,7 @@ async def test_multicast_set_value(
     no_driver_node.client.driver = None
 
     with (
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
         patch(
             "universalassistant.components.zwave_js.helpers.async_get_node_from_device_id",
             side_effect=(climate_danfoss_lc_13, no_driver_node),
@@ -1645,7 +1645,7 @@ async def test_multicast_set_value(
 
 
 async def test_multicast_set_value_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     bulb_6_multi_color,
     light_color_null_values,
@@ -1691,7 +1691,7 @@ async def test_multicast_set_value_options(
 
 
 async def test_multicast_set_value_string(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     lock_id_lock_as_id150,
     lock_schlage_be469,
@@ -1726,7 +1726,7 @@ async def test_multicast_set_value_string(
 
 
 async def test_ping(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     client,
@@ -1888,7 +1888,7 @@ async def test_ping(
 
     client.async_send_command.reset_mock()
     client.async_send_command.side_effect = FailedZWaveCommand("test", 1, "test")
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             ZWaveJSService.PING,
@@ -1900,7 +1900,7 @@ async def test_ping(
 
 
 async def test_invoke_cc_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     client,
@@ -2024,7 +2024,7 @@ async def test_invoke_cc_api(
         "test", 12, "test"
     )
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             ZWaveJSService.INVOKE_CC_API,
@@ -2084,7 +2084,7 @@ async def test_invoke_cc_api(
 
 
 async def test_refresh_notifications(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     client,
@@ -2152,7 +2152,7 @@ async def test_refresh_notifications(
         "test", 12, "test"
     )
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             ZWaveJSService.REFRESH_NOTIFICATIONS,
@@ -2257,7 +2257,7 @@ async def test_refresh_notifications(
     ],
 )
 async def test_service_driver_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
     multisensor_6: MagicMock,
@@ -2276,7 +2276,7 @@ async def test_service_driver_not_ready(
 
     with (
         patch.object(client, "driver", None),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN,

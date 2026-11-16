@@ -6,8 +6,8 @@ import logging
 import probatio
 
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -74,7 +74,7 @@ MAX_DISPATCH_DURATION = 86400
 
 
 def async_get_device_and_config_for_service_call(
-    hass: __HAC_KEEP__, call: ServiceCall
+    hass: UniversalAssistant, call: ServiceCall
 ) -> tuple[dr.DeviceEntry, TeslemetryConfigEntry]:
     """Get the device entry and config entry related to a service call."""
     config_entry: TeslemetryConfigEntry
@@ -89,7 +89,7 @@ def async_get_device_and_config_for_service_call(
 
 
 def async_get_vehicle_for_entry(
-    hass: __HAC_KEEP__, device: dr.DeviceEntry, config: TeslemetryConfigEntry
+    hass: UniversalAssistant, device: dr.DeviceEntry, config: TeslemetryConfigEntry
 ) -> TeslemetryVehicleData:
     """Get the vehicle data for a config entry."""
     assert device.serial_number is not None
@@ -104,7 +104,7 @@ def async_get_vehicle_for_entry(
 
 
 def async_get_energy_site_for_entry(
-    hass: __HAC_KEEP__, device: dr.DeviceEntry, config: TeslemetryConfigEntry
+    hass: UniversalAssistant, device: dr.DeviceEntry, config: TeslemetryConfigEntry
 ) -> TeslemetryEnergyData:
     """Get the energy site data for a config entry."""
     assert device.serial_number is not None
@@ -140,7 +140,7 @@ async def async_resume_battery_operation(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the Teslemetry services."""
 
     async def navigate_gps_request(call: ServiceCall) -> None:
@@ -371,7 +371,7 @@ def async_setup_services(hass: __HAC_KEEP__) -> None:
 
         resp = await handle_command(site.api.time_of_use_settings(tou_settings))
         if "error" in resp:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_error",
                 translation_placeholders={"error": resp["error"]},

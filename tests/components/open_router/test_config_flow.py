@@ -15,7 +15,7 @@ from universalassistant.components.open_router.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_LLM_HASS_API, CONF_MODEL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import get_subentry_id, setup_integration
@@ -23,7 +23,7 @@ from . import get_subentry_id, setup_integration
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_flow(
-    hass: __HAC_KEEP__, mock_open_router_client: AsyncMock
+    hass: UniversalAssistant, mock_open_router_client: AsyncMock
 ) -> None:
     """Test the full config flow."""
 
@@ -45,7 +45,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_second_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -75,7 +75,7 @@ async def test_second_account(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client: AsyncMock,
     exception: Exception,
     error: str,
@@ -107,7 +107,7 @@ async def test_form_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_duplicate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -132,7 +132,7 @@ async def test_duplicate_entry(
 
 
 async def test_create_conversation_agent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client: AsyncMock,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -190,7 +190,7 @@ async def test_create_conversation_agent(
 
 
 async def test_create_conversation_agent_no_control(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client: AsyncMock,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -262,7 +262,7 @@ async def test_create_conversation_agent_no_control(
 )
 @pytest.mark.usefixtures("mock_setup_entry", "mock_open_router_client")
 async def test_create_conversation_agent_reasoning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     model: str,
     reasoning: str,
@@ -297,7 +297,7 @@ async def test_create_conversation_agent_reasoning(
 )
 @pytest.mark.usefixtures("mock_setup_entry", "mock_open_router_client")
 async def test_create_conversation_agent_reasoning_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     model: str,
     reasoning: str,
@@ -334,7 +334,7 @@ async def test_create_conversation_agent_reasoning_not_supported(
     ],
 )
 async def test_create_ai_task(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client: AsyncMock,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -393,7 +393,7 @@ async def test_create_ai_task(
     [(OpenRouterError("exception"), "cannot_connect"), (Exception, "unknown")],
 )
 async def test_subentry_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client: AsyncMock,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -415,7 +415,7 @@ async def test_subentry_exceptions(
 
 
 async def test_reconfigure_conversation_agent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client: AsyncMock,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -452,7 +452,7 @@ async def test_reconfigure_conversation_agent(
 
 
 async def test_reconfigure_conversation_agent_reasoning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client: AsyncMock,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -492,7 +492,7 @@ async def test_reconfigure_conversation_agent_reasoning(
 
 
 async def test_reconfigure_ai_task(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client: AsyncMock,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -525,7 +525,7 @@ async def test_reconfigure_ai_task(
     ["conversation", "ai_task_data"],
 )
 async def test_reconfigure_entry_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client: AsyncMock,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -548,7 +548,7 @@ async def test_reconfigure_entry_not_loaded(
     [(OpenRouterError("exception"), "cannot_connect"), (Exception, "unknown")],
 )
 async def test_reconfigure_conversation_agent_abort(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client: AsyncMock,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -572,7 +572,7 @@ async def test_reconfigure_conversation_agent_abort(
     [(OpenRouterError("exception"), "cannot_connect"), (Exception, "unknown")],
 )
 async def test_reconfigure_ai_task_abort(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client: AsyncMock,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -599,7 +599,7 @@ async def test_reconfigure_ai_task_abort(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_create_conversation_agent_web_search(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     web_search: str,
@@ -640,7 +640,7 @@ async def test_create_conversation_agent_web_search(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_conversation_subentry_web_search_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     current_web_search: str,
@@ -685,7 +685,7 @@ async def test_reconfigure_conversation_subentry_web_search_default(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_conversation_subentry_llm_api_schema(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     current_llm_apis: list[str],
@@ -725,7 +725,7 @@ async def test_reconfigure_conversation_subentry_llm_api_schema(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_conversation_subentry_empty_llm_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_open_router_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

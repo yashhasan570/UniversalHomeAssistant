@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.marantz_rs232.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_DEVICE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import MOCK_DEVICE
@@ -25,7 +25,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 async def test_user_form_creates_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_receiver: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_user_form_creates_entry(
     ],
 )
 async def test_user_form_error_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_receiver: MagicMock,
     exception: Exception,
     error: str,
@@ -86,7 +86,7 @@ async def test_user_form_error_recovers(
 
 
 async def test_user_duplicate_port_aborts(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Abort if the same port is already configured."""
     mock_config_entry.add_to_hass(hass)

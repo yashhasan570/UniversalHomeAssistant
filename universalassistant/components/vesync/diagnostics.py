@@ -5,7 +5,7 @@ from typing import Any, cast
 from pyvesync import VeSync
 
 from universalassistant.components.diagnostics import REDACTED
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 
@@ -16,7 +16,7 @@ KEYS_TO_REDACT = {"manager", "uuid", "mac_id"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: VesyncConfigEntry
+    hass: UniversalAssistant, config_entry: VesyncConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     manager: VeSync = config_entry.runtime_data.manager
@@ -37,7 +37,7 @@ async def async_get_config_entry_diagnostics(
 
 
 async def async_get_device_diagnostics(
-    hass: __HAC_KEEP__, config_entry: VesyncConfigEntry, device: AnyDeviceEntry
+    hass: UniversalAssistant, config_entry: VesyncConfigEntry, device: AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device entry."""
     manager: VeSync = config_entry.runtime_data.manager
@@ -68,7 +68,7 @@ async def async_get_device_diagnostics(
         "entities": [],
     }
 
-    # Gather information how this VeSync device is represented in __HA_KEEP__
+    # Gather information how this VeSync device is represented in Universal Home Assistant
     entity_registry = er.async_get(hass)
     hass_entities = er.async_entries_for_device(
         entity_registry,

@@ -4,7 +4,7 @@ from collections.abc import Mapping
 import logging
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers.device_registry import AnyDeviceEntry, DeviceEntry
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -18,7 +18,7 @@ from .models import MySensorsConfigEntry, MySensorsData
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: MySensorsConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: MySensorsConfigEntry) -> None:
     """Set up an instance of the MySensors integration.
 
     Every instance has a connection to exactly one Gateway.
@@ -37,7 +37,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: MySensorsConfigEntry) -> 
     await finish_setup(hass, entry)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: MySensorsConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: MySensorsConfigEntry) -> None:
     """Remove an instance of the MySensors integration."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
@@ -45,7 +45,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: MySensorsConfigEntry) ->
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MySensorsConfigEntry,
     device_entry: AnyDeviceEntry,
 ) -> bool:

@@ -17,11 +17,11 @@ from pyvlx.exception import PyVLXException
 from universalassistant.components.velux.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_setup_retry_on_nodes_failure(
-    mock_config_entry: ConfigEntry, hass: __HAC_KEEP__, mock_pyvlx: AsyncMock
+    mock_config_entry: ConfigEntry, hass: UniversalAssistant, mock_pyvlx: AsyncMock
 ) -> None:
     """Test that a failure loading nodes triggers setup retry.
 
@@ -42,7 +42,7 @@ async def test_setup_retry_on_nodes_failure(
 
 
 async def test_setup_retry_on_oserror_during_scenes(
-    mock_config_entry: ConfigEntry, hass: __HAC_KEEP__, mock_pyvlx: AsyncMock
+    mock_config_entry: ConfigEntry, hass: UniversalAssistant, mock_pyvlx: AsyncMock
 ) -> None:
     """Test that OSError during scene loading triggers setup retry.
 
@@ -62,7 +62,7 @@ async def test_setup_retry_on_oserror_during_scenes(
 
 
 async def test_setup_auth_error(
-    mock_config_entry: ConfigEntry, hass: __HAC_KEEP__, mock_pyvlx: AsyncMock
+    mock_config_entry: ConfigEntry, hass: UniversalAssistant, mock_pyvlx: AsyncMock
 ) -> None:
     """Test PyVLXException with auth message raises ConfigEntryAuthFailed."""
 
@@ -86,7 +86,7 @@ async def test_setup_auth_error(
 
 
 async def test_setup_uses_preconnected_pyvlx_from_config_flow(
-    hass: __HAC_KEEP__, mock_pyvlx: AsyncMock
+    hass: UniversalAssistant, mock_pyvlx: AsyncMock
 ) -> None:
     """Test that setup reuses the PyVLX instance from config flow without disconnecting.
 
@@ -127,7 +127,7 @@ def platform() -> Platform:
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_unload_calls_disconnect(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_pyvlx
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_pyvlx
 ) -> None:
     """Test that unloading the config entry disconnects from the gateway."""
 
@@ -141,7 +141,7 @@ async def test_unload_calls_disconnect(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_unload_does_not_disconnect_if_platform_unload_fails(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_pyvlx
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_pyvlx
 ) -> None:
     """Test that disconnect is not called if platform unload fails."""
 

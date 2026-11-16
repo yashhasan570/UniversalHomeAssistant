@@ -22,8 +22,8 @@ from universalassistant.components.update import (
     UpdateEntityFeature,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -105,7 +105,7 @@ SERVER_UPDATES: tuple[PortainerServerUpdateEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: PortainerConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -236,7 +236,7 @@ class PortainerContainerImageUpdateEntity(PortainerContainerEntity, UpdateEntity
                         self._attr_update_percentage = percentage
                         self.async_write_ha_state()
         except TimeoutError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="timeout_connect",
             ) from err

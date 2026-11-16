@@ -11,7 +11,7 @@ from universalassistant import config_entries
 from universalassistant.components.freshr.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 USER_INPUT = {CONF_USERNAME: "test-user", CONF_PASSWORD: "test-pass"}
@@ -19,7 +19,7 @@ USER_INPUT = {CONF_USERNAME: "test-user", CONF_PASSWORD: "test-pass"}
 
 @pytest.mark.usefixtures("mock_freshr_client")
 async def test_form_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Test successful config flow creates an entry."""
@@ -49,7 +49,7 @@ async def test_form_success(
     ],
 )
 async def test_form_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_freshr_client: MagicMock,
     exception: Exception,
@@ -81,7 +81,7 @@ async def test_form_error(
 
 @pytest.mark.usefixtures("mock_freshr_client")
 async def test_form_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test config flow aborts when the account is already configured."""
@@ -101,7 +101,7 @@ async def test_form_already_configured(
 
 @pytest.mark.usefixtures("mock_freshr_client")
 async def test_reauth_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test successful reauthentication updates the password and reloads."""
@@ -129,7 +129,7 @@ async def test_reauth_success(
     ],
 )
 async def test_reauth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_freshr_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -160,7 +160,7 @@ async def test_reauth_error(
 
 @pytest.mark.usefixtures("mock_freshr_client")
 async def test_reconfigure_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test successful reconfiguration updates the password and reloads."""
@@ -190,7 +190,7 @@ async def test_reconfigure_success(
     ],
 )
 async def test_reconfigure_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_freshr_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -222,7 +222,7 @@ async def test_reconfigure_error(
 
 @pytest.mark.usefixtures("mock_freshr_client")
 async def test_form_already_configured_case_insensitive(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test config flow aborts when same account has different casing."""

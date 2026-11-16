@@ -24,7 +24,7 @@ from universalassistant.components.nina.const import (
     SENSOR_SUFFIXES,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -38,7 +38,23 @@ def assert_dummy_entry_created(result: dict[str, Any]) -> None:
     assert result["title"] == "NINA"
     assert result["data"] == DUMMY_USER_INPUT | {
         CONF_REGIONS: {
-            "095760000000": "Allersberg, M (Roth - Bayern) + Büchenbach (Roth - Bayern)"
+            "010560000000": "Raa-Besenbek (Pinneberg - Schleswig-Holstein)",
+            "010590000000": (
+                "Maasbüll (Schleswig-Flensburg - Schleswig-Holstein) + Rabel"
+                " (Schleswig-Flensburg - Schleswig-Holstein)"
+            ),
+            "010610000000": (
+                "Vaale (Steinburg - Schleswig-Holstein) + Vaalermoor"
+                " (Steinburg - Schleswig-Holstein)"
+            ),
+            "032510000000": "Maasen (Diepholz - Niedersachsen)",
+            "055660000000": "Ibbenbüren, Stadt (Steinfurt - Nordrhein-Westfalen)",
+            "083370000000": "Ibach (Waldshut - Baden-Württemberg)",
+            "095760000000": (
+                "Allersberg, M (Roth - Bayern) + Büchenbach (Roth - Bayern)"
+            ),
+            "146260000000": "Ebersbach-Neugersdorf, Stadt (Görlitz - Sachsen)",
+            "160650000000": "Ebeleben, Stadt (Kyffhäuserkreis - Thüringen)",
         }
     }
     assert result["version"] == 1
@@ -46,7 +62,7 @@ def assert_dummy_entry_created(result: dict[str, Any]) -> None:
 
 
 async def test_step_user_connection_error(
-    hass: __HAC_KEEP__, mock_nina_class: AsyncMock
+    hass: UniversalAssistant, mock_nina_class: AsyncMock
 ) -> None:
     """Test starting a flow by user but no connection."""
     mock_nina_class.get_all_regional_codes.side_effect = ApiError(
@@ -62,7 +78,7 @@ async def test_step_user_connection_error(
 
 
 async def test_step_user_unexpected_exception(
-    hass: __HAC_KEEP__, mock_nina_class: AsyncMock
+    hass: UniversalAssistant, mock_nina_class: AsyncMock
 ) -> None:
     """Test starting a flow by user but with an unexpected exception."""
     mock_nina_class.get_all_regional_codes.side_effect = Exception("DUMMY")
@@ -76,7 +92,7 @@ async def test_step_user_unexpected_exception(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_step_user(hass: __HAC_KEEP__, mock_nina_class: AsyncMock) -> None:
+async def test_step_user(hass: UniversalAssistant, mock_nina_class: AsyncMock) -> None:
     """Test starting a flow by user with valid values."""
     result: dict[str, Any] = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -91,7 +107,7 @@ async def test_step_user(hass: __HAC_KEEP__, mock_nina_class: AsyncMock) -> None
 
 
 async def test_step_user_no_selection(
-    hass: __HAC_KEEP__, mock_nina_class: AsyncMock
+    hass: UniversalAssistant, mock_nina_class: AsyncMock
 ) -> None:
     """Test starting a flow by user with no selection."""
     result: dict[str, Any] = await hass.config_entries.flow.async_init(
@@ -120,7 +136,7 @@ async def test_step_user_no_selection(
 
 
 async def test_step_user_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_nina_class: AsyncMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_nina_class: AsyncMock
 ) -> None:
     """Test starting a flow by user, but it was already configured."""
     result = await hass.config_entries.flow.async_init(
@@ -133,7 +149,7 @@ async def test_step_user_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow_init(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nina_class: AsyncMock,
     nina_warnings: list[Warning],
@@ -180,7 +196,7 @@ async def test_options_flow_init(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow_with_no_selection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nina_class: AsyncMock,
     nina_warnings: list[Warning],
@@ -244,7 +260,7 @@ async def test_options_flow_with_no_selection(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nina_class: AsyncMock,
     nina_warnings: list[Warning],
@@ -264,7 +280,7 @@ async def test_options_flow_connection_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow_unexpected_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nina_class: AsyncMock,
     nina_warnings: list[Warning],
@@ -281,7 +297,7 @@ async def test_options_flow_unexpected_exception(
 
 
 async def test_options_flow_entity_removal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_nina_class: AsyncMock,
@@ -329,7 +345,7 @@ async def test_options_flow_entity_removal(
 
 
 async def test_options_flow_device_removal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry_multiple_regions: MockConfigEntry,
     mock_nina_class: AsyncMock,
@@ -375,3 +391,45 @@ async def test_options_flow_device_removal(
     assert not any(
         old_device.id in (device.id for device in devices) for old_device in old_devices
     )
+
+
+@pytest.mark.usefixtures("mock_setup_entry")
+async def test_step_user_multiple_regions_same_code(
+    hass: UniversalAssistant, mock_nina_class: AsyncMock
+) -> None:
+    """Test selecting three regions with the same code plus an additional region."""
+    result: dict[str, Any] = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": SOURCE_USER}
+    )
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        user_input={
+            CONF_MESSAGE_SLOTS: 5,
+            CONST_REGION_A_TO_D: [
+                "095760000000",
+                "095760000000_15",
+                "095760000000_0",
+                "072350000000_63",
+            ],
+            CONST_REGION_E_TO_H: [],
+            CONST_REGION_I_TO_L: [],
+            CONST_REGION_M_TO_Q: [],
+            CONST_REGION_R_TO_U: [],
+            CONST_REGION_V_TO_Z: [],
+            CONF_FILTERS: {
+                CONF_HEADLINE_FILTER: ".*corona.*",
+                CONF_AREA_FILTER: ".*",
+            },
+        },
+    )
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["title"] == "NINA"
+    assert result["data"][CONF_REGIONS] == {
+        "095760000000": (
+            "Abenberg, St (Roth - Bayern) + Abenberger Wald (Roth - Bayern) +"
+            " Allersberg, M (Roth - Bayern)"
+        ),
+        "072350000000": "Aach (Trier-Saarburg - Rheinland-Pfalz)",
+    }

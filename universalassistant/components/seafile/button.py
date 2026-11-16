@@ -3,7 +3,7 @@
 from typing import override
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import SUBENTRY_TYPE_LIBRARY
@@ -15,7 +15,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SeafileConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

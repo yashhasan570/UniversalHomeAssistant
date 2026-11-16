@@ -6,8 +6,8 @@ import probatio
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.const import ATTR_ID, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import (
     config_validation as cv,
     entity_registry as er,
@@ -117,14 +117,14 @@ def _start_multiple(call: ServiceCall) -> None:
     ]
 
     if not zones_list:
-        raise __HAC_KEEP__Error("No matching zones found in given entity_ids")
+        raise UniversalAssistantError("No matching zones found in given entity_ids")
 
     person.start_multiple_zones(zones_list)
     _LOGGER.debug("Starting zone(s) %s", call.data[CommonServiceArgument.ENTITY_ID])
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register Rachio services."""
 
     hass.services.async_register(

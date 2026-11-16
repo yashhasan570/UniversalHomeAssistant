@@ -18,7 +18,7 @@ from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_
 from universalassistant.components.sofar.binary_sensor import FAULT_SENSOR_DESCRIPTIONS
 from universalassistant.components.sofar.const import DOMAIN, PACKS_SCAN_INTERVAL
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import MOCK_ENTRY_DATA, MOCK_MODEL, MOCK_SERIAL, seed_pv_inverter
@@ -26,7 +26,7 @@ from . import MOCK_ENTRY_DATA, MOCK_MODEL, MOCK_SERIAL, seed_pv_inverter
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -61,7 +61,7 @@ async def test_all_entities(
 
 
 async def test_no_faults_reports_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -76,7 +76,7 @@ async def test_no_faults_reports_off(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_one_bit_only_lights_its_own_category(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_connection: MockModbusConnection,
     mock_config_entry: MockConfigEntry,
@@ -111,7 +111,7 @@ async def test_one_bit_only_lights_its_own_category(
 
 
 async def test_enabled_by_default_excludes_commercial_hardware(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -148,7 +148,7 @@ async def test_enabled_by_default_excludes_commercial_hardware(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_active_power_limit_enabled_follows_its_bit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_connection: MockModbusConnection,
     mock_config_entry: MockConfigEntry,

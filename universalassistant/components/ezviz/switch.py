@@ -11,8 +11,8 @@ from universalassistant.components.switch import (
     SwitchEntity,
     SwitchEntityDescription,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import EzvizConfigEntry, EzvizDataUpdateCoordinator
@@ -103,7 +103,7 @@ SWITCH_TYPES: dict[int, EzvizSwitchEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: EzvizConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -150,7 +150,7 @@ class EzvizSwitch(EzvizEntity, SwitchEntity):
                 self.async_write_ha_state()
 
         except (HTTPError, PyEzvizError) as err:
-            raise __HAC_KEEP__Error(f"Failed to turn on switch {self.name}") from err
+            raise UniversalAssistantError(f"Failed to turn on switch {self.name}") from err
 
     @override
     async def async_turn_off(self, **kwargs: Any) -> None:
@@ -166,7 +166,7 @@ class EzvizSwitch(EzvizEntity, SwitchEntity):
                 self.async_write_ha_state()
 
         except (HTTPError, PyEzvizError) as err:
-            raise __HAC_KEEP__Error(f"Failed to turn off switch {self.name}") from err
+            raise UniversalAssistantError(f"Failed to turn off switch {self.name}") from err
 
     @callback
     @override

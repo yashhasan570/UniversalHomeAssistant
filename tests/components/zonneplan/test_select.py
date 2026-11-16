@@ -34,8 +34,8 @@ from universalassistant.components.zonneplan.coordinator import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 CONTROL_MODE_ENTITY_ID = "select.thuisbatterij_control_mode"
@@ -52,7 +52,7 @@ def select_only() -> Generator[None]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -77,7 +77,7 @@ async def test_select(
     ],
 )
 async def test_select_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
     control_mode: BatteryMode,
@@ -106,7 +106,7 @@ async def test_select_options(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_select_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zonneplan_client: AsyncMock,
 ) -> None:
     """Test selecting a control mode switches the battery and refreshes."""
@@ -135,7 +135,7 @@ async def test_select_option(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_select_unavailable_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zonneplan_client: AsyncMock,
 ) -> None:
     """Test a mode the battery doesn't support can't be selected."""
@@ -164,25 +164,25 @@ async def test_select_unavailable_option(
         ),
         pytest.param(
             ZonneplanTimeoutError("timed out"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "timeout_connect",
             id="timeout_error",
         ),
         pytest.param(
             ZonneplanConnectionError("boom"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "cannot_connect",
             id="connection_error",
         ),
         pytest.param(
             ZonneplanRateLimitError("slow down", retry_after=30),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "rate_limited",
             id="rate_limit_error",
         ),
         pytest.param(
             ZonneplanRequestError("rejected"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "api_error",
             id="request_error",
         ),
@@ -190,10 +190,10 @@ async def test_select_unavailable_option(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_select_option_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zonneplan_client: AsyncMock,
     exception: Exception,
-    expected_exception: type[__HAC_KEEP__Error],
+    expected_exception: type[UniversalAssistantError],
     translation_key: str,
 ) -> None:
     """Test errors while switching the control mode still refresh the control mode."""
@@ -217,7 +217,7 @@ async def test_select_option_error(
 
 
 async def test_select_option_authentication_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
 ) -> None:
@@ -226,7 +226,7 @@ async def test_select_option_authentication_error(
         ZonneplanAuthenticationError("bad token")
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -247,7 +247,7 @@ async def test_select_option_authentication_error(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_select_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zonneplan_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -278,7 +278,7 @@ async def test_select_update(
 
 
 async def test_select_control_mode_unavailable_at_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
     freezer: FrozenDateTimeFactory,

@@ -8,8 +8,8 @@ import aiohttp
 from moehlenhoff_alpha2 import Alpha2Base
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 _LOGGER = logging.getLogger(__name__)
@@ -25,7 +25,7 @@ class Alpha2BaseCoordinator(DataUpdateCoordinator[dict[str, dict]]):
     config_entry: Alpha2ConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: Alpha2ConfigEntry, base: Alpha2Base
+        self, hass: UniversalAssistant, config_entry: Alpha2ConfigEntry, base: Alpha2Base
     ) -> None:
         """Initialize Alpha2Base data updater."""
         self.base = base
@@ -85,7 +85,7 @@ class Alpha2BaseCoordinator(DataUpdateCoordinator[dict[str, dict]]):
         try:
             await self.base.update_heat_area(heat_area_id, update_data)
         except aiohttp.ClientError as http_err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Failed to set target temperature, communication error with alpha2 base"
             ) from http_err
         self.data["heat_areas"][heat_area_id].update(update_data)
@@ -108,7 +108,7 @@ class Alpha2BaseCoordinator(DataUpdateCoordinator[dict[str, dict]]):
                 heat_area_id, {"HEATAREA_MODE": heat_area_mode}
             )
         except aiohttp.ClientError as http_err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Failed to set heat area mode, communication error with alpha2 base"
             ) from http_err
 

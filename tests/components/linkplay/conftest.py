@@ -14,7 +14,7 @@ from pytest_universalassistant.plugins import AiohttpClientMocker
 
 from universalassistant.components.linkplay.const import DOMAIN
 from universalassistant.const import CONF_HOST, EVENT_HOMEASSISTANT_CLOSE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 HOST = "10.0.0.150"
 HOST_REENTRY = "10.0.0.66"
@@ -89,7 +89,7 @@ def mock_lp_aiohttp_client() -> Iterator[AiohttpClientMocker]:
     """Context manager to mock aiohttp client."""
     mocker = AiohttpClientMocker()
 
-    def create_session(hass: __HAC_KEEP__, *args: Any, **kwargs: Any) -> ClientSession:
+    def create_session(hass: UniversalAssistant, *args: Any, **kwargs: Any) -> ClientSession:
         session = mocker.create_session(hass.loop)
 
         async def close_session(event):

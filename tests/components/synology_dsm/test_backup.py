@@ -34,7 +34,7 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util.aiohttp import MockStreamReader, MockStreamReaderChunked
 
@@ -172,7 +172,7 @@ def mock_dsm_without_filestation():
 
 @pytest.fixture
 async def setup_dsm_with_filestation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_dsm_with_filestation: MagicMock,
 ):
     """Mock setup of synology dsm config entry."""
@@ -208,7 +208,7 @@ async def setup_dsm_with_filestation(
 
 
 async def test_agents_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_dsm_with_filestation: MagicMock,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -228,7 +228,7 @@ async def test_agents_info(
 
 
 async def test_agents_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test backup agent with no loaded config entry."""
@@ -250,7 +250,7 @@ async def test_agents_not_loaded(
 
 
 async def test_agents_on_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_dsm_with_filestation: MagicMock,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -288,7 +288,7 @@ async def test_agents_on_unload(
 
 
 async def test_agents_on_changed_update_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_dsm_with_filestation: MagicMock,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
@@ -332,7 +332,7 @@ async def test_agents_on_changed_update_success(
 
 
 async def test_agents_list_backups(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_dsm_with_filestation: MagicMock,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -370,7 +370,7 @@ async def test_agents_list_backups(
 
 
 async def test_agents_list_backups_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_dsm_with_filestation: MagicMock,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -401,7 +401,7 @@ async def test_agents_list_backups_error(
 
 
 async def test_agents_list_backups_disabled_filestation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_dsm_without_filestation: MagicMock,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -449,7 +449,7 @@ async def test_agents_list_backups_disabled_filestation(
     ids=["found", "not_found"],
 )
 async def test_agents_get_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     setup_dsm_with_filestation: MagicMock,
     backup_id: str,
@@ -466,7 +466,7 @@ async def test_agents_get_backup(
 
 
 async def test_agents_get_backup_not_existing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     setup_dsm_with_filestation: MagicMock,
 ) -> None:
@@ -490,7 +490,7 @@ async def test_agents_get_backup_not_existing(
 
 
 async def test_agents_get_backup_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     setup_dsm_with_filestation: MagicMock,
 ) -> None:
@@ -516,7 +516,7 @@ async def test_agents_get_backup_error(
 
 
 async def test_agents_get_backup_defect_meta(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     setup_dsm_with_filestation: MagicMock,
 ) -> None:
@@ -538,7 +538,7 @@ async def test_agents_get_backup_defect_meta(
 
 
 async def test_agents_download(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     setup_dsm_with_filestation: MagicMock,
 ) -> None:
@@ -554,7 +554,7 @@ async def test_agents_download(
 
 
 async def test_agents_download_not_existing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     setup_dsm_with_filestation: MagicMock,
 ) -> None:
@@ -574,7 +574,7 @@ async def test_agents_download_not_existing(
 
 
 async def test_agents_upload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
     setup_dsm_with_filestation: MagicMock,
@@ -625,7 +625,7 @@ async def test_agents_upload(
 
 
 async def test_agents_upload_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     setup_dsm_with_filestation: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -677,7 +677,7 @@ async def test_agents_upload_progress(
 
 
 async def test_agents_upload_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
     setup_dsm_with_filestation: MagicMock,
@@ -764,7 +764,7 @@ async def test_agents_upload_error(
 
 
 async def test_agents_delete(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     setup_dsm_with_filestation: MagicMock,
 ) -> None:
@@ -791,7 +791,7 @@ async def test_agents_delete(
 
 
 async def test_agents_delete_not_existing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     setup_dsm_with_filestation: MagicMock,
 ) -> None:
@@ -843,7 +843,7 @@ async def test_agents_delete_not_existing(
     ],
 )
 async def test_agents_delete_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
     setup_dsm_with_filestation: MagicMock,

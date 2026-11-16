@@ -6,7 +6,7 @@ import logging
 from env_canada import ECAirQuality, ECMap, ECWeather
 
 from universalassistant.const import CONF_LANGUAGE, CONF_LATITUDE, CONF_LONGITUDE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -48,13 +48,13 @@ _LOGGER = logging.getLogger(__name__)
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Environment Canada services."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, config_entry: ECConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, config_entry: ECConfigEntry) -> None:
     """Set up EC as config entry."""
     lat = config_entry.data.get(CONF_LATITUDE)
     lon = config_entry.data.get(CONF_LONGITUDE)
@@ -125,6 +125,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, config_entry: ECConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(config_entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, config_entry: ECConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, config_entry: ECConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)

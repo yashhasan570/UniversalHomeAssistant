@@ -14,8 +14,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -68,7 +68,7 @@ _OPT_VANE_DIRECTION = "vane_direction"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MitsubishiComfortConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -243,7 +243,7 @@ class MitsubishiComfortClimate(MitsubishiComfortEntity, ClimateEntity):
 
     def _command_failed(self, translation_key: str) -> NoReturn:
         """Raise a translated error after the device rejects a command."""
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key=translation_key,
             translation_placeholders={"device_name": self._device.name},

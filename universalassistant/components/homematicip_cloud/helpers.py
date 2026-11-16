@@ -11,7 +11,7 @@ from homematicip.base.functionalChannels import AccessAuthorizationChannel
 from homematicip.connection.rest_connection import RestResult
 from homematicip.device import Device
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 from .entity import HomematicipGenericEntity
 
@@ -52,7 +52,7 @@ def handle_errors[_HomematicipGenericEntityT: HomematicipGenericEntity, **_P](
                 __name__,
                 response or error_code,
             )
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Error while execute function {func.__name__}:"
                 f" {error_code}."
                 " See log for more information."

@@ -27,7 +27,7 @@ from universalassistant.components.media_player import (
     MediaType,
     RepeatMode,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .browse_media import async_browse_media_internal
@@ -72,7 +72,7 @@ AFTER_REQUEST_SLEEP = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SpotifyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -144,6 +144,8 @@ class SpotifyMediaPlayer(SpotifyEntity, MediaPlayerEntity):
             return MediaPlayerEntityFeature(0)
         if not self.currently_playing or self.currently_playing.device.is_restricted:
             return MediaPlayerEntityFeature.SELECT_SOURCE
+        if not self.currently_playing.device.supports_volume:
+            return SUPPORT_SPOTIFY & ~MediaPlayerEntityFeature.VOLUME_SET
         return SUPPORT_SPOTIFY
 
     @property

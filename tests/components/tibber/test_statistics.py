@@ -8,14 +8,14 @@ from pytest_universalassistant.components.recorder.common import async_wait_reco
 from universalassistant.components.recorder import Recorder
 from universalassistant.components.recorder.statistics import statistics_during_period
 from universalassistant.components.tibber.coordinator import TibberDataCoordinator
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from .test_common import CONSUMPTION_DATA_1, PRODUCTION_DATA_1, mock_get_homes
 
 
 async def test_async_setup_entry(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    recorder_mock: Recorder, hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test setup Tibber."""
     tibber_connection = AsyncMock()

@@ -19,12 +19,12 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
     ConfigEntryNotReady,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
 )
 from universalassistant.helpers.httpx_client import create_async_httpx_client
 
@@ -38,7 +38,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: GlancesConfigEntry
+    hass: UniversalAssistant, config_entry: GlancesConfigEntry
 ) -> None:
     """Set up Glances from config entry."""
     try:
@@ -57,12 +57,12 @@ async def async_setup_entry(
     await hass.config_entries.async_forward_entry_setups(config_entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: GlancesConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: GlancesConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def get_api(hass: __HAC_KEEP__, entry_data: dict[str, Any]) -> Glances:
+async def get_api(hass: UniversalAssistant, entry_data: dict[str, Any]) -> Glances:
     """Return the api from glances_api."""
     # The shared httpx client cannot be used because its 5-second timeout
     # is too short for slow Glances hosts.
@@ -89,5 +89,5 @@ async def get_api(hass: __HAC_KEEP__, entry_data: dict[str, Any]) -> Glances:
     raise ServerVersionMismatch("Could not connect to Glances API version 3 or 4")
 
 
-class ServerVersionMismatch(__HAC_KEEP__Error):
+class ServerVersionMismatch(UniversalAssistantError):
     """Raise exception if we fail to connect to Glances API."""

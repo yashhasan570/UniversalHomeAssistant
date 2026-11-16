@@ -16,4 +16,4 @@ class CloudConfigFlow(ConfigFlow, domain=DOMAIN):
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
         """Handle the system step."""
-        return self.async_create_entry(title="__HA_KEEP__ Link", data={})
+        return self.async_create_entry(title="Universal Home Assistant Link", data={})

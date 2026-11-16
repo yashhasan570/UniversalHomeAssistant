@@ -1,9 +1,9 @@
 """Regression tests for Netamo Doorbell.
 
-https://github.com/yashhasan570/__HAC_KEEP__/issues/44596
+https://github.com/yashhasan570/UniversalUniversalAssistant/issues/44596
 """
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from ..common import (
     HUB_TEST_ACCESSORY_ID,
@@ -16,7 +16,7 @@ from ..common import (
 )
 
 
-async def test_netamo_doorbell_setup(hass: __HAC_KEEP__) -> None:
+async def test_netamo_doorbell_setup(hass: UniversalAssistant) -> None:
     """Test that a Netamo Doorbell can be correctly setup in HA."""
     accessories = await setup_accessories_from_file(hass, "netamo_doorbell.json")
     config_entry, _ = await setup_test_accessories(hass, accessories)

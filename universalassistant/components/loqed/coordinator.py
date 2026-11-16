@@ -12,7 +12,7 @@ from loqedAPI import loqed
 from universalassistant.components import cloud, webhook
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_NAME, CONF_WEBHOOK_ID
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -88,7 +88,7 @@ class LoqedDataCoordinator(DataUpdateCoordinator[StatusMessage]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: LoqedConfigEntry,
         api: loqed.LoqedAPI,
         lock: loqed.Lock,
@@ -113,7 +113,7 @@ class LoqedDataCoordinator(DataUpdateCoordinator[StatusMessage]):
             raise
 
     async def _handle_webhook(
-        self, hass: __HAC_KEEP__, webhook_id: str, request: Request
+        self, hass: UniversalAssistant, webhook_id: str, request: Request
     ) -> Response | None:
         """Handle incoming Loqed messages."""
         _LOGGER.debug("Callback received: %s", request.headers)
@@ -228,7 +228,7 @@ class LoqedDataCoordinator(DataUpdateCoordinator[StatusMessage]):
 
 
 async def async_cloudhook_generate_url(
-    hass: __HAC_KEEP__, entry: LoqedConfigEntry
+    hass: UniversalAssistant, entry: LoqedConfigEntry
 ) -> str:
     """Generate the full URL for a webhook_id."""
     if CONF_CLOUDHOOK_URL not in entry.data:

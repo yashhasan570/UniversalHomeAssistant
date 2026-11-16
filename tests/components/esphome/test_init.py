@@ -12,11 +12,11 @@ from universalassistant.components.esphome.encryption_key_storage import (
     async_get_encryption_key_storage,
 )
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.usefixtures("mock_client", "mock_zeroconf")
-async def test_remove_entry(hass: __HAC_KEEP__) -> None:
+async def test_remove_entry(hass: UniversalAssistant) -> None:
     """Test we can remove an entry without error."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -32,7 +32,7 @@ async def test_remove_entry(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_remove_entry_clears_dynamic_encryption_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -62,7 +62,7 @@ async def test_remove_entry_clears_dynamic_encryption_key(
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_remove_entry_no_noise_psk(hass: __HAC_KEEP__, mock_client) -> None:
+async def test_remove_entry_no_noise_psk(hass: UniversalAssistant, mock_client) -> None:
     """Test removing entry without noise_psk skips key clearing."""
     mock_config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -85,7 +85,7 @@ async def test_remove_entry_no_noise_psk(hass: __HAC_KEEP__, mock_client) -> Non
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_remove_entry_user_provided_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_remove_entry_user_provided_key(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_remove_entry_device_rejects_key_removal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -132,7 +132,7 @@ async def test_remove_entry_device_rejects_key_removal(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_remove_entry_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client,
     mock_config_entry: MockConfigEntry,
 ) -> None:

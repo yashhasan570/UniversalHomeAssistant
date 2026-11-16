@@ -14,7 +14,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import client_update, init_integration
@@ -38,7 +38,7 @@ def mock_select(client: MagicMock):
 
 
 async def test_selects(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -50,7 +50,7 @@ async def test_selects(
     await snapshot_platform(hass, entity_registry, snapshot, entry.entry_id)
 
 
-async def test_select(hass: __HAC_KEEP__, client: MagicMock, mock_select) -> None:
+async def test_select(hass: UniversalAssistant, client: MagicMock, mock_select) -> None:
     """Test spa temperature range select."""
     await init_integration(hass)
 
@@ -70,7 +70,7 @@ async def test_select(hass: __HAC_KEEP__, client: MagicMock, mock_select) -> Non
 
 
 async def test_selected_option(
-    hass: __HAC_KEEP__, client: MagicMock, mock_select
+    hass: UniversalAssistant, client: MagicMock, mock_select
 ) -> None:
     """Test spa temperature range selected option."""
 
@@ -86,7 +86,7 @@ async def test_selected_option(
     assert state.state == LowHighRange.HIGH.name.lower()
 
 
-async def _select_option_and_wait(hass: __HAC_KEEP__ | None, entity, option):
+async def _select_option_and_wait(hass: UniversalAssistant | None, entity, option):
     await hass.services.async_call(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,

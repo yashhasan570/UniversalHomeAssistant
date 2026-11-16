@@ -18,7 +18,7 @@ from universalassistant.components.input_text import DOMAIN as INPUT_TEXT_DOMAIN
 from universalassistant.components.text.const import DOMAIN
 from universalassistant.components.text.trigger import TRIGGERS
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 TEST_TRIGGER_STATES = [
     (
@@ -119,13 +119,13 @@ TEST_TRIGGER_STATES = [
 
 
 @pytest.fixture
-async def target_texts(hass: __HAC_KEEP__) -> dict[str, list[str]]:
+async def target_texts(hass: UniversalAssistant) -> dict[str, list[str]]:
     """Create multiple text entities associated with different targets."""
     return await target_entities(hass, DOMAIN)
 
 
 @pytest.fixture
-async def target_input_texts(hass: __HAC_KEEP__) -> dict[str, list[str]]:
+async def target_input_texts(hass: UniversalAssistant) -> dict[str, list[str]]:
     """Create multiple input_text entities associated with different targets."""
     return await target_entities(hass, INPUT_TEXT_DOMAIN)
 
@@ -142,7 +142,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_text_trigger_options_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -169,7 +169,7 @@ def test_trigger_target_support() -> None:
 )
 @pytest.mark.parametrize(("trigger", "states"), TEST_TRIGGER_STATES)
 async def test_text_state_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_texts: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -211,7 +211,7 @@ async def test_text_state_trigger(
 )
 @pytest.mark.parametrize(("trigger", "states"), TEST_TRIGGER_STATES)
 async def test_input_text_state_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_input_texts: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,

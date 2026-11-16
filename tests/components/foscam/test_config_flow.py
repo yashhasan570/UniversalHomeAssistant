@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.foscam import config_flow
 from universalassistant.components.foscam.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import setup_mock_foscam_camera
@@ -23,7 +23,7 @@ def _patch_setup_entry() -> Generator[None]:
         yield
 
 
-async def test_user_valid(hass: __HAC_KEEP__) -> None:
+async def test_user_valid(hass: UniversalAssistant) -> None:
     """Test valid config from user input."""
 
     result = await hass.config_entries.flow.async_init(
@@ -57,7 +57,7 @@ async def test_user_valid(hass: __HAC_KEEP__) -> None:
         assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_user_invalid_auth(hass: __HAC_KEEP__) -> None:
+async def test_user_invalid_auth(hass: UniversalAssistant) -> None:
     """Test we handle invalid auth from user input."""
 
     result = await hass.config_entries.flow.async_init(
@@ -93,7 +93,7 @@ async def test_user_invalid_auth(hass: __HAC_KEEP__) -> None:
         assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_user_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we handle cannot connect error from user input."""
 
     result = await hass.config_entries.flow.async_init(
@@ -129,7 +129,7 @@ async def test_user_cannot_connect(hass: __HAC_KEEP__) -> None:
         assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_invalid_response(hass: __HAC_KEEP__) -> None:
+async def test_user_invalid_response(hass: UniversalAssistant) -> None:
     """Test we handle invalid response error from user input."""
 
     result = await hass.config_entries.flow.async_init(
@@ -167,7 +167,7 @@ async def test_user_invalid_response(hass: __HAC_KEEP__) -> None:
         assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_user_already_configured(hass: UniversalAssistant) -> None:
     """Test we handle already configured from user input."""
 
     entry = MockConfigEntry(
@@ -198,7 +198,7 @@ async def test_user_already_configured(hass: __HAC_KEEP__) -> None:
         assert result["reason"] == "already_configured"
 
 
-async def test_user_unknown_exception(hass: __HAC_KEEP__) -> None:
+async def test_user_unknown_exception(hass: UniversalAssistant) -> None:
     """Test we handle unknown exceptions from user input."""
 
     result = await hass.config_entries.flow.async_init(

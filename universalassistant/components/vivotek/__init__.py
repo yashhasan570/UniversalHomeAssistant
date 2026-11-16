@@ -16,7 +16,7 @@ from universalassistant.const import (
     HTTP_DIGEST_AUTHENTICATION,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError
 
 from .const import CONF_SECURITY_LEVEL
@@ -42,7 +42,7 @@ def build_cam_client(data: dict[str, Any]) -> VivotekCamera:
 
 
 async def async_build_and_test_cam_client(
-    hass: __HAC_KEEP__, data: dict[str, Any]
+    hass: UniversalAssistant, data: dict[str, Any]
 ) -> VivotekCamera:
     """Build the client and test if the provided configuration is valid."""
     cam_client = build_cam_client(data)
@@ -51,7 +51,7 @@ async def async_build_and_test_cam_client(
     return cam_client
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: VivotekConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: VivotekConfigEntry) -> None:
     """Set up the Vivotek component from a config entry."""
 
     try:
@@ -63,6 +63,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: VivotekConfigEntry) -> No
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: VivotekConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: VivotekConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

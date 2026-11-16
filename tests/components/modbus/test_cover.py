@@ -30,7 +30,7 @@ from universalassistant.const import (
     SERVICE_OPEN_COVER,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, State
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, State
 from universalassistant.setup import async_setup_component
 
 from .conftest import TEST_ENTITY_NAME, ReadResult
@@ -75,7 +75,7 @@ ENTITY_ID2 = f"{ENTITY_ID}_2"
         },
     ],
 )
-async def test_config_cover(hass: __HAC_KEEP__, mock_modbus) -> None:
+async def test_config_cover(hass: UniversalAssistant, mock_modbus) -> None:
     """Run configuration test for cover."""
     assert COVER_DOMAIN in hass.config.components
 
@@ -120,7 +120,7 @@ async def test_config_cover(hass: __HAC_KEEP__, mock_modbus) -> None:
         ),
     ],
 )
-async def test_coil_cover(hass: __HAC_KEEP__, expected, mock_do_cycle) -> None:
+async def test_coil_cover(hass: UniversalAssistant, expected, mock_do_cycle) -> None:
     """Run test for given config."""
     assert hass.states.get(ENTITY_ID).state == expected
 
@@ -164,7 +164,7 @@ async def test_coil_cover(hass: __HAC_KEEP__, expected, mock_do_cycle) -> None:
         ),
     ],
 )
-async def test_register_cover(hass: __HAC_KEEP__, expected, mock_do_cycle) -> None:
+async def test_register_cover(hass: UniversalAssistant, expected, mock_do_cycle) -> None:
     """Run test for given config."""
     assert hass.states.get(ENTITY_ID).state == expected
 
@@ -183,7 +183,7 @@ async def test_register_cover(hass: __HAC_KEEP__, expected, mock_do_cycle) -> No
         },
     ],
 )
-async def test_service_cover_update(hass: __HAC_KEEP__, mock_modbus_ha) -> None:
+async def test_service_cover_update(hass: UniversalAssistant, mock_modbus_ha) -> None:
     """Run test for service universalassistant.update_entity."""
     await hass.services.async_call(
         HOMEASSISTANT_DOMAIN,
@@ -239,7 +239,7 @@ async def test_service_cover_update(hass: __HAC_KEEP__, mock_modbus_ha) -> None:
     ],
 )
 async def test_restore_state_cover(
-    hass: __HAC_KEEP__, mock_test_state, mock_modbus
+    hass: UniversalAssistant, mock_test_state, mock_modbus
 ) -> None:
     """Run test for cover restore state."""
     test_state = mock_test_state[0].state
@@ -267,7 +267,7 @@ async def test_restore_state_cover(
         },
     ],
 )
-async def test_service_cover_move(hass: __HAC_KEEP__, mock_modbus_ha) -> None:
+async def test_service_cover_move(hass: UniversalAssistant, mock_modbus_ha) -> None:
     """Run test for service universalassistant.update_entity."""
 
     mock_modbus_ha.read_holding_registers.return_value = ReadResult([0x01])
@@ -298,7 +298,7 @@ async def test_service_cover_move(hass: __HAC_KEEP__, mock_modbus_ha) -> None:
 
 
 async def test_no_discovery_info_cover(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setup without discovery info."""
     assert COVER_DOMAIN not in hass.config.components

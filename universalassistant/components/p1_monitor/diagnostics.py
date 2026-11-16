@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any, cast
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import (
     SERVICE_PHASES,
@@ -22,7 +22,7 @@ TO_REDACT = {CONF_HOST, CONF_PORT}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: P1MonitorConfigEntry
+    hass: UniversalAssistant, entry: P1MonitorConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     data = {

@@ -8,8 +8,8 @@ from tuya_sharing import CustomerDevice, Manager
 
 from universalassistant.components.tuya.const import DOMAIN
 from universalassistant.components.tuya.services import TuyaService
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
 from . import initialize_entry
@@ -48,7 +48,7 @@ DECODED_MEAL_PLAN: list[FeederSchedule] = [
 
 @pytest.mark.parametrize("mock_device_code", ["cwwsq_wfkzyy0evslzsmoi"])
 async def test_get_feeder_meal_plan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -75,7 +75,7 @@ async def test_get_feeder_meal_plan(
 
 @pytest.mark.parametrize("mock_device_code", ["cwwsq_wfkzyy0evslzsmoi"])
 async def test_get_feeder_meal_plan_invalid_meal_plan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -91,7 +91,7 @@ async def test_get_feeder_meal_plan_invalid_meal_plan(
 
     mock_device.status.pop("meal_plan", None)
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Unable to parse meal plan data",
     ):
         await hass.services.async_call(
@@ -105,7 +105,7 @@ async def test_get_feeder_meal_plan_invalid_meal_plan(
 
 @pytest.mark.parametrize("mock_device_code", ["cwwsq_wfkzyy0evslzsmoi"])
 async def test_set_feeder_meal_plan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -136,7 +136,7 @@ async def test_set_feeder_meal_plan(
 
 @pytest.mark.parametrize("mock_device_code", ["cwwsq_wfkzyy0evslzsmoi"])
 async def test_set_feeder_meal_plan_unsupported_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -170,7 +170,7 @@ async def test_set_feeder_meal_plan_unsupported_device(
 
 @pytest.mark.parametrize("mock_device_code", ["cwwsq_wfkzyy0evslzsmoi"])
 async def test_get_tuya_device_error_device_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -193,7 +193,7 @@ async def test_get_tuya_device_error_device_not_found(
 
 @pytest.mark.parametrize("mock_device_code", ["cwwsq_wfkzyy0evslzsmoi"])
 async def test_get_tuya_device_error_non_tuya_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
@@ -222,7 +222,7 @@ async def test_get_tuya_device_error_non_tuya_device(
 
 @pytest.mark.parametrize("mock_device_code", ["cwwsq_wfkzyy0evslzsmoi"])
 async def test_get_tuya_device_error_unknown_tuya_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,

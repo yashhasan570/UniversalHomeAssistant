@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.octoprint.const import DOMAIN
 from universalassistant.config_entries import SOURCE_IMPORT
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.helpers import issue_registry as ir, translation
 from universalassistant.setup import async_setup_component
 
@@ -45,7 +45,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 @pytest.mark.usefixtures("mock_discovery_info", "mock_setup_entry")
 async def test_import_yaml(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test a YAML printer is imported and raises a deprecation issue."""
     assert await async_setup_component(hass, DOMAIN, YAML_CONFIG)
@@ -69,7 +69,7 @@ async def test_import_yaml(
 
 @pytest.mark.usefixtures("mock_discovery_info", "mock_setup_entry")
 async def test_import_yaml_already_configured(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test an already imported YAML printer still raises a deprecation issue."""
     MockConfigEntry(domain=DOMAIN, unique_id="uuid").add_to_hass(hass)
@@ -91,7 +91,7 @@ async def test_import_yaml_already_configured(
     ],
 )
 async def test_import_yaml_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_discovery_info: AsyncMock,
     side_effect: type[Exception],
@@ -116,7 +116,7 @@ async def test_import_yaml_failed(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_import_yaml_already_configured_offline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_discovery_info: AsyncMock,
 ) -> None:
@@ -138,7 +138,7 @@ async def test_import_yaml_already_configured_offline(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_import_yaml_partial_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_discovery_info: AsyncMock,
 ) -> None:
@@ -166,7 +166,7 @@ async def test_import_yaml_partial_failure(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_import_yaml_finishes_before_setup_returns(
-    hass: __HAC_KEEP__, mock_discovery_info: AsyncMock
+    hass: UniversalAssistant, mock_discovery_info: AsyncMock
 ) -> None:
     """Test all YAML printers are imported before the integration setup returns."""
     await translation.async_load_integrations(hass, {DOMAIN})

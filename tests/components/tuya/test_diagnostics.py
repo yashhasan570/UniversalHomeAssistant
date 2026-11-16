@@ -12,7 +12,7 @@ from syrupy.filters import props
 from tuya_sharing import CustomerDevice, Manager
 
 from universalassistant.components.tuya.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import initialize_entry
@@ -20,7 +20,7 @@ from . import initialize_entry
 
 @pytest.mark.parametrize("mock_device_code", ["rqbj_4iqe2hsfyd86kwwc"])
 async def test_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -54,7 +54,7 @@ async def test_entry_diagnostics(
     ],
 )
 async def test_device_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,

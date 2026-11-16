@@ -5,7 +5,7 @@ from typing import cast
 from aioanylist import AnyListClient, AuthTokens
 
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_CLIENT_ID, CONF_EMAIL, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -17,7 +17,7 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 PLATFORMS: list[Platform] = [Platform.TODO]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: AnyListConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: AnyListConfigEntry) -> None:
     """Set up AnyList from a config entry."""
 
     @callback
@@ -56,6 +56,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: AnyListConfigEntry) -> No
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: AnyListConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: AnyListConfigEntry) -> None:
     """Unload an AnyList config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

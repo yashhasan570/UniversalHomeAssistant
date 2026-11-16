@@ -16,7 +16,7 @@ import yarl
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.selector import (
@@ -78,7 +78,7 @@ STEP_AUTH_DATA_SCHEMA = probatio.Schema(
 
 
 async def validate_input(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     host: str,
     username: str | None = None,
     password: str | None = None,

@@ -14,12 +14,12 @@ from universalassistant.components.weatherflow.const import (
     ERROR_MSG_CANNOT_CONNECT,
     ERROR_MSG_NO_DEVICE_FOUND,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_single_instance(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_has_devices: AsyncMock,
 ) -> None:
@@ -35,7 +35,7 @@ async def test_single_instance(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_devices_with_mocks(
-    hass: __HAC_KEEP__, mock_start: AsyncMock, mock_stop: AsyncMock
+    hass: UniversalAssistant, mock_start: AsyncMock, mock_stop: AsyncMock
 ) -> None:
     """Test getting user input."""
 
@@ -59,7 +59,7 @@ async def test_devices_with_mocks(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_devices_with_various_mocks_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_start: AsyncMock,
     mock_stop: AsyncMock,
     exception: Exception,
@@ -90,7 +90,7 @@ async def test_devices_with_various_mocks_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_no_device_discovered(
-    hass: __HAC_KEEP__, mock_start: AsyncMock, mock_stop: AsyncMock
+    hass: UniversalAssistant, mock_start: AsyncMock, mock_stop: AsyncMock
 ) -> None:
     """Test the discovery timeout shows no device found, then finish the flow."""
 

@@ -14,13 +14,13 @@ from tesla_fleet_api.exceptions import (
 from universalassistant.components.tessie.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from .common import setup_platform
 
 
-async def test_load_unload(hass: __HAC_KEEP__) -> None:
+async def test_load_unload(hass: UniversalAssistant) -> None:
     """Test load and unload."""
 
     entry = await setup_platform(hass)
@@ -31,7 +31,7 @@ async def test_load_unload(hass: __HAC_KEEP__) -> None:
 
 
 async def test_auth_failure(
-    hass: __HAC_KEEP__, mock_get_state_of_all_vehicles: AsyncMock
+    hass: UniversalAssistant, mock_get_state_of_all_vehicles: AsyncMock
 ) -> None:
     """Test init with an authentication error."""
 
@@ -41,7 +41,7 @@ async def test_auth_failure(
 
 
 async def test_unknown_failure(
-    hass: __HAC_KEEP__, mock_get_state_of_all_vehicles: AsyncMock
+    hass: UniversalAssistant, mock_get_state_of_all_vehicles: AsyncMock
 ) -> None:
     """Test init with a non-retryable fleet API error."""
 
@@ -52,7 +52,7 @@ async def test_unknown_failure(
 
 
 async def test_retryable_api_failure(
-    hass: __HAC_KEEP__, mock_get_state_of_all_vehicles: AsyncMock
+    hass: UniversalAssistant, mock_get_state_of_all_vehicles: AsyncMock
 ) -> None:
     """Test init with a retryable fleet API error."""
 
@@ -61,7 +61,7 @@ async def test_retryable_api_failure(
     assert entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_products_error(hass: __HAC_KEEP__) -> None:
+async def test_products_error(hass: UniversalAssistant) -> None:
     """Test init with a fleet error on products."""
 
     with patch(
@@ -71,7 +71,7 @@ async def test_products_error(hass: __HAC_KEEP__) -> None:
         assert entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_scopes_error(hass: __HAC_KEEP__) -> None:
+async def test_scopes_error(hass: UniversalAssistant) -> None:
     """Test init with a fleet error on scopes."""
 
     with patch(
@@ -117,7 +117,7 @@ async def test_scopes_error(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_aiohttp_client_error_retries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_get_state_of_all_vehicles: AsyncMock,
     patch_target: str | None,
     exception: ClientError,
@@ -144,7 +144,7 @@ async def test_aiohttp_client_error_retries(
     ],
 )
 async def test_aiohttp_client_error_on_live_status_retries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: ClientError,
 ) -> None:
     """Test that aiohttp.ClientError during live_status() triggers SETUP_RETRY."""
@@ -158,7 +158,7 @@ async def test_aiohttp_client_error_on_live_status_retries(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_wall_connector_via_device_id(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test that a wall connector device links to its energy site via via_device_id."""
 

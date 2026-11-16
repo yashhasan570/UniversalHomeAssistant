@@ -39,7 +39,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.restore_state import STORAGE_KEY as RESTORE_STATE_KEY
 from universalassistant.helpers.typing import ConfigType
@@ -191,7 +191,7 @@ ALL_COLOR_ACTIONS = {
 
 
 async def _call_and_assert_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls: list[ServiceCall],
     service: str,
     service_data: ConfigType | None = None,
@@ -218,7 +218,7 @@ async def _call_and_assert_action(
 
 @pytest.fixture
 async def setup_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     count: int,
     style: ConfigurationStyle,
     config: dict[str, Any],
@@ -229,7 +229,7 @@ async def setup_light(
 
 @pytest.fixture
 async def setup_state_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     count: int,
     style: ConfigurationStyle,
     state_template: str,
@@ -249,7 +249,7 @@ async def setup_state_light(
 
 @pytest.fixture
 async def setup_single_attribute_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     count: int,
     style: ConfigurationStyle,
     attribute: str,
@@ -270,7 +270,7 @@ async def setup_single_attribute_light(
 
 @pytest.fixture
 async def setup_single_action_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     count: int,
     style: ConfigurationStyle,
     extra_config: dict,
@@ -287,7 +287,7 @@ async def setup_single_action_light(
 
 @pytest.fixture
 async def setup_empty_action_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     count: int,
     style: ConfigurationStyle,
     action: str,
@@ -306,7 +306,7 @@ async def setup_empty_action_light(
 
 @pytest.fixture
 async def setup_light_with_effects(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     count: int,
     style: ConfigurationStyle,
     effect_list_template: str,
@@ -331,7 +331,7 @@ async def setup_light_with_effects(
 
 @pytest.fixture
 async def setup_light_with_mireds(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     count: int,
     style: ConfigurationStyle,
     attribute: str,
@@ -355,7 +355,7 @@ async def setup_light_with_mireds(
 
 @pytest.fixture
 async def setup_light_with_transition_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     count: int,
     style: ConfigurationStyle,
     transition_template: str,
@@ -386,7 +386,7 @@ async def setup_light_with_transition_template(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_state_light")
-async def test_template_state_invalid(hass: __HAC_KEEP__) -> None:
+async def test_template_state_invalid(hass: UniversalAssistant) -> None:
     """Test template state with render error."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, None)
 
@@ -405,7 +405,7 @@ async def test_template_state_invalid(hass: __HAC_KEEP__) -> None:
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_state_light")
-async def test_template_state_text(hass: __HAC_KEEP__) -> None:
+async def test_template_state_text(hass: UniversalAssistant) -> None:
     """Test the state text of a template."""
     set_state = STATE_ON
     await async_trigger(hass, TEST_STATE_ENTITY_ID, set_state)
@@ -446,7 +446,7 @@ async def test_template_state_text(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("setup_state_light")
 async def test_template_state_boolean(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_color_mode: ColorMode | None,
     expected_state: str,
 ) -> None:
@@ -468,7 +468,7 @@ async def test_template_state_boolean(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_state_light")
-async def test_template_config_errors(hass: __HAC_KEEP__) -> None:
+async def test_template_config_errors(hass: UniversalAssistant) -> None:
     """Test template light configuration errors."""
     assert hass.states.async_all("light") == []
 
@@ -482,7 +482,7 @@ async def test_template_config_errors(hass: __HAC_KEEP__) -> None:
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_light")
-async def test_missing_key(hass: __HAC_KEEP__) -> None:
+async def test_missing_key(hass: UniversalAssistant) -> None:
     """Test missing template."""
     assert hass.states.async_all("light") == []
 
@@ -496,7 +496,7 @@ async def test_missing_key(hass: __HAC_KEEP__) -> None:
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_state_light")
-async def test_on_action(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
+async def test_on_action(hass: UniversalAssistant, calls: list[ServiceCall]) -> None:
     """Test on action."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, STATE_OFF)
 
@@ -538,7 +538,7 @@ async def test_on_action(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
 )
 @pytest.mark.usefixtures("setup_light")
 async def test_on_action_with_transition(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test on action with transition."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, STATE_OFF)
@@ -566,7 +566,7 @@ async def test_on_action_with_transition(
 )
 @pytest.mark.usefixtures("setup_light")
 async def test_on_action_optimistic(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test on action with optimistic state."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, STATE_OFF)
@@ -610,7 +610,7 @@ async def test_on_action_optimistic(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_state_light")
-async def test_off_action(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
+async def test_off_action(hass: UniversalAssistant, calls: list[ServiceCall]) -> None:
     """Test off action."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, STATE_ON)
     state = hass.states.get(TEST_LIGHT.entity_id)
@@ -651,7 +651,7 @@ async def test_off_action(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
 )
 @pytest.mark.usefixtures("setup_light")
 async def test_off_action_with_transition(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test off action with transition."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, STATE_ON)
@@ -678,7 +678,7 @@ async def test_off_action_with_transition(
 )
 @pytest.mark.usefixtures("setup_light")
 async def test_off_action_optimistic(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test off action with optimistic state."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, STATE_OFF)
@@ -711,7 +711,7 @@ async def test_off_action_optimistic(
 )
 @pytest.mark.usefixtures("setup_state_light")
 async def test_level_action_no_template(
-    hass: __HAC_KEEP__, brightness: int, brightness_pct: int, calls: list[ServiceCall]
+    hass: UniversalAssistant, brightness: int, brightness_pct: int, calls: list[ServiceCall]
 ) -> None:
     """Test setting brightness with optimistic template."""
     state = hass.states.get(TEST_LIGHT.entity_id)
@@ -760,7 +760,7 @@ async def test_level_action_no_template(
 )
 @pytest.mark.usefixtures("setup_single_attribute_light")
 async def test_level_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_level: Any,
     expected_color_mode: ColorMode,
 ) -> None:
@@ -797,7 +797,7 @@ async def test_level_template(
 )
 @pytest.mark.usefixtures("setup_single_attribute_light")
 async def test_temperature_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_temp: Any,
     expected_color_mode: ColorMode,
 ) -> None:
@@ -821,7 +821,7 @@ async def test_temperature_template(
 )
 @pytest.mark.usefixtures("setup_single_action_light")
 async def test_temperature_action_no_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls: list[ServiceCall],
 ) -> None:
     """Test setting temperature with optimistic template."""
@@ -858,7 +858,7 @@ async def test_temperature_action_no_template(
     ],
 )
 @pytest.mark.usefixtures("setup_single_attribute_light")
-async def test_friendly_name(hass: __HAC_KEEP__, entity_id: str) -> None:
+async def test_friendly_name(hass: UniversalAssistant, entity_id: str) -> None:
     """Test the accessibility of the friendly_name attribute."""
 
     state = hass.states.get(entity_id)
@@ -879,7 +879,7 @@ async def test_friendly_name(hass: __HAC_KEEP__, entity_id: str) -> None:
     "attribute_template", ["{% if states.light.test_state.state %}mdi:check{% endif %}"]
 )
 @pytest.mark.usefixtures("setup_single_attribute_light")
-async def test_icon_template(hass: __HAC_KEEP__) -> None:
+async def test_icon_template(hass: UniversalAssistant) -> None:
     """Test icon template."""
     state = hass.states.get(TEST_LIGHT.entity_id)
     assert state.attributes.get("icon") in ("", None)
@@ -903,7 +903,7 @@ async def test_icon_template(hass: __HAC_KEEP__) -> None:
     ["{% if states.light.test_state.state %}/local/light.png{% endif %}"],
 )
 @pytest.mark.usefixtures("setup_single_attribute_light")
-async def test_entity_picture_template(hass: __HAC_KEEP__) -> None:
+async def test_entity_picture_template(hass: UniversalAssistant) -> None:
     """Test entity_picture template."""
     state = hass.states.get(TEST_LIGHT.entity_id)
     assert state.attributes.get("entity_picture") in ("", None)
@@ -972,7 +972,7 @@ async def test_entity_picture_template(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("setup_single_action_light")
 async def test_color_actions_no_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls: list[ServiceCall],
     attribute: str,
     attribute_value: tuple[int | float, ...],
@@ -1026,7 +1026,7 @@ async def test_color_actions_no_template(
 )
 @pytest.mark.usefixtures("setup_single_attribute_light")
 async def test_hs_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_hs: tuple[float, float] | None,
     expected_color_mode: ColorMode,
 ) -> None:
@@ -1066,7 +1066,7 @@ async def test_hs_template(
 )
 @pytest.mark.usefixtures("setup_single_attribute_light")
 async def test_rgb_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_rgb: tuple[int, int, int] | None,
     expected_color_mode: ColorMode,
 ) -> None:
@@ -1107,7 +1107,7 @@ async def test_rgb_template(
 )
 @pytest.mark.usefixtures("setup_single_attribute_light")
 async def test_rgbw_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_rgbw: tuple[int, int, int, int] | None,
     expected_color_mode: ColorMode,
 ) -> None:
@@ -1154,7 +1154,7 @@ async def test_rgbw_template(
 )
 @pytest.mark.usefixtures("setup_single_attribute_light")
 async def test_rgbww_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_rgbww: tuple[int, int, int, int, int] | None,
     expected_color_mode: ColorMode,
 ) -> None:
@@ -1192,7 +1192,7 @@ async def test_rgbww_template(
 )
 @pytest.mark.usefixtures("setup_single_attribute_light")
 async def test_xy_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_color: tuple[float, float] | None,
     expected_color_mode: ColorMode,
 ) -> None:
@@ -1230,7 +1230,7 @@ async def test_xy_template(
 )
 @pytest.mark.usefixtures("setup_light")
 async def test_all_colors_mode_no_template(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test setting color and color temperature with optimistic template."""
     state = hass.states.get(TEST_LIGHT.entity_id)
@@ -1387,7 +1387,7 @@ async def test_all_colors_mode_no_template(
 )
 @pytest.mark.usefixtures("setup_light_with_effects")
 async def test_effect_action(
-    hass: __HAC_KEEP__, effect: str, expected: Any, calls: list[ServiceCall]
+    hass: UniversalAssistant, effect: str, expected: Any, calls: list[ServiceCall]
 ) -> None:
     """Test setting valid effect with template."""
 
@@ -1436,7 +1436,7 @@ async def test_effect_action(
 )
 @pytest.mark.usefixtures("setup_light_with_effects")
 async def test_effect_list_template(
-    hass: __HAC_KEEP__, expected_effect_list: list[str] | None
+    hass: UniversalAssistant, expected_effect_list: list[str] | None
 ) -> None:
     """Test the template for the effect list."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, STATE_ON)
@@ -1465,7 +1465,7 @@ async def test_effect_list_template(
 )
 @pytest.mark.usefixtures("setup_light_with_effects")
 async def test_effect_template(
-    hass: __HAC_KEEP__, expected_effect: str | None
+    hass: UniversalAssistant, expected_effect: str | None
 ) -> None:
     """Test the template for the effect."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, STATE_ON)
@@ -1495,7 +1495,7 @@ async def test_effect_template(
 )
 @pytest.mark.usefixtures("setup_light_with_mireds")
 async def test_min_mireds_template(
-    hass: __HAC_KEEP__, expected_max_kelvin: int
+    hass: UniversalAssistant, expected_max_kelvin: int
 ) -> None:
     """Test the template for the min mireds."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, STATE_ON)
@@ -1525,7 +1525,7 @@ async def test_min_mireds_template(
 )
 @pytest.mark.usefixtures("setup_light_with_mireds")
 async def test_max_mireds_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_min_kelvin: int,
 ) -> None:
     """Test the template for the max mireds."""
@@ -1556,7 +1556,7 @@ async def test_max_mireds_template(
 )
 @pytest.mark.usefixtures("setup_single_attribute_light")
 async def test_supports_transition_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_supports_transition: bool,
 ) -> None:
     """Test the template for the supports transition."""
@@ -1583,7 +1583,7 @@ async def test_supports_transition_template(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_light_with_transition_template")
-async def test_supports_transition_template_updates(hass: __HAC_KEEP__) -> None:
+async def test_supports_transition_template_updates(hass: UniversalAssistant) -> None:
     """Test the template for the supports transition dynamically."""
     state = hass.states.get(TEST_LIGHT.entity_id)
     assert state is not None
@@ -1636,7 +1636,7 @@ async def test_supports_transition_template_updates(hass: __HAC_KEEP__) -> None:
     ],
 )
 @pytest.mark.usefixtures("setup_single_attribute_light")
-async def test_available_template_with_entities(hass: __HAC_KEEP__) -> None:
+async def test_available_template_with_entities(hass: UniversalAssistant) -> None:
     """Test availability templates with values from other entities."""
     # When template returns true..
     hass.states.async_set(TEST_AVAILABILITY_ENTITY, STATE_ON)
@@ -1675,7 +1675,7 @@ async def test_available_template_with_entities(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("setup_single_attribute_light")
 async def test_invalid_availability_template_keeps_component_available(
-    hass: __HAC_KEEP__, caplog_setup_text
+    hass: UniversalAssistant, caplog_setup_text
 ) -> None:
     """Test that an invalid availability keeps the device available."""
     assert hass.states.get(TEST_LIGHT.entity_id).state != STATE_UNAVAILABLE
@@ -1688,7 +1688,7 @@ async def test_invalid_availability_template_keeps_component_available(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 async def test_unique_id(
-    hass: __HAC_KEEP__, style: ConfigurationStyle, config: ConfigType
+    hass: UniversalAssistant, style: ConfigurationStyle, config: ConfigType
 ) -> None:
     """Test unique_id option only creates one light per id."""
     await setup_and_test_unique_id(hass, TEST_LIGHT, style, config)
@@ -1699,7 +1699,7 @@ async def test_unique_id(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_nested_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     config: ConfigType,
     entity_registry: er.EntityRegistry,
@@ -1730,7 +1730,7 @@ async def test_nested_unique_id(
 )
 @pytest.mark.usefixtures("setup_empty_action_light")
 async def test_empty_color_mode_action_config(
-    hass: __HAC_KEEP__, color_mode: ColorMode
+    hass: UniversalAssistant, color_mode: ColorMode
 ) -> None:
     """Test empty actions for color mode actions."""
     state = hass.states.get(TEST_LIGHT.entity_id)
@@ -1772,7 +1772,7 @@ async def test_empty_color_mode_action_config(
 )
 @pytest.mark.usefixtures("setup_empty_action_light")
 @pytest.mark.parametrize("action", ["set_effect"])
-async def test_effect_with_empty_action(hass: __HAC_KEEP__) -> None:
+async def test_effect_with_empty_action(hass: UniversalAssistant) -> None:
     """Test empty set_effect action."""
     state = hass.states.get(TEST_LIGHT.entity_id)
     assert state.attributes["supported_features"] == LightEntityFeature.EFFECT
@@ -1797,7 +1797,7 @@ async def test_effect_with_empty_action(hass: __HAC_KEEP__) -> None:
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_light")
-async def test_optimistic_option(hass: __HAC_KEEP__) -> None:
+async def test_optimistic_option(hass: UniversalAssistant) -> None:
     """Test optimistic yaml option."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, STATE_OFF)
 
@@ -1844,7 +1844,7 @@ async def test_optimistic_option(hass: __HAC_KEEP__) -> None:
     ],
 )
 @pytest.mark.usefixtures("setup_light")
-async def test_not_optimistic(hass: __HAC_KEEP__, expected: str) -> None:
+async def test_not_optimistic(hass: UniversalAssistant, expected: str) -> None:
     """Test optimistic yaml option set to false."""
     await hass.services.async_call(
         light.DOMAIN,
@@ -1858,7 +1858,7 @@ async def test_not_optimistic(hass: __HAC_KEEP__, expected: str) -> None:
 
 
 async def test_setup_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Tests creating a light from a config entry."""
@@ -1892,7 +1892,7 @@ async def test_setup_config_entry(
 
 
 async def test_flow_preview(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test the config flow preview."""
@@ -2107,7 +2107,7 @@ async def test_flow_preview(
     ],
 )
 async def test_restore_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     saved_state: str,
     saved_extra_data: dict | None,
@@ -2181,7 +2181,7 @@ async def test_restore_state(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_saving_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -2270,7 +2270,7 @@ async def test_saving_state(
     ],
 )
 async def test_invalid_yaml_actions_do_not_create_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     action: str,
     config: ConfigType,
@@ -2305,7 +2305,7 @@ async def test_invalid_yaml_actions_do_not_create_entities(
     ],
 )
 async def test_invalid_config_entry_actions_do_not_create_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     action: str,
     config: ConfigType,
     caplog: pytest.LogCaptureFixture,
@@ -2320,7 +2320,7 @@ async def test_invalid_config_entry_actions_do_not_create_entities(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_extra_template_attributes(
-    hass: __HAC_KEEP__, style: ConfigurationStyle
+    hass: UniversalAssistant, style: ConfigurationStyle
 ) -> None:
     """Test extra attributes."""
     await assert_extra_template_attributes(
@@ -2336,7 +2336,7 @@ async def test_extra_template_attributes(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_blocked_template_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     attribute,
     caplog: pytest.LogCaptureFixture,
@@ -2362,7 +2362,7 @@ async def test_blocked_template_attributes(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2384,7 +2384,7 @@ async def test_attributes_template(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template_with_blocked_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     attribute: StrEnum,
     caplog: pytest.LogCaptureFixture,
@@ -2434,7 +2434,7 @@ async def test_attributes_template_with_blocked_attributes(
 )
 @pytest.mark.usefixtures("setup_light")
 async def test_optimistic_effect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mode: str,
     expected: Any,
     calls: list[ServiceCall],

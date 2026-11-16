@@ -13,7 +13,7 @@ from universalassistant.components.myuplink.const import (
     OAUTH2_AUTHORIZE,
     OAUTH2_TOKEN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
@@ -25,7 +25,7 @@ CURRENT_SCOPE = "WRITESYSTEM READSYSTEM offline_access"
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     access_token: str,
@@ -102,7 +102,7 @@ async def test_full_flow(
     ids=["reauth_only", "account_mismatch", "wrong_scope"],
 )
 async def test_flow_reauth_abort(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     setup_credentials: None,
@@ -200,7 +200,7 @@ async def test_flow_reauth_abort(
     ids=["reauth_only", "account_mismatch"],
 )
 async def test_flow_reconfigure_abort(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     setup_credentials: None,

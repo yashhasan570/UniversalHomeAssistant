@@ -12,7 +12,7 @@ from universalassistant.const import (
     CONF_RADIUS,
     CONF_URL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import URL
@@ -21,7 +21,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 async def test_duplicate_error_user(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test that errors are shown when duplicates are added."""
     config_entry.add_to_hass(hass)
@@ -47,7 +47,7 @@ async def test_duplicate_error_user(
     assert result["reason"] == "already_configured"
 
 
-async def test_step_user(hass: __HAC_KEEP__) -> None:
+async def test_step_user(hass: UniversalAssistant) -> None:
     """Test that the user step works."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}

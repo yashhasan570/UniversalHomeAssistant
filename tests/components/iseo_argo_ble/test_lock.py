@@ -21,8 +21,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -35,7 +35,7 @@ def _lock_state(door_closed: bool | None) -> MagicMock:
     return MagicMock(door_closed=door_closed, firmware_info="FW:  1.2.3")
 
 
-async def _unlock(hass: __HAC_KEEP__) -> None:
+async def _unlock(hass: UniversalAssistant) -> None:
     """Call the unlock action on the lock."""
     await hass.services.async_call(
         LOCK_DOMAIN,
@@ -47,7 +47,7 @@ async def _unlock(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_iseo_client", "mock_derive_private_key")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -64,7 +64,7 @@ async def test_entities(
     "mock_iseo_client", "mock_derive_private_key", "mock_ble_device"
 )
 async def test_firmware_version_is_reported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -80,7 +80,7 @@ async def test_firmware_version_is_reported(
 
 @pytest.mark.usefixtures("mock_derive_private_key", "mock_ble_device")
 async def test_state_follows_door_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_iseo_client: MagicMock,
@@ -100,7 +100,7 @@ async def test_state_follows_door_status(
 
 @pytest.mark.usefixtures("mock_derive_private_key", "mock_ble_device")
 async def test_unlock_keeps_unlocked_while_door_open(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_iseo_client: MagicMock,
 ) -> None:
@@ -121,7 +121,7 @@ async def test_unlock_keeps_unlocked_while_door_open(
 
 @pytest.mark.usefixtures("mock_derive_private_key", "mock_ble_device")
 async def test_unlock_reports_locked_once_door_is_closed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_iseo_client: MagicMock,
 ) -> None:
@@ -137,7 +137,7 @@ async def test_unlock_reports_locked_once_door_is_closed(
 
 @pytest.mark.usefixtures("mock_derive_private_key", "mock_ble_device")
 async def test_unlock_assumes_locked_without_a_reading(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_iseo_client: MagicMock,
 ) -> None:
@@ -158,7 +158,7 @@ async def test_unlock_assumes_locked_without_a_reading(
 
 @pytest.mark.usefixtures("mock_derive_private_key", "mock_ble_device")
 async def test_unlock_relocks_without_door_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_iseo_client: MagicMock,
 ) -> None:
@@ -176,7 +176,7 @@ async def test_unlock_relocks_without_door_status(
 
 @pytest.mark.usefixtures("mock_derive_private_key")
 async def test_availability_recovers_without_door_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_iseo_client: MagicMock,
@@ -196,7 +196,7 @@ async def test_availability_recovers_without_door_status(
             "universalassistant.components.iseo_argo_ble.lock.async_ble_device_from_address",
             return_value=None,
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await _unlock(hass)
 
@@ -212,7 +212,7 @@ async def test_availability_recovers_without_door_status(
 
 @pytest.mark.usefixtures("mock_derive_private_key", "mock_ble_device")
 async def test_availability_recovers_after_read_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_iseo_client: MagicMock,
@@ -238,7 +238,7 @@ async def test_availability_recovers_after_read_error(
 
 @pytest.mark.usefixtures("mock_derive_private_key", "mock_ble_device")
 async def test_unavailable_when_lock_rejects_identity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_iseo_client: MagicMock,
@@ -256,7 +256,7 @@ async def test_unavailable_when_lock_rejects_identity(
 
 @pytest.mark.usefixtures("mock_derive_private_key", "mock_ble_device")
 async def test_unavailable_when_device_is_not_seen(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_iseo_client: MagicMock,
@@ -281,13 +281,13 @@ async def test_unavailable_when_device_is_not_seen(
     "mock_derive_private_key", "mock_iseo_client", "mock_ble_device"
 )
 async def test_lock_action_is_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test locking on demand raises, the lock re-latches on its own."""
     await setup_integration(hass, mock_config_entry)
 
-    with pytest.raises(__HAC_KEEP__Error) as excinfo:
+    with pytest.raises(UniversalAssistantError) as excinfo:
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.LOCK,
@@ -300,7 +300,7 @@ async def test_lock_action_is_not_supported(
 
 @pytest.mark.usefixtures("mock_derive_private_key", "mock_ble_device")
 async def test_unlock_rejected_identity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_iseo_client: MagicMock,
 ) -> None:
@@ -309,7 +309,7 @@ async def test_unlock_rejected_identity(
 
     mock_iseo_client.gw_open = AsyncMock(side_effect=IseoAuthError("bad auth"))
 
-    with pytest.raises(__HAC_KEEP__Error) as excinfo:
+    with pytest.raises(UniversalAssistantError) as excinfo:
         await _unlock(hass)
 
     assert excinfo.value.translation_key == "lock_rejected_identity"
@@ -318,7 +318,7 @@ async def test_unlock_rejected_identity(
 
 @pytest.mark.usefixtures("mock_derive_private_key", "mock_ble_device")
 async def test_unlock_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_iseo_client: MagicMock,
 ) -> None:
@@ -327,7 +327,7 @@ async def test_unlock_connection_error(
 
     mock_iseo_client.gw_open = AsyncMock(side_effect=IseoConnectionError("no link"))
 
-    with pytest.raises(__HAC_KEEP__Error) as excinfo:
+    with pytest.raises(UniversalAssistantError) as excinfo:
         await _unlock(hass)
 
     assert excinfo.value.translation_key == "cannot_connect"
@@ -336,7 +336,7 @@ async def test_unlock_connection_error(
 
 @pytest.mark.usefixtures("mock_derive_private_key", "mock_ble_device")
 async def test_unlock_without_device_in_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_iseo_client: MagicMock,
 ) -> None:
@@ -348,7 +348,7 @@ async def test_unlock_without_device_in_range(
             "universalassistant.components.iseo_argo_ble.lock.async_ble_device_from_address",
             return_value=None,
         ),
-        pytest.raises(__HAC_KEEP__Error) as excinfo,
+        pytest.raises(UniversalAssistantError) as excinfo,
     ):
         await _unlock(hass)
 

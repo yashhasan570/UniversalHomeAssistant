@@ -13,7 +13,7 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import EVENT_STATE_CHANGED, STATE_NOT_HOME, STATE_UNAVAILABLE
-from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__
+from universalassistant.core import Event, EventStateChangedData, UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -48,7 +48,7 @@ def _tracker_changes(events: list[Event[EventStateChangedData]]) -> int:
 
 @pytest.mark.usefixtures("mock_abrp_client")
 async def test_device_tracker_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_vehicles: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_telemetry_stream: MagicMock,
@@ -67,7 +67,7 @@ async def test_device_tracker_snapshot(
 
 @pytest.mark.usefixtures("mock_abrp_client")
 async def test_tracker_created_per_vehicle_on_first_position(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_vehicles: MockConfigEntry,
     mock_telemetry_stream: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -96,7 +96,7 @@ async def test_tracker_created_per_vehicle_on_first_position(
 
 @pytest.mark.usefixtures("mock_abrp_client")
 async def test_tracker_unavailable_after_auth_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_vehicles: MockConfigEntry,
     mock_telemetry_stream: MagicMock,
 ) -> None:
@@ -118,7 +118,7 @@ async def test_tracker_unavailable_after_auth_failure(
 
 @pytest.mark.usefixtures("mock_abrp_client")
 async def test_tracker_writes_only_new_position_reports(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_vehicles: MockConfigEntry,
     mock_telemetry_stream: MagicMock,
 ) -> None:

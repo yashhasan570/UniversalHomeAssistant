@@ -7,7 +7,7 @@ from RFXtrx import ControlEvent, RFXtrxDevice, RFXtrxEvent, SensorEvent
 
 from universalassistant.components.event import EventEntity
 from universalassistant.config_entries import ConfigSubentry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import slugify
@@ -25,7 +25,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: RfxtrxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

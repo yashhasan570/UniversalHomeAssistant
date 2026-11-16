@@ -8,7 +8,7 @@ from universalassistant.const import (
     STATE_ON,
     EntityCapabilityAttribute,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er, group
 from universalassistant.helpers.group import (
     GenericGroup,
@@ -17,7 +17,7 @@ from universalassistant.helpers.group import (
 )
 
 
-async def test_expand_entity_ids(hass: __HAC_KEEP__) -> None:
+async def test_expand_entity_ids(hass: UniversalAssistant) -> None:
     """Test expand_entity_ids method."""
     hass.states.async_set("light.Bowl", STATE_ON)
     hass.states.async_set("light.Ceiling", STATE_OFF)
@@ -39,7 +39,7 @@ async def test_expand_entity_ids(hass: __HAC_KEEP__) -> None:
 
 
 async def test_expand_entity_ids_does_not_return_duplicates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that expand_entity_ids does not return duplicates."""
     hass.states.async_set("light.Bowl", STATE_ON)
@@ -57,7 +57,7 @@ async def test_expand_entity_ids_does_not_return_duplicates(
     ) == ["light.bowl", "light.ceiling"]
 
 
-async def test_expand_entity_ids_recursive(hass: __HAC_KEEP__) -> None:
+async def test_expand_entity_ids_recursive(hass: UniversalAssistant) -> None:
     """Test expand_entity_ids method with a group that contains itself."""
     hass.states.async_set("light.Bowl", STATE_ON)
     hass.states.async_set("light.Ceiling", STATE_OFF)
@@ -77,7 +77,7 @@ async def test_expand_entity_ids_recursive(hass: __HAC_KEEP__) -> None:
     ]
 
 
-async def test_expand_entity_ids_include_groups(hass: __HAC_KEEP__) -> None:
+async def test_expand_entity_ids_include_groups(hass: UniversalAssistant) -> None:
     """Test expand_entity_ids keeps nested old-style group entity ids."""
     hass.states.async_set("light.Bowl", STATE_ON)
     hass.states.async_set("light.Ceiling", STATE_OFF)
@@ -96,7 +96,7 @@ async def test_expand_entity_ids_include_groups(hass: __HAC_KEEP__) -> None:
 
 
 async def test_expand_entity_ids_include_groups_generic_group(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test expand_entity_ids keeps nested group entity ids."""
     platform = MockEntityPlatform(hass, domain="light", platform_name="test")
@@ -116,12 +116,12 @@ async def test_expand_entity_ids_include_groups_generic_group(
     ) == ["light.a", "light.b", "light.inner", "light.outer"]
 
 
-async def test_expand_entity_ids_ignores_non_strings(hass: __HAC_KEEP__) -> None:
+async def test_expand_entity_ids_ignores_non_strings(hass: UniversalAssistant) -> None:
     """Test that non string elements in lists are ignored."""
     assert group.expand_entity_ids(hass, [5, True]) == []
 
 
-async def test_get_entity_ids(hass: __HAC_KEEP__) -> None:
+async def test_get_entity_ids(hass: UniversalAssistant) -> None:
     """Test get_entity_ids method."""
     hass.states.async_set("light.Bowl", STATE_ON)
     hass.states.async_set("light.Ceiling", STATE_OFF)
@@ -135,7 +135,7 @@ async def test_get_entity_ids(hass: __HAC_KEEP__) -> None:
     ]
 
 
-async def test_get_entity_ids_with_domain_filter(hass: __HAC_KEEP__) -> None:
+async def test_get_entity_ids_with_domain_filter(hass: UniversalAssistant) -> None:
     """Test if get_entity_ids works with a domain_filter."""
     hass.states.async_set("switch.AC", STATE_OFF)
     hass.states.async_set(
@@ -147,17 +147,17 @@ async def test_get_entity_ids_with_domain_filter(hass: __HAC_KEEP__) -> None:
     ]
 
 
-async def test_get_entity_ids_with_non_existing_group_name(hass: __HAC_KEEP__) -> None:
+async def test_get_entity_ids_with_non_existing_group_name(hass: UniversalAssistant) -> None:
     """Test get_entity_ids with a non existing group."""
     assert group.get_entity_ids(hass, "non_existing") == []
 
 
-async def test_get_entity_ids_with_non_group_state(hass: __HAC_KEEP__) -> None:
+async def test_get_entity_ids_with_non_group_state(hass: UniversalAssistant) -> None:
     """Test get_entity_ids with a non group state."""
     assert group.get_entity_ids(hass, "switch.AC") == []
 
 
-async def test_get_group_entities(hass: __HAC_KEEP__) -> None:
+async def test_get_group_entities(hass: UniversalAssistant) -> None:
     """Test get_group_entities returns registered group entities."""
     assert get_group_entities(hass) == {}
 
@@ -174,7 +174,7 @@ async def test_get_group_entities(hass: __HAC_KEEP__) -> None:
     assert group_entities["light.test_group"] is ent
 
 
-async def test_group_entity_removed_from_registry(hass: __HAC_KEEP__) -> None:
+async def test_group_entity_removed_from_registry(hass: UniversalAssistant) -> None:
     """Test group entity is removed from get_group_entities on removal."""
     platform = MockEntityPlatform(hass, domain="light", platform_name="test")
 
@@ -191,7 +191,7 @@ async def test_group_entity_removed_from_registry(hass: __HAC_KEEP__) -> None:
 
 
 async def test_group_entity_id_changed_in_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test get_group_entities reflects new key when group entity ID is changed."""
@@ -220,7 +220,7 @@ async def test_group_entity_id_changed_in_registry(
     assert get_group_entities(hass) == {}
 
 
-async def test_multiple_group_entities(hass: __HAC_KEEP__) -> None:
+async def test_multiple_group_entities(hass: UniversalAssistant) -> None:
     """Test multiple group entities can be registered and work independently."""
     platform = MockEntityPlatform(hass, domain="light", platform_name="test")
 
@@ -244,7 +244,7 @@ async def test_multiple_group_entities(hass: __HAC_KEEP__) -> None:
     assert sorted(expanded2) == ["light.c", "light.d"]
 
 
-async def test_generic_group_member_entity_ids(hass: __HAC_KEEP__) -> None:
+async def test_generic_group_member_entity_ids(hass: UniversalAssistant) -> None:
     """Test GenericGroup member_entity_ids property."""
     platform = MockEntityPlatform(hass, domain="light", platform_name="test")
 
@@ -257,7 +257,7 @@ async def test_generic_group_member_entity_ids(hass: __HAC_KEEP__) -> None:
     assert ent.group.member_entity_ids == ["light.bulb1", "light.bulb2"]
 
 
-async def test_expand_entity_ids_with_generic_group(hass: __HAC_KEEP__) -> None:
+async def test_expand_entity_ids_with_generic_group(hass: UniversalAssistant) -> None:
     """Test expand_entity_ids with GenericGroup entities."""
     platform = MockEntityPlatform(hass, domain="light", platform_name="test")
 
@@ -276,7 +276,7 @@ async def test_expand_entity_ids_with_generic_group(hass: __HAC_KEEP__) -> None:
 
 
 async def test_expand_entity_ids_with_generic_group_recursive(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test expand_entity_ids with nested GenericGroup entities."""
     platform = MockEntityPlatform(hass, domain="light", platform_name="test")
@@ -295,7 +295,7 @@ async def test_expand_entity_ids_with_generic_group_recursive(
 
 
 async def test_expand_entity_ids_with_generic_group_self_reference(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test expand_entity_ids handles GenericGroup with self-reference."""
     platform = MockEntityPlatform(hass, domain="light", platform_name="test")
@@ -312,7 +312,7 @@ async def test_expand_entity_ids_with_generic_group_self_reference(
     assert sorted(expanded) == ["light.bulb1", "light.bulb2"]
 
 
-async def test_generic_group_attribute_in_state(hass: __HAC_KEEP__) -> None:
+async def test_generic_group_attribute_in_state(hass: UniversalAssistant) -> None:
     """Test ATTR_GROUP_ENTITIES is included in GenericGroup state."""
     platform = MockEntityPlatform(hass, domain="light", platform_name="test")
 
@@ -332,7 +332,7 @@ async def test_generic_group_attribute_in_state(hass: __HAC_KEEP__) -> None:
 
 
 async def test_integration_specific_group_member_entity_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test IntegrationSpecificGroup resolves entity IDs from unique IDs."""
@@ -355,7 +355,7 @@ async def test_integration_specific_group_member_entity_ids(
 
 
 async def test_integration_specific_group_missing_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test IntegrationSpecificGroup handles missing entities."""
@@ -377,7 +377,7 @@ async def test_integration_specific_group_missing_entities(
 
 
 async def test_integration_specific_group_member_unique_ids_setter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test IntegrationSpecificGroup member_unique_ids setter clears cache."""
@@ -406,7 +406,7 @@ async def test_integration_specific_group_member_unique_ids_setter(
 
 
 async def test_integration_specific_group_member_added(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test IntegrationSpecificGroup updates when member is added to registry."""
@@ -432,7 +432,7 @@ async def test_integration_specific_group_member_added(
 
 
 async def test_integration_specific_group_member_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test IntegrationSpecificGroup updates when member is removed from registry."""
@@ -460,7 +460,7 @@ async def test_integration_specific_group_member_removed(
 
 
 async def test_integration_specific_group_member_renamed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test IntegrationSpecificGroup updates when member entity_id is renamed."""
@@ -484,7 +484,7 @@ async def test_integration_specific_group_member_renamed(
 
 
 async def test_integration_specific_group_attribute_in_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test ATTR_GROUP_ENTITIES is included in IntegrationSpecificGroup state."""
@@ -513,7 +513,7 @@ async def test_integration_specific_group_attribute_in_state(
 
 
 async def test_expand_entity_ids_integration_specific_group_not_expanded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test expand_entity_ids doesn't expand IntegrationSpecificGroup."""

@@ -44,7 +44,7 @@ from universalassistant.components.esphome.websocket_api import (
 )
 from universalassistant.config_entries import SOURCE_IGNORE, ConfigEntryDisabler
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import SUB_DEVICE_RELATIONS, MockESPHomeDeviceType, SubDeviceLookup
@@ -87,7 +87,7 @@ async def test_get_encryption_key(
 
 
 async def test_get_device_capabilities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -198,7 +198,7 @@ async def test_device_commands_device_not_found(
     ],
 )
 async def test_device_commands_entry_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -233,7 +233,7 @@ async def test_device_commands_entry_not_loaded(
 
 
 async def test_get_device_capabilities_wrong_domain(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -262,7 +262,7 @@ async def test_get_device_capabilities_wrong_domain(
 
 @pytest.mark.parametrize(("relation", "lookup"), SUB_DEVICE_RELATIONS)
 async def test_get_device_capabilities_sub_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -307,7 +307,7 @@ async def test_get_device_capabilities_sub_device(
 
 
 async def test_get_device_capabilities_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -391,7 +391,7 @@ async def test_get_device_capabilities_unavailable(
     ],
 )
 async def test_get_device_capabilities_restored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
@@ -477,7 +477,7 @@ async def test_get_device_capabilities_restored(
     ],
 )
 async def test_get_device_capabilities_zwave_js_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -595,7 +595,7 @@ WIZARD_PAGES = [
     ],
 )
 async def test_get_device_wizard(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -674,7 +674,7 @@ async def test_device_wizard_imports_off_event_loop(
 
 
 async def test_get_device_wizard_not_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -714,7 +714,7 @@ async def test_get_device_wizard_not_configured(
     ],
 )
 async def test_get_device_wizard_restored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
@@ -853,7 +853,7 @@ async def _assert_nothing_received(websocket_client: MockHAClientWebSocket) -> N
 
 
 async def _retry_client_id_fetch(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, delay: float
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, delay: float
 ) -> None:
     """Let the capabilities fetch scheduled after this delay run."""
     freezer.tick(delay + 1)
@@ -862,7 +862,7 @@ async def _retry_client_id_fetch(
 
 
 async def test_get_sendspin_pairing_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_ws_client: WebSocketGenerator,
@@ -891,7 +891,7 @@ async def test_get_sendspin_pairing_token(
     ],
 )
 async def test_get_sendspin_pairing_token_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_ws_client: WebSocketGenerator,
@@ -920,7 +920,7 @@ async def test_get_sendspin_pairing_token_not_found(
     ],
 )
 async def test_get_sendspin_pairing_token_status_without_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_ws_client: WebSocketGenerator,
@@ -940,7 +940,7 @@ async def test_get_sendspin_pairing_token_status_without_token(
 
 
 async def test_get_sendspin_pairing_token_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_ws_client: WebSocketGenerator,
@@ -960,7 +960,7 @@ async def test_get_sendspin_pairing_token_connection_error(
 
 
 async def test_get_sendspin_pairing_token_unavailable_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_ws_client: WebSocketGenerator,
@@ -979,7 +979,7 @@ async def test_get_sendspin_pairing_token_unavailable_device(
 
 
 async def test_subscribe_sendspin_clients(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_ws_client: WebSocketGenerator,
@@ -1007,7 +1007,7 @@ async def test_subscribe_sendspin_clients(
     ],
 )
 async def test_subscribe_sendspin_clients_without_client_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_ws_client: WebSocketGenerator,
@@ -1025,7 +1025,7 @@ async def test_subscribe_sendspin_clients_without_client_ids(
 
 
 async def test_subscribe_sendspin_clients_unsubscribe(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_ws_client: WebSocketGenerator,
@@ -1055,7 +1055,7 @@ def _mock_client_id_refresh(mock_client: APIClient, **kwargs: Any) -> AsyncMock:
 
 
 async def test_subscribe_sendspin_clients_client_id_learned_later(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_ws_client: WebSocketGenerator,
@@ -1099,7 +1099,7 @@ async def test_subscribe_sendspin_clients_client_id_learned_later(
 
 
 async def test_subscribe_sendspin_clients_client_id_refresh_stops(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_ws_client: WebSocketGenerator,
@@ -1135,7 +1135,7 @@ async def test_subscribe_sendspin_clients_client_id_refresh_stops(
 
 
 async def test_subscribe_sendspin_clients_refresh_survives_capabilities_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_ws_client: WebSocketGenerator,
@@ -1175,7 +1175,7 @@ async def test_subscribe_sendspin_clients_refresh_survives_capabilities_update(
 
 
 async def test_subscribe_sendspin_clients_refresh_after_reconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_ws_client: WebSocketGenerator,

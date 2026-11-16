@@ -15,7 +15,7 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, STATE_UNKNOWN
 from universalassistant.core import callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.restore_state import RestoreEntity
 from universalassistant.util import dt as dt_util
 
@@ -182,7 +182,7 @@ class TextToSpeechEntity(RestoreEntity, cached_properties=CACHED_PROPERTIES_WITH
         )
 
         if extension is None or data is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="no_tts_audio",
                 translation_placeholders={

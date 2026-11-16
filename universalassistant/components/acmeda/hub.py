@@ -6,7 +6,7 @@ from collections.abc import Callable
 import aiopulse
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
 from .const import ACMEDA_HUB_UPDATE, LOGGER
@@ -20,7 +20,7 @@ class PulseHub:
 
     api: aiopulse.Hub
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: AcmedaConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: AcmedaConfigEntry) -> None:
         """Initialize the system."""
         self.config_entry = config_entry
         self.hass = hass

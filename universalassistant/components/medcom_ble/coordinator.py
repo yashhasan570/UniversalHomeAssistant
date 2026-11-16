@@ -9,7 +9,7 @@ from medcom_ble import MedcomBleDevice, MedcomBleDeviceData
 
 from universalassistant.components import bluetooth
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util.unit_system import METRIC_SYSTEM
 
@@ -26,7 +26,7 @@ class MedcomBleUpdateCoordinator(DataUpdateCoordinator[MedcomBleDevice]):
     config_entry: MedcomBleConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: MedcomBleConfigEntry, address: str
+        self, hass: UniversalAssistant, entry: MedcomBleConfigEntry, address: str
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(

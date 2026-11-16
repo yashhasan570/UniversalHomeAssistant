@@ -7,7 +7,7 @@ from lektricowifi import Device, DeviceConnectionError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_TYPE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.httpx_client import get_async_client
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -23,7 +23,7 @@ class LektricoDeviceDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]])
 
     config_entry: LektricoConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: LektricoConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: LektricoConfigEntry) -> None:
         """Initialize a Lektrico Device."""
         super().__init__(
             hass,

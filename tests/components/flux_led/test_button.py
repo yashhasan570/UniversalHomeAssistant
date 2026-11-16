@@ -6,7 +6,7 @@ from universalassistant.components import flux_led
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN
 from universalassistant.components.flux_led.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, CONF_HOST, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import (
@@ -22,7 +22,7 @@ from . import (
 )
 
 
-async def test_button_reboot(hass: __HAC_KEEP__) -> None:
+async def test_button_reboot(hass: UniversalAssistant) -> None:
     """Test a smart plug can be rebooted."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -45,7 +45,7 @@ async def test_button_reboot(hass: __HAC_KEEP__) -> None:
     switch.async_reboot.assert_called_once()
 
 
-async def test_button_unpair_remotes_bulb(hass: __HAC_KEEP__) -> None:
+async def test_button_unpair_remotes_bulb(hass: UniversalAssistant) -> None:
     """Test that remotes can be unpaired from a bulb."""
     _mock_config_entry_for_bulb(hass)
     bulb = _mocked_bulb()
@@ -63,7 +63,7 @@ async def test_button_unpair_remotes_bulb(hass: __HAC_KEEP__) -> None:
     bulb.async_unpair_remotes.assert_called_once()
 
 
-async def test_button_unpair_remotes_smart_switch(hass: __HAC_KEEP__) -> None:
+async def test_button_unpair_remotes_smart_switch(hass: UniversalAssistant) -> None:
     """Test that remotes can be unpaired from a smart switch."""
     _mock_config_entry_for_bulb(hass)
     switch = _mocked_switch()

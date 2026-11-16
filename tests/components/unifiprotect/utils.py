@@ -65,7 +65,7 @@ from uiprotect.utils import to_js_time
 from uiprotect.websocket import WebsocketState
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, split_entity_id
+from universalassistant.core import UniversalAssistant, split_entity_id
 from universalassistant.helpers import entity_registry as er, translation
 from universalassistant.helpers.entity import EntityDescription
 from universalassistant.util import dt as dt_util
@@ -147,7 +147,7 @@ def reset_objects(bootstrap: Bootstrap):
     bootstrap.chimes = {}
 
 
-async def time_changed(hass: __HAC_KEEP__, seconds: int) -> None:
+async def time_changed(hass: UniversalAssistant, seconds: int) -> None:
     """Trigger time changed."""
     next_update = dt_util.utcnow() + timedelta(seconds)
     async_fire_time_changed(hass, next_update)
@@ -155,7 +155,7 @@ async def time_changed(hass: __HAC_KEEP__, seconds: int) -> None:
 
 
 async def enable_entity(
-    hass: __HAC_KEEP__, entry_id: str, entity_id: str
+    hass: UniversalAssistant, entry_id: str, entity_id: str
 ) -> er.RegistryEntry:
     """Enable a disabled entity."""
     entity_registry = er.async_get(hass)
@@ -169,7 +169,7 @@ async def enable_entity(
 
 
 def assert_entity_counts(
-    hass: __HAC_KEEP__, platform: Platform, total: int, enabled: int
+    hass: UniversalAssistant, platform: Platform, total: int, enabled: int
 ) -> None:
     """Assert entity counts for a given platform."""
 
@@ -209,7 +209,7 @@ def normalize_name(name: str) -> str:
 
 
 async def async_get_translated_entity_name(
-    hass: __HAC_KEEP__, platform: Platform, translation_key: str
+    hass: UniversalAssistant, platform: Platform, translation_key: str
 ) -> str:
     """Get the translated entity name for a given platform and translation key."""
     platform_name = "unifiprotect"
@@ -219,7 +219,7 @@ async def async_get_translated_entity_name(
         hass, "en", "entity", {platform_name}
     )
 
-    # Build the translation key in the format that __HA_KEEP__ uses
+    # Build the translation key in the format that Universal Home Assistant uses
     # component.{integration}.entity.{platform}.{translation_key}.name
     full_translation_key = (
         f"component.{platform_name}.entity.{platform.value}.{translation_key}.name"
@@ -230,7 +230,7 @@ async def async_get_translated_entity_name(
 
 
 async def ids_from_device_description(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     platform: Platform,
     device: ProtectAdoptableDeviceModel,
     description: EntityDescription,
@@ -240,7 +240,7 @@ async def ids_from_device_description(
     entity_name = normalize_name(device.display_name)
 
     if getattr(description, "translation_key", None):
-        # Get the actual translated name from __HA_KEEP__
+        # Get the actual translated name from Universal Home Assistant
         translated_name = await async_get_translated_entity_name(
             hass, platform, description.translation_key
         )
@@ -295,7 +295,7 @@ def add_device(
 
 
 async def init_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     devices: Sequence[ProtectAdoptableDeviceModel],
     regenerate_ids: bool = True,
@@ -933,7 +933,7 @@ def public_device_ws_message(
 
 
 async def remove_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     ufp_devices: list[ProtectAdoptableDeviceModel],
 ) -> None:
@@ -956,7 +956,7 @@ async def remove_entities(
 
 
 async def adopt_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     ufp_devices: list[ProtectAdoptableDeviceModel],
     fully_adopt: bool = False,

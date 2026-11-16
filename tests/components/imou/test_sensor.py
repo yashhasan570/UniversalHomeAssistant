@@ -23,7 +23,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.imou.coordinator import SCAN_INTERVAL
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .const import (
@@ -38,7 +38,7 @@ from .const import (
 @pytest.mark.parametrize("imou_mock_devices", [sensor_mock_devices], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_sensor_entities_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -66,7 +66,7 @@ async def test_sensor_entities_snapshot(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_setup_ignores_unknown_sensor_types(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -91,7 +91,7 @@ async def test_setup_ignores_unknown_sensor_types(
 @pytest.mark.parametrize("imou_mock_devices", [sensor_mock_devices], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_sensor_availability_when_device_offline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_imou_ha_device_manager: MagicMock,
     entity_id: str,
@@ -121,7 +121,7 @@ async def test_sensor_availability_when_device_offline(
 @pytest.mark.parametrize("imou_mock_devices", [sensor_mock_devices], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_entities_removed_when_device_leaves_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,
@@ -145,7 +145,7 @@ async def test_entities_removed_when_device_leaves_account(
 
 @pytest.mark.parametrize("imou_mock_devices", [sensor_mock_devices], indirect=True)
 @pytest.mark.usefixtures("init_integration")
-async def test_storage_used_numeric_has_percentage_unit(hass: __HAC_KEEP__) -> None:
+async def test_storage_used_numeric_has_percentage_unit(hass: UniversalAssistant) -> None:
     """Numeric storage used sensors expose a percentage unit."""
     state = hass.states.get("sensor.device_1_storage_used")
     assert state is not None
@@ -173,7 +173,7 @@ async def test_storage_used_numeric_has_percentage_unit(hass: __HAC_KEEP__) -> N
     indirect=True,
 )
 @pytest.mark.usefixtures("init_integration")
-async def test_storage_used_error_codes_are_unknown(hass: __HAC_KEEP__) -> None:
+async def test_storage_used_error_codes_are_unknown(hass: UniversalAssistant) -> None:
     """Storage error codes do not mix into the numeric storage_used state."""
     state = hass.states.get("sensor.device_1_storage_used")
     assert state is not None

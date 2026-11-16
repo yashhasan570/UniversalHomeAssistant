@@ -24,7 +24,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -36,7 +36,7 @@ from . import (
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -63,7 +63,7 @@ async def test_all_entities(
     ],
 )
 async def test_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     action: str,
@@ -90,7 +90,7 @@ async def test_turn_on_off(
 
 @pytest.mark.parametrize("device_fixture", ["fake_fan"])
 async def test_set_percentage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -120,7 +120,7 @@ async def test_set_percentage(
     ],
 )
 async def test_set_percentage_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -145,7 +145,7 @@ async def test_set_percentage_off(
 
 @pytest.mark.parametrize("device_fixture", ["fake_fan"])
 async def test_set_percentage_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -169,7 +169,7 @@ async def test_set_percentage_on(
 
 @pytest.mark.parametrize("device_fixture", ["fake_fan"])
 async def test_set_preset_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -193,7 +193,7 @@ async def test_set_preset_mode(
 
 @pytest.mark.parametrize("device_fixture", ["fake_fan"])
 async def test_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -217,7 +217,7 @@ async def test_availability(
 
 @pytest.mark.parametrize("device_fixture", ["fake_fan"])
 async def test_availability_at_start(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     unavailable_device: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -228,7 +228,7 @@ async def test_availability_at_start(
 
 @pytest.mark.parametrize("device_fixture", ["da_ks_hood_01001"])
 async def test_set_hood_percentage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -252,7 +252,7 @@ async def test_set_hood_percentage(
 
 @pytest.mark.parametrize("device_fixture", ["da_ks_hood_01001"])
 async def test_set_hood_preset_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -276,7 +276,7 @@ async def test_set_hood_preset_mode(
 
 @pytest.mark.parametrize("device_fixture", ["da_ks_hood_01001"])
 async def test_updating_hood_preset_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

@@ -10,7 +10,7 @@ from universalassistant.components.light import (
     LightEntityStateAttribute,
 )
 from universalassistant.const import CONF_LIGHTS, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -36,7 +36,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -52,7 +52,7 @@ class ModbusLight(ModbusToggleEntity, LightEntity):
     """Class representing a Modbus light."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, hub: ModbusHub, config: dict[str, Any]
+        self, hass: UniversalAssistant, hub: ModbusHub, config: dict[str, Any]
     ) -> None:
         """Initialize the Modbus light entity."""
         super().__init__(hass, hub, config)

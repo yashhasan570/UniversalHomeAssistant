@@ -1,15 +1,15 @@
-"""Test the __HA_KEEP__ Link config flow."""
+"""Test the Universal Home Assistant Link config flow."""
 
 from unittest.mock import patch
 
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.cloud.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_config_flow(hass: __HAC_KEEP__) -> None:
+async def test_config_flow(hass: UniversalAssistant) -> None:
     """Test create cloud entry."""
 
     with (
@@ -25,7 +25,7 @@ async def test_config_flow(hass: __HAC_KEEP__) -> None:
             DOMAIN, context={"source": "system"}
         )
         assert result["type"] is FlowResultType.CREATE_ENTRY
-        assert result["title"] == "__HA_KEEP__ Link"
+        assert result["title"] == "Universal Home Assistant Link"
         assert result["data"] == {}
         await hass.async_block_till_done()
 
@@ -33,7 +33,7 @@ async def test_config_flow(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_multiple_entries(hass: __HAC_KEEP__) -> None:
+async def test_multiple_entries(hass: UniversalAssistant) -> None:
     """Test creating multiple cloud entries."""
     config_entry = MockConfigEntry(domain=DOMAIN)
     config_entry.add_to_hass(hass)

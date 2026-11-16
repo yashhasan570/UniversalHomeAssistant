@@ -6,7 +6,7 @@ from typing import override
 from aiorecollect.client import PickupEvent
 
 from universalassistant.components.calendar import CalendarEntity, CalendarEvent
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -33,7 +33,7 @@ def async_get_calendar_event_from_pickup_event(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: RecollectWasteConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -86,7 +86,7 @@ class ReCollectWasteCalendar(ReCollectWasteEntity, CalendarEntity):
     @override
     async def async_get_events(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         start_date: dt.datetime,
         end_date: dt.datetime,
     ) -> list[CalendarEvent]:

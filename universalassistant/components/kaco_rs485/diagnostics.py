@@ -4,13 +4,13 @@ from dataclasses import asdict
 from typing import Any
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import KacoRs485ConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: KacoRs485ConfigEntry
+    hass: UniversalAssistant, entry: KacoRs485ConfigEntry
 ) -> dict[str, Any]:
     """Return the entry and each inverter's last known state."""
     inverters: dict[str, Any] = {}

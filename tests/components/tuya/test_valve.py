@@ -16,7 +16,7 @@ from universalassistant.components.valve import (
     SERVICE_OPEN_VALVE,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import (
@@ -36,7 +36,7 @@ def platform_autouse():
 
 @pytest.mark.parametrize("mock_device_code", ["sfkzq_ed7frwissyqrejic"])
 async def test_single_channel_device_has_no_child_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -75,7 +75,7 @@ async def test_single_channel_device_has_no_child_devices(
     ],
 )
 async def test_ggq_indexed_valve_child_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -112,7 +112,7 @@ async def test_ggq_indexed_valve_child_devices(
     [(SERVICE_OPEN_VALVE, True), (SERVICE_CLOSE_VALVE, False)],
 )
 async def test_ggq_indexed_valve_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -140,7 +140,7 @@ async def test_ggq_indexed_valve_action(
 
 @pytest.mark.usefixtures("no_quirk")
 async def test_platform_setup_and_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_devices: list[CustomerDevice],
@@ -175,7 +175,7 @@ async def test_platform_setup_and_discovery(
 )
 @pytest.mark.freeze_time("2024-01-01")
 async def test_selective_state_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -219,7 +219,7 @@ async def test_selective_state_update(
     ],
 )
 async def test_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -259,7 +259,7 @@ async def test_action(
     ],
 )
 async def test_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,

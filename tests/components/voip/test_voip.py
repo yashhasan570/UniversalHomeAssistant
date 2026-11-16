@@ -23,8 +23,8 @@ from universalassistant.components.voip.assist_satellite import Tones, VoipAssis
 from universalassistant.components.voip.devices import VoIPDevice, VoIPDevices
 from universalassistant.components.voip.voip import PreRecordMessageProtocol, make_protocol
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import Context, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import Context, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -52,7 +52,7 @@ def _empty_wav(framerate=16000) -> bytes:
 
 
 async def test_is_valid_call(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     voip_devices: VoIPDevices,
     voip_device: VoIPDevice,
@@ -77,7 +77,7 @@ async def test_is_valid_call(
 
 
 async def test_calls_not_allowed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     voip_devices: VoIPDevices,
     voip_device: VoIPDevice,
     call_info: CallInfo,
@@ -114,7 +114,7 @@ async def test_calls_not_allowed(
 
 
 async def test_pipeline_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     voip_devices: VoIPDevices,
     voip_device: VoIPDevice,
     call_info: CallInfo,
@@ -135,7 +135,7 @@ async def test_pipeline_not_found(
 
 
 async def test_satellite_prepared(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     voip_devices: VoIPDevices,
     voip_device: VoIPDevice,
     call_info: CallInfo,
@@ -170,7 +170,7 @@ async def test_satellite_prepared(
 
 
 async def test_pipeline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     voip_devices: VoIPDevices,
     voip_device: VoIPDevice,
     satellite: VoipAssistSatellite,
@@ -191,7 +191,7 @@ async def test_pipeline(
     bad_chunk = bytes([1, 2, 3, 4])
 
     async def async_pipeline_from_audio_stream(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         context: Context,
         *args,
         device_id: str | None,
@@ -347,7 +347,7 @@ async def test_pipeline(
 
 
 async def test_stt_stream_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     voip_devices: VoIPDevices,
     voip_device: VoIPDevice,
     satellite: VoipAssistSatellite,
@@ -384,7 +384,7 @@ async def test_stt_stream_timeout(
 
 
 async def test_tts_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     satellite: VoipAssistSatellite,
 ) -> None:
     """Test that TTS will time out based on its length."""
@@ -479,7 +479,7 @@ async def test_tts_timeout(
 
 @pytest.mark.usefixtures("silent_tones")
 async def test_tts_wrong_extension(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     satellite: VoipAssistSatellite,
 ) -> None:
     """Test that TTS will only stream WAV audio."""
@@ -562,7 +562,7 @@ async def test_tts_wrong_extension(
 
 @pytest.mark.usefixtures("silent_tones")
 async def test_tts_wrong_wav_format(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     satellite: VoipAssistSatellite,
 ) -> None:
     """Test that TTS will only stream WAV audio with a specific format."""
@@ -645,7 +645,7 @@ async def test_tts_wrong_wav_format(
 
 @pytest.mark.usefixtures("silent_tones")
 async def test_empty_tts_output(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     satellite: VoipAssistSatellite,
 ) -> None:
     """Test that TTS will not stream when output is empty."""
@@ -720,7 +720,7 @@ async def test_empty_tts_output(
 
 
 async def test_pipeline_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     satellite: VoipAssistSatellite,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -768,7 +768,7 @@ async def test_pipeline_error(
 
 
 async def test_hangup_during_listening_tone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     satellite: VoipAssistSatellite,
 ) -> None:
     """Test a hang-up during the listening tone doesn't block the next call."""
@@ -817,7 +817,7 @@ async def test_hangup_during_listening_tone(
 
 
 async def test_cancelled_pipeline_keeps_next_call_pipeline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     satellite: VoipAssistSatellite,
 ) -> None:
     """Test a cancelled pipeline's cleanup doesn't clear the next call's pipeline."""
@@ -894,7 +894,7 @@ async def test_cancelled_pipeline_keeps_next_call_pipeline(
 
 @pytest.mark.usefixtures("socket_enabled")
 async def test_announce(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     voip_devices: VoIPDevices,
     voip_device: VoIPDevice,
@@ -908,7 +908,7 @@ async def test_announce(
         & assist_satellite.AssistSatelliteEntityFeature.ANNOUNCE
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             "assist_satellite",
             "announce",
@@ -960,7 +960,7 @@ async def test_announce(
 
 @pytest.mark.usefixtures("socket_enabled")
 async def test_voip_id_is_ip_address(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     voip_devices: VoIPDevices,
     voip_device: VoIPDevice,
@@ -1018,7 +1018,7 @@ async def test_voip_id_is_ip_address(
 
 @pytest.mark.usefixtures("socket_enabled")
 async def test_announce_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     satellite: VoipAssistSatellite,
 ) -> None:
@@ -1058,7 +1058,7 @@ async def test_announce_timeout(
 
 @pytest.mark.usefixtures("socket_enabled")
 async def test_announce_disconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     voip_devices: VoIPDevices,
     voip_device: VoIPDevice,
@@ -1126,7 +1126,7 @@ async def test_announce_disconnect(
 
 @pytest.mark.usefixtures("socket_enabled")
 async def test_announce_disconnect_before_pickup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     voip_devices: VoIPDevices,
     voip_device: VoIPDevice,
@@ -1178,7 +1178,7 @@ async def test_announce_disconnect_before_pickup(
 
 @pytest.mark.usefixtures("socket_enabled")
 async def test_start_conversation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     satellite: VoipAssistSatellite,
 ) -> None:
@@ -1209,7 +1209,7 @@ async def test_start_conversation(
         tts_sent.set()
 
     async def async_pipeline_from_audio_stream(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         context: Context,
         *args,
         device_id: str | None,
@@ -1280,7 +1280,7 @@ async def test_start_conversation(
 
 @pytest.mark.usefixtures("socket_enabled")
 async def test_start_conversation_user_doesnt_pick_up(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     voip_devices: VoIPDevices,
     voip_device: VoIPDevice,

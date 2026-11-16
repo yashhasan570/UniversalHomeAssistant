@@ -8,12 +8,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.poolsense.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_full_form(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_poolsense_client: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_poolsense_client: AsyncMock
 ) -> None:
     """Test full flow."""
     result = await hass.config_entries.flow.async_init(
@@ -41,7 +41,7 @@ async def test_full_form(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_invalid_credentials(
-    hass: __HAC_KEEP__, mock_poolsense_client: AsyncMock
+    hass: UniversalAssistant, mock_poolsense_client: AsyncMock
 ) -> None:
     """Test we handle invalid credentials."""
     mock_poolsense_client.test_poolsense_credentials.return_value = False
@@ -71,7 +71,7 @@ async def test_invalid_credentials(
 
 
 async def test_duplicate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_poolsense_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

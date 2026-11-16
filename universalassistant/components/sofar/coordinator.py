@@ -16,7 +16,7 @@ from sofar_modbus import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import (
@@ -38,7 +38,7 @@ class SofarDataUpdateCoordinator(DataUpdateCoordinator[UpdateReport]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: SofarConfigEntry,
         name: str,
         device: SofarInverter,

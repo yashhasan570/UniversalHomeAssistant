@@ -6,7 +6,7 @@ from evolutionhttp import BryantEvolutionLocalClient
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_FILENAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 
@@ -28,7 +28,7 @@ async def _can_reach_device(client: BryantEvolutionLocalClient) -> bool:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: BryantEvolutionConfigEntry
+    hass: UniversalAssistant, entry: BryantEvolutionConfigEntry
 ) -> None:
     """Set up Bryant Evolution from a config entry."""
 
@@ -76,7 +76,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: BryantEvolutionConfigEntry
+    hass: UniversalAssistant, entry: BryantEvolutionConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -12,7 +12,7 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
     MediaType,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -51,7 +51,7 @@ SUPPORT_DTV_CLIENT = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: DirecTVConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -79,7 +79,7 @@ class DIRECTVMediaPlayer(DIRECTVEntity, MediaPlayerEntity):
     def __init__(
         self,
         *,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         dtv: DIRECTV,
         entry: DirecTVConfigEntry,
         name: str,

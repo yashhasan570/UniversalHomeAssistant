@@ -10,7 +10,7 @@ from universalassistant import config_entries
 from universalassistant.components.sabnzbd.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 VALID_CONFIG = {
@@ -21,7 +21,7 @@ VALID_CONFIG = {
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
-async def test_create_entry(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_create_entry(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test that the user step works."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -44,7 +44,7 @@ async def test_create_entry(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> 
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_auth_error(hass: __HAC_KEEP__, sabnzbd: AsyncMock) -> None:
+async def test_auth_error(hass: UniversalAssistant, sabnzbd: AsyncMock) -> None:
     """Test when the user step fails and if we can recover."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -83,7 +83,7 @@ async def test_auth_error(hass: __HAC_KEEP__, sabnzbd: AsyncMock) -> None:
 
 
 async def test_reconfigure_successful(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring a SABnzbd entry."""
     result = await config_entry.start_reconfigure_flow(hass)
@@ -105,7 +105,7 @@ async def test_reconfigure_successful(
 
 
 async def test_reconfigure_error(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, sabnzbd: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, sabnzbd: AsyncMock
 ) -> None:
     """Test reconfiguring a SABnzbd entry."""
     result = await config_entry.start_reconfigure_flow(hass)
@@ -142,7 +142,7 @@ async def test_reconfigure_error(
 
 
 async def test_abort_already_configured(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test that the flow aborts if SABnzbd instance is already configured."""
     result = await hass.config_entries.flow.async_init(
@@ -161,7 +161,7 @@ async def test_abort_already_configured(
 
 
 async def test_abort_reconfigure_successful(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow aborts if SABnzbd is already configured."""
     result = await config_entry.start_reconfigure_flow(hass)

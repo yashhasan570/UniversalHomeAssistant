@@ -3,7 +3,7 @@
 from pycoolmasternet_async import CoolMasterNet
 
 from universalassistant.const import CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -13,7 +13,7 @@ from .coordinator import CoolmasterConfigEntry, CoolmasterDataUpdateCoordinator
 PLATFORMS = [Platform.BINARY_SENSOR, Platform.BUTTON, Platform.CLIMATE, Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: CoolmasterConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: CoolmasterConfigEntry) -> None:
     """Set up Coolmaster from a config entry."""
     host = entry.data[CONF_HOST]
     port = entry.data[CONF_PORT]
@@ -49,7 +49,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: CoolmasterConfigEntry) ->
 
 
 async def _async_migrate_unique_ids(
-    hass: __HAC_KEEP__, entry: CoolmasterConfigEntry
+    hass: UniversalAssistant, entry: CoolmasterConfigEntry
 ) -> None:
     """Migrate entities and devices to config-entry-scoped unique IDs.
 
@@ -83,13 +83,13 @@ async def _async_migrate_unique_ids(
             dev_reg.async_update_device(device.id, new_identifiers=new_identifiers)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: CoolmasterConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: CoolmasterConfigEntry) -> None:
     """Unload a Coolmaster config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: CoolmasterConfigEntry,
     device_entry: dr.AnyDeviceEntry,
 ) -> bool:

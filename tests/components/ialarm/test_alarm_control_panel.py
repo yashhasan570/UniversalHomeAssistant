@@ -20,12 +20,12 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 ENTITY_ID = "alarm_control_panel.ialarm"
 
 
-async def _setup(hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry) -> None:
+async def _setup(hass: UniversalAssistant, mock_config_entry: MockConfigEntry) -> None:
     mock_config_entry.add_to_hass(hass)
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
     await hass.async_block_till_done()
@@ -42,7 +42,7 @@ async def _setup(hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry) -> None
     ],
 )
 async def test_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ialarm_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     status: int,
@@ -61,7 +61,7 @@ async def test_state(
 
 @pytest.mark.parametrize("side_effect", [ConnectionError, TimeoutError])
 async def test_unavailable_on_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ialarm_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -88,7 +88,7 @@ async def test_unavailable_on_connection_error(
     ],
 )
 async def test_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ialarm_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     service: str,

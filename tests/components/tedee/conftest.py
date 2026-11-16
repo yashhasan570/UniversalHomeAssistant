@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_array_fi
 
 from universalassistant.components.tedee.const import CONF_LOCAL_ACCESS_TOKEN, DOMAIN
 from universalassistant.const import CONF_HOST, CONF_WEBHOOK_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
@@ -74,7 +74,7 @@ def mock_tedee() -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_tedee: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_tedee: MagicMock
 ) -> MockConfigEntry:
     """Set up the Tedee integration for testing."""
     await setup_integration(hass, mock_config_entry)

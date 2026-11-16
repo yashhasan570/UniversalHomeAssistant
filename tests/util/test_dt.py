@@ -1,4 +1,4 @@
-"""Test __HA_KEEP__ date util methods."""
+"""Test Universal Home Assistant date util methods."""
 # pylint: disable=universal-assistant-enforce-utcnow
 
 from datetime import UTC, datetime, time, timedelta, timezone

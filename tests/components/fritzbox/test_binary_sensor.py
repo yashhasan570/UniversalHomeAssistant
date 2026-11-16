@@ -13,7 +13,7 @@ from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_
 from universalassistant.components.fritzbox.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_DEVICES, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -25,7 +25,7 @@ ENTITY_ID = f"{BINARY_SENSOR_DOMAIN}.{CONF_FAKE_NAME}"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     fritz: Mock,
@@ -41,7 +41,7 @@ async def test_setup(
     await snapshot_platform(hass, entity_registry, snapshot, entry.entry_id)
 
 
-async def test_is_off(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_is_off(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test state of platform."""
     device = FritzDeviceBinarySensorMock()
     device.present = False
@@ -62,7 +62,7 @@ async def test_is_off(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert state.state == STATE_UNAVAILABLE
 
 
-async def test_update(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_update(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test update without error."""
     device = FritzDeviceBinarySensorMock()
     await setup_config_entry(
@@ -80,7 +80,7 @@ async def test_update(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert fritz().login.call_count == 1
 
 
-async def test_update_error(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_update_error(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test update with error."""
     device = FritzDeviceBinarySensorMock()
     device.update.side_effect = [mock.DEFAULT, HTTPError("Boom")]
@@ -99,7 +99,7 @@ async def test_update_error(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert fritz().login.call_count == 1
 
 
-async def test_discover_new_device(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_discover_new_device(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test adding new discovered devices during runtime."""
     device = FritzDeviceBinarySensorMock()
     await setup_config_entry(

@@ -12,13 +12,13 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from universalassistant import config_entries
 from universalassistant.components.repairs import DOMAIN as REPAIRS_DOMAIN
 from universalassistant.const import EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
 
 async def test_integration_not_found_confirm_step(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -69,7 +69,7 @@ async def test_integration_not_found_confirm_step(
 
 
 async def test_integration_not_found_ignore_step(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -121,7 +121,7 @@ async def test_integration_not_found_ignore_step(
 
 
 async def test_orphaned_config_entry_confirm_step(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_storage: dict[str, Any],
     issue_registry: ir.IssueRegistry,
@@ -220,7 +220,7 @@ async def test_orphaned_config_entry_confirm_step(
 
 
 async def test_orphaned_config_entry_ignore_step(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_storage: dict[str, Any],
     issue_registry: ir.IssueRegistry,

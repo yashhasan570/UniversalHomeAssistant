@@ -17,7 +17,7 @@ from aiohasupervisor.models import (
 )
 
 from universalassistant.components.hassio.addon_manager import AddonManager
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 LOGGER = logging.getLogger(__name__)
 INSTALLED_ADDON_FIELDS = [field.name for field in fields(InstalledAddonComplete)]
@@ -53,7 +53,7 @@ MOCK_REPOSITORIES = [
         name="Official add-ons",
         source="core",
         url="https://universalassistant.io/addons",
-        maintainer="__HA_KEEP__",
+        maintainer="Universal Home Assistant",
     )
 ]
 
@@ -67,7 +67,7 @@ def mock_to_dict(obj: Mock, fields: list[str]) -> dict[str, Any]:
     }
 
 
-def mock_addon_manager(hass: __HAC_KEEP__) -> AddonManager:
+def mock_addon_manager(hass: UniversalAssistant) -> AddonManager:
     """Return an AddonManager instance."""
     return AddonManager(hass, LOGGER, "Test", "test_addon")
 

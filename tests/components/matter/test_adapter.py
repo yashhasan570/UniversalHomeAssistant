@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.matter.adapter import get_clean_name
 from universalassistant.components.matter.const import DOMAIN, ID_TYPE_DEVICE_ID
 from universalassistant.components.matter.helpers import get_device_id
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .common import create_node_from_fixture
@@ -46,7 +46,7 @@ def fire_endpoint_event(
     ],
 )
 async def test_device_registry_single_node_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     unique_id: str,
     name: str,
@@ -73,7 +73,7 @@ async def test_device_registry_single_node_device(
 @pytest.mark.usefixtures("matter_node")
 @pytest.mark.parametrize("node_fixture", ["mock_on_off_plugin_unit"])
 async def test_device_registry_single_node_device_alt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test additional device with different attribute values."""
@@ -95,7 +95,7 @@ async def test_device_registry_single_node_device_alt(
 @pytest.mark.skip("Waiting for a new test fixture")
 @pytest.mark.parametrize("node_fixture", ["fake_bridge_two_light"])
 async def test_device_registry_bridge(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test bridge devices are set up correctly with via_device."""
@@ -142,7 +142,7 @@ async def test_device_registry_bridge(
 
 @pytest.mark.usefixtures("integration")
 async def test_node_added_subscription(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
 ) -> None:
     """Test subscription to new devices work."""
@@ -166,7 +166,7 @@ async def test_node_added_subscription(
 
 
 async def test_endpoint_added_sets_up_bridge_before_child(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     device_registry: dr.DeviceRegistry,
     integration: MockConfigEntry,
@@ -203,7 +203,7 @@ async def test_endpoint_added_sets_up_bridge_before_child(
 
 
 async def test_setup_node_sorts_bridge_before_child(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -242,7 +242,7 @@ async def test_setup_node_sorts_bridge_before_child(
 
 @pytest.mark.parametrize("node_fixture", ["mock_composed_bridge"])
 async def test_device_registry_composed_bridged_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     matter_client: MagicMock,
     matter_node: MatterNode,
@@ -280,7 +280,7 @@ async def test_device_registry_composed_bridged_device(
 
 @pytest.mark.parametrize("node_fixture", ["mock_composed_bridge"])
 async def test_composed_bridged_device_child_endpoint_added(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     matter_client: MagicMock,
     matter_node: MatterNode,
@@ -304,7 +304,7 @@ async def test_composed_bridged_device_child_endpoint_added(
 
 @pytest.mark.parametrize("node_fixture", ["mock_composed_bridge"])
 async def test_composed_bridged_device_endpoint_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     matter_client: MagicMock,
     matter_node: MatterNode,
@@ -329,7 +329,7 @@ async def test_composed_bridged_device_endpoint_removed(
 
 
 async def test_migrate_unique_id_for_part_nested_below_another_part(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -375,7 +375,7 @@ async def test_migrate_unique_id_for_part_nested_below_another_part(
     "attributes", [{"29/57/15": "glg5mxh"}], ids=["bridge_serial_number"]
 )
 async def test_device_registry_bridged_device_with_bridge_serial_number(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test a bridged device reporting the serial number of the bridge itself.
@@ -402,7 +402,7 @@ async def test_device_registry_bridged_device_with_bridge_serial_number(
 
 
 async def test_device_registry_bridged_device_merged_into_bridge(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -465,7 +465,7 @@ async def test_device_registry_bridged_device_merged_into_bridge(
 @pytest.mark.usefixtures("matter_node")
 @pytest.mark.parametrize("node_fixture", ["mock_air_purifier"])
 async def test_device_registry_single_node_composed_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test composed device in standalone node creates one device entry."""
@@ -487,7 +487,7 @@ async def test_get_clean_name() -> None:
 
 
 async def test_bad_node_not_crash_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -515,7 +515,7 @@ async def test_bad_node_not_crash_integration(
     "attributes", [{"2/57/15": "MB-1234"}], ids=["bridge_serial_number"]
 )
 async def test_composed_bridged_device_with_bridge_serial_number(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     matter_client: MagicMock,
     matter_node: MatterNode,
@@ -540,7 +540,7 @@ async def test_composed_bridged_device_with_bridge_serial_number(
 
 
 async def test_device_registry_bridged_device_merged_with_changed_bridge_serial(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -591,7 +591,7 @@ async def test_device_registry_bridged_device_merged_with_changed_bridge_serial(
 
 
 async def test_device_registry_bridged_device_split_off_with_changed_bridge_serial(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     device_registry: dr.DeviceRegistry,
 ) -> None:

@@ -14,7 +14,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_START,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -72,7 +72,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up MinioClient and event listeners."""
     conf = config[DOMAIN]
 
@@ -127,7 +127,7 @@ def get_minio_endpoint(host: str, port: int) -> str:
 
 
 class QueueListener(threading.Thread):
-    """Forward events from queue into __HA_KEEP__ event bus."""
+    """Forward events from queue into Universal Home Assistant event bus."""
 
     def __init__(self, hass):
         """Create queue."""
@@ -137,7 +137,7 @@ class QueueListener(threading.Thread):
 
     @override
     def run(self):
-        """Listen to queue events, and forward them to __HA_KEEP__ event bus."""
+        """Listen to queue events, and forward them to Universal Home Assistant event bus."""
         _LOGGER.debug("Running QueueListener")
         while True:
             if (event := self._queue.get()) is None:

@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
 from universalassistant.components.prowl.const import DOMAIN
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 TEST_NAME = "TestProwl"
@@ -26,7 +26,7 @@ BAD_API_RESPONSE = {"base": "bad_api_response"}
 
 @pytest.fixture
 async def configure_prowl_through_yaml(
-    hass: __HAC_KEEP__, mock_prowlpy: Generator[AsyncMock]
+    hass: UniversalAssistant, mock_prowlpy: Generator[AsyncMock]
 ) -> Generator[None]:
     """Configure the notify domain with YAML for the Prowl platform."""
     await async_setup_component(
@@ -47,7 +47,7 @@ async def configure_prowl_through_yaml(
 
 @pytest.fixture
 async def prowl_notification_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_prowlpy: AsyncMock,
     mock_prowlpy_config_entry: MockConfigEntry,
 ) -> Generator[MockConfigEntry]:
@@ -84,7 +84,7 @@ def mock_prowlpy() -> Generator[AsyncMock]:
 
 
 @pytest.fixture
-async def mock_prowlpy_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def mock_prowlpy_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Fixture to create a mocked ConfigEntry."""
     return MockConfigEntry(
         title=TEST_NAME, domain=DOMAIN, data={CONF_API_KEY: TEST_API_KEY}

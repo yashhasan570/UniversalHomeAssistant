@@ -7,7 +7,7 @@ import probatio
 from universalassistant.components.climate import DOMAIN as CLIMATE_DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -48,7 +48,7 @@ SET_ZONE_OVERRIDE_SCHEMA = probatio.Schema(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the Genius Hub services."""
 
     @verify_domain_control(DOMAIN)

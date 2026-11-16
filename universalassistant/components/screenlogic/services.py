@@ -8,8 +8,8 @@ import probatio
 from screenlogicpy import ScreenLogicError
 from screenlogicpy.device_const.system import EQUIPMENT_FLAG
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import selector, service
 
 from .const import DOMAIN, MAX_RUNTIME, MIN_RUNTIME, SUPPORTED_COLOR_MODES
@@ -95,7 +95,7 @@ async def _async_set_color_mode(service_call: ServiceCall) -> None:
         # Debounced refresh to catch any secondary changes in the device
         await coordinator.async_request_refresh()
     except ScreenLogicError as error:
-        raise __HAC_KEEP__Error(error) from error
+        raise UniversalAssistantError(error) from error
 
 
 async def _async_set_super_chlor(
@@ -123,7 +123,7 @@ async def _async_set_super_chlor(
         # Debounced refresh to catch any secondary changes in the device
         await coordinator.async_request_refresh()
     except ScreenLogicError as error:
-        raise __HAC_KEEP__Error(error) from error
+        raise UniversalAssistantError(error) from error
 
 
 async def _async_start_super_chlor(service_call: ServiceCall) -> None:
@@ -136,7 +136,7 @@ async def _async_stop_super_chlor(service_call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__):
+def async_setup_services(hass: UniversalAssistant):
     """Set up services for the ScreenLogic integration."""
 
     hass.services.async_register(

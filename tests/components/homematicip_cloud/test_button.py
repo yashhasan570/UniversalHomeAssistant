@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -17,7 +17,7 @@ from .helper import HomeFactory, get_and_check_entity_basics
 
 
 async def test_hmip_garage_door_controller_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     default_mock_hap_factory: HomeFactory,
 ) -> None:
@@ -50,7 +50,7 @@ async def test_hmip_garage_door_controller_button(
 
 
 async def test_hmip_full_flush_lock_controller_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     default_mock_hap_factory: HomeFactory,
     full_flush_lock_controller_device_data: dict[str, Any],
@@ -111,7 +111,7 @@ async def test_hmip_full_flush_lock_controller_button(
 
 
 async def test_hmip_full_flush_lock_controller_button_missing_channel(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     default_mock_hap_factory: HomeFactory,
     full_flush_lock_controller_device_data: dict[str, Any],
 ) -> None:
@@ -130,7 +130,7 @@ async def test_hmip_full_flush_lock_controller_button_missing_channel(
 
 
 async def test_hmip_full_flush_door_controller_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     default_mock_hap_factory: HomeFactory,
     full_flush_door_controller_device_data: dict[str, Any],
@@ -181,7 +181,7 @@ async def test_hmip_full_flush_door_controller_button(
 
 
 async def test_hmip_identify_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     default_mock_hap_factory: HomeFactory,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -215,7 +215,7 @@ async def test_hmip_identify_button(
 
 
 async def test_hmip_identify_button_not_supported(
-    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
+    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test that a device without identify support gets no identify button."""
     with patch(

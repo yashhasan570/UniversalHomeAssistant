@@ -22,7 +22,7 @@ import probatio
 from yarl import URL
 
 from universalassistant import config_entries
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, callback
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
 from universalassistant.exceptions import (
     ImplementationUnavailableError,
     OAuth2TokenRequestConnectionError,
@@ -70,7 +70,7 @@ DATA_IMPLEMENTATIONS: HassKey[dict[str, dict[str, AbstractOAuth2Implementation]]
 DATA_PROVIDERS: HassKey[
     dict[
         str,
-        Callable[[__HAC_KEEP__, str], Awaitable[list[AbstractOAuth2Implementation]]],
+        Callable[[UniversalAssistant, str], Awaitable[list[AbstractOAuth2Implementation]]],
     ]
 ] = HassKey("oauth2_providers")
 AUTH_CALLBACK_PATH = "/auth/external/callback"
@@ -101,7 +101,7 @@ _SHARED_ABORT_REASONS = frozenset(
 
 
 @callback
-def async_get_redirect_uri(hass: __HAC_KEEP__) -> str:
+def async_get_redirect_uri(hass: UniversalAssistant) -> str:
     """Return the redirect uri."""
     if "my" in hass.config.components:
         return MY_AUTH_CALLBACK_PATH
@@ -133,7 +133,7 @@ class AbstractOAuth2Implementation(ABC):
         """Generate a url for the user to authorize.
 
         This step is called when a config flow is initialized. It should redirect the
-        user to the vendor website where they can authorize __HA_KEEP__.
+        user to the vendor website where they can authorize Universal Home Assistant.
 
         The implementation is responsible to get notified when the user is authorized
         and pass this to the specified config flow. Do as little work as possible once
@@ -200,7 +200,7 @@ class LocalOAuth2Implementation(AbstractOAuth2Implementation):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         domain: str,
         client_id: str,
         client_secret: str,
@@ -308,7 +308,7 @@ class LocalOAuth2ImplementationWithPkce(LocalOAuth2Implementation):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         domain: str,
         client_id: str,
         authorize_url: str,
@@ -625,7 +625,7 @@ class AbstractOAuth2FlowHandler(config_entries.ConfigFlow, metaclass=ABCMeta):
 
     @classmethod
     def async_register_implementation(
-        cls, hass: __HAC_KEEP__, local_impl: LocalOAuth2Implementation
+        cls, hass: UniversalAssistant, local_impl: LocalOAuth2Implementation
     ) -> None:
         """Register a local implementation."""
         async_register_implementation(hass, cls.DOMAIN, local_impl)
@@ -633,7 +633,7 @@ class AbstractOAuth2FlowHandler(config_entries.ConfigFlow, metaclass=ABCMeta):
 
 @callback
 def async_register_implementation(
-    hass: __HAC_KEEP__, domain: str, implementation: AbstractOAuth2Implementation
+    hass: UniversalAssistant, domain: str, implementation: AbstractOAuth2Implementation
 ) -> None:
     """Register an OAuth2 flow implementation for an integration."""
     implementations = hass.data.setdefault(DATA_IMPLEMENTATIONS, {})
@@ -641,7 +641,7 @@ def async_register_implementation(
 
 
 async def _async_get_implementations(
-    hass: __HAC_KEEP__, domain: str
+    hass: UniversalAssistant, domain: str
 ) -> tuple[
     dict[str, AbstractOAuth2Implementation], list[ImplementationUnavailableError]
 ]:
@@ -660,7 +660,7 @@ async def _async_get_implementations(
 
 
 async def async_get_implementations(
-    hass: __HAC_KEEP__, domain: str
+    hass: UniversalAssistant, domain: str
 ) -> dict[str, AbstractOAuth2Implementation]:
     """Return OAuth2 implementations for specified domain."""
     registered, exceptions = await _async_get_implementations(hass, domain)
@@ -672,7 +672,7 @@ async def async_get_implementations(
 
 
 async def async_get_config_entry_implementation(
-    hass: __HAC_KEEP__, config_entry: config_entries.ConfigEntry
+    hass: UniversalAssistant, config_entry: config_entries.ConfigEntry
 ) -> AbstractOAuth2Implementation:
     """Return the implementation for this config entry."""
     implementations, exceptions = await _async_get_implementations(
@@ -693,10 +693,10 @@ async def async_get_config_entry_implementation(
 
 @callback
 def async_add_implementation_provider(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     provider_domain: str,
     async_provide_implementation: Callable[
-        [__HAC_KEEP__, str], Awaitable[list[AbstractOAuth2Implementation]]
+        [UniversalAssistant, str], Awaitable[list[AbstractOAuth2Implementation]]
     ],
 ) -> None:
     """Add an implementation provider.
@@ -708,7 +708,7 @@ def async_add_implementation_provider(
     )
 
 
-class OAuth2AuthorizeCallbackView(http.__HAC_KEEP__View):
+class OAuth2AuthorizeCallbackView(http.UniversalAssistantView):
     """OAuth2 Authorization Callback View."""
 
     requires_auth = False
@@ -727,7 +727,7 @@ class OAuth2AuthorizeCallbackView(http.__HAC_KEEP__View):
         if state is None:
             return web.Response(
                 text=(
-                    "Invalid state. Is My __HA_KEEP__ configured "
+                    "Invalid state. Is My Universal Home Assistant configured "
                     "to go to the right instance?"
                 ),
                 status=400,
@@ -757,7 +757,7 @@ class OAuth2Session:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: config_entries.ConfigEntry,
         implementation: AbstractOAuth2Implementation,
     ) -> None:
@@ -818,7 +818,7 @@ class OAuth2Session:
 
 
 @callback
-def _encode_jwt(hass: __HAC_KEEP__, data: dict) -> str:
+def _encode_jwt(hass: UniversalAssistant, data: dict) -> str:
     """JWT encode data."""
     if (secret := hass.data.get(DATA_JWT_SECRET)) is None:
         secret = hass.data[DATA_JWT_SECRET] = secrets.token_hex()
@@ -827,7 +827,7 @@ def _encode_jwt(hass: __HAC_KEEP__, data: dict) -> str:
 
 
 @callback
-def _decode_jwt(hass: __HAC_KEEP__, encoded: str) -> dict[str, Any] | None:
+def _decode_jwt(hass: UniversalAssistant, encoded: str) -> dict[str, Any] | None:
     """JWT encode data."""
     secret: str | None = hass.data.get(DATA_JWT_SECRET)
 

@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import SlideConfigEntry
 
@@ -14,7 +14,7 @@ TO_REDACT = [
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: SlideConfigEntry
+    hass: UniversalAssistant, config_entry: SlideConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     data = config_entry.runtime_data.data

@@ -16,7 +16,7 @@ from anova_wifi import (
 )
 import pytest
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 DUMMY_ID = "anova_id"
 
@@ -179,7 +179,7 @@ def anova_api_mock(
 
 @pytest.fixture
 async def anova_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> AnovaApi:
     """Mock the api for Anova."""
     api_mock = anova_api_mock()
@@ -200,7 +200,7 @@ async def anova_api(
 
 @pytest.fixture
 async def anova_api_no_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> AnovaApi:
     """Mock the api for Anova with no online devices."""
     api_mock = anova_api_mock(connect_messages=[], post_connect_messages=[])
@@ -221,7 +221,7 @@ async def anova_api_no_devices(
 
 @pytest.fixture
 async def anova_api_wrong_login(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> AnovaApi:
     """Mock the api for Anova with a wrong login."""
     api_mock = anova_api_mock()
@@ -242,7 +242,7 @@ async def anova_api_wrong_login(
 
 @pytest.fixture
 async def anova_api_no_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> AnovaApi:
     """Mock the api for Anova with a wrong login."""
     api_mock = anova_api_mock(post_connect_messages=[])
@@ -258,7 +258,7 @@ async def anova_api_no_data(
 
 @pytest.fixture
 async def anova_api_websocket_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> AnovaApi:
     """Mock the api for Anova with a websocket failure."""
     api_mock = anova_api_mock()

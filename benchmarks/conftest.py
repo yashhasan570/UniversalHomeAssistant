@@ -10,12 +10,12 @@ from collections.abc import AsyncGenerator, Callable
 import pytest
 from pytest_universalassistant.common import async_test_universal_assistant
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
-async def hass() -> AsyncGenerator[__HAC_KEEP__]:
-    """Return a running __HA_KEEP__ instance for benchmarking.
+async def hass() -> AsyncGenerator[UniversalAssistant]:
+    """Return a running Universal Home Assistant instance for benchmarking.
 
     Most hot paths under test (``async_fire``, ``async_set``, ``async_render``)
     are ``@callback`` methods, so the benchmark fixture can drive them
@@ -29,7 +29,7 @@ async def hass() -> AsyncGenerator[__HAC_KEEP__]:
 
 
 @pytest.fixture
-def populate_states(hass: __HAC_KEEP__) -> Callable[[int], None]:
+def populate_states(hass: UniversalAssistant) -> Callable[[int], None]:
     """Return a helper that fills the state machine with ``count`` sensors.
 
     Used by the scaling benchmarks to measure a path at several sizes, so an

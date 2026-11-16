@@ -5,7 +5,7 @@ from typing import Final
 from pyrail.models import StationDetails
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.hass_dict import HassKey
 
 DOMAIN: Final = "nmbs"
@@ -19,7 +19,7 @@ CONF_STATION_LIVE = "station_live"
 CONF_EXCLUDE_VIAS = "exclude_vias"
 
 
-def find_station_by_name(hass: __HAC_KEEP__, station_name: str):
+def find_station_by_name(hass: UniversalAssistant, station_name: str):
     """Find given station_name in the station list."""
     return next(
         (
@@ -31,7 +31,7 @@ def find_station_by_name(hass: __HAC_KEEP__, station_name: str):
     )
 
 
-def find_station(hass: __HAC_KEEP__, station_name: str):
+def find_station(hass: UniversalAssistant, station_name: str):
     """Find given station_id in the station list."""
     return next(
         (s for s in hass.data[NMBS_STATION_DATA] if station_name in s.id),

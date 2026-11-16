@@ -5,7 +5,7 @@ from unifi_ap import UniFiAPConnectionException
 from universalassistant import config_entries
 from universalassistant.components.unifi_direct.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.entity_registry import EntityRegistry
 from universalassistant.helpers.issue_registry import IssueRegistry
@@ -13,7 +13,7 @@ from universalassistant.setup import async_setup_component
 
 
 async def test_device_tracker_entities_created(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry,
     mock_unifiap,
     device_registry: dr.DeviceRegistry,
@@ -56,7 +56,7 @@ async def test_device_tracker_entities_created(
 
 
 async def test_setup_scanner_legacy_platform_imports_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_unifiap,
 ) -> None:
     """Test legacy device tracker setup triggers config flow import."""
@@ -81,7 +81,7 @@ async def test_setup_scanner_legacy_platform_imports_config_entry(
 
 
 async def test_setup_scanner_legacy_platform_creates_issue_on_cannot_connect(
-    hass: __HAC_KEEP__, mock_unifiap, issue_registry: IssueRegistry
+    hass: UniversalAssistant, mock_unifiap, issue_registry: IssueRegistry
 ) -> None:
     """Test that issue is created when legacy device tracker setup cannot connect."""
     config = {

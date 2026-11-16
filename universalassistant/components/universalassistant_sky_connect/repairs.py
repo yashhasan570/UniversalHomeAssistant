@@ -1,4 +1,4 @@
-"""Repairs for the __HA_KEEP__ SkyConnect integration."""
+"""Repairs for the Universal Home Assistant SkyConnect integration."""
 
 from typing import Any, cast, override
 
@@ -11,20 +11,20 @@ from universalassistant.components.repairs import (
     RepairsFlow,
     RepairsFlowResult,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
-from . import __HAC_KEEP__SkyConnectConfigEntry
-from .config_flow import __HAC_KEEP__SkyConnectMultiPanOptionsFlowHandler
+from . import UniversalAssistantSkyConnectConfigEntry
+from .config_flow import UniversalAssistantSkyConnectMultiPanOptionsFlowHandler
 
 
 class SkyConnectMultiPanMigrationRepairFlow(
-    MultiPanMigrationRepairFlow, __HAC_KEEP__SkyConnectMultiPanOptionsFlowHandler
+    MultiPanMigrationRepairFlow, UniversalAssistantSkyConnectMultiPanOptionsFlowHandler
 ):
-    """Multi-PAN migration repair flow for __HA_KEEP__ SkyConnect."""
+    """Multi-PAN migration repair flow for Universal Home Assistant SkyConnect."""
 
-    def __init__(self, config_entry: __HAC_KEEP__SkyConnectConfigEntry) -> None:
+    def __init__(self, config_entry: UniversalAssistantSkyConnectConfigEntry) -> None:
         """Initialize the repair flow."""
-        __HAC_KEEP__SkyConnectMultiPanOptionsFlowHandler.__init__(self, config_entry)
+        UniversalAssistantSkyConnectMultiPanOptionsFlowHandler.__init__(self, config_entry)
         self._repair_config_entry = config_entry
 
     @override
@@ -36,7 +36,7 @@ class SkyConnectMultiPanMigrationRepairFlow(
 
 
 async def async_create_fix_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_id: str,
     data: dict[str, str | int | float | None] | None,
 ) -> RepairsFlow:

@@ -15,7 +15,7 @@ from universalassistant.components import flux_led
 from universalassistant.components.flux_led.const import CONF_WHITE_CHANNEL_TYPE, DOMAIN
 from universalassistant.components.select import DOMAIN as SELECT_DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_OPTION, CONF_HOST, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
@@ -40,7 +40,7 @@ def no_wait_on_state_change():
         yield
 
 
-async def test_switch_power_restore_state(hass: __HAC_KEEP__) -> None:
+async def test_switch_power_restore_state(hass: UniversalAssistant) -> None:
     """Test a smart plug power restore state."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -70,7 +70,7 @@ async def test_switch_power_restore_state(hass: __HAC_KEEP__) -> None:
 
 
 async def test_power_restored_unique_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a select unique id."""
     config_entry = MockConfigEntry(
@@ -92,7 +92,7 @@ async def test_power_restored_unique_id(
 
 
 async def test_power_restored_unique_id_no_discovery(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a select unique id."""
     config_entry = MockConfigEntry(
@@ -112,7 +112,7 @@ async def test_power_restored_unique_id_no_discovery(
     )
 
 
-async def test_select_addressable_strip_config(hass: __HAC_KEEP__) -> None:
+async def test_select_addressable_strip_config(hass: UniversalAssistant) -> None:
     """Test selecting addressable strip configs."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -172,7 +172,7 @@ async def test_select_addressable_strip_config(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_select_mutable_0x25_strip_config(hass: __HAC_KEEP__) -> None:
+async def test_select_mutable_0x25_strip_config(hass: UniversalAssistant) -> None:
     """Test selecting mutable 0x25 strip configs."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -214,7 +214,7 @@ async def test_select_mutable_0x25_strip_config(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_select_24ghz_remote_config(hass: __HAC_KEEP__) -> None:
+async def test_select_24ghz_remote_config(hass: UniversalAssistant) -> None:
     """Test selecting 2.4ghz remote config."""
     _mock_config_entry_for_bulb(hass)
     bulb = _mocked_bulb()
@@ -256,7 +256,7 @@ async def test_select_24ghz_remote_config(hass: __HAC_KEEP__) -> None:
     bulb.async_config_remotes.reset_mock()
 
 
-async def test_select_white_channel_type(hass: __HAC_KEEP__) -> None:
+async def test_select_white_channel_type(hass: UniversalAssistant) -> None:
     """Test selecting the white channel type."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -304,7 +304,7 @@ async def test_select_white_channel_type(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_select_device_no_wiring(hass: __HAC_KEEP__) -> None:
+async def test_select_device_no_wiring(hass: UniversalAssistant) -> None:
     """Test select is not created if the device does not support wiring."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

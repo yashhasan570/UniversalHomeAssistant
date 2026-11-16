@@ -39,7 +39,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.util.dt import utcnow
 
@@ -50,7 +50,7 @@ from . import (
 
 
 @patch("universalassistant.components.gogogate2.common.GogoGate2Api")
-async def test_open_close_update(gogogate2api_mock, hass: __HAC_KEEP__) -> None:
+async def test_open_close_update(gogogate2api_mock, hass: UniversalAssistant) -> None:
     """Test open and close and data update."""
 
     def info_response(door_status: DoorStatus) -> GogoGate2InfoResponse:
@@ -250,7 +250,7 @@ async def test_open_close_update(gogogate2api_mock, hass: __HAC_KEEP__) -> None:
 
 
 @patch("universalassistant.components.gogogate2.common.ISmartGateApi")
-async def test_availability(ismartgateapi_mock, hass: __HAC_KEEP__) -> None:
+async def test_availability(ismartgateapi_mock, hass: UniversalAssistant) -> None:
     """Test availability."""
     closed_door_response = _mocked_ismartgate_closed_door_response()
 
@@ -315,7 +315,7 @@ async def test_availability(ismartgateapi_mock, hass: __HAC_KEEP__) -> None:
 
 @patch("universalassistant.components.gogogate2.common.ISmartGateApi")
 async def test_device_info_ismartgate(
-    ismartgateapi_mock, hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    ismartgateapi_mock, hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test device info."""
 
@@ -354,7 +354,7 @@ async def test_device_info_ismartgate(
 
 @patch("universalassistant.components.gogogate2.common.GogoGate2Api")
 async def test_device_info_gogogate2(
-    gogogate2api_mock, hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    gogogate2api_mock, hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test device info."""
     closed_door_response = _mocked_gogogate_open_door_response()

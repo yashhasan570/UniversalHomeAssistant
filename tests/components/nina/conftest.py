@@ -13,7 +13,7 @@ from pytest_universalassistant.common import (
 )
 
 from universalassistant.components.nina.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import (
     DUMMY_CONFIG_ENTRY,
@@ -33,7 +33,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 @pytest.fixture
-def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Provide a common mock config entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -49,7 +49,7 @@ def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 
 @pytest.fixture
-def mock_config_entry_default_filter(hass: __HAC_KEEP__) -> MockConfigEntry:
+def mock_config_entry_default_filter(hass: UniversalAssistant) -> MockConfigEntry:
     """Provide a common mock config entry with no filters."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -65,7 +65,7 @@ def mock_config_entry_default_filter(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 
 @pytest.fixture
-def mock_config_entry_area_filter(hass: __HAC_KEEP__) -> MockConfigEntry:
+def mock_config_entry_area_filter(hass: UniversalAssistant) -> MockConfigEntry:
     """Provide a common mock config entry with an area filter."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -81,7 +81,7 @@ def mock_config_entry_area_filter(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 
 @pytest.fixture
-def mock_config_entry_multiple_regions(hass: __HAC_KEEP__) -> MockConfigEntry:
+def mock_config_entry_multiple_regions(hass: UniversalAssistant) -> MockConfigEntry:
     """Provide a common mock config entry with an area filter."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

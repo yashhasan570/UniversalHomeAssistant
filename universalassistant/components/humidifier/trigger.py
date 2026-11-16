@@ -5,8 +5,8 @@ from typing import override
 import probatio
 
 from universalassistant.const import CONF_MODE, CONF_OPTIONS, STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.automation import DomainSpec
 from universalassistant.helpers.entity import get_supported_features
 from universalassistant.helpers.trigger import (
@@ -35,11 +35,11 @@ MODE_CHANGED_TRIGGER_SCHEMA = ENTITY_STATE_TRIGGER_SCHEMA_WITH_BEHAVIOR.extend(
 )
 
 
-def _supports_feature(hass: __HAC_KEEP__, entity_id: str, features: int) -> bool:
+def _supports_feature(hass: UniversalAssistant, entity_id: str, features: int) -> bool:
     """Test if an entity supports the specified features."""
     try:
         return bool(get_supported_features(hass, entity_id) & features)
-    except __HAC_KEEP__Error:
+    except UniversalAssistantError:
         return False
 
 
@@ -51,7 +51,7 @@ class ModeChangedTrigger(EntityTargetStateTriggerBase):
     }
     _schema = MODE_CHANGED_TRIGGER_SCHEMA
 
-    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
+    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
         """Initialize the mode trigger."""
         super().__init__(hass, config)
         self._to_states = set(self._options[CONF_MODE])
@@ -82,6 +82,6 @@ TRIGGERS: dict[str, type[Trigger]] = {
 }
 
 
-async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
+async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
     """Return the triggers for humidifiers."""
     return TRIGGERS

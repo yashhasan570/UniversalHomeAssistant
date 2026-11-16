@@ -8,13 +8,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.ld2410_ble.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import LD2410_BLE_DISCOVERY_INFO
 
 
 async def test_setup_retries_when_device_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test setup is retried with a diagnostic reason when the device is missing."""

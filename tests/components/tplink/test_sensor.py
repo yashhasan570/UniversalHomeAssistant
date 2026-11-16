@@ -9,7 +9,7 @@ from universalassistant.components.tplink.const import DOMAIN
 from universalassistant.components.tplink.entity import EXCLUDED_FEATURES
 from universalassistant.components.tplink.sensor import SENSOR_DESCRIPTIONS
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import (
@@ -26,7 +26,7 @@ from .const import DEVICE_ID, MAC_ADDRESS
 
 
 async def test_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -46,7 +46,7 @@ async def test_states(
         assert hass.states.get(f"sensor.my_device_{excluded}") is None
 
 
-async def test_color_light_with_an_emeter(hass: __HAC_KEEP__) -> None:
+async def test_color_light_with_an_emeter(hass: UniversalAssistant) -> None:
     """Test a light with an emeter."""
     already_migrated_config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "127.0.0.1"}, unique_id=MAC_ADDRESS
@@ -86,7 +86,7 @@ async def test_color_light_with_an_emeter(hass: __HAC_KEEP__) -> None:
         assert hass.states.get(sensor_entity_id) is None
 
 
-async def test_plug_with_an_emeter(hass: __HAC_KEEP__) -> None:
+async def test_plug_with_an_emeter(hass: UniversalAssistant) -> None:
     """Test a plug with an emeter."""
     already_migrated_config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "127.0.0.1"}, unique_id=MAC_ADDRESS
@@ -118,7 +118,7 @@ async def test_plug_with_an_emeter(hass: __HAC_KEEP__) -> None:
         assert hass.states.get(sensor_entity_id).state == str(value)
 
 
-async def test_color_light_no_emeter(hass: __HAC_KEEP__) -> None:
+async def test_color_light_no_emeter(hass: UniversalAssistant) -> None:
     """Test a light without an emeter."""
     already_migrated_config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "127.0.0.1"}, unique_id=MAC_ADDRESS
@@ -147,7 +147,7 @@ async def test_color_light_no_emeter(hass: __HAC_KEEP__) -> None:
 
 
 async def test_sensor_unique_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a sensor unique ids."""
     already_migrated_config_entry = MockConfigEntry(
@@ -178,7 +178,7 @@ async def test_sensor_unique_id(
 
 
 async def test_undefined_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -209,7 +209,7 @@ async def test_undefined_sensor(
 
 
 async def test_sensor_children_on_parent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -257,7 +257,7 @@ async def test_sensor_children_on_parent(
 
 
 async def test_sensor_children_on_child(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -306,7 +306,7 @@ async def test_sensor_children_on_child(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_datetime_sensor(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a timestamp sensor."""
     already_migrated_config_entry = MockConfigEntry(

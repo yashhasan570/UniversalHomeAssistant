@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.search import DOMAIN
 from universalassistant.components.search.llm import SearchTool, async_get_tools
 from universalassistant.const import ATTR_FRIENDLY_NAME
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -34,7 +34,7 @@ def llm_context() -> llm.LLMContext:
 
 @pytest.fixture
 async def setup_items(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     search_item_ids: dict[str, str],
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
@@ -146,9 +146,9 @@ def _ordered(data: JsonObjectType, device_ids: dict[str, str]) -> JsonValueType:
 
 
 async def test_async_get_tools(
-    hass: __HAC_KEEP__, llm_context: llm.LLMContext
+    hass: UniversalAssistant, llm_context: llm.LLMContext
 ) -> None:
-    """Test the search tool is only provided for the __HA_KEEP__ API."""
+    """Test the search tool is only provided for the Universal Home Assistant API."""
     assert async_get_tools(hass, llm_context, llm.LLM_API_ASSIST) is None
 
     universal_assistant_tools = async_get_tools(
@@ -180,7 +180,7 @@ def test_parameters_openapi(snapshot: SnapshotAssertion) -> None:
     ],
 )
 async def test_search(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     llm_context: llm.LLMContext,
     snapshot: SnapshotAssertion,
     setup_items: dict[str, str],
@@ -196,7 +196,7 @@ async def test_search(
 
 
 async def test_offset_without_type(
-    hass: __HAC_KEEP__, llm_context: llm.LLMContext
+    hass: UniversalAssistant, llm_context: llm.LLMContext
 ) -> None:
     """Test an offset requires a type."""
     tool = SearchTool()
@@ -218,7 +218,7 @@ async def test_offset_without_type(
     ],
 )
 async def test_invalid_parameters(
-    hass: __HAC_KEEP__, llm_context: llm.LLMContext, tool_args: JsonObjectType
+    hass: UniversalAssistant, llm_context: llm.LLMContext, tool_args: JsonObjectType
 ) -> None:
     """Test invalid arguments are rejected by the schema."""
     tool = SearchTool()
@@ -227,9 +227,9 @@ async def test_invalid_parameters(
 
 
 async def test_call_through_api(
-    hass: __HAC_KEEP__, hass_admin_user: MockUser, llm_context: llm.LLMContext
+    hass: UniversalAssistant, hass_admin_user: MockUser, llm_context: llm.LLMContext
 ) -> None:
-    """Test the tool is available through the __HA_KEEP__ API."""
+    """Test the tool is available through the Universal Home Assistant API."""
     assert await async_setup_component(hass, DOMAIN, {})
     assert await async_setup_component(hass, "llm", {})
     llm_context.context = Context(user_id=hass_admin_user.id)

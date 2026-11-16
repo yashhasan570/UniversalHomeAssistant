@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.recorder import Recorder
 from universalassistant.components.tibber.const import DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -27,7 +27,7 @@ def platforms() -> list[Platform]:
 
 async def test_binary_sensor_snapshot(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     data_api_client_mock: AsyncMock,
     setup_credentials: None,
@@ -52,7 +52,7 @@ async def test_binary_sensor_snapshot(
 
 async def test_binary_sensors_with_empty_external_ids(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     data_api_client_mock: AsyncMock,
     setup_credentials: None,
@@ -161,7 +161,7 @@ async def test_binary_sensors_with_empty_external_ids(
 )
 async def test_binary_sensor_states(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     data_api_client_mock: AsyncMock,
     setup_credentials: None,

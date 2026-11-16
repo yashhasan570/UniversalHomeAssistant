@@ -18,7 +18,7 @@ from universalassistant.const import (
     SERVICE_SET_COVER_POSITION,
     SERVICE_STOP_COVER,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -54,7 +54,7 @@ def mock_dummy_device_from_host_light_fan():
 
 
 async def test_loading_cover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     dummy_device_from_host_cover,
 ) -> None:
@@ -75,7 +75,7 @@ async def test_loading_cover(
 
 
 async def test_open_close_cover_state(
-    hass: __HAC_KEEP__, dummy_device_from_host_cover
+    hass: UniversalAssistant, dummy_device_from_host_cover
 ) -> None:
     """Test the change of state of the cover."""
     await setup_integration(hass)

@@ -50,7 +50,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.qnap_qsw.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 CONFIG = {
     CONF_URL: "http://192.168.1.100",
@@ -491,9 +491,9 @@ USERS_VERIFICATION_MOCK = {
 
 
 def init_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> MockConfigEntry:
-    """Set up the QNAP QSW entry in __HA_KEEP__."""
+    """Set up the QNAP QSW entry in Universal Home Assistant."""
     config_entry = MockConfigEntry(
         data=CONFIG,
         domain=DOMAIN,
@@ -505,10 +505,10 @@ def init_config_entry(
 
 
 async def async_init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry | None = None,
 ) -> None:
-    """Set up the QNAP QSW integration in __HA_KEEP__."""
+    """Set up the QNAP QSW integration in Universal Home Assistant."""
 
     if config_entry is None:
         config_entry = init_config_entry(hass)

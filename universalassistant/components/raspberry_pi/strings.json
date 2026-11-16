@@ -11,13 +11,13 @@
       "message": "An error occurred while fetching the Raspberry Pi firmware info"
     },
     "not_hassio": {
-      "message": "__HA_KEEP__ is not running on __HA_KEEP__ OS, the Raspberry Pi entry will be removed"
+      "message": "Universal Home Assistant is not running on Universal Home Assistant OS, the Raspberry Pi entry will be removed"
     },
     "supervisor_not_ready": {
       "message": "Supervisor is not ready"
     },
     "unsupported_board": {
-      "message": "__HA_KEEP__ is not running on a Raspberry Pi ({board}), the Raspberry Pi entry will be removed"
+      "message": "Universal Home Assistant is not running on a Raspberry Pi ({board}), the Raspberry Pi entry will be removed"
     }
   }
 }

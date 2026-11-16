@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_API_KEY, CONF_PROMPT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import OpenRouterConfigEntry
 
@@ -12,7 +12,7 @@ TO_REDACT = {CONF_API_KEY, CONF_PROMPT}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: OpenRouterConfigEntry
+    hass: UniversalAssistant, entry: OpenRouterConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return {

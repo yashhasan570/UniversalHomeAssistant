@@ -13,8 +13,8 @@ from universalassistant.const import (
     CONF_ENTITY_ID,
     CONF_TYPE,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import (
     condition,
     config_validation as cv,
@@ -58,7 +58,7 @@ CONDITION_SCHEMA = probatio.TaggedUnion(
 
 
 async def async_get_conditions(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, str]]:
     """List device conditions for Climate devices."""
     registry = er.async_get(hass)
@@ -88,14 +88,14 @@ async def async_get_conditions(
 
 @callback
 def async_condition_from_config(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> condition.ConditionCheckerType:
     """Create a function to test a device condition."""
 
     registry = er.async_get(hass)
     entity_id = er.async_resolve_entity_id(registry, config[ATTR_ENTITY_ID])
 
-    def test_is_state(hass: __HAC_KEEP__, variables: TemplateVarsType) -> bool:
+    def test_is_state(hass: UniversalAssistant, variables: TemplateVarsType) -> bool:
         """Test if an entity is a certain state."""
         if not entity_id or (state := hass.states.get(entity_id)) is None:
             return False
@@ -112,7 +112,7 @@ def async_condition_from_config(
 
 
 async def async_get_condition_capabilities(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List condition capabilities."""
     condition_type = config[CONF_TYPE]
@@ -132,7 +132,7 @@ async def async_get_condition_capabilities(
                 )
                 or []
             )
-        except __HAC_KEEP__Error:
+        except UniversalAssistantError:
             hvac_modes = []
         fields[probatio.Required(ATTR_HVAC_MODE)] = probatio.In(hvac_modes)
 
@@ -149,7 +149,7 @@ async def async_get_condition_capabilities(
                 )
                 or []
             )
-        except __HAC_KEEP__Error:
+        except UniversalAssistantError:
             preset_modes = []
         fields[probatio.Required(ATTR_PRESET_MODE)] = probatio.In(preset_modes)
 

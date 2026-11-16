@@ -82,9 +82,9 @@
           },
           "data_description": {
             "custom_prompt_keywords": "Enable optional prompt and keyword hints. The selected LiteLLM backend must support each parameter; unsupported parameters can cause transcription errors.",
-            "keywords": "Comma-separated words or phrases to help the model recognize names and other terms. Supports __HA_KEEP__ templates. OpenAI models may support this together with a prompt; other models may not.",
+            "keywords": "Comma-separated words or phrases to help the model recognize names and other terms. Supports Universal Home Assistant templates. OpenAI models may support this together with a prompt; other models may not.",
             "model": "The model to use to transcribe speech",
-            "prompt": "Optional context or instructions for the transcription. Supports __HA_KEEP__ templates. The prompt must match the language of the audio and be supported by the selected model."
+            "prompt": "Optional context or instructions for the transcription. Supports Universal Home Assistant templates. The prompt must match the language of the audio and be supported by the selected model."
           },
           "description": "Select the speech-to-text model. The transcription language is selected in the Assist pipeline. LiteLLM does not report language capabilities for individual backend models."
         }

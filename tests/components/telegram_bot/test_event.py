@@ -9,11 +9,11 @@ from universalassistant.components.telegram_bot.const import (
     TelegramBotService,
     TelegramBotServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_send_message(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
     snapshot: SnapshotAssertion,

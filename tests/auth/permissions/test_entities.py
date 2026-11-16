@@ -13,7 +13,7 @@ from universalassistant.auth.permissions.entities import (
     compile_entities,
 )
 from universalassistant.auth.permissions.models import PermissionLookup
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import ChildDeviceEntry, DeviceEntry
 
 
@@ -153,7 +153,7 @@ def test_entities_all_control() -> None:
     assert compiled("switch.kitchen", "control") is True
 
 
-def test_entities_device_id_boolean(hass: __HAC_KEEP__) -> None:
+def test_entities_device_id_boolean(hass: UniversalAssistant) -> None:
     """Test entity ID policy applying control on device id."""
     entity_registry = mock_registry(
         hass,
@@ -193,7 +193,7 @@ def test_entities_areas_true() -> None:
     assert compiled("light.kitchen", "read") is True
 
 
-def test_entities_areas_area_true(hass: __HAC_KEEP__) -> None:
+def test_entities_areas_area_true(hass: UniversalAssistant) -> None:
     """Test entity ID policy for areas with specific area."""
     entity_registry = mock_registry(
         hass,
@@ -228,7 +228,7 @@ def test_entities_areas_area_true(hass: __HAC_KEEP__) -> None:
     assert compiled("switch.kitchen", "read") is False
 
 
-def test_entities_areas_area_inherited_from_parent(hass: __HAC_KEEP__) -> None:
+def test_entities_areas_area_inherited_from_parent(hass: UniversalAssistant) -> None:
     """Test area policy for an entity on a child inheriting the parent's area."""
     entity_registry = mock_registry(
         hass,
@@ -271,7 +271,7 @@ def test_entities_areas_area_inherited_from_parent(hass: __HAC_KEEP__) -> None:
     assert compiled("switch.kitchen", "read") is False
 
 
-def test_entities_areas_device_not_found(hass: __HAC_KEEP__) -> None:
+def test_entities_areas_device_not_found(hass: UniversalAssistant) -> None:
     """Test area policy denies when the entity's device is missing from the registry."""
     entity_registry = mock_registry(
         hass,
@@ -294,7 +294,7 @@ def test_entities_areas_device_not_found(hass: __HAC_KEEP__) -> None:
     assert compiled("light.kitchen", "read") is False
 
 
-def test_entities_areas_device_without_effective_area(hass: __HAC_KEEP__) -> None:
+def test_entities_areas_device_without_effective_area(hass: UniversalAssistant) -> None:
     """Test area policy denies when the entity's device has no effective area."""
     entity_registry = mock_registry(
         hass,

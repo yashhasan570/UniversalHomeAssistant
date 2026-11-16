@@ -22,7 +22,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.sense.const import ACTIVE_UPDATE_RATE, TREND_UPDATE_RATE
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.dt import utcnow
 
@@ -39,7 +39,7 @@ from .const import (
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_sense: MagicMock,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -51,7 +51,7 @@ async def test_sensors(
 
 
 async def test_device_power_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_sense: MagicMock,
     config_entry: MockConfigEntry,
@@ -81,7 +81,7 @@ async def test_device_power_sensors(
 
 
 async def test_device_energy_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_sense: MagicMock,
     config_entry: MockConfigEntry,
@@ -122,7 +122,7 @@ async def test_device_energy_sensors(
 
 
 async def test_voltage_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_sense: MagicMock,
     config_entry: MockConfigEntry,
@@ -151,7 +151,7 @@ async def test_voltage_sensors(
 
 
 async def test_active_power_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_sense: MagicMock,
     config_entry: MockConfigEntry,
@@ -182,7 +182,7 @@ async def test_active_power_sensors(
 
 
 async def test_trend_energy_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_sense: MagicMock,
     config_entry: MockConfigEntry,
@@ -253,7 +253,7 @@ async def test_trend_energy_sensors(
     ],
 )
 async def test_trend_coordinator_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_sense: MagicMock,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -296,7 +296,7 @@ async def test_trend_coordinator_update_failure(
     ],
 )
 async def test_realtime_coordinator_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_sense: MagicMock,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

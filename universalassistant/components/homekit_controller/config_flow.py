@@ -40,7 +40,7 @@ HOMEKIT_BRIDGE_DOMAIN = "homekit"
 
 HOMEKIT_IGNORE = [
     # eufy Indoor Cam 2K and 2K Pan & Tilt
-    # https://github.com/yashhasan570/__HAC_KEEP__/issues/42307
+    # https://github.com/yashhasan570/UniversalUniversalAssistant/issues/42307
     "T8400",
     "T8410",
     # Hive Hub - vendor does not give user a pairing code

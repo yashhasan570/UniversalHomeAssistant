@@ -18,7 +18,7 @@ from universalassistant.components.knx.const import (
     KNX_MODULE_KEY,
     KNX_TELEGRAM_BACKEND_POSTGRES,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import KNXTestKit
 
@@ -26,7 +26,7 @@ from tests.components.backup.common import setup_backup_integration
 
 
 async def test_backup_platform_is_registered(
-    hass: __HAC_KEEP__, knx: KNXTestKit
+    hass: UniversalAssistant, knx: KNXTestKit
 ) -> None:
     """Test the backup integration picks up the KNX backup platform."""
     await knx.setup_integration()
@@ -35,7 +35,7 @@ async def test_backup_platform_is_registered(
     assert "knx" in hass.data[DATA_MANAGER].platforms
 
 
-async def _stored_count(hass: __HAC_KEEP__) -> int:
+async def _stored_count(hass: UniversalAssistant) -> int:
     store = hass.data[KNX_MODULE_KEY].telegrams.store
     assert store is not None
     result = await store.query(TelegramQuery())
@@ -43,7 +43,7 @@ async def _stored_count(hass: __HAC_KEEP__) -> int:
 
 
 async def test_backup_holds_writes_until_post_backup(
-    hass: __HAC_KEEP__, knx: KNXTestKit
+    hass: UniversalAssistant, knx: KNXTestKit
 ) -> None:
     """Test pre-backup flushes and then keeps telegrams in the buffer until post-backup."""
     await knx.setup_integration(real_telegram_store=True)
@@ -68,7 +68,7 @@ async def test_backup_holds_writes_until_post_backup(
 
 
 async def test_pre_backup_waits_for_the_store_to_initialize(
-    hass: __HAC_KEEP__, knx: KNXTestKit
+    hass: UniversalAssistant, knx: KNXTestKit
 ) -> None:
     """Test a backup started while the store initializes waits for it and then locks it."""
     release_initialize = asyncio.Event()
@@ -104,7 +104,7 @@ async def test_pre_backup_waits_for_the_store_to_initialize(
 
 
 async def test_pre_backup_does_not_wait_out_a_long_initialization(
-    hass: __HAC_KEEP__, knx: KNXTestKit, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, knx: KNXTestKit, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test a backup copies the file as it is when the store takes longer than the lock timeout."""
 
@@ -132,7 +132,7 @@ async def test_pre_backup_does_not_wait_out_a_long_initialization(
 
 
 async def test_pre_backup_store_error_is_logged(
-    hass: __HAC_KEEP__, knx: KNXTestKit, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, knx: KNXTestKit, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test a store that cannot be locked does not abort the backup."""
     await knx.setup_integration()
@@ -149,7 +149,7 @@ async def test_pre_backup_store_error_is_logged(
 
 
 async def test_pre_backup_timeout_is_logged(
-    hass: __HAC_KEEP__, knx: KNXTestKit, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, knx: KNXTestKit, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test a lock that cannot be taken in time does not abort the backup."""
     await knx.setup_integration()
@@ -168,7 +168,7 @@ async def test_pre_backup_timeout_is_logged(
 
 
 async def test_backup_is_noop_for_postgres_backend(
-    hass: __HAC_KEEP__, knx: KNXTestKit
+    hass: UniversalAssistant, knx: KNXTestKit
 ) -> None:
     """Test a PostgreSQL store is left alone, its data is not part of the backup."""
     knx.mock_config_entry.add_to_hass(hass)
@@ -195,7 +195,7 @@ async def test_backup_is_noop_for_postgres_backend(
     mock_store.end_backup.assert_not_called()
 
 
-async def test_backup_is_noop_without_knx(hass: __HAC_KEEP__) -> None:
+async def test_backup_is_noop_without_knx(hass: UniversalAssistant) -> None:
     """Test the hooks do nothing when KNX is not set up."""
     await async_pre_backup(hass)
     await async_post_backup(hass)

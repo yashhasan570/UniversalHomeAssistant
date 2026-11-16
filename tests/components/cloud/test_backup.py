@@ -27,7 +27,7 @@ from universalassistant.components.backup import (
 from universalassistant.components.cloud import DOMAIN
 from universalassistant.components.cloud.backup import async_register_backup_agents_listener
 from universalassistant.components.cloud.const import EVENT_CLOUD_EVENT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.setup import async_setup_component
 from universalassistant.util.aiohttp import MockStreamReaderChunked
@@ -41,7 +41,7 @@ from tests.components.backup.common import (
 
 @pytest.fixture(autouse=True)
 async def setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     cloud: MagicMock,
     cloud_logged_in: None,
@@ -117,7 +117,7 @@ def cloud_logged_in(cloud: MagicMock):
 
 
 async def test_agents_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test backup agent info."""
@@ -136,7 +136,7 @@ async def test_agents_info(
 
 
 async def test_agents_list_backups(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     cloud: MagicMock,
     mock_list_files: Mock,
@@ -187,7 +187,7 @@ async def test_agents_list_backups(
 
 @pytest.mark.parametrize("side_effect", [ClientError, CloudError])
 async def test_agents_list_backups_fail_cloud(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     cloud: MagicMock,
     mock_list_files: Mock,
@@ -244,7 +244,7 @@ async def test_agents_list_backups_fail_cloud(
     ids=["found", "not_found"],
 )
 async def test_agents_get_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     cloud: MagicMock,
     backup_id: str,
@@ -264,7 +264,7 @@ async def test_agents_get_backup(
 
 @pytest.mark.usefixtures("cloud_logged_in", "mock_list_files")
 async def test_agents_download(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     cloud: Mock,
@@ -286,7 +286,7 @@ async def test_agents_download(
 
 @pytest.mark.usefixtures("cloud_logged_in", "mock_list_files")
 async def test_agents_download_fail_get(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     cloud: Mock,
 ) -> None:
@@ -304,7 +304,7 @@ async def test_agents_download_fail_get(
 
 @pytest.mark.usefixtures("cloud_logged_in", "mock_list_files")
 async def test_agents_download_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test agent download backup raises error if not found."""
@@ -318,7 +318,7 @@ async def test_agents_download_not_found(
 
 @pytest.mark.usefixtures("cloud_logged_in", "mock_list_files")
 async def test_agents_upload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
     cloud: Mock,
@@ -375,7 +375,7 @@ async def test_agents_upload(
 
 @pytest.mark.usefixtures("cloud_logged_in", "mock_list_files")
 async def test_agents_upload_on_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     cloud: Mock,
     freezer: FrozenDateTimeFactory,
@@ -420,7 +420,7 @@ async def test_agents_upload_on_progress(
 @pytest.mark.parametrize("side_effect", [FilesError("Boom!"), CloudError("Boom!")])
 @pytest.mark.usefixtures("cloud_logged_in", "mock_list_files")
 async def test_agents_upload_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_storage: dict[str, Any],
     side_effect: Exception,
@@ -484,7 +484,7 @@ async def test_agents_upload_fail(
         (
             CloudApiNonRetryableError("Boom!", code="NC-SH-FH-03"),
             "The backup size of 13.37GB is too large to be"
-            " uploaded to __HA_KEEP__ Link",
+            " uploaded to Universal Home Assistant Link",
         ),
         (
             CloudApiNonRetryableError("Boom!", code="NC-CE-01"),
@@ -494,7 +494,7 @@ async def test_agents_upload_fail(
 )
 @pytest.mark.usefixtures("cloud_logged_in", "mock_list_files")
 async def test_agents_upload_fail_non_retryable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_storage: dict[str, Any],
     side_effect: Exception,
@@ -552,7 +552,7 @@ async def test_agents_upload_fail_non_retryable(
 
 
 async def test_agents_upload_not_protected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -596,7 +596,7 @@ async def test_agents_upload_not_protected(
 
 @pytest.mark.usefixtures("cloud_logged_in", "mock_list_files")
 async def test_agents_upload_not_subscribed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_storage: dict[str, Any],
     cloud: Mock,
@@ -649,7 +649,7 @@ async def test_agents_upload_not_subscribed(
 
 @pytest.mark.usefixtures("cloud_logged_in", "mock_list_files")
 async def test_agents_upload_not_subscribed_midway(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_storage: dict[str, Any],
     cloud: Mock,
@@ -710,7 +710,7 @@ async def test_agents_upload_not_subscribed_midway(
 
 @pytest.mark.usefixtures("cloud_logged_in", "mock_list_files")
 async def test_agents_upload_wrong_size(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
     cloud: Mock,
@@ -757,7 +757,7 @@ async def test_agents_upload_wrong_size(
 
 @pytest.mark.usefixtures("cloud_logged_in", "mock_list_files")
 async def test_agents_delete(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     cloud: Mock,
     mock_delete_file: Mock,
@@ -785,7 +785,7 @@ async def test_agents_delete(
 @pytest.mark.parametrize("side_effect", [ClientError, CloudError])
 @pytest.mark.usefixtures("cloud_logged_in", "mock_list_files")
 async def test_agents_delete_fail_cloud(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_delete_file: Mock,
     side_effect: Exception,
@@ -812,7 +812,7 @@ async def test_agents_delete_fail_cloud(
 
 @pytest.mark.usefixtures("cloud_logged_in", "mock_list_files")
 async def test_agents_delete_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test agent download backup raises error if not found."""
@@ -832,7 +832,7 @@ async def test_agents_delete_not_found(
 
 
 async def test_agents_follow_cloud_login_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     cloud: MagicMock,
 ) -> None:
@@ -876,7 +876,7 @@ async def test_agents_follow_cloud_login_state(
 
 
 async def test_agent_follows_server_initiated_logout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     cloud: MagicMock,
 ) -> None:
@@ -911,7 +911,7 @@ async def test_agent_follows_server_initiated_logout(
     assert response["result"] == {"agents": [local_agent, cloud_agent]}
 
 
-async def test_not_calling_listener_after_unsub(hass: __HAC_KEEP__) -> None:
+async def test_not_calling_listener_after_unsub(hass: UniversalAssistant) -> None:
     """Test only calling listener until unsub."""
     listener = MagicMock()
     unsub = async_register_backup_agents_listener(hass, listener=listener)

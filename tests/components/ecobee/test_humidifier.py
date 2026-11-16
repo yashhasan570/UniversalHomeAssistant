@@ -33,14 +33,14 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .common import setup_platform
 
 DEVICE_ID = "humidifier.ecobee"
 
 
-async def test_attributes(hass: __HAC_KEEP__) -> None:
+async def test_attributes(hass: UniversalAssistant) -> None:
     """Test the humidifier attributes are correct."""
     await setup_platform(hass, HUMIDIFIER_DOMAIN)
 
@@ -61,7 +61,7 @@ async def test_attributes(hass: __HAC_KEEP__) -> None:
     assert state.attributes[ATTR_SUPPORTED_FEATURES] == HumidifierEntityFeature.MODES
 
 
-async def test_turn_on(hass: __HAC_KEEP__) -> None:
+async def test_turn_on(hass: UniversalAssistant) -> None:
     """Test the humidifier can be turned on."""
     with patch("pyecobee.Ecobee.set_humidifier_mode") as mock_turn_on:
         await setup_platform(hass, HUMIDIFIER_DOMAIN)
@@ -76,7 +76,7 @@ async def test_turn_on(hass: __HAC_KEEP__) -> None:
         mock_turn_on.assert_called_once_with(0, "manual")
 
 
-async def test_turn_off(hass: __HAC_KEEP__) -> None:
+async def test_turn_off(hass: UniversalAssistant) -> None:
     """Test the humidifier can be turned off."""
     with patch("pyecobee.Ecobee.set_humidifier_mode") as mock_turn_off:
         await setup_platform(hass, HUMIDIFIER_DOMAIN)
@@ -91,7 +91,7 @@ async def test_turn_off(hass: __HAC_KEEP__) -> None:
         mock_turn_off.assert_called_once_with(0, STATE_OFF)
 
 
-async def test_set_mode(hass: __HAC_KEEP__) -> None:
+async def test_set_mode(hass: UniversalAssistant) -> None:
     """Test the humidifier can change modes."""
     with patch("pyecobee.Ecobee.set_humidifier_mode") as mock_set_mode:
         await setup_platform(hass, HUMIDIFIER_DOMAIN)
@@ -123,7 +123,7 @@ async def test_set_mode(hass: __HAC_KEEP__) -> None:
             )
 
 
-async def test_set_humidity(hass: __HAC_KEEP__) -> None:
+async def test_set_humidity(hass: UniversalAssistant) -> None:
     """Test the humidifier can set humidity level."""
     with patch("pyecobee.Ecobee.set_humidity") as mock_set_humidity:
         await setup_platform(hass, HUMIDIFIER_DOMAIN)

@@ -5,7 +5,7 @@ import datetime as dt
 from typing import TYPE_CHECKING, Any, cast
 
 from universalassistant.const import SUN_EVENT_SUNRISE, SUN_EVENT_SUNSET
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.util import dt as dt_util
 
 from .deprecation import deprecated_function
@@ -23,9 +23,9 @@ type _AstralSunEventCallable = Callable[..., dt.datetime]
 )
 @callback
 def get_astral_location(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> tuple[astral.location.Location, astral.Elevation]:
-    """Get an astral location for the current __HA_KEEP__ configuration."""
+    """Get an astral location for the current Universal Home Assistant configuration."""
     from astral import LocationInfo  # noqa: PLC0415
     from astral.location import Location  # noqa: PLC0415
 
@@ -38,8 +38,8 @@ def get_astral_location(
 
 
 @callback
-def get_astral_observer(hass: __HAC_KEEP__) -> astral.Observer:
-    """Get an astral observer for the current __HA_KEEP__ configuration."""
+def get_astral_observer(hass: UniversalAssistant) -> astral.Observer:
+    """Get an astral observer for the current Universal Home Assistant configuration."""
     from astral import Observer  # noqa: PLC0415
 
     return Observer(hass.config.latitude, hass.config.longitude, hass.config.elevation)
@@ -47,7 +47,7 @@ def get_astral_observer(hass: __HAC_KEEP__) -> astral.Observer:
 
 @callback
 def get_astral_event_next(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     event: str,
     utc_point_in_time: dt.datetime | None = None,
     offset: dt.timedelta | None = None,
@@ -126,7 +126,7 @@ def get_observer_astral_event_next(
 
 @callback
 def get_astral_event_date(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     event: str,
     date: dt.date | dt.datetime | None = None,
 ) -> dt.datetime | None:
@@ -150,7 +150,7 @@ def get_astral_event_date(
 
 
 @callback
-def is_up(hass: __HAC_KEEP__, utc_point_in_time: dt.datetime | None = None) -> bool:
+def is_up(hass: UniversalAssistant, utc_point_in_time: dt.datetime | None = None) -> bool:
     """Calculate if the sun is currently up."""
     if utc_point_in_time is None:
         utc_point_in_time = dt_util.utcnow()

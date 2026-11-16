@@ -33,8 +33,8 @@ from uiprotect.exceptions import GlobalAlarmManagerError
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory, Platform
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity import EntityDescription
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -331,7 +331,7 @@ _MODEL_DESCRIPTIONS: dict[ModelType, Sequence[ProtectEntityDescription]] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: UFPConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -514,7 +514,7 @@ class ProtectPTZPatrolSelect(ProtectDeviceEntity, SelectEntity):
     @override
     async def async_select_option(self, option: str) -> None:
         """Start or stop a PTZ patrol."""
-        # __HA_KEEP__ validates options before calling this method,
+        # Universal Home Assistant validates options before calling this method,
         # so we can safely assume the option is valid
         unifi_value = self._hass_to_unifi_options[option]
         await self.entity_description.ufp_set(self._ufp_set_target(), unifi_value)
@@ -578,7 +578,7 @@ class ProtectNVRArmProfileSelect(ProtectNVREntity, SelectEntity):
         try:
             await self.data.api.set_current_arm_profile_public(profile_id)
         except GlobalAlarmManagerError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="global_alarm_manager",
             ) from err

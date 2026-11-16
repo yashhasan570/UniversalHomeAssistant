@@ -5,7 +5,7 @@ import asyncio
 from ritualsgenie import RitualsGenie, RitualsGenieHub
 
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, CONF_TOKEN, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -28,7 +28,7 @@ PLATFORMS = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: RitualsConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: RitualsConfigEntry) -> None:
     """Set up Rituals Perfume Genie from a config entry."""
     # Initiate reauth for old config entries which don't have
     # username / password in the entry data
@@ -76,7 +76,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: RitualsConfigEntry) -> No
 
 
 @callback
-def async_update_diffusers(hass: __HAC_KEEP__, entry: RitualsConfigEntry) -> None:
+def async_update_diffusers(hass: UniversalAssistant, entry: RitualsConfigEntry) -> None:
     """Follow the diffusers being added to and removed from the account.
 
     A new diffuser gets a sensors coordinator. A removed one loses its
@@ -101,14 +101,14 @@ def async_update_diffusers(hass: __HAC_KEEP__, entry: RitualsConfigEntry) -> Non
             device_registry.async_remove_device(device.id)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: RitualsConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: RitualsConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 @callback
 def async_migrate_entities_unique_ids(
-    hass: __HAC_KEEP__, config_entry: RitualsConfigEntry, hubs: list[RitualsGenieHub]
+    hass: UniversalAssistant, config_entry: RitualsConfigEntry, hubs: list[RitualsGenieHub]
 ) -> None:
     """Migrate unique_ids in the entity registry to the new format."""
     entity_registry = er.async_get(hass)
@@ -142,7 +142,7 @@ def async_migrate_entities_unique_ids(
 
 
 # Migration helpers for API v2
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: RitualsConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: RitualsConfigEntry) -> None:
     """Migrate config entry to version 2: drop legacy ACCOUNT_HASH and bump version."""
     if entry.version < 2:
         data = dict(entry.data)

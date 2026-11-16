@@ -33,8 +33,8 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     STATE_ON,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import (
@@ -46,7 +46,7 @@ from .conftest import (
 
 
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     entity_registry: er.EntityRegistry,
@@ -59,7 +59,7 @@ async def test_setup(
 
 
 async def _setup_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     cls: type,
@@ -85,11 +85,11 @@ async def _setup_light(
 
 
 async def test_effect_light_setup_exposes_effect_features(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
 ) -> None:
-    """Test color lights expose effect-related state through __HA_KEEP__."""
+    """Test color lights expose effect-related state through Universal Home Assistant."""
     _, _, _, entity_state = await _setup_light(
         hass,
         config_entry,
@@ -105,11 +105,11 @@ async def test_effect_light_setup_exposes_effect_features(
 
 
 async def test_dimmable_light_setup_exposes_brightness(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
 ) -> None:
-    """Test dimmable lights expose brightness through __HA_KEEP__."""
+    """Test dimmable lights expose brightness through Universal Home Assistant."""
     _, _, _, entity_state = await _setup_light(
         hass,
         config_entry,
@@ -124,7 +124,7 @@ async def test_dimmable_light_setup_exposes_brightness(
 
 
 async def test_light_turn_on_with_effect_updates_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
 ) -> None:
@@ -153,11 +153,11 @@ async def test_light_turn_on_with_effect_updates_state(
 
 
 async def test_light_turn_on_with_brightness_updates_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
 ) -> None:
-    """Test turning on a dimmable light updates __HA_KEEP__ state."""
+    """Test turning on a dimmable light updates Universal Home Assistant state."""
     system, light, entity_id, _ = await _setup_light(
         hass,
         config_entry,
@@ -186,7 +186,7 @@ async def test_light_turn_on_with_brightness_updates_state(
 
 
 async def test_light_turn_on_without_attributes_updates_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
 ) -> None:
@@ -219,19 +219,19 @@ async def test_light_turn_on_without_attributes_updates_state(
     [
         pytest.param(
             AqualinkServiceException,
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "Aqualink error: AqualinkServiceException",
             id="service",
         ),
         pytest.param(
             TimeoutError(),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "Aqualink error: TimeoutError",
             id="timeout",
         ),
         pytest.param(
             httpx2.HTTPError("boom"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "Aqualink error: boom",
             id="http",
         ),
@@ -250,7 +250,7 @@ async def test_light_turn_on_without_attributes_updates_state(
     ],
 )
 async def test_light_turn_off_errors_leave_state_unchanged(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     raised_exception: Exception | type[Exception],

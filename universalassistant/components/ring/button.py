@@ -5,7 +5,7 @@ from typing import override
 from ring_doorbell import RingOther
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import RingConfigEntry, RingDataCoordinator
@@ -21,7 +21,7 @@ BUTTON_DESCRIPTION = ButtonEntityDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: RingConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

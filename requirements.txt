@@ -2,7 +2,7 @@
 
 -c universalassistant/package_constraints.txt
 
-# __HA_KEEP__ Core
+# Universal Home Assistant Core
 aiodns==4.0.4
 aiogithubapi==26.0.0
 aiohasupervisor==0.11.0

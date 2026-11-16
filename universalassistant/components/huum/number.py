@@ -7,7 +7,7 @@ from huum.const import SaunaStatus
 
 from universalassistant.components.number import NumberDeviceClass, NumberEntity
 from universalassistant.const import UnitOfRatio
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONFIG_STEAMER, CONFIG_STEAMER_AND_LIGHT
@@ -20,7 +20,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: HuumConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

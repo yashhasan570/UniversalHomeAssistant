@@ -25,7 +25,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -51,7 +51,7 @@ from . import (
 
 
 async def test_ip_changes_fallback_discovery(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test Yeelight ip changes and we fallback to discovery."""
     config_entry = MockConfigEntry(
@@ -96,7 +96,7 @@ async def test_ip_changes_fallback_discovery(
     assert entity_registry.async_get(binary_sensor_entity_id) is not None
 
 
-async def test_ip_changes_id_missing_cannot_fallback(hass: __HAC_KEEP__) -> None:
+async def test_ip_changes_id_missing_cannot_fallback(hass: UniversalAssistant) -> None:
     """Test Yeelight ip changes and we fallback to discovery."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={CONF_HOST: "5.5.5.5"})
     config_entry.add_to_hass(hass)
@@ -112,7 +112,7 @@ async def test_ip_changes_id_missing_cannot_fallback(hass: __HAC_KEEP__) -> None
     assert config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_setup_discovery(hass: __HAC_KEEP__) -> None:
+async def test_setup_discovery(hass: UniversalAssistant) -> None:
     """Test setting up Yeelight by discovery."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: IP_ADDRESS, **CONFIG_ENTRY_DATA}
@@ -153,7 +153,7 @@ _ADAPTERS_WITH_MANUAL_CONFIG = [
 
 
 async def test_setup_discovery_with_manually_configured_network_adapter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test Yeelight discovery with manual network adapter config."""
     config_entry = MockConfigEntry(
@@ -211,7 +211,7 @@ _ADAPTERS_WITH_MANUAL_CONFIG_ONE_FAILING = [
 
 
 async def test_setup_discovery_with_manually_configured_network_adapter_one_fails(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test Yeelight discovery with manual adapter when one fails to bind."""
     config_entry = MockConfigEntry(
@@ -248,7 +248,7 @@ async def test_setup_discovery_with_manually_configured_network_adapter_one_fail
     assert f"Failed to setup listener for ('{FAIL_TO_BIND_IP}', 0)" in caplog.text
 
 
-async def test_setup_import(hass: __HAC_KEEP__) -> None:
+async def test_setup_import(hass: UniversalAssistant) -> None:
     """Test import from yaml."""
     mocked_bulb = _mocked_bulb()
     name = "yeelight"
@@ -278,7 +278,7 @@ async def test_setup_import(hass: __HAC_KEEP__) -> None:
 
 
 async def test_unique_ids_device(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test Yeelight unique IDs from yeelight device IDs."""
     config_entry = MockConfigEntry(
@@ -304,7 +304,7 @@ async def test_unique_ids_device(
 
 
 async def test_unique_ids_entry(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test Yeelight unique IDs from entry IDs."""
     config_entry = MockConfigEntry(
@@ -335,7 +335,7 @@ async def test_unique_ids_entry(
     )
 
 
-async def test_bulb_off_while_adding_in_ha(hass: __HAC_KEEP__) -> None:
+async def test_bulb_off_while_adding_in_ha(hass: UniversalAssistant) -> None:
     """Test Yeelight off while adding to ha, for example on HA start."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data={**CONFIG_ENTRY_DATA, CONF_HOST: IP_ADDRESS}, unique_id=ID
@@ -369,7 +369,7 @@ async def test_bulb_off_while_adding_in_ha(hass: __HAC_KEEP__) -> None:
 
 
 async def test_async_listen_error_late_discovery(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the async listen error."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=CONFIG_ENTRY_DATA)
@@ -396,7 +396,7 @@ async def test_async_listen_error_late_discovery(
 
 
 async def test_fail_to_fetch_initial_state(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test failing to fetch initial state results in a retry."""
     config_entry = MockConfigEntry(
@@ -426,7 +426,7 @@ async def test_fail_to_fetch_initial_state(
 
 
 async def test_unload_before_discovery(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test unloading before discovery."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=CONFIG_ENTRY_DATA)
@@ -448,7 +448,7 @@ async def test_unload_before_discovery(
     assert config_entry.state is ConfigEntryState.NOT_LOADED
 
 
-async def test_async_listen_error_has_host_with_id(hass: __HAC_KEEP__) -> None:
+async def test_async_listen_error_has_host_with_id(hass: UniversalAssistant) -> None:
     """Test the async listen error."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_ID: ID, CONF_HOST: "127.0.0.1"}
@@ -466,7 +466,7 @@ async def test_async_listen_error_has_host_with_id(hass: __HAC_KEEP__) -> None:
     assert config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_async_listen_error_has_host_without_id(hass: __HAC_KEEP__) -> None:
+async def test_async_listen_error_has_host_without_id(hass: UniversalAssistant) -> None:
     """Test the async listen error but no id."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={CONF_HOST: "127.0.0.1"})
     config_entry.add_to_hass(hass)
@@ -482,7 +482,7 @@ async def test_async_listen_error_has_host_without_id(hass: __HAC_KEEP__) -> Non
     assert config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_async_setup_with_missing_id(hass: __HAC_KEEP__) -> None:
+async def test_async_setup_with_missing_id(hass: UniversalAssistant) -> None:
     """Test that setting adds the missing CONF_ID from unique_id."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -516,7 +516,7 @@ async def test_async_setup_with_missing_id(hass: __HAC_KEEP__) -> None:
         assert config_entry.state is ConfigEntryState.LOADED
 
 
-async def test_async_setup_with_missing_unique_id(hass: __HAC_KEEP__) -> None:
+async def test_async_setup_with_missing_unique_id(hass: UniversalAssistant) -> None:
     """Test that setting adds the missing unique_id from CONF_ID."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -549,7 +549,7 @@ async def test_async_setup_with_missing_unique_id(hass: __HAC_KEEP__) -> None:
         assert config_entry.state is ConfigEntryState.LOADED
 
 
-async def test_connection_dropped_resyncs_properties(hass: __HAC_KEEP__) -> None:
+async def test_connection_dropped_resyncs_properties(hass: UniversalAssistant) -> None:
     """Test handling a connection drop results in a property resync."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -583,7 +583,7 @@ async def test_connection_dropped_resyncs_properties(hass: __HAC_KEEP__) -> None
 
 
 async def test_oserror_on_first_update_results_in_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that an OSError on first update results in unavailable."""
     config_entry = MockConfigEntry(
@@ -610,7 +610,7 @@ async def test_oserror_on_first_update_results_in_unavailable(
 
 @pytest.mark.parametrize("exception", [BulbException, TimeoutError])
 async def test_non_oserror_exception_on_first_update(
-    hass: __HAC_KEEP__, exception: Exception
+    hass: UniversalAssistant, exception: Exception
 ) -> None:
     """Test non-OSError on first update does not result in unavailable.
 
@@ -638,7 +638,7 @@ async def test_non_oserror_exception_on_first_update(
     assert hass.states.get("light.test_name").state != STATE_UNAVAILABLE
 
 
-async def test_async_setup_with_discovery_not_working(hass: __HAC_KEEP__) -> None:
+async def test_async_setup_with_discovery_not_working(hass: UniversalAssistant) -> None:
     """Test we can setup even if discovery is broken."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -662,7 +662,7 @@ async def test_async_setup_with_discovery_not_working(hass: __HAC_KEEP__) -> Non
 
 
 async def test_async_setup_retries_with_wrong_device(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the config entry enters a retry state with the wrong device."""
     config_entry = MockConfigEntry(

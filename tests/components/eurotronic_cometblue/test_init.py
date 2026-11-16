@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.eurotronic_cometblue.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import FIXTURE_MAC
@@ -17,7 +17,7 @@ from .conftest import setup_with_selected_platforms
 
 
 async def test_device_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -32,7 +32,7 @@ async def test_device_registry(
 
 
 async def test_setup_retries_when_device_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -58,7 +58,7 @@ async def test_setup_retries_when_device_not_found(
 
 
 async def test_setup_retries_when_device_info_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setup retries when device info cannot be retrieved."""
@@ -75,7 +75,7 @@ async def test_setup_retries_when_device_info_fails(
 
 
 async def test_setup_fails_when_pin_is_incorrect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setup fails when the device does not accept the PIN."""

@@ -12,8 +12,8 @@ from propcache.api import cached_property
 from python_otbr_api import tlv_parser
 from python_otbr_api.tlv_parser import MeshcopTLVType
 
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.redact import REDACTED
 from universalassistant.helpers.singleton import singleton
 from universalassistant.helpers.storage import Store
@@ -63,7 +63,7 @@ def _normalize_dataset(
 
     Thread Border Routers may report functionally equivalent datasets without
     incrementing the active timestamp. To recognize these as equivalent, ignore
-    the fields that don't affect how __HA_KEEP__ uses the dataset:
+    the fields that don't affect how Universal Home Assistant uses the dataset:
     - WAKEUP_CHANNEL: added in newer OpenThread Border Router versions, but the
       wake-up protocol isn't defined yet, so we treat it as if it were always
       present.
@@ -87,7 +87,7 @@ def _normalize_dataset(
     return normalized
 
 
-class DatasetPreferredError(__HAC_KEEP__Error):
+class DatasetPreferredError(UniversalAssistantError):
     """Raised when attempting to delete the preferred dataset."""
 
 
@@ -95,7 +95,7 @@ class DatasetAddResult(StrEnum):
     """The outcome of adding a dataset to the store.
 
     A caller that has already handed the dataset to a border router needs to
-    know when __HA_KEEP__'s copy disagrees with what the mesh will run.
+    know when Universal Home Assistant's copy disagrees with what the mesh will run.
     """
 
     # The store's dataset for this extended PAN ID is the one that was passed:
@@ -263,7 +263,7 @@ class DatasetStoreStore(Store):
 class DatasetStore:
     """Class to hold a collection of thread datasets."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the dataset store."""
         self.hass = hass
         self.datasets: dict[str, DatasetEntry] = {}
@@ -300,7 +300,7 @@ class DatasetStore:
             MeshcopTLVType.EXTPANID not in dataset
             or MeshcopTLVType.ACTIVETIMESTAMP not in dataset
         ):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="invalid_dataset",
             )
@@ -308,7 +308,7 @@ class DatasetStore:
         # Don't allow setting preferred border agent ID without setting
         # preferred extended address
         if preferred_border_agent_id is not None and preferred_extended_address is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="preferred_extended_address_required",
             )
@@ -448,7 +448,7 @@ class DatasetStore:
         # Don't allow setting preferred border agent ID without setting
         # preferred extended address
         if border_agent_id is not None and extended_address is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="preferred_extended_address_required",
             )
@@ -580,7 +580,7 @@ class DatasetStore:
 
 
 @singleton(DATA_STORE)
-async def async_get_store(hass: __HAC_KEEP__) -> DatasetStore:
+async def async_get_store(hass: UniversalAssistant) -> DatasetStore:
     """Get the dataset store."""
     store = DatasetStore(hass)
     await store.async_load()
@@ -588,7 +588,7 @@ async def async_get_store(hass: __HAC_KEEP__) -> DatasetStore:
 
 
 async def async_add_dataset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     source: str,
     tlv: str,
     *,
@@ -607,7 +607,7 @@ async def async_add_dataset(
     )
 
 
-async def async_get_dataset(hass: __HAC_KEEP__, dataset_id: str) -> str | None:
+async def async_get_dataset(hass: UniversalAssistant, dataset_id: str) -> str | None:
     """Get a dataset."""
     store = await async_get_store(hass)
     if (entry := store.async_get(dataset_id)) is None:
@@ -615,7 +615,7 @@ async def async_get_dataset(hass: __HAC_KEEP__, dataset_id: str) -> str | None:
     return entry.tlv
 
 
-async def async_get_preferred_dataset(hass: __HAC_KEEP__) -> str | None:
+async def async_get_preferred_dataset(hass: UniversalAssistant) -> str | None:
     """Get the preferred dataset."""
     store = await async_get_store(hass)
     if (preferred_dataset := store.preferred_dataset) is None or (

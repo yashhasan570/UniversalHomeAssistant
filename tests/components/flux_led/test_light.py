@@ -56,7 +56,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.translation import async_get_translations
 from universalassistant.setup import async_setup_component
@@ -75,7 +75,7 @@ from . import (
 
 
 async def test_light_unique_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a light unique id."""
     config_entry = MockConfigEntry(
@@ -105,7 +105,7 @@ async def test_light_unique_id(
     ],
 )
 async def test_effect_labels_preserve_effect_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     effect: str,
     label: str,
@@ -148,7 +148,7 @@ async def test_effect_labels_preserve_effect_values(
 
 
 async def test_light_goes_unavailable_and_recovers(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a light goes unavailable and then recovers."""
     config_entry = MockConfigEntry(
@@ -183,7 +183,7 @@ async def test_light_goes_unavailable_and_recovers(
 
 
 async def test_light_mac_address_not_found(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a light when we cannot discover the mac address."""
     config_entry = MockConfigEntry(
@@ -209,7 +209,7 @@ async def test_light_mac_address_not_found(
     ],
 )
 async def test_light_device_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     protocol: str,
     sw_version: int,
@@ -240,7 +240,7 @@ async def test_light_device_registry(
     assert device.model == model
 
 
-async def test_rgb_light(hass: __HAC_KEEP__) -> None:
+async def test_rgb_light(hass: UniversalAssistant) -> None:
     """Test an rgb light."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -345,7 +345,7 @@ async def test_rgb_light(hass: __HAC_KEEP__) -> None:
     bulb.async_set_effect.reset_mock()
 
 
-async def test_rgb_light_auto_on(hass: __HAC_KEEP__) -> None:
+async def test_rgb_light_auto_on(hass: UniversalAssistant) -> None:
     """Test an rgb light that does not need the turn on command sent."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -478,7 +478,7 @@ async def test_rgb_light_auto_on(hass: __HAC_KEEP__) -> None:
     bulb.async_set_effect.reset_mock()
 
 
-async def test_rgbw_light_auto_on(hass: __HAC_KEEP__) -> None:
+async def test_rgbw_light_auto_on(hass: UniversalAssistant) -> None:
     """Test an rgbw light that does not need the turn on command sent."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -613,7 +613,7 @@ async def test_rgbw_light_auto_on(hass: __HAC_KEEP__) -> None:
     bulb.async_set_effect.reset_mock()
 
 
-async def test_rgbww_light_auto_on(hass: __HAC_KEEP__) -> None:
+async def test_rgbww_light_auto_on(hass: UniversalAssistant) -> None:
     """Test an rgbww light that does not need the turn on command sent."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -731,7 +731,7 @@ async def test_rgbww_light_auto_on(hass: __HAC_KEEP__) -> None:
     bulb.async_set_effect.reset_mock()
 
 
-async def test_rgb_cct_light(hass: __HAC_KEEP__) -> None:
+async def test_rgb_cct_light(hass: UniversalAssistant) -> None:
     """Test an rgb cct light."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -851,7 +851,7 @@ async def test_rgb_cct_light(hass: __HAC_KEEP__) -> None:
     bulb.async_set_brightness.reset_mock()
 
 
-async def test_rgbw_light_cold_white(hass: __HAC_KEEP__) -> None:
+async def test_rgbw_light_cold_white(hass: UniversalAssistant) -> None:
     """Test an rgbw light with a cold white channel."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -957,7 +957,7 @@ async def test_rgbw_light_cold_white(hass: __HAC_KEEP__) -> None:
     bulb.async_set_effect.reset_mock()
 
 
-async def test_rgbw_light_warm_white(hass: __HAC_KEEP__) -> None:
+async def test_rgbw_light_warm_white(hass: UniversalAssistant) -> None:
     """Test an rgbw light with a warm white channel."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1099,7 +1099,7 @@ async def test_rgbw_light_warm_white(hass: __HAC_KEEP__) -> None:
     bulb.async_set_effect.reset_mock()
 
 
-async def test_rgb_or_w_light(hass: __HAC_KEEP__) -> None:
+async def test_rgb_or_w_light(hass: UniversalAssistant) -> None:
     """Test an rgb or w light."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1209,7 +1209,7 @@ async def test_rgb_or_w_light(hass: __HAC_KEEP__) -> None:
     bulb.async_set_brightness.reset_mock()
 
 
-async def test_rgbcw_light(hass: __HAC_KEEP__) -> None:
+async def test_rgbcw_light(hass: UniversalAssistant) -> None:
     """Test an rgbcw light."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1367,7 +1367,7 @@ async def test_rgbcw_light(hass: __HAC_KEEP__) -> None:
     bulb.async_set_white_temp.reset_mock()
 
 
-async def test_white_light(hass: __HAC_KEEP__) -> None:
+async def test_white_light(hass: UniversalAssistant) -> None:
     """Test a white light."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1418,7 +1418,7 @@ async def test_white_light(hass: __HAC_KEEP__) -> None:
     bulb.async_set_brightness.reset_mock()
 
 
-async def test_no_color_modes(hass: __HAC_KEEP__) -> None:
+async def test_no_color_modes(hass: UniversalAssistant) -> None:
     """Test a light that has no color modes defined in the database."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1458,7 +1458,7 @@ async def test_no_color_modes(hass: __HAC_KEEP__) -> None:
     bulb.async_turn_on.reset_mock()
 
 
-async def test_rgb_light_custom_effects(hass: __HAC_KEEP__) -> None:
+async def test_rgb_light_custom_effects(hass: UniversalAssistant) -> None:
     """Test an rgb light with a custom effect."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1537,7 +1537,7 @@ async def test_rgb_light_custom_effects(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("effect_colors", [":: CANNOT BE PARSED ::", None])
 async def test_rgb_light_custom_effects_invalid_colors(
-    hass: __HAC_KEEP__, effect_colors: str
+    hass: UniversalAssistant, effect_colors: str
 ) -> None:
     """Test an rgb light with a invalid effect."""
     options = {
@@ -1574,7 +1574,7 @@ async def test_rgb_light_custom_effects_invalid_colors(
 
 
 async def test_rgb_light_custom_effect_via_service(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test an rgb light with a custom effect set via the service."""
     config_entry = MockConfigEntry(
@@ -1656,7 +1656,7 @@ async def test_rgb_light_custom_effect_via_service(
     bulb.async_set_zones.reset_mock()
 
 
-async def test_addressable_light(hass: __HAC_KEEP__) -> None:
+async def test_addressable_light(hass: UniversalAssistant) -> None:
     """Test an addressable light."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1697,7 +1697,7 @@ async def test_addressable_light(hass: __HAC_KEEP__) -> None:
     await async_mock_device_turn_on(hass, bulb)
 
 
-async def test_music_mode_service(hass: __HAC_KEEP__) -> None:
+async def test_music_mode_service(hass: UniversalAssistant) -> None:
     """Test music mode service."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

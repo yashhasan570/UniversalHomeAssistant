@@ -14,7 +14,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import EntityCategory, UnitOfTime
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import GatusConfigEntry, GatusDataUpdateCoordinator
@@ -110,7 +110,7 @@ SENSOR_TYPES: tuple[GatusSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: GatusConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

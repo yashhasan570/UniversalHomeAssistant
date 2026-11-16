@@ -13,7 +13,7 @@ from universalassistant.components import automation
 from universalassistant.components.cover import DOMAIN, CoverEntityFeature, CoverState
 from universalassistant.components.device_automation import DeviceAutomationType
 from universalassistant.const import CONF_PLATFORM, STATE_UNAVAILABLE, EntityCategory
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_registry import RegistryEntryHider
 from universalassistant.setup import async_setup_component
@@ -57,7 +57,7 @@ from .common import MockCover
     ],
 )
 async def test_get_conditions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     set_state,
@@ -113,7 +113,7 @@ async def test_get_conditions(
     ],
 )
 async def test_get_conditions_hidden_auxiliary(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     hidden_by,
@@ -153,7 +153,7 @@ async def test_get_conditions_hidden_auxiliary(
 
 
 async def test_get_condition_capabilities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_cover_entities: list[MockCover],
@@ -186,7 +186,7 @@ async def test_get_condition_capabilities(
 
 
 async def test_get_condition_capabilities_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_cover_entities: list[MockCover],
@@ -222,7 +222,7 @@ async def test_get_condition_capabilities_legacy(
 
 
 async def test_get_condition_capabilities_set_pos(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_cover_entities: list[MockCover],
@@ -280,7 +280,7 @@ async def test_get_condition_capabilities_set_pos(
 
 
 async def test_get_condition_capabilities_set_tilt_pos(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_cover_entities: list[MockCover],
@@ -339,7 +339,7 @@ async def test_get_condition_capabilities_set_tilt_pos(
 
 
 async def test_if_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],
@@ -482,7 +482,7 @@ async def test_if_state(
 
 
 async def test_if_state_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],
@@ -538,7 +538,7 @@ async def test_if_state_legacy(
 
 
 async def test_if_position(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],
@@ -700,7 +700,7 @@ async def test_if_position(
 
 
 async def test_if_tilt_position(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],

@@ -12,7 +12,7 @@ from nexia.zone import NexiaThermostatZone
 
 from universalassistant.components.switch import SwitchEntity
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import NexiaDataUpdateCoordinator
@@ -29,7 +29,7 @@ async def _stop_harmonizers(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: NexiaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

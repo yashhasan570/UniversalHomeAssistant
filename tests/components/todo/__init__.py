@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry, MockPlatform, mock
 
 from universalassistant.components.todo import DOMAIN, TodoItem, TodoListEntity
 from universalassistant.config_entries import ConfigEntry, ConfigFlow
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 TEST_DOMAIN = "test"
@@ -51,13 +51,13 @@ class MockTodoListEntity(TodoListEntity):
 
 
 async def create_mock_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entities: list[TodoListEntity],
 ) -> MockConfigEntry:
     """Create a todo platform with the specified entities."""
 
     async def async_setup_entry_platform(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:

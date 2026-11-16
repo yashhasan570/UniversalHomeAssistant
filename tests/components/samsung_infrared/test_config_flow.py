@@ -13,14 +13,14 @@ from universalassistant.components.samsung_infrared.const import (
     SamsungDeviceType,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 
 
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
 async def test_user_flow_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test successful user config flow."""
     result = await hass.config_entries.flow.async_init(
@@ -51,7 +51,7 @@ async def test_user_flow_success(
 
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
 async def test_user_flow_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test user flow aborts when entry is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -75,7 +75,7 @@ async def test_user_flow_already_configured(
 
 
 @pytest.mark.usefixtures("init_infrared")
-async def test_user_flow_no_emitters(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_no_emitters(hass: UniversalAssistant) -> None:
     """Test user flow aborts when no infrared emitters exist."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -94,7 +94,7 @@ async def test_user_flow_no_emitters(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_user_flow_title_from_entity_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     entity_name: str | None,
     expected_title: str,

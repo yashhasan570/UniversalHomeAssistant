@@ -30,7 +30,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.husqvarna_automower.const import DOMAIN, OAUTH2_TOKEN
 from universalassistant.components.husqvarna_automower.coordinator import SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
@@ -47,7 +47,7 @@ NUMBER_OF_ENTITIES_MOWER_2 = 12
 
 
 async def test_load_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -70,7 +70,7 @@ async def test_load_unload_entry(
     ],
 )
 async def test_load_missing_scope(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -100,7 +100,7 @@ async def test_load_missing_scope(
     ids=["unauthorized", "internal_server_error"],
 )
 async def test_expired_token_refresh_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     status: http.HTTPStatus,
@@ -127,7 +127,7 @@ async def test_expired_token_refresh_failure(
     ],
 )
 async def test_update_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -159,7 +159,7 @@ async def test_update_failed(
     ],
 )
 async def test_websocket_not_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -217,7 +217,7 @@ async def test_websocket_not_available(
     ],
 )
 async def test_model_id_information(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_automower_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -241,7 +241,7 @@ async def test_model_id_information(
 
 
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -259,7 +259,7 @@ async def test_device_info(
 
 
 async def test_constant_polling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     values: dict[str, MowerAttributes],
@@ -327,7 +327,7 @@ async def test_constant_polling(
 
 
 async def test_coordinator_automatic_registry_cleanup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -413,7 +413,7 @@ async def test_coordinator_automatic_registry_cleanup(
 
 
 async def test_add_and_remove_work_area(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -538,7 +538,7 @@ async def test_add_and_remove_work_area(
 
 
 async def test_rename_work_area(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -576,7 +576,7 @@ async def test_rename_work_area(
 
 
 async def test_dynamic_polling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client,
     mock_config_entry,
     freezer: FrozenDateTimeFactory,
@@ -664,7 +664,7 @@ async def test_dynamic_polling(
 
 
 async def test_websocket_watchdog(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client,
     mock_config_entry,
     freezer: FrozenDateTimeFactory,
@@ -751,7 +751,7 @@ async def test_websocket_watchdog(
 
 
 async def test_oauth_implementation_not_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""

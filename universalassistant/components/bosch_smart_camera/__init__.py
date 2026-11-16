@@ -1,14 +1,14 @@
 """The Bosch Smart Camera integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import BoschCameraConfigEntry, BoschCameraCoordinator
 
 PLATFORMS = [Platform.CAMERA]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: BoschCameraConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: BoschCameraConfigEntry) -> None:
     """Set up Bosch Smart Camera from a config entry."""
     coordinator = BoschCameraCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()
@@ -17,7 +17,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: BoschCameraConfigEntry) -
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: BoschCameraConfigEntry
+    hass: UniversalAssistant, entry: BoschCameraConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

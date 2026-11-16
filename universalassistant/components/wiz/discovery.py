@@ -8,7 +8,7 @@ from pywizlight.discovery import DiscoveredBulb, find_wizlights
 
 from universalassistant import config_entries
 from universalassistant.components import network
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import discovery_flow
 
 from .const import DOMAIN
@@ -17,7 +17,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_discover_devices(
-    hass: __HAC_KEEP__, timeout: int
+    hass: UniversalAssistant, timeout: int
 ) -> list[DiscoveredBulb]:
     """Discover wiz devices."""
     broadcast_addrs = await network.async_get_ipv4_broadcast_addresses(hass)
@@ -43,7 +43,7 @@ async def async_discover_devices(
 
 @callback
 def async_trigger_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     discovered_devices: list[DiscoveredBulb],
 ) -> None:
     """Trigger config flows for discovered devices."""

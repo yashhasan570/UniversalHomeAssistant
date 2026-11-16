@@ -8,8 +8,8 @@ import re
 import probatio
 import requests
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service import async_register_admin_service
 from universalassistant.util import raise_if_invalid_filename, raise_if_invalid_path
@@ -148,7 +148,7 @@ async def download_file(service: ServiceCall) -> None:
             if final_path and os.path.isfile(final_path):
                 os.remove(final_path)
 
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="connection_error",
                 translation_placeholders={"url": url},
@@ -173,7 +173,7 @@ async def download_file(service: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the services for the downloader component."""
     async_register_admin_service(
         hass,

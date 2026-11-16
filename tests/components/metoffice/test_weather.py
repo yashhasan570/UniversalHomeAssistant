@@ -20,7 +20,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.metoffice.const import DEFAULT_SCAN_INTERVAL, DOMAIN
 from universalassistant.components.weather import DOMAIN as WEATHER_DOMAIN, WeatherService
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import utcnow
 
@@ -42,7 +42,7 @@ def no_sensor():
 
 @pytest.fixture
 async def wavertree_data(
-    hass: __HAC_KEEP__, requests_mock: requests_mock.Mocker
+    hass: UniversalAssistant, requests_mock: requests_mock.Mocker
 ) -> dict[str, _Matcher]:
     """Mock data for the Wavertree location."""
     # all metoffice test data encapsulated in here
@@ -66,7 +66,7 @@ async def wavertree_data(
 
 @pytest.mark.freeze_time(dt.datetime(2024, 11, 23, 12, tzinfo=dt.UTC))
 async def test_site_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     requests_mock: requests_mock.Mocker,
     entry: MockConfigEntry,
@@ -97,7 +97,7 @@ async def test_site_cannot_connect(
 
 @pytest.mark.freeze_time(dt.datetime(2024, 11, 23, 12, tzinfo=dt.UTC))
 async def test_site_cannot_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     requests_mock: requests_mock.Mocker,
     wavertree_data,
     entry: MockConfigEntry,
@@ -146,7 +146,7 @@ async def test_site_cannot_update(
 
 @pytest.mark.freeze_time(dt.datetime(2024, 11, 23, 12, tzinfo=dt.UTC))
 async def test_one_weather_site_running(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     requests_mock: requests_mock.Mocker,
     wavertree_data,
@@ -179,7 +179,7 @@ async def test_one_weather_site_running(
 
 @pytest.mark.freeze_time(dt.datetime(2024, 11, 23, 12, tzinfo=dt.UTC))
 async def test_two_weather_sites_running(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     requests_mock: requests_mock.Mocker,
     wavertree_data,
@@ -245,7 +245,7 @@ async def test_two_weather_sites_running(
 
 @pytest.mark.freeze_time(dt.datetime(2024, 11, 23, 12, tzinfo=dt.UTC))
 async def test_new_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     no_sensor,
     wavertree_data,
@@ -268,7 +268,7 @@ async def test_new_config_entry(
     [WeatherService.GET_FORECASTS],
 )
 async def test_forecast_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     requests_mock: requests_mock.Mocker,
     snapshot: SnapshotAssertion,
@@ -320,7 +320,7 @@ async def test_forecast_service(
 
 @pytest.mark.freeze_time(dt.datetime(2024, 11, 23, 12, tzinfo=dt.UTC))
 async def test_legacy_config_entry_is_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     no_sensor,
     wavertree_data,
@@ -347,7 +347,7 @@ async def test_legacy_config_entry_is_removed(
 
 @pytest.mark.freeze_time(dt.datetime(2024, 11, 23, 12, tzinfo=dt.UTC))
 async def test_forecast_subscription(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,

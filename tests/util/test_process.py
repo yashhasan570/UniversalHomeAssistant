@@ -6,11 +6,11 @@ import subprocess
 
 import pytest
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import process
 
 
-async def test_kill_process(hass: __HAC_KEEP__) -> None:
+async def test_kill_process(hass: UniversalAssistant) -> None:
     """Test killing a process."""
     sleeper = await hass.async_add_executor_job(
         partial(  # noqa: S604 # shell by design

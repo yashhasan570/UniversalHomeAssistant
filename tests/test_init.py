@@ -1,4 +1,4 @@
-"""Test the __HA_KEEP__ package init."""
+"""Test the Universal Home Assistant package init."""
 
 import subprocess
 import sys
@@ -11,7 +11,7 @@ IMPORT_TIMEOUT = 60
 
 
 def test_probatio_codecs_is_imported_before_the_event_loop() -> None:
-    """Importing __HA_KEEP__ must leave no lazy codec import for the loop.
+    """Importing Universal Home Assistant must leave no lazy codec import for the loop.
 
     Probatio resolves to_field_list and to_openapi through a lazy import of
     probatio.codecs on first attribute access, and both are reached from the
@@ -49,7 +49,7 @@ def test_httpx_is_aliased_to_httpx2() -> None:
 
 @pytest.mark.parametrize("module", ["httpx", "httpcore"])
 def test_early_httpx_import_fails_loudly(module: str) -> None:
-    """Test importing httpx before __HA_KEEP__ fails instead of splitting classes.
+    """Test importing httpx before Universal Home Assistant fails instead of splitting classes.
 
     A clean interpreter is needed, as the test suite already imported Home
     Assistant.

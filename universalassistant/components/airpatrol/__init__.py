@@ -1,12 +1,12 @@
 """The AirPatrol integration."""
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import PLATFORMS
 from .coordinator import AirPatrolConfigEntry, AirPatrolDataUpdateCoordinator
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: AirPatrolConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: AirPatrolConfigEntry) -> None:
     """Set up AirPatrol from a config entry."""
     coordinator = AirPatrolDataUpdateCoordinator(hass, entry)
 
@@ -16,6 +16,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: AirPatrolConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: AirPatrolConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: AirPatrolConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

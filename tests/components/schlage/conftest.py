@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.schlage.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import MockSchlageConfigEntry
 
@@ -33,13 +33,13 @@ def mock_config_entry() -> MockSchlageConfigEntry:
 async def mock_added_config_entry(
     mock_add_config_entry: Callable[[], Awaitable[MockSchlageConfigEntry]],
 ) -> MockSchlageConfigEntry:
-    """Return a mock ConfigEntry that has been added to and set up in __HA_KEEP__."""
+    """Return a mock ConfigEntry that has been added to and set up in Universal Home Assistant."""
     return await mock_add_config_entry()
 
 
 @pytest.fixture
 async def mock_add_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockSchlageConfigEntry,
     mock_pyschlage_auth: Mock,
     mock_schlage: Mock,

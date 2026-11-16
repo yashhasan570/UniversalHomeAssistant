@@ -31,7 +31,7 @@ from .decorators import (
 from .repositories import repository_summary
 
 if TYPE_CHECKING:
-    from universalassistant.core import __HAC_KEEP__
+    from universalassistant.core import UniversalAssistant
 
     from ..base import MarketplaceManager
     from ..repositories.base import Repository
@@ -83,7 +83,7 @@ def _send_refresh_failed(
 @websocket_api.async_response
 @marketplace_command()
 async def marketplace_repository_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     marketplace: MarketplaceManager,
@@ -149,7 +149,7 @@ async def marketplace_repository_info(
 @websocket_api.async_response
 @marketplace_command()
 async def marketplace_repository_ignore(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     marketplace: MarketplaceManager,
@@ -179,7 +179,7 @@ async def marketplace_repository_ignore(
 @websocket_api.async_response
 @marketplace_command(requires_accepted_warning=True)
 async def marketplace_repository_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     marketplace: MarketplaceManager,
@@ -222,7 +222,7 @@ async def marketplace_repository_version(
 @websocket_api.async_response
 @marketplace_command(requires_accepted_warning=True)
 async def marketplace_repository_beta(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     marketplace: MarketplaceManager,
@@ -263,7 +263,7 @@ async def marketplace_repository_beta(
 @websocket_api.async_response
 @marketplace_command(requires_accepted_warning=True)
 async def marketplace_repository_install(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     marketplace: MarketplaceManager,
@@ -322,7 +322,7 @@ async def marketplace_repository_install(
 @websocket_api.async_response
 @marketplace_command()
 async def marketplace_repository_uninstall(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     marketplace: MarketplaceManager,
@@ -404,7 +404,7 @@ async def marketplace_repository_uninstall(
 @websocket_api.async_response
 @marketplace_command()
 async def marketplace_repository_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     marketplace: MarketplaceManager,
@@ -438,7 +438,7 @@ async def marketplace_repository_refresh(
 @websocket_api.async_response
 @marketplace_command()
 async def marketplace_repository_releases(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     marketplace: MarketplaceManager,

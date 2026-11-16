@@ -31,8 +31,8 @@ from universalassistant.components.solaredge_modbus.const import (
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_ON, STATE_UNAVAILABLE, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import (
@@ -78,14 +78,14 @@ SITE_EXPORT_LIMIT_ENTITY = "number.solaredge_se10000h_site_export_limit"
 ON_GRID_ENTITY = "binary_sensor.solaredge_se10000h_on_grid"
 
 
-async def _setup(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+async def _setup(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     entry.add_to_hass(hass)
     await hass.config_entries.async_setup(entry.entry_id)
     await hass.async_block_till_done()
 
 
 async def test_load_unload_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """The entry loads, produces entities, and unloads cleanly."""
     await _setup(hass, mock_config_entry)
@@ -102,7 +102,7 @@ async def test_load_unload_entry(
 
 
 async def test_inverter_that_does_not_name_itself(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -122,7 +122,7 @@ async def test_inverter_that_does_not_name_itself(
 
 
 async def test_meter_is_a_sub_device_of_the_inverter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -146,7 +146,7 @@ async def test_meter_is_a_sub_device_of_the_inverter(
 
 
 async def test_meter_without_a_serial_number_is_known_by_its_slot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -168,7 +168,7 @@ async def test_meter_without_a_serial_number_is_known_by_its_slot(
 
 
 async def test_meter_that_left_the_installation_is_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -208,7 +208,7 @@ async def test_meter_that_left_the_installation_is_removed(
 
 
 async def test_setup_retry_when_a_meter_is_unreadable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -225,7 +225,7 @@ async def test_setup_retry_when_a_meter_is_unreadable(
 
 
 async def test_meter_that_did_not_answer_the_probe_is_kept(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -260,7 +260,7 @@ async def test_meter_that_did_not_answer_the_probe_is_kept(
 
 
 async def test_replaced_meter_is_a_new_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -301,7 +301,7 @@ async def test_replaced_meter_is_a_new_device(
 
 
 async def test_batteries_are_sub_devices_of_the_inverter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -326,7 +326,7 @@ async def test_batteries_are_sub_devices_of_the_inverter(
 
 
 async def test_battery_that_left_the_installation_is_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -365,7 +365,7 @@ async def test_battery_that_left_the_installation_is_removed(
 
 
 async def test_battery_that_did_not_answer_the_probe_is_kept(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -395,7 +395,7 @@ async def test_battery_that_did_not_answer_the_probe_is_kept(
 
 
 async def test_silence_about_one_kind_does_not_shield_the_other(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -432,7 +432,7 @@ async def test_silence_about_one_kind_does_not_shield_the_other(
 
 
 async def test_battery_without_a_serial_number_is_known_by_its_slot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -453,7 +453,7 @@ async def test_battery_without_a_serial_number_is_known_by_its_slot(
 
 @pytest.mark.parametrize("failing_register", [COMMON_REGISTER, INVERTER_REGISTER])
 async def test_single_late_answer_is_retried(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -485,7 +485,7 @@ async def test_single_late_answer_is_retried(
 
 
 async def test_dead_link_fails_the_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -528,7 +528,7 @@ async def test_dead_link_fails_the_refresh(
 
 
 async def test_another_inverter_on_the_address_fails_the_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -562,7 +562,7 @@ async def test_another_inverter_on_the_address_fails_the_refresh(
 
 
 async def test_silent_control_block_leaves_the_others_alone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -585,7 +585,7 @@ async def test_silent_control_block_leaves_the_others_alone(
 
 
 async def test_settings_failure_does_not_block_setup(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Readings carry the entry even when the control blocks stay silent."""
     with patch(
@@ -604,7 +604,7 @@ async def test_settings_failure_does_not_block_setup(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_concurrent_control_writes_keep_both_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -654,7 +654,7 @@ async def test_concurrent_control_writes_keep_both_changes(
 
 
 async def _tick_attachment_check(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> int:
     """Let the check for changed hardware run, and report what it cost.
 
@@ -680,7 +680,7 @@ async def _tick_attachment_check(
 
 
 async def test_meter_added_later_is_picked_up(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
@@ -716,7 +716,7 @@ async def test_meter_added_later_is_picked_up(
 
 
 async def test_battery_removed_later_is_dropped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
@@ -746,7 +746,7 @@ async def test_battery_removed_later_is_dropped(
 
 
 async def test_replaced_meter_is_picked_up(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
@@ -802,7 +802,7 @@ async def test_replaced_meter_is_picked_up(
     ],
 )
 async def test_block_that_answers_later_is_picked_up(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -832,7 +832,7 @@ async def test_block_that_answers_later_is_picked_up(
     ],
 )
 async def test_block_going_quiet_does_not_trigger_a_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -850,7 +850,7 @@ async def test_block_going_quiet_does_not_trigger_a_reload(
 
 
 async def test_silent_attachment_does_not_trigger_a_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
@@ -877,7 +877,7 @@ async def test_silent_attachment_does_not_trigger_a_reload(
 
 
 async def test_unchanged_attachments_leave_the_entry_alone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -894,7 +894,7 @@ async def test_unchanged_attachments_leave_the_entry_alone(
 
 
 async def test_a_dead_probe_leaves_the_entry_where_it_is(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -916,7 +916,7 @@ async def test_a_dead_probe_leaves_the_entry_where_it_is(
 
 
 async def test_setup_retry_when_device_unresponsive(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -929,7 +929,7 @@ async def test_setup_retry_when_device_unresponsive(
 
 
 async def test_setup_error_when_not_a_solaredge_device(
-    hass: __HAC_KEEP__, mock_modbus_connection: MockModbusConnection
+    hass: UniversalAssistant, mock_modbus_connection: MockModbusConnection
 ) -> None:
     """A device without a SunSpec header fails setup permanently."""
     unit = mock_modbus_connection.for_unit(2)
@@ -955,7 +955,7 @@ async def test_setup_error_when_not_a_solaredge_device(
     ],
 )
 async def test_setup_error_when_the_identity_does_not_match(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_modbus_connection: MockModbusConnection,
     serial_registers: list[int],
 ) -> None:
@@ -981,7 +981,7 @@ async def test_setup_error_when_the_identity_does_not_match(
 
 
 async def test_setup_retry_when_the_identity_is_unreadable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -1000,7 +1000,7 @@ async def test_setup_retry_when_the_identity_is_unreadable(
 
 
 async def test_setup_retry_when_the_measurements_are_unreadable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -1019,7 +1019,7 @@ async def test_setup_retry_when_the_measurements_are_unreadable(
 
 
 async def test_retry_that_finds_nothing_keeps_the_first_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -1059,12 +1059,12 @@ async def test_retry_that_finds_nothing_keeps_the_first_poll(
 
 
 async def test_setup_error_when_link_settings_are_in_use(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Another integration holding the device on other line settings is fatal."""
     with patch(
         "universalassistant.components.solaredge_modbus.async_get_unit",
-        side_effect=__HAC_KEEP__Error("already in use with different link settings"),
+        side_effect=UniversalAssistantError("already in use with different link settings"),
     ):
         await _setup(hass, mock_config_entry)
 
@@ -1072,7 +1072,7 @@ async def test_setup_error_when_link_settings_are_in_use(
 
 
 async def test_a_block_that_stays_silent_stops_being_asked(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -1105,7 +1105,7 @@ async def test_a_block_that_stays_silent_stops_being_asked(
 
 
 async def test_a_block_that_blips_once_keeps_being_asked(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -1151,7 +1151,7 @@ async def test_a_block_that_blips_once_keeps_being_asked(
     ],
 )
 async def test_a_block_discovery_depends_on_keeps_being_asked(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -1186,7 +1186,7 @@ async def test_a_block_discovery_depends_on_keeps_being_asked(
 
 
 async def test_a_settled_block_is_not_waited_for_on_the_next_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -1223,7 +1223,7 @@ async def test_a_settled_block_is_not_waited_for_on_the_next_setup(
 
 
 async def test_a_settled_block_that_answers_again_is_picked_up(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -1250,7 +1250,7 @@ async def test_a_settled_block_that_answers_again_is_picked_up(
 
 @pytest.mark.parametrize("subsystem", ["batteries", "meters", "mmppt"])
 async def test_a_stored_discovery_block_is_still_asked_at_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_modbus_unit: MockModbusUnit,
     subsystem: str,
 ) -> None:
@@ -1277,7 +1277,7 @@ async def test_a_stored_discovery_block_is_still_asked_at_setup(
 
 
 async def test_only_a_block_a_check_reloads_for_is_kept(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -1298,7 +1298,7 @@ async def test_only_a_block_a_check_reloads_for_is_kept(
 
 
 async def test_reads_wait_longer_than_the_probe(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:

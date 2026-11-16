@@ -60,7 +60,7 @@
       "fix_flow": {
         "step": {
           "confirm": {
-            "description": "The `device_tracker.see` action is deprecated and will be removed in __HA_KEEP__ Core 2027.5.\n\nUse a [template device tracker]({docs_url}) instead, then remove any use of this action from your automations and scripts and select **Submit** to close this issue.",
+            "description": "The `device_tracker.see` action is deprecated and will be removed in Universal Home Assistant Core 2027.5.\n\nUse a [template device tracker]({docs_url}) instead, then remove any use of this action from your automations and scripts and select **Submit** to close this issue.",
             "title": "Detected use of deprecated action device_tracker.see"
           }
         }

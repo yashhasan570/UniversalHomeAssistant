@@ -14,7 +14,7 @@ from pywizlight.discovery import DiscoveredBulb
 
 from universalassistant.components.wiz.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 FAKE_STATE = PilotParser(
@@ -216,8 +216,8 @@ FAKE_DIMMABLE_FAN_2 = BulbType(
 )
 
 
-async def setup_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
-    """Mock ConfigEntry in __HA_KEEP__."""
+async def setup_integration(hass: UniversalAssistant) -> MockConfigEntry:
+    """Mock ConfigEntry in Universal Home Assistant."""
 
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -310,7 +310,7 @@ def _patch_discovery() -> _GeneratorContextManager[None]:
 
 
 async def async_setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     wizlight: wizlight | None = None,
     device: dict[str, Any] | None = None,
     extended_white_range: list[int] | None = None,
@@ -332,7 +332,7 @@ async def async_setup_integration(
 
 
 async def async_push_update(
-    hass: __HAC_KEEP__, device: wizlight, params: dict[str, Any]
+    hass: UniversalAssistant, device: wizlight, params: dict[str, Any]
 ) -> None:
     """Push an update to the device."""
     device.state = PilotParser(params)

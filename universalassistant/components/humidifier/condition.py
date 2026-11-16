@@ -5,8 +5,8 @@ from typing import TYPE_CHECKING, override
 import probatio
 
 from universalassistant.const import CONF_MODE, CONF_OPTIONS, PERCENTAGE, STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__, State
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, State
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.automation import DomainSpec
 from universalassistant.helpers.condition import (
     ENTITY_STATE_CONDITION_SCHEMA_ANY_ALL,
@@ -36,11 +36,11 @@ IS_MODE_CONDITION_SCHEMA = ENTITY_STATE_CONDITION_SCHEMA_ANY_ALL.extend(
 )
 
 
-def _supports_feature(hass: __HAC_KEEP__, entity_id: str, features: int) -> bool:
+def _supports_feature(hass: UniversalAssistant, entity_id: str, features: int) -> bool:
     """Test if an entity supports the specified features."""
     try:
         return bool(get_supported_features(hass, entity_id) & features)
-    except __HAC_KEEP__Error:
+    except UniversalAssistantError:
         return False
 
 
@@ -70,7 +70,7 @@ class IsModeCondition(EntityStateConditionBase):
     }
     _schema = IS_MODE_CONDITION_SCHEMA
 
-    def __init__(self, hass: __HAC_KEEP__, config: ConditionConfig) -> None:
+    def __init__(self, hass: UniversalAssistant, config: ConditionConfig) -> None:
         """Initialize the mode condition."""
         super().__init__(hass, config)
         if TYPE_CHECKING:
@@ -104,6 +104,6 @@ CONDITIONS: dict[str, type[Condition]] = {
 }
 
 
-async def async_get_conditions(hass: __HAC_KEEP__) -> dict[str, type[Condition]]:
+async def async_get_conditions(hass: UniversalAssistant) -> dict[str, type[Condition]]:
     """Return the humidifier conditions."""
     return CONDITIONS

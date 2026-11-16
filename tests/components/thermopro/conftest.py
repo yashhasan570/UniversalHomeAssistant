@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from thermopro_ble import ThermoProDevice
 
 from universalassistant.components.thermopro.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.dt import now
 
 
@@ -50,7 +50,7 @@ def mock_now(monkeypatch: pytest.MonkeyPatch) -> datetime:
 
 @pytest.fixture
 async def setup_thermopro(
-    hass: __HAC_KEEP__, mock_thermoprodevice: ThermoProDevice
+    hass: UniversalAssistant, mock_thermoprodevice: ThermoProDevice
 ) -> None:
     """Set up the Thermopro integration."""
     entry = MockConfigEntry(

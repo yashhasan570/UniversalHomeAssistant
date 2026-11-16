@@ -16,7 +16,7 @@ from universalassistant.components.mqtt import (
     async_unsubscribe_topics,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import LOGGER, PLATFORMS
@@ -32,11 +32,11 @@ class InelsData:
     devices: list[Device]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: InelsConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: InelsConfigEntry) -> None:
     """Set up iNELS from a config entry."""
 
     async def mqtt_publish(topic: str, payload: str, qos: int, retain: bool) -> None:
-        """Publish an MQTT message using the __HA_KEEP__ MQTT client."""
+        """Publish an MQTT message using the Universal Home Assistant MQTT client."""
         await ha_mqtt.async_publish(hass, topic, payload, qos, retain)
 
     async def mqtt_subscribe(
@@ -44,7 +44,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: InelsConfigEntry) -> None
         topic: str,
         callback_func: Callable[[str, str], None],
     ) -> dict[str, Any]:
-        """Subscribe to MQTT topics using the __HA_KEEP__ MQTT client."""
+        """Subscribe to MQTT topics using the Universal Home Assistant MQTT client."""
 
         @callback
         def mqtt_message_received(msg: ReceiveMessage) -> None:
@@ -82,7 +82,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: InelsConfigEntry) -> None
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: InelsConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: InelsConfigEntry) -> None:
     """Unload a config entry."""
     await entry.runtime_data.mqtt.unsubscribe_topics()
     entry.runtime_data.mqtt.unsubscribe_listeners()

@@ -12,7 +12,7 @@ from universalassistant.components.onboarding import (
     BaseOnboardingView,
     NoAuthBaseOnboardingView,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import http_api as cloud_http
 from .const import DATA_CLOUD
@@ -21,7 +21,7 @@ if TYPE_CHECKING:
     from universalassistant.components.onboarding import OnboardingStoreData
 
 
-async def async_setup_views(hass: __HAC_KEEP__, data: OnboardingStoreData) -> None:
+async def async_setup_views(hass: UniversalAssistant, data: OnboardingStoreData) -> None:
     """Set up the cloud views."""
 
     hass.http.register_view(CloudForgotPasswordView(data))
@@ -36,7 +36,7 @@ def ensure_not_done[_ViewT: BaseOnboardingView, **_P](
         Coroutine[Any, Any, web.Response],
     ],
 ) -> Callable[Concatenate[_ViewT, web.Request, _P], Coroutine[Any, Any, web.Response]]:
-    """__HA_KEEP__ API decorator to check onboarding and cloud."""
+    """Universal Home Assistant API decorator to check onboarding and cloud."""
 
     @wraps(func)
     async def _ensure_not_done(
@@ -72,7 +72,7 @@ class CloudForgotPasswordView(
 
 
 class CloudLoginView(NoAuthBaseOnboardingView, cloud_http.CloudLoginView):
-    """Login to __HA_KEEP__ Cloud."""
+    """Login to Universal Home Assistant Cloud."""
 
     url = "/api/onboarding/cloud/login"
     name = "api:onboarding:cloud:login"
@@ -85,7 +85,7 @@ class CloudLoginView(NoAuthBaseOnboardingView, cloud_http.CloudLoginView):
 
 
 class CloudLogoutView(NoAuthBaseOnboardingView, cloud_http.CloudLogoutView):
-    """Log out of the __HA_KEEP__ cloud."""
+    """Log out of the Universal Home Assistant cloud."""
 
     url = "/api/onboarding/cloud/logout"
     name = "api:onboarding:cloud:logout"

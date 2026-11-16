@@ -3,13 +3,13 @@
 from dataclasses import asdict
 from typing import Any
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import AxleConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: AxleConfigEntry
+    hass: UniversalAssistant, entry: AxleConfigEntry
 ) -> dict[str, Any]:
     """Return cached event data without requesting an update."""
     coordinator = entry.runtime_data

@@ -9,7 +9,7 @@ from blinkpy.auth import BlinkTwoFARequiredError, UnauthorizedError
 from blinkpy.blinkpy import Blink
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -31,7 +31,7 @@ class BlinkUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     config_entry: BlinkConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: BlinkConfigEntry, api: Blink
+        self, hass: UniversalAssistant, config_entry: BlinkConfigEntry, api: Blink
     ) -> None:
         """Initialize the data service."""
         self.api = api

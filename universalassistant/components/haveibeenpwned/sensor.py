@@ -13,7 +13,7 @@ from universalassistant.components.sensor import (
     SensorEntity,
 )
 from universalassistant.const import CONF_API_KEY, CONF_EMAIL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.event import track_point_in_time
@@ -24,7 +24,7 @@ _LOGGER = logging.getLogger(__name__)
 
 DATE_STR_FORMAT = "%Y-%m-%d %H:%M:%S"
 
-HA_USER_AGENT = "__HA_KEEP__ HaveIBeenPwned Sensor Component"
+HA_USER_AGENT = "Universal Home Assistant HaveIBeenPwned Sensor Component"
 
 MIN_TIME_BETWEEN_FORCED_UPDATES = timedelta(seconds=5)
 MIN_TIME_BETWEEN_UPDATES = timedelta(minutes=15)
@@ -40,7 +40,7 @@ PLATFORM_SCHEMA = SENSOR_PLATFORM_SCHEMA.extend(
 
 
 def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

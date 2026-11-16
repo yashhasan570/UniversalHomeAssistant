@@ -1,10 +1,10 @@
 """The test for the random number sensor platform."""
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
-async def test_random_sensor(hass: __HAC_KEEP__) -> None:
+async def test_random_sensor(hass: UniversalAssistant) -> None:
     """Test the Random number sensor."""
     config = {
         "sensor": {

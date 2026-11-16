@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any
 from yarl import URL
 
 from universalassistant.components import system_health
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.network import NoURLAvailableError, get_url
 
 from .coordinator import (
@@ -25,14 +25,14 @@ OBSERVER_PORT = 4357
 
 @callback
 def async_register(
-    hass: __HAC_KEEP__, register: system_health.SystemHealthRegistration
+    hass: UniversalAssistant, register: system_health.SystemHealthRegistration
 ) -> None:
     """Register system health callbacks."""
     register.async_register_info(system_health_info)
 
 
 def _get_supervisor_data_if_available(
-    hass: __HAC_KEEP__, get_info_dict: Callable[[__HAC_KEEP__], dict[str, Any]]
+    hass: UniversalAssistant, get_info_dict: Callable[[UniversalAssistant], dict[str, Any]]
 ) -> dict[str, Any]:
     """Get data from supervisor if available."""
     try:
@@ -41,8 +41,8 @@ def _get_supervisor_data_if_available(
         return {}
 
 
-def _get_observer_url(hass: __HAC_KEEP__) -> str | None:
-    """Return the observer URL on the host the user reached __HA_KEEP__ at."""
+def _get_observer_url(hass: UniversalAssistant) -> str | None:
+    """Return the observer URL on the host the user reached Universal Home Assistant at."""
     # The observer is published on the host, only reachable on the local network.
     # Same check as is_internal_request, but returns the internal URL it matched.
     try:
@@ -57,7 +57,7 @@ def _get_observer_url(hass: __HAC_KEEP__) -> str | None:
     return str(URL.build(scheme="http", host=host, port=OBSERVER_PORT))
 
 
-async def system_health_info(hass: __HAC_KEEP__) -> dict[str, Any]:
+async def system_health_info(hass: UniversalAssistant) -> dict[str, Any]:
     """Get info for the info page."""
     info = _get_supervisor_data_if_available(hass, get_info)
     host_info = _get_supervisor_data_if_available(hass, get_host_info)

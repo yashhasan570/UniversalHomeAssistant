@@ -24,7 +24,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import CoreState, __HAC_KEEP__
+from universalassistant.core import CoreState, UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -56,7 +56,7 @@ DEVICE_DATETIME_24H = {
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_time_format_select_initial_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     mode: bool,
     expected_state: str,
@@ -89,7 +89,7 @@ async def test_time_format_select_initial_state(
 
 
 async def test_time_format_select_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_factory: Callable[[str], MockConfigEntry],
 ) -> None:
     """Test the time format entity does not connect while it is disabled."""
@@ -110,10 +110,10 @@ async def test_time_format_select_disabled_by_default(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_time_format_select_waits_for_start(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_factory: Callable[[str], MockConfigEntry],
 ) -> None:
-    """Test the time format is only read once __HA_KEEP__ has started."""
+    """Test the time format is only read once Universal Home Assistant has started."""
     hass.set_state(CoreState.not_running)
     await async_setup_component(hass, DOMAIN, {})
     inject_bluetooth_service_info(hass, WOMETERTHPC_SERVICE_INFO)
@@ -157,7 +157,7 @@ async def test_time_format_select_waits_for_start(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_time_format_select_unreachable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     caplog: pytest.LogCaptureFixture,
     service_info: BluetoothServiceInfoBleak,
@@ -185,7 +185,7 @@ async def test_time_format_select_unreachable(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_time_format_select_recovers_on_next_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_factory: Callable[[str], MockConfigEntry],
 ) -> None:
     """Test a failed first read of the time format is retried on the next poll."""
@@ -230,7 +230,7 @@ async def test_time_format_select_recovers_on_next_poll(
     ],
 )
 async def test_set_time_format(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     origin_mode: bool,
     expected_state: str,
@@ -296,7 +296,7 @@ async def test_set_time_format(
     ],
 )
 async def test_standing_fan_night_light_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     device_state: int,
     option: str,

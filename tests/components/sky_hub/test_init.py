@@ -17,7 +17,7 @@ from universalassistant.components.sky_hub.const import (
 from universalassistant.components.sky_hub.coordinator import SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -35,7 +35,7 @@ def _issue_id(entry_id: str) -> str:
 
 @pytest.mark.usefixtures("mock_router")
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test unloading a config entry."""
@@ -48,7 +48,7 @@ async def test_unload_entry(
 
 
 async def test_setup_entry_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_router: MagicMock,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_setup_entry_cannot_connect(
 
 @pytest.mark.usefixtures("mock_router")
 async def test_legacy_known_devices_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -97,7 +97,7 @@ async def test_legacy_known_devices_issue(
 
 @pytest.mark.usefixtures("mock_router")
 async def test_legacy_known_devices_no_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -122,7 +122,7 @@ async def test_legacy_known_devices_no_issue(
 
 
 async def test_legacy_known_devices_issue_on_new_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_router: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -165,7 +165,7 @@ async def test_legacy_known_devices_issue_on_new_device(
 
 @pytest.mark.usefixtures("mock_router")
 async def test_legacy_known_devices_issue_cleared(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -197,7 +197,7 @@ async def test_legacy_known_devices_issue_cleared(
 
 @pytest.mark.usefixtures("mock_router")
 async def test_legacy_known_devices_issue_kept_on_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -225,7 +225,7 @@ async def test_legacy_known_devices_issue_kept_on_unload(
 
 @pytest.mark.usefixtures("mock_router")
 async def test_legacy_known_devices_issue_removed_with_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -253,7 +253,7 @@ async def test_legacy_known_devices_issue_removed_with_entry(
 
 @pytest.mark.usefixtures("mock_router")
 async def test_legacy_known_devices_issue_ignore_survives_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -282,7 +282,7 @@ async def test_legacy_known_devices_issue_ignore_survives_reload(
 
 
 async def test_legacy_known_devices_issue_per_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_router: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -328,7 +328,7 @@ async def test_legacy_known_devices_issue_per_entry(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_router")
 async def test_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -364,7 +364,7 @@ async def test_remove_config_entry_device(
 
 
 async def test_remove_config_entry_device_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_router: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -390,7 +390,7 @@ async def test_remove_config_entry_device_not_loaded(
 
 
 async def test_remove_departed_client_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_router: MagicMock,
     device_registry: dr.DeviceRegistry,

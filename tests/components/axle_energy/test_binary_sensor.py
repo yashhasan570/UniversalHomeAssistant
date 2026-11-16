@@ -31,14 +31,14 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 ENTITY_ID = "binary_sensor.axle_energy_event_in_progress"
 PARTICIPATION_ENTITY_ID = "binary_sensor.axle_energy_participation"
 
 
-async def setup(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+async def setup(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     """Load the integration and all its platforms."""
     entry.add_to_hass(hass)
     assert await hass.config_entries.async_setup(entry.entry_id)
@@ -47,7 +47,7 @@ async def setup(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
 
 @pytest.mark.freeze_time("2026-09-11T16:59:00Z")
 async def test_binary_sensor_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -72,7 +72,7 @@ async def test_binary_sensor_snapshot(
 )
 @pytest.mark.parametrize("direction", ["import", "export"])
 async def test_initial_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_event: GridEvent,
@@ -81,7 +81,7 @@ async def test_initial_state(
     expected: str,
     direction: str,
 ) -> None:
-    """Evaluate the cached event immediately when __HA_KEEP__ starts."""
+    """Evaluate the cached event immediately when Universal Home Assistant starts."""
     freezer.move_to(now)
     mock_client.get_status.return_value = AxleStatus(
         replace(mock_event, direction=direction), opted_out=False
@@ -92,7 +92,7 @@ async def test_initial_state(
 
 @pytest.mark.freeze_time("2026-09-11T16:59:00Z")
 async def test_boundaries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_event: GridEvent,
@@ -143,7 +143,7 @@ async def test_boundaries(
 )
 @pytest.mark.parametrize("delay", [0, 30])
 async def test_unchanged_refresh_at_boundary(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_event: GridEvent,
@@ -188,7 +188,7 @@ async def test_unchanged_refresh_at_boundary(
 )
 @pytest.mark.freeze_time("2026-09-11T17:00:00Z")
 async def test_no_participating_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_event: GridEvent,
@@ -216,7 +216,7 @@ async def test_no_participating_event(
     [pytest.param(0, id="active-event"), pytest.param(11, id="future-event")],
 )
 async def test_cancel_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_event: GridEvent,
@@ -243,7 +243,7 @@ async def test_cancel_event(
 
 @pytest.mark.freeze_time("2026-09-11T17:00:00Z")
 async def test_revised_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_event: GridEvent,
@@ -296,7 +296,7 @@ async def test_revised_event(
     ],
 )
 async def test_unavailable_at_boundary(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_event: GridEvent,
@@ -322,7 +322,7 @@ async def test_unavailable_at_boundary(
 
 @pytest.mark.freeze_time("2026-09-11T17:00:00Z")
 async def test_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_event: GridEvent,
@@ -352,7 +352,7 @@ async def test_recovery(
 
 @pytest.mark.freeze_time("2026-09-11T16:59:00Z")
 async def test_unload_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -375,7 +375,7 @@ async def test_unload_reload(
 
 @pytest.mark.freeze_time("2026-09-11T16:59:00Z")
 async def test_independent_timers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_event: GridEvent,
@@ -411,7 +411,7 @@ async def test_independent_timers(
 
 @pytest.mark.freeze_time("2026-09-11T16:59:00Z")
 async def test_disable_enable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
@@ -451,7 +451,7 @@ async def test_disable_enable(
     ],
 )
 async def test_participation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_event: GridEvent,
@@ -479,7 +479,7 @@ async def test_participation(
     ],
 )
 async def test_participation_updates_without_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -503,7 +503,7 @@ async def test_participation_updates_without_event(
 
 @pytest.mark.parametrize("error", [AxleConnectionError(), AxleError()])
 async def test_participation_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -525,7 +525,7 @@ async def test_participation_recovery(
 
 
 async def test_participation_multiple_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     entity_registry: er.EntityRegistry,

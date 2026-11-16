@@ -24,7 +24,7 @@ from universalassistant.components.influxdb.const import (
 )
 from universalassistant.components.influxdb.sensor import PLATFORM_SCHEMA
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.entity_platform import PLATFORM_NOT_READY_BASE_WAIT_TIME
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -188,7 +188,7 @@ def _set_query_mock_v2(
 
 
 async def _setup(
-    hass: __HAC_KEEP__, config_ext, queries, expected_sensors
+    hass: UniversalAssistant, config_ext, queries, expected_sensors
 ) -> list[State]:
     """Create client and test expected sensors."""
     config = {
@@ -229,7 +229,7 @@ async def _setup(
     indirect=["mock_client"],
 )
 async def test_minimal_config(
-    hass: __HAC_KEEP__, mock_client, config_ext, queries, set_query_mock
+    hass: UniversalAssistant, mock_client, config_ext, queries, set_query_mock
 ) -> None:
     """Test the minimal config and defaults."""
     set_query_mock(mock_client)
@@ -301,7 +301,7 @@ async def test_minimal_config(
     indirect=["mock_client"],
 )
 async def test_full_config(
-    hass: __HAC_KEEP__, mock_client, config_ext, queries, set_query_mock
+    hass: UniversalAssistant, mock_client, config_ext, queries, set_query_mock
 ) -> None:
     """Test the full config."""
     set_query_mock(mock_client)
@@ -309,7 +309,7 @@ async def test_full_config(
 
 
 @pytest.mark.parametrize("config_ext", [(BASE_V1_CONFIG), (BASE_V2_CONFIG)])
-async def test_config_failure(hass: __HAC_KEEP__, config_ext) -> None:
+async def test_config_failure(hass: UniversalAssistant, config_ext) -> None:
     """Test an invalid config."""
     config = {"platform": DOMAIN}
     config.update(config_ext)
@@ -345,7 +345,7 @@ async def test_config_failure(hass: __HAC_KEEP__, config_ext) -> None:
     indirect=["mock_client"],
 )
 async def test_state_matches_query_result(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client,
     config_ext,
     queries,
@@ -387,7 +387,7 @@ async def test_state_matches_query_result(
     indirect=["mock_client"],
 )
 async def test_state_matches_first_query_result_for_multiple_return(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_client,
     config_ext,
@@ -424,7 +424,7 @@ async def test_state_matches_first_query_result_for_multiple_return(
     indirect=["mock_client"],
 )
 async def test_state_for_no_results(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_client,
     config_ext,
@@ -496,7 +496,7 @@ async def test_state_for_no_results(
     indirect=["mock_client"],
 )
 async def test_error_querying_influx(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_client,
     config_ext,
@@ -562,7 +562,7 @@ async def test_error_querying_influx(
     indirect=["mock_client"],
 )
 async def test_error_rendering_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_client,
     config_ext,
@@ -643,7 +643,7 @@ async def test_error_rendering_template(
     indirect=["mock_client"],
 )
 async def test_connection_error_at_startup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_client,
     config_ext,
@@ -696,7 +696,7 @@ async def test_connection_error_at_startup(
     indirect=["mock_client"],
 )
 async def test_data_repository_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_client,
     config_ext,

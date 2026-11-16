@@ -62,12 +62,12 @@ from universalassistant.const import (
     STATE_OPEN,
     CommonServiceArgument,
 )
-from universalassistant.core import Event, __HAC_KEEP__, split_entity_id
+from universalassistant.core import Event, UniversalAssistant, split_entity_id
 from universalassistant.util import dt as dt_util
 
 
 async def test_outlet_set_state(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test if Outlet accessory and HA are updated accordingly."""
     entity_id = "switch.outlet_test"
@@ -121,7 +121,7 @@ async def test_outlet_set_state(
     ],
 )
 async def test_switch_set_state(
-    hass: __HAC_KEEP__, hk_driver, entity_id, attrs, events: list[Event]
+    hass: UniversalAssistant, hk_driver, entity_id, attrs, events: list[Event]
 ) -> None:
     """Test if accessory and HA are updated accordingly."""
     domain = split_entity_id(entity_id)[0]
@@ -166,7 +166,7 @@ async def test_switch_set_state(
 
 
 async def test_valve_switch_set_state(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test if Valve accessory and HA are updated accordingly."""
     entity_id = "switch.valve_test"
@@ -237,7 +237,7 @@ async def test_valve_switch_set_state(
 
 
 async def test_valve_set_state(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test if Valve accessory and HA are updated accordingly."""
     entity_id = "valve.valve_test"
@@ -297,7 +297,7 @@ async def test_valve_set_state(
     ],
 )
 async def test_valve_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver: HomeDriver,
     valve_type: str,
     category: int,
@@ -321,7 +321,7 @@ async def test_valve_type(
 
 
 async def test_vacuum_set_state_with_returnhome_and_start_support(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test if Vacuum accessory and HA are updated accordingly."""
     entity_id = "vacuum.roomba"
@@ -390,7 +390,7 @@ async def test_vacuum_set_state_with_returnhome_and_start_support(
 
 
 async def test_vacuum_set_state_without_returnhome_support(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test a Vacuum accessory without return home support stops the vacuum."""
     entity_id = "vacuum.roomba"
@@ -439,7 +439,7 @@ async def test_vacuum_set_state_without_returnhome_support(
 
 
 async def test_lawn_mower_set_state(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test if Lawn mower accessory and HA are updated accordingly."""
     entity_id = "lawn_mower.mower"
@@ -508,7 +508,7 @@ async def test_lawn_mower_set_state(
 
 
 async def test_reset_switch(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test if switch accessory is reset correctly."""
     domain = "scene"
@@ -554,7 +554,7 @@ async def test_reset_switch(
 
 
 async def test_script_switch(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test if script switch accessory is reset correctly."""
     domain = "script"
@@ -604,7 +604,7 @@ async def test_script_switch(
     ["input_select", "select"],
 )
 async def test_input_select_switch(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event], domain
+    hass: UniversalAssistant, hk_driver, events: list[Event], domain
 ) -> None:
     """Test if select switch accessory is handled correctly."""
     entity_id = f"{domain}.test"
@@ -664,7 +664,7 @@ async def test_input_select_switch(
     ["input_select", "select"],
 )
 async def test_select_switch_with_options_needing_name_cleanup(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver, events: list[Event], domain: str
+    hass: UniversalAssistant, hk_driver: HomeDriver, events: list[Event], domain: str
 ) -> None:
     """Test select options altered by HomeKit name cleanup still sync state."""
     entity_id = f"{domain}.test"
@@ -715,7 +715,7 @@ async def test_select_switch_with_options_needing_name_cleanup(
     ["button", "input_button"],
 )
 async def test_button_switch(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event], domain
+    hass: UniversalAssistant, hk_driver, events: list[Event], domain
 ) -> None:
     """Test switch accessory from a (input) button entity."""
     entity_id = f"{domain}.test"
@@ -759,7 +759,7 @@ async def test_button_switch(
 
 
 async def test_valve_switch_with_set_duration_characteristic(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test valve switch with set duration characteristic."""
     entity_id = "switch.sprinkler"
@@ -798,7 +798,7 @@ async def test_valve_switch_with_set_duration_characteristic(
         "value": 300,
     }
 
-    # Assert state change in __HA_KEEP__ is synced to HomeKit
+    # Assert state change in Universal Home Assistant is synced to HomeKit
     hass.states.async_set("input_number.valve_duration", "600")
     await hass.async_block_till_done()
     assert acc.get_duration() == 600
@@ -813,7 +813,7 @@ async def test_valve_switch_with_set_duration_characteristic(
 
 
 async def test_valve_switch_with_remaining_duration_characteristic(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test valve switch with remaining duration characteristic."""
     entity_id = "switch.sprinkler"
@@ -840,7 +840,7 @@ async def test_valve_switch_with_remaining_duration_characteristic(
     # Assert initial state is synced
     assert acc.get_remaining_duration() == 0
 
-    # Simulate remaining duration update from __HA_KEEP__
+    # Simulate remaining duration update from Universal Home Assistant
     with freeze_time(dt_util.utcnow()):
         hass.states.async_set(
             "sensor.valve_end_time",
@@ -861,7 +861,7 @@ async def test_valve_switch_with_remaining_duration_characteristic(
 
 
 async def test_valve_switch_with_duration_characteristics(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test valve switch with set duration and remaining duration characteristics."""
     entity_id = "switch.sprinkler"
@@ -968,7 +968,7 @@ async def test_valve_switch_with_duration_characteristics(
     ],
 )
 async def test_valve_with_duration_characteristics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver: HomeDriver,
     events: list[Event],
     entity_id: str,
@@ -1024,7 +1024,7 @@ async def test_valve_with_duration_characteristics(
 
 
 async def test_duration_characteristic_properties(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test duration characteristic properties from linked attributes."""
     entity_id = "switch.sprinkler"
@@ -1173,7 +1173,7 @@ async def test_duration_characteristic_properties(
 
 
 async def test_remaining_duration_characteristic_fallback(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test remaining duration falls back to default only if valve active."""
     entity_id = "switch.sprinkler"

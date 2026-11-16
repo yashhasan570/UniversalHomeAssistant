@@ -10,7 +10,7 @@ from universalassistant import config_entries
 from universalassistant.components.mystrom.const import DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -25,7 +25,7 @@ DHCP_SERVICE_INFO = DhcpServiceInfo(
 )
 
 
-async def test_form_combined(hass: __HAC_KEEP__) -> None:
+async def test_form_combined(hass: UniversalAssistant) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -53,7 +53,7 @@ async def test_form_combined(hass: __HAC_KEEP__) -> None:
 
 
 async def test_form_duplicates(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test abort on duplicate."""
     result = await hass.config_entries.flow.async_init(
@@ -81,7 +81,7 @@ async def test_form_duplicates(
     mock_session.assert_called_once()
 
 
-async def test_wong_answer_from_device(hass: __HAC_KEEP__) -> None:
+async def test_wong_answer_from_device(hass: UniversalAssistant) -> None:
     """Test handling of wrong answers from the device."""
 
     result = await hass.config_entries.flow.async_init(
@@ -122,7 +122,7 @@ async def test_wong_answer_from_device(hass: __HAC_KEEP__) -> None:
     assert result2["data"] == {"host": "1.1.1.1"}
 
 
-async def test_dhcp_discovery(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_discovery(hass: UniversalAssistant) -> None:
     """Test DHCP discovery shows a confirmation form and creates an entry."""
     with patch(
         "universalassistant.components.mystrom.config_flow.pymystrom.get_device_info",
@@ -144,7 +144,7 @@ async def test_dhcp_discovery(hass: __HAC_KEEP__) -> None:
     assert result["result"].unique_id == "083A8D946498"
 
 
-async def test_dhcp_discovery_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_discovery_cannot_connect(hass: UniversalAssistant) -> None:
     """Test DHCP discovery aborts when the device is unreachable."""
     with patch(
         "universalassistant.components.mystrom.config_flow.pymystrom.get_device_info",
@@ -160,7 +160,7 @@ async def test_dhcp_discovery_cannot_connect(hass: __HAC_KEEP__) -> None:
 
 
 async def test_dhcp_discovery_already_configured_updates_host(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test DHCP discovery updates the host of an already-configured entry."""
     entry = MockConfigEntry(

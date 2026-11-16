@@ -11,7 +11,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__, callback
+from universalassistant.core import Event, EventStateChangedData, UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity import Entity, ToggleEntity
 from universalassistant.helpers.event import async_track_state_change_event
@@ -27,7 +27,7 @@ class BaseEntity(Entity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry_title: str,
         domain: str,
         switch_entity_id: str,
@@ -186,7 +186,7 @@ class BaseInvertableEntity(BaseEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry_title: str,
         domain: str,
         invert: bool,

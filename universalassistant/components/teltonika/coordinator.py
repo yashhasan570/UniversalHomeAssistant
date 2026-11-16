@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, override
 from teltasync import Teltasync, TeltonikaAuthenticationError, TeltonikaConnectionError
 from teltasync.modems import Modems, ModemStatusFull
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -29,7 +29,7 @@ class TeltonikaDataUpdateCoordinator(DataUpdateCoordinator[dict[str, ModemStatus
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         client: Teltasync,
         config_entry: TeltonikaConfigEntry,
         base_url: str,

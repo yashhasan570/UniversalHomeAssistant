@@ -1,4 +1,4 @@
-"""Coordinator module for Altruist integration in __HA_KEEP__.
+"""Coordinator module for Altruist integration in Universal Home Assistant.
 
 This module defines the AltruistDataUpdateCoordinator class, which manages
 data updates for Altruist sensors using the AltruistClient.
@@ -12,7 +12,7 @@ from altruistclient import AltruistClient, AltruistError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -31,7 +31,7 @@ class AltruistDataUpdateCoordinator(DataUpdateCoordinator[dict[str, str]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: AltruistConfigEntry,
     ) -> None:
         """Initialize the data update coordinator for Altruist sensors."""

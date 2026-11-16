@@ -19,7 +19,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.typing import ConfigType
 
@@ -66,7 +66,7 @@ TEST_TRACKER_CONFIG = {
 }
 
 
-async def setup_zones(hass: __HAC_KEEP__) -> None:
+async def setup_zones(hass: UniversalAssistant) -> None:
     """Set up zone integration."""
     assert await async_setup_component(
         hass,
@@ -88,7 +88,7 @@ async def setup_zones(hass: __HAC_KEEP__) -> None:
 
 @pytest.fixture
 async def setup_tracker(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     config: dict[str, Any],
     extra_config: dict[str, Any] | None,
@@ -100,7 +100,7 @@ async def setup_tracker(
 
 @pytest.fixture
 async def setup_single_attribute_tracker(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     config: ConfigType,
     attribute: str,
@@ -133,7 +133,7 @@ async def setup_single_attribute_tracker(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_required_keys(
-    hass: __HAC_KEEP__, style: ConfigurationStyle, config: ConfigType
+    hass: UniversalAssistant, style: ConfigurationStyle, config: ConfigType
 ) -> None:
     """Test that required keys are present."""
     await setup_entity(hass, TEST_TRACKER, style, 0, config)
@@ -141,7 +141,7 @@ async def test_required_keys(
 
 
 async def test_setup_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test the config flow."""
@@ -175,7 +175,7 @@ async def test_setup_config_entry(
 
 
 async def test_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -224,7 +224,7 @@ async def test_device_id(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 @pytest.mark.usefixtures("setup_tracker")
-async def test_syntax_error(hass: __HAC_KEEP__) -> None:
+async def test_syntax_error(hass: UniversalAssistant) -> None:
     """Test template latitude and longitude with render error."""
     state = hass.states.get(TEST_TRACKER.entity_id)
     assert state.state == STATE_UNKNOWN
@@ -269,7 +269,7 @@ async def test_syntax_error(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("setup_single_attribute_tracker")
 async def test_in_zones(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     attribute: str,
     expected_value: list[str] | None,
     expected_state: str,
@@ -324,7 +324,7 @@ async def test_in_zones(
 )
 @pytest.mark.usefixtures("setup_single_attribute_tracker")
 async def test_in_zones_creates_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_state: str,
     error: str,
     caplog: pytest.LogCaptureFixture,
@@ -363,7 +363,7 @@ async def test_in_zones_creates_error(
 )
 @pytest.mark.usefixtures("setup_single_attribute_tracker")
 async def test_latitude(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     attribute: str,
     expected_value: float | None,
     expected_state: str,
@@ -399,7 +399,7 @@ async def test_latitude(
 )
 @pytest.mark.usefixtures("setup_single_attribute_tracker")
 async def test_longitude(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     attribute: str,
     expected_value: float | None,
     expected_state: str,
@@ -440,7 +440,7 @@ async def test_longitude(
 )
 @pytest.mark.usefixtures("setup_single_attribute_tracker")
 async def test_location_accuracy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_value: float | None,
     state_attribute: str,
 ) -> None:
@@ -476,7 +476,7 @@ async def test_location_accuracy(
 )
 @pytest.mark.usefixtures("setup_single_attribute_tracker")
 async def test_entity_picture_and_icon_templates(
-    hass: __HAC_KEEP__, key: str, expected: str
+    hass: UniversalAssistant, key: str, expected: str
 ) -> None:
     """Test picture and icon template."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, "off")
@@ -507,7 +507,7 @@ async def test_entity_picture_and_icon_templates(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 @pytest.mark.usefixtures("setup_tracker")
-async def test_template_updates(hass: __HAC_KEEP__) -> None:
+async def test_template_updates(hass: UniversalAssistant) -> None:
     """Test template device_tracker updates with entity."""
     await async_trigger(
         hass, TEST_STATE_ENTITY_ID, "anything", {"latitude": 10.0, "longitude": 10.0}
@@ -545,7 +545,7 @@ async def test_template_updates(hass: __HAC_KEEP__) -> None:
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 @pytest.mark.usefixtures("setup_single_attribute_tracker")
-async def test_available_template_with_entities(hass: __HAC_KEEP__) -> None:
+async def test_available_template_with_entities(hass: UniversalAssistant) -> None:
     """Test availability templates with values from other entities."""
     await async_trigger(hass, TEST_LATITUDE_ENTITY_ID, 10.0)
     await async_trigger(hass, TEST_LONGITUDE_ENTITY_ID, 10.0)
@@ -580,7 +580,7 @@ async def test_available_template_with_entities(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("setup_single_attribute_tracker")
 async def test_invalid_availability_template_keeps_component_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     caplog_setup_text,
 ) -> None:
@@ -597,7 +597,7 @@ async def test_invalid_availability_template_keeps_component_available(
     "style",
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
-async def test_unique_id(hass: __HAC_KEEP__, style: ConfigurationStyle) -> None:
+async def test_unique_id(hass: UniversalAssistant, style: ConfigurationStyle) -> None:
     """Test unique_id option only creates one device_tracker per id."""
     await setup_and_test_unique_id(hass, TEST_TRACKER, style, TEST_MINIMUM_REQUIREMENTS)
 
@@ -606,7 +606,7 @@ async def test_unique_id(hass: __HAC_KEEP__, style: ConfigurationStyle) -> None:
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_nested_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -617,7 +617,7 @@ async def test_nested_unique_id(
 
 
 async def test_flow_preview(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test the config flow preview."""
@@ -648,7 +648,7 @@ async def test_flow_preview(
     ],
 )
 async def test_flow_preview_home_zone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     config: ConfigType,
 ) -> None:
@@ -768,7 +768,7 @@ async def test_flow_preview_home_zone(
     ],
 )
 async def test_restore_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     style: ConfigurationStyle,
     saved_state: str,
@@ -826,7 +826,7 @@ async def test_restore_state(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_extra_template_attributes(
-    hass: __HAC_KEEP__, style: ConfigurationStyle
+    hass: UniversalAssistant, style: ConfigurationStyle
 ) -> None:
     """Test extra attributes."""
     await assert_extra_template_attributes(
@@ -848,7 +848,7 @@ async def test_extra_template_attributes(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_blocked_template_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     attribute,
     caplog: pytest.LogCaptureFixture,
@@ -873,7 +873,7 @@ async def test_blocked_template_attributes(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -901,7 +901,7 @@ async def test_attributes_template(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template_with_blocked_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     attribute: StrEnum | str,
     caplog: pytest.LogCaptureFixture,

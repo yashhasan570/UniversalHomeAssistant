@@ -40,7 +40,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import (
@@ -54,7 +54,7 @@ from .mock_classes import MockGDM
 
 
 async def _async_retry_website_auth(
-    hass: __HAC_KEEP__, flow_id: str
+    hass: UniversalAssistant, flow_id: str
 ) -> ConfigFlowResult:
     """Retry the website authentication with a valid token."""
     with (
@@ -73,7 +73,7 @@ async def _async_retry_website_auth(
 @pytest.mark.usefixtures(
     "current_request_with_host", "mock_plex_calls", "mock_setup_entry"
 )
-async def test_bad_credentials(hass: __HAC_KEEP__) -> None:
+async def test_bad_credentials(hass: UniversalAssistant) -> None:
     """Test when provided credentials are rejected."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -110,7 +110,7 @@ async def test_bad_credentials(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "current_request_with_host", "mock_plex_calls", "mock_setup_entry"
 )
-async def test_bad_hostname(hass: __HAC_KEEP__) -> None:
+async def test_bad_hostname(hass: UniversalAssistant) -> None:
     """Test when an invalid address is provided."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -146,7 +146,7 @@ async def test_bad_hostname(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("current_request_with_host")
-async def test_unknown_exception(hass: __HAC_KEEP__) -> None:
+async def test_unknown_exception(hass: UniversalAssistant) -> None:
     """Test when an unknown exception is encountered."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -177,7 +177,7 @@ async def test_unknown_exception(hass: __HAC_KEEP__) -> None:
     "current_request_with_host", "mock_plex_calls", "mock_setup_entry"
 )
 async def test_no_servers_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     requests_mock: requests_mock.Mocker,
     empty_payload: str,
     plextv_resources: str,
@@ -216,7 +216,7 @@ async def test_no_servers_found(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_single_available_server(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_plex_calls,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -260,7 +260,7 @@ async def test_single_available_server(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_multiple_servers_with_selection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_plex_calls,
     requests_mock: requests_mock.Mocker,
     plextv_resources_two_servers,
@@ -319,7 +319,7 @@ async def test_multiple_servers_with_selection(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_adding_last_unconfigured_server(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_plex_calls,
     requests_mock: requests_mock.Mocker,
     plextv_resources_two_servers,
@@ -378,7 +378,7 @@ async def test_adding_last_unconfigured_server(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_all_available_servers_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry,
     requests_mock: requests_mock.Mocker,
     plextv_account,
@@ -425,7 +425,7 @@ async def test_all_available_servers_configured(
         assert result["reason"] == "all_configured"
 
 
-async def test_option_flow(hass: __HAC_KEEP__, entry, mock_plex_server) -> None:
+async def test_option_flow(hass: UniversalAssistant, entry, mock_plex_server) -> None:
     """Test config options flow selection."""
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
     assert entry.state is ConfigEntryState.LOADED
@@ -458,7 +458,7 @@ async def test_option_flow(hass: __HAC_KEEP__, entry, mock_plex_server) -> None:
 
 
 async def test_missing_option_flow(
-    hass: __HAC_KEEP__, entry, mock_plex_server
+    hass: UniversalAssistant, entry, mock_plex_server
 ) -> None:
     """Test config options flow selection when no options stored."""
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
@@ -492,7 +492,7 @@ async def test_missing_option_flow(
 
 
 async def test_option_flow_new_users_available(
-    hass: __HAC_KEEP__, entry, setup_plex_server
+    hass: UniversalAssistant, entry, setup_plex_server
 ) -> None:
     """Test config options multiselect defaults when new Plex users are seen."""
     OPTIONS_OWNER_ONLY = copy.deepcopy(DEFAULT_OPTIONS)
@@ -524,7 +524,7 @@ async def test_option_flow_new_users_available(
 
 
 @pytest.mark.usefixtures("current_request_with_host")
-async def test_external_timed_out(hass: __HAC_KEEP__) -> None:
+async def test_external_timed_out(hass: UniversalAssistant) -> None:
     """Test when external flow times out."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -552,7 +552,7 @@ async def test_external_timed_out(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_callback_view(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
     """Test callback view."""
@@ -580,7 +580,7 @@ async def test_callback_view(
 
 
 @pytest.mark.usefixtures("current_request_with_host")
-async def test_manual_config(hass: __HAC_KEEP__, mock_plex_calls) -> None:
+async def test_manual_config(hass: UniversalAssistant, mock_plex_calls) -> None:
     """Test creating via manual configuration."""
 
     class WrongCertValidaitionException(requests.exceptions.SSLError):
@@ -700,7 +700,7 @@ async def test_manual_config(hass: __HAC_KEEP__, mock_plex_calls) -> None:
 
 
 async def test_manual_config_with_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_plex_calls,
     requests_mock: requests_mock.Mocker,
     empty_library,
@@ -748,7 +748,7 @@ async def test_manual_config_with_token(
     await hass.async_block_till_done()
 
 
-async def test_integration_discovery(hass: __HAC_KEEP__) -> None:
+async def test_integration_discovery(hass: UniversalAssistant) -> None:
     """Test integration self-discovery."""
     mock_gdm = MockGDM()
 
@@ -773,7 +773,7 @@ async def test_integration_discovery(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
     mock_plex_calls: None,
     mock_setup_entry: AsyncMock,
@@ -819,7 +819,7 @@ async def test_reauth(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth_multiple_servers_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
     mock_plex_calls: None,
     requests_mock: requests_mock.Mocker,
@@ -871,7 +871,73 @@ async def test_reauth_multiple_servers_available(
     mock_setup_entry.assert_called_once()
 
 
-async def test_client_request_missing(hass: __HAC_KEEP__) -> None:
+@pytest.mark.usefixtures("current_request_with_host", "mock_plex_calls")
+async def test_reauth_server_not_found(
+    hass: UniversalAssistant,
+    entry: MockConfigEntry,
+    mock_setup_entry: AsyncMock,
+    requests_mock: requests_mock.Mocker,
+    plextv_resources_other_server: str,
+    plextv_resources: str,
+) -> None:
+    """Test reauth recovers after signing in to an account without the entry's server."""
+    requests_mock.get(
+        "https://plex.tv/api/v2/resources",
+        text=plextv_resources_other_server,
+    )
+
+    entry.add_to_hass(hass)
+
+    result = await entry.start_reauth_flow(hass)
+    assert result["type"] is FlowResultType.MENU
+    assert result["step_id"] == "user"
+
+    with (
+        patch("plexauth.PlexAuth.initiate_auth"),
+        patch("plexauth.PlexAuth.token", return_value="BRAND_NEW_TOKEN"),
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input={"next_step_id": "website_auth"},
+        )
+        assert result["type"] is FlowResultType.EXTERNAL_STEP
+
+        result = await hass.config_entries.flow.async_configure(result["flow_id"])
+        assert result["type"] is FlowResultType.EXTERNAL_STEP_DONE
+
+        result = await hass.config_entries.flow.async_configure(result["flow_id"])
+        assert result["type"] is FlowResultType.FORM
+        assert result["step_id"] == "website_auth"
+        assert result["errors"]["base"] == "server_not_found"
+
+        requests_mock.get("https://plex.tv/api/v2/resources", text=plextv_resources)
+
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input={},
+        )
+        assert result["type"] is FlowResultType.EXTERNAL_STEP
+
+        result = await hass.config_entries.flow.async_configure(result["flow_id"])
+        assert result["type"] is FlowResultType.EXTERNAL_STEP_DONE
+
+        result = await hass.config_entries.flow.async_configure(result["flow_id"])
+        assert result["type"] is FlowResultType.ABORT
+        assert result["reason"] == "reauth_successful"
+
+    assert len(hass.config_entries.flow.async_progress()) == 0
+    assert len(hass.config_entries.async_entries(DOMAIN)) == 1
+
+    assert entry.state is ConfigEntryState.LOADED
+    assert entry.data[CONF_SERVER] == "Plex Server 1"
+    assert entry.data[CONF_SERVER_IDENTIFIER] == "unique_id_123"
+    assert entry.data[PLEX_SERVER_CONFIG][CONF_URL] == PLEX_DIRECT_URL
+    assert entry.data[PLEX_SERVER_CONFIG][CONF_TOKEN] == "BRAND_NEW_TOKEN"
+
+    mock_setup_entry.assert_called_once()
+
+
+async def test_client_request_missing(hass: UniversalAssistant) -> None:
     """Test when client headers are not set properly."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -886,7 +952,7 @@ async def test_client_request_missing(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("current_request_with_host")
-async def test_client_header_issues(hass: __HAC_KEEP__) -> None:
+async def test_client_header_issues(hass: UniversalAssistant) -> None:
     """Test when client headers are not set properly."""
 
     class MockRequest:
@@ -960,7 +1026,7 @@ def mock_reconfigured_server(
     "mock_plex_calls", "mock_reconfigured_server", "mock_setup_entry"
 )
 async def test_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     caplog: pytest.LogCaptureFixture,
@@ -1011,7 +1077,7 @@ async def test_reconfigure(
     ],
 )
 async def test_reconfigure_form_defaults(
-    hass: __HAC_KEEP__, url: str, host: str, port: int, use_ssl: bool
+    hass: UniversalAssistant, url: str, host: str, port: int, use_ssl: bool
 ) -> None:
     """Test the reconfigure form is prefilled from the stored URL."""
     entry = MockConfigEntry(
@@ -1056,7 +1122,7 @@ async def test_reconfigure_form_defaults(
     "mock_plex_calls", "mock_reconfigured_server", "mock_setup_entry"
 )
 async def test_reconfigure_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
     side_effect: type[Exception],
     errors: dict[str, str],
@@ -1093,7 +1159,7 @@ async def test_reconfigure_errors(
 @pytest.mark.usefixtures(
     "mock_plex_calls", "mock_reconfigured_server", "mock_setup_entry"
 )
-async def test_reconfigure_unique_id_mismatch(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_unique_id_mismatch(hass: UniversalAssistant) -> None:
     """Test reconfiguring to a different Plex server aborts."""
     entry = MockConfigEntry(
         domain=DOMAIN,

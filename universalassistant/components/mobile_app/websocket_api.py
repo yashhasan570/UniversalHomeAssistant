@@ -7,7 +7,7 @@ from typing import Any
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 from .const import CONF_USER_ID, DATA_CONFIG_ENTRIES, DATA_PUSH_CHANNEL, DOMAIN
 from .push_notification import PushChannel
@@ -59,7 +59,7 @@ def _ensure_webhook_access(func):
     }
 )
 def handle_push_notification_confirm(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -95,7 +95,7 @@ def handle_push_notification_confirm(
 @_ensure_webhook_access
 @websocket_api.async_response
 async def handle_push_notification_channel(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

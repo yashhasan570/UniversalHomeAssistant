@@ -9,7 +9,7 @@ from pybotvac.robot import Robot
 from urllib3.response import HTTPResponse
 
 from universalassistant.components.camera import Camera
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import SCAN_INTERVAL_MINUTES
@@ -23,7 +23,7 @@ ATTR_GENERATED_AT = "generated_at"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: NeatoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

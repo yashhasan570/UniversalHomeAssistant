@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
 from universalassistant.components.fritz.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import MOCK_FB_SERVICES, MOCK_USER_DATA
 
@@ -25,7 +25,7 @@ from .const import MOCK_FB_SERVICES, MOCK_USER_DATA
 )
 @pytest.mark.usefixtures("fh_class_mock", "fs_class_mock")
 async def test_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     fc_class_mock: MagicMock,
     snapshot: SnapshotAssertion,

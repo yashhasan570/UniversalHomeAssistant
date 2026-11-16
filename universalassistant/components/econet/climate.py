@@ -22,7 +22,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import EconetConfigEntry
@@ -61,7 +61,7 @@ SUPPORT_FLAGS_THERMOSTAT = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: EconetConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

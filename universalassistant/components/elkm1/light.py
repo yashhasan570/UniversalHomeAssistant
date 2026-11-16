@@ -7,7 +7,7 @@ from elkm1_lib.elk import Elk
 from elkm1_lib.lights import Light
 
 from universalassistant.components.light import ColorMode, LightEntity, LightServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import ElkEntity, create_elk_entities
@@ -15,7 +15,7 @@ from .models import ElkM1ConfigEntry, ELKM1Data
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ElkM1ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

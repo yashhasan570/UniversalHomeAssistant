@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.route_b_smart_meter.const import DOMAIN
 from universalassistant.const import CONF_DEVICE, CONF_ID, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -63,7 +63,7 @@ def user_input() -> dict[str, str]:
 
 @pytest.fixture
 def mock_config_entry(
-    hass: __HAC_KEEP__, user_input: dict[str, str]
+    hass: UniversalAssistant, user_input: dict[str, str]
 ) -> MockConfigEntry:
     """Create a mock config entry."""
     entry = MockConfigEntry(

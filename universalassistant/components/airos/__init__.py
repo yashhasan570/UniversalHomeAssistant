@@ -23,7 +23,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -58,7 +58,7 @@ _PLATFORMS: list[Platform] = [
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: AirOSConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: AirOSConfigEntry) -> None:
     """Set up Ubiquiti airOS from a config entry."""
     owns_session = False
     verify_ssl = entry.data[SECTION_ADDITIONAL_SETTINGS][CONF_VERIFY_SSL]
@@ -153,7 +153,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: AirOSConfigEntry) -> None
     await hass.config_entries.async_forward_entry_setups(entry, _PLATFORMS)
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: AirOSConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: AirOSConfigEntry) -> None:
     """Migrate old config entry."""
 
     # 1.1 Migrate config_entry to add additional ssl settings
@@ -233,7 +233,7 @@ async def async_migrate_entry(hass: __HAC_KEEP__, entry: AirOSConfigEntry) -> No
         )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: AirOSConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: AirOSConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)
     # Clean up legacy session if needed

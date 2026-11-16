@@ -8,12 +8,12 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.iss.const import DEFAULT_NAME, DOMAIN
 from universalassistant.const import ATTR_LATITUDE, ATTR_LONGITUDE, CONF_SHOW_ON_MAP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
 async def test_sensor_created(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Test sensor entity is created."""
     state = hass.states.get("sensor.iss")
@@ -22,7 +22,7 @@ async def test_sensor_created(
 
 
 async def test_sensor_attributes_show_on_map_false(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Test sensor attributes when show_on_map is False."""
     state = hass.states.get("sensor.iss")
@@ -36,7 +36,7 @@ async def test_sensor_attributes_show_on_map_false(
 
 
 async def test_sensor_attributes_show_on_map_true(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_pyiss: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_pyiss: MagicMock
 ) -> None:
     """Test sensor attributes when show_on_map is True."""
     mock_config_entry.add_to_hass(hass)
@@ -58,7 +58,7 @@ async def test_sensor_attributes_show_on_map_true(
 
 
 async def test_sensor_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
@@ -77,7 +77,7 @@ async def test_sensor_device_info(
 
 
 async def test_sensor_updates_with_coordinator(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_pyiss: MagicMock,
     freezer: FrozenDateTimeFactory,

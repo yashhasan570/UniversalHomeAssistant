@@ -23,7 +23,7 @@ from .const import DOMAIN
 LOGGER = logging.getLogger(__name__)
 
 
-async def check_migration(hass: core.__HAC_KEEP__, entry: HueConfigEntry) -> None:
+async def check_migration(hass: core.UniversalAssistant, entry: HueConfigEntry) -> None:
     """Check if config entry needs any migration actions."""
     host = entry.data[CONF_HOST]
 
@@ -66,7 +66,7 @@ async def check_migration(hass: core.__HAC_KEEP__, entry: HueConfigEntry) -> Non
             hass.config_entries.async_update_entry(entry, data=data)
 
 
-async def handle_v2_migration(hass: core.__HAC_KEEP__, entry: HueConfigEntry) -> None:
+async def handle_v2_migration(hass: core.UniversalAssistant, entry: HueConfigEntry) -> None:
     """Perform migration of devices and entities to V2 Id's."""
     host = entry.data[CONF_HOST]
     api_key = entry.data[CONF_API_KEY]

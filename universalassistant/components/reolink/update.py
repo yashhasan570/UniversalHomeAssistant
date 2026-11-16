@@ -12,8 +12,8 @@ from universalassistant.components.update import (
     UpdateEntityDescription,
     UpdateEntityFeature,
 )
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_call_later
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -72,7 +72,7 @@ HOST_UPDATE_ENTITIES = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ReolinkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -205,7 +205,7 @@ class ReolinkUpdateBaseEntity(CoordinatorEntity[ReolinkCoordinator], UpdateEntit
         except ReolinkError as err:
             if err.translation_key:
                 raise
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="firmware_install_error",
                 translation_placeholders={"err": str(err)},

@@ -8,13 +8,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.nzbget.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import ENTRY_CONFIG, _patch_version, init_integration
 
 
 @pytest.mark.usefixtures("nzbget_api")
-async def test_unload_entry(hass: __HAC_KEEP__) -> None:
+async def test_unload_entry(hass: UniversalAssistant) -> None:
     """Test successful unload of entry."""
     entry = await init_integration(hass)
 
@@ -28,7 +28,7 @@ async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     assert not hass.data.get(DOMAIN)
 
 
-async def test_async_setup_raises_entry_not_ready(hass: __HAC_KEEP__) -> None:
+async def test_async_setup_raises_entry_not_ready(hass: UniversalAssistant) -> None:
     """Test that it throws ConfigEntryNotReady when exception occurs during setup."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=ENTRY_CONFIG)
     config_entry.add_to_hass(hass)

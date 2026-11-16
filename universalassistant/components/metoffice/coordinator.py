@@ -10,7 +10,7 @@ from datapoint.Manager import Manager
 from requests import HTTPError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import (
     TimestampDataUpdateCoordinator,
@@ -42,7 +42,7 @@ class MetOfficeUpdateCoordinator(TimestampDataUpdateCoordinator[Forecast]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: MetOfficeConfigEntry,
         name: str,
         connection: Manager,

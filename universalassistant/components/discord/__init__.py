@@ -5,7 +5,7 @@ import nextcord
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_TOKEN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -23,14 +23,14 @@ PLATFORMS = [Platform.NOTIFY]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Discord component."""
 
     hass.data[DATA_HASS_CONFIG] = config
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: DiscordConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: DiscordConfigEntry) -> None:
     """Set up Discord from a config entry."""
     nextcord.VoiceClient.warn_nacl = False
     discord_bot = nextcord.Client()
@@ -72,12 +72,12 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: DiscordConfigEntry) -> No
 
 
 async def _async_update_listener(
-    hass: __HAC_KEEP__, entry: DiscordConfigEntry
+    hass: UniversalAssistant, entry: DiscordConfigEntry
 ) -> None:
     """Reload the entry when its data or subentries change."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: DiscordConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: DiscordConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

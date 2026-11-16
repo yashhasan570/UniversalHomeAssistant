@@ -29,9 +29,9 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
 )
 from universalassistant.const import CONF_NAME, CONF_URL
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, callback
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
 from universalassistant.data_entry_flow import AbortFlow
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import selector
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.hassio import is_hassio
@@ -200,7 +200,7 @@ RF_REGIONS = [
 # Format: (manufacturer, description)
 IGNORED_USB_DEVICES = {
     ("Nabu Casa", "SkyConnect v1.0"),
-    ("Nabu Casa", "__HA_KEEP__ Connect ZBT-1"),
+    ("Nabu Casa", "Universal Home Assistant Connect ZBT-1"),
     ("Nabu Casa", "ZBT-2"),
 }
 
@@ -219,7 +219,7 @@ def get_on_supervisor_schema(user_input: dict[str, Any]) -> probatio.Schema:
     )
 
 
-async def validate_input(hass: __HAC_KEEP__, user_input: dict) -> VersionInfo:
+async def validate_input(hass: UniversalAssistant, user_input: dict) -> VersionInfo:
     """Validate if the user input allows us to connect."""
     ws_address = user_input[CONF_URL]
 
@@ -232,7 +232,7 @@ async def validate_input(hass: __HAC_KEEP__, user_input: dict) -> VersionInfo:
         raise InvalidInput("cannot_connect") from err
 
 
-async def async_get_usb_ports(hass: __HAC_KEEP__) -> dict[str, str]:
+async def async_get_usb_ports(hass: UniversalAssistant) -> dict[str, str]:
     """Return a dict of USB ports and their friendly names."""
     port_descriptions = {}
     for port in await usb.async_scan_serial_ports(hass):
@@ -267,7 +267,7 @@ class AddonFlowManager:
     and tracks the original add-on config for reverts.
     """
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Set up the add-on flow manager."""
         self.hass = hass
         self.addon_manager = get_addon_manager(hass)
@@ -693,7 +693,7 @@ class ZWaveJSConfigFlow(ConfigFlow, domain=DOMAIN):
         dev_path = discovery_info.device
         self.usb_path = dev_path
         if manufacturer == "Nabu Casa" and description == "ZWA-2 - Nabu Casa ZWA-2":
-            title = "__HA_KEEP__ Connect ZWA-2"
+            title = "Universal Home Assistant Connect ZWA-2"
         else:
             human_name = usb.human_readable_device_name(
                 dev_path,
@@ -1946,7 +1946,7 @@ class ZWaveJSConfigFlow(ConfigFlow, domain=DOMAIN):
         return client.driver
 
 
-class InvalidInput(__HAC_KEEP__Error):
+class InvalidInput(UniversalAssistantError):
     """Error to indicate input data is invalid."""
 
     def __init__(self, error: str) -> None:

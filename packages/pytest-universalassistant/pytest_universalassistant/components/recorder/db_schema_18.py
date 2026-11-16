@@ -1,7 +1,7 @@
 """Models for SQLAlchemy.
 
 This file contains the model definitions for schema version 18,
-used by __HA_KEEP__ Core 2021.7.0, which did a major refactoring
+used by Universal Home Assistant Core 2021.7.0, which did a major refactoring
 of long term statistics database models.
 It is used to test the schema migration logic.
 """

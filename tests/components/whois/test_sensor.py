@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.whois.const import SCAN_INTERVAL
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -35,7 +35,7 @@ pytestmark = [
     ],
 )
 async def test_whois_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -55,7 +55,7 @@ async def test_whois_sensors(
 
 
 async def test_whois_sensors_missing_some_attrs(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
 ) -> None:
     """Test the Whois sensors with owner and reseller missing."""
     assert (state := hass.states.get("sensor.universal_assistant_io_last_updated"))
@@ -77,7 +77,7 @@ async def test_whois_sensors_missing_some_attrs(
     ],
 )
 async def test_disabled_by_default_sensors(
-    hass: __HAC_KEEP__, entity_id: str, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_id: str, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the disabled by default Whois sensors."""
     assert hass.states.get(entity_id) is None
@@ -103,7 +103,7 @@ async def test_disabled_by_default_sensors(
     ],
 )
 async def test_no_data(
-    hass: __HAC_KEEP__, mock_whois: MagicMock, entity_id: str
+    hass: UniversalAssistant, mock_whois: MagicMock, entity_id: str
 ) -> None:
     """Test whois sensors become unknown when there is no data provided."""
     mock_whois.return_value = None

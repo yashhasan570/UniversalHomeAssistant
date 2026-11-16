@@ -6,7 +6,7 @@ from typing import Final, override
 from jvcprojector import Command, command as cmd
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import JVCConfigEntry, JvcProjectorDataUpdateCoordinator
@@ -79,7 +79,7 @@ SELECTS: Final[tuple[JvcProjectorSelectDescription, ...]] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: JVCConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

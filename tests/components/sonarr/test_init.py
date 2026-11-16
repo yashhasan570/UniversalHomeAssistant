@@ -16,11 +16,11 @@ from universalassistant.const import (
     CONF_URL,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_config_entry_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_sonarr: MagicMock,
 ) -> None:
@@ -35,7 +35,7 @@ async def test_config_entry_not_ready(
 
 
 async def test_config_entry_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_sonarr: MagicMock,
 ) -> None:
@@ -62,7 +62,7 @@ async def test_config_entry_reauth(
 
 
 async def test_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_sonarr: MagicMock,
 ) -> None:
@@ -80,7 +80,7 @@ async def test_unload_config_entry(
     assert mock_config_entry.state is ConfigEntryState.NOT_LOADED
 
 
-async def test_migrate_config_entry(hass: __HAC_KEEP__) -> None:
+async def test_migrate_config_entry(hass: UniversalAssistant) -> None:
     """Test successful migration of entry data."""
     legacy_config = {
         CONF_API_KEY: "MOCK_API_KEY",

@@ -18,7 +18,7 @@ DATA_MEDIA_SOURCE_PLATFORMS: HassKey[LazyIntegrationPlatforms[MediaSource]] = Ha
 )
 MEDIA_MIME_TYPES = ("audio", "video", "image")
 # Media types that pass the check above but are documents a browser executes.
-# Serving these inline would run them on the __HA_KEEP__ origin, where the
+# Serving these inline would run them on the Universal Home Assistant origin, where the
 # frontend keeps its tokens, so the browser is told to download them instead.
 DOWNLOAD_ONLY_MIME_TYPES = {"image/svg+xml"}
 MEDIA_CLASS_MAP = {

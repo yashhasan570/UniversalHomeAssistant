@@ -23,8 +23,8 @@ from universalassistant.components.media_source import (
     async_resolve_media,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.os_error import os_read_error
 from universalassistant.helpers.start import async_at_started
@@ -37,7 +37,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -70,7 +70,7 @@ class CollectionImageImageEntity(ImageEntity):
         name: str,
         media_content_ids: list[str],
         unique_id: str,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
     ) -> None:
         """Initialize the entity."""
         super().__init__(hass)
@@ -86,7 +86,7 @@ class CollectionImageImageEntity(ImageEntity):
         self._attr_image_url = Undefined
         self._cached_image = None
         self.async_write_ha_state()
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="no_images",
             translation_placeholders={"entity": self.entity_id},
@@ -216,7 +216,7 @@ class CollectionImageImageEntity(ImageEntity):
         except Unresolvable as err:
             self._current_image_id = image_id
             self._clear_image()
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="unresolvable",
                 translation_placeholders={
@@ -230,7 +230,7 @@ class CollectionImageImageEntity(ImageEntity):
             valid_image_content_type(resolved.mime_type)
         except ImageContentTypeError as err:
             self._clear_image()
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="invalid_media_type",
                 translation_placeholders={
@@ -261,10 +261,10 @@ class CollectionImageImageEntity(ImageEntity):
     async def async_added_to_hass(self) -> None:
         """Initialize the first image after entity has been created."""
 
-        async def get_random_image_on_start(_hass: __HAC_KEEP__) -> None:
+        async def get_random_image_on_start(_hass: UniversalAssistant) -> None:
             try:
                 await self.get_random_image()
-            except __HAC_KEEP__Error:
+            except UniversalAssistantError:
                 _LOGGER.exception(
                     "Unable to get an initial image",
                 )

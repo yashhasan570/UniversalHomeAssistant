@@ -12,8 +12,8 @@ from fritzconnection.lib.fritzwlan import DEFAULT_PASSWORD_LENGTH
 import probatio
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.service import (
     async_extract_config_entry_ids,
     async_register_admin_service,
@@ -88,11 +88,11 @@ async def _async_set_guest_wifi_password(service_call: ServiceCall) -> None:
                 ),
             )
         except (FritzServiceError, FritzActionError) as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="service_parameter_unknown"
             ) from ex
         except FritzConnectionException as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="service_not_supported"
             ) from ex
 
@@ -126,21 +126,21 @@ async def _async_dial(service_call: ServiceCall) -> None:
                 ],
             )
         except (FritzServiceError, FritzActionError) as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="service_parameter_unknown"
             ) from ex
         except FritzActionFailedError as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="service_dial_failed"
             ) from ex
         except FritzConnectionException as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="service_not_supported"
             ) from ex
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up services for Fritz integration."""
 
     async_register_admin_service(

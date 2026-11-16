@@ -12,7 +12,7 @@ from universalassistant.components.rympro.config_flow import (
 )
 from universalassistant.components.rympro.const import DOMAIN
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, CONF_TOKEN, CONF_UNIQUE_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 TEST_DATA = {
@@ -24,7 +24,7 @@ TEST_DATA = {
 
 
 @pytest.fixture
-def config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Create a mock config entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -35,7 +35,7 @@ def config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     return config_entry
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -81,7 +81,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
         (Exception, "unknown"),
     ],
 )
-async def test_login_error(hass: __HAC_KEEP__, exception, error) -> None:
+async def test_login_error(hass: UniversalAssistant, exception, error) -> None:
     """Test we handle config flow errors."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -131,7 +131,7 @@ async def test_login_error(hass: __HAC_KEEP__, exception, error) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_already_exists(hass: __HAC_KEEP__, config_entry) -> None:
+async def test_form_already_exists(hass: UniversalAssistant, config_entry) -> None:
     """Test that a flow with an existing account aborts."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -160,7 +160,7 @@ async def test_form_already_exists(hass: __HAC_KEEP__, config_entry) -> None:
     assert result2["reason"] == "already_configured"
 
 
-async def test_form_reauth(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def test_form_reauth(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Test reauthentication."""
 
     result = await config_entry.start_reauth_flow(hass)
@@ -197,7 +197,7 @@ async def test_form_reauth(hass: __HAC_KEEP__, config_entry: MockConfigEntry) ->
 
 
 async def test_form_reauth_with_new_account(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test reauthentication with new account."""
 

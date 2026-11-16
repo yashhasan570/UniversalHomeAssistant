@@ -11,7 +11,7 @@ from pytest_universalassistant.typing import WebSocketGenerator
 from universalassistant.components.switcher_kis.const import DOMAIN, MAX_UPDATE_INTERVAL_SEC
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util, slugify
@@ -31,7 +31,7 @@ from .consts import (
 
 
 async def test_update_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bridge,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
@@ -82,7 +82,7 @@ async def test_update_fail(
 
 
 async def test_update_fail_token_needed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bridge,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
@@ -133,7 +133,7 @@ async def test_update_fail_token_needed(
 
 
 async def test_ip_change_logged(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bridge,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -160,7 +160,7 @@ async def test_ip_change_logged(
     assert coordinator.data.ip_address == new_ip
 
 
-async def test_entry_unload(hass: __HAC_KEEP__, mock_bridge) -> None:
+async def test_entry_unload(hass: UniversalAssistant, mock_bridge) -> None:
     """Test entry unload."""
     entry = await init_integration(hass)
     assert mock_bridge
@@ -176,7 +176,7 @@ async def test_entry_unload(hass: __HAC_KEEP__, mock_bridge) -> None:
 
 
 async def test_remove_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bridge,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
@@ -240,7 +240,7 @@ async def test_remove_device(
 
 
 async def test_remove_device_token_needed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bridge,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,

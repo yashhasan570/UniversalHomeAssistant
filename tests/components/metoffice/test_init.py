@@ -13,7 +13,7 @@ import requests_mock
 
 from universalassistant.components.metoffice.const import DOMAIN
 from universalassistant.const import CONF_API_KEY, CONF_LATITUDE, CONF_LONGITUDE, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.util import utcnow
 
@@ -28,7 +28,7 @@ from .const import (
 
 @pytest.mark.freeze_time(dt.datetime(2024, 11, 23, 12, tzinfo=dt.UTC))
 async def test_reauth_on_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     requests_mock: requests_mock.Mocker,
     device_registry: dr.DeviceRegistry,
     entry: MockConfigEntry,
@@ -73,7 +73,7 @@ async def test_reauth_on_auth_error(
 
 
 async def test_migrate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     requests_mock: requests_mock.Mocker,
 ) -> None:
     """Test entry migration."""

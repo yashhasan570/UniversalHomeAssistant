@@ -22,7 +22,7 @@ from pylamarzocco.models import BluetoothMachineTelemetry, MachineStatus
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.redact import async_redact_data
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -66,7 +66,7 @@ class LaMarzoccoUpdateCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: LaMarzoccoConfigEntry,
         device: LaMarzoccoMachine,
     ) -> None:
@@ -266,7 +266,7 @@ class LaMarzoccoBluetoothUpdateCoordinator(LaMarzoccoUpdateCoordinator):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: LaMarzoccoConfigEntry,
         device: LaMarzoccoMachine,
         config_coordinator: LaMarzoccoConfigUpdateCoordinator,

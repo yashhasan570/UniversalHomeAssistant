@@ -9,7 +9,7 @@ from pytest_universalassistant.common import mock_component
 from yarl import URL
 
 from universalassistant.components import cloud
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.helpers.network import (
     NoURLAvailableError,
@@ -35,7 +35,7 @@ def mock_current_request_mock():
         yield mock_current_request
 
 
-async def test_get_url_internal(hass: __HAC_KEEP__) -> None:
+async def test_get_url_internal(hass: UniversalAssistant) -> None:
     """Test getting an instance URL when the user has set an internal URL."""
     assert hass.config.internal_url is None
 
@@ -182,7 +182,7 @@ async def test_get_url_internal(hass: __HAC_KEEP__) -> None:
             _get_internal_url(hass, require_current_request=True, require_ssl=True)
 
 
-async def test_get_url_internal_fallback(hass: __HAC_KEEP__) -> None:
+async def test_get_url_internal_fallback(hass: UniversalAssistant) -> None:
     """Test getting an instance URL when the user has not set an internal URL."""
     assert hass.config.internal_url is None
 
@@ -238,7 +238,7 @@ async def test_get_url_internal_fallback(hass: __HAC_KEEP__) -> None:
         _get_internal_url(hass, require_ssl=True)
 
 
-async def test_get_url_external(hass: __HAC_KEEP__) -> None:
+async def test_get_url_external(hass: UniversalAssistant) -> None:
     """Test getting an instance URL when the user has set an external URL."""
     assert hass.config.external_url is None
 
@@ -381,7 +381,7 @@ async def test_get_url_external(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_get_cloud_url(hass: __HAC_KEEP__) -> None:
+async def test_get_cloud_url(hass: UniversalAssistant) -> None:
     """Test getting an instance URL when the user has set an external URL."""
     assert hass.config.external_url is None
     hass.config.components.add("cloud")
@@ -457,7 +457,7 @@ async def test_get_cloud_url(hass: __HAC_KEEP__) -> None:
         _get_cloud_url(hass)
 
 
-async def test_get_external_url_cloud_fallback(hass: __HAC_KEEP__) -> None:
+async def test_get_external_url_cloud_fallback(hass: UniversalAssistant) -> None:
     """Test getting an external instance URL with cloud fallback."""
     assert hass.config.external_url is None
 
@@ -515,7 +515,7 @@ async def test_get_external_url_cloud_fallback(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_get_url(hass: __HAC_KEEP__) -> None:
+async def test_get_url(hass: UniversalAssistant) -> None:
     """Test getting an instance URL."""
     assert hass.config.external_url is None
     assert hass.config.internal_url is None
@@ -857,7 +857,7 @@ async def test_get_url(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_get_url_host_matching_respects_port(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     internal_url: str,
     external_url: str,
     host_header: str,
@@ -885,7 +885,7 @@ async def test_get_url_host_matching_respects_port(
         )
 
 
-async def test_get_request_host_port_with_port(hass: __HAC_KEEP__) -> None:
+async def test_get_request_host_port_with_port(hass: UniversalAssistant) -> None:
     """Test getting the host and port of the current web request from the request context."""
     with pytest.raises(NoURLAvailableError):
         _get_request_host_port()
@@ -902,7 +902,7 @@ async def test_get_request_host_port_with_port(hass: __HAC_KEEP__) -> None:
         assert _get_request_host_port() == ("example.com", 8123)
 
 
-async def test_get_request_host_port_without_port(hass: __HAC_KEEP__) -> None:
+async def test_get_request_host_port_without_port(hass: UniversalAssistant) -> None:
     """Test getting the host and port of the current web request from the request context."""
     with pytest.raises(NoURLAvailableError):
         _get_request_host_port()
@@ -917,7 +917,7 @@ async def test_get_request_host_port_without_port(hass: __HAC_KEEP__) -> None:
         assert _get_request_host_port() == ("example.com", 80)
 
 
-async def test_get_request_ipv6_address(hass: __HAC_KEEP__) -> None:
+async def test_get_request_ipv6_address(hass: UniversalAssistant) -> None:
     """Test getting the ipv6 host and port of the current web request."""
     with pytest.raises(NoURLAvailableError):
         _get_request_host_port()
@@ -932,7 +932,7 @@ async def test_get_request_ipv6_address(hass: __HAC_KEEP__) -> None:
         assert _get_request_host_port() == ("::1", 8123)
 
 
-async def test_get_request_ipv6_address_without_port(hass: __HAC_KEEP__) -> None:
+async def test_get_request_ipv6_address_without_port(hass: UniversalAssistant) -> None:
     """Test getting the ipv6 host and port of the current web request."""
     with pytest.raises(NoURLAvailableError):
         _get_request_host_port()
@@ -947,7 +947,7 @@ async def test_get_request_ipv6_address_without_port(hass: __HAC_KEEP__) -> None
         assert _get_request_host_port() == ("::1", 80)
 
 
-async def test_get_request_host_port_no_host_header(hass: __HAC_KEEP__) -> None:
+async def test_get_request_host_port_no_host_header(hass: UniversalAssistant) -> None:
     """Test getting the host and port of the current web request from the request context."""
     with pytest.raises(NoURLAvailableError):
         _get_request_host_port()
@@ -967,7 +967,7 @@ async def test_get_request_host_port_no_host_header(hass: __HAC_KEEP__) -> None:
     Mock(return_value={"hostname": "universalassistant"}),
 )
 async def test_get_current_request_url_with_known_host(
-    hass: __HAC_KEEP__, current_request: MagicMock
+    hass: UniversalAssistant, current_request: MagicMock
 ) -> None:
     """Test getting current request URL with known hosts addresses."""
     hass.config.api = Mock(use_ssl=False, port=8123, local_ip="127.0.0.1")
@@ -1035,7 +1035,7 @@ async def test_get_current_request_url_with_known_host(
     Mock(return_value={"hostname": "hellohost"}),
 )
 async def test_is_internal_request(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_current_request: Mock,
 ) -> None:
     """Test if accessing an instance on its internal URL."""
@@ -1103,7 +1103,7 @@ async def test_is_internal_request(
         assert is_internal_request(hass), mock_current_request.return_value.url
 
 
-async def test_is_hass_url(hass: __HAC_KEEP__) -> None:
+async def test_is_hass_url(hass: UniversalAssistant) -> None:
     """Test is_hass_url."""
     assert hass.config.api is None
     assert hass.config.internal_url is None
@@ -1151,7 +1151,7 @@ async def test_is_hass_url(hass: __HAC_KEEP__) -> None:
         assert is_hass_url(hass, "http://example.nabu.casa") is False
 
 
-async def test_is_hass_url_addon_url(hass: __HAC_KEEP__) -> None:
+async def test_is_hass_url_addon_url(hass: UniversalAssistant) -> None:
     """Test is_hass_url with a supervisor network URL."""
     assert is_hass_url(hass, "http://universalassistant:8123") is False
 
@@ -1171,7 +1171,7 @@ async def test_is_hass_url_addon_url(hass: __HAC_KEEP__) -> None:
     assert is_hass_url(hass, "https://universalassistant:8123")
 
 
-async def test_get_supervisor_network_url(hass: __HAC_KEEP__) -> None:
+async def test_get_supervisor_network_url(hass: UniversalAssistant) -> None:
     """Test get_supervisor_network_url."""
     assert get_supervisor_network_url(hass) is None
 

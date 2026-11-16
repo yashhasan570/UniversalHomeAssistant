@@ -5,7 +5,7 @@ from typing import Any, override
 from yalesmartalarmclient import YaleLock
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import YaleConfigEntry
@@ -14,7 +14,7 @@ from .entity import YaleLockEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: YaleConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

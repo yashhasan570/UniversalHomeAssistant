@@ -23,7 +23,7 @@ from universalassistant.const import (
     SUN_EVENT_SUNRISE,
     SUN_EVENT_SUNSET,
 )
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers.sun import (
     get_astral_event_next,
     get_astral_observer,
@@ -53,14 +53,14 @@ _DAWN_DUSK = {
 
 
 @pytest.fixture(autouse=True)
-async def setup_comp(hass: __HAC_KEEP__) -> None:
+async def setup_comp(hass: UniversalAssistant) -> None:
     """Initialize components."""
     mock_component(hass, "group")
     await async_setup_component(hass, sun.DOMAIN, {sun.DOMAIN: {}})
 
 
 async def _arm_automation(
-    hass: __HAC_KEEP__, trigger: dict[str, Any], extra_data: dict[str, Any]
+    hass: UniversalAssistant, trigger: dict[str, Any], extra_data: dict[str, Any]
 ) -> None:
     """Set up an automation with the given trigger config."""
     await async_setup_component(
@@ -82,7 +82,7 @@ async def _arm_automation(
 
 
 async def test_sunset_trigger(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test the legacy sunset trigger."""
     now = datetime(2015, 9, 15, 23, tzinfo=dt_util.UTC)
@@ -131,7 +131,7 @@ async def test_sunset_trigger(
 
 
 async def test_sunrise_trigger(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test the legacy sunrise trigger."""
     now = datetime(2015, 9, 13, 23, tzinfo=dt_util.UTC)
@@ -155,7 +155,7 @@ async def test_sunrise_trigger(
 
 
 async def test_sunset_trigger_with_offset(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test the legacy sunset trigger with offset."""
     now = datetime(2015, 9, 15, 23, tzinfo=dt_util.UTC)
@@ -193,7 +193,7 @@ async def test_sunset_trigger_with_offset(
 
 
 async def test_sunrise_trigger_with_offset(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test the legacy sunrise trigger with offset."""
     now = datetime(2015, 9, 13, 23, tzinfo=dt_util.UTC)
@@ -233,7 +233,7 @@ async def test_sunrise_trigger_with_offset(
     ],
 )
 async def test_event_trigger_fires(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     trigger_key: str,
     astral_event: str,
@@ -250,7 +250,7 @@ async def test_event_trigger_fires(
 
 
 async def test_event_trigger_reschedules(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test that a solar event trigger reschedules for the following day."""
     with freeze_time(_TEST_DATETIME) as freezer:
@@ -273,7 +273,7 @@ async def test_event_trigger_reschedules(
 
 
 async def test_event_trigger_reschedules_on_location_change(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test a solar event trigger reschedules when the location changes."""
     with freeze_time(_TEST_DATETIME):
@@ -296,7 +296,7 @@ async def test_event_trigger_reschedules_on_location_change(
 @pytest.mark.parametrize("trigger_key", ["sun.dawn", "sun.dusk"])
 @pytest.mark.parametrize("twilight", ["civil", "nautical", "astronomical"])
 async def test_dawn_dusk_trigger_fires(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     trigger_key: str,
     twilight: str,
@@ -319,7 +319,7 @@ async def test_dawn_dusk_trigger_fires(
 
 
 async def test_dawn_defaults_to_civil(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test the dawn trigger defaults to civil twilight."""
     with freeze_time(_TEST_DATETIME):
@@ -364,7 +364,7 @@ _OFFSET_CASES = [
 )
 @pytest.mark.parametrize(("offset_options", "sign"), _OFFSET_CASES)
 async def test_event_trigger_offset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     trigger_key: str,
     astral_event: str,
@@ -397,7 +397,7 @@ async def test_event_trigger_offset(
 @pytest.mark.parametrize("trigger_key", ["sun.dawn", "sun.dusk"])
 @pytest.mark.parametrize(("offset_options", "sign"), _OFFSET_CASES)
 async def test_dawn_dusk_trigger_offset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     trigger_key: str,
     offset_options: dict[str, Any],
@@ -480,7 +480,7 @@ _TWO_SUNRISE_LOCATION = (66.5, -32.5, "America/Anchorage")
     ],
 )
 async def test_event_trigger_no_event_next_day(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     location: tuple[float, float, str],
     now: datetime,
@@ -509,7 +509,7 @@ async def test_event_trigger_no_event_next_day(
 
 
 async def test_two_sunsets_on_one_day_at_kotzebue(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test both sunsets fire on a calendar day that has two.
 
@@ -544,7 +544,7 @@ async def test_two_sunsets_on_one_day_at_kotzebue(
 
 
 async def test_two_sunrises_on_one_day(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test both sunrises fire on a calendar day that has two.
 
@@ -600,7 +600,7 @@ async def test_two_sunrises_on_one_day(
     ],
 )
 async def test_solar_noon_midnight_in_polar_regions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     trigger_key: str,
     astral_event: str,
@@ -651,7 +651,7 @@ _GOLDEN_BLUE_CROSSINGS = {
 
 @pytest.mark.parametrize(("trigger_key", "period"), list(_GOLDEN_BLUE_CROSSINGS))
 async def test_golden_blue_hour_trigger_fires(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     trigger_key: str,
     period: str,
@@ -676,7 +676,7 @@ async def test_golden_blue_hour_trigger_fires(
 
 
 async def test_golden_blue_hour_trigger_any_fires_at_both_crossings(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test that with period ``any`` the trigger fires at both daily crossings."""
     with freeze_time(_TEST_DATETIME) as freezer:
@@ -707,7 +707,7 @@ async def test_golden_blue_hour_trigger_any_fires_at_both_crossings(
 
 
 async def test_golden_hour_defaults_to_any(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test the golden hour trigger defaults to the ``any`` period."""
     with freeze_time(_TEST_DATETIME):
@@ -737,7 +737,7 @@ async def test_golden_hour_defaults_to_any(
 )
 @pytest.mark.parametrize(("offset_options", "sign"), _OFFSET_CASES)
 async def test_golden_blue_hour_trigger_offset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     trigger_key: str,
     period: str,
@@ -802,7 +802,7 @@ _POLAR_TRIGGER_CASES = [
 
 @pytest.mark.parametrize(("trigger_key", "now", "expected"), _POLAR_TRIGGER_CASES)
 async def test_midnight_sun_polar_night_trigger_fires(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     trigger_key: str,
     now: datetime,
@@ -824,7 +824,7 @@ async def test_midnight_sun_polar_night_trigger_fires(
 
 
 async def test_midnight_sun_trigger_stays_unscheduled_outside_polar(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test a midnight sun trigger arms without error and never fires off the poles.
 
@@ -841,7 +841,7 @@ async def test_midnight_sun_trigger_stays_unscheduled_outside_polar(
 
 
 async def test_midnight_sun_trigger_offset_catches_pending_crossing(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test a multi-day ``after`` offset still fires for an already-passed crossing.
 
@@ -920,7 +920,7 @@ def test_next_polar_transition_large_before_offset() -> None:
 
 
 async def test_elevation_changed_trigger(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test the elevation changed trigger fires on any elevation change."""
     await _arm_automation(
@@ -946,7 +946,7 @@ async def test_elevation_changed_trigger(
 
 
 async def test_elevation_crossed_threshold_trigger(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test the elevation crossed threshold trigger fires only on crossing."""
     await _arm_automation(
@@ -1001,7 +1001,7 @@ async def test_elevation_crossed_threshold_trigger(
         "sun.polar_night_ended",
     ],
 )
-async def test_event_trigger_options(hass: __HAC_KEEP__, trigger_key: str) -> None:
+async def test_event_trigger_options(hass: UniversalAssistant, trigger_key: str) -> None:
     """Test the solar event triggers reject behavior and duration options."""
     await assert_trigger_options_supported(
         hass,
@@ -1025,7 +1025,7 @@ async def test_event_trigger_options(hass: __HAC_KEEP__, trigger_key: str) -> No
     ],
 )
 async def test_elevation_trigger_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     trigger_key: str,
     base_options: dict[str, Any],
     supports_duration: bool,
@@ -1051,7 +1051,7 @@ async def test_elevation_trigger_options(
     ],
 )
 async def test_dawn_dusk_twilight_validation(
-    hass: __HAC_KEEP__, twilight: str, valid: bool
+    hass: UniversalAssistant, twilight: str, valid: bool
 ) -> None:
     """Test the dawn/dusk triggers validate the twilight option."""
     config = {"platform": "sun.dawn", "options": {"type": twilight}}
@@ -1076,7 +1076,7 @@ async def test_dawn_dusk_twilight_validation(
     ],
 )
 async def test_golden_blue_hour_period_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     trigger_key: str,
     period: str,
     expectation: AbstractContextManager,

@@ -18,7 +18,7 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import async_add_model
 
@@ -38,7 +38,7 @@ async def fixture_single_platform():
     ],
 )
 async def test_reset_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connection: AsyncMock,
     model: Model,
     entity_id: str,
@@ -86,7 +86,7 @@ async def test_reset_button(
 
 
 async def test_reset_button_unavailable_on_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     coils: dict[int, Any],
     freezer: FrozenDateTimeFactory,
 ) -> None:

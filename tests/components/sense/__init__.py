@@ -6,12 +6,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.sense.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
 async def setup_platform(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, platform: Platform
+    hass: UniversalAssistant, config_entry: MockConfigEntry, platform: Platform
 ) -> MockConfigEntry:
     """Set up the Sense platform."""
     config_entry.add_to_hass(hass)

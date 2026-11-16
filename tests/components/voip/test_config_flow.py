@@ -6,11 +6,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components import voip
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_form_user(hass: __HAC_KEEP__) -> None:
+async def test_form_user(hass: UniversalAssistant) -> None:
     """Test user form config flow."""
 
     result = await hass.config_entries.flow.async_init(
@@ -35,7 +35,7 @@ async def test_form_user(hass: __HAC_KEEP__) -> None:
 
 
 async def test_single_instance(
-    hass: __HAC_KEEP__, config_entry: config_entries.ConfigEntry
+    hass: UniversalAssistant, config_entry: config_entries.ConfigEntry
 ) -> None:
     """Test that only one instance can be created."""
     result = await hass.config_entries.flow.async_init(
@@ -45,7 +45,7 @@ async def test_single_instance(
     assert result["reason"] == "single_instance_allowed"
 
 
-async def test_options_flow(hass: __HAC_KEEP__) -> None:
+async def test_options_flow(hass: UniversalAssistant) -> None:
     """Test config flow options."""
     config_entry = MockConfigEntry(
         domain=voip.DOMAIN,

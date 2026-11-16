@@ -11,8 +11,8 @@ import probatio
 
 from universalassistant.components.file_upload import process_uploaded_file
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import selector
 from universalassistant.util import slugify
 
@@ -112,12 +112,12 @@ class LocalCalendarConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class InvalidIcsFile(__HAC_KEEP__Error):
+class InvalidIcsFile(UniversalAssistantError):
     """Error to indicate that the uploaded file is not a valid ICS file."""
 
 
 def save_uploaded_ics_file(
-    hass: __HAC_KEEP__, uploaded_file_id: str, storage_key: str
+    hass: UniversalAssistant, uploaded_file_id: str, storage_key: str
 ):
     """Validate the uploaded file and move it to the storage directory."""
 

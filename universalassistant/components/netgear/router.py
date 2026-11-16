@@ -14,7 +14,7 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.util import dt as dt_util
@@ -54,7 +54,7 @@ def get_api(
 class NetgearRouter:
     """Representation of a Netgear router."""
 
-    def __init__(self, hass: __HAC_KEEP__, entry: NetgearConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: NetgearConfigEntry) -> None:
         """Initialize a Netgear router."""
         assert entry.unique_id
         self.hass = hass

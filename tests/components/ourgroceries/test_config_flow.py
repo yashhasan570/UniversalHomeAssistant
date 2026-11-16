@@ -12,11 +12,11 @@ from universalassistant.components.ourgroceries.config_flow import (
 )
 from universalassistant.components.ourgroceries.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -56,7 +56,7 @@ async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     ],
 )
 async def test_form_error(
-    hass: __HAC_KEEP__, exception: Exception, error: str, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, exception: Exception, error: str, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we handle form errors."""
     result = await hass.config_entries.flow.async_init(
@@ -99,7 +99,7 @@ async def test_form_error(
 
 
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ourgroceries_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -137,7 +137,7 @@ async def test_reauth(
     ],
 )
 async def test_reauth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ourgroceries_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     exception: Exception,

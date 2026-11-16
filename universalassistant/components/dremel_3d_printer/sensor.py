@@ -20,7 +20,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfTime,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 from universalassistant.util.dt import utcnow
@@ -232,7 +232,7 @@ SENSOR_TYPES: tuple[Dremel3DPrinterSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: DremelConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

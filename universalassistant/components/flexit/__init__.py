@@ -7,7 +7,7 @@ from modbus_connection import ModbusSerialParams, ModbusTcpParams
 
 from universalassistant.components.modbus import async_get_unit
 from universalassistant.const import CONF_DEVICE, CONF_HOST, CONF_PORT, CONF_TYPE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONF_BAUDRATE, CONF_UNIT, DEFAULT_PORT, TYPE_SERIAL
 from .coordinator import FlexitConfigEntry, FlexitDataCoordinator
@@ -34,7 +34,7 @@ def create_modbus_params(
     return ModbusTcpParams(host=data[CONF_HOST], port=data.get(CONF_PORT, DEFAULT_PORT))
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: FlexitConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: FlexitConfigEntry) -> None:
     """Set up Flexit from a config entry."""
     unit = async_get_unit(
         hass, entry, create_modbus_params(entry.data), entry.data[CONF_UNIT]
@@ -48,7 +48,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: FlexitConfigEntry) -> Non
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FlexitConfigEntry,
 ) -> None:
     """Unload a config entry."""

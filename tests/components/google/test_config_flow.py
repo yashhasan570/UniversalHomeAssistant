@@ -36,7 +36,7 @@ from universalassistant.components.google.const import (
     FeatureAccess,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.setup import async_setup_component
@@ -56,7 +56,7 @@ async def request_setup(current_request_with_host: None) -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_app_creds(hass: __HAC_KEEP__) -> None:
+async def setup_app_creds(hass: UniversalAssistant) -> None:
     """Fixture to setup application credentials component."""
     await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
 
@@ -131,7 +131,7 @@ async def primary_calendar(
     )
 
 
-async def fire_alarm(hass: __HAC_KEEP__, point_in_time: dt.datetime) -> None:
+async def fire_alarm(hass: UniversalAssistant, point_in_time: dt.datetime) -> None:
     """Fire an alarm and wait for callbacks to run."""
     with freeze_time(point_in_time):
         async_fire_time_changed(hass, point_in_time)
@@ -139,7 +139,7 @@ async def fire_alarm(hass: __HAC_KEEP__, point_in_time: dt.datetime) -> None:
 
 
 async def test_full_flow_application_creds(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_code_flow: Mock,
     mock_exchange: Mock,
 ) -> None:
@@ -195,7 +195,7 @@ async def test_full_flow_application_creds(
 
 
 async def test_code_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_code_flow: Mock,
 ) -> None:
     """Test server error setting up the oauth flow."""
@@ -215,7 +215,7 @@ async def test_code_error(
 
 
 async def test_timeout_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_code_flow: Mock,
 ) -> None:
     """Test timeout error setting up the oauth flow."""
@@ -236,7 +236,7 @@ async def test_timeout_error(
 
 @pytest.mark.parametrize("code_expiration_delta", [dt.timedelta(seconds=50)])
 async def test_expired_after_exchange(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_code_flow: Mock,
 ) -> None:
     """Test credential exchange expires."""
@@ -269,7 +269,7 @@ async def test_expired_after_exchange(
 
 
 async def test_exchange_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_code_flow: Mock,
     mock_exchange: Mock,
     freezer: FrozenDateTimeFactory,
@@ -345,7 +345,7 @@ async def test_exchange_error(
 
 
 async def test_duplicate_config_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_code_flow: Mock,
     mock_exchange: Mock,
     config_entry: MockConfigEntry,
@@ -387,7 +387,7 @@ async def test_duplicate_config_entries(
 
 @pytest.mark.parametrize("primary_calendar_email", ["another-email@example.com"])
 async def test_multiple_config_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_code_flow: Mock,
     mock_exchange: Mock,
     config_entry: MockConfigEntry,
@@ -438,7 +438,7 @@ async def test_multiple_config_entries(
 
 
 async def test_missing_configuration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test can't configure when no authentication source is available."""
     result = await hass.config_entries.flow.async_init(
@@ -449,7 +449,7 @@ async def test_missing_configuration(
 
 
 async def test_wrong_configuration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test can't use the wrong type of authentication."""
 
@@ -491,7 +491,7 @@ async def test_wrong_configuration(
     ],
 )
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_code_flow: Mock,
     mock_exchange: Mock,
     options: dict[str, Any] | None,
@@ -573,7 +573,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_calendar_lookup_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_code_flow: Mock,
     mock_exchange: Mock,
     reason: str,
@@ -607,7 +607,7 @@ async def test_calendar_lookup_failure(
 
 
 async def test_options_flow_triggers_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test load and unload of a ConfigEntry."""
@@ -639,7 +639,7 @@ async def test_options_flow_triggers_reauth(
 
 
 async def test_options_flow_no_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test load and unload of a ConfigEntry."""
@@ -670,7 +670,7 @@ async def test_options_flow_no_changes(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_web_auth_compatibility(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_code_flow: Mock,
     aioclient_mock: AiohttpClientMocker,
     hass_client_no_auth: ClientSessionGenerator,
@@ -757,7 +757,7 @@ async def test_web_auth_compatibility(
     ],
 )
 async def test_web_reauth_flow_asks_for_configured_access(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_code_flow: Mock,
     options: dict[str, Any],
     expected_scope: str,
@@ -803,7 +803,7 @@ async def test_web_reauth_flow_asks_for_configured_access(
     ],
 )
 async def test_web_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_code_flow: Mock,
     mock_exchange: Mock,
     aioclient_mock: AiohttpClientMocker,
@@ -927,7 +927,7 @@ async def test_web_reauth_flow(
     ],
 )
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_code_flow: Mock,
     mock_exchange: Mock,
     entry_unique_id: str | None,
@@ -970,7 +970,7 @@ async def test_reconfigure_flow(
 
 
 async def test_reconfigure_flow_no_unique_id_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_code_flow: Mock,
     mock_exchange: Mock,
 ) -> None:
@@ -1009,7 +1009,7 @@ async def test_reconfigure_flow_no_unique_id_already_configured(
 
 
 async def test_web_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_code_flow: Mock,
     aioclient_mock: AiohttpClientMocker,
     hass_client_no_auth: ClientSessionGenerator,

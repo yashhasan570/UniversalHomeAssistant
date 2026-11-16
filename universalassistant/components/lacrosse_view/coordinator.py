@@ -8,7 +8,7 @@ from typing import override
 from lacrosse_view import HTTPError, LaCrosse, Location, LoginError, Sensor
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -26,13 +26,13 @@ class LaCrosseUpdateCoordinator(DataUpdateCoordinator[list[Sensor]]):
     password: str
     name: str
     id: str
-    hass: __HAC_KEEP__
+    hass: UniversalAssistant
     devices: list[Sensor] | None = None
     config_entry: LaCrosseConfigEntry
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: LaCrosseConfigEntry,
         api: LaCrosse,
     ) -> None:

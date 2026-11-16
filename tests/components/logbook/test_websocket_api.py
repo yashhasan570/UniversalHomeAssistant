@@ -50,7 +50,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNKNOWN,
 )
-from universalassistant.core import Event, __HAC_KEEP__, ServiceCall, State, callback
+from universalassistant.core import Event, UniversalAssistant, ServiceCall, State, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entityfilter import CONF_ENTITY_GLOBS
 from universalassistant.helpers.event import async_track_state_change_event
@@ -74,14 +74,14 @@ def listeners_without_writes(listeners: dict[str, int]) -> dict[str, int]:
 
 
 async def _async_mock_logbook_platform_with_broken_describe(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     class MockLogbookPlatform:
         """Mock a logbook platform with broken describe."""
 
         @core.callback
         def async_describe_events(
-            hass: __HAC_KEEP__,  # noqa: N805
+            hass: UniversalAssistant,  # noqa: N805
             async_describe_event: Callable[
                 [str, str, Callable[[Event], dict[str, str]]], None
             ],
@@ -99,14 +99,14 @@ async def _async_mock_logbook_platform_with_broken_describe(
 
 
 async def _async_mock_logbook_platform(
-    hass: __HAC_KEEP__, domain: str = "test", event_name: str = "mock_event"
+    hass: UniversalAssistant, domain: str = "test", event_name: str = "mock_event"
 ) -> None:
     class MockLogbookPlatform:
         """Mock a logbook platform."""
 
         @core.callback
         def async_describe_events(
-            hass: __HAC_KEEP__,  # noqa: N805
+            hass: UniversalAssistant,  # noqa: N805
             async_describe_event: Callable[
                 [str, str, Callable[[Event], dict[str, str]]], None
             ],
@@ -127,7 +127,7 @@ async def _async_mock_logbook_platform(
 
 
 async def _async_mock_entity_with_broken_logbook_platform(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> er.RegistryEntry:
     """Mock an integration with an entity that raises in logbook."""
     entry = MockConfigEntry(domain="test", data={"first": True}, options=None)
@@ -144,7 +144,7 @@ async def _async_mock_entity_with_broken_logbook_platform(
 
 
 async def _async_mock_entity_with_logbook_platform(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> er.RegistryEntry:
     """Mock an integration that provides an entity that are described by the logbook."""
     entry = MockConfigEntry(domain="test", data={"first": True}, options=None)
@@ -161,7 +161,7 @@ async def _async_mock_entity_with_logbook_platform(
 
 
 async def _async_mock_devices_with_logbook_platform(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> list[dr.DeviceEntry]:
     """Mock an integration that provides a device that are described by the logbook."""
     entry = MockConfigEntry(domain="test", data={"first": True}, options=None)
@@ -191,7 +191,7 @@ async def _async_mock_devices_with_logbook_platform(
 
 
 async def test_get_events(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test logbook get_events."""
     now = dt_util.utcnow()
@@ -311,7 +311,7 @@ async def test_get_events(
 
 
 async def test_get_events_automation_and_script_run_ids(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test entries of an automation and the scripts it calls identify their runs."""
     now = dt_util.utcnow()
@@ -374,7 +374,7 @@ async def test_get_events_automation_and_script_run_ids(
 
 
 async def test_get_events_entities_filtered_away(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test logbook get_events all entities filtered away."""
     now = dt_util.utcnow()
@@ -440,7 +440,7 @@ async def test_get_events_entities_filtered_away(
 
 
 async def test_get_events_future_start_time(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test get_events with a future start time."""
     await async_setup_component(hass, DOMAIN, {})
@@ -465,7 +465,7 @@ async def test_get_events_future_start_time(
 
 
 async def test_get_events_bad_start_time(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test get_events bad start time."""
     await async_setup_component(hass, DOMAIN, {})
@@ -485,7 +485,7 @@ async def test_get_events_bad_start_time(
 
 
 async def test_get_events_bad_end_time(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test get_events bad end time."""
     now = dt_util.utcnow()
@@ -507,7 +507,7 @@ async def test_get_events_bad_end_time(
 
 
 async def test_get_events_invalid_filters(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test get_events invalid filters."""
     await async_setup_component(hass, DOMAIN, {})
@@ -538,7 +538,7 @@ async def test_get_events_invalid_filters(
 
 async def test_get_events_with_device_ids(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -653,7 +653,7 @@ async def test_get_events_with_device_ids(
 
 async def test_get_events_with_composite_device_id(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -722,7 +722,7 @@ async def test_get_events_with_composite_device_id(
 
 @patch("universalassistant.components.logbook.websocket_api.EVENT_COALESCE_TIME", 0)
 async def test_subscribe_unsubscribe_logbook_stream_excluded_entities(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test subscribe/unsubscribe logbook stream with excluded entities."""
     now = dt_util.utcnow()
@@ -909,7 +909,7 @@ async def test_subscribe_unsubscribe_logbook_stream_excluded_entities(
 
 @patch("universalassistant.components.logbook.websocket_api.EVENT_COALESCE_TIME", 0)
 async def test_subscribe_unsubscribe_logbook_stream_included_entities(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test subscribe/unsubscribe logbook stream with included entities."""
     test_entities = (
@@ -1119,7 +1119,7 @@ async def test_subscribe_unsubscribe_logbook_stream_included_entities(
 
 @patch("universalassistant.components.logbook.websocket_api.EVENT_COALESCE_TIME", 0)
 async def test_logbook_stream_excluded_entities_inherits_filters_from_recorder(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test subscribe/unsubscribe logbook stream inherits filters from recorder."""
     now = dt_util.utcnow()
@@ -1312,7 +1312,7 @@ async def test_logbook_stream_excluded_entities_inherits_filters_from_recorder(
 
 @patch("universalassistant.components.logbook.websocket_api.EVENT_COALESCE_TIME", 0)
 async def test_subscribe_unsubscribe_logbook_stream(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test subscribe/unsubscribe logbook stream."""
     now = dt_util.utcnow()
@@ -1447,7 +1447,7 @@ async def test_subscribe_unsubscribe_logbook_stream(
             "domain": "universalassistant",
             "icon": "mdi:universal-assistant",
             "message": "started",
-            "name": "__HA_KEEP__",
+            "name": "Universal Home Assistant",
             "when": ANY,
         },
     ]
@@ -1617,7 +1617,7 @@ async def test_subscribe_unsubscribe_logbook_stream(
 
 @patch("universalassistant.components.logbook.websocket_api.EVENT_COALESCE_TIME", 0)
 async def test_subscribe_logbook_stream_state_attributes(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the live logbook stream exposes allowlisted state attributes."""
     now = dt_util.utcnow()
@@ -1675,7 +1675,7 @@ async def test_subscribe_logbook_stream_state_attributes(
 
 @patch("universalassistant.components.logbook.websocket_api.EVENT_COALESCE_TIME", 0)
 async def test_subscribe_unsubscribe_logbook_stream_entities(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test subscribe/unsubscribe logbook stream with specific entities."""
     now = dt_util.utcnow()
@@ -1775,7 +1775,7 @@ async def test_subscribe_unsubscribe_logbook_stream_entities(
 
 @patch("universalassistant.components.logbook.websocket_api.EVENT_COALESCE_TIME", 0)
 async def test_subscribe_unsubscribe_logbook_stream_entities_with_end_time(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test logbook stream with specific entities and an end_time."""
     now = dt_util.utcnow()
@@ -1879,7 +1879,7 @@ async def test_subscribe_unsubscribe_logbook_stream_entities_with_end_time(
 
 @patch("universalassistant.components.logbook.websocket_api.EVENT_COALESCE_TIME", 0)
 async def test_subscribe_unsubscribe_logbook_stream_entities_past_only(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test subscribe/unsubscribe logbook stream with specific entities in the past."""
     now = dt_util.utcnow()
@@ -1949,7 +1949,7 @@ async def test_subscribe_unsubscribe_logbook_stream_entities_past_only(
 
 @patch("universalassistant.components.logbook.websocket_api.EVENT_COALESCE_TIME", 0)
 async def test_subscribe_unsubscribe_logbook_stream_big_query(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test subscribe/unsubscribe logbook stream and ask for a large time frame.
 
@@ -2052,7 +2052,7 @@ async def test_subscribe_unsubscribe_logbook_stream_big_query(
 @patch("universalassistant.components.logbook.websocket_api.EVENT_COALESCE_TIME", 0)
 async def test_subscribe_unsubscribe_logbook_stream_device(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -2159,7 +2159,7 @@ async def test_subscribe_unsubscribe_logbook_stream_device(
 
 
 async def test_event_stream_bad_start_time(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test event_stream bad start time."""
     await async_setup_component(hass, DOMAIN, {})
@@ -2181,7 +2181,7 @@ async def test_event_stream_bad_start_time(
 @patch("universalassistant.components.logbook.websocket_api.EVENT_COALESCE_TIME", 0)
 async def test_logbook_stream_match_multiple_entities(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -2291,7 +2291,7 @@ async def test_logbook_stream_match_multiple_entities(
 @patch("universalassistant.components.logbook.websocket_api.EVENT_COALESCE_TIME", 0)
 async def test_logbook_stream_match_multiple_entities_one_with_broken_logbook_platform(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -2396,7 +2396,7 @@ async def test_logbook_stream_match_multiple_entities_one_with_broken_logbook_pl
 
 
 async def test_event_stream_bad_end_time(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test event_stream bad end time."""
     await async_setup_component(hass, DOMAIN, {})
@@ -2431,7 +2431,7 @@ async def test_event_stream_bad_end_time(
 
 async def test_live_stream_with_one_second_commit_interval(
     async_setup_recorder_instance: RecorderInstanceGenerator,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -2525,7 +2525,7 @@ async def test_live_stream_with_one_second_commit_interval(
 
 @patch("universalassistant.components.logbook.websocket_api.EVENT_COALESCE_TIME", 0)
 async def test_subscribe_disconnected(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test subscribe/unsubscribe logbook stream gets disconnected."""
     now = dt_util.utcnow()
@@ -2584,7 +2584,7 @@ async def test_subscribe_disconnected(
 
 @patch("universalassistant.components.logbook.websocket_api.EVENT_COALESCE_TIME", 0)
 async def test_stream_consumer_stop_processing(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test we unsubscribe if the stream consumer fails or is canceled."""
     now = dt_util.utcnow()
@@ -2647,7 +2647,7 @@ async def test_stream_consumer_stop_processing(
 @patch("universalassistant.components.logbook.websocket_api.EVENT_COALESCE_TIME", 0)
 async def test_recorder_is_far_behind(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
     device_registry: dr.DeviceRegistry,
@@ -2733,7 +2733,7 @@ async def test_recorder_is_far_behind(
 
 @patch("universalassistant.components.logbook.websocket_api.EVENT_COALESCE_TIME", 0)
 async def test_subscribe_all_entities_are_continuous(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test logbook stream with always-filtered entities."""
     now = dt_util.utcnow()
@@ -2794,7 +2794,7 @@ async def test_subscribe_all_entities_are_continuous(
 
 @patch("universalassistant.components.logbook.websocket_api.EVENT_COALESCE_TIME", 0)
 async def test_subscribe_all_entities_have_uom_multiple(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test logbook stream for multiple always-filtered entities."""
     now = dt_util.utcnow()
@@ -2853,7 +2853,7 @@ async def test_subscribe_all_entities_have_uom_multiple(
 
 @patch("universalassistant.components.logbook.websocket_api.EVENT_COALESCE_TIME", 0)
 async def test_subscribe_entities_some_have_uom_multiple(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test logbook stream with uom filtered entities and non-filtered entities."""
     now = dt_util.utcnow()
@@ -2960,7 +2960,7 @@ async def test_subscribe_entities_some_have_uom_multiple(
 
 @patch("universalassistant.components.logbook.websocket_api.EVENT_COALESCE_TIME", 0)
 async def test_logbook_stream_ignores_forced_updates(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test logbook live stream ignores forced updates."""
     now = dt_util.utcnow()
@@ -3077,7 +3077,7 @@ async def test_logbook_stream_ignores_forced_updates(
 @patch("universalassistant.components.logbook.websocket_api.EVENT_COALESCE_TIME", 0)
 async def test_subscribe_all_entities_are_continuous_with_device(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -3178,7 +3178,7 @@ async def test_subscribe_all_entities_are_continuous_with_device(
 @pytest.mark.parametrize("params", [{"entity_ids": ["binary_sensor.is_light"]}, {}])
 async def test_live_stream_with_changed_state_change(
     async_setup_recorder_instance: RecorderInstanceGenerator,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     params: dict[str, Any],
 ) -> None:
@@ -3324,7 +3324,7 @@ async def test_live_stream_with_changed_state_change(
 @patch("universalassistant.components.logbook.websocket_api.EVENT_COALESCE_TIME", 0)
 async def test_consistent_stream_and_recorder_filtering(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     entity_id: str,
     attributes: dict,
@@ -3415,7 +3415,7 @@ async def test_consistent_stream_and_recorder_filtering(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_stream_user_id_from_parent_context(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test user attribution from parent context in live event stream.
 
@@ -3469,7 +3469,7 @@ async def test_logbook_stream_user_id_from_parent_context(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_stream_user_id_from_parent_context_filtered(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test user attribution from parent context in filtered live event stream.
 
@@ -3530,7 +3530,7 @@ async def test_logbook_stream_user_id_from_parent_context_filtered(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_stream_parent_context_bridges_historical_to_live(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test parent-context user attribution bridges the historical→live switch.
 
@@ -3652,7 +3652,7 @@ async def test_logbook_stream_parent_context_bridges_historical_to_live(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_get_events_user_id_from_parent_context(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test user attribution from parent context in unfiltered historical logbook.
 
@@ -3693,7 +3693,7 @@ async def test_logbook_get_events_user_id_from_parent_context(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_get_events_user_id_from_parent_context_filtered(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test user attribution from parent context with entity filter.
 
@@ -3736,7 +3736,7 @@ async def test_logbook_get_events_user_id_from_parent_context_filtered(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_stream_live_parent_service_call_only(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test user attribution when parent context only appears on a service call.
 
@@ -3832,7 +3832,7 @@ async def test_logbook_stream_live_parent_service_call_only(
 
 async def test_get_action_calls(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
 ) -> None:
@@ -3930,7 +3930,7 @@ async def test_get_action_calls(
 
 
 async def test_get_action_calls_context_older_than_start_time(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test an action call is described by a context that started before start_time."""
     now = dt_util.utcnow()
@@ -3975,12 +3975,12 @@ async def test_get_action_calls_context_older_than_start_time(
     ]
 
 
-async def _async_call_parent_action(hass: __HAC_KEEP__, context: core.Context) -> None:
+async def _async_call_parent_action(hass: UniversalAssistant, context: core.Context) -> None:
     """Call an action in the parent context."""
     await hass.services.async_call("test", "parent", blocking=True, context=context)
 
 
-async def _async_set_parent_state(hass: __HAC_KEEP__, context: core.Context) -> None:
+async def _async_set_parent_state(hass: UniversalAssistant, context: core.Context) -> None:
     """Change a state in the parent context, like a sensor update."""
     hass.states.async_set("sensor.temperature", "18", context=context)
 
@@ -4006,10 +4006,10 @@ async def _async_set_parent_state(hass: __HAC_KEEP__, context: core.Context) -> 
 )
 async def test_get_action_calls_parent_context_older_than_start_time(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
-    async_make_parent: Callable[[__HAC_KEEP__, core.Context], Awaitable[None]],
+    async_make_parent: Callable[[UniversalAssistant, core.Context], Awaitable[None]],
     parent_origin: dict[str, str],
 ) -> None:
     """Test an action call is described by a parent context from before start_time."""
@@ -4053,7 +4053,7 @@ async def test_get_action_calls_parent_context_older_than_start_time(
 
 
 async def test_get_action_calls_future_start_time(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test get_action_calls with a future start time."""
     assert await async_setup_component(hass, "logbook", {})
@@ -4084,7 +4084,7 @@ async def test_get_action_calls_future_start_time(
 )
 async def test_get_action_calls_bad_time(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     time_range: dict[str, str],
     error_code: str,
@@ -4102,7 +4102,7 @@ async def test_get_action_calls_bad_time(
 
 async def test_get_action_calls_requires_admin(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
 ) -> None:

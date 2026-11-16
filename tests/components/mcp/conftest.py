@@ -21,7 +21,7 @@ from universalassistant.components.mcp.const import (
 )
 from universalassistant.config_entries import SOURCE_HASSIO
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_API_TOKEN, CONF_TOKEN, CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -79,7 +79,7 @@ def mock_mcp_client(
 
 
 @pytest.fixture(name="config_entry")
-def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Fixture to load the integration."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -91,7 +91,7 @@ def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 
 @pytest.fixture(name="config_entry_with_api_token")
-def mock_config_entry_with_api_token(hass: __HAC_KEEP__) -> MockConfigEntry:
+def mock_config_entry_with_api_token(hass: UniversalAssistant) -> MockConfigEntry:
     """Fixture to load the integration with a token from the app discovery."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -105,7 +105,7 @@ def mock_config_entry_with_api_token(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 
 @pytest.fixture(name="credential")
-async def mock_credential(hass: __HAC_KEEP__) -> None:
+async def mock_credential(hass: UniversalAssistant) -> None:
     """Fixture that provides the ClientCredential for the test."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(
@@ -124,7 +124,7 @@ def mock_config_entry_token_expiration() -> dt.datetime:
 
 @pytest.fixture(name="config_entry_with_auth")
 def mock_config_entry_with_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_token_expiration: dt.datetime,
 ) -> MockConfigEntry:
     """Fixture to load the integration with authentication."""

@@ -12,12 +12,12 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.remote_calendar.const import CONF_CALENDAR_NAME, DOMAIN
 from universalassistant.const import CONF_URL, CONF_VERIFY_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
-CALENDAR_NAME = "__HA_KEEP__ Events"
+CALENDAR_NAME = "Universal Home Assistant Events"
 TEST_ENTITY = "calendar.universal_assistant_events"
 CALENDER_URL = "https://some.calendar.com/calendar.ics"
-FRIENDLY_NAME = "__HA_KEEP__ Events"
+FRIENDLY_NAME = "Universal Home Assistant Events"
 
 
 @pytest.fixture(name="time_zone")
@@ -29,7 +29,7 @@ def mock_time_zone() -> str:
 
 
 @pytest.fixture(autouse=True)
-async def set_time_zone(hass: __HAC_KEEP__, time_zone: str):
+async def set_time_zone(hass: UniversalAssistant, time_zone: str):
     """Set the time zone for the tests."""
     # Set our timezone to CST/Regina so we can check calculations
     # This keeps UTC-6 all year round

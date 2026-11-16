@@ -9,8 +9,8 @@ from triggercmd import TRIGGERcmdConnectionError, client
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import httpx_client
 
 from .const import DOMAIN
@@ -20,7 +20,7 @@ _LOGGER = logging.getLogger(__name__)
 DATA_SCHEMA = probatio.Schema({(CONF_TOKEN): str})
 
 
-async def validate_input(hass: __HAC_KEEP__, data: dict) -> str:
+async def validate_input(hass: UniversalAssistant, data: dict) -> str:
     """Validate the user input allows us to connect.
 
     Data has the keys from DATA_SCHEMA with values provided by the user.
@@ -73,5 +73,5 @@ class TriggerCMDConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class InvalidToken(__HAC_KEEP__Error):
+class InvalidToken(UniversalAssistantError):
     """Invalid token."""

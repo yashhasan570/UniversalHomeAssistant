@@ -12,13 +12,13 @@ import probatio
 
 from universalassistant.const import SUN_EVENT_SUNSET
 from universalassistant.core import (
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.selector import LanguageSelector, LanguageSelectorConfig
 from universalassistant.helpers.sun import get_astral_event_date
@@ -60,16 +60,16 @@ OMER_SCHEMA = probatio.Schema(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the Jewish Calendar services."""
 
-    def is_after_sunset(hass: __HAC_KEEP__) -> bool:
+    def is_after_sunset(hass: UniversalAssistant) -> bool:
         """Determine if the current time is after sunset."""
         now = dt_util.now()
         today = now.date()
         event_date = get_astral_event_date(hass, SUN_EVENT_SUNSET, today)
         if event_date is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="sunset_event"
             )
         sunset = dt_util.as_local(event_date)

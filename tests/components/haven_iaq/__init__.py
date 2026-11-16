@@ -5,7 +5,7 @@ from ipaddress import ip_address
 from pytest_universalassistant.common import MockConfigEntry, load_json_object_fixture
 
 from universalassistant.components.haven_iaq.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
 TEST_HOST = "192.0.2.1"
@@ -39,7 +39,7 @@ ZEROCONF_DISCOVERY = ZeroconfServiceInfo(
 )
 
 
-async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Set up the HAVEN integration for tests."""
     config_entry.add_to_hass(hass)
     await hass.config_entries.async_setup(config_entry.entry_id)

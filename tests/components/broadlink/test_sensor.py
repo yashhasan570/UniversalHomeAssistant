@@ -7,7 +7,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 from universalassistant.components.broadlink.const import DOMAIN
 from universalassistant.components.broadlink.updater import BroadlinkSP4UpdateManager
 from universalassistant.const import ATTR_FRIENDLY_NAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 from universalassistant.util import dt as dt_util
@@ -16,7 +16,7 @@ from . import get_device
 
 
 async def test_a1_sensor_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -58,7 +58,7 @@ async def test_a1_sensor_setup(
 
 
 async def test_a1_sensor_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_a1_sensor_update(
 
 
 async def test_rm_pro_sensor_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -139,7 +139,7 @@ async def test_rm_pro_sensor_setup(
 
 
 async def test_rm_pro_sensor_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -172,13 +172,13 @@ async def test_rm_pro_sensor_update(
 
 
 async def test_rm_pro_filter_crazy_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test we filter a crazy temperature variation.
 
-    Firmware issue. See https://github.com/yashhasan570/__HAC_KEEP__/issues/42100.
+    Firmware issue. See https://github.com/yashhasan570/UniversalUniversalAssistant/issues/42100.
     """
     device = get_device("Office")
     mock_api = device.get_mock_api()
@@ -208,7 +208,7 @@ async def test_rm_pro_filter_crazy_temperature(
 
 
 async def test_rm_mini3_no_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -229,7 +229,7 @@ async def test_rm_mini3_no_sensor(
 
 
 async def test_rm4_pro_hts2_sensor_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -262,7 +262,7 @@ async def test_rm4_pro_hts2_sensor_setup(
 
 
 async def test_rm4_pro_hts2_sensor_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -298,7 +298,7 @@ async def test_rm4_pro_hts2_sensor_update(
 
 
 async def test_rm4_pro_no_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -319,7 +319,7 @@ async def test_rm4_pro_no_sensor(
 
 
 async def test_scb1e_sensor_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -365,7 +365,7 @@ async def test_scb1e_sensor_setup(
 
 
 async def test_scb1e_sensor_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:

@@ -5,14 +5,14 @@ import logging
 from anova_wifi import AnovaApi
 import pytest
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import async_init_integration
 
 LOGGER = logging.getLogger(__name__)
 
 
-async def test_sensors(hass: __HAC_KEEP__, anova_api: AnovaApi) -> None:
+async def test_sensors(hass: UniversalAssistant, anova_api: AnovaApi) -> None:
     """Test setting up creates the sensors."""
     await async_init_integration(hass)
     assert len(hass.states.async_all("sensor")) == 8
@@ -48,7 +48,7 @@ async def test_sensors(hass: __HAC_KEEP__, anova_api: AnovaApi) -> None:
 
 
 @pytest.mark.usefixtures("anova_api_no_data")
-async def test_no_data_sensors(hass: __HAC_KEEP__) -> None:
+async def test_no_data_sensors(hass: UniversalAssistant) -> None:
     """Test no data and no previous setup.
 
     Device is not immediately set up.

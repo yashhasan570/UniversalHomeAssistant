@@ -10,7 +10,7 @@ from universalassistant.components.radio_frequency import (
     RadioFrequencyTransmitterEntity,
 )
 from universalassistant.components.radio_frequency.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
@@ -103,14 +103,14 @@ class MockRadioFrequencyReceiverEntity(RadioFrequencyReceiverEntity):
         return self._frequency_ranges
 
 
-async def init_radio_frequency_fixture_helper(hass: __HAC_KEEP__) -> None:
+async def init_radio_frequency_fixture_helper(hass: UniversalAssistant) -> None:
     """Set up the Radio Frequency integration for testing."""
     assert await async_setup_component(hass, DOMAIN, {})
     await hass.async_block_till_done()
 
 
 async def mock_rf_entity_fixture_helper(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> MockRadioFrequencyEntity:
     """Add a mock radio frequency entity to the running integration."""
     entity = MockRadioFrequencyEntity("test_rf_transmitter")
@@ -120,7 +120,7 @@ async def mock_rf_entity_fixture_helper(
 
 
 async def mock_rf_receiver_entity_fixture_helper(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> MockRadioFrequencyReceiverEntity:
     """Add a mock radio frequency receiver entity to the running integration."""
     entity = MockRadioFrequencyReceiverEntity("test_rf_receiver")

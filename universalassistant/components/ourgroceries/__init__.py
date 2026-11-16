@@ -5,7 +5,7 @@ from ourgroceries import OurGroceries
 from ourgroceries.exceptions import InvalidLoginException
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 
 from .const import DOMAIN
@@ -15,7 +15,7 @@ PLATFORMS: list[Platform] = [Platform.TODO]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: OurGroceriesConfigEntry
+    hass: UniversalAssistant, entry: OurGroceriesConfigEntry
 ) -> None:
     """Set up OurGroceries from a config entry."""
     data = entry.data
@@ -38,7 +38,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: OurGroceriesConfigEntry
+    hass: UniversalAssistant, entry: OurGroceriesConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

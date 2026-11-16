@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import build_feed_zip
 
@@ -16,7 +16,7 @@ def hass_config_dir(hass_tmp_config_dir: str) -> str:
 
 
 @pytest.fixture(autouse=True)
-async def time_zone(hass: __HAC_KEEP__) -> None:
+async def time_zone(hass: UniversalAssistant) -> None:
     """Run in the fixture agency's time zone."""
     await hass.config.async_set_time_zone("America/New_York")
 

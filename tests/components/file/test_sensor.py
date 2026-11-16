@@ -7,13 +7,13 @@ from pytest_universalassistant.common import MockConfigEntry, get_fixture_path
 
 from universalassistant.components.file import DOMAIN
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @patch("os.path.isfile", Mock(return_value=True))
 @patch("os.access", Mock(return_value=True))
 async def test_file_value_entry_setup(
-    hass: __HAC_KEEP__, mock_is_allowed_path: MagicMock
+    hass: UniversalAssistant, mock_is_allowed_path: MagicMock
 ) -> None:
     """Test the File sensor from an entry setup."""
     data = {
@@ -39,7 +39,7 @@ async def test_file_value_entry_setup(
 @patch("os.path.isfile", Mock(return_value=True))
 @patch("os.access", Mock(return_value=True))
 async def test_file_value_template(
-    hass: __HAC_KEEP__, mock_is_allowed_path: MagicMock
+    hass: UniversalAssistant, mock_is_allowed_path: MagicMock
 ) -> None:
     """Test the File sensor with JSON entries."""
     data = {
@@ -67,7 +67,7 @@ async def test_file_value_template(
 
 @patch("os.path.isfile", Mock(return_value=True))
 @patch("os.access", Mock(return_value=True))
-async def test_file_empty(hass: __HAC_KEEP__, mock_is_allowed_path: MagicMock) -> None:
+async def test_file_empty(hass: UniversalAssistant, mock_is_allowed_path: MagicMock) -> None:
     """Test the File sensor with an empty file."""
     data = {
         "platform": "sensor",
@@ -93,7 +93,7 @@ async def test_file_empty(hass: __HAC_KEEP__, mock_is_allowed_path: MagicMock) -
 @patch("os.access", Mock(return_value=True))
 @pytest.mark.parametrize("is_allowed", [False])
 async def test_file_path_invalid(
-    hass: __HAC_KEEP__, mock_is_allowed_path: MagicMock
+    hass: UniversalAssistant, mock_is_allowed_path: MagicMock
 ) -> None:
     """Test the File sensor with invalid path."""
     data = {

@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from webio_api.api_client import AuthError
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.network import NoURLAvailableError
 
 from .conftest import BASE_NASWEB_DATA
@@ -39,7 +39,7 @@ from .conftest import BASE_NASWEB_DATA
     ],
 )
 async def test_setup_entry_config_entry_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webio_api: MagicMock,
     mock_attr: str,
@@ -58,7 +58,7 @@ async def test_setup_entry_config_entry_error(
 
 
 async def test_setup_entry_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webio_api: MagicMock,
 ) -> None:
@@ -77,7 +77,7 @@ async def test_setup_entry_auth_error(
 
 
 async def test_setup_entry_no_status_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webio_api: MagicMock,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_setup_entry_no_status_update(
 
 
 async def test_setup_entry_missing_internal_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webio_api: MagicMock,
 ) -> None:

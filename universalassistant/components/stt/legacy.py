@@ -6,7 +6,7 @@ import logging
 from typing import Any
 
 from universalassistant.config import config_per_platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import discovery
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from universalassistant.setup import (
@@ -35,7 +35,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @callback
-def async_default_provider(hass: __HAC_KEEP__) -> str | None:
+def async_default_provider(hass: UniversalAssistant) -> str | None:
     """Return the domain of the default provider."""
     providers = hass.data[DATA_PROVIDERS]
     return next(iter(providers), None)
@@ -43,7 +43,7 @@ def async_default_provider(hass: __HAC_KEEP__) -> str | None:
 
 @callback
 def async_get_provider(
-    hass: __HAC_KEEP__, domain: str | None = None
+    hass: UniversalAssistant, domain: str | None = None
 ) -> Provider | None:
     """Return provider."""
     providers = hass.data[DATA_PROVIDERS]
@@ -56,7 +56,7 @@ def async_get_provider(
 
 @callback
 def async_setup_legacy(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> list[Coroutine[Any, Any, None]]:
     """Set up legacy speech-to-text providers."""
     providers = hass.data[DATA_PROVIDERS] = {}
@@ -113,7 +113,7 @@ def async_setup_legacy(
 class Provider(ABC):
     """Represent a single STT provider."""
 
-    hass: __HAC_KEEP__ | None = None
+    hass: UniversalAssistant | None = None
     name: str | None = None
 
     @property

@@ -3,7 +3,7 @@
 from python_picnic_api2 import PicnicAPI
 
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_COUNTRY_CODE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -15,7 +15,7 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 PLATFORMS = [Platform.SENSOR, Platform.TODO]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up Picnic integration."""
 
     async_setup_services(hass)
@@ -31,7 +31,7 @@ def create_picnic_client(entry: PicnicConfigEntry):
     )
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: PicnicConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: PicnicConfigEntry) -> None:
     """Set up Picnic from a config entry."""
     picnic_client = await hass.async_add_executor_job(create_picnic_client, entry)
     picnic_coordinator = PicnicUpdateCoordinator(hass, picnic_client, entry)
@@ -44,6 +44,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: PicnicConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: PicnicConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: PicnicConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

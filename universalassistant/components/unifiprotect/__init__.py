@@ -13,7 +13,7 @@ from uiprotect.exceptions import BadRequest, ClientError, NotAuthorized
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_API_KEY, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -67,13 +67,13 @@ SCAN_INTERVAL = timedelta(seconds=DEVICE_UPDATE_INTERVAL)
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the UniFi Protect."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: UFPConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: UFPConfigEntry) -> None:
     """Set up the UniFi Protect config entries."""
 
     protect = async_create_api_client(hass, entry)
@@ -121,7 +121,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: UFPConfigEntry) -> None:
     if not protect.is_api_key_set() and auth_user and nvr_info.can_write(auth_user):
         try:
             new_api_key = await protect.create_api_key(
-                name=f"__HA_KEEP__ ({hass.config.location_name})"
+                name=f"Universal Home Assistant ({hass.config.location_name})"
             )
         except (NotAuthorized, BadRequest) as err:
             _LOGGER.error("Failed to create API key: %s", err)
@@ -186,7 +186,7 @@ def _raise_buffered_public_auth_error(
 
 
 async def _async_setup_public_only_entry(
-    hass: __HAC_KEEP__, entry: UFPConfigEntry, data_service: ProtectData
+    hass: UniversalAssistant, entry: UFPConfigEntry, data_service: ProtectData
 ) -> None:
     """Set up an API-key-only (public Integration API) config entry.
 
@@ -272,7 +272,7 @@ async def _async_setup_public_only_entry(
 
 
 async def _async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: UFPConfigEntry,
     data_service: ProtectData,
     bootstrap: Bootstrap,
@@ -341,7 +341,7 @@ async def _async_setup_entry(
     hass.http.register_view(VideoEventProxyView(hass))
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: UFPConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: UFPConfigEntry) -> None:
     """Unload UniFi Protect config entry."""
     platforms = (
         PUBLIC_ONLY_PLATFORMS if entry.runtime_data.api.is_public_only else PLATFORMS
@@ -350,7 +350,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: UFPConfigEntry) -> None:
     await entry.runtime_data.async_stop()
 
 
-async def async_remove_entry(hass: __HAC_KEEP__, entry: UFPConfigEntry) -> None:
+async def async_remove_entry(hass: UniversalAssistant, entry: UFPConfigEntry) -> None:
     """Handle removal of a config entry."""
     # Clear the stored session credentials when the integration is removed. A
     # public-only client cannot do it (no username), and an entry switched to
@@ -370,7 +370,7 @@ async def async_remove_entry(hass: __HAC_KEEP__, entry: UFPConfigEntry) -> None:
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, config_entry: UFPConfigEntry, device_entry: dr.AnyDeviceEntry
+    hass: UniversalAssistant, config_entry: UFPConfigEntry, device_entry: dr.AnyDeviceEntry
 ) -> bool:
     """Remove ufp config entry from a device."""
     if not isinstance(device_entry, dr.DeviceEntry):
@@ -400,7 +400,7 @@ async def async_remove_config_entry_device(
     return True
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: UFPConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: UFPConfigEntry) -> None:
     """Migrate entry."""
     _LOGGER.debug("Migrating configuration from version %s", entry.version)
 

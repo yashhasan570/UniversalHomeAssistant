@@ -36,7 +36,7 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import ConfigEntryFactoryType, WebsocketDataType
@@ -283,7 +283,7 @@ from .conftest import ConfigEntryFactoryType, WebsocketDataType
     ],
 )
 async def test_lights(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     snapshot: SnapshotAssertion,
@@ -328,7 +328,7 @@ async def test_lights(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_light_state_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     light_ws_data: WebsocketDataType,
 ) -> None:
     """Verify light can change state on websocket event."""
@@ -476,7 +476,7 @@ async def test_light_state_change(
     ],
 )
 async def test_light_service_calls(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_factory: ConfigEntryFactoryType,
     light_payload: dict[str, Any],
@@ -558,7 +558,7 @@ async def test_light_service_calls(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_ikea_default_transition_time(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_put_request: Callable[[str, str], AiohttpClientMocker],
 ) -> None:
     """Verify IKEA light calls always extend with transition time 0 if absent."""
@@ -624,7 +624,7 @@ async def test_ikea_default_transition_time(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_lidl_christmas_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_put_request: Callable[[str, str], AiohttpClientMocker],
 ) -> None:
     """Test that lights or groups entities are created."""
@@ -662,7 +662,7 @@ async def test_lidl_christmas_light(
     ],
 )
 @pytest.mark.usefixtures("config_entry_setup")
-async def test_configuration_tool(hass: __HAC_KEEP__) -> None:
+async def test_configuration_tool(hass: UniversalAssistant) -> None:
     """Verify that configuration tool is not created."""
     assert len(hass.states.async_all()) == 0
 
@@ -715,7 +715,7 @@ async def test_configuration_tool(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_groups(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     group_payload: dict[str, Any],
@@ -850,7 +850,7 @@ async def test_groups(
     ],
 )
 async def test_group_service_calls(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_factory: ConfigEntryFactoryType,
     group_payload: dict[str, Any],
     mock_put_request: Callable[[str, str], AiohttpClientMocker],
@@ -902,7 +902,7 @@ async def test_group_service_calls(
     ],
 )
 @pytest.mark.usefixtures("config_entry_setup")
-async def test_empty_group(hass: __HAC_KEEP__) -> None:
+async def test_empty_group(hass: UniversalAssistant) -> None:
     """Verify that a group without a list of lights is not created."""
     assert len(hass.states.async_all()) == 0
     assert not hass.states.get("light.empty_group")
@@ -948,7 +948,7 @@ async def test_empty_group(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.parametrize("config_entry_options", [{CONF_ALLOW_DECONZ_GROUPS: False}])
 async def test_disable_light_groups(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
 ) -> None:
     """Test disallowing light groups work."""
@@ -1060,7 +1060,7 @@ async def test_disable_light_groups(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_non_color_light_reports_color(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     light_ws_data: WebsocketDataType,
 ) -> None:
     """Verify hs_color does not crash when a group gets updated with a bad color value.
@@ -1152,7 +1152,7 @@ async def test_non_color_light_reports_color(
     ],
 )
 @pytest.mark.usefixtures("config_entry_setup")
-async def test_verify_group_supported_features(hass: __HAC_KEEP__) -> None:
+async def test_verify_group_supported_features(hass: UniversalAssistant) -> None:
     """Test that group supported features reflect what included lights support."""
     assert len(hass.states.async_all()) == 4
 
@@ -1269,7 +1269,7 @@ async def test_verify_group_supported_features(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_verify_group_color_mode_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_data: WebsocketDataType,
 ) -> None:
     """Test that group supported features reflect what included lights support."""
@@ -1348,7 +1348,7 @@ async def test_verify_group_color_mode_fallback(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_group_color_modes_include_unreachable_lights(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that a light unreachable during setup still contributes its color modes."""
     group_state = hass.states.get("light.group")

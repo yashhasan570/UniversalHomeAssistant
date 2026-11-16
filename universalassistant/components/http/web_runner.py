@@ -1,4 +1,4 @@
-"""__HAC_KEEP__ specific aiohttp Site."""
+"""UniversalAssistant specific aiohttp Site."""
 
 import asyncio
 from pathlib import Path
@@ -8,8 +8,8 @@ from typing import override
 from aiohttp import web
 
 
-class __HAC_KEEP__UnixSite(web.BaseSite):
-    """__HAC_KEEP__ specific aiohttp UnixSite.
+class UniversalAssistantUnixSite(web.BaseSite):
+    """UniversalAssistant specific aiohttp UnixSite.
 
     Listens on a Unix socket for local inter-process communication,
     used for Supervisor to Core communication.
@@ -24,7 +24,7 @@ class __HAC_KEEP__UnixSite(web.BaseSite):
         *,
         backlog: int = 128,
     ) -> None:
-        """Initialize __HAC_KEEP__UnixSite."""
+        """Initialize UniversalAssistantUnixSite."""
         super().__init__(
             runner,
             backlog=backlog,

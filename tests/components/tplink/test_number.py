@@ -13,7 +13,7 @@ from universalassistant.components.tplink.const import DOMAIN
 from universalassistant.components.tplink.entity import EXCLUDED_FEATURES
 from universalassistant.components.tplink.number import NUMBER_DESCRIPTIONS
 from universalassistant.const import CONF_HOST, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import (
@@ -29,7 +29,7 @@ from .const import DEVICE_ID, MAC_ADDRESS
 
 
 async def test_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -49,7 +49,7 @@ async def test_states(
         assert hass.states.get(f"sensor.my_device_{excluded}") is None
 
 
-async def test_number(hass: __HAC_KEEP__, entity_registry: er.EntityRegistry) -> None:
+async def test_number(hass: UniversalAssistant, entity_registry: er.EntityRegistry) -> None:
     """Test number unique ids."""
     already_migrated_config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "127.0.0.1"}, unique_id=MAC_ADDRESS
@@ -76,7 +76,7 @@ async def test_number(hass: __HAC_KEEP__, entity_registry: er.EntityRegistry) ->
 
 
 async def test_number_children(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -120,7 +120,7 @@ async def test_number_children(
 
 
 async def test_number_set(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a number entity limits and setting values."""
     already_migrated_config_entry = MockConfigEntry(

@@ -12,7 +12,7 @@ from universalassistant.components.recorder import get_instance
 from universalassistant.components.recorder.db_schema import EventData, Events, EventTypes
 from universalassistant.components.recorder.models import uuid_hex_to_bytes_or_none
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.recorder import session_scope
 from universalassistant.util import dt as dt_util
@@ -80,12 +80,12 @@ def time_category(hour: int) -> Literal["morning", "afternoon", "evening", "nigh
 
 
 async def async_predict_common_control(
-    hass: __HAC_KEEP__, user_id: str
+    hass: UniversalAssistant, user_id: str
 ) -> EntityUsagePredictions:
     """Generate a list of commonly used entities for a user.
 
     Args:
-        hass: __HA_KEEP__ instance
+        hass: Universal Home Assistant instance
         user_id: User ID to filter events by.
     """
     # Get the recorder instance to ensure it's ready
@@ -112,7 +112,7 @@ async def async_predict_common_control(
 
 
 def _fetch_and_process_data(
-    hass: __HAC_KEEP__, user_id: str, allowed_entities: set[str]
+    hass: UniversalAssistant, user_id: str, allowed_entities: set[str]
 ) -> dict[str, Counter[str]]:
     """Count service call events per entity and time category.
 

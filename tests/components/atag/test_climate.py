@@ -28,7 +28,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -45,7 +45,7 @@ def override_platforms() -> Generator[None]:
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -57,7 +57,7 @@ async def test_all_entities(
 
 
 async def test_setting_climate(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setting the climate device."""
     await init_integration(hass, aioclient_mock)
@@ -93,7 +93,7 @@ async def test_setting_climate(
 
 
 async def test_incorrect_modes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test incorrect values are handled correctly."""
@@ -106,7 +106,7 @@ async def test_incorrect_modes(
 
 
 async def test_update_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,
 ) -> None:

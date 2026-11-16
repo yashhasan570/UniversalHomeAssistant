@@ -10,7 +10,7 @@ import probatio
 
 from universalassistant.components.repairs import RepairsFlow, RepairsFlowResult
 from universalassistant.const import ATTR_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import get_addons_list
 from .const import (
@@ -50,7 +50,7 @@ class SupervisorIssueRepairFlow(RepairsFlow):
     _issue: Issue | None = None
     _suggestions: list[Suggestion] | None = None
 
-    def __init__(self, hass: __HAC_KEEP__, issue_id: str) -> None:
+    def __init__(self, hass: UniversalAssistant, issue_id: str) -> None:
         """Initialize repair flow."""
         self._issue_id = issue_id
         self._supervisor_client = get_supervisor_client(hass)
@@ -181,7 +181,7 @@ class DockerConfigIssueRepairFlow(SupervisorIssueRepairFlow):
                     continue
 
                 if issue.context == ContextType.CORE:
-                    components.insert(0, "__HA_KEEP__")
+                    components.insert(0, "Universal Home Assistant")
                 elif issue.context == ContextType.ADDON:
                     components.append(
                         next(
@@ -250,7 +250,7 @@ class AppPortConflictRepairFlow(AddonIssueRepairFlow):
 
 
 async def async_create_fix_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_id: str,
     data: dict[str, str | int | float | None] | None,
 ) -> RepairsFlow:

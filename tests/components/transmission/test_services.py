@@ -12,12 +12,12 @@ from universalassistant.components.transmission.services import (
     TransmissionServiceArgument,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 
 
 async def test_service_config_entry_not_loaded_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -40,7 +40,7 @@ async def test_service_config_entry_not_loaded_state(
 
 
 async def test_service_integration_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -115,7 +115,7 @@ async def test_service_integration_not_found(
     ],
 )
 async def test_add_torrent_service_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     payload: dict[str, str],
@@ -146,7 +146,7 @@ async def test_add_torrent_service_success(
 
 
 async def test_add_torrent_service_invalid_path(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -168,7 +168,7 @@ async def test_add_torrent_service_invalid_path(
 
 
 async def test_start_torrent_service_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -193,7 +193,7 @@ async def test_start_torrent_service_success(
 
 
 async def test_stop_torrent_service_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -218,7 +218,7 @@ async def test_stop_torrent_service_success(
 
 
 async def test_remove_torrent_service_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -243,7 +243,7 @@ async def test_remove_torrent_service_success(
 
 
 async def test_remove_torrent_service_with_delete_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -279,7 +279,7 @@ async def test_remove_torrent_service_with_delete_data(
     ],
 )
 async def test_get_torrents_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_torrent,

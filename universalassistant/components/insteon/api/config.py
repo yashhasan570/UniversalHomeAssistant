@@ -12,7 +12,7 @@ from pyinsteon.managers.link_manager import get_broken_links
 from universalassistant.components import websocket_api
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ADDRESS, CONF_DEVICE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
@@ -61,12 +61,12 @@ class DeviceOverride(TypedDict):
     subcat: str
 
 
-def get_insteon_config_entry(hass: __HAC_KEEP__) -> ConfigEntry:
+def get_insteon_config_entry(hass: UniversalAssistant) -> ConfigEntry:
     """Return the Insteon configuration entry."""
     return hass.config_entries.async_entries(DOMAIN)[0]
 
 
-def add_x10_device(hass: __HAC_KEEP__, x10_device: X10DeviceConfig):
+def add_x10_device(hass: UniversalAssistant, x10_device: X10DeviceConfig):
     """Add an X10 device to the Insteon integration."""
 
     config_entry = get_insteon_config_entry(hass)
@@ -85,7 +85,7 @@ def add_x10_device(hass: __HAC_KEEP__, x10_device: X10DeviceConfig):
     async_dispatcher_send(hass, SIGNAL_ADD_X10_DEVICE, x10_device)
 
 
-def remove_x10_device(hass: __HAC_KEEP__, housecode: str, unitcode: int):
+def remove_x10_device(hass: UniversalAssistant, housecode: str, unitcode: int):
     """Remove an X10 device from the config."""
 
     config_entry = get_insteon_config_entry(hass)
@@ -101,7 +101,7 @@ def remove_x10_device(hass: __HAC_KEEP__, housecode: str, unitcode: int):
     hass.config_entries.async_update_entry(entry=config_entry, options=new_options)
 
 
-def add_device_overide(hass: __HAC_KEEP__, override: DeviceOverride):
+def add_device_overide(hass: UniversalAssistant, override: DeviceOverride):
     """Add an Insteon device override."""
 
     config_entry = get_insteon_config_entry(hass)
@@ -120,7 +120,7 @@ def add_device_overide(hass: __HAC_KEEP__, override: DeviceOverride):
     async_dispatcher_send(hass, SIGNAL_ADD_DEVICE_OVERRIDE, override)
 
 
-def remove_device_override(hass: __HAC_KEEP__, address: Address):
+def remove_device_override(hass: UniversalAssistant, address: Address):
     """Remove a device override from config."""
 
     config_entry = get_insteon_config_entry(hass)
@@ -178,7 +178,7 @@ async def _async_connect(**kwargs):
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_get_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -206,7 +206,7 @@ async def websocket_get_config(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_get_modem_schema(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -235,7 +235,7 @@ async def websocket_get_modem_schema(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_update_modem_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -269,7 +269,7 @@ async def websocket_update_modem_config(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_add_device_override(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -292,7 +292,7 @@ async def websocket_add_device_override(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_remove_device_override(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -309,7 +309,7 @@ async def websocket_remove_device_override(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_get_broken_links(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -331,7 +331,7 @@ async def websocket_get_broken_links(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_get_unknown_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

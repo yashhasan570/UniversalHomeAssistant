@@ -12,8 +12,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -22,7 +22,7 @@ ENTITY_ID = "select.qube_heat_pump_smart_grid_ready_mode"
 
 
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_qube_client: MagicMock,
@@ -37,7 +37,7 @@ async def test_entities(
 
 @pytest.mark.parametrize("option", ["block", "plus", "max"])
 async def test_select_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_qube_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     option: str,
@@ -66,19 +66,19 @@ async def test_select_option(
     ],
 )
 async def test_select_option_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_qube_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception] | None,
     return_value: bool | None,
 ) -> None:
-    """Test select raises __HAC_KEEP__Error on connection error or write failure."""
+    """Test select raises UniversalAssistantError on connection error or write failure."""
     await setup_integration(hass, mock_config_entry)
 
     mock_qube_client.set_sg_ready_mode = AsyncMock(
         side_effect=side_effect, return_value=return_value
     )
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,

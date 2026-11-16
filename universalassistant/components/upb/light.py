@@ -10,7 +10,7 @@ from universalassistant.components.light import (
     LightEntity,
     LightEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import UpbConfigEntry
@@ -18,7 +18,7 @@ from .entity import UpbAttachedEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: UpbConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

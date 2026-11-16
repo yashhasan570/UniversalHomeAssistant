@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.esphome import CONF_NOISE_PSK, DOMAIN, dashboard
 from universalassistant.components.hassio import HassioNotReadyError
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.setup import async_setup_component
 
@@ -21,7 +21,7 @@ from .conftest import MockESPHomeDeviceType
 
 @pytest.mark.usefixtures("mock_dashboard")
 async def test_dashboard_storage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     init_integration: MockConfigEntry,
     hass_storage: dict[str, Any],
@@ -37,7 +37,7 @@ async def test_dashboard_storage(
 
 
 async def test_restore_dashboard_storage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Restore dashboard url and slug from storage."""
@@ -56,7 +56,7 @@ async def test_restore_dashboard_storage(
 
 
 async def test_restore_dashboard_storage_end_to_end(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Restore dashboard url and slug from storage."""
@@ -81,7 +81,7 @@ async def test_restore_dashboard_storage_end_to_end(
 
 @pytest.mark.usefixtures("hassio_stubs")
 async def test_restore_dashboard_storage_skipped_if_addon_uninstalled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -112,7 +112,7 @@ async def test_restore_dashboard_storage_skipped_if_addon_uninstalled(
 
 @pytest.mark.usefixtures("hassio_stubs")
 async def test_restore_dashboard_storage_if_supervisor_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Restore the dashboard, without failing setup, if Supervisor is not ready."""
@@ -140,7 +140,7 @@ async def test_restore_dashboard_storage_if_supervisor_not_ready(
 
 
 async def test_setup_dashboard_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test nothing is stored on failed setup without prior dashboard."""
@@ -159,7 +159,7 @@ async def test_setup_dashboard_fails(
 
 
 async def test_setup_dashboard_fails_when_already_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_config_entry: MockConfigEntry,
     hass_storage: dict[str, Any],
@@ -200,7 +200,7 @@ async def test_setup_dashboard_fails_when_already_setup(
 
 @pytest.mark.usefixtures("mock_dashboard")
 async def test_new_info_reload_config_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -221,7 +221,7 @@ async def test_new_info_reload_config_entries(
 
 
 async def test_new_dashboard_fix_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_config_entry: MockConfigEntry,
     mock_dashboard: dict[str, Any],
@@ -268,7 +268,7 @@ async def test_new_dashboard_fix_reauth(
 
 
 async def test_dashboard_supports_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_dashboard: dict[str, Any],
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -307,7 +307,7 @@ async def test_dashboard_supports_update(
 
 
 async def test_dashboard_unsupported_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_dashboard: dict[str, Any],
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,

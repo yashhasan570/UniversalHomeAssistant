@@ -74,7 +74,7 @@
           "port": "The port number of your BSB-LAN device.",
           "username": "The username for your BSB-LAN device."
         },
-        "description": "Set up your BSB-LAN device to integrate with __HA_KEEP__.",
+        "description": "Set up your BSB-LAN device to integrate with Universal Home Assistant.",
         "title": "Connect to the BSB-LAN device"
       }
     }
@@ -262,7 +262,7 @@
       "name": "Set hot water schedule"
     },
     "sync_time": {
-      "description": "Synchronize __HA_KEEP__ time to the BSB-LAN device. Only updates if device time differs from __HA_KEEP__ time.",
+      "description": "Synchronize Universal Home Assistant time to the BSB-LAN device. Only updates if device time differs from Universal Home Assistant time.",
       "fields": {
         "device_id": {
           "description": "The BSB-LAN device to sync time for.",

@@ -11,7 +11,7 @@ from universalassistant.components.air_quality import DOMAIN as AIR_QUALITY_DOMA
 from universalassistant.components.nam.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -19,7 +19,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("mock_nam_client")
 async def test_async_setup_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test a successful setup entry."""
     await setup_integration(hass, mock_config_entry)
@@ -32,7 +32,7 @@ async def test_async_setup_entry(
 
 @pytest.mark.parametrize("exc", [ApiError("API Error"), ClientError, TimeoutError])
 async def test_config_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nam: MagicMock,
     exc: Exception | type[Exception],
@@ -46,7 +46,7 @@ async def test_config_not_ready(
 
 
 async def test_config_auth_failed(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_nam: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_nam: MagicMock
 ) -> None:
     """Test for setup failure if the auth fails."""
     mock_nam.create.side_effect = AuthFailedError("Authorization has failed")
@@ -58,7 +58,7 @@ async def test_config_auth_failed(
 
 @pytest.mark.usefixtures("mock_nam_client")
 async def test_unload_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test successful unload of entry."""
     await setup_integration(hass, mock_config_entry)
@@ -75,7 +75,7 @@ async def test_unload_entry(
 
 @pytest.mark.usefixtures("mock_nam_client")
 async def test_remove_air_quality_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:

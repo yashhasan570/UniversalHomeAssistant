@@ -4,13 +4,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.konnected import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
 
 async def test_konnected_repair_issue(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test the Konnected.io repair issue is kept on reload and deleted on removal."""
     config_entry_1 = MockConfigEntry(
@@ -63,7 +63,7 @@ async def test_konnected_repair_issue(
 
 
 async def test_konnected_yaml_repair_issue(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test the repair issue is created when YAML configuration is present."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})

@@ -16,14 +16,14 @@ from pytest_universalassistant.common import (
 from pytraccar import SubscriptionData, TraccarAuthenticationException, TraccarException
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 
 from .common import setup_integration
 
 
 async def test_update_data_auth_failure_triggers_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_traccar_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -42,7 +42,7 @@ async def test_update_data_auth_failure_triggers_reauth(
 
 
 async def test_update_data_traccar_exception_retries_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_traccar_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -57,7 +57,7 @@ async def test_update_data_traccar_exception_retries_setup(
 
 
 async def test_handle_subscription_data_logs_restored_after_failures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_traccar_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -97,7 +97,7 @@ async def test_handle_subscription_data_logs_restored_after_failures(
 
 
 async def test_import_events_fires_hass_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_traccar_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -118,7 +118,7 @@ async def test_import_events_fires_hass_events(
 
 
 async def test_subscribe_raises_config_entry_auth_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_traccar_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -150,7 +150,7 @@ async def test_subscribe_raises_config_entry_auth_failed(
 
 
 async def test_subscribe_retries_on_unexpected_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_traccar_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -186,7 +186,7 @@ async def test_subscribe_retries_on_unexpected_exception(
 
 
 async def test_unload_stops_subscription_when_client_swallows_cancel(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_traccar_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

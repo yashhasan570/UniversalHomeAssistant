@@ -15,7 +15,7 @@ from reolink_aio.enums import VodRequestType
 from reolink_aio.exceptions import ReolinkError, UnexpectedDataError
 
 from universalassistant.components.reolink.views import async_generate_playback_proxy_url
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 TEST_YEAR = 2023
 TEST_MONTH = 11
@@ -72,7 +72,7 @@ def get_mock_session(
     [("video/mp4"), ("application/octet-stream"), ("apolication/octet-stream")],
 )
 async def test_playback_proxy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
@@ -107,7 +107,7 @@ async def test_playback_proxy(
 
 
 async def test_proxy_get_source_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
@@ -141,7 +141,7 @@ async def test_proxy_get_source_error(
     ],
 )
 async def test_proxy_invalid_config_entry_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
@@ -171,7 +171,7 @@ async def test_proxy_invalid_config_entry_id(
 
 
 async def test_playback_proxy_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
@@ -205,7 +205,7 @@ async def test_playback_proxy_timeout(
 
 @pytest.mark.parametrize(("content_type"), [("video/x-flv"), ("text/html")])
 async def test_playback_wrong_content(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
@@ -238,7 +238,7 @@ async def test_playback_wrong_content(
 
 
 async def test_playback_connect_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
@@ -280,7 +280,7 @@ async def test_playback_connect_error(
     ],
 )
 async def test_playback_baichuan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
@@ -322,7 +322,7 @@ async def test_playback_baichuan(
 
 
 async def test_playback_baichuan_start_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
@@ -354,7 +354,7 @@ async def test_playback_baichuan_start_error(
 
 
 async def test_playback_baichuan_stream_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
@@ -388,7 +388,7 @@ async def test_playback_baichuan_stream_error(
 
 
 async def test_playback_baichuan_stop_previous(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
@@ -442,7 +442,7 @@ async def test_playback_baichuan_stop_previous(
     ],
 )
 async def test_playback_service_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,

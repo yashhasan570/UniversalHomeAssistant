@@ -25,7 +25,7 @@ from universalassistant.components.universalassistant import (
 from universalassistant.components.roborock.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -41,7 +41,7 @@ from .mock_data import ROBOROCK_RRUID, USER_EMAIL
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     device_manager: AsyncMock,
 ) -> None:
@@ -61,7 +61,7 @@ async def test_unload_entry(
 
 @pytest.mark.parametrize("platforms", [[Platform.SENSOR]])
 async def test_stale_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
     device_registry: DeviceRegistry,
     device_manager: AsyncMock,
@@ -110,7 +110,7 @@ async def test_stale_device(
 
 @pytest.mark.parametrize("platforms", [[Platform.SENSOR]])
 async def test_device_serial_number(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
     device_registry: DeviceRegistry,
 ) -> None:
@@ -138,7 +138,7 @@ async def test_device_serial_number(
 
 @pytest.mark.parametrize("platforms", [[Platform.SENSOR]])
 async def test_no_stale_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
     device_registry: DeviceRegistry,
     fake_devices: list[FakeDevice],
@@ -182,17 +182,17 @@ async def test_no_stale_device(
 
 
 async def test_universal_assistant_stop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     device_manager: AsyncMock,
 ) -> None:
-    """Test shutting down __HA_KEEP__."""
+    """Test shutting down Universal Home Assistant."""
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
     assert setup_entry.state is ConfigEntryState.LOADED
 
     assert not device_manager.close.called
 
-    # Perform __HA_KEEP__ stop and verify that device manager is closed
+    # Perform Universal Home Assistant stop and verify that device manager is closed
     await hass.async_stop()
 
     assert device_manager.close.called
@@ -202,7 +202,7 @@ async def test_universal_assistant_stop(
     "side_effect", [RoborockInvalidCredentials(), MqttSessionUnauthorized()]
 )
 async def test_reauth_started(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
     side_effect: Exception,
 ) -> None:
@@ -220,7 +220,7 @@ async def test_reauth_started(
 
 
 async def test_mqtt_session_unauthorized_hook_called(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
     device_manager: AsyncMock,
 ) -> None:
@@ -272,7 +272,7 @@ async def test_mqtt_session_unauthorized_hook_called(
     ],
 )
 async def test_remove_old_storage_directory(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
     storage_path: pathlib.Path,
     hass_client: ClientSessionGenerator,
@@ -304,7 +304,7 @@ async def test_remove_old_storage_directory(
 
 @pytest.mark.parametrize("platforms", [[Platform.IMAGE]])
 async def test_oserror_remove_storage_directory(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
     storage_path: pathlib.Path,
     hass_client: ClientSessionGenerator,
@@ -334,7 +334,7 @@ async def test_oserror_remove_storage_directory(
 
 
 async def test_not_supported_protocol(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
     fake_devices: list[FakeDevice],
@@ -349,7 +349,7 @@ async def test_not_supported_protocol(
 
 
 async def test_invalid_user_agreement(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
 ) -> None:
     """Test that we fail setting up if the user agreement is out of date."""
@@ -365,7 +365,7 @@ async def test_invalid_user_agreement(
 
 
 async def test_no_user_agreement(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
 ) -> None:
     """Test that we fail setting up if the user has no agreement."""
@@ -380,7 +380,7 @@ async def test_no_user_agreement(
 
 @pytest.mark.parametrize("platforms", [[Platform.SENSOR]])
 async def test_migrate_config_entry_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_data: dict[str, Any],
 ) -> None:
     """Test migrating the config entry unique id."""
@@ -402,7 +402,7 @@ async def test_migrate_config_entry_unique_id(
 
 @pytest.mark.parametrize("platforms", [[Platform.SENSOR]])
 async def test_update_unavailability_threshold(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     setup_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
@@ -467,7 +467,7 @@ async def test_update_unavailability_threshold(
 
 
 async def test_cloud_api_repair(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_roborock_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
@@ -511,7 +511,7 @@ async def test_cloud_api_repair(
 
 @pytest.mark.parametrize("platforms", [[Platform.SENSOR]])
 async def test_cloud_api_repair_per_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_roborock_entry: MockConfigEntry,
     config_entry_data: dict[str, Any],
@@ -577,7 +577,7 @@ async def test_cloud_api_repair_per_config_entry(
 
 @pytest.mark.parametrize("platforms", [[Platform.SENSOR]])
 async def test_cloud_api_repair_cleared_on_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_roborock_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
@@ -632,7 +632,7 @@ async def test_cloud_api_repair_cleared_on_update(
 
 @pytest.mark.parametrize("platforms", [[Platform.SENSOR]])
 async def test_zeo_device_fails_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
     device_registry: DeviceRegistry,
     entity_registry: EntityRegistry,
@@ -690,7 +690,7 @@ async def test_zeo_device_fails_setup(
 
 @pytest.mark.parametrize("platforms", [[Platform.SENSOR]])
 async def test_dyad_device_fails_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
     device_registry: DeviceRegistry,
     entity_registry: EntityRegistry,
@@ -750,7 +750,7 @@ async def test_dyad_device_fails_setup(
 
 @pytest.mark.parametrize("platforms", [[Platform.SENSOR]])
 async def test_disabled_device_no_coordinator(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
     device_registry: DeviceRegistry,
     fake_devices: list[FakeDevice],
@@ -809,7 +809,7 @@ async def test_disabled_device_no_coordinator(
 
 @pytest.mark.parametrize("platforms", [[Platform.SENSOR]])
 async def test_disabled_device_close_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
     device_registry: DeviceRegistry,
     fake_devices: list[FakeDevice],
@@ -835,7 +835,7 @@ async def test_disabled_device_close_raises(
 
 @pytest.mark.parametrize("platforms", [[Platform.SENSOR]])
 async def test_all_devices_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
     device_registry: DeviceRegistry,
     entity_registry: EntityRegistry,
@@ -875,7 +875,7 @@ async def test_all_devices_disabled(
 
 @pytest.mark.parametrize("platforms", [[Platform.SENSOR]])
 async def test_v1_streaming_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
 ) -> None:
@@ -900,7 +900,7 @@ async def test_v1_streaming_updates(
     callback_func()
     await hass.async_block_till_done()
 
-    # Check if the state was updated in __HA_KEEP__ immediately
+    # Check if the state was updated in Universal Home Assistant immediately
     state = hass.states.get(sensor_entity_id)
     assert state is not None
     assert state.state == "85"
@@ -908,7 +908,7 @@ async def test_v1_streaming_updates(
 
 @pytest.mark.parametrize("platforms", [[Platform.SENSOR]])
 async def test_dynamic_device_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
     device_manager: AsyncMock,
     device_manager_context: MockDeviceManagerContext,

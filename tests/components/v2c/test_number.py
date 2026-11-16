@@ -12,7 +12,7 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -20,7 +20,7 @@ from . import init_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_number(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_v2c_client: AsyncMock,
@@ -35,7 +35,7 @@ async def test_number(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_number_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_v2c_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

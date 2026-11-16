@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.nexblue.const import CONF_REFRESH_TOKEN, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import TOKEN
@@ -19,7 +19,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 @pytest.mark.usefixtures("mock_client")
-async def test_user_flow(hass: __HAC_KEEP__) -> None:
+async def test_user_flow(hass: UniversalAssistant) -> None:
     """Test the full happy-path user flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -57,7 +57,7 @@ async def test_user_flow(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_user_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     side_effect: type[Exception],
     expected_error: str,
@@ -94,7 +94,7 @@ async def test_user_flow_errors(
 
 @pytest.mark.usefixtures("mock_client")
 async def test_user_flow_duplicate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test an account cannot be configured twice."""
@@ -119,7 +119,7 @@ async def test_user_flow_duplicate_entry(
 
 
 async def test_user_flow_retries_with_corrected_credentials(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
 ) -> None:
     """Test the user can correct credentials without restarting the flow."""
@@ -153,7 +153,7 @@ async def test_user_flow_retries_with_corrected_credentials(
 
 
 async def test_user_flow_rejects_login_without_refresh_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
 ) -> None:
     """Test the user flow can recover when a login response lacks a refresh token."""
@@ -195,7 +195,7 @@ async def test_user_flow_rejects_login_without_refresh_token(
 
 
 async def test_user_flow_rejects_login_without_account_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
 ) -> None:
     """Test the user flow can recover when a login response lacks an account ID."""
@@ -236,7 +236,7 @@ async def test_user_flow_rejects_login_without_account_id(
 
 
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -272,7 +272,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],
@@ -302,7 +302,7 @@ async def test_reauth_flow_errors(
 
 
 async def test_reauth_flow_wrong_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

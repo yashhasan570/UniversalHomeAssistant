@@ -17,7 +17,7 @@ from universalassistant.components.bluetooth.passive_update_processor import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ACCESS_TOKEN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import REAUTH_AFTER_FAILURES, VICTRON_IDENTIFIER
 
@@ -28,7 +28,7 @@ type VictronBLEConfigEntry = ConfigEntry[
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: VictronBLEConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: VictronBLEConfigEntry) -> None:
     """Set up Victron BLE device from a config entry."""
     address = entry.unique_id
     assert address is not None
@@ -87,7 +87,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: VictronBLEConfigEntry) ->
     entry.async_on_unload(coordinator.async_start())
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: VictronBLEConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: VictronBLEConfigEntry) -> None:
     """Unload a config entry."""
 
     await hass.config_entries.async_unload_platforms_or_raise(entry, [Platform.SENSOR])

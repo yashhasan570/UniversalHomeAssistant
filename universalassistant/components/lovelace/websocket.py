@@ -7,8 +7,8 @@ from typing import TYPE_CHECKING, Any
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.json import json_fragment
 
@@ -25,7 +25,7 @@ if TYPE_CHECKING:
     from .resources import ResourceStorageCollection
 
 type AsyncLovelaceWebSocketCommandHandler[_R] = Callable[
-    [__HAC_KEEP__, websocket_api.ActiveConnection, dict[str, Any], LovelaceConfig],
+    [UniversalAssistant, websocket_api.ActiveConnection, dict[str, Any], LovelaceConfig],
     Awaitable[_R],
 ]
 
@@ -37,7 +37,7 @@ def _handle_errors[_R](
 
     @wraps(func)
     async def send_with_error_handling(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         connection: websocket_api.ActiveConnection,
         msg: dict[str, Any],
     ) -> None:
@@ -64,7 +64,7 @@ def _handle_errors[_R](
             result = await func(hass, connection, msg, config)
         except ConfigNotFound:
             error = "config_not_found", "No config found."
-        except __HAC_KEEP__Error as err:
+        except UniversalAssistantError as err:
             error = "error", str(err)
 
         if error is not None:
@@ -78,7 +78,7 @@ def _handle_errors[_R](
 
 @websocket_api.async_response
 async def websocket_lovelace_resources(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -90,7 +90,7 @@ async def websocket_lovelace_resources(
 
 
 async def websocket_lovelace_resources_impl(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -116,7 +116,7 @@ async def websocket_lovelace_resources_impl(
 @websocket_api.websocket_command({"type": "lovelace/info"})
 @websocket_api.async_response
 async def websocket_lovelace_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -137,7 +137,7 @@ async def websocket_lovelace_info(
 @websocket_api.async_response
 @_handle_errors
 async def websocket_lovelace_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     config: LovelaceConfig,
@@ -157,7 +157,7 @@ async def websocket_lovelace_config(
 @websocket_api.async_response
 @_handle_errors
 async def websocket_lovelace_save_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     config: LovelaceConfig,
@@ -176,7 +176,7 @@ async def websocket_lovelace_save_config(
 @websocket_api.async_response
 @_handle_errors
 async def websocket_lovelace_delete_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     config: LovelaceConfig,

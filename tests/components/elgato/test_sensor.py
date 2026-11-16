@@ -3,7 +3,7 @@
 import pytest
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 pytestmark = [
@@ -26,7 +26,7 @@ pytestmark = [
     ],
 )
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -56,7 +56,7 @@ async def test_sensors(
     ],
 )
 async def test_disabled_by_default_sensors(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, entity_id: str
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, entity_id: str
 ) -> None:
     """Test the disabled by default Elgato sensors."""
     assert not hass.states.get(entity_id)
@@ -67,7 +67,7 @@ async def test_disabled_by_default_sensors(
 
 
 async def test_wifi_signal_strength_is_enabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test the signal strength percentage is on without asking for it.

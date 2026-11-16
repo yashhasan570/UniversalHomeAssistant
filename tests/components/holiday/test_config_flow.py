@@ -15,12 +15,12 @@ from universalassistant.components.holiday.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_COUNTRY, STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.util import dt as dt_util
 
 
-async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -55,7 +55,7 @@ async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_subdivisions_without_aliases(hass: __HAC_KEEP__) -> None:
+async def test_form_subdivisions_without_aliases(hass: UniversalAssistant) -> None:
     """Test the province options fall back to the plain subdivisions."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -90,7 +90,7 @@ async def test_form_subdivisions_without_aliases(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_no_subdivision(hass: __HAC_KEEP__) -> None:
+async def test_form_no_subdivision(hass: UniversalAssistant) -> None:
     """Test we get the forms correctly without subdivision."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -113,7 +113,7 @@ async def test_form_no_subdivision(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_translated_title(hass: __HAC_KEEP__) -> None:
+async def test_form_translated_title(hass: UniversalAssistant) -> None:
     """Test the title gets translated."""
     hass.config.language = "de"
 
@@ -133,7 +133,7 @@ async def test_form_translated_title(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_single_combination_country_province(hass: __HAC_KEEP__) -> None:
+async def test_single_combination_country_province(hass: UniversalAssistant) -> None:
     """Test that configuring more than one instance is rejected."""
     data_de_step_1 = {
         CONF_COUNTRY: "DE",
@@ -180,7 +180,7 @@ async def test_single_combination_country_province(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_babel_unresolved_language(hass: __HAC_KEEP__) -> None:
+async def test_form_babel_unresolved_language(hass: UniversalAssistant) -> None:
     """Test the config flow if using not babel supported language."""
     hass.config.language = "en-XX"
 
@@ -227,7 +227,7 @@ async def test_form_babel_unresolved_language(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_babel_replace_dash_with_underscore(hass: __HAC_KEEP__) -> None:
+async def test_form_babel_replace_dash_with_underscore(hass: UniversalAssistant) -> None:
     """Test the config flow if using language with dash."""
     hass.config.language = "en-GB"
 
@@ -274,7 +274,7 @@ async def test_form_babel_replace_dash_with_underscore(hass: __HAC_KEEP__) -> No
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_reconfigure(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure(hass: UniversalAssistant) -> None:
     """Test reconfigure flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -302,7 +302,7 @@ async def test_reconfigure(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_reconfigure_with_categories(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_with_categories(hass: UniversalAssistant) -> None:
     """Test reconfigure flow with categories."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -332,7 +332,7 @@ async def test_reconfigure_with_categories(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_reconfigure_incorrect_language(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_incorrect_language(hass: UniversalAssistant) -> None:
     """Test reconfigure flow default to English."""
     hass.config.language = "en-XX"
 
@@ -362,7 +362,7 @@ async def test_reconfigure_incorrect_language(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_reconfigure_entry_exists(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_entry_exists(hass: UniversalAssistant) -> None:
     """Test reconfigure flow stops if other entry already exist."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -396,7 +396,7 @@ async def test_reconfigure_entry_exists(hass: __HAC_KEEP__) -> None:
 
 
 async def test_form_with_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test the flow with configuring options."""
@@ -467,7 +467,7 @@ async def test_form_with_options(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_options_abort_no_categories(hass: __HAC_KEEP__) -> None:
+async def test_options_abort_no_categories(hass: UniversalAssistant) -> None:
     """Test the options flow abort if no categories to select."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -485,7 +485,7 @@ async def test_options_abort_no_categories(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_options_entry_exists(hass: __HAC_KEEP__) -> None:
+async def test_options_entry_exists(hass: UniversalAssistant) -> None:
     """Test options flow stops if other entry already exist."""
     entry = MockConfigEntry(
         domain=DOMAIN,

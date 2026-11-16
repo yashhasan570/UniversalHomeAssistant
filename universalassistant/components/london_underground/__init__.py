@@ -3,7 +3,7 @@
 from london_tube_status import TubeData
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import DOMAIN as DOMAIN
@@ -13,7 +13,7 @@ PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: LondonUndergroundConfigEntry
+    hass: UniversalAssistant, entry: LondonUndergroundConfigEntry
 ) -> None:
     """Set up London Underground from a config entry."""
 
@@ -28,7 +28,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: LondonUndergroundConfigEntry
+    hass: UniversalAssistant, entry: LondonUndergroundConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

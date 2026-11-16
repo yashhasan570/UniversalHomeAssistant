@@ -10,7 +10,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
     SensorStateClass,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -68,7 +68,7 @@ POT_SENSORS = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MonzoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

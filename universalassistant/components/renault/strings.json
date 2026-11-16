@@ -290,7 +290,7 @@
             "data_description": {
               "kamereon_account_id": "The new Kamereon account ID linked to your vehicles"
             },
-            "description": "Renault no longer lists the Kamereon account {account_id}, so __HA_KEEP__ can't load your vehicles. Renault may have moved your vehicles to a new account.\n\nSelect the new account to keep using your existing devices and entities. The integration is reloaded once you submit.",
+            "description": "Renault no longer lists the Kamereon account {account_id}, so Universal Home Assistant can't load your vehicles. Renault may have moved your vehicles to a new account.\n\nSelect the new account to keep using your existing devices and entities. The integration is reloaded once you submit.",
             "title": "Select the new Kamereon account"
           }
         }

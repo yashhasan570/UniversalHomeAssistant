@@ -36,13 +36,13 @@ from universalassistant.core import (
     Context,
     CoreState,
     Event,
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     State,
     callback,
     split_entity_id,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceNotFound, TemplateError
+from universalassistant.exceptions import UniversalAssistantError, ServiceNotFound, TemplateError
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -67,12 +67,12 @@ ENTITY_ID = "script.test"
 
 
 @pytest.fixture
-def calls(hass: __HAC_KEEP__) -> list[ServiceCall]:
+def calls(hass: UniversalAssistant) -> list[ServiceCall]:
     """Track calls to a mock service."""
     return async_mock_service(hass, "test", "script")
 
 
-async def test_passing_variables(hass: __HAC_KEEP__) -> None:
+async def test_passing_variables(hass: UniversalAssistant) -> None:
     """Test different ways of passing in variables."""
     mock_restore_cache(hass, ())
     calls = []
@@ -124,7 +124,7 @@ async def test_passing_variables(hass: __HAC_KEEP__) -> None:
 @pytest.mark.parametrize("toggle", [False, True])
 @pytest.mark.parametrize("action_schema_variations", ["action", "service"])
 async def test_turn_on_off_toggle(
-    hass: __HAC_KEEP__, toggle: bool, action_schema_variations: str
+    hass: UniversalAssistant, toggle: bool, action_schema_variations: str
 ) -> None:
     """Verify turn_on, turn_off & toggle services.
 
@@ -209,7 +209,7 @@ invalid_configs = [
     ],
 )
 async def test_setup_with_invalid_configs(
-    hass: __HAC_KEEP__, config, nbr_script_entities
+    hass: UniversalAssistant, config, nbr_script_entities
 ) -> None:
     """Test setup with invalid configs."""
     assert await async_setup_component(hass, DOMAIN, {"script": config})
@@ -238,7 +238,7 @@ async def test_setup_with_invalid_configs(
     ],
 )
 async def test_bad_config_validation_critical(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     object_id,
     broken_config,
@@ -316,7 +316,7 @@ async def test_bad_config_validation_critical(
     ],
 )
 async def test_bad_config_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
     hass_admin_user: MockUser,
@@ -396,7 +396,7 @@ async def test_bad_config_validation(
 
 
 @pytest.mark.parametrize("running", ["no", "same", "different"])
-async def test_reload_service(hass: __HAC_KEEP__, running) -> None:
+async def test_reload_service(hass: UniversalAssistant, running) -> None:
     """Verify the reload service."""
     event = "test_event"
     event_flag = asyncio.Event()
@@ -455,7 +455,7 @@ async def test_reload_service(hass: __HAC_KEEP__, running) -> None:
 
 
 async def test_reload_unchanged_does_not_stop(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test that reloading stops any running actions as appropriate."""
     test_entity = "test.entity"
@@ -545,7 +545,7 @@ async def test_reload_unchanged_does_not_stop(
     ],
 )
 async def test_reload_unchanged_script(
-    hass: __HAC_KEEP__, calls: list[ServiceCall], script_config
+    hass: UniversalAssistant, calls: list[ServiceCall], script_config
 ) -> None:
     """Test an unmodified script is not reloaded."""
     with patch(
@@ -585,7 +585,7 @@ async def test_reload_unchanged_script(
         assert len(calls) == 2
 
 
-async def test_service_descriptions(hass: __HAC_KEEP__) -> None:
+async def test_service_descriptions(hass: UniversalAssistant) -> None:
     """Test that service descriptions are loaded and reloaded correctly."""
     # Test 1: has "description" but no "fields"
     assert await async_setup_component(
@@ -657,7 +657,7 @@ async def test_service_descriptions(hass: __HAC_KEEP__) -> None:
     assert descriptions[DOMAIN]["test_name"]["name"] == "ABC"
 
 
-async def test_shared_context(hass: __HAC_KEEP__) -> None:
+async def test_shared_context(hass: UniversalAssistant) -> None:
     """Test that the shared context is passed down the chain."""
     event = "test_event"
     context = Context()
@@ -738,7 +738,7 @@ async def test_shared_context(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_script_started_event_trace_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     callee_action: dict[str, Any],
 ) -> None:
@@ -812,7 +812,7 @@ async def test_script_started_event_trace_ids(
     ],
 )
 async def test_script_started_event_script_modes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     script_mode: dict[str, Any],
     script_executions: list[str],
@@ -864,7 +864,7 @@ async def test_script_started_event_script_modes(
 
 
 async def test_logging_script_error(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test logging script error."""
     assert await async_setup_component(
@@ -880,7 +880,7 @@ async def test_logging_script_error(
     assert "Error executing script" in caplog.text
 
 
-async def test_turning_no_scripts_off(hass: __HAC_KEEP__) -> None:
+async def test_turning_no_scripts_off(hass: UniversalAssistant) -> None:
     """Test it is possible to turn two scripts off."""
     assert await async_setup_component(hass, DOMAIN, {})
 
@@ -890,7 +890,7 @@ async def test_turning_no_scripts_off(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_async_get_descriptions_script(hass: __HAC_KEEP__) -> None:
+async def test_async_get_descriptions_script(hass: UniversalAssistant) -> None:
     """Test async_set_service_schema for the script integration."""
     script_config = {
         DOMAIN: {
@@ -924,7 +924,7 @@ async def test_async_get_descriptions_script(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_extraction_functions_not_setup(hass: __HAC_KEEP__) -> None:
+async def test_extraction_functions_not_setup(hass: UniversalAssistant) -> None:
     """Test extraction functions when script is not setup."""
     assert script.scripts_with_area(hass, "area-in-both") == []
     assert script.areas_in_script(hass, "script.test") == []
@@ -940,7 +940,7 @@ async def test_extraction_functions_not_setup(hass: __HAC_KEEP__) -> None:
     assert script.labels_in_script(hass, "script.test") == []
 
 
-async def test_extraction_functions_unknown_script(hass: __HAC_KEEP__) -> None:
+async def test_extraction_functions_unknown_script(hass: UniversalAssistant) -> None:
     """Test extraction functions for an unknown script."""
     assert await async_setup_component(hass, DOMAIN, {})
     assert script.labels_in_script(hass, "script.unknown") == []
@@ -951,7 +951,7 @@ async def test_extraction_functions_unknown_script(hass: __HAC_KEEP__) -> None:
     assert script.entities_in_script(hass, "script.unknown") == []
 
 
-async def test_extraction_functions_unavailable_script(hass: __HAC_KEEP__) -> None:
+async def test_extraction_functions_unavailable_script(hass: UniversalAssistant) -> None:
     """Test extraction functions for an unknown automation."""
     entity_id = "script.test1"
     assert await async_setup_component(
@@ -975,7 +975,7 @@ async def test_extraction_functions_unavailable_script(hass: __HAC_KEEP__) -> No
 
 
 async def test_extraction_functions(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test extraction functions."""
     config_entry = MockConfigEntry(domain="fake_integration", data={})
@@ -1139,7 +1139,7 @@ async def test_extraction_functions(
     assert script.blueprint_in_script(hass, "script.test3") is None
 
 
-async def test_extraction_functions_exclude(hass: __HAC_KEEP__) -> None:
+async def test_extraction_functions_exclude(hass: UniversalAssistant) -> None:
     """Test extraction functions report IDs in a target exclude block."""
     assert await async_setup_component(
         hass,
@@ -1183,7 +1183,7 @@ async def test_extraction_functions_exclude(hass: __HAC_KEEP__) -> None:
 
 
 async def test_config_basic(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test passing info in config."""
     assert await async_setup_component(
@@ -1209,7 +1209,7 @@ async def test_config_basic(
     assert entry.unique_id == "test_script"
 
 
-async def test_config_multiple_domains(hass: __HAC_KEEP__) -> None:
+async def test_config_multiple_domains(hass: UniversalAssistant) -> None:
     """Test splitting configuration over multiple domains."""
     assert await async_setup_component(
         hass,
@@ -1239,7 +1239,7 @@ async def test_config_multiple_domains(hass: __HAC_KEEP__) -> None:
     assert test_script.name == "Secondary domain"
 
 
-async def test_logbook_humanify_script_started_event(hass: __HAC_KEEP__) -> None:
+async def test_logbook_humanify_script_started_event(hass: UniversalAssistant) -> None:
     """Test humanifying script started event."""
     hass.config.components.add("recorder")
     await async_setup_component(hass, DOMAIN, {})
@@ -1281,7 +1281,7 @@ async def test_logbook_humanify_script_started_event(hass: __HAC_KEEP__) -> None
 
 
 @pytest.mark.parametrize("concurrently", [False, True])
-async def test_concurrent_script(hass: __HAC_KEEP__, concurrently) -> None:
+async def test_concurrent_script(hass: UniversalAssistant, concurrently) -> None:
     """Test calling script concurrently or not."""
     if concurrently:
         call_script_2 = {
@@ -1371,7 +1371,7 @@ async def test_concurrent_script(hass: __HAC_KEEP__, concurrently) -> None:
 
 
 async def test_script_variables(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test defining scripts."""
     assert await async_setup_component(
@@ -1472,7 +1472,7 @@ async def test_script_variables(
 
 
 async def test_script_this_var_always(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test script has reference to this even without variables."""
 
@@ -1504,7 +1504,7 @@ async def test_script_this_var_always(
     assert "Error rendering variables" not in caplog.text
 
 
-async def test_script_restore_last_triggered(hass: __HAC_KEEP__) -> None:
+async def test_script_restore_last_triggered(hass: UniversalAssistant) -> None:
     """Test if last triggered is restored on start."""
     time = dt_util.utcnow()
     mock_restore_cache(
@@ -1550,7 +1550,7 @@ async def test_script_restore_last_triggered(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_recursive_script(
-    hass: __HAC_KEEP__, script_mode, warning_msg, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, script_mode, warning_msg, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test recursive script calls does not deadlock."""
     # Make sure we cover all script modes
@@ -1600,7 +1600,7 @@ async def test_recursive_script(
     ],
 )
 async def test_recursive_script_indirect(
-    hass: __HAC_KEEP__, script_mode, warning_msg, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, script_mode, warning_msg, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test recursive script calls does not deadlock."""
     # Make sure we cover all script modes
@@ -1663,12 +1663,12 @@ async def test_recursive_script_indirect(
 )
 @pytest.mark.parametrize("wait_for_stop_scripts_after_shutdown", [True])
 async def test_recursive_script_turn_on(
-    hass: __HAC_KEEP__, script_mode, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, script_mode, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test script turning itself on.
 
     - Illegal recursion detection should not be triggered
-    - __HA_KEEP__ should not hang on shut down
+    - Universal Home Assistant should not hang on shut down
     - SCRIPT_MODE_SINGLE is not relevant because suca script can't turn itself on
     """
     # Make sure we cover all script modes
@@ -1747,7 +1747,7 @@ async def test_recursive_script_turn_on(
 
 
 async def test_setup_with_duplicate_scripts(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setup with duplicate configs."""
     assert await async_setup_component(
@@ -1771,7 +1771,7 @@ async def test_setup_with_duplicate_scripts(
 
 
 async def test_websocket_config(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test config command."""
     config = {
@@ -1814,7 +1814,7 @@ async def test_websocket_config(
 
 
 async def test_websocket_config_requires_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
 ) -> None:
@@ -1847,7 +1847,7 @@ async def test_websocket_config_requires_admin(
 
 
 async def test_script_service_changed_entity_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the script service works for scripts with overridden entity_id."""
     entry = entity_registry.async_get_or_create("script", "script", "test")
@@ -1924,7 +1924,7 @@ async def test_script_service_changed_entity_id(
 
 
 async def test_unavailable_script_changed_entity_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1967,7 +1967,7 @@ BROKEN_SCRIPT_ISSUE_ID = "script.bad_script_validation_failed_schema"
 
 
 async def test_reload_keeps_ignored_validation_issue(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test an ignored issue survives a reload replacing a still broken script."""
     assert await async_setup_component(
@@ -2007,7 +2007,7 @@ async def test_reload_keeps_ignored_validation_issue(
     ],
 )
 async def test_reload_deletes_resolved_validation_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     new_config: dict[str, Any],
 ) -> None:
@@ -2029,7 +2029,7 @@ async def test_reload_deletes_resolved_validation_issue(
 
 
 async def test_failed_reload_deletes_issue_of_removed_script(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test the issue of a removed script is deleted if adding new ones fails."""
     assert await async_setup_component(
@@ -2049,9 +2049,9 @@ async def test_failed_reload_deletes_issue_of_removed_script(
         ),
         patch(
             "universalassistant.components.script.util._create_script_entities",
-            side_effect=__HAC_KEEP__Error("Boom"),
+            side_effect=UniversalAssistantError("Boom"),
         ),
-        pytest.raises(__HAC_KEEP__Error, match="Boom"),
+        pytest.raises(UniversalAssistantError, match="Boom"),
     ):
         await hass.services.async_call(DOMAIN, ScriptService.RELOAD, blocking=True)
     await hass.async_block_till_done()
@@ -2059,7 +2059,7 @@ async def test_failed_reload_deletes_issue_of_removed_script(
     assert not issue_registry.async_get_issue(DOMAIN, BROKEN_SCRIPT_ISSUE_ID)
 
 
-async def test_blueprint_script(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
+async def test_blueprint_script(hass: UniversalAssistant, calls: list[ServiceCall]) -> None:
     """Test blueprint script."""
     assert await async_setup_component(
         hass,
@@ -2116,7 +2116,7 @@ async def test_blueprint_script(hass: __HAC_KEEP__, calls: list[ServiceCall]) ->
     ],
 )
 async def test_blueprint_script_bad_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
     blueprint_inputs,
@@ -2161,7 +2161,7 @@ async def test_blueprint_script_bad_config(
 
 
 async def test_blueprint_script_fails_substitution(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2206,7 +2206,7 @@ async def test_blueprint_script_fails_substitution(
 
 
 @pytest.mark.parametrize("response", [{"value": 5}, '{"value": 5}'])
-async def test_responses(hass: __HAC_KEEP__, response: Any) -> None:
+async def test_responses(hass: UniversalAssistant, response: Any) -> None:
     """Test we can get responses."""
     mock_restore_cache(hass, ())
     assert await async_setup_component(
@@ -2241,7 +2241,7 @@ async def test_responses(hass: __HAC_KEEP__, response: Any) -> None:
     )
 
 
-async def test_responses_no_response(hass: __HAC_KEEP__) -> None:
+async def test_responses_no_response(hass: UniversalAssistant) -> None:
     """Test response variable not set."""
     mock_restore_cache(hass, ())
     assert await async_setup_component(
@@ -2277,7 +2277,7 @@ async def test_responses_no_response(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_script_queued_mode(hass: __HAC_KEEP__) -> None:
+async def test_script_queued_mode(hass: UniversalAssistant) -> None:
     """Test calling a queued mode script called in parallel."""
     calls = 0
 
@@ -2320,7 +2320,7 @@ async def test_script_queued_mode(hass: __HAC_KEEP__) -> None:
     assert calls == 4
 
 
-async def test_remove_script_entity_unloads_script(hass: __HAC_KEEP__) -> None:
+async def test_remove_script_entity_unloads_script(hass: UniversalAssistant) -> None:
     """Test that removing a script entity unloads its underlying script."""
     assert await async_setup_component(
         hass,

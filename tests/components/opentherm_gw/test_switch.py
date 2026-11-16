@@ -15,7 +15,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -23,7 +23,7 @@ from universalassistant.helpers import entity_registry as er
     "entity_key", ["central_heating_1_override", "central_heating_2_override"]
 )
 async def test_switch_added_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_pyotgw: MagicMock,
@@ -57,7 +57,7 @@ async def test_switch_added_disabled(
     ],
 )
 async def test_ch_override_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_pyotgw: MagicMock,

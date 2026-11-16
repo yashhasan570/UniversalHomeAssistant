@@ -30,13 +30,13 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     STATE_OFF,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from .util import async_init_integration
 
 
-async def test_airzone_create_water_heater(hass: __HAC_KEEP__) -> None:
+async def test_airzone_create_water_heater(hass: UniversalAssistant) -> None:
     """Test creation of water heater."""
 
     await async_init_integration(hass)
@@ -49,7 +49,7 @@ async def test_airzone_create_water_heater(hass: __HAC_KEEP__) -> None:
     assert state.attributes[ATTR_TEMPERATURE] == 45
 
 
-async def test_airzone_water_heater_turn_on_off(hass: __HAC_KEEP__) -> None:
+async def test_airzone_water_heater_turn_on_off(hass: UniversalAssistant) -> None:
     """Test turning on/off."""
 
     await async_init_integration(hass)
@@ -99,7 +99,7 @@ async def test_airzone_water_heater_turn_on_off(hass: __HAC_KEEP__) -> None:
     assert state.state == STATE_ECO
 
 
-async def test_airzone_water_heater_set_operation(hass: __HAC_KEEP__) -> None:
+async def test_airzone_water_heater_set_operation(hass: UniversalAssistant) -> None:
     """Test setting the Operation mode."""
 
     await async_init_integration(hass)
@@ -176,7 +176,7 @@ async def test_airzone_water_heater_set_operation(hass: __HAC_KEEP__) -> None:
     assert state.state == STATE_ECO
 
 
-async def test_airzone_water_heater_set_temp(hass: __HAC_KEEP__) -> None:
+async def test_airzone_water_heater_set_temp(hass: UniversalAssistant) -> None:
     """Test setting the target temperature."""
 
     HVAC_MOCK = {
@@ -206,7 +206,7 @@ async def test_airzone_water_heater_set_temp(hass: __HAC_KEEP__) -> None:
     assert state.attributes[ATTR_TEMPERATURE] == 35
 
 
-async def test_airzone_water_heater_set_temp_error(hass: __HAC_KEEP__) -> None:
+async def test_airzone_water_heater_set_temp_error(hass: UniversalAssistant) -> None:
     """Test error when setting the target temperature."""
 
     await async_init_integration(hass)
@@ -216,7 +216,7 @@ async def test_airzone_water_heater_set_temp_error(hass: __HAC_KEEP__) -> None:
             "universalassistant.components.airzone.AirzoneLocalApi.put_hvac",
             side_effect=AirzoneError,
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             WATER_HEATER_DOMAIN,

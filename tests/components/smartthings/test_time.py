@@ -14,14 +14,14 @@ from universalassistant.components.time import (
     TimeServiceArgument,
 )
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration, snapshot_smartthings_entities, trigger_update
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -35,7 +35,7 @@ async def test_all_entities(
 
 @pytest.mark.parametrize("device_fixture", ["da_rvc_map_01011"])
 async def test_state_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -76,7 +76,7 @@ async def test_state_update(
 
 @pytest.mark.parametrize("device_fixture", ["da_rvc_map_01011"])
 async def test_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -107,7 +107,7 @@ async def test_set_value(
 
 @pytest.mark.parametrize("device_fixture", ["da_rvc_map_01011"])
 async def test_dnd_mode_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

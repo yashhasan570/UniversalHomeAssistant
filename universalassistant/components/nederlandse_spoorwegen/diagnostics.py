@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import AnyDeviceEntry, DeviceEntry
 
 from .const import DOMAIN
@@ -16,7 +16,7 @@ TO_REDACT = [
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: NSConfigEntry
+    hass: UniversalAssistant, entry: NSConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinators_data = {}
@@ -45,7 +45,7 @@ async def async_get_config_entry_diagnostics(
 
 
 async def async_get_device_diagnostics(
-    hass: __HAC_KEEP__, entry: NSConfigEntry, device: AnyDeviceEntry
+    hass: UniversalAssistant, entry: NSConfigEntry, device: AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a route."""
     if TYPE_CHECKING:

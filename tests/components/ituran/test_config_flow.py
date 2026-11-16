@@ -14,7 +14,7 @@ from universalassistant.components.ituran.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigFlowResult
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import setup_integration
@@ -22,7 +22,7 @@ from .const import MOCK_CONFIG_DATA
 
 
 async def __do_successful_user_step(
-    hass: __HAC_KEEP__, result: ConfigFlowResult, mock_ituran: AsyncMock
+    hass: UniversalAssistant, result: ConfigFlowResult, mock_ituran: AsyncMock
 ):
     result = await hass.config_entries.flow.async_configure(
         result["flow_id"],
@@ -40,7 +40,7 @@ async def __do_successful_user_step(
 
 
 async def __do_successful_otp_step(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     result: ConfigFlowResult,
     mock_ituran: AsyncMock,
 ):
@@ -64,7 +64,7 @@ async def __do_successful_otp_step(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_user_flow(hass: __HAC_KEEP__, mock_ituran: AsyncMock) -> None:
+async def test_full_user_flow(hass: UniversalAssistant, mock_ituran: AsyncMock) -> None:
     """Test the full user configuration flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -78,7 +78,7 @@ async def test_full_user_flow(hass: __HAC_KEEP__, mock_ituran: AsyncMock) -> Non
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_invalid_auth(hass: __HAC_KEEP__, mock_ituran: AsyncMock) -> None:
+async def test_invalid_auth(hass: UniversalAssistant, mock_ituran: AsyncMock) -> None:
     """Test invalid credentials configuration flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -106,7 +106,7 @@ async def test_invalid_auth(hass: __HAC_KEEP__, mock_ituran: AsyncMock) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_invalid_otp(hass: __HAC_KEEP__, mock_ituran: AsyncMock) -> None:
+async def test_invalid_otp(hass: UniversalAssistant, mock_ituran: AsyncMock) -> None:
     """Test invalid OTP configuration flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -138,7 +138,7 @@ async def test_invalid_otp(hass: __HAC_KEEP__, mock_ituran: AsyncMock) -> None:
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ituran: AsyncMock,
     exception: Exception,
     expected_error: str,
@@ -184,7 +184,7 @@ async def test_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_already_authenticated(
-    hass: __HAC_KEEP__, mock_ituran: AsyncMock
+    hass: UniversalAssistant, mock_ituran: AsyncMock
 ) -> None:
     """Test user already authenticated configuration flow."""
     result = await hass.config_entries.flow.async_init(
@@ -212,7 +212,7 @@ async def test_already_authenticated(
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_ituran")
-async def test_reauth(hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry) -> None:
+async def test_reauth(hass: UniversalAssistant, mock_config_entry: MockConfigEntry) -> None:
     """Test reauthenticating."""
     await setup_integration(hass, mock_config_entry)
     result = await mock_config_entry.start_reauth_flow(hass)

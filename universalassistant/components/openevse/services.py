@@ -5,7 +5,7 @@ from typing import Final
 
 import probatio
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv, selector
 from universalassistant.helpers.service import async_extract_config_entry_ids
@@ -101,7 +101,7 @@ async def _async_get_entries(call: ServiceCall) -> list[OpenEVSEConfigEntry]:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up services for OpenEVSE."""
 
     async def async_set_override(call: ServiceCall) -> None:

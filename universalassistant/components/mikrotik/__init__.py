@@ -6,7 +6,7 @@ from librouteros import Api
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import AnyDeviceEntry, format_mac
 from universalassistant.util import slugify
@@ -39,7 +39,7 @@ def _call_api(data: dict[str, Any]) -> Api:
 
 
 def _setup_mikrotik_data(
-    hass: __HAC_KEEP__, config_entry: MikrotikConfigEntry, data: dict[str, Any]
+    hass: UniversalAssistant, config_entry: MikrotikConfigEntry, data: dict[str, Any]
 ) -> MikrotikData:
     """Connect to the Mikrotik API and fetch the hub details."""
     mk_data = MikrotikData(hass, config_entry, _call_api(data))
@@ -48,7 +48,7 @@ def _setup_mikrotik_data(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: MikrotikConfigEntry
+    hass: UniversalAssistant, config_entry: MikrotikConfigEntry
 ) -> None:
     """Set up the Mikrotik component."""
     mk_data = await hass.async_add_executor_job(
@@ -102,7 +102,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: MikrotikConfigEntry
+    hass: UniversalAssistant, config_entry: MikrotikConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)
@@ -110,7 +110,7 @@ async def async_unload_entry(
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, config_entry: MikrotikConfigEntry, device_entry: AnyDeviceEntry
+    hass: UniversalAssistant, config_entry: MikrotikConfigEntry, device_entry: AnyDeviceEntry
 ) -> bool:
     """Allow removing client devices which are not currently connected."""
     if not isinstance(device_entry, dr.DeviceEntry):

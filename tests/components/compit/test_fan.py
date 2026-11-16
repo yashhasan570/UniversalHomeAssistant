@@ -22,14 +22,14 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration, snapshot_compit_entities
 
 
 async def test_fan_entities_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
@@ -42,7 +42,7 @@ async def test_fan_entities_snapshot(
 
 
 async def test_fan_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_fan_turn_on(
 
 
 async def test_fan_turn_on_with_percentage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
 ) -> None:
@@ -88,7 +88,7 @@ async def test_fan_turn_on_with_percentage(
 
 
 async def test_fan_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
 ) -> None:
@@ -112,7 +112,7 @@ async def test_fan_turn_off(
 
 
 async def test_fan_set_speed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
 ) -> None:
@@ -139,7 +139,7 @@ async def test_fan_set_speed(
 
 
 async def test_fan_set_speed_while_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
 ) -> None:
@@ -167,7 +167,7 @@ async def test_fan_set_speed_while_off(
 
 
 async def test_fan_set_speed_to_not_in_step_percentage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
 ) -> None:
@@ -191,7 +191,7 @@ async def test_fan_set_speed_to_not_in_step_percentage(
 
 
 async def test_fan_set_speed_to_0(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
 ) -> None:
@@ -226,7 +226,7 @@ async def test_fan_set_speed_to_0(
     ],
 )
 async def test_fan_invalid_speed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
     mock_return_value: Any,
@@ -253,7 +253,7 @@ async def test_fan_invalid_speed(
     ],
 )
 async def test_fan_gear_to_percentage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
     gear: str,

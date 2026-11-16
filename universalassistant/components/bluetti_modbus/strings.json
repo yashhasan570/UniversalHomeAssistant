@@ -23,7 +23,7 @@
           "port": "[%key:component::bluetti_modbus::config::step::user::data_description::port%]",
           "unit_id": "[%key:component::bluetti_modbus::config::step::user::data_description::unit_id%]"
         },
-        "description": "Update the address __HA_KEEP__ reaches this power station at."
+        "description": "Update the address Universal Home Assistant reaches this power station at."
       },
       "user": {
         "data": {

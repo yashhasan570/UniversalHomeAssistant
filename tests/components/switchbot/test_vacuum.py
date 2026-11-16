@@ -14,7 +14,7 @@ from universalassistant.components.vacuum import (
     SERVICE_START,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import (
     K10_POR_COMBO_VACUUM_SERVICE_INFO,
@@ -44,7 +44,7 @@ from . import (
     [(SERVICE_START, "clean_up"), (SERVICE_RETURN_TO_BASE, "return_to_dock")],
 )
 async def test_vacuum_controlling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     sensor_type: str,
     service: str,

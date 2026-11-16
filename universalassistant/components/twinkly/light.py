@@ -13,7 +13,7 @@ from universalassistant.components.light import (
     LightEntity,
     LightEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DEV_LED_PROFILE, DEV_PROFILE_RGB, DEV_PROFILE_RGBW
@@ -27,7 +27,7 @@ NO_EFFECT_OPTIONS = {EFFECT_OFF, "None", "none"}
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: TwinklyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

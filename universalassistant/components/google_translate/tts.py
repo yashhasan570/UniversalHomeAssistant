@@ -15,8 +15,8 @@ from universalassistant.components.tts import (
     TtsAudioType,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -46,7 +46,7 @@ PLATFORM_SCHEMA = TTS_PLATFORM_SCHEMA.extend(
 
 
 async def async_get_engine(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> GoogleProvider:
@@ -55,7 +55,7 @@ async def async_get_engine(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -114,7 +114,7 @@ class GoogleTTSEntity(TextToSpeechEntity):
             _LOGGER.debug(
                 "Error during processing of TTS request %s", exc, exc_info=True
             )
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="tts_error",
             ) from exc
@@ -125,7 +125,7 @@ class GoogleTTSEntity(TextToSpeechEntity):
 class GoogleProvider(Provider):
     """The Google speech API provider."""
 
-    def __init__(self, hass: __HAC_KEEP__, lang: str, tld: str) -> None:
+    def __init__(self, hass: UniversalAssistant, lang: str, tld: str) -> None:
         """Init Google TTS service."""
         self.hass = hass
         if lang in MAP_LANG_TLD:

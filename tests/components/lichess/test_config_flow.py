@@ -10,12 +10,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.lichess.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_lichess_client")
-async def test_full_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_full_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test the full flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -43,7 +43,7 @@ async def test_full_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> Non
     ],
 )
 async def test_form_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lichess_client: AsyncMock,
     mock_setup_entry: AsyncMock,
     exception: Exception,
@@ -75,7 +75,7 @@ async def test_form_errors(
 
 @pytest.mark.usefixtures("mock_lichess_client")
 async def test_duplicate_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we handle duplicate entries."""
     mock_config_entry.add_to_hass(hass)
@@ -94,7 +94,7 @@ async def test_duplicate_entry(
 
 @pytest.mark.usefixtures("mock_lichess_client")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reauthentication flow."""
     mock_config_entry.add_to_hass(hass)
@@ -121,7 +121,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lichess_client: AsyncMock,
     exception: type[Exception],
@@ -153,7 +153,7 @@ async def test_reauth_flow_errors(
 
 
 async def test_reauth_flow_unique_id_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lichess_client: AsyncMock,
 ) -> None:

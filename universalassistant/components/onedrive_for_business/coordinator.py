@@ -13,7 +13,7 @@ from onedrive_personal_sdk.exceptions import AuthenticationError, OneDriveExcept
 from onedrive_personal_sdk.models.items import Drive
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -43,7 +43,7 @@ class OneDriveForBusinessUpdateCoordinator(DataUpdateCoordinator[Drive]):
     config_entry: OneDriveConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: OneDriveConfigEntry, client: OneDriveClient
+        self, hass: UniversalAssistant, entry: OneDriveConfigEntry, client: OneDriveClient
     ) -> None:
         """Initialize coordinator."""
         super().__init__(

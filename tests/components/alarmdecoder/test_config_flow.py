@@ -33,7 +33,7 @@ from universalassistant.components.alarmdecoder.const import (
 from universalassistant.components.binary_sensor import BinarySensorDeviceClass
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_PROTOCOL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -58,7 +58,7 @@ from universalassistant.data_entry_flow import FlowResultType
         ),
     ],
 )
-async def test_setups(hass: __HAC_KEEP__, protocol, connection, title) -> None:
+async def test_setups(hass: UniversalAssistant, protocol, connection, title) -> None:
     """Test flow for setting up the available AlarmDecoder protocols."""
 
     result = await hass.config_entries.flow.async_init(
@@ -98,7 +98,7 @@ async def test_setups(hass: __HAC_KEEP__, protocol, connection, title) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_setup_connection_error(hass: __HAC_KEEP__) -> None:
+async def test_setup_connection_error(hass: UniversalAssistant) -> None:
     """Test flow for setup with a connection error."""
 
     port = 1001
@@ -163,7 +163,7 @@ async def test_setup_connection_error(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_options_arm_flow(hass: __HAC_KEEP__) -> None:
+async def test_options_arm_flow(hass: UniversalAssistant) -> None:
     """Test arm options flow."""
     user_input = {
         CONF_ALT_NIGHT_MODE: True,
@@ -204,7 +204,7 @@ async def test_options_arm_flow(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_options_zone_flow(hass: __HAC_KEEP__) -> None:
+async def test_options_zone_flow(hass: UniversalAssistant) -> None:
     """Test options flow for adding/deleting zones."""
     zone_number = "2"
     zone_settings = {
@@ -283,7 +283,7 @@ async def test_options_zone_flow(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_options_zone_flow_validation(hass: __HAC_KEEP__) -> None:
+async def test_options_zone_flow_validation(hass: UniversalAssistant) -> None:
     """Test input validation for zone options flow."""
     zone_number = "2"
     zone_settings = {
@@ -438,7 +438,7 @@ async def test_options_zone_flow_validation(hass: __HAC_KEEP__) -> None:
         ),
     ],
 )
-async def test_one_device_allowed(hass: __HAC_KEEP__, protocol, connection) -> None:
+async def test_one_device_allowed(hass: UniversalAssistant, protocol, connection) -> None:
     """Test that only one AlarmDecoder device is allowed."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -500,7 +500,7 @@ def mock_controller() -> Generator[MagicMock]:
     ],
 )
 async def test_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_controller: MagicMock,
     protocol: str,
     old_title: str,
@@ -541,7 +541,7 @@ async def test_reconfigure(
 
 
 async def test_reconfigure_keeps_custom_title(
-    hass: __HAC_KEEP__, mock_controller: MagicMock
+    hass: UniversalAssistant, mock_controller: MagicMock
 ) -> None:
     """Test a title the user chose survives a reconfigure."""
     entry = MockConfigEntry(
@@ -571,7 +571,7 @@ async def test_reconfigure_keeps_custom_title(
     [(NoDeviceError, "cannot_connect"), (Exception, "unknown")],
 )
 async def test_reconfigure_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_controller: MagicMock,
     side_effect: type[Exception],
     error: str,
@@ -610,7 +610,7 @@ async def test_reconfigure_errors(
     assert entry.data[CONF_HOST] == "new"
 
 
-async def test_reconfigure_to_other_entrys_device(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_to_other_entrys_device(hass: UniversalAssistant) -> None:
     """Test reconfiguring onto a device another entry already uses aborts."""
     MockConfigEntry(
         domain=DOMAIN,

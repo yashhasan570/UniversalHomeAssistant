@@ -3,7 +3,7 @@
 from advantage_air import advantage_air
 
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PORT, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.typing import ConfigType
@@ -27,14 +27,14 @@ PLATFORMS = [
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the component."""
     async_setup_services(hass)
     return True
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: AdvantageAirDataConfigEntry
+    hass: UniversalAssistant, entry: AdvantageAirDataConfigEntry
 ) -> None:
     """Set up Advantage Air config."""
     ip_address = entry.data[CONF_IP_ADDRESS]
@@ -67,7 +67,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: AdvantageAirDataConfigEntry
+    hass: UniversalAssistant, entry: AdvantageAirDataConfigEntry
 ) -> None:
     """Unload Advantage Air Config."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

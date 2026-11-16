@@ -5,7 +5,7 @@ import asyncio
 from autarco import Autarco, AutarcoConnectionError
 
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -14,7 +14,7 @@ from .coordinator import AutarcoConfigEntry, AutarcoDataUpdateCoordinator
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: AutarcoConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: AutarcoConfigEntry) -> None:
     """Set up Autarco from a config entry."""
     client = Autarco(
         email=entry.data[CONF_EMAIL],
@@ -45,6 +45,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: AutarcoConfigEntry) -> No
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: AutarcoConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: AutarcoConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

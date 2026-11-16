@@ -13,7 +13,7 @@ from universalassistant.components.subaru.const import DOMAIN
 from universalassistant.components.subaru.services import SubaruService
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -34,21 +34,21 @@ from .conftest import (
 )
 
 
-async def test_setup_with_no_config(hass: __HAC_KEEP__) -> None:
+async def test_setup_with_no_config(hass: UniversalAssistant) -> None:
     """Test the action is registered at integration setup, before any entry loads."""
     assert await async_setup_component(hass, DOMAIN, {})
     await hass.async_block_till_done()
     assert hass.services.has_service(DOMAIN, SubaruService.UNLOCK_SPECIFIC_DOOR)
 
 
-async def test_setup_ev(hass: __HAC_KEEP__, ev_entry) -> None:
+async def test_setup_ev(hass: UniversalAssistant, ev_entry) -> None:
     """Test setup with an EV vehicle."""
     check_entry = hass.config_entries.async_get_entry(ev_entry.entry_id)
     assert check_entry
     assert check_entry.state is ConfigEntryState.LOADED
 
 
-async def test_setup_g3(hass: __HAC_KEEP__, subaru_config_entry) -> None:
+async def test_setup_g3(hass: UniversalAssistant, subaru_config_entry) -> None:
     """Test setup with a G3 vehicle ."""
     await setup_subaru_config_entry(
         hass,
@@ -63,7 +63,7 @@ async def test_setup_g3(hass: __HAC_KEEP__, subaru_config_entry) -> None:
 
 
 async def test_setup_g4(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, subaru_config_entry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, subaru_config_entry
 ) -> None:
     """Test setup with a G4 vehicle (2026+ models report api_gen "g4")."""
     await setup_subaru_config_entry(
@@ -86,7 +86,7 @@ async def test_setup_g4(
     )
 
 
-async def test_setup_g1(hass: __HAC_KEEP__, subaru_config_entry) -> None:
+async def test_setup_g1(hass: UniversalAssistant, subaru_config_entry) -> None:
     """Test setup with a G1 vehicle."""
     await setup_subaru_config_entry(
         hass,
@@ -99,7 +99,7 @@ async def test_setup_g1(hass: __HAC_KEEP__, subaru_config_entry) -> None:
     assert check_entry.state is ConfigEntryState.LOADED
 
 
-async def test_unsuccessful_connect(hass: __HAC_KEEP__, subaru_config_entry) -> None:
+async def test_unsuccessful_connect(hass: UniversalAssistant, subaru_config_entry) -> None:
     """Test unsuccessful connect due to connectivity."""
     await setup_subaru_config_entry(
         hass,
@@ -114,7 +114,7 @@ async def test_unsuccessful_connect(hass: __HAC_KEEP__, subaru_config_entry) -> 
     assert check_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_invalid_credentials(hass: __HAC_KEEP__, subaru_config_entry) -> None:
+async def test_invalid_credentials(hass: UniversalAssistant, subaru_config_entry) -> None:
     """Test invalid credentials."""
     await setup_subaru_config_entry(
         hass,
@@ -135,7 +135,7 @@ async def test_invalid_credentials(hass: __HAC_KEEP__, subaru_config_entry) -> N
 
 
 async def test_update_skip_unsubscribed(
-    hass: __HAC_KEEP__, subaru_config_entry
+    hass: UniversalAssistant, subaru_config_entry
 ) -> None:
     """Test update function skips vehicles without subscription."""
     await setup_subaru_config_entry(
@@ -157,7 +157,7 @@ async def test_update_skip_unsubscribed(
         mock_fetch.assert_not_called()
 
 
-async def test_update_disabled(hass: __HAC_KEEP__, ev_entry) -> None:
+async def test_update_disabled(hass: UniversalAssistant, ev_entry) -> None:
     """Test update function disable option."""
     with (
         patch(
@@ -178,7 +178,7 @@ async def test_update_disabled(hass: __HAC_KEEP__, ev_entry) -> None:
         mock_update.assert_not_called()
 
 
-async def test_fetch_failed(hass: __HAC_KEEP__, subaru_config_entry) -> None:
+async def test_fetch_failed(hass: UniversalAssistant, subaru_config_entry) -> None:
     """Test setup retries when the first fetch fails."""
     await setup_subaru_config_entry(
         hass,
@@ -193,7 +193,7 @@ async def test_fetch_failed(hass: __HAC_KEEP__, subaru_config_entry) -> None:
 
 
 async def test_fetch_invalid_credentials(
-    hass: __HAC_KEEP__, subaru_config_entry: MockConfigEntry
+    hass: UniversalAssistant, subaru_config_entry: MockConfigEntry
 ) -> None:
     """Test invalid credentials when fetching data start a reauth flow."""
     await setup_subaru_config_entry(
@@ -212,7 +212,7 @@ async def test_fetch_invalid_credentials(
     assert flows[0]["context"]["entry_id"] == subaru_config_entry.entry_id
 
 
-async def test_unload_entry(hass: __HAC_KEEP__, ev_entry) -> None:
+async def test_unload_entry(hass: UniversalAssistant, ev_entry) -> None:
     """Test that entry is unloaded."""
     assert ev_entry.state is ConfigEntryState.LOADED
     assert await hass.config_entries.async_unload(ev_entry.entry_id)

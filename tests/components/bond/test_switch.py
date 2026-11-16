@@ -10,8 +10,8 @@ from universalassistant.components.bond.const import DOMAIN
 from universalassistant.components.bond.services import BondService, BondServiceArgument
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import utcnow
 
@@ -30,7 +30,7 @@ def generic_device(name: str):
 
 
 async def test_entity_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Tests that the devices are registered in the entity registry."""
@@ -46,7 +46,7 @@ async def test_entity_registry(
     assert entity.unique_id == "test-hub-id_test-device-id"
 
 
-async def test_turn_on_switch(hass: __HAC_KEEP__) -> None:
+async def test_turn_on_switch(hass: UniversalAssistant) -> None:
     """Tests that turn on command delegates to API."""
     await setup_platform(
         hass, SWITCH_DOMAIN, generic_device("name-1"), bond_device_id="test-device-id"
@@ -64,7 +64,7 @@ async def test_turn_on_switch(hass: __HAC_KEEP__) -> None:
     mock_turn_on.assert_called_once_with("test-device-id", Action.turn_on())
 
 
-async def test_turn_off_switch(hass: __HAC_KEEP__) -> None:
+async def test_turn_off_switch(hass: UniversalAssistant) -> None:
     """Tests that turn off command delegates to API."""
     await setup_platform(
         hass, SWITCH_DOMAIN, generic_device("name-1"), bond_device_id="test-device-id"
@@ -82,7 +82,7 @@ async def test_turn_off_switch(hass: __HAC_KEEP__) -> None:
     mock_turn_off.assert_called_once_with("test-device-id", Action.turn_off())
 
 
-async def test_switch_set_power_belief(hass: __HAC_KEEP__) -> None:
+async def test_switch_set_power_belief(hass: UniversalAssistant) -> None:
     """Tests that the set power belief service delegates to API."""
     await setup_platform(
         hass, SWITCH_DOMAIN, generic_device("name-1"), bond_device_id="test-device-id"
@@ -102,14 +102,14 @@ async def test_switch_set_power_belief(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_switch_set_power_belief_api_error(hass: __HAC_KEEP__) -> None:
-    """Tests that set power belief throws __HAC_KEEP__Error on api error."""
+async def test_switch_set_power_belief_api_error(hass: UniversalAssistant) -> None:
+    """Tests that set power belief throws UniversalAssistantError on api error."""
     await setup_platform(
         hass, SWITCH_DOMAIN, generic_device("name-1"), bond_device_id="test-device-id"
     )
 
     with (
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
         patch_bond_action_returns_clientresponseerror(),
         patch_bond_device_state(),
     ):
@@ -121,7 +121,7 @@ async def test_switch_set_power_belief_api_error(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_update_reports_switch_is_on(hass: __HAC_KEEP__) -> None:
+async def test_update_reports_switch_is_on(hass: UniversalAssistant) -> None:
     """Tests that update sets correct state when Bond API reports device is on."""
     await setup_platform(hass, SWITCH_DOMAIN, generic_device("name-1"))
 
@@ -132,7 +132,7 @@ async def test_update_reports_switch_is_on(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("switch.name_1").state == "on"
 
 
-async def test_update_reports_switch_is_off(hass: __HAC_KEEP__) -> None:
+async def test_update_reports_switch_is_off(hass: UniversalAssistant) -> None:
     """Tests that update sets correct state when Bond API reports device is off."""
     await setup_platform(hass, SWITCH_DOMAIN, generic_device("name-1"))
 
@@ -143,7 +143,7 @@ async def test_update_reports_switch_is_off(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("switch.name_1").state == "off"
 
 
-async def test_switch_available(hass: __HAC_KEEP__) -> None:
+async def test_switch_available(hass: UniversalAssistant) -> None:
     """Tests that available state is updated based on API errors."""
     await help_test_entity_available(
         hass, SWITCH_DOMAIN, generic_device("name-1"), "switch.name_1"

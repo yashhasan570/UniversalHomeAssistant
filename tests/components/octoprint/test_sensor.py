@@ -11,7 +11,7 @@ from universalassistant.const import (
     Platform,
     UnitOfInformation,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import DEFAULT_JOB
@@ -44,7 +44,7 @@ def job() -> dict[str, Any]:
 @pytest.mark.freeze_time(datetime(2020, 2, 20, 9, 10, 13, 543, tzinfo=UTC))
 @pytest.mark.usefixtures("init_integration")
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test the underlying sensors."""
@@ -129,7 +129,7 @@ async def test_sensors(
 @pytest.mark.freeze_time(datetime(2020, 2, 20, 9, 10, 0))
 @pytest.mark.usefixtures("init_integration")
 async def test_sensors_no_target_temp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test the underlying sensors."""
@@ -177,7 +177,7 @@ async def test_sensors_no_target_temp(
 @pytest.mark.freeze_time(datetime(2020, 2, 20, 9, 10, 0))
 @pytest.mark.usefixtures("init_integration")
 async def test_sensors_paused(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test the underlying sensors."""
@@ -200,7 +200,7 @@ async def test_sensors_paused(
 @pytest.mark.freeze_time(datetime(2020, 2, 20, 9, 10, 0))
 @pytest.mark.usefixtures("init_integration")
 async def test_sensors_printer_disconnected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test the underlying sensors."""

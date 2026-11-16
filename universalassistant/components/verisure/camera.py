@@ -8,7 +8,7 @@ from verisure import Error as VerisureError
 
 from universalassistant.components.camera import Camera
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -19,7 +19,7 @@ from .coordinator import VerisureConfigEntry, VerisureDataUpdateCoordinator
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: VerisureConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -129,6 +129,6 @@ class VerisureSmartcam(CoordinatorEntity[VerisureDataUpdateCoordinator], Camera)
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Entity added to __HA_KEEP__."""
+        """Entity added to Universal Home Assistant."""
         await super().async_added_to_hass()
         self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, self.delete_image)

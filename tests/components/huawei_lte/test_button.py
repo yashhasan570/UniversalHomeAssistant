@@ -16,7 +16,7 @@ from universalassistant.components.huawei_lte.services import (
     HuaweiLteServiceArgument,
 )
 from universalassistant.const import CONF_URL, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import magic_client
 
@@ -24,7 +24,7 @@ MOCK_CONF_URL = "http://huawei-lte.example.com"
 
 
 @patch("universalassistant.components.huawei_lte.Connection", MagicMock())
-async def test_clear_traffic_statistics(hass: __HAC_KEEP__) -> None:
+async def test_clear_traffic_statistics(hass: UniversalAssistant) -> None:
     """Test clear traffic statistics button."""
     huawei_lte = MockConfigEntry(domain=DOMAIN, data={CONF_URL: MOCK_CONF_URL})
     huawei_lte.add_to_hass(hass)
@@ -55,7 +55,7 @@ async def test_clear_traffic_statistics(hass: __HAC_KEEP__) -> None:
     client.monitoring.set_clear_traffic.assert_not_called()
 
 
-async def test_restart(hass: __HAC_KEEP__) -> None:
+async def test_restart(hass: UniversalAssistant) -> None:
     """Test restart button."""
     huawei_lte = MockConfigEntry(domain=DOMAIN, data={CONF_URL: MOCK_CONF_URL})
     huawei_lte.add_to_hass(hass)

@@ -5,7 +5,7 @@ from contextlib import contextmanager
 from contextvars import ContextVar
 
 from universalassistant.components.application_credentials import AuthorizationServer
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONF_TENANT_ID, DOMAIN, OAUTH2_AUTHORIZE, OAUTH2_TOKEN
 
@@ -22,7 +22,7 @@ def tenant_id_context(tenant_id: str) -> Generator[None]:
         _tenant_id_context.reset(token)
 
 
-async def async_get_authorization_server(hass: __HAC_KEEP__) -> AuthorizationServer:
+async def async_get_authorization_server(hass: UniversalAssistant) -> AuthorizationServer:
     """Return authorization server."""
     tenant_id = _tenant_id_context.get()
     return AuthorizationServer(

@@ -16,7 +16,7 @@ from universalassistant.components.homekit_controller.sensor import (
     thread_status_to_str,
 )
 from universalassistant.components.sensor import SensorDeviceClass, SensorStateClass
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import DATA_INSTANCES
 
@@ -99,7 +99,7 @@ def create_humidifier_without_water_level(aid: int) -> Accessory:
 
 
 async def test_temperature_sensor_read_state(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test reading the state of a HomeKit temperature sensor accessory."""
     helper = await setup_test_component(
@@ -127,7 +127,7 @@ async def test_temperature_sensor_read_state(
 
 
 async def test_temperature_sensor_not_added_twice(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test standalone temperature sensor gets only one entity."""
     helper = await setup_test_component(
@@ -143,7 +143,7 @@ async def test_temperature_sensor_not_added_twice(
 
 
 async def test_humidity_sensor_read_state(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test reading the state of a HomeKit humidity sensor accessory."""
     helper = await setup_test_component(
@@ -170,7 +170,7 @@ async def test_humidity_sensor_read_state(
 
 
 async def test_light_level_sensor_read_state(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test reading the state of a HomeKit temperature sensor accessory."""
     helper = await setup_test_component(
@@ -197,7 +197,7 @@ async def test_light_level_sensor_read_state(
 
 
 async def test_carbon_dioxide_level_sensor_read_state(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test reading the state of a HomeKit carbon dioxide sensor accessory."""
     helper = await setup_test_component(
@@ -225,7 +225,7 @@ async def test_carbon_dioxide_level_sensor_read_state(
 
 
 async def test_battery_level_sensor(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test reading the state of a HomeKit battery level sensor."""
     helper = await setup_test_component(
@@ -254,7 +254,7 @@ async def test_battery_level_sensor(
 
 
 async def test_battery_charging(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test reading the state of a HomeKit battery's charging state."""
     helper = await setup_test_component(
@@ -280,7 +280,7 @@ async def test_battery_charging(
 
 
 async def test_battery_low(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test reading the state of a HomeKit battery's low state."""
     helper = await setup_test_component(
@@ -307,7 +307,7 @@ async def test_battery_low(
 
 
 async def test_water_level_sensor_read_state(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test reading the state of a HomeKit water level sensor accessory."""
     helper = await setup_test_component(
@@ -357,7 +357,7 @@ async def test_water_level_sensor_read_state(
     ],
 )
 async def test_characteristic_sensor_removed_after_config_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_next_aid: Callable[[], int],
     replacement_accessory_factory: Callable[[int], Accessory],
 ) -> None:
@@ -403,7 +403,7 @@ def create_switch_with_sensor(accessory: Accessory) -> Service:
 
 
 async def test_switch_with_sensor(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test a switch service that has a sensor characteristic is correctly handled."""
     helper = await setup_test_component(hass, get_next_aid(), create_switch_with_sensor)
@@ -436,7 +436,7 @@ async def test_switch_with_sensor(
 
 
 async def test_sensor_unavailable(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test a sensor becoming unavailable."""
     helper = await setup_test_component(hass, get_next_aid(), create_switch_with_sensor)
@@ -520,7 +520,7 @@ def test_thread_status_to_str() -> None:
     "fake_ble_pairing",
 )
 async def test_rssi_sensor(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test an rssi sensor."""
     inject_bluetooth_service_info(hass, TEST_DEVICE_SERVICE_INFO)
@@ -544,7 +544,7 @@ async def test_rssi_sensor(
     "fake_ble_pairing",
 )
 async def test_migrate_rssi_sensor_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     get_next_aid: Callable[[], int],
 ) -> None:

@@ -10,7 +10,7 @@ from pytest_universalassistant.common import get_test_config_dir
 
 from universalassistant.components.blueprint import BLUEPRINT_SCHEMA, errors, models
 from universalassistant.config import _get_annotation
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import yaml as yaml_util
 from universalassistant.util.yaml import Input
 from universalassistant.util.yaml.objects import NodeDictClass, NodeListClass, NodeStrClass
@@ -82,7 +82,7 @@ def blueprint_2(request: pytest.FixtureRequest) -> models.Blueprint:
 
 
 @pytest.fixture
-async def yaml_blueprint(hass: __HAC_KEEP__) -> models.Blueprint:
+async def yaml_blueprint(hass: UniversalAssistant) -> models.Blueprint:
     """Blueprint loaded from a real YAML file, so its nodes carry source annotations."""
     domain_bps = models.DomainBlueprints(
         hass,
@@ -117,7 +117,7 @@ def yaml_blueprint_inputs(
 
 
 @pytest.fixture
-def domain_bps(hass: __HAC_KEEP__) -> models.DomainBlueprints:
+def domain_bps(hass: UniversalAssistant) -> models.DomainBlueprints:
     """Domain blueprints fixture."""
     return models.DomainBlueprints(
         hass,
@@ -210,7 +210,7 @@ def test_blueprint_validate() -> None:
             },
         },
         schema=BLUEPRINT_SCHEMA,
-    ).validate() == ["Requires at least __HA_KEEP__ 100000.0.0"]
+    ).validate() == ["Requires at least Universal Home Assistant 100000.0.0"]
 
 
 def test_blueprint_dump_preserves_original_data() -> None:
@@ -408,7 +408,7 @@ def test_substituted_blueprint_keeps_annotations(
 
 
 async def test_domain_blueprints_get_blueprint_errors(
-    hass: __HAC_KEEP__, domain_bps: models.DomainBlueprints
+    hass: UniversalAssistant, domain_bps: models.DomainBlueprints
 ) -> None:
     """Test domain blueprints."""
     assert hass.data["blueprint"]["automation"] is domain_bps

@@ -9,7 +9,7 @@ from universalassistant import config_entries
 from universalassistant.components.steamist.const import DOMAIN
 from universalassistant.config_entries import SOURCE_IGNORE
 from universalassistant.const import CONF_DEVICE, CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -37,7 +37,7 @@ DHCP_DISCOVERY = DhcpServiceInfo(
 )
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -72,7 +72,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_with_discovery(hass: __HAC_KEEP__) -> None:
+async def test_form_with_discovery(hass: UniversalAssistant) -> None:
     """Test we can also discovery the device during manual setup."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -105,7 +105,7 @@ async def test_form_with_discovery(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -145,7 +145,7 @@ async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_unknown_exception(hass: __HAC_KEEP__) -> None:
+async def test_form_unknown_exception(hass: UniversalAssistant) -> None:
     """Test we handle unknown exceptions."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -185,7 +185,7 @@ async def test_form_unknown_exception(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_discovery(hass: __HAC_KEEP__) -> None:
+async def test_discovery(hass: UniversalAssistant) -> None:
     """Test setting up discovery."""
     with _patch_discovery(), _patch_status(MOCK_ASYNC_GET_STATUS_INACTIVE):
         result = await hass.config_entries.flow.async_init(
@@ -251,7 +251,7 @@ async def test_discovery(hass: __HAC_KEEP__) -> None:
     assert result2["reason"] == "no_devices_found"
 
 
-async def test_discovered_by_discovery_and_dhcp(hass: __HAC_KEEP__) -> None:
+async def test_discovered_by_discovery_and_dhcp(hass: UniversalAssistant) -> None:
     """Test we get discovery form and abort for dhcp when we get both."""
 
     with _patch_discovery(), _patch_status(MOCK_ASYNC_GET_STATUS_INACTIVE):
@@ -289,7 +289,7 @@ async def test_discovered_by_discovery_and_dhcp(hass: __HAC_KEEP__) -> None:
     assert result3["reason"] == "already_in_progress"
 
 
-async def test_discovered_by_discovery(hass: __HAC_KEEP__) -> None:
+async def test_discovered_by_discovery(hass: UniversalAssistant) -> None:
     """Test we can setup when discovered from discovery."""
 
     with _patch_discovery(), _patch_status(MOCK_ASYNC_GET_STATUS_INACTIVE):
@@ -321,7 +321,7 @@ async def test_discovered_by_discovery(hass: __HAC_KEEP__) -> None:
     assert mock_async_setup_entry.called
 
 
-async def test_discovered_by_dhcp(hass: __HAC_KEEP__) -> None:
+async def test_discovered_by_dhcp(hass: UniversalAssistant) -> None:
     """Test we can setup when discovered from dhcp."""
 
     with _patch_discovery(), _patch_status(MOCK_ASYNC_GET_STATUS_INACTIVE):
@@ -353,7 +353,7 @@ async def test_discovered_by_dhcp(hass: __HAC_KEEP__) -> None:
     assert mock_async_setup_entry.called
 
 
-async def test_discovered_by_dhcp_discovery_fails(hass: __HAC_KEEP__) -> None:
+async def test_discovered_by_dhcp_discovery_fails(hass: UniversalAssistant) -> None:
     """Test setup when discovered from dhcp but cannot get device name."""
 
     with (
@@ -372,7 +372,7 @@ async def test_discovered_by_dhcp_discovery_fails(hass: __HAC_KEEP__) -> None:
 
 
 async def test_discovered_by_dhcp_discovery_finds_non_steamist_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test we can setup when discovered from dhcp but its not a steamist device."""
 
@@ -399,7 +399,7 @@ async def test_discovered_by_dhcp_discovery_finds_non_steamist_device(
     ],
 )
 async def test_discovered_by_dhcp_or_discovery_adds_missing_unique_id(
-    hass: __HAC_KEEP__, source, data
+    hass: UniversalAssistant, source, data
 ) -> None:
     """Test setup from dhcp/discovery adds a missing unique id."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={CONF_HOST: DEVICE_IP_ADDRESS})
@@ -432,7 +432,7 @@ async def test_discovered_by_dhcp_or_discovery_adds_missing_unique_id(
     ],
 )
 async def test_discovered_by_dhcp_or_discovery_existing_unique_id_does_not_reload(
-    hass: __HAC_KEEP__, source, data
+    hass: UniversalAssistant, source, data
 ) -> None:
     """Test setup from dhcp/discovery with existing unique id skips reload."""
     config_entry = MockConfigEntry(
@@ -457,7 +457,7 @@ async def test_discovered_by_dhcp_or_discovery_existing_unique_id_does_not_reloa
     assert not mock_setup_entry.called
 
 
-async def test_pick_device_replaces_ignored_device(hass: __HAC_KEEP__) -> None:
+async def test_pick_device_replaces_ignored_device(hass: UniversalAssistant) -> None:
     """Test the pick device step can replace an ignored device."""
     entry = MockConfigEntry(
         domain=DOMAIN,

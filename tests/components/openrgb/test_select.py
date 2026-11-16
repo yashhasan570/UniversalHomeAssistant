@@ -22,8 +22,8 @@ from universalassistant.components.select import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
@@ -50,7 +50,7 @@ def mock_profiles() -> list[SimpleNamespace]:
 # Test basic entity setup and configuration
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -73,7 +73,7 @@ async def test_entities(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_select_with_profiles(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     mock_profiles: list[SimpleNamespace],
@@ -95,7 +95,7 @@ async def test_select_with_profiles(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_select_with_no_profiles(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
 ) -> None:
@@ -117,7 +117,7 @@ async def test_select_with_no_profiles(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_select_option_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     mock_profiles: list[SimpleNamespace],
@@ -153,7 +153,7 @@ async def test_select_option_success(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_select_option_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     mock_profiles: list[SimpleNamespace],
@@ -186,7 +186,7 @@ async def test_select_option_not_found(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_select_option_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     mock_profiles: list[SimpleNamespace],
@@ -203,8 +203,8 @@ async def test_select_option_connection_error(
 
     assert mock_config_entry.state is ConfigEntryState.LOADED
 
-    # Try to select a profile - should raise __HAC_KEEP__Error
-    with pytest.raises(__HAC_KEEP__Error):
+    # Try to select a profile - should raise UniversalAssistantError
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -218,7 +218,7 @@ async def test_select_option_connection_error(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_select_option_value_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     mock_profiles: list[SimpleNamespace],
@@ -233,8 +233,8 @@ async def test_select_option_value_error(
 
     assert mock_config_entry.state is ConfigEntryState.LOADED
 
-    # Try to select a profile - should raise __HAC_KEEP__Error
-    with pytest.raises(__HAC_KEEP__Error):
+    # Try to select a profile - should raise UniversalAssistantError
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -248,7 +248,7 @@ async def test_select_option_value_error(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_profiles_update_on_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     mock_profiles: list[SimpleNamespace],
@@ -284,7 +284,7 @@ async def test_profiles_update_on_refresh(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_select_becomes_unavailable_when_profiles_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     mock_profiles: list[SimpleNamespace],
@@ -322,7 +322,7 @@ async def test_select_becomes_unavailable_when_profiles_removed(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_current_option_cleared_when_device_state_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     mock_openrgb_device: MagicMock,
@@ -369,7 +369,7 @@ async def test_current_option_cleared_when_device_state_changes(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_current_option_cleared_when_colors_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     mock_openrgb_device: MagicMock,

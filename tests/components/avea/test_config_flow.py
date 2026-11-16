@@ -12,7 +12,7 @@ from pytest_universalassistant.components.bluetooth import (
 from universalassistant.components.avea.const import AVEA_SERVICE_UUID, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import AVEA_DISCOVERY_INFO, NOT_AVEA_DISCOVERY_INFO
@@ -32,7 +32,7 @@ def _mock_bulb(name: str | Exception | None, brightness: int | None) -> MagicMoc
     return bulb
 
 
-async def test_user_step_success(hass: __HAC_KEEP__) -> None:
+async def test_user_step_success(hass: UniversalAssistant) -> None:
     """Test the user step success path."""
     inject_bluetooth_service_info(hass, NOT_AVEA_DISCOVERY_INFO)
     inject_bluetooth_service_info(hass, AVEA_DISCOVERY_INFO)
@@ -74,7 +74,7 @@ async def test_user_step_success(hass: __HAC_KEEP__) -> None:
     assert result["result"].unique_id == AVEA_DISCOVERY_INFO.address
 
 
-async def test_user_step_no_devices_found(hass: __HAC_KEEP__) -> None:
+async def test_user_step_no_devices_found(hass: UniversalAssistant) -> None:
     """Test the user step when no devices are found."""
     inject_bluetooth_service_info(hass, NOT_AVEA_DISCOVERY_INFO)
     await hass.async_block_till_done(wait_background_tasks=True)
@@ -90,7 +90,7 @@ async def test_user_step_no_devices_found(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "no_devices_found"
 
 
-async def test_user_step_unnamed_device_label(hass: __HAC_KEEP__) -> None:
+async def test_user_step_unnamed_device_label(hass: UniversalAssistant) -> None:
     """Test unnamed discovered devices are shown without duplicating the address."""
     discovery_info = type(AVEA_DISCOVERY_INFO)(
         name=AVEA_DISCOVERY_INFO.address,
@@ -135,7 +135,7 @@ async def test_user_step_unnamed_device_label(hass: __HAC_KEEP__) -> None:
     mock_request_active_scan.assert_awaited_once_with(hass)
 
 
-async def test_user_step_cannot_connect_recovers(hass: __HAC_KEEP__) -> None:
+async def test_user_step_cannot_connect_recovers(hass: UniversalAssistant) -> None:
     """Test the user step recovers after a cannot connect error."""
     inject_bluetooth_service_info(hass, AVEA_DISCOVERY_INFO)
     await hass.async_block_till_done(wait_background_tasks=True)
@@ -180,7 +180,7 @@ async def test_user_step_cannot_connect_recovers(hass: __HAC_KEEP__) -> None:
     assert result["title"] == "Bedroom"
 
 
-async def test_user_step_unknown_error_recovers(hass: __HAC_KEEP__) -> None:
+async def test_user_step_unknown_error_recovers(hass: UniversalAssistant) -> None:
     """Test the user step recovers after an unknown error."""
     inject_bluetooth_service_info(hass, AVEA_DISCOVERY_INFO)
     await hass.async_block_till_done(wait_background_tasks=True)
@@ -222,7 +222,7 @@ async def test_user_step_unknown_error_recovers(hass: __HAC_KEEP__) -> None:
     assert result["title"] == "Bedroom"
 
 
-async def test_bluetooth_step_success(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_step_success(hass: UniversalAssistant) -> None:
     """Test bluetooth discovery starts the flow and creates an entry."""
     inject_bluetooth_service_info(hass, AVEA_DISCOVERY_INFO)
     await hass.async_block_till_done(wait_background_tasks=True)
@@ -251,7 +251,7 @@ async def test_bluetooth_step_success(hass: __HAC_KEEP__) -> None:
 
 
 async def test_bluetooth_step_uses_discovery_name_for_unknown_bulb_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test bluetooth discovery falls back from the library default name."""
     inject_bluetooth_service_info(hass, AVEA_DISCOVERY_INFO)
@@ -277,7 +277,7 @@ async def test_bluetooth_step_uses_discovery_name_for_unknown_bulb_name(
     assert result["result"].unique_id == AVEA_DISCOVERY_INFO.address
 
 
-async def test_bluetooth_step_cannot_connect_recovers(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_step_cannot_connect_recovers(hass: UniversalAssistant) -> None:
     """Test bluetooth confirmation recovers after cannot connect."""
     inject_bluetooth_service_info(hass, AVEA_DISCOVERY_INFO)
     await hass.async_block_till_done(wait_background_tasks=True)

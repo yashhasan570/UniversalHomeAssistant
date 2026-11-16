@@ -7,7 +7,7 @@ import logging
 from typing import Any, Self
 
 from universalassistant.const import CONF_TARGET
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er, target as target_helpers
 from universalassistant.helpers.condition import (
     async_get_all_descriptions as async_get_all_condition_descriptions,
@@ -58,7 +58,7 @@ class _EntityFilter:
     supported_features: set[int]
 
     def matches(
-        self, hass: __HAC_KEEP__, entity_id: str, domain: str, integration: str
+        self, hass: UniversalAssistant, entity_id: str, domain: str, integration: str
     ) -> bool:
         """Return if entity matches all criteria in this filter."""
         if self.integration and integration != self.integration:
@@ -118,7 +118,7 @@ class _AutomationComponentLookupData:
 
     def matches(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entity_id: str,
         domain: str,
         integration: str,
@@ -178,7 +178,7 @@ def _get_automation_component_domains(
 
 
 def _get_automation_component_lookup_table(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_type: AutomationComponentType,
     component_descriptions: Mapping[str, Mapping[str, Any] | None],
 ) -> _AutomationComponentLookupTable:
@@ -221,7 +221,7 @@ def _get_automation_component_lookup_table(
 
 
 def _async_get_automation_components_for_target(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_type: AutomationComponentType,
     target_selection: ConfigType,
     expand_group: bool,
@@ -288,7 +288,7 @@ def _async_get_automation_components_for_target(
 
 
 async def async_get_triggers_for_target(
-    hass: __HAC_KEEP__, target_selector: ConfigType, expand_group: bool
+    hass: UniversalAssistant, target_selector: ConfigType, expand_group: bool
 ) -> set[str]:
     """Get triggers for a target."""
     descriptions = await async_get_all_trigger_descriptions(hass)
@@ -302,7 +302,7 @@ async def async_get_triggers_for_target(
 
 
 async def async_get_conditions_for_target(
-    hass: __HAC_KEEP__, target_selector: ConfigType, expand_group: bool
+    hass: UniversalAssistant, target_selector: ConfigType, expand_group: bool
 ) -> set[str]:
     """Get conditions for a target."""
     descriptions = await async_get_all_condition_descriptions(hass)
@@ -316,7 +316,7 @@ async def async_get_conditions_for_target(
 
 
 async def async_get_services_for_target(
-    hass: __HAC_KEEP__, target_selector: ConfigType, expand_group: bool
+    hass: UniversalAssistant, target_selector: ConfigType, expand_group: bool
 ) -> set[str]:
     """Get services for a target."""
     descriptions = await async_get_all_service_descriptions(hass)

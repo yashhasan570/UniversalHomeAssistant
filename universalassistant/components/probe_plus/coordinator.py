@@ -11,7 +11,7 @@ from pyprobeplus.exceptions import ProbePlusDeviceNotFound, ProbePlusError
 from universalassistant.components import bluetooth
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -35,7 +35,7 @@ class ProbePlusDataUpdateCoordinator(DataUpdateCoordinator[None]):
 
     config_entry: ProbePlusConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, entry: ProbePlusConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: ProbePlusConfigEntry) -> None:
         """Initialize coordinator."""
         super().__init__(
             hass,

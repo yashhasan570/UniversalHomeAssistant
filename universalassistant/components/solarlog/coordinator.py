@@ -15,7 +15,7 @@ from solarlog_cli.solarlog_models import EnergyData, InverterData, SolarlogData
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_TIMEOUT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -36,7 +36,7 @@ class SolarLogBasicDataCoordinator(DataUpdateCoordinator[SolarlogData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: SolarlogConfigEntry,
         api: SolarLogConnector,
     ) -> None:
@@ -97,6 +97,9 @@ class SolarLogBasicDataCoordinator(DataUpdateCoordinator[SolarlogData]):
 
         _LOGGER.debug("Basic data successfully updated")
 
+        if self.data is not None:
+            data.battery_data = self.data.battery_data
+
         return data
 
     async def renew_authentication(self) -> bool:
@@ -127,7 +130,7 @@ class SolarLogDeviceDataCoordinator(DataUpdateCoordinator[dict[int, InverterData
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: SolarlogConfigEntry,
         api: SolarLogConnector,
     ) -> None:
@@ -152,6 +155,7 @@ class SolarLogDeviceDataCoordinator(DataUpdateCoordinator[dict[int, InverterData
         try:
             await self.solarlog.update_device_list()
             inverter_data = await self.solarlog.update_inverter_data()
+            battery_data = await self.solarlog.update_battery_data()
         except SolarLogAuthenticationError as ex:
             raise ConfigEntryAuthFailed(
                 translation_domain=DOMAIN,
@@ -165,8 +169,14 @@ class SolarLogDeviceDataCoordinator(DataUpdateCoordinator[dict[int, InverterData
 
         _LOGGER.debug("Device data successfully updated")
 
-        self.data = inverter_data
+        if self.config_entry.runtime_data.basic_data_coordinator.data is not None:
+            data = self.config_entry.runtime_data.basic_data_coordinator.data
 
+            data.inverter_data = inverter_data
+            data.battery_data = battery_data
+            self.config_entry.runtime_data.basic_data_coordinator.async_update_listeners()
+
+        self.data = inverter_data  # Set self.data before calling _async_add_remove_devices, as it relies on self.data.
         self._async_add_remove_devices(inverter_data)
 
         return inverter_data
@@ -219,7 +229,7 @@ class SolarLogLongtimeDataCoordinator(DataUpdateCoordinator[EnergyData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: SolarlogConfigEntry,
         api: SolarLogConnector,
         timeout: float,

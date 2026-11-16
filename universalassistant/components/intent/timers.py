@@ -12,7 +12,7 @@ import probatio
 from propcache.api import cached_property
 
 from universalassistant.const import ATTR_DEVICE_ID, ATTR_ID, ATTR_NAME
-from universalassistant.core import Context, __HAC_KEEP__, callback
+from universalassistant.core import Context, UniversalAssistant, callback
 from universalassistant.helpers import (
     area_registry as ar,
     config_validation as cv,
@@ -225,7 +225,7 @@ class TimersNotSupportedError(intent.IntentHandleError):
 class TimerManager:
     """Manager for intent timers."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize timer manager."""
         self.hass = hass
 
@@ -514,7 +514,7 @@ class TimerManager:
 
 
 @callback
-def async_device_supports_timers(hass: __HAC_KEEP__, device_id: str) -> bool:
+def async_device_supports_timers(hass: UniversalAssistant, device_id: str) -> bool:
     """Return True if device has been registered to handle timer events."""
     timer_manager: TimerManager | None = hass.data.get(TIMER_DATA)
     if timer_manager is None:
@@ -524,7 +524,7 @@ def async_device_supports_timers(hass: __HAC_KEEP__, device_id: str) -> bool:
 
 @callback
 def async_register_timer_handler(
-    hass: __HAC_KEEP__, device_id: str, handler: TimerHandler
+    hass: UniversalAssistant, device_id: str, handler: TimerHandler
 ) -> Callable[[], None]:
     """Register a handler for timer events.
 
@@ -545,7 +545,7 @@ class FindTimerFilter(StrEnum):
 
 
 def _find_timer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_id: str | None,
     slots: dict[str, Any],
     find_filter: FindTimerFilter | None = None,
@@ -683,7 +683,7 @@ def _find_timer(
 
 
 def _find_timers(
-    hass: __HAC_KEEP__, device_id: str | None, slots: dict[str, Any]
+    hass: UniversalAssistant, device_id: str | None, slots: dict[str, Any]
 ) -> list[TimerInfo]:
     """Match multiple timers with constraints or raise an error."""
     timer_manager: TimerManager = hass.data[TIMER_DATA]

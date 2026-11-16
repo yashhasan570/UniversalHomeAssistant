@@ -35,7 +35,7 @@ from universalassistant.const import (
     CONF_VALUE_TEMPLATE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.template import Template
@@ -114,7 +114,7 @@ PLATFORM_SCHEMA = SENSOR_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -181,7 +181,7 @@ class SnmpSensor(ManualTriggerSensorEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         data: SnmpData,
         config: ConfigType,
         value_template: ValueTemplate | None,
@@ -194,7 +194,7 @@ class SnmpSensor(ManualTriggerSensorEntity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Handle adding to __HA_KEEP__."""
+        """Handle adding to Universal Home Assistant."""
         await super().async_added_to_hass()
         await self.async_update()
 

@@ -12,8 +12,8 @@ from typing import Any, Literal, Self, TypedDict, cast, override
 from awesomeversion import AwesomeVersion, AwesomeVersionStrategy
 
 from universalassistant.const import __version__ as ha_version
-from universalassistant.core import __HAC_KEEP__, callback, verify_event_loop_thread
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback, verify_event_loop_thread
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.util import dt as dt_util
 from universalassistant.util.async_ import run_callback_threadsafe
 from universalassistant.util.event_type import EventType
@@ -163,7 +163,7 @@ class IssuesRefresh:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         domain: str,
         refreshes: list[_RefreshState],
         deferred_deletes: set[tuple[str, str]],
@@ -247,7 +247,7 @@ class IssuesRefresh:
 class IssueRegistry(BaseRegistry):
     """Class to hold a registry of issues."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the issue registry."""
         self.hass = hass
         self.issues: dict[tuple[str, str], IssueEntry] = {}
@@ -292,19 +292,19 @@ class IssueRegistry(BaseRegistry):
         if config_entry_id is not None:
             entry = self.hass.config_entries.async_get_entry(config_entry_id)
             if entry is None:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     f"Can't link issue to unknown config entry {config_entry_id}"
                 )
             if (
                 config_subentry_id is not None
                 and config_subentry_id not in entry.subentries
             ):
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     f"Can't link issue to unknown config subentry {config_subentry_id}"
                     f" of config entry {config_entry_id}"
                 )
         elif config_subentry_id is not None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Can't link issue to config subentry {config_subentry_id}"
                 " without a config entry"
             )
@@ -635,13 +635,13 @@ class IssueRegistry(BaseRegistry):
 
 @callback
 @singleton(DATA_REGISTRY)
-def async_get(hass: __HAC_KEEP__) -> IssueRegistry:
+def async_get(hass: UniversalAssistant) -> IssueRegistry:
     """Get issue registry."""
     return IssueRegistry(hass)
 
 
 async def async_load(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     read_only: bool = False,
     load_empty: bool = False,
@@ -655,7 +655,7 @@ async def async_load(
 
 @callback
 def async_create_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain: str,
     issue_id: str,
     *,
@@ -698,7 +698,7 @@ def async_create_issue(
 
 
 def create_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain: str,
     issue_id: str,
     *,
@@ -739,7 +739,7 @@ def create_issue(
 
 @callback
 def async_delete_issue(
-    hass: __HAC_KEEP__, domain: str, issue_id: str, *, defer_to_refresh: bool = False
+    hass: UniversalAssistant, domain: str, issue_id: str, *, defer_to_refresh: bool = False
 ) -> None:
     """Delete an issue.
 
@@ -754,7 +754,7 @@ def async_delete_issue(
     issue_registry.async_delete(domain, issue_id, defer_to_refresh=defer_to_refresh)
 
 
-def delete_issue(hass: __HAC_KEEP__, domain: str, issue_id: str) -> None:
+def delete_issue(hass: UniversalAssistant, domain: str, issue_id: str) -> None:
     """Delete an issue.
 
     It is not an error to delete an issue that does not exist.
@@ -766,7 +766,7 @@ def delete_issue(hass: __HAC_KEEP__, domain: str, issue_id: str) -> None:
 
 @callback
 def async_refresh_issues(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain: str,
     *,
     issue_id_pattern: str | re.Pattern[str] | None = None,
@@ -796,7 +796,7 @@ def async_refresh_issues(
 
 
 @callback
-def async_keep_issue(hass: __HAC_KEEP__, domain: str, issue_id: str) -> None:
+def async_keep_issue(hass: UniversalAssistant, domain: str, issue_id: str) -> None:
     """Keep an issue in all active refreshes without creating or updating it.
 
     This has the same effect on active refreshes as creating the issue again
@@ -809,7 +809,7 @@ def async_keep_issue(hass: __HAC_KEEP__, domain: str, issue_id: str) -> None:
 
 @callback
 def async_ignore_issue(
-    hass: __HAC_KEEP__, domain: str, issue_id: str, ignore: bool
+    hass: UniversalAssistant, domain: str, issue_id: str, ignore: bool
 ) -> None:
     """Ignore an issue.
 

@@ -12,7 +12,7 @@ from sense_energy import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_TIMEOUT, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -39,7 +39,7 @@ class SenseData:
     rt: SenseRealtimeCoordinator
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SenseConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SenseConfigEntry) -> None:
     """Set up Sense from a config entry."""
 
     entry_data = entry.data
@@ -137,6 +137,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SenseConfigEntry) -> None
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SenseConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SenseConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -7,7 +7,7 @@ import attr
 import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.template import TemplateError
 
@@ -15,7 +15,7 @@ from tests.helpers.template.helpers import assert_result_info, render, render_to
 
 
 async def test_device_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -102,7 +102,7 @@ async def test_device_entities(
 
 
 async def test_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -148,7 +148,7 @@ async def test_device_id(
 
 
 async def test_device_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -231,7 +231,7 @@ async def test_device_name(
     ],
 )
 async def test_device_attr_deprecated_config_entry_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
     attr_name: str,
@@ -269,7 +269,7 @@ async def test_device_attr_deprecated_config_entry_attributes(
 
 
 async def test_device_attr_deprecated_config_entry_attributes_composite(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -305,7 +305,7 @@ async def test_device_attr_deprecated_config_entry_attributes_composite(
 
 
 async def test_device_attr(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -431,7 +431,7 @@ async def test_device_attr(
 
 
 async def test_device_attr_private_attributes_blocked(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test that device_attr does not expose private or dunder attributes."""
@@ -461,7 +461,7 @@ async def test_device_attr_private_attributes_blocked(
 
 
 async def test_device_functions_with_child_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test device functions with child devices."""

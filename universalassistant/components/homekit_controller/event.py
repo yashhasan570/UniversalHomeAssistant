@@ -13,7 +13,7 @@ from universalassistant.components.event import (
     EventEntityDescription,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .connection import HKDevice
@@ -99,7 +99,7 @@ class HomeKitEventEntity(BaseCharacteristicEntity, EventEntity):
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

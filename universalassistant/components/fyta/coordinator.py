@@ -16,7 +16,7 @@ from fyta_cli.fyta_models import Plant
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -35,7 +35,7 @@ class FytaCoordinator(DataUpdateCoordinator[dict[int, Plant]]):
     config_entry: FytaConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: FytaConfigEntry, fyta: FytaConnector
+        self, hass: UniversalAssistant, config_entry: FytaConfigEntry, fyta: FytaConnector
     ) -> None:
         """Initialize my coordinator."""
         super().__init__(

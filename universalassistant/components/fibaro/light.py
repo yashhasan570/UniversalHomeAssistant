@@ -15,7 +15,7 @@ from universalassistant.components.light import (
     color_supported,
 )
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FibaroConfigEntry, FibaroController
@@ -46,7 +46,7 @@ def scaleto99(value: int | None) -> int:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FibaroConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

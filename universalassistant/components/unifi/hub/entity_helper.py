@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 import aiounifi
 from aiounifi.models.device import DeviceSetPoePortModeRequest
 
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.event import async_call_later, async_track_time_interval
 from universalassistant.util import dt as dt_util
@@ -14,7 +14,7 @@ from universalassistant.util import dt as dt_util
 class UnifiEntityHelper:
     """UniFi Network integration handling platforms for entity registration."""
 
-    def __init__(self, hass: __HAC_KEEP__, api: aiounifi.Controller) -> None:
+    def __init__(self, hass: UniversalAssistant, api: aiounifi.Controller) -> None:
         """Initialize the UniFi entity loader."""
         self.hass = hass
         self.api = api
@@ -61,7 +61,7 @@ class UnifiEntityHeartbeat:
 
     CHECK_HEARTBEAT_INTERVAL = timedelta(seconds=1)
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the heartbeat monitor."""
         self.hass = hass
 
@@ -117,7 +117,7 @@ class UnifiDeviceCommand:
 
     COMMAND_DELAY = 5
 
-    def __init__(self, hass: __HAC_KEEP__, api: aiounifi.Controller) -> None:
+    def __init__(self, hass: UniversalAssistant, api: aiounifi.Controller) -> None:
         """Initialize device command helper."""
         self.hass = hass
         self.api = api

@@ -10,7 +10,7 @@ from aioaquarite import (
     ResilientPoolSubscription,
 )
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN
@@ -28,7 +28,7 @@ class VistapoolDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: VistapoolConfigEntry,
         auth: AquariteAuth,
         api: AquariteClient,

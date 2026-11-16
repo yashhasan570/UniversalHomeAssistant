@@ -21,7 +21,7 @@ from universalassistant.components.sensor import (
 from universalassistant.components.sensor.const import NON_NUMERIC_DEVICE_CLASSES
 from universalassistant.components.sensor.device_condition import ENTITY_CONDITIONS
 from universalassistant.const import CONF_PLATFORM, PERCENTAGE, STATE_UNKNOWN, EntityCategory
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_registry import RegistryEntryHider
 from universalassistant.setup import async_setup_component
@@ -71,7 +71,7 @@ def test_matches_device_classes(device_class: SensorDeviceClass) -> None:
 
 
 async def test_get_conditions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_sensor_entities: dict[str, MockSensor],
@@ -134,7 +134,7 @@ async def test_get_conditions(
     ],
 )
 async def test_get_conditions_hidden_auxiliary(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     hidden_by,
@@ -174,7 +174,7 @@ async def test_get_conditions_hidden_auxiliary(
 
 
 async def test_get_conditions_no_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -238,7 +238,7 @@ async def test_get_conditions_no_state(
     ],
 )
 async def test_get_conditions_no_unit_or_stateclass(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     state_class,
@@ -285,7 +285,7 @@ async def test_get_conditions_no_unit_or_stateclass(
     ],
 )
 async def test_get_condition_capabilities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_sensor_entities: dict[str, MockSensor],
@@ -356,7 +356,7 @@ async def test_get_condition_capabilities(
     ],
 )
 async def test_get_condition_capabilities_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_sensor_entities: dict[str, MockSensor],
@@ -423,7 +423,7 @@ async def test_get_condition_capabilities_legacy(
 
 
 async def test_get_condition_capabilities_none(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test we get the expected capabilities from a sensor condition."""
@@ -472,7 +472,7 @@ async def test_get_condition_capabilities_none(
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_if_state_not_above_below(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -514,7 +514,7 @@ async def test_if_state_not_above_below(
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_if_state_above(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],
@@ -583,7 +583,7 @@ async def test_if_state_above(
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_if_state_above_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],
@@ -652,7 +652,7 @@ async def test_if_state_above_legacy(
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_if_state_below(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],
@@ -721,7 +721,7 @@ async def test_if_state_below(
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_if_state_between(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],

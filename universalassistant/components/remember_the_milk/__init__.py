@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, async_noop
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, async_noop
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
@@ -61,7 +61,7 @@ DATA_COMPONENT = "component"
 DATA_STORAGE = "storage"
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Remember the milk component."""
     # pylint: disable-next=universal-assistant-use-runtime-data
     hass.data[DOMAIN] = {}
@@ -81,7 +81,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 async def _async_import(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     storage: RememberTheMilkConfiguration,
     rtm_config: dict[str, Any],
 ) -> None:
@@ -130,7 +130,7 @@ async def _async_import(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: RememberTheMilkConfigEntry
+    hass: UniversalAssistant, entry: RememberTheMilkConfigEntry
 ) -> None:
     """Set up Remember The Milk from a config entry."""
     # pylint: disable-next=universal-assistant-use-runtime-data
@@ -213,7 +213,7 @@ async def async_setup_entry(
 
 
 async def _async_update_listener(
-    hass: __HAC_KEEP__, entry: RememberTheMilkConfigEntry
+    hass: UniversalAssistant, entry: RememberTheMilkConfigEntry
 ) -> None:
     """Delete removed lists on the server and reload when subentries change."""
     data = entry.runtime_data
@@ -242,7 +242,7 @@ async def _async_update_listener(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: RememberTheMilkConfigEntry
+    hass: UniversalAssistant, entry: RememberTheMilkConfigEntry
 ) -> None:
     """Unload a config entry."""
     component: EntityComponent[RememberTheMilkEntity] = hass.data[DOMAIN][

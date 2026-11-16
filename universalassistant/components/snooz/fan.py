@@ -19,8 +19,8 @@ from universalassistant.components.fan import (
     FanEntityStateAttribute,
 )
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import CONNECTION_BLUETOOTH, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
@@ -30,7 +30,7 @@ from .models import SnoozConfigEntry, SnoozConfigurationData
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SnoozConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -149,7 +149,7 @@ class SnoozFan(FanEntity, RestoreEntity):
         if result.status is SnoozCommandResultStatus.SUCCESSFUL:
             self._async_write_state_changed()
         elif result.status is not SnoozCommandResultStatus.CANCELLED:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Command {command} failed with status {result.status.name} after"
                 f" {result.duration}"
             )

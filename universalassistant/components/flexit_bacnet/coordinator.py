@@ -10,7 +10,7 @@ from flexit_bacnet.bacnet import DecodingError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_DEVICE_ID, CONF_IP_ADDRESS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN
@@ -25,7 +25,7 @@ class FlexitCoordinator(DataUpdateCoordinator[FlexitBACnet]):
 
     config_entry: FlexitConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: FlexitConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: FlexitConfigEntry) -> None:
         """Initialize my coordinator."""
         super().__init__(
             hass,

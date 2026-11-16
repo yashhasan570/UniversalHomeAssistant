@@ -6,8 +6,8 @@ from typing import override
 from fullykiosk import FullyKioskError
 
 from universalassistant.components.notify import NotifyEntity, NotifyEntityDescription
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import FullyKioskConfigEntry, FullyKioskDataUpdateCoordinator
@@ -36,7 +36,7 @@ NOTIFIERS: tuple[FullyNotifyEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FullyKioskConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -71,4 +71,4 @@ class FullyNotifyEntity(FullyKioskEntity, NotifyEntity):
                 self.entity_description.cmd, text=message
             )
         except FullyKioskError as err:
-            raise __HAC_KEEP__Error(err) from err
+            raise UniversalAssistantError(err) from err

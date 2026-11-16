@@ -47,7 +47,7 @@
         "title": "Nest: Create a Device Access Project"
       },
       "oauth_discovery": {
-        "description": "__HA_KEEP__ has found a Google Nest device on your network. Be aware that the setup of Google Nest is more complicated than most other integrations and requires setting up a Nest Device Access project which **requires paying Google a US $5 fee**. Press **Submit** to continue setting up Google Nest."
+        "description": "Universal Home Assistant has found a Google Nest device on your network. Be aware that the setup of Google Nest is more complicated than most other integrations and requires setting up a Nest Device Access project which **requires paying Google a US $5 fee**. Press **Submit** to continue setting up Google Nest."
       },
       "pick_implementation": {
         "data": {
@@ -65,7 +65,7 @@
         "data_description": {
           "subscription_name": "The Pub/Sub subscription name to receive Nest device updates"
         },
-        "description": "__HA_KEEP__ receives realtime Nest device updates with a Cloud Pub/Sub subscription for topic `{topic}`.\n\nSelect an existing subscription below if one already exists, or the next step will create a new one for you. See the integration documentation for [more info]({more_info_url}).",
+        "description": "Universal Home Assistant receives realtime Nest device updates with a Cloud Pub/Sub subscription for topic `{topic}`.\n\nSelect an existing subscription below if one already exists, or the next step will create a new one for you. See the integration documentation for [more info]({more_info_url}).",
         "title": "Configure Cloud Pub/Sub subscription"
       },
       "pubsub_topic": {
@@ -152,7 +152,7 @@
   },
   "issues": {
     "legacy_pubsub_topic": {
-      "description": "Your Nest integration (**\"{entry_title}\"**) needs to be reconfigured before **November 30, 2026** to continue receiving realtime updates, camera events, and doorbell presses. It currently uses a legacy Google-hosted Cloud Pub/Sub topic that Google is retiring in favor of a Pub/Sub topic in your own Google Cloud project.\n\nTo update it, go to **Settings > Devices & services > Nest**, open the menu next to **\"{entry_title}\"**, and select **Reconfigure**. __HA_KEEP__ will create the new Pub/Sub topic in your Google Cloud project and guide you through updating the Nest Device Access Console.",
+      "description": "Your Nest integration (**\"{entry_title}\"**) needs to be reconfigured before **November 30, 2026** to continue receiving realtime updates, camera events, and doorbell presses. It currently uses a legacy Google-hosted Cloud Pub/Sub topic that Google is retiring in favor of a Pub/Sub topic in your own Google Cloud project.\n\nTo update it, go to **Settings > Devices & services > Nest**, open the menu next to **\"{entry_title}\"**, and select **Reconfigure**. Universal Home Assistant will create the new Pub/Sub topic in your Google Cloud project and guide you through updating the Nest Device Access Console.",
       "title": "Nest Pub/Sub topic must be migrated"
     },
     "pubsub_subscription_not_found": {

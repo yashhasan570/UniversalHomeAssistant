@@ -12,7 +12,7 @@ from zeroconf import BadTypeInNameException, DNSPointer, Zeroconf, current_time_
 from zeroconf.asyncio import AsyncServiceInfo, IPVersion
 
 from universalassistant.components import websocket_api
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.json import json_bytes
 
 from .const import DATA_DISCOVERY, DATA_INSTANCE, REQUEST_TIMEOUT
@@ -25,7 +25,7 @@ TYPE_PTR = 12
 
 
 @callback
-def async_setup(hass: __HAC_KEEP__) -> None:
+def async_setup(hass: UniversalAssistant) -> None:
     """Set up the zeroconf websocket API."""
     websocket_api.async_register_command(hass, ws_subscribe_discovery)
 
@@ -48,7 +48,7 @@ class _DiscoverySubscription:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         connection: websocket_api.ActiveConnection,
         ws_msg_id: int,
         aiozc: HaAsyncZeroconf,
@@ -151,7 +151,7 @@ class _DiscoverySubscription:
 )
 @websocket_api.async_response
 async def ws_subscribe_discovery(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle subscribe advertisements websocket command."""
     discovery = hass.data[DATA_DISCOVERY]

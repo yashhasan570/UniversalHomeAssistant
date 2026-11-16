@@ -7,7 +7,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_registry import EntityRegistry
 
 from .conftest import mock_websocket_connection
@@ -20,7 +20,7 @@ from .const import (
 
 
 async def test_async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     hass_client: ClientSessionGenerator,
     integration: None,
@@ -59,7 +59,7 @@ async def test_async_get_config_entry_diagnostics(
 
 
 async def test_async_get_config_entry_diagnostics_with_battery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry_a5: MockConfigEntry,
     mock_mozart_client: AsyncMock,

@@ -1,11 +1,11 @@
 """Custom exceptions for the Marketplace."""
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import DOMAIN
 
 
-class MarketplaceError(__HAC_KEEP__Error):
+class MarketplaceError(UniversalAssistantError):
     """The base of every error the Marketplace raises.
 
     With a translation key its message comes from the strings of the
@@ -101,7 +101,7 @@ class AppRepositoryError(MarketplaceError):
 
 
 class CoreRepositoryError(MarketplaceError):
-    """For the repository of __HA_KEEP__ itself."""
+    """For the repository of Universal Home Assistant itself."""
 
     def __init__(self) -> None:
         """Initialize the exception."""

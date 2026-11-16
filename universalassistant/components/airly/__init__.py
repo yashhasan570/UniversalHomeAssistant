@@ -4,7 +4,7 @@ import logging
 
 from universalassistant.components.air_quality import DOMAIN as AIR_QUALITY_DOMAIN
 from universalassistant.const import CONF_API_KEY, CONF_LATITUDE, CONF_LONGITUDE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -16,7 +16,7 @@ PLATFORMS = [Platform.SENSOR]
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: AirlyConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: AirlyConfigEntry) -> None:
     """Set up Airly as config entry."""
     api_key = entry.data[CONF_API_KEY]
     latitude = entry.data[CONF_LATITUDE]
@@ -77,6 +77,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: AirlyConfigEntry) -> None
         ent_reg.async_remove(entity_id)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: AirlyConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: AirlyConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

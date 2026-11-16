@@ -7,7 +7,7 @@ import probatio
 from switchbot_api import ArtFrameCommands
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv, service
 
@@ -67,7 +67,7 @@ async def handle_upload_image(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the SwitchBot Cloud services."""
     hass.services.async_register(
         DOMAIN,

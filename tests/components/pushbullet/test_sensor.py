@@ -11,7 +11,7 @@ from universalassistant.components.pushbullet.sensor import (
     PushBulletNotificationSensor,
 )
 from universalassistant.const import MAX_LENGTH_STATE_STATE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import MOCK_CONFIG
 
@@ -45,7 +45,7 @@ def _create_test_sensor(
 
 
 @pytest.fixture
-async def mock_pushbullet_entry(hass: __HAC_KEEP__, requests_mock_fixture):
+async def mock_pushbullet_entry(hass: UniversalAssistant, requests_mock_fixture):
     """Set up pushbullet integration."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -147,7 +147,7 @@ def test_sensor_truncation_non_string_handling() -> None:
     sensor.async_update_callback()
     assert sensor._attr_native_value is None
 
-    # Test with integer value (would be converted to string by __HA_KEEP__)
+    # Test with integer value (would be converted to string by Universal Home Assistant)
     provider.data = {
         "body": 12345,
         "title": "Test Title",

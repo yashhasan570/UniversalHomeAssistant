@@ -8,7 +8,7 @@ from rokuecp import Roku
 from rokuecp.models import Device as RokuDevice
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import RokuConfigEntry
@@ -106,7 +106,7 @@ CHANNEL_ENTITY = RokuSelectEntityDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: RokuConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

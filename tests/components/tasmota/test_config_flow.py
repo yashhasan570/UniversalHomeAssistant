@@ -6,13 +6,13 @@ from pytest_universalassistant.typing import MqttMockHAClient
 
 from universalassistant import config_entries
 from universalassistant.components.tasmota.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.mqtt import MqttServiceInfo
 
 
 async def test_mqtt_abort_if_existing_entry(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Check MQTT flow aborts when an entry already exist."""
     MockConfigEntry(domain=DOMAIN).add_to_hass(hass)
@@ -26,7 +26,7 @@ async def test_mqtt_abort_if_existing_entry(
 
 
 async def test_mqtt_abort_invalid_topic(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Check MQTT flow aborts if discovery topic is invalid."""
     discovery_info = MqttServiceInfo(
@@ -93,7 +93,7 @@ async def test_mqtt_abort_invalid_topic(
     assert result["type"] is FlowResultType.FORM
 
 
-async def test_mqtt_setup(hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient) -> None:
+async def test_mqtt_setup(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient) -> None:
     """Test we can finish a config flow through MQTT with custom prefix."""
     discovery_info = MqttServiceInfo(
         topic="tasmota/discovery/DC4F220848A2/config",
@@ -143,7 +143,7 @@ async def test_mqtt_setup(hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient) -> No
     ],
 )
 async def test_user_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
     user_input: dict[str, str],
     expected_prefix: str,
@@ -165,7 +165,7 @@ async def test_user_setup(
 
 
 async def test_user_setup_invalid_topic_prefix(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test abort on invalid discovery topic."""
     result = await hass.config_entries.flow.async_init(
@@ -188,7 +188,7 @@ async def test_user_setup_invalid_topic_prefix(
 
 
 async def test_user_single_instance(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test we only allow a single config flow."""
     MockConfigEntry(domain=DOMAIN).add_to_hass(hass)

@@ -13,7 +13,7 @@ from universalassistant.components.number import (
     NumberMode,
 )
 from universalassistant.const import UnitOfTime
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import NintendoParentalControlsConfigEntry, NintendoUpdateCoordinator
@@ -54,7 +54,7 @@ NUMBER_DESCRIPTIONS: tuple[NintendoParentalControlsNumberEntityDescription, ...]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: NintendoParentalControlsConfigEntry,
     async_add_devices: AddConfigEntryEntitiesCallback,
 ) -> None:

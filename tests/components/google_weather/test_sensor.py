@@ -30,7 +30,7 @@ from universalassistant.const import (
     UnitOfSpeed,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
@@ -38,7 +38,7 @@ from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_google_weather_api: AsyncMock,
@@ -52,7 +52,7 @@ async def test_sensor(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -95,7 +95,7 @@ async def test_availability(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_manual_update_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
 ) -> None:
@@ -120,7 +120,7 @@ async def test_manual_update_entity(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_imperial_units(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
 ) -> None:
@@ -153,7 +153,7 @@ async def test_sensor_imperial_units(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_state_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -181,7 +181,7 @@ async def test_state_update(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_auth_failure_during_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -207,7 +207,7 @@ async def test_auth_failure_during_update(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_missing_optional_fields(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
 ) -> None:

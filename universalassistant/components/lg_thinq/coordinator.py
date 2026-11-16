@@ -9,7 +9,7 @@ from thinqconnect import ThinQAPIException
 from thinqconnect.integration import HABridge, NotConnectedDeviceError
 
 from universalassistant.const import EVENT_CORE_CONFIG_UPDATE
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN, REVERSE_DEVICE_UNIT_TO_HA
@@ -26,7 +26,7 @@ class DeviceDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     config_entry: ThinqConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: ThinqConfigEntry, ha_bridge: HABridge
+        self, hass: UniversalAssistant, config_entry: ThinqConfigEntry, ha_bridge: HABridge
     ) -> None:
         """Initialize data coordinator."""
         super().__init__(
@@ -71,7 +71,7 @@ class DeviceDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             )
         )
         # Time of day for fetching the device's energy usage
-        # (randomly assigned when device is first created in __HA_KEEP__)
+        # (randomly assigned when device is first created in Universal Home Assistant)
         self.update_energy_at_time_of_day: time | None = None
 
     async def _handle_update_config(self, _: Event) -> None:
@@ -129,7 +129,7 @@ class DeviceDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
 
 async def async_setup_device_coordinator(
-    hass: __HAC_KEEP__, config_entry: ThinqConfigEntry, ha_bridge: HABridge
+    hass: UniversalAssistant, config_entry: ThinqConfigEntry, ha_bridge: HABridge
 ) -> DeviceDataUpdateCoordinator:
     """Create DeviceDataUpdateCoordinator and device_api per device."""
     coordinator = DeviceDataUpdateCoordinator(hass, config_entry, ha_bridge)

@@ -22,8 +22,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__, ServiceCall, State
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, ServiceCall, State
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.setup import async_setup_component
@@ -73,7 +73,7 @@ INSTALL_ACTION = make_test_action(
 
 @pytest.fixture
 async def setup_base(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     count: int,
     style: ConfigurationStyle,
     config: dict[str, Any],
@@ -84,7 +84,7 @@ async def setup_base(
 
 @pytest.fixture
 async def setup_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     count: int,
     style: ConfigurationStyle,
     installed_template: str,
@@ -107,7 +107,7 @@ async def setup_update(
 
 @pytest.fixture
 async def setup_single_attribute_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     installed_template: str,
     latest_template: str,
@@ -131,7 +131,7 @@ async def setup_single_attribute_update(
 
 
 async def test_setup_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test the config flow."""
@@ -157,7 +157,7 @@ async def test_setup_config_entry(
 
 
 async def test_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -213,7 +213,7 @@ async def test_device_id(
 )
 @pytest.mark.usefixtures("setup_update")
 async def test_syntax_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_state: str,
 ) -> None:
     """Test template update with render error."""
@@ -244,7 +244,7 @@ async def test_syntax_error(
 )
 @pytest.mark.usefixtures("setup_update")
 async def test_update_templates(
-    hass: __HAC_KEEP__, installed: str, latest: str, expected: str
+    hass: UniversalAssistant, installed: str, latest: str, expected: str
 ) -> None:
     """Test update template."""
     hass.states.async_set(TEST_INSTALLED_SENSOR, installed)
@@ -280,7 +280,7 @@ async def test_update_templates(
 )
 @pytest.mark.usefixtures("setup_update")
 async def test_installed_and_latest_template_updates_from_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test template installed and latest version templates updates from entities."""
     hass.states.async_set(TEST_INSTALLED_SENSOR, "1.0")
@@ -335,7 +335,7 @@ async def test_installed_and_latest_template_updates_from_entity(
 )
 @pytest.mark.usefixtures("setup_update")
 async def test_installed_version_template(
-    hass: __HAC_KEEP__, expected: str, expected_attr: Any
+    hass: UniversalAssistant, expected: str, expected_attr: Any
 ) -> None:
     """Test installed_version template results."""
     # Ensure trigger based template entities update
@@ -369,7 +369,7 @@ async def test_installed_version_template(
 )
 @pytest.mark.usefixtures("setup_update")
 async def test_latest_version_template(
-    hass: __HAC_KEEP__, expected: str, expected_attr: Any
+    hass: UniversalAssistant, expected: str, expected_attr: Any
 ) -> None:
     """Test latest_version template results."""
     # Ensure trigger based template entities update
@@ -397,7 +397,7 @@ async def test_latest_version_template(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 @pytest.mark.usefixtures("setup_update")
-async def test_install_action(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
+async def test_install_action(hass: UniversalAssistant, calls: list[ServiceCall]) -> None:
     """Test install action."""
 
     hass.states.async_set(TEST_INSTALLED_SENSOR, "1.0")
@@ -420,7 +420,7 @@ async def test_install_action(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> N
     await hass.async_block_till_done()
 
     # Ensure an error is raised when there's no update.
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             update.DOMAIN,
             update.SERVICE_INSTALL,
@@ -462,7 +462,7 @@ async def test_install_action(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> N
 )
 @pytest.mark.usefixtures("setup_single_attribute_update")
 async def test_entity_picture_and_icon_templates(
-    hass: __HAC_KEEP__, key: str, expected: str
+    hass: UniversalAssistant, key: str, expected: str
 ) -> None:
     """Test picture and icon template."""
     state = hass.states.async_set(TEST_INSTALLED_SENSOR, STATE_OFF)
@@ -496,7 +496,7 @@ async def test_entity_picture_and_icon_templates(
     ],
 )
 @pytest.mark.usefixtures("setup_single_attribute_update")
-async def test_entity_picture_uses_default(hass: __HAC_KEEP__) -> None:
+async def test_entity_picture_uses_default(hass: UniversalAssistant) -> None:
     """Test entity picture when template resolves None."""
     state = hass.states.async_set(TEST_INSTALLED_SENSOR, STATE_ON)
     await hass.async_block_till_done()
@@ -537,7 +537,7 @@ async def test_entity_picture_uses_default(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("setup_single_attribute_update")
 async def test_in_process_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     attribute: str,
     expected: Any,
     error: str | None,
@@ -579,7 +579,7 @@ async def test_in_process_template(
 )
 @pytest.mark.usefixtures("setup_single_attribute_update")
 async def test_release_summary_and_title_templates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     attribute: str,
     expected: Any,
 ) -> None:
@@ -629,7 +629,7 @@ async def test_release_summary_and_title_templates(
 )
 @pytest.mark.usefixtures("setup_single_attribute_update")
 async def test_release_url_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     attribute: str,
     expected: Any,
     error: str | None,
@@ -669,7 +669,7 @@ async def test_release_url_template(
 )
 @pytest.mark.usefixtures("setup_single_attribute_update")
 async def test_update_percent_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     attribute: str,
     expected: Any,
     error: str | None,
@@ -706,7 +706,7 @@ async def test_update_percent_template(
 )
 @pytest.mark.usefixtures("setup_single_attribute_update")
 async def test_optimistic_in_progress_with_update_percent_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test optimistic in_progress attribute with update percent templates."""
     # Ensure trigger entities trigger.
@@ -779,7 +779,7 @@ async def test_optimistic_in_progress_with_update_percent_template(
 )
 @pytest.mark.usefixtures("setup_update")
 async def test_supported_features(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supported_feature: update.UpdateEntityFeature,
     action_data: dict,
     calls: list[ServiceCall],
@@ -828,7 +828,7 @@ async def test_supported_features(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 @pytest.mark.usefixtures("setup_single_attribute_update")
-async def test_available_template_with_entities(hass: __HAC_KEEP__) -> None:
+async def test_available_template_with_entities(hass: UniversalAssistant) -> None:
     """Test availability templates with values from other entities."""
     hass.states.async_set(TEST_SENSOR_ID, STATE_ON)
     await hass.async_block_till_done()
@@ -865,7 +865,7 @@ async def test_available_template_with_entities(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("setup_single_attribute_update")
 async def test_invalid_availability_template_keeps_component_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     caplog_setup_text,
 ) -> None:
@@ -899,7 +899,7 @@ async def test_invalid_availability_template_keeps_component_available(
     ],
 )
 async def test_trigger_entity_restore_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     count: int,
     domain: str,
     config: dict,
@@ -948,7 +948,7 @@ async def test_trigger_entity_restore_state(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_unique_id(
-    hass: __HAC_KEEP__, style: ConfigurationStyle, config: ConfigType
+    hass: UniversalAssistant, style: ConfigurationStyle, config: ConfigType
 ) -> None:
     """Test unique_id option only creates one update entity per id."""
     await setup_and_test_unique_id(hass, TEST_UPDATE, style, config)
@@ -959,7 +959,7 @@ async def test_unique_id(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_nested_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     config: ConfigType,
     entity_registry: er.EntityRegistry,
@@ -971,7 +971,7 @@ async def test_nested_unique_id(
 
 
 async def test_flow_preview(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test the config flow preview."""
@@ -993,7 +993,7 @@ async def test_flow_preview(
 )
 @pytest.mark.parametrize("action", SCRIPT_FIELDS)
 async def test_invalid_yaml_actions_do_not_create_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     action: str,
     caplog: pytest.LogCaptureFixture,
@@ -1006,7 +1006,7 @@ async def test_invalid_yaml_actions_do_not_create_entities(
 
 @pytest.mark.parametrize("action", SCRIPT_FIELDS)
 async def test_invalid_config_entry_actions_do_not_create_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     action: str,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1020,7 +1020,7 @@ async def test_invalid_config_entry_actions_do_not_create_entities(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_extra_template_attributes(
-    hass: __HAC_KEEP__, style: ConfigurationStyle
+    hass: UniversalAssistant, style: ConfigurationStyle
 ) -> None:
     """Test extra attributes."""
     await assert_extra_template_attributes(
@@ -1039,7 +1039,7 @@ async def test_extra_template_attributes(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_blocked_template_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     attribute,
     caplog: pytest.LogCaptureFixture,
@@ -1064,7 +1064,7 @@ async def test_blocked_template_attributes(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1082,7 +1082,7 @@ async def test_attributes_template(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template_with_blocked_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     attribute: StrEnum | str,
     caplog: pytest.LogCaptureFixture,

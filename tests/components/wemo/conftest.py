@@ -9,7 +9,7 @@ import pywemo
 
 from universalassistant.components.wemo import CONF_DISCOVERY, CONF_STATIC
 from universalassistant.components.wemo.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -121,7 +121,7 @@ def wemo_entity_suffix_fixture() -> str:
 
 
 async def async_create_wemo_entity(
-    hass: __HAC_KEEP__, pywemo_device: pywemo.WeMoDevice, wemo_entity_suffix: str
+    hass: UniversalAssistant, pywemo_device: pywemo.WeMoDevice, wemo_entity_suffix: str
 ) -> er.RegistryEntry | None:
     """Create a hass entity for a wemo device."""
     assert await async_setup_component(
@@ -146,7 +146,7 @@ async def async_create_wemo_entity(
 
 @pytest.fixture(name="wemo_entity")
 async def async_wemo_entity_fixture(
-    hass: __HAC_KEEP__, pywemo_device: pywemo.WeMoDevice, wemo_entity_suffix: str
+    hass: UniversalAssistant, pywemo_device: pywemo.WeMoDevice, wemo_entity_suffix: str
 ) -> er.RegistryEntry | None:
     """Fixture for a Wemo entity in hass."""
     return await async_create_wemo_entity(hass, pywemo_device, wemo_entity_suffix)
@@ -154,7 +154,7 @@ async def async_wemo_entity_fixture(
 
 @pytest.fixture(name="wemo_dli_entity")
 async def async_wemo_dli_entity_fixture(
-    hass: __HAC_KEEP__, pywemo_dli_device: pywemo.WeMoDevice, wemo_entity_suffix: str
+    hass: UniversalAssistant, pywemo_dli_device: pywemo.WeMoDevice, wemo_entity_suffix: str
 ) -> er.RegistryEntry | None:
     """Fixture for a Wemo entity in hass."""
     return await async_create_wemo_entity(hass, pywemo_dli_device, wemo_entity_suffix)

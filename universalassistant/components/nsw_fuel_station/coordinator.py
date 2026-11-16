@@ -7,7 +7,7 @@ from typing import override
 
 from nsw_fuel import FuelCheckClient, FuelCheckError, Station
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 _LOGGER = logging.getLogger(__name__)
@@ -28,7 +28,7 @@ class NSWFuelStationCoordinator(DataUpdateCoordinator[StationPriceData]):
 
     config_entry: None
 
-    def __init__(self, hass: __HAC_KEEP__, client: FuelCheckClient) -> None:
+    def __init__(self, hass: UniversalAssistant, client: FuelCheckClient) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,

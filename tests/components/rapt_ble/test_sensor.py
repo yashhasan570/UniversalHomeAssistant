@@ -13,7 +13,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 
@@ -27,7 +27,7 @@ from . import (
 VELOCITY_ENTITY_ID = "sensor.rapt_pill_0666_specific_gravity_velocity"
 
 
-async def test_sensors(hass: __HAC_KEEP__) -> None:
+async def test_sensors(hass: UniversalAssistant) -> None:
     """Test setting up creates the sensors."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -84,7 +84,7 @@ async def test_sensors(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_specific_gravity_velocity_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     service_info: BluetoothServiceInfo,
     expected_state: str,

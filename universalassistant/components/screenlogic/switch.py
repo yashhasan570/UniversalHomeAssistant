@@ -7,7 +7,7 @@ from screenlogicpy.const.msg import CODE
 from screenlogicpy.device_const.circuit import GENERIC_CIRCUIT_NAMES, INTERFACE
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import LIGHT_CIRCUIT_FUNCTIONS
@@ -27,7 +27,7 @@ class ScreenLogicCircuitSwitchDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ScreenLogicConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

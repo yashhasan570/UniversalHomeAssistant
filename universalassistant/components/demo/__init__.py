@@ -11,7 +11,7 @@ from universalassistant.const import (
     Platform,
     UnitOfSoundPressure,
 )
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.discovery import async_load_platform
 from universalassistant.helpers.typing import ConfigType
@@ -67,7 +67,7 @@ __all__ = [
 ]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the demo environment."""
     hass.async_create_task(
         hass.config_entries.flow.async_init(
@@ -188,7 +188,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, config_entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, config_entry: ConfigEntry) -> None:
     """Set the config entry up."""
     # Set up demo platforms with config entry
     await hass.config_entries.async_forward_entry_setups(
@@ -196,14 +196,14 @@ async def async_setup_entry(hass: __HAC_KEEP__, config_entry: ConfigEntry) -> No
     )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, config_entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, config_entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(
         config_entry, COMPONENTS_WITH_CONFIG_ENTRY_DEMO_PLATFORM
     )
 
 
-async def finish_setup(hass: __HAC_KEEP__, config: ConfigType) -> None:
+async def finish_setup(hass: UniversalAssistant, config: ConfigType) -> None:
     """Finish set up once demo platforms are set up."""
     switches: list[str] | None = None
     lights: list[str] | None = None

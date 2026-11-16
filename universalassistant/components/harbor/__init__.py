@@ -3,14 +3,14 @@
 from harbor.config import HarborCameraConfig
 
 from universalassistant.const import CONF_IP_ADDRESS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import CONF_CERT_PEM, CONF_KEY_PEM, CONF_SERIAL, DOMAIN, PLATFORMS
 from .coordinator import HarborConfigEntry, HarborCoordinator
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: HarborConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: HarborConfigEntry) -> None:
     """Set up Harbor from a config entry."""
     coordinator = HarborCoordinator(
         hass,
@@ -35,7 +35,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: HarborConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: HarborConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: HarborConfigEntry) -> None:
     """Unload a Harbor config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await entry.runtime_data.async_shutdown()

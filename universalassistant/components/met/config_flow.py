@@ -17,7 +17,7 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     UnitOfLength,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.selector import (
     LocationSelector,
     LocationSelectorConfig,
@@ -51,7 +51,7 @@ STEP_USER_DATA_SCHEMA = probatio.Schema(
 
 
 @callback
-def configured_instances(hass: __HAC_KEEP__) -> set[str]:
+def configured_instances(hass: UniversalAssistant) -> set[str]:
     """Return a set of configured met.no instances."""
     entries = []
     for entry in hass.config_entries.async_entries(DOMAIN):

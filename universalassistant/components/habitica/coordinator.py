@@ -24,11 +24,11 @@ from habiticalib import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryNotReady,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     ServiceValidationError,
 )
 from universalassistant.helpers.debounce import Debouncer
@@ -65,7 +65,7 @@ class HabiticaBaseCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
     _update_interval: timedelta
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: HabiticaConfigEntry, habitica: Habitica
+        self, hass: UniversalAssistant, config_entry: HabiticaConfigEntry, habitica: Habitica
     ) -> None:
         """Initialize the Habitica data coordinator."""
         super().__init__(
@@ -168,7 +168,7 @@ class HabiticaDataUpdateCoordinator(HabiticaBaseCoordinator[HabiticaData]):
         try:
             await func(self.habitica)
         except TooManyRequestsError as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="setup_rate_limit_exception",
                 translation_placeholders={"retry_after": str(e.retry_after)},
@@ -179,13 +179,13 @@ class HabiticaDataUpdateCoordinator(HabiticaBaseCoordinator[HabiticaData]):
                 translation_key="service_call_unallowed",
             ) from e
         except HabiticaException as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="service_call_exception",
                 translation_placeholders={"reason": e.error.message},
             ) from e
         except ClientError as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="service_call_exception",
                 translation_placeholders={"reason": str(e)},

@@ -5,7 +5,7 @@ from typing import Any, Concatenate
 
 from huum.exceptions import HuumError, SafetyException
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -39,12 +39,12 @@ def huum_exception_handler[_EntityT: HuumBaseEntity, **_P](
         try:
             await func(self, *args, **kwargs)
         except SafetyException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="unable_to_turn_on",
             ) from err
         except HuumError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="communication_error",
             ) from err

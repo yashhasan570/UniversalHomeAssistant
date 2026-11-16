@@ -14,7 +14,7 @@ from universalassistant.components.media_source import (
     PlayMedia,
     Unresolvable,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from .const import DOMAIN
@@ -55,7 +55,7 @@ MEDIA_CLASS_MAP = {
 SEPARATOR = "/"
 
 
-async def async_get_media_source(hass: __HAC_KEEP__) -> XboxSource:
+async def async_get_media_source(hass: UniversalAssistant) -> XboxSource:
     """Set up Xbox media source."""
 
     return XboxSource(hass)
@@ -87,7 +87,7 @@ class XboxSource(MediaSource):
 
     name: str = "Xbox Game Media"
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize Xbox source."""
         super().__init__(DOMAIN)
         self.hass = hass

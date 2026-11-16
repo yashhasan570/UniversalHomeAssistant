@@ -11,7 +11,7 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CONF_SCAN_INTERVAL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.event import async_track_time_interval
@@ -38,7 +38,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Initialize the Mythic Beasts component."""
     domain = config[DOMAIN][CONF_DOMAIN]
     password = config[DOMAIN][CONF_PASSWORD]

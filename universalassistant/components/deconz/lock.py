@@ -7,7 +7,7 @@ from pydeconz.models.light.lock import Lock
 from pydeconz.models.sensor.door_lock import DoorLock
 
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN, LockEntity
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import DeconzConfigEntry
@@ -15,7 +15,7 @@ from .entity import DeconzDevice
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: DeconzConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

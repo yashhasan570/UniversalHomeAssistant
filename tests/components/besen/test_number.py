@@ -21,8 +21,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 
@@ -33,7 +33,7 @@ ENTITY_ID = "number.garage_charging_current"
 
 
 async def test_number_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -48,7 +48,7 @@ async def test_number_state(
 
 
 async def test_number_updates_from_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
 ) -> None:
@@ -65,7 +65,7 @@ async def test_number_updates_from_client(
 
 
 async def test_number_updates_on_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
 ) -> None:
@@ -90,7 +90,7 @@ async def test_number_updates_on_refresh(
     ],
 )
 async def test_number_unavailable_from_client_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
     available: bool,
@@ -112,7 +112,7 @@ async def test_number_unavailable_from_client_state(
 
 
 async def test_number_unknown_without_reported_current(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
 ) -> None:
@@ -135,7 +135,7 @@ async def test_number_unknown_without_reported_current(
     ],
 )
 async def test_number_maximum(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
     output_max_amps: int | None,
@@ -156,7 +156,7 @@ async def test_number_maximum(
 
 
 async def test_number_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
 ) -> None:
@@ -179,11 +179,11 @@ async def test_number_set_value(
 
 
 async def test_number_command_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
 ) -> None:
-    """Test command failures are translated to __HA_KEEP__ errors."""
+    """Test command failures are translated to Universal Home Assistant errors."""
 
     mock_besen_client.async_set_charge_amps = AsyncMock(
         side_effect=CommandFailed("failed")
@@ -191,7 +191,7 @@ async def test_number_command_failure(
 
     await setup_integration(hass, mock_config_entry, [Platform.NUMBER])
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,

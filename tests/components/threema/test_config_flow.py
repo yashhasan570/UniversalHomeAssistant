@@ -25,7 +25,7 @@ from universalassistant.components.threema.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_NAME, CONF_RECIPIENT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import MOCK_API_SECRET, MOCK_GATEWAY_ID, MOCK_RECIPIENT_ID
@@ -41,7 +41,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 async def test_user_flow_existing_gateway(
-    hass: __HAC_KEEP__, mock_credentials: AsyncMock
+    hass: UniversalAssistant, mock_credentials: AsyncMock
 ) -> None:
     """Test user flow with existing gateway credentials."""
     result = await hass.config_entries.flow.async_init(
@@ -74,7 +74,7 @@ async def test_user_flow_existing_gateway(
 
 
 async def test_user_flow_existing_with_keys(
-    hass: __HAC_KEEP__, mock_credentials: AsyncMock
+    hass: UniversalAssistant, mock_credentials: AsyncMock
 ) -> None:
     """Test user flow with existing gateway including optional private key."""
     result = await hass.config_entries.flow.async_init(
@@ -105,7 +105,7 @@ async def test_user_flow_existing_with_keys(
 
 
 async def test_user_flow_new_gateway(
-    hass: __HAC_KEEP__, mock_credentials: AsyncMock
+    hass: UniversalAssistant, mock_credentials: AsyncMock
 ) -> None:
     """Test user flow with new gateway (key generation)."""
     generated_private_key = "0" * 64
@@ -148,7 +148,7 @@ async def test_user_flow_new_gateway(
     assert result["result"].unique_id == MOCK_GATEWAY_ID
 
 
-async def test_user_flow_key_generation_failure(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_key_generation_failure(hass: UniversalAssistant) -> None:
     """Test user flow aborts when key generation fails."""
     with patch(
         "universalassistant.components.threema.config_flow.generate_key_pair",
@@ -169,7 +169,7 @@ async def test_user_flow_key_generation_failure(hass: __HAC_KEEP__) -> None:
 
 
 async def test_credentials_invalid_gateway_id(
-    hass: __HAC_KEEP__, mock_credentials: AsyncMock
+    hass: UniversalAssistant, mock_credentials: AsyncMock
 ) -> None:
     """Test credentials step with invalid Gateway ID."""
     result = await hass.config_entries.flow.async_init(
@@ -233,7 +233,7 @@ async def test_credentials_invalid_gateway_id(
     ids=["wrong_length", "non_hex"],
 )
 async def test_credentials_invalid_private_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_credentials: AsyncMock,
     invalid_key: str,
 ) -> None:
@@ -281,7 +281,7 @@ async def test_credentials_invalid_private_key(
     ids=["lower", "upper"],
 )
 async def test_credentials_private_key_prefix_stripped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_credentials: AsyncMock,
     prefixed_key: str,
 ) -> None:
@@ -314,7 +314,7 @@ async def test_credentials_private_key_prefix_stripped(
 
 
 async def test_credentials_public_key_in_private_key_field_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_credentials: AsyncMock,
 ) -> None:
     """Test a 'public:'-prefixed key pasted into the private-key field is rejected."""
@@ -351,7 +351,7 @@ async def test_credentials_public_key_in_private_key_field_rejected(
 
 
 async def test_credentials_private_key_in_public_key_field_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_credentials: AsyncMock,
 ) -> None:
     """Test a 'private:'-prefixed key pasted into the public-key field is rejected."""
@@ -390,7 +390,7 @@ async def test_credentials_private_key_in_public_key_field_rejected(
 
 
 async def test_credentials_public_key_without_private_key_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_credentials: AsyncMock,
 ) -> None:
     """Test a public key given alone (no private key) is rejected, not discarded."""
@@ -427,7 +427,7 @@ async def test_credentials_public_key_without_private_key_rejected(
 
 
 async def test_credentials_public_key_matches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_credentials: AsyncMock,
 ) -> None:
     """Test a public key matching the private key is accepted and not stored."""
@@ -461,7 +461,7 @@ async def test_credentials_public_key_matches(
 
 
 async def test_credentials_public_key_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_credentials: AsyncMock,
 ) -> None:
     """Test a public key that does not match the private key is rejected."""
@@ -501,7 +501,7 @@ async def test_credentials_public_key_mismatch(
 
 
 async def test_credentials_public_key_invalid_hex(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_credentials: AsyncMock,
 ) -> None:
     """Test a malformed public key is rejected."""
@@ -542,7 +542,7 @@ async def test_credentials_public_key_invalid_hex(
 
 @pytest.mark.usefixtures("mock_credentials")
 async def test_credentials_invalid_private_key_preserves_other_fields(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test gateway ID and API secret stay filled in after an invalid key error."""
     result = await hass.config_entries.flow.async_init(
@@ -586,7 +586,7 @@ async def test_credentials_invalid_private_key_preserves_other_fields(
 
 
 async def test_credentials_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_credentials: AsyncMock,
 ) -> None:
@@ -625,7 +625,7 @@ async def test_credentials_already_configured(
     ids=["cannot_connect", "server_error_non_auth", "invalid_auth", "unknown_error"],
 )
 async def test_credentials_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_credentials: AsyncMock,
     side_effect: Exception,
     expected_error: str,
@@ -666,7 +666,7 @@ async def test_credentials_error(
 
 
 async def test_subentry_add_recipient(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_credentials: AsyncMock,
 ) -> None:
@@ -692,7 +692,7 @@ async def test_subentry_add_recipient(
 
 
 async def test_subentry_add_recipient_with_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_credentials: AsyncMock,
 ) -> None:
@@ -721,7 +721,7 @@ async def test_subentry_add_recipient_with_name(
     ids=["too_short", "special_chars", "empty"],
 )
 async def test_subentry_invalid_recipient_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_credentials: AsyncMock,
     invalid_id: str,
@@ -749,7 +749,7 @@ async def test_subentry_invalid_recipient_id(
 
 
 async def test_subentry_duplicate_recipient(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_credentials: AsyncMock,
 ) -> None:
@@ -771,7 +771,7 @@ async def test_subentry_duplicate_recipient(
 
 
 async def test_reauth_flow_success_before_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_credentials: AsyncMock,
 ) -> None:
@@ -800,7 +800,7 @@ async def test_reauth_flow_success_before_setup(
 
 
 async def test_reauth_flow_success_while_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_credentials: AsyncMock,
     mock_setup_entry: AsyncMock,
@@ -836,7 +836,7 @@ async def test_reauth_flow_success_while_loaded(
     ids=["invalid_auth", "cannot_connect", "unknown"],
 )
 async def test_reauth_flow_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_credentials: AsyncMock,
     side_effect: Exception,

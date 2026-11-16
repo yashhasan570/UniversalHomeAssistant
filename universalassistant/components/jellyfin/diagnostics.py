@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import JellyfinConfigEntry
 
@@ -12,7 +12,7 @@ TO_REDACT = {CONF_PASSWORD}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: JellyfinConfigEntry
+    hass: UniversalAssistant, entry: JellyfinConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data

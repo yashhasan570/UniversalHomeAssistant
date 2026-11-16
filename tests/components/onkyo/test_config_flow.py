@@ -17,7 +17,7 @@ from universalassistant.components.onkyo.const import (
 )
 from universalassistant.config_entries import SOURCE_IGNORE, SOURCE_USER
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_FRIENDLY_NAME,
@@ -36,7 +36,7 @@ def mock_setup_entry(mock_setup_entry) -> None:
     """Use async_setup_entry fixture in all tests."""
 
 
-async def test_manual(hass: __HAC_KEEP__) -> None:
+async def test_manual(hass: UniversalAssistant) -> None:
     """Test successful manual."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -83,7 +83,7 @@ async def test_manual(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_manual_recoverable_error(
-    hass: __HAC_KEEP__, mock_discovery: AbstractContextManager, error_reason: str
+    hass: UniversalAssistant, mock_discovery: AbstractContextManager, error_reason: str
 ) -> None:
     """Test manual with a recoverable error."""
     result = await hass.config_entries.flow.async_init(
@@ -132,7 +132,7 @@ async def test_manual_recoverable_error(
 
 
 async def test_manual_error(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test manual with an error."""
     await setup_integration(hass, mock_config_entry)
@@ -160,7 +160,7 @@ async def test_manual_error(
 
 
 async def test_eiscp_discovery(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test successful eiscp discovery."""
     await setup_integration(hass, mock_config_entry)
@@ -215,7 +215,7 @@ async def test_eiscp_discovery(
     ],
 )
 async def test_eiscp_discovery_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_discovery: AbstractContextManager,
     error_reason: str,
@@ -240,7 +240,7 @@ async def test_eiscp_discovery_error(
 
 
 async def test_eiscp_discovery_replace_ignored_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test eiscp discovery can replace an ignored config entry."""
     mock_config_entry.source = SOURCE_IGNORE
@@ -291,7 +291,7 @@ async def test_eiscp_discovery_replace_ignored_entry(
 
 
 async def test_ssdp_discovery(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test successful SSDP discovery."""
     await setup_integration(hass, mock_config_entry)
@@ -342,7 +342,7 @@ async def test_ssdp_discovery(
     ],
 )
 async def test_ssdp_discovery_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     ssdp_location: str | None,
     mock_discovery: AbstractContextManager,
@@ -368,7 +368,7 @@ async def test_ssdp_discovery_error(
     assert result["reason"] == error_reason
 
 
-async def test_configure(hass: __HAC_KEEP__) -> None:
+async def test_configure(hass: UniversalAssistant) -> None:
     """Test receiver configure."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -439,7 +439,7 @@ async def test_configure(hass: __HAC_KEEP__) -> None:
 
 
 async def test_reconfigure(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test successful reconfigure flow."""
     await setup_integration(hass, mock_config_entry)
@@ -475,7 +475,7 @@ async def test_reconfigure(
 
 
 async def test_reconfigure_error(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow with an error."""
     await setup_integration(hass, mock_config_entry)
@@ -512,7 +512,7 @@ async def test_reconfigure_error(
     ],
 )
 async def test_options_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test options flow."""
     await setup_integration(hass, mock_config_entry)

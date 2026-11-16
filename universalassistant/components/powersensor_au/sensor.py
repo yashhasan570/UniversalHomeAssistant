@@ -34,7 +34,7 @@ from universalassistant.const import (
     UnitOfVolume,
     UnitOfVolumeFlowRate,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.dispatcher import (
@@ -437,7 +437,7 @@ class PowersensorVirtualHouseholdState:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: PowersensorConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

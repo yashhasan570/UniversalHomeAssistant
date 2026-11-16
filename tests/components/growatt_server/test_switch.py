@@ -24,8 +24,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 DOMAIN = "growatt_server"
@@ -43,7 +43,7 @@ async def switch_only() -> AsyncGenerator[None]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_switch_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -61,7 +61,7 @@ async def test_switch_entities(
     ],
 )
 async def test_switch_service_call_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_v1_api,
     service: str,
     expected_value: int,
@@ -86,7 +86,7 @@ async def test_switch_service_call_success(
     [SERVICE_TURN_ON, SERVICE_TURN_OFF],
 )
 async def test_switch_service_call_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_v1_api,
     service: str,
 ) -> None:
@@ -98,7 +98,7 @@ async def test_switch_service_call_api_error(
         error_msg="API Error",
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as excinfo:
+    with pytest.raises(UniversalAssistantError) as excinfo:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             service,
@@ -115,7 +115,7 @@ async def test_switch_service_call_api_error(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switch_state_handling_integer_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_growatt_v1_api,
     freezer: FrozenDateTimeFactory,
@@ -150,7 +150,7 @@ async def test_switch_state_handling_integer_values(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switch_missing_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_v1_api,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -174,7 +174,7 @@ async def test_switch_missing_data(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_no_switch_entities_for_non_min_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_v1_api,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -208,7 +208,7 @@ async def test_no_switch_entities_for_non_min_devices(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_no_switch_entities_for_classic_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_classic_api,
     mock_config_entry_classic: MockConfigEntry,
     entity_registry: er.EntityRegistry,

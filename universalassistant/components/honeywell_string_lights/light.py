@@ -7,7 +7,7 @@ from rf_protocols.codes.honeywell.string_lights import CODES
 from universalassistant.components.light import ColorMode, LightEntity
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
 
@@ -18,7 +18,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

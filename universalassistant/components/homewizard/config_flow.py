@@ -21,9 +21,9 @@ import probatio
 from universalassistant.components import onboarding
 from universalassistant.config_entries import SOURCE_USER, ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_IP_ADDRESS, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import AbortFlow
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import instance_id
 from universalassistant.helpers.selector import TextSelector
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -169,7 +169,7 @@ class HomeWizardConfigFlow(ConfigFlow, domain=DOMAIN):
             updates={CONF_IP_ADDRESS: discovery_info.ip}
         )
 
-        # This situation should never happen, as __HA_KEEP__ will only
+        # This situation should never happen, as Universal Home Assistant will only
         # send updates for existing entries. In case it does, we'll just
         # abort the flow with an unknown error.
         return self.async_abort(reason="unknown")
@@ -358,7 +358,7 @@ async def async_try_connect(ip_address: str, token: str | None = None) -> Device
         await energy_api.close()
 
 
-async def async_request_token(hass: __HAC_KEEP__, ip_address: str) -> str | None:
+async def async_request_token(hass: UniversalAssistant, ip_address: str) -> str | None:
     """Try to request a token from the device.
 
     This method is used to request a token from the device,
@@ -379,7 +379,7 @@ async def async_request_token(hass: __HAC_KEEP__, ip_address: str) -> str | None
         await api.close()
 
 
-class RecoverableError(__HAC_KEEP__Error):
+class RecoverableError(UniversalAssistantError):
     """Raised when a connection has been failed but can be retried."""
 
     def __init__(self, message: str, error_code: str) -> None:

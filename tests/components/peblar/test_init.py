@@ -9,12 +9,12 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.peblar.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_peblar: MagicMock,
 ) -> None:
@@ -51,7 +51,7 @@ async def test_load_unload_config_entry(
     ],
 )
 async def test_config_entry_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_peblar: MagicMock,
     exception: Exception,
@@ -76,7 +76,7 @@ async def test_config_entry_not_ready(
 
 
 async def test_config_entry_authentication_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_peblar: MagicMock,
 ) -> None:

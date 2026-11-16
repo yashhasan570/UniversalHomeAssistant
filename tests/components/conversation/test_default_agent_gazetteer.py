@@ -31,7 +31,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.helpers import (
     area_registry as ar,
     chat_session,
@@ -59,7 +59,7 @@ def _outdated(agent: default_agent.DefaultAgent) -> bool:
 
 @pytest.fixture
 def home(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
 ) -> ar.AreaEntry:
@@ -99,7 +99,7 @@ def home(
 
 
 @pytest.mark.usefixtures("init_components", "home")
-async def test_recognizes_a_misheard_name(hass: __HAC_KEEP__) -> None:
+async def test_recognizes_a_misheard_name(hass: UniversalAssistant) -> None:
     """Test a name hassil cannot resolve is matched by the gazetteer."""
     calls = async_mock_service(hass, "light", "turn_on")
     agent = conversation.async_get_agent(hass)
@@ -127,7 +127,7 @@ async def test_recognizes_a_misheard_name(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("init_components", "home")
-async def test_response_uses_display_names(hass: __HAC_KEEP__) -> None:
+async def test_response_uses_display_names(hass: UniversalAssistant) -> None:
     """Test the spoken response names the target instead of reading out its id."""
     result = await conversation.async_converse(
         hass, "what is the state of the bedrom blinds", None, Context(), None
@@ -140,7 +140,7 @@ async def test_response_uses_display_names(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("init_components", "home")
 async def test_handles_every_frame_of_a_coordinated_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a sentence holding two commands runs both, and answers for both."""
     turn_off = async_mock_service(hass, "light", "turn_off")
@@ -165,7 +165,7 @@ async def test_handles_every_frame_of_a_coordinated_command(
 
 
 @pytest.mark.usefixtures("init_components", "home")
-async def test_refusal_names_the_target(hass: __HAC_KEEP__) -> None:
+async def test_refusal_names_the_target(hass: UniversalAssistant) -> None:
     """Test a refusal that resolved a target explains itself."""
     result = await conversation.async_converse(
         hass, "write a poem about my kitchen lights", None, Context(), None
@@ -181,9 +181,9 @@ async def test_refusal_names_the_target(hass: __HAC_KEEP__) -> None:
     "text", ["asdfgh", "do something", "asdfgh it", "do something with it"]
 )
 async def test_refusal_that_explains_nothing_keeps_the_default_error(
-    hass: __HAC_KEEP__, text: str
+    hass: UniversalAssistant, text: str
 ) -> None:
-    """Test noise still gets __HA_KEEP__'s own translated error.
+    """Test noise still gets Universal Home Assistant's own translated error.
 
     A pronoun is tagged wherever it appears, so noise carrying one must not be
     taken for a follow-up the matcher understood.
@@ -198,7 +198,7 @@ async def test_refusal_that_explains_nothing_keeps_the_default_error(
 
 
 @pytest.mark.usefixtures("init_components", "home")
-async def test_not_used_when_prefer_local_intents(hass: __HAC_KEEP__) -> None:
+async def test_not_used_when_prefer_local_intents(hass: UniversalAssistant) -> None:
     """Test the gazetteer does not answer on the prefer-local-intents path."""
     calls = async_mock_service(hass, "light", "turn_on")
     agent = conversation.async_get_agent(hass)
@@ -223,7 +223,7 @@ async def test_not_used_when_prefer_local_intents(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("init_components", "home")
-async def test_not_used_for_other_languages(hass: __HAC_KEEP__) -> None:
+async def test_not_used_for_other_languages(hass: UniversalAssistant) -> None:
     """Test the matcher's English vocabulary is not applied to other languages."""
     calls = async_mock_service(hass, "light", "turn_on")
 
@@ -238,7 +238,7 @@ async def test_not_used_for_other_languages(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures("init_components", "home")
 @pytest.mark.parametrize("text", ["close them", "close them again", "close it now"])
 async def test_follow_up_pronoun_reuses_the_previous_target(
-    hass: __HAC_KEEP__, text: str
+    hass: UniversalAssistant, text: str
 ) -> None:
     """Test a follow-up pronoun refers to what the last successful turn targeted."""
     async_mock_service(hass, "cover", "open_cover")
@@ -261,7 +261,7 @@ async def test_follow_up_pronoun_reuses_the_previous_target(
 @pytest.mark.usefixtures("init_components", "home")
 @pytest.mark.parametrize("text", ["set it to red", "how hot is it"])
 async def test_a_pronoun_the_matcher_leaves_alone_is_not_a_follow_up(
-    hass: __HAC_KEEP__, text: str
+    hass: UniversalAssistant, text: str
 ) -> None:
     """Test "it" the matcher never resolved does not displace hassil's error.
 
@@ -287,7 +287,7 @@ async def test_a_pronoun_the_matcher_leaves_alone_is_not_a_follow_up(
     ],
 )
 async def test_an_unplaceable_pronoun_explains_itself(
-    hass: __HAC_KEEP__, text: str, expected: str
+    hass: UniversalAssistant, text: str, expected: str
 ) -> None:
     """Test a follow-up with nothing behind it is answered about the pronoun.
 
@@ -302,7 +302,7 @@ async def test_an_unplaceable_pronoun_explains_itself(
 
 @pytest.mark.usefixtures("init_components", "home")
 async def test_a_pronoun_refused_over_the_action_names_the_target(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test an action the antecedent cannot take is refused by naming it."""
     async_mock_service(hass, "light", "turn_on")
@@ -325,7 +325,7 @@ async def test_a_pronoun_refused_over_the_action_names_the_target(
 
 @pytest.mark.usefixtures("init_components", "home")
 async def test_them_reaches_every_target_a_coordinated_command_named(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test "them" after two commands in one sentence acts on both targets."""
     async_mock_service(hass, "cover", "open_cover")
@@ -348,7 +348,7 @@ async def test_them_reaches_every_target_a_coordinated_command_named(
 
 
 @pytest.mark.usefixtures("init_components", "home")
-async def test_it_is_refused_after_a_coordinated_command(hass: __HAC_KEEP__) -> None:
+async def test_it_is_refused_after_a_coordinated_command(hass: UniversalAssistant) -> None:
     """Test "it" names one thing, and two were named, so it picks out nothing."""
     async_mock_service(hass, "cover", "open_cover")
     close_cover = async_mock_service(hass, "cover", "close_cover")
@@ -371,7 +371,7 @@ async def test_it_is_refused_after_a_coordinated_command(hass: __HAC_KEEP__) -> 
 
 
 @pytest.mark.usefixtures("init_components", "home")
-async def test_them_acts_on_every_target_or_on_none(hass: __HAC_KEEP__) -> None:
+async def test_them_acts_on_every_target_or_on_none(hass: UniversalAssistant) -> None:
     """Test one target the action cannot apply to holds back the rest."""
     async_mock_service(hass, "light", "turn_off")
     open_cover = async_mock_service(hass, "cover", "open_cover")
@@ -397,7 +397,7 @@ async def test_them_acts_on_every_target_or_on_none(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("init_components", "home")
 async def test_home_follows_the_registries(
-    hass: __HAC_KEEP__, area_registry: ar.AreaRegistry
+    hass: UniversalAssistant, area_registry: ar.AreaRegistry
 ) -> None:
     """Test a renamed area is resolvable without restarting."""
     calls = async_mock_service(hass, "light", "turn_on")
@@ -415,7 +415,7 @@ async def test_home_follows_the_registries(
 
 
 @pytest.mark.usefixtures("init_components", "home")
-async def test_hassil_matches_are_left_alone(hass: __HAC_KEEP__) -> None:
+async def test_hassil_matches_are_left_alone(hass: UniversalAssistant) -> None:
     """Test a sentence hassil recognizes never reaches the gazetteer."""
     calls = async_mock_service(hass, "light", "turn_on")
     agent = conversation.async_get_agent(hass)
@@ -434,7 +434,7 @@ async def test_hassil_matches_are_left_alone(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("init_components", "home")
 async def test_unexposed_entities_are_not_targets(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the gazetteer only resolves names exposed to conversation."""
     entry = entity_registry.async_get_or_create("light", "demo", "hidden")
@@ -457,7 +457,7 @@ async def test_unexposed_entities_are_not_targets(
 
 
 @pytest.mark.usefixtures("init_components", "home")
-async def test_declines_a_frame_it_cannot_answer(hass: __HAC_KEEP__) -> None:
+async def test_declines_a_frame_it_cannot_answer(hass: UniversalAssistant) -> None:
     """Test a frame the matcher cannot answer is left to hassil."""
     calls = async_mock_service(hass, "light", "turn_on")
     real_interpret = GazetteerMatcher.interpret
@@ -487,7 +487,7 @@ async def test_declines_a_frame_it_cannot_answer(hass: __HAC_KEEP__) -> None:
     ids=["how_many", "any"],
 )
 async def test_wording_picks_between_identical_frames(
-    hass: __HAC_KEEP__, text: str, speech: str
+    hass: UniversalAssistant, text: str, speech: str
 ) -> None:
     """Test the frame's own response key tells identical frames apart."""
     result = await conversation.async_converse(hass, text, None, Context(), None)
@@ -497,7 +497,7 @@ async def test_wording_picks_between_identical_frames(
 
 
 @pytest.mark.usefixtures("init_components", "home")
-async def test_pronoun_follows_a_turn_hassil_answered(hass: __HAC_KEEP__) -> None:
+async def test_pronoun_follows_a_turn_hassil_answered(hass: UniversalAssistant) -> None:
     """Test "open it" refers to what the previous hassil turn was about."""
     calls = async_mock_service(hass, "cover", "open_cover")
     agent = conversation.async_get_agent(hass)
@@ -521,7 +521,7 @@ async def test_pronoun_follows_a_turn_hassil_answered(hass: __HAC_KEEP__) -> Non
 
 @pytest.mark.usefixtures("init_components", "home")
 async def test_pronoun_follows_the_area_a_turn_named(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test "them" reuses the area a command scoped to, not what it resolved to."""
     second = "light.kitchen_lamp"
@@ -568,7 +568,7 @@ async def test_pronoun_follows_the_area_a_turn_named(
 
 
 @pytest.mark.usefixtures("init_components", "home")
-async def test_a_failed_turn_leaves_the_antecedent_alone(hass: __HAC_KEEP__) -> None:
+async def test_a_failed_turn_leaves_the_antecedent_alone(hass: UniversalAssistant) -> None:
     """Test a sentence nobody recognized does not strand a following pronoun."""
     calls = async_mock_service(hass, "cover", "open_cover")
 
@@ -592,7 +592,7 @@ async def test_a_failed_turn_leaves_the_antecedent_alone(hass: __HAC_KEEP__) -> 
 
 @pytest.mark.usefixtures("init_components", "home")
 async def test_a_turn_with_no_target_clears_the_antecedent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a successful turn that targeted nothing clears the antecedent."""
     calls = async_mock_service(hass, "cover", "open_cover")
@@ -617,7 +617,7 @@ async def test_a_turn_with_no_target_clears_the_antecedent(
 
 @pytest.mark.usefixtures("init_components", "home")
 async def test_them_reopens_the_area_a_cover_command_named(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test "open them" after an area command acts on that area again."""
     async_mock_service(hass, "cover", "close_cover")
@@ -638,7 +638,7 @@ async def test_them_reopens_the_area_a_cover_command_named(
 
 @pytest.mark.usefixtures("home")
 async def test_a_custom_sentence_still_leaves_an_antecedent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a phrasing only hassil knows is still something "it" can refer to."""
     assert await async_setup_component(hass, "universalassistant", {})
@@ -675,8 +675,8 @@ async def test_a_custom_sentence_still_leaves_an_antecedent(
             "Turned off the lights. Garage door is closed.",
         ),
         (
-            ["Hello from __HA_KEEP__.", "Opening"],
-            "Hello from __HA_KEEP__. Opening.",
+            ["Hello from Universal Home Assistant.", "Opening"],
+            "Hello from Universal Home Assistant. Opening.",
         ),
         (["Opening", "", "  "], "Opening."),
         (
@@ -706,7 +706,7 @@ def test_join_speech(parts: list[str], expected: str) -> None:
 
 @pytest.mark.usefixtures("init_components", "home")
 async def test_an_antecedent_lasts_as_long_as_its_conversation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test what a conversation was about is dropped when the conversation ends."""
     agent = conversation.async_get_agent(hass)
@@ -737,7 +737,7 @@ async def test_an_antecedent_lasts_as_long_as_its_conversation(
 
 @pytest.mark.usefixtures("init_components", "home")
 async def test_an_area_that_vanished_mid_request_is_retried_unplaced(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -783,7 +783,7 @@ async def test_an_area_that_vanished_mid_request_is_retried_unplaced(
 
 @pytest.mark.usefixtures("init_components", "home")
 async def test_the_home_is_built_off_the_event_loop(
-    hass: __HAC_KEEP__, area_registry: ar.AreaRegistry
+    hass: UniversalAssistant, area_registry: ar.AreaRegistry
 ) -> None:
     """Test building the matcher does not block the event loop."""
     off_loop: list[bool] = []
@@ -822,7 +822,7 @@ async def test_the_home_is_built_off_the_event_loop(
 
 @pytest.mark.usefixtures("init_components", "home")
 async def test_a_change_during_a_rebuild_is_not_lost(
-    hass: __HAC_KEEP__, area_registry: ar.AreaRegistry
+    hass: UniversalAssistant, area_registry: ar.AreaRegistry
 ) -> None:
     """Test a registry change arriving mid-rebuild still outdates the home.
 
@@ -867,7 +867,7 @@ async def test_a_change_during_a_rebuild_is_not_lost(
 
 
 async def test_an_antecedent_needs_a_session_to_belong_to(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test nothing is kept for a turn with no session to end it."""
     fallback = GazetteerFallback(hass)
@@ -879,7 +879,7 @@ async def test_an_antecedent_needs_a_session_to_belong_to(
 
 @pytest.mark.usefixtures("init_components", "home")
 async def test_a_rebuild_that_fails_leaves_the_home_out_of_date(
-    hass: __HAC_KEEP__, area_registry: ar.AreaRegistry
+    hass: UniversalAssistant, area_registry: ar.AreaRegistry
 ) -> None:
     """Test a rebuild that did not finish is tried again rather than given up on."""
     agent = conversation.async_get_agent(hass)
@@ -940,7 +940,7 @@ async def test_a_rebuild_that_fails_leaves_the_home_out_of_date(
     ],
 )
 async def test_what_outdates_the_home(
-    hass: __HAC_KEEP__, registry: str, event: dict[str, Any], outdated: bool
+    hass: UniversalAssistant, registry: str, event: dict[str, Any], outdated: bool
 ) -> None:
     """Test the registry events that change what an entity is called or where."""
     agent = conversation.async_get_agent(hass)
@@ -956,7 +956,7 @@ async def test_what_outdates_the_home(
 
 @pytest.mark.usefixtures("init_components", "home")
 async def test_an_entity_with_no_aliases_is_not_a_target(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test an entity nobody has given a name to is not something to act on."""
     entry = entity_registry.async_get_or_create(
@@ -971,7 +971,7 @@ async def test_an_entity_with_no_aliases_is_not_a_target(
 
 @pytest.mark.usefixtures("init_components", "home")
 async def test_the_home_is_built_once_for_concurrent_sentences(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test sentences arriving together do not each build a matcher."""
     async_mock_service(hass, "light", "turn_on")
@@ -1000,7 +1000,7 @@ async def test_the_home_is_built_once_for_concurrent_sentences(
 
 
 @pytest.mark.usefixtures("home")
-async def test_a_custom_sentence_keeps_its_own_error(hass: __HAC_KEEP__) -> None:
+async def test_a_custom_sentence_keeps_its_own_error(hass: UniversalAssistant) -> None:
     """Test a sentence somebody wrote themselves is not answered by the gazetteer.
 
     hassil matched it to the intent it was written for and only the target failed,

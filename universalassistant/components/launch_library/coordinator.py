@@ -8,7 +8,7 @@ from pylaunches import PyLaunches, PyLaunchesError
 from pylaunches.types import Launch, StarshipResponse
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -34,7 +34,7 @@ class LaunchLibraryCoordinator(DataUpdateCoordinator[LaunchLibraryData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: LaunchLibraryConfigEntry,
     ) -> None:
         """Initialize the coordinator."""

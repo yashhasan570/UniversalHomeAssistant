@@ -12,7 +12,7 @@ from aioairzone_cloud.const import (
 )
 
 from universalassistant.const import CONF_ID, CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import aiohttp_client, device_registry as dr
 
 from .const import DOMAIN, MANUFACTURER
@@ -29,7 +29,7 @@ PLATFORMS: list[Platform] = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: AirzoneCloudConfigEntry
+    hass: UniversalAssistant, entry: AirzoneCloudConfigEntry
 ) -> None:
     """Set up Airzone Cloud from a config entry."""
     options = ConnectionOptions(
@@ -58,7 +58,7 @@ async def async_setup_entry(
 
 @callback
 def _async_register_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: AirzoneCloudConfigEntry,
     coordinator: AirzoneUpdateCoordinator,
 ) -> None:
@@ -97,7 +97,7 @@ def _async_register_devices(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: AirzoneCloudConfigEntry
+    hass: UniversalAssistant, entry: AirzoneCloudConfigEntry
 ) -> None:
     """Unload a config entry."""
 

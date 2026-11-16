@@ -34,7 +34,7 @@ from zigpy.typing import (
 
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN
 from universalassistant.const import ATTR_COMMAND, Platform
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service import (
@@ -422,7 +422,7 @@ LOCK_SET_USER_CODE_SCHEMA: VolDictType = {
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the ZHA services."""
     async_register_admin_service(
         hass,

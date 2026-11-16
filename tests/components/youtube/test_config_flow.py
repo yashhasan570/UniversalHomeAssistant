@@ -16,7 +16,7 @@ from universalassistant.components.youtube.const import (
     DOMAIN,
     SUBENTRY_TYPE_CHANNEL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.exceptions import OAuth2TokenRequestConnectionError
 from universalassistant.helpers import config_entry_oauth2_flow
@@ -36,7 +36,7 @@ from .conftest import (
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
     """Check full flow."""
@@ -103,7 +103,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_flow_abort_without_channel(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
     """Check abort flow if user has no channel."""
@@ -144,7 +144,7 @@ async def test_flow_abort_without_channel(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_flow_abort_without_subscriptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
     """Check abort flow if user has no subscriptions and no own channel."""
@@ -189,7 +189,7 @@ async def test_flow_abort_without_subscriptions(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_flow_without_subscriptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
     """Check flow continues without subscriptions using own channel."""
@@ -256,7 +256,7 @@ async def test_flow_without_subscriptions(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_flow_http_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
     """Check full flow."""
@@ -330,7 +330,7 @@ async def test_flow_http_error(
 )
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     config_entry: MockConfigEntry,
@@ -413,7 +413,7 @@ async def test_reauth(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_flow_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
     """Check full flow."""
@@ -468,7 +468,7 @@ async def test_flow_exception(
 )
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_flow_channel_listing_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     exception: Exception,
     abort_reason: str,
@@ -516,7 +516,7 @@ async def test_flow_channel_listing_error(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_own_channel_included(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
     """Test user's own channel is included in selectable channels."""
@@ -590,7 +590,7 @@ async def test_own_channel_included(
 
 
 async def test_subentry_flow_add_channel(
-    hass: __HAC_KEEP__, setup_integration: ComponentSetup
+    hass: UniversalAssistant, setup_integration: ComponentSetup
 ) -> None:
     """Test adding a channel subentry."""
     await setup_integration()
@@ -637,7 +637,7 @@ async def test_subentry_flow_add_channel(
 
 
 async def test_subentry_flow_no_channels_left(
-    hass: __HAC_KEEP__, setup_integration: ComponentSetup
+    hass: UniversalAssistant, setup_integration: ComponentSetup
 ) -> None:
     """Test the subentry flow aborts when all channels are already tracked."""
     await setup_integration()
@@ -658,7 +658,7 @@ async def test_subentry_flow_no_channels_left(
 
 
 async def test_subentry_flow_add_own_channel(
-    hass: __HAC_KEEP__, setup_integration: ComponentSetup
+    hass: UniversalAssistant, setup_integration: ComponentSetup
 ) -> None:
     """Test the account's own channel can be added if not tracked yet."""
     await setup_integration()
@@ -696,7 +696,7 @@ async def test_subentry_flow_add_own_channel(
 
 
 async def test_subentry_flow_unknown_channel(
-    hass: __HAC_KEEP__, setup_integration: ComponentSetup
+    hass: UniversalAssistant, setup_integration: ComponentSetup
 ) -> None:
     """Test the subentry flow aborts when the channel is not available."""
     await setup_integration()
@@ -747,7 +747,7 @@ async def test_subentry_flow_unknown_channel(
 )
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_subentry_flow_api_error_listing_channels(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     exception: Exception,
     abort_reason: str,
@@ -795,7 +795,7 @@ async def test_subentry_flow_api_error_listing_channels(
     ids=["forbidden", "unknown"],
 )
 async def test_subentry_flow_api_error_fetching_channel(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     exception: Exception,
     abort_reason: str,
@@ -831,7 +831,7 @@ async def test_subentry_flow_api_error_fetching_channel(
 
 
 async def test_subentry_flow_token_refresh_error(
-    hass: __HAC_KEEP__, setup_integration: ComponentSetup
+    hass: UniversalAssistant, setup_integration: ComponentSetup
 ) -> None:
     """Test the subentry flow aborts when the token cannot be refreshed."""
     await setup_integration()

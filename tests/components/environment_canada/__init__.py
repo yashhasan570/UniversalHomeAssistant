@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.environment_canada.const import CONF_STATION, DOMAIN
 from universalassistant.const import CONF_LANGUAGE, CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 FIXTURE_USER_INPUT = {
     CONF_LATITUDE: 55.55,
@@ -49,11 +49,11 @@ def build_mocks(ec_data) -> tuple[MagicMock, MagicMock, MagicMock]:
 
 
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ec_data,
     options: dict[str, Any] | None = None,
 ) -> MockConfigEntry:
-    """Set up the Environment Canada integration in __HA_KEEP__."""
+    """Set up the Environment Canada integration in Universal Home Assistant."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data=FIXTURE_USER_INPUT, title="Home", options=options or {}
     )

@@ -7,7 +7,7 @@ from pyhaseiq import Client, HaseIQError, Status
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN, LOGGER
@@ -22,7 +22,7 @@ class HaseIQCoordinator(DataUpdateCoordinator[Status]):
 
     config_entry: HaseIQConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, entry: HaseIQConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: HaseIQConfigEntry) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,

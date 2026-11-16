@@ -17,7 +17,7 @@ from universalassistant.components.media_source import (
     Unresolvable,
 )
 from universalassistant.components.stream import create_stream
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import DOMAIN
@@ -29,7 +29,7 @@ _LOGGER = logging.getLogger(__name__)
 VOD_SPLIT_TIME = dt.timedelta(minutes=5)
 
 
-async def async_get_media_source(hass: __HAC_KEEP__) -> ReolinkVODMediaSource:
+async def async_get_media_source(hass: UniversalAssistant) -> ReolinkVODMediaSource:
     """Set up camera media source."""
     return ReolinkVODMediaSource(hass)
 
@@ -52,7 +52,7 @@ class ReolinkVODMediaSource(MediaSource):
 
     name: str = "Reolink"
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize ReolinkVODMediaSource."""
         super().__init__(DOMAIN)
         self.hass = hass

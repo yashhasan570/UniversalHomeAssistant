@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_NAME, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import (
     CONF_ACCOUNT_CREDENTIALS,
@@ -25,7 +25,7 @@ REDACT_DEVICE = {"did", CONF_NAME, "homeId"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: EcovacsConfigEntry
+    hass: UniversalAssistant, config_entry: EcovacsConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     controller = config_entry.runtime_data

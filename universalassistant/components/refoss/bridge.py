@@ -5,7 +5,7 @@ from refoss_ha.device_manager import async_build_base_device
 from refoss_ha.discovery import Discovery, Listener
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
 from .const import DISPATCH_DEVICE_DISCOVERED, LOGGER
@@ -18,7 +18,7 @@ class DiscoveryService(Listener):
     """Discovery event handler for refoss devices."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: RefossConfigEntry, discovery: Discovery
+        self, hass: UniversalAssistant, config_entry: RefossConfigEntry, discovery: Discovery
     ) -> None:
         """Init discovery service."""
         self.hass = hass

@@ -9,7 +9,7 @@ from wmspro.action import Action, ActionList
 
 from universalassistant.components.wmspro.const import DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import remove_config_entry
 
@@ -21,7 +21,7 @@ def hass_config_dir(hass_tmp_config_dir: str) -> str:
 
 
 @pytest.fixture
-async def mock_config_entry(hass: __HAC_KEEP__) -> AsyncGenerator[MockConfigEntry]:
+async def mock_config_entry(hass: UniversalAssistant) -> AsyncGenerator[MockConfigEntry]:
     """Return a dummy config entry."""
     mock_config_entry = MockConfigEntry(
         title="WebControl",
@@ -40,7 +40,7 @@ async def mock_config_entry(hass: __HAC_KEEP__) -> AsyncGenerator[MockConfigEntr
 async def mock_setup_entry() -> AsyncGenerator[AsyncMock]:
     """Override async_setup_entry."""
 
-    hass: __HAC_KEEP__ | None = None
+    hass: UniversalAssistant | None = None
     config_entry: MockConfigEntry | None = None
 
     def fake_setup_entry(local_hass, local_entry):
@@ -86,7 +86,7 @@ def mock_hub_refresh() -> Generator[AsyncMock]:
 
 @pytest.fixture
 async def mock_hub_configuration(
-    request: pytest.FixtureRequest, hass: __HAC_KEEP__
+    request: pytest.FixtureRequest, hass: UniversalAssistant
 ) -> AsyncGenerator[AsyncMock]:
     """Override WebControlPro._getConfiguration with a param fixture file."""
     hub_config = await async_load_json_object_fixture(hass, request.param, DOMAIN)
@@ -100,7 +100,7 @@ async def mock_hub_configuration(
 
 @pytest.fixture
 async def mock_hub_status(
-    request: pytest.FixtureRequest, hass: __HAC_KEEP__
+    request: pytest.FixtureRequest, hass: UniversalAssistant
 ) -> AsyncGenerator[AsyncMock]:
     """Override WebControlPro._getStatus with a param fixture file."""
     hub_status = await async_load_json_object_fixture(hass, request.param, DOMAIN)

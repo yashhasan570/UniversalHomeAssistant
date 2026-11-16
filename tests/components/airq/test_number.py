@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock
 import pytest
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 
 from . import setup_platform
@@ -15,7 +15,7 @@ ENTITY_ID = f"number.{TEST_DEVICE_INFO['name']}_led_brightness"
 
 
 @pytest.fixture(autouse=True)
-async def number_platform(hass: __HAC_KEEP__, mock_airq: AsyncMock) -> None:
+async def number_platform(hass: UniversalAssistant, mock_airq: AsyncMock) -> None:
     """Configure AirQ integration and validate the setup for NUMBER platform."""
     await setup_platform(hass, Platform.NUMBER)
 
@@ -29,7 +29,7 @@ async def number_platform(hass: __HAC_KEEP__, mock_airq: AsyncMock) -> None:
 
 @pytest.mark.parametrize("new_brightness", [0, 100, (TEST_BRIGHTNESS + 10) % 100])
 async def test_number_set_value(
-    hass: __HAC_KEEP__, mock_airq: AsyncMock, new_brightness
+    hass: UniversalAssistant, mock_airq: AsyncMock, new_brightness
 ) -> None:
     """Test that setting value works."""
     # Simulate the device confirming the new brightness on the next poll
@@ -56,7 +56,7 @@ async def test_number_set_value(
 
 @pytest.mark.parametrize("new_brightness", [-1, 110])
 async def test_number_set_invalid_value_caught_by_hass(
-    hass: __HAC_KEEP__, mock_airq: AsyncMock, new_brightness
+    hass: UniversalAssistant, mock_airq: AsyncMock, new_brightness
 ) -> None:
     """Test that setting incorrect values errors."""
     with pytest.raises(ServiceValidationError):

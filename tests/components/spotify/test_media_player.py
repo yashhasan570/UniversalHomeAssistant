@@ -62,7 +62,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -70,7 +70,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
@@ -92,7 +92,7 @@ async def test_entities(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_podcast(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
@@ -117,7 +117,7 @@ async def test_podcast(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_restricted_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -128,6 +128,23 @@ async def test_restricted_device(
     assert state
     assert (
         state.attributes["supported_features"] == MediaPlayerEntityFeature.SELECT_SOURCE
+    )
+
+
+@pytest.mark.usefixtures("setup_credentials")
+async def test_device_without_volume_support(
+    hass: UniversalAssistant,
+    mock_spotify: MagicMock,
+    mock_config_entry: MockConfigEntry,
+) -> None:
+    """Test volume set is not supported when the device doesn't support volume."""
+    mock_spotify.return_value.get_playback.return_value.device.supports_volume = False
+    await setup_integration(hass, mock_config_entry)
+    state = hass.states.get("media_player.spotify_spotify_1")
+    assert state
+    assert (
+        state.attributes["supported_features"]
+        == SUPPORT_SPOTIFY & ~MediaPlayerEntityFeature.VOLUME_SET
     )
 
 
@@ -145,7 +162,7 @@ async def test_restricted_device(
     ],
 )
 async def test_product(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -168,7 +185,7 @@ async def test_product(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_unknown_volume(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -183,7 +200,7 @@ async def test_unknown_volume(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_spotify_dj_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -212,7 +229,7 @@ async def test_spotify_dj_list(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_normal_playlist(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
@@ -262,7 +279,7 @@ async def test_normal_playlist(
     ],
 )
 async def test_fetching_playlist_does_not_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -287,7 +304,7 @@ async def test_fetching_playlist_does_not_fail(
 @pytest.mark.usefixtures("setup_credentials")
 @pytest.mark.parametrize("items_key", ["tracks", "items"])
 async def test_playlist_item_schema_error_does_not_block_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -342,7 +359,7 @@ async def test_playlist_item_schema_error_does_not_block_setup(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_fetching_playlist_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -370,7 +387,7 @@ async def test_fetching_playlist_once(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_idle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -396,7 +413,7 @@ async def test_idle(
     ],
 )
 async def test_simple_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -415,7 +432,7 @@ async def test_simple_actions(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_repeat_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -438,7 +455,7 @@ async def test_repeat_mode(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_shuffle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -460,7 +477,7 @@ async def test_shuffle(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_volume_level(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -480,7 +497,7 @@ async def test_volume_level(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_seek(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -508,7 +525,7 @@ async def test_seek(
     ],
 )
 async def test_play_media_in_queue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
     media_type: str,
@@ -577,7 +594,7 @@ async def test_play_media_in_queue(
     ],
 )
 async def test_play_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
     media_type: str,
@@ -601,7 +618,7 @@ async def test_play_media(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_add_unsupported_media_to_queue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -625,7 +642,7 @@ async def test_add_unsupported_media_to_queue(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_play_unsupported_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -647,7 +664,7 @@ async def test_play_unsupported_media(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_select_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -669,7 +686,7 @@ async def test_select_source(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_source_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -693,7 +710,7 @@ async def test_source_devices(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_paused_playback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -707,7 +724,7 @@ async def test_paused_playback(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_fallback_show_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -730,7 +747,7 @@ async def test_fallback_show_image(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_no_episode_images(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -749,7 +766,7 @@ async def test_no_episode_images(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_no_album_images(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -763,7 +780,7 @@ async def test_no_album_images(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_normal_polling_interval(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -790,7 +807,7 @@ async def test_normal_polling_interval(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_smart_polling_interval(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -837,7 +854,7 @@ async def test_smart_polling_interval(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_smart_polling_interval_handles_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -876,7 +893,7 @@ async def test_smart_polling_interval_handles_errors(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_smart_polling_interval_handles_paused(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -907,7 +924,7 @@ async def test_smart_polling_interval_handles_paused(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_playing_without_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -937,7 +954,7 @@ async def test_playing_without_item(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_source_list_is_stable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,

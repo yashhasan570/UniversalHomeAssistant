@@ -13,15 +13,15 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_client: MagicMock,
     mock_device_client: MagicMock,
@@ -36,7 +36,7 @@ async def test_all_entities(
 
 
 async def test_set_number(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     mock_device_client: MagicMock,
@@ -76,7 +76,7 @@ async def test_set_number(
     ],
 )
 async def test_number_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     mock_device_client: MagicMock,
@@ -88,7 +88,7 @@ async def test_number_error(
 
     mock_device_client.set_plant_days.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error, match=user_error):
+    with pytest.raises(UniversalAssistantError, match=user_error):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,

@@ -11,7 +11,7 @@ from universalassistant.const import (
     CONF_UNIQUE_ID,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import SimpliSafeConfigEntry
 
@@ -49,7 +49,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: SimpliSafeConfigEntry
+    hass: UniversalAssistant, entry: SimpliSafeConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     simplisafe = entry.runtime_data

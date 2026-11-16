@@ -10,7 +10,7 @@ from universalassistant.components.bluetooth.passive_update_processor import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
@@ -19,7 +19,7 @@ _LOGGER = logging.getLogger(__name__)
 type BlueMaestroConfigEntry = ConfigEntry[PassiveBluetoothProcessorCoordinator]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: BlueMaestroConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: BlueMaestroConfigEntry) -> None:
     """Set up BlueMaestro BLE device from a config entry."""
     address = entry.unique_id
     assert address is not None
@@ -39,7 +39,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: BlueMaestroConfigEntry) -
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: BlueMaestroConfigEntry
+    hass: UniversalAssistant, entry: BlueMaestroConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

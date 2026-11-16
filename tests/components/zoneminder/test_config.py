@@ -2,13 +2,13 @@
 
 from universalassistant.components.zoneminder.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .conftest import MOCK_HOST
 
 
-async def test_invalid_config_missing_host(hass: __HAC_KEEP__) -> None:
+async def test_invalid_config_missing_host(hass: UniversalAssistant) -> None:
     """Test that config without host is rejected."""
     config: dict = {DOMAIN: [{}]}
 
@@ -16,7 +16,7 @@ async def test_invalid_config_missing_host(hass: __HAC_KEEP__) -> None:
     assert not result
 
 
-async def test_invalid_config_bad_ssl_type(hass: __HAC_KEEP__) -> None:
+async def test_invalid_config_bad_ssl_type(hass: UniversalAssistant) -> None:
     """Test that non-boolean ssl value is rejected."""
     config = {DOMAIN: [{CONF_HOST: MOCK_HOST, CONF_SSL: "not_bool"}]}
 

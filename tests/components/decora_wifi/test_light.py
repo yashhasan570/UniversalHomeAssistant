@@ -7,8 +7,8 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF, SERVICE_TURN_ON
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 ENTITY_ID = "light.living_room"
 
@@ -22,7 +22,7 @@ ENTITY_ID = "light.living_room"
     ],
 )
 async def test_action_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_switch: MagicMock,
     service: str,
@@ -35,7 +35,7 @@ async def test_action_failure(
 
     mock_switch.update_attributes.side_effect = ValueError
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             LIGHT_DOMAIN,
             service,

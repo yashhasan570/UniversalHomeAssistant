@@ -5,7 +5,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_TOKEN, CONF_WEBHOOK_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONF_CLOUDHOOK_URL, CONF_WEBHOOK_URL, NON_TRANSFER_ACCOUNT_TYPES
 from .coordinator import MonzoConfigEntry
@@ -51,7 +51,7 @@ def _pot_diagnostics(pot: dict[str, Any], account_ids: set[str]) -> dict[str, An
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: MonzoConfigEntry
+    hass: UniversalAssistant, entry: MonzoConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     runtime_data = entry.runtime_data

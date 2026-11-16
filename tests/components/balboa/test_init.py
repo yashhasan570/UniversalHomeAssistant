@@ -7,13 +7,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.balboa.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import TEST_HOST
 
 
 async def test_setup_entry(
-    hass: __HAC_KEEP__, client: MagicMock, integration: MockConfigEntry
+    hass: UniversalAssistant, client: MagicMock, integration: MockConfigEntry
 ) -> None:
     """Validate that setup entry also configure the client."""
     assert integration.state is ConfigEntryState.LOADED
@@ -21,7 +21,7 @@ async def test_setup_entry(
     assert integration.state is ConfigEntryState.NOT_LOADED
 
 
-async def test_setup_entry_fails(hass: __HAC_KEEP__, client: MagicMock) -> None:
+async def test_setup_entry_fails(hass: UniversalAssistant, client: MagicMock) -> None:
     """Validate that setup entry also configure the client."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

@@ -10,13 +10,13 @@ from skoda_public_api.api_layer.exceptions import (
 )
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
 
 async def test_setup_and_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
 ) -> None:
@@ -48,7 +48,7 @@ async def test_setup_and_unload(
     ],
 )
 async def test_setup_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
     exception: Exception,

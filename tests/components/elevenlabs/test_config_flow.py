@@ -24,12 +24,12 @@ from universalassistant.components.elevenlabs.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_MODEL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_user_step(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_async_client: AsyncMock,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_user_step(
     ],
 )
 async def test_user_step_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     request: pytest.FixtureRequest,
     client_fixture: str,
@@ -134,7 +134,7 @@ async def test_user_step_errors(
 
 
 async def test_voices_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_async_client_voices_error: AsyncMock,
     request: pytest.FixtureRequest,
@@ -183,7 +183,7 @@ async def test_voices_error(
 
 
 async def test_models_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_async_client_models_error: AsyncMock,
     request: pytest.FixtureRequest,
@@ -232,7 +232,7 @@ async def test_models_error(
 
 
 async def test_options_flow_init(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_async_client: AsyncMock,
     mock_entry: MockConfigEntry,
@@ -270,7 +270,7 @@ async def test_options_flow_init(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow_voice_settings_default(
-    hass: __HAC_KEEP__, mock_async_client: AsyncMock, mock_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_async_client: AsyncMock, mock_entry: MockConfigEntry
 ) -> None:
     """Test options flow voice settings."""
     mock_entry.add_to_hass(hass)
@@ -314,7 +314,7 @@ async def test_options_flow_voice_settings_default(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_async_client")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry: MockConfigEntry,
 ) -> None:
     """Test reauthentication flow."""
@@ -357,7 +357,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry: MockConfigEntry,
     request: pytest.FixtureRequest,
     client_fixture: str,

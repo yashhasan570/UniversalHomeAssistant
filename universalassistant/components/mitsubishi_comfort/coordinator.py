@@ -6,7 +6,7 @@ from typing import override
 from mitsubishi_comfort import IndoorUnit, KumoStation
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DEFAULT_SCAN_INTERVAL, DOMAIN
@@ -21,7 +21,7 @@ class MitsubishiComfortCoordinator(DataUpdateCoordinator[IndoorUnit | KumoStatio
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: MitsubishiComfortConfigEntry,
         device: IndoorUnit | KumoStation,
         mac: str,

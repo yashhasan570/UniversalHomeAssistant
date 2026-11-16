@@ -9,7 +9,7 @@ import pytest
 from universalassistant import config_entries
 from universalassistant.components.obihai.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import DHCP_SERVICE_INFO, USER_INPUT, MockPyObihai, get_schema_suggestion
@@ -29,7 +29,7 @@ def _patch_success() -> Iterator[None]:
         yield
 
 
-async def test_user_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_user_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test we get the user initiated form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -57,7 +57,7 @@ async def test_user_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> Non
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_auth_failure(hass: __HAC_KEEP__) -> None:
+async def test_auth_failure(hass: UniversalAssistant) -> None:
     """Test we get the authentication error for user flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -88,7 +88,7 @@ async def test_auth_failure(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_gaierror")
-async def test_connect_failure(hass: __HAC_KEEP__) -> None:
+async def test_connect_failure(hass: UniversalAssistant) -> None:
     """Test we get the connection error for user flow."""
 
     result = await hass.config_entries.flow.async_init(
@@ -115,7 +115,7 @@ async def test_connect_failure(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_dhcp_flow(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_flow(hass: UniversalAssistant) -> None:
     """Test that DHCP discovery works."""
 
     with (
@@ -155,7 +155,7 @@ async def test_dhcp_flow(hass: __HAC_KEEP__) -> None:
     assert result["result"].unique_id == "9c:ad:ef:00:00:00"
 
 
-async def test_dhcp_flow_auth_failure(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_flow_auth_failure(hass: UniversalAssistant) -> None:
     """Test that DHCP fails if creds aren't default."""
 
     with (

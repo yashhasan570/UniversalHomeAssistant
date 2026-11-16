@@ -16,11 +16,11 @@ from pytest_universalassistant.components.common import (
 
 from universalassistant.components.scene.trigger import TRIGGERS
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
-async def target_scenes(hass: __HAC_KEEP__) -> dict[str, list[str]]:
+async def target_scenes(hass: UniversalAssistant) -> dict[str, list[str]]:
     """Create multiple scene entities associated with different targets."""
     return await target_entities(hass, "scene")
 
@@ -37,7 +37,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_scene_trigger_options_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -174,7 +174,7 @@ def test_trigger_target_support() -> None:
     ],
 )
 async def test_scene_state_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_scenes: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,

@@ -7,12 +7,12 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.usefixtures("discovergy")
 async def test_config_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test for setup success."""
@@ -31,7 +31,7 @@ async def test_config_setup(
     ],
 )
 async def test_config_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     discovergy: AsyncMock,
     error: Exception,
@@ -48,7 +48,7 @@ async def test_config_not_ready(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_reload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test config entry reload."""

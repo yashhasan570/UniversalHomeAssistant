@@ -20,7 +20,7 @@ from pynecil import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.debounce import Debouncer
 import universalassistant.helpers.device_registry as dr
@@ -57,7 +57,7 @@ class IronOSBaseCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: IronOSConfigEntry,
         device: Pynecil,
         update_interval: timedelta,
@@ -96,7 +96,7 @@ class IronOSLiveDataCoordinator(IronOSBaseCoordinator[LiveDataResponse]):
     """IronOS coordinator."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: IronOSConfigEntry, device: Pynecil
+        self, hass: UniversalAssistant, config_entry: IronOSConfigEntry, device: Pynecil
     ) -> None:
         """Initialize IronOS coordinator."""
         super().__init__(hass, config_entry, device, SCAN_INTERVAL)
@@ -159,7 +159,7 @@ class IronOSSettingsCoordinator(IronOSBaseCoordinator[SettingsDataResponse]):
     """IronOS coordinator."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: IronOSConfigEntry, device: Pynecil
+        self, hass: UniversalAssistant, config_entry: IronOSConfigEntry, device: Pynecil
     ) -> None:
         """Initialize IronOS coordinator."""
         super().__init__(hass, config_entry, device, SCAN_INTERVAL_SETTINGS)
@@ -206,7 +206,7 @@ class IronOSSettingsCoordinator(IronOSBaseCoordinator[SettingsDataResponse]):
 class IronOSFirmwareUpdateCoordinator(DataUpdateCoordinator[LatestRelease]):
     """IronOS coordinator for retrieving update information from github."""
 
-    def __init__(self, hass: __HAC_KEEP__, github: IronOSUpdate) -> None:
+    def __init__(self, hass: UniversalAssistant, github: IronOSUpdate) -> None:
         """Initialize IronOS coordinator."""
         super().__init__(
             hass,

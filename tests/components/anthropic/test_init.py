@@ -37,7 +37,7 @@ from universalassistant.config_entries import (
     ConfigSubentryDataWithId,
 )
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import (
     device_registry as dr,
@@ -103,7 +103,7 @@ def _model_page(
 )
 @pytest.mark.usefixtures("mock_config_entry")
 async def test_init_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     side_effect: APIError,
     error: str,
@@ -119,7 +119,7 @@ async def test_init_error(
 
 
 async def test_init_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test auth error during init errors."""
@@ -186,7 +186,7 @@ async def test_init_auth_error(
     ],
 )
 async def test_init_repair_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
     issue_registry: ir.IssueRegistry,
@@ -222,7 +222,7 @@ async def test_init_repair_issue(
 
 
 async def test_reconfigure_deprecated_model_repair(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
     issue_registry: ir.IssueRegistry,
@@ -282,7 +282,7 @@ async def test_reconfigure_deprecated_model_repair(
     ],
 )
 async def test_reconfigure_clears_model_repair(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
     issue_registry: ir.IssueRegistry,
@@ -351,7 +351,7 @@ async def test_reconfigure_clears_model_repair(
 
 
 async def test_model_repair_retained_for_other_subentries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
     issue_registry: ir.IssueRegistry,
@@ -480,12 +480,12 @@ async def test_model_repair_retained_for_other_subentries(
         ) is expected_issue
 
 
-async def _remove_entry(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+async def _remove_entry(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     """Remove a config entry."""
     await hass.config_entries.async_remove(entry.entry_id)
 
 
-async def _disable_entry(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+async def _disable_entry(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     """Disable a config entry."""
     await hass.config_entries.async_set_disabled_by(
         entry.entry_id, ConfigEntryDisabler.USER
@@ -493,7 +493,7 @@ async def _disable_entry(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
 
 
 async def _setup_deprecated_and_healthy_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
 ) -> MockConfigEntry:
@@ -531,7 +531,7 @@ async def _setup_deprecated_and_healthy_entries(
 
 
 async def _fail_reload(
-    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_model_list: AsyncMock
+    hass: UniversalAssistant, entry: MockConfigEntry, mock_model_list: AsyncMock
 ) -> None:
     """Reload an entry into setup retry."""
     side_effect = mock_model_list.side_effect
@@ -543,7 +543,7 @@ async def _fail_reload(
 
 
 async def _keep_loaded(
-    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_model_list: AsyncMock
+    hass: UniversalAssistant, entry: MockConfigEntry, mock_model_list: AsyncMock
 ) -> None:
     """Leave the entry loaded."""
     assert entry.state is ConfigEntryState.LOADED
@@ -556,7 +556,7 @@ PREPARE_ENTRY = [
 
 
 async def test_model_repair_linked_to_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
     issue_registry: ir.IssueRegistry,
@@ -584,11 +584,11 @@ async def test_model_repair_linked_to_entry(
 
 @pytest.mark.parametrize("prepare", PREPARE_ENTRY)
 async def test_model_repair_deleted_with_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
     issue_registry: ir.IssueRegistry,
-    prepare: Callable[[__HAC_KEEP__, MockConfigEntry, AsyncMock], Awaitable[None]],
+    prepare: Callable[[UniversalAssistant, MockConfigEntry, AsyncMock], Awaitable[None]],
 ) -> None:
     """Delete the repair when its entry is removed, whatever the entry state."""
     await _setup_deprecated_and_healthy_entries(
@@ -606,11 +606,11 @@ async def test_model_repair_deleted_with_entry(
 
 @pytest.mark.parametrize("prepare", PREPARE_ENTRY)
 async def test_model_repair_hidden_with_disabled_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
     issue_registry: ir.IssueRegistry,
-    prepare: Callable[[__HAC_KEEP__, MockConfigEntry, AsyncMock], Awaitable[None]],
+    prepare: Callable[[UniversalAssistant, MockConfigEntry, AsyncMock], Awaitable[None]],
 ) -> None:
     """Hide the repair when its entry is disabled, whatever the entry state."""
     await _setup_deprecated_and_healthy_entries(
@@ -635,11 +635,11 @@ async def test_model_repair_hidden_with_disabled_entry(
     ],
 )
 async def test_model_repair_ignore_kept_when_other_entry_goes_away(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
     issue_registry: ir.IssueRegistry,
-    action: Callable[[__HAC_KEEP__, MockConfigEntry], Awaitable[None]],
+    action: Callable[[UniversalAssistant, MockConfigEntry], Awaitable[None]],
 ) -> None:
     """Keep an ignored repair when another entry goes away during setup retry."""
     healthy_entry = await _setup_deprecated_and_healthy_entries(
@@ -666,7 +666,7 @@ async def test_model_repair_ignore_kept_when_other_entry_goes_away(
 
 
 async def test_model_repair_ignore_kept_on_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
     issue_registry: ir.IssueRegistry,
@@ -689,7 +689,7 @@ async def test_model_repair_ignore_kept_on_reload(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_downgrade_from_v3_to_v2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -747,7 +747,7 @@ async def test_downgrade_from_v3_to_v2(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_migration_from_v1_to_v2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -903,7 +903,7 @@ async def test_migration_from_v1_to_v2(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_migration_from_v1_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     config_entry_disabled_by: list[ConfigEntryDisabler | None],
@@ -1039,7 +1039,7 @@ async def test_migration_from_v1_disabled(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_migration_from_v1_to_v2_with_multiple_keys(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1129,7 +1129,7 @@ async def test_migration_from_v1_to_v2_with_multiple_keys(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_migration_from_v1_to_v2_with_same_keys(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1230,7 +1230,7 @@ async def test_migration_from_v1_to_v2_with_same_keys(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_migration_from_v2_1_to_v2_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1476,7 +1476,7 @@ async def test_migration_from_v2_1_to_v2_2(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_migrate_entry_to_v2_3(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     config_entry_disabled_by: ConfigEntryDisabler | None,
@@ -1576,7 +1576,7 @@ async def test_migrate_entry_to_v2_3(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_migrate_entry_to_v2_4(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test migration to version 2.4."""
     # Create a v2.3 config entry
@@ -1668,7 +1668,7 @@ async def test_migrate_entry_to_v2_4(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_migrate_entry_to_v2_5(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     subentry_type: str,
     subentry_options: dict[str, str | int | bool],
     expected_options: dict[str, str | int | bool],
@@ -1733,7 +1733,7 @@ async def test_migrate_entry_to_v2_5(
 )
 @pytest.mark.usefixtures("mock_model_list")
 async def test_migrate_disabled_thinking_request(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
     model: str,
     legacy_options: dict[str, str | int],

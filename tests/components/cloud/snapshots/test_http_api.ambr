@@ -5,7 +5,7 @@
   
   version | core-2025.2.0
   --- | ---
-  installation_type | __HA_KEEP__ Core
+  installation_type | Universal Home Assistant Core
   dev | False
   hassio | False
   docker | False
@@ -31,7 +31,7 @@
   ai_task | AI Task
   auth | Auth
   binary_sensor | Binary sensor
-  cloud | __HA_KEEP__ Link
+  cloud | Universal Home Assistant Link
   cloud.ai_task | Unknown
   cloud.binary_sensor | Unknown
   cloud.conversation | Unknown
@@ -39,7 +39,7 @@
   cloud.tts | Unknown
   conversation | Conversation
   ffmpeg | FFmpeg
-  universalassistant | __HA_KEEP__ Core Integration
+  universalassistant | Universal Home Assistant Core Integration
   http | HTTP
   intent | Intent
   llm | LLM
@@ -141,7 +141,7 @@
   
   version | core-2025.2.0
   --- | ---
-  installation_type | __HA_KEEP__ Core
+  installation_type | Universal Home Assistant Core
   dev | False
   hassio | False
   docker | False
@@ -167,7 +167,7 @@
   ai_task | AI Task
   auth | Auth
   binary_sensor | Binary sensor
-  cloud | __HA_KEEP__ Link
+  cloud | Universal Home Assistant Link
   cloud.ai_task | Unknown
   cloud.binary_sensor | Unknown
   cloud.conversation | Unknown
@@ -175,7 +175,7 @@
   cloud.tts | Unknown
   conversation | Conversation
   ffmpeg | FFmpeg
-  universalassistant | __HA_KEEP__ Core Integration
+  universalassistant | Universal Home Assistant Core Integration
   http | HTTP
   intent | Intent
   llm | LLM
@@ -253,7 +253,7 @@
   
   version | core-2025.2.0
   --- | ---
-  installation_type | __HA_KEEP__ Core
+  installation_type | Universal Home Assistant Core
   dev | False
   hassio | False
   docker | False

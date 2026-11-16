@@ -17,7 +17,7 @@ from universalassistant.components.letpot.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import AUTHENTICATION
@@ -39,7 +39,7 @@ def _assert_result_success(result: Any) -> None:
 
 
 async def test_full_flow(
-    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_client: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test full flow with success."""
     result = await hass.config_entries.flow.async_init(
@@ -69,7 +69,7 @@ async def test_full_flow(
     ],
 )
 async def test_flow_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     mock_setup_entry: AsyncMock,
     exception: Exception,
@@ -107,7 +107,7 @@ async def test_flow_exceptions(
 
 
 async def test_flow_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -138,7 +138,7 @@ async def test_flow_duplicate(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reauth flow with success."""
     mock_config_entry.add_to_hass(hass)
@@ -181,7 +181,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -231,7 +231,7 @@ async def test_reauth_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_different_user_id_new(
-    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reauth flow with different, new user ID updating the existing entry."""
     mock_config_entry.add_to_hass(hass)
@@ -267,7 +267,7 @@ async def test_reauth_different_user_id_new(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_different_user_id_existing(
-    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reauth flow with different, existing user ID aborting."""
     mock_config_entry.add_to_hass(hass)

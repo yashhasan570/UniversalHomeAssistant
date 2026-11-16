@@ -118,7 +118,7 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import CoreState, __HAC_KEEP__
+from universalassistant.core import CoreState, UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryNotReady,
@@ -155,7 +155,7 @@ from .const import (
 LIVE_STATUS_ENTITY_ID = "sensor.energy_site_battery_power"
 
 
-async def _async_update_live_status(hass: __HAC_KEEP__) -> None:
+async def _async_update_live_status(hass: UniversalAssistant) -> None:
     """Ask for a live status update, as a user would."""
     await async_setup_component(hass, HOMEASSISTANT_DOMAIN, {})
     await hass.services.async_call(
@@ -186,7 +186,7 @@ VEHICLE_ERRORS = [
 ]
 
 
-async def test_load_unload(hass: __HAC_KEEP__) -> None:
+async def test_load_unload(hass: UniversalAssistant) -> None:
     """Test load and unload."""
 
     entry = await setup_platform(hass)
@@ -200,7 +200,7 @@ async def test_load_unload(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize(("side_effect", "state"), [*ERRORS, *CONNECTION_ERRORS])
 async def test_init_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_products: AsyncMock,
     side_effect: BaseException,
     state: ConfigEntryState,
@@ -214,7 +214,7 @@ async def test_init_error(
 
 # Test devices
 async def test_devices(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, snapshot: SnapshotAssertion
 ) -> None:
     """Test device registry."""
     entry = await setup_platform(hass)
@@ -226,7 +226,7 @@ async def test_devices(
 
 @pytest.mark.parametrize(("side_effect", "state"), VEHICLE_ERRORS)
 async def test_vehicle_refresh_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vehicle_data: AsyncMock,
     side_effect: TeslaFleetError,
     state: ConfigEntryState,
@@ -241,7 +241,7 @@ async def test_vehicle_refresh_error(
 # Test Energy Live Coordinator
 @pytest.mark.parametrize(("side_effect", "state"), [*ERRORS, *CONNECTION_ERRORS])
 async def test_energy_live_refresh_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_live_status: AsyncMock,
     side_effect: BaseException,
     state: ConfigEntryState,
@@ -253,7 +253,7 @@ async def test_energy_live_refresh_error(
 
 
 async def test_stream_config_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_stream_get_config: AsyncMock,
 ) -> None:
     """Test a failed stream config fetch does not block setup."""
@@ -267,7 +267,7 @@ async def test_stream_config_error(
 # Test Energy Site Coordinator
 @pytest.mark.parametrize(("side_effect", "state"), ERRORS)
 async def test_energy_site_refresh_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_site_info: AsyncMock,
     side_effect: TeslaFleetError,
     state: ConfigEntryState,
@@ -280,7 +280,7 @@ async def test_energy_site_refresh_error(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_vehicle_stream(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_add_listener: MagicMock,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -322,7 +322,7 @@ async def test_vehicle_stream(
 
 
 async def test_vehicle_asleep_polling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vehicle_data: AsyncMock,
     mock_legacy: AsyncMock,
 ) -> None:
@@ -339,7 +339,7 @@ async def test_vehicle_asleep_polling(
 
 
 async def test_no_live_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_live_status: AsyncMock,
 ) -> None:
     """Test coordinator refresh with an error."""
@@ -350,7 +350,7 @@ async def test_no_live_status(
 
 
 async def test_modern_no_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vehicle_data: AsyncMock,
     mock_products: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -368,7 +368,7 @@ async def test_modern_no_poll(
 
 
 async def test_stale_device_removal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_products: AsyncMock,
 ) -> None:
@@ -420,7 +420,7 @@ async def test_stale_device_removal(
 
 
 async def test_skipped_energy_site_is_removed_as_stale_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test skipped energy sites do not block stale device removal."""
@@ -453,7 +453,7 @@ async def test_skipped_energy_site_is_removed_as_stale_device(
 
 
 async def test_device_retention_during_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_products: AsyncMock,
 ) -> None:
@@ -491,7 +491,7 @@ async def test_device_retention_during_reload(
     assert post_identifiers == original_identifiers
 
 
-async def test_migrate_from_version_1_success(hass: __HAC_KEEP__) -> None:
+async def test_migrate_from_version_1_success(hass: UniversalAssistant) -> None:
     """Test successful config migration from version 1."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -532,7 +532,7 @@ async def test_migrate_from_version_1_success(hass: __HAC_KEEP__) -> None:
     assert mock_entry.state is ConfigEntryState.LOADED
 
 
-async def test_migrate_from_version_1_token_endpoint_error(hass: __HAC_KEEP__) -> None:
+async def test_migrate_from_version_1_token_endpoint_error(hass: UniversalAssistant) -> None:
     """Test config migration handles token endpoint errors."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -562,7 +562,7 @@ async def test_migrate_from_version_1_token_endpoint_error(hass: __HAC_KEEP__) -
     assert entry.version == 1  # Version should remain unchanged on migration failure
 
 
-async def test_migrate_version_2_no_migration_needed(hass: __HAC_KEEP__) -> None:
+async def test_migrate_version_2_no_migration_needed(hass: UniversalAssistant) -> None:
     """Test that version 2 entries don't need migration."""
     oauth_config = {
         "auth_implementation": DOMAIN,
@@ -602,7 +602,7 @@ async def test_migrate_version_2_no_migration_needed(hass: __HAC_KEEP__) -> None
     assert entry.state is ConfigEntryState.LOADED
 
 
-async def test_migrate_from_future_version_fails(hass: __HAC_KEEP__) -> None:
+async def test_migrate_from_future_version_fails(hass: UniversalAssistant) -> None:
     """Test migration fails for future versions."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -628,7 +628,7 @@ async def test_migrate_from_future_version_fails(hass: __HAC_KEEP__) -> None:
     assert entry.version == 3  # Version should remain unchanged
 
 
-async def test_oauth_implementation_not_available(hass: __HAC_KEEP__) -> None:
+async def test_oauth_implementation_not_available(hass: UniversalAssistant) -> None:
     """Test that missing OAuth implementation triggers reauth."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -667,7 +667,7 @@ RETRY_EXCEPTIONS = [
 
 @pytest.mark.parametrize(("exception", "expected_retry_after"), RETRY_EXCEPTIONS)
 async def test_site_info_retry_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_site_info: AsyncMock,
     exception: TeslaFleetError,
     expected_retry_after: float,
@@ -683,7 +683,7 @@ async def test_site_info_retry_exceptions(
 
 @pytest.mark.parametrize(("exception", "expected_retry_after"), RETRY_EXCEPTIONS)
 async def test_vehicle_data_retry_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vehicle_data: AsyncMock,
     mock_legacy: AsyncMock,
     exception: TeslaFleetError,
@@ -700,7 +700,7 @@ async def test_vehicle_data_retry_exceptions(
 
 @pytest.mark.parametrize(("exception", "expected_retry_after"), RETRY_EXCEPTIONS)
 async def test_live_status_coordinator_retry_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_live_status: AsyncMock,
     exception: TeslaFleetError,
     expected_retry_after: float,
@@ -734,7 +734,7 @@ async def test_live_status_coordinator_retry_exceptions(
 
 
 async def test_live_status_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test live status coordinator handles auth errors."""
     call_count = 0
@@ -764,7 +764,7 @@ async def test_live_status_auth_error(
 
 
 async def test_live_status_generic_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test live status coordinator handles generic TeslaFleetError."""
     call_count = 0
@@ -793,7 +793,7 @@ async def test_live_status_generic_error(
         assert not live_coordinator.last_update_success
 
 
-async def test_missing_token_data(hass: __HAC_KEEP__) -> None:
+async def test_missing_token_data(hass: UniversalAssistant) -> None:
     """Test that missing token data in config entry triggers auth failure."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -814,7 +814,7 @@ async def test_missing_token_data(hass: __HAC_KEEP__) -> None:
 
 
 async def test_vehicle_streaming_version_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test vehicle sw_version is updated when streaming reports new version."""
@@ -854,7 +854,7 @@ async def test_vehicle_streaming_version_update(
 
 
 async def test_vehicle_streaming_version_update_ignores_none(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test vehicle sw_version is not updated when streaming reports None."""
@@ -892,7 +892,7 @@ async def test_vehicle_streaming_version_update_ignores_none(
 
 
 async def test_vehicle_polling_version_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_vehicle_data: AsyncMock,
     mock_legacy: AsyncMock,
@@ -929,7 +929,7 @@ async def test_vehicle_polling_version_update(
 
 @pytest.mark.usefixtures("mock_legacy")
 async def test_polling_vehicle_skips_stream_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_stream_get_config: AsyncMock,
     mock_stream_update_config: AsyncMock,
 ) -> None:
@@ -950,7 +950,7 @@ async def test_polling_vehicle_skips_stream_setup(
     ids=["all_disabled", "one_enabled"],
 )
 async def test_vehicle_polling_stops_when_all_entities_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_vehicle_data: AsyncMock,
     mock_legacy: AsyncMock,
@@ -998,7 +998,7 @@ async def test_vehicle_polling_stops_when_all_entities_disabled(
     ids=["polling", "unknown_polling", "streaming"],
 )
 async def test_polling_only_entities_require_metadata(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_metadata: AsyncMock,
     polling: bool | None,
@@ -1033,7 +1033,7 @@ async def test_polling_only_entities_require_metadata(
 
 
 async def test_streaming_vehicle_coordinator_never_polls(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vehicle_data: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1048,7 +1048,7 @@ async def test_streaming_vehicle_coordinator_never_polls(
 
 
 async def test_stale_polling_only_entity_removed_on_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Prune a polling-only entity when its vehicle no longer qualifies."""
@@ -1080,7 +1080,7 @@ async def test_stale_polling_only_entity_removed_on_setup(
 
 
 async def test_energy_site_version_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_add_listener: MagicMock,
 ) -> None:
@@ -1114,7 +1114,7 @@ async def test_energy_site_version_update(
 
 
 async def test_live_status_auth_failed_forbidden(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_live_status: AsyncMock,
 ) -> None:
     """Test Forbidden exception during live_status triggers auth failure."""
@@ -1128,7 +1128,7 @@ async def test_live_status_auth_failed_forbidden(
     [[deepcopy(LIVE_STATUS), TeslaFleetError]],
 )
 async def test_live_status_coordinator_refresh_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_live_status: AsyncMock,
     side_effect: list,
 ) -> None:
@@ -1146,7 +1146,7 @@ async def test_live_status_coordinator_refresh_error(
 
 
 async def test_dynamic_device_discovery_triggers_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test that metadata coordinator triggers reload when new vehicle is added."""
@@ -1179,7 +1179,7 @@ async def test_dynamic_device_discovery_triggers_reload(
 
 
 async def test_dynamic_device_discovery_no_reload_for_scope_only_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test metadata refresh does not reload when only scopes change."""
@@ -1201,7 +1201,7 @@ async def test_dynamic_device_discovery_no_reload_for_scope_only_change(
 
 
 async def test_dynamic_device_discovery_no_reload_without_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test that metadata coordinator refresh without changes does not reload."""
@@ -1226,7 +1226,7 @@ async def test_dynamic_device_discovery_no_reload_without_changes(
 
 
 async def test_insufficient_credits_backs_off_polling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_vehicle_data: AsyncMock,
     mock_legacy: AsyncMock,
@@ -1259,13 +1259,13 @@ async def test_insufficient_credits_backs_off_polling(
     assert coordinator.last_exception.retry_after == INSUFFICIENT_CREDITS_RETRY_AFTER
 
 
-def _oauth_session(hass: __HAC_KEEP__, entry: MockConfigEntry) -> OAuth2Session:
+def _oauth_session(hass: UniversalAssistant, entry: MockConfigEntry) -> OAuth2Session:
     """Build an OAuth2Session for directly exercising _get_access_token."""
     return OAuth2Session(hass, entry, TeslemetryImplementation(hass, DOMAIN, CLIENT_ID))
 
 
 async def test_get_access_token_dead_token_during_setup_triggers_auth_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A dead/revoked refresh token during setup must raise ConfigEntryAuthFailed."""
     mock_entry = mock_config_entry()
@@ -1287,7 +1287,7 @@ async def test_get_access_token_dead_token_during_setup_triggers_auth_failed(
 
 
 async def test_get_access_token_rate_limited_during_setup_is_not_fatal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A 429 from the token endpoint during setup should back off, not be fatal."""
     mock_entry = mock_config_entry()
@@ -1309,7 +1309,7 @@ async def test_get_access_token_rate_limited_during_setup_is_not_fatal(
 
 
 async def test_get_access_token_dead_token_after_setup_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a token dying after setup (re)starts reauth without tearing down."""
     mock_entry = mock_config_entry()
@@ -1338,7 +1338,7 @@ async def test_get_access_token_dead_token_after_setup_starts_reauth(
 
 
 async def test_get_access_token_rate_limited_after_setup_is_not_fatal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A transient token-refresh error after setup must not force reauth."""
     mock_entry = mock_config_entry()
@@ -1363,7 +1363,7 @@ async def test_get_access_token_rate_limited_after_setup_is_not_fatal(
 
 
 async def test_stream_rejected_token_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_stream_listen: AsyncMock,
 ) -> None:
     """Test the stream listener starts reauth when the token is rejected."""
@@ -1425,7 +1425,7 @@ def _entry_with_powerwall(
     )
 
 
-async def _setup_account_no_subentry(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def _setup_account_no_subentry(hass: UniversalAssistant) -> MockConfigEntry:
     """Set up an account entry with no local-control subentry (nothing opted in)."""
     entry = mock_config_entry()
     entry.add_to_hass(hass)
@@ -1435,7 +1435,7 @@ async def _setup_account_no_subentry(hass: __HAC_KEEP__) -> MockConfigEntry:
     return entry
 
 
-async def test_energy_site_router_with_powerwall(hass: __HAC_KEEP__) -> None:
+async def test_energy_site_router_with_powerwall(hass: UniversalAssistant) -> None:
     """A paired energy site wraps its cloud API in an EnergySiteRouter."""
     entry = _entry_with_powerwall()
     entry.add_to_hass(hass)
@@ -1454,7 +1454,7 @@ async def test_energy_site_router_with_powerwall(hass: __HAC_KEEP__) -> None:
     assert isinstance(energysite.api, EnergySiteRouter)
 
 
-async def test_energy_site_cloud_without_powerwall(hass: __HAC_KEEP__) -> None:
+async def test_energy_site_cloud_without_powerwall(hass: UniversalAssistant) -> None:
     """An energy site without paired credentials keeps the plain cloud API."""
     entry = mock_config_entry()
     entry.add_to_hass(hass)
@@ -1469,7 +1469,7 @@ async def test_energy_site_cloud_without_powerwall(hass: __HAC_KEEP__) -> None:
 
 
 async def test_energy_site_subentry_without_credentials_uses_cloud(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A subentry that exists but is not yet paired resolves to the cloud API."""
     entry = mock_config_entry()
@@ -1501,7 +1501,7 @@ async def test_energy_site_subentry_without_credentials_uses_cloud(
     assert energysite.can_local_control
 
 
-async def test_no_subentry_created_at_setup(hass: __HAC_KEEP__) -> None:
+async def test_no_subentry_created_at_setup(hass: UniversalAssistant) -> None:
     """Setup never auto-creates a local-control subentry; it is opt-in."""
     entry = await _setup_account_no_subentry(hass)
 
@@ -1525,7 +1525,7 @@ async def test_no_subentry_created_at_setup(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_local_control_failure_falls_back_to_cloud(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     local_error: Exception,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1567,7 +1567,7 @@ async def test_local_control_failure_falls_back_to_cloud(
     ],
 )
 async def test_local_control_key_load_failure_falls_back_to_cloud(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     rsa_key_error: Exception,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1595,7 +1595,7 @@ async def test_local_control_key_load_failure_falls_back_to_cloud(
 
 
 async def test_local_control_unexpected_typeerror_is_not_swallowed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A TypeError outside the key load is a real bug and must not degrade silently."""
     entry = _entry_with_powerwall()
@@ -1618,7 +1618,7 @@ async def test_local_control_unexpected_typeerror_is_not_swallowed(
     assert entry.state is ConfigEntryState.SETUP_ERROR
 
 
-async def test_get_rsa_key_pem_generates_and_caches(hass: __HAC_KEEP__) -> None:
+async def test_get_rsa_key_pem_generates_and_caches(hass: UniversalAssistant) -> None:
     """The RSA key is generated/read once, then served from the hass.data cache."""
     with (
         patch(
@@ -1651,7 +1651,7 @@ async def test_get_rsa_key_pem_generates_and_caches(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_energy_site_router_command_routing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     local_error: Exception | None,
     expected: dict[str, str],
     cloud_awaits: int,
@@ -1693,7 +1693,7 @@ async def test_energy_site_router_command_routing(
 
 
 async def test_energy_site_router_command_rejected_locally(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A command the Powerwall rejects is not retried on the cloud."""
     entry = _entry_with_powerwall()
@@ -1732,7 +1732,7 @@ async def test_energy_site_router_command_rejected_locally(
 
 
 async def _setup_entry_with_powerwall(
-    hass: __HAC_KEEP__, entry: MockConfigEntry, gateway_lookup: AsyncMock
+    hass: UniversalAssistant, entry: MockConfigEntry, gateway_lookup: AsyncMock
 ) -> None:
     """Set up an entry whose paired site's gateway lookup is mocked."""
     with (
@@ -1751,7 +1751,7 @@ async def _setup_entry_with_powerwall(
 
 
 async def test_local_gateway_reachable_skips_lookup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_powerwall_connect: AsyncMock,
 ) -> None:
@@ -1779,7 +1779,7 @@ async def test_local_gateway_reachable_skips_lookup(
     ],
 )
 async def test_local_gateway_rediscovered_through_cloud(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_powerwall_connect: AsyncMock,
     connect_error: PowerwallError,
@@ -1832,7 +1832,7 @@ async def test_local_gateway_rediscovered_through_cloud(
     ],
 )
 async def test_local_gateway_not_found_raises_repair(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_powerwall_connect: AsyncMock,
     connect_error: PowerwallError,
@@ -1865,7 +1865,7 @@ async def test_local_gateway_not_found_raises_repair(
 
 
 async def test_gateway_repair_deleted_with_subentry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_powerwall_connect: AsyncMock,
 ) -> None:
@@ -1884,7 +1884,7 @@ async def test_gateway_repair_deleted_with_subentry(
 
 
 async def test_gateway_repair_not_linked_to_subentry_removed_during_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_powerwall_connect: AsyncMock,
 ) -> None:
@@ -1910,7 +1910,7 @@ async def test_gateway_repair_not_linked_to_subentry_removed_during_setup(
 
 
 async def test_gateway_repairs_per_entry_for_shared_site(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_powerwall_connect: AsyncMock,
 ) -> None:
@@ -1939,7 +1939,7 @@ async def test_gateway_repairs_per_entry_for_shared_site(
 
 
 async def test_gateway_repair_cleared_on_first_local_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     issue_registry: ir.IssueRegistry,
     mock_powerwall_connect: AsyncMock,
@@ -1972,7 +1972,7 @@ async def test_gateway_repair_cleared_on_first_local_poll(
     ],
 )
 async def test_local_gateway_refusal_at_confirmed_address(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_powerwall_connect: AsyncMock,
     connect_error: PowerwallError,
@@ -1994,7 +1994,7 @@ async def test_local_gateway_refusal_at_confirmed_address(
 
 
 async def test_local_gateway_rate_limited_skips_lookup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_powerwall_connect: AsyncMock,
 ) -> None:
@@ -2015,7 +2015,7 @@ async def test_local_gateway_rate_limited_skips_lookup(
 
 
 async def test_local_gateway_repair_cleared_after_local_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_powerwall_connect: AsyncMock,
 ) -> None:
@@ -2037,7 +2037,7 @@ async def test_local_gateway_repair_cleared_after_local_success(
 
 
 async def test_local_gateway_repair_cleared_when_rate_limited(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_powerwall_connect: AsyncMock,
 ) -> None:
@@ -2059,7 +2059,7 @@ async def test_local_gateway_repair_cleared_when_rate_limited(
 
 
 async def test_local_gateway_repair_cleared_at_confirmed_address(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_powerwall_connect: AsyncMock,
 ) -> None:
@@ -2083,7 +2083,7 @@ async def test_local_gateway_repair_cleared_at_confirmed_address(
 
 
 async def test_local_gateway_repair_cleared_without_subentry(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """The gateway repair clears once the site is no longer set up for local control."""
     entry = mock_config_entry()
@@ -2099,7 +2099,7 @@ async def test_local_gateway_repair_cleared_without_subentry(
 
 
 def _create_gateway_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     site_id: int,
     entry_id: str,
     config_entry_id: str | None,
@@ -2133,7 +2133,7 @@ def _create_gateway_issue(
     ],
 )
 async def test_ignored_gateway_repair_kept_on_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_powerwall_connect: AsyncMock,
     key_error: Exception | None,
@@ -2174,7 +2174,7 @@ async def test_ignored_gateway_repair_kept_on_setup(
 
 
 async def test_stale_gateway_repairs_deleted_on_setup(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Gateway repairs of the entry's sites which aren't set up are deleted.
 
@@ -2217,7 +2217,7 @@ async def test_stale_gateway_repairs_deleted_on_setup(
 
 
 async def test_gateway_repairs_refresh_cancelled_on_setup_failure(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry, mock_live_status: AsyncMock
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry, mock_live_status: AsyncMock
 ) -> None:
     """A failed setup leaves the gateway repairs alone."""
     entry = mock_config_entry()
@@ -2232,7 +2232,7 @@ async def test_gateway_repairs_refresh_cancelled_on_setup_failure(
     assert issue_registry.async_get_issue(DOMAIN, issue_id)
 
 
-async def test_stale_cleanup_preserves_foreign_subentry(hass: __HAC_KEEP__) -> None:
+async def test_stale_cleanup_preserves_foreign_subentry(hass: UniversalAssistant) -> None:
     """Energy stale-subentry cleanup does not remove other subentry types."""
     entry = mock_config_entry()
     entry.add_to_hass(hass)
@@ -2252,7 +2252,7 @@ async def test_stale_cleanup_preserves_foreign_subentry(hass: __HAC_KEEP__) -> N
     assert entry.subentries[foreign.subentry_id].subentry_type == "vehicle"
 
 
-async def test_stale_cleanup_removes_energy_subentry(hass: __HAC_KEEP__) -> None:
+async def test_stale_cleanup_removes_energy_subentry(hass: UniversalAssistant) -> None:
     """A paired site that is gone from the account has its subentry pruned."""
     entry = _entry_with_powerwall()
     entry.add_to_hass(hass)
@@ -2276,7 +2276,7 @@ async def test_stale_cleanup_removes_energy_subentry(hass: __HAC_KEEP__) -> None
 
 
 async def test_stale_cleanup_preserves_pairing_on_transient_access_loss(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A paired site that momentarily reports no access keeps its subentry."""
     entry = _entry_with_powerwall()
@@ -2298,7 +2298,7 @@ async def test_stale_cleanup_preserves_pairing_on_transient_access_loss(
     assert entry.subentries[subentry_id].data[CONF_PASSWORD] == PASSWORD
 
 
-async def test_solar_only_site_has_no_local_control(hass: __HAC_KEEP__) -> None:
+async def test_solar_only_site_has_no_local_control(hass: UniversalAssistant) -> None:
     """A solar-only site gets no local-control subentry: there is no Powerwall."""
     products = deepcopy(PRODUCTS)
     site = next(
@@ -2325,7 +2325,7 @@ async def test_solar_only_site_has_no_local_control(hass: __HAC_KEEP__) -> None:
 
 
 async def test_stale_cleanup_preserves_pairing_without_energy_scope(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Losing the energy scope must not delete a paired site's stored credentials."""
     entry = _entry_with_powerwall()
@@ -2348,7 +2348,7 @@ async def test_stale_cleanup_preserves_pairing_without_energy_scope(
     assert entry.subentries[subentry_id].data[CONF_PASSWORD] == PASSWORD
 
 
-async def test_update_listener_ignores_token_refresh(hass: __HAC_KEEP__) -> None:
+async def test_update_listener_ignores_token_refresh(hass: UniversalAssistant) -> None:
     """An entry update that only changes token data must not reload the entry."""
     entry = mock_config_entry()
     entry.add_to_hass(hass)
@@ -2366,7 +2366,7 @@ async def test_update_listener_ignores_token_refresh(hass: __HAC_KEEP__) -> None
 
 
 async def test_update_listener_reloads_on_subentry_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Adding a local-energy-site subentry reloads the entry."""
     entry = mock_config_entry()
@@ -2409,7 +2409,7 @@ def test_stream_topic_allowlist() -> None:
 
 
 async def test_energy_stream_no_recurring_rest_polling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_live_status: AsyncMock,
     mock_site_info: AsyncMock,
@@ -2433,7 +2433,7 @@ async def test_energy_stream_no_recurring_rest_polling(
 
 
 async def test_energy_stream_unload_unsubscribes_and_closes_stream(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Unload runs each listener unsubscribe and closes the shared stream."""
     live_unsub = MagicMock()
@@ -2474,13 +2474,13 @@ async def test_energy_stream_unload_unsubscribes_and_closes_stream(
 
 
 async def test_energy_stream_stop_does_not_fail_coordinators(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_stream_listen: MagicMock,
     mock_add_connection_listener: MagicMock,
     mock_energy_totals_stream: MagicMock,
 ) -> None:
-    """Stopping __HA_KEEP__ does not fail the energy coordinators."""
+    """Stopping Universal Home Assistant does not fail the energy coordinators."""
 
     async def listen() -> None:
         # Like the library, report a disconnect when the listen task ends.
@@ -2506,7 +2506,7 @@ async def test_energy_stream_stop_does_not_fail_coordinators(
 
 
 async def test_energy_stream_disconnect_marks_unavailable_and_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_add_connection_listener: MagicMock,
     mock_energy_live_stream: MagicMock,
@@ -2552,7 +2552,7 @@ async def test_energy_stream_disconnect_marks_unavailable_and_recovers(
 
 
 async def test_energy_stream_quick_reconnect_stays_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
     mock_add_connection_listener: MagicMock,
@@ -2575,7 +2575,7 @@ async def test_energy_stream_quick_reconnect_stays_available(
 
 
 async def test_energy_stream_failed_reconnects_mark_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
     mock_add_connection_listener: MagicMock,
@@ -2601,7 +2601,7 @@ async def test_energy_stream_failed_reconnects_mark_unavailable(
 
 
 async def test_energy_stream_grace_cancelled_on_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
     mock_add_connection_listener: MagicMock,
@@ -2617,12 +2617,12 @@ async def test_energy_stream_grace_cancelled_on_unload(
 
 
 async def test_energy_stream_grace_expiring_while_stopping(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
     mock_add_connection_listener: MagicMock,
 ) -> None:
-    """A grace that expires while __HA_KEEP__ stops fails nothing."""
+    """A grace that expires while Universal Home Assistant stops fails nothing."""
     await setup_platform(hass, [Platform.SENSOR, Platform.CALENDAR])
 
     mock_add_connection_listener.send(False)
@@ -2638,7 +2638,7 @@ CLOUD_RESULT = {"response": {"result": True, "reason": "cloud"}}
 BLE_RESULT = {"response": {"result": True, "reason": "bluetooth"}}
 
 
-async def test_vehicle_router_with_bluetooth(hass: __HAC_KEEP__) -> None:
+async def test_vehicle_router_with_bluetooth(hass: UniversalAssistant) -> None:
     """A BLE-paired vehicle wraps its cloud API in a VehicleRouter."""
     entry = mock_ble_config_entry()
     entry.add_to_hass(hass)
@@ -2669,7 +2669,7 @@ async def test_vehicle_router_with_bluetooth(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_vehicle_cloud_without_bluetooth(hass: __HAC_KEEP__) -> None:
+async def test_vehicle_cloud_without_bluetooth(hass: UniversalAssistant) -> None:
     """A vehicle without a paired address keeps the plain cloud API."""
     entry = mock_config_entry()
     entry.add_to_hass(hass)
@@ -2713,7 +2713,7 @@ async def test_vehicle_cloud_without_bluetooth(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_vehicle_bluetooth_key_load_falls_back_to_cloud(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     key_error: Exception,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2750,7 +2750,7 @@ async def test_vehicle_bluetooth_key_load_falls_back_to_cloud(
 
 
 async def test_vehicle_bluetooth_key_load_recovers_on_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """A vehicle degraded to cloud by a key-load failure regains BLE control on reload."""
@@ -2793,7 +2793,7 @@ async def test_vehicle_bluetooth_key_load_recovers_on_reload(
 
 @asynccontextmanager
 async def _paired_entry(
-    hass: __HAC_KEEP__, ble_lookup: MagicMock
+    hass: UniversalAssistant, ble_lookup: MagicMock
 ) -> AsyncIterator[tuple[VehicleRouter, AsyncMock, AsyncMock]]:
     """Set up a BLE-paired entry, yielding its router and both backends."""
     entry = mock_ble_config_entry()
@@ -2828,7 +2828,7 @@ async def _paired_entry(
 
 
 async def test_vehicle_bluetooth_out_of_range(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """A paired vehicle out of range skips Bluetooth and logs why."""
     with patch(
@@ -2857,7 +2857,7 @@ async def test_vehicle_bluetooth_out_of_range(
 
 
 async def test_vehicle_router_resumes_bluetooth_when_vehicle_returns(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A vehicle away at setup routes locally again once it comes home."""
     ble_lookup = MagicMock(return_value=None)
@@ -2876,7 +2876,7 @@ async def test_vehicle_router_resumes_bluetooth_when_vehicle_returns(
 
 
 async def test_vehicle_router_falls_back_when_vehicle_leaves(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A vehicle in range at setup routes to cloud once it drives away."""
     ble_lookup = MagicMock(return_value=MagicMock())
@@ -2894,7 +2894,7 @@ async def test_vehicle_router_falls_back_when_vehicle_leaves(
         bluetooth_vehicle.flash_lights.assert_awaited_once()
 
 
-async def test_vehicle_router_refreshes_device_handle(hass: __HAC_KEEP__) -> None:
+async def test_vehicle_router_refreshes_device_handle(hass: UniversalAssistant) -> None:
     """Each command refreshes the BLE handle from the cache before connecting."""
     first_device = MagicMock()
     second_device = MagicMock()
@@ -2911,7 +2911,7 @@ async def test_vehicle_router_refreshes_device_handle(hass: __HAC_KEEP__) -> Non
 
 
 async def test_vehicle_router_fails_over_on_stale_cache_hit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A cache entry outliving the vehicle costs one failed attempt, not a failure."""
     async with _paired_entry(hass, MagicMock(return_value=MagicMock())) as (
@@ -2927,7 +2927,7 @@ async def test_vehicle_router_fails_over_on_stale_cache_hit(
         cloud.assert_awaited_once()
 
 
-async def test_vehicle_paired_but_never_seen(hass: __HAC_KEEP__) -> None:
+async def test_vehicle_paired_but_never_seen(hass: UniversalAssistant) -> None:
     """A paired vehicle never seen by Bluetooth is built without a device handle."""
     entry = mock_ble_config_entry()
     entry.add_to_hass(hass)
@@ -2964,7 +2964,7 @@ async def test_vehicle_paired_but_never_seen(hass: __HAC_KEEP__) -> None:
     ids=["clean", "error_swallowed"],
 )
 async def test_unload_disconnects_bluetooth(
-    hass: __HAC_KEEP__, disconnect_error: Exception | None
+    hass: UniversalAssistant, disconnect_error: Exception | None
 ) -> None:
     """Unloading a routed entry disconnects its Bluetooth backend, errors and all."""
     entry = mock_ble_config_entry()
@@ -2996,7 +2996,7 @@ async def test_unload_disconnects_bluetooth(
     bluetooth_vehicle.disconnect.assert_awaited_once()
 
 
-async def test_unload_never_connected_bluetooth(hass: __HAC_KEEP__) -> None:
+async def test_unload_never_connected_bluetooth(hass: UniversalAssistant) -> None:
     """Unloading a paired vehicle that was never in range does not raise."""
     entry = mock_ble_config_entry()
     entry.add_to_hass(hass)
@@ -3025,7 +3025,7 @@ async def test_unload_never_connected_bluetooth(hass: __HAC_KEEP__) -> None:
     bluetooth_vehicle.disconnect.assert_awaited_once()
 
 
-async def test_ble_broadcast_updates_stream_backed_entity(hass: __HAC_KEEP__) -> None:
+async def test_ble_broadcast_updates_stream_backed_entity(hass: UniversalAssistant) -> None:
     """A paired vehicle's Bluetooth broadcast reaches its stream-backed lock entity."""
     entry = mock_ble_config_entry()
     entry.add_to_hass(hass)
@@ -3061,7 +3061,7 @@ async def test_ble_broadcast_updates_stream_backed_entity(hass: __HAC_KEEP__) ->
     assert hass.states.get("lock.test_lock").state == LockState.LOCKED
 
 
-async def test_unload_stops_ble_broadcast_glue(hass: __HAC_KEEP__) -> None:
+async def test_unload_stops_ble_broadcast_glue(hass: UniversalAssistant) -> None:
     """Unloading a routed entry stops its BLE broadcast glue."""
     entry = mock_ble_config_entry()
     entry.add_to_hass(hass)
@@ -3092,7 +3092,7 @@ async def test_unload_stops_ble_broadcast_glue(hass: __HAC_KEEP__) -> None:
 
 
 async def test_setup_failure_after_glue_construction_stops_it(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A setup failure after the BLE glue is built still unsubscribes it."""
     entry = mock_ble_config_entry()
@@ -3127,7 +3127,7 @@ async def test_setup_failure_after_glue_construction_stops_it(
 
 
 async def test_unload_disconnect_timeout(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """A hung Bluetooth disconnect cannot block unload past the timeout."""
     entry = mock_ble_config_entry()
@@ -3167,7 +3167,7 @@ async def test_unload_disconnect_timeout(
 
 
 async def test_unload_disconnect_instant_timeout(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """A TimeoutError raised by disconnect() itself is not mistaken for the deadline."""
     entry = mock_ble_config_entry()
@@ -3202,7 +3202,7 @@ async def test_unload_disconnect_instant_timeout(
     assert "timed out after" not in caplog.text
 
 
-async def test_ble_parent_shared_and_cached(hass: __HAC_KEEP__) -> None:
+async def test_ble_parent_shared_and_cached(hass: UniversalAssistant) -> None:
     """The BLE parent (holding the private key) is created once and reused."""
     with patch(
         "universalassistant.components.teslemetry.helpers.TeslaBluetooth"
@@ -3216,7 +3216,7 @@ async def test_ble_parent_shared_and_cached(hass: __HAC_KEEP__) -> None:
     mock_parent.return_value.get_private_key.assert_awaited_once()
 
 
-async def test_ble_parent_concurrent_first_init(hass: __HAC_KEEP__) -> None:
+async def test_ble_parent_concurrent_first_init(hass: UniversalAssistant) -> None:
     """Concurrent first-time callers still create and load the key exactly once."""
 
     async def _get_private_key(path: str) -> None:
@@ -3264,7 +3264,7 @@ async def test_router_fails_over_on_command_failed() -> None:
     cloud.actuate_trunk.assert_awaited_once()
 
 
-async def _setup_paired_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def _setup_paired_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Set up an entry whose only account vehicle is already BLE-paired."""
     entry = mock_ble_config_entry()
     entry.add_to_hass(hass)
@@ -3287,7 +3287,7 @@ async def _setup_paired_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     return entry
 
 
-async def test_subentry_removal_reloads(hass: __HAC_KEEP__) -> None:
+async def test_subentry_removal_reloads(hass: UniversalAssistant) -> None:
     """Removing a vehicle subentry reloads once; later updates do not re-schedule."""
     entry = await _setup_paired_entry(hass)
     subentry_id = entry.get_subentries_of_type(SUBENTRY_TYPE_VEHICLE)[0].subentry_id
@@ -3306,7 +3306,7 @@ async def test_subentry_removal_reloads(hass: __HAC_KEEP__) -> None:
 
 
 async def test_subentry_removal_keeps_vehicle_device_and_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -3361,7 +3361,7 @@ async def test_subentry_removal_keeps_vehicle_device_and_entities(
     assert {entity.unique_id for entity in entities_after} == unique_ids_before
 
 
-async def test_no_subentry_auto_created_at_setup(hass: __HAC_KEEP__) -> None:
+async def test_no_subentry_auto_created_at_setup(hass: UniversalAssistant) -> None:
     """Setup never auto-creates a Bluetooth subentry for account vehicles."""
     entry = mock_config_entry()
     entry.add_to_hass(hass)
@@ -3373,7 +3373,7 @@ async def test_no_subentry_auto_created_at_setup(hass: __HAC_KEEP__) -> None:
     assert not entry.get_subentries_of_type(SUBENTRY_TYPE_VEHICLE)
 
 
-async def test_user_subentry_persists_across_reload(hass: __HAC_KEEP__) -> None:
+async def test_user_subentry_persists_across_reload(hass: UniversalAssistant) -> None:
     """A paired vehicle subentry survives a reload even if its vehicle leaves the account."""
     entry = await _setup_paired_entry(hass)
     subentry_id = entry.get_subentries_of_type(SUBENTRY_TYPE_VEHICLE)[0].subentry_id
@@ -3397,7 +3397,7 @@ async def test_user_subentry_persists_across_reload(hass: __HAC_KEEP__) -> None:
 
 
 async def test_labs_charge_on_solar_toggle_triggers_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test labs charge-on-solar feature toggle schedules an integration reload."""
     assert await async_setup_component(hass, "labs", {})
@@ -3414,7 +3414,7 @@ async def test_labs_charge_on_solar_toggle_triggers_reload(
 
 
 async def test_charge_on_solar_settings_removed_with_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test the charge-on-solar settings are stored per entry and removed with it."""
@@ -3490,7 +3490,7 @@ def _slim_site_info() -> dict[str, Any]:
 
 
 async def _setup_energy_site_entry(
-    hass: __HAC_KEEP__, entry: MockConfigEntry, platforms: list[Platform]
+    hass: UniversalAssistant, entry: MockConfigEntry, platforms: list[Platform]
 ) -> None:
     """Set up an energy site entry with only the given platforms."""
     entry.add_to_hass(hass)
@@ -3509,7 +3509,7 @@ STREAM_GRACE = timedelta(seconds=STREAM_DISCONNECT_GRACE)
 
 
 async def _tick(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, interval: timedelta
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, interval: timedelta
 ) -> None:
     """Advance time by one interval and let the timers run."""
     freezer.tick(interval)
@@ -3518,7 +3518,7 @@ async def _tick(
 
 
 async def _tick_local_live(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, ticks: int
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, ticks: int
 ) -> None:
     """Advance time by ``ticks`` local live poll intervals."""
     for _ in range(ticks):
@@ -3527,7 +3527,7 @@ async def _tick_local_live(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_paired_site_live_reads_merge_over_cloud(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_powerwall_live_status: AsyncMock,
 ) -> None:
@@ -3559,7 +3559,7 @@ async def test_paired_site_live_reads_merge_over_cloud(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_paired_site_local_gap_keeps_cloud_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_powerwall_live_status: AsyncMock,
 ) -> None:
@@ -3577,7 +3577,7 @@ async def test_paired_site_local_gap_keeps_cloud_value(
 
 
 async def test_paired_site_config_reads_merge_over_cloud(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_powerwall_local_config: AsyncMock,
 ) -> None:
@@ -3605,7 +3605,7 @@ async def test_paired_site_config_reads_merge_over_cloud(
 
 
 async def test_local_command_survives_site_info_push_before_next_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_powerwall_local_config: AsyncMock,
     mock_energy_info_stream: MagicMock,
@@ -3644,7 +3644,7 @@ async def test_local_command_survives_site_info_push_before_next_poll(
 
 
 async def test_local_command_survives_poll_started_before_it(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_powerwall_local_config: AsyncMock,
 ) -> None:
@@ -3723,7 +3723,7 @@ async def test_local_command_survives_poll_started_before_it(
     ],
 )
 async def test_local_command_survives_failed_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_powerwall_local_config: AsyncMock,
     mock_energy_info_stream: MagicMock,
@@ -3851,7 +3851,7 @@ async def test_local_command_survives_failed_poll(
     ],
 )
 async def test_local_command_released_by_reporting_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_powerwall_local_config: AsyncMock,
     platform: Platform,
@@ -3898,7 +3898,7 @@ async def test_local_command_released_by_reporting_poll(
 
 
 async def _push_site_info(
-    hass: __HAC_KEEP__, mock_energy_info_stream: MagicMock, entity_id: str
+    hass: UniversalAssistant, mock_energy_info_stream: MagicMock, entity_id: str
 ) -> None:
     """Deliver the cloud site_info, with the off-grid reserve at 50, by stream."""
     slim_site_info = _slim_site_info()
@@ -3908,7 +3908,7 @@ async def _push_site_info(
 
 
 async def _refresh_site_info(
-    hass: __HAC_KEEP__, mock_energy_info_stream: MagicMock, entity_id: str
+    hass: UniversalAssistant, mock_energy_info_stream: MagicMock, entity_id: str
 ) -> None:
     """Deliver the cloud site_info by a manual entity refresh."""
     await hass.services.async_call(
@@ -3994,12 +3994,12 @@ async def _refresh_site_info(
     ],
 )
 async def test_cloud_owned_command_value_held_until_cloud_site_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_site_info: AsyncMock,
     mock_energy_info_stream: MagicMock,
     entry_factory: Callable[[], MockConfigEntry],
-    release: Callable[[__HAC_KEEP__, MagicMock, str], Awaitable[None]],
+    release: Callable[[UniversalAssistant, MagicMock, str], Awaitable[None]],
     platform: Platform,
     command: str,
     service_call: tuple[str, str, dict[str, Any]],
@@ -4039,7 +4039,7 @@ async def test_cloud_owned_command_value_held_until_cloud_site_info(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_cloud_push_before_first_local_poll_sets_owned_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_powerwall_live_status: AsyncMock,
     mock_energy_live_stream: MagicMock,
 ) -> None:
@@ -4057,7 +4057,7 @@ async def test_cloud_push_before_first_local_poll_sets_owned_key(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_cloud_push_between_local_ticks_keeps_owned_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_powerwall_live_status: AsyncMock,
     mock_energy_live_stream: MagicMock,
@@ -4083,7 +4083,7 @@ async def test_cloud_push_between_local_ticks_keeps_owned_key(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_paired_site_manual_refresh_merges_and_keeps_cloud_read(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_live_status: AsyncMock,
     mock_powerwall_live_status: AsyncMock,
@@ -4120,7 +4120,7 @@ async def test_paired_site_manual_refresh_merges_and_keeps_cloud_read(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_unpaired_site_manual_refresh_publishes_cloud_read(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_live_status: AsyncMock,
 ) -> None:
     """A manual refresh on an unpaired site publishes the refreshed cloud read."""
@@ -4142,7 +4142,7 @@ async def test_unpaired_site_manual_refresh_publishes_cloud_read(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_paired_site_live_read_failure_falls_back_and_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_powerwall_live_status: AsyncMock,
 ) -> None:
@@ -4170,7 +4170,7 @@ async def test_paired_site_live_read_failure_falls_back_and_recovers(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_paired_site_live_read_failures_back_off_and_reset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_powerwall_live_status: AsyncMock,
 ) -> None:
@@ -4197,7 +4197,7 @@ async def test_paired_site_live_read_failures_back_off_and_reset(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_paired_site_live_read_failure_logging(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
     mock_powerwall_live_status: AsyncMock,
@@ -4239,7 +4239,7 @@ async def test_paired_site_live_read_failure_logging(
 
 
 async def test_paired_site_config_read_failure_falls_back_and_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_powerwall_local_config: AsyncMock,
 ) -> None:
@@ -4268,7 +4268,7 @@ async def test_paired_site_config_read_failure_falls_back_and_recovers(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_unpaired_site_reads_cloud_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_powerwall_live_status: AsyncMock,
     mock_powerwall_local_config: AsyncMock,
@@ -4287,7 +4287,7 @@ async def test_unpaired_site_reads_cloud_only(
 
 
 async def test_paired_site_without_live_status_reads_config_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_live_status: AsyncMock,
     mock_powerwall_live_status: AsyncMock,
@@ -4310,7 +4310,7 @@ async def test_paired_site_without_live_status_reads_config_only(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_local_live_poll_survives_stream_push_storm(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_powerwall_live_status: AsyncMock,
     mock_energy_live_stream: MagicMock,
@@ -4334,7 +4334,7 @@ async def test_local_live_poll_survives_stream_push_storm(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_overlapping_local_live_poll_skips_second_tick(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_powerwall_live_status: AsyncMock,
 ) -> None:
@@ -4363,7 +4363,7 @@ async def test_overlapping_local_live_poll_skips_second_tick(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_paired_stream_push_restores_availability_after_disconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_add_connection_listener: MagicMock,
     mock_energy_live_stream: MagicMock,
@@ -4390,7 +4390,7 @@ async def test_paired_stream_push_restores_availability_after_disconnect(
 
 
 async def test_local_config_poll_does_not_clear_stream_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_add_connection_listener: MagicMock,
     mock_energy_info_stream: MagicMock,
@@ -4421,7 +4421,7 @@ async def test_local_config_poll_does_not_clear_stream_error(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_local_poll_timer_cancelled_on_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_powerwall_live_status: AsyncMock,
 ) -> None:

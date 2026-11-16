@@ -2,8 +2,8 @@
 
 from typing import TYPE_CHECKING
 
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import DATA_COMPONENT, DOMAIN, CameraEntityFeature
 
@@ -11,17 +11,17 @@ if TYPE_CHECKING:
     from . import Camera
 
 
-def get_camera_from_entity_id(hass: __HAC_KEEP__, entity_id: str) -> Camera:
+def get_camera_from_entity_id(hass: UniversalAssistant, entity_id: str) -> Camera:
     """Get camera component from entity_id."""
     component = hass.data.get(DATA_COMPONENT)
     if component is None:
-        raise __HAC_KEEP__Error("Camera integration not set up")
+        raise UniversalAssistantError("Camera integration not set up")
 
     if (camera := component.get_entity(entity_id)) is None:
-        raise __HAC_KEEP__Error("Camera not found")
+        raise UniversalAssistantError("Camera not found")
 
     if not camera.is_on:
-        raise __HAC_KEEP__Error("Camera is off")
+        raise UniversalAssistantError("Camera is off")
 
     return camera
 
@@ -47,12 +47,12 @@ async def async_get_stream_image(
 
 
 async def async_stream_endpoint_url(
-    hass: __HAC_KEEP__, camera: Camera, fmt: str
+    hass: UniversalAssistant, camera: Camera, fmt: str
 ) -> str:
     """Start the camera stream and return its endpoint URL."""
     stream = await camera.async_create_stream()
     if not stream:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="stream_not_supported",
             translation_placeholders={"entity_id": camera.entity_id},

@@ -11,13 +11,13 @@ from universalassistant.const import (
     ATTR_FRIENDLY_NAME,
     CONF_PLATFORM,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .common import MockDateEntity
 
 
-async def test_date(hass: __HAC_KEEP__) -> None:
+async def test_date(hass: UniversalAssistant) -> None:
     """Test date entity."""
     entity = MockDateEntity(
         name="test",

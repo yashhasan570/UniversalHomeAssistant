@@ -13,7 +13,7 @@ from universalassistant.components.switch import (
 )
 from universalassistant.components.tessie.switch import DESCRIPTIONS
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.typing import StateType
 
@@ -43,7 +43,7 @@ def test_charge_switch_state(value: StateType, expected: bool) -> None:
 
 
 async def test_switches(
-    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, snapshot: SnapshotAssertion, entity_registry: er.EntityRegistry
 ) -> None:
     """Tests that the switch entities are correct."""
 
@@ -97,7 +97,7 @@ async def test_switches(
     ],
 )
 async def test_switch_services(
-    hass: __HAC_KEEP__, name: str, on: str, off: str
+    hass: UniversalAssistant, name: str, on: str, off: str
 ) -> None:
     """Tests that the switch service calls work."""
 

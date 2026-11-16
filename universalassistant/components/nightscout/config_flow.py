@@ -9,7 +9,7 @@ from py_nightscout import Api as NightscoutAPI
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_API_KEY, CONF_URL
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import DOMAIN
 from .utils import hash_from_url
@@ -78,7 +78,7 @@ class NightscoutConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class InputValidationError(__HAC_KEEP__Error):
+class InputValidationError(UniversalAssistantError):
     """Error to indicate we cannot proceed due to invalid input."""
 
     def __init__(self, base: str) -> None:

@@ -5,20 +5,20 @@ from typing import Any
 
 from universalassistant.components import system_health
 from universalassistant.const import CONF_MODE
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 from .const import LOVELACE_DATA, MODE_AUTO, MODE_STORAGE, MODE_YAML
 
 
 @callback
 def async_register(
-    hass: __HAC_KEEP__, register: system_health.SystemHealthRegistration
+    hass: UniversalAssistant, register: system_health.SystemHealthRegistration
 ) -> None:
     """Register system health callbacks."""
     register.async_register_info(system_health_info, "/config/lovelace")
 
 
-async def system_health_info(hass: __HAC_KEEP__) -> dict[str, Any]:
+async def system_health_info(hass: UniversalAssistant) -> dict[str, Any]:
     """Get info for the info page."""
     health_info: dict[str, Any] = {
         "dashboards": len(hass.data[LOVELACE_DATA].dashboards)

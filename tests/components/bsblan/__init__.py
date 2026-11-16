@@ -5,11 +5,11 @@ from unittest.mock import patch
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def setup_with_selected_platforms(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, platforms: list[Platform]
+    hass: UniversalAssistant, config_entry: MockConfigEntry, platforms: list[Platform]
 ) -> None:
     """Set up the BSBLAN integration with the selected platforms."""
     config_entry.add_to_hass(hass)

@@ -46,7 +46,7 @@
         "data_description": {
           "ip_address": "The IP address of your HomeWizard device."
         },
-        "description": "Enter the IP address of your HomeWizard device to integrate with __HA_KEEP__.",
+        "description": "Enter the IP address of your HomeWizard device to integrate with Universal Home Assistant.",
         "title": "Configure device"
       }
     }

@@ -8,7 +8,7 @@ from deebot_client.events.map import CachedMapInfoEvent, MapChangedEvent
 from deebot_client.map import Map
 
 from universalassistant.components.image import ImageEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity import EntityDescription
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -17,7 +17,7 @@ from .entity import EcovacsEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: EcovacsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -45,7 +45,7 @@ class EcovacsMap(
         self,
         device: Device,
         capability: CapabilityMap,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
     ) -> None:
         """Initialize entity."""
         super().__init__(device, capability, hass=hass)

@@ -30,11 +30,11 @@ from aiohttp import ClientSession
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryNotReady,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
 )
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.debounce import Debouncer
@@ -51,13 +51,13 @@ SCAN_INTERVAL = 300
 async def alexa_api_call(
     coordinator: DataUpdateCoordinator | None = None,
 ) -> AsyncGenerator[None]:
-    """Handle common Alexa API exceptions as __HAC_KEEP__Error."""
+    """Handle common Alexa API exceptions as UniversalAssistantError."""
     try:
         yield
     except CannotAuthenticate as err:
         if coordinator:
             coordinator.last_update_success = False
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="invalid_auth",
             translation_placeholders={"error": repr(err)},
@@ -65,7 +65,7 @@ async def alexa_api_call(
     except CannotConnect as err:
         if coordinator:
             coordinator.last_update_success = False
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="cannot_connect_with_error",
             translation_placeholders={"error": repr(err)},
@@ -73,13 +73,13 @@ async def alexa_api_call(
     except (CannotRetrieveData, ValueError) as err:
         if coordinator:
             coordinator.last_update_success = False
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="cannot_retrieve_data_with_error",
             translation_placeholders={"error": repr(err)},
         ) from err
     except CannotSetFeature as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="cannot_set_feature_with_error",
             translation_placeholders={"error": repr(err)},
@@ -127,7 +127,7 @@ class AmazonDevicesCoordinator(DataUpdateCoordinator[dict[str, AmazonDevice]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: AmazonConfigEntry,
         session: ClientSession,
     ) -> None:

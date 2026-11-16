@@ -6,7 +6,7 @@ import pylitejet
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PORT, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 
@@ -17,7 +17,7 @@ type LiteJetConfigEntry = ConfigEntry[pylitejet.LiteJet]
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: LiteJetConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: LiteJetConfigEntry) -> None:
     """Set up LiteJet via a config entry."""
     port = entry.data[CONF_PORT]
 
@@ -54,7 +54,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: LiteJetConfigEntry) -> No
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: LiteJetConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: LiteJetConfigEntry) -> None:
     """Unload a LiteJet config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 

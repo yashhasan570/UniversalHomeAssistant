@@ -9,13 +9,13 @@ import pytest
 from universalassistant.components.pure_energie.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST, CONF_MAC, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_pure_energie_config_flow")
-async def test_full_user_flow_implementation(hass: __HAC_KEEP__) -> None:
+async def test_full_user_flow_implementation(hass: UniversalAssistant) -> None:
     """Test the full manual user flow from start to finish."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -38,7 +38,7 @@ async def test_full_user_flow_implementation(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_pure_energie_config_flow")
-async def test_full_zeroconf_flow_implementationn(hass: __HAC_KEEP__) -> None:
+async def test_full_zeroconf_flow_implementationn(hass: UniversalAssistant) -> None:
     """Test the full manual user flow from start to finish."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -76,7 +76,7 @@ async def test_full_zeroconf_flow_implementationn(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_connection_error(
-    hass: __HAC_KEEP__, mock_pure_energie_config_flow: MagicMock
+    hass: UniversalAssistant, mock_pure_energie_config_flow: MagicMock
 ) -> None:
     """Test we show user form on Pure Energie connection error."""
 
@@ -112,7 +112,7 @@ async def test_connection_error(
 
 
 async def test_zeroconf_connection_error(
-    hass: __HAC_KEEP__, mock_pure_energie_config_flow: MagicMock
+    hass: UniversalAssistant, mock_pure_energie_config_flow: MagicMock
 ) -> None:
     """Test we abort zeroconf flow on Pure Energie connection error."""
     mock_pure_energie_config_flow.device.side_effect = GridNetConnectionError

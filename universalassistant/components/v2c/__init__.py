@@ -3,7 +3,7 @@
 from pytrydan import Trydan
 
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.httpx_client import get_async_client
 
 from .coordinator import V2CConfigEntry, V2CUpdateCoordinator
@@ -18,7 +18,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: V2CConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: V2CConfigEntry) -> None:
     """Set up V2C from a config entry."""
 
     trydan = Trydan(entry.data[CONF_HOST], get_async_client(hass, verify_ssl=False))
@@ -34,6 +34,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: V2CConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: V2CConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: V2CConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

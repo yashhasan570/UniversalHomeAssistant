@@ -1,4 +1,4 @@
-"""Test __HA_KEEP__ template helper methods."""
+"""Test Universal Home Assistant template helper methods."""
 
 from datetime import datetime
 from enum import Enum, IntEnum, IntFlag, StrEnum
@@ -11,7 +11,7 @@ import probatio
 import pytest
 
 from universalassistant.const import EntityStateAttribute
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import TemplateError
 from universalassistant.helpers import entity_registry as er, template
 from universalassistant.helpers.template.render_info import (
@@ -24,7 +24,7 @@ from universalassistant.util import dt as dt_util
 from .helpers import assert_result_info, render, render_to_info
 
 
-async def test_template_render_missing_hass(hass: __HAC_KEEP__) -> None:
+async def test_template_render_missing_hass(hass: UniversalAssistant) -> None:
     """Test template render when hass is not set."""
     hass.states.async_set("sensor.test", "23")
     template_obj = template.Template("{{ states('sensor.test') }}", None)
@@ -34,7 +34,7 @@ async def test_template_render_missing_hass(hass: __HAC_KEEP__) -> None:
         template_obj.async_render_to_info()
 
 
-async def test_template_render_info_collision(hass: __HAC_KEEP__) -> None:
+async def test_template_render_info_collision(hass: UniversalAssistant) -> None:
     """Test template render info collision.
 
     This usually means the template is being rendered
@@ -49,7 +49,7 @@ async def test_template_render_info_collision(hass: __HAC_KEEP__) -> None:
         template_obj.async_render_to_info()
 
 
-def test_template_equality(hass: __HAC_KEEP__) -> None:
+def test_template_equality(hass: UniversalAssistant) -> None:
     """Test template comparison and hashing."""
     template_one = template.Template("{{ template_one }}", hass)
     template_one_1 = template.Template("{{ template_one }}", hass)
@@ -66,7 +66,7 @@ def test_template_equality(hass: __HAC_KEEP__) -> None:
         template.Template(["{{ template_one }}"], hass)
 
 
-def test_invalid_template(hass: __HAC_KEEP__) -> None:
+def test_invalid_template(hass: UniversalAssistant) -> None:
     """Invalid template raises error."""
     tmpl = template.Template("{{", hass)
 
@@ -88,13 +88,13 @@ def test_invalid_template(hass: __HAC_KEEP__) -> None:
         tmpl.async_render()
 
 
-def test_raise_exception_on_error(hass: __HAC_KEEP__) -> None:
+def test_raise_exception_on_error(hass: UniversalAssistant) -> None:
     """Test raising an exception on error."""
     with pytest.raises(TemplateError):
         template.Template("{{ invalid_syntax", hass).ensure_valid()
 
 
-async def test_import(hass: __HAC_KEEP__) -> None:
+async def test_import(hass: UniversalAssistant) -> None:
     """Test that imports work from the config/custom_templates folder."""
     await template.async_load_custom_templates(hass)
     assert "test.jinja" in template._get_hass_loader(hass).sources
@@ -131,7 +131,7 @@ async def test_import(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_import_change(hass: __HAC_KEEP__) -> None:
+async def test_import_change(hass: UniversalAssistant) -> None:
     """Test that a change in HassLoader results in updated imports."""
     await template.async_load_custom_templates(hass)
     to_test = template.Template(
@@ -155,7 +155,7 @@ async def test_import_change(hass: __HAC_KEEP__) -> None:
     assert to_test.async_render() == "macro2 variable2"
 
 
-def test_loop_controls(hass: __HAC_KEEP__) -> None:
+def test_loop_controls(hass: UniversalAssistant) -> None:
     """Test that loop controls are enabled."""
     tpl = """
     {%- for v in range(10) %}
@@ -170,7 +170,7 @@ def test_loop_controls(hass: __HAC_KEEP__) -> None:
     assert render(hass, tpl) == "02"
 
 
-def test_converting_datetime_to_iterable(hass: __HAC_KEEP__) -> None:
+def test_converting_datetime_to_iterable(hass: UniversalAssistant) -> None:
     """Test converting a datetime to an iterable raises an error."""
     dt_ = datetime(2020, 1, 1, 0, 0, 0)
     with pytest.raises(TemplateError):
@@ -179,48 +179,48 @@ def test_converting_datetime_to_iterable(hass: __HAC_KEEP__) -> None:
         render(hass, "{{ set(value) }}", {"value": dt_})
 
 
-def test_passing_vars_as_keywords(hass: __HAC_KEEP__) -> None:
+def test_passing_vars_as_keywords(hass: UniversalAssistant) -> None:
     """Test passing variables as keywords."""
     assert render(hass, "{{ hello }}", hello=127) == 127
 
 
-def test_passing_vars_as_vars(hass: __HAC_KEEP__) -> None:
+def test_passing_vars_as_vars(hass: UniversalAssistant) -> None:
     """Test passing variables as variables."""
     assert render(hass, "{{ hello }}", {"hello": 127}) == 127
 
 
-def test_passing_vars_as_list(hass: __HAC_KEEP__) -> None:
+def test_passing_vars_as_list(hass: UniversalAssistant) -> None:
     """Test passing variables as list."""
     assert template.render_complex(
         template.Template("{{ hello }}", hass), {"hello": ["foo", "bar"]}
     ) == ["foo", "bar"]
 
 
-def test_passing_vars_as_list_element(hass: __HAC_KEEP__) -> None:
+def test_passing_vars_as_list_element(hass: UniversalAssistant) -> None:
     """Test passing variables as list."""
     tpl = template.Template("{{ hello[1] }}", hass)
     assert template.render_complex(tpl, {"hello": ["foo", "bar"]}) == "bar"
 
 
-def test_passing_vars_as_dict_element(hass: __HAC_KEEP__) -> None:
+def test_passing_vars_as_dict_element(hass: UniversalAssistant) -> None:
     """Test passing variables as list."""
     tpl = template.Template("{{ hello.foo }}", hass)
     assert template.render_complex(tpl, {"hello": {"foo": "bar"}}) == "bar"
 
 
-def test_passing_vars_as_dict(hass: __HAC_KEEP__) -> None:
+def test_passing_vars_as_dict(hass: UniversalAssistant) -> None:
     """Test passing variables as list."""
     tpl = template.Template("{{ hello }}", hass)
     assert template.render_complex(tpl, {"hello": {"foo": "bar"}}) == {"foo": "bar"}
 
 
-def test_render_with_possible_json_value_with_valid_json(hass: __HAC_KEEP__) -> None:
+def test_render_with_possible_json_value_with_valid_json(hass: UniversalAssistant) -> None:
     """Render with possible JSON value with valid JSON."""
     tpl = template.Template("{{ value_json.hello }}", hass)
     assert tpl.async_render_with_possible_json_value('{"hello": "world"}') == "world"
 
 
-def test_render_with_possible_json_value_with_invalid_json(hass: __HAC_KEEP__) -> None:
+def test_render_with_possible_json_value_with_invalid_json(hass: UniversalAssistant) -> None:
     """Render with possible JSON value with invalid JSON."""
     tpl = template.Template("{{ value_json }}", hass)
     assert tpl.async_render_with_possible_json_value("{ I AM NOT JSON }") == ""
@@ -235,7 +235,7 @@ def test_render_with_possible_json_value_with_invalid_json(hass: __HAC_KEEP__) -
     ],
 )
 def test_render_with_possible_json_value_with_value_json(
-    hass: __HAC_KEEP__, value_json: Any, expected: str
+    hass: UniversalAssistant, value_json: Any, expected: str
 ) -> None:
     """A value_json passed by the caller is used instead of parsing the value."""
     tpl = template.Template(
@@ -249,7 +249,7 @@ def test_render_with_possible_json_value_with_value_json(
     mock_json_loads.assert_not_called()
 
 
-def test_render_with_possible_json_value_cyclic(hass: __HAC_KEEP__) -> None:
+def test_render_with_possible_json_value_cyclic(hass: UniversalAssistant) -> None:
     """A cyclic value returns the fallback instead of escaping a RecursionError."""
     cyclic: list[object] = []
     cyclic.append(cyclic)
@@ -263,7 +263,7 @@ def test_render_with_possible_json_value_cyclic(hass: __HAC_KEEP__) -> None:
 
 
 def test_render_with_possible_json_value_with_template_error_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Render with possible JSON value with template error value."""
     tpl = template.Template("{{ non_existing.variable }}", hass)
@@ -271,14 +271,14 @@ def test_render_with_possible_json_value_with_template_error_value(
 
 
 def test_render_with_possible_json_value_with_missing_json_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Render with possible JSON value with unknown JSON object."""
     tpl = template.Template("{{ value_json.goodbye }}", hass)
     assert tpl.async_render_with_possible_json_value('{"hello": "world"}') == ""
 
 
-def test_render_with_possible_json_value_non_string_value(hass: __HAC_KEEP__) -> None:
+def test_render_with_possible_json_value_non_string_value(hass: UniversalAssistant) -> None:
     """Render with possible JSON value with non-string value."""
     tpl = template.Template(
         """{{ strptime(value~'+0000', '%Y-%m-%d %H:%M:%S%z') }}""",
@@ -289,7 +289,7 @@ def test_render_with_possible_json_value_non_string_value(hass: __HAC_KEEP__) ->
     assert tpl.async_render_with_possible_json_value(value) == expected
 
 
-def test_render_with_possible_json_value_and_parse_result(hass: __HAC_KEEP__) -> None:
+def test_render_with_possible_json_value_and_parse_result(hass: UniversalAssistant) -> None:
     """Render with possible JSON value with valid JSON."""
     tpl = template.Template("{{ value_json.hello }}", hass)
     result = tpl.async_render_with_possible_json_value(
@@ -299,7 +299,7 @@ def test_render_with_possible_json_value_and_parse_result(hass: __HAC_KEEP__) ->
 
 
 def test_render_with_possible_json_value_and_dont_parse_result(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Render with possible JSON value with valid JSON."""
     tpl = template.Template("{{ value_json.hello }}", hass)
@@ -313,7 +313,7 @@ def test_render_with_possible_json_value_and_dont_parse_result(
     "universalassistant.helpers.template.TemplateEnvironment.is_safe_callable",
     return_value=True,
 )
-def test_timedelta(mock_is_safe, hass: __HAC_KEEP__) -> None:
+def test_timedelta(mock_is_safe, hass: UniversalAssistant) -> None:
     """Test relative_time method."""
     now = datetime.strptime("2000-01-01 10:00:00 +00:00", "%Y-%m-%d %H:%M:%S %z")
     with freeze_time(now):
@@ -339,7 +339,7 @@ def test_timedelta(mock_is_safe, hass: __HAC_KEEP__) -> None:
         assert result == "15 days"
 
 
-def test_async_render_to_info_with_branching(hass: __HAC_KEEP__) -> None:
+def test_async_render_to_info_with_branching(hass: UniversalAssistant) -> None:
     """Test async_render_to_info function by domain."""
     hass.states.async_set("light.a", "off")
     hass.states.async_set("light.b", "on")
@@ -371,7 +371,7 @@ def test_async_render_to_info_with_branching(hass: __HAC_KEEP__) -> None:
     assert info.rate_limit is None
 
 
-def test_async_render_to_info_with_complex_branching(hass: __HAC_KEEP__) -> None:
+def test_async_render_to_info_with_complex_branching(hass: UniversalAssistant) -> None:
     """Test async_render_to_info function by domain."""
     hass.states.async_set("light.a", "off")
     hass.states.async_set("light.b", "on")
@@ -410,7 +410,7 @@ def test_async_render_to_info_with_complex_branching(hass: __HAC_KEEP__) -> None
 
 
 async def test_async_render_to_info_with_wildcard_matching_entity_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test tracking template with a wildcard."""
     template_complex_str = r"""
@@ -434,7 +434,7 @@ async def test_async_render_to_info_with_wildcard_matching_entity_id(
 
 
 async def test_async_render_to_info_with_wildcard_matching_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test tracking template with a wildcard."""
     template_complex_str = """
@@ -486,7 +486,7 @@ async def test_async_render_to_info_with_wildcard_matching_state(
     assert info.rate_limit == DOMAIN_STATES_RATE_LIMIT
 
 
-def test_nested_async_render_to_info_case(hass: __HAC_KEEP__) -> None:
+def test_nested_async_render_to_info_case(hass: UniversalAssistant) -> None:
     """Test a deeply nested state with async_render_to_info."""
 
     hass.states.async_set("input_select.picker", "vacuum.a")
@@ -499,7 +499,7 @@ def test_nested_async_render_to_info_case(hass: __HAC_KEEP__) -> None:
     assert info.rate_limit is None
 
 
-def test_result_as_boolean(hass: __HAC_KEEP__) -> None:
+def test_result_as_boolean(hass: UniversalAssistant) -> None:
     """Test converting a template result to a boolean."""
 
     assert template.result_as_boolean(True) is True
@@ -529,7 +529,7 @@ def test_result_as_boolean(hass: __HAC_KEEP__) -> None:
     assert template.result_as_boolean(None) is False
 
 
-async def test_async_render_to_info_in_conditional(hass: __HAC_KEEP__) -> None:
+async def test_async_render_to_info_in_conditional(hass: UniversalAssistant) -> None:
     """Test extract entities function with none entities stuff."""
     info = render_to_info(hass, '{{ states("sensor.xyz") == "dog" }}')
     assert_result_info(info, False, ["sensor.xyz"], [])
@@ -558,7 +558,7 @@ async def test_async_render_to_info_in_conditional(hass: __HAC_KEEP__) -> None:
     assert_result_info(info, "oink", ["sensor.xyz", "sensor.pig"], [])
 
 
-def test_jinja_namespace(hass: __HAC_KEEP__) -> None:
+def test_jinja_namespace(hass: UniversalAssistant) -> None:
     """Test Jinja's namespace command can be used."""
     test_template = template.Template(
         (
@@ -586,7 +586,7 @@ def test_jinja_namespace(hass: __HAC_KEEP__) -> None:
     ],
 )
 def test_state_with_unit_and_rounding_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     rounded: str,
     with_unit: str,
@@ -638,14 +638,14 @@ def test_state_with_unit_and_rounding_options(
     assert tpl2.async_render() == output2_2
 
 
-def test_render_complex_handling_non_template_values(hass: __HAC_KEEP__) -> None:
+def test_render_complex_handling_non_template_values(hass: UniversalAssistant) -> None:
     """Test that we can render non-template fields."""
     assert template.render_complex(
         {True: 1, False: template.Template("{{ hello }}", hass)}, {"hello": 2}
     ) == {True: 1, False: 2}
 
 
-async def test_compiled_code_cache(hass: __HAC_KEEP__) -> None:
+async def test_compiled_code_cache(hass: UniversalAssistant) -> None:
     """Test the compiled code cache outlives the Template object."""
     template_string = (
         "{% set dict = {'foo': 'x&y', 'bar': 42} %} {{ dict | urlencode }}"
@@ -673,7 +673,7 @@ async def test_compiled_code_cache(hass: __HAC_KEEP__) -> None:
     assert tpl2.async_render() == "foo=x%26y&bar=42"
 
 
-async def test_compiled_code_cache_is_bounded(hass: __HAC_KEEP__) -> None:
+async def test_compiled_code_cache_is_bounded(hass: UniversalAssistant) -> None:
     """Test the compiled code cache does not grow without bound."""
     tpl = template.Template("{{ 'env getter' }}", hass)
     tpl.ensure_valid()
@@ -686,7 +686,7 @@ async def test_compiled_code_cache_is_bounded(hass: __HAC_KEEP__) -> None:
     assert len(env.template_cache) == template.COMPILED_CODE_PIN_SIZE
 
 
-async def test_compiled_code_cache_alive_templates(hass: __HAC_KEEP__) -> None:
+async def test_compiled_code_cache_alive_templates(hass: UniversalAssistant) -> None:
     """Test live Template objects keep their cache entries beyond the pin size."""
     template_string = "{{ 'kept alive' }}"
     tpl = template.Template(template_string, hass)
@@ -722,7 +722,7 @@ def test_is_template_string() -> None:
     assert template.is_template_string("Some Text") is False
 
 
-async def test_protected_blocked(hass: __HAC_KEEP__) -> None:
+async def test_protected_blocked(hass: UniversalAssistant) -> None:
     """Test accessing __getattr__ produces a template error."""
     with pytest.raises(TemplateError):
         render(hass, '{{ states.__getattr__("any") }}')
@@ -734,7 +734,7 @@ async def test_protected_blocked(hass: __HAC_KEEP__) -> None:
         render(hass, '{{ states.sensor.any.__getattr__("any") }}')
 
 
-async def test_demo_template(hass: __HAC_KEEP__) -> None:
+async def test_demo_template(hass: UniversalAssistant) -> None:
     """Test the demo template works as expected."""
     hass.states.async_set(
         "sun.sun",
@@ -777,7 +777,7 @@ For loop example getting 3 entity values:
     assert "sun" in result
 
 
-async def test_lifecycle(hass: __HAC_KEEP__) -> None:
+async def test_lifecycle(hass: UniversalAssistant) -> None:
     """Test that we limit template render info for lifecycle events."""
     hass.states.async_set("sun.sun", "above", {"elevation": 50, "next_rising": "later"})
     for i in range(2):
@@ -811,7 +811,7 @@ async def test_lifecycle(hass: __HAC_KEEP__) -> None:
     assert info.filter_lifecycle("sensor.removed") is True
 
 
-async def test_template_timeout(hass: __HAC_KEEP__) -> None:
+async def test_template_timeout(hass: UniversalAssistant) -> None:
     """Test to see if a template will timeout."""
     for i in range(2):
         hass.states.async_set(f"sensor.sensor{i}", "on")
@@ -836,14 +836,14 @@ async def test_template_timeout(hass: __HAC_KEEP__) -> None:
     assert await tmp5.async_render_will_timeout(0.000001) is True
 
 
-async def test_template_timeout_raise(hass: __HAC_KEEP__) -> None:
+async def test_template_timeout_raise(hass: UniversalAssistant) -> None:
     """Test we can raise from."""
     tmp2 = template.Template("{{ error_invalid + 1 }}", hass)
     with pytest.raises(TemplateError):
         assert await tmp2.async_render_will_timeout(3) is False
 
 
-async def test_lights(hass: __HAC_KEEP__) -> None:
+async def test_lights(hass: UniversalAssistant) -> None:
     """Test we can sort lights."""
 
     tmpl = """
@@ -875,7 +875,7 @@ async def test_lights(hass: __HAC_KEEP__) -> None:
         assert f"sensor{i}" in info.result()
 
 
-async def test_template_errors(hass: __HAC_KEEP__) -> None:
+async def test_template_errors(hass: UniversalAssistant) -> None:
     """Test template rendering wraps exceptions with TemplateError."""
 
     with pytest.raises(TemplateError):
@@ -891,7 +891,7 @@ async def test_template_errors(hass: __HAC_KEEP__) -> None:
         render(hass, "{{ utcnow() | random }}")
 
 
-async def test_no_result_parsing(hass: __HAC_KEEP__) -> None:
+async def test_no_result_parsing(hass: UniversalAssistant) -> None:
     """Test if templates results are not parsed."""
     hass.states.async_set("sensor.temperature", "12")
 
@@ -905,14 +905,14 @@ async def test_no_result_parsing(hass: __HAC_KEEP__) -> None:
     assert render(hass, "{{ [1, 2, 3] }}", parse_result=False) == "[1, 2, 3]"
 
 
-async def test_is_static_still_ast_evals(hass: __HAC_KEEP__) -> None:
+async def test_is_static_still_ast_evals(hass: UniversalAssistant) -> None:
     """Test is_static still converts to native type."""
     tpl = template.Template("[1, 2]", hass)
     assert tpl.is_static
     assert tpl.async_render() == [1, 2]
 
 
-async def test_result_wrappers(hass: __HAC_KEEP__) -> None:
+async def test_result_wrappers(hass: UniversalAssistant) -> None:
     """Test result wrappers."""
     for text, native, orig_type, schema in (
         ("[1, 2]", [1, 2], list, probatio.Schema([int])),
@@ -934,7 +934,7 @@ async def test_result_wrappers(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_parse_result(hass: __HAC_KEEP__) -> None:
+async def test_parse_result(hass: UniversalAssistant) -> None:
     """Test parse result."""
     for tpl, result in (
         ('{{ "{{}}" }}', "{{}}"),
@@ -987,7 +987,7 @@ async def test_parse_result(hass: __HAC_KEEP__) -> None:
 
 
 async def test_parse_result_returns_independent_containers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Renders with the same output do not share mutable containers."""
     first_list = render(hass, "{{ x }}", {"x": "[[1], 2]"})
@@ -1068,7 +1068,7 @@ _ENUM_VARS = {
     ],
 )
 async def test_parse_result_resolves_enums_in_containers(
-    hass: __HAC_KEEP__, template_string: str, expected: object
+    hass: UniversalAssistant, template_string: str, expected: object
 ) -> None:
     """ReprEnum members in containers resolve to their value and round-trip."""
     assert render(hass, template_string, _ENUM_VARS) == expected
@@ -1079,7 +1079,7 @@ async def test_parse_result_resolves_enums_in_containers(
     ["legacy", "plain"],
 )
 async def test_parse_result_unsupported_enums_fall_back_to_string(
-    hass: __HAC_KEEP__, variable: str
+    hass: UniversalAssistant, variable: str
 ) -> None:
     """Non-ReprEnum members (plain Enum, legacy mixins) are not resolved."""
     result = render(hass, "{{ {'k': " + variable + "} }}", _ENUM_VARS)
@@ -1094,14 +1094,14 @@ async def test_parse_result_unsupported_enums_fall_back_to_string(
     ],
 )
 async def test_parse_result_bare_enum_unchanged(
-    hass: __HAC_KEEP__, template_string: str, expected: object
+    hass: UniversalAssistant, template_string: str, expected: object
 ) -> None:
     """A bare Enum member renders via its default str() and is not coerced."""
     assert render(hass, template_string, _ENUM_VARS) == expected
 
 
 async def test_parse_result_resolves_enums_in_state_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """State attributes (a ReadOnlyDict) with enum keys/values resolve when rendered.
 
@@ -1137,7 +1137,7 @@ async def test_parse_result_resolves_enums_in_state_attributes(
     ],
 )
 async def test_parse_result_dict_keeps_stringified_value(
-    hass: __HAC_KEEP__, template_string: str, expected_value: str
+    hass: UniversalAssistant, template_string: str, expected_value: str
 ) -> None:
     """dict() keeps a value that looks like a literal as a string, not re-parsed.
 
@@ -1151,7 +1151,7 @@ async def test_parse_result_dict_keeps_stringified_value(
     assert isinstance(result["foo"], str)
 
 
-async def test_parse_result_cyclic_container_raises(hass: __HAC_KEEP__) -> None:
+async def test_parse_result_cyclic_container_raises(hass: UniversalAssistant) -> None:
     """A cyclic passed-in container raises TemplateError instead of crashing.
 
     Cyclic values cannot be constructed within a template (the sandbox blocks
@@ -1174,7 +1174,7 @@ async def test_parse_result_cyclic_container_raises(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_parse_result_long_expression_returns_string(
-    hass: __HAC_KEEP__, operator: str
+    hass: UniversalAssistant, operator: str
 ) -> None:
     """A result too deeply nested for literal_eval is returned as a string."""
     text = "1" + f" {operator} 1" * 60_000
@@ -1190,7 +1190,7 @@ async def test_parse_result_long_expression_returns_string(
     ],
 )
 async def test_undefined_symbol_warnings(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     template_string: str,
 ) -> None:
@@ -1203,7 +1203,7 @@ async def test_undefined_symbol_warnings(
     )
 
 
-async def test_render_to_info_with_exception(hass: __HAC_KEEP__) -> None:
+async def test_render_to_info_with_exception(hass: UniversalAssistant) -> None:
     """Test info is still available if the template has an exception."""
     hass.states.async_set("test_domain.object", "dog")
     info = render_to_info(hass, '{{ states("test_domain.object") | float }}')
@@ -1214,7 +1214,7 @@ async def test_render_to_info_with_exception(hass: __HAC_KEEP__) -> None:
     assert info.entities == {"test_domain.object"}
 
 
-async def test_template_thread_safety_checks(hass: __HAC_KEEP__) -> None:
+async def test_template_thread_safety_checks(hass: UniversalAssistant) -> None:
     """Test template thread safety checks."""
     hass.states.async_set("sensor.test", "23")
     template_str = "{{ states('sensor.test') }}"
@@ -1231,7 +1231,7 @@ async def test_template_thread_safety_checks(hass: __HAC_KEEP__) -> None:
     assert template_obj.async_render_to_info().result() == 23
 
 
-def test_template_output_exceeds_maximum_size(hass: __HAC_KEEP__) -> None:
+def test_template_output_exceeds_maximum_size(hass: UniversalAssistant) -> None:
     """Test template output exceeds maximum size."""
     with pytest.raises(TemplateError):
         render(hass, "{{ 'a' * 1024 * 257 }}")

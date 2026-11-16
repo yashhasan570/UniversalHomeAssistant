@@ -28,7 +28,7 @@ from universalassistant.const import (
     HTTP_BASIC_AUTHENTICATION,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv, discovery
 from universalassistant.helpers.dispatcher import async_dispatcher_send, dispatcher_send
 from universalassistant.helpers.event import async_track_time_interval
@@ -124,7 +124,7 @@ class AmcrestChecker(ApiWrapper):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         name: str,
         host: str,
         port: int,
@@ -317,7 +317,7 @@ class AmcrestChecker(ApiWrapper):
 
 
 def _monitor_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     name: str,
     api: AmcrestChecker,
     event_codes: set[str],
@@ -343,7 +343,7 @@ def _monitor_events(
 
 
 def _start_event_monitor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     name: str,
     api: AmcrestChecker,
     event_codes: set[str],
@@ -357,7 +357,7 @@ def _start_event_monitor(
     thread.start()
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Amcrest IP Camera component."""
     hass.data.setdefault(DATA_AMCREST, {DEVICES: {}})
 

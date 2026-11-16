@@ -3,14 +3,14 @@
 import pytest
 
 from universalassistant.components.litejet.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
 from . import async_init_integration
 
 
-async def test_setup_with_no_config(hass: __HAC_KEEP__) -> None:
+async def test_setup_with_no_config(hass: UniversalAssistant) -> None:
     """Test that nothing happens."""
     assert await async_setup_component(hass, DOMAIN, {}) is True
     assert DOMAIN not in hass.data
@@ -18,7 +18,7 @@ async def test_setup_with_no_config(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_litejet")
 async def test_child_devices_link_to_mcp(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test that light and switch devices are linked to the MCP parent device."""
     entry = await async_init_integration(hass, use_switch=True)
@@ -41,7 +41,7 @@ async def test_child_devices_link_to_mcp(
     assert switch_device.via_device_id == parent.id
 
 
-async def test_unload_entry(hass: __HAC_KEEP__, mock_litejet) -> None:
+async def test_unload_entry(hass: UniversalAssistant, mock_litejet) -> None:
     """Test being able to unload an entry."""
     entry = await async_init_integration(hass, use_switch=True, use_scene=True)
 

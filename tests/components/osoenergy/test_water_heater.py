@@ -25,13 +25,13 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
 @patch("universalassistant.components.osoenergy.PLATFORMS", [Platform.WATER_HEATER])
 async def test_water_heater(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_osoenergy_client: MagicMock,
     snapshot: SnapshotAssertion,
@@ -44,7 +44,7 @@ async def test_water_heater(
 
 @pytest.mark.freeze_time("2024-10-10 00:00:00")
 async def test_get_profile(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_osoenergy_client: MagicMock,
     mock_config_entry: ConfigEntry,
 ) -> None:
@@ -101,7 +101,7 @@ async def test_get_profile(
 
 @pytest.mark.freeze_time("2024-10-10 00:00:00")
 async def test_set_profile(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_osoenergy_client: MagicMock,
     mock_config_entry: ConfigEntry,
 ) -> None:
@@ -155,7 +155,7 @@ async def test_set_profile(
 
 
 async def test_set_v40_min(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_osoenergy_client: MagicMock,
     mock_config_entry: ConfigEntry,
 ) -> None:
@@ -175,7 +175,7 @@ async def test_set_v40_min(
 
 
 async def test_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_osoenergy_client: MagicMock,
     mock_config_entry: ConfigEntry,
 ) -> None:
@@ -220,7 +220,7 @@ async def test_set_temperature(
 
 
 async def test_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_osoenergy_client: MagicMock,
     mock_config_entry: ConfigEntry,
 ) -> None:
@@ -237,7 +237,7 @@ async def test_turn_on(
 
 
 async def test_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_osoenergy_client: MagicMock,
     mock_config_entry: ConfigEntry,
 ) -> None:
@@ -254,7 +254,7 @@ async def test_turn_off(
 
 
 async def test_oso_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_osoenergy_client: MagicMock,
     mock_config_entry: ConfigEntry,
 ) -> None:
@@ -274,7 +274,7 @@ async def test_oso_turn_on(
 
 
 async def test_oso_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_osoenergy_client: MagicMock,
     mock_config_entry: ConfigEntry,
 ) -> None:
@@ -294,7 +294,7 @@ async def test_oso_turn_off(
 
 
 async def test_turn_away_mode_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_osoenergy_client: MagicMock,
     mock_config_entry: ConfigEntry,
 ) -> None:
@@ -311,7 +311,7 @@ async def test_turn_away_mode_on(
 
 
 async def test_turn_away_mode_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_osoenergy_client: MagicMock,
     mock_config_entry: ConfigEntry,
 ) -> None:
@@ -328,7 +328,7 @@ async def test_turn_away_mode_off(
 
 
 async def test_oso_set_away_mode_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_osoenergy_client: MagicMock,
     mock_config_entry: ConfigEntry,
 ) -> None:

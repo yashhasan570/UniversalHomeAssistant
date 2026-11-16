@@ -4,7 +4,7 @@ import logging
 
 from aiohttp import ClientSession
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import UPDATE_URL
 
@@ -28,5 +28,5 @@ async def update_namecheapdns(
     return True
 
 
-class AuthFailed(__HAC_KEEP__Error):
+class AuthFailed(UniversalAssistantError):
     """Authentication error."""

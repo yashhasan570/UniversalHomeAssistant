@@ -13,14 +13,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.aws_s3.const import CONF_BUCKET, CONF_ENDPOINT_URL, DOMAIN
 from universalassistant.const import CONF_PREFIX
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import CONFIG_ENTRY_DATA, USER_INPUT
 
 
 async def _async_start_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     user_input: dict[str, str] | None = None,
 ) -> FlowResultType:
     """Initialize the config flow."""
@@ -72,7 +72,7 @@ async def _async_start_flow(
     ],
 )
 async def test_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     user_input: dict,
     expected_title: str,
     expected_data: dict,
@@ -109,7 +109,7 @@ async def test_flow(
     ],
 )
 async def test_flow_create_client_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: Exception,
     errors: dict[str, str],
 ) -> None:
@@ -135,7 +135,7 @@ async def test_flow_create_client_errors(
 
 
 async def test_flow_head_bucket_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
 ) -> None:
     """Test setup_entry error when calling head_bucket."""
@@ -160,7 +160,7 @@ async def test_flow_head_bucket_error(
 
 
 async def test_abort_if_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort if the account is already configured."""
@@ -178,7 +178,7 @@ async def test_abort_if_already_configured(
     ],
 )
 async def test_flow_create_not_aws_endpoint(
-    hass: __HAC_KEEP__, endpoint_url: str
+    hass: UniversalAssistant, endpoint_url: str
 ) -> None:
     """Test config flow with a not aws endpoint should raise an error."""
     result = await _async_start_flow(
@@ -199,7 +199,7 @@ async def test_flow_create_not_aws_endpoint(
 
 
 async def test_abort_if_already_configured_with_same_prefix(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
 ) -> None:
     """Test we abort if same bucket, endpoint, and prefix are already configured."""
@@ -214,7 +214,7 @@ async def test_abort_if_already_configured_with_same_prefix(
 
 
 async def test_abort_if_entry_without_prefix(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
 ) -> None:
     """Test we abort if an entry without prefix matches bucket and endpoint."""
@@ -228,7 +228,7 @@ async def test_abort_if_entry_without_prefix(
 
 
 async def test_no_abort_if_different_prefix(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
 ) -> None:
     """Test we do not abort when same bucket+endpoint but a different prefix is used."""

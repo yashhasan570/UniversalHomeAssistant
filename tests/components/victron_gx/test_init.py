@@ -31,7 +31,7 @@ from universalassistant.const import (
     EntityCategory,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -83,7 +83,7 @@ def mock_victron_hub_library():
 
 @pytest.mark.usefixtures("mock_victron_hub_library")
 async def test_legacy_evcharger_sensor_creates_repair(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -110,7 +110,7 @@ async def test_legacy_evcharger_sensor_creates_repair(
 
 @pytest.mark.usefixtures("mock_victron_hub_library")
 async def test_legacy_evcharger_sensor_repair_lists_uses(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -162,7 +162,7 @@ async def test_legacy_evcharger_sensor_repair_lists_uses(
 
 @pytest.mark.usefixtures("mock_victron_hub_library")
 async def test_disabled_legacy_evcharger_sensor_is_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -192,7 +192,7 @@ async def test_disabled_legacy_evcharger_sensor_is_removed(
 
 @pytest.mark.usefixtures("mock_victron_hub_library")
 async def test_load_unload_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test unload entry."""
     mock_config_entry.add_to_hass(hass)
@@ -210,7 +210,7 @@ async def test_load_unload_entry(
 
 @pytest.mark.usefixtures("mock_victron_hub_library")
 async def test_unload_entry_does_not_cleanup_on_platform_unload_failure(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test unload failure does not stop hub or clear callbacks."""
     mock_config_entry.add_to_hass(hass)
@@ -235,9 +235,9 @@ async def test_unload_entry_does_not_cleanup_on_platform_unload_failure(
 
 @pytest.mark.usefixtures("mock_victron_hub_library")
 async def test_stop_on_universalassistant_stop(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
-    """Test hub stops when __HA_KEEP__ stops."""
+    """Test hub stops when Universal Home Assistant stops."""
     mock_config_entry.add_to_hass(hass)
 
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
@@ -262,7 +262,7 @@ async def test_stop_on_universalassistant_stop(
     ],
 )
 async def test_setup_entry_start_failure_unloads_platforms_and_callbacks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_victron_hub_library: MagicMock,
     connect_exception: Exception,
@@ -281,7 +281,7 @@ async def test_setup_entry_start_failure_unloads_platforms_and_callbacks(
 
 
 async def test_hub_start_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_victron_hub_library: MagicMock,
 ) -> None:
@@ -299,7 +299,7 @@ async def test_hub_start_connection_error(
 
 
 async def test_hub_start_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
 ) -> None:
     """Test successful hub start."""
@@ -312,7 +312,7 @@ async def test_hub_start_success(
 
 @pytest.mark.usefixtures("mock_victron_hub_library")
 async def test_hub_starts_firmware_update_checks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_victron_hub_library: MagicMock,
 ) -> None:
@@ -333,7 +333,7 @@ async def test_hub_starts_firmware_update_checks(
     ],
 )
 async def test_firmware_update_waits_for_first_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_victron_hub_library: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -482,7 +482,7 @@ async def test_firmware_update_waits_for_first_refresh(
     ],
 )
 async def test_platform_entities_are_diagnostic_and_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
     topic: str,
@@ -510,7 +510,7 @@ async def test_platform_entities_are_diagnostic_and_disabled(
 
 
 async def test_device_via_device_links(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -544,7 +544,7 @@ async def test_device_via_device_links(
 
 
 async def test_hub_start_authentication_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_victron_hub_library: MagicMock,
 ) -> None:
@@ -564,7 +564,7 @@ async def test_hub_start_authentication_error(
 
 
 async def test_hub_stop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
 ) -> None:
     """Test hub stop."""
@@ -583,7 +583,7 @@ async def test_hub_stop(
 
 @pytest.mark.usefixtures("mock_victron_hub_library")
 async def test_hub_stop_disconnect_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_victron_hub_library: MagicMock,
 ) -> None:
@@ -606,7 +606,7 @@ async def test_hub_stop_disconnect_error(
 
 
 async def test_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     device_registry: dr.DeviceRegistry,
 ) -> None:

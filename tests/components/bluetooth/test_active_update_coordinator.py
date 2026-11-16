@@ -19,7 +19,7 @@ from universalassistant.components.bluetooth import (
 from universalassistant.components.bluetooth.active_update_coordinator import (
     ActiveBluetoothDataUpdateCoordinator,
 )
-from universalassistant.core import CoreState, __HAC_KEEP__
+from universalassistant.core import CoreState, UniversalAssistant
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 from universalassistant.setup import async_setup_component
@@ -57,7 +57,7 @@ class MyCoordinator(ActiveBluetoothDataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         logger: logging.Logger,
         *,
         address: str,
@@ -95,7 +95,7 @@ class MyCoordinator(ActiveBluetoothDataUpdateCoordinator[dict[str, Any]]):
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_basic_usage(hass: __HAC_KEEP__) -> None:
+async def test_basic_usage(hass: UniversalAssistant) -> None:
     """Test basic usage of the ActiveBluetoothDataUpdateCoordinator."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
 
@@ -132,7 +132,7 @@ async def test_basic_usage(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_bleak_error_during_polling(hass: __HAC_KEEP__) -> None:
+async def test_bleak_error_during_polling(hass: UniversalAssistant) -> None:
     """Test bleak error during polling ActiveBluetoothDataUpdateCoordinator."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     poll_count = 0
@@ -182,7 +182,7 @@ async def test_bleak_error_during_polling(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_generic_exception_during_polling(hass: __HAC_KEEP__) -> None:
+async def test_generic_exception_during_polling(hass: UniversalAssistant) -> None:
     """Test generic exception during polling ActiveBluetoothDataUpdateCoordinator."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     poll_count = 0
@@ -232,7 +232,7 @@ async def test_generic_exception_during_polling(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_polling_debounce(hass: __HAC_KEEP__) -> None:
+async def test_polling_debounce(hass: UniversalAssistant) -> None:
     """Test basic usage of the ActiveBluetoothDataUpdateCoordinator."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     poll_count = 0
@@ -275,7 +275,7 @@ async def test_polling_debounce(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_polling_debounce_with_custom_debouncer(hass: __HAC_KEEP__) -> None:
+async def test_polling_debounce_with_custom_debouncer(hass: UniversalAssistant) -> None:
     """Test basic usage of the ActiveBluetoothDataUpdateCoordinator."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     poll_count = 0
@@ -321,7 +321,7 @@ async def test_polling_debounce_with_custom_debouncer(hass: __HAC_KEEP__) -> Non
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_polling_rejecting_the_first_time(hass: __HAC_KEEP__) -> None:
+async def test_polling_rejecting_the_first_time(hass: UniversalAssistant) -> None:
     """Test need_poll rejects the first time ActiveBluetoothDataUpdateCoordinator."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     attempt = 0
@@ -380,7 +380,7 @@ async def test_polling_rejecting_the_first_time(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_no_polling_after_stop_event(hass: __HAC_KEEP__) -> None:
+async def test_no_polling_after_stop_event(hass: UniversalAssistant) -> None:
     """Test we do not poll after the stop event."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     needs_poll_calls = 0

@@ -16,7 +16,7 @@ from universalassistant.components.azure_event_hub.const import (
     STEP_CONN_STRING,
     STEP_SAS,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import (
@@ -45,7 +45,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 )
 @pytest.mark.usefixtures("mock_from_connection_string")
 async def test_form(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     step1_config: dict[str, Any],
     step_id: str,
@@ -83,7 +83,7 @@ async def test_form(
     mock_setup_entry.assert_called_once()
 
 
-async def test_import(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_import(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
 
     import_config = IMPORT_CONFIG.copy()
@@ -109,7 +109,7 @@ async def test_import(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     [config_entries.SOURCE_USER, config_entries.SOURCE_IMPORT],
     ids=["user", "import"],
 )
-async def test_single_instance(hass: __HAC_KEEP__, source: str) -> None:
+async def test_single_instance(hass: UniversalAssistant, source: str) -> None:
     """Test uniqueness of username."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -133,7 +133,7 @@ async def test_single_instance(hass: __HAC_KEEP__, source: str) -> None:
     ids=["cannot_connect", "unknown"],
 )
 async def test_connection_error_sas(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_get_eventhub_properties: AsyncMock,
     side_effect: Exception,
     error_message: str,
@@ -175,7 +175,7 @@ async def test_connection_error_sas(
     ids=["cannot_connect", "unknown"],
 )
 async def test_connection_error_cs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_from_connection_string: MagicMock,
     side_effect: Exception,
     error_message: str,
@@ -212,7 +212,7 @@ async def test_connection_error_cs(
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_options_flow(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+async def test_options_flow(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     """Test options flow."""
     result = await hass.config_entries.options.async_init(entry.entry_id)
 

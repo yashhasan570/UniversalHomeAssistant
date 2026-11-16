@@ -34,7 +34,7 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
 )
 from universalassistant.const import CONF_WEBHOOK_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
@@ -43,7 +43,7 @@ from .const import REGISTER, REGISTER_CLEARTEXT, RENDER_TEMPLATE
 
 
 async def test_registration(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, hass_admin_user: MockUser
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator, hass_admin_user: MockUser
 ) -> None:
     """Test that registrations happen."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -87,7 +87,7 @@ async def test_registration(
 
 
 async def test_registration_again_updates_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -167,7 +167,7 @@ async def test_registration_again_updates_entry(
 
 
 async def test_registration_again_disabled_entry(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test an app registering again for a disabled entry enables it."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -207,7 +207,7 @@ async def test_registration_again_disabled_entry(
 
 
 async def test_registration_again_unload_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -261,7 +261,7 @@ async def test_registration_again_unload_fails(
     assert resp.status == HTTPStatus.OK
     assert "abcd" in (await resp.json())["entities"]
 
-    # The entry can't be reloaded until __HA_KEEP__ is restarted
+    # The entry can't be reloaded until Universal Home Assistant is restarted
     resp = await api_client.post(
         "/api/mobile_app/registrations", json=REGISTER_CLEARTEXT
     )
@@ -271,7 +271,7 @@ async def test_registration_again_unload_fails(
 
 
 async def test_registration_again_setup_fails(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the old registration is set up again if the new one can't be."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -307,7 +307,7 @@ async def test_registration_again_setup_fails(
 
 
 async def test_registration_again_disabled_entry_setup_fails(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test a disabled entry stays disabled if registering again fails."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -337,7 +337,7 @@ async def test_registration_again_disabled_entry_setup_fails(
 
 
 async def test_registration_again_disabled_entry_failed_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -375,7 +375,7 @@ async def test_registration_again_disabled_entry_failed_unload(
 
 
 async def test_registration_again_entry_disabled_during_reload(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test registering again fails if the entry is disabled during the reload."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -392,7 +392,7 @@ async def test_registration_again_entry_disabled_during_reload(
     continue_unload = asyncio.Event()
     original_unload_entry = mobile_app.async_unload_entry
 
-    async def _blocking_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+    async def _blocking_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
         unload_started.set()
         await continue_unload.wait()
         await original_unload_entry(hass, entry)
@@ -419,7 +419,7 @@ async def test_registration_again_entry_disabled_during_reload(
 
 
 async def test_old_cloudhook_not_stored_after_registering_again(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test a cloudhook created for the old webhook is deleted, not stored."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -454,7 +454,7 @@ async def test_old_cloudhook_not_stored_after_registering_again(
 
 
 async def test_registration_concurrent(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test concurrent registrations of an app are serialized."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -465,7 +465,7 @@ async def test_registration_concurrent(
     original_add_device_tracker = person.async_add_user_device_tracker
 
     async def _blocking_add_device_tracker(
-        hass: __HAC_KEEP__, user_id: str, device_tracker_entity_id: str
+        hass: UniversalAssistant, user_id: str, device_tracker_entity_id: str
     ) -> None:
         flow_started.set()
         await continue_flow.wait()
@@ -501,7 +501,7 @@ async def test_registration_concurrent(
 
 
 async def test_registration_again_stale_webhook(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the old webhook rejects requests once the app registered again."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -517,7 +517,7 @@ async def test_registration_again_stale_webhook(
     continue_unload = asyncio.Event()
     original_unload_entry = mobile_app.async_unload_entry
 
-    async def _blocking_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+    async def _blocking_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
         unload_started.set()
         await continue_unload.wait()
         await original_unload_entry(hass, entry)
@@ -543,7 +543,7 @@ async def test_registration_again_stale_webhook(
 
 
 async def test_registration_again_during_setup(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test an app registering again while its entry is set up waits for the setup."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -560,7 +560,7 @@ async def test_registration_again_during_setup(
     continue_setup = asyncio.Event()
     original_setup_entry = mobile_app.async_setup_entry
 
-    async def _blocking_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+    async def _blocking_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
         setup_started.set()
         await continue_setup.wait()
         await original_setup_entry(hass, entry)
@@ -591,7 +591,7 @@ async def test_registration_again_during_setup(
 
 
 async def test_registration_again_request_cancelled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_admin_user: MockUser,
 ) -> None:
@@ -610,7 +610,7 @@ async def test_registration_again_request_cancelled(
     continue_unload = asyncio.Event()
     original_unload_entry = mobile_app.async_unload_entry
 
-    async def _blocking_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+    async def _blocking_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
         unload_started.set()
         await continue_unload.wait()
         await original_unload_entry(hass, entry)
@@ -640,7 +640,7 @@ async def test_registration_again_request_cancelled(
 
 
 async def test_webhook_command_keeps_registration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_admin_user: MockUser,
     hass_read_only_access_token: str,
@@ -658,7 +658,7 @@ async def test_webhook_command_keeps_registration(
     command_started = asyncio.Event()
     continue_command = asyncio.Event()
 
-    async def _blocking_instance_id(hass: __HAC_KEEP__) -> str:
+    async def _blocking_instance_id(hass: UniversalAssistant) -> str:
         command_started.set()
         await continue_command.wait()
         return "mock-instance-id"
@@ -708,7 +708,7 @@ async def test_webhook_command_keeps_registration(
 def mock_delete_cloudhook() -> Generator[MagicMock]:
     """Mock a connected cloud which creates a cloudhook for each webhook."""
 
-    async def _get_or_create_cloudhook(_hass: __HAC_KEEP__, webhook_id: str) -> str:
+    async def _get_or_create_cloudhook(_hass: UniversalAssistant, webhook_id: str) -> str:
         return f"https://hooks.nabu.casa/{webhook_id}"
 
     with (
@@ -736,7 +736,7 @@ def mock_delete_cloudhook() -> Generator[MagicMock]:
 
 
 async def test_registration_again_deletes_old_cloudhook(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_delete_cloudhook: MagicMock,
 ) -> None:
@@ -763,7 +763,7 @@ async def test_registration_again_deletes_old_cloudhook(
 
 
 async def test_registration_again_old_cloudhook_deletion_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_delete_cloudhook: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -794,7 +794,7 @@ async def test_registration_again_old_cloudhook_deletion_fails(
 
 
 async def test_registration_again_fails_deletes_new_cloudhook(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_delete_cloudhook: MagicMock,
 ) -> None:
@@ -826,7 +826,7 @@ async def test_registration_again_fails_deletes_new_cloudhook(
 
 
 async def test_registration_flow_abort(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_delete_cloudhook: MagicMock,
 ) -> None:
@@ -851,7 +851,7 @@ async def test_registration_flow_abort(
 
 
 async def test_registration_flow_aborts_for_existing_entry(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the registration flow doesn't replace an existing entry."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -872,7 +872,7 @@ async def test_registration_flow_aborts_for_existing_entry(
 
 
 async def test_registration_encryption(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test that registrations happen."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -917,7 +917,7 @@ async def test_registration_encryption(
     ],
 )
 async def test_registration_with_cloud(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_admin_user: MockUser,
     cloud_is_connected: bool,
@@ -965,7 +965,7 @@ async def test_registration_with_cloud(
 
 
 async def test_registration_with_cloud_local_only_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_admin_user: MockUser,
 ) -> None:
@@ -1009,7 +1009,7 @@ async def test_registration_with_cloud_local_only_user(
 
 
 async def test_registration_encryption_legacy(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test that registrations happen."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})

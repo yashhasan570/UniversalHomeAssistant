@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.aussie_broadband.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .common import FAKE_DATA, FAKE_SERVICES
@@ -18,7 +18,7 @@ TEST_USERNAME = FAKE_DATA[CONF_USERNAME]
 TEST_PASSWORD = FAKE_DATA[CONF_PASSWORD]
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test we get the form."""
     result1 = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -48,7 +48,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_already_configured(hass: UniversalAssistant) -> None:
     """Test already configured."""
     # Setup an entry
     result1 = await hass.config_entries.flow.async_init(
@@ -97,7 +97,7 @@ async def test_already_configured(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 0
 
 
-async def test_no_services(hass: __HAC_KEEP__) -> None:
+async def test_no_services(hass: UniversalAssistant) -> None:
     """Test when there are no services."""
     result1 = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -125,7 +125,7 @@ async def test_no_services(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 0
 
 
-async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
+async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
     """Test invalid auth is handled."""
     result1 = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -161,7 +161,7 @@ async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_network_issue(hass: __HAC_KEEP__) -> None:
+async def test_form_network_issue(hass: UniversalAssistant) -> None:
     """Test network issues are handled."""
     result1 = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -197,7 +197,7 @@ async def test_form_network_issue(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_reauth(hass: __HAC_KEEP__) -> None:
+async def test_reauth(hass: UniversalAssistant) -> None:
     """Test reauth flow."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,

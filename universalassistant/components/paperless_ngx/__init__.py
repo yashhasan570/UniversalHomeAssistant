@@ -10,7 +10,7 @@ from pypaperless.exceptions import (
 )
 
 from universalassistant.const import CONF_API_KEY, CONF_URL, CONF_VERIFY_SSL, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -29,7 +29,7 @@ from .coordinator import (
 PLATFORMS: list[Platform] = [Platform.SENSOR, Platform.UPDATE]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: PaperlessConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: PaperlessConfigEntry) -> None:
     """Set up Paperless-ngx from a config entry."""
 
     api = await _get_paperless_api(hass, entry)
@@ -54,13 +54,13 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: PaperlessConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: PaperlessConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: PaperlessConfigEntry) -> None:
     """Unload paperless-ngx config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def _get_paperless_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: PaperlessConfigEntry,
 ) -> Paperless:
     """Create and initialize paperless-ngx API."""

@@ -22,8 +22,8 @@ from RestrictedPython.Guards import (
     guarded_unpack_sequence,
 )
 
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.util import dt as dt_util, raise_if_invalid_filename
 
 from .const import FOLDER
@@ -79,7 +79,7 @@ ALLOWED_DT_UTIL = {
 }
 
 
-class ScriptError(__HAC_KEEP__Error):
+class ScriptError(UniversalAssistantError):
     """When a script error occurs."""
 
 
@@ -128,7 +128,7 @@ def guarded_inplacevar(op: str, target: Any, operand: Any) -> Any:
 
 
 def execute_script(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     name: str,
     data: dict[str, Any] | None = None,
     return_response: bool = False,
@@ -142,7 +142,7 @@ def execute_script(
 
 
 def execute(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     filename: str,
     source: Any,
     data: dict[str, Any] | None = None,
@@ -240,7 +240,7 @@ def execute(
         return None
     except Exception as err:
         if return_response:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Error executing script ({type(err).__name__}): {err}"
             ) from err
         logger.exception("Error executing script")
@@ -263,7 +263,7 @@ class StubPrinter:
 class TimeWrapper:
     """Wrap the time module."""
 
-    # Class variable, only going to warn once per __HA_KEEP__ run
+    # Class variable, only going to warn once per Universal Home Assistant run
     warned = False
 
     def sleep(self, *args: Any, **kwargs: Any) -> None:
@@ -271,7 +271,7 @@ class TimeWrapper:
         if not TimeWrapper.warned:
             TimeWrapper.warned = True
             _LOGGER.warning(
-                "Using time.sleep can reduce the performance of __HA_KEEP__"
+                "Using time.sleep can reduce the performance of Universal Home Assistant"
             )
 
         time.sleep(*args, **kwargs)

@@ -40,8 +40,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from . import setup_platform_integration
 
@@ -106,7 +106,7 @@ def _replace_node_state(node: Node, state: str | VentilationState | None) -> Nod
     return replace(node, ventilation=replace(node.ventilation, state=state))
 
 
-def _assert_select_state(hass: __HAC_KEEP__, expected_state: str) -> None:
+def _assert_select_state(hass: UniversalAssistant, expected_state: str) -> None:
     """Assert the ventilation select state."""
     state = hass.states.get(_SELECT_ENTITY)
     assert state is not None
@@ -114,7 +114,7 @@ def _assert_select_state(hass: __HAC_KEEP__, expected_state: str) -> None:
 
 
 async def _async_select_option(
-    hass: __HAC_KEEP__, option: str, entity_id: str = _SELECT_ENTITY
+    hass: UniversalAssistant, option: str, entity_id: str = _SELECT_ENTITY
 ) -> None:
     """Select a ventilation option."""
     await hass.services.async_call(
@@ -128,7 +128,7 @@ async def _async_select_option(
     )
 
 
-async def _async_set_fan_percentage(hass: __HAC_KEEP__) -> None:
+async def _async_set_fan_percentage(hass: UniversalAssistant) -> None:
     """Set the ventilation fan percentage."""
     await hass.services.async_call(
         FAN_DOMAIN,
@@ -140,7 +140,7 @@ async def _async_set_fan_percentage(hass: __HAC_KEEP__) -> None:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
 ) -> MockConfigEntry:
@@ -150,7 +150,7 @@ async def init_integration(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_select_entity_created_with_dynamic_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that select entities are created only for nodes with usable actions."""
     state = hass.states.get(_SELECT_ENTITY)
@@ -184,7 +184,7 @@ async def test_select_entity_created_with_dynamic_options(
     ],
 )
 async def test_select_creates_entities_for_controllable_valve_nodes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_sensor_nodes: list[Node],
@@ -226,7 +226,7 @@ async def test_select_creates_entities_for_controllable_valve_nodes(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_select_option_calls_ventilation_state_library_method(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
 ) -> None:
     """Test that selecting an option uses the typed ventilation state helper."""
@@ -241,7 +241,7 @@ async def test_select_option_calls_ventilation_state_library_method(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_targeted_readback_keeps_coordinator_poll_schedule(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -265,20 +265,20 @@ async def test_targeted_readback_keeps_coordinator_poll_schedule(
     ],
 )
 async def test_select_option_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     exception: Exception,
     match: str,
 ) -> None:
-    """Test that a __HAC_KEEP__Error is raised on select write failure."""
+    """Test that a UniversalAssistantError is raised on select write failure."""
     mock_duco_client.async_set_ventilation_state = AsyncMock(side_effect=exception)
 
-    with pytest.raises(__HAC_KEEP__Error, match=match):
+    with pytest.raises(UniversalAssistantError, match=match):
         await _async_select_option(hass, "CNT2")
 
 
 async def test_select_extended_manual_options_allow_normalized_readback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_nodes: list[Node],
@@ -308,7 +308,7 @@ async def test_select_extended_manual_options_allow_normalized_readback(
 
 
 async def test_select_auto_option_allows_cnt1_readback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_nodes: list[Node],
@@ -341,7 +341,7 @@ async def test_select_auto_option_allows_cnt1_readback(
     ],
 )
 async def test_targeted_readback_failure_and_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_sensor_nodes: list[Node],
@@ -383,7 +383,7 @@ async def test_targeted_readback_failure_and_recovery(
 
 
 async def test_targeted_readback_restores_node_omitted_by_older_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_nodes: list[Node],
@@ -425,7 +425,7 @@ async def test_targeted_readback_restores_node_omitted_by_older_poll(
 
 
 async def test_targeted_readback_does_not_recover_failed_coordinator_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_nodes: list[Node],
@@ -463,7 +463,7 @@ async def test_targeted_readback_does_not_recover_failed_coordinator_poll(
 
 
 async def test_latest_targeted_readback_wins_when_fan_and_select_overlap(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_nodes: list[Node],
@@ -517,7 +517,7 @@ async def test_latest_targeted_readback_wins_when_fan_and_select_overlap(
     ],
 )
 async def test_newer_coordinator_poll_supersedes_targeted_outcome(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     mock_nodes: list[Node],
     freezer: FrozenDateTimeFactory,
@@ -553,7 +553,7 @@ async def test_newer_coordinator_poll_supersedes_targeted_outcome(
 
 
 async def test_select_entity_is_added_when_action_discovery_succeeds_later(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -601,7 +601,7 @@ async def test_select_entity_is_added_when_action_discovery_succeeds_later(
     ],
 )
 async def test_select_missing_action_metadata_does_not_crash(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     node_actions: NodeListActionItemList,
@@ -623,7 +623,7 @@ async def test_select_missing_action_metadata_does_not_crash(
     ],
 )
 async def test_select_unknown_or_missing_current_state_does_not_crash(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_nodes: list[Node],

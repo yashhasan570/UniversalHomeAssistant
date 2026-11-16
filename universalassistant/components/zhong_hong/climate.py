@@ -20,9 +20,9 @@ from universalassistant.const import (
     CONF_PORT,
     UnitOfTemperature,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv, issue_registry as ir
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -78,16 +78,16 @@ MODE_TO_STATE = {
 }
 
 
-def _send_failed(command: str) -> __HAC_KEEP__Error:
+def _send_failed(command: str) -> UniversalAssistantError:
     """Return the error raised when a command cannot be sent."""
-    return __HAC_KEEP__Error(
+    return UniversalAssistantError(
         translation_domain=DOMAIN,
         translation_key="send_command_failed",
         translation_placeholders={"command": command},
     )
 
 
-def _create_deprecated_yaml_issue(hass: __HAC_KEEP__) -> None:
+def _create_deprecated_yaml_issue(hass: UniversalAssistant) -> None:
     """Tell the user their YAML configuration has been imported."""
     ir.async_create_issue(
         hass,
@@ -106,7 +106,7 @@ def _create_deprecated_yaml_issue(hass: __HAC_KEEP__) -> None:
     )
 
 
-def _create_import_failed_issue(hass: __HAC_KEEP__, reason: str, host: str) -> None:
+def _create_import_failed_issue(hass: UniversalAssistant, reason: str, host: str) -> None:
     """Tell the user which part of their YAML the gateway did not answer."""
     ir.async_create_issue(
         hass,
@@ -126,7 +126,7 @@ def _create_import_failed_issue(hass: __HAC_KEEP__, reason: str, host: str) -> N
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -156,7 +156,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ZhongHongConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

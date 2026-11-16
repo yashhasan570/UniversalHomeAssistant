@@ -17,8 +17,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.e3dc.const import DOMAIN, SCAN_INTERVAL, UNIT_ID
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 
 from . import MOCK_SERIAL, seed, seed_identity
@@ -26,14 +26,14 @@ from . import MOCK_SERIAL, seed, seed_identity
 PV_POWER = "sensor.e3_dc_s10_x_pv_power"
 
 
-async def _poll(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+async def _poll(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
     freezer.tick(timedelta(seconds=SCAN_INTERVAL))
     async_fire_time_changed(hass)
     await hass.async_block_till_done()
 
 
 async def test_setup_and_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_get_unit: MagicMock,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_device_info(
 
 
 async def test_setup_retries_when_unreachable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_get_unit: MagicMock,
     mock_unit: MockModbusUnit,
@@ -77,7 +77,7 @@ async def test_setup_retries_when_unreachable(
 
 
 async def test_setup_fails_when_not_e3dc(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_get_unit: MagicMock,
     mock_unit: MockModbusUnit,
@@ -96,7 +96,7 @@ async def test_setup_fails_when_not_e3dc(
 
 
 async def test_setup_fails_when_connection_is_in_use(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup fails with the modbus error when another integration uses the address with other settings."""
     mock_config_entry.add_to_hass(hass)
@@ -107,7 +107,7 @@ async def test_setup_fails_when_connection_is_in_use(
     }
     with patch(
         "universalassistant.components.e3dc.async_get_unit",
-        side_effect=__HAC_KEEP__Error(
+        side_effect=UniversalAssistantError(
             translation_domain="modbus",
             translation_key="device_in_use",
             translation_placeholders=placeholders,
@@ -122,7 +122,7 @@ async def test_setup_fails_when_connection_is_in_use(
 
 
 async def test_setup_fails_for_a_different_power_station(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_get_unit: MagicMock,
     mock_unit: MockModbusUnit,
@@ -138,7 +138,7 @@ async def test_setup_fails_for_a_different_power_station(
 
 
 async def test_refused_read_makes_sensors_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     init_integration: MockConfigEntry,
     mock_unit: MockModbusUnit,
@@ -158,7 +158,7 @@ async def test_refused_read_makes_sensors_unavailable(
 
 
 async def test_lost_connection_makes_sensors_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     init_integration: MockConfigEntry,
     mock_unit: MockModbusUnit,

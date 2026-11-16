@@ -8,7 +8,7 @@ from universalassistant.components.number import (
     NumberEntityDescription,
 )
 from universalassistant.const import EntityCategory, UnitOfPower
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import HomevoltConfigEntry, HomevoltDataUpdateCoordinator
@@ -53,7 +53,7 @@ NUMBER_DESCRIPTIONS: tuple[NumberEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: HomevoltConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

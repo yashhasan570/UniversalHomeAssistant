@@ -27,11 +27,11 @@ from universalassistant.const import (
     STATE_ON,
     STATE_STANDBY,
 )
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 
 
 async def test_activity_remote(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver, events: list[Event]
+    hass: UniversalAssistant, hk_driver: HomeDriver, events: list[Event]
 ) -> None:
     """Test if remote accessory and HA are updated accordingly."""
     entity_id = "remote.harmony"
@@ -155,7 +155,7 @@ async def test_activity_remote(
 
 
 async def test_activity_remote_bad_names(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     events: list[Event],
     caplog: pytest.LogCaptureFixture,

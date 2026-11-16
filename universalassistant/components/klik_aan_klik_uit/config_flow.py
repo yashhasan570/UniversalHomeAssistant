@@ -12,7 +12,7 @@ from universalassistant.components.radio_frequency import (
 )
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_DEVICE_ID
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er, selector
 
 from .const import (
@@ -52,7 +52,7 @@ class KakuRcConfigFlow(ConfigFlow, domain=DOMAIN):
                 _SAMPLE_COMMAND.frequency,
                 ModulationType.OOK,
             )
-        except __HAC_KEEP__Error:
+        except UniversalAssistantError:
             return self.async_abort(reason="no_transmitters")
 
         if not transmitters:

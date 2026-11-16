@@ -14,7 +14,7 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 BYPASS_ENTITY_ID = "binary_sensor.001122334455_bypass_active"
@@ -35,7 +35,7 @@ def binary_sensor_only() -> Generator[None]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensor_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ariaq: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -49,7 +49,7 @@ async def test_binary_sensor_setup(
 
 
 async def test_binary_sensor_warmup_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ariaq: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -66,7 +66,7 @@ async def test_binary_sensor_warmup_disabled_by_default(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensor_none_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ariaq: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -112,7 +112,7 @@ async def test_binary_sensor_none_values(
     ],
 )
 async def test_binary_sensor_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ariaq: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

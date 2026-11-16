@@ -6,7 +6,7 @@ import pytest
 from pytest_universalassistant.common import MockEntity, MockPlatform, mock_platform
 
 from universalassistant.components.event import DOMAIN, EventEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -25,11 +25,11 @@ class MockEventEntity(MockEntity, EventEntity):
 
 
 @pytest.fixture
-async def mock_event_platform(hass: __HAC_KEEP__) -> None:
+async def mock_event_platform(hass: UniversalAssistant) -> None:
     """Mock the event entity platform."""
 
     async def async_setup_platform(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config: ConfigType,
         async_add_entities: AddEntitiesCallback,
         discovery_info: DiscoveryInfoType | None = None,

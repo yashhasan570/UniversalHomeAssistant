@@ -4,14 +4,14 @@ from unittest.mock import patch
 
 from universalassistant.components.switchbot_cloud.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import METER_INFO, configure_integration
 
 
 async def test_sw_version_cast_to_string(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_list_devices,
     mock_get_status,
@@ -32,7 +32,7 @@ async def test_sw_version_cast_to_string(
 
 
 async def test_sw_version_none_when_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_list_devices,
     mock_get_status,

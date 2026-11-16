@@ -6,7 +6,7 @@ import logging
 from androidtvremote2 import CannotConnect, ConnectionClosed, InvalidAuth
 
 from universalassistant.const import CONF_HOST, CONF_NAME, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 
 from .helpers import AndroidTVRemoteConfigEntry, create_api, get_enable_ime
@@ -17,7 +17,7 @@ PLATFORMS: list[Platform] = [Platform.MEDIA_PLAYER, Platform.REMOTE]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: AndroidTVRemoteConfigEntry
+    hass: UniversalAssistant, entry: AndroidTVRemoteConfigEntry
 ) -> None:
     """Set up Android TV Remote from a config entry."""
     _LOGGER.debug("async_setup_entry: %s", entry.data)
@@ -42,7 +42,7 @@ async def async_setup_entry(
         raise ConfigEntryAuthFailed from exc
     except (CannotConnect, ConnectionClosed, TimeoutError) as exc:
         # The Android TV is network unreachable. Raise exception and
-        # let __HA_KEEP__ retry later. If device gets a new IP
+        # let Universal Home Assistant retry later. If device gets a new IP
         # address the zeroconf flow will update the config.
         raise ConfigEntryNotReady from exc
 
@@ -71,7 +71,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: AndroidTVRemoteConfigEntry
+    hass: UniversalAssistant, entry: AndroidTVRemoteConfigEntry
 ) -> None:
     """Unload a config entry."""
     _LOGGER.debug("async_unload_entry: %s", entry.data)

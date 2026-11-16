@@ -115,7 +115,7 @@
       "name": "Pause all watering"
     },
     "push_flow_meter_data": {
-      "description": "Sends flow meter data from __HA_KEEP__ to the RainMachine device.",
+      "description": "Sends flow meter data from Universal Home Assistant to the RainMachine device.",
       "fields": {
         "device_id": {
           "description": "The controller to send flow meter data to.",
@@ -133,7 +133,7 @@
       "name": "Push flow meter data"
     },
     "push_weather_data": {
-      "description": "Sends weather data from __HA_KEEP__ to the RainMachine device.\nLocal Weather Push service should be enabled from Settings > Weather > Developer tab for RainMachine to consider the values being sent. Units must be sent in metric; no conversions are performed by the integration.\nSee details of RainMachine API here: {api_url}",
+      "description": "Sends weather data from Universal Home Assistant to the RainMachine device.\nLocal Weather Push service should be enabled from Settings > Weather > Developer tab for RainMachine to consider the values being sent. Units must be sent in metric; no conversions are performed by the integration.\nSee details of RainMachine API here: {api_url}",
       "fields": {
         "condition": {
           "description": "Current weather condition code (WNUM).",

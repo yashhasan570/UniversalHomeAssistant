@@ -13,7 +13,7 @@ from universalassistant.components.bluetooth.active_update_coordinator import (
     ActiveBluetoothDataUpdateCoordinator,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import CoreState, __HAC_KEEP__, callback
+from universalassistant.core import CoreState, UniversalAssistant, callback
 
 if TYPE_CHECKING:
     from bleak.backends.device import BLEDevice
@@ -31,7 +31,7 @@ class SwitchbotDataUpdateCoordinator(ActiveBluetoothDataUpdateCoordinator[None])
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         logger: logging.Logger,
         ble_device: BLEDevice,
         device: switchbot.SwitchbotDevice,

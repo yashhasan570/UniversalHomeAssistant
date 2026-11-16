@@ -6,7 +6,7 @@ import probatio
 from rf_protocols import ModulationType
 
 from universalassistant.components import websocket_api
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 
 from .const import DATA_COMPONENT
@@ -14,7 +14,7 @@ from .entity import RadioFrequencyTransmitterEntity
 
 
 @callback
-def async_setup(hass: __HAC_KEEP__) -> None:
+def async_setup(hass: UniversalAssistant) -> None:
     """Set up the radio frequency websocket API."""
     websocket_api.async_register_command(hass, ws_list_entities)
 
@@ -23,7 +23,7 @@ def async_setup(hass: __HAC_KEEP__) -> None:
 @websocket_api.websocket_command({probatio.Required("type"): "radio_frequency/list"})
 @callback
 def ws_list_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

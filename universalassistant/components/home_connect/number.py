@@ -12,8 +12,8 @@ from universalassistant.components.number import (
     NumberEntityDescription,
 )
 from universalassistant.const import PERCENTAGE, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -154,7 +154,7 @@ def _get_option_entities_for_appliance(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: HomeConnectConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -187,7 +187,7 @@ class HomeConnectNumberEntity(HomeConnectEntity, NumberEntity):
                 value=value,
             )
         except HomeConnectError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_setting_entity",
                 translation_placeholders={

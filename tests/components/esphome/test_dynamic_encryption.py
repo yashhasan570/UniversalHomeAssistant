@@ -6,10 +6,10 @@ from universalassistant.components.esphome.encryption_key_storage import (
     ESPHomeEncryptionKeyStorage,
     async_get_encryption_key_storage,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def test_dynamic_encryption_key_generation_mock(hass: __HAC_KEEP__) -> None:
+async def test_dynamic_encryption_key_generation_mock(hass: UniversalAssistant) -> None:
     """Test that encryption key generation works with mocked storage."""
     storage = await async_get_encryption_key_storage(hass)
 
@@ -24,7 +24,7 @@ async def test_dynamic_encryption_key_generation_mock(hass: __HAC_KEEP__) -> Non
     assert retrieved_key == test_key
 
 
-async def test_encryption_key_storage_remove_key(hass: __HAC_KEEP__) -> None:
+async def test_encryption_key_storage_remove_key(hass: UniversalAssistant) -> None:
     """Test ESPHomeEncryptionKeyStorage async_remove_key method."""
     # Create storage instance
     storage = ESPHomeEncryptionKeyStorage(hass)
@@ -64,7 +64,7 @@ async def test_encryption_key_storage_remove_key(hass: __HAC_KEEP__) -> None:
 
 
 async def test_encryption_key_basic_storage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test basic encryption key storage functionality."""
     storage = await async_get_encryption_key_storage(hass)
@@ -80,7 +80,7 @@ async def test_encryption_key_basic_storage(
 
 
 async def test_retrieve_key_from_storage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test config flow can retrieve encryption key from storage for new device."""
     # Test that the encryption key storage integration works with config flow

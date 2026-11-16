@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CONF_RADIUS,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import TEST_API_KEY, TEST_LATITUDE, TEST_LONGITUDE
@@ -32,7 +32,7 @@ USER_INPUT = {
 
 @pytest.mark.usefixtures("setup_airnow")
 async def test_form(
-    hass: __HAC_KEEP__, config: dict[str, Any], options: dict[str, Any]
+    hass: UniversalAssistant, config: dict[str, Any], options: dict[str, Any]
 ) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
@@ -55,7 +55,7 @@ async def test_form(
 
 @pytest.mark.parametrize("mock_api_get", [AsyncMock(side_effect=InvalidKeyError)])
 @pytest.mark.usefixtures("setup_airnow")
-async def test_form_invalid_auth(hass: __HAC_KEEP__, mock_api_get: AsyncMock) -> None:
+async def test_form_invalid_auth(hass: UniversalAssistant, mock_api_get: AsyncMock) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -79,7 +79,7 @@ async def test_form_invalid_auth(hass: __HAC_KEEP__, mock_api_get: AsyncMock) ->
 @pytest.mark.parametrize("data", [{}])
 @pytest.mark.usefixtures("setup_airnow")
 async def test_form_invalid_location(
-    hass: __HAC_KEEP__, mock_api_get: AsyncMock
+    hass: UniversalAssistant, mock_api_get: AsyncMock
 ) -> None:
     """Test we handle invalid location."""
     result = await hass.config_entries.flow.async_init(
@@ -104,7 +104,7 @@ async def test_form_invalid_location(
 @pytest.mark.parametrize("mock_api_get", [AsyncMock(side_effect=AirNowError)])
 @pytest.mark.usefixtures("setup_airnow")
 async def test_form_cannot_connect(
-    hass: __HAC_KEEP__, mock_api_get: AsyncMock
+    hass: UniversalAssistant, mock_api_get: AsyncMock
 ) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
@@ -128,7 +128,7 @@ async def test_form_cannot_connect(
 
 @pytest.mark.parametrize("mock_api_get", [AsyncMock(side_effect=EmptyResponseError)])
 @pytest.mark.usefixtures("setup_airnow")
-async def test_form_empty_result(hass: __HAC_KEEP__, mock_api_get: AsyncMock) -> None:
+async def test_form_empty_result(hass: UniversalAssistant, mock_api_get: AsyncMock) -> None:
     """Test we handle empty response error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -151,7 +151,7 @@ async def test_form_empty_result(hass: __HAC_KEEP__, mock_api_get: AsyncMock) ->
 
 @pytest.mark.parametrize("mock_api_get", [AsyncMock(side_effect=RuntimeError)])
 @pytest.mark.usefixtures("setup_airnow")
-async def test_form_unexpected(hass: __HAC_KEEP__, mock_api_get: AsyncMock) -> None:
+async def test_form_unexpected(hass: UniversalAssistant, mock_api_get: AsyncMock) -> None:
     """Test we handle an unexpected error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -173,7 +173,7 @@ async def test_form_unexpected(hass: __HAC_KEEP__, mock_api_get: AsyncMock) -> N
 
 
 @pytest.mark.usefixtures("config_entry")
-async def test_entry_already_exists(hass: __HAC_KEEP__) -> None:
+async def test_entry_already_exists(hass: UniversalAssistant) -> None:
     """Test that the form aborts if the Lat/Lng is already configured."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -213,7 +213,7 @@ async def test_entry_already_exists(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_config_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     version: int,
     entry_data: dict[str, Any],
     entry_options: dict[str, Any],
@@ -239,7 +239,7 @@ async def test_config_migration(
 
 
 @pytest.mark.usefixtures("setup_airnow")
-async def test_reauth(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def test_reauth(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Test reauthentication."""
     result = await config_entry.start_reauth_flow(hass)
     assert result["type"] is FlowResultType.FORM
@@ -269,7 +269,7 @@ async def test_reauth(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None
 )
 @pytest.mark.usefixtures("setup_airnow")
 async def test_reauth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_api_get: AsyncMock,
     exception: type[Exception],

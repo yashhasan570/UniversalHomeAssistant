@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.iron_os import DOMAIN
 from universalassistant.config_entries import SOURCE_BLUETOOTH, SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import DEFAULT_NAME, PINECIL_SERVICE_INFO, USER_INPUT
@@ -16,7 +16,7 @@ from .conftest import DEFAULT_NAME, PINECIL_SERVICE_INFO, USER_INPUT
 
 @pytest.mark.usefixtures("discovery", "mock_pynecil")
 async def test_async_step_user(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test the user config flow."""
     result = await hass.config_entries.flow.async_init(
@@ -45,7 +45,7 @@ async def test_async_step_user(
 )
 @pytest.mark.usefixtures("discovery")
 async def test_async_step_user_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pynecil: AsyncMock,
     raise_error: Exception,
     text_error: str,
@@ -79,7 +79,7 @@ async def test_async_step_user_errors(
 
 @pytest.mark.usefixtures("discovery", "mock_pynecil")
 async def test_async_step_user_device_added_between_steps(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test the device gets added via another flow between steps."""
 
@@ -101,7 +101,7 @@ async def test_async_step_user_device_added_between_steps(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_no_device_discovered(
-    hass: __HAC_KEEP__, discovery: MagicMock
+    hass: UniversalAssistant, discovery: MagicMock
 ) -> None:
     """Test setup with no device discoveries."""
     discovery.return_value = []
@@ -114,7 +114,7 @@ async def test_form_no_device_discovered(
 
 
 @pytest.mark.usefixtures("mock_pynecil")
-async def test_async_step_bluetooth(hass: __HAC_KEEP__) -> None:
+async def test_async_step_bluetooth(hass: UniversalAssistant) -> None:
     """Test discovery via bluetooth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -141,7 +141,7 @@ async def test_async_step_bluetooth(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_async_step_bluetooth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pynecil: AsyncMock,
     raise_error: Exception,
     text_error: str,
@@ -177,7 +177,7 @@ async def test_async_step_bluetooth_errors(
 
 @pytest.mark.usefixtures("mock_pynecil")
 async def test_async_step_bluetooth_devices_already_setup(
-    hass: __HAC_KEEP__, config_entry: AsyncMock
+    hass: UniversalAssistant, config_entry: AsyncMock
 ) -> None:
     """Test we can't start a flow if there is already a config entry."""
 
@@ -194,7 +194,7 @@ async def test_async_step_bluetooth_devices_already_setup(
 
 @pytest.mark.usefixtures("discovery", "mock_pynecil")
 async def test_async_step_user_setup_replaces_igonored_device(
-    hass: __HAC_KEEP__, config_entry_ignored: AsyncMock
+    hass: UniversalAssistant, config_entry_ignored: AsyncMock
 ) -> None:
     """Test the user initiated form can replace an ignored device."""
 

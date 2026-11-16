@@ -10,14 +10,14 @@ from universalassistant.components.humidifier import (
     SERVICE_SET_HUMIDITY,
 )
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF, SERVICE_TURN_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
 
 
 async def test_humidifier_service_calls(
-    hass: __HAC_KEEP__, device: MagicMock, config_entry: MagicMock
+    hass: UniversalAssistant, device: MagicMock, config_entry: MagicMock
 ) -> None:
     """Test humidity entity setup without additional options."""
     device.has_humidifier = True
@@ -51,7 +51,7 @@ async def test_humidifier_service_calls(
 
 
 async def test_dehumidifier_service_calls(
-    hass: __HAC_KEEP__, device: MagicMock, config_entry: MagicMock
+    hass: UniversalAssistant, device: MagicMock, config_entry: MagicMock
 ) -> None:
     """Test humidity entity setup without additional options."""
     device.has_dehumidifier = True
@@ -85,7 +85,7 @@ async def test_dehumidifier_service_calls(
 
 
 async def test_static_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device: MagicMock,
     config_entry: MagicMock,

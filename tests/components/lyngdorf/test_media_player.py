@@ -52,8 +52,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import notify_position_jump, notify_receiver_update
@@ -109,7 +109,7 @@ def playing_receiver(mock_receiver: MagicMock) -> MagicMock:
 
 
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -119,7 +119,7 @@ async def test_entities(
 
 
 async def test_no_zone_b_entity_for_model_without_zone_b(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -150,7 +150,7 @@ async def test_no_zone_b_entity_for_model_without_zone_b(
     ],
 )
 async def test_power(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_receiver: MagicMock,
     entity_id: str,
@@ -178,7 +178,7 @@ async def test_power(
     ],
 )
 async def test_volume_step(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_receiver: MagicMock,
     entity_id: str,
@@ -204,7 +204,7 @@ async def test_volume_step(
     ],
 )
 async def test_volume_set(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_receiver: MagicMock,
     entity_id: str,
@@ -232,7 +232,7 @@ async def test_volume_set(
     ],
 )
 async def test_mute(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_receiver: MagicMock,
     entity_id: str,
@@ -256,7 +256,7 @@ async def test_mute(
     ],
 )
 async def test_select_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_receiver: MagicMock,
     entity_id: str,
@@ -299,7 +299,7 @@ async def test_select_source(
     ],
 )
 async def test_select_invalid_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_receiver: MagicMock,
     entity_id: str,
@@ -325,7 +325,7 @@ async def test_select_invalid_option(
 
 
 async def test_select_sound_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -340,7 +340,7 @@ async def test_select_sound_mode(
 
 
 async def test_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -361,7 +361,7 @@ async def test_availability(
 
 
 async def test_main_zone_state_properties(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -399,7 +399,7 @@ async def test_main_zone_state_properties(
 
 
 async def test_zone_b_state_properties(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -427,7 +427,7 @@ async def test_zone_b_state_properties(
 
 
 async def test_now_playing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     playing_receiver: MagicMock,
     snapshot: SnapshotAssertion,
@@ -443,7 +443,7 @@ async def test_now_playing(
 @pytest.mark.usefixtures("init_integration")
 @pytest.mark.usefixtures("mock_receiver")
 async def test_transport_features_absent_when_idle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test no transport is offered when nothing is playing."""
     features = hass.states.get(MAIN_ZONE).attributes[ATTR_SUPPORTED_FEATURES]
@@ -463,7 +463,7 @@ async def test_transport_features_absent_when_idle(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_transport_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     playing_receiver: MagicMock,
     service: str,
     method: str,
@@ -480,10 +480,10 @@ async def test_transport_actions(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_seek_converts_to_milliseconds(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     playing_receiver: MagicMock,
 ) -> None:
-    """Test seek converts the position __HA_KEEP__ gives in seconds."""
+    """Test seek converts the position Universal Home Assistant gives in seconds."""
     await hass.services.async_call(
         MEDIA_PLAYER_DOMAIN,
         SERVICE_MEDIA_SEEK,
@@ -515,7 +515,7 @@ async def test_seek_converts_to_milliseconds(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_set_play_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     playing_receiver: MagicMock,
     service: str,
     payload: dict[str, Any],
@@ -560,7 +560,7 @@ async def test_set_play_mode(
 @pytest.mark.parametrize(
     ("result", "exception", "translation_key"),
     [
-        pytest.param(False, __HAC_KEEP__Error, "command_failed", id="not_sent"),
+        pytest.param(False, UniversalAssistantError, "command_failed", id="not_sent"),
         pytest.param(
             LyngdorfUnsupportedError("not offered"),
             ServiceValidationError,
@@ -571,13 +571,13 @@ async def test_set_play_mode(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_transport_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     playing_receiver: MagicMock,
     service: str,
     payload: dict[str, Any],
     method: str,
     result: bool | Exception,
-    exception: type[__HAC_KEEP__Error],
+    exception: type[UniversalAssistantError],
     translation_key: str,
 ) -> None:
     """Test a transport command the device does not take raises."""
@@ -596,7 +596,7 @@ async def test_transport_failure(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_transport_features_follow_the_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     playing_receiver: MagicMock,
 ) -> None:
     """Test only the controls the current source offers are advertised."""
@@ -616,7 +616,7 @@ async def test_transport_features_follow_the_source(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_no_streaming_features_on_model_without_streamer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     playing_receiver: MagicMock,
 ) -> None:
     """Test a model with no streaming module offers no transport."""
@@ -633,7 +633,7 @@ async def test_no_streaming_features_on_model_without_streamer(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_no_position_before_the_streamer_reports_one(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     playing_receiver: MagicMock,
 ) -> None:
     """Test an attached player that has not yet reported a position."""
@@ -649,7 +649,7 @@ async def test_no_position_before_the_streamer_reports_one(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_position_jump_updates_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     playing_receiver: MagicMock,
 ) -> None:
     """Test a position discontinuity refreshes the reported position."""

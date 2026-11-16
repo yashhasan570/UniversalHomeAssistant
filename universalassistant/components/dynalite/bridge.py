@@ -15,7 +15,7 @@ from dynalite_devices_lib.dynalite_devices import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
 from .const import ATTR_AREA, ATTR_HOST, ATTR_PACKET, ATTR_PRESET, LOGGER, PLATFORMS
@@ -27,7 +27,7 @@ type DynaliteConfigEntry = ConfigEntry[DynaliteBridge]
 class DynaliteBridge:
     """Manages a single Dynalite bridge."""
 
-    def __init__(self, hass: __HAC_KEEP__, config: dict[str, Any]) -> None:
+    def __init__(self, hass: UniversalAssistant, config: dict[str, Any]) -> None:
         """Initialize the system based on host parameter."""
         self.hass = hass
         self.async_add_devices: dict[str, Callable] = {}

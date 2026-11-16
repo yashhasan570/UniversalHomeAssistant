@@ -9,11 +9,11 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.p1_monitor.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_p1monitor: AsyncMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_p1monitor: AsyncMock
 ) -> None:
     """Test the P1 Monitor configuration entry loading/unloading."""
     mock_config_entry.add_to_hass(hass)
@@ -34,7 +34,7 @@ async def test_load_unload_config_entry(
 )
 async def test_config_entry_not_ready(
     mock_request: MagicMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the P1 Monitor configuration entry not ready."""
@@ -46,7 +46,7 @@ async def test_config_entry_not_ready(
     assert mock_config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_migration(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
+async def test_migration(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
     """Test config entry version 1 -> 2 migration."""
     mock_config_entry = MockConfigEntry(
         unique_id="unique_thingy",
@@ -62,7 +62,7 @@ async def test_migration(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> Non
     assert hass.config_entries.async_get_entry(mock_config_entry.entry_id) == snapshot
 
 
-async def test_port_migration(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
+async def test_port_migration(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
     """Test migration of host:port to separate host and port."""
     mock_config_entry = MockConfigEntry(
         unique_id="unique_thingy",

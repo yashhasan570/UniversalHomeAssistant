@@ -1,7 +1,7 @@
 """The awair component."""
 
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .coordinator import (
@@ -15,7 +15,7 @@ PLATFORMS = [Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: AwairConfigEntry
+    hass: UniversalAssistant, config_entry: AwairConfigEntry
 ) -> None:
     """Set up Awair integration from a config entry."""
     session = async_get_clientsession(hass)
@@ -39,7 +39,7 @@ async def async_setup_entry(
     await hass.config_entries.async_forward_entry_setups(config_entry, PLATFORMS)
 
 
-async def _async_update_listener(hass: __HAC_KEEP__, entry: AwairConfigEntry) -> None:
+async def _async_update_listener(hass: UniversalAssistant, entry: AwairConfigEntry) -> None:
     """Reload when the title or the host changed."""
     coordinator = entry.runtime_data
     if entry.title != coordinator.title or entry.data[CONF_HOST] != coordinator.host:
@@ -50,7 +50,7 @@ async def _async_update_listener(hass: __HAC_KEEP__, entry: AwairConfigEntry) ->
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: AwairConfigEntry
+    hass: UniversalAssistant, config_entry: AwairConfigEntry
 ) -> None:
     """Unload Awair configuration."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)

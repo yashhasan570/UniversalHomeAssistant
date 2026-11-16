@@ -3,12 +3,12 @@
 from typing import Any
 
 from universalassistant.const import EntityStateAttribute
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 
 @callback
 def async_check_significant_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     old_state: str,
     old_attrs: dict,
     new_state: str,

@@ -12,7 +12,7 @@ from aiontfy.exceptions import (
 from aiontfy.update import UpdateChecker
 
 from universalassistant.const import CONF_TOKEN, CONF_URL, CONF_VERIFY_SSL, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -40,14 +40,14 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 NTFY_KEY: HassKey[NtfyLatestReleaseUpdateCoordinator] = HassKey(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the ntfy services."""
 
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: NtfyConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: NtfyConfigEntry) -> None:
     """Set up ntfy from a config entry."""
 
     session = async_get_clientsession(hass, entry.data.get(CONF_VERIFY_SSL, True))
@@ -101,11 +101,11 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: NtfyConfigEntry) -> None:
     entry.async_on_unload(entry.add_update_listener(_async_update_listener))
 
 
-async def _async_update_listener(hass: __HAC_KEEP__, entry: NtfyConfigEntry) -> None:
+async def _async_update_listener(hass: UniversalAssistant, entry: NtfyConfigEntry) -> None:
     """Handle update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: NtfyConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: NtfyConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -11,7 +11,7 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
@@ -43,7 +43,7 @@ FULL_STATUS = {
     ],
 )
 async def test_setpoint_limits(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     entity_id: str,
     expected_state: str,
@@ -97,7 +97,7 @@ async def test_setpoint_limits(
     ],
 )
 async def test_setpoint_limits_inverted(
-    hass: __HAC_KEEP__, entity_id: str, value: int
+    hass: UniversalAssistant, entity_id: str, value: int
 ) -> None:
     """Test the minimum setpoint cannot be set above the maximum."""
     device = get_device("Guest room")
@@ -120,7 +120,7 @@ async def test_setpoint_limits_inverted(
     mock_setup.api.set_advanced.assert_not_awaited()
 
 
-async def test_setpoint_limits_fahrenheit(hass: __HAC_KEEP__) -> None:
+async def test_setpoint_limits_fahrenheit(hass: UniversalAssistant) -> None:
     """Test a limit set in Fahrenheit is rounded to the nearest degree Celsius."""
     hass.config.units = US_CUSTOMARY_SYSTEM
     device = get_device("Guest room")
@@ -142,7 +142,7 @@ async def test_setpoint_limits_fahrenheit(hass: __HAC_KEEP__) -> None:
     assert mock_setup.api.set_advanced.await_args.kwargs["svh"] == 23
 
 
-async def test_setpoint_limits_concurrent(hass: __HAC_KEEP__) -> None:
+async def test_setpoint_limits_concurrent(hass: UniversalAssistant) -> None:
     """Test concurrent changes to both limits are both kept."""
     device = get_device("Guest room")
     mock_api = device.get_mock_api()

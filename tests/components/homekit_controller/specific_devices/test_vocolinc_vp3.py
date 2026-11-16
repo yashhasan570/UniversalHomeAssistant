@@ -2,7 +2,7 @@
 
 from universalassistant.components.sensor import SensorStateClass
 from universalassistant.const import UnitOfPower
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from ..common import (
@@ -16,7 +16,7 @@ from ..common import (
 
 
 async def test_vocolinc_vp3_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test that a VOCOlinc VP3 can be correctly setup in HA."""

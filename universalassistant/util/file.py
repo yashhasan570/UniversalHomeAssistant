@@ -6,12 +6,12 @@ import tempfile
 
 from atomicwrites import AtomicWriter
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 _LOGGER = logging.getLogger(__name__)
 
 
-class WriteError(__HAC_KEEP__Error):
+class WriteError(UniversalAssistantError):
     """Error writing the data."""
 
 

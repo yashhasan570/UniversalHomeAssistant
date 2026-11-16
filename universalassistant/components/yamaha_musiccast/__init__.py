@@ -7,7 +7,7 @@ from aiomusiccast.musiccast_device import MusicCastDevice
 
 from universalassistant.components import ssdp
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 
@@ -19,7 +19,7 @@ PLATFORMS = [Platform.MEDIA_PLAYER, Platform.NUMBER, Platform.SELECT, Platform.S
 _LOGGER = logging.getLogger(__name__)
 
 
-async def get_upnp_desc(hass: __HAC_KEEP__, host: str):
+async def get_upnp_desc(hass: UniversalAssistant, host: str):
     """Get the upnp description URL for a given host, using the SSPD scanner."""
     ssdp_entries = await ssdp.async_get_discovery_info_by_st(hass, "upnp:rootdevice")
     matches = [w for w in ssdp_entries if w.ssdp_headers.get("_host", "") == host]
@@ -36,7 +36,7 @@ async def get_upnp_desc(hass: __HAC_KEEP__, host: str):
     return upnp_desc
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: MusicCastConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: MusicCastConfigEntry) -> None:
     """Set up MusicCast from a config entry."""
 
     if entry.data.get(CONF_UPNP_DESC) is None:
@@ -83,12 +83,12 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: MusicCastConfigEntry) -> 
     entry.async_on_unload(entry.add_update_listener(async_reload_entry))
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: MusicCastConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: MusicCastConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     entry.runtime_data.musiccast.device.disable_polling()
 
 
-async def async_reload_entry(hass: __HAC_KEEP__, entry: MusicCastConfigEntry) -> None:
+async def async_reload_entry(hass: UniversalAssistant, entry: MusicCastConfigEntry) -> None:
     """Reload config entry."""
     await hass.config_entries.async_reload(entry.entry_id)

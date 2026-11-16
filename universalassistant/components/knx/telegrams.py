@@ -22,7 +22,7 @@ from xknx.exceptions import XKNXException
 from xknx.telegram import Telegram, TelegramDirection
 from xknx.telegram.apci import GroupValueResponse, GroupValueWrite
 
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.event import async_track_time_change
 from universalassistant.helpers.storage import STORAGE_DIR, Store
@@ -64,7 +64,7 @@ FLUSH_INTERVAL_SECONDS_POSTGRES = 1
 MAX_BUFFER_TELEGRAMS = 600 * 50 * 4
 
 # A PostgreSQL server that is not reachable yet - typically a database container
-# that starts after __HA_KEEP__ - is retried with this backoff before the store
+# that starts after Universal Home Assistant - is retried with this backoff before the store
 # is given up until the next reload. Other errors are final at once, and SQLite
 # has no connection to lose.
 STORE_CONNECT_RETRY_BACKOFF = (15, 30, 60, 120, 300)
@@ -104,7 +104,7 @@ class Telegrams:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry_id: str,
         xknx: XKNX,
         project: KNXProject,
@@ -256,7 +256,7 @@ class Telegrams:
                 if await store.needs_migration():
                     _LOGGER.warning(
                         "KNX telegram history database schema upgrade/migration is required. "
-                        "This may take some time depending on your database size. Please do not restart __HA_KEEP__"
+                        "This may take some time depending on your database size. Please do not restart Universal Home Assistant"
                     )
                 else:
                     _LOGGER.debug(
@@ -378,7 +378,7 @@ class Telegrams:
         ) is not None:
             src_name = f"{device['manufacturer_name']} {device['name']}"
         elif telegram.direction is TelegramDirection.OUTGOING:
-            src_name = "__HA_KEEP__"
+            src_name = "Universal Home Assistant"
 
         if isinstance(telegram.payload, (GroupValueWrite, GroupValueResponse)):
             payload_data = telegram.payload.value.value
@@ -491,7 +491,7 @@ class Telegrams:
             if (device := self.project.devices.get(m.source)) is not None:
                 src_name = f"{device['manufacturer_name']} {device['name']}"
             elif m.direction == TelegramDirection.OUTGOING.value:
-                src_name = "__HA_KEEP__"
+                src_name = "Universal Home Assistant"
 
         dst_name = m.destination_name
         if not dst_name:

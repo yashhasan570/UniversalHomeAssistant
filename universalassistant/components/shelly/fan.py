@@ -10,7 +10,7 @@ from universalassistant.components.fan import (
     FanEntityDescription,
     FanEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import ShellyConfigEntry, ShellyRpcCoordinator
@@ -39,7 +39,7 @@ RPC_FANS: Final = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -52,7 +52,7 @@ async def async_setup_entry(
 
 @callback
 def _async_setup_rpc_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -7,8 +7,8 @@ from google.genai.errors import APIError
 from google.genai.types import GenerateContentConfig, Part, PartUnionDict
 
 from universalassistant.components import ai_task, conversation
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.json import json_loads
 
@@ -32,7 +32,7 @@ if TYPE_CHECKING:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: GoogleGenerativeAIConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -93,7 +93,7 @@ class GoogleGenerativeAITaskEntity(
                 " This could be due to the model not returning a valid response",
                 chat_log.content[-1],
             )
-            raise __HAC_KEEP__Error(ERROR_GETTING_RESPONSE)
+            raise UniversalAssistantError(ERROR_GETTING_RESPONSE)
 
         text = chat_log.content[-1].content or ""
 
@@ -112,7 +112,7 @@ class GoogleGenerativeAITaskEntity(
                 err,
                 text,
             )
-            raise __HAC_KEEP__Error(ERROR_GETTING_RESPONSE) from err
+            raise UniversalAssistantError(ERROR_GETTING_RESPONSE) from err
 
         return ai_task.GenDataTaskResult(
             conversation_id=chat_log.conversation_id,
@@ -150,10 +150,10 @@ class GoogleGenerativeAITaskEntity(
                 ),
             )
         except (APIError, ValueError) as err:
-            raise __HAC_KEEP__Error(f"Error generating image: {err}") from err
+            raise UniversalAssistantError(f"Error generating image: {err}") from err
 
         if response.prompt_feedback:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Error generating content due to content"
                 " violations, reason:"
                 f" {response.prompt_feedback.block_reason_message}"
@@ -164,7 +164,7 @@ class GoogleGenerativeAITaskEntity(
             or not response.candidates[0].content
             or not response.candidates[0].content.parts
         ):
-            raise __HAC_KEEP__Error("Unknown error generating image")
+            raise UniversalAssistantError("Unknown error generating image")
 
         # Parse response
         response_text = ""
@@ -184,7 +184,7 @@ class GoogleGenerativeAITaskEntity(
                 response_text += part.text
 
         if response_image is None:
-            raise __HAC_KEEP__Error("Response did not include image")
+            raise UniversalAssistantError("Response did not include image")
 
         assert response_image.inline_data is not None
         assert response_image.inline_data.data is not None

@@ -63,7 +63,7 @@ from universalassistant.const import (
     Platform,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.restore_state import STORAGE_KEY as RESTORE_STATE_KEY
@@ -103,7 +103,7 @@ def has_receiver() -> bool:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -123,7 +123,7 @@ async def test_entities(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_availability_follows_sources(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     source_entity_ids: list[str],
 ) -> None:
     """Test climate entity availability follows all configured infrared entities."""
@@ -142,7 +142,7 @@ async def test_availability_follows_sources(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_initial_availability_requires_emitter_and_receiver(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     unavailable_entity_id: str,
 ) -> None:
@@ -158,7 +158,7 @@ async def test_initial_availability_requires_emitter_and_receiver(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_hvac_mode_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Test setting HVAC mode to off sends power-off timings."""
@@ -176,7 +176,7 @@ async def test_set_hvac_mode_off(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Test turning off sends power-off timings."""
@@ -224,7 +224,7 @@ async def test_turn_off(
     ],
 )
 async def test_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     previous_modes: list[HVACMode],
     expected_mode: HVACMode,
@@ -257,7 +257,7 @@ async def test_turn_on(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on_after_set_temperature_with_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Test a mode switched to through set_temperature is the one turned back on."""
@@ -329,7 +329,7 @@ async def test_turn_on_after_set_temperature_with_hvac_mode(
     ],
 )
 async def test_set_hvac_mode_encodes_correctly(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     hvac_mode: HVACMode,
     temp: int,
@@ -386,7 +386,7 @@ async def test_set_hvac_mode_encodes_correctly(
     ],
 )
 async def test_set_hvac_mode_heat_and_fan_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     hvac_mode: HVACMode,
     expected_cmd: LgAcCommand,
@@ -406,7 +406,7 @@ async def test_set_hvac_mode_heat_and_fan_only(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_temperature_sends_command_when_active(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Test set_temperature sends IR when AC is on."""
@@ -445,7 +445,7 @@ async def test_set_temperature_sends_command_when_active(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_set_temperature_fahrenheit_rounds(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     fahrenheit: int,
     celsius: int,
@@ -479,7 +479,7 @@ async def test_set_temperature_fahrenheit_rounds(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_temperature_no_command_when_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Test set_temperature updates state but sends no IR when AC is off."""
@@ -499,7 +499,7 @@ async def test_set_temperature_no_command_when_off(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_temperature_no_command_in_dry_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Test set_temperature sends no IR in dry mode (protocol-fixed temp)."""
@@ -523,7 +523,7 @@ async def test_set_temperature_no_command_in_dry_mode(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_fan_mode_sends_command_when_active(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Test set_fan_mode sends IR when AC is on."""
@@ -567,7 +567,7 @@ async def test_set_fan_mode_sends_command_when_active(
     ],
 )
 async def test_receiver_updates_state_on_cool_signal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
     lib_fan: LgAcFanSpeed,
     expected_fan_mode: str,
@@ -591,7 +591,7 @@ async def test_receiver_updates_state_on_cool_signal(
 @pytest.mark.parametrize("has_receiver", [True])
 @pytest.mark.usefixtures("init_integration")
 async def test_receiver_updates_state_on_off_signal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
 ) -> None:
     """Test a received off signal sets mode to off, keeping temperature and fan.
@@ -622,7 +622,7 @@ async def test_receiver_updates_state_on_off_signal(
 @pytest.mark.parametrize("has_receiver", [True])
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on_resumes_the_mode_seen_by_the_receiver(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
 ) -> None:
@@ -654,7 +654,7 @@ async def test_turn_on_resumes_the_mode_seen_by_the_receiver(
 @pytest.mark.parametrize("has_receiver", [True])
 @pytest.mark.usefixtures("init_integration")
 async def test_receiver_ignores_unconfigured_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
 ) -> None:
     """Test a signal for a mode the user did not configure does not change state."""
@@ -676,7 +676,7 @@ async def test_receiver_ignores_unconfigured_hvac_mode(
 @pytest.mark.parametrize("has_receiver", [True])
 @pytest.mark.usefixtures("init_integration")
 async def test_receiver_ignores_non_lg_ac_signal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
 ) -> None:
     """Test that an unrecognised IR signal does not change state."""
@@ -716,7 +716,7 @@ async def test_receiver_ignores_non_lg_ac_signal(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_target_temperature_feature_follows_configured_modes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_features: ClimateEntityFeature,
 ) -> None:
     """Test target temperature is only offered when a mode can carry one."""
@@ -759,7 +759,7 @@ async def test_target_temperature_feature_follows_configured_modes(
     ],
 )
 async def test_state_restored_on_restart(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     platforms: list[Platform],
@@ -852,7 +852,7 @@ async def test_state_restored_on_restart(
     ],
 )
 async def test_restore_temperature_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     platforms: list[Platform],
@@ -948,7 +948,7 @@ async def test_restore_temperature_unit(
     ],
 )
 async def test_last_on_mode_restored_on_restart(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     platforms: list[Platform],
@@ -984,7 +984,7 @@ async def test_last_on_mode_restored_on_restart(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_restore_data_saved(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test the native temperatures are stored along with the last on mode."""
     await hass.services.async_call(
@@ -1012,7 +1012,7 @@ async def test_restore_data_saved(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_temperature_with_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Test set_temperature switches mode when one is given, even while off."""
@@ -1044,7 +1044,7 @@ async def test_set_temperature_with_hvac_mode(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_temperature_with_unsupported_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Test a mode the unit does not support is rejected instead of sent."""
@@ -1078,7 +1078,7 @@ async def test_set_temperature_with_unsupported_hvac_mode(
     ],
 )
 async def test_set_swing_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     swing_mode: str,
     expected_button: LGACCode,
@@ -1116,7 +1116,7 @@ async def test_set_swing_mode(
     ],
 )
 async def test_set_swing_horizontal_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     swing_mode: str,
     expected_button: LGACCode,
@@ -1155,7 +1155,7 @@ async def test_set_swing_horizontal_mode(
     ],
 )
 async def test_receiver_updates_swing_from_fixed_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
     button: LGACCode,
     attribute: str,

@@ -9,7 +9,7 @@ from xknx.exceptions.exception import InvalidSecureConfiguration
 from xknx.secure.keyring import Keyring, sync_load_keyring
 
 from universalassistant.components.file_upload import process_uploaded_file
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.storage import STORAGE_DIR
 
@@ -22,7 +22,7 @@ DEFAULT_KNX_KEYRING_FILENAME: Final = "keyring.knxkeys"
 
 
 async def save_uploaded_knxkeys_file(
-    hass: __HAC_KEEP__, uploaded_file_id: str, password: str
+    hass: UniversalAssistant, uploaded_file_id: str, password: str
 ) -> Keyring:
     """Validate the uploaded file and move it to the storage directory.
 

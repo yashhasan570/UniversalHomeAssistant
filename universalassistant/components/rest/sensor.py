@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_RESOURCE_TEMPLATE,
     CONF_VALUE_TEMPLATE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.trigger_template_entity import (
     ManualTriggerSensorEntity,
@@ -44,7 +44,7 @@ PLATFORM_SCHEMA = probatio.All(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -74,7 +74,7 @@ class RestSensor(ManualTriggerSensorEntity, RestEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         coordinator: RestCoordinator | None,
         rest: RestData,
         config: ConfigType,

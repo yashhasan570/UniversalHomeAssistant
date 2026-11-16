@@ -26,7 +26,7 @@ from universalassistant.components.spotify import (
     spotify_uri_from_media_browser_url,
 )
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -77,7 +77,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ForkedDaapdConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -111,7 +111,7 @@ async def async_setup_entry(
     await forked_daapd_updater.async_init()
 
 
-async def update_listener(hass: __HAC_KEEP__, entry: ForkedDaapdConfigEntry) -> None:
+async def update_listener(hass: UniversalAssistant, entry: ForkedDaapdConfigEntry) -> None:
     """Handle options update."""
     async_dispatcher_send(
         hass, SIGNAL_CONFIG_OPTIONS_UPDATE.format(entry.entry_id), entry.options

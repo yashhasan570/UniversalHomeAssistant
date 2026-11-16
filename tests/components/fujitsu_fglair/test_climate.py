@@ -27,7 +27,7 @@ from universalassistant.components.fujitsu_fglair.climate import (
     HA_TO_FUJI_SWING,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import entity_id
@@ -40,7 +40,7 @@ def platforms() -> list[str]:
 
 
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_ayla_api: AsyncMock,
@@ -54,7 +54,7 @@ async def test_entities(
 
 
 async def test_set_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_ayla_api: AsyncMock,

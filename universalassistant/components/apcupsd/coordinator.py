@@ -8,7 +8,7 @@ from typing import Final, override
 import aioapcaccess
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import (
@@ -62,7 +62,7 @@ class APCUPSdCoordinator(DataUpdateCoordinator[APCUPSdData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: APCUPSdConfigEntry,
         host: str,
         port: int,

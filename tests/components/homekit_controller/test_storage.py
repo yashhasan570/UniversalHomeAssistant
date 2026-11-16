@@ -10,13 +10,13 @@ from pytest_universalassistant.common import flush_store
 
 from universalassistant.components.homekit_controller.const import ENTITY_MAP
 from universalassistant.components.homekit_controller.storage import EntityMapStorage
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .common import setup_platform, setup_test_component
 
 
 async def test_load_from_storage(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test that entity map can be correctly loaded from cache."""
     hkid = "00:00:00:00:00:00"
@@ -31,7 +31,7 @@ async def test_load_from_storage(
 
 
 async def test_storage_is_removed(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test entity map storage removal is idempotent."""
     await setup_platform(hass)
@@ -51,7 +51,7 @@ async def test_storage_is_removed(
     assert hass_storage[ENTITY_MAP]["data"]["pairings"] == {}
 
 
-async def test_storage_is_removed_idempotent(hass: __HAC_KEEP__) -> None:
+async def test_storage_is_removed_idempotent(hass: UniversalAssistant) -> None:
     """Test entity map storage removal is idempotent."""
     await setup_platform(hass)
 
@@ -73,7 +73,7 @@ def create_lightbulb_service(accessory: Accessory) -> None:
 
 
 async def test_storage_is_updated_on_add(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any], get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, hass_storage: dict[str, Any], get_next_aid: Callable[[], int]
 ) -> None:
     """Test entity map storage is cleaned up on adding an accessory."""
     await setup_test_component(hass, get_next_aid(), create_lightbulb_service)
@@ -90,9 +90,9 @@ async def test_storage_is_updated_on_add(
 
 
 async def test_storage_is_saved_on_stop(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any], get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, hass_storage: dict[str, Any], get_next_aid: Callable[[], int]
 ) -> None:
-    """Test entity map storage is saved when __HA_KEEP__ stops."""
+    """Test entity map storage is saved when Universal Home Assistant stops."""
     await setup_test_component(hass, get_next_aid(), create_lightbulb_service)
 
     entity_map: EntityMapStorage = hass.data[ENTITY_MAP]
@@ -107,7 +107,7 @@ async def test_storage_is_saved_on_stop(
     # Make a change to trigger a save
     entity_map.async_create_or_update_map(hkid, 2, [])  # Update config_num
 
-    # Simulate __HA_KEEP__ stopping (sets the state and fires the event)
+    # Simulate Universal Home Assistant stopping (sets the state and fires the event)
     await hass.async_stop()
     await hass.async_block_till_done()
 

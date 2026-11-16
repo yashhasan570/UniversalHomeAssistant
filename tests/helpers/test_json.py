@@ -1,4 +1,4 @@
-"""Test __HA_KEEP__ remote methods and classes."""
+"""Test Universal Home Assistant remote methods and classes."""
 
 from collections.abc import Callable
 import datetime as dt
@@ -16,7 +16,7 @@ from unittest.mock import Mock, patch
 import pytest
 from pytest_universalassistant.common import json_round_trip
 
-from universalassistant.core import Event, __HAC_KEEP__, State
+from universalassistant.core import Event, UniversalAssistant, State
 from universalassistant.helpers.json import (
     ExtendedJSONEncoder,
     JSONEncoder as DefaultHASSJSONEncoder,
@@ -42,7 +42,7 @@ TEST_JSON_B = {"a": "one", "B": 2}
 
 
 @pytest.mark.parametrize("encoder", [DefaultHASSJSONEncoder, ExtendedJSONEncoder])
-def test_json_encoder(hass: __HAC_KEEP__, encoder: type[json.JSONEncoder]) -> None:
+def test_json_encoder(hass: UniversalAssistant, encoder: type[json.JSONEncoder]) -> None:
     """Test the JSON encoders."""
     ha_json_enc = encoder()
     state = State("test.test", "hello")
@@ -60,7 +60,7 @@ def test_json_encoder(hass: __HAC_KEEP__, encoder: type[json.JSONEncoder]) -> No
     assert json_round_trip(default) == json_round_trip(state.as_dict())
 
 
-def test_default_json_encoder(hass: __HAC_KEEP__) -> None:
+def test_default_json_encoder(hass: UniversalAssistant) -> None:
     """Test the default JSON encoder for date and time."""
     ha_json_enc = DefaultHASSJSONEncoder()
 
@@ -71,7 +71,7 @@ def test_default_json_encoder(hass: __HAC_KEEP__) -> None:
     assert ha_json_enc.default(current_time) == current_time.isoformat()
 
 
-def test_json_encoder_raises(hass: __HAC_KEEP__) -> None:
+def test_json_encoder_raises(hass: UniversalAssistant) -> None:
     """Test the JSON encoder raises on unsupported types."""
     ha_json_enc = DefaultHASSJSONEncoder()
 
@@ -80,7 +80,7 @@ def test_json_encoder_raises(hass: __HAC_KEEP__) -> None:
         ha_json_enc.default(1)
 
 
-def test_extended_json_encoder(hass: __HAC_KEEP__) -> None:
+def test_extended_json_encoder(hass: UniversalAssistant) -> None:
     """Test the extended JSON encoder."""
     ha_json_enc = ExtendedJSONEncoder()
     # Test serializing a timedelta

@@ -16,7 +16,7 @@ from universalassistant.components.minio import (
     QueueListener,
 )
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.setup import async_setup_component
 
 from .common import TEST_EVENT
@@ -53,7 +53,7 @@ def minio_client_event_fixture():
 
 
 async def test_minio_services(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, minio_client
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, minio_client
 ) -> None:
     """Test Minio services."""
     hass.config.allowlist_external_dirs = {"/test"}
@@ -106,7 +106,7 @@ async def test_minio_services(
 
 
 async def test_minio_listen(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, minio_client_event
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, minio_client_event
 ) -> None:
     """Test minio listen on notifications."""
     minio_client_event.presigned_get_object.return_value = "http://url"
@@ -154,7 +154,7 @@ async def test_minio_listen(
 
 
 async def test_queue_listener() -> None:
-    """Tests QueueListener firing events on __HA_KEEP__ event bus."""
+    """Tests QueueListener firing events on Universal Home Assistant event bus."""
     hass = MagicMock()
 
     queue_listener = QueueListener(hass)

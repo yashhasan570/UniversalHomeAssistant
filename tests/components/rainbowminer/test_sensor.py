@@ -9,7 +9,7 @@ from rainbowminer_api_client import CurrentProfit
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.rainbowminer.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -23,7 +23,7 @@ from .conftest import (
 
 
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_rainbowminer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -38,7 +38,7 @@ async def test_entities(
 
 
 async def test_always_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rainbowminer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -66,7 +66,7 @@ async def test_always_sensors(
 
 
 async def test_mbtc_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rainbowminer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -105,7 +105,7 @@ async def test_mbtc_sensors(
 
 
 async def test_currency_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rainbowminer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -146,7 +146,7 @@ async def test_currency_sensors(
 
 
 async def test_currency_sensors_not_created_without_currency(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rainbowminer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -163,7 +163,7 @@ async def test_currency_sensors_not_created_without_currency(
 
 
 async def test_currency_sensors_unavailable_when_rate_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rainbowminer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -186,7 +186,7 @@ async def test_currency_sensors_unavailable_when_rate_missing(
 
 
 async def test_mbtc_sensors_unavailable_without_balances(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rainbowminer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -204,7 +204,7 @@ async def test_mbtc_sensors_unavailable_without_balances(
 
 
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rainbowminer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,

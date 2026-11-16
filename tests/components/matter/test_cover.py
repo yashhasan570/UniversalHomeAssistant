@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.cover import CoverEntityFeature, CoverState
 from universalassistant.components.matter.cover import STATE_WRITE_DEBOUNCE_COOLDOWN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -25,7 +25,7 @@ from .common import (
 
 
 async def trigger_subscription_callback_debounced(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     client: MagicMock,
 ) -> None:
@@ -44,7 +44,7 @@ def platform() -> Platform:
 
 @pytest.mark.usefixtures("matter_devices")
 async def test_covers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -94,7 +94,7 @@ async def test_covers(
     ],
 )
 async def test_cover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -164,7 +164,7 @@ async def test_cover(
     ],
 )
 async def test_cover_lift(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -214,7 +214,7 @@ async def test_cover_lift(
     ],
 )
 async def test_cover_lift_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -252,7 +252,7 @@ async def test_cover_lift_only(
     ],
 )
 async def test_cover_device_class(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -289,7 +289,7 @@ async def test_cover_device_class(
     ],
 )
 async def test_cover_position_aware_lift(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -334,7 +334,7 @@ async def test_cover_position_aware_lift(
     ],
 )
 async def test_cover_position_aware_lift_null_tilt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_node: MatterNode,
     entity_id: str,
 ) -> None:
@@ -353,7 +353,7 @@ async def test_cover_position_aware_lift_null_tilt(
 
 @pytest.mark.parametrize("node_fixture", ["wago_home_blind_control"])
 async def test_cover_wago_blind_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     freezer: FrozenDateTimeFactory,
@@ -423,7 +423,7 @@ async def test_cover_wago_blind_type(
     ],
 )
 async def test_cover_split_attribute_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -465,7 +465,7 @@ async def test_cover_split_attribute_updates(
     ],
 )
 async def test_cover_stale_moving_operational_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -528,7 +528,7 @@ async def test_cover_stale_moving_operational_status(
     ],
 )
 async def test_cover_stale_moving_operational_status_since_interview(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -601,7 +601,7 @@ async def test_cover_stale_moving_operational_status_since_interview(
     ],
 )
 async def test_cover_moving_status_with_unknown_target(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -660,7 +660,7 @@ async def test_cover_moving_status_with_unknown_target(
     ],
 )
 async def test_cover_target_position_subscription(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -706,7 +706,7 @@ async def test_cover_target_position_subscription(
     ],
 )
 async def test_cover_moving_status_masked_until_target_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -751,7 +751,7 @@ async def test_cover_moving_status_masked_until_target_updates(
     ],
 )
 async def test_cover_position_updates_without_operational_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -788,7 +788,7 @@ async def test_cover_position_updates_without_operational_status(
     ],
 )
 async def test_cover_tilt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -840,7 +840,7 @@ async def test_cover_tilt(
     ],
 )
 async def test_cover_tilt_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -878,7 +878,7 @@ async def test_cover_tilt_only(
     ],
 )
 async def test_cover_position_aware_tilt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -974,7 +974,7 @@ TILT_BUTTONS = (
     ],
 )
 async def test_cover_feature_map(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -1039,7 +1039,7 @@ async def test_cover_feature_map(
     ],
 )
 async def test_cover_tilt_only_ignores_lift_position(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -1081,7 +1081,7 @@ async def test_cover_tilt_only_ignores_lift_position(
 
 @pytest.mark.parametrize("node_fixture", ["mock_window_covering_full"])
 async def test_cover_full_features(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     freezer: FrozenDateTimeFactory,
@@ -1227,7 +1227,7 @@ async def test_cover_full_features(
     ],
 )
 async def test_cover_moving_status_axis_selection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -1255,7 +1255,7 @@ async def test_cover_moving_status_axis_selection(
     ],
 )
 async def test_cover_moving_status_with_unknown_tilt_position(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,

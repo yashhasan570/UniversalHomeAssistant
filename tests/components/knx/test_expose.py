@@ -19,12 +19,12 @@ from universalassistant.const import (
     CONF_TYPE,
     CONF_VALUE_TEMPLATE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import KNXTestKit
 
 
-async def test_binary_expose(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_binary_expose(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test a binary expose to only send telegrams on state change."""
     entity_id = "fake.entity"
     await knx.setup_integration(
@@ -54,7 +54,7 @@ async def test_binary_expose(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
 
 
 async def test_binary_expose_does_not_send_initial_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
 ) -> None:
     """Test only the initial state is not exposed to KNX."""
@@ -85,7 +85,7 @@ async def test_binary_expose_does_not_send_initial_state(
 
 
 async def test_binary_expose_send_on_init(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
 ) -> None:
     """Test the initial expose value is sent when configured."""
@@ -119,7 +119,7 @@ async def test_binary_expose_send_on_init(
 
 
 async def test_binary_expose_send_on_init_existing_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
 ) -> None:
     """Test an existing entity value is sent when configured."""
@@ -143,7 +143,7 @@ async def test_binary_expose_send_on_init_existing_state(
     await knx.assert_write("1/1/8", True)
 
 
-async def test_expose_attribute(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_expose_attribute(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test an expose to only send telegrams on attribute change."""
     entity_id = "fake.entity"
     attribute = "fake_attribute"
@@ -213,7 +213,7 @@ async def test_expose_attribute(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
 
 
 async def test_expose_attribute_with_default(
-    hass: __HAC_KEEP__, knx: KNXTestKit
+    hass: UniversalAssistant, knx: KNXTestKit
 ) -> None:
     """Test an expose to only send telegrams on attribute change."""
     entity_id = "fake.entity"
@@ -279,7 +279,7 @@ async def test_expose_attribute_with_default(
     await knx.assert_write("1/1/8", (0,))
 
 
-async def test_expose_string(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_expose_string(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test an expose to send string values of up to 14 bytes only."""
 
     entity_id = "fake.entity"
@@ -315,7 +315,7 @@ async def test_expose_string(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
 
 
 async def test_expose_cooldown(
-    hass: __HAC_KEEP__, knx: KNXTestKit, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, knx: KNXTestKit, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test an expose with cooldown."""
     cooldown_time = 2
@@ -358,7 +358,7 @@ async def test_expose_cooldown(
 
 
 async def test_expose_periodic_send(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -388,7 +388,7 @@ async def test_expose_periodic_send(
 
 
 async def test_expose_value_template(
-    hass: __HAC_KEEP__, knx: KNXTestKit, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, knx: KNXTestKit, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test an expose with value_template."""
     entity_id = "fake.entity"
@@ -447,7 +447,7 @@ async def test_expose_value_template(
     ],
 )
 async def test_expose_conversion_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     knx: KNXTestKit,
     invalid_attribute: str,
@@ -488,7 +488,7 @@ async def test_expose_conversion_exception(
 
 
 async def test_ui_expose_create_and_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
@@ -560,7 +560,7 @@ async def test_ui_expose_create_and_update(
 
 
 async def test_ui_expose_send_on_init(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
@@ -606,7 +606,7 @@ async def test_ui_expose_send_on_init(
 
 
 async def test_ui_expose_with_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     freezer: FrozenDateTimeFactory,
     hass_ws_client: WebSocketGenerator,
@@ -666,7 +666,7 @@ async def test_ui_expose_with_options(
 
 
 async def test_ui_expose_stores_only_set_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
@@ -746,7 +746,7 @@ async def test_ui_expose_stores_only_set_options(
     ],
 )
 async def test_expose_with_date(
-    hass: __HAC_KEEP__, knx: KNXTestKit, time_type: str, raw: tuple[int, ...]
+    hass: UniversalAssistant, knx: KNXTestKit, time_type: str, raw: tuple[int, ...]
 ) -> None:
     """Test an expose with a date."""
     await hass.config.async_set_time_zone("Europe/Vienna")

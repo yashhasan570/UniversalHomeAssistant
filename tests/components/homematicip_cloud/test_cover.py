@@ -14,7 +14,7 @@ from universalassistant.components.homematicip_cloud.entity import (
     ATTR_GROUP_MEMBER_UNREACHABLE,
 )
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .helper import (
@@ -26,7 +26,7 @@ from .helper import (
 
 
 async def test_hmip_cover_shutter(
-    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
+    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipCoverShutte."""
     entity_id = "cover.broll_1"
@@ -94,7 +94,7 @@ async def test_hmip_cover_shutter(
 
 
 async def test_hmip_cover_slats(
-    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
+    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipCoverSlats."""
     entity_id = "cover.sofa_links"
@@ -171,7 +171,7 @@ async def test_hmip_cover_slats(
 
 
 async def test_hmip_multi_cover_slats(
-    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
+    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipCoverSlats."""
     entity_id = "cover.jalousieaktor_1_fur_hutschienenmontage_4_fach_wohnzimmer_fenster"
@@ -252,7 +252,7 @@ async def test_hmip_multi_cover_slats(
 
 
 async def test_hmip_blind_module(
-    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
+    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipBlindModule."""
     entity_id = "cover.sonnenschutz_balkontur"
@@ -365,7 +365,7 @@ async def test_hmip_blind_module(
 
 
 async def test_hmip_garage_door_tormatic(
-    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
+    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipCoverShutte."""
     entity_id = "cover.garage_door_module"
@@ -420,7 +420,7 @@ async def test_hmip_garage_door_tormatic(
 
 
 async def test_hmip_garage_door_hoermann(
-    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
+    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipCoverShutte."""
     entity_id = "cover.garage_door"
@@ -475,7 +475,7 @@ async def test_hmip_garage_door_hoermann(
 
 
 async def test_hmip_cover_shutter_group(
-    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
+    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipCoverShutteGroup."""
     entity_id = "cover.rollos_shuttergroup"
@@ -557,7 +557,7 @@ async def test_hmip_cover_shutter_group(
 
 
 async def test_hmip_cover_slats_group(
-    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
+    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test slats with HomematicipCoverShutteGroup."""
     entity_id = "cover.rollos_shuttergroup"
@@ -632,7 +632,7 @@ async def test_hmip_cover_slats_group(
 
 
 async def test_hmip_cover_shutter_group_availability(
-    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
+    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test cover shutter group stays available when group member is unreachable."""
     entity_id = "cover.rollos_shuttergroup"
@@ -654,7 +654,7 @@ async def test_hmip_cover_shutter_group_availability(
 
 
 async def test_hmip_cover_unique_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     default_mock_hap_factory: HomeFactory,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -687,7 +687,7 @@ async def test_hmip_cover_unique_ids(
 
 
 async def test_hmip_cover_unknown_device_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     default_mock_hap_factory: HomeFactory,
     entity_registry: er.EntityRegistry,
 ) -> None:

@@ -24,7 +24,7 @@ UPSTREAM_HEADERS: Final = {
     # identifying application `User-Agent`, which this proxy supplies because
     # a browser cannot.
     "User-Agent": (
-        f"__HAC_KEEP__/{__version__} (+https://www.universalassistant.io; {CONTACT})"
+        f"UniversalAssistant/{__version__} (+https://www.universalassistant.io; {CONTACT})"
     ),
     # Pinned to gzip so cached bodies are in an encoding every client accepts;
     # the session default advertises whichever codecs happen to be installed.
@@ -48,7 +48,7 @@ TILEJSON_MAX_AGE: Final = 5 * 60
 
 # A server side cache is needed because the access token rotates, which changes
 # every URL and empties every browser cache with it. In memory rather than on
-# disk: __HA_KEEP__ runs on SD cards, and losing the working set on restart
+# disk: Universal Home Assistant runs on SD cards, and losing the working set on restart
 # costs a few dozen requests.
 CACHE_MAX_BYTES: Final = 32 * 1024 * 1024
 

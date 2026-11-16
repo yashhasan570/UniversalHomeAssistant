@@ -2,7 +2,7 @@
 
 from universalassistant.components import blueprint
 from universalassistant.const import SERVICE_RELOAD
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.singleton import singleton
 
 from .const import DOMAIN, LOGGER
@@ -10,7 +10,7 @@ from .const import DOMAIN, LOGGER
 DATA_BLUEPRINTS = "automation_blueprints"
 
 
-def _blueprint_in_use(hass: __HAC_KEEP__, blueprint_path: str) -> bool:
+def _blueprint_in_use(hass: UniversalAssistant, blueprint_path: str) -> bool:
     """Return True if any automation references the blueprint."""
     from . import automations_with_blueprint  # noqa: PLC0415
 
@@ -18,7 +18,7 @@ def _blueprint_in_use(hass: __HAC_KEEP__, blueprint_path: str) -> bool:
 
 
 async def _reload_blueprint_automations(
-    hass: __HAC_KEEP__, blueprint_path: str
+    hass: UniversalAssistant, blueprint_path: str
 ) -> None:
     """Reload all automations that rely on a specific blueprint."""
     await hass.services.async_call(DOMAIN, SERVICE_RELOAD)
@@ -26,7 +26,7 @@ async def _reload_blueprint_automations(
 
 @singleton(DATA_BLUEPRINTS)
 @callback
-def async_get_blueprints(hass: __HAC_KEEP__) -> blueprint.DomainBlueprints:
+def async_get_blueprints(hass: UniversalAssistant) -> blueprint.DomainBlueprints:
     """Get automation blueprints."""
     from .config import AUTOMATION_BLUEPRINT_SCHEMA  # noqa: PLC0415
 

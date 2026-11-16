@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -26,7 +26,7 @@ def calendar_only() -> Generator[None]:
 
 
 @pytest.fixture(autouse=True)
-async def set_tz(hass: __HAC_KEEP__) -> None:
+async def set_tz(hass: UniversalAssistant) -> None:
     """Fixture to set timezone."""
     await hass.config.async_set_time_zone("Europe/Berlin")
 
@@ -34,7 +34,7 @@ async def set_tz(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures("habitica")
 @pytest.mark.freeze_time("2024-09-20T22:00:00.000Z")
 async def test_calendar_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -72,7 +72,7 @@ async def test_calendar_platform(
 )
 @pytest.mark.usefixtures("habitica")
 async def test_api_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
@@ -108,7 +108,7 @@ async def test_api_events(
     ],
 )
 async def test_dailies_start_of_today(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     last_cron: datetime | None,

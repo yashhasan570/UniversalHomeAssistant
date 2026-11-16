@@ -31,7 +31,7 @@ from universalassistant.components.backblaze_b2.const import (
     DOMAIN,
 )
 from universalassistant.components.backup import DOMAIN as BACKUP_DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import setup_integration
@@ -53,7 +53,7 @@ PROTECTED_BACKUP_DATA = (
 
 @pytest.fixture(autouse=True)
 async def setup_backup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> AsyncGenerator[None]:
     """Set up integration."""
@@ -90,7 +90,7 @@ def mock_backup_files():
 
 
 async def test_agents_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -125,7 +125,7 @@ async def test_agents_info(
 
 
 async def test_agents_list_backups(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test listing backups."""
@@ -137,7 +137,7 @@ async def test_agents_list_backups(
 
 
 async def test_agents_get_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test getting backup."""
@@ -153,7 +153,7 @@ async def test_agents_get_backup(
 
 
 async def test_agents_get_backup_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test getting nonexistent backup."""
@@ -165,7 +165,7 @@ async def test_agents_get_backup_not_found(
 
 
 async def test_agents_delete(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_backup_files,
 ) -> None:
@@ -189,7 +189,7 @@ async def test_agents_delete(
 
 
 async def test_agents_delete_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test deleting nonexistent backup."""
@@ -249,7 +249,7 @@ async def test_get_file_for_download_raises_not_found(
     ],
 )
 async def test_error_during_delete(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
     mock_backup_files,
@@ -276,7 +276,7 @@ async def test_error_during_delete(
     )
 
 
-async def test_listeners_get_cleaned_up(hass: __HAC_KEEP__) -> None:
+async def test_listeners_get_cleaned_up(hass: UniversalAssistant) -> None:
     """Test listener cleanup."""
     listener = MagicMock()
     remove_listener = async_register_backup_agents_listener(hass, listener=listener)
@@ -324,7 +324,7 @@ async def test_listeners_get_cleaned_up(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_agents_list_skips_foreign_metadata_files(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_backup_files: tuple[Mock, Mock],
     caplog: pytest.LogCaptureFixture,
@@ -362,7 +362,7 @@ async def test_agents_list_skips_foreign_metadata_files(
 
 
 async def test_error_during_list_backups(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -383,7 +383,7 @@ async def test_error_during_list_backups(
 
 
 async def test_error_during_get_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -406,7 +406,7 @@ async def test_error_during_get_backup(
 
 
 async def test_metadata_file_download_error_during_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test metadata download error handling."""
@@ -430,7 +430,7 @@ async def test_metadata_file_download_error_during_list(
 
 
 async def test_delete_with_metadata_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
     mock_backup_files,
@@ -458,7 +458,7 @@ async def test_delete_with_metadata_error(
 
 
 async def test_download_backup_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test downloading nonexistent backup."""
@@ -479,7 +479,7 @@ async def test_download_backup_not_found(
 
 @pytest.mark.usefixtures("freezer")
 async def test_upload_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -519,7 +519,7 @@ async def test_upload_progress(
     ],
 )
 async def test_upload_failure_stops_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -568,7 +568,7 @@ async def test_upload_failure_stops_progress(
     assert [e.uploaded_bytes for e in events] == [0]
 
 
-async def test_upload_progress_after_loop_closed(hass: __HAC_KEEP__) -> None:
+async def test_upload_progress_after_loop_closed(hass: UniversalAssistant) -> None:
     """Test that a B2 worker reporting progress after shutdown does not raise."""
     on_progress = Mock()
     listener = _ProgressListener(hass, on_progress)
@@ -778,7 +778,7 @@ async def test_handle_b2_errors_logs_root_cause(
 
 
 async def test_cache_behavior(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test backup list caching."""
@@ -807,7 +807,7 @@ async def test_cache_behavior(
 
 
 async def test_metadata_processing_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -908,7 +908,7 @@ async def test_download_triggers_backup_not_found(
 
 
 async def test_get_backup_cache_paths(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test cache hit and update paths."""
@@ -935,7 +935,7 @@ async def test_get_backup_cache_paths(
 
 
 async def test_metadata_json_parse_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test ValueError handling when metadata JSON parsing fails."""
@@ -966,7 +966,7 @@ async def test_metadata_json_parse_error(
 
 
 async def test_orphaned_metadata_files(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1005,7 +1005,7 @@ async def test_orphaned_metadata_files(
 
 
 async def test_get_backup_updates_cache(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_backup_files,
 ) -> None:
@@ -1045,7 +1045,7 @@ async def test_get_backup_updates_cache(
 
 
 async def test_delete_clears_backup_cache(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_backup_files,
 ) -> None:
@@ -1073,7 +1073,7 @@ async def test_delete_clears_backup_cache(
 
 
 async def test_metadata_downloads_are_sequential(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1132,7 +1132,7 @@ async def test_metadata_downloads_are_sequential(
 
 
 async def test_metadata_download_timeout_during_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1167,7 +1167,7 @@ async def test_metadata_download_timeout_during_list(
 
 
 async def test_metadata_download_timeout_during_find_by_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1208,7 +1208,7 @@ async def test_metadata_download_timeout_during_find_by_id(
 
 
 async def test_metadata_timeout_does_not_block_healthy_backups(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1276,7 +1276,7 @@ async def test_metadata_timeout_does_not_block_healthy_backups(
 
 
 async def test_metadata_download_timeout_during_get_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1339,7 +1339,7 @@ async def test_metadata_download_timeout_during_get_backup(
     ],
 )
 async def test_can_decrypt_on_download_closes_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
     downloaded_responses: list[Mock],
@@ -1395,7 +1395,7 @@ async def test_agents_download_closes_response(
 
 
 async def test_agents_download_closes_response_on_read_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     b2_fixture: BackblazeFixture,
     mock_config_entry: MockConfigEntry,

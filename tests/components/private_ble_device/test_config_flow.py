@@ -7,7 +7,7 @@ from pytest_universalassistant.components.bluetooth import inject_bluetooth_serv
 
 from universalassistant import config_entries
 from universalassistant.components.private_ble_device import const
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResult, FlowResultType
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 
@@ -19,7 +19,7 @@ def assert_form_error(result: FlowResult, key: str, value: str) -> None:
     assert result["errors"][key] == value
 
 
-async def _async_configure_valid_irk(hass: __HAC_KEEP__, flow_id: str) -> FlowResult:
+async def _async_configure_valid_irk(hass: UniversalAssistant, flow_id: str) -> FlowResult:
     """Configure the flow with the IRK of a discovered device."""
     inject_bluetooth_service_info(
         hass,
@@ -43,7 +43,7 @@ async def _async_configure_valid_irk(hass: __HAC_KEEP__, flow_id: str) -> FlowRe
 
 
 @pytest.mark.usefixtures("mock_bluetooth_adapters")
-async def test_setup_user_no_bluetooth(hass: __HAC_KEEP__) -> None:
+async def test_setup_user_no_bluetooth(hass: UniversalAssistant) -> None:
     """Test setting up via user interaction when bluetooth is not enabled."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN,
@@ -54,7 +54,7 @@ async def test_setup_user_no_bluetooth(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_invalid_irk(hass: __HAC_KEEP__) -> None:
+async def test_invalid_irk(hass: UniversalAssistant) -> None:
     """Test invalid irk."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -72,7 +72,7 @@ async def test_invalid_irk(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_invalid_irk_base64(hass: __HAC_KEEP__) -> None:
+async def test_invalid_irk_base64(hass: UniversalAssistant) -> None:
     """Test invalid irk."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -90,7 +90,7 @@ async def test_invalid_irk_base64(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_invalid_irk_hex(hass: __HAC_KEEP__) -> None:
+async def test_invalid_irk_hex(hass: UniversalAssistant) -> None:
     """Test invalid irk."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -108,7 +108,7 @@ async def test_invalid_irk_hex(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_irk_not_found(hass: __HAC_KEEP__) -> None:
+async def test_irk_not_found(hass: UniversalAssistant) -> None:
     """Test irk not found."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -127,7 +127,7 @@ async def test_irk_not_found(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_flow_works(hass: __HAC_KEEP__) -> None:
+async def test_flow_works(hass: UniversalAssistant) -> None:
     """Test config flow works."""
 
     inject_bluetooth_service_info(
@@ -165,7 +165,7 @@ async def test_flow_works(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_flow_works_by_base64(hass: __HAC_KEEP__) -> None:
+async def test_flow_works_by_base64(hass: UniversalAssistant) -> None:
     """Test config flow works."""
 
     inject_bluetooth_service_info(

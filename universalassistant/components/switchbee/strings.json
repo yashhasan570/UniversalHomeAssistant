@@ -18,7 +18,7 @@
         "data_description": {
           "host": "The hostname or IP address of your SwitchBee device."
         },
-        "description": "Set up SwitchBee integration with __HA_KEEP__."
+        "description": "Set up SwitchBee integration with Universal Home Assistant."
       }
     }
   }

@@ -13,7 +13,7 @@ from arcam.fmj.errors import (
     UnsupportedZone,
 )
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity import EntityDescription
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -24,14 +24,14 @@ from .coordinator import ArcamFmjCoordinator
 def convert_exception[**_P, _R](
     func: Callable[_P, Coroutine[Any, Any, _R]],
 ) -> Callable[_P, Coroutine[Any, Any, _R]]:
-    """Convert library errors into translated __HAC_KEEP__Errors."""
+    """Convert library errors into translated UniversalAssistantErrors."""
 
     @functools.wraps(func)
     async def _convert_exception(*args: _P.args, **kwargs: _P.kwargs) -> _R:
         try:
             return await func(*args, **kwargs)
         except (ConnectionFailed, NotConnectedException, TimeoutError) as exception:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="connection_failed"
             ) from exception
         except (
@@ -39,11 +39,11 @@ def convert_exception[**_P, _R](
             UnsupportedZone,
             CommandNotRecognised,
         ) as exception:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="command_not_supported"
             ) from exception
         except ResponseException as exception:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="command_rejected"
             ) from exception
 

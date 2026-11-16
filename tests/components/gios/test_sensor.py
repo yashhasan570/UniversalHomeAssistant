@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.gios.const import DOMAIN, SCAN_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -31,7 +31,7 @@ def override_platforms() -> Generator[None]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -42,7 +42,7 @@ async def test_sensor(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_availability_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gios: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -115,7 +115,7 @@ async def test_availability_api_error(
 
 
 async def test_dont_create_entities_when_data_missing_for_station(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_gios: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -140,7 +140,7 @@ async def test_dont_create_entities_when_data_missing_for_station(
 
 
 async def test_missing_index_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_gios: MagicMock,
     mock_gios_sensors: GiosSensors,
@@ -180,7 +180,7 @@ async def test_missing_index_data(
 
 
 async def test_unique_id_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_gios: MagicMock,
     mock_config_entry: MockConfigEntry,

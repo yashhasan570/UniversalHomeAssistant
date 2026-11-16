@@ -17,7 +17,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.ecosmart.const import SPOT_SCAN_INTERVAL
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import UpdateFailed
 
 from . import setup_integration
@@ -25,7 +25,7 @@ from .conftest import TEST_POC, load_identity
 
 
 async def test_setup_and_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -43,7 +43,7 @@ async def test_setup_and_unload(
 
 
 async def test_pocs_are_deduplicated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_pocs_are_deduplicated(
 
 
 async def test_two_pocs_are_both_fetched(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -98,7 +98,7 @@ async def test_two_pocs_are_both_fetched(
     ],
 )
 async def test_identity_failures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -116,7 +116,7 @@ async def test_identity_failures(
 
 @pytest.mark.parametrize("failing_call", ["me", "spot"])
 async def test_rejected_key_asks_for_a_new_one(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     failing_call: str,
@@ -144,7 +144,7 @@ async def test_rejected_key_asks_for_a_new_one(
     ],
 )
 async def test_setup_rate_limit_waits_for_the_server(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -155,7 +155,7 @@ async def test_setup_rate_limit_waits_for_the_server(
     """Test a rate limit during setup retries after the server's delay.
 
     Both setup calls are covered: the identity lookup and the first price
-    fetch. Without the delay __HA_KEEP__ would retry after about five
+    fetch. Without the delay Universal Home Assistant would retry after about five
     seconds, into a key that is still out of budget.
     """
     failing = getattr(mock_ecosmart_client, failing_call)
@@ -196,7 +196,7 @@ async def test_setup_rate_limit_waits_for_the_server(
     ],
 )
 async def test_first_refresh_failures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -211,7 +211,7 @@ async def test_first_refresh_failures(
 
 
 async def test_later_rate_limit_without_header_uses_scan_interval(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -233,7 +233,7 @@ async def test_later_rate_limit_without_header_uses_scan_interval(
 
 
 async def test_rate_limit_retry_after_moves_the_next_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

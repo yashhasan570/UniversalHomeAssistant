@@ -9,7 +9,7 @@ import pytest
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -27,7 +27,7 @@ def attributes_fixture(request: pytest.FixtureRequest) -> dict[str, Any]:
 
 @pytest.mark.parametrize("node_fixture", ["mock_valve"])
 async def test_valves(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_node: MatterNode,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -39,7 +39,7 @@ async def test_valves(
 
 @pytest.mark.parametrize("node_fixture", ["mock_valve"])
 async def test_valve(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -170,7 +170,7 @@ async def test_valve(
     indirect=True,
 )
 async def test_valve_discovery_with_nullable_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:

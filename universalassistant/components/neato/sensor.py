@@ -9,7 +9,7 @@ from pybotvac.robot import Robot
 
 from universalassistant.components.sensor import SensorDeviceClass, SensorEntity
 from universalassistant.const import PERCENTAGE, EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import SCAN_INTERVAL_MINUTES
@@ -24,7 +24,7 @@ BATTERY = "Battery"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: NeatoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

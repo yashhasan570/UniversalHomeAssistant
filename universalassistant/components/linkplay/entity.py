@@ -7,7 +7,7 @@ from linkplay.bridge import LinkPlayBridge
 from linkplay.exceptions import LinkPlayRequestException
 from linkplay.manufacturers import MANUFACTURER_GENERIC, get_info_from_project
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.entity import Entity
 
@@ -17,13 +17,13 @@ from .const import DOMAIN
 def exception_wrap[_LinkPlayEntityT: LinkPlayBaseEntity, **_P, _R](
     func: Callable[Concatenate[_LinkPlayEntityT, _P], Coroutine[Any, Any, _R]],
 ) -> Callable[Concatenate[_LinkPlayEntityT, _P], Coroutine[Any, Any, _R]]:
-    """Define a wrapper to catch exceptions and raise __HAC_KEEP__ errors."""
+    """Define a wrapper to catch exceptions and raise UniversalAssistant errors."""
 
     async def _wrap(self: _LinkPlayEntityT, *args: _P.args, **kwargs: _P.kwargs) -> _R:
         try:
             return await func(self, *args, **kwargs)
         except LinkPlayRequestException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Exception occurred when communicating with API {func}: {err}"
             ) from err
 

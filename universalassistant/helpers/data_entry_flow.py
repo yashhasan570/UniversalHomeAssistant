@@ -7,7 +7,7 @@ from aiohttp import web
 import probatio
 
 from universalassistant import data_entry_flow
-from universalassistant.components.http import __HAC_KEEP__View
+from universalassistant.components.http import UniversalAssistantView
 from universalassistant.components.http.data_validator import RequestDataValidator
 
 from . import config_validation as cv
@@ -25,7 +25,7 @@ _FlowResultT = TypeVar(
 )
 
 
-class _BaseFlowManagerView(__HAC_KEEP__View, Generic[_FlowManagerT, _FlowResultT]):
+class _BaseFlowManagerView(UniversalAssistantView, Generic[_FlowManagerT, _FlowResultT]):
     """Foundation for flow manager views."""
 
     def __init__(self, flow_mgr: _FlowManagerT) -> None:

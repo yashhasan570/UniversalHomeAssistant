@@ -12,8 +12,8 @@ from universalassistant.components.alarm_control_panel import (
     AlarmControlPanelState,
     CodeFormat,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CODE_REQUIRED, DOMAIN
@@ -22,7 +22,7 @@ from .entity import TotalConnectLocationEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: TotalConnectConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -111,12 +111,12 @@ class TotalConnectAlarm(TotalConnectLocationEntity, AlarmControlPanelEntity):
             await self.hass.async_add_executor_job(self._disarm)
         except UsercodeInvalid as error:
             self.coordinator.config_entry.async_start_reauth(self.hass)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="disarm_invalid_code",
             ) from error
         except BadResultCodeError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="disarm_failed",
                 translation_placeholders={"device": self.device.name},
@@ -135,12 +135,12 @@ class TotalConnectAlarm(TotalConnectLocationEntity, AlarmControlPanelEntity):
             await self.hass.async_add_executor_job(self._arm_home)
         except UsercodeInvalid as error:
             self.coordinator.config_entry.async_start_reauth(self.hass)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="arm_home_invalid_code",
             ) from error
         except BadResultCodeError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="arm_home_failed",
                 translation_placeholders={"device": self.device.name},
@@ -159,12 +159,12 @@ class TotalConnectAlarm(TotalConnectLocationEntity, AlarmControlPanelEntity):
             await self.hass.async_add_executor_job(self._arm_away)
         except UsercodeInvalid as error:
             self.coordinator.config_entry.async_start_reauth(self.hass)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="arm_away_invalid_code",
             ) from error
         except BadResultCodeError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="arm_away_failed",
                 translation_placeholders={"device": self.device.name},
@@ -183,12 +183,12 @@ class TotalConnectAlarm(TotalConnectLocationEntity, AlarmControlPanelEntity):
             await self.hass.async_add_executor_job(self._arm_night)
         except UsercodeInvalid as error:
             self.coordinator.config_entry.async_start_reauth(self.hass)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="arm_night_invalid_code",
             ) from error
         except BadResultCodeError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="arm_night_failed",
                 translation_placeholders={"device": self.device.name},
@@ -205,12 +205,12 @@ class TotalConnectAlarm(TotalConnectLocationEntity, AlarmControlPanelEntity):
             await self.hass.async_add_executor_job(self._arm_home_instant)
         except UsercodeInvalid as error:
             self.coordinator.config_entry.async_start_reauth(self.hass)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="arm_home_instant_invalid_code",
             ) from error
         except BadResultCodeError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="arm_home_instant_failed",
                 translation_placeholders={"device": self.device.name},
@@ -227,12 +227,12 @@ class TotalConnectAlarm(TotalConnectLocationEntity, AlarmControlPanelEntity):
             await self.hass.async_add_executor_job(self._arm_away_instant)
         except UsercodeInvalid as error:
             self.coordinator.config_entry.async_start_reauth(self.hass)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="arm_away_instant_invalid_code",
             ) from error
         except BadResultCodeError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="arm_away_instant_failed",
                 translation_placeholders={"device": self.device.name},

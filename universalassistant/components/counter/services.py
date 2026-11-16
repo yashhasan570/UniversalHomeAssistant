@@ -2,13 +2,13 @@
 
 import probatio
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 from .const import DATA_COMPONENT, CounterService, CounterServiceArgument
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the counter services."""
     component = hass.data[DATA_COMPONENT]
     component.async_register_entity_service(

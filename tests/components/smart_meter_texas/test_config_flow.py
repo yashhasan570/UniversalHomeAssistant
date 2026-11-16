@@ -15,7 +15,7 @@ from smart_meter_texas.exceptions import (
 from universalassistant import config_entries
 from universalassistant.components.smart_meter_texas.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 TEST_LOGIN = {CONF_USERNAME: "test-username", CONF_PASSWORD: "test-password"}
@@ -34,7 +34,7 @@ def _patch_success() -> Generator[None]:
         yield
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -62,7 +62,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
+async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -91,7 +91,7 @@ async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
     "side_effect", [TimeoutError, ClientError, SmartMeterTexasAPIError]
 )
 async def test_form_cannot_connect(
-    hass: __HAC_KEEP__, side_effect: type[Exception]
+    hass: UniversalAssistant, side_effect: type[Exception]
 ) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
@@ -116,7 +116,7 @@ async def test_form_cannot_connect(
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_unknown_exception(hass: __HAC_KEEP__) -> None:
+async def test_form_unknown_exception(hass: UniversalAssistant) -> None:
     """Test base exception is handled."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -141,7 +141,7 @@ async def test_form_unknown_exception(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_duplicate_account(hass: __HAC_KEEP__) -> None:
+async def test_form_duplicate_account(hass: UniversalAssistant) -> None:
     """Test that a duplicate account cannot be configured."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -169,7 +169,7 @@ async def test_form_duplicate_account(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_reauth(hass: __HAC_KEEP__) -> None:
+async def test_reauth(hass: UniversalAssistant) -> None:
     """Test reauth updates the password."""
     entry = MockConfigEntry(
         domain=DOMAIN, data=TEST_LOGIN, unique_id=TEST_LOGIN[CONF_USERNAME]
@@ -208,7 +208,7 @@ async def test_reauth(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_reauth_errors(
-    hass: __HAC_KEEP__, side_effect: type[Exception], error: str
+    hass: UniversalAssistant, side_effect: type[Exception], error: str
 ) -> None:
     """Test reauth handles errors and can recover."""
     entry = MockConfigEntry(

@@ -3,7 +3,7 @@
 from typing import override
 
 from universalassistant.components.sensor import SensorEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
@@ -14,7 +14,7 @@ from .coordinator import SeventeenTrackConfigEntry, SeventeenTrackCoordinator
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: SeventeenTrackConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

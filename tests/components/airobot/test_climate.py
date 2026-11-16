@@ -23,7 +23,7 @@ from universalassistant.components.climate import (
     SERVICE_SET_TEMPERATURE,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 import universalassistant.helpers.entity_registry as er
 
@@ -36,7 +36,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_climate_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -54,7 +54,7 @@ async def test_climate_entities(
     ],
 )
 async def test_climate_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airobot_client: AsyncMock,
     mock_settings: ThermostatSettings,
     mock_config_entry: MockConfigEntry,
@@ -85,7 +85,7 @@ async def test_climate_set_temperature(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_climate_set_temperature_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airobot_client: AsyncMock,
 ) -> None:
     """Test error handling when setting temperature fails."""
@@ -119,7 +119,7 @@ async def test_climate_set_temperature_error(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_climate_set_preset_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airobot_client: AsyncMock,
     preset_mode: str,
     method: str,
@@ -140,7 +140,7 @@ async def test_climate_set_preset_mode(
 
 
 async def test_climate_set_preset_mode_from_boost_to_home(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airobot_client: AsyncMock,
     mock_settings: ThermostatSettings,
     mock_config_entry: MockConfigEntry,
@@ -170,7 +170,7 @@ async def test_climate_set_preset_mode_from_boost_to_home(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_climate_set_preset_mode_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airobot_client: AsyncMock,
 ) -> None:
     """Test error handling when setting preset mode fails."""
@@ -195,7 +195,7 @@ async def test_climate_set_preset_mode_error(
 
 
 async def test_climate_heating_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airobot_client: AsyncMock,
     mock_status: ThermostatStatus,
     mock_config_entry: MockConfigEntry,
@@ -215,7 +215,7 @@ async def test_climate_heating_state(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_climate_unavailable_on_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airobot_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -252,7 +252,7 @@ async def test_climate_unavailable_on_update_failure(
     ],
 )
 async def test_climate_current_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airobot_client: AsyncMock,
     mock_status: ThermostatStatus,
     mock_config_entry: MockConfigEntry,

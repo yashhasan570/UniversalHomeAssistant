@@ -23,7 +23,7 @@ from universalassistant.const import (
     STATE_OPEN,
     STATE_OPENING,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import CONF_INVERT_POSITION, DEFAULT_OFFSET, DOMAIN
@@ -38,7 +38,7 @@ class SlideCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     config_entry: SlideConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: SlideConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: SlideConfigEntry) -> None:
         """Initialize the data object."""
         super().__init__(
             hass,

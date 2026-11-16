@@ -11,7 +11,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import (
     TEST_BEDROCK_STATUS_RESPONSE,
@@ -46,7 +46,7 @@ from .const import (
     ],
 )
 async def test_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: str,
     server: JavaServer | BedrockServer,
     lookup_function_name: str,
@@ -99,7 +99,7 @@ async def test_binary_sensor(
     ],
 )
 async def test_binary_sensor_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: str,
     server: JavaServer | BedrockServer,
     lookup_function_name: str,
@@ -156,7 +156,7 @@ async def test_binary_sensor_update(
     ],
 )
 async def test_binary_sensor_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: str,
     server: JavaServer | BedrockServer,
     lookup_function_name: str,

@@ -12,7 +12,7 @@ from universalassistant.components.humidifier import DOMAIN as HUMIDIFIER_DOMAIN
 from universalassistant.components.switchbot_cloud import SwitchBotAPI
 from universalassistant.components.switchbot_cloud.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import HUMIDIFIER2_INFO, HUMIDIFIER_INFO, configure_integration
@@ -26,7 +26,7 @@ from . import HUMIDIFIER2_INFO, HUMIDIFIER_INFO, configure_integration
     ],
 )
 async def test_humidifier(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_list_devices,
@@ -124,7 +124,7 @@ async def test_humidifier(
     ],
 )
 async def test_humidifier_controller(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices,
     mock_get_status,
     service: str,
@@ -195,7 +195,7 @@ async def test_humidifier_controller(
     ],
 )
 async def test_humidifier2_controller(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices,
     mock_get_status,
     service: str,

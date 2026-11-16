@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_MAC, CONF_PASSWORD, CONF_UNIQUE_ID, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import AxisConfigEntry
 
@@ -14,7 +14,7 @@ REDACT_VAPIX_PARAMS = {"root.Network", "System.SerialNumber"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: AxisConfigEntry
+    hass: UniversalAssistant, config_entry: AxisConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     hub = config_entry.runtime_data

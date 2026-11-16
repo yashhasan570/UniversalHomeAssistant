@@ -13,7 +13,7 @@ from universalassistant.components.subaru import config_flow
 from universalassistant.components.subaru.const import CONF_UPDATE_ENABLED, DOMAIN
 from universalassistant.config_entries import ConfigFlowResult
 from universalassistant.const import CONF_DEVICE_ID, CONF_PASSWORD, CONF_PIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.setup import async_setup_component
 
@@ -40,7 +40,7 @@ MOCK_2FA_CONTACTS = {
 }
 
 
-async def test_user_form_repeat_identifier(hass: __HAC_KEEP__, user_form) -> None:
+async def test_user_form_repeat_identifier(hass: UniversalAssistant, user_form) -> None:
     """Test we handle repeat identifiers."""
     entry = MockConfigEntry(
         domain=DOMAIN, title=TEST_USERNAME, data=TEST_CREDS, options=None
@@ -60,7 +60,7 @@ async def test_user_form_repeat_identifier(hass: __HAC_KEEP__, user_form) -> Non
     assert result["reason"] == "already_configured"
 
 
-async def test_user_form_cannot_connect(hass: __HAC_KEEP__, user_form) -> None:
+async def test_user_form_cannot_connect(hass: UniversalAssistant, user_form) -> None:
     """Test we handle cannot connect error."""
     with patch(
         MOCK_API_CONNECT,
@@ -75,7 +75,7 @@ async def test_user_form_cannot_connect(hass: __HAC_KEEP__, user_form) -> None:
     assert result["reason"] == "cannot_connect"
 
 
-async def test_user_form_invalid_auth(hass: __HAC_KEEP__, user_form) -> None:
+async def test_user_form_invalid_auth(hass: UniversalAssistant, user_form) -> None:
     """Test we handle invalid auth, and that the flow can still be completed afterward."""
     with patch(
         MOCK_API_CONNECT,
@@ -103,7 +103,7 @@ async def test_user_form_invalid_auth(hass: __HAC_KEEP__, user_form) -> None:
 
 
 async def test_user_form_pin_not_required(
-    hass: __HAC_KEEP__, two_factor_verify_form
+    hass: UniversalAssistant, two_factor_verify_form
 ) -> None:
     """Test successful login when no PIN is required."""
     with (
@@ -146,7 +146,7 @@ async def test_user_form_pin_not_required(
     assert result == expected
 
 
-async def test_registered_pin_required(hass: __HAC_KEEP__, user_form) -> None:
+async def test_registered_pin_required(hass: UniversalAssistant, user_form) -> None:
     """Test if the device is already registered and PIN required."""
     with (
         patch(MOCK_API_CONNECT, return_value=True),
@@ -173,7 +173,7 @@ async def test_registered_pin_required(hass: __HAC_KEEP__, user_form) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_registered_no_pin_required(hass: __HAC_KEEP__, user_form) -> None:
+async def test_registered_no_pin_required(hass: UniversalAssistant, user_form) -> None:
     """Test if the device is already registered and PIN not required."""
     with (
         patch(MOCK_API_CONNECT, return_value=True),
@@ -191,7 +191,7 @@ async def test_registered_no_pin_required(hass: __HAC_KEEP__, user_form) -> None
 
 
 async def test_two_factor_request_success(
-    hass: __HAC_KEEP__, two_factor_start_form
+    hass: UniversalAssistant, two_factor_start_form
 ) -> None:
     """Test two factor contact method selection."""
     with (
@@ -223,7 +223,7 @@ async def test_two_factor_request_success(
 
 
 async def test_two_factor_request_fail(
-    hass: __HAC_KEEP__, two_factor_start_form
+    hass: UniversalAssistant, two_factor_start_form
 ) -> None:
     """Test two factor auth request failure."""
     with (
@@ -244,7 +244,7 @@ async def test_two_factor_request_fail(
 
 
 async def test_two_factor_verify_success(
-    hass: __HAC_KEEP__, two_factor_verify_form
+    hass: UniversalAssistant, two_factor_verify_form
 ) -> None:
     """Test two factor verification."""
     with (
@@ -275,7 +275,7 @@ async def test_two_factor_verify_success(
 
 
 async def test_two_factor_verify_bad_format(
-    hass: __HAC_KEEP__, two_factor_verify_form
+    hass: UniversalAssistant, two_factor_verify_form
 ) -> None:
     """Test two factor verification bad format, and that the flow can still be completed afterward."""
     with (
@@ -306,7 +306,7 @@ async def test_two_factor_verify_bad_format(
 
 
 async def test_two_factor_verify_fail(
-    hass: __HAC_KEEP__, two_factor_verify_form
+    hass: UniversalAssistant, two_factor_verify_form
 ) -> None:
     """Test two factor verification failure, and that the flow can still be completed afterward."""
     with (
@@ -336,7 +336,7 @@ async def test_two_factor_verify_fail(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_pin_form_bad_pin_format(hass: __HAC_KEEP__, pin_form) -> None:
+async def test_pin_form_bad_pin_format(hass: UniversalAssistant, pin_form) -> None:
     """Test we handle invalid pin, and that the flow can still be completed afterward."""
     with (
         patch(
@@ -366,7 +366,7 @@ async def test_pin_form_bad_pin_format(hass: __HAC_KEEP__, pin_form) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_pin_form_success(hass: __HAC_KEEP__, pin_form) -> None:
+async def test_pin_form_success(hass: UniversalAssistant, pin_form) -> None:
     """Test successful PIN entry."""
     with (
         patch(
@@ -405,7 +405,7 @@ async def test_pin_form_success(hass: __HAC_KEEP__, pin_form) -> None:
     assert result == expected
 
 
-async def test_pin_form_incorrect_pin(hass: __HAC_KEEP__, pin_form) -> None:
+async def test_pin_form_incorrect_pin(hass: UniversalAssistant, pin_form) -> None:
     """Test we handle invalid pin, and that the flow can still be completed afterward."""
     with (
         patch(
@@ -436,7 +436,7 @@ async def test_pin_form_incorrect_pin(hass: __HAC_KEEP__, pin_form) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_option_flow(hass: __HAC_KEEP__, options_form) -> None:
+async def test_option_flow(hass: UniversalAssistant, options_form) -> None:
     """Test config flow options."""
     assert options_form["type"] is FlowResultType.FORM
     assert options_form["step_id"] == "init"
@@ -460,7 +460,7 @@ async def test_option_flow(hass: __HAC_KEEP__, options_form) -> None:
         pytest.param(False, id="no_vehicles"),
     ],
 )
-async def test_reauth(hass: __HAC_KEEP__, connect_result: bool) -> None:
+async def test_reauth(hass: UniversalAssistant, connect_result: bool) -> None:
     """Test reauth updates the password and keeps the device registration."""
     entry = MockConfigEntry(domain=DOMAIN, title=TEST_USERNAME, data=TEST_CONFIG)
     entry.add_to_hass(hass)
@@ -485,7 +485,7 @@ async def test_reauth(hass: __HAC_KEEP__, connect_result: bool) -> None:
     assert entry.data == TEST_CONFIG | {CONF_PASSWORD: "new_password"}
 
 
-async def test_reauth_two_factor(hass: __HAC_KEEP__) -> None:
+async def test_reauth_two_factor(hass: UniversalAssistant) -> None:
     """Test reauth goes through 2FA when the device is no longer registered."""
     entry = MockConfigEntry(domain=DOMAIN, title=TEST_USERNAME, data=TEST_CONFIG)
     entry.add_to_hass(hass)
@@ -552,7 +552,7 @@ async def test_reauth_two_factor(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_reauth_errors(
-    hass: __HAC_KEEP__, side_effect: Exception, error: str
+    hass: UniversalAssistant, side_effect: Exception, error: str
 ) -> None:
     """Test reauth handles errors and can recover."""
     entry = MockConfigEntry(domain=DOMAIN, title=TEST_USERNAME, data=TEST_CONFIG)
@@ -584,7 +584,7 @@ async def test_reauth_errors(
 
 
 @pytest.fixture
-async def user_form(hass: __HAC_KEEP__) -> ConfigFlowResult:
+async def user_form(hass: UniversalAssistant) -> ConfigFlowResult:
     """Return initial form for Subaru config flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -597,7 +597,7 @@ async def user_form(hass: __HAC_KEEP__) -> ConfigFlowResult:
 
 @pytest.fixture
 async def two_factor_start_form(
-    hass: __HAC_KEEP__, user_form: ConfigFlowResult
+    hass: UniversalAssistant, user_form: ConfigFlowResult
 ) -> ConfigFlowResult:
     """Return two factor form for Subaru config flow."""
     with (
@@ -612,7 +612,7 @@ async def two_factor_start_form(
 
 @pytest.fixture
 async def two_factor_verify_form(
-    hass: __HAC_KEEP__, two_factor_start_form: ConfigFlowResult
+    hass: UniversalAssistant, two_factor_start_form: ConfigFlowResult
 ) -> ConfigFlowResult:
     """Return two factor form for Subaru config flow."""
     with (
@@ -631,7 +631,7 @@ async def two_factor_verify_form(
 
 @pytest.fixture
 async def pin_form(
-    hass: __HAC_KEEP__, two_factor_verify_form: ConfigFlowResult
+    hass: UniversalAssistant, two_factor_verify_form: ConfigFlowResult
 ) -> ConfigFlowResult:
     """Return PIN input form for Subaru config flow."""
     with (
@@ -651,7 +651,7 @@ async def pin_form(
 
 
 @pytest.fixture
-async def options_form(hass: __HAC_KEEP__) -> ConfigFlowResult:
+async def options_form(hass: UniversalAssistant) -> ConfigFlowResult:
     """Return options form for Subaru config flow."""
     entry = MockConfigEntry(domain=DOMAIN, data=TEST_CONFIG, options=None)
     entry.add_to_hass(hass)

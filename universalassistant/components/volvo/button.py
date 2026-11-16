@@ -7,8 +7,8 @@ from typing import override
 from volvocarsapi.models import VolvoApiException
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -74,7 +74,7 @@ _DESCRIPTIONS: tuple[VolvoButtonDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: VolvoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -124,7 +124,7 @@ class VolvoButton(VolvoBaseEntity, ButtonEntity):
         message: str = "",
         exception: Exception | None = None,
     ) -> None:
-        error = __HAC_KEEP__Error(
+        error = UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="command_failure",
             translation_placeholders={

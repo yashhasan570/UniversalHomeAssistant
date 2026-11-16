@@ -7,10 +7,10 @@ name = "pylint-universal-assistant"
 version = "1.0.0"
 license = "Apache-2.0"
 license-files = ["LICENSE.md"]
-description = "Pylint plugin for __HA_KEEP__ integration development."
+description = "Pylint plugin for Universal Home Assistant integration development."
 readme = "README.md"
 authors = [
-  { name = "The __HA_KEEP__ Authors", email = "hello@universalassistant.io" },
+  { name = "The Universal Home Assistant Authors", email = "hello@universalassistant.io" },
 ]
 keywords = ["universal-assistant", "pylint", "plugin", "linting"]
 classifiers = [
@@ -31,10 +31,10 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yashhasan570/__HAC_KEEP__"
+Homepage = "https://github.com/yashhasan570/UniversalUniversalAssistant"
 Documentation = "https://contributors.universalassistant.io"
-Repository = "https://github.com/yashhasan570/__HAC_KEEP__"
-"Bug Tracker" = "https://github.com/yashhasan570/__HAC_KEEP__/issues"
+Repository = "https://github.com/yashhasan570/UniversalUniversalAssistant"
+"Bug Tracker" = "https://github.com/yashhasan570/UniversalUniversalAssistant/issues"
 
 [tool.setuptools.packages.find]
 include = ["pylint_universal_assistant*"]

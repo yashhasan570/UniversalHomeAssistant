@@ -4,8 +4,8 @@ from collections.abc import Mapping
 import logging
 from typing import Any
 
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.util.limited_size_dict import LimitedSizeDict
 
 from .const import DATA_TRACE, DATA_TRACE_STORE, DATA_TRACES_RESTORED
@@ -15,7 +15,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_get_trace(
-    hass: __HAC_KEEP__, key: str, run_id: str
+    hass: UniversalAssistant, key: str, run_id: str
 ) -> dict[str, BaseTrace]:
     """Return the requested trace."""
     # Restore saved traces if not done
@@ -27,7 +27,7 @@ async def async_get_trace(
 
 
 async def async_list_contexts(
-    hass: __HAC_KEEP__, key: str | None
+    hass: UniversalAssistant, key: str | None
 ) -> dict[str, dict[str, str]]:
     """List contexts for which we have traces."""
     # Restore saved traces if not done
@@ -52,7 +52,7 @@ async def async_list_contexts(
     }
 
 
-def _get_debug_traces(hass: __HAC_KEEP__, key: str) -> list[dict[str, Any]]:
+def _get_debug_traces(hass: UniversalAssistant, key: str) -> list[dict[str, Any]]:
     """Return a serializable list of debug traces for a script or automation."""
     if trace_bucket := hass.data[DATA_TRACE].get(key):
         return [trace.as_short_dict() for trace in trace_bucket.all_traces()]
@@ -60,7 +60,7 @@ def _get_debug_traces(hass: __HAC_KEEP__, key: str) -> list[dict[str, Any]]:
 
 
 async def async_list_traces(
-    hass: __HAC_KEEP__, wanted_domain: str, wanted_key: str | None
+    hass: UniversalAssistant, wanted_domain: str, wanted_key: str | None
 ) -> list[dict[str, Any]]:
     """List traces for a domain."""
     # Restore saved traces if not done already
@@ -79,7 +79,7 @@ async def async_list_traces(
 
 
 def async_store_trace(
-    hass: __HAC_KEEP__, trace: ActionTrace, stored_traces: int
+    hass: UniversalAssistant, trace: ActionTrace, stored_traces: int
 ) -> None:
     """Store a trace if its key is valid.
 
@@ -100,7 +100,7 @@ def async_store_trace(
         bucket[trace.run_id] = trace
 
 
-def _async_store_restored_trace(hass: __HAC_KEEP__, trace: RestoredTrace) -> None:
+def _async_store_restored_trace(hass: UniversalAssistant, trace: RestoredTrace) -> None:
     """Store a restored trace and move it to the end of the LimitedSizeDict."""
     key = trace.key
     traces = hass.data[DATA_TRACE]
@@ -113,7 +113,7 @@ def _async_store_restored_trace(hass: __HAC_KEEP__, trace: RestoredTrace) -> Non
     bucket.move_to_end(trace.run_id, last=False)
 
 
-async def async_restore_traces(hass: __HAC_KEEP__) -> None:
+async def async_restore_traces(hass: UniversalAssistant) -> None:
     """Restore saved traces."""
     if DATA_TRACES_RESTORED in hass.data:
         return
@@ -123,7 +123,7 @@ async def async_restore_traces(hass: __HAC_KEEP__) -> None:
     store = hass.data[DATA_TRACE_STORE]
     try:
         restored_traces = await store.async_load() or {}
-    except __HAC_KEEP__Error:
+    except UniversalAssistantError:
         _LOGGER.exception("Error loading traces")
         restored_traces = {}
 

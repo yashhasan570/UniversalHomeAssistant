@@ -19,7 +19,7 @@ from universalassistant.const import (
     UnitOfInformation,
     UnitOfTime,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, callback
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_validation as cv, issue_registry as ir
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
@@ -194,7 +194,7 @@ PLATFORM_SCHEMA = SENSOR_PLATFORM_SCHEMA.extend(
 
 @callback
 def _async_create_import_issue(
-    hass: __HAC_KEEP__, issue_id: str, translation_key: str, currency: str
+    hass: UniversalAssistant, issue_id: str, translation_key: str, currency: str
 ) -> None:
     """Tell the user why a YAML sensor platform block was not imported."""
     ir.async_create_issue(
@@ -216,7 +216,7 @@ def _async_create_import_issue(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -260,7 +260,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: BitcoinConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

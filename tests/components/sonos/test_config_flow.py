@@ -7,7 +7,7 @@ from universalassistant import config_entries
 from universalassistant.components.media_player import DOMAIN as MP_DOMAIN
 from universalassistant.components.sonos.const import DATA_SONOS_DISCOVERY_MANAGER, DOMAIN
 from universalassistant.const import CONF_HOSTS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import ATTR_UPNP_UDN, SsdpServiceInfo
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -15,7 +15,7 @@ from universalassistant.setup import async_setup_component
 
 
 async def test_user_form(
-    hass: __HAC_KEEP__, zeroconf_payload: ZeroconfServiceInfo
+    hass: UniversalAssistant, zeroconf_payload: ZeroconfServiceInfo
 ) -> None:
     """Test we get the user initiated form."""
 
@@ -66,7 +66,7 @@ async def test_user_form(
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_user_form_already_created(hass: __HAC_KEEP__) -> None:
+async def test_user_form_already_created(hass: UniversalAssistant) -> None:
     """Ensure we abort a flow if the entry is already created from config."""
     config = {DOMAIN: {MP_DOMAIN: {CONF_HOSTS: "192.168.4.2"}}}
     with patch(
@@ -84,7 +84,7 @@ async def test_user_form_already_created(hass: __HAC_KEEP__) -> None:
 
 
 async def test_zeroconf_form(
-    hass: __HAC_KEEP__, zeroconf_payload: ZeroconfServiceInfo
+    hass: UniversalAssistant, zeroconf_payload: ZeroconfServiceInfo
 ) -> None:
     """Test we pass Zeroconf discoveries to the manager."""
 
@@ -124,7 +124,7 @@ async def test_zeroconf_form(
 
 
 async def test_zeroconf_form_not_ipv4(
-    hass: __HAC_KEEP__, zeroconf_payload: ZeroconfServiceInfo
+    hass: UniversalAssistant, zeroconf_payload: ZeroconfServiceInfo
 ) -> None:
     """Test we pass Zeroconf discoveries to the manager."""
     mock_manager = hass.data[DATA_SONOS_DISCOVERY_MANAGER] = MagicMock()
@@ -139,7 +139,7 @@ async def test_zeroconf_form_not_ipv4(
     assert mock_manager.call_count == 0
 
 
-async def test_ssdp_discovery(hass: __HAC_KEEP__, soco) -> None:
+async def test_ssdp_discovery(hass: UniversalAssistant, soco) -> None:
     """Test that SSDP discoveries create a config flow."""
 
     await hass.config_entries.flow.async_init(
@@ -184,7 +184,7 @@ async def test_ssdp_discovery(hass: __HAC_KEEP__, soco) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_zeroconf_sonos_v1(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_sonos_v1(hass: UniversalAssistant) -> None:
     """Test we pass sonos devices to the discovery manager with v1 firmware devices."""
 
     mock_manager = hass.data[DATA_SONOS_DISCOVERY_MANAGER] = MagicMock()
@@ -240,7 +240,7 @@ async def test_zeroconf_sonos_v1(hass: __HAC_KEEP__) -> None:
 
 
 async def test_zeroconf_form_not_sonos(
-    hass: __HAC_KEEP__, zeroconf_payload: ZeroconfServiceInfo
+    hass: UniversalAssistant, zeroconf_payload: ZeroconfServiceInfo
 ) -> None:
     """Test we abort on non-sonos devices."""
     mock_manager = hass.data[DATA_SONOS_DISCOVERY_MANAGER] = MagicMock()

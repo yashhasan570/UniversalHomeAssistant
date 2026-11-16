@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.acmeda.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 DUMMY_HOST1 = "127.0.0.1"
@@ -33,7 +33,7 @@ async def async_generator(items):
         yield item
 
 
-async def test_show_form_no_hubs(hass: __HAC_KEEP__, mock_hub_discover) -> None:
+async def test_show_form_no_hubs(hass: UniversalAssistant, mock_hub_discover) -> None:
     """Test that flow aborts if no hubs are discovered."""
     mock_hub_discover.return_value = async_generator([])
 
@@ -48,7 +48,7 @@ async def test_show_form_no_hubs(hass: __HAC_KEEP__, mock_hub_discover) -> None:
     assert len(mock_hub_discover.mock_calls) == 1
 
 
-async def test_timeout_fetching_hub(hass: __HAC_KEEP__, mock_hub_discover) -> None:
+async def test_timeout_fetching_hub(hass: UniversalAssistant, mock_hub_discover) -> None:
     """Test that flow aborts if no hubs are discovered."""
     mock_hub_discover.side_effect = TimeoutError
 
@@ -64,7 +64,7 @@ async def test_timeout_fetching_hub(hass: __HAC_KEEP__, mock_hub_discover) -> No
 
 
 @pytest.mark.usefixtures("mock_hub_run")
-async def test_show_form_one_hub(hass: __HAC_KEEP__, mock_hub_discover) -> None:
+async def test_show_form_one_hub(hass: UniversalAssistant, mock_hub_discover) -> None:
     """Test that a config is created when one hub discovered."""
 
     dummy_hub_1 = aiopulse.Hub(DUMMY_HOST1)
@@ -87,7 +87,7 @@ async def test_show_form_one_hub(hass: __HAC_KEEP__, mock_hub_discover) -> None:
     assert len(mock_hub_discover.mock_calls) == 1
 
 
-async def test_show_form_two_hubs(hass: __HAC_KEEP__, mock_hub_discover) -> None:
+async def test_show_form_two_hubs(hass: UniversalAssistant, mock_hub_discover) -> None:
     """Test that the form is served when more than one hub discovered."""
 
     dummy_hub_1 = aiopulse.Hub(DUMMY_HOST1)
@@ -110,7 +110,7 @@ async def test_show_form_two_hubs(hass: __HAC_KEEP__, mock_hub_discover) -> None
 
 
 @pytest.mark.usefixtures("mock_hub_run")
-async def test_create_second_entry(hass: __HAC_KEEP__, mock_hub_discover) -> None:
+async def test_create_second_entry(hass: UniversalAssistant, mock_hub_discover) -> None:
     """Test that a config is created when a second hub is discovered."""
 
     dummy_hub_1 = aiopulse.Hub(DUMMY_HOST1)
@@ -137,7 +137,7 @@ async def test_create_second_entry(hass: __HAC_KEEP__, mock_hub_discover) -> Non
     assert result["result"].unique_id == dummy_hub_2.id
 
 
-async def test_already_configured(hass: __HAC_KEEP__, mock_hub_discover) -> None:
+async def test_already_configured(hass: UniversalAssistant, mock_hub_discover) -> None:
     """Test that flow aborts when all hubs are configured."""
 
     dummy_hub_1 = aiopulse.Hub(DUMMY_HOST1)

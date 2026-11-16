@@ -17,15 +17,15 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .common import MockConfigEntry, setup_platform
 
 
 async def test_entity_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_ring_client,
 ) -> None:
@@ -37,7 +37,7 @@ async def test_entity_registry(
 
 
 async def test_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ring_client: Mock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -50,7 +50,7 @@ async def test_states(
     await snapshot_platform(hass, entity_registry, snapshot, mock_config_entry.entry_id)
 
 
-async def test_sirens_report_correctly(hass: __HAC_KEEP__, mock_ring_client) -> None:
+async def test_sirens_report_correctly(hass: UniversalAssistant, mock_ring_client) -> None:
     """Tests that the initial state of a device that should be on is correct."""
     await setup_platform(hass, Platform.SIREN)
 
@@ -60,7 +60,7 @@ async def test_sirens_report_correctly(hass: __HAC_KEEP__, mock_ring_client) -> 
 
 
 async def test_default_ding_chime_can_be_played(
-    hass: __HAC_KEEP__, mock_ring_client, mock_ring_devices
+    hass: UniversalAssistant, mock_ring_client, mock_ring_devices
 ) -> None:
     """Tests the play chime request is sent correctly."""
     await setup_platform(hass, Platform.SIREN)
@@ -82,7 +82,7 @@ async def test_default_ding_chime_can_be_played(
 
 
 async def test_turn_on_plays_default_chime(
-    hass: __HAC_KEEP__, mock_ring_client, mock_ring_devices
+    hass: UniversalAssistant, mock_ring_client, mock_ring_devices
 ) -> None:
     """Tests the play chime request is sent correctly when turned on."""
     await setup_platform(hass, Platform.SIREN)
@@ -104,7 +104,7 @@ async def test_turn_on_plays_default_chime(
 
 
 async def test_explicit_ding_chime_can_be_played(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ring_client,
     mock_ring_devices,
 ) -> None:
@@ -128,7 +128,7 @@ async def test_explicit_ding_chime_can_be_played(
 
 
 async def test_motion_chime_can_be_played(
-    hass: __HAC_KEEP__, mock_ring_client, mock_ring_devices
+    hass: UniversalAssistant, mock_ring_client, mock_ring_devices
 ) -> None:
     """Tests the play chime request is sent correctly."""
     await setup_platform(hass, Platform.SIREN)
@@ -159,7 +159,7 @@ async def test_motion_chime_can_be_played(
     ids=["Authentication", "Timeout", "Other"],
 )
 async def test_siren_errors_when_turned_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ring_client,
     mock_ring_devices,
     exception_type,
@@ -174,7 +174,7 @@ async def test_siren_errors_when_turned_on(
     downstairs_chime_mock = mock_ring_devices.get_device(123456)
     downstairs_chime_mock.async_test_sound.side_effect = exception_type
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "siren",
             "turn_on",
@@ -194,7 +194,7 @@ async def test_siren_errors_when_turned_on(
 
 
 async def test_camera_siren_on_off(
-    hass: __HAC_KEEP__, mock_ring_client, mock_ring_devices
+    hass: UniversalAssistant, mock_ring_client, mock_ring_devices
 ) -> None:
     """Tests siren on a ring camera turns on and off."""
     await setup_platform(hass, Platform.SIREN)

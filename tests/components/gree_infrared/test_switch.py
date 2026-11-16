@@ -50,8 +50,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, State
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, State
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 _TURBO_ENTITY_ID = "switch.gree_ac_turbo"
@@ -74,7 +74,7 @@ def has_receiver() -> bool:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -97,7 +97,7 @@ async def test_entities(
 )
 @pytest.mark.usefixtures("init_integration", "mock_infrared_emitter_entity")
 async def test_availability_follows_sources(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id: str,
     source_entity_ids: list[str],
 ) -> None:
@@ -178,7 +178,7 @@ async def test_availability_follows_sources(
     ],
 )
 async def test_switch_encodes_both_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     entity_id: str,
     on_command: GreeAcCommand,
@@ -210,7 +210,7 @@ async def test_switch_encodes_both_states(
 @pytest.mark.parametrize("platforms", [[Platform.CLIMATE, Platform.SWITCH]])
 @pytest.mark.usefixtures("init_integration")
 async def test_switch_frame_carries_the_climate_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Test a switch resends the mode, temperature and fan the climate entity set.
@@ -261,7 +261,7 @@ async def test_switch_frame_carries_the_climate_state(
 @pytest.mark.parametrize("platforms", [[Platform.CLIMATE, Platform.SWITCH]])
 @pytest.mark.usefixtures("init_integration")
 async def test_switch_frame_carries_changes_made_while_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Test a switch resends the temperature and fan set while the unit is off.
@@ -307,7 +307,7 @@ async def test_switch_frame_carries_changes_made_while_off(
 @pytest.mark.parametrize("has_receiver", [True])
 @pytest.mark.parametrize("platforms", [[Platform.CLIMATE, Platform.SWITCH]])
 async def test_switch_frame_carries_a_remote_frame_with_climate_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
@@ -368,7 +368,7 @@ async def test_switch_frame_carries_a_remote_frame_with_climate_disabled(
 @pytest.mark.parametrize("platforms", [[Platform.CLIMATE, Platform.SWITCH]])
 @pytest.mark.usefixtures("init_integration")
 async def test_climate_frame_carries_the_switch_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Test the climate entity keeps the flags the switches turned on."""
@@ -410,7 +410,7 @@ async def test_climate_frame_carries_the_switch_state(
 @pytest.mark.parametrize("platforms", [[Platform.CLIMATE, Platform.SWITCH]])
 @pytest.mark.usefixtures("init_integration")
 async def test_overlapping_sends_keep_both_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Test a switch and the climate entity sending at once keep both changes.
@@ -481,7 +481,7 @@ async def test_overlapping_sends_keep_both_changes(
 @pytest.mark.parametrize("platforms", [[Platform.CLIMATE, Platform.SWITCH]])
 @pytest.mark.usefixtures("init_integration")
 async def test_remote_frame_during_send_keeps_what_each_entity_shows(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
 ) -> None:
@@ -560,7 +560,7 @@ async def test_remote_frame_during_send_keeps_what_each_entity_shows(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_failed_send_leaves_the_flag_unset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Test a flag whose frame never went out is not carried by the next frame.
@@ -572,9 +572,9 @@ async def test_failed_send_leaves_the_flag_unset(
         patch.object(
             mock_infrared_emitter_entity,
             "async_send_command",
-            side_effect=__HAC_KEEP__Error,
+            side_effect=UniversalAssistantError,
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,
@@ -642,7 +642,7 @@ async def test_failed_send_leaves_the_flag_unset(
     ],
 )
 async def test_state_restored_on_restart(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     platforms: list[Platform],
@@ -678,7 +678,7 @@ async def test_state_restored_on_restart(
 @pytest.mark.parametrize("has_receiver", [True])
 @pytest.mark.usefixtures("init_integration")
 async def test_receiver_updates_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
 ) -> None:
     """Test a physical remote frame updates every switch it carries a flag for."""
@@ -710,7 +710,7 @@ async def test_receiver_updates_state(
 @pytest.mark.parametrize("platforms", [[Platform.CLIMATE, Platform.SWITCH]])
 @pytest.mark.usefixtures("init_integration")
 async def test_next_frame_keeps_the_louvres_the_remote_set(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
 ) -> None:
@@ -757,7 +757,7 @@ async def test_next_frame_keeps_the_louvres_the_remote_set(
 @pytest.mark.parametrize("platforms", [[Platform.CLIMATE, Platform.SWITCH]])
 @pytest.mark.usefixtures("init_integration")
 async def test_unconfigured_mode_frame_reaches_neither_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
 ) -> None:
@@ -813,7 +813,7 @@ async def test_unconfigured_mode_frame_reaches_neither_entity(
 @pytest.mark.parametrize("has_receiver", [True])
 @pytest.mark.usefixtures("init_integration")
 async def test_receiver_ignores_non_gree_ac_signal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
 ) -> None:
     """Test that an unrecognised IR signal does not change state."""

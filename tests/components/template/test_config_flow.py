@@ -13,7 +13,7 @@ from universalassistant import config_entries
 from universalassistant.components.template import DOMAIN, async_setup_entry
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import (
     config_validation as cv,
@@ -475,7 +475,7 @@ NUMBER_OPTIONS = {
 )
 @pytest.mark.freeze_time("2024-07-09 00:00:00+00:00")
 async def test_config_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     template_type: str,
     state_template: dict[str, Any],
     template_state: str,
@@ -547,7 +547,7 @@ async def test_config_flow(
 
 
 async def test_config_flow_sensor_unit_of_measurement_context(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the unit of measurement field context refers to fields in the form."""
     result = await hass.config_entries.flow.async_init(
@@ -741,7 +741,7 @@ async def test_config_flow_sensor_unit_of_measurement_context(
     ],
 )
 async def test_config_flow_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     template_type: str,
     state_template: dict[str, Any],
     extra_input: dict[str, Any],
@@ -1117,7 +1117,7 @@ async def test_config_flow_device(
 )
 @pytest.mark.freeze_time("2024-07-09 00:00:00+00:00")
 async def test_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     template_type: str,
     old_state_template: dict[str, Any],
     new_state_template: dict[str, Any],
@@ -1270,7 +1270,7 @@ async def test_options(
 )
 @pytest.mark.freeze_time("2024-07-09 00:00:00+00:00")
 async def test_options_remove_device_class(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     template_type: str,
     old_state_template: dict[str, Any],
     new_state_template: dict[str, Any],
@@ -1367,7 +1367,7 @@ def _assert_number_unit_of_measurement_context(data_schema: probatio.Schema) -> 
     ],
 )
 async def test_config_flow_number_unit_of_measurement(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_class_input: dict[str, str],
     unit_of_measurement: str,
 ) -> None:
@@ -1418,7 +1418,7 @@ async def test_config_flow_number_unit_of_measurement(
     ],
 )
 async def test_options_number_unit_of_measurement(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_class_input: dict[str, str],
     unit_of_measurement: str,
 ) -> None:
@@ -1502,7 +1502,7 @@ async def test_options_number_unit_of_measurement(
     ],
 )
 async def test_config_flow_preview(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     template_type: str,
     state_template: str,
@@ -1726,7 +1726,7 @@ REQUIRED_OPTION_ERROR = (
     ],
 )
 async def test_config_flow_preview_bad_input(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     template_type: str,
     state_template: str,
@@ -1798,7 +1798,7 @@ async def test_config_flow_preview_bad_input(
     ],
 )
 async def test_config_flow_media_player_required_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     user_input: dict[str, Any],
     error: str,
     missing_option: dict[str, Any],
@@ -1857,7 +1857,7 @@ async def test_config_flow_media_player_required_options(
     ],
 )
 async def test_config_flow_preview_template_startup_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     template_type: str,
     state_template: str,
@@ -1931,7 +1931,7 @@ async def test_config_flow_preview_template_startup_error(
     ],
 )
 async def test_config_flow_preview_template_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     template_type: str,
     state_template: str,
@@ -2006,7 +2006,7 @@ async def test_config_flow_preview_template_error(
     ],
 )
 async def test_config_flow_preview_bad_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     template_type: str,
     state_template: str,
@@ -2091,7 +2091,7 @@ async def test_config_flow_preview_bad_state(
     ],
 )
 async def test_option_flow_preview(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     template_type: str,
     old_state_template: str,
@@ -2162,7 +2162,7 @@ async def test_option_flow_preview(
 
 
 async def test_option_flow_sensor_preview_config_entry_removed(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the option flow preview where the config entry is removed."""
     client = await hass_ws_client(hass)
@@ -2360,7 +2360,7 @@ async def test_option_flow_sensor_preview_config_entry_removed(
     ],
 )
 async def test_options_flow_change_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     template_type: str,
     state_template: dict[str, Any],
     extra_input: dict[str, Any],
@@ -2538,7 +2538,7 @@ async def test_options_flow_change_device(
     ],
 )
 async def test_preview_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     step_id: str,
     user_input: dict,
@@ -2608,7 +2608,7 @@ async def test_preview_error(
     ],
 )
 async def test_preview_this_variable_config_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     step_id: str,
     user_input: dict,
@@ -2672,7 +2672,7 @@ async def test_preview_this_variable_config_flow(
     ],
 )
 async def test_preview_this_variable_options_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     template_type: str,
     extra_config: dict,

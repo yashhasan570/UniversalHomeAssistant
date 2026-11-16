@@ -24,8 +24,8 @@ from universalassistant.components.todo import (
     TodoServices,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from .conftest import (
     LIST_TASK_LIST_RESPONSE,
@@ -238,7 +238,7 @@ def setup_http_response(mock_http_response: Mock) -> None:
     ],
 )
 async def test_get_items(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_credentials: None,
     integration_setup: Callable[[], Awaitable[bool]],
     hass_ws_client: WebSocketGenerator,
@@ -285,7 +285,7 @@ async def test_get_items(
     ],
 )
 async def test_empty_todo_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_credentials: None,
     integration_setup: Callable[[], Awaitable[bool]],
     hass_ws_client: WebSocketGenerator,
@@ -317,7 +317,7 @@ async def test_empty_todo_list(
     ],
 )
 async def test_task_items_error_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_credentials: None,
     integration_setup: Callable[[], Awaitable[bool]],
     freezer: FrozenDateTimeFactory,
@@ -360,7 +360,7 @@ async def test_task_items_error_response(
     ids=["summary", "due", "description"],
 )
 async def test_create_todo_list_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_credentials: None,
     integration_setup: Callable[[], Awaitable[bool]],
     mock_http_response: Mock,
@@ -400,7 +400,7 @@ async def test_create_todo_list_item(
     ],
 )
 async def test_create_todo_list_item_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_credentials: None,
     integration_setup: Callable[[], Awaitable[bool]],
     mock_http_response: Mock,
@@ -414,7 +414,7 @@ async def test_create_todo_list_item_error(
     assert state
     assert state.state == "1"
 
-    with pytest.raises(__HAC_KEEP__Error, match="Invalid task ID"):
+    with pytest.raises(UniversalAssistantError, match="Invalid task ID"):
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.ADD_ITEM,
@@ -426,7 +426,7 @@ async def test_create_todo_list_item_error(
 
 @pytest.mark.parametrize("api_responses", [UPDATE_API_RESPONSES])
 async def test_update_todo_list_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_credentials: None,
     integration_setup: Callable[[], Awaitable[bool]],
     mock_http_response: Any,
@@ -457,7 +457,7 @@ async def test_update_todo_list_item(
 @pytest.mark.parametrize("timezone", ["America/Regina", "UTC", "Asia/Tokyo"])
 @pytest.mark.parametrize("api_responses", [UPDATE_API_RESPONSES])
 async def test_update_due_date(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_credentials: None,
     integration_setup: Callable[[], Awaitable[bool]],
     mock_http_response: Any,
@@ -498,7 +498,7 @@ async def test_update_due_date(
     ],
 )
 async def test_update_todo_list_item_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_credentials: None,
     integration_setup: Callable[[], Awaitable[bool]],
     mock_http_response: Any,
@@ -512,7 +512,7 @@ async def test_update_todo_list_item_error(
     assert state
     assert state.state == "1"
 
-    with pytest.raises(__HAC_KEEP__Error, match="Invalid task ID"):
+    with pytest.raises(UniversalAssistantError, match="Invalid task ID"):
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.UPDATE_ITEM,
@@ -542,7 +542,7 @@ async def test_update_todo_list_item_error(
     ),
 )
 async def test_partial_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_credentials: None,
     integration_setup: Callable[[], Awaitable[bool]],
     mock_http_response: Any,
@@ -573,7 +573,7 @@ async def test_partial_update(
 
 @pytest.mark.parametrize("api_responses", [UPDATE_API_RESPONSES])
 async def test_partial_update_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_credentials: None,
     integration_setup: Callable[[], Awaitable[bool]],
     mock_http_response: Any,
@@ -617,7 +617,7 @@ async def test_partial_update_status(
     ],
 )
 async def test_delete_todo_list_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_credentials: None,
     integration_setup: Callable[[], Awaitable[bool]],
     mock_http_response: Any,
@@ -664,7 +664,7 @@ async def test_delete_todo_list_item(
     ],
 )
 async def test_delete_partial_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_credentials: None,
     integration_setup: Callable[[], Awaitable[bool]],
     mock_http_response: Any,
@@ -678,7 +678,7 @@ async def test_delete_partial_failure(
     assert state
     assert state.state == "3"
 
-    with pytest.raises(__HAC_KEEP__Error, match="Invalid task ID"):
+    with pytest.raises(UniversalAssistantError, match="Invalid task ID"):
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.REMOVE_ITEM,
@@ -705,7 +705,7 @@ async def test_delete_partial_failure(
     ],
 )
 async def test_delete_invalid_json_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_credentials: None,
     integration_setup: Callable[[], Awaitable[bool]],
     mock_http_response: Any,
@@ -719,7 +719,7 @@ async def test_delete_invalid_json_response(
     assert state
     assert state.state == "3"
 
-    with pytest.raises(__HAC_KEEP__Error, match="unexpected response"):
+    with pytest.raises(UniversalAssistantError, match="unexpected response"):
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.REMOVE_ITEM,
@@ -744,7 +744,7 @@ async def test_delete_invalid_json_response(
     ],
 )
 async def test_delete_server_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_credentials: None,
     integration_setup: Callable[[], Awaitable[bool]],
     mock_http_response: Any,
@@ -758,7 +758,7 @@ async def test_delete_server_error(
     assert state
     assert state.state == "3"
 
-    with pytest.raises(__HAC_KEEP__Error, match="responded with error"):
+    with pytest.raises(UniversalAssistantError, match="responded with error"):
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.REMOVE_ITEM,
@@ -819,7 +819,7 @@ async def test_delete_server_error(
     ],
 )
 async def test_parent_child_ordering(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_credentials: None,
     integration_setup: Callable[[], Awaitable[bool]],
     ws_get_items: Callable[[], Awaitable[dict[str, str]]],
@@ -849,7 +849,7 @@ async def test_parent_child_ordering(
     ],
 )
 async def test_move_todo_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_credentials: None,
     integration_setup: Callable[[], Awaitable[bool]],
     ws_get_items: Callable[[], Awaitable[dict[str, str]]],
@@ -917,7 +917,7 @@ async def test_move_todo_item(
     ],
 )
 async def test_susbcribe(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_credentials: None,
     integration_setup: Callable[[], Awaitable[bool]],
     hass_ws_client: WebSocketGenerator,

@@ -13,13 +13,13 @@ from universalassistant.components.zone import DOMAIN
 from universalassistant.components.zone.const import ZoneEntityStateAttribute
 from universalassistant.components.zone.services import ZoneService
 from universalassistant.const import CONF_NAME, EntityStateAttribute
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.exceptions import Unauthorized
 from universalassistant.helpers import entity_registry as er
 
 
 @pytest.fixture
-def storage_setup(hass: __HAC_KEEP__, hass_storage: dict[str, Any]):
+def storage_setup(hass: UniversalAssistant, hass_storage: dict[str, Any]):
     """Storage setup."""
 
     async def _storage(items=None, config=None):
@@ -54,7 +54,7 @@ def storage_setup(hass: __HAC_KEEP__, hass_storage: dict[str, Any]):
     return _storage
 
 
-async def test_setup_no_zones_still_adds_home_zone(hass: __HAC_KEEP__) -> None:
+async def test_setup_no_zones_still_adds_home_zone(hass: UniversalAssistant) -> None:
     """Test if no config is passed in we still get the home zone."""
     assert await setup.async_setup_component(hass, zone.DOMAIN, {"zone": None})
     assert len(hass.states.async_entity_ids(DOMAIN)) == 1
@@ -65,7 +65,7 @@ async def test_setup_no_zones_still_adds_home_zone(hass: __HAC_KEEP__) -> None:
     assert not state.attributes.get("passive", False)
 
 
-async def test_setup(hass: __HAC_KEEP__) -> None:
+async def test_setup(hass: UniversalAssistant) -> None:
     """Test a successful setup."""
     info = {
         "name": "Test Zone",
@@ -85,7 +85,7 @@ async def test_setup(hass: __HAC_KEEP__) -> None:
     assert info["passive"] == state.attributes["passive"]
 
 
-async def test_setup_zone_skips_home_zone(hass: __HAC_KEEP__) -> None:
+async def test_setup_zone_skips_home_zone(hass: UniversalAssistant) -> None:
     """Test that zone named Home should override hass home zone."""
     info = {"name": "Home", "latitude": 1.1, "longitude": -2.2}
     assert await setup.async_setup_component(hass, zone.DOMAIN, {"zone": info})
@@ -95,14 +95,14 @@ async def test_setup_zone_skips_home_zone(hass: __HAC_KEEP__) -> None:
     assert info["name"] == state.name
 
 
-async def test_setup_name_can_be_same_on_multiple_zones(hass: __HAC_KEEP__) -> None:
+async def test_setup_name_can_be_same_on_multiple_zones(hass: UniversalAssistant) -> None:
     """Test that zone named Home should override hass home zone."""
     info = {"name": "Test Zone", "latitude": 1.1, "longitude": -2.2}
     assert await setup.async_setup_component(hass, zone.DOMAIN, {"zone": [info, info]})
     assert len(hass.states.async_entity_ids(DOMAIN)) == 3
 
 
-async def test_active_zone_skips_passive_zones(hass: __HAC_KEEP__) -> None:
+async def test_active_zone_skips_passive_zones(hass: UniversalAssistant) -> None:
     """Test active and passive zones."""
     assert await setup.async_setup_component(
         hass,
@@ -127,7 +127,7 @@ async def test_active_zone_skips_passive_zones(hass: __HAC_KEEP__) -> None:
     assert in_zones == ["zone.passive_zone"]
 
 
-async def test_active_zone_skips_passive_zones_2(hass: __HAC_KEEP__) -> None:
+async def test_active_zone_skips_passive_zones_2(hass: UniversalAssistant) -> None:
     """Test active and passive zones."""
     assert await setup.async_setup_component(
         hass,
@@ -152,7 +152,7 @@ async def test_active_zone_skips_passive_zones_2(hass: __HAC_KEEP__) -> None:
 
 
 async def test_active_zone_prefers_smaller_zone_if_same_distance(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test zone size preferences."""
     latitude = 32.880600
@@ -186,7 +186,7 @@ async def test_active_zone_prefers_smaller_zone_if_same_distance(
 
 
 async def test_active_zone_prefers_smaller_zone_if_same_distance_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test zone size preferences."""
     latitude = 32.880600
@@ -214,7 +214,7 @@ async def test_active_zone_prefers_smaller_zone_if_same_distance_2(
 
 
 async def test_active_zone_prefers_smaller_zone_over_closer_zone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the smallest containing zone wins over a larger, closer one.
 
@@ -254,7 +254,7 @@ async def test_active_zone_prefers_smaller_zone_over_closer_zone(
     assert in_zones == ["zone.small_zone", "zone.big_zone"]
 
 
-async def test_in_zone_works_for_passive_zones(hass: __HAC_KEEP__) -> None:
+async def test_in_zone_works_for_passive_zones(hass: UniversalAssistant) -> None:
     """Test working in passive zones."""
     latitude = 32.880600
     longitude = -117.237561
@@ -278,7 +278,7 @@ async def test_in_zone_works_for_passive_zones(hass: __HAC_KEEP__) -> None:
 
 
 async def test_async_active_zone_with_non_zero_radius(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test async_active_zone with a non-zero radius."""
     latitude = 32.880600
@@ -323,7 +323,7 @@ async def test_async_active_zone_with_non_zero_radius(
     assert in_zones == ["zone.small_zone", "zone.big_zone"]
 
 
-async def test_core_config_update(hass: __HAC_KEEP__) -> None:
+async def test_core_config_update(hass: UniversalAssistant) -> None:
     """Test updating core config will update home zone."""
     assert await setup.async_setup_component(hass, "zone", {})
 
@@ -343,7 +343,7 @@ async def test_core_config_update(hass: __HAC_KEEP__) -> None:
 
 
 async def test_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_admin_user: MockUser,
     hass_read_only_user: MockUser,
@@ -417,7 +417,7 @@ async def test_reload(
     assert state_3.attributes["longitude"] == 6
 
 
-async def test_load_from_storage(hass: __HAC_KEEP__, storage_setup) -> None:
+async def test_load_from_storage(hass: UniversalAssistant, storage_setup) -> None:
     """Test set up from storage."""
     assert await storage_setup()
     state = hass.states.get(f"{DOMAIN}.from_storage")
@@ -426,7 +426,7 @@ async def test_load_from_storage(hass: __HAC_KEEP__, storage_setup) -> None:
     assert state.attributes.get(ZoneEntityStateAttribute.EDITABLE)
 
 
-async def test_editable_state_attribute(hass: __HAC_KEEP__, storage_setup) -> None:
+async def test_editable_state_attribute(hass: UniversalAssistant, storage_setup) -> None:
     """Test editable attribute."""
     assert await storage_setup(
         config={DOMAIN: [{"name": "yaml option", "latitude": 3, "longitude": 4}]}
@@ -443,7 +443,7 @@ async def test_editable_state_attribute(hass: __HAC_KEEP__, storage_setup) -> No
 
 
 async def test_ws_list(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, storage_setup
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, storage_setup
 ) -> None:
     """Test listing via WS."""
     assert await storage_setup(
@@ -467,7 +467,7 @@ async def test_ws_list(
 
 
 async def test_ws_delete(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
     storage_setup,
@@ -496,7 +496,7 @@ async def test_ws_delete(
 
 
 async def test_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
     storage_setup,
@@ -545,7 +545,7 @@ async def test_update(
 
 
 async def test_ws_create(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
     storage_setup,
@@ -582,7 +582,7 @@ async def test_ws_create(
     assert state.attributes["passive"] is True
 
 
-async def test_import_config_entry(hass: __HAC_KEEP__) -> None:
+async def test_import_config_entry(hass: UniversalAssistant) -> None:
     """Test we import config entry and then delete it."""
     entry = MockConfigEntry(
         domain="zone",
@@ -609,12 +609,12 @@ async def test_import_config_entry(hass: __HAC_KEEP__) -> None:
     assert state.attributes[EntityStateAttribute.ICON] == "mdi:from-config-entry"
 
 
-async def test_zone_empty_setup(hass: __HAC_KEEP__) -> None:
+async def test_zone_empty_setup(hass: UniversalAssistant) -> None:
     """Set up zone with empty config."""
     assert await setup.async_setup_component(hass, DOMAIN, {"zone": {}})
 
 
-async def test_unavailable_zone(hass: __HAC_KEEP__) -> None:
+async def test_unavailable_zone(hass: UniversalAssistant) -> None:
     """Test active zone with unavailable zones.
 
     Simulates the startup window where a zone has been pre-filled by the entity
@@ -636,7 +636,7 @@ async def test_unavailable_zone(hass: __HAC_KEEP__) -> None:
     assert zone.in_zone(hass.states.get("zone.bla"), 0, 0) is False
 
 
-async def test_async_get_enclosing_zones(hass: __HAC_KEEP__) -> None:
+async def test_async_get_enclosing_zones(hass: UniversalAssistant) -> None:
     """Test async_get_enclosing_zones returns zones that fully contain the given zone."""
     latitude = 32.880600
     longitude = -117.237561
@@ -698,7 +698,7 @@ async def test_async_get_enclosing_zones(hass: __HAC_KEEP__) -> None:
     assert zone.async_get_enclosing_zones(hass, "zone.passive_big_zone") == []
 
 
-async def test_async_get_enclosing_zones_equal_radius(hass: __HAC_KEEP__) -> None:
+async def test_async_get_enclosing_zones_equal_radius(hass: UniversalAssistant) -> None:
     """Test that same-center same-radius zones enclose each other (<= predicate)."""
     latitude = 32.880600
     longitude = -117.237561
@@ -728,7 +728,7 @@ async def test_async_get_enclosing_zones_equal_radius(hass: __HAC_KEEP__) -> Non
     assert zone.async_get_enclosing_zones(hass, "zone.zone_b") == ["zone.zone_a"]
 
 
-async def test_async_get_enclosing_zones_with_offset(hass: __HAC_KEEP__) -> None:
+async def test_async_get_enclosing_zones_with_offset(hass: UniversalAssistant) -> None:
     """Test full containment accounts for distance from zone center."""
     latitude = 32.880600
     longitude = -117.237561
@@ -768,14 +768,14 @@ async def test_async_get_enclosing_zones_with_offset(hass: __HAC_KEEP__) -> None
     ]
 
 
-async def test_async_get_enclosing_zones_missing_zone(hass: __HAC_KEEP__) -> None:
+async def test_async_get_enclosing_zones_missing_zone(hass: UniversalAssistant) -> None:
     """Test async_get_enclosing_zones returns [] for an unknown zone."""
     assert await setup.async_setup_component(hass, DOMAIN, {"zone": {}})
 
     assert zone.async_get_enclosing_zones(hass, "zone.does_not_exist") == []
 
 
-async def test_async_get_enclosing_zones_unavailable_input(hass: __HAC_KEEP__) -> None:
+async def test_async_get_enclosing_zones_unavailable_input(hass: UniversalAssistant) -> None:
     """Test async_get_enclosing_zones returns [] when the input zone is unavailable.
 
     Simulates the startup window where a zone has been pre-filled by the entity
@@ -794,7 +794,7 @@ async def test_async_get_enclosing_zones_unavailable_input(hass: __HAC_KEEP__) -
 
 
 async def test_async_get_enclosing_zones_skips_unavailable_other(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test other zones that are unavailable are skipped when searching containers.
 
@@ -862,7 +862,7 @@ async def test_async_get_enclosing_zones_skips_unavailable_other(
     ],
 )
 async def test_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tracked_domain: str,
     tracked_attr: ZoneEntityStateAttribute,
     untracked_attr: ZoneEntityStateAttribute,
@@ -940,7 +940,7 @@ async def test_state(
 
 
 async def test_persons_and_device_trackers_tracked_independently(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test persons and device trackers in the same zone don't interfere."""
     info = {
@@ -974,7 +974,7 @@ async def test_persons_and_device_trackers_tracked_independently(
     ]
 
 
-async def test_trackers_present_before_zone_setup(hass: __HAC_KEEP__) -> None:
+async def test_trackers_present_before_zone_setup(hass: UniversalAssistant) -> None:
     """Test persons and device trackers already in a zone at setup are picked up."""
     hass.states.async_set(
         "person.person1",

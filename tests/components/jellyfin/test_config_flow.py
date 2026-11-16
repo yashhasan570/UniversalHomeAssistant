@@ -14,7 +14,7 @@ from universalassistant.components.jellyfin.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import async_load_json_fixture
@@ -32,7 +32,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 async def test_form(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_jellyfin: MagicMock,
     mock_client: MagicMock,
     mock_client_device_id: MagicMock,
@@ -69,7 +69,7 @@ async def test_form(
 
 
 async def test_form_strips_trailing_slash_from_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_jellyfin: MagicMock,
     mock_client: MagicMock,
     mock_client_device_id: MagicMock,
@@ -99,7 +99,7 @@ async def test_form_strips_trailing_slash_from_url(
 
 
 async def test_form_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_jellyfin: MagicMock,
     mock_client: MagicMock,
     mock_client_device_id: MagicMock,
@@ -140,7 +140,7 @@ async def test_form_cannot_connect(
 
 
 async def test_form_invalid_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_jellyfin: MagicMock,
     mock_client: MagicMock,
     mock_client_device_id: MagicMock,
@@ -182,7 +182,7 @@ async def test_form_invalid_auth(
 
 
 async def test_form_exception(
-    hass: __HAC_KEEP__, mock_jellyfin: MagicMock, mock_client: MagicMock
+    hass: UniversalAssistant, mock_jellyfin: MagicMock, mock_client: MagicMock
 ) -> None:
     """Test configuration with an unexpected exception."""
     result = await hass.config_entries.flow.async_init(
@@ -216,7 +216,7 @@ async def test_form_exception(
 
 
 async def test_form_persists_device_id_on_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_jellyfin: MagicMock,
     mock_client: MagicMock,
     mock_client_device_id: MagicMock,
@@ -264,7 +264,7 @@ async def test_form_persists_device_id_on_error(
 
 
 async def test_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_jellyfin: MagicMock,
     mock_client: MagicMock,
@@ -290,7 +290,7 @@ async def test_already_configured(
 
 
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_jellyfin: MagicMock,
     mock_client: MagicMock,
@@ -333,7 +333,7 @@ async def test_reauth(
 
 
 async def test_reauth_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_jellyfin: MagicMock,
     mock_client: MagicMock,
@@ -393,7 +393,7 @@ async def test_reauth_cannot_connect(
 
 
 async def test_reauth_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_jellyfin: MagicMock,
     mock_client: MagicMock,
@@ -447,7 +447,7 @@ async def test_reauth_invalid(
 
 
 async def test_reauth_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_jellyfin: MagicMock,
     mock_client: MagicMock,
@@ -504,7 +504,7 @@ async def test_reauth_exception(
 
 @pytest.mark.usefixtures("mock_jellyfin")
 async def test_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     mock_setup_entry: MagicMock,
@@ -552,7 +552,7 @@ async def test_reconfigure(
 
 @pytest.mark.usefixtures("mock_jellyfin")
 async def test_reconfigure_unique_id_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -580,7 +580,7 @@ async def test_reconfigure_unique_id_mismatch(
 )
 @pytest.mark.usefixtures("mock_jellyfin")
 async def test_reconfigure_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
     expected_error: str,
@@ -625,7 +625,7 @@ async def test_reconfigure_error(
 
 
 async def test_options_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_jellyfin: MagicMock,
     mock_client: MagicMock,
@@ -660,7 +660,7 @@ async def test_options_flow(
     [("aac"), ("wma"), ("vorbis"), ("mp3")],
 )
 async def test_setting_codec(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_jellyfin: MagicMock,
     mock_client: MagicMock,

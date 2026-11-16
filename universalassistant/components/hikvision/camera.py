@@ -5,8 +5,8 @@ from typing import override
 from pyhik.hikvision import VideoChannel
 
 from universalassistant.components.camera import Camera, CameraEntityFeature
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import HikvisionConfigEntry
@@ -17,7 +17,7 @@ RTSP_PORT = 554
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: HikvisionConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -52,7 +52,7 @@ class HikvisionCamera(HikvisionEntity, Camera):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: HikvisionConfigEntry,
         channel: VideoChannel,
     ) -> None:
@@ -77,7 +77,7 @@ class HikvisionCamera(HikvisionEntity, Camera):
                 self._camera.get_snapshot, self._video_channel.id
             )
         except Exception as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Error getting image from {self._video_channel.name}: {err}"
             ) from err
 

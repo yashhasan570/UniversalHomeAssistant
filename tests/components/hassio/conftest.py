@@ -19,7 +19,7 @@ import pytest_socket
 from universalassistant.components.hassio.const import ENV_SUPERVISOR_SOCKET
 from universalassistant.components.http.config import _DEFAULT_CONFIG as HTTP_DEFAULT_CONFIG
 from universalassistant.components.http.const import CONF_SERVER_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture(autouse=True)
@@ -52,7 +52,7 @@ def http_supervisor_default_port() -> Generator[None]:
 
 @pytest.fixture
 async def hassio_client(
-    hassio_stubs: None, hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hassio_stubs: None, hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> TestClient:
     """Return a Hass.io HTTP client."""
     return await hass_client()
@@ -97,7 +97,7 @@ def hassio_unix_socket_env(
 async def hassio_unix_socket_client(
     hassio_unix_socket_env: None,
     hassio_stubs: None,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
 ) -> TestClient:
     """Return a Hass.io HTTP client with Supervisor reached over a Unix socket."""
@@ -106,7 +106,7 @@ async def hassio_unix_socket_client(
 
 @pytest.fixture
 async def hassio_noauth_client(
-    hassio_stubs: None, hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
+    hassio_stubs: None, hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
 ) -> TestClient:
     """Return a Hass.io HTTP client without auth."""
     return await aiohttp_client(hass.http.app)
@@ -114,7 +114,7 @@ async def hassio_noauth_client(
 
 @pytest.fixture
 async def hassio_client_supervisor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_client: ClientSessionGenerator,
     hassio_stubs: None,
 ) -> AsyncGenerator[TestClient]:
@@ -139,7 +139,7 @@ async def hassio_client_supervisor(
 @pytest.fixture
 def hass_supervisor_ws_client(
     hass_ws_client: WebSocketGenerator,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> WebSocketGenerator:
     """Return a websocket client authenticated as the Supervisor user."""
 

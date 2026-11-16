@@ -13,8 +13,8 @@ from universalassistant.components.saunum.services import (
     LeilSaunaServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 
 
 @pytest.fixture
@@ -24,7 +24,7 @@ def platforms() -> list[Platform]:
 
 
 async def test_start_session_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_saunum_client: MagicMock,
 ) -> None:
@@ -48,7 +48,7 @@ async def test_start_session_success(
 
 
 async def test_start_session_with_defaults(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_saunum_client: MagicMock,
 ) -> None:
@@ -68,7 +68,7 @@ async def test_start_session_with_defaults(
 
 
 async def test_start_session_door_open(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_saunum_client: MagicMock,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_start_session_door_open(
 
 
 async def test_start_session_communication_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_saunum_client: MagicMock,
 ) -> None:
@@ -101,7 +101,7 @@ async def test_start_session_communication_error(
         "Connection lost"
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             LeilSaunaService.START_SESSION,

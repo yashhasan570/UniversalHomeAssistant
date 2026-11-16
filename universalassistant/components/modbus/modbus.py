@@ -24,7 +24,7 @@ from universalassistant.const import (
     CONF_TYPE,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.helpers.discovery import async_load_platform
 from universalassistant.helpers.typing import ConfigType
 
@@ -120,7 +120,7 @@ def entity_unit_id(entity_config: dict[str, Any]) -> int:
 
 
 async def async_modbus_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
 ) -> bool:
     """Set up Modbus component."""
@@ -134,7 +134,7 @@ async def async_modbus_setup(
 
 
 async def _async_modbus_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
 ) -> bool:
     """Set up the Modbus hubs and their platforms."""
@@ -181,7 +181,7 @@ async def _async_modbus_setup(
 class ModbusHub:
     """Thread safe wrapper class for pymodbus."""
 
-    def __init__(self, hass: __HAC_KEEP__, client_config: dict[str, Any]) -> None:
+    def __init__(self, hass: UniversalAssistant, client_config: dict[str, Any]) -> None:
         """Initialize the Modbus hub."""
 
         # generic configuration

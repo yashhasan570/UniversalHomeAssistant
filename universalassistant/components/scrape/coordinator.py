@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 
 from universalassistant.components.rest import CONF_PAYLOAD_TEMPLATE, RestData
 from universalassistant.const import CONF_RESOURCE_TEMPLATE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 if TYPE_CHECKING:
@@ -29,7 +29,7 @@ class ScrapeCoordinator(DataUpdateCoordinator[BeautifulSoup]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ScrapeConfigEntry | None,
         rest: RestData,
         rest_config: dict[str, Any],

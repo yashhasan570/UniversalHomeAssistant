@@ -18,7 +18,7 @@
     "flow_title": "{name}",
     "progress": {
       "install_addon": "Please wait while the Matter Server app installation finishes. This can take several minutes.",
-      "start_addon": "Please wait while the Matter Server app starts. This app is what powers Matter in __HA_KEEP__. This may take some seconds."
+      "start_addon": "Please wait while the Matter Server app starts. This app is what powers Matter in Universal Home Assistant. This may take some seconds."
     },
     "step": {
       "hassio_confirm": {
@@ -830,11 +830,11 @@
       "title": "IPv6 is disabled but required by Matter"
     },
     "server_version_version_too_new": {
-      "description": "The version of the Matter Server you are currently running is too new for this version of __HA_KEEP__. Please update __HA_KEEP__ or downgrade the Matter Server to an older version to fix this issue.",
+      "description": "The version of the Matter Server you are currently running is too new for this version of Universal Home Assistant. Please update Universal Home Assistant or downgrade the Matter Server to an older version to fix this issue.",
       "title": "Older version of Matter Server needed"
     },
     "server_version_version_too_old": {
-      "description": "The version of the Matter Server you are currently running is too old for this version of __HA_KEEP__. Please update the Matter Server to the latest version to fix this issue.",
+      "description": "The version of the Matter Server you are currently running is too old for this version of Universal Home Assistant. Please update the Matter Server to the latest version to fix this issue.",
       "title": "Newer version of Matter Server needed"
     }
   },

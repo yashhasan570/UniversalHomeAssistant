@@ -6,7 +6,7 @@ from typing import Any, override
 
 from universalassistant.components.valve import ValveEntity, ValveEntityFeature, ValveState
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_track_utc_time_change
@@ -17,7 +17,7 @@ OPEN_CLOSE_DELAY = 2  # Used to give a realistic open/close experience in fronte
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

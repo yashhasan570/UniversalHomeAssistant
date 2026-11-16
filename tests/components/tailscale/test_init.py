@@ -7,11 +7,11 @@ from tailscale import TailscaleAuthenticationError, TailscaleConnectionError
 
 from universalassistant.components.tailscale.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tailscale: MagicMock,
 ) -> None:
@@ -31,7 +31,7 @@ async def test_load_unload_config_entry(
 
 
 async def test_config_entry_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tailscale: MagicMock,
 ) -> None:
@@ -48,7 +48,7 @@ async def test_config_entry_not_ready(
 
 
 async def test_config_entry_authentication_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tailscale: MagicMock,
 ) -> None:
@@ -75,7 +75,7 @@ async def test_config_entry_authentication_failed(
 
 
 async def test_api_key_entry_triggers_migration_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_api_key: MockConfigEntry,
 ) -> None:
     """Test a legacy API access token entry is migrated to OAuth via reauth."""

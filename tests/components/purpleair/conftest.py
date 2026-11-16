@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_fixture
 from universalassistant.components.purpleair.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 TEST_API_KEY = "abcde12345"
 TEST_SENSOR_INDEX1 = 123456
@@ -19,7 +19,7 @@ TEST_SENSOR_INDEX2 = 567890
 
 
 @pytest.fixture(name="config_entry")
-def config_entry_fixture(hass: __HAC_KEEP__) -> MockConfigEntry:
+def config_entry_fixture(hass: UniversalAssistant) -> MockConfigEntry:
     """Define a config entry fixture."""
     return MockConfigEntry(
         domain=DOMAIN,
@@ -64,7 +64,7 @@ def mock_aiopurpleair_fixture() -> Generator[AsyncMock]:
 
 @pytest.fixture(name="setup_config_entry")
 async def setup_config_entry_fixture(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_aiopurpleair: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_aiopurpleair: AsyncMock
 ) -> None:
     """Define a fixture to set up purpleair."""
     config_entry.add_to_hass(hass)

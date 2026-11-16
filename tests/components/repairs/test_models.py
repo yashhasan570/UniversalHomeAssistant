@@ -31,18 +31,18 @@ from universalassistant.config_entries import (
     OptionsFlow,
     SubentryFlowResult,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.frame import IntegrationFrame
 import universalassistant.helpers.issue_registry as ir
 
 
 @pytest.fixture(autouse=True)
-async def mock_repairs_integration(hass: __HAC_KEEP__) -> None:
+async def mock_repairs_integration(hass: UniversalAssistant) -> None:
     """Mock a repairs integration."""
     hass.config.components.add("fake_integration")
 
     def async_create_fix_flow(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         issue_id: str,
         data: dict[str, str | int | float | None] | None,
     ) -> RepairsFlow:
@@ -174,7 +174,7 @@ class MockFixFlowNextFlow(RepairsFlow):
         (FlowType.CONFIG_SUBENTRIES_FLOW, ["fake_integration"]),
     ],
 )
-async def test_fix_issue_next_flow(hass: __HAC_KEEP__, flow_type: FlowType) -> None:
+async def test_fix_issue_next_flow(hass: UniversalAssistant, flow_type: FlowType) -> None:
     """Test that that a repair flow can refer to an options flow."""
     assert await async_setup_component(hass, DOMAIN, {})
 
@@ -220,7 +220,7 @@ async def test_fix_issue_next_flow(hass: __HAC_KEEP__, flow_type: FlowType) -> N
     ],
 )
 async def test_issue_id_setter_getter_deprecation(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test RepairFlow issue_id getter/setter with switch to context."""
 

@@ -15,8 +15,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 
 from . import mock_responses, setup_fronius_integration
 from .test_modbus import GEN24_HYBRID_MODULES, assert_state
@@ -27,7 +27,7 @@ DISCHARGE_LIMIT = "number.gen24_storage_battery_discharge_power_limit"
 
 
 async def _setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     connection: MockModbusConnection,
 ) -> MockConfigEntry:
@@ -44,7 +44,7 @@ async def _setup(
 
 
 async def test_setpoints_read_from_the_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
 ) -> None:
@@ -58,7 +58,7 @@ async def test_setpoints_read_from_the_device(
 
 
 async def test_setting_a_value_leaves_a_released_limit_released(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
 ) -> None:
@@ -86,7 +86,7 @@ async def test_setting_a_value_leaves_a_released_limit_released(
 
 
 async def test_setting_a_value_re_enables_an_active_limit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
 ) -> None:
@@ -118,7 +118,7 @@ async def test_setting_a_value_re_enables_an_active_limit(
 
 
 async def test_battery_setpoint_leaves_the_mode_bits_alone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
 ) -> None:
@@ -149,7 +149,7 @@ async def test_battery_setpoint_leaves_the_mode_bits_alone(
     [(CHARGE_LIMIT, "charge_limit"), (DISCHARGE_LIMIT, "discharge_limit")],
 )
 async def test_battery_rates_are_signed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     entity_id: str,
@@ -185,7 +185,7 @@ async def _limit_both_ways(config_entry: MockConfigEntry, charge_limit: float) -
 
 
 async def test_forcing_within_the_other_limit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
 ) -> None:
@@ -211,7 +211,7 @@ async def test_forcing_within_the_other_limit(
 
 @pytest.mark.parametrize("charge_limit", [40, 0])
 async def test_forcing_beyond_the_other_limit_is_refused(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     charge_limit: float,
@@ -247,7 +247,7 @@ async def test_forcing_beyond_the_other_limit_is_refused(
 
 
 async def test_a_refused_write_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
 ) -> None:
@@ -255,7 +255,7 @@ async def test_a_refused_write_raises(
     await _setup(hass, aioclient_mock, mock_fronius_modbus)
     mock_fronius_modbus.for_unit(1).fail_requests(IllegalDataValueError())
 
-    with pytest.raises(__HAC_KEEP__Error, match="Could not write"):
+    with pytest.raises(UniversalAssistantError, match="Could not write"):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,

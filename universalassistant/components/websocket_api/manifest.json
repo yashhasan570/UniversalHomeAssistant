@@ -1,6 +1,6 @@
 {
   "domain": "websocket_api",
-  "name": "__HA_KEEP__ WebSocket API",
+  "name": "Universal Home Assistant WebSocket API",
   "codeowners": ["@universal-assistant/core"],
   "dependencies": ["http"],
   "documentation": "https://www.universalassistant.io/integrations/websocket_api",

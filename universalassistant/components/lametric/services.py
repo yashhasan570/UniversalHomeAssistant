@@ -19,8 +19,8 @@ from demetriek import (
 import probatio
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.util.enum import try_parse_enum
 
@@ -92,7 +92,7 @@ SERVICE_CHART_SCHEMA = SERVICE_BASE_SCHEMA.extend(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up services for the LaMetric integration."""
 
     async def _async_service_chart(call: ServiceCall) -> None:
@@ -193,7 +193,7 @@ async def async_send_notification(
     try:
         await coordinator.lametric.notify(notification=notification)
     except LaMetricError as ex:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="notification_failed",
             translation_placeholders={"error": str(ex)},

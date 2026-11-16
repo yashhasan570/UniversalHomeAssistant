@@ -40,7 +40,7 @@ from universalassistant.components.application_credentials import (
 from universalassistant.components.home_connect.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import MOCK_AVAILABLE_COMMANDS, MOCK_PROGRAMS, MOCK_SETTINGS, MOCK_STATUS
@@ -121,7 +121,7 @@ def mock_config_entry_v1_2(token_entry: dict[str, Any]) -> MockConfigEntry:
 
 
 @pytest.fixture(autouse=True)
-async def setup_credentials(hass: __HAC_KEEP__) -> None:
+async def setup_credentials(hass: UniversalAssistant) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(
@@ -140,7 +140,7 @@ def platforms() -> list[Platform]:
 
 @pytest.fixture(name="integration_setup")
 async def mock_integration_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     platforms: list[Platform],
     config_entry: MockConfigEntry,
 ) -> Callable[[MagicMock], Awaitable[bool]]:

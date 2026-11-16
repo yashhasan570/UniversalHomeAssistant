@@ -8,8 +8,8 @@ import pytest
 from universalassistant.components.lcn import DOMAIN
 from universalassistant.components.lcn.services import LcnService, LcnServiceArgument
 from universalassistant.const import CONF_DEVICE_ID
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.setup import async_setup_component
 
 from .conftest import (
@@ -21,7 +21,7 @@ from .conftest import (
 
 
 async def test_service_output_abs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
 ) -> None:
     """Test output_abs service."""
@@ -45,7 +45,7 @@ async def test_service_output_abs(
 
 
 async def test_service_output_rel(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
 ) -> None:
     """Test output_rel service."""
@@ -68,7 +68,7 @@ async def test_service_output_rel(
 
 
 async def test_service_output_toggle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
 ) -> None:
     """Test output_toggle service."""
@@ -91,7 +91,7 @@ async def test_service_output_toggle(
 
 
 async def test_service_relays(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
 ) -> None:
     """Test relays service."""
@@ -117,7 +117,7 @@ async def test_service_relays(
     # wrong states string
     with (
         patch.object(MockDeviceConnection, "control_relays") as control_relays,
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -133,7 +133,7 @@ async def test_service_relays(
 
 
 async def test_service_led(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
 ) -> None:
     """Test led service."""
@@ -159,7 +159,7 @@ async def test_service_led(
 
 
 async def test_service_var_abs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
 ) -> None:
     """Test var_abs service."""
@@ -185,7 +185,7 @@ async def test_service_var_abs(
 
 
 async def test_service_var_rel(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
 ) -> None:
     """Test var_rel service."""
@@ -215,7 +215,7 @@ async def test_service_var_rel(
 
 
 async def test_service_var_reset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
 ) -> None:
     """Test var_reset service."""
@@ -237,7 +237,7 @@ async def test_service_var_reset(
 
 
 async def test_service_lock_regulator(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
 ) -> None:
     """Test lock_regulator service."""
@@ -260,7 +260,7 @@ async def test_service_lock_regulator(
 
 
 async def test_service_send_keys(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
 ) -> None:
     """Test send_keys service."""
@@ -288,7 +288,7 @@ async def test_service_send_keys(
 
 
 async def test_service_send_keys_hit_deferred(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
 ) -> None:
     """Test send_keys (hit_deferred) service."""
@@ -344,7 +344,7 @@ async def test_service_send_keys_hit_deferred(
 
 
 async def test_service_lock_keys(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
 ) -> None:
     """Test lock_keys service."""
@@ -371,7 +371,7 @@ async def test_service_lock_keys(
     # wrong states string
     with (
         patch.object(MockDeviceConnection, "lock_keys") as lock_keys,
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -388,7 +388,7 @@ async def test_service_lock_keys(
 
 
 async def test_service_lock_keys_tab_a_temporary(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
 ) -> None:
     """Test lock_keys (tab_a_temporary) service."""
@@ -442,7 +442,7 @@ async def test_service_lock_keys_tab_a_temporary(
 
 
 async def test_service_dyn_text(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
 ) -> None:
     """Test dyn_text service."""
@@ -465,7 +465,7 @@ async def test_service_dyn_text(
 
 
 async def test_service_pck(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
 ) -> None:
     """Test pck service."""
@@ -487,7 +487,7 @@ async def test_service_pck(
 
 
 async def test_service_unknown_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
 ) -> None:
     """Test service call with an unknown device id raises."""
@@ -509,7 +509,7 @@ async def test_service_unknown_device_id(
 
 
 async def test_service_unloaded_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
 ) -> None:
     """Test service call to a device of an unloaded config entry raises."""

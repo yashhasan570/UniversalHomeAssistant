@@ -9,7 +9,7 @@ from vallox_websocket_api import MetricData, MetricValue
 
 from universalassistant.components.vallox.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import TEST_HOST, TEST_NAME, setup_integration
 
@@ -56,7 +56,7 @@ def mock_vallox_client(
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vallox_client: AsyncMock,
 ) -> MockConfigEntry:

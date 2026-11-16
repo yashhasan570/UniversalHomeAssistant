@@ -18,7 +18,7 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
 )
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -32,7 +32,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("mock_c4_account", "mock_c4_director", "mock_room_variables")
 async def test_media_player_with_and_without_sources(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -49,7 +49,7 @@ async def test_media_player_with_and_without_sources(
     "mock_c4_account", "mock_c4_director", "mock_room_off_update_variables"
 )
 async def test_media_player_room_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_c4_room: MagicMock,
     mock_room_off_variables: dict,
@@ -91,7 +91,7 @@ async def test_media_player_room_off(
     "mock_room_off_update_variables",
 )
 async def test_media_player_turn_on_prefers_video_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_c4_room: MagicMock,
 ) -> None:
@@ -117,7 +117,7 @@ async def test_media_player_turn_on_prefers_video_source(
     "mock_c4_account", "mock_c4_director_audio_room", "mock_room_off_update_variables"
 )
 async def test_media_player_turn_on_audio_only_room(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_c4_room: MagicMock,
 ) -> None:
@@ -135,7 +135,7 @@ async def test_media_player_turn_on_audio_only_room(
     mock_c4_room.set_video_and_audio_source.assert_not_called()
 
 
-async def _async_refresh(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+async def _async_refresh(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
     """Let the coordinator poll the director again."""
     freezer.tick(SCAN_INTERVAL)
     async_fire_time_changed(hass)
@@ -148,7 +148,7 @@ async def _async_refresh(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> 
     "mock_room_off_update_variables",
 )
 async def test_media_player_turn_on_restarts_last_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_c4_room: MagicMock,
     mock_room_off_variables: dict,
@@ -193,7 +193,7 @@ async def test_media_player_turn_on_restarts_last_source(
     "mock_room_off_update_variables",
 )
 async def test_media_player_last_source_falls_back_to_video_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_c4_room: MagicMock,
     mock_room_off_variables: dict,
@@ -219,7 +219,7 @@ async def test_media_player_last_source_falls_back_to_video_device(
     "mock_room_off_update_variables",
 )
 async def test_media_player_turn_on_restores_last_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_c4_room: MagicMock,
 ) -> None:
@@ -244,7 +244,7 @@ async def test_media_player_turn_on_restores_last_source(
     "mock_c4_account", "mock_c4_director", "mock_room_off_update_variables"
 )
 async def test_media_player_turn_on_ignores_restored_unknown_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_c4_room: MagicMock,
 ) -> None:
@@ -268,7 +268,7 @@ async def test_media_player_turn_on_ignores_restored_unknown_source(
 
 @pytest.mark.usefixtures("mock_c4_account", "mock_c4_director", "mock_room_variables")
 async def test_media_player_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_c4_room: MagicMock,
 ) -> None:

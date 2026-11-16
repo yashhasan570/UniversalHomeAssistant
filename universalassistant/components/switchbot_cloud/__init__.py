@@ -19,7 +19,7 @@ from switchbot_api import (
 from universalassistant.components import cloud, webhook
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, CONF_API_TOKEN, CONF_WEBHOOK_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -88,7 +88,7 @@ type SwitchbotCloudConfigEntry = ConfigEntry[SwitchbotCloudData]
 
 
 async def coordinator_for_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SwitchbotCloudConfigEntry,
     api: SwitchBotAPI,
     device: Device | Remote,
@@ -110,7 +110,7 @@ async def coordinator_for_device(
 
 
 async def make_switchbot_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SwitchbotCloudConfigEntry,
     api: SwitchBotAPI,
     devices: list[Device | Remote],
@@ -128,7 +128,7 @@ async def make_switchbot_devices(
 
 
 async def make_device_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SwitchbotCloudConfigEntry,
     api: SwitchBotAPI,
     device: Device | Remote,
@@ -233,7 +233,7 @@ async def make_device_data(
 
 
 async def make_new_device_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SwitchbotCloudConfigEntry,
     api: SwitchBotAPI,
     device: Device | Remote,
@@ -279,14 +279,14 @@ async def make_new_device_data(
             target_list.append((device, coordinator))
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Switchbot Cloud."""
     async_setup_services(hass)
     return True
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: SwitchbotCloudConfigEntry
+    hass: UniversalAssistant, entry: SwitchbotCloudConfigEntry
 ) -> None:
     """Set up SwitchBot via API from a config entry."""
     token = entry.data[CONF_API_TOKEN]
@@ -345,7 +345,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: SwitchbotCloudConfigEntry
+    hass: UniversalAssistant, entry: SwitchbotCloudConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
@@ -355,7 +355,7 @@ async def async_unload_entry(
 
 
 async def _initialize_webhook(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SwitchbotCloudConfigEntry,
     api: SwitchBotAPI,
     coordinators_by_id: dict[str, SwitchBotCoordinator],
@@ -439,7 +439,7 @@ async def _initialize_webhook(
 
 
 async def _async_get_webhook_url(
-    hass: __HAC_KEEP__, entry: SwitchbotCloudConfigEntry
+    hass: UniversalAssistant, entry: SwitchbotCloudConfigEntry
 ) -> str:
     """Return the URL to register with SwitchBot's cloud for this entry.
 
@@ -475,7 +475,7 @@ async def _async_get_webhook_url(
 
 
 async def async_remove_entry(
-    hass: __HAC_KEEP__, entry: SwitchbotCloudConfigEntry
+    hass: UniversalAssistant, entry: SwitchbotCloudConfigEntry
 ) -> None:
     """Clean up the cloudhook (if any) when the entry is removed."""
     if CONF_CLOUDHOOK_URL not in entry.data:
@@ -489,11 +489,11 @@ async def async_remove_entry(
 
 def _create_handle_webhook(
     coordinators_by_id: dict[str, SwitchBotCoordinator],
-) -> Callable[[__HAC_KEEP__, str, web.Request], Awaitable[None]]:
+) -> Callable[[UniversalAssistant, str, web.Request], Awaitable[None]]:
     """Create a webhook handler."""
 
     async def _internal_handle_webhook(
-        hass: __HAC_KEEP__, webhook_id: str, request: web.Request
+        hass: UniversalAssistant, webhook_id: str, request: web.Request
     ) -> None:
         """Handle webhook callback."""
         if not request.body_exists:

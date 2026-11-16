@@ -25,7 +25,7 @@ from universalassistant.const import (
     CONF_TOKEN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -42,7 +42,7 @@ from .conftest import (
 
 @pytest.mark.usefixtures("mock_cookidoo_client")
 async def test_load_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cookidoo_config_entry: MockConfigEntry,
 ) -> None:
     """Test loading and unloading of the config entry."""
@@ -66,7 +66,7 @@ async def test_load_unload(
     ],
 )
 async def test_init_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cookidoo_client: AsyncMock,
     status: ConfigEntryState,
     exception: Exception,
@@ -86,7 +86,7 @@ async def test_init_failure(
     ],
 )
 async def test_config_entry_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cookidoo_config_entry: MockConfigEntry,
     mock_cookidoo_client: AsyncMock,
     cookidoo_method: str,
@@ -127,7 +127,7 @@ async def test_config_entry_not_ready(
     ],
 )
 async def test_config_entry_not_ready_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cookidoo_config_entry: MockConfigEntry,
     mock_cookidoo_client: AsyncMock,
     login_exception: Exception | None,
@@ -190,7 +190,7 @@ OLD_ENTRY_ID = "OLD_OLD_ENTRY_ID"
     ],
 )
 async def test_migration_from(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     from_version,
@@ -280,7 +280,7 @@ async def test_migration_from(
 
 @pytest.mark.usefixtures("mock_cookidoo_client")
 async def test_migration_from_partial_duplicate_unique_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -413,7 +413,7 @@ async def test_migration_from_partial_duplicate_unique_ids(
     ],
 )
 async def test_migration_from_with_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     from_version,
@@ -506,7 +506,7 @@ async def test_migration_from_with_error(
 
 
 async def test_login_persists_tokens(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cookidoo_client: AsyncMock,
     cookidoo_config_entry: MockConfigEntry,
 ) -> None:
@@ -519,7 +519,7 @@ async def test_login_persists_tokens(
 
 
 async def test_tokens_persisted_when_user_info_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cookidoo_client: AsyncMock,
     cookidoo_config_entry: MockConfigEntry,
 ) -> None:
@@ -534,7 +534,7 @@ async def test_tokens_persisted_when_user_info_fails(
 
 
 async def test_stored_tokens_skip_login(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cookidoo_client: AsyncMock,
     cookidoo_config_entry_with_token: MockConfigEntry,
 ) -> None:
@@ -548,7 +548,7 @@ async def test_stored_tokens_skip_login(
 
 
 async def test_expired_tokens_fall_back_to_login(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cookidoo_client: AsyncMock,
     cookidoo_config_entry_with_token: MockConfigEntry,
 ) -> None:
@@ -574,7 +574,7 @@ async def test_expired_tokens_fall_back_to_login(
     ],
 )
 async def test_tokens_rotated_during_update_are_persisted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cookidoo_client: AsyncMock,
     cookidoo_config_entry_with_token: MockConfigEntry,
     notify_auth_data_update: Callable[[CookidooAuthData], None],

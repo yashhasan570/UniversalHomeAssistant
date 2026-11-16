@@ -12,7 +12,7 @@
     "flow_title": "{device}",
     "step": {
       "confirm_discovery": {
-        "description": "Do you want to add {device} to __HA_KEEP__?"
+        "description": "Do you want to add {device} to Universal Home Assistant?"
       },
       "reconfigure": {
         "data": {
@@ -29,12 +29,12 @@
       },
       "user": {
         "data": {
-          "auto_revert_power_limit": "Revert the power and battery limits if __HA_KEEP__ stops",
+          "auto_revert_power_limit": "Revert the power and battery limits if Universal Home Assistant stops",
           "host": "[%key:common::config_flow::data::host%]",
           "modbus_port": "Modbus port"
         },
         "data_description": {
-          "auto_revert_power_limit": "The inverter drops the AC power limit and the battery charge and discharge limits an hour after it last received them, and returns to its own settings. __HA_KEEP__ sends active limits again every 15 minutes, so this only takes effect once it stops sending - because __HA_KEEP__ is down, or because the integration was removed. The battery minimum reserve and grid charging are not affected.",
+          "auto_revert_power_limit": "The inverter drops the AC power limit and the battery charge and discharge limits an hour after it last received them, and returns to its own settings. Universal Home Assistant sends active limits again every 15 minutes, so this only takes effect once it stops sending - because Universal Home Assistant is down, or because the integration was removed. The battery minimum reserve and grid charging are not affected.",
           "host": "The IP address or hostname of your Fronius device.",
           "modbus_port": "Port of the device's Modbus TCP interface. Only used when Modbus is enabled on the device's web interface."
         },

@@ -20,14 +20,14 @@ from universalassistant.components import recorder
 from universalassistant.components.recorder import Recorder, history
 from universalassistant.components.recorder.db_schema import StatesMeta
 from universalassistant.components.recorder.util import session_scope
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
 def _count_entity_id_in_states_meta(
-    hass: __HAC_KEEP__, session: Session, entity_id: str
+    hass: UniversalAssistant, session: Session, entity_id: str
 ) -> int:
     return len(
         list(
@@ -51,7 +51,7 @@ def setup_recorder(recorder_mock: Recorder) -> recorder.Recorder:
 
 
 async def test_rename_entity_without_collision(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -102,7 +102,7 @@ async def test_rename_entity_without_collision(
 
 
 async def test_rename_entity_on_mocked_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -197,7 +197,7 @@ async def test_rename_entity_on_mocked_platform(
 
 
 async def test_rename_entity_collision(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -264,7 +264,7 @@ async def test_rename_entity_collision(
 
 
 async def test_rename_entity_collision_without_states_meta_safeguard(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

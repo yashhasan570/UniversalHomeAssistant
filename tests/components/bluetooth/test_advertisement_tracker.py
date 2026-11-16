@@ -26,7 +26,7 @@ from universalassistant.components.bluetooth.const import (
     SOURCE_LOCAL,
     UNAVAILABLE_TRACK_SECONDS,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.util import dt as dt_util
 
 ONE_HOUR_SECONDS = 3600
@@ -34,7 +34,7 @@ ONE_HOUR_SECONDS = 3600
 
 @pytest.mark.usefixtures("enable_bluetooth", "macos_adapter")
 async def test_advertisment_interval_shorter_than_adapter_stack_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test we can determine the advertisement interval."""
     start_monotonic_time = time.monotonic()
@@ -82,7 +82,7 @@ async def test_advertisment_interval_shorter_than_adapter_stack_timeout(
 
 @pytest.mark.usefixtures("enable_bluetooth", "macos_adapter")
 async def test_advertisment_interval_longer_than_adapter_stack_timeout_connectable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test device with a long advertisement interval."""
     start_monotonic_time = time.monotonic()
@@ -132,7 +132,7 @@ async def test_advertisment_interval_longer_than_adapter_stack_timeout_connectab
 
 @pytest.mark.usefixtures("enable_bluetooth", "macos_adapter")
 async def test_adv_interval_longer_than_stack_timeout_adapter_change_connectable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test device with a long advertisement interval with an adapter change."""
     start_monotonic_time = time.monotonic()
@@ -195,7 +195,7 @@ async def test_adv_interval_longer_than_stack_timeout_adapter_change_connectable
 
 @pytest.mark.usefixtures("enable_bluetooth", "macos_adapter")
 async def test_advertisment_interval_longer_than_adapter_stack_timeout_not_connectable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test device with a long advertisement interval.
 
@@ -252,7 +252,7 @@ async def test_advertisment_interval_longer_than_adapter_stack_timeout_not_conne
 
 @pytest.mark.usefixtures("enable_bluetooth", "macos_adapter")
 async def test_adv_interval_shorter_than_stack_timeout_change_not_connectable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test device with short adv interval, adapter change.
 
@@ -328,7 +328,7 @@ async def test_adv_interval_shorter_than_stack_timeout_change_not_connectable(
 
 @pytest.mark.usefixtures("enable_bluetooth", "macos_adapter")
 async def test_adv_interval_longer_than_stack_timeout_change_not_connectable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test device with long adv interval, adapter change.
 
@@ -435,7 +435,7 @@ async def test_adv_interval_longer_than_stack_timeout_change_not_connectable(
 
 @pytest.mark.usefixtures("enable_bluetooth", "macos_adapter")
 async def test_adv_interval_longer_increasing_than_stack_timeout_not_connectable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test device with increasing adv interval.
 

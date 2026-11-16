@@ -17,7 +17,7 @@ from universalassistant.config_entries import (
     OptionsFlowWithReload,
 )
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.selector import (
     TextSelector,
     TextSelectorConfig,
@@ -66,7 +66,7 @@ STEP_REAUTH_DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> dict[str, Any]:
+async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> dict[str, Any]:
     """Validate the user input allows us to connect."""
 
     session = await async_client_session(hass)

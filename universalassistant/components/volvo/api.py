@@ -1,4 +1,4 @@
-"""API for Volvo bound to __HA_KEEP__ OAuth."""
+"""API for Volvo bound to Universal Home Assistant OAuth."""
 
 import logging
 from typing import cast, override

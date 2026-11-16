@@ -15,7 +15,7 @@ from pytest_universalassistant.typing import MqttMockHAClient, WebSocketGenerato
 
 from universalassistant.components.tasmota.const import DEFAULT_PREFIX, DOMAIN
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -23,7 +23,7 @@ from .test_common import DEFAULT_CONFIG, DEFAULT_SENSOR_CONFIG, remove_device
 
 
 async def test_device_remove(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mqtt_mock: MqttMockHAClient,
     device_registry: dr.DeviceRegistry,
@@ -83,7 +83,7 @@ async def test_device_remove(
 
 
 async def test_device_remove_non_tasmota_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     hass_ws_client: WebSocketGenerator,
     mqtt_mock: MqttMockHAClient,
@@ -93,7 +93,7 @@ async def test_device_remove_non_tasmota_device(
     assert await async_setup_component(hass, "config", {})
 
     async def async_remove_config_entry_device(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry, device_entry: dr.AnyDeviceEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry, device_entry: dr.AnyDeviceEntry
     ) -> bool:
         return True
 
@@ -130,7 +130,7 @@ async def test_device_remove_non_tasmota_device(
 
 
 async def test_device_remove_stale_tasmota_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     hass_ws_client: WebSocketGenerator,
     mqtt_mock: MqttMockHAClient,
@@ -163,7 +163,7 @@ async def test_device_remove_stale_tasmota_device(
 
 
 async def test_tasmota_ws_remove_discovered_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     hass_ws_client: WebSocketGenerator,
     mqtt_mock: MqttMockHAClient,
@@ -198,7 +198,7 @@ async def test_tasmota_ws_remove_discovered_device(
 
 @pytest.mark.usefixtures("mqtt_mock", "setup_tasmota")
 async def test_remove_config_entry_device_rejects_child_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:

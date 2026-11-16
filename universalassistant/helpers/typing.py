@@ -1,4 +1,4 @@
-"""Typing Helpers for __HA_KEEP__."""
+"""Typing Helpers for Universal Home Assistant."""
 
 from collections.abc import Mapping
 from functools import partial

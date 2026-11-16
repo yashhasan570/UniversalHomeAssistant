@@ -11,14 +11,14 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
 
 @pytest.mark.freeze_time("2025-01-31 00:00:00")
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     mock_device_client: MagicMock,
@@ -41,7 +41,7 @@ async def test_load_unload_config_entry(
 
 @pytest.mark.freeze_time("2025-02-15 00:00:00")
 async def test_refresh_authentication_on_load(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     mock_device_client: MagicMock,
@@ -60,7 +60,7 @@ async def test_refresh_authentication_on_load(
 
 @pytest.mark.freeze_time("2025-03-01 00:00:00")
 async def test_refresh_token_error_aborts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -82,7 +82,7 @@ async def test_refresh_token_error_aborts(
     ],
 )
 async def test_get_devices_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     mock_device_client: MagicMock,
@@ -100,7 +100,7 @@ async def test_get_devices_exceptions(
 
 
 async def test_device_subscribe_authentication_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     mock_device_client: MagicMock,
@@ -116,7 +116,7 @@ async def test_device_subscribe_authentication_exception(
 
 
 async def test_device_refresh_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     mock_device_client: MagicMock,

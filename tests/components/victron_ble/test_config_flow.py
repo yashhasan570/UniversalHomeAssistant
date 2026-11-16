@@ -10,7 +10,7 @@ from universalassistant import config_entries
 from universalassistant.components.victron_ble.const import DOMAIN
 from universalassistant.config_entries import SOURCE_BLUETOOTH, SOURCE_USER
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_ADDRESS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .fixtures import (
@@ -28,7 +28,7 @@ def mock_bluetooth(enable_bluetooth: None) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_async_step_bluetooth_valid_device(hass: __HAC_KEEP__) -> None:
+async def test_async_step_bluetooth_valid_device(hass: UniversalAssistant) -> None:
     """Test discovery via bluetooth with a valid device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -55,7 +55,7 @@ async def test_async_step_bluetooth_valid_device(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_async_step_bluetooth_invalid_key_retry(hass: __HAC_KEEP__) -> None:
+async def test_async_step_bluetooth_invalid_key_retry(hass: UniversalAssistant) -> None:
     """Test wrong key via bluetooth discovery shows error and allows retry."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -105,7 +105,7 @@ async def test_async_step_bluetooth_invalid_key_retry(hass: __HAC_KEEP__) -> Non
     ids=["bluetooth_not_victron", "bluetooth_unsupported_device", "user_no_devices"],
 )
 async def test_abort_scenarios(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     source: str,
     service_info: BluetoothServiceInfo | None,
     expected_reason: str,
@@ -122,7 +122,7 @@ async def test_abort_scenarios(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_async_step_user_with_devices_found(
-    hass: __HAC_KEEP__, mock_discovered_service_info: AsyncMock
+    hass: UniversalAssistant, mock_discovered_service_info: AsyncMock
 ) -> None:
     """Test setup from service info cache with devices found."""
     with patch(
@@ -161,7 +161,7 @@ async def test_async_step_user_with_devices_found(
 
 
 async def test_async_step_user_device_added_between_steps(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_discovered_service_info: AsyncMock,
 ) -> None:
@@ -184,7 +184,7 @@ async def test_async_step_user_device_added_between_steps(
 
 
 async def test_async_step_user_with_found_devices_already_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_added_to_hass: MockConfigEntry,
     mock_discovered_service_info: AsyncMock,
 ) -> None:
@@ -198,7 +198,7 @@ async def test_async_step_user_with_found_devices_already_setup(
 
 
 async def test_async_step_bluetooth_devices_already_setup(
-    hass: __HAC_KEEP__, mock_config_entry_added_to_hass: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry_added_to_hass: MockConfigEntry
 ) -> None:
     """Test we can't start a flow if there is already a config entry."""
 
@@ -211,7 +211,7 @@ async def test_async_step_bluetooth_devices_already_setup(
     assert result["reason"] == "already_configured"
 
 
-async def test_async_step_bluetooth_already_in_progress(hass: __HAC_KEEP__) -> None:
+async def test_async_step_bluetooth_already_in_progress(hass: UniversalAssistant) -> None:
     """Test we can't start a flow for the same device twice."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -231,7 +231,7 @@ async def test_async_step_bluetooth_already_in_progress(hass: __HAC_KEEP__) -> N
 
 
 async def test_async_step_reauth_valid_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovered_service_info: AsyncMock,
 ) -> None:
     """Test reauth flow with a valid new key."""
@@ -259,7 +259,7 @@ async def test_async_step_reauth_valid_key(
 
 
 async def test_async_step_reauth_invalid_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_added_to_hass: MockConfigEntry,
     mock_discovered_service_info: AsyncMock,
 ) -> None:
@@ -287,7 +287,7 @@ async def test_async_step_reauth_invalid_key(
 
 
 async def test_async_step_reauth_device_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_added_to_hass: MockConfigEntry,
 ) -> None:
     """Test reauth flow when device is not currently broadcasting."""
@@ -318,13 +318,13 @@ async def test_async_step_reauth_device_not_found(
 
 
 async def test_reauth_flow_sets_title_placeholders(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_added_to_hass: MockConfigEntry,
     mock_discovered_service_info: AsyncMock,
 ) -> None:
     """Test that reauth flow has title_placeholders set for flow_title rendering.
 
-    Regression test for https://github.com/yashhasan570/__HAC_KEEP__/issues/167105 where
+    Regression test for https://github.com/yashhasan570/UniversalUniversalAssistant/issues/167105 where
     the flow_title used '{title}' but HA only automatically provides 'name' in
     title_placeholders for reauth flows, causing a frontend MISSING_VALUE error.
     """

@@ -16,8 +16,8 @@ from universalassistant.components.update import (
     UpdateEntityStateAttribute,
 )
 from universalassistant.const import STATE_ON, Platform
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_call_later
 from universalassistant.helpers.restore_state import ExtraStoredData
@@ -56,7 +56,7 @@ class MatterUpdateExtraStoredData(ExtraStoredData):
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MatterConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -129,7 +129,7 @@ class MatterUpdate(MatterEntity, UpdateEntity):
     def _format_latest_version(
         self, update_information: MatterSoftwareVersion
     ) -> str | None:
-        """Return the version string to expose in __HA_KEEP__."""
+        """Return the version string to expose in Universal Home Assistant."""
         latest_version = update_information.software_version_string
         if self._installed_software_version is None:
             return latest_version
@@ -159,7 +159,7 @@ class MatterUpdate(MatterEntity, UpdateEntity):
             self._attr_release_url = update_information.release_notes_url
 
         except UpdateCheckError as err:
-            raise __HAC_KEEP__Error(f"Error finding applicable update: {err}") from err
+            raise UniversalAssistantError(f"Error finding applicable update: {err}") from err
 
     @override
     async def async_release_notes(self) -> str | None:
@@ -243,7 +243,7 @@ class MatterUpdate(MatterEntity, UpdateEntity):
         if not self.get_matter_attribute_value(
             clusters.OtaSoftwareUpdateRequestor.Attributes.UpdatePossible
         ):
-            raise __HAC_KEEP__Error("Device is not ready to install updates")
+            raise UniversalAssistantError("Device is not ready to install updates")
 
         software_version: str | int | None = version
         if self._software_update is not None and (
@@ -259,7 +259,7 @@ class MatterUpdate(MatterEntity, UpdateEntity):
             software_version = self._software_update.software_version
 
         if software_version is None:
-            raise __HAC_KEEP__Error("No software version specified")
+            raise UniversalAssistantError("No software version specified")
 
         self._attr_in_progress = True
         # Immediately update the progress state change to make frontend feel responsive.
@@ -271,9 +271,9 @@ class MatterUpdate(MatterEntity, UpdateEntity):
                 software_version=software_version,
             )
         except UpdateCheckError as err:
-            raise __HAC_KEEP__Error(f"Error finding applicable update: {err}") from err
+            raise UniversalAssistantError(f"Error finding applicable update: {err}") from err
         except UpdateError as err:
-            raise __HAC_KEEP__Error(f"Error updating: {err}") from err
+            raise UniversalAssistantError(f"Error updating: {err}") from err
         finally:
             # Check for updates right after the update since Matter devices
             # can have strict update paths (e.g. Eve)

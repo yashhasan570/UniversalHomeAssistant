@@ -9,12 +9,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.ohme.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_config_flow_success(hass: __HAC_KEEP__, mock_client: MagicMock) -> None:
+async def test_config_flow_success(hass: UniversalAssistant, mock_client: MagicMock) -> None:
     """Test config flow."""
 
     # Initial form load
@@ -44,7 +44,7 @@ async def test_config_flow_success(hass: __HAC_KEEP__, mock_client: MagicMock) -
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_config_flow_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     test_exception: Exception,
     expected_error: str,
@@ -85,7 +85,7 @@ async def test_config_flow_fail(
 
 
 async def test_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Ensure we can't add the same account twice."""
 
@@ -108,7 +108,7 @@ async def test_already_configured(
     assert result["reason"] == "already_configured"
 
 
-async def test_reauth_form(hass: __HAC_KEEP__, mock_client: MagicMock) -> None:
+async def test_reauth_form(hass: UniversalAssistant, mock_client: MagicMock) -> None:
     """Test reauth form."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -137,7 +137,7 @@ async def test_reauth_form(hass: __HAC_KEEP__, mock_client: MagicMock) -> None:
     [(AuthException, "invalid_auth"), (ApiException, "unknown")],
 )
 async def test_reauth_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     test_exception: Exception,
     expected_error: str,
@@ -182,7 +182,7 @@ async def test_reauth_fail(
     assert result["reason"] == "reauth_successful"
 
 
-async def test_reconfigure_form(hass: __HAC_KEEP__, mock_client: MagicMock) -> None:
+async def test_reconfigure_form(hass: UniversalAssistant, mock_client: MagicMock) -> None:
     """Test reconfigure form."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -214,7 +214,7 @@ async def test_reconfigure_form(hass: __HAC_KEEP__, mock_client: MagicMock) -> N
     [(AuthException, "invalid_auth"), (ApiException, "unknown")],
 )
 async def test_reconfigure_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     test_exception: Exception,
     expected_error: str,

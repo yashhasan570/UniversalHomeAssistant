@@ -7,7 +7,7 @@ from whirlpool.backendselector import BackendSelector
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_REGION, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -26,7 +26,7 @@ PLATFORMS = [
 type WhirlpoolConfigEntry = ConfigEntry[AppliancesManager]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: WhirlpoolConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: WhirlpoolConfigEntry) -> None:
     """Set up Whirlpool Sixth Sense from a config entry."""
     session = async_get_clientsession(hass)
     region = REGIONS_CONF_MAP[entry.data.get(CONF_REGION, "EU")]
@@ -63,7 +63,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: WhirlpoolConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: WhirlpoolConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: WhirlpoolConfigEntry) -> None:
     """Unload a config entry."""
     await entry.runtime_data.disconnect()
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

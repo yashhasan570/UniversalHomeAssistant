@@ -11,7 +11,7 @@ from universalassistant.const import (
     CONF_PASSWORD,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 
@@ -32,7 +32,7 @@ type VeluxConfigEntry = ConfigEntry[VeluxData]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: VeluxConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: VeluxConfigEntry) -> None:
     """Set up the velux component."""
     host = entry.data[CONF_HOST]
     password = entry.data[CONF_PASSWORD]
@@ -117,7 +117,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: VeluxConfigEntry) -> None
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: VeluxConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: VeluxConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     # Disconnect from gateway only after platforms are successfully unloaded.

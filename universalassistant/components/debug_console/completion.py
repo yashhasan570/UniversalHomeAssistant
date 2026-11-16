@@ -21,7 +21,7 @@ from typing import Any
 
 from typing_extensions import Sentinel as sentinel
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .inspection import (
     class_dict,
@@ -104,7 +104,7 @@ class _OpenCall:
 
 
 async def async_complete(
-    hass: __HAC_KEEP__, namespace: dict[str, Any], code: str
+    hass: UniversalAssistant, namespace: dict[str, Any], code: str
 ) -> dict[str, Any]:
     """Return completions for the code being typed, up to the cursor.
 

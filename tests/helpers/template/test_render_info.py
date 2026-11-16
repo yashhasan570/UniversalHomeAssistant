@@ -1,11 +1,11 @@
-"""Test template render information tracking for __HA_KEEP__."""
+"""Test template render information tracking for Universal Home Assistant."""
 
 from collections.abc import Callable
 from typing import Any
 
 import pytest
 
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.exceptions import TemplateError
 from universalassistant.helpers import template
 from universalassistant.helpers.template.render_info import (
@@ -20,7 +20,7 @@ from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture
-def template_obj(hass: __HAC_KEEP__) -> template.Template:
+def template_obj(hass: UniversalAssistant) -> template.Template:
     """Template object for test_render_info."""
     return template.Template("{{ 1 + 1 }}", hass)
 
@@ -207,7 +207,7 @@ def test_render_info_context_var(template_obj: template.Template) -> None:
     ],
 )
 async def test_render_info_does_not_escape_into_scheduled_work(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     render: Callable[[template.Template], Any],
 ) -> None:
     """Test the render in flight does not escape into work scheduled during it.

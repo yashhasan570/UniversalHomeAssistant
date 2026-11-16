@@ -36,14 +36,14 @@ LABS_PREVIEW_FEATURES = {
         "special_repair": {
             "feedback_url": "https://community.universalassistant.io",
             "learn_more_url": "https://www.universalassistant.io/integrations/kitchen_sink",
-            "report_issue_url": "https://github.com/yashhasan570/__HAC_KEEP__/issues/new?template=bug_report.yml&integration_link=https://www.universalassistant.io/integrations/kitchen_sink&integration_name=Kitchen%20Sink",
+            "report_issue_url": "https://github.com/yashhasan570/UniversalUniversalAssistant/issues/new?template=bug_report.yml&integration_link=https://www.universalassistant.io/integrations/kitchen_sink&integration_name=Kitchen%20Sink",
         },
     },
     "teslemetry": {
         "charge_on_solar": {
             "feedback_url": "https://community.universalassistant.io",
             "learn_more_url": "https://www.universalassistant.io/integrations/teslemetry",
-            "report_issue_url": "https://github.com/yashhasan570/__HAC_KEEP__/issues/new?template=bug_report.yml&integration_link=https://www.universalassistant.io/integrations/teslemetry&integration_name=Teslemetry",
+            "report_issue_url": "https://github.com/yashhasan570/UniversalUniversalAssistant/issues/new?template=bug_report.yml&integration_link=https://www.universalassistant.io/integrations/teslemetry&integration_name=Teslemetry",
         },
     },
     "voice_support": {

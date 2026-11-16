@@ -10,7 +10,7 @@ from requests_mock.mocker import Mocker
 from universalassistant import config_entries
 from universalassistant.components.flume.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 
 from .conftest import USER_ID
@@ -26,7 +26,7 @@ def platforms_fixture() -> Generator[None]:
 
 @pytest.mark.usefixtures("access_token", "device_list")
 async def test_setup_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     requests_mock: Mocker,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -42,7 +42,7 @@ async def test_setup_config_entry(
 
 @pytest.mark.usefixtures("access_token", "device_list_timeout")
 async def test_device_list_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     requests_mock: Mocker,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -55,7 +55,7 @@ async def test_device_list_timeout(
 
 @pytest.mark.usefixtures("access_token", "device_list_unauthorized")
 async def test_reauth_when_unauthorized(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     requests_mock: Mocker,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_reauth_when_unauthorized(
 
 @pytest.mark.usefixtures("access_token", "device_list", "notifications_list")
 async def test_list_notifications_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     requests_mock: Mocker,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_list_notifications_service(
 
 @pytest.mark.usefixtures("access_token", "device_list", "notifications_list")
 async def test_list_notifications_service_config_entry_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     requests_mock: Mocker,
     config_entry: MockConfigEntry,
 ) -> None:

@@ -10,7 +10,7 @@ from universalassistant.components import assist_pipeline, stt
 from universalassistant.components.assist_pipeline import PipelineEvent, PipelineEventType
 from universalassistant.components.assist_pipeline.const import MS_PER_CHUNK
 from universalassistant.components.voice_support import AudioRun, AudioRunRequest
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 
 from .conftest import MockSTTProviderEntity, make_10ms_chunk
 
@@ -51,7 +51,7 @@ class MockClient:
         self.websocket = websocket
 
     async def async_start_run(
-        self, hass: __HAC_KEEP__, request: AudioRunRequest, audio: AsyncIterable[bytes]
+        self, hass: UniversalAssistant, request: AudioRunRequest, audio: AsyncIterable[bytes]
     ) -> AudioRun:
         """Open the run."""
         self.requests.append(request)
@@ -74,7 +74,7 @@ async def _audio_stream(*chunks: bytes) -> AsyncGenerator[bytes]:
 
 
 async def _async_run_pipeline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     audio_stream: AsyncIterable[bytes],
     wake_word_audio_ms: int | None = MS_PER_CHUNK,
     wake_word_phrase: str | None = PHRASE,
@@ -85,7 +85,7 @@ async def _async_run_pipeline(
     events: list[PipelineEvent] = []
 
     async def _start_run(
-        hass: __HAC_KEEP__, request: AudioRunRequest, audio: AsyncIterable[bytes]
+        hass: UniversalAssistant, request: AudioRunRequest, audio: AsyncIterable[bytes]
     ) -> AudioRun | None:
         if client is None:
             return None
@@ -119,7 +119,7 @@ async def _async_run_pipeline(
 
 @pytest.mark.usefixtures("init_components")
 async def test_accepted_runs_the_pipeline(
-    hass: __HAC_KEEP__, mock_stt_provider_entity: MockSTTProviderEntity
+    hass: UniversalAssistant, mock_stt_provider_entity: MockSTTProviderEntity
 ) -> None:
     """Test an accepted wake word runs the pipeline as usual."""
     events = await _async_run_pipeline(
@@ -141,7 +141,7 @@ async def test_accepted_runs_the_pipeline(
 
 @pytest.mark.usefixtures("init_components")
 async def test_rejected_ends_the_run(
-    hass: __HAC_KEEP__, mock_stt_provider_entity: MockSTTProviderEntity
+    hass: UniversalAssistant, mock_stt_provider_entity: MockSTTProviderEntity
 ) -> None:
     """Test a refused wake word ends the run with the provider's reason."""
     events = await _async_run_pipeline(
@@ -166,7 +166,7 @@ async def test_rejected_ends_the_run(
 
 
 @pytest.mark.usefixtures("init_components", "mock_stt_provider_entity")
-async def test_rejection_leaves_no_cooldown(hass: __HAC_KEEP__) -> None:
+async def test_rejection_leaves_no_cooldown(hass: UniversalAssistant) -> None:
     """Test a refused wake word does not make the next one a duplicate.
 
     Accepting starts the cooldown that rejects the next one, so the app has
@@ -185,7 +185,7 @@ async def test_rejection_leaves_no_cooldown(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("init_components")
 async def test_the_provider_moves_the_split(
-    hass: __HAC_KEEP__, mock_stt_provider_entity: MockSTTProviderEntity
+    hass: UniversalAssistant, mock_stt_provider_entity: MockSTTProviderEntity
 ) -> None:
     """Test speech-to-text starts where the provider found the wake word ending."""
     events = await _async_run_pipeline(
@@ -204,7 +204,7 @@ async def test_the_provider_moves_the_split(
 
 @pytest.mark.usefixtures("init_components")
 async def test_a_verdict_can_wait_for_more_of_the_run(
-    hass: __HAC_KEEP__, mock_stt_provider_entity: MockSTTProviderEntity
+    hass: UniversalAssistant, mock_stt_provider_entity: MockSTTProviderEntity
 ) -> None:
     """Test an app that answers only after hearing past the detection.
 
@@ -226,7 +226,7 @@ async def test_a_verdict_can_wait_for_more_of_the_run(
 
 @pytest.mark.usefixtures("init_components")
 async def test_a_wake_word_it_does_not_know_is_never_delayed(
-    hass: __HAC_KEEP__, mock_stt_provider_entity: MockSTTProviderEntity
+    hass: UniversalAssistant, mock_stt_provider_entity: MockSTTProviderEntity
 ) -> None:
     """Test the run is still watched, but the detection is not second-guessed."""
     websocket = FakeWebsocket([])
@@ -244,7 +244,7 @@ async def test_a_wake_word_it_does_not_know_is_never_delayed(
 
 @pytest.mark.usefixtures("init_components")
 async def test_a_wake_word_not_in_the_audio_is_never_verified(
-    hass: __HAC_KEEP__, mock_stt_provider_entity: MockSTTProviderEntity
+    hass: UniversalAssistant, mock_stt_provider_entity: MockSTTProviderEntity
 ) -> None:
     """Test a satellite that only names the wake word is not second-guessed."""
     websocket = FakeWebsocket([(0, rejected("last"))])
@@ -269,7 +269,7 @@ async def test_a_wake_word_not_in_the_audio_is_never_verified(
 
 @pytest.mark.usefixtures("init_components")
 async def test_a_provider_that_says_nothing_leaves_the_detection_alone(
-    hass: __HAC_KEEP__, mock_stt_provider_entity: MockSTTProviderEntity
+    hass: UniversalAssistant, mock_stt_provider_entity: MockSTTProviderEntity
 ) -> None:
     """Test a provider with no verdict in time, while the satellite is still talking."""
 
@@ -290,7 +290,7 @@ async def test_a_provider_that_says_nothing_leaves_the_detection_alone(
 
 @pytest.mark.usefixtures("init_components")
 async def test_no_provider_is_the_pipeline_as_it_was(
-    hass: __HAC_KEEP__, mock_stt_provider_entity: MockSTTProviderEntity
+    hass: UniversalAssistant, mock_stt_provider_entity: MockSTTProviderEntity
 ) -> None:
     """Test nothing registered leaves the stream exactly as it was."""
     events = await _async_run_pipeline(hass, _audio_stream(WAKE, COMMAND))
@@ -301,7 +301,7 @@ async def test_no_provider_is_the_pipeline_as_it_was(
 
 @pytest.mark.usefixtures("init_components")
 async def test_the_provider_says_where_the_command_begins_and_ends(
-    hass: __HAC_KEEP__, mock_stt_provider_entity: MockSTTProviderEntity
+    hass: UniversalAssistant, mock_stt_provider_entity: MockSTTProviderEntity
 ) -> None:
     """Test speech boundaries come back as the events satellites animate on."""
     events = await _async_run_pipeline(
@@ -334,7 +334,7 @@ async def test_the_provider_says_where_the_command_begins_and_ends(
 
 @pytest.mark.usefixtures("init_components")
 async def test_a_provider_that_never_ends_the_command(
-    hass: __HAC_KEEP__, mock_stt_provider_entity: MockSTTProviderEntity
+    hass: UniversalAssistant, mock_stt_provider_entity: MockSTTProviderEntity
 ) -> None:
     """Test the command is cut off when the app never says where it ends."""
     with patch(
@@ -357,7 +357,7 @@ async def test_a_provider_that_never_ends_the_command(
 
 @pytest.mark.usefixtures("init_components")
 async def test_a_provider_that_goes_away_ends_the_command_there(
-    hass: __HAC_KEEP__, mock_stt_provider_entity: MockSTTProviderEntity
+    hass: UniversalAssistant, mock_stt_provider_entity: MockSTTProviderEntity
 ) -> None:
     """Test the command ends where the app stopped watching the run.
 
@@ -411,7 +411,7 @@ async def test_a_provider_that_goes_away_ends_the_command_there(
 )
 @pytest.mark.usefixtures("init_components")
 async def test_a_provider_that_finishes_keeps_its_boundary(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_stt_provider_entity: MockSTTProviderEntity,
     answers: list[tuple[int, Answer]],
 ) -> None:
@@ -436,7 +436,7 @@ async def test_a_provider_that_finishes_keeps_its_boundary(
 
 @pytest.mark.usefixtures("init_components")
 async def test_a_boundary_at_the_end_of_the_audio(
-    hass: __HAC_KEEP__, mock_stt_provider_entity: MockSTTProviderEntity
+    hass: UniversalAssistant, mock_stt_provider_entity: MockSTTProviderEntity
 ) -> None:
     """Test the end of the command is still reported when no audio follows it."""
     events = await _async_run_pipeline(
@@ -461,7 +461,7 @@ async def test_a_boundary_at_the_end_of_the_audio(
 
 @pytest.mark.usefixtures("init_components")
 async def test_delayed_boundary_without_more_audio(
-    hass: __HAC_KEEP__, mock_stt_provider_entity: MockSTTProviderEntity
+    hass: UniversalAssistant, mock_stt_provider_entity: MockSTTProviderEntity
 ) -> None:
     """Test an app boundary ends STT while the source waits for more audio."""
     websocket = FakeWebsocket([(0, accepted(MS_PER_CHUNK))])
@@ -494,7 +494,7 @@ async def test_delayed_boundary_without_more_audio(
 
 @pytest.mark.usefixtures("init_components")
 async def test_delayed_boundary_after_audio_end(
-    hass: __HAC_KEEP__, mock_stt_provider_entity: MockSTTProviderEntity
+    hass: UniversalAssistant, mock_stt_provider_entity: MockSTTProviderEntity
 ) -> None:
     """Test the final app response reaches STT after the source ends."""
     websocket = FakeWebsocket([(0, accepted(MS_PER_CHUNK))])

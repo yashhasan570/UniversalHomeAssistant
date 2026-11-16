@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.loqed.const import DOMAIN
 from universalassistant.const import CONF_API_TOKEN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -24,7 +24,7 @@ BLE_STRENGTH_ENTITY_ID = "sensor.home_bluetooth_signal"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
@@ -57,7 +57,7 @@ async def test_sensors(
     ],
 )
 async def test_sensor_responds_to_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
     lock: loqed.Lock,
     entity_id: str,
@@ -75,7 +75,7 @@ async def test_sensor_responds_to_updates(
 
 
 async def test_ble_strength_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     integration: MockConfigEntry,
 ) -> None:

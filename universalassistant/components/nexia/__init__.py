@@ -9,7 +9,7 @@ from nexia.thermostat import NexiaThermostat
 from nexia.zone import NexiaThermostatZone
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -31,14 +31,14 @@ _LOGGER = logging.getLogger(__name__)
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Nexia/American Standard/Trane integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: NexiaConfigEntry) -> None:
-    """Configure the base Nexia device for __HA_KEEP__."""
+async def async_setup_entry(hass: UniversalAssistant, entry: NexiaConfigEntry) -> None:
+    """Configure the base Nexia device for Universal Home Assistant."""
 
     conf = entry.data
     username = conf[CONF_USERNAME]
@@ -87,7 +87,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: NexiaConfigEntry) -> None
 
 
 def _preregister_devices(
-    hass: __HAC_KEEP__, entry: NexiaConfigEntry, nexia_home: NexiaHome
+    hass: UniversalAssistant, entry: NexiaConfigEntry, nexia_home: NexiaHome
 ) -> None:
     """Register devices before forwarding platforms so sub-devices resolve via_device_id regardless of setup order."""
     device_registry = dr.async_get(hass)
@@ -106,13 +106,13 @@ def _preregister_devices(
             )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: NexiaConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: NexiaConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, entry: NexiaConfigEntry, device_entry: dr.AnyDeviceEntry
+    hass: UniversalAssistant, entry: NexiaConfigEntry, device_entry: dr.AnyDeviceEntry
 ) -> bool:
     """Remove a nexia config entry from a device."""
     coordinator = entry.runtime_data
@@ -132,7 +132,7 @@ async def async_remove_config_entry_device(
     return True
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: NexiaConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: NexiaConfigEntry) -> None:
     """Migrate entry."""
 
     _LOGGER.debug("Migrating from version %s", entry.version)

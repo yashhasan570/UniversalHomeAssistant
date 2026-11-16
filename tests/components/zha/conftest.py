@@ -28,7 +28,7 @@ from zigpy.zcl.foundation import Status
 import zigpy.zdo.types as zdo_t
 
 from universalassistant.components.zha import const as zha_const
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .common import patch_cluster as common_patch_cluster
@@ -243,7 +243,7 @@ def mock_zigpy_connect(
 
 @pytest.fixture
 def setup_zha(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_zigpy_connect: ControllerApplication,
 ) -> Callable[..., Coroutine[None]]:

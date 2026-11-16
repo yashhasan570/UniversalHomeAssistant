@@ -4,14 +4,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.lastfm.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import MockUser
 from .conftest import ComponentSetup
 
 
 async def test_load_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
     default_user: MockUser,
@@ -31,7 +31,7 @@ async def test_load_unload_entry(
 
 
 async def test_setup_retry_when_no_user_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
     not_found_user: MockUser,

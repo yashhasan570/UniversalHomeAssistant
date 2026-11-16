@@ -23,7 +23,7 @@ from wyoming.info import (
 )
 
 from universalassistant.components.wyoming.devices import SatelliteDevice
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 TEST_ATTR = Attribution(name="Test", url="http://www.test.com")
 STT_INFO = Info(
@@ -273,7 +273,7 @@ class MockAsyncTcpClient:
 
 
 async def reload_satellite(
-    hass: __HAC_KEEP__, config_entry_id: str
+    hass: UniversalAssistant, config_entry_id: str
 ) -> SatelliteDevice:
     """Reload config entry with satellite info and returns new device."""
     with (

@@ -9,14 +9,14 @@ from pytile.errors import InvalidAuthError, TileError
 from universalassistant.components.tile.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import TEST_PASSWORD, TEST_USERNAME
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_flow(hass: __HAC_KEEP__, mock_pytile: AsyncMock) -> None:
+async def test_full_flow(hass: UniversalAssistant, mock_pytile: AsyncMock) -> None:
     """Test a full flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -49,7 +49,7 @@ async def test_full_flow(hass: __HAC_KEEP__, mock_pytile: AsyncMock) -> None:
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_create_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pytile: AsyncMock,
     exception: Exception,
     errors: dict[str, str],
@@ -86,7 +86,7 @@ async def test_create_entry(
 
 
 async def test_duplicate_error(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that errors are shown when duplicates are added."""
     mock_config_entry.add_to_hass(hass)
@@ -109,7 +109,7 @@ async def test_duplicate_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_reauth(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_pytile: AsyncMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_pytile: AsyncMock
 ) -> None:
     """Test that the reauth step works."""
     mock_config_entry.add_to_hass(hass)
@@ -134,7 +134,7 @@ async def test_step_reauth(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_reauth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pytile: AsyncMock,
     exception: Exception,

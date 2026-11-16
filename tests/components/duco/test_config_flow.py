@@ -22,7 +22,7 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
 )
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -125,7 +125,7 @@ _SUPPORTED_BOARD_INFOS = [
 ]
 
 
-async def _start_user_flow(hass: __HAC_KEEP__) -> ConfigFlowResult:
+async def _start_user_flow(hass: UniversalAssistant) -> ConfigFlowResult:
     """Start the user config flow and assert the initial form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -137,7 +137,7 @@ async def _start_user_flow(hass: __HAC_KEEP__) -> ConfigFlowResult:
 
 
 async def _start_reconfigure_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> ConfigFlowResult:
     """Start the reconfigure flow for an existing config entry."""
     mock_config_entry.add_to_hass(hass)
@@ -156,7 +156,7 @@ def _set_board_info_value(mock_duco_client: AsyncMock, board_info: BoardInfo) ->
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_success(
-    hass: __HAC_KEEP__, mock_duco_client: AsyncMock
+    hass: UniversalAssistant, mock_duco_client: AsyncMock
 ) -> None:
     """Test a successful user flow."""
     result = await _start_user_flow(hass)
@@ -182,7 +182,7 @@ async def test_user_flow_success(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     exception: Exception,
     expected_error: str,
@@ -208,7 +208,7 @@ async def test_user_flow_error(
 
 
 async def test_user_flow_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -227,7 +227,7 @@ async def test_user_flow_duplicate(
 @pytest.mark.parametrize(("source", "discovery"), _DISCOVERY_CASES)
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_new_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     source: str,
     discovery: DhcpServiceInfo | ZeroconfServiceInfo,
@@ -255,7 +255,7 @@ async def test_discovery_new_device(
 
 @pytest.mark.parametrize(("source", "discovery"), _UPDATED_DISCOVERY_CASES)
 async def test_discovery_updates_host(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     source: str,
@@ -277,7 +277,7 @@ async def test_discovery_updates_host(
 
 @pytest.mark.parametrize(("source", "discovery"), _DISCOVERY_CASES)
 async def test_discovery_already_configured_same_ip(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     source: str,
@@ -299,7 +299,7 @@ async def test_discovery_already_configured_same_ip(
 @pytest.mark.parametrize(("source", "discovery"), _DISCOVERY_CASES)
 @pytest.mark.parametrize(("exception", "expected_reason"), _DISCOVERY_ERRORS)
 async def test_discovery_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     source: str,
     discovery: DhcpServiceInfo | ZeroconfServiceInfo,
@@ -321,7 +321,7 @@ async def test_discovery_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -352,7 +352,7 @@ async def test_reconfigure_flow_success(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_wrong_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -389,7 +389,7 @@ async def test_reconfigure_flow_wrong_device(
     ],
 )
 async def test_reconfigure_flow_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -418,7 +418,7 @@ async def test_reconfigure_flow_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_without_info_endpoint(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -445,7 +445,7 @@ async def test_reconfigure_flow_without_info_endpoint(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_discovery_exception_recovery(
-    hass: __HAC_KEEP__, mock_duco_client: AsyncMock
+    hass: UniversalAssistant, mock_duco_client: AsyncMock
 ) -> None:
     """Test DHCP discovery recovers after an initial exception and creates the entry."""
     mock_duco_client.async_get_board_info.side_effect = DucoConnectionError(
@@ -483,7 +483,7 @@ async def test_dhcp_discovery_exception_recovery(
 @pytest.mark.usefixtures("mock_setup_entry")
 @pytest.mark.parametrize("unsupported_board_info", UNSUPPORTED_BOARD_INFOS)
 async def test_user_flow_unsupported_board_from_board_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     mock_board_info: BoardInfo,
     unsupported_board_info: BoardInfo,
@@ -511,7 +511,7 @@ async def test_user_flow_unsupported_board_from_board_info(
 @pytest.mark.usefixtures("mock_setup_entry")
 @pytest.mark.parametrize("supported_board_info", _SUPPORTED_BOARD_INFOS)
 async def test_user_flow_allows_api_compatible_board_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     supported_board_info: BoardInfo,
 ) -> None:
@@ -531,7 +531,7 @@ async def test_user_flow_allows_api_compatible_board_info(
 @pytest.mark.usefixtures("mock_setup_entry")
 @pytest.mark.parametrize("unsupported_board_info", UNSUPPORTED_BOARD_INFOS)
 async def test_reconfigure_flow_unsupported_board_from_board_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_board_info: BoardInfo,
@@ -561,7 +561,7 @@ async def test_reconfigure_flow_unsupported_board_from_board_info(
 @pytest.mark.parametrize(("source", "discovery"), _DISCOVERY_CASES)
 @pytest.mark.parametrize("supported_board_info", _SUPPORTED_BOARD_INFOS)
 async def test_discovery_allows_api_compatible_board_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     source: str,
     discovery: DhcpServiceInfo | ZeroconfServiceInfo,
@@ -586,7 +586,7 @@ async def test_discovery_allows_api_compatible_board_info(
 @pytest.mark.parametrize(("source", "discovery"), _DISCOVERY_CASES)
 @pytest.mark.parametrize("unsupported_board_info", UNSUPPORTED_BOARD_INFOS)
 async def test_discovery_unsupported_board_from_board_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     source: str,
     discovery: DhcpServiceInfo | ZeroconfServiceInfo,
@@ -607,7 +607,7 @@ async def test_discovery_unsupported_board_from_board_info(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_initializes_client_with_host(
-    hass: __HAC_KEEP__, mock_board_info: BoardInfo, mock_lan_info: LanInfo
+    hass: UniversalAssistant, mock_board_info: BoardInfo, mock_lan_info: LanInfo
 ) -> None:
     """Test that the config flow initializes the Duco client with the host."""
     with patch(

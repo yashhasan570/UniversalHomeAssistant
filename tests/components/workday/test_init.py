@@ -12,13 +12,13 @@ from universalassistant.components.workday.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.dt import UTC
 
 from . import TEST_CONFIG_EXAMPLE_1, TEST_CONFIG_WITH_PROVINCE, init_integration
 
 
-async def test_load_unload_entry(hass: __HAC_KEEP__) -> None:
+async def test_load_unload_entry(hass: UniversalAssistant) -> None:
     """Test load and unload entry."""
     entry = await init_integration(hass, TEST_CONFIG_EXAMPLE_1)
 
@@ -33,7 +33,7 @@ async def test_load_unload_entry(hass: __HAC_KEEP__) -> None:
 
 
 async def test_update_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test options update and config entry is reloaded."""
@@ -69,7 +69,7 @@ async def test_workday_subdiv_aliases() -> None:
     assert subdiv_aliases["6AE"] == ["Alsace"]
 
 
-async def test_migrate_minor_version_1_to_2(hass: __HAC_KEEP__) -> None:
+async def test_migrate_minor_version_1_to_2(hass: UniversalAssistant) -> None:
     """Test migrates to version 1.2."""
     config = {
         "name": "Test sensor",

@@ -6,12 +6,12 @@ from unittest.mock import patch
 import pytest
 
 from universalassistant.components.recorder.backup import async_post_backup, async_pre_backup
-from universalassistant.core import CoreState, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 
 @pytest.mark.usefixtures("recorder_mock")
-async def test_async_pre_backup(hass: __HAC_KEEP__) -> None:
+async def test_async_pre_backup(hass: UniversalAssistant) -> None:
     """Test pre backup."""
     with patch(
         "universalassistant.components.recorder.core.Recorder.lock_database"
@@ -21,7 +21,7 @@ async def test_async_pre_backup(hass: __HAC_KEEP__) -> None:
 
 
 RAISES_HASS_NOT_RUNNING = pytest.raises(
-    __HAC_KEEP__Error, match="__HA_KEEP__ is not running"
+    UniversalAssistantError, match="Universal Home Assistant is not running"
 )
 
 
@@ -38,7 +38,7 @@ RAISES_HASS_NOT_RUNNING = pytest.raises(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_async_pre_backup_core_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     core_state: CoreState,
     expected_result: AbstractContextManager,
     lock_calls: int,
@@ -56,7 +56,7 @@ async def test_async_pre_backup_core_state(
 
 
 @pytest.mark.usefixtures("recorder_mock")
-async def test_async_pre_backup_with_timeout(hass: __HAC_KEEP__) -> None:
+async def test_async_pre_backup_with_timeout(hass: UniversalAssistant) -> None:
     """Test pre backup with timeout."""
     with (
         patch(
@@ -70,7 +70,7 @@ async def test_async_pre_backup_with_timeout(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("recorder_mock")
-async def test_async_pre_backup_with_migration(hass: __HAC_KEEP__) -> None:
+async def test_async_pre_backup_with_migration(hass: UniversalAssistant) -> None:
     """Test pre backup with migration."""
     with (
         patch(
@@ -80,14 +80,14 @@ async def test_async_pre_backup_with_migration(hass: __HAC_KEEP__) -> None:
             "universalassistant.components.recorder.backup.async_migration_in_progress",
             return_value=True,
         ),
-        pytest.raises(__HAC_KEEP__Error, match="Database migration in progress"),
+        pytest.raises(UniversalAssistantError, match="Database migration in progress"),
     ):
         await async_pre_backup(hass)
     assert not lock_mock.called
 
 
 @pytest.mark.usefixtures("recorder_mock")
-async def test_async_post_backup(hass: __HAC_KEEP__) -> None:
+async def test_async_post_backup(hass: UniversalAssistant) -> None:
     """Test post backup."""
     with patch(
         "universalassistant.components.recorder.core.Recorder.unlock_database"
@@ -97,7 +97,7 @@ async def test_async_post_backup(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("recorder_mock")
-async def test_async_post_backup_failure(hass: __HAC_KEEP__) -> None:
+async def test_async_post_backup_failure(hass: UniversalAssistant) -> None:
     """Test post backup failure."""
     with (
         patch(
@@ -105,7 +105,7 @@ async def test_async_post_backup_failure(hass: __HAC_KEEP__) -> None:
             return_value=False,
         ) as unlock_mock,
         pytest.raises(
-            __HAC_KEEP__Error, match="Could not release database write lock"
+            UniversalAssistantError, match="Could not release database write lock"
         ),
     ):
         await async_post_backup(hass)

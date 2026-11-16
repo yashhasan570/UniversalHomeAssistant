@@ -3,7 +3,7 @@
 from devialet import DevialetApi
 
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .coordinator import DevialetConfigEntry, DevialetCoordinator
@@ -11,7 +11,7 @@ from .coordinator import DevialetConfigEntry, DevialetCoordinator
 PLATFORMS = [Platform.MEDIA_PLAYER]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: DevialetConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: DevialetConfigEntry) -> None:
     """Set up Devialet from a config entry."""
     session = async_get_clientsession(hass)
     client = DevialetApi(entry.data[CONF_HOST], session)
@@ -23,6 +23,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: DevialetConfigEntry) -> N
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: DevialetConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: DevialetConfigEntry) -> None:
     """Unload Devialet config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

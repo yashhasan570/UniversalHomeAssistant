@@ -18,14 +18,14 @@ from universalassistant.const import (
     STATE_OPEN,
     STATE_UNKNOWN,
 )
-from universalassistant.core import Context, __HAC_KEEP__, State
+from universalassistant.core import Context, UniversalAssistant, State
 from universalassistant.loader import IntegrationNotFound, async_get_integration
 
 _LOGGER = logging.getLogger(__name__)
 
 
 async def async_reproduce_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     states: State | Iterable[State],
     *,
     context: Context | None = None,

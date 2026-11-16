@@ -12,8 +12,8 @@ import probatio
 from universalassistant.components import webhook
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_API_TOKEN, CONF_WEBHOOK_ID
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -42,7 +42,7 @@ class LoqedConfigFlow(ConfigFlow, domain=DOMAIN):
         self._locks = []
 
     async def validate_input(
-        self, hass: __HAC_KEEP__, data: dict[str, Any]
+        self, hass: UniversalAssistant, data: dict[str, Any]
     ) -> dict[str, Any]:
         """Validate the user input allows us to connect."""
 
@@ -267,13 +267,13 @@ class LoqedConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(__HAC_KEEP__Error):
+class InvalidAuth(UniversalAssistantError):
     """Error to indicate there is invalid auth."""
 
 
-class LockNotFound(__HAC_KEEP__Error):
+class LockNotFound(UniversalAssistantError):
     """Error to indicate the lock is not part of the account."""

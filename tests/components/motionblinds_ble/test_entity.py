@@ -16,7 +16,7 @@ from universalassistant.components.motionblinds_ble.const import (
     ATTR_SPEED,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import setup_integration
@@ -33,7 +33,7 @@ from . import setup_integration
     ],
 )
 async def test_entity_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_motion_device: Mock,
     name: str,

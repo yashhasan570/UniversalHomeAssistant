@@ -24,7 +24,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import aiohttp_client
 
 from . import entity_id, setup_integration
@@ -32,7 +32,7 @@ from .conftest import TEST_PASSWORD, TEST_USERNAME
 
 
 async def test_auth_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_ayla_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -54,7 +54,7 @@ async def test_auth_failure(
     "mock_config_entry", FGLAIR_APP_CREDENTIALS.keys(), indirect=True
 )
 async def test_auth_regions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_ayla_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -78,7 +78,7 @@ async def test_auth_regions(
 
 @pytest.mark.parametrize("is_europe", [True, False])
 async def test_migrate_entry_v11_v12(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_ayla_api: AsyncMock,
     is_europe: bool,
@@ -108,7 +108,7 @@ async def test_migrate_entry_v11_v12(
 
 
 async def test_device_auth_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_ayla_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -129,7 +129,7 @@ async def test_device_auth_failure(
 
 
 async def test_device_offline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_ayla_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -149,7 +149,7 @@ async def test_device_offline(
 
 
 async def test_token_expired(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ayla_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -162,7 +162,7 @@ async def test_token_expired(
 
 
 async def test_token_expiring_soon(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ayla_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -175,7 +175,7 @@ async def test_token_expiring_soon(
 
 @pytest.mark.parametrize("exception", [AylaAuthError, TimeoutError])
 async def test_startup_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ayla_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,

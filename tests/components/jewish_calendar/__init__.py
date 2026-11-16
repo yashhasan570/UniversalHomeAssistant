@@ -4,7 +4,7 @@ from dataclasses import dataclass
 import datetime as dt
 from typing import Protocol
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 class GetCalendarEvents(Protocol):
@@ -12,7 +12,7 @@ class GetCalendarEvents(Protocol):
 
     async def __call__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entity_id: str,
         start_date: dt.datetime,
         end_date: dt.datetime | None = None,

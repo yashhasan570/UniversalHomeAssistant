@@ -15,7 +15,7 @@ from universalassistant.const import (
     STATE_OPEN,
     STATE_OPENING,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.discovery import async_load_platform
 from universalassistant.helpers.event import async_call_later, async_track_time_interval
@@ -52,7 +52,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Slide platform."""
 
     async def update_slides(now=None):

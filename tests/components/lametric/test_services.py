@@ -26,16 +26,16 @@ from universalassistant.components.lametric.services import (
 )
 from universalassistant.components.media_source import PlayMedia
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.core_config import async_process_ha_core_config
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 pytestmark = pytest.mark.usefixtures("init_integration")
 
 
 async def test_service_chart(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_lametric: MagicMock,
 ) -> None:
@@ -106,7 +106,7 @@ async def test_service_chart(
 
     mock_lametric.notify.side_effect = LaMetricError("Fail to validate")
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Could not send the notification to the LaMetric device: Fail to validate",
     ):
         await hass.services.async_call(
@@ -123,7 +123,7 @@ async def test_service_chart(
 
 
 async def test_service_message(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_lametric: MagicMock,
 ) -> None:
@@ -197,7 +197,7 @@ async def test_service_message(
 
     mock_lametric.notify.side_effect = LaMetricError("Fail to validate")
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Could not send the notification to the LaMetric device: Fail to validate",
     ):
         await hass.services.async_call(
@@ -228,7 +228,7 @@ async def test_service_message(
 )
 @pytest.mark.parametrize("repeat", [0, 1, 5])
 async def test_service_sound_repeat(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_lametric: MagicMock,
     service: str,
@@ -273,7 +273,7 @@ async def test_service_sound_repeat(
     ],
 )
 async def test_service_sound_repeat_negative(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_lametric: MagicMock,
     service: str,
@@ -303,7 +303,7 @@ async def test_service_sound_repeat_negative(
 
 @pytest.mark.parametrize("device_fixture", ["device_sa5_bluetooth_unavailable"])
 async def test_service_message_without_audio(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_lametric: MagicMock,
@@ -367,7 +367,7 @@ async def test_service_message_without_audio(
     ids=["url", "url_with_fallback", "url_with_fallback_and_repeat"],
 )
 async def test_service_message_sound_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_lametric: MagicMock,
     data: dict[str, Any],
@@ -403,7 +403,7 @@ async def test_service_message_sound_url(
     ids=["no_url", "empty", "no_media_content_id", "unparsable"],
 )
 async def test_service_message_invalid_sound_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_lametric: MagicMock,
     sound_url: str | dict[str, str],
@@ -428,11 +428,11 @@ async def test_service_message_invalid_sound_url(
 
 
 async def test_service_message_sound_from_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_lametric: MagicMock,
 ) -> None:
-    """Test a sound picked from the media in __HA_KEEP__.
+    """Test a sound picked from the media in Universal Home Assistant.
 
     The device fetches the sound itself, so it gets a full URL to Home
     Assistant, signed so the device does not need to log in.

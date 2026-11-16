@@ -7,7 +7,7 @@ from aiotankerkoenig import GasType, Station
 
 from universalassistant.components.sensor import SensorEntity, SensorStateClass
 from universalassistant.const import CURRENCY_EURO, EntityStateAttribute
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -30,7 +30,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: TankerkoenigConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

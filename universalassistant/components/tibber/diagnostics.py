@@ -2,13 +2,13 @@
 
 from typing import Any
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import TibberConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: TibberConfigEntry
+    hass: UniversalAssistant, config_entry: TibberConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
 

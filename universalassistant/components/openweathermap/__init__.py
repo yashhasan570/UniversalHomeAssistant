@@ -7,7 +7,7 @@ from pyopenweathermap import create_owm_client
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, CONF_LANGUAGE, CONF_MODE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -33,14 +33,14 @@ class OpenweathermapData:
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the OpenWeatherMap integration."""
     async_setup_services(hass)
     return True
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: OpenweathermapConfigEntry
+    hass: UniversalAssistant, entry: OpenweathermapConfigEntry
 ) -> None:
     """Set up OpenWeatherMap as config entry."""
     api_key = entry.data[CONF_API_KEY]
@@ -65,7 +65,7 @@ async def async_setup_entry(
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, entry: OpenweathermapConfigEntry
+    hass: UniversalAssistant, entry: OpenweathermapConfigEntry
 ) -> None:
     """Migrate old entry."""
     config_entries = hass.config_entries
@@ -89,14 +89,14 @@ async def async_migrate_entry(
 
 
 async def async_update_options(
-    hass: __HAC_KEEP__, entry: OpenweathermapConfigEntry
+    hass: UniversalAssistant, entry: OpenweathermapConfigEntry
 ) -> None:
     """Update options."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: OpenweathermapConfigEntry
+    hass: UniversalAssistant, entry: OpenweathermapConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

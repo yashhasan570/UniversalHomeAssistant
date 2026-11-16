@@ -26,8 +26,8 @@ from universalassistant.components.media_player import (
     RepeatMode,
 )
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -93,7 +93,7 @@ MEDIA_PLAYER_DESCRIPTION: Final[MediaPlayerEntityDescription] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SystemBridgeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -506,8 +506,8 @@ class SystemBridgeMediaPlayer(SystemBridgeEntity, MediaPlayerEntity):
             model.player = player.id
         try:
             response = await self.coordinator.websocket_client.media_control(model)
-        except ConnectionClosedException as e:
-            raise __HAC_KEEP__Error(
+        except (ConnectionClosedException, ConnectionResetError) as e:
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="connection_failed",
                 translation_placeholders={
@@ -516,7 +516,7 @@ class SystemBridgeMediaPlayer(SystemBridgeEntity, MediaPlayerEntity):
                 },
             ) from e
         if response.type == EventType.ERROR:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="media_control_failed",
                 translation_placeholders={"error": response.message or ""},

@@ -5,7 +5,7 @@ from typing import Any, override
 
 from universalassistant.components.sensor import SensorEntity
 from universalassistant.const import EntityStateAttribute, UnitOfLength
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
@@ -28,7 +28,7 @@ ATTR_LAST_UPDATE_SUCCESSFUL = "feed_last_update_successful"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: GeonetnzVolcanoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

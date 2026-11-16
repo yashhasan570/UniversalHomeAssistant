@@ -14,8 +14,8 @@ from universalassistant.components.light import (
     LightEntity,
 )
 from universalassistant.const import CONF_ADDRESS, CONF_DEVICES, CONF_NAME, CONF_PLATFORM
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -43,7 +43,7 @@ PLATFORM_SCHEMA = LIGHT_PLATFORM_SCHEMA.extend(
 
 
 def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -62,7 +62,7 @@ class MochadLight(LightEntity):
     _attr_supported_color_modes = {ColorMode.BRIGHTNESS}
 
     def __init__(
-        self, hass: __HAC_KEEP__, ctrl: controller.PyMochad, dev: dict[str, Any]
+        self, hass: UniversalAssistant, ctrl: controller.PyMochad, dev: dict[str, Any]
     ) -> None:
         """Initialize a Mochad Light Device."""
 
@@ -121,7 +121,7 @@ class MochadLight(LightEntity):
                 self._attr_brightness = brightness
                 self._attr_is_on = True
             except (MochadException, OSError) as exc:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="turn_on_failed",
                     translation_placeholders={"error": str(exc)},
@@ -143,7 +143,7 @@ class MochadLight(LightEntity):
                     self._attr_brightness = 0
                 self._attr_is_on = False
             except (MochadException, OSError) as exc:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="turn_off_failed",
                     translation_placeholders={"error": str(exc)},

@@ -1,8 +1,8 @@
 """Services for the template integration."""
 
 from universalassistant import config as conf_util
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.reload import async_reload_integration_platforms
 from universalassistant.helpers.service import async_register_admin_service
 from universalassistant.loader import async_get_integration
@@ -18,8 +18,8 @@ async def _async_reload_config(call: ServiceCall) -> None:
     await async_get_blueprints(hass).async_reset_cache()
     try:
         unprocessed_conf = await conf_util.async_hass_config_yaml(hass)
-    except __HAC_KEEP__Error as err:
-        raise __HAC_KEEP__Error(
+    except UniversalAssistantError as err:
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="failed_to_reload_template_entities",
             translation_placeholders={"error": str(err)},
@@ -42,7 +42,7 @@ async def _async_reload_config(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the template services."""
     async_register_admin_service(
         hass, DOMAIN, TemplateService.RELOAD, _async_reload_config

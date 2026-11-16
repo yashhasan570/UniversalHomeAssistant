@@ -1,4 +1,4 @@
-"""The tests for the __HA_KEEP__ HTTP component."""
+"""The tests for the Universal Home Assistant HTTP component."""
 
 from datetime import timedelta
 from http import HTTPStatus
@@ -38,7 +38,7 @@ from universalassistant.components.http.request_context import (
     setup_request_context,
 )
 from universalassistant.const import HASSIO_USER_NAME
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.http import KEY_AUTHENTICATED, KEY_HASS
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -80,7 +80,7 @@ async def mock_handler(request: web.Request) -> web.Response:
 
 
 @pytest.fixture
-def app(hass: __HAC_KEEP__) -> web.Application:
+def app(hass: UniversalAssistant) -> web.Application:
     """Fixture to set up a web.Application."""
     app = web.Application()
     app[KEY_HASS] = hass
@@ -90,7 +90,7 @@ def app(hass: __HAC_KEEP__) -> web.Application:
 
 
 @pytest.fixture
-def app2(hass: __HAC_KEEP__) -> web.Application:
+def app2(hass: UniversalAssistant) -> web.Application:
     """Fixture to set up a web.Application without real_ip middleware."""
     app = web.Application()
     app[KEY_HASS] = hass
@@ -100,7 +100,7 @@ def app2(hass: __HAC_KEEP__) -> web.Application:
 
 @pytest.fixture
 def trusted_networks_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> trusted_networks.TrustedNetworksAuthProvider:
     """Load trusted networks auth provider."""
     prv = trusted_networks.TrustedNetworksAuthProvider(
@@ -112,7 +112,7 @@ def trusted_networks_auth(
     return prv
 
 
-async def test_auth_middleware_loaded_by_default(hass: __HAC_KEEP__) -> None:
+async def test_auth_middleware_loaded_by_default(hass: UniversalAssistant) -> None:
     """Test accessing to server from banned IP when feature is off."""
     with patch("universalassistant.components.http.server.async_setup_auth") as mock_setup:
         await async_setup_component(hass, DOMAIN, {"http": {}})
@@ -124,7 +124,7 @@ async def test_cant_access_with_password_in_header(
     app: web.Application,
     aiohttp_client: ClientSessionGenerator,
     local_auth: HassAuthProvider,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test access with password in header."""
     await async_setup_auth(hass, app)
@@ -141,7 +141,7 @@ async def test_cant_access_with_password_in_query(
     app: web.Application,
     aiohttp_client: ClientSessionGenerator,
     local_auth: HassAuthProvider,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test access with password in URL."""
     await async_setup_auth(hass, app)
@@ -160,7 +160,7 @@ async def test_cant_access_with_password_in_query(
 async def test_basic_auth_does_not_work(
     app: web.Application,
     aiohttp_client: ClientSessionGenerator,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     local_auth: HassAuthProvider,
 ) -> None:
     """Test access with basic authentication."""
@@ -189,7 +189,7 @@ async def test_basic_auth_does_not_work(
 
 
 async def test_cannot_access_with_trusted_ip(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     app2: web.Application,
     trusted_networks_auth: trusted_networks.TrustedNetworksAuthProvider,
     aiohttp_client: ClientSessionGenerator,
@@ -217,7 +217,7 @@ async def test_cannot_access_with_trusted_ip(
 
 
 async def test_auth_active_access_with_access_token_in_header(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     app: web.Application,
     aiohttp_client: ClientSessionGenerator,
     hass_access_token: str,
@@ -253,7 +253,7 @@ async def test_auth_active_access_with_access_token_in_header(
 
 
 async def test_auth_logs_long_lived_access_token_usage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     app: web.Application,
     aiohttp_client: ClientSessionGenerator,
     hass_admin_user: MockUser,
@@ -277,7 +277,7 @@ async def test_auth_logs_long_lived_access_token_usage(
 
 
 async def test_auth_active_access_with_trusted_ip(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     app2: web.Application,
     trusted_networks_auth: trusted_networks.TrustedNetworksAuthProvider,
     aiohttp_client: ClientSessionGenerator,
@@ -308,7 +308,7 @@ async def test_auth_legacy_support_api_password_cannot_access(
     app: web.Application,
     aiohttp_client: ClientSessionGenerator,
     local_auth: HassAuthProvider,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test access using api_password if auth.support_legacy."""
     await async_setup_auth(hass, app)
@@ -327,7 +327,7 @@ async def test_auth_legacy_support_api_password_cannot_access(
 
 
 async def test_auth_access_signed_path_with_refresh_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     app: web.Application,
     aiohttp_client: ClientSessionGenerator,
     hass_access_token: str,
@@ -378,7 +378,7 @@ async def test_auth_access_signed_path_with_refresh_token(
 
 
 async def test_auth_access_signed_path_with_query_param(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     app: web.Application,
     aiohttp_client: ClientSessionGenerator,
     hass_access_token: str,
@@ -408,7 +408,7 @@ async def test_auth_access_signed_path_with_query_param(
 
 
 async def test_auth_access_signed_path_with_query_param_order(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     app: web.Application,
     aiohttp_client: ClientSessionGenerator,
     hass_access_token: str,
@@ -449,7 +449,7 @@ async def test_auth_access_signed_path_with_query_param_order(
 
 
 async def test_auth_access_signed_path_with_query_param_safe_param(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     app: web.Application,
     aiohttp_client: ClientSessionGenerator,
     hass_access_token: str,
@@ -486,7 +486,7 @@ async def test_auth_access_signed_path_with_query_param_safe_param(
     ],
 )
 async def test_auth_access_signed_path_with_query_param_tamper(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     app: web.Application,
     aiohttp_client: ClientSessionGenerator,
     hass_access_token: str,
@@ -512,7 +512,7 @@ async def test_auth_access_signed_path_with_query_param_tamper(
 
 
 async def test_auth_access_signed_path_via_websocket(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     app: web.Application,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
@@ -522,7 +522,7 @@ async def test_auth_access_signed_path_via_websocket(
     @websocket_api.websocket_command({"type": "diagnostics/list"})
     @callback
     def get_signed_path(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         connection: websocket_api.ActiveConnection,
         msg: dict[str, Any],
     ) -> None:
@@ -554,7 +554,7 @@ async def test_auth_access_signed_path_via_websocket(
 
 
 async def test_auth_access_signed_path_with_http(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     app: web.Application,
     aiohttp_client: ClientSessionGenerator,
     hass_access_token: str,
@@ -590,7 +590,7 @@ async def test_auth_access_signed_path_with_http(
 
 
 async def test_auth_access_signed_path_with_content_user(
-    hass: __HAC_KEEP__, app: web.Application, aiohttp_client: ClientSessionGenerator
+    hass: UniversalAssistant, app: web.Application, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test access signed url uses content user."""
     await async_setup_auth(hass, app)
@@ -606,7 +606,7 @@ async def test_auth_access_signed_path_with_content_user(
 
 
 async def test_local_only_user_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     app: web.Application,
     aiohttp_client: ClientSessionGenerator,
     hass_access_token: str,
@@ -631,7 +631,7 @@ async def test_local_only_user_rejected(
 
 
 async def test_auth_access_signed_path_with_local_only_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     app: web.Application,
     aiohttp_client: ClientSessionGenerator,
     hass_access_token: str,
@@ -676,7 +676,7 @@ async def test_auth_access_signed_path_with_local_only_user(
 
 
 async def test_auth_access_signed_path_with_inactive_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     app: web.Application,
     aiohttp_client: ClientSessionGenerator,
     hass_access_token: str,
@@ -716,7 +716,7 @@ async def test_auth_access_signed_path_with_inactive_user(
 
 
 async def test_async_user_not_allowed_do_auth(
-    hass: __HAC_KEEP__, app: web.Application
+    hass: UniversalAssistant, app: web.Application
 ) -> None:
     """Test for not allowing auth."""
     user = await hass.auth.async_create_user("Hello")
@@ -762,7 +762,7 @@ async def test_async_user_not_allowed_do_auth(
         )
 
 
-async def test_create_user_once(hass: __HAC_KEEP__) -> None:
+async def test_create_user_once(hass: UniversalAssistant) -> None:
     """Test that we reuse the user."""
     cur_users = len(await hass.auth.async_get_users())
     app = web.Application()
@@ -785,7 +785,7 @@ async def test_create_user_once(hass: __HAC_KEEP__) -> None:
 
 
 async def test_unix_socket_auth_with_supervisor_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     app: web.Application,
     aiohttp_client: ClientSessionGenerator,
 ) -> None:
@@ -809,7 +809,7 @@ async def test_unix_socket_auth_with_supervisor_user(
 
 
 async def test_unix_socket_auth_without_supervisor_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     app: web.Application,
     aiohttp_client: ClientSessionGenerator,
 ) -> None:
@@ -826,7 +826,7 @@ async def test_unix_socket_auth_without_supervisor_user(
 
 
 async def test_unix_socket_auth_removed_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     app: web.Application,
     aiohttp_client: ClientSessionGenerator,
 ) -> None:
@@ -849,7 +849,7 @@ async def test_unix_socket_auth_removed_user(
 
 
 async def test_unix_socket_auth_uses_provided_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     app: web.Application,
     aiohttp_client: ClientSessionGenerator,
 ) -> None:

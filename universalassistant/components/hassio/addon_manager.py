@@ -21,8 +21,8 @@ from aiohasupervisor.models import (
     StoreAddonUpdate,
 )
 
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 
 from .handler import get_supervisor_client
 
@@ -95,7 +95,7 @@ class AddonManager:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         logger: logging.Logger,
         addon_name: str,
         addon_slug: str,
@@ -424,5 +424,5 @@ class AddonManager:
         return self._hass.async_create_task(addon_operation(), eager_start=False)
 
 
-class AddonError(__HAC_KEEP__Error):
+class AddonError(UniversalAssistantError):
     """Represent an error with the managed add-on."""

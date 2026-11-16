@@ -28,7 +28,7 @@ from universalassistant.components.ecovacs.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigFlowResult
 from universalassistant.const import CONF_DEVICE_ID, CONF_MODE, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import (
@@ -52,7 +52,7 @@ class _TestFnUserInput:
 
 
 async def _test_user_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     user_input: _TestFnUserInput,
 ) -> ConfigFlowResult:
     """Test config flow."""
@@ -81,7 +81,7 @@ async def _test_user_flow(
 
 
 async def _test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> ConfigFlowResult:
     """Start a reauth flow and return the shown reauth confirmation form."""
@@ -111,7 +111,7 @@ async def _test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_device_id")
 async def test_user_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_authenticator_authenticate: AsyncMock,
     mock_mqtt_client: Mock,
@@ -130,7 +130,7 @@ async def test_user_flow(
 
 @pytest.mark.usefixtures("mock_device_id", "mock_setup_entry", "mock_mqtt_client")
 async def test_user_flow_without_account_credentials(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_authenticator: Mock,
 ) -> None:
     """Test no account credentials are stored when the login returned none."""
@@ -185,7 +185,7 @@ def _cannot_connect_error(user_input: dict[str, Any]) -> dict[str, str]:
 )
 @pytest.mark.usefixtures("mock_device_id")
 async def test_user_flow_raise_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_authenticator_authenticate: AsyncMock,
     mock_mqtt_client: Mock,
@@ -240,7 +240,7 @@ async def test_user_flow_raise_error(
 
 
 async def test_user_flow_self_hosted_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_authenticator_authenticate: AsyncMock,
     mock_mqtt_client: Mock,
@@ -308,7 +308,7 @@ async def test_user_flow_self_hosted_error(
     ids=["cloud", "self_hosted"],
 )
 async def test_already_exists(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     test_fn_user_input: _TestFnUserInput,
 ) -> None:
     """Test we don't allow duplicated config entries."""
@@ -340,7 +340,7 @@ async def test_already_exists(
 )
 @pytest.mark.usefixtures("mock_device_id")
 async def test_device_verification(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_authenticator: Mock,
     mock_mqtt_client: Mock,
@@ -378,7 +378,7 @@ async def test_device_verification(
 )
 @pytest.mark.usefixtures("mock_device_id")
 async def test_request_device_verification_code_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_authenticator: Mock,
     mock_mqtt_client: Mock,
@@ -425,7 +425,7 @@ async def test_request_device_verification_code_error(
 )
 @pytest.mark.usefixtures("mock_device_id")
 async def test_verify_device_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_authenticator: Mock,
     mock_mqtt_client: Mock,
@@ -456,7 +456,7 @@ async def test_verify_device_error(
 
 
 async def test_mqtt_retry_after_device_verification(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_authenticator: Mock,
     mock_mqtt_client: Mock,
@@ -508,7 +508,7 @@ async def test_mqtt_retry_after_device_verification(
 
 @pytest.mark.usefixtures("mock_mqtt_client")
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_authenticator: Mock,
@@ -536,7 +536,7 @@ async def test_reauth(
 
 @pytest.mark.usefixtures("mock_mqtt_client")
 async def test_reauth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_authenticator: Mock,
@@ -565,7 +565,7 @@ async def test_reauth_error(
 
 
 async def test_reauth_device_verification(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_authenticator: Mock,
@@ -597,7 +597,7 @@ async def test_reauth_device_verification(
 
 
 async def test_reauth_mqtt_retry_after_device_verification(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_authenticator: Mock,

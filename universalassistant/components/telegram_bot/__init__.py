@@ -8,7 +8,7 @@ from telegram import Bot
 from telegram.error import InvalidToken, TelegramError
 
 from universalassistant.const import CONF_API_KEY, CONF_PLATFORM, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -50,7 +50,7 @@ class BotPlatformModule(Protocol):
     """Define the module protocol for telegram bot modules."""
 
     async def async_setup_bot_platform(
-        self, hass: __HAC_KEEP__, bot: Bot, config: TelegramBotConfigEntry
+        self, hass: UniversalAssistant, bot: Bot, config: TelegramBotConfigEntry
     ) -> BaseTelegramBot | None:
         """Set up the Telegram bot platform."""
 
@@ -64,7 +64,7 @@ MODULES = {
 PLATFORMS: list[Platform] = [Platform.EVENT, Platform.NOTIFY]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Telegram bot component."""
     async_setup_services(hass)
 
@@ -72,7 +72,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, config_entry: TelegramBotConfigEntry
+    hass: UniversalAssistant, config_entry: TelegramBotConfigEntry
 ) -> None:
     """Migrate Telegram Bot config entry."""
 
@@ -151,7 +151,7 @@ def bot_device_info(config_entry: TelegramBotConfigEntry, bot_id: int) -> dr.Dev
     )
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: TelegramBotConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: TelegramBotConfigEntry) -> None:
     """Create the Telegram bot from config entry."""
     # Registered before the bot is built: the library logs the token as soon as
     # it constructs the API URLs.
@@ -202,7 +202,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: TelegramBotConfigEntry) -
     entry.async_on_unload(entry.add_update_listener(update_listener))
 
 
-async def update_listener(hass: __HAC_KEEP__, entry: TelegramBotConfigEntry) -> None:
+async def update_listener(hass: UniversalAssistant, entry: TelegramBotConfigEntry) -> None:
     """Handle config changes."""
     entry.runtime_data.parse_mode = entry.options[ATTR_PARSER]
     if entry.runtime_data.old_config_data != entry.data:
@@ -216,7 +216,7 @@ async def update_listener(hass: __HAC_KEEP__, entry: TelegramBotConfigEntry) -> 
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: TelegramBotConfigEntry
+    hass: UniversalAssistant, entry: TelegramBotConfigEntry
 ) -> None:
     """Unload Telegram app."""
     async_unredact_token(entry.data[CONF_API_KEY])

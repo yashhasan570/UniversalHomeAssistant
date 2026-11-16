@@ -6,7 +6,7 @@ from pytest_universalassistant.components.bluetooth import inject_bluetooth_serv
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.ruuvitag_ble.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_registry import EntityRegistry
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 
@@ -27,7 +27,7 @@ from .fixtures import (
     ],
 )
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,
     service_info: BluetoothServiceInfo,

@@ -7,13 +7,13 @@ from freezegun.api import FrozenDateTimeFactory
 from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
 
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     init_integration: MockConfigEntry,
@@ -26,7 +26,7 @@ async def test_sensors(
 
 
 async def test_sensor_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
@@ -45,7 +45,7 @@ async def test_sensor_device_info(
 
 
 async def test_lowest_price_day_uses_tomorrow_after_18(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -100,7 +100,7 @@ async def test_lowest_price_day_uses_tomorrow_after_18(
 
 
 async def test_lowest_price_night_time_uses_upcoming_night_after_06(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api: MagicMock,
     freezer: FrozenDateTimeFactory,

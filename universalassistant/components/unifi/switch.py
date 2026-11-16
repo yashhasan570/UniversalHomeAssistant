@@ -55,8 +55,8 @@ from universalassistant.components.switch import (
     SwitchEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -408,7 +408,7 @@ ENTITY_DESCRIPTIONS: tuple[UnifiSwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: UnifiConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -440,7 +440,7 @@ class UnifiSwitchEntity[HandlerT: APIHandler, ApiItemT: ApiItem](
         try:
             await self.entity_description.control_fn(self.hub, self._obj_id, True)
         except aiounifi.AiounifiException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="action_request_failed",
             ) from err
@@ -452,7 +452,7 @@ class UnifiSwitchEntity[HandlerT: APIHandler, ApiItemT: ApiItem](
         try:
             await self.entity_description.control_fn(self.hub, self._obj_id, False)
         except aiounifi.AiounifiException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="action_request_failed",
             ) from err

@@ -12,7 +12,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components import automation
 from universalassistant.components.fumis.const import DOMAIN, SCAN_INTERVAL
 from universalassistant.components.fumis.trigger import FuelBecameLowTrigger
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -40,7 +40,7 @@ def _updates(
     ]
 
 
-async def _async_setup_automation(hass: __HAC_KEEP__, device_id: str) -> None:
+async def _async_setup_automation(hass: UniversalAssistant, device_id: str) -> None:
     """Set up an automation using the fuel became low trigger."""
     assert await async_setup_component(
         hass,
@@ -63,7 +63,7 @@ async def _async_setup_automation(hass: __HAC_KEEP__, device_id: str) -> None:
     )
 
 
-async def _async_poll(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+async def _async_poll(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
     """Let the coordinator poll the stove once."""
     freezer.tick(SCAN_INTERVAL)
     async_fire_time_changed(hass)
@@ -109,7 +109,7 @@ async def _async_poll(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> Non
     ],
 )
 async def test_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
@@ -142,7 +142,7 @@ async def test_trigger(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_trigger_after_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
@@ -172,7 +172,7 @@ async def test_trigger_after_reload(
 
 
 async def test_trigger_before_stove_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
@@ -202,7 +202,7 @@ async def test_trigger_before_stove_loaded(
 
 
 async def test_trigger_without_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
@@ -247,7 +247,7 @@ async def test_trigger_without_entities(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_trigger_detached(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
@@ -276,7 +276,7 @@ async def test_trigger_detached(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_trigger_device_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
@@ -308,7 +308,7 @@ async def test_trigger_device_removed(
 
 
 async def test_trigger_invalid_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test the trigger only accepts Fumis devices."""

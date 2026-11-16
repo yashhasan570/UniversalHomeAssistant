@@ -12,8 +12,8 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components import notify
 from universalassistant.components.file import DOMAIN
 from universalassistant.components.notify import ATTR_TITLE_DEFAULT
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.util import dt as dt_util
 
 
@@ -29,7 +29,7 @@ from universalassistant.util import dt as dt_util
 )
 @pytest.mark.parametrize("timestamp", [False, True], ids=["no_timestamp", "timestamp"])
 async def test_notify_file(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_is_allowed_path: MagicMock,
     timestamp: bool,
@@ -102,7 +102,7 @@ async def test_notify_file(
     ids=["not_allowed"],
 )
 async def test_notify_file_not_allowed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_is_allowed_path: MagicMock,
     config: dict[str, Any],
@@ -161,7 +161,7 @@ async def test_notify_file_not_allowed(
     ],
 )
 async def test_notify_file_write_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_is_allowed_path: MagicMock,
     service: str,
@@ -194,7 +194,7 @@ async def test_notify_file_write_error(
         patch("universalassistant.components.file.notify.os.stat") as mock_st,
     ):
         mock_st.side_effect = OSError(error, "Error")
-        with pytest.raises(__HAC_KEEP__Error) as exc:
+        with pytest.raises(UniversalAssistantError) as exc:
             await hass.services.async_call(domain, service, params, blocking=True)
     assert exc.value.translation_domain == HOMEASSISTANT_DOMAIN
     assert exc.value.translation_key == translation_key

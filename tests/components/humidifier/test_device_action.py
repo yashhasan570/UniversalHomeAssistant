@@ -13,7 +13,7 @@ from universalassistant.components import automation
 from universalassistant.components.device_automation import DeviceAutomationType
 from universalassistant.components.humidifier import DOMAIN, const, device_action
 from universalassistant.const import STATE_ON, EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -33,7 +33,7 @@ from universalassistant.setup import async_setup_component
     ],
 )
 async def test_get_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     set_state,
@@ -99,7 +99,7 @@ async def test_get_actions(
     ],
 )
 async def test_get_actions_hidden_auxiliary(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     hidden_by,
@@ -140,7 +140,7 @@ async def test_get_actions_hidden_auxiliary(
 
 
 async def test_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -299,7 +299,7 @@ async def test_action(
 
 
 async def test_action_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -447,7 +447,7 @@ async def test_action_legacy(
     ],
 )
 async def test_capabilities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     set_state,
@@ -591,7 +591,7 @@ async def test_capabilities(
     ],
 )
 async def test_capabilities_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     set_state,
@@ -648,7 +648,7 @@ async def test_capabilities_legacy(
     ],
 )
 async def test_capabilities_missing_entity(
-    hass: __HAC_KEEP__, action, capability_name, extra
+    hass: UniversalAssistant, action, capability_name, extra
 ) -> None:
     """Test getting capabilities."""
     config_entry = MockConfigEntry(domain="test", data={})
@@ -682,7 +682,7 @@ async def test_capabilities_missing_entity(
     )
 
 
-async def test_set_mode_without_mode_is_invalid(hass: __HAC_KEEP__) -> None:
+async def test_set_mode_without_mode_is_invalid(hass: UniversalAssistant) -> None:
     """Test the action type selects the schema that reports the error."""
     with pytest.raises(Invalid, match="required key not provided at 'mode'"):
         await device_action.async_validate_action_config(

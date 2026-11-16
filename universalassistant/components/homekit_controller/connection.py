@@ -28,8 +28,8 @@ from aiohomekit.model.services import Service, ServicesTypes
 
 from universalassistant.components.thread import async_get_preferred_dataset
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import CALLBACK_TYPE, CoreState, __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CALLBACK_TYPE, CoreState, UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.device_registry import DeviceInfo
@@ -84,7 +84,7 @@ class HKDevice:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         pairing_data: MappingProxyType[str, Any],
     ) -> None:
@@ -255,7 +255,7 @@ class HKDevice:
         for callback_ in self._availability_callbacks:
             callback_()
 
-    async def _async_populate_ble_accessory_state(self, hass: __HAC_KEEP__) -> None:
+    async def _async_populate_ble_accessory_state(self, hass: UniversalAssistant) -> None:
         """Populate the BLE accessory state without blocking startup.
 
         If the accessory was asleep at startup we need to retry
@@ -278,7 +278,7 @@ class HKDevice:
             )
 
     async def async_setup(self) -> None:
-        """Prepare to use a paired HomeKit device in __HA_KEEP__."""
+        """Prepare to use a paired HomeKit device in Universal Home Assistant."""
         pairing = self.pairing
         transport = pairing.transport
         entry = self.config_entry
@@ -397,7 +397,7 @@ class HKDevice:
         )
 
     async def async_add_new_entities(self) -> None:
-        """Add new entities to __HA_KEEP__."""
+        """Add new entities to Universal Home Assistant."""
         await self.async_load_platforms()
         self.add_entities()
 
@@ -991,7 +991,7 @@ class HKDevice:
     async def put_characteristics(
         self, characteristics: Iterable[tuple[int, int, Any]]
     ) -> None:
-        """Control a HomeKit device state from __HA_KEEP__."""
+        """Control a HomeKit device state from Universal Home Assistant."""
         await self.pairing.put_characteristics(characteristics)
 
     @property
@@ -1010,10 +1010,10 @@ class HKDevice:
     async def async_thread_provision(self) -> None:
         """Migrate a HomeKit pairing to CoAP (Thread)."""
         if self.pairing.controller.transport_type is TransportType.COAP:
-            raise __HAC_KEEP__Error("Already connected to a thread network")
+            raise UniversalAssistantError("Already connected to a thread network")
 
         if not (dataset := await async_get_preferred_dataset(self.hass)):
-            raise __HAC_KEEP__Error("No thread network credentials available")
+            raise UniversalAssistantError("No thread network credentials available")
 
         await self.pairing.thread_provision(dataset)
 
@@ -1043,7 +1043,7 @@ class HKDevice:
                 " Thread device, reverting to BLE",
                 self.unique_id,
             )
-            raise __HAC_KEEP__Error("Could not migrate device to Thread") from exc
+            raise UniversalAssistantError("Could not migrate device to Thread") from exc
 
         finally:
             await self.hass.config_entries.async_reload(self.config_entry.entry_id)

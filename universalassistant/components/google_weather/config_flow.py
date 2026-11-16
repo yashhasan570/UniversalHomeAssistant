@@ -24,7 +24,7 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CONF_NAME,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.data_entry_flow import section
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.selector import LocationSelector, LocationSelectorConfig
@@ -67,7 +67,7 @@ async def _validate_input(
     return False
 
 
-def _get_location_schema(hass: __HAC_KEEP__) -> probatio.Schema:
+def _get_location_schema(hass: UniversalAssistant) -> probatio.Schema:
     """Return the schema for a location with default values from the hass config."""
     return probatio.Schema(
         {
@@ -86,7 +86,7 @@ def _get_location_schema(hass: __HAC_KEEP__) -> probatio.Schema:
 
 
 def _is_location_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     new_data: dict[str, float],
     epsilon: float = 1e-4,
     exclude_subentry_id: str | None = None,

@@ -2,13 +2,13 @@
 
 from unittest.mock import MagicMock
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import KEYPAD_ENTITY, setup_envisalink
 
 
 async def test_keypad_native_value(
-    hass: __HAC_KEEP__, mock_controller: MagicMock
+    hass: UniversalAssistant, mock_controller: MagicMock
 ) -> None:
     """Test the keypad sensor shows the partition alpha text."""
     assert await setup_envisalink(hass)
@@ -23,7 +23,7 @@ async def test_keypad_native_value(
 
 
 async def test_keypad_attributes_expose_status(
-    hass: __HAC_KEEP__, mock_controller: MagicMock
+    hass: UniversalAssistant, mock_controller: MagicMock
 ) -> None:
     """Test the keypad sensor exposes the full partition status as attributes."""
     assert await setup_envisalink(hass)

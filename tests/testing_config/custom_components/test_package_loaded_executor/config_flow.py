@@ -1,7 +1,7 @@
 """Config flow."""
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def _async_has_devices(hass: __HAC_KEEP__) -> bool:
+async def _async_has_devices(hass: UniversalAssistant) -> bool:
     return True

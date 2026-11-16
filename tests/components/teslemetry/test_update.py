@@ -13,7 +13,7 @@ from universalassistant.components.teslemetry.coordinator import VEHICLE_INTERVA
 from universalassistant.components.teslemetry.update import INSTALLING
 from universalassistant.components.update import DOMAIN as UPDATE_DOMAIN, UpdateService
 from universalassistant.const import STATE_ON, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import entity_registry as er
 
 from . import assert_entities, reload_platform, setup_platform
@@ -21,7 +21,7 @@ from .const import COMMAND_OK, VEHICLE_DATA, VEHICLE_DATA_ALT
 
 
 async def test_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_legacy: AsyncMock,
@@ -33,7 +33,7 @@ async def test_update(
 
 
 async def test_update_alt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_vehicle_data: AsyncMock,
@@ -47,7 +47,7 @@ async def test_update_alt(
 
 
 async def test_update_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vehicle_data: AsyncMock,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
@@ -86,7 +86,7 @@ async def test_update_services(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_update_streaming(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_vehicle_data: AsyncMock,
     mock_add_listener: AsyncMock,
@@ -203,7 +203,7 @@ async def test_update_streaming(
 
 
 async def test_update_streaming_scheduled_not_clobbered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_vehicle_data: AsyncMock,
     mock_add_listener: AsyncMock,
@@ -250,7 +250,7 @@ async def test_update_streaming_scheduled_not_clobbered(
 
 
 async def test_update_streaming_restore(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vehicle_data: AsyncMock,
 ) -> None:
     """Test that the streaming update entity restores update_percentage, not install_percentage."""
@@ -281,7 +281,7 @@ async def test_update_streaming_restore(
 
 
 async def test_update_streaming_restore_completed_not_in_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vehicle_data: AsyncMock,
 ) -> None:
     """Test a stored in-progress flag is dropped when installed == latest.
@@ -317,7 +317,7 @@ async def test_update_streaming_restore_completed_not_in_progress(
 
 
 async def test_update_streaming_completed_while_scheduled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vehicle_data: AsyncMock,
     mock_add_listener: AsyncMock,
 ) -> None:
@@ -438,7 +438,7 @@ async def test_update_streaming_completed_while_scheduled(
     ],
 )
 async def test_update_streaming_progress_thresholds(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vehicle_data: AsyncMock,
     mock_add_listener: AsyncMock,
     data: dict[Signal, int | None],

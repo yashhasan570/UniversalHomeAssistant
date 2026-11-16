@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.egauge.const import DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 pytestmark = pytest.mark.usefixtures("init_integration")
@@ -24,7 +24,7 @@ pytestmark = pytest.mark.usefixtures("init_integration")
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -46,7 +46,7 @@ async def test_sensors(
 )
 @pytest.mark.freeze_time("2025-01-15T10:00:00+00:00")
 async def test_sensor_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_egauge_client: MagicMock,
     freezer: FrozenDateTimeFactory,
     exception: Exception,
@@ -92,7 +92,7 @@ async def test_sensor_error(
 
 @pytest.mark.freeze_time("2025-01-15T10:00:00+00:00")
 async def test_register_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_egauge_client: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:

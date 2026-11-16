@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.aussie_broadband.const import CONF_SERVICES, DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.typing import Undefined
 
 FAKE_SERVICES = [
@@ -38,7 +38,7 @@ FAKE_DATA = {
 
 
 async def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     platforms: list[Platform] | Undefined = Undefined,
     side_effect=None,
     usage: dict[str, Any] | Undefined = Undefined,

@@ -3,7 +3,7 @@
 from pyoverkiz.enums.ui import UIWidget
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .. import OverkizDataConfigEntry
@@ -28,7 +28,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: OverkizDataConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

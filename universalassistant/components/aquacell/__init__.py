@@ -4,7 +4,7 @@ from aioaquacell import AquacellApi
 from aioaquacell.const import Brand
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import CONF_BRAND
@@ -13,7 +13,7 @@ from .coordinator import AquacellConfigEntry, AquacellCoordinator
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: AquacellConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: AquacellConfigEntry) -> None:
     """Set up Aquacell from a config entry."""
     session = async_get_clientsession(hass)
 
@@ -29,6 +29,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: AquacellConfigEntry) -> N
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: AquacellConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: AquacellConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

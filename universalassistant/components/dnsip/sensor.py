@@ -12,7 +12,7 @@ import pycares
 
 from universalassistant.components.sensor import SensorEntity
 from universalassistant.const import CONF_NAME, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -48,7 +48,7 @@ def sort_ips(ips: list[str], querytype: Literal["A", "AAAA"]) -> list[str]:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: DnsIPConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

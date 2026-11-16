@@ -7,13 +7,13 @@ from universalassistant.components.google_assistant.const import (
     SOURCE_LOCAL,
 )
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_FRIENDLY_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from tests.components.logbook.common import MockRow, mock_humanify
 
 
-async def test_humanify_command_received(hass: __HAC_KEEP__) -> None:
+async def test_humanify_command_received(hass: UniversalAssistant) -> None:
     """Test humanifying command event."""
     hass.config.components.add("recorder")
     hass.config.components.add("frontend")

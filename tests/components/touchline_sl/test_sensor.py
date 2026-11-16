@@ -6,7 +6,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import make_mock_module, make_mock_zone
 
@@ -14,7 +14,7 @@ BATTERY_ENTITY_ID = "sensor.zone_1_zone_1_battery"
 
 
 async def test_battery_sensor_with_battery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_touchlinesl_client: MagicMock,
 ) -> None:
@@ -34,7 +34,7 @@ async def test_battery_sensor_with_battery(
 
 
 async def test_battery_sensor_no_battery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_touchlinesl_client: MagicMock,
 ) -> None:
@@ -52,7 +52,7 @@ async def test_battery_sensor_no_battery(
 
 
 async def test_battery_sensor_only_created_for_zones_with_battery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_touchlinesl_client: MagicMock,
 ) -> None:
@@ -75,7 +75,7 @@ async def test_battery_sensor_only_created_for_zones_with_battery(
 
 @pytest.mark.parametrize("alarm", ["no_communication", "sensor_damaged"])
 async def test_battery_sensor_unavailable_on_alarm(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_touchlinesl_client: MagicMock,
     alarm: str,

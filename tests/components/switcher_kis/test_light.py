@@ -14,8 +14,8 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.util import slugify
 
 from . import init_integration
@@ -58,7 +58,7 @@ ENTITY_ID5_3 = f"{LIGHT_DOMAIN}.{slugify(DEVICE5.name)}_light_3"
     "mock_bridge", [[DEVICE, DEVICE2, DEVICE3, DEVICE4, DEVICE5]], indirect=True
 )
 async def test_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bridge,
     mock_api,
     monkeypatch: pytest.MonkeyPatch,
@@ -112,7 +112,7 @@ async def test_light(
 
 @pytest.mark.parametrize("mock_bridge", [[DEVICE]], indirect=True)
 async def test_light_ignore_previous_async_state(
-    hass: __HAC_KEEP__, mock_bridge, mock_api
+    hass: UniversalAssistant, mock_bridge, mock_api
 ) -> None:
     """Test light ignores previous async state."""
     await init_integration(hass, USERNAME, TOKEN)
@@ -166,7 +166,7 @@ async def test_light_ignore_previous_async_state(
     "mock_bridge", [[DEVICE, DEVICE2, DEVICE3, DEVICE4, DEVICE5]], indirect=True
 )
 async def test_light_control_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bridge,
     mock_api,
     monkeypatch: pytest.MonkeyPatch,
@@ -192,7 +192,7 @@ async def test_light_control_fail(
         "universalassistant.components.switcher_kis.entity.SwitcherApi.set_light",
         side_effect=RuntimeError("fake error"),
     ) as mock_control_device:
-        with pytest.raises(__HAC_KEEP__Error):
+        with pytest.raises(UniversalAssistantError):
             await hass.services.async_call(
                 LIGHT_DOMAIN,
                 SERVICE_TURN_ON,
@@ -211,7 +211,7 @@ async def test_light_control_fail(
         "universalassistant.components.switcher_kis.entity.SwitcherApi.set_light",
         return_value=SwitcherBaseResponse(None),
     ) as mock_control_device:
-        with pytest.raises(__HAC_KEEP__Error):
+        with pytest.raises(UniversalAssistantError):
             await hass.services.async_call(
                 LIGHT_DOMAIN,
                 SERVICE_TURN_ON,

@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from yarl import URL
 
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 from .const import TEST_URL
@@ -66,7 +66,7 @@ from .const import TEST_URL
     ],
 )
 async def test_setup_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pterodactyl: Generator[AsyncMock],
     api_error: Exception | type[Exception],

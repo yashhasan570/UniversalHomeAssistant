@@ -29,7 +29,7 @@ from universalassistant.components.bluetooth import (
 from universalassistant.components.improv_ble.const import DOMAIN
 from universalassistant.config_entries import SOURCE_IGNORE, FlowType
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResult, FlowResultType
 
 from . import (
@@ -87,7 +87,7 @@ IMPROV_BLE_DISCOVERY_INFO_TARGET2 = BluetoothServiceInfoBleak(
     ],
 )
 async def test_user_step_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     url: str | None,
     abort_reason: str | None,
     placeholders: dict[str, str] | None,
@@ -109,7 +109,7 @@ async def test_user_step_success(
     )
 
 
-async def test_user_step_success_authorize(hass: __HAC_KEEP__) -> None:
+async def test_user_step_success_authorize(hass: UniversalAssistant) -> None:
     """Test user step success path."""
     with patch(
         f"{IMPROV_BLE}.config_flow.bluetooth.async_discovered_service_info",
@@ -127,7 +127,7 @@ async def test_user_step_success_authorize(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_user_step_no_devices_found(hass: __HAC_KEEP__) -> None:
+async def test_user_step_no_devices_found(hass: UniversalAssistant) -> None:
     """Test user step with no devices found."""
     with patch(
         f"{IMPROV_BLE}.config_flow.bluetooth.async_discovered_service_info",
@@ -144,7 +144,7 @@ async def test_user_step_no_devices_found(hass: __HAC_KEEP__) -> None:
 
 
 async def test_async_step_user_takes_precedence_over_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test manual setup takes precedence over discovery."""
     result = await hass.config_entries.flow.async_init(
@@ -173,7 +173,7 @@ async def test_async_step_user_takes_precedence_over_discovery(
     assert not hass.config_entries.flow.async_progress(DOMAIN)
 
 
-async def test_user_setup_removes_ignored_entry(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_removes_ignored_entry(hass: UniversalAssistant) -> None:
     """Test the user initiated form can replace an ignored device."""
     ignored_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -199,7 +199,7 @@ async def test_user_setup_removes_ignored_entry(hass: __HAC_KEEP__) -> None:
     assert not hass.config_entries.async_entries(DOMAIN)
 
 
-async def test_bluetooth_step_provisioned_device(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_step_provisioned_device(hass: UniversalAssistant) -> None:
     """Test bluetooth step when device is already provisioned."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -210,7 +210,7 @@ async def test_bluetooth_step_provisioned_device(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_provisioned"
 
 
-async def test_bluetooth_step_provisioned_device_2(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_step_provisioned_device_2(hass: UniversalAssistant) -> None:
     """Test bluetooth step when device changes to provisioned."""
     with patch(
         f"{IMPROV_BLE}.config_flow.bluetooth.async_register_callback",
@@ -231,7 +231,7 @@ async def test_bluetooth_step_provisioned_device_2(hass: __HAC_KEEP__) -> None:
     assert len(hass.config_entries.flow.async_progress_by_handler("improv_ble")) == 0
 
 
-async def test_bluetooth_step_provisioned_no_rediscovery(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_step_provisioned_no_rediscovery(hass: UniversalAssistant) -> None:
     """Test that provisioned device is not rediscovered while it stays provisioned."""
     # Step 1: Inject provisioned device advertisement (triggers discovery, aborts)
     inject_bluetooth_service_info_bleak(hass, PROVISIONED_IMPROV_BLE_DISCOVERY_INFO)
@@ -252,7 +252,7 @@ async def test_bluetooth_step_provisioned_no_rediscovery(hass: __HAC_KEEP__) -> 
     assert len(flows) == 0
 
 
-async def test_bluetooth_step_factory_reset_rediscovery(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_step_factory_reset_rediscovery(hass: UniversalAssistant) -> None:
     """Test that factory reset device can be rediscovered."""
     # Start a flow manually with provisioned device to ensure improv_ble is loaded
     result = await hass.config_entries.flow.async_init(
@@ -275,7 +275,7 @@ async def test_bluetooth_step_factory_reset_rediscovery(hass: __HAC_KEEP__) -> N
 
 
 async def test_bluetooth_rediscovery_after_successful_provision(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that device can be rediscovered after successful provisioning."""
     # Start provisioning flow
@@ -344,7 +344,7 @@ async def test_bluetooth_rediscovery_after_successful_provision(
     assert flows[0]["step_id"] == "bluetooth_confirm"
 
 
-async def test_bluetooth_step_success(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_step_success(hass: UniversalAssistant) -> None:
     """Test bluetooth step success path."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -360,7 +360,7 @@ async def test_bluetooth_step_success(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_bluetooth_step_success_identify(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_step_success_identify(hass: UniversalAssistant) -> None:
     """Test bluetooth step success path."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -377,7 +377,7 @@ async def test_bluetooth_step_success_identify(hass: __HAC_KEEP__) -> None:
 
 
 async def _test_common_success_with_identify(
-    hass: __HAC_KEEP__, result: FlowResult, address: str
+    hass: UniversalAssistant, result: FlowResult, address: str
 ) -> None:
     """Test bluetooth and user flow success paths."""
     with (
@@ -422,7 +422,7 @@ async def _test_common_success_with_identify(
 
 
 async def _test_common_success_wo_identify(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     result: FlowResult,
     address: str,
     url: str | None = None,
@@ -450,7 +450,7 @@ async def _test_common_success_wo_identify(
 
 
 async def _test_common_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     result: FlowResult,
     url: str | None = None,
     abort_reason: str = "provision_successful",
@@ -487,7 +487,7 @@ async def _test_common_success(
 
 
 async def _test_common_success_wo_identify_w_authorize(
-    hass: __HAC_KEEP__, result: FlowResult, address: str
+    hass: UniversalAssistant, result: FlowResult, address: str
 ) -> None:
     """Test bluetooth and user flow success paths."""
     with (
@@ -510,7 +510,7 @@ async def _test_common_success_wo_identify_w_authorize(
 
 
 async def _test_common_success_w_authorize(
-    hass: __HAC_KEEP__, result: FlowResult
+    hass: UniversalAssistant, result: FlowResult
 ) -> None:
     """Test bluetooth and user flow success paths."""
 
@@ -564,7 +564,7 @@ async def _test_common_success_w_authorize(
     mock_provision.assert_awaited_once_with("MyWIFI", "secret", None)
 
 
-async def test_bluetooth_step_already_in_progress(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_step_already_in_progress(hass: UniversalAssistant) -> None:
     """Test we can't start a flow for the same device twice."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -591,7 +591,7 @@ async def test_bluetooth_step_already_in_progress(hass: __HAC_KEEP__) -> None:
         (improv_ble_errors.CharacteristicMissingError, "characteristic_missing"),
     ],
 )
-async def test_ensure_connected_fails(hass: __HAC_KEEP__, exc, error) -> None:
+async def test_ensure_connected_fails(hass: UniversalAssistant, exc, error) -> None:
     """Test bluetooth flow with error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -627,7 +627,7 @@ async def test_ensure_connected_fails(hass: __HAC_KEEP__, exc, error) -> None:
         (improv_ble_errors.CharacteristicMissingError, "characteristic_missing"),
     ],
 )
-async def test_identify_fails(hass: __HAC_KEEP__, exc, error) -> None:
+async def test_identify_fails(hass: UniversalAssistant, exc, error) -> None:
     """Test bluetooth flow with error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -675,7 +675,7 @@ async def test_identify_fails(hass: __HAC_KEEP__, exc, error) -> None:
         (improv_ble_errors.CharacteristicMissingError, "characteristic_missing"),
     ],
 )
-async def test_need_authorization_fails(hass: __HAC_KEEP__, exc, error) -> None:
+async def test_need_authorization_fails(hass: UniversalAssistant, exc, error) -> None:
     """Test bluetooth flow with error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -724,7 +724,7 @@ async def test_need_authorization_fails(hass: __HAC_KEEP__, exc, error) -> None:
         (improv_ble_errors.CharacteristicMissingError, "characteristic_missing"),
     ],
 )
-async def test_authorize_fails(hass: __HAC_KEEP__, exc, error) -> None:
+async def test_authorize_fails(hass: UniversalAssistant, exc, error) -> None:
     """Test bluetooth flow with error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -772,7 +772,7 @@ async def test_authorize_fails(hass: __HAC_KEEP__, exc, error) -> None:
     assert result["reason"] == error
 
 
-async def _test_provision_error(hass: __HAC_KEEP__, exc) -> str:
+async def _test_provision_error(hass: UniversalAssistant, exc) -> str:
     """Test bluetooth flow with error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -834,7 +834,7 @@ async def _test_provision_error(hass: __HAC_KEEP__, exc) -> str:
         (improv_ble_errors.ProvisioningFailed(Error.UNKNOWN_ERROR), "unknown"),
     ],
 )
-async def test_provision_fails(hass: __HAC_KEEP__, exc, error) -> None:
+async def test_provision_fails(hass: UniversalAssistant, exc, error) -> None:
     """Test bluetooth flow with error."""
     flow_id = await _test_provision_error(hass, exc)
 
@@ -847,7 +847,7 @@ async def test_provision_fails(hass: __HAC_KEEP__, exc, error) -> None:
     ("exc", "error"),
     [(improv_ble_errors.ProvisioningFailed(Error.NOT_AUTHORIZED), "unknown")],
 )
-async def test_provision_not_authorized(hass: __HAC_KEEP__, exc, error) -> None:
+async def test_provision_not_authorized(hass: UniversalAssistant, exc, error) -> None:
     """Test bluetooth flow with error."""
 
     async def subscribe_state_updates(
@@ -876,7 +876,7 @@ async def test_provision_not_authorized(hass: __HAC_KEEP__, exc, error) -> None:
         ),
     ],
 )
-async def test_provision_retry(hass: __HAC_KEEP__, exc: Exception, error: str) -> None:
+async def test_provision_retry(hass: UniversalAssistant, exc: Exception, error: str) -> None:
     """Test bluetooth flow with error."""
     flow_id = await _test_provision_error(hass, exc)
 
@@ -908,7 +908,7 @@ async def test_provision_retry(hass: __HAC_KEEP__, exc: Exception, error: str) -
 
 
 async def test_provision_fails_invalid_data(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test bluetooth flow with error due to invalid data."""
     result = await hass.config_entries.flow.async_init(
@@ -924,7 +924,7 @@ async def test_provision_fails_invalid_data(
     )
 
 
-async def test_flow_chaining_with_next_flow(hass: __HAC_KEEP__) -> None:
+async def test_flow_chaining_with_next_flow(hass: UniversalAssistant) -> None:
     """Test flow chaining when another integration registers a next flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -997,7 +997,7 @@ async def test_flow_chaining_with_next_flow(hass: __HAC_KEEP__) -> None:
     assert result["next_flow"] == (FlowType.CONFIG_FLOW, next_config_flow_id)
 
 
-async def test_flow_chaining_timeout(hass: __HAC_KEEP__) -> None:
+async def test_flow_chaining_timeout(hass: UniversalAssistant) -> None:
     """Test flow chaining timeout when no integration discovers the device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -1054,7 +1054,7 @@ async def test_flow_chaining_timeout(hass: __HAC_KEEP__) -> None:
     assert "next_flow" not in result
 
 
-async def test_flow_chaining_with_redirect_url(hass: __HAC_KEEP__) -> None:
+async def test_flow_chaining_with_redirect_url(hass: UniversalAssistant) -> None:
     """Test flow chaining takes precedence over redirect URL."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -1138,7 +1138,7 @@ async def test_flow_chaining_with_redirect_url(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_flow_chaining_next_flow_gone(
-    hass: __HAC_KEEP__, redirect_url: str | None, expected_reason: str
+    hass: UniversalAssistant, redirect_url: str | None, expected_reason: str
 ) -> None:
     """Test the next flow is aborted before provisioning completes."""
     result = await hass.config_entries.flow.async_init(
@@ -1214,7 +1214,7 @@ async def test_flow_chaining_next_flow_gone(
 
 
 async def test_flow_chaining_future_already_done(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test async_register_next_flow when future is already done."""
     result = await hass.config_entries.flow.async_init(
@@ -1298,7 +1298,7 @@ async def test_flow_chaining_future_already_done(
     assert result["next_flow"] == (FlowType.CONFIG_FLOW, first_flow_id)
 
 
-async def test_bluetooth_name_update(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_name_update(hass: UniversalAssistant) -> None:
     """Test that discovery notification title updates when device name changes."""
     with patch(
         f"{IMPROV_BLE}.config_flow.bluetooth.async_register_callback",

@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.backup import AgentBackup
 from universalassistant.components.google_drive.const import SCAN_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 pytestmark = [
@@ -23,7 +23,7 @@ pytestmark = [
 ]
 
 
-async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Set up Google Drive integration."""
     config_entry.add_to_hass(hass)
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -32,7 +32,7 @@ async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -57,7 +57,7 @@ async def test_sensor(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_unknown_when_unlimited_plan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_api: MagicMock,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_sensor_unknown_when_unlimited_plan(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api: MagicMock,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -110,7 +110,7 @@ async def test_sensor_availability(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_calculate_backups_size(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api: MagicMock,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -139,7 +139,7 @@ async def test_calculate_backups_size(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_calculate_backups_size_ignores_files_without_size(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api: MagicMock,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

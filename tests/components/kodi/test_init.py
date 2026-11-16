@@ -6,13 +6,13 @@ from pykodi import InvalidAuthError
 
 from universalassistant.components.kodi.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import init_integration
 from .util import MockConnection
 
 
-async def test_unload_entry(hass: __HAC_KEEP__) -> None:
+async def test_unload_entry(hass: UniversalAssistant) -> None:
     """Test successful unload of entry."""
     with patch(
         "universalassistant.components.kodi.media_player.async_setup_entry",
@@ -30,7 +30,7 @@ async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     assert not hass.data.get(DOMAIN)
 
 
-async def test_setup_invalid_auth(hass: __HAC_KEEP__) -> None:
+async def test_setup_invalid_auth(hass: UniversalAssistant) -> None:
     """Test setup fails and starts reauth when login is rejected."""
     with patch.object(
         MockConnection, "connect", side_effect=InvalidAuthError("Unauthorized")

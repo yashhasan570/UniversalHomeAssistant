@@ -20,8 +20,8 @@ from universalassistant.components.select import (
 )
 from universalassistant.components.vitesy.coordinator import UPDATE_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -32,7 +32,7 @@ AIR_QUALITY_SCORE = "sensor.kitchen_shelfy_air_quality_score"
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -61,7 +61,7 @@ async def test_all_entities(
     ],
 )
 async def test_current_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mode_status: VitesyModeStatus,
@@ -76,7 +76,7 @@ async def test_current_option(
 
 
 async def test_select_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -98,7 +98,7 @@ async def test_select_option(
 
 
 async def test_select_option_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -106,7 +106,7 @@ async def test_select_option_error(
     await setup_integration(hass, mock_config_entry)
     mock_vitesy_client.set_mode.side_effect = VitesyError("boom")
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -121,7 +121,7 @@ async def test_select_option_error(
 
 
 async def test_mode_read_failure_only_affects_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -147,7 +147,7 @@ async def test_mode_read_failure_only_affects_select(
 
 
 async def test_select_not_created_for_other_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_devices: dict[str, VitesyDevice],

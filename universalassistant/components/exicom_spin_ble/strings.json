@@ -2,7 +2,7 @@
   "config": {
     "abort": {
       "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
-      "no_devices_found": "No Spin EV charger was found over Bluetooth. Check that the charger is powered on, that no phone app is connected to it, and that __HA_KEEP__ has a Bluetooth adapter or an ESPHome Bluetooth proxy in range of the charger.",
+      "no_devices_found": "No Spin EV charger was found over Bluetooth. Check that the charger is powered on, that no phone app is connected to it, and that Universal Home Assistant has a Bluetooth adapter or an ESPHome Bluetooth proxy in range of the charger.",
       "not_supported": "This Bluetooth device is not a Spin EV charger."
     },
     "error": {
@@ -78,7 +78,7 @@
           "connection_mode": "Bluetooth connection"
         },
         "data_description": {
-          "connection_mode": "The charger accepts one Bluetooth client at a time. Stay connected keeps that slot claimed for __HA_KEEP__, which makes polling faster and less likely to fail, and keeps other clients out for as long as the link holds. Reconnect each poll gives the slot up between polls, so the phone app stays usable."
+          "connection_mode": "The charger accepts one Bluetooth client at a time. Stay connected keeps that slot claimed for Universal Home Assistant, which makes polling faster and less likely to fail, and keeps other clients out for as long as the link holds. Reconnect each poll gives the slot up between polls, so the phone app stays usable."
         }
       }
     }

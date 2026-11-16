@@ -9,7 +9,7 @@ from hdate import HDateInfo, Location, Zmanim
 from hdate.translator import Language, set_language
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import event
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 import universalassistant.util.dt as dt_util
@@ -42,7 +42,7 @@ class JewishCalendarUpdateCoordinator(DataUpdateCoordinator[JewishCalendarData])
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: JewishCalendarConfigEntry,
         data: JewishCalendarData,
     ) -> None:

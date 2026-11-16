@@ -34,7 +34,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__, callback
+from universalassistant.core import Event, EventStateChangedData, UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.event import (
     async_track_entity_registry_updated_event,
@@ -51,7 +51,7 @@ from .conftest import (
 )
 
 
-def track_entity_registry_actions(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
+def track_entity_registry_actions(hass: UniversalAssistant, entity_id: str) -> list[str]:
     """Track entity registry actions for an entity."""
     events: list[str] = []
 
@@ -89,7 +89,7 @@ def _two_binary_sensor_setup() -> tuple[
 
 
 async def test_entities_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
@@ -175,7 +175,7 @@ async def test_entities_removed(
 
 
 async def test_entities_removed_after_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
@@ -302,7 +302,7 @@ async def test_entities_removed_after_reload(
 
 
 async def test_entities_for_entire_platform_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
@@ -361,7 +361,7 @@ async def test_entities_for_entire_platform_removed(
 
 
 async def test_entity_info_object_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -384,7 +384,7 @@ async def test_entity_info_object_ids(
 
 
 async def test_deep_sleep_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
     mock_esphome_device: MockESPHomeDeviceType,
@@ -488,7 +488,7 @@ async def test_deep_sleep_device(
 
 
 async def test_esphome_device_without_friendly_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
     mock_esphome_device: MockESPHomeDeviceType,
@@ -517,7 +517,7 @@ async def test_esphome_device_without_friendly_name(
 
 
 async def test_entity_without_name_device_with_friendly_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
     mock_esphome_device: MockESPHomeDeviceType,
@@ -549,7 +549,7 @@ async def test_entity_without_name_device_with_friendly_name(
 
 @pytest.mark.usefixtures("hass_storage")
 async def test_entity_id_preserved_on_upgrade(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     entity_registry: er.EntityRegistry,
@@ -589,7 +589,7 @@ async def test_entity_id_preserved_on_upgrade(
 
 @pytest.mark.usefixtures("hass_storage")
 async def test_entity_id_preserved_on_upgrade_old_format_entity_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     entity_registry: er.EntityRegistry,
@@ -628,7 +628,7 @@ async def test_entity_id_preserved_on_upgrade_old_format_entity_id(
 
 
 async def test_entity_id_preserved_on_upgrade_when_in_storage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
     mock_esphome_device: MockESPHomeDeviceType,
@@ -686,7 +686,7 @@ async def test_entity_id_preserved_on_upgrade_when_in_storage(
 
 
 async def test_deep_sleep_added_after_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -770,7 +770,7 @@ async def test_deep_sleep_added_after_setup(
     ],
 )
 async def test_entity_assignment_to_sub_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
@@ -908,7 +908,7 @@ async def test_entity_assignment_to_sub_device(
     ],
 )
 async def test_entity_friendly_names_with_empty_device_names(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
@@ -1007,7 +1007,7 @@ async def test_entity_friendly_names_with_empty_device_names(
 
 @pytest.mark.parametrize(("relation", "lookup"), SUB_DEVICE_RELATIONS)
 async def test_entity_switches_between_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
@@ -1171,7 +1171,7 @@ async def test_entity_switches_between_devices(
     ],
 )
 async def test_entity_id_uses_sub_device_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
@@ -1271,7 +1271,7 @@ async def test_entity_id_uses_sub_device_name(
     ],
 )
 async def test_entity_id_with_empty_sub_device_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
@@ -1321,7 +1321,7 @@ async def test_entity_id_with_empty_sub_device_name(
 
 
 async def test_legacy_unique_id_migrated_to_v3_sub_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -1373,7 +1373,7 @@ async def test_legacy_unique_id_migrated_to_v3_sub_device(
 
 
 async def test_unique_id_migration_when_entity_moves_between_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
@@ -1482,7 +1482,7 @@ async def test_unique_id_migration_when_entity_moves_between_devices(
 
 
 async def test_unique_id_migration_sub_device_to_main_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
@@ -1578,7 +1578,7 @@ async def test_unique_id_migration_sub_device_to_main_device(
 
 
 async def test_unique_id_migration_between_sub_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
@@ -1674,7 +1674,7 @@ async def test_unique_id_migration_between_sub_devices(
 
 
 async def test_entity_device_id_rename_in_yaml(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
@@ -1826,7 +1826,7 @@ _MOVE_INITIAL_STATES = [
     ],
 )
 async def test_entity_move_between_devices_carries_cached_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -1872,7 +1872,7 @@ async def test_entity_move_between_devices_carries_cached_state(
     ],
 )
 async def test_entity_with_unicode_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
     unicode_name: str,
@@ -1920,7 +1920,7 @@ async def test_entity_with_unicode_name(
 
 
 async def test_entity_without_name_uses_device_name_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -1952,7 +1952,7 @@ async def test_entity_without_name_uses_device_name_only(
 
 
 async def test_entities_rekeyed_after_firmware_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -2051,7 +2051,7 @@ async def test_entities_rekeyed_after_firmware_update(
 
 
 async def test_entities_rekeyed_after_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -2115,7 +2115,7 @@ async def test_entities_rekeyed_after_reload(
 
 
 async def test_entity_rekeyed_and_another_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -2158,7 +2158,7 @@ async def test_entity_rekeyed_and_another_removed(
 
 
 async def test_entity_rekeyed_to_another_entities_old_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -2208,7 +2208,7 @@ async def test_entity_rekeyed_to_another_entities_old_key(
 
 
 async def test_entity_renamed_with_stable_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -2266,7 +2266,7 @@ async def test_entity_renamed_with_stable_key(
 
 
 async def test_entity_renamed_and_rekeyed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -2315,7 +2315,7 @@ async def test_entity_renamed_and_rekeyed(
 
 
 async def test_entities_rekeyed_on_sub_devices_with_same_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -2398,7 +2398,7 @@ async def test_entities_rekeyed_on_sub_devices_with_same_name(
 
 
 async def test_entities_swap_keys(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -2461,7 +2461,7 @@ async def test_entities_swap_keys(
 
 
 async def test_entity_rekeyed_and_moved_between_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
@@ -2528,7 +2528,7 @@ async def test_entity_rekeyed_and_moved_between_devices(
 
 
 async def test_entity_new_key_reuses_removed_entity_key_on_other_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -2602,7 +2602,7 @@ async def test_entity_new_key_reuses_removed_entity_key_on_other_device(
 
 
 async def test_entities_with_same_name_moved_between_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
@@ -2718,7 +2718,7 @@ async def test_entities_with_same_name_moved_between_devices(
 
 
 async def test_entity_rekeyed_while_old_key_reused_by_renamed_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -2784,7 +2784,7 @@ async def test_entity_rekeyed_while_old_key_reused_by_renamed_entity(
 
 
 async def test_entity_moved_into_removed_entities_key_slot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
@@ -2872,7 +2872,7 @@ async def test_entity_moved_into_removed_entities_key_slot(
 
 
 async def test_entity_moved_while_new_entity_takes_old_slot_listed_first(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
@@ -2958,7 +2958,7 @@ async def test_entity_moved_while_new_entity_takes_old_slot_listed_first(
 
 
 async def test_entity_renamed_with_stable_key_and_same_named_sibling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -3048,7 +3048,7 @@ async def test_entity_renamed_with_stable_key_and_same_named_sibling(
 
 
 async def test_disabled_entity_rekeyed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -3097,7 +3097,7 @@ async def test_disabled_entity_rekeyed(
 
 
 async def test_entity_renamed_while_same_named_sibling_moves(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
@@ -3197,7 +3197,7 @@ async def test_entity_renamed_while_same_named_sibling_moves(
 
 
 async def test_new_entities_reusing_retired_keys_do_not_adopt_stale_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -3260,7 +3260,7 @@ async def test_new_entities_reusing_retired_keys_do_not_adopt_stale_states(
 
 
 async def test_new_entity_on_other_device_reusing_removed_entities_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -3313,7 +3313,7 @@ async def test_new_entity_on_other_device_reusing_removed_entities_key(
 
 
 async def test_unnamed_entities_do_not_pair_across_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -3373,7 +3373,7 @@ async def test_unnamed_entities_do_not_pair_across_devices(
 
 
 async def test_moved_entity_does_not_adopt_removed_entities_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -3432,7 +3432,7 @@ async def test_moved_entity_does_not_adopt_removed_entities_state(
 
 
 async def test_entity_move_with_claimed_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -3523,7 +3523,7 @@ async def test_entity_move_with_claimed_unique_id(
 
 
 async def test_mover_does_not_adopt_other_movers_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:

@@ -8,11 +8,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CONF_PATH, CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_entry_setup_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_pyloadapi: MagicMock,
 ) -> None:
@@ -35,7 +35,7 @@ async def test_entry_setup_unload(
     [CannotConnect, ParserError],
 )
 async def test_config_entry_setup_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_pyloadapi: MagicMock,
     side_effect: Exception,
@@ -50,7 +50,7 @@ async def test_config_entry_setup_errors(
 
 
 async def test_config_entry_setup_invalid_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_pyloadapi: MagicMock,
 ) -> None:
@@ -66,7 +66,7 @@ async def test_config_entry_setup_invalid_auth(
 
 
 async def test_coordinator_update_invalid_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_pyloadapi: MagicMock,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_coordinator_update_invalid_auth(
 
 
 async def test_coordinator_setup_invalid_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_pyloadapi: MagicMock,
 ) -> None:
@@ -108,7 +108,7 @@ async def test_coordinator_setup_invalid_auth(
     ],
 )
 async def test_coordinator_update_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_pyloadapi: MagicMock,
     exception: Exception,
@@ -126,7 +126,7 @@ async def test_coordinator_update_errors(
 
 @pytest.mark.usefixtures("mock_pyloadapi")
 async def test_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_migrate: MockConfigEntry,
 ) -> None:
     """Test config entry migration."""

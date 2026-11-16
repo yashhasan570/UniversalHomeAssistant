@@ -8,7 +8,7 @@ from typing import Any
 from dsmr_parser.objects import Telegram
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 
 from .const import CONF_DSMR_VERSION, PLATFORMS
@@ -25,7 +25,7 @@ class DsmrState:
 type DsmrConfigEntry = ConfigEntry[DsmrState]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: DsmrConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: DsmrConfigEntry) -> None:
     """Set up DSMR from a config entry."""
 
     @callback
@@ -42,7 +42,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: DsmrConfigEntry) -> None:
     entry.async_on_unload(entry.add_update_listener(async_update_options))
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: DsmrConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: DsmrConfigEntry) -> None:
     """Unload a config entry."""
 
     # Cancel the reconnect task
@@ -54,7 +54,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: DsmrConfigEntry) -> None
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_update_options(hass: __HAC_KEEP__, entry: DsmrConfigEntry) -> None:
+async def async_update_options(hass: UniversalAssistant, entry: DsmrConfigEntry) -> None:
     """Update options."""
     await hass.config_entries.async_reload(entry.entry_id)
 

@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_PAYLOAD_OFF,
     CONF_PAYLOAD_ON,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.event import track_point_in_time
@@ -49,7 +49,7 @@ type _PAYLOAD_SET_TYPE = str | int | float
 
 
 def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -89,7 +89,7 @@ class PilightBinarySensor(BinarySensorEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         name: str,
         variable: str,
         payload: dict[str, Any],
@@ -136,7 +136,7 @@ class PilightTriggerSensor(BinarySensorEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         name: str,
         variable: str,
         payload: dict[str, Any],

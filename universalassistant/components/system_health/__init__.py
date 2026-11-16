@@ -11,7 +11,7 @@ import aiohttp
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import aiohttp_client, config_validation as cv
 from universalassistant.helpers.frame import ReportBehavior, report_usage
 from universalassistant.helpers.integration_platform import LazyIntegrationPlatforms
@@ -44,16 +44,16 @@ class SystemHealthProtocol(Protocol):
     """Define the format of system_health platforms."""
 
     def async_register(
-        self, hass: __HAC_KEEP__, register: SystemHealthRegistration
+        self, hass: UniversalAssistant, register: SystemHealthRegistration
     ) -> None:
         """Register system health callbacks."""
 
 
 @callback
 def async_register_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain: str,
-    info_callback: Callable[[__HAC_KEEP__], Awaitable[dict]],
+    info_callback: Callable[[UniversalAssistant], Awaitable[dict]],
 ) -> None:
     """Register an info callback.
 
@@ -72,7 +72,7 @@ def async_register_info(
     registrations[domain] = registration
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the System Health component."""
     websocket_api.async_register_command(hass, handle_info)
     hass.data.setdefault(DOMAIN, {})
@@ -85,7 +85,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 @callback
 def _process_system_health_platform(
-    hass: __HAC_KEEP__, integration_domain: str, platform: SystemHealthProtocol
+    hass: UniversalAssistant, integration_domain: str, platform: SystemHealthProtocol
 ) -> SystemHealthRegistration:
     """Process a system health platform."""
     registration = SystemHealthRegistration(hass, integration_domain)
@@ -94,7 +94,7 @@ def _process_system_health_platform(
 
 
 async def get_integration_info(
-    hass: __HAC_KEEP__, registration: SystemHealthRegistration
+    hass: UniversalAssistant, registration: SystemHealthRegistration
 ) -> dict[str, Any]:
     """Get integration system health."""
     try:
@@ -116,7 +116,7 @@ async def get_integration_info(
 
 
 async def _registered_domain_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> AsyncGenerator[tuple[str, dict[str, Any]]]:
     platform_registrations = await hass.data[
         DATA_SYSTEM_HEALTH_PLATFORMS
@@ -139,7 +139,7 @@ async def _registered_domain_data(
         yield domain, domain_data
 
 
-async def get_info(hass: __HAC_KEEP__) -> dict[str, dict[str, str]]:
+async def get_info(hass: UniversalAssistant) -> dict[str, dict[str, str]]:
     """Get the full set of system health information."""
     domains: dict[str, dict[str, Any]] = {}
 
@@ -184,7 +184,7 @@ def _format_value(val: Any) -> Any:
 @websocket_api.websocket_command({probatio.Required("type"): "system_health/info"})
 @websocket_api.async_response
 async def handle_info(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle an info request via a subscription."""
     data = {}
@@ -273,15 +273,15 @@ async def handle_info(
 class SystemHealthRegistration:
     """Helper class to track platform registration."""
 
-    hass: __HAC_KEEP__
+    hass: UniversalAssistant
     domain: str
-    info_callback: Callable[[__HAC_KEEP__], Awaitable[dict]] | None = None
+    info_callback: Callable[[UniversalAssistant], Awaitable[dict]] | None = None
     manage_url: str | None = None
 
     @callback
     def async_register_info(
         self,
-        info_callback: Callable[[__HAC_KEEP__], Awaitable[dict]],
+        info_callback: Callable[[UniversalAssistant], Awaitable[dict]],
         manage_url: str | None = None,
     ) -> None:
         """Register an info callback."""
@@ -290,7 +290,7 @@ class SystemHealthRegistration:
 
 
 async def async_check_can_reach_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     url: str,
     more_info: str | None = None,
     *,

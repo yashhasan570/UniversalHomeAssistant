@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.e3dc.const import SCAN_INTERVAL
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import int32_words, seed
@@ -38,7 +38,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
@@ -84,7 +84,7 @@ async def test_all_entities(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_sensor_follows_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_unit: MockModbusUnit,
     holding: dict[int, int | list[int]],
@@ -130,7 +130,7 @@ async def test_sensor_follows_poll(
 )
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_optional_hardware_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_unit: MockModbusUnit,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -174,7 +174,7 @@ async def test_optional_hardware_missing(
 )
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_block_missing_from_firmware(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_unit: MockModbusUnit,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,

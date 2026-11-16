@@ -15,7 +15,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv, discovery
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.util.hass_dict import HassKey
@@ -83,7 +83,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Egardia platform."""
 
     conf = config[DOMAIN]
@@ -122,10 +122,10 @@ def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
                 server.start()
 
             def handle_stop_event(event):
-                """Handle __HA_KEEP__ stop event."""
+                """Handle Universal Home Assistant stop event."""
                 server.stop()
 
-            # listen to __HA_KEEP__ stop event
+            # listen to Universal Home Assistant stop event
             hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, handle_stop_event)
 
         except OSError:

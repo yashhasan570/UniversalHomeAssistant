@@ -75,8 +75,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -100,7 +100,7 @@ PID_THAT_WILL_NEVER_BE_ALIVE = 2147483647
 
 
 @pytest.fixture(autouse=True)
-async def setup_universalassistant(hass: __HAC_KEEP__) -> None:
+async def setup_universalassistant(hass: UniversalAssistant) -> None:
     """Set up the universalassistant integration."""
     await async_setup_component(hass, "universalassistant", {})
 
@@ -120,7 +120,7 @@ def mock_audio_proxy():
         yield mock_proxy
 
 
-async def _async_start_streaming(hass: __HAC_KEEP__, acc: Camera) -> None:
+async def _async_start_streaming(hass: UniversalAssistant, acc: Camera) -> None:
     """Start streaming a camera."""
     acc.set_selected_stream_configuration(MOCK_START_STREAM_TLV)
     await hass.async_block_till_done()
@@ -128,7 +128,7 @@ async def _async_start_streaming(hass: __HAC_KEEP__, acc: Camera) -> None:
     await hass.async_block_till_done()
 
 
-async def _async_setup_endpoints(hass: __HAC_KEEP__, acc: Camera) -> None:
+async def _async_setup_endpoints(hass: UniversalAssistant, acc: Camera) -> None:
     """Set camera endpoints."""
     acc.set_endpoints(MOCK_END_POINTS_TLV)
     acc.run()
@@ -136,7 +136,7 @@ async def _async_setup_endpoints(hass: __HAC_KEEP__, acc: Camera) -> None:
 
 
 async def _async_reconfigure_stream(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     acc: Camera,
     session_info: dict[str, Any],
     stream_config: dict[str, Any],
@@ -147,7 +147,7 @@ async def _async_reconfigure_stream(
     await hass.async_block_till_done()
 
 
-async def _async_stop_all_streams(hass: __HAC_KEEP__, acc: Camera) -> None:
+async def _async_stop_all_streams(hass: UniversalAssistant, acc: Camera) -> None:
     """Stop all camera streams."""
     await acc.stop()
     acc.run()
@@ -155,7 +155,7 @@ async def _async_stop_all_streams(hass: __HAC_KEEP__, acc: Camera) -> None:
 
 
 async def _async_stop_stream(
-    hass: __HAC_KEEP__, acc: Camera, session_info: dict[str, Any]
+    hass: UniversalAssistant, acc: Camera, session_info: dict[str, Any]
 ) -> None:
     """Stop a camera stream."""
     await acc.stop_stream(session_info)
@@ -207,7 +207,7 @@ def _get_failing_mock_ffmpeg():
     return ffmpeg
 
 
-async def test_camera_stream_source_configured(hass: __HAC_KEEP__, run_driver) -> None:
+async def test_camera_stream_source_configured(hass: UniversalAssistant, run_driver) -> None:
     """Test a camera that can stream with a configured source."""
     await async_setup_component(hass, ffmpeg.DOMAIN, {ffmpeg.DOMAIN: {}})
     await async_setup_component(
@@ -331,7 +331,7 @@ async def test_camera_stream_source_configured(hass: __HAC_KEEP__, run_driver) -
 
 
 async def test_camera_stream_source_configured_with_failing_ffmpeg(
-    hass: __HAC_KEEP__, run_driver
+    hass: UniversalAssistant, run_driver
 ) -> None:
     """Test a camera that can stream with a configured source with ffmpeg failing."""
     await async_setup_component(hass, ffmpeg.DOMAIN, {ffmpeg.DOMAIN: {}})
@@ -388,7 +388,7 @@ async def test_camera_stream_source_configured_with_failing_ffmpeg(
 
 
 async def test_camera_stream_source_audio_proxy_fails(
-    hass: __HAC_KEEP__, run_driver, mock_audio_proxy: MagicMock
+    hass: UniversalAssistant, run_driver, mock_audio_proxy: MagicMock
 ) -> None:
     """Test streaming continues without audio when audio proxy fails to start."""
     await async_setup_component(hass, ffmpeg.DOMAIN, {ffmpeg.DOMAIN: {}})
@@ -433,7 +433,7 @@ async def test_camera_stream_source_audio_proxy_fails(
     mock_audio_proxy.async_stop.assert_called()
 
 
-async def test_camera_stream_source_found(hass: __HAC_KEEP__, run_driver) -> None:
+async def test_camera_stream_source_found(hass: UniversalAssistant, run_driver) -> None:
     """Test a camera that can stream and we get the source from the entity."""
     await async_setup_component(hass, ffmpeg.DOMAIN, {ffmpeg.DOMAIN: {}})
     await async_setup_component(
@@ -522,7 +522,7 @@ async def test_camera_stream_source_found(hass: __HAC_KEEP__, run_driver) -> Non
     )
 
 
-async def test_camera_stream_source_fails(hass: __HAC_KEEP__, run_driver) -> None:
+async def test_camera_stream_source_fails(hass: UniversalAssistant, run_driver) -> None:
     """Test a camera that can stream and we cannot get the source from the entity."""
     await async_setup_component(hass, ffmpeg.DOMAIN, {ffmpeg.DOMAIN: {}})
     await async_setup_component(
@@ -563,7 +563,7 @@ async def test_camera_stream_source_fails(hass: __HAC_KEEP__, run_driver) -> Non
         await _async_stop_all_streams(hass, acc)
 
 
-async def test_camera_with_no_stream(hass: __HAC_KEEP__, run_driver) -> None:
+async def test_camera_with_no_stream(hass: UniversalAssistant, run_driver) -> None:
     """Test a camera that cannot stream."""
     await async_setup_component(hass, ffmpeg.DOMAIN, {ffmpeg.DOMAIN: {}})
     await async_setup_component(hass, camera.DOMAIN, {camera.DOMAIN: {}})
@@ -589,14 +589,14 @@ async def test_camera_with_no_stream(hass: __HAC_KEEP__, run_driver) -> None:
     await _async_start_streaming(hass, acc)
     await _async_stop_all_streams(hass, acc)
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         assert await acc.async_get_snapshot(
             {"aid": 2, "image-width": 300, "image-height": 200}
         )
 
 
 async def test_camera_stream_source_configured_and_copy_codec(
-    hass: __HAC_KEEP__, run_driver
+    hass: UniversalAssistant, run_driver
 ) -> None:
     """Test a camera that can stream with a configured source."""
     await async_setup_component(hass, ffmpeg.DOMAIN, {ffmpeg.DOMAIN: {}})
@@ -675,7 +675,7 @@ async def test_camera_stream_source_configured_and_copy_codec(
 
 
 async def test_camera_stream_source_configured_and_override_profile_names(
-    hass: __HAC_KEEP__, run_driver
+    hass: UniversalAssistant, run_driver
 ) -> None:
     """Test camera streaming with configured source and profile overrides."""
     await async_setup_component(hass, ffmpeg.DOMAIN, {ffmpeg.DOMAIN: {}})
@@ -756,7 +756,7 @@ async def test_camera_stream_source_configured_and_override_profile_names(
 
 
 async def test_camera_streaming_fails_after_starting_ffmpeg(
-    hass: __HAC_KEEP__, run_driver
+    hass: UniversalAssistant, run_driver
 ) -> None:
     """Test a camera that can stream with a configured source."""
     await async_setup_component(hass, ffmpeg.DOMAIN, {ffmpeg.DOMAIN: {}})
@@ -838,7 +838,7 @@ async def test_camera_streaming_fails_after_starting_ffmpeg(
 
 
 async def test_camera_with_linked_motion_sensor(
-    hass: __HAC_KEEP__, run_driver
+    hass: UniversalAssistant, run_driver
 ) -> None:
     """Test a camera with a linked motion sensor can update."""
     await async_setup_component(hass, ffmpeg.DOMAIN, {ffmpeg.DOMAIN: {}})
@@ -931,7 +931,7 @@ async def test_camera_with_linked_motion_sensor(
     assert char.value is True
 
 
-async def test_camera_with_linked_motion_event(hass: __HAC_KEEP__, run_driver) -> None:
+async def test_camera_with_linked_motion_event(hass: UniversalAssistant, run_driver) -> None:
     """Test a camera with a linked motion event entity can update."""
     await async_setup_component(hass, ffmpeg.DOMAIN, {ffmpeg.DOMAIN: {}})
     await async_setup_component(
@@ -1087,7 +1087,7 @@ async def test_camera_with_linked_motion_event(hass: __HAC_KEEP__, run_driver) -
 
 
 async def test_camera_linked_motion_event_resets_after_last_event(
-    hass: __HAC_KEEP__, run_driver: HomeDriver, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, run_driver: HomeDriver, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test a new motion event extends the hold and stopping cancels it."""
     await async_setup_component(hass, ffmpeg.DOMAIN, {ffmpeg.DOMAIN: {}})
@@ -1145,7 +1145,7 @@ async def test_camera_linked_motion_event_resets_after_last_event(
 
 
 async def test_camera_with_a_missing_linked_motion_sensor(
-    hass: __HAC_KEEP__, run_driver
+    hass: UniversalAssistant, run_driver
 ) -> None:
     """Test a camera with a configured linked motion sensor that is missing."""
     await async_setup_component(hass, ffmpeg.DOMAIN, {ffmpeg.DOMAIN: {}})
@@ -1177,7 +1177,7 @@ async def test_camera_with_a_missing_linked_motion_sensor(
 
 
 async def test_camera_with_linked_doorbell_sensor(
-    hass: __HAC_KEEP__, run_driver
+    hass: UniversalAssistant, run_driver
 ) -> None:
     """Test a camera with a linked doorbell sensor can update."""
     await async_setup_component(hass, ffmpeg.DOMAIN, {ffmpeg.DOMAIN: {}})
@@ -1293,7 +1293,7 @@ async def test_camera_with_linked_doorbell_sensor(
 
 
 async def test_camera_with_linked_doorbell_event(
-    hass: __HAC_KEEP__, run_driver
+    hass: UniversalAssistant, run_driver
 ) -> None:
     """Test a camera with a linked doorbell event can update."""
     await async_setup_component(hass, ffmpeg.DOMAIN, {ffmpeg.DOMAIN: {}})
@@ -1439,7 +1439,7 @@ async def test_camera_with_linked_doorbell_event(
 
 
 async def test_camera_with_a_missing_linked_doorbell_sensor(
-    hass: __HAC_KEEP__, run_driver
+    hass: UniversalAssistant, run_driver
 ) -> None:
     """Test a camera with a configured linked doorbell sensor that is missing."""
     await async_setup_component(hass, ffmpeg.DOMAIN, {ffmpeg.DOMAIN: {}})
@@ -1610,7 +1610,7 @@ FRAGMENT = _box(b"moof", b"f") + _box(b"mdat", b"d")
 
 
 async def _secure_video_camera(
-    hass: __HAC_KEEP__, driver: HomeDriver, aid: int = STANDALONE_AID, **config: Any
+    hass: UniversalAssistant, driver: HomeDriver, aid: int = STANDALONE_AID, **config: Any
 ) -> Camera:
     await async_setup_component(hass, ffmpeg.DOMAIN, {ffmpeg.DOMAIN: {}})
     hass.states.async_set(CAMERA_ENTITY, "idle")
@@ -1623,7 +1623,7 @@ async def _secure_video_camera(
 
 
 @pytest.fixture
-async def no_state_file(hass: __HAC_KEEP__) -> AsyncGenerator[None]:
+async def no_state_file(hass: UniversalAssistant) -> AsyncGenerator[None]:
     """Keep recording state changes from writing the accessory state file."""
     with patch("pyhap.accessory_driver.AccessoryDriver.async_persist"):
         yield
@@ -1632,7 +1632,7 @@ async def no_state_file(hass: __HAC_KEEP__) -> AsyncGenerator[None]:
 
 
 async def _recording_camera(
-    hass: __HAC_KEEP__, driver: HomeDriver, **config: Any
+    hass: UniversalAssistant, driver: HomeDriver, **config: Any
 ) -> Camera:
     """Return a camera the home hub has selected a recording format for."""
     acc = await _secure_video_camera(hass, driver, **config)
@@ -1679,7 +1679,7 @@ async def _collect(acc: Camera) -> list[RecordingPacket]:
 
 
 async def test_camera_secure_video(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     run_driver: HomeDriver,
     recording_transport: tuple[AsyncMock, AsyncMock],
 ) -> None:
@@ -1708,7 +1708,7 @@ async def test_camera_secure_video(
 
 @pytest.mark.usefixtures("recording_transport")
 async def test_camera_secure_video_keeps_motion_iid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     run_driver: HomeDriver,
 ) -> None:
     """Test enabling recording keeps the motion sensor of existing pairings."""
@@ -1738,7 +1738,7 @@ async def test_camera_secure_video_keeps_motion_iid(
     ],
 )
 async def test_camera_secure_video_not_possible(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     run_driver: HomeDriver,
     caplog: pytest.LogCaptureFixture,
     aid: int,
@@ -1754,7 +1754,7 @@ async def test_camera_secure_video_not_possible(
 
 
 async def test_camera_secure_video_reload_stops_transport(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     run_driver: HomeDriver,
     recording_transport: tuple[AsyncMock, AsyncMock],
 ) -> None:
@@ -1775,7 +1775,7 @@ async def test_camera_secure_video_reload_stops_transport(
 )
 @pytest.mark.usefixtures("no_state_file", "recording_transport")
 async def test_camera_secure_video_recording(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     run_driver: HomeDriver,
     recording_ffmpeg: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -1849,7 +1849,7 @@ URL_ERROR = b"rtsps://user:secret@cam:7441/token: Connection refused\n"
 )
 @pytest.mark.usefixtures("no_state_file", "recording_transport")
 async def test_camera_secure_video_recording_incomplete(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     run_driver: HomeDriver,
     recording_ffmpeg: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -1873,7 +1873,7 @@ async def test_camera_secure_video_recording_incomplete(
 
 @pytest.mark.usefixtures("no_state_file", "recording_transport")
 async def test_camera_secure_video_recording_ffmpeg_hangs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     run_driver: HomeDriver,
     recording_ffmpeg: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -1904,7 +1904,7 @@ async def test_camera_secure_video_recording_ffmpeg_hangs(
 )
 @pytest.mark.usefixtures("no_state_file", "recording_transport")
 async def test_camera_secure_video_recording_stalls(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     run_driver: HomeDriver,
     recording_ffmpeg: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -1955,7 +1955,7 @@ async def test_camera_secure_video_recording_stalls(
 )
 @pytest.mark.usefixtures("no_state_file", "recording_transport")
 async def test_camera_secure_video_recording_cannot_start(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     run_driver: HomeDriver,
     recording_ffmpeg: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -1976,7 +1976,7 @@ async def test_camera_secure_video_recording_cannot_start(
 
 
 async def test_camera_secure_video_transport_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     run_driver: HomeDriver,
     recording_transport: tuple[AsyncMock, AsyncMock],
     caplog: pytest.LogCaptureFixture,
@@ -2037,7 +2037,7 @@ def _recording_char(acc: Camera, name: str) -> bytes:
     ],
 )
 async def test_camera_secure_video_recording_formats(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     run_driver: HomeDriver,
     config: dict[str, Any],
     expected: list[tuple[int, int, int]],
@@ -2057,7 +2057,7 @@ async def test_camera_secure_video_recording_formats(
 
 @pytest.mark.usefixtures("no_state_file", "recording_transport")
 async def test_camera_secure_video_recording_problem_logged_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     run_driver: HomeDriver,
     recording_ffmpeg: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -2095,7 +2095,7 @@ async def test_camera_secure_video_recording_problem_logged_once(
 
 @pytest.mark.usefixtures("no_state_file", "recording_transport")
 async def test_camera_secure_video_recording_closed_by_hub(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     run_driver: HomeDriver,
     recording_ffmpeg: MagicMock,
 ) -> None:
@@ -2142,7 +2142,7 @@ def live_ffmpeg() -> Generator[MagicMock]:
         yield ffmpeg
 
 
-async def _live_camera(hass: __HAC_KEEP__, driver: HomeDriver) -> Camera:
+async def _live_camera(hass: UniversalAssistant, driver: HomeDriver) -> Camera:
     """Return a recording camera with stream endpoints set up."""
     acc = await _secure_video_camera(hass, driver)
     await _async_setup_endpoints(hass, acc)
@@ -2165,7 +2165,7 @@ def _set_camera_active(acc: Camera, active: int) -> None:
 
 @pytest.mark.usefixtures("no_state_file", "recording_transport")
 async def test_camera_secure_video_turned_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     run_driver: HomeDriver,
     live_ffmpeg: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -2192,13 +2192,13 @@ async def test_camera_secure_video_turned_off(
     assert acc.sessions == {}
     assert "no such session" not in caplog.text
     assert not await acc.start_stream({"id": "new"}, {})
-    with pytest.raises(__HAC_KEEP__Error, match="Camera is off"):
+    with pytest.raises(UniversalAssistantError, match="Camera is off"):
         await acc.async_get_snapshot({"image-width": 640, "image-height": 360})
 
 
 @pytest.mark.usefixtures("no_state_file", "recording_transport")
 async def test_camera_secure_video_turned_off_while_starting(
-    hass: __HAC_KEEP__, run_driver: HomeDriver, live_ffmpeg: MagicMock
+    hass: UniversalAssistant, run_driver: HomeDriver, live_ffmpeg: MagicMock
 ) -> None:
     """Test a stream that started while the camera was turned off is stopped."""
     acc = await _live_camera(hass, run_driver)
@@ -2216,7 +2216,7 @@ async def test_camera_secure_video_turned_off_while_starting(
 
 @pytest.mark.usefixtures("no_state_file", "recording_transport")
 async def test_camera_secure_video_turned_off_during_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     run_driver: HomeDriver,
 ) -> None:
     """Test a snapshot taken while the camera was turned off is not returned."""
@@ -2231,7 +2231,7 @@ async def test_camera_secure_video_turned_off_during_snapshot(
             "universalassistant.components.homekit.type_cameras.camera.async_get_image",
             side_effect=image_and_turn_off,
         ),
-        pytest.raises(__HAC_KEEP__Error, match="Camera is off"),
+        pytest.raises(UniversalAssistantError, match="Camera is off"),
     ):
         await acc.async_get_snapshot({"image-width": 640, "image-height": 360})
 
@@ -2246,7 +2246,7 @@ async def test_camera_secure_video_turned_off_during_snapshot(
 )
 @pytest.mark.usefixtures("no_state_file", "recording_transport", "recording_ffmpeg")
 async def test_camera_secure_video_recording_permissions_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     run_driver: HomeDriver,
     active: int,
     audio: int,
@@ -2269,7 +2269,7 @@ async def test_camera_secure_video_recording_permissions_change(
 
 
 async def test_camera_secure_video_stop_waits_for_transport_start(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     run_driver: HomeDriver,
     recording_transport: tuple[AsyncMock, AsyncMock],
 ) -> None:
@@ -2290,7 +2290,7 @@ async def test_camera_secure_video_stop_waits_for_transport_start(
 
 @pytest.mark.usefixtures("no_state_file", "recording_transport")
 async def test_camera_secure_video_turned_off_new_session_keeps_slot(
-    hass: __HAC_KEEP__, run_driver: HomeDriver, live_ffmpeg: MagicMock
+    hass: UniversalAssistant, run_driver: HomeDriver, live_ffmpeg: MagicMock
 ) -> None:
     """Test ending a stream does not free a slot a new session took meanwhile."""
     acc = await _live_camera(hass, run_driver)
@@ -2326,7 +2326,7 @@ async def test_camera_secure_video_turned_off_new_session_keeps_slot(
 )
 @pytest.mark.usefixtures("no_state_file", "recording_transport")
 async def test_camera_secure_video_recording_long_stderr_line(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     run_driver: HomeDriver,
     recording_ffmpeg: MagicMock,
     caplog: pytest.LogCaptureFixture,

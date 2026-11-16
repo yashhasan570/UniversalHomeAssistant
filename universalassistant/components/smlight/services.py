@@ -7,8 +7,8 @@ from pysmlight.exceptions import SmlightError
 from pysmlight.models import BuzzerPayload
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service import async_extract_config_entry_ids
 
@@ -68,7 +68,7 @@ RTTTL_VALID_BPMS: list[int] = [
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the services for SMLIGHT."""
 
     async def async_play_rtttl(call: ServiceCall) -> None:
@@ -115,7 +115,7 @@ def async_setup_services(hass: __HAC_KEEP__) -> None:
                     client.actions.buzzer, BuzzerPayload(code=tone)
                 )
             except SmlightError as err:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="play_tone_failed",
                     translation_placeholders={

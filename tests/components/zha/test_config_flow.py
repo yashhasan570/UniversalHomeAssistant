@@ -45,9 +45,9 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
 )
 from universalassistant.const import CONF_SOURCE, EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_MANUFACTURER_URL,
     ATTR_UPNP_SERIAL,
@@ -190,7 +190,7 @@ def usb_port(device="/dev/ttyUSB1234") -> USBDevice:
 
 
 async def consume_progress_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     flow_id: str,
     valid_step_ids: tuple[str, ...],
     flow_manager: ConfigEntriesFlowManager | None = None,
@@ -320,7 +320,7 @@ async def test_zeroconf_discovery(
     unique_id: str,
     radio_type: RadioType,
     service_info: ZeroconfServiceInfo,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test zeroconf flow -- radio detected."""
     result_init = await hass.config_entries.flow.async_init(
@@ -364,7 +364,7 @@ async def test_zeroconf_discovery(
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
 @patch(f"zigpy_zigate.{PROBE_FUNCTION_PATH}")
 async def test_legacy_zeroconf_discovery_zigate(
-    setup_entry_mock, hass: __HAC_KEEP__
+    setup_entry_mock, hass: UniversalAssistant
 ) -> None:
     """Test zeroconf flow -- zigate radio detected."""
     service_info = ZeroconfServiceInfo(
@@ -421,7 +421,7 @@ async def test_legacy_zeroconf_discovery_zigate(
     assert result_form["result"].unique_id == "epid=aa:bb:cc:dd:ee:00:00:00"
 
 
-async def test_zeroconf_discovery_bad_payload(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_discovery_bad_payload(hass: UniversalAssistant) -> None:
     """Test zeroconf flow with a bad payload."""
     service_info = ZeroconfServiceInfo(
         ip_address=ip_address("192.168.1.200"),
@@ -441,7 +441,7 @@ async def test_zeroconf_discovery_bad_payload(hass: __HAC_KEEP__) -> None:
 
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
 @patch(f"zigpy_znp.{PROBE_FUNCTION_PATH}", AsyncMock(return_value=True))
-async def test_legacy_zeroconf_discovery_ip_change_ignored(hass: __HAC_KEEP__) -> None:
+async def test_legacy_zeroconf_discovery_ip_change_ignored(hass: UniversalAssistant) -> None:
     """Test zeroconf flow that was ignored gets updated."""
 
     entry = MockConfigEntry(
@@ -478,7 +478,7 @@ async def test_legacy_zeroconf_discovery_ip_change_ignored(hass: __HAC_KEEP__) -
 
 
 async def test_legacy_zeroconf_discovery_confirm_final_abort_if_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test discovery aborts if ZHA set up after confirmation shown."""
     service_info = ZeroconfServiceInfo(
@@ -511,7 +511,7 @@ async def test_legacy_zeroconf_discovery_confirm_final_abort_if_entries(
 
 
 @patch(f"zigpy_znp.{PROBE_FUNCTION_PATH}", AsyncMock(return_value=True))
-async def test_discovery_via_usb(hass: __HAC_KEEP__) -> None:
+async def test_discovery_via_usb(hass: UniversalAssistant) -> None:
     """Test usb flow -- radio detected."""
     discovery_info = UsbServiceInfo(
         device="/dev/ttyZIGBEE",
@@ -567,7 +567,7 @@ async def test_discovery_via_usb(hass: __HAC_KEEP__) -> None:
     "universalassistant.components.zha.radio_manager.ZhaRadioManager.detect_radio_type",
     AsyncMock(return_value=ProbeResult.PROBING_FAILED),
 )
-async def test_discovery_via_usb_no_radio(hass: __HAC_KEEP__) -> None:
+async def test_discovery_via_usb_no_radio(hass: UniversalAssistant) -> None:
     """Test usb flow -- no radio detected."""
     discovery_info = UsbServiceInfo(
         device="/dev/null",
@@ -595,7 +595,7 @@ async def test_discovery_via_usb_no_radio(hass: __HAC_KEEP__) -> None:
 
 
 @patch(f"zigpy_znp.{PROBE_FUNCTION_PATH}", AsyncMock(return_value=True))
-async def test_discovery_via_usb_already_setup(hass: __HAC_KEEP__) -> None:
+async def test_discovery_via_usb_already_setup(hass: UniversalAssistant) -> None:
     """Test usb flow -- already setup."""
 
     MockConfigEntry(
@@ -628,7 +628,7 @@ async def test_discovery_via_usb_already_setup(hass: __HAC_KEEP__) -> None:
 @patch(f"zigpy_znp.{PROBE_FUNCTION_PATH}", AsyncMock(return_value=True))
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
 async def test_migration_strategy_recommended(
-    hass: __HAC_KEEP__, backup, mock_app
+    hass: UniversalAssistant, backup, mock_app
 ) -> None:
     """Test automatic migration."""
     entry = MockConfigEntry(
@@ -697,7 +697,7 @@ async def test_migration_strategy_recommended(
 @patch(f"zigpy_znp.{PROBE_FUNCTION_PATH}", AsyncMock(return_value=True))
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
 async def test_migration_strategy_recommended_cannot_write(
-    hass: __HAC_KEEP__, backup, mock_app
+    hass: UniversalAssistant, backup, mock_app
 ) -> None:
     """Test recommended migration with a write failure."""
     MockConfigEntry(
@@ -754,7 +754,7 @@ async def test_migration_strategy_recommended_cannot_write(
 
 @patch(f"zigpy_znp.{PROBE_FUNCTION_PATH}", AsyncMock(return_value=True))
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
-async def test_multiple_zha_entries_aborts(hass: __HAC_KEEP__, mock_app) -> None:
+async def test_multiple_zha_entries_aborts(hass: UniversalAssistant, mock_app) -> None:
     """Test flow aborts if there are multiple ZHA config entries."""
     MockConfigEntry(
         domain=DOMAIN, data={CONF_DEVICE: {CONF_DEVICE_PATH: "/dev/ttyUSB1"}}
@@ -797,7 +797,7 @@ async def test_multiple_zha_entries_aborts(hass: __HAC_KEEP__, mock_app) -> None
 
 
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
-async def test_discovery_via_usb_duplicate_unique_id(hass: __HAC_KEEP__) -> None:
+async def test_discovery_via_usb_duplicate_unique_id(hass: UniversalAssistant) -> None:
     """Test USB discovery with duplicate unique_id config entry."""
 
     entry = MockConfigEntry(
@@ -831,7 +831,7 @@ async def test_discovery_via_usb_duplicate_unique_id(hass: __HAC_KEEP__) -> None
 
 
 @patch(f"zigpy_znp.{PROBE_FUNCTION_PATH}", AsyncMock(return_value=True))
-async def test_discovery_via_usb_deconz_already_discovered(hass: __HAC_KEEP__) -> None:
+async def test_discovery_via_usb_deconz_already_discovered(hass: UniversalAssistant) -> None:
     """Test usb flow -- deconz discovered."""
     result = await hass.config_entries.flow.async_init(
         "deconz",
@@ -865,7 +865,7 @@ async def test_discovery_via_usb_deconz_already_discovered(hass: __HAC_KEEP__) -
 
 
 @patch(f"zigpy_znp.{PROBE_FUNCTION_PATH}", AsyncMock(return_value=True))
-async def test_discovery_via_usb_deconz_already_setup(hass: __HAC_KEEP__) -> None:
+async def test_discovery_via_usb_deconz_already_setup(hass: UniversalAssistant) -> None:
     """Test usb flow -- deconz setup."""
     MockConfigEntry(domain="deconz", data={}).add_to_hass(hass)
     await hass.async_block_till_done()
@@ -887,7 +887,7 @@ async def test_discovery_via_usb_deconz_already_setup(hass: __HAC_KEEP__) -> Non
 
 
 @patch(f"zigpy_znp.{PROBE_FUNCTION_PATH}", AsyncMock(return_value=True))
-async def test_discovery_via_usb_deconz_ignored(hass: __HAC_KEEP__) -> None:
+async def test_discovery_via_usb_deconz_ignored(hass: UniversalAssistant) -> None:
     """Test usb flow -- deconz ignored."""
     MockConfigEntry(
         domain="deconz", source=config_entries.SOURCE_IGNORE, data={}
@@ -911,7 +911,7 @@ async def test_discovery_via_usb_deconz_ignored(hass: __HAC_KEEP__) -> None:
 
 
 @patch(f"zigpy_znp.{PROBE_FUNCTION_PATH}", AsyncMock(return_value=True))
-async def test_discovery_via_usb_zha_ignored_updates(hass: __HAC_KEEP__) -> None:
+async def test_discovery_via_usb_zha_ignored_updates(hass: UniversalAssistant) -> None:
     """Test usb flow that was ignored gets updated."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -941,7 +941,7 @@ async def test_discovery_via_usb_zha_ignored_updates(hass: __HAC_KEEP__) -> None
     }
 
 
-async def test_discovery_via_usb_same_device_already_setup(hass: __HAC_KEEP__) -> None:
+async def test_discovery_via_usb_same_device_already_setup(hass: UniversalAssistant) -> None:
     """Test discovery aborting if ZHA is already setup."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -992,7 +992,7 @@ MOVED_RADIO_DISCOVERY = UsbServiceInfo(
 )
 
 
-async def _async_scan_usb(hass: __HAC_KEEP__, ports: list[USBDevice]) -> None:
+async def _async_scan_usb(hass: UniversalAssistant, ports: list[USBDevice]) -> None:
     """Set up USB and let it scan the given ports, without starting discovery."""
     with (
         patch("universalassistant.components.usb.async_get_usb", return_value=[]),
@@ -1014,7 +1014,7 @@ async def _async_scan_usb(hass: __HAC_KEEP__, ports: list[USBDevice]) -> None:
 )
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_discovery_via_usb_follows_moved_radio(
-    hass: __HAC_KEEP__, state: ConfigEntryState, reloads: int
+    hass: UniversalAssistant, state: ConfigEntryState, reloads: int
 ) -> None:
     """A configured radio discovered at another path is followed there."""
     entry = MockConfigEntry(
@@ -1056,7 +1056,7 @@ async def test_discovery_via_usb_follows_moved_radio(
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_discovery_via_usb_does_not_follow_present_radio(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A second radio that cannot be told apart from the configured one is new."""
     entry = MockConfigEntry(
@@ -1099,7 +1099,7 @@ async def test_discovery_via_usb_does_not_follow_present_radio(
 
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
 @patch(f"zigpy_znp.{PROBE_FUNCTION_PATH}", AsyncMock(return_value=True))
-async def test_legacy_zeroconf_discovery_already_setup(hass: __HAC_KEEP__) -> None:
+async def test_legacy_zeroconf_discovery_already_setup(hass: UniversalAssistant) -> None:
     """Test zeroconf flow -- radio detected."""
     service_info = ZeroconfServiceInfo(
         ip_address=ip_address("192.168.1.200"),
@@ -1131,7 +1131,7 @@ async def test_legacy_zeroconf_discovery_already_setup(hass: __HAC_KEEP__) -> No
 
 
 async def test_zeroconf_discovery_via_socket_already_setup_with_ip_match(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test zeroconf aborts when ZHA uses socket with matching IP."""
     MockConfigEntry(
@@ -1164,7 +1164,7 @@ async def test_zeroconf_discovery_via_socket_already_setup_with_ip_match(
 
 
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
-async def test_zeroconf_not_onboarded(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_not_onboarded(hass: UniversalAssistant) -> None:
     """Test zeroconf discovery needing confirmation when not onboarded."""
     service_info = ZeroconfServiceInfo(
         ip_address=ip_address("192.168.1.100"),
@@ -1194,7 +1194,7 @@ async def test_zeroconf_not_onboarded(hass: __HAC_KEEP__) -> None:
     "universalassistant.components.zha.radio_manager.ZhaRadioManager.detect_radio_type",
     mock_detect_radio_type(radio_type=RadioType.deconz),
 )
-async def test_user_flow(hass: __HAC_KEEP__) -> None:
+async def test_user_flow(hass: UniversalAssistant) -> None:
     """Test user flow -- radio detected."""
 
     port = usb_port()
@@ -1239,7 +1239,7 @@ async def test_user_flow(hass: __HAC_KEEP__) -> None:
     "universalassistant.components.zha.radio_manager.ZhaRadioManager.detect_radio_type",
     AsyncMock(return_value=ProbeResult.PROBING_FAILED),
 )
-async def test_user_flow_not_detected(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_not_detected(hass: UniversalAssistant) -> None:
     """Test user flow, radio not detected."""
 
     port = com_port()
@@ -1258,7 +1258,7 @@ async def test_user_flow_not_detected(hass: __HAC_KEEP__) -> None:
     assert result["step_id"] == "manual_pick_radio_type"
 
 
-async def test_user_flow_show_form(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_show_form(hass: UniversalAssistant) -> None:
     """Test user step form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -1270,7 +1270,7 @@ async def test_user_flow_show_form(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.parametrize("radio_type", RadioType.list())
-async def test_pick_radio_flow(hass: __HAC_KEEP__, radio_type) -> None:
+async def test_pick_radio_flow(hass: UniversalAssistant, radio_type) -> None:
     """Test radio picker."""
 
     result = await hass.config_entries.flow.async_init(
@@ -1282,7 +1282,7 @@ async def test_pick_radio_flow(hass: __HAC_KEEP__, radio_type) -> None:
     assert result["step_id"] == "manual_port_config"
 
 
-async def _detect_radio_and_create_entry(hass: __HAC_KEEP__) -> ConfigFlowResult:
+async def _detect_radio_and_create_entry(hass: UniversalAssistant) -> ConfigFlowResult:
     """Pick a serial port, let the radio type be detected and create the entry."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -1309,7 +1309,7 @@ async def _detect_radio_and_create_entry(hass: __HAC_KEEP__) -> ConfigFlowResult
 @patch(f"zigpy_zigate.{PROBE_FUNCTION_PATH}", return_value=False)
 @patch(f"zigpy_znp.{PROBE_FUNCTION_PATH}", return_value=True)
 async def test_detect_radio_type_success(
-    znp_probe, zigate_probe, deconz_probe, bellows_probe, hass: __HAC_KEEP__
+    znp_probe, zigate_probe, deconz_probe, bellows_probe, hass: UniversalAssistant
 ) -> None:
     """Test detect radios successfully."""
     result = await _detect_radio_and_create_entry(hass)
@@ -1337,7 +1337,7 @@ async def test_detect_radio_type_success(
 @patch(f"zigpy_zigate.{PROBE_FUNCTION_PATH}", return_value=False)
 @patch(f"zigpy_znp.{PROBE_FUNCTION_PATH}", return_value=False)
 async def test_detect_radio_type_success_with_settings(
-    znp_probe, zigate_probe, deconz_probe, bellows_probe, hass: __HAC_KEEP__
+    znp_probe, zigate_probe, deconz_probe, bellows_probe, hass: UniversalAssistant
 ) -> None:
     """Test detect radios successfully but probing returns new settings."""
     result = await _detect_radio_and_create_entry(hass)
@@ -1357,7 +1357,7 @@ async def test_detect_radio_type_success_with_settings(
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
 @patch(f"bellows.{PROBE_FUNCTION_PATH}", return_value=False)
 async def test_user_port_config_fail(
-    probe_mock: AsyncMock, hass: __HAC_KEEP__
+    probe_mock: AsyncMock, hass: UniversalAssistant
 ) -> None:
     """Test port config flow."""
 
@@ -1407,7 +1407,7 @@ async def test_user_port_config_fail(
 
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
 @patch(f"bellows.{PROBE_FUNCTION_PATH}", return_value=True)
-async def test_user_port_config(probe_mock, hass: __HAC_KEEP__) -> None:
+async def test_user_port_config(probe_mock, hass: UniversalAssistant) -> None:
     """Test port config."""
 
     result = await hass.config_entries.flow.async_init(
@@ -1445,7 +1445,7 @@ async def test_user_port_config(probe_mock, hass: __HAC_KEEP__) -> None:
 
 
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
-async def test_hardware_not_onboarded(hass: __HAC_KEEP__) -> None:
+async def test_hardware_not_onboarded(hass: UniversalAssistant) -> None:
     """Test hardware flow."""
     data = {
         "name": "Yellow",
@@ -1482,7 +1482,7 @@ async def test_hardware_not_onboarded(hass: __HAC_KEEP__) -> None:
 
 
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
-async def test_hardware_no_flow_strategy(hass: __HAC_KEEP__) -> None:
+async def test_hardware_no_flow_strategy(hass: UniversalAssistant) -> None:
     """Test hardware flow."""
     data = {
         "name": "Yellow",
@@ -1536,7 +1536,7 @@ async def test_hardware_no_flow_strategy(hass: __HAC_KEEP__) -> None:
 
 
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
-async def test_hardware_flow_strategy_advanced(hass: __HAC_KEEP__) -> None:
+async def test_hardware_flow_strategy_advanced(hass: UniversalAssistant) -> None:
     """Test advanced flow strategy for hardware flow."""
     data = {
         "name": "Yellow",
@@ -1592,7 +1592,7 @@ async def test_hardware_flow_strategy_advanced(hass: __HAC_KEEP__) -> None:
 
 
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
-async def test_hardware_flow_strategy_recommended(hass: __HAC_KEEP__) -> None:
+async def test_hardware_flow_strategy_recommended(hass: UniversalAssistant) -> None:
     """Test recommended flow strategy for hardware flow."""
     data = {
         "name": "Yellow",
@@ -1642,7 +1642,7 @@ async def test_hardware_flow_strategy_recommended(hass: __HAC_KEEP__) -> None:
 @patch(f"zigpy_znp.{PROBE_FUNCTION_PATH}", AsyncMock(return_value=True))
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
 async def test_hardware_migration_flow_strategy_advanced(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     backup: zigpy.backups.NetworkBackup,
     mock_app: AsyncMock,
 ) -> None:
@@ -1722,7 +1722,7 @@ async def test_hardware_migration_flow_strategy_advanced(
 @patch(f"zigpy_znp.{PROBE_FUNCTION_PATH}", AsyncMock(return_value=True))
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
 async def test_hardware_migration_flow_strategy_recommended(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     backup: zigpy.backups.NetworkBackup,
     mock_app: AsyncMock,
 ) -> None:
@@ -1793,7 +1793,7 @@ async def test_hardware_migration_flow_strategy_recommended(
 @pytest.mark.parametrize(
     "data", [None, {}, {"radio_type": "best_radio"}, {"radio_type": "efr32"}]
 )
-async def test_hardware_invalid_data(hass: __HAC_KEEP__, data) -> None:
+async def test_hardware_invalid_data(hass: UniversalAssistant, data) -> None:
     """Test onboarding flow -- invalid data."""
 
     result = await hass.config_entries.flow.async_init(
@@ -1826,7 +1826,7 @@ def test_prevent_overwrite_ezsp_ieee() -> None:
 
 
 @pytest.fixture
-def advanced_pick_radio(hass: __HAC_KEEP__) -> Generator[RadioPicker]:
+def advanced_pick_radio(hass: UniversalAssistant) -> Generator[RadioPicker]:
     """Fixture for the first step of the config flow (where a radio is picked)."""
 
     async def wrapper(radio_type: RadioType) -> ConfigFlowResult:
@@ -1862,7 +1862,7 @@ def advanced_pick_radio(hass: __HAC_KEEP__) -> Generator[RadioPicker]:
 
 
 async def test_strategy_no_network_settings(
-    advanced_pick_radio: RadioPicker, mock_app: AsyncMock, hass: __HAC_KEEP__
+    advanced_pick_radio: RadioPicker, mock_app: AsyncMock, hass: UniversalAssistant
 ) -> None:
     """Test formation strategy when no network settings are present."""
     mock_app.load_network_info = DelayedAsyncMock(side_effect=NetworkNotFormed())
@@ -1875,7 +1875,7 @@ async def test_strategy_no_network_settings(
 
 
 async def test_formation_strategy_form_new_network(
-    advanced_pick_radio: RadioPicker, mock_app: AsyncMock, hass: __HAC_KEEP__
+    advanced_pick_radio: RadioPicker, mock_app: AsyncMock, hass: UniversalAssistant
 ) -> None:
     """Test forming a new network."""
     result = await advanced_pick_radio(RadioType.ezsp)
@@ -1900,7 +1900,7 @@ async def test_formation_strategy_form_new_network(
 
 
 async def test_formation_strategy_form_initial_network(
-    advanced_pick_radio: RadioPicker, mock_app: AsyncMock, hass: __HAC_KEEP__
+    advanced_pick_radio: RadioPicker, mock_app: AsyncMock, hass: UniversalAssistant
 ) -> None:
     """Test forming a new network, with no previous settings on the radio."""
     # Initially, no network is formed
@@ -1932,7 +1932,7 @@ async def test_formation_strategy_form_initial_network(
 
 
 async def test_formation_strategy_form_initial_network_failure(
-    advanced_pick_radio: RadioPicker, mock_app: AsyncMock, hass: __HAC_KEEP__
+    advanced_pick_radio: RadioPicker, mock_app: AsyncMock, hass: UniversalAssistant
 ) -> None:
     """Test forming a new network that fails with an exception."""
     # Mock form_network to raise an exception
@@ -1964,7 +1964,7 @@ async def test_formation_strategy_form_initial_network_failure(
 @patch(f"zigpy_znp.{PROBE_FUNCTION_PATH}", AsyncMock(return_value=True))
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
 async def test_onboarding_auto_formation_new_hardware(
-    mock_app: AsyncMock, hass: __HAC_KEEP__
+    mock_app: AsyncMock, hass: UniversalAssistant
 ) -> None:
     """Test auto network formation with new hardware during onboarding."""
     # Initially, no network is formed
@@ -2015,7 +2015,7 @@ async def test_onboarding_auto_formation_new_hardware(
 
 
 async def test_formation_strategy_reuse_settings(
-    advanced_pick_radio: RadioPicker, mock_app: AsyncMock, hass: __HAC_KEEP__
+    advanced_pick_radio: RadioPicker, mock_app: AsyncMock, hass: UniversalAssistant
 ) -> None:
     """Test reusing existing network settings."""
     result = await advanced_pick_radio(RadioType.ezsp)
@@ -2039,7 +2039,7 @@ async def test_formation_strategy_restore_manual_backup_non_ezsp(
     advanced_pick_radio: RadioPicker,
     mock_app: AsyncMock,
     backup: zigpy.backups.NetworkBackup,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test restoring a manual backup on non-EZSP coordinators."""
     result = await advanced_pick_radio(RadioType.znp)
@@ -2087,7 +2087,7 @@ async def test_formation_strategy_restore_manual_backup_overwrite_ieee_ezsp(
     advanced_pick_radio: RadioPicker,
     mock_app: AsyncMock,
     backup,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test restoring a manual backup on EZSP coordinators (overwrite IEEE)."""
     result = await advanced_pick_radio(RadioType.ezsp)
@@ -2157,7 +2157,7 @@ async def test_formation_strategy_restore_manual_backup_ezsp(
     allow_overwrite_ieee_mock,
     advanced_pick_radio: RadioPicker,
     mock_app: AsyncMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test restoring a manual backup on EZSP coordinators (don't overwrite IEEE)."""
     result = await advanced_pick_radio(RadioType.ezsp)
@@ -2216,7 +2216,7 @@ async def test_formation_strategy_restore_manual_backup_ezsp(
 
 
 async def test_formation_strategy_restore_manual_backup_invalid_upload(
-    advanced_pick_radio: RadioPicker, mock_app: AsyncMock, hass: __HAC_KEEP__
+    advanced_pick_radio: RadioPicker, mock_app: AsyncMock, hass: UniversalAssistant
 ) -> None:
     """Test restoring a manual backup but an invalid file is uploaded."""
     result = await advanced_pick_radio(RadioType.ezsp)
@@ -2288,7 +2288,7 @@ async def test_formation_strategy_restore_automatic_backup_ezsp(
     advanced_pick_radio: RadioPicker,
     mock_app: AsyncMock,
     make_backup,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test restoring an automatic backup (EZSP radio)."""
     mock_app.backups.backups = [
@@ -2340,7 +2340,7 @@ async def test_formation_strategy_restore_automatic_backup_non_ezsp(
     advanced_pick_radio: RadioPicker,
     mock_app: AsyncMock,
     make_backup,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test restoring an automatic backup (non-EZSP radio)."""
     mock_app.backups.backups = [
@@ -2394,7 +2394,7 @@ async def test_formation_strategy_restore_automatic_backup_non_ezsp(
 
 @patch("universalassistant.components.zha.async_setup_entry", return_value=None)
 async def test_options_flow_creates_backup(
-    async_setup_entry, hass: __HAC_KEEP__, mock_app
+    async_setup_entry, hass: UniversalAssistant, mock_app
 ) -> None:
     """Test options flow creates a backup."""
     entry = MockConfigEntry(
@@ -2456,7 +2456,7 @@ async def test_options_flow_defaults(
     async_unload_effect,
     input_flow_control,
     conf_flow_control,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test options flow defaults match radio defaults."""
 
@@ -2596,7 +2596,7 @@ async def test_options_flow_defaults(
 
 
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
-async def test_options_flow_defaults_socket(hass: __HAC_KEEP__) -> None:
+async def test_options_flow_defaults_socket(hass: UniversalAssistant) -> None:
     """Test options flow defaults work even for serial ports that can't be listed."""
 
     entry = MockConfigEntry(
@@ -2676,7 +2676,7 @@ async def test_options_flow_defaults_socket(hass: __HAC_KEEP__) -> None:
 
 @patch("universalassistant.components.zha.async_setup_entry", return_value=None)
 async def test_options_flow_restarts_running_zha_if_cancelled(
-    async_setup_entry, hass: __HAC_KEEP__
+    async_setup_entry, hass: UniversalAssistant
 ) -> None:
     """Test options flow restarts a previously-running ZHA if it's cancelled."""
 
@@ -2730,7 +2730,7 @@ async def test_options_flow_restarts_running_zha_if_cancelled(
 
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
 async def test_options_flow_migration_reset_old_adapter(
-    hass: __HAC_KEEP__, backup, mock_app
+    hass: UniversalAssistant, backup, mock_app
 ) -> None:
     """Test options flow for migrating resets the old radio, not the new one."""
 
@@ -2825,7 +2825,7 @@ async def test_options_flow_migration_reset_old_adapter(
 
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
 async def test_options_flow_reconfigure_no_reset(
-    hass: __HAC_KEEP__, backup, mock_app
+    hass: UniversalAssistant, backup, mock_app
 ) -> None:
     """Test options flow for reconfiguring does not require the old adapter."""
 
@@ -2915,7 +2915,7 @@ async def test_options_flow_reconfigure_no_reset(
     assert entry.title == "My custom Zigbee name"
 
 
-async def test_probe_wrong_firmware_installed(hass: __HAC_KEEP__) -> None:
+async def test_probe_wrong_firmware_installed(hass: UniversalAssistant) -> None:
     """Test auto-probing failing because the wrong firmware is installed."""
 
     with patch(
@@ -2937,7 +2937,7 @@ async def test_probe_wrong_firmware_installed(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "wrong_firmware_installed"
 
 
-async def test_discovery_wrong_firmware_installed(hass: __HAC_KEEP__) -> None:
+async def test_discovery_wrong_firmware_installed(hass: UniversalAssistant) -> None:
     """Test auto-probing failing because the wrong firmware is installed."""
 
     with (
@@ -2969,7 +2969,7 @@ async def test_discovery_wrong_firmware_installed(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_migration_ti_cc_to_znp(
-    old_type: str, new_type: str, hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    old_type: str, new_type: str, hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test zigpy-cc to zigpy-znp config migration."""
     config_entry.add_to_hass(hass)
@@ -2988,7 +2988,7 @@ async def test_migration_ti_cc_to_znp(
 @patch(f"zigpy_znp.{PROBE_FUNCTION_PATH}", AsyncMock(return_value=True))
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
 async def test_migration_resets_old_radio(
-    hass: __HAC_KEEP__, backup, mock_app
+    hass: UniversalAssistant, backup, mock_app
 ) -> None:
     """Test that the old radio is reset during migration."""
     entry = MockConfigEntry(
@@ -3067,7 +3067,7 @@ async def test_migration_resets_old_radio(
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
 @patch(f"bellows.{PROBE_FUNCTION_PATH}", return_value=True)
 async def test_config_flow_serial_resolution_oserror(
-    probe_mock, hass: __HAC_KEEP__
+    probe_mock, hass: UniversalAssistant
 ) -> None:
     """Test that OSError during serial port resolution is handled."""
 
@@ -3101,7 +3101,7 @@ async def test_formation_strategy_restore_manual_backup_overwrite_ieee_ezsp_writ
     advanced_pick_radio: RadioPicker,
     mock_app: AsyncMock,
     backup,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test restoring manual backup on EZSP with a write failure."""
     advanced_strategy_result = await advanced_pick_radio(RadioType.ezsp)
@@ -3171,7 +3171,7 @@ async def test_formation_strategy_restore_manual_backup_overwrite_ieee_ezsp_writ
 
 @patch(f"bellows.{PROBE_FUNCTION_PATH}", AsyncMock(return_value=True))
 async def test_migrate_setup_options_with_ignored_discovery(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test that ignored discovery info is migrated to options."""
 
@@ -3224,7 +3224,7 @@ async def test_plug_in_new_radio_retry(
     advanced_pick_radio: RadioPicker,
     mock_app: AsyncMock,
     backup,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test plug_in_new_radio step when restore fails due to unplugged adapter."""
     result = await advanced_pick_radio(RadioType.ezsp)
@@ -3247,12 +3247,12 @@ async def test_plug_in_new_radio_retry(
             "universalassistant.components.zha.radio_manager.ZhaRadioManager.restore_backup",
             new_callable=DelayedAsyncMock,
             side_effect=[
-                __HAC_KEEP__Error(
+                UniversalAssistantError(
                     "Failed to connect to Zigbee adapter:"
                     " [Errno 2] No such file or directory"
                 ),
                 DestructiveWriteNetworkSettings("Radio IEEE change is permanent"),
-                __HAC_KEEP__Error(
+                UniversalAssistantError(
                     "Failed to connect to Zigbee adapter:"
                     " [Errno 2] No such file or directory"
                 ),
@@ -3332,7 +3332,7 @@ async def test_plug_in_new_radio_retry(
 
 @patch(f"zigpy_znp.{PROBE_FUNCTION_PATH}", AsyncMock(return_value=True))
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
-async def test_plug_in_old_radio_retry(hass: __HAC_KEEP__, backup, mock_app) -> None:
+async def test_plug_in_old_radio_retry(hass: UniversalAssistant, backup, mock_app) -> None:
     """Test plug_in_old_radio step when reset fails due to unplugged adapter."""
     entry = MockConfigEntry(
         version=config_flow.ZhaConfigFlowHandler.VERSION,
@@ -3359,7 +3359,7 @@ async def test_plug_in_old_radio_retry(hass: __HAC_KEEP__, backup, mock_app) -> 
 
     mock_temp_radio_mgr = AsyncMock()
     mock_temp_radio_mgr.async_reset_adapter = DelayedAsyncMock(
-        side_effect=__HAC_KEEP__Error(
+        side_effect=UniversalAssistantError(
             "Failed to connect to Zigbee adapter: [Errno 2] No such file or directory"
         )
     )
@@ -3446,7 +3446,7 @@ async def test_plug_in_old_radio_retry(hass: __HAC_KEEP__, backup, mock_app) -> 
 @patch(f"zigpy_znp.{PROBE_FUNCTION_PATH}", AsyncMock(return_value=True))
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
 async def test_plug_in_old_radio_config_entry_removed(
-    hass: __HAC_KEEP__, backup, mock_app
+    hass: UniversalAssistant, backup, mock_app
 ) -> None:
     """Test plug_in_old_radio step when old config entry is removed during reset."""
     entry = MockConfigEntry(
@@ -3477,7 +3477,7 @@ async def test_plug_in_old_radio_config_entry_removed(
         # Simulate the config entry being removed while reset is in progress
         await hass.config_entries.async_remove(entry.entry_id)
         # And user unplugs the old adapter during our reset attempt
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             "Failed to connect to Zigbee adapter: [Errno 2] No such file or directory"
         )
 

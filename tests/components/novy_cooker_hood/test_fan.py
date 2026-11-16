@@ -19,14 +19,14 @@ from universalassistant.components.fan import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ASSUMED_STATE, ATTR_ENTITY_ID, STATE_OFF, STATE_ON
-from universalassistant.core import Context, __HAC_KEEP__, State
+from universalassistant.core import Context, UniversalAssistant, State
 
 ENTITY_ID = "fan.novy_cooker_hood"
 
 
 @pytest.mark.usefixtures("init_novy_cooker_hood")
 async def test_turn_on_calibrates_to_level_1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
 ) -> None:
     """Default turn_on sends 4 minus + 1 plus and lands at 25%."""
@@ -54,7 +54,7 @@ async def test_turn_on_calibrates_to_level_1(
 
 @pytest.mark.usefixtures("init_novy_cooker_hood")
 async def test_turn_on_with_percentage_calibrates_to_level(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
 ) -> None:
     """turn_on with percentage targets the matching level via calibration."""
@@ -74,7 +74,7 @@ async def test_turn_on_with_percentage_calibrates_to_level(
 
 @pytest.mark.usefixtures("init_novy_cooker_hood")
 async def test_set_percentage_zero_turns_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
 ) -> None:
     """set_percentage(0) turns the fan off via the calibration sequence."""
@@ -94,7 +94,7 @@ async def test_set_percentage_zero_turns_off(
 
 @pytest.mark.usefixtures("init_novy_cooker_hood")
 async def test_turn_off_sends_four_minuses(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
 ) -> None:
     """turn_off sends 4 minus presses."""
@@ -114,7 +114,7 @@ async def test_turn_off_sends_four_minuses(
 
 @pytest.mark.usefixtures("init_novy_cooker_hood")
 async def test_set_percentage_calibrates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
 ) -> None:
     """set_percentage(75) sends 4 minus + 3 plus and lands at level 3."""
@@ -134,7 +134,7 @@ async def test_set_percentage_calibrates(
 
 @pytest.mark.usefixtures("init_novy_cooker_hood")
 async def test_increase_speed_sends_single_plus(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
 ) -> None:
     """increase_speed sends one plus and bumps level by one (no recalibration)."""
@@ -153,7 +153,7 @@ async def test_increase_speed_sends_single_plus(
 
 
 async def test_increase_speed_clamps_at_max(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -179,7 +179,7 @@ async def test_increase_speed_clamps_at_max(
 
 
 async def test_decrease_speed_sends_single_minus(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -206,7 +206,7 @@ async def test_decrease_speed_sends_single_minus(
 
 @pytest.mark.usefixtures("init_novy_cooker_hood")
 async def test_increase_speed_with_step_sends_n_presses(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
 ) -> None:
     """increase_speed with percentage_step sends N plus presses (no recalibration)."""
@@ -224,7 +224,7 @@ async def test_increase_speed_with_step_sends_n_presses(
 
 
 async def test_decrease_speed_with_step_sends_n_presses(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -251,7 +251,7 @@ async def test_decrease_speed_with_step_sends_n_presses(
 
 @pytest.mark.usefixtures("init_novy_cooker_hood")
 async def test_decrease_speed_clamps_at_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
 ) -> None:
     """decrease_speed at level 0 still sends one minus but level stays at 0."""
@@ -270,7 +270,7 @@ async def test_decrease_speed_clamps_at_off(
 
 @pytest.mark.usefixtures("init_novy_cooker_hood")
 async def test_set_percentage_sleeps_between_presses(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
 ) -> None:
     """A delay is awaited between every RF press, including between sequences."""
@@ -294,7 +294,7 @@ async def test_set_percentage_sleeps_between_presses(
 
 
 async def test_restore_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
     mock_config_entry: MockConfigEntry,
 ) -> None:

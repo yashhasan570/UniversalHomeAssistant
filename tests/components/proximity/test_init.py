@@ -24,7 +24,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     __version__ as HA_VERSION,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
@@ -32,7 +32,7 @@ from universalassistant.util import slugify
 
 
 async def async_setup_single_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     zone: str,
     tracked_entites: list[str],
     ignored_zones: list[str],
@@ -73,7 +73,7 @@ async def async_setup_single_entry(
         },
     ],
 )
-async def test_proximities(hass: __HAC_KEEP__, config: dict) -> None:
+async def test_proximities(hass: UniversalAssistant, config: dict) -> None:
     """Test a list of proximities."""
     title = hass.states.get(config[CONF_ZONE]).name
     mock_config = MockConfigEntry(
@@ -100,7 +100,7 @@ async def test_proximities(hass: __HAC_KEEP__, config: dict) -> None:
         assert state.state == STATE_UNAVAILABLE
 
 
-async def test_device_tracker_test1_in_zone(hass: __HAC_KEEP__) -> None:
+async def test_device_tracker_test1_in_zone(hass: UniversalAssistant) -> None:
     """Test for tracker in zone."""
     await async_setup_single_entry(hass, "zone.home", ["device_tracker.test1"], [], 1)
 
@@ -122,7 +122,7 @@ async def test_device_tracker_test1_in_zone(hass: __HAC_KEEP__) -> None:
     assert state.state == "arrived"
 
 
-async def test_device_tracker_test1_away(hass: __HAC_KEEP__) -> None:
+async def test_device_tracker_test1_away(hass: UniversalAssistant) -> None:
     """Test for tracker state away."""
     await async_setup_single_entry(hass, "zone.home", ["device_tracker.test1"], [], 1)
 
@@ -146,7 +146,7 @@ async def test_device_tracker_test1_away(hass: __HAC_KEEP__) -> None:
 
 
 async def test_device_tracker_test1_awayfurther(
-    hass: __HAC_KEEP__, config_zones
+    hass: UniversalAssistant, config_zones
 ) -> None:
     """Test for tracker state away further."""
     await async_setup_single_entry(hass, "zone.home", ["device_tracker.test1"], [], 1)
@@ -187,7 +187,7 @@ async def test_device_tracker_test1_awayfurther(
 
 
 async def test_device_tracker_test1_awaycloser(
-    hass: __HAC_KEEP__, config_zones
+    hass: UniversalAssistant, config_zones
 ) -> None:
     """Test for tracker state away closer."""
     await async_setup_single_entry(hass, "zone.home", ["device_tracker.test1"], [], 1)
@@ -227,7 +227,7 @@ async def test_device_tracker_test1_awaycloser(
     assert state.state == "towards"
 
 
-async def test_all_device_trackers_in_ignored_zone(hass: __HAC_KEEP__) -> None:
+async def test_all_device_trackers_in_ignored_zone(hass: UniversalAssistant) -> None:
     """Test for tracker in ignored zone."""
     await async_setup_single_entry(hass, "zone.home", ["device_tracker.test1"], [], 1)
 
@@ -245,7 +245,7 @@ async def test_all_device_trackers_in_ignored_zone(hass: __HAC_KEEP__) -> None:
     assert state.state == STATE_UNKNOWN
 
 
-async def test_device_tracker_test1_no_coordinates(hass: __HAC_KEEP__) -> None:
+async def test_device_tracker_test1_no_coordinates(hass: UniversalAssistant) -> None:
     """Test for tracker with no coordinates."""
     await async_setup_single_entry(hass, "zone.home", ["device_tracker.test1"], [], 1)
 
@@ -265,7 +265,7 @@ async def test_device_tracker_test1_no_coordinates(hass: __HAC_KEEP__) -> None:
     assert state.state == STATE_UNKNOWN
 
 
-async def test_device_tracker_test1_awayfurther_a_bit(hass: __HAC_KEEP__) -> None:
+async def test_device_tracker_test1_awayfurther_a_bit(hass: UniversalAssistant) -> None:
     """Test for tracker states."""
     await async_setup_single_entry(
         hass, "zone.home", ["device_tracker.test1"], ["zone.work"], 1000
@@ -306,7 +306,7 @@ async def test_device_tracker_test1_awayfurther_a_bit(hass: __HAC_KEEP__) -> Non
     assert state.state == "stationary"
 
 
-async def test_device_trackers_in_zone(hass: __HAC_KEEP__) -> None:
+async def test_device_trackers_in_zone(hass: UniversalAssistant) -> None:
     """Test for trackers in zone."""
     await async_setup_single_entry(
         hass,
@@ -350,7 +350,7 @@ async def test_device_trackers_in_zone(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_device_tracker_in_non_home_zone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tracker_attributes: dict[str, Any],
 ) -> None:
     """Test that a tracker in a non-home zone reports arrived.
@@ -398,7 +398,7 @@ async def test_device_tracker_in_non_home_zone(
 
 
 async def test_overlapping_zones_in_zones_reports_arrived(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test overlapping proximity zones both report arrived via in_zones.
 
@@ -463,7 +463,7 @@ async def test_overlapping_zones_in_zones_reports_arrived(
 
 
 async def test_legacy_device_tracker_home_with_empty_in_zones(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test legacy tracker with empty in_zones and home state reports arrived.
 
@@ -489,7 +489,7 @@ async def test_legacy_device_tracker_home_with_empty_in_zones(
 
 
 async def test_device_tracker_test1_awayfurther_than_test2_first_test1(
-    hass: __HAC_KEEP__, config_zones
+    hass: UniversalAssistant, config_zones
 ) -> None:
     """Test for tracker ordering."""
     hass.states.async_set(
@@ -554,7 +554,7 @@ async def test_device_tracker_test1_awayfurther_than_test2_first_test1(
 
 
 async def test_device_tracker_test1_awayfurther_than_test2_first_test2(
-    hass: __HAC_KEEP__, config_zones
+    hass: UniversalAssistant, config_zones
 ) -> None:
     """Test for tracker ordering."""
     hass.states.async_set(
@@ -620,7 +620,7 @@ async def test_device_tracker_test1_awayfurther_than_test2_first_test2(
 
 
 async def test_device_tracker_test1_awayfurther_test2_in_ignored_zone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test for tracker states."""
     hass.states.async_set(
@@ -660,7 +660,7 @@ async def test_device_tracker_test1_awayfurther_test2_in_ignored_zone(
 
 
 async def test_device_tracker_test1_awayfurther_test2_first(
-    hass: __HAC_KEEP__, config_zones
+    hass: UniversalAssistant, config_zones
 ) -> None:
     """Test for tracker state."""
     hass.states.async_set(
@@ -727,7 +727,7 @@ async def test_device_tracker_test1_awayfurther_test2_first(
 
 
 async def test_device_tracker_test1_nearest_after_test2_in_ignored_zone(
-    hass: __HAC_KEEP__, config_zones
+    hass: UniversalAssistant, config_zones
 ) -> None:
     """Test for tracker states."""
     await hass.async_block_till_done()
@@ -818,7 +818,7 @@ async def test_device_tracker_test1_nearest_after_test2_in_ignored_zone(
     assert state.state == "away_from"
 
 
-async def test_nearest_sensors(hass: __HAC_KEEP__, config_zones) -> None:
+async def test_nearest_sensors(hass: UniversalAssistant, config_zones) -> None:
     """Test for nearest sensors."""
     await async_setup_single_entry(
         hass, "zone.home", ["device_tracker.test1", "device_tracker.test2"], [], 1
@@ -933,7 +933,7 @@ async def test_nearest_sensors(hass: __HAC_KEEP__, config_zones) -> None:
 
 
 async def test_create_removed_tracked_entity_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     entity_registry: er.EntityRegistry,
     hass_client: ClientSessionGenerator,
@@ -994,7 +994,7 @@ async def test_create_removed_tracked_entity_issue(
 
 
 def _mock_proximity_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     title: str,
     zone: str,
     tracked_entities: list[str],
@@ -1023,7 +1023,7 @@ def _mock_proximity_entry(
 
 
 async def test_removed_tracked_entity_issue_per_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1065,7 +1065,7 @@ async def test_removed_tracked_entity_issue_per_config_entry(
 
 
 async def test_removed_tracked_entity_issue_deleted_when_untracked(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1125,7 +1125,7 @@ async def test_removed_tracked_entity_issue_deleted_when_untracked(
     ],
 )
 async def test_migrate_legacy_removed_tracked_entity_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     issue_registry: ir.IssueRegistry,
     legacy_dismissed_version: str | None,
@@ -1217,7 +1217,7 @@ async def test_migrate_legacy_removed_tracked_entity_issue(
 
 
 async def test_track_renamed_tracked_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test that when tracked entity is renamed."""
@@ -1252,7 +1252,7 @@ async def test_track_renamed_tracked_entity(
 
 
 async def test_sensor_unique_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test that when tracked entity is renamed."""
@@ -1281,7 +1281,7 @@ async def test_sensor_unique_ids(
     )
 
 
-async def test_tracked_zone_is_removed(hass: __HAC_KEEP__) -> None:
+async def test_tracked_zone_is_removed(hass: UniversalAssistant) -> None:
     """Test that tracked zone is removed."""
     await async_setup_single_entry(hass, "zone.home", ["device_tracker.test1"], [], 1)
 
@@ -1322,7 +1322,7 @@ async def test_tracked_zone_is_removed(hass: __HAC_KEEP__) -> None:
     assert state.state == STATE_UNAVAILABLE
 
 
-async def test_tracked_zone_radius_is_changed(hass: __HAC_KEEP__) -> None:
+async def test_tracked_zone_radius_is_changed(hass: UniversalAssistant) -> None:
     """Test that radius of the tracked zone is changed."""
     entry = await async_setup_single_entry(
         hass, "zone.home", ["device_tracker.test1"], [], 1
@@ -1367,7 +1367,7 @@ async def test_tracked_zone_radius_is_changed(hass: __HAC_KEEP__) -> None:
     assert state.state == STATE_UNKNOWN
 
 
-async def test_tracked_zone_location_is_changed(hass: __HAC_KEEP__) -> None:
+async def test_tracked_zone_location_is_changed(hass: UniversalAssistant) -> None:
     """Test that gps location of the tracked zone is changed."""
     entry = await async_setup_single_entry(
         hass, "zone.home", ["device_tracker.test1"], [], 1
@@ -1414,7 +1414,7 @@ async def test_tracked_zone_location_is_changed(hass: __HAC_KEEP__) -> None:
     assert state.state == STATE_UNKNOWN
 
 
-async def test_migrate_data_to_options(hass: __HAC_KEEP__) -> None:
+async def test_migrate_data_to_options(hass: UniversalAssistant) -> None:
     """Test a version 1 entry moves its settings from data to options."""
     config = {
         CONF_ZONE: "zone.home",

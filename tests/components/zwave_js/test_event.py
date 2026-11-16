@@ -7,7 +7,7 @@ import pytest
 from zwave_js_server.event import Event
 
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 BASIC_EVENT_VALUE_ENTITY = "event.honeywell_in_wall_smart_fan_control_event_value"
@@ -21,7 +21,7 @@ def platforms() -> list[str]:
 
 
 async def test_basic(
-    hass: __HAC_KEEP__, client, fan_honeywell_39358, integration
+    hass: UniversalAssistant, client, fan_honeywell_39358, integration
 ) -> None:
     """Test the Basic CC event entity."""
     dt_util.now()
@@ -73,7 +73,7 @@ async def test_basic(
 
 
 async def test_central_scene(
-    hass: __HAC_KEEP__, client, central_scene_node, integration
+    hass: UniversalAssistant, client, central_scene_node, integration
 ) -> None:
     """Test the Central Scene CC event entity."""
     dt_util.now()

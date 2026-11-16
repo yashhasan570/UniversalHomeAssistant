@@ -7,7 +7,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.uptime.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -29,7 +29,7 @@ def mock_setup_entry() -> Generator[None]:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> MockConfigEntry:
     """Set up the Uptime integration for testing."""
     mock_config_entry.add_to_hass(hass)

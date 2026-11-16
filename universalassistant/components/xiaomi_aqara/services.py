@@ -7,7 +7,7 @@ from xiaomi_gateway import XiaomiGateway
 
 from universalassistant.components import persistent_notification
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import config_validation as cv
 
 from .const import DOMAIN
@@ -90,7 +90,7 @@ def _remove_device_service(call: ServiceCall) -> None:
     gateway.write_to_hub(gateway.sid, remove_device=device_id)
 
 
-def setup_services(hass: __HAC_KEEP__) -> None:
+def setup_services(hass: UniversalAssistant) -> None:
     """Register the Xiaomi Aqara services."""
     gateway_only_schema = _add_gateway_to_schema(hass, probatio.Schema({}))
 
@@ -124,7 +124,7 @@ def setup_services(hass: __HAC_KEEP__) -> None:
 
 
 def _add_gateway_to_schema(
-    hass: __HAC_KEEP__, schema: probatio.Schema
+    hass: UniversalAssistant, schema: probatio.Schema
 ) -> probatio.Schema:
     """Extend a probatio schema with a gateway validator."""
 

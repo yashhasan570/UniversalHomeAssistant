@@ -22,8 +22,8 @@ import respx
 from universalassistant.components import image
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -41,7 +41,7 @@ from .conftest import (
 
 @pytest.mark.freeze_time("2023-04-01 00:00:00+00:00")
 async def test_state(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, mock_image_platform: None
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator, mock_image_platform: None
 ) -> None:
     """Test image state."""
     state = hass.states.get("image.test")
@@ -56,7 +56,7 @@ async def test_state(
 
 @pytest.mark.freeze_time("2023-04-01 00:00:00+00:00")
 async def test_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_image_config_entry: ConfigEntry,
 ) -> None:
@@ -73,7 +73,7 @@ async def test_config_entry(
 
 @pytest.mark.freeze_time("2023-04-01 00:00:00+00:00")
 async def test_state_attr(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test image state with entity picture from attr."""
     mock_integration(hass, MockModule(domain="test"))
@@ -96,7 +96,7 @@ async def test_state_attr(
 
 
 async def test_no_state(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test image state."""
     mock_integration(hass, MockModule(domain="test"))
@@ -117,7 +117,7 @@ async def test_no_state(
 
 
 async def test_no_valid_content_type(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test invalid content type."""
     mock_integration(hass, MockModule(domain="test"))
@@ -144,7 +144,7 @@ async def test_no_valid_content_type(
 
 
 async def test_valid_but_capitalized_content_type(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test invalid content type."""
     mock_integration(hass, MockModule(domain="test"))
@@ -170,7 +170,7 @@ async def test_valid_but_capitalized_content_type(
 
 
 async def test_fetch_image_authenticated(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, mock_image_platform: None
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator, mock_image_platform: None
 ) -> None:
     """Test fetching an image with an authenticated client."""
     client = await hass_client()
@@ -197,7 +197,7 @@ async def test_fetch_image_authenticated(
 
 
 async def test_fetch_image_fail(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, mock_image_platform: None
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator, mock_image_platform: None
 ) -> None:
     """Test fetching an image with an authenticated client."""
     client = await hass_client()
@@ -208,7 +208,7 @@ async def test_fetch_image_fail(
 
 
 async def test_fetch_image_sync(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test fetching an image with an authenticated client."""
     mock_integration(hass, MockModule(domain="test"))
@@ -227,7 +227,7 @@ async def test_fetch_image_sync(
 
 
 async def test_fetch_image_unauthenticated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mock_image_platform: None,
 ) -> None:
@@ -257,7 +257,7 @@ async def test_fetch_image_unauthenticated(
 
 @respx.mock
 async def test_fetch_image_url_success(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test fetching an image with an authenticated client."""
     respx.get("https://example.com/myimage.jpg").respond(
@@ -298,7 +298,7 @@ async def test_fetch_image_url_success(
     ],
 )
 async def test_fetch_image_url_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     side_effect: Exception,
 ) -> None:
@@ -327,7 +327,7 @@ async def test_fetch_image_url_exception(
     ],
 )
 async def test_fetch_image_url_wrong_content_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     content_type: str | None,
 ) -> None:
@@ -368,7 +368,7 @@ async def test_fetch_image_url_wrong_content_type(
     ],
 )
 async def test_fetch_image_url_infer_content_type_from_magic_number(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     content: bytes,
     content_type: str,
@@ -395,7 +395,7 @@ async def test_fetch_image_url_infer_content_type_from_magic_number(
 
 
 async def test_image_stream(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -453,18 +453,18 @@ async def test_image_stream(
     await close_future
 
 
-async def test_get_image_action(hass: __HAC_KEEP__, mock_image_platform: None) -> None:
+async def test_get_image_action(hass: UniversalAssistant, mock_image_platform: None) -> None:
     """Test get_image action."""
     image_data = await image.async_get_image(hass, "image.test")
     assert image_data == image.Image(content_type="image/jpeg", content=b"Test")
 
-    with pytest.raises(__HAC_KEEP__Error, match="not found") as exc_info:
+    with pytest.raises(UniversalAssistantError, match="not found") as exc_info:
         await image.async_get_image(hass, "image.unknown")
     assert exc_info.value.translation_key == "entity_not_found"
 
 
 async def test_get_image_cancelled(
-    hass: __HAC_KEEP__, mock_image_platform: None
+    hass: UniversalAssistant, mock_image_platform: None
 ) -> None:
     """Test cancelling fetching an image propagates the cancellation."""
     started = asyncio.Event()
@@ -483,7 +483,7 @@ async def test_get_image_cancelled(
             await task
 
 
-async def test_snapshot_service(hass: __HAC_KEEP__) -> None:
+async def test_snapshot_service(hass: UniversalAssistant) -> None:
     """Test snapshot service."""
     mopen = mock_open()
     mock_integration(hass, MockModule(domain="test"))
@@ -514,7 +514,7 @@ async def test_snapshot_service(hass: __HAC_KEEP__) -> None:
         assert mock_write.mock_calls[0][1][0] == b"Test"
 
 
-async def test_snapshot_service_no_image(hass: __HAC_KEEP__) -> None:
+async def test_snapshot_service_no_image(hass: UniversalAssistant) -> None:
     """Test snapshot service with no image."""
     mopen = mock_open()
     mock_integration(hass, MockModule(domain="test"))
@@ -546,7 +546,7 @@ async def test_snapshot_service_no_image(hass: __HAC_KEEP__) -> None:
         assert len(mock_write.mock_calls) == 0
 
 
-async def test_snapshot_service_not_allowed_path(hass: __HAC_KEEP__) -> None:
+async def test_snapshot_service_not_allowed_path(hass: UniversalAssistant) -> None:
     """Test snapshot service with a not allowed path."""
     mock_integration(hass, MockModule(domain="test"))
     mock_platform(hass, "test.image", MockImagePlatform([MockURLImageEntity(hass)]))
@@ -600,7 +600,7 @@ async def test_snapshot_service_not_allowed_path(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_snapshot_service_os_error(
-    hass: __HAC_KEEP__, side_effect: OSError, message: str
+    hass: UniversalAssistant, side_effect: OSError, message: str
 ) -> None:
     """Test snapshot service with os error."""
     mock_integration(hass, MockModule(domain="test"))
@@ -613,7 +613,7 @@ async def test_snapshot_service_os_error(
     with (
         patch.object(hass.config, "is_allowed_path", return_value=True),
         patch("os.makedirs", side_effect=side_effect),
-        pytest.raises(__HAC_KEEP__Error, match=message),
+        pytest.raises(UniversalAssistantError, match=message),
     ):
         await hass.services.async_call(
             image.DOMAIN,

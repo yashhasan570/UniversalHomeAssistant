@@ -33,8 +33,8 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import mock_config_entry, setup_platform
@@ -88,7 +88,7 @@ PAIRED_SITE = ConfigSubentryData(
 
 
 async def _setup_site(
-    hass: __HAC_KEEP__, subentries: list[ConfigSubentryData]
+    hass: UniversalAssistant, subentries: list[ConfigSubentryData]
 ) -> MockConfigEntry:
     """Set up an entry whose energy site has the given local-control subentry."""
     entry = mock_config_entry()
@@ -114,7 +114,7 @@ async def _setup_site(
 
 
 async def test_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Tests that the custom services are correct."""
@@ -414,7 +414,7 @@ async def test_services(
             "tesla_fleet_api.teslemetry.EnergySite.time_of_use_settings",
             return_value=COMMAND_ERROR,
         ) as set_time_of_use,
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -428,7 +428,7 @@ async def test_services(
 
 
 async def test_service_validation_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -594,7 +594,7 @@ async def test_service_validation_errors(
     ],
 )
 async def test_local_battery_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     service: str,
     data: dict[str, int],
@@ -651,7 +651,7 @@ async def test_local_battery_services(
     ],
 )
 async def test_local_battery_services_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     service: str,
     data: dict[str, int],
@@ -674,7 +674,7 @@ async def test_local_battery_services_errors(
         patch(
             f"tesla_fleet_api.teslemetry.energysite.TeslemetryEnergySite.{method}"
         ) as mock_cloud,
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -688,7 +688,7 @@ async def test_local_battery_services_errors(
 
 
 async def test_dispatch_battery_power_out_of_range_message(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -708,7 +708,7 @@ async def test_dispatch_battery_power_out_of_range_message(
                 "power 10100.000000 exceeds discharge limit 10000",
             ),
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -730,7 +730,7 @@ async def test_dispatch_battery_power_out_of_range_message(
 
 @pytest.mark.parametrize(("service", "data", "method"), LOCAL_BATTERY_SERVICES)
 async def test_local_battery_services_unreachable_gateway(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     service: str,
     data: dict[str, int],
@@ -803,7 +803,7 @@ async def test_local_battery_services_unreachable_gateway(
     ],
 )
 async def test_battery_services_cloud(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     service: str,
     data: dict[str, int],
@@ -847,7 +847,7 @@ async def test_battery_services_cloud(
     ],
 )
 async def test_dispatch_battery_power_out_of_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     power: int,
     duration: int,

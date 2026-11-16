@@ -6,11 +6,11 @@ from pytest_unordered import unordered
 from universalassistant.components import automation
 from universalassistant.components.device_automation import DeviceAutomationType
 from universalassistant.components.philips_js.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.setup import async_setup_component
 
 
-async def test_get_triggers(hass: __HAC_KEEP__, mock_device) -> None:
+async def test_get_triggers(hass: UniversalAssistant, mock_device) -> None:
     """Test we get the expected triggers."""
     expected_triggers = [
         {
@@ -29,7 +29,7 @@ async def test_get_triggers(hass: __HAC_KEEP__, mock_device) -> None:
 
 
 async def test_if_fires_on_turn_on_request(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     mock_tv,
     mock_entity,

@@ -41,7 +41,7 @@ from universalassistant.components.unifiprotect.const import (
 from universalassistant.components.unifiprotect.data import ProtectData
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntry, ConfigEntryState
 from universalassistant.const import CONF_API_KEY, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -55,7 +55,7 @@ from .conftest import PUBLIC_ONLY_ALARM_ENTITY_ID, UNIFI_MAC
 from .utils import MockUFPFixture, init_entry, make_public_light, time_changed
 
 
-def _reauth_flow_started(hass: __HAC_KEEP__) -> bool:
+def _reauth_flow_started(hass: UniversalAssistant) -> bool:
     """Return whether a reauth flow is in progress."""
     return any(
         flow["context"]["source"] == SOURCE_REAUTH
@@ -77,7 +77,7 @@ def mock_user_can_write_nvr(request: pytest.FixtureRequest, ufp: MockUFPFixture)
 
 
 async def test_setup_creates_nvr_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     ufp: MockUFPFixture,
     snapshot: SnapshotAssertion,
@@ -101,7 +101,7 @@ async def test_setup_creates_nvr_device(
 
 
 async def test_device_links_to_nvr_via_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     ufp: MockUFPFixture,
     light: Light,
@@ -122,7 +122,7 @@ async def test_device_links_to_nvr_via_device_id(
     assert light_device.via_device_id == nvr_device.id
 
 
-async def test_setup(hass: __HAC_KEEP__, ufp: MockUFPFixture) -> None:
+async def test_setup(hass: UniversalAssistant, ufp: MockUFPFixture) -> None:
     """Test working setup of unifiprotect entry."""
 
     await hass.config_entries.async_setup(ufp.entry.entry_id)
@@ -134,7 +134,7 @@ async def test_setup(hass: __HAC_KEEP__, ufp: MockUFPFixture) -> None:
 
 
 async def test_setup_multiple(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     bootstrap: Bootstrap,
 ) -> None:
@@ -179,7 +179,7 @@ async def test_setup_multiple(
         assert mock_config.unique_id == ufp.api.bootstrap.nvr.mac
 
 
-async def test_unload(hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light) -> None:
+async def test_unload(hass: UniversalAssistant, ufp: MockUFPFixture, light: Light) -> None:
     """Test unloading of unifiprotect entry."""
 
     await init_entry(hass, ufp, [light])
@@ -193,7 +193,7 @@ async def test_unload(hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light) -> 
 
 
 async def test_public_only_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
 ) -> None:
@@ -207,7 +207,7 @@ async def test_public_only_unload(
     ufp_public_only.public_resync_unsub.assert_called_once()
 
 
-async def test_remove_entry(hass: __HAC_KEEP__, ufp: MockUFPFixture) -> None:
+async def test_remove_entry(hass: UniversalAssistant, ufp: MockUFPFixture) -> None:
     """Test removal of unifiprotect entry clears session."""
 
     await init_entry(hass, ufp, [])
@@ -224,7 +224,7 @@ async def test_remove_entry(hass: __HAC_KEEP__, ufp: MockUFPFixture) -> None:
 
 
 async def test_remove_entry_not_loaded(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture
+    hass: UniversalAssistant, ufp: MockUFPFixture
 ) -> None:
     """Test removal of unloaded unifiprotect entry still clears session."""
 
@@ -246,7 +246,7 @@ async def test_remove_entry_not_loaded(
 
 
 async def test_remove_entry_clear_session_fails(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture
+    hass: UniversalAssistant, ufp: MockUFPFixture
 ) -> None:
     """Test removal succeeds even when clear_session fails."""
     await init_entry(hass, ufp, [])
@@ -264,7 +264,7 @@ async def test_remove_entry_clear_session_fails(
 
 
 async def test_remove_entry_not_loaded_clear_session_fails(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture
+    hass: UniversalAssistant, ufp: MockUFPFixture
 ) -> None:
     """Test removal succeeds when not loaded and clear_session fails."""
     # Don't initialize the integration - entry is not loaded
@@ -289,7 +289,7 @@ async def test_remove_entry_not_loaded_clear_session_fails(
 
 @pytest.mark.parametrize("version", ["1.19.0", "7.0.107"])
 async def test_setup_too_old(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, old_nvr: NVR, version: str
+    hass: UniversalAssistant, ufp: MockUFPFixture, old_nvr: NVR, version: str
 ) -> None:
     """Test setup of unifiprotect entry with too old of version of UniFi Protect.
 
@@ -310,7 +310,7 @@ async def test_setup_too_old(
 
 
 async def test_setup_cloud_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     cloud_account: CloudAccount,
     issue_registry: ir.IssueRegistry,
@@ -351,7 +351,7 @@ async def test_setup_cloud_account(
 
 
 async def test_setup_cloud_account_resolved(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     cloud_account: CloudAccount,
     issue_registry: ir.IssueRegistry,
@@ -375,7 +375,7 @@ async def test_setup_cloud_account_resolved(
 
 
 async def test_setup_public_only_deletes_cloud_user_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
     issue_registry: ir.IssueRegistry,
@@ -401,7 +401,7 @@ async def test_setup_public_only_deletes_cloud_user_issue(
     assert not issue_registry.async_get_issue(DOMAIN, issue_id)
 
 
-async def test_setup_failed_update(hass: __HAC_KEEP__, ufp: MockUFPFixture) -> None:
+async def test_setup_failed_update(hass: UniversalAssistant, ufp: MockUFPFixture) -> None:
     """Test setup of unifiprotect entry with failed update."""
 
     ufp.api.update = AsyncMock(side_effect=NvrError)
@@ -413,7 +413,7 @@ async def test_setup_failed_update(hass: __HAC_KEEP__, ufp: MockUFPFixture) -> N
 
 
 async def test_setup_failed_update_reauth(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture
+    hass: UniversalAssistant, ufp: MockUFPFixture
 ) -> None:
     """Test setup of unifiprotect entry with update that gives unauthroized error."""
 
@@ -436,7 +436,7 @@ async def test_setup_failed_update_reauth(
     assert len(hass.config_entries.flow._progress) == 1
 
 
-async def test_setup_failed_error(hass: __HAC_KEEP__, ufp: MockUFPFixture) -> None:
+async def test_setup_failed_error(hass: UniversalAssistant, ufp: MockUFPFixture) -> None:
     """Test setup of unifiprotect entry with generic error."""
 
     ufp.api.update = AsyncMock(side_effect=NvrError)
@@ -446,7 +446,7 @@ async def test_setup_failed_error(hass: __HAC_KEEP__, ufp: MockUFPFixture) -> No
     assert ufp.entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_setup_failed_auth(hass: __HAC_KEEP__, ufp: MockUFPFixture) -> None:
+async def test_setup_failed_auth(hass: UniversalAssistant, ufp: MockUFPFixture) -> None:
     """Test setup of unifiprotect entry with unauthorized error after retries."""
 
     ufp.api.update = AsyncMock(side_effect=NotAuthorized)
@@ -463,7 +463,7 @@ async def test_setup_failed_auth(hass: __HAC_KEEP__, ufp: MockUFPFixture) -> Non
 
 
 async def test_setup_starts_discovery(
-    hass: __HAC_KEEP__, ufp_config_entry: ConfigEntry, ufp_client: ProtectApiClient
+    hass: UniversalAssistant, ufp_config_entry: ConfigEntry, ufp_client: ProtectApiClient
 ) -> None:
     """Test setting up will start discovery via unifi_discovery dependency."""
     with (
@@ -484,7 +484,7 @@ async def test_setup_starts_discovery(
 
 
 async def test_device_remove_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
@@ -515,7 +515,7 @@ async def test_device_remove_devices(
 
 
 async def test_device_remove_devices_nvr(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     ufp: MockUFPFixture,
     hass_ws_client: WebSocketGenerator,
@@ -543,7 +543,7 @@ async def test_device_remove_devices_nvr(
     ],
 )
 async def test_device_remove_public_only_family(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     ufp: MockUFPFixture,
     light: Light,
@@ -567,7 +567,7 @@ async def test_device_remove_public_only_family(
 
 
 async def test_remove_config_entry_device_rejects_child_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     ufp: MockUFPFixture,
@@ -598,7 +598,7 @@ async def test_remove_config_entry_device_rejects_child_device(
 
 @pytest.mark.parametrize("mock_user_can_write_nvr", [True], indirect=True)
 async def test_setup_creates_api_key_when_missing(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, mock_user_can_write_nvr: Mock
+    hass: UniversalAssistant, ufp: MockUFPFixture, mock_user_can_write_nvr: Mock
 ) -> None:
     """Test that API key is created when missing and user has write permissions."""
     # Setup: API key is not set initially, user has write permissions
@@ -615,7 +615,7 @@ async def test_setup_creates_api_key_when_missing(
     await hass.async_block_till_done()
 
     # Verify API key was created and set
-    ufp.api.create_api_key.assert_called_once_with(name="__HA_KEEP__ (test home)")
+    ufp.api.create_api_key.assert_called_once_with(name="Universal Home Assistant (test home)")
     ufp.api.set_api_key.assert_called_once_with("new-api-key-123")
 
     # Verify config entry was updated with new API key
@@ -625,7 +625,7 @@ async def test_setup_creates_api_key_when_missing(
 
 @pytest.mark.parametrize("mock_user_can_write_nvr", [False], indirect=True)
 async def test_setup_skips_api_key_creation_when_no_write_permission(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, mock_user_can_write_nvr: Mock
+    hass: UniversalAssistant, ufp: MockUFPFixture, mock_user_can_write_nvr: Mock
 ) -> None:
     """Test that API key creation is skipped when user has no write permissions."""
     # Setup: API key is not set, user has no write permissions
@@ -644,7 +644,7 @@ async def test_setup_skips_api_key_creation_when_no_write_permission(
 
 @pytest.mark.parametrize("mock_user_can_write_nvr", [True], indirect=True)
 async def test_setup_handles_api_key_creation_failure(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, mock_user_can_write_nvr: Mock
+    hass: UniversalAssistant, ufp: MockUFPFixture, mock_user_can_write_nvr: Mock
 ) -> None:
     """Test handling of API key creation failure."""
     # Setup: API key is not set, user has write permissions, but creation fails
@@ -660,13 +660,13 @@ async def test_setup_handles_api_key_creation_failure(
     assert ufp.entry.state is ConfigEntryState.SETUP_ERROR
 
     # Verify API key creation was attempted but set_api_key was not called
-    ufp.api.create_api_key.assert_called_once_with(name="__HA_KEEP__ (test home)")
+    ufp.api.create_api_key.assert_called_once_with(name="Universal Home Assistant (test home)")
     ufp.api.set_api_key.assert_not_called()
 
 
 @pytest.mark.parametrize("mock_user_can_write_nvr", [True], indirect=True)
 async def test_setup_handles_api_key_creation_bad_request(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, mock_user_can_write_nvr: Mock
+    hass: UniversalAssistant, ufp: MockUFPFixture, mock_user_can_write_nvr: Mock
 ) -> None:
     """Test handling of API key creation BadRequest error."""
     # Setup: API key is not set, user has write permissions,
@@ -683,12 +683,12 @@ async def test_setup_handles_api_key_creation_bad_request(
     assert ufp.entry.state is ConfigEntryState.SETUP_ERROR
 
     # Verify API key creation was attempted but set_api_key was not called
-    ufp.api.create_api_key.assert_called_once_with(name="__HA_KEEP__ (test home)")
+    ufp.api.create_api_key.assert_called_once_with(name="Universal Home Assistant (test home)")
     ufp.api.set_api_key.assert_not_called()
 
 
 async def test_setup_with_existing_api_key(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture
+    hass: UniversalAssistant, ufp: MockUFPFixture
 ) -> None:
     """Test setup when API key is already set."""
     # Setup: API key is already set
@@ -706,7 +706,7 @@ async def test_setup_with_existing_api_key(
 
 @pytest.mark.parametrize("mock_user_can_write_nvr", [True], indirect=True)
 async def test_setup_api_key_creation_returns_none(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, mock_user_can_write_nvr: Mock
+    hass: UniversalAssistant, ufp: MockUFPFixture, mock_user_can_write_nvr: Mock
 ) -> None:
     """Test handling when API key creation returns None."""
     # Setup: API key is not set, creation returns None (empty response)
@@ -721,11 +721,11 @@ async def test_setup_api_key_creation_returns_none(
     assert ufp.entry.state is ConfigEntryState.SETUP_ERROR
 
     # Verify API key creation was attempted and set_api_key was called with None
-    ufp.api.create_api_key.assert_called_once_with(name="__HA_KEEP__ (test home)")
+    ufp.api.create_api_key.assert_called_once_with(name="Universal Home Assistant (test home)")
     ufp.api.set_api_key.assert_called_once_with(None)
 
 
-async def test_migrate_entry_version_2(hass: __HAC_KEEP__) -> None:
+async def test_migrate_entry_version_2(hass: UniversalAssistant) -> None:
     """Test remove CONF_ALLOW_EA from options while migrating a 1 config entry to 2."""
     with (
         patch(
@@ -746,7 +746,7 @@ async def test_migrate_entry_version_2(hass: __HAC_KEEP__) -> None:
 
 
 async def test_setup_skips_api_key_creation_when_no_auth_user(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture
+    hass: UniversalAssistant, ufp: MockUFPFixture
 ) -> None:
     """Test that API key creation is skipped when auth_user is None."""
     # Setup: API key is not set, auth_user is None
@@ -767,7 +767,7 @@ async def test_setup_skips_api_key_creation_when_no_auth_user(
 
 @pytest.mark.parametrize("mock_user_can_write_nvr", [True], indirect=True)
 async def test_setup_fails_when_api_key_still_missing_after_creation(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, mock_user_can_write_nvr: Mock
+    hass: UniversalAssistant, ufp: MockUFPFixture, mock_user_can_write_nvr: Mock
 ) -> None:
     """Test that setup fails when API key is still missing after creation attempts."""
     # Setup: API key is not set and remains not set even after attempts
@@ -784,13 +784,13 @@ async def test_setup_fails_when_api_key_still_missing_after_creation(
 
     # Verify API key creation was attempted
     ufp.api.create_api_key.assert_called_once_with(  # type: ignore[attr-defined]
-        name="__HA_KEEP__ (test home)"
+        name="Universal Home Assistant (test home)"
     )
     ufp.api.set_api_key.assert_called_once_with("new-api-key-123")  # type: ignore[attr-defined]
 
 
 async def test_hybrid_auth_failed_triggers_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
 ) -> None:
     """A revoked API key on the public websocket starts reauth in hybrid mode too."""
@@ -805,7 +805,7 @@ async def test_hybrid_auth_failed_triggers_reauth(
 
 
 async def test_public_only_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
@@ -834,7 +834,7 @@ async def test_public_only_setup(
 
 
 async def test_public_only_setup_nameless_nvr(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
@@ -854,7 +854,7 @@ async def test_public_only_setup_nameless_nvr(
 
 
 async def test_public_only_forwards_only_public_platforms(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -874,7 +874,7 @@ async def test_public_only_forwards_only_public_platforms(
 
 
 async def test_public_only_auth_failed_triggers_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
 ) -> None:
@@ -974,7 +974,7 @@ async def test_public_only_rejected_key_exhausts_to_reauth(
 
 
 async def test_public_only_sets_unique_id_when_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
 ) -> None:
@@ -988,7 +988,7 @@ async def test_public_only_sets_unique_id_when_missing(
 
 
 async def test_public_only_device_removal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
@@ -1029,7 +1029,7 @@ async def test_public_only_device_removal(
 
 
 async def test_public_only_manual_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
 ) -> None:
@@ -1057,7 +1057,7 @@ async def test_public_only_manual_refresh(
 
 
 async def test_public_only_manual_refresh_revoked_key_triggers_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
 ) -> None:
@@ -1076,7 +1076,7 @@ async def test_public_only_manual_refresh_revoked_key_triggers_reauth(
 
 
 async def test_public_only_setup_retakes_add_baseline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     light: Light,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],

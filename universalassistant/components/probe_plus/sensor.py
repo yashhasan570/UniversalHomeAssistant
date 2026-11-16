@@ -21,7 +21,7 @@ from universalassistant.const import (
     UnitOfElectricPotential,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import ProbePlusConfigEntry
@@ -117,7 +117,7 @@ PROBE_SENSOR_DESCRIPTIONS: tuple[ProbePlusProbeSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ProbePlusConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

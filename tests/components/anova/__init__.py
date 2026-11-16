@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.anova.const import DOMAIN
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 DEVICE_UNIQUE_ID = "abc123def"
 
@@ -22,8 +22,8 @@ ONLINE_UPDATE = APCUpdate(
 )
 
 
-def create_entry(hass: __HAC_KEEP__, device_id: str = DEVICE_UNIQUE_ID) -> ConfigEntry:
-    """Add config entry in __HA_KEEP__."""
+def create_entry(hass: UniversalAssistant, device_id: str = DEVICE_UNIQUE_ID) -> ConfigEntry:
+    """Add config entry in Universal Home Assistant."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         title="Anova",
@@ -40,10 +40,10 @@ def create_entry(hass: __HAC_KEEP__, device_id: str = DEVICE_UNIQUE_ID) -> Confi
 
 
 async def async_init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     skip_setup: bool = False,
 ) -> ConfigEntry:
-    """Set up the Anova integration in __HA_KEEP__."""
+    """Set up the Anova integration in Universal Home Assistant."""
 
     with patch("universalassistant.components.anova.AnovaApi.authenticate"):
         entry = create_entry(hass)

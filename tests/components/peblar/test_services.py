@@ -17,12 +17,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.peblar.const import DOMAIN
 from universalassistant.components.peblar.services import PeblarService
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 
 
 async def test_services_registered_on_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test that RFID services are registered when entry is loaded."""
@@ -32,7 +32,7 @@ async def test_services_registered_on_setup(
 
 
 async def test_services_survive_entry_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test RFID services stay registered when the last Peblar entry unloads."""
@@ -45,7 +45,7 @@ async def test_services_survive_entry_unload(
 
 
 async def test_list_rfid_tokens(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -81,7 +81,7 @@ async def test_list_rfid_tokens(
 
 
 async def test_add_rfid_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_add_rfid_token(
 
 
 async def test_delete_rfid_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -123,7 +123,7 @@ async def test_delete_rfid_token(
 
 
 async def test_unloaded_config_entry_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_peblar: MagicMock,
     init_integration: MockConfigEntry,
@@ -173,7 +173,7 @@ SERVICE_CALLS: list[tuple[str, str, dict[str, Any]]] = [
     ],
 )
 async def test_service_communication_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     init_integration: MockConfigEntry,
     service: str,
@@ -182,10 +182,10 @@ async def test_service_communication_error(
     error: Exception,
     translation_key: str,
 ) -> None:
-    """Test Peblar library errors are translated into __HA_KEEP__ errors."""
+    """Test Peblar library errors are translated into Universal Home Assistant errors."""
     getattr(mock_peblar, method_name).side_effect = error
 
-    with pytest.raises(__HAC_KEEP__Error) as excinfo:
+    with pytest.raises(UniversalAssistantError) as excinfo:
         await hass.services.async_call(
             DOMAIN,
             service,
@@ -201,7 +201,7 @@ async def test_service_communication_error(
 
 @pytest.mark.parametrize(("service", "method_name", "service_data"), SERVICE_CALLS)
 async def test_service_authentication_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     init_integration: MockConfigEntry,
     service: str,
@@ -214,7 +214,7 @@ async def test_service_authentication_error(
     )
     mock_peblar.login.side_effect = PeblarAuthenticationError("Authentication error")
 
-    with pytest.raises(__HAC_KEEP__Error) as excinfo:
+    with pytest.raises(UniversalAssistantError) as excinfo:
         await hass.services.async_call(
             DOMAIN,
             service,
@@ -238,7 +238,7 @@ async def test_service_authentication_error(
 
 
 async def test_invalid_config_entry_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -258,7 +258,7 @@ async def test_invalid_config_entry_raises(
 @pytest.mark.parametrize(("service", "method_name", "service_data"), SERVICE_CALLS)
 @pytest.mark.parametrize("mock_peblar", [{"HwHasRfid": False}], indirect=True)
 async def test_charger_without_rfid_reader(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     service: str,
     method_name: str,
@@ -279,7 +279,7 @@ async def test_charger_without_rfid_reader(
 
 
 async def test_list_vehicle_tokens(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -307,7 +307,7 @@ async def test_list_vehicle_tokens(
 
 
 async def test_add_vehicle_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -330,7 +330,7 @@ async def test_add_vehicle_token(
 
 
 async def test_delete_vehicle_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -362,7 +362,7 @@ AUTOCHARGE_CALLS: list[tuple[str, dict[str, Any]]] = [
 @pytest.mark.parametrize(("service", "service_data"), AUTOCHARGE_CALLS)
 @pytest.mark.usefixtures("mock_peblar")
 async def test_autocharge_does_not_need_an_rfid_reader(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     service: str,
     service_data: dict[str, Any],
@@ -385,7 +385,7 @@ async def test_autocharge_does_not_need_an_rfid_reader(
 @pytest.mark.parametrize(("service", "service_data"), AUTOCHARGE_CALLS)
 @pytest.mark.usefixtures("mock_peblar")
 async def test_autocharge_needs_power_line_communication(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     service: str,
     service_data: dict[str, Any],
@@ -418,7 +418,7 @@ async def test_autocharge_needs_power_line_communication(
     ids=["by uid", "by description"],
 )
 async def test_authorize_charge_session(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     init_integration: MockConfigEntry,
     service_data: dict[str, Any],
@@ -446,7 +446,7 @@ async def test_authorize_charge_session(
     ids=["neither", "both"],
 )
 async def test_authorize_charge_session_needs_exactly_one_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     init_integration: MockConfigEntry,
     service_data: dict[str, Any],
@@ -474,7 +474,7 @@ async def test_authorize_charge_session_needs_exactly_one_token(
     indirect=["mock_peblar"],
 )
 async def test_authorize_charge_session_is_refused(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_peblar: MagicMock,
     init_integration: MockConfigEntry,
     translation_key: str,

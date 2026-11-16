@@ -7,7 +7,7 @@ from aiohomekit.model.characteristics import CharacteristicsTypes
 from aiohomekit.model.services import ServicesTypes
 
 from universalassistant.components.alarm_control_panel import ATTR_CODE_ARM_REQUIRED
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import setup_test_component
@@ -32,7 +32,7 @@ def create_security_system_service(accessory: Accessory) -> None:
 
 
 async def test_switch_change_alarm_state(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test that we can turn a HomeKit alarm on and off again."""
     helper = await setup_test_component(
@@ -93,7 +93,7 @@ async def test_switch_change_alarm_state(
 
 
 async def test_switch_read_alarm_state(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test that we can read the state of a HomeKit alarm accessory."""
     helper = await setup_test_component(
@@ -139,7 +139,7 @@ async def test_switch_read_alarm_state(
 
 
 async def test_migrate_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     get_next_aid: Callable[[], int],
 ) -> None:

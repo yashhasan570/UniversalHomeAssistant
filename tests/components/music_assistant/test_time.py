@@ -14,7 +14,7 @@ from universalassistant.components.time import (
     TimeServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -30,7 +30,7 @@ ENTITY_ID = "time.test_player_1_sleep_timer"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_time_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     music_assistant_client: MagicMock,
@@ -62,7 +62,7 @@ async def test_time_entities(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_set_value_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
     freezer: FrozenDateTimeFactory,
     now: str,
@@ -97,7 +97,7 @@ async def test_set_value_action(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_external_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test external sleep timer update."""

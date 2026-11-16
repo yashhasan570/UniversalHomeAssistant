@@ -1,11 +1,11 @@
 """The tests for the london_underground platform."""
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_valid_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_london_underground_client,
     mock_config_entry,
 ) -> None:

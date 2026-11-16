@@ -7,7 +7,7 @@ from pyimouapi.device import ImouDeviceManager
 from pyimouapi.ha_device import ImouHaDeviceManager
 from pyimouapi.openapi import ImouOpenApiClient
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 
 from .const import (
@@ -26,7 +26,7 @@ from .coordinator import ImouConfigEntry, ImouDataUpdateCoordinator
 _LEGACY_REGION_SWAP = {"eu": "na", "na": "eu"}
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: ImouConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: ImouConfigEntry) -> None:
     """Keep an existing entry on the server it was already calling."""
     if entry.minor_version < 2:
         data: Mapping[str, Any] = entry.data
@@ -35,7 +35,7 @@ async def async_migrate_entry(hass: __HAC_KEEP__, entry: ImouConfigEntry) -> Non
         hass.config_entries.async_update_entry(entry, data=data, minor_version=2)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ImouConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ImouConfigEntry) -> None:
     """Set up Imou integration from a config entry."""
     imou_client = ImouOpenApiClient(
         entry.data[CONF_APP_ID],
@@ -60,13 +60,13 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ImouConfigEntry) -> None:
     entry.async_on_unload(imou_coordinator.async_add_listener(_async_keep_polling))
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ImouConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ImouConfigEntry) -> None:
     """Handle removal of an entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ImouConfigEntry,
     device_entry: dr.AnyDeviceEntry,
 ) -> bool:

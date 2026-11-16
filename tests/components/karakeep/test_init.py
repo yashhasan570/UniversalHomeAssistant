@@ -13,14 +13,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.karakeep.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
 
 
 async def test_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_karakeep_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -45,7 +45,7 @@ async def test_setup_entry(
     ],
 )
 async def test_setup_entry_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_karakeep_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -59,7 +59,7 @@ async def test_setup_entry_update_failure(
 
 
 async def test_setup_entry_auth_failure_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_karakeep_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -76,7 +76,7 @@ async def test_setup_entry_auth_failure_starts_reauth(
 
 
 async def test_setup_entry_version_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_karakeep_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -91,7 +91,7 @@ async def test_setup_entry_version_failure(
 
 
 async def test_setup_entry_version_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_karakeep_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -110,7 +110,7 @@ async def test_setup_entry_version_unavailable(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_karakeep_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

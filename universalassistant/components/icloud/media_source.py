@@ -17,7 +17,7 @@ from pyicloud.services.photos import (
     PhotoAsset,
 )
 
-from universalassistant.components.http import __HAC_KEEP__View
+from universalassistant.components.http import UniversalAssistantView
 from universalassistant.components.http.static import CACHE_HEADERS
 from universalassistant.components.media_player import BrowseError, MediaClass, MediaType
 from universalassistant.components.media_source import (
@@ -27,7 +27,7 @@ from universalassistant.components.media_source import (
     PlayMedia,
     Unresolvable,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .account import IcloudAccount, IcloudConfigEntry
@@ -38,18 +38,18 @@ _LOGGER = logging.getLogger(__name__)
 MAX_PHOTO_CACHE_SIZE = 1000
 
 
-def async_setup_mediasource(hass: __HAC_KEEP__) -> None:
+def async_setup_mediasource(hass: UniversalAssistant) -> None:
     """Set up the iCloud media source."""
     hass.http.register_view(IcloudMediaSourceView(hass))
 
 
-async def async_get_media_source(hass: __HAC_KEEP__) -> IcloudMediaSource:
+async def async_get_media_source(hass: UniversalAssistant) -> IcloudMediaSource:
     """Set up iCloud media source."""
     return IcloudMediaSource(hass)
 
 
 def _get_icloud_account_and_title(
-    hass: __HAC_KEEP__, identifier: IcloudMediaSourceIdentifier
+    hass: UniversalAssistant, identifier: IcloudMediaSourceIdentifier
 ) -> tuple[IcloudAccount, str]:
     """Get iCloud account from identifier. Also return the account title for display purposes."""
     entry = hass.config_entries.async_entry_for_domain_unique_id(
@@ -78,7 +78,7 @@ async def async_setup_photo_cache(hass, account):
 
 
 async def _get_photo_library(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     icloud_account: IcloudAccount,
     identifier: IcloudMediaSourceIdentifier,
 ) -> AlbumContainer:
@@ -102,7 +102,7 @@ async def _get_photo_library(
 
 
 async def _get_photo_album(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     icloud_account: IcloudAccount,
     identifier: IcloudMediaSourceIdentifier,
 ) -> BasePhotoAlbum:
@@ -134,7 +134,7 @@ async def _get_photo_album(
 
 
 async def _get_photo_asset(
-    hass: __HAC_KEEP__, identifier: IcloudMediaSourceIdentifier
+    hass: UniversalAssistant, identifier: IcloudMediaSourceIdentifier
 ) -> PhotoAsset:
     """Get photo asset asynchronously."""
 
@@ -170,7 +170,7 @@ async def _get_photo_asset(
 
 
 async def _get_media_mime_type(
-    hass: __HAC_KEEP__, identifier: IcloudMediaSourceIdentifier
+    hass: UniversalAssistant, identifier: IcloudMediaSourceIdentifier
 ) -> str:
     """Get media MIME type asynchronously."""
     photo: PhotoAsset = await _get_photo_asset(hass, identifier)
@@ -298,7 +298,7 @@ class IcloudMediaSource(MediaSource):
 
     name = "iCloud"
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize iCloud media source."""
         super().__init__(DOMAIN)
         self._hass = hass
@@ -584,14 +584,14 @@ class IcloudMediaSource(MediaSource):
         return await self._hass.async_add_executor_job(_get_photo_list_sync, album)
 
 
-class IcloudMediaSourceView(__HAC_KEEP__View):
+class IcloudMediaSourceView(UniversalAssistantView):
     """Handle media serving via HTTP view."""
 
     url = "/api/icloud/media_source/serve/{version}/{image_id}"
     name = "api:icloud:media_source:serve"
     requires_auth = True
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize iCloud media source view."""
         super().__init__()
         self._hass = hass

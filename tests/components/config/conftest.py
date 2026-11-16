@@ -12,7 +12,7 @@ from unittest.mock import patch
 import pytest
 from pytest_universalassistant.common import raise_contains_mocks
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -42,7 +42,7 @@ def mock_config_store(data: dict[str, Any] | None = None) -> Generator[dict[str,
         # To ensure that the data can be serialized
         data[file_name] = json.loads(json.dumps(data_to_write))
 
-    async def mock_async_hass_config_yaml(hass: __HAC_KEEP__) -> dict:
+    async def mock_async_hass_config_yaml(hass: UniversalAssistant) -> dict:
         """Mock version of async_hass_config_yaml."""
         result = {}
         # Return a configuration.yaml with "automation" mapped to the contents of

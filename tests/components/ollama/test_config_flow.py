@@ -15,7 +15,7 @@ from universalassistant.components import ollama
 from universalassistant.components.ollama.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_LLM_HASS_API, CONF_NAME, CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 TEST_MODEL = "test_model:latest"
@@ -37,7 +37,7 @@ def _patch_success() -> Iterator[None]:
         yield
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test flow when configuring URL only."""
     # Pretend we already set up a config entry.
     hass.config.components.add(DOMAIN)
@@ -76,7 +76,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
     assert CONF_API_KEY not in result2["data"]
 
 
-async def test_duplicate_entry(hass: __HAC_KEEP__) -> None:
+async def test_duplicate_entry(hass: UniversalAssistant) -> None:
     """Test we abort on duplicate config entry."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -108,7 +108,7 @@ async def test_duplicate_entry(hass: __HAC_KEEP__) -> None:
 
 
 async def test_subentry_options(
-    hass: __HAC_KEEP__, mock_config_entry, mock_init_component
+    hass: UniversalAssistant, mock_config_entry, mock_init_component
 ) -> None:
     """Test the subentry options form."""
     subentry = next(iter(mock_config_entry.subentries.values()))
@@ -149,7 +149,7 @@ async def test_subentry_options(
 
 
 async def test_creating_new_conversation_subentry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
 ) -> None:
@@ -193,7 +193,7 @@ async def test_creating_new_conversation_subentry(
 
 
 async def test_creating_conversation_subentry_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_init_component,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -209,7 +209,7 @@ async def test_creating_conversation_subentry_not_loaded(
 
 
 async def test_subentry_need_download(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_init_component,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -270,7 +270,7 @@ async def test_subentry_need_download(
 
 
 async def test_subentry_download_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_init_component,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -358,7 +358,7 @@ async def test_subentry_download_error(
     ],
 )
 async def test_reauth_flow_success(
-    hass: __HAC_KEEP__, init_data, input_data, expected_data
+    hass: UniversalAssistant, init_data, input_data, expected_data
 ) -> None:
     """Test successful reauthentication flow."""
     entry = MockConfigEntry(
@@ -399,7 +399,7 @@ async def test_reauth_flow_success(
         (TimeoutError(), "cannot_connect"),
     ],
 )
-async def test_reauth_flow_errors(hass: __HAC_KEEP__, side_effect, error) -> None:
+async def test_reauth_flow_errors(hass: UniversalAssistant, side_effect, error) -> None:
     """Test reauthentication flow when authentication fails."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -461,7 +461,7 @@ async def test_reauth_flow_errors(hass: __HAC_KEEP__, side_effect, error) -> Non
     ],
 )
 async def test_form_errors(
-    hass: __HAC_KEEP__, side_effect: Exception, error: str
+    hass: UniversalAssistant, side_effect: Exception, error: str
 ) -> None:
     """Test we handle errors."""
     result = await hass.config_entries.flow.async_init(
@@ -496,7 +496,7 @@ async def test_form_errors(
         (RuntimeError(), "unknown"),
     ],
 )
-async def test_form_errors_recovery(hass: __HAC_KEEP__, side_effect, error) -> None:
+async def test_form_errors_recovery(hass: UniversalAssistant, side_effect, error) -> None:
     """Test that the user flow recovers after an error and completes successfully."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -529,7 +529,7 @@ async def test_form_errors_recovery(hass: __HAC_KEEP__, side_effect, error) -> N
     assert result["data"] == {ollama.CONF_URL: "http://localhost:11434"}
 
 
-async def test_form_invalid_url(hass: __HAC_KEEP__) -> None:
+async def test_form_invalid_url(hass: UniversalAssistant) -> None:
     """Test we handle invalid URL."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -560,7 +560,7 @@ async def test_form_invalid_url(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_subentry_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_init_component,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -580,7 +580,7 @@ async def test_subentry_connection_error(
 
 
 async def test_subentry_model_check_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_init_component,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -618,7 +618,7 @@ async def test_subentry_model_check_exception(
 
 
 async def test_subentry_reconfigure_with_download(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_init_component,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -678,7 +678,7 @@ async def test_subentry_reconfigure_with_download(
 
 
 async def test_filter_invalid_llms(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_init_component,
     mock_config_entry_with_assist_invalid_api: MockConfigEntry,
 ) -> None:
@@ -699,7 +699,7 @@ async def test_filter_invalid_llms(
 
 
 async def test_creating_ai_task_subentry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
 ) -> None:
@@ -759,7 +759,7 @@ async def test_creating_ai_task_subentry(
 
 
 async def test_ai_task_subentry_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test creating an AI task subentry when entry is not loaded."""
@@ -799,7 +799,7 @@ async def test_ai_task_subentry_not_loaded(
     ],
 )
 async def test_user_step_async_client_headers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     user_input: dict[str, str],
     expected_headers: dict[str, str] | None,
     expected_data: dict[str, str],
@@ -872,7 +872,7 @@ async def test_user_step_async_client_headers(
     ],
 )
 async def test_user_step_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     status_code: int,
     error: str,
     error_message: str,
@@ -912,7 +912,7 @@ async def test_user_step_errors(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_step_trim_url(hass: __HAC_KEEP__) -> None:
+async def test_user_step_trim_url(hass: UniversalAssistant) -> None:
     """Test URL is trimmed before validation and persistence."""
     with patch(
         "universalassistant.components.ollama.config_flow.ollama.AsyncClient",

@@ -1,4 +1,4 @@
-"""Mathematical and statistical functions for __HA_KEEP__ templates."""
+"""Mathematical and statistical functions for Universal Home Assistant templates."""
 
 from collections.abc import Iterable
 from functools import wraps

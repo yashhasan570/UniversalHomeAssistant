@@ -17,8 +17,8 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.google_travel_time.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import DEFAULT_OPTIONS, MOCK_CONFIG
 
@@ -28,7 +28,7 @@ from .const import DEFAULT_OPTIONS, MOCK_CONFIG
     [(MOCK_CONFIG, DEFAULT_OPTIONS)],
 )
 async def test_service_get_travel_times(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     routes_mock: AsyncMock,
     mock_config: MockConfigEntry,
 ) -> None:
@@ -65,7 +65,7 @@ async def test_service_get_travel_times(
     [(MOCK_CONFIG, DEFAULT_OPTIONS)],
 )
 async def test_service_get_travel_times_with_all_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     routes_mock: AsyncMock,
     mock_config: MockConfigEntry,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_service_get_travel_times_with_all_options(
     [(MOCK_CONFIG, DEFAULT_OPTIONS)],
 )
 async def test_service_get_travel_times_empty_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     routes_mock: AsyncMock,
     mock_config: MockConfigEntry,
 ) -> None:
@@ -152,7 +152,7 @@ async def test_service_get_travel_times_empty_response(
     ],
 )
 async def test_service_get_travel_times_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     routes_mock: AsyncMock,
     mock_config: MockConfigEntry,
     exception: Exception,
@@ -162,7 +162,7 @@ async def test_service_get_travel_times_errors(
     routes_mock.async_compute_routes.side_effect = exception
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=error_message,
     ):
         await hass.services.async_call(
@@ -193,7 +193,7 @@ async def test_service_get_travel_times_errors(
     ["best_guess", "pessimistic", "optimistic"],
 )
 async def test_service_get_travel_times_traffic_model_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     routes_mock: AsyncMock,
     mock_config: MockConfigEntry,
     travel_routing_preference: str,
@@ -203,7 +203,7 @@ async def test_service_get_travel_times_traffic_model_error(
     routes_mock.async_compute_routes.reset_mock()
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         check=lambda e: e.translation_key == "traffic_model_not_allowed",
     ):
         await hass.services.async_call(
@@ -232,7 +232,7 @@ async def test_service_get_travel_times_traffic_model_error(
     [(MOCK_CONFIG, DEFAULT_OPTIONS)],
 )
 async def test_service_get_transit_times(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     routes_mock: AsyncMock,
     mock_config: MockConfigEntry,
 ) -> None:
@@ -268,7 +268,7 @@ async def test_service_get_transit_times(
     [(MOCK_CONFIG, DEFAULT_OPTIONS)],
 )
 async def test_service_get_transit_times_with_all_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     routes_mock: AsyncMock,
     mock_config: MockConfigEntry,
 ) -> None:
@@ -328,7 +328,7 @@ async def test_service_get_transit_times_with_all_options(
     ],
 )
 async def test_service_get_transit_times_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     routes_mock: AsyncMock,
     mock_config: MockConfigEntry,
     exception: Exception,
@@ -338,7 +338,7 @@ async def test_service_get_transit_times_errors(
     routes_mock.async_compute_routes.side_effect = exception
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=error_message,
     ):
         await hass.services.async_call(
@@ -360,7 +360,7 @@ async def test_service_get_transit_times_errors(
     [(MOCK_CONFIG, DEFAULT_OPTIONS)],
 )
 async def test_service_static_duration_falls_back_to_duration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     routes_mock: AsyncMock,
     mock_config: MockConfigEntry,
 ) -> None:

@@ -11,7 +11,7 @@ from universalassistant.components.repairs import (
     RepairsFlowResult,
     repairs_flow_manager,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import issue_registry as ir
 
 from .const import DATA_CLOUD, DOMAIN
@@ -23,7 +23,7 @@ MAX_RETRIES = 60  # This allows for 10 minutes of retries
 
 @callback
 def async_manage_legacy_subscription_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     subscription_info: SubscriptionInfo,
 ) -> None:
     """Manage the legacy subscription issue.
@@ -115,7 +115,7 @@ class LegacySubscriptionRepairFlow(RepairsFlow):
 
 
 async def async_create_fix_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_id: str,
     data: dict[str, str | int | float | None] | None,
 ) -> RepairsFlow:

@@ -9,12 +9,12 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.lacrosse_view.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import MOCK_ENTRY_DATA, TEST_SENSOR
 
 
-async def test_unload_entry(hass: __HAC_KEEP__) -> None:
+async def test_unload_entry(hass: UniversalAssistant) -> None:
     """Test the unload entry."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=MOCK_ENTRY_DATA)
     config_entry.add_to_hass(hass)
@@ -44,7 +44,7 @@ async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     assert entries[0].state is ConfigEntryState.NOT_LOADED
 
 
-async def test_login_error(hass: __HAC_KEEP__) -> None:
+async def test_login_error(hass: UniversalAssistant) -> None:
     """Test login error."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=MOCK_ENTRY_DATA)
     config_entry.add_to_hass(hass)
@@ -63,7 +63,7 @@ async def test_login_error(hass: __HAC_KEEP__) -> None:
     assert flows[0]["context"]["source"] == "reauth"
 
 
-async def test_http_error(hass: __HAC_KEEP__) -> None:
+async def test_http_error(hass: UniversalAssistant) -> None:
     """Test http error."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=MOCK_ENTRY_DATA)
     config_entry.add_to_hass(hass)
@@ -98,7 +98,7 @@ async def test_http_error(hass: __HAC_KEEP__) -> None:
     assert entries[1].state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_new_token(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+async def test_new_token(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
     """Test new token."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=MOCK_ENTRY_DATA)
     config_entry.add_to_hass(hass)
@@ -139,7 +139,7 @@ async def test_new_token(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> 
 
 
 async def test_failed_token(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test if a reauth flow occurs when token refresh fails."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=MOCK_ENTRY_DATA)

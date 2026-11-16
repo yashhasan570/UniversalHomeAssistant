@@ -10,7 +10,7 @@ import requests
 
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_component import async_update_entity
 from universalassistant.setup import async_setup_component
 
@@ -44,7 +44,7 @@ def mock_station() -> Generator[MagicMock]:
     ],
 )
 async def test_update_error_marks_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_station: MagicMock,
     caplog: pytest.LogCaptureFixture,
     error: Exception,

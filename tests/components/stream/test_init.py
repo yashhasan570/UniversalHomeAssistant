@@ -17,28 +17,28 @@ from universalassistant.components.stream import (
 )
 from universalassistant.components.stream.const import ATTR_PREFER_TCP, DOMAIN
 from universalassistant.const import CONF_VERIFY_SSL, EVENT_LOGGING_CHANGED
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.setup import async_setup_component
 
 from .common import dynamic_stream_settings
 
 
-async def test_stream_not_setup(hass: __HAC_KEEP__, h264_video) -> None:
+async def test_stream_not_setup(hass: UniversalAssistant, h264_video) -> None:
     """Test hls stream.
 
     Purposefully not mocking anything here to test full
     integration with the stream component.
     """
-    with pytest.raises(__HAC_KEEP__Error, match="Stream integration is not set up"):
+    with pytest.raises(UniversalAssistantError, match="Stream integration is not set up"):
         create_stream(hass, "rtsp://foobar", {}, dynamic_stream_settings())
 
-    with pytest.raises(__HAC_KEEP__Error, match="Stream integration is not set up"):
+    with pytest.raises(UniversalAssistantError, match="Stream integration is not set up"):
         await async_check_stream_client_error(hass, "rtsp://foobar")
 
 
 async def test_log_levels(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that the worker logs the url without username and password."""
 
@@ -81,7 +81,7 @@ async def test_log_levels(
     assert "SHOULD NOT PASS" not in caplog.text
 
 
-async def test_check_open_stream_params(hass: __HAC_KEEP__) -> None:
+async def test_check_open_stream_params(hass: UniversalAssistant) -> None:
     """Test check open stream params."""
     await async_setup_component(hass, DOMAIN, {"stream": {}})
 
@@ -102,7 +102,7 @@ async def test_check_open_stream_params(hass: __HAC_KEEP__) -> None:
     container_mock.reset_mock()
     with (
         patch("av.open", return_value=container_mock) as open_mock,
-        pytest.raises(__HAC_KEEP__Error, match="Invalid stream options"),
+        pytest.raises(UniversalAssistantError, match="Invalid stream options"),
     ):
         await async_check_stream_client_error(hass, source, {"foo": "bar"})
 
@@ -132,7 +132,7 @@ async def test_check_open_stream_params(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_try_open_stream_error(
-    hass: __HAC_KEEP__, error: av.HTTPClientError, enum_result: StreamClientError
+    hass: UniversalAssistant, error: av.HTTPClientError, enum_result: StreamClientError
 ) -> None:
     """Test trying to open a stream."""
     await async_setup_component(hass, DOMAIN, {"stream": {}})
@@ -173,7 +173,7 @@ async def test_try_open_stream_error(
     ],
 )
 async def test_convert_stream_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     options: dict[str, Any],
     expected_pyav_options: dict[str, Any],
 ) -> None:
@@ -201,7 +201,7 @@ async def test_convert_stream_options(
         pytest.param("http://foobar", id="http"),
     ],
 )
-async def test_tls_verify_disabled(hass: __HAC_KEEP__, source: str) -> None:
+async def test_tls_verify_disabled(hass: UniversalAssistant, source: str) -> None:
     """Test TLS certificate verification is disabled for non-RTSP sources."""
     await async_setup_component(hass, DOMAIN, {"stream": {}})
 
@@ -221,7 +221,7 @@ async def test_tls_verify_disabled(hass: __HAC_KEEP__, source: str) -> None:
     ],
 )
 async def test_verify_ssl_option(
-    hass: __HAC_KEEP__, verify_ssl: bool, tls_verify: str
+    hass: UniversalAssistant, verify_ssl: bool, tls_verify: str
 ) -> None:
     """Test the verify_ssl stream option controls TLS certificate verification."""
     await async_setup_component(hass, DOMAIN, {"stream": {}})

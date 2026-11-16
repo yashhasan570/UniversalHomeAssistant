@@ -9,7 +9,7 @@ from pytrafikverket.models import FerryStopModel
 
 from universalassistant.components.trafikverket_ferry.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from . import ENTRY_CONFIG
@@ -17,9 +17,9 @@ from . import ENTRY_CONFIG
 
 @pytest.fixture(name="load_int")
 async def load_integration_from_entry(
-    hass: __HAC_KEEP__, get_ferries: list[FerryStopModel]
+    hass: UniversalAssistant, get_ferries: list[FerryStopModel]
 ) -> MockConfigEntry:
-    """Set up the Trafikverket Ferry integration in __HA_KEEP__."""
+    """Set up the Trafikverket Ferry integration in Universal Home Assistant."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
         source=SOURCE_USER,

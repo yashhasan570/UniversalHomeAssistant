@@ -22,7 +22,7 @@ from universalassistant.components.backup import (
     OnProgressCallback,
     suggested_filename,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.util.async_ import gather_with_limited_concurrency
 
 from . import DropboxConfigEntry
@@ -83,7 +83,7 @@ def handle_backup_errors[_R, **P](
 
 
 async def async_get_backup_agents(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     **kwargs: Any,
 ) -> list[BackupAgent]:
     """Return a list of backup agents."""
@@ -93,7 +93,7 @@ async def async_get_backup_agents(
 
 @callback
 def async_register_backup_agents_listener(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     listener: Callable[[], None],
     **kwargs: Any,
@@ -119,7 +119,7 @@ class DropboxBackupAgent(BackupAgent):
 
     domain = DOMAIN
 
-    def __init__(self, hass: __HAC_KEEP__, entry: DropboxConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: DropboxConfigEntry) -> None:
         """Initialize the backup agent."""
         super().__init__()
         self._hass = hass

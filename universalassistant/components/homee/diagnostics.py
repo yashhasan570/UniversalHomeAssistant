@@ -10,7 +10,7 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 
 from . import HomeeConfigEntry
@@ -31,7 +31,7 @@ TO_REDACT = [
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: HomeeConfigEntry
+    hass: UniversalAssistant, entry: HomeeConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
 
@@ -43,7 +43,7 @@ async def async_get_config_entry_diagnostics(
 
 
 async def async_get_device_diagnostics(
-    hass: __HAC_KEEP__, entry: HomeeConfigEntry, device: AnyDeviceEntry
+    hass: UniversalAssistant, entry: HomeeConfigEntry, device: AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device."""
 

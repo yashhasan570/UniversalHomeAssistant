@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 from eheimdigital.device import EheimDigitalDevice
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 
@@ -26,7 +26,7 @@ PLATFORMS = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: EheimDigitalConfigEntry
+    hass: UniversalAssistant, entry: EheimDigitalConfigEntry
 ) -> None:
     """Set up EHEIM Digital from a config entry."""
 
@@ -49,7 +49,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: EheimDigitalConfigEntry
+    hass: UniversalAssistant, entry: EheimDigitalConfigEntry
 ) -> None:
     """Unload a config entry."""
     await entry.runtime_data.hub.close()
@@ -57,7 +57,7 @@ async def async_unload_entry(
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: EheimDigitalConfigEntry,
     device_entry: AnyDeviceEntry,
 ) -> bool:

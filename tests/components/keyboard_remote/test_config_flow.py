@@ -27,7 +27,7 @@ from universalassistant.components.keyboard_remote.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import SOURCE_IMPORT, SOURCE_USER, ConfigFlowResult
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import (
@@ -63,7 +63,7 @@ def _offered(result: ConfigFlowResult) -> list[dict[str, str]]:
     return result["data_schema"].schema[CONF_DEVICE_PATH].config["options"]
 
 
-async def _import(hass: __HAC_KEEP__, data: dict[str, Any]) -> ConfigFlowResult:
+async def _import(hass: UniversalAssistant, data: dict[str, Any]) -> ConfigFlowResult:
     """Import a YAML block as validated by the integration's schema."""
     [block] = CONFIG_SCHEMA({DOMAIN: data})[DOMAIN]
     return await hass.config_entries.flow.async_init(
@@ -73,7 +73,7 @@ async def _import(hass: __HAC_KEEP__, data: dict[str, Any]) -> ConfigFlowResult:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_step_creates_entry(
-    hass: __HAC_KEEP__, fake_input: FakeInput
+    hass: UniversalAssistant, fake_input: FakeInput
 ) -> None:
     """Test the user step offers a device by its by-id link and adds it."""
     fake_input.add(FAKE_DEVICE_REAL_PATH, FAKE_DEVICE_NAME, link=FAKE_DEVICE_PATH)
@@ -106,7 +106,7 @@ async def test_user_step_creates_entry(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_step_cannot_connect(
-    hass: __HAC_KEEP__, fake_input: FakeInput
+    hass: UniversalAssistant, fake_input: FakeInput
 ) -> None:
     """Test a device that cannot be opened when chosen shows an error."""
     fake_input.add(FAKE_DEVICE_REAL_PATH, FAKE_DEVICE_NAME, link=FAKE_DEVICE_PATH)
@@ -134,7 +134,7 @@ async def test_user_step_cannot_connect(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_step_node_taken_by_another_device(
-    hass: __HAC_KEEP__, fake_input: FakeInput
+    hass: UniversalAssistant, fake_input: FakeInput
 ) -> None:
     """Test a node reused by another device after it was offered is not added."""
     fake_input.add(BT_REMOTE_PATH, BT_REMOTE_NAME, uniq=REMOTE_1_UNIQ)
@@ -161,7 +161,7 @@ async def test_user_step_node_taken_by_another_device(
     assert result["data"][CONF_DEVICE_UNIQ] == REMOTE_2_UNIQ
 
 
-async def test_user_step_no_devices(hass: __HAC_KEEP__, fake_input: FakeInput) -> None:
+async def test_user_step_no_devices(hass: UniversalAssistant, fake_input: FakeInput) -> None:
     """Test the user step aborts when no input device can be offered."""
     fake_input.add("/dev/input/event1", "Headphone Jack", sends_keys=False)
 
@@ -201,7 +201,7 @@ async def test_user_step_no_devices(hass: __HAC_KEEP__, fake_input: FakeInput) -
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_step_all_configured(
-    hass: __HAC_KEEP__, fake_input: FakeInput, entry: MockConfigEntry
+    hass: UniversalAssistant, fake_input: FakeInput, entry: MockConfigEntry
 ) -> None:
     """Test the user step aborts when every device is already configured."""
     fake_input.add(FAKE_DEVICE_REAL_PATH, FAKE_DEVICE_NAME, link=FAKE_DEVICE_PATH)
@@ -221,7 +221,7 @@ async def test_user_step_all_configured(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_step_all_configured_by_name(
-    hass: __HAC_KEEP__, fake_input: FakeInput, uniq: str
+    hass: UniversalAssistant, fake_input: FakeInput, uniq: str
 ) -> None:
     """Test a device an entry matches by name counts as found and configured.
 
@@ -246,7 +246,7 @@ async def test_user_step_all_configured_by_name(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_step_hides_configured_devices(
-    hass: __HAC_KEEP__, fake_input: FakeInput, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, fake_input: FakeInput, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test configured devices are not offered and the others can be added."""
     fake_input.add(FAKE_DEVICE_REAL_PATH, FAKE_DEVICE_NAME, link=FAKE_DEVICE_PATH)
@@ -274,7 +274,7 @@ async def test_user_step_hides_configured_devices(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_step_offers_device_on_reused_yaml_descriptor(
-    hass: __HAC_KEEP__, fake_input: FakeInput
+    hass: UniversalAssistant, fake_input: FakeInput
 ) -> None:
     """Test a device on an eventN named by an old YAML descriptor is offered.
 
@@ -300,7 +300,7 @@ async def test_user_step_offers_device_on_reused_yaml_descriptor(
 
 
 async def test_user_step_lists_devices(
-    hass: __HAC_KEEP__, fake_input: FakeInput
+    hass: UniversalAssistant, fake_input: FakeInput
 ) -> None:
     """Test which devices the user step offers.
 
@@ -347,7 +347,7 @@ async def test_user_step_lists_devices(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_step_creates_name_matched_entry(
-    hass: __HAC_KEEP__, fake_input: FakeInput, other_link: str | None
+    hass: UniversalAssistant, fake_input: FakeInput, other_link: str | None
 ) -> None:
     """Test a device without a by-id link or uniq is configured by its name.
 
@@ -371,7 +371,7 @@ async def test_user_step_creates_name_matched_entry(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_step_tells_bluetooth_remotes_apart(
-    hass: __HAC_KEEP__, fake_input: FakeInput
+    hass: UniversalAssistant, fake_input: FakeInput
 ) -> None:
     """Test identical Bluetooth remotes are told apart by their address.
 
@@ -422,7 +422,7 @@ async def test_user_step_tells_bluetooth_remotes_apart(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_step_device_configured_meanwhile(
-    hass: __HAC_KEEP__, fake_input: FakeInput, device_path: str, unique_id: str
+    hass: UniversalAssistant, fake_input: FakeInput, device_path: str, unique_id: str
 ) -> None:
     """Test choosing a device configured while the form was open aborts."""
     fake_input.add(FAKE_DEVICE_REAL_PATH, FAKE_DEVICE_NAME, link=FAKE_DEVICE_PATH)
@@ -442,7 +442,7 @@ async def test_user_step_device_configured_meanwhile(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_import_with_descriptor_and_by_id(
-    hass: __HAC_KEEP__, fake_input: FakeInput
+    hass: UniversalAssistant, fake_input: FakeInput
 ) -> None:
     """Test a YAML node descriptor is stored with the by-id link it resolves to."""
     fake_input.add(FAKE_DEVICE_REAL_PATH, FAKE_DEVICE_NAME, link=FAKE_DEVICE_PATH)
@@ -477,7 +477,7 @@ async def test_import_with_descriptor_and_by_id(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_import_with_name_and_by_id(
-    hass: __HAC_KEEP__, fake_input: FakeInput
+    hass: UniversalAssistant, fake_input: FakeInput
 ) -> None:
     """Test a YAML name matching one node is stored with that node's by-id link."""
     fake_input.add_unopenable("/dev/input/event1")
@@ -593,7 +593,7 @@ async def test_import_with_name_and_by_id(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_import_fallback_identity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fake_input: FakeInput,
     devices: list[tuple[str, str | None]],
     by_id_error: OSError | None,
@@ -624,7 +624,7 @@ async def test_import_fallback_identity(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_import_again_while_unplugged_keeps_one_entry(
-    hass: __HAC_KEEP__, fake_input: FakeInput, import_data: dict[str, str]
+    hass: UniversalAssistant, fake_input: FakeInput, import_data: dict[str, str]
 ) -> None:
     """Test re-importing the same YAML with the device unplugged adds nothing.
 
@@ -648,7 +648,7 @@ async def test_import_again_while_unplugged_keeps_one_entry(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_import_already_configured(
-    hass: __HAC_KEEP__, fake_input: FakeInput, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, fake_input: FakeInput, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test YAML import aborts when its device is already configured."""
     fake_input.add(FAKE_DEVICE_REAL_PATH, FAKE_DEVICE_NAME, link=FAKE_DEVICE_PATH)
@@ -696,7 +696,7 @@ def _legacy_import_entry(unique_id: str, data: dict[str, str]) -> MockConfigEntr
     ("import_data", "legacy_unique_id", "legacy_data"), LEGACY_IMPORTS
 )
 async def test_import_adopts_entry_created_before_by_id_existed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fake_input: FakeInput,
     mock_setup_entry: AsyncMock,
     import_data: dict[str, str],
@@ -734,7 +734,7 @@ async def test_import_adopts_entry_created_before_by_id_existed(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_import_adoption_refreshes_fallback_title(
-    hass: __HAC_KEEP__, fake_input: FakeInput, title: str, expected_title: str
+    hass: UniversalAssistant, fake_input: FakeInput, title: str, expected_title: str
 ) -> None:
     """Test adoption replaces the raw path the entry was titled with.
 
@@ -759,7 +759,7 @@ async def test_import_adoption_refreshes_fallback_title(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_import_does_not_adopt_onto_a_taken_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
     import_data: dict[str, str],
@@ -785,7 +785,7 @@ async def test_import_does_not_adopt_onto_a_taken_unique_id(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_import_does_not_adopt_onto_another_device(
-    hass: __HAC_KEEP__, fake_input: FakeInput
+    hass: UniversalAssistant, fake_input: FakeInput
 ) -> None:
     """Test a node descriptor now naming a different device leaves the entry.
 
@@ -809,7 +809,7 @@ async def test_import_does_not_adopt_onto_another_device(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_import_leaves_entries_added_in_the_ui_alone(
-    hass: __HAC_KEEP__, fake_input: FakeInput
+    hass: UniversalAssistant, fake_input: FakeInput
 ) -> None:
     """Test a YAML name never rewrites an entry the user added in the UI."""
     ui_entry = MockConfigEntry(
@@ -837,7 +837,7 @@ async def test_import_leaves_entries_added_in_the_ui_alone(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_import_clamps_hold_timing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fake_input: FakeInput,
     caplog: pytest.LogCaptureFixture,
     delay: float,
@@ -869,7 +869,7 @@ async def test_import_clamps_hold_timing(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_import_without_key_types_uses_the_default(
-    hass: __HAC_KEEP__, fake_input: FakeInput, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, fake_input: FakeInput, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test an empty YAML type list imports the default key type.
 
@@ -887,7 +887,7 @@ async def test_import_without_key_types_uses_the_default(
 
 @pytest.mark.usefixtures("fake_input")
 async def test_options_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the options flow allows changing settings."""
@@ -924,7 +924,7 @@ async def test_options_flow(
 
 @pytest.mark.usefixtures("fake_input")
 async def test_options_flow_requires_a_key_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the options flow rejects an empty key type list.
@@ -961,7 +961,7 @@ async def test_options_flow_requires_a_key_type(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow_defaults_to_exclusive_before_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the options form of an entry not migrated yet defaults to exclusive.
 
@@ -1012,7 +1012,7 @@ async def test_options_flow_defaults_to_exclusive_before_migration(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow_shows_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     data: dict[str, str],
     expected_device: str,
 ) -> None:

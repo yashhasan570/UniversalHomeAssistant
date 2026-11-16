@@ -18,7 +18,7 @@ from aiolookin import (
 from aiolookin.models import UDPCommandType, UDPEvent
 
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -93,7 +93,7 @@ class LookinUDPManager:
 UDP_MANAGER: HassKey[LookinUDPManager] = HassKey(DOMAIN)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: LookinConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: LookinConfigEntry) -> None:
     """Set up lookin from a config entry."""
     host = entry.data[CONF_HOST]
     lookin_protocol = LookInHttpProtocol(
@@ -193,7 +193,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: LookinConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: LookinConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: LookinConfigEntry) -> None:
     """Unload a config entry."""
     try:
         await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
@@ -204,7 +204,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: LookinConfigEntry) -> No
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, entry: LookinConfigEntry, device_entry: dr.AnyDeviceEntry
+    hass: UniversalAssistant, entry: LookinConfigEntry, device_entry: dr.AnyDeviceEntry
 ) -> bool:
     """Remove lookin config entry from a device."""
     data = entry.runtime_data

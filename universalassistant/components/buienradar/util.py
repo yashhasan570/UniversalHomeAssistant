@@ -29,7 +29,7 @@ from buienradar.constants import (
 from buienradar.urls import JSON_FEED_URL, json_precipitation_forecast_url
 
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.event import async_track_point_in_utc_time
 from universalassistant.util import dt as dt_util
@@ -61,7 +61,7 @@ class BrData:
     load_error_count: int = WARN_THRESHOLD
     rain_error_count: int = WARN_THRESHOLD
 
-    def __init__(self, hass: __HAC_KEEP__, coordinates, timeframe, devices) -> None:
+    def __init__(self, hass: UniversalAssistant, coordinates, timeframe, devices) -> None:
         """Initialize the data object."""
         self.devices = devices
         self.data: dict[str, Any] | None = {}

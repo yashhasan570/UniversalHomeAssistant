@@ -23,8 +23,8 @@ from universalassistant.components.light import (
     LightEntityFeature,
     filter_supported_color_modes,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import legacy_device_id
@@ -75,7 +75,7 @@ def _get_backwards_compatible_light_unique_id(
         # Dimmers used to use the switch format since
         # pyHS100 treated them as SmartPlug but the old code
         # created them as lights
-        # https://github.com/yashhasan570/__HAC_KEEP__/blob/2021.9.7/ \
+        # https://github.com/yashhasan570/UniversalUniversalAssistant/blob/2021.9.7/ \
         # universalassistant/components/tplink/common.py#L86
         return legacy_device_id(device)
 
@@ -117,7 +117,7 @@ LIGHT_EFFECT_DESCRIPTIONS: tuple[TPLinkLightEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: TPLinkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -424,7 +424,7 @@ class TPLinkLightEffectEntity(TPLinkLightEntity):
         try:
             await self._effect_module.set_custom_effect(effect)
         except KasaException as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_custom_effect",
                 translation_placeholders={
@@ -456,7 +456,7 @@ class TPLinkLightEffectEntity(TPLinkLightEntity):
         try:
             await self._effect_module.set_custom_effect(effect)
         except KasaException as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_custom_effect",
                 translation_placeholders={

@@ -24,8 +24,8 @@ from universalassistant.const import (
     CONF_PROMPT,
     CONF_URL,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import llm
 from universalassistant.helpers.field_visibility import FieldCondition
 from universalassistant.helpers.httpx_client import get_async_client
@@ -50,11 +50,11 @@ from .coordinator import LiteLLMConfigEntry
 _LOGGER = logging.getLogger(__name__)
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect to the proxy."""
 
 
-class InvalidAuth(__HAC_KEEP__Error):
+class InvalidAuth(UniversalAssistantError):
     """Error to indicate the API key is invalid."""
 
 
@@ -67,7 +67,7 @@ def _normalize_url(url: str) -> str:
     return str(parsed.with_path(path))
 
 
-async def _get_models(hass: __HAC_KEEP__, url: str, api_key: str | None) -> list[str]:
+async def _get_models(hass: UniversalAssistant, url: str, api_key: str | None) -> list[str]:
     """Fetch the available model names from the LiteLLM proxy.
 
     Uses the OpenAI-compatible `/v1/models` endpoint, which a LiteLLM proxy

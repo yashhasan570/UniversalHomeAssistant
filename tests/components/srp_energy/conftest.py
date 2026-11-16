@@ -12,7 +12,7 @@ from universalassistant.components.recorder import Recorder
 from universalassistant.components.srp_energy.const import DOMAIN, PHOENIX_TIME_ZONE
 from universalassistant.components.srp_energy.coordinator import HourlyUsageTuple
 from universalassistant.const import CONF_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from . import MOCK_USAGE_AT_TIMES, TEST_CONFIG_HOME
@@ -21,7 +21,7 @@ PHOENIX_ZONE_INFO = dt_util.get_time_zone(PHOENIX_TIME_ZONE)
 
 
 @pytest.fixture(name="setup_hass_config")
-async def fixture_setup_hass_config(hass: __HAC_KEEP__) -> None:
+async def fixture_setup_hass_config(hass: UniversalAssistant) -> None:
     """Set up things to be run when tests are started."""
     hass.config.latitude = 33.27
     hass.config.longitude = 112
@@ -29,20 +29,20 @@ async def fixture_setup_hass_config(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.fixture(name="hass_tz_info")
-def fixture_hass_tz_info(hass: __HAC_KEEP__, setup_hass_config) -> dt.tzinfo | None:
+def fixture_hass_tz_info(hass: UniversalAssistant, setup_hass_config) -> dt.tzinfo | None:
     """Return timezone info for the hass timezone."""
     return dt_util.get_time_zone(hass.config.time_zone)
 
 
 @pytest.fixture(name="test_date")
-def fixture_test_date(hass: __HAC_KEEP__, hass_tz_info) -> dt.datetime | None:
+def fixture_test_date(hass: UniversalAssistant, hass_tz_info) -> dt.datetime | None:
     """Return test datetime for the hass timezone."""
     # Default to run in the middle of the day on aug 2
     return dt.datetime(2022, 8, 2, 12, 0, 0, 0, tzinfo=hass_tz_info)
 
 
 @pytest.fixture(name="mock_config_entry")
-def fixture_mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def fixture_mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Return the default mocked config entry."""
     return MockConfigEntry(
         domain=DOMAIN, data=TEST_CONFIG_HOME, unique_id=TEST_CONFIG_HOME[CONF_ID]
@@ -101,7 +101,7 @@ def fixture_mock_srp_energy_config_flow() -> Generator[MagicMock]:
 @pytest.fixture
 async def init_integration(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     test_date: dt.datetime,
     mock_config_entry: MockConfigEntry,

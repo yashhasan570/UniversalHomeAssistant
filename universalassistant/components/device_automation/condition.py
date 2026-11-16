@@ -5,7 +5,7 @@ from typing import Any, Protocol, override
 import probatio
 
 from universalassistant.const import CONF_DOMAIN, CONF_OPTIONS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.condition import (
     Condition,
@@ -27,22 +27,22 @@ class DeviceAutomationConditionProtocol(Protocol):
     CONDITION_SCHEMA: probatio.Schema
 
     async def async_validate_condition_config(
-        self, hass: __HAC_KEEP__, config: ConfigType
+        self, hass: UniversalAssistant, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
 
     def async_condition_from_config(
-        self, hass: __HAC_KEEP__, config: ConfigType
+        self, hass: UniversalAssistant, config: ConfigType
     ) -> ConditionCheckerType:
         """Evaluate state based on configuration."""
 
     async def async_get_condition_capabilities(
-        self, hass: __HAC_KEEP__, config: ConfigType
+        self, hass: UniversalAssistant, config: ConfigType
     ) -> dict[str, probatio.Schema]:
         """List condition capabilities."""
 
     async def async_get_conditions(
-        self, hass: __HAC_KEEP__, device_id: str
+        self, hass: UniversalAssistant, device_id: str
     ) -> list[dict[str, Any]]:
         """List conditions."""
 
@@ -56,7 +56,7 @@ class DeviceCondition(Condition):
     @classmethod
     @override
     async def async_validate_complete_config(
-        cls, hass: __HAC_KEEP__, complete_config: ConfigType
+        cls, hass: UniversalAssistant, complete_config: ConfigType
     ) -> ConfigType:
         """Validate complete config."""
         complete_config = await async_validate_device_automation_config(
@@ -73,7 +73,7 @@ class DeviceCondition(Condition):
     @classmethod
     @override
     async def async_validate_config(
-        cls, hass: __HAC_KEEP__, config: ConfigType
+        cls, hass: UniversalAssistant, config: ConfigType
     ) -> ConfigType:
         """Validate config.
 
@@ -81,7 +81,7 @@ class DeviceCondition(Condition):
         """
         raise NotImplementedError
 
-    def __init__(self, hass: __HAC_KEEP__, config: ConditionConfig) -> None:
+    def __init__(self, hass: UniversalAssistant, config: ConditionConfig) -> None:
         """Initialize condition."""
         super().__init__(hass, config)
         assert config.options is not None
@@ -109,6 +109,6 @@ CONDITIONS: dict[str, type[Condition]] = {
 }
 
 
-async def async_get_conditions(hass: __HAC_KEEP__) -> dict[str, type[Condition]]:
+async def async_get_conditions(hass: UniversalAssistant) -> dict[str, type[Condition]]:
     """Return the sun conditions."""
     return CONDITIONS

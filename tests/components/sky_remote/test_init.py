@@ -7,14 +7,14 @@ from skyboxremote import SkyBoxConnectionError
 
 from universalassistant.components.sky_remote.const import DEFAULT_PORT, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_mock_entry
 
 
 async def test_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_remote_control,
     device_registry: dr.DeviceRegistry,
@@ -32,7 +32,7 @@ async def test_setup_entry(
 
 
 async def test_setup_unconnectable_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_remote_control,
 ) -> None:
@@ -47,7 +47,7 @@ async def test_setup_unconnectable_entry(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_remote_control
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_remote_control
 ) -> None:
     """Test unload an entry."""
     await setup_mock_entry(hass, mock_config_entry)

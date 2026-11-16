@@ -38,11 +38,11 @@ from universalassistant.const import (
     EVENT_LOGGING_CHANGED,
     Platform,
 )
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.exceptions import (
     ConfigEntryError,
     ConfigEntryNotReady,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
 )
 from universalassistant.helpers import (
     area_registry as ar,
@@ -169,14 +169,14 @@ PLATFORMS = [
 ]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Z-Wave JS component."""
     async_setup_services(hass)
 
     return True
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: ZwaveJSConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: ZwaveJSConfigEntry) -> None:
     """Migrate old config entry."""
     if entry.version == 1 and entry.minor_version < 2:
         unique_id = entry.unique_id
@@ -194,7 +194,7 @@ async def async_migrate_entry(hass: __HAC_KEEP__, entry: ZwaveJSConfigEntry) -> 
         )
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ZwaveJSConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ZwaveJSConfigEntry) -> None:
     """Set up Z-Wave JS from a config entry."""
     if use_addon := entry.data.get(CONF_USE_ADDON):
         await async_ensure_addon_running(hass, entry)
@@ -336,7 +336,7 @@ class DriverEvents:
 
     driver: Driver
 
-    def __init__(self, hass: __HAC_KEEP__, entry: ZwaveJSConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: ZwaveJSConfigEntry) -> None:
         """Set up the driver events instance."""
         self.config_entry = entry
         self.dev_reg = dr.async_get(hass)
@@ -493,7 +493,7 @@ class ControllerEvents:
     - node removed
     """
 
-    def __init__(self, hass: __HAC_KEEP__, driver_events: DriverEvents) -> None:
+    def __init__(self, hass: UniversalAssistant, driver_events: DriverEvents) -> None:
         """Set up the controller events instance."""
         self.hass = hass
         self.config_entry = driver_events.config_entry
@@ -607,7 +607,7 @@ class ControllerEvents:
             # We keep the parent device so its user customizations are preserved; it has
             # a hardware based identifier that distinguishes it from the replacement. Its
             # stale child devices are reconciled in async_register_node_in_dev_reg, which
-            # also covers a node replaced while __HA_KEEP__ was stopped.
+            # also covers a node replaced while Universal Home Assistant was stopped.
             return
 
         if reason == RemoveNodeReason.RESET:
@@ -805,7 +805,7 @@ class NodeEvents:
     """
 
     def __init__(
-        self, hass: __HAC_KEEP__, controller_events: ControllerEvents
+        self, hass: UniversalAssistant, controller_events: ControllerEvents
     ) -> None:
         """Set up the node events instance."""
         self.config_entry = controller_events.config_entry
@@ -1227,7 +1227,7 @@ class NodeEvents:
 
 
 async def client_listen(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ZwaveJSConfigEntry,
     client: ZwaveClient,
     driver_ready: asyncio.Event,
@@ -1249,7 +1249,7 @@ async def client_listen(
         return
 
     if entry.state is ConfigEntryState.SETUP_IN_PROGRESS:
-        raise __HAC_KEEP__Error("Listen task ended unexpectedly")
+        raise UniversalAssistantError("Listen task ended unexpectedly")
 
     # The entry needs to be reloaded since a new driver state
     # will be acquired on reconnect.
@@ -1264,7 +1264,7 @@ async def client_listen(
         )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ZwaveJSConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ZwaveJSConfigEntry) -> None:
     """Unload a config entry."""
     # Wait for a running network neighbors refresh, so the client is not
     # disconnected before it has turned the radio back on
@@ -1292,7 +1292,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: ZwaveJSConfigEntry) -> N
                 ) from err
 
 
-async def async_remove_entry(hass: __HAC_KEEP__, entry: ZwaveJSConfigEntry) -> None:
+async def async_remove_entry(hass: UniversalAssistant, entry: ZwaveJSConfigEntry) -> None:
     """Remove a config entry."""
     if not entry.data.get(CONF_INTEGRATION_CREATED_ADDON):
         return
@@ -1315,7 +1315,7 @@ async def async_remove_entry(hass: __HAC_KEEP__, entry: ZwaveJSConfigEntry) -> N
 
 
 async def async_ensure_addon_running(
-    hass: __HAC_KEEP__, entry: ZwaveJSConfigEntry
+    hass: UniversalAssistant, entry: ZwaveJSConfigEntry
 ) -> None:
     """Ensure that Z-Wave JS add-on is installed and running."""
     addon_manager = _get_addon_manager(hass)
@@ -1416,7 +1416,7 @@ async def async_ensure_addon_running(
 
 
 @callback
-def _get_addon_manager(hass: __HAC_KEEP__) -> AddonManager:
+def _get_addon_manager(hass: UniversalAssistant) -> AddonManager:
     """Ensure that Z-Wave JS add-on is updated and running."""
     addon_manager: AddonManager = get_addon_manager(hass)
     if addon_manager.task_in_progress():

@@ -13,7 +13,7 @@ from satel_integra import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -49,7 +49,7 @@ class SatelIntegraBaseCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: SatelConfigEntry,
         client: SatelClient,
         update_interval: timedelta | None = None,
@@ -79,11 +79,22 @@ class SatelIntegraBaseCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
         self.async_update_listeners()
 
 
-class SatelIntegraZonesCoordinator(SatelIntegraBaseCoordinator[dict[int, bool | None]]):
+@dataclass(frozen=True)
+class SatelIntegraZoneData:
+    """Snapshot of independently reported zone statuses."""
+
+    violated: bool | None
+    tampered: bool | None
+    bypassed: bool | None
+
+
+class SatelIntegraZonesCoordinator(
+    SatelIntegraBaseCoordinator[dict[int, SatelIntegraZoneData]]
+):
     """DataUpdateCoordinator to handle zone updates."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: SatelConfigEntry, client: SatelClient
+        self, hass: UniversalAssistant, entry: SatelConfigEntry, client: SatelClient
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(hass, entry, client)
@@ -103,7 +114,12 @@ class SatelIntegraZonesCoordinator(SatelIntegraBaseCoordinator[dict[int, bool | 
         """Update zone objects as per notification from the alarm."""
         zone_states = self.client.controller.state.zones
         update_data = {
-            zone: zone_state.violated for zone, zone_state in zone_states.items()
+            zone: SatelIntegraZoneData(
+                violated=zone_state.violated,
+                tampered=zone_state.tampered,
+                bypassed=zone_state.bypassed,
+            )
+            for zone, zone_state in zone_states.items()
         }
         _LOGGER.debug("Zones callback, status: %s", update_data)
 
@@ -116,7 +132,7 @@ class SatelIntegraOutputsCoordinator(
     """DataUpdateCoordinator to handle output updates."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: SatelConfigEntry, client: SatelClient
+        self, hass: UniversalAssistant, entry: SatelConfigEntry, client: SatelClient
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(hass, entry, client)
@@ -152,7 +168,7 @@ class SatelIntegraPartitionsCoordinator(
     """DataUpdateCoordinator to handle partition state updates."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: SatelConfigEntry, client: SatelClient
+        self, hass: UniversalAssistant, entry: SatelConfigEntry, client: SatelClient
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(hass, entry, client)
@@ -204,7 +220,7 @@ class SatelIntegraSystemStatusCoordinator(
     """DataUpdateCoordinator to handle system status updates."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: SatelConfigEntry, client: SatelClient
+        self, hass: UniversalAssistant, entry: SatelConfigEntry, client: SatelClient
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(hass, entry, client)
@@ -241,7 +257,7 @@ class SatelIntegraTemperaturesCoordinator(
     """DataUpdateCoordinator to poll zone temperatures."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: SatelConfigEntry, client: SatelClient
+        self, hass: UniversalAssistant, entry: SatelConfigEntry, client: SatelClient
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(

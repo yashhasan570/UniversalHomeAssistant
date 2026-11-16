@@ -9,8 +9,8 @@ from python_open_router import Modality
 
 from universalassistant.components import ai_task, conversation
 from universalassistant.config_entries import ConfigSubentry
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.json import json_loads
 
@@ -22,7 +22,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: OpenRouterConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -65,7 +65,7 @@ class OpenRouterAITaskEntity(
         await self._async_handle_chat_log(chat_log, task.name, task.structure)
 
         if not isinstance(chat_log.content[-1], conversation.AssistantContent):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="response_not_found"
             )
 
@@ -79,7 +79,7 @@ class OpenRouterAITaskEntity(
         try:
             data = json_loads(text)
         except JSONDecodeError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="json_parse_error"
             ) from err
 
@@ -99,12 +99,12 @@ class OpenRouterAITaskEntity(
 
         content = chat_log.content[-1]
         if not isinstance(content, conversation.AssistantContent):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="response_not_found"
             )
 
         if not content.native:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="no_image_returned"
             )
 
@@ -114,13 +114,13 @@ class OpenRouterAITaskEntity(
             metadata, _, encoded = image_url.partition(",")
             image_data = base64.b64decode(encoded, validate=True)
         except (LookupError, TypeError, ValueError) as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="invalid_image_returned"
             ) from err
 
         mime_type = metadata.removeprefix("data:").split(";")[0]
         if not metadata.startswith("data:") or not mime_type or not image_data:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="invalid_image_returned"
             )
 

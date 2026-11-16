@@ -14,7 +14,7 @@ from universalassistant.components.notify import (
     BaseNotificationService,
 )
 from universalassistant.const import CONF_RESOURCE, CONF_VERIFY_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -31,7 +31,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def get_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> SynologyChatNotificationService:

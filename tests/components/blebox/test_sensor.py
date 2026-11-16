@@ -30,7 +30,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfVolume,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -94,7 +94,7 @@ def tempsensor_fixture():
 
 
 async def test_init(
-    tempsensor, hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    tempsensor, hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test sensor default state."""
 
@@ -118,7 +118,7 @@ async def test_init(
     assert device.sw_version == "1.23"
 
 
-async def test_update(tempsensor, hass: __HAC_KEEP__) -> None:
+async def test_update(tempsensor, hass: UniversalAssistant) -> None:
     """Test sensor update."""
 
     feature_mock, entity_id = tempsensor
@@ -133,7 +133,7 @@ async def test_update(tempsensor, hass: __HAC_KEEP__) -> None:
 
 async def test_update_failure(
     tempsensor,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -153,7 +153,7 @@ async def test_update_failure(
 
 
 async def test_update_with_error_state_is_unavailable(
-    hass: __HAC_KEEP__, tempsensor: tuple[Mock, str]
+    hass: UniversalAssistant, tempsensor: tuple[Mock, str]
 ) -> None:
     """A sensor reporting an error state must become unavailable."""
 
@@ -167,7 +167,7 @@ async def test_update_with_error_state_is_unavailable(
 
 
 async def test_update_recovers_after_error_state_clears(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tempsensor: tuple[Mock, str],
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -214,7 +214,7 @@ def tank_fill_level_fixture() -> tuple[Mock, str]:
 
 
 async def test_probe_not_configured_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tank_fill_level: tuple[Mock, str],
     config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
@@ -251,7 +251,7 @@ async def test_probe_not_configured_issue(
 
 
 async def test_sensor_error_does_not_create_probe_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tank_fill_level: tuple[Mock, str],
     config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
@@ -268,7 +268,7 @@ async def test_sensor_error_does_not_create_probe_issue(
 
 
 async def test_probe_not_configured_issue_removed_with_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tank_fill_level: tuple[Mock, str],
     config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
@@ -288,13 +288,13 @@ async def test_probe_not_configured_issue_removed_with_entry(
     assert issue_registry.async_get_issue(DOMAIN, PROBE_ISSUE_ID) is None
 
 
-async def _async_reload(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def _async_reload(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     await hass.config_entries.async_reload(config_entry.entry_id)
     await hass.async_block_till_done()
 
 
 async def _async_disable_and_enable_entry(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     await hass.config_entries.async_set_disabled_by(
         config_entry.entry_id, ConfigEntryDisabler.USER
@@ -312,11 +312,11 @@ async def _async_disable_and_enable_entry(
     ],
 )
 async def test_probe_not_configured_issue_ignore_survives_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tank_fill_level: tuple[Mock, str],
     config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
-    unload_and_load: Callable[[__HAC_KEEP__, MockConfigEntry], Awaitable[None]],
+    unload_and_load: Callable[[UniversalAssistant, MockConfigEntry], Awaitable[None]],
 ) -> None:
     """Unloading and loading the config entry keeps the ignored probe issue."""
 
@@ -336,7 +336,7 @@ async def test_probe_not_configured_issue_ignore_survives_unload(
 
 
 async def _async_disable_entity(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, entity_id: str
+    hass: UniversalAssistant, config_entry: MockConfigEntry, entity_id: str
 ) -> None:
     er.async_get(hass).async_update_entity(
         entity_id, disabled_by=er.RegistryEntryDisabler.USER
@@ -344,7 +344,7 @@ async def _async_disable_entity(
 
 
 async def _async_disable_device(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, entity_id: str
+    hass: UniversalAssistant, config_entry: MockConfigEntry, entity_id: str
 ) -> None:
     device_id = er.async_get(hass).async_get(entity_id).device_id
     dr.async_get(hass).async_update_device(
@@ -353,13 +353,13 @@ async def _async_disable_device(
 
 
 async def _async_remove_entity(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, entity_id: str
+    hass: UniversalAssistant, config_entry: MockConfigEntry, entity_id: str
 ) -> None:
     er.async_get(hass).async_remove(entity_id)
 
 
 async def _async_remove_feature(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, entity_id: str
+    hass: UniversalAssistant, config_entry: MockConfigEntry, entity_id: str
 ) -> None:
     type(config_entry.runtime_data.box).features = PropertyMock(
         return_value={"sensors": []}
@@ -377,11 +377,11 @@ async def _async_remove_feature(
     ],
 )
 async def test_probe_not_configured_issue_removed_with_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tank_fill_level: tuple[Mock, str],
     config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
-    remove_entity: Callable[[__HAC_KEEP__, MockConfigEntry, str], Awaitable[None]],
+    remove_entity: Callable[[UniversalAssistant, MockConfigEntry, str], Awaitable[None]],
 ) -> None:
     """Disabling or removing the entity deletes the probe repair issue."""
 
@@ -406,12 +406,12 @@ async def test_probe_not_configured_issue_removed_with_entity(
     ],
 )
 async def test_probe_not_configured_issue_removed_when_disabled_while_unloaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tank_fill_level: tuple[Mock, str],
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
-    disable_entity: Callable[[__HAC_KEEP__, MockConfigEntry, str], Awaitable[None]],
+    disable_entity: Callable[[UniversalAssistant, MockConfigEntry, str], Awaitable[None]],
 ) -> None:
     """Disabling the entity while the config entry is disabled deletes the issue."""
 
@@ -436,7 +436,7 @@ async def test_probe_not_configured_issue_removed_when_disabled_while_unloaded(
 
 
 async def test_airsensor_init(
-    airsensor, hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    airsensor, hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test airSensor default state."""
 
@@ -460,7 +460,7 @@ async def test_airsensor_init(
 
 
 async def test_multi_sensor_single_has_no_channel_suffix(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that a single indexed sensor shows no channel suffix."""
     feature = mock_feature(
@@ -486,7 +486,7 @@ async def test_multi_sensor_single_has_no_channel_suffix(
 
 
 async def test_multi_sensor_multiple_have_channel_suffix(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test SmartMeter-like device: index=0 (summary) has no suffix, index=1-3 (phases) get phase number suffix."""
     features = [
@@ -520,7 +520,7 @@ async def test_multi_sensor_multiple_have_channel_suffix(
 
 
 async def test_sensor_error_does_not_affect_sibling_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A single errored sensor must not make sibling sensors unavailable."""
     ok_feature = mock_only_feature(
@@ -591,7 +591,7 @@ async def test_sensor_error_does_not_affect_sibling_sensors(
     ],
 )
 async def test_tank_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id: str,
     device_class: SensorDeviceClass | None,
     unit: str,
@@ -628,7 +628,7 @@ async def test_tank_sensor(
     assert state.state == expected_state
 
 
-async def test_airsensor_update(airsensor, hass: __HAC_KEEP__) -> None:
+async def test_airsensor_update(airsensor, hass: UniversalAssistant) -> None:
     """Test air quality sensor state after update."""
 
     feature_mock, entity_id = airsensor
@@ -664,7 +664,7 @@ def open_status_sensor_fixture():
     return (feature, "sensor.my_open_sensor_open_status")
 
 
-async def test_open_status_sensor_init(open_status_sensor, hass: __HAC_KEEP__) -> None:
+async def test_open_status_sensor_init(open_status_sensor, hass: UniversalAssistant) -> None:
     """Test openStatus sensor initial state is unknown."""
     _, entity_id = open_status_sensor
     await async_setup_entity(hass, entity_id)
@@ -687,7 +687,7 @@ async def test_open_status_sensor_init(open_status_sensor, hass: __HAC_KEEP__) -
 )
 async def test_open_status_sensor_value_mapping(
     open_status_sensor,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     raw_value: int,
     expected_state: str,
 ) -> None:
@@ -704,7 +704,7 @@ async def test_open_status_sensor_value_mapping(
 
 
 async def test_open_status_sensor_none_value(
-    open_status_sensor, hass: __HAC_KEEP__
+    open_status_sensor, hass: UniversalAssistant
 ) -> None:
     """Test that a None native_value yields an unknown state."""
     feature_mock, entity_id = open_status_sensor
@@ -736,7 +736,7 @@ def co2_definition_sensor_fixture():
 
 
 async def test_co2_definition_sensor_init(
-    co2_definition_sensor, hass: __HAC_KEEP__
+    co2_definition_sensor, hass: UniversalAssistant
 ) -> None:
     """Test co2Definition sensor initial state is unknown."""
     _, entity_id = co2_definition_sensor
@@ -762,7 +762,7 @@ async def test_co2_definition_sensor_init(
 )
 async def test_co2_definition_sensor_value_mapping(
     co2_definition_sensor,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     raw_value: int,
     expected_state: str,
 ) -> None:
@@ -778,7 +778,7 @@ async def test_co2_definition_sensor_value_mapping(
 
 
 async def test_co2_definition_sensor_none_value(
-    co2_definition_sensor, hass: __HAC_KEEP__
+    co2_definition_sensor, hass: UniversalAssistant
 ) -> None:
     """Test that a None native_value yields an unknown state."""
     feature_mock, entity_id = co2_definition_sensor

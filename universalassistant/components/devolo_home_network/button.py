@@ -13,8 +13,8 @@ from universalassistant.components.button import (
     ButtonEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN, IDENTIFY, PAIRING, RESTART, START_WPS
@@ -56,7 +56,7 @@ BUTTON_TYPES: dict[str, DevoloButtonEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: DevoloHomeNetworkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -115,13 +115,13 @@ class DevoloButtonEntity(DevoloEntity, ButtonEntity):
             await self.entity_description.press_func(self.device)
         except DevicePasswordProtected as ex:
             self.entry.async_start_reauth(self.hass)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="password_protected",
                 translation_placeholders={"title": self.entry.title},
             ) from ex
         except DeviceUnavailable as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="no_response",
                 translation_placeholders={"title": self.entry.title},

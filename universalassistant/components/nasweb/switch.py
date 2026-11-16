@@ -8,7 +8,7 @@ from webio_api import Output as NASwebOutput
 from webio_api.const import STATE_ENTITY_UNAVAILABLE, STATE_OUTPUT_OFF, STATE_OUTPUT_ON
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchEntity
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -41,7 +41,7 @@ def _get_output(coordinator: NASwebCoordinator, index: int) -> NASwebOutput | No
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: NASwebConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

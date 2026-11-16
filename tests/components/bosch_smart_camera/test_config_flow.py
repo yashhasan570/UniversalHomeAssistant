@@ -27,7 +27,7 @@ from universalassistant.components.bosch_smart_camera.application_credentials im
 )
 from universalassistant.components.bosch_smart_camera.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.setup import async_setup_component
@@ -51,13 +51,13 @@ pytestmark = pytest.mark.usefixtures("current_request_with_host")
 
 
 @pytest.fixture(autouse=True)
-async def setup_application_credentials(hass: __HAC_KEEP__) -> None:
+async def setup_application_credentials(hass: UniversalAssistant) -> None:
     """Set up the application credentials component."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
 
 
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -112,7 +112,7 @@ async def test_full_flow(
 
 
 async def test_account_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -165,7 +165,7 @@ async def test_account_already_configured(
     ],
 )
 async def test_invalid_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     access_token: str,
@@ -205,7 +205,7 @@ async def test_invalid_token(
     ],
 )
 async def test_api_access_checked_before_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_list_cameras: AsyncMock,
@@ -246,7 +246,7 @@ async def test_api_access_checked_before_entry(
     [(ACCOUNT_ID, "reauth_successful"), ("other-account-sub", "wrong_account")],
 )
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,

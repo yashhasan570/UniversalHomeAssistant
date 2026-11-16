@@ -6,7 +6,7 @@ from aiohttp import ClientError
 from aiosolaredge import SolarEdge
 
 from universalassistant.const import CONF_API_KEY, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -18,7 +18,7 @@ from .types import SolarEdgeConfigEntry, SolarEdgeData
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SolarEdgeConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SolarEdgeConfigEntry) -> None:
     """Set up SolarEdge from a config entry."""
     entry.runtime_data = SolarEdgeData()
     site_id = entry.data[CONF_SITE_ID]
@@ -68,7 +68,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SolarEdgeConfigEntry) -> 
         entry.runtime_data[DATA_MODULES_COORDINATOR] = coordinator
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SolarEdgeConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SolarEdgeConfigEntry) -> None:
     """Unload SolarEdge config entry."""
     if DATA_API_CLIENT not in entry.runtime_data:
         return  # Nothing to unload
@@ -77,7 +77,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: SolarEdgeConfigEntry) ->
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: SolarEdgeConfigEntry,
     device_entry: dr.AnyDeviceEntry,
 ) -> bool:

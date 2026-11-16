@@ -6,7 +6,7 @@ from typing import override
 import upcloud_api
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import DEFAULT_SCAN_INTERVAL
@@ -24,7 +24,7 @@ class UpCloudDataUpdateCoordinator(
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         *,
         config_entry: UpCloudConfigEntry,
         cloud_manager: upcloud_api.CloudManager,

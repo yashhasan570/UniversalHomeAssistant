@@ -21,7 +21,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -47,7 +47,7 @@ def _perform_async_update(coordinator):
 
 
 async def _async_multiple_call_helper(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     pywemo_device: pywemo.WeMoDevice,
     call1: Callable[[], Coroutine[Any, Any, None]],
     call2: Callable[[], Coroutine[Any, Any, None]],
@@ -74,7 +74,7 @@ async def _async_multiple_call_helper(
     # Danger! Do not use a Mock side_effect here. The test will deadlock. When
     # called though hass.async_add_executor_job, Mock objects !surprisingly!
     # run in the same thread as the asyncio event loop.
-    # https://github.com/yashhasan570/__HAC_KEEP__/blob/1ba5c1c9fb1e380549cb655986b5f4d3873d7352/tests/common.py#L179
+    # https://github.com/yashhasan570/UniversalUniversalAssistant/blob/1ba5c1c9fb1e380549cb655986b5f4d3873d7352/tests/common.py#L179
     pywemo_device.get_state = get_state
 
     lock_seen_held = asyncio.Event()
@@ -105,7 +105,7 @@ async def _async_multiple_call_helper(
 
 
 async def test_async_update_locked_callback_and_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     pywemo_device: pywemo.WeMoDevice,
     wemo_entity: er.RegistryEntry,
 ) -> None:
@@ -123,7 +123,7 @@ async def test_async_update_locked_callback_and_update(
 
 
 async def test_async_update_locked_multiple_updates(
-    hass: __HAC_KEEP__, pywemo_device: pywemo.WeMoDevice, wemo_entity: er.RegistryEntry
+    hass: UniversalAssistant, pywemo_device: pywemo.WeMoDevice, wemo_entity: er.RegistryEntry
 ) -> None:
     """Test that two hass async_update state updates do not proceed at the same time."""
     coordinator = async_get_coordinator(hass, wemo_entity.device_id)
@@ -133,7 +133,7 @@ async def test_async_update_locked_multiple_updates(
 
 
 async def test_async_update_locked_multiple_callbacks(
-    hass: __HAC_KEEP__, pywemo_device: pywemo.WeMoDevice, wemo_entity: er.RegistryEntry
+    hass: UniversalAssistant, pywemo_device: pywemo.WeMoDevice, wemo_entity: er.RegistryEntry
 ) -> None:
     """Test that two device callback state updates do not proceed at the same time."""
     coordinator = async_get_coordinator(hass, wemo_entity.device_id)
@@ -143,7 +143,7 @@ async def test_async_update_locked_multiple_callbacks(
 
 
 async def test_avaliable_after_update(
-    hass: __HAC_KEEP__, pywemo_registry, pywemo_device, wemo_entity, domain
+    hass: UniversalAssistant, pywemo_registry, pywemo_device, wemo_entity, domain
 ) -> None:
     """Test the availability when an On call fails and after an update.
 
@@ -165,7 +165,7 @@ async def test_avaliable_after_update(
     assert hass.states.get(wemo_entity.entity_id).state == STATE_ON
 
 
-async def test_turn_off_state(hass: __HAC_KEEP__, wemo_entity, domain) -> None:
+async def test_turn_off_state(hass: UniversalAssistant, wemo_entity, domain) -> None:
     """Test that the device state is updated after turning off."""
     await hass.services.async_call(
         domain,
@@ -181,7 +181,7 @@ class EntityTestHelpers:
 
     async def test_async_update_locked_multiple_updates(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         pywemo_device: pywemo.WeMoDevice,
         wemo_entity: er.RegistryEntry,
     ) -> None:
@@ -192,7 +192,7 @@ class EntityTestHelpers:
 
     async def test_async_update_locked_multiple_callbacks(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         pywemo_device: pywemo.WeMoDevice,
         wemo_entity: er.RegistryEntry,
     ) -> None:
@@ -203,7 +203,7 @@ class EntityTestHelpers:
 
     async def test_async_update_locked_callback_and_update(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         pywemo_device: pywemo.WeMoDevice,
         wemo_entity: er.RegistryEntry,
     ) -> None:

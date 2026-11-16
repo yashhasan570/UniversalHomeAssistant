@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.ridwell.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 TEST_ACCOUNT_ID = "12345"
 TEST_DASHBOARD_URL = "https://www.ridwell.com/users/12345/dashboard"
@@ -58,7 +58,7 @@ def client_fixture(account: Mock) -> Mock:
 
 @pytest.fixture(name="config_entry")
 def config_entry_fixture(
-    hass: __HAC_KEEP__, config: dict[str, Any]
+    hass: UniversalAssistant, config: dict[str, Any]
 ) -> MockConfigEntry:
     """Define a config entry fixture."""
     entry = MockConfigEntry(
@@ -98,7 +98,7 @@ def mock_aioridwell_fixture(client: Mock, config: dict[str, Any]) -> Generator[N
 
 @pytest.fixture(name="setup_config_entry")
 async def setup_config_entry_fixture(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_aioridwell: None
+    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_aioridwell: None
 ) -> None:
     """Define a fixture to set up ridwell."""
     assert await hass.config_entries.async_setup(config_entry.entry_id)

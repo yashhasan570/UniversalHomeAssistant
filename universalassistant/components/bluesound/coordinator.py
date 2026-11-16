@@ -12,7 +12,7 @@ from pyblu import Input, Player, Preset, Status, SyncStatus
 from pyblu.errors import PlayerUnreachableError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN
@@ -63,7 +63,7 @@ class BluesoundCoordinator(DataUpdateCoordinator[BluesoundData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: BluesoundConfigEntry,
         player: Player,
         sync_status: SyncStatus,

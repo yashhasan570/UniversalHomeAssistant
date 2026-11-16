@@ -35,7 +35,7 @@
     },
     "totp": {
       "error": {
-        "invalid_code": "Invalid code, please try again. If you get this error consistently, please make sure the clock of your __HA_KEEP__ system is accurate."
+        "invalid_code": "Invalid code, please try again. If you get this error consistently, please make sure the clock of your Universal Home Assistant system is accurate."
       },
       "step": {
         "init": {

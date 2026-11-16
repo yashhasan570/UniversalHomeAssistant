@@ -24,19 +24,19 @@ from universalassistant.components.media_source import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_VERIFY_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(autouse=True)
-async def setup_media_source(hass: __HAC_KEEP__) -> None:
+async def setup_media_source(hass: UniversalAssistant) -> None:
     """Set up media source component."""
     assert await async_setup_component(hass, "media_source", {})
 
 
 async def test_async_resolve_media_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_indi_allsky_client: AsyncMock,
 ) -> None:
@@ -75,7 +75,7 @@ async def test_async_resolve_media_success(
 
 
 async def test_async_resolve_media_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_indi_allsky_client: AsyncMock,
 ) -> None:
@@ -122,7 +122,7 @@ async def test_async_resolve_media_errors(
 
 
 async def test_async_resolve_media_redirect_resolution(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_indi_allsky_client: AsyncMock,
     aioclient_mock: AiohttpClientMocker,
@@ -294,7 +294,7 @@ async def test_async_resolve_media_redirect_resolution(
 
 
 async def test_async_resolve_media_mime_types(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_indi_allsky_client: AsyncMock,
 ) -> None:
@@ -333,7 +333,7 @@ async def test_async_resolve_media_mime_types(
 
 
 async def test_async_browse_media_root(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_indi_allsky_client: AsyncMock,
 ) -> None:
@@ -408,7 +408,7 @@ async def test_async_browse_media_root(
 
 
 async def test_async_browse_latest_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_indi_allsky_client: AsyncMock,
 ) -> None:
@@ -457,7 +457,7 @@ async def test_async_browse_latest_media(
 
 
 async def test_async_browse_videos_hierarchy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_indi_allsky_client: AsyncMock,
 ) -> None:
@@ -532,7 +532,7 @@ async def test_async_browse_videos_hierarchy(
 
 
 async def test_async_browse_images_hierarchy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_indi_allsky_client: AsyncMock,
 ) -> None:
@@ -595,7 +595,7 @@ async def test_async_browse_images_hierarchy(
 
 
 async def test_async_browse_catalog_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_indi_allsky_client: AsyncMock,
 ) -> None:
@@ -615,7 +615,7 @@ async def test_async_browse_catalog_error(
 
 
 async def test_proxy_view_success_and_headers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_indi_allsky_client: AsyncMock,
@@ -669,7 +669,7 @@ async def test_proxy_view_success_and_headers(
 
 
 async def test_proxy_view_head_support(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_indi_allsky_client: AsyncMock,
@@ -711,7 +711,7 @@ async def test_proxy_view_head_support(
 
 
 async def test_proxy_view_sandboxes_active_content(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_indi_allsky_client: AsyncMock,
@@ -752,7 +752,7 @@ async def test_proxy_view_sandboxes_active_content(
 
 
 async def test_proxy_view_content_type_inference(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_indi_allsky_client: AsyncMock,
@@ -814,7 +814,7 @@ async def test_proxy_view_content_type_inference(
 
 
 async def test_proxy_view_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_indi_allsky_client: AsyncMock,
@@ -998,7 +998,7 @@ async def test_proxy_view_errors(
 
 
 async def test_proxy_view_streaming_error_mid_stream(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_indi_allsky_client: AsyncMock,

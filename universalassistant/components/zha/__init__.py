@@ -30,7 +30,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -127,7 +127,7 @@ __all__ = [
 ]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up ZHA from config."""
     ha_zha_data = HAZHAData(yaml_config=config.get(DOMAIN, {}))
     hass.data[DATA_ZHA] = ha_zha_data
@@ -139,7 +139,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-def _raise_if_port_in_use(hass: __HAC_KEEP__, device_path: str) -> None:
+def _raise_if_port_in_use(hass: UniversalAssistant, device_path: str) -> None:
     """Ensure that the specified serial port is not in use by a firmware update."""
     if async_is_firmware_update_in_progress(hass, device_path):
         raise ConfigEntryNotReady(
@@ -147,7 +147,7 @@ def _raise_if_port_in_use(hass: __HAC_KEEP__, device_path: str) -> None:
         )
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, config_entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, config_entry: ConfigEntry) -> None:
     """Set up ZHA.
 
     Will automatically load components to support devices found on the network.
@@ -302,7 +302,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, config_entry: ConfigEntry) -> No
     async_dispatcher_send(hass, SIGNAL_ADD_ENTITIES)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, config_entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, config_entry: ConfigEntry) -> None:
     """Unload ZHA config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)
 
@@ -320,7 +320,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, config_entry: ConfigEntry) -> N
             del ha_zha_data.platforms[platform]
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, config_entry: ConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, config_entry: ConfigEntry) -> None:
     """Migrate old entry."""
     _LOGGER.debug(
         "Migrating from version %s.%s",

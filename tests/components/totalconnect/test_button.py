@@ -7,14 +7,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_entity_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -28,7 +28,7 @@ async def test_entity_registry(
 
 
 async def test_bypass_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_location: AsyncMock,
@@ -46,7 +46,7 @@ async def test_bypass_button(
 
 
 async def test_clear_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_location: AsyncMock,

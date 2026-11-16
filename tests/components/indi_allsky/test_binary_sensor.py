@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -17,7 +17,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("mock_indi_allsky_client")
 async def test_binary_sensor_setup_and_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -33,7 +33,7 @@ async def test_binary_sensor_setup_and_states(
 
 
 async def test_binary_sensor_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_exposure_data: ExposureData,

@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockUser
 
 from universalassistant.components import onboarding
 from universalassistant.components.onboarding import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import mock_storage
@@ -16,7 +16,7 @@ from . import mock_storage
 
 
 async def test_not_setup_views_if_onboarded(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test if onboarding is done, we don't setup views."""
     mock_storage(hass_storage, {"done": onboarding.STEPS})
@@ -29,7 +29,7 @@ async def test_not_setup_views_if_onboarded(
     assert onboarding.async_is_onboarded(hass)
 
 
-async def test_setup_views_if_not_onboarded(hass: __HAC_KEEP__) -> None:
+async def test_setup_views_if_not_onboarded(hass: UniversalAssistant) -> None:
     """Test if onboarding is not done, we setup views."""
     with patch(
         "universalassistant.components.onboarding.views.async_setup",
@@ -76,7 +76,7 @@ async def test_is_user_onboarded() -> None:
 
 
 async def test_having_owner_finishes_user_step(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """If owner user already exists, mark user step as complete."""
     MockUser(is_owner=True).add_to_hass(hass)
@@ -95,7 +95,7 @@ async def test_having_owner_finishes_user_step(
     assert onboarding.STEP_USER in done
 
 
-async def test_migration(hass: __HAC_KEEP__, hass_storage: dict[str, Any]) -> None:
+async def test_migration(hass: UniversalAssistant, hass_storage: dict[str, Any]) -> None:
     """Test migrating onboarding to new version."""
     hass_storage[onboarding.STORAGE_KEY] = {"version": 1, "data": {"done": ["user"]}}
     assert await async_setup_component(hass, DOMAIN, {})

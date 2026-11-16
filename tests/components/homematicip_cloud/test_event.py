@@ -8,7 +8,7 @@ import pytest
 
 from universalassistant.components.event import DOMAIN as EVENT_DOMAIN
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import DATA_INSTANCES
 
@@ -16,7 +16,7 @@ from .helper import HomeFactory, get_and_check_entity_basics
 
 
 async def test_door_bell_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     default_mock_hap_factory: HomeFactory,
 ) -> None:
     """Test of door bell event of HmIP-DSD-PCB."""
@@ -46,7 +46,7 @@ async def test_door_bell_event(
 
 
 async def test_door_bell_event_wrong_event_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     default_mock_hap_factory: HomeFactory,
 ) -> None:
     """Test of door bell event of HmIP-DSD-PCB."""
@@ -84,7 +84,7 @@ async def test_door_bell_event_wrong_event_type(
     ],
 )
 async def test_wrc6_button_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     default_mock_hap_factory: HomeFactory,
     raw_event: str,
     expected_state: str,
@@ -114,7 +114,7 @@ async def test_wrc6_button_event(
 
 
 async def test_wrc6_button_ignores_repeating_long(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     default_mock_hap_factory: HomeFactory,
 ) -> None:
     """KEY_PRESS_LONG (the repeating tick) must not change the entity state.
@@ -164,7 +164,7 @@ def _door_bell_event(channel: FunctionalChannel) -> ChannelEvent:
 
 
 async def test_door_bell_event_after_entity_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     default_mock_hap_factory: HomeFactory,
 ) -> None:
@@ -188,7 +188,7 @@ async def test_door_bell_event_after_entity_removed(
 
 
 async def test_door_bell_event_after_entity_id_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     default_mock_hap_factory: HomeFactory,
 ) -> None:

@@ -6,7 +6,7 @@ from aiohttp import ClientConnectorError
 
 from universalassistant.components.number import NumberDeviceClass, NumberEntity, NumberMode
 from universalassistant.const import UnitOfPower
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import DiscoveryInfoType
 
@@ -15,7 +15,7 @@ from .entity import ApSystemsEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ApSystemsConfigEntry,
     add_entities: AddConfigEntryEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

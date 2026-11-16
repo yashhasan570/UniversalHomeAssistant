@@ -9,9 +9,9 @@ from universalassistant.components.media_player.browse_media import (
     async_process_play_media_url,
 )
 from universalassistant.components.media_player.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.core_config import async_process_ha_core_config
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.network import NoURLAvailableError
 
 
@@ -25,7 +25,7 @@ def fixture_mock_sign_path():
         yield
 
 
-async def test_process_play_media_url(hass: __HAC_KEEP__, mock_sign_path) -> None:
+async def test_process_play_media_url(hass: UniversalAssistant, mock_sign_path) -> None:
     """Test it prefixes and signs urls."""
     await async_process_ha_core_config(
         hass,
@@ -104,7 +104,7 @@ async def test_process_play_media_url(hass: __HAC_KEEP__, mock_sign_path) -> Non
     ],
 )
 async def test_process_play_media_url_no_url_available(
-    hass: __HAC_KEEP__, use_ssl: bool, translation_key: str
+    hass: UniversalAssistant, use_ssl: bool, translation_key: str
 ) -> None:
     """Test a translated error is raised when no URL is available."""
     hass.config.api = Mock(use_ssl=use_ssl, port=8123, local_ip="192.168.123.123")
@@ -114,7 +114,7 @@ async def test_process_play_media_url_no_url_available(
             "universalassistant.components.media_player.browse_media.get_url",
             side_effect=NoURLAvailableError,
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         async_process_play_media_url(hass, "/path")
 
@@ -123,7 +123,7 @@ async def test_process_play_media_url_no_url_available(
 
 
 async def test_process_play_media_url_for_addon(
-    hass: __HAC_KEEP__, mock_sign_path
+    hass: UniversalAssistant, mock_sign_path
 ) -> None:
     """Test it uses the hostname for an addon if available."""
     await async_process_ha_core_config(

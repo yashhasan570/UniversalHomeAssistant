@@ -9,7 +9,7 @@ from pythonxbox.api.provider.people.models import Person
 from pythonxbox.api.provider.titlehub.models import Title
 
 from universalassistant.components.image import ImageEntity, ImageEntityDescription
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -125,7 +125,7 @@ IMAGE_DESCRIPTIONS: tuple[XboxImageEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: XboxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -160,7 +160,7 @@ class XboxImageEntity(XboxBaseEntity, ImageEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         coordinator: XboxPresenceCoordinator,
         xuid: str,
         entity_description: XboxImageEntityDescription,

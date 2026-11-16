@@ -16,7 +16,7 @@ import pytest
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.nest.const import API_URL, OAUTH2_TOKEN, SDM_SCOPES
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from .common import CLIENT_ID, CLIENT_SECRET, PROJECT_ID, PlatformSetup
@@ -39,7 +39,7 @@ def subscriber() -> Mock | None:
     ids=["expires-in-future"],
 )
 async def test_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     setup_platform: PlatformSetup,
     token_expiration_time: float,

@@ -36,7 +36,7 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util.aiohttp import MockStreamReaderChunked
 
@@ -341,6 +341,6 @@ def mock_media_source() -> Generator[MagicMock]:
 
 
 @pytest.fixture
-async def setup_media_source(hass: __HAC_KEEP__) -> None:
+async def setup_media_source(hass: UniversalAssistant) -> None:
     """Set up media source."""
     assert await async_setup_component(hass, "media_source", {})

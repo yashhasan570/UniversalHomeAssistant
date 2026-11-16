@@ -6,7 +6,7 @@ import logging
 from govee_ble import GoveeBluetoothDeviceData
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import (
     GoveeBLEBluetoothProcessorCoordinator,
@@ -19,7 +19,7 @@ PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.EVENT, Platform.SE
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: GoveeBLEConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: GoveeBLEConfigEntry) -> None:
     """Set up Govee BLE device from a config entry."""
     address = entry.unique_id
     assert address is not None
@@ -37,6 +37,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: GoveeBLEConfigEntry) -> N
     entry.async_on_unload(coordinator.async_start())
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: GoveeBLEConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: GoveeBLEConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

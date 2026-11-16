@@ -9,7 +9,7 @@ from matter_server.common.models import EventType
 import pytest
 
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -42,7 +42,7 @@ from .common import (
     ],
 )
 async def test_single_endpoint_platform_translation_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     entity_id: str,
     expected_translation_key: str,
@@ -70,7 +70,7 @@ async def test_single_endpoint_platform_translation_key(
 @pytest.mark.usefixtures("matter_node")
 @pytest.mark.parametrize("node_fixture", ["inovelli_vtm31"])
 async def test_multi_endpoint_entity_translation_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test that multi-endpoint entities have a translation key and a name postfix.
@@ -103,7 +103,7 @@ async def test_multi_endpoint_entity_translation_key(
 @pytest.mark.usefixtures("matter_node")
 @pytest.mark.parametrize("node_fixture", ["eve_energy_20ecn4101"])
 async def test_label_modified_entity_translation_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test that label-modified entities have a translation key and a label postfix.
@@ -138,7 +138,7 @@ async def test_label_modified_entity_translation_key(
 @pytest.mark.usefixtures("matter_node")
 @pytest.mark.parametrize("node_fixture", ["eve_thermo_v4"])
 async def test_description_translation_key_not_overridden(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test that a description-level translation key is not overridden.
@@ -162,7 +162,7 @@ async def test_description_translation_key_not_overridden(
 @pytest.mark.usefixtures("matter_node")
 @pytest.mark.parametrize("node_fixture", ["air_quality_sensor"])
 async def test_entity_name_from_description_translation_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test entity name derived from an explicit description translation key.
@@ -186,7 +186,7 @@ async def test_entity_name_from_description_translation_key(
 @pytest.mark.usefixtures("matter_node")
 @pytest.mark.parametrize("node_fixture", ["mock_temperature_sensor"])
 async def test_entity_name_from_device_class(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test entity name derived from device class when no translation key is set.
@@ -225,7 +225,7 @@ _REACHABLE_ATTR_PATH = "29/57/17"
 
 
 async def test_bridged_entity_unavailable_when_reachable_false_at_startup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
 ) -> None:
     """Test Entity.available is False when Reachable attribute is False.
@@ -248,7 +248,7 @@ async def test_bridged_entity_unavailable_when_reachable_false_at_startup(
 
 
 async def test_bridged_entity_becomes_unavailable_on_reachable_false(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
 ) -> None:
     """Test entity becomes unavailable when Reachable attribute changes to False.
@@ -283,7 +283,7 @@ async def test_bridged_entity_becomes_unavailable_on_reachable_false(
 
 
 async def test_bridged_entity_recovers_when_reachable_true(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
 ) -> None:
     """Test entity becomes available again when Reachable attribute returns to True.
@@ -321,7 +321,7 @@ async def test_bridged_entity_recovers_when_reachable_true(
 
 
 async def test_bridged_entity_unavailable_when_node_goes_offline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
 ) -> None:
     """Test entity becomes unavailable when the bridge node goes offline.
@@ -362,7 +362,7 @@ async def test_bridged_entity_unavailable_when_node_goes_offline(
 @pytest.mark.usefixtures("matter_node")
 @pytest.mark.parametrize("node_fixture", ["mock_onoff_light"])
 async def test_non_bridged_entity_availability_tracks_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -399,7 +399,7 @@ async def test_non_bridged_entity_availability_tracks_node(
 
 
 async def test_bridged_entity_subscribes_to_reachable_attribute(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
 ) -> None:
     """Test that Entity subscribes to BridgedDeviceBasicInformation.Reachable.
@@ -426,7 +426,7 @@ async def test_bridged_entity_subscribes_to_reachable_attribute(
 @pytest.mark.usefixtures("matter_node")
 @pytest.mark.parametrize("node_fixture", ["mock_onoff_light"])
 async def test_non_bridged_entity_does_not_subscribe_to_reachable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -468,7 +468,7 @@ _COMPOSED_PARENT_REACHABLE_ATTR_PATH = "42/57/17"
 
 
 async def test_composed_entity_state_updates_when_parent_reachable_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
 ) -> None:
     """Test composed entity becomes (un-)available when parent Reachable changes.
@@ -520,7 +520,7 @@ async def test_composed_entity_state_updates_when_parent_reachable_changes(
 
 
 async def test_composed_entity_unavailable_when_parent_node_goes_offline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
 ) -> None:
     """Test composed entity becomes unavailable when the bridge node goes offline.
@@ -564,7 +564,7 @@ async def test_composed_entity_unavailable_when_parent_node_goes_offline(
 
 
 async def test_composed_entity_subscribes_to_parent_reachable_attribute(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
 ) -> None:
     """Test composed entity subscribes to parent Reachable.
@@ -612,7 +612,7 @@ async def test_composed_entity_subscribes_to_parent_reachable_attribute(
     ],
 )
 async def test_entity_removal_unsubscribes_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     matter_client: MagicMock,
     node_fixture: str,
@@ -650,7 +650,7 @@ async def test_entity_removal_unsubscribes_events(
 
 
 async def _remove_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     paths: list[str],
@@ -721,7 +721,7 @@ async def _remove_attributes(
     ],
 )
 async def test_entity_removed_with_required_attribute(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     matter_client: MagicMock,
     matter_node: MatterNode,
@@ -739,7 +739,7 @@ async def test_entity_removed_with_required_attribute(
 
 @pytest.mark.parametrize("node_fixture", ["silabs_laundrywasher"])
 async def test_entity_added_again_with_required_attribute(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     matter_client: MagicMock,
     matter_node: MatterNode,
@@ -783,7 +783,7 @@ async def test_entity_added_again_with_required_attribute(
     ],
 )
 async def test_null_list_index(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -825,7 +825,7 @@ async def test_null_list_index(
     ],
 )
 async def test_null_optional_attribute(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -855,7 +855,7 @@ async def test_null_optional_attribute(
 
 @pytest.mark.parametrize("node_fixture", ["silabs_laundrywasher"])
 async def test_entities_removed_in_one_node_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     matter_client: MagicMock,
     node_fixture: str,
@@ -897,7 +897,7 @@ async def test_entities_removed_in_one_node_update(
 
 @pytest.mark.parametrize("node_fixture", ["silabs_laundrywasher"])
 async def test_entity_kept_when_endpoint_leaves_node_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     matter_client: MagicMock,
     matter_node: MatterNode,
@@ -940,7 +940,7 @@ def _dispatch(
 
 @pytest.mark.parametrize("node_fixture", ["silabs_laundrywasher"])
 async def test_entity_kept_when_attribute_comes_back_in_same_batch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     matter_client: MagicMock,
     matter_node: MatterNode,
@@ -963,7 +963,7 @@ async def test_entity_kept_when_attribute_comes_back_in_same_batch(
 
 @pytest.mark.parametrize("node_fixture", ["aqara_door_window_p2"])
 async def test_entity_kept_when_feature_comes_back_in_same_batch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     matter_client: MagicMock,
     matter_node: MatterNode,
@@ -989,7 +989,7 @@ async def test_entity_kept_when_feature_comes_back_in_same_batch(
 
 @pytest.mark.parametrize("node_fixture", ["aqara_door_window_p2"])
 async def test_entity_removed_for_other_reason_in_same_batch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     matter_client: MagicMock,
     matter_node: MatterNode,
@@ -1010,7 +1010,7 @@ async def test_entity_removed_for_other_reason_in_same_batch(
 
 @pytest.mark.parametrize("node_fixture", ["silabs_fan"])
 async def test_node_update_without_wind_setting(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1063,7 +1063,7 @@ async def test_node_update_without_wind_setting(
     ],
 )
 async def test_node_update_without_optional_attribute(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -1093,7 +1093,7 @@ async def test_node_update_without_optional_attribute(
 
 
 async def test_bridged_node_without_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     matter_client: MagicMock,
 ) -> None:

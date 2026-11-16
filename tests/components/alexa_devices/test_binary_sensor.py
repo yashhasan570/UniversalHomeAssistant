@@ -22,7 +22,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.alexa_devices.const import DOMAIN
 from universalassistant.components.alexa_devices.coordinator import SCAN_INTERVAL
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import assert_device_removed_and_readded, setup_integration
@@ -39,7 +39,7 @@ DETECTION_STATE = TEST_DEVICE_1_SENSORS["detectionState"]
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -63,7 +63,7 @@ async def test_all_entities(
     ],
 )
 async def test_coordinator_data_update_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -89,7 +89,7 @@ async def test_coordinator_data_update_fails(
 
 
 async def test_offline_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -120,7 +120,7 @@ async def test_offline_device(
 
 
 async def test_dynamic_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -158,7 +158,7 @@ async def test_dynamic_device(
 
 
 async def test_device_removed_and_readded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -187,7 +187,7 @@ async def test_device_removed_and_readded(
     ],
 )
 async def test_deprecated_sensor_removal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -241,7 +241,7 @@ async def test_deprecated_sensor_removal(
     ],
 )
 async def test_detection_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     sensors: dict[str, AmazonDeviceSensor],
@@ -257,7 +257,7 @@ async def test_detection_state(
 
 
 async def test_detection_state_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -272,7 +272,7 @@ async def test_detection_state_unsupported(
 
 
 async def test_detection_state_pushed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

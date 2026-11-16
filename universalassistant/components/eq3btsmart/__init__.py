@@ -11,7 +11,7 @@ from universalassistant.components import bluetooth
 from universalassistant.components.bluetooth import BluetoothReachabilityIntent
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
@@ -32,7 +32,7 @@ _LOGGER = logging.getLogger(__name__)
 type Eq3ConfigEntry = ConfigEntry[Eq3ConfigEntryData]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: Eq3ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: Eq3ConfigEntry) -> None:
     """Handle config entry setup."""
 
     mac_address: str | None = entry.unique_id
@@ -74,20 +74,20 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: Eq3ConfigEntry) -> None:
     )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: Eq3ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: Eq3ConfigEntry) -> None:
     """Handle config entry unload."""
 
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await entry.runtime_data.thermostat.async_disconnect()
 
 
-async def update_listener(hass: __HAC_KEEP__, entry: Eq3ConfigEntry) -> None:
+async def update_listener(hass: UniversalAssistant, entry: Eq3ConfigEntry) -> None:
     """Handle config entry update."""
 
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def _async_run_thermostat(hass: __HAC_KEEP__, entry: Eq3ConfigEntry) -> None:
+async def _async_run_thermostat(hass: UniversalAssistant, entry: Eq3ConfigEntry) -> None:
     """Run the thermostat."""
 
     thermostat = entry.runtime_data.thermostat
@@ -122,7 +122,7 @@ async def _async_run_thermostat(hass: __HAC_KEEP__, entry: Eq3ConfigEntry) -> No
 
 
 async def _async_reconnect_thermostat(
-    hass: __HAC_KEEP__, entry: Eq3ConfigEntry
+    hass: UniversalAssistant, entry: Eq3ConfigEntry
 ) -> None:
     """Reconnect the thermostat."""
 

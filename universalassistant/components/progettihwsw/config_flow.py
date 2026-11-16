@@ -7,8 +7,8 @@ import probatio
 from ProgettiHWSW.ProgettiHWSWAPI import ProgettiHWSWAPI
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import DOMAIN
 
@@ -19,7 +19,7 @@ DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def validate_input(hass: __HAC_KEEP__, data):
+async def validate_input(hass: UniversalAssistant, data):
     """Validate the user host input."""
 
     api_instance = ProgettiHWSWAPI(f"{data['host']}:{data['port']}")
@@ -103,13 +103,13 @@ class ProgettiHWSWConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot identify host."""
 
 
-class WrongInfo(__HAC_KEEP__Error):
+class WrongInfo(UniversalAssistantError):
     """Error to indicate we cannot validate relay modes input."""
 
 
-class ExistingEntry(__HAC_KEEP__Error):
+class ExistingEntry(UniversalAssistantError):
     """Error to indicate we cannot validate relay modes input."""

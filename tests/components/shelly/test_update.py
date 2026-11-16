@@ -35,8 +35,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, State
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, State
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
 
@@ -60,7 +60,7 @@ def fixture_platforms():
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_block_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_block_device: Mock,
     entity_registry: EntityRegistry,
@@ -116,7 +116,7 @@ async def test_block_update(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_block_beta_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_block_device: Mock,
     entity_registry: EntityRegistry,
@@ -181,7 +181,7 @@ async def test_block_beta_update(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_block_update_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     caplog: pytest.LogCaptureFixture,
@@ -197,7 +197,7 @@ async def test_block_update_connection_error(
     await init_integration(hass, 1)
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Device communication error occurred while triggering"
         " OTA update for Test name",
     ):
@@ -211,7 +211,7 @@ async def test_block_update_connection_error(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_block_update_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -250,7 +250,7 @@ async def test_block_update_auth_error(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_block_version_compare(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_block_device: Mock,
     entity_registry: EntityRegistry,
@@ -296,7 +296,7 @@ async def test_block_version_compare(
 
 
 async def test_rpc_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -407,7 +407,7 @@ async def test_rpc_update(
 
 
 async def test_rpc_lora_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -441,7 +441,7 @@ async def test_rpc_lora_update(
 
 
 async def test_rpc_lora_update_no_update_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -464,7 +464,7 @@ async def test_rpc_lora_update_no_update_available(
 
 
 async def test_rpc_lora_update_in_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -505,7 +505,7 @@ async def test_rpc_lora_update_in_progress(
 
 
 async def test_rpc_lora_update_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -564,7 +564,7 @@ async def test_rpc_lora_update_success(
     ],
 )
 async def test_rpc_lora_update_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exc: Exception,
     error: str,
     mock_rpc_device: Mock,
@@ -586,7 +586,7 @@ async def test_rpc_lora_update_errors(
     )
     await init_integration(hass, 2)
 
-    with pytest.raises(__HAC_KEEP__Error, match=error):
+    with pytest.raises(UniversalAssistantError, match=error):
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -596,7 +596,7 @@ async def test_rpc_lora_update_errors(
 
 
 async def test_rpc_lora_update_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -641,7 +641,7 @@ async def test_rpc_lora_update_auth_error(
 
 
 async def test_rpc_sleeping_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -698,7 +698,7 @@ async def test_rpc_sleeping_update(
 
 
 async def test_rpc_restored_sleeping_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     device_registry: DeviceRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -751,7 +751,7 @@ async def test_rpc_restored_sleeping_update(
 
 
 async def test_rpc_restored_sleeping_update_no_last_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     device_registry: DeviceRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -803,7 +803,7 @@ async def test_rpc_restored_sleeping_update_no_last_state(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_rpc_beta_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
@@ -940,7 +940,7 @@ async def test_rpc_beta_update(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_rpc_update_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exc: Exception,
     error: str,
     mock_rpc_device: Mock,
@@ -962,7 +962,7 @@ async def test_rpc_update_errors(
     )
     await init_integration(hass, 2)
 
-    with pytest.raises(__HAC_KEEP__Error, match=error):
+    with pytest.raises(UniversalAssistantError, match=error):
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -973,7 +973,7 @@ async def test_rpc_update_errors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_rpc_update_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -1020,7 +1020,7 @@ async def test_rpc_update_auth_error(
 
 @pytest.mark.parametrize("model", [MODEL_BLU_GATEWAY_G3, MODEL_PLUS_2PM])
 async def test_blu_trv_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_blu_trv: Mock,
     entity_registry: EntityRegistry,
     model: str,
@@ -1056,7 +1056,7 @@ async def test_blu_trv_update(
 
 
 async def test_blu_trv_update_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_blu_trv: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -1154,7 +1154,7 @@ async def test_blu_trv_update_progress(
 
 
 async def test_blu_trv_update_refreshes_installed_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_blu_trv: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -1192,7 +1192,7 @@ async def test_blu_trv_update_refreshes_installed_version(
 
 @pytest.mark.parametrize("exc", [DeviceConnectionError, RpcCallError(-1, "error")])
 async def test_blu_trv_update_refresh_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_blu_trv: Mock,
     exc: Exception,
 ) -> None:
@@ -1219,7 +1219,7 @@ async def test_blu_trv_update_refresh_errors(
 
 
 async def test_blu_trv_update_shared_firmware_check(
-    hass: __HAC_KEEP__, mock_blu_trv: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_blu_trv: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test that one firmware check serves every BLU TRV paired with the host."""
     monkeypatch.setitem(mock_blu_trv.status["blutrv:201"], "fw_ver", "v1.2.10")
@@ -1236,7 +1236,7 @@ async def test_blu_trv_update_shared_firmware_check(
 
 @pytest.mark.parametrize("fw_id", ["20241224-101010/v1.2.10@aabbccdd", "1.11.0"])
 async def test_blu_trv_update_no_update_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_blu_trv: Mock,
     fw_id: str,
@@ -1268,7 +1268,7 @@ async def test_blu_trv_update_no_update_available(
 
 @pytest.mark.parametrize("exc", [DeviceConnectionError, RpcCallError(-1, "error")])
 async def test_blu_trv_update_check_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_blu_trv: Mock,
     exc: Exception,
@@ -1308,7 +1308,7 @@ async def test_blu_trv_update_check_errors(
 
 
 async def test_blu_trv_update_check_device_disconnected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_blu_trv: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -1332,7 +1332,7 @@ async def test_blu_trv_update_check_device_disconnected(
 
 
 async def test_blu_trv_update_check_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_blu_trv: Mock,
 ) -> None:
@@ -1367,7 +1367,7 @@ async def test_blu_trv_update_check_auth_error(
     ],
 )
 async def test_blu_trv_update_install_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_blu_trv: Mock,
     exc: Exception,
     translation_key: str,
@@ -1379,7 +1379,7 @@ async def test_blu_trv_update_install_errors(
 
     mock_blu_trv.blu_trv_update_firmware.side_effect = exc
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -1396,7 +1396,7 @@ async def test_blu_trv_update_install_errors(
 
 
 async def test_blu_trv_update_install_auth_error(
-    hass: __HAC_KEEP__, mock_blu_trv: Mock
+    hass: UniversalAssistant, mock_blu_trv: Mock
 ) -> None:
     """Test BLU TRV update entity install authentication error."""
     entry = await init_integration(hass, 3, model=MODEL_BLU_GATEWAY_G3)

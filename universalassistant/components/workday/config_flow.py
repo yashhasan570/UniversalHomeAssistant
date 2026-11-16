@@ -14,7 +14,7 @@ from universalassistant.config_entries import (
 from universalassistant.const import CONF_COUNTRY, CONF_LANGUAGE
 from universalassistant.core import callback
 from universalassistant.data_entry_flow import AbortFlow
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.selector import (
     CountrySelector,
     CountrySelectorConfig,
@@ -123,7 +123,7 @@ def add_province_and_language_to_schema(
     )
 
 
-def _is_valid_date_range(check_date: str, error: type[__HAC_KEEP__Error]) -> bool:
+def _is_valid_date_range(check_date: str, error: type[UniversalAssistantError]) -> bool:
     """Validate date range."""
     if check_date.find(",") > 0:
         dates = check_date.split(",", maxsplit=1)
@@ -386,21 +386,21 @@ class WorkdayOptionsFlowHandler(OptionsFlowWithReload):
         )
 
 
-class AddDatesError(__HAC_KEEP__Error):
+class AddDatesError(UniversalAssistantError):
     """Exception for error adding dates."""
 
 
-class AddDateRangeError(__HAC_KEEP__Error):
+class AddDateRangeError(UniversalAssistantError):
     """Exception for error adding dates."""
 
 
-class RemoveDatesError(__HAC_KEEP__Error):
+class RemoveDatesError(UniversalAssistantError):
     """Exception for error removing dates."""
 
 
-class RemoveDateRangeError(__HAC_KEEP__Error):
+class RemoveDateRangeError(UniversalAssistantError):
     """Exception for error removing dates."""
 
 
-class CountryNotExist(__HAC_KEEP__Error):
+class CountryNotExist(UniversalAssistantError):
     """Exception country does not exist error."""

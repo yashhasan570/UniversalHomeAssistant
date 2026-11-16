@@ -26,11 +26,11 @@ from universalassistant.components.google_generative_ai_conversation.const impor
     RECOMMENDED_TOP_P,
 )
 from universalassistant.const import CONF_PROMPT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,

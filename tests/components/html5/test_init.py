@@ -3,10 +3,10 @@
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def test_setup_entry(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def test_setup_entry(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Test setup of a good config entry."""
 
     config_entry.add_to_hass(hass)

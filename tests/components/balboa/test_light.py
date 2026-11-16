@@ -9,7 +9,7 @@ from pytest_universalassistant.common import snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import client_update, init_integration
@@ -39,7 +39,7 @@ def mock_light(client: MagicMock):
 
 
 async def test_lights(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -51,7 +51,7 @@ async def test_lights(
     await snapshot_platform(hass, entity_registry, snapshot, entry.entry_id)
 
 
-async def test_light(hass: __HAC_KEEP__, client: MagicMock, mock_light) -> None:
+async def test_light(hass: UniversalAssistant, client: MagicMock, mock_light) -> None:
     """Test spa light."""
     await init_integration(hass)
 
@@ -71,7 +71,7 @@ async def test_light(hass: __HAC_KEEP__, client: MagicMock, mock_light) -> None:
 
 
 async def test_light_unknown_state(
-    hass: __HAC_KEEP__, client: MagicMock, mock_light
+    hass: UniversalAssistant, client: MagicMock, mock_light
 ) -> None:
     """Tests spa light with unknown state."""
     await init_integration(hass)

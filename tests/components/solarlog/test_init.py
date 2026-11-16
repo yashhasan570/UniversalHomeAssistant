@@ -17,7 +17,7 @@ from solarlog_cli.solarlog_models import EnergyData
 from universalassistant.components.solarlog.const import CONF_HAS_PWD, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_TIMEOUT, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
@@ -27,7 +27,7 @@ from .const import HOST
 
 
 async def test_load_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_solarlog_connector: AsyncMock,
 ) -> None:
@@ -49,7 +49,7 @@ async def test_load_unload(
     ],
 )
 async def test_setup_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: SolarLogError,
     error: str,
     mock_config_entry: MockConfigEntry,
@@ -78,7 +78,7 @@ async def test_setup_error(
     ],
 )
 async def test_auth_error_during_first_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     login_side_effect: Exception | None,
     login_return_value: bool,
     entry_state: str,
@@ -107,7 +107,7 @@ async def test_auth_error_during_first_refresh(
     ],
 )
 async def test_other_exceptions_during_first_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: SolarLogError,
     mock_config_entry: MockConfigEntry,
     mock_solarlog_connector: AsyncMock,
@@ -132,7 +132,7 @@ async def test_other_exceptions_during_first_refresh(
     ],
 )
 async def test_migrate_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     minor_version: int,
     suffix: str,
     device_registry: DeviceRegistry,
@@ -185,7 +185,7 @@ async def test_migrate_config_entry(
 
 
 async def test_timeout_increase_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_solarlog_connector: AsyncMock,
     freezer: FrozenDateTimeFactory,

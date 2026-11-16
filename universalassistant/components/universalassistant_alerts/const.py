@@ -1,4 +1,4 @@
-"""Constants for the __HA_KEEP__ alerts integration."""
+"""Constants for the Universal Home Assistant alerts integration."""
 
 from datetime import timedelta
 

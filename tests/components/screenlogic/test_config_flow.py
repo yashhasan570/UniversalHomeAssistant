@@ -19,12 +19,12 @@ from universalassistant.components.screenlogic.config_flow import (
 )
 from universalassistant.components.screenlogic.const import DOMAIN
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
 
-async def test_flow_discovery(hass: __HAC_KEEP__) -> None:
+async def test_flow_discovery(hass: UniversalAssistant) -> None:
     """Test the flow works with basic discovery."""
 
     with patch(
@@ -66,7 +66,7 @@ async def test_flow_discovery(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_flow_discover_none(hass: __HAC_KEEP__) -> None:
+async def test_flow_discover_none(hass: UniversalAssistant) -> None:
     """Test when nothing is discovered."""
 
     with patch(
@@ -82,7 +82,7 @@ async def test_flow_discover_none(hass: __HAC_KEEP__) -> None:
     assert result["step_id"] == "gateway_entry"
 
 
-async def test_flow_replace_ignored(hass: __HAC_KEEP__) -> None:
+async def test_flow_replace_ignored(hass: UniversalAssistant) -> None:
     """Test we can replace ignored entries."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -130,7 +130,7 @@ async def test_flow_replace_ignored(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_flow_discover_error(hass: __HAC_KEEP__) -> None:
+async def test_flow_discover_error(hass: UniversalAssistant) -> None:
     """Test when discovery errors."""
 
     with patch(
@@ -173,7 +173,7 @@ async def test_flow_discover_error(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_dhcp(hass: __HAC_KEEP__) -> None:
+async def test_dhcp(hass: UniversalAssistant) -> None:
     """Test DHCP discovery flow."""
 
     result = await hass.config_entries.flow.async_init(
@@ -218,7 +218,7 @@ async def test_dhcp(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_manual_entry(hass: __HAC_KEEP__) -> None:
+async def test_form_manual_entry(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     with patch(
@@ -277,7 +277,7 @@ async def test_form_manual_entry(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we handle cannot connect error."""
     with patch(
         "universalassistant.components.screenlogic.config_flow.discovery.async_discover",

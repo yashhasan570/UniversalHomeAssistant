@@ -22,7 +22,7 @@ from universalassistant.components.assist_pipeline.const import (
     DOMAIN,
     SAMPLES_PER_CHUNK,
 )
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import process_events
@@ -52,7 +52,7 @@ def mock_tts_token() -> Generator[None]:
 
 
 async def test_pipeline_from_audio_stream_auto(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_stt_provider_entity: MockSTTProviderEntity,
     init_components,
     snapshot: SnapshotAssertion,
@@ -96,7 +96,7 @@ async def test_pipeline_from_audio_stream_auto(
 
 @pytest.mark.usefixtures("init_components")
 async def test_pipeline_from_audio_stream_volume_multiplier(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_stt_provider_entity: MockSTTProviderEntity,
 ) -> None:
     """Test the volume multiplier is applied when no other processing is used."""
@@ -134,7 +134,7 @@ async def test_pipeline_from_audio_stream_volume_multiplier(
 
 
 async def test_pipeline_from_audio_stream_partial_only_stt_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_stt_provider_entity: MockSTTProviderEntity,
     init_components,
 ) -> None:
@@ -192,7 +192,7 @@ async def test_pipeline_from_audio_stream_partial_only_stt_entity(
 
 
 async def test_pipeline_from_audio_stream_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_stt_provider: MockSTTProvider,
     init_components,
@@ -260,7 +260,7 @@ async def test_pipeline_from_audio_stream_legacy(
 
 
 async def test_pipeline_from_audio_stream_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_stt_provider_entity: MockSTTProviderEntity,
     init_components,
@@ -328,7 +328,7 @@ async def test_pipeline_from_audio_stream_entity(
 
 
 async def test_pipeline_from_audio_stream_no_stt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_stt_provider: MockSTTProvider,
     init_components,
@@ -394,7 +394,7 @@ async def test_pipeline_from_audio_stream_no_stt(
 
 
 async def test_pipeline_from_audio_stream_unknown_pipeline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_stt_provider: MockSTTProvider,
     init_components,
@@ -433,7 +433,7 @@ async def test_pipeline_from_audio_stream_unknown_pipeline(
 
 
 async def test_pipeline_from_audio_stream_validation_pipeline_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_stt_provider_entity: MockSTTProviderEntity,
     init_components,
 ) -> None:
@@ -476,7 +476,7 @@ async def test_pipeline_from_audio_stream_validation_pipeline_error(
 
 
 async def test_pipeline_from_audio_stream_wake_word(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_stt_provider_entity: MockSTTProviderEntity,
     mock_wake_word_provider_entity: MockWakeWordEntity,
     init_components,
@@ -555,7 +555,7 @@ async def test_pipeline_from_audio_stream_wake_word(
 
 
 async def test_pipeline_save_audio(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_stt_provider: MockSTTProvider,
     mock_wake_word_provider_entity: MockWakeWordEntity,
     init_supporting_components,
@@ -634,7 +634,7 @@ async def test_pipeline_save_audio(
 
 
 async def test_pipeline_saved_audio_with_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_stt_provider: MockSTTProvider,
     mock_wake_word_provider_entity: MockWakeWordEntity,
     init_supporting_components,
@@ -689,7 +689,7 @@ async def test_pipeline_saved_audio_with_device_id(
 
 
 async def test_pipeline_saved_audio_write_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_stt_provider: MockSTTProvider,
     mock_wake_word_provider_entity: MockWakeWordEntity,
     init_supporting_components,
@@ -738,7 +738,7 @@ async def test_pipeline_saved_audio_write_error(
 
 
 async def test_pipeline_saved_audio_empty_queue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_stt_provider: MockSTTProvider,
     mock_wake_word_provider_entity: MockWakeWordEntity,
     init_supporting_components,
@@ -811,7 +811,7 @@ async def test_pipeline_saved_audio_empty_queue(
 
 
 async def test_pipeline_from_audio_stream_with_cloud_auth_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_stt_provider_entity: MockSTTProviderEntity,
     init_components,
     snapshot: SnapshotAssertion,

@@ -10,7 +10,7 @@ from python_open_router import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, CONF_MODEL, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.httpx_client import get_async_client
@@ -22,7 +22,7 @@ PLATFORMS = [Platform.AI_TASK, Platform.CONVERSATION]
 type OpenRouterConfigEntry = ConfigEntry[AsyncOpenAI]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: OpenRouterConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: OpenRouterConfigEntry) -> None:
     """Set up OpenRouter from a config entry."""
     client = AsyncOpenAI(
         base_url="https://openrouter.ai/api/v1",
@@ -56,19 +56,19 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: OpenRouterConfigEntry) ->
 
 
 async def _async_update_listener(
-    hass: __HAC_KEEP__, entry: OpenRouterConfigEntry
+    hass: UniversalAssistant, entry: OpenRouterConfigEntry
 ) -> None:
     """Handle update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: OpenRouterConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: OpenRouterConfigEntry) -> None:
     """Unload OpenRouter."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, entry: OpenRouterConfigEntry
+    hass: UniversalAssistant, entry: OpenRouterConfigEntry
 ) -> None:
     """Migrate config entry."""
     LOGGER.debug("Migrating from version %s.%s", entry.version, entry.minor_version)

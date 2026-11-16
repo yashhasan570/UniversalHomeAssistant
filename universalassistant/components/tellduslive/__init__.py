@@ -9,7 +9,7 @@ from tellduslive import DIM, TURNON, UP, Session
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -25,7 +25,7 @@ from .const import (
     TELLDUS_DISCOVERY_NEW,
 )
 
-APPLICATION_NAME = "__HA_KEEP__"
+APPLICATION_NAME = "Universal Home Assistant"
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -41,7 +41,7 @@ class TelldusLiveData:
 type TelldusLiveConfigEntry = ConfigEntry[TelldusLiveData]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: TelldusLiveConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: TelldusLiveConfigEntry) -> None:
     """Create a tellduslive session."""
     conf = entry.data[KEY_SESSION]
 
@@ -70,7 +70,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: TelldusLiveConfigEntry) -
 
 
 async def async_new_client(
-    hass: __HAC_KEEP__, client: TelldusLiveClient, entry: TelldusLiveConfigEntry
+    hass: UniversalAssistant, client: TelldusLiveClient, entry: TelldusLiveConfigEntry
 ) -> None:
     """Add the hubs associated with the current client to device_registry."""
     dev_reg = dr.async_get(hass)
@@ -88,7 +88,7 @@ async def async_new_client(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: TelldusLiveConfigEntry
+    hass: UniversalAssistant, config_entry: TelldusLiveConfigEntry
 ) -> None:
     """Unload a config entry."""
     data = config_entry.runtime_data

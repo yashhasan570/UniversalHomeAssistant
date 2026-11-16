@@ -4,7 +4,7 @@ from actron_neo_api import ActronAirAPI, ActronAirAPIError, ActronAirAuthError
 from actron_neo_api.models.system import ActronAirSystemInfo
 
 from universalassistant.const import CONF_API_TOKEN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -25,7 +25,7 @@ PLATFORMS = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ActronAirConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ActronAirConfigEntry) -> None:
     """Set up Actron Air integration from a config entry."""
 
     api = ActronAirAPI(
@@ -94,6 +94,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ActronAirConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ActronAirConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ActronAirConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

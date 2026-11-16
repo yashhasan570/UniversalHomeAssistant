@@ -6,13 +6,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.laundrify.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import VALID_ACCESS_TOKEN
 
 
 async def test_setup_entry_api_unauthorized(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     laundrify_api_mock,
     laundrify_config_entry: MockConfigEntry,
 ) -> None:
@@ -26,7 +26,7 @@ async def test_setup_entry_api_unauthorized(
 
 
 async def test_setup_entry_api_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     laundrify_api_mock,
     laundrify_config_entry: MockConfigEntry,
 ) -> None:
@@ -40,7 +40,7 @@ async def test_setup_entry_api_cannot_connect(
 
 
 async def test_setup_entry_successful(
-    hass: __HAC_KEEP__, laundrify_config_entry: MockConfigEntry
+    hass: UniversalAssistant, laundrify_config_entry: MockConfigEntry
 ) -> None:
     """Test entry can be setup successfully."""
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
@@ -48,7 +48,7 @@ async def test_setup_entry_successful(
 
 
 async def test_setup_entry_unload(
-    hass: __HAC_KEEP__, laundrify_config_entry: MockConfigEntry
+    hass: UniversalAssistant, laundrify_config_entry: MockConfigEntry
 ) -> None:
     """Test unloading the laundrify entry."""
     await hass.config_entries.async_unload(laundrify_config_entry.entry_id)
@@ -57,7 +57,7 @@ async def test_setup_entry_unload(
     assert laundrify_config_entry.state is ConfigEntryState.NOT_LOADED
 
 
-async def test_migrate_entry_minor_version_1_2(hass: __HAC_KEEP__) -> None:
+async def test_migrate_entry_minor_version_1_2(hass: UniversalAssistant) -> None:
     """Test migrating a 1.1 config entry to 1.2."""
     entry = MockConfigEntry(
         domain=DOMAIN,

@@ -6,7 +6,7 @@ import switchbot
 from switchbot.const import LockStatus
 
 from universalassistant.components.lock import LockEntity, LockEntityFeature
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_LOCK_NIGHTLATCH, DEFAULT_LOCK_NIGHTLATCH
@@ -17,7 +17,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SwitchbotConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

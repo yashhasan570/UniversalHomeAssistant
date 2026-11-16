@@ -2,7 +2,7 @@
 
 from nsw_fuel import FuelCheckClient
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -14,7 +14,7 @@ DOMAIN = "nsw_fuel_station"
 CONFIG_SCHEMA = cv.platform_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the NSW Fuel Station platform."""
     client = FuelCheckClient()
 

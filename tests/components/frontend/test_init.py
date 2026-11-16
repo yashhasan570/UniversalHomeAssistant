@@ -1,4 +1,4 @@
-"""The tests for __HA_KEEP__ frontend."""
+"""The tests for Universal Home Assistant frontend."""
 
 from collections.abc import Generator
 from contextlib import nullcontext
@@ -48,8 +48,8 @@ from universalassistant.components.frontend.services import (
     FrontendServiceArgument,
 )
 from universalassistant.components.websocket_api import TYPE_RESULT
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.loader import async_get_integration
 from universalassistant.setup import async_setup_component
 
@@ -81,7 +81,7 @@ CONFIG_THEMES = {DOMAIN: {CONF_THEMES: MOCK_THEMES}}
 
 
 @pytest.fixture
-async def ignore_frontend_deps(hass: __HAC_KEEP__) -> None:
+async def ignore_frontend_deps(hass: UniversalAssistant) -> None:
     """Frontend dependencies."""
     frontend = await async_get_integration(hass, "frontend")
     for dep in frontend.dependencies:
@@ -90,7 +90,7 @@ async def ignore_frontend_deps(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.fixture
-async def frontend(hass: __HAC_KEEP__, ignore_frontend_deps: None) -> None:
+async def frontend(hass: UniversalAssistant, ignore_frontend_deps: None) -> None:
     """Frontend setup with themes."""
     assert await async_setup_component(
         hass,
@@ -100,7 +100,7 @@ async def frontend(hass: __HAC_KEEP__, ignore_frontend_deps: None) -> None:
 
 
 @pytest.fixture
-async def frontend_themes(hass: __HAC_KEEP__) -> None:
+async def frontend_themes(hass: UniversalAssistant) -> None:
     """Frontend setup with themes."""
     assert await async_setup_component(
         hass,
@@ -120,35 +120,35 @@ def aiohttp_client(
 
 @pytest.fixture
 async def mock_http_client(
-    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator, frontend: None
+    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator, frontend: None
 ) -> TestClient:
-    """Start the __HA_KEEP__ HTTP component."""
+    """Start the Universal Home Assistant HTTP component."""
     return await aiohttp_client(hass.http.app)
 
 
 @pytest.fixture
 async def themes_ws_client(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, frontend_themes: None
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, frontend_themes: None
 ) -> MockHAClientWebSocket:
-    """Start the __HA_KEEP__ HTTP component."""
+    """Start the Universal Home Assistant HTTP component."""
     return await hass_ws_client(hass)
 
 
 @pytest.fixture
 async def ws_client(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, frontend: None
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, frontend: None
 ) -> MockHAClientWebSocket:
-    """Start the __HA_KEEP__ HTTP component."""
+    """Start the Universal Home Assistant HTTP component."""
     return await hass_ws_client(hass)
 
 
 @pytest.fixture
 async def mock_http_client_with_extra_js(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_client: ClientSessionGenerator,
     ignore_frontend_deps: None,
 ) -> TestClient:
-    """Start the __HA_KEEP__ HTTP component."""
+    """Start the Universal Home Assistant HTTP component."""
     assert await async_setup_component(
         hass,
         DOMAIN,
@@ -212,7 +212,7 @@ async def test_we_cannot_POST_to_root(mock_http_client: TestClient) -> None:
 
 
 async def test_themes_api(
-    hass: __HAC_KEEP__, themes_ws_client: MockHAClientWebSocket
+    hass: UniversalAssistant, themes_ws_client: MockHAClientWebSocket
 ) -> None:
     """Test that /api/themes returns correct data."""
     await themes_ws_client.send_json({"id": 5, "type": "frontend/get_themes"})
@@ -242,7 +242,7 @@ async def test_themes_api(
 
 @pytest.mark.usefixtures("ignore_frontend_deps")
 async def test_themes_persist(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -268,7 +268,7 @@ async def test_themes_persist(
 
 @pytest.mark.usefixtures("frontend_themes")
 async def test_themes_save_storage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -302,7 +302,7 @@ async def test_themes_save_storage(
 
 @pytest.mark.usefixtures("frontend_themes")
 async def test_themes_save_storage_new_schema(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -331,7 +331,7 @@ async def test_themes_save_storage_new_schema(
 
 
 async def test_themes_set_theme(
-    hass: __HAC_KEEP__, themes_ws_client: MockHAClientWebSocket
+    hass: UniversalAssistant, themes_ws_client: MockHAClientWebSocket
 ) -> None:
     """Test frontend.set_theme service."""
     await hass.services.async_call(
@@ -379,7 +379,7 @@ async def test_themes_set_theme(
 
 
 async def test_themes_set_theme_wrong_name(
-    hass: __HAC_KEEP__, themes_ws_client: MockHAClientWebSocket
+    hass: UniversalAssistant, themes_ws_client: MockHAClientWebSocket
 ) -> None:
     """Test frontend.set_theme service called with wrong name."""
 
@@ -402,7 +402,7 @@ async def test_themes_set_theme_wrong_name(
 
 
 async def test_themes_set_dark_theme(
-    hass: __HAC_KEEP__, themes_ws_client: MockHAClientWebSocket
+    hass: UniversalAssistant, themes_ws_client: MockHAClientWebSocket
 ) -> None:
     """Test frontend.set_theme service called with dark mode."""
 
@@ -459,7 +459,7 @@ async def test_themes_set_dark_theme(
 
 
 async def test_themes_set_combined_theme(
-    hass: __HAC_KEEP__, themes_ws_client: MockHAClientWebSocket
+    hass: UniversalAssistant, themes_ws_client: MockHAClientWebSocket
 ) -> None:
     """Test frontend.set_theme service setting both light and dark modes."""
 
@@ -511,7 +511,7 @@ async def test_themes_set_combined_theme(
     ("schema"), [{"name": "wrong", "mode": "dark"}, {"name_dark": "wrong"}]
 )
 async def test_themes_set_dark_theme_wrong_name(
-    hass: __HAC_KEEP__, themes_ws_client: MockHAClientWebSocket, schema
+    hass: UniversalAssistant, themes_ws_client: MockHAClientWebSocket, schema
 ) -> None:
     """Test frontend.set_theme service called with mode dark and wrong name."""
     with pytest.raises(
@@ -531,7 +531,7 @@ async def test_themes_set_dark_theme_wrong_name(
 
 @pytest.mark.usefixtures("frontend")
 async def test_themes_reload_themes(
-    hass: __HAC_KEEP__, themes_ws_client: MockHAClientWebSocket
+    hass: UniversalAssistant, themes_ws_client: MockHAClientWebSocket
 ) -> None:
     """Test frontend.reload_themes service."""
 
@@ -622,7 +622,7 @@ async def test_themes_reload_themes(
     ],
 )
 async def test_themes_reload_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     themes_ws_client: MockHAClientWebSocket,
     invalid_theme: dict,
     error: str | None,
@@ -644,7 +644,7 @@ async def test_themes_reload_invalid(
             "universalassistant.components.frontend.services.async_hass_config_yaml",
             return_value={DOMAIN: {CONF_THEMES: invalid_theme}},
         ),
-        pytest.raises(__HAC_KEEP__Error, match=rf"Failed to reload themes.*{error}")
+        pytest.raises(UniversalAssistantError, match=rf"Failed to reload themes.*{error}")
         if error is not None
         else nullcontext(),
     ):
@@ -682,7 +682,7 @@ async def test_missing_themes(ws_client: MockHAClientWebSocket) -> None:
 
 @pytest.mark.usefixtures("mock_onboarded")
 async def test_extra_js(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_http_client_with_extra_js: TestClient,
 ) -> None:
@@ -767,7 +767,7 @@ async def test_extra_js(
 
 
 async def test_get_panels(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_http_client: TestClient,
     caplog: pytest.LogCaptureFixture,
@@ -820,7 +820,7 @@ async def test_get_panels(
 
 
 @pytest.mark.usefixtures("frontend")
-async def test_async_panel_exists(hass: __HAC_KEEP__) -> None:
+async def test_async_panel_exists(hass: UniversalAssistant) -> None:
     """Test async_panel_exists helper."""
     assert async_panel_exists(hass, "test_panel") is False
 
@@ -832,7 +832,7 @@ async def test_async_panel_exists(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("ignore_frontend_deps")
-async def test_async_get_theme_names(hass: __HAC_KEEP__) -> None:
+async def test_async_get_theme_names(hass: UniversalAssistant) -> None:
     """Test async_get_theme_names helper."""
     assert async_get_theme_names(hass) == []
 
@@ -840,7 +840,7 @@ async def test_async_get_theme_names(hass: __HAC_KEEP__) -> None:
     assert async_get_theme_names(hass) == sorted(MOCK_THEMES)
 
 
-async def test_register_panel_collision_names_the_owner(hass: __HAC_KEEP__) -> None:
+async def test_register_panel_collision_names_the_owner(hass: UniversalAssistant) -> None:
     """Test that the collision error says which component holds the URL path.
 
     The path is often claimed by a dashboard or a custom panel rather than by
@@ -858,7 +858,7 @@ async def test_register_panel_collision_names_the_owner(hass: __HAC_KEEP__) -> N
 
 
 async def test_get_panels_non_admin(
-    hass: __HAC_KEEP__, ws_client: MockHAClientWebSocket, hass_admin_user: MockUser
+    hass: UniversalAssistant, ws_client: MockHAClientWebSocket, hass_admin_user: MockUser
 ) -> None:
     """Test get_panels command."""
     hass_admin_user.groups = []
@@ -880,7 +880,7 @@ async def test_get_panels_non_admin(
 
 
 async def test_panel_sidebar_default_visible(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_http_client: TestClient,
 ) -> None:
@@ -998,13 +998,13 @@ async def test_get_translations_for_single_integration(
     assert msg["result"] == {"resources": {"lang": "nl", "integration": ["http"]}}
 
 
-async def test_auth_load(hass: __HAC_KEEP__) -> None:
+async def test_auth_load(hass: UniversalAssistant) -> None:
     """Test auth component loaded by default."""
     frontend = await async_get_integration(hass, "frontend")
     assert "auth" in frontend.dependencies
 
 
-async def test_onboarding_load(hass: __HAC_KEEP__) -> None:
+async def test_onboarding_load(hass: UniversalAssistant) -> None:
     """Test onboarding component loaded by default."""
     frontend = await async_get_integration(hass, "frontend")
     assert "onboarding" in frontend.dependencies
@@ -1034,7 +1034,7 @@ async def test_auth_authorize(mock_http_client: TestClient) -> None:
 
 
 async def test_get_version(
-    hass: __HAC_KEEP__, ws_client: MockHAClientWebSocket
+    hass: UniversalAssistant, ws_client: MockHAClientWebSocket
 ) -> None:
     """Test get_version command."""
     frontend = await async_get_integration(hass, "frontend")
@@ -1088,7 +1088,7 @@ async def test_static_paths(
 
 
 @pytest.mark.usefixtures("frontend_themes")
-async def test_manifest_json(hass: __HAC_KEEP__, mock_http_client: TestClient) -> None:
+async def test_manifest_json(hass: UniversalAssistant, mock_http_client: TestClient) -> None:
     """Test for fetching manifest.json."""
     resp = await mock_http_client.get("/manifest.json")
     assert resp.status == HTTPStatus.OK
@@ -1277,7 +1277,7 @@ async def test_get_icons_for_single_integration(
 
 
 async def test_www_local_dir(
-    hass: __HAC_KEEP__, tmp_path: Path, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, tmp_path: Path, hass_client: ClientSessionGenerator
 ) -> None:
     """Test local www folder."""
     hass.config.config_dir = str(tmp_path)
@@ -1326,7 +1326,7 @@ async def test_development_pr_and_github_token_inclusive() -> None:
 
 
 async def test_setup_with_development_pr_and_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     mock_github_api,
     aioclient_mock: AiohttpClientMocker,
@@ -1354,7 +1354,7 @@ async def test_setup_with_development_pr_and_token(
 
 
 async def test_setup_cleans_up_pr_cache_when_not_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
 ) -> None:
     """Test that PR cache is cleaned up when no PR is configured."""
@@ -1373,7 +1373,7 @@ async def test_setup_cleans_up_pr_cache_when_not_configured(
 
 
 async def test_setup_with_development_pr_unexpected_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1398,7 +1398,7 @@ async def test_setup_with_development_pr_unexpected_error(
 
 
 async def test_update_panel(
-    hass: __HAC_KEEP__, ws_client: MockHAClientWebSocket
+    hass: UniversalAssistant, ws_client: MockHAClientWebSocket
 ) -> None:
     """Test frontend/update_panel command."""
     # Verify initial state
@@ -1433,7 +1433,7 @@ async def test_update_panel(
 
 
 async def test_update_panel_partial(
-    hass: __HAC_KEEP__, ws_client: MockHAClientWebSocket
+    hass: UniversalAssistant, ws_client: MockHAClientWebSocket
 ) -> None:
     """Test that partial updates only change specified properties."""
     # Update only title
@@ -1473,7 +1473,7 @@ async def test_update_panel_not_found(ws_client: MockHAClientWebSocket) -> None:
 
 
 async def test_update_panel_requires_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ws_client: MockHAClientWebSocket,
     hass_admin_user: MockUser,
 ) -> None:
@@ -1494,7 +1494,7 @@ async def test_update_panel_requires_admin(
 
 @pytest.mark.usefixtures("ignore_frontend_deps")
 async def test_update_panel_persists(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -1526,7 +1526,7 @@ async def test_update_panel_persists(
 
 
 async def test_update_panel_reset_param(
-    hass: __HAC_KEEP__, ws_client: MockHAClientWebSocket
+    hass: UniversalAssistant, ws_client: MockHAClientWebSocket
 ) -> None:
     """Test that setting a param to None resets it to the original value."""
     # First set a custom icon
@@ -1563,7 +1563,7 @@ async def test_update_panel_reset_param(
 
 
 async def test_update_panel_toggle_show_in_sidebar(
-    hass: __HAC_KEEP__, ws_client: MockHAClientWebSocket
+    hass: UniversalAssistant, ws_client: MockHAClientWebSocket
 ) -> None:
     """Test that show_in_sidebar is returned without altering title and icon."""
     # Verify initial state has title and icon
@@ -1613,7 +1613,7 @@ async def test_update_panel_toggle_show_in_sidebar(
 
 
 async def test_panels_config_invalid_storage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
     caplog: pytest.LogCaptureFixture,

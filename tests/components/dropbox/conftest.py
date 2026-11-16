@@ -12,7 +12,7 @@ from universalassistant.components.application_credentials import (
     async_import_client_credential,
 )
 from universalassistant.components.dropbox.const import DOMAIN, OAUTH2_SCOPES
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 CLIENT_ID = "1234"
@@ -24,7 +24,7 @@ TEST_AGENT_ID = f"{DOMAIN}.{ACCOUNT_ID}"
 
 
 @pytest.fixture(autouse=True)
-async def setup_credentials(hass: __HAC_KEEP__) -> None:
+async def setup_credentials(hass: UniversalAssistant) -> None:
     """Set up application credentials for Dropbox."""
 
     assert await async_setup_component(hass, "application_credentials", {})

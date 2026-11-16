@@ -2,7 +2,7 @@
 
 import pytest
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MOCK_INSIGHT_CURRENT_WATTS, MOCK_INSIGHT_TODAY_KWH
@@ -27,7 +27,7 @@ class InsightTestTemplate(EntityTestHelpers):
         """Select the appropriate entity for the test."""
         return cls.ENTITY_ID_SUFFIX
 
-    def test_state(self, hass: __HAC_KEEP__, wemo_entity: er.RegistryEntry) -> None:
+    def test_state(self, hass: UniversalAssistant, wemo_entity: er.RegistryEntry) -> None:
         """Test the sensor state."""
         assert hass.states.get(wemo_entity.entity_id).state == self.EXPECTED_STATE_VALUE
 

@@ -12,7 +12,7 @@ from universalassistant.components import azure_event_hub
 from universalassistant.components.azure_event_hub.const import CONF_SEND_INTERVAL, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
 
@@ -22,7 +22,7 @@ from .const import AZURE_EVENT_HUB_PATH, BASIC_OPTIONS, CS_CONFIG_FULL, SAS_CONF
 _LOGGER = logging.getLogger(__name__)
 
 
-async def test_import(hass: __HAC_KEEP__) -> None:
+async def test_import(hass: UniversalAssistant) -> None:
     """Test the popping of the filter and further import of the config."""
     config = {
         DOMAIN: {
@@ -42,7 +42,7 @@ async def test_import(hass: __HAC_KEEP__) -> None:
     assert await async_setup_component(hass, DOMAIN, config)
 
 
-async def test_filter_only_config(hass: __HAC_KEEP__) -> None:
+async def test_filter_only_config(hass: UniversalAssistant) -> None:
     """Test the popping of the filter and further import of the config."""
     config = {
         DOMAIN: {
@@ -60,7 +60,7 @@ async def test_filter_only_config(hass: __HAC_KEEP__) -> None:
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_create_batch: MagicMock
+    hass: UniversalAssistant, entry: MockConfigEntry, mock_create_batch: MagicMock
 ) -> None:
     """Test being able to unload an entry.
 
@@ -74,7 +74,7 @@ async def test_unload_entry(
 
 
 async def test_failed_test_connection(
-    hass: __HAC_KEEP__, mock_get_eventhub_properties: AsyncMock
+    hass: UniversalAssistant, mock_get_eventhub_properties: AsyncMock
 ) -> None:
     """Test being able to unload an entry."""
     entry = MockConfigEntry(
@@ -90,7 +90,7 @@ async def test_failed_test_connection(
 
 
 async def test_send_batch_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry_with_one_event: MockConfigEntry,
     mock_send_batch: AsyncMock,
 ) -> None:
@@ -115,7 +115,7 @@ async def test_send_batch_error(
 
 
 async def test_late_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry_with_one_event: MockConfigEntry,
     mock_create_batch: MagicMock,
 ) -> None:
@@ -134,7 +134,7 @@ async def test_late_event(
 
 
 async def test_full_batch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry_with_one_event: MockConfigEntry,
     mock_create_batch: MagicMock,
 ) -> None:
@@ -217,7 +217,7 @@ async def test_full_batch(
     ids=["allowlist", "denylist", "filtered_allowlist", "filtered_denylist"],
 )
 async def test_filter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
     tests: list[FilterTest],
     mock_create_batch: MagicMock,

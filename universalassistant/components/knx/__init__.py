@@ -10,7 +10,7 @@ from xknx.exceptions import XKNXException
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import AnyDeviceEntry
@@ -103,7 +103,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Start the KNX integration."""
     hass.data[DATA_HASS_CONFIG] = config
     if (conf := config.get(DOMAIN)) is not None:
@@ -113,7 +113,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Load a config entry."""
     # `_KNX_YAML_CONFIG` is only set in async_setup.
     # It's None when reloading the integration or no `knx` key in configuration.yaml
@@ -165,7 +165,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     await register_panel(hass)
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Migrate old entry."""
     _LOGGER.debug("Migrating from version %s", entry.version)
 
@@ -210,7 +210,7 @@ async def async_migrate_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         _LOGGER.info("Migration to version 2.2 successful")
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unloading the KNX platforms."""
     knx_module = hass.data.get(KNX_MODULE_KEY)
     if not knx_module:
@@ -246,7 +246,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     hass.data.pop(DOMAIN)
 
 
-async def async_remove_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_remove_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Remove a config entry."""
 
     def remove_files(storage_dir: Path, knxkeys_filename: str | None) -> None:
@@ -274,7 +274,7 @@ async def async_remove_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry, device_entry: AnyDeviceEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry, device_entry: AnyDeviceEntry
 ) -> bool:
     """Remove a config entry from a device."""
     knx_module = hass.data[KNX_MODULE_KEY]

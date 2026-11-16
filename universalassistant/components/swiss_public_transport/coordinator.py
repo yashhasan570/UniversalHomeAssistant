@@ -11,7 +11,7 @@ from opendata_transport.exceptions import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
 from universalassistant.util.json import JsonValueType
@@ -58,7 +58,7 @@ class SwissPublicTransportDataUpdateCoordinator(
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: SwissPublicTransportConfigEntry,
         opendata: OpendataTransport,
         time_offset: dict[str, int] | None,

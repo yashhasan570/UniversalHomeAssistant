@@ -12,7 +12,7 @@ from universalassistant import config_entries
 from universalassistant.components.google_mail.const import DOMAIN
 from universalassistant.components.sensor import SensorDeviceClass
 from universalassistant.const import ATTR_DEVICE_CLASS, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     OAuth2TokenRequestError,
     OAuth2TokenRequestReauthError,
@@ -32,7 +32,7 @@ from .conftest import SENSOR, TOKEN, ComponentSetup
     ],
 )
 async def test_sensors(
-    hass: __HAC_KEEP__, setup_integration: ComponentSetup, fixture: str, result: str
+    hass: UniversalAssistant, setup_integration: ComponentSetup, fixture: str, result: str
 ) -> None:
     """Test we get sensor data."""
     await setup_integration()
@@ -60,7 +60,7 @@ async def test_sensors(
 
 
 async def test_sensor_reauth_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
 ) -> None:
     """Test reauth is triggered after a refresh error."""
@@ -102,7 +102,7 @@ async def test_sensor_reauth_trigger(
     ],
 )
 async def test_sensor_token_error_no_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     side_effect: Exception | type[Exception],
 ) -> None:

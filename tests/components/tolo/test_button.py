@@ -9,7 +9,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 ENTITY_ID = "button.tolo_sauna_next_color"
 
@@ -22,7 +22,7 @@ def button_platform_only() -> Generator[None]:
 
 
 async def test_button_unavailable_on_failed_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tolo_client: MagicMock,
     freezer: FrozenDateTimeFactory,

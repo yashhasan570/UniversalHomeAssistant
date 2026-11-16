@@ -71,8 +71,8 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfTime,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType, Undefined
@@ -588,7 +588,7 @@ def get_entity_description(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ZwaveJSConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -888,7 +888,7 @@ class ZWaveMeterSensor(ZWaveNumericSensor):
                 CommandClass.METER, "reset", *args, wait_for_result=False
             )
         except BaseZwaveJSServerError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to reset meters on node {node} endpoint {endpoint}: {err}"
             ) from err
         LOGGER.debug(
@@ -929,7 +929,7 @@ class NewZWaveMeterSensor(NewZWaveNumericSensor):
                 CommandClass.METER, "reset", *args, wait_for_result=False
             )
         except BaseZwaveJSServerError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to reset meters on node {node} endpoint {endpoint}: {err}"
             ) from err
         LOGGER.debug(

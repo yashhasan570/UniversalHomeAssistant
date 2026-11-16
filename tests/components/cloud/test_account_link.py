@@ -18,7 +18,7 @@ from yarl import URL
 from universalassistant import config_entries
 from universalassistant.components.cloud import account_link
 from universalassistant.components.cloud.const import DATA_CLOUD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.exceptions import (
     OAuth2TokenRequestConnectionError,
@@ -34,7 +34,7 @@ TEST_DOMAIN = "oauth2_test"
 
 @pytest.fixture
 def flow_handler(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> Generator[type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler]]:
     """Return a registered config flow."""
 
@@ -54,7 +54,7 @@ def flow_handler(
         yield TestFlowHandler
 
 
-async def test_setup_provide_implementation(hass: __HAC_KEEP__) -> None:
+async def test_setup_provide_implementation(hass: UniversalAssistant) -> None:
     """Test that we provide implementations."""
     legacy_entry = MockConfigEntry(
         domain="legacy",
@@ -146,7 +146,7 @@ async def test_setup_provide_implementation(hass: __HAC_KEEP__) -> None:
     assert dev_implementations["cloud"].hass is hass
 
 
-async def test_get_services_cached(hass: __HAC_KEEP__) -> None:
+async def test_get_services_cached(hass: UniversalAssistant) -> None:
     """Test that we cache services."""
     hass.data[DATA_CLOUD] = None
 
@@ -178,7 +178,7 @@ async def test_get_services_cached(hass: __HAC_KEEP__) -> None:
         assert await account_link._get_services(hass) == 4
 
 
-async def test_get_services_error(hass: __HAC_KEEP__) -> None:
+async def test_get_services_error(hass: UniversalAssistant) -> None:
     """Test that we cache services."""
     hass.data[DATA_CLOUD] = None
 
@@ -195,14 +195,14 @@ async def test_get_services_error(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_implementation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
 ) -> None:
     """Test Cloud OAuth2 implementation."""
     hass.data[DATA_CLOUD] = None
 
     impl = account_link.CloudOAuth2Implementation(hass, "test")
-    assert impl.name == "__HA_KEEP__ Link"
+    assert impl.name == "Universal Home Assistant Link"
     assert impl.domain == "cloud"
 
     flow_handler.async_register_implementation(hass, impl)
@@ -287,7 +287,7 @@ def _mock_client_response_error(status: int) -> ClientResponseError:
     ],
 )
 async def test_refresh_token_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     status: int,
     expected_exception: type[OAuth2TokenRequestError],
 ) -> None:
@@ -310,7 +310,7 @@ async def test_refresh_token_error(
     assert exc_info.value.domain == "test"
 
 
-async def test_refresh_token_connection_error(hass: __HAC_KEEP__) -> None:
+async def test_refresh_token_connection_error(hass: UniversalAssistant) -> None:
     """Test a failure without a response reports the service, not the cloud domain."""
     hass.data[DATA_CLOUD] = None
     impl = account_link.CloudOAuth2Implementation(hass, "test")

@@ -44,7 +44,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -57,7 +57,7 @@ from . import (
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -80,7 +80,7 @@ async def test_all_entities(
     ],
 )
 async def test_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     action: str,
@@ -109,7 +109,7 @@ async def test_turn_on_off(
     ],
 )
 async def test_mute_unmute(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     muted: bool,
@@ -135,7 +135,7 @@ async def test_mute_unmute(
 
 @pytest.mark.parametrize("device_fixture", ["hw_q80r_soundbar"])
 async def test_set_volume_level(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -159,7 +159,7 @@ async def test_set_volume_level(
 
 @pytest.mark.parametrize("device_fixture", ["hw_q80r_soundbar"])
 async def test_volume_up(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -182,7 +182,7 @@ async def test_volume_up(
 
 @pytest.mark.parametrize("device_fixture", ["hw_q80r_soundbar"])
 async def test_volume_down(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -205,7 +205,7 @@ async def test_volume_down(
 
 @pytest.mark.parametrize("device_fixture", ["hw_q80r_soundbar"])
 async def test_media_play(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -228,7 +228,7 @@ async def test_media_play(
 
 @pytest.mark.parametrize("device_fixture", ["hw_q80r_soundbar"])
 async def test_media_pause(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -251,7 +251,7 @@ async def test_media_pause(
 
 @pytest.mark.parametrize("device_fixture", ["hw_q80r_soundbar"])
 async def test_media_stop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -274,7 +274,7 @@ async def test_media_stop(
 
 @pytest.mark.parametrize("device_fixture", ["hw_q80r_soundbar"])
 async def test_media_previous_track(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -300,7 +300,7 @@ async def test_media_previous_track(
 
 @pytest.mark.parametrize("device_fixture", ["hw_q80r_soundbar"])
 async def test_media_next_track(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -326,7 +326,7 @@ async def test_media_next_track(
 
 @pytest.mark.parametrize("device_fixture", ["hw_q80r_soundbar"])
 async def test_select_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -350,7 +350,7 @@ async def test_select_source(
 
 @pytest.mark.parametrize("device_fixture", ["vd_stv_2017_k"])
 async def test_vd_capability_select_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -383,7 +383,7 @@ async def test_vd_capability_select_source(
 
 @pytest.mark.parametrize("device_fixture", ["vd_stv_2017_k"])
 async def test_select_source_legacy_raw_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -414,7 +414,7 @@ async def test_select_source_legacy_raw_id(
 
 @pytest.mark.parametrize("device_fixture", ["vd_stv_2017_k"])
 async def test_vd_capability_source_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -452,7 +452,7 @@ async def test_vd_capability_source_update(
     ],
 )
 async def test_media_shuffle_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     shuffle: bool,
@@ -489,7 +489,7 @@ async def test_media_shuffle_on_off(
     ],
 )
 async def test_media_repeat_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     repeat: RepeatMode,
@@ -518,7 +518,7 @@ async def test_media_repeat_mode(
 
 @pytest.mark.parametrize("device_fixture", ["vd_network_audio_002s"])
 async def test_select_sound_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -554,7 +554,7 @@ async def test_select_sound_mode(
 
 @pytest.mark.parametrize("device_fixture", ["vd_stv_2017_k"])
 async def test_tv_sound_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -599,7 +599,7 @@ async def test_tv_sound_mode(
 
 @pytest.mark.parametrize("device_fixture", ["im_speaker_ai_0001"])
 async def test_no_sound_mode_on_non_soundbar(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -617,7 +617,7 @@ async def test_no_sound_mode_on_non_soundbar(
 
 @pytest.mark.parametrize("device_fixture", ["hw_q80r_soundbar"])
 async def test_state_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -640,7 +640,7 @@ async def test_state_update(
 
 @pytest.mark.parametrize("device_fixture", ["hw_q80r_soundbar"])
 async def test_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -664,7 +664,7 @@ async def test_availability(
 
 @pytest.mark.parametrize("device_fixture", ["hw_q80r_soundbar"])
 async def test_availability_at_start(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     unavailable_device: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

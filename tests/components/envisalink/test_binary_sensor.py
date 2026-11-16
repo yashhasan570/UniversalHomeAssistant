@@ -12,7 +12,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from .conftest import ZONE_ENTITY, setup_envisalink
@@ -22,7 +22,7 @@ from .conftest import ZONE_ENTITY, setup_envisalink
 LAST_FAULT_MAX_SECONDS = 65536 * 5
 
 
-async def test_zone_is_on(hass: __HAC_KEEP__, mock_controller: MagicMock) -> None:
+async def test_zone_is_on(hass: UniversalAssistant, mock_controller: MagicMock) -> None:
     """Test the zone reflects its open status on a zone update."""
     assert await setup_envisalink(hass)
     assert hass.states.get(ZONE_ENTITY).state == STATE_OFF
@@ -35,7 +35,7 @@ async def test_zone_is_on(hass: __HAC_KEEP__, mock_controller: MagicMock) -> Non
 
 
 async def test_zone_attributes(
-    hass: __HAC_KEEP__, mock_controller: MagicMock, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, mock_controller: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the zone exposes device class, zone number, and last trip time."""
     freezer.move_to("2026-01-01 12:00:00+00:00")
@@ -52,7 +52,7 @@ async def test_zone_attributes(
 
 
 async def test_zone_last_trip_time_unknown_at_max(
-    hass: __HAC_KEEP__, mock_controller: MagicMock
+    hass: UniversalAssistant, mock_controller: MagicMock
 ) -> None:
     """Test last trip time is None once the library caps the fault counter."""
     mock_controller.alarm_state["zone"][1]["last_fault"] = LAST_FAULT_MAX_SECONDS
@@ -62,7 +62,7 @@ async def test_zone_last_trip_time_unknown_at_max(
 
 
 async def test_zone_update_filtering(
-    hass: __HAC_KEEP__, mock_controller: MagicMock
+    hass: UniversalAssistant, mock_controller: MagicMock
 ) -> None:
     """Test zone updates are filtered by number; None applies to all."""
     assert await setup_envisalink(hass)

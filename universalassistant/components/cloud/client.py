@@ -21,7 +21,7 @@ from universalassistant.components.alexa import (
 from universalassistant.components.google_assistant import smart_home as ga
 from universalassistant.components.web_rtc import async_register_ice_servers
 from universalassistant.const import __version__ as HA_VERSION
-from universalassistant.core import Context, HassJob, __HAC_KEEP__, callback
+from universalassistant.core import Context, HassJob, UniversalAssistant, callback
 from universalassistant.helpers.aiohttp_client import SERVER_SOFTWARE
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.event import async_call_later
@@ -53,11 +53,11 @@ VALID_REPAIR_TRANSLATION_KEYS = {
 
 
 class CloudClient(Interface):
-    """Interface class for __HA_KEEP__ Cloud."""
+    """Interface class for Universal Home Assistant Cloud."""
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         prefs: CloudPreferences,
         websession: aiohttp.ClientSession,
         alexa_user_config: dict[str, Any],

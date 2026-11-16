@@ -7,14 +7,14 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
 from universalassistant.components.upnp.const import DEFAULT_SCAN_INTERVAL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_upnp_sensors(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test sensors."""
     # First poll.
@@ -109,7 +109,7 @@ async def test_upnp_sensors(
 
 
 async def test_upnp_sensors_no_rollover_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:

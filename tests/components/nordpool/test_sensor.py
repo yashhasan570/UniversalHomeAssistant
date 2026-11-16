@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -24,7 +24,7 @@ from universalassistant.helpers import entity_registry as er
     [[Platform.SENSOR]],
 )
 async def test_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -37,7 +37,7 @@ async def test_sensor(
 @pytest.mark.freeze_time("2025-10-01T18:00:00+00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_current_price_is_0(
-    hass: __HAC_KEEP__, load_int: ConfigEntry
+    hass: UniversalAssistant, load_int: ConfigEntry
 ) -> None:
     """Test the Nord Pool sensor working if price is 0."""
 
@@ -49,7 +49,7 @@ async def test_sensor_current_price_is_0(
 
 @pytest.mark.freeze_time("2025-10-01T21:45:00+00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_sensor_no_next_price(hass: __HAC_KEEP__, load_int: ConfigEntry) -> None:
+async def test_sensor_no_next_price(hass: UniversalAssistant, load_int: ConfigEntry) -> None:
     """Test the Nord Pool sensor."""
 
     current_price = hass.states.get("sensor.nord_pool_se3_current_price")
@@ -67,7 +67,7 @@ async def test_sensor_no_next_price(hass: __HAC_KEEP__, load_int: ConfigEntry) -
 @pytest.mark.freeze_time("2025-10-02T00:00:00+02:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_no_previous_price(
-    hass: __HAC_KEEP__, load_int: ConfigEntry
+    hass: UniversalAssistant, load_int: ConfigEntry
 ) -> None:
     """Test the Nord Pool sensor."""
 
@@ -86,7 +86,7 @@ async def test_sensor_no_previous_price(
 @pytest.mark.freeze_time("2025-10-01T11:00:01+01:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_empty_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     load_json: list[dict[str, Any]],
     aioclient_mock: AiohttpClientMocker,

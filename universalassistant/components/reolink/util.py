@@ -21,8 +21,8 @@ from reolink_aio.exceptions import (
 
 from universalassistant import config_entries
 from universalassistant.components.media_source import Unresolvable
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.storage import Store
 from universalassistant.helpers.translation import async_get_exception_message
 
@@ -46,7 +46,7 @@ class ReolinkData:
     firmware_coordinator: ReolinkFirmwareCoordinator
 
 
-def is_connected(hass: __HAC_KEEP__, config_entry: ReolinkConfigEntry) -> bool:
+def is_connected(hass: UniversalAssistant, config_entry: ReolinkConfigEntry) -> bool:
     """Check if an existing entry has a proper connection."""
     return (
         hasattr(config_entry, "runtime_data")
@@ -55,7 +55,7 @@ def is_connected(hass: __HAC_KEEP__, config_entry: ReolinkConfigEntry) -> bool:
     )
 
 
-def get_host(hass: __HAC_KEEP__, config_entry_id: str) -> ReolinkHost:
+def get_host(hass: UniversalAssistant, config_entry_id: str) -> ReolinkHost:
     """Return the Reolink host from the config entry id."""
     config_entry: ReolinkConfigEntry | None = hass.config_entries.async_get_entry(
         config_entry_id
@@ -69,7 +69,7 @@ def get_host(hass: __HAC_KEEP__, config_entry_id: str) -> ReolinkHost:
     return config_entry.runtime_data.host
 
 
-def get_store(hass: __HAC_KEEP__, config_entry_id: str) -> Store[str]:
+def get_store(hass: UniversalAssistant, config_entry_id: str) -> Store[str]:
     """Return the reolink store."""
     return Store[str](hass, STORAGE_VERSION, f"{DOMAIN}.{config_entry_id}.json")
 
@@ -144,7 +144,7 @@ def raise_translated_error[**P, R](
                 translation_placeholders={"err": str(err)},
             ) from err
         except ReolinkError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key=check_translation_key(err)
                 or _EXCEPTION_TO_TRANSLATION_KEY.get(type(err), "unexpected"),

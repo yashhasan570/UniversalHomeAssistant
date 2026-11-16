@@ -24,7 +24,7 @@ from universalassistant.components.github.const import (
 )
 from universalassistant.config_entries import ConfigSubentryDataWithId
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import MOCK_ACCESS_TOKEN
 
@@ -74,7 +74,7 @@ def device_activation_event() -> asyncio.Event:
 
 @pytest.fixture
 def github_device_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_activation_event: asyncio.Event,
 ) -> Generator[AsyncMock]:
     """Mock GitHub device client."""
@@ -105,7 +105,7 @@ def github_device_client(
 
 
 @pytest.fixture
-def github_client(hass: __HAC_KEEP__) -> Generator[AsyncMock]:
+def github_client(hass: UniversalAssistant) -> Generator[AsyncMock]:
     """Mock GitHub device client."""
     with (
         patch(

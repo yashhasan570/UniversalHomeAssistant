@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 pytestmark = [
@@ -18,7 +18,7 @@ pytestmark = [
 
 @pytest.mark.parametrize("device_fixture", ["device_sa5"])
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_lametric: MagicMock,
     mock_config_entry: MockConfigEntry,

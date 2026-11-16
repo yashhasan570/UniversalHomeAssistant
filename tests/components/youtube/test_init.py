@@ -20,7 +20,7 @@ from universalassistant.components.youtube.diagnostics import (
     async_get_config_entry_diagnostics,
 )
 from universalassistant.config_entries import ConfigEntryState, ConfigSubentryData
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import OAuth2TokenRequestConnectionError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.config_entry_oauth2_flow import (
@@ -39,7 +39,7 @@ from .conftest import (
 
 
 async def test_setup_success(
-    hass: __HAC_KEEP__, setup_integration: ComponentSetup
+    hass: UniversalAssistant, setup_integration: ComponentSetup
 ) -> None:
     """Test successful setup and unload."""
     await setup_integration()
@@ -56,7 +56,7 @@ async def test_setup_success(
 
 @pytest.mark.parametrize("expires_at", [time.time() - 3600], ids=["expired"])
 async def test_expired_token_refresh_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_expired_token_refresh_success(
     ids=["failure_requires_reauth", "transient_failure"],
 )
 async def test_expired_token_refresh_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
     status: http.HTTPStatus,
@@ -121,7 +121,7 @@ async def test_expired_token_refresh_failure(
 
 
 async def test_expired_token_refresh_client_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
 ) -> None:
     """Test failure while refreshing token with a client error."""
@@ -138,7 +138,7 @@ async def test_expired_token_refresh_client_error(
 
 
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     setup_integration: ComponentSetup,
 ) -> None:
@@ -157,7 +157,7 @@ async def test_device_info(
 
 
 async def test_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     expires_at: int,
@@ -256,7 +256,7 @@ async def test_migration(
 
 
 async def test_remove_subentry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     setup_integration: ComponentSetup,
 ) -> None:
@@ -284,7 +284,7 @@ async def test_remove_subentry(
 
 
 async def test_channel_missing_from_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     setup_integration: ComponentSetup,
 ) -> None:
@@ -317,7 +317,7 @@ async def test_channel_missing_from_api(
 
 
 async def test_missing_channel_does_not_affect_other_channels(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     expires_at: int,
     scopes: list[str],
@@ -382,7 +382,7 @@ async def test_missing_channel_does_not_affect_other_channels(
 
 
 async def test_more_channels_than_the_api_limit_are_chunked(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expires_at: int,
     scopes: list[str],
 ) -> None:
@@ -435,7 +435,7 @@ async def test_more_channels_than_the_api_limit_are_chunked(
 
 
 async def test_migration_channel_missing_from_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     expires_at: int,
     scopes: list[str],
@@ -480,7 +480,7 @@ async def test_migration_channel_missing_from_api(
 
 
 async def test_entry_data_update_does_not_reload(
-    hass: __HAC_KEEP__, setup_integration: ComponentSetup
+    hass: UniversalAssistant, setup_integration: ComponentSetup
 ) -> None:
     """Test token refreshes and other entry data updates do not reload."""
     await setup_integration()
@@ -500,7 +500,7 @@ async def test_entry_data_update_does_not_reload(
 
 
 async def test_oauth_implementation_not_available(
-    hass: __HAC_KEEP__, setup_integration: ComponentSetup
+    hass: UniversalAssistant, setup_integration: ComponentSetup
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""
     entry = hass.config_entries.async_entries(DOMAIN)[0]

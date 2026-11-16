@@ -10,12 +10,12 @@ from typing import Any, Never, TypedDict, Unpack, final
 import probatio
 
 from universalassistant.const import CONF_CONDITION, CONF_OPTIONS, CONF_TARGET
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, async_noop, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, async_noop, callback
 from universalassistant.exceptions import (
     ConditionError,
     ConditionErrorContainer,
     ConditionErrorIndex,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
 )
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.trace import trace_path
@@ -59,9 +59,9 @@ class ConditionCheckParams(TypedDict, total=False):
     variables: TemplateVarsType
 
 
-type ConditionCheckerType = Callable[[__HAC_KEEP__, TemplateVarsType], bool]
+type ConditionCheckerType = Callable[[UniversalAssistant, TemplateVarsType], bool]
 type ConditionCheckerTypeOptional = Callable[
-    [__HAC_KEEP__, TemplateVarsType], bool | None
+    [UniversalAssistant, TemplateVarsType], bool | None
 ]
 
 
@@ -71,12 +71,12 @@ class ConditionChecker(abc.ABC):
     _set_up = False
     _unloaded = False
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize condition checker."""
         self._hass = hass
 
     def __call__(
-        self, hass: __HAC_KEEP__, variables: TemplateVarsType = None
+        self, hass: UniversalAssistant, variables: TemplateVarsType = None
     ) -> bool | None:
         """Check the condition.
 
@@ -138,7 +138,7 @@ class ConditionChecker(abc.ABC):
         result can also change without action being called (time, templates).
         """
         if not self._set_up:
-            raise __HAC_KEEP__Error("Condition checker is not set up")
+            raise UniversalAssistantError("Condition checker is not set up")
 
         @callback
         def isolated_action() -> None:
@@ -160,7 +160,7 @@ class ConditionChecker(abc.ABC):
     ) -> bool | None:
         """Check the condition."""
         if not self._set_up:
-            raise __HAC_KEEP__Error("Condition checker is not set up")
+            raise UniversalAssistantError("Condition checker is not set up")
         with trace_condition(variables):
             result = self._async_check(variables=variables)
             condition_trace_update_result(result=result)
@@ -243,7 +243,7 @@ class Condition(ConditionChecker):
 
     @classmethod
     async def async_validate_complete_config(
-        cls, hass: __HAC_KEEP__, complete_config: ConfigType
+        cls, hass: UniversalAssistant, complete_config: ConfigType
     ) -> ConfigType:
         """Validate complete config.
 
@@ -269,10 +269,10 @@ class Condition(ConditionChecker):
     @classmethod
     @abc.abstractmethod
     async def async_validate_config(
-        cls, hass: __HAC_KEEP__, config: ConfigType
+        cls, hass: UniversalAssistant, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
 
-    def __init__(self, hass: __HAC_KEEP__, config: ConditionConfig) -> None:
+    def __init__(self, hass: UniversalAssistant, config: ConditionConfig) -> None:
         """Initialize condition."""
         super().__init__(hass)

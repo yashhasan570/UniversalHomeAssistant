@@ -5,7 +5,7 @@ import webbrowser
 
 import probatio
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 
 from .const import DOMAIN
 
@@ -38,7 +38,7 @@ def _browser_url(service: ServiceCall) -> None:
     webbrowser.open(service.data[BrowserServiceArgument.URL])
 
 
-def setup_services(hass: __HAC_KEEP__) -> None:
+def setup_services(hass: UniversalAssistant) -> None:
     """Register the browser services."""
     hass.services.register(
         DOMAIN,

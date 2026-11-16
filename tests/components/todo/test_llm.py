@@ -7,7 +7,7 @@ from universalassistant.components import llm as llm_component, todo
 from universalassistant.components.universalassistant.exposed_entities import async_expose_entity
 from universalassistant.components.todo import llm as todo_llm
 from universalassistant.components.todo.services import TODO_SERVICE_GET_ITEMS_SCHEMA
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.helpers import config_validation as cv, llm
 from universalassistant.setup import async_setup_component
 
@@ -15,7 +15,7 @@ ENTITY_ID = "todo.test_list"
 
 
 @pytest.fixture(autouse=True)
-async def setup_integrations(hass: __HAC_KEEP__) -> None:
+async def setup_integrations(hass: UniversalAssistant) -> None:
     """Set up the integrations and expose a to-do list."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, "intent", {})
@@ -37,7 +37,7 @@ def _llm_context() -> llm.LLMContext:
     )
 
 
-async def test_get_tools_no_exposed_todo(hass: __HAC_KEEP__) -> None:
+async def test_get_tools_no_exposed_todo(hass: UniversalAssistant) -> None:
     """Test no todo tool is offered when no to-do list is exposed."""
     async_expose_entity(hass, "conversation", ENTITY_ID, False)
     result = await llm_component.async_get_tools(hass, _llm_context(), "assist")
@@ -45,12 +45,12 @@ async def test_get_tools_no_exposed_todo(hass: __HAC_KEEP__) -> None:
     assert todo_llm.async_get_tools(hass, _llm_context(), "assist") is None
 
 
-async def test_no_tools_for_other_api(hass: __HAC_KEEP__) -> None:
+async def test_no_tools_for_other_api(hass: UniversalAssistant) -> None:
     """Test the platform returns None for an unsupported API."""
     assert todo_llm.async_get_tools(hass, _llm_context(), "other") is None
 
 
-async def test_todo_get_items_tool(hass: __HAC_KEEP__) -> None:
+async def test_todo_get_items_tool(hass: UniversalAssistant) -> None:
     """Test the todo get items tool is exposed and works via the platform."""
     llm_context = _llm_context()
     result = await llm_component.async_get_tools(hass, llm_context, "assist")
@@ -102,7 +102,7 @@ async def test_todo_get_items_tool(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_todo_get_items_status_filter(
-    hass: __HAC_KEEP__, status: str, expected_data: dict[str, list[str]]
+    hass: UniversalAssistant, status: str, expected_data: dict[str, list[str]]
 ) -> None:
     """Test the status filter is translated into the service call."""
     llm_context = _llm_context()
@@ -126,7 +126,7 @@ async def test_todo_get_items_status_filter(
     assert calls[0].data == expected_data
 
 
-async def test_todo_list_intents_exposed(hass: __HAC_KEEP__) -> None:
+async def test_todo_list_intents_exposed(hass: UniversalAssistant) -> None:
     """Test the todo list intents are exposed as tools when a list is exposed."""
     result = await llm_component.async_get_tools(hass, _llm_context(), "assist")
     tools = {tool.name: tool for tool in result.tools}

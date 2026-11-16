@@ -16,7 +16,7 @@ from universalassistant.components.alarm_control_panel import (
     AlarmControlPanelState,
     CodeFormat,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import DeconzConfigEntry
@@ -46,7 +46,7 @@ def get_alarm_system_id_for_unique_id(hub: DeconzHub, unique_id: str) -> str | N
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: DeconzConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -21,8 +21,8 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
     MediaType,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 import universalassistant.util.dt as dt_util
 
@@ -65,7 +65,7 @@ RPC_MEDIA_PLAYER_ENTITIES: Final = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -78,7 +78,7 @@ async def async_setup_entry(
 
 @callback
 def _async_setup_rpc_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -314,7 +314,7 @@ class ShellyRpcMediaPlayer(ShellyRpcAttributeEntity, MediaPlayerEntity):
                 return await self._async_browse_audio_files(expanded=True)
         except DeviceConnectionError as err:
             self.coordinator.last_update_success = False
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="device_communication_action_error",
                 translation_placeholders={
@@ -323,7 +323,7 @@ class ShellyRpcMediaPlayer(ShellyRpcAttributeEntity, MediaPlayerEntity):
                 },
             ) from err
         except RpcCallError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="rpc_call_action_error",
                 translation_placeholders={
@@ -333,7 +333,7 @@ class ShellyRpcMediaPlayer(ShellyRpcAttributeEntity, MediaPlayerEntity):
             ) from err
         except InvalidAuthError as err:
             await self.coordinator.async_shutdown_device_and_start_reauth()
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="auth_error",
                 translation_placeholders={
@@ -341,7 +341,7 @@ class ShellyRpcMediaPlayer(ShellyRpcAttributeEntity, MediaPlayerEntity):
                 },
             ) from err
 
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="unsupported_media_content_type",
             translation_placeholders={"media_content_type": str(media_content_type)},
@@ -433,7 +433,7 @@ class ShellyRpcMediaPlayer(ShellyRpcAttributeEntity, MediaPlayerEntity):
     ) -> None:
         """Play media by type and id."""
         if media_id.isdecimal() is False:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="unsupported_media_id",
                 translation_placeholders={"media_id": media_id},
@@ -447,7 +447,7 @@ class ShellyRpcMediaPlayer(ShellyRpcAttributeEntity, MediaPlayerEntity):
             await self.coordinator.device.media_play_media(int(media_id))
             return
 
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="unsupported_media_type",
             translation_placeholders={"media_type": str(media_type)},

@@ -9,11 +9,11 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.demo import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
-async def stt_only(hass: __HAC_KEEP__) -> None:
+async def stt_only(hass: UniversalAssistant) -> None:
     """Enable only the stt platform."""
     with patch(
         "universalassistant.components.demo.COMPONENTS_WITH_CONFIG_ENTRY_DEMO_PLATFORM",
@@ -23,7 +23,7 @@ async def stt_only(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_config_entry(hass: __HAC_KEEP__, stt_only) -> None:
+async def setup_config_entry(hass: UniversalAssistant, stt_only) -> None:
     """Set up demo component from config entry."""
     config_entry = MockConfigEntry(domain=DOMAIN)
     config_entry.add_to_hass(hass)
@@ -96,7 +96,7 @@ async def test_demo_speech(hass_client: ClientSessionGenerator) -> None:
 
 @pytest.mark.usefixtures("setup_config_entry")
 async def test_config_entry_demo_speech(
-    hass_client: ClientSessionGenerator, hass: __HAC_KEEP__
+    hass_client: ClientSessionGenerator, hass: UniversalAssistant
 ) -> None:
     """Test retrieve settings from demo provider from config entry."""
     client = await hass_client()

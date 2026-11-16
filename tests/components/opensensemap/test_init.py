@@ -9,12 +9,12 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.usefixtures("mock_opensensemap_api")
 async def test_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test successful setup of a config entry."""
@@ -30,7 +30,7 @@ async def test_setup_entry(
 
 
 async def test_async_update_failure_marks_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_opensensemap_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -57,7 +57,7 @@ async def test_async_update_failure_marks_unavailable(
 
 
 async def test_setup_entry_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_opensensemap_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_setup_entry_cannot_connect(
 
 @pytest.mark.usefixtures("mock_opensensemap_api")
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test unloading a config entry."""

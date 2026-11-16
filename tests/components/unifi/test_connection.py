@@ -36,7 +36,7 @@ from universalassistant.components.unifi.hub.connection import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP, STATE_UNAVAILABLE
-from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__, callback
+from universalassistant.core import Event, EventStateChangedData, UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.event import async_track_state_change_event
 from universalassistant.util import dt as dt_util
@@ -87,17 +87,17 @@ def fixture_client_payload(
     ]
 
 
-def _available(hass: __HAC_KEEP__) -> bool:
+def _available(hass: UniversalAssistant) -> bool:
     """Return if the entities of the session are available."""
     return hass.states.get(CLIENT_ENTITY).state != STATE_UNAVAILABLE
 
 
-def _fire(hass: __HAC_KEEP__, seconds: float) -> None:
+def _fire(hass: UniversalAssistant, seconds: float) -> None:
     """Fire timers due within the given number of seconds, without waiting."""
     async_fire_time_changed(hass, dt_util.utcnow() + timedelta(seconds=seconds))
 
 
-async def _advance(hass: __HAC_KEEP__, seconds: float) -> None:
+async def _advance(hass: UniversalAssistant, seconds: float) -> None:
     """Fire timers due within the given number of seconds and wait for them."""
     _fire(hass, seconds)
     await hass.async_block_till_done(wait_background_tasks=True)
@@ -110,7 +110,7 @@ async def _wait(event: asyncio.Event) -> None:
 
 
 def _availability_reached(
-    hass: __HAC_KEEP__, entry: MockConfigEntry, available: bool
+    hass: UniversalAssistant, entry: MockConfigEntry, available: bool
 ) -> asyncio.Event:
     """Return an event set once the entities reach the given availability."""
     reached = asyncio.Event()
@@ -135,7 +135,7 @@ def _logged(caplog: pytest.LogCaptureFixture, level: int) -> list[logging.LogRec
     ]
 
 
-def _reauth_requested(hass: __HAC_KEEP__, entry: MockConfigEntry) -> bool:
+def _reauth_requested(hass: UniversalAssistant, entry: MockConfigEntry) -> bool:
     """Return if the entry asks the user to log in again."""
     return bool(list(entry.async_get_active_flows(hass, {SOURCE_REAUTH})))
 
@@ -215,11 +215,11 @@ def _hang_first_call(
     return side_effect
 
 
-async def _unload(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def _unload(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     assert await hass.config_entries.async_unload(config_entry.entry_id)
 
 
-async def _fire_stop(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def _fire_stop(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
     await hass.async_block_till_done()
 
@@ -264,7 +264,7 @@ def fixture_polled_coordinator(hub: UnifiHub) -> UnifiDataUpdateCoordinator:
 
 
 async def test_connection_state_signalling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
     mock_websocket_state: WebsocketStateManager,
@@ -283,7 +283,7 @@ async def test_connection_state_signalling(
 
 
 async def test_unexpected_login_error_logs_one_traceback_per_outage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hub: UnifiHub,
     mock_websocket_state: WebsocketStateManager,
     caplog: pytest.LogCaptureFixture,
@@ -313,7 +313,7 @@ async def test_unexpected_login_error_logs_one_traceback_per_outage(
 
 
 async def test_reconnect_backoff_grows_caps_and_resets(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hub: UnifiHub,
     mock_websocket_state: WebsocketStateManager,
 ) -> None:
@@ -345,7 +345,7 @@ async def test_reconnect_backoff_grows_caps_and_resets(
 
 
 async def test_concurrent_failures_check_session_and_reconnect_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     hub: UnifiHub,
     mock_websocket_state: WebsocketStateManager,
@@ -393,10 +393,10 @@ async def test_concurrent_failures_check_session_and_reconnect_once(
 
 @PARAMETRIZE_STOP
 async def test_pending_retry_is_dropped_on_stop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     mock_websocket_state: WebsocketStateManager,
-    stop: Callable[[__HAC_KEEP__, MockConfigEntry], Awaitable[None]],
+    stop: Callable[[UniversalAssistant, MockConfigEntry], Awaitable[None]],
 ) -> None:
     """A retry scheduled before unload or shutdown never logs in."""
     hub = config_entry_setup.runtime_data
@@ -411,10 +411,10 @@ async def test_pending_retry_is_dropped_on_stop(
 
 @PARAMETRIZE_STOP
 async def test_login_in_flight_at_stop_does_not_retry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     mock_websocket_state: WebsocketStateManager,
-    stop: Callable[[__HAC_KEEP__, MockConfigEntry], Awaitable[None]],
+    stop: Callable[[UniversalAssistant, MockConfigEntry], Awaitable[None]],
 ) -> None:
     """Stopping abandons a hanging login and schedules no further attempt."""
     hub = config_entry_setup.runtime_data
@@ -443,7 +443,7 @@ async def test_login_in_flight_at_stop_does_not_retry(
 
 @pytest.mark.parametrize("expected_lingering_timers", [False])
 async def test_failed_setup_does_not_retry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_factory: ConfigEntryFactoryType,
 ) -> None:
     """Nothing keeps polling or logging in after setup failed."""
@@ -471,7 +471,7 @@ async def test_failed_setup_does_not_retry(
     ],
 )
 async def test_rejected_login_starts_reauth_and_retries_slowly(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     mock_websocket_state: WebsocketStateManager,
     exception: type[Exception],
@@ -533,7 +533,7 @@ async def test_rejected_login_starts_reauth_and_retries_slowly(
     ],
 )
 async def test_login_failures_that_do_not_start_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     config_entry_setup: MockConfigEntry,
     mock_websocket_state: WebsocketStateManager,
@@ -571,7 +571,7 @@ async def test_login_failures_that_do_not_start_reauth(
     ],
 )
 async def test_readiness_probe_after_login(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     mock_websocket_state: WebsocketStateManager,
     exception: type[Exception],
@@ -599,7 +599,7 @@ async def test_readiness_probe_after_login(
     ],
 )
 async def test_login_answer_of_readiness_probe_after_login(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     mock_websocket_state: WebsocketStateManager,
     exception: type[Exception],
@@ -656,7 +656,7 @@ async def test_login_answer_of_readiness_probe_after_login(
     ],
 )
 async def test_polling_transport_failure_checks_session(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hub: UnifiHub,
     polled_coordinator: UnifiDataUpdateCoordinator,
     poll_error: type[Exception],
@@ -688,7 +688,7 @@ async def test_polling_transport_failure_checks_session(
     ],
 )
 async def test_polling_request_rejection_only_fails_coordinator(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hub: UnifiHub,
     polled_coordinator: UnifiDataUpdateCoordinator,
     exception: type[Exception],
@@ -706,7 +706,7 @@ async def test_polling_request_rejection_only_fails_coordinator(
 
 
 async def test_polling_paused_while_connection_is_down(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
     mock_websocket_state: WebsocketStateManager,
@@ -759,7 +759,7 @@ async def test_polling_paused_while_connection_is_down(
 
 
 async def test_session_lost_during_recovery_retries_after_it(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     config_entry_setup: MockConfigEntry,
     mock_websocket_state: WebsocketStateManager,
@@ -807,7 +807,7 @@ async def test_session_lost_during_recovery_retries_after_it(
 
 
 async def test_hanging_recovery_is_retried(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     mock_websocket_state: WebsocketStateManager,
 ) -> None:
@@ -849,7 +849,7 @@ async def test_hanging_recovery_is_retried(
     ],
 )
 async def test_failed_resync_of_reachable_application_keeps_session(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hub: UnifiHub,
     mock_websocket_state: WebsocketStateManager,
     exception: type[Exception],
@@ -874,7 +874,7 @@ async def test_failed_resync_of_reachable_application_keeps_session(
     ],
 )
 async def test_websocket_error_marks_session_down(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hub: UnifiHub,
     mock_websocket_state: WebsocketStateManager,
     exception: Exception,
@@ -888,7 +888,7 @@ async def test_websocket_error_marks_session_down(
 
 
 async def test_one_hanging_handler_does_not_block_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hub: UnifiHub,
     mock_websocket_state: WebsocketStateManager,
 ) -> None:
@@ -945,7 +945,7 @@ async def test_rejected_websocket_handler_at_setup_loads_entry(
 
 @pytest.mark.parametrize("step", ["login", "probe"])
 async def test_hanging_reconnect_step_is_given_up_and_retried(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     mock_websocket_state: WebsocketStateManager,
     step: str,
@@ -969,7 +969,7 @@ async def test_hanging_reconnect_step_is_given_up_and_retried(
 
 
 async def test_rate_limited_login_pauses_retries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     config_entry_setup: MockConfigEntry,
     mock_websocket_state: WebsocketStateManager,
@@ -1026,7 +1026,7 @@ def _mock_expired_session(aioclient_mock: AiohttpClientMocker, **login: Any) -> 
 
 
 async def test_failed_relogin_of_aiounifi_does_not_restore_session(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
     mock_websocket_state: WebsocketStateManager,
@@ -1076,7 +1076,7 @@ async def test_failed_relogin_of_aiounifi_does_not_restore_session(
     ],
 )
 async def test_first_probe_after_outage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     mock_websocket_state: WebsocketStateManager,
     exception: Exception,
@@ -1100,7 +1100,7 @@ async def test_first_probe_after_outage(
 
 
 async def test_outage_after_reauth_healed_backs_off_as_usual(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     mock_websocket_state: WebsocketStateManager,
 ) -> None:
@@ -1168,7 +1168,7 @@ async def test_outage_after_reauth_healed_backs_off_as_usual(
     ],
 )
 async def test_rate_limit_after_rejection_counts_as_rejection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     mock_websocket_state: WebsocketStateManager,
     logins: list[Exception | None],
@@ -1195,7 +1195,7 @@ async def test_rate_limit_after_rejection_counts_as_rejection(
     ],
 )
 async def test_retry_delay_is_jittered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hub: UnifiHub,
     mock_websocket_state: WebsocketStateManager,
     factor: float,
@@ -1221,7 +1221,7 @@ async def test_retry_delay_is_jittered(
 
 
 async def test_drop_before_stable_period_keeps_backoff(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hub: UnifiHub,
     mock_websocket_state: WebsocketStateManager,
 ) -> None:
@@ -1253,7 +1253,7 @@ async def test_drop_before_stable_period_keeps_backoff(
 
 
 async def test_recovery_ending_down_keeps_backoff(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     mock_websocket_state: WebsocketStateManager,
 ) -> None:
@@ -1299,7 +1299,7 @@ async def test_recovery_ending_down_keeps_backoff(
     ],
 )
 async def test_login_answer_of_session_check_marks_session_down(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     config_entry_setup: MockConfigEntry,
     polled_coordinator: UnifiDataUpdateCoordinator,
@@ -1334,7 +1334,7 @@ async def test_login_answer_of_session_check_marks_session_down(
 
 
 async def test_rate_limit_pause_doubles_up_to_an_hour(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     hub: UnifiHub,
     mock_websocket_state: WebsocketStateManager,
@@ -1358,7 +1358,7 @@ async def test_rate_limit_pause_doubles_up_to_an_hour(
 
 
 async def test_successful_login_ends_rejections_in_a_row(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     mock_websocket_state: WebsocketStateManager,
 ) -> None:
@@ -1385,7 +1385,7 @@ async def test_successful_login_ends_rejections_in_a_row(
 
 
 async def test_working_session_ends_rejections_in_a_row(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     mock_websocket_state: WebsocketStateManager,
 ) -> None:
@@ -1421,7 +1421,7 @@ async def test_working_session_ends_rejections_in_a_row(
 
 
 async def test_hanging_poll_checks_session(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hub: UnifiHub,
     polled_coordinator: UnifiDataUpdateCoordinator,
 ) -> None:
@@ -1444,7 +1444,7 @@ async def test_hanging_poll_checks_session(
 
 
 async def test_rate_limit_pause_outlasts_slow_reauth_retries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     mock_websocket_state: WebsocketStateManager,
 ) -> None:
@@ -1505,7 +1505,7 @@ async def test_rate_limit_pause_outlasts_slow_reauth_retries(
     ],
 )
 async def test_rate_limit_pause_starts_over(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hub: UnifiHub,
     mock_websocket_state: WebsocketStateManager,
     logins: list[Exception | None],
@@ -1528,7 +1528,7 @@ async def test_rate_limit_pause_starts_over(
 
 
 async def test_rate_limit_ends_with_session_that_works_again(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hub: UnifiHub,
     mock_websocket_state: WebsocketStateManager,
 ) -> None:
@@ -1562,7 +1562,7 @@ async def test_rate_limit_ends_with_session_that_works_again(
 
 
 async def test_rate_limit_seen_while_reconnecting_ends_with_it(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hub: UnifiHub,
     mock_websocket_state: WebsocketStateManager,
     polled_coordinator: UnifiDataUpdateCoordinator,
@@ -1611,7 +1611,7 @@ async def test_rate_limit_seen_while_reconnecting_ends_with_it(
 
 
 async def test_failure_during_reconnect_attempt_needs_no_second_attempt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hub: UnifiHub,
     mock_websocket_state: WebsocketStateManager,
 ) -> None:
@@ -1658,7 +1658,7 @@ async def test_failure_during_reconnect_attempt_needs_no_second_attempt(
     ],
 )
 async def test_login_answer_of_poll_applies_its_policy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     polled_coordinator: UnifiDataUpdateCoordinator,
     error: type[Exception],
@@ -1680,7 +1680,7 @@ async def test_login_answer_of_poll_applies_its_policy(
 
 
 async def test_late_answer_of_older_session_check_is_dropped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hub: UnifiHub,
     mock_websocket_state: WebsocketStateManager,
     polled_coordinator: UnifiDataUpdateCoordinator,
@@ -1720,7 +1720,7 @@ async def test_late_answer_of_older_session_check_is_dropped(
 
 
 async def test_reauth_after_rate_limit_delays_queued_retry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     polled_coordinator: UnifiDataUpdateCoordinator,
 ) -> None:
@@ -1760,7 +1760,7 @@ async def test_reauth_after_rate_limit_delays_queued_retry(
 
 
 async def test_rate_limit_answered_after_outage_pauses_queued_retry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hub: UnifiHub,
     mock_websocket_state: WebsocketStateManager,
 ) -> None:
@@ -1778,7 +1778,7 @@ async def test_rate_limit_answered_after_outage_pauses_queued_retry(
 
 
 async def test_late_rate_limits_within_pause_count_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
 ) -> None:
     """Requests sent before a pause that answer 429 neither extend nor count it."""
@@ -1793,7 +1793,7 @@ async def test_late_rate_limits_within_pause_count_once(
 
 
 async def test_unexpected_login_error_ends_rejections_in_a_row(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     mock_websocket_state: WebsocketStateManager,
 ) -> None:
@@ -1816,7 +1816,7 @@ async def test_unexpected_login_error_ends_rejections_in_a_row(
 
 
 async def test_queued_resync_is_dropped_when_session_goes_down(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hub: UnifiHub,
     mock_websocket_state: WebsocketStateManager,
     polled_coordinator: UnifiDataUpdateCoordinator,
@@ -1857,10 +1857,10 @@ async def test_queued_resync_is_dropped_when_session_goes_down(
 
 @PARAMETRIZE_STOP
 async def test_session_check_in_flight_at_stop_is_cancelled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     polled_coordinator: UnifiDataUpdateCoordinator,
-    stop: Callable[[__HAC_KEEP__, MockConfigEntry], Awaitable[None]],
+    stop: Callable[[UniversalAssistant, MockConfigEntry], Awaitable[None]],
 ) -> None:
     """Unload and shutdown don't leave a hanging session check behind."""
     hub = config_entry_setup.runtime_data
@@ -1890,7 +1890,7 @@ async def test_session_check_in_flight_at_stop_is_cancelled(
 
 
 async def test_unexpected_recovery_error_marks_session_down(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hub: UnifiHub,
     mock_websocket_state: WebsocketStateManager,
 ) -> None:

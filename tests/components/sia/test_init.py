@@ -16,7 +16,7 @@ from universalassistant.components.sia.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_PORT, CONF_PROTOCOL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 CONFIG_ENTRY_DATA = {
@@ -43,7 +43,7 @@ def mock_sia_client() -> Generator[None]:
 
 
 async def test_entity_device_linked_to_hub_device(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test an entity's device is linked to its hub device via via_device_id."""
     config_entry = MockConfigEntry(

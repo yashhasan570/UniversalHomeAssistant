@@ -6,7 +6,7 @@ from directv import DIRECTV, DIRECTVError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -20,7 +20,7 @@ SCAN_INTERVAL = timedelta(seconds=30)
 type DirecTVConfigEntry = ConfigEntry[DIRECTV]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: DirecTVConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: DirecTVConfigEntry) -> None:
     """Set up DirecTV from a config entry."""
     dtv = DIRECTV(entry.data[CONF_HOST], session=async_get_clientsession(hass))
 
@@ -51,6 +51,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: DirecTVConfigEntry) -> No
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: DirecTVConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: DirecTVConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

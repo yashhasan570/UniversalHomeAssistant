@@ -1,4 +1,4 @@
-"""Tests for __HA_KEEP__ View."""
+"""Tests for Universal Home Assistant View."""
 
 from collections.abc import AsyncIterator, Generator
 from decimal import Decimal
@@ -20,10 +20,10 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from universalassistant.components.http import KEY_HASS
 from universalassistant.components.http.request_context import current_request
 from universalassistant.components.http.view import (
-    __HAC_KEEP__View,
+    UniversalAssistantView,
     request_handler_factory,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceNotFound, Unauthorized
 from universalassistant.helpers.network import NoURLAvailableError
 
@@ -43,7 +43,7 @@ def mock_request_with_stopping() -> Mock:
 async def test_invalid_json(caplog: pytest.LogCaptureFixture) -> None:
     """Test trying to return invalid JSON."""
     with pytest.raises(HTTPInternalServerError):
-        __HAC_KEEP__View.json({"hello": Decimal("2.0")})
+        UniversalAssistantView.json({"hello": Decimal("2.0")})
 
     assert (
         "Unable to serialize to JSON. Bad data found at"
@@ -53,7 +53,7 @@ async def test_invalid_json(caplog: pytest.LogCaptureFixture) -> None:
 
 async def test_nan_serialized_to_null() -> None:
     """Test nan serialized to null JSON."""
-    response = __HAC_KEEP__View.json(math.nan)
+    response = UniversalAssistantView.json(math.nan)
     assert json.loads(response.body.decode("utf-8")) is None
 
 
@@ -158,7 +158,7 @@ def mock_request_scheme() -> str:
 
 @pytest.fixture
 def mock_current_request(
-    mock_request: Mock, request_host: str, request_scheme: str, hass: __HAC_KEEP__
+    mock_request: Mock, request_host: str, request_scheme: str, hass: UniversalAssistant
 ) -> Generator[Mock]:
     """Set the current request context."""
     mock_request.get = Mock(return_value=False)
@@ -254,7 +254,7 @@ def mock_current_request(
 )
 async def test_requires_auth_www_authenticate_prefer_external(
     mock_current_request: Mock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     internal_url: str,
     external_url: str,
     expected_url: str,
@@ -276,7 +276,7 @@ async def test_requires_auth_www_authenticate_prefer_external(
     )
 
 
-class _LimitedBodyView(__HAC_KEEP__View):
+class _LimitedBodyView(UniversalAssistantView):
     """View with a small body limit."""
 
     url = "/limited"
@@ -313,7 +313,7 @@ async def _chunked(data: bytes) -> AsyncIterator[bytes]:
     ],
 )
 async def test_max_body_size(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_client: ClientSessionGenerator,
     chunked: bool,
     body: bytes,

@@ -13,7 +13,7 @@ from universalassistant.components.number import DOMAIN as NUMBER_DOMAIN
 from universalassistant.components.screenlogic import DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import slugify
 
@@ -115,7 +115,7 @@ def _migration_connect(*args, **kwargs):
     ids=[ent_data.old_name for ent_data in TEST_MIGRATING_ENTITIES],
 )
 async def test_async_migrate_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -179,7 +179,7 @@ async def test_async_migrate_entries(
 
 
 async def test_entity_migration_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -251,7 +251,7 @@ async def test_entity_migration_data(
 
 
 async def test_platform_setup(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup for platforms that define expected data."""
 
@@ -292,7 +292,7 @@ async def test_platform_setup(
     [ScreenLogicConnectionError, ScreenLogicError],
 )
 async def test_retry_on_connect_exception(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, exception: Exception
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, exception: Exception
 ) -> None:
     """Test setup retries on expected exceptions."""
 

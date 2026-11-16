@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import Any, override
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -38,7 +38,7 @@ SWITCH_TYPES: tuple[QBittorrentSwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: QBittorrentConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -13,7 +13,7 @@ from universalassistant.components.panasonic_viera.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_MAC, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -27,7 +27,7 @@ from .conftest import (
 )
 
 
-async def test_setup_entry_encrypted(hass: __HAC_KEEP__, mock_remote) -> None:
+async def test_setup_entry_encrypted(hass: UniversalAssistant, mock_remote) -> None:
     """Test setup with encrypted config entry."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -51,7 +51,7 @@ async def test_setup_entry_encrypted(hass: __HAC_KEEP__, mock_remote) -> None:
 
 
 async def test_setup_entry_encrypted_missing_device_info(
-    hass: __HAC_KEEP__, mock_remote
+    hass: UniversalAssistant, mock_remote
 ) -> None:
     """Test setup with encrypted config entry and missing device info."""
     mock_entry = MockConfigEntry(
@@ -79,7 +79,7 @@ async def test_setup_entry_encrypted_missing_device_info(
 
 
 async def test_setup_entry_encrypted_missing_device_info_none(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test setup with encrypted config entry and device info set to None."""
     mock_entry = MockConfigEntry(
@@ -112,7 +112,7 @@ async def test_setup_entry_encrypted_missing_device_info_none(
         assert state_remote.name == DEFAULT_NAME
 
 
-async def test_setup_entry_unencrypted(hass: __HAC_KEEP__, mock_remote) -> None:
+async def test_setup_entry_unencrypted(hass: UniversalAssistant, mock_remote) -> None:
     """Test setup with unencrypted config entry."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -136,7 +136,7 @@ async def test_setup_entry_unencrypted(hass: __HAC_KEEP__, mock_remote) -> None:
 
 
 async def test_setup_entry_unencrypted_missing_device_info(
-    hass: __HAC_KEEP__, mock_remote
+    hass: UniversalAssistant, mock_remote
 ) -> None:
     """Test setup with unencrypted config entry and missing device info."""
     mock_entry = MockConfigEntry(
@@ -164,7 +164,7 @@ async def test_setup_entry_unencrypted_missing_device_info(
 
 
 async def test_setup_entry_unencrypted_missing_device_info_none(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test setup with unencrypted config entry and device info set to None."""
     mock_entry = MockConfigEntry(
@@ -197,7 +197,7 @@ async def test_setup_entry_unencrypted_missing_device_info_none(
         assert state_remote.name == DEFAULT_NAME
 
 
-async def test_setup_config_flow_initiated(hass: __HAC_KEEP__) -> None:
+async def test_setup_config_flow_initiated(hass: UniversalAssistant) -> None:
     """Test if config flow is initiated in setup."""
     mock_remote = get_mock_remote()
     mock_remote.get_device_info = Mock(side_effect=OSError)
@@ -218,7 +218,7 @@ async def test_setup_config_flow_initiated(hass: __HAC_KEEP__) -> None:
     assert len(hass.config_entries.flow.async_progress()) == 1
 
 
-async def test_setup_unload_entry(hass: __HAC_KEEP__, mock_remote) -> None:
+async def test_setup_unload_entry(hass: UniversalAssistant, mock_remote) -> None:
     """Test if config entry is unloaded."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -286,7 +286,7 @@ async def test_setup_unload_entry(hass: __HAC_KEEP__, mock_remote) -> None:
 )
 @pytest.mark.usefixtures("mock_remote")
 async def test_setup_entry_device_connections(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     udn: str,
     extra_data: dict[str, str],

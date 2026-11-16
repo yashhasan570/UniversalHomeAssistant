@@ -53,8 +53,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -79,7 +79,7 @@ from .const import DEVICE_ID, MAC_ADDRESS
     ],
 )
 async def test_light_unique_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, device_type
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, device_type
 ) -> None:
     """Test a light unique id."""
     already_migrated_config_entry = MockConfigEntry(
@@ -100,7 +100,7 @@ async def test_light_unique_id(
 
 
 async def test_legacy_dimmer_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test dimmer unique id."""
@@ -159,7 +159,7 @@ async def test_legacy_dimmer_unique_id(
     ],
 )
 async def test_color_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device: MagicMock,
     extra_data: dict,
     expected_transition: float | None,
@@ -289,7 +289,7 @@ async def test_color_light(
     ],
 )
 async def test_color_light_with_active_effect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device: MagicMock,
     extra_data: dict,
     expected_transition: float | None,
@@ -377,7 +377,7 @@ async def test_color_light_with_active_effect(
     light.set_hsv.reset_mock()
 
 
-async def test_color_light_no_temp(hass: __HAC_KEEP__) -> None:
+async def test_color_light_no_temp(hass: UniversalAssistant) -> None:
     """Test a color light with no color temp."""
     already_migrated_config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "127.0.0.1"}, unique_id=MAC_ADDRESS
@@ -439,7 +439,7 @@ async def test_color_light_no_temp(hass: __HAC_KEEP__) -> None:
     light.set_hsv.reset_mock()
 
 
-async def test_color_temp_light_color(hass: __HAC_KEEP__) -> None:
+async def test_color_temp_light_color(hass: UniversalAssistant) -> None:
     """Test a color temp light with color."""
     device = _mocked_device(
         modules=[Module.Light],
@@ -524,7 +524,7 @@ async def test_color_temp_light_color(hass: __HAC_KEEP__) -> None:
     light.set_color_temp.reset_mock()
 
 
-async def test_color_temp_light_no_color(hass: __HAC_KEEP__) -> None:
+async def test_color_temp_light_no_color(hass: UniversalAssistant) -> None:
     """Test a color temp light with no color."""
     device = _mocked_device(
         modules=[Module.Light],
@@ -611,7 +611,7 @@ async def test_color_temp_light_no_color(hass: __HAC_KEEP__) -> None:
     light.set_color_temp.reset_mock()
 
 
-async def test_brightness_only_light(hass: __HAC_KEEP__) -> None:
+async def test_brightness_only_light(hass: UniversalAssistant) -> None:
     """Test a light brightness."""
     already_migrated_config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "127.0.0.1"}, unique_id=MAC_ADDRESS
@@ -658,7 +658,7 @@ async def test_brightness_only_light(hass: __HAC_KEEP__) -> None:
     light.set_brightness.reset_mock()
 
 
-async def test_on_off_light(hass: __HAC_KEEP__) -> None:
+async def test_on_off_light(hass: UniversalAssistant) -> None:
     """Test a light turns on and off."""
     already_migrated_config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "127.0.0.1"}, unique_id=MAC_ADDRESS
@@ -691,7 +691,7 @@ async def test_on_off_light(hass: __HAC_KEEP__) -> None:
     light.set_state.reset_mock()
 
 
-async def test_off_at_start_light(hass: __HAC_KEEP__) -> None:
+async def test_off_at_start_light(hass: UniversalAssistant) -> None:
     """Test a light off at startup."""
     already_migrated_config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "127.0.0.1"}, unique_id=MAC_ADDRESS
@@ -714,7 +714,7 @@ async def test_off_at_start_light(hass: __HAC_KEEP__) -> None:
     assert attributes[ATTR_SUPPORTED_COLOR_MODES] == ["onoff"]
 
 
-async def test_dimmer_turn_on_fix(hass: __HAC_KEEP__) -> None:
+async def test_dimmer_turn_on_fix(hass: UniversalAssistant) -> None:
     """Test a dimmer turns on without brightness being set."""
     already_migrated_config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "127.0.0.1"}, unique_id=MAC_ADDRESS
@@ -751,7 +751,7 @@ async def test_dimmer_turn_on_fix(hass: __HAC_KEEP__) -> None:
 
 
 async def test_smart_strip_effects(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test smart strip effects."""
     already_migrated_config_entry = MockConfigEntry(
@@ -879,7 +879,7 @@ async def test_smart_strip_effects(
     assert state.attributes[ATTR_EFFECT_LIST] is None
 
 
-async def test_smart_strip_custom_random_effect(hass: __HAC_KEEP__) -> None:
+async def test_smart_strip_custom_random_effect(hass: UniversalAssistant) -> None:
     """Test smart strip custom random effects."""
     already_migrated_config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "127.0.0.1"}, unique_id=MAC_ADDRESS
@@ -1067,7 +1067,7 @@ async def test_smart_strip_custom_random_effect(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_smart_strip_effect_service_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_name: str,
     service_params: dict,
     expected_extra_params: dict,
@@ -1114,7 +1114,7 @@ async def test_smart_strip_effect_service_error(
     expected_params = {**base, **expected_extra_params}
     expected_msg = f"Error trying to set custom effect {expected_params}: failed"
 
-    with pytest.raises(__HAC_KEEP__Error, match=re.escape(expected_msg)):
+    with pytest.raises(UniversalAssistantError, match=re.escape(expected_msg)):
         await hass.services.async_call(
             DOMAIN,
             service_name,
@@ -1126,7 +1126,7 @@ async def test_smart_strip_effect_service_error(
         )
 
 
-async def test_smart_strip_custom_random_effect_at_start(hass: __HAC_KEEP__) -> None:
+async def test_smart_strip_custom_random_effect_at_start(hass: UniversalAssistant) -> None:
     """Test smart strip custom random effects at startup."""
     already_migrated_config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "127.0.0.1"}, unique_id=MAC_ADDRESS
@@ -1157,7 +1157,7 @@ async def test_smart_strip_custom_random_effect_at_start(hass: __HAC_KEEP__) -> 
     light.set_state.reset_mock()
 
 
-async def test_smart_strip_custom_sequence_effect(hass: __HAC_KEEP__) -> None:
+async def test_smart_strip_custom_sequence_effect(hass: UniversalAssistant) -> None:
     """Test smart strip custom sequence effects."""
     already_migrated_config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "127.0.0.1"}, unique_id=MAC_ADDRESS
@@ -1236,7 +1236,7 @@ async def test_smart_strip_custom_sequence_effect(hass: __HAC_KEEP__) -> None:
     ids=["Authentication", "Timeout", "Other"],
 )
 async def test_light_errors_when_turned_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception_type,
     msg,
     reauth_expected,
@@ -1260,7 +1260,7 @@ async def test_light_errors_when_turned_on(
         already_migrated_config_entry.async_get_active_flows(hass, {SOURCE_REAUTH})
     )
 
-    with pytest.raises(__HAC_KEEP__Error, match=msg):
+    with pytest.raises(UniversalAssistantError, match=msg):
         await hass.services.async_call(
             LIGHT_DOMAIN, SERVICE_TURN_ON, {ATTR_ENTITY_ID: entity_id}, blocking=True
         )
@@ -1279,7 +1279,7 @@ async def test_light_errors_when_turned_on(
 
 
 async def test_light_child(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test child lights are added to parent device with the right ids."""
@@ -1318,7 +1318,7 @@ async def test_light_child(
 
 
 async def test_scene_effect_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test activating a scene works with effects.

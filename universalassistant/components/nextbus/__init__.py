@@ -2,7 +2,7 @@
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_STOP, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.util.hass_dict import HassKey
 
@@ -19,7 +19,7 @@ type NextBusConfigEntry = ConfigEntry[NextBusDataUpdateCoordinator]
 NEXTBUS_KEY: HassKey[dict[str, NextBusDataUpdateCoordinator]] = HassKey(DOMAIN)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: NextBusConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: NextBusConfigEntry) -> None:
     """Set up platforms for NextBus."""
     entry_agency = entry.data[CONF_AGENCY]
     entry_stop = entry.data[CONF_STOP]
@@ -41,7 +41,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: NextBusConfigEntry) -> No
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: NextBusConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: NextBusConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 

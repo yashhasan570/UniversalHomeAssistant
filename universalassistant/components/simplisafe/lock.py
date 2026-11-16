@@ -8,8 +8,8 @@ from simplipy.system.v3 import SystemV3
 from simplipy.websocket import EVENT_LOCK_LOCKED, EVENT_LOCK_UNLOCKED, WebsocketEvent
 
 from universalassistant.components.lock import LockEntity
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import SimpliSafe, SimpliSafeConfigEntry
@@ -28,7 +28,7 @@ WEBSOCKET_EVENTS_TO_LISTEN_FOR = (EVENT_LOCK_LOCKED, EVENT_LOCK_UNLOCKED)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SimpliSafeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -71,7 +71,7 @@ class SimpliSafeLock(SimpliSafeEntity, LockEntity):
         try:
             await self._device.async_lock()
         except SimplipyError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f'Error while locking "{self._device.name}": {err}'
             ) from err
 
@@ -84,7 +84,7 @@ class SimpliSafeLock(SimpliSafeEntity, LockEntity):
         try:
             await self._device.async_unlock()
         except SimplipyError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f'Error while unlocking "{self._device.name}": {err}'
             ) from err
 

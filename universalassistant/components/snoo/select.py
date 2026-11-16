@@ -9,8 +9,8 @@ from python_snoo.exceptions import SnooCommandException
 from python_snoo.snoo import Snoo
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -40,7 +40,7 @@ SELECT_DESCRIPTIONS: list[SnooSelectEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SnooConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -72,7 +72,7 @@ class SnooSelect(SnooDescriptionEntity, SelectEntity):
                 self.coordinator.snoo, self.device, option
             )
         except SnooCommandException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="select_failed",
                 translation_placeholders={"name": str(self.name), "option": option},

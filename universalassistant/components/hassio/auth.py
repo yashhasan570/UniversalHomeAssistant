@@ -15,13 +15,13 @@ import probatio
 
 from universalassistant.auth.const import GROUP_ID_ADMIN
 from universalassistant.auth.providers import universalassistant as auth_ha
-from universalassistant.components.http import KEY_HASS, KEY_HASS_USER, __HAC_KEEP__View
+from universalassistant.components.http import KEY_HASS, KEY_HASS_USER, UniversalAssistantView
 from universalassistant.components.http.const import (
     DATA_SUPERVISOR_USER,
     is_supervisor_unix_socket_request,
 )
 from universalassistant.components.http.data_validator import RequestDataValidator
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 
 from .const import ATTR_ADDON, ATTR_PASSWORD, ATTR_USERNAME, ENV_SUPERVISOR
@@ -32,16 +32,16 @@ ATTR_GROUP_IDS = "group_ids"
 
 
 @callback
-def async_setup_auth_view(hass: __HAC_KEEP__) -> None:
+def async_setup_auth_view(hass: UniversalAssistant) -> None:
     """Auth setup."""
     hass.http.register_view(HassIOAuth(hass))
     hass.http.register_view(HassIOPasswordReset(hass))
 
 
-class HassIOBaseAuth(__HAC_KEEP__View):
+class HassIOBaseAuth(UniversalAssistantView):
     """Hass.io view to handle auth requests."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize WebView."""
         self.hass = hass
 

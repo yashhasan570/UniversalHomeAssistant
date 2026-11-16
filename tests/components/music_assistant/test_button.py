@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__, __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -19,7 +19,7 @@ from .common import (
 
 
 async def test_button_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     music_assistant_client: MagicMock,
@@ -30,7 +30,7 @@ async def test_button_entities(
 
 
 async def test_button_press_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test button press action."""
@@ -59,7 +59,7 @@ async def test_button_press_action(
     await trigger_subscription_callback(
         hass, music_assistant_client, EventType.PLAYER_CONFIG_UPDATED, mass_player_id
     )
-    with pytest.raises(__HAC_KEEP__Error, match="No current item to add to favorites"):
+    with pytest.raises(UniversalAssistantError, match="No current item to add to favorites"):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -75,7 +75,7 @@ async def test_button_press_action(
     await trigger_subscription_callback(
         hass, music_assistant_client, EventType.PLAYER_CONFIG_UPDATED, mass_player_id
     )
-    with pytest.raises(__HAC_KEEP__Error, match="No current item to add to favorites"):
+    with pytest.raises(UniversalAssistantError, match="No current item to add to favorites"):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

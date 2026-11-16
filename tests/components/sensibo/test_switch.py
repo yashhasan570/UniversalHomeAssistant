@@ -11,8 +11,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 
@@ -22,7 +22,7 @@ from universalassistant.helpers import entity_registry as er
     [[Platform.SWITCH]],
 )
 async def test_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -32,7 +32,7 @@ async def test_switch(
 
 
 async def test_switch_timer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -100,7 +100,7 @@ async def test_switch_timer(
 
 
 async def test_switch_pure_boost(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -157,7 +157,7 @@ async def test_switch_pure_boost(
 
 
 async def test_switch_command_failure(
-    hass: __HAC_KEEP__, load_int: ConfigEntry, mock_client: MagicMock
+    hass: UniversalAssistant, load_int: ConfigEntry, mock_client: MagicMock
 ) -> None:
     """Test the Sensibo switch fails commands."""
 
@@ -166,7 +166,7 @@ async def test_switch_command_failure(
     mock_client.async_set_timer.return_value = {"status": "failure"}
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,
@@ -180,7 +180,7 @@ async def test_switch_command_failure(
     mock_client.async_del_timer.return_value = {"status": "failure"}
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,
@@ -193,7 +193,7 @@ async def test_switch_command_failure(
 
 
 async def test_switch_climate_react(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -243,7 +243,7 @@ async def test_switch_climate_react(
 
 
 async def test_switch_climate_react_no_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -261,7 +261,7 @@ async def test_switch_climate_react_no_data(
     state = hass.states.get("switch.hallway_hallway_climate_react")
     assert state.state == STATE_OFF
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,

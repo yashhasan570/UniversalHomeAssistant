@@ -11,7 +11,7 @@ from requests import RequestException
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN
@@ -41,7 +41,7 @@ class MeteoFranceForecastUpdateCoordinator(DataUpdateCoordinator[Forecast]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: MeteoFranceConfigEntry,
         client: MeteoFranceClient,
     ) -> None:
@@ -77,7 +77,7 @@ class MeteoFranceRainUpdateCoordinator(DataUpdateCoordinator[Rain]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: MeteoFranceConfigEntry,
         client: MeteoFranceClient,
     ) -> None:
@@ -113,7 +113,7 @@ class MeteoFranceAlertUpdateCoordinator(DataUpdateCoordinator[CurrentPhenomenons
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: MeteoFranceConfigEntry,
         client: MeteoFranceClient,
         department: str,

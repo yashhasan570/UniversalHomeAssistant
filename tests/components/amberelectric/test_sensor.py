@@ -2,14 +2,14 @@
 
 import pytest
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import MockConfigEntry, setup_integration
 
 
 @pytest.mark.usefixtures("mock_amber_client_general_channel")
 async def test_general_price_sensor(
-    hass: __HAC_KEEP__, general_channel_config_entry: MockConfigEntry
+    hass: UniversalAssistant, general_channel_config_entry: MockConfigEntry
 ) -> None:
     """Test the General Price sensor."""
     await setup_integration(hass, general_channel_config_entry)
@@ -36,7 +36,7 @@ async def test_general_price_sensor(
 
 @pytest.mark.usefixtures("mock_amber_client_general_channel_with_range")
 async def test_general_price_sensor_with_range(
-    hass: __HAC_KEEP__, general_channel_config_entry: MockConfigEntry
+    hass: UniversalAssistant, general_channel_config_entry: MockConfigEntry
 ) -> None:
     """Test the General Price sensor with a range."""
     await setup_integration(hass, general_channel_config_entry)
@@ -50,7 +50,7 @@ async def test_general_price_sensor_with_range(
 
 @pytest.mark.usefixtures("mock_amber_client_general_and_controlled_load")
 async def test_general_and_controlled_load_price_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     general_channel_and_controlled_load_config_entry: MockConfigEntry,
 ) -> None:
     """Test the Controlled Price sensor."""
@@ -76,7 +76,7 @@ async def test_general_and_controlled_load_price_sensor(
 
 @pytest.mark.usefixtures("mock_amber_client_general_and_feed_in")
 async def test_general_and_feed_in_price_sensor(
-    hass: __HAC_KEEP__, general_channel_and_feed_in_config_entry: MockConfigEntry
+    hass: UniversalAssistant, general_channel_and_feed_in_config_entry: MockConfigEntry
 ) -> None:
     """Test the Feed In sensor."""
     await setup_integration(hass, general_channel_and_feed_in_config_entry)
@@ -101,7 +101,7 @@ async def test_general_and_feed_in_price_sensor(
 
 @pytest.mark.usefixtures("mock_amber_client_general_channel")
 async def test_general_forecast_sensor(
-    hass: __HAC_KEEP__, general_channel_config_entry: MockConfigEntry
+    hass: UniversalAssistant, general_channel_config_entry: MockConfigEntry
 ) -> None:
     """Test the General Forecast sensor."""
     await setup_integration(hass, general_channel_config_entry)
@@ -131,7 +131,7 @@ async def test_general_forecast_sensor(
 
 @pytest.mark.usefixtures("mock_amber_client_general_channel_with_range")
 async def test_general_forecast_sensor_with_range(
-    hass: __HAC_KEEP__, general_channel_config_entry: MockConfigEntry
+    hass: UniversalAssistant, general_channel_config_entry: MockConfigEntry
 ) -> None:
     """Test the General Forecast sensor with a range."""
     await setup_integration(hass, general_channel_config_entry)
@@ -146,7 +146,7 @@ async def test_general_forecast_sensor_with_range(
 
 @pytest.mark.usefixtures("mock_amber_client_general_and_controlled_load")
 async def test_controlled_load_forecast_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     general_channel_and_controlled_load_config_entry: MockConfigEntry,
 ) -> None:
     """Test the Controlled Load Forecast sensor."""
@@ -174,7 +174,7 @@ async def test_controlled_load_forecast_sensor(
 
 @pytest.mark.usefixtures("mock_amber_client_general_and_feed_in")
 async def test_feed_in_forecast_sensor(
-    hass: __HAC_KEEP__, general_channel_and_feed_in_config_entry: MockConfigEntry
+    hass: UniversalAssistant, general_channel_and_feed_in_config_entry: MockConfigEntry
 ) -> None:
     """Test the Feed In Forecast sensor."""
     await setup_integration(hass, general_channel_and_feed_in_config_entry)
@@ -201,7 +201,7 @@ async def test_feed_in_forecast_sensor(
 
 @pytest.mark.usefixtures("mock_amber_client_general_channel")
 async def test_renewable_sensor(
-    hass: __HAC_KEEP__, general_channel_config_entry: MockConfigEntry
+    hass: UniversalAssistant, general_channel_config_entry: MockConfigEntry
 ) -> None:
     """Testing the creation of the Amber renewables sensor."""
     await setup_integration(hass, general_channel_config_entry)
@@ -214,7 +214,7 @@ async def test_renewable_sensor(
 
 @pytest.mark.usefixtures("mock_amber_client_general_channel")
 async def test_general_price_descriptor_descriptor_sensor(
-    hass: __HAC_KEEP__, general_channel_config_entry: MockConfigEntry
+    hass: UniversalAssistant, general_channel_config_entry: MockConfigEntry
 ) -> None:
     """Test the General Price Descriptor sensor."""
     await setup_integration(hass, general_channel_config_entry)
@@ -226,7 +226,7 @@ async def test_general_price_descriptor_descriptor_sensor(
 
 @pytest.mark.usefixtures("mock_amber_client_general_and_controlled_load")
 async def test_general_and_controlled_load_price_descriptor_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     general_channel_and_controlled_load_config_entry: MockConfigEntry,
 ) -> None:
     """Test the Controlled Price Descriptor sensor."""
@@ -240,7 +240,7 @@ async def test_general_and_controlled_load_price_descriptor_sensor(
 
 @pytest.mark.usefixtures("mock_amber_client_general_and_feed_in")
 async def test_general_and_feed_in_price_descriptor_sensor(
-    hass: __HAC_KEEP__, general_channel_and_feed_in_config_entry: MockConfigEntry
+    hass: UniversalAssistant, general_channel_and_feed_in_config_entry: MockConfigEntry
 ) -> None:
     """Test the Feed In Price Descriptor sensor."""
     await setup_integration(hass, general_channel_and_feed_in_config_entry)

@@ -7,7 +7,7 @@ from apple_weatherkit.client import (
 )
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -17,7 +17,7 @@ from .coordinator import WeatherKitConfigEntry, WeatherKitDataUpdateCoordinator
 PLATFORMS: list[Platform] = [Platform.SENSOR, Platform.WEATHER]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: WeatherKitConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: WeatherKitConfigEntry) -> None:
     """Set up this integration using UI."""
     coordinator = WeatherKitDataUpdateCoordinator(
         hass=hass,
@@ -47,6 +47,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: WeatherKitConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: WeatherKitConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: WeatherKitConfigEntry) -> None:
     """Handle removal of an entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

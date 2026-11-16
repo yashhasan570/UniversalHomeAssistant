@@ -13,7 +13,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from universalassistant.components import device_tracker
 from universalassistant.components.device_tracker import legacy
 from universalassistant.const import CONF_PLATFORM
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
@@ -24,7 +24,7 @@ from .common import MockScanner, mock_legacy_device_tracker_setup
 TEST_PLATFORM = {device_tracker.DOMAIN: {CONF_PLATFORM: "test"}}
 
 
-def test_remove_device_from_config(hass: __HAC_KEEP__) -> None:
+def test_remove_device_from_config(hass: UniversalAssistant) -> None:
     """Test the removal of a device from a config."""
     yaml_devices = {
         "test": {
@@ -62,7 +62,7 @@ def test_remove_device_from_config(hass: __HAC_KEEP__) -> None:
 
 
 async def test_see_service_deprecation_warning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -81,7 +81,7 @@ async def test_see_service_deprecation_warning(
 
     assert (
         "The device_tracker.see action is deprecated and will be removed in "
-        "__HA_KEEP__ Core 2027.5"
+        "Universal Home Assistant Core 2027.5"
     ) in caplog.text
 
     issue = issue_registry.async_get_issue(
@@ -106,7 +106,7 @@ async def test_see_service_deprecation_warning(
 
 
 async def test_see_service_repair_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -159,7 +159,7 @@ async def test_see_service_repair_flow(
 
 
 async def test_legacy_platform_setup_deprecation_warning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test deprecation warning when setting up a legacy device tracker platform."""

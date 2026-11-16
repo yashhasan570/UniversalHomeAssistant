@@ -9,14 +9,14 @@ from knx_telegram_store import TelegramQuery
 from pytest_universalassistant.common import async_load_json_object_fixture
 
 from universalassistant.components.knx.const import DOMAIN, KNX_MODULE_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.storage import Store
 
 from .conftest import KNXTestKit
 
 
 async def test_migrate_telegrams_json_to_sqlite(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
 ) -> None:
     """Test migrating telegrams from legacy JSON to SQLite."""
@@ -88,7 +88,7 @@ async def test_migrate_telegrams_json_to_sqlite(
 
 
 async def test_migrate_telegrams_json_missing_keys(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
 ) -> None:
     """Test migrating telegrams from legacy JSON missing fields (e.g., data_secure)."""

@@ -10,7 +10,7 @@ from redgtech_api.api import RedgtechAPI, RedgtechAuthError, RedgtechConnectionE
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -41,7 +41,7 @@ class RedgtechDataUpdateCoordinator(DataUpdateCoordinator[dict[str, RedgtechDevi
 
     config_entry: RedgtechConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: RedgtechConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: RedgtechConfigEntry) -> None:
         """Initialize the coordinator."""
         self.api = RedgtechAPI()
         self.access_token: str | None = None

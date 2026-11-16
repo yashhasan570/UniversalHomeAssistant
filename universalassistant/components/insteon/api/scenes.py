@@ -12,7 +12,7 @@ from pyinsteon.managers.scene_manager import (
 )
 
 from universalassistant.components import websocket_api
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from ..const import ID, TYPE
 
@@ -40,7 +40,7 @@ def _scene_to_dict(scene):
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_get_scenes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict,
 ) -> None:
@@ -58,7 +58,7 @@ async def websocket_get_scenes(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_get_scene(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict,
 ) -> None:
@@ -79,7 +79,7 @@ async def websocket_get_scene(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_save_scene(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict,
 ) -> None:
@@ -106,7 +106,7 @@ async def websocket_save_scene(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_delete_scene(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict,
 ) -> None:

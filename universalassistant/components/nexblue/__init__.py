@@ -2,14 +2,14 @@
 
 from nexblue_api import NexBlueClient
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import DEFAULT_API_URL, PLATFORMS
 from .coordinator import NexBlueConfigEntry, NexBlueDataUpdateCoordinator
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: NexBlueConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: NexBlueConfigEntry) -> None:
     """Set up NexBlue from a config entry."""
     client = NexBlueClient(async_get_clientsession(hass), DEFAULT_API_URL)
     coordinator = NexBlueDataUpdateCoordinator(hass, entry, client)
@@ -19,6 +19,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: NexBlueConfigEntry) -> No
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: NexBlueConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: NexBlueConfigEntry) -> None:
     """Unload a NexBlue config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

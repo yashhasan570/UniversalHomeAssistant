@@ -1,4 +1,4 @@
-"""Support for a Hue API to control __HA_KEEP__."""
+"""Support for a Hue API to control Universal Home Assistant."""
 
 import asyncio
 from collections.abc import Iterable
@@ -40,7 +40,7 @@ from universalassistant.components.fan import (
     FanEntityStateAttribute,
     FanServiceArgument,
 )
-from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
+from universalassistant.components.http import KEY_HASS, UniversalAssistantView
 from universalassistant.components.humidifier import (
     HumidifierEntityStateAttribute,
     HumidifierService,
@@ -140,7 +140,7 @@ def _remote_is_allowed(address: str) -> bool:
     return is_local(ip_address(address))
 
 
-class HueUnauthorizedUser(__HAC_KEEP__View):
+class HueUnauthorizedUser(UniversalAssistantView):
     """Handle requests to find the emulated hue bridge."""
 
     url = "/api"
@@ -153,7 +153,7 @@ class HueUnauthorizedUser(__HAC_KEEP__View):
         return self.json(UNAUTHORIZED_USER)
 
 
-class HueUsernameView(__HAC_KEEP__View):
+class HueUsernameView(UniversalAssistantView):
     """Handle requests to create a username for the emulated hue bridge."""
 
     url = "/api"
@@ -178,7 +178,7 @@ class HueUsernameView(__HAC_KEEP__View):
         return self.json([{"success": {"username": HUE_API_USERNAME}}])
 
 
-class HueAllGroupsStateView(__HAC_KEEP__View):
+class HueAllGroupsStateView(UniversalAssistantView):
     """Handle requests for getting info about entity groups."""
 
     url = "/api/{username}/groups"
@@ -199,7 +199,7 @@ class HueAllGroupsStateView(__HAC_KEEP__View):
         return self.json({})
 
 
-class HueGroupView(__HAC_KEEP__View):
+class HueGroupView(UniversalAssistantView):
     """Group handler to get Logitech Pop working."""
 
     url = "/api/{username}/groups/0/action"
@@ -230,7 +230,7 @@ class HueGroupView(__HAC_KEEP__View):
         )
 
 
-class HueAllLightsStateView(__HAC_KEEP__View):
+class HueAllLightsStateView(UniversalAssistantView):
     """Handle requests for getting info about all entities."""
 
     url = "/api/{username}/lights"
@@ -251,7 +251,7 @@ class HueAllLightsStateView(__HAC_KEEP__View):
         return self.json(create_list_of_entities(self.config, request))
 
 
-class HueFullStateView(__HAC_KEEP__View):
+class HueFullStateView(UniversalAssistantView):
     """Return full state view of emulated hue."""
 
     url = "/api/{username}"
@@ -279,7 +279,7 @@ class HueFullStateView(__HAC_KEEP__View):
         return self.json(json_response)
 
 
-class HueConfigView(__HAC_KEEP__View):
+class HueConfigView(UniversalAssistantView):
     """Return config view of emulated hue."""
 
     url = "/api/{username}/config"
@@ -303,7 +303,7 @@ class HueConfigView(__HAC_KEEP__View):
         return self.json(json_response)
 
 
-class HueOneLightStateView(__HAC_KEEP__View):
+class HueOneLightStateView(UniversalAssistantView):
     """Handle requests for getting info about a single entity."""
 
     url = "/api/{username}/lights/{entity_id}"
@@ -346,7 +346,7 @@ class HueOneLightStateView(__HAC_KEEP__View):
         return self.json(json_response)
 
 
-class HueOneLightChangeView(__HAC_KEEP__View):
+class HueOneLightChangeView(UniversalAssistantView):
     """Handle requests for setting info about entities."""
 
     url = "/api/{username}/lights/{entity_number}/state"
@@ -804,7 +804,7 @@ def state_to_json(config: Config, state: State) -> dict[str, Any]:
         "state": json_state,
         "name": config.get_entity_name(state),
         "uniqueid": unique_id,
-        "manufacturername": "__HA_KEEP__",
+        "manufacturername": "Universal Home Assistant",
         "swversion": "123",
     }
     is_light = state.domain == light.DOMAIN
@@ -940,7 +940,7 @@ def _hass_to_hue_state(entity: State) -> bool:
 
 
 async def wait_for_state_change_or_timeout(
-    hass: core.__HAC_KEEP__, entity_id: str, timeout: float
+    hass: core.UniversalAssistant, entity_id: str, timeout: float
 ) -> None:
     """Wait for an entity to change state."""
     ev = asyncio.Event()

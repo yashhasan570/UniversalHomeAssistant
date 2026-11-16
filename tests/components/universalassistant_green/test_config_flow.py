@@ -1,4 +1,4 @@
-"""Test the __HA_KEEP__ Green config flow."""
+"""Test the Universal Home Assistant Green config flow."""
 
 from collections.abc import Generator
 from unittest.mock import AsyncMock, patch
@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry, MockModule, mock_i
 
 from universalassistant.components.hassio import DOMAIN as HASSIO_DOMAIN
 from universalassistant.components.universalassistant_green.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.setup import async_setup_component
 
@@ -31,7 +31,7 @@ def mock_set_green_settings(supervisor_client: AsyncMock) -> Generator[AsyncMock
     return supervisor_client.os.set_green_options
 
 
-async def test_config_flow(hass: __HAC_KEEP__) -> None:
+async def test_config_flow(hass: UniversalAssistant) -> None:
     """Test the config flow."""
     mock_integration(hass, MockModule("hassio"))
     await async_setup_component(hass, HASSIO_DOMAIN, {})
@@ -45,7 +45,7 @@ async def test_config_flow(hass: __HAC_KEEP__) -> None:
         )
 
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert result["title"] == "__HA_KEEP__ Green"
+    assert result["title"] == "Universal Home Assistant Green"
     assert result["data"] == {}
     assert result["options"] == {}
     assert len(mock_setup_entry.mock_calls) == 1
@@ -53,10 +53,10 @@ async def test_config_flow(hass: __HAC_KEEP__) -> None:
     config_entry = hass.config_entries.async_entries(DOMAIN)[0]
     assert config_entry.data == {}
     assert config_entry.options == {}
-    assert config_entry.title == "__HA_KEEP__ Green"
+    assert config_entry.title == "Universal Home Assistant Green"
 
 
-async def test_config_flow_single_entry(hass: __HAC_KEEP__) -> None:
+async def test_config_flow_single_entry(hass: UniversalAssistant) -> None:
     """Test only a single entry is allowed."""
     mock_integration(hass, MockModule("hassio"))
     await async_setup_component(hass, HASSIO_DOMAIN, {})
@@ -66,7 +66,7 @@ async def test_config_flow_single_entry(hass: __HAC_KEEP__) -> None:
         data={},
         domain=DOMAIN,
         options={},
-        title="__HA_KEEP__ Green",
+        title="Universal Home Assistant Green",
     )
     config_entry.add_to_hass(hass)
 
@@ -85,7 +85,7 @@ async def test_config_flow_single_entry(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_option_flow_non_hassio(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test installing the multi pan addon on a Core installation, without hassio."""
     mock_integration(hass, MockModule("hassio"))
@@ -95,7 +95,7 @@ async def test_option_flow_non_hassio(
         data={},
         domain=DOMAIN,
         options={},
-        title="__HA_KEEP__ Green",
+        title="Universal Home Assistant Green",
     )
     config_entry.add_to_hass(hass)
 
@@ -111,7 +111,7 @@ async def test_option_flow_non_hassio(
 
 @pytest.mark.usefixtures("os_green_info")
 async def test_option_flow_led_settings(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     set_green_settings: AsyncMock,
 ) -> None:
     """Test updating LED settings."""
@@ -123,7 +123,7 @@ async def test_option_flow_led_settings(
         data={},
         domain=DOMAIN,
         options={},
-        title="__HA_KEEP__ Green",
+        title="Universal Home Assistant Green",
     )
     config_entry.add_to_hass(hass)
 
@@ -143,7 +143,7 @@ async def test_option_flow_led_settings(
 
 @pytest.mark.usefixtures("os_green_info")
 async def test_option_flow_led_settings_unchanged(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     set_green_settings: AsyncMock,
 ) -> None:
     """Test updating LED settings."""
@@ -155,7 +155,7 @@ async def test_option_flow_led_settings_unchanged(
         data={},
         domain=DOMAIN,
         options={},
-        title="__HA_KEEP__ Green",
+        title="Universal Home Assistant Green",
     )
     config_entry.add_to_hass(hass)
 
@@ -173,7 +173,7 @@ async def test_option_flow_led_settings_unchanged(
 
 @pytest.mark.parametrize("exc", [TimeoutError, SupervisorError])
 async def test_option_flow_led_settings_fail_1(
-    hass: __HAC_KEEP__, os_green_info: AsyncMock, exc: type[Exception]
+    hass: UniversalAssistant, os_green_info: AsyncMock, exc: type[Exception]
 ) -> None:
     """Test updating LED settings."""
     mock_integration(hass, MockModule("hassio"))
@@ -184,7 +184,7 @@ async def test_option_flow_led_settings_fail_1(
         data={},
         domain=DOMAIN,
         options={},
-        title="__HA_KEEP__ Green",
+        title="Universal Home Assistant Green",
     )
     config_entry.add_to_hass(hass)
 
@@ -198,7 +198,7 @@ async def test_option_flow_led_settings_fail_1(
 @pytest.mark.usefixtures("os_green_info")
 @pytest.mark.parametrize("exc", [TimeoutError, SupervisorError])
 async def test_option_flow_led_settings_fail_2(
-    hass: __HAC_KEEP__, set_green_settings: AsyncMock, exc: type[Exception]
+    hass: UniversalAssistant, set_green_settings: AsyncMock, exc: type[Exception]
 ) -> None:
     """Test updating LED settings."""
     mock_integration(hass, MockModule("hassio"))
@@ -209,7 +209,7 @@ async def test_option_flow_led_settings_fail_2(
         data={},
         domain=DOMAIN,
         options={},
-        title="__HA_KEEP__ Green",
+        title="Universal Home Assistant Green",
     )
     config_entry.add_to_hass(hass)
 

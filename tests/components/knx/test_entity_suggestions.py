@@ -15,7 +15,7 @@ from universalassistant.components.knx.storage.entity_suggestions.const import (
     SuggestedGroupAddress,
 )
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import KnxEntityGenerator, KnxSuggestionGetter
@@ -59,7 +59,7 @@ class _StubProvider(SuggestionProvider):
 
     @override
     async def async_get_suggestions(
-        self, hass: __HAC_KEEP__, knx: Any
+        self, hass: UniversalAssistant, knx: Any
     ) -> ProviderResult:
         """Return suggestions covering every filterable property."""
         return ProviderResult(
@@ -78,7 +78,7 @@ def test_provider_requires_provider_id() -> None:
     class _IncompleteProvider(SuggestionProvider):
         @override
         async def async_get_suggestions(
-            self, hass: __HAC_KEEP__, knx: Any
+            self, hass: UniversalAssistant, knx: Any
         ) -> ProviderResult:
             return ProviderResult(suggestions=[], hints={})
 
@@ -132,7 +132,7 @@ async def test_ws_get_entity_suggestions_existing_entities(
 
 
 async def test_ws_get_entity_suggestions_disabled_existing_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     entity_registry: er.EntityRegistry,
     create_ui_entity: KnxEntityGenerator,

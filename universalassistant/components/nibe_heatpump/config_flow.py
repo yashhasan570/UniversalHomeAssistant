@@ -18,7 +18,7 @@ import yarl
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_IP_ADDRESS, CONF_MODEL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import selector
 
 from .const import (
@@ -89,7 +89,7 @@ class FieldError(Exception):
 
 
 async def validate_nibegw_input(
-    hass: __HAC_KEEP__, data: dict[str, Any]
+    hass: UniversalAssistant, data: dict[str, Any]
 ) -> tuple[str, dict[str, Any]]:
     """Validate the user input allows us to connect."""
 
@@ -135,7 +135,7 @@ async def validate_nibegw_input(
 
 
 async def validate_modbus_input(
-    hass: __HAC_KEEP__, data: dict[str, Any]
+    hass: UniversalAssistant, data: dict[str, Any]
 ) -> tuple[str, dict[str, Any]]:
     """Validate the user input allows us to connect."""
 

@@ -32,14 +32,18 @@ from pyoverkiz.models import (
     Place,
 )
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     OAuth2TokenRequestError,
     OAuth2TokenRequestReauthError,
 )
 from universalassistant.helpers import device_registry as dr
-from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from universalassistant.helpers.update_coordinator import (
+    DataUpdateCoordinator,
+    UpdateFailed,
+    UpdateFailedUnreachable,
+)
 from universalassistant.util.decorator import Registry
 
 from .const import (
@@ -76,7 +80,7 @@ class OverkizDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Device]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: OverkizDataConfigEntry,
         logger: logging.Logger,
         *,
@@ -137,16 +141,21 @@ class OverkizDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Device]]):
                 ).total_seconds(),
             ) from exception
         except MaintenanceError as exception:
-            raise UpdateFailed("Server is down for maintenance.") from exception
+            raise UpdateFailedUnreachable(
+                "Server is down for maintenance."
+            ) from exception
         except ServiceUnavailableError as exception:
-            raise UpdateFailed("Server is unavailable.") from exception
+            raise UpdateFailedUnreachable("Server is unavailable.") from exception
         except SomfyServiceError as exception:
             raise UpdateFailed("Somfy service error.") from exception
         except InvalidEventListenerIdError as exception:
             raise UpdateFailed(exception) from exception
-        except (TimeoutError, ClientConnectorError) as exception:
+        except TimeoutError as exception:
             LOGGER.debug("Failed to connect", exc_info=True)
             raise UpdateFailed("Failed to connect.") from exception
+        except ClientConnectorError as exception:
+            LOGGER.debug("Failed to connect", exc_info=True)
+            raise UpdateFailedUnreachable("Failed to connect.") from exception
         except ServerDisconnectedError:
             self.executions = {}
 
@@ -306,7 +315,7 @@ async def on_execution_registered(
     coordinator: OverkizDataUpdateCoordinator, event: ExecutionRegisteredEvent
 ) -> None:
     """Handle execution registered event."""
-    # Also covers executions started outside __HA_KEEP__ (e.g. the TaHoma app)
+    # Also covers executions started outside Universal Home Assistant (e.g. the TaHoma app)
     coordinator.register_execution(event.exec_id, event.actions)
 
     if not coordinator.is_stateless:

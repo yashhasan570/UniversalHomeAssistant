@@ -5,8 +5,8 @@ from enum import StrEnum
 from pyvesync.utils.errors import VeSyncError
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
 from .const import DOMAIN, VS_DEVICES, VS_DISCOVERY
@@ -20,7 +20,7 @@ class VeSyncService(StrEnum):
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Handle for services."""
 
     hass.services.async_register(
@@ -43,7 +43,7 @@ async def async_new_device_discovery(call: ServiceCall) -> None:
     try:
         await manager.get_devices()
     except VeSyncError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN, translation_key="api_response_error"
         ) from err
     new_devices = [device for device in manager.devices if device not in known_devices]

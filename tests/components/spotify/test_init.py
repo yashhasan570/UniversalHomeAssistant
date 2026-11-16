@@ -10,7 +10,7 @@ from spotifyaio import SpotifyConnectionError, SpotifyForbiddenError
 
 from universalassistant.components.spotify.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
@@ -23,7 +23,7 @@ TOKEN_URL = "https://accounts.spotify.com/api/token"
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -46,7 +46,7 @@ async def test_setup(
     ],
 )
 async def test_setup_with_required_calls_failing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
     method: str,
@@ -62,7 +62,7 @@ async def test_setup_with_required_calls_failing(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_setup_free_account_is_failing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
@@ -92,7 +92,7 @@ async def test_setup_free_account_is_failing(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_oauth_implementation_not_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""
@@ -111,7 +111,7 @@ async def test_oauth_implementation_not_available(
 @pytest.mark.usefixtures("setup_credentials", "mock_spotify")
 @pytest.mark.parametrize("expires_at", [0], ids=["expired"])
 async def test_revoked_refresh_token_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -136,7 +136,7 @@ async def test_revoked_refresh_token_starts_reauth(
 
 @pytest.mark.usefixtures("setup_credentials", "mock_spotify")
 async def test_missing_scopes_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test a token without all required scopes asks the user to reauthenticate."""

@@ -16,8 +16,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import PRECISION_TENTHS, PRECISION_WHOLE, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
@@ -45,7 +45,7 @@ MAX_TEMPERATURE = 30
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: NoboHubConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -103,7 +103,7 @@ class NoboZone(NoboBaseEntity, ClimateEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         zone_id: str,
         hub: nobo,
         override_type: str,
@@ -155,7 +155,7 @@ class NoboZone(NoboBaseEntity, ClimateEntity):
                 self._id,
             )
         except PynoboError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key=translation_key,
             ) from err
@@ -171,7 +171,7 @@ class NoboZone(NoboBaseEntity, ClimateEntity):
                     self._id, temp_comfort_c=high, temp_eco_c=low
                 )
             except PynoboError as err:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="set_temperature_failed",
                 ) from err

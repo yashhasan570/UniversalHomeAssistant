@@ -18,7 +18,7 @@ from tuya_sharing import (
 
 from universalassistant.components.tuya.const import DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.json import json_dumps
 from universalassistant.util import dt as dt_util
 
@@ -32,7 +32,7 @@ DEVICE_MOCKS = sorted(
 class TuyaNotificationHelper:
     """Helper to raise manager events to device listeners."""
 
-    def __init__(self, hass: __HAC_KEEP__, manager: Manager) -> None:
+    def __init__(self, hass: UniversalAssistant, manager: Manager) -> None:
         """Initialize the helper."""
         self.hass = hass
         self.manager = manager
@@ -92,7 +92,7 @@ class TuyaNotificationHelper:
         await self._async_update_device(device, property_list, dp_timestamps)
 
 
-async def create_device(hass: __HAC_KEEP__, mock_device_code: str) -> CustomerDevice:
+async def create_device(hass: UniversalAssistant, mock_device_code: str) -> CustomerDevice:
     """Create a CustomerDevice for testing."""
     details = await async_load_json_object_fixture(
         hass, f"{mock_device_code}.json", DOMAIN
@@ -200,7 +200,7 @@ def create_manager(
 
 
 async def initialize_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_devices: CustomerDevice | list[CustomerDevice],
@@ -222,7 +222,7 @@ async def initialize_entry(
 
 
 async def check_selective_state_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: CustomerDevice,
     notification_helper: TuyaNotificationHelper,
     freezer: FrozenDateTimeFactory,

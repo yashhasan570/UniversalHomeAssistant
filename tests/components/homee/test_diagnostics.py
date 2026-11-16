@@ -11,7 +11,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.homee.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import build_mock_node, setup_integration
@@ -19,7 +19,7 @@ from .conftest import HOMEE_ID
 
 
 async def setup_mock_homee(
-    hass: __HAC_KEEP__, mock_homee: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_homee: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Set up the number platform."""
     mock_homee.nodes = [
@@ -32,7 +32,7 @@ async def setup_mock_homee(
 
 
 async def test_diagnostics_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -47,7 +47,7 @@ async def test_diagnostics_config_entry(
 
 
 async def test_diagnostics_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -68,7 +68,7 @@ async def test_diagnostics_device(
 
 
 async def test_diagnostics_homee_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,

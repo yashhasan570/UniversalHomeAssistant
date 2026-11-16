@@ -25,7 +25,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     UnitOfInformation,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -48,7 +48,7 @@ YAML_CONFIG = {
 
 @pytest.mark.usefixtures("mock_statistics", "mock_exchangerates")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -61,7 +61,7 @@ async def test_entities(
 
 @pytest.mark.usefixtures("mock_exchangerates")
 async def test_no_entities_when_api_unreachable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_statistics: MagicMock,
 ) -> None:
@@ -75,7 +75,7 @@ async def test_no_entities_when_api_unreachable(
 
 @pytest.mark.usefixtures("mock_statistics")
 async def test_falls_back_to_usd_when_currency_not_quoted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_exchangerates: MagicMock,
 ) -> None:
     """Test the exchange rate falls back to USD when the currency is gone."""
@@ -92,7 +92,7 @@ async def test_falls_back_to_usd_when_currency_not_quoted(
 
 @pytest.mark.usefixtures("mock_exchangerates")
 async def test_one_fetch_per_cycle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_statistics: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -111,7 +111,7 @@ async def test_one_fetch_per_cycle(
 
 @pytest.mark.usefixtures("mock_exchangerates")
 async def test_unavailable_while_blockchain_unreachable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_statistics: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -138,7 +138,7 @@ async def test_unavailable_while_blockchain_unreachable(
 
 @pytest.mark.usefixtures("mock_statistics")
 async def test_exchange_rate_falls_back_when_currency_disappears(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_exchangerates: MagicMock,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
@@ -164,7 +164,7 @@ async def test_exchange_rate_falls_back_when_currency_disappears(
 
 @pytest.mark.usefixtures("mock_statistics", "mock_exchangerates")
 async def test_yaml_import(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test the YAML platform is imported and reported as deprecated."""
     assert await async_setup_component(hass, SENSOR_DOMAIN, YAML_CONFIG)
@@ -179,7 +179,7 @@ async def test_yaml_import(
 
 @pytest.mark.usefixtures("mock_statistics", "mock_exchangerates")
 async def test_yaml_import_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -201,7 +201,7 @@ async def test_yaml_import_already_configured(
 
 @pytest.mark.usefixtures("mock_statistics", "mock_exchangerates")
 async def test_yaml_import_other_currency_dropped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -222,7 +222,7 @@ async def test_yaml_import_other_currency_dropped(
 
 @pytest.mark.usefixtures("mock_statistics", "mock_exchangerates")
 async def test_yaml_import_second_currency_dropped(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test a second platform block asking for another currency is reported."""
     assert await async_setup_component(
@@ -253,7 +253,7 @@ async def test_yaml_import_second_currency_dropped(
     ],
 )
 async def test_yaml_import_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_exchangerates: MagicMock,
     issue_registry: ir.IssueRegistry,
     currency: str,
@@ -278,7 +278,7 @@ async def test_yaml_import_failure(
 
 @pytest.mark.usefixtures("mock_statistics", "mock_exchangerates")
 async def test_yaml_import_with_ignored_entry(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test an ignored entry does not break the import."""
     MockConfigEntry(
@@ -295,7 +295,7 @@ async def test_yaml_import_with_ignored_entry(
 
 @pytest.mark.usefixtures("mock_statistics", "mock_exchangerates")
 async def test_registered_sensors_keep_their_entity_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -321,7 +321,7 @@ async def test_registered_sensors_keep_their_entity_ids(
 
 @pytest.mark.usefixtures("mock_statistics", "mock_exchangerates")
 async def test_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -337,7 +337,7 @@ async def test_device(
 
 @pytest.mark.usefixtures("mock_statistics", "mock_exchangerates")
 async def test_registered_blocks_size_keeps_bytes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:

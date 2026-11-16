@@ -31,7 +31,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -39,7 +39,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("init_integration")
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test loading and unloading the integration."""
@@ -91,7 +91,7 @@ async def test_device_info(
     ],
 )
 async def test_setup_error_on_api_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_v1_api,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -107,7 +107,7 @@ async def test_setup_error_on_api_failure(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_coordinator_update_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_v1_api,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -134,7 +134,7 @@ async def test_coordinator_update_failed(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_coordinator_update_json_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_v1_api,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -158,7 +158,7 @@ async def test_coordinator_update_json_error(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_coordinator_total_non_auth_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_v1_api,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -184,7 +184,7 @@ async def test_coordinator_total_non_auth_api_error(
 
 
 async def test_setup_auth_failed_on_permission_denied(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_v1_api,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -209,7 +209,7 @@ async def test_setup_auth_failed_on_permission_denied(
 
 
 async def test_coordinator_auth_failed_triggers_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_v1_api,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -242,7 +242,7 @@ async def test_coordinator_auth_failed_triggers_reauth(
 
 
 async def test_classic_api_coordinator_auth_failed_triggers_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_classic_api,
     mock_config_entry_classic: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -285,7 +285,7 @@ async def test_classic_api_coordinator_auth_failed_triggers_reauth(
 
 
 async def test_classic_api_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_growatt_classic_api,
     mock_config_entry_classic: MockConfigEntry,
@@ -336,7 +336,7 @@ async def test_classic_api_setup(
 )
 @pytest.mark.usefixtures("mock_growatt_v1_api", "mock_growatt_classic_api")
 async def test_migrate_config_without_auth_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_data: dict[str, str],
     expected_auth_type: str,
 ) -> None:
@@ -371,7 +371,7 @@ async def test_migrate_config_without_auth_type(
 
 
 async def test_migrate_legacy_config_no_auth_fields(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test migration succeeds but setup fails for config without auth fields."""
     # Create a config entry without any auth fields
@@ -406,7 +406,7 @@ async def test_migrate_legacy_config_no_auth_fields(
     ids=["network_error", "json_error"],
 )
 async def test_classic_api_login_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_classic_api,
     mock_config_entry_classic: MockConfigEntry,
     exception: Exception,
@@ -428,7 +428,7 @@ async def test_classic_api_login_exceptions(
     ids=["invalid_auth", "other_login_error"],
 )
 async def test_classic_api_login_failures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_classic_api,
     mock_config_entry_classic: MockConfigEntry,
     login_response: dict,
@@ -450,7 +450,7 @@ async def test_classic_api_login_failures(
     ids=["network_error", "json_error"],
 )
 async def test_classic_api_device_list_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_classic_api,
     exception: Exception,
 ) -> None:
@@ -477,7 +477,7 @@ async def test_classic_api_device_list_exceptions(
 
 
 async def test_classic_api_device_list_no_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_classic_api,
 ) -> None:
     """Test Classic API setup when device list returns no devices."""
@@ -512,7 +512,7 @@ async def test_classic_api_device_list_no_devices(
     ids=["network_error", "json_error"],
 )
 async def test_classic_api_device_list_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_classic_api,
     mock_config_entry_classic: MockConfigEntry,
     exception: Exception,
@@ -526,7 +526,7 @@ async def test_classic_api_device_list_errors(
 
 
 async def test_unknown_api_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test setup with unknown API version."""
     # Create a config entry with invalid auth type
@@ -547,7 +547,7 @@ async def test_unknown_api_version(
 
 
 async def test_classic_api_auto_select_plant(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_classic_api,
     mock_config_entry_classic_default_plant: MockConfigEntry,
 ) -> None:
@@ -571,7 +571,7 @@ async def test_classic_api_auto_select_plant(
 
 
 async def test_v1_api_unsupported_device_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_v1_api,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -604,7 +604,7 @@ async def test_v1_api_unsupported_device_type(
 
 
 async def test_migrate_version_bump(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_classic_api,
 ) -> None:
     """Test migration from 1.0 to 1.1 resolves DEFAULT_PLANT_ID and bumps version.
@@ -657,7 +657,7 @@ async def test_migrate_version_bump(
 
 
 async def test_setup_reuses_cached_api_from_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_classic_api,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -742,14 +742,14 @@ async def test_setup_reuses_cached_api_from_migration(
 
 
 async def test_migrate_failure_retries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_classic_api,
 ) -> None:
     """Test migration is retried on API failure.
 
     When migration fails due to API errors (network issues, etc.),
     it should raise ConfigEntryNotReady and NOT bump the version, so
-    __HA_KEEP__ retries the migration.
+    Universal Home Assistant retries the migration.
     """
     # Create a version 1.0 config entry with DEFAULT_PLANT_ID
     mock_config_entry = MockConfigEntry(
@@ -829,7 +829,7 @@ async def test_migrate_failure_retries(
     ],
 )
 async def test_migrate_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_classic_api,
     data: dict[str, str],
     plant_list: dict[str, list] | None,
@@ -860,7 +860,7 @@ async def test_migrate_error(
 
 @pytest.mark.usefixtures("mock_growatt_classic_api")
 async def test_migrate_already_migrated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test migration is skipped for already migrated entries."""
     # Create a config entry already at version 1.1
@@ -895,7 +895,7 @@ async def test_migrate_already_migrated(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_dynamic_device_added(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_v1_api,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -958,7 +958,7 @@ async def test_dynamic_device_added(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_stale_device_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_v1_api,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -999,7 +999,7 @@ async def test_stale_device_removed(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_device_scan_error_is_silent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_v1_api,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -1032,7 +1032,7 @@ async def test_device_scan_error_is_silent(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_dynamic_device_refresh_fails_is_skipped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_v1_api,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -1080,7 +1080,7 @@ async def test_dynamic_device_refresh_fails_is_skipped(
 
 
 async def test_classic_api_device_scan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_classic_api,
     mock_config_entry_classic: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -1126,7 +1126,7 @@ async def test_classic_api_device_scan(
 
 
 async def test_classic_api_stale_device_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_growatt_classic_api,
     mock_config_entry_classic: MockConfigEntry,
     device_registry: dr.DeviceRegistry,

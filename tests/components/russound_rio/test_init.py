@@ -12,7 +12,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.russound_rio.const import CONF_BAUDRATE, DOMAIN, TYPE_TCP
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_DEVICE, CONF_HOST, CONF_PORT, CONF_TYPE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import mock_state_update, setup_integration
@@ -20,7 +20,7 @@ from .const import HARDWARE_MAC, MOCK_SERIAL_CONFIG, MOCK_TCP_CONFIG, MODEL
 
 
 async def test_config_entry_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_russound_client: AsyncMock,
 ) -> None:
@@ -34,7 +34,7 @@ async def test_config_entry_not_ready(
 
 
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_russound_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -51,7 +51,7 @@ async def test_device_info(
 
 @pytest.mark.usefixtures("mock_russound_client")
 async def test_via_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -77,7 +77,7 @@ async def test_via_device_id(
 
 
 async def test_disconnect_reconnect_log(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_russound_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -97,7 +97,7 @@ async def test_disconnect_reconnect_log(
 
 
 async def test_migrate_entry_from_v1_to_v2_on_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Test a version 1 entry is migrated during setup."""
@@ -123,7 +123,7 @@ async def test_migrate_entry_from_v1_to_v2_on_setup(
 
 
 async def test_migrate_entry_from_future_version_fails_on_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test setup fails for a future config entry version."""
     entry = MockConfigEntry(
@@ -143,7 +143,7 @@ async def test_migrate_entry_from_future_version_fails_on_setup(
 
 
 async def test_setup_entry_uses_tcp_handler(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_russound_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -157,7 +157,7 @@ async def test_setup_entry_uses_tcp_handler(
 
 
 async def test_setup_entry_uses_serial_handler(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_russound_client: AsyncMock,
     mock_serial_config_entry: MockConfigEntry,
 ) -> None:

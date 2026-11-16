@@ -20,8 +20,8 @@ from universalassistant.components import bluetooth
 from universalassistant.components.bluetooth import BluetoothReachabilityIntent
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -57,7 +57,7 @@ class SpinEvCoordinator(DataUpdateCoordinator[ChargerStatus]):
 
     config_entry: SpinEvConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, entry: SpinEvConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: SpinEvConfigEntry) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,
@@ -137,7 +137,7 @@ class SpinEvCoordinator(DataUpdateCoordinator[ChargerStatus]):
             # A command queued behind teardown would otherwise reconnect after
             # the entry is gone and, when held, keep the slot claimed.
             if self._shutdown_requested:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN, translation_key="unloading"
                 )
             charger = await self._async_charger()
@@ -145,12 +145,12 @@ class SpinEvCoordinator(DataUpdateCoordinator[ChargerStatus]):
                 await charger.async_connect()
                 await action(charger)
             except SpinEvCommandRejectedError as err:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN, translation_key="command_rejected"
                 ) from err
             except SpinEvError as err:
                 await self.async_release()
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="cannot_send",
                     translation_placeholders={"error": str(err)},

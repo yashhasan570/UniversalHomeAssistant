@@ -12,7 +12,7 @@ from universalassistant.components.sftp_storage import SFTPConfigEntryData
 from universalassistant.components.sftp_storage.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.ulid import ulid
 
 from .asyncssh_mock import SSHClientConnectionMock
@@ -27,7 +27,7 @@ from .conftest import (
 
 @pytest.mark.usefixtures("mock_ssh_connection")
 async def test_setup_and_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -59,7 +59,7 @@ async def test_setup_and_unload(
 
 async def test_setup_error(
     mock_ssh_connection: SSHClientConnectionMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
 ) -> None:
     """Test setup error."""
@@ -79,7 +79,7 @@ async def test_setup_error(
     ids=["oserror", "connection_lost"],
 )
 async def test_setup_connection_error_is_retried(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     caplog: pytest.LogCaptureFixture,
     connect_error: Exception,
@@ -104,7 +104,7 @@ async def test_setup_connection_error_is_retried(
 )
 async def test_setup_sftp_session_error_is_retried(
     mock_ssh_connection: SSHClientConnectionMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     caplog: pytest.LogCaptureFixture,
     sftp_error: Exception,
@@ -120,7 +120,7 @@ async def test_setup_sftp_session_error_is_retried(
 
 
 async def test_setup_invalid_credentials(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -142,7 +142,7 @@ async def test_setup_invalid_credentials(
 
 
 async def test_async_remove_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -219,7 +219,7 @@ async def test_async_remove_entry(
 async def test_async_remove_entry_errors(
     patch_target: str,
     expected_logs: list[str],
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: ComponentSetup,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

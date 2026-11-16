@@ -1,6 +1,6 @@
 {
   "universal_assistant": {
-    "installation_type": "__HA_KEEP__ OS",
+    "installation_type": "Universal Home Assistant OS",
     "version": "2023.10.5",
     "dev": false,
     "hassio": true,
@@ -12,7 +12,7 @@
     "os_name": "Linux",
     "os_version": "6.1.56",
     "supervisor": "2023.10.1",
-    "host_os": "__HA_KEEP__ OS 11.0",
+    "host_os": "Universal Home Assistant OS 11.0",
     "docker_version": "24.0.6",
     "chassis": "embedded",
     "run_as_root": true

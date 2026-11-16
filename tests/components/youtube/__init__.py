@@ -8,7 +8,7 @@ from youtubeaio.models import YouTubeChannel, YouTubePlaylistItem, YouTubeSubscr
 from youtubeaio.types import AuthScope
 
 from universalassistant.components.youtube.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 class MockYouTube:
@@ -18,7 +18,7 @@ class MockYouTube:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         channel_fixture: str = "get_channel.json",
         playlist_items_fixture: str = "get_playlist_items.json",
         subscriptions_fixture: str = "get_subscriptions.json",

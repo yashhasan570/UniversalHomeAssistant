@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.vodafone_station.const import LINE_TYPES, SCAN_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -22,7 +22,7 @@ from .const import TEST_SERIAL_NUMBER
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -46,7 +46,7 @@ async def test_all_entities(
     ],
 )
 async def test_active_connection_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -77,7 +77,7 @@ async def test_active_connection_type(
 
 @pytest.mark.freeze_time("2023-12-02T13:00:00+00:00")
 async def test_uptime(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -111,7 +111,7 @@ async def test_uptime(
     ],
 )
 async def test_coordinator_client_connector_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,

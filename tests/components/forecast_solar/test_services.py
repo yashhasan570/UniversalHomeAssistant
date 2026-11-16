@@ -14,13 +14,13 @@ from universalassistant.components.forecast_solar.services import (
     ForecastSolarService,
     ForecastSolarServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.util import dt as dt_util
 
 
 async def test_get_forecast_raw(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_forecast_solar: MagicMock,
 ) -> None:
@@ -73,7 +73,7 @@ async def test_get_forecast_raw(
 
 
 async def test_get_forecast_hourly_aggregation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_forecast_solar: MagicMock,
 ) -> None:
@@ -124,7 +124,7 @@ async def test_get_forecast_hourly_aggregation(
 
 
 async def test_get_forecast_filters_by_time_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_forecast_solar: MagicMock,
 ) -> None:
@@ -167,13 +167,13 @@ async def test_get_forecast_filters_by_time_range(
 
 
 async def test_get_forecast_accepts_naive_datetimes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_forecast_solar: MagicMock,
 ) -> None:
     """Test that naive start/end datetimes are interpreted in the forecast zone.
 
-    The __HA_KEEP__ UI datetime selector and ``cv.datetime`` produce
+    The Universal Home Assistant UI datetime selector and ``cv.datetime`` produce
     naive ``datetime`` values for strings without an offset, so the
     service must attach the forecast's timezone before filtering. The
     mock estimate has ``timezone = "Europe/Amsterdam"``, which can
@@ -212,7 +212,7 @@ async def test_get_forecast_accepts_naive_datetimes(
 
 
 async def test_get_forecast_rejects_end_before_start(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test the get_forecast service rejects an end-before-start range."""

@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_LOCATION,
     CONF_LONGITUDE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr
 
@@ -30,7 +30,7 @@ from .const import (
 )
 
 
-async def test_form(hass: __HAC_KEEP__, requests_mock: requests_mock.Mocker) -> None:
+async def test_form(hass: UniversalAssistant, requests_mock: requests_mock.Mocker) -> None:
     """Test we get the form."""
     hass.config.latitude = TEST_LATITUDE_WAVERTREE
     hass.config.longitude = TEST_LONGITUDE_WAVERTREE
@@ -73,7 +73,7 @@ async def test_form(hass: __HAC_KEEP__, requests_mock: requests_mock.Mocker) -> 
 
 
 async def test_form_already_configured(
-    hass: __HAC_KEEP__, requests_mock: requests_mock.Mocker, entry: MockConfigEntry
+    hass: UniversalAssistant, requests_mock: requests_mock.Mocker, entry: MockConfigEntry
 ) -> None:
     """Test we handle duplicate entries."""
     hass.config.latitude = TEST_LATITUDE_WAVERTREE
@@ -112,7 +112,7 @@ async def test_form_already_configured(
 
 
 async def test_form_cannot_connect(
-    hass: __HAC_KEEP__, requests_mock: requests_mock.Mocker
+    hass: UniversalAssistant, requests_mock: requests_mock.Mocker
 ) -> None:
     """Test we handle cannot connect error."""
     hass.config.latitude = TEST_LATITUDE_WAVERTREE
@@ -165,7 +165,7 @@ async def test_form_cannot_connect(
 
 
 async def test_form_unknown_error(
-    hass: __HAC_KEEP__, mock_simple_manager_fail: MagicMock
+    hass: UniversalAssistant, mock_simple_manager_fail: MagicMock
 ) -> None:
     """Test we handle unknown error."""
     mock_instance = mock_simple_manager_fail.return_value
@@ -212,7 +212,7 @@ async def test_form_unknown_error(
 
 @pytest.mark.freeze_time(dt.datetime(2024, 11, 23, 12, tzinfo=dt.UTC))
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     requests_mock: requests_mock.Mocker,
     device_registry: dr.DeviceRegistry,
     entry: MockConfigEntry,

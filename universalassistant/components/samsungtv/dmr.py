@@ -16,8 +16,8 @@ from async_upnp_client.exceptions import (
 from async_upnp_client.profiles.dlna import DmrDevice
 from async_upnp_client.utils import async_get_local_ip
 
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import DOMAIN, LOGGER
@@ -28,7 +28,7 @@ class SamsungTVDmrDevice:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         ssdp_rendering_control_location: str,
         host: str,
         on_event_callback: Callable[[], None],
@@ -125,7 +125,7 @@ class SamsungTVDmrDevice:
     async def async_set_volume_level(self, volume: float) -> None:
         """Set volume level via DMR."""
         if self._dmr_device is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="upnp_not_available",
                 translation_placeholders={"host": self._host},
@@ -133,7 +133,7 @@ class SamsungTVDmrDevice:
         try:
             await self._dmr_device.async_set_volume_level(volume)
         except UpnpActionResponseError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="error_set_volume",
                 translation_placeholders={

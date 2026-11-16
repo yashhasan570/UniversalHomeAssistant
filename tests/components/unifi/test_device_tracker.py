@@ -32,7 +32,7 @@ from universalassistant.components.unifi.const import (
     DOMAIN,
 )
 from universalassistant.const import STATE_HOME, STATE_NOT_HOME, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -122,7 +122,7 @@ SWITCH_1 = {
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entity_and_device_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     snapshot: SnapshotAssertion,
@@ -147,7 +147,7 @@ async def test_entity_and_device_data(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_client_tracker_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
@@ -172,7 +172,7 @@ async def test_client_tracker_device_info(
 @pytest.mark.parametrize("client_payload", [[WIRELESS_CLIENT_1]])
 @pytest.mark.parametrize("device_payload", [[SWITCH_1]])
 async def test_enabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
 ) -> None:
@@ -202,7 +202,7 @@ async def test_enabled_by_default(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_device_tracker_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
@@ -234,7 +234,7 @@ async def test_device_tracker_device_info(
 @pytest.mark.parametrize("known_wireless_clients", [[WIRED_BUG_CLIENT["mac"]]])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_client_state_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_message: WebsocketMessageMock,
     config_entry_factory: ConfigEntryFactoryType,
     client_payload: list[dict[str, Any]],
@@ -286,7 +286,7 @@ async def test_client_state_update(
 @pytest.mark.usefixtures("config_entry_setup")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_client_state_from_event_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_websocket_message: WebsocketMessageMock,
     client_payload: list[dict[str, Any]],
@@ -368,7 +368,7 @@ async def test_client_state_from_event_source(
     ],
 )
 async def test_tracked_device_state_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     config_entry_factory: ConfigEntryFactoryType,
     mock_websocket_message: WebsocketMessageMock,
@@ -412,7 +412,7 @@ async def test_tracked_device_state_change(
 @pytest.mark.usefixtures("config_entry_setup")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_remove_clients(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_message: WebsocketMessageMock,
     client_payload: list[dict[str, Any]],
 ) -> None:
@@ -435,7 +435,7 @@ async def test_remove_clients(
 @pytest.mark.usefixtures("config_entry_setup")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_hub_state_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_state: WebsocketStateManager,
 ) -> None:
     """Verify entities state reflect on hub connection becoming unavailable."""
@@ -456,7 +456,7 @@ async def test_hub_state_change(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_option_ssid_filter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_message,
     config_entry_factory: ConfigEntryFactoryType,
     client_payload: list[dict[str, Any]],
@@ -560,7 +560,7 @@ async def test_option_ssid_filter(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_wireless_client_go_wired_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_message,
     config_entry_factory: ConfigEntryFactoryType,
     client_payload: list[dict[str, Any]],
@@ -621,7 +621,7 @@ async def test_wireless_client_go_wired_issue(
 @pytest.mark.parametrize("config_entry_options", [{CONF_IGNORE_WIRED_BUG: True}])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_option_ignore_wired_bug(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_message,
     config_entry_factory: ConfigEntryFactoryType,
     client_payload: list[dict[str, Any]],
@@ -679,7 +679,7 @@ async def test_option_ignore_wired_bug(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_option_ignore_local_mac(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
     config_entry_factory: ConfigEntryFactoryType,
@@ -752,7 +752,7 @@ async def test_option_ignore_local_mac(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_restoring_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,
     config_entry_factory: ConfigEntryFactoryType,
@@ -804,7 +804,7 @@ async def test_restoring_client(
     ],
 )
 async def test_pruning_stale_restored_clients(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
@@ -876,7 +876,7 @@ async def test_pruning_stale_restored_clients(
 # Network devices are loaded, so only the clients_all guard can prevent pruning
 @pytest.mark.parametrize("device_payload", [[SWITCH_1]])
 async def test_no_pruning_when_clients_all_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
@@ -940,7 +940,7 @@ async def test_no_pruning_when_clients_all_fails(
     ],
 )
 async def test_pruning_unlisted_device_registry_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
@@ -1044,7 +1044,7 @@ async def test_pruning_unlisted_device_registry_entries(
 @pytest.mark.parametrize("device_payload", [[SWITCH_1]])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_config_entry_options_track(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     config_entry_options: MappingProxyType[str, Any],
     counts: tuple[int],

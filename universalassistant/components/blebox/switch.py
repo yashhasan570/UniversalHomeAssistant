@@ -5,7 +5,7 @@ from typing import Any, override
 import blebox_uniapi.switch
 
 from universalassistant.components.switch import SwitchDeviceClass, SwitchEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import BleBoxConfigEntry, BleBoxCoordinator
@@ -16,7 +16,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: BleBoxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

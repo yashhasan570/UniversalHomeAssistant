@@ -4,7 +4,7 @@ import aiohttp
 from ovoenergy import OVOEnergy
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -14,7 +14,7 @@ from .coordinator import OVOEnergyConfigEntry, OVOEnergyDataUpdateCoordinator
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: OVOEnergyConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: OVOEnergyConfigEntry) -> None:
     """Set up OVO Energy from a config entry."""
 
     client = OVOEnergy(
@@ -46,6 +46,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: OVOEnergyConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: OVOEnergyConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: OVOEnergyConfigEntry) -> None:
     """Unload OVO Energy config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.electric_kiwi.const import DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     OAuth2TokenRequestError,
     OAuth2TokenRequestReauthError,
@@ -22,7 +22,7 @@ from . import init_integration
 
 
 async def test_async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test a successful setup entry and unload of entry."""
     await init_integration(hass, config_entry)
@@ -37,7 +37,7 @@ async def test_async_setup_entry(
 
 
 async def test_async_setup_multiple_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     config_entry2: MockConfigEntry,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_async_setup_multiple_entries(
     ids=["failure_requires_reauth", "transient_failure"],
 )
 async def test_refresh_token_validity_failures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     exc: OAuth2TokenRequestError,
     expected_state: ConfigEntryState,
@@ -98,7 +98,7 @@ async def test_refresh_token_validity_failures(
 
 
 async def test_unique_id_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -120,7 +120,7 @@ async def test_unique_id_migration(
 
 
 async def test_unique_id_migration_failure(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, electrickiwi_api: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, electrickiwi_api: AsyncMock
 ) -> None:
     """Test that the unique ID is migrated to the customer number."""
     electrickiwi_api.set_active_session.side_effect = ApiException()
@@ -133,7 +133,7 @@ async def test_unique_id_migration_failure(
 
 
 async def test_unique_id_migration_auth_failure(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, electrickiwi_api: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, electrickiwi_api: AsyncMock
 ) -> None:
     """Test that the unique ID is migrated to the customer number."""
     electrickiwi_api.set_active_session.side_effect = AuthException()

@@ -17,7 +17,7 @@ from unifi_access_api.models.websocket import (
 )
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -44,7 +44,7 @@ def _get_ws_handlers(
 
 
 async def test_binary_sensor_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -60,7 +60,7 @@ async def test_binary_sensor_entities(
 
 
 async def test_binary_sensor_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test binary sensor states reflect initial door status."""
@@ -69,7 +69,7 @@ async def test_binary_sensor_states(
 
 
 async def test_binary_sensor_state_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_binary_sensor_state_updates(
 
 
 async def test_ws_disconnect_marks_binary_sensors_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -106,7 +106,7 @@ async def test_ws_disconnect_marks_binary_sensors_unavailable(
 
 
 async def test_ws_reconnect_restores_binary_sensor_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -126,7 +126,7 @@ async def test_ws_reconnect_restores_binary_sensor_states(
 
 
 async def test_binary_sensor_state_updates_via_v2_device_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -152,7 +152,7 @@ async def test_binary_sensor_state_updates_via_v2_device_update(
 
 
 async def test_v2_device_update_empty_location_id_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -174,7 +174,7 @@ async def test_v2_device_update_empty_location_id_ignored(
 
 
 async def test_v2_device_update_no_explicit_state_does_not_overwrite(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:

@@ -11,7 +11,7 @@ from twitchAPI.object.api import TwitchUser
 
 from universalassistant.components.twitch.const import DOMAIN, OAUTH2_TOKEN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import OAuth2TokenRequestConnectionError
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
@@ -21,7 +21,7 @@ from . import get_generator, setup_integration
 
 
 async def test_setup_success(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, twitch_mock: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, twitch_mock: AsyncMock
 ) -> None:
     """Test successful setup and unload."""
     await setup_integration(hass, config_entry)
@@ -38,7 +38,7 @@ async def test_setup_success(
 
 @pytest.mark.parametrize("expires_at", [time.time() - 3600], ids=["expired"])
 async def test_expired_token_refresh_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry: MockConfigEntry,
     twitch_mock: AsyncMock,
@@ -82,7 +82,7 @@ async def test_expired_token_refresh_success(
     ids=["failure_requires_reauth", "transient_failure"],
 )
 async def test_expired_token_refresh_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     status: http.HTTPStatus,
     expected_state: ConfigEntryState,
@@ -107,7 +107,7 @@ async def test_expired_token_refresh_failure(
 
 
 async def test_expired_token_refresh_client_error(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, twitch_mock: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, twitch_mock: AsyncMock
 ) -> None:
     """Test failure while refreshing token with a client error."""
 
@@ -126,7 +126,7 @@ async def test_expired_token_refresh_client_error(
 
 
 async def test_oauth_implementation_not_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""
@@ -143,7 +143,7 @@ async def test_oauth_implementation_not_available(
 
 
 async def test_logged_in_user_not_found(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, twitch_mock: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, twitch_mock: AsyncMock
 ) -> None:
     """Test setup is retried when the logged-in user is not found."""
     twitch_mock.return_value.get_users = lambda *args, **kwargs: get_generator(

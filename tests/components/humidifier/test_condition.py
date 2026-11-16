@@ -37,12 +37,12 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.condition import async_validate_condition_config
 
 
 @pytest.fixture
-async def target_humidifiers(hass: __HAC_KEEP__) -> dict[str, list[str]]:
+async def target_humidifiers(hass: UniversalAssistant) -> dict[str, list[str]]:
     """Create multiple humidifier entities associated with different targets."""
     return await target_entities(hass, "humidifier")
 
@@ -72,7 +72,7 @@ _CONDITION_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_humidifier_condition_options_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     condition_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -113,7 +113,7 @@ def test_condition_target_support() -> None:
     ],
 )
 async def test_humidifier_state_condition_behavior_any(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_humidifiers: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -155,7 +155,7 @@ async def test_humidifier_state_condition_behavior_any(
     ],
 )
 async def test_humidifier_state_condition_behavior_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_humidifiers: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -211,7 +211,7 @@ async def test_humidifier_state_condition_behavior_all(
     ],
 )
 async def test_humidifier_attribute_condition_behavior_any(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_humidifiers: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -267,7 +267,7 @@ async def test_humidifier_attribute_condition_behavior_any(
     ],
 )
 async def test_humidifier_attribute_condition_behavior_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_humidifiers: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -303,7 +303,7 @@ async def test_humidifier_attribute_condition_behavior_all(
     ),
 )
 async def test_humidifier_numerical_condition_behavior_any(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_humidifiers: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -339,7 +339,7 @@ async def test_humidifier_numerical_condition_behavior_any(
     ),
 )
 async def test_humidifier_numerical_condition_behavior_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_humidifiers: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -391,7 +391,7 @@ async def test_humidifier_numerical_condition_behavior_all(
     ],
 )
 async def test_humidifier_is_mode_condition_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     condition: str,
     condition_options: dict[str, Any],
     expected_result: AbstractContextManager,

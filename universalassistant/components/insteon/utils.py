@@ -12,7 +12,7 @@ from pyinsteon.events import OFF_EVENT, OFF_FAST_EVENT, ON_EVENT, ON_FAST_EVENT,
 
 from universalassistant.components import usb
 from universalassistant.const import CONF_ADDRESS, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.dispatcher import dispatcher_send
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -45,7 +45,7 @@ def _register_event(event: Event, listener: Callable) -> None:
     event.subscribe(listener, force_strong_ref=True)
 
 
-def add_insteon_events(hass: __HAC_KEEP__, device: Device) -> None:
+def add_insteon_events(hass: UniversalAssistant, device: Device) -> None:
     """Register Insteon device events."""
 
     @callback
@@ -85,7 +85,7 @@ def add_insteon_events(hass: __HAC_KEEP__, device: Device) -> None:
             _register_event(event, async_fire_insteon_event)
 
 
-def register_new_device_callback(hass: __HAC_KEEP__) -> None:
+def register_new_device_callback(hass: UniversalAssistant) -> None:
     """Register callback for new Insteon device."""
 
     @callback
@@ -96,7 +96,7 @@ def register_new_device_callback(hass: __HAC_KEEP__) -> None:
 
     async def async_create_new_entities(address):
         _LOGGER.debug(
-            "Adding new INSTEON device to __HA_KEEP__ with address %s", address
+            "Adding new INSTEON device to Universal Home Assistant with address %s", address
         )
         await devices.async_save(workdir=hass.config.config_dir)
         device = devices[address]
@@ -137,7 +137,7 @@ def print_aldb_to_log(aldb):
 
 @callback
 def async_add_insteon_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     platform: Platform,
     entity_type: type[InsteonEntity],
     async_add_entities: AddConfigEntryEntitiesCallback,
@@ -154,7 +154,7 @@ def async_add_insteon_entities(
 
 @callback
 def async_add_insteon_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     platform: Platform,
     entity_type: type[InsteonEntity],
     async_add_entities: AddConfigEntryEntitiesCallback,
@@ -169,7 +169,7 @@ def async_add_insteon_devices(
         )
 
 
-async def async_get_usb_ports(hass: __HAC_KEEP__) -> dict[str, str]:
+async def async_get_usb_ports(hass: UniversalAssistant) -> dict[str, str]:
     """Return a dict of USB ports and their friendly names."""
     port_descriptions = {}
     for port in await usb.async_scan_serial_ports(hass):

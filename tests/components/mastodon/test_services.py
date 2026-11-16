@@ -32,8 +32,8 @@ from universalassistant.components.mastodon.services import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -50,7 +50,7 @@ MEDIA_IMAGES = {
 
 
 async def test_get_account_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -76,7 +76,7 @@ async def test_get_account_success(
 
 
 async def test_get_account_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -86,7 +86,7 @@ async def test_get_account_failure(
     # Test API error (this is the only error type currently caught by the service)
     mock_mastodon_client.account_lookup.side_effect = MastodonAPIError("API error")
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match='Unable to get account "@test@mastodon.social"',
     ):
         await hass.services.async_call(
@@ -141,7 +141,7 @@ async def test_get_account_failure(
     ],
 )
 async def test_mute_account_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -182,7 +182,7 @@ async def test_mute_account_success(
 
 
 async def test_mute_account_duration_too_long(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -210,7 +210,7 @@ async def test_mute_account_duration_too_long(
 
 
 async def test_mute_account_failure_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -240,7 +240,7 @@ async def test_mute_account_failure_not_found(
 
 
 async def test_mute_account_failure_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -250,7 +250,7 @@ async def test_mute_account_failure_api_error(
     mock_mastodon_client.account_mute.side_effect = MastodonAPIError("mute failed")
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match='Unable to mute account "@trwnh@mastodon.social"',
     ):
         await hass.services.async_call(
@@ -274,7 +274,7 @@ async def test_mute_account_failure_api_error(
 
 
 async def test_unmute_account_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -300,7 +300,7 @@ async def test_unmute_account_success(
 
 
 async def test_unmute_account_failure_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -330,7 +330,7 @@ async def test_unmute_account_failure_not_found(
 
 
 async def test_unmute_account_failure_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -340,7 +340,7 @@ async def test_unmute_account_failure_api_error(
     mock_mastodon_client.account_unmute.side_effect = MastodonAPIError("unmute failed")
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match='Unable to unmute account "@trwnh@mastodon.social"',
     ):
         await hass.services.async_call(
@@ -553,7 +553,7 @@ async def test_unmute_account_failure_api_error(
 )
 @pytest.mark.parametrize("return_response", [True, False])
 async def test_service_post(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     payload: dict[str, str],
@@ -588,7 +588,7 @@ async def test_service_post(
 
 
 async def test_service_post_local_media_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -660,7 +660,7 @@ async def test_service_post_local_media_source(
 
 
 async def test_service_post_camera_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -719,7 +719,7 @@ async def test_service_post_camera_source(
 
 
 async def test_service_post_image_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -776,7 +776,7 @@ async def test_service_post_image_source(
 
 
 async def test_service_post_tts_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -843,7 +843,7 @@ async def test_service_post_tts_source(
 
 @pytest.mark.usefixtures("mock_mastodon_client")
 async def test_service_post_media_source_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the post service with media from unsupported source."""
@@ -968,7 +968,7 @@ async def test_service_post_media_source_not_supported(
 )
 @pytest.mark.usefixtures("mock_mastodon_client")
 async def test_service_post_media_source_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     payload: dict[str, str],
     translation_key: str,
@@ -997,7 +997,7 @@ async def test_service_post_media_source_errors(
 
 
 async def test_service_post_media_source_upload_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1007,7 +1007,7 @@ async def test_service_post_media_source_upload_error(
 
     mock_mastodon_client.media_post.side_effect = MastodonAPIError
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             DOMAIN,
             MastodonService.POST,
@@ -1030,7 +1030,7 @@ async def test_service_post_media_source_upload_error(
 
 @pytest.mark.usefixtures("mock_mastodon_client")
 async def test_service_post_absolute_path_deprecated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1082,7 +1082,7 @@ async def test_service_post_absolute_path_deprecated(
     ],
 )
 async def test_post_service_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     payload: dict[str, str],
@@ -1098,7 +1098,7 @@ async def test_post_service_failed(
 
     mock_mastodon_client.status_post.side_effect = MastodonAPIError
 
-    with pytest.raises(__HAC_KEEP__Error, match="Unable to send message"):
+    with pytest.raises(UniversalAssistantError, match="Unable to send message"):
         await hass.services.async_call(
             DOMAIN,
             MastodonService.POST,
@@ -1110,7 +1110,7 @@ async def test_post_service_failed(
 
 
 async def test_post_media_upload_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1125,7 +1125,7 @@ async def test_post_media_upload_failed(
 
     with (
         patch.object(hass.config, "is_allowed_path", return_value=True),
-        pytest.raises(__HAC_KEEP__Error, match="Unable to upload image /fail.jpg"),
+        pytest.raises(UniversalAssistantError, match="Unable to upload image /fail.jpg"),
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -1138,7 +1138,7 @@ async def test_post_media_upload_failed(
 
 
 async def test_post_path_not_whitelisted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1150,7 +1150,7 @@ async def test_post_path_not_whitelisted(
     payload = {"status": "test toot", "media": "/fail.jpg"}
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="/fail.jpg is not a whitelisted directory"
+        UniversalAssistantError, match="/fail.jpg is not a whitelisted directory"
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -1164,7 +1164,7 @@ async def test_post_path_not_whitelisted(
 
 @pytest.mark.usefixtures("mock_mastodon_client")
 async def test_idempotency_key_too_short(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test post service error when idempotency key is too short."""
@@ -1189,7 +1189,7 @@ async def test_idempotency_key_too_short(
 
 
 async def test_service_entry_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1355,7 +1355,7 @@ async def test_service_entry_availability(
 )
 @pytest.mark.parametrize("return_response", [True, False])
 async def test_service_update_profile(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     payload: dict[str, str],
@@ -1395,7 +1395,7 @@ async def test_service_update_profile(
 )
 @pytest.mark.parametrize("return_response", [True, False])
 async def test_service_update_profile_delete_pictures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     payload: dict[str, str],
@@ -1428,7 +1428,7 @@ async def test_service_update_profile_delete_pictures(
     ],
 )
 async def test_service_update_profile_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: type[Exception],
@@ -1441,7 +1441,7 @@ async def test_service_update_profile_exceptions(
 
     mock_mastodon_client.account_update_credentials.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             DOMAIN,
             MastodonService.UPDATE_PROFILE,
@@ -1458,7 +1458,7 @@ async def test_service_update_profile_exceptions(
 
 @pytest.mark.usefixtures("mock_mastodon_client")
 async def test_service_update_profile_media_source_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the update profile service with unsupported media source."""
@@ -1476,7 +1476,7 @@ async def test_service_update_profile_media_source_not_supported(
                 path=None,
             ),
         ),
-        pytest.raises(__HAC_KEEP__Error) as err,
+        pytest.raises(UniversalAssistantError) as err,
     ):
         await hass.services.async_call(
             DOMAIN,

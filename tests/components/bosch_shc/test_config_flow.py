@@ -18,7 +18,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.bosch_shc.config_flow import write_tls_asset
 from universalassistant.components.bosch_shc.const import CONF_SHC_CERT, CONF_SHC_KEY, DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -83,7 +83,7 @@ def _patch_successful_pairing() -> Generator[None]:
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_form_user(hass: __HAC_KEEP__) -> None:
+async def test_form_user(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -157,7 +157,7 @@ async def test_form_user(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_form_get_info_connection_error(hass: __HAC_KEEP__) -> None:
+async def test_form_get_info_connection_error(hass: UniversalAssistant) -> None:
     """Test we handle connection error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -198,7 +198,7 @@ async def test_form_get_info_connection_error(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_form_get_info_exception(hass: __HAC_KEEP__) -> None:
+async def test_form_get_info_exception(hass: UniversalAssistant) -> None:
     """Test we handle exceptions."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -239,7 +239,7 @@ async def test_form_get_info_exception(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_form_pairing_error(hass: __HAC_KEEP__) -> None:
+async def test_form_pairing_error(hass: UniversalAssistant) -> None:
     """Test we handle pairing error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -295,7 +295,7 @@ async def test_form_pairing_error(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_form_user_invalid_auth(hass: __HAC_KEEP__) -> None:
+async def test_form_user_invalid_auth(hass: UniversalAssistant) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -363,7 +363,7 @@ async def test_form_user_invalid_auth(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_form_validate_connection_error(hass: __HAC_KEEP__) -> None:
+async def test_form_validate_connection_error(hass: UniversalAssistant) -> None:
     """Test we handle connection error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -431,7 +431,7 @@ async def test_form_validate_connection_error(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_form_validate_session_error(hass: __HAC_KEEP__) -> None:
+async def test_form_validate_session_error(hass: UniversalAssistant) -> None:
     """Test we handle session error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -499,7 +499,7 @@ async def test_form_validate_session_error(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_form_validate_exception(hass: __HAC_KEEP__) -> None:
+async def test_form_validate_exception(hass: UniversalAssistant) -> None:
     """Test we handle exception."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -567,7 +567,7 @@ async def test_form_validate_exception(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_form_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_form_already_configured(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     entry = MockConfigEntry(
@@ -608,7 +608,7 @@ async def test_form_already_configured(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_zeroconf(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     with (
@@ -688,7 +688,7 @@ async def test_zeroconf(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_zeroconf_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_already_configured(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     entry = MockConfigEntry(
@@ -726,7 +726,7 @@ async def test_zeroconf_already_configured(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_zeroconf_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we get the form."""
     with patch(
         "boschshcpy.session.SHCSession.mdns_info", side_effect=SHCConnectionError
@@ -741,7 +741,7 @@ async def test_zeroconf_cannot_connect(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_zeroconf_not_bosch_shc(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_not_bosch_shc(hass: UniversalAssistant) -> None:
     """Test we filter out non-bosch_shc devices."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -761,7 +761,7 @@ async def test_zeroconf_not_bosch_shc(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_reauth(hass: __HAC_KEEP__) -> None:
+async def test_reauth(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     mock_config = MockConfigEntry(
@@ -836,7 +836,7 @@ async def test_reauth(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_tls_assets_writer(hass: __HAC_KEEP__) -> None:
+async def test_tls_assets_writer(hass: UniversalAssistant) -> None:
     """Test we write tls assets to correct location."""
     unique_id = "test-mac"
     assets = {
@@ -864,7 +864,7 @@ async def test_tls_assets_writer(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_register_multiple_controllers(hass: __HAC_KEEP__) -> None:
+async def test_register_multiple_controllers(hass: UniversalAssistant) -> None:
     """Test register multiple controllers.
 
     Each registered controller must get its own key/certificate pair,

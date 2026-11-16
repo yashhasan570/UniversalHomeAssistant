@@ -18,11 +18,11 @@ from universalassistant.components.homekit.const import (
 )
 from universalassistant.components.homekit.iidmanager import AccessoryIIDStorage
 from universalassistant.components.homekit.type_cameras import Camera
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 
 
 @pytest.fixture
-def iid_storage(hass: __HAC_KEEP__) -> Generator[AccessoryIIDStorage]:
+def iid_storage(hass: UniversalAssistant) -> Generator[AccessoryIIDStorage]:
     """Mock the iid storage."""
     with patch.object(AccessoryIIDStorage, "_async_schedule_save"):
         yield AccessoryIIDStorage(hass, "")
@@ -30,7 +30,7 @@ def iid_storage(hass: __HAC_KEEP__) -> Generator[AccessoryIIDStorage]:
 
 @pytest.fixture
 def run_driver(
-    hass: __HAC_KEEP__, iid_storage: AccessoryIIDStorage
+    hass: UniversalAssistant, iid_storage: AccessoryIIDStorage
 ) -> Generator[HomeDriver]:
     """Return a custom AccessoryDriver instance for HomeKit accessory init.
 
@@ -62,7 +62,7 @@ def run_driver(
 
 @pytest.fixture
 def hk_driver(
-    hass: __HAC_KEEP__, iid_storage: AccessoryIIDStorage
+    hass: UniversalAssistant, iid_storage: AccessoryIIDStorage
 ) -> Generator[HomeDriver]:
     """Return a custom AccessoryDriver instance for HomeKit accessory init."""
     event_loop = asyncio.get_event_loop()
@@ -92,7 +92,7 @@ def hk_driver(
 
 @pytest.fixture
 def mock_hap(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     iid_storage: AccessoryIIDStorage,
     mock_zeroconf: MagicMock,
 ) -> Generator[HomeDriver]:
@@ -129,13 +129,13 @@ def mock_hap(
 
 
 @pytest.fixture
-def events(hass: __HAC_KEEP__) -> list[Event]:
+def events(hass: UniversalAssistant) -> list[Event]:
     """Yield caught homekit_changed events."""
     return async_capture_events(hass, EVENT_HOMEKIT_CHANGED)
 
 
 @pytest.fixture
-def demo_cleanup(hass: __HAC_KEEP__) -> Generator[None]:
+def demo_cleanup(hass: UniversalAssistant) -> Generator[None]:
     """Clean up device tracker demo file."""
     yield
     with suppress(FileNotFoundError):

@@ -19,8 +19,8 @@ from universalassistant.components.media_player import (
     async_process_play_media_url,
 )
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
@@ -49,7 +49,7 @@ POLL_TIMEOUT = 120
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: BluesoundConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -437,7 +437,7 @@ class BluesoundPlayer(BluesoundEntity, MediaPlayerEntity):
             leader_id = f"{self._sync_status.leader.ip}:{self._sync_status.leader.port}"
             leader_player = self._loaded_player(leader_id)
             if leader_player is None:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="leader_not_loaded",
                     translation_placeholders={"leader_id": leader_id},

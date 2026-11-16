@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.igloohome.const import DOMAIN
 from universalassistant.const import CONF_CLIENT_ID, CONF_CLIENT_SECRET
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 GET_DEVICE_INFO_RESPONSE_LOCK = GetDeviceInfoResponse(
     id="123456",
@@ -65,7 +65,7 @@ async def mock_auth() -> Generator[AsyncMock]:
 
 
 @pytest.fixture
-def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Return the default mocked config entry."""
     return MockConfigEntry(
         title="Client Credentials",

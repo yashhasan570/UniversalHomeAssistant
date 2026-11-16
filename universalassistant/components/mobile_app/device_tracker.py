@@ -28,7 +28,7 @@ from universalassistant.const import (
     STATE_HOME,
     EntityStateAttribute,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -97,7 +97,7 @@ class MobileAppDeviceTrackerExtraStoredData(ExtraStoredData):
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -201,7 +201,7 @@ class MobileAppEntity(TrackerEntity, RestoreEntity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Call when entity about to be added to __HA_KEEP__."""
+        """Call when entity about to be added to Universal Home Assistant."""
         await super().async_added_to_hass()
         self._dispatch_unsub = async_dispatcher_connect(
             self.hass,

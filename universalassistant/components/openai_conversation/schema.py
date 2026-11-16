@@ -7,7 +7,7 @@ import logging
 from typing import Any
 from urllib.parse import unquote
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -53,7 +53,7 @@ def adjust_schema(schema: dict[str, Any]) -> None:
     _stabilize_references(schema)
     _adjust_schema(schema, "$")
     if schema.get("type") != "object" or "anyOf" in schema:
-        raise __HAC_KEEP__Error("OpenAI structured output requires an object root")
+        raise UniversalAssistantError("OpenAI structured output requires an object root")
 
 
 def _walk_schemas(schema: dict[str, Any]) -> Iterator[dict[str, Any]]:
@@ -105,7 +105,7 @@ def _reference_parts(reference: str) -> list[str]:
     if reference == "#":
         return []
     if not reference.startswith("#/"):
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             f"Unsupported OpenAI output schema reference: {reference}"
         )
     return [
@@ -124,11 +124,11 @@ def _resolve_reference(reference: str, root: dict[str, Any]) -> dict[str, Any]:
             else:
                 target = target[part]
     except (KeyError, IndexError, TypeError, ValueError) as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             f"Invalid OpenAI output schema reference: {reference}"
         ) from err
     if not isinstance(target, dict):
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             f"Unsupported OpenAI output schema reference: {reference}"
         )
     return target
@@ -150,7 +150,7 @@ def _flatten_all_of(schema: dict[str, Any], path: str) -> None:
     while "allOf" in schema:
         branches = schema["allOf"]
         if len(branches) != 1 or not isinstance(branches[0], dict):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Unsupported OpenAI output schema allOf at {path}"
             )
         branch = branches[0]
@@ -159,7 +159,7 @@ def _flatten_all_of(schema: dict[str, Any], path: str) -> None:
             key for key in siblings & branch.keys() if schema[key] != branch[key]
         }
         if conflicts:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Conflicting OpenAI output schema allOf at {path}: {', '.join(sorted(conflicts))}"
             )
         del schema["allOf"]
@@ -170,7 +170,7 @@ def _flatten_all_of(schema: dict[str, Any], path: str) -> None:
 def _adjust_reference(schema: dict[str, Any], path: str, *, nullable: bool) -> None:
     """Keep references bare and preserve annotations on nullable wrappers."""
     if siblings := schema.keys() - {"$ref", "title", "description"}:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             f"Unsupported OpenAI output schema reference siblings at {path}: {', '.join(sorted(siblings))}"
         )
     annotations: dict[str, Any] = {
@@ -194,16 +194,16 @@ def _adjust_schema(
 ) -> None:
     """Normalize nested schemas and keep unsupported enforcement out of requests."""
     if not isinstance(schema, dict):
-        raise __HAC_KEEP__Error(f"Unsupported OpenAI output schema at {path}")
+        raise UniversalAssistantError(f"Unsupported OpenAI output schema at {path}")
     _flatten_all_of(schema, path)
     for keyword in _ANNOTATIONS:
         schema.pop(keyword, None)
     if unsupported := schema.keys() & _UNSUPPORTED_KEYWORDS:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             f"Unsupported OpenAI output schema keywords at {path}: {', '.join(sorted(unsupported))}"
         )
     if not schema:
-        raise __HAC_KEEP__Error(f"Unsupported OpenAI output schema at {path}")
+        raise UniversalAssistantError(f"Unsupported OpenAI output schema at {path}")
     if schema.get("format") in _SELECTOR_FORMATS:
         del schema["format"]
     if schema.pop("uniqueItems", None) is True:
@@ -225,7 +225,7 @@ def _adjust_schema(
     types = [schema_type] if isinstance(schema_type, str) else schema_type
     if "object" in types:
         if schema.get("additionalProperties", False) is not False:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"OpenAI output schema requires explicitly defined object fields at {path}"
             )
         schema["additionalProperties"] = False
@@ -239,7 +239,7 @@ def _adjust_schema(
                 required.append(name)
     if "array" in types:
         if "items" not in schema:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"OpenAI output schema requires array items at {path}"
             )
         _adjust_schema(schema["items"], f"{path}.items")

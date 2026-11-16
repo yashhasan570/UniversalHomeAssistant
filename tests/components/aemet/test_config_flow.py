@@ -20,7 +20,7 @@ from universalassistant.const import (
     CONF_LOCATION,
     CONF_LONGITUDE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .util import mock_api_call
@@ -36,7 +36,7 @@ CONFIG = {
 }
 
 
-async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test that the form is served with valid input."""
 
     with patch(
@@ -82,7 +82,7 @@ async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     ],
 )
 async def test_form_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     user_input: dict[str, bool],
     expected: dict[str, bool],
@@ -126,7 +126,7 @@ async def test_form_options(
 
 
 async def test_form_duplicated_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test setting up duplicated entry."""
@@ -158,7 +158,7 @@ async def test_form_duplicated_id(
         assert result["reason"] == "already_configured"
 
 
-async def test_form_auth_error(hass: __HAC_KEEP__) -> None:
+async def test_form_auth_error(hass: UniversalAssistant) -> None:
     """Test setting up with api auth error."""
     mocked_aemet = MagicMock()
     mocked_aemet.select_coordinates.side_effect = AuthError

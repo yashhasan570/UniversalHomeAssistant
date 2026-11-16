@@ -19,7 +19,7 @@ from universalassistant.components.zha.helpers import (
     get_zha_gateway_proxy,
 )
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .common import find_entity_id, send_attributes_report
 from .conftest import SIG_EP_INPUT, SIG_EP_OUTPUT, SIG_EP_PROFILE, SIG_EP_TYPE
@@ -40,7 +40,7 @@ def lock_platform_only():
 
 
 async def test_lock(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:
@@ -109,7 +109,7 @@ async def test_lock(
     await async_disable_user_code(hass, cluster, entity_id)
 
 
-async def async_lock(hass: __HAC_KEEP__, cluster: Cluster, entity_id: str):
+async def async_lock(hass: UniversalAssistant, cluster: Cluster, entity_id: str):
     """Test lock functionality from hass."""
     with patch("zigpy.zcl.Cluster.request", return_value=[zcl_f.Status.SUCCESS]):
         # lock via UI
@@ -124,7 +124,7 @@ async def async_lock(hass: __HAC_KEEP__, cluster: Cluster, entity_id: str):
         )
 
 
-async def async_unlock(hass: __HAC_KEEP__, cluster: Cluster, entity_id: str):
+async def async_unlock(hass: UniversalAssistant, cluster: Cluster, entity_id: str):
     """Test lock functionality from hass."""
     with patch("zigpy.zcl.Cluster.request", return_value=[zcl_f.Status.SUCCESS]):
         # lock via UI
@@ -139,7 +139,7 @@ async def async_unlock(hass: __HAC_KEEP__, cluster: Cluster, entity_id: str):
         )
 
 
-async def async_set_user_code(hass: __HAC_KEEP__, cluster: Cluster, entity_id: str):
+async def async_set_user_code(hass: UniversalAssistant, cluster: Cluster, entity_id: str):
     """Test set lock code functionality from hass."""
     with patch("zigpy.zcl.Cluster.request", return_value=[zcl_f.Status.SUCCESS]):
         # set lock code via service call
@@ -163,7 +163,7 @@ async def async_set_user_code(hass: __HAC_KEEP__, cluster: Cluster, entity_id: s
         assert cluster.request.call_args[0][6] == "13246579"
 
 
-async def async_clear_user_code(hass: __HAC_KEEP__, cluster: Cluster, entity_id: str):
+async def async_clear_user_code(hass: UniversalAssistant, cluster: Cluster, entity_id: str):
     """Test clear lock code functionality from hass."""
     with patch("zigpy.zcl.Cluster.request", return_value=[zcl_f.Status.SUCCESS]):
         # set lock code via service call
@@ -185,7 +185,7 @@ async def async_clear_user_code(hass: __HAC_KEEP__, cluster: Cluster, entity_id:
         assert cluster.request.call_args[0][3] == 2  # user slot 3 => internal slot 2
 
 
-async def async_enable_user_code(hass: __HAC_KEEP__, cluster: Cluster, entity_id: str):
+async def async_enable_user_code(hass: UniversalAssistant, cluster: Cluster, entity_id: str):
     """Test enable lock code functionality from hass."""
     with patch("zigpy.zcl.Cluster.request", return_value=[zcl_f.Status.SUCCESS]):
         # set lock code via service call
@@ -209,7 +209,7 @@ async def async_enable_user_code(hass: __HAC_KEEP__, cluster: Cluster, entity_id
 
 
 async def async_disable_user_code(
-    hass: __HAC_KEEP__, cluster: Cluster, entity_id: str
+    hass: UniversalAssistant, cluster: Cluster, entity_id: str
 ):
     """Test disable lock code functionality from hass."""
     with patch("zigpy.zcl.Cluster.request", return_value=[zcl_f.Status.SUCCESS]):

@@ -41,7 +41,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import setup_integration
@@ -66,7 +66,7 @@ from .const import (
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_tv_load_and_unload(
-    hass: __HAC_KEEP__, mock_tv_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_tv_config_entry: MockConfigEntry
 ) -> None:
     """Test loading and unloading TV entry."""
     await setup_integration(hass, mock_tv_config_entry)
@@ -84,7 +84,7 @@ async def test_tv_load_and_unload(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_speaker_load_and_unload(
-    hass: __HAC_KEEP__, mock_speaker_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_speaker_config_entry: MockConfigEntry
 ) -> None:
     """Test loading and unloading speaker entry."""
     await setup_integration(hass, mock_speaker_config_entry)
@@ -102,7 +102,7 @@ async def test_speaker_load_and_unload(
     "vizio_connect", "vizio_bypass_update", "vizio_data_coordinator_update_failure"
 )
 async def test_coordinator_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tv_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
@@ -125,7 +125,7 @@ async def test_coordinator_update_failure(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_bypass_update")
 async def test_apps_coordinator_persists_until_last_tv_unloads(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tv_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -176,7 +176,7 @@ async def test_apps_coordinator_persists_until_last_tv_unloads(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_device_registry_model_and_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tv_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -194,7 +194,7 @@ async def test_device_registry_model_and_version(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_bypass_update")
 async def test_device_registry_without_model_or_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tv_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -212,7 +212,7 @@ async def test_device_registry_without_model_or_version(
 
 @pytest.mark.usefixtures("vizio_connect")
 async def test_state_extended_polling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tv_config_entry: MockConfigEntry,
     mock_vizio: AsyncMock,
 ) -> None:
@@ -230,7 +230,7 @@ async def test_state_extended_polling(
 
 @pytest.mark.usefixtures("vizio_connect")
 async def test_soundbar_state_extended_auth_failure_falls_back(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_speaker_config_entry: MockConfigEntry,
     mock_vizio: AsyncMock,
 ) -> None:
@@ -247,7 +247,7 @@ async def test_soundbar_state_extended_auth_failure_falls_back(
 
 @pytest.mark.usefixtures("vizio_connect")
 async def test_state_extended_power_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tv_config_entry: MockConfigEntry,
     mock_vizio: AsyncMock,
 ) -> None:
@@ -269,7 +269,7 @@ async def test_state_extended_power_off(
 )
 @pytest.mark.usefixtures("vizio_connect")
 async def test_state_extended_probed_only_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tv_config_entry: MockConfigEntry,
     mock_vizio: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -292,7 +292,7 @@ async def test_state_extended_probed_only_once(
 
 @pytest.mark.usefixtures("vizio_connect")
 async def test_state_extended_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tv_config_entry: MockConfigEntry,
     mock_vizio: AsyncMock,
 ) -> None:
@@ -308,7 +308,7 @@ async def test_state_extended_connection_error(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_bypass_update")
 async def test_auth_failure_triggers_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tv_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -332,7 +332,7 @@ async def test_auth_failure_triggers_reauth(
 
 @pytest.mark.usefixtures("vizio_connect")
 async def test_auth_failure_at_setup_triggers_reauth(
-    hass: __HAC_KEEP__, mock_tv_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_tv_config_entry: MockConfigEntry
 ) -> None:
     """Test an auth failure during setup puts the entry in an error state."""
     with (
@@ -365,7 +365,7 @@ async def test_auth_failure_at_setup_triggers_reauth(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_speaker_classified_as_crave(
-    hass: __HAC_KEEP__, mock_speaker_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_speaker_config_entry: MockConfigEntry
 ) -> None:
     """Test a speaker entry is classified once and the result persisted."""
     with (
@@ -411,7 +411,7 @@ async def test_speaker_classified_as_crave(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_speaker_classification_unavailable(
-    hass: __HAC_KEEP__, mock_speaker_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_speaker_config_entry: MockConfigEntry
 ) -> None:
     """Test classification failure falls back to the soundbar profile."""
     # The autouse vizio_no_classification fixture raises VizioConnectionError
@@ -423,7 +423,7 @@ async def test_speaker_classification_unavailable(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_speaker_classified_as_tv_not_persisted(
-    hass: __HAC_KEEP__, mock_speaker_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_speaker_config_entry: MockConfigEntry
 ) -> None:
     """Test a TV classification result is ignored for a speaker entry."""
     with patch(
@@ -437,7 +437,7 @@ async def test_speaker_classified_as_tv_not_persisted(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_tv_not_classified(
-    hass: __HAC_KEEP__, mock_tv_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_tv_config_entry: MockConfigEntry
 ) -> None:
     """Test TV entries never trigger device classification."""
     with patch(
@@ -449,7 +449,7 @@ async def test_tv_not_classified(
 
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
-async def test_portless_host_is_resolved_and_persisted(hass: __HAC_KEEP__) -> None:
+async def test_portless_host_is_resolved_and_persisted(hass: UniversalAssistant) -> None:
     """Test a config entry storing a host without a port is repaired on setup."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -468,7 +468,7 @@ async def test_portless_host_is_resolved_and_persisted(hass: __HAC_KEEP__) -> No
 
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
-async def test_portless_host_resolve_failure_retries(hass: __HAC_KEEP__) -> None:
+async def test_portless_host_resolve_failure_retries(hass: UniversalAssistant) -> None:
     """Test setup is retried when the port cannot be determined."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -489,7 +489,7 @@ async def test_portless_host_resolve_failure_retries(hass: __HAC_KEEP__) -> None
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_host_with_port_is_left_alone(
-    hass: __HAC_KEEP__, mock_tv_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_tv_config_entry: MockConfigEntry
 ) -> None:
     """Test a host that already has a port is not rewritten.
 
@@ -542,7 +542,7 @@ async def test_host_with_port_is_left_alone(
     ],
 )
 async def test_migrate_entry_to_minor_version_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     data: dict[str, Any],
     options: dict[str, Any],
     expected_data: dict[str, Any],

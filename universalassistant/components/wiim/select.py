@@ -9,8 +9,8 @@ from wiim.wiim_device import WiimDevice
 
 from universalassistant.components.select import SelectEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -34,7 +34,7 @@ def _normalize_output_mode(mode: str | None) -> str | None:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: WiimConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -122,7 +122,7 @@ class WiimOutputSelect(WiimBaseEntity, SelectEntity):
         try:
             await self._device.async_set_output_mode(option)
         except (WiimException, UpnpError, aiohttp.ClientError, TimeoutError) as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={

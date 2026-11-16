@@ -13,7 +13,7 @@ from universalassistant.components.simplisafe import DOMAIN
 from universalassistant.components.simplisafe.config_flow import CONF_AUTH_CODE
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_CODE, CONF_TOKEN, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .common import USER_ID
@@ -31,7 +31,7 @@ def _patch_setup_entry() -> Generator[None]:
 
 
 async def test_duplicate_error(
-    config_entry, hass: __HAC_KEEP__, setup_simplisafe
+    config_entry, hass: UniversalAssistant, setup_simplisafe
 ) -> None:
     """Test that errors are shown when duplicates are added."""
     with patch(
@@ -51,7 +51,7 @@ async def test_duplicate_error(
 
 
 @pytest.mark.usefixtures("setup_simplisafe")
-async def test_invalid_auth_code_length(hass: __HAC_KEEP__) -> None:
+async def test_invalid_auth_code_length(hass: UniversalAssistant) -> None:
     """Test that an invalid auth code length show the correct error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -73,7 +73,7 @@ async def test_invalid_auth_code_length(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_simplisafe")
-async def test_invalid_credentials(hass: __HAC_KEEP__) -> None:
+async def test_invalid_credentials(hass: UniversalAssistant) -> None:
     """Test that invalid credentials show the correct error."""
     with patch(
         "universalassistant.components.simplisafe.config_flow.API.async_from_auth",
@@ -99,7 +99,7 @@ async def test_invalid_credentials(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_options_flow(config_entry, hass: __HAC_KEEP__) -> None:
+async def test_options_flow(config_entry, hass: UniversalAssistant) -> None:
     """Test config flow options."""
     with patch(
         "universalassistant.components.simplisafe.async_setup_entry", return_value=None
@@ -119,7 +119,7 @@ async def test_options_flow(config_entry, hass: __HAC_KEEP__) -> None:
 
 
 async def test_step_reauth(
-    config_entry: MockConfigEntry, hass: __HAC_KEEP__, setup_simplisafe
+    config_entry: MockConfigEntry, hass: UniversalAssistant, setup_simplisafe
 ) -> None:
     """Test the re-auth step."""
     result = await config_entry.start_reauth_flow(hass)
@@ -144,7 +144,7 @@ async def test_step_reauth(
 
 @pytest.mark.parametrize("unique_id", ["some_other_id"])
 async def test_step_reauth_wrong_account(
-    config_entry: MockConfigEntry, hass: __HAC_KEEP__, setup_simplisafe
+    config_entry: MockConfigEntry, hass: UniversalAssistant, setup_simplisafe
 ) -> None:
     """Test the re-auth step where the wrong account is used during login."""
     result = await config_entry.start_reauth_flow(hass)
@@ -179,7 +179,7 @@ async def test_step_reauth_wrong_account(
 async def test_step_user(
     auth_code,
     caplog: pytest.LogCaptureFixture,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     log_statement,
     setup_simplisafe,
 ) -> None:
@@ -212,7 +212,7 @@ async def test_step_user(
 
 
 @pytest.mark.usefixtures("setup_simplisafe")
-async def test_unknown_error(hass: __HAC_KEEP__) -> None:
+async def test_unknown_error(hass: UniversalAssistant) -> None:
     """Test that an unknown error shows ohe correct error."""
     with patch(
         "universalassistant.components.simplisafe.config_flow.API.async_from_auth",

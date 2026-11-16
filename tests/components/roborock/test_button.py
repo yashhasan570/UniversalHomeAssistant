@@ -20,8 +20,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.button import ButtonService
 from universalassistant.components.roborock.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import FakeDevice
@@ -44,7 +44,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_buttons(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     setup_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -64,7 +64,7 @@ def non_wash_n_fill_dock(fake_vacuum: FakeDevice) -> None:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "non_wash_n_fill_dock")
 async def test_dock_buttons_absent_for_non_wash_n_fill_dock(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     setup_entry: MockConfigEntry,
@@ -128,7 +128,7 @@ def consumeables_trait_fixture(fake_vacuum: FakeDevice) -> Mock:
 @pytest.mark.freeze_time("2023-10-30 08:50:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_update_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     bypass_api_client_fixture: None,
     setup_entry: MockConfigEntry,
     entity_id: str,
@@ -157,7 +157,7 @@ async def test_update_success(
 @pytest.mark.freeze_time("2023-10-30 08:50:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     bypass_api_client_fixture: None,
     setup_entry: MockConfigEntry,
     entity_id: str,
@@ -169,7 +169,7 @@ async def test_update_failure(
     # Ensure that the entity exist, as these test can pass even if there is no entity.
     assert hass.states.get(entity_id).state == "unknown"
     with pytest.raises(
-        __HAC_KEEP__Error, match="Error while calling RESET_CONSUMABLE"
+        UniversalAssistantError, match="Error while calling RESET_CONSUMABLE"
     ):
         await hass.services.async_call(
             "button",
@@ -190,7 +190,7 @@ async def test_update_failure(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_get_button_routines_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_scenes_failure_fixture: None,
     setup_entry: MockConfigEntry,
     entity_id: str,
@@ -211,7 +211,7 @@ async def test_get_button_routines_failure(
 @pytest.mark.freeze_time("2023-10-30 08:50:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_press_routine_button_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     bypass_api_client_fixture: None,
     setup_entry: MockConfigEntry,
     entity_id: str,
@@ -241,7 +241,7 @@ async def test_press_routine_button_success(
 @pytest.mark.freeze_time("2023-10-30 08:50:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_press_routine_button_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     bypass_api_client_fixture: None,
     setup_entry: MockConfigEntry,
     entity_id: str,
@@ -250,7 +250,7 @@ async def test_press_routine_button_failure(
 ) -> None:
     """Test failure while pressing the button entity."""
     fake_vacuum.v1_properties.routines.execute_routine.side_effect = RoborockException
-    with pytest.raises(__HAC_KEEP__Error, match="Error while calling execute_scene"):
+    with pytest.raises(UniversalAssistantError, match="Error while calling execute_scene"):
         await hass.services.async_call(
             "button",
             ButtonService.PRESS,
@@ -274,7 +274,7 @@ async def test_press_routine_button_failure(
 @pytest.mark.freeze_time("2023-10-30 08:50:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_press_a01_button_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     bypass_api_client_fixture: None,
     setup_entry: MockConfigEntry,
     entity_id: str,
@@ -313,7 +313,7 @@ async def test_press_a01_button_success(
 @pytest.mark.freeze_time("2023-10-30 08:50:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_press_a01_button_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     bypass_api_client_fixture: None,
     setup_entry: MockConfigEntry,
     entity_id: str,
@@ -331,7 +331,7 @@ async def test_press_a01_button_failure(
     # Ensure entity exists
     assert hass.states.get(entity_id) is not None
 
-    with pytest.raises(__HAC_KEEP__Error, match="Failed to press button"):
+    with pytest.raises(UniversalAssistantError, match="Failed to press button"):
         await hass.services.async_call(
             "button",
             ButtonService.PRESS,
@@ -346,7 +346,7 @@ async def test_press_a01_button_failure(
 @pytest.mark.freeze_time("2023-10-30 08:50:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_press_q10_empty_dustbin_button_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     bypass_api_client_fixture: None,
     setup_entry: MockConfigEntry,
     fake_q10_vacuum: FakeDevice,
@@ -370,7 +370,7 @@ async def test_press_q10_empty_dustbin_button_success(
 @pytest.mark.freeze_time("2023-10-30 08:50:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_press_q10_empty_dustbin_button_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     bypass_api_client_fixture: None,
     setup_entry: MockConfigEntry,
     fake_q10_vacuum: FakeDevice,
@@ -383,7 +383,7 @@ async def test_press_q10_empty_dustbin_button_failure(
     )
 
     assert hass.states.get(entity_id) is not None
-    with pytest.raises(__HAC_KEEP__Error, match="Error while calling empty_dustbin"):
+    with pytest.raises(UniversalAssistantError, match="Error while calling empty_dustbin"):
         await hass.services.async_call(
             "button",
             ButtonService.PRESS,
@@ -395,7 +395,7 @@ async def test_press_q10_empty_dustbin_button_failure(
 
 
 async def test_dock_cleaning_brush_button_not_created_and_cleaned_up(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_roborock_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
@@ -443,7 +443,7 @@ async def test_dock_cleaning_brush_button_not_created_and_cleaned_up(
 @pytest.mark.freeze_time("2023-10-30 08:50:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_dock_cleaning_brush_button_press(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     bypass_api_client_fixture: None,
     mock_roborock_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
@@ -483,7 +483,7 @@ async def test_dock_cleaning_brush_button_press(
     ],
 )
 async def test_resolve_dock_error_button_support(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     fake_vacuum: FakeDevice,
     mock_roborock_entry: MockConfigEntry,
@@ -520,7 +520,7 @@ async def test_resolve_dock_error_button_support(
     ],
 )
 async def test_resolve_dock_error_button_press(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fake_vacuum: FakeDevice,
     dock_error: RoborockDockErrorCode,
 ) -> None:
@@ -552,7 +552,7 @@ async def test_resolve_dock_error_button_press(
     ],
 )
 async def test_resolve_dock_error_button_press_without_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
     dock_error: RoborockDockErrorCode | None,
@@ -588,7 +588,7 @@ async def test_resolve_dock_error_button_press_without_error(
     ],
 )
 async def test_resolve_dock_error_button_press_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
     exception: type[RoborockException],
@@ -600,7 +600,7 @@ async def test_resolve_dock_error_button_press_failure(
 
     with (
         patch.object(setup_entry.runtime_data.v1[0], "async_refresh") as refresh,
-        pytest.raises(__HAC_KEEP__Error, match="Error while calling RESOLVE_ERROR"),
+        pytest.raises(UniversalAssistantError, match="Error while calling RESOLVE_ERROR"),
     ):
         await hass.services.async_call(
             "button",
@@ -615,7 +615,7 @@ async def test_resolve_dock_error_button_press_failure(
 
 @pytest.mark.parametrize("platforms", [[Platform.BUTTON, Platform.SENSOR]])
 async def test_resolve_dock_error_button_refreshes_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
 ) -> None:

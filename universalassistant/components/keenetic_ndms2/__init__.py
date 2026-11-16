@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import (
@@ -21,7 +21,7 @@ PLATFORMS = [Platform.BINARY_SENSOR, Platform.DEVICE_TRACKER]
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: KeeneticConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: KeeneticConfigEntry) -> None:
     """Set up the component."""
     async_add_defaults(hass, entry)
 
@@ -34,7 +34,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: KeeneticConfigEntry) -> N
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: KeeneticConfigEntry
+    hass: UniversalAssistant, config_entry: KeeneticConfigEntry
 ) -> None:
     """Unload a config entry."""
     try:
@@ -50,7 +50,7 @@ async def async_unload_entry(
 
 @callback
 def _async_remove_untracked_devices(
-    hass: __HAC_KEEP__, config_entry: KeeneticConfigEntry, router: KeeneticRouter
+    hass: UniversalAssistant, config_entry: KeeneticConfigEntry, router: KeeneticRouter
 ) -> None:
     """Remove device_tracker entities on interfaces that are no longer tracked."""
     new_tracked_interfaces: set[str] = set(config_entry.options[CONF_INTERFACES])
@@ -89,7 +89,7 @@ def _async_remove_untracked_devices(
         _LOGGER.debug("Finished cleaning device_tracker entities")
 
 
-def async_add_defaults(hass: __HAC_KEEP__, entry: KeeneticConfigEntry) -> None:
+def async_add_defaults(hass: UniversalAssistant, entry: KeeneticConfigEntry) -> None:
     """Populate default options."""
     options = {
         CONF_CONSIDER_HOME: DEFAULT_CONSIDER_HOME,

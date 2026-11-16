@@ -15,8 +15,8 @@ from universalassistant.components.reolink.services import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -25,7 +25,7 @@ from .conftest import TEST_CAM_NAME, TEST_NVR_NAME
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "reolink_host")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -52,7 +52,7 @@ async def test_all_entities(
 
 
 async def test_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:
@@ -73,7 +73,7 @@ async def test_button(
     reolink_host.set_ptz_command.assert_called_once()
 
     reolink_host.set_ptz_command.side_effect = ReolinkError("Test error")
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -90,7 +90,7 @@ async def test_button(
     ],
 )
 async def test_ptz_move_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     sub_channel: int | None,
@@ -116,7 +116,7 @@ async def test_ptz_move_service(
     )
 
     reolink_host.set_ptz_command.side_effect = ReolinkError("Test error")
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             ReolinkService.PTZ_MOVE,
@@ -130,7 +130,7 @@ async def test_ptz_move_service(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_host_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:
@@ -151,7 +151,7 @@ async def test_host_button(
     reolink_host.reboot.assert_called_once()
 
     reolink_host.reboot.side_effect = ReolinkError("Test error")
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

@@ -23,7 +23,7 @@ from universalassistant.components.media_source import (
 from universalassistant.components.motioneye.const import DOMAIN
 from universalassistant.components.motioneye.media_source import async_get_media_source
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -128,13 +128,13 @@ def mock_sign_path() -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_media_source(hass: __HAC_KEEP__) -> None:
+async def setup_media_source(hass: UniversalAssistant) -> None:
     """Set up media source."""
     assert await async_setup_component(hass, "media_source", {})
 
 
 async def test_async_browse_media_success(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test successful browse media."""
 
@@ -377,7 +377,7 @@ async def test_async_browse_media_success(
 
 
 async def test_async_browse_media_images_success(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test successful browse media of images."""
 
@@ -432,9 +432,9 @@ async def test_async_browse_media_images_success(
 
 
 async def test_media_proxy_image(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
-    """Test fetching saved image media through the __HA_KEEP__ proxy."""
+    """Test fetching saved image media through the Universal Home Assistant proxy."""
     client = create_mock_motioneye_client()
     stream_mock = mock_media_stream(
         client,
@@ -463,9 +463,9 @@ async def test_media_proxy_image(
 
 
 async def test_media_proxy_movie_preview(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
-    """Test fetching a movie preview through the __HA_KEEP__ proxy."""
+    """Test fetching a movie preview through the Universal Home Assistant proxy."""
     client = create_mock_motioneye_client()
     stream_mock = mock_media_stream(client, b"preview")
     config = await setup_mock_motioneye_config_entry(hass, client=client)
@@ -489,7 +489,7 @@ async def test_media_proxy_movie_preview(
 
 
 async def test_media_proxy_movie_range(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test forwarding a Range request and partial-content response."""
     client = create_mock_motioneye_client()
@@ -529,7 +529,7 @@ async def test_media_proxy_movie_range(
 
 
 async def test_media_proxy_movie_range_not_satisfiable(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test forwarding an unsatisfiable Range response."""
     client = create_mock_motioneye_client()
@@ -565,7 +565,7 @@ async def test_media_proxy_movie_range_not_satisfiable(
 
 
 async def test_media_proxy_client_error(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test handling a motionEye client error while opening saved media."""
     client = create_mock_motioneye_client()
@@ -599,7 +599,7 @@ async def test_media_proxy_client_error(
 
 
 async def test_media_proxy_client_error_after_response_started(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test a motionEye client error after the media response has started."""
     client = create_mock_motioneye_client()
@@ -642,7 +642,7 @@ async def test_media_proxy_client_error_after_response_started(
 
 
 async def test_media_proxy_rejects_invalid_kind(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test rejecting an invalid media kind."""
     client = create_mock_motioneye_client()
@@ -660,7 +660,7 @@ async def test_media_proxy_rejects_invalid_kind(
 
 
 async def test_media_proxy_rejects_non_ascii_path(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test rejecting a malformed non-ASCII encoded media path."""
     client = create_mock_motioneye_client()
@@ -678,7 +678,7 @@ async def test_media_proxy_rejects_non_ascii_path(
 
 
 async def test_media_proxy_rejects_invalid_base64_path(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test rejecting malformed ASCII Base64 media path."""
     client = create_mock_motioneye_client()
@@ -696,7 +696,7 @@ async def test_media_proxy_rejects_invalid_base64_path(
 
 
 async def test_media_proxy_rejects_relative_path(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test rejecting a relative media path."""
     client = create_mock_motioneye_client()
@@ -714,7 +714,7 @@ async def test_media_proxy_rejects_relative_path(
 
 
 async def test_media_proxy_rejects_parent_directory_traversal(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test rejecting a media path containing parent-directory traversal."""
     client = create_mock_motioneye_client()
@@ -733,7 +733,7 @@ async def test_media_proxy_rejects_parent_directory_traversal(
 
 
 async def test_media_proxy_rejects_config_entry_from_other_domain(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test rejecting a config entry from another domain."""
     client = create_mock_motioneye_client()
@@ -754,7 +754,7 @@ async def test_media_proxy_rejects_config_entry_from_other_domain(
 
 
 async def test_async_resolve_media_success(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test successful resolve media."""
 
@@ -797,7 +797,7 @@ async def test_async_resolve_media_success(
 
 
 async def test_async_resolve_media_failure(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test failed resolve media calls."""
 

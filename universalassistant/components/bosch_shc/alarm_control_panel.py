@@ -10,7 +10,7 @@ from universalassistant.components.alarm_control_panel import (
     AlarmControlPanelState,
     CodeFormat,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -22,7 +22,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: BoschConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -54,7 +54,7 @@ class IntrusionSystemAlarmControlPanel(AlarmControlPanelEntity):
     )
 
     def __init__(
-        self, hass: __HAC_KEEP__, device: SHCIntrusionSystem, entry_id: str
+        self, hass: UniversalAssistant, device: SHCIntrusionSystem, entry_id: str
     ) -> None:
         """Initialize the intrusion detection system."""
         self._device = device

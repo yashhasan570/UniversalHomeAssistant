@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.sky_hub.const import DEFAULT_HOST, DOMAIN
 from universalassistant.config_entries import SOURCE_IMPORT, SOURCE_USER
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 CONNECT_ERRORS = [
@@ -19,7 +19,7 @@ CONNECT_ERRORS = [
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_router")
-async def test_successful_user_config_flow(hass: __HAC_KEEP__) -> None:
+async def test_successful_user_config_flow(hass: UniversalAssistant) -> None:
     """Test a successful user config flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -38,7 +38,7 @@ async def test_successful_user_config_flow(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures("mock_setup_entry")
 @pytest.mark.parametrize(("connected", "connect_error"), CONNECT_ERRORS)
 async def test_user_cannot_connect_and_retry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_router: MagicMock,
     connected: bool,
     connect_error: ClientError | None,
@@ -73,7 +73,7 @@ async def test_user_cannot_connect_and_retry(
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_router")
-async def test_import_creates_entry(hass: __HAC_KEEP__) -> None:
+async def test_import_creates_entry(hass: UniversalAssistant) -> None:
     """Test a successful YAML import."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_IMPORT}, data={CONF_HOST: DEFAULT_HOST}
@@ -85,7 +85,7 @@ async def test_import_creates_entry(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize(("connected", "connect_error"), CONNECT_ERRORS)
 async def test_import_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_router: MagicMock,
     connected: bool,
     connect_error: ClientError | None,
@@ -104,7 +104,7 @@ async def test_import_cannot_connect(
 
 @pytest.mark.parametrize("source", [SOURCE_USER, SOURCE_IMPORT])
 async def test_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     source: str,
 ) -> None:
@@ -121,7 +121,7 @@ async def test_already_configured(
 @pytest.mark.usefixtures("mock_setup_entry", "mock_router")
 @pytest.mark.parametrize("source", [SOURCE_USER, SOURCE_IMPORT])
 async def test_different_host(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     source: str,
 ) -> None:

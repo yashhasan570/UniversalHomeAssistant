@@ -5,12 +5,12 @@ from pytest_universalassistant.common import async_mock_service
 
 from universalassistant.components.select.const import ATTR_OPTIONS, DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_OPTION, SERVICE_SELECT_OPTION
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.state import async_reproduce_state
 
 
 async def test_reproducing_states(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test reproducing select states."""
     calls = async_mock_service(hass, DOMAIN, SERVICE_SELECT_OPTION)

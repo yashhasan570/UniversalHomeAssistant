@@ -18,7 +18,7 @@ from universalassistant.components.media_player import (
     async_process_play_media_url,
 )
 from universalassistant.const import EVENT_HOMEASSISTANT_START
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -39,7 +39,7 @@ ATTR_SOUNDTOUCH_ZONE = "soundtouch_zone"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SoundTouchConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

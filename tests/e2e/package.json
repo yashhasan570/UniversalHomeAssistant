@@ -1,7 +1,7 @@
 {
   "name": "universal-assistant-e2e-tests",
   "version": "1.0.0",
-  "description": "End-to-end browser tests for __HA_KEEP__ Core",
+  "description": "End-to-end browser tests for Universal Home Assistant Core",
   "private": true,
   "packageManager": "pnpm@12.18.0",
   "scripts": {

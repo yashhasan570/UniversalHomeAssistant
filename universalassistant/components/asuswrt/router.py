@@ -12,7 +12,7 @@ from universalassistant.components.device_tracker import (
     DEFAULT_CONSIDER_HOME,
     DOMAIN as TRACKER_DOMAIN,
 )
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import (
@@ -82,7 +82,7 @@ class AsusWrtSensorDataHandler:
     """Data handler for AsusWrt sensor."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, api: AsusWrtBridge, entry: AsusWrtConfigEntry
+        self, hass: UniversalAssistant, api: AsusWrtBridge, entry: AsusWrtConfigEntry
     ) -> None:
         """Initialize a AsusWrt sensor data handler."""
         self._hass = hass
@@ -188,7 +188,7 @@ class AsusWrtDevInfo:
 class AsusWrtRouter:
     """Representation of a AsusWrt router."""
 
-    def __init__(self, hass: __HAC_KEEP__, entry: AsusWrtConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: AsusWrtConfigEntry) -> None:
         """Initialize a AsusWrt router."""
         self.hass = hass
         self._entry = entry

@@ -9,14 +9,14 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 from wiim.models import WiimDeviceDiagnostics
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
 
 @pytest.mark.usefixtures("mock_wiim_controller")
 async def test_config_entry_diagnostics_redacts_identifiers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: AsyncMock,

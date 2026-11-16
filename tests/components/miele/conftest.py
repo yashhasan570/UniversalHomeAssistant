@@ -18,7 +18,7 @@ from universalassistant.components.application_credentials import (
     async_import_client_credential,
 )
 from universalassistant.components.miele.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util.json import JsonValueType
 
@@ -33,7 +33,7 @@ def mock_expires_at() -> float:
 
 
 @pytest.fixture
-def mock_config_entry(hass: __HAC_KEEP__, expires_at: float) -> MockConfigEntry:
+def mock_config_entry(hass: UniversalAssistant, expires_at: float) -> MockConfigEntry:
     """Return the default mocked config entry."""
     config_entry = MockConfigEntry(
         minor_version=1,
@@ -56,7 +56,7 @@ def mock_config_entry(hass: __HAC_KEEP__, expires_at: float) -> MockConfigEntry:
 
 
 @pytest.fixture(autouse=True)
-async def setup_credentials(hass: __HAC_KEEP__) -> None:
+async def setup_credentials(hass: UniversalAssistant) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(
@@ -80,7 +80,7 @@ def load_device_file() -> str:
 
 
 @pytest.fixture
-async def device_fixture(hass: __HAC_KEEP__, load_device_file: str) -> dict[str, Any]:
+async def device_fixture(hass: UniversalAssistant, load_device_file: str) -> dict[str, Any]:
     """Fixture for device."""
     return await async_load_json_object_fixture(hass, load_device_file, DOMAIN)
 
@@ -92,7 +92,7 @@ def load_action_file() -> str:
 
 
 @pytest.fixture
-async def action_fixture(hass: __HAC_KEEP__, load_action_file: str) -> dict[str, Any]:
+async def action_fixture(hass: UniversalAssistant, load_action_file: str) -> dict[str, Any]:
     """Fixture for action."""
     return await async_load_json_object_fixture(hass, load_action_file, DOMAIN)
 
@@ -105,7 +105,7 @@ def load_programs_file() -> str:
 
 @pytest.fixture
 async def programs_fixture(
-    hass: __HAC_KEEP__, load_programs_file: str
+    hass: UniversalAssistant, load_programs_file: str
 ) -> JsonValueType:
     """Fixture for available programs."""
     return load_json_value_fixture(load_programs_file, DOMAIN)
@@ -119,7 +119,7 @@ def load_filling_levels_file() -> str:
 
 @pytest.fixture
 async def filling_levels_fixture(
-    hass: __HAC_KEEP__, load_filling_levels_file: str
+    hass: UniversalAssistant, load_filling_levels_file: str
 ) -> JsonValueType:
     """Fixture for filling levels."""
     return load_json_value_fixture(load_filling_levels_file, DOMAIN)
@@ -157,7 +157,7 @@ def platforms() -> list[str]:
 
 @pytest.fixture
 async def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     platforms,
 ) -> AsyncGenerator[MockConfigEntry]:
@@ -170,7 +170,7 @@ async def setup_platform(
 
 
 @pytest.fixture
-async def access_token(hass: __HAC_KEEP__) -> str:
+async def access_token(hass: UniversalAssistant) -> str:
     """Return a valid access token."""
     return "mock-access-token"
 
@@ -186,7 +186,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 @pytest.fixture
 async def push_data_and_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     device_fixture: dict[str, Any],
 ) -> None:

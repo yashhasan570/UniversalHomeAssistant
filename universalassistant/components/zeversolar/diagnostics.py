@@ -4,14 +4,14 @@ from typing import Any
 
 from zeversolar import ZeverSolarData
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 
 from .coordinator import ZeversolarConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: ZeversolarConfigEntry
+    hass: UniversalAssistant, config_entry: ZeversolarConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     data: ZeverSolarData = config_entry.runtime_data.data
@@ -34,7 +34,7 @@ async def async_get_config_entry_diagnostics(
 
 
 async def async_get_device_diagnostics(
-    hass: __HAC_KEEP__, entry: ZeversolarConfigEntry, device: AnyDeviceEntry
+    hass: UniversalAssistant, entry: ZeversolarConfigEntry, device: AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device entry."""
     coordinator = entry.runtime_data

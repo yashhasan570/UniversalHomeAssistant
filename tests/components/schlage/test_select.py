@@ -14,7 +14,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.translation import LOCALE_EN, async_get_translations
 
@@ -22,7 +22,7 @@ from . import MockSchlageConfigEntry
 
 
 async def test_select_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_add_config_entry: Callable[[], Awaitable[MockSchlageConfigEntry]],
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -34,7 +34,7 @@ async def test_select_attributes(
 
 
 async def test_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lock: Mock,
     mock_add_config_entry: Callable[[], Awaitable[MockSchlageConfigEntry]],
 ) -> None:
@@ -58,7 +58,7 @@ async def test_select(
     mock_lock.set_auto_lock_time.assert_called_once_with(30)
 
 
-async def test_auto_lock_time_translations(hass: __HAC_KEEP__) -> None:
+async def test_auto_lock_time_translations(hass: UniversalAssistant) -> None:
     """Test all auto_lock_time select options are translated."""
     prefix = f"component.{DOMAIN}.entity.{Platform.SELECT.value}.auto_lock_time.state."
     translations = await async_get_translations(hass, LOCALE_EN, "entity", [DOMAIN])

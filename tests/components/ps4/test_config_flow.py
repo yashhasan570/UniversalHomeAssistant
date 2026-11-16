@@ -23,7 +23,7 @@ from universalassistant.const import (
     CONF_REGION,
     CONF_TOKEN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.util import location as location_util
 
@@ -97,7 +97,7 @@ def ps4_setup_fixture():
         yield
 
 
-async def test_full_flow_implementation(hass: __HAC_KEEP__) -> None:
+async def test_full_flow_implementation(hass: UniversalAssistant) -> None:
     """Test registering an implementation and flow works."""
     # User Step Started, results in Step Creds
     with patch("pyps4_2ndscreen.Helper.port_bind", return_value=None):
@@ -141,7 +141,7 @@ async def test_full_flow_implementation(hass: __HAC_KEEP__) -> None:
     assert result["title"] == MOCK_TITLE
 
 
-async def test_multiple_flow_implementation(hass: __HAC_KEEP__) -> None:
+async def test_multiple_flow_implementation(hass: UniversalAssistant) -> None:
     """Test multiple device flows."""
     # User Step Started, results in Step Creds
     with patch("pyps4_2ndscreen.Helper.port_bind", return_value=None):
@@ -255,7 +255,7 @@ async def test_multiple_flow_implementation(hass: __HAC_KEEP__) -> None:
     assert entry_1 is not entry_2
 
 
-async def test_port_bind_abort(hass: __HAC_KEEP__) -> None:
+async def test_port_bind_abort(hass: UniversalAssistant) -> None:
     """Test that flow aborted when cannot bind to ports 987, 997."""
     with patch("pyps4_2ndscreen.Helper.port_bind", return_value=MOCK_UDP_PORT):
         reason = "port_987_bind_error"
@@ -274,7 +274,7 @@ async def test_port_bind_abort(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == reason
 
 
-async def test_duplicate_abort(hass: __HAC_KEEP__) -> None:
+async def test_duplicate_abort(hass: UniversalAssistant) -> None:
     """Test that Flow aborts when found devices already configured."""
     MockConfigEntry(domain=ps4.DOMAIN, data=MOCK_DATA).add_to_hass(hass)
 
@@ -302,7 +302,7 @@ async def test_duplicate_abort(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_additional_device(hass: __HAC_KEEP__) -> None:
+async def test_additional_device(hass: UniversalAssistant) -> None:
     """Test that Flow can configure another device."""
     # Mock existing entry.
     entry = MockConfigEntry(domain=ps4.DOMAIN, data=MOCK_DATA)
@@ -341,7 +341,7 @@ async def test_additional_device(hass: __HAC_KEEP__) -> None:
     assert result["title"] == MOCK_TITLE
 
 
-async def test_0_pin(hass: __HAC_KEEP__) -> None:
+async def test_0_pin(hass: UniversalAssistant) -> None:
     """Test Pin with leading '0' is passed correctly."""
     with patch("pyps4_2ndscreen.Helper.get_creds", return_value=MOCK_CREDS):
         result = await hass.config_entries.flow.async_init(
@@ -384,7 +384,7 @@ async def test_0_pin(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_no_devices_found_abort(hass: __HAC_KEEP__) -> None:
+async def test_no_devices_found_abort(hass: UniversalAssistant) -> None:
     """Test that failure to find devices aborts flow."""
     with patch("pyps4_2ndscreen.Helper.port_bind", return_value=None):
         result = await hass.config_entries.flow.async_init(
@@ -409,7 +409,7 @@ async def test_no_devices_found_abort(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "no_devices_found"
 
 
-async def test_manual_mode(hass: __HAC_KEEP__) -> None:
+async def test_manual_mode(hass: UniversalAssistant) -> None:
     """Test host specified in manual mode is passed to Step Link."""
     with patch("pyps4_2ndscreen.Helper.port_bind", return_value=None):
         result = await hass.config_entries.flow.async_init(
@@ -437,7 +437,7 @@ async def test_manual_mode(hass: __HAC_KEEP__) -> None:
     assert result["step_id"] == "link"
 
 
-async def test_credential_abort(hass: __HAC_KEEP__) -> None:
+async def test_credential_abort(hass: UniversalAssistant) -> None:
     """Test that failure to get credentials aborts flow."""
     with patch("pyps4_2ndscreen.Helper.port_bind", return_value=None):
         result = await hass.config_entries.flow.async_init(
@@ -455,7 +455,7 @@ async def test_credential_abort(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "credential_error"
 
 
-async def test_credential_timeout(hass: __HAC_KEEP__) -> None:
+async def test_credential_timeout(hass: UniversalAssistant) -> None:
     """Test that Credential Timeout shows error."""
     with patch("pyps4_2ndscreen.Helper.port_bind", return_value=None):
         result = await hass.config_entries.flow.async_init(
@@ -496,7 +496,7 @@ async def test_credential_timeout(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_wrong_pin_error(hass: __HAC_KEEP__) -> None:
+async def test_wrong_pin_error(hass: UniversalAssistant) -> None:
     """Test that incorrect pin throws an error."""
     with patch("pyps4_2ndscreen.Helper.port_bind", return_value=None):
         result = await hass.config_entries.flow.async_init(
@@ -534,7 +534,7 @@ async def test_wrong_pin_error(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_device_connection_error(hass: __HAC_KEEP__) -> None:
+async def test_device_connection_error(hass: UniversalAssistant) -> None:
     """Test that device not connected or on throws an error."""
     with patch("pyps4_2ndscreen.Helper.port_bind", return_value=None):
         result = await hass.config_entries.flow.async_init(
@@ -572,7 +572,7 @@ async def test_device_connection_error(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_manual_mode_no_ip_error(hass: __HAC_KEEP__) -> None:
+async def test_manual_mode_no_ip_error(hass: UniversalAssistant) -> None:
     """Test no IP specified in manual mode throws an error."""
     with patch("pyps4_2ndscreen.Helper.port_bind", return_value=None):
         result = await hass.config_entries.flow.async_init(

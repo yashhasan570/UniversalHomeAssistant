@@ -10,7 +10,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 DOMAIN = "thethingsnetwork_lorawan"
@@ -32,7 +32,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
         yield setup_entry
 
 
-async def test_initial_form(hass: __HAC_KEEP__, mock_connection: Mock) -> None:
+async def test_initial_form(hass: UniversalAssistant, mock_connection: Mock) -> None:
     """Show configuration without contacting the network."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -46,7 +46,7 @@ async def test_initial_form(hass: __HAC_KEEP__, mock_connection: Mock) -> None:
 
 
 @pytest.mark.parametrize("region", ["eu1", "nam1", "au1"])
-async def test_region(hass: __HAC_KEEP__, mock_connection: Mock, region: str) -> None:
+async def test_region(hass: UniversalAssistant, mock_connection: Mock, region: str) -> None:
     """Discover applications through EU1 before connecting to regional traffic."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -135,7 +135,7 @@ async def test_region(hass: __HAC_KEEP__, mock_connection: Mock, region: str) ->
     ],
 )
 async def test_custom_server(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connection: Mock,
     endpoint: str,
     identity_server: str,
@@ -184,7 +184,7 @@ async def test_custom_server(
     await hass.async_block_till_done()
 
 
-async def test_no_applications(hass: __HAC_KEEP__, mock_connection: Mock) -> None:
+async def test_no_applications(hass: UniversalAssistant, mock_connection: Mock) -> None:
     """An authenticated key with no applications cannot create an entry."""
     mock_connection.applications.return_value = {}
     result = await hass.config_entries.flow.async_init(
@@ -202,7 +202,7 @@ async def test_no_applications(hass: __HAC_KEEP__, mock_connection: Mock) -> Non
     mock_connection.async_connect.assert_not_awaited()
 
 
-async def test_empty_selection(hass: __HAC_KEEP__, mock_connection: Mock) -> None:
+async def test_empty_selection(hass: UniversalAssistant, mock_connection: Mock) -> None:
     """Require a selection before opening traffic subscriptions."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -242,7 +242,7 @@ async def test_empty_selection(hass: __HAC_KEEP__, mock_connection: Mock) -> Non
     ],
 )
 async def test_discovery_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_connection: Mock,
     region: str,
     credentials: dict[str, str],
@@ -290,7 +290,7 @@ async def test_discovery_error(
     ],
 )
 async def test_invalid_endpoint(
-    hass: __HAC_KEEP__, mock_connection: Mock, field: str, endpoint: str
+    hass: UniversalAssistant, mock_connection: Mock, field: str, endpoint: str
 ) -> None:
     """Invalid addresses never start discovery."""
     result = await hass.config_entries.flow.async_init(
@@ -329,7 +329,7 @@ async def test_invalid_endpoint(
     ],
 )
 async def test_connection_error(
-    hass: __HAC_KEEP__, mock_connection: Mock, error: Exception, expected: str
+    hass: UniversalAssistant, mock_connection: Mock, error: Exception, expected: str
 ) -> None:
     """Device and traffic access are checked after application selection."""
     result = await hass.config_entries.flow.async_init(
@@ -358,7 +358,7 @@ async def test_connection_error(
 
 
 async def test_missing_application_rights(
-    hass: __HAC_KEEP__, mock_connection: Mock
+    hass: UniversalAssistant, mock_connection: Mock
 ) -> None:
     """Return to credentials when the key cannot read selected devices or traffic."""
     result = await hass.config_entries.flow.async_init(
@@ -390,7 +390,7 @@ async def test_missing_application_rights(
     await hass.async_block_till_done()
 
 
-async def test_cancelled_discovery(hass: __HAC_KEEP__, mock_connection: Mock) -> None:
+async def test_cancelled_discovery(hass: UniversalAssistant, mock_connection: Mock) -> None:
     """Cancellation closes discovery connections."""
     mock_connection.applications.side_effect = asyncio.CancelledError
     result = await hass.config_entries.flow.async_init(
@@ -415,7 +415,7 @@ async def test_cancelled_discovery(hass: __HAC_KEEP__, mock_connection: Mock) ->
     ],
 )
 async def test_duplicate_application(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection_entry: MockConfigEntry,
     applications: list[str],
     stored_identity: str,
@@ -451,7 +451,7 @@ async def test_duplicate_application(
     ],
 )
 async def test_distinct_application(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection_entry: MockConfigEntry,
     identity: str,
     applications: list[str],
@@ -476,7 +476,7 @@ async def test_distinct_application(
 
 
 async def test_reauth(
-    hass: __HAC_KEEP__, connection_entry: MockConfigEntry, mock_connection: Mock
+    hass: UniversalAssistant, connection_entry: MockConfigEntry, mock_connection: Mock
 ) -> None:
     """Replace credentials without changing the application or connection identity."""
     result = await connection_entry.start_reauth_flow(hass)
@@ -499,7 +499,7 @@ async def test_reauth(
     ],
 )
 async def test_reauth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection_entry: MockConfigEntry,
     mock_connection: Mock,
     error: Exception,

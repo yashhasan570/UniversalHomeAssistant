@@ -11,7 +11,7 @@ from renault_api.kamereon.models import (
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import RenaultConfigEntry
@@ -34,7 +34,7 @@ class RenaultSelectEntityDescription[T: KamereonVehicleDataAttributes](
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: RenaultConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

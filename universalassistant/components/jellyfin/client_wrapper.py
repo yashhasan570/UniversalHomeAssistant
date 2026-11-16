@@ -12,13 +12,13 @@ from jellyfin_apiclient_python.connection_manager import (
 
 from universalassistant import exceptions
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CLIENT_VERSION, ITEM_KEY_IMAGE_TAGS, USER_AGENT, USER_APP_NAME
 
 
 async def validate_input(
-    hass: __HAC_KEEP__, user_input: dict[str, Any], client: JellyfinClient
+    hass: UniversalAssistant, user_input: dict[str, Any], client: JellyfinClient
 ) -> tuple[str, dict[str, Any]]:
     """Validate that the provided url and credentials can be used to connect."""
     url = user_input[CONF_URL]
@@ -122,9 +122,9 @@ def get_artwork_url(
     return str(client.jellyfin.artwork(artwork_id, artwork_type, max_width))
 
 
-class CannotConnect(exceptions.__HAC_KEEP__Error):
+class CannotConnect(exceptions.UniversalAssistantError):
     """Error to indicate the server is unreachable."""
 
 
-class InvalidAuth(exceptions.__HAC_KEEP__Error):
+class InvalidAuth(exceptions.UniversalAssistantError):
     """Error to indicate the credentials are invalid."""

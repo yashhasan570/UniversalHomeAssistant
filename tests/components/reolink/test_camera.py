@@ -18,8 +18,8 @@ from universalassistant.components.camera import (
 from universalassistant.components.labs import async_update_preview_feature
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -31,7 +31,7 @@ from tests.components.camera.common import SomeTestProvider
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "reolink_host")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -50,7 +50,7 @@ async def test_all_entities(
 
 
 async def test_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
@@ -77,7 +77,7 @@ async def test_camera(
     assert (await async_get_image(hass, entity_id)).content == b"image"
 
     reolink_host.get_snapshot.side_effect = ReolinkError("Test error")
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await async_get_image(hass, entity_id)
 
     # check getting the stream source
@@ -93,7 +93,7 @@ async def test_camera(
     ],
 )
 async def test_camera_two_way_audio(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
@@ -132,7 +132,7 @@ async def test_camera_two_way_audio(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_camera_no_stream_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:

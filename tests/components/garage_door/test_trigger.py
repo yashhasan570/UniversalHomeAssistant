@@ -20,17 +20,17 @@ from universalassistant.components.binary_sensor import BinarySensorDeviceClass
 from universalassistant.components.cover import ATTR_IS_CLOSED, CoverDeviceClass, CoverState
 from universalassistant.components.garage_door.trigger import TRIGGERS
 from universalassistant.const import ATTR_DEVICE_CLASS, STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
-async def target_binary_sensors(hass: __HAC_KEEP__) -> dict[str, list[str]]:
+async def target_binary_sensors(hass: UniversalAssistant) -> dict[str, list[str]]:
     """Create multiple binary sensor entities associated with different targets."""
     return await target_entities(hass, "binary_sensor")
 
 
 @pytest.fixture
-async def target_covers(hass: __HAC_KEEP__) -> dict[str, list[str]]:
+async def target_covers(hass: UniversalAssistant) -> dict[str, list[str]]:
     """Create multiple cover entities associated with different targets."""
     return await target_entities(hass, "cover")
 
@@ -49,7 +49,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_garage_door_trigger_options_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -98,7 +98,7 @@ def test_trigger_target_support() -> None:
     ],
 )
 async def test_garage_door_trigger_binary_sensor_behavior_each(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_binary_sensors: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -168,7 +168,7 @@ async def test_garage_door_trigger_binary_sensor_behavior_each(
     ],
 )
 async def test_garage_door_trigger_cover_behavior_each(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_covers: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -218,7 +218,7 @@ async def test_garage_door_trigger_cover_behavior_each(
     ],
 )
 async def test_garage_door_trigger_binary_sensor_behavior_first(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_binary_sensors: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -268,7 +268,7 @@ async def test_garage_door_trigger_binary_sensor_behavior_first(
     ],
 )
 async def test_garage_door_trigger_binary_sensor_behavior_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_binary_sensors: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -335,7 +335,7 @@ async def test_garage_door_trigger_binary_sensor_behavior_all(
     ],
 )
 async def test_garage_door_trigger_cover_behavior_first(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_covers: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -402,7 +402,7 @@ async def test_garage_door_trigger_cover_behavior_first(
     ],
 )
 async def test_garage_door_trigger_cover_behavior_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_covers: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,

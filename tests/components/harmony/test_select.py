@@ -15,7 +15,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import utcnow
 
 from .const import ENTITY_REMOTE, ENTITY_SELECT
@@ -24,7 +24,7 @@ from .const import ENTITY_REMOTE, ENTITY_SELECT
 async def test_connection_state_changes(
     harmony_client,
     mock_hc,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_write_config,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -55,7 +55,7 @@ async def test_connection_state_changes(
 
 
 async def test_options(
-    mock_hc, hass: __HAC_KEEP__, mock_write_config, mock_config_entry: MockConfigEntry
+    mock_hc, hass: UniversalAssistant, mock_write_config, mock_config_entry: MockConfigEntry
 ) -> None:
     """Ensure calls to the switch modify the harmony state."""
 
@@ -74,7 +74,7 @@ async def test_options(
 
 
 async def test_select_option(
-    mock_hc, hass: __HAC_KEEP__, mock_write_config, mock_config_entry: MockConfigEntry
+    mock_hc, hass: UniversalAssistant, mock_write_config, mock_config_entry: MockConfigEntry
 ) -> None:
     """Ensure calls to the switch modify the harmony state."""
     mock_config_entry.add_to_hass(hass)
@@ -97,7 +97,7 @@ async def test_select_option(
 
 
 async def _select_option_and_wait(
-    hass: __HAC_KEEP__, entity: str, option: str
+    hass: UniversalAssistant, entity: str, option: str
 ) -> None:
     await hass.services.async_call(
         SELECT_DOMAIN,

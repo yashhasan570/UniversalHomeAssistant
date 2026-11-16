@@ -25,9 +25,9 @@ from universalassistant.components.bosch_smart_camera.coordinator import (
 from universalassistant.components.camera import async_get_image
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     OAuth2TokenRequestConnectionError,
 )
 from universalassistant.helpers import device_registry as dr, entity_registry as er
@@ -43,7 +43,7 @@ OTHER = Camera(OTHER_ID, "Hall", "SOMETHING_NEW", CameraModel.UNKNOWN, None)
 
 
 async def test_camera_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -64,7 +64,7 @@ async def test_camera_entity(
 
 
 async def test_unknown_model_uses_hardware_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_list_cameras: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -92,7 +92,7 @@ def mock_latest_image() -> Generator[AsyncMock]:
 
 
 async def test_camera_image_is_the_latest_event_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_latest_image: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -113,7 +113,7 @@ async def test_camera_image_is_the_latest_event_image(
 
 
 async def test_camera_image_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_latest_image: AsyncMock,
 ) -> None:
@@ -121,12 +121,12 @@ async def test_camera_image_missing(
     mock_latest_image.return_value = None
     await setup_integration(hass, mock_config_entry)
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await async_get_image(hass, ENTITY_ID)
 
 
 async def test_missing_image_is_cached_briefly(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_latest_image: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -136,7 +136,7 @@ async def test_missing_image_is_cached_briefly(
     await setup_integration(hass, mock_config_entry)
 
     for _ in range(2):
-        with pytest.raises(__HAC_KEEP__Error):
+        with pytest.raises(UniversalAssistantError):
             await async_get_image(hass, ENTITY_ID)
     assert mock_latest_image.await_count == 1
 
@@ -146,7 +146,7 @@ async def test_missing_image_is_cached_briefly(
 
 
 async def test_slow_download_does_not_block_other_cameras(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_list_cameras: AsyncMock,
     mock_latest_image: AsyncMock,
@@ -172,7 +172,7 @@ async def test_slow_download_does_not_block_other_cameras(
 
 
 async def test_token_is_fetched_fresh_for_every_request(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_latest_image: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -191,7 +191,7 @@ async def test_token_is_fetched_fresh_for_every_request(
 
 
 async def test_token_refresh_failure_surfaces_translated_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_latest_image: AsyncMock,
 ) -> None:
@@ -203,7 +203,7 @@ async def test_token_refresh_failure_surfaces_translated_error(
             "universalassistant.helpers.config_entry_oauth2_flow.OAuth2Session.async_ensure_token_valid",
             side_effect=OAuth2TokenRequestConnectionError(domain=DOMAIN),
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await async_get_image(hass, ENTITY_ID)
 
@@ -217,7 +217,7 @@ async def test_token_refresh_failure_surfaces_translated_error(
     ],
 )
 async def test_camera_image_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_latest_image: AsyncMock,
     error: type[Exception],
@@ -227,7 +227,7 @@ async def test_camera_image_errors(
     await setup_integration(hass, mock_config_entry)
 
     for _ in range(2):
-        with pytest.raises(__HAC_KEEP__Error) as err:
+        with pytest.raises(UniversalAssistantError) as err:
             await async_get_image(hass, ENTITY_ID)
         assert err.value.translation_key == "snapshot_failed"
     assert mock_latest_image.await_count == 2
@@ -235,7 +235,7 @@ async def test_camera_image_errors(
 
 @patch("universalassistant.components.bosch_smart_camera.coordinator.SNAPSHOT_TTL", 3600)
 async def test_removed_camera_forgets_its_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_list_cameras: AsyncMock,
     mock_latest_image: AsyncMock,
@@ -261,7 +261,7 @@ async def test_removed_camera_forgets_its_image(
     assert mock_latest_image.await_count == 2
 
 
-async def test_unload(hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry) -> None:
+async def test_unload(hass: UniversalAssistant, mock_config_entry: MockConfigEntry) -> None:
     """Test the entry unloads."""
     await setup_integration(hass, mock_config_entry)
 
@@ -281,7 +281,7 @@ async def test_unload(hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry) ->
     ],
 )
 async def test_setup_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_list_cameras: AsyncMock,
     error: type[Exception],
@@ -295,7 +295,7 @@ async def test_setup_errors(
 
 
 async def test_update_failure_makes_camera_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_list_cameras: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -317,7 +317,7 @@ async def test_update_failure_makes_camera_unavailable(
 
 
 async def test_device_name_and_firmware_follow_the_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_list_cameras: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -341,7 +341,7 @@ async def test_device_name_and_firmware_follow_the_account(
 
 
 async def test_camera_added_and_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_list_cameras: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -381,11 +381,11 @@ async def test_camera_added_and_removed(
 
 
 async def test_stale_device_removed_on_startup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
-    """Test a device of a camera removed while __HA_KEEP__ was off is dropped."""
+    """Test a device of a camera removed while Universal Home Assistant was off is dropped."""
     mock_config_entry.add_to_hass(hass)
     device_registry.async_get_or_create(
         config_entry_id=mock_config_entry.entry_id,

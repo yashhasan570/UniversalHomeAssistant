@@ -21,19 +21,19 @@ from universalassistant.const import (
     SERVICE_TURN_OFF,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
 @pytest.fixture(autouse=True)
-def setup_comp(hass: __HAC_KEEP__) -> None:
+def setup_comp(hass: UniversalAssistant) -> None:
     """Initialize components."""
     mock_component(hass, "group")
 
 
 async def test_if_fires_using_at(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -74,7 +74,7 @@ async def test_if_fires_using_at(
     ("has_date", "has_time"), [(True, True), (True, False), (False, True)]
 )
 async def test_if_fires_using_at_input_datetime(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
     has_date,
@@ -176,7 +176,7 @@ async def test_if_fires_using_at_input_datetime(
     ],
 )
 async def test_if_fires_using_at_input_datetime_with_offset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
     has_date: bool,
@@ -263,7 +263,7 @@ async def test_if_fires_using_at_input_datetime_with_offset(
     ],
 )
 async def test_if_fires_using_multiple_at(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
     conf_at: list[str | dict[str, int | str]],
@@ -312,7 +312,7 @@ async def test_if_fires_using_multiple_at(
 
 
 async def test_if_not_fires_using_wrong_at(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -354,7 +354,7 @@ async def test_if_not_fires_using_wrong_at(
 
 
 async def test_if_action_before(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for if action before."""
     assert await async_setup_component(
@@ -391,7 +391,7 @@ async def test_if_action_before(
 
 
 async def test_if_action_after(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for if action after."""
     assert await async_setup_component(
@@ -428,7 +428,7 @@ async def test_if_action_after(
 
 
 async def test_if_action_one_weekday(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for if action with one weekday."""
     assert await async_setup_component(
@@ -466,7 +466,7 @@ async def test_if_action_one_weekday(
 
 
 async def test_if_action_list_weekday(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for action with a list of weekdays."""
     assert await async_setup_component(
@@ -512,7 +512,7 @@ async def test_if_action_list_weekday(
     assert len(service_calls) == 2
 
 
-async def test_untrack_time_change(hass: __HAC_KEEP__) -> None:
+async def test_untrack_time_change(hass: UniversalAssistant) -> None:
     """Test for removing tracked time changes."""
     mock_track_time_change = Mock()
     with patch(
@@ -553,7 +553,7 @@ async def test_untrack_time_change(hass: __HAC_KEEP__) -> None:
     [SensorDeviceClass.TIMESTAMP, SensorDeviceClass.UPTIME],
 )
 async def test_if_fires_using_at_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
     at_sensor: str,
@@ -673,7 +673,7 @@ async def test_if_fires_using_at_sensor(
     [SensorDeviceClass.TIMESTAMP, SensorDeviceClass.UPTIME],
 )
 async def test_if_fires_using_at_sensor_with_offset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     freezer: FrozenDateTimeFactory,
     offset: str | dict[str, int],
@@ -754,7 +754,7 @@ async def test_if_fires_using_at_sensor_with_offset(
 
 
 async def test_if_fires_using_at_sensor_dict_without_offset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -836,7 +836,7 @@ def test_schema_invalid(conf) -> None:
 
 
 async def test_datetime_in_past_on_load(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test time trigger works if input_datetime is in past."""
     await async_setup_component(
@@ -919,7 +919,7 @@ async def test_datetime_in_past_on_load(
     ],
 )
 async def test_if_at_template_renders_bad_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     trigger: dict[str, str],
 ) -> None:
@@ -953,7 +953,7 @@ async def test_if_at_template_renders_bad_value(
     ],
 )
 async def test_if_at_template_limited_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     trigger: dict[str, str],
 ) -> None:
@@ -977,7 +977,7 @@ async def test_if_at_template_limited_template(
 
 
 async def test_if_fires_using_weekday_single(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -1023,7 +1023,7 @@ async def test_if_fires_using_weekday_single(
 
 
 async def test_if_fires_using_weekday_multiple(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -1084,7 +1084,7 @@ async def test_if_fires_using_weekday_multiple(
 
 
 async def test_if_fires_using_weekday_with_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:

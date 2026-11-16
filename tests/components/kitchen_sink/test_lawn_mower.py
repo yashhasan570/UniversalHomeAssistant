@@ -13,7 +13,7 @@ from universalassistant.components.lawn_mower import (
     LawnMowerService,
 )
 from universalassistant.const import EVENT_STATE_CHANGED, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 MOWER_SERVICE_ENTITY = "lawn_mower.mower_can_dock"
@@ -30,13 +30,13 @@ async def lawn_mower_only() -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_comp(hass: __HAC_KEEP__, lawn_mower_only):
+async def setup_comp(hass: UniversalAssistant, lawn_mower_only):
     """Set up demo component."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     await hass.async_block_till_done()
 
 
-async def test_states(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
+async def test_states(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
     """Test the expected lawn mower entities are added."""
     states = hass.states.async_all()
     assert set(states) == snapshot
@@ -84,7 +84,7 @@ async def test_states(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
     ],
 )
 async def test_mower(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity: str,
     service_call: str,
     activity: LawnMowerActivity,
@@ -118,7 +118,7 @@ async def test_mower(
         LawnMowerService.STOP,
     ],
 )
-async def test_service_calls_mocked(hass: __HAC_KEEP__, service_call) -> None:
+async def test_service_calls_mocked(hass: UniversalAssistant, service_call) -> None:
     """Test the services of a lawn mower."""
     calls = async_mock_service(hass, LAWN_MOWER_DOMAIN, service_call)
     await hass.services.async_call(

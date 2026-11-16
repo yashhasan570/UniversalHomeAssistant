@@ -15,7 +15,7 @@ import probatio
 
 from universalassistant.config_entries import SOURCE_IMPORT
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, PRESSURE, Platform
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, callback
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import (
@@ -60,7 +60,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up sleepiq component."""
     if DOMAIN in config:
         hass.async_create_task(_async_import_yaml(hass, config[DOMAIN]))
@@ -68,7 +68,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def _async_import_yaml(hass: __HAC_KEEP__, import_data: dict[str, Any]) -> None:
+async def _async_import_yaml(hass: UniversalAssistant, import_data: dict[str, Any]) -> None:
     """Import the YAML account into a config entry and raise a repair issue."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_IMPORT}, data=import_data
@@ -110,7 +110,7 @@ async def _async_import_yaml(hass: __HAC_KEEP__, import_data: dict[str, Any]) ->
     )
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SleepIQConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SleepIQConfigEntry) -> None:
     """Set up the SleepIQ config entry."""
     conf = entry.data
     email = conf[CONF_USERNAME]
@@ -165,7 +165,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SleepIQConfigEntry) -> No
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SleepIQConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SleepIQConfigEntry) -> None:
     """Unload the config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
@@ -223,7 +223,7 @@ def _deduplicate_sleepers(gateway: AsyncSleepIQ) -> None:
 
 
 async def _async_migrate_unique_ids(
-    hass: __HAC_KEEP__, entry: SleepIQConfigEntry, gateway: AsyncSleepIQ
+    hass: UniversalAssistant, entry: SleepIQConfigEntry, gateway: AsyncSleepIQ
 ) -> None:
     """Migrate old unique ids."""
     names_to_ids = {

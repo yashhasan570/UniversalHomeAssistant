@@ -9,7 +9,7 @@ from universalassistant.components.tplink.binary_sensor import BINARY_SENSOR_DES
 from universalassistant.components.tplink.const import DOMAIN
 from universalassistant.components.tplink.entity import EXCLUDED_FEATURES
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import (
@@ -37,7 +37,7 @@ def mocked_feature_binary_sensor() -> Feature:
 
 
 async def test_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -60,7 +60,7 @@ async def test_states(
 
 
 async def test_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mocked_feature_binary_sensor: Feature,
 ) -> None:
@@ -84,7 +84,7 @@ async def test_binary_sensor(
 
 
 async def test_binary_sensor_children(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mocked_feature_binary_sensor: Feature,

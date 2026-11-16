@@ -12,8 +12,8 @@ from pyschlage.code import (
 from pyschlage.exceptions import Error as SchlageError
 
 from universalassistant.components.lock import LockEntity
-from universalassistant.core import __HAC_KEEP__, ServiceResponse, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, ServiceResponse, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -23,7 +23,7 @@ from .entity import SchlageEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: SchlageConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -115,7 +115,7 @@ class SchlageLockEntity(SchlageEntity, LockEntity):
         try:
             await self.hass.async_add_executor_job(self._lock.refresh_access_codes)
         except SchlageError as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="schlage_refresh_failed",
             ) from ex
@@ -165,7 +165,7 @@ class SchlageLockEntity(SchlageEntity, LockEntity):
                 self._lock.add_access_code, access_code
             )
         except SchlageError as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="schlage_add_code_failed",
             ) from ex
@@ -194,7 +194,7 @@ class SchlageLockEntity(SchlageEntity, LockEntity):
         try:
             await self.hass.async_add_executor_job(codes[code_id_to_delete].delete)
         except SchlageError as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="schlage_delete_code_failed",
             ) from ex

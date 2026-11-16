@@ -12,8 +12,8 @@ import probatio
 
 from universalassistant.config_entries import ConfigEntryState, ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_HOST, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -36,7 +36,7 @@ DISCOVERY_SCHEMA = probatio.Schema(
 TOKEN_SCHEMA = probatio.Schema({})
 
 
-async def async_get_token(hass: __HAC_KEEP__, host: str) -> str | None:
+async def async_get_token(hass: UniversalAssistant, host: str) -> str | None:
     """Try to fetch the token from the bond device."""
     bond = Bond(
         host,
@@ -50,7 +50,7 @@ async def async_get_token(hass: __HAC_KEEP__, host: str) -> str | None:
     return response.get("token")
 
 
-async def _validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> tuple[str, str]:
+async def _validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> tuple[str, str]:
     """Validate the user input allows us to connect."""
 
     bond = Bond(
@@ -309,7 +309,7 @@ class BondConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class InputValidationError(__HAC_KEEP__Error):
+class InputValidationError(UniversalAssistantError):
     """Error to indicate we cannot proceed due to invalid input."""
 
     def __init__(self, base: str) -> None:

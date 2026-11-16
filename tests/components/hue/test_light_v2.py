@@ -9,8 +9,8 @@ import pytest
 from universalassistant.components.hue.v2.light import GRADIENT_COALESCE_DELAY
 from universalassistant.components.light import ColorMode
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import color as color_util
 from universalassistant.util.json import JsonArrayType
@@ -47,7 +47,7 @@ def gradient_json(points: list[tuple[float, float]]) -> dict[str, Any]:
 
 
 async def test_lights(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
@@ -154,7 +154,7 @@ async def test_lights(
 
 
 async def test_light_turn_on_service(
-    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test calling the turn on service on a light."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -401,7 +401,7 @@ async def test_light_turn_on_service(
     ],
 )
 async def test_light_turn_on_effect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
     entity_id: str,
@@ -431,7 +431,7 @@ async def test_light_turn_on_effect(
 
 
 async def test_light_turn_off_service(
-    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test calling the turn off service on a light."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -532,7 +532,7 @@ async def test_light_turn_off_service(
     ],
 )
 async def test_gradient_segment_turn_on_color(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
     service_data: dict[str, Any],
@@ -571,7 +571,7 @@ async def test_gradient_segment_turn_on_color(
 
 
 async def test_gradient_segments_turn_on_coalesced(
-    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test concurrent color writes to several segments result in one request."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -619,7 +619,7 @@ async def test_gradient_segments_turn_on_coalesced(
     ],
 )
 async def test_gradient_segment_passthrough(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
     service: str,
@@ -647,7 +647,7 @@ async def test_gradient_segment_passthrough(
 
 
 async def test_gradient_segment_color_fallback(
-    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test segments use the color of the light while no gradient is active."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -682,7 +682,7 @@ async def test_gradient_segment_color_fallback(
 
 
 async def test_gradient_segments_sequential_writes(
-    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test a write keeps the points of a previous write the bridge has not echoed."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -737,7 +737,7 @@ async def test_gradient_segments_sequential_writes(
 
 
 async def test_gradient_segments_write_in_flight(
-    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test a write made while another one is in flight builds on that write."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -790,7 +790,7 @@ async def test_gradient_segments_write_in_flight(
 
 
 async def test_gradient_segments_write_failure(
-    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test a failed request reaches all merged callers and leaves no stale state."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -798,7 +798,7 @@ async def test_gradient_segments_write_failure(
     await setup_platform(hass, mock_bridge_v2, Platform.LIGHT)
 
     with patch.object(
-        mock_bridge_v2, "async_request_call", side_effect=__HAC_KEEP__Error
+        mock_bridge_v2, "async_request_call", side_effect=UniversalAssistantError
     ):
         results = await asyncio.gather(
             *(
@@ -814,7 +814,7 @@ async def test_gradient_segments_write_failure(
         )
     assert len(results) == 2
     for result in results:
-        assert isinstance(result, __HAC_KEEP__Error)
+        assert isinstance(result, UniversalAssistantError)
 
     # the failed colors are dropped, the next write starts from the light state
     await hass.services.async_call(
@@ -834,7 +834,7 @@ async def test_gradient_segments_write_failure(
 
 
 async def test_gradient_segments_turn_off_coalesced(
-    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test turning off several segments at once results in one request."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -854,7 +854,7 @@ async def test_gradient_segments_turn_off_coalesced(
     assert mock_bridge_v2.mock_requests[0]["json"] == {"on": {"on": False}}
 
 
-async def test_gradient_light_added(hass: __HAC_KEEP__, mock_bridge_v2: Mock) -> None:
+async def test_gradient_light_added(hass: UniversalAssistant, mock_bridge_v2: Mock) -> None:
     """Test a gradient light added to the bridge gets its segment lights."""
     await mock_bridge_v2.api.load_test_data([FAKE_DEVICE, FAKE_ZIGBEE_CONNECTIVITY])
 
@@ -881,7 +881,7 @@ async def test_gradient_light_added(hass: __HAC_KEEP__, mock_bridge_v2: Mock) ->
     assert segment_3.attributes["xy_color"] == (0.3127, 0.329)
 
 
-async def test_light_added(hass: __HAC_KEEP__, mock_bridge_v2: Mock) -> None:
+async def test_light_added(hass: UniversalAssistant, mock_bridge_v2: Mock) -> None:
     """Test new light added to bridge."""
     await mock_bridge_v2.api.load_test_data([FAKE_DEVICE, FAKE_ZIGBEE_CONNECTIVITY])
 
@@ -905,7 +905,7 @@ async def test_light_added(hass: __HAC_KEEP__, mock_bridge_v2: Mock) -> None:
 
 
 async def test_light_availability(
-    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test light availability property."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -937,7 +937,7 @@ async def test_light_availability(
 
 
 async def test_grouped_lights(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
@@ -1541,7 +1541,7 @@ async def test_grouped_lights(
     ],
 )
 async def test_light_with_zero_mirek(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
     entity_id: str,
@@ -1551,8 +1551,8 @@ async def test_light_with_zero_mirek(
     A light may report both a zeroed mirek schema and a zeroed current mirek,
     each of which used to reach a mired -> kelvin conversion unguarded.
 
-    Regression test for https://github.com/yashhasan570/__HAC_KEEP__/issues/116258
-    and https://github.com/yashhasan570/__HAC_KEEP__/issues/181168
+    Regression test for https://github.com/yashhasan570/UniversalUniversalAssistant/issues/116258
+    and https://github.com/yashhasan570/UniversalUniversalAssistant/issues/181168
     """
     # Patch the fixture data to have zero mirek values before loading
     for resource in v2_resources_test_data:
@@ -1577,7 +1577,7 @@ async def test_light_with_zero_mirek(
 
 
 async def test_light_with_null_mirek(
-    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test a color temperature only light doesn't crash without a mirek value."""
     for resource in v2_resources_test_data:

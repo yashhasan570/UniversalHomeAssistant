@@ -16,7 +16,7 @@ from universalassistant.const import (
     ATTR_ENTITY_ID,
     CONF_OPTIONS,
 )
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.automation import move_top_level_schema_fields_to_options
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -146,7 +146,7 @@ class EventTrigger(Trigger):
     @classmethod
     @override
     async def async_validate_complete_config(
-        cls, hass: __HAC_KEEP__, complete_config: ConfigType
+        cls, hass: UniversalAssistant, complete_config: ConfigType
     ) -> ConfigType:
         """Validate complete config."""
         complete_config = move_top_level_schema_fields_to_options(
@@ -157,7 +157,7 @@ class EventTrigger(Trigger):
     @classmethod
     @override
     async def async_validate_config(
-        cls, hass: __HAC_KEEP__, config: ConfigType
+        cls, hass: UniversalAssistant, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         config = _CONFIG_SCHEMA(config)
@@ -180,7 +180,7 @@ class EventTrigger(Trigger):
 
         return config
 
-    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
+    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
         """Initialize trigger."""
         super().__init__(hass, config)
         assert config.options is not None

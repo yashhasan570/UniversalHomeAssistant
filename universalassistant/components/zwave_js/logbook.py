@@ -6,7 +6,7 @@ from zwave_js_server.const import CommandClass
 
 from universalassistant.components.logbook import LOGBOOK_ENTRY_MESSAGE, LOGBOOK_ENTRY_NAME
 from universalassistant.const import ATTR_DEVICE_ID
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 
 from .const import (
@@ -26,7 +26,7 @@ from .const import (
 
 @callback
 def async_describe_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_describe_event: Callable[[str, str, Callable[[Event], dict[str, str]]], None],
 ) -> None:
     """Describe logbook events."""

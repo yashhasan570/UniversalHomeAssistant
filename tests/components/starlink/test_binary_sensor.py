@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.starlink.const import DOMAIN
 from universalassistant.const import CONF_IP_ADDRESS, STATE_OFF, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.json import JsonArrayType
 
 from .patchers import (
@@ -30,7 +30,7 @@ MISSING_ALERTS = (
 
 
 async def setup_integration(
-    hass: __HAC_KEEP__, status_data: JsonArrayType
+    hass: UniversalAssistant, status_data: JsonArrayType
 ) -> MockConfigEntry:
     """Set up the Starlink integration with the given status data."""
     entry = MockConfigEntry(domain=DOMAIN, data={CONF_IP_ADDRESS: "1.2.3.4:0000"})
@@ -57,7 +57,7 @@ async def setup_integration(
         "binary_sensor.starlink_sleep",
     ],
 )
-async def test_alert_reported_by_dish(hass: __HAC_KEEP__, entity_id: str) -> None:
+async def test_alert_reported_by_dish(hass: UniversalAssistant, entity_id: str) -> None:
     """Test that an alert the dish reports is used as the state."""
     await setup_integration(hass, deepcopy(STATUS_DATA_FIXTURE))
 
@@ -72,7 +72,7 @@ async def test_alert_reported_by_dish(hass: __HAC_KEEP__, entity_id: str) -> Non
         "binary_sensor.starlink_sleep",
     ],
 )
-async def test_alert_not_reported_by_dish(hass: __HAC_KEEP__, entity_id: str) -> None:
+async def test_alert_not_reported_by_dish(hass: UniversalAssistant, entity_id: str) -> None:
     """Test that an alert the dish omits is unknown instead of raising."""
     status_data = deepcopy(STATUS_DATA_FIXTURE)
     for alert in MISSING_ALERTS:
@@ -83,7 +83,7 @@ async def test_alert_not_reported_by_dish(hass: __HAC_KEEP__, entity_id: str) ->
     assert hass.states.get(entity_id).state == STATE_UNKNOWN
 
 
-async def test_remaining_alerts_unaffected(hass: __HAC_KEEP__) -> None:
+async def test_remaining_alerts_unaffected(hass: UniversalAssistant) -> None:
     """Test that alerts the dish still reports keep working."""
     status_data = deepcopy(STATUS_DATA_FIXTURE)
     for alert in MISSING_ALERTS:

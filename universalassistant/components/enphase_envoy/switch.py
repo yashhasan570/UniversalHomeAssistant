@@ -10,7 +10,7 @@ from pyenphase.models.dry_contacts import DryContactStatus
 from pyenphase.models.tariff import EnvoyStorageSettings
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -75,7 +75,7 @@ CHARGE_FROM_GRID_SWITCH = EnvoyStorageSettingsSwitchEntityDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: EnphaseConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

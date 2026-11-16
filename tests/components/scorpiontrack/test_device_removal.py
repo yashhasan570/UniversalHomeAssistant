@@ -15,7 +15,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.scorpiontrack.const import DEFAULT_SCAN_INTERVAL, DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -23,7 +23,7 @@ from . import setup_integration
 
 @pytest.mark.parametrize("latitude", [51.5074, None])
 async def test_shared_vehicle_is_kept(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_share: ScorpionTrackShare,
@@ -62,7 +62,7 @@ async def test_shared_vehicle_is_kept(
     ],
 )
 async def test_failed_update_keeps_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_share: ScorpionTrackShare,
@@ -108,7 +108,7 @@ async def test_failed_update_keeps_devices(
 
 
 async def test_removed_vehicle_returns(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_share: ScorpionTrackShare,
@@ -192,7 +192,7 @@ async def test_removed_vehicle_returns(
 
 
 async def test_vehicle_removed_while_unloaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_share: ScorpionTrackShare,
     mock_scorpiontrack_client: AsyncMock,

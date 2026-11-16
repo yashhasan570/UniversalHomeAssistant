@@ -5,7 +5,7 @@ from enum import StrEnum
 import probatio
 
 from universalassistant.components.vacuum import DOMAIN as VACUUM_DOMAIN
-from universalassistant.core import __HAC_KEEP__, SupportsResponse, callback
+from universalassistant.core import UniversalAssistant, SupportsResponse, callback
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import DOMAIN
@@ -33,7 +33,7 @@ class RoborockServiceArgument(StrEnum):
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up services."""
 
     service.async_register_platform_entity_service(

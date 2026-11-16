@@ -11,7 +11,7 @@ from pytradfri.error import RequestError
 from pytradfri.resource import ApiResource
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import LOGGER
@@ -40,7 +40,7 @@ class TradfriDeviceDataUpdateCoordinator(DataUpdateCoordinator[Device]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: TradfriConfigEntry,
         api: APIRequestProtocol,
         device: Device,

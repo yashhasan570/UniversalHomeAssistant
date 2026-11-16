@@ -14,7 +14,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import CoreState, __HAC_KEEP__
+from universalassistant.core import CoreState, UniversalAssistant
 
 from . import MockConnection, async_add_model
 
@@ -28,7 +28,7 @@ async def fixture_single_platform():
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_partial_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     coils: dict[int, Any],
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -51,7 +51,7 @@ async def test_partial_refresh(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_invalid_coil(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     coils: dict[int, Any],
     snapshot: SnapshotAssertion,
     freezer_ticker: Any,
@@ -73,7 +73,7 @@ async def test_invalid_coil(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_pushed_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     coils: dict[int, Any],
     snapshot: SnapshotAssertion,
     mock_connection: MockConnection,
@@ -110,7 +110,7 @@ async def test_pushed_update(
     ],
 )
 async def test_pushed_update_during_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     coils: dict[int, float],
     mock_connection: MockConnection,
     seeded_address: int,
@@ -158,7 +158,7 @@ async def test_pushed_update_during_refresh(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_pushed_update_during_partial_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     coils: dict[int, float | None],
     mock_connection: MockConnection,
     freezer: FrozenDateTimeFactory,
@@ -217,7 +217,7 @@ async def test_pushed_update_during_partial_refresh(
     ],
 )
 async def test_pushed_update_during_failed_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     coils: dict[int, float | None],
     mock_connection: MockConnection,
     broadcast_addresses: tuple[int, ...],
@@ -268,7 +268,7 @@ async def test_pushed_update_during_failed_refresh(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_shutdown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     coils: dict[int, Any],
     mock_connection: MockConnection,
     freezer_ticker: Any,
@@ -302,7 +302,7 @@ async def test_shutdown(
 
 @pytest.fixture
 async def pending_initial_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     coils: dict[int, Any],
     mock_connection: MockConnection,
 ) -> AsyncGenerator[tuple[MockConfigEntry, asyncio.Event]]:
@@ -338,7 +338,7 @@ async def pending_initial_refresh(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_initial_refresh_completes_after_startup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     pending_initial_refresh: tuple[MockConfigEntry, asyncio.Event],
 ) -> None:
     """Initial readings update entities after HA has finished starting."""
@@ -356,7 +356,7 @@ async def test_initial_refresh_completes_after_startup(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_unload_cancels_initial_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     pending_initial_refresh: tuple[MockConfigEntry, asyncio.Event],
     mock_connection: MockConnection,
 ) -> None:

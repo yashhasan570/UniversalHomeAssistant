@@ -8,7 +8,7 @@ from async_upnp_client.server import UpnpServer
 from async_upnp_client.ssdp_listener import SsdpListener
 import pytest
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture(autouse=True)
@@ -39,7 +39,7 @@ async def disabled_upnp_server():
 
 
 @pytest.fixture
-def mock_flow_init(hass: __HAC_KEEP__) -> Generator[AsyncMock]:
+def mock_flow_init(hass: UniversalAssistant) -> Generator[AsyncMock]:
     """Mock hass.config_entries.flow.async_init."""
     with patch.object(
         hass.config_entries.flow, "async_init", return_value=AsyncMock()

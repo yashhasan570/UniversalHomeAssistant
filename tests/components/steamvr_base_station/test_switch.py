@@ -27,8 +27,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import TEST_NAME, make_service_info, payload
@@ -43,7 +43,7 @@ def platforms() -> list[Platform]:
 
 
 async def test_switch_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -64,7 +64,7 @@ async def test_switch_entity(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_state_follows_advertisements(
-    hass: __HAC_KEEP__, code: int, expected: str
+    hass: UniversalAssistant, code: int, expected: str
 ) -> None:
     """Test the switch reflects the advertised power state."""
     inject_bluetooth_service_info_bleak(hass, make_service_info(payload(power=code)))
@@ -81,7 +81,7 @@ async def test_state_follows_advertisements(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on_off(
-    hass: __HAC_KEEP__, mock_set_power: AsyncMock, service: str, target: PowerState
+    hass: UniversalAssistant, mock_set_power: AsyncMock, service: str, target: PowerState
 ) -> None:
     """Test turning the station on and off sends the right power command."""
     await hass.services.async_call(
@@ -91,7 +91,7 @@ async def test_turn_on_off(
 
 
 async def test_command_updates_state(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry, mock_set_power: AsyncMock
+    hass: UniversalAssistant, init_integration: MockConfigEntry, mock_set_power: AsyncMock
 ) -> None:
     """Test the switch shows the new state as soon as a command succeeds."""
 
@@ -111,10 +111,10 @@ async def test_command_updates_state(
 
 
 @pytest.mark.usefixtures("init_integration")
-async def test_command_error(hass: __HAC_KEEP__, mock_set_power: AsyncMock) -> None:
+async def test_command_error(hass: UniversalAssistant, mock_set_power: AsyncMock) -> None:
     """Test a failed command raises a translated error and keeps the state."""
     mock_set_power.side_effect = LighthouseConnectionError("gone")
-    with pytest.raises(__HAC_KEEP__Error) as raised:
+    with pytest.raises(UniversalAssistantError) as raised:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,

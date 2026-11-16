@@ -7,7 +7,7 @@ from universalassistant.components.application_credentials import (
     AuthorizationServer,
     ClientCredential,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import AUTHORIZE_URL, SCOPES, TOKEN_URL
 
@@ -16,7 +16,7 @@ class TeslaUserImplementation(AuthImplementation):
     """Tesla Fleet API user Oauth2 implementation."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, auth_domain: str, credential: ClientCredential
+        self, hass: UniversalAssistant, auth_domain: str, credential: ClientCredential
     ) -> None:
         """Initialize user Oauth2 implementation."""
 

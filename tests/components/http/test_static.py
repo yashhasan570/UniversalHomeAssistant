@@ -10,13 +10,13 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from universalassistant.components.http import DOMAIN, StaticPathConfig
 from universalassistant.components.http.static import CachingStaticResource
 from universalassistant.const import EVENT_HOMEASSISTANT_START
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.http import KEY_ALLOW_CONFIGURED_CORS
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(autouse=True)
-async def http(hass: __HAC_KEEP__) -> None:
+async def http(hass: UniversalAssistant) -> None:
     """Ensure http is set up."""
     assert await async_setup_component(hass, DOMAIN, {})
     hass.bus.async_fire(EVENT_HOMEASSISTANT_START)
@@ -24,13 +24,13 @@ async def http(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.fixture
-async def mock_http_client(hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator):
-    """Start the __HA_KEEP__ HTTP component."""
+async def mock_http_client(hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator):
+    """Start the Universal Home Assistant HTTP component."""
     return await aiohttp_client(hass.http.app, server_kwargs={"skip_url_asserts": True})
 
 
 async def test_static_resource_show_index(
-    hass: __HAC_KEEP__, mock_http_client: TestClient, tmp_path: Path
+    hass: UniversalAssistant, mock_http_client: TestClient, tmp_path: Path
 ) -> None:
     """Test static resource will return a directory index."""
     app = hass.http.app
@@ -45,7 +45,7 @@ async def test_static_resource_show_index(
 
 
 async def test_async_register_static_paths(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test registering multiple static paths."""
     assert await async_setup_component(hass, "frontend", {})

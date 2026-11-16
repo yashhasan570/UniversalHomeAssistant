@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -28,7 +28,7 @@ from universalassistant.helpers import entity_registry as er
     ],
 )
 async def test_setup_and_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     sensor_name: str,
@@ -44,7 +44,7 @@ async def test_setup_and_update(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "setup_integration")
 async def test_host_unreachable(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test packet loss reports 100% when no replies are received."""
     with patch(
@@ -63,7 +63,7 @@ async def test_host_unreachable(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "setup_integration")
 async def test_name_lookup_error_and_recovery(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, patch_ping: Host
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, patch_ping: Host
 ) -> None:
     """Test sensors become unavailable on a DNS failure and recover after."""
     with patch(

@@ -21,8 +21,8 @@ from universalassistant.components.hyperion.const import (
     HYPERION_MODEL_NAME,
     TYPE_HYPERION_CAMERA,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import (
@@ -48,7 +48,7 @@ TEST_IMAGE_UPDATE = {
 }
 
 
-async def test_camera_setup(hass: __HAC_KEEP__) -> None:
+async def test_camera_setup(hass: UniversalAssistant) -> None:
     """Test turning the light on."""
     client = create_mock_client()
 
@@ -60,7 +60,7 @@ async def test_camera_setup(hass: __HAC_KEEP__) -> None:
     assert entity_state.state == "idle"
 
 
-async def test_camera_image(hass: __HAC_KEEP__) -> None:
+async def test_camera_image(hass: UniversalAssistant) -> None:
     """Test retrieving a single camera image."""
     client = create_mock_client()
     client.async_send_image_stream_start = AsyncMock(return_value=True)
@@ -79,7 +79,7 @@ async def test_camera_image(hass: __HAC_KEEP__) -> None:
     assert result[0].content == TEST_IMAGE_DATA.encode()
 
 
-async def test_camera_invalid_image(hass: __HAC_KEEP__) -> None:
+async def test_camera_invalid_image(hass: UniversalAssistant) -> None:
     """Test retrieving a single invalid camera image."""
     client = create_mock_client()
     client.async_send_image_stream_start = AsyncMock(return_value=True)
@@ -91,14 +91,14 @@ async def test_camera_invalid_image(hass: __HAC_KEEP__) -> None:
     image_stream_update_coro = async_call_registered_callback(
         client, "ledcolors-imagestream-update", None
     )
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await asyncio.gather(get_image_coro, image_stream_update_coro)
 
     get_image_coro = async_get_image(hass, TEST_CAMERA_ENTITY_ID, timeout=0)
     image_stream_update_coro = async_call_registered_callback(
         client, "ledcolors-imagestream-update", {"garbage": 1}
     )
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await asyncio.gather(get_image_coro, image_stream_update_coro)
 
     get_image_coro = async_get_image(hass, TEST_CAMERA_ENTITY_ID, timeout=0)
@@ -107,25 +107,25 @@ async def test_camera_invalid_image(hass: __HAC_KEEP__) -> None:
         "ledcolors-imagestream-update",
         {"result": {"image": "data:image/jpg;base64,FOO"}},
     )
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await asyncio.gather(get_image_coro, image_stream_update_coro)
 
 
-async def test_camera_image_failed_start_stream_call(hass: __HAC_KEEP__) -> None:
+async def test_camera_image_failed_start_stream_call(hass: UniversalAssistant) -> None:
     """Test retrieving a single camera image with failed start stream call."""
     client = create_mock_client()
     client.async_send_image_stream_start = AsyncMock(return_value=False)
 
     await setup_test_config_entry(hass, hyperion_client=client)
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await async_get_image(hass, TEST_CAMERA_ENTITY_ID, timeout=0.01)
 
     assert client.async_send_image_stream_start.called
     assert not client.async_send_image_stream_stop.called
 
 
-async def test_camera_stream(hass: __HAC_KEEP__) -> None:
+async def test_camera_stream(hass: UniversalAssistant) -> None:
     """Test retrieving a camera stream."""
     client = create_mock_client()
     client.async_send_image_stream_start = AsyncMock(return_value=True)
@@ -162,7 +162,7 @@ async def test_camera_stream(hass: __HAC_KEEP__) -> None:
     assert result[0] == TEST_IMAGE_DATA.encode()
 
 
-async def test_camera_stream_failed_start_stream_call(hass: __HAC_KEEP__) -> None:
+async def test_camera_stream_failed_start_stream_call(hass: UniversalAssistant) -> None:
     """Test retrieving a camera stream with failed start stream call."""
     client = create_mock_client()
     client.async_send_image_stream_start = AsyncMock(return_value=False)
@@ -177,7 +177,7 @@ async def test_camera_stream_failed_start_stream_call(hass: __HAC_KEEP__) -> Non
 
 
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:

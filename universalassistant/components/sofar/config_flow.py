@@ -11,8 +11,8 @@ from sofar_modbus import InverterSilentError, SofarInverter
 from universalassistant.components.modbus import async_get_temporary_unit
 from universalassistant.config_entries import ConfigEntryState, ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_DEVICE, CONF_HOST, CONF_PORT, CONF_TYPE
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.selector import (
     NumberSelector,
     NumberSelectorConfig,
@@ -71,7 +71,7 @@ STEP_SERIAL_DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def _async_probe(hass: __HAC_KEEP__, data: Mapping[str, Any]) -> SofarInverter:
+async def _async_probe(hass: UniversalAssistant, data: Mapping[str, Any]) -> SofarInverter:
     """Connect to the inverter and identify it, or raise."""
     async with async_get_temporary_unit(
         hass, create_modbus_params(data), data[CONF_UNIT_ID]
@@ -226,7 +226,7 @@ class SofarConfigFlow(ConfigFlow, domain=DOMAIN):
             device = await _async_probe(self.hass, data)
         except InverterSilentError:
             return None, {"base": "inverter_silent"}, {}
-        except (ModbusError, __HAC_KEEP__Error) as err:
+        except (ModbusError, UniversalAssistantError) as err:
             return None, {"base": "cannot_connect"}, {"error": str(err)}
 
         if device.unrecognized:

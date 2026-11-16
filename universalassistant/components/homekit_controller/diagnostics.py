@@ -6,7 +6,7 @@ from aiohomekit.model.characteristics.characteristic_types import Characteristic
 
 from universalassistant.components.diagnostics import REDACTED, async_redact_data
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import AnyDeviceEntry, DeviceEntry
 
@@ -27,14 +27,14 @@ REDACTED_STATE = ["access_token", "entity_picture"]
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: ConfigEntry
+    hass: UniversalAssistant, entry: ConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return _async_get_diagnostics(hass, entry)
 
 
 async def async_get_device_diagnostics(
-    hass: __HAC_KEEP__, entry: ConfigEntry, device: AnyDeviceEntry
+    hass: UniversalAssistant, entry: ConfigEntry, device: AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device entry."""
     if TYPE_CHECKING:
@@ -46,7 +46,7 @@ async def async_get_device_diagnostics(
 
 @callback
 def _async_get_diagnostics_for_device(
-    hass: __HAC_KEEP__, device: DeviceEntry
+    hass: UniversalAssistant, device: DeviceEntry
 ) -> dict[str, Any]:
     data: dict[str, Any] = {}
 
@@ -93,7 +93,7 @@ def _async_get_diagnostics_for_device(
 
 @callback
 def _async_get_diagnostics(
-    hass: __HAC_KEEP__, entry: ConfigEntry, device: DeviceEntry | None = None
+    hass: UniversalAssistant, entry: ConfigEntry, device: DeviceEntry | None = None
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     hkid = entry.data["AccessoryPairingID"]

@@ -6,13 +6,13 @@ import pytest
 
 from universalassistant.components import conversation
 from universalassistant.components.conversation import DOMAIN, trace
-from universalassistant.core import Context, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import Context, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture
-async def init_components(hass: __HAC_KEEP__):
+async def init_components(hass: UniversalAssistant):
     """Initialize relevant components with empty configs."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, DOMAIN, {})
@@ -20,7 +20,7 @@ async def init_components(hass: __HAC_KEEP__):
 
 
 async def test_converation_trace(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
     sl_setup: None,
 ) -> None:
@@ -73,7 +73,7 @@ async def test_converation_trace(
 
 
 async def test_converation_trace_uncaught_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
     sl_setup: None,
 ) -> None:
@@ -103,15 +103,15 @@ async def test_converation_trace_uncaught_error(
 
 
 async def test_converation_trace_universalassistant_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
     sl_setup: None,
 ) -> None:
-    """Test tracing a conversation with a __HAC_KEEP__ error."""
+    """Test tracing a conversation with a UniversalAssistant error."""
     with (
         patch(
             "universalassistant.components.conversation.default_agent.DefaultAgent.async_process",
-            side_effect=__HAC_KEEP__Error("Failed to talk to agent"),
+            side_effect=UniversalAssistantError("Failed to talk to agent"),
         ),
     ):
         await conversation.async_converse(

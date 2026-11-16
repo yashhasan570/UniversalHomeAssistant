@@ -18,8 +18,8 @@ from universalassistant.components.duckdns.services import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_DOMAIN, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.util.dt import utcnow
 
 from .conftest import TEST_SUBDOMAIN, TEST_TOKEN
@@ -29,7 +29,7 @@ _LOGGER = logging.getLogger(__name__)
 
 @pytest.fixture
 async def setup_duckdns(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -49,7 +49,7 @@ async def setup_duckdns(
 
 
 @pytest.mark.usefixtures("setup_duckdns")
-async def test_setup(hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker) -> None:
+async def test_setup(hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker) -> None:
     """Test setup works if update passes."""
     aioclient_mock.get(
         UPDATE_URL,
@@ -70,7 +70,7 @@ async def test_setup(hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker) ->
 )
 @pytest.mark.freeze_time
 async def test_setup_backoff(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     side_effect: Exception | bool,
 ) -> None:
@@ -107,7 +107,7 @@ async def test_setup_backoff(
 
 @pytest.mark.usefixtures("setup_duckdns")
 async def test_service_set_txt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test set txt service call."""
@@ -136,7 +136,7 @@ async def test_service_set_txt(
 
 @pytest.mark.usefixtures("setup_duckdns")
 async def test_service_clear_txt(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test clear txt service call."""
     # Empty the fixture mock requests
@@ -165,7 +165,7 @@ async def test_service_clear_txt(
 
 @pytest.mark.usefixtures("setup_duckdns")
 async def test_service_config_entry_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test config entry select exceptions."""
 
@@ -188,7 +188,7 @@ async def test_service_config_entry_not_found(
 )
 @pytest.mark.usefixtures("setup_duckdns")
 async def test_service_request_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     side_effect: Exception | bool,
     exception_msg: str,
@@ -200,7 +200,7 @@ async def test_service_request_exception(
             "universalassistant.components.duckdns.services.update_duckdns",
             side_effect=[side_effect],
         ),
-        pytest.raises(__HAC_KEEP__Error) as e,
+        pytest.raises(UniversalAssistantError) as e,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -213,7 +213,7 @@ async def test_service_request_exception(
 
 @pytest.mark.usefixtures("setup_duckdns")
 async def test_service_select_entry(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test config entry selection."""
     config_entry = MockConfigEntry(
@@ -256,7 +256,7 @@ async def test_service_select_entry(
 
 
 async def test_load_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:

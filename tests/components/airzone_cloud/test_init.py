@@ -7,13 +7,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.airzone_cloud.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from .util import CONFIG, WS_ID, WS_ID_AIDOO, async_init_integration
 
 
-async def test_unload_entry(hass: __HAC_KEEP__) -> None:
+async def test_unload_entry(hass: UniversalAssistant) -> None:
     """Test unload."""
 
     config_entry = MockConfigEntry(
@@ -55,7 +55,7 @@ async def test_unload_entry(hass: __HAC_KEEP__) -> None:
 
 
 async def test_device_via_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test that child devices are linked to their via_device parents."""
@@ -99,7 +99,7 @@ async def test_device_via_device(
     assert aidoo_device.via_device_id == ws_aidoo_device.id
 
 
-async def test_init_api_timeout(hass: __HAC_KEEP__) -> None:
+async def test_init_api_timeout(hass: UniversalAssistant) -> None:
     """Test API timeouts when loading the Airzone Cloud integration."""
 
     with patch(

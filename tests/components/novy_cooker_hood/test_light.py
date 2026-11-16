@@ -22,7 +22,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNKNOWN,
 )
-from universalassistant.core import Context, __HAC_KEEP__, State
+from universalassistant.core import Context, UniversalAssistant, State
 
 from .conftest import TRANSMITTER_ENTITY_ID
 
@@ -31,7 +31,7 @@ ENTITY_ID = "light.novy_cooker_hood_light"
 
 @pytest.mark.usefixtures("init_novy_cooker_hood")
 async def test_turn_on_and_off_send_light_once_each(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
 ) -> None:
     """Turn on sends a light toggle and flips is_on; turn off does the same."""
@@ -76,7 +76,7 @@ async def test_turn_on_and_off_send_light_once_each(
 
 
 async def test_restore_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -93,7 +93,7 @@ async def test_restore_state(
 
 @pytest.mark.usefixtures("mock_rf_entity", "init_novy_cooker_hood")
 async def test_entity_follows_transmitter_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """The light becomes unavailable when the transmitter does, and back."""
     await assert_availability_follows_source_entity(

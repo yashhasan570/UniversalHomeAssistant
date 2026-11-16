@@ -6,7 +6,7 @@ from enum import StrEnum
 from typing import TYPE_CHECKING, override
 
 from universalassistant.components.image import ImageEntity, ImageEntityDescription
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -119,7 +119,7 @@ IMAGE_DESCRIPTIONS: tuple[SteamImageEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SteamConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -152,7 +152,7 @@ class SteamImageEntity(SteamEntity, ImageEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         coordinator: SteamDataUpdateCoordinator,
         steamid: str,
         entity_description: SteamImageEntityDescription,

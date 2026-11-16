@@ -7,7 +7,7 @@ from pytest_universalassistant.typing import MqttMockHAClient
 
 from universalassistant.components.silla_prism.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import fire_burst, setup_integration
@@ -15,7 +15,7 @@ from .const import BASE_TOPIC, HELLO_PAYLOAD, HELLO_TOPIC, SERIAL
 
 
 async def test_setup_and_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -35,7 +35,7 @@ async def test_setup_and_unload(
 
 
 async def test_setup_mqtt_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -51,7 +51,7 @@ async def test_setup_mqtt_unavailable(
 
 
 async def test_hello_updates_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,

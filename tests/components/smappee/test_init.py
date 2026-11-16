@@ -17,7 +17,7 @@ from universalassistant.config_entries import (
     ConfigEntryState,
 )
 from universalassistant.const import CONF_CLIENT_ID, CONF_CLIENT_SECRET
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import OAuth2TokenRequestReauthError
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
@@ -33,7 +33,7 @@ MOCK_TOKEN_RESPONSE = {
 
 
 @pytest.fixture
-async def cloud_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def cloud_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Set up the Smappee component and return a cloud entry with expired token."""
     assert await async_setup_component(
         hass,
@@ -58,7 +58,7 @@ async def cloud_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     return config_entry
 
 
-async def test_unload_config_entry(hass: __HAC_KEEP__) -> None:
+async def test_unload_config_entry(hass: UniversalAssistant) -> None:
     """Test unload config entry flow."""
     with (
         patch("pysmappee.api.SmappeeLocalApi.logon", return_value={}),
@@ -89,7 +89,7 @@ async def test_unload_config_entry(hass: __HAC_KEEP__) -> None:
         assert not hass.data.get(DOMAIN)
 
 
-async def test_oauth_implementation_not_available(hass: __HAC_KEEP__) -> None:
+async def test_oauth_implementation_not_available(hass: UniversalAssistant) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -118,7 +118,7 @@ async def test_oauth_implementation_not_available(hass: __HAC_KEEP__) -> None:
 
 
 async def test_token_refresh_auth_failure_on_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -138,7 +138,7 @@ async def test_token_refresh_auth_failure_on_setup(
 
 
 async def test_token_refresh_server_error_on_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -157,7 +157,7 @@ async def test_token_refresh_server_error_on_setup(
 
 
 async def test_token_refresh_auth_failure_after_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cloud_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     requests_mock: requests_mock.Mocker,

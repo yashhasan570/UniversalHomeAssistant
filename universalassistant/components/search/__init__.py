@@ -13,7 +13,7 @@ from universalassistant.components.group import DOMAIN as GROUP_DOMAIN
 from universalassistant.components.universalassistant import scene
 from universalassistant.components.scene import DOMAIN as SCENE_DOMAIN
 from universalassistant.components.script import DOMAIN as SCRIPT_DOMAIN
-from universalassistant.core import __HAC_KEEP__, callback, split_entity_id
+from universalassistant.core import UniversalAssistant, callback, split_entity_id
 from universalassistant.helpers import (
     area_registry as ar,
     config_validation as cv,
@@ -52,7 +52,7 @@ class ItemType(StrEnum):
     SCRIPT_BLUEPRINT = "script_blueprint"
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Search component."""
     websocket_api.async_register_command(hass, websocket_search_related)
     return True
@@ -68,7 +68,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 )
 @callback
 def websocket_search_related(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -90,7 +90,7 @@ class Searcher:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entity_sources: dict[str, EntityInfo],
         *,
         include_disabled_entities: bool = False,

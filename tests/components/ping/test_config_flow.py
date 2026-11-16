@@ -5,7 +5,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.ping import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -18,7 +18,7 @@ from universalassistant.data_entry_flow import FlowResultType
     ],
 )
 @pytest.mark.usefixtures("patch_setup")
-async def test_form(hass: __HAC_KEEP__, host, expected) -> None:
+async def test_form(hass: UniversalAssistant, host, expected) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -54,7 +54,7 @@ async def test_form(hass: __HAC_KEEP__, host, expected) -> None:
     ],
 )
 @pytest.mark.usefixtures("patch_setup")
-async def test_options(hass: __HAC_KEEP__, host: str, expected_host: str) -> None:
+async def test_options(hass: UniversalAssistant, host: str, expected_host: str) -> None:
     """Test options flow."""
 
     config_entry = MockConfigEntry(

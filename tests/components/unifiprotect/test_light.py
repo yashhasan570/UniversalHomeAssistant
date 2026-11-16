@@ -23,8 +23,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import UNIFI_MAC
@@ -54,7 +54,7 @@ def _use_public_only_bootstrap(ufp: MockUFPFixture, *publics: Mock) -> None:
 
 
 async def test_light_remove(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """Test removing and re-adding a light device."""
 
@@ -67,7 +67,7 @@ async def test_light_remove(
 
 
 async def test_light_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     light: Light,
@@ -93,7 +93,7 @@ async def test_light_setup(
 
 
 async def test_light_update(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light, unadopted_light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light, unadopted_light: Light
 ) -> None:
     """Test the light reads on/off and brightness from a public WS update."""
 
@@ -113,7 +113,7 @@ async def test_light_update(
 
 
 async def test_light_unavailable_without_public(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light, unadopted_light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light, unadopted_light: Light
 ) -> None:
     """The light is unavailable without a public object."""
 
@@ -126,7 +126,7 @@ async def test_light_unavailable_without_public(
 
 
 async def test_light_unavailable_on_public_disconnect(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light, unadopted_light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light, unadopted_light: Light
 ) -> None:
     """Light availability follows the public object's connection state."""
 
@@ -144,7 +144,7 @@ async def test_light_unavailable_on_public_disconnect(
 
 
 async def test_light_brightness_none(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light, unadopted_light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light, unadopted_light: Light
 ) -> None:
     """A light without a public LED level reports no brightness."""
 
@@ -163,7 +163,7 @@ async def test_light_brightness_none(
 
 
 async def test_light_turn_on(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light, unadopted_light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light, unadopted_light: Light
 ) -> None:
     """Test light entity turn on (routes through the public setter)."""
 
@@ -181,7 +181,7 @@ async def test_light_turn_on(
 
 
 async def test_light_turn_on_with_brightness(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light, unadopted_light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light, unadopted_light: Light
 ) -> None:
     """Test light entity turn on with brightness."""
 
@@ -203,7 +203,7 @@ async def test_light_turn_on_with_brightness(
 
 
 async def test_light_turn_off(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light, unadopted_light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light, unadopted_light: Light
 ) -> None:
     """Test light entity turn off."""
 
@@ -219,7 +219,7 @@ async def test_light_turn_off(
 
 
 async def test_light_setup_public_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
@@ -251,7 +251,7 @@ async def test_light_setup_public_only(
 
 
 async def test_light_added_after_setup_public_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     light: Light,
     caplog: pytest.LogCaptureFixture,
@@ -293,7 +293,7 @@ async def test_light_added_after_setup_public_only(
 
 
 async def test_light_added_during_gap_public_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     light: Light,
     caplog: pytest.LogCaptureFixture,
@@ -340,7 +340,7 @@ async def test_light_added_during_gap_public_only(
     ],
 )
 async def test_light_command_when_public_object_vanishes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     light: Light,
     service: str,
@@ -387,7 +387,7 @@ async def test_light_command_when_public_object_vanishes(
     first.set_light = _delete_on_command(second, first)
     second.set_light = _delete_on_command(first, second)
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             "light",
             service,
@@ -410,7 +410,7 @@ async def test_light_command_when_public_object_vanishes(
 
 
 async def test_light_command_when_public_object_vanishes_hybrid(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """The hybrid guard names the light from the private object, not the public one.
 
@@ -456,7 +456,7 @@ async def test_light_command_when_public_object_vanishes_hybrid(
     first.set_light = _delete_on_command(second, first)
     second.set_light = _delete_on_command(first, second)
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             "light",
             "turn_off",
@@ -474,7 +474,7 @@ async def test_light_command_when_public_object_vanishes_hybrid(
 
 
 async def test_light_turn_on_with_brightness_public_only(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """Turning on with brightness routes through the public setter in public-only."""
 
@@ -496,7 +496,7 @@ async def test_light_turn_on_with_brightness_public_only(
 
 
 async def test_light_setup_read_only_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     light: Light,
@@ -533,7 +533,7 @@ async def test_light_setup_read_only_user(
 
 
 async def test_light_setup_defers_to_adopt_without_private(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """Hybrid: a public light without its private object waits for the adopt.
 
@@ -559,7 +559,7 @@ async def test_light_setup_defers_to_adopt_without_private(
 
 
 async def test_public_only_light_end_to_end(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     light: Light,

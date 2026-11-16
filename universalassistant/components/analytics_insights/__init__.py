@@ -10,7 +10,7 @@ from python_universalassistant_analytics import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -31,7 +31,7 @@ class AnalyticsInsightsData:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: AnalyticsInsightsConfigEntry
+    hass: UniversalAssistant, entry: AnalyticsInsightsConfigEntry
 ) -> None:
     """Set up Homeassistant Analytics from a config entry."""
     client = HomeassistantAnalyticsClient(session=async_get_clientsession(hass))
@@ -61,7 +61,7 @@ async def async_setup_entry(
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, entry: AnalyticsInsightsConfigEntry
+    hass: UniversalAssistant, entry: AnalyticsInsightsConfigEntry
 ) -> None:
     """Migrate to a new version."""
     # Migration for switching add-ons to apps
@@ -83,7 +83,7 @@ async def async_migrate_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: AnalyticsInsightsConfigEntry
+    hass: UniversalAssistant, entry: AnalyticsInsightsConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

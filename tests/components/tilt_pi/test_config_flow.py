@@ -8,13 +8,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.tilt_pi.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_async_step_user_gets_form_and_creates_entry(
-    hass: __HAC_KEEP__, mock_tiltpi_client: AsyncMock
+    hass: UniversalAssistant, mock_tiltpi_client: AsyncMock
 ) -> None:
     """Test that the we can view the form and that the config flow creates an entry."""
     result = await hass.config_entries.flow.async_init(
@@ -39,7 +39,7 @@ async def test_async_step_user_gets_form_and_creates_entry(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_abort_if_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that we abort if we attempt to submit the same entry twice."""
     mock_config_entry.add_to_hass(hass)
@@ -62,7 +62,7 @@ async def test_abort_if_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_successful_recovery_after_invalid_host(
-    hass: __HAC_KEEP__, mock_tiltpi_client: AsyncMock
+    hass: UniversalAssistant, mock_tiltpi_client: AsyncMock
 ) -> None:
     """Test error shown when user submits invalid host."""
     result = await hass.config_entries.flow.async_init(
@@ -92,7 +92,7 @@ async def test_successful_recovery_after_invalid_host(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_successful_recovery_after_connection_error(
-    hass: __HAC_KEEP__, mock_tiltpi_client: AsyncMock
+    hass: UniversalAssistant, mock_tiltpi_client: AsyncMock
 ) -> None:
     """Test error shown when connection fails."""
     result = await hass.config_entries.flow.async_init(

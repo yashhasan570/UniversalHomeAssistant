@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockToggleEntity
 
 from universalassistant.components.light import ColorMode, LightEntity
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -33,7 +33,7 @@ def init(empty=False):
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities_callback: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

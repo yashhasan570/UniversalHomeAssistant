@@ -6,7 +6,7 @@ from typing import Any, override
 from pysomfymylink import Shade, SomfyMyLink
 
 from universalassistant.components.cover import CoverDeviceClass, CoverEntity, CoverState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
@@ -23,7 +23,7 @@ MYLINK_COVER_TYPE_TO_DEVICE_CLASS: dict[int | None, CoverDeviceClass] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: SomfyMyLinkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

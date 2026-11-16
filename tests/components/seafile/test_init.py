@@ -11,7 +11,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -20,7 +20,7 @@ from .conftest import SUBENTRY_ID
 
 @pytest.mark.usefixtures("mock_seafile_client")
 async def test_setup_and_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test a config entry loads and unloads cleanly."""
@@ -62,7 +62,7 @@ async def test_setup_and_unload(
     ],
 )
 async def test_setup_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     method: str,
@@ -77,7 +77,7 @@ async def test_setup_failure(
 
 
 async def test_setup_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -93,7 +93,7 @@ async def test_setup_starts_reauth(
 
 @pytest.mark.usefixtures("mock_seafile_client")
 async def test_remove_library(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,

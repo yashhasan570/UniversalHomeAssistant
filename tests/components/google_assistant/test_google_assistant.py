@@ -38,7 +38,7 @@ def auth_header(hass_access_token: str) -> dict[str, str]:
 
 @pytest.fixture
 async def assistant_client(
-    hass: core.__HAC_KEEP__,
+    hass: core.UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> TestClient:
     """Create web client for the Google Assistant API."""
@@ -82,8 +82,8 @@ async def wanted_platforms_only() -> None:
 
 
 @pytest.fixture
-async def hass_fixture(hass: core.__HAC_KEEP__) -> core.__HAC_KEEP__:
-    """Set up a __HA_KEEP__ instance for these tests."""
+async def hass_fixture(hass: core.UniversalAssistant) -> core.UniversalAssistant:
+    """Set up a Universal Home Assistant instance for these tests."""
     # We need to do this to get access to universalassistant/turn_(on,off)
     await setup.async_setup_component(hass, core.DOMAIN, {})
 

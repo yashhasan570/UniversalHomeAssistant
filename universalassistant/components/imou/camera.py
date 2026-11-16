@@ -11,7 +11,7 @@ from universalassistant.components.camera import (
     CameraEntityDescription,
     CameraEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import PARAM_HEADER_DETECT, imou_device_identifier
@@ -51,7 +51,7 @@ CAMERA_TYPES: tuple[ImouCameraEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ImouConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

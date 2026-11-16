@@ -23,7 +23,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.debounce import Debouncer
@@ -57,14 +57,14 @@ class HomeworksData:
     keypads: dict[str, HomeworksKeypad]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Start Homeworks controller."""
     async_setup_services(hass)
 
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: HomeworksConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: HomeworksConfigEntry) -> None:
     """Set up Homeworks from a config entry."""
 
     controller_id = entry.options[CONF_CONTROLLER_ID]
@@ -111,7 +111,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: HomeworksConfigEntry) -> 
     entry.async_on_unload(entry.add_update_listener(update_listener))
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: HomeworksConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: HomeworksConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     for keypad in entry.runtime_data.keypads.values():
@@ -120,7 +120,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: HomeworksConfigEntry) ->
     await hass.async_add_executor_job(entry.runtime_data.controller.stop)
 
 
-async def update_listener(hass: __HAC_KEEP__, entry: HomeworksConfigEntry) -> None:
+async def update_listener(hass: UniversalAssistant, entry: HomeworksConfigEntry) -> None:
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
@@ -134,7 +134,7 @@ class HomeworksKeypad:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         controller: Homeworks,
         controller_id: str,
         addr: str,

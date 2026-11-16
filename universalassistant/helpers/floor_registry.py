@@ -8,7 +8,7 @@ from datetime import datetime
 import math
 from typing import Any, Literal, TypedDict, override
 
-from universalassistant.core import Event, __HAC_KEEP__, callback, verify_event_loop_thread
+from universalassistant.core import Event, UniversalAssistant, callback, verify_event_loop_thread
 from universalassistant.util.dt import utc_from_timestamp, utcnow
 from universalassistant.util.event_type import EventType
 from universalassistant.util.hass_dict import HassKey
@@ -154,7 +154,7 @@ class FloorRegistry(BaseRegistry[FloorRegistryStoreData]):
     floors: FloorRegistryItems
     _floor_data: dict[str, FloorEntry]
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the floor registry."""
         self.hass = hass
         self._store = FloorRegistryStore(
@@ -349,12 +349,12 @@ class FloorRegistry(BaseRegistry[FloorRegistryStoreData]):
 
 @callback
 @singleton(DATA_REGISTRY)
-def async_get(hass: __HAC_KEEP__) -> FloorRegistry:
+def async_get(hass: UniversalAssistant) -> FloorRegistry:
     """Get floor registry."""
     return FloorRegistry(hass)
 
 
-async def async_load(hass: __HAC_KEEP__, *, load_empty: bool = False) -> None:
+async def async_load(hass: UniversalAssistant, *, load_empty: bool = False) -> None:
     """Load floor registry."""
     assert DATA_REGISTRY not in hass.data
     await async_get(hass).async_load(load_empty=load_empty)

@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.date import DOMAIN as DATE_DOMAIN, SERVICE_SET_VALUE
 from universalassistant.const import ATTR_DATE, ATTR_ENTITY_ID, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -19,7 +19,7 @@ DATE_ENTITY_ID = "date.vallox_filter_change_date"
 
 @pytest.mark.usefixtures("mock_vallox_client")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -33,7 +33,7 @@ async def test_all_entities(
 
 @pytest.mark.usefixtures("init_integration")
 @pytest.mark.parametrize("metrics", [{"A_CYC_FILTER_CHANGED_DAY": None}])
-async def test_filter_change_date_missing(hass: __HAC_KEEP__) -> None:
+async def test_filter_change_date_missing(hass: UniversalAssistant) -> None:
     """Test a filter change date the unit does not report."""
     state = hass.states.get(DATE_ENTITY_ID)
     assert state
@@ -42,7 +42,7 @@ async def test_filter_change_date_missing(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_filter_change_date(
-    hass: __HAC_KEEP__, mock_vallox_client: AsyncMock
+    hass: UniversalAssistant, mock_vallox_client: AsyncMock
 ) -> None:
     """Test setting the filter change date."""
     await hass.services.async_call(

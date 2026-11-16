@@ -1,4 +1,4 @@
-"""API for Neato Botvac bound to __HA_KEEP__ OAuth."""
+"""API for Neato Botvac bound to Universal Home Assistant OAuth."""
 
 from asyncio import run_coroutine_threadsafe
 from typing import Any, override
@@ -17,7 +17,7 @@ class ConfigEntryAuth(pybotvac.OAuthSession):  # type: ignore[misc]
 
     def __init__(
         self,
-        hass: core.__HAC_KEEP__,
+        hass: core.UniversalAssistant,
         config_entry: NeatoConfigEntry,
         implementation: config_entry_oauth2_flow.AbstractOAuth2Implementation,
     ) -> None:

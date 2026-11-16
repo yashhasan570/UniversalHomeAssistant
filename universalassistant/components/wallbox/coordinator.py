@@ -11,8 +11,8 @@ import requests
 from wallbox import Wallbox
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -121,7 +121,7 @@ def _validate(wallbox: Wallbox) -> None:
         raise ConnectionError from wallbox_connection_error
 
 
-async def async_validate_input(hass: __HAC_KEEP__, wallbox: Wallbox) -> None:
+async def async_validate_input(hass: UniversalAssistant, wallbox: Wallbox) -> None:
     """Get new sensor data for Wallbox component."""
     await hass.async_add_executor_job(_validate, wallbox)
 
@@ -132,7 +132,7 @@ class WallboxCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     config_entry: WallboxConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: WallboxConfigEntry, wallbox: Wallbox
+        self, hass: UniversalAssistant, config_entry: WallboxConfigEntry, wallbox: Wallbox
     ) -> None:
         """Initialize."""
         self._station = config_entry.data[CONF_STATION]
@@ -163,7 +163,7 @@ class WallboxCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                     raise ConfigEntryAuthFailed(
                         translation_domain=DOMAIN, translation_key="invalid_auth"
                     ) from wallbox_connection_error
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN, translation_key="api_failed"
                 ) from wallbox_connection_error
             else:
@@ -279,10 +279,10 @@ class WallboxCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                     config_entry_id=self.config_entry.entry_id,
                 ) from wallbox_connection_error
             if wallbox_connection_error.response.status_code == 429:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN, translation_key="too_many_requests"
                 ) from wallbox_connection_error
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="api_failed"
             ) from wallbox_connection_error
 
@@ -311,10 +311,10 @@ class WallboxCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                     config_entry_id=self.config_entry.entry_id,
                 ) from wallbox_connection_error
             if wallbox_connection_error.response.status_code == 429:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN, translation_key="too_many_requests"
                 ) from wallbox_connection_error
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="api_failed"
             ) from wallbox_connection_error
 
@@ -336,10 +336,10 @@ class WallboxCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             return data  # noqa: TRY300
         except requests.exceptions.HTTPError as wallbox_connection_error:
             if wallbox_connection_error.response.status_code == 429:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN, translation_key="too_many_requests"
                 ) from wallbox_connection_error
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="api_failed"
             ) from wallbox_connection_error
 
@@ -372,10 +372,10 @@ class WallboxCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                     config_entry_id=self.config_entry.entry_id,
                 ) from wallbox_connection_error
             if wallbox_connection_error.response.status_code == 429:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN, translation_key="too_many_requests"
                 ) from wallbox_connection_error
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="api_failed"
             ) from wallbox_connection_error
 
@@ -395,10 +395,10 @@ class WallboxCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 self._wallbox.resumeChargingSession(self._station)
         except requests.exceptions.HTTPError as wallbox_connection_error:
             if wallbox_connection_error.response.status_code == 429:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN, translation_key="too_many_requests"
                 ) from wallbox_connection_error
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="api_failed"
             ) from wallbox_connection_error
 
@@ -421,10 +421,10 @@ class WallboxCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                     config_entry_id=self.config_entry.entry_id,
                 ) from wallbox_connection_error
             if wallbox_connection_error.response.status_code == 429:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN, translation_key="too_many_requests"
                 ) from wallbox_connection_error
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="api_failed"
             ) from wallbox_connection_error
 
@@ -446,10 +446,10 @@ class WallboxCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 self._wallbox.disableEcoSmart(self._station)
         except requests.exceptions.HTTPError as wallbox_connection_error:
             if wallbox_connection_error.response.status_code == 429:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN, translation_key="too_many_requests"
                 ) from wallbox_connection_error
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="api_failed"
             ) from wallbox_connection_error
 
@@ -461,11 +461,11 @@ class WallboxCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         await self.async_request_refresh()
 
 
-class InvalidAuth(__HAC_KEEP__Error):
+class InvalidAuth(UniversalAssistantError):
     """Error to indicate there is invalid auth."""
 
 
-class InsufficientRights(__HAC_KEEP__Error):
+class InsufficientRights(UniversalAssistantError):
     """Error to indicate there are insufficient right for the user."""
 
     def __init__(
@@ -474,7 +474,7 @@ class InsufficientRights(__HAC_KEEP__Error):
         translation_domain: str | None = None,
         translation_key: str | None = None,
         translation_placeholders: dict[str, str] | None = None,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry_id: str,
     ) -> None:
         """Initialize exception."""

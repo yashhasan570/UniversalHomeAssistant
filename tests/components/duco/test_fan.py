@@ -16,8 +16,8 @@ from universalassistant.components.fan import (
     SERVICE_SET_PRESET_MODE,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import async_fire_coordinator_update, setup_platform_integration
@@ -27,7 +27,7 @@ _FAN_ENTITY = "fan.living"
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
 ) -> MockConfigEntry:
@@ -37,7 +37,7 @@ async def init_integration(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_fan_entity_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -58,7 +58,7 @@ async def test_fan_entity_state(
     ],
 )
 async def test_fan_set_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     service: str,
     service_data: dict,
@@ -89,15 +89,15 @@ async def test_fan_set_state(
     ],
 )
 async def test_fan_set_state_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     exception: Exception,
     match: str,
 ) -> None:
-    """Test that a __HAC_KEEP__Error is raised on API failure."""
+    """Test that a UniversalAssistantError is raised on API failure."""
     mock_duco_client.async_set_ventilation_state = AsyncMock(side_effect=exception)
 
-    with pytest.raises(__HAC_KEEP__Error, match=match):
+    with pytest.raises(UniversalAssistantError, match=match):
         await hass.services.async_call(
             FAN_DOMAIN,
             SERVICE_SET_PERCENTAGE,
@@ -108,7 +108,7 @@ async def test_fan_set_state_error(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_coordinator_update_marks_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:

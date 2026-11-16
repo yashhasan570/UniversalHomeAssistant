@@ -7,11 +7,11 @@ from pytest_universalassistant.common import MockConfigEntry
 from technove import TechnoVEConnectionError, TechnoVEError
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_async_setup_entry(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Test a successful setup entry and unload."""
 
@@ -31,7 +31,7 @@ async def test_async_setup_entry(
     ],
 )
 async def test_async_setup_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_technove: MagicMock,
     mock_config_entry: MockConfigEntry,
     exception: type[Exception],

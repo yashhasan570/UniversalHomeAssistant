@@ -9,14 +9,14 @@ from universalassistant.components.diagnostics import REDACTED
 from universalassistant.components.fritzbox.const import DOMAIN
 from universalassistant.components.fritzbox.diagnostics import TO_REDACT
 from universalassistant.const import CONF_DEVICES
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_config_entry
 from .const import MOCK_CONFIG
 
 
 async def test_entry_diagnostics(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, fritz: Mock
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator, fritz: Mock
 ) -> None:
     """Test config entry diagnostics."""
     assert await setup_config_entry(hass, MOCK_CONFIG[DOMAIN][CONF_DEVICES][0])

@@ -22,8 +22,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -34,7 +34,7 @@ DURATION_ENTITY_ID = "number.sonic_auto_shut_off_duration_threshold"
 
 @pytest.mark.usefixtures("mock_watergate_client")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_entry: MockConfigEntry,
@@ -54,7 +54,7 @@ async def test_all_entities(
     ],
 )
 async def test_setting_threshold_calls_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
     entity_id: str,
@@ -72,14 +72,14 @@ async def test_setting_threshold_calls_client(
 
     update_mock = mock_watergate_client.async_update_auto_shut_off
     update_mock.assert_called_once_with(**expected_kwargs)
-    # __HA_KEEP__ coerces the service value to a float, the device expects an integer.
+    # Universal Home Assistant coerces the service value to a float, the device expects an integer.
     assert all(
         isinstance(value, int) for value in update_mock.call_args.kwargs.values()
     )
 
 
 async def test_setting_fractional_threshold_rounds_to_integer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
 ) -> None:
@@ -107,7 +107,7 @@ async def test_setting_fractional_threshold_rounds_to_integer(
     ],
 )
 async def test_number_reflects_polled_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -138,19 +138,19 @@ async def test_number_reflects_polled_state(
     ],
 )
 async def test_number_raises_on_client_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
     entity_id: str,
 ) -> None:
-    """Client failure while setting a threshold surfaces as a __HAC_KEEP__Error."""
+    """Client failure while setting a threshold surfaces as a UniversalAssistantError."""
     await init_integration(hass, mock_entry)
 
     mock_watergate_client.async_update_auto_shut_off.side_effect = (
         WatergateApiException("boom")
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,

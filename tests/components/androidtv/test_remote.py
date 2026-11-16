@@ -22,7 +22,7 @@ from universalassistant.const import (
     SERVICE_TURN_OFF,
     SERVICE_TURN_ON,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 
 from . import patchers
@@ -41,7 +41,7 @@ def _setup(config: dict[str, Any]) -> tuple[str, str, MockConfigEntry]:
 
 
 async def _test_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id,
     ha_service_name,
     androidtv_method,
@@ -75,7 +75,7 @@ async def _test_service(
 
 
 @pytest.mark.parametrize("config", [CONFIG_ANDROID_DEFAULT, CONFIG_FIRETV_DEFAULT])
-async def test_services_remote(hass: __HAC_KEEP__, config) -> None:
+async def test_services_remote(hass: UniversalAssistant, config) -> None:
     """Test services for remote entity."""
     patch_key, entity_id, config_entry = _setup(config)
     config_entry.add_to_hass(hass)
@@ -107,7 +107,7 @@ async def test_services_remote(hass: __HAC_KEEP__, config) -> None:
 
 
 @pytest.mark.parametrize("config", [CONFIG_ANDROID_DEFAULT, CONFIG_FIRETV_DEFAULT])
-async def test_services_remote_custom(hass: __HAC_KEEP__, config) -> None:
+async def test_services_remote_custom(hass: UniversalAssistant, config) -> None:
     """Test services with custom options for remote entity."""
     patch_key, entity_id, config_entry = _setup(config)
     config_entry.add_to_hass(hass)
@@ -136,7 +136,7 @@ async def test_services_remote_custom(hass: __HAC_KEEP__, config) -> None:
             )
 
 
-async def test_remote_unicode_decode_error(hass: __HAC_KEEP__) -> None:
+async def test_remote_unicode_decode_error(hass: UniversalAssistant) -> None:
     """Test send_command remote service raising UnicodeDecodeError."""
     patch_key, entity_id, config_entry = _setup(CONFIG_ANDROID_DEFAULT)
     config_entry.add_to_hass(hass)

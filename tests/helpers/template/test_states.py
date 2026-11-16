@@ -1,4 +1,4 @@
-"""Test state wrapper classes and helpers for __HA_KEEP__ templates."""
+"""Test state wrapper classes and helpers for Universal Home Assistant templates."""
 
 from datetime import timedelta
 
@@ -6,7 +6,7 @@ import pytest
 from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.const import STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import TemplateError
 from universalassistant.helpers import template
 from universalassistant.helpers.json import json_dumps
@@ -16,7 +16,7 @@ from universalassistant.util import dt as dt_util
 from .helpers import render
 
 
-async def test_template_states_blocks_setitem(hass: __HAC_KEEP__) -> None:
+async def test_template_states_blocks_setitem(hass: UniversalAssistant) -> None:
     """Test we cannot setitem on TemplateStates."""
     hass.states.async_set("light.new", STATE_ON)
     state = hass.states.get("light.new")
@@ -25,7 +25,7 @@ async def test_template_states_blocks_setitem(hass: __HAC_KEEP__) -> None:
         template_state["any"] = "any"
 
 
-async def test_template_states_can_serialize(hass: __HAC_KEEP__) -> None:
+async def test_template_states_can_serialize(hass: UniversalAssistant) -> None:
     """Test TemplateState is serializable."""
     hass.states.async_set("light.new", STATE_ON)
     state = hass.states.get("light.new")
@@ -34,7 +34,7 @@ async def test_template_states_can_serialize(hass: __HAC_KEEP__) -> None:
     assert json_dumps(template_state) == json_dumps(template_state)
 
 
-async def test_lru_increases_with_many_entities(hass: __HAC_KEEP__) -> None:
+async def test_lru_increases_with_many_entities(hass: UniversalAssistant) -> None:
     """Test that the template internal LRU cache increases with many entities."""
     # We do not actually want to record 4096 entities so we mock the entity count
     mock_entity_count = 16
@@ -80,7 +80,7 @@ async def test_lru_increases_with_many_entities(hass: __HAC_KEEP__) -> None:
     )
 
 
-def test_invalid_entity_id(hass: __HAC_KEEP__) -> None:
+def test_invalid_entity_id(hass: UniversalAssistant) -> None:
     """Test referring states by entity id."""
     with pytest.raises(TemplateError):
         render(hass, '{{ states["big.fat..."] }}')
@@ -90,7 +90,7 @@ def test_invalid_entity_id(hass: __HAC_KEEP__) -> None:
         render(hass, '{{ states["invalid/domain"] }}')
 
 
-def test_length_of_states(hass: __HAC_KEEP__) -> None:
+def test_length_of_states(hass: UniversalAssistant) -> None:
     """Test fetching the length of states."""
     hass.states.async_set("sensor.test", "23")
     hass.states.async_set("sensor.test2", "wow")
@@ -103,7 +103,7 @@ def test_length_of_states(hass: __HAC_KEEP__) -> None:
     assert result == 2
 
 
-async def test_slice_states(hass: __HAC_KEEP__) -> None:
+async def test_slice_states(hass: UniversalAssistant) -> None:
     """Test iterating states with a slice."""
     hass.states.async_set("sensor.test", "23")
 
@@ -118,7 +118,7 @@ async def test_slice_states(hass: __HAC_KEEP__) -> None:
     assert result == "sensor.test"
 
 
-async def test_state_attributes(hass: __HAC_KEEP__) -> None:
+async def test_state_attributes(hass: UniversalAssistant) -> None:
     """Test state attributes."""
     hass.states.async_set("sensor.test", "23")
 
@@ -144,7 +144,7 @@ async def test_state_attributes(hass: __HAC_KEEP__) -> None:
         render(hass, "{{ states.sensor.test.invalid_prop.xx }}")
 
 
-async def test_unavailable_states(hass: __HAC_KEEP__) -> None:
+async def test_unavailable_states(hass: UniversalAssistant) -> None:
     """Test watching unavailable states."""
 
     for i in range(10):

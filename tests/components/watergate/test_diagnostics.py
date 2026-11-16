@@ -18,14 +18,14 @@ from watergate_local_api import WatergateApiException
 from watergate_local_api.models import TelemetryData
 from watergate_local_api.models.water_event import Event
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import init_integration
 from .const import DEFAULT_DEVICE_STATE_V2
 
 
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
@@ -40,7 +40,7 @@ async def test_diagnostics(
 
 
 async def test_diagnostics_ongoing_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
@@ -60,7 +60,7 @@ async def test_diagnostics_ongoing_event(
 
 
 async def test_diagnostics_without_negative_water_meter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
@@ -81,7 +81,7 @@ async def test_diagnostics_without_negative_water_meter(
 
 
 async def test_diagnostics_without_device_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
@@ -105,7 +105,7 @@ async def test_diagnostics_without_device_state(
 
 
 async def test_diagnostics_without_coordinator_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],

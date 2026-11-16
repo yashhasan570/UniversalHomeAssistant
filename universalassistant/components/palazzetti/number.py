@@ -6,17 +6,19 @@ from pypalazzetti.exceptions import CommunicationError, ValidationError
 from pypalazzetti.fan import FanType
 
 from universalassistant.components.number import NumberDeviceClass, NumberEntity
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
 from .coordinator import PalazzettiConfigEntry, PalazzettiDataUpdateCoordinator
 from .entity import PalazzettiEntity
 
+PARALLEL_UPDATES = 1
+
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: PalazzettiConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -64,7 +66,7 @@ class PalazzettiCombustionPowerEntity(PalazzettiEntity, NumberEntity):
         try:
             await self.coordinator.client.set_power_mode(int(value))
         except CommunicationError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="cannot_connect"
             ) from err
         except ValidationError as err:
@@ -111,7 +113,7 @@ class PalazzettiFanEntity(PalazzettiEntity, NumberEntity):
         try:
             await self.coordinator.client.set_fan_speed(int(value), self.fan)
         except CommunicationError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="cannot_connect"
             ) from err
         except ValidationError as err:

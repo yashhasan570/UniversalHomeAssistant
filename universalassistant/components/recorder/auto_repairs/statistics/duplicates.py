@@ -10,7 +10,7 @@ from sqlalchemy.engine.row import Row
 from sqlalchemy.orm.session import Session
 from sqlalchemy.sql.expression import literal_column
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.json import JSONEncoder
 from universalassistant.helpers.storage import STORAGE_DIR
 from universalassistant.util import dt as dt_util
@@ -135,7 +135,7 @@ def _delete_duplicates_from_table(
 
 @database_job_retry_wrapper("delete statistics duplicates", 3)
 def delete_statistics_duplicates(
-    instance: Recorder, hass: __HAC_KEEP__, session: Session
+    instance: Recorder, hass: UniversalAssistant, session: Session
 ) -> None:
     """Identify and delete duplicated statistics.
 
@@ -177,7 +177,7 @@ def delete_statistics_duplicates(
     if deleted_short_term_statistics_rows:
         _LOGGER.warning(
             "Deleted duplicated short term statistic rows, please report at %s",
-            "https://github.com/yashhasan570/__HAC_KEEP__/issues?q=is%3Aopen+is%3Aissue+label%3A%22integration%3A+recorder%22",
+            "https://github.com/yashhasan570/UniversalUniversalAssistant/issues?q=is%3Aopen+is%3Aissue+label%3A%22integration%3A+recorder%22",
         )
 
 

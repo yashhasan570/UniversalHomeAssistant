@@ -5,7 +5,7 @@ from typing import Any, override
 from wmspro.scene import Scene as WMS_Scene
 
 from universalassistant.components.scene import Scene
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -15,7 +15,7 @@ from .const import ATTRIBUTION, DOMAIN, MANUFACTURER
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: WebControlProConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -35,7 +35,7 @@ class WebControlProScene(Scene):
     _attr_has_entity_name = True
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry_id: str, scene: WMS_Scene
+        self, hass: UniversalAssistant, config_entry_id: str, scene: WMS_Scene
     ) -> None:
         """Initialize the entity with the configured scene."""
         super().__init__()

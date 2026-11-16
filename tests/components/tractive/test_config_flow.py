@@ -12,7 +12,7 @@ from pytest_universalassistant.common import MockConfigEntry, get_schema_suggest
 
 from universalassistant import config_entries
 from universalassistant.components.tractive.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 USER_INPUT = {
@@ -51,7 +51,7 @@ def _rate_limit_error() -> aiotractive.exceptions.TractiveError:
     return error
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -80,7 +80,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
+async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -107,7 +107,7 @@ async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we handle connection error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -134,7 +134,7 @@ async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_rate_limit_exceeded(hass: __HAC_KEEP__) -> None:
+async def test_form_rate_limit_exceeded(hass: UniversalAssistant) -> None:
     """Test we handle rate limit error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -169,7 +169,7 @@ async def test_form_rate_limit_exceeded(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_unknown_error(hass: __HAC_KEEP__) -> None:
+async def test_form_unknown_error(hass: UniversalAssistant) -> None:
     """Test we handle unknown error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -196,7 +196,7 @@ async def test_form_unknown_error(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_entry_already_exists(hass: __HAC_KEEP__) -> None:
+async def test_flow_entry_already_exists(hass: UniversalAssistant) -> None:
     """Test user input for config_entry that already exists."""
     first_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -230,7 +230,7 @@ async def test_flow_entry_already_exists(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_update_credentials(
-    hass: __HAC_KEEP__, source: str, step_id: str, reason: str
+    hass: UniversalAssistant, source: str, step_id: str, reason: str
 ) -> None:
     """Test updating credentials through reauth and reconfigure."""
     entry = MockConfigEntry(domain=DOMAIN, data=USER_INPUT, unique_id="USERID")
@@ -284,7 +284,7 @@ async def test_update_credentials(
     ],
 )
 async def test_update_credentials_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     source: str,
     step_id: str,
     reason: str,
@@ -325,7 +325,7 @@ async def test_update_credentials_errors(
     "source", [config_entries.SOURCE_REAUTH, config_entries.SOURCE_RECONFIGURE]
 )
 async def test_update_credentials_unique_id_mismatch(
-    hass: __HAC_KEEP__, source: str
+    hass: UniversalAssistant, source: str
 ) -> None:
     """Test updating credentials with credentials of a different account."""
     entry = MockConfigEntry(domain=DOMAIN, data=USER_INPUT, unique_id="USERID")

@@ -16,8 +16,8 @@ from universalassistant.components.light import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import create_mock_account, setup_integration
@@ -27,7 +27,7 @@ NIGHT_LIGHT_ENTITY_ID = "light.test_night_light"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_account_with_litterrobot_5: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -40,7 +40,7 @@ async def test_all_entities(
 
 
 async def test_turn_on_brightness(
-    hass: __HAC_KEEP__, mock_account_with_litterrobot_5: MagicMock
+    hass: UniversalAssistant, mock_account_with_litterrobot_5: MagicMock
 ) -> None:
     """Test setting the night light brightness, preserving mode and color."""
     await setup_integration(hass, mock_account_with_litterrobot_5, LIGHT_DOMAIN)
@@ -58,7 +58,7 @@ async def test_turn_on_brightness(
 
 
 async def test_turn_on_color(
-    hass: __HAC_KEEP__, mock_account_with_litterrobot_5: MagicMock
+    hass: UniversalAssistant, mock_account_with_litterrobot_5: MagicMock
 ) -> None:
     """Test setting the night light color, preserving mode and brightness."""
     await setup_integration(hass, mock_account_with_litterrobot_5, LIGHT_DOMAIN)
@@ -75,7 +75,7 @@ async def test_turn_on_color(
     )
 
 
-async def test_turn_on_from_off_switches_on(hass: __HAC_KEEP__) -> None:
+async def test_turn_on_from_off_switches_on(hass: UniversalAssistant) -> None:
     """Test turning on a night light that is off switches the mode to on."""
     mock_account = create_mock_account(
         robot_data={
@@ -106,7 +106,7 @@ async def test_turn_on_from_off_switches_on(hass: __HAC_KEEP__) -> None:
 
 
 async def test_turn_off(
-    hass: __HAC_KEEP__, mock_account_with_litterrobot_5: MagicMock
+    hass: UniversalAssistant, mock_account_with_litterrobot_5: MagicMock
 ) -> None:
     """Test turning off the night light."""
     await setup_integration(hass, mock_account_with_litterrobot_5, LIGHT_DOMAIN)
@@ -121,14 +121,14 @@ async def test_turn_off(
     robot.set_night_light_settings.assert_awaited_once_with(mode=NightLightMode.OFF)
 
 
-async def test_command_exception(hass: __HAC_KEEP__) -> None:
-    """Test that a LitterRobotException is wrapped in __HAC_KEEP__Error."""
+async def test_command_exception(hass: UniversalAssistant) -> None:
+    """Test that a LitterRobotException is wrapped in UniversalAssistantError."""
     mock_account = create_mock_account(
         side_effect=InvalidCommandException("Invalid command: oops"), v5=True
     )
     await setup_integration(hass, mock_account, LIGHT_DOMAIN)
 
-    with pytest.raises(__HAC_KEEP__Error, match="Invalid command: oops"):
+    with pytest.raises(UniversalAssistantError, match="Invalid command: oops"):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_OFF,
@@ -138,7 +138,7 @@ async def test_command_exception(hass: __HAC_KEEP__) -> None:
 
 
 async def test_litter_robot_4_has_no_light(
-    hass: __HAC_KEEP__, mock_account_with_litterrobot_4: MagicMock
+    hass: UniversalAssistant, mock_account_with_litterrobot_4: MagicMock
 ) -> None:
     """Test that a Litter-Robot 4 creates no light entities."""
     await setup_integration(hass, mock_account_with_litterrobot_4, LIGHT_DOMAIN)

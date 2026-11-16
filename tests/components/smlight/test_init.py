@@ -26,7 +26,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.issue_registry import IssueRegistry
@@ -41,7 +41,7 @@ pytestmark = [
 
 
 async def test_async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_async_setup_entry(
     [pytest.param(0, id="data"), pytest.param(1, id="firmware")],
 )
 async def test_async_setup_auth_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
     successful_authentications: int,
@@ -93,7 +93,7 @@ async def test_async_setup_auth_failed(
 
 
 async def test_async_setup_info_auth_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
 ) -> None:
@@ -111,7 +111,7 @@ async def test_async_setup_info_auth_failed(
 
 
 async def test_async_setup_without_credentials(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_host: MockConfigEntry,
     mock_smlight_client: MagicMock,
 ) -> None:
@@ -128,7 +128,7 @@ async def test_async_setup_without_credentials(
     [pytest.param(0, id="data"), pytest.param(1, id="firmware")],
 )
 async def test_async_setup_authentication_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -167,7 +167,7 @@ async def test_async_setup_authentication_connection_error(
 
 
 async def test_async_setup_missing_credentials(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_host: MockConfigEntry,
     mock_smlight_client: MagicMock,
 ) -> None:
@@ -187,7 +187,7 @@ async def test_async_setup_missing_credentials(
 
 
 async def test_async_setup_no_internet(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_host: MockConfigEntry,
     mock_smlight_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -223,7 +223,7 @@ async def test_async_setup_no_internet(
 
 
 async def test_slow_firmware_catalog_does_not_block_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
 ) -> None:
@@ -256,7 +256,7 @@ async def test_slow_firmware_catalog_does_not_block_setup(
 
 
 async def test_unload_cancels_firmware_catalog(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
 ) -> None:
@@ -288,7 +288,7 @@ async def test_unload_cancels_firmware_catalog(
 
 @pytest.mark.parametrize("error", [SmlightConnectionError, SmlightAuthError])
 async def test_update_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -312,7 +312,7 @@ async def test_update_failed(
 
 
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -328,7 +328,7 @@ async def test_device_info(
 
 
 async def test_device_legacy_firmware(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -361,7 +361,7 @@ async def test_device_legacy_firmware(
 
 
 async def test_legacy_firmware_issue_per_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
     issue_registry: IssueRegistry,
@@ -397,7 +397,7 @@ async def test_legacy_firmware_issue_per_entry(
 
 
 async def test_legacy_firmware_issue_deleted_after_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
     issue_registry: IssueRegistry,
@@ -421,7 +421,7 @@ async def test_legacy_firmware_issue_deleted_after_update(
 
 
 async def test_async_execute_command_auth_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ultima_client: MagicMock,
 ) -> None:

@@ -10,7 +10,7 @@ from bitvis_protobuf.listener import FilterMac, SharedListener
 from bitvis_protobuf.parse import PayloadDiagnostic, PayloadSample
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -79,7 +79,7 @@ class BitvisListenerRegistry:
         return port in self._listeners
 
 
-def async_get_listener_registry(hass: __HAC_KEEP__) -> BitvisListenerRegistry:
+def async_get_listener_registry(hass: UniversalAssistant) -> BitvisListenerRegistry:
     """Return (creating if needed) the Bitvis listener registry for this HA instance."""
     if DATA_LISTENER_REGISTRY not in hass.data:
         hass.data[DATA_LISTENER_REGISTRY] = BitvisListenerRegistry()
@@ -93,7 +93,7 @@ class BitvisDataUpdateCoordinator(DataUpdateCoordinator[BitvisData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: BitvisConfigEntry,
         port: int,
         mac_address: str,

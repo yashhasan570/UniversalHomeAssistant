@@ -12,7 +12,7 @@ from universalassistant.components.humidifier import (
     HumidifierEntity,
     HumidifierEntityDescription,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -36,7 +36,7 @@ DEHUMIDIFIER_ACTION_MAP: dict[StateType, HumidifierAction] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: AprilaireConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

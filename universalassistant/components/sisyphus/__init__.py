@@ -7,7 +7,7 @@ import probatio
 from sisyphus_control import Table
 
 from universalassistant.const import CONF_HOST, CONF_NAME, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.discovery import async_load_platform
@@ -36,7 +36,7 @@ logging.getLogger("socketio.client").setLevel(logging.CRITICAL + 1)
 logging.getLogger("engineio.client").setLevel(logging.CRITICAL + 1)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the sisyphus component."""
 
     tables = hass.data.setdefault(DATA_SISYPHUS, {})

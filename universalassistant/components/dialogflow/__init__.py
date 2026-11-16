@@ -8,15 +8,15 @@ import probatio
 from universalassistant.components import webhook
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_WEBHOOK_ID
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_entry_flow, intent, template
 
 from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
-SOURCE = "__HA_KEEP__ Dialogflow"
+SOURCE = "Universal Home Assistant Dialogflow"
 
 CONFIG_SCHEMA = probatio.Schema({DOMAIN: {}}, extra=probatio.ALLOW_EXTRA)
 
@@ -24,12 +24,12 @@ V1 = 1
 V2 = 2
 
 
-class DialogFlowError(__HAC_KEEP__Error):
+class DialogFlowError(UniversalAssistantError):
     """Raised when a DialogFlow error happens."""
 
 
 async def handle_webhook(
-    hass: __HAC_KEEP__, webhook_id: str, request: web.Request
+    hass: UniversalAssistant, webhook_id: str, request: web.Request
 ) -> web.Response | None:
     """Handle incoming webhook with Dialogflow requests."""
     message = await request.json()
@@ -48,7 +48,7 @@ async def handle_webhook(
         _LOGGER.warning(str(err))
         return web.json_response(
             dialogflow_error_response(
-                message, "This intent is not yet configured within __HA_KEEP__."
+                message, "This intent is not yet configured within Universal Home Assistant."
             )
         )
 
@@ -67,14 +67,14 @@ async def handle_webhook(
         )
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Configure based on config entry."""
     webhook.async_register(
         hass, DOMAIN, "DialogFlow", entry.data[CONF_WEBHOOK_ID], handle_webhook
     )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     webhook.async_unregister(hass, entry.data[CONF_WEBHOOK_ID])
 

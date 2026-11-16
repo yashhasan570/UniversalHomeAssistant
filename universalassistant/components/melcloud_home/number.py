@@ -12,8 +12,8 @@ from universalassistant.components.number import (
     NumberEntityDescription,
 )
 from universalassistant.const import EntityCategory, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .common import async_setup_unit_entities, perform_action, unit_ids
@@ -178,7 +178,7 @@ ATW_NUMBERS: tuple[MelCloudHomeNumberEntityDescription[ATWUnit], ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MelCloudHomeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -224,7 +224,7 @@ class ATANumber(MelCloudHomeATAUnitEntity, NumberEntity):
         if self.entity_description.validate_fn and (
             error_key := self.entity_description.validate_fn(self.unit, value)
         ):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key=error_key,
             )
@@ -259,7 +259,7 @@ class ATWNumber(MelCloudHomeATWUnitEntity, NumberEntity):
         if self.entity_description.validate_fn and (
             error_key := self.entity_description.validate_fn(self.unit, value)
         ):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key=error_key,
             )

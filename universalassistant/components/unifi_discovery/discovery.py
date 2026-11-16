@@ -9,7 +9,7 @@ from typing import Any
 from unifi_discovery import AIOUnifiScanner, UnifiDevice
 
 from universalassistant import config_entries
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import discovery_flow
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.event import async_track_time_interval
@@ -72,7 +72,7 @@ def _device_to_dict(device: UnifiDevice) -> dict[str, Any]:
 
 
 @callback
-def async_start_discovery(hass: __HAC_KEEP__) -> None:
+def async_start_discovery(hass: UniversalAssistant) -> None:
     """Start discovery of UniFi devices."""
     if hass.data.get(DATA_DISCOVERY_STARTED):
         return
@@ -108,7 +108,7 @@ async def async_discover_devices() -> list[UnifiDevice]:
 
 @callback
 def async_trigger_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     discovered_devices: list[UnifiDevice],
 ) -> None:
     """Trigger config flows for discovered devices."""

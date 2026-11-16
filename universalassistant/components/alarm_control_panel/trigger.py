@@ -2,8 +2,8 @@
 
 from typing import override
 
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.automation import DomainSpec
 from universalassistant.helpers.entity import get_supported_features
 from universalassistant.helpers.trigger import (
@@ -16,11 +16,11 @@ from universalassistant.helpers.trigger import (
 from .const import DOMAIN, AlarmControlPanelEntityFeature, AlarmControlPanelState
 
 
-def supports_feature(hass: __HAC_KEEP__, entity_id: str, features: int) -> bool:
+def supports_feature(hass: UniversalAssistant, entity_id: str, features: int) -> bool:
     """Test if an entity supports the specified features."""
     try:
         return bool(get_supported_features(hass, entity_id) & features)
-    except __HAC_KEEP__Error:
+    except UniversalAssistantError:
         return False
 
 
@@ -102,6 +102,6 @@ TRIGGERS: dict[str, type[Trigger]] = {
 }
 
 
-async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
+async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
     """Return the triggers for alarm control panels."""
     return TRIGGERS

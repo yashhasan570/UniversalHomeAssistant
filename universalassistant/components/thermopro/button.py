@@ -13,7 +13,7 @@ from universalassistant.components.bluetooth import (
 )
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
@@ -32,10 +32,10 @@ PARALLEL_UPDATES = 1  # one connection at a time
 class ThermoProButtonEntityDescription(ButtonEntityDescription):
     """Describe a ThermoPro button entity."""
 
-    press_action_fn: Callable[[__HAC_KEEP__, str], Coroutine[None, Any, Any]]
+    press_action_fn: Callable[[UniversalAssistant, str], Coroutine[None, Any, Any]]
 
 
-async def _async_set_datetime(hass: __HAC_KEEP__, address: str) -> None:
+async def _async_set_datetime(hass: UniversalAssistant, address: str) -> None:
     """Set Date&Time for a given device."""
     ble_device = async_ble_device_from_address(hass, address, connectable=True)
     assert ble_device is not None
@@ -56,7 +56,7 @@ MODELS_THAT_SUPPORT_BUTTONS = {"TP358", "TP393"}
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ThermoProConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

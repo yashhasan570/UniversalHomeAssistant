@@ -9,13 +9,13 @@ import probatio
 from pyomie import QUARTER_HOURLY_START_DATE
 
 from universalassistant.core import (
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 
 from .const import DOMAIN
@@ -89,12 +89,12 @@ async def _get_prices_for_date(call: ServiceCall) -> ServiceResponse:
                 translation_key="data_not_available",
                 translation_placeholders={"date": market_date.isoformat()},
             ) from err
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="cannot_connect",
         ) from err
     except (aiohttp.ClientError, TimeoutError) as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="cannot_connect",
         ) from err
@@ -117,7 +117,7 @@ async def _get_prices_for_date(call: ServiceCall) -> ServiceResponse:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the services for the OMIE integration."""
     hass.services.async_register(
         DOMAIN,

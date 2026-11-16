@@ -5,8 +5,8 @@ from typing import Any
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 
 from .config import Day, ScheduleRecurrence
@@ -35,14 +35,14 @@ def _agent_error_translations(
             ),
         }
         for agent_id, err in agent_errors.items()
-        if isinstance(err, __HAC_KEEP__Error)
+        if isinstance(err, UniversalAssistantError)
         and err.translation_domain
         and err.translation_key
     }
 
 
 @callback
-def async_register_websocket_handlers(hass: __HAC_KEEP__, with_hassio: bool) -> None:
+def async_register_websocket_handlers(hass: UniversalAssistant, with_hassio: bool) -> None:
     """Register websocket commands."""
     websocket_api.async_register_command(hass, backup_agents_info)
 
@@ -67,7 +67,7 @@ def async_register_websocket_handlers(hass: __HAC_KEEP__, with_hassio: bool) -> 
 @websocket_api.websocket_command({probatio.Required("type"): "backup/info"})
 @websocket_api.async_response
 async def handle_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -109,7 +109,7 @@ async def handle_info(
 )
 @websocket_api.async_response
 async def handle_details(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -138,7 +138,7 @@ async def handle_details(
 )
 @websocket_api.async_response
 async def handle_delete(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -170,7 +170,7 @@ async def handle_delete(
 )
 @websocket_api.async_response
 async def handle_restore(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -204,7 +204,7 @@ async def handle_restore(
 )
 @websocket_api.async_response
 async def handle_can_decrypt_on_download(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -243,7 +243,7 @@ async def handle_can_decrypt_on_download(
 )
 @websocket_api.async_response
 async def handle_create(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -270,7 +270,7 @@ async def handle_create(
 )
 @websocket_api.async_response
 async def handle_create_with_automatic_settings(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -295,7 +295,7 @@ async def handle_create_with_automatic_settings(
 @websocket_api.websocket_command({probatio.Required("type"): "backup/start"})
 @websocket_api.async_response
 async def handle_backup_start(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -316,7 +316,7 @@ async def handle_backup_start(
 @websocket_api.websocket_command({probatio.Required("type"): "backup/end"})
 @websocket_api.async_response
 async def handle_backup_end(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -337,7 +337,7 @@ async def handle_backup_end(
 @websocket_api.websocket_command({probatio.Required("type"): "backup/agents/info"})
 @websocket_api.async_response
 async def backup_agents_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -358,7 +358,7 @@ async def backup_agents_info(
 @websocket_api.websocket_command({probatio.Required("type"): "backup/config/info"})
 @websocket_api.async_response
 async def handle_config_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -451,7 +451,7 @@ async def handle_config_info(
     }
 )
 def handle_config_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -468,7 +468,7 @@ def handle_config_update(
 @websocket_api.websocket_command({probatio.Required("type"): "backup/subscribe_events"})
 @websocket_api.async_response
 async def handle_subscribe_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

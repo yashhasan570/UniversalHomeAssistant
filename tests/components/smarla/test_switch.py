@@ -15,7 +15,7 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration, update_property_listeners
@@ -36,7 +36,7 @@ SWITCH_ENTITIES = [
 
 @pytest.mark.usefixtures("mock_federwiege")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -61,7 +61,7 @@ async def test_entities(
 )
 @pytest.mark.parametrize("entity_info", SWITCH_ENTITIES)
 async def test_switch_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_federwiege: MagicMock,
     entity_info: dict[str, str],
@@ -88,7 +88,7 @@ async def test_switch_action(
 
 @pytest.mark.parametrize("entity_info", SWITCH_ENTITIES)
 async def test_switch_state_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_federwiege: MagicMock,
     entity_info: dict[str, str],

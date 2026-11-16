@@ -15,7 +15,7 @@ from screenlogicpy.device_const.system import EQUIPMENT_FLAG
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -31,7 +31,7 @@ HEATER_COOLDOWN_DELAY = 6
 
 
 async def async_get_connect_info(
-    hass: __HAC_KEEP__, entry: ScreenLogicConfigEntry
+    hass: UniversalAssistant, entry: ScreenLogicConfigEntry
 ) -> dict[str, str | int]:
     """Construct connect_info from configuration entry and returns it to caller."""
     mac = entry.unique_id
@@ -58,7 +58,7 @@ class ScreenlogicDataUpdateCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         *,
         config_entry: ScreenLogicConfigEntry,
         gateway: ScreenLogicGateway,

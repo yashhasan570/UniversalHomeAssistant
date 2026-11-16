@@ -1,4 +1,4 @@
-"""Config flow for the __HA_KEEP__ SkyConnect integration."""
+"""Config flow for the Universal Home Assistant SkyConnect integration."""
 
 from abc import ABC, abstractmethod
 import asyncio
@@ -25,7 +25,7 @@ from universalassistant.config_entries import (
 )
 from universalassistant.core import callback
 from universalassistant.data_entry_flow import AbortFlow
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.hassio import is_hassio
 from universalassistant.helpers.importlib import async_import_module
@@ -206,7 +206,7 @@ class BaseFirmwareInstallFlow(ConfigEntryBaseFlow, ABC):
         except AbortFlow as err:
             self._progress_error = err
             return self.async_show_progress_done(next_step_id="progress_failed")
-        except __HAC_KEEP__Error:
+        except UniversalAssistantError:
             _LOGGER.exception("Failed to flash firmware")
             self._progress_error = AbortFlow(
                 reason="fw_install_failed",

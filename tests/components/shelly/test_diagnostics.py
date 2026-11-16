@@ -17,7 +17,7 @@ from universalassistant.components.shelly.const import (
     BLEScannerMode,
 )
 from universalassistant.components.shelly.diagnostics import TO_REDACT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import init_integration, inject_rpc_device_event
 from .conftest import MOCK_STATUS_COAP
@@ -26,7 +26,7 @@ RELAY_BLOCK_ID = 0
 
 
 async def test_block_config_entry_diagnostics(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, mock_block_device: Mock
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator, mock_block_device: Mock
 ) -> None:
     """Test config entry diagnostics for block device."""
     await init_integration(hass, 1)
@@ -64,7 +64,7 @@ async def test_block_config_entry_diagnostics(
 
 
 async def test_rpc_config_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -201,7 +201,7 @@ async def test_rpc_config_entry_diagnostics(
     [("ws://10.10.10.10:8123/api/shelly/ws", True), ("wrong_url", False)],
 )
 async def test_rpc_config_entry_diagnostics_ws_outbound(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -224,7 +224,7 @@ async def test_rpc_config_entry_diagnostics_ws_outbound(
 
 
 async def test_rpc_config_entry_diagnostics_no_ws(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,

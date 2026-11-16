@@ -29,7 +29,7 @@ from universalassistant.const import (
     UnitOfVolume,
     UnitOfVolumeFlowRate,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 from universalassistant.util import dt as dt_util
@@ -1126,7 +1126,7 @@ SENSOR_ENTITIES: list[MideaSensorEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MideaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

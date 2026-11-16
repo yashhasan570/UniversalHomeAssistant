@@ -38,7 +38,7 @@ from universalassistant.components.engie_be.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_EMAIL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -362,7 +362,7 @@ def without_capacity_tariff(
     return [entry for entry in entries if "_capacity_tariff_" not in entry.unique_id]
 
 
-async def setup_entry(hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry) -> None:
+async def setup_entry(hass: UniversalAssistant, mock_config_entry: MockConfigEntry) -> None:
     """Set up a loaded ENGIE Belgium entry."""
     mock_config_entry.add_to_hass(hass)
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
@@ -370,7 +370,7 @@ async def setup_entry(hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry) ->
 
 
 async def setup_dynamic_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
 ) -> None:

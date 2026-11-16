@@ -16,12 +16,12 @@ from universalassistant.components.hydrawise.services import (
     HydrawiseServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 
 async def test_start_watering(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_added_config_entry: MockConfigEntry,
     mock_pydrawise: AsyncMock,
     zones: list[Zone],
@@ -42,7 +42,7 @@ async def test_start_watering(
 
 
 async def test_start_watering_no_duration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_added_config_entry: MockConfigEntry,
     mock_pydrawise: AsyncMock,
     zones: list[Zone],
@@ -58,7 +58,7 @@ async def test_start_watering_no_duration(
 
 
 async def test_resume(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_added_config_entry: MockConfigEntry,
     mock_pydrawise: AsyncMock,
     zones: list[Zone],
@@ -74,7 +74,7 @@ async def test_resume(
 
 
 async def test_suspend(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_added_config_entry: MockConfigEntry,
     mock_pydrawise: AsyncMock,
     zones: list[Zone],
@@ -117,7 +117,7 @@ async def test_suspend(
 )
 @pytest.mark.usefixtures("mock_added_config_entry")
 async def test_service_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pydrawise: AsyncMock,
     service: str,
     service_data: dict[str, Any],
@@ -128,7 +128,7 @@ async def test_service_api_error(
     """Test that API errors in the services raise a translated error."""
     getattr(mock_pydrawise, api_method).side_effect = side_effect
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             service,

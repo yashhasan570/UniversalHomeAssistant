@@ -2,7 +2,7 @@
 
 from universalassistant.components.universalassistant import async_should_expose
 from universalassistant.components.llm import LLMTools
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import intent
 from universalassistant.helpers.llm import (
     LLM_API_ASSIST,
@@ -33,7 +33,7 @@ LLM_INTENTS = {
 
 @callback
 def async_get_tools(
-    hass: __HAC_KEEP__, llm_context: LLMContext, api_id: str
+    hass: UniversalAssistant, llm_context: LLMContext, api_id: str
 ) -> LLMTools | None:
     """Return LLM tools for the integration's intents when its domain is exposed."""
     if api_id != LLM_API_ASSIST:

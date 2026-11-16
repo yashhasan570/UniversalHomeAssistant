@@ -18,8 +18,8 @@ from xknx.dpt import DPTArray, DPTTime
 
 from universalassistant.components.knx import llm_api
 from universalassistant.components.knx.const import KNX_MODULE_KEY
-from universalassistant.core import Context, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import Context, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import llm
 
 from .conftest import KNXTestKit
@@ -96,13 +96,13 @@ def _telegram_summary(destination: str) -> TelegramSummary:
     )
 
 
-async def _api_instance(hass: __HAC_KEEP__) -> llm.APIInstance:
+async def _api_instance(hass: UniversalAssistant) -> llm.APIInstance:
     """The registered KNX API, as a conversation agent or MCP client gets it."""
     return await llm.async_get_api(hass, llm_api.LLM_API_ID, _llm_context())
 
 
 async def test_llm_api_registered_after_setup(
-    hass: __HAC_KEEP__, knx: KNXTestKit
+    hass: UniversalAssistant, knx: KNXTestKit
 ) -> None:
     """Setup registers the API with all tools; unload deregisters it."""
     await knx.setup_integration()
@@ -112,7 +112,7 @@ async def test_llm_api_registered_after_setup(
 
     await hass.config_entries.async_unload(knx.mock_config_entry.entry_id)
     await hass.async_block_till_done()
-    with pytest.raises(__HAC_KEEP__Error, match="not found"):
+    with pytest.raises(UniversalAssistantError, match="not found"):
         await llm.async_get_api(hass, llm_api.LLM_API_ID, _llm_context())
 
 
@@ -132,7 +132,7 @@ async def test_llm_api_registered_after_setup(
     ],
 )
 async def test_tools_declare_their_safety_hints(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     tool_name: str,
     read_only: bool,
@@ -375,7 +375,7 @@ def test_schema_required_field_is_enforced() -> None:
         tool.parameters({})
 
 
-async def test_describe_dpt_tool_call(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_describe_dpt_tool_call(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """A DPT tool needs no KNX runtime state and returns a serialized result."""
     await knx.setup_integration()
     instance = await _api_instance(hass)
@@ -390,7 +390,7 @@ async def test_describe_dpt_tool_call(hass: __HAC_KEEP__, knx: KNXTestKit) -> No
     assert result["dpt"]["unit"] == "°C"
 
 
-async def test_query_telegrams_tool_call(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_query_telegrams_tool_call(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """The store tool passes a typed input to the library and serializes the result."""
     lib_result = QueryTelegramsResult(
         telegrams=[], total_count=0, offset=0, next_offset=None, limit_reached=False
@@ -416,14 +416,14 @@ async def test_query_telegrams_tool_call(hass: __HAC_KEEP__, knx: KNXTestKit) ->
     assert result["total_count"] == 0
 
 
-async def test_store_tool_without_store_raises(hass: __HAC_KEEP__) -> None:
+async def test_store_tool_without_store_raises(hass: UniversalAssistant) -> None:
     """A store tool errors clearly when the telegram store is unavailable."""
     tool = _tool(
         llm_api._build_tools(_mock_knx(store=None)),
         "get_store_stats",
     )
     with pytest.raises(
-        __HAC_KEEP__Error, match="llm_telegram_store_unavailable"
+        UniversalAssistantError, match="llm_telegram_store_unavailable"
     ) as err:
         await tool.async_call(
             hass,
@@ -434,7 +434,7 @@ async def test_store_tool_without_store_raises(hass: __HAC_KEEP__) -> None:
 
 
 async def test_project_tool_without_project_raises(
-    hass: __HAC_KEEP__, knx: KNXTestKit
+    hass: UniversalAssistant, knx: KNXTestKit
 ) -> None:
     """A project tool errors clearly when no ETS project is loaded.
 
@@ -444,7 +444,7 @@ async def test_project_tool_without_project_raises(
     await knx.setup_integration()
     instance = await _api_instance(hass)
 
-    with pytest.raises(__HAC_KEEP__Error, match="No ETS project is loaded") as err:
+    with pytest.raises(UniversalAssistantError, match="No ETS project is loaded") as err:
         await instance.async_call_tool(
             llm.ToolInput(tool_name="get_project_info", tool_args={})
         )
@@ -452,7 +452,7 @@ async def test_project_tool_without_project_raises(
 
 
 async def test_bus_write_tool_call_reaches_the_bus(
-    hass: __HAC_KEEP__, knx: KNXTestKit
+    hass: UniversalAssistant, knx: KNXTestKit
 ) -> None:
     """A bus tool called through the registered API sends a telegram."""
     await knx.setup_integration()
@@ -491,13 +491,13 @@ async def test_bus_write_tool_call_reaches_the_bus(
     ],
 )
 async def test_library_errors_become_translated_tool_errors(
-    hass: __HAC_KEEP__, knx: KNXTestKit, tool_name: str, tool_args: dict[str, Any]
+    hass: UniversalAssistant, knx: KNXTestKit, tool_name: str, tool_args: dict[str, Any]
 ) -> None:
     """A library exception is reported to the model as a KNX tool failure."""
     await knx.setup_integration()
     instance = await _api_instance(hass)
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await instance.async_call_tool(
             llm.ToolInput(tool_name=tool_name, tool_args=tool_args)
         )
@@ -512,7 +512,7 @@ async def test_library_errors_become_translated_tool_errors(
     ],
 )
 async def test_get_last_values_is_paginated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tool_args: dict[str, Any],
     expected_count: int,
     expected_next_offset: int | None,
@@ -538,7 +538,7 @@ async def test_get_last_values_is_paginated(
     assert result["next_offset"] == expected_next_offset
 
 
-async def test_get_last_values_is_ordered(hass: __HAC_KEEP__) -> None:
+async def test_get_last_values_is_ordered(hass: UniversalAssistant) -> None:
     """The backend query has no ORDER BY, so paging needs a stable sort."""
     telegrams = [_telegram_summary(f"1/1/{index}") for index in (3, 1, 2)]
     knx = _mock_knx(store=Mock())
@@ -562,7 +562,7 @@ async def test_get_last_values_is_ordered(hass: __HAC_KEEP__) -> None:
     ]
 
 
-async def test_get_topology_is_paginated_by_line(hass: __HAC_KEEP__) -> None:
+async def test_get_topology_is_paginated_by_line(hass: UniversalAssistant) -> None:
     """Xknxproject returns the whole topology at once, which a large bus makes huge.
 
     Paging on areas cannot bound it: KNX allows at most 16 of them, so any

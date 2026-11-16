@@ -19,8 +19,8 @@ from universalassistant.components.switch import (
     SwitchEntityDescription,
 )
 from universalassistant.const import EntityCategory, Platform
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -38,7 +38,7 @@ class ISYSwitchEntityDescription(SwitchEntityDescription):
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: IsyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -95,13 +95,13 @@ class ISYSwitchEntity(ISYNodeEntity, SwitchEntity):
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Send the turn off command to the ISY switch."""
         if not await self._node.turn_off():
-            raise __HAC_KEEP__Error(f"Unable to turn off switch {self._node.address}")
+            raise UniversalAssistantError(f"Unable to turn off switch {self._node.address}")
 
     @override
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Send the turn on command to the ISY switch."""
         if not await self._node.turn_on():
-            raise __HAC_KEEP__Error(f"Unable to turn on switch {self._node.address}")
+            raise UniversalAssistantError(f"Unable to turn on switch {self._node.address}")
 
     @property
     @override
@@ -127,7 +127,7 @@ class ISYSwitchProgramEntity(ISYProgramEntity, SwitchEntity):
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Send the turn on command to the ISY switch program."""
         if not await self._actions.run_then():
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Unable to run 'then' clause on program switch {self._actions.address}"
             )
 
@@ -135,7 +135,7 @@ class ISYSwitchProgramEntity(ISYProgramEntity, SwitchEntity):
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Send the turn off command to the ISY switch program."""
         if not await self._actions.run_else():
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Unable to run 'else' clause on program switch {self._actions.address}"
             )
 
@@ -198,10 +198,10 @@ class ISYEnableSwitchEntity(ISYAuxControlEntity, SwitchEntity):
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Send the turn off command to the ISY switch."""
         if not await self._node.disable():
-            raise __HAC_KEEP__Error(f"Unable to disable device {self._node.address}")
+            raise UniversalAssistantError(f"Unable to disable device {self._node.address}")
 
     @override
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Send the turn on command to the ISY switch."""
         if not await self._node.enable():
-            raise __HAC_KEEP__Error(f"Unable to enable device {self._node.address}")
+            raise UniversalAssistantError(f"Unable to enable device {self._node.address}")

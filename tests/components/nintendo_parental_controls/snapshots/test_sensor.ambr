@@ -45,7 +45,7 @@
   StateSnapshot({
     'attributes': ReadOnlyDict({
       <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'duration',
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: '__HA_KEEP__ Test Extended screen time',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Universal Home Assistant Test Extended screen time',
       <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.MEASUREMENT: 'measurement'>,
       <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: <UnitOfTime.MINUTES: 'min'>,
     }),
@@ -104,7 +104,7 @@
     'attributes': ReadOnlyDict({
       <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'duration',
       <EntityStateAttribute.ENTITY_PICTURE: 'entity_picture'>: 'http://localhost/image.png',
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: '__HA_KEEP__ Test HA Gamer used screen time',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Universal Home Assistant Test HA Gamer used screen time',
       <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.MEASUREMENT: 'measurement'>,
       <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: <UnitOfTime.MINUTES: 'min'>,
     }),
@@ -162,7 +162,7 @@
   StateSnapshot({
     'attributes': ReadOnlyDict({
       <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'duration',
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: '__HA_KEEP__ Test Screen time remaining',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Universal Home Assistant Test Screen time remaining',
       <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.MEASUREMENT: 'measurement'>,
       <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: <UnitOfTime.MINUTES: 'min'>,
     }),
@@ -220,7 +220,7 @@
   StateSnapshot({
     'attributes': ReadOnlyDict({
       <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'duration',
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: '__HA_KEEP__ Test Used screen time',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Universal Home Assistant Test Used screen time',
       <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.MEASUREMENT: 'measurement'>,
       <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: <UnitOfTime.MINUTES: 'min'>,
     }),

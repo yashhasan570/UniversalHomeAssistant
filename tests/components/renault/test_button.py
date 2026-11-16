@@ -13,8 +13,8 @@ from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, Button
 from universalassistant.components.renault.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntry
 from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 pytestmark = pytest.mark.usefixtures("patch_renault_account", "patch_get_vehicles")
@@ -29,7 +29,7 @@ def override_platforms() -> Generator[None]:
 
 @pytest.mark.usefixtures("fixtures_with_data")
 async def test_buttons(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -44,7 +44,7 @@ async def test_buttons(
 @pytest.mark.usefixtures("fixtures_with_no_data")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_button_empty(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -59,7 +59,7 @@ async def test_button_empty(
 @pytest.mark.usefixtures("fixtures_with_invalid_upstream_exception")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_button_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -74,7 +74,7 @@ async def test_button_errors(
 @pytest.mark.usefixtures("fixtures_with_access_denied_exception")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_button_access_denied(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -89,7 +89,7 @@ async def test_button_access_denied(
 @pytest.mark.usefixtures("fixtures_with_not_supported_exception")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_button_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -104,7 +104,7 @@ async def test_button_not_supported(
 @pytest.mark.usefixtures("fixtures_with_data")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_button_start_charge(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry
 ) -> None:
     """Test that button invokes renault_api with correct data."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -132,7 +132,7 @@ async def test_button_start_charge(
 @pytest.mark.usefixtures("fixtures_with_data")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_button_authentication_expired(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry
 ) -> None:
     """Test a button press with an expired login triggers reauth."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -143,7 +143,7 @@ async def test_button_authentication_expired(
             "renault_api.renault_vehicle.RenaultVehicle.set_charge_start",
             side_effect=NotAuthenticatedException("Authentication expired."),
         ),
-        pytest.raises(__HAC_KEEP__Error) as err,
+        pytest.raises(UniversalAssistantError) as err,
     ):
         await hass.services.async_call(
             BUTTON_DOMAIN,
@@ -165,7 +165,7 @@ async def test_button_authentication_expired(
 @pytest.mark.usefixtures("fixtures_with_data")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_button_stop_charge(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry
 ) -> None:
     """Test that button invokes renault_api with correct data."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -193,7 +193,7 @@ async def test_button_stop_charge(
 @pytest.mark.usefixtures("fixtures_with_data")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_button_start_air_conditioner(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry
 ) -> None:
     """Test that button invokes renault_api with correct data."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -221,7 +221,7 @@ async def test_button_start_air_conditioner(
 @pytest.mark.usefixtures("fixtures_with_data")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_button_sound_horn(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry
 ) -> None:
     """Test that button invokes renault_api with correct data."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -244,7 +244,7 @@ async def test_button_sound_horn(
 @pytest.mark.usefixtures("fixtures_with_data")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_button_flash_lights(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry
 ) -> None:
     """Test that button invokes renault_api with correct data."""
     await hass.config_entries.async_setup(config_entry.entry_id)

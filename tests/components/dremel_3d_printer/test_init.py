@@ -10,7 +10,7 @@ from requests.exceptions import ConnectTimeout
 from universalassistant.components.dremel_3d_printer.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -20,7 +20,7 @@ MOCKED_MODEL = "universalassistant.components.dremel_3d_printer.Dremel3DPrinter.
 
 @pytest.mark.parametrize("model", ["3D45", "3D20"])
 async def test_setup(
-    hass: __HAC_KEEP__, connection, config_entry: MockConfigEntry, model: str
+    hass: UniversalAssistant, connection, config_entry: MockConfigEntry, model: str
 ) -> None:
     """Test load and unload."""
     with patch(MOCKED_MODEL, return_value=model) as mock:
@@ -39,7 +39,7 @@ async def test_setup(
 
 
 async def test_async_setup_entry_not_ready(
-    hass: __HAC_KEEP__, connection, config_entry: MockConfigEntry
+    hass: UniversalAssistant, connection, config_entry: MockConfigEntry
 ) -> None:
     """Test that it throws ConfigEntryNotReady when exception occurs during setup."""
     with patch(
@@ -54,7 +54,7 @@ async def test_async_setup_entry_not_ready(
 
 
 async def test_update_failed(
-    hass: __HAC_KEEP__, connection, config_entry: MockConfigEntry
+    hass: UniversalAssistant, connection, config_entry: MockConfigEntry
 ) -> None:
     """Test coordinator throws UpdateFailed after failed update."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -74,7 +74,7 @@ async def test_update_failed(
 
 
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     connection,
     config_entry: MockConfigEntry,

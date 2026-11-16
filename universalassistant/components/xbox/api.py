@@ -1,4 +1,4 @@
-"""API for xbox bound to __HA_KEEP__ OAuth."""
+"""API for xbox bound to Universal Home Assistant OAuth."""
 
 from typing import override
 
@@ -19,7 +19,7 @@ class AsyncConfigEntryAuth(AuthenticationManager):
 
     def __init__(self, session: AsyncClient, oauth_session: OAuth2Session) -> None:
         """Initialize xbox auth."""
-        # Leaving out client credentials as they are handled by __HA_KEEP__
+        # Leaving out client credentials as they are handled by Universal Home Assistant
         super().__init__(session, "", "", "")
         self._oauth_session = oauth_session
         self.oauth = self._get_oauth_token()

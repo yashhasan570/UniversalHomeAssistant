@@ -20,7 +20,7 @@ astroid.MANAGER.ast_from_module_name("universalassistant.exceptions")
 
 _HA_IMPORTS = (
     "from universalassistant.exceptions import ("
-    "__HAC_KEEP__Error, ServiceValidationError, ConfigEntryAuthFailed)"
+    "UniversalAssistantError, ServiceValidationError, ConfigEntryAuthFailed)"
 )
 _HA_DOMAIN_IMPORT = (
     "from universalassistant.components.universalassistant import DOMAIN as HOMEASSISTANT_DOMAIN"
@@ -61,7 +61,7 @@ def _make_integration(
         pytest.param(
             f"""
 {_HA_IMPORTS}
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_domain=DOMAIN,
     translation_key="some_error",
 )
@@ -71,7 +71,7 @@ raise __HAC_KEEP__Error(
         pytest.param(
             f"""
 {_HA_IMPORTS}
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_domain=DOMAIN,
     translation_key="error_with_name",
     translation_placeholders={{"name": device_name}},
@@ -102,7 +102,7 @@ raise ConfigEntryAuthFailed(
         pytest.param(
             f"""
 {_HA_IMPORTS}
-raise __HAC_KEEP__Error()
+raise UniversalAssistantError()
 """,
             id="no_args_no_translation",
         ),
@@ -135,8 +135,8 @@ def test_no_warning(
     ("exc_class", "code"),
     [
         pytest.param(
-            "__HAC_KEEP__Error",
-            f'{_HA_IMPORTS}\nraise __HAC_KEEP__Error("Something went wrong")',
+            "UniversalAssistantError",
+            f'{_HA_IMPORTS}\nraise UniversalAssistantError("Something went wrong")',
             id="ha_error_hardcoded",
         ),
         pytest.param(
@@ -177,7 +177,7 @@ def test_hardcoded_string_flagged(
         pytest.param(
             f"""
 {_HA_IMPORTS}
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_key="some_error",
 )
 """,
@@ -186,7 +186,7 @@ raise __HAC_KEEP__Error(
         pytest.param(
             f"""
 {_HA_IMPORTS}
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_domain=DOMAIN,
 )
 """,
@@ -195,7 +195,7 @@ raise __HAC_KEEP__Error(
         pytest.param(
             f"""
 {_HA_IMPORTS}
-raise __HAC_KEEP__Error("Something failed", translation_domain=DOMAIN)
+raise UniversalAssistantError("Something failed", translation_domain=DOMAIN)
 """,
             id="hardcoded_with_domain_no_key",
         ),
@@ -234,7 +234,7 @@ def test_message_with_translation_key_flagged(
     root_node = astroid.parse(
         f"""
 {_HA_IMPORTS}
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     "This should not be here",
     translation_domain=DOMAIN,
     translation_key="some_error",
@@ -264,7 +264,7 @@ def test_missing_translation_key_flagged(
     root_node = astroid.parse(
         f"""
 {_HA_IMPORTS}
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_domain=DOMAIN,
     translation_key="nonexistent_key",
 )
@@ -294,7 +294,7 @@ def test_existing_translation_key_ok(
     root_node = astroid.parse(
         f"""
 {_HA_IMPORTS}
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_domain=DOMAIN,
     translation_key="some_error",
 )
@@ -322,7 +322,7 @@ def test_extra_placeholders_flagged(
     root_node = astroid.parse(
         f"""
 {_HA_IMPORTS}
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_domain=DOMAIN,
     translation_key="some_error",
     translation_placeholders={{"extra": "value"}},
@@ -354,7 +354,7 @@ def test_placeholder_mismatch_flagged(
     root_node = astroid.parse(
         f"""
 {_HA_IMPORTS}
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_domain=DOMAIN,
     translation_key="some_error",
     translation_placeholders={{"device_name": name, "wrong_key": "value"}},
@@ -386,7 +386,7 @@ def test_placeholder_match_ok(
     root_node = astroid.parse(
         f"""
 {_HA_IMPORTS}
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_domain=DOMAIN,
     translation_key="some_error",
     translation_placeholders={{"device_name": name, "error": str(err)}},
@@ -416,7 +416,7 @@ def test_placeholder_variable_resolved(
         f"""
 {_HA_IMPORTS}
 placeholders = {{"device_name": name, "error": str(err)}}
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_domain=DOMAIN,
     translation_key="some_error",
     translation_placeholders=placeholders,
@@ -446,7 +446,7 @@ def test_placeholder_variable_mismatch_flagged(
         f"""
 {_HA_IMPORTS}
 placeholders = {{"wrong": name}}
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_domain=DOMAIN,
     translation_key="some_error",
     translation_placeholders=placeholders,
@@ -479,7 +479,7 @@ def test_dict_unpacking_placeholders_ok(
         f"""
 {_HA_IMPORTS}
 base = {{"name": device_name}}
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_domain=DOMAIN,
     translation_key="some_error",
     translation_placeholders={{**base, "reason": str(err)}},
@@ -509,7 +509,7 @@ def test_constant_placeholder_keys_ok(
         f"""
 {_HA_IMPORTS}
 ATTR_NAME = "name"
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_domain=DOMAIN,
     translation_key="some_error",
     translation_placeholders={{ATTR_NAME: device_name}},
@@ -548,7 +548,7 @@ def test_key_reference_resolution(
     root_node = astroid.parse(
         f"""
 {_HA_IMPORTS}
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_domain=DOMAIN,
     translation_key="some_error",
     translation_placeholders={{"device": device_name}},
@@ -572,7 +572,7 @@ def test_no_strings_json_flags_missing_key(
     root_node = astroid.parse(
         f"""
 {_HA_IMPORTS}
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_domain=DOMAIN,
     translation_key="some_error",
 )
@@ -603,7 +603,7 @@ def test_missing_placeholders_flagged(
     root_node = astroid.parse(
         f"""
 {_HA_IMPORTS}
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_domain=DOMAIN,
     translation_key="some_error",
 )
@@ -636,7 +636,7 @@ def test_custom_integration_en_json(
     root_node = astroid.parse(
         f"""
 {_HA_IMPORTS}
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_domain=DOMAIN,
     translation_key="missing_key",
 )
@@ -658,7 +658,7 @@ def test_not_integration_ignored(
 ) -> None:
     """Test that non-integration modules are ignored."""
     root_node = astroid.parse(
-        f'{_HA_IMPORTS}\nraise __HAC_KEEP__Error("hardcoded")',
+        f'{_HA_IMPORTS}\nraise UniversalAssistantError("hardcoded")',
         "tests.components.test_integration",
     )
 
@@ -682,7 +682,7 @@ def _make_other_integration(tmp_path: Path) -> None:
             f"""
 {_HA_IMPORTS}
 {_HA_DOMAIN_IMPORT}
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_domain=HOMEASSISTANT_DOMAIN,
     translation_key="other_error",
     translation_placeholders={{"name": device_name}},
@@ -694,7 +694,7 @@ raise __HAC_KEEP__Error(
             f"""
 {_HA_IMPORTS}
 OTHER_DOMAIN = "universalassistant"
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_domain=OTHER_DOMAIN,
     translation_key="other_error",
     translation_placeholders={{"name": device_name}},
@@ -705,7 +705,7 @@ raise __HAC_KEEP__Error(
         pytest.param(
             f"""
 {_HA_IMPORTS}
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_domain=get_domain(),
     translation_key="nonexistent_key",
 )
@@ -715,7 +715,7 @@ raise __HAC_KEEP__Error(
         pytest.param(
             f"""
 {_HA_IMPORTS}
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_domain=unknown_domain,
     translation_key="nonexistent_key",
 )
@@ -747,7 +747,7 @@ def test_other_domain_no_warning(
             f"""
 {_HA_IMPORTS}
 {_HA_DOMAIN_IMPORT}
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_domain=HOMEASSISTANT_DOMAIN,
     translation_key="nonexistent_key",
 )
@@ -759,7 +759,7 @@ raise __HAC_KEEP__Error(
             f"""
 {_HA_IMPORTS}
 {_HA_DOMAIN_IMPORT}
-raise __HAC_KEEP__Error(
+raise UniversalAssistantError(
     translation_domain=HOMEASSISTANT_DOMAIN,
     translation_key="other_error",
     translation_placeholders={{"wrong": device_name}},

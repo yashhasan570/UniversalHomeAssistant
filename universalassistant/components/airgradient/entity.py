@@ -12,7 +12,7 @@ from airgradient import (
     get_model_name,
 )
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -53,35 +53,35 @@ def exception_handler[_EntityT: AirGradientEntity, **_P](
         try:
             await func(self, *args, **kwargs)
         except AirGradientConnectionError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="communication_error",
                 translation_placeholders={"error": str(error)},
             ) from error
 
         except AirGradientForbiddenError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="forbidden_error",
                 translation_placeholders={"error": str(error)},
             ) from error
 
         except AirGradientBusyError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="busy_error",
                 translation_placeholders={"error": str(error)},
             ) from error
 
         except AirGradientNotSupportedError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="unsupported_error",
                 translation_placeholders={"error": str(error)},
             ) from error
 
         except AirGradientError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="unknown_error",
                 translation_placeholders={"error": str(error)},

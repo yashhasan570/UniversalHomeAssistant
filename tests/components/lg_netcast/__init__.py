@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_MODEL,
     CONF_NAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 FAIL_TO_BIND_IP = "1.2.3.4"
 
@@ -93,7 +93,7 @@ def _patch_lg_netcast(
     )
 
 
-async def setup_lgnetcast(hass: __HAC_KEEP__, unique_id: str = UNIQUE_ID):
+async def setup_lgnetcast(hass: UniversalAssistant, unique_id: str = UNIQUE_ID):
     """Initialize lg netcast and media_player for tests."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

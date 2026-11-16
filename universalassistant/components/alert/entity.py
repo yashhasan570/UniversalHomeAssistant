@@ -14,7 +14,7 @@ from universalassistant.components.notify import (
     DOMAIN as NOTIFY_DOMAIN,
 )
 from universalassistant.const import STATE_IDLE, STATE_OFF, STATE_ON
-from universalassistant.core import Event, EventStateChangedData, HassJob, __HAC_KEEP__
+from universalassistant.core import Event, EventStateChangedData, HassJob, UniversalAssistant
 from universalassistant.exceptions import ServiceNotFound, ServiceValidationError
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.event import (
@@ -37,7 +37,7 @@ class AlertEntity(Entity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entity_id: str,
         name: str,
         watched_entity_id: str,

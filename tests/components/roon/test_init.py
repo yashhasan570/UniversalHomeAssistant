@@ -7,10 +7,10 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.roon.const import CONF_ROON_NAME, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def test_setup_failed(hass: __HAC_KEEP__) -> None:
+async def test_setup_failed(hass: UniversalAssistant) -> None:
     """Test setup fails when the Roon server can't be set up."""
     entry = MockConfigEntry(
         domain=DOMAIN,

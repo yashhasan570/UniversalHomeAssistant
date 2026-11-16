@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 
 from .const import (
@@ -64,7 +64,7 @@ def _construct_common_data(
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, config_entry: IntellifireConfigEntry
+    hass: UniversalAssistant, config_entry: IntellifireConfigEntry
 ) -> None:
     """Migrate entries."""
     LOGGER.debug(
@@ -130,7 +130,7 @@ async def async_migrate_entry(
             LOGGER.debug("Migration to 1.3 successful (options keys renamed)")
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: IntellifireConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: IntellifireConfigEntry) -> None:
     """Set up IntelliFire from a config entry."""
 
     if CONF_USERNAME not in entry.data:
@@ -171,7 +171,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: IntellifireConfigEntry) -
 
 
 async def async_update_options(
-    hass: __HAC_KEEP__, entry: IntellifireConfigEntry
+    hass: UniversalAssistant, entry: IntellifireConfigEntry
 ) -> None:
     """Handle options update."""
     coordinator: IntellifireDataUpdateCoordinator = entry.runtime_data
@@ -214,7 +214,7 @@ async def _async_wait_for_initialization(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: IntellifireConfigEntry
+    hass: UniversalAssistant, entry: IntellifireConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

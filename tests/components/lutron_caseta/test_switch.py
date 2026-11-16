@@ -2,14 +2,14 @@
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import MockBridge, async_setup_integration
 
 
 async def test_switch_unique_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a light unique id."""
     await async_setup_integration(hass, MockBridge)
@@ -22,7 +22,7 @@ async def test_switch_unique_id(
 
 
 async def test_smart_away_switch_setup(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test smart away switch is created when bridge supports it."""
     await async_setup_integration(hass, MockBridge, smart_away_state="Disabled")
@@ -41,7 +41,7 @@ async def test_smart_away_switch_setup(
 
 
 async def test_smart_away_switch_not_created_when_not_supported(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test smart away switch is not created when bridge doesn't support it."""
 
@@ -58,7 +58,7 @@ async def test_smart_away_switch_not_created_when_not_supported(
     assert state is None
 
 
-async def test_smart_away_turn_on(hass: __HAC_KEEP__) -> None:
+async def test_smart_away_turn_on(hass: UniversalAssistant) -> None:
     """Test turning on smart away."""
 
     await async_setup_integration(hass, MockBridge, smart_away_state="Disabled")
@@ -82,7 +82,7 @@ async def test_smart_away_turn_on(hass: __HAC_KEEP__) -> None:
     assert state.state == STATE_ON
 
 
-async def test_smart_away_turn_off(hass: __HAC_KEEP__) -> None:
+async def test_smart_away_turn_off(hass: UniversalAssistant) -> None:
     """Test turning off smart away."""
 
     await async_setup_integration(hass, MockBridge, smart_away_state="Enabled")

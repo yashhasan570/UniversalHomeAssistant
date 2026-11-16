@@ -20,7 +20,7 @@ from universalassistant.components.bluetooth import (
 )
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_ADDRESS, CONF_UUID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.selector import (
     SelectOptionDict,
@@ -54,7 +54,7 @@ def _is_iseo_lock(info: BluetoothServiceInfoBleak) -> bool:
     )
 
 
-def _discover_locks(hass: __HAC_KEEP__) -> list[BluetoothServiceInfoBleak]:
+def _discover_locks(hass: UniversalAssistant) -> list[BluetoothServiceInfoBleak]:
     """Query HA's bluetooth integration for nearby ISEO locks."""
     all_devices = sorted(
         async_discovered_service_info(hass, connectable=True),
@@ -219,7 +219,7 @@ class IseoConfigFlow(ConfigFlow, domain=DOMAIN):
                     ble_device=ble_device,
                 )
                 try:
-                    await client.setup_gateway(name="__HA_KEEP__")
+                    await client.setup_gateway(name="Universal Home Assistant")
                     return self._async_create_iseo_entry()
                 except IseoConnectionError:
                     errors["base"] = "cannot_connect"

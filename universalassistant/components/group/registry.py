@@ -32,7 +32,7 @@ from universalassistant.const import (
     STATE_PROBLEM,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.integration_platform import (
     async_process_integration_platforms,
 )
@@ -126,7 +126,7 @@ ON_OFF_STATES: dict[Platform | str, tuple[set[str], str, str]] = {
 }
 
 
-async def async_setup(hass: __HAC_KEEP__) -> None:
+async def async_setup(hass: UniversalAssistant) -> None:
     """Set up the Group integration registry of integration platforms."""
     hass.data[REG_KEY] = GroupIntegrationRegistry(hass)
 
@@ -139,14 +139,14 @@ class GroupProtocol(Protocol):
     """Define the format of group platforms."""
 
     def async_describe_on_off_states(
-        self, hass: __HAC_KEEP__, registry: GroupIntegrationRegistry
+        self, hass: UniversalAssistant, registry: GroupIntegrationRegistry
     ) -> None:
         """Describe group on off states."""
 
 
 @callback
 def _process_group_platform(
-    hass: __HAC_KEEP__, domain: str, platform: GroupProtocol
+    hass: UniversalAssistant, domain: str, platform: GroupProtocol
 ) -> None:
     """Process a group platform."""
     platform.async_describe_on_off_states(hass, hass.data[REG_KEY])
@@ -163,7 +163,7 @@ class SingleStateType:
 class GroupIntegrationRegistry:
     """Class to hold a registry of integrations."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Imitialize registry."""
         self.hass = hass
         self.on_off_mapping: dict[str, str] = {STATE_ON: STATE_OFF}

@@ -23,10 +23,10 @@ from universalassistant.core import (
     DOMAIN as HOMEASSISTANT_DOMAIN,
     CoreState,
     Event,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error, UnsupportedStorageVersionError
+from universalassistant.exceptions import UniversalAssistantError, UnsupportedStorageVersionError
 from universalassistant.util import dt as dt_util, json as json_util
 from universalassistant.util.async_ import wait_shared_future
 from universalassistant.util.file import WriteError, write_utf8_file, write_utf8_file_atomic
@@ -48,7 +48,7 @@ MANAGER_CLEANUP_DELAY = 60
 
 
 async def async_migrator[_T: Mapping[str, Any] | Sequence[Any]](
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     old_path: str,
     store: Store[_T],
     *,
@@ -86,11 +86,11 @@ async def async_migrator[_T: Mapping[str, Any] | Sequence[Any]](
     return config
 
 
-def get_internal_store_manager(hass: __HAC_KEEP__) -> _StoreManager:
+def get_internal_store_manager(hass: UniversalAssistant) -> _StoreManager:
     """Get the store manager.
 
     This function is not part of the API and should only be
-    used in the __HA_KEEP__ core internals. It is not
+    used in the Universal Home Assistant core internals. It is not
     guaranteed to be stable.
     """
     if STORAGE_MANAGER not in hass.data:
@@ -105,7 +105,7 @@ class _StoreManager:
     The store manager is used to cache and manage storage files.
     """
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize storage manager class."""
         self._hass = hass
         self._invalidated: set[str] = set()
@@ -195,7 +195,7 @@ class _StoreManager:
         """Cleanup unused cache.
 
         If nothing consumes the cache 60s after startup or when we
-        stop __HA_KEEP__, we'll clear the cache.
+        stop Universal Home Assistant, we'll clear the cache.
         """
         self._data_preload.clear()
 
@@ -228,7 +228,7 @@ class _FileStoreIO:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         key: str,
         path: str,
         private: bool,
@@ -294,7 +294,7 @@ class Store[_T: Mapping[str, Any] | Sequence[Any]]:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         version: int,
         key: str,
         private: bool = False,
@@ -425,7 +425,7 @@ class Store[_T: Mapping[str, Any] | Sequence[Any]]:
         else:
             try:
                 data = await self._io.async_load()
-            except __HAC_KEEP__Error as err:
+            except UniversalAssistantError as err:
                 if isinstance(err.__cause__, JSONDecodeError):
                     # If we have a JSONDecodeError, it means the file is corrupt.
                     # We can't recover from this, so we'll log
@@ -608,14 +608,14 @@ class Store[_T: Mapping[str, Any] | Sequence[Any]]:
 
     async def _async_callback_delayed_write(self) -> None:
         """Handle a delayed write callback."""
-        # catch the case where a call is scheduled and then we stop __HA_KEEP__
+        # catch the case where a call is scheduled and then we stop Universal Home Assistant
         if self.hass.state is CoreState.stopping:
             self._async_ensure_final_write_listener()
             return
         await self._async_handle_write_data()
 
     async def _async_callback_final_write(self, _event: Event) -> None:
-        """Handle a write because __HA_KEEP__ is in final write state."""
+        """Handle a write because Universal Home Assistant is in final write state."""
         self._unsub_final_write_listener = None
         await self._async_handle_write_data()
 

@@ -21,7 +21,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.intent import (
     IntentHandleError,
     IntentResponseType,
@@ -33,7 +33,7 @@ from universalassistant.helpers.intent import (
 from universalassistant.setup import async_setup_component
 
 
-async def test_intent_set_humidity(hass: __HAC_KEEP__) -> None:
+async def test_intent_set_humidity(hass: UniversalAssistant) -> None:
     """Test the set humidity intent."""
     assert await async_setup_component(hass, "universalassistant", {})
     hass.states.async_set(
@@ -63,7 +63,7 @@ async def test_intent_set_humidity(hass: __HAC_KEEP__) -> None:
     assert call.data.get(ATTR_HUMIDITY) == 50
 
 
-async def test_intent_set_humidity_and_turn_on(hass: __HAC_KEEP__) -> None:
+async def test_intent_set_humidity_and_turn_on(hass: UniversalAssistant) -> None:
     """Test the set humidity intent for turned off humidifier."""
     assert await async_setup_component(hass, "universalassistant", {})
     hass.states.async_set(
@@ -100,7 +100,7 @@ async def test_intent_set_humidity_and_turn_on(hass: __HAC_KEEP__) -> None:
     assert call.data.get(ATTR_HUMIDITY) == 50
 
 
-async def test_intent_set_mode(hass: __HAC_KEEP__) -> None:
+async def test_intent_set_mode(hass: UniversalAssistant) -> None:
     """Test the set mode intent."""
     assert await async_setup_component(hass, "universalassistant", {})
     hass.states.async_set(
@@ -140,7 +140,7 @@ async def test_intent_set_mode(hass: __HAC_KEEP__) -> None:
     assert call.data.get(ATTR_MODE) == "away"
 
 
-async def test_intent_set_mode_and_turn_on(hass: __HAC_KEEP__) -> None:
+async def test_intent_set_mode_and_turn_on(hass: UniversalAssistant) -> None:
     """Test the set mode intent."""
     assert await async_setup_component(hass, "universalassistant", {})
     hass.states.async_set(
@@ -184,7 +184,7 @@ async def test_intent_set_mode_and_turn_on(hass: __HAC_KEEP__) -> None:
     assert call.data.get(ATTR_MODE) == "away"
 
 
-async def test_intent_set_mode_tests_feature(hass: __HAC_KEEP__) -> None:
+async def test_intent_set_mode_tests_feature(hass: UniversalAssistant) -> None:
     """Test the set mode intent where modes are not supported."""
     assert await async_setup_component(hass, "universalassistant", {})
     hass.states.async_set(
@@ -207,7 +207,7 @@ async def test_intent_set_mode_tests_feature(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("available_modes", [["home", "away"], None])
 async def test_intent_set_unknown_mode(
-    hass: __HAC_KEEP__, available_modes: list[str] | None
+    hass: UniversalAssistant, available_modes: list[str] | None
 ) -> None:
     """Test the set mode intent for unsupported mode."""
     assert await async_setup_component(hass, "universalassistant", {})
@@ -236,7 +236,7 @@ async def test_intent_set_unknown_mode(
     assert len(mode_calls) == 0
 
 
-async def test_intent_errors(hass: __HAC_KEEP__) -> None:
+async def test_intent_errors(hass: UniversalAssistant) -> None:
     """Test the error conditions for set humidity and set mode intents."""
     assert await async_setup_component(hass, "universalassistant", {})
     entity_id = "humidifier.bedroom_humidifier"

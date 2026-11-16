@@ -15,7 +15,7 @@ from pysmhi import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_LATITUDE, CONF_LOCATION, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -54,7 +54,7 @@ class SMHIDataUpdateCoordinator(DataUpdateCoordinator[SMHIForecastData]):
 
     config_entry: SMHIConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: SMHIConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: SMHIConfigEntry) -> None:
         """Initialize the SMHI coordinator."""
         super().__init__(
             hass,
@@ -102,7 +102,7 @@ class SMHIFireDataUpdateCoordinator(DataUpdateCoordinator[SMHIFireForecastData])
 
     config_entry: SMHIConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: SMHIConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: SMHIConfigEntry) -> None:
         """Initialize the SMHI coordinator."""
         super().__init__(
             hass,

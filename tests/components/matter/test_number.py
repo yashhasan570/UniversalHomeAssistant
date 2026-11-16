@@ -11,8 +11,8 @@ import pytest
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -35,7 +35,7 @@ def platform() -> Platform:
 
 @pytest.mark.usefixtures("matter_devices")
 async def test_numbers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -45,7 +45,7 @@ async def test_numbers(
 
 @pytest.mark.parametrize("node_fixture", ["mock_dimmable_light"])
 async def test_level_control_config_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -138,7 +138,7 @@ async def test_level_control_config_entities(
 
 @pytest.mark.parametrize("node_fixture", ["color_temperature_light"])
 async def test_power_on_color_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -209,7 +209,7 @@ async def test_power_on_color_temperature(
     ],
 )
 async def test_power_on_color_temperature_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     value: int,
@@ -238,7 +238,7 @@ async def test_power_on_color_temperature_set_value(
 
 @pytest.mark.parametrize("node_fixture", ["eve_weather_sensor"])
 async def test_eve_weather_sensor_altitude(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -277,7 +277,7 @@ async def test_eve_weather_sensor_altitude(
 
 @pytest.mark.parametrize("node_fixture", ["silabs_refrigerator"])
 async def test_temperature_control_temperature_setpoint(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -333,15 +333,15 @@ async def test_temperature_control_temperature_setpoint(
 
 @pytest.mark.parametrize("node_fixture", ["mock_dimmable_light"])
 async def test_matter_exception_on_write_attribute(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
-    """Test MatterError converts to __HAC_KEEP__Error for dimmable_light."""
+    """Test MatterError converts to UniversalAssistantError for dimmable_light."""
     state = hass.states.get("number.mock_dimmable_light_on_level")
     assert state
     matter_client.write_attribute.side_effect = MatterError("Boom")
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "number",
             "set_value",
@@ -355,7 +355,7 @@ async def test_matter_exception_on_write_attribute(
 
 @pytest.mark.parametrize("node_fixture", ["mock_pump"])
 async def test_pump_level(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -393,7 +393,7 @@ async def test_pump_level(
 
 @pytest.mark.parametrize("node_fixture", ["mock_microwave_oven"])
 async def test_microwave_oven(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -426,7 +426,7 @@ async def test_microwave_oven(
 
 @pytest.mark.parametrize("node_fixture", ["aqara_thermostat_w500"])
 async def test_thermostat_occupied_setback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -470,7 +470,7 @@ async def test_thermostat_occupied_setback(
 
 @pytest.mark.parametrize("node_fixture", ["aqara_thermostat_w500"])
 async def test_thermostat_temperature_offset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -544,7 +544,7 @@ async def test_thermostat_temperature_offset(
 )
 @pytest.mark.usefixtures("matter_node")
 async def test_thermostat_temperature_offset_cluster_revision_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id: str,
     expected_min: float,
     expected_max: float,
@@ -558,7 +558,7 @@ async def test_thermostat_temperature_offset_cluster_revision_range(
 
 @pytest.mark.parametrize("node_fixture", ["aqara_multi_state_p100"])
 async def test_boolean_state_configuration_current_sensitivity_level(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -596,7 +596,7 @@ async def test_boolean_state_configuration_current_sensitivity_level(
 
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 async def test_lock_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -626,7 +626,7 @@ async def test_lock_attributes(
 
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 async def test_matter_exception_on_door_lock_write_attribute(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -635,7 +635,7 @@ async def test_matter_exception_on_door_lock_write_attribute(
     state = hass.states.get(entity_id)
     assert state
     matter_client.write_attribute.side_effect = MatterError("Boom!")
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             "number",
             "set_value",
@@ -651,7 +651,7 @@ async def test_matter_exception_on_door_lock_write_attribute(
 
 @pytest.mark.parametrize("node_fixture", ["mock_valve"])
 async def test_valve_default_open_duration_nullable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -714,7 +714,7 @@ async def test_valve_default_open_duration_nullable(
 
 @pytest.mark.parametrize("node_fixture", ["mock_occupancy_sensor_pir"])
 async def test_occupancy_sensing_pir_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -819,7 +819,7 @@ async def test_occupancy_sensing_pir_attributes(
     ],
 )
 async def test_wago_window_covering_numbers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -868,7 +868,7 @@ async def test_wago_window_covering_numbers(
     ],
 )
 async def test_wago_window_covering_numbers_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -896,7 +896,7 @@ async def test_wago_window_covering_numbers_set_value(
 
 @pytest.mark.parametrize("node_fixture", ["aqara_led_strip_t2"])
 async def test_aqara_led_strip_t2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:

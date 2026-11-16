@@ -7,7 +7,7 @@ from typing import cast, override
 import probatio
 
 from universalassistant.const import ATTR_ENTITY_ID, CONF_OPTIONS
-from universalassistant.core import CALLBACK_TYPE, Context, __HAC_KEEP__, State, callback
+from universalassistant.core import CALLBACK_TYPE, Context, UniversalAssistant, State, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.automation import DomainSpec, filter_by_domain_specs
 from universalassistant.helpers.event import async_track_point_in_utc_time
@@ -48,12 +48,12 @@ class TimeRemainingTrigger(Trigger):
     @override
     @classmethod
     async def async_validate_config(
-        cls, hass: __HAC_KEEP__, config: ConfigType
+        cls, hass: UniversalAssistant, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         return cast(ConfigType, cls._schema(config))
 
-    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
+    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
         """Initialize the time remaining trigger."""
         super().__init__(hass, config)
         assert config.target is not None
@@ -191,6 +191,6 @@ TRIGGERS: dict[str, type[Trigger]] = {
 }
 
 
-async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
+async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
     """Return the triggers for timers."""
     return TRIGGERS

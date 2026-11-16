@@ -32,14 +32,14 @@ from universalassistant.core import (
     EntityServiceResponse,
     HassJob,
     HassJobType,
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
 from universalassistant.exceptions import (
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     ServiceNotSupported,
     ServiceValidationError,
     TemplateError,
@@ -223,7 +223,7 @@ class ServiceParams(TypedDict):
 
 
 def call_from_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     blocking: bool = False,
     variables: TemplateVarsType = None,
@@ -237,7 +237,7 @@ def call_from_config(
 
 
 async def async_call_from_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     blocking: bool = False,
     variables: TemplateVarsType = None,
@@ -249,7 +249,7 @@ async def async_call_from_config(
         params = async_prepare_call_from_config(
             hass, config, variables, validate_config
         )
-    except __HAC_KEEP__Error as ex:
+    except UniversalAssistantError as ex:
         if blocking:
             raise
         _LOGGER.error(ex)
@@ -259,7 +259,7 @@ async def async_call_from_config(
 
 @callback
 def async_prepare_call_from_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     variables: TemplateVarsType = None,
     validate_config: bool = False,
@@ -269,7 +269,7 @@ def async_prepare_call_from_config(
         try:
             config = cv.SERVICE_SCHEMA(config)
         except probatio.Invalid as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Invalid config for calling service: {ex}"
             ) from ex
 
@@ -283,11 +283,11 @@ def async_prepare_call_from_config(
             domain_service = domain_service.async_render(variables)
             domain_service = cv.service(domain_service)
         except TemplateError as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Error rendering service name template: {ex}"
             ) from ex
         except probatio.Invalid as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Template rendered invalid service: {domain_service}"
             ) from ex
 
@@ -311,11 +311,11 @@ def async_prepare_call_from_config(
                     )
                 target[CONF_ENTITY_ID] = entity_ids
         except TemplateError as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Error rendering service target template: {ex}"
             ) from ex
         except probatio.Invalid as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Template rendered invalid entity IDs: {target[CONF_ENTITY_ID]}"
             ) from ex
 
@@ -323,7 +323,7 @@ def async_prepare_call_from_config(
             try:
                 target[CONF_EXCLUDE] = cv.TARGET_EXCLUDE_SCHEMA(exclude)
             except probatio.Invalid as ex:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     f"Template rendered invalid exclude block: {exclude}"
                 ) from ex
 
@@ -335,13 +335,13 @@ def async_prepare_call_from_config(
         try:
             render = template.render_complex(config[conf], variables)
             if not isinstance(render, dict):
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=HOMEASSISTANT_DOMAIN,
                     translation_key="service_data_template_not_dict",
                 )
             service_data.update(render)
         except TemplateError as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=HOMEASSISTANT_DOMAIN,
                 translation_key="service_data_template_error",
                 translation_placeholders={"error": str(ex)},
@@ -474,7 +474,7 @@ def _load_services_file(integration: Integration) -> JSON_TYPE:
             "Unable to find services.yaml for the %s integration", integration.domain
         )
         return {}
-    except (__HAC_KEEP__Error, probatio.Invalid) as ex:
+    except (UniversalAssistantError, probatio.Invalid) as ex:
         _LOGGER.warning(
             "Unable to parse services.yaml for the %s integration: %s",
             integration.domain,
@@ -493,14 +493,14 @@ def _load_services_files(integrations: Iterable[Integration]) -> dict[str, JSON_
 
 @callback
 def async_get_cached_service_description(
-    hass: __HAC_KEEP__, domain: str, service: str
+    hass: UniversalAssistant, domain: str, service: str
 ) -> dict[str, Any] | None:
     """Return the cached description for a service."""
     return hass.data.get(SERVICE_DESCRIPTION_CACHE, {}).get((domain, service))
 
 
 async def async_get_all_descriptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> dict[str, dict[str, Any]]:
     """Return descriptions (i.e. user documentation) for all service calls."""
     descriptions_cache = hass.data.setdefault(SERVICE_DESCRIPTION_CACHE, {})
@@ -614,7 +614,7 @@ def remove_entity_service_fields(call: ServiceCall) -> dict[Any, Any]:
 
 @callback
 def async_set_service_schema(
-    hass: __HAC_KEEP__, domain: str, service: str, schema: dict[str, Any]
+    hass: UniversalAssistant, domain: str, service: str, schema: dict[str, Any]
 ) -> None:
     """Register a description for a service."""
     domain = domain.lower()
@@ -699,7 +699,7 @@ def _get_permissible_entity_candidates(
 
 
 async def _resolve_entity_service_call_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     registered_entities: Mapping[str, Entity] | Callable[[], Mapping[str, Entity]],
     call: ServiceCall,
     required_features: Iterable[int] | None = None,
@@ -795,7 +795,7 @@ async def _resolve_entity_service_call_entities(
 
     if not entities:
         if call.return_response:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Service call requested response data but did not match any entities"
             )
         return None
@@ -878,7 +878,7 @@ async def async_handle_entity_calls(
 
 
 async def _handle_single_entity_call(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity: Entity,
     func: str | HassJob,
     data: dict | ServiceCall,
@@ -915,7 +915,7 @@ async def _handle_single_entity_call(
 
 
 async def entity_service_call(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     registered_entities: Mapping[str, Entity] | Callable[[], Mapping[str, Entity]],
     func: str | HassJob,
     call: ServiceCall,
@@ -958,7 +958,7 @@ async def entity_service_call(
 
 
 async def batched_entity_service_call(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     registered_entities: Mapping[str, Entity] | Callable[[], Mapping[str, Entity]],
     func: Callable[
         [list[Entity], ServiceCall],
@@ -995,7 +995,7 @@ async def batched_entity_service_call(
 
 
 async def _async_admin_handler(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_job: HassJob[
         [ServiceCall],
         Coroutine[Any, Any, ServiceResponse | EntityServiceResponse]
@@ -1021,7 +1021,7 @@ async def _async_admin_handler(
 
 @callback
 def async_register_admin_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain: str,
     service: str,
     service_func: Callable[
@@ -1062,7 +1062,7 @@ def verify_domain_control(
     ) -> Callable[[ServiceCall], Any]:
         """Decorate."""
         if not inspect.iscoroutinefunction(service_handler):
-            raise __HAC_KEEP__Error("Can only decorate async functions.")
+            raise UniversalAssistantError("Can only decorate async functions.")
 
         async def check_permissions(call: ServiceCall) -> Any:
             """Check user permission and raise before call if unauthorized."""
@@ -1182,7 +1182,7 @@ def _validate_entity_service_schema(
     if schema is None or isinstance(schema, dict):
         return cv.make_entity_service_schema(schema)
     if not cv.is_entity_service_schema(schema):
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             f"The {service} service registers an entity service"
             " with a non entity service schema"
         )
@@ -1191,7 +1191,7 @@ def _validate_entity_service_schema(
 
 @callback
 def async_register_entity_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain: str,
     name: str,
     *,
@@ -1237,7 +1237,7 @@ def async_register_entity_service(
 
 @callback
 def async_register_batched_entity_service[_EntityT: Entity](
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain: str,
     name: str,
     *,
@@ -1279,7 +1279,7 @@ def async_register_batched_entity_service[_EntityT: Entity](
 
 
 def _get_platform_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_domain: str,
     service_domain: str,
 ) -> dict[str, Entity]:
@@ -1296,7 +1296,7 @@ def _get_platform_entities(
 
 @callback
 def async_register_platform_entity_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_domain: str,
     service_name: str,
     *,
@@ -1336,7 +1336,7 @@ def async_register_platform_entity_service(
 
 @callback
 def async_register_batched_platform_entity_service[_EntityT: Entity](
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_domain: str,
     service_name: str,
     *,
@@ -1376,7 +1376,7 @@ def async_register_batched_platform_entity_service[_EntityT: Entity](
 
 @callback
 def async_get_config_entry(
-    hass: __HAC_KEEP__, domain: str, entry_id: str | None
+    hass: UniversalAssistant, domain: str, entry_id: str | None
 ) -> ConfigEntry:
     """Get and validate a service config entry."""
     if entry_id is None:
@@ -1414,7 +1414,7 @@ def async_get_config_entry(
 
 @callback
 def _async_get_single_loaded_config_entry(
-    hass: __HAC_KEEP__, domain: str
+    hass: UniversalAssistant, domain: str
 ) -> ConfigEntry:
     """Retrieve single loaded config entry.
 
@@ -1452,7 +1452,7 @@ def _async_get_single_loaded_config_entry(
 
 @overload
 def async_get_device_and_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain: str,
     device_id: str,
     *,
@@ -1463,7 +1463,7 @@ def async_get_device_and_config_entry(
 
 @overload
 def async_get_device_and_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain: str,
     device_id: str,
     *,
@@ -1474,7 +1474,7 @@ def async_get_device_and_config_entry(
 
 @overload
 def async_get_device_and_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain: str,
     device_id: str,
     *,
@@ -1485,7 +1485,7 @@ def async_get_device_and_config_entry(
 
 @callback
 def async_get_device_and_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain: str,
     device_id: str,
     *,

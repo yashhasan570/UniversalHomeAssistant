@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.lookin.const import DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
@@ -24,7 +24,7 @@ from . import (
 )
 
 
-async def test_manual_setup(hass: __HAC_KEEP__) -> None:
+async def test_manual_setup(hass: UniversalAssistant) -> None:
     """Test manually setting up."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -49,7 +49,7 @@ async def test_manual_setup(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_manual_setup_already_exists(hass: __HAC_KEEP__) -> None:
+async def test_manual_setup_already_exists(hass: UniversalAssistant) -> None:
     """Test manually setting up and the device already exists."""
     entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: IP_ADDRESS}, unique_id=DEVICE_ID
@@ -72,7 +72,7 @@ async def test_manual_setup_already_exists(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_manual_setup_device_offline(hass: __HAC_KEEP__) -> None:
+async def test_manual_setup_device_offline(hass: UniversalAssistant) -> None:
     """Test manually setting up, device offline."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -102,7 +102,7 @@ async def test_manual_setup_device_offline(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_manual_setup_unknown_exception(hass: __HAC_KEEP__) -> None:
+async def test_manual_setup_unknown_exception(hass: UniversalAssistant) -> None:
     """Test manually setting up, unknown exception."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -132,7 +132,7 @@ async def test_manual_setup_unknown_exception(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_discovered_zeroconf(hass: __HAC_KEEP__) -> None:
+async def test_discovered_zeroconf(hass: UniversalAssistant) -> None:
     """Test we can setup when discovered from zeroconf."""
 
     with _patch_get_info():
@@ -183,7 +183,7 @@ async def test_discovered_zeroconf(hass: __HAC_KEEP__) -> None:
     assert entry.data[CONF_HOST] == "127.0.0.2"
 
 
-async def test_discovered_zeroconf_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_discovered_zeroconf_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we abort if we cannot connect when discovered from zeroconf."""
 
     with _patch_get_info(exception=NoUsableService):
@@ -198,7 +198,7 @@ async def test_discovered_zeroconf_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "cannot_connect"
 
 
-async def test_discovered_zeroconf_unknown_exception(hass: __HAC_KEEP__) -> None:
+async def test_discovered_zeroconf_unknown_exception(hass: UniversalAssistant) -> None:
     """Test we abort if we get an unknown exception when discovered from zeroconf."""
 
     with _patch_get_info(exception=Exception):

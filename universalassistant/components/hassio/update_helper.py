@@ -2,19 +2,19 @@
 
 from aiohasupervisor import SupervisorError
 from aiohasupervisor.models import (
-    __HAC_KEEP__UpdateOptions,
+    UniversalAssistantUpdateOptions,
     OSUpdate,
     StoreAddonUpdate,
 )
 
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from .handler import get_supervisor_client
 
 
 async def update_addon(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     addon: str,
     backup: bool,
     addon_name: str | None,
@@ -34,12 +34,12 @@ async def update_addon(
     try:
         await client.store.update_addon(addon, StoreAddonUpdate(backup=False))
     except SupervisorError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             f"Error updating {addon_name or addon}: {err}"
         ) from err
 
 
-async def update_core(hass: __HAC_KEEP__, version: str | None, backup: bool) -> None:
+async def update_core(hass: UniversalAssistant, version: str | None, backup: bool) -> None:
     """Update core.
 
     Optionally make a backup before updating.
@@ -53,13 +53,13 @@ async def update_core(hass: __HAC_KEEP__, version: str | None, backup: bool) -> 
 
     try:
         await client.universalassistant.update(
-            __HAC_KEEP__UpdateOptions(version=version, backup=False)
+            UniversalAssistantUpdateOptions(version=version, backup=False)
         )
     except SupervisorError as err:
-        raise __HAC_KEEP__Error(f"Error updating __HA_KEEP__ Core: {err}") from err
+        raise UniversalAssistantError(f"Error updating Universal Home Assistant Core: {err}") from err
 
 
-async def update_os(hass: __HAC_KEEP__, version: str | None, backup: bool) -> None:
+async def update_os(hass: UniversalAssistant, version: str | None, backup: bool) -> None:
     """Update OS.
 
     Optionally make a core backup before updating.
@@ -74,6 +74,6 @@ async def update_os(hass: __HAC_KEEP__, version: str | None, backup: bool) -> No
     try:
         await client.os.update(OSUpdate(version=version))
     except SupervisorError as err:
-        raise __HAC_KEEP__Error(
-            f"Error updating __HA_KEEP__ Operating System: {err}"
+        raise UniversalAssistantError(
+            f"Error updating Universal Home Assistant Operating System: {err}"
         ) from err

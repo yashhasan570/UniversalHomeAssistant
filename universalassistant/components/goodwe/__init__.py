@@ -4,7 +4,7 @@ from goodwe import Inverter, InverterError, connect
 from goodwe.const import GOODWE_UDP_PORT
 
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.device_registry import DeviceInfo
 
@@ -13,7 +13,7 @@ from .const import CONF_MODEL_FAMILY, DOMAIN, PLATFORMS
 from .coordinator import GoodweConfigEntry, GoodweRuntimeData, GoodweUpdateCoordinator
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: GoodweConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: GoodweConfigEntry) -> None:
     """Set up the Goodwe components from a config entry."""
     host = entry.data[CONF_HOST]
     port = entry.data.get(CONF_PORT, GOODWE_UDP_PORT)
@@ -60,7 +60,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: GoodweConfigEntry) -> Non
 
 
 async def async_check_port(
-    hass: __HAC_KEEP__, entry: GoodweConfigEntry, host: str
+    hass: UniversalAssistant, entry: GoodweConfigEntry, host: str
 ) -> Inverter:
     """Check the communication port of the inverter.
 
@@ -80,19 +80,19 @@ async def async_check_port(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: GoodweConfigEntry
+    hass: UniversalAssistant, config_entry: GoodweConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)
 
 
-async def update_listener(hass: __HAC_KEEP__, config_entry: GoodweConfigEntry) -> None:
+async def update_listener(hass: UniversalAssistant, config_entry: GoodweConfigEntry) -> None:
     """Handle options update."""
     await hass.config_entries.async_reload(config_entry.entry_id)
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, config_entry: GoodweConfigEntry
+    hass: UniversalAssistant, config_entry: GoodweConfigEntry
 ) -> None:
     """Migrate old config entries."""
 

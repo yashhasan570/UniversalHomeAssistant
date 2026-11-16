@@ -6,7 +6,7 @@ from enum import StrEnum
 import probatio
 
 from universalassistant.core import (
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -81,7 +81,7 @@ def _aggregate_hourly(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up services for the Forecast.Solar integration."""
 
     async def async_get_forecast(call: ServiceCall) -> ServiceResponse:

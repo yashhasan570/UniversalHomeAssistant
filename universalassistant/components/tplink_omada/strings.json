@@ -29,7 +29,7 @@
           "site": "Site"
         },
         "data_description": {
-          "site": "Select the site you want to manage in __HA_KEEP__."
+          "site": "Select the site you want to manage in Universal Home Assistant."
         },
         "title": "Choose which site to manage"
       },

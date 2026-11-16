@@ -35,7 +35,7 @@ from universalassistant.config_entries import (
     ConfigSubentryData,
 )
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import DeviceEntryDisabler
 from universalassistant.helpers.entity_registry import RegistryEntryDisabler
@@ -64,7 +64,7 @@ IMPORT_TIMEOUT = 60
     ],
 )
 async def test_init_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
     side_effect: APIConnectionError | BadRequestError,
@@ -83,7 +83,7 @@ async def test_init_error(
 
 
 async def test_init_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test auth error during init errors."""
@@ -104,7 +104,7 @@ async def test_init_auth_error(
 
 
 async def test_migration_from_v1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -217,7 +217,7 @@ async def test_migration_from_v1(
 
 
 async def test_migration_from_v1_with_multiple_keys(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -321,7 +321,7 @@ async def test_migration_from_v1_with_multiple_keys(
 
 
 async def test_migration_from_v1_with_same_keys(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -517,7 +517,7 @@ async def test_migration_from_v1_with_same_keys(
     ],
 )
 async def test_migration_from_v1_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     config_entry_disabled_by: list[ConfigEntryDisabler | None],
@@ -683,7 +683,7 @@ async def test_migration_from_v1_disabled(
 
 
 async def test_migration_from_v2_1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -848,7 +848,7 @@ async def test_migration_from_v2_1(
     "mock_conversation_subentry_data", [{}, {CONF_CHAT_MODEL: "gpt-1o"}]
 )
 async def test_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
     device_registry: dr.DeviceRegistry,
@@ -875,7 +875,7 @@ async def test_devices(
 
 
 async def test_migration_from_v2_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1042,7 +1042,7 @@ async def test_migration_from_v2_2(
     ],
 )
 async def test_migrate_entry_from_v2_3(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     config_entry_disabled_by: ConfigEntryDisabler | None,
@@ -1140,7 +1140,7 @@ async def test_migrate_entry_from_v2_3(
 
 
 async def test_migration_from_v2_4(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1232,7 +1232,7 @@ async def test_migration_from_v2_4(
 
 
 async def test_migration_from_v2_5(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1345,7 +1345,7 @@ async def test_migration_from_v2_5(
 
 
 async def test_migration_from_v2_6(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test migration from version 2.6.
 
@@ -1466,7 +1466,7 @@ async def test_migration_from_v2_6(
 
 
 async def test_migration_from_v2_7(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1525,7 +1525,7 @@ async def test_migration_from_v2_7(
 
 
 async def test_migration_from_v2_7_existing_evaluation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Preserve an evaluation subentry already configured on the shared branch."""
@@ -1580,7 +1580,7 @@ def test_client_resources_are_imported_with_the_integration() -> None:
     """Accessing the client resources must not import anything in the event loop.
 
     The OpenAI client imports its responses and audio resources on first use
-    through importlib.import_module, which __HA_KEEP__ reports as a blocking
+    through importlib.import_module, which Universal Home Assistant reports as a blocking
     call when it happens in the event loop. Having the submodules in
     sys.modules is not enough: the call uses a relative name that the check
     does not resolve.

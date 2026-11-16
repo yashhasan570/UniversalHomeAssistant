@@ -10,8 +10,8 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import discovery
 from universalassistant.setup import async_setup_component
 
@@ -24,7 +24,7 @@ MOCKUP_ENTITY_IDS = {
 
 
 async def test_failing_setups_no_entities(
-    hass: __HAC_KEEP__, numato_fixture, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, numato_fixture, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """When port setup fails, no entity shall be created."""
     monkeypatch.setattr(numato_fixture.NumatoDeviceMock, "setup", mockup_raise)
@@ -34,8 +34,8 @@ async def test_failing_setups_no_entities(
         assert entity_id not in hass.states.async_entity_ids()
 
 
-async def test_regular_hass_operations(hass: __HAC_KEEP__, numato_fixture) -> None:
-    """Test regular operations from within __HA_KEEP__."""
+async def test_regular_hass_operations(hass: UniversalAssistant, numato_fixture) -> None:
+    """Test regular operations from within Universal Home Assistant."""
     assert await async_setup_component(hass, DOMAIN, NUMATO_CFG)
     await hass.async_block_till_done()  # wait until services are registered
     await hass.services.async_call(
@@ -110,7 +110,7 @@ async def test_regular_hass_operations(hass: __HAC_KEEP__, numato_fixture) -> No
     ],
 )
 async def test_failing_hass_operations(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     numato_fixture,
     monkeypatch: pytest.MonkeyPatch,
     service: str,
@@ -118,7 +118,7 @@ async def test_failing_hass_operations(
     port: int,
     translation_key: str,
 ) -> None:
-    """Test failing operations called from within __HA_KEEP__.
+    """Test failing operations called from within Universal Home Assistant.
 
     Switches remain in their initial 'off' state when the device can't
     be written to.
@@ -127,7 +127,7 @@ async def test_failing_hass_operations(
 
     await hass.async_block_till_done()  # wait until services are registered
     monkeypatch.setattr(numato_fixture.devices[0], "write", mockup_raise)
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             switch.DOMAIN,
             service,
@@ -140,7 +140,7 @@ async def test_failing_hass_operations(
 
 
 async def test_switch_setup_without_discovery_info(
-    hass: __HAC_KEEP__, config, numato_fixture
+    hass: UniversalAssistant, config, numato_fixture
 ) -> None:
     """Test handling of empty discovery_info."""
     numato_fixture.discover()

@@ -12,9 +12,9 @@ from telegram import Bot, Update
 from telegram.error import NetworkError, TelegramError
 from telegram.ext import Application, ApplicationBuilder, TypeHandler
 
-from universalassistant.components.http import __HAC_KEEP__Request, __HAC_KEEP__View
+from universalassistant.components.http import UniversalAssistantRequest, UniversalAssistantView
 from universalassistant.const import CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.network import get_url
 
 from .bot import ALLOWED_UPDATES, BaseTelegramBot, TelegramBotConfigEntry
@@ -28,7 +28,7 @@ SECRET_TOKEN_LENGTH = 32
 
 
 async def async_setup_bot_platform(
-    hass: __HAC_KEEP__, bot: Bot, config: TelegramBotConfigEntry
+    hass: UniversalAssistant, bot: Bot, config: TelegramBotConfigEntry
 ) -> BaseTelegramBot | None:
     """Set up the Telegram webhooks platform."""
 
@@ -74,7 +74,7 @@ class PushBot(BaseTelegramBot):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         bot: Bot,
         config: TelegramBotConfigEntry,
         secret_token: str,
@@ -147,7 +147,7 @@ class PushBot(BaseTelegramBot):
             _LOGGER.error("Failed to deregister webhook URL")
 
 
-class PushBotView(__HAC_KEEP__View):
+class PushBotView(UniversalAssistantView):
     """View for handling webhook calls from Telegram."""
 
     requires_auth = False
@@ -155,7 +155,7 @@ class PushBotView(__HAC_KEEP__View):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         bot: Bot,
         application: Application,
         trusted_networks: list[IPv4Network],
@@ -169,7 +169,7 @@ class PushBotView(__HAC_KEEP__View):
         self.secret_token = secret_token
         self.url = _get_webhook_url(bot)
 
-    async def post(self, request: __HAC_KEEP__Request) -> Response | None:
+    async def post(self, request: UniversalAssistantRequest) -> Response | None:
         """Accept the POST from telegram."""
         if not request.remote or not any(
             ip_address(request.remote) in net for net in self.trusted_networks

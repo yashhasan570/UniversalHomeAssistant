@@ -13,7 +13,7 @@ from universalassistant.components.light import (
     LightEntity,
     LightEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import LutronConfigEntry
@@ -22,7 +22,7 @@ from .entity import LutronDevice
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: LutronConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -43,12 +43,12 @@ async def async_setup_entry(
 
 
 def to_lutron_level(level: int) -> float:
-    """Convert the given __HA_KEEP__ light level (0-255) to Lutron (0.0-100.0)."""
+    """Convert the given Universal Home Assistant light level (0-255) to Lutron (0.0-100.0)."""
     return float((level * 100) / 255)
 
 
 def to_hass_level(level: float) -> int:
-    """Convert the given Lutron (0.0-100.0) light level to __HA_KEEP__ (0-255)."""
+    """Convert the given Lutron (0.0-100.0) light level to Universal Home Assistant (0-255)."""
     return int((level * 255) / 100)
 
 
@@ -64,7 +64,7 @@ class LutronLight(LutronDevice, LightEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         area_name: str,
         lutron_device: LutronEntity,
         controller: Lutron,

@@ -9,7 +9,7 @@ from zhong_hong_hvac.hvac import HVAC as ZhongHongHVAC
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.helpers.event import async_call_later
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -76,7 +76,7 @@ class ZhongHongCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ZhongHongConfigEntry,
         hub: ZhongHongGateway,
         devices: dict[DeviceAddress, ZhongHongHVAC],

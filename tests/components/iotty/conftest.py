@@ -30,7 +30,7 @@ from pytest_universalassistant.test_util.aiohttp import (
 from universalassistant import setup
 from universalassistant.components.iotty.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_MAC, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_entry_oauth2_flow
 
 CLIENT_ID = "client_id"
@@ -95,7 +95,7 @@ test_ou_one_added = [
 
 
 @pytest.fixture
-async def local_oauth_impl(hass: __HAC_KEEP__):
+async def local_oauth_impl(hass: UniversalAssistant):
     """Local implementation."""
     assert await setup.async_setup_component(hass, "auth", {})
     return config_entry_oauth2_flow.LocalOAuth2Implementation(
@@ -117,7 +117,7 @@ def mock_aioclient() -> Generator[AiohttpClientMocker]:
 
 
 @pytest.fixture
-def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Return the default mocked config entry."""
     return MockConfigEntry(
         title="IOTTY00001",

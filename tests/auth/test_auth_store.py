@@ -8,7 +8,7 @@ from freezegun.api import FrozenDateTimeFactory
 import pytest
 
 from universalassistant.auth import auth_store
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 MOCK_STORAGE_DATA = {
     "version": 1,
@@ -67,7 +67,7 @@ MOCK_STORAGE_DATA = {
 
 
 async def test_loading_no_group_data_format(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test we correctly load old data without any groups."""
     hass_storage[auth_store.STORAGE_KEY] = MOCK_STORAGE_DATA
@@ -110,7 +110,7 @@ async def test_loading_no_group_data_format(
 
 
 async def test_loading_all_access_group_data_format(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test we correctly load old data with single group."""
     hass_storage[auth_store.STORAGE_KEY] = MOCK_STORAGE_DATA
@@ -153,7 +153,7 @@ async def test_loading_all_access_group_data_format(
 
 
 async def test_loading_empty_data(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test we correctly load with no existing data."""
     store = auth_store.AuthStore(hass)
@@ -178,7 +178,7 @@ async def test_loading_empty_data(
 
 
 async def test_system_groups_store_id_and_name(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test that for system groups we store the ID and name.
 
@@ -195,7 +195,7 @@ async def test_system_groups_store_id_and_name(
     ]
 
 
-async def test_loading_only_once(hass: __HAC_KEEP__) -> None:
+async def test_loading_only_once(hass: UniversalAssistant) -> None:
     """Test only one storage load is allowed."""
     store = auth_store.AuthStore(hass)
     with (
@@ -218,7 +218,7 @@ async def test_loading_only_once(hass: __HAC_KEEP__) -> None:
 
 
 async def test_dont_change_expire_at_on_load(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test we correctly don't modify expired_at store load."""
     hass_storage[auth_store.STORAGE_KEY] = {
@@ -278,7 +278,7 @@ async def test_dont_change_expire_at_on_load(
 
 
 async def test_loading_does_not_write_right_away(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any], freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, hass_storage: dict[str, Any], freezer: FrozenDateTimeFactory
 ) -> None:
     """Test after calling load we wait five minutes to write."""
     hass_storage[auth_store.STORAGE_KEY] = MOCK_STORAGE_DATA
@@ -301,7 +301,7 @@ async def test_loading_does_not_write_right_away(
 
 
 async def test_duplicate_uuid(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test we don't override user if we have a duplicate user ID."""
     hass_storage[auth_store.STORAGE_KEY] = MOCK_STORAGE_DATA
@@ -315,7 +315,7 @@ async def test_duplicate_uuid(
 
 
 async def test_add_remove_user_affects_tokens(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test adding and removing a user removes the tokens."""
     store = auth_store.AuthStore(hass)
@@ -336,7 +336,7 @@ async def test_add_remove_user_affects_tokens(
 
 
 async def test_set_expiry_date(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any], freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, hass_storage: dict[str, Any], freezer: FrozenDateTimeFactory
 ) -> None:
     """Test set expiry date of a refresh token."""
     hass_storage[auth_store.STORAGE_KEY] = {

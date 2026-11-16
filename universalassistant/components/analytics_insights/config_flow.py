@@ -69,7 +69,7 @@ class HomeassistantAnalyticsConfigFlow(ConfigFlow, domain=DOMAIN):
                 errors["base"] = "no_integrations_selected"
             else:
                 return self.async_create_entry(
-                    title="__HA_KEEP__ Analytics Insights",
+                    title="Universal Home Assistant Analytics Insights",
                     data={},
                     options={
                         CONF_TRACKED_APPS: user_input.get(CONF_TRACKED_APPS, []),
@@ -90,7 +90,7 @@ class HomeassistantAnalyticsConfigFlow(ConfigFlow, domain=DOMAIN):
             integrations = await client.get_integrations(Environment.NEXT)
             custom_integrations = await client.get_custom_integrations()
         except HomeassistantAnalyticsConnectionError:
-            LOGGER.exception("Error connecting to __HA_KEEP__ analytics")
+            LOGGER.exception("Error connecting to Universal Home Assistant analytics")
             return self.async_abort(reason="cannot_connect")
         except Exception:  # noqa: BLE001
             LOGGER.exception("Unexpected error")
@@ -174,7 +174,7 @@ class HomeassistantAnalyticsOptionsFlowHandler(OptionsFlowWithReload):
             integrations = await client.get_integrations(Environment.NEXT)
             custom_integrations = await client.get_custom_integrations()
         except HomeassistantAnalyticsConnectionError:
-            LOGGER.exception("Error connecting to __HA_KEEP__ analytics")
+            LOGGER.exception("Error connecting to Universal Home Assistant analytics")
             return self.async_abort(reason="cannot_connect")
 
         options = [

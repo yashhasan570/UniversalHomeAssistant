@@ -29,7 +29,7 @@ from universalassistant.components.bluetooth.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STARTED, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -44,7 +44,7 @@ NEED_RESET_ERRORS = [
 
 @pytest.mark.usefixtures("enable_bluetooth", "macos_adapter")
 async def test_config_entry_can_be_reloaded_when_stop_raises(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we can reload if stopping the scanner raises."""
     entry = hass.config_entries.async_entries(bluetooth.DOMAIN)[0]
@@ -63,7 +63,7 @@ async def test_config_entry_can_be_reloaded_when_stop_raises(
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_dbus_socket_missing_in_container(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we handle dbus being missing in the container."""
 
@@ -87,7 +87,7 @@ async def test_dbus_socket_missing_in_container(
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_dbus_socket_missing(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we handle dbus being missing."""
 
@@ -111,7 +111,7 @@ async def test_dbus_socket_missing(
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_dbus_broken_pipe_in_container(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we handle dbus broken pipe in the container."""
 
@@ -136,7 +136,7 @@ async def test_dbus_broken_pipe_in_container(
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_dbus_broken_pipe(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we handle dbus broken pipe."""
 
@@ -161,7 +161,7 @@ async def test_dbus_broken_pipe(
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_invalid_dbus_message(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we handle invalid dbus message."""
 
@@ -181,7 +181,7 @@ async def test_invalid_dbus_message(
 
 @pytest.mark.parametrize("error", NEED_RESET_ERRORS)
 @pytest.mark.usefixtures("one_adapter")
-async def test_adapter_needs_reset_at_start(hass: __HAC_KEEP__, error: str) -> None:
+async def test_adapter_needs_reset_at_start(hass: UniversalAssistant, error: str) -> None:
     """Test we cycle the adapter when it needs a restart."""
 
     with (
@@ -205,7 +205,7 @@ async def test_adapter_needs_reset_at_start(hass: __HAC_KEEP__, error: str) -> N
 
 
 @pytest.mark.usefixtures("one_adapter")
-async def test_recovery_from_dbus_restart(hass: __HAC_KEEP__) -> None:
+async def test_recovery_from_dbus_restart(hass: UniversalAssistant) -> None:
     """Test we can recover when DBus gets restarted out from under us."""
 
     called_start = 0
@@ -286,7 +286,7 @@ async def test_recovery_from_dbus_restart(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("one_adapter")
-async def test_adapter_recovery(hass: __HAC_KEEP__) -> None:
+async def test_adapter_recovery(hass: UniversalAssistant) -> None:
     """Test we can recover when the adapter stops responding."""
 
     called_start = 0
@@ -372,7 +372,7 @@ async def test_adapter_recovery(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("one_adapter")
-async def test_adapter_scanner_fails_to_start_first_time(hass: __HAC_KEEP__) -> None:
+async def test_adapter_scanner_fails_to_start_first_time(hass: UniversalAssistant) -> None:
     """Test recovery when adapter stops and first recovery fails."""
 
     called_start = 0
@@ -482,7 +482,7 @@ async def test_adapter_scanner_fails_to_start_first_time(hass: __HAC_KEEP__) -> 
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_adapter_fails_to_start_and_takes_a_bit_to_init(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we can recover the adapter at startup and we wait for Dbus to init."""
     assert await async_setup_component(hass, "logger", {})
@@ -551,7 +551,7 @@ async def test_adapter_fails_to_start_and_takes_a_bit_to_init(
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_restart_takes_longer_than_watchdog_time(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test no recovery attempt while restart is in progress."""
 
@@ -621,7 +621,7 @@ async def test_restart_takes_longer_than_watchdog_time(
 @pytest.mark.skipif("platform.system() != 'Darwin'")
 @pytest.mark.usefixtures("macos_adapter")
 async def test_setup_and_stop_macos(
-    hass: __HAC_KEEP__, mock_bleak_scanner_start: MagicMock
+    hass: UniversalAssistant, mock_bleak_scanner_start: MagicMock
 ) -> None:
     """Test we enable use_bdaddr on MacOS."""
     entry = MockConfigEntry(

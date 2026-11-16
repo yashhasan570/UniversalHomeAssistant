@@ -12,7 +12,7 @@ from universalassistant.components.deconz.const import CONF_ALLOW_CLIP_SENSOR
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.config_entries import RELOAD_AFTER_UPDATE_DELAY
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -642,7 +642,7 @@ TEST_DATA = [
 @pytest.mark.parametrize(("sensor_payload", "expected"), TEST_DATA)
 @pytest.mark.parametrize("config_entry_options", [{CONF_ALLOW_CLIP_SENSOR: True}])
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     sensor_ws_data: WebsocketDataType,
@@ -688,7 +688,7 @@ async def test_sensors(
 )
 @pytest.mark.parametrize("config_entry_options", [{CONF_ALLOW_CLIP_SENSOR: False}])
 @pytest.mark.usefixtures("config_entry_setup")
-async def test_not_allow_clip_sensor(hass: __HAC_KEEP__) -> None:
+async def test_not_allow_clip_sensor(hass: UniversalAssistant) -> None:
     """Test that CLIP sensors are not allowed."""
     assert len(hass.states.async_all()) == 0
 
@@ -728,7 +728,7 @@ async def test_not_allow_clip_sensor(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.parametrize("config_entry_options", [{CONF_ALLOW_CLIP_SENSOR: True}])
 async def test_allow_clip_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     snapshot: SnapshotAssertion,
@@ -763,7 +763,7 @@ async def test_allow_clip_sensors(
 
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_add_new_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sensor_ws_data: WebsocketDataType,
 ) -> None:
     """Test that adding a new sensor works."""
@@ -796,7 +796,7 @@ BAD_SENSOR_DATA = [
 
 @pytest.mark.parametrize(("sensor_type", "sensor_property"), BAD_SENSOR_DATA)
 async def test_dont_add_sensor_if_state_is_none(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_factory: ConfigEntryFactoryType,
     sensor_payload: dict[str, Any],
     sensor_type: str,
@@ -840,7 +840,7 @@ async def test_dont_add_sensor_if_state_is_none(
     ],
 )
 @pytest.mark.usefixtures("config_entry_setup")
-async def test_air_quality_sensor_without_ppb(hass: __HAC_KEEP__) -> None:
+async def test_air_quality_sensor_without_ppb(hass: UniversalAssistant) -> None:
     """Test sensor with scaled data is not created if state is None."""
     assert len(hass.states.async_all()) == 1
 
@@ -868,7 +868,7 @@ async def test_air_quality_sensor_without_ppb(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_add_battery_later(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sensor_ws_data: WebsocketDataType,
 ) -> None:
     """Test that a battery sensor can be created later on.
@@ -888,7 +888,7 @@ async def test_add_battery_later(
 
 @pytest.mark.parametrize("model_id", ["0x8030", "0x8031", "0x8034", "0x8035"])
 async def test_special_danfoss_battery_creation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_factory: ConfigEntryFactoryType,
     sensor_payload: dict[str, Any],
     model_id: str,
@@ -1033,6 +1033,6 @@ async def test_special_danfoss_battery_creation(
     [{"type": "not supported", "name": "name", "state": {}, "config": {}}],
 )
 @pytest.mark.usefixtures("config_entry_setup")
-async def test_unsupported_sensor(hass: __HAC_KEEP__) -> None:
+async def test_unsupported_sensor(hass: UniversalAssistant) -> None:
     """Test that unsupported sensors doesn't break anything."""
     assert len(hass.states.async_all()) == 0

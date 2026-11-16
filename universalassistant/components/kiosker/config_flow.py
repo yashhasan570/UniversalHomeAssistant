@@ -17,7 +17,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_API_TOKEN, CONF_HOST, CONF_SSL, CONF_VERIFY_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
 from .const import DEFAULT_SSL, DEFAULT_SSL_VERIFY, DOMAIN, PORT
@@ -46,7 +46,7 @@ STEP_REAUTH_DATA_SCHEMA = probatio.Schema(
 
 
 async def validate_input(
-    hass: __HAC_KEEP__, data: dict[str, Any]
+    hass: UniversalAssistant, data: dict[str, Any]
 ) -> tuple[dict[str, str], str | None]:
     """Validate the user input allows us to connect.
 

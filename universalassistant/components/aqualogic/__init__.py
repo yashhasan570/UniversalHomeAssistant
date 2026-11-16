@@ -12,7 +12,7 @@ import probatio
 
 from universalassistant.config_entries import SOURCE_IMPORT, ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.dispatcher import dispatcher_send
@@ -40,7 +40,7 @@ CONFIG_SCHEMA = probatio.Schema(
 type AquaLogicConfigEntry = ConfigEntry[AquaLogicProcessor]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the AquaLogic component."""
     if DOMAIN not in config:
         return True
@@ -49,7 +49,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def _async_import(hass: __HAC_KEEP__, conf: dict) -> None:
+async def _async_import(hass: UniversalAssistant, conf: dict) -> None:
     """Import AquaLogic configuration from YAML and surface appropriate issues."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -93,7 +93,7 @@ async def _async_import(hass: __HAC_KEEP__, conf: dict) -> None:
     )
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: AquaLogicConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: AquaLogicConfigEntry) -> None:
     """Set up AquaLogic from a config entry."""
     processor = AquaLogicProcessor(hass, entry.data[CONF_HOST], entry.data[CONF_PORT])
     entry.runtime_data = processor
@@ -102,7 +102,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: AquaLogicConfigEntry) -> 
     processor.start()
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: AquaLogicConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: AquaLogicConfigEntry) -> None:
     """Unload an AquaLogic config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     processor = entry.runtime_data
@@ -115,7 +115,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: AquaLogicConfigEntry) ->
 class AquaLogicProcessor(threading.Thread):
     """AquaLogic event processor thread."""
 
-    def __init__(self, hass: __HAC_KEEP__, host: str, port: int) -> None:
+    def __init__(self, hass: UniversalAssistant, host: str, port: int) -> None:
         """Initialize the data object."""
         super().__init__(daemon=True)
         self._hass = hass

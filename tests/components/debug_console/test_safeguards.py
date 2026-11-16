@@ -14,7 +14,7 @@ from universalassistant.components.debug_console.const import (
     WARNING_VERSION,
 )
 from universalassistant.components.websocket_api import TYPE_RESULT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import CONSOLE_COMMANDS
@@ -24,7 +24,7 @@ EXECUTE = {"type": "debug_console/execute", "session_id": SESSION_ID, "code": "1
 
 
 @pytest.fixture
-async def setup_integration(hass: __HAC_KEEP__) -> None:
+async def setup_integration(hass: UniversalAssistant) -> None:
     """Set up the Debug console, without anyone having accepted the warning."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
 
@@ -80,7 +80,7 @@ async def test_warning_required_until_accepted(
 
 
 async def test_older_warning_needs_accepting_again(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
     hass_storage: dict[str, Any],
@@ -103,7 +103,7 @@ async def test_older_warning_needs_accepting_again(
 
 
 async def test_acceptance_of_removed_users_forgotten(
-    hass: __HAC_KEEP__, hass_admin_user: MockUser, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_admin_user: MockUser, hass_storage: dict[str, Any]
 ) -> None:
     """Test acceptances of removed users are forgotten, also while not loaded."""
     other_user = await hass.auth.async_create_user("Other admin")
@@ -262,7 +262,7 @@ async def test_logging_property_evaluation(
 
 @pytest.mark.parametrize("command", CONSOLE_COMMANDS)
 async def test_warning_required_per_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     websocket_client: MockHAClientWebSocket,
     hass_ws_client: WebSocketGenerator,
     command: dict[str, Any],

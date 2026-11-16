@@ -8,11 +8,11 @@ from yalesmartalarmclient.exceptions import AuthenticationError, UnknownError
 
 from universalassistant import config_entries
 from universalassistant.components.yale_smart_alarm.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -61,7 +61,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_form_invalid_auth(
-    hass: __HAC_KEEP__, sideeffect: Exception, p_error: str
+    hass: UniversalAssistant, sideeffect: Exception, p_error: str
 ) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
@@ -113,7 +113,7 @@ async def test_form_invalid_auth(
     }
 
 
-async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
+async def test_reauth_flow(hass: UniversalAssistant) -> None:
     """Test a reauthentication flow."""
     entry = MockConfigEntry(
         title="test-username",
@@ -173,7 +173,7 @@ async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_reauth_flow_error(
-    hass: __HAC_KEEP__, sideeffect: Exception, p_error: str
+    hass: UniversalAssistant, sideeffect: Exception, p_error: str
 ) -> None:
     """Test a reauthentication flow."""
     entry = MockConfigEntry(
@@ -235,7 +235,7 @@ async def test_reauth_flow_error(
     }
 
 
-async def test_reconfigure(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure(hass: UniversalAssistant) -> None:
     """Test reconfigure config flow."""
     entry = MockConfigEntry(
         title="test-username",
@@ -282,7 +282,7 @@ async def test_reconfigure(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_reconfigure_username_exist(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_username_exist(hass: UniversalAssistant) -> None:
     """Test reconfigure config flow abort other username already exist."""
     entry = MockConfigEntry(
         title="test-username",
@@ -375,7 +375,7 @@ async def test_reconfigure_username_exist(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_reconfigure_flow_error(
-    hass: __HAC_KEEP__, sideeffect: Exception, p_error: str
+    hass: UniversalAssistant, sideeffect: Exception, p_error: str
 ) -> None:
     """Test a reauthentication flow."""
     entry = MockConfigEntry(
@@ -442,7 +442,7 @@ async def test_reconfigure_flow_error(
 
 
 async def test_options_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_config_entry: tuple[MockConfigEntry, Mock],
 ) -> None:
     """Test options config flow."""

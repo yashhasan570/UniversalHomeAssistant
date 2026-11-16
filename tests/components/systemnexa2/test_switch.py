@@ -15,7 +15,7 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 import universalassistant.helpers.entity_registry as er
 
 from . import find_update_callback
@@ -23,7 +23,7 @@ from . import find_update_callback
 
 @pytest.mark.usefixtures("mock_system_nexa_2_device")
 async def test_switch_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -45,7 +45,7 @@ async def test_switch_entities(
 
 
 async def test_switch_turn_on_off_toggle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_system_nexa_2_device,
 ) -> None:
@@ -90,7 +90,7 @@ async def test_switch_turn_on_off_toggle(
 
 
 async def test_switch_is_on_property(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_system_nexa_2_device,
 ) -> None:
@@ -121,7 +121,7 @@ async def test_switch_is_on_property(
 
 
 async def test_configuration_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_system_nexa_2_device,
 ) -> None:
@@ -171,7 +171,7 @@ async def test_configuration_switches(
 
 
 async def test_coordinator_connection_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_system_nexa_2_device: MagicMock,
 ) -> None:
@@ -207,7 +207,7 @@ async def test_coordinator_connection_status(
 
 
 async def test_coordinator_state_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_system_nexa_2_device: MagicMock,
 ) -> None:
@@ -237,7 +237,7 @@ async def test_coordinator_state_change(
 
 
 async def test_coordinator_settings_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_system_nexa_2_device: MagicMock,
 ) -> None:

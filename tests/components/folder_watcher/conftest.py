@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.folder_watcher.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -24,9 +24,9 @@ def mock_setup_entry() -> Generator[None]:
 
 @pytest.fixture
 async def load_int(
-    hass: __HAC_KEEP__, tmp_path: Path, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, tmp_path: Path, freezer: FrozenDateTimeFactory
 ) -> MockConfigEntry:
-    """Set up the Folder watcher integration in __HA_KEEP__."""
+    """Set up the Folder watcher integration in Universal Home Assistant."""
     freezer.move_to("2022-04-19 10:31:02+00:00")
     path = tmp_path.as_posix()
     hass.config.allowlist_external_dirs = {path}

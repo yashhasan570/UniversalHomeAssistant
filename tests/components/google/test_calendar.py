@@ -18,7 +18,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator, WebSocketGe
 from universalassistant.components.google.const import CONF_CALENDAR_ACCESS, DOMAIN
 from universalassistant.config_entries import RELOAD_AFTER_UPDATE_DELAY
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_registry import RegistryEntryDisabler
 from universalassistant.helpers.template import DATE_STR_FORMAT
@@ -111,7 +111,7 @@ type ClientFixture = Callable[[], Awaitable[Client]]
 
 @pytest.fixture
 async def ws_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> ClientFixture:
     """Fixture for creating the test websocket client."""
@@ -124,7 +124,7 @@ async def ws_client(
 
 
 async def test_all_day_event(
-    hass: __HAC_KEEP__, mock_events_list_items, component_setup
+    hass: UniversalAssistant, mock_events_list_items, component_setup
 ) -> None:
     """Test for an all day calendar event."""
     week_from_today = dt_util.now().date() + dt.timedelta(days=7)
@@ -155,7 +155,7 @@ async def test_all_day_event(
 
 
 async def test_future_event(
-    hass: __HAC_KEEP__, mock_events_list_items, component_setup
+    hass: UniversalAssistant, mock_events_list_items, component_setup
 ) -> None:
     """Test for an upcoming event."""
     one_hour_from_now = dt_util.now() + dt.timedelta(minutes=30)
@@ -186,7 +186,7 @@ async def test_future_event(
 
 
 async def test_in_progress_event(
-    hass: __HAC_KEEP__, mock_events_list_items, component_setup
+    hass: UniversalAssistant, mock_events_list_items, component_setup
 ) -> None:
     """Test an event that is active now."""
     middle_of_event = dt_util.now() - dt.timedelta(minutes=30)
@@ -217,7 +217,7 @@ async def test_in_progress_event(
 
 
 async def test_offset_in_progress_event(
-    hass: __HAC_KEEP__, mock_events_list_items, component_setup
+    hass: UniversalAssistant, mock_events_list_items, component_setup
 ) -> None:
     """Test an event that is active now with an offset."""
     middle_of_event = dt_util.now() + dt.timedelta(minutes=14)
@@ -250,7 +250,7 @@ async def test_offset_in_progress_event(
 
 
 async def test_all_day_offset_in_progress_event(
-    hass: __HAC_KEEP__, mock_events_list_items, component_setup
+    hass: UniversalAssistant, mock_events_list_items, component_setup
 ) -> None:
     """Test an all day event that is currently in progress due to an offset."""
     tomorrow = dt_util.now().date() + dt.timedelta(days=1)
@@ -283,7 +283,7 @@ async def test_all_day_offset_in_progress_event(
 
 
 async def test_all_day_offset_event(
-    hass: __HAC_KEEP__, mock_events_list_items, component_setup
+    hass: UniversalAssistant, mock_events_list_items, component_setup
 ) -> None:
     """Test an all day event that not in progress due to an offset."""
     now = dt_util.now()
@@ -318,7 +318,7 @@ async def test_all_day_offset_event(
 
 
 async def test_missing_summary(
-    hass: __HAC_KEEP__, mock_events_list_items, component_setup
+    hass: UniversalAssistant, mock_events_list_items, component_setup
 ) -> None:
     """Test that a summary is optional."""
     start_event = dt_util.now() + dt.timedelta(minutes=14)
@@ -350,7 +350,7 @@ async def test_missing_summary(
 
 
 async def test_update_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup,
     mock_events_list,
     aioclient_mock: AiohttpClientMocker,
@@ -419,7 +419,7 @@ async def test_update_error(
 
 
 async def test_calendars_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     component_setup,
     mock_events_list_items,
@@ -441,7 +441,7 @@ async def test_calendars_api(
 
 
 async def test_http_event_api_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     component_setup,
     mock_events_list,
@@ -463,7 +463,7 @@ async def test_http_event_api_failure(
 
 @pytest.mark.freeze_time("2022-03-27 12:05:00+00:00")
 async def test_http_api_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_events_list_items,
     component_setup,
@@ -491,7 +491,7 @@ async def test_http_api_event(
 
 @pytest.mark.freeze_time("2022-03-27 12:05:00+00:00")
 async def test_http_api_all_day_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_events_list_items,
     component_setup,
@@ -532,7 +532,7 @@ async def test_http_api_all_day_event(
     ],
 )
 async def test_opaque_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_calendars_yaml,
     mock_events_list_items,
@@ -562,7 +562,7 @@ async def test_opaque_event(
 
 
 async def test_declined_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_calendars_yaml,
     mock_events_list_items,
@@ -590,7 +590,7 @@ async def test_declined_event(
 
 
 async def test_attending_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_calendars_yaml,
     mock_events_list_items,
@@ -619,7 +619,7 @@ async def test_attending_event(
 
 @pytest.mark.parametrize("mock_test_setup", [None])
 async def test_scan_calendar_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup,
     mock_calendars_list: ApiResult,
     config_entry,
@@ -632,7 +632,7 @@ async def test_scan_calendar_error(
 
 
 async def test_future_event_update_behavior(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_events_list_items,
     component_setup,
@@ -666,7 +666,7 @@ async def test_future_event_update_behavior(
 
 
 async def test_future_event_offset_update_behavior(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_events_list_items,
     component_setup,
@@ -704,7 +704,7 @@ async def test_future_event_offset_update_behavior(
 
 
 async def test_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_events_list_items,
     component_setup,
@@ -726,7 +726,7 @@ async def test_unique_id(
     "old_unique_id", [CALENDAR_ID, f"{CALENDAR_ID}-we_are_we_are_a_test_calendar"]
 )
 async def test_unique_id_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_events_list_items,
     component_setup,
@@ -781,7 +781,7 @@ async def test_unique_id_migration(
     ],
 )
 async def test_invalid_unique_id_cleanup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_events_list_items,
     component_setup,
@@ -833,7 +833,7 @@ async def test_invalid_unique_id_cleanup(
     ],
 )
 async def test_all_day_iter_order(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_events_list_items,
     component_setup,
@@ -879,7 +879,7 @@ async def test_all_day_iter_order(
 
 
 async def test_websocket_create(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
     test_api_calendar: dict[str, Any],
     mock_insert_event: Callable[..., None],
@@ -921,7 +921,7 @@ async def test_websocket_create(
 
 
 async def test_websocket_create_all_day(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
     test_api_calendar: dict[str, Any],
     mock_insert_event: Callable[..., None],
@@ -1118,7 +1118,7 @@ async def test_websocket_delete_recurring_event_instance(
     ],
 )
 async def test_readonly_websocket_create(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
     test_api_calendar: dict[str, Any],
     mock_insert_event: Callable[..., None],
@@ -1169,7 +1169,7 @@ async def test_readonly_websocket_create(
     ],
 )
 async def test_readonly_search_calendar(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_setup: ComponentSetup,
     mock_calendars_yaml,
     mock_insert_event: Callable[..., None],
@@ -1204,7 +1204,7 @@ async def test_readonly_search_calendar(
 
 @pytest.mark.parametrize("calendar_access_role", ["reader", "freeBusyReader"])
 async def test_all_day_reader_access(
-    hass: __HAC_KEEP__, mock_events_list_items, component_setup
+    hass: UniversalAssistant, mock_events_list_items, component_setup
 ) -> None:
     """Test that reader / freebusy reader access can load properly."""
     week_from_today = dt_util.now().date() + dt.timedelta(days=7)
@@ -1235,7 +1235,7 @@ async def test_all_day_reader_access(
 
 @pytest.mark.parametrize("calendar_access_role", ["reader", "freeBusyReader"])
 async def test_reader_in_progress_event(
-    hass: __HAC_KEEP__, mock_events_list_items, component_setup
+    hass: UniversalAssistant, mock_events_list_items, component_setup
 ) -> None:
     """Test reader access for an event in process."""
     middle_of_event = dt_util.now() - dt.timedelta(minutes=30)
@@ -1265,7 +1265,7 @@ async def test_reader_in_progress_event(
 
 
 async def test_all_day_event_without_duration(
-    hass: __HAC_KEEP__, mock_events_list_items, component_setup
+    hass: UniversalAssistant, mock_events_list_items, component_setup
 ) -> None:
     """Test all day event without duration is adjusted to one day."""
     week_from_today = dt_util.now().date() + dt.timedelta(days=7)
@@ -1297,7 +1297,7 @@ async def test_all_day_event_without_duration(
 
 
 async def test_event_without_duration(
-    hass: __HAC_KEEP__, mock_events_list_items, component_setup
+    hass: UniversalAssistant, mock_events_list_items, component_setup
 ) -> None:
     """Google calendar UI allows creating events without a duration."""
     one_hour_from_now = dt_util.now() + dt.timedelta(minutes=30)
@@ -1322,7 +1322,7 @@ async def test_event_without_duration(
 
 
 async def test_event_differs_timezone(
-    hass: __HAC_KEEP__, mock_events_list_items, component_setup
+    hass: UniversalAssistant, mock_events_list_items, component_setup
 ) -> None:
     """Test a case where the event has a different start/end timezone."""
     one_hour_from_now = dt_util.now() + dt.timedelta(minutes=30)
@@ -1357,7 +1357,7 @@ async def test_event_differs_timezone(
 
 @pytest.mark.freeze_time("2023-11-30 12:15:00 +00:00")
 async def test_invalid_rrule_fix(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_events_list_items,
     component_setup,
@@ -1412,7 +1412,7 @@ async def test_invalid_rrule_fix(
     ],
 )
 async def test_working_location_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_events_list_items: Callable[[list[dict[str, Any]]], None],
     component_setup: ComponentSetup,
@@ -1444,7 +1444,7 @@ async def test_working_location_ignored(
 )
 @pytest.mark.parametrize("calendar_is_primary", [True])
 async def test_working_location_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     entity_registry: er.EntityRegistry,
     mock_events_list_items: Callable[[list[dict[str, Any]]], None],
@@ -1482,7 +1482,7 @@ async def test_working_location_entity(
 
 @pytest.mark.parametrize("calendar_is_primary", [True])
 async def test_working_location_get_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     entity_registry: er.EntityRegistry,
     mock_events_list_items: Callable[[list[dict[str, Any]]], None],
@@ -1592,7 +1592,7 @@ async def test_working_location_get_events(
     ],
 )
 async def test_working_location_ignore_availability_false(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_calendars_yaml: None,
     mock_events_list_items: Callable[[list[dict[str, Any]]], None],
@@ -1672,7 +1672,7 @@ async def test_working_location_ignore_availability_false(
 
 @pytest.mark.parametrize("calendar_is_primary", [False])
 async def test_no_working_location_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     entity_registry: er.EntityRegistry,
     mock_events_list_items: Callable[[list[dict[str, Any]]], None],
@@ -1701,7 +1701,7 @@ async def test_no_working_location_entity(
 )
 @pytest.mark.parametrize("calendar_is_primary", [True])
 async def test_birthday_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     entity_registry: er.EntityRegistry,
     mock_events_list_items: Callable[[list[dict[str, Any]]], None],
@@ -1746,7 +1746,7 @@ async def test_birthday_entity(
     ],
 )
 async def test_calendar_background_color(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_calendars_list: ApiResult,
     mock_events_list_items: Callable[[list[dict[str, Any]]], None],
@@ -1792,7 +1792,7 @@ async def test_calendar_background_color(
     # so they never reach the integration.
 )
 async def test_http_api_event_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_events_list_items: ApiResult,
     component_setup: ComponentSetup,

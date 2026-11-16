@@ -1,9 +1,9 @@
 """Errors for the HLK-SW16 component."""
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 
-class SW16Exception(__HAC_KEEP__Error):
+class SW16Exception(UniversalAssistantError):
     """Base class for HLK-SW16 exceptions."""
 
 

@@ -1,4 +1,4 @@
-"""The tests for the __HA_KEEP__ HTTP component."""
+"""The tests for the Universal Home Assistant HTTP component."""
 
 import asyncio
 from collections.abc import Callable, Generator, Iterator
@@ -52,8 +52,8 @@ from universalassistant.components.http.repairs import (
 )
 from universalassistant.components.repairs import DOMAIN as REPAIRS_DOMAIN, ConfirmRepairFlow
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP, HASSIO_USER_NAME, SERVER_PORT
-from universalassistant.core import CoreState, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.http import KEY_HASS
 from universalassistant.helpers.network import NoURLAvailableError
@@ -72,10 +72,10 @@ def disable_http_server(socket_enabled: None) -> None:
 
 
 # The unpatched original, for tests that exercise the real implementation.
-_REAL_CREATE_SERVER = http.__HAC_KEEP__HTTP._async_create_server
+_REAL_CREATE_SERVER = http.UniversalAssistantHTTP._async_create_server
 
 
-async def _ephemeral_server(hass: __HAC_KEEP__) -> asyncio.Server:
+async def _ephemeral_server(hass: UniversalAssistant) -> asyncio.Server:
     """Create a bound but not serving server on an ephemeral localhost port."""
     return await hass.loop.create_server(
         asyncio.Protocol, "127.0.0.1", 0, start_serving=False
@@ -91,7 +91,7 @@ def mock_create_server() -> Generator[Mock]:
     """
     servers: list[asyncio.Server] = []
 
-    async def _bind_ephemeral(self: http.__HAC_KEEP__HTTP) -> asyncio.Server:
+    async def _bind_ephemeral(self: http.UniversalAssistantHTTP) -> asyncio.Server:
         server = await self.hass.loop.create_server(
             self._make_protocol,
             "127.0.0.1",
@@ -103,7 +103,7 @@ def mock_create_server() -> Generator[Mock]:
         return server
 
     with patch(
-        "universalassistant.components.http.__HAC_KEEP__HTTP._async_create_server",
+        "universalassistant.components.http.UniversalAssistantHTTP._async_create_server",
         autospec=True,
         side_effect=_bind_ephemeral,
     ) as mock_create:
@@ -114,7 +114,7 @@ def mock_create_server() -> Generator[Mock]:
         server.close()
 
 
-async def _bind_redirect_ephemeral(self: http.__HAC_KEEP__HTTP) -> asyncio.Server:
+async def _bind_redirect_ephemeral(self: http.UniversalAssistantHTTP) -> asyncio.Server:
     """Bind the legacy redirect on an ephemeral localhost port instead of 8123."""
     assert self._legacy_redirect_runner is not None
     return await self.hass.loop.create_server(
@@ -146,7 +146,7 @@ def _supervisor_default_config() -> Iterator[None]:
             "universalassistant.components.http.server._DEFAULT_CONFIG", DEFAULT_80_CONFIG
         ),
         patch(
-            "universalassistant.components.http.server.__HAC_KEEP__HTTP._async_create_redirect_server",
+            "universalassistant.components.http.server.UniversalAssistantHTTP._async_create_redirect_server",
             autospec=True,
             side_effect=_bind_redirect_ephemeral,
         ),
@@ -155,9 +155,9 @@ def _supervisor_default_config() -> Iterator[None]:
 
 
 async def _setup_http_with_onboarding(
-    hass: __HAC_KEEP__, *, onboarded: bool = False
+    hass: UniversalAssistant, *, onboarded: bool = False
 ) -> None:
-    """Set up http and onboarding, then start __HA_KEEP__.
+    """Set up http and onboarding, then start Universal Home Assistant.
 
     The legacy-port transition is bound to onboarding, so onboarding must be
     set up (as it always is via frontend in production) for the redirect to
@@ -171,7 +171,7 @@ async def _setup_http_with_onboarding(
     await hass.async_block_till_done()
 
 
-def _complete_onboarding(hass: __HAC_KEEP__) -> None:
+def _complete_onboarding(hass: UniversalAssistant) -> None:
     """Mark onboarding complete and fire its listeners, as the views do."""
     data = hass.data[onboarding.DOMAIN]
     data.onboarded = True
@@ -227,7 +227,7 @@ def mock_stack():
         yield
 
 
-class TestView(http.__HAC_KEEP__View):
+class TestView(http.UniversalAssistantView):
     """Test the HTTP views."""
 
     name = "test"
@@ -239,7 +239,7 @@ class TestView(http.__HAC_KEEP__View):
 
 
 async def test_registering_view_while_running(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_client: ClientSessionGenerator,
     unused_tcp_port_factory: Callable[[], int],
 ) -> None:
@@ -255,8 +255,8 @@ async def test_registering_view_while_running(
     hass.http.register_view(TestView)
 
 
-async def test_universalassistant_assigned_to_app(hass: __HAC_KEEP__) -> None:
-    """Test __HAC_KEEP__ instance is assigned to __HAC_KEEP__App."""
+async def test_universalassistant_assigned_to_app(hass: UniversalAssistant) -> None:
+    """Test UniversalAssistant instance is assigned to UniversalAssistantApp."""
     assert await async_setup_component(hass, "api", {"http": {}})
     await hass.async_start()
     assert hass.http.app[KEY_HASS] == hass
@@ -265,7 +265,7 @@ async def test_universalassistant_assigned_to_app(hass: __HAC_KEEP__) -> None:
 
 
 async def test_not_log_password(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
     local_auth: HassAuthProvider,
@@ -285,7 +285,7 @@ async def test_not_log_password(
     assert "some-pass" not in logs
 
 
-async def test_proxy_config(hass: __HAC_KEEP__) -> None:
+async def test_proxy_config(hass: UniversalAssistant) -> None:
     """Test use_x_forwarded_for must config together with trusted_proxies."""
     assert (
         await async_setup_component(
@@ -303,7 +303,7 @@ async def test_proxy_config(hass: __HAC_KEEP__) -> None:
 
 
 async def test_proxy_config_forwarded_request(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -327,7 +327,7 @@ async def test_proxy_config_forwarded_request(
     assert resp.status == HTTPStatus.OK
 
 
-async def test_proxy_config_only_use_xff(hass: __HAC_KEEP__) -> None:
+async def test_proxy_config_only_use_xff(hass: UniversalAssistant) -> None:
     """Test use_x_forwarded_for must config together with trusted_proxies."""
     assert (
         await async_setup_component(
@@ -337,7 +337,7 @@ async def test_proxy_config_only_use_xff(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_proxy_config_only_trust_proxies(hass: __HAC_KEEP__) -> None:
+async def test_proxy_config_only_trust_proxies(hass: UniversalAssistant) -> None:
     """Test use_x_forwarded_for must config together with trusted_proxies."""
     assert (
         await async_setup_component(
@@ -347,7 +347,7 @@ async def test_proxy_config_only_trust_proxies(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_ssl_profile_defaults_modern(hass: __HAC_KEEP__, tmp_path: Path) -> None:
+async def test_ssl_profile_defaults_modern(hass: UniversalAssistant, tmp_path: Path) -> None:
     """Test default ssl profile."""
 
     cert_path, key_path, _ = await hass.async_add_executor_job(
@@ -377,7 +377,7 @@ async def test_ssl_profile_defaults_modern(hass: __HAC_KEEP__, tmp_path: Path) -
 
 
 async def test_ssl_profile_change_intermediate(
-    hass: __HAC_KEEP__, tmp_path: Path
+    hass: UniversalAssistant, tmp_path: Path
 ) -> None:
     """Test setting ssl profile to intermediate."""
 
@@ -412,7 +412,7 @@ async def test_ssl_profile_change_intermediate(
     assert mock_context.mock_calls == [call(SSLProfile.INTERMEDIATE_V4)]
 
 
-async def test_ssl_profile_change_modern(hass: __HAC_KEEP__, tmp_path: Path) -> None:
+async def test_ssl_profile_change_modern(hass: UniversalAssistant, tmp_path: Path) -> None:
     """Test setting ssl profile to modern."""
 
     cert_path, key_path, _ = await hass.async_add_executor_job(
@@ -446,7 +446,7 @@ async def test_ssl_profile_change_modern(hass: __HAC_KEEP__, tmp_path: Path) -> 
     assert mock_context.mock_calls == [call(SSLProfile.MODERN_V4)]
 
 
-async def test_peer_cert(hass: __HAC_KEEP__, tmp_path: Path) -> None:
+async def test_peer_cert(hass: UniversalAssistant, tmp_path: Path) -> None:
     """Test required peer cert."""
     cert_path, key_path, peer_cert_path = await hass.async_add_executor_job(
         _setup_empty_ssl_pem_files, tmp_path
@@ -533,7 +533,7 @@ def _stable_http_storage(
 
 
 async def test_emergency_ssl_certificate_when_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     caplog: pytest.LogCaptureFixture,
     hass_storage: dict[str, Any],
@@ -554,7 +554,7 @@ async def test_emergency_ssl_certificate_when_invalid(
     await hass.async_start()
     await hass.async_block_till_done()
     assert (
-        "__HA_KEEP__ is running in recovery mode with an emergency"
+        "Universal Home Assistant is running in recovery mode with an emergency"
         " self signed ssl certificate because the configured SSL"
         " certificate was not usable" in caplog.text
     )
@@ -563,7 +563,7 @@ async def test_emergency_ssl_certificate_when_invalid(
 
 
 async def test_emergency_ssl_certificate_uses_configured_profile(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -596,7 +596,7 @@ async def test_emergency_ssl_certificate_uses_configured_profile(
 
 
 async def test_emergency_ssl_certificate_not_used_when_not_recovery_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     caplog: pytest.LogCaptureFixture,
     hass_storage: dict[str, Any],
@@ -618,7 +618,7 @@ async def test_emergency_ssl_certificate_not_used_when_not_recovery_mode(
 
 
 async def test_emergency_ssl_certificate_when_invalid_get_url_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     caplog: pytest.LogCaptureFixture,
     hass_storage: dict[str, Any],
@@ -644,7 +644,7 @@ async def test_emergency_ssl_certificate_when_invalid_get_url_fails(
 
     assert len(mock_get_url.mock_calls) == 1
     assert (
-        "__HA_KEEP__ is running in recovery mode with an emergency"
+        "Universal Home Assistant is running in recovery mode with an emergency"
         " self signed ssl certificate because the configured SSL"
         " certificate was not usable" in caplog.text
     )
@@ -653,7 +653,7 @@ async def test_emergency_ssl_certificate_when_invalid_get_url_fails(
 
 
 async def test_invalid_ssl_and_cannot_create_emergency_cert(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     caplog: pytest.LogCaptureFixture,
     hass_storage: dict[str, Any],
@@ -682,7 +682,7 @@ async def test_invalid_ssl_and_cannot_create_emergency_cert(
 
 
 async def test_invalid_ssl_and_cannot_create_emergency_cert_with_ssl_peer_cert(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     caplog: pytest.LogCaptureFixture,
     hass_storage: dict[str, Any],
@@ -722,7 +722,7 @@ async def test_invalid_ssl_and_cannot_create_emergency_cert_with_ssl_peer_cert(
 
 
 async def test_emergency_ssl_certificate_enforces_peer_certificate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     caplog: pytest.LogCaptureFixture,
     hass_storage: dict[str, Any],
@@ -755,9 +755,9 @@ async def test_emergency_ssl_certificate_enforces_peer_certificate(
     assert hass.http.context.verify_mode is ssl.CERT_REQUIRED
 
 
-async def test_create_server_passes_configuration(hass: __HAC_KEEP__) -> None:
+async def test_create_server_passes_configuration(hass: UniversalAssistant) -> None:
     """The real server factory passes the configured values to asyncio."""
-    server = http.__HAC_KEEP__HTTP(
+    server = http.UniversalAssistantHTTP(
         hass,
         server_host=["127.0.0.1", "::1"],
         server_port=1234,
@@ -783,7 +783,7 @@ async def test_create_server_passes_configuration(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_cors_defaults(hass: __HAC_KEEP__) -> None:
+async def test_cors_defaults(hass: UniversalAssistant) -> None:
     """Test the CORS default settings."""
     with patch("universalassistant.components.http.server.setup_cors") as mock_setup:
         assert await async_setup_component(hass, DOMAIN, {})
@@ -793,7 +793,7 @@ async def test_cors_defaults(hass: __HAC_KEEP__) -> None:
 
 
 async def test_logging(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -823,7 +823,7 @@ async def test_logging(
 
 
 async def test_ssl_issue_if_no_urls_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -855,7 +855,7 @@ async def test_ssl_issue_if_no_urls_configured(
 
 
 async def test_ssl_issue_if_using_cloud(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -890,7 +890,7 @@ async def test_ssl_issue_if_using_cloud(
 
 
 async def test_ssl_issue_if_not_connected_to_cloud(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -933,7 +933,7 @@ async def test_ssl_issue_if_not_connected_to_cloud(
     ],
 )
 async def test_ssl_issue_urls_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     issue_registry: ir.IssueRegistry,
     external_url: str | None,
@@ -977,7 +977,7 @@ async def test_ssl_issue_urls_configured(
     ],
 )
 async def test_server_host(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     http_config: dict,
     expected_serverhost: list,
@@ -1000,7 +1000,7 @@ async def test_server_host(
 
 
 async def test_unix_socket_started_with_supervisor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
 ) -> None:
     """Test unix socket is started when running under Supervisor."""
@@ -1015,7 +1015,7 @@ async def test_unix_socket_started_with_supervisor(
             os.environ, {"SUPERVISOR_CORE_API_SOCKET": str(socket_path)}, clear=False
         ),
         patch(
-            "universalassistant.components.http.web_runner.__HAC_KEEP__UnixSite"
+            "universalassistant.components.http.web_runner.UniversalAssistantUnixSite"
             "._create_unix_socket",
             return_value=mock_sock,
         ) as mock_create_sock,
@@ -1033,7 +1033,7 @@ async def test_unix_socket_started_with_supervisor(
 
 
 async def test_unix_socket_not_started_without_supervisor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test unix socket is not started when not running under Supervisor."""
     with (
@@ -1048,7 +1048,7 @@ async def test_unix_socket_not_started_without_supervisor(
 
 
 async def test_unix_socket_rejected_relative_path(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test unix socket is rejected when path is relative."""
@@ -1068,7 +1068,7 @@ async def test_unix_socket_rejected_relative_path(
 
 
 async def test_supervisor_http_config_view(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     tmp_path: Path,
 ) -> None:
@@ -1083,7 +1083,7 @@ async def test_supervisor_http_config_view(
             os.environ, {"SUPERVISOR_CORE_API_SOCKET": str(socket_path)}, clear=False
         ),
         patch(
-            "universalassistant.components.http.web_runner.__HAC_KEEP__UnixSite"
+            "universalassistant.components.http.web_runner.UniversalAssistantUnixSite"
             "._create_unix_socket",
             return_value=Mock(),
         ),
@@ -1139,7 +1139,7 @@ async def test_supervisor_http_config_view(
 
 @pytest.mark.usefixtures("freezer")
 async def test_yaml_migration_to_storage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -1178,7 +1178,7 @@ async def test_yaml_migration_to_storage(
 
 @pytest.mark.usefixtures("freezer")
 async def test_yaml_migration_without_port_keeps_previous_default_port(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """YAML that configures something else than the port migrates to port 8123.
@@ -1210,7 +1210,7 @@ async def test_yaml_migration_without_port_keeps_previous_default_port(
 
 
 async def test_yaml_migration_matches_stable_no_pending(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -1290,7 +1290,7 @@ async def test_yaml_migration_matches_stable_no_pending(
 )
 @pytest.mark.usefixtures("freezer")
 async def test_yaml_migration_stable_lost_trusted_proxy_masks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     yaml_extra: dict[str, Any],
     expected_stable_proxies: list[str],
@@ -1339,7 +1339,7 @@ async def test_yaml_migration_stable_lost_trusted_proxy_masks(
 
 @pytest.mark.usefixtures("freezer")
 async def test_yaml_migration_differs_from_stable_creates_pending(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -1394,7 +1394,7 @@ async def test_yaml_migration_differs_from_stable_creates_pending(
 
 
 async def test_yaml_migration_failure_creates_error_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test that an error during YAML migration creates an error issue."""
@@ -1418,7 +1418,7 @@ async def test_yaml_migration_failure_creates_error_issue(
 
 
 async def test_yaml_still_present_after_migration_creates_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -1441,7 +1441,7 @@ async def test_yaml_still_present_after_migration_creates_issue(
 
 
 async def test_yaml_still_present_issue_cleared_when_yaml_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -1469,7 +1469,7 @@ async def test_yaml_still_present_issue_cleared_when_yaml_removed(
 
 
 async def test_setup_uses_stable_config_when_no_yaml(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -1496,7 +1496,7 @@ async def test_setup_uses_stable_config_when_no_yaml(
 
 
 async def test_setup_prefers_pending_over_stable_in_normal_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Pending overrides stable on a normal boot so the new config gets tested."""
@@ -1514,7 +1514,7 @@ async def test_setup_prefers_pending_over_stable_in_normal_mode(
 
 
 async def test_recovery_mode_falls_back_to_stable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """In recovery mode the pending config is ignored to keep HA reachable."""
@@ -1533,7 +1533,7 @@ async def test_recovery_mode_falls_back_to_stable(
 
 
 async def test_recovery_mode_with_no_storage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1556,7 +1556,7 @@ async def test_recovery_mode_with_no_storage(
 
 
 async def test_recovery_mode_ignores_yaml(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1585,7 +1585,7 @@ async def test_recovery_mode_ignores_yaml(
 
 @pytest.mark.usefixtures("freezer")
 async def test_setup_migrates_v1_storage_to_v2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """An existing v1 store is migrated into the stable slot."""
@@ -1616,7 +1616,7 @@ async def test_setup_migrates_v1_storage_to_v2(
 
 
 async def test_upgrade_with_stored_old_default_config_keeps_port(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1667,7 +1667,7 @@ async def test_upgrade_with_stored_old_default_config_keeps_port(
 
 @pytest.mark.usefixtures("freezer")
 async def test_setup_migrates_v2_1_storage_to_v2_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """v2.1 config slots gain the created_at/error metadata; pending stays armed."""
@@ -1715,7 +1715,7 @@ async def test_setup_migrates_v2_1_storage_to_v2_2(
 
 
 async def test_setup_migrates_v2_2_storage_to_v3(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     tmp_path: Path,
 ) -> None:
@@ -1753,7 +1753,7 @@ async def test_setup_migrates_v2_2_storage_to_v3(
 
 
 async def test_setup_migrates_v1_storage_ssl_profile(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     tmp_path: Path,
 ) -> None:
@@ -1784,7 +1784,7 @@ async def test_setup_migrates_v1_storage_ssl_profile(
     [("modern_v4", "modern_v4"), ("intermediate_v4", "intermediate_v4")],
 )
 async def test_ssl_profile_outdated_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     issue_registry: ir.IssueRegistry,
     tmp_path: Path,
@@ -1816,7 +1816,7 @@ async def test_ssl_profile_outdated_issue(
     assert issue.translation_placeholders == {"profile": profile_name}
 
 
-def _create_stale_ssl_profile_issue(hass: __HAC_KEEP__) -> None:
+def _create_stale_ssl_profile_issue(hass: UniversalAssistant) -> None:
     """Create the SSL profile issue as left behind by a previous start."""
     ir.async_create_issue(
         hass,
@@ -1830,7 +1830,7 @@ def _create_stale_ssl_profile_issue(hass: __HAC_KEEP__) -> None:
 
 
 async def test_ssl_profile_outdated_issue_cleared_with_current_profile(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     issue_registry: ir.IssueRegistry,
     tmp_path: Path,
@@ -1857,7 +1857,7 @@ async def test_ssl_profile_outdated_issue_cleared_with_current_profile(
 
 
 async def test_ssl_profile_outdated_issue_cleared_without_ssl(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1883,7 +1883,7 @@ async def test_ssl_profile_outdated_issue_cleared_without_ssl(
     ],
 )
 async def test_ssl_profile_outdated_fix_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_storage: dict[str, Any],
     tmp_path: Path,
@@ -1944,7 +1944,7 @@ async def test_ssl_profile_outdated_fix_flow(
 
 
 async def test_ssl_profile_outdated_fix_flow_ignore(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_storage: dict[str, Any],
     issue_registry: ir.IssueRegistry,
@@ -1989,7 +1989,7 @@ async def test_ssl_profile_outdated_fix_flow_ignore(
 
 
 async def test_ssl_profile_outdated_fix_flow_pending_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_storage: dict[str, Any],
     tmp_path: Path,
@@ -2027,7 +2027,7 @@ async def test_ssl_profile_outdated_fix_flow_pending_config(
 
 @pytest.mark.usefixtures("freezer")
 async def test_ssl_profile_outdated_fix_flow_pending_config_staged_meanwhile(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_storage: dict[str, Any],
     tmp_path: Path,
@@ -2073,7 +2073,7 @@ async def test_ssl_profile_outdated_fix_flow_pending_config_staged_meanwhile(
     assert len(restart_calls) == 0
 
 
-async def test_create_fix_flow(hass: __HAC_KEEP__) -> None:
+async def test_create_fix_flow(hass: UniversalAssistant) -> None:
     """Each issue gets its own fix flow; unknown issues get a plain confirm flow."""
     assert isinstance(
         await async_create_fix_flow(hass, "ssl_profile_outdated", None),
@@ -2115,7 +2115,7 @@ def test_default_server_port(
 
 
 async def test_setup_port_env_var_used_as_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test SETUP_PORT is used as the default server port without YAML config.
@@ -2141,7 +2141,7 @@ async def test_setup_port_env_var_used_as_default(
 
 
 async def test_default_config_under_supervisor_starts_redirect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test the default config under Supervisor uses port 80 and redirects 8123."""
@@ -2164,7 +2164,7 @@ async def test_default_config_under_supervisor_starts_redirect(
     ],
 )
 async def test_persisted_default_config_starts_redirect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     stored_config: dict[str, Any],
 ) -> None:
@@ -2185,7 +2185,7 @@ async def test_persisted_default_config_starts_redirect(
 
 
 async def test_no_redirect_when_already_onboarded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test the redirect is not started when onboarding is already complete."""
@@ -2196,7 +2196,7 @@ async def test_no_redirect_when_already_onboarded(
 
 
 async def test_redirect_stops_on_onboarding_complete(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test the redirect is torn down once onboarding completes."""
@@ -2214,7 +2214,7 @@ async def test_redirect_stops_on_onboarding_complete(
 
 
 async def test_no_redirect_without_supervisor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test no redirect is started for the default config outside Supervisor."""
@@ -2228,7 +2228,7 @@ async def test_no_redirect_without_supervisor(
 
 
 async def test_no_redirect_with_setup_port_outside_supervisor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test SETUP_PORT alone (no Supervisor) does not start the redirect.
@@ -2252,7 +2252,7 @@ async def test_no_redirect_with_setup_port_outside_supervisor(
 
 
 async def test_no_redirect_when_http_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test no redirect is started once HTTP is configured (onboarding is over).
@@ -2272,7 +2272,7 @@ async def test_no_redirect_when_http_configured(
 
 
 async def test_redirect_bind_failure_is_handled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test setup continues when the legacy redirect server cannot bind."""
@@ -2285,7 +2285,7 @@ async def test_redirect_bind_failure_is_handled(
             "universalassistant.components.http.server._DEFAULT_CONFIG", DEFAULT_80_CONFIG
         ),
         patch(
-            "universalassistant.components.http.server.__HAC_KEEP__HTTP._async_create_redirect_server",
+            "universalassistant.components.http.server.UniversalAssistantHTTP._async_create_redirect_server",
             autospec=True,
             side_effect=OSError(errno.EADDRINUSE, "Address already in use"),
         ),
@@ -2301,13 +2301,13 @@ async def test_redirect_bind_failure_is_handled(
 
 
 async def test_legacy_redirect_serves_method_preserving_307(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test the legacy redirect serves a 307 to the active port for any method."""
     captured: dict[str, int] = {}
 
-    async def _bind_serving(self: http.__HAC_KEEP__HTTP) -> asyncio.Server:
+    async def _bind_serving(self: http.UniversalAssistantHTTP) -> asyncio.Server:
         assert self._legacy_redirect_runner is not None
         server = await self.hass.loop.create_server(
             self._legacy_redirect_runner.server, "127.0.0.1", 0
@@ -2324,7 +2324,7 @@ async def test_legacy_redirect_serves_method_preserving_307(
             "universalassistant.components.http.server._DEFAULT_CONFIG", DEFAULT_80_CONFIG
         ),
         patch(
-            "universalassistant.components.http.server.__HAC_KEEP__HTTP._async_create_redirect_server",
+            "universalassistant.components.http.server.UniversalAssistantHTTP._async_create_redirect_server",
             autospec=True,
             side_effect=_bind_serving,
         ),
@@ -2346,7 +2346,7 @@ async def test_legacy_redirect_serves_method_preserving_307(
 
 
 async def test_legacy_redirect_stops_with_connection_open(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test the redirect tears down while a client holds a connection open.
@@ -2357,7 +2357,7 @@ async def test_legacy_redirect_stops_with_connection_open(
     """
     captured: dict[str, int] = {}
 
-    async def _bind_serving(self: http.__HAC_KEEP__HTTP) -> asyncio.Server:
+    async def _bind_serving(self: http.UniversalAssistantHTTP) -> asyncio.Server:
         assert self._legacy_redirect_runner is not None
         server = await self.hass.loop.create_server(
             self._legacy_redirect_runner.server, "127.0.0.1", 0
@@ -2374,7 +2374,7 @@ async def test_legacy_redirect_stops_with_connection_open(
             "universalassistant.components.http.server._DEFAULT_CONFIG", DEFAULT_80_CONFIG
         ),
         patch(
-            "universalassistant.components.http.server.__HAC_KEEP__HTTP._async_create_redirect_server",
+            "universalassistant.components.http.server.UniversalAssistantHTTP._async_create_redirect_server",
             autospec=True,
             side_effect=_bind_serving,
         ),
@@ -2400,7 +2400,7 @@ async def test_legacy_redirect_stops_with_connection_open(
 
 
 async def test_legacy_redirect_stop_is_reentrant(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test overlapping redirect teardowns do not wait on each other.
@@ -2429,7 +2429,7 @@ async def test_legacy_redirect_stop_is_reentrant(
 
 @pytest.mark.usefixtures("freezer")
 async def test_websocket_http_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -2585,7 +2585,7 @@ async def test_websocket_http_config(
 
 
 async def test_websocket_configure_verifies_new_port(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_create_server: Mock,
 ) -> None:
@@ -2623,7 +2623,7 @@ async def test_websocket_configure_verifies_new_port(
     ids=["address-in-use", "permission-denied", "unresolvable-host"],
 )
 async def test_websocket_configure_rejects_unbindable_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
     mock_create_server: Mock,
@@ -2655,7 +2655,7 @@ async def test_websocket_configure_rejects_unbindable_config(
 
 
 async def test_websocket_configure_rejects_unusable_ssl(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
     tmp_path: Path,
@@ -2691,7 +2691,7 @@ async def test_websocket_configure_rejects_unusable_ssl(
 
 
 async def test_websocket_configure_same_port_skips_bind_check(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
     mock_create_server: Mock,
@@ -2736,13 +2736,13 @@ async def test_websocket_configure_same_port_skips_bind_check(
     ids=["not-running", "starting"],
 )
 async def test_websocket_configure_rejected_while_not_running(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
     mock_create_server: Mock,
     core_state: CoreState,
 ) -> None:
-    """Staging a new config is rejected while __HA_KEEP__ is not running yet."""
+    """Staging a new config is rejected while Universal Home Assistant is not running yet."""
     assert await async_setup_component(hass, DOMAIN, {})
     await async_setup_component(hass, "websocket_api", {})
     await hass.async_start()
@@ -2759,7 +2759,7 @@ async def test_websocket_configure_rejected_while_not_running(
     assert not response["success"]
     assert response["error"]["code"] == "not_running"
     assert response["error"]["message"] == (
-        "The HTTP configuration can only be changed while __HA_KEEP__ is "
+        "The HTTP configuration can only be changed while Universal Home Assistant is "
         f"running, current state: {core_state.value}"
     )
 
@@ -2790,7 +2790,7 @@ async def test_websocket_configure_rejected_while_not_running(
     ],
 )
 async def test_websocket_configure_rejects_overlapping_hosts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
     server_port: int,
@@ -2832,7 +2832,7 @@ async def test_websocket_configure_rejects_overlapping_hosts(
 
 
 async def test_websocket_configure_same_port_host_change_is_accepted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
     mock_create_server: Mock,
@@ -2886,7 +2886,7 @@ async def test_websocket_configure_same_port_host_change_is_accepted(
     ],
 )
 async def test_verify_hosts_distinct_accepts(
-    hass: __HAC_KEEP__, hosts: list[str]
+    hass: UniversalAssistant, hosts: list[str]
 ) -> None:
     """Hosts that can all listen on one port pass the check."""
     await http.server.async_verify_hosts_distinct(hass, hosts)
@@ -2905,18 +2905,18 @@ async def test_verify_hosts_distinct_accepts(
     ],
 )
 async def test_verify_hosts_distinct_rejects(
-    hass: __HAC_KEEP__, hosts: list[str], first: str, second: str
+    hass: UniversalAssistant, hosts: list[str], first: str, second: str
 ) -> None:
     """Hosts of one family overlap on a wildcard or a repeated address."""
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=f"Listen addresses {first!r} and {second!r} overlap",
     ):
         await http.server.async_verify_hosts_distinct(hass, hosts)
 
 
 async def test_verify_hosts_distinct_resolves_host_names(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A host name counts with every address it resolves to."""
     localhost_infos = [
@@ -2935,7 +2935,7 @@ async def test_verify_hosts_distinct_resolves_host_names(
         # localhost and 127.0.0.1 resolve to the same endpoint, bound once.
         await http.server.async_verify_hosts_distinct(hass, ["localhost", "127.0.0.1"])
         with pytest.raises(
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             match="Listen addresses 'localhost' and '::' overlap",
         ):
             await http.server.async_verify_hosts_distinct(hass, ["localhost", "::"])
@@ -2957,7 +2957,7 @@ async def test_verify_hosts_distinct_resolves_host_names(
     ],
 )
 async def test_verify_hosts_distinct_rejects_unresolvable_host(
-    hass: __HAC_KEEP__, error: Exception, match: str
+    hass: UniversalAssistant, error: Exception, match: str
 ) -> None:
     """A host that cannot be resolved is reported."""
     with (
@@ -2965,13 +2965,13 @@ async def test_verify_hosts_distinct_rejects_unresolvable_host(
             "universalassistant.components.http.server.socket.getaddrinfo",
             side_effect=error,
         ),
-        pytest.raises(__HAC_KEEP__Error, match=match),
+        pytest.raises(UniversalAssistantError, match=match),
     ):
         await http.server.async_verify_hosts_distinct(hass, ["nope.invalid"])
 
 
 async def test_pending_config_auto_reverts_to_stable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
@@ -3041,7 +3041,7 @@ async def test_pending_config_auto_reverts_to_stable(
 
 
 async def test_setup_ignores_reverted_pending(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """A reverted pending config is kept for display but never trialed again."""
@@ -3075,7 +3075,7 @@ async def test_setup_ignores_reverted_pending(
 )
 @pytest.mark.usefixtures("freezer")
 async def test_pending_config_reverted_in_place_on_bind_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
     mock_create_server: Mock,
@@ -3137,7 +3137,7 @@ async def test_pending_config_reverted_in_place_on_bind_failure(
 
 
 async def test_pending_config_reverted_in_place_on_ssl_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """A pending config whose SSL certificate is unusable reverts in place."""
@@ -3191,7 +3191,7 @@ async def test_pending_config_reverted_in_place_on_ssl_failure(
 
 
 async def test_pending_config_reverted_in_place_on_ssl_peer_cert_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     tmp_path: Path,
 ) -> None:
@@ -3253,7 +3253,7 @@ async def test_pending_config_reverted_in_place_on_ssl_peer_cert_failure(
 
 
 async def test_stable_config_ssl_peer_cert_failure_fails_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     tmp_path: Path,
 ) -> None:
@@ -3296,13 +3296,13 @@ async def test_stable_config_ssl_peer_cert_failure_fails_setup(
 
 
 async def test_bound_server_closed_on_stop_before_start(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_create_server: Mock,
 ) -> None:
     """A bound server is closed on stop even if it never started serving.
 
-    If setup fails after binding (or recovery mode tears __HA_KEEP__ down
+    If setup fails after binding (or recovery mode tears Universal Home Assistant down
     before serving starts), the stop event must close the server so a
     follow-up boot in the same process can bind the address again.
     """
@@ -3312,9 +3312,9 @@ async def test_bound_server_closed_on_stop_before_start(
     mock_create_server.side_effect = [server]
 
     with patch.object(
-        http.__HAC_KEEP__HTTP,
+        http.UniversalAssistantHTTP,
         "async_initialize",
-        side_effect=__HAC_KEEP__Error("Setup failed after binding"),
+        side_effect=UniversalAssistantError("Setup failed after binding"),
     ):
         assert not await async_setup_component(hass, DOMAIN, {})
 
@@ -3325,7 +3325,7 @@ async def test_bound_server_closed_on_stop_before_start(
 
 
 async def test_stop_completes_with_open_connections(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Stopping the server must not wait for connected clients to disconnect.
@@ -3357,14 +3357,14 @@ async def test_stop_completes_with_open_connections(
 
 
 async def test_stable_config_bind_failure_fails_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_create_server: Mock,
 ) -> None:
     """A stable config that cannot be bound fails setup.
 
     Failing setup activates recovery mode on a real boot, which retries with
-    the stable config and falls back to the default config, so __HA_KEEP__
+    the stable config and falls back to the default config, so Universal Home Assistant
     stays reachable.
     """
     hass_storage[DOMAIN] = _stable_http_storage({"server_port": 80})
@@ -3383,7 +3383,7 @@ async def test_stable_config_bind_failure_fails_setup(
 
 
 async def test_pending_and_stable_config_bind_failure_fails_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_create_server: Mock,
 ) -> None:
@@ -3413,7 +3413,7 @@ async def test_pending_and_stable_config_bind_failure_fails_setup(
 
 
 async def test_create_server_normalizes_unencodable_host(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A host name the IDNA codec cannot encode raises OSError.
 
@@ -3421,7 +3421,7 @@ async def test_create_server_normalizes_unencodable_host(
     e.g. a label longer than 63 characters; it must be normalized to OSError
     so the config fallback chain handles it like any other bind failure.
     """
-    server = http.__HAC_KEEP__HTTP(
+    server = http.UniversalAssistantHTTP(
         hass,
         server_host=[f"{'x' * 64}.example"],
         server_port=8123,
@@ -3445,7 +3445,7 @@ async def test_create_server_normalizes_unencodable_host(
 
 
 async def test_recovery_mode_bind_failure_falls_back_to_default_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
     mock_create_server: Mock,
@@ -3490,7 +3490,7 @@ async def test_recovery_mode_bind_failure_falls_back_to_default_config(
 
 
 async def test_recovery_mode_default_config_bind_failure_fails_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
     mock_create_server: Mock,
@@ -3514,7 +3514,7 @@ async def test_recovery_mode_default_config_bind_failure_fails_setup(
 
 
 async def test_recovery_mode_supervisor_falls_back_to_legacy_port(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
     mock_create_server: Mock,
@@ -3551,7 +3551,7 @@ async def test_recovery_mode_supervisor_falls_back_to_legacy_port(
 
 
 async def test_recovery_mode_no_legacy_fallback_without_supervisor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
     mock_create_server: Mock,
@@ -3576,7 +3576,7 @@ async def test_recovery_mode_no_legacy_fallback_without_supervisor(
 
 
 async def test_pending_config_promote_cancels_revert(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
@@ -3645,7 +3645,7 @@ async def test_pending_config_promote_cancels_revert(
     ],
 )
 async def test_websocket_http_config_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     config: dict,
 ) -> None:
@@ -3676,7 +3676,7 @@ async def test_websocket_http_config_invalid(
     ],
 )
 async def test_websocket_configure_without_trusted_proxies(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     config: dict[str, Any],
 ) -> None:

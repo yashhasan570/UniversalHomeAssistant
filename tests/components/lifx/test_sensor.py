@@ -14,7 +14,7 @@ from universalassistant.const import (
     SIGNAL_STRENGTH_DECIBELS,
     SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import SERIAL, async_setup_lifx_entry, async_trigger_update
@@ -29,7 +29,7 @@ from .helpers import create_mock_light, set_connectivity
     ],
 )
 async def test_rssi_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     firmware: tuple[int, int],
     unit: str,
@@ -65,7 +65,7 @@ async def test_rssi_sensor(
 
 @pytest.mark.parametrize("connectivity", [Connectivity.WIFI, Connectivity.THREAD])
 async def test_rssi_signal_is_not_read_while_the_sensor_is_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connectivity: Connectivity,
 ) -> None:
     """Test the signal is left out of the poll until the sensor is enabled."""
@@ -80,7 +80,7 @@ async def test_rssi_signal_is_not_read_while_the_sensor_is_disabled(
 
 
 async def test_thread_rssi_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test Thread RSSI has a stable unit before and after the first reading."""
@@ -130,7 +130,7 @@ async def test_thread_rssi_sensor(
 
 
 async def test_rssi_sensor_entity_id_changes_in_place(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test the RSSI sensor keeps reporting under its new entity_id after a rename."""

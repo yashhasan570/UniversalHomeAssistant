@@ -22,7 +22,7 @@ from universalassistant.const import (
     CONF_RADIUS,
     EVENT_HOMEASSISTANT_START,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -31,7 +31,7 @@ from . import _generate_mock_feed_entry
 CONFIG = {geonetnz_quakes.DOMAIN: {CONF_RADIUS: 200}}
 
 
-async def test_setup(hass: __HAC_KEEP__) -> None:
+async def test_setup(hass: UniversalAssistant) -> None:
     """Test the general setup of the integration."""
     # Set up some mock feed entries for this test.
     mock_entry_1 = _generate_mock_feed_entry(

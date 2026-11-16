@@ -14,7 +14,7 @@ from aiohasupervisor import (
 )
 from aiohasupervisor.models import (
     AddonState,
-    __HAC_KEEP__UpdateOptions,
+    UniversalAssistantUpdateOptions,
     InstalledAddonComplete,
     Job,
     JobsInfo,
@@ -36,8 +36,8 @@ from universalassistant.components.hassio.update import (
     SupervisorSupervisorUpdateEntity,
 )
 from universalassistant.const import __version__ as HAVERSION
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -125,7 +125,7 @@ def mock_all(
     ],
 )
 async def test_update_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id,
     expected_state,
     auto_update,
@@ -153,7 +153,7 @@ async def test_update_entities(
     assert state.attributes["auto_update"] is auto_update
 
 
-async def test_update_addon(hass: __HAC_KEEP__, update_addon: AsyncMock) -> None:
+async def test_update_addon(hass: UniversalAssistant, update_addon: AsyncMock) -> None:
     """Test updating addon update entity."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
     config_entry.add_to_hass(hass)
@@ -181,7 +181,7 @@ async def test_update_addon(hass: __HAC_KEEP__, update_addon: AsyncMock) -> None
 
 
 async def test_update_addon_progress(
-    hass: __HAC_KEEP__, hass_supervisor_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_supervisor_ws_client: WebSocketGenerator
 ) -> None:
     """Test progress reporting for addon update."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -266,7 +266,7 @@ async def test_update_addon_progress(
 
 
 async def test_addon_update_progress_startup(
-    hass: __HAC_KEEP__, jobs_info: AsyncMock
+    hass: UniversalAssistant, jobs_info: AsyncMock
 ) -> None:
     """Test addon update in progress during universal assistant startup."""
     jobs_info.return_value = JobsInfo(
@@ -305,7 +305,7 @@ async def test_addon_update_progress_startup(
     )
 
 
-async def setup_backup_integration(hass: __HAC_KEEP__) -> None:
+async def setup_backup_integration(hass: UniversalAssistant) -> None:
     """Set up the backup integration."""
     assert await async_setup_component(hass, "backup", {})
     await hass.async_block_till_done()
@@ -375,7 +375,7 @@ async def setup_backup_integration(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_update_addon_with_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     update_addon: AsyncMock,
@@ -471,7 +471,7 @@ async def test_update_addon_with_backup(
     ],
 )
 async def test_update_addon_with_backup_removes_old_backups(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     update_addon: AsyncMock,
     backups: dict[str, ManagerBackup],
@@ -529,7 +529,7 @@ async def test_update_addon_with_backup_removes_old_backups(
 
 
 async def test_update_os(
-    hass: __HAC_KEEP__, supervisor_client: AsyncMock, os_info: AsyncMock
+    hass: UniversalAssistant, supervisor_client: AsyncMock, os_info: AsyncMock
 ) -> None:
     """Test updating OS update entity."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -587,7 +587,7 @@ async def test_update_os(
                 "include_database": True,
                 "include_folders": None,
                 "include_universalassistant": True,
-                "name": f"__HA_KEEP__ Core {HAVERSION}",
+                "name": f"Universal Home Assistant Core {HAVERSION}",
                 "password": None,
             },
         ),
@@ -601,7 +601,7 @@ async def test_update_os(
                 "include_database": True,
                 "include_folders": None,
                 "include_universalassistant": True,
-                "name": f"__HA_KEEP__ Core {HAVERSION}",
+                "name": f"Universal Home Assistant Core {HAVERSION}",
                 "password": None,
             },
         ),
@@ -636,7 +636,7 @@ async def test_update_os(
     ],
 )
 async def test_update_os_with_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     commands: list[dict[str, Any]],
@@ -680,7 +680,7 @@ async def test_update_os_with_backup(
     supervisor_client.os.update.assert_called_once_with(OSUpdate(version=None))
 
 
-async def test_update_core(hass: __HAC_KEEP__, supervisor_client: AsyncMock) -> None:
+async def test_update_core(hass: UniversalAssistant, supervisor_client: AsyncMock) -> None:
     """Test updating core update entity."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
     config_entry.add_to_hass(hass)
@@ -706,12 +706,12 @@ async def test_update_core(hass: __HAC_KEEP__, supervisor_client: AsyncMock) -> 
         )
     mock_create_backup.assert_not_called()
     supervisor_client.universalassistant.update.assert_called_once_with(
-        __HAC_KEEP__UpdateOptions(version=None, backup=False)
+        UniversalAssistantUpdateOptions(version=None, backup=False)
     )
 
 
 async def test_update_core_progress(
-    hass: __HAC_KEEP__, hass_supervisor_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_supervisor_ws_client: WebSocketGenerator
 ) -> None:
     """Test progress reporting for core update."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -808,14 +808,14 @@ async def test_update_core_progress(
         == 50
     )
 
-    # During a successful update __HA_KEEP__ is stopped before the update job
+    # During a successful update Universal Home Assistant is stopped before the update job
     # reaches the end. An error ends it early so we use that for test
     await client.send_json(
         make_job_message(
             progress=70,
             done=True,
             errors=[
-                {"type": "__HAC_KEEP__UpdateError", "message": "bad", "stage": None}
+                {"type": "UniversalAssistantUpdateError", "message": "bad", "stage": None}
             ],
         )
     )
@@ -838,7 +838,7 @@ async def test_update_core_progress(
 
 
 async def test_core_update_progress_startup(
-    hass: __HAC_KEEP__, jobs_info: AsyncMock
+    hass: UniversalAssistant, jobs_info: AsyncMock
 ) -> None:
     """Test core update in progress during universal assistant startup.
 
@@ -903,7 +903,7 @@ async def test_core_update_progress_startup(
                 "include_database": True,
                 "include_folders": None,
                 "include_universalassistant": True,
-                "name": f"__HA_KEEP__ Core {HAVERSION}",
+                "name": f"Universal Home Assistant Core {HAVERSION}",
                 "password": None,
             },
         ),
@@ -917,7 +917,7 @@ async def test_core_update_progress_startup(
                 "include_database": True,
                 "include_folders": None,
                 "include_universalassistant": True,
-                "name": f"__HA_KEEP__ Core {HAVERSION}",
+                "name": f"Universal Home Assistant Core {HAVERSION}",
                 "password": None,
             },
         ),
@@ -952,7 +952,7 @@ async def test_core_update_progress_startup(
     ],
 )
 async def test_update_core_with_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     commands: list[dict[str, Any]],
@@ -991,12 +991,12 @@ async def test_update_core_with_backup(
         )
     mock_create_backup.assert_called_once_with(**expected_kwargs)
     supervisor_client.universalassistant.update.assert_called_once_with(
-        __HAC_KEEP__UpdateOptions(version=None, backup=False)
+        UniversalAssistantUpdateOptions(version=None, backup=False)
     )
 
 
 async def test_update_core_sets_progress_immediately(
-    hass: __HAC_KEEP__, supervisor_client: AsyncMock
+    hass: UniversalAssistant, supervisor_client: AsyncMock
 ) -> None:
     """Test core update sets in_progress immediately when install starts."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -1016,7 +1016,7 @@ async def test_update_core_sets_progress_immediately(
 
     # Mock update_core to verify in_progress is set before it's called
     async def check_progress(
-        hass: __HAC_KEEP__, version: str | None, backup: bool
+        hass: UniversalAssistant, version: str | None, backup: bool
     ) -> None:
         assert (
             hass.states.get("update.universal_assistant_core_update").attributes.get(
@@ -1040,7 +1040,7 @@ async def test_update_core_sets_progress_immediately(
 
 
 async def test_update_core_resets_progress_on_error(
-    hass: __HAC_KEEP__, supervisor_client: AsyncMock
+    hass: UniversalAssistant, supervisor_client: AsyncMock
 ) -> None:
     """Test core update resets in_progress to False when update fails."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -1061,9 +1061,9 @@ async def test_update_core_resets_progress_on_error(
     with (
         patch(
             "universalassistant.components.hassio.update.update_core",
-            side_effect=__HAC_KEEP__Error,
+            side_effect=UniversalAssistantError,
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             "update",
@@ -1079,7 +1079,7 @@ async def test_update_core_resets_progress_on_error(
 
 
 async def test_update_addon_sets_progress_immediately(
-    hass: __HAC_KEEP__, supervisor_client: AsyncMock
+    hass: UniversalAssistant, supervisor_client: AsyncMock
 ) -> None:
     """Test addon update sets in_progress immediately when install starts."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -1099,7 +1099,7 @@ async def test_update_addon_sets_progress_immediately(
 
     # Mock update_addon to verify in_progress is set before it's called
     async def check_progress(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         addon: str,
         backup: bool,
         addon_name: str | None,
@@ -1124,7 +1124,7 @@ async def test_update_addon_sets_progress_immediately(
 
 
 async def test_update_addon_resets_progress_on_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_supervisor_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
 ) -> None:
@@ -1149,7 +1149,7 @@ async def test_update_addon_resets_progress_on_error(
     job_uuid = uuid4().hex
 
     async def fake_update_addon_error(
-        _hass: __HAC_KEEP__,
+        _hass: UniversalAssistant,
         _addon: str,
         _backup: bool,
         _addon_name: str | None,
@@ -1179,14 +1179,14 @@ async def test_update_addon_resets_progress_on_error(
         msg = await ws.receive_json()
         assert msg["success"]
         await hass.async_block_till_done()
-        raise __HAC_KEEP__Error
+        raise UniversalAssistantError
 
     with (
         patch(
             "universalassistant.components.hassio.update.update_addon",
             side_effect=fake_update_addon_error,
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             "update",
@@ -1242,7 +1242,7 @@ def _bump_addon_to(
 
 
 async def test_update_addon_stays_in_progress_until_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_supervisor_ws_client: WebSocketGenerator,
     update_addon: AsyncMock,
     addon_installed: AsyncMock,
@@ -1320,7 +1320,7 @@ async def test_update_addon_stays_in_progress_until_refresh(
 
 
 async def test_update_addon_completes_on_any_version_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     update_addon: AsyncMock,
     addon_installed: AsyncMock,
     addons_list: AsyncMock,
@@ -1359,7 +1359,7 @@ async def test_update_addon_completes_on_any_version_change(
 
 
 async def test_update_supervisor(
-    hass: __HAC_KEEP__, supervisor_client: AsyncMock
+    hass: UniversalAssistant, supervisor_client: AsyncMock
 ) -> None:
     """Test updating supervisor update entity."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -1385,7 +1385,7 @@ async def test_update_supervisor(
 
 
 async def test_update_supervisor_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_supervisor_ws_client: WebSocketGenerator,
     supervisor_info: AsyncMock,
 ) -> None:
@@ -1492,7 +1492,7 @@ async def test_update_supervisor_progress(
 
 
 async def test_update_supervisor_stays_in_progress_until_restart(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_supervisor_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     supervisor_info: AsyncMock,
@@ -1553,7 +1553,7 @@ async def test_update_supervisor_stays_in_progress_until_restart(
 
 
 async def test_update_supervisor_completes_on_any_version_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_supervisor_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     supervisor_info: AsyncMock,
@@ -1614,7 +1614,7 @@ async def test_update_supervisor_completes_on_any_version_change(
 
 
 async def test_update_addon_with_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     update_addon: AsyncMock,
 ) -> None:
     """Test updating addon update entity with error."""
@@ -1630,7 +1630,7 @@ async def test_update_addon_with_error(
     await hass.async_block_till_done()
 
     update_addon.side_effect = SupervisorError
-    with pytest.raises(__HAC_KEEP__Error, match=r"^Error updating test:"):
+    with pytest.raises(UniversalAssistantError, match=r"^Error updating test:"):
         await hass.services.async_call(
             "update",
             "install",
@@ -1647,7 +1647,7 @@ async def test_update_addon_with_error(
     ],
 )
 async def test_update_addon_with_backup_and_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     create_backup_error: Exception | None,
     delete_filtered_backups_error: Exception | None,
@@ -1677,7 +1677,7 @@ async def test_update_addon_with_backup_and_error(
             "universalassistant.components.backup.manager.BackupManager.async_delete_filtered_backups",
             side_effect=delete_filtered_backups_error,
         ),
-        pytest.raises(__HAC_KEEP__Error, match=message),
+        pytest.raises(UniversalAssistantError, match=message),
     ):
         await hass.services.async_call(
             "update",
@@ -1688,7 +1688,7 @@ async def test_update_addon_with_backup_and_error(
 
 
 async def test_update_os_with_error(
-    hass: __HAC_KEEP__, supervisor_client: AsyncMock
+    hass: UniversalAssistant, supervisor_client: AsyncMock
 ) -> None:
     """Test updating OS update entity with error."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -1704,7 +1704,7 @@ async def test_update_os_with_error(
 
     supervisor_client.os.update.side_effect = SupervisorError
     with pytest.raises(
-        __HAC_KEEP__Error, match=r"^Error updating __HA_KEEP__ Operating System:"
+        UniversalAssistantError, match=r"^Error updating Universal Home Assistant Operating System:"
     ):
         await hass.services.async_call(
             "update",
@@ -1715,7 +1715,7 @@ async def test_update_os_with_error(
 
 
 async def test_update_os_with_backup_and_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
 ) -> None:
     """Test updating OS update entity with error."""
@@ -1738,7 +1738,7 @@ async def test_update_os_with_backup_and_error(
             "universalassistant.components.backup.manager.BackupManager.async_create_backup",
             side_effect=BackupManagerError,
         ),
-        pytest.raises(__HAC_KEEP__Error, match=r"^Error creating backup:"),
+        pytest.raises(UniversalAssistantError, match=r"^Error creating backup:"),
     ):
         await hass.services.async_call(
             "update",
@@ -1752,7 +1752,7 @@ async def test_update_os_with_backup_and_error(
 
 
 async def test_update_supervisor_with_error(
-    hass: __HAC_KEEP__, supervisor_client: AsyncMock
+    hass: UniversalAssistant, supervisor_client: AsyncMock
 ) -> None:
     """Test updating supervisor update entity with error."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -1768,7 +1768,7 @@ async def test_update_supervisor_with_error(
 
     supervisor_client.supervisor.update.side_effect = SupervisorError
     with pytest.raises(
-        __HAC_KEEP__Error, match=r"^Error updating __HA_KEEP__ Supervisor:"
+        UniversalAssistantError, match=r"^Error updating Universal Home Assistant Supervisor:"
     ):
         await hass.services.async_call(
             "update",
@@ -1779,7 +1779,7 @@ async def test_update_supervisor_with_error(
 
 
 async def test_update_core_with_error(
-    hass: __HAC_KEEP__, supervisor_client: AsyncMock
+    hass: UniversalAssistant, supervisor_client: AsyncMock
 ) -> None:
     """Test updating core update entity with error."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -1795,7 +1795,7 @@ async def test_update_core_with_error(
 
     supervisor_client.universalassistant.update.side_effect = SupervisorError
     with pytest.raises(
-        __HAC_KEEP__Error, match=r"^Error updating __HA_KEEP__ Core:"
+        UniversalAssistantError, match=r"^Error updating Universal Home Assistant Core:"
     ):
         await hass.services.async_call(
             "update",
@@ -1806,7 +1806,7 @@ async def test_update_core_with_error(
 
 
 async def test_update_core_with_backup_and_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
 ) -> None:
     """Test updating core update entity with error."""
@@ -1829,7 +1829,7 @@ async def test_update_core_with_backup_and_error(
             "universalassistant.components.backup.manager.BackupManager.async_create_backup",
             side_effect=BackupManagerError,
         ),
-        pytest.raises(__HAC_KEEP__Error, match=r"^Error creating backup:"),
+        pytest.raises(UniversalAssistantError, match=r"^Error creating backup:"),
     ):
         await hass.services.async_call(
             "update",
@@ -1840,7 +1840,7 @@ async def test_update_core_with_backup_and_error(
 
 
 async def test_release_notes_between_versions(
-    hass: __HAC_KEEP__, addon_changelog: AsyncMock, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, addon_changelog: AsyncMock, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test release notes between versions."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -1875,7 +1875,7 @@ async def test_release_notes_between_versions(
 
 
 async def test_release_notes_full(
-    hass: __HAC_KEEP__, addon_changelog: AsyncMock, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, addon_changelog: AsyncMock, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test release notes no match."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -1922,7 +1922,7 @@ async def test_release_notes_full(
 
 
 async def test_os_release_notes(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test release notes for operating system update entity."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -1956,7 +1956,7 @@ async def test_os_release_notes(
 
 
 async def test_not_release_notes(
-    hass: __HAC_KEEP__, addon_changelog: AsyncMock, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, addon_changelog: AsyncMock, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test handling where there are no release notes."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -1990,7 +1990,7 @@ async def test_not_release_notes(
 
 
 async def test_no_os_entity(
-    hass: __HAC_KEEP__, supervisor_root_info: AsyncMock
+    hass: UniversalAssistant, supervisor_root_info: AsyncMock
 ) -> None:
     """Test handling where there is no os entity."""
     supervisor_root_info.return_value = replace(
@@ -2010,7 +2010,7 @@ async def test_no_os_entity(
 
 
 async def test_setting_up_core_update_when_addon_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     addon_installed: AsyncMock,
     addon_stats: AsyncMock,
@@ -2059,7 +2059,7 @@ async def test_setting_up_core_update_when_addon_fails(
     ],
 )
 async def test_update_progress_after_entity_id_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_supervisor_ws_client: WebSocketGenerator,
     entity_class: type[SupervisorCoreUpdateEntity | SupervisorSupervisorUpdateEntity],

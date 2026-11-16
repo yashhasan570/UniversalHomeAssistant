@@ -6,7 +6,7 @@ from google_nest_sdm import diagnostics
 from google_nest_sdm.device_traits import InfoTrait
 
 from universalassistant.components.camera import diagnostics as camera_diagnostics
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 
 from .types import NestConfigEntry
@@ -15,7 +15,7 @@ REDACT_DEVICE_TRAITS = {InfoTrait.NAME}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: NestConfigEntry
+    hass: UniversalAssistant, config_entry: NestConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     if (
@@ -39,7 +39,7 @@ async def async_get_config_entry_diagnostics(
 
 
 async def async_get_device_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: NestConfigEntry,
     device: AnyDeviceEntry,
 ) -> dict[str, Any]:

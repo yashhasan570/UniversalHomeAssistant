@@ -24,14 +24,14 @@ from universalassistant.components.select import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 
 
 @pytest.mark.usefixtures("mock_ouman_client")
 async def test_sub_devices_link_to_main_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -56,7 +56,7 @@ async def test_sub_devices_link_to_main_device(
 
 @pytest.mark.usefixtures("mock_ouman_client")
 async def test_setup_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test config entry setup and unload."""
@@ -89,7 +89,7 @@ async def test_setup_unload_entry(
     ],
 )
 async def test_setup_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ouman_client: AsyncMock,
     error: Exception,
@@ -127,7 +127,7 @@ async def test_setup_error(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_update_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ouman_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
     failing_method: str,
@@ -148,7 +148,7 @@ async def test_update_failed(
 @pytest.mark.parametrize("init_integration", [Platform.SELECT], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_reauth_started_on_action_auth_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ouman_client: AsyncMock,
 ) -> None:
     """Test that an auth failure when setting a value starts a reauth flow.
@@ -162,7 +162,7 @@ async def test_reauth_started_on_action_auth_failure(
     mock_ouman_client.set_endpoint_value.side_effect = error
     mock_ouman_client.login.side_effect = error
 
-    with pytest.raises(__HAC_KEEP__Error, match="Authentication failed"):
+    with pytest.raises(UniversalAssistantError, match="Authentication failed"):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,

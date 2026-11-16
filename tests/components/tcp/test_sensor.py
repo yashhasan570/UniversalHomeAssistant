@@ -12,7 +12,7 @@ from pytest_universalassistant.common import assert_setup_component, async_fire_
 from universalassistant.components.sensor import SCAN_INTERVAL
 from universalassistant.components.tcp import common as tcp
 from universalassistant.const import STATE_OFF, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 TEST_CONFIG = {
@@ -75,14 +75,14 @@ def mock_ssl_context_fixture():
         yield mock_ssl_context
 
 
-async def test_setup_platform_valid_config(hass: __HAC_KEEP__, mock_socket) -> None:
+async def test_setup_platform_valid_config(hass: UniversalAssistant, mock_socket) -> None:
     """Check a valid configuration and call add_entities with sensor."""
     with assert_setup_component(1, "sensor"):
         assert await async_setup_component(hass, "sensor", TEST_CONFIG)
         await hass.async_block_till_done()
 
 
-async def test_setup_platform_invalid_config(hass: __HAC_KEEP__, mock_socket) -> None:
+async def test_setup_platform_invalid_config(hass: UniversalAssistant, mock_socket) -> None:
     """Check an invalid configuration."""
     with assert_setup_component(0):
         assert await async_setup_component(
@@ -91,7 +91,7 @@ async def test_setup_platform_invalid_config(hass: __HAC_KEEP__, mock_socket) ->
         await hass.async_block_till_done()
 
 
-async def test_state(hass: __HAC_KEEP__, mock_socket, mock_select) -> None:
+async def test_state(hass: UniversalAssistant, mock_socket, mock_select) -> None:
     """Return the contents of _state."""
     assert await async_setup_component(hass, "sensor", TEST_CONFIG)
     await hass.async_block_till_done()
@@ -117,7 +117,7 @@ async def test_state(hass: __HAC_KEEP__, mock_socket, mock_select) -> None:
     assert mock_socket.recv.call_args == call(SENSOR_TEST_CONFIG["buffer_size"])
 
 
-async def test_config_uses_defaults(hass: __HAC_KEEP__, mock_socket) -> None:
+async def test_config_uses_defaults(hass: UniversalAssistant, mock_socket) -> None:
     """Check if defaults were set."""
     config = copy(SENSOR_TEST_CONFIG)
 
@@ -140,7 +140,7 @@ async def test_config_uses_defaults(hass: __HAC_KEEP__, mock_socket) -> None:
 @pytest.mark.parametrize("sock_attr", ["connect", "send"])
 @pytest.mark.parametrize("platform", ["sensor", "binary_sensor"])
 async def test_update_socket_error(
-    hass: __HAC_KEEP__, mock_socket: MagicMock, sock_attr: str, platform: str
+    hass: UniversalAssistant, mock_socket: MagicMock, sock_attr: str, platform: str
 ) -> None:
     """Test socket errors during update."""
     socket_method = getattr(mock_socket, sock_attr)
@@ -157,7 +157,7 @@ async def test_update_socket_error(
 
 @pytest.mark.parametrize("platform", ["sensor", "binary_sensor"])
 async def test_update_select_fails(
-    hass: __HAC_KEEP__, mock_socket: MagicMock, mock_select: MagicMock, platform: str
+    hass: UniversalAssistant, mock_socket: MagicMock, mock_select: MagicMock, platform: str
 ) -> None:
     """Test select fails to return a socket for reading."""
     mock_select.return_value = (False, False, False)
@@ -172,7 +172,7 @@ async def test_update_select_fails(
 
 
 async def test_update_returns_if_template_render_fails(
-    hass: __HAC_KEEP__, mock_socket
+    hass: UniversalAssistant, mock_socket
 ) -> None:
     """Return None if rendering the template fails."""
     config = copy(SENSOR_TEST_CONFIG)
@@ -188,7 +188,7 @@ async def test_update_returns_if_template_render_fails(
 
 
 async def test_ssl_state(
-    hass: __HAC_KEEP__, mock_socket, mock_select, mock_ssl_context
+    hass: UniversalAssistant, mock_socket, mock_select, mock_ssl_context
 ) -> None:
     """Return the contents of _state, updated over SSL."""
     config = copy(SENSOR_TEST_CONFIG)
@@ -221,7 +221,7 @@ async def test_ssl_state(
 
 
 async def test_ssl_state_verify_off(
-    hass: __HAC_KEEP__, mock_socket, mock_select, mock_ssl_context
+    hass: UniversalAssistant, mock_socket, mock_select, mock_ssl_context
 ) -> None:
     """Return the contents of _state, updated over SSL (verify_ssl disabled)."""
     config = copy(SENSOR_TEST_CONFIG)
@@ -269,7 +269,7 @@ async def test_ssl_state_verify_off(
     ],
 )
 async def test_update_failure_after_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_socket: MagicMock,
     mock_select: MagicMock,
     mock_ssl_context: MagicMock,
@@ -320,7 +320,7 @@ async def test_update_failure_after_success(
     ("platform", "expected"), [("sensor", "123"), ("binary_sensor", STATE_OFF)]
 )
 async def test_template_error_after_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_socket: MagicMock,
     freezer: FrozenDateTimeFactory,
     platform: str,
@@ -362,7 +362,7 @@ async def test_template_error_after_success(
 @pytest.mark.parametrize("platform", ["sensor", "binary_sensor"])
 @pytest.mark.parametrize("method", ["wrap_socket", "recv"])
 async def test_initial_ssl_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_socket: MagicMock,
     mock_ssl_context: MagicMock,
     platform: str,

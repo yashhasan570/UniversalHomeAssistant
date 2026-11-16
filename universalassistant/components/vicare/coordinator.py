@@ -17,7 +17,7 @@ from PyViCare.PyViCareUtils import (
 )
 import requests
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -44,7 +44,7 @@ class ViCareCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ViCareConfigEntry,
         device: PyViCareDevice,
         accessor: ViCareDeviceAccessor,

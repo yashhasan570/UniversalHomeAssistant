@@ -9,7 +9,7 @@ from typing import Any, override
 import probatio
 
 from universalassistant.const import CONF_COMMAND
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 from ..models import AuthFlowContext, AuthFlowResult, Credentials, UserMeta
 from . import AUTH_PROVIDER_SCHEMA, AUTH_PROVIDERS, AuthProvider, MfaLoginFlow
@@ -33,7 +33,7 @@ CONFIG_SCHEMA = AUTH_PROVIDER_SCHEMA.extend(
 _LOGGER = logging.getLogger(__name__)
 
 
-class InvalidAuthError(__HAC_KEEP__Error):
+class InvalidAuthError(UniversalAssistantError):
     """Raised when authentication with given credentials fails."""
 
 

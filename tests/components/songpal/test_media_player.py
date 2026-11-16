@@ -26,7 +26,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -57,12 +57,12 @@ SUPPORT_SONGPAL = (
 )
 
 
-def _get_attributes(hass: __HAC_KEEP__) -> dict[str, Any]:
+def _get_attributes(hass: UniversalAssistant) -> dict[str, Any]:
     state = hass.states.get(ENTITY_ID)
     return state.as_dict()["attributes"]
 
 
-async def _call(hass: __HAC_KEEP__, service: str, **argv: Any) -> None:
+async def _call(hass: UniversalAssistant, service: str, **argv: Any) -> None:
     await hass.services.async_call(
         media_player.DOMAIN,
         service,
@@ -71,7 +71,7 @@ async def _call(hass: __HAC_KEEP__, service: str, **argv: Any) -> None:
     )
 
 
-async def test_setup_platform(hass: __HAC_KEEP__) -> None:
+async def test_setup_platform(hass: UniversalAssistant) -> None:
     """Test the legacy setup platform."""
     mocked_device = _create_mocked_device(throw_exception=True)
     with _patch_media_player_device(mocked_device):
@@ -97,7 +97,7 @@ async def test_setup_platform(hass: __HAC_KEEP__) -> None:
 
 
 async def test_setup_failed(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test failed to set up the entity."""
     mocked_device = _create_mocked_device(throw_exception=True)
@@ -126,7 +126,7 @@ async def test_setup_failed(
 
 
 async def test_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -165,7 +165,7 @@ async def test_state(
 
 
 async def test_state_nosoundmode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -204,7 +204,7 @@ async def test_state_nosoundmode(
 
 
 async def test_state_wireless(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -243,7 +243,7 @@ async def test_state_wireless(
 
 
 async def test_state_both(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -285,7 +285,7 @@ async def test_state_both(
     assert entity.unique_id == MAC
 
 
-async def test_services(hass: __HAC_KEEP__) -> None:
+async def test_services(hass: UniversalAssistant) -> None:
     """Test services."""
     mocked_device = _create_mocked_device()
     entry = MockConfigEntry(domain=songpal.DOMAIN, data=CONF_DATA)
@@ -367,7 +367,7 @@ async def test_services(hass: __HAC_KEEP__) -> None:
     mocked_device.set_sound_settings.assert_called_with("soundField", "sound_mode1")
 
 
-async def test_websocket_events(hass: __HAC_KEEP__) -> None:
+async def test_websocket_events(hass: UniversalAssistant) -> None:
     """Test websocket events."""
     mocked_device = _create_mocked_device()
     entry = MockConfigEntry(domain=songpal.DOMAIN, data=CONF_DATA)
@@ -414,7 +414,7 @@ async def test_websocket_events(hass: __HAC_KEEP__) -> None:
     assert hass.states.get(ENTITY_ID).state == STATE_OFF
 
 
-async def test_stop_listener_removed_on_unload(hass: __HAC_KEEP__) -> None:
+async def test_stop_listener_removed_on_unload(hass: UniversalAssistant) -> None:
     """Test the stop listener is removed when the entity is removed."""
     mocked_device = _create_mocked_device()
     entry = MockConfigEntry(domain=songpal.DOMAIN, data=CONF_DATA)
@@ -432,7 +432,7 @@ async def test_stop_listener_removed_on_unload(hass: __HAC_KEEP__) -> None:
 
 
 async def test_disconnected(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test disconnected behavior."""
     mocked_device = _create_mocked_device()
@@ -469,7 +469,7 @@ async def test_disconnected(
     ("error_code", "swallow"), [(ERROR_REQUEST_RETRY, True), (1234, False)]
 )
 async def test_error_swallowing(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, service, error_code, swallow
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, service, error_code, swallow
 ) -> None:
     """Test swallowing specific errors on turn_on and turn_off."""
     mocked_device = _create_mocked_device()
@@ -503,7 +503,7 @@ async def test_error_swallowing(
     ],
 )
 async def test_volume_step(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     max_volume: int,
     volume: int,
     service: str,

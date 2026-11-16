@@ -8,7 +8,7 @@ import broadlink_async as blk
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.broadlink.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 # Do not edit/remove. Adding is ok.
 BROADLINK_DEVICES = {
@@ -180,7 +180,7 @@ class BroadlinkDevice:
 
     async def setup_entry(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         mock_api: MagicMock | None = None,
         mock_entry: MockConfigEntry | None = None,
     ) -> MockSetup:

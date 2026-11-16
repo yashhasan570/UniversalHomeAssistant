@@ -16,8 +16,8 @@ from universalassistant.components.camera import (
     async_get_image,
     async_get_stream_source,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
@@ -111,7 +111,7 @@ def camera_v313_fixture():
 
 
 async def test_setup_full_config(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_remote, camera_info
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_remote, camera_info
 ) -> None:
     """Test the setup with full configuration."""
     config = {
@@ -164,7 +164,7 @@ async def test_setup_full_config(
 
 
 async def test_setup_partial_config(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_remote
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_remote
 ) -> None:
     """Test the setup with partial configuration."""
     config = {"platform": "uvc", "nvr": "foo", "key": "secret"}
@@ -199,7 +199,7 @@ async def test_setup_partial_config(
 
 
 async def test_setup_partial_config_v31x(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_remote
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_remote
 ) -> None:
     """Test the setup with a v3.1.x server."""
     config = {"platform": "uvc", "nvr": "foo", "key": "secret"}
@@ -244,7 +244,7 @@ async def test_setup_partial_config_v31x(
     ],
 )
 async def test_setup_incomplete_config(
-    hass: __HAC_KEEP__, mock_remote, config
+    hass: UniversalAssistant, mock_remote, config
 ) -> None:
     """Test the setup with incomplete or invalid configuration."""
     assert await async_setup_component(hass, "camera", config)
@@ -263,7 +263,7 @@ async def test_setup_incomplete_config(
     ],
 )
 async def test_setup_nvr_errors_during_indexing(
-    hass: __HAC_KEEP__, mock_remote, error, ready_states
+    hass: UniversalAssistant, mock_remote, error, ready_states
 ) -> None:
     """Set up test for NVR errors during indexing."""
     config = {"platform": "uvc", "nvr": "foo", "key": "secret"}
@@ -295,7 +295,7 @@ async def test_setup_nvr_errors_during_indexing(
     ],
 )
 async def test_setup_nvr_errors_during_initialization(
-    hass: __HAC_KEEP__, mock_remote, error, ready_states
+    hass: UniversalAssistant, mock_remote, error, ready_states
 ) -> None:
     """Set up test for NVR errors during initialization."""
     config = {"platform": "uvc", "nvr": "foo", "key": "secret"}
@@ -321,7 +321,7 @@ async def test_setup_nvr_errors_during_initialization(
     assert len(camera_states) == ready_states
 
 
-async def test_properties(hass: __HAC_KEEP__, mock_remote) -> None:
+async def test_properties(hass: UniversalAssistant, mock_remote) -> None:
     """Test the properties."""
     config = {"platform": "uvc", "nvr": "foo", "key": "secret"}
     assert await async_setup_component(hass, "camera", {"camera": config})
@@ -342,7 +342,7 @@ async def test_properties(hass: __HAC_KEEP__, mock_remote) -> None:
 
 
 async def test_motion_recording_mode_properties(
-    hass: __HAC_KEEP__, mock_remote
+    hass: UniversalAssistant, mock_remote
 ) -> None:
     """Test the properties."""
     config = {"platform": "uvc", "nvr": "foo", "key": "secret"}
@@ -408,7 +408,7 @@ async def test_motion_recording_mode_properties(
     assert state.state == CameraState.RECORDING
 
 
-async def test_stream(hass: __HAC_KEEP__, mock_remote) -> None:
+async def test_stream(hass: UniversalAssistant, mock_remote) -> None:
     """Test the RTSP stream URI."""
     config = {"platform": "uvc", "nvr": "foo", "key": "secret"}
     assert await async_setup_component(hass, "camera", {"camera": config})
@@ -419,7 +419,7 @@ async def test_stream(hass: __HAC_KEEP__, mock_remote) -> None:
     assert stream_source == "rtsp://foo:7447/uuid_rtspchannel_0"
 
 
-async def test_login(hass: __HAC_KEEP__, mock_remote, camera_v320) -> None:
+async def test_login(hass: UniversalAssistant, mock_remote, camera_v320) -> None:
     """Test the login."""
     config = {"platform": "uvc", "nvr": "foo", "key": "secret"}
     assert await async_setup_component(hass, "camera", {"camera": config})
@@ -434,7 +434,7 @@ async def test_login(hass: __HAC_KEEP__, mock_remote, camera_v320) -> None:
     assert image.content == "test_image"
 
 
-async def test_login_v31x(hass: __HAC_KEEP__, mock_remote, camera_v313) -> None:
+async def test_login_v31x(hass: UniversalAssistant, mock_remote, camera_v313) -> None:
     """Test login with v3.1.x server."""
     mock_remote.return_value.server_version = (3, 1, 3)
     config = {"platform": "uvc", "nvr": "foo", "key": "secret"}
@@ -454,7 +454,7 @@ async def test_login_v31x(hass: __HAC_KEEP__, mock_remote, camera_v313) -> None:
     "error", [OSError, camera.CameraConnectError, camera.CameraAuthError]
 )
 async def test_login_tries_both_addrs_and_caches(
-    hass: __HAC_KEEP__, mock_remote, camera_v320, error
+    hass: UniversalAssistant, mock_remote, camera_v320, error
 ) -> None:
     """Test the login tries."""
     responses = [0]
@@ -504,7 +504,7 @@ async def test_login_tries_both_addrs_and_caches(
 
 
 async def test_login_fails_both_properly(
-    hass: __HAC_KEEP__, mock_remote, camera_v320
+    hass: UniversalAssistant, mock_remote, camera_v320
 ) -> None:
     """Test if login fails properly."""
     camera_v320.return_value.login.side_effect = OSError
@@ -512,7 +512,7 @@ async def test_login_fails_both_properly(
     assert await async_setup_component(hass, "camera", {"camera": config})
     await hass.async_block_till_done()
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await async_get_image(hass, "camera.front")
 
     assert camera_v320.return_value.get_snapshot.call_count == 0
@@ -521,12 +521,12 @@ async def test_login_fails_both_properly(
 @pytest.mark.parametrize(
     ("source_error", "raised_error", "snapshot_calls"),
     [
-        (camera.CameraConnectError, __HAC_KEEP__Error, 1),
+        (camera.CameraConnectError, UniversalAssistantError, 1),
         (camera.CameraAuthError, camera.CameraAuthError, 2),
     ],
 )
 async def test_camera_image_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_remote,
     camera_v320,
     source_error,
@@ -546,7 +546,7 @@ async def test_camera_image_error(
 
 
 async def test_enable_disable_motion_detection(
-    hass: __HAC_KEEP__, mock_remote, camera_info
+    hass: UniversalAssistant, mock_remote, camera_info
 ) -> None:
     """Test enable and disable motion detection."""
 

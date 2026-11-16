@@ -12,12 +12,12 @@ from universalassistant.components.timer.const import (
     TimerService,
     TimerServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.state import async_reproduce_state
 
 
 async def test_reproducing_states(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test reproducing Timer states."""
     hass.states.async_set("timer.entity_idle", STATUS_IDLE, {})

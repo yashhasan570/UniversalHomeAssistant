@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.baf.const import DOMAIN
 from universalassistant.const import CONF_IP_ADDRESS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -24,7 +24,7 @@ def _patch_device_config_flow(side_effect=None):
     return patch("universalassistant.components.baf.config_flow.Device", _create_mock_baf)
 
 
-async def test_form_user(hass: __HAC_KEEP__) -> None:
+async def test_form_user(hass: UniversalAssistant) -> None:
     """Test we get the user form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -53,7 +53,7 @@ async def test_form_user(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -84,7 +84,7 @@ async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_unknown_exception(hass: __HAC_KEEP__) -> None:
+async def test_form_unknown_exception(hass: UniversalAssistant) -> None:
     """Test we handle unknown exceptions."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -115,7 +115,7 @@ async def test_form_unknown_exception(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_zeroconf_discovery(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_discovery(hass: UniversalAssistant) -> None:
     """Test we can setup from zeroconf discovery."""
 
     result = await hass.config_entries.flow.async_init(
@@ -151,7 +151,7 @@ async def test_zeroconf_discovery(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_zeroconf_updates_existing_ip(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_updates_existing_ip(hass: UniversalAssistant) -> None:
     """Test we can setup from zeroconf discovery."""
     entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_IP_ADDRESS: "127.0.0.2"}, unique_id=MOCK_UUID
@@ -175,7 +175,7 @@ async def test_zeroconf_updates_existing_ip(hass: __HAC_KEEP__) -> None:
     assert entry.data[CONF_IP_ADDRESS] == "127.0.0.1"
 
 
-async def test_zeroconf_rejects_ipv6(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_rejects_ipv6(hass: UniversalAssistant) -> None:
     """Test zeroconf discovery rejects ipv6."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -194,7 +194,7 @@ async def test_zeroconf_rejects_ipv6(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "ipv6_not_supported"
 
 
-async def test_user_flow_is_not_blocked_by_discovery(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_is_not_blocked_by_discovery(hass: UniversalAssistant) -> None:
     """Test we can setup from the user flow when there is also a discovery."""
     discovery_result = await hass.config_entries.flow.async_init(
         DOMAIN,

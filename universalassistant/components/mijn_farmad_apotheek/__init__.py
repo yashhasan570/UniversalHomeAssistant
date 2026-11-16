@@ -7,7 +7,7 @@ from aiofarmad import FarmadAuthenticationError, FarmadClient, FarmadError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -38,13 +38,13 @@ class FarmadData:
 type FarmadConfigEntry = ConfigEntry[FarmadData]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Mijn Farmad Apotheek integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: FarmadConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: FarmadConfigEntry) -> None:
     """Set up Mijn Farmad Apotheek from a config entry."""
 
     async def persist_tokens(access_token: str, refresh_token: str | None) -> None:
@@ -90,6 +90,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: FarmadConfigEntry) -> Non
     entry.runtime_data = FarmadData(client=client, products=products)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: FarmadConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: FarmadConfigEntry) -> None:
     """Unload a Mijn Farmad Apotheek config entry."""
     await entry.runtime_data.client.async_close()

@@ -15,7 +15,7 @@ from universalassistant.components.cloudflare.const import (
 )
 from universalassistant.components.cloudflare.services import CloudflareService
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import ENTRY_CONFIG, init_integration
 from .conftest import LOCATION_PATCH_TARGET
@@ -26,7 +26,7 @@ from .conftest import LOCATION_PATCH_TARGET
     [pycfdns.ComunicationException()],
 )
 async def test_async_setup_raises_entry_not_ready(
-    hass: __HAC_KEEP__, cfupdate: MagicMock, side_effect: Exception
+    hass: UniversalAssistant, cfupdate: MagicMock, side_effect: Exception
 ) -> None:
     """Test that it throws ConfigEntryNotReady when exception occurs during setup."""
     instance = cfupdate.return_value
@@ -41,7 +41,7 @@ async def test_async_setup_raises_entry_not_ready(
 
 
 async def test_async_setup_raises_entry_auth_failed(
-    hass: __HAC_KEEP__, cfupdate: MagicMock
+    hass: UniversalAssistant, cfupdate: MagicMock
 ) -> None:
     """Test that it throws ConfigEntryAuthFailed when exception occurs during setup."""
     instance = cfupdate.return_value
@@ -68,7 +68,7 @@ async def test_async_setup_raises_entry_auth_failed(
 
 
 @pytest.mark.usefixtures("location_info")
-async def test_unload_entry(hass: __HAC_KEEP__, cfupdate: MagicMock) -> None:
+async def test_unload_entry(hass: UniversalAssistant, cfupdate: MagicMock) -> None:
     """Test successful unload of entry."""
     entry = await init_integration(hass)
 
@@ -83,7 +83,7 @@ async def test_unload_entry(hass: __HAC_KEEP__, cfupdate: MagicMock) -> None:
 
 @pytest.mark.usefixtures("location_info")
 async def test_integration_services(
-    hass: __HAC_KEEP__, cfupdate: MagicMock, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, cfupdate: MagicMock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test integration services."""
     instance = cfupdate.return_value
@@ -108,7 +108,7 @@ async def test_integration_services(
 
 @pytest.mark.usefixtures("location_info")
 async def test_integration_services_with_issue(
-    hass: __HAC_KEEP__, cfupdate: MagicMock, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, cfupdate: MagicMock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test integration services with issue."""
     instance = cfupdate.return_value
@@ -133,7 +133,7 @@ async def test_integration_services_with_issue(
 
 @pytest.mark.usefixtures("location_info")
 async def test_integration_services_with_nonexisting_record(
-    hass: __HAC_KEEP__, cfupdate: MagicMock, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, cfupdate: MagicMock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test integration services."""
     instance = cfupdate.return_value
@@ -157,7 +157,7 @@ async def test_integration_services_with_nonexisting_record(
 
 @pytest.mark.usefixtures("location_info")
 async def test_integration_update_interval(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cfupdate: MagicMock,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,

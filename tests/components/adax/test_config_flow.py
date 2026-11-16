@@ -16,7 +16,7 @@ from universalassistant.components.adax.const import (
     WIFI_SSID,
 )
 from universalassistant.const import CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 TEST_DATA = {
@@ -25,7 +25,7 @@ TEST_DATA = {
 }
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -68,7 +68,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -112,7 +112,7 @@ async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert result4["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_entry_already_exists(hass: __HAC_KEEP__) -> None:
+async def test_flow_entry_already_exists(hass: UniversalAssistant) -> None:
     """Test user input for config_entry that already exists."""
 
     first_entry = MockConfigEntry(
@@ -149,7 +149,7 @@ async def test_flow_entry_already_exists(hass: __HAC_KEEP__) -> None:
 # local API:
 
 
-async def test_local_create_entry(hass: __HAC_KEEP__) -> None:
+async def test_local_create_entry(hass: UniversalAssistant) -> None:
     """Test create entry from user input."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -201,7 +201,7 @@ async def test_local_create_entry(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_local_flow_entry_already_exists(hass: __HAC_KEEP__) -> None:
+async def test_local_flow_entry_already_exists(hass: UniversalAssistant) -> None:
     """Test user input for config_entry that already exists."""
 
     test_data = {
@@ -251,7 +251,7 @@ async def test_local_flow_entry_already_exists(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_local_connection_error(hass: __HAC_KEEP__) -> None:
+async def test_local_connection_error(hass: UniversalAssistant) -> None:
     """Test connection error."""
 
     result = await hass.config_entries.flow.async_init(
@@ -308,7 +308,7 @@ async def test_local_connection_error(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_local_heater_not_available(hass: __HAC_KEEP__) -> None:
+async def test_local_heater_not_available(hass: UniversalAssistant) -> None:
     """Test connection error."""
 
     result = await hass.config_entries.flow.async_init(
@@ -343,7 +343,7 @@ async def test_local_heater_not_available(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "heater_not_available"
 
 
-async def test_local_heater_not_found(hass: __HAC_KEEP__) -> None:
+async def test_local_heater_not_found(hass: UniversalAssistant) -> None:
     """Test connection error."""
 
     result = await hass.config_entries.flow.async_init(
@@ -378,7 +378,7 @@ async def test_local_heater_not_found(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "heater_not_found"
 
 
-async def test_local_invalid_wifi_cred(hass: __HAC_KEEP__) -> None:
+async def test_local_invalid_wifi_cred(hass: UniversalAssistant) -> None:
     """Test connection error."""
 
     result = await hass.config_entries.flow.async_init(

@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 import probatio
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 
 from .const import DATA_COMPONENT, DOMAIN, NumberService, NumberServiceArgument
@@ -40,7 +40,7 @@ async def _async_set_value(entity: NumberEntity, service_call: ServiceCall) -> N
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the number services."""
     hass.data[DATA_COMPONENT].async_register_entity_service(
         NumberService.SET_VALUE,

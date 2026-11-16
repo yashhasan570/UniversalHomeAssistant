@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import Any, override
 
 from universalassistant.components.calendar import CalendarEntity, CalendarEvent
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -17,7 +17,7 @@ DateRange = namedtuple("DateRange", ["start", "end"])  # noqa: PYI024
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: EGSConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -64,7 +64,7 @@ class EGSCalendar(CoordinatorEntity[EGSCalendarUpdateCoordinator], CalendarEntit
 
     @override
     async def async_get_events(
-        self, hass: __HAC_KEEP__, start_date: datetime, end_date: datetime
+        self, hass: UniversalAssistant, start_date: datetime, end_date: datetime
     ) -> list[CalendarEvent]:
         """Get all events in a specific time frame."""
         events = filter(

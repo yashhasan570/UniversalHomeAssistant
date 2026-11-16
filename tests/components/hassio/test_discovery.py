@@ -23,7 +23,7 @@ from universalassistant.components.hassio import DOMAIN
 from universalassistant.components.mqtt import DOMAIN as MQTT_DOMAIN
 from universalassistant.config_entries import ConfigEntries
 from universalassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.discovery_flow import DiscoveryKey
 from universalassistant.helpers.service_info.hassio import HassioServiceInfo
@@ -32,7 +32,7 @@ from universalassistant.setup import async_setup_component
 
 @pytest.fixture(name="mock_mqtt")
 def mock_mqtt_fixture(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> Generator[type[config_entries.ConfigFlow]]:
     """Mock the MQTT integration's config flow."""
     mock_integration(hass, MockModule(MQTT_DOMAIN))
@@ -51,7 +51,7 @@ def mock_mqtt_fixture(
 
 @pytest.mark.usefixtures("hassio_client")
 async def test_hassio_discovery_startup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mqtt: type[config_entries.ConfigFlow],
     addon_installed: AsyncMock,
     get_addon_discovery_info: AsyncMock,
@@ -100,7 +100,7 @@ async def test_hassio_discovery_startup(
 
 @pytest.mark.usefixtures("hassio_client")
 async def test_hassio_discovery_startup_done(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mqtt: type[config_entries.ConfigFlow],
     addon_installed: AsyncMock,
     get_addon_discovery_info: AsyncMock,
@@ -148,7 +148,7 @@ async def test_hassio_discovery_startup_done(
 
 
 async def test_hassio_discovery_webhook(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hassio_client: TestClient,
     mock_mqtt: type[config_entries.ConfigFlow],
     addon_installed: AsyncMock,
@@ -198,7 +198,7 @@ async def test_hassio_discovery_webhook(
 
 
 async def test_hassio_discovery_webhook_non_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hassio_client: TestClient,
     mock_mqtt: type[config_entries.ConfigFlow],
     addon_installed: AsyncMock,
@@ -232,7 +232,7 @@ TEST_UUID = str(uuid4())
 
 @pytest.mark.usefixtures("hassio_client", "addon_installed", "get_addon_discovery_info")
 async def test_delete_hassio_discovery(
-    hass: __HAC_KEEP__, get_discovery_message: AsyncMock, hassio_client: TestClient
+    hass: UniversalAssistant, get_discovery_message: AsyncMock, hassio_client: TestClient
 ) -> None:
     """Test deleting a discovery item removes the config entry."""
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
@@ -265,7 +265,7 @@ async def test_delete_hassio_discovery(
 
 @pytest.mark.usefixtures("hassio_client", "addon_installed", "get_addon_discovery_info")
 async def test_delete_hassio_discovery_fails_when_discovery_exists(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_discovery_message: AsyncMock,
     hassio_client: TestClient,
     caplog: pytest.LogCaptureFixture,
@@ -313,7 +313,7 @@ async def test_delete_hassio_discovery_fails_when_discovery_exists(
 
 @pytest.mark.usefixtures("hassio_client", "addon_installed", "get_addon_discovery_info")
 async def test_delete_hassio_discovery_non_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_discovery_message: AsyncMock,
     hassio_client: TestClient,
     hass_admin_user: MockUser,
@@ -385,7 +385,7 @@ async def test_delete_hassio_discovery_non_admin(
 )
 @pytest.mark.usefixtures("hassio_client", "addon_installed", "get_addon_discovery_info")
 async def test_hassio_rediscover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry_domain: str,
     entry_discovery_keys: dict[str, tuple[DiscoveryKey, ...]],
     entry_source: str,
@@ -458,7 +458,7 @@ async def test_hassio_rediscover(
     ],
 )
 async def test_hassio_rediscover_no_match(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hassio_client: TestClient,
     entry_domain: str,
     entry_discovery_keys: dict[str, tuple[DiscoveryKey, ...]],

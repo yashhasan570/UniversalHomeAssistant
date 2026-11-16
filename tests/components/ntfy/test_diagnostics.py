@@ -8,12 +8,12 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.ntfy.const import DOMAIN
 from universalassistant.const import CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.usefixtures("mock_aiontfy")
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -31,7 +31,7 @@ async def test_diagnostics(
 
 @pytest.mark.usefixtures("mock_aiontfy")
 async def test_diagnostics_redacted_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:

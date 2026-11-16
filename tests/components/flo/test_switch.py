@@ -5,12 +5,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.usefixtures("aioclient_mock_fixture")
 async def test_valve_switches(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test Flo by Moen valve switches."""
     config_entry.add_to_hass(hass)

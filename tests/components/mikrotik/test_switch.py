@@ -13,7 +13,7 @@ from universalassistant.components.switch import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_mikrotik_entry
@@ -38,7 +38,7 @@ WIFI2_INTERFACE = {
 
 
 async def test_switch_entities_created(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -60,7 +60,7 @@ async def test_switch_entities_created(
 
 @pytest.mark.parametrize("interface_type", ["bridge", "vlan", "wireguard", None])
 async def test_switch_no_matching_interfaces(
-    hass: __HAC_KEEP__, interface_type: str | None
+    hass: UniversalAssistant, interface_type: str | None
 ) -> None:
     """Test no switch entities are created for unsupported interface types."""
     with patch("universalassistant.components.mikrotik.PLATFORMS", [Platform.SWITCH]):
@@ -105,7 +105,7 @@ async def test_switch_no_matching_interfaces(
     ],
 )
 async def test_switch_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api: MagicMock,
     interface: dict[str, Any],
     entity_id: str,

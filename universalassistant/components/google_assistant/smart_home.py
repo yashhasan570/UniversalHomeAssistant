@@ -8,7 +8,7 @@ import pprint
 from typing import Any
 
 from universalassistant.const import ATTR_ENTITY_ID, __version__
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import instance_id
 from universalassistant.util.decorator import Registry
 
@@ -29,7 +29,7 @@ EXECUTE_LIMIT = 2  # Wait 2 seconds for execute to finish
 HANDLERS: Registry[
     str,
     Callable[
-        [__HAC_KEEP__, RequestData, dict[str, Any]],
+        [UniversalAssistant, RequestData, dict[str, Any]],
         Coroutine[Any, Any, dict[str, Any] | None],
     ],
 ] = Registry()
@@ -123,7 +123,7 @@ async def async_devices_sync_response(hass, config, agent_user_id):
 
 @HANDLERS.register("action.devices.SYNC")
 async def async_devices_sync(
-    hass: __HAC_KEEP__, data: RequestData, payload: dict[str, Any]
+    hass: UniversalAssistant, data: RequestData, payload: dict[str, Any]
 ) -> dict[str, Any]:
     """Handle action.devices.SYNC request.
 
@@ -144,7 +144,7 @@ async def async_devices_sync(
 
 @HANDLERS.register("action.devices.QUERY")
 async def async_devices_query(
-    hass: __HAC_KEEP__, data: RequestData, payload: dict[str, Any]
+    hass: UniversalAssistant, data: RequestData, payload: dict[str, Any]
 ) -> dict[str, Any]:
     """Handle action.devices.QUERY request.
 
@@ -206,7 +206,7 @@ async def _entity_execute(entity, data, executions):
 
 @HANDLERS.register("action.devices.EXECUTE")
 async def handle_devices_execute(
-    hass: __HAC_KEEP__, data: RequestData, payload: dict[str, Any]
+    hass: UniversalAssistant, data: RequestData, payload: dict[str, Any]
 ) -> dict[str, Any]:
     """Handle action.devices.EXECUTE request.
 
@@ -293,7 +293,7 @@ async def handle_devices_execute(
 
 @HANDLERS.register("action.devices.DISCONNECT")
 async def async_devices_disconnect(
-    hass: __HAC_KEEP__, data: RequestData, payload: dict[str, Any]
+    hass: UniversalAssistant, data: RequestData, payload: dict[str, Any]
 ) -> None:
     """Handle action.devices.DISCONNECT request.
 
@@ -305,7 +305,7 @@ async def async_devices_disconnect(
 
 @HANDLERS.register("action.devices.IDENTIFY")
 async def async_devices_identify(
-    hass: __HAC_KEEP__, data: RequestData, payload: dict[str, Any]
+    hass: UniversalAssistant, data: RequestData, payload: dict[str, Any]
 ) -> dict[str, Any]:
     """Handle action.devices.IDENTIFY request.
 
@@ -318,8 +318,8 @@ async def async_devices_identify(
             "isProxy": True,
             "deviceInfo": {
                 "hwVersion": "UNKNOWN_HW_VERSION",
-                "manufacturer": "__HA_KEEP__",
-                "model": "__HA_KEEP__",
+                "manufacturer": "Universal Home Assistant",
+                "model": "Universal Home Assistant",
                 "swVersion": __version__,
             },
         }
@@ -328,7 +328,7 @@ async def async_devices_identify(
 
 @HANDLERS.register("action.devices.REACHABLE_DEVICES")
 async def async_devices_reachable(
-    hass: __HAC_KEEP__, data: RequestData, payload: dict[str, Any]
+    hass: UniversalAssistant, data: RequestData, payload: dict[str, Any]
 ) -> dict[str, Any]:
     """Handle action.devices.REACHABLE_DEVICES request.
 
@@ -347,7 +347,7 @@ async def async_devices_reachable(
 
 @HANDLERS.register("action.devices.PROXY_SELECTED")
 async def async_devices_proxy_selected(
-    hass: __HAC_KEEP__, data: RequestData, payload: dict[str, Any]
+    hass: UniversalAssistant, data: RequestData, payload: dict[str, Any]
 ) -> dict[str, Any]:
     """Handle action.devices.PROXY_SELECTED request.
 

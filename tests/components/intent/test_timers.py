@@ -24,7 +24,7 @@ from universalassistant.components.intent.timers import (
     async_register_timer_handler,
 )
 from universalassistant.const import ATTR_DEVICE_ID, ATTR_NAME
-from universalassistant.core import Context, __HAC_KEEP__, callback
+from universalassistant.core import Context, UniversalAssistant, callback
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -38,14 +38,14 @@ DELAYED_COMMAND_ERROR = "Sorry, I am not aware of any device called lights"
 
 
 @pytest.fixture
-async def init_components(hass: __HAC_KEEP__) -> None:
+async def init_components(hass: UniversalAssistant) -> None:
     """Initialize required components for tests."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, "conversation", {})
     assert await async_setup_component(hass, DOMAIN, {})
 
 
-async def test_start_finish_timer(hass: __HAC_KEEP__, init_components) -> None:
+async def test_start_finish_timer(hass: UniversalAssistant, init_components) -> None:
     """Test starting a timer and having it finish."""
     device_id = "test_device"
     timer_name = "test timer"
@@ -93,7 +93,7 @@ async def test_start_finish_timer(hass: __HAC_KEEP__, init_components) -> None:
         await asyncio.gather(started_event.wait(), finished_event.wait())
 
 
-async def test_cancel_timer(hass: __HAC_KEEP__, init_components) -> None:
+async def test_cancel_timer(hass: UniversalAssistant, init_components) -> None:
     """Test cancelling a timer."""
     device_id = "test_device"
     timer_name: str | None = None
@@ -220,7 +220,7 @@ async def test_cancel_timer(hass: __HAC_KEEP__, init_components) -> None:
 
 
 async def test_start_timer_child_device_inherits_area(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
@@ -276,7 +276,7 @@ async def test_start_timer_child_device_inherits_area(
     assert started_timer.floor_id == floor.floor_id
 
 
-async def test_increase_timer(hass: __HAC_KEEP__, init_components) -> None:
+async def test_increase_timer(hass: UniversalAssistant, init_components) -> None:
     """Test increasing the time of a running timer."""
     device_id = "test_device"
     started_event = asyncio.Event()
@@ -394,7 +394,7 @@ async def test_increase_timer(hass: __HAC_KEEP__, init_components) -> None:
         await cancelled_event.wait()
 
 
-async def test_decrease_timer(hass: __HAC_KEEP__, init_components) -> None:
+async def test_decrease_timer(hass: UniversalAssistant, init_components) -> None:
     """Test decreasing the time of a running timer."""
     device_id = "test_device"
     started_event = asyncio.Event()
@@ -489,7 +489,7 @@ async def test_decrease_timer(hass: __HAC_KEEP__, init_components) -> None:
         await cancelled_event.wait()
 
 
-async def test_decrease_timer_below_zero(hass: __HAC_KEEP__, init_components) -> None:
+async def test_decrease_timer_below_zero(hass: UniversalAssistant, init_components) -> None:
     """Test decreasing the time of a running timer below 0 seconds."""
     started_event = asyncio.Event()
     updated_event = asyncio.Event()
@@ -568,7 +568,7 @@ async def test_decrease_timer_below_zero(hass: __HAC_KEEP__, init_components) ->
         )
 
 
-async def test_find_timer_failed(hass: __HAC_KEEP__, init_components) -> None:
+async def test_find_timer_failed(hass: UniversalAssistant, init_components) -> None:
     """Test finding a timer with the wrong info."""
     device_id = "test_device"
 
@@ -647,7 +647,7 @@ async def test_find_timer_failed(hass: __HAC_KEEP__, init_components) -> None:
 
 
 async def test_disambiguation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
@@ -938,7 +938,7 @@ async def test_disambiguation(
     assert timer_info.start_minutes == 3
 
 
-async def test_pause_unpause_timer(hass: __HAC_KEEP__, init_components) -> None:
+async def test_pause_unpause_timer(hass: UniversalAssistant, init_components) -> None:
     """Test pausing and unpausing a running timer."""
     device_id = "test_device"
 
@@ -995,7 +995,7 @@ async def test_pause_unpause_timer(hass: __HAC_KEEP__, init_components) -> None:
         await intent.async_handle(hass, "test", intent.INTENT_UNPAUSE_TIMER, {})
 
 
-async def test_timer_not_found(hass: __HAC_KEEP__) -> None:
+async def test_timer_not_found(hass: UniversalAssistant) -> None:
     """Test invalid timer ids raise TimerNotFoundError."""
     timer_manager = TimerManager(hass)
 
@@ -1015,7 +1015,7 @@ async def test_timer_not_found(hass: __HAC_KEEP__) -> None:
         timer_manager.unpause_timer("does-not-exist")
 
 
-async def test_timer_manager_pause_unpause(hass: __HAC_KEEP__) -> None:
+async def test_timer_manager_pause_unpause(hass: UniversalAssistant) -> None:
     """Test that pausing/unpausing again will not have an affect."""
     timer_manager = TimerManager(hass)
 
@@ -1057,7 +1057,7 @@ async def test_timer_manager_pause_unpause(hass: __HAC_KEEP__) -> None:
     handle_timer.assert_not_called()
 
 
-async def test_timers_not_supported(hass: __HAC_KEEP__) -> None:
+async def test_timers_not_supported(hass: UniversalAssistant) -> None:
     """Test unregistered device ids raise TimersNotSupportedError."""
     timer_manager = TimerManager(hass)
 
@@ -1101,7 +1101,7 @@ async def test_timers_not_supported(hass: __HAC_KEEP__) -> None:
     timer_manager.cancel_timer(timer_id)
 
 
-async def test_timer_status_with_names(hass: __HAC_KEEP__, init_components) -> None:
+async def test_timer_status_with_names(hass: UniversalAssistant, init_components) -> None:
     """Test getting the status of named timers."""
     device_id = "test_device"
 
@@ -1263,7 +1263,7 @@ async def test_timer_status_with_names(hass: __HAC_KEEP__, init_components) -> N
 
 
 async def test_area_filter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
@@ -1484,7 +1484,7 @@ def test_round_time() -> None:
 
 
 async def test_start_timer_with_conversation_command(
-    hass: __HAC_KEEP__, init_components
+    hass: UniversalAssistant, init_components
 ) -> None:
     """Test starting a timer with an conversation command and having it finish."""
     device_id = "test_device"
@@ -1567,7 +1567,7 @@ def _delayed_command_failed() -> intent.IntentResponse:
     ],
 )
 async def test_start_timer_conversation_command_result_logged(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     make_response: Callable[[], intent.IntentResponse],
     expected_warnings: list[str],
@@ -1607,7 +1607,7 @@ async def test_start_timer_conversation_command_result_logged(
 
 
 async def test_start_timer_with_sentence_trigger_validation(
-    hass: __HAC_KEEP__, init_components
+    hass: UniversalAssistant, init_components
 ) -> None:
     """Test timer with conversation command validates sentence triggers."""
     device_id = "test_device"
@@ -1649,7 +1649,7 @@ async def test_start_timer_with_sentence_trigger_validation(
 
 
 async def test_start_timer_with_invalid_conversation_command(
-    hass: __HAC_KEEP__, init_components
+    hass: UniversalAssistant, init_components
 ) -> None:
     """Test starting a timer with an invalid conversation command fails validation."""
     device_id = "test_device"
@@ -1677,7 +1677,7 @@ async def test_start_timer_with_invalid_conversation_command(
 
 
 async def test_start_timer_with_conversation_command_skip_validation(
-    hass: __HAC_KEEP__, init_components
+    hass: UniversalAssistant, init_components
 ) -> None:
     """Test timer with conversation command skips validation for non-default agents."""
     device_id = "test_device"
@@ -1708,7 +1708,7 @@ async def test_start_timer_with_conversation_command_skip_validation(
 
 
 async def test_pause_unpause_timer_disambiguate(
-    hass: __HAC_KEEP__, init_components
+    hass: UniversalAssistant, init_components
 ) -> None:
     """Test disamgibuating timers by their paused state."""
     device_id = "test_device"
@@ -1812,7 +1812,7 @@ async def test_pause_unpause_timer_disambiguate(
         assert unpaused_timer_ids[1] == started_timer_ids[0]
 
 
-async def test_async_device_supports_timers(hass: __HAC_KEEP__) -> None:
+async def test_async_device_supports_timers(hass: UniversalAssistant) -> None:
     """Test async_device_supports_timers function."""
     device_id = "test_device"
 
@@ -1833,7 +1833,7 @@ async def test_async_device_supports_timers(hass: __HAC_KEEP__) -> None:
     assert async_device_supports_timers(hass, device_id)
 
 
-async def test_cancel_all_timers(hass: __HAC_KEEP__, init_components) -> None:
+async def test_cancel_all_timers(hass: UniversalAssistant, init_components) -> None:
     """Test cancelling all timers."""
     device_id = "test_device"
 
@@ -1900,7 +1900,7 @@ async def test_cancel_all_timers(hass: __HAC_KEEP__, init_components) -> None:
 
 
 async def test_cancel_all_timers_area(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,

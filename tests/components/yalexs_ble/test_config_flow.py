@@ -17,7 +17,7 @@ from universalassistant.components.yalexs_ble.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
@@ -48,7 +48,7 @@ def _get_mock_push_lock():
 
 
 @pytest.mark.parametrize("slot", [0, 1, 66])
-async def test_user_step_success(hass: __HAC_KEEP__, slot: int) -> None:
+async def test_user_step_success(hass: UniversalAssistant, slot: int) -> None:
     """Test user step success path."""
     with patch(
         "universalassistant.components.yalexs_ble.config_flow.async_discovered_service_info",
@@ -102,7 +102,7 @@ async def test_user_step_success(hass: __HAC_KEEP__, slot: int) -> None:
 
 
 @pytest.mark.parametrize("slot", [0, 1, 66])
-async def test_user_step_from_ignored(hass: __HAC_KEEP__, slot: int) -> None:
+async def test_user_step_from_ignored(hass: UniversalAssistant, slot: int) -> None:
     """Test user step replaces an ignored entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -162,7 +162,7 @@ async def test_user_step_from_ignored(hass: __HAC_KEEP__, slot: int) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_user_step_no_devices_found(hass: __HAC_KEEP__) -> None:
+async def test_user_step_no_devices_found(hass: UniversalAssistant) -> None:
     """Test user step with no devices found."""
     with patch(
         "universalassistant.components.yalexs_ble.config_flow.async_discovered_service_info",
@@ -175,7 +175,7 @@ async def test_user_step_no_devices_found(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "no_devices_found"
 
 
-async def test_user_step_no_new_devices_found(hass: __HAC_KEEP__) -> None:
+async def test_user_step_no_new_devices_found(hass: UniversalAssistant) -> None:
     """Test user step with only existing devices found."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -199,7 +199,7 @@ async def test_user_step_no_new_devices_found(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "no_devices_found"
 
 
-async def test_user_step_invalid_keys(hass: __HAC_KEEP__) -> None:
+async def test_user_step_invalid_keys(hass: UniversalAssistant) -> None:
     """Test user step with invalid keys tried first."""
     with patch(
         "universalassistant.components.yalexs_ble.config_flow.async_discovered_service_info",
@@ -285,7 +285,7 @@ async def test_user_step_invalid_keys(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_user_step_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_user_step_cannot_connect(hass: UniversalAssistant) -> None:
     """Test user step and we cannot connect."""
     with patch(
         "universalassistant.components.yalexs_ble.config_flow.async_discovered_service_info",
@@ -355,7 +355,7 @@ async def test_user_step_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_user_step_auth_exception(hass: __HAC_KEEP__) -> None:
+async def test_user_step_auth_exception(hass: UniversalAssistant) -> None:
     """Test user step with an authentication exception."""
     with patch(
         "universalassistant.components.yalexs_ble.config_flow.async_discovered_service_info",
@@ -425,7 +425,7 @@ async def test_user_step_auth_exception(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_user_step_unknown_exception(hass: __HAC_KEEP__) -> None:
+async def test_user_step_unknown_exception(hass: UniversalAssistant) -> None:
     """Test user step with an unknown exception."""
     with patch(
         "universalassistant.components.yalexs_ble.config_flow.async_discovered_service_info",
@@ -495,7 +495,7 @@ async def test_user_step_unknown_exception(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_bluetooth_step_success(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_step_success(hass: UniversalAssistant) -> None:
     """Test bluetooth step success path."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -536,7 +536,7 @@ async def test_bluetooth_step_success(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_integration_discovery_success(hass: __HAC_KEEP__) -> None:
+async def test_integration_discovery_success(hass: UniversalAssistant) -> None:
     """Test integration discovery step success path."""
     with patch(
         "universalassistant.components.yalexs_ble.util.async_discovered_service_info",
@@ -579,7 +579,7 @@ async def test_integration_discovery_success(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_integration_discovery_prefers_address(hass: __HAC_KEEP__) -> None:
+async def test_integration_discovery_prefers_address(hass: UniversalAssistant) -> None:
     """Test integration discovery binds to the address it was handed."""
     with patch(
         "universalassistant.components.yalexs_ble.util.async_discovered_service_info",
@@ -615,7 +615,7 @@ async def test_integration_discovery_prefers_address(hass: __HAC_KEEP__) -> None
     assert result2["result"].unique_id == YALE_ACCESS_LOCK_DISCOVERY_INFO.address
 
 
-async def test_integration_discovery_device_not_found(hass: __HAC_KEEP__) -> None:
+async def test_integration_discovery_device_not_found(hass: UniversalAssistant) -> None:
     """Test integration discovery when the device is not found."""
     with patch(
         "universalassistant.components.yalexs_ble.util.async_discovered_service_info",
@@ -637,7 +637,7 @@ async def test_integration_discovery_device_not_found(hass: __HAC_KEEP__) -> Non
 
 
 async def test_integration_discovery_takes_precedence_over_bluetooth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test integration discovery dismisses bluetooth discovery."""
     result = await hass.config_entries.flow.async_init(
@@ -713,7 +713,7 @@ async def test_integration_discovery_takes_precedence_over_bluetooth(
 
 
 async def test_bluetooth_discovery_with_cached_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test bluetooth discovery when validated config is already in cache."""
     # First, populate the cache via integration discovery
@@ -768,7 +768,7 @@ async def test_bluetooth_discovery_with_cached_config(
 
 
 async def test_integration_discovery_updates_key_unique_local_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test integration discovery updates the key with a unique local name."""
     entry = MockConfigEntry(
@@ -813,7 +813,7 @@ async def test_integration_discovery_updates_key_unique_local_name(
 
 
 async def test_integration_discovery_updates_key_without_unique_local_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test integration discovery updates the key without a unique local name."""
     entry = MockConfigEntry(
@@ -851,7 +851,7 @@ async def test_integration_discovery_updates_key_without_unique_local_name(
 
 
 async def test_integration_discovery_updates_key_duplicate_local_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test integration discovery updates the key with duplicate local names."""
     entry = MockConfigEntry(
@@ -903,7 +903,7 @@ async def test_integration_discovery_updates_key_duplicate_local_name(
 
 
 async def test_integration_discovery_takes_precedence_over_bluetooth_uuid_address(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test integration discovery dismisses bluetooth discovery with a uuid address."""
     result = await hass.config_entries.flow.async_init(
@@ -979,7 +979,7 @@ async def test_integration_discovery_takes_precedence_over_bluetooth_uuid_addres
 
 
 async def test_integration_discovery_precedence_over_bt_non_unique_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test integration discovery dismisses non-unique BT discovery."""
     result = await hass.config_entries.flow.async_init(
@@ -1028,7 +1028,7 @@ async def test_integration_discovery_precedence_over_bt_non_unique_name(
 
 
 async def test_user_is_setting_up_lock_and_discovery_happens_in_the_middle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test user lock setup when discovery happens mid-validation.
 
@@ -1119,7 +1119,7 @@ async def test_user_is_setting_up_lock_and_discovery_happens_in_the_middle(
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_reauth(hass: __HAC_KEEP__) -> None:
+async def test_reauth(hass: UniversalAssistant) -> None:
     """Test reauthentication."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1180,7 +1180,7 @@ async def test_reauth(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_user_step_with_cached_config(hass: __HAC_KEEP__) -> None:
+async def test_user_step_with_cached_config(hass: UniversalAssistant) -> None:
     """Test user step when config is already cached from integration discovery."""
     # First, simulate integration discovery to populate the cache
     discovery_result = await hass.config_entries.flow.async_init(
@@ -1249,7 +1249,7 @@ async def test_user_step_with_cached_config(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_options(hass: __HAC_KEEP__) -> None:
+async def test_options(hass: UniversalAssistant) -> None:
     """Test options."""
     entry = MockConfigEntry(
         domain=DOMAIN,

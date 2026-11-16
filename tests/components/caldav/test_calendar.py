@@ -26,7 +26,7 @@ from universalassistant.components.calendar import (
     CalendarEntityFeature,
 )
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -322,19 +322,19 @@ def platforms() -> list[Platform]:
 
 @pytest.fixture(name="tz")
 def mock_tz() -> str | None:
-    """Fixture to specify the __HA_KEEP__ timezone to use during the test."""
+    """Fixture to specify the Universal Home Assistant timezone to use during the test."""
     return None
 
 
 @pytest.fixture(autouse=True)
-async def set_tz(hass: __HAC_KEEP__, tz: str | None) -> None:
+async def set_tz(hass: UniversalAssistant, tz: str | None) -> None:
     """Fixture to set the default TZ to the one requested."""
     if tz is not None:
         await hass.config.async_set_time_zone(tz)
 
 
 @pytest.fixture(autouse=True)
-def mock_http(hass: __HAC_KEEP__) -> None:
+def mock_http(hass: UniversalAssistant) -> None:
     """Mock the http component."""
     hass.http = Mock()
 
@@ -405,7 +405,7 @@ def _mock_calendar(
 
 
 async def _get_api_events_for_vevent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     vevent: str,
     uid: str,
@@ -450,7 +450,7 @@ def mock_config() -> dict[str, Any]:
 
 @pytest.fixture(name="setup_platform_cb")
 async def mock_setup_platform_cb(
-    hass: __HAC_KEEP__, config: dict[str, Any]
+    hass: UniversalAssistant, config: dict[str, Any]
 ) -> Callable[[], Awaitable[None]]:
     """Fixture that returns a function to setup the calendar platform."""
 
@@ -488,7 +488,7 @@ async def mock_setup_platform_cb(
     ids=("config", "no_match", "match", "custom"),
 )
 async def test_setup_component_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict[str, Any],
     expected_entities: list[str],
     setup_platform_cb: Callable[[], Awaitable[None]],
@@ -505,7 +505,7 @@ async def test_setup_component_config(
 @pytest.mark.parametrize("tz", [UTC])
 @pytest.mark.freeze_time(_local_datetime(17, 45))
 async def test_ongoing_event(
-    hass: __HAC_KEEP__, setup_platform_cb: Callable[[], Awaitable[None]]
+    hass: UniversalAssistant, setup_platform_cb: Callable[[], Awaitable[None]]
 ) -> None:
     """Test that the ongoing event is returned."""
     await setup_platform_cb()
@@ -530,7 +530,7 @@ async def test_ongoing_event(
 @pytest.mark.parametrize("tz", [UTC])
 @pytest.mark.freeze_time(_local_datetime(17, 30))
 async def test_just_ended_event(
-    hass: __HAC_KEEP__, setup_platform_cb: Callable[[], Awaitable[None]]
+    hass: UniversalAssistant, setup_platform_cb: Callable[[], Awaitable[None]]
 ) -> None:
     """Test that the next ongoing event is returned."""
     await setup_platform_cb()
@@ -555,7 +555,7 @@ async def test_just_ended_event(
 @pytest.mark.parametrize("tz", [UTC])
 @pytest.mark.freeze_time(_local_datetime(17, 00))
 async def test_ongoing_event_different_tz(
-    hass: __HAC_KEEP__, setup_platform_cb: Callable[[], Awaitable[None]]
+    hass: UniversalAssistant, setup_platform_cb: Callable[[], Awaitable[None]]
 ) -> None:
     """Test that the ongoing event with another timezone is returned."""
     await setup_platform_cb()
@@ -580,7 +580,7 @@ async def test_ongoing_event_different_tz(
 @pytest.mark.parametrize("tz", [UTC])
 @pytest.mark.freeze_time(_local_datetime(19, 10))
 async def test_ongoing_floating_event_returned(
-    hass: __HAC_KEEP__, setup_platform_cb: Callable[[], Awaitable[None]]
+    hass: UniversalAssistant, setup_platform_cb: Callable[[], Awaitable[None]]
 ) -> None:
     """Test that floating events without timezones work."""
     await setup_platform_cb()
@@ -605,7 +605,7 @@ async def test_ongoing_floating_event_returned(
 @pytest.mark.parametrize("tz", [UTC])
 @pytest.mark.freeze_time(_local_datetime(8, 30))
 async def test_ongoing_event_with_offset(
-    hass: __HAC_KEEP__, setup_platform_cb: Callable[[], Awaitable[None]]
+    hass: UniversalAssistant, setup_platform_cb: Callable[[], Awaitable[None]]
 ) -> None:
     """Test that the offset is taken into account."""
     await setup_platform_cb()
@@ -646,7 +646,7 @@ async def test_ongoing_event_with_offset(
 )
 @pytest.mark.freeze_time(_local_datetime(12, 00))
 async def test_matching_filter(
-    hass: __HAC_KEEP__, setup_platform_cb: Callable[[], Awaitable[None]]
+    hass: UniversalAssistant, setup_platform_cb: Callable[[], Awaitable[None]]
 ) -> None:
     """Test that the matching event is returned."""
     await setup_platform_cb()
@@ -687,7 +687,7 @@ async def test_matching_filter(
 )
 @pytest.mark.freeze_time(_local_datetime(12, 00))
 async def test_matching_filter_real_regexp(
-    hass: __HAC_KEEP__, setup_platform_cb: Callable[[], Awaitable[None]]
+    hass: UniversalAssistant, setup_platform_cb: Callable[[], Awaitable[None]]
 ) -> None:
     """Test that the event matching the regexp is returned."""
 
@@ -726,7 +726,7 @@ async def test_matching_filter_real_regexp(
 )
 @pytest.mark.freeze_time(_local_datetime(20, 00))
 async def test_filter_matching_past_event(
-    hass: __HAC_KEEP__, setup_platform_cb: Callable[[], Awaitable[None]]
+    hass: UniversalAssistant, setup_platform_cb: Callable[[], Awaitable[None]]
 ) -> None:
     """Test that the matching past event is not returned."""
 
@@ -759,7 +759,7 @@ async def test_filter_matching_past_event(
 )
 @pytest.mark.freeze_time(_local_datetime(12, 00))
 async def test_no_result_with_filtering(
-    hass: __HAC_KEEP__, setup_platform_cb: Callable[[], Awaitable[None]]
+    hass: UniversalAssistant, setup_platform_cb: Callable[[], Awaitable[None]]
 ) -> None:
     """Test that nothing is returned since nothing matches."""
     await setup_platform_cb()
@@ -793,7 +793,7 @@ async def test_no_result_with_filtering(
     ],
 )
 async def test_all_day_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     target_datetime: dt.datetime,
 ) -> None:
@@ -836,7 +836,7 @@ async def test_all_day_event(
 @pytest.mark.parametrize("tz", [UTC])
 @pytest.mark.freeze_time(_local_datetime(21, 45))
 async def test_event_rrule(
-    hass: __HAC_KEEP__, setup_platform_cb: Callable[[], Awaitable[None]]
+    hass: UniversalAssistant, setup_platform_cb: Callable[[], Awaitable[None]]
 ) -> None:
     """Test that the future recurring event is returned."""
     await setup_platform_cb()
@@ -861,7 +861,7 @@ async def test_event_rrule(
 @pytest.mark.parametrize("tz", [UTC])
 @pytest.mark.freeze_time(_local_datetime(22, 15))
 async def test_event_rrule_ongoing(
-    hass: __HAC_KEEP__, setup_platform_cb: Callable[[], Awaitable[None]]
+    hass: UniversalAssistant, setup_platform_cb: Callable[[], Awaitable[None]]
 ) -> None:
     """Test that the current recurring event is returned."""
     await setup_platform_cb()
@@ -886,7 +886,7 @@ async def test_event_rrule_ongoing(
 @pytest.mark.parametrize("tz", [UTC])
 @pytest.mark.freeze_time(_local_datetime(22, 45))
 async def test_event_rrule_duration(
-    hass: __HAC_KEEP__, setup_platform_cb: Callable[[], Awaitable[None]]
+    hass: UniversalAssistant, setup_platform_cb: Callable[[], Awaitable[None]]
 ) -> None:
     """Test that the future recurring event is returned."""
     await setup_platform_cb()
@@ -911,7 +911,7 @@ async def test_event_rrule_duration(
 @pytest.mark.parametrize("tz", [UTC])
 @pytest.mark.freeze_time(_local_datetime(23, 15))
 async def test_event_rrule_duration_ongoing(
-    hass: __HAC_KEEP__, setup_platform_cb: Callable[[], Awaitable[None]]
+    hass: UniversalAssistant, setup_platform_cb: Callable[[], Awaitable[None]]
 ) -> None:
     """Test that the ongoing recurring event is returned."""
     await setup_platform_cb()
@@ -936,7 +936,7 @@ async def test_event_rrule_duration_ongoing(
 @pytest.mark.parametrize("tz", [UTC])
 @pytest.mark.freeze_time(_local_datetime(23, 37))
 async def test_event_rrule_endless(
-    hass: __HAC_KEEP__, setup_platform_cb: Callable[[], Awaitable[None]]
+    hass: UniversalAssistant, setup_platform_cb: Callable[[], Awaitable[None]]
 ) -> None:
     """Test that the endless recurring event is returned."""
     await setup_platform_cb()
@@ -976,7 +976,7 @@ async def test_event_rrule_endless(
     ],
 )
 async def test_event_rrule_all_day_early(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     target_datetime: dt.datetime,
 ) -> None:
@@ -1021,7 +1021,7 @@ async def test_event_rrule_all_day_early(
 @pytest.mark.parametrize("tz", [UTC])
 @pytest.mark.freeze_time(dt_util.as_local(dt.datetime(2015, 11, 27, 0, 15)))
 async def test_event_rrule_hourly_on_first(
-    hass: __HAC_KEEP__, setup_platform_cb: Callable[[], Awaitable[None]]
+    hass: UniversalAssistant, setup_platform_cb: Callable[[], Awaitable[None]]
 ) -> None:
     """Test that the endless recurring event is returned."""
     await setup_platform_cb()
@@ -1046,7 +1046,7 @@ async def test_event_rrule_hourly_on_first(
 @pytest.mark.parametrize("tz", ["UTC"])
 @pytest.mark.freeze_time(dt_util.as_local(dt.datetime(2015, 11, 27, 11, 15)))
 async def test_event_rrule_hourly_on_last(
-    hass: __HAC_KEEP__, setup_platform_cb: Callable[[], Awaitable[None]]
+    hass: UniversalAssistant, setup_platform_cb: Callable[[], Awaitable[None]]
 ) -> None:
     """Test that the endless recurring event is returned."""
     await setup_platform_cb()
@@ -1077,7 +1077,7 @@ async def test_event_rrule_hourly_on_last(
     ],
 )
 async def test_event_rrule_hourly(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_platform_cb: Callable[[], Awaitable[None]],
     freezer: FrozenDateTimeFactory,
     target_datetime: dt.datetime,
@@ -1093,7 +1093,7 @@ async def test_event_rrule_hourly(
 
 
 async def test_get_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_api_events: Callable[[str], Awaitable[dict[str, Any]]],
     setup_platform_cb: Callable[[], Awaitable[None]],
     calendars: list[Mock],
@@ -1121,7 +1121,7 @@ async def test_get_events(
     ],
 )
 async def test_get_events_custom_calendars(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_api_events: Callable[[str], Awaitable[dict[str, Any]]],
     setup_platform_cb: Callable[[], Awaitable[None]],
 ) -> None:
@@ -1145,7 +1145,7 @@ async def test_get_events_custom_calendars(
 
 
 async def test_get_events_with_recurrence_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test that uid and recurrence_id are populated from VEVENT data."""
@@ -1199,7 +1199,7 @@ END:VCALENDAR"""
     ],
 )
 async def test_get_events_with_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     status: str,
     expected_status: str | None,
@@ -1226,7 +1226,7 @@ def _mock_calendar_holding(name: str, vevents: list[str]) -> Mock:
 
 
 async def test_cancelled_event_is_not_returned(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test that an event called off is not returned by the API."""
@@ -1247,7 +1247,7 @@ async def test_cancelled_event_is_not_returned(
 )
 @pytest.mark.freeze_time(_local_datetime(17, 30))
 async def test_cancelled_event_is_not_the_ongoing_event(
-    hass: __HAC_KEEP__, setup_platform_cb: Callable[[], Awaitable[None]]
+    hass: UniversalAssistant, setup_platform_cb: Callable[[], Awaitable[None]]
 ) -> None:
     """Test that an event called off does not turn the entity on.
 
@@ -1272,7 +1272,7 @@ async def test_cancelled_event_is_not_the_ongoing_event(
         ]
     ],
 )
-async def test_calendar_components(hass: __HAC_KEEP__) -> None:
+async def test_calendar_components(hass: UniversalAssistant) -> None:
     """Test that only calendars that support events are created."""
 
     assert await async_setup_component(hass, "calendar", {"calendar": CALDAV_CONFIG})
@@ -1294,7 +1294,7 @@ async def test_calendar_components(hass: __HAC_KEEP__) -> None:
 
 
 async def test_calendar_name_resolved_in_executor(
-    hass: __HAC_KEEP__, calendars: list[Mock]
+    hass: UniversalAssistant, calendars: list[Mock]
 ) -> None:
     """Test the calendar display name is resolved outside the event loop."""
 
@@ -1315,7 +1315,7 @@ async def test_calendar_name_resolved_in_executor(
 @pytest.mark.parametrize("tz", [UTC])
 @pytest.mark.freeze_time(_local_datetime(17, 30))
 async def test_setup_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test a calendar entity from a config entry."""
@@ -1350,7 +1350,7 @@ async def test_setup_config_entry(
     ],
 )
 async def test_config_entry_supported_components(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test calendars are only created for VEVENT types.
@@ -1438,7 +1438,7 @@ async def test_config_entry_supported_components(
     ],
 )
 async def test_config_entry_initial_color(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     expected_colors: dict[str, str | None],
@@ -1463,7 +1463,7 @@ async def test_config_entry_initial_color(
     ],
 )
 async def test_config_entry_initial_color_existing_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     calendars: list[Mock],
@@ -1486,7 +1486,7 @@ async def test_config_entry_initial_color_existing_entity(
 
 
 async def test_yaml_calendar_skips_color(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_platform_cb: Callable[[], Awaitable[None]],
     calendars: list[Mock],
 ) -> None:
@@ -1530,7 +1530,7 @@ def _ics_event(uid: str, dates: str) -> str:
     ],
 )
 async def test_get_events_sorted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     setup_platform_cb: Callable[[], Awaitable[None]],
 ) -> None:
@@ -1572,7 +1572,7 @@ async def test_get_events_sorted(
     ],
 )
 async def test_get_events_sorted_dst_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     setup_platform_cb: Callable[[], Awaitable[None]],
 ) -> None:
@@ -1667,7 +1667,7 @@ async def test_get_events_sorted_dst_fallback(
     ],
 )
 async def test_add_vevent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_platform_cb: Callable[[], Awaitable[None]],
     calendars: list[Mock],
     service_data: dict,

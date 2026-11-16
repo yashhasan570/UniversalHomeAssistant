@@ -34,7 +34,7 @@ from universalassistant.components.assist_satellite import (
     AssistSatelliteEntityFeature,
 )
 from universalassistant.components.tts import TextToSpeechCommonOption
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.ulid import ulid_now
 
@@ -66,7 +66,7 @@ _STAGES: dict[PipelineStage, assist_pipeline.PipelineStage] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: WyomingConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -93,7 +93,7 @@ class WyomingAssistSatellite(WyomingSatelliteEntity, AssistSatelliteEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         service: WyomingService,
         device: SatelliteDevice,
         config_entry: WyomingConfigEntry,

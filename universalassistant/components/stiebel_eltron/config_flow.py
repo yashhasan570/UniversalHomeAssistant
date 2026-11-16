@@ -10,8 +10,8 @@ from pystiebeleltron import StiebelEltronModbusError, get_controller_model
 from universalassistant.components.modbus import async_get_temporary_unit
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.selector import (
     NumberSelector,
@@ -39,7 +39,7 @@ STEP_USER_DATA_SCHEMA = probatio.Schema(
 
 
 async def check_controller_model(
-    hass: __HAC_KEEP__, host: str, port: int
+    hass: UniversalAssistant, host: str, port: int
 ) -> str | None:
     """Check if the controller model is valid."""
     try:
@@ -47,9 +47,9 @@ async def check_controller_model(
             hass, ModbusTcpParams(host=host, port=port), UNIT_ID
         ) as unit:
             await get_controller_model(unit)
-    # __HAC_KEEP__Error: another integration already holds this host and port
+    # UniversalAssistantError: another integration already holds this host and port
     # with link settings that cannot be honoured on one connection.
-    except StiebelEltronModbusError, __HAC_KEEP__Error:
+    except StiebelEltronModbusError, UniversalAssistantError:
         _LOGGER.debug("Cannot connect to Stiebel Eltron device", exc_info=True)
         return "cannot_connect"
     except Exception:

@@ -20,7 +20,7 @@ from universalassistant.components.media_player import (
     SearchMedia,
     SearchMediaQuery,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.network import is_internal_request
 
@@ -130,7 +130,7 @@ def _get_title(id_string: str) -> str:
 
 
 async def async_browse_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     speaker: SonosSpeaker,
     media: SonosMedia,
     get_browse_image_url: GetBrowseImageUrlType,
@@ -228,7 +228,7 @@ async def async_browse_media(
 
 
 async def async_search_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     media: SonosMedia,
     get_browse_image_url: GetBrowseImageUrlType,
     query: SearchMediaQuery,
@@ -385,7 +385,7 @@ def item_payload(item: DidlObject, get_thumbnail_url=None) -> BrowseMedia:
 
 
 async def root_payload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     speaker: SonosSpeaker,
     media: SonosMedia,
     get_browse_image_url: GetBrowseImageUrlType,

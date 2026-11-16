@@ -6,7 +6,7 @@ from typing import Any
 
 from tesla_fleet_api.exceptions import TeslaFleetError
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import DOMAIN, LOGGER, TeslaFleetState
 from .models import TeslaFleetVehicleData
@@ -24,7 +24,7 @@ async def wake_up_vehicle(vehicle: TeslaFleetVehicleData) -> None:
                     cmd = await vehicle.api.vehicle()
                 state = cmd["response"]["state"]
             except TeslaFleetError as e:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="wake_up_failed",
                 ) from e
@@ -32,7 +32,7 @@ async def wake_up_vehicle(vehicle: TeslaFleetVehicleData) -> None:
             if state != TeslaFleetState.ONLINE:
                 times += 1
                 if times >= 4:  # Give up after 30 seconds total
-                    raise __HAC_KEEP__Error(
+                    raise UniversalAssistantError(
                         translation_domain=DOMAIN,
                         translation_key="wake_up_timeout",
                     )
@@ -44,7 +44,7 @@ async def handle_command(command: Awaitable[dict[str, Any]]) -> dict[str, Any]:
     try:
         result = await command
     except TeslaFleetError as e:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="command_failed",
             translation_placeholders={"message": e.message},
@@ -59,13 +59,13 @@ async def handle_vehicle_command(command: Awaitable[dict[str, Any]]) -> Any:
     if (response := result.get("response")) is None:
         if error := result.get("error"):
             # No response with error
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_error",
                 translation_placeholders={"error": error},
             )
         # No response without error (unexpected)
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN, translation_key="command_no_response"
         )
     if (result := response.get("result")) is not True:
@@ -74,13 +74,13 @@ async def handle_vehicle_command(command: Awaitable[dict[str, Any]]) -> Any:
                 # Reason is acceptable
                 return result
             # Result of false with reason
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_reason",
                 translation_placeholders={"reason": reason},
             )
         # Result of false without reason (unexpected)
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="command_no_reason",
         )

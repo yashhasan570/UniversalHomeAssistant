@@ -7,8 +7,8 @@ from huawei_lte_api.exceptions import ResponseErrorException
 
 from universalassistant.components.notify import ATTR_TARGET, BaseNotificationService
 from universalassistant.const import ATTR_CONFIG_ENTRY_ID, CONF_RECIPIENT
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
 from . import HuaweiLteConfigEntry, Router
@@ -18,7 +18,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_get_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> HuaweiLteSmsNotificationService | None:
@@ -64,7 +64,7 @@ class HuaweiLteSmsNotificationService(BaseNotificationService):
             )
             _LOGGER.debug("Sent to %s: %s", targets, resp)
         except ResponseErrorException as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="send_message_failed",
                 translation_placeholders={

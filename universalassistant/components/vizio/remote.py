@@ -12,7 +12,7 @@ from universalassistant.components.remote import (
     DEFAULT_DELAY_SECS,
     RemoteEntity,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -51,7 +51,7 @@ _ALIAS_LOOKUP: dict[str, str] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: VizioConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

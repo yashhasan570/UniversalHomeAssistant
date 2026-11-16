@@ -8,11 +8,11 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.samsungtv.const import DOMAIN, METHOD_LEGACY
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_METHOD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def setup_samsungtv_entry(
-    hass: __HAC_KEEP__, data: Mapping[str, Any]
+    hass: UniversalAssistant, data: Mapping[str, Any]
 ) -> ConfigEntry:
     """Set up mock Samsung TV from config entry data."""
     entry = MockConfigEntry(

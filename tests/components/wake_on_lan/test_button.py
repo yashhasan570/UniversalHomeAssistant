@@ -15,13 +15,13 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
 
 async def test_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     loaded_entry: MockConfigEntry,
 ) -> None:
@@ -59,7 +59,7 @@ async def test_state(
     ],
 )
 async def test_service_calls(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_mac_called: str,
     freezer: FrozenDateTimeFactory,
     loaded_entry: MockConfigEntry,

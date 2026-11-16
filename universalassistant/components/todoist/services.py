@@ -9,7 +9,7 @@ import uuid
 
 import probatio
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -80,7 +80,7 @@ NEW_TASK_SERVICE_SCHEMA = probatio.Schema(
 )
 
 
-def _async_get_coordinator(hass: __HAC_KEEP__) -> TodoistCoordinator:
+def _async_get_coordinator(hass: UniversalAssistant) -> TodoistCoordinator:
     """Return a coordinator to service the request.
 
     Coordinators created by the legacy YAML calendar platform have no config
@@ -94,7 +94,7 @@ def _async_get_coordinator(hass: __HAC_KEEP__) -> TodoistCoordinator:
 
 
 async def handle_new_task(call: ServiceCall) -> None:
-    """Call when a user creates a new Todoist Task from __HA_KEEP__."""
+    """Call when a user creates a new Todoist Task from Universal Home Assistant."""
     coordinator = _async_get_coordinator(call.hass)
     project_name = call.data[TodoistServiceArgument.PROJECT]
     projects = await coordinator.async_get_projects()
@@ -238,7 +238,7 @@ async def handle_new_task(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register services."""
 
     hass.services.async_register(

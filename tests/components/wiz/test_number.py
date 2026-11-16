@@ -11,8 +11,8 @@ from universalassistant.components.number import (
 )
 from universalassistant.components.wiz.const import DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -26,7 +26,7 @@ from . import (
 
 
 async def test_ratio_not_created_without_ratio(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the ratio entity is not created for lights that report no ratio."""
     await async_setup_integration(hass, bulb_type=FAKE_TURNABLE_BULB)
@@ -40,7 +40,7 @@ async def test_ratio_not_created_without_ratio(
 
 
 async def test_speed_operation(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test changing a speed."""
     bulb, _ = await async_setup_integration(hass, bulb_type=FAKE_DUAL_HEAD_RGBWW_BULB)
@@ -63,15 +63,15 @@ async def test_speed_operation(
     assert hass.states.get(entity_id).state == "30.0"
 
 
-async def test_speed_operation_fails(hass: __HAC_KEEP__) -> None:
-    """Test changing a speed raises __HAC_KEEP__Error when the bulb does not answer."""
+async def test_speed_operation_fails(hass: UniversalAssistant) -> None:
+    """Test changing a speed raises UniversalAssistantError when the bulb does not answer."""
     bulb, _ = await async_setup_integration(hass, bulb_type=FAKE_DUAL_HEAD_RGBWW_BULB)
     await async_push_update(hass, bulb, {"mac": FAKE_MAC, "speed": 50})
     entity_id = "number.mock_title_effect_speed"
 
     bulb.set_speed.side_effect = WizLightConnectionError("Network is unreachable")
     with pytest.raises(
-        __HAC_KEEP__Error, match="Error while communicating with the WiZ device"
+        UniversalAssistantError, match="Error while communicating with the WiZ device"
     ):
         await hass.services.async_call(
             NUMBER_DOMAIN,
@@ -85,7 +85,7 @@ async def test_speed_operation_fails(hass: __HAC_KEEP__) -> None:
 
 
 async def test_ratio_operation(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test changing a dual head ratio."""
     bulb, _ = await async_setup_integration(hass, bulb_type=FAKE_DUAL_HEAD_RGBWW_BULB)
@@ -111,7 +111,7 @@ async def test_ratio_operation(
 
 
 async def test_ratio_operation_without_dual_head_feature(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test changing a ratio reported by a light with an unadvertised dual head feature."""
     bulb = _mocked_wizlight(None, None, FAKE_TURNABLE_BULB)

@@ -20,13 +20,13 @@ from pytest_universalassistant.components.common import (
 from universalassistant.components.power.trigger import TRIGGERS
 from universalassistant.components.sensor import SensorDeviceClass
 from universalassistant.const import ATTR_UNIT_OF_MEASUREMENT, UnitOfPower
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 _POWER_UNIT_ATTRIBUTES = {ATTR_UNIT_OF_MEASUREMENT: UnitOfPower.WATT}
 
 
 @pytest.fixture
-async def target_sensors(hass: __HAC_KEEP__) -> dict[str, list[str]]:
+async def target_sensors(hass: UniversalAssistant) -> dict[str, list[str]]:
     """Create multiple sensor entities associated with different targets."""
     return await target_entities(hass, "sensor")
 
@@ -55,7 +55,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_power_trigger_options_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -98,7 +98,7 @@ def test_trigger_target_support() -> None:
     ],
 )
 async def test_power_trigger_sensor_behavior_each(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_sensors: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -136,7 +136,7 @@ async def test_power_trigger_sensor_behavior_each(
     ],
 )
 async def test_power_trigger_sensor_crossed_threshold_behavior_first(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_sensors: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -174,7 +174,7 @@ async def test_power_trigger_sensor_crossed_threshold_behavior_first(
     ],
 )
 async def test_power_trigger_sensor_crossed_threshold_behavior_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_sensors: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,

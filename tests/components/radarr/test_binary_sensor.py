@@ -5,14 +5,14 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.binary_sensor import BinarySensorDeviceClass
 from universalassistant.const import ATTR_DEVICE_CLASS, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
 
 @pytest.mark.freeze_time("2021-12-03 00:00:00+00:00")
 async def test_binary_sensors(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test for binary sensor values."""
     await setup_integration(hass, aioclient_mock)

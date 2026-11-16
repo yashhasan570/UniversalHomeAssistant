@@ -7,7 +7,7 @@ from xknx.devices import Device as XknxDevice, Scene as XknxScene
 from universalassistant import config_entries
 from universalassistant.components.scene import BaseScene
 from universalassistant.const import CONF_NAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
     async_get_current_platform,
@@ -28,7 +28,7 @@ from .storage.entity_store_schema import KnxEntityData, SceneKnxConfig
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: config_entries.ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

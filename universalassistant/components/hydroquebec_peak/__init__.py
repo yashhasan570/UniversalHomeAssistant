@@ -1,13 +1,13 @@
 """The Hydro-Québec Peak Events integration."""
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import PLATFORMS
 from .coordinator import HydroQuebecPeakConfigEntry, HydroQuebecPeakCoordinator
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: HydroQuebecPeakConfigEntry
+    hass: UniversalAssistant, entry: HydroQuebecPeakConfigEntry
 ) -> None:
     """Set up Hydro-Québec Peak Events from a config entry."""
     coordinator = HydroQuebecPeakCoordinator(hass, entry)
@@ -18,7 +18,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: HydroQuebecPeakConfigEntry
+    hass: UniversalAssistant, entry: HydroQuebecPeakConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

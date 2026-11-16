@@ -24,7 +24,7 @@ from universalassistant.components.kitchen_sink.const import (
     INFRARED_FAN_ADDRESS,
 )
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 ENTITY_RECEIVED_IR_EVENT = "event.living_room_fan_received_ir_event"
@@ -42,7 +42,7 @@ def event_only() -> Generator[None]:
 
 @pytest.fixture
 async def config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     event_only: None,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
 ) -> MockConfigEntry:
@@ -70,7 +70,7 @@ async def config_entry(
 
 @pytest.mark.usefixtures("config_entry")
 async def test_event_receives_signal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -96,7 +96,7 @@ async def test_event_receives_signal(
 
 @pytest.mark.usefixtures("config_entry")
 async def test_event_resubscribes_after_receiver_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
     freezer: FrozenDateTimeFactory,
 ) -> None:

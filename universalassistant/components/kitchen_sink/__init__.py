@@ -32,7 +32,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfVolume,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 from universalassistant.helpers.issue_registry import (
@@ -70,7 +70,7 @@ COMPONENTS_WITH_DEMO_PLATFORM = [
 CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the demo environment."""
     hass.async_create_task(
         hass.config_entries.flow.async_init(
@@ -83,7 +83,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set the config entry up."""
     if "recorder" in hass.config.components:
         # Insert stats for mean_type_changed issue
@@ -124,12 +124,12 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     await _async_update_special_repair(hass)
 
 
-async def _async_update_listener(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def _async_update_listener(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Reload config entry on update (e.g. subentry added/removed)."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload config entry."""
     # Notify backup listeners
     hass.async_create_task(_notify_backup_listeners(hass), eager_start=False)
@@ -140,7 +140,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry, device_entry: AnyDeviceEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry, device_entry: AnyDeviceEntry
 ) -> bool:
     """Remove a config entry from a device."""
 
@@ -154,14 +154,14 @@ async def async_remove_config_entry_device(
 
 
 async def _async_update_special_repair(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     event_data: EventLabsUpdatedData | None = None,
 ) -> None:
     """Create or delete the special repair issue.
 
     Creates a repair issue when the special_repair lab feature is enabled,
     and deletes it when disabled. This demonstrates how lab features can interact
-    with __HA_KEEP__'s repair system.
+    with Universal Home Assistant's repair system.
     """
     enabled = (
         event_data["enabled"]
@@ -181,12 +181,12 @@ async def _async_update_special_repair(
         async_delete_issue(hass, DOMAIN, "kitchen_sink_special_repair_issue")
 
 
-async def _notify_backup_listeners(hass: __HAC_KEEP__) -> None:
+async def _notify_backup_listeners(hass: UniversalAssistant) -> None:
     for listener in hass.data.get(DATA_BACKUP_AGENT_LISTENERS, []):
         listener()
 
 
-def _create_issues(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+def _create_issues(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Create some issue registry issues."""
     async_create_issue(
         hass,
@@ -267,7 +267,7 @@ def _generate_mean_statistics(
 
 
 async def _insert_sum_statistics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     metadata: StatisticMetaData,
     start: dt.datetime,
     end: dt.datetime,
@@ -296,7 +296,7 @@ async def _insert_sum_statistics(
     async_add_external_statistics(hass, metadata, statistics)
 
 
-async def _insert_statistics(hass: __HAC_KEEP__) -> None:
+async def _insert_statistics(hass: UniversalAssistant) -> None:
     """Insert some fake statistics."""
     now = dt_util.now()
     yesterday = now - dt.timedelta(days=1)
@@ -426,7 +426,7 @@ async def _insert_statistics(hass: __HAC_KEEP__) -> None:
     async_import_statistics(hass, metadata, statistics)
 
 
-async def _insert_wrong_wind_direction_statistics(hass: __HAC_KEEP__) -> None:
+async def _insert_wrong_wind_direction_statistics(hass: UniversalAssistant) -> None:
     """Insert some fake wind direction statistics."""
     now = dt_util.now()
     yesterday = now - dt.timedelta(days=1)

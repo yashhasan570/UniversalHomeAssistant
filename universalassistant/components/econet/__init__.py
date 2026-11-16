@@ -15,7 +15,7 @@ from pyeconet.errors import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.dispatcher import dispatcher_send
 from universalassistant.helpers.event import async_track_time_interval
@@ -38,7 +38,7 @@ type EconetConfigEntry = ConfigEntry[dict[EquipmentType, list[Equipment]]]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: EconetConfigEntry
+    hass: UniversalAssistant, config_entry: EconetConfigEntry
 ) -> None:
     """Set up EcoNet as config entry."""
 
@@ -94,6 +94,6 @@ async def async_setup_entry(
     config_entry.async_on_unload(async_track_time_interval(hass, resubscribe, INTERVAL))
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: EconetConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: EconetConfigEntry) -> None:
     """Unload a EcoNet config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

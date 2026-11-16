@@ -18,7 +18,7 @@ from universalassistant.components.exicom_spin_ble.const import (
 )
 from universalassistant.config_entries import SOURCE_BLUETOOTH, SOURCE_USER
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import (
@@ -45,7 +45,7 @@ def patch_discovered(
 
 @pytest.mark.usefixtures("mock_charger", "mock_setup_entry")
 async def test_bluetooth_discovery(
-    hass: __HAC_KEEP__, service_info: BluetoothServiceInfoBleak
+    hass: UniversalAssistant, service_info: BluetoothServiceInfoBleak
 ) -> None:
     """A discovered charger is confirmed and stored."""
     result = await hass.config_entries.flow.async_init(
@@ -67,7 +67,7 @@ async def test_bluetooth_discovery(
 
 @pytest.mark.usefixtures("mock_charger")
 async def test_discovery_of_another_device_on_the_same_service_uuid(
-    hass: __HAC_KEEP__, service_info: BluetoothServiceInfoBleak
+    hass: UniversalAssistant, service_info: BluetoothServiceInfoBleak
 ) -> None:
     """The advertised service UUID is generic, so the name is what decides."""
     service_info.name = "Some other serial-over-BLE gadget"
@@ -82,7 +82,7 @@ async def test_discovery_of_another_device_on_the_same_service_uuid(
 
 @pytest.mark.usefixtures("mock_charger")
 async def test_discovery_of_a_configured_charger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_info: BluetoothServiceInfoBleak,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_discovery_of_a_configured_charger(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_can_be_retried(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_info: BluetoothServiceInfoBleak,
     ble_device: BLEDevice,
     mock_charger: AsyncMock,
@@ -135,7 +135,7 @@ async def test_discovery_can_be_retried(
 
 @pytest.mark.usefixtures("mock_charger", "mock_setup_entry")
 async def test_user_flow(
-    hass: __HAC_KEEP__, service_info: BluetoothServiceInfoBleak
+    hass: UniversalAssistant, service_info: BluetoothServiceInfoBleak
 ) -> None:
     """A charger already seen by the Bluetooth manager can be picked by hand."""
     with patch_discovered([service_info]):
@@ -157,7 +157,7 @@ async def test_user_flow(
 
 
 @pytest.mark.usefixtures("mock_charger")
-async def test_user_flow_with_nothing_to_offer(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_with_nothing_to_offer(hass: UniversalAssistant) -> None:
     """Nothing recognisable in range means there is nothing to configure."""
     with patch_discovered([]):
         result = await hass.config_entries.flow.async_init(
@@ -181,7 +181,7 @@ async def test_user_flow_with_nothing_to_offer(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("mock_charger")
 async def test_user_flow_skips_other_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_info: BluetoothServiceInfoBleak,
     name: str,
     service_uuids: list[str],
@@ -201,7 +201,7 @@ async def test_user_flow_skips_other_devices(
 
 @pytest.mark.usefixtures("mock_charger")
 async def test_user_flow_skips_configured_chargers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_info: BluetoothServiceInfoBleak,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -219,7 +219,7 @@ async def test_user_flow_skips_configured_chargers(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_when_the_charger_does_not_answer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_info: BluetoothServiceInfoBleak,
     mock_charger: AsyncMock,
 ) -> None:
@@ -249,7 +249,7 @@ async def test_user_flow_when_the_charger_does_not_answer(
 
 @pytest.mark.usefixtures("mock_charger")
 async def test_options_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """The charger's single Bluetooth slot can be held open instead."""
     mock_config_entry.add_to_hass(hass)

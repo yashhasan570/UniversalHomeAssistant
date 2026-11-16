@@ -13,7 +13,7 @@ from universalassistant.components.discord.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
@@ -61,7 +61,7 @@ def _channel_mock(name: str = TARGET_NAME) -> Mock:
     return channel
 
 
-async def test_flow_user(hass: __HAC_KEEP__) -> None:
+async def test_flow_user(hass: UniversalAssistant) -> None:
     """Test user initialized flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -78,7 +78,7 @@ async def test_flow_user(hass: __HAC_KEEP__) -> None:
     assert result["result"].unique_id == "1234567890"
 
 
-async def test_flow_user_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_already_configured(hass: UniversalAssistant) -> None:
     """Test user initialized flow with duplicate server."""
     create_entry(hass)
     result = await hass.config_entries.flow.async_init(
@@ -94,7 +94,7 @@ async def test_flow_user_already_configured(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_flow_user_invalid_auth(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_invalid_auth(hass: UniversalAssistant) -> None:
     """Test user initialized flow with invalid token."""
     with patch_discord_login() as mock:
         mock.side_effect = nextcord.LoginFailure
@@ -123,7 +123,7 @@ async def test_flow_user_invalid_auth(hass: __HAC_KEEP__) -> None:
     assert result["data"] == CONF_DATA
 
 
-async def test_flow_user_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_cannot_connect(hass: UniversalAssistant) -> None:
     """Test user initialized flow with unreachable server."""
     with patch_discord_login() as mock:
         mock.side_effect = mock_exception()
@@ -152,7 +152,7 @@ async def test_flow_user_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert result["data"] == CONF_DATA
 
 
-async def test_flow_user_unknown_error(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_unknown_error(hass: UniversalAssistant) -> None:
     """Test user initialized flow with unreachable server."""
     with patch_discord_login() as mock:
         mock.side_effect = Exception
@@ -181,7 +181,7 @@ async def test_flow_user_unknown_error(hass: __HAC_KEEP__) -> None:
     assert result["data"] == CONF_DATA
 
 
-async def test_flow_reauth(hass: __HAC_KEEP__) -> None:
+async def test_flow_reauth(hass: UniversalAssistant) -> None:
     """Test a reauth flow."""
     entry = create_entry(hass)
     result = await entry.start_reauth_flow(hass)
@@ -209,7 +209,7 @@ async def test_flow_reauth(hass: __HAC_KEEP__) -> None:
     assert entry.data == CONF_DATA | new_conf
 
 
-async def test_subentry_flow_target(hass: __HAC_KEEP__) -> None:
+async def test_subentry_flow_target(hass: UniversalAssistant) -> None:
     """Test adding a target through the subentry flow."""
     entry = create_entry(hass)
 
@@ -233,7 +233,7 @@ async def test_subentry_flow_target(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("invalid_id", ["not-a-number", "²"])
 async def test_subentry_flow_invalid_target(
-    hass: __HAC_KEEP__, invalid_id: str
+    hass: UniversalAssistant, invalid_id: str
 ) -> None:
     """Test a non-decimal target ID is rejected before contacting Discord."""
     entry = create_entry(hass)
@@ -257,7 +257,7 @@ async def test_subentry_flow_invalid_target(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_subentry_flow_unsupported_target(hass: __HAC_KEEP__) -> None:
+async def test_subentry_flow_unsupported_target(hass: UniversalAssistant) -> None:
     """Test a non-messageable channel (e.g. a category) is rejected."""
     entry = create_entry(hass)
     category = Mock(spec=nextcord.CategoryChannel)
@@ -284,7 +284,7 @@ async def test_subentry_flow_unsupported_target(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_subentry_flow_user_fallback(hass: __HAC_KEEP__) -> None:
+async def test_subentry_flow_user_fallback(hass: UniversalAssistant) -> None:
     """Test resolving a target that is a user (DM) rather than a channel."""
     entry = create_entry(hass)
     user = Mock()
@@ -309,7 +309,7 @@ async def test_subentry_flow_user_fallback(hass: __HAC_KEEP__) -> None:
     assert result["title"] == "some_user"
 
 
-async def test_subentry_flow_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_subentry_flow_already_configured(hass: UniversalAssistant) -> None:
     """Test adding a target that is already configured aborts."""
     entry = create_entry(hass, with_subentry=True)
 
@@ -341,7 +341,7 @@ async def test_subentry_flow_already_configured(hass: __HAC_KEEP__) -> None:
     ids=["invalid_auth", "cannot_connect", "target_not_found", "unknown"],
 )
 async def test_subentry_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     login_side_effect: Exception | None,
     channel_side_effect: Exception | None,
     user_side_effect: Exception | None,

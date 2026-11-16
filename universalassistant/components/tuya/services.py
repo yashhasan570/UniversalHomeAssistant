@@ -11,8 +11,8 @@ from tuya_device_handlers.device_wrapper.service_feeder_schedule import (
 from tuya_sharing import CustomerDevice, Manager
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, SupportsResponse, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, ServiceCall, SupportsResponse, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
 from .const import DOMAIN
@@ -43,9 +43,9 @@ class TuyaServiceArgument(StrEnum):
 
 
 def _get_tuya_device(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> tuple[CustomerDevice, Manager]:
-    """Get a Tuya device and manager from a __HA_KEEP__ device registry ID."""
+    """Get a Tuya device and manager from a Universal Home Assistant device registry ID."""
     device_registry = dr.async_get(hass)
     device_entry = device_registry.async_get(device_id)
     if device_entry is None:
@@ -105,7 +105,7 @@ async def async_get_feeder_meal_plan(
 
     meal_plan = wrapper.read_device_status(device)
     if meal_plan is None:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="invalid_meal_plan_data",
         )
@@ -138,7 +138,7 @@ async def async_set_feeder_meal_plan(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up Tuya services."""
 
     hass.services.async_register(

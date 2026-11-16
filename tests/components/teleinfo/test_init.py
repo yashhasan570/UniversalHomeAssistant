@@ -7,11 +7,11 @@ from pytest_universalassistant.common import MockConfigEntry
 import serial
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_async_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_teleinfo: MagicMock,
     mock_serial_port: MagicMock,
@@ -30,7 +30,7 @@ async def test_async_unload_entry(
 
 
 async def test_async_setup_entry_decode_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_teleinfo: MagicMock,
     mock_serial_port: MagicMock,
@@ -49,7 +49,7 @@ async def test_async_setup_entry_decode_failure(
     "exception", [serial.SerialException("port not found"), TimeoutError("no data")]
 )
 async def test_async_setup_entry_serial_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_teleinfo: MagicMock,
     mock_serial_port: MagicMock,

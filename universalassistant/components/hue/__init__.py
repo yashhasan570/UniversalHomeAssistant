@@ -4,7 +4,7 @@ from aiohue.util import normalize_bridge_id
 
 from universalassistant.config_entries import SOURCE_IGNORE
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.typing import ConfigType
@@ -17,7 +17,7 @@ from .services import async_setup_services
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up Hue integration."""
 
     async_setup_services(hass)
@@ -25,7 +25,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: HueConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: HueConfigEntry) -> None:
     """Migrate old entry."""
     if entry.minor_version < 2:
         _migrate_zigbee_connections(hass, entry)
@@ -33,7 +33,7 @@ async def async_migrate_entry(hass: __HAC_KEEP__, entry: HueConfigEntry) -> None
 
 
 @callback
-def _migrate_zigbee_connections(hass: __HAC_KEEP__, entry: HueConfigEntry) -> None:
+def _migrate_zigbee_connections(hass: UniversalAssistant, entry: HueConfigEntry) -> None:
     """Remove zigbee macs that were incorrectly stored as network macs.
 
     Device setup adds them back as zigbee connections. Multi-channel devices
@@ -55,7 +55,7 @@ def _migrate_zigbee_connections(hass: __HAC_KEEP__, entry: HueConfigEntry) -> No
         )
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: HueConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: HueConfigEntry) -> None:
     """Set up a bridge from a config entry."""
     # check (and run) migrations if needed
     await check_migration(hass, entry)
@@ -77,7 +77,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: HueConfigEntry) -> None:
         hass.config_entries.async_update_entry(entry, unique_id=unique_id)
 
     # For recovering from bug where we incorrectly assumed homekit ID = bridge ID
-    # Remove this logic after __HA_KEEP__ 2022.4
+    # Remove this logic after Universal Home Assistant 2022.4
     elif entry.unique_id != unique_id:
         # Find entries with this unique ID
         other_entry = next(
@@ -122,7 +122,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: HueConfigEntry) -> None:
         _async_register_bridge_device(hass, entry, api, bridge.api_version)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: HueConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: HueConfigEntry) -> None:
     """Unload a config entry."""
     if not await entry.runtime_data.async_reset():
         raise ConfigEntryError(

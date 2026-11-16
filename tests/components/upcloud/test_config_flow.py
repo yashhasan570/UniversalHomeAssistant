@@ -9,7 +9,7 @@ from upcloud_api import UpCloudAPIError
 from universalassistant import config_entries
 from universalassistant.components.upcloud.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 FIXTURE_USER_INPUT = {
@@ -18,7 +18,7 @@ FIXTURE_USER_INPUT = {
 }
 
 
-async def test_show_set_form(hass: __HAC_KEEP__) -> None:
+async def test_show_set_form(hass: UniversalAssistant) -> None:
     """Test that the setup form is served."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -29,7 +29,7 @@ async def test_show_set_form(hass: __HAC_KEEP__) -> None:
 
 
 async def test_connection_error(
-    hass: __HAC_KEEP__, requests_mock: requests_mock.Mocker
+    hass: UniversalAssistant, requests_mock: requests_mock.Mocker
 ) -> None:
     """Test we show user form on connection error."""
     requests_mock.request(ANY, ANY, exc=requests.exceptions.ConnectionError())
@@ -58,7 +58,7 @@ async def test_connection_error(
 
 
 async def test_login_error(
-    hass: __HAC_KEEP__, requests_mock: requests_mock.Mocker
+    hass: UniversalAssistant, requests_mock: requests_mock.Mocker
 ) -> None:
     """Test we show user form with appropriate error on response failure."""
     requests_mock.request(
@@ -95,7 +95,7 @@ async def test_login_error(
 
 
 async def test_success(
-    hass: __HAC_KEEP__, requests_mock: requests_mock.Mocker
+    hass: UniversalAssistant, requests_mock: requests_mock.Mocker
 ) -> None:
     """Test successful flow provides entry creation data."""
     requests_mock.request(ANY, "/1.3/account", text='{"account":{"username":"user"}}')
@@ -119,7 +119,7 @@ async def test_success(
 
 
 async def test_already_configured(
-    hass: __HAC_KEEP__, requests_mock: requests_mock.Mocker
+    hass: UniversalAssistant, requests_mock: requests_mock.Mocker
 ) -> None:
     """Test duplicate entry aborts and updates data."""
 

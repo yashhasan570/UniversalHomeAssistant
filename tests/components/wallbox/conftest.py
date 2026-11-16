@@ -23,7 +23,7 @@ from universalassistant.components.wallbox.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import WALLBOX_AUTHORISATION_RESPONSE, WALLBOX_STATUS_RESPONSE
 
@@ -39,7 +39,7 @@ http_429_error.response.status_code = HTTPStatus.TOO_MANY_REQUESTS
 
 
 @pytest.fixture
-def entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Return mock config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -99,7 +99,7 @@ def mock_wallbox():
         yield wallbox
 
 
-async def setup_integration(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+async def setup_integration(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     """Test wallbox sensor class setup."""
 
     await hass.config_entries.async_setup(entry.entry_id)

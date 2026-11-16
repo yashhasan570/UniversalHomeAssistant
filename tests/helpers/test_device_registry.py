@@ -29,8 +29,8 @@ from yarl import URL
 
 from universalassistant import config_entries
 from universalassistant.const import EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import CoreState, __HAC_KEEP__, ReleaseChannel
-from universalassistant.exceptions import ConfigEntryNotReady, __HAC_KEEP__Error
+from universalassistant.core import CoreState, UniversalAssistant, ReleaseChannel
+from universalassistant.exceptions import ConfigEntryNotReady, UniversalAssistantError
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -116,7 +116,7 @@ def _mock_deleted_device(
 
 
 @pytest.fixture
-def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Create a mock config entry and add it to hass."""
     entry = MockConfigEntry(title=None)
     entry.add_to_hass(hass)
@@ -124,7 +124,7 @@ def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 
 @pytest.fixture
-def mock_config_entry_with_subentries(hass: __HAC_KEEP__) -> MockConfigEntry:
+def mock_config_entry_with_subentries(hass: UniversalAssistant) -> MockConfigEntry:
     """Create a mock config entry and add it to hass."""
     entry = MockConfigEntry(
         title=None,
@@ -150,7 +150,7 @@ def mock_config_entry_with_subentries(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 
 async def test_get_or_create_returns_same_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     area_registry: ar.AreaRegistry,
     mock_config_entry: MockConfigEntry,
@@ -237,7 +237,7 @@ async def test_requirement_for_identifier_or_connection(
     assert entry
     assert entry2
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         device_registry.async_get_or_create(
             config_entry_id=mock_config_entry.entry_id,
             connections=set(),
@@ -248,7 +248,7 @@ async def test_requirement_for_identifier_or_connection(
 
 
 @pytest.mark.parametrize("load_registries", [False])
-async def test_async_get_before_setup_raises(hass: __HAC_KEEP__) -> None:
+async def test_async_get_before_setup_raises(hass: UniversalAssistant) -> None:
     """Test async_get raises when the registry has not been set up."""
     with pytest.raises(RuntimeError, match="Device registry not set up"):
         dr.async_get(hass)
@@ -257,7 +257,7 @@ async def test_async_get_before_setup_raises(hass: __HAC_KEEP__) -> None:
     assert isinstance(dr.async_get(hass), dr.DeviceRegistry)
 
 
-async def test_async_load_twice_raises(hass: __HAC_KEEP__) -> None:
+async def test_async_load_twice_raises(hass: UniversalAssistant) -> None:
     """Test loading the device registry twice raises."""
     registry = dr.async_get(hass)
     with pytest.raises(RuntimeError, match="Device registry is already loaded"):
@@ -265,7 +265,7 @@ async def test_async_load_twice_raises(hass: __HAC_KEEP__) -> None:
 
 
 async def test_multiple_config_entries(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test registering a device for multiple config entries with same identifiers."""
     config_entry_1 = MockConfigEntry()
@@ -305,7 +305,7 @@ async def test_multiple_config_entries(
 
 
 async def test_multiple_config_subentries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -372,7 +372,7 @@ async def test_multiple_config_subentries(
 @pytest.mark.parametrize("load_registries", [False])
 @pytest.mark.usefixtures("freezer")
 async def test_loading_from_storage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -544,7 +544,7 @@ async def test_loading_from_storage(
 @pytest.mark.parametrize("load_registries", [False])
 @pytest.mark.usefixtures("freezer")
 async def test_migration_from_1_1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -709,7 +709,7 @@ async def test_migration_from_1_1(
 @pytest.mark.parametrize("load_registries", [False])
 @pytest.mark.usefixtures("freezer")
 async def test_migration_from_1_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -855,7 +855,7 @@ async def test_migration_from_1_2(
 @pytest.mark.parametrize("load_registries", [False])
 @pytest.mark.usefixtures("freezer")
 async def test_migration_fom_1_3(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1001,7 +1001,7 @@ async def test_migration_fom_1_3(
 @pytest.mark.parametrize("load_registries", [False])
 @pytest.mark.usefixtures("freezer")
 async def test_migration_from_1_4(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1149,7 +1149,7 @@ async def test_migration_from_1_4(
 @pytest.mark.parametrize("load_registries", [False])
 @pytest.mark.usefixtures("freezer")
 async def test_migration_from_1_5(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1299,7 +1299,7 @@ async def test_migration_from_1_5(
 @pytest.mark.parametrize("load_registries", [False])
 @pytest.mark.usefixtures("freezer")
 async def test_migration_from_1_6(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1451,7 +1451,7 @@ async def test_migration_from_1_6(
 @pytest.mark.parametrize("load_registries", [False])
 @pytest.mark.usefixtures("freezer")
 async def test_migration_from_1_7(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1605,7 +1605,7 @@ async def test_migration_from_1_7(
 @pytest.mark.parametrize("load_registries", [False])
 @pytest.mark.usefixtures("freezer")
 async def test_migration_from_1_10(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1749,7 +1749,7 @@ async def test_migration_from_1_10(
 @pytest.mark.parametrize("load_registries", [False])
 @pytest.mark.usefixtures("freezer")
 async def test_migration_from_1_11(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1892,7 +1892,7 @@ async def test_migration_from_1_11(
 @pytest.mark.parametrize("load_registries", [False])
 @pytest.mark.usefixtures("freezer")
 async def test_migration_from_1_12(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -2089,7 +2089,7 @@ async def test_migration_from_1_12(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_migration_backs_up_store_file(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     hass_tmp_config_dir: str,
 ) -> None:
@@ -2119,7 +2119,7 @@ async def test_migration_backs_up_store_file(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_migration_detaches_via_device_of_dropped_parent(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """A child of an ownerless parent dropped by the migration has its link detached.
 
@@ -2194,7 +2194,7 @@ async def test_migration_detaches_via_device_of_dropped_parent(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_migration_clears_via_device_self_reference(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """The version 3.3 migration clears a device's via_device_id self-reference."""
     entry = MockConfigEntry()
@@ -2251,7 +2251,7 @@ async def test_migration_clears_via_device_self_reference(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_migration_clears_composite_via_device_self_reference(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """A self-reference the 3.2 split remapping introduces is cleared.
 
@@ -2315,7 +2315,7 @@ async def test_migration_clears_composite_via_device_self_reference(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_migration_collapses_multi_subentry_device(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """A device wrongly assigned to several subentries of one config entry collapses.
 
@@ -2405,7 +2405,7 @@ async def test_migration_collapses_multi_subentry_device(
 
 
 async def test_async_get_or_create_warns_on_subentry_reassignment(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2470,7 +2470,7 @@ async def test_async_get_or_create_warns_on_subentry_reassignment(
 
 
 async def test_async_get_device_returns_first_match_for_ambiguous_lookup(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Independent devices sharing an identifier resolve to the first match.
 
@@ -2498,7 +2498,7 @@ async def test_async_get_device_returns_first_match_for_ambiguous_lookup(
 
 
 async def test_async_get_device_prefers_calling_integration(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """An ambiguous lookup prefers a device owned by the calling integration."""
     entry_a = MockConfigEntry(domain="itg_a")
@@ -2529,7 +2529,7 @@ async def test_async_get_device_prefers_calling_integration(
 
 
 async def test_async_get_device_prefers_matching_domain(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """A lookup prefers the device whose config entry domain matches the identifier.
 
@@ -2572,7 +2572,7 @@ async def test_async_get_device_prefers_matching_domain(
     ],
 )
 async def test_async_get_device_scoped_to_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     method: str,
     create_kwargs: dict[str, set[tuple[str, str]]],
@@ -2600,7 +2600,7 @@ async def test_async_get_device_scoped_to_config_entry(
 
 
 async def test_async_get_device_by_connection_normalizes(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """MAC connection values are normalized before the scoped lookup."""
     entry = MockConfigEntry(domain="test")
@@ -2618,7 +2618,7 @@ async def test_async_get_device_by_connection_normalizes(
 
 
 async def test_async_get_device_id_by_identifier(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """The id lookup returns the device id, and raises when there is no match."""
     entry = MockConfigEntry(domain="test")
@@ -2663,7 +2663,7 @@ async def test_async_get_device_id_by_identifier(
     ],
 )
 async def test_async_get_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     create_kwargs: dict[str, set[tuple[str, str]]],
     lookup_kwargs: dict[str, set[tuple[str, str]]],
@@ -2702,7 +2702,7 @@ async def test_async_get_devices(
 
 
 async def test_async_get_devices_multiple_keys(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """A plural lookup with several keys returns the union of matches, deduplicated."""
     entry = MockConfigEntry(domain="test")
@@ -2725,7 +2725,7 @@ async def test_async_get_devices_multiple_keys(
 
 
 async def test_async_remove_device_fans_out_to_migration_composite(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """async_remove_device on a pre-migration composite id removes its splits."""
     entry_1 = MockConfigEntry(domain="test")
@@ -2754,7 +2754,7 @@ async def test_async_remove_device_fans_out_to_migration_composite(
 
 
 async def test_async_update_device_fans_out_to_migration_composite(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """async_update_device on a pre-migration composite id fans out to its splits."""
     entry_1 = MockConfigEntry(domain="test")
@@ -2783,7 +2783,7 @@ async def test_async_update_device_fans_out_to_migration_composite(
 
 
 async def test_get_entry_by_connection_without_config_entry_scope(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """The container resolves by connection when no config entry scope is given."""
     entry = MockConfigEntry()
@@ -2796,7 +2796,7 @@ async def test_get_entry_by_connection_without_config_entry_scope(
 
 
 async def test_update_unknown_device_id_raises(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Updating an id that is neither a real device nor a composite raises."""
     with pytest.raises(KeyError):
@@ -2804,7 +2804,7 @@ async def test_update_unknown_device_id_raises(
 
 
 async def test_cleanup_removes_device_referencing_missing_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -2826,7 +2826,7 @@ async def test_cleanup_removes_device_referencing_missing_config_entry(
 
 
 async def test_clear_config_entry_removes_device_with_pending_move(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Clearing a config entry removes its device, ignoring a pending move.
 
@@ -2849,7 +2849,7 @@ async def test_clear_config_entry_removes_device_with_pending_move(
 
 
 async def test_clear_config_entry_clears_pending_move_targeting_it(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Clearing a config entry drops a pending move that targets it.
 
@@ -2880,7 +2880,7 @@ async def test_clear_config_entry_clears_pending_move_targeting_it(
 
 
 async def test_move_to_config_entry_clears_target_entry_deleted_device(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Moving a device into a config entry clears a matching deleted device it holds.
 
@@ -2916,13 +2916,13 @@ async def test_move_to_config_entry_clears_target_entry_deleted_device(
 
 
 async def test_get_or_create_via_device_and_via_device_id_raises_cleanly(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Passing both via_device and via_device_id raises without inserting a device."""
     entry = MockConfigEntry()
     entry.add_to_hass(hass)
 
-    with pytest.raises(__HAC_KEEP__Error, match="not allowed"):
+    with pytest.raises(UniversalAssistantError, match="not allowed"):
         device_registry.async_get_or_create(
             config_entry_id=entry.entry_id,
             identifiers={("test", "1")},
@@ -2935,13 +2935,13 @@ async def test_get_or_create_via_device_and_via_device_id_raises_cleanly(
 
 
 async def test_get_or_create_invalid_subentry_raises_cleanly(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """An unknown config_subentry_id raises without inserting a device."""
     entry = MockConfigEntry()
     entry.add_to_hass(hass)
 
-    with pytest.raises(__HAC_KEEP__Error, match="has no subentry"):
+    with pytest.raises(UniversalAssistantError, match="has no subentry"):
         device_registry.async_get_or_create(
             config_entry_id=entry.entry_id,
             config_subentry_id="does-not-exist",
@@ -2953,7 +2953,7 @@ async def test_get_or_create_invalid_subentry_raises_cleanly(
 
 
 async def test_add_current_config_entry_is_noop(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Adding the device's current owner records no pending move.
 
@@ -2981,7 +2981,7 @@ async def test_add_current_config_entry_is_noop(
     ids=["explicit-domain", "auto-resolved-domain"],
 )
 async def test_reregister_restores_orphan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     clear_domain: str | None,
 ) -> None:
@@ -3021,7 +3021,7 @@ async def test_reregister_restores_orphan(
 
 
 async def test_orphan_not_restored_for_other_domain(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """An orphan recorded for one integration is not restored by another.
 
@@ -3048,7 +3048,7 @@ async def test_orphan_not_restored_for_other_domain(
 
 
 async def test_orphaning_replaces_colliding_same_domain_orphan(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Orphaning a device drops a stale same-domain orphan it collides with.
 
@@ -3092,7 +3092,7 @@ async def test_orphaning_replaces_colliding_same_domain_orphan(
 
 
 async def test_orphaned_domain_survives_store_round_trip(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """An orphan's recorded domain is written to and read back from storage."""
     entry = MockConfigEntry(domain="hue")
@@ -3110,7 +3110,7 @@ async def test_orphaned_domain_survives_store_round_trip(
 
 
 async def test_orphan_keeps_domain_when_config_entry_removed(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """An orphan keeps its domain when its config entry is removed via the normal flow.
 
@@ -3134,7 +3134,7 @@ async def test_orphan_keeps_domain_when_config_entry_removed(
 
 
 async def test_cross_domain_orphans_do_not_shadow(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Orphans from different integrations sharing an identifier stay independently found.
 
@@ -3173,7 +3173,7 @@ async def test_cross_domain_orphans_do_not_shadow(
 
 
 async def test_domainless_orphan_not_restored(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """A domain-less orphan is not restored; re-registering creates a fresh device.
 
@@ -3205,7 +3205,7 @@ async def test_domainless_orphan_not_restored(
 
 
 async def test_clear_config_subentry_removes_device_with_pending_move(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Clearing a config subentry removes its device, ignoring a pending move.
 
@@ -3240,7 +3240,7 @@ async def test_clear_config_subentry_removes_device_with_pending_move(
 
 
 async def test_clear_config_subentry_clears_pending_move_targeting_it(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Clearing a config subentry drops a pending move that targets it.
 
@@ -3285,7 +3285,7 @@ async def test_clear_config_subentry_clears_pending_move_targeting_it(
 
 
 async def test_async_is_composite_device_id(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test asking the registry if a device id is a pre-migration composite id."""
     entry_1 = MockConfigEntry(domain="test")
@@ -3353,7 +3353,7 @@ async def test_async_is_composite_device_id_deprecated(
 
 
 async def test_async_get_include_composite_devices(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test async_get gates main, child and composite devices independently."""
     entry_1 = MockConfigEntry(domain="test")
@@ -3487,7 +3487,7 @@ async def test_async_get_include_composite_devices(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_async_get_device_composite_reuses_pre_migration_id(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """A composite over migration splits reuses the pre-migration device id.
 
@@ -3574,7 +3574,7 @@ async def test_async_get_device_composite_reuses_pre_migration_id(
     ],
 )
 async def test_async_update_device_composite_drops_identity_args(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     update_kwargs: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
@@ -3610,7 +3610,7 @@ async def test_async_update_device_composite_drops_identity_args(
 
 
 async def test_async_update_device_composite_drops_only_disallowed_args(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -3649,7 +3649,7 @@ async def test_async_update_device_composite_drops_only_disallowed_args(
 
 
 async def test_async_update_device_composite_drops_move_args(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """new_config_entry_id / new_config_subentry_id are dropped on the composite path.
 
@@ -3696,7 +3696,7 @@ async def test_async_update_device_composite_drops_move_args(
 @pytest.mark.parametrize("load_registries", [False])
 @pytest.mark.usefixtures("freezer")
 async def test_migration_drops_device_without_config_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -3778,7 +3778,7 @@ async def test_migration_drops_device_without_config_entries(
 @pytest.mark.parametrize("load_registries", [False])
 @pytest.mark.usefixtures("freezer")
 async def test_migration_splits_deleted_device_with_multiple_config_entries(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """A deleted device belonging to several config entries is split, one per entry.
 
@@ -3849,7 +3849,7 @@ async def test_migration_splits_deleted_device_with_multiple_config_entries(
 
 
 async def test_removing_config_entries(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test clearing a config entry removes the devices that belong to it."""
     config_entry_1 = MockConfigEntry()
@@ -3888,7 +3888,7 @@ async def test_removing_config_entries(
 
 
 async def test_deleted_device_removing_config_entries(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test clearing a config entry orphans its deleted devices."""
     config_entry_1 = MockConfigEntry()
@@ -3928,7 +3928,7 @@ async def test_deleted_device_removing_config_entries(
 
 
 async def test_removing_config_subentries(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test clearing a config subentry removes the devices that belong to it."""
     config_entry = MockConfigEntry(
@@ -3979,7 +3979,7 @@ async def test_removing_config_subentries(
 
 
 async def test_deleted_device_removing_config_subentries(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test clearing a config subentry orphans its deleted devices."""
     config_entry = MockConfigEntry(
@@ -4097,7 +4097,7 @@ async def test_removing_area_id_deleted_device(
 
 
 async def test_specifying_via_device_create(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -4150,7 +4150,7 @@ async def test_specifying_via_device_create(
 
 
 async def test_specifying_via_device_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -4210,7 +4210,7 @@ async def test_specifying_via_device_update(
 
 
 async def test_get_or_create_via_device_and_via_device_id_not_allowed(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Passing both via_device and via_device_id is not allowed."""
     config_entry = MockConfigEntry()
@@ -4220,7 +4220,7 @@ async def test_get_or_create_via_device_and_via_device_id_not_allowed(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Passing both `via_device` and `via_device_id` is not allowed",
     ):
         device_registry.async_get_or_create(
@@ -4248,7 +4248,7 @@ async def test_get_or_create_via_device_and_via_device_id_not_allowed(
 
 
 async def test_get_or_create_via_device_none(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """`via_device=None` means "no via device"; combining it with via_device_id raises."""
     config_entry = MockConfigEntry()
@@ -4259,7 +4259,7 @@ async def test_get_or_create_via_device_none(
 
     # `via_device=None` alongside a via_device_id is contradictory and rejected
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Passing both `via_device` and `via_device_id` is not allowed",
     ):
         device_registry.async_get_or_create(
@@ -4294,7 +4294,7 @@ async def test_get_or_create_via_device_none(
 
 
 async def test_get_or_create_unknown_via_device_id_raises_cleanly(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """An unknown via_device_id raises without inserting a device."""
     config_entry = MockConfigEntry()
@@ -4324,7 +4324,7 @@ async def test_get_or_create_unknown_via_device_id_raises_cleanly(
 
 
 async def test_update_device_unknown_via_device_id_raises(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """An unknown via_device_id raises on update, leaving the device unchanged."""
     config_entry = MockConfigEntry()
@@ -4334,7 +4334,7 @@ async def test_update_device_unknown_via_device_id_raises(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="unknown via device unknown-device-id"
+        UniversalAssistantError, match="unknown via device unknown-device-id"
     ):
         device_registry.async_update_device(
             device.id, via_device_id="unknown-device-id"
@@ -4344,7 +4344,7 @@ async def test_update_device_unknown_via_device_id_raises(
 
 
 async def test_update_device_unknown_via_device_id_raises_before_removal(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """An unknown via_device_id raises before a removal in the same call."""
     config_entry = MockConfigEntry()
@@ -4354,7 +4354,7 @@ async def test_update_device_unknown_via_device_id_raises_before_removal(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="unknown via device unknown-device-id"
+        UniversalAssistantError, match="unknown via device unknown-device-id"
     ):
         device_registry.async_update_device(
             device.id,
@@ -4633,7 +4633,7 @@ async def test_async_get_device_deprecated(
 )
 @pytest.mark.usefixtures("mock_integration_frame")
 async def test_async_get_or_create_deprecated_parameters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
     parameter: str,
@@ -4751,7 +4751,7 @@ def test_device_info_rejected_arguments(
 )
 @pytest.mark.usefixtures("mock_integration_frame")
 async def test_async_get_or_create_deprecated_parameter_reported_before_mutation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     parameter: str,
     value: Any,
@@ -4784,7 +4784,7 @@ async def test_async_get_or_create_deprecated_parameter_reported_before_mutation
 
 
 async def test_async_get_or_create_unexpected_keyword_argument(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test passing an unexpected keyword argument to async_get_or_create raises."""
@@ -4824,7 +4824,7 @@ async def test_async_get_or_create_unexpected_keyword_argument(
 )
 @pytest.mark.usefixtures("mock_integration_frame")
 async def test_async_update_device_config_entry_params_deprecated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
     expectation: AbstractContextManager,
@@ -4885,7 +4885,7 @@ async def test_async_update_device_config_entry_params_deprecated(
 )
 @pytest.mark.usefixtures("mock_integration_frame")
 async def test_async_update_device_merge_params_deprecated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
     update_kwargs: dict[str, set[tuple[str, str]]],
@@ -4912,7 +4912,7 @@ async def test_async_update_device_merge_params_deprecated(
 
 
 async def test_get_or_create_via_device_self_reference_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -4937,7 +4937,7 @@ async def test_get_or_create_via_device_self_reference_ignored(
 
 
 async def test_get_or_create_via_device_id_self_reference_raises(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """A device referencing itself via via_device_id raises, leaving it unchanged."""
     config_entry = MockConfigEntry()
@@ -4947,7 +4947,7 @@ async def test_get_or_create_via_device_id_self_reference_raises(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="A device can not be its own via device"
+        UniversalAssistantError, match="A device can not be its own via device"
     ):
         device_registry.async_get_or_create(
             config_entry_id=config_entry.entry_id,
@@ -4959,7 +4959,7 @@ async def test_get_or_create_via_device_id_self_reference_raises(
 
 
 async def test_update_device_via_device_id_self_reference_raises(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Updating a device to reference itself via via_device_id raises."""
     config_entry = MockConfigEntry()
@@ -4969,7 +4969,7 @@ async def test_update_device_via_device_id_self_reference_raises(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="A device can not be its own via device"
+        UniversalAssistantError, match="A device can not be its own via device"
     ):
         device_registry.async_update_device(device.id, via_device_id=device.id)
 
@@ -4977,7 +4977,7 @@ async def test_update_device_via_device_id_self_reference_raises(
 
 
 async def test_update_device_via_device_id_self_reference_raises_before_removal(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """A self-referencing via_device_id raises before a removal in the same call."""
     config_entry = MockConfigEntry()
@@ -4987,7 +4987,7 @@ async def test_update_device_via_device_id_self_reference_raises_before_removal(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="A device can not be its own via device"
+        UniversalAssistantError, match="A device can not be its own via device"
     ):
         device_registry.async_update_device(
             device.id,
@@ -5000,7 +5000,7 @@ async def test_update_device_via_device_id_self_reference_raises_before_removal(
 
 
 async def test_update_device_composite_via_device_id_self_reference_raises_before_removal(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """A composite via_device_id self-reference raises before a removal in one call."""
     entry_1 = MockConfigEntry(domain="test")
@@ -5025,7 +5025,7 @@ async def test_update_device_composite_via_device_id_self_reference_raises_befor
     # old_id resolves to device_1 (the split owned by entry_1), so linking device_1 to
     # it is a self-reference; it must raise before the removal deletes the device.
     with pytest.raises(
-        __HAC_KEEP__Error, match="A device can not be its own via device"
+        UniversalAssistantError, match="A device can not be its own via device"
     ):
         device_registry.async_update_device(
             device_1.id,
@@ -5037,7 +5037,7 @@ async def test_update_device_composite_via_device_id_self_reference_raises_befor
 
 
 async def test_get_or_create_composite_via_device_id_resolved(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -5092,7 +5092,7 @@ async def test_get_or_create_composite_via_device_id_resolved(
 
 
 async def test_update_device_composite_via_device_id_resolved(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -5126,7 +5126,7 @@ async def test_update_device_composite_via_device_id_resolved(
 
 
 async def test_via_device_prefers_same_config_entry(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """The deprecated via_device resolves to the via device in the same config entry."""
     entry_1 = MockConfigEntry()
@@ -5151,7 +5151,7 @@ async def test_via_device_prefers_same_config_entry(
 
 
 async def test_via_device_falls_back_to_other_config_entry(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """The deprecated via_device falls back to a via device in another config entry."""
     entry_1 = MockConfigEntry()
@@ -5172,7 +5172,7 @@ async def test_via_device_falls_back_to_other_config_entry(
 
 
 async def test_via_device_prefers_same_domain(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """The deprecated via_device prefers a via device from the same integration.
 
@@ -5203,7 +5203,7 @@ async def test_via_device_prefers_same_domain(
 
 
 async def test_loading_saving_data(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test that we load/save data correctly."""
     config_entry_1 = MockConfigEntry()
@@ -5388,7 +5388,7 @@ async def test_format_mac(
 
 
 async def test_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -5517,14 +5517,14 @@ async def test_update(
             "via_device_id": None,
         },
     }
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         device_registry.async_update_device(
             entry.id,
             merge_connections=new_connections,
             new_connections=new_connections,
         )
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         device_registry.async_update_device(
             entry.id,
             merge_identifiers=new_identifiers,
@@ -5619,7 +5619,7 @@ async def test_update_connection(
 
 
 async def test_update_remove_config_entries(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test removing a device's config entry deletes the device."""
     config_entry = MockConfigEntry()
@@ -5643,7 +5643,7 @@ async def test_update_remove_config_entries(
 
 
 async def test_update_remove_config_subentries(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test removing a device's config subentry deletes the device."""
     config_entry = MockConfigEntry(
@@ -5724,7 +5724,7 @@ async def test_get_or_create_disabled_by_ignored_for_existing_device(
 )
 @pytest.mark.usefixtures("freezer")
 async def test_update_add_config_entry_disabled_by(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry_disabled_by: config_entries.ConfigEntryDisabler | None,
     device_disabled_by: dr.DeviceEntryDisabler | None,
@@ -5784,7 +5784,7 @@ async def test_update_add_config_entry_disabled_by(
 )
 @pytest.mark.usefixtures("freezer")
 async def test_update_remove_config_entry_disabled_by(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry_disabled_by: config_entries.ConfigEntryDisabler | None,
     device_disabled_by: dr.DeviceEntryDisabler | None,
@@ -5846,7 +5846,7 @@ async def test_update_remove_config_entry_disabled_by(
 
 
 async def test_move_to_enabled_config_entry_clears_config_entry_disable(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Moving a device to an enabled config entry clears a CONFIG_ENTRY disable.
 
@@ -5890,7 +5890,7 @@ async def test_move_to_enabled_config_entry_clears_config_entry_disable(
 
 
 async def test_move_with_conflicting_disabled_by_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -5920,7 +5920,7 @@ async def test_move_with_conflicting_disabled_by_ignored(
     assert (
         "Detected code that sets disabled_by to None when moving a device to the "
         f"disabled config entry {disabled_entry.entry_id}. This will stop working "
-        "in __HA_KEEP__ 2027.8, please report this issue"
+        "in Universal Home Assistant 2027.8, please report this issue"
     ) in caplog.text
 
     disabled_device = device_registry.async_get_or_create(
@@ -5938,7 +5938,7 @@ async def test_move_with_conflicting_disabled_by_ignored(
     assert (
         "Detected code that sets disabled_by to DeviceEntryDisabler.CONFIG_ENTRY "
         f"when moving a device to the enabled config entry {enabled_entry.entry_id}. "
-        "This will stop working in __HA_KEEP__ 2027.8, please report this issue"
+        "This will stop working in Universal Home Assistant 2027.8, please report this issue"
     ) in caplog.text
 
     # The same validation applies when the move is performed by removing the
@@ -5960,12 +5960,12 @@ async def test_move_with_conflicting_disabled_by_ignored(
     assert (
         "Detected code that sets disabled_by to None when moving a device to the "
         f"disabled config entry {disabled_entry.entry_id}. This will stop working "
-        "in __HA_KEEP__ 2027.8, please report this issue"
+        "in Universal Home Assistant 2027.8, please report this issue"
     ) in caplog.text
 
 
 async def test_update_conflicting_disabled_by_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -5992,7 +5992,7 @@ async def test_update_conflicting_disabled_by_ignored(
     assert (
         "Detected code that sets disabled_by to None on a device belonging to the "
         f"disabled config entry {disabled_entry.entry_id}. This will stop working "
-        "in __HA_KEEP__ 2027.8, please report this issue"
+        "in Universal Home Assistant 2027.8, please report this issue"
     ) in caplog.text
 
     enabled_device = device_registry.async_get_or_create(
@@ -6006,12 +6006,12 @@ async def test_update_conflicting_disabled_by_ignored(
     assert (
         "Detected code that sets disabled_by to DeviceEntryDisabler.CONFIG_ENTRY on "
         f"a device belonging to the enabled config entry {enabled_entry.entry_id}. "
-        "This will stop working in __HA_KEEP__ 2027.8, please report this issue"
+        "This will stop working in Universal Home Assistant 2027.8, please report this issue"
     ) in caplog.text
 
 
 async def test_create_with_conflicting_disabled_by_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -6037,7 +6037,7 @@ async def test_create_with_conflicting_disabled_by_ignored(
     assert (
         "Detected code that sets disabled_by to None when creating a device "
         f"attached to the disabled config entry {disabled_entry.entry_id}. This "
-        "will stop working in __HA_KEEP__ 2027.8, please report this issue"
+        "will stop working in Universal Home Assistant 2027.8, please report this issue"
     ) in caplog.text
 
     enabled_device = device_registry.async_get_or_create(
@@ -6049,13 +6049,13 @@ async def test_create_with_conflicting_disabled_by_ignored(
     assert (
         "Detected code that sets disabled_by to DeviceEntryDisabler.CONFIG_ENTRY "
         "when creating a device attached to the enabled config entry "
-        f"{enabled_entry.entry_id}. This will stop working in __HA_KEEP__ "
+        f"{enabled_entry.entry_id}. This will stop working in Universal Home Assistant "
         "2027.8, please report this issue"
     ) in caplog.text
 
 
 async def test_create_reflects_config_entry_disabled_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -6094,7 +6094,7 @@ async def test_create_reflects_config_entry_disabled_state(
 
 
 async def test_update_explicit_disabled_by(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -6143,7 +6143,7 @@ async def test_update_explicit_disabled_by(
 
 
 async def test_move_with_explicit_disabled_by(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """An explicit disabled_by consistent with the target entry's state is applied."""
     disabled_entry = MockConfigEntry(
@@ -6210,7 +6210,7 @@ async def test_move_with_explicit_disabled_by(
 
 
 async def test_move_to_config_entry_with_colliding_identity_raises(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Moving a device onto a config entry that already has its identity raises.
 
@@ -6248,7 +6248,7 @@ async def test_move_to_config_entry_with_colliding_identity_raises(
 
 
 async def test_add_identifier_keeps_other_config_entry_deleted_device(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Adding an identifier does not delete a matching deleted device of another entry.
 
@@ -6285,7 +6285,7 @@ async def test_add_identifier_keeps_other_config_entry_deleted_device(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_migration_remaps_via_device_id_to_split(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """A child's via_device_id is remapped to a live parent split.
 
@@ -6396,7 +6396,7 @@ async def test_migration_remaps_via_device_id_to_split(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_migration_from_3_1_rewrites_stale_via_device_id(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Stale via_device_id links are remapped or detached when migrating from 3.1."""
     entry_a = MockConfigEntry(domain="dom_a")
@@ -6549,7 +6549,7 @@ async def test_migration_from_3_1_rewrites_stale_via_device_id(
     ],
 )
 async def test_migration_split_disabled_by_follows_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     composite_disabled_by: dr.DeviceEntryDisabler | None,
     expected_split_enabled: dr.DeviceEntryDisabler | None,
@@ -6627,7 +6627,7 @@ async def test_migration_split_disabled_by_follows_config_entry(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_disabled_by_not_reconciled_without_composite_split(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """disabled_by is reconciled only for split composites, not other migrated devices.
 
@@ -6694,7 +6694,7 @@ async def test_disabled_by_not_reconciled_without_composite_split(
     ],
 )
 async def test_migrate_device_disabled_by_matches_runtime(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     initial_disabled_by: dr.DeviceEntryDisabler | None,
     config_entry_disabled: bool,
@@ -6729,7 +6729,7 @@ async def test_migrate_device_disabled_by_matches_runtime(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_composite_lineage_not_restored_after_remove(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """A migrated split loses its composite lineage once removed.
 
@@ -6800,7 +6800,7 @@ async def test_composite_lineage_not_restored_after_remove(
 
 
 async def test_cleanup_device_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -6839,7 +6839,7 @@ async def test_cleanup_device_registry(
 
 
 async def test_cleanup_device_registry_removes_expired_orphaned_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -6875,7 +6875,7 @@ async def test_cleanup_device_registry_removes_expired_orphaned_devices(
     assert len(device_registry._deleted_devices) == 0
 
 
-async def test_cleanup_startup(hass: __HAC_KEEP__) -> None:
+async def test_cleanup_startup(hass: UniversalAssistant) -> None:
     """Test we run a cleanup on startup."""
     hass.set_state(CoreState.not_running)
 
@@ -6890,7 +6890,7 @@ async def test_cleanup_startup(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_cleanup_entity_registry_change(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we run a cleanup when entity registry changes.
 
@@ -6934,7 +6934,7 @@ async def test_cleanup_entity_registry_change(
 @pytest.mark.parametrize("initial_area", [None, "12345A"])
 @pytest.mark.usefixtures("freezer")
 async def test_restore_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry_with_subentries: MockConfigEntry,
     initial_area: str | None,
@@ -7209,7 +7209,7 @@ async def test_deleted_device_to_device_entry_uses_reregistered_identity(
 )
 @pytest.mark.usefixtures("freezer")
 async def test_restore_migrated_device_disabled_by(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     device_disabled_by: dr.DeviceEntryDisabler | Undefined | None,
@@ -7374,7 +7374,7 @@ async def test_restore_migrated_device_disabled_by(
 )
 @pytest.mark.usefixtures("freezer")
 async def test_restore_disabled_by(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     config_entry_disabled_by: config_entries.ConfigEntryDisabler | None,
@@ -7672,7 +7672,7 @@ async def test_verify_suggested_area_does_not_overwrite_area_id(
 
 
 async def test_disable_config_entry_disables_devices(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test that we disable entities tied to a config entry."""
     config_entry = MockConfigEntry(domain="light")
@@ -7746,7 +7746,7 @@ async def test_disable_config_entry_disables_devices(
     ],
 )
 async def test_device_info_configuration_url_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     configuration_url: str | URL | None,
     expectation: AbstractContextManager,
@@ -7797,7 +7797,7 @@ async def test_device_info_configuration_url_validation(
     ],
 )
 async def test_device_info_string_field_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
     field: str,
@@ -7833,7 +7833,7 @@ async def test_device_info_string_field_validation(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_loading_invalid_configuration_url_from_storage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -7889,7 +7889,7 @@ async def test_loading_invalid_configuration_url_from_storage(
 
 
 async def test_removing_labels(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Make sure we can clear labels."""
     config_entry = MockConfigEntry()
@@ -7920,7 +7920,7 @@ async def test_removing_labels(
 
 
 async def test_removing_labels_deleted_device(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Make sure we can clear labels."""
     config_entry = MockConfigEntry()
@@ -7979,7 +7979,7 @@ async def test_removing_labels_deleted_device(
 
 
 async def test_entries_for_label(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test getting device entries by label."""
     config_entry = MockConfigEntry()
@@ -8075,7 +8075,7 @@ async def test_entries_for_label(
     ],
 )
 async def test_device_name_translation_placeholders(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     translation_key: str | None,
     translations: dict[str, str] | None,
@@ -8085,7 +8085,7 @@ async def test_device_name_translation_placeholders(
     """Test device name when the device name translation has placeholders."""
 
     def async_get_cached_translations(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         language: str,
         category: str,
         integrations: Iterable[str] | None = None,
@@ -8149,7 +8149,7 @@ async def test_device_name_translation_placeholders(
             {"placeholder": "special"},
             ReleaseChannel.BETA,
             pytest.raises(
-                __HAC_KEEP__Error, match="Missing placeholder '2ndplaceholder'"
+                UniversalAssistantError, match="Missing placeholder '2ndplaceholder'"
             ),
             "",
         ),
@@ -8173,7 +8173,7 @@ async def test_device_name_translation_placeholders(
     ],
 )
 async def test_device_name_translation_placeholders_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     translation_key: str | None,
     translations: dict[str, str] | None,
@@ -8186,7 +8186,7 @@ async def test_device_name_translation_placeholders_errors(
     """Test device name has placeholder issuess."""
 
     def async_get_cached_translations(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         language: str,
         category: str,
         integrations: Iterable[str] | None = None,
@@ -8220,7 +8220,7 @@ async def test_device_name_translation_placeholders_errors(
 
 
 async def test_async_get_or_create_thread_safety(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -8247,7 +8247,7 @@ async def test_async_get_or_create_thread_safety(
 
 
 async def test_async_remove_device_thread_safety(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -8274,7 +8274,7 @@ async def test_async_remove_device_thread_safety(
 
 
 async def test_device_registry_connections_collision(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test connection collisions in the device registry."""
     config_entry = MockConfigEntry()
@@ -8305,7 +8305,7 @@ async def test_device_registry_connections_collision(
     # Attempt to merge connection for device3 with the same
     # connection that already exists in device1
     with pytest.raises(
-        __HAC_KEEP__Error, match=f"Connections.*already registered.*{device1.id}"
+        UniversalAssistantError, match=f"Connections.*already registered.*{device1.id}"
     ):
         device_registry.async_update_device(
             device3.id,
@@ -8318,7 +8318,7 @@ async def test_device_registry_connections_collision(
     # Attempt to add new connections for device3 with the same
     # connection that already exists in device1
     with pytest.raises(
-        __HAC_KEEP__Error, match=f"Connections.*already registered.*{device1.id}"
+        UniversalAssistantError, match=f"Connections.*already registered.*{device1.id}"
     ):
         device_registry.async_update_device(
             device3.id,
@@ -8363,7 +8363,7 @@ async def test_device_registry_connections_collision(
 
 
 async def test_device_registry_identifiers_collision(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test identifiers collisions in the device registry."""
     config_entry = MockConfigEntry()
@@ -8394,7 +8394,7 @@ async def test_device_registry_identifiers_collision(
     # Attempt to merge identifiers for device3 with the same
     # connection that already exists in device1
     with pytest.raises(
-        __HAC_KEEP__Error, match=f"Identifiers.*already registered.*{device1.id}"
+        UniversalAssistantError, match=f"Identifiers.*already registered.*{device1.id}"
     ):
         device_registry.async_update_device(
             device3.id, merge_identifiers={("bridgeid", "0123"), ("bridgeid", "8888")}
@@ -8403,7 +8403,7 @@ async def test_device_registry_identifiers_collision(
     # Attempt to add new identifiers for device3 with the same
     # connection that already exists in device1
     with pytest.raises(
-        __HAC_KEEP__Error, match=f"Identifiers.*already registered.*{device1.id}"
+        UniversalAssistantError, match=f"Identifiers.*already registered.*{device1.id}"
     ):
         device_registry.async_update_device(
             device3.id, new_identifiers={("bridgeid", "0123"), ("bridgeid", "8888")}
@@ -8440,7 +8440,7 @@ async def test_device_registry_identifiers_collision(
 
 
 async def test_device_registry_deleted_device_collision(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test update collisions with deleted devices in the device registry."""
     config_entry = MockConfigEntry()
@@ -8511,7 +8511,7 @@ async def test_update_device_no_connections_or_identifiers(
         config_entry_id=mock_config_entry.entry_id, **initial
     )
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="A device must have at least one of identifiers or connections",
     ):
         device_registry.async_update_device(device.id, **update)
@@ -8547,7 +8547,7 @@ async def test_update_device_can_clear_one_identity_side(
 
 
 async def test_update_device_empty_identity_rejected_before_mutation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test the empty-identity rejection runs before any sibling state is mutated.
@@ -8581,7 +8581,7 @@ async def test_update_device_empty_identity_rejected_before_mutation(
     # Removing device_1's owning entry completes its pending move (which would clear the
     # sibling's pending move) while new_identifiers=set() empties its identity
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="A device must have at least one of identifiers or connections",
     ):
         device_registry.async_update_device(
@@ -8606,7 +8606,7 @@ async def test_connections_validator() -> None:
 
 
 async def test_suggested_area_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     area_registry: ar.AreaRegistry,
     mock_config_entry: MockConfigEntry,
@@ -8681,7 +8681,7 @@ def _composite_device_storage(
 
 
 async def test_single_config_entry_and_compat_properties(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """A device has a single config entry; the deprecated shims reflect it."""
     entry = MockConfigEntry(domain="domain_a")
@@ -8764,7 +8764,7 @@ async def test_deprecated_config_entries_properties(
 )
 @pytest.mark.usefixtures("mock_integration_frame")
 async def test_deprecated_config_entries_properties_composite_exempt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
     property_name: str,
@@ -8848,7 +8848,7 @@ async def test_deprecated_config_entries_properties_deleted_device(
 
 
 async def test_identifiers_unique_per_config_entry(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """The same identifier under two config entries yields two devices."""
     entry_a = MockConfigEntry(domain="domain_a")
@@ -8881,7 +8881,7 @@ async def test_identifiers_unique_per_config_entry(
 
 
 async def test_collision_only_within_same_config_entry(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """A collision is raised only for two devices of the same config entry."""
     entry = MockConfigEntry(domain="domain_a")
@@ -8902,7 +8902,7 @@ async def test_collision_only_within_same_config_entry(
 
 
 async def test_remove_shadowed_collision_keeps_index_consistent(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Removing a device that shadows a same-entry collision keeps the index consistent.
 
@@ -8947,7 +8947,7 @@ async def test_remove_shadowed_collision_keeps_index_consistent(
 
 
 async def test_remove_device_promotes_shadowed_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Removing the indexed holder of a duplicate key promotes the shadowed one."""
     entry = MockConfigEntry(domain="test")
@@ -8981,7 +8981,7 @@ async def test_remove_device_promotes_shadowed_duplicate(
 
 
 async def test_update_device_reindexes_shadowed_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Updating a shadowed duplicate re-indexes it, so it wins the lookups."""
     entry = MockConfigEntry(domain="test")
@@ -9049,7 +9049,7 @@ async def test_update_device_reindexes_shadowed_duplicate(
     ],
 )
 async def test_legacy_duplicate_keys_stripped_on_registration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     device_extra: dict[str, set[tuple[str, str]]],
     stale_extra: dict[str, set[tuple[str, str]]],
@@ -9128,7 +9128,7 @@ async def test_legacy_duplicate_keys_stripped_on_registration(
 
 
 async def test_legacy_duplicate_fully_stripped_device_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A stale duplicate left without any keys is removed, also from deleted devices."""
     entry = MockConfigEntry(domain="test")
@@ -9165,7 +9165,7 @@ async def test_legacy_duplicate_fully_stripped_device_removed(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_loading_from_storage_with_legacy_duplicates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -9265,7 +9265,7 @@ async def test_loading_from_storage_with_legacy_duplicates(
 
 
 async def test_registration_purges_same_entry_deleted_duplicates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Registering a device purges same-entry deleted devices holding its keys.
@@ -9313,7 +9313,7 @@ async def test_registration_purges_same_entry_deleted_duplicates(
 
 
 async def test_restore_purges_same_entry_deleted_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Restoring a deleted device purges its same-entry deleted duplicates."""
     entry = MockConfigEntry(domain="test")
@@ -9337,7 +9337,7 @@ async def test_restore_purges_same_entry_deleted_duplicate(
 
 
 async def test_add_identifier_prunes_shadowed_deleted_duplicates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Gaining an identifier removes all matching same-entry deleted devices.
 
@@ -9365,7 +9365,7 @@ async def test_add_identifier_prunes_shadowed_deleted_duplicates(
 
 
 async def test_via_device_id_to_removed_stale_duplicate_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A via_device_id to a stale duplicate removed by reconciliation raises."""
     entry = MockConfigEntry(domain="test")
@@ -9396,7 +9396,7 @@ async def test_via_device_id_to_removed_stale_duplicate_raises(
 
 
 async def test_key_collision_reconciled_after_config_entry_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """A key moved between devices raises while loaded and reconciles after reload."""
@@ -9457,7 +9457,7 @@ async def test_key_collision_reconciled_after_config_entry_reload(
 
 
 async def test_key_collision_reconciled_after_setup_retry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """A key moved between devices reconciles on the retry after a failed setup."""
@@ -9467,7 +9467,7 @@ async def test_key_collision_reconciled_after_setup_retry(
     connection = (dr.CONNECTION_NETWORK_MAC, "12:34:56:ab:cd:ef")
 
     async def first_attempt(
-        hass: __HAC_KEEP__, config_entry: config_entries.ConfigEntry
+        hass: UniversalAssistant, config_entry: config_entries.ConfigEntry
     ) -> None:
         device_registry.async_get_or_create(
             config_entry_id=config_entry.entry_id,
@@ -9481,7 +9481,7 @@ async def test_key_collision_reconciled_after_setup_retry(
         raise ConfigEntryNotReady
 
     async def second_attempt(
-        hass: __HAC_KEEP__, config_entry: config_entries.ConfigEntry
+        hass: UniversalAssistant, config_entry: config_entries.ConfigEntry
     ) -> None:
         device_registry.async_get_or_create(
             config_entry_id=config_entry.entry_id,
@@ -9492,7 +9492,7 @@ async def test_key_collision_reconciled_after_setup_retry(
     attempts = [first_attempt, second_attempt]
 
     async def async_setup_entry(
-        hass: __HAC_KEEP__, config_entry: config_entries.ConfigEntry
+        hass: UniversalAssistant, config_entry: config_entries.ConfigEntry
     ) -> None:
         await attempts.pop(0)(hass, config_entry)
 
@@ -9539,7 +9539,7 @@ async def test_key_collision_reconciled_after_setup_retry(
     ],
 )
 async def test_move_with_merge_validates_retained_identity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     identity: dict[str, set[tuple[str, str]]],
     merge_kwarg: str,
@@ -9572,7 +9572,7 @@ async def test_move_with_merge_validates_retained_identity(
 
 
 async def test_move_two_calls_add_then_remove(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test add_config_entry_id records a pending move; the later remove performs it."""
     entry_a = MockConfigEntry(domain="domain_a")
@@ -9597,7 +9597,7 @@ async def test_move_two_calls_add_then_remove(
 
 
 async def test_move_new_config_entry_id(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test new_config_entry_id moves the device immediately."""
     entry_a = MockConfigEntry(domain="domain_a")
@@ -9613,7 +9613,7 @@ async def test_move_new_config_entry_id(
 
 
 async def test_move_new_and_add_raises(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test mixing new_config_entry_id with add/remove raises."""
     entry_a = MockConfigEntry(domain="domain_a")
@@ -9624,7 +9624,7 @@ async def test_move_new_and_add_raises(
         config_entry_id=entry_a.entry_id, identifiers={("domain_a", "1")}
     )
 
-    with pytest.raises(__HAC_KEEP__Error, match="Can't combine"):
+    with pytest.raises(UniversalAssistantError, match="Can't combine"):
         device_registry.async_update_device(
             device.id,
             new_config_entry_id=entry_b.entry_id,
@@ -9633,11 +9633,11 @@ async def test_move_new_and_add_raises(
 
 
 async def test_async_get_or_create_unknown_config_entry(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test async_get_or_create raises for an unknown config entry."""
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Can't link device to unknown config entry unknown-config-entry",
     ):
         device_registry.async_get_or_create(
@@ -9692,7 +9692,7 @@ async def test_async_get_or_create_unknown_config_entry(
     ],
 )
 async def test_update_device_config_entry_grammar_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     make_update_kwargs: Callable[[MockConfigEntry], dict[str, Any]],
     error_match: str,
@@ -9723,12 +9723,12 @@ async def test_update_device_config_entry_grammar_errors(
         identifiers={("bridgeid", "0123")},
     )
 
-    with pytest.raises(__HAC_KEEP__Error, match=error_match):
+    with pytest.raises(UniversalAssistantError, match=error_match):
         device_registry.async_update_device(device.id, **make_update_kwargs(entry))
 
 
 async def test_move_device_to_config_subentry(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """A device can be moved to another subentry of its config entry.
 
@@ -9789,7 +9789,7 @@ async def test_move_device_to_config_subentry(
 
 
 async def test_move_device_to_config_entry_and_subentry(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """A deferred move can target another config entry and one of its subentries."""
     entry_a = MockConfigEntry()
@@ -9825,7 +9825,7 @@ async def test_move_device_to_config_entry_and_subentry(
 
 
 async def test_pending_move_overwritten_by_later_add(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """A later add_config_entry_id / add_config_subentry_id overwrites the pending move."""
     entry_1 = MockConfigEntry()
@@ -9883,7 +9883,7 @@ async def test_pending_move_overwritten_by_later_add(
 
 
 async def test_new_config_entry_id_clears_pending_move(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """An immediate new_config_entry_id move clears an earlier pending move.
 
@@ -9916,7 +9916,7 @@ async def test_new_config_entry_id_clears_pending_move(
 
 
 async def test_pending_move_canceled_by_cross_domain_removal(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """A removal from a different integration than the one that armed the move cancels it.
 
@@ -9952,7 +9952,7 @@ async def test_pending_move_canceled_by_cross_domain_removal(
 
 
 async def test_pending_move_completed_by_same_domain_removal(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """A removal from the same integration that armed the move completes it."""
     entry_1 = MockConfigEntry(domain="test")
@@ -9976,7 +9976,7 @@ async def test_pending_move_completed_by_same_domain_removal(
 
 
 async def test_composite_move_clears_sibling_pending_moves(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Completing one split's move clears the pending move on its composite siblings.
 
@@ -10034,7 +10034,7 @@ async def test_composite_move_clears_sibling_pending_moves(
 
 
 async def test_composite_move_unknown_via_device_id_keeps_sibling_moves(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """An unknown via_device_id raises before a move clears sibling pending moves."""
     entry_1 = MockConfigEntry(domain="test")
@@ -10067,7 +10067,7 @@ async def test_composite_move_unknown_via_device_id_keeps_sibling_moves(
     # The failed call must not move the device or clear the sibling's pending move
     with (
         patch.object(dr, "_current_integration_domain", return_value="test"),
-        pytest.raises(__HAC_KEEP__Error, match="unknown via device unknown-device-id"),
+        pytest.raises(UniversalAssistantError, match="unknown via device unknown-device-id"),
     ):
         device_registry.async_update_device(
             device_1.id,
@@ -10090,7 +10090,7 @@ async def test_composite_move_unknown_via_device_id_keeps_sibling_moves(
 
 
 async def test_add_and_remove_config_entry_in_one_call(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """add_config_entry_id and remove_config_entry_id of the owner move in a single call."""
     entry_1 = MockConfigEntry()
@@ -10136,7 +10136,7 @@ async def test_add_and_remove_config_entry_in_one_call(
 
 
 async def test_remove_non_owner_config_entry_keeps_device(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """remove_config_entry_id of a non-owning entry does not perform the pending move."""
     entry_1 = MockConfigEntry()
@@ -10169,7 +10169,7 @@ async def test_remove_non_owner_config_entry_keeps_device(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_reregistration_replaces_composite_identifiers(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """First re-registration replaces the copied identifiers with the provided ones."""
     entry_a = MockConfigEntry(domain="domain_a")
@@ -10199,7 +10199,7 @@ async def test_reregistration_replaces_composite_identifiers(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_async_get_returns_restored_composite(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test async_get on the legacy id returns a merged, on-demand composite."""
     entry_a = MockConfigEntry(domain="domain_a")
@@ -10247,7 +10247,7 @@ async def test_is_composite_device_main_and_child(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_is_composite_device_restored_composite(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """A restored composite reports is_composite_device True."""
     entry_a = MockConfigEntry(domain="domain_a")
@@ -10272,7 +10272,7 @@ async def test_is_composite_device_restored_composite(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_restored_composite_preserves_primary_config_entry(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """The restored composite reports the pre-migration composite's former primary.
 
@@ -10305,7 +10305,7 @@ async def test_restored_composite_preserves_primary_config_entry(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_get_composite_splits(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test getting the mapping of composite device ids to their split devices."""
     entry_a = MockConfigEntry(domain="domain_a")
@@ -10348,7 +10348,7 @@ async def test_get_composite_splits(
 
 
 async def test_async_get_device_and_config_entry_for_domain(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test getting the device and config entry of a domain owning a device."""
     entry = MockConfigEntry(domain="domain_a")
@@ -10372,7 +10372,7 @@ async def test_async_get_device_and_config_entry_for_domain(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_async_get_device_and_config_entry_for_domain_composite(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test getting the device and config entry via a composite device id."""
     entry_a = MockConfigEntry(domain="domain_a")
@@ -10410,7 +10410,7 @@ async def test_async_get_device_and_config_entry_for_domain_composite(
 
 
 async def test_async_get_device_and_config_entry_for_domain_child_devices(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test getting the device and config entry of a domain owning a child device."""
     entry = MockConfigEntry(domain="domain_a")
@@ -10450,7 +10450,7 @@ async def test_async_get_device_and_config_entry_for_domain_child_devices(
 
 
 async def test_async_get_device_and_config_entry_for_domain_no_main_devices(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test getting the device and config entry with main devices excluded."""
     entry = MockConfigEntry(domain="domain_a")
@@ -10494,7 +10494,7 @@ async def test_async_get_device_and_config_entry_for_domain_no_main_devices(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_async_get_device_and_config_entry_for_domain_composite_flags(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test the include_* flags for a composite device id."""
     entry_a = MockConfigEntry(domain="domain_a")
@@ -10542,7 +10542,7 @@ async def test_async_get_device_and_config_entry_for_domain_composite_flags(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_clear_config_entry_clears_composite_primary_config_entry(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Clearing the composite's former primary config entry clears the dangling ref."""
     entry_a = MockConfigEntry(domain="domain_a")
@@ -10584,7 +10584,7 @@ async def test_clear_config_entry_clears_composite_primary_config_entry(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_clear_non_primary_config_entry_keeps_composite_primary_config_entry(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Clearing a non-primary config entry leaves composite_primary_config_entry intact."""
     entry_a = MockConfigEntry(domain="domain_a")
@@ -10609,7 +10609,7 @@ async def test_clear_non_primary_config_entry_keeps_composite_primary_config_ent
 
 
 async def test_dict_repr_dual_writes_deprecated_keys(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test dict_repr exposes both the new and the deprecated compatibility keys."""
     entry = MockConfigEntry(domain="domain_a")
@@ -10655,7 +10655,7 @@ def _create_parent_and_child(
 
 
 async def test_child_device_create(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -10979,7 +10979,7 @@ async def test_child_device_create_errors(
 
 
 async def test_child_device_parent_in_other_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -11046,7 +11046,7 @@ async def test_child_device_subentry(
 
 
 async def test_child_device_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -11097,14 +11097,14 @@ async def test_update_device_wrong_kind_of_device_id_raises(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=f"Device {child_device.id} is a child device; "
         "use async_update_child_device",
     ):
         device_registry.async_update_device(child_device.id, name_by_user="Nope")
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=f"Device {parent.id} is a main device; use async_update_device",
     ):
         device_registry.async_update_child_device(parent.id, name_by_user="Nope")
@@ -11130,7 +11130,7 @@ async def test_update_main_device_rejects_disabled_by_device(
     match = "disabled_by=DeviceEntryDisabler.DEVICE is only valid for a child device"
 
     # The create path rejects it, before a (phantom) device is created
-    with pytest.raises(__HAC_KEEP__Error, match=match):
+    with pytest.raises(UniversalAssistantError, match=match):
         device_registry.async_get_or_create(
             config_entry_id=mock_config_entry.entry_id,
             identifiers={("test", "main")},
@@ -11144,7 +11144,7 @@ async def test_update_main_device_rejects_disabled_by_device(
         identifiers={("test", "main")},
     )
     assert device.disabled_by is None
-    with pytest.raises(__HAC_KEEP__Error, match=match):
+    with pytest.raises(UniversalAssistantError, match=match):
         device_registry.async_update_device(
             device.id, disabled_by=dr.DeviceEntryDisabler.DEVICE
         )
@@ -11174,7 +11174,7 @@ async def test_get_or_create_disabled_by_device_does_not_restore_deleted_device(
         disabled_by=Undefined,
     )
 
-    with pytest.raises(__HAC_KEEP__Error, match=match):
+    with pytest.raises(UniversalAssistantError, match=match):
         device_registry.async_get_or_create(
             config_entry_id=mock_config_entry.entry_id,
             identifiers=identifiers,
@@ -11212,7 +11212,7 @@ async def test_child_device_update_identifiers(
     )
     assert updated.identifiers == {("test", "strip_outlet_1")}
 
-    with pytest.raises(__HAC_KEEP__Error, match="must have at least one identifier"):
+    with pytest.raises(UniversalAssistantError, match="must have at least one identifier"):
         device_registry.async_update_child_device(
             child_device.id, new_identifiers=set()
         )
@@ -11280,7 +11280,7 @@ async def test_child_device_get_or_create_merges_identifiers(
 
 
 async def test_remove_parent_cascades_to_children(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -11505,7 +11505,7 @@ async def test_child_device_disabled_by_reconciled_with_parent(
 
 
 async def test_config_entry_reenable_with_user_disabled_parent_no_warning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -11568,7 +11568,7 @@ async def test_config_entry_reenable_with_user_disabled_parent_no_warning(
 
 
 async def test_config_entry_disable_with_children(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -11603,7 +11603,7 @@ async def test_config_entry_disable_with_children(
 
 
 async def test_disable_child_device_directly_disables_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -11638,7 +11638,7 @@ async def test_disable_child_device_directly_disables_entities(
 
 
 async def test_move_parent_with_children_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -11647,7 +11647,7 @@ async def test_move_parent_with_children_rejected(
     other_entry.add_to_hass(hass)
     parent, _ = _create_parent_and_child(device_registry, mock_config_entry.entry_id)
 
-    with pytest.raises(__HAC_KEEP__Error, match="has child devices"):
+    with pytest.raises(UniversalAssistantError, match="has child devices"):
         device_registry.async_update_device(
             parent.id, new_config_entry_id=other_entry.entry_id
         )
@@ -11660,7 +11660,7 @@ async def test_move_parent_with_children_rejected(
 
 
 async def test_convert_device_to_child_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -11964,7 +11964,7 @@ async def test_update_device_via_device_id_naming_child_raises(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="is a child device, which can't be a via device",
     ):
         device_registry.async_update_device(device.id, via_device_id=child_device.id)
@@ -12016,7 +12016,7 @@ async def test_deleted_device_restored_as_child_device(
 
 
 async def test_child_device_orphan_restore(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -12049,7 +12049,7 @@ async def test_child_device_orphan_restore(
 
 
 async def test_child_device_load_and_save(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
@@ -12129,7 +12129,7 @@ async def test_child_device_stored_fragment(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_migration_3_3_to_3_4(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -12187,7 +12187,7 @@ async def test_migration_3_3_to_3_4(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_loading_child_device_with_missing_parent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -12234,7 +12234,7 @@ async def test_loading_child_device_with_missing_parent(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_loading_drops_empty_deleted_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -12297,7 +12297,7 @@ async def test_loading_drops_empty_deleted_devices(
 
 
 async def test_effective_area_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -12463,7 +12463,7 @@ async def test_entries_for_label_includes_child_devices(
 
 
 async def test_async_cleanup_removes_child_device_with_missing_parent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -12492,7 +12492,7 @@ async def test_async_cleanup_removes_child_device_with_missing_parent(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_async_cleanup_removes_child_device_with_stale_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -12616,7 +12616,7 @@ async def test_device_info_with_connections_matching_child_raises(
 
 @pytest.mark.usefixtures("hass")
 async def test_live_child_device_identifier_collision_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -12654,7 +12654,7 @@ async def test_live_child_device_identifier_collision_raises(
 
 
 async def test_child_and_main_device_same_identifier_across_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -12861,7 +12861,7 @@ async def test_deleted_device_restored_as_child_of_disabled_parent(
 
 
 async def test_deleted_device_restored_as_child_under_disabled_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -12887,7 +12887,7 @@ async def test_deleted_device_restored_as_child_under_disabled_config_entry(
 
 
 async def test_config_entry_disabled_deleted_device_restored_as_child(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -12929,7 +12929,7 @@ async def test_config_entry_disabled_deleted_device_restored_as_child(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_legacy_undefined_disabled_deleted_device_restored_as_child(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -13045,7 +13045,7 @@ async def test_convert_device_to_child_subentry_mismatch(
 
 
 async def test_convert_device_with_composite_identifiers_to_child(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -13088,7 +13088,7 @@ async def test_convert_device_with_composite_identifiers_to_child(
 
 
 async def test_convert_device_to_child_of_disabled_parent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -13126,7 +13126,7 @@ async def test_convert_device_to_child_of_disabled_parent(
 
 
 async def test_move_parent_with_pending_move_and_children_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -13141,7 +13141,7 @@ async def test_move_parent_with_pending_move_and_children_rejected(
     )
 
     # Completing the pending move by removing the current owner is rejected
-    with pytest.raises(__HAC_KEEP__Error, match="has child devices"):
+    with pytest.raises(UniversalAssistantError, match="has child devices"):
         device_registry._async_update_device(
             parent.id, remove_config_entry_id=mock_config_entry.entry_id
         )
@@ -13166,7 +13166,7 @@ async def test_update_child_device_both_identifier_args_raises(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Cannot define both merge_identifiers and new_identifiers",
     ):
         device_registry._async_update_child_device(
@@ -13177,7 +13177,7 @@ async def test_update_child_device_both_identifier_args_raises(
 
 
 async def test_update_child_disabled_by_none_on_disabled_config_entry_reports(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -13224,7 +13224,7 @@ async def test_update_child_disabled_by_config_entry_on_enabled_entry_reports(
 
 
 async def test_create_child_device_under_disabled_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:

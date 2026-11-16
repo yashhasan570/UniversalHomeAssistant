@@ -5,8 +5,8 @@ from typing import override
 from pynobo import PynoboError, nobo
 
 from universalassistant.components.select import SelectEntity
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -25,7 +25,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: NoboHubConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -82,7 +82,7 @@ class NoboGlobalSelector(NoboBaseEntity, SelectEntity):
     _attr_current_option: str | None = None
 
     def __init__(
-        self, hass: __HAC_KEEP__, hub: nobo, override_type: str, entry_id: str
+        self, hass: UniversalAssistant, hub: nobo, override_type: str, entry_id: str
     ) -> None:
         """Initialize the global override selector."""
         super().__init__(hass, hub, entry_id)
@@ -107,7 +107,7 @@ class NoboGlobalSelector(NoboBaseEntity, SelectEntity):
                 mode, self._override_type, nobo.API.OVERRIDE_TARGET_GLOBAL
             )
         except PynoboError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_global_override_failed",
             ) from err
@@ -133,7 +133,7 @@ class NoboProfileSelector(NoboBaseEntity, SelectEntity):
     _attr_current_option: str | None = None
 
     def __init__(
-        self, hass: __HAC_KEEP__, zone_id: str, hub: nobo, entry_id: str
+        self, hass: UniversalAssistant, zone_id: str, hub: nobo, entry_id: str
     ) -> None:
         """Initialize the week profile selector."""
         super().__init__(hass, hub, entry_id)
@@ -158,7 +158,7 @@ class NoboProfileSelector(NoboBaseEntity, SelectEntity):
                 self._id, week_profile_id=week_profile_id
             )
         except PynoboError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_week_profile_failed",
             ) from err

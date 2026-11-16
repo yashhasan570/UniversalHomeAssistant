@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING, Self, TypedDict
 
 from cronsim import CronSim
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.event import async_call_later, async_track_point_in_time
 from universalassistant.helpers.typing import Undefined
@@ -163,7 +163,7 @@ class BackupConfigData:
 class BackupConfig:
     """Handle backup config."""
 
-    def __init__(self, hass: __HAC_KEEP__, manager: BackupManager) -> None:
+    def __init__(self, hass: UniversalAssistant, manager: BackupManager) -> None:
         """Initialize backup config."""
         self.data = BackupConfigData(
             agents={},
@@ -794,7 +794,7 @@ async def delete_backups_exceeding_configured_count(manager: BackupManager) -> N
 
 
 @callback
-def check_unavailable_agents(hass: __HAC_KEEP__, manager: BackupManager) -> None:
+def check_unavailable_agents(hass: UniversalAssistant, manager: BackupManager) -> None:
     """Check for unavailable agents."""
     if missing_agent_ids := set(manager.config.data.create_backup.agent_ids) - set(
         manager.backup_agents

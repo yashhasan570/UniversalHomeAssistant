@@ -8,12 +8,12 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.kaco_rs485.const import DOMAIN
 from universalassistant.components.kaco_rs485.coordinator import SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 
 async def test_setup_and_unload_entry(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Test a config entry sets up and unloads."""
     assert init_integration.state is ConfigEntryState.LOADED
@@ -25,7 +25,7 @@ async def test_setup_and_unload_entry(
 
 
 async def test_unload_closes_the_bus(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_bus: FakeBus,
 ) -> None:
@@ -39,7 +39,7 @@ async def test_unload_closes_the_bus(
 
 
 async def test_a_bus_that_cannot_be_opened_is_retried(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_bus: FakeBus,
 ) -> None:
@@ -54,7 +54,7 @@ async def test_a_bus_that_cannot_be_opened_is_retried(
 
 
 async def test_failed_setup_leaves_no_open_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_bus: FakeBus,
 ) -> None:
@@ -103,7 +103,7 @@ def _device(
 
 
 async def _polled(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, bus: FakeBus
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, bus: FakeBus
 ) -> set[int]:
     """Run one cycle and return the addresses it actually asked."""
     bus.requests.clear()
@@ -114,7 +114,7 @@ async def _polled(
 
 
 async def test_a_disabled_inverter_is_dropped_from_the_poll_cycle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     init_integration: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -132,7 +132,7 @@ async def test_a_disabled_inverter_is_dropped_from_the_poll_cycle(
 
 
 async def test_an_entry_with_every_inverter_disabled_does_not_open_the_port(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     init_integration: MockConfigEntry,
     device_registry: dr.DeviceRegistry,

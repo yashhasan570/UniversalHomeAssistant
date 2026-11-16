@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 from aiopulse import Roller
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 @callback
 def async_add_acmeda_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_class: type,
     config_entry: AcmedaConfigEntry,
     current: set[int],
@@ -40,7 +40,7 @@ def async_add_acmeda_entities(
 
 
 async def update_devices(
-    hass: __HAC_KEEP__, config_entry: AcmedaConfigEntry, api: dict[int, Roller]
+    hass: UniversalAssistant, config_entry: AcmedaConfigEntry, api: dict[int, Roller]
 ) -> None:
     """Tell hass that device info has been updated."""
     dev_registry = dr.async_get(hass)

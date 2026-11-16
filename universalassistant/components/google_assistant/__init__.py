@@ -4,7 +4,7 @@ import probatio
 
 from universalassistant.config_entries import SOURCE_IMPORT, ConfigEntry
 from universalassistant.const import CONF_API_KEY, CONF_NAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.typing import ConfigType
@@ -100,7 +100,7 @@ CONFIG_SCHEMA = probatio.Schema(
 type GoogleConfigEntry = ConfigEntry[GoogleConfig]
 
 
-async def async_setup(hass: __HAC_KEEP__, yaml_config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, yaml_config: ConfigType) -> bool:
     """Activate Google Actions component."""
     if DOMAIN not in yaml_config:
         return True
@@ -120,7 +120,7 @@ async def async_setup(hass: __HAC_KEEP__, yaml_config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: GoogleConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: GoogleConfigEntry) -> None:
     """Set up from a config entry."""
 
     config: ConfigType = hass.data[DATA_CONFIG].copy()

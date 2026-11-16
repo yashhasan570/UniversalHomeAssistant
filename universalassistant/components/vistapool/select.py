@@ -7,8 +7,8 @@ from aioaquarite import AquariteError
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -103,7 +103,7 @@ def _build_select_entities(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: VistapoolConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -181,7 +181,7 @@ class VistapoolSelect(VistapoolEntity, SelectEntity):
                 value,
             )
         except AquariteError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_failed",
                 translation_placeholders={"entity": self.entity_id},
@@ -225,7 +225,7 @@ class VistapoolLightModeSelect(VistapoolEntity, SelectEntity):
         try:
             await self.coordinator.api.set_values(self.coordinator.pool_id, updates)
         except AquariteError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_failed",
                 translation_placeholders={"entity": self.entity_id},

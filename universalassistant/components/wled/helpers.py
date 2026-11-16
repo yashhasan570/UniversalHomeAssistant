@@ -5,7 +5,7 @@ from typing import Any, Concatenate
 
 from wled import WLEDConnectionError, WLEDError
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import DOMAIN
 from .entity import WLEDEntity
@@ -28,13 +28,13 @@ def wled_exception_handler[_WLEDEntityT: WLEDEntity, **_P](
         except WLEDConnectionError as error:
             self.coordinator.last_update_success = False
             self.coordinator.async_update_listeners()
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="connection_error",
                 translation_placeholders={"error": str(error)},
             ) from error
         except WLEDError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="invalid_response_wled_error",
                 translation_placeholders={"error": str(error)},

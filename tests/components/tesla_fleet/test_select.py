@@ -16,7 +16,7 @@ from universalassistant.components.select import (
 )
 from universalassistant.components.tesla_fleet.select import HIGH, LOW, OFF
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import assert_entities, setup_platform
@@ -25,7 +25,7 @@ from .const import COMMAND_OK, VEHICLE_DATA_ALT
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     normal_config_entry: MockConfigEntry,
@@ -37,7 +37,7 @@ async def test_select(
 
 
 async def test_select_offline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vehicle_data: AsyncMock,
     normal_config_entry: MockConfigEntry,
 ) -> None:
@@ -67,7 +67,7 @@ async def test_select_offline(
     ],
 )
 async def test_select_heat_level_out_of_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vehicle_data: AsyncMock,
     normal_config_entry: MockConfigEntry,
     field: str,
@@ -87,7 +87,7 @@ async def test_select_heat_level_out_of_range(
 
 
 async def test_select_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vehicle_data: AsyncMock,
     normal_config_entry: MockConfigEntry,
 ) -> None:
@@ -191,7 +191,7 @@ async def test_select_services(
     ],
 )
 async def test_select_steering_wheel_heat_level(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vehicle_data: AsyncMock,
     normal_config_entry: MockConfigEntry,
     option: str,

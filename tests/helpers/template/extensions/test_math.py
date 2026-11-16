@@ -1,24 +1,24 @@
-"""Test mathematical and statistical functions for __HA_KEEP__ templates."""
+"""Test mathematical and statistical functions for Universal Home Assistant templates."""
 
 import math
 
 import pytest
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import TemplateError
 from universalassistant.helpers.template.extensions import MathExtension
 
 from tests.helpers.template.helpers import render
 
 
-def test_math_constants(hass: __HAC_KEEP__) -> None:
+def test_math_constants(hass: UniversalAssistant) -> None:
     """Test math constants."""
     assert render(hass, "{{ e }}") == math.e
     assert render(hass, "{{ pi }}") == math.pi
     assert render(hass, "{{ tau }}") == math.pi * 2
 
 
-def test_logarithm(hass: __HAC_KEEP__) -> None:
+def test_logarithm(hass: UniversalAssistant) -> None:
     """Test logarithm."""
     tests = [
         (4, 2, 2.0),
@@ -50,7 +50,7 @@ def test_logarithm(hass: __HAC_KEEP__) -> None:
     assert render(hass, "{{ log(0, 10, default=1) }}") == 1
 
 
-def test_sine(hass: __HAC_KEEP__) -> None:
+def test_sine(hass: UniversalAssistant) -> None:
     """Test sine."""
     tests = [
         (0, 0.0),
@@ -77,7 +77,7 @@ def test_sine(hass: __HAC_KEEP__) -> None:
     assert render(hass, "{{ sin('no_number', default=1) }}") == 1
 
 
-def test_cosine(hass: __HAC_KEEP__) -> None:
+def test_cosine(hass: UniversalAssistant) -> None:
     """Test cosine."""
     tests = [
         (0, 1.0),
@@ -102,7 +102,7 @@ def test_cosine(hass: __HAC_KEEP__) -> None:
     assert render(hass, "{{ cos('no_number', default=1) }}") == 1
 
 
-def test_tangent(hass: __HAC_KEEP__) -> None:
+def test_tangent(hass: UniversalAssistant) -> None:
     """Test tangent."""
     tests = [
         (0, 0.0),
@@ -126,7 +126,7 @@ def test_tangent(hass: __HAC_KEEP__) -> None:
     assert render(hass, "{{ tan('no_number', default=1) }}") == 1
 
 
-def test_square_root(hass: __HAC_KEEP__) -> None:
+def test_square_root(hass: UniversalAssistant) -> None:
     """Test square root."""
     tests = [
         (0, 0.0),
@@ -156,7 +156,7 @@ def test_square_root(hass: __HAC_KEEP__) -> None:
     assert render(hass, "{{ sqrt(-1, default=1) }}") == 1
 
 
-def test_arc_functions(hass: __HAC_KEEP__) -> None:
+def test_arc_functions(hass: UniversalAssistant) -> None:
     """Test arc trigonometric functions."""
     # Test arc sine
     assert render(hass, "{{ asin(0.5) | round(3) }}") == round(math.asin(0.5), 3)
@@ -185,7 +185,7 @@ def test_arc_functions(hass: __HAC_KEEP__) -> None:
     assert render(hass, "{{ atan2('invalid', 1, 1) }}") == 1
 
 
-def test_average(hass: __HAC_KEEP__) -> None:
+def test_average(hass: UniversalAssistant) -> None:
     """Test the average function."""
     assert render(hass, "{{ average([1, 2, 3]) }}") == 2
     assert render(hass, "{{ average(1, 2, 3) }}") == 2
@@ -204,7 +204,7 @@ def test_average(hass: __HAC_KEEP__) -> None:
         render(hass, "{{ average([]) }}")
 
 
-def test_median(hass: __HAC_KEEP__) -> None:
+def test_median(hass: UniversalAssistant) -> None:
     """Test the median function."""
     assert render(hass, "{{ median([1, 2, 3]) }}") == 2
     assert render(hass, "{{ median([1, 2, 3, 4]) }}") == 2.5
@@ -222,7 +222,7 @@ def test_median(hass: __HAC_KEEP__) -> None:
         render(hass, "{{ median([]) }}")
 
 
-def test_statistical_mode(hass: __HAC_KEEP__) -> None:
+def test_statistical_mode(hass: UniversalAssistant) -> None:
     """Test the statistical mode function."""
     assert render(hass, "{{ statistical_mode([1, 1, 2, 3]) }}") == 1
     assert render(hass, "{{ statistical_mode(1, 1, 2, 3) }}") == 1
@@ -239,7 +239,7 @@ def test_statistical_mode(hass: __HAC_KEEP__) -> None:
         render(hass, "{{ statistical_mode([]) }}")
 
 
-def test_min_max_functions(hass: __HAC_KEEP__) -> None:
+def test_min_max_functions(hass: UniversalAssistant) -> None:
     """Test min and max functions."""
     # Test min function
     assert render(hass, "{{ min([1, 2, 3]) }}") == 1
@@ -257,21 +257,21 @@ def test_min_max_functions(hass: __HAC_KEEP__) -> None:
         render(hass, "{{ max() }}")
 
 
-def test_bitwise_and(hass: __HAC_KEEP__) -> None:
+def test_bitwise_and(hass: UniversalAssistant) -> None:
     """Test bitwise and."""
     assert render(hass, "{{ bitwise_and(8, 2) }}") == 0
     assert render(hass, "{{ bitwise_and(10, 2) }}") == 2
     assert render(hass, "{{ bitwise_and(8, 8) }}") == 8
 
 
-def test_bitwise_or(hass: __HAC_KEEP__) -> None:
+def test_bitwise_or(hass: UniversalAssistant) -> None:
     """Test bitwise or."""
     assert render(hass, "{{ bitwise_or(8, 2) }}") == 10
     assert render(hass, "{{ bitwise_or(8, 8) }}") == 8
     assert render(hass, "{{ bitwise_or(10, 2) }}") == 10
 
 
-def test_bitwise_xor(hass: __HAC_KEEP__) -> None:
+def test_bitwise_xor(hass: UniversalAssistant) -> None:
     """Test bitwise xor."""
     assert render(hass, "{{ bitwise_xor(8, 2) }}") == 10
     assert render(hass, "{{ bitwise_xor(8, 8) }}") == 0
@@ -286,7 +286,7 @@ def test_bitwise_xor(hass: __HAC_KEEP__) -> None:
         "c",
     ],
 )
-def test_min_max_attribute(hass: __HAC_KEEP__, attribute) -> None:
+def test_min_max_attribute(hass: UniversalAssistant, attribute) -> None:
     """Test the min and max filters with attribute."""
     hass.states.async_set(
         "test.object",
@@ -349,7 +349,7 @@ def test_min_max_attribute(hass: __HAC_KEEP__, attribute) -> None:
     )
 
 
-def test_clamp(hass: __HAC_KEEP__) -> None:
+def test_clamp(hass: UniversalAssistant) -> None:
     """Test clamp function."""
     # Test function and filter usage in templates.
     assert render(hass, "{{ clamp(15, 0, 10) }}") == 10.0
@@ -386,7 +386,7 @@ def test_clamp(hass: __HAC_KEEP__) -> None:
             render(hass, case)
 
 
-def test_wrap(hass: __HAC_KEEP__) -> None:
+def test_wrap(hass: UniversalAssistant) -> None:
     """Test wrap function."""
     # Test function and filter usage in templates.
     assert render(hass, "{{ wrap(15, 0, 10) }}") == 5.0
@@ -447,7 +447,7 @@ def test_wrap_never_returns_max(
     assert MathExtension.wrap(value, min_value, max_value) == expected
 
 
-def test_remap(hass: __HAC_KEEP__) -> None:
+def test_remap(hass: UniversalAssistant) -> None:
     """Test remap function."""
     # Test function and filter usage in templates, with kitchen sink parameters.
     # We don't check the return value; that's covered by the unit tests below.
@@ -527,7 +527,7 @@ def test_remap_clamp_stays_within_output_range(
     assert MathExtension.remap(value, 0, 1, out_min, out_max, edges="clamp") == expected
 
 
-def test_remap_with_steps(hass: __HAC_KEEP__) -> None:
+def test_remap_with_steps(hass: UniversalAssistant) -> None:
     """Test remap function with steps parameter."""
     # Test basic stepping - quantize to 10 steps
     assert MathExtension.remap(0.2, 0, 10, 0, 100, steps=10) == 0.0
@@ -567,7 +567,7 @@ def test_remap_with_steps(hass: __HAC_KEEP__) -> None:
     assert MathExtension.remap(5, 0, 10, 0, 100, steps=-1) == 50.0
 
 
-def test_remap_with_mirror(hass: __HAC_KEEP__) -> None:
+def test_remap_with_mirror(hass: UniversalAssistant) -> None:
     """Test the mirror edge mode of the remap function."""
 
     assert [
@@ -601,7 +601,7 @@ def test_remap_with_mirror_far_below_range(value: float, expected: float) -> Non
     assert MathExtension.remap(-value, 0, 4, 0, 4, edges="mirror") == expected
 
 
-def test_rounding_value(hass: __HAC_KEEP__) -> None:
+def test_rounding_value(hass: UniversalAssistant) -> None:
     """Test rounding value."""
     hass.states.async_set("sensor.temperature", 12.78)
 
@@ -626,7 +626,7 @@ def test_rounding_value(hass: __HAC_KEEP__) -> None:
     )
 
 
-def test_rounding_value_on_error(hass: __HAC_KEEP__) -> None:
+def test_rounding_value_on_error(hass: UniversalAssistant) -> None:
     """Test rounding value handling of error."""
     # Test handling of invalid input
     with pytest.raises(TemplateError):
@@ -639,7 +639,7 @@ def test_rounding_value_on_error(hass: __HAC_KEEP__) -> None:
     assert render(hass, "{{ 'no_number' | round(default=1) }}") == 1
 
 
-def test_multiply(hass: __HAC_KEEP__) -> None:
+def test_multiply(hass: UniversalAssistant) -> None:
     """Test multiply."""
     tests = {10: 100}
 
@@ -655,7 +655,7 @@ def test_multiply(hass: __HAC_KEEP__) -> None:
     assert render(hass, "{{ 'no_number' | multiply(10, default=1) }}") == 1
 
 
-def test_add(hass: __HAC_KEEP__) -> None:
+def test_add(hass: UniversalAssistant) -> None:
     """Test add."""
     tests = {10: 42}
 
@@ -695,7 +695,7 @@ def test_add(hass: __HAC_KEEP__) -> None:
     ],
 )
 def test_math_functions_out_of_range_return_default(
-    hass: __HAC_KEEP__, template_str: str
+    hass: UniversalAssistant, template_str: str
 ) -> None:
     """Test math functions return the default for values out of float range."""
     assert render(hass, template_str, {"value": 10**400, "inf": math.inf}) == 1

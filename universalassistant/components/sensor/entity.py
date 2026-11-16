@@ -12,7 +12,7 @@ from propcache.api import cached_property
 
 from universalassistant.const import CONF_UNIT_OF_MEASUREMENT, EntityCategory
 from universalassistant.core import callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity import Entity, EntityDescription
 from universalassistant.helpers.restore_state import ExtraStoredData, RestoreEntity
@@ -232,7 +232,7 @@ class SensorEntity(Entity, cached_properties=CACHED_PROPERTIES_WITH_ATTR_):
         """Call when the sensor entity is added to hass."""
         await super().async_internal_added_to_hass()
         if self.entity_category == EntityCategory.CONFIG:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Entity {self.entity_id} cannot be added as"
                 " the entity category is set to config"
             )
@@ -555,7 +555,7 @@ class SensorEntity(Entity, cached_properties=CACHED_PROPERTIES_WITH_ATTR_):
             self._invalid_state_class_reported = True
             report_issue = self._suggest_report_issue()
 
-            # This should raise in __HA_KEEP__ Core 2023.6
+            # This should raise in Universal Home Assistant Core 2023.6
             _LOGGER.warning(
                 "Entity %s (%s) is using state class '%s' which "
                 "is impossible considering device class ('%s') it is using; "
@@ -697,7 +697,7 @@ class SensorEntity(Entity, cached_properties=CACHED_PROPERTIES_WITH_ATTR_):
             self._invalid_unit_of_measurement_reported = True
             report_issue = self._suggest_report_issue()
 
-            # This should raise in __HA_KEEP__ Core 2023.6
+            # This should raise in Universal Home Assistant Core 2023.6
             _LOGGER.warning(
                 (
                     "Entity %s (%s) is using native unit of measurement '%s' which "

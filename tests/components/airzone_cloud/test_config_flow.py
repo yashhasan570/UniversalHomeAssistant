@@ -7,7 +7,7 @@ from aioairzone_cloud.exceptions import AirzoneCloudError, LoginError
 from universalassistant.components.airzone_cloud.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_ID, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .util import (
@@ -21,7 +21,7 @@ from .util import (
 )
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test that the form is served with valid input."""
 
     with (
@@ -97,7 +97,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
         assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_installations_list_error(hass: __HAC_KEEP__) -> None:
+async def test_installations_list_error(hass: UniversalAssistant) -> None:
     """Test connection error."""
 
     with (
@@ -148,7 +148,7 @@ async def test_installations_list_error(hass: __HAC_KEEP__) -> None:
         assert result["errors"] == {"base": "cannot_connect"}
 
 
-async def test_login_error(hass: __HAC_KEEP__) -> None:
+async def test_login_error(hass: UniversalAssistant) -> None:
     """Test login error."""
 
     with patch(

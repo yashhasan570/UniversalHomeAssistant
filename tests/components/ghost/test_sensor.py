@@ -14,7 +14,7 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -23,7 +23,7 @@ from .conftest import NEWSLETTERS_DATA
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_ghost_api: AsyncMock,
@@ -36,7 +36,7 @@ async def test_sensor_entities(
 
 
 async def test_newsletter_sensor_added_on_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ghost_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -66,7 +66,7 @@ async def test_newsletter_sensor_added_on_update(
 
 
 async def test_revenue_sensors_not_created_without_stripe(
-    hass: __HAC_KEEP__, mock_ghost_api: AsyncMock, mock_config_entry
+    hass: UniversalAssistant, mock_ghost_api: AsyncMock, mock_config_entry
 ) -> None:
     """Test MRR/ARR sensors are not created when Stripe is not linked."""
     # Return empty MRR/ARR data (no Stripe linked)
@@ -80,7 +80,7 @@ async def test_revenue_sensors_not_created_without_stripe(
 
 
 async def test_newsletter_sensor_removed_when_stale(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_ghost_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -107,7 +107,7 @@ async def test_newsletter_sensor_removed_when_stale(
 
 
 async def test_newsletter_sensor_removed_on_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_ghost_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -133,7 +133,7 @@ async def test_newsletter_sensor_removed_on_reload(
 
 
 async def test_entities_unavailable_on_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ghost_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

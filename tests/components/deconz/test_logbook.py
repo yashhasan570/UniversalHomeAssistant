@@ -17,7 +17,7 @@ from universalassistant.const import (
     CONF_ID,
     CONF_UNIQUE_ID,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 from universalassistant.util import slugify
@@ -56,7 +56,7 @@ from tests.components.logbook.common import MockRow, mock_humanify
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_humanifying_deconz_alarm_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     sensor_payload: dict[str, Any],
 ) -> None:
@@ -149,7 +149,7 @@ async def test_humanifying_deconz_alarm_event(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_humanifying_deconz_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     sensor_payload: dict[str, Any],
 ) -> None:

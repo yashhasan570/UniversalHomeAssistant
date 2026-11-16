@@ -16,12 +16,12 @@ from universalassistant.components.azure_data_explorer.const import (
     CONF_AUTHORITY_ID,
     DOMAIN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import BASE_CONFIG
 
 
-async def test_config_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_config_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -60,7 +60,7 @@ async def test_config_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> N
 async def test_config_flow_errors(
     test_input: Exception,
     expected: str,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_execute_query: MagicMock,
 ) -> None:
     """Test we handle connection KustoServiceError."""

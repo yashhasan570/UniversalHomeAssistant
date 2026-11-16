@@ -8,12 +8,12 @@ import pytest
 
 from universalassistant.components.garages_amsterdam.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_full_user_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_garages_amsterdam: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -50,7 +50,7 @@ async def test_full_user_flow(
     ],
 )
 async def test_error_handling(
-    side_effect: Exception, reason: str, hass: __HAC_KEEP__
+    side_effect: Exception, reason: str, hass: UniversalAssistant
 ) -> None:
     """Test error handling in the config flow."""
 

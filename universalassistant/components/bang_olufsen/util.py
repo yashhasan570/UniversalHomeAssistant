@@ -5,7 +5,7 @@ from typing import cast
 from mozart_api.models import PairedRemote
 from mozart_api.mozart_client import MozartClient
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceEntry
 
@@ -21,7 +21,7 @@ from .const import (
 )
 
 
-def get_device(hass: __HAC_KEEP__, unique_id: str, entry_id: str) -> DeviceEntry:
+def get_device(hass: UniversalAssistant, unique_id: str, entry_id: str) -> DeviceEntry:
     """Get the device."""
     device_registry = dr.async_get(hass)
     device = device_registry.async_get_device_by_identifier(
@@ -76,7 +76,7 @@ def get_device_buttons(model: BeoModel) -> list[str]:
 
 
 def get_remote_keys() -> list[str]:
-    """Get remote keys for the Beoremote One. Formatted for __HA_KEEP__ use."""
+    """Get remote keys for the Beoremote One. Formatted for Universal Home Assistant use."""
     return [
         *[f"{BEO_REMOTE_SUBMENU_LIGHT}/{key_type}" for key_type in BEO_REMOTE_KEYS],
         *[

@@ -19,7 +19,7 @@ from .decorators import (
 )
 
 if TYPE_CHECKING:
-    from universalassistant.core import __HAC_KEEP__
+    from universalassistant.core import UniversalAssistant
 
     from ..base import MarketplaceManager
     from ..repositories.base import Repository
@@ -69,7 +69,7 @@ def repository_summary(
 @websocket_api.async_response
 @marketplace_command()
 async def marketplace_repositories_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     marketplace: MarketplaceManager,
@@ -100,7 +100,7 @@ async def marketplace_repositories_list(
 @websocket_api.async_response
 @marketplace_command()
 async def marketplace_repositories_clear_new(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     marketplace: MarketplaceManager,
@@ -135,7 +135,7 @@ async def marketplace_repositories_clear_new(
 @websocket_api.async_response
 @marketplace_command()
 async def marketplace_repositories_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     marketplace: MarketplaceManager,
@@ -159,7 +159,7 @@ async def marketplace_repositories_removed(
 @websocket_api.async_response
 @marketplace_command(requires_accepted_warning=True, requires_github=True)
 async def marketplace_repositories_detect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     marketplace: MarketplaceManager,
@@ -219,7 +219,7 @@ async def marketplace_repositories_detect(
 @websocket_api.async_response
 @marketplace_command(requires_accepted_warning=True, requires_github=True)
 async def marketplace_repositories_add(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     marketplace: MarketplaceManager,
@@ -319,7 +319,7 @@ async def marketplace_repositories_add(
 @websocket_api.async_response
 @marketplace_command()
 async def marketplace_repositories_remove(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     marketplace: MarketplaceManager,

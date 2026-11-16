@@ -13,12 +13,12 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CONF_NAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import init_integration
 
 
-async def test_unload_entry(hass: __HAC_KEEP__) -> None:
+async def test_unload_entry(hass: UniversalAssistant) -> None:
     """Test successful unload of entry."""
     entry = await init_integration(hass)
 
@@ -32,7 +32,7 @@ async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     assert not hass.data.get(DOMAIN)
 
 
-async def test_migrate_entry(hass: __HAC_KEEP__) -> None:
+async def test_migrate_entry(hass: UniversalAssistant) -> None:
     """Test entry migration."""
 
     entry = MockConfigEntry(

@@ -19,13 +19,13 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     EntityCategory,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
 
 async def test_sensors_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,
@@ -174,7 +174,7 @@ async def test_sensors_sensors(
 
 
 async def test_url_sensor_truncating(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fully_kiosk: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:

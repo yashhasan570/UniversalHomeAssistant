@@ -10,8 +10,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.number import DOMAIN as NUMBER_DOMAIN, NumberService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -21,7 +21,7 @@ FAN_ENTITY_ID = "number.stove_left_fan_speed"
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_palazzetti_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -35,7 +35,7 @@ async def test_all_entities(
 
 
 async def test_async_set_data_power(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_palazzetti_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -55,7 +55,7 @@ async def test_async_set_data_power(
     # Set value: Error
     mock_palazzetti_client.set_power_mode.side_effect = CommunicationError()
     message = "Could not connect to the device"
-    with pytest.raises(__HAC_KEEP__Error, match=message):
+    with pytest.raises(UniversalAssistantError, match=message):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -76,7 +76,7 @@ async def test_async_set_data_power(
 
 
 async def test_async_set_data_fan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_palazzetti_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -96,7 +96,7 @@ async def test_async_set_data_fan(
     # Set value: Error
     mock_palazzetti_client.set_fan_speed.side_effect = CommunicationError()
     message = "Could not connect to the device"
-    with pytest.raises(__HAC_KEEP__Error, match=message):
+    with pytest.raises(UniversalAssistantError, match=message):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,

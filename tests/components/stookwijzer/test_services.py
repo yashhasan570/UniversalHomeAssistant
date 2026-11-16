@@ -7,14 +7,14 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.stookwijzer.const import DOMAIN
 from universalassistant.components.stookwijzer.services import StookwijzerService
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 
 @pytest.mark.usefixtures("init_integration")
 async def test_service_get_forecast(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -32,7 +32,7 @@ async def test_service_get_forecast(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_service_entry_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -53,7 +53,7 @@ async def test_service_entry_not_loaded(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_service_integration_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:

@@ -22,7 +22,7 @@ from universalassistant.const import (
     SERVICE_STOP_COVER,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import (
     micromodule_blinds_device,
@@ -45,7 +45,7 @@ def platforms() -> Generator[None]:
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_bbl_shutter_control(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -117,7 +117,7 @@ async def test_bbl_shutter_control(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_micromodule_shutter_device_class(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     expected_device_class: str,
 ) -> None:
@@ -142,7 +142,7 @@ async def test_micromodule_shutter_device_class(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_micromodule_blinds_tilt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

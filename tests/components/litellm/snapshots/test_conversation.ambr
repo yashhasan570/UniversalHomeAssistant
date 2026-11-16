@@ -239,7 +239,7 @@
     dict({
       'content': '''
         You are a helpful assistant.
-        Only if the user wants to control a device, tell them to expose entities to their voice assistant in __HA_KEEP__.
+        Only if the user wants to control a device, tell them to expose entities to their voice assistant in Universal Home Assistant.
       ''',
       'role': 'system',
     }),

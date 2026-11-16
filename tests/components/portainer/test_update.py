@@ -46,8 +46,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -72,7 +72,7 @@ def enable_all_entities(entity_registry_enabled_by_default: None) -> None:
 
 @pytest.mark.usefixtures("mock_portainer_client")
 async def test_update_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -92,7 +92,7 @@ async def test_update_entities(
 
 
 async def test_update_install(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_portainer_watcher: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -119,7 +119,7 @@ async def test_update_install(
 
 
 async def test_update_install_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_portainer_watcher: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -185,7 +185,7 @@ async def test_update_install_progress(
     ],
 )
 async def test_update_install_pull_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_portainer_watcher: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -213,7 +213,7 @@ async def test_update_install_pull_fallback(
 
 
 async def test_update_install_without_config_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_portainer_watcher: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -254,7 +254,7 @@ async def test_update_install_without_config_image(
     ],
 )
 async def test_update_install_pull_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_portainer_watcher: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -269,7 +269,7 @@ async def test_update_install_pull_errors(
     ):
         await setup_integration(hass, mock_config_entry)
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "update",
             "install",
@@ -284,7 +284,7 @@ async def test_update_install_pull_errors(
 
 
 async def test_update_install_pull_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_portainer_watcher: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -310,7 +310,7 @@ async def test_update_install_pull_timeout(
             "universalassistant.components.portainer.update.DEFAULT_RECREATE_TIMEOUT",
             timedelta(0),
         ),
-        pytest.raises(__HAC_KEEP__Error) as err,
+        pytest.raises(UniversalAssistantError) as err,
     ):
         await hass.services.async_call(
             "update",
@@ -332,7 +332,7 @@ async def test_update_install_pull_timeout(
     ],
 )
 async def test_update_install_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_portainer_watcher: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -348,7 +348,7 @@ async def test_update_install_errors(
     ):
         await setup_integration(hass, mock_config_entry)
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "update",
             "install",
@@ -358,7 +358,7 @@ async def test_update_install_errors(
 
 
 async def test_update_install_invalid_auth_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_portainer_watcher: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -374,7 +374,7 @@ async def test_update_install_invalid_auth_starts_reauth(
     ):
         await setup_integration(hass, mock_config_entry)
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "update",
             "install",
@@ -390,7 +390,7 @@ async def test_update_install_invalid_auth_starts_reauth(
 
 @pytest.mark.parametrize("repo_digests", [None, []], ids=["missing", "empty"])
 async def test_update_installed_version_without_repo_digest(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     repo_digests: list[str] | None,
@@ -410,7 +410,7 @@ async def test_update_installed_version_without_repo_digest(
 
 
 async def test_update_using_cache(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_portainer_watcher: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -444,7 +444,7 @@ async def test_update_using_cache(
     mock_portainer_client.get_image.assert_not_called()
 
 
-async def _watch_all_containers(hass: __HAC_KEEP__, watcher: MagicMock) -> None:
+async def _watch_all_containers(hass: UniversalAssistant, watcher: MagicMock) -> None:
     """Give the watcher a result for every container, as after its first run."""
     containers = cast(
         list[dict[str, Any]],
@@ -465,7 +465,7 @@ async def _watch_all_containers(hass: __HAC_KEEP__, watcher: MagicMock) -> None:
     watcher.last_check = 1234
 
 
-async def _recreate_container(hass: __HAC_KEEP__, client: AsyncMock) -> None:
+async def _recreate_container(hass: UniversalAssistant, client: AsyncMock) -> None:
     """Give the funny_chatelet container a new ID, as a recreate does."""
     containers = cast(
         list[dict[str, Any]],
@@ -481,7 +481,7 @@ async def _recreate_container(hass: __HAC_KEEP__, client: AsyncMock) -> None:
 
 
 async def test_update_recreated_container(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_portainer_client: AsyncMock,
     mock_portainer_watcher: MagicMock,
@@ -531,7 +531,7 @@ async def test_update_recreated_container(
 
 
 async def test_update_recreated_container_before_watcher_ran(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_portainer_client: AsyncMock,
     mock_portainer_watcher: MagicMock,
@@ -564,7 +564,7 @@ async def test_update_recreated_container_before_watcher_ran(
     ],
 )
 async def test_update_recreated_container_check_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_portainer_client: AsyncMock,
     mock_portainer_watcher: MagicMock,
@@ -594,7 +594,7 @@ async def test_update_recreated_container_check_fails(
 
 
 async def test_server_update_up_to_date(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -615,7 +615,7 @@ async def test_server_update_up_to_date(
 
 
 async def test_server_update_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

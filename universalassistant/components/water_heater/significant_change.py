@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.significant_change import (
     check_absolute_change,
     check_valid_float,
@@ -29,7 +29,7 @@ NON_NUMERIC_ATTRIBUTES: set[str] = {
 
 @callback
 def async_check_significant_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     old_state: str,
     old_attrs: dict,
     new_state: str,

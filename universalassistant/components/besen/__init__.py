@@ -1,4 +1,4 @@
-"""Besen __HA_KEEP__ integration."""
+"""Besen Universal Home Assistant integration."""
 
 import logging
 
@@ -10,7 +10,7 @@ from universalassistant.components import bluetooth
 from universalassistant.components.bluetooth import BluetoothReachabilityIntent
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ADDRESS, CONF_NAME, CONF_PIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -26,7 +26,7 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Besen integration."""
 
     async_setup_services(hass)
@@ -34,7 +34,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: BesenConfigEntry,
 ) -> None:
     """Set up Besen from a config entry."""
@@ -86,7 +86,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: BesenConfigEntry,
 ) -> None:
     """Unload a Besen config entry."""

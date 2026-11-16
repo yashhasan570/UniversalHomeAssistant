@@ -23,7 +23,7 @@ from universalassistant.const import (
     CONF_UNIT_OF_MEASUREMENT,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -85,7 +85,7 @@ NUMBER_CONFIG_ENTRY_SCHEMA = NUMBER_COMMON_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -104,7 +104,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -121,7 +121,7 @@ async def async_setup_entry(
 
 @callback
 def async_create_preview_number(
-    hass: __HAC_KEEP__, name: str, config: dict[str, Any]
+    hass: UniversalAssistant, name: str, config: dict[str, Any]
 ) -> StateNumberEntity:
     """Create a preview number."""
     return async_setup_template_preview(
@@ -206,7 +206,7 @@ class StateNumberEntity(TemplateEntity, AbstractTemplateNumber):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config: ConfigType,
         unique_id: str | None,
     ) -> None:
@@ -225,7 +225,7 @@ class TriggerNumberEntity(TriggerEntity, AbstractTemplateNumber):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         coordinator: TriggerUpdateCoordinator,
         config: dict,
     ) -> None:

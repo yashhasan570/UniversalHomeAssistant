@@ -10,7 +10,7 @@ from universalassistant.components import automation
 from universalassistant.components.universalassistant.triggers import event as event_trigger
 from universalassistant.components.universalassistant.triggers.event import EventTriggerArgument
 from universalassistant.const import ATTR_ENTITY_ID, ENTITY_MATCH_ALL, SERVICE_TURN_OFF
-from universalassistant.core import Context, __HAC_KEEP__, ServiceCall
+from universalassistant.core import Context, UniversalAssistant, ServiceCall
 from universalassistant.helpers import device_registry as dr, script, trigger
 from universalassistant.setup import async_setup_component
 
@@ -22,13 +22,13 @@ def context_with_user() -> Context:
 
 
 @pytest.fixture(autouse=True)
-def setup_comp(hass: __HAC_KEEP__) -> None:
+def setup_comp(hass: UniversalAssistant) -> None:
     """Initialize components."""
     mock_component(hass, "group")
 
 
 async def test_if_fires_on_event(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test the firing of events."""
     context = Context()
@@ -67,7 +67,7 @@ async def test_if_fires_on_event(
 
 
 async def test_if_fires_on_templated_event(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test the firing of events."""
     context = Context()
@@ -103,7 +103,7 @@ async def test_if_fires_on_templated_event(
 
 
 async def test_if_fires_on_multiple_events(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test the firing of events."""
     context = Context()
@@ -132,7 +132,7 @@ async def test_if_fires_on_multiple_events(
 
 
 async def test_if_fires_on_event_extra_data(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], context_with_user: Context
+    hass: UniversalAssistant, service_calls: list[ServiceCall], context_with_user: Context
 ) -> None:
     """Test the firing of events still matches with event data and context."""
     assert await async_setup_component(
@@ -165,7 +165,7 @@ async def test_if_fires_on_event_extra_data(
 
 
 async def test_if_fires_on_event_with_data_and_context(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], context_with_user: Context
+    hass: UniversalAssistant, service_calls: list[ServiceCall], context_with_user: Context
 ) -> None:
     """Test the firing of events with data and context."""
     assert await async_setup_component(
@@ -212,7 +212,7 @@ async def test_if_fires_on_event_with_data_and_context(
 
 
 async def test_if_fires_on_event_with_templated_data_and_context(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], context_with_user: Context
+    hass: UniversalAssistant, service_calls: list[ServiceCall], context_with_user: Context
 ) -> None:
     """Test the firing of events with templated data and context."""
     assert await async_setup_component(
@@ -264,7 +264,7 @@ async def test_if_fires_on_event_with_templated_data_and_context(
 
 
 async def test_if_fires_on_event_with_empty_data_and_context_config(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], context_with_user: Context
+    hass: UniversalAssistant, service_calls: list[ServiceCall], context_with_user: Context
 ) -> None:
     """Test the firing of events with empty data and context config.
 
@@ -297,7 +297,7 @@ async def test_if_fires_on_event_with_empty_data_and_context_config(
 
 
 async def test_if_fires_on_event_with_nested_data(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test the firing of events with nested data.
 
@@ -327,7 +327,7 @@ async def test_if_fires_on_event_with_nested_data(
 
 
 async def test_if_fires_on_event_with_empty_data(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test the firing of events with empty data.
 
@@ -353,7 +353,7 @@ async def test_if_fires_on_event_with_empty_data(
 
 
 async def test_if_fires_on_sample_zha_event(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test the firing of events with a sample zha event.
 
@@ -412,7 +412,7 @@ async def test_if_fires_on_sample_zha_event(
 
 
 async def test_if_not_fires_if_event_data_not_matches(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test firing of event if no data match."""
     assert await async_setup_component(
@@ -436,7 +436,7 @@ async def test_if_not_fires_if_event_data_not_matches(
 
 
 async def test_if_not_fires_if_event_context_not_matches(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], context_with_user: Context
+    hass: UniversalAssistant, service_calls: list[ServiceCall], context_with_user: Context
 ) -> None:
     """Test firing of event if no context match."""
     assert await async_setup_component(
@@ -460,7 +460,7 @@ async def test_if_not_fires_if_event_context_not_matches(
 
 
 async def test_if_fires_on_multiple_user_ids(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], context_with_user: Context
+    hass: UniversalAssistant, service_calls: list[ServiceCall], context_with_user: Context
 ) -> None:
     """Test the firing of event when the trigger has multiple user ids.
 
@@ -489,7 +489,7 @@ async def test_if_fires_on_multiple_user_ids(
 
 
 async def test_event_data_with_list(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test the (non)firing of event when the data schema has lists."""
     assert await async_setup_component(
@@ -529,7 +529,7 @@ async def test_event_data_with_list(
 
 
 async def test_event_data_with_list_nested(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test the (non)firing of event when the data schema has nested lists."""
     assert await async_setup_component(
@@ -576,7 +576,7 @@ async def test_event_data_with_list_nested(
     ],
 )
 async def test_state_reported_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     caplog: pytest.LogCaptureFixture,
     event_type: str | list[str],
@@ -610,7 +610,7 @@ async def test_state_reported_event(
 
 
 async def test_templated_state_reported_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -646,7 +646,7 @@ COMPOSITE_ID = "composite00000000000000000000ab"
 
 @pytest.fixture
 def split_devices(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> tuple[dr.DeviceEntry, dr.DeviceEntry]:
     """Create two devices which are splits of a pre-migration composite device."""
     entry_1 = MockConfigEntry(domain="itg1")
@@ -699,7 +699,7 @@ def _expected_composite_warning(
 
 
 async def test_composite_device_id_logs_warning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     split_devices: tuple[dr.DeviceEntry, dr.DeviceEntry],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -710,7 +710,7 @@ async def test_composite_device_id_logs_warning(
 
 
 async def test_composite_device_id_logs_warning_enum_keys(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     split_devices: tuple[dr.DeviceEntry, dr.DeviceEntry],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -728,7 +728,7 @@ async def test_composite_device_id_logs_warning_enum_keys(
 
 
 async def test_live_device_id_no_warning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -753,7 +753,7 @@ async def test_live_device_id_no_warning(
 
 
 async def test_wait_for_trigger_composite_device_id_logs_warning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     split_devices: tuple[dr.DeviceEntry, dr.DeviceEntry],
     caplog: pytest.LogCaptureFixture,
 ) -> None:

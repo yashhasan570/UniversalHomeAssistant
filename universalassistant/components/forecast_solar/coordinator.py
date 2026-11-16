@@ -9,7 +9,7 @@ from forecast_solar import Estimate, ForecastSolar, ForecastSolarConnectionError
 
 from universalassistant.config_entries import ConfigEntry, ConfigSubentry
 from universalassistant.const import CONF_API_KEY, CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -47,7 +47,7 @@ def energy_by_period_start(wh_period: Mapping[datetime, int]) -> dict[datetime, 
 
 
 def _resolve_location(
-    hass: __HAC_KEEP__, data: Mapping[str, Any]
+    hass: UniversalAssistant, data: Mapping[str, Any]
 ) -> tuple[float, float]:
     """Resolve the forecast location from config, falling back to HA's home location."""
     if (latitude := data.get(CONF_LATITUDE)) is not None and (
@@ -63,7 +63,7 @@ class ForecastSolarDataUpdateCoordinator(DataUpdateCoordinator[Estimate]):
     config_entry: ForecastSolarConfigEntry
     forecast: ForecastSolar
 
-    def __init__(self, hass: __HAC_KEEP__, entry: ForecastSolarConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: ForecastSolarConfigEntry) -> None:
         """Initialize the Forecast.Solar coordinator."""
         # Our option flow may cause it to be an empty string,
         # this if statement is here to catch that.

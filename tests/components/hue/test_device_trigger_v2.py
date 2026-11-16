@@ -31,7 +31,7 @@ from universalassistant.const import (
     SERVICE_TURN_OFF,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.trigger import TriggerInfo
 from universalassistant.setup import async_setup_component
@@ -54,7 +54,7 @@ WALL_SWITCH_BUTTON_PRESS = {
 
 
 async def test_hue_event(
-    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test hue button events."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -91,7 +91,7 @@ async def test_hue_event(
 
 
 async def test_get_triggers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
@@ -160,7 +160,7 @@ async def test_get_triggers(
 
 
 async def test_get_triggers_for_composite_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
@@ -242,14 +242,14 @@ async def test_get_triggers_for_composite_device_id(
 
 
 async def test_get_triggers_for_removed_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test triggers for a device removed from the bridge.
 
-    Regression test for https://github.com/yashhasan570/__HAC_KEEP__/issues/152937
+    Regression test for https://github.com/yashhasan570/UniversalUniversalAssistant/issues/152937
     """
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
     await setup_platform(
@@ -269,7 +269,7 @@ async def test_get_triggers_for_removed_device(
 
 
 async def test_if_fires_when_config_entry_loads_late(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
     device_registry: dr.DeviceRegistry,
@@ -277,7 +277,7 @@ async def test_if_fires_when_config_entry_loads_late(
 ) -> None:
     """Test a trigger attached before the bridge is loaded still fires.
 
-    Regression test for https://github.com/yashhasan570/__HAC_KEEP__/issues/156390
+    Regression test for https://github.com/yashhasan570/UniversalUniversalAssistant/issues/156390
     """
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
     config_entry = create_config_entry(api_version=2)
@@ -315,7 +315,7 @@ async def test_if_fires_when_config_entry_loads_late(
 
 
 async def test_trigger_removed_before_config_entry_loads(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
     device_registry: dr.DeviceRegistry,
@@ -348,7 +348,7 @@ async def test_trigger_removed_before_config_entry_loads(
 
 
 async def test_attach_trigger_for_device_without_hue_bridge(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test attaching a trigger for a device that is not on any Hue bridge."""
     other_entry = MockConfigEntry(domain="other")
@@ -401,7 +401,7 @@ def _automation_config(device_id: str) -> dict[str, Any]:
 
 
 async def _load_bridge(
-    hass: __HAC_KEEP__, mock_bridge: Mock, config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_bridge: Mock, config_entry: MockConfigEntry
 ) -> None:
     """Set up a config entry that was already added to hass."""
     mock_bridge.config_entry = config_entry
@@ -416,7 +416,7 @@ async def _load_bridge(
     await hass.async_block_till_done()
 
 
-async def _turn_off_automation(hass: __HAC_KEEP__) -> None:
+async def _turn_off_automation(hass: UniversalAssistant) -> None:
     """Turn off the automation created by `_automation_config`."""
     await hass.services.async_call(
         automation.DOMAIN,

@@ -7,14 +7,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.hydroquebec_peak.const import CONF_OFFER, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import TEST_OFFER
 
 
 async def test_full_flow(
-    hass: __HAC_KEEP__, mock_client: MagicMock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_client: MagicMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test the full happy path."""
     result = await hass.config_entries.flow.async_init(
@@ -34,7 +34,7 @@ async def test_full_flow(
 
 
 async def test_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -54,7 +54,7 @@ async def test_already_configured(
     assert result["reason"] == "already_configured"
 
 
-async def test_cannot_connect(hass: __HAC_KEEP__, mock_client: MagicMock) -> None:
+async def test_cannot_connect(hass: UniversalAssistant, mock_client: MagicMock) -> None:
     """Test the flow aborts when the offer list cannot be fetched."""
     mock_client.get_offer_labels.side_effect = OpenDataConnectionError("boom")
 

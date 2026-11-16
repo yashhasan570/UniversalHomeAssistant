@@ -1,4 +1,4 @@
-"""__HA_KEEP__ Hardware base firmware update entity."""
+"""Universal Home Assistant Hardware base firmware update entity."""
 
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -46,7 +46,7 @@ type FirmwareChangeCallbackType = Callable[
 
 @dataclass(kw_only=True, frozen=True)
 class FirmwareUpdateEntityDescription(UpdateEntityDescription):
-    """Describes __HA_KEEP__ Hardware firmware update entity."""
+    """Describes Universal Home Assistant Hardware firmware update entity."""
 
     version_parser: Callable[[str], str]
     fw_type: str | None
@@ -57,7 +57,7 @@ class FirmwareUpdateEntityDescription(UpdateEntityDescription):
 
 @dataclass
 class FirmwareUpdateExtraStoredData(ExtraStoredData):
-    """Extra stored data for __HA_KEEP__ Hardware firmware update entity."""
+    """Extra stored data for Universal Home Assistant Hardware firmware update entity."""
 
     firmware_manifest: FirmwareManifest | None = None
 
@@ -92,7 +92,7 @@ class FirmwareUpdateExtraStoredData(ExtraStoredData):
 class BaseFirmwareUpdateEntity(
     CoordinatorEntity[FirmwareUpdateCoordinator], UpdateEntity
 ):
-    """Base __HA_KEEP__ Hardware firmware update entity."""
+    """Base Universal Home Assistant Hardware firmware update entity."""
 
     # Subclasses provide the mapping between firmware types and entity descriptions
     entity_description: FirmwareUpdateEntityDescription

@@ -12,8 +12,8 @@ from universalassistant.components.cover import (
     CoverEntity,
     CoverEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import SwitchBeeConfigEntry
@@ -21,7 +21,7 @@ from .entity import SwitchBeeDeviceEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SwitchBeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -52,7 +52,7 @@ class SwitchBeeSomfyEntity(SwitchBeeDeviceEntity[SwitchBeeSomfy], CoverEntity):
         try:
             await self.coordinator.api.set_state(self._device.id, command)
         except (SwitchBeeError, SwitchBeeTokenError) as exp:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to fire {command} for {self.name}, {exp!s}"
             ) from exp
 
@@ -149,7 +149,7 @@ class SwitchBeeCoverEntity(SwitchBeeDeviceEntity[SwitchBeeShutter], CoverEntity)
         try:
             await self.coordinator.api.set_state(self._device.id, kwargs[ATTR_POSITION])
         except (SwitchBeeError, SwitchBeeTokenError) as exp:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to set {self.name} position to {kwargs[ATTR_POSITION]}, error:"
                 f" {exp!s}"
             ) from exp

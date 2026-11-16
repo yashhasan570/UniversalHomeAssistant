@@ -19,7 +19,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.selector import (
     SelectSelector,
@@ -391,7 +391,7 @@ class ProxmoxveConfigFlow(ConfigFlow, domain=DOMAIN):
         return updates
 
 
-class ProxmoxError(__HAC_KEEP__Error):
+class ProxmoxError(UniversalAssistantError):
     """Base class for Proxmox VE errors."""
 
 

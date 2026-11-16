@@ -52,7 +52,7 @@ from universalassistant.components.media_player import (
     RepeatMode,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceNotSupported, ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
@@ -69,7 +69,7 @@ PROXY_FEATURE_FLAGS = 1200653
 
 
 async def test_media_player_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -210,7 +210,7 @@ async def test_media_player_entity(
 
 
 async def test_media_player_entity_with_undefined_flags(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -292,7 +292,7 @@ async def test_media_player_entity_with_undefined_flags(
 
 
 async def test_media_player_entity_ignores_search_media_flag(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -337,7 +337,7 @@ async def test_media_player_entity_ignores_search_media_flag(
 
 
 async def test_media_player_entity_ignores_flags_without_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -422,7 +422,7 @@ async def test_media_player_entity_ignores_flags_without_command(
     ],
 )
 async def test_media_player_playlist_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
     service: str,
@@ -466,7 +466,7 @@ async def test_media_player_playlist_commands(
 
 @pytest.mark.parametrize("repeat", [RepeatMode.ONE, RepeatMode.OFF])
 async def test_media_player_repeat_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
     repeat: RepeatMode,
@@ -506,7 +506,7 @@ async def test_media_player_repeat_state(
 
 
 async def test_media_player_repeat_all_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -552,7 +552,7 @@ async def test_media_player_repeat_all_not_supported(
     ],
 )
 async def test_media_player_play_media_enqueue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
     enqueue: MediaPlayerEnqueue,
@@ -609,7 +609,7 @@ async def test_media_player_play_media_enqueue(
     ],
 )
 async def test_media_player_play_media_enqueue_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
     enqueue: MediaPlayerEnqueue,
@@ -654,7 +654,7 @@ async def test_media_player_play_media_enqueue_not_supported(
 
 
 async def test_media_player_entity_with_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     hass_ws_client: WebSocketGenerator,
     mock_generic_device_entry: MockGenericDeviceEntryType,
@@ -803,7 +803,7 @@ async def test_media_player_entity_with_source(
 
 
 async def test_media_player_proxy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -947,7 +947,7 @@ async def test_media_player_proxy(
 
 
 async def test_media_player_formats_reload_preserves_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -1049,7 +1049,7 @@ async def test_media_player_formats_reload_preserves_data(
 
 
 async def test_media_player_formats_survive_rekey_onto_removed_entity_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -1166,7 +1166,7 @@ async def test_media_player_formats_survive_rekey_onto_removed_entity_key(
 
 
 async def test_media_player_formats_not_shared_with_sibling_taking_old_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:

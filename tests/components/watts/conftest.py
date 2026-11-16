@@ -17,7 +17,7 @@ from universalassistant.components.application_credentials import (
     async_import_client_credential,
 )
 from universalassistant.components.watts.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 CLIENT_ID = "test_client_id"
@@ -31,7 +31,7 @@ TEST_EXPIRES_AT = 9999999999
 
 
 @pytest.fixture(autouse=True)
-async def setup_credentials(hass: __HAC_KEEP__) -> None:
+async def setup_credentials(hass: UniversalAssistant) -> None:
     """Ensure the application credentials are registered for each test."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
 

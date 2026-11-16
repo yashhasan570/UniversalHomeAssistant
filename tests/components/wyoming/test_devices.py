@@ -5,12 +5,12 @@ from universalassistant.components.wyoming import DOMAIN
 from universalassistant.components.wyoming.devices import SatelliteDevice
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import STATE_OFF
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import area_registry as ar, device_registry as dr
 
 
 async def test_device_registry_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     satellite_device: SatelliteDevice,
     satellite_config_entry: ConfigEntry,
     area_registry: ar.AreaRegistry,
@@ -48,7 +48,7 @@ async def test_device_registry_info(
 
 
 async def test_remove_device_registry_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     satellite_device: SatelliteDevice,
     device_registry: dr.DeviceRegistry,
 ) -> None:

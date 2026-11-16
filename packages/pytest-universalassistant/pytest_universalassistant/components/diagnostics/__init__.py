@@ -5,7 +5,7 @@ from typing import cast
 
 from universalassistant.components.diagnostics import DOMAIN
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceEntry
 from universalassistant.setup import async_setup_component
 from universalassistant.util.json import JsonObjectType
@@ -13,7 +13,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 
 async def _get_diagnostics_for_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry: ConfigEntry,
 ) -> JsonObjectType:
@@ -30,7 +30,7 @@ async def _get_diagnostics_for_config_entry(
 
 
 async def get_diagnostics_for_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry: ConfigEntry,
 ) -> JsonObjectType:
@@ -40,7 +40,7 @@ async def get_diagnostics_for_config_entry(
 
 
 async def _get_diagnostics_for_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry: ConfigEntry,
     device: DeviceEntry,
@@ -58,7 +58,7 @@ async def _get_diagnostics_for_device(
 
 
 async def get_diagnostics_for_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry: ConfigEntry,
     device: DeviceEntry,

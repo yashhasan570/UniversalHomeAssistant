@@ -3,7 +3,7 @@
 from collections.abc import Callable
 
 from universalassistant.components.logbook import LOGBOOK_ENTRY_MESSAGE, LOGBOOK_ENTRY_NAME
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 
 from .const import BTHOME_BLE_EVENT, DOMAIN, BTHomeBleEvent
@@ -11,7 +11,7 @@ from .const import BTHOME_BLE_EVENT, DOMAIN, BTHomeBleEvent
 
 @callback
 def async_describe_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_describe_event: Callable[
         [str, str, Callable[[Event[BTHomeBleEvent]], dict[str, str]]], None
     ],

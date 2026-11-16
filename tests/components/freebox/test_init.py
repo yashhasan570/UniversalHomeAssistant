@@ -20,7 +20,7 @@ from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PORT, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -30,7 +30,7 @@ from .const import DATA_HOME_GET_NODES, MOCK_HOST, MOCK_PORT
 MOCK_MAC = "68:A3:78:00:00:00"
 
 
-async def test_setup(hass: __HAC_KEEP__, router: Mock) -> None:
+async def test_setup(hass: UniversalAssistant, router: Mock) -> None:
     """Test setup of integration."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -60,7 +60,7 @@ async def test_setup(hass: __HAC_KEEP__, router: Mock) -> None:
     ],
 )
 async def test_setup_retries_when_the_router_cannot_be_reached(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     router: Mock,
     error: Exception,
     failing_call: Callable[[Mock], Mock],
@@ -81,7 +81,7 @@ async def test_setup_retries_when_the_router_cannot_be_reached(
     assert entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_setup_import(hass: __HAC_KEEP__, router: Mock) -> None:
+async def test_setup_import(hass: UniversalAssistant, router: Mock) -> None:
     """Test setup of integration from import."""
 
     entry = MockConfigEntry(
@@ -103,7 +103,7 @@ async def test_setup_import(hass: __HAC_KEEP__, router: Mock) -> None:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_unload_remove(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     router: Mock,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -181,7 +181,7 @@ async def test_unload_remove(
     ],
 )
 async def test_unique_id_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     router: Mock,
     platform: str,
@@ -216,7 +216,7 @@ async def test_unique_id_migration(
 
 
 async def test_unique_id_migration_cannot_connect(
-    hass: __HAC_KEEP__, router: Mock
+    hass: UniversalAssistant, router: Mock
 ) -> None:
     """Test migration is retried when the router cannot be reached."""
     router.return_value.open.side_effect = HttpRequestError("Boom")
@@ -237,7 +237,7 @@ async def test_unique_id_migration_cannot_connect(
 
 @pytest.mark.usefixtures("router")
 async def test_home_device_via_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test home devices are linked to the router device via via_device_id."""
@@ -257,7 +257,7 @@ async def test_home_device_via_device(
 
 
 async def test_home_device_label_sync(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,
     router: Mock,

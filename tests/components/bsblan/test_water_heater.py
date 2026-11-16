@@ -32,8 +32,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_with_selected_platforms
@@ -76,7 +76,7 @@ def mock_dhw_config_none_values(mock_bsblan: AsyncMock) -> None:
     ],
 )
 async def test_water_heater_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -91,7 +91,7 @@ async def test_water_heater_states(
 
 
 async def test_water_heater_no_dhw_capability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -118,7 +118,7 @@ async def test_water_heater_no_dhw_capability(
 
 
 async def test_water_heater_entity_properties(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -153,7 +153,7 @@ async def test_water_heater_entity_properties(
     ],
 )
 async def test_set_operation_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mode: str,
@@ -180,7 +180,7 @@ async def test_set_operation_mode(
 
 
 async def test_set_invalid_operation_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -190,7 +190,7 @@ async def test_set_invalid_operation_mode(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=(
             r"Operation mode invalid_mode is not valid for"
             r" water_heater\.water_heater\."
@@ -209,7 +209,7 @@ async def test_set_invalid_operation_mode(
 
 
 async def test_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -234,7 +234,7 @@ async def test_set_temperature(
 
 
 async def test_set_temperature_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -245,7 +245,7 @@ async def test_set_temperature_failure(
 
     mock_bsblan.set_hot_water.side_effect = BSBLANError("Test error")
 
-    with pytest.raises(__HAC_KEEP__Error) as exc:
+    with pytest.raises(UniversalAssistantError) as exc:
         await hass.services.async_call(
             domain=WATER_HEATER_DOMAIN,
             service=SERVICE_SET_TEMPERATURE,
@@ -260,7 +260,7 @@ async def test_set_temperature_failure(
 
 
 async def test_operation_mode_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -271,7 +271,7 @@ async def test_operation_mode_error(
 
     mock_bsblan.set_hot_water.side_effect = BSBLANError("Test error")
 
-    with pytest.raises(__HAC_KEEP__Error) as exc:
+    with pytest.raises(UniversalAssistantError) as exc:
         await hass.services.async_call(
             domain=WATER_HEATER_DOMAIN,
             service=SERVICE_SET_OPERATION_MODE,
@@ -286,7 +286,7 @@ async def test_operation_mode_error(
 
 
 async def test_water_heater_no_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -314,7 +314,7 @@ async def test_water_heater_no_sensors(
 
 
 async def test_current_operation_none_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -352,7 +352,7 @@ async def test_current_operation_none_value(
     ],
 )
 async def test_water_heater_default_temperature_limits(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     fixture_name: str,
@@ -376,7 +376,7 @@ async def test_water_heater_default_temperature_limits(
 
 
 async def test_water_heater_custom_temperature_limits_from_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -399,7 +399,7 @@ async def test_water_heater_custom_temperature_limits_from_config(
 
 
 async def test_water_heater_temperature_limits_update_after_slow_fetch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -434,7 +434,7 @@ async def test_water_heater_temperature_limits_update_after_slow_fetch(
 
 
 async def test_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -460,7 +460,7 @@ async def test_turn_on(
 
 
 async def test_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -484,7 +484,7 @@ async def test_turn_off(
 
 
 async def test_turn_on_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -495,7 +495,7 @@ async def test_turn_on_error(
 
     mock_bsblan.set_hot_water.side_effect = BSBLANError("Test error")
 
-    with pytest.raises(__HAC_KEEP__Error) as exc:
+    with pytest.raises(UniversalAssistantError) as exc:
         await hass.services.async_call(
             domain=WATER_HEATER_DOMAIN,
             service=SERVICE_TURN_ON,
@@ -509,7 +509,7 @@ async def test_turn_on_error(
 
 
 async def test_turn_off_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -520,7 +520,7 @@ async def test_turn_off_error(
 
     mock_bsblan.set_hot_water.side_effect = BSBLANError("Test error")
 
-    with pytest.raises(__HAC_KEEP__Error) as exc:
+    with pytest.raises(UniversalAssistantError) as exc:
         await hass.services.async_call(
             domain=WATER_HEATER_DOMAIN,
             service=SERVICE_TURN_OFF,
@@ -543,7 +543,7 @@ async def test_turn_off_error(
     ],
 )
 async def test_water_heater_follows_current_setpoint(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     current_setpoint: float,
@@ -586,7 +586,7 @@ async def test_water_heater_follows_current_setpoint(
     ],
 )
 async def test_set_temperature_with_equal_setpoints(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     temperature: int,
@@ -622,7 +622,7 @@ async def test_set_temperature_with_equal_setpoints(
     ],
 )
 async def test_set_temperature_rejects_setpoint_order(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     current_setpoint: float,
@@ -650,7 +650,7 @@ async def test_set_temperature_rejects_setpoint_order(
 
 
 async def test_set_temperature_ignored_when_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -674,7 +674,7 @@ async def test_set_temperature_ignored_when_off(
 
 @pytest.mark.usefixtures("mock_dhw_config_none")
 async def test_set_temperature_without_dhw_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -699,7 +699,7 @@ async def test_set_temperature_without_dhw_config(
 
 
 async def test_set_temperature_rereads_only_hot_water(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -722,7 +722,7 @@ async def test_set_temperature_rereads_only_hot_water(
 
 
 async def test_set_temperature_ignores_failed_reread(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

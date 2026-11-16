@@ -12,7 +12,7 @@ from universalassistant.components.backblaze_b2.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigFlowResult
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import BackblazeFixture
@@ -20,7 +20,7 @@ from .const import USER_INPUT
 
 
 async def _async_start_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     key_id: str,
     application_key: str,
     user_input: dict[str, str] | None = None,
@@ -41,7 +41,7 @@ async def _async_start_flow(
     return await hass.config_entries.flow.async_configure(result["flow_id"], user_input)
 
 
-async def test_basic_flows(hass: __HAC_KEEP__, b2_fixture: BackblazeFixture) -> None:
+async def test_basic_flows(hass: UniversalAssistant, b2_fixture: BackblazeFixture) -> None:
     """Test basic successful config flows."""
     result = await _async_start_flow(
         hass, b2_fixture.key_id, b2_fixture.application_key
@@ -52,7 +52,7 @@ async def test_basic_flows(hass: __HAC_KEEP__, b2_fixture: BackblazeFixture) -> 
 
 
 async def test_prefix_normalization(
-    hass: __HAC_KEEP__, b2_fixture: BackblazeFixture
+    hass: UniversalAssistant, b2_fixture: BackblazeFixture
 ) -> None:
     """Test prefix normalization in config flow."""
     user_input = {**USER_INPUT, "prefix": "test-prefix/foo"}
@@ -63,7 +63,7 @@ async def test_prefix_normalization(
     assert result["data"]["prefix"] == "test-prefix/foo/"
 
 
-async def test_empty_prefix(hass: __HAC_KEEP__, b2_fixture: BackblazeFixture) -> None:
+async def test_empty_prefix(hass: UniversalAssistant, b2_fixture: BackblazeFixture) -> None:
     """Test empty prefix handling."""
     user_input_empty = {**USER_INPUT, "prefix": ""}
     result = await _async_start_flow(
@@ -74,7 +74,7 @@ async def test_empty_prefix(hass: __HAC_KEEP__, b2_fixture: BackblazeFixture) ->
 
 
 async def test_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     b2_fixture: BackblazeFixture,
 ) -> None:
@@ -194,7 +194,7 @@ async def test_already_configured(
     ],
 )
 async def test_config_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     b2_fixture: BackblazeFixture,
     error_type: str,
     setup: dict,
@@ -284,7 +284,7 @@ async def test_config_flow_errors(
     ],
 )
 async def test_advanced_flows(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     b2_fixture: BackblazeFixture,
     mock_config_entry: MockConfigEntry,
     flow_type: str,

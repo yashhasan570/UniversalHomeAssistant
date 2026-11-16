@@ -8,7 +8,7 @@ from universalassistant.components.logbook import (
     LOGBOOK_ENTRY_NAME,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 
 from .const import DOMAIN
 from .util import async_get_entries
@@ -16,7 +16,7 @@ from .util import async_get_entries
 
 @callback
 def async_describe_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_describe_event: Callable[
         [str, str, Callable[[Event], dict[str, str | None]]], None
     ],

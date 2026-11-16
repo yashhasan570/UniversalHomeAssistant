@@ -8,10 +8,10 @@ from upcloud_api import UpCloudAPIError
 from universalassistant.components.upcloud.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def test_setup_authentication_failed(hass: __HAC_KEEP__) -> None:
+async def test_setup_authentication_failed(hass: UniversalAssistant) -> None:
     """Test setup fails when authentication fails."""
     entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_USERNAME: "user", CONF_PASSWORD: "pass"}

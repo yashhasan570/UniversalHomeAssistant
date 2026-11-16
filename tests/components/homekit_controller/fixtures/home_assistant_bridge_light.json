@@ -17,7 +17,7 @@
             "type": "20",
             "perms": ["pr"],
             "format": "string",
-            "value": "__HA_KEEP__"
+            "value": "Universal Home Assistant"
           },
           {
             "iid": 4,

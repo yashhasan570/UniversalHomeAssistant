@@ -21,7 +21,7 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -36,7 +36,7 @@ from . import (
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -50,7 +50,7 @@ async def test_all_entities(
 
 @pytest.mark.parametrize("device_fixture", ["da_wm_wd_000001"])
 async def test_state_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -73,7 +73,7 @@ async def test_state_update(
 
 @pytest.mark.parametrize("device_fixture", ["da_wm_wd_000001"])
 async def test_select_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -106,7 +106,7 @@ async def test_select_option(
 
 @pytest.mark.parametrize("device_fixture", ["da_ks_range_0101x"])
 async def test_select_option_map(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -154,7 +154,7 @@ async def test_select_option_map(
     ],
 )
 async def test_select_tv_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -186,7 +186,7 @@ async def test_select_tv_mode(
 
 @pytest.mark.parametrize("device_fixture", ["vd_stv_2017_k"])
 async def test_tv_picture_mode_unmapped_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -227,7 +227,7 @@ async def test_tv_picture_mode_unmapped_name(
 
 @pytest.mark.parametrize("device_fixture", ["vd_stv_2017_k"])
 async def test_tv_picture_mode_not_in_supported_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -245,7 +245,7 @@ async def test_tv_picture_mode_not_in_supported_list(
 
 @pytest.mark.parametrize("device_fixture", ["da_wm_wd_000001"])
 async def test_select_option_without_remote_control(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -276,7 +276,7 @@ async def test_select_option_without_remote_control(
 
 @pytest.mark.parametrize("device_fixture", ["da_wm_wd_000001"])
 async def test_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -300,7 +300,7 @@ async def test_availability(
 
 @pytest.mark.parametrize("device_fixture", ["da_wm_wd_000001"])
 async def test_availability_at_start(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     unavailable_device: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -311,7 +311,7 @@ async def test_availability_at_start(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000003"])
 async def test_select_option_as_integer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -342,7 +342,7 @@ async def test_select_option_as_integer(
 
 @pytest.mark.parametrize("device_fixture", ["da_wm_dw_01011"])
 async def test_select_dishwasher_washing_course_with_wrong_machine_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -379,7 +379,7 @@ async def test_select_dishwasher_washing_course_with_wrong_machine_state(
 
 @pytest.mark.parametrize("device_fixture", ["da_wm_dw_01011"])
 async def test_select_dishwasher_washing_course(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -411,7 +411,7 @@ async def test_select_dishwasher_washing_course(
 
 @pytest.mark.parametrize("device_fixture", ["da_wm_dw_01011"])
 async def test_select_dishwasher_washing_option_with_wrong_machine_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -448,7 +448,7 @@ async def test_select_dishwasher_washing_option_with_wrong_machine_state(
 
 @pytest.mark.parametrize("device_fixture", ["da_wm_dw_01011"])
 async def test_select_dishwasher_washing_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

@@ -57,7 +57,7 @@ class ReolinkChimeEntityDescription(ReolinkEntityDescription):
 class ReolinkHostCoordinatorEntity(CoordinatorEntity[ReolinkCoordinator]):
     """Parent class for entities that control the Reolink NVR itself, without a channel.
 
-    A camera connected directly to __HAC_KEEP__ without using
+    A camera connected directly to UniversalAssistant without using
     a NVR is in the reolink API
     basically a NVR with a single channel that has the camera connected to that channel.
     """

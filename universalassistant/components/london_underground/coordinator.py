@@ -7,7 +7,7 @@ from typing import cast, override
 from london_tube_status import TubeData
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import DOMAIN, SCAN_INTERVAL
@@ -22,7 +22,7 @@ class LondonTubeCoordinator(DataUpdateCoordinator[dict[str, dict[str, str]]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         data: TubeData,
         config_entry: LondonUndergroundConfigEntry,
     ) -> None:

@@ -19,7 +19,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import call_observable, setup_integration
@@ -35,7 +35,7 @@ async def platforms() -> AsyncGenerator[None]:
 
 
 async def test_update_alarm_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_panel: AsyncMock,
     area: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -122,7 +122,7 @@ async def test_update_alarm_device(
 
 
 async def test_alarm_control_panel(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_panel: AsyncMock,
@@ -135,7 +135,7 @@ async def test_alarm_control_panel(
 
 
 async def test_alarm_control_panel_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_panel: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

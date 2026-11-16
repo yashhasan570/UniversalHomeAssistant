@@ -4,7 +4,7 @@ from typing import Any, override
 
 from universalassistant.components.cover import CoverEntity, CoverEntityFeature, CoverState
 from universalassistant.const import CONF_COVERS, CONF_NAME, STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -28,7 +28,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -47,7 +47,7 @@ class ModbusCover(ModbusBaseEntity, CoverEntity, RestoreEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         hub: ModbusHub,
         config: dict[str, Any],
     ) -> None:

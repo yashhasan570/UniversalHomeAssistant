@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.components.smlight.const import DOMAIN
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import setup_integration
@@ -31,7 +31,7 @@ def platforms() -> list[Platform]:
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.freeze_time("2024-07-01 00:00:00+00:00")
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -44,7 +44,7 @@ async def test_sensors(
 
 
 async def test_disabled_by_default_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -61,7 +61,7 @@ async def test_disabled_by_default_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_zigbee_uptime_disconnected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
 ) -> None:
@@ -77,7 +77,7 @@ async def test_zigbee_uptime_disconnected(
 
 
 async def test_zigbee2_temp_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_zigbee2_temp_sensor(
 
 @pytest.mark.usefixtures("mock_ultima_client")
 async def test_zigbee_type_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test for zigbee type sensor with multiple radios."""
@@ -112,7 +112,7 @@ async def test_zigbee_type_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_psram_usage_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -140,7 +140,7 @@ async def test_psram_usage_sensor(
 
 
 async def test_psram_usage_sensor_not_created(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
     entity_registry: er.EntityRegistry,

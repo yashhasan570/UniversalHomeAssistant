@@ -6,12 +6,12 @@ from fullykiosk import FullyKioskError
 import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 
 async def test_notify_text_to_speech(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fully_kiosk: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -30,14 +30,14 @@ async def test_notify_text_to_speech(
 
 
 async def test_notify_text_to_speech_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fully_kiosk: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test notify text to speech entity raises."""
     mock_fully_kiosk.sendCommand.side_effect = FullyKioskError("error", "status")
     message = "one, two, testing, testing"
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "notify",
             "send_message",
@@ -51,7 +51,7 @@ async def test_notify_text_to_speech_raises(
 
 
 async def test_notify_overlay_message(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fully_kiosk: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:

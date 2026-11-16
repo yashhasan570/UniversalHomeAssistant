@@ -13,12 +13,12 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.route_b_smart_meter.const import DEFAULT_SCAN_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_registry import EntityRegistry
 
 
 async def test_route_b_smart_meter_sensor_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_momonga: Mock,
     freezer: FrozenDateTimeFactory,
     entity_registry: EntityRegistry,
@@ -35,7 +35,7 @@ async def test_route_b_smart_meter_sensor_update(
 
 
 async def test_route_b_smart_meter_sensor_no_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_momonga: Mock,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
@@ -63,7 +63,7 @@ async def test_route_b_smart_meter_sensor_no_update(
 
 
 async def test_route_b_smart_meter_sensor_no_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_momonga: Mock,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
@@ -94,7 +94,7 @@ async def test_route_b_smart_meter_sensor_no_data(
 
 
 async def test_route_b_smart_meter_sensor_reopen_closed_session(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_momonga: Mock,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,

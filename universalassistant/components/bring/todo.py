@@ -18,8 +18,8 @@ from universalassistant.components.todo import (
     TodoListEntity,
     TodoListEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -30,7 +30,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: BringConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -118,7 +118,7 @@ class BringTodoListEntity(BringBaseEntity, TodoListEntity):
                 str(uuid.uuid4()),
             )
         except BringRequestException as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="todo_save_item_failed",
                 translation_placeholders={"name": item.summary or ""},
@@ -177,7 +177,7 @@ class BringTodoListEntity(BringBaseEntity, TodoListEntity):
                     else BringItemOperation.COMPLETE,
                 )
             except BringRequestException as e:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="todo_update_item_failed",
                     translation_placeholders={"name": item.summary or ""},
@@ -205,7 +205,7 @@ class BringTodoListEntity(BringBaseEntity, TodoListEntity):
                 )
 
             except BringRequestException as e:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="todo_rename_item_failed",
                     translation_placeholders={"name": item.summary or ""},
@@ -231,7 +231,7 @@ class BringTodoListEntity(BringBaseEntity, TodoListEntity):
                 BringItemOperation.REMOVE,
             )
         except BringRequestException as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="todo_delete_item_failed",
                 translation_placeholders={"count": str(len(uids))},
@@ -249,7 +249,7 @@ class BringTodoListEntity(BringBaseEntity, TodoListEntity):
         try:
             await self.coordinator.bring.notify(self._list_uuid, message, item or None)
         except BringRequestException as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="notify_request_failed",
             ) from e

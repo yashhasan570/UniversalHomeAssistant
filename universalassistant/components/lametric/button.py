@@ -8,7 +8,7 @@ from demetriek import LaMetricDevice
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import LaMetricConfigEntry, LaMetricDataUpdateCoordinator
@@ -54,7 +54,7 @@ BUTTONS = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: LaMetricConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

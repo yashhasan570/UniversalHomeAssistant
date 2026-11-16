@@ -22,7 +22,7 @@ from probatio import to_openapi
 from universalassistant.components import conversation
 from universalassistant.config_entries import ConfigSubentry
 from universalassistant.const import CONF_MODEL
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, llm
 from universalassistant.helpers.json import json_dumps
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -101,7 +101,7 @@ def _decode_tool_arguments(arguments: str) -> Any:
     try:
         return json.loads(arguments)
     except json.JSONDecodeError as err:
-        raise __HAC_KEEP__Error(f"Unexpected tool argument response: {err}") from err
+        raise UniversalAssistantError(f"Unexpected tool argument response: {err}") from err
 
 
 async def _transform_response(
@@ -180,23 +180,23 @@ class LiteLLMEntity(CoordinatorEntity[LiteLLMDataUpdateCoordinator]):
                 await coordinator.async_request_refresh()
                 # pylint: disable-next=universal-assistant-log-and-raise
                 LOGGER.error("Error talking to API: %s", err)
-                raise __HAC_KEEP__Error("Error talking to API") from err
+                raise UniversalAssistantError("Error talking to API") from err
             except openai.APIConnectionError as err:
                 coordinator.mark_connection_error()
                 # pylint: disable-next=universal-assistant-log-and-raise
                 LOGGER.error("Error talking to API: %s", err)
-                raise __HAC_KEEP__Error("Error talking to API") from err
+                raise UniversalAssistantError("Error talking to API") from err
             except openai.OpenAIError as err:
                 # Reachable but the request failed; keep the entity available.
                 coordinator.async_set_updated_data(None)
                 # pylint: disable-next=universal-assistant-log-and-raise
                 LOGGER.error("Error talking to API: %s", err)
-                raise __HAC_KEEP__Error("Error talking to API") from err
+                raise UniversalAssistantError("Error talking to API") from err
 
             if not result.choices:
                 # pylint: disable-next=universal-assistant-log-and-raise
                 LOGGER.error("API returned empty choices")
-                raise __HAC_KEEP__Error("API returned empty response")
+                raise UniversalAssistantError("API returned empty response")
 
             result_message = result.choices[0].message
 

@@ -1,4 +1,4 @@
-"""API for Honeywell Lyric bound to __HA_KEEP__ OAuth."""
+"""API for Honeywell Lyric bound to Universal Home Assistant OAuth."""
 
 from typing import cast, override
 

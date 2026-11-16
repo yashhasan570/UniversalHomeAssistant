@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.airthings.const import CONF_SECRET, DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER
 from universalassistant.const import CONF_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -38,7 +38,7 @@ DHCP_SERVICE_INFO = [
 
 
 async def test_full_flow(
-    hass: __HAC_KEEP__, mock_airthings_token: AsyncMock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_airthings_token: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we get the full flow working."""
 
@@ -70,7 +70,7 @@ async def test_full_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airthings_token: AsyncMock,
     exception: Exception,
     error: str,
@@ -101,7 +101,7 @@ async def test_exceptions(
 
 
 async def test_flow_entry_already_exists(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test user input for config_entry that already exists."""
     mock_config_entry.add_to_hass(hass)
@@ -125,7 +125,7 @@ async def test_flow_entry_already_exists(
 
 @pytest.mark.parametrize("dhcp_service_info", DHCP_SERVICE_INFO)
 async def test_dhcp_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     dhcp_service_info: DhcpServiceInfo,
     mock_airthings_token: AsyncMock,
     mock_setup_entry: AsyncMock,
@@ -154,7 +154,7 @@ async def test_dhcp_flow(
 
 
 async def test_dhcp_flow_hub_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that DHCP discovery fails when already configured."""
 

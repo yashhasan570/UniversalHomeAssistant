@@ -14,7 +14,7 @@ from universalassistant.components.light import (
     ColorMode,
     LightEntity,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import AbodeConfigEntry
@@ -22,7 +22,7 @@ from .entity import AbodeDevice
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: AbodeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -55,7 +55,7 @@ class AbodeLight(AbodeDevice, LightEntity):
             return
 
         if ATTR_BRIGHTNESS in kwargs and self._device.is_dimmable:
-            # Convert __HA_KEEP__ brightness (0-255) to Abode brightness (0-99)
+            # Convert Universal Home Assistant brightness (0-255) to Abode brightness (0-99)
             # If 100 is sent to Abode, response is 99 causing an error
             self._device.set_level(ceil(kwargs[ATTR_BRIGHTNESS] * 99 / 255.0))
             return
@@ -80,7 +80,7 @@ class AbodeLight(AbodeDevice, LightEntity):
         if self._device.is_dimmable and self._device.has_brightness:
             brightness = int(self._device.brightness)
             # Abode returns 100 during device initialization and device refresh
-            # Convert Abode brightness (0-99) to __HA_KEEP__ brightness (0-255)
+            # Convert Abode brightness (0-99) to Universal Home Assistant brightness (0-255)
             return 255 if brightness == 100 else ceil(brightness * 255 / 99.0)
         return None
 

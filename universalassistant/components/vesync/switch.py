@@ -5,7 +5,12 @@ from dataclasses import dataclass
 import logging
 from typing import Any, Final, override
 
-from pyvesync.base_devices import VeSyncBaseDevice, VeSyncFanBase, VeSyncHumidifier
+from pyvesync.base_devices import (
+    VeSyncBaseDevice,
+    VeSyncFanBase,
+    VeSyncHumidifier,
+    VeSyncPurifier,
+)
 from pyvesync.const import DeviceStatus
 from pyvesync.device_container import DeviceContainer
 
@@ -15,12 +20,19 @@ from universalassistant.components.switch import (
     SwitchEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-from .common import is_fan, is_humidifier, is_outlet, is_wall_switch, rgetattr
+from .common import (
+    is_fan,
+    is_humidifier,
+    is_outlet,
+    is_purifier,
+    is_wall_switch,
+    rgetattr,
+)
 from .const import VS_DEVICES, VS_DISCOVERY
 from .coordinator import VesyncConfigEntry, VeSyncDataCoordinator
 from .entity import VeSyncBaseEntity
@@ -36,21 +48,21 @@ def _toggle_switch(device: VeSyncBaseDevice, *args: Any) -> Awaitable[bool]:
         return device.turn_on()
     if args and args[0] is False and hasattr(device, "turn_off"):
         return device.turn_off()
-    raise __HAC_KEEP__Error("Device does not support toggling power.")
+    raise UniversalAssistantError("Device does not support toggling power.")
 
 
 def _toggle_display(device: VeSyncBaseDevice, *args: Any) -> Awaitable[bool]:
     """Toggle display on."""
     if hasattr(device, "toggle_display"):
         return device.toggle_display(*args)
-    raise __HAC_KEEP__Error("Device does not support toggling display.")
+    raise UniversalAssistantError("Device does not support toggling display.")
 
 
 def _toggle_child_lock(device: VeSyncBaseDevice, *args: Any) -> Awaitable[bool]:
     """Toggle child lock on."""
     if hasattr(device, "toggle_child_lock"):
         return device.toggle_child_lock(*args)
-    raise __HAC_KEEP__Error("Device does not support toggling child lock.")
+    raise UniversalAssistantError("Device does not support toggling child lock.")
 
 
 def _toggle_auto_stop(device: VeSyncBaseDevice, *args: Any) -> Awaitable[bool]:
@@ -59,7 +71,7 @@ def _toggle_auto_stop(device: VeSyncBaseDevice, *args: Any) -> Awaitable[bool]:
         case VeSyncHumidifier() as sw if hasattr(sw, "toggle_automatic_stop"):
             return sw.toggle_automatic_stop(*args)
         case _:
-            raise __HAC_KEEP__Error("Device does not support toggling automatic stop.")
+            raise UniversalAssistantError("Device does not support toggling automatic stop.")
 
 
 def _toggle_drying_mode_on_power_off(
@@ -70,7 +82,18 @@ def _toggle_drying_mode_on_power_off(
         case VeSyncHumidifier() as sw if hasattr(sw, "toggle_drying_mode"):
             return sw.toggle_drying_mode(target)
         case _:
-            raise __HAC_KEEP__Error("Device does not support toggling drying mode.")
+            raise UniversalAssistantError("Device does not support toggling drying mode.")
+
+
+def _toggle_light_detection(device: VeSyncBaseDevice, target: bool) -> Awaitable[bool]:
+    """Toggle light detection on purifier devices."""
+    match device:
+        case VeSyncPurifier() as sw if hasattr(sw, "toggle_light_detection"):
+            return sw.toggle_light_detection(target)
+        case _:
+            raise UniversalAssistantError(
+                "Device does not support toggling light detection."
+            )
 
 
 def _toggle_mute(device: VeSyncBaseDevice, target: bool) -> Awaitable[bool]:
@@ -79,7 +102,7 @@ def _toggle_mute(device: VeSyncBaseDevice, target: bool) -> Awaitable[bool]:
         case VeSyncFanBase() as sw if hasattr(sw, "toggle_mute"):
             return sw.toggle_mute(target)
         case _:
-            raise __HAC_KEEP__Error("Device does not support toggling mute.")
+            raise UniversalAssistantError("Device does not support toggling mute.")
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -95,7 +118,7 @@ class VeSyncSwitchEntityDescription(SwitchEntityDescription):
 SENSOR_DESCRIPTIONS: Final[tuple[VeSyncSwitchEntityDescription, ...]] = (
     VeSyncSwitchEntityDescription(
         key="device_status",
-        is_on=lambda device: device.state.device_status == "on",
+        is_on=lambda device: device.state.device_status == DeviceStatus.ON,
         # Other types of wall switches support dimming.  Those use light.py platform.
         exists_fn=lambda device: is_wall_switch(device) or is_outlet(device),
         name=None,
@@ -104,7 +127,7 @@ SENSOR_DESCRIPTIONS: Final[tuple[VeSyncSwitchEntityDescription, ...]] = (
     ),
     VeSyncSwitchEntityDescription(
         key="display",
-        is_on=lambda device: device.state.display_set_status == "on",
+        is_on=lambda device: device.state.display_set_status == DeviceStatus.ON,
         exists_fn=(
             lambda device: rgetattr(device, "state.display_set_status") is not None
         ),
@@ -145,6 +168,17 @@ SENSOR_DESCRIPTIONS: Final[tuple[VeSyncSwitchEntityDescription, ...]] = (
         entity_category=EntityCategory.CONFIG,
     ),
     VeSyncSwitchEntityDescription(
+        key="light_detection",
+        is_on=lambda device: device.state.light_detection_switch == DeviceStatus.ON,
+        exists_fn=(
+            lambda device: is_purifier(device) and device.supports_light_detection
+        ),
+        translation_key="light_detection",
+        on_fn=lambda device: _toggle_light_detection(device, True),
+        off_fn=lambda device: _toggle_light_detection(device, False),
+        entity_category=EntityCategory.CONFIG,
+    ),
+    VeSyncSwitchEntityDescription(
         key="mute",
         is_on=lambda device: device.state.mute_status == DeviceStatus.ON,
         exists_fn=lambda device: is_fan(device) and device.supports_mute,
@@ -157,7 +191,7 @@ SENSOR_DESCRIPTIONS: Final[tuple[VeSyncSwitchEntityDescription, ...]] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: VesyncConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -227,8 +261,8 @@ class VeSyncSwitchEntity(SwitchEntity, VeSyncBaseEntity[VeSyncBaseDevice]):
         """Turn the entity off."""
         if not await self.entity_description.off_fn(self.device):
             if self.device.last_response:
-                raise __HAC_KEEP__Error(self.device.last_response.message)
-            raise __HAC_KEEP__Error("Unknown error turning off device, no response.")
+                raise UniversalAssistantError(self.device.last_response.message)
+            raise UniversalAssistantError("Unknown error turning off device, no response.")
 
         self.async_write_ha_state()
 
@@ -237,7 +271,7 @@ class VeSyncSwitchEntity(SwitchEntity, VeSyncBaseEntity[VeSyncBaseDevice]):
         """Turn the entity on."""
         if not await self.entity_description.on_fn(self.device):
             if self.device.last_response:
-                raise __HAC_KEEP__Error(self.device.last_response.message)
-            raise __HAC_KEEP__Error("Unknown error turning on device, no response.")
+                raise UniversalAssistantError(self.device.last_response.message)
+            raise UniversalAssistantError("Unknown error turning on device, no response.")
 
         self.async_write_ha_state()

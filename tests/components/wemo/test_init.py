@@ -15,7 +15,7 @@ from universalassistant.components.wemo import (
     async_wemo_dispatcher_connect,
 )
 from universalassistant.components.wemo.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -30,18 +30,18 @@ from .conftest import (
 )
 
 
-async def test_config_no_config(hass: __HAC_KEEP__) -> None:
+async def test_config_no_config(hass: UniversalAssistant) -> None:
     """Component setup succeeds when there are no config entry for the domain."""
     assert await async_setup_component(hass, DOMAIN, {})
 
 
-async def test_config_no_static(hass: __HAC_KEEP__) -> None:
+async def test_config_no_static(hass: UniversalAssistant) -> None:
     """Component setup succeeds when there are no static config entries."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {CONF_DISCOVERY: False}})
 
 
 async def test_static_duplicate_static_entry(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, pywemo_device
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, pywemo_device
 ) -> None:
     """Duplicate static entries are merged into a single entity."""
     static_config_entry = f"{MOCK_HOST}:{MOCK_PORT}"
@@ -64,7 +64,7 @@ async def test_static_duplicate_static_entry(
 
 
 async def test_static_config_with_port(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, pywemo_device
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, pywemo_device
 ) -> None:
     """Static device with host and port is added and removed."""
     assert await async_setup_component(
@@ -83,7 +83,7 @@ async def test_static_config_with_port(
 
 
 async def test_static_config_without_port(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, pywemo_device
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, pywemo_device
 ) -> None:
     """Static device with host and no port is added and removed."""
     assert await async_setup_component(
@@ -102,7 +102,7 @@ async def test_static_config_without_port(
 
 
 async def test_reload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     pywemo_device: pywemo.WeMoDevice,
     pywemo_registry: pywemo.SubscriptionRegistry,
@@ -149,7 +149,7 @@ async def test_reload_config_entry(
     assert ids == (entry_id, entity_id)
 
 
-async def test_static_config_with_invalid_host(hass: __HAC_KEEP__) -> None:
+async def test_static_config_with_invalid_host(hass: UniversalAssistant) -> None:
     """Component setup fails if a static host is invalid."""
     setup_success = await async_setup_component(
         hass,
@@ -165,7 +165,7 @@ async def test_static_config_with_invalid_host(hass: __HAC_KEEP__) -> None:
 
 
 async def test_static_with_upnp_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     pywemo_device: pywemo.WeMoDevice,
 ) -> None:
@@ -188,7 +188,7 @@ async def test_static_with_upnp_failure(
 
 
 async def test_discovery(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, pywemo_registry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, pywemo_registry
 ) -> None:
     """Verify that discovery dispatches devices to the platform for setup."""
 

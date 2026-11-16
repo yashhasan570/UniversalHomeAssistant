@@ -5,8 +5,8 @@ from universalassistant.config import (
     async_process_component_and_handle_errors,
 )
 from universalassistant.const import CONF_RESOURCES
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.service import async_register_admin_service
 from universalassistant.loader import async_get_integration
 
@@ -30,8 +30,8 @@ async def _reload_resources_service_handler(service_call: ServiceCall) -> None:
         )
     try:
         conf = await async_hass_config_yaml(hass)
-    except __HAC_KEEP__Error as err:
-        raise __HAC_KEEP__Error(
+    except UniversalAssistantError as err:
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="failed_to_reload",
         ) from err
@@ -41,7 +41,7 @@ async def _reload_resources_service_handler(service_call: ServiceCall) -> None:
     config = await async_process_component_and_handle_errors(hass, conf, integration)
 
     if config is None:
-        raise __HAC_KEEP__Error("Config validation failed")
+        raise UniversalAssistantError("Config validation failed")
 
     resource_collection = await resources.create_yaml_resource_col(
         hass, config[DOMAIN].get(CONF_RESOURCES)
@@ -50,7 +50,7 @@ async def _reload_resources_service_handler(service_call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the services for the Lovelace integration."""
     async_register_admin_service(
         hass,

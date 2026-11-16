@@ -10,12 +10,12 @@ from universalassistant.components.mill import DOMAIN
 from universalassistant.components.mill.coordinator import MillDataUpdateCoordinator
 from universalassistant.components.recorder import Recorder
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
 async def test_setup_with_cloud_config(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test setup of cloud config."""
     entry = MockConfigEntry(
@@ -37,7 +37,7 @@ async def test_setup_with_cloud_config(
 
 
 async def test_setup_with_cloud_config_fails(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test setup of cloud config."""
     entry = MockConfigEntry(
@@ -55,7 +55,7 @@ async def test_setup_with_cloud_config_fails(
 
 
 async def test_setup_with_cloud_config_times_out(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test setup of cloud config will retry if timed out."""
     entry = MockConfigEntry(
@@ -73,7 +73,7 @@ async def test_setup_with_cloud_config_times_out(
 
 
 async def test_setup_with_old_cloud_config(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test setup of old cloud config."""
     entry = MockConfigEntry(
@@ -94,7 +94,7 @@ async def test_setup_with_old_cloud_config(
 
 
 async def test_setup_with_local_config(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test setup of local config."""
     entry = MockConfigEntry(
@@ -132,7 +132,7 @@ async def test_setup_with_local_config(
     assert len(mock_connect.mock_calls) == 1
 
 
-async def test_unload_entry(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
+async def test_unload_entry(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
     """Test removing mill client."""
     entry = MockConfigEntry(
         domain=mill.DOMAIN,

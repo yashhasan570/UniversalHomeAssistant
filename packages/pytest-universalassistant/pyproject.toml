@@ -7,11 +7,11 @@ name = "pytest-universalassistant"
 version = "0.0.0"
 license = "Apache-2.0"
 license-files = ["LICENSE.md"]
-description = "Pytest fixtures and test helpers for __HA_KEEP__."
+description = "Pytest fixtures and test helpers for Universal Home Assistant."
 readme = "README.md"
 requires-python = ">=3.14.2"
 authors = [
-  { name = "The __HA_KEEP__ Authors", email = "hello@universalassistant.io" },
+  { name = "The Universal Home Assistant Authors", email = "hello@universalassistant.io" },
 ]
 
 # Dependency pins are synchronized by script.gen_requirements_all.
@@ -48,7 +48,7 @@ infrared = ["infrared-protocols==10.7.0"]
 radio-frequency = ["rf-protocols==4.3.0"]
 
 [project.urls]
-Repository = "https://github.com/yashhasan570/__HAC_KEEP__"
+Repository = "https://github.com/yashhasan570/UniversalUniversalAssistant"
 Documentation = "https://contributors.universalassistant.io"
 
 [tool.setuptools.packages.find]

@@ -1,4 +1,4 @@
-"""__HA_KEEP__ SkyConnect firmware update entity."""
+"""Universal Home Assistant SkyConnect firmware update entity."""
 
 import logging
 from typing import override
@@ -17,12 +17,12 @@ from universalassistant.components.universalassistant_hardware.util import (
 )
 from universalassistant.components.update import UpdateDeviceClass
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-from . import __HAC_KEEP__SkyConnectConfigEntry
+from . import UniversalAssistantSkyConnectConfigEntry
 from .const import (
     DOMAIN,
     FIRMWARE,
@@ -97,8 +97,8 @@ FIRMWARE_ENTITY_DESCRIPTIONS: dict[
 
 
 def _async_create_update_entity(
-    hass: __HAC_KEEP__,
-    config_entry: __HAC_KEEP__SkyConnectConfigEntry,
+    hass: UniversalAssistant,
+    config_entry: UniversalAssistantSkyConnectConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> FirmwareUpdateEntity:
     """Create an update entity that handles firmware type changes."""
@@ -138,8 +138,8 @@ def _async_create_update_entity(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
-    config_entry: __HAC_KEEP__SkyConnectConfigEntry,
+    hass: UniversalAssistant,
+    config_entry: UniversalAssistantSkyConnectConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the firmware update config entry."""
@@ -156,7 +156,7 @@ class FirmwareUpdateEntity(BaseFirmwareUpdateEntity):
     def __init__(
         self,
         device: str,
-        config_entry: __HAC_KEEP__SkyConnectConfigEntry,
+        config_entry: UniversalAssistantSkyConnectConfigEntry,
         update_coordinator: FirmwareUpdateCoordinator,
         entity_description: FirmwareUpdateEntityDescription,
     ) -> None:

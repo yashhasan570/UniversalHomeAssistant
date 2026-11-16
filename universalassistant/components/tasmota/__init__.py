@@ -20,7 +20,7 @@ from universalassistant.components.mqtt import (
     async_unsubscribe_topics,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceRegistry
 
@@ -35,7 +35,7 @@ from .const import (
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up Tasmota from a config entry."""
     hass.data[DATA_UNSUB] = []
 
@@ -77,7 +77,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a config entry."""
 
     # cleanup platforms
@@ -101,7 +101,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
 
 
 async def _remove_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     mac: str,
     tasmota_mqtt: TasmotaMQTTClient,
@@ -120,7 +120,7 @@ async def _remove_device(
 
 
 def _update_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     config: TasmotaDeviceConfig,
     device_registry: DeviceRegistry,
@@ -139,7 +139,7 @@ def _update_device(
 
 
 async def async_setup_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mac: str,
     config: TasmotaDeviceConfig,
     config_entry: ConfigEntry,
@@ -154,7 +154,7 @@ async def async_setup_device(
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry, device_entry: dr.AnyDeviceEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry, device_entry: dr.AnyDeviceEntry
 ) -> bool:
     """Remove Tasmota config entry from a device."""
     if not isinstance(device_entry, dr.DeviceEntry):

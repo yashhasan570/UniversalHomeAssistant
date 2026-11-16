@@ -9,7 +9,7 @@ from Tami4EdgeAPI import Tami4EdgeAPI
 from Tami4EdgeAPI.drink import Drink
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity import EntityDescription
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -41,7 +41,7 @@ BOIL_WATER_BUTTON = Tami4EdgeButtonEntityDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: Tami4ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

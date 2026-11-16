@@ -5,7 +5,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .device import ONVIFConfigEntry
 
@@ -13,7 +13,7 @@ REDACT_CONFIG = {CONF_HOST, CONF_PASSWORD, CONF_USERNAME}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: ONVIFConfigEntry
+    hass: UniversalAssistant, entry: ONVIFConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     device = entry.runtime_data

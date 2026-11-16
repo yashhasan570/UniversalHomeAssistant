@@ -7,8 +7,8 @@ import pytest
 
 from universalassistant.components.kodi.const import DOMAIN
 from universalassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.setup import async_setup_component
 
 NOTIFY_CONFIG = {
@@ -21,14 +21,14 @@ NOTIFY_CONFIG = {
 }
 
 
-async def setup_notify(hass: __HAC_KEEP__, server: AsyncMock) -> None:
+async def setup_notify(hass: UniversalAssistant, server: AsyncMock) -> None:
     """Set up the Kodi notify platform with a mocked server."""
     with patch("jsonrpc_async.Server", return_value=server):
         assert await async_setup_component(hass, NOTIFY_DOMAIN, NOTIFY_CONFIG)
         await hass.async_block_till_done()
 
 
-async def test_send_message(hass: __HAC_KEEP__) -> None:
+async def test_send_message(hass: UniversalAssistant) -> None:
     """Test sending a notification to Kodi."""
     server = AsyncMock()
     await setup_notify(hass, server)
@@ -40,7 +40,7 @@ async def test_send_message(hass: __HAC_KEEP__) -> None:
     server.GUI.ShowNotification.assert_called_once_with("Test", "Hello", "info", 10000)
 
 
-async def test_send_message_transport_error(hass: __HAC_KEEP__) -> None:
+async def test_send_message_transport_error(hass: UniversalAssistant) -> None:
     """Test an unreachable Kodi raises an error instead of only logging."""
     server = AsyncMock()
     server.GUI.ShowNotification.side_effect = jsonrpc_async.TransportError(
@@ -48,7 +48,7 @@ async def test_send_message_transport_error(hass: __HAC_KEEP__) -> None:
     )
     await setup_notify(hass, server)
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             NOTIFY_DOMAIN, "kodi", {"message": "Hello"}, blocking=True
         )

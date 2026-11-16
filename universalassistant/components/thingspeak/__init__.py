@@ -13,7 +13,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__
+from universalassistant.core import Event, EventStateChangedData, UniversalAssistant
 from universalassistant.helpers import config_validation as cv, state as state_helper
 from universalassistant.helpers.event import async_track_state_change_event
 from universalassistant.helpers.typing import ConfigType
@@ -38,7 +38,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Thingspeak environment."""
     conf = config[DOMAIN]
     api_key = conf.get(CONF_API_KEY)

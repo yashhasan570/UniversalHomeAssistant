@@ -24,7 +24,7 @@ from universalassistant.config_entries import (
     ConfigEntryState,
 )
 from universalassistant.const import CONF_EXCLUDE, CONF_HOST, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.setup import async_setup_component
@@ -35,7 +35,7 @@ EXCLUDE_ISSUE_ID = "yaml_exclude_unused"
 
 
 async def test_setup_and_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_discovery_service: Mock,
@@ -62,7 +62,7 @@ async def test_setup_and_unload(
 
 @pytest.mark.usefixtures("mock_create_discovery", "mock_controller")
 async def test_setup_removes_stale_zone_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_setup_removes_stale_zone_devices(
 
 @pytest.mark.usefixtures("mock_create_discovery")
 async def test_reconfigured_system_reloads_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
@@ -136,7 +136,7 @@ async def test_reconfigured_system_reloads_entry(
 
 
 async def test_migrate_heals_legacy_domain_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_discovery: AsyncMock,
     mock_discovery_service: Mock,
     mock_controller: Mock,
@@ -167,7 +167,7 @@ async def test_migrate_heals_legacy_domain_unique_id(
 
 
 async def test_migrate_heals_legacy_domain_unique_id_keeps_custom_title(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_discovery: AsyncMock,
     mock_discovery_service: Mock,
     mock_controller: Mock,
@@ -193,12 +193,12 @@ async def test_migrate_heals_legacy_domain_unique_id_keeps_custom_title(
     assert entry.title == "Living Room AC"
 
 
-async def _async_setup_yaml(hass: __HAC_KEEP__, config: ConfigType) -> None:
+async def _async_setup_yaml(hass: UniversalAssistant, config: ConfigType) -> None:
     assert await async_setup_component(hass, DOMAIN, config)
     await hass.async_block_till_done()
 
 
-def _discovery_flow_uids(hass: __HAC_KEEP__) -> set[str]:
+def _discovery_flow_uids(hass: UniversalAssistant) -> set[str]:
     return {
         flow["context"]["unique_id"]
         for flow in hass.config_entries.flow.async_progress_by_handler(DOMAIN)
@@ -227,7 +227,7 @@ def _legacy_entry() -> MockConfigEntry:
     ],
 )
 async def test_yaml_exclude_raises_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     config: ConfigType,
     issue_expected: bool,
@@ -242,7 +242,7 @@ async def test_yaml_exclude_raises_issue(
 
 @pytest.mark.usefixtures("mock_create_discovery")
 async def test_setup_removes_ignored_legacy_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """An ignored legacy entry is removed and does not hold back the repair."""
@@ -271,7 +271,7 @@ async def test_setup_removes_ignored_legacy_entry(
 
 @pytest.mark.usefixtures("mock_create_discovery")
 async def test_disabled_legacy_entry_holds_exclude_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """A disabled legacy entry has not migrated yet, so the repair waits."""
@@ -297,7 +297,7 @@ async def test_disabled_legacy_entry_holds_exclude_issue(
     ],
 )
 async def test_migrate_legacy_domain_unique_id_filters_yaml_excluded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_discovery_service: Mock,
     exclude: str | list[str],
@@ -323,7 +323,7 @@ async def test_migrate_legacy_domain_unique_id_filters_yaml_excluded(
 
 @pytest.mark.usefixtures("mock_create_discovery")
 async def test_migrate_legacy_domain_unique_id_only_excluded_retries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_discovery_service: Mock,
 ) -> None:
@@ -344,7 +344,7 @@ async def test_migrate_legacy_domain_unique_id_only_excluded_retries(
 
 @pytest.mark.usefixtures("mock_create_discovery")
 async def test_migrate_legacy_domain_unique_id_multiple_after_exclude_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_discovery_service: Mock,
 ) -> None:
@@ -368,7 +368,7 @@ async def test_migrate_legacy_domain_unique_id_multiple_after_exclude_fails(
 
 @pytest.mark.usefixtures("mock_create_discovery", "mock_controller")
 async def test_migrate_legacy_domain_unique_id_retry_defers_exclude_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_discovery_service: Mock,
 ) -> None:
@@ -395,7 +395,7 @@ async def test_migrate_legacy_domain_unique_id_retry_defers_exclude_issue(
 
 
 async def test_migrate_legacy_domain_unique_id_filters_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_discovery: AsyncMock,
     mock_discovery_service: Mock,
     mock_controller: Mock,
@@ -433,7 +433,7 @@ async def test_migrate_legacy_domain_unique_id_filters_already_configured(
 
 
 async def test_migrate_v1_legacy_domain_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_discovery: AsyncMock,
     mock_discovery_service: Mock,
     mock_controller: Mock,
@@ -463,7 +463,7 @@ async def test_migrate_v1_legacy_domain_unique_id(
 
 
 async def test_migrate_complete_v2_1_bumps_minor_without_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_discovery: AsyncMock,
     mock_discovery_service: Mock,
     mock_controller: Mock,
@@ -492,7 +492,7 @@ async def test_migrate_complete_v2_1_bumps_minor_without_discovery(
 
 
 async def test_migrate_legacy_domain_unique_id_no_eligible_retries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_discovery: AsyncMock,
     mock_discovery_service: Mock,
 ) -> None:
@@ -516,7 +516,7 @@ async def test_migrate_legacy_domain_unique_id_no_eligible_retries(
 
 
 async def test_migrate_legacy_domain_unique_id_multiple_eligible_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_discovery: AsyncMock,
     mock_discovery_service: Mock,
 ) -> None:
@@ -543,7 +543,7 @@ async def test_migrate_legacy_domain_unique_id_multiple_eligible_fails(
 
 
 async def test_migrate_heals_missing_host_via_discover_endpoint(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_discovery: AsyncMock,
     mock_discovery_service: Mock,
     mock_controller: Mock,
@@ -570,7 +570,7 @@ async def test_migrate_heals_missing_host_via_discover_endpoint(
 
 
 async def test_migrate_missing_host_not_found_retries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_discovery: AsyncMock,
     mock_discovery_service: Mock,
 ) -> None:
@@ -593,7 +593,7 @@ async def test_migrate_missing_host_not_found_retries(
 
 
 async def test_migrate_missing_host_verify_error_retries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_discovery: AsyncMock,
     mock_discovery_service: Mock,
 ) -> None:
@@ -626,7 +626,7 @@ async def test_migrate_missing_host_verify_error_retries(
     ],
 )
 async def test_migrate_legacy_domain_unique_id_discovery_error_retries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_discovery: AsyncMock,
     side_effect: Exception,
 ) -> None:
@@ -659,7 +659,7 @@ async def test_migrate_legacy_domain_unique_id_discovery_error_retries(
     ],
 )
 async def test_migrate_missing_host_discover_error_retries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_discovery: AsyncMock,
     side_effect: Exception,
 ) -> None:
@@ -710,7 +710,7 @@ async def test_migrate_missing_host_discover_error_retries(
     ],
 )
 async def test_setup_create_controller_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_discovery_service: Mock,
@@ -730,7 +730,7 @@ async def test_setup_create_controller_errors(
 
 
 async def test_setup_discovery_bind_failure_retries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """UDP bind failure during discovery start leaves the entry in SETUP_RETRY."""
@@ -766,7 +766,7 @@ async def test_setup_discovery_bind_failure_retries(
     ],
 )
 async def test_setup_first_refresh_failure_closes_controller(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_controller: Mock,
@@ -792,7 +792,7 @@ async def test_setup_first_refresh_failure_closes_controller(
 
 
 async def test_setup_platform_failure_closes_controller(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_controller: Mock,
@@ -811,7 +811,7 @@ async def test_setup_platform_failure_closes_controller(
 
 
 async def test_setup_cancelled_closes_controller(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_controller: Mock,
@@ -830,7 +830,7 @@ async def test_setup_cancelled_closes_controller(
 
 
 async def test_address_changed_updates_config_entry_host(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_discovery_service: Mock,
@@ -850,7 +850,7 @@ async def test_address_changed_updates_config_entry_host(
 
 
 async def test_address_changed_same_host_is_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_discovery_service: Mock,
@@ -871,7 +871,7 @@ async def test_address_changed_same_host_is_ignored(
 
 
 async def test_last_unload_stops_shared_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_discovery: AsyncMock,
     mock_discovery_service: Mock,
 ) -> None:
@@ -923,7 +923,7 @@ async def test_last_unload_stops_shared_discovery(
 
 
 async def test_setup_after_last_unload_recreates_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_discovery_service: Mock,

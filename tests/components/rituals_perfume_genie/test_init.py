@@ -16,8 +16,8 @@ from ritualsgenie import (
 from universalassistant.components.rituals_perfume_genie.const import ACCOUNT_HASH, DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CONF_TOKEN, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -30,7 +30,7 @@ from .common import (
 
 
 async def test_migration_v1_to_v2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rituals_client: AsyncMock,
     old_mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -48,7 +48,7 @@ async def test_migration_v1_to_v2(
 
 
 async def test_config_entry_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rituals_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_config_entry_not_ready(
 
 
 async def test_config_entry_auth_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rituals_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -90,7 +90,7 @@ async def test_config_entry_auth_failed(
     ],
 )
 async def test_update_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     exception: Exception,
     translation_key: str,
@@ -109,12 +109,12 @@ async def test_update_failed(
     assert state.state == STATE_UNAVAILABLE
 
     error = config_entry.runtime_data.hubs.last_exception
-    assert isinstance(error, __HAC_KEEP__Error)
+    assert isinstance(error, UniversalAssistantError)
     assert error.translation_key == translation_key
 
 
 async def test_update_auth_failed(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test a reauth flow is started when the credentials stopped working."""
     config_entry = mock_config_entry(unique_id="id_123_update_auth_failed")
@@ -130,7 +130,7 @@ async def test_update_auth_failed(
     assert flows[0]["context"]["source"] == SOURCE_REAUTH
 
 
-async def test_config_entry_unload(hass: __HAC_KEEP__) -> None:
+async def test_config_entry_unload(hass: UniversalAssistant) -> None:
     """Test the Rituals Perfume Genie configuration entry setup and unloading."""
     config_entry = mock_config_entry(unique_id="id_123_unload")
     await init_integration(hass, config_entry, [mock_diffuser(hublot="lot123")])
@@ -142,7 +142,7 @@ async def test_config_entry_unload(hass: __HAC_KEEP__) -> None:
 
 
 async def test_entity_id_migration(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the migration of unique IDs on config entry setup."""
     config_entry = mock_config_entry(unique_id="binary_sensor_test_diffuser_v1")
@@ -204,7 +204,7 @@ async def test_entity_id_migration(
     assert entry.unique_id == "lot123v1-is_on"
 
 
-async def test_token_reused(hass: __HAC_KEEP__) -> None:
+async def test_token_reused(hass: UniversalAssistant) -> None:
     """Test a stored token is handed to the client, saving a login."""
     config_entry = mock_config_entry(unique_id="id_123_token_reused")
     config_entry.add_to_hass(hass)
@@ -224,7 +224,7 @@ async def test_token_reused(hass: __HAC_KEEP__) -> None:
 
 
 async def test_token_stored(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test a new token is stored in the config entry."""
     config_entry = mock_config_entry(unique_id="id_123_token_stored")
@@ -240,7 +240,7 @@ async def test_token_stored(
     assert config_entry.data[CONF_TOKEN] == "new-token"
 
 
-async def test_token_stored_on_failure(hass: __HAC_KEEP__) -> None:
+async def test_token_stored_on_failure(hass: UniversalAssistant) -> None:
     """Test a new token is stored, even when the request after the login fails."""
     config_entry = mock_config_entry(unique_id="id_123_token_stored_on_failure")
     config_entry.add_to_hass(hass)

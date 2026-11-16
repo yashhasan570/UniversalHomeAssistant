@@ -15,7 +15,7 @@ from trmnl.exceptions import TRMNLError
 from trmnl.models import Device
 
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -23,7 +23,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_trmnl_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -37,7 +37,7 @@ async def test_all_entities(
 
 
 async def test_coordinator_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_trmnl_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -56,7 +56,7 @@ async def test_coordinator_unavailable(
 
 
 async def test_dynamic_new_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_trmnl_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

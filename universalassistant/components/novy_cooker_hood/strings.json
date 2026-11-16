@@ -41,7 +41,7 @@
           "code": "The code your hood is paired with (1-10). Code 1 is the factory default.",
           "transmitter": "[%key:common::config_flow::data_description::radio_frequency_transmitter%]"
         },
-        "description": "After you submit, __HA_KEEP__ will toggle the hood light on and off to verify the code works."
+        "description": "After you submit, Universal Home Assistant will toggle the hood light on and off to verify the code works."
       }
     }
   },

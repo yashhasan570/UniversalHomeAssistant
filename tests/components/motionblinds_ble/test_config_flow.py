@@ -10,14 +10,14 @@ from universalassistant import config_entries
 from universalassistant.components.bluetooth.models import BluetoothServiceInfoBleak
 from universalassistant.components.motionblinds_ble import const
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("motionblinds_ble_connect")
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_config_flow_manual_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     blind_type: MotionBlindType,
     mac_code: str,
     address: str,
@@ -58,7 +58,7 @@ async def test_config_flow_manual_success(
 @pytest.mark.usefixtures("motionblinds_ble_connect")
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_config_flow_manual_error_invalid_mac(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mac_code: str,
     address: str,
     local_name: str,
@@ -110,7 +110,7 @@ async def test_config_flow_manual_error_invalid_mac(
 
 @pytest.mark.usefixtures("motionblinds_ble_connect")
 async def test_config_flow_manual_error_no_bluetooth_adapter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mac_code: str,
 ) -> None:
     """No Bluetooth adapter error flow manually initialized by the user."""
@@ -148,7 +148,7 @@ async def test_config_flow_manual_error_no_bluetooth_adapter(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_config_flow_manual_error_could_not_find_motor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     motionblinds_ble_connect: tuple[AsyncMock, Mock],
     mac_code: str,
     local_name: str,
@@ -202,7 +202,7 @@ async def test_config_flow_manual_error_could_not_find_motor(
 
 
 async def test_config_flow_manual_error_no_devices_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     motionblinds_ble_connect: tuple[AsyncMock, Mock],
     mac_code: str,
 ) -> None:
@@ -228,7 +228,7 @@ async def test_config_flow_manual_error_no_devices_found(
 
 @pytest.mark.usefixtures("motionblinds_ble_connect")
 async def test_config_flow_bluetooth_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mac_code: str,
     service_info: BluetoothServiceInfoBleak,
     address: str,
@@ -265,7 +265,7 @@ async def test_config_flow_bluetooth_success(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the options flow."""

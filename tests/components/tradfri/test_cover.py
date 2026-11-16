@@ -17,7 +17,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .common import CommandStore, setup_integration
 
@@ -32,7 +32,7 @@ def blind_without_values(blind: str) -> str:
 
 @pytest.mark.parametrize("device", ["blind"], indirect=True)
 async def test_cover_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     command_store: CommandStore,
     device: Device,
 ) -> None:
@@ -67,7 +67,7 @@ async def test_cover_available(
     ],
 )
 async def test_cover_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     command_store: CommandStore,
     device: Device,
     service: str,
@@ -102,7 +102,7 @@ async def test_cover_services(
 
 @pytest.mark.parametrize("device", ["blind_without_values"], indirect=True)
 async def test_cover_without_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     command_store: CommandStore,
     device: Device,
 ) -> None:

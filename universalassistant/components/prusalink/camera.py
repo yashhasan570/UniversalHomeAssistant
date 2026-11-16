@@ -6,7 +6,7 @@ from typing import override
 from pyprusalink.types import PrinterState
 
 from universalassistant.components.camera import Camera, CameraEntityDescription
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import PrusaLinkConfigEntry, PrusaLinkUpdateCoordinator
@@ -21,7 +21,7 @@ class PrusaLinkCameraEntityDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: PrusaLinkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

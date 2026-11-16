@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components import insteon
 from universalassistant.components.insteon.const import CONF_DEV_PATH, DOMAIN, InsteonService
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.setup import async_setup_component
 
@@ -26,7 +26,7 @@ async def mock_failed_connection(*args, **kwargs):
     raise ConnectionError("Connection failed")
 
 
-async def test_setup_entry(hass: __HAC_KEEP__) -> None:
+async def test_setup_entry(hass: UniversalAssistant) -> None:
     """Test setting up the entry."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=MOCK_USER_INPUT_PLM)
     config_entry.add_to_hass(hass)
@@ -49,7 +49,7 @@ async def test_setup_entry(hass: __HAC_KEEP__) -> None:
 
 
 async def test_setup_entry_failed_connection(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setting up the entry with a failed connection."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=MOCK_USER_INPUT_PLM)
@@ -67,7 +67,7 @@ async def test_setup_entry_failed_connection(
         assert "Could not connect to Insteon modem" in caplog.text
 
 
-async def test_import_frontend_dev_url(hass: __HAC_KEEP__) -> None:
+async def test_import_frontend_dev_url(hass: UniversalAssistant) -> None:
     """Test importing a dev_url config entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_USER_INPUT_PLM, options={CONF_DEV_PATH: "/some/path"}
@@ -95,7 +95,7 @@ async def test_import_frontend_dev_url(hass: __HAC_KEEP__) -> None:
         assert mock_close.called
 
 
-async def test_action_not_loaded(hass: __HAC_KEEP__) -> None:
+async def test_action_not_loaded(hass: UniversalAssistant) -> None:
     """Test calling an action when the config entry is not loaded."""
     assert await async_setup_component(hass, DOMAIN, {})
 

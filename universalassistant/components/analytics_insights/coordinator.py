@@ -14,7 +14,7 @@ from python_universalassistant_analytics import (
 )
 from python_universalassistant_analytics.models import Addon
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import (
@@ -49,7 +49,7 @@ class HomeassistantAnalyticsDataUpdateCoordinator(DataUpdateCoordinator[Analytic
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: AnalyticsInsightsConfigEntry,
         client: HomeassistantAnalyticsClient,
     ) -> None:

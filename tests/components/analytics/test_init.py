@@ -22,7 +22,7 @@ from universalassistant.components.hassio import HassioNotReadyError
 from universalassistant.components.labs import async_update_preview_feature
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -31,7 +31,7 @@ MOCK_VERSION = "1970.1.0"
 SNAPSHOT_ENDPOINT_URL = SNAPSHOT_DEFAULT_URL + SNAPSHOT_URL_PATH
 
 
-async def test_setup(hass: __HAC_KEEP__) -> None:
+async def test_setup(hass: UniversalAssistant) -> None:
     """Test setup of the integration."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     await hass.async_block_till_done()
@@ -40,7 +40,7 @@ async def test_setup(hass: __HAC_KEEP__) -> None:
 
 
 async def test_setup_with_snapshots_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
@@ -72,7 +72,7 @@ async def test_setup_with_snapshots_url(
     assert any(str(call[1]) == snapshot_endpoint for call in aioclient_mock.mock_calls)
 
 
-async def test_setup_entry_supervisor_not_ready(hass: __HAC_KEEP__) -> None:
+async def test_setup_entry_supervisor_not_ready(hass: UniversalAssistant) -> None:
     """Test that HassioNotReadyError raises ConfigEntryNotReady."""
     with (
         patch(
@@ -92,7 +92,7 @@ async def test_setup_entry_supervisor_not_ready(hass: __HAC_KEEP__) -> None:
 
 
 async def test_schedule_starts_and_sends_analytics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
@@ -124,7 +124,7 @@ async def test_schedule_starts_and_sends_analytics(
     [("analytics", {}), ("analytics/preferences", {"preferences": {"base": True}})],
 )
 async def test_websocket_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     ws_type: str,
     ws_options: dict[str, Any],
@@ -153,7 +153,7 @@ async def test_websocket_not_loaded(
 
 @pytest.mark.usefixtures("mock_snapshot_payload")
 async def test_labs_feature_toggle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -196,7 +196,7 @@ async def test_labs_feature_toggle(
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_websocket(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:

@@ -4,7 +4,7 @@ import logging
 from typing import override
 
 from universalassistant.components.device_tracker import TrackerEntity
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -25,7 +25,7 @@ ATTR_VOIP_STATE = "voip_state"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: TileConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

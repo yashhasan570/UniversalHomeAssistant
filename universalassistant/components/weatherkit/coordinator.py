@@ -9,7 +9,7 @@ from apple_weatherkit.client import WeatherKitApiClient, WeatherKitApiClientErro
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
 
@@ -37,7 +37,7 @@ class WeatherKitDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: WeatherKitConfigEntry,
         client: WeatherKitApiClient,
     ) -> None:

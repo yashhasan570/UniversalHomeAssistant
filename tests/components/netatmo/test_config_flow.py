@@ -18,7 +18,7 @@ from universalassistant.components.netatmo.const import (
     OAUTH2_TOKEN,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.helpers.service_info.zeroconf import (
@@ -31,7 +31,7 @@ from .conftest import CLIENT_ID
 VALID_CONFIG = {}
 
 
-async def test_abort_if_existing_entry(hass: __HAC_KEEP__) -> None:
+async def test_abort_if_existing_entry(hass: UniversalAssistant) -> None:
     """Check flow abort when an entry already exist."""
     MockConfigEntry(domain=DOMAIN, unique_id=DOMAIN).add_to_hass(hass)
 
@@ -58,7 +58,7 @@ async def test_abort_if_existing_entry(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "single_instance_allowed"
 
 
-async def test_abort_if_legacy_entry_without_unique_id(hass: __HAC_KEEP__) -> None:
+async def test_abort_if_legacy_entry_without_unique_id(hass: UniversalAssistant) -> None:
     """Check user flow aborts for a legacy entry that has no unique_id yet."""
     MockConfigEntry(domain=DOMAIN, unique_id=None).add_to_hass(hass)
 
@@ -71,7 +71,7 @@ async def test_abort_if_legacy_entry_without_unique_id(hass: __HAC_KEEP__) -> No
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -120,7 +120,7 @@ async def test_full_flow(
     assert len(mock_setup.mock_calls) == 1
 
 
-async def test_option_flow(hass: __HAC_KEEP__) -> None:
+async def test_option_flow(hass: UniversalAssistant) -> None:
     """Test config flow options."""
     valid_option = {
         "lat_ne": 32.91336,
@@ -178,7 +178,7 @@ async def test_option_flow(hass: __HAC_KEEP__) -> None:
         assert config_entry.options[CONF_WEATHER_AREAS]["Home"][k] == v
 
 
-async def test_option_flow_wrong_coordinates(hass: __HAC_KEEP__) -> None:
+async def test_option_flow_wrong_coordinates(hass: UniversalAssistant) -> None:
     """Test config flow options with mixed up coordinates."""
     valid_option = {
         "lat_ne": 32.1234567,
@@ -238,7 +238,7 @@ async def test_option_flow_wrong_coordinates(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -338,7 +338,7 @@ async def test_reauth(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
@@ -355,7 +355,7 @@ async def test_reconfigure(
     )
     entry.add_to_hass(hass)
 
-    async def _mock_setup_entry(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+    async def _mock_setup_entry(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
         # Netatmo registers an update listener on setup
         entry.async_on_unload(entry.add_update_listener(AsyncMock()))
 

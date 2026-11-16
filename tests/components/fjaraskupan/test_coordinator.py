@@ -10,7 +10,7 @@ import pytest
 
 from universalassistant.components.fjaraskupan.const import DOMAIN
 from universalassistant.components.fjaraskupan.coordinator import exception_converter
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 
 @pytest.mark.parametrize(
@@ -26,7 +26,7 @@ def test_exeception_wrapper(
     exception: Exception, translation_key: str, translation_placeholder: dict[str, str]
 ) -> None:
     """Test our exception conversion."""
-    with pytest.raises(__HAC_KEEP__Error) as exc_info, exception_converter():
+    with pytest.raises(UniversalAssistantError) as exc_info, exception_converter():
         raise exception
     assert exc_info.value.translation_domain == DOMAIN
     assert exc_info.value.translation_key == translation_key

@@ -18,8 +18,8 @@ from universalassistant.const import (
     CONF_TYPE,
     CONF_VALUE_TEMPLATE,
 )
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -118,7 +118,7 @@ class Trigger:
     device_id: str
     discovery_data: DiscoveryInfoType | None = None
     discovery_id: str | None = None
-    hass: __HAC_KEEP__
+    hass: UniversalAssistant
     payload: str | None
     qos: int | None
     subtype: str
@@ -142,7 +142,7 @@ class Trigger:
         def async_remove() -> None:
             """Remove trigger."""
             if instance not in self.trigger_instances:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="mqtt_trigger_cannot_remove_twice",
                 )
@@ -187,7 +187,7 @@ class MqttDeviceTrigger(MqttDiscoveryDeviceUpdateMixin):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config: ConfigType,
         device_id: str,
         discovery_data: DiscoveryInfoType,
@@ -292,7 +292,7 @@ class MqttDeviceTrigger(MqttDiscoveryDeviceUpdateMixin):
 
 
 async def async_setup_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     config_entry: ConfigEntry,
     discovery_data: DiscoveryInfoType,
@@ -333,7 +333,7 @@ async def async_setup_trigger(
     send_discovery_done(hass, discovery_data)
 
 
-async def async_removed_from_device(hass: __HAC_KEEP__, device_id: str) -> None:
+async def async_removed_from_device(hass: UniversalAssistant, device_id: str) -> None:
     """Handle Mqtt removed from a device."""
     mqtt_data = hass.data[DATA_MQTT]
     triggers = await async_get_triggers(hass, device_id)
@@ -350,7 +350,7 @@ async def async_removed_from_device(hass: __HAC_KEEP__, device_id: str) -> None:
 
 
 async def async_get_triggers(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, str]]:
     """List device triggers for MQTT devices."""
     mqtt_data = hass.data[DATA_MQTT]
@@ -371,7 +371,7 @@ async def async_get_triggers(
 
 
 async def async_attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,

@@ -31,7 +31,7 @@ from universalassistant.components.cast import (
 from universalassistant.components.cast.const import (
     DOMAIN,
     SIGNAL_HASS_CAST_SHOW_VIEW,
-    __HAC_KEEP__ControllerData,
+    UniversalAssistantControllerData,
 )
 from universalassistant.components.cast.helpers import CastStatusListener
 from universalassistant.components.cast.media_player import ChromecastInfo
@@ -47,9 +47,9 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.core_config import async_process_ha_core_config
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er, network
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
@@ -124,7 +124,7 @@ def get_fake_zconf(host="192.168.178.42", port=8009):
 
 
 async def async_setup_cast(
-    hass: __HAC_KEEP__, config: dict[str, Any] | None = None
+    hass: UniversalAssistant, config: dict[str, Any] | None = None
 ) -> MagicMock:
     """Set up the cast platform."""
     if config is None:
@@ -142,7 +142,7 @@ async def async_setup_cast(
 
 
 async def async_setup_cast_internal_discovery(
-    hass: __HAC_KEEP__, config: dict[str, Any] | None = None
+    hass: UniversalAssistant, config: dict[str, Any] | None = None
 ) -> tuple[
     Callable[
         [
@@ -211,7 +211,7 @@ async def async_setup_cast_internal_discovery(
     return discover_chromecast, remove_chromecast, add_entities
 
 
-async def async_setup_media_player_cast(hass: __HAC_KEEP__, info: ChromecastInfo):
+async def async_setup_media_player_cast(hass: UniversalAssistant, info: ChromecastInfo):
     """Set up a cast config entry."""
     browser = MagicMock(devices={}, zc={})
     chromecast = get_fake_chromecast(info)
@@ -292,7 +292,7 @@ def get_status_callbacks(chromecast_mock, mz_mock=None):
     return cast_status_cb, conn_status_cb, media_status_cb, group_media_status_cb
 
 
-async def async_send_connection_status(hass: __HAC_KEEP__, callback, status) -> None:
+async def async_send_connection_status(hass: UniversalAssistant, callback, status) -> None:
     """Send a connection status and wait for its state update."""
     callback(status)
     await hass.async_block_till_done()
@@ -300,7 +300,7 @@ async def async_send_connection_status(hass: __HAC_KEEP__, callback, status) -> 
 
 
 async def test_start_discovery_called_once(
-    hass: __HAC_KEEP__, castbrowser_mock
+    hass: UniversalAssistant, castbrowser_mock
 ) -> None:
     """Test pychromecast.start_discovery called exactly once."""
     await async_setup_cast(hass)
@@ -313,7 +313,7 @@ async def test_start_discovery_called_once(
 
 
 async def test_internal_discovery_callback_fill_out_group_fail(
-    hass: __HAC_KEEP__, get_multizone_status_mock
+    hass: UniversalAssistant, get_multizone_status_mock
 ) -> None:
     """Test internal discovery automatically filling out information."""
     discover_cast, _, _ = await async_setup_cast_internal_discovery(hass)
@@ -354,7 +354,7 @@ async def test_internal_discovery_callback_fill_out_group_fail(
 
 
 async def test_internal_discovery_callback_fill_out_group(
-    hass: __HAC_KEEP__, get_multizone_status_mock
+    hass: UniversalAssistant, get_multizone_status_mock
 ) -> None:
     """Test internal discovery automatically filling out information."""
     discover_cast, _, _ = await async_setup_cast_internal_discovery(hass)
@@ -395,7 +395,7 @@ async def test_internal_discovery_callback_fill_out_group(
 
 
 async def test_internal_discovery_callback_fill_out_cast_type_manufacturer(
-    hass: __HAC_KEEP__, get_cast_type_mock, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, get_cast_type_mock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test internal discovery automatically filling out information."""
     discover_cast, _, _ = await async_setup_cast_internal_discovery(hass)
@@ -483,7 +483,7 @@ async def test_internal_discovery_callback_fill_out_cast_type_manufacturer(
 
 
 async def test_stop_discovery_called_on_stop(
-    hass: __HAC_KEEP__, castbrowser_mock
+    hass: UniversalAssistant, castbrowser_mock
 ) -> None:
     """Test pychromecast.stop_discovery called on shutdown."""
     # start_discovery should be called with empty config
@@ -498,7 +498,7 @@ async def test_stop_discovery_called_on_stop(
     assert castbrowser_mock.return_value.stop_discovery.call_count == 1
 
 
-async def test_create_cast_device_without_uuid(hass: __HAC_KEEP__) -> None:
+async def test_create_cast_device_without_uuid(hass: UniversalAssistant) -> None:
     """Test create a cast device with no UUId does not create an entity."""
     entry = MockConfigEntry(domain=DOMAIN)
     entry.add_to_hass(hass)
@@ -511,7 +511,7 @@ async def test_create_cast_device_without_uuid(hass: __HAC_KEEP__) -> None:
     assert cast_device is None
 
 
-async def test_create_cast_device_with_uuid(hass: __HAC_KEEP__) -> None:
+async def test_create_cast_device_with_uuid(hass: UniversalAssistant) -> None:
     """Test create cast devices with UUID creates entities."""
     entry = MockConfigEntry(domain=DOMAIN)
     entry.add_to_hass(hass)
@@ -531,7 +531,7 @@ async def test_create_cast_device_with_uuid(hass: __HAC_KEEP__) -> None:
     assert cast_device is None
 
 
-async def test_manual_cast_chromecasts_uuid(hass: __HAC_KEEP__) -> None:
+async def test_manual_cast_chromecasts_uuid(hass: UniversalAssistant) -> None:
     """Test only wanted casts are added for manual configuration."""
     cast_1 = get_fake_chromecast_info(host="host_1", uuid=FakeUUID)
     cast_2 = get_fake_chromecast_info(host="host_2", uuid=FakeUUID2)
@@ -567,7 +567,7 @@ async def test_manual_cast_chromecasts_uuid(hass: __HAC_KEEP__) -> None:
     assert add_dev1.call_count == 1
 
 
-async def test_auto_cast_chromecasts(hass: __HAC_KEEP__) -> None:
+async def test_auto_cast_chromecasts(hass: UniversalAssistant) -> None:
     """Test all discovered casts are added for default configuration."""
     cast_1 = get_fake_chromecast_info(host="some_host")
     cast_2 = get_fake_chromecast_info(host="other_host", uuid=FakeUUID2)
@@ -602,7 +602,7 @@ async def test_auto_cast_chromecasts(hass: __HAC_KEEP__) -> None:
 
 
 async def test_discover_dynamic_group(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     get_multizone_status_mock,
     get_chromecast_mock,
@@ -733,7 +733,7 @@ async def test_discover_dynamic_group(
     assert "Disconnecting from chromecast" in caplog.text
 
 
-async def test_update_cast_chromecasts(hass: __HAC_KEEP__) -> None:
+async def test_update_cast_chromecasts(hass: UniversalAssistant) -> None:
     """Test discovery of same UUID twice only adds one cast."""
     cast_1 = get_fake_chromecast_info(host="old_host")
     cast_2 = get_fake_chromecast_info(host="new_host")
@@ -768,7 +768,7 @@ async def test_update_cast_chromecasts(hass: __HAC_KEEP__) -> None:
     assert add_dev1.call_count == 1
 
 
-async def test_connection_status_after_invalidation(hass: __HAC_KEEP__) -> None:
+async def test_connection_status_after_invalidation(hass: UniversalAssistant) -> None:
     """Test a late connection callback after the Cast device was invalidated."""
     entry = MockConfigEntry(domain=DOMAIN)
     info = get_fake_chromecast_info()
@@ -792,7 +792,7 @@ async def test_connection_status_after_invalidation(hass: __HAC_KEEP__) -> None:
 
 
 async def test_connection_status_not_scheduled_after_listener_invalidation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test an invalidated listener does not schedule connection callbacks."""
     entity = MagicMock()
@@ -817,7 +817,7 @@ async def test_connection_status_not_scheduled_after_listener_invalidation(
 
 
 async def test_connection_status_ignored_if_invalidated_before_execution(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a queued connection callback is ignored after invalidation."""
     entity = MagicMock()
@@ -843,7 +843,7 @@ async def test_connection_status_ignored_if_invalidated_before_execution(
     entity.new_connection_status.assert_not_called()
 
 
-async def test_media_content_type_without_chromecast(hass: __HAC_KEEP__) -> None:
+async def test_media_content_type_without_chromecast(hass: UniversalAssistant) -> None:
     """Test media content type when the Chromecast is unavailable."""
     entry = MockConfigEntry(domain=DOMAIN)
     info = get_fake_chromecast_info()
@@ -858,7 +858,7 @@ async def test_media_content_type_without_chromecast(hass: __HAC_KEEP__) -> None
     assert entity.media_content_type is None
 
 
-async def test_entity_availability(hass: __HAC_KEEP__) -> None:
+async def test_entity_availability(hass: UniversalAssistant) -> None:
     """Test handling of connection status."""
     entity_id = "media_player.speaker"
     info = get_fake_chromecast_info()
@@ -903,7 +903,7 @@ async def test_entity_availability(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize(("port", "entry_type"), [(8009, None), (12345, None)])
 async def test_device_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -953,7 +953,7 @@ async def test_device_registry(
 
 
 async def test_entity_cast_status(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test handling of cast status."""
     entity_id = "media_player.speaker"
@@ -1081,7 +1081,7 @@ async def test_entity_cast_status(
     ],
 )
 async def test_supported_features(
-    hass: __HAC_KEEP__, cast_type, supported_features, supported_features_no_media
+    hass: UniversalAssistant, cast_type, supported_features, supported_features_no_media
 ) -> None:
     """Test supported features."""
     entity_id = "media_player.speaker"
@@ -1112,7 +1112,7 @@ async def test_supported_features(
 
 
 async def test_entity_browse_media(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test we can browse media."""
     await async_setup_component(hass, "media_source", {"media_source": {}})
@@ -1172,7 +1172,7 @@ async def test_entity_browse_media(
     [pychromecast.const.CAST_TYPE_AUDIO, pychromecast.const.CAST_TYPE_GROUP],
 )
 async def test_entity_browse_media_audio_only(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, cast_type
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, cast_type
 ) -> None:
     """Test we can browse media."""
     await async_setup_component(hass, "media_source", {"media_source": {}})
@@ -1227,7 +1227,7 @@ async def test_entity_browse_media_audio_only(
 
 
 async def test_entity_play_media(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, quick_play_mock
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, quick_play_mock
 ) -> None:
     """Test playing media."""
     entity_id = "media_player.speaker"
@@ -1275,7 +1275,7 @@ async def test_entity_play_media(
 
 
 async def test_entity_play_media_cast(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, quick_play_mock
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, quick_play_mock
 ) -> None:
     """Test playing media with cast special features."""
     entity_id = "media_player.speaker"
@@ -1319,7 +1319,7 @@ async def test_entity_play_media_cast(
 
 
 async def test_entity_play_media_cast_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
     quick_play_mock,
@@ -1361,7 +1361,7 @@ async def test_entity_play_media_cast_invalid(
 
     # Play_media - media_type cast with unsupported app
     quick_play_mock.side_effect = NotImplementedError()
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await common.async_play_media(
             hass, "cast", '{"app_name": "unknown"}', entity_id
         )
@@ -1371,7 +1371,7 @@ async def test_entity_play_media_cast_invalid(
     quick_play_mock.assert_called_once_with(ANY, "unknown", {})
 
 
-async def test_entity_play_media_sign_URL(hass: __HAC_KEEP__, quick_play_mock) -> None:
+async def test_entity_play_media_sign_URL(hass: UniversalAssistant, quick_play_mock) -> None:
     """Test playing media."""
     entity_id = "media_player.speaker"
 
@@ -1450,7 +1450,7 @@ async def test_entity_play_media_sign_URL(hass: __HAC_KEEP__, quick_play_mock) -
     ],
 )
 async def test_entity_play_media_playlist(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     quick_play_mock,
     url,
@@ -1493,7 +1493,7 @@ async def test_entity_play_media_playlist(
     ],
 )
 async def test_entity_media_content_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     cast_type,
     default_content_type,
@@ -1550,7 +1550,7 @@ async def test_entity_media_content_type(
 
 
 async def test_entity_control(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, quick_play_mock
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, quick_play_mock
 ) -> None:
     """Test various device and media controls."""
     entity_id = "media_player.speaker"
@@ -1626,17 +1626,17 @@ async def test_entity_control(
     chromecast.media_controller.pause.assert_called_once_with()
 
     # Media previous
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await common.async_media_previous_track(hass, entity_id)
     chromecast.media_controller.queue_prev.assert_not_called()
 
     # Media next
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await common.async_media_next_track(hass, entity_id)
     chromecast.media_controller.queue_next.assert_not_called()
 
     # Media seek
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await common.async_media_seek(hass, 123, entity_id)
     chromecast.media_controller.seek.assert_not_called()
 
@@ -1681,7 +1681,7 @@ async def test_entity_control(
     [(pychromecast.APP_YOUTUBE, "idle"), ("Netflix", "playing")],
 )
 async def test_entity_media_states(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, app_id, state_no_media
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, app_id, state_no_media
 ) -> None:
     """Test various entity media states."""
     entity_id = "media_player.speaker"
@@ -1762,7 +1762,7 @@ async def test_entity_media_states(
 
 
 async def test_entity_media_states_lovelace_app(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test various entity media states when the lovelace app is active."""
     entity_id = "media_player.speaker"
@@ -1835,7 +1835,7 @@ async def test_entity_media_states_lovelace_app(
 
 
 async def test_entity_media_states_active_input(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test various entity media states when the lovelace app is active."""
     entity_id = "media_player.speaker"
@@ -1885,7 +1885,7 @@ async def test_entity_media_states_active_input(
 
 
 async def test_group_media_states(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mz_mock
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mz_mock
 ) -> None:
     """Test media states are read from group if entity has no state."""
     entity_id = "media_player.speaker"
@@ -1944,7 +1944,7 @@ async def test_group_media_states(
 
 
 async def test_group_media_states_early(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mz_mock
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mz_mock
 ) -> None:
     """Test media states are read from group if entity has no state.
 
@@ -1996,7 +1996,7 @@ async def test_group_media_states_early(
 
 
 async def test_group_media_control(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mz_mock, quick_play_mock
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mz_mock, quick_play_mock
 ) -> None:
     """Test media controls are handled by group if entity has no state."""
     entity_id = "media_player.speaker"
@@ -2064,7 +2064,7 @@ async def test_group_media_control(
 
 @pytest.mark.usefixtures("mock_tts_cache_dir")
 async def test_failed_cast_on_idle(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test no warning when unless player went idle with reason "ERROR"."""
     info = get_fake_chromecast_info()
@@ -2095,7 +2095,7 @@ async def test_failed_cast_on_idle(
 
 @pytest.mark.usefixtures("mock_tts_cache_dir")
 async def test_failed_cast_other_url(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test warning when casting from internal_url fails."""
     await async_setup_component(hass, "universalassistant", {})
@@ -2115,7 +2115,7 @@ async def test_failed_cast_other_url(
 
 @pytest.mark.usefixtures("mock_tts_cache_dir")
 async def test_failed_cast_internal_url(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test warning when casting from internal_url fails."""
     await async_setup_component(hass, "universalassistant", {})
@@ -2142,7 +2142,7 @@ async def test_failed_cast_internal_url(
 
 @pytest.mark.usefixtures("mock_tts_cache_dir")
 async def test_failed_cast_external_url(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test warning when casting from external_url fails."""
     await async_setup_component(hass, "universalassistant", {})
@@ -2167,7 +2167,7 @@ async def test_failed_cast_external_url(
     )
 
 
-async def test_disconnect_on_stop(hass: __HAC_KEEP__) -> None:
+async def test_disconnect_on_stop(hass: UniversalAssistant) -> None:
     """Test cast device disconnects socket on stop."""
     info = get_fake_chromecast_info()
 
@@ -2180,7 +2180,7 @@ async def test_disconnect_on_stop(hass: __HAC_KEEP__) -> None:
 
 
 async def test_disable_entity_does_not_write_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -2198,7 +2198,7 @@ async def test_disable_entity_does_not_write_state(
     assert "incorrectly being triggered" not in caplog.text
 
 
-async def test_stop_listener_removed_with_entity(hass: __HAC_KEEP__) -> None:
+async def test_stop_listener_removed_with_entity(hass: UniversalAssistant) -> None:
     """Test the stop listener is removed when the entity is removed."""
     info = get_fake_chromecast_info()
     await async_setup_media_player_cast(hass, info)
@@ -2214,7 +2214,7 @@ async def test_stop_listener_removed_with_entity(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_entry_setup_no_config(hass: __HAC_KEEP__) -> None:
+async def test_entry_setup_no_config(hass: UniversalAssistant) -> None:
     """Test deprecated empty yaml config.."""
     await async_setup_component(hass, DOMAIN, {})
     await hass.async_block_till_done()
@@ -2224,7 +2224,7 @@ async def test_entry_setup_no_config(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.no_fail_on_log_exception
 async def test_invalid_cast_platform(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we can play media through a cast platform."""
     cast_platform_mock = Mock()
@@ -2247,7 +2247,7 @@ async def test_invalid_cast_platform(
 
 
 async def test_cast_platform_play_media(
-    hass: __HAC_KEEP__, quick_play_mock, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, quick_play_mock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we can play media through a cast platform."""
     entity_id = "media_player.speaker"
@@ -2325,7 +2325,7 @@ async def test_cast_platform_play_media(
 
 
 async def test_cast_platform_browse_media(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test we can play media through a cast platform."""
     cast_platform_mock = Mock(
@@ -2423,7 +2423,7 @@ async def test_cast_platform_browse_media(
 
 
 async def test_cast_platform_play_media_local_media(
-    hass: __HAC_KEEP__, quick_play_mock, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, quick_play_mock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we process data when playing local media."""
     entity_id = "media_player.speaker"
@@ -2489,8 +2489,8 @@ async def test_cast_platform_play_media_local_media(
     )
 
 
-async def test_ha_cast(hass: __HAC_KEEP__, ha_controller_mock) -> None:
-    """Test __HA_KEEP__ cast."""
+async def test_ha_cast(hass: UniversalAssistant, ha_controller_mock) -> None:
+    """Test Universal Home Assistant cast."""
     entity_id = "media_player.speaker"
 
     info = get_fake_chromecast_info()
@@ -2501,7 +2501,7 @@ async def test_ha_cast(hass: __HAC_KEEP__, ha_controller_mock) -> None:
     ha_controller_mock.return_value = ha_controller
 
     # Test show view signal for other entity is ignored
-    controller_data = __HAC_KEEP__ControllerData(
+    controller_data = UniversalAssistantControllerData(
         hass_url="url",
         hass_uuid="12341234",
         client_id="client_id_1234",
@@ -2519,7 +2519,7 @@ async def test_ha_cast(hass: __HAC_KEEP__, ha_controller_mock) -> None:
     ha_controller_mock.assert_not_called()
 
     # Test show view signal is handled
-    controller_data = __HAC_KEEP__ControllerData(
+    controller_data = UniversalAssistantControllerData(
         hass_url="url",
         hass_uuid="12341234",
         client_id="client_id_1234",
@@ -2557,7 +2557,7 @@ async def test_ha_cast(hass: __HAC_KEEP__, ha_controller_mock) -> None:
 
 
 async def test_entity_media_states_active_app_reported_idle(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test entity state when app is active but device reports idle (fixes #160814)."""
     entity_id = "media_player.speaker"

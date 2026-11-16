@@ -1,4 +1,4 @@
-"""Test the __HA_KEEP__ Supervisor config flow."""
+"""Test the Universal Home Assistant Supervisor config flow."""
 
 from unittest.mock import patch
 
@@ -9,11 +9,11 @@ from universalassistant.components.hassio.const import (
     ENTRY_DATA_USER,
 )
 from universalassistant.components.http.const import DATA_SUPERVISOR_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_config_flow(hass: __HAC_KEEP__) -> None:
+async def test_config_flow(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     with (
@@ -38,7 +38,7 @@ async def test_config_flow(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_multiple_entries(hass: __HAC_KEEP__) -> None:
+async def test_multiple_entries(hass: UniversalAssistant) -> None:
     """Test creating multiple hassio entries."""
     await test_config_flow(hass)
     result = await hass.config_entries.flow.async_init(
@@ -48,7 +48,7 @@ async def test_multiple_entries(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "single_instance_allowed"
 
 
-async def test_config_flow_uses_bootstrap_user(hass: __HAC_KEEP__) -> None:
+async def test_config_flow_uses_bootstrap_user(hass: UniversalAssistant) -> None:
     """Test config flow stores the bootstrap supervisor user in entry data."""
     user = await hass.auth.async_create_system_user(
         "Supervisor", group_ids=[GROUP_ID_ADMIN]
@@ -68,7 +68,7 @@ async def test_config_flow_uses_bootstrap_user(hass: __HAC_KEEP__) -> None:
     assert result["options"] == DEFAULT_UPDATE_OPTIONS
 
 
-async def test_config_flow_without_bootstrap_user(hass: __HAC_KEEP__) -> None:
+async def test_config_flow_without_bootstrap_user(hass: UniversalAssistant) -> None:
     """Test config flow still creates default options without bootstrap user."""
     with (
         patch("universalassistant.components.hassio.async_setup", return_value=True),

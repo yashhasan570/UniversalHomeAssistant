@@ -16,7 +16,7 @@ from universalassistant.util.httpx2_ssl import CertifiSSLContext
 
 
 def test_truststore_ssl_context_replaced() -> None:
-    """Test truststore.SSLContext is replaced when importing __HA_KEEP__."""
+    """Test truststore.SSLContext is replaced when importing Universal Home Assistant."""
     assert truststore.SSLContext is CertifiSSLContext
 
 

@@ -4,7 +4,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import override
 
-from aioelectricitymaps import __HAC_KEEP__CarbonIntensityResponse
+from aioelectricitymaps import UniversalAssistantCarbonIntensityResponse
 
 from universalassistant.components.sensor import (
     SensorEntity,
@@ -12,7 +12,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import PERCENTAGE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -31,9 +31,9 @@ class CO2SensorEntityDescription(SensorEntityDescription):
     # For backwards compat, allow description to override unique ID key to use
     unique_id: str | None = None
     unit_of_measurement_fn: (
-        Callable[[__HAC_KEEP__CarbonIntensityResponse], str | None] | None
+        Callable[[UniversalAssistantCarbonIntensityResponse], str | None] | None
     ) = None
-    value_fn: Callable[[__HAC_KEEP__CarbonIntensityResponse], float | None]
+    value_fn: Callable[[UniversalAssistantCarbonIntensityResponse], float | None]
 
 
 SENSORS = (
@@ -54,7 +54,7 @@ SENSORS = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: CO2SignalConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

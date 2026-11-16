@@ -11,7 +11,7 @@ from twentemilieu import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -32,7 +32,7 @@ class TwenteMilieuDataUpdateCoordinator(
 ):
     """Class to manage fetching Twente Milieu data."""
 
-    def __init__(self, hass: __HAC_KEEP__, entry: TwenteMilieuConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: TwenteMilieuConfigEntry) -> None:
         """Initialize Twente Milieu data update coordinator."""
         self.twentemilieu = TwenteMilieu(
             post_code=entry.data[CONF_POST_CODE],

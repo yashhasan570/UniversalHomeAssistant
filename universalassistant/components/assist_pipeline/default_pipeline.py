@@ -21,8 +21,8 @@ from universalassistant.components import (
 )
 from universalassistant.components.tts import TextToSpeechCommonOption
 from universalassistant.const import MATCH_ALL, EntityStateAttribute
-from universalassistant.core import Context, __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, Unauthorized
+from universalassistant.core import Context, UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError, Unauthorized
 from universalassistant.helpers import (
     chat_session,
     device_registry as dr,
@@ -99,11 +99,11 @@ def _async_local_fallback_intent_filter(result: RecognizeResult) -> bool:
 
 
 class _PipelineController(Protocol):
-    """__HA_KEEP__ services exposed to a pipeline processor."""
+    """Universal Home Assistant services exposed to a pipeline processor."""
 
     @property
-    def hass(self) -> __HAC_KEEP__:
-        """Return the __HA_KEEP__ instance."""
+    def hass(self) -> UniversalAssistant:
+        """Return the Universal Home Assistant instance."""
 
     @property
     def context(self) -> Context:
@@ -506,7 +506,7 @@ class _DefaultPipelineProcessor:
         except hass_nabucasa.auth.Unauthenticated as src_error:
             raise SpeechToTextError(
                 code="cloud-auth-failed",
-                message="__HA_KEEP__ Cloud authentication failed",
+                message="Universal Home Assistant Cloud authentication failed",
             ) from src_error
         except Exception as src_error:
             _LOGGER.exception("Unexpected error during speech-to-text")
@@ -1126,7 +1126,7 @@ class _DefaultPipelineProcessor:
                 language=self.host.pipeline.tts_language,
                 options=tts_options,
             )
-        except __HAC_KEEP__Error as err:
+        except UniversalAssistantError as err:
             raise TextToSpeechError(
                 code="tts-not-supported",
                 message=(
@@ -1481,7 +1481,7 @@ class PipelineConversationData:
 
 @callback
 def async_get_pipeline_conversation_data(
-    hass: __HAC_KEEP__, session: chat_session.ChatSession
+    hass: UniversalAssistant, session: chat_session.ChatSession
 ) -> PipelineConversationData:
     """Get the pipeline data for a specific conversation."""
     all_conversation_data = hass.data.get(KEY_PIPELINE_CONVERSATION_DATA)

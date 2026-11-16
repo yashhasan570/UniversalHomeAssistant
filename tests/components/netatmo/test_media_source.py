@@ -16,14 +16,14 @@ from universalassistant.components.media_source import (
 )
 from universalassistant.components.netatmo.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .common import selected_platforms
 
 
 async def test_async_browse_media(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test browse media."""
     with selected_platforms([Platform.CAMERA]):

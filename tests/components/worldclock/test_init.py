@@ -3,10 +3,10 @@
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def test_unload_entry(hass: __HAC_KEEP__, loaded_entry: MockConfigEntry) -> None:
+async def test_unload_entry(hass: UniversalAssistant, loaded_entry: MockConfigEntry) -> None:
     """Test unload an entry."""
 
     assert loaded_entry.state is ConfigEntryState.LOADED

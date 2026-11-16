@@ -13,7 +13,7 @@ from universalassistant.components.ibeacon.const import (
     CONF_IGNORE_UUIDS,
     DOMAIN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import (
     BEACON_RANDOM_ADDRESS_SERVICE_INFO,
@@ -25,7 +25,7 @@ from . import (
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:

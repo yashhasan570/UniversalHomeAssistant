@@ -33,7 +33,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceNotSupported
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.unit_system import (
@@ -54,7 +54,7 @@ def platform_autouse():
 
 @pytest.mark.usefixtures("no_quirk")
 async def test_platform_setup_and_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_devices: list[CustomerDevice],
@@ -68,7 +68,7 @@ async def test_platform_setup_and_discovery(
 
 
 async def test_us_customary_system(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_devices: list[CustomerDevice],
@@ -149,7 +149,7 @@ async def test_us_customary_system(
     ],
 )
 async def test_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -211,7 +211,7 @@ async def test_action(
     ],
 )
 async def test_hvac_mode_with_preset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -248,7 +248,7 @@ async def test_hvac_mode_with_preset(
     ],
 )
 async def test_set_switch_only_hvac_mode_with_preset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -289,7 +289,7 @@ async def test_set_switch_only_hvac_mode_with_preset(
     ],
 )
 async def test_action_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -401,7 +401,7 @@ def _override_temperature_unit(
     ],
 )
 async def test_temperature_unit_conversion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,

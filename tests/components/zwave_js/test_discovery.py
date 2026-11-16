@@ -40,20 +40,20 @@ from universalassistant.const import (
     EntityCategory,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
 
 async def test_aeon_smart_switch_6_state(
-    hass: __HAC_KEEP__, client, aeon_smart_switch_6, integration
+    hass: UniversalAssistant, client, aeon_smart_switch_6, integration
 ) -> None:
     """Test that Smart Switch 6 has a meter reset button."""
     state = hass.states.get("button.smart_switch_6_reset_accumulated_values")
     assert state
 
 
-async def test_iblinds_v2(hass: __HAC_KEEP__, client, iblinds_v2, integration) -> None:
+async def test_iblinds_v2(hass: UniversalAssistant, client, iblinds_v2, integration) -> None:
     """Test that an iBlinds v2.0 multilevel switch value is discovered as a cover."""
     node = iblinds_v2
     assert node.device_class.specific.label == "Unused"
@@ -66,7 +66,7 @@ async def test_iblinds_v2(hass: __HAC_KEEP__, client, iblinds_v2, integration) -
 
 
 async def test_touchwand_glass9(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     touchwand_glass9: Node,
     integration: MockConfigEntry,
@@ -83,7 +83,7 @@ async def test_touchwand_glass9(
     assert state
 
 
-async def test_zvidar_state(hass: __HAC_KEEP__, client, zvidar, integration) -> None:
+async def test_zvidar_state(hass: UniversalAssistant, client, zvidar, integration) -> None:
     """Test that an ZVIDAR Z-CM-V01 multilevel switch value is discovered as a cover."""
     node = zvidar
     assert node.device_class.specific.label == "Unused"
@@ -97,7 +97,7 @@ async def test_zvidar_state(hass: __HAC_KEEP__, client, zvidar, integration) -> 
 
 
 async def test_simon_io_700_roller_blind(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     simon_io_700_roller_blind: Node,
     integration: MockConfigEntry,
@@ -114,7 +114,7 @@ async def test_simon_io_700_roller_blind(
     assert state.attributes.get(ATTR_DEVICE_CLASS) == CoverDeviceClass.SHUTTER
 
 
-async def test_ge_12730(hass: __HAC_KEEP__, client, ge_12730, integration) -> None:
+async def test_ge_12730(hass: UniversalAssistant, client, ge_12730, integration) -> None:
     """Test GE 12730 Fan Controller v2.0 multilevel switch is discovered as a fan."""
     node = ge_12730
     assert node.device_class.specific.label == "Multilevel Power Switch"
@@ -127,7 +127,7 @@ async def test_ge_12730(hass: __HAC_KEEP__, client, ge_12730, integration) -> No
 
 
 async def test_enbrighten_58446_zwa4013(
-    hass: __HAC_KEEP__, client, enbrighten_58446_zwa4013, integration
+    hass: UniversalAssistant, client, enbrighten_58446_zwa4013, integration
 ) -> None:
     """Test GE 12730 Fan Controller v2.0 multilevel switch is discovered as a fan."""
     node = enbrighten_58446_zwa4013
@@ -141,7 +141,7 @@ async def test_enbrighten_58446_zwa4013(
 
 
 async def test_inovelli_lzw36(
-    hass: __HAC_KEEP__, client, inovelli_lzw36, integration
+    hass: UniversalAssistant, client, inovelli_lzw36, integration
 ) -> None:
     """Test LZW36 Fan Controller multilevel switch endpoint 2 is discovered as a fan."""
     node = inovelli_lzw36
@@ -155,7 +155,7 @@ async def test_inovelli_lzw36(
 
 
 async def test_leviton_vrf01(
-    hass: __HAC_KEEP__, client, leviton_vrf01, integration
+    hass: UniversalAssistant, client, leviton_vrf01, integration
 ) -> None:
     """Test Leviton VRF01 multilevel switch is discovered as a fan, not a light."""
     node = leviton_vrf01
@@ -166,7 +166,7 @@ async def test_leviton_vrf01(
 
 
 async def test_vision_security_zl7432(
-    hass: __HAC_KEEP__, client, vision_security_zl7432, integration
+    hass: UniversalAssistant, client, vision_security_zl7432, integration
 ) -> None:
     """Test Vision Security ZL7432 is caught by the device specific discovery."""
     for entity_id in (
@@ -179,7 +179,7 @@ async def test_vision_security_zl7432(
 
 
 async def test_lock_popp_electric_strike_lock_control(
-    hass: __HAC_KEEP__, client, lock_popp_electric_strike_lock_control, integration
+    hass: UniversalAssistant, client, lock_popp_electric_strike_lock_control, integration
 ) -> None:
     """Test that the Popp Electric Strike Lock Control gets discovered correctly."""
     assert hass.states.get("lock.node_62") is not None
@@ -191,7 +191,7 @@ async def test_lock_popp_electric_strike_lock_control(
 
 
 async def test_fortrez_ssa2_siren(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     fortrezz_ssa2_siren: Node,
     integration: MockConfigEntry,
@@ -201,13 +201,13 @@ async def test_fortrez_ssa2_siren(
 
 
 async def test_fortrez_ssa3_siren(
-    hass: __HAC_KEEP__, client, fortrezz_ssa3_siren, integration
+    hass: UniversalAssistant, client, fortrezz_ssa3_siren, integration
 ) -> None:
     """Test Fortrezz SSA3 siren gets discovered correctly."""
     assert hass.states.get("select.siren_and_strobe_alarm") is not None
 
 
-async def test_firmware_version_range_exception(hass: __HAC_KEEP__) -> None:
+async def test_firmware_version_range_exception(hass: UniversalAssistant) -> None:
     """Test FirmwareVersionRange exception."""
     with pytest.raises(ValueError):
         ZWaveDiscoverySchema(
@@ -218,7 +218,7 @@ async def test_firmware_version_range_exception(hass: __HAC_KEEP__) -> None:
 
 
 async def test_dynamic_climate_data_discovery_template_failure(
-    hass: __HAC_KEEP__, multisensor_6
+    hass: UniversalAssistant, multisensor_6
 ) -> None:
     """Test that initing a DynamicCurrentTempClimateDataTemplate with no data raises."""
     node = multisensor_6
@@ -229,7 +229,7 @@ async def test_dynamic_climate_data_discovery_template_failure(
 
 
 async def test_merten_507801(
-    hass: __HAC_KEEP__, client, merten_507801, integration
+    hass: UniversalAssistant, client, merten_507801, integration
 ) -> None:
     """Test that Merten 507801 multilevel switch value is discovered as a cover."""
     node = merten_507801
@@ -243,7 +243,7 @@ async def test_merten_507801(
 
 
 async def test_shelly_001p10_suppressed_endpoint(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client,
@@ -282,7 +282,7 @@ async def test_shelly_001p10_suppressed_endpoint(
 
 
 async def test_merten_507801_disabled_enitites(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     client,
     merten_507801,
@@ -312,7 +312,7 @@ async def test_merten_507801_disabled_enitites(
 
 @pytest.mark.parametrize("platforms", [[Platform.BUTTON, Platform.NUMBER]])
 async def test_zooz_zen72(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
     switch_zooz_zen72: Node,
@@ -386,7 +386,7 @@ async def test_zooz_zen72(
     "platforms", [[Platform.BINARY_SENSOR, Platform.SENSOR, Platform.SWITCH]]
 )
 async def test_indicator_test(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -482,7 +482,7 @@ async def test_indicator_test(
 
 
 async def test_light_device_class_is_null(
-    hass: __HAC_KEEP__, client, light_device_class_is_null, integration
+    hass: UniversalAssistant, client, light_device_class_is_null, integration
 ) -> None:
     """Test Multilevel Switch CC with null device class is a light.
 
@@ -495,7 +495,7 @@ async def test_light_device_class_is_null(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_rediscovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     siren_neo_coolcam: Node,
     integration: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -536,7 +536,7 @@ async def test_rediscovery(
 
 
 async def test_aeotec_smart_switch_7(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     aeotec_smart_switch_7: Node,
     integration: MockConfigEntry,
@@ -559,7 +559,7 @@ async def test_aeotec_smart_switch_7(
 
 
 async def test_nabu_casa_zwa2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     nabu_casa_zwa2: Node,
     integration: MockConfigEntry,
@@ -585,7 +585,7 @@ async def test_nabu_casa_zwa2(
     assert entry.original_name == "LED", (
         "The LED entity should have the original name 'LED'"
     )
-    assert state.attributes["friendly_name"] == "__HA_KEEP__ Connect ZWA-2 LED", (
+    assert state.attributes["friendly_name"] == "Universal Home Assistant Connect ZWA-2 LED", (
         "The LED should have the correct friendly name"
     )
 
@@ -669,7 +669,7 @@ def test_check_value_any_available_cc_specific_none() -> None:
 
 
 async def test_nabu_casa_zwa2_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     nabu_casa_zwa2_legacy: Node,
     integration: MockConfigEntry,
@@ -695,14 +695,14 @@ async def test_nabu_casa_zwa2_legacy(
     assert entry.original_name == "LED", (
         "The LED entity should have the original name 'LED'"
     )
-    assert state.attributes["friendly_name"] == "__HA_KEEP__ Connect ZWA-2 LED", (
+    assert state.attributes["friendly_name"] == "Universal Home Assistant Connect ZWA-2 LED", (
         "The LED should have the correct friendly name"
     )
 
 
 @pytest.mark.parametrize("platforms", [[Platform.BINARY_SENSOR, Platform.LIGHT]])
 async def test_fibaro_fgms001_unknown_firmware_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -737,7 +737,7 @@ async def test_fibaro_fgms001_unknown_firmware_setup(
 
 @pytest.mark.parametrize("platforms", [[Platform.BINARY_SENSOR, Platform.LIGHT]])
 async def test_fibaro_fgms001_v2_8_motion_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,

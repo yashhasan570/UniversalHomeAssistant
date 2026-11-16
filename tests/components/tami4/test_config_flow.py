@@ -7,13 +7,13 @@ from Tami4EdgeAPI import exceptions
 
 from universalassistant import config_entries
 from universalassistant.components.tami4.const import CONF_PHONE, DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_user_valid_number(
-    hass: __HAC_KEEP__, mock_request_otp, mock__get_devices_metadata
+    hass: UniversalAssistant, mock_request_otp, mock__get_devices_metadata
 ) -> None:
     """Test user step with valid phone number."""
 
@@ -39,7 +39,7 @@ async def test_step_user_valid_number(
     "mock_submit_otp",
     "mock__get_devices_metadata",
 )
-async def test_step_user_invalid_number(hass: __HAC_KEEP__) -> None:
+async def test_step_user_invalid_number(hass: UniversalAssistant) -> None:
     """Test user step with invalid phone number."""
 
     result = await hass.config_entries.flow.async_init(
@@ -80,7 +80,7 @@ async def test_step_user_invalid_number(hass: __HAC_KEEP__) -> None:
     "mock_setup_entry", "mock_submit_otp", "mock__get_devices_metadata"
 )
 async def test_step_user_exception(
-    hass: __HAC_KEEP__, mock_request_otp: MagicMock, expected_error: str
+    hass: UniversalAssistant, mock_request_otp: MagicMock, expected_error: str
 ) -> None:
     """Test user step with exception."""
 
@@ -116,7 +116,7 @@ async def test_step_user_exception(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_otp_valid(
-    hass: __HAC_KEEP__, mock_request_otp, mock_submit_otp, mock__get_devices_metadata
+    hass: UniversalAssistant, mock_request_otp, mock_submit_otp, mock__get_devices_metadata
 ) -> None:
     """Test user step with valid phone number."""
 
@@ -150,7 +150,7 @@ async def test_step_otp_valid(
     "mock_submit_otp",
     "mock__get_devices_metadata_no_name",
 )
-async def test_step_otp_valid_device_no_name(hass: __HAC_KEEP__) -> None:
+async def test_step_otp_valid_device_no_name(hass: UniversalAssistant) -> None:
     """Test user step with valid phone number."""
 
     result = await hass.config_entries.flow.async_init(
@@ -190,7 +190,7 @@ async def test_step_otp_valid_device_no_name(hass: __HAC_KEEP__) -> None:
     "mock_setup_entry", "mock_request_otp", "mock__get_devices_metadata"
 )
 async def test_step_otp_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_submit_otp: MagicMock,
     expected_error: str,
 ) -> None:

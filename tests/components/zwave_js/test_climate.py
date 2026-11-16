@@ -48,7 +48,7 @@ from universalassistant.const import (
     Platform,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.util.unit_conversion import TemperatureConverter
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
@@ -70,7 +70,7 @@ def platforms() -> list[str]:
 
 
 async def test_thermostat_v2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     climate_radio_thermostat_ct100_plus,
     integration,
@@ -406,7 +406,7 @@ async def test_thermostat_v2(
     ],
 )
 async def test_setpoint_thermostat_fahrenheit_rounding(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     climate_radio_thermostat_ct100_plus: Node,
     integration: MockConfigEntry,
@@ -443,7 +443,7 @@ async def test_setpoint_thermostat_fahrenheit_rounding(
 
 
 async def test_setpoint_thermostat_fahrenheit_range_rounding(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     climate_radio_thermostat_ct100_plus: Node,
     integration: MockConfigEntry,
@@ -514,7 +514,7 @@ async def test_setpoint_thermostat_fahrenheit_range_rounding(
     ],
 )
 async def test_setpoint_thermostat_fahrenheit_rounding_clamped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     climate_radio_thermostat_ct100_plus: Node,
     integration: MockConfigEntry,
@@ -551,7 +551,7 @@ async def test_setpoint_thermostat_fahrenheit_rounding_clamped(
 
 
 async def test_setpoint_thermostat_celsius_not_rounded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     climate_heatit_z_trm3: Node,
     integration: MockConfigEntry,
@@ -583,7 +583,7 @@ async def test_setpoint_thermostat_celsius_not_rounded(
 
 
 async def test_thermostat_v2_turn_on_after_off(
-    hass: __HAC_KEEP__, client, climate_radio_thermostat_ct100_plus, integration
+    hass: UniversalAssistant, client, climate_radio_thermostat_ct100_plus, integration
 ) -> None:
     """Test thermostat v2 command class entity that is turned on after starting off."""
     node = climate_radio_thermostat_ct100_plus
@@ -634,7 +634,7 @@ async def test_thermostat_v2_turn_on_after_off(
 
 
 async def test_thermostat_turn_on_after_off_no_heat_cool_auto(
-    hass: __HAC_KEEP__, client, aeotec_radiator_thermostat_state, integration
+    hass: UniversalAssistant, client, aeotec_radiator_thermostat_state, integration
 ) -> None:
     """Test thermostat that is turned on after starting off w/o heat, cool, or auto."""
     node_state = copy.deepcopy(aeotec_radiator_thermostat_state)
@@ -676,7 +676,7 @@ async def test_thermostat_turn_on_after_off_no_heat_cool_auto(
 
 
 async def test_thermostat_turn_on_after_off_with_resume(
-    hass: __HAC_KEEP__, client, aeotec_radiator_thermostat_state, integration
+    hass: UniversalAssistant, client, aeotec_radiator_thermostat_state, integration
 ) -> None:
     """Test thermostat that is turned on after starting off with resume support."""
     node_state = copy.deepcopy(aeotec_radiator_thermostat_state)
@@ -722,7 +722,7 @@ async def test_thermostat_turn_on_after_off_with_resume(
 
 
 async def test_thermostat_different_endpoints(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     climate_radio_thermostat_ct100_plus_different_endpoints,
     integration,
@@ -737,7 +737,7 @@ async def test_thermostat_different_endpoints(
 
 
 async def test_setpoint_thermostat(
-    hass: __HAC_KEEP__, client, climate_danfoss_lc_13, integration
+    hass: UniversalAssistant, client, climate_danfoss_lc_13, integration
 ) -> None:
     """Test a setpoint thermostat command class entity."""
     node = climate_danfoss_lc_13
@@ -847,7 +847,7 @@ def heatit_trm_node(request: pytest.FixtureRequest) -> Node:
     indirect=["heatit_trm_node"],
 )
 async def test_thermostat_heatit_z_trm6_trm7(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     heatit_trm_node: Node,
     integration: MockConfigEntry,
@@ -925,7 +925,7 @@ async def test_thermostat_heatit_z_trm6_trm7(
 
 
 async def test_thermostat_heatit_z_trm3_no_value(
-    hass: __HAC_KEEP__, client, climate_heatit_z_trm3_no_value, integration
+    hass: UniversalAssistant, client, climate_heatit_z_trm3_no_value, integration
 ) -> None:
     """Test a heatit Z-TRM3 entity that is missing a value."""
     # When the config parameter that specifies what sensor to use has no value, we fall
@@ -935,7 +935,7 @@ async def test_thermostat_heatit_z_trm3_no_value(
 
 
 async def test_thermostat_heatit_z_trm3(
-    hass: __HAC_KEEP__, client, climate_heatit_z_trm3, integration
+    hass: UniversalAssistant, client, climate_heatit_z_trm3, integration
 ) -> None:
     """Test a heatit Z-TRM3 entity."""
     node = climate_heatit_z_trm3
@@ -1007,7 +1007,7 @@ async def test_thermostat_heatit_z_trm3(
 
 
 async def test_thermostat_heatit_z_trm2fx(
-    hass: __HAC_KEEP__, client, climate_heatit_z_trm2fx, integration
+    hass: UniversalAssistant, client, climate_heatit_z_trm2fx, integration
 ) -> None:
     """Test a heatit Z-TRM2fx entity."""
     node = climate_heatit_z_trm2fx
@@ -1057,7 +1057,7 @@ async def test_thermostat_heatit_z_trm2fx(
 
 
 async def test_thermostat_srt321_hrt4_zw(
-    hass: __HAC_KEEP__, client, srt321_hrt4_zw, integration
+    hass: UniversalAssistant, client, srt321_hrt4_zw, integration
 ) -> None:
     """Test a climate entity from a HRT4-ZW / SRT321 thermostat device.
 
@@ -1076,7 +1076,7 @@ async def test_thermostat_srt321_hrt4_zw(
 
 
 async def test_preset_and_no_setpoint(
-    hass: __HAC_KEEP__, client, climate_eurotronic_spirit_z, integration
+    hass: UniversalAssistant, client, climate_eurotronic_spirit_z, integration
 ) -> None:
     """Test preset without setpoint value."""
     node = climate_eurotronic_spirit_z
@@ -1175,7 +1175,7 @@ async def test_preset_and_no_setpoint(
 
 
 async def test_temp_unit_fix(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     climate_radio_thermostat_ct101_multiple_temp_units,
     climate_radio_thermostat_ct100_mode_and_setpoint_on_different_endpoints,
@@ -1192,7 +1192,7 @@ async def test_temp_unit_fix(
 
 
 async def test_thermostat_unknown_values(
-    hass: __HAC_KEEP__, client, climate_radio_thermostat_ct100_plus_state, integration
+    hass: UniversalAssistant, client, climate_radio_thermostat_ct100_plus_state, integration
 ) -> None:
     """Test a thermostat v2 with unknown values."""
     node_state = replace_value_of_zwave_value(
@@ -1214,7 +1214,7 @@ async def test_thermostat_unknown_values(
 
 
 async def test_set_preset_mode_manufacturer_specific(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     climate_eurotronic_comet_z: Node,
     integration: MockConfigEntry,
@@ -1310,7 +1310,7 @@ async def test_set_preset_mode_manufacturer_specific(
 
 
 async def test_preset_mode_mapped_to_unsupported_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     climate_eurotronic_comet_z: Node,
     integration: MockConfigEntry,
@@ -1352,7 +1352,7 @@ async def test_preset_mode_mapped_to_unsupported_hvac_mode(
 
 
 async def test_set_preset_mode_mapped_preset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     climate_eurotronic_comet_z: Node,
     integration: MockConfigEntry,
@@ -1435,7 +1435,7 @@ async def test_set_preset_mode_mapped_preset(
 
 
 async def test_set_preset_mode_none_while_in_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     climate_eurotronic_comet_z: Node,
     integration: MockConfigEntry,
@@ -1473,7 +1473,7 @@ async def test_set_preset_mode_none_while_in_hvac_mode(
 
 
 async def test_set_preset_mode_none_unmapped_preset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     climate_eurotronic_comet_z: Node,
     integration: MockConfigEntry,

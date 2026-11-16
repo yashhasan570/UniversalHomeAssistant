@@ -10,14 +10,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.water_heater import ATTR_TEMPERATURE
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration, snapshot_compit_entities
 
 
 async def test_water_heater_entities_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
@@ -37,7 +37,7 @@ async def test_water_heater_entities_snapshot(
     ],
 )
 async def test_water_heater_unknown_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
     mock_return_value: Any,
@@ -55,7 +55,7 @@ async def test_water_heater_unknown_temperature(
 
 
 async def test_water_heater_set_temperature(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_connector: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_connector: MagicMock
 ) -> None:
     """Test setting water heater temperature."""
     await setup_integration(hass, mock_config_entry)
@@ -78,7 +78,7 @@ async def test_water_heater_set_temperature(
 
 
 async def test_water_heater_turn_on(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_connector: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_connector: MagicMock
 ) -> None:
     """Test turning water heater on."""
     await mock_connector.select_device_option(1, CompitParameter.DHW_ON_OFF, "off")
@@ -95,7 +95,7 @@ async def test_water_heater_turn_on(
 
 
 async def test_water_heater_turn_off(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_connector: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_connector: MagicMock
 ) -> None:
     """Test turning water heater off."""
     await mock_connector.select_device_option(1, CompitParameter.DHW_ON_OFF, "on")
@@ -112,7 +112,7 @@ async def test_water_heater_turn_off(
 
 
 async def test_water_heater_current_operation(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_connector: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_connector: MagicMock
 ) -> None:
     """Test water heater current operation state."""
     await setup_integration(hass, mock_config_entry)

@@ -7,7 +7,7 @@ from typing import Any
 import pytest
 
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import TimeValue, TimeValueSequence
 
@@ -162,7 +162,7 @@ MELACHA_TEST_SEQUENCES = [
     ("location_data", "test_sequence"), MELACHA_TEST_SEQUENCES, indirect=True
 )
 async def test_issur_melacha_sensor(
-    hass: __HAC_KEEP__, test_sequence: AsyncGenerator[Any]
+    hass: UniversalAssistant, test_sequence: AsyncGenerator[Any]
 ) -> None:
     """Test Issur Melacha sensor output."""
     sensor_id = "binary_sensor.jewish_calendar_issur_melacha_in_effect"
@@ -200,7 +200,7 @@ async def test_issur_melacha_sensor(
     indirect=True,
 )
 async def test_issur_melacha_sensor_transitions(
-    hass: __HAC_KEEP__, test_sequence: AsyncGenerator[Any]
+    hass: UniversalAssistant, test_sequence: AsyncGenerator[Any]
 ) -> None:
     """Test Issur Melacha sensor transitions at key times."""
     sensor_id = "binary_sensor.jewish_calendar_issur_melacha_in_effect"

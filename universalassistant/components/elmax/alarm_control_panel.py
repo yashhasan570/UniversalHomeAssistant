@@ -13,8 +13,8 @@ from universalassistant.components.alarm_control_panel import (
     AlarmControlPanelState,
     CodeFormat,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, InvalidStateError
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError, InvalidStateError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -23,7 +23,7 @@ from .entity import ElmaxEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ElmaxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -87,7 +87,7 @@ class ElmaxArea(ElmaxEntity, AlarmControlPanelEntity):
                 extra_payload={"code": code},
             )
         except ElmaxApiError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="alarm_operation_failed_generic",
                 translation_placeholders={"operation": "arm"},
@@ -113,10 +113,10 @@ class ElmaxArea(ElmaxEntity, AlarmControlPanelEntity):
             )
         except ElmaxApiError as err:
             if err.status_code == 403:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN, translation_key="invalid_disarm_code"
                 ) from err
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="alarm_operation_failed_generic",
                 translation_placeholders={"operation": "disarm"},

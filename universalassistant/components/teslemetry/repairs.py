@@ -14,7 +14,7 @@ from universalassistant.components.repairs import (
 )
 from universalassistant.config_entries import ConfigEntryState, ConfigSubentry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 from . import _async_get_rsa_key_pem
 from .const import ISSUE_GATEWAY_NOT_FOUND, LOGGER, VEHICLE_ISSUE_LEARN_MORE
@@ -182,7 +182,7 @@ class GatewayNotFoundRepairFlow(RepairsFlow):
 
 
 async def async_create_fix_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_id: str,
     data: dict[str, str | int | float | None] | None,
 ) -> RepairsFlow:

@@ -6,12 +6,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.derivative.config_flow import ConfigFlowHandler
 from universalassistant.components.derivative.const import DOMAIN
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
 @pytest.fixture
-def sensor_config_entry(hass: __HAC_KEEP__) -> er.RegistryEntry:
+def sensor_config_entry(hass: UniversalAssistant) -> er.RegistryEntry:
     """Fixture to create a sensor config entry."""
     sensor_config_entry = MockConfigEntry()
     sensor_config_entry.add_to_hass(hass)
@@ -48,7 +48,7 @@ def sensor_entity_entry(
 
 @pytest.fixture
 def derivative_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sensor_entity_entry: er.RegistryEntry,
 ) -> MockConfigEntry:
     """Fixture to create a derivative config entry."""

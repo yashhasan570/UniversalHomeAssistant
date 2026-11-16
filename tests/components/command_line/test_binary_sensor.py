@@ -17,7 +17,7 @@ from universalassistant.components.universalassistant import (
     SERVICE_UPDATE_ENTITY,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 
 from . import mock_asyncio_subprocess_run
@@ -42,7 +42,7 @@ from . import mock_asyncio_subprocess_run
     ],
 )
 async def test_setup_integration_yaml(
-    hass: __HAC_KEEP__, load_yaml_integration: None
+    hass: UniversalAssistant, load_yaml_integration: None
 ) -> None:
     """Test sensor setup."""
 
@@ -76,7 +76,7 @@ async def test_setup_integration_yaml(
     ],
 )
 async def test_template(
-    hass: __HAC_KEEP__, load_yaml_integration: None, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, load_yaml_integration: None, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test setting the state with a template."""
 
@@ -112,7 +112,7 @@ async def test_template(
         }
     ],
 )
-async def test_sensor_off(hass: __HAC_KEEP__, load_yaml_integration: None) -> None:
+async def test_sensor_off(hass: UniversalAssistant, load_yaml_integration: None) -> None:
     """Test setting the state with a template."""
 
     entity_state = hass.states.get("binary_sensor.test")
@@ -148,7 +148,7 @@ async def test_sensor_off(hass: __HAC_KEEP__, load_yaml_integration: None) -> No
     ],
 )
 async def test_unique_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, load_yaml_integration: None
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, load_yaml_integration: None
 ) -> None:
     """Test unique_id option and if it only creates one binary sensor per id."""
 
@@ -178,7 +178,7 @@ async def test_unique_id(
     ],
 )
 async def test_return_code(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, get_config: dict[str, Any]
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, get_config: dict[str, Any]
 ) -> None:
     """Test setting the state with a template."""
     await setup.async_setup_component(
@@ -191,7 +191,7 @@ async def test_return_code(
 
 
 async def test_updating_to_often(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -260,7 +260,7 @@ async def test_updating_to_often(
 
 
 async def test_updating_manually(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test handling manual updating using universalassistant udate_entity service."""
     await setup.async_setup_component(hass, HA_DOMAIN, {})
@@ -330,7 +330,7 @@ async def test_updating_manually(
     ],
 )
 async def test_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_yaml_integration: None,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -390,7 +390,7 @@ async def test_availability(
     ],
 )
 async def test_availability_blocks_value_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_yaml_integration: None,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
@@ -419,7 +419,7 @@ async def test_availability_blocks_value_template(
 
 
 async def test_template_with_shell_features_uses_shell_and_creates_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -491,7 +491,7 @@ async def test_template_with_shell_features_uses_shell_and_creates_issue(
     ],
 )
 async def test_update_with_json_attrs(
-    hass: __HAC_KEEP__, load_yaml_integration: None
+    hass: UniversalAssistant, load_yaml_integration: None
 ) -> None:
     """Test json_attributes are set while the state comes from value_template."""
 
@@ -530,7 +530,7 @@ async def test_update_with_json_attrs(
     ],
 )
 async def test_update_with_json_attrs_path(
-    hass: __HAC_KEEP__, load_yaml_integration: None
+    hass: UniversalAssistant, load_yaml_integration: None
 ) -> None:
     """Test json_attributes_path selects a different root."""
 
@@ -558,7 +558,7 @@ async def test_update_with_json_attrs_path(
     ],
 )
 async def test_update_with_json_attrs_bad_json(
-    caplog: pytest.LogCaptureFixture, hass: __HAC_KEEP__, get_config: dict[str, Any]
+    caplog: pytest.LogCaptureFixture, hass: UniversalAssistant, get_config: dict[str, Any]
 ) -> None:
     """Test a non JSON output keeps the state and sets no attributes."""
     await setup.async_setup_component(hass, DOMAIN, get_config)

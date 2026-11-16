@@ -1,10 +1,12 @@
 """Weather entity."""
 
+from datetime import date, datetime
 from typing import Any, override
 
 from google_weather_api import (
     GoogleWeatherApiError,
     HourlyForecastResponse,
+    Interval,
     PrecipitationSegment,
     QuantitativePrecipitationForecast,
     WeatherCondition,
@@ -55,9 +57,10 @@ from universalassistant.const import (
     UnitOfSpeed,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
+from universalassistant.util import dt as dt_util
 
 from .const import DOMAIN
 from .coordinator import (
@@ -218,7 +221,7 @@ _CONDITION_MAP: dict[WeatherCondition.Type, str | None] = {
 def _get_condition(
     api_condition: WeatherCondition.Type, is_daytime: bool
 ) -> str | None:
-    """Map Google Weather condition to __HA_KEEP__ condition."""
+    """Map Google Weather condition to Universal Home Assistant condition."""
     cond = _CONDITION_MAP[api_condition]
     if cond == ATTR_CONDITION_SUNNY and not is_daytime:
         return ATTR_CONDITION_CLEAR_NIGHT
@@ -251,8 +254,17 @@ _PRECIPITATION_INTENSITY_MAP: dict[
 }
 
 
+def _is_interval_active_or_future(interval: Interval, now: datetime) -> bool:
+    """Return True unless the interval's exclusive end time has already passed."""
+    return (
+        interval.end_time is None
+        or (end_time := dt_util.parse_datetime(interval.end_time)) is None
+        or end_time > now
+    )
+
+
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: GoogleWeatherConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -336,7 +348,7 @@ class GoogleWeatherEntity(
                 latitude=self._latitude, longitude=self._longitude
             )
         except GoogleWeatherApiError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="minute_forecast_error",
                 translation_placeholders={"error": str(err)},
@@ -462,8 +474,20 @@ class GoogleWeatherEntity(
         """Return the daily forecast in native units."""
         self._refresh_supported_features()
         daily_data = self._daily_coordinator.data
+        today = dt_util.now(self._daily_coordinator.time_zone).date()
         forecasts: list[Forecast] = []
         for item in daily_data.forecast_days:
+            # Google's forecast day starts in the morning (e.g., 07:00 local time), so
+            # after midnight the first record still has yesterday's display_date.
+            if (
+                date(
+                    item.display_date.year,
+                    item.display_date.month,
+                    item.display_date.day,
+                )
+                < today
+            ):
+                continue
             parts = [
                 part
                 for part in (
@@ -563,6 +587,7 @@ class GoogleWeatherEntity(
         """Return the twice daily forecast in native units."""
         self._refresh_supported_features()
         daily_data = self._daily_coordinator.data
+        now = dt_util.utcnow()
         forecasts: list[Forecast] = []
         for item in daily_data.forecast_days:
             for is_daytime, part, temp, apparent_temp in (
@@ -579,7 +604,9 @@ class GoogleWeatherEntity(
                     item.feels_like_min_temperature.degrees,
                 ),
             ):
-                if part is None:
+                if part is None or not _is_interval_active_or_future(
+                    part.interval, now
+                ):
                     continue
                 forecasts.append(
                     {

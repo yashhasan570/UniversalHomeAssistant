@@ -8,7 +8,7 @@ from google.oauth2.credentials import Credentials
 
 from universalassistant.components import conversation
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_NAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv, discovery, intent
 from universalassistant.helpers.config_entry_oauth2_flow import (
     OAuth2Session,
@@ -29,7 +29,7 @@ from .services import async_setup_services
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up Google Assistant SDK component."""
     hass.async_create_task(
         discovery.async_load_platform(
@@ -43,7 +43,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: GoogleAssistantSDKConfigEntry
+    hass: UniversalAssistant, entry: GoogleAssistantSDKConfigEntry
 ) -> None:
     """Set up Google Assistant SDK from a config entry."""
     implementation = await async_get_config_entry_implementation(hass, entry)
@@ -62,7 +62,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: GoogleAssistantSDKConfigEntry
+    hass: UniversalAssistant, entry: GoogleAssistantSDKConfigEntry
 ) -> None:
     """Unload a config entry."""
     conversation.async_unset_agent(hass, entry)
@@ -72,7 +72,7 @@ class GoogleAssistantConversationAgent(conversation.AbstractConversationAgent):
     """Google Assistant SDK conversation agent."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: GoogleAssistantSDKConfigEntry
+        self, hass: UniversalAssistant, entry: GoogleAssistantSDKConfigEntry
     ) -> None:
         """Initialize the agent."""
         self.hass = hass

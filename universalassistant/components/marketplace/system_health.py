@@ -5,7 +5,7 @@ from typing import Any
 from aiogithubapi import GitHubException
 
 from universalassistant.components import system_health
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 from .base import MarketplaceManager, async_get_marketplace
 from .const import CATALOG_REPOSITORY, DOMAIN
@@ -14,14 +14,14 @@ from .profiles import Endpoint
 
 @callback
 def async_register(
-    hass: __HAC_KEEP__, register: system_health.SystemHealthRegistration
+    hass: UniversalAssistant, register: system_health.SystemHealthRegistration
 ) -> None:
     """Register system health callbacks."""
     register.domain = "Marketplace"
     register.async_register_info(system_health_info, "/marketplace")
 
 
-async def system_health_info(hass: __HAC_KEEP__) -> dict[str, Any]:
+async def system_health_info(hass: UniversalAssistant) -> dict[str, Any]:
     """Get info for the info page."""
     if not hass.config_entries.async_loaded_entries(DOMAIN):
         return {"disabled": "The Marketplace is not loaded"}

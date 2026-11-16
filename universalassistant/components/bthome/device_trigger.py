@@ -17,7 +17,7 @@ from universalassistant.const import (
     CONF_PLATFORM,
     CONF_TYPE,
 )
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
 from universalassistant.helpers.typing import ConfigType
@@ -54,7 +54,7 @@ TRIGGER_SCHEMA = DEVICE_TRIGGER_BASE_SCHEMA.extend(
 )
 
 
-def get_event_classes_by_device_id(hass: __HAC_KEEP__, device_id: str) -> list[str]:
+def get_event_classes_by_device_id(hass: UniversalAssistant, device_id: str) -> list[str]:
     """Get the supported event classes for a device.
 
     Events for BTHome BLE devices are dynamically discovered
@@ -80,7 +80,7 @@ def get_event_types_by_event_class(event_class: str) -> set[str]:
 
 
 async def async_validate_trigger_config(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> ConfigType:
     """Validate trigger config."""
     config = TRIGGER_SCHEMA(config)
@@ -103,7 +103,7 @@ async def async_validate_trigger_config(
 
 
 async def async_get_triggers(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, Any]]:
     """Return a list of triggers for BTHome BLE devices."""
     event_classes = get_event_classes_by_device_id(hass, device_id)
@@ -123,7 +123,7 @@ async def async_get_triggers(
 
 
 async def async_attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,

@@ -11,14 +11,14 @@ from universalassistant.components.diagnostics import REDACTED
 from universalassistant.components.neopool.diagnostics import (
     async_get_config_entry_diagnostics,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -41,7 +41,7 @@ async def test_entry_diagnostics(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_entry_diagnostics_redacts_serial_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_serial: MockConfigEntry,
 ) -> None:
     """The serial device path is redacted; it can carry a USB adapter serial."""
@@ -55,7 +55,7 @@ async def test_entry_diagnostics_redacts_serial_device(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_entry_diagnostics_exposes_only_exception_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """last_exception exposes the type only, never the raw message.

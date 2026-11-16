@@ -13,7 +13,7 @@ from pywizlight.exceptions import (
 )
 
 from universalassistant.core import callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.entity import Entity, ToggleEntity
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -64,22 +64,22 @@ class WizEntity(CoordinatorEntity[WizCoordinator], Entity):
 def wiz_exception_handler[_WizEntityT: WizEntity, **_P](
     func: Callable[Concatenate[_WizEntityT, _P], Coroutine[Any, Any, None]],
 ) -> Callable[Concatenate[_WizEntityT, _P], Coroutine[Any, Any, None]]:
-    """Raise __HAC_KEEP__Error when the device rejects or does not answer a command."""
+    """Raise UniversalAssistantError when the device rejects or does not answer a command."""
 
     @wraps(func)
     async def wrapper(self: _WizEntityT, *args: _P.args, **kwargs: _P.kwargs) -> None:
         try:
             await func(self, *args, **kwargs)
         except WizLightTimeOutError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="timeout"
             ) from err
         except WizLightMethodNotFound as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="not_supported"
             ) from err
         except WizLightConnectionError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="communication_error"
             ) from err
 

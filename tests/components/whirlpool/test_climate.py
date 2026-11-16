@@ -35,8 +35,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration, snapshot_whirlpool_entities, trigger_attr_callback
@@ -55,7 +55,7 @@ def multiple_climate_entities(request: pytest.FixtureRequest) -> tuple[str, str]
 
 
 async def update_ac_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id: str,
     mock_aircon_api_instance: MagicMock,
 ):
@@ -66,7 +66,7 @@ async def update_ac_state(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -76,7 +76,7 @@ async def test_all_entities(
 
 
 async def test_dynamic_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     multiple_climate_entities: tuple[str, str],
     request: pytest.FixtureRequest,
 ) -> None:
@@ -220,7 +220,7 @@ async def test_dynamic_attributes(
     ],
 )
 async def test_service_calls(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service: str,
     service_data: dict,
     expected_call: str,
@@ -256,7 +256,7 @@ async def test_service_calls(
     ],
 )
 async def test_service_request_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service: str,
     service_data: dict,
     request_method: str,
@@ -269,7 +269,7 @@ async def test_service_request_failure(
     mock_instance = request.getfixturevalue(mock_fixture)
     getattr(mock_instance, request_method).return_value = False
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             service,
@@ -296,7 +296,7 @@ async def test_service_request_failure(
     ],
 )
 async def test_service_hvac_mode_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service: str,
     service_data: dict,
     multiple_climate_entities: tuple[str, str],
@@ -345,7 +345,7 @@ async def test_service_hvac_mode_turn_on(
     ],
 )
 async def test_service_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service: str,
     service_data: dict,
     exception: type[Exception],

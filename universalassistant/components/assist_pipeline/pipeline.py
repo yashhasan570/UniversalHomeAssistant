@@ -6,7 +6,7 @@ from typing import Any, override
 import probatio
 
 from universalassistant.components import conversation, stt, tts, websocket_api
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.collection import (
     CollectionError,
     ItemNotFound,
@@ -86,7 +86,7 @@ PIPELINE_FIELDS: VolDictType = {
 
 @callback
 def _async_resolve_default_pipeline_settings(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     conversation_engine_id: str | None = None,
     stt_engine_id: str | None = None,
@@ -111,7 +111,7 @@ def _async_resolve_default_pipeline_settings(
     if conversation_engine_id is None:
         conversation_engine_id = conversation.UNIVERSAL_ASSISTANT_AGENT
 
-    # Find a matching language supported by the __HA_KEEP__ conversation agent
+    # Find a matching language supported by the Universal Home Assistant conversation agent
     conversation_languages = language_util.matches(
         hass.config.language,
         conversation.async_get_conversation_languages(hass, conversation_engine_id),
@@ -188,7 +188,7 @@ def _async_resolve_default_pipeline_settings(
 
 
 async def _async_create_default_pipeline(
-    hass: __HAC_KEEP__, pipeline_store: PipelineStorageCollection
+    hass: UniversalAssistant, pipeline_store: PipelineStorageCollection
 ) -> Pipeline:
     """Create a default pipeline.
 
@@ -196,13 +196,13 @@ async def _async_create_default_pipeline(
     default stt / tts engines.
     """
     pipeline_settings = _async_resolve_default_pipeline_settings(
-        hass, pipeline_name="__HA_KEEP__"
+        hass, pipeline_name="Universal Home Assistant"
     )
     return await pipeline_store.async_create_item(pipeline_settings)
 
 
 async def async_create_default_pipeline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     stt_engine_id: str,
     tts_engine_id: str,
     pipeline_name: str,
@@ -230,7 +230,7 @@ async def async_create_default_pipeline(
 
 @callback
 def _async_get_pipeline_from_conversation_entity(
-    hass: __HAC_KEEP__, entity_id: str
+    hass: UniversalAssistant, entity_id: str
 ) -> Pipeline:
     """Get a pipeline by conversation entity ID."""
     entity = hass.states.get(entity_id)
@@ -245,7 +245,7 @@ def _async_get_pipeline_from_conversation_entity(
 
 
 @callback
-def async_get_pipeline(hass: __HAC_KEEP__, pipeline_id: str | None = None) -> Pipeline:
+def async_get_pipeline(hass: UniversalAssistant, pipeline_id: str | None = None) -> Pipeline:
     """Get a pipeline by id or the preferred pipeline."""
     pipeline_data = hass.data[KEY_ASSIST_PIPELINE]
 
@@ -268,7 +268,7 @@ def async_get_pipeline(hass: __HAC_KEEP__, pipeline_id: str | None = None) -> Pi
 
 
 @callback
-def async_get_pipelines(hass: __HAC_KEEP__) -> list[Pipeline]:
+def async_get_pipelines(hass: UniversalAssistant) -> list[Pipeline]:
     """Get all pipelines."""
     pipeline_data = hass.data[KEY_ASSIST_PIPELINE]
 
@@ -276,7 +276,7 @@ def async_get_pipelines(hass: __HAC_KEEP__) -> list[Pipeline]:
 
 
 async def async_update_pipeline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     pipeline: Pipeline,
     *,
     conversation_engine: str | Undefined = Undefined,
@@ -428,7 +428,7 @@ class PipelineStorageCollectionWebsocket(
 
     @callback
     @override
-    def async_setup(self, hass: __HAC_KEEP__) -> None:
+    def async_setup(self, hass: UniversalAssistant) -> None:
         """Set up the websocket commands."""
         super().async_setup(hass)
 
@@ -460,7 +460,7 @@ class PipelineStorageCollectionWebsocket(
 
     @override
     async def ws_delete_item(
-        self, hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
+        self, hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
     ) -> None:
         """Delete an item."""
         try:
@@ -470,7 +470,7 @@ class PipelineStorageCollectionWebsocket(
 
     @callback
     def ws_get_item(
-        self, hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
+        self, hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
     ) -> None:
         """Get an item."""
         item_id = msg.get(self.item_id_key)
@@ -496,7 +496,7 @@ class PipelineStorageCollectionWebsocket(
     @callback
     @override
     def ws_list_item(
-        self, hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
+        self, hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
     ) -> None:
         """List items."""
         connection.send_result(
@@ -511,7 +511,7 @@ class PipelineStorageCollectionWebsocket(
 
     async def ws_set_preferred_item(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         connection: websocket_api.ActiveConnection,
         msg: dict[str, Any],
     ) -> None:
@@ -550,7 +550,7 @@ class PipelineStore(Store[SerializedPipelineStorageCollection]):
 
 
 @singleton(KEY_ASSIST_PIPELINE, async_=True)
-async def async_setup_pipeline_store(hass: __HAC_KEEP__) -> PipelineData:
+async def async_setup_pipeline_store(hass: UniversalAssistant) -> PipelineData:
     """Set up the pipeline storage collection."""
     pipeline_store = PipelineStorageCollection(
         PipelineStore(

@@ -18,8 +18,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.calendar import DOMAIN as CALENDAR_DOMAIN
 from universalassistant.components.icloud.coordinator import CALENDAR_SCAN_INTERVAL
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -89,7 +89,7 @@ def mock_calendars(icloud_client: AsyncMock) -> MagicMock:
     return service
 
 
-async def _setup(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def _setup(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Set up the config entry with only the calendar platform loaded."""
     config_entry.add_to_hass(hass)
     with patch("universalassistant.components.icloud.PLATFORMS", [Platform.CALENDAR]):
@@ -99,7 +99,7 @@ async def _setup(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
 
 
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     calendars: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -112,7 +112,7 @@ async def test_entities(
 
 
 async def test_event_in_progress_wins(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     calendars: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -142,14 +142,14 @@ async def test_event_in_progress_wins(
 
 
 async def test_all_day_event_end_is_exclusive(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     calendars: MagicMock,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test that a single all-day event ends on the following day.
 
-    iCloud reports the same day for start and end, but __HA_KEEP__ treats
+    iCloud reports the same day for start and end, but Universal Home Assistant treats
     the end of an all-day event as exclusive.
     """
     calendars.get_events.return_value = [
@@ -179,7 +179,7 @@ async def test_all_day_event_end_is_exclusive(
 
 
 async def test_get_events_filters_to_the_requested_window(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     calendars: MagicMock,
     snapshot: SnapshotAssertion,
@@ -233,7 +233,7 @@ async def test_get_events_filters_to_the_requested_window(
 
 
 async def test_new_calendar_added_on_later_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     calendars: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -255,15 +255,15 @@ async def test_new_calendar_added_on_later_poll(
 
 
 async def test_get_events_error_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     calendars: MagicMock,
 ) -> None:
-    """Test that an iCloud error surfaces as a __HA_KEEP__ error."""
+    """Test that an iCloud error surfaces as a Universal Home Assistant error."""
     await _setup(hass, config_entry)
     calendars.get_events.side_effect = PyiCloudException("boom")
 
-    with pytest.raises(__HAC_KEEP__Error, match="Error fetching events"):
+    with pytest.raises(UniversalAssistantError, match="Error fetching events"):
         await hass.services.async_call(
             CALENDAR_DOMAIN,
             "get_events",
@@ -278,7 +278,7 @@ async def test_get_events_error_raises(
 
 
 async def test_event_uses_its_own_timezone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     calendars: MagicMock,
     snapshot: SnapshotAssertion,
@@ -286,7 +286,7 @@ async def test_event_uses_its_own_timezone(
     """Test that an event in another timezone keeps its own instant.
 
     iCloud reports naive wall-clock times alongside a `tz` field, so assuming
-    __HA_KEEP__'s timezone would place the event at the wrong instant.
+    Universal Home Assistant's timezone would place the event at the wrong instant.
     """
     calendars.get_events.return_value = [
         _event(
@@ -315,7 +315,7 @@ async def test_event_uses_its_own_timezone(
 
 
 async def test_datetime_dates_are_accepted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     calendars: MagicMock,
     snapshot: SnapshotAssertion,
@@ -366,12 +366,12 @@ async def test_datetime_dates_are_accepted(
 
 
 async def test_unknown_event_timezone_falls_back(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     calendars: MagicMock,
     snapshot: SnapshotAssertion,
 ) -> None:
-    """Test that a malformed timezone falls back to __HA_KEEP__'s own.
+    """Test that a malformed timezone falls back to Universal Home Assistant's own.
 
     The event has to survive the fetch rather than be dropped, and its
     wall-clock time is read in the default timezone.

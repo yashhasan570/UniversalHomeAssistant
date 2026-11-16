@@ -36,8 +36,8 @@ from universalassistant.components.radio_frequency import (
 )
 from universalassistant.config_entries import ConfigEntry, ConfigFlow
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__, State
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, State
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -45,24 +45,24 @@ from universalassistant.util import dt as dt_util
 TEST_DOMAIN = "test"
 
 
-async def test_get_transmitters_component_not_loaded(hass: __HAC_KEEP__) -> None:
+async def test_get_transmitters_component_not_loaded(hass: UniversalAssistant) -> None:
     """Test getting transmitters raises when the component is not loaded."""
-    with pytest.raises(__HAC_KEEP__Error, match="component_not_loaded"):
+    with pytest.raises(UniversalAssistantError, match="component_not_loaded"):
         async_get_transmitters(hass, 433_920_000, ModulationType.OOK)
 
 
 @pytest.mark.usefixtures("init_radio_frequency")
-async def test_get_transmitters_no_entities(hass: __HAC_KEEP__) -> None:
+async def test_get_transmitters_no_entities(hass: UniversalAssistant) -> None:
     """Test getting transmitters raises when none are registered."""
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="No Radio Frequency transmitters available",
     ):
         async_get_transmitters(hass, 433_920_000, ModulationType.OOK)
 
 
 @pytest.mark.usefixtures("mock_rf_entity")
-async def test_get_transmitters_with_frequency_ranges(hass: __HAC_KEEP__) -> None:
+async def test_get_transmitters_with_frequency_ranges(hass: UniversalAssistant) -> None:
     """Test transmitter with frequency ranges filters correctly."""
     # 433.92 MHz is within 433-434 MHz range
     result = async_get_transmitters(hass, 433_920_000, ModulationType.OOK)
@@ -74,40 +74,40 @@ async def test_get_transmitters_with_frequency_ranges(hass: __HAC_KEEP__) -> Non
 
 
 @pytest.mark.usefixtures("mock_rf_entity")
-async def test_get_transmitters_filters_by_modulation(hass: __HAC_KEEP__) -> None:
+async def test_get_transmitters_filters_by_modulation(hass: UniversalAssistant) -> None:
     """Test transmitters are filtered by supported modulation."""
     result = async_get_transmitters(hass, 433_920_000, "no_matching_modulation")  # type: ignore[arg-type]
     assert result == []
 
 
 @pytest.mark.usefixtures("mock_rf_receiver_entity")
-async def test_get_transmitters_ignores_receivers(hass: __HAC_KEEP__) -> None:
+async def test_get_transmitters_ignores_receivers(hass: UniversalAssistant) -> None:
     """Test receivers are not returned as transmitters."""
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="No Radio Frequency transmitters available",
     ):
         async_get_transmitters(hass, 433_920_000, ModulationType.OOK)
 
 
-async def test_get_receivers_component_not_loaded(hass: __HAC_KEEP__) -> None:
+async def test_get_receivers_component_not_loaded(hass: UniversalAssistant) -> None:
     """Test getting receivers raises when the component is not loaded."""
-    with pytest.raises(__HAC_KEEP__Error, match="component_not_loaded"):
+    with pytest.raises(UniversalAssistantError, match="component_not_loaded"):
         async_get_receivers(hass, 433_920_000, ModulationType.OOK)
 
 
 @pytest.mark.usefixtures("mock_rf_entity")
-async def test_get_receivers_no_receivers(hass: __HAC_KEEP__) -> None:
+async def test_get_receivers_no_receivers(hass: UniversalAssistant) -> None:
     """Test getting receivers raises when none are registered."""
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="No Radio Frequency receivers available",
     ):
         async_get_receivers(hass, 433_920_000, ModulationType.OOK)
 
 
 @pytest.mark.usefixtures("mock_rf_entity", "mock_rf_receiver_entity")
-async def test_get_entities_filters_by_type(hass: __HAC_KEEP__) -> None:
+async def test_get_entities_filters_by_type(hass: UniversalAssistant) -> None:
     """Test get_transmitters/get_receivers return only entities of matching type."""
     assert async_get_transmitters(hass, 433_920_000, ModulationType.OOK) == [ENTITY_ID]
     assert async_get_receivers(hass, 433_920_000, ModulationType.OOK) == [
@@ -116,7 +116,7 @@ async def test_get_entities_filters_by_type(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_rf_receiver_entity")
-async def test_get_receivers_with_frequency_ranges(hass: __HAC_KEEP__) -> None:
+async def test_get_receivers_with_frequency_ranges(hass: UniversalAssistant) -> None:
     """Test receiver with frequency ranges filters correctly."""
     result = async_get_receivers(hass, 433_920_000, ModulationType.OOK)
     assert result == [RECEIVER_ENTITY_ID]
@@ -126,14 +126,14 @@ async def test_get_receivers_with_frequency_ranges(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_rf_receiver_entity")
-async def test_get_receivers_filters_by_modulation(hass: __HAC_KEEP__) -> None:
+async def test_get_receivers_filters_by_modulation(hass: UniversalAssistant) -> None:
     """Test receivers are filtered by supported modulation."""
     result = async_get_receivers(hass, 433_920_000, "no_matching_modulation")  # type: ignore[arg-type]
     assert result == []
 
 
 @pytest.mark.usefixtures("mock_rf_entity", "mock_rf_receiver_entity")
-async def test_rf_entities_initial_state(hass: __HAC_KEEP__) -> None:
+async def test_rf_entities_initial_state(hass: UniversalAssistant) -> None:
     """Test radio frequency entities have no state before any command is sent."""
     state = hass.states.get(ENTITY_ID)
     assert state is not None
@@ -145,7 +145,7 @@ async def test_rf_entities_initial_state(hass: __HAC_KEEP__) -> None:
 
 
 async def test_async_send_command_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -165,7 +165,7 @@ async def test_async_send_command_success(
 
 
 async def test_async_send_command_error_does_not_update_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
 ) -> None:
     """Test that state is not updated when async_send_command raises an error."""
@@ -176,10 +176,10 @@ async def test_async_send_command_error_does_not_update_state(
     command = MockRadioFrequencyCommand(frequency=433_920_000)
 
     mock_rf_entity.async_send_command = AsyncMock(
-        side_effect=__HAC_KEEP__Error("Transmission failed")
+        side_effect=UniversalAssistantError("Transmission failed")
     )
 
-    with pytest.raises(__HAC_KEEP__Error, match="Transmission failed"):
+    with pytest.raises(UniversalAssistantError, match="Transmission failed"):
         await async_send_command(hass, ENTITY_ID, command)
 
     state = hass.states.get(ENTITY_ID)
@@ -188,40 +188,40 @@ async def test_async_send_command_error_does_not_update_state(
 
 
 @pytest.mark.usefixtures("init_radio_frequency")
-async def test_async_send_command_entity_not_found(hass: __HAC_KEEP__) -> None:
+async def test_async_send_command_entity_not_found(hass: UniversalAssistant) -> None:
     """Test async_send_command raises error when entity not found."""
     command = MockRadioFrequencyCommand(frequency=433_920_000)
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Radio Frequency entity `radio_frequency.nonexistent_entity` not found",
     ):
         await async_send_command(hass, "radio_frequency.nonexistent_entity", command)
 
 
 async def test_async_send_command_rejects_receiver(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_receiver_entity: MockRadioFrequencyReceiverEntity,
 ) -> None:
     """Test async_send_command rejects a receiver entity."""
     command = MockRadioFrequencyCommand(frequency=433_920_000)
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=f"Radio Frequency entity `{RECEIVER_ENTITY_ID}` not found",
     ):
         await async_send_command(hass, RECEIVER_ENTITY_ID, command)
 
 
 async def test_async_send_command_unsupported_frequency(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
 ) -> None:
     """Test async_send_command raises when the frequency is not supported."""
     command = MockRadioFrequencyCommand(frequency=868_000_000)
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=(
             f"Radio Frequency entity `{ENTITY_ID}` "
             "does not support frequency 868000000 Hz"
@@ -234,7 +234,7 @@ async def test_async_send_command_unsupported_frequency(
 
 @pytest.mark.usefixtures("mock_rf_entity")
 async def test_async_send_command_unsupported_modulation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_entity: MockRadioFrequencyEntity,
 ) -> None:
     """Test async_send_command raises when the modulation is not supported."""
@@ -244,7 +244,7 @@ async def test_async_send_command_unsupported_modulation(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=(
             f"Radio Frequency entity `{ENTITY_ID}` "
             "does not support modulation incorrect_modulation"
@@ -255,11 +255,11 @@ async def test_async_send_command_unsupported_modulation(
     assert mock_rf_entity.send_command_calls == []
 
 
-async def test_async_send_command_component_not_loaded(hass: __HAC_KEEP__) -> None:
+async def test_async_send_command_component_not_loaded(hass: UniversalAssistant) -> None:
     """Test async_send_command raises error when component not loaded."""
     command = MockRadioFrequencyCommand(frequency=433_920_000)
 
-    with pytest.raises(__HAC_KEEP__Error, match="component_not_loaded"):
+    with pytest.raises(UniversalAssistantError, match="component_not_loaded"):
         await async_send_command(hass, "radio_frequency.some_entity", command)
 
 
@@ -271,7 +271,7 @@ async def test_async_send_command_component_not_loaded(hass: __HAC_KEEP__) -> No
     ],
 )
 async def test_rf_entity_state_restore(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     restored_value: str,
     expected_state: str,
 ) -> None:
@@ -302,7 +302,7 @@ async def test_rf_entity_state_restore(
 
 
 async def test_async_subscribe_receiver_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_receiver_entity: MockRadioFrequencyReceiverEntity,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -331,7 +331,7 @@ async def test_async_subscribe_receiver_success(
 
 
 async def test_handle_received_signal_isolates_callback_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_receiver_entity: MockRadioFrequencyReceiverEntity,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -350,7 +350,7 @@ async def test_handle_received_signal_isolates_callback_errors(
 
 
 async def test_handle_received_signal_unsubscribe_during_dispatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rf_receiver_entity: MockRadioFrequencyReceiverEntity,
 ) -> None:
     """Test a subscriber can unsubscribe itself during dispatch without error."""
@@ -380,11 +380,11 @@ async def test_handle_received_signal_unsubscribe_during_dispatch(
     ["radio_frequency.nonexistent_entity", "invalid-id"],
 )
 async def test_async_subscribe_receiver_not_found(
-    hass: __HAC_KEEP__, entity_id_or_uuid: str
+    hass: UniversalAssistant, entity_id_or_uuid: str
 ) -> None:
     """Test async_subscribe_receiver raises when the entity is missing or invalid."""
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=re.escape(
             f"Radio Frequency receiver entity `{entity_id_or_uuid}` not found"
         ),
@@ -394,30 +394,30 @@ async def test_async_subscribe_receiver_not_found(
 
 @pytest.mark.usefixtures("mock_rf_entity")
 async def test_async_subscribe_receiver_rejects_transmitter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test async_subscribe_receiver rejects a transmitter entity."""
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=re.escape(f"Radio Frequency receiver entity `{ENTITY_ID}` not found"),
     ):
         async_subscribe_receiver(hass, ENTITY_ID, lambda _: None)
 
 
 async def test_async_subscribe_receiver_component_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test async_subscribe_receiver raises error when component not loaded."""
-    with pytest.raises(__HAC_KEEP__Error, match="component_not_loaded"):
+    with pytest.raises(UniversalAssistantError, match="component_not_loaded"):
         async_subscribe_receiver(hass, "radio_frequency.some_entity", lambda _: None)
 
 
 @pytest.mark.usefixtures("init_radio_frequency")
-async def test_name(hass: __HAC_KEEP__) -> None:
+async def test_name(hass: UniversalAssistant) -> None:
     """Test entity name / device class naming fallback."""
 
     async def async_setup_entry_init(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -457,7 +457,7 @@ async def test_name(hass: __HAC_KEEP__) -> None:
     receiver2._attr_has_entity_name = True
 
     async def async_setup_entry_platform(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:

@@ -20,7 +20,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.iaqualink import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 MOCK_USERNAME = "test@example.com"
@@ -63,7 +63,7 @@ def get_aqualink_system(aqualink, cls=None, data=None):
 
 
 async def setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
 ) -> SystemDevices:
@@ -133,7 +133,7 @@ async def setup_integration(
 
 
 async def setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     system: AqualinkSystem,
 ) -> None:
@@ -154,7 +154,7 @@ async def setup_entry(
 
 
 async def assert_platform_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     entity_registry: er.EntityRegistry,

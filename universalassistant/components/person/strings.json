@@ -27,7 +27,7 @@
   },
   "exceptions": {
     "invalid_picture": {
-      "message": "The picture must be an image uploaded to __HA_KEEP__."
+      "message": "The picture must be an image uploaded to Universal Home Assistant."
     },
     "no_person_linked": {
       "message": "Your user is not linked to a person. Ask an administrator to link your user to a person first."

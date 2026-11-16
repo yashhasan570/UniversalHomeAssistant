@@ -11,15 +11,15 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import WAKE_UP_SLEEP_ENTRY_IDS, async_init_integration
 
 
 async def test_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -47,7 +47,7 @@ async def test_switches(
     ],
 )
 async def test_switches_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_name: str,
@@ -87,7 +87,7 @@ async def test_switches_actions(
 
 
 async def test_auto_on_off_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -154,7 +154,7 @@ async def test_auto_on_off_switches(
     ],
 )
 async def test_switch_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception | type[Exception],
@@ -169,7 +169,7 @@ async def test_switch_exceptions(
 
     mock_lamarzocco.set_power.side_effect = side_effect
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
@@ -180,7 +180,7 @@ async def test_switch_exceptions(
         )
     assert exc_info.value.translation_key == "switch_off_error"
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -195,7 +195,7 @@ async def test_switch_exceptions(
     assert state
 
     mock_lamarzocco.set_wakeup_schedule.side_effect = side_effect
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
@@ -208,7 +208,7 @@ async def test_switch_exceptions(
 
 
 async def test_switches_unavailable_if_machine_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,

@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import WizConfigEntry
 
@@ -11,7 +11,7 @@ TO_REDACT = {"roomId", "homeId"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: WizConfigEntry
+    hass: UniversalAssistant, entry: WizConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return {

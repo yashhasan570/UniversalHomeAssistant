@@ -8,8 +8,8 @@ from harbor import HarborCommandError
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -54,7 +54,7 @@ CAMERA_SWITCHES: tuple[HarborSwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: HarborConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -104,7 +104,7 @@ class HarborSwitch(HarborEntity, SwitchEntity):
         try:
             await action(self.coordinator)
         except (HarborCommandError, TimeoutError, ConnectionError) as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key=f"switch_{translation_key}_failed",
                 translation_placeholders={"switch": self.entity_description.key},

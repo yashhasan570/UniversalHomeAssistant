@@ -41,8 +41,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 
 @pytest.fixture
@@ -95,7 +95,7 @@ def platforms() -> list[Platform]:
     indirect=["appliance"],
 )
 async def test_program_options_retrieval(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -250,7 +250,7 @@ async def test_program_options_retrieval(
     ],
 )
 async def test_no_options_retrieval_on_unknown_program(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -325,7 +325,7 @@ async def test_no_options_retrieval_on_unknown_program(
     indirect=["appliance"],
 )
 async def test_program_options_retrieval_after_appliance_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -432,7 +432,7 @@ async def test_program_options_retrieval_after_appliance_connection(
     ],
 )
 async def test_option_entity_functionality_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -468,7 +468,7 @@ async def test_option_entity_functionality_exception(
             side_effect=set_selected_program_option_side_effect
         )
 
-    with pytest.raises(__HAC_KEEP__Error, match=r"Error.*setting.*option.*"):
+    with pytest.raises(UniversalAssistantError, match=r"Error.*setting.*option.*"):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,

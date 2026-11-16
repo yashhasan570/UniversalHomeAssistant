@@ -10,8 +10,8 @@ from devolo_plc_api.exceptions.device import DevicePasswordProtected, DeviceUnav
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN, SWITCH_GUEST_WIFI, SWITCH_LEDS
@@ -50,7 +50,7 @@ SWITCH_TYPES: dict[str, DevoloSwitchEntityDescription[Any]] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: DevoloHomeNetworkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -108,13 +108,13 @@ class DevoloSwitchEntity[_DataT: _DataType](
             await self.entity_description.turn_on_func(self.device)
         except DevicePasswordProtected as ex:
             self.entry.async_start_reauth(self.hass)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="password_protected",
                 translation_placeholders={"title": self.entry.title},
             ) from ex
         except DeviceUnavailable as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="no_response",
                 translation_placeholders={"title": self.entry.title},
@@ -129,13 +129,13 @@ class DevoloSwitchEntity[_DataT: _DataType](
             await self.entity_description.turn_off_func(self.device)
         except DevicePasswordProtected as ex:
             self.entry.async_start_reauth(self.hass)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="password_protected",
                 translation_placeholders={"title": self.entry.title},
             ) from ex
         except DeviceUnavailable as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="no_response",
                 translation_placeholders={"title": self.entry.title},

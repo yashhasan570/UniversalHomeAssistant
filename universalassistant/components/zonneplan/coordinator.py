@@ -30,10 +30,10 @@ from pyzonneplan.const import BatteryMode, ConsumptionChart, PriceChart
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     ServiceValidationError,
 )
 from universalassistant.helpers.event import async_track_utc_time_change
@@ -120,7 +120,7 @@ class ZonneplanBaseCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: ZonneplanConfigEntry,
         zonneplan: Zonneplan,
         update_interval: timedelta | None,
@@ -189,27 +189,27 @@ class ZonneplanBaseCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
             return await call
         except ZonneplanAuthenticationError as err:
             self.config_entry.async_start_reauth(self.hass)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="invalid_auth",
             ) from err
         except ZonneplanTimeoutError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="timeout_connect",
             ) from err
         except ZonneplanConnectionError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="cannot_connect",
             ) from err
         except ZonneplanRateLimitError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="rate_limited",
             ) from err
         except ZonneplanError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="api_error",
             ) from err
@@ -219,7 +219,7 @@ class ZonneplanCoordinator(ZonneplanBaseCoordinator[ZonneplanData]):
     """Coordinator to manage fetching Zonneplan account data."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: ZonneplanConfigEntry, zonneplan: Zonneplan
+        self, hass: UniversalAssistant, entry: ZonneplanConfigEntry, zonneplan: Zonneplan
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(hass, entry, zonneplan, UPDATE_INTERVAL)
@@ -297,7 +297,7 @@ class ZonneplanBatteryCoordinator(
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: ZonneplanConfigEntry,
         zonneplan: Zonneplan,
         connection_uuids: dict[str, str],
@@ -351,7 +351,7 @@ class ZonneplanChargePointCoordinator(ZonneplanBaseCoordinator[dict[str, ChargeP
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: ZonneplanConfigEntry,
         zonneplan: Zonneplan,
         connection_uuids: dict[str, str],
@@ -389,7 +389,7 @@ class ZonneplanBatteryControlCoordinator(
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: ZonneplanConfigEntry,
         zonneplan: Zonneplan,
         connection_uuids: dict[str, str],
@@ -441,7 +441,7 @@ class ZonneplanBatterySettingsCoordinator(
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: ZonneplanConfigEntry,
         zonneplan: Zonneplan,
         control_coordinator: ZonneplanBatteryControlCoordinator,

@@ -6,7 +6,7 @@ from airpatrol.api import AirPatrolAPI, AirPatrolAuthenticationError, AirPatrolE
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -22,7 +22,7 @@ class AirPatrolDataUpdateCoordinator(DataUpdateCoordinator[dict[str, dict[str, A
     config_entry: AirPatrolConfigEntry
     api: AirPatrolAPI
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: AirPatrolConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: AirPatrolConfigEntry) -> None:
         """Initialize."""
 
         super().__init__(

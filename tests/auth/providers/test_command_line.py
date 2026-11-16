@@ -10,11 +10,11 @@ from universalassistant import data_entry_flow
 from universalassistant.auth import AuthManager, auth_store, models as auth_models
 from universalassistant.auth.providers import command_line
 from universalassistant.const import CONF_TYPE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
-async def store(hass: __HAC_KEEP__) -> auth_store.AuthStore:
+async def store(hass: UniversalAssistant) -> auth_store.AuthStore:
     """Mock store."""
     store = auth_store.AuthStore(hass)
     await store.async_load()
@@ -23,7 +23,7 @@ async def store(hass: __HAC_KEEP__) -> auth_store.AuthStore:
 
 @pytest.fixture
 def provider(
-    hass: __HAC_KEEP__, store: auth_store.AuthStore
+    hass: UniversalAssistant, store: auth_store.AuthStore
 ) -> command_line.CommandLineAuthProvider:
     """Mock provider."""
     return command_line.CommandLineAuthProvider(
@@ -42,7 +42,7 @@ def provider(
 
 @pytest.fixture
 def manager(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     store: auth_store.AuthStore,
     provider: command_line.CommandLineAuthProvider,
 ) -> AuthManager:

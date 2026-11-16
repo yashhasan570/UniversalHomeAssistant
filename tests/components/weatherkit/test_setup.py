@@ -10,12 +10,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.weatherkit.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import EXAMPLE_CONFIG_DATA
 
 
-async def test_auth_error_handling(hass: __HAC_KEEP__) -> None:
+async def test_auth_error_handling(hass: UniversalAssistant) -> None:
     """Test that we handle authentication errors at setup properly."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -45,7 +45,7 @@ async def test_auth_error_handling(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_client_error_handling(hass: __HAC_KEEP__) -> None:
+async def test_client_error_handling(hass: UniversalAssistant) -> None:
     """Test that we handle API client errors at setup properly."""
     entry = MockConfigEntry(
         domain=DOMAIN,

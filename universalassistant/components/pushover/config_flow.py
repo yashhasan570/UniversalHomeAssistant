@@ -8,7 +8,7 @@ from pushover_complete import BadAPIRequestError, PushoverAPI
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_API_KEY, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONF_USER_KEY, DEFAULT_NAME, DOMAIN
 
@@ -23,7 +23,7 @@ USER_SCHEMA = probatio.Schema(
 )
 
 
-async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> dict[str, str]:
+async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> dict[str, str]:
     """Validate user input."""
     errors = {}
     pushover_api = PushoverAPI(data[CONF_API_KEY])

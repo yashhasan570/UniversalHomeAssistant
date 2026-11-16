@@ -19,14 +19,14 @@ from universalassistant.components import media_source
 from universalassistant.components.ntfy.const import DOMAIN, NtfyService, NtfyServiceArgument
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.setup import async_setup_component
 
 
 @pytest.mark.freeze_time("2026-01-01T23:59:59+00:00")
 async def test_ntfy_publish(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
 ) -> None:
@@ -141,7 +141,7 @@ async def test_ntfy_publish(
     ],
 )
 async def test_send_message_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
     exception: Exception,
@@ -157,7 +157,7 @@ async def test_send_message_exception(
 
     mock_aiontfy.publish.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error, match=error_msg):
+    with pytest.raises(UniversalAssistantError, match=error_msg):
         await hass.services.async_call(
             DOMAIN,
             NtfyService.PUBLISH,
@@ -234,7 +234,7 @@ async def test_send_message_exception(
 )
 @pytest.mark.usefixtures("mock_aiontfy")
 async def test_send_message_validation_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     payload: dict[str, Any],
     error_msg: str,
@@ -259,7 +259,7 @@ async def test_send_message_validation_errors(
 
 @pytest.mark.usefixtures("mock_aiontfy")
 async def test_send_message_file_not_found_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test publish message service validation errors."""
@@ -312,7 +312,7 @@ async def test_send_message_file_not_found_error(
     ],
 )
 async def test_send_message_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
     service: str,
@@ -330,7 +330,7 @@ async def test_send_message_reauth_flow(
         NtfyUnauthorizedAuthenticationError(40101, 401, "unauthorized"),
     )
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             service,
@@ -354,7 +354,7 @@ async def test_send_message_reauth_flow(
 
 
 async def test_ntfy_publish_attachment_upload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
 ) -> None:
@@ -388,7 +388,7 @@ async def test_ntfy_publish_attachment_upload(
 
 
 async def test_ntfy_publish_upload_camera_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
 ) -> None:
@@ -429,7 +429,7 @@ async def test_ntfy_publish_upload_camera_snapshot(
 
 @pytest.mark.usefixtures("mock_aiontfy")
 async def test_ntfy_publish_upload_media_source_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test ntfy.publish action with unsupported media source."""
@@ -470,7 +470,7 @@ async def test_ntfy_publish_upload_media_source_not_supported(
 
 @pytest.mark.usefixtures("mock_aiontfy")
 async def test_ntfy_publish_upload_media_image_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
 ) -> None:
@@ -502,7 +502,7 @@ async def test_ntfy_publish_upload_media_image_source(
 
 @pytest.mark.usefixtures("mock_aiontfy")
 async def test_ntfy_publish_upload_tts_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
 ) -> None:
@@ -535,7 +535,7 @@ async def test_ntfy_publish_upload_tts_source(
 
 
 async def test_ntfy_clear(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
 ) -> None:
@@ -568,7 +568,7 @@ async def test_ntfy_clear(
     ],
 )
 async def test_clear_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
     exception: Exception,
@@ -583,7 +583,7 @@ async def test_clear_exception(
 
     mock_aiontfy.clear.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             NtfyService.CLEAR,
@@ -598,7 +598,7 @@ async def test_clear_exception(
 
 
 async def test_ntfy_delete(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
 ) -> None:
@@ -631,7 +631,7 @@ async def test_ntfy_delete(
     ],
 )
 async def test_delete_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
     exception: Exception,
@@ -646,7 +646,7 @@ async def test_delete_exception(
 
     mock_aiontfy.delete.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             NtfyService.DELETE,

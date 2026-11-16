@@ -7,7 +7,7 @@ from typing import Any
 
 from yarl import URL
 
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.helpers.storage import Store
 
 from .const import DOMAIN
@@ -28,7 +28,7 @@ class AbstractConfig(ABC):
     _store: AlexaConfigStore
     _unsub_proactive_report: CALLBACK_TYPE | None = None
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize abstract config."""
         self.hass = hass
         self._enable_proactive_mode_lock = asyncio.Lock()
@@ -150,7 +150,7 @@ class AlexaConfigStore:
     _STORAGE_VERSION = 1
     _STORAGE_KEY = DOMAIN
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize a configuration store."""
         self._data: dict[str, Any] | None = None
         self._hass = hass

@@ -9,8 +9,8 @@ from pytest_universalassistant.common import MockEntity, MockEntityPlatform
 from universalassistant.components import automation
 from universalassistant.components.lg_netcast import DOMAIN
 from universalassistant.const import SERVICE_RELOAD
-from universalassistant.core import __HAC_KEEP__, ServiceCall
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -25,7 +25,7 @@ def mock_lg_netcast() -> Generator[None]:
 
 
 async def test_lg_netcast_turn_on_trigger_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -76,7 +76,7 @@ async def test_lg_netcast_turn_on_trigger_device_id(
 
     service_calls.clear()
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "media_player",
             "turn_on",
@@ -89,7 +89,7 @@ async def test_lg_netcast_turn_on_trigger_device_id(
 
 
 async def test_lg_netcast_turn_on_trigger_entity_id(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for turn_on triggers by entity firing."""
     await setup_lgnetcast(hass)
@@ -130,7 +130,7 @@ async def test_lg_netcast_turn_on_trigger_entity_id(
 
 
 async def test_wrong_trigger_platform_type(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test wrong trigger platform type."""
     await setup_lgnetcast(hass)
@@ -164,7 +164,7 @@ async def test_wrong_trigger_platform_type(
 
 
 async def test_trigger_invalid_entity_id(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test turn on trigger using invalid entity_id."""
     await setup_lgnetcast(hass)

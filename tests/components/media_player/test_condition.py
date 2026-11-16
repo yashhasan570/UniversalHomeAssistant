@@ -29,7 +29,7 @@ from universalassistant.components.media_player import (
 from universalassistant.components.media_player.condition import CONDITIONS
 from universalassistant.components.media_player.const import MediaPlayerState
 from universalassistant.const import CONF_ENTITY_ID, CONF_OPTIONS, CONF_TARGET
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.condition import async_validate_condition_config
 
 # Volume is stored as 0.0-1.0 but the threshold is in percent.
@@ -97,7 +97,7 @@ def parametrize_muted_condition_states_all(
 
 
 @pytest.fixture
-async def target_media_players(hass: __HAC_KEEP__) -> dict[str, list[str]]:
+async def target_media_players(hass: UniversalAssistant) -> dict[str, list[str]]:
     """Create multiple media player entities associated with different targets."""
     return await target_entities(hass, "media_player")
 
@@ -130,7 +130,7 @@ _CONDITION_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_media_player_condition_options_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     condition_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -227,7 +227,7 @@ def test_condition_target_support() -> None:
     ],
 )
 async def test_media_player_state_condition_behavior_any(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_media_players: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -325,7 +325,7 @@ async def test_media_player_state_condition_behavior_any(
     ],
 )
 async def test_media_player_state_condition_behavior_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_media_players: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -377,7 +377,7 @@ async def test_media_player_state_condition_behavior_all(
     ],
 )
 async def test_media_player_is_current_source_condition_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     condition: str,
     condition_options: dict[str, Any],
     expected_result: AbstractContextManager,

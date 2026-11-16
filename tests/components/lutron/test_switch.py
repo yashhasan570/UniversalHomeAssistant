@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_ON, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -21,7 +21,7 @@ def setup_platforms():
 
 
 async def test_switch_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lutron: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -45,7 +45,7 @@ async def test_switch_setup(
 
 
 async def test_switch_turn_on_off(
-    hass: __HAC_KEEP__, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test switch turn on and off."""
     mock_config_entry.add_to_hass(hass)
@@ -79,7 +79,7 @@ async def test_switch_turn_on_off(
 
 
 async def test_led_turn_on_off(
-    hass: __HAC_KEEP__, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test LED turn on and off."""
     mock_config_entry.add_to_hass(hass)
@@ -114,7 +114,7 @@ async def test_led_turn_on_off(
 
 @pytest.mark.parametrize("led_state", [Led.LED_SLOW_FLASH, Led.LED_FAST_FLASH])
 async def test_led_flash_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lutron: MagicMock,
     mock_config_entry: MockConfigEntry,
     led_state: int,

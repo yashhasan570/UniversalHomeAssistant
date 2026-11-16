@@ -4,7 +4,7 @@ import probatio
 
 from universalassistant.components.device_automation import toggle_entity
 from universalassistant.const import CONF_DOMAIN
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
 from universalassistant.helpers.typing import ConfigType
 
@@ -19,7 +19,7 @@ TRIGGER_SCHEMA = probatio.All(
 
 
 async def async_attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,
@@ -29,14 +29,14 @@ async def async_attach_trigger(
 
 
 async def async_get_triggers(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, str]]:
     """List device triggers."""
     return await toggle_entity.async_get_triggers(hass, device_id, DOMAIN)
 
 
 async def async_get_trigger_capabilities(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List trigger capabilities."""
     return await toggle_entity.async_get_trigger_capabilities(hass, config)

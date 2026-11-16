@@ -22,7 +22,7 @@ from universalassistant.components.llama_cpp.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_API_KEY, CONF_LLM_HASS_API, CONF_PROMPT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import llm
 
@@ -34,7 +34,7 @@ RECOMMENDED_OPTIONS = {
 
 
 @pytest.fixture(name="mock_setup")
-def mock_setup(hass: __HAC_KEEP__) -> Generator[AsyncMock]:
+def mock_setup(hass: UniversalAssistant) -> Generator[AsyncMock]:
     """Mock the setup of the integration."""
     with patch(
         f"universalassistant.components.{DOMAIN}.async_setup_entry", return_value=None
@@ -43,7 +43,7 @@ def mock_setup(hass: __HAC_KEEP__) -> Generator[AsyncMock]:
 
 
 async def test_config_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup: AsyncMock,
 ) -> None:
     """Test selecting a model in the configuration flow."""
@@ -121,7 +121,7 @@ async def test_config_flow(
     ],
 )
 async def test_config_flow_fail_completion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup: AsyncMock,
     mock_completion: AsyncMock,
     side_effect: Exception,
@@ -172,7 +172,7 @@ async def test_config_flow_fail_completion(
 
 
 async def test_config_flow_no_streaming(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup: AsyncMock,
     mock_completion: AsyncMock,
 ) -> None:
@@ -232,7 +232,7 @@ async def test_config_flow_no_streaming(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_creating_conversation_subentry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test creating a conversation subentry."""
@@ -265,7 +265,7 @@ async def test_creating_conversation_subentry(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_creating_conversation_subentry_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test creating a conversation subentry when entry is not loaded."""
@@ -285,7 +285,7 @@ async def test_creating_conversation_subentry_not_loaded(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_creating_conversation_subentry_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test creating a conversation subentry handles connection errors."""
@@ -304,7 +304,7 @@ async def test_creating_conversation_subentry_error(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_creating_conversation_subentry_advanced(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test creating a conversation subentry with custom/advanced settings."""
@@ -341,7 +341,7 @@ async def test_creating_conversation_subentry_advanced(
 
 
 async def test_config_flow_model_selection_fallbacks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup: AsyncMock,
 ) -> None:
     """Test model selection fallback options through the config flow."""
@@ -402,7 +402,7 @@ async def test_config_flow_model_selection_fallbacks(
 
 @pytest.mark.usefixtures("mock_setup")
 async def test_config_flow_connection_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test config flow handles connection validation errors."""
     result = await hass.config_entries.flow.async_init(
@@ -482,7 +482,7 @@ async def test_config_flow_connection_errors(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_reconfiguring_conversation_subentry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfiguring an existing conversation subentry."""
@@ -517,7 +517,7 @@ async def test_reconfiguring_conversation_subentry(
 
 
 async def test_subentry_options_entry_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: None,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -536,7 +536,7 @@ async def test_subentry_options_entry_not_loaded(
 
 
 async def test_reconfiguring_conversation_subentry_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: None,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -557,7 +557,7 @@ async def test_reconfiguring_conversation_subentry_connection_error(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_reconfiguring_conversation_subentry_validation_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfiguring subentry shows form with error if model validation fails."""
@@ -600,7 +600,7 @@ async def test_reconfiguring_conversation_subentry_validation_error(
 
 @pytest.mark.usefixtures("mock_setup")
 async def test_config_flow_unexpected_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test user step handles unexpected exception by showing unknown error."""
     result = await hass.config_entries.flow.async_init(
@@ -643,7 +643,7 @@ async def test_config_flow_unexpected_exception(
 
 
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_setup: AsyncMock,
     mock_models_list: AsyncMock,
@@ -681,7 +681,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_reauth_flow_loaded_entry_reloads_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_models_list: AsyncMock,
     api_key: str,
@@ -730,7 +730,7 @@ async def test_reauth_flow_loaded_entry_reloads_once(
 )
 @pytest.mark.usefixtures("mock_setup")
 async def test_reauth_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_models_list: AsyncMock,
     side_effect: Exception,

@@ -27,7 +27,7 @@ from universalassistant.const import (
     CONF_MODEL,
     CONF_TOKEN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -62,7 +62,7 @@ MOCK_ZEROCONF_DISCOVERY = ZeroconfServiceInfo(
 
 
 async def test_user_flow_success(
-    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_client: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test successful manual configuration without auth."""
     result = await hass.config_entries.flow.async_init(
@@ -90,7 +90,7 @@ async def test_user_flow_success(
 
 
 async def test_user_flow_auth_required(
-    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_client: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test user flow redirects to auth step when device requires a token."""
     result = await hass.config_entries.flow.async_init(
@@ -128,7 +128,7 @@ async def test_user_flow_auth_required(
 
 
 async def test_user_flow_cannot_connect(
-    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_client: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test user flow recovers after a connection failure."""
     result = await hass.config_entries.flow.async_init(
@@ -157,7 +157,7 @@ async def test_user_flow_cannot_connect(
 
 
 async def test_user_flow_already_configured(
-    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test user flow aborts when device is already configured."""
     result = await hass.config_entries.flow.async_init(
@@ -180,7 +180,7 @@ async def test_user_flow_already_configured(
     ],
 )
 async def test_auth_step_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     mock_setup_entry: AsyncMock,
     side_effect: Exception,
@@ -220,7 +220,7 @@ async def test_auth_step_errors(
 
 
 async def test_zeroconf_flow_no_token_needed(
-    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_client: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test zeroconf discovery when device doesn't require a token."""
     result = await hass.config_entries.flow.async_init(
@@ -249,7 +249,7 @@ async def test_zeroconf_flow_no_token_needed(
 
 
 async def test_zeroconf_flow_token_required(
-    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_client: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test zeroconf discovery when device requires a token."""
     mock_client.system_info.side_effect = WattwaechterAuthenticationError(
@@ -292,7 +292,7 @@ async def test_zeroconf_flow_token_required(
     ],
 )
 async def test_zeroconf_auth_step_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     mock_setup_entry: AsyncMock,
     side_effect: Exception,
@@ -331,7 +331,7 @@ async def test_zeroconf_auth_step_errors(
 
 
 async def test_zeroconf_flow_cannot_connect(
-    hass: __HAC_KEEP__, mock_client: AsyncMock
+    hass: UniversalAssistant, mock_client: AsyncMock
 ) -> None:
     """Test zeroconf aborts when device is unreachable."""
     mock_client.system_info.side_effect = WattwaechterConnectionError(
@@ -348,7 +348,7 @@ async def test_zeroconf_flow_cannot_connect(
 
 
 async def test_zeroconf_flow_already_configured(
-    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test zeroconf aborts and updates the stored host when the IP has changed."""
     new_host = "192.168.1.200"
@@ -379,7 +379,7 @@ async def test_zeroconf_flow_already_configured(
 
 
 async def test_zeroconf_flow_device_name_fetch_fails(
-    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_client: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test zeroconf uses fallback title when device_name fetch fails."""
     mock_client.settings.side_effect = WattwaechterConnectionError("Connection lost")
@@ -410,7 +410,7 @@ async def test_zeroconf_flow_device_name_fetch_fails(
 
 
 async def test_reauth_flow_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -437,7 +437,7 @@ async def test_reauth_flow_success(
     ],
 )
 async def test_reauth_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -469,7 +469,7 @@ async def test_reauth_flow_errors(
 
 
 async def test_reauth_flow_wrong_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -491,7 +491,7 @@ async def test_reauth_flow_wrong_device(
 
 
 async def test_reconfigure_flow_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -514,7 +514,7 @@ async def test_reconfigure_flow_success(
 
 
 async def test_reconfigure_flow_clear_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -540,7 +540,7 @@ async def test_reconfigure_flow_clear_token(
     ],
 )
 async def test_reconfigure_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -571,7 +571,7 @@ async def test_reconfigure_flow_errors(
 
 
 async def test_reconfigure_flow_wrong_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -632,7 +632,7 @@ def _zeroconf_discovery(
     ],
 )
 async def test_zeroconf_unique_id_is_bare_mac(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     mock_setup_entry: AsyncMock,
     properties: dict[str, str],
@@ -654,7 +654,7 @@ async def test_zeroconf_unique_id_is_bare_mac(
 
 
 async def test_zeroconf_gw_already_configured_by_user_flow(
-    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test a GW discovery matches the entry created from the system info esp_id."""
     new_host = "192.168.1.201"
@@ -680,7 +680,7 @@ async def test_zeroconf_gw_already_configured_by_user_flow(
     ids=["ignored", "disabled"],
 )
 async def test_zeroconf_gw_matches_unmigrated_legacy_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     source: str,
     disabled_by: ConfigEntryDisabler | None,
@@ -710,7 +710,7 @@ async def test_zeroconf_gw_matches_unmigrated_legacy_entry(
 
 
 async def test_zeroconf_gw_model_from_system_info(
-    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_client: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test a gas/water device stores the model ID and shows its product name."""
     mock_client.system_info.return_value = MOCK_SYSTEM_INFO_GAS
@@ -738,7 +738,7 @@ async def test_zeroconf_gw_model_from_system_info(
 
 
 async def test_user_flow_legacy_firmware_without_model_id(
-    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_client: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test firmware without model_id is stored as a WattWächter Plus."""
     legacy = await async_load_json_object_fixture(hass, "system_info.json", DOMAIN)
@@ -762,7 +762,7 @@ async def test_user_flow_legacy_firmware_without_model_id(
 
 
 @pytest.fixture
-def mqtt_device(hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry) -> None:
+def mqtt_device(hass: UniversalAssistant, device_registry: dr.DeviceRegistry) -> None:
     """Register the device as set up through MQTT discovery."""
     mqtt_entry = MockConfigEntry(domain="mqtt")
     mqtt_entry.add_to_hass(hass)
@@ -773,7 +773,7 @@ def mqtt_device(hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry) -> None:
 
 
 @pytest.mark.usefixtures("mock_client", "mock_setup_entry", "mqtt_device")
-async def test_user_flow_set_up_through_mqtt(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_set_up_through_mqtt(hass: UniversalAssistant) -> None:
     """Test the user flow also sets up a device set up through MQTT."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -788,7 +788,7 @@ async def test_user_flow_set_up_through_mqtt(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry", "mqtt_device")
 async def test_user_flow_auth_step_set_up_through_mqtt(
-    hass: __HAC_KEEP__, mock_client: AsyncMock
+    hass: UniversalAssistant, mock_client: AsyncMock
 ) -> None:
     """Test the user flow with a token also sets up a device set up through MQTT."""
     mock_client.system_info.side_effect = WattwaechterAuthenticationError(
@@ -812,7 +812,7 @@ async def test_user_flow_auth_step_set_up_through_mqtt(
 
 
 @pytest.mark.usefixtures("mock_client", "mqtt_device")
-async def test_zeroconf_flow_set_up_through_mqtt(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_flow_set_up_through_mqtt(hass: UniversalAssistant) -> None:
     """Test discovery of a device set up through MQTT is not offered."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -826,7 +826,7 @@ async def test_zeroconf_flow_set_up_through_mqtt(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mqtt_device")
 async def test_zeroconf_auth_step_set_up_through_mqtt(
-    hass: __HAC_KEEP__, mock_client: AsyncMock
+    hass: UniversalAssistant, mock_client: AsyncMock
 ) -> None:
     """Test discovery of a device needing a token aborts once MQTT is known."""
     mock_client.system_info.side_effect = WattwaechterAuthenticationError(
@@ -864,7 +864,7 @@ async def test_zeroconf_auth_step_set_up_through_mqtt(
 )
 @pytest.mark.usefixtures("mock_client")
 async def test_zeroconf_flow_other_mqtt_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry_domain: str,
     client_id: str,
@@ -890,7 +890,7 @@ async def test_zeroconf_flow_other_mqtt_device(
 
 @pytest.mark.usefixtures("mock_client")
 async def test_zeroconf_confirm_set_up_through_mqtt_meanwhile(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test the confirmation aborts if MQTT set up the device in the meantime."""
     result = await hass.config_entries.flow.async_init(

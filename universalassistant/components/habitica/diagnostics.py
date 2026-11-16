@@ -3,14 +3,14 @@
 from typing import Any
 
 from universalassistant.const import CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONF_API_USER
 from .coordinator import HabiticaConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: HabiticaConfigEntry
+    hass: UniversalAssistant, config_entry: HabiticaConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
 

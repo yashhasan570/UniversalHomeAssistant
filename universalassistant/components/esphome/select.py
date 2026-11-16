@@ -13,7 +13,7 @@ from universalassistant.components.assist_pipeline import (
 from universalassistant.components.assist_satellite import AssistSatelliteConfiguration
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import restore_state
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -36,7 +36,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ESPHomeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -73,7 +73,7 @@ async def async_setup_entry(
 
 
 def _voice_assistant_selects(
-    hass: __HAC_KEEP__, entry_data: RuntimeEntryData
+    hass: UniversalAssistant, entry_data: RuntimeEntryData
 ) -> list[SelectEntity]:
     """Build the selects that exist only while the device offers a voice assistant."""
     return [
@@ -120,7 +120,7 @@ class EsphomeAssistPipelineSelect(EsphomeAssistEntity, AssistPipelineSelect):
     """Pipeline selector for esphome devices."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry_data: RuntimeEntryData, index: int = 0
+        self, hass: UniversalAssistant, entry_data: RuntimeEntryData, index: int = 0
     ) -> None:
         """Initialize a pipeline selector."""
         EsphomeAssistEntity.__init__(self, entry_data)
@@ -132,7 +132,7 @@ class EsphomeAssistPipelineSelect(EsphomeAssistEntity, AssistPipelineSelect):
 class EsphomeVadSensitivitySelect(EsphomeAssistEntity, VadSensitivitySelect):
     """VAD sensitivity selector for ESPHome devices."""
 
-    def __init__(self, hass: __HAC_KEEP__, entry_data: RuntimeEntryData) -> None:
+    def __init__(self, hass: UniversalAssistant, entry_data: RuntimeEntryData) -> None:
         """Initialize a VAD sensitivity selector."""
         EsphomeAssistEntity.__init__(self, entry_data)
         VadSensitivitySelect.__init__(self, hass, self._device_info.mac_address)

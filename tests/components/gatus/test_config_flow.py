@@ -9,12 +9,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.gatus.const import DOMAIN
 from universalassistant.const import CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_gatus_client")
-async def test_form_success(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_form_success(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form, validate the client, and create a successful entry."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -37,7 +37,7 @@ async def test_form_success(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> 
 
 @pytest.mark.usefixtures("mock_gatus_client")
 async def test_form_success_with_path(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we get the form, validate the client, and create a successful entry with a sub-path."""
     result = await hass.config_entries.flow.async_init(
@@ -69,7 +69,7 @@ async def test_form_success_with_path(
     ],
 )
 async def test_form_failures_and_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_gatus_client: AsyncMock,
     side_effect: Exception,
@@ -103,7 +103,7 @@ async def test_form_failures_and_recovery(
 
 
 async def test_form_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that duplicate configurations for the same base URL abort early."""
     mock_config_entry.add_to_hass(hass)
@@ -122,7 +122,7 @@ async def test_form_already_configured(
 
 @pytest.mark.usefixtures("mock_gatus_client")
 async def test_flow_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure flow."""
@@ -153,7 +153,7 @@ async def test_flow_reconfigure(
     ],
 )
 async def test_flow_reconfigure_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_gatus_client: AsyncMock,
     side_effect: Exception,
@@ -192,7 +192,7 @@ async def test_flow_reconfigure_errors(
 
 @pytest.mark.usefixtures("mock_gatus_client")
 async def test_flow_reconfigure_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure flow aborts if the new URL is already configured."""
@@ -220,7 +220,7 @@ async def test_flow_reconfigure_already_configured(
 
 @pytest.mark.usefixtures("mock_gatus_client")
 async def test_form_success_with_credentials(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test setup with username, password, and token credentials."""
     result = await hass.config_entries.flow.async_init(
@@ -250,7 +250,7 @@ async def test_form_success_with_credentials(
 
 @pytest.mark.usefixtures("mock_gatus_client")
 async def test_flow_reconfigure_credentials(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure flow updating stored credentials."""
@@ -282,7 +282,7 @@ async def test_flow_reconfigure_credentials(
 
 @pytest.mark.usefixtures("mock_gatus_client")
 async def test_flow_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reauth flow."""
@@ -318,7 +318,7 @@ async def test_flow_reauth(
     ],
 )
 async def test_flow_reauth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_gatus_client: AsyncMock,
     side_effect: Exception,

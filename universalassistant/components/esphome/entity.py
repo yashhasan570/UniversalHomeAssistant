@@ -19,8 +19,8 @@ from aioesphomeapi import (
 import probatio
 
 from universalassistant.const import EntityCategory, UnitOfTemperature
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -119,7 +119,7 @@ def _move_cached_states(
 
 @callback
 def async_static_info_updated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry_data: RuntimeEntryData,
     platform: entity_platform.EntityPlatform,
     async_add_entities: AddEntitiesCallback,
@@ -327,12 +327,12 @@ def async_static_info_updated(
         entry_data.async_update_entity_infos(new_infos.values())
 
     if add_entities:
-        # Add entities to __HA_KEEP__
+        # Add entities to Universal Home Assistant
         async_add_entities(add_entities)
 
 
 async def platform_async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ESPHomeConfigEntry,
     async_add_entities: AddEntitiesCallback,
     *,
@@ -423,7 +423,7 @@ def esphome_float_state_property[_EntityT: EsphomeEntity[Any, Any]](
 
     This checks if the state object in the entity is set, and returns
     None if its not set. If also prevents writing NAN values to the
-    __HA_KEEP__ state machine.
+    Universal Home Assistant state machine.
     """
 
     @functools.wraps(func)
@@ -431,7 +431,7 @@ def esphome_float_state_property[_EntityT: EsphomeEntity[Any, Any]](
         if not self._has_state:
             return None
         val = func(self)
-        # __HA_KEEP__ doesn't use NaN or inf values in state machine
+        # Universal Home Assistant doesn't use NaN or inf values in state machine
         # (not JSON serializable)
         return None if val is None or not math.isfinite(val) else val
 
@@ -444,14 +444,14 @@ def convert_api_error_ha_error[**_P, _R, _EntityT: EsphomeBaseEntity](
     """Decorate ESPHome command calls that send commands/make changes to the device.
 
     A decorator that wraps the passed in function, catches APIConnectionError errors,
-    and raises a __HAC_KEEP__ error instead.
+    and raises a UniversalAssistant error instead.
     """
 
     async def handler(self: _EntityT, *args: _P.args, **kwargs: _P.kwargs) -> None:
         try:
             return await func(self, *args, **kwargs)
         except APIConnectionError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="error_communicating_with_device",
                 translation_placeholders={
@@ -614,7 +614,7 @@ class EsphomeEntity(EsphomeBaseEntity, Generic[_InfoT, _StateT]):  # noqa: UP046
                 self._subscribe_key_updates()
         self._attr_unique_id = unique_id
         self._attr_entity_registry_enabled_default = not static_info.disabled_by_default
-        # https://github.com/yashhasan570/__HAC_KEEP__/issues/132532
+        # https://github.com/yashhasan570/UniversalUniversalAssistant/issues/132532
         # If the name is "", we need to set it to None since otherwise
         # the friendly_name will be "{friendly_name} " with a trailing
         # space. ESPHome uses protobuf under the hood, and an empty field

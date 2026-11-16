@@ -24,7 +24,7 @@ from universalassistant.components.calendar import (
 )
 from universalassistant.config_entries import ConfigEntry, ConfigFlow
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -32,7 +32,7 @@ TEST_DOMAIN = "test"
 
 
 @pytest.fixture
-async def set_time_zone(hass: __HAC_KEEP__) -> None:
+async def set_time_zone(hass: UniversalAssistant) -> None:
     """Set the time zone for the tests."""
     # Set our timezone to CST/Regina so we can check calculations
     # This keeps UTC-6 all year round
@@ -90,7 +90,7 @@ class MockCalendarEntity(CalendarEntity):
 
     async def async_get_events(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         start_date: dt.datetime,
         end_date: dt.datetime,
     ) -> list[CalendarEvent]:
@@ -118,7 +118,7 @@ class MockCalendarEntity(CalendarEntity):
 
 
 @pytest.fixture
-def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
+def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
     """Mock config flow."""
     mock_platform(hass, f"{TEST_DOMAIN}.config_flow")
 
@@ -127,7 +127,7 @@ def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
 
 
 @pytest.fixture(name="config_entry")
-async def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Create a mock config entry."""
     config_entry = MockConfigEntry(domain=TEST_DOMAIN)
     config_entry.add_to_hass(hass)
@@ -136,14 +136,14 @@ async def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 @pytest.fixture
 def mock_setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_flow_fixture: None,
     test_entities: list[CalendarEntity],
 ) -> None:
     """Fixture to set up a mock integration."""
 
     async def async_setup_entry_init(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -151,7 +151,7 @@ def mock_setup_integration(
         )
 
     async def async_unload_entry_init(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
     ) -> None:
         await hass.config_entries.async_unload_platforms(
@@ -169,7 +169,7 @@ def mock_setup_integration(
     )
 
     async def async_setup_entry_platform(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:

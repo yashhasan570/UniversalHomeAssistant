@@ -23,8 +23,8 @@ from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, Button
 from universalassistant.components.home_connect.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
@@ -36,7 +36,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.parametrize("appliance", [ApplianceType.WASHER], indirect=True)
 async def test_paired_depaired_devices_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -103,7 +103,7 @@ async def test_paired_depaired_devices_flow(
     indirect=["appliance"],
 )
 async def test_connected_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -180,7 +180,7 @@ async def test_connected_devices(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.WASHER], indirect=True)
 async def test_button_entity_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -243,7 +243,7 @@ async def test_button_entity_availability(
     ],
 )
 async def test_button_functionality(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -270,7 +270,7 @@ async def test_button_functionality(
 
 
 async def test_command_button_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client_with_exception: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -295,7 +295,7 @@ async def test_command_button_exception(
     assert entity
     assert entity.state != STATE_UNAVAILABLE
 
-    with pytest.raises(__HAC_KEEP__Error, match=r"Error.*executing.*command"):
+    with pytest.raises(UniversalAssistantError, match=r"Error.*executing.*command"):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -305,7 +305,7 @@ async def test_command_button_exception(
 
 
 async def test_stop_program_button_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client_with_exception: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -320,7 +320,7 @@ async def test_stop_program_button_exception(
     assert entity
     assert entity.state != STATE_UNAVAILABLE
 
-    with pytest.raises(__HAC_KEEP__Error, match=r"Error.*stop.*program"):
+    with pytest.raises(UniversalAssistantError, match=r"Error.*stop.*program"):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -331,7 +331,7 @@ async def test_stop_program_button_exception(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.WASHER], indirect=True)
 async def test_enable_resume_command_on_pause(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],

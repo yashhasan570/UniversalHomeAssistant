@@ -12,7 +12,7 @@ from universalassistant.components.tomorrowio.const import ATTRIBUTION
 from universalassistant.components.tomorrowio.sensor import TomorrowioSensorEntityDescription
 from universalassistant.config_entries import RELOAD_AFTER_UPDATE_DELAY
 from universalassistant.const import ATTR_ATTRIBUTION
-from universalassistant.core import __HAC_KEEP__, State, callback
+from universalassistant.core import UniversalAssistant, State, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
@@ -89,7 +89,7 @@ V4_FIELDS = [
 
 
 @callback
-def _enable_entity(hass: __HAC_KEEP__, entity_name: str) -> None:
+def _enable_entity(hass: UniversalAssistant, entity_name: str) -> None:
     """Enable disabled entity."""
     ent_reg = er.async_get(hass)
     entry = ent_reg.async_get(entity_name)
@@ -99,7 +99,7 @@ def _enable_entity(hass: __HAC_KEEP__, entity_name: str) -> None:
 
 
 async def _setup(
-    hass: __HAC_KEEP__, sensors: list[str], config: dict[str, Any]
+    hass: UniversalAssistant, sensors: list[str], config: dict[str, Any]
 ) -> State:
     """Set up entry and return entity state."""
     with freeze_time(
@@ -119,7 +119,7 @@ async def _setup(
         assert len(hass.states.async_entity_ids(SENSOR_DOMAIN)) == len(sensors)
 
 
-def check_sensor_state(hass: __HAC_KEEP__, entity_name: str, value: str):
+def check_sensor_state(hass: UniversalAssistant, entity_name: str, value: str):
     """Check the state of a Tomorrow.io sensor."""
     entity_id = CC_SENSOR_ENTITY_ID.format(entity_name)
     state = hass.states.get(entity_id)
@@ -128,7 +128,7 @@ def check_sensor_state(hass: __HAC_KEEP__, entity_name: str, value: str):
     assert state.attributes[ATTR_ATTRIBUTION] == ATTRIBUTION
 
 
-async def test_v4_sensor(hass: __HAC_KEEP__) -> None:
+async def test_v4_sensor(hass: UniversalAssistant) -> None:
     """Test v4 sensor data."""
     await _setup(hass, V4_FIELDS, API_V4_ENTRY_DATA)
     check_sensor_state(hass, O3, "91.35")
@@ -160,7 +160,7 @@ async def test_v4_sensor(hass: __HAC_KEEP__) -> None:
     check_sensor_state(hass, UV_HEALTH_CONCERN, "moderate")
 
 
-async def test_v4_sensor_imperial(hass: __HAC_KEEP__) -> None:
+async def test_v4_sensor_imperial(hass: UniversalAssistant) -> None:
     """Test v4 sensor data."""
     hass.config.units = US_CUSTOMARY_SYSTEM
     await _setup(hass, V4_FIELDS, API_V4_ENTRY_DATA)

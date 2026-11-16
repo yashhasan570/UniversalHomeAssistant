@@ -7,13 +7,13 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.camera import async_get_image
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_fully_kiosk: MagicMock,
     init_integration: MockConfigEntry,
@@ -43,7 +43,7 @@ async def test_camera(
 
     fully_kiosk_error = FullyKioskError("error", "status")
     mock_fully_kiosk.getCamshot.side_effect = fully_kiosk_error
-    with pytest.raises(__HAC_KEEP__Error) as error:
+    with pytest.raises(UniversalAssistantError) as error:
         await async_get_image(hass, entity_camera)
     assert error.value.args[0] == fully_kiosk_error
 
@@ -56,6 +56,6 @@ async def test_camera(
     )
     assert len(mock_fully_kiosk.disableMotionDetection.mock_calls) == 1
 
-    with pytest.raises(__HAC_KEEP__Error) as error:
+    with pytest.raises(UniversalAssistantError) as error:
         await async_get_image(hass, entity_camera)
     assert error.value.args[0] == "Camera is off"

@@ -17,7 +17,7 @@ from .const import LIST_EVENT_FIELDS
 VALID_FREQS = {"DAILY", "WEEKLY", "MONTHLY", "YEARLY"}
 
 
-# Ensure events created in __HA_KEEP__ have a positive duration
+# Ensure events created in Universal Home Assistant have a positive duration
 MIN_NEW_EVENT_DURATION = dt.timedelta(seconds=1)
 
 

@@ -25,8 +25,8 @@ from universalassistant.const import (
     STATE_ON,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 
@@ -53,7 +53,7 @@ def firmwareupdate_fixture() -> tuple[blebox_uniapi.update.Update, str]:
 
 async def test_init(
     firmwareupdate: tuple[blebox_uniapi.update.Update, str],
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test firmware update entity default state after setup."""
@@ -84,7 +84,7 @@ async def test_init(
 
 async def test_update(
     firmwareupdate: tuple[blebox_uniapi.update.Update, str],
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test that async_update refreshes versions and syncs sw_version to device registry."""
@@ -120,10 +120,10 @@ async def test_update(
 
 async def test_update_error(
     firmwareupdate: tuple[blebox_uniapi.update.Update, str],
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
-    """Test that a failed async_update raises __HAC_KEEP__Error."""
+    """Test that a failed async_update raises UniversalAssistantError."""
     feature_mock, entity_id = firmwareupdate
     await async_setup_entity(hass, entity_id)
 
@@ -133,13 +133,13 @@ async def test_update_error(
     await async_update_entity(hass, entity_id)
     await hass.async_block_till_done()
 
-    assert "__HAC_KEEP__Error" in caplog.text
+    assert "UniversalAssistantError" in caplog.text
 
 
 @pytest.mark.freeze_time("2026-05-21 00:00:00")
 async def test_scan_interval_triggers_update(
     firmwareupdate: tuple[blebox_uniapi.update.Update, str],
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test that the SCAN_INTERVAL-based poll fires async_update after one hour."""
@@ -158,7 +158,7 @@ async def test_scan_interval_triggers_update(
 @pytest.mark.freeze_time("2026-05-21 00:00:00")
 async def test_install(
     firmwareupdate: tuple[blebox_uniapi.update.Update, str],
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that async_install triggers feature install and sets in_progress."""
     feature_mock, entity_id = firmwareupdate
@@ -190,10 +190,10 @@ async def test_install(
 @pytest.mark.freeze_time("2026-05-21 00:00:00")
 async def test_install_error(
     firmwareupdate: tuple[blebox_uniapi.update.Update, str],
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
-    """Test that an install failure clears in_progress, raises __HAC_KEEP__Error, and schedules no poll."""
+    """Test that an install failure clears in_progress, raises UniversalAssistantError, and schedules no poll."""
     feature_mock, entity_id = firmwareupdate
 
     await async_setup_entity(hass, entity_id)
@@ -202,7 +202,7 @@ async def test_install_error(
         side_effect=blebox_uniapi.error.ClientError("install failed")
     )
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -224,7 +224,7 @@ async def test_install_error(
 @pytest.mark.freeze_time("2026-05-21 00:00:00")
 async def test_poll_until_updated_success(
     firmwareupdate: tuple[blebox_uniapi.update.Update, str],
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -268,7 +268,7 @@ async def test_poll_until_updated_success(
 @pytest.mark.freeze_time("2026-05-21 00:00:00")
 async def test_poll_connection_error(
     firmwareupdate: tuple[blebox_uniapi.update.Update, str],
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -316,7 +316,7 @@ async def test_poll_connection_error(
 @pytest.mark.freeze_time("2026-05-21 00:00:00")
 async def test_poll_max_attempts(
     firmwareupdate: tuple[blebox_uniapi.update.Update, str],
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test that in_progress is cleared after _MAX_POLL_ATTEMPTS polls."""
@@ -359,7 +359,7 @@ async def test_poll_max_attempts(
 @pytest.mark.freeze_time("2026-05-21 00:00:00")
 async def test_poll_other_error(
     firmwareupdate: tuple[blebox_uniapi.update.Update, str],
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test that a non-connection Error during poll cancels in_progress immediately."""
@@ -395,7 +395,7 @@ async def test_poll_other_error(
 @pytest.mark.freeze_time("2026-05-21 00:00:00")
 async def test_remove_cancels_poll(
     firmwareupdate: tuple[blebox_uniapi.update.Update, str],
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:

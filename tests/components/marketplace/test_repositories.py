@@ -65,7 +65,7 @@ from universalassistant.components.marketplace.repositories.plugin import Plugin
 from universalassistant.components.marketplace.repositories.theme import ThemeRepository
 from universalassistant.components.marketplace.utils.url import github_raw_file
 from universalassistant.components.marketplace.utils.validate import Validate
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir, translation
 from universalassistant.loader import IntegrationNotLoaded
 
@@ -85,7 +85,7 @@ BIG_FILE = github_raw_file(repository="owner/repository", ref="main", path="big"
 
 @pytest.fixture
 def _isolated_translations(
-    disable_translations_once: None, hass: __HAC_KEEP__
+    disable_translations_once: None, hass: UniversalAssistant
 ) -> None:
     """Isolate data created before the shared translation fixture is disabled."""
     cache = translation._async_get_translations_cache(hass)
@@ -296,7 +296,7 @@ async def test_can_install(
     required_version: str,
     expected: bool,
 ) -> None:
-    """Test whether a repository can be installed on this __HA_KEEP__."""
+    """Test whether a repository can be installed on this Universal Home Assistant."""
     repository = Repository(marketplace)
     repository.data.releases = True
     repository.repository_manifest.universalassistant = required_version
@@ -903,7 +903,7 @@ async def test_get_documentation_without_version(
     ],
 )
 async def test_register_repository(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     repository_full_name: str,
@@ -947,7 +947,7 @@ APP_REPOSITORY_MESSAGE = (
             "universal-assistant/core",
             "core_repository",
             "core_repository",
-            "The integrations of __HA_KEEP__ itself come with __HA_KEEP__,"
+            "The integrations of Universal Home Assistant itself come with Universal Home Assistant,"
             " there is nothing to add",
             None,
             id="core",
@@ -988,7 +988,7 @@ APP_REPOSITORY_MESSAGE = (
     ],
 )
 async def test_register_repository_failures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     repository_full_name: str,
@@ -1179,7 +1179,7 @@ async def test_update_repository_without_a_tree(
 
 @pytest.mark.parametrize("category_test_data", category_test_data_parametrized())
 async def test_install_repository(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     config_dir: Path,
@@ -1208,7 +1208,7 @@ async def test_install_repository(
 
 @pytest.mark.parametrize("category_test_data", category_test_data_parametrized())
 async def test_update_repository(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     category_test_data: CategoryTestData,
@@ -1238,7 +1238,7 @@ async def test_update_repository(
 @pytest.mark.usefixtures("_isolated_translations")
 @pytest.mark.parametrize("category_test_data", category_test_data_parametrized())
 async def test_uninstall_repository(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     config_dir: Path,
@@ -1311,7 +1311,7 @@ async def test_uninstall_repository(
     ],
 )
 async def test_update_integration_translations(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     monkeypatch: pytest.MonkeyPatch,
     config_flow: bool,
@@ -1361,7 +1361,7 @@ async def test_update_integration_translations(
 @pytest.mark.usefixtures("_isolated_translations")
 @pytest.mark.parametrize("hook", ["async_post_installation", "async_post_uninstall"])
 async def test_translation_invalidation_during_rescan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hook: str,
 ) -> None:
@@ -1396,7 +1396,7 @@ async def test_translation_invalidation_during_rescan(
 @pytest.mark.parametrize("hook", ["async_post_installation", "async_post_uninstall"])
 @pytest.mark.parametrize("error", [OSError, CancelledError])
 async def test_translation_invalidation_after_failed_rescan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hook: str,
     error: type[BaseException],
@@ -1427,7 +1427,7 @@ async def test_translation_invalidation_after_failed_rescan(
     ),
 )
 async def test_uninstall_repository_after_a_restart(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     mock_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
@@ -1459,7 +1459,7 @@ async def test_uninstall_repository_after_a_restart(
 
 @pytest.mark.parametrize("github_token", [None])
 async def test_uninstall_theme_stored_without_its_file_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     mock_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
@@ -1484,7 +1484,7 @@ async def test_uninstall_theme_stored_without_its_file_name(
 
 
 async def test_uninstall_repository_failure_is_answered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1507,7 +1507,7 @@ async def test_uninstall_repository_failure_is_answered(
         "code": "uninstall_failed",
         "message": (
             f"Could not uninstall {REPOSITORY_INTEGRATION}. "
-            "Check the __HA_KEEP__ logs for details"
+            "Check the Universal Home Assistant logs for details"
         ),
         "translation_key": "uninstall_failed",
         "translation_domain": DOMAIN,
@@ -1518,7 +1518,7 @@ async def test_uninstall_repository_failure_is_answered(
 
 @pytest.mark.parametrize("category_test_data", category_test_data_parametrized())
 async def test_repository_releases(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     response_mocker: MarketplaceResponses,
@@ -1786,7 +1786,7 @@ async def test_install_rejects_escaping_persistent_directory(
     ],
 )
 async def test_repository_object_with_a_bad_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     disabled_reason: DisabledReason | None,
     reauth_flows: int,
@@ -2016,7 +2016,7 @@ async def test_remove_refuses_plugin_name_outside_community(
     ],
 )
 async def test_integration_restart_required_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     issue_registry: ir.IssueRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -2062,7 +2062,7 @@ async def test_integration_restart_required_issue(
 
 
 async def test_first_integration_is_found_without_a_restart(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     issue_registry: ir.IssueRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -2344,7 +2344,7 @@ async def test_integration_manifest_for_missing_version(
 
 
 async def test_template_reloads_custom_templates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -2493,7 +2493,7 @@ async def test_resource_handler(installed_plugin: PluginRepository) -> None:
     ],
 )
 async def test_resource_handler_wrong_store(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     installed_plugin: PluginRepository,
     caplog: pytest.LogCaptureFixture,
     attribute: str,
@@ -2508,7 +2508,7 @@ async def test_resource_handler_wrong_store(
 
 
 async def test_resource_handler_yaml_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     installed_plugin: PluginRepository,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2520,7 +2520,7 @@ async def test_resource_handler_yaml_mode(
 
 
 async def test_resource_handler_without_lovelace(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     installed_plugin: PluginRepository,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2578,7 +2578,7 @@ async def test_update_dashboard_resource(
     ],
 )
 async def test_no_dashboard_resource_for_extra_modules(
-    hass: __HAC_KEEP__, installed_plugin: PluginRepository, module_url: str
+    hass: UniversalAssistant, installed_plugin: PluginRepository, module_url: str
 ) -> None:
     """Test a plugin the frontend loads as an extra module gets no resource."""
     resources = installed_plugin._get_resource_handler()
@@ -2700,7 +2700,7 @@ async def test_repository_manifest_of_a_removed_version(
 async def test_ensure_install_capabilities_rejects_new_core_requirement(
     marketplace: MarketplaceManager, response_mocker: MarketplaceResponses
 ) -> None:
-    """Test refusing a version that needs a newer __HA_KEEP__."""
+    """Test refusing a version that needs a newer Universal Home Assistant."""
     repository = marketplace.repositories.get_by_full_name(REPOSITORY_INTEGRATION)
     url = f"https://raw.githubusercontent.com/{REPOSITORY_INTEGRATION}/3.0.0/hacs.json"
     response_mocker.add(
@@ -2712,13 +2712,13 @@ async def test_ensure_install_capabilities_rejects_new_core_requirement(
 
     with pytest.raises(
         MarketplaceError,
-        match="This version requires __HA_KEEP__ 9999.99.99 or newer",
+        match="This version requires Universal Home Assistant 9999.99.99 or newer",
     ):
         await repository.async_install_repository(ref="3.0.0")
 
 
 async def _install(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, repository_id: str
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, repository_id: str
 ) -> dict[str, Any]:
     """Install a repository the way the panel does, return the answer."""
     client = await hass_ws_client(hass)
@@ -2731,7 +2731,7 @@ async def _install(
 @pytest.mark.parametrize("github_token", [None])
 @pytest.mark.parametrize("category_test_data", category_test_data_parametrized())
 async def test_install_from_the_catalog(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
@@ -2753,7 +2753,7 @@ async def test_install_from_the_catalog(
 
 @pytest.mark.parametrize("github_token", [None])
 async def test_repository_page_shows_the_readme_of_the_installed_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -2796,7 +2796,7 @@ async def test_repository_page_shows_the_readme_of_the_installed_version(
 @pytest.mark.parametrize("github_token", [None])
 @pytest.mark.parametrize("category_test_data", category_test_data_parametrized())
 async def test_install_custom_repository(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
@@ -2827,7 +2827,7 @@ async def test_install_custom_repository(
     ],
 )
 async def test_install_reports_its_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     is_default: bool,
@@ -2853,7 +2853,7 @@ async def test_install_reports_its_progress(
 
 @pytest.mark.parametrize("github_token", [None])
 async def test_failed_version_lookup_ends_the_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -2927,7 +2927,7 @@ def _archive_without_content(repository: str) -> bytes:
     ],
 )
 async def test_install_from_the_catalog_falls_back(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     response_mocker: MarketplaceResponses,
@@ -2953,7 +2953,7 @@ async def test_install_from_the_catalog_falls_back(
 
 @pytest.mark.parametrize("github_token", [None])
 async def test_install_from_the_catalog_archive_too_large(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
@@ -2997,7 +2997,7 @@ async def test_install_from_the_catalog_archive_too_large(
     ],
 )
 async def test_install_from_the_catalog_escaping_member(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     response_mocker: MarketplaceResponses,
@@ -3040,7 +3040,7 @@ async def test_install_from_the_catalog_escaping_member(
 
 @pytest.mark.parametrize("github_token", [None])
 async def test_install_from_the_catalog_while_rate_limited(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     response_mocker: MarketplaceResponses,
@@ -3067,7 +3067,7 @@ async def test_install_from_the_catalog_while_rate_limited(
 
 @pytest.mark.parametrize("github_token", [None])
 async def test_install_from_the_catalog_commit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     response_mocker: MarketplaceResponses,
@@ -3103,7 +3103,7 @@ async def test_install_from_the_catalog_commit(
 
 @pytest.mark.parametrize("github_token", [None])
 async def test_install_from_the_catalog_zip_release(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     response_mocker: MarketplaceResponses,
@@ -3143,7 +3143,7 @@ async def test_install_from_the_catalog_zip_release(
 
 @pytest.mark.parametrize("github_token", [None])
 async def test_install_from_the_catalog_release_assets(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     response_mocker: MarketplaceResponses,
@@ -3190,7 +3190,7 @@ async def test_install_from_the_catalog_release_assets(
 
 @pytest.mark.parametrize("github_token", [None])
 async def test_install_from_the_catalog_release_assets_over_the_limit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     response_mocker: MarketplaceResponses,
@@ -3242,7 +3242,7 @@ async def test_install_from_the_catalog_release_assets_over_the_limit(
 
 @pytest.mark.parametrize("github_token", [None])
 async def test_install_from_the_catalog_release_assets_rate_limited(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     response_mocker: MarketplaceResponses,
@@ -3273,13 +3273,13 @@ async def test_install_from_the_catalog_release_assets_rate_limited(
 
 @pytest.mark.parametrize("github_token", [None])
 async def test_install_from_the_catalog_requires_newer_core(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     response_mocker: MarketplaceResponses,
     config_dir: Path,
 ) -> None:
-    """Test the catalog version is refused when it needs a newer __HA_KEEP__."""
+    """Test the catalog version is refused when it needs a newer Universal Home Assistant."""
     repository = marketplace.repositories.get_by_full_name(REPOSITORY_INTEGRATION)
     url = f"https://raw.githubusercontent.com/{REPOSITORY_INTEGRATION}/1.0.0/hacs.json"
     response_mocker.add(
@@ -3292,7 +3292,7 @@ async def test_install_from_the_catalog_requires_newer_core(
     assert not response["success"]
     assert response["error"]["translation_key"] == "requires_newer_universal_assistant"
     assert response["error"]["message"] == (
-        "This version requires __HA_KEEP__ 9999.1.0 or newer"
+        "This version requires Universal Home Assistant 9999.1.0 or newer"
     )
     assert repository.data.installed is False
     assert _installed_files(config_dir) == []

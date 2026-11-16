@@ -20,7 +20,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import Context, __HAC_KEEP__, State
+from universalassistant.core import Context, UniversalAssistant, State
 from universalassistant.helpers.state import async_reproduce_state
 
 ENTITY_1 = "humidifier.test1"
@@ -28,7 +28,7 @@ ENTITY_2 = "humidifier.test2"
 
 
 async def test_reproducing_on_off_states(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test reproducing humidifier states."""
     hass.states.async_set(ENTITY_1, "off", {ATTR_MODE: MODE_NORMAL, ATTR_HUMIDITY: 45})
@@ -86,7 +86,7 @@ async def test_reproducing_on_off_states(
     assert len(humidity_calls) == 0
 
 
-async def test_multiple_attrs(hass: __HAC_KEEP__) -> None:
+async def test_multiple_attrs(hass: UniversalAssistant) -> None:
     """Test turn on with multiple attributes."""
     hass.states.async_set(ENTITY_1, STATE_OFF, {})
 
@@ -110,7 +110,7 @@ async def test_multiple_attrs(hass: __HAC_KEEP__) -> None:
     assert humidity_calls[0].data == {"entity_id": ENTITY_1, "humidity": 45}
 
 
-async def test_turn_off_multiple_attrs(hass: __HAC_KEEP__) -> None:
+async def test_turn_off_multiple_attrs(hass: UniversalAssistant) -> None:
     """Test set mode and humidity for off state."""
     hass.states.async_set(ENTITY_1, STATE_ON, {})
 
@@ -132,7 +132,7 @@ async def test_turn_off_multiple_attrs(hass: __HAC_KEEP__) -> None:
     assert len(humidity_calls) == 0
 
 
-async def test_multiple_modes(hass: __HAC_KEEP__) -> None:
+async def test_multiple_modes(hass: UniversalAssistant) -> None:
     """Test that multiple states gets calls."""
     hass.states.async_set(ENTITY_1, STATE_OFF, {})
     hass.states.async_set(ENTITY_2, STATE_OFF, {})
@@ -172,7 +172,7 @@ async def test_multiple_modes(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_state_with_none(hass: __HAC_KEEP__) -> None:
+async def test_state_with_none(hass: UniversalAssistant) -> None:
     """Test that none is not a humidifier state."""
     hass.states.async_set(ENTITY_1, STATE_OFF, {})
 
@@ -191,7 +191,7 @@ async def test_state_with_none(hass: __HAC_KEEP__) -> None:
     assert len(humidity_calls) == 0
 
 
-async def test_state_with_context(hass: __HAC_KEEP__) -> None:
+async def test_state_with_context(hass: UniversalAssistant) -> None:
     """Test that context is forwarded."""
     hass.states.async_set(ENTITY_1, STATE_OFF, {})
 
@@ -226,7 +226,7 @@ async def test_state_with_context(hass: __HAC_KEEP__) -> None:
     ("service", "attribute"),
     [(SERVICE_SET_MODE, ATTR_MODE), (SERVICE_SET_HUMIDITY, ATTR_HUMIDITY)],
 )
-async def test_attribute(hass: __HAC_KEEP__, service, attribute) -> None:
+async def test_attribute(hass: UniversalAssistant, service, attribute) -> None:
     """Test that service call is made for each attribute."""
     hass.states.async_set(ENTITY_1, STATE_ON, {})
 

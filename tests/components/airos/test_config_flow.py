@@ -33,7 +33,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -78,7 +78,7 @@ MOCK_DISC_EXISTS = {
 
 
 async def test_manual_flow_creates_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ap_status_fixture: AirOSData,
     mock_airos_client: AsyncMock,
     mock_async_get_firmware_data: AsyncMock,
@@ -112,7 +112,7 @@ async def test_manual_flow_creates_entry(
 
 
 async def test_form_duplicate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airos_client: AsyncMock,
     mock_async_get_firmware_data: AsyncMock,
 ) -> None:
@@ -152,7 +152,7 @@ async def test_form_duplicate_entry(
     ],
 )
 async def test_form_exception_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     ap_status_fixture: AirOSData,
     mock_airos_client: AsyncMock,
@@ -205,7 +205,7 @@ async def test_form_exception_handling(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_scenario(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ap_status_fixture: AirOSData,
     mock_airos_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -273,7 +273,7 @@ async def test_reauth_flow_scenario(
     ],
 )
 async def test_reauth_flow_scenarios(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ap_status_fixture: AirOSData,
     expected_error: str,
     mock_airos_client: AsyncMock,
@@ -332,7 +332,7 @@ async def test_reauth_flow_scenarios(
 
 
 async def test_reauth_unique_id_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ap_status_fixture: AirOSData,
     mock_airos_client: AsyncMock,
     mock_async_get_firmware_data: AsyncMock,
@@ -373,7 +373,7 @@ async def test_reauth_unique_id_mismatch(
 
 
 async def test_successful_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airos_client: AsyncMock,
     mock_async_get_firmware_data: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -429,7 +429,7 @@ async def test_successful_reconfigure(
     ],
 )
 async def test_reconfigure_flow_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_error: str,
     mock_airos_client: AsyncMock,
     mock_async_get_firmware_data: AsyncMock,
@@ -477,7 +477,7 @@ async def test_reconfigure_flow_failure(
 
 
 async def test_reconfigure_unique_id_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ap_status_fixture: AirOSData,
     mock_airos_client: AsyncMock,
     mock_async_get_firmware_data: AsyncMock,
@@ -526,7 +526,7 @@ async def test_reconfigure_unique_id_mismatch(
 
 
 async def test_discover_flow_no_devices_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery_method: AsyncMock,
 ) -> None:
     """Test discovery flow aborts when no devices are found."""
@@ -550,7 +550,7 @@ async def test_discover_flow_no_devices_found(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discover_flow_one_device_found(
-    hass: __HAC_KEEP__, mock_airos_client: AsyncMock, mock_discovery_method: AsyncMock
+    hass: UniversalAssistant, mock_airos_client: AsyncMock, mock_discovery_method: AsyncMock
 ) -> None:
     """Test discovery flow goes straight to credentials when one device is found."""
     mock_discovery_method.return_value = {MOCK_DISC_DEV1[MAC_ADDRESS]: MOCK_DISC_DEV1}
@@ -597,7 +597,7 @@ async def test_discover_flow_one_device_found(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discover_flow_multiple_devices_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airos_client: AsyncMock,
     mock_async_get_firmware_data: AsyncMock,
     mock_discovery_method: AsyncMock,
@@ -675,7 +675,7 @@ async def test_discover_flow_multiple_devices_found(
 
 
 async def test_discover_flow_with_existing_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery_method: AsyncMock,
     mock_airos_client: AsyncMock,
 ) -> None:
@@ -718,7 +718,7 @@ async def test_discover_flow_with_existing_device(
     ],
 )
 async def test_discover_flow_discovery_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery_method,
     exception: Exception,
     reason: str,
@@ -741,7 +741,7 @@ async def test_discover_flow_discovery_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_configure_device_flow_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovery_method: AsyncMock,
     mock_airos_client: AsyncMock,
 ) -> None:
@@ -810,7 +810,7 @@ async def test_configure_device_flow_exceptions(
 
 
 async def test_dhcp_ip_changed_updates_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """DHCP event with new IP should update the config entry and reload."""
@@ -835,7 +835,7 @@ async def test_dhcp_ip_changed_updates_entry(
 
 
 async def test_dhcp_mac_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """DHCP event with non-matching MAC should abort."""
@@ -856,7 +856,7 @@ async def test_dhcp_mac_mismatch(
 
 
 async def test_dhcp_ip_unchanged(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """DHCP event with same IP should abort."""
@@ -879,7 +879,7 @@ async def test_dhcp_ip_unchanged(
 
 
 async def test_manual_flow_retries_with_legacy_tls(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_async_get_firmware_data: AsyncMock,
     ap_status_fixture: AirOSData,
@@ -930,7 +930,7 @@ async def test_manual_flow_retries_with_legacy_tls(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_validate_raise_on_attempted_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_async_get_firmware_data: AsyncMock,
 ) -> None:
     """Test legacy mode re-raises TLS compatibility errors."""

@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_MAC
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import (
@@ -24,7 +24,7 @@ from .conftest import (
 
 
 async def test_setup_entry_success(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_listener: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_listener: MagicMock
 ) -> None:
     """Test successful setup of a config entry."""
     await hass.config_entries.async_setup(mock_config_entry.entry_id)
@@ -36,7 +36,7 @@ async def test_setup_entry_success(
 
 
 async def test_setup_entry_oserror_raises_not_ready(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_listener: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_listener: MagicMock
 ) -> None:
     """Test that OSError during setup raises ConfigEntryNotReady."""
     mock_listener.start = AsyncMock(side_effect=OSError("Address in use"))
@@ -48,7 +48,7 @@ async def test_setup_entry_oserror_raises_not_ready(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_listener: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_listener: MagicMock
 ) -> None:
     """Test unloading a config entry stops the shared listener."""
     await hass.config_entries.async_setup(mock_config_entry.entry_id)
@@ -65,7 +65,7 @@ async def test_unload_entry(
 
 
 async def test_unload_entry_keeps_listener_for_remaining_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_config_entry_2: MockConfigEntry,
     mock_listener: MagicMock,
@@ -90,7 +90,7 @@ async def test_unload_entry_keeps_listener_for_remaining_entry(
 
 
 async def test_unload_entry_keeps_listener_while_other_entry_sets_up(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_listener: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_listener: MagicMock
 ) -> None:
     """Test unloading an entry leaves a listener another setup already claimed."""
     await hass.config_entries.async_setup(mock_config_entry.entry_id)
@@ -121,7 +121,7 @@ async def test_unload_entry_keeps_listener_while_other_entry_sets_up(
 
 
 async def test_concurrent_setup_starts_listener_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_config_entry_2: MockConfigEntry,
     mock_listener: MagicMock,
@@ -150,7 +150,7 @@ async def test_concurrent_setup_starts_listener_once(
 
 
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_listener: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -172,7 +172,7 @@ async def test_device_info(
 
 @pytest.mark.parametrize("mock_config_entry", [{CONF_MAC: MOCK_MAC}], indirect=True)
 async def test_device_info_with_mac(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_listener: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -192,7 +192,7 @@ async def test_device_info_with_mac(
 
 
 async def test_device_registry_not_updated_on_identical_callback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_listener: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -221,7 +221,7 @@ async def test_device_registry_not_updated_on_identical_callback(
 
 
 async def test_device_registry_updated_on_sw_version_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_listener: MagicMock,
     device_registry: dr.DeviceRegistry,

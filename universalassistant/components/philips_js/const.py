@@ -5,7 +5,7 @@ CONF_SYSTEM = "system"
 CONF_ALLOW_NOTIFY = "allow_notify"
 
 CONST_APP_ID = "universalassistant.io"
-CONST_APP_NAME = "__HA_KEEP__"
+CONST_APP_NAME = "Universal Home Assistant"
 
 TV_STATE_OFF = "Off"
 TV_STATE_ON = "On"

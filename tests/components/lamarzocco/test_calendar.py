@@ -15,7 +15,7 @@ from universalassistant.components.calendar import (
     SERVICE_GET_EVENTS,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -23,7 +23,7 @@ from . import WAKE_UP_SLEEP_ENTRY_IDS, async_init_integration
 
 
 async def test_calendar_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -89,7 +89,7 @@ async def test_calendar_events(
     ],
 )
 async def test_calendar_edge_cases(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -121,7 +121,7 @@ async def test_calendar_edge_cases(
 
 
 async def test_no_calendar_events_global_disable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,

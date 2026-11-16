@@ -12,7 +12,7 @@ from universalassistant.components.media_player import BrowseError
 from universalassistant.components.spotify import DOMAIN
 from universalassistant.components.spotify.browse_media import async_browse_media
 from universalassistant.const import CONF_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 from .conftest import SCOPES
@@ -20,7 +20,7 @@ from .conftest import SCOPES
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_browse_media_root(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -53,7 +53,7 @@ async def test_browse_media_root(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_browse_media_categories(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -71,7 +71,7 @@ async def test_browse_media_categories(
 )
 @pytest.mark.usefixtures("setup_credentials")
 async def test_browse_media_playlists(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_id: str,
     mock_spotify: MagicMock,
     snapshot: SnapshotAssertion,
@@ -121,7 +121,7 @@ async def test_browse_media_playlists(
 )
 @pytest.mark.usefixtures("setup_credentials")
 async def test_browsing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -150,7 +150,7 @@ async def test_browsing(
     ],
 )
 async def test_playlist_names_preserve_special_characters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
     name: str,
@@ -184,7 +184,7 @@ async def test_playlist_names_preserve_special_characters(
 @pytest.mark.parametrize("media_content_id", ["artist", None])
 @pytest.mark.usefixtures("setup_credentials")
 async def test_invalid_spotify_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
     media_content_id: str | None,
@@ -201,7 +201,7 @@ async def test_invalid_spotify_url(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_browsing_not_loaded_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_spotify: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -217,7 +217,7 @@ async def test_browsing_not_loaded_entry(
 
 @pytest.mark.usefixtures("setup_credentials", "mock_spotify")
 async def test_browsing_unknown_media_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test browsing an unknown media type."""

@@ -6,14 +6,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components import media_player
 from universalassistant.components.dlna_dmr.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 from universalassistant.setup import async_setup_component
 
 
 async def test_resource_lifecycle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain_data_mock: Mock,
     config_entry_mock: MockConfigEntry,
     ssdp_scanner_mock: Mock,

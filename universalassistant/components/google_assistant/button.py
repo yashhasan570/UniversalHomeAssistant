@@ -4,8 +4,8 @@ from typing import override
 
 from universalassistant.components.button import ButtonEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -15,7 +15,7 @@ from .http import GoogleConfig
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: GoogleConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -57,7 +57,7 @@ class SyncButton(ButtonEntity):
         )
         result = await self._google_config.async_sync_entities(agent_user_id)
         if result != 200:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Unable to sync devices with result code: {result}, check log for more"
                 " info."
             )

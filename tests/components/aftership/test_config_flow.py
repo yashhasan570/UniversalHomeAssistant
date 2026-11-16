@@ -8,12 +8,12 @@ import pytest
 from universalassistant.components.aftership.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_user_flow(hass: __HAC_KEEP__) -> None:
+async def test_full_user_flow(hass: UniversalAssistant) -> None:
     """Test the full user configuration flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -39,7 +39,7 @@ async def test_full_user_flow(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_flow_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_flow_cannot_connect(hass: UniversalAssistant) -> None:
     """Test handling invalid connection."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,

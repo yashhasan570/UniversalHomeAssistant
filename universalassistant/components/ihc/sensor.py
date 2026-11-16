@@ -6,7 +6,7 @@ from ihcsdk.ihccontroller import IHCController
 
 from universalassistant.components.sensor import SensorDeviceClass, SensorEntity
 from universalassistant.const import CONF_UNIT_OF_MEASUREMENT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from universalassistant.util.unit_system import TEMPERATURE_UNITS
@@ -16,7 +16,7 @@ from .entity import IHCEntity
 
 
 def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

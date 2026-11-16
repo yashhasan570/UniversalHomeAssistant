@@ -2,13 +2,13 @@
 
 from typing import Any
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import CambridgeAudioConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: CambridgeAudioConfigEntry
+    hass: UniversalAssistant, entry: CambridgeAudioConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for the provided config entry."""
     client = entry.runtime_data

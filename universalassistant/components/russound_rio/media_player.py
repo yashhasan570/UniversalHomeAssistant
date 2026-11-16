@@ -18,8 +18,8 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
     MediaType,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import RussoundConfigEntry, media_browser
@@ -37,7 +37,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: RussoundConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -90,7 +90,7 @@ class RussoundZoneDevice(RussoundBaseEntity, MediaPlayerEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         controller: Controller,
         entry: RussoundConfigEntry,
         zone_id: int,
@@ -281,7 +281,7 @@ class RussoundZoneDevice(RussoundBaseEntity, MediaPlayerEntity):
         """Play media on the Russound zone."""
 
         if media_type != RUSSOUND_MEDIA_TYPE_PRESET:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="unsupported_media_type",
                 translation_placeholders={

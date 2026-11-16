@@ -16,8 +16,8 @@ from universalassistant.components.sensor import (
     async_rounded_state,
 )
 from universalassistant.const import EntityStateAttribute
-from universalassistant.core import __HAC_KEEP__, SupportsResponse, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, TemplateError
+from universalassistant.core import UniversalAssistant, SupportsResponse, callback
+from universalassistant.exceptions import UniversalAssistantError, TemplateError
 from universalassistant.helpers import (
     area_registry as ar,
     config_validation as cv,
@@ -58,7 +58,7 @@ ACTION_DESCRIPTION_MAX_SIZE = 16 * 1024
 
 NO_ENTITIES_PROMPT = (
     "Only if the user wants to control a device, tell them to expose entities "
-    "to their voice assistant in __HA_KEEP__."
+    "to their voice assistant in Universal Home Assistant."
 )
 
 DYNAMIC_CONTEXT_PROMPT = (
@@ -93,7 +93,7 @@ DYNAMIC_CONTEXT_PROMPT = (
 
 @callback
 def async_get_exposed_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     assistant: str,
     include_state: bool = True,
 ) -> dict[str, dict[str, Any]]:
@@ -278,7 +278,7 @@ class GetLiveContextTool(Tool):
     @override
     async def async_call(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         tool_input: ToolInput,
         llm_context: LLMContext,
     ) -> ToolResult:
@@ -356,9 +356,9 @@ class RenderTemplateTool(Tool):
     name = "universalassistant__render_template"
     title = "Render template"
     description = (
-        "Render a __HA_KEEP__ Jinja2 template and return the output as a string. "
+        "Render a Universal Home Assistant Jinja2 template and return the output as a string. "
         "Templates can read the state and attributes of all entities and use "
-        "__HA_KEEP__ template functions, for example for areas, devices, "
+        "Universal Home Assistant template functions, for example for areas, devices, "
         "labels, and time."
     )
     annotations = ToolAnnotations(
@@ -382,7 +382,7 @@ class RenderTemplateTool(Tool):
 
     @override
     async def async_call(
-        self, hass: __HAC_KEEP__, tool_input: ToolInput, llm_context: LLMContext
+        self, hass: UniversalAssistant, tool_input: ToolInput, llm_context: LLMContext
     ) -> ToolResult:
         """Render the template."""
         args = self.parameters(tool_input.tool_args)
@@ -464,12 +464,12 @@ def _describe_action(
 
 
 class SearchActionsTool(Tool):
-    """Tool for searching the actions that __HA_KEEP__ can perform."""
+    """Tool for searching the actions that Universal Home Assistant can perform."""
 
     name = "universalassistant__search_actions"
     title = "Search actions"
     description = (
-        "Search the actions that __HA_KEEP__ can perform. Each word of the query "
+        "Search the actions that Universal Home Assistant can perform. Each word of the query "
         "must appear in the action ID, name or description. An exact action ID or "
         "name ranks first. Returns the "
         f"{ACTION_SEARCH_LIMIT} best matches with their target and fields."
@@ -489,7 +489,7 @@ class SearchActionsTool(Tool):
 
     @override
     async def async_call(
-        self, hass: __HAC_KEEP__, tool_input: ToolInput, llm_context: LLMContext
+        self, hass: UniversalAssistant, tool_input: ToolInput, llm_context: LLMContext
     ) -> ToolResult:
         """Search the actions."""
         args = self.parameters(tool_input.tool_args)
@@ -557,7 +557,7 @@ class CallActionTool(Tool):
     name = "universalassistant__call_action"
     title = "Call action"
     description = (
-        "Call a __HA_KEEP__ action and return its response, if the action has "
+        "Call a Universal Home Assistant action and return its response, if the action has "
         "one. Values in target and data can be templates, as in a script."
     )
     integration = DOMAIN
@@ -579,7 +579,7 @@ class CallActionTool(Tool):
 
     @override
     async def async_call(
-        self, hass: __HAC_KEEP__, tool_input: ToolInput, llm_context: LLMContext
+        self, hass: UniversalAssistant, tool_input: ToolInput, llm_context: LLMContext
     ) -> ToolResult:
         """Call the action."""
         args = self.parameters(tool_input.tool_args)
@@ -616,7 +616,7 @@ class CallActionTool(Tool):
         try:
             params = async_prepare_call_from_config(hass, config)
         # A template that renders to a list or dict cannot be a key in the data
-        except (__HAC_KEEP__Error, TypeError) as err:
+        except (UniversalAssistantError, TypeError) as err:
             return ToolResult(data={"error": str(err)}, error=True)
         try:
             response = await hass.services.async_call(
@@ -625,7 +625,7 @@ class CallActionTool(Tool):
                 context=llm_context.context,
                 return_response=return_response,
             )
-        except (__HAC_KEEP__Error, probatio.Invalid) as err:
+        except (UniversalAssistantError, probatio.Invalid) as err:
             return ToolResult(data={"error": str(err)}, error=True)
         if return_response:
             return ToolResult(data={"response": response})
@@ -634,7 +634,7 @@ class CallActionTool(Tool):
 
 @callback
 def async_get_tools(
-    hass: __HAC_KEEP__, llm_context: LLMContext, api_id: str
+    hass: UniversalAssistant, llm_context: LLMContext, api_id: str
 ) -> LLMTools | None:
     """Return the universalassistant LLM tools for the given API."""
     if api_id == LLM_API_UNIVERSAL_ASSISTANT:

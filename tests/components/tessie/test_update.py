@@ -12,15 +12,15 @@ from universalassistant.components.update import (
     UpdateService,
 )
 from universalassistant.const import STATE_ON, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .common import ERROR_UNKNOWN, assert_entities, setup_platform
 
 
 async def test_updates(
-    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, snapshot: SnapshotAssertion, entity_registry: er.EntityRegistry
 ) -> None:
     """Tests that update entity is correct."""
 
@@ -46,7 +46,7 @@ async def test_updates(
     assert state.attributes.get(ATTR_IN_PROGRESS) == 1
 
 
-async def test_update_error(hass: __HAC_KEEP__) -> None:
+async def test_update_error(hass: UniversalAssistant) -> None:
     """Test update transport errors are translated."""
 
     await setup_platform(hass, [Platform.UPDATE])
@@ -56,7 +56,7 @@ async def test_update_error(hass: __HAC_KEEP__) -> None:
             "tesla_fleet_api.tessie.Vehicle.tessie_schedule_software_update",
             side_effect=ERROR_UNKNOWN,
         ) as mock_update,
-        pytest.raises(__HAC_KEEP__Error) as error,
+        pytest.raises(UniversalAssistantError) as error,
     ):
         await hass.services.async_call(
             UPDATE_DOMAIN,
@@ -75,7 +75,7 @@ async def test_update_error(hass: __HAC_KEEP__) -> None:
             "tesla_fleet_api.tessie.Vehicle.tessie_schedule_software_update",
             side_effect=UnsupportedVehicle(),
         ) as mock_update,
-        pytest.raises(__HAC_KEEP__Error) as error,
+        pytest.raises(UniversalAssistantError) as error,
     ):
         await hass.services.async_call(
             UPDATE_DOMAIN,

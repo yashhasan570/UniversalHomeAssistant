@@ -4,7 +4,7 @@ from typing import Final
 
 import probatio
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.config_validation import make_entity_service_schema
 
@@ -21,7 +21,7 @@ ALARM_SERVICE_SCHEMA: Final = make_entity_service_schema(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the alarm control panel services."""
     component = hass.data[DATA_COMPONENT]
 

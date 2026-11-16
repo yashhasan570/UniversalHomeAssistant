@@ -11,14 +11,14 @@ from universalassistant.components.namecheapdns.const import DOMAIN, UPDATE_URL
 from universalassistant.components.namecheapdns.helpers import AuthFailed
 from universalassistant.config_entries import SOURCE_REAUTH, SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import TEST_USER_INPUT
 
 
 @pytest.mark.usefixtures("mock_namecheap")
-async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -47,7 +47,7 @@ async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     ],
 )
 async def test_form_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_namecheap: AsyncMock,
     side_effect: Exception | bool,
@@ -81,7 +81,7 @@ async def test_form_errors(
 
 @pytest.mark.usefixtures("mock_namecheap")
 async def test_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure flow."""
@@ -111,7 +111,7 @@ async def test_reconfigure(
     ],
 )
 async def test_reconfigure_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_namecheap: AsyncMock,
     side_effect: Exception | bool,
@@ -147,7 +147,7 @@ async def test_reconfigure_errors(
 
 @pytest.mark.usefixtures("mock_namecheap")
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -188,7 +188,7 @@ async def test_reauth(
     ],
 )
 async def test_reauth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_namecheap: AsyncMock,
     side_effect: Exception | bool,
@@ -233,7 +233,7 @@ async def test_reauth_errors(
 
 
 async def test_initiate_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:

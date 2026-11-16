@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 
 from .const import CONF_PLACE_ID, CONF_SERVICE_ID, LOGGER
@@ -13,7 +13,7 @@ PLATFORMS = [Platform.CALENDAR, Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: RecollectWasteConfigEntry
+    hass: UniversalAssistant, entry: RecollectWasteConfigEntry
 ) -> None:
     """Set up ReCollect Waste as config entry."""
     coordinator = ReCollectWasteDataUpdateCoordinator(hass, entry)
@@ -27,21 +27,21 @@ async def async_setup_entry(
 
 
 async def async_reload_entry(
-    hass: __HAC_KEEP__, entry: RecollectWasteConfigEntry
+    hass: UniversalAssistant, entry: RecollectWasteConfigEntry
 ) -> None:
     """Handle an options update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: RecollectWasteConfigEntry
+    hass: UniversalAssistant, entry: RecollectWasteConfigEntry
 ) -> None:
     """Unload an ReCollect Waste config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, entry: RecollectWasteConfigEntry
+    hass: UniversalAssistant, entry: RecollectWasteConfigEntry
 ) -> None:
     """Migrate an old config entry."""
     version = entry.version

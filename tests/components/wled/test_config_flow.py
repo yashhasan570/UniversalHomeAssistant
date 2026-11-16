@@ -10,7 +10,7 @@ from wled import WLEDConnectionError, WLEDError, WLEDUnsupportedVersionError
 from universalassistant.components.wled.const import CONF_KEEP_MAIN_LIGHT, DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST, CONF_MAC, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -28,7 +28,7 @@ CONFIG = {CONF_HOST: "10.10.0.10"}
     ],
 )
 async def test_full_user_flow_implementation(
-    hass: __HAC_KEEP__, host_input: str
+    hass: UniversalAssistant, host_input: str
 ) -> None:
     """Test the full manual user flow from start to finish."""
     result = await hass.config_entries.flow.async_init(
@@ -51,7 +51,7 @@ async def test_full_user_flow_implementation(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_wled")
 async def test_full_reconfigure_flow_success(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_wled: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_wled: MagicMock
 ) -> None:
     """Test the full reconfigure flow from start to finish."""
     mock_config_entry.add_to_hass(hass)
@@ -75,7 +75,7 @@ async def test_full_reconfigure_flow_success(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_wled")
 async def test_full_reconfigure_flow_unique_id_mismatch(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_wled: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_wled: MagicMock
 ) -> None:
     """Test reconfiguration failure when the unique ID changes."""
     mock_config_entry.add_to_hass(hass)
@@ -102,7 +102,7 @@ async def test_full_reconfigure_flow_unique_id_mismatch(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_wled")
 async def test_full_reconfigure_flow_connection_error_and_success(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_wled: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_wled: MagicMock
 ) -> None:
     """Test user form on WLED connection error allows host change."""
     mock_config_entry.add_to_hass(hass)
@@ -142,7 +142,7 @@ async def test_full_reconfigure_flow_connection_error_and_success(
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_wled")
-async def test_full_zeroconf_flow_implementation(hass: __HAC_KEEP__) -> None:
+async def test_full_zeroconf_flow_implementation(hass: UniversalAssistant) -> None:
     """Test the full manual user flow from start to finish."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -183,7 +183,7 @@ async def test_full_zeroconf_flow_implementation(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_wled")
 async def test_zeroconf_during_onboarding(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_onboarding: MagicMock,
 ) -> None:
@@ -223,7 +223,7 @@ async def test_zeroconf_during_onboarding(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_submission_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_wled: MagicMock,
     exception: type[Exception],
     errors: dict[str, str],
@@ -264,7 +264,7 @@ async def test_form_submission_errors(
     ],
 )
 async def test_zeroconf_errors(
-    hass: __HAC_KEEP__, mock_wled: MagicMock, exception: Exception, reason: str
+    hass: UniversalAssistant, mock_wled: MagicMock, exception: Exception, reason: str
 ) -> None:
     """Test we abort the zeroconf flow on errors from the WLED device."""
     mock_wled.update.side_effect = exception
@@ -289,7 +289,7 @@ async def test_zeroconf_errors(
 
 @pytest.mark.parametrize("device_mac", ["aabbccddeeff", "AABBCCDDEEFF"])
 async def test_user_device_exists_abort(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_wled: MagicMock,
     device_mac: str,
@@ -315,7 +315,7 @@ async def test_user_device_exists_abort(
 
 @pytest.mark.usefixtures("mock_wled")
 async def test_zeroconf_without_mac_device_exists_abort(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort zeroconf flow if WLED device already configured."""
@@ -340,7 +340,7 @@ async def test_zeroconf_without_mac_device_exists_abort(
 
 @pytest.mark.parametrize("device_mac", ["aabbccddeeff", "AABBCCDDEEFF"])
 async def test_zeroconf_with_mac_device_exists_abort(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_wled: MagicMock,
     device_mac: str,
@@ -367,7 +367,7 @@ async def test_zeroconf_with_mac_device_exists_abort(
 
 
 async def test_zeroconf_with_mac_updates_host(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_wled: MagicMock,
 ) -> None:
@@ -394,7 +394,7 @@ async def test_zeroconf_with_mac_updates_host(
 
 
 async def test_zeroconf_with_mac_keeps_host_for_another_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_wled: MagicMock,
 ) -> None:
@@ -423,7 +423,7 @@ async def test_zeroconf_with_mac_keeps_host_for_another_device(
 
 
 async def test_zeroconf_with_mac_keeps_host_when_unreachable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_wled: MagicMock,
 ) -> None:
@@ -452,7 +452,7 @@ async def test_zeroconf_with_mac_keeps_host_when_unreachable(
 
 @pytest.mark.usefixtures("mock_wled")
 async def test_options_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test options config flow."""
     mock_config_entry.add_to_hass(hass)

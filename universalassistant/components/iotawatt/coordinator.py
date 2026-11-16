@@ -9,7 +9,7 @@ from iotawattpy.sensor import Sensor
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import httpx_client
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -30,7 +30,7 @@ class IotawattUpdater(DataUpdateCoordinator[dict[str, dict[str, Sensor]]]):
     api: Iotawatt | None = None
     config_entry: IotawattConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, entry: IotawattConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: IotawattConfigEntry) -> None:
         """Initialize IotaWattUpdater object."""
         super().__init__(
             hass=hass,

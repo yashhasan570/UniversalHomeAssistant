@@ -3,12 +3,12 @@
 from aioairzone.const import API_ERROR_LOW_BATTERY
 
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .util import async_init_integration
 
 
-async def test_airzone_create_binary_sensors(hass: __HAC_KEEP__) -> None:
+async def test_airzone_create_binary_sensors(hass: UniversalAssistant) -> None:
     """Test creation of binary sensors."""
 
     await async_init_integration(hass)

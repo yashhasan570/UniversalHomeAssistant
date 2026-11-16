@@ -2,7 +2,7 @@
 
 Tests should not invoke an integration's ``async_setup_entry`` directly
 (either the one in ``__init__.py`` or in an entity-platform module).
-Instead, tests should let __HA_KEEP__ perform the setup via
+Instead, tests should let Universal Home Assistant perform the setup via
 ``await hass.config_entries.async_setup(entry.entry_id)`` so that the
 real setup pipeline (platforms, services, listeners, unload handlers,
 etc.) is exercised.
@@ -90,7 +90,7 @@ class DirectAsyncSetupEntry(BaseChecker):
             (
                 "Used when a test module calls an integration's "
                 "`async_setup_entry` from `__init__.py` directly. Tests should "
-                "let __HA_KEEP__ drive the setup so the full setup pipeline "
+                "let Universal Home Assistant drive the setup so the full setup pipeline "
                 "is exercised."
             ),
         ),
@@ -103,7 +103,7 @@ class DirectAsyncSetupEntry(BaseChecker):
             "universal-assistant-tests-direct-platform-async-setup-entry",
             (
                 "Used when a test module calls an integration entity platform's "
-                "`async_setup_entry` directly. Tests should let __HA_KEEP__ "
+                "`async_setup_entry` directly. Tests should let Universal Home Assistant "
                 "drive the setup so the full setup pipeline is exercised."
             ),
         ),

@@ -19,7 +19,7 @@ from tesla_fleet_api.exceptions import (
 from tesla_fleet_api.tesla import EnergySite, VehicleFleet
 
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
@@ -35,7 +35,7 @@ VEHICLE_WAIT_SECONDS = 900
 VEHICLE_WAIT = timedelta(seconds=VEHICLE_WAIT_SECONDS)
 VEHICLE_STUCK_SECONDS = 1200
 
-# Kept well under __HA_KEEP__'s stage-2 setup budget (SLOW_SETUP_MAX_WAIT, 300s)
+# Kept well under Universal Home Assistant's stage-2 setup budget (SLOW_SETUP_MAX_WAIT, 300s)
 # so a sleeping vehicle raises ConfigEntryNotReady and the entry retries instead of
 # being cancelled into a non-retried setup error.
 VEHICLE_FIRST_REFRESH_TIMEOUT = 60
@@ -78,7 +78,7 @@ ENDPOINTS = [
 
 
 def _invalidate_access_token(
-    hass: __HAC_KEEP__, config_entry: TeslaFleetConfigEntry
+    hass: UniversalAssistant, config_entry: TeslaFleetConfigEntry
 ) -> None:
     """Invalidate the cached access token to force a refresh."""
     if (
@@ -146,7 +146,7 @@ class TeslaFleetVehicleDataCoordinator(TeslaFleetCoordinator):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: TeslaFleetConfigEntry,
         api: VehicleFleet,
         product: dict,
@@ -234,7 +234,7 @@ class TeslaFleetEnergySiteLiveCoordinator(TeslaFleetCoordinator):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: TeslaFleetConfigEntry,
         api: EnergySite,
     ) -> None:
@@ -299,7 +299,7 @@ class TeslaFleetEnergySiteHistoryCoordinator(TeslaFleetCoordinator):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: TeslaFleetConfigEntry,
         api: EnergySite,
     ) -> None:
@@ -383,7 +383,7 @@ class TeslaFleetEnergySiteInfoCoordinator(TeslaFleetCoordinator):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: TeslaFleetConfigEntry,
         api: EnergySite,
         product: dict,

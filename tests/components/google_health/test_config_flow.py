@@ -21,7 +21,7 @@ from universalassistant.components.google_health.const import (
     OAUTH_SCOPES,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
@@ -42,7 +42,7 @@ CLIENT_SECRET = "5678"
     "mock_google_health_client",
 )
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_full_flow(
     "mock_google_health_client",
 )
 async def test_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -150,7 +150,7 @@ async def test_already_configured(
     "current_request_with_host", "mock_setup_entry", "setup_credentials"
 )
 async def test_config_flow_missing_profile_scope(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -194,7 +194,7 @@ async def test_config_flow_missing_profile_scope(
     "current_request_with_host", "mock_setup_entry", "setup_credentials"
 )
 async def test_config_flow_get_identity_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_google_health_client: AsyncMock,
@@ -236,7 +236,7 @@ async def test_config_flow_get_identity_error(
     "current_request_with_host", "mock_setup_entry", "setup_credentials"
 )
 async def test_config_flow_api_not_enabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_google_health_client: AsyncMock,
@@ -283,7 +283,7 @@ async def test_config_flow_api_not_enabled(
     "current_request_with_host", "mock_setup_entry", "setup_credentials"
 )
 async def test_config_flow_scope_insufficient(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_google_health_client: AsyncMock,
@@ -327,7 +327,7 @@ async def test_config_flow_scope_insufficient(
     "current_request_with_host", "mock_setup_entry", "setup_credentials"
 )
 async def test_config_flow_missing_health_user_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_google_health_client: AsyncMock,
@@ -371,7 +371,7 @@ async def test_config_flow_missing_health_user_id(
     "current_request_with_host", "mock_setup_entry", "setup_credentials"
 )
 async def test_config_flow_profile_name_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_google_health_client: AsyncMock,
@@ -412,7 +412,7 @@ async def test_config_flow_profile_name_error(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     setup_credentials: None,
@@ -496,7 +496,7 @@ async def test_reauth_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     setup_credentials: None,
@@ -574,7 +574,7 @@ async def test_reconfigure_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reconfigure_flow_wrong_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     setup_credentials: None,

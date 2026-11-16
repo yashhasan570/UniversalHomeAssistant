@@ -17,7 +17,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.ecobee.const import CONF_REFRESH_TOKEN, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -41,7 +41,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
         yield mock
 
 
-async def test_abort_if_already_setup(hass: __HAC_KEEP__) -> None:
+async def test_abort_if_already_setup(hass: UniversalAssistant) -> None:
     """Test we abort if ecobee is already setup."""
     MockConfigEntry(domain=DOMAIN).add_to_hass(hass)
 
@@ -53,7 +53,7 @@ async def test_abort_if_already_setup(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "single_instance_allowed"
 
 
-async def test_user_step_without_user_input(hass: __HAC_KEEP__) -> None:
+async def test_user_step_without_user_input(hass: UniversalAssistant) -> None:
     """Test expected result if user step is called."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -63,7 +63,7 @@ async def test_user_step_without_user_input(hass: __HAC_KEEP__) -> None:
     assert result["step_id"] == "user"
 
 
-async def test_pin_request_succeeds(hass: __HAC_KEEP__) -> None:
+async def test_pin_request_succeeds(hass: UniversalAssistant) -> None:
     """Test expected result if pin request succeeds."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -86,7 +86,7 @@ async def test_pin_request_succeeds(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_pin_request_fails(hass: __HAC_KEEP__) -> None:
+async def test_pin_request_fails(hass: UniversalAssistant) -> None:
     """Test expected result if pin request fails, then recovers on retry."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -130,7 +130,7 @@ async def test_pin_request_fails(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_token_request_succeeds(hass: __HAC_KEEP__) -> None:
+async def test_token_request_succeeds(hass: UniversalAssistant) -> None:
     """Test expected result if token request succeeds."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -164,7 +164,7 @@ async def test_token_request_succeeds(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_token_request_fails(hass: __HAC_KEEP__) -> None:
+async def test_token_request_fails(hass: UniversalAssistant) -> None:
     """Test expected result if token request fails, then recovers on retry."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -212,7 +212,7 @@ async def test_token_request_fails(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_password_login_succeeds(hass: __HAC_KEEP__) -> None:
+async def test_password_login_succeeds(hass: UniversalAssistant) -> None:
     """Test credential authentication succeeds."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -270,7 +270,7 @@ async def test_password_login_succeeds(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_password_login_error_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     first_user_input: dict,
     expected_error: str,
 ) -> None:
@@ -324,7 +324,7 @@ async def test_password_login_error_recovers(
     ],
 )
 async def test_password_login_raises_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: Exception,
     expected_error: str,
 ) -> None:
@@ -373,7 +373,7 @@ async def test_password_login_raises_auth_error(
     }
 
 
-async def test_password_login_with_mfa_challenge_succeeds(hass: __HAC_KEEP__) -> None:
+async def test_password_login_with_mfa_challenge_succeeds(hass: UniversalAssistant) -> None:
     """Test the MFA branch: password POST triggers MFA, code completes login."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -422,7 +422,7 @@ async def test_password_login_with_mfa_challenge_succeeds(hass: __HAC_KEEP__) ->
     ],
 )
 async def test_mfa_submission_errors_recover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: Exception,
     expected_error: str,
 ) -> None:
@@ -476,7 +476,7 @@ async def test_mfa_submission_errors_recover(
 
 @pytest.mark.parametrize("blank_code", ["", "   ", "\t\n "])
 async def test_mfa_submission_rejects_blank_code(
-    hass: __HAC_KEEP__, blank_code: str
+    hass: UniversalAssistant, blank_code: str
 ) -> None:
     """Whitespace-only MFA code is rejected client-side, flow then recovers."""
     result = await hass.config_entries.flow.async_init(
@@ -524,7 +524,7 @@ async def test_mfa_submission_rejects_blank_code(
     }
 
 
-async def test_reauth_flow_succeeds(hass: __HAC_KEEP__) -> None:
+async def test_reauth_flow_succeeds(hass: UniversalAssistant) -> None:
     """Test the reauth flow updates the existing entry with a fresh refresh_token."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -561,7 +561,7 @@ async def test_reauth_flow_succeeds(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_reauth_flow_with_mfa_challenge(hass: __HAC_KEEP__) -> None:
+async def test_reauth_flow_with_mfa_challenge(hass: UniversalAssistant) -> None:
     """Test that reauth surfacing MFA routes through the same mfa step."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -611,7 +611,7 @@ async def test_reauth_flow_with_mfa_challenge(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_reauth_flow_error_branches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: Exception,
     expected_error: str,
 ) -> None:
@@ -662,7 +662,7 @@ async def test_reauth_flow_error_branches(
     }
 
 
-async def test_mfa_step_submit_returns_false(hass: __HAC_KEEP__) -> None:
+async def test_mfa_step_submit_returns_false(hass: UniversalAssistant) -> None:
     """submit_mfa_code returning False surfaces invalid_mfa_code, then recovers."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -710,7 +710,7 @@ async def test_mfa_step_submit_returns_false(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_reauth_returns_false_surfaces_login_failed(hass: __HAC_KEEP__) -> None:
+async def test_reauth_returns_false_surfaces_login_failed(hass: UniversalAssistant) -> None:
     """refresh_tokens returning False during reauth surfaces login_failed, then recovers."""
     entry = MockConfigEntry(
         domain=DOMAIN,

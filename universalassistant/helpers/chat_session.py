@@ -14,7 +14,7 @@ from universalassistant.core import (
     Event,
     HassJob,
     HassJobType,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
 )
 from universalassistant.exceptions import Unauthorized
@@ -71,7 +71,7 @@ class SessionCleanup:
 
     unsub: CALLBACK_TYPE | None = None
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the session cleanup."""
         self.hass = hass
         hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, self._on_hass_stop)
@@ -118,7 +118,7 @@ class SessionCleanup:
 
 @contextmanager
 def async_get_chat_session(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     conversation_id: str | None = None,
     *,
     context: Context | Undefined | None = Undefined,

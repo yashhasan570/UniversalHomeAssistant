@@ -16,7 +16,7 @@ from universalassistant.components.azure_data_explorer.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
 
@@ -38,7 +38,7 @@ def mock_filter_schema() -> dict[str, Any]:
 
 @pytest.fixture(name="entry_managed")
 async def mock_entry_fixture_managed(
-    hass: __HAC_KEEP__, filter_schema: dict[str, Any]
+    hass: UniversalAssistant, filter_schema: dict[str, Any]
 ) -> MockConfigEntry:
     """Create the setup in HA."""
     entry = MockConfigEntry(
@@ -53,7 +53,7 @@ async def mock_entry_fixture_managed(
 
 @pytest.fixture(name="entry_queued")
 async def mock_entry_fixture_queued(
-    hass: __HAC_KEEP__, filter_schema: dict[str, Any]
+    hass: UniversalAssistant, filter_schema: dict[str, Any]
 ) -> MockConfigEntry:
     """Create the setup in HA."""
     entry = MockConfigEntry(
@@ -66,7 +66,7 @@ async def mock_entry_fixture_queued(
     return entry
 
 
-async def _entry(hass: __HAC_KEEP__, filter_schema: dict[str, Any], entry) -> None:
+async def _entry(hass: UniversalAssistant, filter_schema: dict[str, Any], entry) -> None:
     entry.add_to_hass(hass)
     assert await async_setup_component(
         hass, DOMAIN, {DOMAIN: {CONF_FILTER: filter_schema}}
@@ -83,7 +83,7 @@ async def _entry(hass: __HAC_KEEP__, filter_schema: dict[str, Any], entry) -> No
 
 @pytest.fixture(name="entry_with_one_event")
 async def mock_entry_with_one_event(
-    hass: __HAC_KEEP__, entry_managed
+    hass: UniversalAssistant, entry_managed
 ) -> MockConfigEntry:
     """Use the entry and add a single test event to the queue."""
     assert entry_managed.state is ConfigEntryState.LOADED

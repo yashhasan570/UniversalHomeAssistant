@@ -23,12 +23,12 @@ from universalassistant.const import (
     UnitOfPower,
     UnitOfVolume,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
 async def test_smartmeter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
@@ -85,7 +85,7 @@ async def test_smartmeter(
 
 
 async def test_phases(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
@@ -142,7 +142,7 @@ async def test_phases(
 
 
 async def test_settings(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
@@ -194,7 +194,7 @@ async def test_settings(
 
 
 async def test_watermeter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
@@ -223,7 +223,7 @@ async def test_watermeter(
 
 
 async def test_no_watermeter(
-    hass: __HAC_KEEP__, mock_p1monitor: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_p1monitor: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the P1 Monitor - Without WaterMeter sensors."""
     mock_p1monitor.watermeter.side_effect = P1MonitorNoDataError
@@ -241,7 +241,7 @@ async def test_no_watermeter(
     ["sensor.smartmeter_gas_consumption"],
 )
 async def test_smartmeter_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
     entity_id: str,

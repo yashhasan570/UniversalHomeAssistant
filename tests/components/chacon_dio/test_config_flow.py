@@ -9,13 +9,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.chacon_dio.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_flow(
-    hass: __HAC_KEEP__, mock_dio_chacon_client: AsyncMock
+    hass: UniversalAssistant, mock_dio_chacon_client: AsyncMock
 ) -> None:
     """Test the full flow."""
 
@@ -60,7 +60,7 @@ async def test_full_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_dio_chacon_client: AsyncMock,
     exception: Exception,
     expected: dict[str, str],
@@ -107,7 +107,7 @@ async def test_errors(
 
 
 async def test_duplicate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_dio_chacon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

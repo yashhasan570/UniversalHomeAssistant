@@ -32,7 +32,7 @@ from miio import (
 )
 
 from universalassistant.const import CONF_DEVICE, CONF_HOST, CONF_MODEL, CONF_TOKEN, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -139,13 +139,13 @@ LAZY_DISCOVER_FOR_MODEL = {
 }
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: XiaomiMiioConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: XiaomiMiioConfigEntry) -> None:
     """Set up the Xiaomi Miio components from a config entry."""
     if entry.data[CONF_FLOW_TYPE] == CONF_GATEWAY:
         await async_setup_gateway_entry(hass, entry)
@@ -253,12 +253,12 @@ class VacuumCoordinatorDataAttributes:
 
 
 def _async_update_data_vacuum(
-    hass: __HAC_KEEP__, device: RoborockVacuum
+    hass: UniversalAssistant, device: RoborockVacuum
 ) -> Callable[[], Coroutine[Any, Any, VacuumCoordinatorData]]:
     def update() -> VacuumCoordinatorData:
         timer = []
 
-        # See https://github.com/yashhasan570/__HAC_KEEP__/issues/38285 for reason on
+        # See https://github.com/yashhasan570/UniversalUniversalAssistant/issues/38285 for reason on
         # Why timers must be fetched separately.
         try:
             timer = device.timer()
@@ -308,7 +308,7 @@ def _async_update_data_vacuum(
 
 
 async def async_create_miio_device_and_coordinator(
-    hass: __HAC_KEEP__, entry: XiaomiMiioConfigEntry
+    hass: UniversalAssistant, entry: XiaomiMiioConfigEntry
 ) -> None:
     """Set up a data coordinator and one miio device to service multiple entities."""
     model: str = entry.data[CONF_MODEL]
@@ -414,7 +414,7 @@ async def async_create_miio_device_and_coordinator(
 
 
 async def async_setup_gateway_entry(
-    hass: __HAC_KEEP__, entry: XiaomiMiioConfigEntry
+    hass: UniversalAssistant, entry: XiaomiMiioConfigEntry
 ) -> None:
     """Set up the Xiaomi Gateway component from a config entry."""
     host = entry.data[CONF_HOST]
@@ -461,7 +461,7 @@ async def async_setup_gateway_entry(
 
 
 async def async_setup_device_entry(
-    hass: __HAC_KEEP__, entry: XiaomiMiioConfigEntry
+    hass: UniversalAssistant, entry: XiaomiMiioConfigEntry
 ) -> None:
     """Set up the Xiaomi Miio device component from a config entry."""
     platforms = get_platforms(entry)
@@ -478,7 +478,7 @@ async def async_setup_device_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: XiaomiMiioConfigEntry
+    hass: UniversalAssistant, config_entry: XiaomiMiioConfigEntry
 ) -> None:
     """Unload a config entry."""
     platforms = get_platforms(config_entry)

@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries, setup
 from universalassistant.components.kitchen_sink import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.setup import async_setup_component
 
@@ -37,7 +37,7 @@ def infrared_only() -> Generator[None]:
         yield
 
 
-async def test_import(hass: __HAC_KEEP__) -> None:
+async def test_import(hass: UniversalAssistant) -> None:
     """Test that we can import a config entry."""
     with patch("universalassistant.components.kitchen_sink.async_setup_entry"):
         assert await setup.async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -48,7 +48,7 @@ async def test_import(hass: __HAC_KEEP__) -> None:
     assert entry.data == {}
 
 
-async def test_import_once(hass: __HAC_KEEP__) -> None:
+async def test_import_once(hass: UniversalAssistant) -> None:
     """Test that we don't create multiple config entries."""
     with patch(
         "universalassistant.components.kitchen_sink.async_setup_entry",
@@ -79,7 +79,7 @@ async def test_import_once(hass: __HAC_KEEP__) -> None:
     mock_setup_entry.assert_not_called()
 
 
-async def test_reauth(hass: __HAC_KEEP__) -> None:
+async def test_reauth(hass: UniversalAssistant) -> None:
     """Test reauth works."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     await hass.async_block_till_done()
@@ -97,7 +97,7 @@ async def test_reauth(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("no_platforms")
-async def test_options_flow(hass: __HAC_KEEP__) -> None:
+async def test_options_flow(hass: UniversalAssistant) -> None:
     """Test config flow options."""
     config_entry = MockConfigEntry(domain=DOMAIN)
     config_entry.add_to_hass(hass)
@@ -129,7 +129,7 @@ async def test_options_flow(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("no_platforms")
-async def test_subentry_flow(hass: __HAC_KEEP__) -> None:
+async def test_subentry_flow(hass: UniversalAssistant) -> None:
     """Test config flow options."""
     config_entry = MockConfigEntry(domain=DOMAIN)
     config_entry.add_to_hass(hass)
@@ -164,7 +164,7 @@ async def test_subentry_flow(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("no_platforms")
-async def test_subentry_reconfigure_flow(hass: __HAC_KEEP__) -> None:
+async def test_subentry_reconfigure_flow(hass: UniversalAssistant) -> None:
     """Test config flow options."""
     subentry_id = "mock_id"
     config_entry = MockConfigEntry(
@@ -209,7 +209,7 @@ async def test_subentry_reconfigure_flow(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("infrared_only")
-async def test_infrared_fan_subentry_flow(hass: __HAC_KEEP__) -> None:
+async def test_infrared_fan_subentry_flow(hass: UniversalAssistant) -> None:
     """Test infrared fan subentry flow creates an entry."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     await hass.async_block_till_done()
@@ -251,7 +251,7 @@ async def test_infrared_fan_subentry_flow(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("no_platforms")
 async def test_infrared_fan_subentry_flow_no_infrared_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test infrared fan subentry aborts with no infrared entities."""
     config_entry = MockConfigEntry(domain=DOMAIN)

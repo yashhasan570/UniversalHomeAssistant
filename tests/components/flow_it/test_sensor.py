@@ -12,7 +12,7 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 INDOOR_AIR_QUALITY_ENTITY_ID = "sensor.001122334455_indoor_air_quality"
@@ -20,7 +20,7 @@ INDOOR_AIR_TEMPERATURE_ENTITY_ID = "sensor.001122334455_indoor_air_temperature"
 
 
 async def test_sensor_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ariaq: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -35,7 +35,7 @@ async def test_sensor_setup(
 
 
 async def test_sensor_none_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ariaq: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -65,7 +65,7 @@ async def test_sensor_none_values(
 
 
 async def test_sensor_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ariaq: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

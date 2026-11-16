@@ -19,7 +19,7 @@ from universalassistant.const import (
     UnitOfRatio,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import convert
 
@@ -97,7 +97,7 @@ FIBARO_TO_HASS_UNIT: dict[str, str] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FibaroConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

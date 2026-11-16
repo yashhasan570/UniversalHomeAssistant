@@ -12,7 +12,7 @@ from pyliebherrhomeapi.exceptions import (
 )
 
 from universalassistant.const import CONF_API_KEY, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -34,7 +34,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: LiebherrConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: LiebherrConfigEntry) -> None:
     """Set up Liebherr from a config entry."""
     # Create shared API client
     client = LiebherrClient(
@@ -148,6 +148,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: LiebherrConfigEntry) -> N
     )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: LiebherrConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: LiebherrConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

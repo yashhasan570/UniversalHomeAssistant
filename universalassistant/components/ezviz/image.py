@@ -11,7 +11,7 @@ from pyezvizapi.utils import decrypt_image
 from universalassistant.components.image import Image, ImageEntity, ImageEntityDescription
 from universalassistant.config_entries import SOURCE_IGNORE
 from universalassistant.const import CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -35,7 +35,7 @@ def _parse_last_alarm_time(last_alarm_time: object) -> datetime | None:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: EzvizConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -52,7 +52,7 @@ class EzvizLastMotion(EzvizEntity, ImageEntity):
     """Return Last Motion Image from Ezviz Camera."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, coordinator: EzvizDataUpdateCoordinator, serial: str
+        self, hass: UniversalAssistant, coordinator: EzvizDataUpdateCoordinator, serial: str
     ) -> None:
         """Initialize a image entity."""
         EzvizEntity.__init__(self, coordinator, serial)

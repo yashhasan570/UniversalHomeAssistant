@@ -12,8 +12,8 @@ from switchbee.device import (
 )
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import SwitchBeeConfigEntry, SwitchBeeCoordinator
@@ -21,7 +21,7 @@ from .entity import SwitchBeeDeviceEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SwitchBeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -98,7 +98,7 @@ class SwitchBeeSwitchEntity[
             await self.coordinator.api.set_state(self._device.id, state)
         except (SwitchBeeError, SwitchBeeDeviceOfflineError) as exp:
             await self.coordinator.async_refresh()
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to set {self._attr_name} state {state}, {exp!s}"
             ) from exp
 

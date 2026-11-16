@@ -26,8 +26,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 ENTITY_START_TIME = "time.frenck_s_lametric_screensaver_start_time"
@@ -39,7 +39,7 @@ pytestmark = pytest.mark.freeze_time("2025-01-15 12:00:00+00:00")
 @pytest.mark.parametrize("init_integration", [Platform.TIME], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -58,7 +58,7 @@ async def test_entities(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lametric: MagicMock,
     entity_id: str,
     expected_start: time,
@@ -99,7 +99,7 @@ async def test_set_value(
     ids=["evening_before_switch", "nonexistent_time"],
 )
 async def test_set_value_around_dst(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_lametric: MagicMock,
@@ -138,7 +138,7 @@ async def test_set_value_around_dst(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_values_in_quick_succession(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lametric: MagicMock,
 ) -> None:
     """Test setting both times right after each other keeps both.
@@ -184,7 +184,7 @@ async def test_set_values_in_quick_succession(
 
 
 async def test_unknown_times(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lametric: MagicMock,
 ) -> None:
@@ -207,7 +207,7 @@ async def test_unknown_times(
 
 
 async def test_no_screensaver_support(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lametric: MagicMock,
 ) -> None:
@@ -226,7 +226,7 @@ async def test_no_screensaver_support(
     "entity_id", [ENTITY_START_TIME, ENTITY_END_TIME], ids=["start_time", "end_time"]
 )
 async def test_set_value_without_both_times(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lametric: MagicMock,
     entity_id: str,
@@ -262,7 +262,7 @@ async def test_set_value_without_both_times(
 
 
 async def test_set_value_keeps_when_dark(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_lametric: MagicMock,
 ) -> None:
@@ -304,7 +304,7 @@ async def test_set_value_keeps_when_dark(
 
 @pytest.mark.parametrize("device_fixture", ["device_sa5"])
 @pytest.mark.usefixtures("init_integration")
-async def test_sky_has_no_times(hass: __HAC_KEEP__) -> None:
+async def test_sky_has_no_times(hass: UniversalAssistant) -> None:
     """Test the SKY gets no screensaver time entities."""
     assert hass.states.get("time.spyfly_s_lametric_sky_screensaver_start_time") is None
     assert hass.states.get("time.spyfly_s_lametric_sky_screensaver_end_time") is None
@@ -328,7 +328,7 @@ async def test_sky_has_no_times(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_time_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lametric: MagicMock,
     side_effect: type[Exception],
     error_message: str,
@@ -337,7 +337,7 @@ async def test_time_errors(
     """Test error handling of the LaMetric times."""
     mock_lametric.display.side_effect = side_effect
 
-    with pytest.raises(__HAC_KEEP__Error, match=error_message):
+    with pytest.raises(UniversalAssistantError, match=error_message):
         await hass.services.async_call(
             TIME_DOMAIN,
             TimeService.SET_VALUE,

@@ -18,13 +18,13 @@ from universalassistant.components.switch import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 
 async def _test_switch_on_off(
-    hass: __HAC_KEEP__, entity_id: str, dev: MagicMock
+    hass: UniversalAssistant, entity_id: str, dev: MagicMock
 ) -> None:
     """Call switch on/off service."""
     await hass.services.async_call(
@@ -46,11 +46,11 @@ async def _test_switch_on_off(
 
 
 async def _test_switch_on_exeception(
-    hass: __HAC_KEEP__, entity_id: str, dev: MagicMock
+    hass: UniversalAssistant, entity_id: str, dev: MagicMock
 ) -> None:
     """Call switch on service with USBError side effect."""
     dev.switch_on.side_effect = EgpsException
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             UNIVERSAL_ASSISTANT_DOMAIN,
             SERVICE_TURN_ON,
@@ -61,11 +61,11 @@ async def _test_switch_on_exeception(
 
 
 async def _test_switch_off_exeception(
-    hass: __HAC_KEEP__, entity_id: str, dev: MagicMock
+    hass: UniversalAssistant, entity_id: str, dev: MagicMock
 ) -> None:
     """Call switch off service with USBError side effect."""
     dev.switch_off.side_effect = EgpsException
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
@@ -76,11 +76,11 @@ async def _test_switch_off_exeception(
 
 
 async def _test_switch_update_exception(
-    hass: __HAC_KEEP__, entity_id: str, dev: MagicMock
+    hass: UniversalAssistant, entity_id: str, dev: MagicMock
 ) -> None:
     """Call switch update with USBError side effect."""
     dev.get_status.side_effect = EgpsException
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SERVICE_UPDATE_ENTITY,
@@ -100,7 +100,7 @@ async def _test_switch_update_exception(
     ],
 )
 async def test_switch_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     valid_config_entry: MockConfigEntry,
     mock_get_device: MagicMock,

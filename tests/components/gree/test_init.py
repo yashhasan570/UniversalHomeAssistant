@@ -6,11 +6,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.gree.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
-async def test_setup_simple(hass: __HAC_KEEP__) -> None:
+async def test_setup_simple(hass: UniversalAssistant) -> None:
     """Test gree integration is setup."""
     entry = MockConfigEntry(domain=DOMAIN)
     entry.add_to_hass(hass)
@@ -36,7 +36,7 @@ async def test_setup_simple(hass: __HAC_KEEP__) -> None:
     assert len(hass.config_entries.flow.async_progress()) == 0
 
 
-async def test_unload_config_entry(hass: __HAC_KEEP__) -> None:
+async def test_unload_config_entry(hass: UniversalAssistant) -> None:
     """Test that the async_unload_entry works."""
     # As we have currently no configuration, we just to pass the domain here.
     entry = MockConfigEntry(domain=DOMAIN)

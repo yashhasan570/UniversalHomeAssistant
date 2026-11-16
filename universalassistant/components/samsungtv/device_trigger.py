@@ -7,8 +7,8 @@ from universalassistant.components.device_automation import (
     InvalidDeviceAutomationConfig,
 )
 from universalassistant.const import CONF_DEVICE_ID, CONF_PLATFORM, CONF_TYPE
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
 from universalassistant.helpers.typing import ConfigType
 
@@ -32,7 +32,7 @@ TRIGGER_SCHEMA = DEVICE_TRIGGER_BASE_SCHEMA.extend(
 
 
 async def async_validate_trigger_config(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> ConfigType:
     """Validate config."""
     config = TRIGGER_SCHEMA(config)
@@ -53,14 +53,14 @@ async def async_validate_trigger_config(
 
 
 async def async_get_triggers(
-    _hass: __HAC_KEEP__, device_id: str
+    _hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, str]]:
     """List device triggers for device."""
     return [async_get_turn_on_trigger(device_id)]
 
 
 async def async_attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,
@@ -78,7 +78,7 @@ async def async_attach_trigger(
             hass, trigger_config, action, trigger_info
         )
 
-    raise __HAC_KEEP__Error(
+    raise UniversalAssistantError(
         translation_domain=DOMAIN,
         translation_key="unhandled_trigger_type",
         translation_placeholders={"trigger_type": trigger_type},

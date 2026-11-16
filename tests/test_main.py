@@ -8,7 +8,7 @@ from universalassistant import __main__ as main
 from universalassistant.const import REQUIRED_PYTHON_VER, RESTART_EXIT_CODE
 
 _PYTHON_VERSION_ERROR = (
-    "__HA_KEEP__ requires at least Python "
+    "Universal Home Assistant requires at least Python "
     f"{REQUIRED_PYTHON_VER[0]}.{REQUIRED_PYTHON_VER[1]}.{REQUIRED_PYTHON_VER[2]}\n"
 )
 
@@ -21,7 +21,7 @@ _PYTHON_VERSION_ERROR = (
             False,
             False,
             [call(1)],
-            "__HA_KEEP__ must be run in a Python virtual environment or a container.\n",
+            "Universal Home Assistant must be run in a Python virtual environment or a container.\n",
         ),
         (True, False, [], ""),
         (False, True, [], ""),

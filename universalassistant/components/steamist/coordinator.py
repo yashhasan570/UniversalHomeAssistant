@@ -8,7 +8,7 @@ from aiosteamist import Steamist, SteamistStatus
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 _LOGGER = logging.getLogger(__name__)
@@ -23,7 +23,7 @@ class SteamistDataUpdateCoordinator(DataUpdateCoordinator[SteamistStatus]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: SteamistConfigEntry,
         client: Steamist,
     ) -> None:

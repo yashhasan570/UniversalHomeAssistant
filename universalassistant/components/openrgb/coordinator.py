@@ -9,7 +9,7 @@ from openrgb.orgb import Device
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -70,7 +70,7 @@ class OpenRGBCoordinator(DataUpdateCoordinator[dict[str, Device]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: OpenRGBConfigEntry,
     ) -> None:
         """Initialize the coordinator."""

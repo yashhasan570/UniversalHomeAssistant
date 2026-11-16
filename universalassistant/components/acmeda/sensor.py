@@ -4,7 +4,7 @@ from typing import override
 
 from universalassistant.components.sensor import SensorDeviceClass, SensorEntity
 from universalassistant.const import PERCENTAGE
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -15,7 +15,7 @@ from .hub import AcmedaConfigEntry
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: AcmedaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

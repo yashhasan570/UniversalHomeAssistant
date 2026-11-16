@@ -17,8 +17,8 @@ from universalassistant.components.todo import (
     TodoListEntity,
     TodoListEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -45,7 +45,7 @@ TODO_STATUS_MAP_INV: dict[TodoItemStatus, str] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: CalDavConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -206,7 +206,7 @@ class WebDavTodoListEntity(TodoListEntity):
             caldav_requests.exceptions.Timeout,
             DAVError,
         ) as err:
-            raise __HAC_KEEP__Error(f"CalDAV save error: {err}") from err
+            raise UniversalAssistantError(f"CalDAV save error: {err}") from err
 
     @override
     async def async_update_todo_item(self, item: TodoItem) -> None:
@@ -220,13 +220,13 @@ class WebDavTodoListEntity(TodoListEntity):
                 ),
             )
         except NotFoundError as err:
-            raise __HAC_KEEP__Error(f"Could not find To-do item {uid}") from err
+            raise UniversalAssistantError(f"Could not find To-do item {uid}") from err
         except (
             caldav_requests.exceptions.ConnectionError,
             caldav_requests.exceptions.Timeout,
             DAVError,
         ) as err:
-            raise __HAC_KEEP__Error(f"CalDAV lookup error: {err}") from err
+            raise UniversalAssistantError(f"CalDAV lookup error: {err}") from err
         vtodo = todo.icalendar_component
         vtodo["SUMMARY"] = item.summary or ""
         if status := item.status:
@@ -263,7 +263,7 @@ class WebDavTodoListEntity(TodoListEntity):
             caldav_requests.exceptions.Timeout,
             DAVError,
         ) as err:
-            raise __HAC_KEEP__Error(f"CalDAV save error: {err}") from err
+            raise UniversalAssistantError(f"CalDAV save error: {err}") from err
 
     @override
     async def async_delete_todo_items(self, uids: list[str]) -> None:
@@ -276,13 +276,13 @@ class WebDavTodoListEntity(TodoListEntity):
         try:
             items = cast(list[Todo], await asyncio.gather(*tasks))
         except NotFoundError as err:
-            raise __HAC_KEEP__Error("Could not find To-do item") from err
+            raise UniversalAssistantError("Could not find To-do item") from err
         except (
             caldav_requests.exceptions.ConnectionError,
             caldav_requests.exceptions.Timeout,
             DAVError,
         ) as err:
-            raise __HAC_KEEP__Error(f"CalDAV lookup error: {err}") from err
+            raise UniversalAssistantError(f"CalDAV lookup error: {err}") from err
 
         # Run serially as some CalDAV servers do not support concurrent modifications
         for item in items:
@@ -293,7 +293,7 @@ class WebDavTodoListEntity(TodoListEntity):
                 caldav_requests.exceptions.Timeout,
                 DAVError,
             ) as err:
-                raise __HAC_KEEP__Error(f"CalDAV delete error: {err}") from err
+                raise UniversalAssistantError(f"CalDAV delete error: {err}") from err
             self._writes += 1
         # refreshing async otherwise it would take too much time
         self.hass.async_create_task(self.async_update_ha_state(force_refresh=True))

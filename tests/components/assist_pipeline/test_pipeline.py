@@ -51,7 +51,7 @@ from universalassistant.components.assist_pipeline.run import _PipelineProcessor
 from universalassistant.components.llm import LLMTools
 from universalassistant.components.tts import TextToSpeechCommonOption
 from universalassistant.const import ATTR_FRIENDLY_NAME, MATCH_ALL
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.helpers import (
     area_registry as ar,
     chat_session,
@@ -81,7 +81,7 @@ async def delay_save_fixture() -> AsyncGenerator[None]:
 
 
 @pytest.fixture(autouse=True)
-async def load_universalassistant(hass: __HAC_KEEP__) -> None:
+async def load_universalassistant(hass: UniversalAssistant) -> None:
     """Load the universalassistant integration."""
     assert await async_setup_component(hass, "universalassistant", {})
 
@@ -93,7 +93,7 @@ async def disable_tts_entity(mock_tts_entity: tts.TextToSpeechEntity) -> None:
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_load_pipelines(hass: __HAC_KEEP__) -> None:
+async def test_load_pipelines(hass: UniversalAssistant) -> None:
     """Make sure that we can load/save data correctly."""
 
     pipelines = [
@@ -181,7 +181,7 @@ def mock_tts_token() -> Generator[None]:
 
 
 async def test_loading_pipelines_from_storage(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test loading stored pipelines on start."""
     id_1 = "01GX8ZWBAQYWNB1XV3EXEZ75DY"
@@ -248,7 +248,7 @@ async def test_loading_pipelines_from_storage(
 
 
 async def test_migrate_pipeline_store(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test loading stored pipelines from an older version."""
     hass_storage[STORAGE_KEY] = {
@@ -308,7 +308,7 @@ async def test_migrate_pipeline_store(
 
 @pytest.mark.usefixtures("init_supporting_components")
 @pytest.mark.usefixtures("disable_tts_entity")
-async def test_create_default_pipeline(hass: __HAC_KEEP__) -> None:
+async def test_create_default_pipeline(hass: UniversalAssistant) -> None:
     """Test async_create_default_pipeline."""
     assert await async_setup_component(hass, DOMAIN, {})
 
@@ -346,7 +346,7 @@ async def test_create_default_pipeline(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_get_pipeline(hass: __HAC_KEEP__) -> None:
+async def test_get_pipeline(hass: UniversalAssistant) -> None:
     """Test async_get_pipeline."""
     assert await async_setup_component(hass, DOMAIN, {})
 
@@ -362,7 +362,7 @@ async def test_get_pipeline(hass: __HAC_KEEP__) -> None:
     assert pipeline is async_get_pipeline(hass, pipeline.id)
 
 
-async def test_get_pipelines(hass: __HAC_KEEP__) -> None:
+async def test_get_pipelines(hass: UniversalAssistant) -> None:
     """Test async_get_pipelines."""
     assert await async_setup_component(hass, DOMAIN, {})
 
@@ -377,7 +377,7 @@ async def test_get_pipelines(hass: __HAC_KEEP__) -> None:
             conversation_language="en",
             id=ANY,
             language="en",
-            name="__HA_KEEP__",
+            name="Universal Home Assistant",
             stt_engine=None,
             stt_language=None,
             tts_engine=None,
@@ -402,7 +402,7 @@ async def test_get_pipelines(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_default_pipeline_no_stt_tts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ha_language: str,
     ha_country: str | None,
     conv_language: str,
@@ -424,7 +424,7 @@ async def test_default_pipeline_no_stt_tts(
         conversation_language=conv_language,
         id=pipeline.id,
         language=pipeline_language,
-        name="__HA_KEEP__",
+        name="Universal Home Assistant",
         stt_engine=None,
         stt_language=None,
         tts_engine=None,
@@ -457,7 +457,7 @@ async def test_default_pipeline_no_stt_tts(
 @pytest.mark.usefixtures("init_supporting_components")
 @pytest.mark.usefixtures("disable_tts_entity")
 async def test_default_pipeline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_stt_provider_entity: MockSTTProviderEntity,
     mock_tts_provider: MockTTSProvider,
     ha_language: str,
@@ -488,7 +488,7 @@ async def test_default_pipeline(
         conversation_language=conv_language,
         id=pipeline.id,
         language=pipeline_language,
-        name="__HA_KEEP__",
+        name="Universal Home Assistant",
         stt_engine="stt.mock_stt",
         stt_language=stt_language,
         tts_engine="test",
@@ -502,7 +502,7 @@ async def test_default_pipeline(
 @pytest.mark.usefixtures("init_supporting_components")
 @pytest.mark.usefixtures("disable_tts_entity")
 async def test_default_pipeline_unsupported_stt_language(
-    hass: __HAC_KEEP__, mock_stt_provider_entity: MockSTTProviderEntity
+    hass: UniversalAssistant, mock_stt_provider_entity: MockSTTProviderEntity
 ) -> None:
     """Test async_get_pipeline."""
     with patch.object(mock_stt_provider_entity, "_supported_languages", ["smurfish"]):
@@ -519,7 +519,7 @@ async def test_default_pipeline_unsupported_stt_language(
         conversation_language="en",
         id=pipeline.id,
         language="en",
-        name="__HA_KEEP__",
+        name="Universal Home Assistant",
         stt_engine=None,
         stt_language=None,
         tts_engine="test",
@@ -533,7 +533,7 @@ async def test_default_pipeline_unsupported_stt_language(
 @pytest.mark.usefixtures("init_supporting_components")
 @pytest.mark.usefixtures("disable_tts_entity")
 async def test_default_pipeline_unsupported_tts_language(
-    hass: __HAC_KEEP__, mock_tts_provider: MockTTSProvider
+    hass: UniversalAssistant, mock_tts_provider: MockTTSProvider
 ) -> None:
     """Test async_get_pipeline."""
     with patch.object(mock_tts_provider, "_supported_languages", ["smurfish"]):
@@ -550,7 +550,7 @@ async def test_default_pipeline_unsupported_tts_language(
         conversation_language="en",
         id=pipeline.id,
         language="en",
-        name="__HA_KEEP__",
+        name="Universal Home Assistant",
         stt_engine="stt.mock_stt",
         stt_language="en-US",
         tts_engine=None,
@@ -562,7 +562,7 @@ async def test_default_pipeline_unsupported_tts_language(
 
 
 async def test_update_pipeline(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test async_update_pipeline."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -575,7 +575,7 @@ async def test_update_pipeline(
             conversation_language="en",
             id=ANY,
             language="en",
-            name="__HA_KEEP__",
+            name="Universal Home Assistant",
             stt_engine=None,
             stt_language=None,
             tts_engine=None,
@@ -593,7 +593,7 @@ async def test_update_pipeline(
         conversation_engine="universalassistant_1",
         conversation_language="de",
         language="de",
-        name="__HA_KEEP__ 1",
+        name="Universal Home Assistant 1",
         stt_engine="stt.test_1",
         stt_language="de",
         tts_engine="test_1",
@@ -612,7 +612,7 @@ async def test_update_pipeline(
             conversation_language="de",
             id=pipeline.id,
             language="de",
-            name="__HA_KEEP__ 1",
+            name="Universal Home Assistant 1",
             stt_engine="stt.test_1",
             stt_language="de",
             tts_engine="test_1",
@@ -628,7 +628,7 @@ async def test_update_pipeline(
         "conversation_language": "de",
         "id": pipeline.id,
         "language": "de",
-        "name": "__HA_KEEP__ 1",
+        "name": "Universal Home Assistant 1",
         "stt_engine": "stt.test_1",
         "stt_language": "de",
         "tts_engine": "test_1",
@@ -656,7 +656,7 @@ async def test_update_pipeline(
             conversation_language="de",
             id=pipeline.id,
             language="de",
-            name="__HA_KEEP__ 1",
+            name="Universal Home Assistant 1",
             stt_engine="stt.test_2",
             stt_language="en",
             tts_engine="test_2",
@@ -672,7 +672,7 @@ async def test_update_pipeline(
         "conversation_language": "de",
         "id": pipeline.id,
         "language": "de",
-        "name": "__HA_KEEP__ 1",
+        "name": "Universal Home Assistant 1",
         "stt_engine": "stt.test_2",
         "stt_language": "en",
         "tts_engine": "test_2",
@@ -733,7 +733,7 @@ def test_fallback_intent_filter() -> None:
 
 
 async def test_wake_word_detection_aborted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_stt_provider: MockSTTProvider,
     mock_wake_word_provider_entity: MockWakeWordEntity,
     init_components,
@@ -795,7 +795,7 @@ async def test_wake_word_detection_aborted(
     assert process_events(events) == snapshot
 
 
-def test_pipeline_run_equality(hass: __HAC_KEEP__, init_components) -> None:
+def test_pipeline_run_equality(hass: UniversalAssistant, init_components) -> None:
     """Test that pipeline run equality uses unique id."""
 
     def event_callback(event):
@@ -825,7 +825,7 @@ def test_pipeline_run_equality(hass: __HAC_KEEP__, init_components) -> None:
 
 
 async def test_pipeline_run_delegates_to_processor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
     mock_chat_session: chat_session.ChatSession,
 ) -> None:
@@ -874,7 +874,7 @@ async def test_pipeline_run_delegates_to_processor(
 
 
 async def test_text_only_run_does_not_start_debug_recording_thread(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     tmp_path: Path,
 ) -> None:
@@ -902,7 +902,7 @@ async def test_text_only_run_does_not_start_debug_recording_thread(
 
 
 async def test_tts_audio_output(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_tts_entity: MockTTSProvider,
     init_components,
@@ -973,7 +973,7 @@ async def test_tts_audio_output(
 
 
 async def test_tts_wav_preferred_format(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_tts_entity: MockTTSEntity,
     init_components,
@@ -1040,7 +1040,7 @@ async def test_tts_wav_preferred_format(
 
 
 async def test_tts_dict_preferred_format(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_tts_entity: MockTTSEntity,
     init_components,
@@ -1112,7 +1112,7 @@ async def test_tts_dict_preferred_format(
 
 
 async def test_sentence_trigger_overrides_conversation_agent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     mock_chat_session: chat_session.ChatSession,
     pipeline_data: assist_pipeline.pipeline.PipelineData,
@@ -1194,7 +1194,7 @@ async def test_sentence_trigger_overrides_conversation_agent(
 
 
 async def test_prefer_local_intents(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     mock_chat_session: chat_session.ChatSession,
     pipeline_data: assist_pipeline.pipeline.PipelineData,
@@ -1278,7 +1278,7 @@ async def test_prefer_local_intents(
 
 @pytest.mark.usefixtures("init_components")
 async def test_prefer_local_intents_match_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_chat_session: chat_session.ChatSession,
     pipeline_data: assist_pipeline.pipeline.PipelineData,
 ) -> None:
@@ -1352,7 +1352,7 @@ async def test_prefer_local_intents_match_failed(
 
 
 async def test_reply_of_agent_without_chat_log(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     mock_chat_session: chat_session.ChatSession,
     pipeline_data: assist_pipeline.pipeline.PipelineData,
@@ -1406,7 +1406,7 @@ async def test_reply_of_agent_without_chat_log(
 
 
 async def test_intent_continue_conversation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     mock_chat_session: chat_session.ChatSession,
     pipeline_data: assist_pipeline.pipeline.PipelineData,
@@ -1554,7 +1554,7 @@ async def test_intent_continue_conversation(
 
 
 async def test_stt_language_used_instead_of_conversation_language(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
     mock_chat_session: chat_session.ChatSession,
@@ -1630,7 +1630,7 @@ async def test_stt_language_used_instead_of_conversation_language(
 
 
 async def test_tts_language_used_instead_of_conversation_language(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
     mock_chat_session: chat_session.ChatSession,
@@ -1706,7 +1706,7 @@ async def test_tts_language_used_instead_of_conversation_language(
 
 
 async def test_pipeline_language_used_instead_of_conversation_language(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
     mock_chat_session: chat_session.ChatSession,
@@ -1925,7 +1925,7 @@ async def test_pipeline_language_used_instead_of_conversation_language(
 )
 @freeze_time("2025-10-31 12:00:00")
 async def test_chat_log_tts_streaming(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_components,
     mock_chat_session: chat_session.ChatSession,
@@ -2007,7 +2007,7 @@ async def test_chat_log_tts_streaming(
         await pipeline_input.validate()
 
     async def mock_converse(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         text: str,
         conversation_id: str | None,
         context: Context,
@@ -2100,7 +2100,7 @@ async def test_chat_log_tts_streaming(
 
 @pytest.mark.parametrize(("use_satellite_entity"), [True, False])
 async def test_acknowledge(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     pipeline_data: assist_pipeline.pipeline.PipelineData,
     mock_chat_session: chat_session.ChatSession,
@@ -2288,7 +2288,7 @@ async def test_acknowledge(
 
 @pytest.mark.parametrize(("use_satellite_entity"), [True, False])
 async def test_acknowledge_child_device_inherits_area(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     pipeline_data: assist_pipeline.pipeline.PipelineData,
     mock_chat_session: chat_session.ChatSession,
@@ -2372,7 +2372,7 @@ async def test_acknowledge_child_device_inherits_area(
 
 
 async def test_acknowledge_other_agents(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components,
     pipeline_data: assist_pipeline.pipeline.PipelineData,
     mock_chat_session: chat_session.ChatSession,
@@ -2494,7 +2494,7 @@ async def test_acknowledge_other_agents(
 
 
 async def test_stt_vad_enabled_based_on_audio_processing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_stt_provider: MockSTTProvider,
     mock_wake_word_provider_entity: MockWakeWordEntity,
     init_components,
@@ -2666,7 +2666,7 @@ async def test_stt_vad_enabled_based_on_audio_processing(
 )
 @pytest.mark.usefixtures("init_components")
 async def test_stt_vad_events_for_provider_endpointing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_stt_provider: MockSTTProvider,
     pipeline_data: assist_pipeline.pipeline.PipelineData,
     mock_chat_session: chat_session.ChatSession,
@@ -2759,7 +2759,7 @@ async def test_stt_vad_events_for_provider_endpointing(
 
 
 async def test_invalid_pipeline_does_not_create_tts_stream(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_wake_word_provider_entity: MockWakeWordEntity,
     init_components,
 ) -> None:
@@ -2799,7 +2799,7 @@ async def test_invalid_pipeline_does_not_create_tts_stream(
 
 
 async def test_pipeline_error_before_tts_does_not_leak_result_stream(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_wake_word_provider_entity: MockWakeWordEntity,
     init_components,
 ) -> None:
@@ -2842,7 +2842,7 @@ async def test_pipeline_error_before_tts_does_not_leak_result_stream(
 
 
 def _stt_to_intent_input(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     session: chat_session.ChatSession,
     pipeline: assist_pipeline.Pipeline,
 ) -> assist_pipeline.pipeline.PipelineInput:
@@ -2885,7 +2885,7 @@ def _stt_to_intent_input(
 )
 @pytest.mark.usefixtures("init_components")
 async def test_stt_prepares_intent_agents(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_chat_session: chat_session.ChatSession,
     pipeline_data: assist_pipeline.pipeline.PipelineData,
     prefer_local_intents: bool,
@@ -2940,7 +2940,7 @@ async def test_stt_prepares_intent_agents(
 
 @pytest.mark.usefixtures("init_components")
 async def test_stt_prepares_recognition_language(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_chat_session: chat_session.ChatSession,
     pipeline_data: assist_pipeline.pipeline.PipelineData,
 ) -> None:

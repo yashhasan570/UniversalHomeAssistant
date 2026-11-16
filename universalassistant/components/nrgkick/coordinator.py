@@ -17,10 +17,14 @@ from nrgkick_api import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryError
 from universalassistant.helpers import issue_registry as ir
-from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from universalassistant.helpers.update_coordinator import (
+    DataUpdateCoordinator,
+    UpdateFailed,
+    UpdateFailedUnreachable,
+)
 
 from .const import DEFAULT_SCAN_INTERVAL, DOMAIN
 
@@ -45,7 +49,7 @@ class NRGkickDataUpdateCoordinator(DataUpdateCoordinator[NRGkickData]):
     config_entry: NRGkickConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, api: NRGkickAPI, entry: NRGkickConfigEntry
+        self, hass: UniversalAssistant, api: NRGkickAPI, entry: NRGkickConfigEntry
     ) -> None:
         """Initialize."""
         self.api = api
@@ -94,7 +98,7 @@ class NRGkickDataUpdateCoordinator(DataUpdateCoordinator[NRGkickData]):
                 translation_key="timeout",
             ) from error
         except NRGkickUnreachableError as error:
-            raise UpdateFailed(
+            raise UpdateFailedUnreachable(
                 translation_domain=DOMAIN,
                 translation_key="unreachable",
             ) from error

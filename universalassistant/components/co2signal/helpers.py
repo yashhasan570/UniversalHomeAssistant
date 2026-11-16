@@ -6,19 +6,19 @@ from typing import Any
 from aioelectricitymaps import (
     CoordinatesRequest,
     ElectricityMaps,
-    __HAC_KEEP__CarbonIntensityResponse,
+    UniversalAssistantCarbonIntensityResponse,
     ZoneRequest,
 )
 
 from universalassistant.const import CONF_COUNTRY_CODE, CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def fetch_latest_carbon_intensity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     em: ElectricityMaps,
     config: Mapping[str, Any],
-) -> __HAC_KEEP__CarbonIntensityResponse:
+) -> UniversalAssistantCarbonIntensityResponse:
     """Fetch the latest carbon intensity based on zone key or location coordinates."""
     request: CoordinatesRequest | ZoneRequest = CoordinatesRequest(
         lat=config.get(CONF_LATITUDE, hass.config.latitude),

@@ -22,7 +22,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfTime,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -106,7 +106,7 @@ CURRENT_STATES: Final = {
 
 
 def _enum_state(value: str | None, states: Mapping[str, str]) -> str | None:
-    """Return the stable __HA_KEEP__ value for a charger state."""
+    """Return the stable Universal Home Assistant value for a charger state."""
 
     return states.get(value) if value is not None else None
 
@@ -331,7 +331,7 @@ SENSOR_DESCRIPTIONS: tuple[BesenSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: BesenConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

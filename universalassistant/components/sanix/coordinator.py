@@ -9,7 +9,7 @@ from sanix.exceptions import SanixException
 from sanix.models import Measurement
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import MANUFACTURER
@@ -25,7 +25,7 @@ class SanixCoordinator(DataUpdateCoordinator[Measurement]):
     config_entry: SanixConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: SanixConfigEntry, sanix_api: Sanix
+        self, hass: UniversalAssistant, config_entry: SanixConfigEntry, sanix_api: Sanix
     ) -> None:
         """Initialize coordinator."""
         super().__init__(

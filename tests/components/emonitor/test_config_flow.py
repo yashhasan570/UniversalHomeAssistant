@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.emonitor.const import DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -41,7 +41,7 @@ def _patch_success() -> Generator[None]:
         yield
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -77,7 +77,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_unknown_error(hass: __HAC_KEEP__) -> None:
+async def test_form_unknown_error(hass: UniversalAssistant) -> None:
     """Test we handle unknown error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -106,7 +106,7 @@ async def test_form_unknown_error(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -135,7 +135,7 @@ async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_dhcp_can_confirm(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_can_confirm(hass: UniversalAssistant) -> None:
     """Test DHCP discovery flow can confirm right away."""
 
     with patch(
@@ -175,7 +175,7 @@ async def test_dhcp_can_confirm(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_dhcp_fails_to_connect(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_fails_to_connect(hass: UniversalAssistant) -> None:
     """Test DHCP discovery flow that fails to connect."""
 
     with patch(
@@ -193,7 +193,7 @@ async def test_dhcp_fails_to_connect(hass: __HAC_KEEP__) -> None:
     assert result["step_id"] == "user"
 
 
-async def test_dhcp_already_exists(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_already_exists(hass: UniversalAssistant) -> None:
     """Test DHCP discovery flow that fails to connect."""
 
     entry = MockConfigEntry(
@@ -218,7 +218,7 @@ async def test_dhcp_already_exists(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_user_unique_id_already_exists(hass: __HAC_KEEP__) -> None:
+async def test_user_unique_id_already_exists(hass: UniversalAssistant) -> None:
     """Test creating an entry where the unique_id already exists."""
 
     entry = MockConfigEntry(

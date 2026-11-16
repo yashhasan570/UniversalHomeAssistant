@@ -15,7 +15,7 @@ from universalassistant.components.marketplace.repositories.template import (
     TemplateRepository,
 )
 from universalassistant.components.marketplace.repositories.theme import ThemeRepository
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import get_marketplace
 from .const import REPOSITORY_PLUGIN_ID
@@ -135,7 +135,7 @@ async def test_template_update_to_a_new_file_name_removes_the_old_file(
 
 
 async def test_renamed_card_stays_installed_after_a_reload(
-    hass: __HAC_KEEP__, marketplace: MarketplaceManager
+    hass: UniversalAssistant, marketplace: MarketplaceManager
 ) -> None:
     """Test a card renamed on GitHub keeps pointing at the folder it is in."""
     repository = marketplace.repositories.get_by_id(REPOSITORY_PLUGIN_ID)

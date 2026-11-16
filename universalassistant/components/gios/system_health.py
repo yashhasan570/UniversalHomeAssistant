@@ -3,20 +3,20 @@
 from typing import Any, Final
 
 from universalassistant.components import system_health
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 API_ENDPOINT: Final = "http://api.gios.gov.pl/"
 
 
 @callback
 def async_register(
-    hass: __HAC_KEEP__, register: system_health.SystemHealthRegistration
+    hass: UniversalAssistant, register: system_health.SystemHealthRegistration
 ) -> None:
     """Register system health callbacks."""
     register.async_register_info(system_health_info)
 
 
-async def system_health_info(hass: __HAC_KEEP__) -> dict[str, Any]:
+async def system_health_info(hass: UniversalAssistant) -> dict[str, Any]:
     """Get info for the info page."""
     return {
         "can_reach_server": system_health.async_check_can_reach_url(hass, API_ENDPOINT)

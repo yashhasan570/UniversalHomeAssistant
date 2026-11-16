@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.baf.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_IP_ADDRESS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import MOCK_UUID, MockBAFDevice
@@ -25,7 +25,7 @@ def _patch_device_init(side_effect=None):
 
 
 async def test_config_entry_wrong_uuid(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test config entry enters setup retry when uuid mismatches."""
     mismatched_uuid = MOCK_UUID + "0"

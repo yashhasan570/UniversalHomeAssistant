@@ -14,7 +14,7 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_registry import EntityRegistry
 
 
@@ -24,7 +24,7 @@ from universalassistant.helpers.entity_registry import EntityRegistry
     [[Platform.SENSOR]],
 )
 async def test_sensor_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     load_int: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -66,7 +66,7 @@ async def test_sensor_setup(
     ],
 )
 async def test_sensor_unexpected_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     get_data: tuple[list[SMHIForecast], list[SMHIForecast], list[SMHIForecast]],
     freezer: FrozenDateTimeFactory,
@@ -96,7 +96,7 @@ async def test_sensor_unexpected_values(
     [[Platform.SENSOR]],
 )
 async def test_fire_sensor_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fire_client: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:

@@ -8,7 +8,7 @@ from pytest_universalassistant.common import assert_setup_component, load_json_o
 
 from universalassistant.components import sensor
 from universalassistant.const import CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -76,7 +76,7 @@ SUBURBAN_RESULT_STATE = dt_util.utc_from_timestamp(1634984640).isoformat(
 
 
 async def assert_setup_sensor(
-    hass: __HAC_KEEP__, config: dict[str, Any], count: int = 1
+    hass: UniversalAssistant, config: dict[str, Any], count: int = 1
 ) -> None:
     """Set up the sensor and assert it's been created."""
     with assert_setup_component(count):
@@ -85,14 +85,14 @@ async def assert_setup_sensor(
 
 
 async def test_setup_platform_valid_config(
-    hass: __HAC_KEEP__, mock_requester_bus
+    hass: UniversalAssistant, mock_requester_bus
 ) -> None:
     """Test that sensor is set up properly with valid config."""
     await assert_setup_sensor(hass, TEST_BUS_CONFIG)
 
 
 async def test_setup_platform_invalid_config(
-    hass: __HAC_KEEP__, mock_requester_bus
+    hass: UniversalAssistant, mock_requester_bus
 ) -> None:
     """Check an invalid configuration."""
     await assert_setup_sensor(
@@ -100,21 +100,21 @@ async def test_setup_platform_invalid_config(
     )
 
 
-async def test_name(hass: __HAC_KEEP__, mock_requester_bus) -> None:
+async def test_name(hass: UniversalAssistant, mock_requester_bus) -> None:
     """Return the name if set in the configuration."""
     await assert_setup_sensor(hass, TEST_BUS_CONFIG)
     state = hass.states.get("sensor.test_name")
     assert state.name == TEST_BUS_CONFIG["sensor"][CONF_NAME]
 
 
-async def test_state(hass: __HAC_KEEP__, mock_requester_bus) -> None:
+async def test_state(hass: UniversalAssistant, mock_requester_bus) -> None:
     """Return the contents of _state."""
     await assert_setup_sensor(hass, TEST_BUS_CONFIG)
     state = hass.states.get("sensor.test_name")
     assert state.state == BUS_RESULT_STATE
 
 
-async def test_filtered_attributes(hass: __HAC_KEEP__, mock_requester_bus) -> None:
+async def test_filtered_attributes(hass: UniversalAssistant, mock_requester_bus) -> None:
     """Return the contents of attributes."""
     await assert_setup_sensor(hass, TEST_BUS_CONFIG)
     state = hass.states.get("sensor.test_name")
@@ -123,7 +123,7 @@ async def test_filtered_attributes(hass: __HAC_KEEP__, mock_requester_bus) -> No
 
 
 async def test_suburban_trains(
-    hass: __HAC_KEEP__, mock_requester_suburban_train
+    hass: UniversalAssistant, mock_requester_suburban_train
 ) -> None:
     """Return the contents of _state for suburban."""
     await assert_setup_sensor(hass, TEST_SUBURBAN_CONFIG)

@@ -14,7 +14,7 @@ from universalassistant.config_entries import (
     OptionsFlowWithReload,
 )
 from universalassistant.const import CONF_URL
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.selector import (
     TextSelector,
@@ -28,7 +28,7 @@ from .coordinator import FeedReaderConfigEntry
 LOGGER = logging.getLogger(__name__)
 
 
-async def async_fetch_feed(hass: __HAC_KEEP__, url: str) -> feedparser.FeedParserDict:
+async def async_fetch_feed(hass: UniversalAssistant, url: str) -> feedparser.FeedParserDict:
     """Fetch the feed."""
 
     def _parse_feed() -> feedparser.FeedParserDict:

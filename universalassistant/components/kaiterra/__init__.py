@@ -10,7 +10,7 @@ from universalassistant.const import (
     CONF_SCAN_INTERVAL,
     CONF_TYPE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.discovery import async_load_platform
@@ -60,7 +60,7 @@ KAITERRA_SCHEMA = probatio.Schema(
 CONFIG_SCHEMA = probatio.Schema({DOMAIN: KAITERRA_SCHEMA}, extra=probatio.ALLOW_EXTRA)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Kaiterra integration."""
 
     conf = config[DOMAIN]

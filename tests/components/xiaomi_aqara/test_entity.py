@@ -10,7 +10,7 @@ from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_
 from universalassistant.components.xiaomi_aqara import const
 from universalassistant.components.xiaomi_aqara.entity import TIME_TILL_UNAVAILABLE
 from universalassistant.const import CONF_HOST, CONF_MAC, CONF_PORT, CONF_PROTOCOL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.dt import utcnow
 
@@ -21,7 +21,7 @@ TEST_MAC = "ab:cd:ef:00:11:22"
 TEST_DOOR_SID = "158d0001a2b3c5"
 
 
-async def _setup_gateway_with_door_sensor(hass: __HAC_KEEP__) -> tuple[Mock, str]:
+async def _setup_gateway_with_door_sensor(hass: UniversalAssistant) -> tuple[Mock, str]:
     """Set up the integration with a single door sensor, return gateway and entity_id."""
     mock_gateway = Mock()
     mock_gateway.sid = TEST_MAC.replace(":", "").lower()
@@ -79,7 +79,7 @@ async def _setup_gateway_with_door_sensor(hass: __HAC_KEEP__) -> tuple[Mock, str
 
 
 async def test_entity_removal_removes_push_callback(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test removing an entity removes its push callback from the gateway."""
     mock_gateway, entity_id = await _setup_gateway_with_door_sensor(hass)
@@ -98,7 +98,7 @@ async def test_entity_removal_removes_push_callback(
 
 
 async def test_entity_removal_cancels_unavailability_tracker(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test removing an entity cancels its unavailability tracker."""
     _, entity_id = await _setup_gateway_with_door_sensor(hass)

@@ -26,7 +26,7 @@ from universalassistant.components.media_player import (
     SERVICE_VOLUME_UP,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 MEDIA_PLAYER_ENTITY_ID = "media_player.lg_tv"
@@ -42,7 +42,7 @@ def platforms() -> list[Platform]:
 @pytest.mark.parametrize("device_type", [LGDeviceType.TV, LGDeviceType.HOME_THEATER])
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -80,7 +80,7 @@ async def test_entities(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_media_player_action_sends_correct_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     service: str,
     service_data: dict[str, bool],
@@ -100,7 +100,7 @@ async def test_media_player_action_sends_correct_code(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_media_player_availability_follows_ir_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test media player becomes unavailable when IR entity is unavailable."""
     await assert_availability_follows_source_entity(
@@ -126,7 +126,7 @@ async def test_media_player_availability_follows_ir_entity(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_home_theater_media_player_action_sends_correct_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     service: str,
     service_data: dict[str, bool],
@@ -147,7 +147,7 @@ async def test_home_theater_media_player_action_sends_correct_code(
 @pytest.mark.parametrize("device_type", [LGDeviceType.HOME_THEATER])
 @pytest.mark.usefixtures("init_integration")
 async def test_home_theater_media_player_availability_follows_ir_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test home theater media player becomes unavailable when IR entity is unavailable."""
     await assert_availability_follows_source_entity(

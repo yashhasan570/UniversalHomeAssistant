@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.solarman.const import CONF_SN, DOMAIN, MODEL_NAME_MAP
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST, CONF_MODEL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -20,7 +20,7 @@ TEST_MODEL = "SP-2W-EU"
 
 
 @pytest.mark.parametrize("device_fixture", ["P1-2W"], indirect=True)
-async def test_flow_success(hass: __HAC_KEEP__, mock_solarman: AsyncMock) -> None:
+async def test_flow_success(hass: UniversalAssistant, mock_solarman: AsyncMock) -> None:
     """Test successful configuration flow."""
 
     # Initiate config flow
@@ -59,7 +59,7 @@ async def test_flow_success(hass: __HAC_KEEP__, mock_solarman: AsyncMock) -> Non
     ],
 )
 async def test_flow_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_solarman: AsyncMock,
     exception: Exception,
     expected_error: str,
@@ -94,7 +94,7 @@ async def test_flow_error(
 
 @pytest.mark.parametrize("device_fixture", ["SP-2W-EU"], indirect=True)
 async def test_flow_duplicate_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_solarman: AsyncMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_solarman: AsyncMock
 ) -> None:
     """Test duplicate entry handling."""
     # Create existing config entry.
@@ -115,7 +115,7 @@ async def test_flow_duplicate_entry(
 
 
 @pytest.mark.parametrize("device_fixture", ["SP-2W-EU"], indirect=True)
-async def test_zeroconf(hass: __HAC_KEEP__, mock_solarman: AsyncMock) -> None:
+async def test_zeroconf(hass: UniversalAssistant, mock_solarman: AsyncMock) -> None:
     """Test zeroconf discovery flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -151,7 +151,7 @@ async def test_zeroconf(hass: __HAC_KEEP__, mock_solarman: AsyncMock) -> None:
 
 @pytest.mark.parametrize("device_fixture", ["SP-2W-EU"], indirect=True)
 async def test_zeroconf_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_solarman: AsyncMock,
 ) -> None:
@@ -181,7 +181,7 @@ async def test_zeroconf_already_configured(
 
 @pytest.mark.parametrize("device_fixture", ["SP-2W-EU"], indirect=True)
 async def test_zeroconf_ip_change(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_solarman: AsyncMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_solarman: AsyncMock
 ) -> None:
     """Test discovery setup updates new config data."""
     mock_config_entry.add_to_hass(hass)
@@ -222,7 +222,7 @@ async def test_zeroconf_ip_change(
 )
 @pytest.mark.parametrize("device_fixture", ["SP-2W-EU"], indirect=True)
 async def test_zeroconf_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_solarman: AsyncMock,
     exception: Exception,
     expected_error: str,

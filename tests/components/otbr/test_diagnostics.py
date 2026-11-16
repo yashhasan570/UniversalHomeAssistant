@@ -9,7 +9,7 @@ from python_otbr_api import ActiveDataSet, OTBRError
 from python_otbr_api.models import SecurityPolicy, Timestamp
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 ACTIVE_DATASET = ActiveDataSet(
     active_timestamp=Timestamp(authoritative=False, seconds=1, ticks=0),
@@ -35,7 +35,7 @@ ACTIVE_DATASET = ActiveDataSet(
     ],
 )
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
     get_coprocessor_version: AsyncMock,

@@ -6,13 +6,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from serialx import SerialException
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import MockLGTV
 
 
 async def test_setup_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lgtv: MockLGTV,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -30,7 +30,7 @@ async def test_setup_connection_error(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lgtv: MockLGTV,
     init_components: None,
     mock_config_entry: MockConfigEntry,
@@ -46,7 +46,7 @@ async def test_unload_entry(
 
 
 async def test_remove_entry_while_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lgtv: MockLGTV,
     init_components: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -67,7 +67,7 @@ async def test_remove_entry_while_loaded(
 
 
 async def test_setup_serial_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Retry setup when the serial transport cannot be opened."""

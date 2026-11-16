@@ -19,7 +19,7 @@ from universalassistant.const import (
     UnitOfVolume,
     UnitOfVolumeFlowRate,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -117,7 +117,7 @@ ENTITIES_AGGR: tuple[AqvifySensorAggrEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: AqvifyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

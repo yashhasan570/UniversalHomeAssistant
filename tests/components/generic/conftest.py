@@ -12,7 +12,7 @@ import respx
 from universalassistant import config_entries
 from universalassistant.components.generic.const import DOMAIN
 from universalassistant.config_entries import ConfigFlowResult
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture(scope="package")
@@ -73,7 +73,7 @@ def fakeimg_gif(fakeimgbytes_gif: bytes) -> Generator[None]:
 
 
 @pytest.fixture(name="mock_create_stream")
-def mock_create_stream(hass: __HAC_KEEP__) -> Generator[MagicMock]:
+def mock_create_stream(hass: UniversalAssistant) -> Generator[MagicMock]:
     """Mock create stream."""
     mock_stream = MagicMock()
     mock_stream.hass = hass
@@ -102,7 +102,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 @pytest.fixture(name="user_flow")
-async def user_flow_fixture(hass: __HAC_KEEP__) -> ConfigFlowResult:
+async def user_flow_fixture(hass: UniversalAssistant) -> ConfigFlowResult:
     """Initiate a user flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -114,7 +114,7 @@ async def user_flow_fixture(hass: __HAC_KEEP__) -> ConfigFlowResult:
 
 
 @pytest.fixture(name="config_entry")
-def config_entry_fixture(hass: __HAC_KEEP__) -> MockConfigEntry:
+def config_entry_fixture(hass: UniversalAssistant) -> MockConfigEntry:
     """Define a config entry fixture."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -142,7 +142,7 @@ def config_entry_fixture(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 @pytest.fixture(name="setup_entry")
 async def setup_entry_fixture(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> MockConfigEntry:
     """Set up a config entry ready to be used in tests."""
     await hass.config_entries.async_setup(config_entry.entry_id)

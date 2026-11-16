@@ -13,7 +13,7 @@ from universalassistant.components.azure_storage.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigFlowResult
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import setup_integration
@@ -21,7 +21,7 @@ from .const import USER_INPUT
 
 
 async def __async_start_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> ConfigFlowResult:
     """Initialize the  config flow."""
 
@@ -38,7 +38,7 @@ async def __async_start_flow(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_flow(hass: __HAC_KEEP__, mock_client: MagicMock) -> None:
+async def test_flow(hass: UniversalAssistant, mock_client: MagicMock) -> None:
     """Test config flow."""
     mock_client.exists.return_value = False
     result = await __async_start_flow(hass)
@@ -65,7 +65,7 @@ async def test_flow(hass: __HAC_KEEP__, mock_client: MagicMock) -> None:
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     exception: Exception,
     errors: dict[str, str],
@@ -98,7 +98,7 @@ async def test_flow_errors(
 
 
 async def test_abort_if_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort if the account is already configured."""
@@ -112,7 +112,7 @@ async def test_abort_if_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that the reauth flow works."""
 
@@ -136,7 +136,7 @@ async def test_reauth_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors(
-    hass: __HAC_KEEP__, mock_client: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_client: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that the reauth flow works with an errors."""
 
@@ -169,7 +169,7 @@ async def test_reauth_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that the reconfigure flow works."""
 

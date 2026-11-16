@@ -6,7 +6,7 @@ import logging
 from habluetooth import BluetoothScanningMode
 from universal_assistant_bluetooth import BluetoothServiceInfoBleak
 
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 
 from .api import (
     async_address_present,
@@ -26,7 +26,7 @@ class BasePassiveBluetoothCoordinator(ABC):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         logger: logging.Logger,
         address: str,
         mode: BluetoothScanningMode,

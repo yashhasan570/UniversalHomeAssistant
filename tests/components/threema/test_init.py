@@ -12,11 +12,11 @@ from universalassistant.components.threema.client import (
     ThreemaConnectionError,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_credentials: AsyncMock,
     mock_send_message: AsyncMock,
@@ -40,7 +40,7 @@ async def test_setup_entry(
     ids=["connection_error", "auth_error", "server_error_non_auth"],
 )
 async def test_setup_entry_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_credentials: AsyncMock,
     side_effect: Exception,
@@ -57,7 +57,7 @@ async def test_setup_entry_error(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_credentials: AsyncMock,
     mock_send_message: AsyncMock,
@@ -75,7 +75,7 @@ async def test_unload_entry(
 
 
 async def test_update_listener_reloads(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_credentials: AsyncMock,
     mock_send_message: AsyncMock,

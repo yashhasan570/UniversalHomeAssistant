@@ -13,7 +13,7 @@ from universalassistant.components.fritzbox.const import DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_DEVICES, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -41,7 +41,7 @@ ENTITY_ID = f"{SENSOR_DOMAIN}.{CONF_FAKE_NAME}"
     ],
 )
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     fritz: Mock,
@@ -59,7 +59,7 @@ async def test_setup(
     await snapshot_platform(hass, entity_registry, snapshot, entry.entry_id)
 
 
-async def test_update(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_update(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test update without error."""
     device = FritzDeviceSensorMock()
     await setup_config_entry(
@@ -76,7 +76,7 @@ async def test_update(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert fritz().login.call_count == 1
 
 
-async def test_update_error(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_update_error(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test update with error."""
     device = FritzDeviceSensorMock()
     fritz().update_devices.side_effect = ["", HTTPError("Boom"), ""]
@@ -96,7 +96,7 @@ async def test_update_error(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert fritz().login.call_count == 2
 
 
-async def test_discover_new_device(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_discover_new_device(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test adding new discovered devices during runtime."""
     device = FritzDeviceSensorMock()
     await setup_config_entry(
@@ -142,7 +142,7 @@ async def test_discover_new_device(hass: __HAC_KEEP__, fritz: Mock) -> None:
     ],
 )
 async def test_next_change_sensors(
-    hass: __HAC_KEEP__, fritz: Mock, next_changes: list, expected_states: list
+    hass: UniversalAssistant, fritz: Mock, next_changes: list, expected_states: list
 ) -> None:
     """Test next change sensors."""
     device = FritzDeviceClimateMock()
@@ -192,7 +192,7 @@ async def test_next_change_sensors(
     ],
 )
 async def test_powermeter_missing_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fritz: Mock,
     attribute: str,
     value: int | None,

@@ -10,7 +10,7 @@ from pytest_universalassistant.components.bluetooth import (
 from universalassistant.components.bthome.const import DOMAIN
 from universalassistant.components.event import EventEntityStateAttribute
 from universalassistant.const import ATTR_FRIENDLY_NAME, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import make_bthome_v2_adv
 
@@ -91,7 +91,7 @@ from . import make_bthome_v2_adv
     ],
 )
 async def test_v2_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mac_address: str,
     advertisement: BluetoothServiceInfoBleak,
     bind_key: str | None,

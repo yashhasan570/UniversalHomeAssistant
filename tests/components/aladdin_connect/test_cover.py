@@ -18,7 +18,7 @@ from universalassistant.components.cover import (
     SERVICE_OPEN_COVER,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -26,14 +26,14 @@ from . import init_integration
 ENTITY_ID = "cover.test_door"
 
 
-async def _setup(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+async def _setup(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     """Set up integration with only the cover platform."""
     with patch("universalassistant.components.aladdin_connect.PLATFORMS", [Platform.COVER]):
         await init_integration(hass, entry)
 
 
 async def test_cover_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -44,7 +44,7 @@ async def test_cover_entities(
 
 
 async def test_open_cover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_aladdin_connect_api: AsyncMock,
 ) -> None:
@@ -60,7 +60,7 @@ async def test_open_cover(
 
 
 async def test_close_cover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_aladdin_connect_api: AsyncMock,
 ) -> None:
@@ -85,7 +85,7 @@ async def test_close_cover(
     ],
 )
 async def test_cover_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_aladdin_connect_api: AsyncMock,
     status: str,
@@ -104,7 +104,7 @@ async def test_cover_states(
 
 
 async def test_cover_none_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_aladdin_connect_api: AsyncMock,
 ) -> None:
@@ -117,7 +117,7 @@ async def test_cover_none_status(
 
 
 async def test_cover_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_aladdin_connect_api: AsyncMock,
     freezer: FrozenDateTimeFactory,

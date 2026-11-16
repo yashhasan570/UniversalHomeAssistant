@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 
 import probatio
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 
 from .const import DOMAIN
@@ -42,7 +42,7 @@ SERVICE_SEND_COMMAND_SCHEMA = probatio.Schema(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up services for Lutron Homeworks Series 4 and 8 integration."""
 
     hass.services.async_register(

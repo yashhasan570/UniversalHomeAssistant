@@ -13,8 +13,8 @@ from electrickiwi_api.exceptions import ApiException, AuthException
 from electrickiwi_api.model import AccountSummary, Hop, HopIntervals
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN
@@ -41,7 +41,7 @@ class ElectricKiwiAccountDataCoordinator(DataUpdateCoordinator[AccountSummary]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: ElectricKiwiConfigEntry,
         ek_api: ElectricKiwiApi,
     ) -> None:
@@ -76,7 +76,7 @@ class ElectricKiwiHOPDataCoordinator(DataUpdateCoordinator[Hop]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: ElectricKiwiConfigEntry,
         ek_api: ElectricKiwiApi,
     ) -> None:
@@ -108,12 +108,12 @@ class ElectricKiwiHOPDataCoordinator(DataUpdateCoordinator[Hop]):
             hop = await self.ek_api.post_hop(hop_interval)
         except AuthException as auth_err:
             self.config_entry.async_start_reauth(self.hass)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="auth_failed",
             ) from auth_err
         except (ApiException, ClientError, TimeoutError) as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_hop_failed",
             ) from err

@@ -8,7 +8,7 @@ from habiticalib import Avatar, ContentData, extract_avatar
 
 from universalassistant.components.image import Image, ImageEntity, ImageEntityDescription
 from universalassistant.config_entries import ConfigSubentry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -32,7 +32,7 @@ class HabiticaImageEntity(StrEnum):
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: HabiticaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -81,7 +81,7 @@ class HabiticaImage(HabiticaBase, ImageEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         coordinator: HabiticaDataUpdateCoordinator,
         subentry: ConfigSubentry | None = None,
     ) -> None:
@@ -121,7 +121,7 @@ class HabiticaPartyMemberImage(HabiticaImage, HabiticaPartyMemberBase):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         coordinator: HabiticaDataUpdateCoordinator,
         party_coordinator: HabiticaPartyCoordinator,
         subentry: ConfigSubentry | None = None,
@@ -145,7 +145,7 @@ class HabiticaPartyImage(HabiticaPartyBase, ImageEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         coordinator: HabiticaPartyCoordinator,
         config_entry: HabiticaConfigEntry,
         content: ContentData,

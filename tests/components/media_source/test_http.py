@@ -14,12 +14,12 @@ from universalassistant.components.media_player import (
     SearchMediaQuery,
 )
 from universalassistant.components.media_source import const
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
 async def test_websocket_browse_media(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test browse media websocket."""
     assert await async_setup_component(hass, media_source.DOMAIN, {})
@@ -75,7 +75,7 @@ async def test_websocket_browse_media(
 
 @pytest.mark.parametrize("filename", ["test.mp3", "Epic Sax Guy 10 Hours.mp4"])
 async def test_websocket_resolve_media(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, filename
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, filename
 ) -> None:
     """Test browse media websocket."""
     assert await async_setup_component(hass, media_source.DOMAIN, {})
@@ -134,7 +134,7 @@ async def test_websocket_resolve_media(
 
 
 async def test_websocket_search_media(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test search media websocket."""
     assert await async_setup_component(hass, media_source.DOMAIN, {})

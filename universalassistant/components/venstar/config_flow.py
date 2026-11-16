@@ -13,13 +13,13 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import DOMAIN, LOGGER, VENSTAR_TIMEOUT
 
 
-async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> str:
+async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> str:
     """Validate the user input allows us to connect."""
     username = data.get(CONF_USERNAME)
     password = data.get(CONF_PASSWORD)
@@ -105,5 +105,5 @@ class VenstarConfigFlow(ConfigFlow, domain=DOMAIN):
         return self.async_create_entry(title=title, data=data)
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""

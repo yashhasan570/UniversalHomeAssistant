@@ -18,7 +18,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 
@@ -42,7 +42,7 @@ def _connect(
     return router
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: LuciConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: LuciConfigEntry) -> None:
     """Set up OpenWrt (luci) from a config entry."""
     try:
         router = await hass.async_add_executor_job(
@@ -91,7 +91,7 @@ def _legacy_issue_id(entry: LuciConfigEntry) -> str:
 
 
 async def _async_check_legacy_known_devices(
-    hass: __HAC_KEEP__, entry: LuciConfigEntry, tracked: Collection[str]
+    hass: UniversalAssistant, entry: LuciConfigEntry, tracked: Collection[str]
 ) -> None:
     """Report leftover known_devices.yaml entries for devices we now track.
 
@@ -129,13 +129,13 @@ async def _async_check_legacy_known_devices(
     )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: LuciConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: LuciConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, entry: LuciConfigEntry, device_entry: dr.AnyDeviceEntry
+    hass: UniversalAssistant, entry: LuciConfigEntry, device_entry: dr.AnyDeviceEntry
 ) -> bool:
     """Allow removing a client device while the client is not connected."""
     if not isinstance(device_entry, dr.DeviceEntry):

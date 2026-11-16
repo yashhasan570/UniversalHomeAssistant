@@ -34,8 +34,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -71,7 +71,7 @@ def _channel_entity_id(camera_obj: ProtectCamera, channel_id: int) -> str:
 
 
 def _assert_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     camera_obj: ProtectCamera,
     channel_id: int,
     *,
@@ -93,7 +93,7 @@ def _assert_entity(
 
 
 async def test_basic_setup(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera_all: ProtectCamera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera_all: ProtectCamera
 ) -> None:
     """One enabled high entity plus disabled medium/low, all secure."""
     await init_entry(hass, ufp, [camera_all])
@@ -116,7 +116,7 @@ async def test_basic_setup(
 
 
 async def test_doorbell_setup(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: ProtectCamera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: ProtectCamera
 ) -> None:
     """Doorbell exposes its active qualities; the package channel is just one of them."""
     await init_entry(hass, ufp, [doorbell])
@@ -134,7 +134,7 @@ async def test_doorbell_setup(
 
 
 async def test_first_active_quality_is_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     camera_all: ProtectCamera,
@@ -158,7 +158,7 @@ async def test_first_active_quality_is_default(
 
 
 async def test_no_active_stream(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     camera: ProtectCamera,
     issue_registry: ir.IssueRegistry,
@@ -179,7 +179,7 @@ async def test_no_active_stream(
 
 
 async def test_offline_camera_no_repair(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     camera: ProtectCamera,
     issue_registry: ir.IssueRegistry,
@@ -195,7 +195,7 @@ async def test_offline_camera_no_repair(
 
 @pytest.mark.parametrize("ufp_options", [{CONF_DISABLE_RTSP: True}], indirect=True)
 async def test_disable_rtsp(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera_all: ProtectCamera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera_all: ProtectCamera
 ) -> None:
     """Disabling RTSP globally removes the stream source."""
     await init_entry(hass, ufp, [camera_all])
@@ -205,7 +205,7 @@ async def test_disable_rtsp(
 
 
 async def test_camera_image(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera: ProtectCamera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera: ProtectCamera
 ) -> None:
     """Main snapshot is fetched from the public API."""
     await init_entry(hass, ufp, [camera])
@@ -218,7 +218,7 @@ async def test_camera_image(
 
 
 async def test_package_camera_image(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: ProtectCamera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: ProtectCamera
 ) -> None:
     """Package snapshot is fetched from the public API with package=True."""
     await init_entry(hass, ufp, [doorbell])
@@ -233,7 +233,7 @@ async def test_package_camera_image(
 
 
 async def test_package_camera_without_stream(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: ProtectCamera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: ProtectCamera
 ) -> None:
     """The package camera stays available for snapshots when its stream is off."""
     # the package stream is off (the console default)
@@ -258,7 +258,7 @@ async def test_package_camera_without_stream(
 
 
 async def test_camera_not_in_public_bootstrap(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera: ProtectCamera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera: ProtectCamera
 ) -> None:
     """A camera not yet mirrored into the public bootstrap is deferred."""
 
@@ -282,7 +282,7 @@ async def test_camera_not_in_public_bootstrap(
 
 
 async def test_streams_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     camera_all: ProtectCamera,
     issue_registry: ir.IssueRegistry,
@@ -315,7 +315,7 @@ async def test_streams_unavailable(
 
 
 async def test_public_bootstrap_failure_not_ready(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera: ProtectCamera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera: ProtectCamera
 ) -> None:
     """A failed public bootstrap prime leaves the entry in setup-retry.
 
@@ -331,7 +331,7 @@ async def test_public_bootstrap_failure_not_ready(
 
 
 async def test_public_bootstrap_revoked_key_reauth(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera: ProtectCamera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera: ProtectCamera
 ) -> None:
     """A revoked API key (public 401) triggers reauth, not an endless retry."""
     ufp.api.update_public = AsyncMock(side_effect=NotAuthorized("revoked"))
@@ -344,7 +344,7 @@ async def test_public_bootstrap_revoked_key_reauth(
 
 
 async def test_adopt(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera_all: ProtectCamera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera_all: ProtectCamera
 ) -> None:
     """A camera adopted at runtime loads its public streams before entities."""
     await init_entry(hass, ufp, [camera_all])
@@ -368,7 +368,7 @@ async def test_adopt(
     ],
 )
 async def test_camera_motion_detection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     camera: ProtectCamera,
     service: str,
@@ -392,7 +392,7 @@ async def test_camera_motion_detection(
 
 
 async def test_public_only_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     ufp: MockUFPFixture,
     camera: ProtectCamera,
@@ -458,7 +458,7 @@ async def test_public_only_camera(
 
 
 async def test_adopt_before_public_bootstrap(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera: ProtectCamera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera: ProtectCamera
 ) -> None:
     """A camera adopted before the public bootstrap mirrors it is deferred."""
 
@@ -487,7 +487,7 @@ async def test_adopt_before_public_bootstrap(
 
 
 async def test_public_only_camera_removed(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera: ProtectCamera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera: ProtectCamera
 ) -> None:
     """A public-only camera removed from the public bootstrap goes unavailable."""
     public = make_public_camera(camera)
@@ -524,7 +524,7 @@ async def test_public_only_camera_removed(
 
 
 async def test_public_only_camera_ws_state_availability(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera: ProtectCamera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera: ProtectCamera
 ) -> None:
     """Public devices websocket state drives a public-only camera without private reads."""
     public = make_public_camera(camera)
@@ -565,7 +565,7 @@ async def test_public_only_camera_ws_state_availability(
 
 
 async def test_camera_motion_detection_uses_replaced_device(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera: ProtectCamera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera: ProtectCamera
 ) -> None:
     """Motion commands act on the refreshed device after a bootstrap replacement."""
     await init_entry(hass, ufp, [camera])
@@ -595,7 +595,7 @@ async def test_camera_motion_detection_uses_replaced_device(
     "service", ["enable_motion_detection", "disable_motion_detection"]
 )
 async def test_public_only_camera_motion_detection_raises(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera: ProtectCamera, service: str
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera: ProtectCamera, service: str
 ) -> None:
     """Motion detection cannot be changed without a private session."""
     public = make_public_camera(camera)
@@ -612,7 +612,7 @@ async def test_public_only_camera_motion_detection_raises(
     await init_entry(hass, ufp, [])
     entity_id = _channel_entity_id(camera, 0)
 
-    with pytest.raises(__HAC_KEEP__Error, match="public API"):
+    with pytest.raises(UniversalAssistantError, match="public API"):
         await hass.services.async_call(
             "camera",
             service,
@@ -622,7 +622,7 @@ async def test_public_only_camera_motion_detection_raises(
 
 
 async def test_hybrid_public_camera_without_private_deferred(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera: ProtectCamera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera: ProtectCamera
 ) -> None:
     """Hybrid: a public camera without its private twin is left to the adopt flow."""
     public = make_public_camera(camera)
@@ -641,7 +641,7 @@ async def test_hybrid_public_camera_without_private_deferred(
 
 
 async def test_snapshot_low_quality_without_stream(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera: ProtectCamera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera: ProtectCamera
 ) -> None:
     """Without a live stream, snapshots are requested at low quality."""
     set_active_rtsps_qualities(ufp, camera)
@@ -657,7 +657,7 @@ async def test_snapshot_low_quality_without_stream(
 
 
 async def test_private_enumeration_upgrade_keeps_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     camera_all: ProtectCamera,
@@ -708,7 +708,7 @@ async def test_private_enumeration_upgrade_keeps_entities(
 
 
 async def test_streamless_camera_reenumerated_on_rtsps_prime(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     camera_all: ProtectCamera,
@@ -760,7 +760,7 @@ async def test_streamless_camera_reenumerated_on_rtsps_prime(
 
 
 async def test_public_only_camera_added_after_setup(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera: ProtectCamera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera: ProtectCamera
 ) -> None:
     """In public-only mode a camera added later is discovered from its frame.
 
@@ -795,7 +795,7 @@ async def test_public_only_camera_added_after_setup(
 
 
 async def test_public_only_streamless_camera_gets_repair(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     camera: ProtectCamera,
     issue_registry: ir.IssueRegistry,
@@ -825,7 +825,7 @@ async def test_public_only_streamless_camera_gets_repair(
 
 
 async def test_stream_capability_published_on_prime(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera_all: ProtectCamera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera_all: ProtectCamera
 ) -> None:
     """Gaining a stream publishes the STREAM capability when nothing else changes."""
     set_active_rtsps_qualities(ufp, camera_all)
@@ -852,7 +852,7 @@ async def test_stream_capability_published_on_prime(
 
 
 async def test_camera_without_main_tiers_skipped_with_warning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     camera: ProtectCamera,
     caplog: pytest.LogCaptureFixture,
@@ -885,7 +885,7 @@ async def test_camera_without_main_tiers_skipped_with_warning(
 
 
 async def test_public_only_camera_deleted_during_gap(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera: ProtectCamera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera: ProtectCamera
 ) -> None:
     """A camera deleted while the websocket was down reads as unavailable.
 
@@ -926,7 +926,7 @@ async def test_public_only_camera_deleted_during_gap(
 
 
 async def test_hybrid_camera_lost_public_mirror_logs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     camera: ProtectCamera,
     caplog: pytest.LogCaptureFixture,
@@ -945,7 +945,7 @@ async def test_hybrid_camera_lost_public_mirror_logs(
 
 
 async def test_public_only_camera_added_during_gap(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera_all: ProtectCamera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera_all: ProtectCamera
 ) -> None:
     """A camera added while the websocket was down enumerates on reconnect.
 
@@ -988,7 +988,7 @@ async def test_public_only_camera_added_during_gap(
 
 
 async def test_public_only_camera_streams_primed_by_resync(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera_all: ProtectCamera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera_all: ProtectCamera
 ) -> None:
     """Stream tiers the library primes during its resync get their entities.
 
@@ -1024,7 +1024,7 @@ async def test_public_only_camera_streams_primed_by_resync(
 
 
 async def test_unadopted_camera_not_enumerated_from_public_frame(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, camera: ProtectCamera
+    hass: UniversalAssistant, ufp: MockUFPFixture, camera: ProtectCamera
 ) -> None:
     """A public frame cannot create entities for an unadopted camera."""
     camera.is_adopted = False
@@ -1042,7 +1042,7 @@ async def test_unadopted_camera_not_enumerated_from_public_frame(
 
 
 async def test_public_only_camera_end_to_end(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     camera: ProtectCamera,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
@@ -1103,7 +1103,7 @@ def _prime_not_mirrored(ufp: MockUFPFixture, camera: ProtectCamera) -> None:
     ],
 )
 async def test_ignored_rtsp_repair_kept_on_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     camera: ProtectCamera,
     issue_registry: ir.IssueRegistry,
@@ -1132,7 +1132,7 @@ async def test_ignored_rtsp_repair_kept_on_reload(
 
 
 async def test_stale_rtsp_repairs_deleted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     camera_all: ProtectCamera,
     issue_registry: ir.IssueRegistry,

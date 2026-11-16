@@ -22,14 +22,14 @@ from universalassistant.core import (
     Event,
     HassJob,
     HassJobType,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
 )
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
     ConfigEntryNotReady,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     OAuth2TokenRequestError,
     OAuth2TokenRequestReauthError,
 )
@@ -45,7 +45,7 @@ REQUEST_REFRESH_DEFAULT_IMMEDIATE = True
 _DataT = TypeVar("_DataT", default=dict[str, Any])
 
 
-class UpdateFailed(__HAC_KEEP__Error):
+class UpdateFailed(UniversalAssistantError):
     """Raised when an update has failed."""
 
     def __init__(
@@ -87,7 +87,7 @@ class DataUpdateCoordinator(BaseDataUpdateCoordinatorProtocol, Generic[_DataT]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         logger: logging.Logger,
         *,
         config_entry: config_entries.ConfigEntry | Undefined | None = Undefined,
@@ -112,7 +112,7 @@ class DataUpdateCoordinator(BaseDataUpdateCoordinatorProtocol, Generic[_DataT]):
             from . import frame  # noqa: PLC0415
 
             # It is not planned to enforce this for custom integrations.
-            # see https://github.com/yashhasan570/__HAC_KEEP__/pull/138161#discussion_r1958184241
+            # see https://github.com/yashhasan570/UniversalUniversalAssistant/pull/138161#discussion_r1958184241
             frame.report_usage(
                 "relies on ContextVar, but should pass the config entry explicitly.",
                 core_behavior=frame.ReportBehavior.ERROR,
@@ -164,7 +164,7 @@ class DataUpdateCoordinator(BaseDataUpdateCoordinatorProtocol, Generic[_DataT]):
             self.config_entry.async_on_unload(self.async_shutdown)
 
     async def async_register_shutdown(self) -> None:
-        """Register shutdown on __HAC_KEEP__ stop.
+        """Register shutdown on UniversalAssistant stop.
 
         Should only be used by coordinators that are not linked to a config entry.
         """
@@ -172,7 +172,7 @@ class DataUpdateCoordinator(BaseDataUpdateCoordinatorProtocol, Generic[_DataT]):
             raise RuntimeError("This should only be used outside of config entries.")
 
         async def _on_hass_stop(_: Event) -> None:
-            """Shutdown coordinator on __HAC_KEEP__ stop."""
+            """Shutdown coordinator on UniversalAssistant stop."""
             # Already cleared on EVENT_HOMEASSISTANT_STOP, via async_fire_internal
             self._unsub_shutdown = None
             await self.async_shutdown()
@@ -289,7 +289,7 @@ class DataUpdateCoordinator(BaseDataUpdateCoordinatorProtocol, Generic[_DataT]):
             self._retry_after = None
 
         next_refresh = int(loop.time()) + self._microsecond + update_interval
-        # Cancelled when __HA_KEEP__ stops so a refresh can't fire during
+        # Cancelled when Universal Home Assistant stops so a refresh can't fire during
         # the close stage, after shared resources like aiohttp sessions are closed
         refresh_job = HassJob(
             self.__wrap_handle_refresh_interval,

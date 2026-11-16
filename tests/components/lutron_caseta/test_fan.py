@@ -1,13 +1,13 @@
 """Tests for the Lutron Caseta integration."""
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import MockBridge, async_setup_integration
 
 
 async def test_fan_unique_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a light unique id."""
     await async_setup_integration(hass, MockBridge)

@@ -6,7 +6,7 @@ from mozart_api.models import BatteryState, BeolinkSelf
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_registry import EntityRegistry
 
 from .conftest import mock_websocket_connection
@@ -19,7 +19,7 @@ from .const import (
 
 
 async def test_battery_charging(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     mock_mozart_client: AsyncMock,
     mock_config_entry_a5: MockConfigEntry,

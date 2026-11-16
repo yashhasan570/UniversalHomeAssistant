@@ -8,7 +8,7 @@ from aiopvapi.resources.scene import Scene as PvScene
 
 from universalassistant.components.scene import Scene
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -23,7 +23,7 @@ RESYNC_DELAY = 60
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: PowerviewConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -44,7 +44,7 @@ async def async_setup_entry(
 
 @callback
 def async_remove_stale_scenes(
-    hass: __HAC_KEEP__, entry: PowerviewConfigEntry, scenes: list[PowerViewScene]
+    hass: UniversalAssistant, entry: PowerviewConfigEntry, scenes: list[PowerViewScene]
 ) -> None:
     """Remove registered scenes that the hub no longer reports."""
     current_unique_ids = {scene.unique_id for scene in scenes}

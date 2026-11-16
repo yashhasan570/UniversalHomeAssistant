@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.zwave_me.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResult, FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -27,7 +27,7 @@ MOCK_ZEROCONF_DATA = ZeroconfServiceInfo(
 )
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test we get the form."""
     with (
         patch(
@@ -63,7 +63,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_zeroconf(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf(hass: UniversalAssistant) -> None:
     """Test starting a flow from zeroconf."""
     with (
         patch(
@@ -101,7 +101,7 @@ async def test_zeroconf(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_error_handling_zeroconf(hass: __HAC_KEEP__) -> None:
+async def test_error_handling_zeroconf(hass: UniversalAssistant) -> None:
     """Test getting proper errors from no uuid."""
     with patch("universalassistant.components.zwave_me.helpers.get_uuid", return_value=None):
         result: FlowResult = await hass.config_entries.flow.async_init(
@@ -113,7 +113,7 @@ async def test_error_handling_zeroconf(hass: __HAC_KEEP__) -> None:
         assert result["reason"] == "no_valid_uuid_set"
 
 
-async def test_handle_error_user(hass: __HAC_KEEP__) -> None:
+async def test_handle_error_user(hass: UniversalAssistant) -> None:
     """Test getting proper errors from no uuid."""
     with patch("universalassistant.components.zwave_me.helpers.get_uuid", return_value=None):
         result = await hass.config_entries.flow.async_init(
@@ -152,7 +152,7 @@ async def test_handle_error_user(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_duplicate_user(hass: __HAC_KEEP__) -> None:
+async def test_duplicate_user(hass: UniversalAssistant) -> None:
     """Test getting proper errors from duplicate uuid."""
     entry: MockConfigEntry = MockConfigEntry(
         domain=DOMAIN,
@@ -184,7 +184,7 @@ async def test_duplicate_user(hass: __HAC_KEEP__) -> None:
         assert result2["reason"] == "already_configured"
 
 
-async def test_duplicate_zeroconf(hass: __HAC_KEEP__) -> None:
+async def test_duplicate_zeroconf(hass: UniversalAssistant) -> None:
     """Test getting proper errors from duplicate uuid."""
     entry: MockConfigEntry = MockConfigEntry(
         domain=DOMAIN,

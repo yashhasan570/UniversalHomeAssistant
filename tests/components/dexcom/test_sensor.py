@@ -5,13 +5,13 @@ from unittest.mock import patch
 from pydexcom.errors import SessionError
 
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_component import async_update_entity
 
 from . import GLUCOSE_READING, init_integration
 
 
-async def test_sensors(hass: __HAC_KEEP__) -> None:
+async def test_sensors(hass: UniversalAssistant) -> None:
     """Test we get sensor data."""
     await init_integration(hass)
 
@@ -25,7 +25,7 @@ async def test_sensors(hass: __HAC_KEEP__) -> None:
     assert test_username_glucose_reading_time.state == "2025-04-19T16:58:33+00:00"
 
 
-async def test_sensors_unknown(hass: __HAC_KEEP__) -> None:
+async def test_sensors_unknown(hass: UniversalAssistant) -> None:
     """Test we handle sensor state unknown."""
     await init_integration(hass)
 
@@ -47,7 +47,7 @@ async def test_sensors_unknown(hass: __HAC_KEEP__) -> None:
     assert test_username_glucose_reading_time.state == STATE_UNKNOWN
 
 
-async def test_sensors_update_failed(hass: __HAC_KEEP__) -> None:
+async def test_sensors_update_failed(hass: UniversalAssistant) -> None:
     """Test we handle sensor update failed."""
     await init_integration(hass)
 

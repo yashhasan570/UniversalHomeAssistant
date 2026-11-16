@@ -7,13 +7,13 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
 
 async def test_setup_and_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_helty_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -28,7 +28,7 @@ async def test_setup_and_unload(
 
 @pytest.mark.parametrize("side_effect", [HeltyConnectionError, HeltyResponseError])
 async def test_setup_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_helty_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],

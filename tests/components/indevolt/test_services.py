@@ -12,14 +12,14 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.indevolt.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
 
 
-def _get_device_id(hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry) -> str:
+def _get_device_id(hass: UniversalAssistant, mock_config_entry: MockConfigEntry) -> str:
     """Return the device registry ID for the given config entry."""
     device_registry = dr.async_get(hass)
     device_entry = device_registry.async_get_device_by_identifier(
@@ -38,7 +38,7 @@ def _get_device_id(hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry) -> st
     ],
 )
 async def test_service_charge_discharge(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service_name: str,
@@ -101,7 +101,7 @@ async def test_service_charge_discharge(
     ],
 )
 async def test_service_power_too_high(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service_name: str,
@@ -137,7 +137,7 @@ async def test_service_power_too_high(
 @pytest.mark.parametrize("generation", [2], indirect=True)
 @pytest.mark.parametrize("service_name", ["charge", "discharge"])
 async def test_service_target_soc_below_minimum(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service_name: str,
@@ -169,7 +169,7 @@ async def test_service_target_soc_below_minimum(
 @pytest.mark.parametrize("generation", [2], indirect=True)
 @pytest.mark.parametrize("service_name", ["charge", "discharge"])
 async def test_service_target_soc_below_emergency(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service_name: str,
@@ -196,7 +196,7 @@ async def test_service_target_soc_below_emergency(
 
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_service_missing_target(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -230,7 +230,7 @@ async def test_service_missing_target(
     ],
 )
 async def test_multi_device_partial_validation_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
     alt_mock_config_entry: MockConfigEntry,
@@ -283,7 +283,7 @@ async def test_multi_device_partial_validation_failure(
 @pytest.mark.parametrize("alt_generation", [1], indirect=True)
 @pytest.mark.parametrize("service_name", ["charge", "discharge"])
 async def test_multi_device_full_validation_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
     alt_mock_config_entry: MockConfigEntry,
@@ -320,7 +320,7 @@ async def test_multi_device_full_validation_failure(
 
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_charge_outdoor_portable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -334,7 +334,7 @@ async def test_charge_outdoor_portable(
     )
 
     # Mock call to start charging (device in outdoor/portable mode)
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             "charge",
@@ -355,7 +355,7 @@ async def test_charge_outdoor_portable(
 
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_service_charge_missing_energy_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -367,7 +367,7 @@ async def test_service_charge_missing_energy_mode(
     del coordinator.data[IndevoltConfig.READ_ENERGY_MODE]
 
     # Mock call to start charging (current energy mode unknown)
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             "charge",
@@ -385,7 +385,7 @@ async def test_service_charge_missing_energy_mode(
 
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_single_device_execution_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -396,7 +396,7 @@ async def test_single_device_execution_failure(
     mock_indevolt.set_data.return_value = False
 
     # Mock call to start charging
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             "charge",
@@ -415,7 +415,7 @@ async def test_single_device_execution_failure(
 @pytest.mark.parametrize("generation", [2], indirect=True)
 @pytest.mark.parametrize("alt_generation", [1], indirect=True)
 async def test_multi_device_execution_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
     alt_mock_config_entry: MockConfigEntry,
@@ -430,7 +430,7 @@ async def test_multi_device_execution_failure(
     mock_indevolt.set_data.return_value = False
 
     # Mock call to start charging both devices
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             "charge",

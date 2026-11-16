@@ -8,7 +8,7 @@ from modbus_connection.mock import MockModbusConnection
 import pytest
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture(autouse=True)
@@ -18,7 +18,7 @@ def mock_modbus_unavailable(
     """Refuse every Modbus request by default so tests run HTTP-only."""
 
     def _refusing_unit(
-        hass: __HAC_KEEP__, entry: ConfigEntry, params: object, unit_id: int
+        hass: UniversalAssistant, entry: ConfigEntry, params: object, unit_id: int
     ) -> object:
         unit = mock_modbus_connection.for_unit(unit_id)
         unit.fail_requests(ModbusConnectionError("Modbus disabled in tests"))

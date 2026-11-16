@@ -14,7 +14,7 @@ from universalassistant.components.usb import (
     usb_serial_device_from_port,
 )
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.util import slugify
@@ -39,7 +39,7 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 @callback
 def _async_scan_serial_ports(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> list[USBDevice | SerialDevice]:
     """Return serial-proxy ports exposed by connected ESPHome devices."""
     ports: list[USBDevice | SerialDevice] = []
@@ -91,7 +91,7 @@ def _async_scan_serial_ports(
     return ports
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the esphome component."""
     ffmpeg_proxy.async_setup(hass)
     await assist_satellite.async_setup(hass)
@@ -108,7 +108,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ESPHomeConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ESPHomeConfigEntry) -> None:
     """Set up the esphome component."""
     host: str = entry.data[CONF_HOST]
     password: str | None = entry.data[CONF_PASSWORD]
@@ -139,7 +139,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ESPHomeConfigEntry) -> No
     await manager.async_start()
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ESPHomeConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ESPHomeConfigEntry) -> None:
     """Unload an esphome config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(
         entry, entry.runtime_data.loaded_platforms
@@ -147,7 +147,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: ESPHomeConfigEntry) -> N
     await cleanup_instance(hass, entry)
 
 
-async def async_remove_entry(hass: __HAC_KEEP__, entry: ESPHomeConfigEntry) -> None:
+async def async_remove_entry(hass: UniversalAssistant, entry: ESPHomeConfigEntry) -> None:
     """Remove an esphome config entry."""
     if bluetooth_mac_address := entry.data.get(CONF_BLUETOOTH_MAC_ADDRESS):
         async_remove_scanner(hass, bluetooth_mac_address.upper())
@@ -157,7 +157,7 @@ async def async_remove_entry(hass: __HAC_KEEP__, entry: ESPHomeConfigEntry) -> N
 
 
 async def _async_clear_dynamic_encryption_key(
-    hass: __HAC_KEEP__, entry: ESPHomeConfigEntry
+    hass: UniversalAssistant, entry: ESPHomeConfigEntry
 ) -> None:
     """Clear the dynamic encryption key on the device and from storage."""
     if entry.unique_id is None or entry.data.get(CONF_NOISE_PSK) is None:

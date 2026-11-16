@@ -47,9 +47,9 @@ def get_chromecast_mock():
 
 @pytest.fixture
 def ha_controller_mock():
-    """Mock __HAC_KEEP__Controller."""
+    """Mock UniversalAssistantController."""
     with patch(
-        "universalassistant.components.cast.media_player.__HAC_KEEP__Controller",
+        "universalassistant.components.cast.media_player.UniversalAssistantController",
         MagicMock(),
     ) as ha_controller_mock:
         yield ha_controller_mock

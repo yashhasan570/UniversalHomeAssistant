@@ -46,7 +46,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfVolume,
 )
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
 from universalassistant.setup import async_setup_component
@@ -76,7 +76,7 @@ def fixture_platforms():
 
 
 async def test_block_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -100,7 +100,7 @@ async def test_block_sensor(
 
 
 async def test_block_sensor_em3(
-    hass: __HAC_KEEP__, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test block sensor of EM3."""
     monkeypatch.setitem(mock_block_device.shelly, "num_emeters", 3)
@@ -149,7 +149,7 @@ async def test_block_sensor_em3(
 
 
 async def test_energy_sensor(
-    hass: __HAC_KEEP__, mock_block_device: Mock, entity_registry: EntityRegistry
+    hass: UniversalAssistant, mock_block_device: Mock, entity_registry: EntityRegistry
 ) -> None:
     """Test energy sensor."""
     # num_outputs is 2, channel name is used
@@ -167,7 +167,7 @@ async def test_energy_sensor(
 
 
 async def test_power_factory_unit_migration(
-    hass: __HAC_KEEP__, mock_block_device: Mock, entity_registry: EntityRegistry
+    hass: UniversalAssistant, mock_block_device: Mock, entity_registry: EntityRegistry
 ) -> None:
     """Test migration unit of the power factory sensor."""
     entity_registry.async_get_or_create(
@@ -191,7 +191,7 @@ async def test_power_factory_unit_migration(
 
 
 async def test_power_factory_without_unit_migration(
-    hass: __HAC_KEEP__, mock_block_device: Mock, entity_registry: EntityRegistry
+    hass: UniversalAssistant, mock_block_device: Mock, entity_registry: EntityRegistry
 ) -> None:
     """Test unit and value of the power factory sensor without unit migration."""
     entity_id = f"{SENSOR_DOMAIN}.test_name_power_factor"
@@ -206,7 +206,7 @@ async def test_power_factory_without_unit_migration(
 
 
 async def test_block_rest_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -226,7 +226,7 @@ async def test_block_rest_sensor(
 
 
 async def test_block_sleeping_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -259,7 +259,7 @@ async def test_block_sleeping_sensor(
 
 
 async def test_block_restored_sleeping_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     device_registry: DeviceRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -297,7 +297,7 @@ async def test_block_restored_sleeping_sensor(
 
 
 async def test_block_restored_sleeping_sensor_no_last_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     device_registry: DeviceRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -330,7 +330,7 @@ async def test_block_restored_sleeping_sensor_no_last_state(
 
 
 async def test_block_sensor_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -353,7 +353,7 @@ async def test_block_sensor_error(
 
 
 async def test_block_sensor_removal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -372,7 +372,7 @@ async def test_block_sensor_removal(
 
 
 async def test_block_not_matched_restored_sleeping_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     device_registry: DeviceRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -411,7 +411,7 @@ async def test_block_not_matched_restored_sleeping_sensor(
 
 
 async def test_block_sensor_without_value(
-    hass: __HAC_KEEP__, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test block sensor without value is not created."""
     entity_id = f"{SENSOR_DOMAIN}.test_name_battery"
@@ -460,7 +460,7 @@ async def test_block_sensor_without_value(
     ],
 )
 async def test_block_sensor_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity: str,
@@ -494,7 +494,7 @@ async def test_block_sensor_values(
     ],
 )
 async def test_block_shelly_air_lamp_life(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     lamp_life_seconds: int,
@@ -514,7 +514,7 @@ async def test_block_shelly_air_lamp_life(
 
 
 async def test_rpc_sensor(
-    hass: __HAC_KEEP__, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test RPC sensor."""
     entity_id = f"{SENSOR_DOMAIN}.test_name_test_cover_0_power"
@@ -538,7 +538,7 @@ async def test_rpc_sensor(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_rpc_rssi_sensor_removal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -566,7 +566,7 @@ async def test_rpc_rssi_sensor_removal(
 
 
 async def test_rpc_illuminance_sensor(
-    hass: __HAC_KEEP__, mock_rpc_device: Mock, entity_registry: EntityRegistry
+    hass: UniversalAssistant, mock_rpc_device: Mock, entity_registry: EntityRegistry
 ) -> None:
     """Test RPC illuminacne sensor."""
     entity_id = f"{SENSOR_DOMAIN}.test_name_illuminance"
@@ -580,7 +580,7 @@ async def test_rpc_illuminance_sensor(
 
 
 async def test_rpc_sensor_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -605,7 +605,7 @@ async def test_rpc_sensor_error(
 
 
 async def test_rpc_polling_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
@@ -629,7 +629,7 @@ async def test_rpc_polling_sensor(
 
 
 async def test_rpc_sleeping_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -654,7 +654,7 @@ async def test_rpc_sleeping_sensor(
 
 
 async def test_rpc_sleeping_sensor_with_channel_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -684,7 +684,7 @@ async def test_rpc_sleeping_sensor_with_channel_name(
 
 
 async def test_rpc_restored_sleeping_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     device_registry: DeviceRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -731,7 +731,7 @@ async def test_rpc_restored_sleeping_sensor(
 
 
 async def test_rpc_restored_sleeping_sensor_no_last_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     device_registry: DeviceRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -770,7 +770,7 @@ async def test_rpc_restored_sleeping_sensor_no_last_state(
 
 
 async def test_rpc_sleeping_last_seen_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     freezer: FrozenDateTimeFactory,
@@ -819,7 +819,7 @@ async def test_rpc_sleeping_last_seen_sensor(
 
 
 async def test_rpc_last_seen_sensor_not_sleeping_device(
-    hass: __HAC_KEEP__, mock_rpc_device: Mock
+    hass: UniversalAssistant, mock_rpc_device: Mock
 ) -> None:
     """Test RPC last seen sensor is not created for a non-sleeping device."""
     await init_integration(hass, 2)
@@ -849,7 +849,7 @@ async def test_rpc_last_seen_sensor_not_sleeping_device(
     ],
 )
 async def test_rpc_restored_sleeping_last_seen_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     device_registry: DeviceRegistry,
     freezer: FrozenDateTimeFactory,
@@ -893,7 +893,7 @@ async def test_rpc_restored_sleeping_last_seen_sensor(
 
 
 async def test_rpc_restored_sleeping_device_adds_new_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     device_registry: DeviceRegistry,
     entity_registry: EntityRegistry,
@@ -930,7 +930,7 @@ async def test_rpc_restored_sleeping_device_adds_new_sensor(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_rpc_energy_meter_1_sensors(
-    hass: __HAC_KEEP__, entity_registry: EntityRegistry, mock_rpc_device: Mock
+    hass: UniversalAssistant, entity_registry: EntityRegistry, mock_rpc_device: Mock
 ) -> None:
     """Test RPC sensors for EM1 component."""
     await init_integration(hass, 2)
@@ -965,7 +965,7 @@ async def test_rpc_energy_meter_1_sensors(
 
 
 async def test_rpc_sleeping_update_entity_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -1007,7 +1007,7 @@ async def test_rpc_sleeping_update_entity_service(
 
 
 async def test_block_sleeping_update_entity_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -1063,7 +1063,7 @@ async def test_block_sleeping_update_entity_service(
     ],
 )
 async def test_rpc_analog_input_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -1094,7 +1094,7 @@ async def test_rpc_analog_input_sensors(
 
 
 async def test_rpc_disabled_analog_input_sensors(
-    hass: __HAC_KEEP__, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test RPC disabled counter sensor."""
     new_config = deepcopy(mock_rpc_device.config)
@@ -1111,7 +1111,7 @@ async def test_rpc_disabled_analog_input_sensors(
 
 
 async def test_rpc_disabled_xpercent(
-    hass: __HAC_KEEP__, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test RPC empty xpercent value."""
     mutate_rpc_device_status(
@@ -1140,7 +1140,7 @@ async def test_rpc_disabled_xpercent(
     ],
 )
 async def test_rpc_pulse_counter_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -1173,7 +1173,7 @@ async def test_rpc_pulse_counter_sensors(
 
 
 async def test_rpc_disabled_pulse_counter_sensors(
-    hass: __HAC_KEEP__, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test RPC disabled counter sensor."""
     new_config = deepcopy(mock_rpc_device.config)
@@ -1190,7 +1190,7 @@ async def test_rpc_disabled_pulse_counter_sensors(
 
 
 async def test_rpc_disabled_xtotal_counter(
-    hass: __HAC_KEEP__, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test RPC disabled xtotal counter."""
     mutate_rpc_device_status(
@@ -1219,7 +1219,7 @@ async def test_rpc_disabled_xtotal_counter(
     ],
 )
 async def test_rpc_pulse_counter_frequency_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -1252,7 +1252,7 @@ async def test_rpc_pulse_counter_frequency_sensors(
 
 
 async def test_rpc_disabled_xfreq(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -1283,7 +1283,7 @@ async def test_rpc_disabled_xfreq(
     ],
 )
 async def test_rpc_device_virtual_text_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -1328,7 +1328,7 @@ async def test_rpc_device_virtual_text_sensor(
 )
 @pytest.mark.usefixtures("disable_async_remove_shelly_rpc_entities")
 async def test_migrate_unique_id_virtual_components_roles(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -1388,7 +1388,7 @@ async def test_migrate_unique_id_virtual_components_roles(
 )
 @pytest.mark.usefixtures("disable_async_remove_shelly_rpc_entities")
 async def test_migrate_unique_id_rpc_sensor_description_key_rename(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -1421,7 +1421,7 @@ async def test_migrate_unique_id_rpc_sensor_description_key_rename(
 
 @pytest.mark.usefixtures("disable_async_remove_shelly_rpc_entities")
 async def test_rpc_remove_text_virtual_sensor_when_mode_field(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
     mock_rpc_device: Mock,
@@ -1454,7 +1454,7 @@ async def test_rpc_remove_text_virtual_sensor_when_mode_field(
 
 
 async def test_rpc_remove_text_virtual_sensor_when_orphaned(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
     mock_rpc_device: Mock,
@@ -1486,7 +1486,7 @@ async def test_rpc_remove_text_virtual_sensor_when_orphaned(
     ],
 )
 async def test_rpc_device_virtual_number_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -1525,7 +1525,7 @@ async def test_rpc_device_virtual_number_sensor(
 
 
 async def test_rpc_device_virtual_number_sensor_no_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -1552,7 +1552,7 @@ async def test_rpc_device_virtual_number_sensor_no_unit(
 
 @pytest.mark.usefixtures("disable_async_remove_shelly_rpc_entities")
 async def test_rpc_remove_number_virtual_sensor_when_mode_field(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
     mock_rpc_device: Mock,
@@ -1590,7 +1590,7 @@ async def test_rpc_remove_number_virtual_sensor_when_mode_field(
 
 
 async def test_rpc_remove_number_virtual_sensor_when_orphaned(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
     mock_rpc_device: Mock,
@@ -1626,7 +1626,7 @@ async def test_rpc_remove_number_virtual_sensor_when_orphaned(
     ],
 )
 async def test_rpc_device_virtual_enum_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -1666,7 +1666,7 @@ async def test_rpc_device_virtual_enum_sensor(
 
 @pytest.mark.usefixtures("disable_async_remove_shelly_rpc_entities")
 async def test_rpc_remove_enum_virtual_sensor_when_mode_dropdown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
     mock_rpc_device: Mock,
@@ -1708,7 +1708,7 @@ async def test_rpc_remove_enum_virtual_sensor_when_mode_dropdown(
 
 
 async def test_rpc_remove_enum_virtual_sensor_when_orphaned(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
     mock_rpc_device: Mock,
@@ -1734,7 +1734,7 @@ async def test_rpc_remove_enum_virtual_sensor_when_orphaned(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("light_type", ["rgb", "rgbw"])
 async def test_rpc_rgbw_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -1808,7 +1808,7 @@ async def test_rpc_rgbw_sensors(
 
 
 async def test_rpc_device_sensor_goes_unavailable_on_disconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     freezer: FrozenDateTimeFactory,
@@ -1843,7 +1843,7 @@ async def test_rpc_device_sensor_goes_unavailable_on_disconnect(
 
 
 async def test_rpc_voltmeter_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
 ) -> None:
@@ -1861,7 +1861,7 @@ async def test_rpc_voltmeter_value(
 
 
 async def test_blu_trv_sensor_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_blu_trv: Mock,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -1880,7 +1880,7 @@ async def test_blu_trv_sensor_entity(
 
 
 async def test_rpc_device_virtual_number_sensor_with_device_class(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -1914,7 +1914,7 @@ async def test_rpc_device_virtual_number_sensor_with_device_class(
 
 
 async def test_rpc_object_role_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -1942,7 +1942,7 @@ async def test_rpc_object_role_sensor(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_rpc_switch_energy_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -1974,7 +1974,7 @@ async def test_rpc_switch_energy_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_rpc_switch_no_energy_returned_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -1997,7 +1997,7 @@ async def test_rpc_switch_no_energy_returned_sensor(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_rpc_switch_counters_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -2069,7 +2069,7 @@ async def test_rpc_switch_counters_sensors(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_rpc_switch_no_counters_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     switch_status: dict[str, Any],
@@ -2088,7 +2088,7 @@ async def test_rpc_switch_no_counters_sensors(
 
 
 async def test_rpc_shelly_ev_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -2177,7 +2177,7 @@ async def test_rpc_shelly_ev_sensors(
 
 
 async def test_block_friendly_name_sleeping_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     device_registry: DeviceRegistry,
     entity_registry: EntityRegistry,
@@ -2219,7 +2219,7 @@ async def test_block_friendly_name_sleeping_sensor(
 
 
 async def test_rpc_presence_component(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -2260,7 +2260,7 @@ async def test_rpc_presence_component(
 
 
 async def test_rpc_presencezone_component(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -2304,7 +2304,7 @@ async def test_rpc_presencezone_component(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_rpc_pm1_energy_consumed_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -2343,7 +2343,7 @@ async def test_rpc_pm1_energy_consumed_sensor(
 @pytest.mark.parametrize(("key"), ["aenergy", "ret_aenergy"])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_rpc_pm1_energy_consumed_sensor_non_float_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     key: str,
@@ -2378,7 +2378,7 @@ async def test_rpc_pm1_energy_consumed_sensor_non_float_value(
 
 
 async def test_cury_sensor_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -2421,7 +2421,7 @@ async def test_cury_sensor_entity(
 
 
 async def test_shelly_irrigation_weather_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -2457,7 +2457,7 @@ async def test_shelly_irrigation_weather_sensors(
 
 
 async def test_rpc_rgbcct_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -2500,7 +2500,7 @@ async def test_rpc_rgbcct_sensors(
 
 
 async def test_rpc_fan_energy_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -2527,7 +2527,7 @@ async def test_rpc_fan_energy_sensor(
 
 
 async def test_rpc_sensor_driver_missing_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -2561,7 +2561,7 @@ async def test_rpc_sensor_driver_missing_error(
 
 
 async def test_rpc_sensor_errors_none(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -2582,7 +2582,7 @@ async def test_rpc_sensor_errors_none(
 
 
 async def test_rpc_storage_fs_free_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -2617,7 +2617,7 @@ async def test_rpc_storage_fs_free_sensor(
 
 
 async def test_rpc_storage_fs_free_sensor_removal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -2661,7 +2661,7 @@ async def test_rpc_storage_fs_free_sensor_removal(
     "component", ["switch", "light", "cct", "rgb", "rgbw", "rgbcct", "cb"]
 )
 async def test_rpc_last_command_source_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -2689,7 +2689,7 @@ async def test_rpc_last_command_source_sensor(
 
 
 async def test_rpc_fan_light_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -2722,7 +2722,7 @@ async def test_rpc_fan_light_sensor(
 
 
 async def test_rpc_fan_hum_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,

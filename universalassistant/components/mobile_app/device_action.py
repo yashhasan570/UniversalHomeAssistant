@@ -5,7 +5,7 @@ import probatio
 from universalassistant.components import notify
 from universalassistant.components.device_automation import InvalidDeviceAutomationConfig
 from universalassistant.const import CONF_DEVICE_ID, CONF_DOMAIN, CONF_TYPE
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.exceptions import TemplateError
 from universalassistant.helpers import config_validation as cv, template
 from universalassistant.helpers.typing import ConfigType, TemplateVarsType
@@ -24,7 +24,7 @@ ACTION_SCHEMA = cv.DEVICE_ACTION_BASE_SCHEMA.extend(
 
 
 async def async_get_actions(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, str]]:
     """List device actions for Mobile App devices."""
     webhook_id = webhook_id_from_device_id(hass, device_id)
@@ -36,7 +36,7 @@ async def async_get_actions(
 
 
 async def async_call_action_from_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     variables: TemplateVarsType,
     context: Context | None,
@@ -76,7 +76,7 @@ async def async_call_action_from_config(
 
 
 async def async_get_action_capabilities(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List action capabilities."""
     if config[CONF_TYPE] != "notify":

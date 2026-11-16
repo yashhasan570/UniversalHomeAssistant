@@ -15,7 +15,7 @@ from universalassistant.components.zhong_hong.const import (
 )
 from universalassistant.config_entries import SOURCE_IMPORT, SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import HOST, FakeGateway
@@ -28,7 +28,7 @@ USER_INPUT = {
 
 
 async def test_user_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -57,7 +57,7 @@ async def test_user_flow(
 
 
 async def test_user_flow_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_user_flow_cannot_connect(
 
 
 async def test_user_flow_no_devices_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -119,7 +119,7 @@ async def test_user_flow_no_devices_found(
 
 
 async def test_user_flow_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -139,7 +139,7 @@ async def test_user_flow_already_configured(
 
 
 async def test_user_flow_second_gateway_on_another_port(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -159,7 +159,7 @@ async def test_user_flow_second_gateway_on_another_port(
 
 
 async def test_import_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -183,7 +183,7 @@ async def test_import_flow(
     ids=["cannot_connect", "no_devices_found"],
 )
 async def test_import_flow_with_a_gateway_that_does_not_answer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_setup_entry: AsyncMock,
     attribute: str,
@@ -210,7 +210,7 @@ async def test_import_flow_with_a_gateway_that_does_not_answer(
 
 
 async def test_import_flow_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,

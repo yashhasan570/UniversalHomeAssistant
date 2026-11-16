@@ -16,8 +16,8 @@ from universalassistant.components.select import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from . import init_integration
 
@@ -27,7 +27,7 @@ OPTION = "12:00 AM - 1:00 AM"
 
 @pytest.mark.usefixtures("ek_auth")
 async def test_select_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     electrickiwi_api: AsyncMock,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_select_option(
 )
 @pytest.mark.usefixtures("ek_auth")
 async def test_select_option_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     electrickiwi_api: AsyncMock,
     exception: Exception,
@@ -72,7 +72,7 @@ async def test_select_option_error(
     await init_integration(hass, config_entry)
     electrickiwi_api.post_hop.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -89,7 +89,7 @@ async def test_select_option_error(
 
 @pytest.mark.usefixtures("ek_auth")
 async def test_select_option_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     electrickiwi_api: AsyncMock,
 ) -> None:
@@ -97,7 +97,7 @@ async def test_select_option_auth_error(
     await init_integration(hass, config_entry)
     electrickiwi_api.post_hop.side_effect = AuthException("Auth error")
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,

@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.escea.const import DOMAIN, ESCEA_FIREPLACE
 from universalassistant.components.escea.discovery import DiscoveryServiceListener
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -41,7 +41,7 @@ def _mock_start_discovery(
 
 
 async def test_not_found(
-    hass: __HAC_KEEP__, mock_discovery_service: MagicMock
+    hass: UniversalAssistant, mock_discovery_service: MagicMock
 ) -> None:
     """Test not finding any Escea controllers."""
 
@@ -69,7 +69,7 @@ async def test_not_found(
 
 
 async def test_found(
-    hass: __HAC_KEEP__, mock_controller: MagicMock, mock_discovery_service: AsyncMock
+    hass: UniversalAssistant, mock_controller: MagicMock, mock_discovery_service: AsyncMock
 ) -> None:
     """Test finding an Escea controller."""
     mock_discovery_service.controllers["test-uid"] = mock_controller
@@ -102,7 +102,7 @@ async def test_found(
     assert mock_setup.call_count == 1
 
 
-async def test_single_instance_allowed(hass: __HAC_KEEP__) -> None:
+async def test_single_instance_allowed(hass: UniversalAssistant) -> None:
     """Test single instance allowed."""
     config_entry = MockConfigEntry(domain=DOMAIN, title=ESCEA_FIREPLACE)
     config_entry.add_to_hass(hass)

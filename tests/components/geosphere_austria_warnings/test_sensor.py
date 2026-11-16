@@ -18,7 +18,7 @@ from universalassistant.components.geosphere_austria_warnings.coordinator import
     UPDATE_INTERVAL,
 )
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -51,7 +51,7 @@ def warning_details(state: State) -> dict[str, Any]:
 
 @pytest.mark.freeze_time("2023-03-27 12:00:00+02:00")
 async def test_sensor_set_and_active_warning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -102,7 +102,7 @@ async def test_sensor_set_and_active_warning(
 
 @pytest.mark.freeze_time("2023-03-28 00:00:00+02:00")
 async def test_sensors_without_active_warning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the sensor states and empty attributes when no warning is active."""
@@ -130,7 +130,7 @@ async def test_sensors_without_active_warning(
 
 @pytest.mark.freeze_time("2023-03-27 12:00:00+02:00")
 async def test_entities_unavailable_on_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

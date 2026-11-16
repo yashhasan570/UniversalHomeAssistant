@@ -12,7 +12,7 @@ from whirlpool.backendselector import BackendSelector
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_PASSWORD, CONF_REGION, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import BRANDS_CONF_MAP, CONF_BRAND, DOMAIN, REGIONS_CONF_MAP
@@ -38,7 +38,7 @@ REAUTH_SCHEMA = probatio.Schema(
 
 
 async def authenticate(
-    hass: __HAC_KEEP__, data: dict[str, str], check_appliances_exist: bool
+    hass: UniversalAssistant, data: dict[str, str], check_appliances_exist: bool
 ) -> str | None:
     """Authenticate with the api.
 

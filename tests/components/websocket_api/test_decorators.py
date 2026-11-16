@@ -9,11 +9,11 @@ from pytest_universalassistant.typing import MockHAClientWebSocket, WebSocketGen
 
 from universalassistant.components import http, websocket_api
 from universalassistant.const import HASSIO_USER_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_async_response_request_context(
-    hass: __HAC_KEEP__, websocket_client
+    hass: UniversalAssistant, websocket_client
 ) -> None:
     """Test we can access current request."""
 
@@ -26,7 +26,7 @@ async def test_async_response_request_context(
     @websocket_api.websocket_command({"type": "test-get-request-executor"})
     @websocket_api.async_response
     async def executor_get_request(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         connection: websocket_api.ActiveConnection,
         msg: dict[str, Any],
     ) -> None:
@@ -37,7 +37,7 @@ async def test_async_response_request_context(
     @websocket_api.websocket_command({"type": "test-get-request-async"})
     @websocket_api.async_response
     async def async_get_request(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         connection: websocket_api.ActiveConnection,
         msg: dict[str, Any],
     ) -> None:
@@ -45,7 +45,7 @@ async def test_async_response_request_context(
 
     @websocket_api.websocket_command({"type": "test-get-request"})
     def get_request(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         connection: websocket_api.ActiveConnection,
         msg: dict[str, Any],
     ) -> None:
@@ -55,7 +55,7 @@ async def test_async_response_request_context(
         {"type": "test-get-request-with-arg", probatio.Required("arg"): str}
     )
     def get_with_arg_request(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         connection: websocket_api.ActiveConnection,
         msg: dict[str, Any],
     ) -> None:
@@ -162,7 +162,7 @@ async def test_async_response_request_context(
 
 @pytest.mark.usefixtures("hass_supervisor_user")
 async def test_supervisor_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     websocket_client: MockHAClientWebSocket,
     hass_admin_user: MockUser,
 ) -> None:
@@ -176,7 +176,7 @@ async def test_supervisor_only(
     @websocket_api.ws_require_user(only_supervisor=True)
     @websocket_api.websocket_command({"type": "test-require-supervisor-user"})
     def require_supervisor_request(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         connection: websocket_api.ActiveConnection,
         msg: dict[str, Any],
     ) -> None:
@@ -198,7 +198,7 @@ async def test_supervisor_only(
 
 
 async def test_supervisor_only_allows_supervisor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_supervisor_access_token: str,
 ) -> None:
@@ -207,7 +207,7 @@ async def test_supervisor_only_allows_supervisor(
     @websocket_api.ws_require_user(only_supervisor=True)
     @websocket_api.websocket_command({"type": "test-require-supervisor-user"})
     def require_supervisor_request(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         connection: websocket_api.ActiveConnection,
         msg: dict[str, Any],
     ) -> None:

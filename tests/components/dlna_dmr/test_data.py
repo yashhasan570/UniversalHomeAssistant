@@ -10,7 +10,7 @@ import pytest
 from universalassistant.components.dlna_dmr.const import DOMAIN
 from universalassistant.components.dlna_dmr.data import EventListenAddr, get_domain_data
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 
 
 @pytest.fixture
@@ -42,7 +42,7 @@ def aiohttp_notify_servers_mock() -> Generator[Mock]:
             )
 
 
-async def test_get_domain_data(hass: __HAC_KEEP__) -> None:
+async def test_get_domain_data(hass: UniversalAssistant) -> None:
     """Test the get_domain_data function returns the same data every time."""
     assert DOMAIN not in hass.data
     domain_data = get_domain_data(hass)
@@ -51,7 +51,7 @@ async def test_get_domain_data(hass: __HAC_KEEP__) -> None:
 
 
 async def test_event_notifier(
-    hass: __HAC_KEEP__, aiohttp_notify_servers_mock: Mock
+    hass: UniversalAssistant, aiohttp_notify_servers_mock: Mock
 ) -> None:
     """Test getting and releasing event notifiers."""
     domain_data = get_domain_data(hass)
@@ -109,7 +109,7 @@ async def test_event_notifier(
 
 
 async def test_cleanup_event_notifiers(
-    hass: __HAC_KEEP__, aiohttp_notify_servers_mock: Mock
+    hass: UniversalAssistant, aiohttp_notify_servers_mock: Mock
 ) -> None:
     """Test cleanup function clears all event notifiers."""
     domain_data = get_domain_data(hass)

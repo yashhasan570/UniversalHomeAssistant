@@ -2,7 +2,7 @@
 
 from typing import TYPE_CHECKING
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from ...const import DOMAIN
@@ -24,7 +24,7 @@ SUGGESTION_PROVIDERS: list[SuggestionProvider] = [
 
 
 def _entity_ids_by_group_address(
-    hass: __HAC_KEEP__, knx: KNXModule
+    hass: UniversalAssistant, knx: KNXModule
 ) -> dict[str, list[str]]:
     """Map group addresses to the ids of entities using them, disabled ones included."""
     entity_registry = er.async_get(hass)
@@ -75,7 +75,7 @@ def _matches(suggestion: EntitySuggestion, suggestion_filter: SuggestionFilter) 
 
 
 async def async_get_entity_suggestions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXModule,
     suggestion_filter: SuggestionFilter | None = None,
 ) -> EntitySuggestionsResult:

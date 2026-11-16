@@ -8,7 +8,7 @@ import pytest
 from universalassistant.components.otp.const import CONF_NEW_TOKEN, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_CODE, CONF_NAME, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 TEST_DATA = {
@@ -32,7 +32,7 @@ TEST_DATA_3 = {
 
 
 @pytest.mark.usefixtures("mock_pyotp")
-async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -61,7 +61,7 @@ async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     ],
 )
 async def test_errors_and_recover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_pyotp: MagicMock,
     exception: Exception,
@@ -100,7 +100,7 @@ async def test_errors_and_recover(
 
 @pytest.mark.usefixtures("mock_pyotp")
 async def test_generate_new_token(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test form generate new token."""
     result = await hass.config_entries.flow.async_init(
@@ -133,7 +133,7 @@ async def test_generate_new_token(
 
 
 async def test_generate_new_token_errors(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_pyotp
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_pyotp
 ) -> None:
     """Test input validation errors."""
     result = await hass.config_entries.flow.async_init(

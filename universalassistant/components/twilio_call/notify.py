@@ -13,8 +13,8 @@ from universalassistant.components.notify import (
     BaseNotificationService,
 )
 from universalassistant.components.twilio import get_client
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -34,7 +34,7 @@ PLATFORM_SCHEMA = NOTIFY_PLATFORM_SCHEMA.extend(
 
 
 def get_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> TwilioCallNotificationService:
@@ -74,7 +74,7 @@ class TwilioCallNotificationService(BaseNotificationService):
                 failed_targets.append(target)
 
         if failed_targets:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="call_failed",
                 translation_placeholders={"targets": ", ".join(failed_targets)},

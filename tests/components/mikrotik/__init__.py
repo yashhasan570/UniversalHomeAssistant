@@ -7,7 +7,7 @@ from unittest.mock import patch
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components import mikrotik
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import (
     ARP_DATA,
@@ -88,7 +88,7 @@ def build_mock_command(responses: dict[str, Any]) -> Callable[..., Any]:
 
 
 async def setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     *,
     command_responses: dict[str, Any],
@@ -122,7 +122,7 @@ def create_mock_config_entry(
 
 
 async def setup_mikrotik_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     **kwargs: Any,
 ) -> MockConfigEntry:
     """Set up a Mikrotik config entry with defaults that tests can override."""

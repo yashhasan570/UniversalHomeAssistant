@@ -5,7 +5,7 @@ from typing import override
 
 from universalassistant.components.sensor import SensorDeviceClass, SensorEntity
 from universalassistant.const import PERCENTAGE, UnitOfLength
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.icon import icon_for_battery_level
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType, StateType
@@ -26,7 +26,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -104,7 +104,7 @@ class LeafRangeSensor(LeafEntity, SensorEntity):
     def log_registration(self) -> None:
         """Log registration."""
         _LOGGER.debug(
-            "Registered LeafRangeSensor integration with __HA_KEEP__ for VIN %s",
+            "Registered LeafRangeSensor integration with Universal Home Assistant for VIN %s",
             self.car.leaf.vin,
         )
 

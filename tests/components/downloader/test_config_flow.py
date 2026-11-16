@@ -7,13 +7,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.downloader.const import CONF_DOWNLOAD_DIR, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 CONFIG = {CONF_DOWNLOAD_DIR: "download_dir"}
 
 
-async def test_user_form(hass: __HAC_KEEP__) -> None:
+async def test_user_form(hass: UniversalAssistant) -> None:
     """Test the full user configuration flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -54,7 +54,7 @@ async def test_user_form(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("source", [SOURCE_USER])
 async def test_single_instance_allowed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     source: str,
 ) -> None:
     """Test we abort if already setup."""

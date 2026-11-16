@@ -2,10 +2,10 @@
 
 from ipaddress import ip_address
 import re
-from socket import gethostbyname
+from socket import SOCK_DGRAM
 from typing import TYPE_CHECKING, Any, TypedDict
 
-from lifx import HSBK, Colors, LifxError
+from lifx import HSBK, Colors, LifxError, Theme, ThemeLibrary
 
 from universalassistant.components.light import (
     ATTR_BRIGHTNESS,
@@ -18,14 +18,60 @@ from universalassistant.components.light import (
     ATTR_RGB_COLOR,
     ATTR_XY_COLOR,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.util import color as color_util
 
 from .const import CONF_SERIAL, DOMAIN, LOGGER
 
 if TYPE_CHECKING:
     from .coordinator import LIFXConfigEntry
+
+
+def _theme_sort_key(slug: str) -> tuple[str, str]:
+    """Order themes as the LIFX app does: by category, then by name."""
+    theme = ThemeLibrary.get(slug)
+    if TYPE_CHECKING:
+        # Only custom themes lack these; every library theme has both
+        assert theme.category is not None
+        assert theme.unicode_name is not None
+    return theme.category, theme.unicode_name.casefold()
+
+
+# A rename alias would repeat its successor's label, so dropdowns leave it out
+THEME_OPTIONS = sorted(
+    (
+        slug
+        for slug in ThemeLibrary.get_available_themes()
+        if ThemeLibrary.get(slug).disposition != "renamed"
+    ),
+    key=_theme_sort_key,
+)
+
+
+def _theme_select_sort_key(slug: str) -> tuple[str, str, bool]:
+    """Order themes as the app does, with each rename alias after its successor."""
+    return *_theme_sort_key(slug), ThemeLibrary.get(slug).disposition == "renamed"
+
+
+# The Theme select offered rename aliases before the rename, so automations may
+# still pick them
+THEME_SELECT_OPTIONS = sorted(
+    ThemeLibrary.get_available_themes(), key=_theme_select_sort_key
+)
+
+
+def resolve_renamed_theme(name: str) -> Theme:
+    """Return a library theme, following a rename to the theme it became.
+
+    The library records the slug it paints, and the dropdowns only offer the
+    successor, so painting the alias itself would leave the selects blank.
+    """
+    theme = ThemeLibrary.get(name)
+    if theme.disposition == "renamed" and theme.replaced_by is not None:
+        return ThemeLibrary.get(theme.replaced_by)
+    return theme
+
 
 _SERIAL_PATTERN = re.compile(
     r"(?:[0-9a-f]{12}|(?:[0-9a-f]{2}:){5}[0-9a-f]{2})", re.IGNORECASE
@@ -39,13 +85,23 @@ def normalize_serial(value: str) -> str:
     return value.replace(":", "").lower()
 
 
-async def async_resolve_host(hass: __HAC_KEEP__, host: str) -> str:
+async def async_resolve_host(hass: UniversalAssistant, host: str) -> str:
     """Return the literal address of a host, which the library requires."""
     try:
         ip_address(host)
     except ValueError:
-        return await hass.async_add_executor_job(gethostbyname, host)
-    return host
+        pass
+    else:
+        return host
+    results = await hass.loop.getaddrinfo(host, None, type=SOCK_DGRAM)
+    sockaddr = results[0][4]
+    address = sockaddr[0]
+    if TYPE_CHECKING:
+        assert isinstance(address, str)
+    # The library rejects a link-local address without its interface
+    if len(sockaddr) == 4 and sockaddr[3]:
+        return f"{address}%{sockaddr[3]}"
+    return address
 
 
 @callback
@@ -59,7 +115,7 @@ def async_entry_serial(entry: LIFXConfigEntry) -> str | None:
 
 
 class HSBKChanges(TypedDict):
-    """Color components requested by a __HA_KEEP__ service call."""
+    """Color components requested by a Universal Home Assistant service call."""
 
     hue: float | None
     saturation: float | None
@@ -111,9 +167,9 @@ def parse_hsbk_changes(**kwargs: Any) -> HSBKChanges:
     )
 
 
-def device_error(err: LifxError) -> __HAC_KEEP__Error:
+def device_error(err: LifxError) -> UniversalAssistantError:
     """Return the error to raise when a device rejects or ignores a command."""
-    return __HAC_KEEP__Error(
+    return UniversalAssistantError(
         translation_domain=DOMAIN,
         translation_key="device_error",
         translation_placeholders={"error": str(err)},

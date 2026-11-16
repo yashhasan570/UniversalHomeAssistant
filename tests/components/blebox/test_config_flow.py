@@ -1,4 +1,4 @@
-"""Test __HA_KEEP__ config flow for BleBox devices."""
+"""Test Universal Home Assistant config flow for BleBox devices."""
 
 from contextlib import AbstractContextManager
 from ipaddress import ip_address
@@ -20,7 +20,7 @@ from universalassistant import config_entries
 from universalassistant.components.blebox import config_flow
 from universalassistant.components.blebox.const import DEFAULT_PORT, DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -95,7 +95,7 @@ def flow_feature_mock_fixture():
 
 
 async def test_flow_works(
-    hass: __HAC_KEEP__, valid_feature_mock, flow_feature_mock
+    hass: UniversalAssistant, valid_feature_mock, flow_feature_mock
 ) -> None:
     """Test that config flow works."""
 
@@ -129,7 +129,7 @@ def product_class_mock_fixture():
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_with_connection_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     product_class_mock: AbstractContextManager[MagicMock],
     valid_feature_mock: MagicMock,
 ) -> None:
@@ -162,7 +162,7 @@ async def test_flow_with_connection_failure(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_with_api_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     product_class_mock: AbstractContextManager[MagicMock],
     valid_feature_mock: MagicMock,
 ) -> None:
@@ -195,7 +195,7 @@ async def test_flow_with_api_failure(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_with_unknown_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     product_class_mock: AbstractContextManager[MagicMock],
     valid_feature_mock: MagicMock,
 ) -> None:
@@ -225,7 +225,7 @@ async def test_flow_with_unknown_failure(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_with_unsupported_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     product_class_mock: AbstractContextManager[MagicMock],
     valid_feature_mock: MagicMock,
 ) -> None:
@@ -258,7 +258,7 @@ async def test_flow_with_unsupported_version(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_with_auth_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     product_class_mock: AbstractContextManager[MagicMock],
     valid_feature_mock: MagicMock,
 ) -> None:
@@ -289,13 +289,13 @@ async def test_flow_with_auth_failure(
         assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_async_setup(hass: __HAC_KEEP__) -> None:
+async def test_async_setup(hass: UniversalAssistant) -> None:
     """Test async_setup (for coverage)."""
     assert await async_setup_component(hass, DOMAIN, {"host": "172.2.3.4"})
     await hass.async_block_till_done()
 
 
-async def test_already_configured(hass: __HAC_KEEP__, valid_feature_mock) -> None:
+async def test_already_configured(hass: UniversalAssistant, valid_feature_mock) -> None:
     """Test that same device cannot be added twice."""
 
     config = mock_config("172.2.3.4")
@@ -318,7 +318,7 @@ async def test_already_configured(hass: __HAC_KEEP__, valid_feature_mock) -> Non
 
 
 async def test_async_setup_entry(
-    hass: __HAC_KEEP__, valid_feature_mock, config_entry: MockConfigEntry
+    hass: UniversalAssistant, valid_feature_mock, config_entry: MockConfigEntry
 ) -> None:
     """Test async_setup_entry (for coverage)."""
 
@@ -329,7 +329,7 @@ async def test_async_setup_entry(
 
 
 async def test_async_remove_entry(
-    hass: __HAC_KEEP__, valid_feature_mock, config_entry: MockConfigEntry
+    hass: UniversalAssistant, valid_feature_mock, config_entry: MockConfigEntry
 ) -> None:
     """Test async_setup_entry (for coverage)."""
 
@@ -343,7 +343,7 @@ async def test_async_remove_entry(
 
 
 async def test_flow_with_zeroconf(
-    hass: __HAC_KEEP__, zeroconf_data: ZeroconfServiceInfo
+    hass: UniversalAssistant, zeroconf_data: ZeroconfServiceInfo
 ) -> None:
     """Test setup from zeroconf discovery."""
     with patch(
@@ -369,7 +369,7 @@ async def test_flow_with_zeroconf(
 
 
 async def test_flow_with_zeroconf_when_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     zeroconf_data: ZeroconfServiceInfo,
 ) -> None:
@@ -394,7 +394,7 @@ async def test_flow_with_zeroconf_when_already_configured(
 
 
 async def test_flow_with_zeroconf_when_device_unsupported(
-    hass: __HAC_KEEP__, zeroconf_data: ZeroconfServiceInfo
+    hass: UniversalAssistant, zeroconf_data: ZeroconfServiceInfo
 ) -> None:
     """Test behaviour when device is not supported."""
     with patch(
@@ -411,7 +411,7 @@ async def test_flow_with_zeroconf_when_device_unsupported(
 
 
 async def test_flow_with_zeroconf_when_device_response_unsupported(
-    hass: __HAC_KEEP__, zeroconf_data: ZeroconfServiceInfo
+    hass: UniversalAssistant, zeroconf_data: ZeroconfServiceInfo
 ) -> None:
     """Test behaviour when device returned unsupported response."""
     with patch(
@@ -428,7 +428,7 @@ async def test_flow_with_zeroconf_when_device_response_unsupported(
 
 
 async def test_flow_with_zeroconf_when_unauthorized(
-    hass: __HAC_KEEP__, zeroconf_data: ZeroconfServiceInfo
+    hass: UniversalAssistant, zeroconf_data: ZeroconfServiceInfo
 ) -> None:
     """Test behaviour when device requires authentication during zeroconf discovery."""
     with patch(
@@ -453,7 +453,7 @@ def create_product_mock(unique_id: str = "abcd0123ef5678"):
 
 
 async def test_reconfigure_flow_works(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     product_class_mock,
     mock_setup_entry: AsyncMock,
@@ -492,7 +492,7 @@ async def test_reconfigure_flow_works(
 
 
 async def test_reconfigure_flow_unique_id_mismatch(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, product_class_mock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, product_class_mock
 ) -> None:
     """Test that reconfigure aborts when a different device is detected."""
 
@@ -513,7 +513,7 @@ async def test_reconfigure_flow_unique_id_mismatch(
     assert result["reason"] == "unique_id_mismatch"
 
 
-async def test_flow_with_dhcp(hass: __HAC_KEEP__) -> None:
+async def test_flow_with_dhcp(hass: UniversalAssistant) -> None:
     """Test setup from DHCP discovery."""
     with patch(
         "universalassistant.components.blebox.config_flow.Box.async_from_host",
@@ -541,7 +541,7 @@ async def test_flow_with_dhcp(hass: __HAC_KEEP__) -> None:
 
 
 async def test_flow_with_dhcp_when_already_configured(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test that DHCP discovery updates the host when device is already configured."""
     config_entry.add_to_hass(hass)
@@ -587,7 +587,7 @@ async def test_flow_with_dhcp_when_already_configured(
     ],
 )
 async def test_flow_with_dhcp_aborts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     side_effect: type[Exception],
     reason: str,
 ) -> None:
@@ -622,7 +622,7 @@ async def test_flow_with_dhcp_aborts(
     ],
 )
 async def test_reconfigure_flow_recovers_after_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     product_class_mock,
     mock_setup_entry: AsyncMock,
@@ -662,7 +662,7 @@ async def test_reconfigure_flow_recovers_after_error(
 
 
 async def test_reauth_flow_works(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     product_class_mock,
     mock_setup_entry: AsyncMock,
@@ -693,7 +693,7 @@ async def test_reauth_flow_works(
 
 
 async def test_reauth_flow_works_without_credentials(
-    hass: __HAC_KEEP__, product_class_mock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, product_class_mock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test that reauth flow clears credentials when submitted without them."""
     config_entry = MockConfigEntry(
@@ -739,7 +739,7 @@ async def test_reauth_flow_works_without_credentials(
     ],
 )
 async def test_reauth_flow_recovers_after_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     product_class_mock,
     mock_setup_entry: AsyncMock,

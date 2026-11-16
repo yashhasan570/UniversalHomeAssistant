@@ -8,7 +8,7 @@ from elgato import Elgato
 
 from universalassistant.components.number import NumberEntity, NumberEntityDescription
 from universalassistant.const import PERCENTAGE, EntityCategory, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.color import (
     color_temperature_kelvin_to_mired,
@@ -69,7 +69,7 @@ NUMBERS = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ElgatoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

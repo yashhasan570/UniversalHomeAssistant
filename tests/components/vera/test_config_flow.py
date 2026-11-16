@@ -14,7 +14,7 @@ from universalassistant.components.vera.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_EXCLUDE, CONF_LIGHTS, CONF_SOURCE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -27,7 +27,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
         yield mock_setup_entry
 
 
-async def test_async_step_user_success(hass: __HAC_KEEP__) -> None:
+async def test_async_step_user_success(hass: UniversalAssistant) -> None:
     """Test user step success."""
     with patch("pyvera.VeraController") as vera_controller_class_mock:
         controller = MagicMock()
@@ -64,7 +64,7 @@ async def test_async_step_user_success(hass: __HAC_KEEP__) -> None:
     assert entries
 
 
-async def test_async_step_finish_error(hass: __HAC_KEEP__) -> None:
+async def test_async_step_finish_error(hass: UniversalAssistant) -> None:
     """Test finish step with error."""
     with patch("pyvera.VeraController") as vera_controller_class_mock:
         controller = MagicMock()
@@ -90,7 +90,7 @@ async def test_async_step_finish_error(hass: __HAC_KEEP__) -> None:
         }
 
 
-async def test_options(hass: __HAC_KEEP__) -> None:
+async def test_options(hass: UniversalAssistant) -> None:
     """Test updating options."""
     base_url = "http://127.0.0.1/"
     entry = MockConfigEntry(

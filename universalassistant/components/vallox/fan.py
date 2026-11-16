@@ -7,8 +7,8 @@ from vallox_websocket_api import ValloxApiException, ValloxInvalidInputException
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
 from universalassistant.const import CONF_NAME
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -55,7 +55,7 @@ def _convert_to_int(value: StateType) -> int | None:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ValloxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -193,7 +193,7 @@ class ValloxFanEntity(ValloxEntity, FanEntity):
                 {METRIC_KEY_MODE: MODE_ON if mode else MODE_OFF}
             )
         except ValloxApiException as err:
-            raise __HAC_KEEP__Error("Failed to set power mode") from err
+            raise UniversalAssistantError("Failed to set power mode") from err
 
     async def _async_set_preset_mode_internal(self, preset_mode: str) -> None:
         """Set new preset mode."""
@@ -202,7 +202,7 @@ class ValloxFanEntity(ValloxEntity, FanEntity):
             await self.coordinator.client.set_profile(profile)
 
         except ValloxApiException as err:
-            raise __HAC_KEEP__Error(f"Failed to set profile: {preset_mode}") from err
+            raise UniversalAssistantError(f"Failed to set profile: {preset_mode}") from err
 
     async def _async_set_percentage_internal(
         self, percentage: int, preset_mode: str | None = None
@@ -229,4 +229,4 @@ class ValloxFanEntity(ValloxEntity, FanEntity):
                 },
             ) from err
         except ValloxApiException as err:
-            raise __HAC_KEEP__Error("Failed to set fan speed") from err
+            raise UniversalAssistantError("Failed to set fan speed") from err

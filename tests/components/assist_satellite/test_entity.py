@@ -30,9 +30,9 @@ from universalassistant.components.assist_satellite.const import DOMAIN, PREANNO
 from universalassistant.components.assist_satellite.entity import AssistSatelliteState
 from universalassistant.components.media_source import PlayMedia
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.exceptions import (
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     ServiceValidationError,
     Unauthorized,
 )
@@ -52,7 +52,7 @@ def mock_chat_session_conversation_id() -> Generator[Mock]:
 
 
 @pytest.fixture(autouse=True)
-async def set_pipeline_tts(hass: __HAC_KEEP__, init_components: ConfigEntry) -> None:
+async def set_pipeline_tts(hass: UniversalAssistant, init_components: ConfigEntry) -> None:
     """Set up a pipeline with a TTS engine."""
     await async_update_pipeline(
         hass,
@@ -64,7 +64,7 @@ async def set_pipeline_tts(hass: __HAC_KEEP__, init_components: ConfigEntry) -> 
 
 
 async def test_entity_state(
-    hass: __HAC_KEEP__, init_components: ConfigEntry, entity: MockAssistSatellite
+    hass: UniversalAssistant, init_components: ConfigEntry, entity: MockAssistSatellite
 ) -> None:
     """Test entity state represent events."""
 
@@ -140,7 +140,7 @@ async def test_entity_state(
 
 
 async def test_new_pipeline_cancels_pipeline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
 ) -> None:
@@ -189,7 +189,7 @@ async def test_new_pipeline_cancels_pipeline(
 
 
 async def test_pipeline_validation_error_ends_pipeline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
 ) -> None:
@@ -316,7 +316,7 @@ async def test_pipeline_validation_error_ends_pipeline(
     ],
 )
 async def test_announce(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     service_data: dict,
@@ -331,7 +331,7 @@ async def test_announce(
         await original_announce(announcement)
 
     def tts_generate_media_source_id(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         message: str,
         engine: str | None = None,
         language: str | None = None,
@@ -377,7 +377,7 @@ async def test_announce(
 
 
 async def test_announce_busy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
 ) -> None:
@@ -409,7 +409,7 @@ async def test_announce_busy(
 
 
 async def test_announce_cancels_pipeline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
 ) -> None:
@@ -451,7 +451,7 @@ async def test_announce_cancels_pipeline(
 
 
 async def test_announce_default_preannounce(
-    hass: __HAC_KEEP__, init_components: ConfigEntry, entity: MockAssistSatellite
+    hass: UniversalAssistant, init_components: ConfigEntry, entity: MockAssistSatellite
 ) -> None:
     """Test announcing on a device with the default preannouncement sound."""
 
@@ -469,7 +469,7 @@ async def test_announce_default_preannounce(
 
 
 async def test_context_not_inherited(
-    hass: __HAC_KEEP__, init_components: ConfigEntry, entity: MockAssistSatellite
+    hass: UniversalAssistant, init_components: ConfigEntry, entity: MockAssistSatellite
 ) -> None:
     """Test that audio from the satellite does not inherit an existing context."""
     audio_stream = object()
@@ -493,7 +493,7 @@ async def test_context_not_inherited(
 
 
 async def test_pipeline_entity(
-    hass: __HAC_KEEP__, init_components: ConfigEntry, entity: MockAssistSatellite
+    hass: UniversalAssistant, init_components: ConfigEntry, entity: MockAssistSatellite
 ) -> None:
     """Test getting pipeline from an entity."""
     audio_stream = object()
@@ -537,7 +537,7 @@ async def test_pipeline_entity(
 
 
 async def test_pipeline_entity_preferred(
-    hass: __HAC_KEEP__, init_components: ConfigEntry, entity: MockAssistSatellite
+    hass: UniversalAssistant, init_components: ConfigEntry, entity: MockAssistSatellite
 ) -> None:
     """Test getting pipeline from an entity with a preferred state."""
     audio_stream = object()
@@ -565,7 +565,7 @@ async def test_pipeline_entity_preferred(
 
 
 async def test_vad_sensitivity_entity(
-    hass: __HAC_KEEP__, init_components: ConfigEntry, entity: MockAssistSatellite
+    hass: UniversalAssistant, init_components: ConfigEntry, entity: MockAssistSatellite
 ) -> None:
     """Test getting vad sensitivity from an entity."""
     audio_stream = object()
@@ -595,7 +595,7 @@ async def test_vad_sensitivity_entity(
 
 
 async def test_audio_settings_from_satellite(
-    hass: __HAC_KEEP__, init_components: ConfigEntry, entity: MockAssistSatellite
+    hass: UniversalAssistant, init_components: ConfigEntry, entity: MockAssistSatellite
 ) -> None:
     """Test audio settings from the satellite are passed to the pipeline."""
     with patch(
@@ -623,7 +623,7 @@ async def test_audio_settings_from_satellite(
 
 
 async def test_pipeline_entity_not_found(
-    hass: __HAC_KEEP__, init_components: ConfigEntry, entity: MockAssistSatellite
+    hass: UniversalAssistant, init_components: ConfigEntry, entity: MockAssistSatellite
 ) -> None:
     """Test setting pipeline entity id to non-existent entity errors."""
     audio_stream = object()
@@ -636,7 +636,7 @@ async def test_pipeline_entity_not_found(
 
 
 async def test_vad_sensitivity_entity_not_found(
-    hass: __HAC_KEEP__, init_components: ConfigEntry, entity: MockAssistSatellite
+    hass: UniversalAssistant, init_components: ConfigEntry, entity: MockAssistSatellite
 ) -> None:
     """Test setting vad sensitivity entity id to non-existent entity errors."""
     audio_stream = object()
@@ -771,7 +771,7 @@ async def test_vad_sensitivity_entity_not_found(
 )
 @pytest.mark.usefixtures("mock_chat_session_conversation_id")
 async def test_start_conversation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     service_data: dict,
@@ -826,7 +826,7 @@ async def test_start_conversation(
 
 
 async def test_start_conversation_reject_builtin_agent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
 ) -> None:
@@ -847,7 +847,7 @@ async def test_start_conversation_reject_builtin_agent(
 
 
 async def test_start_conversation_default_preannounce(
-    hass: __HAC_KEEP__, init_components: ConfigEntry, entity: MockAssistSatellite
+    hass: UniversalAssistant, init_components: ConfigEntry, entity: MockAssistSatellite
 ) -> None:
     """Test starting a conversation with the default preannounce sound."""
 
@@ -946,7 +946,7 @@ async def test_start_conversation_default_preannounce(
     ],
 )
 async def test_ask_question(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     service_data: dict,
@@ -1033,7 +1033,7 @@ async def test_ask_question(
 
 
 async def test_ask_question_requires_entity_permission(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     hass_read_only_user: MockUser,
@@ -1051,7 +1051,7 @@ async def test_ask_question_requires_entity_permission(
 
 
 async def test_ask_question_unknown_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
 ) -> None:
@@ -1072,7 +1072,7 @@ async def test_ask_question_unknown_entity(
 
 
 async def test_ask_question_no_answer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
 ) -> None:
@@ -1090,7 +1090,7 @@ async def test_ask_question_no_answer(
             ),
         ),
         patch.object(entity, "async_start_conversation", new=async_start_conversation),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -1108,14 +1108,14 @@ async def test_ask_question_no_answer(
 
 
 async def test_ask_question_service_no_answer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
 ) -> None:
     """Test ask_question service raises a translated error without an answer."""
     with (
         patch.object(entity, "async_internal_ask_question", return_value=None),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -1129,7 +1129,7 @@ async def test_ask_question_service_no_answer(
 
 
 async def test_announce_tts_engine_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
 ) -> None:
@@ -1139,7 +1139,7 @@ async def test_announce_tts_engine_not_found(
             "universalassistant.components.tts.async_resolve_engine",
             return_value=None,
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -1154,7 +1154,7 @@ async def test_announce_tts_engine_not_found(
 
 @pytest.mark.parametrize("sentence", ["no punctuation!", "[malformed template)"])
 async def test_ask_question_invalid_sentences(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     sentence: str,
@@ -1175,7 +1175,7 @@ async def test_ask_question_invalid_sentences(
 
 
 async def test_wake_word_start_keeps_responding(
-    hass: __HAC_KEEP__, init_components: ConfigEntry, entity: MockAssistSatellite
+    hass: UniversalAssistant, init_components: ConfigEntry, entity: MockAssistSatellite
 ) -> None:
     """Test entity state stays responding on wake word start event."""
 

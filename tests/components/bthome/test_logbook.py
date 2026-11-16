@@ -7,13 +7,13 @@ from universalassistant.components.bthome.const import (
     DOMAIN,
     BTHomeBleEvent,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from tests.components.logbook.common import MockRow, mock_humanify
 
 
-async def test_humanify_bthome_event(hass: __HAC_KEEP__) -> None:
+async def test_humanify_bthome_event(hass: UniversalAssistant) -> None:
     """Test humanifying bthome button presses."""
     hass.config.components.add("recorder")
     assert await async_setup_component(hass, "logbook", {})

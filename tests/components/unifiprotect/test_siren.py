@@ -33,8 +33,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .utils import (
@@ -107,7 +107,7 @@ def _ufp_with_siren(ufp: MockUFPFixture, siren: Mock) -> MockUFPFixture:
 
 
 async def test_siren_not_created_without_public_bootstrap(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture
+    hass: UniversalAssistant, ufp: MockUFPFixture
 ) -> None:
     """No siren entity is created when public bootstrap is unavailable."""
     ufp.api.has_public_bootstrap = False
@@ -117,7 +117,7 @@ async def test_siren_not_created_without_public_bootstrap(
 
 
 async def test_siren_ws_update_without_subscription_is_ignored(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture
+    hass: UniversalAssistant, ufp: MockUFPFixture
 ) -> None:
     """A public siren WS update for an unsubscribed siren is a no-op."""
     await init_entry(hass, ufp, [])
@@ -130,7 +130,7 @@ async def test_siren_ws_update_without_subscription_is_ignored(
 
 
 async def test_siren_created_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp_with_siren: MockUFPFixture,
 ) -> None:
@@ -147,7 +147,7 @@ async def test_siren_created_off(
 
 
 async def test_siren_created_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_siren: MockUFPFixture,
     siren: Mock,
 ) -> None:
@@ -162,7 +162,7 @@ async def test_siren_created_on(
 
 
 async def test_siren_device_links_to_nvr_via_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     ufp_with_siren: MockUFPFixture,
 ) -> None:
@@ -190,7 +190,7 @@ async def test_siren_device_links_to_nvr_via_device_id(
 
 
 async def test_siren_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_siren: MockUFPFixture,
     siren: Mock,
 ) -> None:
@@ -216,7 +216,7 @@ async def test_siren_turn_on(
     ],
 )
 async def test_siren_turn_on_with_duration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_siren: MockUFPFixture,
     siren: Mock,
     seconds: int,
@@ -235,7 +235,7 @@ async def test_siren_turn_on_with_duration(
 
 
 async def test_siren_turn_on_invalid_duration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_siren: MockUFPFixture,
     siren: Mock,
 ) -> None:
@@ -253,7 +253,7 @@ async def test_siren_turn_on_invalid_duration(
 
 
 async def test_siren_turn_on_invalid_duration_does_not_set_volume(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_siren: MockUFPFixture,
     siren: Mock,
 ) -> None:
@@ -280,7 +280,7 @@ async def test_siren_turn_on_invalid_duration_does_not_set_volume(
 
 
 async def test_siren_turn_on_with_volume(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_siren: MockUFPFixture,
     siren: Mock,
 ) -> None:
@@ -298,7 +298,7 @@ async def test_siren_turn_on_with_volume(
 
 
 async def test_siren_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_siren: MockUFPFixture,
     siren: Mock,
 ) -> None:
@@ -332,17 +332,17 @@ async def test_siren_turn_off(
     [NotAuthorized("denied"), ClientError("timeout")],
 )
 async def test_siren_turn_on_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_siren: MockUFPFixture,
     siren: Mock,
     exc: Exception,
 ) -> None:
-    """API errors from play() are wrapped as __HAC_KEEP__Error."""
+    """API errors from play() are wrapped as UniversalAssistantError."""
     await init_entry(hass, ufp_with_siren, [])
 
     siren.play.side_effect = exc
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             SIREN_DOMAIN,
             SERVICE_TURN_ON,
@@ -352,15 +352,15 @@ async def test_siren_turn_on_api_error(
 
 
 async def test_siren_turn_on_when_siren_gone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_siren: MockUFPFixture,
 ) -> None:
-    """Command raises __HAC_KEEP__Error when siren is no longer in bootstrap."""
+    """Command raises UniversalAssistantError when siren is no longer in bootstrap."""
     await init_entry(hass, ufp_with_siren, [])
 
     ufp_with_siren.api.public_bootstrap.sirens = {}
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             SIREN_DOMAIN,
             SERVICE_TURN_ON,
@@ -370,15 +370,15 @@ async def test_siren_turn_on_when_siren_gone(
 
 
 async def test_siren_turn_off_when_bootstrap_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_siren: MockUFPFixture,
 ) -> None:
-    """Command raises __HAC_KEEP__Error when has_public_bootstrap is False."""
+    """Command raises UniversalAssistantError when has_public_bootstrap is False."""
     await init_entry(hass, ufp_with_siren, [])
 
     ufp_with_siren.api.has_public_bootstrap = False
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             SIREN_DOMAIN,
             SERVICE_TURN_OFF,
@@ -393,7 +393,7 @@ async def test_siren_turn_off_when_bootstrap_unavailable(
 
 
 async def test_siren_state_updates_from_public_ws(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_siren: MockUFPFixture,
     siren: Mock,
 ) -> None:
@@ -426,7 +426,7 @@ async def test_siren_state_updates_from_public_ws(
 
 
 async def test_siren_ws_update_no_state_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_siren: MockUFPFixture,
     siren: Mock,
 ) -> None:
@@ -449,7 +449,7 @@ async def test_siren_ws_update_no_state_change(
 
 
 async def test_siren_availability_follows_websocket_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_siren: MockUFPFixture,
 ) -> None:
     """Siren entity becomes unavailable on WS disconnect and recovers on reconnect."""
@@ -480,7 +480,7 @@ async def test_siren_availability_follows_websocket_state(
     [DeviceState.DISCONNECTED, DeviceState.CONNECTING, DeviceState.UNKNOWN],
 )
 async def test_siren_unavailable_when_not_connected_at_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     state: DeviceState,
 ) -> None:
@@ -494,7 +494,7 @@ async def test_siren_unavailable_when_not_connected_at_setup(
 
 
 async def test_siren_unavailable_when_disconnected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_siren: MockUFPFixture,
     siren: Mock,
 ) -> None:
@@ -516,7 +516,7 @@ async def test_siren_unavailable_when_disconnected(
 
 
 async def test_siren_unavailable_on_delete_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_with_siren: MockUFPFixture,
     siren: Mock,
 ) -> None:
@@ -568,7 +568,7 @@ async def test_siren_unavailable_on_delete_event(
 
 @pytest.fixture(name="setup_hybrid")
 def setup_hybrid_fixture(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture
+    hass: UniversalAssistant, ufp: MockUFPFixture
 ) -> Callable[[], Coroutine[Any, Any, None]]:
     """Return a callable setting up the hybrid entry without a siren."""
     ufp.api.has_public_bootstrap = True
@@ -598,7 +598,7 @@ def _add_siren_frame(ufp: MockUFPFixture, siren: Mock) -> None:
     ],
 )
 async def test_siren_added_after_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     request: pytest.FixtureRequest,
     entity_registry: er.EntityRegistry,
     ufp_fixture: str,
@@ -624,7 +624,7 @@ async def test_siren_added_after_setup(
 
 
 async def test_public_only_siren_end_to_end(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
     siren: Mock,
@@ -653,7 +653,7 @@ async def test_public_only_siren_end_to_end(
 
 
 async def test_siren_survives_switch_to_public_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp_with_siren: MockUFPFixture,
 ) -> None:

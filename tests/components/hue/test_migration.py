@@ -7,7 +7,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components import hue
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -18,7 +18,7 @@ from universalassistant.util.json import JsonArrayType
 from .conftest import replace_resources, setup_bridge
 
 
-async def test_migrate_api_key(hass: __HAC_KEEP__) -> None:
+async def test_migrate_api_key(hass: UniversalAssistant) -> None:
     """Test if username gets migrated to api_key."""
     config_entry = MockConfigEntry(
         domain=hue.DOMAIN,
@@ -34,7 +34,7 @@ async def test_migrate_api_key(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_auto_switchover(hass: __HAC_KEEP__) -> None:
+async def test_auto_switchover(hass: UniversalAssistant) -> None:
     """Test if config entry from v1 automatically switches to v2."""
     config_entry = MockConfigEntry(
         domain=hue.DOMAIN,
@@ -57,7 +57,7 @@ async def test_auto_switchover(hass: __HAC_KEEP__) -> None:
 
 
 async def test_light_entity_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_bridge_v2: Mock,
@@ -105,7 +105,7 @@ async def test_light_entity_migration(
 
 
 async def test_sensor_entity_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_bridge_v2: Mock,
@@ -168,7 +168,7 @@ async def test_sensor_entity_migration(
 
 
 async def test_group_entity_migration_with_v1_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_bridge_v2: Mock,
     mock_config_entry_v2: MockConfigEntry,
@@ -204,7 +204,7 @@ async def test_group_entity_migration_with_v1_id(
 
 
 async def test_group_entity_migration_with_v2_group_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_bridge_v2: Mock,
     mock_config_entry_v2: MockConfigEntry,
@@ -240,7 +240,7 @@ async def test_group_entity_migration_with_v2_group_id(
 
 
 async def test_zigbee_connection_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
@@ -313,7 +313,7 @@ def _stored_hue_device(
     ids=["not_migrated", "partially_migrated"],
 )
 async def test_zigbee_connection_migration_shared_mac(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,

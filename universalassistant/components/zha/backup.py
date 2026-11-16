@@ -2,14 +2,14 @@
 
 import logging
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .helpers import get_zha_gateway
 
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_pre_backup(hass: __HAC_KEEP__) -> None:
+async def async_pre_backup(hass: UniversalAssistant) -> None:
     """Perform operations before a backup starts."""
     _LOGGER.debug("Performing coordinator backup")
 
@@ -23,5 +23,5 @@ async def async_pre_backup(hass: __HAC_KEEP__) -> None:
     await zha_gateway.application_controller.backups.create_backup(load_devices=True)
 
 
-async def async_post_backup(hass: __HAC_KEEP__) -> None:
+async def async_post_backup(hass: UniversalAssistant) -> None:
     """Perform operations after a backup finishes."""

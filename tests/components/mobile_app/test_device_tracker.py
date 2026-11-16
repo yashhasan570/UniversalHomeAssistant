@@ -13,13 +13,13 @@ from pytest_universalassistant.common import (
 
 from universalassistant.components import zone
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.restore_state import STORAGE_KEY as RESTORE_STATE_KEY
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture
-async def setup_zone(hass: __HAC_KEEP__) -> None:
+async def setup_zone(hass: UniversalAssistant) -> None:
     """Set up a zone for testing."""
     await async_setup_component(
         hass,
@@ -207,7 +207,7 @@ async def setup_zone(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_sending_location(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
     extra_webhook_data: dict[str, Any],
@@ -291,7 +291,7 @@ async def test_sending_location(
 
 
 async def test_restoring_location(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -473,7 +473,7 @@ async def test_restoring_location(
     ],
 )
 async def test_saving_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
@@ -646,7 +646,7 @@ async def test_saving_state(
     ],
 )
 async def test_restoring_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     restored_data: dict[str, Any],
@@ -766,7 +766,7 @@ async def test_restoring_state(
     ],
 )
 async def test_restoring_state_legacy_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     restored_state: str,
     restored_attributes: dict[str, Any],
@@ -813,7 +813,7 @@ async def test_restoring_state_legacy_fallback(
     ],
 )
 async def test_restoring_state_invalid_extra_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     caplog: pytest.LogCaptureFixture,
     invalid_data: dict[str, Any],

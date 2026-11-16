@@ -29,11 +29,11 @@ from universalassistant.components.schedule.const import (
 )
 from universalassistant.components.schedule.trigger import TRIGGERS
 from universalassistant.const import CONF_ICON, CONF_NAME, STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
-async def target_schedules(hass: __HAC_KEEP__) -> dict[str, list[str]]:
+async def target_schedules(hass: UniversalAssistant) -> dict[str, list[str]]:
     """Create multiple schedule entities associated with different targets."""
     return await target_entities(hass, DOMAIN)
 
@@ -52,7 +52,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_schedule_trigger_options_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -121,7 +121,7 @@ def test_trigger_target_support() -> None:
     ],
 )
 async def test_schedule_state_trigger_behavior_each(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_schedules: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -191,7 +191,7 @@ async def test_schedule_state_trigger_behavior_each(
     ],
 )
 async def test_schedule_state_trigger_behavior_first(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_schedules: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -261,7 +261,7 @@ async def test_schedule_state_trigger_behavior_first(
     ],
 )
 async def test_schedule_state_trigger_behavior_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_schedules: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -284,7 +284,7 @@ async def test_schedule_state_trigger_behavior_all(
 
 
 async def test_schedule_state_trigger_back_to_back(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     schedule_setup: Callable[..., Coroutine[Any, Any, bool]],
     freezer: FrozenDateTimeFactory,
 ) -> None:

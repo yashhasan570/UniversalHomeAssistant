@@ -9,7 +9,7 @@ from triggercmd import TRIGGERcmdConnectionError
 from universalassistant.components.triggercmd.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 invalid_token_with_length_100_or_more = (
@@ -28,7 +28,7 @@ invalid_token_with_length_100_or_more_and_no_id = (
 
 
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test config flow happy path."""
     result = await hass.config_entries.flow.async_init(
@@ -67,7 +67,7 @@ async def test_full_flow(
     ],
 )
 async def test_config_flow_user_invalid_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     test_input: str,
     expected: dict,
 ) -> None:
@@ -103,7 +103,7 @@ async def test_config_flow_user_invalid_token(
         assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_config_flow_entry_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_config_flow_entry_already_configured(hass: UniversalAssistant) -> None:
     """Test user input for config_entry that already exists."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -131,7 +131,7 @@ async def test_config_flow_entry_already_configured(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.ABORT
 
 
-async def test_config_flow_connection_error(hass: __HAC_KEEP__) -> None:
+async def test_config_flow_connection_error(hass: UniversalAssistant) -> None:
     """Test a connection error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,

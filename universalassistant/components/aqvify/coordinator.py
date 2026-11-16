@@ -15,7 +15,7 @@ from pyaqvify import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 import universalassistant.helpers.device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -53,7 +53,7 @@ class AqvifyCoordinator(DataUpdateCoordinator[AqvifyCoordinatorData]):
     config_entry: AqvifyConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: AqvifyConfigEntry, api_client: AqvifyAPI
+        self, hass: UniversalAssistant, entry: AqvifyConfigEntry, api_client: AqvifyAPI
     ) -> None:
         """Initialize the Aqvify data update coordinator."""
         super().__init__(
@@ -186,7 +186,7 @@ class AqvifyAggrDataCoordinator(
     config_entry: AqvifyConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: AqvifyConfigEntry, api_client: AqvifyAPI
+        self, hass: UniversalAssistant, entry: AqvifyConfigEntry, api_client: AqvifyAPI
     ) -> None:
         """Initialize the Aqvify aggregated data update coordinator."""
         super().__init__(

@@ -15,8 +15,8 @@ from pyezvizapi.exceptions import HTTPError, PyEzvizError
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import EzvizConfigEntry, EzvizDataUpdateCoordinator
@@ -111,7 +111,7 @@ SELECT_TYPES = [ALARM_SOUND_MODE_SELECT_TYPE, BATTERY_WORK_MODE_SELECT_TYPE]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: EzvizConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -168,4 +168,4 @@ class EzvizSelect(EzvizEntity, SelectEntity):
         try:
             return desc.select_option(self, self._serial, option)
         except (HTTPError, PyEzvizError) as err:
-            raise __HAC_KEEP__Error(f"Cannot select option for {desc.key}") from err
+            raise UniversalAssistantError(f"Cannot select option for {desc.key}") from err

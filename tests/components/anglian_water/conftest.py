@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_load_json_ob
 
 from universalassistant.components.anglian_water.const import CONF_ACCOUNT_NUMBER, DOMAIN
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import ACCESS_TOKEN, ACCOUNT_NUMBER, PASSWORD, USERNAME
 
@@ -71,7 +71,7 @@ def mock_anglian_water_authenticator() -> Generator[MagicMock]:
 
 @pytest.fixture
 async def mock_anglian_water_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_smart_meter: SmartMeter,
     mock_anglian_water_authenticator: MagicMock,
 ) -> AsyncGenerator[AsyncMock]:

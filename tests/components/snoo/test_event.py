@@ -5,14 +5,14 @@ from unittest.mock import AsyncMock
 import pytest
 
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import async_init_integration, find_update_callback
 from .const import MOCK_SNOO_DATA
 
 
 @pytest.mark.freeze_time("2025-01-01 12:00:00")
-async def test_events(hass: __HAC_KEEP__, bypass_api: AsyncMock) -> None:
+async def test_events(hass: UniversalAssistant, bypass_api: AsyncMock) -> None:
     """Test events and check test values are correctly set."""
     await async_init_integration(hass)
     assert len(hass.states.async_all("event")) == 1
@@ -28,7 +28,7 @@ async def test_events(hass: __HAC_KEEP__, bypass_api: AsyncMock) -> None:
 
 @pytest.mark.freeze_time("2025-01-01 12:00:00")
 async def test_events_data_on_startup(
-    hass: __HAC_KEEP__, bypass_api: AsyncMock
+    hass: UniversalAssistant, bypass_api: AsyncMock
 ) -> None:
     """Test events are correctly set if data exists on first update."""
 

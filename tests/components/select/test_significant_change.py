@@ -3,10 +3,10 @@
 from universalassistant.components.select.significant_change import (
     async_check_significant_change,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def test_significant_change(hass: __HAC_KEEP__) -> None:
+async def test_significant_change(hass: UniversalAssistant) -> None:
     """Detect select significant change."""
     attrs1 = {"options": ["option1", "option2"]}
     attrs2 = {"options": ["option1", "option2", "option3"]}

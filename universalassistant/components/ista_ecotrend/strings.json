@@ -19,7 +19,7 @@
           "email": "[%key:component::ista_ecotrend::config::step::user::data_description::email%]",
           "password": "[%key:component::ista_ecotrend::config::step::user::data_description::password%]"
         },
-        "description": "Re-enter your password for `{email}` to reconnect your ista EcoTrend account to __HA_KEEP__.",
+        "description": "Re-enter your password for `{email}` to reconnect your ista EcoTrend account to Universal Home Assistant.",
         "title": "[%key:common::config_flow::title::reauth%]"
       },
       "reconfigure": {
@@ -43,7 +43,7 @@
           "email": "Enter the email address associated with your ista EcoTrend account",
           "password": "Enter the password for your ista EcoTrend account"
         },
-        "description": "Connect your **ista EcoTrend** account to __HA_KEEP__ to access your monthly heating and water usage data."
+        "description": "Connect your **ista EcoTrend** account to Universal Home Assistant to access your monthly heating and water usage data."
       }
     }
   },

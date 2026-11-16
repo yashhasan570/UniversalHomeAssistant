@@ -2,7 +2,7 @@
 
 from typing import Any
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONF_SERVER_ID, DEFAULT_SERVER
 from .coordinator import SpeedTestConfigEntry
@@ -13,7 +13,7 @@ SERVER_KEYS = ("id", "sponsor", "country", "cc", "latency")
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: SpeedTestConfigEntry
+    hass: UniversalAssistant, entry: SpeedTestConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data

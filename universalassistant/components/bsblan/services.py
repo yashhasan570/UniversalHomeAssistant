@@ -9,8 +9,8 @@ from bsblan import BSBLANError, DaySchedule, DHWSchedule, HeatingSchedule, TimeS
 import probatio
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -213,7 +213,7 @@ async def set_hot_water_schedule(service_call: ServiceCall) -> None:
     try:
         await client.set_hot_water_schedule(dhw_schedule)
     except BSBLANError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="set_schedule_failed",
             translation_placeholders={"error": str(err)},
@@ -244,7 +244,7 @@ async def set_heating_schedule(service_call: ServiceCall) -> None:
     try:
         await client.set_heating_schedule(heating_schedule, circuit=circuit)
     except BSBLANError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="set_heating_schedule_failed",
             translation_placeholders={"error": str(err)},
@@ -256,7 +256,7 @@ async def set_heating_schedule(service_call: ServiceCall) -> None:
 
 
 async def async_sync_time(service_call: ServiceCall) -> None:
-    """Synchronize BSB-LAN device time with __HA_KEEP__."""
+    """Synchronize BSB-LAN device time with Universal Home Assistant."""
     entry, device_entry = _resolve_config_entry(service_call)
     client = entry.runtime_data.client
     await async_sync_device_time(
@@ -272,7 +272,7 @@ SYNC_TIME_SCHEMA = probatio.Schema(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the BSB-LAN services."""
     hass.services.async_register(
         DOMAIN,

@@ -1,4 +1,4 @@
-"""Entity functions for __HA_KEEP__ templates."""
+"""Entity functions for Universal Home Assistant templates."""
 
 from typing import TYPE_CHECKING
 

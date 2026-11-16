@@ -18,7 +18,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     EntityStateAttribute,
 )
-from universalassistant.core import Context, __HAC_KEEP__, State, callback
+from universalassistant.core import Context, UniversalAssistant, State, callback
 from universalassistant.exceptions import TemplateError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.entity import Entity, async_generate_entity_id
@@ -50,7 +50,7 @@ class _TemplateStateFromEntity(TemplateStateFromEntityId):
     __slots__ = ("_entity",)
 
     # pylint: disable-next=super-init-not-called
-    def __init__(self, hass: __HAC_KEEP__, entity: Entity) -> None:
+    def __init__(self, hass: UniversalAssistant, entity: Entity) -> None:
         """Initialize template state."""
         self._hass = hass
         self._collect = True
@@ -86,7 +86,7 @@ class AbstractTemplateEntity(Entity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config: ConfigType,
     ) -> None:
         """Initialize the entity."""
@@ -340,7 +340,7 @@ class AbstractTemplateEntity(Entity):
 
     @override
     async def async_will_remove_from_hass(self) -> None:
-        """Clean up scripts when removing from __HA_KEEP__."""
+        """Clean up scripts when removing from Universal Home Assistant."""
         for action_script in self._action_scripts.values():
             await action_script.async_unload()
 

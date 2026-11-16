@@ -6,13 +6,13 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.eafm.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 
 @pytest.mark.usefixtures("mock_get_station")
 async def test_load_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -32,7 +32,7 @@ async def test_load_unload_entry(
 
 @pytest.mark.usefixtures("mock_get_station")
 async def test_update_device_identifiers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:

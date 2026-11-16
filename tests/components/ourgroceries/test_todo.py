@@ -16,7 +16,7 @@ from universalassistant.components.todo import (
     TodoServices,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_component import async_update_entity
 
 from . import items_to_shopping_list
@@ -42,7 +42,7 @@ def _mock_version_id(og: AsyncMock, version: int) -> None:
     ],
 )
 async def test_todo_item_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: None,
     expected_state: str,
 ) -> None:
@@ -54,7 +54,7 @@ async def test_todo_item_state(
 
 
 async def test_add_todo_list_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: None,
     ourgroceries: AsyncMock,
 ) -> None:
@@ -93,7 +93,7 @@ async def test_add_todo_list_item(
 
 @pytest.mark.parametrize(("items"), [[{"id": "12345", "name": "Soda"}]])
 async def test_update_todo_item_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: None,
     ourgroceries: AsyncMock,
 ) -> None:
@@ -165,7 +165,7 @@ async def test_update_todo_item_status(
     ],
 )
 async def test_update_todo_item_summary(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: None,
     ourgroceries: AsyncMock,
     category: str | None,
@@ -206,7 +206,7 @@ async def test_update_todo_item_summary(
     ],
 )
 async def test_remove_todo_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: None,
     ourgroceries: AsyncMock,
 ) -> None:
@@ -243,7 +243,7 @@ async def test_remove_todo_item(
 
 
 async def test_version_id_optimization(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     setup_integration: None,
     ourgroceries: AsyncMock,
@@ -269,7 +269,7 @@ async def test_version_id_optimization(
     ],
 )
 async def test_coordinator_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     setup_integration: None,
     ourgroceries: AsyncMock,

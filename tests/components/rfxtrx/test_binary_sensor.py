@@ -5,7 +5,7 @@ from pytest_universalassistant.common import mock_restore_cache
 
 from universalassistant.components.rfxtrx.const import ATTR_EVENT
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 
 from .conftest import create_rfx_test_entry
 
@@ -21,7 +21,7 @@ EVENT_LIGHT_DETECTOR_DARK = "08200100a109001470"
 EVENT_AC_118CDEA_2_ON = "0b1100100118cdea02010f70"
 
 
-async def test_one(hass: __HAC_KEEP__, rfxtrx) -> None:
+async def test_one(hass: UniversalAssistant, rfxtrx) -> None:
     """Test with 1 sensor."""
     mock_entry = create_rfx_test_entry(devices={"0b1100cd0213c7f230010f71": {}})
     mock_entry.add_to_hass(hass)
@@ -35,7 +35,7 @@ async def test_one(hass: __HAC_KEEP__, rfxtrx) -> None:
     assert state.attributes.get("friendly_name") == "AC 213c7f2:48"
 
 
-async def test_one_pt2262(hass: __HAC_KEEP__, rfxtrx) -> None:
+async def test_one_pt2262(hass: UniversalAssistant, rfxtrx) -> None:
     """Test with 1 PT2262 sensor."""
     mock_entry = create_rfx_test_entry(
         devices={
@@ -66,7 +66,7 @@ async def test_one_pt2262(hass: __HAC_KEEP__, rfxtrx) -> None:
     assert state.state == "off"
 
 
-async def test_pt2262_unconfigured(hass: __HAC_KEEP__, rfxtrx) -> None:
+async def test_pt2262_unconfigured(hass: UniversalAssistant, rfxtrx) -> None:
     """Test with discovery for PT2262."""
     mock_entry = create_rfx_test_entry(
         devices={"0913000022670e013970": {}, "09130000226707013970": {}}
@@ -92,7 +92,7 @@ async def test_pt2262_unconfigured(hass: __HAC_KEEP__, rfxtrx) -> None:
     ("state", "event"),
     [("on", "0b1100cd0213c7f230010f71"), ("off", "0b1100cd0213c7f230000f71")],
 )
-async def test_state_restore(hass: __HAC_KEEP__, rfxtrx, state, event) -> None:
+async def test_state_restore(hass: UniversalAssistant, rfxtrx, state, event) -> None:
     """State restoration."""
 
     entity_id = "binary_sensor.ac_213c7f2_48"
@@ -108,7 +108,7 @@ async def test_state_restore(hass: __HAC_KEEP__, rfxtrx, state, event) -> None:
     assert hass.states.get(entity_id).state == state
 
 
-async def test_several(hass: __HAC_KEEP__, rfxtrx) -> None:
+async def test_several(hass: UniversalAssistant, rfxtrx) -> None:
     """Test with 3."""
     mock_entry = create_rfx_test_entry(
         devices={
@@ -148,7 +148,7 @@ async def test_several(hass: __HAC_KEEP__, rfxtrx) -> None:
     assert hass.states.get("binary_sensor.ac_118cdea_3").state == "off"
 
 
-async def test_discover(hass: __HAC_KEEP__, rfxtrx_automatic) -> None:
+async def test_discover(hass: UniversalAssistant, rfxtrx_automatic) -> None:
     """Test with discovery."""
     rfxtrx = rfxtrx_automatic
 
@@ -163,7 +163,7 @@ async def test_discover(hass: __HAC_KEEP__, rfxtrx_automatic) -> None:
     assert state.state == "on"
 
 
-async def test_off_delay_restore(hass: __HAC_KEEP__, rfxtrx) -> None:
+async def test_off_delay_restore(hass: UniversalAssistant, rfxtrx) -> None:
     """Make sure binary sensor restore as off, if off delay is active."""
     mock_restore_cache(
         hass,
@@ -190,7 +190,7 @@ async def test_off_delay_restore(hass: __HAC_KEEP__, rfxtrx) -> None:
     assert state.state == "off"
 
 
-async def test_off_delay(hass: __HAC_KEEP__, rfxtrx, timestep) -> None:
+async def test_off_delay(hass: UniversalAssistant, rfxtrx, timestep) -> None:
     """Test with discovery."""
     mock_entry = create_rfx_test_entry(
         devices={"0b1100100118cdea02010f70": {"off_delay": 5}}
@@ -239,7 +239,7 @@ async def test_off_delay(hass: __HAC_KEEP__, rfxtrx, timestep) -> None:
     assert state.state == "off"
 
 
-async def test_panic(hass: __HAC_KEEP__, rfxtrx_automatic) -> None:
+async def test_panic(hass: UniversalAssistant, rfxtrx_automatic) -> None:
     """Test panic entities."""
     rfxtrx = rfxtrx_automatic
 
@@ -253,7 +253,7 @@ async def test_panic(hass: __HAC_KEEP__, rfxtrx_automatic) -> None:
     assert hass.states.get(entity_id).state == "off"
 
 
-async def test_motion(hass: __HAC_KEEP__, rfxtrx_automatic) -> None:
+async def test_motion(hass: UniversalAssistant, rfxtrx_automatic) -> None:
     """Test motion entities."""
     rfxtrx = rfxtrx_automatic
 
@@ -267,7 +267,7 @@ async def test_motion(hass: __HAC_KEEP__, rfxtrx_automatic) -> None:
     assert hass.states.get(entity_id).state == "off"
 
 
-async def test_light(hass: __HAC_KEEP__, rfxtrx_automatic) -> None:
+async def test_light(hass: UniversalAssistant, rfxtrx_automatic) -> None:
     """Test light entities."""
     rfxtrx = rfxtrx_automatic
 
@@ -280,7 +280,7 @@ async def test_light(hass: __HAC_KEEP__, rfxtrx_automatic) -> None:
     assert hass.states.get(entity_id).state == "off"
 
 
-async def test_pt2262_duplicate_id(hass: __HAC_KEEP__, rfxtrx) -> None:
+async def test_pt2262_duplicate_id(hass: UniversalAssistant, rfxtrx) -> None:
     """Test with 1 sensor."""
     mock_entry = create_rfx_test_entry(
         devices={

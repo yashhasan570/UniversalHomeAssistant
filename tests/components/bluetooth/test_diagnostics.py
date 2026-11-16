@@ -25,7 +25,7 @@ from universalassistant.components.bluetooth import (
     HaBluetoothConnector,
     HaScanner,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 class FakeHaScanner(FakeScannerMixin, HaScanner):
@@ -46,7 +46,7 @@ class FakeHaScanner(FakeScannerMixin, HaScanner):
 @patch("universalassistant.components.bluetooth.HaScanner", FakeHaScanner)
 @pytest.mark.usefixtures("enable_bluetooth", "two_adapters")
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_bleak_scanner_start: MagicMock,
 ) -> None:
@@ -285,7 +285,7 @@ async def test_diagnostics(
     "macos_adapter", "mock_bleak_scanner_start", "mock_bluetooth_adapters"
 )
 async def test_diagnostics_macos(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test diagnostics for macos."""
     # Normally we do not want to patch our classes, but since bleak will import
@@ -492,7 +492,7 @@ async def test_diagnostics_macos(
     "mock_bluetooth_adapters",
 )
 async def test_diagnostics_remote_adapter(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test diagnostics for remote adapter."""
     manager = _get_manager()

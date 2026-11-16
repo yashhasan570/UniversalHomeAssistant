@@ -7,14 +7,14 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from universalassistant import config_entries
 from universalassistant.components import twilio
 from universalassistant.components.twilio import DOMAIN
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.setup import async_setup_component
 
 
 async def test_config_flow_registers_webhook(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test setting up Twilio and sending webhook."""
     await async_process_ha_core_config(
@@ -47,7 +47,7 @@ async def test_config_flow_registers_webhook(
     assert twilio_events[0].data["hello"] == "twilio"
 
 
-async def test_get_client(hass: __HAC_KEEP__) -> None:
+async def test_get_client(hass: UniversalAssistant) -> None:
     """Test the client created from the YAML configuration is returned."""
     with patch("universalassistant.components.twilio.Client") as mock_client:
         assert await async_setup_component(

@@ -1,4 +1,4 @@
-"""Test state functions for __HA_KEEP__ templates."""
+"""Test state functions for Universal Home Assistant templates."""
 
 from collections.abc import Iterable
 from unittest.mock import patch
@@ -19,7 +19,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfVolume,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import TemplateError
 from universalassistant.helpers import entity_registry as er, template, translation
 from universalassistant.helpers.template.render_info import (
@@ -32,7 +32,7 @@ from universalassistant.util.unit_system import UnitSystem
 from tests.helpers.template.helpers import assert_result_info, render, render_to_info
 
 
-def _set_up_units(hass: __HAC_KEEP__) -> None:
+def _set_up_units(hass: UniversalAssistant) -> None:
     """Set up the tests."""
     hass.config.units = UnitSystem(
         "custom",
@@ -48,7 +48,7 @@ def _set_up_units(hass: __HAC_KEEP__) -> None:
     )
 
 
-def test_referring_states_by_entity_id(hass: __HAC_KEEP__) -> None:
+def test_referring_states_by_entity_id(hass: UniversalAssistant) -> None:
     """Test referring states by entity id."""
     hass.states.async_set("test.object", "happy")
     assert render(hass, "{{ states.test.object.state }}") == "happy"
@@ -58,7 +58,7 @@ def test_referring_states_by_entity_id(hass: __HAC_KEEP__) -> None:
     assert render(hass, '{{ states("test.object") }}') == "happy"
 
 
-def test_iterating_all_states(hass: __HAC_KEEP__) -> None:
+def test_iterating_all_states(hass: UniversalAssistant) -> None:
     """Test iterating all states."""
     tmpl_str = (
         "{% for state in states | sort(attribute='entity_id') %}"
@@ -76,7 +76,7 @@ def test_iterating_all_states(hass: __HAC_KEEP__) -> None:
     assert_result_info(info, "10happy", entities=[], all_states=True)
 
 
-def test_iterating_all_states_unavailable(hass: __HAC_KEEP__) -> None:
+def test_iterating_all_states_unavailable(hass: UniversalAssistant) -> None:
     """Test iterating all states unavailable."""
     hass.states.async_set("test.object", "on")
 
@@ -101,7 +101,7 @@ def test_iterating_all_states_unavailable(hass: __HAC_KEEP__) -> None:
     assert_result_info(info, 1, entities=[], all_states=True)
 
 
-def test_iterating_domain_states(hass: __HAC_KEEP__) -> None:
+def test_iterating_domain_states(hass: UniversalAssistant) -> None:
     """Test iterating domain states."""
     tmpl_str = "{% for state in states.sensor %}{{ state.state }}{% endfor %}"
 
@@ -122,7 +122,7 @@ def test_iterating_domain_states(hass: __HAC_KEEP__) -> None:
     )
 
 
-def test_if_state_exists(hass: __HAC_KEEP__) -> None:
+def test_if_state_exists(hass: UniversalAssistant) -> None:
     """Test if state exists works."""
     hass.states.async_set("test.object", "available")
 
@@ -132,7 +132,7 @@ def test_if_state_exists(hass: __HAC_KEEP__) -> None:
     assert result == "exists"
 
 
-def test_is_state(hass: __HAC_KEEP__) -> None:
+def test_is_state(hass: UniversalAssistant) -> None:
     """Test is_state method."""
     hass.states.async_set("test.object", "available")
 
@@ -160,7 +160,7 @@ def test_is_state(hass: __HAC_KEEP__) -> None:
     assert result is True
 
 
-def test_is_state_attr(hass: __HAC_KEEP__) -> None:
+def test_is_state_attr(hass: UniversalAssistant) -> None:
     """Test is_state_attr method."""
     hass.states.async_set("test.object", "available", {"mode": "on", "exists": None})
 
@@ -203,7 +203,7 @@ def test_is_state_attr(hass: __HAC_KEEP__) -> None:
     assert result == "no"
 
 
-def test_state_attr(hass: __HAC_KEEP__) -> None:
+def test_state_attr(hass: UniversalAssistant) -> None:
     """Test state_attr method."""
     hass.states.async_set(
         "test.object", "available", {"effect": "action", "mode": "on"}
@@ -231,7 +231,7 @@ def test_state_attr(hass: __HAC_KEEP__) -> None:
     assert result == "action"
 
 
-def test_states_function(hass: __HAC_KEEP__) -> None:
+def test_states_function(hass: UniversalAssistant) -> None:
     """Test using states as a function."""
     hass.states.async_set("test.object", "available")
 
@@ -259,7 +259,7 @@ def test_states_function(hass: __HAC_KEEP__) -> None:
         pytest.param("{{ ['sensor.test'] | map('states') | first }}", id="map"),
     ],
 )
-def test_states_tracks_changes(hass: __HAC_KEEP__, template_string: str) -> None:
+def test_states_tracks_changes(hass: UniversalAssistant, template_string: str) -> None:
     """Read current states and collect dependencies on every render."""
     tmpl = template.Template(template_string, hass)
     assert_result_info(tmpl.async_render_to_info(), "unknown", entities=["sensor.test"])
@@ -271,7 +271,7 @@ def test_states_tracks_changes(hass: __HAC_KEEP__, template_string: str) -> None
     assert_result_info(tmpl.async_render_to_info(), "unknown", entities=["sensor.test"])
 
 
-def test_states_filter_limited(hass: __HAC_KEEP__) -> None:
+def test_states_filter_limited(hass: UniversalAssistant) -> None:
     """The states filter must not expose states in limited templates."""
     hass.states.async_set("sensor.test", "first")
     assert (
@@ -284,7 +284,7 @@ def test_states_filter_limited(hass: __HAC_KEEP__) -> None:
 
 
 async def test_state_translated(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test state_translated method."""
     assert await async_setup_component(
@@ -361,7 +361,7 @@ async def test_state_translated(
         render(hass, '{{ state_translated("-invalid") }}')
 
     def mock_get_cached_translations(
-        _hass: __HAC_KEEP__,
+        _hass: UniversalAssistant,
         _language: str,
         category: str,
         _integrations: Iterable[str] | None = None,
@@ -387,7 +387,7 @@ async def test_state_translated(
 
 
 async def test_state_attr_translated(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test state_attr_translated method."""
     await translation._async_get_translations_cache(hass).async_load("en", set())
@@ -480,7 +480,7 @@ async def test_state_attr_translated(
     ],
 )
 async def test_state_attr_translated_translation_lookups(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     entity_id: str,
     attribute: str,
@@ -522,7 +522,7 @@ async def test_state_attr_translated_translation_lookups(
         assert result == expected_result
 
 
-def test_has_value(hass: __HAC_KEEP__) -> None:
+def test_has_value(hass: UniversalAssistant) -> None:
     """Test has_value method."""
     hass.states.async_set("test.value1", 1)
     hass.states.async_set("test.unavailable", STATE_UNAVAILABLE)
@@ -542,7 +542,7 @@ def test_has_value(hass: __HAC_KEEP__) -> None:
     assert result == "yes"
 
 
-def test_distance_function_with_1_state(hass: __HAC_KEEP__) -> None:
+def test_distance_function_with_1_state(hass: UniversalAssistant) -> None:
     """Test distance function with 1 state."""
     _set_up_units(hass)
     hass.states.async_set(
@@ -553,7 +553,7 @@ def test_distance_function_with_1_state(hass: __HAC_KEEP__) -> None:
     assert result == 187
 
 
-def test_distance_function_with_2_states(hass: __HAC_KEEP__) -> None:
+def test_distance_function_with_2_states(hass: UniversalAssistant) -> None:
     """Test distance function with 2 states."""
     _set_up_units(hass)
     hass.states.async_set(
@@ -571,7 +571,7 @@ def test_distance_function_with_2_states(hass: __HAC_KEEP__) -> None:
     assert result == 187
 
 
-def test_distance_function_with_1_coord(hass: __HAC_KEEP__) -> None:
+def test_distance_function_with_1_coord(hass: UniversalAssistant) -> None:
     """Test distance function with 1 coord."""
     _set_up_units(hass)
 
@@ -579,7 +579,7 @@ def test_distance_function_with_1_coord(hass: __HAC_KEEP__) -> None:
     assert result == 187
 
 
-def test_distance_function_with_2_coords(hass: __HAC_KEEP__) -> None:
+def test_distance_function_with_2_coords(hass: UniversalAssistant) -> None:
     """Test distance function with 2 coords."""
     _set_up_units(hass)
     tpl = (
@@ -590,7 +590,7 @@ def test_distance_function_with_2_coords(hass: __HAC_KEEP__) -> None:
     assert render(hass, tpl) == 187
 
 
-def test_distance_function_with_1_state_1_coord(hass: __HAC_KEEP__) -> None:
+def test_distance_function_with_1_state_1_coord(hass: UniversalAssistant) -> None:
     """Test distance function with 1 state 1 coord."""
     _set_up_units(hass)
     hass.states.async_set(
@@ -610,14 +610,14 @@ def test_distance_function_with_1_state_1_coord(hass: __HAC_KEEP__) -> None:
     assert result == 187
 
 
-def test_distance_function_return_none_if_invalid_state(hass: __HAC_KEEP__) -> None:
+def test_distance_function_return_none_if_invalid_state(hass: UniversalAssistant) -> None:
     """Test distance function return None if invalid state."""
     hass.states.async_set("test.object_2", "happy", {"latitude": 10})
     with pytest.raises(TemplateError):
         render(hass, "{{ distance(states.test.object_2) | round }}")
 
 
-def test_distance_function_return_none_if_invalid_coord(hass: __HAC_KEEP__) -> None:
+def test_distance_function_return_none_if_invalid_coord(hass: UniversalAssistant) -> None:
     """Test distance function return None if invalid coord."""
     assert render(hass, '{{ distance("123", "abc") }}') is None
 
@@ -633,7 +633,7 @@ def test_distance_function_return_none_if_invalid_coord(hass: __HAC_KEEP__) -> N
     assert result is None
 
 
-def test_distance_function_with_2_entity_ids(hass: __HAC_KEEP__) -> None:
+def test_distance_function_with_2_entity_ids(hass: UniversalAssistant) -> None:
     """Test distance function with 2 entity ids."""
     _set_up_units(hass)
     hass.states.async_set(
@@ -649,7 +649,7 @@ def test_distance_function_with_2_entity_ids(hass: __HAC_KEEP__) -> None:
     assert result == 187
 
 
-def test_distance_function_with_1_entity_1_coord(hass: __HAC_KEEP__) -> None:
+def test_distance_function_with_1_entity_1_coord(hass: UniversalAssistant) -> None:
     """Test distance function with 1 entity_id and 1 coord."""
     _set_up_units(hass)
     hass.states.async_set(
@@ -664,7 +664,7 @@ def test_distance_function_with_1_entity_1_coord(hass: __HAC_KEEP__) -> None:
     assert result == 187
 
 
-def test_closest_function_home_vs_domain(hass: __HAC_KEEP__) -> None:
+def test_closest_function_home_vs_domain(hass: UniversalAssistant) -> None:
     """Test closest function home vs domain."""
     hass.states.async_set(
         "test_domain.object",
@@ -692,7 +692,7 @@ def test_closest_function_home_vs_domain(hass: __HAC_KEEP__) -> None:
     )
 
 
-def test_closest_function_home_vs_all_states(hass: __HAC_KEEP__) -> None:
+def test_closest_function_home_vs_all_states(hass: UniversalAssistant) -> None:
     """Test closest function home vs all states."""
     hass.states.async_set(
         "test_domain.object",
@@ -716,7 +716,7 @@ def test_closest_function_home_vs_all_states(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_expand(hass: __HAC_KEEP__) -> None:
+async def test_expand(hass: UniversalAssistant) -> None:
     """Test expand function."""
     info = render_to_info(hass, "{{ expand('test.object') }}")
     assert_result_info(info, [], ["test.object"])
@@ -954,7 +954,7 @@ async def test_expand(hass: __HAC_KEEP__) -> None:
     )
 
 
-def test_closest_function_to_coord(hass: __HAC_KEEP__) -> None:
+def test_closest_function_to_coord(hass: UniversalAssistant) -> None:
     """Test closest function to coord."""
     hass.states.async_set(
         "test_domain.closest_home",
@@ -999,7 +999,7 @@ def test_closest_function_to_coord(hass: __HAC_KEEP__) -> None:
     assert result == "test_domain.closest_zone"
 
 
-def test_closest_function_to_entity_id(hass: __HAC_KEEP__) -> None:
+def test_closest_function_to_entity_id(hass: UniversalAssistant) -> None:
     """Test closest function to entity id."""
     hass.states.async_set(
         "test_domain.closest_home",
@@ -1058,7 +1058,7 @@ def test_closest_function_to_entity_id(hass: __HAC_KEEP__) -> None:
     )
 
 
-def test_closest_function_to_state(hass: __HAC_KEEP__) -> None:
+def test_closest_function_to_state(hass: UniversalAssistant) -> None:
     """Test closest function to state."""
     hass.states.async_set(
         "test_domain.closest_home",
@@ -1095,7 +1095,7 @@ def test_closest_function_to_state(hass: __HAC_KEEP__) -> None:
     )
 
 
-def test_closest_function_invalid_state(hass: __HAC_KEEP__) -> None:
+def test_closest_function_invalid_state(hass: UniversalAssistant) -> None:
     """Test closest function invalid state."""
     hass.states.async_set(
         "test_domain.closest_home",
@@ -1110,7 +1110,7 @@ def test_closest_function_invalid_state(hass: __HAC_KEEP__) -> None:
         assert render(hass, f"{{{{ closest({state}, states) }}}}") is None
 
 
-def test_closest_function_state_with_invalid_location(hass: __HAC_KEEP__) -> None:
+def test_closest_function_state_with_invalid_location(hass: UniversalAssistant) -> None:
     """Test closest function state with invalid location."""
     hass.states.async_set(
         "test_domain.closest_home",
@@ -1123,7 +1123,7 @@ def test_closest_function_state_with_invalid_location(hass: __HAC_KEEP__) -> Non
     )
 
 
-def test_closest_function_invalid_coordinates(hass: __HAC_KEEP__) -> None:
+def test_closest_function_invalid_coordinates(hass: UniversalAssistant) -> None:
     """Test closest function invalid coordinates."""
     hass.states.async_set(
         "test_domain.closest_home",
@@ -1138,12 +1138,12 @@ def test_closest_function_invalid_coordinates(hass: __HAC_KEEP__) -> None:
     assert render(hass, '{{ states | closest("invalid", "coord") }}') is None
 
 
-def test_closest_function_no_location_states(hass: __HAC_KEEP__) -> None:
+def test_closest_function_no_location_states(hass: UniversalAssistant) -> None:
     """Test closest function without location states."""
     assert render(hass, "{{ closest(states).entity_id }}") == ""
 
 
-def test_generate_filter_iterators(hass: __HAC_KEEP__) -> None:
+def test_generate_filter_iterators(hass: UniversalAssistant) -> None:
     """Test extract entities function with none entities stuff."""
     info = render_to_info(
         hass,
@@ -1200,7 +1200,7 @@ def test_generate_filter_iterators(hass: __HAC_KEEP__) -> None:
     assert_result_info(info, "sensor.test_sensor=value,", [], ["sensor"])
 
 
-def test_generate_select(hass: __HAC_KEEP__) -> None:
+def test_generate_select(hass: UniversalAssistant) -> None:
     """Test extract entities function with none entities stuff."""
     template_str = """
 {{ states.sensor|selectattr("state","equalto","off")
@@ -1224,7 +1224,7 @@ def test_generate_select(hass: __HAC_KEEP__) -> None:
     assert info.domains_lifecycle == {"sensor"}
 
 
-def test_state_with_unit(hass: __HAC_KEEP__) -> None:
+def test_state_with_unit(hass: UniversalAssistant) -> None:
     """Test the state_with_unit property helper."""
     hass.states.async_set(
         "sensor.test", "23", {EntityStateAttribute.UNIT_OF_MEASUREMENT: "beers"}
@@ -1247,7 +1247,7 @@ def test_state_with_unit(hass: __HAC_KEEP__) -> None:
 
 
 def test_state_with_unit_and_rounding(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test formatting the state rounded and with unit."""
     entry = entity_registry.async_get_or_create(
@@ -1321,7 +1321,7 @@ def test_state_with_unit_and_rounding(
     assert tpl8.async_render() == 23.015
 
 
-async def test_closest_function_home_vs_group_entity_id(hass: __HAC_KEEP__) -> None:
+async def test_closest_function_home_vs_group_entity_id(hass: UniversalAssistant) -> None:
     """Test closest function home vs group entity id."""
     hass.states.async_set(
         "test_domain.object",
@@ -1359,7 +1359,7 @@ async def test_closest_function_home_vs_group_entity_id(hass: __HAC_KEEP__) -> N
     assert info.rate_limit is None
 
 
-async def test_closest_function_home_vs_group_state(hass: __HAC_KEEP__) -> None:
+async def test_closest_function_home_vs_group_state(hass: UniversalAssistant) -> None:
     """Test closest function home vs group state."""
     hass.states.async_set(
         "test_domain.object",

@@ -14,7 +14,7 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CONF_RADIUS,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 USER_INPUT = {
@@ -34,7 +34,7 @@ def gdacs_setup_fixture() -> Generator[None]:
 
 
 async def test_duplicate_error(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test that errors are shown when duplicates are added."""
 
@@ -52,7 +52,7 @@ async def test_duplicate_error(
     assert result["reason"] == "already_configured"
 
 
-async def test_show_form(hass: __HAC_KEEP__) -> None:
+async def test_show_form(hass: UniversalAssistant) -> None:
     """Test that the form is served with no input."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -61,7 +61,7 @@ async def test_show_form(hass: __HAC_KEEP__) -> None:
     assert result["step_id"] == "user"
 
 
-async def test_step_user(hass: __HAC_KEEP__) -> None:
+async def test_step_user(hass: UniversalAssistant) -> None:
     """Test that the user step works."""
 
     result = await hass.config_entries.flow.async_init(

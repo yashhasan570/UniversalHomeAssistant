@@ -6,7 +6,7 @@ from unittest.mock import patch
 from lorawan_connection import AddedEvent, RemovedEvent, UpdatedEvent
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -15,7 +15,7 @@ from .helpers import DESCRIPTOR
 
 
 async def test_registry_lifecycle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     registered_backend: RegisterBackend,

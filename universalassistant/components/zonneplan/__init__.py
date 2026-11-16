@@ -4,7 +4,7 @@ from pyzonneplan import Token, Zonneplan
 from pyzonneplan.const import ContractType
 
 from universalassistant.const import CONF_EMAIL, CONF_TOKEN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .coordinator import (
@@ -25,7 +25,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ZonneplanConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ZonneplanConfigEntry) -> None:
     """Set up Zonneplan from a config entry."""
     zonneplan = Zonneplan(
         email=entry.data[CONF_EMAIL],
@@ -76,6 +76,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ZonneplanConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ZonneplanConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ZonneplanConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

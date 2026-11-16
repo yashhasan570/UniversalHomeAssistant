@@ -10,13 +10,13 @@ from universalassistant.components.london_underground.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_validate_input_success(
-    hass: __HAC_KEEP__, mock_london_underground_client
+    hass: UniversalAssistant, mock_london_underground_client
 ) -> None:
     """Test successful validation of TfL API."""
 
@@ -39,7 +39,7 @@ async def test_validate_input_success(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_options(hass: __HAC_KEEP__, mock_config_entry) -> None:
+async def test_options(hass: UniversalAssistant, mock_config_entry) -> None:
     """Test updating options."""
     result = await hass.config_entries.options.async_init(mock_config_entry.entry_id)
 
@@ -68,7 +68,7 @@ async def test_options(hass: __HAC_KEEP__, mock_config_entry) -> None:
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_validate_input_exceptions(
-    hass: __HAC_KEEP__, mock_london_underground_client, side_effect, expected_error
+    hass: UniversalAssistant, mock_london_underground_client, side_effect, expected_error
 ) -> None:
     """Test validation with connection and timeout errors."""
 
@@ -102,7 +102,7 @@ async def test_validate_input_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_already_configured(
-    hass: __HAC_KEEP__, mock_london_underground_client, mock_config_entry
+    hass: UniversalAssistant, mock_london_underground_client, mock_config_entry
 ) -> None:
     """Try (and fail) setting up a config entry when one already exists."""
 

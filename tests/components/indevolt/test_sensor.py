@@ -20,8 +20,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.indevolt.coordinator import SCAN_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -30,7 +30,7 @@ from . import setup_integration
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("generation", [2, 1], indirect=True)
 async def test_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_indevolt: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -45,7 +45,7 @@ async def test_sensor(
 
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_sensor_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -68,7 +68,7 @@ async def test_sensor_availability(
 
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_realtime_sensor_energy_mode_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -126,7 +126,7 @@ async def test_realtime_sensor_energy_mode_availability(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("generation", [1], indirect=True)
 async def test_inverter_sensor_temperature_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -163,7 +163,7 @@ async def test_inverter_sensor_temperature_availability(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_remaining_time_sensor_charge_state_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -224,7 +224,7 @@ async def test_remaining_time_sensor_charge_state_availability(
 
 # In individual tests, you can override the mock behavior
 async def test_battery_pack_filtering(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_indevolt: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -287,7 +287,7 @@ async def test_battery_pack_filtering(
 
 
 async def test_battery_pack_filtering_fetch_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_indevolt: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -295,7 +295,7 @@ async def test_battery_pack_filtering_fetch_error(
     """Test battery pack filtering when fetch fails."""
 
     # Mock fetch_data to raise error on battery pack SN fetch
-    mock_indevolt.fetch_data.side_effect = __HAC_KEEP__Error("Timeout")
+    mock_indevolt.fetch_data.side_effect = UniversalAssistantError("Timeout")
 
     mock_config_entry.add_to_hass(hass)
     await hass.config_entries.async_setup(mock_config_entry.entry_id)

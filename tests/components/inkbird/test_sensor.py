@@ -32,7 +32,7 @@ from universalassistant.components.inkbird.coordinator import (
 from universalassistant.components.sensor import ATTR_STATE_CLASS
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_FRIENDLY_NAME, ATTR_UNIT_OF_MEASUREMENT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from . import (
@@ -73,7 +73,7 @@ def _make_sensor_update(name: str, humidity: float) -> SensorUpdate:
     )
 
 
-async def test_sensors(hass: __HAC_KEEP__) -> None:
+async def test_sensors(hass: UniversalAssistant) -> None:
     """Test setting up creates the sensors."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -103,7 +103,7 @@ async def test_sensors(hass: __HAC_KEEP__) -> None:
     await hass.async_block_till_done()
 
 
-async def test_active_scan_duration(hass: __HAC_KEEP__) -> None:
+async def test_active_scan_duration(hass: UniversalAssistant) -> None:
     """Test the scan response only IBS-TH registers a wide active scan window."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -123,7 +123,7 @@ async def test_active_scan_duration(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_device_with_corrupt_name(hass: __HAC_KEEP__) -> None:
+async def test_device_with_corrupt_name(hass: UniversalAssistant) -> None:
     """Test setting up a known device type with a corrupt name."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -152,7 +152,7 @@ async def test_device_with_corrupt_name(hass: __HAC_KEEP__) -> None:
     await hass.async_block_till_done()
 
 
-async def test_polling_sensor(hass: __HAC_KEEP__) -> None:
+async def test_polling_sensor(hass: UniversalAssistant) -> None:
     """Test setting up a device that needs polling."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -199,7 +199,7 @@ async def test_polling_sensor(hass: __HAC_KEEP__) -> None:
     await hass.async_block_till_done()
 
 
-async def test_fallback_poll_queries_latest_service_info(hass: __HAC_KEEP__) -> None:
+async def test_fallback_poll_queries_latest_service_info(hass: UniversalAssistant) -> None:
     """Fallback timer queries the bluetooth manager for the latest service info.
 
     Regression test for the case where HA dedupes repeat advertisements with the
@@ -234,7 +234,7 @@ async def test_fallback_poll_queries_latest_service_info(hass: __HAC_KEEP__) -> 
 
 
 async def test_notify_sensor_no_advertisement(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setting up a notify sensor that has no advertisement."""
     entry = MockConfigEntry(
@@ -258,7 +258,7 @@ async def test_notify_sensor_no_advertisement(
     )
 
 
-async def test_notify_sensor(hass: __HAC_KEEP__) -> None:
+async def test_notify_sensor(hass: UniversalAssistant) -> None:
     """Test setting up a notify sensor."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -327,7 +327,7 @@ async def test_notify_sensor(hass: __HAC_KEEP__) -> None:
     assert entry.data[CONF_DEVICE_DATA] == {"temp_unit": "C"}
 
 
-async def test_ibs_p02b_sensors(hass: __HAC_KEEP__) -> None:
+async def test_ibs_p02b_sensors(hass: UniversalAssistant) -> None:
     """Test setting up creates the sensors for an IBS-P02B."""
     entry = MockConfigEntry(
         domain=DOMAIN,

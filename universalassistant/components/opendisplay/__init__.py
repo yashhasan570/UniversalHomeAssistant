@@ -23,7 +23,7 @@ from universalassistant.components.bluetooth import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.device_registry import CONNECTION_BLUETOOTH
@@ -75,13 +75,13 @@ def _get_encryption_key(entry: OpenDisplayConfigEntry) -> bytes | None:
         ) from err
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the OpenDisplay integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: OpenDisplayConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: OpenDisplayConfigEntry) -> None:
     """Set up OpenDisplay from a config entry."""
     address = entry.unique_id
     if TYPE_CHECKING:
@@ -169,7 +169,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: OpenDisplayConfigEntry) -
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: OpenDisplayConfigEntry
+    hass: UniversalAssistant, entry: OpenDisplayConfigEntry
 ) -> None:
     """Unload a config entry."""
     if (task := entry.runtime_data.upload_task) and not task.done():

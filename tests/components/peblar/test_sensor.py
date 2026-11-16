@@ -13,7 +13,7 @@ from universalassistant.components.peblar.const import (
     PEBLAR_CP_STATE_TO_UNIVERSAL_ASSISTANT,
 )
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
@@ -21,7 +21,7 @@ from universalassistant.helpers import device_registry as dr, entity_registry as
 @pytest.mark.parametrize("init_integration", [Platform.SENSOR], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,

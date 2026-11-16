@@ -4,13 +4,13 @@ from typing import TYPE_CHECKING, Any
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_TIMEOUT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import BROADLINK_DATA
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: ConfigEntry
+    hass: UniversalAssistant, entry: ConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     device = hass.data[BROADLINK_DATA].devices[entry.entry_id]

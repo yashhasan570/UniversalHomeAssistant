@@ -13,7 +13,7 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -21,7 +21,7 @@ from . import init_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_v2c_client: AsyncMock,
@@ -36,7 +36,7 @@ async def test_light(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_light_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_v2c_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_light_turn_on_off(
 
 
 async def test_logo_led_set_brightness(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_v2c_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -86,7 +86,7 @@ async def test_logo_led_set_brightness(
 
 
 async def test_logo_led_set_low_brightness(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_v2c_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -108,7 +108,7 @@ async def test_logo_led_set_low_brightness(
 
 
 async def test_light_led_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_v2c_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -133,7 +133,7 @@ async def test_light_led_disabled_by_default(
     ],
 )
 async def test_led_not_created_when_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_v2c_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -151,7 +151,7 @@ async def test_led_not_created_when_missing(
 
 
 async def test_logo_led_enabled_when_present(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_v2c_client: AsyncMock,
     mock_config_entry: MockConfigEntry,

@@ -1,10 +1,10 @@
-"""Marantz IR Remote integration for __HA_KEEP__."""
+"""Marantz IR Remote integration for Universal Home Assistant."""
 
 from dataclasses import dataclass
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 PLATFORMS = [Platform.BUTTON, Platform.MEDIA_PLAYER]
 
@@ -25,12 +25,12 @@ class MarantzIrRuntimeData:
 type MarantzIrConfigEntry = ConfigEntry[MarantzIrRuntimeData]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: MarantzIrConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: MarantzIrConfigEntry) -> None:
     """Set up Marantz IR from a config entry."""
     entry.runtime_data = MarantzIrRuntimeData()
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: MarantzIrConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: MarantzIrConfigEntry) -> None:
     """Unload a Marantz IR config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

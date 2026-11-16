@@ -8,12 +8,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.niko_home_control.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_niko_home_control_connection: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -47,7 +47,7 @@ async def test_full_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_niko_home_control_connection: AsyncMock,
     exception: Exception,
     error: str,
@@ -81,7 +81,7 @@ async def test_flow_errors(
 
 
 async def test_duplicate_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test uniqueness."""
 
@@ -103,7 +103,7 @@ async def test_duplicate_entry(
 
 
 async def test_duplicate_reconfigure_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_niko_home_control_connection: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -129,7 +129,7 @@ async def test_duplicate_reconfigure_entry(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_niko_home_control_connection: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -159,7 +159,7 @@ async def test_reconfigure(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_niko_home_control_connection: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,

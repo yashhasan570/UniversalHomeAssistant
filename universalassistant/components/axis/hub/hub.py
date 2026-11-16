@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any
 
 import axis
 
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, format_mac
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -22,7 +22,7 @@ class AxisHub:
     """Manages a Axis device."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: AxisConfigEntry, api: axis.AxisDevice
+        self, hass: UniversalAssistant, config_entry: AxisConfigEntry, api: axis.AxisDevice
     ) -> None:
         """Initialize the device."""
         self.hass = hass
@@ -56,7 +56,7 @@ class AxisHub:
 
     @staticmethod
     async def async_new_address_callback(
-        hass: __HAC_KEEP__, config_entry: AxisConfigEntry
+        hass: UniversalAssistant, config_entry: AxisConfigEntry
     ) -> None:
         """Handle signals of device getting new address.
 

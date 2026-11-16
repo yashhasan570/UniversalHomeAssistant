@@ -19,7 +19,7 @@ from data_grand_lyon_ha import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -57,7 +57,7 @@ class DataGrandLyonTclCoordinator(DataUpdateCoordinator[dict[str, list[TclPassag
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: DataGrandLyonConfigEntry,
         client: DataGrandLyonClient,
     ) -> None:
@@ -125,7 +125,7 @@ class DataGrandLyonVelovCoordinator(DataUpdateCoordinator[dict[str, VelovStation
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: DataGrandLyonConfigEntry,
         client: DataGrandLyonClient,
     ) -> None:
@@ -190,7 +190,7 @@ class DataGrandLyonParkAndRideCoordinator(
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: DataGrandLyonConfigEntry,
         client: DataGrandLyonClient,
     ) -> None:
@@ -251,7 +251,7 @@ class DataGrandLyonAlertsCoordinator(DataUpdateCoordinator[dict[str, list[TclAle
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: DataGrandLyonConfigEntry,
         client: DataGrandLyonClient,
     ) -> None:

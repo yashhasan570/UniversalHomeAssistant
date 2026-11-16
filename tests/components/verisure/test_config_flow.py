@@ -18,13 +18,13 @@ from universalassistant.components.verisure.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
 
 async def test_full_user_flow_single_installation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_verisure_config_flow: MagicMock,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_full_user_flow_single_installation(
 
 
 async def test_full_user_flow_multiple_installations(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_verisure_config_flow: MagicMock,
 ) -> None:
@@ -108,7 +108,7 @@ async def test_full_user_flow_multiple_installations(
 
 
 async def test_full_user_flow_single_installation_with_mfa(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_verisure_config_flow: MagicMock,
 ) -> None:
@@ -165,7 +165,7 @@ async def test_full_user_flow_single_installation_with_mfa(
 
 
 async def test_full_user_flow_multiple_installations_with_mfa(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_verisure_config_flow: MagicMock,
 ) -> None:
@@ -234,7 +234,7 @@ async def test_full_user_flow_multiple_installations_with_mfa(
     ],
 )
 async def test_verisure_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_verisure_config_flow: MagicMock,
     side_effect: Exception,
@@ -332,7 +332,7 @@ async def test_verisure_errors(
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_dhcp(hass: __HAC_KEEP__) -> None:
+async def test_dhcp(hass: UniversalAssistant) -> None:
     """Test that DHCP discovery works."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -347,7 +347,7 @@ async def test_dhcp(hass: __HAC_KEEP__) -> None:
 
 
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_verisure_config_flow: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -382,7 +382,7 @@ async def test_reauth_flow(
 
 
 async def test_reauth_flow_with_mfa(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_verisure_config_flow: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -443,7 +443,7 @@ async def test_reauth_flow_with_mfa(
     ],
 )
 async def test_reauth_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_verisure_config_flow: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -550,7 +550,7 @@ async def test_reauth_flow_errors(
     ],
 )
 async def test_user_flow_invalid_auth_password_length(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_verisure_config_flow: MagicMock,
     password: str,
@@ -596,7 +596,7 @@ async def test_user_flow_invalid_auth_password_length(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_invalid_auth_password_length(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_verisure_config_flow: MagicMock,
     mock_config_entry: MockConfigEntry,
     password: str,
@@ -636,7 +636,7 @@ async def test_reauth_flow_invalid_auth_password_length(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_mfa_rate_limited(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_verisure_config_flow: MagicMock,
 ) -> None:
     """MFA step-up rate limits surface a dedicated config flow error."""
@@ -689,7 +689,7 @@ async def test_user_flow_mfa_rate_limited(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_mfa_rate_limited(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_verisure_config_flow: MagicMock,
 ) -> None:
@@ -737,7 +737,7 @@ async def test_reauth_flow_mfa_rate_limited(
     assert result4.get("reason") == "reauth_successful"
 
 
-async def test_options_flow(hass: __HAC_KEEP__) -> None:
+async def test_options_flow(hass: UniversalAssistant) -> None:
     """Test options config flow."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id="12345", data={}, version=2)
     entry.add_to_hass(hass)

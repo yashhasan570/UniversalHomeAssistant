@@ -11,7 +11,7 @@ from arcam.fmj.errors import ConnectionFailed, NotConnectedException
 from arcam.fmj.state import State
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import (
     DataUpdateCoordinator,
@@ -41,7 +41,7 @@ class ArcamFmjCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ArcamFmjConfigEntry,
         client: Client,
         zone: int,

@@ -14,7 +14,7 @@ from universalassistant.components.vacuum import (
     VacuumActivity,
 )
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.state import async_reproduce_state
 
 FAN_SPEED_LOW = "low"
@@ -22,7 +22,7 @@ FAN_SPEED_HIGH = "high"
 
 
 async def test_reproducing_states(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test reproducing Vacuum states."""
     hass.states.async_set(

@@ -2,13 +2,13 @@
 
 from nexia.home import NexiaHome
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import setup_integration
 
 
 async def test_automation_scenes(
-    hass: __HAC_KEEP__, patch_nexia_home: NexiaHome
+    hass: UniversalAssistant, patch_nexia_home: NexiaHome
 ) -> None:
     """Test creation automation scenes."""
 

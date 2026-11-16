@@ -12,7 +12,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.vodafone_station.const import DOMAIN, SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -21,7 +21,7 @@ from .const import DEVICE_1_HOST, DEVICE_1_MAC, DEVICE_2_HOST, DEVICE_2_MAC
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_coordinator_device_cleanup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -83,7 +83,7 @@ async def test_coordinator_device_cleanup(
     ],
 )
 async def test_coordinator_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
     error: Exception,

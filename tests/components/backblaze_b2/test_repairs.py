@@ -17,7 +17,7 @@ from universalassistant.components.backblaze_b2.repairs import (
     async_create_fix_flow,
 )
 from universalassistant.components.repairs import ConfirmRepairFlow
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 
 
@@ -30,7 +30,7 @@ def mock_entry():
 
 
 async def test_unauthorized_triggers_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_entry: MockConfigEntry,
 ) -> None:
@@ -54,7 +54,7 @@ async def test_unauthorized_triggers_reauth(
     ],
 )
 async def test_repair_issue_creation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_entry: MockConfigEntry,
     exception: Exception,
@@ -78,7 +78,7 @@ async def test_repair_issue_creation(
     assert len(issue_registry.issues) == 0
 
 
-async def test_async_create_fix_flow(hass: __HAC_KEEP__) -> None:
+async def test_async_create_fix_flow(hass: UniversalAssistant) -> None:
     """Test creating repair fix flow."""
     flow = await async_create_fix_flow(hass, "test_issue", None)
     assert isinstance(flow, ConfirmRepairFlow)

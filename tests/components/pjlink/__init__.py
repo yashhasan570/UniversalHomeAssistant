@@ -1,11 +1,11 @@
 """Test the pjlink integration."""
 
-from pytest_universalassistant.common import __HAC_KEEP__, MockConfigEntry
+from pytest_universalassistant.common import UniversalAssistant, MockConfigEntry
 
 from universalassistant.components.pjlink.const import DEFAULT_PORT, DOMAIN
 
 
-async def setup_pjlink_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def setup_pjlink_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Set up PJLink integration via config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,

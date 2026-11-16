@@ -11,7 +11,7 @@ from universalassistant import config_entries
 from universalassistant.components.opower.const import DOMAIN
 from universalassistant.components.recorder import Recorder
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -35,7 +35,7 @@ def mock_unload_entry() -> Generator[AsyncMock]:
 
 
 async def test_form(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    recorder_mock: Recorder, hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
@@ -77,7 +77,7 @@ async def test_form(
 
 
 async def test_form_with_totp(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    recorder_mock: Recorder, hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we can configure a utility that accepts a TOTP secret."""
     result = await hass.config_entries.flow.async_init(
@@ -120,7 +120,7 @@ async def test_form_with_totp(
 
 
 async def test_form_with_invalid_totp(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    recorder_mock: Recorder, hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we handle an invalid TOTP secret."""
     result = await hass.config_entries.flow.async_init(
@@ -180,7 +180,7 @@ async def test_form_with_invalid_totp(
 
 
 async def test_form_with_mfa_challenge(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    recorder_mock: Recorder, hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test the full interactive MFA flow, including error recovery."""
     # 1. Start the flow and get to the credentials step
@@ -285,7 +285,7 @@ async def test_form_with_mfa_challenge(
 
 
 async def test_form_with_mfa_challenge_but_no_mfa_options(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    recorder_mock: Recorder, hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test the full interactive MFA flow when there are no MFA options."""
     # 1. Start the flow and get to the credentials step
@@ -350,7 +350,7 @@ async def test_form_with_mfa_challenge_but_no_mfa_options(
 )
 async def test_form_exceptions(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     api_exception: Exception,
     expected_error: str,
 ) -> None:
@@ -396,7 +396,7 @@ async def test_form_exceptions(
 
 async def test_form_already_configured(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test user input for config_entry that already exists."""
@@ -426,7 +426,7 @@ async def test_form_already_configured(
 
 async def test_form_not_already_configured(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -466,7 +466,7 @@ async def test_form_not_already_configured(
 
 async def test_form_valid_reauth(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -518,7 +518,7 @@ async def test_form_valid_reauth(
 
 async def test_form_valid_reauth_with_totp(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
 ) -> None:
@@ -582,7 +582,7 @@ async def test_form_valid_reauth_with_totp(
 
 async def test_reauth_with_mfa_challenge(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,

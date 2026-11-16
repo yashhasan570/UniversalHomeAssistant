@@ -5,7 +5,7 @@ from typing import Unpack, cast, override
 import probatio
 
 from universalassistant.const import CONF_OPTIONS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.condition import (
     Condition,
     ConditionCheckParams,
@@ -34,7 +34,7 @@ class _MoonStateCondition(Condition):
     @classmethod
     @override
     async def async_validate_config(
-        cls, hass: __HAC_KEEP__, config: ConfigType
+        cls, hass: UniversalAssistant, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         return cast(ConfigType, _STATE_CONDITION_SCHEMA(config))
@@ -64,12 +64,12 @@ class _IsPhaseCondition(Condition):
     @classmethod
     @override
     async def async_validate_config(
-        cls, hass: __HAC_KEEP__, config: ConfigType
+        cls, hass: UniversalAssistant, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         return cast(ConfigType, _IS_PHASE_CONDITION_SCHEMA(config))
 
-    def __init__(self, hass: __HAC_KEEP__, config: ConditionConfig) -> None:
+    def __init__(self, hass: UniversalAssistant, config: ConditionConfig) -> None:
         """Initialize condition."""
         super().__init__(hass, config)
         assert config.options is not None
@@ -88,6 +88,6 @@ CONDITIONS: dict[str, type[Condition]] = {
 }
 
 
-async def async_get_conditions(hass: __HAC_KEEP__) -> dict[str, type[Condition]]:
+async def async_get_conditions(hass: UniversalAssistant) -> dict[str, type[Condition]]:
     """Return the moon conditions."""
     return CONDITIONS

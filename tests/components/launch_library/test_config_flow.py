@@ -6,11 +6,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.launch_library.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_create_entry(hass: __HAC_KEEP__) -> None:
+async def test_create_entry(hass: UniversalAssistant) -> None:
     """Test we can finish a config flow."""
 
     result = await hass.config_entries.flow.async_init(
@@ -32,7 +32,7 @@ async def test_create_entry(hass: __HAC_KEEP__) -> None:
         assert result["result"].data == {}
 
 
-async def test_integration_already_exists(hass: __HAC_KEEP__) -> None:
+async def test_integration_already_exists(hass: UniversalAssistant) -> None:
     """Test we only allow a single config flow."""
 
     MockConfigEntry(

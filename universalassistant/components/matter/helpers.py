@@ -5,8 +5,8 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 
 from .const import DOMAIN, ID_TYPE_DEVICE_ID
@@ -20,7 +20,7 @@ if TYPE_CHECKING:
     from .models import MatterEntityInfo
 
 
-class MissingNode(__HAC_KEEP__Error):
+class MissingNode(UniversalAssistantError):
     """Exception raised when we can't find a node."""
 
 
@@ -37,7 +37,7 @@ type MatterConfigEntry = ConfigEntry[MatterEntryData]
 
 
 @callback
-def get_matter(hass: __HAC_KEEP__) -> MatterAdapter:
+def get_matter(hass: UniversalAssistant) -> MatterAdapter:
     """Return MatterAdapter instance."""
     # NOTE: This assumes only one Matter connection/fabric can exist.
     # Shall we support connecting to multiple servers in the client or by
@@ -147,7 +147,7 @@ def get_node_device_identifier(
 
 
 @callback
-def node_from_ha_device_id(hass: __HAC_KEEP__, ha_device_id: str) -> MatterNode | None:
+def node_from_ha_device_id(hass: UniversalAssistant, ha_device_id: str) -> MatterNode | None:
     """Get node id from ha device id."""
     dev_reg = dr.async_get(hass)
     device = dev_reg.async_get(ha_device_id, include_child_devices=False)
@@ -158,7 +158,7 @@ def node_from_ha_device_id(hass: __HAC_KEEP__, ha_device_id: str) -> MatterNode 
 
 @callback
 def get_node_from_device_entry(
-    hass: __HAC_KEEP__, device: dr.AnyDeviceEntry
+    hass: UniversalAssistant, device: dr.AnyDeviceEntry
 ) -> MatterNode | None:
     """Return MatterNode from device entry."""
     matter = get_matter(hass)

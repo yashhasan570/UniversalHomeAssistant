@@ -6,14 +6,14 @@ from universalassistant.components.diagnostics import (
     device_entry_as_dict,
     entity_entry_as_dict,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .coordinator import VersionConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: VersionConfigEntry,
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""

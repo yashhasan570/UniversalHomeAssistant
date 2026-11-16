@@ -76,12 +76,12 @@ from universalassistant.core import (
     Event,
     EventStateChangedData,
     HassJobType,
-    __HAC_KEEP__,
+    UniversalAssistant,
     State,
     callback as ha_callback,
     split_entity_id,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.event import async_track_state_change_event
 from universalassistant.util.decorator import Registry
@@ -269,7 +269,7 @@ def _async_resolve_climate_type(
 
 
 def get_accessory(  # noqa: C901
-    hass: __HAC_KEEP__, driver: HomeDriver, state: State, aid: int | None, config: dict
+    hass: UniversalAssistant, driver: HomeDriver, state: State, aid: int | None, config: dict
 ) -> HomeAccessory | None:
     """Take state and return an accessory object if supported."""
     if not aid:
@@ -465,7 +465,7 @@ class HomeAccessory(Accessory):  # type: ignore[misc]
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         driver: HomeDriver,
         name: str,
         entity_id: str,
@@ -820,7 +820,7 @@ class HomeAccessory(Accessory):  # type: ignore[misc]
             await self.hass.services.async_call(
                 domain, service, service_data, blocking=True, context=context
             )
-        except __HAC_KEEP__Error as err:
+        except UniversalAssistantError as err:
             _LOGGER.warning(
                 "%s: %s.%s failed (%s); re-syncing HomeKit state",
                 self.entity_id,
@@ -887,7 +887,7 @@ class HomeAccessory(Accessory):  # type: ignore[misc]
 class HomeBridge(Bridge):  # type: ignore[misc]
     """Adapter class for Bridge."""
 
-    def __init__(self, hass: __HAC_KEEP__, driver: HomeDriver, name: str) -> None:
+    def __init__(self, hass: UniversalAssistant, driver: HomeDriver, name: str) -> None:
         """Initialize a Bridge object."""
         super().__init__(driver, name, iid_manager=HomeIIDManager(driver.iid_storage))
         self.set_info_service(
@@ -918,7 +918,7 @@ class HomeDriver(AccessoryDriver):  # type: ignore[misc]
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry_id: str,
         bridge_name: str,
         entry_title: str,

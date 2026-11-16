@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import entity_registry as er
 
@@ -28,7 +28,7 @@ PLATFORMS = (Platform.SENSOR, Platform.BINARY_SENSOR, Platform.UPDATE)
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: NextcloudConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: NextcloudConfigEntry) -> None:
     """Set up the Nextcloud integration."""
 
     # migrate old entity unique ids
@@ -73,6 +73,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: NextcloudConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: NextcloudConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: NextcloudConfigEntry) -> None:
     """Unload Nextcloud integration."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

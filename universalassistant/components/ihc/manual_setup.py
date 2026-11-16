@@ -1,4 +1,4 @@
-"""Handle manual setup of ihc resources as entities in __HA_KEEP__."""
+"""Handle manual setup of ihc resources as entities in Universal Home Assistant."""
 
 import logging
 
@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_URL,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv, discovery
 from universalassistant.helpers.typing import ConfigType
 
@@ -107,7 +107,7 @@ IHC_SCHEMA = probatio.Schema(
 
 
 def get_manual_configuration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     controller_conf: ConfigType,
     controller_id: str,

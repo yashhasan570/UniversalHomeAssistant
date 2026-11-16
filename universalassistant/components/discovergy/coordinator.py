@@ -9,7 +9,7 @@ from pydiscovergy.error import DiscovergyClientError, HTTPError, InvalidLogin
 from pydiscovergy.models import Meter, Reading
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -27,7 +27,7 @@ class DiscovergyUpdateCoordinator(DataUpdateCoordinator[Reading]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: DiscovergyConfigEntry,
         meter: Meter,
         discovergy_client: Discovergy,

@@ -12,7 +12,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.data_grand_lyon.const import TZ_PARIS
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MOCK_TCL_ALERTS
@@ -28,7 +28,7 @@ def frozen_time(freezer: FrozenDateTimeFactory) -> None:
 
 @pytest.mark.usefixtures("mock_tcl_client")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_line_config_entry: MockConfigEntry,
@@ -48,7 +48,7 @@ async def test_all_entities(
 
 @pytest.mark.usefixtures("mock_tcl_client")
 async def test_state_reflects_alert_in_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_line_config_entry: MockConfigEntry,
 ) -> None:
     """Test the calendar is on while an alert is in progress."""
@@ -64,7 +64,7 @@ async def test_state_reflects_alert_in_progress(
 
 
 async def test_state_off_without_alert(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_line_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -80,7 +80,7 @@ async def test_state_off_without_alert(
 
 
 async def test_state_off_when_every_alert_has_ended(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_line_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -96,7 +96,7 @@ async def test_state_off_when_every_alert_has_ended(
 
 
 async def test_state_on_picks_most_severe_started_alert(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_line_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -126,7 +126,7 @@ async def test_state_on_picks_most_severe_started_alert(
 
 
 async def test_state_on_prefers_started_alert_over_later_one(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_line_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -210,7 +210,7 @@ async def test_state_on_prefers_started_alert_over_later_one(
     ],
 )
 async def test_state_off_with_upcoming_alert_picks_soonest(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_line_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
     alerts: list[TclAlert],
@@ -275,7 +275,7 @@ async def test_state_off_with_upcoming_alert_picks_soonest(
 )
 @pytest.mark.usefixtures("mock_tcl_client")
 async def test_get_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_line_config_entry: MockConfigEntry,
     start: datetime,
     end: datetime,
@@ -323,7 +323,7 @@ async def test_get_events(
     ],
 )
 async def test_get_events_across_dst_rollback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_line_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
     debut: datetime,

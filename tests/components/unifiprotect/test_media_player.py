@@ -29,8 +29,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceNotSupported
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceNotSupported
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import patch_ufp_method
@@ -79,7 +79,7 @@ def _make_public_speaker(camera: Camera) -> Mock:
 
 @pytest.fixture(name="setup_hybrid_speaker")
 def setup_hybrid_speaker_fixture(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -119,7 +119,7 @@ async def speaker_fixture(
     return await setup()
 
 
-async def _play(hass: __HAC_KEEP__, media_id: str = "http://example.com/test.mp3"):
+async def _play(hass: UniversalAssistant, media_id: str = "http://example.com/test.mp3"):
     await hass.services.async_call(
         "media_player",
         "play_media",
@@ -133,7 +133,7 @@ async def _play(hass: __HAC_KEEP__, media_id: str = "http://example.com/test.mp3
 
 
 async def test_media_player_camera_remove(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """Test removing and re-adopting a camera finds its public object again."""
 
@@ -150,7 +150,7 @@ async def test_media_player_camera_remove(
 
 
 async def test_media_player_adopted_at_runtime(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -195,7 +195,7 @@ async def test_media_player_adopted_at_runtime(
     ],
 )
 async def test_media_player_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     speaker: tuple[MockUFPFixture, Mock],
@@ -234,7 +234,7 @@ async def test_media_player_setup(
     ],
 )
 async def test_media_player_hybrid_private_gate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     camera: Camera,
     has_speaker: bool,
@@ -252,7 +252,7 @@ async def test_media_player_hybrid_private_gate(
 
 @pytest.mark.parametrize(("has_speaker", "count"), [(True, 2), (False, 0)])
 async def test_media_player_public_only_speaker_gate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
     camera: Camera,
@@ -279,7 +279,7 @@ async def test_media_player_public_only_speaker_gate(
 
 
 async def _set_private_volume(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera, volume: int
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera, volume: int
 ) -> Camera:
     """Push a private camera update with ``volume`` (no ``speaker_volume``)."""
     new_camera = doorbell.model_copy()
@@ -293,7 +293,7 @@ async def _set_private_volume(
 
 
 async def test_media_player_hybrid_volume_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     setup_hybrid_speaker: SpeakerSetup,
@@ -319,7 +319,7 @@ async def test_media_player_hybrid_volume_state(
     ],
 )
 async def test_media_player_hybrid_set_volume(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     setup_hybrid_speaker: SpeakerSetup,
@@ -342,7 +342,7 @@ async def test_media_player_hybrid_set_volume(
 
 
 async def test_media_player_hybrid_set_volume_error(
-    hass: __HAC_KEEP__, doorbell: Camera, setup_hybrid_speaker: SpeakerSetup
+    hass: UniversalAssistant, doorbell: Camera, setup_hybrid_speaker: SpeakerSetup
 ) -> None:
     """A rejected volume change surfaces as a translated error."""
     await setup_hybrid_speaker()
@@ -354,7 +354,7 @@ async def test_media_player_hybrid_set_volume_error(
             new_callable=AsyncMock,
             side_effect=BadRequest("volume rejected"),
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             "media_player",
@@ -371,7 +371,7 @@ async def test_media_player_hybrid_set_volume_error(
     [("volume_set", {"volume_level": 0.5}), ("volume_up", {})],
 )
 async def test_media_player_public_only_no_volume(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_public_only_speaker: SpeakerSetup,
     service: str,
     data: dict[str, Any],
@@ -399,7 +399,7 @@ def _start_stream_on_play(public: Mock) -> None:
 
 @BOTH_MODES
 async def test_media_player_playing_state(
-    hass: __HAC_KEEP__, speaker: tuple[MockUFPFixture, Mock]
+    hass: UniversalAssistant, speaker: tuple[MockUFPFixture, Mock]
 ) -> None:
     """The state is playing while the public talkback stream runs."""
     _, public = speaker
@@ -433,7 +433,7 @@ async def test_media_player_playing_state(
     ],
 )
 async def test_media_player_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     speaker: tuple[MockUFPFixture, Mock],
     mutate: Callable[[Mock], None],
 ) -> None:
@@ -449,7 +449,7 @@ async def test_media_player_availability(
 
 
 async def test_media_player_hybrid_waits_for_public_mirror(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """A hybrid speaker without a public mirror is unavailable until it arrives."""
     ufp.api.update_public = AsyncMock()
@@ -470,7 +470,7 @@ async def test_media_player_hybrid_waits_for_public_mirror(
 
 @BOTH_MODES
 async def test_media_player_unavailable_when_public_removed(
-    hass: __HAC_KEEP__, speaker: tuple[MockUFPFixture, Mock]
+    hass: UniversalAssistant, speaker: tuple[MockUFPFixture, Mock]
 ) -> None:
     """The speaker is unavailable while its public camera is missing."""
     ufp, public = speaker
@@ -486,7 +486,7 @@ async def test_media_player_unavailable_when_public_removed(
 
 
 async def test_media_player_hybrid_ignores_private_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     setup_hybrid_speaker: SpeakerSetup,
@@ -505,7 +505,7 @@ async def test_media_player_hybrid_ignores_private_connection(
 
 @BOTH_MODES
 async def test_media_player_stop_while_playing(
-    hass: __HAC_KEEP__, speaker: tuple[MockUFPFixture, Mock]
+    hass: UniversalAssistant, speaker: tuple[MockUFPFixture, Mock]
 ) -> None:
     """Stopping running audio goes to the public camera and writes idle."""
     _, public = speaker
@@ -543,7 +543,7 @@ async def test_media_player_stop_while_playing(
 
 @BOTH_MODES
 async def test_media_player_stop_when_idle(
-    hass: __HAC_KEEP__, speaker: tuple[MockUFPFixture, Mock]
+    hass: UniversalAssistant, speaker: tuple[MockUFPFixture, Mock]
 ) -> None:
     """Stopping without running audio does not call the library."""
     _, public = speaker
@@ -564,7 +564,7 @@ async def test_media_player_stop_when_idle(
     "media_id", ["http://example.com/test.mp3", "media-source://some_source/some_id"]
 )
 async def test_media_player_play(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     speaker: tuple[MockUFPFixture, Mock],
     media_id: str,
 ) -> None:
@@ -584,7 +584,7 @@ async def test_media_player_play(
 
 
 async def test_media_player_play_stops_running_audio(
-    hass: __HAC_KEEP__, setup_hybrid_speaker: SpeakerSetup
+    hass: UniversalAssistant, setup_hybrid_speaker: SpeakerSetup
 ) -> None:
     """Running audio is stopped before new audio starts."""
     _, public = await setup_hybrid_speaker()
@@ -599,12 +599,12 @@ async def test_media_player_play_stops_running_audio(
 
 
 async def test_media_player_play_invalid(
-    hass: __HAC_KEEP__, setup_hybrid_speaker: SpeakerSetup
+    hass: UniversalAssistant, setup_hybrid_speaker: SpeakerSetup
 ) -> None:
     """Test media_player entity test play_media, not music."""
     _, public = await setup_hybrid_speaker()
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             "media_player",
             "play_media",
@@ -634,7 +634,7 @@ async def test_media_player_play_invalid(
     ],
 )
 async def test_media_player_play_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     speaker: tuple[MockUFPFixture, Mock],
     error: Exception,
     translation_key: str,
@@ -643,7 +643,7 @@ async def test_media_player_play_error(
     _, public = speaker
     public.play_audio.side_effect = error
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await _play(hass)
 
     assert exc_info.value.translation_key == translation_key
@@ -652,7 +652,7 @@ async def test_media_player_play_error(
 
 
 async def test_media_player_play_wait_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_hybrid_speaker: SpeakerSetup,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -667,7 +667,7 @@ async def test_media_player_play_wait_error(
 
     public.wait_until_audio_completes.side_effect = _wait_fails
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await _play(hass)
 
     assert exc_info.value.translation_key == "stream_error"
@@ -680,7 +680,7 @@ async def test_media_player_play_wait_error(
 
 
 async def test_media_player_browse_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     setup_hybrid_speaker: SpeakerSetup,
 ) -> None:

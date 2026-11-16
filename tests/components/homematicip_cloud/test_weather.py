@@ -2,13 +2,13 @@
 
 from universalassistant.components.weather import WeatherEntityStateAttribute
 from universalassistant.const import ATTR_ATTRIBUTION
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .helper import HomeFactory, async_manipulate_test_data, get_and_check_entity_basics
 
 
 async def test_hmip_weather_sensor(
-    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
+    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipWeatherSensor."""
     entity_id = "weather.weather_sensor_plus"
@@ -34,7 +34,7 @@ async def test_hmip_weather_sensor(
 
 
 async def test_hmip_weather_sensor_pro(
-    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
+    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipWeatherSensorPro."""
     entity_id = "weather.wettersensor_pro"
@@ -61,7 +61,7 @@ async def test_hmip_weather_sensor_pro(
 
 
 async def test_hmip_home_weather(
-    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
+    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipHomeWeather."""
     entity_id = "weather.weather_1010_wien_osterreich"

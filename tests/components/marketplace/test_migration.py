@@ -35,7 +35,7 @@ from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.components.update import DOMAIN as UPDATE_DOMAIN
 from universalassistant.config_entries import SOURCE_SYSTEM, SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -139,7 +139,7 @@ def _seed_repository_entities(
         )
 
 
-def _seed_issues(hass: __HAC_KEEP__) -> None:
+def _seed_issues(hass: UniversalAssistant) -> None:
     """Create the repair issues HACS left behind."""
     for issue_id in ISSUE_IDS:
         ir.async_create_issue(
@@ -153,7 +153,7 @@ def _seed_issues(hass: __HAC_KEEP__) -> None:
 
 
 def _registry_state(
-    hass: __HAC_KEEP__, entry: MockConfigEntry
+    hass: UniversalAssistant, entry: MockConfigEntry
 ) -> tuple[dict[str, tuple], dict[str, frozenset]]:
     """Return the part of the registries the takeover touches."""
     entity_registry = er.async_get(hass)
@@ -172,7 +172,7 @@ def _registry_state(
 
 @pytest.mark.usefixtures("stored_repositories")
 async def test_takeover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -230,7 +230,7 @@ async def test_takeover(
 
 @pytest.mark.usefixtures("stored_repositories")
 async def test_takeover_runs_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -265,7 +265,7 @@ async def test_takeover_runs_once(
 )
 @pytest.mark.usefixtures("stored_repositories")
 async def test_existing_install_reads_warning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     warning_accepted: None,
@@ -292,7 +292,7 @@ async def test_existing_install_reads_warning(
 )
 @pytest.mark.usefixtures("stored_repositories")
 async def test_system_entry_does_not_accept_warning(
-    hass: __HAC_KEEP__, data: dict[str, str]
+    hass: UniversalAssistant, data: dict[str, str]
 ) -> None:
     """Test a system entry needs the warning read, connecting GitHub does not count."""
     entry = MockConfigEntry(domain=DOMAIN, source=SOURCE_SYSTEM, data=data)
@@ -307,7 +307,7 @@ async def test_system_entry_does_not_accept_warning(
 
 @pytest.mark.usefixtures("stored_repositories")
 async def test_takeover_unique_id_taken(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -345,7 +345,7 @@ async def test_takeover_unique_id_taken(
 
 @pytest.mark.usefixtures("stored_repositories")
 async def test_takeover_device_identifier_taken(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -380,7 +380,7 @@ async def test_takeover_device_identifier_taken(
 )
 @pytest.mark.usefixtures("stored_repositories")
 async def test_duplicate_entries_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     oldest_data: dict[str, str],
     newest_data: dict[str, str],
 ) -> None:
@@ -417,7 +417,7 @@ async def test_duplicate_entries_removed(
 )
 @pytest.mark.usefixtures("stored_repositories")
 async def test_duplicate_china_entry_keeps_the_mirrors(
-    hass: __HAC_KEEP__, china_options: dict[str, Any], token: str | None
+    hass: UniversalAssistant, china_options: dict[str, Any], token: str | None
 ) -> None:
     """Test a China entry next to an older Marketplace one keeps its mirrors.
 
@@ -445,7 +445,7 @@ async def test_duplicate_china_entry_keeps_the_mirrors(
 
 
 @pytest.mark.usefixtures("stored_repositories")
-async def test_china_option_keeps_a_chosen_profile(hass: __HAC_KEEP__) -> None:
+async def test_china_option_keeps_a_chosen_profile(hass: UniversalAssistant) -> None:
     """Test a profile already chosen wins over the option of the China fork."""
     entry = MockConfigEntry(
         domain=DOMAIN, options={"use_shared": False, CONF_PROFILE: "default"}
@@ -457,7 +457,7 @@ async def test_china_option_keeps_a_chosen_profile(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("stored_repositories")
 async def test_duplicate_entries_keep_the_legacy_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test the entry with the entities of HACS wins over an older one.
@@ -497,7 +497,7 @@ async def test_duplicate_entries_keep_the_legacy_entities(
 
 
 @pytest.fixture
-def users_who_accepted(hass: __HAC_KEEP__) -> None:
+def users_who_accepted(hass: UniversalAssistant) -> None:
     """Add the users the stored acceptances belong to, others are forgotten."""
     for user_id in ("abc", "def", "ghi"):
         MockUser(id=user_id).add_to_hass(hass)
@@ -546,7 +546,7 @@ OLDER_WARNING_ACCEPTANCE = {
 )
 @pytest.mark.usefixtures("stored_repositories", "users_who_accepted")
 async def test_duplicate_entries_keep_warning_acceptance(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     oldest_data: dict[str, Any],
     newest_source: str,
     newest_data: dict[str, Any],
@@ -597,14 +597,14 @@ def lovelace_resources(hass_storage: dict[str, Any]) -> list[dict[str, str]]:
     return items
 
 
-def _resource_urls(hass: __HAC_KEEP__) -> list[str]:
+def _resource_urls(hass: UniversalAssistant) -> list[str]:
     """Return the URL of every registered dashboard resource."""
     return [item["url"] for item in hass.data[LOVELACE_DATA].resources.async_items()]
 
 
 @pytest.mark.usefixtures("lovelace_resources")
 async def test_dashboard_resource_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -624,7 +624,7 @@ async def test_dashboard_resource_migration(
 
 @pytest.mark.usefixtures("lovelace_resources")
 async def test_dashboard_resources_are_loaded_once(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test moving the resources does not read their file a second time."""
     assert await async_setup_component(hass, "lovelace", {})
@@ -640,7 +640,7 @@ async def test_dashboard_resources_are_loaded_once(
 
 @pytest.mark.usefixtures("lovelace_resources")
 async def test_dashboard_resource_migration_is_idempotent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -659,7 +659,7 @@ async def test_dashboard_resource_migration_is_idempotent(
 
 
 async def test_dashboard_resource_migration_in_yaml_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -742,7 +742,7 @@ def legacy_integration(config_dir: Path) -> Path:
 
 @pytest.mark.usefixtures("adopted_storage", "stored_repositories")
 async def test_legacy_files_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     config_dir: Path,
     legacy_integration: Path,
@@ -768,7 +768,7 @@ async def test_legacy_files_removed(
 @pytest.mark.parametrize("mode", ["safe_mode", "recovery_mode"])
 @pytest.mark.usefixtures("adopted_storage", "stored_repositories")
 async def test_legacy_files_kept_in_safe_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     config_dir: Path,
     legacy_integration: Path,
@@ -785,7 +785,7 @@ async def test_legacy_files_kept_in_safe_mode(
 
 
 @pytest.mark.parametrize("mode", ["safe_mode", "recovery_mode"])
-async def test_no_entry_of_its_own_in_safe_mode(hass: __HAC_KEEP__, mode: str) -> None:
+async def test_no_entry_of_its_own_in_safe_mode(hass: UniversalAssistant, mode: str) -> None:
     """Test safe and recovery mode leave the entry of HACS to take over later."""
     setattr(hass.config, mode, True)
     MockConfigEntry(domain=LEGACY_HACS_DOMAIN, source=SOURCE_USER).add_to_hass(hass)
@@ -805,7 +805,7 @@ async def test_no_entry_of_its_own_in_safe_mode(hass: __HAC_KEEP__, mode: str) -
 )
 @pytest.mark.usefixtures("adopted_storage", "stored_repositories")
 async def test_foreign_integration_kept(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     config_dir: Path,
     manifest: str,
@@ -870,7 +870,7 @@ def _seed_linked_custom_components(config_dir: Path) -> Path:
 )
 @pytest.mark.usefixtures("adopted_storage", "stored_repositories")
 async def test_development_checkout_kept(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     config_dir: Path,
     caplog: pytest.LogCaptureFixture,
@@ -889,7 +889,7 @@ async def test_development_checkout_kept(
 
 @pytest.mark.usefixtures("adopted_storage", "stored_repositories")
 async def test_no_legacy_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     config_dir: Path,
 ) -> None:
@@ -923,7 +923,7 @@ async def test_no_legacy_integration(
 )
 @pytest.mark.usefixtures("stored_repositories")
 async def test_legacy_storage_needs_counterpart(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     config_dir: Path,
     legacy_integration: Path,
@@ -943,7 +943,7 @@ async def test_legacy_storage_needs_counterpart(
 
 @pytest.mark.usefixtures("adopted_storage", "stored_repositories")
 async def test_legacy_storage_of_another_version_kept(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, config_dir: Path
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, config_dir: Path
 ) -> None:
     """Test a legacy file the Marketplace could not take the data from stays."""
     legacy = config_dir / ".storage" / "hacs.repositories"
@@ -959,7 +959,7 @@ async def test_legacy_storage_of_another_version_kept(
 
 @pytest.mark.usefixtures("stored_repositories")
 async def test_legacy_integration_kept_without_marketplace_storage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     legacy_integration: Path,
     caplog: pytest.LogCaptureFixture,
@@ -974,7 +974,7 @@ async def test_legacy_integration_kept_without_marketplace_storage(
 
 @pytest.mark.usefixtures("adopted_storage", "stored_repositories")
 async def test_legacy_integration_removal_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     config_dir: Path,
     legacy_integration: Path,
@@ -995,7 +995,7 @@ async def test_legacy_integration_removal_fails(
 
 @pytest.mark.usefixtures("adopted_storage", "stored_repositories")
 async def test_legacy_storage_removal_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     config_dir: Path,
     caplog: pytest.LogCaptureFixture,
@@ -1015,7 +1015,7 @@ async def test_legacy_storage_removal_fails(
 
 @pytest.mark.usefixtures("adopted_storage", "stored_repositories", "legacy_integration")
 async def test_legacy_files_removal_runs_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1056,7 +1056,7 @@ APPDAEMON_REPOSITORIES: dict[str, dict[str, Any]] = {
 
 
 def _seed_stored_repositories(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     appdaemon_repositories: dict[str, dict[str, Any]],
 ) -> None:
@@ -1096,7 +1096,7 @@ def _seed_appdaemon_registry_entries(
 
 
 async def test_appdaemon_repositories_forgotten(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     config_dir: Path,
     device_registry: dr.DeviceRegistry,
@@ -1160,7 +1160,7 @@ async def test_appdaemon_repositories_forgotten(
 
 
 async def test_appdaemon_repositories_not_installed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1201,7 +1201,7 @@ PYTHON_SCRIPT_REPOSITORIES: dict[str, dict[str, Any]] = {
 
 
 async def test_python_scripts_forgotten_next_to_appdaemon(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     config_dir: Path,
     device_registry: dr.DeviceRegistry,
@@ -1241,7 +1241,7 @@ async def test_python_scripts_forgotten_next_to_appdaemon(
 
 
 @pytest.mark.usefixtures("stored_repositories")
-async def test_options_cleared(hass: __HAC_KEEP__) -> None:
+async def test_options_cleared(hass: UniversalAssistant) -> None:
     """Test every option is cleared, including ones the Marketplace never knew."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1290,7 +1290,7 @@ async def test_options_cleared(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_china_install_keeps_the_mirrors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     options: dict[str, Any],
     data: dict[str, Any],
     migrated_options: dict[str, Any],
@@ -1312,7 +1312,7 @@ async def test_china_install_keeps_the_mirrors(
 
 
 @pytest.mark.usefixtures("stored_repositories")
-async def test_profile_kept_on_the_next_start(hass: __HAC_KEEP__) -> None:
+async def test_profile_kept_on_the_next_start(hass: UniversalAssistant) -> None:
     """Test the profile, the one option of the Marketplace, is not cleared."""
     entry = MockConfigEntry(domain=DOMAIN, options={CONF_PROFILE: "hasscn"})
     await setup_integration(hass, entry)

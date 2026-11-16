@@ -19,7 +19,7 @@ from universalassistant.components.number import (
 )
 from universalassistant.components.velux.const import DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -41,7 +41,7 @@ def get_number_entity_id(mock: AsyncMock) -> str:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_number_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -56,7 +56,7 @@ async def test_number_setup(
 
 
 async def test_heating_entity_number_device_association(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_exterior_heating: AsyncMock,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -73,7 +73,7 @@ async def test_heating_entity_number_device_association(
 
 
 async def test_get_intensity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_exterior_heating: AsyncMock,
 ) -> None:
     """Entity state follows intensity value and becomes unknown when not known."""
@@ -96,7 +96,7 @@ async def test_get_intensity(
 
 
 async def test_set_value_sets_intensity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_exterior_heating: AsyncMock,
 ) -> None:
     """Calling set_value forwards to set_intensity."""
@@ -118,7 +118,7 @@ async def test_set_value_sets_intensity(
 
 
 async def test_set_invalid_value_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_exterior_heating: AsyncMock,
 ) -> None:
     """Values outside valid range raise ServiceValidationError."""
@@ -146,7 +146,7 @@ def open_limit_entity_id(mock: AsyncMock) -> str:
 
 
 async def test_limitation_entity_number_device_association(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_window: AsyncMock,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -164,7 +164,7 @@ async def test_limitation_entity_number_device_association(
 
 @pytest.mark.parametrize("mock_pyvlx", ["mock_window"], indirect=True)
 async def test_limitation_entities_created(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_window: AsyncMock,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -178,7 +178,7 @@ async def test_limitation_entities_created(
 @pytest.mark.parametrize("mock_pyvlx", ["mock_window"], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_limitation_entities_enabled_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_window: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -202,7 +202,7 @@ async def test_limitation_entities_enabled_state(
 @pytest.mark.parametrize("mock_pyvlx", ["mock_window"], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_limitation_entity_bounds_follow_sibling_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_window: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -235,7 +235,7 @@ async def test_limitation_entity_bounds_follow_sibling_value(
 @pytest.mark.parametrize("mock_pyvlx", ["mock_window"], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_set_min_limitation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_window: AsyncMock,
 ) -> None:
     """Setting HA minimum opening updates pyvlx max and preserves pyvlx min."""
@@ -257,7 +257,7 @@ async def test_set_min_limitation(
 @pytest.mark.parametrize("mock_pyvlx", ["mock_window"], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_set_limitation_updates_state_optimistically(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_window: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -282,7 +282,7 @@ async def test_set_limitation_updates_state_optimistically(
 @pytest.mark.parametrize("mock_pyvlx", ["mock_window"], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_set_max_limitation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_window: AsyncMock,
 ) -> None:
     """Setting HA maximum opening updates pyvlx min and preserves pyvlx max."""
@@ -304,7 +304,7 @@ async def test_set_max_limitation(
 @pytest.mark.parametrize("mock_pyvlx", ["mock_window"], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_limitation_unavailable_on_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_window: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:

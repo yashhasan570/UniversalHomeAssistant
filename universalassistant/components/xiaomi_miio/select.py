@@ -29,7 +29,7 @@ from miio.integrations.humidifier.zhimi.airhumidifier_miot import (
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import ATTR_MODE, CONF_DEVICE, CONF_MODEL, EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -195,7 +195,7 @@ SELECTOR_TYPES = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: XiaomiMiioConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

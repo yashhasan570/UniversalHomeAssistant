@@ -21,7 +21,7 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import AQUA_CONTOUR_SERVICE_INFO, WATER_TIMER_SERVICE_INFO, setup_entry
 
@@ -87,7 +87,7 @@ pytestmark = pytest.mark.usefixtures("constant_advertisements")
     ],
 )
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_read_char_raw: dict[str, bytes],
     scan_step: Callable[[], Awaitable[None]],
@@ -135,7 +135,7 @@ async def test_setup(
     ],
 )
 async def test_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_read_char_raw: dict[str, bytes],
     mock_client: Mock,
     service_info: BluetoothServiceInfo,
@@ -166,7 +166,7 @@ async def test_config(
 
 
 async def test_bluetooth_error_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_entry: MockConfigEntry,
     mock_read_char_raw: dict[str, bytes],
@@ -195,7 +195,7 @@ async def test_bluetooth_error_unavailable(
 
 
 async def test_missing_connected_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry: MockConfigEntry,
     mock_read_char_raw: dict[str, bytes],
     scan_step: Callable[[], Awaitable[None]],
@@ -218,7 +218,7 @@ async def test_missing_connected_state(
 
 
 async def test_connected_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_entry: MockConfigEntry,
     mock_read_char_raw: dict[str, bytes],

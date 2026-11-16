@@ -26,7 +26,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er, translation
 from universalassistant.util import dt as dt_util
 
@@ -34,7 +34,7 @@ from .conftest import MockSoCo, SonosMockEvent
 
 
 async def test_entity_registry_unsupported(
-    hass: __HAC_KEEP__, async_setup_sonos, soco, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, async_setup_sonos, soco, entity_registry: er.EntityRegistry
 ) -> None:
     """Test sonos device without battery registered in the device registry."""
     soco.get_battery_info.side_effect = NotSupportedException
@@ -48,7 +48,7 @@ async def test_entity_registry_unsupported(
 
 
 async def test_entity_registry_supported(
-    hass: __HAC_KEEP__, async_autosetup_sonos, soco, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, async_autosetup_sonos, soco, entity_registry: er.EntityRegistry
 ) -> None:
     """Test sonos device with battery registered in the device registry."""
     await hass.async_block_till_done(wait_background_tasks=True)
@@ -61,7 +61,7 @@ async def test_entity_registry_supported(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_battery_attributes(
-    hass: __HAC_KEEP__, async_autosetup_sonos, soco, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, async_autosetup_sonos, soco, entity_registry: er.EntityRegistry
 ) -> None:
     """Test sonos device with battery state."""
     battery = entity_registry.entities["sensor.zone_a_battery"]
@@ -98,7 +98,7 @@ async def test_battery_attributes(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_power_source_unknown_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_setup_sonos: Callable[[], Coroutine[Any, Any, None]],
     soco: MockSoCo,
     entity_registry: er.EntityRegistry,
@@ -123,7 +123,7 @@ async def test_power_source_unknown_state(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_power_source_none(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_setup_sonos: Callable[[], Coroutine[Any, Any, None]],
     soco: MockSoCo,
     entity_registry: er.EntityRegistry,
@@ -143,7 +143,7 @@ async def test_power_source_none(
 
 
 async def test_battery_on_s1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_setup_sonos,
     soco,
     device_properties_event,
@@ -176,7 +176,7 @@ async def test_battery_on_s1(
 
 
 async def test_device_payload_without_battery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_setup_sonos,
     soco,
     device_properties_event,
@@ -201,7 +201,7 @@ async def test_device_payload_without_battery(
 
 
 async def test_device_payload_without_battery_and_ignored_keys(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_setup_sonos,
     soco,
     device_properties_event,
@@ -226,7 +226,7 @@ async def test_device_payload_without_battery_and_ignored_keys(
 
 
 async def test_audio_input_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_autosetup_sonos,
     soco,
     tv_event,
@@ -270,7 +270,7 @@ async def test_audio_input_sensor(
 
 
 async def test_microphone_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_autosetup_sonos,
     soco,
     device_properties_event,
@@ -293,7 +293,7 @@ async def test_microphone_binary_sensor(
 
 
 async def test_favorites_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_autosetup_sonos,
     soco,
     fire_zgs_event,

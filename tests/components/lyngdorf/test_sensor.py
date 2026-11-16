@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import _steppable, notify_receiver_update
@@ -22,7 +22,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("mock_receiver", "entity_registry_enabled_by_default")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -33,7 +33,7 @@ async def test_entities(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_sensor_none_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_receiver: MagicMock,
 ) -> None:
     """Test a sensor shows unknown when the device reports nothing."""
@@ -47,7 +47,7 @@ async def test_sensor_none_values(
 
 
 async def test_enum_sensor_ignores_unknown_device_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -77,7 +77,7 @@ async def test_enum_sensor_ignores_unknown_device_value(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_sensors_read_the_current_lists_not_the_deprecated_aliases(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_receiver: MagicMock,
     entity_id: str,
     attribute: str,
@@ -93,7 +93,7 @@ async def test_sensors_read_the_current_lists_not_the_deprecated_aliases(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_zone_b_sensors_read_the_zone_object(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_receiver: MagicMock,
 ) -> None:
     """Test the Zone B sensors follow the zone, not the receiver aliases."""
@@ -113,7 +113,7 @@ async def test_zone_b_sensors_read_the_zone_object(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_enum_options_follow_the_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_receiver: MagicMock,
 ) -> None:
     """Test enum options track the lists the device reports."""
@@ -134,7 +134,7 @@ async def test_enum_options_follow_the_device(
 
 
 async def test_maximum_volume_is_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -147,7 +147,7 @@ async def test_maximum_volume_is_disabled_by_default(
 
 
 async def test_maximum_volume_follows_the_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_receiver: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -172,7 +172,7 @@ async def test_maximum_volume_follows_the_device(
 
 
 async def test_no_maximum_volume_sensor_without_a_volume_control(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
     entity_registry: er.EntityRegistry,

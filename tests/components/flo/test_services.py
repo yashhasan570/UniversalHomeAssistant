@@ -9,14 +9,14 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.flo.const import DOMAIN
 from universalassistant.components.flo.services import FloService, FloServiceArgument
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 SWITCH_ENTITY_ID = "switch.smart_water_shutoff_shutoff_valve"
 
 
 @pytest.mark.usefixtures("aioclient_mock_fixture")
 async def test_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:

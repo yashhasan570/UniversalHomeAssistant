@@ -1,7 +1,7 @@
 """The Fluss+ integration."""
 
 from universalassistant.const import CONF_API_KEY, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import FlussConfigEntry, FlussDataUpdateCoordinator
 
@@ -9,7 +9,7 @@ PLATFORMS: list[Platform] = [Platform.BUTTON, Platform.COVER]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FlussConfigEntry,
 ) -> None:
     """Set up Fluss+ from a config entry."""
@@ -19,6 +19,6 @@ async def async_setup_entry(
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: FlussConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: FlussConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

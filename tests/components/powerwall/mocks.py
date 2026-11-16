@@ -19,14 +19,14 @@ from tesla_powerwall import (
     SiteMasterResponse,
 )
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.json import JsonValueType
 
 MOCK_GATEWAY_DIN = "111-0----2-000000000FFA"
 
 
 async def _mock_powerwall_with_fixtures(
-    hass: __HAC_KEEP__, empty_meters: bool = False
+    hass: UniversalAssistant, empty_meters: bool = False
 ) -> MagicMock:
     """Mock data used to build powerwall state."""
     async with asyncio.TaskGroup() as tg:
@@ -100,7 +100,7 @@ async def _mock_powerwall_return_value(
     return powerwall_mock
 
 
-async def _mock_powerwall_site_name(hass: __HAC_KEEP__, site_name: str) -> MagicMock:
+async def _mock_powerwall_site_name(hass: UniversalAssistant, site_name: str) -> MagicMock:
     powerwall_mock = MagicMock(Powerwall)
     powerwall_mock.__aenter__.return_value = powerwall_mock
 
@@ -115,7 +115,7 @@ async def _mock_powerwall_site_name(hass: __HAC_KEEP__, site_name: str) -> Magic
     return powerwall_mock
 
 
-async def _mock_powerwall_restricted(hass: __HAC_KEEP__) -> MagicMock:
+async def _mock_powerwall_restricted(hass: UniversalAssistant) -> MagicMock:
     """Mock a PW3-style restricted gateway.
 
     Only the three guaranteed endpoints work; everything else raises a 404
@@ -152,7 +152,7 @@ async def _mock_powerwall_side_effect(site_info=None):
     return powerwall_mock
 
 
-async def _async_load_json_fixture(hass: __HAC_KEEP__, path: str) -> JsonValueType:
+async def _async_load_json_fixture(hass: UniversalAssistant, path: str) -> JsonValueType:
     fixture = await hass.async_add_executor_job(
         load_fixture, os.path.join("powerwall", path)
     )

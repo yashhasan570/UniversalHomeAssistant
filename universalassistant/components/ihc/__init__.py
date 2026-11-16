@@ -6,7 +6,7 @@ from ihcsdk.ihccontroller import IHCController
 import probatio
 
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.typing import ConfigType
 
 from .auto_setup import autosetup_ihc_products
@@ -29,7 +29,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the IHC integration."""
     hass.data.setdefault(DOMAIN, {})
     setup_services(hass)
@@ -41,7 +41,7 @@ def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 def ihc_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     controller_conf: ConfigType,
     controller_index: int,

@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.android_ip_webcam.const import DOMAIN
 from universalassistant.components.camera import async_get_stream_source
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.usefixtures("aioclient_mock_fixture")
@@ -33,7 +33,7 @@ from universalassistant.core import __HAC_KEEP__
     ],
 )
 async def test_camera_stream_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict[str, Any],
     expected_stream_source: str,
 ) -> None:

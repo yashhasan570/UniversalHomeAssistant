@@ -40,7 +40,7 @@ from mypy.types import Instance, LiteralType, Type, UnionType, get_proper_type
 ENUM_IDENTITY = ErrorCode(
     "universal-assistant-enum-identity-compare",
     "Use `is`/`is not` to compare two operands of the same enum class.",
-    "__HA_KEEP__",
+    "Universal Home Assistant",
 )
 
 _PLAIN_ENUM_BASE = "enum.Enum"

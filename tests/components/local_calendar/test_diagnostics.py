@@ -9,15 +9,15 @@ from pytest_universalassistant.typing import ClientSessionGenerator, WebSocketGe
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.auth.models import Credentials
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import TEST_ENTITY, Client
 
 
 async def generate_new_hass_access_token(
-    hass: __HAC_KEEP__, hass_admin_user: MockUser, hass_admin_credential: Credentials
+    hass: UniversalAssistant, hass_admin_user: MockUser, hass_admin_credential: Credentials
 ) -> str:
-    """Return an access token to access __HA_KEEP__."""
+    """Return an access token to access Universal Home Assistant."""
     await hass.auth.async_link_user(hass_admin_user, hass_admin_credential)
 
     refresh_token = await hass.auth.async_create_refresh_token(
@@ -27,7 +27,7 @@ async def generate_new_hass_access_token(
 
 
 def _get_test_client_generator(
-    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator, new_token: str
+    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator, new_token: str
 ):
     """Return a test client generator.""."""
 
@@ -42,7 +42,7 @@ def _get_test_client_generator(
 @freeze_time("2023-03-13 12:05:00-07:00")
 @pytest.mark.usefixtures("socket_enabled")
 async def test_empty_calendar(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: None,
     hass_admin_user: MockUser,
     hass_admin_credential: Credentials,
@@ -72,7 +72,7 @@ async def test_empty_calendar(
 @freeze_time("2023-03-13 12:05:00-07:00")
 @pytest.mark.usefixtures("socket_enabled")
 async def test_api_date_time_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: None,
     hass_admin_user: MockUser,
     hass_admin_credential: Credentials,

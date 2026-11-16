@@ -78,7 +78,7 @@ from universalassistant.const import (
     UnitOfVolumeFlowRate,
     UnitOfVolumetricFlux,
 )
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import STORAGE_KEY as RESTORE_STATE_KEY
@@ -125,7 +125,7 @@ TEST_DOMAIN = "test"
     ],
 )
 async def test_temperature_conversion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     unit_system,
     native_unit,
     state_unit,
@@ -152,7 +152,7 @@ async def test_temperature_conversion(
 
 @pytest.mark.parametrize("device_class", [None, SensorDeviceClass.PRESSURE])
 async def test_temperature_conversion_wrong_device_class(
-    hass: __HAC_KEEP__, device_class
+    hass: UniversalAssistant, device_class
 ) -> None:
     """Test temperatures are not converted if the sensor has wrong device class."""
     entity0 = MockSensor(
@@ -180,7 +180,7 @@ async def test_temperature_conversion_wrong_device_class(
     ],
 )
 async def test_ambiguous_unit_of_measurement_compat(
-    hass: __HAC_KEEP__, ambiguous_unit: str, normalized_unit: str
+    hass: UniversalAssistant, ambiguous_unit: str, normalized_unit: str
 ) -> None:
     """Test ambiguous native_unit_of_measurement values are corrected."""
     entity0 = MockSensor(
@@ -209,7 +209,7 @@ def test_ambiguous_units_of_measurement_aligned() -> None:
 
 @pytest.mark.parametrize("state_class", ["measurement", "total_increasing"])
 async def test_deprecated_last_reset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     state_class,
 ) -> None:
@@ -234,7 +234,7 @@ async def test_deprecated_last_reset(
 
 
 async def test_datetime_conversion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test conversion of datetime."""
@@ -285,7 +285,7 @@ async def test_datetime_conversion(
 
 @pytest.mark.parametrize("drift_tolerance", [UPTIME_DEFAULT_TOLERANCE_SECONDS, 10])
 async def test_uptime_device_class_auto_normalizes_drift(
-    hass: __HAC_KEEP__, drift_tolerance
+    hass: UniversalAssistant, drift_tolerance
 ) -> None:
     """Test uptime device class suppresses small drift automatically."""
     initial_uptime = datetime(2026, 2, 14, 9, 30, tzinfo=UTC)
@@ -322,7 +322,7 @@ async def test_uptime_device_class_auto_normalizes_drift(
 
 
 async def test_a_sensor_with_a_non_numeric_device_class(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test that a sensor with a non numeric device class will be non numeric.
@@ -369,7 +369,7 @@ async def test_a_sensor_with_a_non_numeric_device_class(
     ],
 )
 async def test_deprecated_datetime_str(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class,
     state_value,
@@ -391,7 +391,7 @@ async def test_deprecated_datetime_str(
 
 
 async def test_reject_timezoneless_datetime_str(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test rejection of timezone-less datetime objects as timestamp."""
@@ -484,7 +484,7 @@ RESTORE_DATA = {
     ],
 )
 async def test_restore_sensor_save_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     native_value,
     native_value_type,
@@ -517,7 +517,7 @@ async def test_restore_sensor_save_state(
 
 @pytest.mark.freeze_time("2020-02-08 15:00:00")
 async def test_restore_sensor_save_state_frozen_time_datetime(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test RestoreSensor."""
@@ -545,7 +545,7 @@ async def test_restore_sensor_save_state_frozen_time_datetime(
 
 @pytest.mark.freeze_time("2020-02-08 15:00:00")
 async def test_restore_sensor_save_state_frozen_time_date(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test RestoreSensor."""
@@ -606,7 +606,7 @@ async def test_restore_sensor_save_state_frozen_time_date(
     ],
 )
 async def test_restore_sensor_restore_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     native_value,
     native_value_type,
@@ -634,7 +634,7 @@ async def test_restore_sensor_restore_state(
 
 
 async def test_translated_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test translated unit."""
 
@@ -667,7 +667,7 @@ async def test_translated_unit(
 
 
 async def test_translated_unit_with_native_unit_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that translated unit."""
 
@@ -699,7 +699,7 @@ async def test_translated_unit_with_native_unit_raises(
 
 
 async def test_unit_translation_key_without_platform_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test unit translation key raises without platform."""
 
@@ -935,7 +935,7 @@ async def test_unit_translation_key_without_platform_raises(
     ],
 )
 async def test_custom_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_class,
     native_unit,
@@ -1003,7 +1003,7 @@ async def test_custom_unit(
     ],
 )
 async def test_custom_unit_zero_between_inverse_units(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     native_unit: str,
     custom_unit: str,
@@ -1291,7 +1291,7 @@ async def test_custom_unit_zero_between_inverse_units(
     ],
 )
 async def test_custom_unit_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     native_unit,
     custom_unit,
@@ -1390,7 +1390,7 @@ async def test_custom_unit_change(
     ],
 )
 async def test_unit_conversion_priority(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     unit_system,
     native_unit,
@@ -1538,7 +1538,7 @@ async def test_unit_conversion_priority(
     ],
 )
 async def test_unit_conversion_priority_precision(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     unit_system,
     native_unit,
@@ -1708,7 +1708,7 @@ async def test_unit_conversion_priority_precision(
     ],
 )
 async def test_custom_unit_adjusted_precision(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     suggested_precision: int,
     custom_unit: str,
@@ -1765,7 +1765,7 @@ async def test_custom_unit_adjusted_precision(
     ],
 )
 async def test_unit_conversion_priority_suggested_unit_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     unit_system,
     native_unit,
@@ -1874,7 +1874,7 @@ async def test_unit_conversion_priority_suggested_unit_change(
     ],
 )
 async def test_unit_conversion_priority_suggested_unit_change_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     native_unit_1,
     native_unit_2,
@@ -1994,7 +1994,7 @@ async def test_unit_conversion_priority_suggested_unit_change_2(
     ],
 )
 async def test_default_precision(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_class: str,
     native_unit: str,
@@ -2054,7 +2054,7 @@ async def test_default_precision(
     ],
 )
 async def test_suggested_precision_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     unit_system,
     native_unit,
@@ -2128,7 +2128,7 @@ async def test_suggested_precision_option(
     ],
 )
 async def test_suggested_precision_option_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     unit_system,
     native_unit,
@@ -2216,7 +2216,7 @@ async def test_suggested_precision_option_update(
     ],
 )
 async def test_unit_conversion_priority_legacy_conversion_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     unit_system,
     native_unit,
@@ -2270,7 +2270,7 @@ def test_unit_converters_aligned() -> None:
 
 
 async def test_value_unknown_in_enumeration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test warning on invalid enum value."""
@@ -2292,7 +2292,7 @@ async def test_value_unknown_in_enumeration(
 
 
 async def test_invalid_enumeration_entity_with_device_class(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test warning on entities that provide an enum with a device class."""
@@ -2314,7 +2314,7 @@ async def test_invalid_enumeration_entity_with_device_class(
 
 
 async def test_invalid_enumeration_entity_without_device_class(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test warning on entities that provide an enum without a device class."""
@@ -2344,7 +2344,7 @@ async def test_invalid_enumeration_entity_without_device_class(
     ],
 )
 async def test_non_numeric_device_class_with_unit_of_measurement(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class: SensorDeviceClass,
 ) -> None:
@@ -2422,7 +2422,7 @@ async def test_non_numeric_device_class_with_unit_of_measurement(
     ],
 )
 async def test_device_classes_with_invalid_unit_of_measurement(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class: SensorDeviceClass,
 ) -> None:
@@ -2453,7 +2453,7 @@ async def test_device_classes_with_invalid_unit_of_measurement(
     [SensorStateClass.MEASUREMENT_ANGLE],
 )
 async def test_state_classes_with_invalid_unit_of_measurement(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     state_class: SensorStateClass,
 ) -> None:
@@ -2504,7 +2504,7 @@ async def test_state_classes_with_invalid_unit_of_measurement(
     ],
 )
 async def test_non_numeric_validation_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     native_value: Any,
     problem: str,
@@ -2547,7 +2547,7 @@ async def test_non_numeric_validation_error(
     ],
 )
 async def test_non_numeric_validation_raise(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     native_value: Any,
     expected: str,
@@ -2596,7 +2596,7 @@ async def test_non_numeric_validation_raise(
     ],
 )
 async def test_numeric_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     native_value: Any,
     expected: str,
@@ -2627,7 +2627,7 @@ async def test_numeric_validation(
 
 
 async def test_numeric_validation_ignores_custom_device_class(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test does not error on expected numeric entities."""
@@ -2656,7 +2656,7 @@ async def test_numeric_validation_ignores_custom_device_class(
     list(SensorDeviceClass),
 )
 async def test_device_classes_with_invalid_state_class(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class: SensorDeviceClass,
 ) -> None:
@@ -2704,7 +2704,7 @@ async def test_device_classes_with_invalid_state_class(
     ],
 )
 async def test_numeric_state_expected_helper(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class: SensorDeviceClass | None,
     state_class: SensorStateClass | None,
@@ -2768,7 +2768,7 @@ async def test_numeric_state_expected_helper(
     ],
 )
 async def test_unit_conversion_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     unit_system_1,
     unit_system_2,
@@ -2973,7 +2973,7 @@ class MockFlow(ConfigFlow):
 
 
 @pytest.fixture(autouse=True)
-def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
+def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
     """Mock config flow."""
     mock_platform(hass, f"{TEST_DOMAIN}.config_flow")
 
@@ -2981,11 +2981,11 @@ def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
         yield
 
 
-async def test_name(hass: __HAC_KEEP__) -> None:
+async def test_name(hass: UniversalAssistant) -> None:
     """Test sensor name."""
 
     async def async_setup_entry_init(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -3026,7 +3026,7 @@ async def test_name(hass: __HAC_KEEP__) -> None:
     )
 
     async def async_setup_entry_platform(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -3058,7 +3058,7 @@ async def test_name(hass: __HAC_KEEP__) -> None:
 
 
 def test_async_rounded_state_unregistered_entity_is_passthrough(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test async_rounded_state on unregistered entity is passthrough."""
     hass.states.async_set("sensor.test", "1.004")
@@ -3070,7 +3070,7 @@ def test_async_rounded_state_unregistered_entity_is_passthrough(
 
 
 def test_async_rounded_state_registered_entity_with_display_precision(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test async_rounded_state on registered with display precision.
@@ -3092,7 +3092,7 @@ def test_async_rounded_state_registered_entity_with_display_precision(
     assert async_rounded_state(hass, entity_id, state) == "0.0000"
 
 
-def test_device_class_units_state_classes(hass: __HAC_KEEP__) -> None:
+def test_device_class_units_state_classes(hass: UniversalAssistant) -> None:
     """Test all numeric device classes have unit and state class."""
     # DEVICE_CLASS_UNITS should include all device classes except:
     # - SensorDeviceClass.MONETARY
@@ -3105,7 +3105,7 @@ def test_device_class_units_state_classes(hass: __HAC_KEEP__) -> None:
 
 
 async def test_entity_category_config_raises_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test error is raised when entity category is set to config."""
@@ -3131,7 +3131,7 @@ async def test_entity_category_config_raises_error(
     ],
 )
 async def test_suggested_unit_guard_invalid_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
     device_class: SensorDeviceClass,
@@ -3193,7 +3193,7 @@ async def test_suggested_unit_guard_invalid_unit(
     ],
 )
 async def test_suggested_unit_guard_valid_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_class: SensorDeviceClass,
     native_unit: str,

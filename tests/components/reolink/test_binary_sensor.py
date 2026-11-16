@@ -18,7 +18,7 @@ from universalassistant.components.reolink.coordinator import DEVICE_UPDATE_INTE
 from universalassistant.components.reolink.host import ONVIF
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -34,7 +34,7 @@ from .conftest import (
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "reolink_host")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -49,7 +49,7 @@ async def test_all_entities(
 
 
 async def test_motion_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     freezer: FrozenDateTimeFactory,
     config_entry: MockConfigEntry,
@@ -84,7 +84,7 @@ async def test_motion_sensor(
 
 
 async def test_dual_lens_sub_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -175,7 +175,7 @@ async def test_dual_lens_sub_devices(
     ],
 )
 async def test_dual_lens_sub_devices_nvr(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -202,7 +202,7 @@ async def test_dual_lens_sub_devices_nvr(
 
 
 async def test_dual_lens_sub_devices_nvr_multi_channel(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -232,7 +232,7 @@ async def test_dual_lens_sub_devices_nvr_multi_channel(
 
 
 async def test_smart_ai_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
@@ -257,7 +257,7 @@ async def test_smart_ai_sensor(
 
 
 async def test_index_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
@@ -282,7 +282,7 @@ async def test_index_sensor(
 
 
 async def test_tcp_callback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:

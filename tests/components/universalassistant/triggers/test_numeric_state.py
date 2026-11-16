@@ -23,14 +23,14 @@ from universalassistant.const import (
     SERVICE_TURN_OFF,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import Context, __HAC_KEEP__, ServiceCall
+from universalassistant.core import Context, UniversalAssistant, ServiceCall
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
 @pytest.fixture(autouse=True)
-async def setup_comp(hass: __HAC_KEEP__) -> None:
+async def setup_comp(hass: UniversalAssistant) -> None:
     """Initialize components."""
     mock_component(hass, "group")
     await async_setup_component(
@@ -55,7 +55,7 @@ async def setup_comp(hass: __HAC_KEEP__) -> None:
     "below", [10, "input_number.value_10", "number.value_10", "sensor.value_10"]
 )
 async def test_if_not_fires_on_entity_removal(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], below: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], below: int | str
 ) -> None:
     """Test the firing with removed entity."""
     hass.states.async_set("test.entity", 11)
@@ -85,7 +85,7 @@ async def test_if_not_fires_on_entity_removal(
     "below", [10, "input_number.value_10", "number.value_10", "sensor.value_10"]
 )
 async def test_if_fires_on_entity_change_below(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], below: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], below: int | str
 ) -> None:
     """Test the firing with changed entity."""
     hass.states.async_set("test.entity", 11)
@@ -136,7 +136,7 @@ async def test_if_fires_on_entity_change_below(
     "below", [10, "input_number.value_10", "number.value_10", "sensor.value_10"]
 )
 async def test_if_fires_on_entity_change_below_uuid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],
     below: int | str,
@@ -195,7 +195,7 @@ async def test_if_fires_on_entity_change_below_uuid(
     "below", [10, "input_number.value_10", "number.value_10", "sensor.value_10"]
 )
 async def test_if_fires_on_entity_change_over_to_below(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], below: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], below: int | str
 ) -> None:
     """Test the firing with changed entity."""
     hass.states.async_set("test.entity", 11)
@@ -226,7 +226,7 @@ async def test_if_fires_on_entity_change_over_to_below(
     "below", [10, "input_number.value_10", "number.value_10", "sensor.value_10"]
 )
 async def test_if_fires_on_entities_change_over_to_below(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], below: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], below: int | str
 ) -> None:
     """Test the firing with changed entities."""
     hass.states.async_set("test.entity_1", 11)
@@ -261,7 +261,7 @@ async def test_if_fires_on_entities_change_over_to_below(
     "below", [10, "input_number.value_10", "number.value_10", "sensor.value_10"]
 )
 async def test_if_not_fires_on_entity_change_below_to_below(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], below: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], below: int | str
 ) -> None:
     """Test the firing with changed entity."""
     context = Context()
@@ -304,7 +304,7 @@ async def test_if_not_fires_on_entity_change_below_to_below(
     "below", [10, "input_number.value_10", "number.value_10", "sensor.value_10"]
 )
 async def test_if_not_below_fires_on_entity_change_to_equal(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], below: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], below: int | str
 ) -> None:
     """Test the firing with changed entity."""
     hass.states.async_set("test.entity", 11)
@@ -335,7 +335,7 @@ async def test_if_not_below_fires_on_entity_change_to_equal(
     "below", [10, "input_number.value_10", "number.value_10", "sensor.value_10"]
 )
 async def test_if_not_fires_on_initial_entity_below(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], below: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], below: int | str
 ) -> None:
     """Test the firing when starting with a match."""
     hass.states.async_set("test.entity", 9)
@@ -366,7 +366,7 @@ async def test_if_not_fires_on_initial_entity_below(
     "above", [10, "input_number.value_10", "number.value_10", "sensor.value_10"]
 )
 async def test_if_not_fires_on_initial_entity_above(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], above: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], above: int | str
 ) -> None:
     """Test the firing when starting with a match."""
     hass.states.async_set("test.entity", 11)
@@ -397,7 +397,7 @@ async def test_if_not_fires_on_initial_entity_above(
     "above", [10, "input_number.value_10", "number.value_10", "sensor.value_10"]
 )
 async def test_if_fires_on_entity_change_above(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], above: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], above: int | str
 ) -> None:
     """Test the firing with changed entity."""
     hass.states.async_set("test.entity", 9)
@@ -424,7 +424,7 @@ async def test_if_fires_on_entity_change_above(
 
 
 async def test_if_fires_on_entity_unavailable_at_startup(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test the firing with changed entity at startup."""
     assert await async_setup_component(
@@ -449,7 +449,7 @@ async def test_if_fires_on_entity_unavailable_at_startup(
 
 @pytest.mark.parametrize("above", [10, "input_number.value_10"])
 async def test_if_fires_on_entity_change_below_to_above(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], above: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], above: int | str
 ) -> None:
     """Test the firing with changed entity."""
     # set initial state
@@ -479,7 +479,7 @@ async def test_if_fires_on_entity_change_below_to_above(
 
 @pytest.mark.parametrize("above", [10, "input_number.value_10"])
 async def test_if_not_fires_on_entity_change_above_to_above(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], above: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], above: int | str
 ) -> None:
     """Test the firing with changed entity."""
     # set initial state
@@ -514,7 +514,7 @@ async def test_if_not_fires_on_entity_change_above_to_above(
 
 @pytest.mark.parametrize("above", [10, "input_number.value_10"])
 async def test_if_not_above_fires_on_entity_change_to_equal(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], above: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], above: int | str
 ) -> None:
     """Test the firing with changed entity."""
     # set initial state
@@ -552,7 +552,7 @@ async def test_if_not_above_fires_on_entity_change_to_equal(
     ],
 )
 async def test_if_fires_on_entity_change_below_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     above: int | str,
     below: int | str,
@@ -592,7 +592,7 @@ async def test_if_fires_on_entity_change_below_range(
     ],
 )
 async def test_if_fires_on_entity_change_below_above_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     above: int | str,
     below: int | str,
@@ -629,7 +629,7 @@ async def test_if_fires_on_entity_change_below_above_range(
     ],
 )
 async def test_if_fires_on_entity_change_over_to_below_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     above: int | str,
     below: int | str,
@@ -670,7 +670,7 @@ async def test_if_fires_on_entity_change_over_to_below_range(
     ],
 )
 async def test_if_fires_on_entity_change_over_to_below_above_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     above: int | str,
     below: int | str,
@@ -703,7 +703,7 @@ async def test_if_fires_on_entity_change_over_to_below_above_range(
 
 @pytest.mark.parametrize("below", [100, "input_number.value_100"])
 async def test_if_not_fires_if_entity_not_match(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], below: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], below: int | str
 ) -> None:
     """Test if not fired with non matching entity."""
     assert await async_setup_component(
@@ -727,7 +727,7 @@ async def test_if_not_fires_if_entity_not_match(
 
 
 async def test_if_not_fires_and_warns_if_below_entity_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -760,7 +760,7 @@ async def test_if_not_fires_and_warns_if_below_entity_unknown(
 
 @pytest.mark.parametrize("below", [10, "input_number.value_10"])
 async def test_if_fires_on_entity_change_below_with_attribute(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], below: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], below: int | str
 ) -> None:
     """Test attributes change."""
     hass.states.async_set("test.entity", 11, {"test_attribute": 11})
@@ -788,7 +788,7 @@ async def test_if_fires_on_entity_change_below_with_attribute(
 
 @pytest.mark.parametrize("below", [10, "input_number.value_10"])
 async def test_if_not_fires_on_entity_change_not_below_with_attribute(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], below: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], below: int | str
 ) -> None:
     """Test attributes."""
     assert await async_setup_component(
@@ -813,7 +813,7 @@ async def test_if_not_fires_on_entity_change_not_below_with_attribute(
 
 @pytest.mark.parametrize("below", [10, "input_number.value_10"])
 async def test_if_fires_on_attribute_change_with_attribute_below(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], below: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], below: int | str
 ) -> None:
     """Test attributes change."""
     hass.states.async_set("test.entity", "entity", {"test_attribute": 11})
@@ -842,7 +842,7 @@ async def test_if_fires_on_attribute_change_with_attribute_below(
 
 @pytest.mark.parametrize("below", [10, "input_number.value_10"])
 async def test_if_not_fires_on_attribute_change_with_attribute_not_below(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], below: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], below: int | str
 ) -> None:
     """Test attributes change."""
     assert await async_setup_component(
@@ -868,7 +868,7 @@ async def test_if_not_fires_on_attribute_change_with_attribute_not_below(
 
 @pytest.mark.parametrize("below", [10, "input_number.value_10"])
 async def test_if_not_fires_on_entity_change_with_attribute_below(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], below: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], below: int | str
 ) -> None:
     """Test attributes change."""
     assert await async_setup_component(
@@ -894,7 +894,7 @@ async def test_if_not_fires_on_entity_change_with_attribute_below(
 
 @pytest.mark.parametrize("below", [10, "input_number.value_10"])
 async def test_if_not_fires_on_entity_change_with_not_attribute_below(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], below: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], below: int | str
 ) -> None:
     """Test attributes change."""
     assert await async_setup_component(
@@ -920,7 +920,7 @@ async def test_if_not_fires_on_entity_change_with_not_attribute_below(
 
 @pytest.mark.parametrize("below", [10, "input_number.value_10"])
 async def test_fires_on_attr_change_with_attribute_below_and_multiple_attr(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], below: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], below: int | str
 ) -> None:
     """Test attributes change."""
     hass.states.async_set(
@@ -952,7 +952,7 @@ async def test_fires_on_attr_change_with_attribute_below_and_multiple_attr(
 
 @pytest.mark.parametrize("below", [10, "input_number.value_10"])
 async def test_template_list(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], below: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], below: int | str
 ) -> None:
     """Test template list."""
     hass.states.async_set("test.entity", "entity", {"test_attribute": [11, 15, 11]})
@@ -980,7 +980,7 @@ async def test_template_list(
 
 @pytest.mark.parametrize("below", [10.0, "input_number.value_10"])
 async def test_template_string(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], below: float | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], below: float | str
 ) -> None:
     """Test template string."""
     assert await async_setup_component(
@@ -1024,7 +1024,7 @@ async def test_template_string(
 
 
 async def test_not_fires_on_attr_change_with_attr_not_below_multiple_attr(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test if not fired changed attributes."""
     assert await async_setup_component(
@@ -1060,7 +1060,7 @@ async def test_not_fires_on_attr_change_with_attr_not_below_multiple_attr(
     ],
 )
 async def test_if_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     above: int | str,
     below: int | str,
@@ -1113,7 +1113,7 @@ async def test_if_action(
     ],
 )
 async def test_if_fails_setup_bad_for(
-    hass: __HAC_KEEP__, above: int | str, below: int | str
+    hass: UniversalAssistant, above: int | str, below: int | str
 ) -> None:
     """Test for setup failure for bad for."""
     hass.states.async_set("test.entity", 5)
@@ -1139,7 +1139,7 @@ async def test_if_fails_setup_bad_for(
     assert hass.states.get("automation.automation_0").state == STATE_UNAVAILABLE
 
 
-async def test_if_fails_setup_for_without_above_below(hass: __HAC_KEEP__) -> None:
+async def test_if_fails_setup_for_without_above_below(hass: UniversalAssistant) -> None:
     """Test for setup failures for missing above or below."""
     with assert_setup_component(1, automation.DOMAIN):
         assert await async_setup_component(
@@ -1169,7 +1169,7 @@ async def test_if_fails_setup_for_without_above_below(hass: __HAC_KEEP__) -> Non
     ],
 )
 async def test_if_not_fires_on_entity_change_with_for(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
     above: int | str,
@@ -1213,7 +1213,7 @@ async def test_if_not_fires_on_entity_change_with_for(
     ],
 )
 async def test_if_not_fires_on_entities_change_with_for_after_stop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     above: int | str,
     below: int | str,
@@ -1279,7 +1279,7 @@ async def test_if_not_fires_on_entities_change_with_for_after_stop(
     ],
 )
 async def test_if_fires_on_entity_change_with_for_attribute_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
     above: int | str,
@@ -1329,7 +1329,7 @@ async def test_if_fires_on_entity_change_with_for_attribute_change(
     ],
 )
 async def test_if_fires_on_entity_change_with_for(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     above: int | str,
     below: int | str,
@@ -1364,7 +1364,7 @@ async def test_if_fires_on_entity_change_with_for(
 
 @pytest.mark.parametrize("above", [10, "input_number.value_10"])
 async def test_wait_template_with_trigger(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], above: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], above: int | str
 ) -> None:
     """Test using wait template with 'trigger.entity_id'."""
     hass.states.async_set("test.entity", "0")
@@ -1416,7 +1416,7 @@ async def test_wait_template_with_trigger(
     ],
 )
 async def test_if_fires_on_entities_change_no_overlap(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
     above: int | str,
@@ -1475,7 +1475,7 @@ async def test_if_fires_on_entities_change_no_overlap(
     ],
 )
 async def test_if_fires_on_entities_change_overlap(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
     above: int | str,
@@ -1545,7 +1545,7 @@ async def test_if_fires_on_entities_change_overlap(
     ],
 )
 async def test_if_fires_on_change_with_for_template_1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     above: int | str,
     below: int | str,
@@ -1589,7 +1589,7 @@ async def test_if_fires_on_change_with_for_template_1(
     ],
 )
 async def test_if_fires_on_change_with_for_template_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     above: int | str,
     below: int | str,
@@ -1633,7 +1633,7 @@ async def test_if_fires_on_change_with_for_template_2(
     ],
 )
 async def test_if_fires_on_change_with_for_template_3(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     above: int | str,
     below: int | str,
@@ -1668,7 +1668,7 @@ async def test_if_fires_on_change_with_for_template_3(
 
 
 async def test_if_not_fires_on_error_with_for_template(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for not firing on error with for template."""
     hass.states.async_set("test.entity", 0)
@@ -1715,7 +1715,7 @@ async def test_if_not_fires_on_error_with_for_template(
     ],
 )
 async def test_invalid_for_template(
-    hass: __HAC_KEEP__, above: int | str, below: int | str
+    hass: UniversalAssistant, above: int | str, below: int | str
 ) -> None:
     """Test for invalid for template."""
     hass.states.async_set("test.entity", 0)
@@ -1754,7 +1754,7 @@ async def test_invalid_for_template(
     ],
 )
 async def test_if_fires_on_entities_change_overlap_for_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
     above: int | str,
@@ -1820,7 +1820,7 @@ async def test_if_fires_on_entities_change_overlap_for_template(
     assert service_calls[1].data["some"] == "test.entity_2 - 0:00:10"
 
 
-async def test_below_above(hass: __HAC_KEEP__) -> None:
+async def test_below_above(hass: UniversalAssistant) -> None:
     """Test above cannot be above below."""
     with pytest.raises(probatio.Invalid):
         await numeric_state_trigger.async_validate_trigger_config(
@@ -1828,7 +1828,7 @@ async def test_below_above(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_schema_unacceptable_entities(hass: __HAC_KEEP__) -> None:
+async def test_schema_unacceptable_entities(hass: UniversalAssistant) -> None:
     """Test input_number, number & sensor only is accepted for above/below."""
     with pytest.raises(probatio.Invalid):
         await numeric_state_trigger.async_validate_trigger_config(
@@ -1852,7 +1852,7 @@ async def test_schema_unacceptable_entities(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("above", [3, "input_number.value_3"])
 async def test_attribute_if_fires_on_entity_change_with_both_filters(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], above: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], above: int | str
 ) -> None:
     """Test for firing if both filters are match attribute."""
     hass.states.async_set("test.entity", "bla", {"test-measurement": 1})
@@ -1881,7 +1881,7 @@ async def test_attribute_if_fires_on_entity_change_with_both_filters(
 
 @pytest.mark.parametrize("above", [3, "input_number.value_3"])
 async def test_attribute_if_not_fires_on_entities_change_with_for_after_stop(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], above: int | str
+    hass: UniversalAssistant, service_calls: list[ServiceCall], above: int | str
 ) -> None:
     """Test for not firing on entity change with for after stop trigger."""
     hass.states.async_set("test.entity", "bla", {"test-measurement": 1})
@@ -1920,7 +1920,7 @@ async def test_attribute_if_not_fires_on_entities_change_with_for_after_stop(
     [(8, 12)],
 )
 async def test_variables_priority(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
     above: int,
@@ -1979,7 +1979,7 @@ async def test_variables_priority(
 
 @pytest.mark.parametrize("multiplier", [1, 5])
 async def test_template_variable(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall], multiplier: int
+    hass: UniversalAssistant, service_calls: list[ServiceCall], multiplier: int
 ) -> None:
     """Test template variable."""
     hass.states.async_set("test.entity", "entity", {"test_attribute": [11, 15, 11]})

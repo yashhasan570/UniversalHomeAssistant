@@ -6,7 +6,7 @@ from aiohomekit.model import Accessory
 from aiohomekit.model.characteristics import CharacteristicsTypes
 from aiohomekit.model.services import Service, ServicesTypes
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import Helper, setup_test_component
@@ -43,7 +43,7 @@ def create_switch_with_ecobee_clear_hold_button(accessory: Accessory) -> Service
 
 
 async def test_press_button(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test a switch service that has a button characteristic is correctly handled."""
     helper = await setup_test_component(
@@ -75,7 +75,7 @@ async def test_press_button(
 
 
 async def test_ecobee_clear_hold_press_button(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test ecobee clear hold button characteristic is correctly handled."""
     helper = await setup_test_component(
@@ -107,7 +107,7 @@ async def test_ecobee_clear_hold_press_button(
 
 
 async def test_migrate_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     get_next_aid: Callable[[], int],
 ) -> None:

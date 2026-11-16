@@ -22,7 +22,7 @@ from universalassistant.const import (
     CONF_LATITUDE,
     CONF_LONGITUDE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 USER_IDENTIFIER = "user-identifier-1"
 CONFIG_ENTRY_ID = "api-key-1234"
@@ -63,7 +63,7 @@ def mock_subentries() -> list[ConfigSubentryDataWithId]:
 
 @pytest.fixture
 def mock_config_entry(
-    hass: __HAC_KEEP__, mock_subentries: list[ConfigSubentryDataWithId]
+    hass: UniversalAssistant, mock_subentries: list[ConfigSubentryDataWithId]
 ) -> MockConfigEntry:
     """Fixture for a config and a subentry."""
     return MockConfigEntry(
@@ -99,7 +99,7 @@ def mock_subentries_with_custom_laqi() -> list[ConfigSubentryDataWithId]:
 
 @pytest.fixture
 def mock_config_entry_with_custom_laqi(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_subentries_with_custom_laqi: list[ConfigSubentryDataWithId],
 ) -> MockConfigEntry:
     """Fixture for config entry with custom LAQI."""
@@ -138,7 +138,7 @@ def mock_client_api(request: pytest.FixtureRequest) -> Generator[Mock]:
 
 @pytest.fixture(name="setup_integration")
 async def mock_setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api: Mock,
 ) -> AsyncGenerator[Any]:

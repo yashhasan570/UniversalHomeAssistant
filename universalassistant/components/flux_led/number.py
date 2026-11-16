@@ -17,8 +17,8 @@ from flux_led.protocol import (
 from universalassistant.components.light import EFFECT_RANDOM
 from universalassistant.components.number import NumberEntity, NumberMode
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -33,7 +33,7 @@ DEBOUNCE_TIME = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FluxLedConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -100,11 +100,11 @@ class FluxSpeedNumber(
         current_effect = self._device.effect
         new_speed = int(value)
         if not current_effect:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Speed can only be adjusted when an effect is active"
             )
         if not self._device.speed_adjust_off and not self._device.is_on:
-            raise __HAC_KEEP__Error("Speed can only be adjusted when the light is on")
+            raise UniversalAssistantError("Speed can only be adjusted when the light is on")
         await self._device.async_set_effect(
             current_effect, new_speed, _effect_brightness(self._device.brightness)
         )

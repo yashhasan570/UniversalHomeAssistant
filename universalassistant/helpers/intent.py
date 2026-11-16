@@ -15,8 +15,8 @@ from propcache.api import cached_property
 
 from universalassistant.components.universalassistant.exposed_entities import async_should_expose
 from universalassistant.const import ATTR_ENTITY_ID, EntityStateAttribute
-from universalassistant.core import Context, __HAC_KEEP__, State, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import Context, UniversalAssistant, State, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.util.hass_dict import HassKey
 
 from . import (
@@ -65,8 +65,8 @@ SPEECH_TYPE_SSML = "ssml"
 
 
 @callback
-def async_register(hass: __HAC_KEEP__, handler: IntentHandler) -> None:
-    """Register an intent with __HA_KEEP__."""
+def async_register(hass: UniversalAssistant, handler: IntentHandler) -> None:
+    """Register an intent with Universal Home Assistant."""
     if (intents := hass.data.get(DATA_KEY)) is None:
         intents = {}
         hass.data[DATA_KEY] = intents
@@ -82,8 +82,8 @@ def async_register(hass: __HAC_KEEP__, handler: IntentHandler) -> None:
 
 
 @callback
-def async_remove(hass: __HAC_KEEP__, intent_type: str) -> None:
-    """Remove an intent from __HA_KEEP__."""
+def async_remove(hass: UniversalAssistant, intent_type: str) -> None:
+    """Remove an intent from Universal Home Assistant."""
     if (intents := hass.data.get(DATA_KEY)) is None:
         return
 
@@ -91,13 +91,13 @@ def async_remove(hass: __HAC_KEEP__, intent_type: str) -> None:
 
 
 @callback
-def async_get(hass: __HAC_KEEP__) -> Iterable[IntentHandler]:
+def async_get(hass: UniversalAssistant) -> Iterable[IntentHandler]:
     """Return registered intents."""
     return hass.data.get(DATA_KEY, {}).values()
 
 
 async def async_handle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     platform: str,
     intent_type: str,
     slots: _SlotsType | None = None,
@@ -149,7 +149,7 @@ async def async_handle(
     return result
 
 
-class IntentError(__HAC_KEEP__Error):
+class IntentError(UniversalAssistantError):
     """Base class for intent related errors."""
 
 
@@ -480,7 +480,7 @@ def _normalize_name(name: str) -> str:
 
 
 def _filter_by_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     name: str,
     candidates: Iterable[MatchTargetsCandidate],
 ) -> Iterable[MatchTargetsCandidate]:
@@ -576,7 +576,7 @@ def _default_area_candidate_filter(
 
 @callback
 def async_match_targets(  # noqa: C901
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     constraints: MatchTargetsConstraints,
     preferences: MatchTargetsPreferences | None = None,
     states: list[State] | None = None,
@@ -846,7 +846,7 @@ def async_match_targets(  # noqa: C901
 
 @callback
 def async_match_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     name: str | None = None,
     area_name: str | None = None,
     floor_name: str | None = None,
@@ -1344,7 +1344,7 @@ class Intent:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         platform: str,
         intent_type: str,
         slots: _SlotsType,
@@ -1561,7 +1561,7 @@ class IntentResponse:
 
 @callback
 def async_get_entity_aliases(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_entry: er.RegistryEntry | None,
     *,
     state: State,

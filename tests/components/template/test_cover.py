@@ -36,7 +36,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.typing import ConfigType
 
@@ -106,7 +106,7 @@ COVER_ACTIONS_WITH_SPEED = {
 
 @pytest.fixture
 async def setup_cover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     count: int,
     style: ConfigurationStyle,
     config: ConfigType,
@@ -117,7 +117,7 @@ async def setup_cover(
 
 @pytest.fixture
 async def setup_state_cover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     count: int,
     style: ConfigurationStyle,
     state_template: str,
@@ -129,7 +129,7 @@ async def setup_state_cover(
 
 @pytest.fixture
 async def setup_position_cover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     count: int,
     style: ConfigurationStyle,
     position_template: str,
@@ -151,7 +151,7 @@ async def setup_position_cover(
 
 @pytest.fixture
 async def setup_single_attribute_state_cover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     count: int,
     style: ConfigurationStyle,
     state_template: str,
@@ -172,7 +172,7 @@ async def setup_single_attribute_state_cover(
 
 @pytest.fixture
 async def setup_empty_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     count: int,
     style: ConfigurationStyle,
     script: str,
@@ -209,7 +209,7 @@ async def setup_empty_action(
 )
 @pytest.mark.usefixtures("setup_state_cover")
 async def test_template_state_text(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     set_state: str,
     test_state: str,
     text: str,
@@ -250,7 +250,7 @@ async def test_template_state_text(
 )
 @pytest.mark.usefixtures("setup_state_cover")
 async def test_template_state_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected: str,
 ) -> None:
     """Test state template states."""
@@ -280,7 +280,7 @@ async def test_template_state_states(
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_cover")
 async def test_template_state_text_with_position(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test the state of a position template in order."""
@@ -358,7 +358,7 @@ async def test_template_state_text_with_position(
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_cover")
 async def test_template_state_text_ignored_if_none_or_empty(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     set_state: str,
 ) -> None:
     """Test ignoring an empty state text of a template."""
@@ -385,7 +385,7 @@ async def test_template_state_text_ignored_if_none_or_empty(
 )
 @pytest.mark.usefixtures("setup_position_cover")
 async def test_template_position(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     position: int | None,
     expected: str,
     caplog: pytest.LogCaptureFixture,
@@ -422,7 +422,7 @@ async def test_template_position(
 )
 @pytest.mark.usefixtures("setup_cover")
 async def test_template_not_optimistic(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls: list[ServiceCall],
 ) -> None:
     """Test the is_closed attribute."""
@@ -481,7 +481,7 @@ async def test_template_not_optimistic(
     ],
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_cover")
-async def test_template_tilt(hass: __HAC_KEEP__, tilt_position: float | None) -> None:
+async def test_template_tilt(hass: UniversalAssistant, tilt_position: float | None) -> None:
     """Test tilt in and out-of-bound conditions."""
     # This forces a trigger for trigger based entities
     await async_trigger(hass, TEST_STATE_ENTITY_ID, None)
@@ -514,7 +514,7 @@ async def test_template_tilt(hass: __HAC_KEEP__, tilt_position: float | None) ->
     ],
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_cover")
-async def test_position_out_of_bounds(hass: __HAC_KEEP__) -> None:
+async def test_position_out_of_bounds(hass: UniversalAssistant) -> None:
     """Test position out-of-bounds condition."""
     # This forces a trigger for trigger based entities
     await async_trigger(hass, TEST_STATE_ENTITY_ID, None)
@@ -555,7 +555,7 @@ async def test_position_out_of_bounds(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("setup_state_cover")
 async def test_template_open_or_position(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     error: str,
     caplog_setup_text: str,
 ) -> None:
@@ -573,7 +573,7 @@ async def test_template_open_or_position(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_position_cover")
-async def test_open_action(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
+async def test_open_action(hass: UniversalAssistant, calls: list[ServiceCall]) -> None:
     """Test the open_cover command."""
 
     # This forces a trigger for trigger based entities
@@ -602,7 +602,7 @@ async def test_open_action(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_state_cover")
-async def test_close_stop_action(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
+async def test_close_stop_action(hass: UniversalAssistant, calls: list[ServiceCall]) -> None:
     """Test the close-cover and stop_cover commands."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, None)
 
@@ -635,7 +635,7 @@ async def test_close_stop_action(hass: __HAC_KEEP__, calls: list[ServiceCall]) -
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_cover")
-async def test_set_position(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
+async def test_set_position(hass: UniversalAssistant, calls: list[ServiceCall]) -> None:
     """Test the set_position command."""
     state = hass.states.get(TEST_COVER.entity_id)
     assert state.state == STATE_UNKNOWN
@@ -692,7 +692,7 @@ async def test_set_position(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> Non
 )
 @pytest.mark.usefixtures("setup_cover")
 async def test_supported_speeds(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_speeds: list[str] | None,
     expected_speed_feature: CoverEntityFeature,
 ) -> None:
@@ -813,7 +813,7 @@ async def test_supported_speeds(
 )
 @pytest.mark.usefixtures("setup_cover")
 async def test_speed_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls: list[ServiceCall],
     service: str,
     options: dict[str, Any],
@@ -855,7 +855,7 @@ async def test_speed_action(
 )
 @pytest.mark.usefixtures("setup_cover")
 async def test_set_tilt_position(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service,
     options,
     tilt_position,
@@ -882,7 +882,7 @@ async def test_set_tilt_position(
 )
 @pytest.mark.usefixtures("setup_cover")
 async def test_set_position_optimistic(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test optimistic position mode."""
     state = hass.states.get(TEST_COVER.entity_id)
@@ -930,7 +930,7 @@ async def test_set_position_optimistic(
 )
 @pytest.mark.usefixtures("setup_cover")
 async def test_non_optimistic_template_with_optimistic_state(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test optimistic state with non-optimistic template."""
     state = hass.states.get(TEST_COVER.entity_id)
@@ -970,7 +970,7 @@ async def test_non_optimistic_template_with_optimistic_state(
 )
 @pytest.mark.usefixtures("setup_position_cover")
 async def test_set_tilt_position_optimistic(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test the optimistic tilt_position mode."""
     state = hass.states.get(TEST_COVER.entity_id)
@@ -1020,7 +1020,7 @@ async def test_set_tilt_position_optimistic(
 )
 @pytest.mark.usefixtures("setup_position_cover")
 async def test_set_tilt_position_optimistic_with_tilt_optimistic_true(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test the optimistic tilt_position mode with tilt_optimistic true."""
     state = hass.states.get(TEST_COVER.entity_id)
@@ -1074,7 +1074,7 @@ async def test_set_tilt_position_optimistic_with_tilt_optimistic_true(
 )
 @pytest.mark.usefixtures("setup_position_cover")
 async def test_set_tilt_position_optimistic_with_tilt_optimistic_false(
-    hass: __HAC_KEEP__, calls: list[ServiceCall]
+    hass: UniversalAssistant, calls: list[ServiceCall]
 ) -> None:
     """Test the optimistic tilt_position mode with tilt_optimistic false."""
     state = hass.states.get(TEST_COVER.entity_id)
@@ -1127,7 +1127,7 @@ async def test_set_tilt_position_optimistic_with_tilt_optimistic_false(
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_cover")
 async def test_icon_template(
-    hass: __HAC_KEEP__, initial_expected_state: str | None
+    hass: UniversalAssistant, initial_expected_state: str | None
 ) -> None:
     """Test icon template."""
     state = hass.states.get(TEST_COVER.entity_id)
@@ -1159,7 +1159,7 @@ async def test_icon_template(
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_cover")
 async def test_entity_picture_template(
-    hass: __HAC_KEEP__, initial_expected_state: str | None
+    hass: UniversalAssistant, initial_expected_state: str | None
 ) -> None:
     """Test icon template."""
     state = hass.states.get(TEST_COVER.entity_id)
@@ -1190,7 +1190,7 @@ async def test_entity_picture_template(
     ],
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_cover")
-async def test_availability_template(hass: __HAC_KEEP__) -> None:
+async def test_availability_template(hass: UniversalAssistant) -> None:
     """Test availability template."""
     await async_trigger(hass, TEST_AVAILABILITY_ENTITY, STATE_OFF)
     assert hass.states.get(TEST_COVER.entity_id).state == STATE_UNAVAILABLE
@@ -1212,7 +1212,7 @@ async def test_availability_template(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_cover")
 async def test_invalid_availability_template_keeps_component_available(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, caplog_setup_text
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, caplog_setup_text
 ) -> None:
     """Test that an invalid availability keeps the device available."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, STATE_ON)
@@ -1230,7 +1230,7 @@ async def test_invalid_availability_template_keeps_component_available(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_cover")
-async def test_device_class(hass: __HAC_KEEP__) -> None:
+async def test_device_class(hass: UniversalAssistant) -> None:
     """Test device class."""
     state = hass.states.get(TEST_COVER.entity_id)
     assert state.attributes.get("device_class") == "door"
@@ -1245,7 +1245,7 @@ async def test_device_class(hass: __HAC_KEEP__) -> None:
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_cover")
-async def test_invalid_device_class(hass: __HAC_KEEP__) -> None:
+async def test_invalid_device_class(hass: UniversalAssistant) -> None:
     """Test device class."""
     state = hass.states.get(TEST_COVER.entity_id)
     assert not state
@@ -1257,7 +1257,7 @@ async def test_invalid_device_class(hass: __HAC_KEEP__) -> None:
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 async def test_unique_id(
-    hass: __HAC_KEEP__, style: ConfigurationStyle, config: ConfigType
+    hass: UniversalAssistant, style: ConfigurationStyle, config: ConfigType
 ) -> None:
     """Test unique_id option only creates one cover per id."""
     await setup_and_test_unique_id(hass, TEST_COVER, style, config)
@@ -1268,7 +1268,7 @@ async def test_unique_id(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_nested_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     config: ConfigType,
     entity_registry: er.EntityRegistry,
@@ -1288,7 +1288,7 @@ async def test_nested_unique_id(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_state_cover")
-async def test_state_gets_lowercased(hass: __HAC_KEEP__) -> None:
+async def test_state_gets_lowercased(hass: UniversalAssistant) -> None:
     """Test True/False is lowercased."""
 
     await async_trigger(hass, TEST_STATE_ENTITY_ID, STATE_OFF)
@@ -1324,7 +1324,7 @@ async def test_state_gets_lowercased(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_cover")
 async def test_self_referencing_icon_with_no_template_is_not_a_loop(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test a self referencing icon with no value template is not a loop."""
     assert len(hass.states.async_all()) == 1
@@ -1353,7 +1353,7 @@ async def test_self_referencing_icon_with_no_template_is_not_a_loop(
 )
 @pytest.mark.usefixtures("setup_empty_action")
 async def test_empty_action_config(
-    hass: __HAC_KEEP__, supported_feature: CoverEntityFeature
+    hass: UniversalAssistant, supported_feature: CoverEntityFeature
 ) -> None:
     """Test configuration with empty script."""
     state = hass.states.get("cover.test_template_cover")
@@ -1364,7 +1364,7 @@ async def test_empty_action_config(
 
 
 async def test_setup_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Tests creating a cover from a config entry."""
@@ -1397,7 +1397,7 @@ async def test_setup_config_entry(
 
 
 async def test_flow_preview(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test the config flow preview."""
@@ -1543,7 +1543,7 @@ async def test_flow_preview(
     ],
 )
 async def test_restore_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     style: ConfigurationStyle,
     saved_state: CoverState | str,
@@ -1605,7 +1605,7 @@ async def test_restore_state(
     ],
 )
 async def test_invalid_yaml_actions_do_not_create_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     action: str,
     config: ConfigType,
@@ -1628,7 +1628,7 @@ async def test_invalid_yaml_actions_do_not_create_entities(
     ],
 )
 async def test_invalid_config_entry_actions_do_not_create_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     action: str,
     config: ConfigType,
     caplog: pytest.LogCaptureFixture,
@@ -1643,7 +1643,7 @@ async def test_invalid_config_entry_actions_do_not_create_entities(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_extra_template_attributes(
-    hass: __HAC_KEEP__, style: ConfigurationStyle
+    hass: UniversalAssistant, style: ConfigurationStyle
 ) -> None:
     """Test extra attributes."""
     await assert_extra_template_attributes(
@@ -1662,7 +1662,7 @@ async def test_extra_template_attributes(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_blocked_template_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     attribute: str,
     caplog: pytest.LogCaptureFixture,
@@ -1688,7 +1688,7 @@ async def test_blocked_template_attributes(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1716,7 +1716,7 @@ async def test_attributes_template(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template_with_blocked_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     attribute: str,
     caplog: pytest.LogCaptureFixture,

@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, Mock, patch
 import pytest
 from pytest_universalassistant.common import extract_stack_to_frame
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import async_ as hasync
 
 
@@ -103,7 +103,7 @@ async def test_wait_shared_future_waiter_cancelled() -> None:
     exception_handler.assert_not_called()
 
 
-async def test_shutdown_run_callback_threadsafe(hass: __HAC_KEEP__) -> None:
+async def test_shutdown_run_callback_threadsafe(hass: UniversalAssistant) -> None:
     """Test we can shutdown run_callback_threadsafe."""
     hasync.shutdown_run_callback_threadsafe(hass.loop)
     callback = MagicMock()
@@ -112,7 +112,7 @@ async def test_shutdown_run_callback_threadsafe(hass: __HAC_KEEP__) -> None:
         hasync.run_callback_threadsafe(hass.loop, callback)
 
 
-async def test_run_callback_threadsafe(hass: __HAC_KEEP__) -> None:
+async def test_run_callback_threadsafe(hass: UniversalAssistant) -> None:
     """Test run_callback_threadsafe runs code in the event loop."""
     it_ran = False
 
@@ -130,7 +130,7 @@ async def test_run_callback_threadsafe(hass: __HAC_KEEP__) -> None:
     assert it_ran is True
 
 
-async def test_callback_is_always_scheduled(hass: __HAC_KEEP__) -> None:
+async def test_callback_is_always_scheduled(hass: UniversalAssistant) -> None:
     """Test run_callback_threadsafe always calls call_soon_threadsafe.
 
     Checks that it is called before checking for shutdown.
@@ -152,7 +152,7 @@ async def test_callback_is_always_scheduled(hass: __HAC_KEEP__) -> None:
     mock_call_soon_threadsafe.assert_called_once()
 
 
-async def test_create_eager_task_312(hass: __HAC_KEEP__) -> None:
+async def test_create_eager_task_312(hass: UniversalAssistant) -> None:
     """Test create_eager_task schedules a task eagerly in the event loop.
 
     For Python 3.12+, the task is scheduled eagerly in the event loop.
@@ -176,7 +176,7 @@ async def test_create_eager_task_312(hass: __HAC_KEEP__) -> None:
     await task2
 
 
-async def test_create_eager_task_from_thread(hass: __HAC_KEEP__) -> None:
+async def test_create_eager_task_from_thread(hass: UniversalAssistant) -> None:
     """Test we report trying to create an eager task from a thread."""
 
     coro = asyncio.sleep(0)
@@ -198,7 +198,7 @@ async def test_create_eager_task_from_thread(hass: __HAC_KEEP__) -> None:
 
 
 async def test_create_eager_task_from_thread_in_integration(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we report trying to create an eager task from a thread."""
 
@@ -257,7 +257,7 @@ async def test_create_eager_task_from_thread_in_integration(
     await coro
 
 
-async def test_get_scheduled_timer_handles(hass: __HAC_KEEP__) -> None:
+async def test_get_scheduled_timer_handles(hass: UniversalAssistant) -> None:
     """Test get_scheduled_timer_handles returns all scheduled timer handles."""
     loop = hass.loop
     timer_handle = loop.call_later(10, lambda: None)

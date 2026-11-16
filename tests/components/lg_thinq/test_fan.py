@@ -17,7 +17,7 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -27,7 +27,7 @@ HOOD_FAN_ENTITY_ID = "fan.test_hood_hood"
 
 @pytest.mark.parametrize("device_fixture", ["hood"])
 async def test_fan_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     devices: AsyncMock,
     mock_thinq_api: AsyncMock,
@@ -52,7 +52,7 @@ async def test_fan_entities(
     ],
 )
 async def test_fan_service_calls(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices: AsyncMock,
     mock_thinq_api: AsyncMock,
     mock_config_entry: MockConfigEntry,

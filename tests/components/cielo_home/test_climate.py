@@ -5,11 +5,11 @@ from unittest.mock import MagicMock
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_climate_set_temperature_calls_library(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cielo_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     mock_cielo_device_api: MagicMock,

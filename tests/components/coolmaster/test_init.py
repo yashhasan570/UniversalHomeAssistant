@@ -8,7 +8,7 @@ from pytest_universalassistant.typing import WebSocketGenerator
 from universalassistant.components.climate import HVACMode
 from universalassistant.components.coolmaster.const import DOMAIN
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -28,7 +28,7 @@ def _mock_config_entry(host: str) -> MockConfigEntry:
 
 
 async def test_load_entry(
-    hass: __HAC_KEEP__, load_int: ConfigEntry, unit_count: int
+    hass: UniversalAssistant, load_int: ConfigEntry, unit_count: int
 ) -> None:
     """Test Coolmaster initial load."""
     # 4 units times 4 entities (climate, binary_sensor, sensor, button).
@@ -37,7 +37,7 @@ async def test_load_entry(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
 ) -> None:
     """Test Coolmaster unloading an entry."""
@@ -47,7 +47,7 @@ async def test_unload_entry(
 
 
 async def test_registry_cleanup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     load_int: ConfigEntry,
     hass_ws_client: WebSocketGenerator,
@@ -106,7 +106,7 @@ async def test_registry_cleanup(
 
 
 async def test_migrate_unique_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -174,7 +174,7 @@ async def test_migrate_unique_ids(
 
 
 async def test_multiple_bridges_with_same_unit_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     unit_count: int,

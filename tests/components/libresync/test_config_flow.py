@@ -15,7 +15,7 @@ from universalassistant.config_entries import (
     ConfigEntryState,
 )
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
 
@@ -38,7 +38,7 @@ def _ssdp(location: str) -> SsdpServiceInfo:
 
 
 @pytest.mark.usefixtures("mock_probe")
-async def test_user_flow(hass: __HAC_KEEP__) -> None:
+async def test_user_flow(hass: UniversalAssistant) -> None:
     """Test adding a hub by address, keyed on its UDN."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -69,7 +69,7 @@ async def test_user_flow(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_user_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_probe: AsyncMock,
     found: DiscoveredDevice | None,
     error: str,
@@ -95,7 +95,7 @@ async def test_user_flow_errors(
 
 @pytest.mark.usefixtures("mock_probe")
 async def test_user_flow_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the same hub cannot be added twice, and its address is updated."""
     mock_config_entry.add_to_hass(hass)
@@ -114,7 +114,7 @@ async def test_user_flow_already_configured(
 
 
 @pytest.mark.usefixtures("mock_probe")
-async def test_user_flow_replaces_ignored_discovery(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_replaces_ignored_discovery(hass: UniversalAssistant) -> None:
     """Test a hub the user ignored can still be added by address."""
     MockConfigEntry(domain=DOMAIN, source=SOURCE_IGNORE, unique_id=UDN).add_to_hass(
         hass
@@ -133,7 +133,7 @@ async def test_user_flow_replaces_ignored_discovery(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_probe_control")
-async def test_ssdp_flow(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_flow(hass: UniversalAssistant) -> None:
     """Test a discovered hub is confirmed and keyed on its UDN."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_SSDP}, data=SSDP_INFO
@@ -149,7 +149,7 @@ async def test_ssdp_flow(hass: __HAC_KEEP__) -> None:
 
 
 async def test_ssdp_already_in_progress(
-    hass: __HAC_KEEP__, mock_probe_control: AsyncMock
+    hass: UniversalAssistant, mock_probe_control: AsyncMock
 ) -> None:
     """Test a second discovery of a hub being set up is dropped unprobed."""
     result = await hass.config_entries.flow.async_init(
@@ -168,7 +168,7 @@ async def test_ssdp_already_in_progress(
 
 
 async def test_ssdp_known_hub_moved(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_probe_control: AsyncMock,
 ) -> None:
@@ -193,7 +193,7 @@ async def test_ssdp_known_hub_moved(
     ],
 )
 async def test_ssdp_known_hub_reloads_when_retrying(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     state: ConfigEntryState,
     setups: int,
@@ -222,7 +222,7 @@ async def test_ssdp_known_hub_reloads_when_retrying(
     ids=["no_host", "no_udn"],
 )
 async def test_ssdp_unusable(
-    hass: __HAC_KEEP__, mock_probe_control: AsyncMock, discovery: SsdpServiceInfo
+    hass: UniversalAssistant, mock_probe_control: AsyncMock, discovery: SsdpServiceInfo
 ) -> None:
     """Test a discovery with no host or no UDN is dropped."""
     result = await hass.config_entries.flow.async_init(
@@ -234,7 +234,7 @@ async def test_ssdp_unusable(
 
 
 async def test_ssdp_not_a_hub(
-    hass: __HAC_KEEP__, mock_probe_control: AsyncMock
+    hass: UniversalAssistant, mock_probe_control: AsyncMock
 ) -> None:
     """Test a renderer that does not answer on the control port is dropped."""
     mock_probe_control.return_value = False
@@ -246,7 +246,7 @@ async def test_ssdp_not_a_hub(
 
 
 async def test_ssdp_ignored_hub_not_contacted(
-    hass: __HAC_KEEP__, mock_probe_control: AsyncMock
+    hass: UniversalAssistant, mock_probe_control: AsyncMock
 ) -> None:
     """Test a hub the user ignored is dropped before anything is sent to it."""
     MockConfigEntry(domain=DOMAIN, source=SOURCE_IGNORE, unique_id=UDN).add_to_hass(
@@ -261,7 +261,7 @@ async def test_ssdp_ignored_hub_not_contacted(
 
 
 @pytest.mark.usefixtures("mock_probe_control", "mock_probe")
-async def test_ssdp_dropped_after_manual_add(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_dropped_after_manual_add(hass: UniversalAssistant) -> None:
     """Test a pending discovery of a hub added by address meanwhile goes away."""
     discovered = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_SSDP}, data=SSDP_INFO

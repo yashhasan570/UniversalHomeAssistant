@@ -14,7 +14,7 @@ from universalassistant.components.siren import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -24,7 +24,7 @@ ENTITY_ID = "siren.hub"
 
 
 @pytest.fixture
-async def mocked_hub(hass: __HAC_KEEP__) -> Device:
+async def mocked_hub(hass: UniversalAssistant) -> Device:
     """Return mocked tplink hub with an alarm module."""
 
     return _mocked_device(
@@ -35,7 +35,7 @@ async def mocked_hub(hass: __HAC_KEEP__) -> Device:
 
 
 async def test_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -51,7 +51,7 @@ async def test_states(
 
 
 async def test_turn_on_and_off(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mocked_hub: Device
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mocked_hub: Device
 ) -> None:
     """Test that turn_on and turn_off services work as expected."""
     await setup_platform_for_device(hass, mock_config_entry, Platform.SIREN, mocked_hub)
@@ -91,7 +91,7 @@ async def test_turn_on_and_off(
     ],
 )
 async def test_turn_on_with_volume(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mocked_hub: Device,
     max_volume: int,
@@ -120,7 +120,7 @@ async def test_turn_on_with_volume(
 
 
 async def test_turn_on_with_duration_and_sound(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mocked_hub: Device,
 ) -> None:
@@ -142,7 +142,7 @@ async def test_turn_on_with_duration_and_sound(
 
 @pytest.mark.parametrize(("duration"), [0, 301])
 async def test_turn_on_with_invalid_duration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mocked_hub: Device,
     duration: int,

@@ -25,7 +25,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -153,7 +153,7 @@ HEAT_PUMP_CAPABILITIES = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SmartThingsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -752,7 +752,7 @@ class SmartThingsAirConditioner(SmartThingsEntity, ClimateEntity):
                     modes.append(ha_mode)
                 else:
                     _LOGGER.warning(
-                        "Unknown preset mode: %s, please report at https://github.com/yashhasan570/__HAC_KEEP__/issues",
+                        "Unknown preset mode: %s, please report at https://github.com/yashhasan570/UniversalUniversalAssistant/issues",
                         mode,
                     )
             return modes
@@ -791,7 +791,7 @@ class SmartThingsHeatPumpZone(SmartThingsEntity, ClimateEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         client: SmartThings,
         device: FullDevice,
         component: str,

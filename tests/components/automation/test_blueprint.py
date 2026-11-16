@@ -21,7 +21,7 @@ from universalassistant.components.automation import DOMAIN
 from universalassistant.components.automation.const import AutomationService
 from universalassistant.components.blueprint import models
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util, yaml as yaml_util
@@ -57,7 +57,7 @@ def patch_blueprint(
 
 
 async def test_notify_leaving_zone(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test notifying leaving a zone blueprint."""
     config_entry = MockConfigEntry(domain="fake_integration", data={})
@@ -154,7 +154,7 @@ async def test_notify_leaving_zone(
         assert len(mock_call_action.mock_calls) == 3
 
 
-async def test_motion_light(hass: __HAC_KEEP__) -> None:
+async def test_motion_light(hass: UniversalAssistant) -> None:
     """Test motion light blueprint."""
     hass.states.async_set("binary_sensor.kitchen", "off")
 

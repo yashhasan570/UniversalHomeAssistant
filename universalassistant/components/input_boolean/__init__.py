@@ -16,7 +16,7 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     STATE_ON,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import collection, config_validation as cv
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.storage import Store
@@ -87,7 +87,7 @@ class InputBooleanStorageCollection(collection.DictStorageCollection):
         return {CONF_ID: item[CONF_ID]} | update_data
 
 
-def is_on(hass: __HAC_KEEP__, entity_id: str) -> bool:
+def is_on(hass: UniversalAssistant, entity_id: str) -> bool:
     """Test if input_boolean is True."""
     return hass.states.is_state(entity_id, STATE_ON)
 
@@ -100,7 +100,7 @@ class InputBooleanData:
     yaml_collection: collection.YamlCollection
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up an input boolean."""
     component = EntityComponent[InputBoolean](_LOGGER, DOMAIN, hass)
 

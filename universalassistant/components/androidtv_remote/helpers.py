@@ -3,7 +3,7 @@
 from androidtvremote2 import AndroidTVRemote
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.storage import STORAGE_DIR
 
 from .const import CONF_ENABLE_IME, CONF_ENABLE_IME_DEFAULT_VALUE
@@ -11,10 +11,10 @@ from .const import CONF_ENABLE_IME, CONF_ENABLE_IME_DEFAULT_VALUE
 AndroidTVRemoteConfigEntry = ConfigEntry[AndroidTVRemote]
 
 
-def create_api(hass: __HAC_KEEP__, host: str, enable_ime: bool) -> AndroidTVRemote:
+def create_api(hass: UniversalAssistant, host: str, enable_ime: bool) -> AndroidTVRemote:
     """Create an AndroidTVRemote instance."""
     return AndroidTVRemote(
-        client_name="__HA_KEEP__",
+        client_name="Universal Home Assistant",
         certfile=hass.config.path(STORAGE_DIR, "androidtv_remote_cert.pem"),
         keyfile=hass.config.path(STORAGE_DIR, "androidtv_remote_key.pem"),
         host=host,

@@ -7,7 +7,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_DEVICE_ID, CONF_OPTIONS
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, async_noop, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, async_noop, callback
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.trigger import (
@@ -64,7 +64,7 @@ class FuelBecameLowTrigger(Trigger):
     @classmethod
     @override
     async def async_validate_config(
-        cls, hass: __HAC_KEEP__, config: ConfigType
+        cls, hass: UniversalAssistant, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         config = _CONFIG_SCHEMA(config)
@@ -77,7 +77,7 @@ class FuelBecameLowTrigger(Trigger):
 
         return config
 
-    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
+    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
         """Initialize the trigger."""
         super().__init__(hass, config)
         assert config.options is not None
@@ -189,6 +189,6 @@ TRIGGERS: dict[str, type[Trigger]] = {
 }
 
 
-async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
+async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
     """Return the triggers for Fumis pellet stoves."""
     return TRIGGERS

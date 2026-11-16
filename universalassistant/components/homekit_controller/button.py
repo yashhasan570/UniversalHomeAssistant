@@ -1,7 +1,7 @@
 """Support for Homekit buttons.
 
 These are mostly used where a HomeKit accessory exposes additional non-standard
-characteristics that don't map to a __HA_KEEP__ feature.
+characteristics that don't map to a Universal Home Assistant feature.
 """
 
 from collections.abc import Callable
@@ -18,7 +18,7 @@ from universalassistant.components.button import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import EntityCategory, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import ConfigType
 
@@ -60,7 +60,7 @@ BUTTON_ENTITIES: dict[str, HomeKitButtonEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

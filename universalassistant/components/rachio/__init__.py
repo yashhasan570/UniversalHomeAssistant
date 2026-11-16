@@ -8,7 +8,7 @@ from requests.exceptions import ConnectTimeout
 
 from universalassistant.components import cloud
 from universalassistant.const import CONF_API_KEY, CONF_WEBHOOK_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -33,25 +33,25 @@ PLATFORMS = [Platform.BINARY_SENSOR, Platform.CALENDAR, Platform.SWITCH]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Rachio integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: RachioConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: RachioConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     async_unregister_webhook(hass, entry)
 
 
-async def async_remove_entry(hass: __HAC_KEEP__, entry: RachioConfigEntry) -> None:
+async def async_remove_entry(hass: UniversalAssistant, entry: RachioConfigEntry) -> None:
     """Remove a rachio config entry."""
     if CONF_CLOUDHOOK_URL in entry.data:
         await cloud.async_delete_cloudhook(hass, entry.data[CONF_WEBHOOK_ID])
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: RachioConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: RachioConfigEntry) -> None:
     """Set up the Rachio config entry."""
 
     config = entry.data

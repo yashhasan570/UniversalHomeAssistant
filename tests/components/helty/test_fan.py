@@ -20,8 +20,8 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -31,7 +31,7 @@ FAN_ENTITY = "fan.vmc_soggiorno"
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_helty_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -45,7 +45,7 @@ async def test_all_entities(
 
 
 async def test_fan_preset_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_helty_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -59,7 +59,7 @@ async def test_fan_preset_state(
 
 
 async def test_fan_set_preset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_helty_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -80,7 +80,7 @@ async def test_fan_set_preset(
     [(25, FanMode.LOW), (50, FanMode.MEDIUM), (75, FanMode.HIGH), (100, FanMode.MAX)],
 )
 async def test_fan_set_percentage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_helty_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     percentage: int,
@@ -99,7 +99,7 @@ async def test_fan_set_percentage(
 
 
 async def test_fan_set_percentage_zero_turns_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_helty_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -116,7 +116,7 @@ async def test_fan_set_percentage_zero_turns_off(
 
 
 async def test_fan_turn_off_and_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_helty_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -135,7 +135,7 @@ async def test_fan_turn_off_and_on(
 
 
 async def test_fan_turn_on_with_percentage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_helty_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -152,7 +152,7 @@ async def test_fan_turn_on_with_percentage(
 
 
 async def test_fan_turn_on_with_preset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_helty_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -169,16 +169,16 @@ async def test_fan_turn_on_with_preset(
 
 
 async def test_fan_set_mode_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_helty_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
-    """Test a device failure while setting the mode raises a __HAC_KEEP__Error."""
+    """Test a device failure while setting the mode raises a UniversalAssistantError."""
     await setup_integration(hass, mock_config_entry)
 
     mock_helty_client.async_set_fan_mode.side_effect = HeltyError
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             FAN_DOMAIN,
             SERVICE_SET_PRESET_MODE,

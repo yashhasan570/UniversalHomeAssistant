@@ -1,6 +1,6 @@
 {
   "domain": "universalassistant_green",
-  "name": "__HA_KEEP__ Green",
+  "name": "Universal Home Assistant Green",
   "after_dependencies": ["hassio"],
   "categories": ["hubs_protocols.smart_home_hubs"],
   "codeowners": ["@universal-assistant/core"],

@@ -8,7 +8,7 @@ from aionotion.errors import InvalidCredentialsError, NotionError
 from aionotion.listener.models import ListenerKind
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import entity_registry as er
 
@@ -63,7 +63,7 @@ def is_uuid(value: str) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: NotionConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: NotionConfigEntry) -> None:
     """Set up Notion as a config entry."""
     entry_updates: dict[str, Any] = {"data": {**entry.data}}
 
@@ -150,6 +150,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: NotionConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: NotionConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: NotionConfigEntry) -> None:
     """Unload a Notion config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

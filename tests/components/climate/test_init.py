@@ -59,7 +59,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__, ServiceCall, State
+from universalassistant.core import UniversalAssistant, ServiceCall, State
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.restore_state import STORAGE_KEY as RESTORE_STATE_KEY
@@ -72,7 +72,7 @@ from universalassistant.util.unit_system import (
 
 
 async def test_set_temp_schema_no_req(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the set temperature schema with missing required data."""
     domain = "climate"
@@ -89,7 +89,7 @@ async def test_set_temp_schema_no_req(
 
 
 async def test_set_temp_schema(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the set temperature schema with ok required data."""
     domain = "climate"
@@ -182,7 +182,7 @@ class MockClimateEntityTestMethods(MockClimateEntity):
         """Turn off."""
 
 
-async def test_sync_turn_on(hass: __HAC_KEEP__) -> None:
+async def test_sync_turn_on(hass: UniversalAssistant) -> None:
     """Test if async turn_on calls sync turn_on."""
     climate = MockClimateEntityTestMethods()
     climate.hass = hass
@@ -193,7 +193,7 @@ async def test_sync_turn_on(hass: __HAC_KEEP__) -> None:
     assert climate.turn_on.called
 
 
-async def test_sync_turn_off(hass: __HAC_KEEP__) -> None:
+async def test_sync_turn_off(hass: UniversalAssistant) -> None:
     """Test if async turn_off calls sync turn_off."""
     climate = MockClimateEntityTestMethods()
     climate.hass = hass
@@ -218,7 +218,7 @@ def _create_tuples(enum: type[Enum], constant_prefix: str) -> list[tuple[Enum, s
 
 
 async def test_temperature_features_is_valid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     register_test_integration: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -291,7 +291,7 @@ async def test_temperature_features_is_valid(
 
 
 async def test_mode_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     register_test_integration: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -451,7 +451,7 @@ async def test_mode_validation(
     assert exc.value.translation_key == "not_valid_fan_mode"
 
 
-async def test_turn_on_off_toggle(hass: __HAC_KEEP__) -> None:
+async def test_turn_on_off_toggle(hass: UniversalAssistant) -> None:
     """Test turn_on/turn_off/toggle methods."""
 
     class MockClimateEntityTest(MockClimateEntity):
@@ -483,7 +483,7 @@ async def test_turn_on_off_toggle(hass: __HAC_KEEP__) -> None:
     assert climate.hvac_mode == HVACMode.OFF
 
 
-async def test_sync_toggle(hass: __HAC_KEEP__) -> None:
+async def test_sync_toggle(hass: UniversalAssistant) -> None:
     """Test if async toggle calls sync toggle."""
 
     class MockClimateEntityTest(MockClimateEntity):
@@ -528,7 +528,7 @@ async def test_sync_toggle(hass: __HAC_KEEP__) -> None:
 
 
 async def test_humidity_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     register_test_integration: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -595,7 +595,7 @@ async def test_humidity_validation(
 
 
 async def test_temperature_validation(
-    hass: __HAC_KEEP__, register_test_integration: MockConfigEntry
+    hass: UniversalAssistant, register_test_integration: MockConfigEntry
 ) -> None:
     """Test validation for temperatures."""
 
@@ -696,7 +696,7 @@ async def test_temperature_validation(
 
 
 async def test_temperature_validation_display_rounding(
-    hass: __HAC_KEEP__, register_test_integration: MockConfigEntry
+    hass: UniversalAssistant, register_test_integration: MockConfigEntry
 ) -> None:
     """Test that temperatures at the rounded limits shown in the UI are accepted."""
 
@@ -823,7 +823,7 @@ async def test_temperature_validation_display_rounding(
 
 
 async def test_target_temp_high_higher_than_low(
-    hass: __HAC_KEEP__, register_test_integration: MockConfigEntry
+    hass: UniversalAssistant, register_test_integration: MockConfigEntry
 ) -> None:
     """Test that target high is higher than target low."""
 
@@ -988,11 +988,11 @@ def _replacement(name: str) -> str:
 
 DECLARED_WARNING = (
     f"{__name__}::{{cls}} provides the deprecated {{name}}, this will stop working "
-    "in __HA_KEEP__ 2027.11, use {replacement} instead"
+    "in Universal Home Assistant 2027.11, use {replacement} instead"
 )
 USED_WARNING = (
     "Detected code that {action} the deprecated {cls}.{name}, use {replacement} "
-    "instead. This will stop working in __HA_KEEP__ 2027.11"
+    "instead. This will stop working in Universal Home Assistant 2027.11"
 )
 
 
@@ -1130,7 +1130,7 @@ DEPRECATED_SHAPES = [
     ],
 )
 async def test_native_temperature_unit_conversion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     register_test_integration: MockConfigEntry,
     unit_system: UnitSystem,
     native_unit: UnitOfTemperature,
@@ -1165,7 +1165,7 @@ async def test_native_temperature_unit_conversion(
     )
 
 
-async def test_native_temperature_unit_property(hass: __HAC_KEEP__) -> None:
+async def test_native_temperature_unit_property(hass: UniversalAssistant) -> None:
     """Test an entity may provide the native unit through a property."""
 
     class NativePropertyClimateEntity(MockClimateEntity):
@@ -1201,7 +1201,7 @@ async def test_native_temperature_unit_property(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_native_attribute_invalidates_cache(
-    hass: __HAC_KEEP__, member: str, value: Any
+    hass: UniversalAssistant, member: str, value: Any
 ) -> None:
     """Test writing a native _attr_ invalidates its cached property."""
     entity = MockShimClimateEntity()
@@ -1263,7 +1263,7 @@ async def test_native_attribute_invalidates_cache(
     ],
 )
 async def test_default_min_max_temp_use_native_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     unit_system: UnitSystem,
     native_unit: UnitOfTemperature,
     expected_min_temp: float,
@@ -1325,7 +1325,7 @@ async def test_default_min_max_temp_use_native_unit(
     ],
 )
 async def test_set_temperature_service_converts_to_native_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     unit_system: UnitSystem,
     native_unit: UnitOfTemperature,
     service_temperature: float,
@@ -1368,7 +1368,7 @@ async def test_set_temperature_service_converts_to_native_unit(
     DEPRECATED_SHAPES,
 )
 async def test_deprecated_temperature_member(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     entity_factory: Callable[[str, Any], type[MockShimClimateEntity]],
     warning_template: str,
@@ -1401,7 +1401,7 @@ async def test_deprecated_temperature_member(
 
 
 async def test_deprecated_temperature_unit_drives_conversion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the deprecated temperature_unit is used to convert for display."""
     entity = _legacy_property("temperature_unit", UnitOfTemperature.FAHRENHEIT)()
@@ -1420,7 +1420,7 @@ async def test_deprecated_temperature_unit_drives_conversion(
     ("member", "first_value", "second_value"), DEPRECATED_MEMBER_WRITES
 )
 async def test_deprecated_temperature_member_setter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     member: str,
     first_value: Any,
@@ -1456,7 +1456,7 @@ async def test_deprecated_temperature_member_setter(
     [pytest.param({}, id="plain"), pytest.param({"_attr_{member}": None}, id="attr")],
 )
 async def test_deprecated_temperature_member_public_write_raises(
-    hass: __HAC_KEEP__, declarations: dict[str, Any], member: str, native_value: Any
+    hass: UniversalAssistant, declarations: dict[str, Any], member: str, native_value: Any
 ) -> None:
     """Test a deprecated public member cannot be written.
 
@@ -1479,7 +1479,7 @@ async def test_deprecated_temperature_member_public_write_raises(
 
 @pytest.mark.parametrize(("member", "native_value"), DEPRECATED_MEMBER_VALUES)
 async def test_deprecated_temperature_member_setter_reported_once_per_class(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     member: str,
     native_value: Any,
@@ -1534,7 +1534,7 @@ async def test_deprecated_temperature_member_setter_reported_once_per_class(
 @pytest.mark.parametrize(("member", "native_value"), DEPRECATED_MEMBER_VALUES)
 @pytest.mark.parametrize("prefix", ["", "_attr_"], ids=["property", "attribute"])
 async def test_deprecated_temperature_member_read(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     prefix: str,
     member: str,
@@ -1578,7 +1578,7 @@ async def test_deprecated_temperature_member_read(
 
 @pytest.mark.parametrize(("member", "native_value"), DEPRECATED_MEMBER_VALUES)
 async def test_deprecated_temperature_member_write_not_reported_as_read(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     member: str,
     native_value: Any,
@@ -1617,7 +1617,7 @@ async def test_deprecated_temperature_member_write_not_reported_as_read(
     ],
 )
 async def test_deprecated_temperature_member_declaration_not_reported_as_read(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     entity_factory: Callable[[str, Any], type[MockShimClimateEntity]],
     name_template: str,
@@ -1661,7 +1661,7 @@ def _migrated_entity(class_name: str) -> MockShimClimateEntity:
 @pytest.mark.parametrize("integration_frame_path", ["custom_components/my_integration"])
 @pytest.mark.usefixtures("mock_integration_frame")
 async def test_deprecated_temperature_member_read_reports_the_reader(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test a read is reported once per call site, against the code reading."""
     first = _migrated_entity("MigratedClimateEntity")
@@ -1707,7 +1707,7 @@ async def test_deprecated_temperature_member_core_declaration_raises(
 @pytest.mark.parametrize("integration_frame_path", ["universalassistant/components/hue"])
 @pytest.mark.usefixtures("mock_integration_frame")
 async def test_deprecated_temperature_member_core_read_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a core integration reading a deprecated member raises."""
     entity = _migrated_entity("MigratedClimateEntity")
@@ -1751,7 +1751,7 @@ async def test_deprecated_temperature_member_read_without_frame_helper(
     ("member", "first_value", "second_value"), DEPRECATED_MEMBER_WRITES
 )
 async def test_deprecated_temperature_member_does_not_win_over_native(
-    hass: __HAC_KEEP__, member: str, first_value: Any, second_value: Any
+    hass: UniversalAssistant, member: str, first_value: Any, second_value: Any
 ) -> None:
     """Test a subclass providing both members keeps the native one."""
     entity = type(
@@ -1773,7 +1773,7 @@ async def test_deprecated_temperature_member_does_not_win_over_native(
     DEPRECATED_MEMBERS,
 )
 async def test_deprecated_temperature_member_reads_native_override(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     member: str,
     native_value: Any,
@@ -1810,7 +1810,7 @@ async def test_deprecated_temperature_member_reads_native_override(
 
 
 async def test_deprecated_temperature_member_not_reported(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test no deprecation is reported for an entity using the native members."""
 
@@ -1840,7 +1840,7 @@ async def test_deprecated_temperature_member_not_reported(
     DEPRECATED_MEMBERS,
 )
 async def test_deprecated_temperature_member_on_mixin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     member: str,
     native_value: Any,
@@ -1878,7 +1878,7 @@ async def test_deprecated_temperature_member_on_mixin(
     ids=["deprecated-parent", "migrated-parent"],
 )
 async def test_deprecated_temperature_member_super_delegation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     parent_member_template: str,
     member: str,
     native_value: Any,
@@ -1960,7 +1960,7 @@ CUSTOM_OVER_MIGRATED_SHAPES = [
 )
 @pytest.mark.parametrize("entity_factory", CUSTOM_OVER_MIGRATED_SHAPES)
 async def test_deprecated_temperature_member_wins_over_migrated_parent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_factory: Callable[[type, str, Any, Any], type[MockShimClimateEntity]],
     member: str,
     native_value: Any,
@@ -2000,7 +2000,7 @@ async def test_deprecated_temperature_member_wins_over_migrated_parent(
     ],
 )
 async def test_deprecated_temperature_member_override_not_cached(
-    hass: __HAC_KEEP__, member: str
+    hass: UniversalAssistant, member: str
 ) -> None:
     """Test a deprecated override is read again on every native property read."""
 
@@ -2025,7 +2025,7 @@ async def test_deprecated_temperature_member_override_not_cached(
 )
 @pytest.mark.parametrize("depth", [1, 2], ids=["child", "grandchild"])
 async def test_migrated_child_wins_over_deprecated_parent_attribute(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     depth: int,
     member: str,
     native_value: Any,
@@ -2062,7 +2062,7 @@ async def test_migrated_child_wins_over_deprecated_parent_attribute(
 @pytest.mark.parametrize("member", [p.values[0] for p in DEPRECATED_MEMBER_VALUES])
 @pytest.mark.parametrize("depth", [1, 2], ids=["child", "grandchild"])
 async def test_migrated_grandparent_property_wins_over_descendant_attributes(
-    hass: __HAC_KEEP__, depth: int, member: str
+    hass: UniversalAssistant, depth: int, member: str
 ) -> None:
     """Test a native property authored above deprecated and native _attr_ wins.
 
@@ -2144,7 +2144,7 @@ class MockRestoreClimate(MockClimateEntity, RestoreClimate):
     ],
 )
 async def test_restore_climate_save_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     register_test_integration: MockConfigEntry,
     supported_features: ClimateEntityFeature,
@@ -2404,7 +2404,7 @@ def _restored(
     ],
 )
 async def test_restore_climate_restore_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     register_test_integration: MockConfigEntry,
     unit_system: UnitSystem,
     attributes: dict[str, Any],
@@ -2430,7 +2430,7 @@ async def test_restore_climate_restore_state(
 
 
 async def test_restore_climate_overflow(
-    hass: __HAC_KEEP__, register_test_integration: MockConfigEntry
+    hass: UniversalAssistant, register_test_integration: MockConfigEntry
 ) -> None:
     """Test RestoreClimate drops temperatures which overflow a float."""
     mock_restore_cache_with_extra_data(
@@ -2461,7 +2461,7 @@ async def test_restore_climate_overflow(
 
 
 async def test_restore_climate_round_trip(
-    hass: __HAC_KEEP__, register_test_integration: MockConfigEntry
+    hass: UniversalAssistant, register_test_integration: MockConfigEntry
 ) -> None:
     """Test saved temperatures are restored unchanged on a Fahrenheit system.
 
@@ -2493,7 +2493,7 @@ async def test_restore_climate_round_trip(
 
 
 async def test_restore_climate_no_last_state(
-    hass: __HAC_KEEP__, register_test_integration: MockConfigEntry
+    hass: UniversalAssistant, register_test_integration: MockConfigEntry
 ) -> None:
     """Test RestoreClimate restores nothing without a last state."""
     entity = MockRestoreClimate(name="test", entity_id="climate.test")
@@ -2507,7 +2507,7 @@ async def test_restore_climate_no_last_state(
 
 
 async def test_temperature_unit_when_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     register_test_integration: MockConfigEntry,
 ) -> None:

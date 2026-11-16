@@ -1,13 +1,13 @@
 """Config Flow for Refoss integration."""
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_entry_flow
 
 from .const import DISCOVERY_TIMEOUT, DOMAIN, LOGGER
 from .util import refoss_discovery_server
 
 
-async def _async_has_devices(hass: __HAC_KEEP__) -> bool:
+async def _async_has_devices(hass: UniversalAssistant) -> bool:
     """Return if there are devices that can be discovered."""
 
     refoss_discovery = await refoss_discovery_server(hass)

@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.event import ButtonEventType, EventEntityStateAttribute
 from universalassistant.components.lutron_caseta.const import BUTTON_STATUS_LONG_HOLD
 from universalassistant.const import EVENT_STATE_CHANGED, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import MockBridge, async_setup_integration
@@ -28,7 +28,7 @@ PICO_BUTTON_ID = "111"
 
 
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -89,7 +89,7 @@ async def test_entities(
     ],
 )
 async def test_button_event_mapping(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id: str,
     button_id: str,
     leap_events: list[str],

@@ -15,8 +15,8 @@ from pytest_universalassistant.common import MockUser, async_capture_events
 from universalassistant.components import shell_command
 from universalassistant.components.shell_command import DOMAIN
 from universalassistant.const import SERVICE_RELOAD
-from universalassistant.core import Context, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, TemplateError
+from universalassistant.core import Context, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, TemplateError
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -37,7 +37,7 @@ def mock_process_creator(error: bool = False):
     return mock_process
 
 
-async def test_executing_service(hass: __HAC_KEEP__) -> None:
+async def test_executing_service(hass: UniversalAssistant) -> None:
     """Test if able to call a configured service."""
     with tempfile.TemporaryDirectory() as tempdirname:
         path = os.path.join(tempdirname, "called.txt")
@@ -53,7 +53,7 @@ async def test_executing_service(hass: __HAC_KEEP__) -> None:
         assert os.path.isfile(path)
 
 
-async def test_config_not_dict(hass: __HAC_KEEP__) -> None:
+async def test_config_not_dict(hass: UniversalAssistant) -> None:
     """Test that setup fails if config is not a dict."""
     assert not await async_setup_component(
         hass,
@@ -62,7 +62,7 @@ async def test_config_not_dict(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_config_not_valid_service_names(hass: __HAC_KEEP__) -> None:
+async def test_config_not_valid_service_names(hass: UniversalAssistant) -> None:
     """Test that setup fails if config contains invalid service names."""
     assert not await async_setup_component(
         hass,
@@ -74,7 +74,7 @@ async def test_config_not_valid_service_names(hass: __HAC_KEEP__) -> None:
 @patch(
     "universalassistant.components.shell_command.services.asyncio.create_subprocess_shell"
 )
-async def test_template_render_no_template(mock_call, hass: __HAC_KEEP__) -> None:
+async def test_template_render_no_template(mock_call, hass: UniversalAssistant) -> None:
     """Ensure shell_commands without templates get rendered properly."""
     mock_call.return_value = mock_process_creator(error=False)
 
@@ -96,7 +96,7 @@ async def test_template_render_no_template(mock_call, hass: __HAC_KEEP__) -> Non
 @patch(
     "universalassistant.components.shell_command.services.asyncio.create_subprocess_shell"
 )
-async def test_incorrect_template(mock_call, hass: __HAC_KEEP__) -> None:
+async def test_incorrect_template(mock_call, hass: UniversalAssistant) -> None:
     """Ensure shell_commands with invalid templates are handled properly."""
     mock_call.return_value = mock_process_creator(error=False)
     assert await async_setup_component(
@@ -118,7 +118,7 @@ async def test_incorrect_template(mock_call, hass: __HAC_KEEP__) -> None:
 
 
 @patch("universalassistant.components.shell_command.services.asyncio.create_subprocess_exec")
-async def test_template_render(mock_call, hass: __HAC_KEEP__) -> None:
+async def test_template_render(mock_call, hass: UniversalAssistant) -> None:
     """Ensure shell_commands with templates get rendered properly."""
     hass.states.async_set("sensor.test_state", "Works")
     mock_call.return_value = mock_process_creator(error=False)
@@ -145,7 +145,7 @@ async def test_template_render(mock_call, hass: __HAC_KEEP__) -> None:
     "universalassistant.components.shell_command.services.asyncio.create_subprocess_shell"
 )
 @patch("universalassistant.components.shell_command.services._LOGGER.error")
-async def test_subprocess_error(mock_error, mock_call, hass: __HAC_KEEP__) -> None:
+async def test_subprocess_error(mock_error, mock_call, hass: UniversalAssistant) -> None:
     """Test subprocess that returns an error."""
     mock_call.return_value = mock_process_creator(error=True)
     with tempfile.TemporaryDirectory() as tempdirname:
@@ -167,7 +167,7 @@ async def test_subprocess_error(mock_error, mock_call, hass: __HAC_KEEP__) -> No
 
 
 @patch("universalassistant.components.shell_command.services._LOGGER.debug")
-async def test_stdout_captured(mock_output, hass: __HAC_KEEP__) -> None:
+async def test_stdout_captured(mock_output, hass: UniversalAssistant) -> None:
     """Test subprocess that has stdout."""
     test_phrase = "I have output"
     assert await async_setup_component(
@@ -188,7 +188,7 @@ async def test_stdout_captured(mock_output, hass: __HAC_KEEP__) -> None:
 
 
 @patch("universalassistant.components.shell_command.services._LOGGER.debug")
-async def test_non_text_stdout_capture(mock_output, hass: __HAC_KEEP__) -> None:
+async def test_non_text_stdout_capture(mock_output, hass: UniversalAssistant) -> None:
     """Test handling of non-text output."""
     non_utf8_cmd = (
         f"{shlex.quote(sys.executable)} -c"
@@ -212,7 +212,7 @@ async def test_non_text_stdout_capture(mock_output, hass: __HAC_KEEP__) -> None:
 
     # Non-text output throws with 'return_response'
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=re.escape(
             f"Unable to handle non-utf8 output of command: `{non_utf8_cmd}`"
         ),
@@ -226,7 +226,7 @@ async def test_non_text_stdout_capture(mock_output, hass: __HAC_KEEP__) -> None:
 
 
 @patch("universalassistant.components.shell_command.services._LOGGER.debug")
-async def test_stderr_captured(mock_output, hass: __HAC_KEEP__) -> None:
+async def test_stderr_captured(mock_output, hass: UniversalAssistant) -> None:
     """Test subprocess that has stderr."""
     test_phrase = "I have error"
     assert await async_setup_component(
@@ -245,7 +245,7 @@ async def test_stderr_captured(mock_output, hass: __HAC_KEEP__) -> None:
     assert response["stderr"] == test_phrase
 
 
-async def test_do_not_run_forever(hass: __HAC_KEEP__) -> None:
+async def test_do_not_run_forever(hass: UniversalAssistant) -> None:
     """Test subprocesses terminate after the timeout."""
 
     async def block():
@@ -273,7 +273,7 @@ async def test_do_not_run_forever(hass: __HAC_KEEP__) -> None:
         ),
     ):
         with pytest.raises(
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             match="Timed out running command: `mock_sleep 10000`, after: 0.001 seconds",
         ):
             await hass.services.async_call(
@@ -287,7 +287,7 @@ async def test_do_not_run_forever(hass: __HAC_KEEP__) -> None:
     mock_process.kill.assert_called_once()
 
 
-async def test_reload_service(hass: __HAC_KEEP__, hass_admin_user: MockUser) -> None:
+async def test_reload_service(hass: UniversalAssistant, hass_admin_user: MockUser) -> None:
     """Test that the reload service re-registers commands from YAML."""
     assert await async_setup_component(
         hass,
@@ -315,7 +315,7 @@ async def test_reload_service(hass: __HAC_KEEP__, hass_admin_user: MockUser) -> 
 
 
 async def test_repair_issue_on_reserved_reload_name(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry, hass_admin_user: MockUser
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry, hass_admin_user: MockUser
 ) -> None:
     """Test repair issue is created if 'reload' is used as a shell_command name."""
     config = {shell_command.DOMAIN: {"reload": "echo should not work"}}
@@ -342,7 +342,7 @@ async def test_repair_issue_on_reserved_reload_name(
 
 
 async def test_repair_issue_on_reload_service_reload(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry, hass_admin_user: MockUser
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry, hass_admin_user: MockUser
 ) -> None:
     """Test repair issue when 'reload' is used in YAML config."""
     config = {shell_command.DOMAIN: {"test": "echo ok"}}
@@ -365,7 +365,7 @@ async def test_repair_issue_on_reload_service_reload(
 
 
 async def test_reload_keeps_ignored_reserved_reload_issue(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry, hass_admin_user: MockUser
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry, hass_admin_user: MockUser
 ) -> None:
     """Test reload keeps a still valid ignored issue instead of re-creating it."""
     config = {shell_command.DOMAIN: {"reload": "echo should not work"}}
@@ -395,7 +395,7 @@ async def test_reload_keeps_ignored_reserved_reload_issue(
 @pytest.mark.parametrize(
     "load_yaml_patch",
     [
-        pytest.param({"side_effect": __HAC_KEEP__Error("bad yaml")}, id="yaml_error"),
+        pytest.param({"side_effect": UniversalAssistantError("bad yaml")}, id="yaml_error"),
         pytest.param(
             {"return_value": {shell_command.DOMAIN: ["not", "a", "dict"]}},
             id="invalid_config",
@@ -403,7 +403,7 @@ async def test_reload_keeps_ignored_reserved_reload_issue(
     ],
 )
 async def test_failed_reload_keeps_reserved_reload_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     hass_admin_user: MockUser,
     load_yaml_patch: dict[str, Any],

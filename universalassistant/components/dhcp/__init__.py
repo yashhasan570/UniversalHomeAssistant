@@ -39,7 +39,7 @@ from universalassistant.const import (
 from universalassistant.core import (
     Event,
     EventStateChangedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     State,
     callback,
 )
@@ -113,7 +113,7 @@ def async_index_integration_matchers(
     )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the dhcp component."""
     integration_matchers = async_index_integration_matchers(await async_get_dhcp(hass))
     dhcp_data = DHCPData(integration_matchers=integration_matchers)
@@ -160,7 +160,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 class WatcherBase:
     """Base class for dhcp and device tracker watching."""
 
-    def __init__(self, hass: __HAC_KEEP__, dhcp_data: DHCPData) -> None:
+    def __init__(self, hass: UniversalAssistant, dhcp_data: DHCPData) -> None:
         """Initialize class."""
         super().__init__()
         self.hass = hass
@@ -298,7 +298,7 @@ class NetworkWatcher(WatcherBase):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         dhcp_data: DHCPData,
     ) -> None:
         """Initialize class."""

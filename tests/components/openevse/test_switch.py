@@ -27,10 +27,10 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     ServiceValidationError,
 )
 from universalassistant.helpers import entity_registry as er
@@ -38,7 +38,7 @@ from universalassistant.helpers import entity_registry as er
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -86,7 +86,7 @@ async def test_entities(
     ],
 )
 async def test_switch_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,
     entity_id: str,
@@ -109,7 +109,7 @@ async def test_switch_turn_on_off(
 
 
 async def test_manual_override_switch_uses_current_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,
 ) -> None:
@@ -148,7 +148,7 @@ async def test_manual_override_switch_uses_current_state(
     ],
 )
 async def test_manual_override_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,
     manual_override: bool,
@@ -174,7 +174,7 @@ async def test_manual_override_switch(
 
 @pytest.mark.parametrize("service", [SERVICE_TURN_ON, SERVICE_TURN_OFF])
 async def test_manual_override_switch_old_firmware(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,
     service: str,
@@ -217,49 +217,49 @@ async def test_manual_override_switch_old_firmware(
         ),
         pytest.param(
             TimeoutError("timed out"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "communication_error",
             None,
             id="timeout_error",
         ),
         pytest.param(
             ServerTimeoutError("timed out"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "communication_error",
             None,
             id="server_timeout_error",
         ),
         pytest.param(
             ParseJSONError("bad json"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "communication_error",
             None,
             id="parse_json_error",
         ),
         pytest.param(
             UnsupportedFeature("old firmware"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "unsupported_feature",
             None,
             id="unsupported_feature",
         ),
         pytest.param(
             ContentTypeError(MagicMock(), (), message="bad content"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "communication_error",
             None,
             id="content_type_error",
         ),
         pytest.param(
             UnknownError("unknown error"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "communication_error",
             None,
             id="unknown_error",
         ),
         pytest.param(
             RuntimeError("runtime error"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "communication_error",
             None,
             id="runtime_error",
@@ -267,7 +267,7 @@ async def test_manual_override_switch_old_firmware(
     ],
 )
 async def test_switch_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,
     raised: Exception,
@@ -298,7 +298,7 @@ async def test_switch_raises(
 
 
 async def test_switch_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,
 ) -> None:

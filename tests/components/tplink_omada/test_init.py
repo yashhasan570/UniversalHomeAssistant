@@ -26,7 +26,7 @@ from universalassistant.components.tplink_omada.coordinator import (
     OmadaCoordinator,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.update_coordinator import UpdateFailed
 from universalassistant.util import dt as dt_util
@@ -66,7 +66,7 @@ MOCK_ENTRY_DATA = {
     ],
 )
 async def test_setup_entry_login_failed_raises_configentryauthfailed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: OmadaClientException,
@@ -87,7 +87,7 @@ async def test_setup_entry_login_failed_raises_configentryauthfailed(
 
 
 async def test_coordinator_update_failure_is_translated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_omada_site_client: MagicMock,
 ) -> None:
@@ -110,7 +110,7 @@ async def test_coordinator_update_failure_is_translated(
 
 
 async def test_missing_devices_removed_at_startup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_omada_client: MagicMock,
 ) -> None:
@@ -141,7 +141,7 @@ async def test_missing_devices_removed_at_startup(
 
 
 async def test_automatic_missing_client_cleanup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_clients_only_client: MagicMock,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -176,7 +176,7 @@ async def test_automatic_missing_client_cleanup(
 
 
 async def test_cleanup_removes_unknown_integration_disabled_tracker(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_clients_only_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -229,7 +229,7 @@ async def test_cleanup_removes_unknown_integration_disabled_tracker(
     ],
 )
 async def test_cleanup_keeps_entries_it_does_not_own(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_clients_only_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -261,7 +261,7 @@ async def test_cleanup_keeps_entries_it_does_not_own(
 
 
 async def _get_known_clients_without(
-    hass: __HAC_KEEP__, excluded_mac: str
+    hass: UniversalAssistant, excluded_mac: str
 ) -> AsyncGenerator[OmadaWirelessClient]:
     """Yield wireless clients from the known-clients fixture, skipping one MAC."""
     known_clients_data = await async_load_json_array_fixture(
@@ -279,7 +279,7 @@ async def _get_no_known_clients() -> AsyncGenerator[OmadaWirelessClient]:
 
 
 async def _get_wired_known_clients(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> AsyncGenerator[OmadaWiredClient]:
     """Yield only wired clients from the known-clients fixture."""
     known_clients_data = await async_load_json_array_fixture(
@@ -291,7 +291,7 @@ async def _get_wired_known_clients(
 
 
 async def _async_poll_known_clients(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Advance to the next known clients poll and let it complete."""
     freezer.tick(timedelta(seconds=POLL_KNOWN_CLIENTS + 1))
@@ -300,7 +300,7 @@ async def _async_poll_known_clients(
 
 
 async def test_client_cleanup_removes_trackers_for_unknown_clients(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_clients_only_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -335,7 +335,7 @@ async def test_client_cleanup_removes_trackers_for_unknown_clients(
 
 
 async def test_cleanup_keeps_shared_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_clients_only_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -377,7 +377,7 @@ async def test_cleanup_keeps_shared_device(
 
 
 async def test_cleanup_preserves_trackers_when_known_clients_fetch_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_clients_only_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -413,7 +413,7 @@ async def test_cleanup_preserves_trackers_when_known_clients_fetch_fails(
 
 
 async def test_cleanup_recreates_tracker_when_client_reappears(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_clients_only_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -450,7 +450,7 @@ async def test_cleanup_recreates_tracker_when_client_reappears(
 
 
 async def test_startup_cleanup_runs_before_trackers_are_registered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_clients_only_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -480,7 +480,7 @@ async def test_startup_cleanup_runs_before_trackers_are_registered(
 
 
 async def test_poll_cleanup_runs_before_trackers_are_registered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_clients_only_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -528,7 +528,7 @@ async def test_poll_cleanup_runs_before_trackers_are_registered(
 
 
 async def test_preserved_tracker_recreated_when_client_returns(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -561,7 +561,7 @@ async def test_preserved_tracker_recreated_when_client_returns(
 
 
 async def test_cleanup_keeps_trackers_on_empty_known_clients(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_clients_only_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -591,7 +591,7 @@ async def test_cleanup_keeps_trackers_on_empty_known_clients(
 
 
 async def test_cleanup_runs_when_only_wired_clients_are_known(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_clients_only_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -623,7 +623,7 @@ async def test_cleanup_runs_when_only_wired_clients_are_known(
 
 
 async def test_cleanup_keeps_tracker_for_known_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_clients_only_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -661,7 +661,7 @@ async def test_cleanup_keeps_tracker_for_known_client(
 
 
 async def test_repeat_poll_does_not_readd_known_trackers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_clients_only_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -700,7 +700,7 @@ async def test_repeat_poll_does_not_readd_known_trackers(
 
 
 async def test_cleanup_keeps_trackers_when_first_refresh_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_clients_only_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -726,7 +726,7 @@ async def test_cleanup_keeps_trackers_when_first_refresh_fails(
 
 
 async def test_migrate_entry_v1_to_v2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_client: MagicMock,
 ) -> None:
     """Test migration of a version 1 config entry to version 2."""

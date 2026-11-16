@@ -1,8 +1,8 @@
-"""WebSocket based API for __HA_KEEP__."""
+"""WebSocket based API for Universal Home Assistant."""
 
 from typing import Final, cast
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType, VolSchemaType
 
@@ -75,7 +75,7 @@ __all__ = [
 
 @callback
 def async_register_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     command_or_handler: str | const.WebSocketCommandHandler,
     handler: const.WebSocketCommandHandler | None = None,
     schema: VolSchemaType | None = None,
@@ -92,7 +92,7 @@ def async_register_command(
     handlers[command] = (handler, schema)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Initialize the websocket API."""
     hass.http.register_view(http.WebsocketAPIView())
     commands.async_register_commands(hass, async_register_command)

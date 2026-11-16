@@ -12,12 +12,11 @@
     },
     "step": {
       "confirm_discovery": {
-        "description": "DHCP reservation on your router is recommended. If not set up, the device may become unavailable until __HA_KEEP__ detects the new IP address. Refer to your router's user manual."
+        "description": "DHCP reservation on your router is recommended. If not set up, the device may become unavailable until Universal Home Assistant detects the new IP address. Refer to your router's user manual."
       },
       "user": {
         "data": {
-          "host": "[%key:common::config_flow::data::host%]",
-          "name": "[%key:common::config_flow::data::name%]"
+          "host": "[%key:common::config_flow::data::host%]"
         },
         "data_description": {
           "host": "The hostname or IP address of your Goal Zero Yeti."

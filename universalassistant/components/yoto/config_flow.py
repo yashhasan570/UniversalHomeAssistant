@@ -15,7 +15,7 @@ from .const import DOMAIN, LOGGER, YOTO_AUDIENCE, YOTO_SCOPES
 class YotoOAuth2FlowHandler(
     config_entry_oauth2_flow.AbstractOAuth2FlowHandler, domain=DOMAIN
 ):
-    """Authorize __HA_KEEP__ with a Yoto account using OAuth2."""
+    """Authorize Universal Home Assistant with a Yoto account using OAuth2."""
 
     DOMAIN = DOMAIN
 

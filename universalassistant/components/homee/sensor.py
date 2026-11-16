@@ -14,7 +14,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import HomeeConfigEntry
@@ -283,14 +283,14 @@ NODE_SENSOR_DESCRIPTIONS: tuple[HomeeNodeSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Add the homee platform for the sensor components."""
 
     async def add_sensor_entities(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: HomeeConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
         nodes: list[HomeeNode],
@@ -329,7 +329,7 @@ class HomeeSensor(HomeeEntity, SensorEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         attribute: HomeeAttribute,
         entry: HomeeConfigEntry,
         description: HomeeSensorEntityDescription,
@@ -367,7 +367,7 @@ class HomeeNodeSensor(HomeeNodeEntity, SensorEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         node: HomeeNode,
         entry: HomeeConfigEntry,
         description: HomeeNodeSensorEntityDescription,

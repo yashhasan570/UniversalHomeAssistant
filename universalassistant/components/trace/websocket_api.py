@@ -6,8 +6,8 @@ from typing import Any
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.dispatcher import (
     DATA_DISPATCHER,
     async_dispatcher_connect,
@@ -32,7 +32,7 @@ TRACE_DOMAINS = ("automation", "script")
 
 
 @callback
-def async_setup(hass: __HAC_KEEP__) -> None:
+def async_setup(hass: UniversalAssistant) -> None:
     """Set up the websocket API."""
     websocket_api.async_register_command(hass, websocket_trace_get)
     websocket_api.async_register_command(hass, websocket_trace_list)
@@ -57,7 +57,7 @@ def async_setup(hass: __HAC_KEEP__) -> None:
 )
 @websocket_api.async_response
 async def websocket_trace_get(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -90,7 +90,7 @@ async def websocket_trace_get(
 )
 @websocket_api.async_response
 async def websocket_trace_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -113,7 +113,7 @@ async def websocket_trace_list(
 )
 @websocket_api.async_response
 async def websocket_trace_contexts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -137,7 +137,7 @@ async def websocket_trace_contexts(
     }
 )
 def websocket_breakpoint_set(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -150,7 +150,7 @@ def websocket_breakpoint_set(
         SCRIPT_BREAKPOINT_HIT not in hass.data.get(DATA_DISPATCHER, {})
         or not hass.data[DATA_DISPATCHER][SCRIPT_BREAKPOINT_HIT]
     ):
-        raise __HAC_KEEP__Error("No breakpoint subscription")
+        raise UniversalAssistantError("No breakpoint subscription")
 
     result = breakpoint_set(hass, key, run_id, node)
     connection.send_result(msg["id"], result)
@@ -168,7 +168,7 @@ def websocket_breakpoint_set(
     }
 )
 def websocket_breakpoint_clear(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -188,7 +188,7 @@ def websocket_breakpoint_clear(
     {probatio.Required("type"): "trace/debug/breakpoint/list"}
 )
 def websocket_breakpoint_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -207,7 +207,7 @@ def websocket_breakpoint_list(
     {probatio.Required("type"): "trace/debug/breakpoint/subscribe"}
 )
 def websocket_subscribe_breakpoint_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -260,7 +260,7 @@ def websocket_subscribe_breakpoint_events(
     }
 )
 def websocket_debug_continue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -284,7 +284,7 @@ def websocket_debug_continue(
     }
 )
 def websocket_debug_step(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -308,7 +308,7 @@ def websocket_debug_step(
     }
 )
 def websocket_debug_stop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

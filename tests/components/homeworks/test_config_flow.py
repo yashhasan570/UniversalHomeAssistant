@@ -26,12 +26,12 @@ from universalassistant.const import (
     CONF_PORT,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_user_flow(hass: __HAC_KEEP__, mock_homeworks: MagicMock) -> None:
+async def test_user_flow(hass: UniversalAssistant, mock_homeworks: MagicMock) -> None:
     """Test the user configuration flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -65,7 +65,7 @@ async def test_user_flow(hass: __HAC_KEEP__, mock_homeworks: MagicMock) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_credentials(
-    hass: __HAC_KEEP__, mock_homeworks: MagicMock
+    hass: UniversalAssistant, mock_homeworks: MagicMock
 ) -> None:
     """Test the user configuration flow."""
     result = await hass.config_entries.flow.async_init(
@@ -104,7 +104,7 @@ async def test_user_flow_credentials(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_credentials_user_only(
-    hass: __HAC_KEEP__, mock_homeworks: MagicMock
+    hass: UniversalAssistant, mock_homeworks: MagicMock
 ) -> None:
     """Test the user configuration flow."""
     result = await hass.config_entries.flow.async_init(
@@ -140,7 +140,7 @@ async def test_user_flow_credentials_user_only(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_credentials_password_only(
-    hass: __HAC_KEEP__, mock_homeworks: MagicMock
+    hass: UniversalAssistant, mock_homeworks: MagicMock
 ) -> None:
     """Test the user configuration flow."""
     result = await hass.config_entries.flow.async_init(
@@ -178,7 +178,7 @@ async def test_user_flow_credentials_password_only(
 
 @pytest.mark.usefixtures("mock_homeworks", "mock_setup_entry")
 async def test_user_flow_already_exists(
-    hass: __HAC_KEEP__, mock_empty_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_empty_config_entry: MockConfigEntry
 ) -> None:
     """Test the user configuration flow."""
     mock_empty_config_entry.add_to_hass(hass)
@@ -234,7 +234,7 @@ async def test_user_flow_already_exists(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_homeworks: MagicMock,
     side_effect: type[Exception],
     error: str,
@@ -271,7 +271,7 @@ async def test_user_flow_cannot_connect(
 
 
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_homeworks: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_homeworks: MagicMock
 ) -> None:
     """Test reconfigure flow."""
     mock_config_entry.add_to_hass(hass)
@@ -317,7 +317,7 @@ async def test_reconfigure_flow(
 
 
 async def test_reconfigure_flow_flow_duplicate(
-    hass: __HAC_KEEP__, mock_homeworks: MagicMock
+    hass: UniversalAssistant, mock_homeworks: MagicMock
 ) -> None:
     """Test reconfigure flow."""
     entry1 = MockConfigEntry(
@@ -368,7 +368,7 @@ async def test_reconfigure_flow_flow_duplicate(
 
 
 async def test_reconfigure_flow_flow_no_change(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_homeworks: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_homeworks: MagicMock
 ) -> None:
     """Test reconfigure flow."""
     mock_config_entry.add_to_hass(hass)
@@ -413,7 +413,7 @@ async def test_reconfigure_flow_flow_no_change(
 
 
 async def test_reconfigure_flow_credentials_password_only(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_homeworks: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_homeworks: MagicMock
 ) -> None:
     """Test reconfigure flow."""
     mock_config_entry.add_to_hass(hass)
@@ -448,7 +448,7 @@ async def test_reconfigure_flow_credentials_password_only(
 
 
 async def test_options_add_light_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_empty_config_entry: MockConfigEntry,
     mock_homeworks: MagicMock,
 ) -> None:
@@ -499,7 +499,7 @@ async def test_options_add_light_flow(
 
 
 async def test_options_add_remove_light_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_homeworks: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_homeworks: MagicMock
 ) -> None:
     """Test options flow to add and remove a light."""
     mock_config_entry.add_to_hass(hass)
@@ -622,7 +622,7 @@ async def test_options_add_remove_light_flow(
     ],
 )
 async def test_options_add_remove_keypad_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_homeworks: MagicMock,
     keypad_address: str,
@@ -712,7 +712,7 @@ async def test_options_add_remove_keypad_flow(
 
 
 async def test_options_add_keypad_with_error(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_homeworks: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_homeworks: MagicMock
 ) -> None:
     """Test options flow to add and remove a keypad."""
     mock_config_entry.add_to_hass(hass)
@@ -778,7 +778,7 @@ async def test_options_add_keypad_with_error(
 
 
 async def test_options_edit_light_no_lights_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_homeworks: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_homeworks: MagicMock
 ) -> None:
     """Test options flow to edit a light."""
     mock_config_entry.add_to_hass(hass)
@@ -842,7 +842,7 @@ async def test_options_edit_light_no_lights_flow(
 
 
 async def test_options_edit_light_flow_empty(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_empty_config_entry: MockConfigEntry,
     mock_homeworks: MagicMock,
 ) -> None:
@@ -867,7 +867,7 @@ async def test_options_edit_light_flow_empty(
 
 
 async def test_options_add_button_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_homeworks: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_homeworks: MagicMock
 ) -> None:
     """Test options flow to add a button."""
     mock_config_entry.add_to_hass(hass)
@@ -952,7 +952,7 @@ async def test_options_add_button_flow(
 
 
 async def test_options_add_button_flow_duplicate(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_homeworks: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_homeworks: MagicMock
 ) -> None:
     """Test options flow to add a button."""
     mock_config_entry.add_to_hass(hass)
@@ -1013,7 +1013,7 @@ async def test_options_add_button_flow_duplicate(
 
 
 async def test_options_edit_button_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_homeworks: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_homeworks: MagicMock
 ) -> None:
     """Test options flow to add a button."""
     mock_config_entry.add_to_hass(hass)
@@ -1101,7 +1101,7 @@ async def test_options_edit_button_flow(
 
 
 async def test_options_remove_button_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_homeworks: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_homeworks: MagicMock
 ) -> None:
     """Test options flow to remove a button."""
     mock_config_entry.add_to_hass(hass)

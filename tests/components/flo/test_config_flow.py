@@ -13,14 +13,14 @@ from universalassistant import config_entries
 from universalassistant.components.flo import async_get_flo_api
 from universalassistant.components.flo.const import CONF_USE_SSO, DOMAIN
 from universalassistant.const import CONTENT_TYPE_JSON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .common import TEST_PASSWORD, TEST_USER_ID
 
 
 @pytest.mark.usefixtures("aioclient_mock_fixture")
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -45,7 +45,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
 
 
 async def test_form_cannot_connect(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test we handle cannot connect error when legacy and SSO both fail."""
     aioclient_mock.post(
@@ -87,7 +87,7 @@ async def test_form_cannot_connect(
 
 
 async def test_form_sso_after_legacy_failure(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test config flow falls back to Moen SSO when legacy auth fails."""
     aioclient_mock.post(
@@ -138,7 +138,7 @@ async def test_form_sso_after_legacy_failure(
         assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_async_get_flo_api_falls_back_to_sso(hass: __HAC_KEEP__) -> None:
+async def test_async_get_flo_api_falls_back_to_sso(hass: UniversalAssistant) -> None:
     """Test legacy RequestError triggers a SSO retry."""
     client = object()
 
@@ -156,7 +156,7 @@ async def test_async_get_flo_api_falls_back_to_sso(hass: __HAC_KEEP__) -> None:
     assert mock_get_api.await_args_list[1].kwargs["use_sso"] is True
 
 
-async def test_async_get_flo_api_uses_stored_sso(hass: __HAC_KEEP__) -> None:
+async def test_async_get_flo_api_uses_stored_sso(hass: UniversalAssistant) -> None:
     """Test a stored SSO flag skips the legacy attempt."""
     client = object()
 
@@ -175,7 +175,7 @@ async def test_async_get_flo_api_uses_stored_sso(hass: __HAC_KEEP__) -> None:
     assert mock_get_api.await_args.kwargs["use_sso"] is True
 
 
-async def test_async_get_flo_api_stored_sso_does_not_retry(hass: __HAC_KEEP__) -> None:
+async def test_async_get_flo_api_stored_sso_does_not_retry(hass: UniversalAssistant) -> None:
     """Test a stored SSO failure is not retried."""
     with (
         patch(

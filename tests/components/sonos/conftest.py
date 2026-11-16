@@ -28,7 +28,7 @@ from universalassistant.components.media_player import DOMAIN as MP_DOMAIN
 from universalassistant.components.sonos import DOMAIN
 from universalassistant.components.sonos.const import SONOS_SHARE
 from universalassistant.const import CONF_HOSTS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.service_info.ssdp import ATTR_UPNP_UDN, SsdpServiceInfo
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 from universalassistant.setup import async_setup_component
@@ -179,7 +179,7 @@ def reset_sonos():
 
 @pytest.fixture
 def async_setup_sonos(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, fire_zgs_event, alarm_event
+    hass: UniversalAssistant, config_entry: MockConfigEntry, fire_zgs_event, alarm_event
 ) -> Callable[[], Coroutine[Any, Any, None]]:
     """Return a coroutine to set up a Sonos integration instance on demand."""
 
@@ -425,7 +425,7 @@ def discover_fixture(soco):
     """Create a mock soco discover fixture."""
 
     def do_callback(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         callback: Callable[
             [SsdpServiceInfo, ssdp.SsdpChange], Coroutine[Any, Any, None] | None
         ],
@@ -927,7 +927,7 @@ def zgs_discovery_fixture():
 
 @pytest.fixture(name="fire_zgs_event")
 def zgs_event_fixture(
-    hass: __HAC_KEEP__, soco: SoCo, zgs_discovery: str
+    hass: UniversalAssistant, soco: SoCo, zgs_discovery: str
 ) -> Callable[[], Coroutine[Any, Any, None]]:
     """Create alarm_event fixture."""
     variables = {"ZoneGroupState": zgs_discovery}
@@ -944,7 +944,7 @@ def zgs_event_fixture(
 
 @pytest.fixture(name="sonos_setup_two_speakers")
 async def sonos_setup_two_speakers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     alarm_event: SonosMockEvent,
 ) -> list[MockSoCo]:

@@ -25,7 +25,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 from universalassistant.helpers.event import async_track_time_interval
@@ -61,7 +61,7 @@ class IndiAllSkyDataUpdateCoordinator(DataUpdateCoordinator[IndiAllSkyData]):
 
     config_entry: IndiAllSkyConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, entry: IndiAllSkyConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: IndiAllSkyConfigEntry) -> None:
         """Initialize the coordinator."""
         self.session = async_create_clientsession(
             hass,

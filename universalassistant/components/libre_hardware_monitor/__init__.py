@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.const import Platform, UnitOfDataRate
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import (
@@ -22,7 +22,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, config_entry: LibreHardwareMonitorConfigEntry
+    hass: UniversalAssistant, config_entry: LibreHardwareMonitorConfigEntry
 ) -> None:
     """Migrate to current config flow version."""
     _LOGGER.debug(
@@ -122,7 +122,7 @@ async def async_migrate_entry(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: LibreHardwareMonitorConfigEntry
+    hass: UniversalAssistant, config_entry: LibreHardwareMonitorConfigEntry
 ) -> None:
     """Set up LibreHardwareMonitor from a config entry."""
 
@@ -134,7 +134,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: LibreHardwareMonitorConfigEntry
+    hass: UniversalAssistant, config_entry: LibreHardwareMonitorConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)

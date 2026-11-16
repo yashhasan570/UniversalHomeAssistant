@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.pushbullet.const import DOMAIN
 from universalassistant.const import CONF_API_KEY, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import MOCK_CONFIG
@@ -26,7 +26,7 @@ def pushbullet_setup_fixture():
         yield
 
 
-async def test_flow_user(hass: __HAC_KEEP__, requests_mock_fixture) -> None:
+async def test_flow_user(hass: UniversalAssistant, requests_mock_fixture) -> None:
     """Test user initialized flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -45,7 +45,7 @@ async def test_flow_user(hass: __HAC_KEEP__, requests_mock_fixture) -> None:
     assert result["result"].unique_id == "ujpah72o0"
 
 
-async def test_flow_user_name_falls_back_to_email(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_name_falls_back_to_email(hass: UniversalAssistant) -> None:
     """Test the email is used when the account has no name."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -70,7 +70,7 @@ async def test_flow_user_name_falls_back_to_email(hass: __HAC_KEEP__) -> None:
     assert result["result"].unique_id == "ujpah72o0"
 
 
-async def test_flow_user_same_name_unique_notify_name(hass: __HAC_KEEP__) -> None:
+async def test_flow_user_same_name_unique_notify_name(hass: UniversalAssistant) -> None:
     """Test accounts sharing a display name get different notify names."""
     names = []
     for iden in ("ujpah72o0", "ujxpklasd"):
@@ -97,7 +97,7 @@ async def test_flow_user_same_name_unique_notify_name(hass: __HAC_KEEP__) -> Non
 
 
 async def test_flow_user_already_configured(
-    hass: __HAC_KEEP__, requests_mock_fixture
+    hass: UniversalAssistant, requests_mock_fixture
 ) -> None:
     """Test user initialized flow with duplicate server."""
     entry = MockConfigEntry(
@@ -120,7 +120,7 @@ async def test_flow_user_already_configured(
     assert result["reason"] == "already_configured"
 
 
-async def test_flow_invalid_key(hass: __HAC_KEEP__) -> None:
+async def test_flow_invalid_key(hass: UniversalAssistant) -> None:
     """Test user initialized flow with invalid api key."""
 
     with patch(
@@ -147,7 +147,7 @@ async def test_flow_invalid_key(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_conn_error(hass: __HAC_KEEP__) -> None:
+async def test_flow_conn_error(hass: UniversalAssistant) -> None:
     """Test user initialized flow with conn error."""
 
     with patch(
@@ -174,7 +174,7 @@ async def test_flow_conn_error(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_reauth(hass: __HAC_KEEP__) -> None:
+async def test_reauth(hass: UniversalAssistant) -> None:
     """Test reauth updates the API key."""
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_CONFIG, unique_id="ujpah72o0")
     entry.add_to_hass(hass)
@@ -201,7 +201,7 @@ async def test_reauth(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_reauth_errors(
-    hass: __HAC_KEEP__, side_effect: type[Exception], errors: dict[str, str]
+    hass: UniversalAssistant, side_effect: type[Exception], errors: dict[str, str]
 ) -> None:
     """Test reauth handles errors and can recover."""
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_CONFIG, unique_id="ujpah72o0")
@@ -228,7 +228,7 @@ async def test_reauth_errors(
     assert entry.data[CONF_API_KEY] == "NEWKEY"
 
 
-async def test_reauth_wrong_account(hass: __HAC_KEEP__) -> None:
+async def test_reauth_wrong_account(hass: UniversalAssistant) -> None:
     """Test reauth aborts when the API key belongs to another account."""
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_CONFIG, unique_id="ujpah72o0")
     entry.add_to_hass(hass)

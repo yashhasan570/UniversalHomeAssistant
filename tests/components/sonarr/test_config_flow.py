@@ -16,13 +16,13 @@ from universalassistant.components.sonarr.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_SOURCE, CONF_URL, CONF_VERIFY_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import MOCK_REAUTH_INPUT, MOCK_USER_INPUT
 
 
-async def test_show_user_form(hass: __HAC_KEEP__) -> None:
+async def test_show_user_form(hass: UniversalAssistant) -> None:
     """Test that the user set up form is served."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -35,7 +35,7 @@ async def test_show_user_form(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_cannot_connect(
-    hass: __HAC_KEEP__, mock_sonarr_config_flow: MagicMock
+    hass: UniversalAssistant, mock_sonarr_config_flow: MagicMock
 ) -> None:
     """Test we show user form on connection error."""
     mock_sonarr_config_flow.async_get_system_status.side_effect = ArrException
@@ -78,7 +78,7 @@ async def test_cannot_connect(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_url_rewrite(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_sonarr_config_flow: MagicMock,
     input_url: str,
     expected_url: str,
@@ -109,7 +109,7 @@ async def test_url_rewrite(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_invalid_auth(
-    hass: __HAC_KEEP__, mock_sonarr_config_flow: MagicMock
+    hass: UniversalAssistant, mock_sonarr_config_flow: MagicMock
 ) -> None:
     """Test we show user form on invalid auth."""
     mock_sonarr_config_flow.async_get_system_status.side_effect = (
@@ -136,7 +136,7 @@ async def test_invalid_auth(
 
 
 async def test_unknown_error(
-    hass: __HAC_KEEP__, mock_sonarr_config_flow: MagicMock
+    hass: UniversalAssistant, mock_sonarr_config_flow: MagicMock
 ) -> None:
     """Test we show user form on unknown error."""
     mock_sonarr_config_flow.async_get_system_status.side_effect = Exception
@@ -154,7 +154,7 @@ async def test_unknown_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_reauth_flow_implementation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_sonarr_config_flow: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -187,7 +187,7 @@ async def test_full_reauth_flow_implementation(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_user_flow_implementation(
-    hass: __HAC_KEEP__, mock_sonarr_config_flow: MagicMock
+    hass: UniversalAssistant, mock_sonarr_config_flow: MagicMock
 ) -> None:
     """Test the full manual user flow from start to finish."""
     result = await hass.config_entries.flow.async_init(
@@ -214,7 +214,7 @@ async def test_full_user_flow_implementation(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_user_flow_with_verify_ssl(
-    hass: __HAC_KEEP__, mock_sonarr_config_flow: MagicMock
+    hass: UniversalAssistant, mock_sonarr_config_flow: MagicMock
 ) -> None:
     """Test the full manual user flow with verify SSL option."""
     result = await hass.config_entries.flow.async_init(
@@ -243,7 +243,7 @@ async def test_full_user_flow_with_verify_ssl(
 @patch("universalassistant.components.sonarr.PLATFORMS", [])
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Test updating options."""
     entry = init_integration
@@ -269,7 +269,7 @@ async def test_options_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_sonarr_config_flow")
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Test the reconfigure flow."""
     result = await init_integration.start_reconfigure_flow(hass)
@@ -303,7 +303,7 @@ async def test_reconfigure_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_sonarr_config_flow: MagicMock,
     init_integration: MockConfigEntry,
     side_effect: type[Exception],
@@ -339,7 +339,7 @@ async def test_reconfigure_flow_errors(
 )
 @pytest.mark.usefixtures("mock_setup_entry", "mock_sonarr_config_flow")
 async def test_reconfigure_flow_already_configured(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry, stored_url: str
+    hass: UniversalAssistant, init_integration: MockConfigEntry, stored_url: str
 ) -> None:
     """Test the reconfigure flow aborts when the URL is used by another entry."""
     MockConfigEntry(

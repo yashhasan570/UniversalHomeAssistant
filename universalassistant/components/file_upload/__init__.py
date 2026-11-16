@@ -12,10 +12,10 @@ import tempfile
 from aiohttp import BodyPartReader, web
 import probatio
 
-from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
+from universalassistant.components.http import KEY_HASS, UniversalAssistantView
 from universalassistant.components.http.data_validator import RequestDataValidator
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.util import raise_if_invalid_filename
@@ -33,7 +33,7 @@ CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
 
 @contextmanager
-def process_uploaded_file(hass: __HAC_KEEP__, file_id: str) -> Generator[Path]:
+def process_uploaded_file(hass: UniversalAssistant, file_id: str) -> Generator[Path]:
     """Get an uploaded file.
 
     File is removed at the end of the context. Should be run on the executor thread pool.
@@ -57,7 +57,7 @@ def process_uploaded_file(hass: __HAC_KEEP__, file_id: str) -> Generator[Path]:
         shutil.rmtree(file_upload_data.file_dir(file_id))
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up File Upload."""
     hass.http.register_view(FileUploadView)
     return True
@@ -71,14 +71,14 @@ class FileUploadData:
     files: dict[str, str]
 
     @classmethod
-    async def create(cls, hass: __HAC_KEEP__) -> FileUploadData:
+    async def create(cls, hass: UniversalAssistant) -> FileUploadData:
         """Initialize the file upload data."""
 
         def _create_temp_dir() -> Path:
             """Create temporary directory."""
             temp_dir = Path(tempfile.gettempdir()) / TEMP_DIR_NAME
 
-            # If it exists, it's an old one and __HA_KEEP__
+            # If it exists, it's an old one and Universal Home Assistant
             # didn't shut down correctly.
             if temp_dir.exists():
                 shutil.rmtree(temp_dir)
@@ -110,7 +110,7 @@ class FileUploadData:
 
 
 async def _receive_file_field(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     file_field_reader: BodyPartReader,
     file_path: Path,
 ) -> None:
@@ -174,7 +174,7 @@ async def _receive_file_field(
             fut.result()
 
 
-class FileUploadView(__HAC_KEEP__View):
+class FileUploadView(UniversalAssistantView):
     """HTTP View to upload files."""
 
     url = "/api/file_upload"

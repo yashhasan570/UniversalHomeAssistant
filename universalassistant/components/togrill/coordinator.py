@@ -26,7 +26,7 @@ from universalassistant.components.bluetooth import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ADDRESS, CONF_MODEL
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import (
     CONNECTION_BLUETOOTH,
@@ -64,7 +64,7 @@ class ToGrillCoordinator(DataUpdateCoordinator[dict[tuple[int, int | None], Pack
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ToGrillConfigEntry,
     ) -> None:
         """Initialize global data updater."""

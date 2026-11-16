@@ -20,7 +20,7 @@ from universalassistant.components.light import (
     LightEntityStateAttribute,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import AVEA_DISCOVERY_INFO, AVEA_FIRMWARE_VERSION, AVEA_SERIAL_NUMBER
@@ -48,7 +48,7 @@ def mock_bulb() -> MagicMock:
 
 @pytest.fixture
 async def setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_bulb: MagicMock,
 ) -> AsyncGenerator[MagicMock]:
@@ -68,7 +68,7 @@ async def setup_integration(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -104,7 +104,7 @@ async def test_device_info(
 
 
 async def test_device_info_populates_when_connect_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_bulb: MagicMock,
@@ -144,7 +144,7 @@ async def test_device_info_populates_when_connect_fails(
 
 
 async def test_device_info_ignores_unknown_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_bulb: MagicMock,
@@ -180,7 +180,7 @@ async def test_device_info_ignores_unknown_values(
 
 
 async def test_device_info_is_read_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -202,7 +202,7 @@ async def test_device_info_is_read_once(
 
 
 async def test_turn_on_and_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: MagicMock,
 ) -> None:
     """Test turning the light on and off."""
@@ -245,7 +245,7 @@ async def test_turn_on_and_off(
 
 
 async def test_turn_on_restores_last_brightness(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -296,7 +296,7 @@ async def test_turn_on_restores_last_brightness(
 
 
 async def test_update_state(
-    hass: __HAC_KEEP__, setup_integration: MagicMock, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, setup_integration: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test updating the entity state."""
     state = hass.states.get("light.bedroom")
@@ -336,7 +336,7 @@ async def test_update_state(
 
 
 async def test_update_state_uses_cached_values_when_connect_fails(
-    hass: __HAC_KEEP__, setup_integration: MagicMock, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, setup_integration: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test updating the entity state when the shared connection fails."""
     bulb = setup_integration

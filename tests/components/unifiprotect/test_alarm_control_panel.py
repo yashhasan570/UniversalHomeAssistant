@@ -22,8 +22,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import PUBLIC_ONLY_ALARM_ENTITY_ID
@@ -50,7 +50,7 @@ def _make_public_bootstrap(arm_mode: Mock | None) -> Mock:
 
 
 async def test_alarm_panel_not_created_without_public_bootstrap(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
 ) -> None:
     """Alarm panel entity is NOT created when has_public_bootstrap is False."""
@@ -61,7 +61,7 @@ async def test_alarm_panel_not_created_without_public_bootstrap(
 
 
 async def test_alarm_panel_created_with_public_bootstrap(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     nvr: NVR,
@@ -96,7 +96,7 @@ async def test_alarm_panel_created_with_public_bootstrap(
     ],
 )
 async def test_alarm_panel_state_mapping(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     nvr_status: NvrArmModeStatus,
     expected_state: AlarmControlPanelState,
@@ -115,7 +115,7 @@ async def test_alarm_panel_state_mapping(
 
 
 async def test_alarm_panel_not_created_without_arm_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
 ) -> None:
     """Alarm panel entity is NOT created on old firmware (arm_mode is None)."""
@@ -128,7 +128,7 @@ async def test_alarm_panel_not_created_without_arm_mode(
 
 
 async def test_alarm_panel_disarm(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
 ) -> None:
     """Test that disarm service calls disable_arm_alarm_public."""
@@ -151,7 +151,7 @@ async def test_alarm_panel_disarm(
 
 
 async def test_alarm_panel_arm_away(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
 ) -> None:
     """Test that arm_away service calls enable_arm_alarm_public."""
@@ -174,10 +174,10 @@ async def test_alarm_panel_arm_away(
 
 
 async def test_alarm_panel_disarm_global_manager_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
 ) -> None:
-    """Test that GlobalAlarmManagerError on disarm raises __HAC_KEEP__Error."""
+    """Test that GlobalAlarmManagerError on disarm raises UniversalAssistantError."""
     arm_mode = _make_arm_mode(NvrArmModeStatus.ARMED)
     pb = _make_public_bootstrap(arm_mode)
     ufp.api.has_public_bootstrap = True
@@ -186,7 +186,7 @@ async def test_alarm_panel_disarm_global_manager_error(
 
     await init_entry(hass, ufp, [])
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             ALARM_DOMAIN,
             SERVICE_ALARM_DISARM,
@@ -197,10 +197,10 @@ async def test_alarm_panel_disarm_global_manager_error(
 
 
 async def test_alarm_panel_arm_away_global_manager_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
 ) -> None:
-    """Test that GlobalAlarmManagerError on arm raises __HAC_KEEP__Error."""
+    """Test that GlobalAlarmManagerError on arm raises UniversalAssistantError."""
     arm_mode = _make_arm_mode(NvrArmModeStatus.DISABLED)
     pb = _make_public_bootstrap(arm_mode)
     ufp.api.has_public_bootstrap = True
@@ -209,7 +209,7 @@ async def test_alarm_panel_arm_away_global_manager_error(
 
     await init_entry(hass, ufp, [])
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             ALARM_DOMAIN,
             SERVICE_ALARM_ARM_AWAY,
@@ -220,7 +220,7 @@ async def test_alarm_panel_arm_away_global_manager_error(
 
 
 async def test_alarm_panel_state_update_via_ws(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     nvr: NVR,
 ) -> None:
@@ -254,7 +254,7 @@ async def test_alarm_panel_state_update_via_ws(
 
 
 async def test_alarm_panel_unavailable_when_arm_mode_disappears(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     nvr: NVR,
 ) -> None:
@@ -286,7 +286,7 @@ async def test_alarm_panel_unavailable_when_arm_mode_disappears(
 
 
 async def test_alarm_panel_unavailable_on_ws_disconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
 ) -> None:
     """Entity becomes unavailable when the public devices WebSocket disconnects."""
@@ -317,7 +317,7 @@ async def test_alarm_panel_unavailable_on_ws_disconnect(
 
 
 async def test_alarm_panel_availability_decoupled_from_private_websocket(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
 ) -> None:
     """Alarm availability follows the public WS only: private loss is a no-op."""
@@ -348,7 +348,7 @@ async def test_alarm_panel_availability_decoupled_from_private_websocket(
 
 
 async def test_public_only_nvr_websocket_updates_alarm(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
 ) -> None:
@@ -370,7 +370,7 @@ async def test_public_only_nvr_websocket_updates_alarm(
 
 
 async def test_public_only_ws_state_refreshes_alarm(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
 ) -> None:

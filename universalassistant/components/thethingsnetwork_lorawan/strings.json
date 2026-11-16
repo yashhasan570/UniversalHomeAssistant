@@ -20,7 +20,7 @@
         "data_description": {
           "application_ids": "Only devices in the selected applications will be discovered."
         },
-        "description": "Select the applications whose devices you want to use in __HA_KEEP__.",
+        "description": "Select the applications whose devices you want to use in Universal Home Assistant.",
         "title": "Select applications"
       },
       "connection": {

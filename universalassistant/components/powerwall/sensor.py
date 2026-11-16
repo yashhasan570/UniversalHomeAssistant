@@ -28,7 +28,7 @@ from universalassistant.const import (
     UnitOfFrequency,
     UnitOfPower,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -235,7 +235,7 @@ POWERWALL_MAX_POWER_SENSORS = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: PowerwallConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

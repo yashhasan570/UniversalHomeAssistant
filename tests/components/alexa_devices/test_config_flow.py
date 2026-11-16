@@ -17,7 +17,7 @@ from universalassistant.components.alexa_devices.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_CODE, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import TEST_CODE, TEST_PASSWORD, TEST_USER_ID, TEST_USERNAME
@@ -25,7 +25,7 @@ from .const import TEST_CODE, TEST_PASSWORD, TEST_USER_ID, TEST_USERNAME
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_flow(
-    hass: __HAC_KEEP__, mock_amazon_devices_client: AsyncMock
+    hass: UniversalAssistant, mock_amazon_devices_client: AsyncMock
 ) -> None:
     """Test full flow."""
     result = await hass.config_entries.flow.async_init(
@@ -75,7 +75,7 @@ async def test_full_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     exception: Exception,
     error: str,
@@ -131,7 +131,7 @@ async def test_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -167,7 +167,7 @@ async def test_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_successful(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -209,7 +209,7 @@ async def test_reauth_successful(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_not_successful(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -259,7 +259,7 @@ async def test_reauth_not_successful(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_successful(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -307,7 +307,7 @@ async def test_reconfigure_successful(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,

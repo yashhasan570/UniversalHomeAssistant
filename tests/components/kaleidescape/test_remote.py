@@ -10,8 +10,8 @@ from universalassistant.components.remote import (
     SERVICE_SEND_COMMAND,
 )
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF, SERVICE_TURN_ON
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from . import MOCK_SERIAL
 
@@ -19,7 +19,7 @@ ENTITY_ID = f"remote.theater_kaleidescape_device_{MOCK_SERIAL}"
 
 
 @pytest.mark.usefixtures("mock_device", "mock_integration")
-async def test_entity(hass: __HAC_KEEP__) -> None:
+async def test_entity(hass: UniversalAssistant) -> None:
     """Test entity attributes."""
     assert hass.states.get(ENTITY_ID)
 
@@ -33,7 +33,7 @@ async def test_entity(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("mock_integration")
 async def test_turn_on_off(
-    hass: __HAC_KEEP__, mock_device: MagicMock, service: str, method: str
+    hass: UniversalAssistant, mock_device: MagicMock, service: str, method: str
 ) -> None:
     """Test turning the device on and off."""
     await hass.services.async_call(
@@ -73,7 +73,7 @@ async def test_turn_on_off(
 )
 @pytest.mark.usefixtures("mock_integration")
 async def test_send_command(
-    hass: __HAC_KEEP__, mock_device: MagicMock, command: str
+    hass: UniversalAssistant, mock_device: MagicMock, command: str
 ) -> None:
     """Test each command calls the device method of the same name."""
     await hass.services.async_call(
@@ -86,9 +86,9 @@ async def test_send_command(
 
 
 @pytest.mark.usefixtures("mock_device", "mock_integration")
-async def test_unknown_command(hass: __HAC_KEEP__) -> None:
+async def test_unknown_command(hass: UniversalAssistant) -> None:
     """Test service calls."""
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             REMOTE_DOMAIN,
             SERVICE_SEND_COMMAND,

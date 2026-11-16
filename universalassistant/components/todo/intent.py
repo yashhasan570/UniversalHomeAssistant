@@ -5,7 +5,7 @@ from typing import override
 
 import probatio
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import intent
 
 from . import TodoItem, TodoItemStatus, TodoListEntity
@@ -16,7 +16,7 @@ INTENT_LIST_COMPLETE_ITEM = "HassListCompleteItem"
 INTENT_LIST_REMOVE_ITEM = "HassListRemoveItem"
 
 
-async def async_setup_intents(hass: __HAC_KEEP__) -> None:
+async def async_setup_intents(hass: UniversalAssistant) -> None:
     """Set up the todo intent handlers."""
     intent.async_register(hass, ListAddItemIntentHandler())
     intent.async_register(hass, ListCompleteItemIntentHandler())

@@ -13,7 +13,7 @@ from jvcprojector import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -50,7 +50,7 @@ class JvcProjectorDataUpdateCoordinator(DataUpdateCoordinator[dict[str, str]]):
     config_entry: JVCConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: JVCConfigEntry, device: JvcProjector
+        self, hass: UniversalAssistant, config_entry: JVCConfigEntry, device: JvcProjector
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(

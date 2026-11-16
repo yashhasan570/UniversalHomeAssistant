@@ -2,13 +2,13 @@
 
 from typing import Any
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import OhmeConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: OhmeConfigEntry
+    hass: UniversalAssistant, config_entry: OhmeConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for Ohme."""
     coordinators = config_entry.runtime_data

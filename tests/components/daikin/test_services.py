@@ -9,8 +9,8 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.daikin.const import DOMAIN, KEY_MAC
 from universalassistant.components.daikin.services import DaikinServiceArgument
 from universalassistant.const import CONF_HOST, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import ZoneDevice
@@ -19,7 +19,7 @@ HOST = "127.0.0.1"
 
 
 async def _async_setup_daikin(
-    hass: __HAC_KEEP__, zone_device: ZoneDevice
+    hass: UniversalAssistant, zone_device: ZoneDevice
 ) -> MockConfigEntry:
     """Set up a Daikin config entry with a mocked library device."""
     config_entry = MockConfigEntry(
@@ -45,7 +45,7 @@ def _device_id(
 
 
 async def test_set_demand_control(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     zone_device: ZoneDevice,
 ) -> None:
@@ -81,7 +81,7 @@ async def test_set_demand_control(
     ],
 )
 async def test_set_demand_control_with_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     zone_device: ZoneDevice,
     mode: str,
@@ -113,7 +113,7 @@ async def test_set_demand_control_with_mode(
 
 
 async def test_set_demand_control_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     zone_device: ZoneDevice,
 ) -> None:
@@ -145,7 +145,7 @@ async def test_set_demand_control_disabled(
 
 @pytest.mark.parametrize("invalid_max_pow", [0, 39, 101])
 async def test_set_demand_control_invalid_max_pow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     zone_device: ZoneDevice,
     invalid_max_pow: int,
@@ -174,7 +174,7 @@ async def test_set_demand_control_invalid_max_pow(
 
 
 async def test_set_demand_control_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     zone_device: ZoneDevice,
 ) -> None:
@@ -183,7 +183,7 @@ async def test_set_demand_control_unsupported(
 
     config_entry = await _async_setup_daikin(hass, zone_device)
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             DOMAIN,
             "set_demand_control",

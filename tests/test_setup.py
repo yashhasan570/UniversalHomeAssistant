@@ -22,10 +22,10 @@ from universalassistant.const import EVENT_COMPONENT_LOADED, EVENT_HOMEASSISTANT
 from universalassistant.core import (
     DOMAIN as HOMEASSISTANT_DOMAIN,
     CoreState,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv, discovery, translation
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
@@ -48,7 +48,7 @@ def mock_handlers():
         yield
 
 
-async def test_validate_component_config(hass: __HAC_KEEP__) -> None:
+async def test_validate_component_config(hass: UniversalAssistant) -> None:
     """Test validating component configuration."""
     config_schema = probatio.Schema({"comp_conf": {"hello": str}}, required=True)
     mock_integration(hass, MockModule("comp_conf", config_schema=config_schema))
@@ -88,7 +88,7 @@ async def test_validate_component_config(hass: __HAC_KEEP__) -> None:
 
 
 async def test_validate_platform_config(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test validating platform configuration."""
     platform_schema = cv.PLATFORM_SCHEMA.extend({"hello": str})
@@ -149,7 +149,7 @@ async def test_validate_platform_config(
 
 
 async def test_validate_platform_config_2(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test component PLATFORM_SCHEMA_BASE prio over PLATFORM_SCHEMA."""
     platform_schema = cv.PLATFORM_SCHEMA.extend({"hello": str})
@@ -183,7 +183,7 @@ async def test_validate_platform_config_2(
 
 
 async def test_validate_platform_config_3(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test fallback to component PLATFORM_SCHEMA."""
     component_schema = cv.PLATFORM_SCHEMA_BASE.extend({"hello": str})
@@ -211,7 +211,7 @@ async def test_validate_platform_config_3(
         )
 
 
-async def test_validate_platform_config_4(hass: __HAC_KEEP__) -> None:
+async def test_validate_platform_config_4(hass: UniversalAssistant) -> None:
     """Test entity_namespace in PLATFORM_SCHEMA."""
     component_schema = cv.PLATFORM_SCHEMA_BASE
     platform_schema = cv.PLATFORM_SCHEMA
@@ -244,7 +244,7 @@ async def test_validate_platform_config_4(hass: __HAC_KEEP__) -> None:
 
 
 async def test_component_not_found(
-    hass: __HAC_KEEP__, issue_registry: IssueRegistry
+    hass: UniversalAssistant, issue_registry: IssueRegistry
 ) -> None:
     """setup_component should raise a repair issue if component doesn't exist."""
     MockConfigEntry(domain="non_existing").add_to_hass(hass)
@@ -257,7 +257,7 @@ async def test_component_not_found(
 
 
 async def test_yaml_component_not_found(
-    hass: __HAC_KEEP__, issue_registry: IssueRegistry
+    hass: UniversalAssistant, issue_registry: IssueRegistry
 ) -> None:
     """setup_component should only raise for missing config entry."""
     assert await setup.async_setup_component(hass, "non_existing", {}) is False
@@ -269,7 +269,7 @@ async def test_yaml_component_not_found(
 
 
 async def test_component_missing_not_raising_in_safe_mode(
-    hass: __HAC_KEEP__, issue_registry: IssueRegistry
+    hass: UniversalAssistant, issue_registry: IssueRegistry
 ) -> None:
     """setup_component should not raise an issue if component doesn't exist in safe."""
     MockConfigEntry(domain="non_existing").add_to_hass(hass)
@@ -282,7 +282,7 @@ async def test_component_missing_not_raising_in_safe_mode(
     ) not in issue_registry.issues
 
 
-async def test_component_not_double_initialized(hass: __HAC_KEEP__) -> None:
+async def test_component_not_double_initialized(hass: UniversalAssistant) -> None:
     """Test we do not set up a component twice."""
     mock_setup = Mock(return_value=True)
 
@@ -298,7 +298,7 @@ async def test_component_not_double_initialized(hass: __HAC_KEEP__) -> None:
 
 
 async def test_component_not_installed_if_requirement_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Component setup should fail if requirement can't install."""
     hass.config.skip_pip = False
@@ -311,12 +311,12 @@ async def test_component_not_installed_if_requirement_fails(
 
 
 async def test_component_not_setup_twice_if_loaded_during_other_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test component setup while waiting for lock is not set up twice."""
     result = []
 
-    async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+    async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
         """Tracking Setup."""
         result.append(1)
         return True
@@ -337,13 +337,13 @@ async def test_component_not_setup_twice_if_loaded_during_other_setup(
 
 
 async def test_component_setup_concurrent_waiter_cancelled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test cancelling a concurrent setup caller does not break the setup."""
     setup_started = asyncio.Event()
     setup_stall = asyncio.Event()
 
-    async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+    async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
         setup_started.set()
         await setup_stall.wait()
         return True
@@ -365,13 +365,13 @@ async def test_component_setup_concurrent_waiter_cancelled(
 
 
 async def test_component_setup_dependency_waiter_cancelled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test cancelling a component setup does not break its dependency setup."""
     setup_started = asyncio.Event()
     setup_stall = asyncio.Event()
 
-    async def async_setup_dep(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+    async def async_setup_dep(hass: UniversalAssistant, config: ConfigType) -> bool:
         setup_started.set()
         await setup_stall.wait()
         return True
@@ -393,7 +393,7 @@ async def test_component_setup_dependency_waiter_cancelled(
     assert setup_future.result() is True
 
 
-async def test_component_not_setup_missing_dependencies(hass: __HAC_KEEP__) -> None:
+async def test_component_not_setup_missing_dependencies(hass: UniversalAssistant) -> None:
     """Test we do not set up a component if not all dependencies loaded."""
     deps = ["maybe_existing"]
     mock_integration(hass, MockModule("comp", dependencies=deps))
@@ -410,7 +410,7 @@ async def test_component_not_setup_missing_dependencies(hass: __HAC_KEEP__) -> N
 
 
 async def test_component_not_setup_already_setup_dependencies(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test we do not set up component dependencies if they are already set up."""
     mock_integration(
@@ -440,12 +440,12 @@ async def test_component_not_setup_already_setup_dependencies(
 
 @pytest.mark.usefixtures("mock_handlers")
 async def test_component_setup_dependencies_with_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test we wait for a dependency with config entry."""
     calls: list[str] = []
 
-    async def mock_async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+    async def mock_async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
         await asyncio.sleep(0)
         calls.append("entry")
 
@@ -453,7 +453,7 @@ async def test_component_setup_dependencies_with_config_entry(
     mock_platform(hass, "comp.config_flow", None)
     MockConfigEntry(domain="comp").add_to_hass(hass)
 
-    async def mock_async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+    async def mock_async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
         calls.append("comp")
         return True
 
@@ -478,7 +478,7 @@ async def test_component_setup_dependencies_with_config_entry(
     assert calls == ["entry", "comp", "comp"]
 
 
-async def test_component_failing_setup(hass: __HAC_KEEP__) -> None:
+async def test_component_failing_setup(hass: UniversalAssistant) -> None:
     """Test component that fails setup."""
     mock_integration(hass, MockModule("comp", setup=lambda hass, config: False))
 
@@ -486,12 +486,12 @@ async def test_component_failing_setup(hass: __HAC_KEEP__) -> None:
     assert "comp" not in hass.config.components
 
 
-async def test_component_exception_setup(hass: __HAC_KEEP__) -> None:
+async def test_component_exception_setup(hass: UniversalAssistant) -> None:
     """Test component that raises exception during setup."""
     domain = "comp"
     setup.async_set_domains_to_be_loaded(hass, {domain})
 
-    def exception_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+    def exception_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
         """Raise exception."""
         raise Exception("fail!")  # noqa: TRY002
 
@@ -503,12 +503,12 @@ async def test_component_exception_setup(hass: __HAC_KEEP__) -> None:
     assert domain not in hass.config.components
 
 
-async def test_component_base_exception_setup(hass: __HAC_KEEP__) -> None:
+async def test_component_base_exception_setup(hass: UniversalAssistant) -> None:
     """Test component that raises exception during setup."""
     domain = "comp"
     setup.async_set_domains_to_be_loaded(hass, {"comp"})
 
-    def exception_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+    def exception_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
         """Raise exception."""
         raise BaseException("fail!")  # noqa: TRY002
 
@@ -523,7 +523,7 @@ async def test_component_base_exception_setup(hass: __HAC_KEEP__) -> None:
     assert domain not in hass.config.components
 
 
-async def test_set_domains_to_be_loaded(hass: __HAC_KEEP__) -> None:
+async def test_set_domains_to_be_loaded(hass: UniversalAssistant) -> None:
     """Test async_set_domains_to_be_loaded."""
     domain_good = "comp_good"
     domain_bad = "comp_bad"
@@ -539,19 +539,19 @@ async def test_set_domains_to_be_loaded(hass: __HAC_KEEP__) -> None:
     setup.async_set_domains_to_be_loaded(hass, domains)
     assert setup_done == hass.data[setup._DATA_SETUP_DONE]
 
-    def good_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+    def good_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
         """Success."""
         return True
 
-    def bad_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+    def bad_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
         """Fail."""
         return False
 
-    def base_exception_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+    def base_exception_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
         """Raise exception."""
         raise BaseException("fail!")  # noqa: TRY002
 
-    def exception_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+    def exception_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
         """Raise exception."""
         raise Exception("fail!")  # noqa: TRY002
 
@@ -583,7 +583,7 @@ async def test_set_domains_to_be_loaded(hass: __HAC_KEEP__) -> None:
     assert not hass.data[setup._DATA_SETUP_DONE]
 
 
-async def test_component_setup_after_dependencies(hass: __HAC_KEEP__) -> None:
+async def test_component_setup_after_dependencies(hass: UniversalAssistant) -> None:
     """Test that after dependencies are set up before the component."""
     mock_integration(hass, MockModule("dep"))
     mock_integration(
@@ -619,14 +619,14 @@ async def test_component_setup_after_dependencies(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_component_setup_failing_dependency(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     manifest: dict[str, list[str]],
     expected_result: bool,
 ) -> None:
     """Test a failing dependency fails the component, a failing after dependency does not."""
 
-    async def mock_dep_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+    async def mock_dep_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
         return False
 
     mock_integration(hass, MockModule("dep", async_setup=mock_dep_setup))
@@ -647,11 +647,11 @@ async def test_component_setup_failing_dependency(
 
 
 async def test_component_setup_with_validation_and_dependency(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test all config is passed to dependencies."""
 
-    def config_check_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+    def config_check_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
         """Test that config is passed in."""
         if config.get("comp_a", {}).get("valid", False):
             return True
@@ -676,7 +676,7 @@ async def test_component_setup_with_validation_and_dependency(
     assert "comp_a" in hass.config.components
 
 
-async def test_platform_specific_config_validation(hass: __HAC_KEEP__) -> None:
+async def test_platform_specific_config_validation(hass: UniversalAssistant) -> None:
     """Test platform that specifies config."""
     platform_schema = cv.PLATFORM_SCHEMA.extend(
         {"valid": True}, extra=probatio.PREVENT_EXTRA
@@ -742,7 +742,7 @@ async def test_platform_specific_config_validation(hass: __HAC_KEEP__) -> None:
         assert len(mock_notify.mock_calls) == 0
 
 
-async def test_disable_component_if_invalid_return(hass: __HAC_KEEP__) -> None:
+async def test_disable_component_if_invalid_return(hass: UniversalAssistant) -> None:
     """Test disabling component if invalid return."""
     mock_integration(
         hass, MockModule("disabled_component", setup=lambda hass, config: None)
@@ -769,11 +769,11 @@ async def test_disable_component_if_invalid_return(hass: __HAC_KEEP__) -> None:
     assert "disabled_component" in hass.config.components
 
 
-async def test_all_work_done_before_start(hass: __HAC_KEEP__) -> None:
+async def test_all_work_done_before_start(hass: UniversalAssistant) -> None:
     """Test all init work done till start."""
     call_order = []
 
-    async def component1_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+    async def component1_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
         """Set up mock component."""
         await discovery.async_discover(
             hass, "test_component2", {}, "test_component2", {}
@@ -783,7 +783,7 @@ async def test_all_work_done_before_start(hass: __HAC_KEEP__) -> None:
         )
         return True
 
-    def component_track_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+    def component_track_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
         """Set up mock component."""
         call_order.append(1)
         return True
@@ -807,7 +807,7 @@ async def test_all_work_done_before_start(hass: __HAC_KEEP__) -> None:
     assert call_order == [1, 1, 2]
 
 
-async def test_component_warn_slow_setup(hass: __HAC_KEEP__) -> None:
+async def test_component_warn_slow_setup(hass: UniversalAssistant) -> None:
     """Warn we log when a component setup takes a long time."""
     mock_integration(hass, MockModule("test_component1"))
     with patch.object(hass.loop, "call_later") as mock_call:
@@ -824,7 +824,7 @@ async def test_component_warn_slow_setup(hass: __HAC_KEEP__) -> None:
         assert mock_call().cancel.called
 
 
-async def test_platform_no_warn_slow(hass: __HAC_KEEP__) -> None:
+async def test_platform_no_warn_slow(hass: UniversalAssistant) -> None:
     """Do not warn for long entity setup time."""
     mock_integration(
         hass, MockModule("test_component1", platform_schema=cv.PLATFORM_SCHEMA)
@@ -836,7 +836,7 @@ async def test_platform_no_warn_slow(hass: __HAC_KEEP__) -> None:
 
 
 async def test_platform_error_slow_setup(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Don't block startup more than SLOW_SETUP_MAX_WAIT."""
 
@@ -855,11 +855,11 @@ async def test_platform_error_slow_setup(
         assert "'test_component1' is taking longer than 0.1 seconds" in caplog.text
 
 
-async def test_when_setup_already_loaded(hass: __HAC_KEEP__) -> None:
+async def test_when_setup_already_loaded(hass: UniversalAssistant) -> None:
     """Test when setup."""
     calls = []
 
-    async def mock_callback(hass: __HAC_KEEP__, component: str) -> None:
+    async def mock_callback(hass: UniversalAssistant, component: str) -> None:
         """Mock callback."""
         calls.append(component)
 
@@ -883,11 +883,11 @@ async def test_when_setup_already_loaded(hass: __HAC_KEEP__) -> None:
     assert calls == ["test", "test"]
 
 
-async def test_async_when_setup_or_start_already_loaded(hass: __HAC_KEEP__) -> None:
+async def test_async_when_setup_or_start_already_loaded(hass: UniversalAssistant) -> None:
     """Test when setup or start."""
     calls = []
 
-    async def mock_callback(hass: __HAC_KEEP__, component: str) -> None:
+    async def mock_callback(hass: UniversalAssistant, component: str) -> None:
         """Mock callback."""
         calls.append(component)
 
@@ -918,7 +918,7 @@ async def test_async_when_setup_or_start_already_loaded(hass: __HAC_KEEP__) -> N
     assert calls == ["test", "test", "not_loaded"]
 
 
-async def test_setup_import_blows_up(hass: __HAC_KEEP__) -> None:
+async def test_setup_import_blows_up(hass: UniversalAssistant) -> None:
     """Test that we handle it correctly when importing integration blows up."""
     with patch(
         "universalassistant.loader.Integration.async_get_component", side_effect=ImportError
@@ -926,14 +926,14 @@ async def test_setup_import_blows_up(hass: __HAC_KEEP__) -> None:
         assert not await setup.async_setup_component(hass, "sun", {})
 
 
-async def test_parallel_entry_setup(hass: __HAC_KEEP__, mock_handlers) -> None:
+async def test_parallel_entry_setup(hass: UniversalAssistant, mock_handlers) -> None:
     """Test config entries are set up in parallel."""
     MockConfigEntry(domain="comp", data={"value": 1}).add_to_hass(hass)
     MockConfigEntry(domain="comp", data={"value": 2}).add_to_hass(hass)
 
     calls = []
 
-    async def mock_async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+    async def mock_async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
         """Mock setting up an entry."""
         calls.append(entry.data["value"])
         await asyncio.sleep(0)
@@ -953,10 +953,10 @@ async def test_parallel_entry_setup(hass: __HAC_KEEP__, mock_handlers) -> None:
 
 
 async def test_integration_disabled(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we can disable an integration."""
-    disabled_reason = "Dependency contains code that breaks __HA_KEEP__"
+    disabled_reason = "Dependency contains code that breaks Universal Home Assistant"
     mock_integration(
         hass,
         MockModule("test_component1", partial_manifest={"disabled": disabled_reason}),
@@ -967,7 +967,7 @@ async def test_integration_disabled(
 
 
 async def test_integration_logs_is_custom(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we highlight it's a custom component when errors happen."""
     mock_integration(
@@ -977,14 +977,14 @@ async def test_integration_logs_is_custom(
     )
     with patch(
         "universalassistant.setup.async_process_deps_reqs",
-        side_effect=__HAC_KEEP__Error("Boom"),
+        side_effect=UniversalAssistantError("Boom"),
     ):
         result = await setup.async_setup_component(hass, "test_component1", {})
     assert not result
     assert "Setup failed for custom integration 'test_component1': Boom" in caplog.text
 
 
-async def test_async_get_loaded_integrations(hass: __HAC_KEEP__) -> None:
+async def test_async_get_loaded_integrations(hass: UniversalAssistant) -> None:
     """Test we can enumerate loaded integrations."""
     hass.config.components.add("notbase")
     hass.config.components.add("switch")
@@ -1003,7 +1003,7 @@ async def test_async_get_loaded_integrations(hass: __HAC_KEEP__) -> None:
 
 
 async def test_integration_no_setup(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we fail integration setup without setup functions."""
     mock_integration(
@@ -1017,7 +1017,7 @@ async def test_integration_no_setup(
     assert "No setup or config entry setup function defined" in caplog.text
 
 
-async def test_integration_only_setup_entry(hass: __HAC_KEEP__) -> None:
+async def test_integration_only_setup_entry(hass: UniversalAssistant) -> None:
     """Test we have an integration with only a setup entry method."""
     mock_integration(
         hass,
@@ -1030,7 +1030,7 @@ async def test_integration_only_setup_entry(hass: __HAC_KEEP__) -> None:
     assert await setup.async_setup_component(hass, "test_integration_only_entry", {})
 
 
-async def test_async_start_setup_running(hass: __HAC_KEEP__) -> None:
+async def test_async_start_setup_running(hass: UniversalAssistant) -> None:
     """Test setup started context manager does nothing when running."""
     assert hass.state is CoreState.running
     setup_started = hass.data.setdefault(setup._DATA_SETUP_STARTED, {})
@@ -1042,7 +1042,7 @@ async def test_async_start_setup_running(hass: __HAC_KEEP__) -> None:
 
 
 async def test_async_start_setup_config_entry(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test setup started keeps track of setup times with a config entry."""
     hass.set_state(CoreState.not_running)
@@ -1152,7 +1152,7 @@ async def test_async_start_setup_config_entry(
 
 
 async def test_async_start_setup_config_entry_late_platform(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test setup started tracks config entry time with a late platform load."""
     hass.set_state(CoreState.not_running)
@@ -1206,7 +1206,7 @@ async def test_async_start_setup_config_entry_late_platform(
 
 
 async def test_async_start_setup_config_entry_platform_wait(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test setup tracks wait time for platform in config entry."""
     hass.set_state(CoreState.not_running)
@@ -1250,7 +1250,7 @@ async def test_async_start_setup_config_entry_platform_wait(
     }
 
 
-async def test_async_start_setup_top_level_yaml(hass: __HAC_KEEP__) -> None:
+async def test_async_start_setup_top_level_yaml(hass: UniversalAssistant) -> None:
     """Test setup started tracks setup times with modern yaml."""
     hass.set_state(CoreState.not_running)
     setup_started = hass.data.setdefault(setup._DATA_SETUP_STARTED, {})
@@ -1266,7 +1266,7 @@ async def test_async_start_setup_top_level_yaml(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_async_start_setup_platform_integration(hass: __HAC_KEEP__) -> None:
+async def test_async_start_setup_platform_integration(hass: UniversalAssistant) -> None:
     """Test setup started keeps track of setup times a platform integration."""
     hass.set_state(CoreState.not_running)
     setup_started = hass.data.setdefault(setup._DATA_SETUP_STARTED, {})
@@ -1299,7 +1299,7 @@ async def test_async_start_setup_platform_integration(hass: __HAC_KEEP__) -> Non
 
 
 async def test_async_start_setup_legacy_platform_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test setup started tracks times for legacy platform."""
     hass.set_state(CoreState.not_running)
@@ -1332,7 +1332,7 @@ async def test_async_start_setup_legacy_platform_integration(
 
 
 async def test_async_start_setup_simple_integration_end_to_end(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test end to end timings for a simple integration with no platforms."""
     hass.set_state(CoreState.not_running)
@@ -1351,7 +1351,7 @@ async def test_async_start_setup_simple_integration_end_to_end(
     }
 
 
-async def test_async_get_setup_timings(hass: __HAC_KEEP__) -> None:
+async def test_async_get_setup_timings(hass: UniversalAssistant) -> None:
     """Test we can get the setup timings from the setup time data."""
     setup_time = setup._setup_times(hass)
     # Mock setup time data
@@ -1405,7 +1405,7 @@ async def test_async_get_setup_timings(hass: __HAC_KEEP__) -> None:
 
 
 async def test_setup_config_entry_from_yaml(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test attempting to setup an integration which only supports config_entries."""
     expected_warning = (
@@ -1458,7 +1458,7 @@ async def test_setup_config_entry_from_yaml(
     hass.config.components.remove("test_integration_only_entry")
 
 
-async def test_loading_component_loads_translations(hass: __HAC_KEEP__) -> None:
+async def test_loading_component_loads_translations(hass: UniversalAssistant) -> None:
     """Test that loading a component loads translations."""
     assert translation.async_translations_loaded(hass, {"comp"}) is False
     mock_setup = Mock(return_value=True)
@@ -1472,7 +1472,7 @@ async def test_loading_component_loads_translations(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
-async def test_importing_integration_in_executor(hass: __HAC_KEEP__) -> None:
+async def test_importing_integration_in_executor(hass: UniversalAssistant) -> None:
     """Test we can import an integration in an executor."""
     assert await setup.async_setup_component(hass, "test_package_loaded_executor", {})
     assert await setup.async_setup_component(hass, "test_package_loaded_executor", {})
@@ -1481,7 +1481,7 @@ async def test_importing_integration_in_executor(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_async_prepare_setup_platform(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we can prepare a platform setup."""
     integration = await loader.async_get_integration(hass, "test")
@@ -1505,12 +1505,12 @@ async def test_async_prepare_setup_platform(
     assert button_platform is not None
 
 
-async def test_async_wait_component(hass: __HAC_KEEP__) -> None:
+async def test_async_wait_component(hass: UniversalAssistant) -> None:
     """Test async_wait_component."""
     setup_stall = asyncio.Event()
     setup_started = asyncio.Event()
 
-    async def mock_setup(hass: __HAC_KEEP__, _) -> bool:
+    async def mock_setup(hass: UniversalAssistant, _) -> bool:
         setup_started.set()
         await setup_stall.wait()
         return True
@@ -1545,12 +1545,12 @@ async def test_async_wait_component(hass: __HAC_KEEP__) -> None:
     assert await setup.async_wait_component(hass, "test") is True
 
 
-async def test_async_wait_component_waiter_cancelled(hass: __HAC_KEEP__) -> None:
+async def test_async_wait_component_waiter_cancelled(hass: UniversalAssistant) -> None:
     """Test cancelling async_wait_component does not break the setup."""
     setup_started = asyncio.Event()
     setup_stall = asyncio.Event()
 
-    async def mock_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+    async def mock_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
         setup_started.set()
         await setup_stall.wait()
         return True

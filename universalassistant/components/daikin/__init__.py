@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_UUID,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -38,13 +38,13 @@ CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 PLATFORMS = [Platform.CLIMATE, Platform.SENSOR, Platform.SWITCH]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Daikin integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: DaikinConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: DaikinConfigEntry) -> None:
     """Establish connection with Daikin."""
     conf = entry.data
     # For backwards compat, set unique ID
@@ -88,13 +88,13 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: DaikinConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: DaikinConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: DaikinConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_unique_id(
-    hass: __HAC_KEEP__, config_entry: DaikinConfigEntry, device: Appliance
+    hass: UniversalAssistant, config_entry: DaikinConfigEntry, device: Appliance
 ) -> None:
     """Migrate old entry."""
     dev_reg = dr.async_get(hass)

@@ -8,7 +8,7 @@ import pytest
 
 from universalassistant.components.ambient_network.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
@@ -16,7 +16,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 @pytest.mark.parametrize("config_entry", ["AA:AA:AA:AA:AA:AA"], indirect=True)
 async def test_happy_path(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     open_api: OpenAPI,
     aioambient: AsyncMock,
@@ -59,7 +59,7 @@ async def test_happy_path(
 
 
 async def test_no_station_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioambient: AsyncMock,
     open_api: OpenAPI,
     devices_by_location: list[dict[str, Any]],

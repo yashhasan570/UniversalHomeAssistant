@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.nuheat.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from .mocks import (
@@ -20,7 +20,7 @@ from .mocks import (
 )
 
 
-async def test_climate_thermostat_run(hass: __HAC_KEEP__) -> None:
+async def test_climate_thermostat_run(hass: UniversalAssistant) -> None:
     """Test a thermostat with the schedule running."""
     mock_thermostat = _get_mock_thermostat_run()
     mock_nuheat = _get_mock_nuheat(get_thermostat=mock_thermostat)
@@ -54,7 +54,7 @@ async def test_climate_thermostat_run(hass: __HAC_KEEP__) -> None:
 
 
 async def test_climate_thermostat_schedule_hold_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a thermostat with the schedule hold that is offline."""
     mock_thermostat = _get_mock_thermostat_schedule_hold_unavailable()
@@ -85,7 +85,7 @@ async def test_climate_thermostat_schedule_hold_unavailable(
     assert all(item in state.attributes.items() for item in expected_attributes.items())
 
 
-async def test_climate_thermostat_schedule_hold_available(hass: __HAC_KEEP__) -> None:
+async def test_climate_thermostat_schedule_hold_available(hass: UniversalAssistant) -> None:
     """Test a thermostat with the schedule hold that is online."""
     mock_thermostat = _get_mock_thermostat_schedule_hold_available()
     mock_nuheat = _get_mock_nuheat(get_thermostat=mock_thermostat)
@@ -119,7 +119,7 @@ async def test_climate_thermostat_schedule_hold_available(hass: __HAC_KEEP__) ->
     assert all(item in state.attributes.items() for item in expected_attributes.items())
 
 
-async def test_climate_thermostat_schedule_temporary_hold(hass: __HAC_KEEP__) -> None:
+async def test_climate_thermostat_schedule_temporary_hold(hass: UniversalAssistant) -> None:
     """Test a thermostat with the temporary schedule hold that is online."""
     mock_thermostat = _get_mock_thermostat_schedule_temporary_hold()
     mock_nuheat = _get_mock_nuheat(get_thermostat=mock_thermostat)

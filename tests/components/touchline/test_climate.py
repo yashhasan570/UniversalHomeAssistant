@@ -12,14 +12,14 @@ from universalassistant.components.climate import (
     SERVICE_SET_TEMPERATURE,
 )
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 
 @pytest.mark.usefixtures("init_integration")
 async def test_climate_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -30,7 +30,7 @@ async def test_climate_entities(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pytouchline: MagicMock,
 ) -> None:
     """Test setting the temperature."""
@@ -59,7 +59,7 @@ async def test_set_temperature(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_set_temperature_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pytouchline: MagicMock,
     return_value: bool | None,
     side_effect: Exception | None,
@@ -69,7 +69,7 @@ async def test_set_temperature_error(
     mock_pytouchline.set_target_temperature.side_effect = side_effect
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="An error occurred while setting the temperature"
+        UniversalAssistantError, match="An error occurred while setting the temperature"
     ):
         await hass.services.async_call(
             "climate",
@@ -81,7 +81,7 @@ async def test_set_temperature_error(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_preset_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pytouchline: MagicMock,
 ) -> None:
     """Test setting the preset mode."""
@@ -111,7 +111,7 @@ async def test_set_preset_mode(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_set_preset_mode_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pytouchline: MagicMock,
     operation_mode_result: bool | None,
     week_program_result: bool | None,
@@ -123,7 +123,7 @@ async def test_set_preset_mode_error(
     mock_pytouchline.set_operation_mode.side_effect = side_effect
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="An error occurred while setting the preset mode"
+        UniversalAssistantError, match="An error occurred while setting the preset mode"
     ):
         await hass.services.async_call(
             "climate",

@@ -26,7 +26,7 @@ from universalassistant.components.marketplace.utils.storage import (
     async_load_from_storage,
     async_save_to_storage,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -37,12 +37,12 @@ ISSUE_ID = f"restart_required_{REPOSITORY_INTEGRATION_ID}_1.0.0"
 
 
 async def test_restart_required_fix_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
     marketplace: MarketplaceManager,
 ) -> None:
-    """Test restarting __HA_KEEP__ from the repair."""
+    """Test restarting Universal Home Assistant from the repair."""
     assert await async_setup_component(hass, "repairs", {})
     restarts = async_mock_service(hass, "universalassistant", "restart")
 
@@ -70,7 +70,7 @@ async def test_restart_required_fix_flow(
 
 
 async def test_restart_required_fix_flow_for_an_unknown_repository(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     marketplace: MarketplaceManager,
 ) -> None:
@@ -96,7 +96,7 @@ async def test_restart_required_fix_flow_for_an_unknown_repository(
 
 
 async def test_restart_required_fix_flow_while_unloaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     marketplace: MarketplaceManager,
 ) -> None:
@@ -124,7 +124,7 @@ async def test_restart_required_fix_flow_while_unloaded(
 
 
 async def test_removal_the_catalog_takes_back(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -160,7 +160,7 @@ async def test_removal_the_catalog_takes_back(
 
 
 async def test_removed_repository_issue_removed_with_the_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -262,7 +262,7 @@ async def test_feed_that_can_not_be_reached_is_told_once(
     ]
 
 
-async def test_no_fix_flow_for_other_issues(hass: __HAC_KEEP__) -> None:
+async def test_no_fix_flow_for_other_issues(hass: UniversalAssistant) -> None:
     """Test that only the restart issue is fixable."""
     assert await async_create_fix_flow(hass, "removed_1296269", None) is None
 
@@ -276,7 +276,7 @@ CRITICAL_ISSUE_ID = f"critical_repository_{REPOSITORY_INTEGRATION}"
 
 
 async def test_critical_repository_removal_creates_an_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     marketplace: MarketplaceManager,
 ) -> None:
@@ -320,7 +320,7 @@ async def test_critical_repository_removal_creates_an_issue(
     ],
 )
 async def test_stored_critical_repository_creates_an_issue_at_startup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
@@ -342,7 +342,7 @@ async def test_stored_critical_repository_creates_an_issue_at_startup(
 
 
 async def test_critical_repository_fix_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
     marketplace: MarketplaceManager,
@@ -373,7 +373,7 @@ async def test_critical_repository_fix_flow(
 
 
 async def test_critical_repository_check_keeps_it_unacknowledged(
-    hass: __HAC_KEEP__, marketplace: MarketplaceManager
+    hass: UniversalAssistant, marketplace: MarketplaceManager
 ) -> None:
     """Test the next check of the catalog does not confirm a removal for the user."""
     await async_save_to_storage(
@@ -393,7 +393,7 @@ async def test_critical_repository_check_keeps_it_unacknowledged(
 
 
 async def test_critical_repository_that_can_not_be_removed_is_tried_again(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     marketplace: MarketplaceManager,
 ) -> None:
@@ -425,7 +425,7 @@ async def test_critical_repository_that_can_not_be_removed_is_tried_again(
 
 
 async def test_critical_repository_waits_for_its_install(
-    hass: __HAC_KEEP__, marketplace: MarketplaceManager
+    hass: UniversalAssistant, marketplace: MarketplaceManager
 ) -> None:
     """Test a critical repository being installed is removed once that is done."""
     repository = marketplace.repositories.get_by_full_name(REPOSITORY_INTEGRATION)

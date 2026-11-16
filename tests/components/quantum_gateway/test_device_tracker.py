@@ -6,7 +6,7 @@ import pytest
 from requests import RequestException
 
 from universalassistant.const import STATE_HOME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_platform
 
@@ -14,7 +14,7 @@ from tests.components.device_tracker.test_init import mock_yaml_devices  # noqa:
 
 
 @pytest.mark.usefixtures("yaml_devices")
-async def test_get_scanner(hass: __HAC_KEEP__, mock_scanner: AsyncMock) -> None:
+async def test_get_scanner(hass: UniversalAssistant, mock_scanner: AsyncMock) -> None:
     """Test creating a quantum gateway scanner."""
     await setup_platform(hass)
 
@@ -28,7 +28,7 @@ async def test_get_scanner(hass: __HAC_KEEP__, mock_scanner: AsyncMock) -> None:
 
 
 @pytest.mark.usefixtures("yaml_devices")
-async def test_get_scanner_error(hass: __HAC_KEEP__, mock_scanner: AsyncMock) -> None:
+async def test_get_scanner_error(hass: UniversalAssistant, mock_scanner: AsyncMock) -> None:
     """Test failure when creating a quantum gateway scanner."""
     mock_scanner.side_effect = RequestException("Error")
     await setup_platform(hass)
@@ -37,7 +37,7 @@ async def test_get_scanner_error(hass: __HAC_KEEP__, mock_scanner: AsyncMock) ->
 
 
 @pytest.mark.usefixtures("yaml_devices")
-async def test_scan_devices_error(hass: __HAC_KEEP__, mock_scanner: AsyncMock) -> None:
+async def test_scan_devices_error(hass: UniversalAssistant, mock_scanner: AsyncMock) -> None:
     """Test failure when scanning devices."""
     mock_scanner.return_value.scan_devices.side_effect = RequestException("Error")
     await setup_platform(hass)

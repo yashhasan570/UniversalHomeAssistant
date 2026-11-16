@@ -25,7 +25,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .api_responses import (
@@ -42,7 +42,7 @@ from .conftest import setup_subaru_config_entry
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     subaru_config_entry: MockConfigEntry,
@@ -81,7 +81,7 @@ async def test_mil_entities_disabled_by_default(
     + [OVERALL_HEALTH_BINARY_SENSOR.key, EV_PLUG_BINARY_SENSOR.key],
 )
 async def test_no_binary_sensors_for_g1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     subaru_config_entry: MockConfigEntry,
     key: str,
@@ -102,7 +102,7 @@ async def test_no_binary_sensors_for_g1(
 
 
 async def test_no_ev_plug_binary_sensor_for_g3(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     subaru_config_entry: MockConfigEntry,
 ) -> None:
@@ -126,7 +126,7 @@ async def test_no_ev_plug_binary_sensor_for_g3(
 
 @pytest.mark.parametrize("key", list(LOCK_STATUS_KEYS))
 async def test_no_lock_sensors_when_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     subaru_config_entry: MockConfigEntry,
     key: str,
@@ -154,7 +154,7 @@ async def test_no_lock_sensors_when_unsupported(
 
 @pytest.mark.parametrize("not_equipped", ["NOT_EQUIPPED", "not_equipped"])
 async def test_door_not_equipped_gets_no_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     subaru_config_entry: MockConfigEntry,
     not_equipped: str,
@@ -189,7 +189,7 @@ async def test_door_not_equipped_gets_no_entity(
 
 
 async def test_no_ev_charging_sensor_when_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     subaru_config_entry: MockConfigEntry,
 ) -> None:
@@ -218,7 +218,7 @@ async def test_no_ev_charging_sensor_when_unsupported(
 
 
 async def test_overall_health_unknown_without_vehicle_health(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     subaru_config_entry: MockConfigEntry,
 ) -> None:
@@ -240,7 +240,7 @@ async def test_overall_health_unknown_without_vehicle_health(
 
 
 async def test_binary_sensors_created_for_g4(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     subaru_config_entry: MockConfigEntry,
 ) -> None:
@@ -278,7 +278,7 @@ async def test_ev_charging_disabled_by_default(
 
 @pytest.mark.parametrize("key", ["health_istrouble", "DOOR_FRONT_LEFT_POSITION"])
 async def test_entities_unavailable_when_vehicle_data_fetch_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     subaru_config_entry: MockConfigEntry,
     key: str,
@@ -302,7 +302,7 @@ async def test_entities_unavailable_when_vehicle_data_fetch_fails(
 
 
 async def test_no_window_or_lock_entities_when_vehicle_data_fetch_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     subaru_config_entry: MockConfigEntry,
 ) -> None:
@@ -329,7 +329,7 @@ async def test_no_window_or_lock_entities_when_vehicle_data_fetch_fails(
     ],
 )
 async def test_door_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     subaru_config_entry: MockConfigEntry,
     status: str,
@@ -358,7 +358,7 @@ async def test_door_state(
     ],
 )
 async def test_lock_sensor_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     subaru_config_entry: MockConfigEntry,
     status: str,
@@ -389,7 +389,7 @@ async def test_lock_sensor_state(
     ],
 )
 async def test_ev_plug_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     subaru_config_entry: MockConfigEntry,
     status: str,
@@ -420,7 +420,7 @@ async def test_ev_plug_state(
     ],
 )
 async def test_ev_charging_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     subaru_config_entry: MockConfigEntry,
     status: str,
@@ -443,7 +443,7 @@ async def test_ev_charging_state(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "ev_entry")
 async def test_mil_sensor_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """MIL sensor reflects the per-feature ISTROUBLE flag."""

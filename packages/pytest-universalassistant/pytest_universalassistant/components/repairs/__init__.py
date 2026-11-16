@@ -10,13 +10,13 @@ from universalassistant.components.repairs.websocket_api import (
     RepairsFlowIndexView,
     RepairsFlowResourceView,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from pytest_universalassistant.typing import WebSocketGenerator
 
 
 async def get_repairs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ):
     """Return the repairs list of issues."""

@@ -35,7 +35,7 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 def sonarr_calendar() -> list[SonarrCalendar]:
@@ -171,7 +171,7 @@ def mock_sonarr() -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_sonarr: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_sonarr: MagicMock
 ) -> MockConfigEntry:
     """Set up the Sonarr integration for testing."""
     mock_config_entry.add_to_hass(hass)

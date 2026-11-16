@@ -13,8 +13,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -25,7 +25,7 @@ EMPTY_TRASH = "button.documents_empty_trash"
 
 @pytest.mark.usefixtures("mock_seafile_client")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -38,7 +38,7 @@ async def test_all_entities(
 
 
 async def test_empty_trash(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_empty_trash(
     ],
 )
 async def test_empty_trash_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: type[Exception],
@@ -74,7 +74,7 @@ async def test_empty_trash_errors(
     await setup_integration(hass, mock_config_entry)
     mock_seafile_client.clean_library_trash.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

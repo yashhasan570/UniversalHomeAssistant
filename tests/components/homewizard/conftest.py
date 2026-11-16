@@ -21,7 +21,7 @@ from pytest_universalassistant.common import (
 
 from universalassistant.components.homewizard.const import DOMAIN
 from universalassistant.const import CONF_IP_ADDRESS, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -194,7 +194,7 @@ def mock_config_entry_v2() -> MockConfigEntry:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_homewizardenergy: AsyncMock,
 ) -> MockConfigEntry:
@@ -209,7 +209,7 @@ async def init_integration(
 
 @pytest.fixture
 def mock_onboarding() -> Generator[MagicMock]:
-    """Mock that __HA_KEEP__ is currently onboarding."""
+    """Mock that Universal Home Assistant is currently onboarding."""
     with patch(
         "universalassistant.components.onboarding.async_is_onboarded",
         return_value=False,

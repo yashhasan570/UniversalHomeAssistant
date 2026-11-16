@@ -5,7 +5,7 @@ from typing import cast, override
 
 from universalassistant.components.number import NumberEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -65,7 +65,7 @@ LEVEL_FROM_NUMBER = {"balance": _balance_from_number}
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: SonosConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

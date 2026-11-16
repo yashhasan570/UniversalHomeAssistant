@@ -10,7 +10,7 @@ from aioazuredevops.models.work_item_type import Category, Icon, State, WorkItem
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.azure_devops.const import CONF_ORG, CONF_PAT, CONF_PROJECT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 ORGANIZATION: Final[str] = "testorg"
 PROJECT: Final[str] = "testproject"
@@ -130,7 +130,7 @@ DEVOPS_WORK_ITEMS = [
 
 
 async def setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> bool:
     """Fixture for setting up the component."""

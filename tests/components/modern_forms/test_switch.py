@@ -9,15 +9,15 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.modern_forms.const import DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_UNAVAILABLE, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration, init_integration_gen4
 
 
 async def test_switch_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -42,7 +42,7 @@ async def test_switch_state(
 
 
 async def test_switch_change_state(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the change of state of the Modern Forms switches."""
     await init_integration(hass, aioclient_mock)
@@ -99,7 +99,7 @@ async def test_switch_change_state(
 
 
 async def test_switch_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test error handling of the Modern Forms switches."""
@@ -112,7 +112,7 @@ async def test_switch_error(
         patch(
             "universalassistant.components.modern_forms.coordinator.ModernFormsDevice.update"
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,
@@ -126,7 +126,7 @@ async def test_switch_error(
 
 
 async def test_switch_connection_error(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test error handling of the Modern Forms switches."""
     await init_integration(hass, aioclient_mock)
@@ -139,7 +139,7 @@ async def test_switch_connection_error(
             "universalassistant.components.modern_forms.coordinator.ModernFormsDevice.away",
             side_effect=ModernFormsConnectionError,
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,
@@ -156,7 +156,7 @@ async def test_switch_connection_error(
 
 
 async def test_no_adaptive_learning_switch_on_gen4(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test the adaptive learning switch isn't created for Gen4 fans."""

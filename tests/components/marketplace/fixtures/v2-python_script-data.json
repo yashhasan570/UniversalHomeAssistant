@@ -1,7 +1,7 @@
 {
   "312649007": {
     "manifest": { "name": "Reminder" },
-    "description": "A python script for __HA_KEEP__ that counts down the days to reminder",
+    "description": "A python script for Universal Home Assistant that counts down the days to reminder",
     "etag_releases": "W/\"bf7c66f5956e23e786360abc5ad8563b2564ed89ccedbb9bea4460e9f1cd0b35\"",
     "etag_repository": "W/\"9f1594cb9a9a7a42fedae8dce86596702460795c71d4fa3215802ee2f33db78a\"",
     "full_name": "eyalcha/ha-reminder",
@@ -53,7 +53,7 @@
   },
   "258712314": {
     "manifest": { "name": "Fan Speed Control" },
-    "description": "A python script for __HA_KEEP__ that control fan speed with Fan Template and Broadlink.",
+    "description": "A python script for Universal Home Assistant that control fan speed with Fan Template and Broadlink.",
     "etag_releases": "W/\"c99b074d69e412fc7fb519c58138ac112085e9994180808756f48a3b423fedf5\"",
     "etag_repository": "W/\"9bda6c9e5dc8db71ac1e5c91eb8dd8fdfc8034670959f61970d7d52354c4ed00\"",
     "full_name": "iml885203/HA-FanSpeedControl",

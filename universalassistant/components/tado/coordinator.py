@@ -11,8 +11,8 @@ from requests import RequestException
 
 from universalassistant.components.climate import PRESET_AWAY, PRESET_HOME
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
 
@@ -45,7 +45,7 @@ class TadoDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: TadoConfigEntry,
         tado: Tado,
         debug: bool = False,
@@ -454,7 +454,7 @@ class TadoDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         """Send meter reading to Tado."""
         dt: str = dt_util.now().strftime("%Y-%m-%d")
         if self._tado is None:
-            raise __HAC_KEEP__Error("Tado client is not initialized")
+            raise UniversalAssistantError("Tado client is not initialized")
 
         try:
             return await self.hass.async_add_executor_job(
@@ -472,7 +472,7 @@ class TadoDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 enabled,
             )
         except RequestException as exc:
-            raise __HAC_KEEP__Error(f"Error setting Tado child lock: {exc}") from exc
+            raise UniversalAssistantError(f"Error setting Tado child lock: {exc}") from exc
 
     async def _async_fetch_heating_circuits(self) -> None:
         """Fetch the heating circuits and their current per-zone assignment."""
@@ -505,7 +505,7 @@ class TadoDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 self._tado.set_zone_heating_circuit, zone_id, circuit_number
             )
         except RequestException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Error setting Tado heating circuit for zone {zone_id}: {err}"
             ) from err
 

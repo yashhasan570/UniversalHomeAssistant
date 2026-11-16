@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.cloudflare.const import CONF_RECORDS, DOMAIN
 from universalassistant.const import CONF_API_TOKEN, CONF_ZONE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.typing import Undefined
 
 ENTRY_CONFIG = {
@@ -54,14 +54,14 @@ MOCK_ZONE_RECORDS: list[pycfdns.RecordModel] = [
 
 
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     data: dict[str, Any] | Undefined = Undefined,
     options: dict[str, Any] | Undefined = Undefined,
     unique_id: str = MOCK_ZONE["name"],
     skip_setup: bool = False,
 ) -> MockConfigEntry:
-    """Set up the Cloudflare integration in __HA_KEEP__."""
+    """Set up the Cloudflare integration in Universal Home Assistant."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         data=ENTRY_CONFIG if data is Undefined else data,

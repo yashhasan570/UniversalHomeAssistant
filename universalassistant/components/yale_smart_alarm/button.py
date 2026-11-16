@@ -3,8 +3,8 @@
 from typing import override
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import YaleConfigEntry
@@ -21,7 +21,7 @@ BUTTON_TYPES = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: YaleConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -57,7 +57,7 @@ class YalePanicButton(YaleAlarmEntity, ButtonEntity):
                 self.coordinator.yale.trigger_panic_button
             )
         except YALE_ALL_ERRORS as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="could_not_trigger_panic",
                 translation_placeholders={

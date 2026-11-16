@@ -5,7 +5,7 @@ import logging
 from pyws66i import WS66i, get_ws66i
 
 from universalassistant.const import CONF_IP_ADDRESS, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import CONF_SOURCES
@@ -33,7 +33,7 @@ def _get_sources_from_dict(data) -> SourceRep:
     return SourceRep(source_id_name, source_name_id, source_names)
 
 
-def _find_zones(hass: __HAC_KEEP__, ws66i: WS66i) -> list[int]:
+def _find_zones(hass: UniversalAssistant, ws66i: WS66i) -> list[int]:
     """Generate zones list by searching for presence of zones."""
     # Zones 11 - 16 are the master amp
     # Zones 21,31 - 26,36 are the daisy-chained amps
@@ -53,7 +53,7 @@ def _find_zones(hass: __HAC_KEEP__, ws66i: WS66i) -> list[int]:
     return zone_list
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: Ws66iConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: Ws66iConfigEntry) -> None:
     """Set up Soundavo WS66i 6-Zone Amplifier from a config entry."""
     # Get the source names from the options flow
     options: dict[str, dict[str, str]]
@@ -103,7 +103,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: Ws66iConfigEntry) -> None
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: Ws66iConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: Ws66iConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     entry.runtime_data.device.close()

@@ -20,13 +20,13 @@ from systembridgeconnector.exceptions import (
 from systembridgeconnector.models.diagnostics import Diagnostics
 
 from universalassistant.components.system_bridge.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import mock_data_listener, setup_integration
 
 
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
     mock_websocket_client: MagicMock,
@@ -41,7 +41,7 @@ async def test_diagnostics(
 
 @pytest.fixture
 async def listening_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_version: MagicMock,
     mock_websocket_client: MagicMock,
@@ -64,7 +64,7 @@ async def listening_integration(
 
 
 async def test_diagnostics_app_bundle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     listening_integration: MockConfigEntry,
     mock_websocket_client: MagicMock,
@@ -109,7 +109,7 @@ async def test_diagnostics_app_bundle(
     ],
 )
 async def test_diagnostics_app_bundle_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     listening_integration: MockConfigEntry,
     mock_websocket_client: MagicMock,
@@ -139,7 +139,7 @@ async def test_diagnostics_app_bundle_missing(
     ],
 )
 async def test_diagnostics_connection_lost_during_request(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     listening_integration: MockConfigEntry,
     mock_websocket_client: MagicMock,

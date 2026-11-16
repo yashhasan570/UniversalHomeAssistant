@@ -52,7 +52,7 @@ from universalassistant.components.recorder.util import (
     session_scope,
 )
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.recorder import SESSION_INFO_READ_ONLY
 from universalassistant.util import dt as dt_util
@@ -71,7 +71,7 @@ def setup_recorder(recorder_mock: Recorder) -> None:
 
 
 async def test_session_scope_not_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_recorder: None,
 ) -> None:
     """Try to create a session scope when not setup."""
@@ -84,7 +84,7 @@ async def test_session_scope_not_setup(
 
 
 async def test_session_scope_read_only_marker_ends_with_scope(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_recorder: None,
 ) -> None:
     """Test a session is only marked read-only within a read-only scope.
@@ -99,7 +99,7 @@ async def test_session_scope_read_only_marker_ends_with_scope(
         assert SESSION_INFO_READ_ONLY not in reused_session.info
 
 
-async def test_recorder_bad_execute(hass: __HAC_KEEP__, setup_recorder: None) -> None:
+async def test_recorder_bad_execute(hass: UniversalAssistant, setup_recorder: None) -> None:
     """Bad execute, retry 3 times."""
 
     def _all():
@@ -215,7 +215,7 @@ def test_dburl_to_path(db_url: str, expected: str) -> None:
 
 
 def test_validate_or_move_away_sqlite_database(
-    hass: __HAC_KEEP__, tmp_path: Path, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, tmp_path: Path, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Ensure a malformed sqlite database is moved away."""
     test_dir = tmp_path.joinpath("test_validate_or_move_away_sqlite_database")
@@ -800,7 +800,7 @@ def test_warn_unsupported_dialect(
     ],
 )
 async def test_issue_for_mariadb_with_MDEV_25020(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mysql_version,
     min_version,
@@ -859,7 +859,7 @@ async def test_issue_for_mariadb_with_MDEV_25020(
     ],
 )
 async def test_no_issue_for_mariadb_with_MDEV_25020(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mysql_version,
     issue_registry: ir.IssueRegistry,
@@ -906,7 +906,7 @@ async def test_no_issue_for_mariadb_with_MDEV_25020(
 
 
 async def test_issue_for_deprecated_pgsql_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test we create and delete an issue for a PostgreSQL version below the minimum."""
@@ -992,7 +992,7 @@ async def test_issue_for_deprecated_pgsql_version(
     ],
 )
 async def test_issue_for_not_supported_lts_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     server_version: str,
     extracted_version: str,
     engine_name: str,
@@ -1068,7 +1068,7 @@ async def test_issue_for_not_supported_lts_version(
     ],
 )
 async def test_no_issue_for_future_database_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     server_version: str,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1112,7 +1112,7 @@ async def test_no_issue_for_future_database_version(
 @pytest.mark.skip_on_db_engine(["mysql", "postgresql"])
 @pytest.mark.usefixtures("skip_by_db_engine")
 async def test_basic_sanity_check(
-    hass: __HAC_KEEP__, setup_recorder: None, recorder_db_url: str
+    hass: UniversalAssistant, setup_recorder: None, recorder_db_url: str
 ) -> None:
     """Test the basic sanity checks with a missing table.
 
@@ -1131,7 +1131,7 @@ async def test_basic_sanity_check(
 @pytest.mark.skip_on_db_engine(["mysql", "postgresql"])
 @pytest.mark.usefixtures("skip_by_db_engine")
 async def test_combined_checks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_recorder: None,
     caplog: pytest.LogCaptureFixture,
     recorder_db_url: str,
@@ -1198,7 +1198,7 @@ async def test_combined_checks(
 
 
 async def test_end_incomplete_runs(
-    hass: __HAC_KEEP__, setup_recorder: None, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, setup_recorder: None, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Ensure we can end incomplete runs."""
     with session_scope(hass=hass) as session:
@@ -1224,7 +1224,7 @@ async def test_end_incomplete_runs(
 @pytest.mark.skip_on_db_engine(["mysql", "postgresql"])
 @pytest.mark.usefixtures("skip_by_db_engine")
 async def test_periodic_db_cleanups(
-    hass: __HAC_KEEP__, setup_recorder: None, recorder_db_url: str
+    hass: UniversalAssistant, setup_recorder: None, recorder_db_url: str
 ) -> None:
     """Test periodic db cleanups.
 
@@ -1245,7 +1245,7 @@ async def test_periodic_db_cleanups(
 @pytest.mark.parametrize("persistent_database", [True])
 async def test_write_lock_db(
     async_setup_recorder_instance: RecorderInstanceGenerator,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     recorder_db_url: str,
 ) -> None:
     """Test database write lock.
@@ -1306,7 +1306,7 @@ def test_build_mysqldb_conv() -> None:
 @pytest.mark.parametrize("persistent_database", [True])
 @patch("universalassistant.components.recorder.util.QUERY_RETRY_WAIT", 0)
 async def test_execute_recovers_after_lost_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_recorder: None,
 ) -> None:
     """Test execute reconnects and returns rows after the connection is lost.
@@ -1331,7 +1331,7 @@ async def test_execute_recovers_after_lost_connection(
 @pytest.mark.parametrize("persistent_database", [True])
 @patch("universalassistant.components.recorder.util.QUERY_RETRY_WAIT", 0)
 async def test_execute_stmt_lambda_element_recovers_after_lost_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_recorder: None,
 ) -> None:
     """Test execute_stmt_lambda_element reconnects after the connection is lost."""
@@ -1409,7 +1409,7 @@ QUERIES_FAILING_ONCE = [
 @pytest.mark.parametrize("run_query", QUERIES_FAILING_ONCE)
 @patch("universalassistant.components.recorder.util.QUERY_RETRY_WAIT", 0)
 async def test_query_retry_only_rolls_back_read_only_session(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_recorder: None,
     run_query: Callable[[Session], Any],
     read_only: bool,
@@ -1435,7 +1435,7 @@ async def test_query_retry_only_rolls_back_read_only_session(
 @pytest.mark.parametrize("run_query", QUERIES_FAILING_ONCE)
 @patch("universalassistant.components.recorder.util.QUERY_RETRY_WAIT", 0)
 async def test_query_retry_continues_after_failed_rollback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_recorder: None,
     caplog: pytest.LogCaptureFixture,
     run_query: Callable[[Session], Any],
@@ -1455,7 +1455,7 @@ async def test_query_retry_continues_after_failed_rollback(
 
 @patch("universalassistant.components.recorder.util.QUERY_RETRY_WAIT", 0)
 async def test_execute_stmt_lambda_element(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_recorder: None,
 ) -> None:
     """Test executing with execute_stmt_lambda_element."""
@@ -1558,7 +1558,7 @@ async def test_execute_stmt_lambda_element(
     ],
 )
 async def test_resolve_period(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     start_time: datetime,
     periods: dict[tuple[str, int], tuple[str, str]],
@@ -1939,7 +1939,7 @@ def test_retryable_database_job_method(
     ],
 )
 async def test_resolve_period_hour_dst(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     time_zone: str,
     now: datetime,

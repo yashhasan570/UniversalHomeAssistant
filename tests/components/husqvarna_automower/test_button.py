@@ -22,8 +22,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -32,7 +32,7 @@ from .const import TEST_MOWER_ID
 
 @pytest.mark.freeze_time(dt.datetime(2023, 6, 5, tzinfo=dt.UTC))
 async def test_button_error_confirm(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -84,7 +84,7 @@ async def test_button_error_confirm(
 )
 @pytest.mark.freeze_time(dt.datetime(2024, 2, 29, 11, tzinfo=dt.UTC))
 async def test_button_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     values: dict[str, MowerAttributes],
@@ -117,7 +117,7 @@ async def test_button_commands(
     command_mock.reset_mock()
     command_mock.side_effect = ApiError("Test error")
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Failed to send command: Test error",
     ):
         await hass.services.async_call(
@@ -130,7 +130,7 @@ async def test_button_commands(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_button_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,

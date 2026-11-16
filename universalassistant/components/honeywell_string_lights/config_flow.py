@@ -8,7 +8,7 @@ from rf_protocols.codes.honeywell.string_lights import CODES
 
 from universalassistant.components.radio_frequency import async_get_transmitters
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er, selector
 
 from .const import CONF_TRANSMITTER, DOMAIN
@@ -32,7 +32,7 @@ class HoneywellStringLightsConfigFlow(ConfigFlow, domain=DOMAIN):
             transmitters = async_get_transmitters(
                 self.hass, sample_command.frequency, sample_command.modulation
             )
-        except __HAC_KEEP__Error:
+        except UniversalAssistantError:
             return self.async_abort(reason="no_transmitters")
 
         if not transmitters:

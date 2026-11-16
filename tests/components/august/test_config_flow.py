@@ -14,7 +14,7 @@ from universalassistant.components.august.application_credentials import (
 )
 from universalassistant.components.august.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
@@ -34,7 +34,7 @@ def mock_setup_entry() -> Generator[Mock]:
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     jwt: str,
@@ -99,7 +99,7 @@ async def test_full_flow(
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_flow_already_exists(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     jwt: str,
@@ -152,7 +152,7 @@ async def test_full_flow_already_exists(
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -211,7 +211,7 @@ async def test_reauth(
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_wrong_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -271,7 +271,7 @@ async def test_reauth_wrong_account(
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_legacy_migration_with_email_match(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_legacy_config_entry: MockConfigEntry,
@@ -332,7 +332,7 @@ async def test_legacy_migration_with_email_match(
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_legacy_migration_wrong_email(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_legacy_config_entry: MockConfigEntry,
@@ -391,7 +391,7 @@ async def test_legacy_migration_wrong_email(
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_legacy_migration_no_email_in_jwt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_legacy_config_entry: MockConfigEntry,
@@ -452,7 +452,7 @@ async def test_legacy_migration_no_email_in_jwt(
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -502,7 +502,7 @@ async def test_reconfigure(
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_wrong_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,

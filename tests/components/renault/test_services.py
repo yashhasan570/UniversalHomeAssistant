@@ -17,8 +17,8 @@ from universalassistant.components.renault.services import (
     RenaultServiceArgument,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
 pytestmark = pytest.mark.usefixtures("patch_renault_account", "patch_get_vehicles")
@@ -37,7 +37,7 @@ def override_vehicle_type(request: pytest.FixtureRequest) -> str:
     return request.param
 
 
-def get_device_id(hass: __HAC_KEEP__) -> str:
+def get_device_id(hass: UniversalAssistant) -> str:
     """Get device_id."""
     device_registry = dr.async_get(hass)
     device = device_registry.async_get_device_by_identifier(
@@ -47,7 +47,7 @@ def get_device_id(hass: __HAC_KEEP__) -> str:
 
 
 async def test_service_set_ac_cancel(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry
 ) -> None:
     """Test that service invokes renault_api with correct data."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -73,7 +73,7 @@ async def test_service_set_ac_cancel(
 
 
 async def test_service_set_ac_start_simple(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry
 ) -> None:
     """Test that service invokes renault_api with correct data."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -101,7 +101,7 @@ async def test_service_set_ac_start_simple(
 
 
 async def test_service_set_ac_start_with_date(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry
 ) -> None:
     """Test that service invokes renault_api with correct data."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -131,7 +131,7 @@ async def test_service_set_ac_start_with_date(
 
 
 async def test_service_charge_start_simple(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry
 ) -> None:
     """Test that service invokes renault_api with correct data."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -157,7 +157,7 @@ async def test_service_charge_start_simple(
 
 
 async def test_service_charge_start_with_date(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry
 ) -> None:
     """Test that service invokes renault_api with correct data."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -185,7 +185,7 @@ async def test_service_charge_start_with_date(
 
 
 async def test_service_set_charge_schedule(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, config_entry: ConfigEntry, snapshot: SnapshotAssertion
 ) -> None:
     """Test that service invokes renault_api with correct data."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -228,7 +228,7 @@ async def test_service_set_charge_schedule(
 
 
 async def test_service_set_charge_schedule_multi(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, config_entry: ConfigEntry, snapshot: SnapshotAssertion
 ) -> None:
     """Test that service invokes renault_api with correct data."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -292,7 +292,7 @@ async def test_service_set_charge_schedule_multi(
 
 
 async def test_service_set_ac_schedule(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, config_entry: ConfigEntry, snapshot: SnapshotAssertion
 ) -> None:
     """Test that service invokes renault_api with correct data."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -331,7 +331,7 @@ async def test_service_set_ac_schedule(
 
 
 async def test_service_set_ac_schedule_multi(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, config_entry: ConfigEntry, snapshot: SnapshotAssertion
 ) -> None:
     """Test that service invokes renault_api with correct data."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -391,7 +391,7 @@ async def test_service_set_ac_schedule_multi(
 
 
 async def test_service_invalid_device_id(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry
 ) -> None:
     """Test that service fails if device_id not found in registry."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -409,7 +409,7 @@ async def test_service_invalid_device_id(
 
 
 async def test_service_invalid_device_id2(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, config_entry: ConfigEntry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, config_entry: ConfigEntry
 ) -> None:
     """Test that service fails if device_id not available in the hub."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -437,7 +437,7 @@ async def test_service_invalid_device_id2(
 
 
 async def test_service_unloaded_config_entry(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry
 ) -> None:
     """Test that service fails if the config entry is not loaded."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -455,7 +455,7 @@ async def test_service_unloaded_config_entry(
 
 
 async def test_service_exception(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry
 ) -> None:
     """Test that service invokes renault_api with correct data."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -470,7 +470,7 @@ async def test_service_exception(
             "renault_api.renault_vehicle.RenaultVehicle.set_ac_stop",
             side_effect=RenaultException("Didn't work"),
         ) as mock_action,
-        pytest.raises(__HAC_KEEP__Error) as err,
+        pytest.raises(UniversalAssistantError) as err,
     ):
         await hass.services.async_call(
             DOMAIN, RenaultService.AC_CANCEL, service_data=data, blocking=True

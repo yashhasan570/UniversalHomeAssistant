@@ -11,7 +11,7 @@ from eheimdigital.types import EheimDeviceType, EheimDigitalClientError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.entity_component import DEFAULT_SCAN_INTERVAL
@@ -34,7 +34,7 @@ class EheimDigitalUpdateCoordinator(
     config_entry: EheimDigitalConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: EheimDigitalConfigEntry
+        self, hass: UniversalAssistant, config_entry: EheimDigitalConfigEntry
     ) -> None:
         """Initialize the EHEIM Digital data update coordinator."""
         super().__init__(

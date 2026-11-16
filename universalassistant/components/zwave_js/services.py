@@ -28,8 +28,8 @@ from zwave_js_server.util.node import (
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import ATTR_AREA_ID, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, SupportsResponse, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, ServiceCall, SupportsResponse, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import (
     config_validation as cv,
     entity_registry as er,
@@ -69,7 +69,7 @@ TARGET_VALIDATORS: VolDictType = {
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register integration services."""
     _async_register_credential_services(hass)
     async_register_platform_entity_service(
@@ -394,7 +394,7 @@ def async_setup_services(hass: __HAC_KEEP__) -> None:
 
 
 @callback
-def _async_register_credential_services(hass: __HAC_KEEP__) -> None:
+def _async_register_credential_services(hass: UniversalAssistant) -> None:
     """Register lock-entity credential platform services."""
     uint16_id = probatio.All(probatio.Coerce(int), probatio.Range(min=1, max=65535))
 
@@ -570,7 +570,7 @@ def raise_exceptions_from_results(
         ]
         if len(lines) > 1:
             lines.insert(0, f"{len(errors)} error(s):")
-        raise __HAC_KEEP__Error("\n".join(lines))
+        raise UniversalAssistantError("\n".join(lines))
 
 
 async def _async_call_cc_api(
@@ -625,7 +625,7 @@ def _async_get_target_nodes(call: ServiceCall) -> set[ZwaveNode]:
         )
     except DriverNotReadyError as err:
         # Not a validation error, so continue_on_error can tolerate it
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=const.DOMAIN,
             translation_key="driver_not_ready",
         ) from err
@@ -659,7 +659,7 @@ async def _async_set_config_parameter(call: ServiceCall) -> None:
             nodes_without_endpoints.add(node)
     nodes = nodes.difference(nodes_without_endpoints)
     if not nodes:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             "None of the specified nodes have the specified endpoint"
         )
     if nodes_without_endpoints and _LOGGER.isEnabledFor(logging.WARNING):
@@ -850,7 +850,7 @@ def _async_validate_multicast_nodes(
     first_node = next((node for node in nodes), None)
 
     if first_node and not all(node.client.driver is not None for node in nodes):
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=const.DOMAIN,
             translation_key="driver_not_ready",
         )
@@ -941,10 +941,10 @@ async def _async_multicast_set_value(call: ServiceCall) -> None:
             options=options,
         )
     except FailedZWaveCommand as err:
-        raise __HAC_KEEP__Error("Unable to set value via multicast") from err
+        raise UniversalAssistantError("Unable to set value via multicast") from err
 
     if result.status not in SET_VALUE_SUCCESS:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             "Unable to set value via multicast"
         ) from SetValueFailed(f"{result.status} {result.message}")
 

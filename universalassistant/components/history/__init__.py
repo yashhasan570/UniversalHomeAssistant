@@ -10,10 +10,10 @@ import probatio
 from universalassistant.auth.permissions import filter_entity_ids_by_permission
 from universalassistant.auth.permissions.const import POLICY_READ
 from universalassistant.components import frontend
-from universalassistant.components.http import KEY_HASS, KEY_HASS_USER, __HAC_KEEP__View
+from universalassistant.components.http import KEY_HASS, KEY_HASS_USER, UniversalAssistantView
 from universalassistant.components.recorder import get_instance, history
 from universalassistant.const import CONF_EXCLUDE, CONF_INCLUDE
-from universalassistant.core import __HAC_KEEP__, valid_entity_id
+from universalassistant.core import UniversalAssistant, valid_entity_id
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entityfilter import INCLUDE_EXCLUDE_BASE_FILTER_SCHEMA
 from universalassistant.helpers.recorder import session_scope
@@ -43,7 +43,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the history hooks."""
     hass.http.register_view(HistoryPeriodView())
     frontend.async_register_built_in_panel(hass, "history", "history", "mdi:chart-box")
@@ -51,7 +51,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-class HistoryPeriodView(__HAC_KEEP__View):
+class HistoryPeriodView(UniversalAssistantView):
     """Handle history period requests."""
 
     url = "/api/history/period"
@@ -144,7 +144,7 @@ class HistoryPeriodView(__HAC_KEEP__View):
 
     def _sorted_significant_states_json(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         start_time: dt,
         end_time: dt,
         entity_ids: list[str],

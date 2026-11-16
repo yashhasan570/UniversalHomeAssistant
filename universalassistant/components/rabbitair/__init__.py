@@ -4,14 +4,14 @@ from rabbitair import Client, UdpClient
 
 from universalassistant.components import zeroconf
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_HOST, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import RabbitAirConfigEntry, RabbitAirDataUpdateCoordinator
 
 PLATFORMS: list[Platform] = [Platform.FAN, Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: RabbitAirConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: RabbitAirConfigEntry) -> None:
     """Set up Rabbit Air from a config entry."""
 
     host: str = entry.data[CONF_HOST]
@@ -31,11 +31,11 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: RabbitAirConfigEntry) -> 
     entry.async_on_unload(entry.add_update_listener(update_listener))
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: RabbitAirConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: RabbitAirConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def update_listener(hass: __HAC_KEEP__, entry: RabbitAirConfigEntry) -> None:
+async def update_listener(hass: UniversalAssistant, entry: RabbitAirConfigEntry) -> None:
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)

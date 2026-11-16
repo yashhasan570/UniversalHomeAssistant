@@ -63,7 +63,7 @@ rules:
   entity-device-class:
     status: done
     comment: >-
-      All entities use a device class where __HA_KEEP__ offers a matching
+      All entities use a device class where Universal Home Assistant offers a matching
       one. Chlorine, UV and the electrolysis production rate (g/h) have no
       applicable class; the conductivity reading is reported without a unit,
       so it cannot be labelled as a conductivity measurement.

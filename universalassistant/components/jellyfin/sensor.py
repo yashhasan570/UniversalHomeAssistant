@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import Any, override
 
 from universalassistant.components.sensor import SensorEntity, SensorEntityDescription
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -39,7 +39,7 @@ SENSOR_TYPES: tuple[JellyfinSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: JellyfinConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

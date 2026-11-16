@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_API_TOKEN, CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import PortainerConfigEntry
 from .coordinator import PortainerCoordinator
@@ -43,7 +43,7 @@ def _serialize_coordinator(coordinator: PortainerCoordinator) -> dict[str, Any]:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: PortainerConfigEntry
+    hass: UniversalAssistant, config_entry: PortainerConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a Portainer config entry."""
 

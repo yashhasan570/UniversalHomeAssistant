@@ -78,7 +78,7 @@ from universalassistant.components.roborock.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .mock_data import (
     BASE_URL,
@@ -290,6 +290,7 @@ def create_b01_q10_trait() -> Mock:
 
     q10_trait.volume.set_volume = AsyncMock(side_effect=_set_volume)
     q10_trait.map = Mock()
+    q10_trait.map.current_room = None
     q10_trait.map.image_content = b"\x89PNG-q10"
     q10_trait.map.rooms = [
         Q10Room(id=9, raw_name="rr_bedroom", pixel_value=36, pixel_count=100),
@@ -712,7 +713,7 @@ def config_entry_data_fixture() -> dict[str, Any]:
 
 @pytest.fixture
 def mock_roborock_entry(
-    hass: __HAC_KEEP__, config_entry_data: dict[str, Any]
+    hass: UniversalAssistant, config_entry_data: dict[str, Any]
 ) -> MockConfigEntry:
     """Create a Roborock Entry that has not been setup."""
     mock_entry = MockConfigEntry(
@@ -735,7 +736,7 @@ def mock_platforms() -> list[Platform]:
 
 @pytest.fixture(autouse=True)
 async def mock_patforms_fixture(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     platforms: list[Platform],
 ) -> Generator[None]:
     """Set up the Roborock platform."""
@@ -745,7 +746,7 @@ async def mock_patforms_fixture(
 
 @pytest.fixture
 async def setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_roborock_entry: MockConfigEntry,
 ) -> Generator[MockConfigEntry]:
     """Set up the Roborock platform."""
@@ -756,12 +757,12 @@ async def setup_entry(
 
 @pytest.fixture(autouse=True, name="storage_path")
 async def storage_path_fixture(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> Generator[pathlib.Path]:
     """Test cleanup, remove any map storage persisted during the test."""
     with tempfile.TemporaryDirectory() as tmp_path:
 
-        def get_storage_path(_: __HAC_KEEP__, entry_id: str) -> pathlib.Path:
+        def get_storage_path(_: UniversalAssistant, entry_id: str) -> pathlib.Path:
             return pathlib.Path(tmp_path) / entry_id
 
         with patch(

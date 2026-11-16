@@ -15,7 +15,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.econet.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 
@@ -121,7 +121,7 @@ async def test_resubscribe_runs_in_executor(
     ],
 )
 async def test_login_error_retries_setup(
-    hass: __HAC_KEEP__, exception: Exception
+    hass: UniversalAssistant, exception: Exception
 ) -> None:
     """Test setup is retried when logging in fails."""
     entry = MockConfigEntry(
@@ -137,7 +137,7 @@ async def test_login_error_retries_setup(
     assert entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_invalid_credentials(hass: __HAC_KEEP__) -> None:
+async def test_invalid_credentials(hass: UniversalAssistant) -> None:
     """Test setup fails and starts reauth with invalid credentials."""
     entry = MockConfigEntry(
         domain=DOMAIN,

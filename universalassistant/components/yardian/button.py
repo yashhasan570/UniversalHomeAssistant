@@ -4,7 +4,7 @@ import asyncio
 from typing import override
 
 from universalassistant.components.button import ButtonEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import BUTTON_REFRESH_DELAY
@@ -13,7 +13,7 @@ from .entity import YardianEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: YardianConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

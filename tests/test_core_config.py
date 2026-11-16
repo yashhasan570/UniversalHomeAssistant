@@ -30,7 +30,7 @@ from universalassistant.const import (
     EntityStateAttribute,
     __version__,
 )
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.core_config import (
     _CUSTOMIZE_DICT_SCHEMA,
     CORE_CONFIG_SCHEMA,
@@ -231,7 +231,7 @@ def test_customize_glob_is_ordered() -> None:
     assert list(conf["customize_glob"]) == ["cover.*", "light.*", "sensor.*"]
 
 
-async def _compute_state(hass: __HAC_KEEP__, config: dict[str, Any]) -> State | None:
+async def _compute_state(hass: UniversalAssistant, config: dict[str, Any]) -> State | None:
     await async_process_ha_core_config(hass, config)
 
     entity = Entity()
@@ -246,7 +246,7 @@ async def _compute_state(hass: __HAC_KEEP__, config: dict[str, Any]) -> State | 
     return hass.states.get("test.test")
 
 
-async def test_entity_customization(hass: __HAC_KEEP__) -> None:
+async def test_entity_customization(hass: UniversalAssistant) -> None:
     """Test entity customization through configuration."""
     config = {
         CONF_LATITUDE: 50,
@@ -261,7 +261,7 @@ async def test_entity_customization(hass: __HAC_KEEP__) -> None:
 
 
 async def test_loading_configuration_from_storage(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test loading core config onto hass object."""
     hass_storage["core.config"] = {
@@ -303,7 +303,7 @@ async def test_loading_configuration_from_storage(
 
 
 async def test_loading_configuration_from_storage_with_yaml_only(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test loading core and YAML config onto hass object."""
     hass_storage["core.config"] = {
@@ -335,7 +335,7 @@ async def test_loading_configuration_from_storage_with_yaml_only(
 
 
 async def test_migration_and_updating_configuration(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test updating configuration stores the new configuration."""
     core_data = {
@@ -380,7 +380,7 @@ async def test_migration_and_updating_configuration(
 
 
 async def test_override_stored_configuration(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test loading core and YAML config onto hass object."""
     hass_storage["core.config"] = {
@@ -410,7 +410,7 @@ async def test_override_stored_configuration(
     assert hass.config.config_source is ConfigSource.YAML
 
 
-async def test_loading_configuration(hass: __HAC_KEEP__) -> None:
+async def test_loading_configuration(hass: UniversalAssistant) -> None:
     """Test loading core config onto hass object."""
     await async_process_ha_core_config(
         hass,
@@ -491,7 +491,7 @@ async def test_loading_configuration(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_language_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     minor_version,
     users,
@@ -529,7 +529,7 @@ async def test_language_default(
 
 
 async def test_loading_configuration_default_media_dirs_docker(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test loading core config onto hass object."""
     with patch("universalassistant.core_config.is_docker_env", return_value=True):
@@ -546,7 +546,7 @@ async def test_loading_configuration_default_media_dirs_docker(
     assert hass.config.media_dirs == {"local": "/media"}
 
 
-async def test_loading_configuration_from_packages(hass: __HAC_KEEP__) -> None:
+async def test_loading_configuration_from_packages(hass: UniversalAssistant) -> None:
     """Test loading packages config onto hass object config."""
     await async_process_ha_core_config(
         hass,
@@ -595,7 +595,7 @@ async def test_loading_configuration_from_packages(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_loading_configuration_unit_system(
-    hass: __HAC_KEEP__, unit_system_name: str, expected_unit_system: UnitSystem
+    hass: UniversalAssistant, unit_system_name: str, expected_unit_system: UnitSystem
 ) -> None:
     """Test backward compatibility when loading core config."""
     await async_process_ha_core_config(
@@ -615,7 +615,7 @@ async def test_loading_configuration_unit_system(
     assert hass.config.units is expected_unit_system
 
 
-async def test_merge_customize(hass: __HAC_KEEP__) -> None:
+async def test_merge_customize(hass: UniversalAssistant) -> None:
     """Test loading core config onto hass object."""
     core_config = {
         "latitude": 60,
@@ -634,7 +634,7 @@ async def test_merge_customize(hass: __HAC_KEEP__) -> None:
     assert hass.data[DATA_CUSTOMIZE].get("b.b") == {"friendly_name": "BB"}
 
 
-async def test_auth_provider_config(hass: __HAC_KEEP__) -> None:
+async def test_auth_provider_config(hass: UniversalAssistant) -> None:
     """Test loading auth provider config onto hass object."""
     core_config = {
         "latitude": 60,
@@ -659,7 +659,7 @@ async def test_auth_provider_config(hass: __HAC_KEEP__) -> None:
     assert hass.auth.auth_mfa_modules[1].id == "second"
 
 
-async def test_auth_provider_config_default(hass: __HAC_KEEP__) -> None:
+async def test_auth_provider_config_default(hass: UniversalAssistant) -> None:
     """Test loading default auth provider config."""
     core_config = {
         "latitude": 60,
@@ -679,7 +679,7 @@ async def test_auth_provider_config_default(hass: __HAC_KEEP__) -> None:
     assert hass.auth.auth_mfa_modules[0].id == "totp"
 
 
-async def test_disallowed_auth_provider_config(hass: __HAC_KEEP__) -> None:
+async def test_disallowed_auth_provider_config(hass: UniversalAssistant) -> None:
     """Test loading insecure example auth provider is disallowed."""
     core_config = {
         "latitude": 60,
@@ -705,7 +705,7 @@ async def test_disallowed_auth_provider_config(hass: __HAC_KEEP__) -> None:
         await async_process_ha_core_config(hass, core_config)
 
 
-async def test_disallowed_duplicated_auth_provider_config(hass: __HAC_KEEP__) -> None:
+async def test_disallowed_duplicated_auth_provider_config(hass: UniversalAssistant) -> None:
     """Test loading insecure example auth provider is disallowed."""
     core_config = {
         "latitude": 60,
@@ -720,7 +720,7 @@ async def test_disallowed_duplicated_auth_provider_config(hass: __HAC_KEEP__) ->
         await async_process_ha_core_config(hass, core_config)
 
 
-async def test_disallowed_auth_mfa_module_config(hass: __HAC_KEEP__) -> None:
+async def test_disallowed_auth_mfa_module_config(hass: UniversalAssistant) -> None:
     """Test loading insecure example auth mfa module is disallowed."""
     core_config = {
         "latitude": 60,
@@ -741,7 +741,7 @@ async def test_disallowed_auth_mfa_module_config(hass: __HAC_KEEP__) -> None:
 
 
 async def test_disallowed_duplicated_auth_mfa_module_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test loading insecure example auth mfa module is disallowed."""
     core_config = {
@@ -758,7 +758,7 @@ async def test_disallowed_duplicated_auth_mfa_module_config(
 
 
 async def test_core_config_schema_historic_currency(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test core config schema."""
     await async_process_ha_core_config(hass, {"currency": "LTT"})
@@ -769,7 +769,7 @@ async def test_core_config_schema_historic_currency(
 
 
 async def test_core_store_historic_currency(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any], issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, hass_storage: dict[str, Any], issue_registry: ir.IssueRegistry
 ) -> None:
     """Test core config store."""
     core_data = {
@@ -794,7 +794,7 @@ async def test_core_store_historic_currency(
 
 
 async def test_core_config_schema_no_country(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test core config schema."""
     await async_process_ha_core_config(hass, {})
@@ -804,7 +804,7 @@ async def test_core_config_schema_no_country(
 
 
 async def test_core_store_no_country(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any], issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, hass_storage: dict[str, Any], issue_registry: ir.IssueRegistry
 ) -> None:
     """Test core config store."""
     core_data = {
@@ -825,7 +825,7 @@ async def test_core_store_no_country(
     assert not issue
 
 
-async def test_configuration_legacy_template_is_removed(hass: __HAC_KEEP__) -> None:
+async def test_configuration_legacy_template_is_removed(hass: UniversalAssistant) -> None:
     """Test loading core config onto hass object."""
     await async_process_ha_core_config(
         hass,
@@ -1021,7 +1021,7 @@ async def test_config_is_allowed_external_url() -> None:
         assert not config.is_allowed_external_url(url)
 
 
-async def test_event_on_update(hass: __HAC_KEEP__) -> None:
+async def test_event_on_update(hass: UniversalAssistant) -> None:
     """Test that event is fired on update."""
     events = async_capture_events(hass, EVENT_CORE_CONFIG_UPDATE)
 
@@ -1035,14 +1035,14 @@ async def test_event_on_update(hass: __HAC_KEEP__) -> None:
     assert events[0].data == {"latitude": 12}
 
 
-async def test_bad_timezone_raises_value_error(hass: __HAC_KEEP__) -> None:
+async def test_bad_timezone_raises_value_error(hass: UniversalAssistant) -> None:
     """Test bad timezone raises ValueError."""
     with pytest.raises(ValueError):
         await hass.config.async_update(time_zone="not_a_timezone")
 
 
 async def test_additional_data_in_core_config(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test that we can handle additional data in core configuration."""
     config = Config(hass, "/test/ha-config")
@@ -1056,7 +1056,7 @@ async def test_additional_data_in_core_config(
 
 
 async def test_incorrect_internal_external_url(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that we warn when detecting invalid internal/external url."""
     config = Config(hass, "/test/ha-config")
@@ -1088,7 +1088,7 @@ async def test_incorrect_internal_external_url(
     assert "Invalid internal_url set" in caplog.text
 
 
-async def test_top_level_components(hass: __HAC_KEEP__) -> None:
+async def test_top_level_components(hass: UniversalAssistant) -> None:
     """Test top level components are updated when components change."""
     hass.config.components.add("universalassistant")
     assert hass.config.components == {"universalassistant"}
@@ -1105,13 +1105,13 @@ async def test_top_level_components(hass: __HAC_KEEP__) -> None:
         hass.config.components.discard("universalassistant")
 
 
-async def test_debug_mode_defaults_to_off(hass: __HAC_KEEP__) -> None:
+async def test_debug_mode_defaults_to_off(hass: UniversalAssistant) -> None:
     """Test debug mode defaults to off."""
     assert not hass.config.debug
 
 
 async def test_core_config_schema_imperial_unit(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test core config schema."""
     await async_process_ha_core_config(

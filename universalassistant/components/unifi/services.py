@@ -9,8 +9,8 @@ from aiounifi.models.client import ClientReconnectRequest, ClientRemoveRequest
 import probatio
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC
 
@@ -34,7 +34,7 @@ SERVICE_TO_SCHEMA = {
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up services for UniFi integration."""
 
     services = {
@@ -55,7 +55,7 @@ def async_setup_services(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def async_reconnect_client(hass: __HAC_KEEP__, data: Mapping[str, Any]) -> None:
+async def async_reconnect_client(hass: UniversalAssistant, data: Mapping[str, Any]) -> None:
     """Try to get wireless client to reconnect to Wi-Fi."""
     device_registry = dr.async_get(hass)
     device_entry = device_registry.async_get(
@@ -91,13 +91,13 @@ async def async_reconnect_client(hass: __HAC_KEEP__, data: Mapping[str, Any]) ->
         try:
             await hub.api.request(ClientReconnectRequest.create(mac))
         except aiounifi.AiounifiException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="reconnect_client_request_failed",
             ) from err
 
 
-async def async_remove_clients(hass: __HAC_KEEP__, data: Mapping[str, Any]) -> None:
+async def async_remove_clients(hass: UniversalAssistant, data: Mapping[str, Any]) -> None:
     """Remove select clients from UniFi Network.
 
     Validates based on:
@@ -127,7 +127,7 @@ async def async_remove_clients(hass: __HAC_KEEP__, data: Mapping[str, Any]) -> N
             try:
                 await hub.api.request(ClientRemoveRequest.create(clients_to_remove))
             except aiounifi.AiounifiException as err:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="remove_clients_request_failed",
                 ) from err

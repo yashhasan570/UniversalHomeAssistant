@@ -14,7 +14,7 @@ from mastodon.Mastodon import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -40,7 +40,7 @@ class MastodonCoordinator(DataUpdateCoordinator[Account]):
     config_entry: MastodonConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: MastodonConfigEntry, client: Mastodon
+        self, hass: UniversalAssistant, config_entry: MastodonConfigEntry, client: Mastodon
     ) -> None:
         """Initialize coordinator."""
         super().__init__(

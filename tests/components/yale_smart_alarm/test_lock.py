@@ -14,8 +14,8 @@ from universalassistant.components.lock import (
     LockServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 
@@ -24,7 +24,7 @@ from universalassistant.helpers import entity_registry as er
     [[Platform.LOCK]],
 )
 async def test_lock(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_config_entry: tuple[MockConfigEntry, Mock],
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -39,7 +39,7 @@ async def test_lock(
     [[Platform.LOCK]],
 )
 async def test_lock_service_calls(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_data: YaleSmartAlarmData,
     load_config_entry: tuple[MockConfigEntry, Mock],
 ) -> None:
@@ -97,7 +97,7 @@ async def test_lock_service_calls(
     [[Platform.LOCK]],
 )
 async def test_lock_service_call_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_data: YaleSmartAlarmData,
     load_config_entry: tuple[MockConfigEntry, Mock],
 ) -> None:
@@ -116,7 +116,7 @@ async def test_lock_service_call_fails(
     assert state.state == "locked"
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Could not set lock for Device1: test_side_effect",
     ):
         await hass.services.async_call(
@@ -133,7 +133,7 @@ async def test_lock_service_call_fails(
     assert state.state == "locked"
     client.auth.post_authenticated.reset_mock()
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Could not set lock for Device1: test_side_effect",
     ):
         await hass.services.async_call(
@@ -153,7 +153,7 @@ async def test_lock_service_call_fails(
     [[Platform.LOCK]],
 )
 async def test_lock_service_call_fails_with_incorrect_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_data: YaleSmartAlarmData,
     load_config_entry: tuple[MockConfigEntry, Mock],
 ) -> None:
@@ -170,7 +170,7 @@ async def test_lock_service_call_fails_with_incorrect_status(
     assert state.state == "locked"
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="Could not set lock, check system ready for lock"
+        UniversalAssistantError, match="Could not set lock, check system ready for lock"
     ):
         await hass.services.async_call(
             LOCK_DOMAIN,

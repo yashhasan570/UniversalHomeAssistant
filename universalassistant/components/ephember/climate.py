@@ -30,7 +30,8 @@ from universalassistant.const import (
     CONF_USERNAME,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import PlatformNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -68,7 +69,7 @@ HA_STATE_TO_EPH = {value: key for key, value in EPH_TO_HA_STATE.items()}
 
 
 def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -79,14 +80,9 @@ def setup_platform(
 
     try:
         ember = EphEmber(username, password)
-    except RuntimeError:
-        _LOGGER.error("Cannot login to EphEmber")
-
-    try:
         homes = ember.get_zones()
-    except RuntimeError:
-        _LOGGER.error("Fail to get zones")
-        return
+    except RuntimeError as err:
+        raise PlatformNotReady(f"Cannot connect to EphEmber: {err}") from err
 
     add_entities(
         EphEmberThermostat(ember, zone) for home in homes for zone in home["zones"]
@@ -196,17 +192,27 @@ class EphEmberThermostat(ClimateEntity):
 
     def update(self) -> None:
         """Get the latest data."""
-        self._ember.get_zones()
-        self._zone = self._ember.get_zone(self._zone["zoneid"])
+        try:
+            self._ember.get_zones()
+            self._zone = self._ember.get_zone(self._zone["zoneid"])
+        except RuntimeError as err:
+            if self._attr_available:
+                _LOGGER.warning("Unable to update %s: %s", self._zone_name, err)
+            self._attr_available = False
+            return
+
+        if not self._attr_available:
+            _LOGGER.info("%s is available again", self._zone_name)
+        self._attr_available = True
 
     @staticmethod
     def map_mode_hass_eph(operation_mode):
-        """Map from __HA_KEEP__ mode to eph mode."""
+        """Map from Universal Home Assistant mode to eph mode."""
         return getattr(ZoneMode, HA_STATE_TO_EPH.get(operation_mode), None)
 
     @staticmethod
     def map_mode_eph_hass(operation_mode):
-        """Map from eph mode to __HA_KEEP__ mode."""
+        """Map from eph mode to Universal Home Assistant mode."""
         if operation_mode is None:
             return HVACMode.HEAT_COOL
         return EPH_TO_HA_STATE.get(operation_mode.name, HVACMode.HEAT_COOL)

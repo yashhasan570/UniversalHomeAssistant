@@ -10,7 +10,7 @@ from pyvesync.utils.errors import (
 )
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -39,7 +39,7 @@ PLATFORMS = [
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up my integration."""
 
     async_setup_services(hass)
@@ -48,7 +48,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: VesyncConfigEntry
+    hass: UniversalAssistant, config_entry: VesyncConfigEntry
 ) -> None:
     """Set up Vesync as config entry."""
     username = config_entry.data[CONF_USERNAME]
@@ -93,13 +93,13 @@ async def async_setup_entry(
     await hass.config_entries.async_forward_entry_setups(config_entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: VesyncConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: VesyncConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, config_entry: VesyncConfigEntry
+    hass: UniversalAssistant, config_entry: VesyncConfigEntry
 ) -> None:
     """Migrate old entry."""
     _LOGGER.debug(
@@ -134,7 +134,7 @@ async def async_migrate_entry(
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, config_entry: VesyncConfigEntry, device_entry: AnyDeviceEntry
+    hass: UniversalAssistant, config_entry: VesyncConfigEntry, device_entry: AnyDeviceEntry
 ) -> bool:
     """Remove a config entry from a device."""
     manager = config_entry.runtime_data.manager

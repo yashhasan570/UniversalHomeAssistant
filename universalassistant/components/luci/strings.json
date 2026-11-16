@@ -40,15 +40,15 @@
   },
   "issues": {
     "legacy_known_devices": {
-      "description": "OpenWrt (luci) now creates its own device tracker entities, but the following entries left over from the old YAML setup still exist in `{path}` for devices tracked by the router at `{host}`:\n\n{devices}\n\nBecause these legacy trackers claim the same entity IDs, the new entities are dropped at startup and stop updating.\n\nPlease remove these entries from `{path}` and restart __HA_KEEP__.",
+      "description": "OpenWrt (luci) now creates its own device tracker entities, but the following entries left over from the old YAML setup still exist in `{path}` for devices tracked by the router at `{host}`:\n\n{devices}\n\nBecause these legacy trackers claim the same entity IDs, the new entities are dropped at startup and stop updating.\n\nPlease remove these entries from `{path}` and restart Universal Home Assistant.",
       "title": "Remove leftover known devices for OpenWrt (luci)"
     },
     "yaml_import_cannot_connect": {
-      "description": "The YAML configuration for OpenWrt (luci) at `{host}` could not be imported because the connection failed.\n\nPlease check that `{host}` is reachable, update your `configuration.yaml` if needed, and restart __HA_KEEP__.",
+      "description": "The YAML configuration for OpenWrt (luci) at `{host}` could not be imported because the connection failed.\n\nPlease check that `{host}` is reachable, update your `configuration.yaml` if needed, and restart Universal Home Assistant.",
       "title": "YAML configuration import failed: cannot connect"
     },
     "yaml_import_invalid_auth": {
-      "description": "The YAML configuration for OpenWrt (luci) at `{host}` could not be imported because the credentials are invalid.\n\nPlease update your `configuration.yaml` with valid credentials and restart __HA_KEEP__.",
+      "description": "The YAML configuration for OpenWrt (luci) at `{host}` could not be imported because the credentials are invalid.\n\nPlease update your `configuration.yaml` with valid credentials and restart Universal Home Assistant.",
       "title": "YAML configuration import failed: invalid authentication"
     }
   }

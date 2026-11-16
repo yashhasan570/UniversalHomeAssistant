@@ -7,7 +7,7 @@ from victron_mqtt.testing import finalize_injection, inject_message
 
 from universalassistant.components.victron_gx.binary_sensor import VictronBinarySensor
 from universalassistant.components.victron_gx.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import MOCK_INSTALLATION_ID
@@ -18,7 +18,7 @@ class _TestEnum(VictronEnum):
 
 
 async def test_victron_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,

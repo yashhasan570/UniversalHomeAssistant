@@ -28,7 +28,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     UnitOfTemperature,
 )
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.exceptions import PlatformNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -96,7 +96,7 @@ MAP_STATE_ICONS = {
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -124,7 +124,7 @@ async def async_setup_platform(
 
     if ih_devices := controller.get_devices():
         # The controller is shared by every entity, so it outlives any one of
-        # them and is only torn down with __HA_KEEP__ itself.
+        # them and is only torn down with Universal Home Assistant itself.
         async def _async_stop_controller(event: Event) -> None:
             await controller.stop()
 

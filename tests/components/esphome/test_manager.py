@@ -95,9 +95,9 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, ServiceCall, SupportsResponse
+from universalassistant.core import UniversalAssistant, ServiceCall, SupportsResponse
 from universalassistant.data_entry_flow import FlowResultType
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -117,7 +117,7 @@ from .conftest import (
 
 
 async def test_esphome_device_subscribe_logs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     caplog: pytest.LogCaptureFixture,
@@ -187,7 +187,7 @@ async def test_esphome_device_subscribe_logs(
 
 
 async def test_esphome_device_service_calls_not_allowed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     caplog: pytest.LogCaptureFixture,
@@ -214,7 +214,7 @@ async def test_esphome_device_service_calls_not_allowed(
     assert issue.config_entry_id == device.entry.entry_id
     assert (
         "If you trust this device and want to allow access "
-        "for it to make __HA_KEEP__ service calls, you can "
+        "for it to make Universal Home Assistant service calls, you can "
         "enable this functionality in the options flow"
     ) in caplog.text
 
@@ -225,7 +225,7 @@ async def test_esphome_device_service_calls_not_allowed(
 
 @pytest.mark.parametrize("has_deep_sleep", [True, False])
 async def test_reconnect_logic_seeds_deep_sleep_from_restored_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     has_deep_sleep: bool,
@@ -277,7 +277,7 @@ _SUB_DEVICE_SENSOR_STATES = [
 
 
 def _seed_deep_sleep_storage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     *,
     infos: dict[str, list[EntityInfo]] | None = None,
@@ -328,7 +328,7 @@ def _seed_deep_sleep_storage(
 
 
 async def _async_setup_without_connecting(
-    hass: __HAC_KEEP__, mock_client: APIClient, entry: MockConfigEntry
+    hass: UniversalAssistant, mock_client: APIClient, entry: MockConfigEntry
 ) -> None:
     """Set up the entry while the device is unreachable."""
     mock_client.device_info_and_list_entities = AsyncMock(
@@ -393,7 +393,7 @@ async def _async_setup_without_connecting(
     ],
 )
 async def test_deep_sleep_device_persists_states_on_disconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
     mock_esphome_device: MockESPHomeDeviceType,
@@ -503,7 +503,7 @@ async def test_deep_sleep_device_persists_states_on_disconnect(
     ],
 )
 async def test_cold_start_offline_restores_deep_sleep_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
     infos: dict[str, list[EntityInfo]] | None,
@@ -548,7 +548,7 @@ async def test_cold_start_offline_restores_deep_sleep_entities(
     ],
 )
 async def test_cold_start_restores_same_key_on_sub_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
     device_registry: dr.DeviceRegistry,
@@ -597,7 +597,7 @@ async def test_cold_start_restores_same_key_on_sub_devices(
 
 
 async def test_restored_state_of_removed_entity_dropped_on_wake(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
     mock_esphome_device: MockESPHomeDeviceType,
@@ -627,7 +627,7 @@ async def test_restored_state_of_removed_entity_dropped_on_wake(
 
 
 async def test_wake_with_unchanged_state_after_restore_is_dispatched(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
     mock_esphome_device: MockESPHomeDeviceType,
@@ -648,7 +648,7 @@ async def test_wake_with_unchanged_state_after_restore_is_dispatched(
 
 
 async def test_deep_sleep_states_flushed_on_unload_while_connected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
     mock_esphome_device: MockESPHomeDeviceType,
@@ -684,12 +684,12 @@ async def test_deep_sleep_states_flushed_on_unload_while_connected(
 
 
 async def test_deep_sleep_states_persisted_on_shutdown_while_connected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
-    """Restarting __HA_KEEP__ while the device is awake persists its states."""
+    """Restarting Universal Home Assistant while the device is awake persists its states."""
     device = await mock_esphome_device(
         mock_client=mock_client,
         entity_info=_DEEP_SLEEP_SENSOR_INFOS,
@@ -715,7 +715,7 @@ async def test_deep_sleep_states_persisted_on_shutdown_while_connected(
     ],
 )
 async def test_every_persisted_state_type_round_trips(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
     mock_esphome_device: MockESPHomeDeviceType,
@@ -741,7 +741,7 @@ async def test_every_persisted_state_type_round_trips(
 
 
 async def test_non_deep_sleep_device_does_not_persist_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
     mock_esphome_device: MockESPHomeDeviceType,
@@ -763,7 +763,7 @@ async def test_non_deep_sleep_device_does_not_persist_states(
 
 
 async def test_esphome_device_service_calls_allowed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -915,7 +915,7 @@ async def test_esphome_device_service_calls_allowed(
 
 
 async def test_esphome_device_service_call_with_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -968,7 +968,7 @@ async def test_esphome_device_service_call_with_response(
 
 
 async def test_esphome_device_service_call_with_response_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -1019,7 +1019,7 @@ async def test_esphome_device_service_call_with_response_template(
 
 
 async def test_esphome_device_service_call_with_response_template_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -1072,7 +1072,7 @@ async def test_esphome_device_service_call_with_response_template_error(
 
 
 async def test_esphome_device_service_call_with_notification(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -1120,7 +1120,7 @@ async def test_esphome_device_service_call_with_notification(
 
 
 async def test_esphome_device_service_call_with_service_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -1162,7 +1162,7 @@ async def test_esphome_device_service_call_with_service_not_found(
 
 
 async def test_esphome_device_service_call_with_validation_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -1210,7 +1210,7 @@ async def test_esphome_device_service_call_with_validation_error(
 
 
 async def test_esphome_device_service_call_fire_and_forget(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -1252,7 +1252,7 @@ async def test_esphome_device_service_call_fire_and_forget(
 
 
 async def test_esphome_device_with_old_bluetooth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     issue_registry: ir.IssueRegistry,
@@ -1277,7 +1277,7 @@ async def test_esphome_device_with_old_bluetooth(
 
 
 async def test_esphome_device_with_password(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     issue_registry: ir.IssueRegistry,
@@ -1314,7 +1314,7 @@ async def test_esphome_device_with_password(
 
 
 async def test_esphome_device_with_current_bluetooth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     issue_registry: ir.IssueRegistry,
@@ -1340,7 +1340,7 @@ async def test_esphome_device_with_current_bluetooth(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_unique_id_updated_to_mac(
-    hass: __HAC_KEEP__, mock_client: APIClient
+    hass: UniversalAssistant, mock_client: APIClient
 ) -> None:
     """Test we update config entry unique ID to MAC address."""
     entry = MockConfigEntry(
@@ -1374,7 +1374,7 @@ async def test_unique_id_updated_to_mac(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_add_missing_bluetooth_mac_address(
-    hass: __HAC_KEEP__, mock_client
+    hass: UniversalAssistant, mock_client
 ) -> None:
     """Test bluetooth mac is added if its missing."""
     entry = MockConfigEntry(
@@ -1412,7 +1412,7 @@ async def test_add_missing_bluetooth_mac_address(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_unique_id_not_updated_if_name_same_and_already_mac(
-    hass: __HAC_KEEP__, mock_client: APIClient
+    hass: UniversalAssistant, mock_client: APIClient
 ) -> None:
     """Test we never update the entry unique ID event if the name is the same."""
     entry = MockConfigEntry(
@@ -1450,7 +1450,7 @@ async def test_unique_id_not_updated_if_name_same_and_already_mac(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_unique_id_updated_if_name_unset_and_already_mac(
-    hass: __HAC_KEEP__, mock_client: APIClient
+    hass: UniversalAssistant, mock_client: APIClient
 ) -> None:
     """Test we never update config entry unique ID even if the name is unset."""
     entry = MockConfigEntry(
@@ -1483,7 +1483,7 @@ async def test_unique_id_updated_if_name_unset_and_already_mac(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_unique_id_not_updated_if_name_different_and_already_mac(
-    hass: __HAC_KEEP__, mock_client: APIClient
+    hass: UniversalAssistant, mock_client: APIClient
 ) -> None:
     """Test we do not update config entry unique ID if the name is different."""
     entry = MockConfigEntry(
@@ -1523,7 +1523,7 @@ async def test_unique_id_not_updated_if_name_different_and_already_mac(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_name_updated_only_if_mac_matches(
-    hass: __HAC_KEEP__, mock_client: APIClient
+    hass: UniversalAssistant, mock_client: APIClient
 ) -> None:
     """Test we update config entry name only if the mac matches."""
     entry = MockConfigEntry(
@@ -1563,7 +1563,7 @@ async def test_name_updated_only_if_mac_matches(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_name_updated_only_if_mac_was_unset(
-    hass: __HAC_KEEP__, mock_client: APIClient
+    hass: UniversalAssistant, mock_client: APIClient
 ) -> None:
     """Test we update config entry name if the old unique id was not a mac."""
     entry = MockConfigEntry(
@@ -1603,7 +1603,7 @@ async def test_name_updated_only_if_mac_was_unset(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_connection_aborted_wrong_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     caplog: pytest.LogCaptureFixture,
     issue_registry: ir.IssueRegistry,
@@ -1686,7 +1686,7 @@ async def test_connection_aborted_wrong_device(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_connection_aborted_wrong_device_same_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     caplog: pytest.LogCaptureFixture,
     issue_registry: ir.IssueRegistry,
@@ -1766,7 +1766,7 @@ async def test_connection_aborted_wrong_device_same_name(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_failure_during_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1806,7 +1806,7 @@ async def test_failure_during_connect(
 
 async def test_state_subscription(
     mock_client: APIClient,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
     """Test ESPHome subscribes to state changes."""
@@ -1863,7 +1863,7 @@ async def test_state_subscription(
 
 async def test_state_subscription_entity_added_later(
     mock_client: APIClient,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
     """Test the state is sent once a subscribed entity is created."""
@@ -1886,7 +1886,7 @@ async def test_state_subscription_entity_added_later(
 
 async def test_state_request(
     mock_client: APIClient,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
     """Test ESPHome requests state change."""
@@ -1908,7 +1908,7 @@ async def test_state_request(
 
 async def test_debug_logging(
     mock_client: APIClient,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_generic_device_entry: MockGenericDeviceEntryType,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1930,7 +1930,7 @@ async def test_debug_logging(
 
 
 async def test_esphome_device_with_dash_in_name_user_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -1996,7 +1996,7 @@ async def test_esphome_device_with_dash_in_name_user_services(
 
 
 async def test_esphome_user_services_ignores_invalid_arg_types(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -2055,7 +2055,7 @@ async def test_esphome_user_services_ignores_invalid_arg_types(
 
 
 async def test_esphome_user_service_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -2076,7 +2076,7 @@ async def test_esphome_user_service_fails(
     assert hass.services.has_service(DOMAIN, "with_dash_simple_service")
 
     mock_client.execute_service = AsyncMock(side_effect=APIConnectionError("fail"))
-    with pytest.raises(__HAC_KEEP__Error) as exc:
+    with pytest.raises(UniversalAssistantError) as exc:
         await hass.services.async_call(
             DOMAIN, "with_dash_simple_service", {"arg1": True}, blocking=True
         )
@@ -2107,7 +2107,7 @@ async def test_esphome_user_service_fails(
 
 
 async def test_esphome_user_services_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -2182,7 +2182,7 @@ async def test_esphome_user_services_changes(
 
 
 async def test_esphome_device_with_suggested_area(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
@@ -2202,7 +2202,7 @@ async def test_esphome_device_with_suggested_area(
 
 
 async def test_esphome_device_area_priority(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
@@ -2226,7 +2226,7 @@ async def test_esphome_device_area_priority(
 
 
 async def test_esphome_device_with_project(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -2247,7 +2247,7 @@ async def test_esphome_device_with_project(
 
 
 async def test_esphome_device_with_manufacturer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -2266,7 +2266,7 @@ async def test_esphome_device_with_manufacturer(
 
 
 async def test_esphome_device_with_web_server(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -2285,7 +2285,7 @@ async def test_esphome_device_with_web_server(
 
 
 async def test_esphome_device_with_ipv6_web_server(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -2315,7 +2315,7 @@ async def test_esphome_device_with_ipv6_web_server(
 
 
 async def test_esphome_device_with_compilation_time(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -2334,7 +2334,7 @@ async def test_esphome_device_with_compilation_time(
 
 
 async def test_disconnects_at_close_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -2362,7 +2362,7 @@ async def test_disconnects_at_close_event(
     ],
 )
 async def test_start_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     error: Exception,
@@ -2384,7 +2384,7 @@ async def test_start_reauth(
 
 
 async def test_no_reauth_wrong_mac(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     caplog: pytest.LogCaptureFixture,
@@ -2414,7 +2414,7 @@ async def test_no_reauth_wrong_mac(
 
 
 async def test_auth_error_during_on_connect_triggers_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
 ) -> None:
     """Test that InvalidAuthAPIError during on_connect triggers reauth."""
@@ -2445,7 +2445,7 @@ async def test_auth_error_during_on_connect_triggers_reauth(
 
 
 async def test_entry_missing_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -2467,7 +2467,7 @@ async def test_entry_missing_unique_id(
 
 
 async def test_entry_missing_bluetooth_mac_address(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -2493,7 +2493,7 @@ async def test_entry_missing_bluetooth_mac_address(
 
 
 async def test_device_adds_friendly_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -2537,7 +2537,7 @@ async def test_device_adds_friendly_name(
 
 
 async def test_assist_in_progress_issue_deleted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -2584,7 +2584,7 @@ async def test_assist_in_progress_issue_deleted(
 
 
 async def test_assist_satellite_removed_when_a_voice_assistant_goes_away(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -2616,7 +2616,7 @@ async def test_assist_satellite_removed_when_a_voice_assistant_goes_away(
 
 
 async def test_assist_satellite_restored_when_a_voice_assistant_returns(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -2682,7 +2682,7 @@ async def test_assist_satellite_restored_when_a_voice_assistant_returns(
     ],
 )
 async def test_sub_device_creation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
@@ -2770,7 +2770,7 @@ async def test_sub_device_creation(
 
 @pytest.mark.parametrize(("relation", "lookup"), SUB_DEVICE_RELATIONS)
 async def test_sub_device_cleanup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -2885,7 +2885,7 @@ async def test_sub_device_cleanup(
 
 
 async def test_via_devices_converted_to_child_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -2949,7 +2949,7 @@ async def test_via_devices_converted_to_child_devices(
     [pytest.param("Sensor", id="same_name"), pytest.param("Renamed", id="renamed")],
 )
 async def test_sub_device_relation_changed_while_connected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
@@ -3045,7 +3045,7 @@ async def test_sub_device_relation_changed_while_connected(
 
 
 async def test_sub_device_with_unsupported_relation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -3085,7 +3085,7 @@ async def test_sub_device_with_unsupported_relation(
 
 
 async def test_replace_device_migrates_sub_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test replacing the mac keeps via devices and child devices."""
@@ -3131,7 +3131,7 @@ async def test_replace_device_migrates_sub_devices(
 
 @pytest.mark.parametrize(("relation", "lookup"), SUB_DEVICE_RELATIONS)
 async def test_sub_device_with_empty_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -3203,7 +3203,7 @@ async def test_sub_device_with_empty_name(
     ],
 )
 async def test_sub_device_references_main_device_area(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
@@ -3292,7 +3292,7 @@ async def test_sub_device_references_main_device_area(
 @patch("universalassistant.components.esphome.manager.secrets.token_bytes")
 async def test_dynamic_encryption_key_generation(
     mock_token_bytes: Mock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_storage: dict[str, Any],
@@ -3345,7 +3345,7 @@ async def test_dynamic_encryption_key_generation(
 
 
 async def test_manager_retrieves_key_from_storage_on_reconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_storage: dict[str, Any],
@@ -3403,7 +3403,7 @@ async def test_manager_retrieves_key_from_storage_on_reconnect(
 
 
 async def test_manager_handle_dynamic_encryption_key_guard_clauses(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -3443,7 +3443,7 @@ async def test_manager_handle_dynamic_encryption_key_guard_clauses(
 
 
 async def test_manager_handle_dynamic_encryption_key_edge_cases(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -3487,7 +3487,7 @@ async def test_manager_handle_dynamic_encryption_key_edge_cases(
 @patch("universalassistant.components.esphome.manager.secrets.token_bytes")
 async def test_manager_dynamic_encryption_key_generation_flow(
     mock_token_bytes: Mock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_storage: dict[str, Any],
@@ -3556,7 +3556,7 @@ async def test_manager_dynamic_encryption_key_generation_flow(
 @patch("universalassistant.components.esphome.manager.secrets.token_bytes")
 async def test_manager_handle_dynamic_encryption_key_no_existing_key(
     mock_token_bytes: Mock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_storage: dict[str, Any],
@@ -3627,7 +3627,7 @@ async def test_manager_handle_dynamic_encryption_key_no_existing_key(
 @patch("universalassistant.components.esphome.manager.secrets.token_bytes")
 async def test_manager_handle_dynamic_encryption_key_device_set_key_fails(
     mock_token_bytes: Mock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_storage: dict[str, Any],
@@ -3697,7 +3697,7 @@ async def test_manager_handle_dynamic_encryption_key_device_set_key_fails(
 @patch("universalassistant.components.esphome.manager.secrets.token_bytes")
 async def test_manager_handle_dynamic_encryption_key_connection_error(
     mock_token_bytes: Mock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_storage: dict[str, Any],
@@ -3786,7 +3786,7 @@ def mock_provisioning_client(mock_client: APIClient) -> Generator[Mock]:
         yield client
 
 
-def _make_provisionable_entry(hass: __HAC_KEEP__, mac_address: str) -> MockConfigEntry:
+def _make_provisionable_entry(hass: UniversalAssistant, mac_address: str) -> MockConfigEntry:
     """Create a config entry without a noise PSK."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -3805,7 +3805,7 @@ def _make_provisionable_entry(hass: __HAC_KEEP__, mac_address: str) -> MockConfi
 @patch("universalassistant.components.esphome.manager.secrets.token_bytes")
 async def test_dynamic_encryption_key_provisioned_over_zero_psk(
     mock_token_bytes: Mock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_provisioning_client: Mock,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -3857,7 +3857,7 @@ async def test_dynamic_encryption_key_provisioned_over_zero_psk(
 
 
 async def test_dynamic_encryption_key_provisioned_over_zero_psk_from_storage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_provisioning_client: Mock,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -3903,7 +3903,7 @@ async def test_dynamic_encryption_key_provisioned_over_zero_psk_from_storage(
 @patch("universalassistant.components.esphome.manager.secrets.token_bytes")
 async def test_dynamic_encryption_key_synced_to_dashboard(
     mock_token_bytes: Mock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_storage: dict[str, Any],
@@ -3946,7 +3946,7 @@ async def test_dynamic_encryption_key_synced_to_dashboard(
 
 
 async def test_dynamic_encryption_key_from_storage_synced_to_dashboard(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_storage: dict[str, Any],
@@ -4015,7 +4015,7 @@ async def test_dynamic_encryption_key_from_storage_synced_to_dashboard(
 @patch("universalassistant.components.esphome.manager.secrets.token_bytes")
 async def test_dynamic_encryption_key_dashboard_sync_failure_is_not_fatal(
     mock_token_bytes: Mock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -4084,7 +4084,7 @@ async def test_dynamic_encryption_key_dashboard_sync_failure_is_not_fatal(
 @patch("universalassistant.components.esphome.manager.secrets.token_bytes")
 async def test_dashboard_unexpected_sync_result_logs_warning(
     mock_token_bytes: Mock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_storage: dict[str, Any],
@@ -4124,7 +4124,7 @@ async def test_dashboard_unexpected_sync_result_logs_warning(
 
 
 async def test_existing_key_resynced_to_dashboard_on_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_storage: dict[str, Any],
@@ -4181,7 +4181,7 @@ async def test_existing_key_resynced_to_dashboard_on_connect(
 
 
 async def test_user_provided_key_not_resynced_to_dashboard(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_storage: dict[str, Any],
@@ -4229,7 +4229,7 @@ async def test_user_provided_key_not_resynced_to_dashboard(
 @patch("universalassistant.components.esphome.manager.secrets.token_bytes")
 async def test_dashboard_not_writable_response_logs_warning(
     mock_token_bytes: Mock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_storage: dict[str, Any],
@@ -4277,7 +4277,7 @@ async def test_dashboard_not_writable_response_logs_warning(
 @patch("universalassistant.components.esphome.manager.secrets.token_bytes")
 async def test_dashboard_partial_success_warns_and_keeps_retrying(
     mock_token_bytes: Mock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_storage: dict[str, Any],
@@ -4325,7 +4325,7 @@ async def test_dashboard_partial_success_warns_and_keeps_retrying(
 @patch("universalassistant.components.esphome.manager.secrets.token_bytes")
 async def test_dashboard_sync_warns_once_across_causes(
     mock_token_bytes: Mock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_storage: dict[str, Any],
@@ -4370,7 +4370,7 @@ async def test_dashboard_sync_warns_once_across_causes(
 @patch("universalassistant.components.esphome.manager.secrets.token_bytes")
 async def test_dynamic_encryption_key_not_synced_without_dashboard(
     mock_token_bytes: Mock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_storage: dict[str, Any],
@@ -4408,7 +4408,7 @@ async def test_dynamic_encryption_key_not_synced_without_dashboard(
 @patch("universalassistant.components.esphome.manager.secrets.token_bytes")
 async def test_dynamic_encryption_key_not_synced_when_provisioning_fails(
     mock_token_bytes: Mock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_storage: dict[str, Any],
@@ -4459,7 +4459,7 @@ async def test_dynamic_encryption_key_not_synced_when_provisioning_fails(
 @patch("universalassistant.components.esphome.manager.secrets.token_bytes")
 async def test_dynamic_encryption_key_zero_psk_failures_never_use_plaintext(
     mock_token_bytes: Mock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_provisioning_client: Mock,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -4516,7 +4516,7 @@ def test_zero_noise_psk_is_not_the_probe_key() -> None:
 
 
 async def test_zwave_proxy_request_home_id_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
     mock_esphome_device: MockESPHomeDeviceType,
@@ -4625,7 +4625,7 @@ async def test_zwave_proxy_request_home_id_change(
 
 
 async def test_zwave_home_id_change_saved_after_reconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
     mock_esphome_device: MockESPHomeDeviceType,
@@ -4666,7 +4666,7 @@ async def test_zwave_home_id_change_saved_after_reconnect(
 
 
 async def test_no_zwave_proxy_subscribe_without_feature_flags(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -4691,7 +4691,7 @@ async def test_no_zwave_proxy_subscribe_without_feature_flags(
 
 
 async def test_execute_service_response_type_none(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -4730,7 +4730,7 @@ async def test_execute_service_response_type_none(
 
 
 async def test_execute_service_response_type_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -4772,7 +4772,7 @@ async def test_execute_service_response_type_status(
 
 
 async def test_execute_service_response_type_optional_without_return(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -4815,7 +4815,7 @@ async def test_execute_service_response_type_optional_without_return(
 
 
 async def test_execute_service_response_type_optional_with_return(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -4863,7 +4863,7 @@ async def test_execute_service_response_type_optional_with_return(
 
 
 async def test_execute_service_response_type_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -4906,7 +4906,7 @@ async def test_execute_service_response_type_only(
 
 
 async def test_execute_service_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -4928,7 +4928,7 @@ async def test_execute_service_timeout(
     )
     await hass.async_block_till_done()
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN, "test_slow_service", {"arg1": True}, blocking=True
         )
@@ -4937,7 +4937,7 @@ async def test_execute_service_timeout(
 
 
 async def test_execute_service_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -4960,7 +4960,7 @@ async def test_execute_service_connection_error(
     )
     await hass.async_block_till_done()
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN, "test_error_service", {"arg1": True}, blocking=True
         )
@@ -4969,7 +4969,7 @@ async def test_execute_service_connection_error(
 
 
 async def test_execute_service_connection_error_with_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -4992,7 +4992,7 @@ async def test_execute_service_connection_error_with_response(
     )
     await hass.async_block_till_done()
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN, "test_error_service", {"arg1": True}, blocking=True
         )
@@ -5001,7 +5001,7 @@ async def test_execute_service_connection_error_with_response(
 
 
 async def test_execute_service_failure_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -5030,7 +5030,7 @@ async def test_execute_service_failure_response(
     )
     await hass.async_block_till_done()
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN, "test_failing_service", {"arg1": True}, blocking=True
         )
@@ -5039,7 +5039,7 @@ async def test_execute_service_failure_response(
 
 
 async def test_execute_service_invalid_json_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -5068,7 +5068,7 @@ async def test_execute_service_invalid_json_response(
     )
     await hass.async_block_till_done()
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             "test_bad_json_service",
@@ -5081,7 +5081,7 @@ async def test_execute_service_invalid_json_response(
 
 
 async def test_service_registration_response_types(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -5150,7 +5150,7 @@ async def test_service_registration_response_types(
 
 
 def _create_cached_bluetooth_proxy_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     bluetooth_proxy_feature_flags: BluetoothProxyFeature,
 ) -> tuple[MockConfigEntry, DeviceInfo]:
@@ -5187,7 +5187,7 @@ def _create_cached_bluetooth_proxy_entry(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_bluetooth_proxy_waits_for_scanner_at_startup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -5220,7 +5220,7 @@ async def test_bluetooth_proxy_waits_for_scanner_at_startup(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_bluetooth_proxy_with_voice_assistant_awaits_forward(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
@@ -5262,7 +5262,7 @@ async def test_bluetooth_proxy_with_voice_assistant_awaits_forward(
         connect_event.set()
         async with asyncio.timeout(2):
             assert await setup_task is True
-            # The connection runs outside of the tasks __HA_KEEP__ tracks
+            # The connection runs outside of the tasks Universal Home Assistant tracks
             await entry.runtime_data.first_connect_done.wait()
 
     assert Platform.ASSIST_SATELLITE in entry.runtime_data.loaded_platforms
@@ -5272,7 +5272,7 @@ async def test_bluetooth_proxy_with_voice_assistant_awaits_forward(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_bluetooth_proxy_startup_wait_times_out(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -5298,7 +5298,7 @@ async def test_bluetooth_proxy_startup_wait_times_out(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_non_bluetooth_device_does_not_wait_at_startup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
 ) -> None:

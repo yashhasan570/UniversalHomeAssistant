@@ -9,7 +9,7 @@ import probatio
 
 from universalassistant.components import websocket_api
 from universalassistant.components.websocket_api import ActiveConnection
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import singleton
 from universalassistant.helpers.storage import Store
 from universalassistant.util.hass_dict import HassKey
@@ -22,7 +22,7 @@ STORAGE_VERSION_USER_DATA = 1
 STORAGE_VERSION_SYSTEM_DATA = 1
 
 
-async def async_setup_frontend_storage(hass: __HAC_KEEP__) -> None:
+async def async_setup_frontend_storage(hass: UniversalAssistant) -> None:
     """Set up frontend storage."""
     websocket_api.async_register_command(hass, websocket_set_user_data)
     websocket_api.async_register_command(hass, websocket_get_user_data)
@@ -32,7 +32,7 @@ async def async_setup_frontend_storage(hass: __HAC_KEEP__) -> None:
     websocket_api.async_register_command(hass, websocket_subscribe_system_data)
 
 
-async def async_user_store(hass: __HAC_KEEP__, user_id: str) -> UserStore:
+async def async_user_store(hass: UniversalAssistant, user_id: str) -> UserStore:
     """Access a user store."""
     stores = hass.data.setdefault(DATA_STORAGE, {})
     if (future := stores.get(user_id)) is None:
@@ -56,7 +56,7 @@ async def async_user_store(hass: __HAC_KEEP__, user_id: str) -> UserStore:
 class UserStore:
     """User store for frontend data."""
 
-    def __init__(self, hass: __HAC_KEEP__, user_id: str) -> None:
+    def __init__(self, hass: UniversalAssistant, user_id: str) -> None:
         """Initialize the user store."""
         self._store = _UserStore(hass, user_id)
         self.data: dict[str, Any] = {}
@@ -92,7 +92,7 @@ class UserStore:
 class _UserStore(Store[dict[str, Any]]):
     """User store for frontend data."""
 
-    def __init__(self, hass: __HAC_KEEP__, user_id: str) -> None:
+    def __init__(self, hass: UniversalAssistant, user_id: str) -> None:
         """Initialize the user store."""
         super().__init__(
             hass,
@@ -102,7 +102,7 @@ class _UserStore(Store[dict[str, Any]]):
 
 
 @singleton.singleton(DATA_SYSTEM_STORAGE, async_=True)
-async def async_system_store(hass: __HAC_KEEP__) -> SystemStore:
+async def async_system_store(hass: UniversalAssistant) -> SystemStore:
     """Access the system store."""
     store = SystemStore(hass)
     await store.async_load()
@@ -112,7 +112,7 @@ async def async_system_store(hass: __HAC_KEEP__) -> SystemStore:
 class SystemStore:
     """System store for frontend data."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the system store."""
         self._store: Store[dict[str, Any]] = Store(
             hass,
@@ -149,17 +149,17 @@ class SystemStore:
 
 def with_user_store(
     orig_func: Callable[
-        [__HAC_KEEP__, ActiveConnection, dict[str, Any], UserStore],
+        [UniversalAssistant, ActiveConnection, dict[str, Any], UserStore],
         Coroutine[Any, Any, None],
     ],
 ) -> Callable[
-    [__HAC_KEEP__, ActiveConnection, dict[str, Any]], Coroutine[Any, Any, None]
+    [UniversalAssistant, ActiveConnection, dict[str, Any]], Coroutine[Any, Any, None]
 ]:
     """Decorate function to provide data."""
 
     @wraps(orig_func)
     async def with_user_store_func(
-        hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+        hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
     ) -> None:
         """Provide user specific data and store to function."""
         user_id = connection.user.id
@@ -173,17 +173,17 @@ def with_user_store(
 
 def with_system_store(
     orig_func: Callable[
-        [__HAC_KEEP__, ActiveConnection, dict[str, Any], SystemStore],
+        [UniversalAssistant, ActiveConnection, dict[str, Any], SystemStore],
         Coroutine[Any, Any, None],
     ],
 ) -> Callable[
-    [__HAC_KEEP__, ActiveConnection, dict[str, Any]], Coroutine[Any, Any, None]
+    [UniversalAssistant, ActiveConnection, dict[str, Any]], Coroutine[Any, Any, None]
 ]:
     """Decorate function to provide system store."""
 
     @wraps(orig_func)
     async def with_system_store_func(
-        hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+        hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
     ) -> None:
         """Provide system store to function."""
         store = await async_system_store(hass)
@@ -205,7 +205,7 @@ def with_system_store(
 @websocket_api.async_response
 @with_user_store
 async def websocket_set_user_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     store: UserStore,
@@ -221,7 +221,7 @@ async def websocket_set_user_data(
 @websocket_api.async_response
 @with_user_store
 async def websocket_get_user_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     store: UserStore,
@@ -242,7 +242,7 @@ async def websocket_get_user_data(
 @websocket_api.async_response
 @with_user_store
 async def websocket_subscribe_user_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     store: UserStore,
@@ -275,7 +275,7 @@ async def websocket_subscribe_user_data(
 @websocket_api.async_response
 @with_system_store
 async def websocket_set_system_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     store: SystemStore,
@@ -294,7 +294,7 @@ async def websocket_set_system_data(
 @websocket_api.async_response
 @with_system_store
 async def websocket_get_system_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     store: SystemStore,
@@ -312,7 +312,7 @@ async def websocket_get_system_data(
 @websocket_api.async_response
 @with_system_store
 async def websocket_subscribe_system_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     store: SystemStore,

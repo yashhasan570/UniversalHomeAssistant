@@ -22,7 +22,7 @@ POWER_STATE_CHANGE_TIME = 1  # seconds
 # These models do not transition correctly when turning on, and
 # yeelight is no longer updating the firmware on older devices
 #
-# https://github.com/yashhasan570/__HAC_KEEP__/issues/58315
+# https://github.com/yashhasan570/UniversalUniversalAssistant/issues/58315
 #
 # The problem can be worked around by always setting the brightness
 # even when the bulb is reporting the brightness is already at the

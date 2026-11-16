@@ -5,8 +5,8 @@ import logging
 from typing import override
 
 from universalassistant.components import ai_task, conversation
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.json import json_loads
 
@@ -17,7 +17,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: OllamaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -53,7 +53,7 @@ class OllamaTaskEntity(
         await self._async_handle_chat_log(chat_log, task.structure)
 
         if not isinstance(chat_log.content[-1], conversation.AssistantContent):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Last content in chat log is not an AssistantContent"
             )
 
@@ -73,7 +73,7 @@ class OllamaTaskEntity(
                 err,
                 text,
             )
-            raise __HAC_KEEP__Error("Error with Ollama structured response") from err
+            raise UniversalAssistantError("Error with Ollama structured response") from err
 
         return ai_task.GenDataTaskResult(
             conversation_id=chat_log.conversation_id,

@@ -34,7 +34,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -67,7 +67,7 @@ from universalassistant.data_entry_flow import FlowResultType
 )
 @pytest.mark.usefixtures("mock_aiontfy")
 async def test_form(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     user_input: dict[str, Any],
     entry_data: dict[str, Any],
@@ -133,7 +133,7 @@ async def test_form(
     ],
 )
 async def test_form_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_aiontfy: AsyncMock,
     exception: Exception,
@@ -181,7 +181,7 @@ async def test_form_errors(
 
 @pytest.mark.usefixtures("mock_aiontfy")
 async def test_form_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort when entry is already configured."""
@@ -206,7 +206,7 @@ async def test_form_already_configured(
 
 
 @pytest.mark.usefixtures("mock_aiontfy")
-async def test_add_topic_flow(hass: __HAC_KEEP__) -> None:
+async def test_add_topic_flow(hass: UniversalAssistant) -> None:
     """Test add topic subentry flow."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -268,7 +268,7 @@ async def test_add_topic_flow(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_aiontfy")
-async def test_generated_topic(hass: __HAC_KEEP__, mock_random: AsyncMock) -> None:
+async def test_generated_topic(hass: UniversalAssistant, mock_random: AsyncMock) -> None:
     """Test add topic subentry flow with generated topic name."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -329,7 +329,7 @@ async def test_generated_topic(hass: __HAC_KEEP__, mock_random: AsyncMock) -> No
 
 
 @pytest.mark.usefixtures("mock_aiontfy")
-async def test_invalid_topic(hass: __HAC_KEEP__, mock_random: AsyncMock) -> None:
+async def test_invalid_topic(hass: UniversalAssistant, mock_random: AsyncMock) -> None:
     """Test add topic subentry flow with invalid topic name."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -391,7 +391,7 @@ async def test_invalid_topic(hass: __HAC_KEEP__, mock_random: AsyncMock) -> None
 
 @pytest.mark.usefixtures("mock_aiontfy")
 async def test_topic_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort when entry is already configured."""
@@ -434,7 +434,7 @@ async def test_topic_already_configured(
 )
 @pytest.mark.usefixtures("mock_aiontfy")
 async def test_flow_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_aiontfy: AsyncMock,
     user_input: dict[str, Any],
 ) -> None:
@@ -491,7 +491,7 @@ async def test_flow_reauth(
     ],
 )
 async def test_form_reauth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_aiontfy: AsyncMock,
     exception: Exception,
     error: str,
@@ -541,7 +541,7 @@ async def test_form_reauth_errors(
 
 @pytest.mark.usefixtures("mock_aiontfy")
 async def test_flow_reauth_account_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test reauth flow."""
@@ -578,7 +578,7 @@ async def test_flow_reauth_account_mismatch(
     ],
 )
 async def test_flow_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_aiontfy: AsyncMock,
     entry_data: dict[str, str | None],
     user_input: dict[str, str],
@@ -625,7 +625,7 @@ async def test_flow_reconfigure(
 )
 @pytest.mark.usefixtures("mock_aiontfy")
 async def test_flow_reconfigure_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry_data: dict[str, Any],
     step_id: str,
 ) -> None:
@@ -680,7 +680,7 @@ async def test_flow_reconfigure_token(
     ],
 )
 async def test_flow_reconfigure_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_aiontfy: AsyncMock,
     exception: Exception,
     error: str,
@@ -733,7 +733,7 @@ async def test_flow_reconfigure_errors(
 
 @pytest.mark.usefixtures("mock_aiontfy")
 async def test_flow_reconfigure_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure flow already configured."""
@@ -767,7 +767,7 @@ async def test_flow_reconfigure_already_configured(
 
 @pytest.mark.usefixtures("mock_aiontfy")
 async def test_flow_reconfigure_account_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test reconfigure flow account mismatch."""
     config_entry = MockConfigEntry(
@@ -796,7 +796,7 @@ async def test_flow_reconfigure_account_mismatch(
 
 
 @pytest.mark.usefixtures("mock_aiontfy")
-async def test_topic_reconfigure_flow(hass: __HAC_KEEP__) -> None:
+async def test_topic_reconfigure_flow(hass: UniversalAssistant) -> None:
     """Test topic subentry reconfigure flow."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

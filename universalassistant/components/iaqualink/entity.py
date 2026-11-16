@@ -19,7 +19,7 @@ class AqualinkEntity[AqualinkDeviceT: AqualinkDevice](
 
     Entity availability and periodic refreshes are driven by the per-system
     DataUpdateCoordinator. State changes initiated through the iaqualink
-    library are propagated back to __HA_KEEP__ through the coordinator-aware
+    library are propagated back to Universal Home Assistant through the coordinator-aware
     entity update flow.
     """
 

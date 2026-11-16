@@ -34,12 +34,12 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.trigger import async_validate_trigger_config
 
 
 @pytest.fixture
-async def target_humidifiers(hass: __HAC_KEEP__) -> dict[str, list[str]]:
+async def target_humidifiers(hass: UniversalAssistant) -> dict[str, list[str]]:
     """Create multiple humidifier entities associated with different targets."""
     return await target_entities(hass, "humidifier")
 
@@ -64,7 +64,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_humidifier_trigger_options_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -105,7 +105,7 @@ def test_trigger_target_support() -> None:
     ],
 )
 async def test_humidifier_state_trigger_behavior_each(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_humidifiers: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -162,7 +162,7 @@ async def test_humidifier_state_trigger_behavior_each(
     ],
 )
 async def test_humidifier_state_attribute_trigger_behavior_each(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_humidifiers: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -204,7 +204,7 @@ async def test_humidifier_state_attribute_trigger_behavior_each(
     ],
 )
 async def test_humidifier_state_trigger_behavior_first(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_humidifiers: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -261,7 +261,7 @@ async def test_humidifier_state_trigger_behavior_first(
     ],
 )
 async def test_humidifier_state_attribute_trigger_behavior_first(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_humidifiers: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -303,7 +303,7 @@ async def test_humidifier_state_attribute_trigger_behavior_first(
     ],
 )
 async def test_humidifier_state_trigger_behavior_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_humidifiers: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -360,7 +360,7 @@ async def test_humidifier_state_trigger_behavior_all(
     ],
 )
 async def test_humidifier_state_attribute_trigger_behavior_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_humidifiers: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -412,7 +412,7 @@ async def test_humidifier_state_attribute_trigger_behavior_all(
     ],
 )
 async def test_humidifier_mode_changed_trigger_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     trigger: str,
     trigger_options: dict[str, Any],
     expected_result: AbstractContextManager,

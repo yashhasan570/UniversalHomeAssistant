@@ -9,7 +9,7 @@ from pyasyncialarm import IAlarm
 
 from universalassistant.components.alarm_control_panel import AlarmControlPanelState
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN, IALARM_TO_HASS
@@ -28,7 +28,7 @@ class IAlarmDataUpdateCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: IAlarmConfigEntry,
         ialarm: IAlarm,
         mac: str,

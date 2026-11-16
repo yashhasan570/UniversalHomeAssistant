@@ -11,7 +11,7 @@ import universalassistant
 from universalassistant.components import pi_hole
 from universalassistant.components.pi_hole.const import VERSION_6_RESPONSE_TO_5_ERROR
 from universalassistant.const import CONF_API_VERSION, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.util import dt as dt_util
 
@@ -19,7 +19,7 @@ from . import CONFIG_DATA_DEFAULTS, ZERO_DATA, _create_mocked_hole, _patch_init_
 
 
 async def test_change_api_5_to_6(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Tests API v5 config entry updated to API v6."""
     mocked_hole = _create_mocked_hole(api_version=5)
@@ -68,7 +68,7 @@ async def test_change_api_5_to_6(
 
 
 async def test_app_password_changing(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Tests API v5 config entry updated to API v6."""
     mocked_hole = _create_mocked_hole(
@@ -111,7 +111,7 @@ async def test_app_password_changing(
 
 
 async def test_app_failed_fetch(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Tests API v5 config entry updated to API v6."""
     mocked_hole = _create_mocked_hole(

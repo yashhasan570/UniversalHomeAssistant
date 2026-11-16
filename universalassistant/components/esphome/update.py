@@ -16,8 +16,8 @@ from universalassistant.components.update import (
     UpdateEntity,
     UpdateEntityFeature,
 )
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -44,7 +44,7 @@ NO_FEATURES = UpdateEntityFeature(0)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ESPHomeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -188,7 +188,7 @@ class ESPHomeDashboardUpdateEntity(
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Handle entity added to __HA_KEEP__."""
+        """Handle entity added to Universal Home Assistant."""
         await super().async_added_to_hass()
         entry_data = self._entry_data
         self.async_on_remove(
@@ -200,7 +200,7 @@ class ESPHomeDashboardUpdateEntity(
 
     @override
     async def async_will_remove_from_hass(self) -> None:
-        """Handle entity about to be removed from __HA_KEEP__."""
+        """Handle entity about to be removed from Universal Home Assistant."""
         if self._available_future and not self._available_future.done():
             self._available_future.cancel()
             self._available_future = None
@@ -223,7 +223,7 @@ class ESPHomeDashboardUpdateEntity(
     ) -> None:
         """Install an update."""
         if self._install_lock.locked():
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="ota_in_progress",
                 translation_placeholders={
@@ -247,7 +247,7 @@ class ESPHomeDashboardUpdateEntity(
                 async with self.hass.data.setdefault(KEY_UPDATE_LOCK, asyncio.Lock()):
                     compiled = await api.compile(configuration)
             if not compiled:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="error_compiling",
                     translation_placeholders={
@@ -266,7 +266,7 @@ class ESPHomeDashboardUpdateEntity(
                     if await api.upload(configuration, "OTA"):
                         break
                     if attempt == attempts:
-                        raise __HAC_KEEP__Error(
+                        raise UniversalAssistantError(
                             translation_domain=DOMAIN,
                             translation_key="error_uploading",
                             translation_placeholders={

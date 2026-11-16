@@ -12,14 +12,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.intelliclima.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_setup_succeeds_when_filter_status_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_cloud_interface: AsyncMock,
 ) -> None:
@@ -44,7 +44,7 @@ async def test_setup_succeeds_when_filter_status_unavailable(
 
 
 async def test_filter_status_failure_isolated_per_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_cloud_interface: AsyncMock,
     entity_registry: er.EntityRegistry,

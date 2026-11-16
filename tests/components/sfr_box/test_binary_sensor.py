@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntry
 from universalassistant.const import STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 WAN_STATUS_ENTITY_ID = "binary_sensor.sfr_box_wan_status"
@@ -35,7 +35,7 @@ def override_platforms() -> Generator[None]:
 
 @pytest.mark.parametrize("net_infra", ["adsl", "ftth"])
 async def test_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_auth: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -53,7 +53,7 @@ async def test_binary_sensors(
 
 
 async def test_binary_sensors_no_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -75,7 +75,7 @@ async def test_binary_sensors_no_auth(
     ],
 )
 async def test_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_auth: ConfigEntry,
     freezer: FrozenDateTimeFactory,
     side_effect: type[Exception],

@@ -41,7 +41,7 @@ from universalassistant.components.media_player import (
     MediaType,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import assert_device_removed_and_readded, setup_integration
@@ -146,7 +146,7 @@ async def _clear_volume_state(
 
 
 async def _setup_media_player_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Set up integration with only the media player platform enabled."""
@@ -158,7 +158,7 @@ async def _setup_media_player_platform(
 
 @pytest.mark.usefixtures("mock_amazon_devices_client")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -170,7 +170,7 @@ async def test_all_entities(
 
 
 async def test_media_player_not_created_for_unsupported_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -187,7 +187,7 @@ async def test_media_player_not_created_for_unsupported_device(
 
 
 async def test_media_player_not_created_for_aqm_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -210,7 +210,7 @@ async def test_media_player_not_created_for_aqm_device(
     ],
 )
 async def test_coordinator_data_update_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -232,7 +232,7 @@ async def test_coordinator_data_update_fails(
 
 
 async def test_offline_device_is_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -248,7 +248,7 @@ async def test_offline_device_is_unavailable(
 
 
 async def test_offline_device_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -276,7 +276,7 @@ async def test_offline_device_recovers(
 
 
 async def test_device_removed_and_readded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -303,7 +303,7 @@ async def test_device_removed_and_readded(
     ],
 )
 async def test_player_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     player_state: str,
@@ -327,7 +327,7 @@ async def test_player_state(
 
 
 async def test_idle_when_no_media_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -347,7 +347,7 @@ async def test_idle_when_no_media_state(
     ],
 )
 async def test_volume_level(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     raw_volume: int,
@@ -375,7 +375,7 @@ async def test_volume_level(
     ],
 )
 async def test_is_volume_muted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     raw_volume: int,
@@ -395,7 +395,7 @@ async def test_is_volume_muted(
 
 
 async def test_media_metadata_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -428,7 +428,7 @@ async def test_media_metadata_attributes(
 
 
 async def test_media_metadata_none_when_no_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -441,7 +441,7 @@ async def test_media_metadata_none_when_no_state(
 
 
 async def test_service_set_volume_level(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -460,7 +460,7 @@ async def test_service_set_volume_level(
 
 
 async def test_service_mute_volume(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -485,7 +485,7 @@ async def test_service_mute_volume(
 
 
 async def test_service_unmute_volume_restores_level(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -540,7 +540,7 @@ async def test_service_unmute_volume_restores_level(
     ],
 )
 async def test_media_transport_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -573,7 +573,7 @@ async def test_media_transport_commands(
 
 
 async def test_service_play_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -639,7 +639,7 @@ async def test_service_play_media(
     ],
 )
 async def test_supported_features_are_dynamic(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     pause_enabled: bool,
@@ -671,7 +671,7 @@ async def test_supported_features_are_dynamic(
 
 
 async def test_standard_features_always_present(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -692,7 +692,7 @@ async def test_standard_features_always_present(
 
 
 async def test_mute_volume_no_volume_state_returns_early(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -713,7 +713,7 @@ async def test_mute_volume_no_volume_state_returns_early(
 
 
 async def test_unmute_volume_without_prev_volume_returns_early(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -737,7 +737,7 @@ async def test_unmute_volume_without_prev_volume_returns_early(
 
 
 async def test_unmute_volume_when_alexa_muted_restores_current_volume(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

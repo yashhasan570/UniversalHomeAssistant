@@ -19,7 +19,7 @@ from universalassistant.config_entries import (
     SubentryFlowResult,
 )
 from universalassistant.const import CONF_HOST, CONF_NAME, CONF_PORT, CONF_UUID
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -45,7 +45,7 @@ RECONFIGURE_SCHEMA = probatio.Schema(
 )
 
 
-async def _validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> None:
+async def _validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> None:
     """Validate the user input allows us to connect."""
     api = Volkszaehler(
         session=async_get_clientsession(hass),
@@ -57,7 +57,7 @@ async def _validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> None:
 
 
 async def _async_validate_input_errors(
-    hass: __HAC_KEEP__, data: dict[str, Any]
+    hass: UniversalAssistant, data: dict[str, Any]
 ) -> str | None:
     """Validate input and return a config flow error key if validation fails."""
     try:
@@ -72,7 +72,7 @@ async def _async_validate_input_errors(
     return None
 
 
-def _is_uuid_configured(hass: __HAC_KEEP__, uuid: str) -> bool:
+def _is_uuid_configured(hass: UniversalAssistant, uuid: str) -> bool:
     """Return if a Volkszaehler channel UUID is already configured."""
     for entry in hass.config_entries.async_entries(DOMAIN):
         if any(

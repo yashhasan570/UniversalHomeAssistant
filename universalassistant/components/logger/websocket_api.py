@@ -7,7 +7,7 @@ import probatio
 from universalassistant.components import websocket_api
 from universalassistant.components.websocket_api import ActiveConnection
 from universalassistant.config_entries import DISCOVERY_SOURCES
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.loader import IntegrationNotFound, async_get_integration
 from universalassistant.setup import async_get_loaded_integrations
 
@@ -22,7 +22,7 @@ from .helpers import (
 
 
 @callback
-def async_load_websocket_api(hass: __HAC_KEEP__) -> None:
+def async_load_websocket_api(hass: UniversalAssistant) -> None:
     """Set up the websocket API."""
     websocket_api.async_register_command(hass, handle_integration_log_info)
     websocket_api.async_register_command(hass, handle_integration_log_level)
@@ -32,7 +32,7 @@ def async_load_websocket_api(hass: __HAC_KEEP__) -> None:
 @callback
 @websocket_api.websocket_command({probatio.Required("type"): "logger/log_info"})
 def handle_integration_log_info(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle integrations logger info."""
     integrations = set(async_get_loaded_integrations(hass))
@@ -70,7 +70,7 @@ def handle_integration_log_info(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def handle_integration_log_level(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle setting integration log level."""
     try:
@@ -103,7 +103,7 @@ async def handle_integration_log_level(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def handle_module_log_level(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle setting integration log level."""
     await hass.data[DATA_LOGGER].settings.async_update(

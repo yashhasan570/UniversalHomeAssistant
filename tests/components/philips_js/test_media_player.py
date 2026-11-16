@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.philips_js.const import TV_STATE_OFF, TV_STATE_ON
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import MOCK_ENTITY_ID
 
@@ -21,7 +21,7 @@ from . import MOCK_ENTITY_ID
     ],
 )
 async def test_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tv: PhilipsTV,
     mock_config_entry: MockConfigEntry,
     powerstate: str | None,
@@ -52,7 +52,7 @@ async def test_state(
     ],
 )
 async def test_state_screenstate_always_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tv: PhilipsTV,
     mock_config_entry: MockConfigEntry,
     ambilight_configuration: dict[str, str | bool] | None,

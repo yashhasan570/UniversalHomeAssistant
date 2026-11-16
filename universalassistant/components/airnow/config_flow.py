@@ -15,8 +15,8 @@ from universalassistant.const import (
     CONF_LOCATION,
     CONF_LONGITUDE,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.selector import LocationSelector, LocationSelectorConfig
 
@@ -29,7 +29,7 @@ _LOGGER = logging.getLogger(__name__)
 _API_KEY_URL = "https://docs.airnowapi.org/account/request/"
 
 
-async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> bool:
+async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> bool:
     """Validate the user input allows us to connect.
 
     Data has the keys from DATA_SCHEMA with values provided by the user.
@@ -165,13 +165,13 @@ class AirNowConfigFlow(ConfigFlow, domain=DOMAIN):
         return {}
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(__HAC_KEEP__Error):
+class InvalidAuth(UniversalAssistantError):
     """Error to indicate there is invalid auth."""
 
 
-class InvalidLocation(__HAC_KEEP__Error):
+class InvalidLocation(UniversalAssistantError):
     """Error to indicate the location is invalid."""

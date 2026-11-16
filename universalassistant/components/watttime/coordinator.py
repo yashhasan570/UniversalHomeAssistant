@@ -7,7 +7,7 @@ from aiowatttime import Client
 from aiowatttime.errors import InvalidCredentialsError, WattTimeError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.typing import StateType
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -27,7 +27,7 @@ class WattTimeCoordinator(DataUpdateCoordinator[WattTimeData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: WattTimeConfigEntry,
         client: Client,
     ) -> None:

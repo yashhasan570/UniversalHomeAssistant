@@ -7,7 +7,7 @@ import probatio
 from universalassistant.components.device_automation import InvalidDeviceAutomationConfig
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_DEVICE_ID, CONF_DOMAIN, CONF_TYPE
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.typing import ConfigType, TemplateVarsType
 
@@ -24,7 +24,7 @@ ACTION_SCHEMA = cv.DEVICE_ACTION_BASE_SCHEMA.extend(
 
 
 async def async_get_actions(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, str]]:
     """List device actions for Network UPS Tools (NUT) devices."""
     if (runtime_data := _get_runtime_data_from_device_id(hass, device_id)) is None:
@@ -40,7 +40,7 @@ async def async_get_actions(
 
 
 async def async_call_action_from_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     variables: TemplateVarsType,
     context: Context | None,
@@ -65,7 +65,7 @@ def _get_command_name(device_action_name: str) -> str:
 
 
 def _get_runtime_data_from_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_id: str,
 ) -> NutRuntimeData | None:
     """Find the runtime data for device ID and return None on error."""
@@ -78,7 +78,7 @@ def _get_runtime_data_from_device_id(
 
 
 def _get_runtime_data_for_device(
-    hass: __HAC_KEEP__, device: dr.DeviceEntry
+    hass: UniversalAssistant, device: dr.DeviceEntry
 ) -> NutRuntimeData | None:
     """Find the runtime data for device and return None on error."""
     _, config_entry = dr.async_get_device_and_config_entry_for_domain(
@@ -95,7 +95,7 @@ def _get_runtime_data_for_device(
 
 
 def _get_runtime_data_from_device_id_exception_on_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_id: str,
 ) -> NutRuntimeData | None:
     """Find the runtime data for device ID and raise exception on error."""

@@ -5,7 +5,7 @@ from typing import override
 from vehicle import RDW, RDWConnectionError, RDWError, Vehicle
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -19,7 +19,7 @@ class RDWDataUpdateCoordinator(DataUpdateCoordinator[Vehicle]):
 
     config_entry: RDWConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: RDWConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: RDWConfigEntry) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,

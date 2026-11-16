@@ -24,11 +24,11 @@ from universalassistant.core import (
     CALLBACK_TYPE,
     Event,
     EventStateChangedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     State,
     callback,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 from . import (
     area_registry as ar,
@@ -204,7 +204,7 @@ def _resolve_referenced_devices(
 
 
 def async_extract_referenced_entity_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_selection: TargetSelection,
     expand_group: bool = True,
     *,
@@ -244,7 +244,7 @@ def async_extract_referenced_entity_ids(
 
 
 def async_extract_excluded_entity_ids(
-    hass: __HAC_KEEP__, target_selection: TargetSelection, expand_group: bool = True
+    hass: UniversalAssistant, target_selection: TargetSelection, expand_group: bool = True
 ) -> set[str]:
     """Extract the entity IDs excluded by the exclude block of a target selection.
 
@@ -259,7 +259,7 @@ def async_extract_excluded_entity_ids(
 
 
 def _async_extract_excluded(
-    hass: __HAC_KEEP__, exclude: TargetSelection, expand_group: bool
+    hass: UniversalAssistant, exclude: TargetSelection, expand_group: bool
 ) -> SelectedEntities:
     """Resolve the exclude block of a target selection."""
     # All entities are resolved, so excluding an area also excludes its hidden,
@@ -278,7 +278,7 @@ def _async_extract_excluded(
 
 
 def _async_extract_referenced_entity_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_selection: TargetSelection,
     expand_group: bool,
     *,
@@ -457,7 +457,7 @@ def _iter_target_items(
 
 @callback
 def async_explain_target(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_selection: TargetSelection,
     expand_group: bool = True,
     *,
@@ -518,7 +518,7 @@ class TargetEntityChangeTracker(abc.ABC):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         target_selection: TargetSelection,
         entity_filter: Callable[[set[str]], set[str]],
         *,
@@ -595,7 +595,7 @@ class TargetStateChangeTracker(TargetEntityChangeTracker):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         target_selection: TargetSelection,
         action: Callable[[TargetStateChangedData], Any],
         entity_filter: Callable[[set[str]], set[str]],
@@ -718,7 +718,7 @@ class TargetStateChangeTracker(TargetEntityChangeTracker):
 
 
 async def async_track_target_selector_state_change_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_selector_config: ConfigType,
     action: Callable[[TargetStateChangedData], Any],
     entity_filter: Callable[[set[str]], set[str]] = lambda x: x,
@@ -743,7 +743,7 @@ async def async_track_target_selector_state_change_event(
     """
     target_selection = TargetSelection(target_selector_config)
     if not target_selection.has_any_target:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             "Target selector"
             f" {target_selector_config}"
             " does not have any selectors defined"

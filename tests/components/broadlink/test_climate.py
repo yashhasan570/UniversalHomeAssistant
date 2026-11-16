@@ -16,7 +16,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 
@@ -85,7 +85,7 @@ async def test_climate(
     expected_current_temperature: int,
     expected_temperature: int,
     expected_hvac_action: HVACAction,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -115,7 +115,7 @@ async def test_climate(
 
 
 async def test_climate_set_temperature_turn_off_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -190,7 +190,7 @@ async def test_climate_set_temperature_turn_off_turn_on(
     assert state.state == HVACMode.HEAT
 
 
-async def test_climate_setpoint_limits(hass: __HAC_KEEP__) -> None:
+async def test_climate_setpoint_limits(hass: UniversalAssistant) -> None:
     """Test the climate entity uses the device setpoint limits."""
     device = get_device("Guest room")
     mock_api = device.get_mock_api()

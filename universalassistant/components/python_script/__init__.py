@@ -5,7 +5,7 @@ import os
 
 import probatio
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.typing import ConfigType
 
 from .const import DOMAIN, FOLDER
@@ -18,7 +18,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Initialize the Python script component."""
     setup_services(hass)
 

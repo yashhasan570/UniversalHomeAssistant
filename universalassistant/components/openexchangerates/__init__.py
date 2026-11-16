@@ -1,7 +1,7 @@
 """The Open Exchange Rates integration."""
 
 from universalassistant.const import CONF_API_KEY, CONF_BASE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import BASE_UPDATE_INTERVAL, DOMAIN, LOGGER
@@ -11,7 +11,7 @@ PLATFORMS = [Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: OpenexchangeratesConfigEntry
+    hass: UniversalAssistant, entry: OpenexchangeratesConfigEntry
 ) -> None:
     """Set up Open Exchange Rates from a config entry."""
     api_key: str = entry.data[CONF_API_KEY]
@@ -49,7 +49,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: OpenexchangeratesConfigEntry
+    hass: UniversalAssistant, entry: OpenexchangeratesConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

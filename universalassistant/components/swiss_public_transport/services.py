@@ -6,13 +6,13 @@ import probatio
 
 from universalassistant.const import CommonServiceArgument
 from universalassistant.core import (
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import service
 from universalassistant.helpers.selector import (
     NumberSelector,
@@ -67,7 +67,7 @@ async def _async_fetch_connections(
             limit=int(limit)
         )
     except UpdateFailed as e:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="cannot_connect",
             translation_placeholders={
@@ -78,7 +78,7 @@ async def _async_fetch_connections(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the services for the Swiss public transport integration."""
 
     hass.services.async_register(

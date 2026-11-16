@@ -16,8 +16,8 @@ from universalassistant.config_entries import (
     SubentryFlowResult,
 )
 from universalassistant.const import CONF_API_KEY, CONF_LLM_HASS_API, CONF_PROMPT
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import llm
 from universalassistant.helpers.field_visibility import FieldCondition
 from universalassistant.helpers.selector import (
@@ -102,7 +102,7 @@ class LlamaCppConfigFlow(ConfigFlow, domain=DOMAIN):
         try:
             self.client = await async_create_client(self.hass, data)
             self.models = await async_list_models(self.client)
-        except __HAC_KEEP__Error as err:
+        except UniversalAssistantError as err:
             LOGGER.error("Connection validation failed: %s", err)
             return {"base": err.translation_key or "unknown"}
         except Exception:  # pylint: disable=broad-except # noqa: BLE001
@@ -164,7 +164,7 @@ class LlamaCppConfigFlow(ConfigFlow, domain=DOMAIN):
                     model=model,
                     stream=False,
                 )
-            except __HAC_KEEP__Error as err:
+            except UniversalAssistantError as err:
                 LOGGER.error("Model completion validation failed: %s", err)
                 errors["base"] = err.translation_key or "unknown"
             else:
@@ -175,7 +175,7 @@ class LlamaCppConfigFlow(ConfigFlow, domain=DOMAIN):
                         model=model,
                         stream=True,
                     )
-                except __HAC_KEEP__Error:
+                except UniversalAssistantError:
                     stream_support = False
 
                 base_options = {
@@ -265,7 +265,7 @@ class ConversationSubentryFlowHandler(ConfigSubentryFlow):
 
         try:
             models = await self._get_models()
-        except __HAC_KEEP__Error:
+        except UniversalAssistantError:
             return self.async_abort(reason="cannot_connect")
         self.options = {
             CONF_RECOMMENDED: True,
@@ -293,7 +293,7 @@ class ConversationSubentryFlowHandler(ConfigSubentryFlow):
 
         try:
             models = await self._get_models()
-        except __HAC_KEEP__Error:
+        except UniversalAssistantError:
             return self.async_abort(reason="cannot_connect")
 
         options = self.options
@@ -306,7 +306,7 @@ class ConversationSubentryFlowHandler(ConfigSubentryFlow):
                     model=model,
                     stream=self._get_entry().data.get(CONF_STREAMING, False),
                 )
-            except __HAC_KEEP__Error as err:
+            except UniversalAssistantError as err:
                 LOGGER.error("Model completion validation failed: %s", err)
                 return self.async_show_form(
                     step_id="init",
@@ -341,7 +341,7 @@ class ConversationSubentryFlowHandler(ConfigSubentryFlow):
 
 
 def llama_cpp_config_option_schema(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     options: dict[str, Any],
     models: list[str] | None = None,
 ) -> dict:

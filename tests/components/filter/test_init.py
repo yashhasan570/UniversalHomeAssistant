@@ -10,14 +10,14 @@ from universalassistant.components.filter.const import FilterEntityStateAttribut
 from universalassistant.components.recorder import Recorder
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
 from universalassistant.const import CONF_ENTITY_ID
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.event import async_track_entity_registry_updated_event
 
 FILTER_ENTITY_ID = "sensor.mock_title_my_filter"
 
 
-def track_entity_registry_actions(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
+def track_entity_registry_actions(hass: UniversalAssistant, entity_id: str) -> list[str]:
     """Track entity registry actions for an entity."""
     events = []
 
@@ -32,7 +32,7 @@ def track_entity_registry_actions(hass: __HAC_KEEP__, entity_id: str) -> list[st
 
 
 async def test_unload_entry(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, loaded_entry: MockConfigEntry
+    recorder_mock: Recorder, hass: UniversalAssistant, loaded_entry: MockConfigEntry
 ) -> None:
     """Test unload an entry."""
 
@@ -44,7 +44,7 @@ async def test_unload_entry(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_async_handle_source_entity_changes_source_entity_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     filter_config_entry: MockConfigEntry,
@@ -78,7 +78,7 @@ async def test_async_handle_source_entity_changes_source_entity_removed(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_async_handle_source_entity_changes_source_entity_removed_shared_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     filter_config_entry: MockConfigEntry,
@@ -113,7 +113,7 @@ async def test_async_handle_source_entity_changes_source_entity_removed_shared_d
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_async_handle_source_entity_changes_source_entity_removed_from_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     filter_config_entry: MockConfigEntry,
@@ -148,7 +148,7 @@ async def test_async_handle_source_entity_changes_source_entity_removed_from_dev
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_async_handle_source_entity_changes_source_entity_moved_other_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     filter_config_entry: MockConfigEntry,
@@ -191,7 +191,7 @@ async def test_async_handle_source_entity_changes_source_entity_moved_other_devi
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_async_handle_source_entity_new_entity_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     filter_config_entry: MockConfigEntry,
     sensor_entity_entry: er.RegistryEntry,

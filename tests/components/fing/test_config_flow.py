@@ -8,12 +8,12 @@ from pytest_universalassistant.plugins import MockConfigEntry
 from universalassistant.components.fing.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_IP_ADDRESS, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_verify_connection_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mocked_fing_agent: AsyncMock,
 ) -> None:
@@ -44,7 +44,7 @@ async def test_verify_connection_success(
 
 @pytest.mark.parametrize("api_type", ["old"])
 async def test_verify_api_version_outdated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mocked_fing_agent: AsyncMock,
 ) -> None:
@@ -90,7 +90,7 @@ async def test_verify_api_version_outdated(
     ],
 )
 async def test_http_error_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mocked_fing_agent: AsyncMock,
     error: str,
@@ -129,7 +129,7 @@ async def test_http_error_handling(
 
 
 async def test_duplicate_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mocked_fing_agent: AsyncMock,
 ) -> None:

@@ -7,8 +7,8 @@ from pyoctoprintapi import OctoprintClient
 
 from universalassistant.components.number import NumberDeviceClass, NumberEntity, NumberMode
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -34,7 +34,7 @@ def is_first_extruder(tool_name: str) -> bool:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: OctoprintConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -132,7 +132,7 @@ class OctoPrintTemperatureNumber(
             elif is_extruder(self._api_tool):
                 await self._client.set_tool_temperature(self._api_tool, int(value))
         except Exception as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="error_setting_temperature",
                 translation_placeholders={

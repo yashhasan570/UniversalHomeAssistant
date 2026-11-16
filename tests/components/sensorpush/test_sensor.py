@@ -20,13 +20,13 @@ from universalassistant.const import (
     ATTR_UNIT_OF_MEASUREMENT,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from . import HTPWX_EMPTY_SERVICE_INFO, HTPWX_SERVICE_INFO
 
 
-async def test_sensors(hass: __HAC_KEEP__) -> None:
+async def test_sensors(hass: UniversalAssistant) -> None:
     """Test setting up creates the sensors."""
     start_monotonic = time.monotonic()
     entry = MockConfigEntry(

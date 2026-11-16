@@ -1,9 +1,9 @@
 """Errors for the Media Player component."""
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 
-class MediaPlayerException(__HAC_KEEP__Error):
+class MediaPlayerException(UniversalAssistantError):
     """Base class for Media Player exceptions."""
 
 

@@ -9,7 +9,7 @@ from ultraheat_api.response import HeatMeterResponse
 from ultraheat_api.service import HeatMeterService
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import POLLING_INTERVAL, ULTRAHEAT_TIMEOUT
@@ -26,7 +26,7 @@ class UltraheatCoordinator(DataUpdateCoordinator[HeatMeterResponse]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: UltraheatConfigEntry,
         api: HeatMeterService,
     ) -> None:

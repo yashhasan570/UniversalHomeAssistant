@@ -26,7 +26,7 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.restore_state import async_get as async_get_restore_state
 
@@ -44,7 +44,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -65,7 +65,7 @@ async def test_entities(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_select_option_sends_absolute_level(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     entity_id: str,
     level_code: AlphaBidetJX2LevelCode,
@@ -101,7 +101,7 @@ async def test_select_option_sends_absolute_level(
     ],
 )
 async def test_state_restored_on_restart(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     platforms: list[Platform],
@@ -131,7 +131,7 @@ async def test_state_restored_on_restart(
 
 
 @pytest.mark.usefixtures("init_integration")
-async def test_option_stored_while_unavailable(hass: __HAC_KEEP__) -> None:
+async def test_option_stored_while_unavailable(hass: UniversalAssistant) -> None:
     """Test the last level sent is stored while the emitter is unavailable."""
     await hass.services.async_call(
         SELECT_DOMAIN,
@@ -158,7 +158,7 @@ async def test_option_stored_while_unavailable(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("init_integration")
-async def test_select_availability_follows_ir_entity(hass: __HAC_KEEP__) -> None:
+async def test_select_availability_follows_ir_entity(hass: UniversalAssistant) -> None:
     """Test a select becomes unavailable when the IR entity is unavailable."""
     await assert_availability_follows_source_entity(
         hass, WATER_TEMPERATURE_ENTITY_ID, [MOCK_INFRARED_EMITTER_ENTITY_ID]

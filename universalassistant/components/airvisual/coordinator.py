@@ -13,7 +13,7 @@ from pyairvisual.errors import AirVisualError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_COUNTRY, CONF_LATITUDE, CONF_LONGITUDE, CONF_STATE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -29,7 +29,7 @@ class AirVisualDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: AirVisualConfigEntry,
         cloud_api: CloudAPI,
         name: str,

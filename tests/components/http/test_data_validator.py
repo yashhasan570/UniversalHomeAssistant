@@ -7,7 +7,7 @@ from aiohttp import web
 import probatio
 from pytest_universalassistant.typing import ClientSessionGenerator
 
-from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
+from universalassistant.components.http import KEY_HASS, UniversalAssistantView
 from universalassistant.components.http.data_validator import RequestDataValidator
 from universalassistant.helpers.http import KEY_ALLOW_CONFIGURED_CORS
 
@@ -18,7 +18,7 @@ async def get_client(aiohttp_client, validator):
     app[KEY_HASS] = Mock(is_stopping=False)
     app[KEY_ALLOW_CONFIGURED_CORS] = lambda _: None
 
-    class TestView(__HAC_KEEP__View):
+    class TestView(UniversalAssistantView):
         url = "/"
         name = "test"
         requires_auth = False

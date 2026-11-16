@@ -11,7 +11,7 @@ from universalassistant.components.light import (
     LightEntity,
 )
 from universalassistant.const import CONF_LIGHTS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -32,7 +32,7 @@ PLATFORM_SCHEMA = LIGHT_PLATFORM_SCHEMA.extend(
 
 
 def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -53,7 +53,7 @@ class PilightLight(PilightBaseDevice, LightEntity):
     _attr_color_mode = ColorMode.BRIGHTNESS
     _attr_supported_color_modes = {ColorMode.BRIGHTNESS}
 
-    def __init__(self, hass: __HAC_KEEP__, name: str, config: ConfigType) -> None:
+    def __init__(self, hass: UniversalAssistant, name: str, config: ConfigType) -> None:
         """Initialize a switch."""
         super().__init__(hass, name, config)
         self._dimlevel_min: int = config[CONF_DIMLEVEL_MIN]

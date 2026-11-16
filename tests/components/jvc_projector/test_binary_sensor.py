@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
 from universalassistant.components.jvc_projector.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import MOCK_MAC, MOCK_MAC_FORMATED
@@ -15,7 +15,7 @@ ENTITY_ID = "binary_sensor.jvc_projector_power"
 
 
 async def test_entity_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_device: MagicMock,
     mock_integration: MockConfigEntry,
@@ -27,7 +27,7 @@ async def test_entity_state(
 
 
 async def test_migrate_old_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_device: MagicMock,
     mock_config_entry: MockConfigEntry,

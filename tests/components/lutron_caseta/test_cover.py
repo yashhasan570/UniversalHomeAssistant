@@ -14,14 +14,14 @@ from universalassistant.components.cover import (
     CoverEntityFeature,
 )
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_SUPPORTED_FEATURES, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import MockBridge, MockBridgeWithOpenCloseStopCover, async_setup_integration
 
 
 @pytest.fixture
-async def mock_bridge_with_cover_mocks(hass: __HAC_KEEP__) -> MockBridge:
+async def mock_bridge_with_cover_mocks(hass: UniversalAssistant) -> MockBridge:
     """Set up mock bridge with all cover methods mocked for testing."""
     instance = MockBridge()
 
@@ -42,7 +42,7 @@ async def mock_bridge_with_cover_mocks(hass: __HAC_KEEP__) -> MockBridge:
 
 
 async def test_cover_unique_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a cover unique ID."""
     await async_setup_integration(hass, MockBridge)
@@ -55,7 +55,7 @@ async def test_cover_unique_id(
 
 
 async def test_cover_open_close_using_set_value(
-    hass: __HAC_KEEP__, mock_bridge_with_cover_mocks: MockBridge
+    hass: UniversalAssistant, mock_bridge_with_cover_mocks: MockBridge
 ) -> None:
     """Test that open/close commands use set_value to avoid stuttering."""
     mock_instance = mock_bridge_with_cover_mocks
@@ -90,7 +90,7 @@ async def test_cover_open_close_using_set_value(
 
 
 async def test_cover_stop_with_direction_tracking(
-    hass: __HAC_KEEP__, mock_bridge_with_cover_mocks: MockBridge
+    hass: UniversalAssistant, mock_bridge_with_cover_mocks: MockBridge
 ) -> None:
     """Test that stop command sends appropriate directional command first."""
     mock_instance = mock_bridge_with_cover_mocks
@@ -146,7 +146,7 @@ async def test_cover_stop_with_direction_tracking(
 
 
 async def test_cover_stop_at_endpoints(
-    hass: __HAC_KEEP__, mock_bridge_with_cover_mocks: MockBridge
+    hass: UniversalAssistant, mock_bridge_with_cover_mocks: MockBridge
 ) -> None:
     """Test stop command behavior when shade is at fully open or closed."""
     mock_instance = mock_bridge_with_cover_mocks
@@ -190,7 +190,7 @@ async def test_cover_stop_at_endpoints(
 
 
 async def test_cover_position_heuristic_fallback(
-    hass: __HAC_KEEP__, mock_bridge_with_cover_mocks: MockBridge
+    hass: UniversalAssistant, mock_bridge_with_cover_mocks: MockBridge
 ) -> None:
     """Test stop command uses position heuristic when movement direction is unknown."""
     mock_instance = mock_bridge_with_cover_mocks
@@ -235,7 +235,7 @@ async def test_cover_position_heuristic_fallback(
 
 
 async def test_cover_stopped_movement_detection(
-    hass: __HAC_KEEP__, mock_bridge_with_cover_mocks: MockBridge
+    hass: UniversalAssistant, mock_bridge_with_cover_mocks: MockBridge
 ) -> None:
     """Test that movement direction is set to STOPPED when position doesn't change."""
     mock_instance = mock_bridge_with_cover_mocks
@@ -265,7 +265,7 @@ async def test_cover_stopped_movement_detection(
 
 
 async def test_cover_startup_with_shade_in_motion(
-    hass: __HAC_KEEP__, mock_bridge_with_cover_mocks: MockBridge
+    hass: UniversalAssistant, mock_bridge_with_cover_mocks: MockBridge
 ) -> None:
     """Test stop command when HA starts with shade already in motion."""
     mock_instance = mock_bridge_with_cover_mocks
@@ -306,7 +306,7 @@ async def test_cover_startup_with_shade_in_motion(
     mock_instance.stop_cover.assert_called_with("802")
 
 
-async def test_open_close_stop_cover_supported_features(hass: __HAC_KEEP__) -> None:
+async def test_open_close_stop_cover_supported_features(hass: UniversalAssistant) -> None:
     """Test an OpenCloseStop zone exposes open/close/stop but not set_position."""
     await async_setup_integration(hass, MockBridgeWithOpenCloseStopCover)
 
@@ -322,7 +322,7 @@ async def test_open_close_stop_cover_supported_features(hass: __HAC_KEEP__) -> N
 
 
 @pytest.fixture
-async def mock_open_close_stop_bridge(hass: __HAC_KEEP__) -> MockBridge:
+async def mock_open_close_stop_bridge(hass: UniversalAssistant) -> MockBridge:
     """Set up a bridge exposing an OpenCloseStop cover with mocked methods."""
     instance = MockBridgeWithOpenCloseStopCover()
 
@@ -342,7 +342,7 @@ async def mock_open_close_stop_bridge(hass: __HAC_KEEP__) -> MockBridge:
 
 
 async def test_open_close_stop_cover_uses_raise_lower(
-    hass: __HAC_KEEP__, mock_open_close_stop_bridge: MockBridge
+    hass: UniversalAssistant, mock_open_close_stop_bridge: MockBridge
 ) -> None:
     """Test an OpenCloseStop zone uses Raise/Lower rather than set_value.
 

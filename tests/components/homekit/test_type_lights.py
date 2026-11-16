@@ -41,19 +41,19 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNKNOWN,
 )
-from universalassistant.core import CoreState, Event, __HAC_KEEP__
+from universalassistant.core import CoreState, Event, UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
 
-async def _wait_for_light_coalesce(hass: __HAC_KEEP__) -> None:
+async def _wait_for_light_coalesce(hass: UniversalAssistant) -> None:
     async_fire_time_changed(
         hass, dt_util.utcnow() + timedelta(seconds=CHANGE_COALESCE_TIME_WINDOW)
     )
     await hass.async_block_till_done()
 
 
-async def test_light_basic(hass: __HAC_KEEP__, hk_driver, events: list[Event]) -> None:
+async def test_light_basic(hass: UniversalAssistant, hk_driver, events: list[Event]) -> None:
     """Test light with char state."""
     entity_id = "light.demo"
 
@@ -127,7 +127,7 @@ async def test_light_basic(hass: __HAC_KEEP__, hk_driver, events: list[Event]) -
     [[ColorMode.BRIGHTNESS], [ColorMode.HS], [ColorMode.COLOR_TEMP]],
 )
 async def test_light_brightness(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event], supported_color_modes
+    hass: UniversalAssistant, hk_driver, events: list[Event], supported_color_modes
 ) -> None:
     """Test light with brightness."""
     entity_id = "light.demo"
@@ -293,7 +293,7 @@ async def test_light_brightness(
 
 
 async def test_light_color_temperature(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test light with color temperature."""
     entity_id = "light.demo"
@@ -343,7 +343,7 @@ async def test_light_color_temperature(
     [["color_temp", "hs"], ["color_temp", "rgb"], ["color_temp", "xy"]],
 )
 async def test_light_color_temperature_and_rgb_color(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event], supported_color_modes
+    hass: UniversalAssistant, hk_driver, events: list[Event], supported_color_modes
 ) -> None:
     """Test light with color temperature and rgb color not exposing temperature."""
     entity_id = "light.demo"
@@ -541,7 +541,7 @@ async def test_light_color_temperature_and_rgb_color(
 
 
 async def test_light_invalid_hs_color(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test light that starts out with an invalid hs color."""
     entity_id = "light.demo"
@@ -739,7 +739,7 @@ async def test_light_invalid_hs_color(
 
 
 async def test_light_invalid_values(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test light with a variety of invalid values."""
     entity_id = "light.demo"
@@ -806,7 +806,7 @@ async def test_light_invalid_values(
     assert acc.char_saturation.value == 95
 
 
-async def test_light_out_of_range_color_temp(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_light_out_of_range_color_temp(hass: UniversalAssistant, hk_driver) -> None:
     """Test light with an out of range color temp."""
     entity_id = "light.demo"
 
@@ -881,7 +881,7 @@ async def test_light_out_of_range_color_temp(hass: __HAC_KEEP__, hk_driver) -> N
     assert acc.char_saturation.value == 41
 
 
-async def test_reversed_color_temp_min_max(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_reversed_color_temp_min_max(hass: UniversalAssistant, hk_driver) -> None:
     """Test light with a reversed color temp min max."""
     entity_id = "light.demo"
 
@@ -960,7 +960,7 @@ async def test_reversed_color_temp_min_max(hass: __HAC_KEEP__, hk_driver) -> Non
     "supported_color_modes", [[ColorMode.HS], [ColorMode.RGB], [ColorMode.XY]]
 )
 async def test_light_rgb_color(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event], supported_color_modes
+    hass: UniversalAssistant, hk_driver, events: list[Event], supported_color_modes
 ) -> None:
     """Test light with rgb_color."""
     entity_id = "light.demo"
@@ -1014,7 +1014,7 @@ async def test_light_rgb_color(
 
 
 async def test_light_restore(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, hk_driver
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, hk_driver
 ) -> None:
     """Test setting up an entity from state in the event registry."""
     hass.set_state(CoreState.not_running)
@@ -1076,7 +1076,7 @@ async def test_light_restore(
     ],
 )
 async def test_light_rgb_with_color_temp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     events: list[Event],
     supported_color_modes,
@@ -1196,7 +1196,7 @@ async def test_light_rgb_with_color_temp(
     ],
 )
 async def test_light_rgbwx_with_color_temp_and_brightness(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     events: list[Event],
     supported_color_modes,
@@ -1258,7 +1258,7 @@ async def test_light_rgbwx_with_color_temp_and_brightness(
 
 
 async def test_light_rgb_or_w_lights(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     events: list[Event],
 ) -> None:
@@ -1391,7 +1391,7 @@ async def test_light_rgb_or_w_lights(
     ],
 )
 async def test_light_rgb_with_white_switch_to_temp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     events: list[Event],
     supported_color_modes,
@@ -1470,7 +1470,7 @@ async def test_light_rgb_with_white_switch_to_temp(
     assert acc.char_brightness.value == 100
 
 
-async def test_light_rgb_with_hs_color_none(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_light_rgb_with_hs_color_none(hass: UniversalAssistant, hk_driver) -> None:
     """Test lights hs color set to None."""
     entity_id = "light.demo"
 
@@ -1501,7 +1501,7 @@ async def test_light_rgb_with_hs_color_none(hass: __HAC_KEEP__, hk_driver) -> No
 
 
 async def test_light_rgbww_with_color_temp_conversion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     events: list[Event],
 ) -> None:
@@ -1622,7 +1622,7 @@ async def test_light_rgbww_with_color_temp_conversion(
 
 
 async def test_light_rgbw_with_color_temp_conversion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver,
     events: list[Event],
 ) -> None:
@@ -1712,7 +1712,7 @@ async def test_light_rgbw_with_color_temp_conversion(
 
 
 async def test_light_set_brightness_and_color(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test light with all chars in one go."""
     entity_id = "light.demo"
@@ -1797,7 +1797,7 @@ async def test_light_set_brightness_and_color(
     )
 
 
-async def test_light_min_max_mireds(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_light_min_max_mireds(hass: UniversalAssistant, hk_driver) -> None:
     """Test mireds are forced to ints."""
     entity_id = "light.demo"
 
@@ -1818,7 +1818,7 @@ async def test_light_min_max_mireds(hass: __HAC_KEEP__, hk_driver) -> None:
 
 
 async def test_light_set_brightness_and_color_temp(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test light with all chars in one go."""
     entity_id = "light.demo"

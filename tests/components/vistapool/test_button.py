@@ -14,8 +14,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.vistapool.button import _LED_PULSE_DELAY_SECONDS
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 _BUTTON = "button.my_pool_led_next_color"
@@ -31,7 +31,7 @@ def _only_button_platform() -> Generator[None]:
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -48,7 +48,7 @@ async def test_all_entities(
 
 
 async def test_button_not_created_without_led(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     mock_pool_data: dict[str, Any],
@@ -66,7 +66,7 @@ async def test_button_not_created_without_led(
 
 
 async def test_sync_time_button_writes_local_wall_clock(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     mock_pool_data: dict[str, Any],
@@ -74,7 +74,7 @@ async def test_sync_time_button_writes_local_wall_clock(
 ) -> None:
     """Test the sync time button writes the local wall-clock time read as UTC.
 
-    Tests run __HA_KEEP__ in US/Pacific: 12:00 UTC is 05:00 PDT, and the
+    Tests run Universal Home Assistant in US/Pacific: 12:00 UTC is 05:00 PDT, and the
     controller expects that local time encoded as seconds since the epoch.
     """
     freezer.move_to("2026-10-04T12:00:00+00:00")
@@ -98,7 +98,7 @@ async def test_sync_time_button_writes_local_wall_clock(
 
 
 async def test_button_press_when_light_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -122,7 +122,7 @@ async def test_button_press_when_light_off(
 
 
 async def test_button_press_when_light_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -150,7 +150,7 @@ async def test_button_press_when_light_on(
 
 
 async def test_button_press_rapid_repeat_after_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -203,14 +203,14 @@ async def test_button_press_rapid_repeat_after_off(
     ],
 )
 async def test_button_press_raises_on_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     entity_id: str,
     light_status: int,
     failing_method: str,
 ) -> None:
-    """Test the buttons re-raise __HAC_KEEP__Error when the library fails."""
+    """Test the buttons re-raise UniversalAssistantError when the library fails."""
     mock_vistapool_client.fetch_pool_data.return_value = {
         "main": {"hasLED": 1, "version": 1},
         "light": {"status": light_status},
@@ -221,7 +221,7 @@ async def test_button_press_raises_on_api_error(
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
     await hass.async_block_till_done()
 
-    with pytest.raises(__HAC_KEEP__Error) as excinfo:
+    with pytest.raises(UniversalAssistantError) as excinfo:
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

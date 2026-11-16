@@ -28,7 +28,7 @@ from universalassistant.core import (
     callback,
     split_entity_id,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceNotFound, TemplateError
+from universalassistant.exceptions import UniversalAssistantError, ServiceNotFound, TemplateError
 from universalassistant.helpers import (
     condition as condition_helper,
     issue_registry as ir,
@@ -524,7 +524,7 @@ class AutomationEntity(BaseAutomationEntity, RestoreEntity):
             if not skip_condition and self._condition is not None:
                 try:
                     conditions_pass = self._condition.async_check(variables=variables)
-                except (probatio.Invalid, __HAC_KEEP__Error) as err:
+                except (probatio.Invalid, UniversalAssistantError) as err:
                     self._logger.error(
                         "Error while checking conditions of automation %s: %s",
                         self.entity_id,
@@ -583,7 +583,7 @@ class AutomationEntity(BaseAutomationEntity, RestoreEntity):
                     f"{err.domain}.{err.service}"
                 )
                 automation_trace.set_error(err)
-            except (probatio.Invalid, __HAC_KEEP__Error) as err:
+            except (probatio.Invalid, UniversalAssistantError) as err:
                 self._logger.error(
                     "Error while executing automation %s: %s",
                     self.entity_id,
@@ -600,7 +600,7 @@ class AutomationEntity(BaseAutomationEntity, RestoreEntity):
 
     @override
     async def async_will_remove_from_hass(self) -> None:
-        """Remove listeners when removing automation from __HA_KEEP__."""
+        """Remove listeners when removing automation from Universal Home Assistant."""
         await super().async_will_remove_from_hass()
         await self._async_disable(stop_actions=False)
         await self.action_script.async_unload()
@@ -730,7 +730,7 @@ class AutomationEntity(BaseAutomationEntity, RestoreEntity):
             return
 
         self._is_enabled = True
-        # __HAC_KEEP__ is starting up
+        # UniversalAssistant is starting up
         if self.hass.state is not CoreState.not_running:
             await self._async_attach_triggers_for_entity_id()
             return

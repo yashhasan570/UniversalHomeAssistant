@@ -29,10 +29,10 @@ from universalassistant.const import (
 from universalassistant.core import (
     DOMAIN as HOMEASSISTANT_DOMAIN,
     CoreState,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error, UnsupportedStorageVersionError
+from universalassistant.exceptions import UniversalAssistantError, UnsupportedStorageVersionError
 from universalassistant.helpers import issue_registry as ir, storage
 from universalassistant.helpers.json import json_bytes, prepare_save_json
 from universalassistant.util import dt as dt_util
@@ -50,42 +50,42 @@ MOCK_DATA2 = {"goodbye": "cruel world"}
 
 
 @pytest.fixture
-def store(hass: __HAC_KEEP__) -> storage.Store:
-    """Fixture of a store that prevents writing on __HA_KEEP__ stop."""
+def store(hass: UniversalAssistant) -> storage.Store:
+    """Fixture of a store that prevents writing on Universal Home Assistant stop."""
     return storage.Store(hass, MOCK_VERSION, MOCK_KEY)
 
 
 @pytest.fixture
-def store_v_1_1(hass: __HAC_KEEP__) -> storage.Store:
-    """Fixture of a store that prevents writing on __HA_KEEP__ stop."""
+def store_v_1_1(hass: UniversalAssistant) -> storage.Store:
+    """Fixture of a store that prevents writing on Universal Home Assistant stop."""
     return storage.Store(
         hass, MOCK_VERSION, MOCK_KEY, minor_version=MOCK_MINOR_VERSION_1
     )
 
 
 @pytest.fixture
-def store_v_1_2(hass: __HAC_KEEP__) -> storage.Store:
-    """Fixture of a store that prevents writing on __HA_KEEP__ stop."""
+def store_v_1_2(hass: UniversalAssistant) -> storage.Store:
+    """Fixture of a store that prevents writing on Universal Home Assistant stop."""
     return storage.Store(
         hass, MOCK_VERSION, MOCK_KEY, minor_version=MOCK_MINOR_VERSION_2
     )
 
 
 @pytest.fixture
-def store_v_2_1(hass: __HAC_KEEP__) -> storage.Store:
-    """Fixture of a store that prevents writing on __HA_KEEP__ stop."""
+def store_v_2_1(hass: UniversalAssistant) -> storage.Store:
+    """Fixture of a store that prevents writing on Universal Home Assistant stop."""
     return storage.Store(
         hass, MOCK_VERSION_2, MOCK_KEY, minor_version=MOCK_MINOR_VERSION_1
     )
 
 
 @pytest.fixture
-def read_only_store(hass: __HAC_KEEP__) -> storage.Store:
+def read_only_store(hass: UniversalAssistant) -> storage.Store:
     """Fixture of a read only store."""
     return storage.Store(hass, MOCK_VERSION, MOCK_KEY, read_only=True)
 
 
-async def test_loading(hass: __HAC_KEEP__, store: storage.Store) -> None:
+async def test_loading(hass: UniversalAssistant, store: storage.Store) -> None:
     """Test we can save and load data."""
     await store.async_save(MOCK_DATA)
     data = await store.async_load()
@@ -103,7 +103,7 @@ async def test_remove_pending_save(store: storage.Store) -> None:
 
 
 async def test_remove_during_write(
-    hass: __HAC_KEEP__, store: storage.Store, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, store: storage.Store, hass_storage: dict[str, Any]
 ) -> None:
     """An active write cannot recreate removed storage."""
     write_started = asyncio.Event()
@@ -130,7 +130,7 @@ async def test_remove_during_write(
     assert await store.async_load() == MOCK_DATA2
 
 
-async def test_custom_encoder(hass: __HAC_KEEP__) -> None:
+async def test_custom_encoder(hass: UniversalAssistant) -> None:
     """Test we can save and load data."""
 
     class JSONEncoder(json.JSONEncoder):
@@ -148,7 +148,7 @@ async def test_custom_encoder(hass: __HAC_KEEP__) -> None:
     assert data == "9"
 
 
-async def test_loading_non_existing(hass: __HAC_KEEP__, store: storage.Store) -> None:
+async def test_loading_non_existing(hass: UniversalAssistant, store: storage.Store) -> None:
     """Test we can save and load data."""
     with patch("universalassistant.util.json.open", side_effect=FileNotFoundError):
         data = await store.async_load()
@@ -156,7 +156,7 @@ async def test_loading_non_existing(hass: __HAC_KEEP__, store: storage.Store) ->
 
 
 async def test_loading_parallel(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     store: storage.Store,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -182,7 +182,7 @@ async def test_loading_parallel(
 
 
 async def test_loading_parallel_waiter_cancelled(
-    hass: __HAC_KEEP__, store: storage.Store
+    hass: UniversalAssistant, store: storage.Store
 ) -> None:
     """Verify cancelling a waiting caller does not break the in-progress load."""
     load_started = asyncio.Event()
@@ -205,7 +205,7 @@ async def test_loading_parallel_waiter_cancelled(
 
 
 async def test_saving_with_delay(
-    hass: __HAC_KEEP__, store: storage.Store, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, store: storage.Store, hass_storage: dict[str, Any]
 ) -> None:
     """Test saving data after a delay."""
     store.async_delay_save(lambda: MOCK_DATA, 1)
@@ -383,7 +383,7 @@ async def test_saving_with_threading(tmp_path: Path) -> None:
 
 
 async def test_saving_with_delay_churn_reduction(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     store: storage.Store,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
@@ -465,9 +465,9 @@ async def test_saving_with_delay_churn_reduction(
 
 
 async def test_saving_on_final_write(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
-    """Test delayed saves trigger when we quit __HA_KEEP__."""
+    """Test delayed saves trigger when we quit Universal Home Assistant."""
     store = storage.Store(hass, MOCK_VERSION, MOCK_KEY)
     store.async_delay_save(lambda: MOCK_DATA, 5)
     assert store.key not in hass_storage
@@ -491,7 +491,7 @@ async def test_saving_on_final_write(
 
 
 async def test_not_delayed_saving_while_stopping(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test delayed saves don't write after the stop event has fired."""
     store = storage.Store(hass, MOCK_VERSION, MOCK_KEY)
@@ -506,7 +506,7 @@ async def test_not_delayed_saving_while_stopping(
 
 
 async def test_not_delayed_saving_after_stopping(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test delayed saves don't write after stop if issued before stopping."""
     store = storage.Store(hass, MOCK_VERSION, MOCK_KEY)
@@ -524,9 +524,9 @@ async def test_not_delayed_saving_after_stopping(
 
 
 async def test_not_saving_while_stopping(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
-    """Test saves don't write when stopping __HA_KEEP__."""
+    """Test saves don't write when stopping Universal Home Assistant."""
     store = storage.Store(hass, MOCK_VERSION, MOCK_KEY)
     hass.set_state(CoreState.stopping)
     await store.async_save(MOCK_DATA)
@@ -534,7 +534,7 @@ async def test_not_saving_while_stopping(
 
 
 async def test_loading_while_delay(
-    hass: __HAC_KEEP__, store: storage.Store, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, store: storage.Store, hass_storage: dict[str, Any]
 ) -> None:
     """Test we load new data even if not written yet."""
     await store.async_save({"delay": "no"})
@@ -558,7 +558,7 @@ async def test_loading_while_delay(
 
 
 async def test_writing_while_writing_delay(
-    hass: __HAC_KEEP__, store: storage.Store, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, store: storage.Store, hass_storage: dict[str, Any]
 ) -> None:
     """Test a write while a write with delay is active."""
     store.async_delay_save(lambda: {"delay": "yes"}, 1)
@@ -585,7 +585,7 @@ async def test_writing_while_writing_delay(
 
 
 async def test_multiple_delay_save_calls(
-    hass: __HAC_KEEP__, store: storage.Store, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, store: storage.Store, hass_storage: dict[str, Any]
 ) -> None:
     """Test a write while a write with changing delays."""
     store.async_delay_save(lambda: {"delay": "yes"}, 1)
@@ -615,7 +615,7 @@ async def test_multiple_delay_save_calls(
 
 
 async def test_delay_save_zero(
-    hass: __HAC_KEEP__, store: storage.Store, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, store: storage.Store, hass_storage: dict[str, Any]
 ) -> None:
     """Test async_delay_save accepts 0."""
     store.async_delay_save(lambda: {"delay": "0"}, 0)
@@ -632,7 +632,7 @@ async def test_delay_save_zero(
 
 
 async def test_multiple_save_calls(
-    hass: __HAC_KEEP__, store: storage.Store, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, store: storage.Store, hass_storage: dict[str, Any]
 ) -> None:
     """Test multiple write tasks."""
 
@@ -652,7 +652,7 @@ async def test_multiple_save_calls(
 
 
 async def test_migrator_no_existing_config(
-    hass: __HAC_KEEP__, store: storage.Store, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, store: storage.Store, hass_storage: dict[str, Any]
 ) -> None:
     """Test migrator with no existing config."""
     with (
@@ -666,7 +666,7 @@ async def test_migrator_no_existing_config(
 
 
 async def test_migrator_existing_config(
-    hass: __HAC_KEEP__, store: storage.Store, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, store: storage.Store, hass_storage: dict[str, Any]
 ) -> None:
     """Test migrating existing config."""
     with patch("os.path.isfile", return_value=True), patch("os.remove") as mock_remove:
@@ -685,7 +685,7 @@ async def test_migrator_existing_config(
 
 
 async def test_migrator_transforming_config(
-    hass: __HAC_KEEP__, store: storage.Store, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, store: storage.Store, hass_storage: dict[str, Any]
 ) -> None:
     """Test migrating config to new format."""
 
@@ -713,7 +713,7 @@ async def test_migrator_transforming_config(
 
 
 async def test_minor_version_default(
-    hass: __HAC_KEEP__, store: storage.Store, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, store: storage.Store, hass_storage: dict[str, Any]
 ) -> None:
     """Test minor version default."""
 
@@ -722,7 +722,7 @@ async def test_minor_version_default(
 
 
 async def test_minor_version(
-    hass: __HAC_KEEP__, store_v_1_2: storage.Store, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, store_v_1_2: storage.Store, hass_storage: dict[str, Any]
 ) -> None:
     """Test minor version."""
 
@@ -731,7 +731,7 @@ async def test_minor_version(
 
 
 async def test_loading_newer_major_version_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     store: storage.Store,
     store_v_2_1: storage.Store,
@@ -750,7 +750,7 @@ async def test_loading_newer_major_version_raises(
 
 
 async def test_migrate_minor_not_implemented(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     store_v_1_1: storage.Store,
     store_v_1_2: storage.Store,
@@ -779,7 +779,7 @@ async def test_migrate_minor_not_implemented(
 
 
 async def test_migration(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any], store_v_1_2: storage.Store
+    hass: UniversalAssistant, hass_storage: dict[str, Any], store_v_1_2: storage.Store
 ) -> None:
     """Test migration."""
     calls = 0
@@ -818,7 +818,7 @@ async def test_migration(
 
 
 async def test_legacy_migration(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any], store_v_1_2: storage.Store
+    hass: UniversalAssistant, hass_storage: dict[str, Any], store_v_1_2: storage.Store
 ) -> None:
     """Test legacy migration method signature."""
     calls = 0
@@ -854,7 +854,7 @@ async def test_legacy_migration(
 
 
 async def test_changing_delayed_written_data(
-    hass: __HAC_KEEP__, store: storage.Store, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, store: storage.Store, hass_storage: dict[str, Any]
 ) -> None:
     """Test changing data that is written with delay."""
     data_to_store = {"hello": "world"}
@@ -1068,7 +1068,7 @@ async def test_os_error_is_fatal(tmpdir: py.path.local) -> None:
 
 
 async def test_json_load_failure(tmpdir: py.path.local) -> None:
-    """Test json load raising __HAC_KEEP__Error."""
+    """Test json load raising UniversalAssistantError."""
     loop = asyncio.get_running_loop()
     tmp_storage = await loop.run_in_executor(None, tmpdir.mkdir, "temp_storage")
     async with async_test_universal_assistant(config_dir=tmp_storage.strpath) as hass:
@@ -1078,11 +1078,11 @@ async def test_json_load_failure(tmpdir: py.path.local) -> None:
         await store.async_save({"hello": "world"})
         base_os_error = OSError()
         base_os_error.errno = 30
-        universal_assistant_error = __HAC_KEEP__Error()
+        universal_assistant_error = UniversalAssistantError()
         universal_assistant_error.__cause__ = base_os_error
 
         with (
-            pytest.raises(__HAC_KEEP__Error),
+            pytest.raises(UniversalAssistantError),
             patch(
                 "universalassistant.helpers.storage.json_util.load_json",
                 side_effect=universal_assistant_error,
@@ -1094,7 +1094,7 @@ async def test_json_load_failure(tmpdir: py.path.local) -> None:
 
 
 async def test_read_only_store(
-    hass: __HAC_KEEP__, read_only_store: storage.Store, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, read_only_store: storage.Store, hass_storage: dict[str, Any]
 ) -> None:
     """Test store opened in read only mode does not save."""
     read_only_store.async_delay_save(lambda: MOCK_DATA, 1)
@@ -1415,7 +1415,7 @@ async def test_store_manager_cleanup_after_stop(
         await hass.async_stop(force=True)
 
 
-async def test_storage_concurrent_load(hass: __HAC_KEEP__) -> None:
+async def test_storage_concurrent_load(hass: UniversalAssistant) -> None:
     """Test that we can load the store concurrently."""
 
     store = storage.Store(hass, MOCK_VERSION, MOCK_KEY)
@@ -1434,7 +1434,7 @@ async def test_storage_concurrent_load(hass: __HAC_KEEP__) -> None:
 
 
 async def test_load_empty_returns_none_and_read_only(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test store with load_empty returns None, becomes read-only."""
     # Use a future version to also verify no version error is raised
@@ -1488,7 +1488,7 @@ async def test_store_io_bound_to_instance(
 
 
 async def test_mock_storage_ignores_file_cache(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """The memory store bypasses the filesystem cache and executor."""
     manager = storage.get_internal_store_manager(hass)
@@ -1516,7 +1516,7 @@ async def test_mock_storage_ignores_file_cache(
 
 @pytest.mark.parametrize("serialize_in_event_loop", [True, False])
 async def test_mock_storage_rejects_mocks(
-    hass: __HAC_KEEP__, serialize_in_event_loop: bool
+    hass: UniversalAssistant, serialize_in_event_loop: bool
 ) -> None:
     """A mock guard runs even when a custom encoder would accept the mock."""
 
@@ -1537,7 +1537,7 @@ async def test_mock_storage_rejects_mocks(
 
 @pytest.mark.parametrize("missing_key", ["version", "data"])
 async def test_mock_storage_rejects_invalid_envelopes(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any], missing_key: str
+    hass: UniversalAssistant, hass_storage: dict[str, Any], missing_key: str
 ) -> None:
     """The fixture retains validation of manually supplied envelopes."""
     hass_storage[MOCK_KEY] = {"version": 1, "data": {}}

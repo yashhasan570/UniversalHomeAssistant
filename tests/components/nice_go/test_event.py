@@ -6,14 +6,14 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
 
 @pytest.mark.freeze_time("2024-08-19")
 async def test_barrier_obstructed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

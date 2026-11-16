@@ -22,7 +22,7 @@ from universalassistant.components.recorder.statistics import (
     statistics_during_period,
 )
 from universalassistant.const import UnitOfEnergy
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
 from universalassistant.util.unit_conversion import EnergyConverter
@@ -96,7 +96,7 @@ class TibberCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: TibberConfigEntry,
         *,
         name: str,
@@ -125,7 +125,7 @@ class TibberDataCoordinator(TibberCoordinator[None]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: TibberConfigEntry,
         tibber_connection: tibber.Tibber,
     ) -> None:
@@ -281,7 +281,7 @@ class TibberPriceCoordinator(TibberCoordinator[dict[str, TibberHomeData]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: TibberConfigEntry,
         price_fetch_coordinator: TibberFetchPriceCoordinator,
     ) -> None:
@@ -354,7 +354,7 @@ class TibberFetchPriceCoordinator(TibberCoordinator[dict[str, tibber.TibberHome]
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: TibberConfigEntry,
     ) -> None:
         """Initialize the price coordinator."""
@@ -433,7 +433,7 @@ class TibberDataAPICoordinator(TibberCoordinator[dict[str, TibberDevice]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: TibberConfigEntry,
     ) -> None:
         """Initialize the coordinator."""

@@ -7,13 +7,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.backblaze_b2.diagnostics import (
     async_get_config_entry_diagnostics,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
 
 async def test_diagnostics_basic(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test basic diagnostics data collection."""
     await setup_integration(hass, mock_config_entry)
@@ -31,7 +31,7 @@ async def test_diagnostics_basic(
 
 
 async def test_diagnostics_error_handling(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test diagnostics handles errors gracefully."""
     mock_config_entry.runtime_data = None
@@ -44,7 +44,7 @@ async def test_diagnostics_error_handling(
 
 
 async def test_diagnostics_bucket_data_redaction(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test diagnostics redacts bucket-specific sensitive data."""
     await setup_integration(hass, mock_config_entry)

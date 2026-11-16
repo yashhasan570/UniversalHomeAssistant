@@ -7,13 +7,13 @@ from python_opensky import OpenSkyError
 from python_opensky.exceptions import OpenSkyUnauthenticatedError
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
 
 async def test_load_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     opensky_client: AsyncMock,
 ) -> None:
@@ -29,7 +29,7 @@ async def test_load_unload_entry(
 
 
 async def test_load_entry_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     opensky_client: AsyncMock,
 ) -> None:
@@ -44,7 +44,7 @@ async def test_load_entry_failure(
 
 
 async def test_load_entry_authentication_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_authenticated: MockConfigEntry,
     opensky_client: AsyncMock,
 ) -> None:

@@ -19,7 +19,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_START,
     EntityStateAttribute,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
@@ -29,7 +29,7 @@ from . import _generate_mock_feed_entry
 CONFIG = {geonetnz_volcano.DOMAIN: {CONF_RADIUS: 200}}
 
 
-async def test_setup(hass: __HAC_KEEP__) -> None:
+async def test_setup(hass: UniversalAssistant) -> None:
     """Test the general setup of the integration."""
     # Set up some mock feed entries for this test.
     mock_entry_1 = _generate_mock_feed_entry(
@@ -151,7 +151,7 @@ async def test_setup(hass: __HAC_KEEP__) -> None:
 
 
 async def test_setup_imperial(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the setup of the integration using imperial unit system."""
     hass.config.units = US_CUSTOMARY_SYSTEM

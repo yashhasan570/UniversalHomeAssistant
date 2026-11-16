@@ -8,7 +8,7 @@ from flux_led.const import MODE_MUSIC
 
 from universalassistant.components.switch import SwitchEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -23,7 +23,7 @@ from .entity import FluxBaseEntity, FluxEntity, FluxOnOffEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FluxLedConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -7,7 +7,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.whirlpool.const import CONF_BRAND, DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_REGION, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_registry import EntityRegistry
 
 
@@ -26,16 +26,16 @@ def create_mock_entry(region: str = "EU", brand: str = "Whirlpool") -> MockConfi
 
 
 async def init_integration(
-    hass: __HAC_KEEP__, region: str = "EU", brand: str = "Whirlpool"
+    hass: UniversalAssistant, region: str = "EU", brand: str = "Whirlpool"
 ) -> MockConfigEntry:
-    """Set up the Whirlpool integration in __HA_KEEP__."""
+    """Set up the Whirlpool integration in Universal Home Assistant."""
     return await init_integration_with_entry(hass, create_mock_entry(region, brand))
 
 
 async def init_integration_with_entry(
-    hass: __HAC_KEEP__, entry: MockConfigEntry
+    hass: UniversalAssistant, entry: MockConfigEntry
 ) -> MockConfigEntry:
-    """Set up the Whirlpool integration in __HA_KEEP__."""
+    """Set up the Whirlpool integration in Universal Home Assistant."""
     entry.add_to_hass(hass)
     await hass.config_entries.async_setup(entry.entry_id)
     await hass.async_block_till_done()
@@ -43,7 +43,7 @@ async def init_integration_with_entry(
 
 
 def snapshot_whirlpool_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,
     platform: Platform,
@@ -57,7 +57,7 @@ def snapshot_whirlpool_entities(
 
 
 async def trigger_attr_callback(
-    hass: __HAC_KEEP__, mock_api_instance: MagicMock
+    hass: UniversalAssistant, mock_api_instance: MagicMock
 ) -> None:
     """Simulate an update trigger from the API."""
 

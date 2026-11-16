@@ -13,7 +13,7 @@ from universalassistant.components.systemmonitor.binary_sensor import get_cpu_ic
 from universalassistant.components.systemmonitor.const import DOMAIN
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MockProcess
@@ -21,7 +21,7 @@ from .conftest import MockProcess
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_psutil: Mock,
     mock_os: Mock,
     entity_registry: er.EntityRegistry,
@@ -63,7 +63,7 @@ async def test_binary_sensor(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensor_icon(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_psutil: Mock,
     mock_os: Mock,
     mock_config_entry: MockConfigEntry,
@@ -79,7 +79,7 @@ async def test_binary_sensor_icon(
 
 
 async def test_sensor_process_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_added_config_entry: ConfigEntry,
     mock_psutil: Mock,
     freezer: FrozenDateTimeFactory,

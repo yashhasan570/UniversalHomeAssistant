@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import KacoConfigEntry
 
@@ -11,7 +11,7 @@ TO_REDACT = {"serial_number"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: KacoConfigEntry
+    hass: UniversalAssistant, entry: KacoConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry.
 

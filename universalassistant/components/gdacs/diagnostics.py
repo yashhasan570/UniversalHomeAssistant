@@ -6,7 +6,7 @@ from aio_georss_client.status_update import StatusUpdate
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import GdacsConfigEntry
 
@@ -14,7 +14,7 @@ TO_REDACT = {CONF_LATITUDE, CONF_LONGITUDE}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: GdacsConfigEntry
+    hass: UniversalAssistant, config_entry: GdacsConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     data: dict[str, Any] = {

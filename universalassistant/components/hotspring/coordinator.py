@@ -12,7 +12,7 @@ from hotspring import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -26,7 +26,7 @@ class HotSpringDataUpdateCoordinator(DataUpdateCoordinator[Spa]):
 
     config_entry: HotSpringConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: HotSpringConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: HotSpringConfigEntry) -> None:
         """Initialize global Hot Spring data updater."""
         self.hotspring = HotSpring(
             config_entry.data[CONF_HOST],

@@ -6,7 +6,7 @@ import probatio
 import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device import (
     async_device_info_to_link_from_device_id,
@@ -19,7 +19,7 @@ from universalassistant.helpers.device import (
 
 
 async def test_entity_id_to_device_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -100,7 +100,7 @@ async def test_entity_id_to_device_device_id(
 
 
 async def test_device_info_to_link(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -158,7 +158,7 @@ async def test_device_info_to_link(
 
 
 async def test_remove_stale_devices_links_deprecated_noop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:

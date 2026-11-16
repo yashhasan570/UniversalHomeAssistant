@@ -21,8 +21,8 @@ from universalassistant.const import (
     EntityCategory,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import setup_integration
@@ -32,7 +32,7 @@ PANEL_LOCKOUT_ENTITY_ID = "switch.test_panel_lockout"
 
 
 async def test_switch(
-    hass: __HAC_KEEP__, mock_account: MagicMock, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, mock_account: MagicMock, entity_registry: er.EntityRegistry
 ) -> None:
     """Tests the switch entity was set up."""
     await setup_integration(hass, mock_account, SWITCH_DOMAIN)
@@ -54,7 +54,7 @@ async def test_switch(
     ],
 )
 async def test_on_off_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_account: MagicMock,
     entity_id: str,
     robot_command: str,
@@ -80,7 +80,7 @@ async def test_on_off_commands(
 
 
 async def test_feeder_robot_switch(
-    hass: __HAC_KEEP__, mock_account_with_feederrobot: MagicMock
+    hass: UniversalAssistant, mock_account_with_feederrobot: MagicMock
 ) -> None:
     """Tests Feeder-Robot switches."""
     await setup_integration(hass, mock_account_with_feederrobot, SWITCH_DOMAIN)
@@ -104,12 +104,12 @@ async def test_feeder_robot_switch(
 
 
 async def test_switch_command_exception(
-    hass: __HAC_KEEP__, mock_account_with_side_effects: MagicMock
+    hass: UniversalAssistant, mock_account_with_side_effects: MagicMock
 ) -> None:
-    """Test that LitterRobotException is wrapped in __HAC_KEEP__Error."""
+    """Test that LitterRobotException is wrapped in UniversalAssistantError."""
     await setup_integration(hass, mock_account_with_side_effects, SWITCH_DOMAIN)
 
-    with pytest.raises(__HAC_KEEP__Error, match="Invalid command: oops"):
+    with pytest.raises(UniversalAssistantError, match="Invalid command: oops"):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -120,7 +120,7 @@ async def test_switch_command_exception(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_litter_robot_5_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_account_with_litterrobot_5: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -155,7 +155,7 @@ async def test_litter_robot_5_all_entities(
     ],
 )
 async def test_litter_robot_5_sleep_mode_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_account_with_litterrobot_5: MagicMock,
     entity_id: str,
     state: str,
@@ -184,16 +184,16 @@ async def test_litter_robot_5_sleep_mode_switches(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_litter_robot_5_sleep_mode_switch_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_account_with_litterrobot_5: MagicMock,
 ) -> None:
-    """Test that a rejected sleep mode update raises __HAC_KEEP__Error."""
+    """Test that a rejected sleep mode update raises UniversalAssistantError."""
     await setup_integration(hass, mock_account_with_litterrobot_5, SWITCH_DOMAIN)
 
     robot = mock_account_with_litterrobot_5.robots[0]
     robot.set_sleep_mode.return_value = False
 
-    with pytest.raises(__HAC_KEEP__Error, match="Unable to update"):
+    with pytest.raises(UniversalAssistantError, match="Unable to update"):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,

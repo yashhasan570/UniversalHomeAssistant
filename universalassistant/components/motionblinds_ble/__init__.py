@@ -17,7 +17,7 @@ from universalassistant.components.bluetooth import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ADDRESS, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.event import async_call_later
 from universalassistant.helpers.typing import ConfigType
@@ -44,7 +44,7 @@ CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 type MotionConfigEntry = ConfigEntry[MotionDevice]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up Motionblinds Bluetooth integration."""
 
     _LOGGER.debug("Setting up Motionblinds Bluetooth integration")
@@ -56,7 +56,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: MotionConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: MotionConfigEntry) -> None:
     """Set up Motionblinds Bluetooth device from a config entry."""
 
     _LOGGER.debug("(%s) Setting up device", entry.data[CONF_MAC_CODE])
@@ -67,7 +67,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: MotionConfigEntry) -> Non
         blind_type=MotionBlindType[entry.data[CONF_BLIND_TYPE].upper()],
     )
 
-    # Register __HA_KEEP__ functions to use in the library
+    # Register Universal Home Assistant functions to use in the library
     device.set_create_task_factory(
         partial(
             entry.async_create_background_task,
@@ -111,7 +111,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: MotionConfigEntry) -> Non
 
 
 async def options_update_listener(
-    hass: __HAC_KEEP__, entry: MotionConfigEntry
+    hass: UniversalAssistant, entry: MotionConfigEntry
 ) -> None:
     """Handle options update."""
     _LOGGER.debug(
@@ -120,7 +120,7 @@ async def options_update_listener(
     await apply_options(hass, entry)
 
 
-async def apply_options(hass: __HAC_KEEP__, entry: MotionConfigEntry) -> None:
+async def apply_options(hass: UniversalAssistant, entry: MotionConfigEntry) -> None:
     """Apply the options from the OptionsFlow."""
 
     device = entry.runtime_data
@@ -131,7 +131,7 @@ async def apply_options(hass: __HAC_KEEP__, entry: MotionConfigEntry) -> None:
     await device.set_permanent_connection(permanent_connection)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: MotionConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: MotionConfigEntry) -> None:
     """Unload Motionblinds Bluetooth device from a config entry."""
 
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

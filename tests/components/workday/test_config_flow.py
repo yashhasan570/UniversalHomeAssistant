@@ -21,7 +21,7 @@ from universalassistant.components.workday.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_COUNTRY, CONF_LANGUAGE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.util.dt import UTC
 
@@ -29,7 +29,7 @@ from . import init_integration
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test we get the forms."""
 
     result = await hass.config_entries.flow.async_init(
@@ -71,7 +71,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_province_no_alias(hass: __HAC_KEEP__) -> None:
+async def test_form_province_no_alias(hass: UniversalAssistant) -> None:
     """Test we get the forms."""
 
     result = await hass.config_entries.flow.async_init(
@@ -112,7 +112,7 @@ async def test_form_province_no_alias(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_no_country(hass: __HAC_KEEP__) -> None:
+async def test_form_no_country(hass: UniversalAssistant) -> None:
     """Test we get the forms correctly without a country."""
 
     result = await hass.config_entries.flow.async_init(
@@ -149,7 +149,7 @@ async def test_form_no_country(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_no_subdivision(hass: __HAC_KEEP__) -> None:
+async def test_form_no_subdivision(hass: UniversalAssistant) -> None:
     """Test we get the forms correctly without subdivision."""
 
     result = await hass.config_entries.flow.async_init(
@@ -190,7 +190,7 @@ async def test_form_no_subdivision(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_options_form(hass: __HAC_KEEP__) -> None:
+async def test_options_form(hass: UniversalAssistant) -> None:
     """Test we get the form in options."""
 
     entry = await init_integration(
@@ -235,7 +235,7 @@ async def test_options_form(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_incorrect_dates(hass: __HAC_KEEP__) -> None:
+async def test_form_incorrect_dates(hass: UniversalAssistant) -> None:
     """Test errors in setup entry."""
 
     result = await hass.config_entries.flow.async_init(
@@ -306,7 +306,7 @@ async def test_form_incorrect_dates(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_options_form_incorrect_dates(hass: __HAC_KEEP__) -> None:
+async def test_options_form_incorrect_dates(hass: UniversalAssistant) -> None:
     """Test errors in options."""
 
     entry = await init_integration(
@@ -381,7 +381,7 @@ async def test_options_form_incorrect_dates(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_options_form_abort_duplicate(hass: __HAC_KEEP__) -> None:
+async def test_options_form_abort_duplicate(hass: UniversalAssistant) -> None:
     """Test errors in options for duplicates."""
 
     await init_integration(
@@ -448,7 +448,7 @@ async def test_options_form_abort_duplicate(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_incorrect_date_range(hass: __HAC_KEEP__) -> None:
+async def test_form_incorrect_date_range(hass: UniversalAssistant) -> None:
     """Test errors in setup entry."""
 
     result = await hass.config_entries.flow.async_init(
@@ -519,7 +519,7 @@ async def test_form_incorrect_date_range(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_options_form_incorrect_date_ranges(hass: __HAC_KEEP__) -> None:
+async def test_options_form_incorrect_date_ranges(hass: UniversalAssistant) -> None:
     """Test errors in options."""
 
     entry = await init_integration(
@@ -601,7 +601,7 @@ async def test_options_form_incorrect_date_ranges(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_language(
-    hass: __HAC_KEEP__, language: str, holiday: str, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, language: str, holiday: str, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test we get the forms."""
     freezer.move_to(datetime(2023, 12, 25, 12, tzinfo=UTC))  # Monday
@@ -648,7 +648,7 @@ async def test_language(
     assert state.state == "on"
 
 
-async def test_form_with_categories(hass: __HAC_KEEP__) -> None:
+async def test_form_with_categories(hass: UniversalAssistant) -> None:
     """Test optional categories."""
 
     result = await hass.config_entries.flow.async_init(
@@ -691,7 +691,7 @@ async def test_form_with_categories(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_form_with_categories_can_remove_day(hass: __HAC_KEEP__) -> None:
+async def test_form_with_categories_can_remove_day(hass: UniversalAssistant) -> None:
     """Test optional categories, days can be removed."""
 
     result = await hass.config_entries.flow.async_init(
@@ -736,7 +736,7 @@ async def test_form_with_categories_can_remove_day(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_options_form_removes_subdiv(hass: __HAC_KEEP__) -> None:
+async def test_options_form_removes_subdiv(hass: UniversalAssistant) -> None:
     """Test we get the form in options when removing a configured subdivision."""
 
     entry = await init_integration(

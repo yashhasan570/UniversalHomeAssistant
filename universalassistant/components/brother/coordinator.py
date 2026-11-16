@@ -7,8 +7,12 @@ from typing import override
 from brother import Brother, BrotherSensors, SnmpError, UnsupportedModelError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers.update_coordinator import (
+    DataUpdateCoordinator,
+    UpdateFailed,
+    UpdateFailedUnreachable,
+)
 
 from .const import DOMAIN, UPDATE_INTERVAL
 
@@ -23,7 +27,7 @@ class BrotherDataUpdateCoordinator(DataUpdateCoordinator[BrotherSensors]):
     config_entry: BrotherConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: BrotherConfigEntry, brother: Brother
+        self, hass: UniversalAssistant, config_entry: BrotherConfigEntry, brother: Brother
     ) -> None:
         """Initialize."""
         self.brother = brother
@@ -43,7 +47,16 @@ class BrotherDataUpdateCoordinator(DataUpdateCoordinator[BrotherSensors]):
         try:
             async with timeout(20):
                 data = await self.brother.async_update()
-        except (ConnectionError, SnmpError, UnsupportedModelError) as error:
+        except (ConnectionError, TimeoutError) as error:
+            raise UpdateFailedUnreachable(
+                translation_domain=DOMAIN,
+                translation_key="update_error",
+                translation_placeholders={
+                    "device": self.device_name,
+                    "error": repr(error),
+                },
+            ) from error
+        except (SnmpError, UnsupportedModelError) as error:
             raise UpdateFailed(
                 translation_domain=DOMAIN,
                 translation_key="update_error",

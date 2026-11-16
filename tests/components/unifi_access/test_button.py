@@ -10,8 +10,8 @@ from unifi_access_api import ApiError
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -31,7 +31,7 @@ def _get_on_disconnect(mock_client: MagicMock) -> Callable[[], None]:
 
 
 async def test_button_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -45,7 +45,7 @@ async def test_button_entities(
 
 
 async def test_unlock_door(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -61,14 +61,14 @@ async def test_unlock_door(
 
 
 async def test_unlock_door_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
     """Test pressing the unlock button raises on API error."""
     mock_client.unlock_door.side_effect = ApiError("unlock failed")
 
-    with pytest.raises(__HAC_KEEP__Error, match="Failed to unlock the door"):
+    with pytest.raises(UniversalAssistantError, match="Failed to unlock the door"):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -78,7 +78,7 @@ async def test_unlock_door_api_error(
 
 
 async def test_ws_disconnect_marks_entities_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -94,7 +94,7 @@ async def test_ws_disconnect_marks_entities_unavailable(
 
 
 async def test_ws_reconnect_restores_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -114,7 +114,7 @@ async def test_ws_reconnect_restores_entities(
 
 
 async def test_ws_connect_no_refresh_when_healthy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:

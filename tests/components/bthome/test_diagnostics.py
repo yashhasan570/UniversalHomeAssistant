@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.bluetooth import BluetoothServiceInfoBleak
 from universalassistant.components.bthome.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import INVALID_PAYLOAD, make_bthome_v2_adv, make_encrypted_bthome_v1_adv
 
@@ -71,7 +71,7 @@ MAC_IN_MANUFACTURER_DATA = BluetoothServiceInfoBleak(
     ],
 )
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
     address: str,

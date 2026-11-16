@@ -35,7 +35,7 @@ from universalassistant.components.light import (
     LightEntityFeature,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import CALLBACK_TYPE, Event, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, Event, UniversalAssistant, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -82,7 +82,7 @@ COMPONENT_FORWARDED_EFFECTS = {
 
 @callback
 def _async_setup_component_sync(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: LIFXConfigEntry,
     main_unique_id: str,
     unique_ids: set[str],
@@ -151,7 +151,7 @@ def _async_setup_component_sync(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: LIFXConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -324,6 +324,10 @@ class LIFXLight(LIFXEntity, LightEntity):
         fading_on = power_on and not self.is_on
 
         if new_hsbk:
+            # A firmware effect would draw over the new color
+            await self.manager.async_stop_firmware_effect(
+                self.device, self.coordinator.data
+            )
             await self.set_color(
                 new_hsbk,
                 kwargs,
@@ -821,7 +825,7 @@ class LIFXComponentLight[
         if restored is None or all(color.brightness == 0 for color in restored):
             return None
         current = self.entity_description.colors_fn(self._state)
-        # A color changed while __HA_KEEP__ was down no longer matches. The
+        # A color changed while Universal Home Assistant was down no longer matches. The
         # zone count is fixed in hardware and the data belongs to this serial
         if any(
             now.replace(brightness=then.brightness) != then
@@ -872,6 +876,8 @@ class LIFXComponentLight[
             # The library refuses a dark color, so zero brightness means off
             power = False
         elif requested(changes):
+            # A firmware effect would draw over the new colors
+            await self.manager.async_stop_firmware_effect(self.device, self._state)
             if not overwrites_existing_color(changes):
                 # Every zone is written back, so a zone changed outside Home
                 # Assistant has to be read before it is merged over

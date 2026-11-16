@@ -25,8 +25,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_registry import RegistryEntryDisabler
 from universalassistant.util import dt as dt_util
@@ -143,7 +143,7 @@ WLAN_REGENERATE_PASSWORD = [
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entity_and_device_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     site_payload: dict[str, Any],
@@ -159,7 +159,7 @@ async def test_entity_and_device_data(
 
 
 async def _test_button_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_websocket_state: WebsocketStateManager,
     config_entry: MockConfigEntry,
@@ -230,7 +230,7 @@ async def _test_button_entity(
     ],
 )
 async def test_device_button_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
     mock_websocket_state: WebsocketStateManager,
@@ -277,7 +277,7 @@ async def test_device_button_entities(
     ],
 )
 async def test_wlan_button_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
@@ -318,7 +318,7 @@ async def test_wlan_button_entities(
 @pytest.mark.parametrize("device_payload", [DEVICE_POWER_CYCLE_POE])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_power_cycle_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_message: WebsocketMessageMock,
     device_payload: dict[str, Any],
 ) -> None:
@@ -347,17 +347,17 @@ async def test_power_cycle_availability(
 
 @pytest.mark.parametrize("device_payload", [DEVICE_RESTART])
 async def test_button_request_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
 ) -> None:
-    """Verify __HAC_KEEP__Error is raised when API request fails."""
+    """Verify UniversalAssistantError is raised when API request fails."""
     with (
         patch.object(
             config_entry_setup.runtime_data.api,
             "request",
             side_effect=aiounifi.AiounifiException,
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             BUTTON_DOMAIN,

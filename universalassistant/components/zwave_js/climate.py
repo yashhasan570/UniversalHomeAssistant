@@ -29,7 +29,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, PRECISION_TENTHS, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.unit_conversion import TemperatureConverter
@@ -52,7 +52,7 @@ THERMOSTAT_MODES = [
     ThermostatMode.DRY,
 ]
 
-# Map Z-Wave HVAC Mode to __HA_KEEP__ value
+# Map Z-Wave HVAC Mode to Universal Home Assistant value
 # Note: We treat "auto" as "heat_cool" as most Z-Wave devices
 # report auto_changeover as auto without schedule support.
 ZW_HVAC_MODE_MAP: dict[int, HVACMode] = {
@@ -91,7 +91,7 @@ ATTR_FAN_STATE = "fan_state"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ZwaveJSConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -234,7 +234,7 @@ class ZWaveClimate(ZWaveBaseEntity, ClimateEntity):
         return get_value_of_zwave_value(temp)
 
     def _set_modes_and_presets(self) -> None:
-        """Convert Z-Wave Thermostat modes into __HA_KEEP__ modes and presets."""
+        """Convert Z-Wave Thermostat modes into Universal Home Assistant modes and presets."""
         all_modes: dict[HVACMode, int | None] = {}
         all_presets: dict[str, int | None] = {PRESET_NONE: None}
 

@@ -7,7 +7,7 @@ from pytest_universalassistant.common import async_fire_mqtt_message
 from pytest_universalassistant.typing import MqttMockHAClient
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .test_common import get_device_discovery_payload, send_discovery_message
 
@@ -22,7 +22,7 @@ from .test_common import get_device_discovery_payload, send_discovery_message
     ],
 )
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mqtt_mock: MqttMockHAClient,
     setup_pglab,

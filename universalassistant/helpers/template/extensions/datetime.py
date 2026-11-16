@@ -1,4 +1,4 @@
-"""DateTime functions for __HA_KEEP__ templates."""
+"""DateTime functions for Universal Home Assistant templates."""
 
 from datetime import date, datetime, time, timedelta
 from typing import TYPE_CHECKING, Any

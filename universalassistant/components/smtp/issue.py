@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.const import CONF_NAME, CONF_SENDER
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, callback
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
 from universalassistant.helpers.issue_registry import (
     IssueSeverity,
     async_create_issue,
@@ -16,7 +16,7 @@ from .const import CONF_SERVER, DOMAIN
 
 @callback
 def async_deprecate_yaml_issue(
-    hass: __HAC_KEEP__, config: dict[str, Any], *, import_success: bool = True
+    hass: UniversalAssistant, config: dict[str, Any], *, import_success: bool = True
 ) -> None:
     """Deprecate yaml issue."""
     if import_success:
@@ -53,7 +53,7 @@ def async_deprecate_yaml_issue(
         )
 
 
-def deprecated_notify_action_call(hass: __HAC_KEEP__, service_name: str) -> None:
+def deprecated_notify_action_call(hass: UniversalAssistant, service_name: str) -> None:
     """Deprecated action call."""
 
     create_issue(

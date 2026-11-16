@@ -5,13 +5,13 @@ import pytest
 from universalassistant import config_entries
 from universalassistant.components.brottsplatskartan.const import CONF_AREA, DOMAIN
 from universalassistant.const import CONF_LATITUDE, CONF_LOCATION, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -36,7 +36,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_form_location(hass: __HAC_KEEP__) -> None:
+async def test_form_location(hass: UniversalAssistant) -> None:
     """Test we get the form using location."""
 
     result = await hass.config_entries.flow.async_init(
@@ -66,7 +66,7 @@ async def test_form_location(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_form_area(hass: __HAC_KEEP__) -> None:
+async def test_form_area(hass: UniversalAssistant) -> None:
     """Test we get the form using area."""
 
     result = await hass.config_entries.flow.async_init(

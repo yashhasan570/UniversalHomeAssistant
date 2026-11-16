@@ -35,7 +35,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -63,7 +63,7 @@ class SynoApi:
 
     dsm: SynologyDSM
 
-    def __init__(self, hass: __HAC_KEEP__, entry: SynologyDSMConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: SynologyDSMConfigEntry) -> None:
         """Initialize the API wrapper class."""
         self._hass = hass
         self._entry = entry

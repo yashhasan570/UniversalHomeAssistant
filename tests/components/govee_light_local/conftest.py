@@ -13,7 +13,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.govee_light_local.const import DOMAIN
 from universalassistant.components.govee_light_local.coordinator import GoveeController
 from universalassistant.components.network import Adapter
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 NETWORK_ADAPTERS: list[Adapter] = [
     {
@@ -129,7 +129,7 @@ SCENE_CAPABILITIES: GoveeLightCapabilities = GoveeLightCapabilities(
 
 
 async def setup_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_govee_api: AsyncMock,
     capabilities: GoveeLightCapabilities = DEFAULT_CAPABILITIES,
     *,

@@ -6,19 +6,19 @@ from pytest_universalassistant.typing import ClientSessionGenerator, WebSocketGe
 
 from universalassistant.auth import models as auth_models
 from universalassistant.components.config import auth as auth_config
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture(autouse=True)
 async def setup_config(
-    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
+    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Fixture that sets up the auth provider universalassistant module."""
     auth_config.async_setup(hass)
 
 
 async def test_list_requires_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
 ) -> None:
@@ -33,7 +33,7 @@ async def test_list_requires_admin(
 
 
 async def test_list(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
 ) -> None:
     """Test get users."""
     group = MockGroup().add_to_hass(hass)
@@ -117,7 +117,7 @@ async def test_list(
 
 
 async def test_delete_requires_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
 ) -> None:
@@ -132,7 +132,7 @@ async def test_delete_requires_admin(
 
 
 async def test_delete_unable_self_account(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_access_token: str
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_access_token: str
 ) -> None:
     """Test we cannot delete our own account."""
     client = await hass_ws_client(hass, hass_access_token)
@@ -148,7 +148,7 @@ async def test_delete_unable_self_account(
 
 
 async def test_delete_unknown_user(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_access_token: str
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_access_token: str
 ) -> None:
     """Test we cannot delete an unknown user."""
     client = await hass_ws_client(hass, hass_access_token)
@@ -161,7 +161,7 @@ async def test_delete_unknown_user(
 
 
 async def test_delete_owner(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that the owner cannot be deleted."""
     owner = MockUser(id="abc", name="Test Owner", is_owner=True).add_to_hass(hass)
@@ -176,7 +176,7 @@ async def test_delete_owner(
 
 
 async def test_delete_system_generated(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that system generated users cannot be deleted."""
     user = MockUser(id="abc", name="System", system_generated=True).add_to_hass(hass)
@@ -191,7 +191,7 @@ async def test_delete_system_generated(
 
 
 async def test_delete(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_access_token: str
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_access_token: str
 ) -> None:
     """Test delete command works."""
     client = await hass_ws_client(hass, hass_access_token)
@@ -209,7 +209,7 @@ async def test_delete(
 
 
 async def test_create(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_access_token: str
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_access_token: str
 ) -> None:
     """Test create command works."""
     client = await hass_ws_client(hass, hass_access_token)
@@ -233,7 +233,7 @@ async def test_create(
 
 
 async def test_create_user_group(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_access_token: str
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_access_token: str
 ) -> None:
     """Test create user with a group."""
     client = await hass_ws_client(hass, hass_access_token)
@@ -264,7 +264,7 @@ async def test_create_user_group(
 
 
 async def test_create_requires_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
 ) -> None:
@@ -278,7 +278,7 @@ async def test_create_requires_admin(
     assert result["error"]["code"] == "unauthorized"
 
 
-async def test_update(hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator) -> None:
+async def test_update(hass: UniversalAssistant, hass_ws_client: WebSocketGenerator) -> None:
     """Test update command works."""
     client = await hass_ws_client(hass)
 
@@ -306,7 +306,7 @@ async def test_update(hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator) ->
 
 
 async def test_update_requires_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
 ) -> None:
@@ -331,7 +331,7 @@ async def test_update_requires_admin(
 
 
 async def test_update_system_generated(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test update command cannot update a system generated."""
     client = await hass_ws_client(hass)
@@ -354,7 +354,7 @@ async def test_update_system_generated(
 
 
 async def test_deactivate(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test deactivation and reactivation of regular user."""
     client = await hass_ws_client(hass)
@@ -394,7 +394,7 @@ async def test_deactivate(
 
 
 async def test_deactivate_owner(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that owner cannot be deactivated."""
     user = MockUser(id="abc", name="Test Owner", is_owner=True).add_to_hass(hass)
@@ -413,7 +413,7 @@ async def test_deactivate_owner(
 
 
 async def test_deactivate_system_generated(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that owner cannot be deactivated."""
     client = await hass_ws_client(hass)

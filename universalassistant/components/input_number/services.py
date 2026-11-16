@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 import probatio
 
 from universalassistant.const import CONF_ID
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.helpers.service import async_register_admin_service
 
 from .const import (
@@ -47,7 +47,7 @@ async def _async_set_value(entity: InputNumber, service_call: ServiceCall) -> No
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the input_number services."""
     async_register_admin_service(
         hass,

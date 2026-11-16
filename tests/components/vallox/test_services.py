@@ -10,8 +10,8 @@ from universalassistant.components.vallox.services import (
     ValloxService,
     ValloxServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 
 @pytest.mark.usefixtures("init_integration")
@@ -26,7 +26,7 @@ from universalassistant.exceptions import __HAC_KEEP__Error
     ],
 )
 async def test_set_profile_fan_speed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vallox_client: AsyncMock,
     service: ValloxService,
     profile: Profile,
@@ -50,7 +50,7 @@ async def test_set_profile_fan_speed(
     ],
 )
 async def test_set_profile_fan_speed_clamped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vallox_client: AsyncMock,
     fan_speed: int,
     expected_fan_speed: int,
@@ -88,7 +88,7 @@ async def test_set_profile_fan_speed_clamped(
     ],
 )
 async def test_set_profile(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vallox_client: AsyncMock,
     profile_key: str,
     profile: Profile,
@@ -119,7 +119,7 @@ async def test_set_profile(
     ],
 )
 async def test_set_profile_duration_clamped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vallox_client: AsyncMock,
     duration: int,
     expected_duration: int,
@@ -150,7 +150,7 @@ async def test_set_profile_duration_clamped(
     ],
 )
 async def test_set_profile_fan_speed_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vallox_client: AsyncMock,
     service: ValloxService,
     expected_profile: str,
@@ -160,7 +160,7 @@ async def test_set_profile_fan_speed_error(
         "Connection error"
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN, service, {ValloxServiceArgument.FAN_SPEED: 30}, blocking=True
         )
@@ -242,7 +242,7 @@ async def test_set_profile_fan_speed_error(
     ],
 )
 async def test_set_profile_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vallox_client: AsyncMock,
     service_data: dict[str, str | int],
     translation_key: str,
@@ -251,7 +251,7 @@ async def test_set_profile_error(
     """Test error handling when activating a profile fails."""
     mock_vallox_client.set_profile.side_effect = ValloxApiException("API error")
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN, ValloxService.SET_PROFILE, service_data, blocking=True
         )

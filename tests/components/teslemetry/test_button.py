@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import assert_entities, setup_platform
@@ -19,7 +19,7 @@ VIN = "LRW3F7EK4NC700000"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -58,7 +58,7 @@ async def test_button(
     ],
 )
 async def test_press(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     name: str,
     func: str,
     args: tuple[bool | int, ...],
@@ -88,7 +88,7 @@ async def test_press(
     ],
 )
 async def test_keep_accessory_power_firmware_gate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_metadata: AsyncMock,
     firmware: str,
     expected: bool,

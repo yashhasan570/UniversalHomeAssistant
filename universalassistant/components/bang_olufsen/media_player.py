@@ -51,8 +51,8 @@ from universalassistant.components.media_player import (
     async_process_play_media_url,
 )
 from universalassistant.const import CONF_MODEL, Platform
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -107,7 +107,7 @@ BEO_FEATURES = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: BeoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -332,7 +332,7 @@ class BeoMediaPlayer(BeoEntity, MediaPlayerEntity):
     @callback
     def _async_update_playback_error(self, data: PlaybackError) -> None:
         """Show playback error."""
-        raise __HAC_KEEP__Error(data.error)
+        raise UniversalAssistantError(data.error)
 
     @callback
     def _async_update_playback_progress(self, data: PlaybackProgress) -> None:
@@ -392,7 +392,7 @@ class BeoMediaPlayer(BeoEntity, MediaPlayerEntity):
     async def _async_update_beolink(self) -> None:
         """Update the current Beolink leader, listeners, peers and self.
 
-        Updates __HA_KEEP__ state.
+        Updates Universal Home Assistant state.
         """
 
         self._beolink_attributes = {}
@@ -427,7 +427,7 @@ class BeoMediaPlayer(BeoEntity, MediaPlayerEntity):
 
         # If the device is a listener.
         if self._remote_leader is not None:
-            # Add leader if available in __HA_KEEP__
+            # Add leader if available in Universal Home Assistant
             leader = self._get_entity_id_from_jid(self._remote_leader.jid)
             group_members.append(
                 leader
@@ -454,7 +454,7 @@ class BeoMediaPlayer(BeoEntity, MediaPlayerEntity):
                 # Add self
                 group_members.append(self.entity_id)
 
-                # Get the entity_ids of the listeners if available in __HA_KEEP__
+                # Get the entity_ids of the listeners if available in Universal Home Assistant
                 group_members.extend(
                     [
                         listener
@@ -831,7 +831,7 @@ class BeoMediaPlayer(BeoEntity, MediaPlayerEntity):
 
             # Exit if the source uses unsupported file.
             if media_id.endswith(".m3u"):
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN, translation_key="m3u_invalid_format"
                 )
 
@@ -937,7 +937,7 @@ class BeoMediaPlayer(BeoEntity, MediaPlayerEntity):
                     )
 
             except ApiException as error:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="play_media_error",
                     translation_placeholders={

@@ -7,7 +7,7 @@ from universalassistant.components.harmony.subscriber import (
     HarmonyCallback,
     HarmonySubscriberMixin,
 )
-from universalassistant.core import HassJob, __HAC_KEEP__
+from universalassistant.core import HassJob, UniversalAssistant
 
 _NO_PARAM_CALLBACKS = {
     "connected": "_connected",
@@ -27,14 +27,14 @@ _ALL_CALLBACK_NAMES = list(_NO_PARAM_CALLBACKS.keys()) + list(
 _ACTIVITY_TUPLE = ("not", "used")
 
 
-async def test_no_callbacks(hass: __HAC_KEEP__) -> None:
+async def test_no_callbacks(hass: UniversalAssistant) -> None:
     """Ensure we handle no subscriptions."""
     subscriber = HarmonySubscriberMixin(hass)
     _call_all_callbacks(subscriber)
     await hass.async_block_till_done()
 
 
-async def test_empty_callbacks(hass: __HAC_KEEP__) -> None:
+async def test_empty_callbacks(hass: UniversalAssistant) -> None:
     """Ensure we handle a missing callback in a subscription."""
     subscriber = HarmonySubscriberMixin(hass)
 
@@ -44,7 +44,7 @@ async def test_empty_callbacks(hass: __HAC_KEEP__) -> None:
     await hass.async_block_till_done()
 
 
-async def test_async_callbacks(hass: __HAC_KEEP__) -> None:
+async def test_async_callbacks(hass: UniversalAssistant) -> None:
     """Ensure we handle async callbacks."""
     subscriber = HarmonySubscriberMixin(hass)
 
@@ -62,7 +62,7 @@ async def test_async_callbacks(hass: __HAC_KEEP__) -> None:
         callback_mock.target.assert_awaited_once_with(_ACTIVITY_TUPLE)
 
 
-async def test_long_async_callbacks(hass: __HAC_KEEP__) -> None:
+async def test_long_async_callbacks(hass: UniversalAssistant) -> None:
     """Ensure we handle async callbacks that may have sleeps."""
     subscriber = HarmonySubscriberMixin(hass)
 
@@ -88,7 +88,7 @@ async def test_long_async_callbacks(hass: __HAC_KEEP__) -> None:
     await notifier_event_one.wait()
 
 
-async def test_callbacks(hass: __HAC_KEEP__) -> None:
+async def test_callbacks(hass: UniversalAssistant) -> None:
     """Ensure we handle non-async callbacks."""
     subscriber = HarmonySubscriberMixin(hass)
 
@@ -106,7 +106,7 @@ async def test_callbacks(hass: __HAC_KEEP__) -> None:
         callback_mock.target.assert_called_once_with(_ACTIVITY_TUPLE)
 
 
-async def test_subscribe_unsubscribe(hass: __HAC_KEEP__) -> None:
+async def test_subscribe_unsubscribe(hass: UniversalAssistant) -> None:
     """Ensure we handle subscriptions and unsubscriptions correctly."""
     subscriber = HarmonySubscriberMixin(hass)
 

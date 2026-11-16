@@ -9,7 +9,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.incomfort.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 MOCK_CONFIG = {
     "host": "192.168.1.12",
@@ -87,7 +87,7 @@ def mock_entry_unique_id() -> str | None:
 
 @pytest.fixture
 def mock_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_data: dict[str, Any],
     mock_entry_options: dict[str, Any],
     mock_entry_unique_id: str | None,

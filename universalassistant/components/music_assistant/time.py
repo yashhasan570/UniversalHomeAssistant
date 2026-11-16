@@ -8,7 +8,7 @@ from music_assistant_models.event import MassEvent
 
 from universalassistant.components.time import TimeEntity
 from universalassistant.const import EntityCategory, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -18,7 +18,7 @@ from .helpers import catch_musicassistant_error
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MusicAssistantConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -1,7 +1,7 @@
 """The zamg component."""
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 
 from .const import CONF_STATION_ID, LOGGER
@@ -10,7 +10,7 @@ from .coordinator import ZamgConfigEntry, ZamgDataUpdateCoordinator
 PLATFORMS = (Platform.SENSOR, Platform.WEATHER)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ZamgConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ZamgConfigEntry) -> None:
     """Set up Zamg from config entry."""
     await _async_migrate_entries(hass, entry)
 
@@ -25,13 +25,13 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ZamgConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ZamgConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ZamgConfigEntry) -> None:
     """Unload ZAMG config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def _async_migrate_entries(
-    hass: __HAC_KEEP__, config_entry: ZamgConfigEntry
+    hass: UniversalAssistant, config_entry: ZamgConfigEntry
 ) -> bool:
     """Migrate old entry."""
     entity_registry = er.async_get(hass)

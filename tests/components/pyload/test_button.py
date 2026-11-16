@@ -12,8 +12,8 @@ from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, Button
 from universalassistant.components.pyload.button import PyLoadButtonEntity
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 API_CALL = {
@@ -36,7 +36,7 @@ def button_only() -> Generator[None]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -55,7 +55,7 @@ async def test_state(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_button_press(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_pyloadapi: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -93,7 +93,7 @@ async def test_button_press(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_button_press_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_pyloadapi: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -117,12 +117,12 @@ async def test_button_press_errors(
     mock_pyloadapi.restart.side_effect = side_effect
 
     for entity_entry in entity_entries:
-        with pytest.raises(__HAC_KEEP__Error) as exc_info:
+        with pytest.raises(UniversalAssistantError) as exc_info:
             await hass.services.async_call(
                 BUTTON_DOMAIN,
                 ButtonService.PRESS,
                 {CommonServiceArgument.ENTITY_ID: entity_entry.entity_id},
                 blocking=True,
             )
-        assert type(exc_info.value) is __HAC_KEEP__Error
+        assert type(exc_info.value) is UniversalAssistantError
         assert exc_info.value.translation_key == translation_key

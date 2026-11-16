@@ -9,11 +9,11 @@ from universalassistant.components.aftership.services import (
     AfterShipService,
     AfterShipServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def setup_integration(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Set up the AfterShip integration for testing."""
     mock_config_entry.add_to_hass(hass)
@@ -22,7 +22,7 @@ async def setup_integration(
 
 
 async def test_add_tracking(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_aftership: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -48,7 +48,7 @@ async def test_add_tracking(
 
 
 async def test_add_tracking_only_required(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_aftership: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -70,7 +70,7 @@ async def test_add_tracking_only_required(
 
 
 async def test_remove_tracking(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_aftership: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

@@ -35,8 +35,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_registry import RegistryEntryDisabler
 from universalassistant.util import dt as dt_util
@@ -944,7 +944,7 @@ OBJECT_ORIENTED_NETWORK_ROUTE_CONFIG = {
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entity_and_device_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     site_payload: dict[str, Any],
@@ -959,7 +959,7 @@ async def test_entity_and_device_data(
 @pytest.mark.parametrize("client_payload", [[CONTROLLER_HOST]])
 @pytest.mark.parametrize("device_payload", [[DEVICE_1]])
 @pytest.mark.usefixtures("config_entry_setup")
-async def test_hub_not_client(hass: __HAC_KEEP__) -> None:
+async def test_hub_not_client(hass: UniversalAssistant) -> None:
     """Test that the cloud key doesn't become a switch."""
     assert len(hass.states.async_entity_ids(SWITCH_DOMAIN)) == 0
     assert hass.states.get("switch.cloud_key") is None
@@ -979,7 +979,7 @@ async def test_hub_not_client(hass: __HAC_KEEP__) -> None:
 @pytest.mark.parametrize("dpi_app_payload", [DPI_APPS])
 @pytest.mark.parametrize("dpi_group_payload", [DPI_GROUPS])
 async def test_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
 ) -> None:
@@ -1051,7 +1051,7 @@ async def test_switches(
 @pytest.mark.parametrize("dpi_group_payload", [DPI_GROUPS])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_remove_switches(
-    hass: __HAC_KEEP__, mock_websocket_message: WebsocketMessageMock
+    hass: UniversalAssistant, mock_websocket_message: WebsocketMessageMock
 ) -> None:
     """Test the update_items function with some clients."""
     assert len(hass.states.async_entity_ids(SWITCH_DOMAIN)) == 2
@@ -1087,7 +1087,7 @@ async def test_remove_switches(
 @pytest.mark.parametrize("client_payload", [[UNBLOCKED]])
 @pytest.mark.parametrize("clients_all_payload", [[BLOCKED]])
 async def test_block_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_websocket_message: WebsocketMessageMock,
     config_entry_setup: MockConfigEntry,
@@ -1156,7 +1156,7 @@ async def test_block_switches(
 @pytest.mark.parametrize("dpi_group_payload", [DPI_GROUPS])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_dpi_switches(
-    hass: __HAC_KEEP__, mock_websocket_message: WebsocketMessageMock
+    hass: UniversalAssistant, mock_websocket_message: WebsocketMessageMock
 ) -> None:
     """Test the update_items function with some clients."""
     assert len(hass.states.async_entity_ids(SWITCH_DOMAIN)) == 1
@@ -1184,7 +1184,7 @@ async def test_dpi_switches(
 @pytest.mark.parametrize("dpi_group_payload", [DPI_GROUPS])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_dpi_switches_add_second_app(
-    hass: __HAC_KEEP__, mock_websocket_message: WebsocketMessageMock
+    hass: UniversalAssistant, mock_websocket_message: WebsocketMessageMock
 ) -> None:
     """Test the update_items function with some clients."""
     assert len(hass.states.async_entity_ids(SWITCH_DOMAIN)) == 1
@@ -1244,7 +1244,7 @@ async def test_dpi_switches_add_second_app(
 
 @pytest.mark.parametrize(("traffic_rule_payload"), [([TRAFFIC_RULE])])
 async def test_traffic_rules(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
     traffic_rule_payload: list[dict[str, Any]],
@@ -1298,7 +1298,7 @@ async def test_traffic_rules(
 
 @pytest.mark.parametrize(("traffic_route_payload"), [([TRAFFIC_ROUTE])])
 async def test_traffic_routes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
     traffic_route_payload: list[dict[str, Any]],
@@ -1353,7 +1353,7 @@ async def test_traffic_routes(
 
 @pytest.mark.parametrize(("firewall_policy_payload"), [([FIREWALL_POLICY])])
 async def test_firewall_policies(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
     firewall_policy_payload: list[dict[str, Any]],
@@ -1413,7 +1413,7 @@ async def test_firewall_policies(
     [([OBJECT_ORIENTED_NETWORK_CONFIG, OBJECT_ORIENTED_NETWORK_ROUTE_CONFIG])],
 )
 async def test_object_oriented_network_configs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
     object_oriented_network_config_payload: list[dict[str, Any]],
@@ -1499,7 +1499,7 @@ async def test_object_oriented_network_configs(
     ],
 )
 async def test_outlet_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_websocket_message: WebsocketMessageMock,
     config_entry_setup: MockConfigEntry,
@@ -1585,7 +1585,7 @@ async def test_outlet_switches(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_new_client_discovered_on_block_control(
-    hass: __HAC_KEEP__, mock_websocket_message: WebsocketMessageMock
+    hass: UniversalAssistant, mock_websocket_message: WebsocketMessageMock
 ) -> None:
     """Test if 2nd update has a new client."""
     assert len(hass.states.async_entity_ids(SWITCH_DOMAIN)) == 0
@@ -1603,7 +1603,7 @@ async def test_new_client_discovered_on_block_control(
 )
 @pytest.mark.parametrize("clients_all_payload", [[BLOCKED, UNBLOCKED]])
 async def test_option_block_clients(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
     clients_all_payload: list[dict[str, Any]],
 ) -> None:
@@ -1653,7 +1653,7 @@ async def test_option_block_clients(
 @pytest.mark.parametrize("dpi_app_payload", [DPI_APPS])
 @pytest.mark.parametrize("dpi_group_payload", [DPI_GROUPS])
 async def test_option_remove_switches(
-    hass: __HAC_KEEP__, config_entry_setup: MockConfigEntry
+    hass: UniversalAssistant, config_entry_setup: MockConfigEntry
 ) -> None:
     """Test removal of DPI switch when options updated."""
     assert len(hass.states.async_entity_ids(SWITCH_DOMAIN)) == 1
@@ -1668,7 +1668,7 @@ async def test_option_remove_switches(
 
 @pytest.mark.parametrize("device_payload", [[DEVICE_1]])
 async def test_poe_port_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
@@ -1763,7 +1763,7 @@ async def test_poe_port_switches(
 
 @pytest.mark.parametrize("wlan_payload", [[WLAN]])
 async def test_wlan_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
     mock_websocket_message: WebsocketMessageMock,
@@ -1811,7 +1811,7 @@ async def test_wlan_switches(
 
 @pytest.mark.parametrize("port_forward_payload", [[PORT_FORWARD_PLEX]])
 async def test_port_forwarding_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
     mock_websocket_message: WebsocketMessageMock,
@@ -1880,7 +1880,7 @@ async def test_port_forwarding_switches(
 @pytest.mark.usefixtures("config_entry_setup")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_hub_state_change(
-    hass: __HAC_KEEP__, mock_websocket_state: WebsocketStateManager
+    hass: UniversalAssistant, mock_websocket_state: WebsocketStateManager
 ) -> None:
     """Verify entities state reflect on hub connection becoming unavailable."""
     entity_ids = (
@@ -1910,7 +1910,7 @@ async def test_hub_state_change(
 
 @pytest.mark.parametrize("device_payload", [[DEVICE_1]])
 async def test_port_control_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
@@ -2016,17 +2016,17 @@ async def test_port_control_switches(
 )
 @pytest.mark.parametrize("client_payload", [[BLOCKED]])
 async def test_switch_turn_on_request_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
 ) -> None:
-    """Verify __HAC_KEEP__Error is raised when turn on API request fails."""
+    """Verify UniversalAssistantError is raised when turn on API request fails."""
     with (
         patch.object(
             config_entry_setup.runtime_data.api,
             "request",
             side_effect=aiounifi.AiounifiException,
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,
@@ -2043,17 +2043,17 @@ async def test_switch_turn_on_request_failed(
 )
 @pytest.mark.parametrize("client_payload", [[BLOCKED]])
 async def test_switch_turn_off_request_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
 ) -> None:
-    """Verify __HAC_KEEP__Error is raised when turn off API request fails."""
+    """Verify UniversalAssistantError is raised when turn off API request fails."""
     with (
         patch.object(
             config_entry_setup.runtime_data.api,
             "request",
             side_effect=aiounifi.AiounifiException,
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,

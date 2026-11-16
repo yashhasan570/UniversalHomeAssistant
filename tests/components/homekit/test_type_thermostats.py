@@ -85,12 +85,12 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     UnitOfTemperature,
 )
-from universalassistant.core import CoreState, Event, __HAC_KEEP__
+from universalassistant.core import CoreState, Event, UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
 
-async def test_thermostat(hass: __HAC_KEEP__, hk_driver, events: list[Event]) -> None:
+async def test_thermostat(hass: UniversalAssistant, hk_driver, events: list[Event]) -> None:
     """Test if accessory and HA are updated accordingly."""
     entity_id = "climate.test"
     base_attrs = {
@@ -420,7 +420,7 @@ async def test_thermostat(hass: __HAC_KEEP__, hk_driver, events: list[Event]) ->
 
 
 async def test_thermostat_auto(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test if accessory and HA are updated accordingly."""
     entity_id = "climate.test"
@@ -555,7 +555,7 @@ async def test_thermostat_auto(
 
 
 async def test_thermostat_mode_and_temp_change(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test if accessory where the mode and temp change in the same call."""
     entity_id = "climate.test"
@@ -664,7 +664,7 @@ async def test_thermostat_mode_and_temp_change(
 
 
 async def test_thermostat_humidity(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test if accessory and HA are updated accordingly with humidity."""
     entity_id = "climate.test"
@@ -729,7 +729,7 @@ async def test_thermostat_humidity(
 
 
 async def test_thermostat_humidity_with_target_humidity(
-    hass: __HAC_KEEP__, hk_driver
+    hass: UniversalAssistant, hk_driver
 ) -> None:
     """Test accessory and HA updates with humidity without target.
 
@@ -754,7 +754,7 @@ async def test_thermostat_humidity_with_target_humidity(
 
 
 async def test_thermostat_power_state(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test if accessory and HA are updated accordingly."""
     entity_id = "climate.test"
@@ -864,7 +864,7 @@ async def test_thermostat_power_state(
 
 
 async def test_thermostat_fahrenheit(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test if accessory and HA are updated accordingly."""
     entity_id = "climate.test"
@@ -976,7 +976,7 @@ async def test_thermostat_fahrenheit(
     assert events[-1].data[ATTR_VALUE] == "TargetTemperature to 24.0°C"
 
 
-async def test_thermostat_get_temperature_range(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_thermostat_get_temperature_range(hass: UniversalAssistant, hk_driver) -> None:
     """Test if temperature range is evaluated correctly."""
     entity_id = "climate.test"
 
@@ -1016,7 +1016,7 @@ async def test_thermostat_get_temperature_range(hass: __HAC_KEEP__, hk_driver) -
 
 
 async def test_thermostat_temperature_step_whole(
-    hass: __HAC_KEEP__, hk_driver
+    hass: UniversalAssistant, hk_driver
 ) -> None:
     """Test climate device with single digit precision."""
     entity_id = "climate.test"
@@ -1033,7 +1033,7 @@ async def test_thermostat_temperature_step_whole(
 
 
 async def test_thermostat_restore(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, hk_driver
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, hk_driver
 ) -> None:
     """Test setting up an entity from state in the event registry."""
     hass.set_state(CoreState.not_running)
@@ -1086,7 +1086,7 @@ async def test_thermostat_restore(
     }
 
 
-async def test_thermostat_hvac_modes(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_thermostat_hvac_modes(hass: UniversalAssistant, hk_driver) -> None:
     """Test if unsupported HVAC modes are deactivated in HomeKit."""
     entity_id = "climate.test"
 
@@ -1120,7 +1120,7 @@ async def test_thermostat_hvac_modes(hass: __HAC_KEEP__, hk_driver) -> None:
 
 
 async def test_thermostat_hvac_modes_with_auto_heat_cool(
-    hass: __HAC_KEEP__, hk_driver
+    hass: UniversalAssistant, hk_driver
 ) -> None:
     """Test we get heat cool over auto."""
     entity_id = "climate.test"
@@ -1185,7 +1185,7 @@ async def test_thermostat_hvac_modes_with_auto_heat_cool(
 
 
 async def test_thermostat_hvac_modes_with_auto_no_heat_cool(
-    hass: __HAC_KEEP__, hk_driver
+    hass: UniversalAssistant, hk_driver
 ) -> None:
     """Test we get auto when there is no heat cool."""
     entity_id = "climate.test"
@@ -1244,7 +1244,7 @@ async def test_thermostat_hvac_modes_with_auto_no_heat_cool(
 
 
 async def test_thermostat_hvac_modes_with_auto_only(
-    hass: __HAC_KEEP__, hk_driver
+    hass: UniversalAssistant, hk_driver
 ) -> None:
     """Test if unsupported HVAC modes are deactivated in HomeKit."""
     entity_id = "climate.test"
@@ -1300,7 +1300,7 @@ async def test_thermostat_hvac_modes_with_auto_only(
 
 
 async def test_thermostat_hvac_modes_with_heat_only(
-    hass: __HAC_KEEP__, hk_driver
+    hass: UniversalAssistant, hk_driver
 ) -> None:
     """Test unsupported HVAC modes deactivated, siri calls convert to heat."""
     entity_id = "climate.test"
@@ -1380,7 +1380,7 @@ async def test_thermostat_hvac_modes_with_heat_only(
 
 
 async def test_thermostat_hvac_modes_with_cool_only(
-    hass: __HAC_KEEP__, hk_driver
+    hass: UniversalAssistant, hk_driver
 ) -> None:
     """Test unsupported HVAC modes deactivated, siri calls convert to cool."""
     entity_id = "climate.test"
@@ -1435,7 +1435,7 @@ async def test_thermostat_hvac_modes_with_cool_only(
 
 
 async def test_thermostat_hvac_modes_with_heat_cool_only(
-    hass: __HAC_KEEP__, hk_driver
+    hass: UniversalAssistant, hk_driver
 ) -> None:
     """Test unsupported HVAC modes deactivated, siri converts to heat/cool."""
     entity_id = "climate.test"
@@ -1525,7 +1525,7 @@ async def test_thermostat_hvac_modes_with_heat_cool_only(
 
 
 async def test_thermostat_hvac_modes_without_off(
-    hass: __HAC_KEEP__, hk_driver
+    hass: UniversalAssistant, hk_driver
 ) -> None:
     """Test a thermostat that has no off."""
     entity_id = "climate.test"
@@ -1564,7 +1564,7 @@ async def test_thermostat_hvac_modes_without_off(
 
 
 async def test_thermostat_without_target_temp_only_range(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test a thermostat that only supports a range."""
     entity_id = "climate.test"
@@ -1727,7 +1727,7 @@ async def test_thermostat_without_target_temp_only_range(
 
 
 async def test_water_heater(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test if accessory and HA are updated accordingly."""
     entity_id = "water_heater.test"
@@ -1803,7 +1803,7 @@ async def test_water_heater(
 
 
 async def test_water_heater_off_mode_on_off(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver, events: list[Event]
+    hass: UniversalAssistant, hk_driver: HomeDriver, events: list[Event]
 ) -> None:
     """Test water heater Off mode via ON_OFF feature."""
     entity_id = "water_heater.test"
@@ -1864,7 +1864,7 @@ async def test_water_heater_off_mode_on_off(
 
 
 async def test_water_heater_off_mode_operation_mode(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver, events: list[Event]
+    hass: UniversalAssistant, hk_driver: HomeDriver, events: list[Event]
 ) -> None:
     """Test water heater Off mode via OPERATION_MODE feature."""
     entity_id = "water_heater.test"
@@ -1910,7 +1910,7 @@ async def test_water_heater_off_mode_operation_mode(
 
 
 async def test_water_heater_no_off_mode(
-    hass: __HAC_KEEP__, hk_driver: HomeDriver, events: list[Event]
+    hass: UniversalAssistant, hk_driver: HomeDriver, events: list[Event]
 ) -> None:
     """Test water heater without ON_OFF or OPERATION_MODE does not expose Off."""
     entity_id = "water_heater.test"
@@ -1927,7 +1927,7 @@ async def test_water_heater_no_off_mode(
 
 
 async def test_water_heater_fahrenheit(
-    hass: __HAC_KEEP__, hk_driver, events: list[Event]
+    hass: UniversalAssistant, hk_driver, events: list[Event]
 ) -> None:
     """Test if accessory and HA are update accordingly."""
     entity_id = "water_heater.test"
@@ -1961,7 +1961,7 @@ async def test_water_heater_fahrenheit(
 
 
 async def test_water_heater_get_temperature_range(
-    hass: __HAC_KEEP__, hk_driver
+    hass: UniversalAssistant, hk_driver
 ) -> None:
     """Test if temperature range is evaluated correctly."""
     entity_id = "water_heater.test"
@@ -1991,7 +1991,7 @@ async def test_water_heater_get_temperature_range(
 
 
 async def test_water_heater_restore(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, hk_driver
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, hk_driver
 ) -> None:
     """Test setting up an entity from state in the event registry."""
     hass.set_state(CoreState.not_running)
@@ -2041,7 +2041,7 @@ async def test_water_heater_restore(
 
 
 async def test_thermostat_with_no_modes_when_we_first_see(
-    hass: __HAC_KEEP__, hk_driver
+    hass: UniversalAssistant, hk_driver
 ) -> None:
     """Test if a thermostat that is not ready when we first see it."""
     entity_id = "climate.test"
@@ -2095,7 +2095,7 @@ async def test_thermostat_with_no_modes_when_we_first_see(
 
 
 async def test_thermostat_with_no_off_after_recheck(
-    hass: __HAC_KEEP__, hk_driver
+    hass: UniversalAssistant, hk_driver
 ) -> None:
     """Test thermostat without off mode discovered after recheck."""
     entity_id = "climate.test"
@@ -2148,7 +2148,7 @@ async def test_thermostat_with_no_off_after_recheck(
         assert mock_reload.called
 
 
-async def test_thermostat_with_temp_clamps(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_thermostat_with_temp_clamps(hass: UniversalAssistant, hk_driver) -> None:
     """Test that temperatures are clamped to valid values to prevent homekit crash."""
     entity_id = "climate.test"
     base_attrs = {
@@ -2203,7 +2203,7 @@ async def test_thermostat_with_temp_clamps(hass: __HAC_KEEP__, hk_driver) -> Non
 
 
 async def test_thermostat_with_fan_modes_with_auto(
-    hass: __HAC_KEEP__, hk_driver
+    hass: UniversalAssistant, hk_driver
 ) -> None:
     """Test a thermostate with fan modes with an auto fan mode."""
     entity_id = "climate.test"
@@ -2409,7 +2409,7 @@ async def test_thermostat_with_fan_modes_with_auto(
 
 
 async def test_thermostat_with_fan_modes_with_off(
-    hass: __HAC_KEEP__, hk_driver
+    hass: UniversalAssistant, hk_driver
 ) -> None:
     """Test a thermostate with fan modes that can turn off."""
     entity_id = "climate.test"
@@ -2518,7 +2518,7 @@ async def test_thermostat_with_fan_modes_with_off(
 
 
 async def test_thermostat_with_fan_modes_set_to_none(
-    hass: __HAC_KEEP__, hk_driver
+    hass: UniversalAssistant, hk_driver
 ) -> None:
     """Test a thermostate with fan modes set to None."""
     entity_id = "climate.test"
@@ -2562,7 +2562,7 @@ async def test_thermostat_with_fan_modes_set_to_none(
 
 
 async def test_thermostat_with_fan_modes_set_to_none_not_supported(
-    hass: __HAC_KEEP__, hk_driver
+    hass: UniversalAssistant, hk_driver
 ) -> None:
     """Test a thermostate with fan modes set to None and supported feature missing."""
     entity_id = "climate.test"
@@ -2605,7 +2605,7 @@ async def test_thermostat_with_fan_modes_set_to_none_not_supported(
 
 
 async def test_thermostat_with_supported_features_target_temp_but_fan_mode_set(
-    hass: __HAC_KEEP__, hk_driver
+    hass: UniversalAssistant, hk_driver
 ) -> None:
     """Test a thermostate with fan mode and supported feature missing."""
     entity_id = "climate.test"
@@ -2643,7 +2643,7 @@ async def test_thermostat_with_supported_features_target_temp_but_fan_mode_set(
 
 
 async def test_thermostat_fan_state_with_preheating_and_defrosting(
-    hass: __HAC_KEEP__, hk_driver
+    hass: UniversalAssistant, hk_driver
 ) -> None:
     """Test thermostat fan state mappings for preheating and defrosting actions."""
     entity_id = "climate.test"
@@ -2734,7 +2734,7 @@ async def test_thermostat_fan_state_with_preheating_and_defrosting(
     assert acc.char_current_fan_state.value == FAN_STATE_INACTIVE
 
 
-async def test_thermostat_handles_unknown_state(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_thermostat_handles_unknown_state(hass: UniversalAssistant, hk_driver) -> None:
     """Test a thermostat can handle unknown state."""
     entity_id = "climate.test"
     attrs = {
@@ -2873,7 +2873,7 @@ async def test_thermostat_handles_unknown_state(hass: __HAC_KEEP__, hk_driver) -
     assert call_set_hvac_mode[1].data[ATTR_HVAC_MODE] == HVACMode.HEAT
 
 
-async def test_thermostat_reversed_min_max(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_thermostat_reversed_min_max(hass: UniversalAssistant, hk_driver) -> None:
     """Test reversed min/max temperatures."""
     entity_id = "climate.test"
     base_attrs = {
@@ -2915,7 +2915,7 @@ async def test_thermostat_reversed_min_max(hass: __HAC_KEEP__, hk_driver) -> Non
 
 
 async def test_thermostat_with_capitalized_fan_modes(
-    hass: __HAC_KEEP__, hk_driver
+    hass: UniversalAssistant, hk_driver
 ) -> None:
     """Test fan modes are sent back with their original casing."""
     entity_id = "climate.test"
@@ -2986,7 +2986,7 @@ async def test_thermostat_with_capitalized_fan_modes(
     assert call_set_fan_mode[-1].data[ATTR_FAN_MODE] == "Low"
 
 
-async def test_climate_base_fan_swing_guards(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_climate_base_fan_swing_guards(hass: UniversalAssistant, hk_driver) -> None:
     """Test the shared fan and swing setters no-op without predefined modes."""
     entity_id = "climate.test"
     hass.states.async_set(

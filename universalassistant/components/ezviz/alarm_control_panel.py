@@ -14,8 +14,8 @@ from universalassistant.components.alarm_control_panel import (
     AlarmControlPanelEntityFeature,
     AlarmControlPanelState,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -47,7 +47,7 @@ ALARM_TYPE = EzvizAlarmControlPanelEntityDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: EzvizConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -107,7 +107,7 @@ class EzvizAlarm(AlarmControlPanelEntity):
                 self._attr_alarm_state = AlarmControlPanelState.DISARMED
 
         except PyEzvizError as err:
-            raise __HAC_KEEP__Error("Cannot disarm EZVIZ alarm") from err
+            raise UniversalAssistantError("Cannot disarm EZVIZ alarm") from err
 
     @override
     def alarm_arm_away(self, code: str | None = None) -> None:
@@ -119,7 +119,7 @@ class EzvizAlarm(AlarmControlPanelEntity):
                 self._attr_alarm_state = AlarmControlPanelState.ARMED_AWAY
 
         except PyEzvizError as err:
-            raise __HAC_KEEP__Error("Cannot arm EZVIZ alarm") from err
+            raise UniversalAssistantError("Cannot arm EZVIZ alarm") from err
 
     @override
     def alarm_arm_home(self, code: str | None = None) -> None:
@@ -131,7 +131,7 @@ class EzvizAlarm(AlarmControlPanelEntity):
                 self._attr_alarm_state = AlarmControlPanelState.ARMED_HOME
 
         except PyEzvizError as err:
-            raise __HAC_KEEP__Error("Cannot arm EZVIZ alarm") from err
+            raise UniversalAssistantError("Cannot arm EZVIZ alarm") from err
 
     def update(self) -> None:
         """Fetch data from EZVIZ."""
@@ -148,6 +148,6 @@ class EzvizAlarm(AlarmControlPanelEntity):
             ]
 
         except PyEzvizError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Could not fetch EZVIZ alarm status: {error}"
             ) from error

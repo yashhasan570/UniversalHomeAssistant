@@ -7,7 +7,7 @@ from typing import Any, override
 from pyiqvia.errors import IQVIAError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import LOGGER
@@ -24,7 +24,7 @@ class IqviaUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: IqviaConfigEntry,
         name: str,
         update_method: Callable[[], Coroutine[Any, Any, dict[str, Any]]],

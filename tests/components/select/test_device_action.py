@@ -17,7 +17,7 @@ from universalassistant.components.select.device_action import (
     async_validate_action_config,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -27,7 +27,7 @@ from universalassistant.setup import async_setup_component
 
 
 async def test_get_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -73,7 +73,7 @@ async def test_get_actions(
     ],
 )
 async def test_get_actions_hidden_auxiliary(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     hidden_by,
@@ -119,7 +119,7 @@ async def test_get_actions_hidden_auxiliary(
 
 @pytest.mark.parametrize("action_type", ["select_first", "select_last"])
 async def test_action_select_first_last(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     action_type: str,
@@ -168,7 +168,7 @@ async def test_action_select_first_last(
 
 @pytest.mark.parametrize("action_type", ["select_first", "select_last"])
 async def test_action_select_first_last_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     action_type: str,
@@ -216,7 +216,7 @@ async def test_action_select_first_last_legacy(
 
 
 async def test_action_select_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -265,7 +265,7 @@ async def test_action_select_option(
 
 @pytest.mark.parametrize("action_type", ["select_next", "select_previous"])
 async def test_action_select_next_previous(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     action_type: str,
@@ -314,7 +314,7 @@ async def test_action_select_next_previous(
 
 
 async def test_get_action_capabilities(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test we get the expected capabilities from a select action."""
     entry = entity_registry.async_get_or_create(DOMAIN, "test", "5678")
@@ -416,7 +416,7 @@ async def test_get_action_capabilities(
 
 
 async def test_get_action_capabilities_legacy(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test we get the expected capabilities from a select action."""
     entry = entity_registry.async_get_or_create(DOMAIN, "test", "5678")
@@ -517,7 +517,7 @@ async def test_get_action_capabilities_legacy(
     assert capabilities == {}
 
 
-async def test_select_option_without_option_is_invalid(hass: __HAC_KEEP__) -> None:
+async def test_select_option_without_option_is_invalid(hass: UniversalAssistant) -> None:
     """Test the action type selects the schema that reports the error."""
     with pytest.raises(Invalid, match="required key not provided at 'option'"):
         await async_validate_action_config(

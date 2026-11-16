@@ -20,7 +20,7 @@ from universalassistant.components.panasonic_viera.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_HOST, CONF_NAME, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.typing import Undefined
 
 MOCK_USER_INPUT = {
@@ -119,7 +119,7 @@ def mock_remote_fixture():
 
 
 @pytest.fixture
-async def init_integration(hass: __HAC_KEEP__, mock_remote: Mock) -> MockConfigEntry:
+async def init_integration(hass: UniversalAssistant, mock_remote: Mock) -> MockConfigEntry:
     """Set up the Panasonic Viera integration for testing."""
 
     mock_entry = MockConfigEntry(

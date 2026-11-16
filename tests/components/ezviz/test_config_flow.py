@@ -38,14 +38,14 @@ from universalassistant.const import (
     CONF_URL,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import setup_integration
 
 
 @pytest.mark.usefixtures("mock_ezviz_client")
-async def test_full_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_full_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test the full flow."""
 
     result = await hass.config_entries.flow.async_init(
@@ -79,7 +79,7 @@ async def test_full_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> Non
 
 @pytest.mark.usefixtures("mock_ezviz_client")
 async def test_user_custom_url(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test custom url step."""
     result = await hass.config_entries.flow.async_init(
@@ -118,7 +118,7 @@ async def test_user_custom_url(
 
 @pytest.mark.usefixtures("mock_ezviz_client", "mock_setup_entry")
 async def test_async_step_reauth(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the reauth step."""
     mock_config_entry.add_to_hass(hass)
@@ -143,7 +143,7 @@ async def test_async_step_reauth(
 
 @pytest.mark.usefixtures("mock_ezviz_client")
 async def test_step_discovery_abort_if_cloud_account_missing(
-    hass: __HAC_KEEP__, mock_test_rtsp_auth: AsyncMock
+    hass: UniversalAssistant, mock_test_rtsp_auth: AsyncMock
 ) -> None:
     """Test discovery and confirm step, abort if cloud account was removed."""
 
@@ -175,7 +175,7 @@ async def test_step_discovery_abort_if_cloud_account_missing(
 
 @pytest.mark.usefixtures("mock_ezviz_client", "mock_test_rtsp_auth")
 async def test_step_reauth_abort_if_cloud_account_missing(
-    hass: __HAC_KEEP__, mock_camera_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_camera_config_entry: MockConfigEntry
 ) -> None:
     """Test reauth and confirm step, abort if cloud account was removed."""
 
@@ -188,7 +188,7 @@ async def test_step_reauth_abort_if_cloud_account_missing(
 
 @pytest.mark.usefixtures("mock_ezviz_client", "mock_test_rtsp_auth", "mock_setup_entry")
 async def test_async_step_integration_discovery(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test discovery and confirm step."""
     mock_config_entry.add_to_hass(hass)
@@ -226,7 +226,7 @@ async def test_async_step_integration_discovery(
 
 @pytest.mark.usefixtures("mock_ezviz_client")
 async def test_options_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test updating options."""
     await setup_integration(hass, mock_config_entry)
@@ -251,7 +251,7 @@ async def test_options_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow_camera_encryption_password(
-    hass: __HAC_KEEP__, mock_camera_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_camera_config_entry: MockConfigEntry
 ) -> None:
     """Test setting the image encryption password of a camera entry."""
     mock_camera_config_entry.add_to_hass(hass)
@@ -280,7 +280,7 @@ async def test_options_flow_camera_encryption_password(
 
 @pytest.mark.usefixtures("mock_ezviz_client")
 async def test_options_flow_cloud_has_no_encryption_password(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the cloud account options do not offer an encryption password."""
     await setup_integration(hass, mock_config_entry)
@@ -299,7 +299,7 @@ async def test_options_flow_cloud_has_no_encryption_password(
     ],
 )
 async def test_user_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ezviz_client: AsyncMock,
     mock_setup_entry: AsyncMock,
     exception: Exception,
@@ -355,7 +355,7 @@ async def test_user_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_unknown_exception(
-    hass: __HAC_KEEP__, mock_ezviz_client: AsyncMock
+    hass: UniversalAssistant, mock_ezviz_client: AsyncMock
 ) -> None:
     """Test the full flow."""
 
@@ -390,7 +390,7 @@ async def test_user_flow_unknown_exception(
     ],
 )
 async def test_user_custom_url_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ezviz_client: AsyncMock,
     mock_setup_entry: AsyncMock,
     exception: Exception,
@@ -451,7 +451,7 @@ async def test_user_custom_url_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_custom_url_unknown_exception(
-    hass: __HAC_KEEP__, mock_ezviz_client: AsyncMock
+    hass: UniversalAssistant, mock_ezviz_client: AsyncMock
 ) -> None:
     """Test the full flow."""
 
@@ -488,7 +488,7 @@ async def test_user_custom_url_unknown_exception(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ezviz_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -506,7 +506,7 @@ async def test_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_async_step_integration_discovery_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ezviz_client: AsyncMock,
     mock_test_rtsp_auth: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -541,7 +541,7 @@ async def test_async_step_integration_discovery_duplicate(
     ],
 )
 async def test_camera_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ezviz_client: AsyncMock,
     mock_test_rtsp_auth: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -602,7 +602,7 @@ async def test_camera_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_camera_unknown_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ezviz_client: AsyncMock,
     mock_test_rtsp_auth: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -649,7 +649,7 @@ async def test_camera_unknown_error(
     ],
 )
 async def test_reauth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ezviz_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -693,7 +693,7 @@ async def test_reauth_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_unknown_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ezviz_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -720,7 +720,7 @@ async def test_reauth_unknown_exception(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure(
-    hass: __HAC_KEEP__, mock_ezviz_client_class: MagicMock
+    hass: UniversalAssistant, mock_ezviz_client_class: MagicMock
 ) -> None:
     """Test reconfiguring the cloud account."""
     mock_config_entry = MockConfigEntry(
@@ -770,7 +770,7 @@ async def test_reconfigure(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ezviz_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: type[Exception],
@@ -804,7 +804,7 @@ async def test_reconfigure_errors(
 
 
 async def test_reconfigure_camera_not_supported(
-    hass: __HAC_KEEP__, mock_camera_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_camera_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring a camera entry is not supported."""
     mock_camera_config_entry.add_to_hass(hass)
@@ -816,7 +816,7 @@ async def test_reconfigure_camera_not_supported(
 
 
 async def _start_user_flow_until_mfa(
-    hass: __HAC_KEEP__, mock_ezviz_client: MagicMock
+    hass: UniversalAssistant, mock_ezviz_client: MagicMock
 ) -> ConfigFlowResult:
     """Start the user flow for an account with 2FA enabled."""
     result = await hass.config_entries.flow.async_init(
@@ -842,7 +842,7 @@ async def _start_user_flow_until_mfa(
 
 
 async def test_user_flow_mfa(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ezviz_client_class: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -871,7 +871,7 @@ async def test_user_flow_mfa(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_custom_url_mfa(
-    hass: __HAC_KEEP__, mock_ezviz_client: MagicMock
+    hass: UniversalAssistant, mock_ezviz_client: MagicMock
 ) -> None:
     """Test the custom url flow of an account with 2FA enabled."""
     result = await hass.config_entries.flow.async_init(
@@ -919,7 +919,7 @@ async def test_user_custom_url_mfa(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_mfa_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ezviz_client: MagicMock,
     exception: type[Exception] | None,
     code: str,
@@ -949,7 +949,7 @@ async def test_mfa_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_mfa_unknown_exception(
-    hass: __HAC_KEEP__, mock_ezviz_client: MagicMock
+    hass: UniversalAssistant, mock_ezviz_client: MagicMock
 ) -> None:
     """Test the verification code step aborts on an unexpected error."""
     result = await _start_user_flow_until_mfa(hass, mock_ezviz_client)
@@ -966,7 +966,7 @@ async def test_mfa_unknown_exception(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_mfa_cloud_account_added_meanwhile(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ezviz_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -985,7 +985,7 @@ async def test_mfa_cloud_account_added_meanwhile(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_mfa(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ezviz_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1022,7 +1022,7 @@ async def test_reauth_mfa(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_mfa(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ezviz_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

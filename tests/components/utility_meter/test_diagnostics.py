@@ -14,12 +14,12 @@ from universalassistant.components.utility_meter.const import (
     DOMAIN,
     UtilityMeterEntityStateAttribute,
 )
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 
 
 @pytest.mark.freeze_time("2024-04-06 00:00:00+00:00")
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:

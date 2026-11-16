@@ -3,7 +3,7 @@
 import pyevilgenius
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import aiohttp_client
 
 from .coordinator import EvilGeniusConfigEntry, EvilGeniusUpdateCoordinator
@@ -13,7 +13,7 @@ PLATFORMS = [Platform.LIGHT]
 UPDATE_INTERVAL = 10
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: EvilGeniusConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: EvilGeniusConfigEntry) -> None:
     """Set up Evil Genius Labs from a config entry."""
     coordinator = EvilGeniusUpdateCoordinator(
         hass,
@@ -27,6 +27,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: EvilGeniusConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: EvilGeniusConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: EvilGeniusConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

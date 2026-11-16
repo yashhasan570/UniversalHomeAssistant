@@ -7,14 +7,14 @@ import probatio
 import pywemo
 
 from universalassistant.config_entries import ConfigEntry, ConfigFlowResult, OptionsFlow
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.config_entry_flow import DiscoveryFlowHandler
 
 from .const import DOMAIN
 from .coordinator import Options, OptionsValidationError
 
 
-async def _async_has_devices(hass: __HAC_KEEP__) -> bool:
+async def _async_has_devices(hass: UniversalAssistant) -> bool:
     """Return if there are devices that can be discovered."""
     return bool(await hass.async_add_executor_job(pywemo.discover_devices))
 

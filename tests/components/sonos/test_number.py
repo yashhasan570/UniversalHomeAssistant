@@ -4,14 +4,14 @@ from unittest.mock import PropertyMock, patch
 
 from universalassistant.components.number import DOMAIN as NUMBER_DOMAIN, NumberService
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 CROSSOVER_ENTITY = "number.zone_a_sub_crossover_frequency"
 
 
 async def test_number_entities(
-    hass: __HAC_KEEP__, async_autosetup_sonos, soco, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, async_autosetup_sonos, soco, entity_registry: er.EntityRegistry
 ) -> None:
     """Test number entities."""
     balance_number = entity_registry.entities["number.zone_a_balance"]
@@ -71,7 +71,7 @@ async def test_number_entities(
 
 
 async def test_amp_number_entities(
-    hass: __HAC_KEEP__, async_setup_sonos, soco, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, async_setup_sonos, soco, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the sub_crossover feature only available on Sonos Amp devices.
 

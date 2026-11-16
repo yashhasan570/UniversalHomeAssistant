@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 DOMAIN = "marketplace"
 CLIENT_ID = "395a8e669c5de9f7c6e8"
-CLIENT_NAME = f"__HAC_KEEP__Marketplace/{HAVERSION}"
+CLIENT_NAME = f"UniversalAssistantMarketplace/{HAVERSION}"
 
 # Installed dashboard resources live in www/community, which the frontend
 # serves as /local.

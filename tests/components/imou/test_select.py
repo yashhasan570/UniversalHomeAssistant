@@ -31,8 +31,8 @@ from universalassistant.components.select import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .const import UNKNOWN_SELECT_KEY, create_online_device, select_mock_devices
@@ -42,7 +42,7 @@ from .const import UNKNOWN_SELECT_KEY, create_online_device, select_mock_devices
 @pytest.mark.parametrize("imou_mock_devices", [select_mock_devices], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_select_entities_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -108,7 +108,7 @@ async def test_setup_ignores_unknown_select_types(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_select_option_via_domain_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,
@@ -153,7 +153,7 @@ async def test_select_option_via_domain_service(
 @pytest.mark.parametrize("imou_mock_devices", [select_mock_devices], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_select_option_propagates_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,
@@ -171,7 +171,7 @@ async def test_select_option_propagates_api_error(
         if entry.unique_id == "d1$device_volume"
     )
 
-    with pytest.raises(__HAC_KEEP__Error, match="Imou rejected the new option"):
+    with pytest.raises(UniversalAssistantError, match="Imou rejected the new option"):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -187,7 +187,7 @@ async def test_select_option_propagates_api_error(
 @pytest.mark.parametrize("imou_mock_devices", [select_mock_devices], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_select_option_invalid_auth_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,
@@ -206,7 +206,7 @@ async def test_select_option_invalid_auth_starts_reauth(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="Imou rejected the App ID and App secret"
+        UniversalAssistantError, match="Imou rejected the App ID and App secret"
     ):
         await hass.services.async_call(
             SELECT_DOMAIN,
@@ -245,7 +245,7 @@ async def test_select_option_invalid_auth_starts_reauth(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_select_option_unavailable_offline_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -290,7 +290,7 @@ async def test_select_option_unavailable_offline_device(
 @pytest.mark.parametrize("imou_mock_devices", [select_mock_devices], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_entities_removed_when_device_leaves_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,

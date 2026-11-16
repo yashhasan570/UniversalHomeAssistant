@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.probe_plus.const import DOMAIN
 from universalassistant.config_entries import SOURCE_BLUETOOTH, SOURCE_IGNORE, SOURCE_USER
 from universalassistant.const import CONF_ADDRESS, CONF_MODEL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 
@@ -36,7 +36,7 @@ def mock_discovered_service_info() -> Generator[AsyncMock]:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_config_flow_creates_entry(
-    hass: __HAC_KEEP__, mock_discovered_service_info: AsyncMock
+    hass: UniversalAssistant, mock_discovered_service_info: AsyncMock
 ) -> None:
     """Test the user configuration flow successfully creates a config entry."""
     result = await hass.config_entries.flow.async_init(
@@ -60,7 +60,7 @@ async def test_user_config_flow_creates_entry(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_discovered_service_info: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -77,7 +77,7 @@ async def test_user_flow_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_bluetooth_discovery(
-    hass: __HAC_KEEP__, mock_discovered_service_info: AsyncMock
+    hass: UniversalAssistant, mock_discovered_service_info: AsyncMock
 ) -> None:
     """Test we can discover a device."""
     result = await hass.config_entries.flow.async_init(
@@ -98,7 +98,7 @@ async def test_bluetooth_discovery(
 
 
 async def test_already_configured_bluetooth_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Ensure configure device is not discovered again."""
@@ -115,7 +115,7 @@ async def test_already_configured_bluetooth_discovery(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_no_bluetooth_devices(
-    hass: __HAC_KEEP__, mock_discovered_service_info: AsyncMock
+    hass: UniversalAssistant, mock_discovered_service_info: AsyncMock
 ) -> None:
     """Test flow aborts on unsupported device."""
     mock_discovered_service_info.return_value = []
@@ -129,7 +129,7 @@ async def test_no_bluetooth_devices(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_setup_replaces_ignored_device(
-    hass: __HAC_KEEP__, mock_discovered_service_info: AsyncMock
+    hass: UniversalAssistant, mock_discovered_service_info: AsyncMock
 ) -> None:
     """Test the user flow can replace an ignored device."""
     entry = MockConfigEntry(

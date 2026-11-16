@@ -2,7 +2,7 @@
 
 from universalassistant.components.binary_sensor import BinarySensorDeviceClass
 from universalassistant.const import ATTR_DEVICE_CLASS, STATE_OFF, STATE_ON, EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -14,7 +14,7 @@ from .common import (
 
 
 async def test_binary_sensors(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the creation and values of the Rituals Perfume Genie binary sensor."""
     config_entry = mock_config_entry(unique_id="binary_sensor_test_diffuser_v1")
@@ -36,7 +36,7 @@ async def test_binary_sensors(
 
 
 async def test_cartridge(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the cartridge binary sensor, with and without a cartridge."""
     config_entry = mock_config_entry(unique_id="binary_sensor_test_cartridge")

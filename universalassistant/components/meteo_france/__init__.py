@@ -5,7 +5,7 @@ import logging
 from meteofrance_api.client import MeteoFranceClient
 from meteofrance_api.helpers import is_valid_warning_department
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import METEO_FRANCE_DATA, PLATFORMS
 from .coordinator import (
@@ -19,7 +19,7 @@ from .coordinator import (
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: MeteoFranceConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: MeteoFranceConfigEntry) -> None:
     """Set up a Meteo-France account from a config entry."""
     departments_with_alert = hass.data.setdefault(METEO_FRANCE_DATA, set())
 
@@ -91,7 +91,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: MeteoFranceConfigEntry) -
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: MeteoFranceConfigEntry
+    hass: UniversalAssistant, entry: MeteoFranceConfigEntry
 ) -> None:
     """Unload a config entry."""
     if entry.runtime_data.alert_coordinator:

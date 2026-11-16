@@ -4,12 +4,12 @@ from unittest.mock import AsyncMock, Mock
 
 from citybikes import model as citybikes_model
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
 async def setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_citybikes_client: Mock,
     station: citybikes_model.Station,
 ) -> None:

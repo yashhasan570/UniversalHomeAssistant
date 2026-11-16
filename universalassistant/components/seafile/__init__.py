@@ -1,7 +1,7 @@
 """The Seafile integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 from .const import DATA_BACKUP_AGENT_LISTENERS
 from .coordinator import SeafileConfigEntry, SeafileDataUpdateCoordinator
@@ -14,7 +14,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SeafileConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SeafileConfigEntry) -> None:
     """Set up Seafile from a config entry."""
     coordinator = SeafileDataUpdateCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()
@@ -33,13 +33,13 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SeafileConfigEntry) -> No
     entry.async_on_unload(entry.async_on_state_change(_async_notify_backup_listeners))
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SeafileConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SeafileConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def _async_update_listener(
-    hass: __HAC_KEEP__, entry: SeafileConfigEntry
+    hass: UniversalAssistant, entry: SeafileConfigEntry
 ) -> None:
     """Reload the entry after its subentries changed."""
     await hass.config_entries.async_reload(entry.entry_id)

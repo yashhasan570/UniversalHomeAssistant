@@ -10,7 +10,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
@@ -23,7 +23,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: NoboHubConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -66,7 +66,7 @@ class NoboTemperatureSensor(NoboBaseEntity, SensorEntity):
     _attr_suggested_display_precision = 1
 
     def __init__(
-        self, hass: __HAC_KEEP__, serial: str, hub: nobo, entry_id: str
+        self, hass: UniversalAssistant, serial: str, hub: nobo, entry_id: str
     ) -> None:
         """Initialize the temperature sensor."""
         super().__init__(hass, hub, entry_id)

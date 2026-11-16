@@ -4,7 +4,7 @@ from freezegun.api import FrozenDateTimeFactory
 from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from .mocks import (
@@ -15,7 +15,7 @@ from .mocks import (
 )
 
 
-async def test_create_doorbell(hass: __HAC_KEEP__) -> None:
+async def test_create_doorbell(hass: UniversalAssistant) -> None:
     """Test creation of a doorbell."""
     doorbell_one = await _mock_doorbell_from_fixture(hass, "get_doorbell.json")
     await _create_yale_with_devices(hass, [doorbell_one])
@@ -30,7 +30,7 @@ async def test_create_doorbell(hass: __HAC_KEEP__) -> None:
     assert doorbell_state.state == STATE_UNKNOWN
 
 
-async def test_create_doorbell_offline(hass: __HAC_KEEP__) -> None:
+async def test_create_doorbell_offline(hass: UniversalAssistant) -> None:
     """Test creation of a doorbell that is offline."""
     doorbell_one = await _mock_doorbell_from_fixture(hass, "get_doorbell.offline.json")
     await _create_yale_with_devices(hass, [doorbell_one])
@@ -43,7 +43,7 @@ async def test_create_doorbell_offline(hass: __HAC_KEEP__) -> None:
 
 
 async def test_create_doorbell_with_motion(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test creation of a doorbell."""
     doorbell_one = await _mock_doorbell_from_fixture(hass, "get_doorbell.json")
@@ -70,7 +70,7 @@ async def test_create_doorbell_with_motion(
 
 
 async def test_doorbell_update_via_socketio(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test creation of a doorbell that can be updated via socketio."""
     doorbell_one = await _mock_doorbell_from_fixture(hass, "get_doorbell.json")
@@ -159,7 +159,7 @@ async def test_doorbell_update_via_socketio(
     assert motion_state.state == isotime
 
 
-async def test_create_lock_with_doorbell(hass: __HAC_KEEP__) -> None:
+async def test_create_lock_with_doorbell(hass: UniversalAssistant) -> None:
     """Test creation of a lock with a doorbell."""
     lock_one = await _mock_lock_from_fixture(hass, "lock_with_doorbell.online.json")
     await _create_yale_with_devices(hass, [lock_one])

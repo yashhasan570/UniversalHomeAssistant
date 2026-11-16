@@ -4,7 +4,7 @@ from universalassistant.components.assist_pipeline import (
     AssistPipelineSelect,
     VadSensitivitySelect,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import VoipConfigEntry
@@ -14,7 +14,7 @@ from .entity import VoIPEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: VoipConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -41,7 +41,7 @@ async def async_setup_entry(
 class VoipPipelineSelect(VoIPEntity, AssistPipelineSelect):
     """Pipeline selector for VoIP devices."""
 
-    def __init__(self, hass: __HAC_KEEP__, device: VoIPDevice) -> None:
+    def __init__(self, hass: UniversalAssistant, device: VoIPDevice) -> None:
         """Initialize a pipeline selector."""
         VoIPEntity.__init__(self, device)
         AssistPipelineSelect.__init__(self, hass, DOMAIN, device.voip_id)
@@ -50,7 +50,7 @@ class VoipPipelineSelect(VoIPEntity, AssistPipelineSelect):
 class VoipVadSensitivitySelect(VoIPEntity, VadSensitivitySelect):
     """VAD sensitivity selector for VoIP devices."""
 
-    def __init__(self, hass: __HAC_KEEP__, device: VoIPDevice) -> None:
+    def __init__(self, hass: UniversalAssistant, device: VoIPDevice) -> None:
         """Initialize a VAD sensitivity selector."""
         VoIPEntity.__init__(self, device)
         VadSensitivitySelect.__init__(self, hass, device.voip_id)

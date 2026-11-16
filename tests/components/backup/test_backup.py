@@ -12,7 +12,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator, WebSocketGe
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.backup import DOMAIN, backup
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .common import (
@@ -46,7 +46,7 @@ def read_backup_fixture() -> Generator[MagicMock]:
     ],
 )
 async def test_load_backups(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
     read_backup: MagicMock,
@@ -72,7 +72,7 @@ async def test_load_backups(
 
 
 async def test_upload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test upload backup."""
@@ -121,7 +121,7 @@ async def test_upload(
     ],
 )
 async def test_delete_backup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,

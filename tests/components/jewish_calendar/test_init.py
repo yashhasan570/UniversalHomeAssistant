@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.jewish_calendar.const import CONF_DAILY_EVENTS, DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import CONF_LANGUAGE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -19,7 +19,7 @@ from universalassistant.helpers import entity_registry as er
     ],
 )
 async def test_migrate_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,
     old_key: str,
@@ -44,7 +44,7 @@ async def test_migrate_unique_id(
     assert entity_migrated.unique_id == f"{config_entry.entry_id}-{new_key}"
 
 
-async def test_migrate_daily_events_tset_hakohavim(hass: __HAC_KEEP__) -> None:
+async def test_migrate_daily_events_tset_hakohavim(hass: UniversalAssistant) -> None:
     """Test the daily events option migration of the nightfall event."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

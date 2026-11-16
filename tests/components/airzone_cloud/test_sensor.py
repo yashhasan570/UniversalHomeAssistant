@@ -2,13 +2,13 @@
 
 import pytest
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .util import async_init_integration
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_airzone_create_sensors(hass: __HAC_KEEP__) -> None:
+async def test_airzone_create_sensors(hass: UniversalAssistant) -> None:
     """Test creation of sensors."""
 
     await async_init_integration(hass)

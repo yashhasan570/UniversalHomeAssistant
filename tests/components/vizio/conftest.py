@@ -18,7 +18,7 @@ from vizaio import (
 from vizaio.profiles import SOUNDBAR_PROFILE, TV_KEYS, TV_PROFILE
 
 from universalassistant.components.vizio.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import (
     ACCESS_TOKEN,
@@ -68,7 +68,7 @@ def mock_speaker_config_entry() -> MockConfigEntry:
     )
 
 
-async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Add config entry to hass and set up the integration."""
     config_entry.add_to_hass(hass)
     assert await hass.config_entries.async_setup(config_entry.entry_id)

@@ -11,8 +11,8 @@ from goslideapi.goslideapi import (
 
 from universalassistant.components.switch import SwitchDeviceClass, SwitchEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -23,7 +23,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SlideConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -63,7 +63,7 @@ class SlideSwitch(SlideEntity, SwitchEntity):
             ClientTimeoutError,
             DigestAuthCalcError,
         ) as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="touchgo_error",
                 translation_placeholders={
@@ -83,7 +83,7 @@ class SlideSwitch(SlideEntity, SwitchEntity):
             ClientTimeoutError,
             DigestAuthCalcError,
         ) as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="touchgo_error",
                 translation_placeholders={

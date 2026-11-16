@@ -18,7 +18,7 @@ from universalassistant.components.compensation.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_ENTITY_ID, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
@@ -62,7 +62,7 @@ def mock_config_entry(data_points: list[dict[str, float]]) -> MockConfigEntry:
 
 
 @pytest.fixture
-def sensor_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def sensor_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Return the config entry of the source sensor."""
     sensor_config_entry = MockConfigEntry()
     sensor_config_entry.add_to_hass(hass)

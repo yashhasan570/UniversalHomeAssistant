@@ -3,7 +3,7 @@
 from enum import StrEnum
 
 from universalassistant.components.camera import DOMAIN as CAMERA_DOMAIN
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import service
 
 from .const import DOMAIN
@@ -29,8 +29,8 @@ CAMERA_SERVICES = {
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
-    """__HA_KEEP__ services."""
+def async_setup_services(hass: UniversalAssistant) -> None:
+    """Universal Home Assistant services."""
 
     for service_name, method in CAMERA_SERVICES.items():
         service.async_register_platform_entity_service(

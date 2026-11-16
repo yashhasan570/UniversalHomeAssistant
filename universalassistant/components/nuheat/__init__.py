@@ -6,7 +6,7 @@ import nuheat
 import requests
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 
 from .const import CONF_SERIAL_NUMBER, DOMAIN, PLATFORMS
@@ -19,7 +19,7 @@ def _get_thermostat(api: nuheat.NuHeat, serial_number: str) -> nuheat.NuHeatTher
     return api.get_thermostat(serial_number)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: NuHeatConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: NuHeatConfigEntry) -> None:
     """Set up NuHeat from a config entry."""
 
     conf = entry.data
@@ -58,6 +58,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: NuHeatConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: NuHeatConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: NuHeatConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

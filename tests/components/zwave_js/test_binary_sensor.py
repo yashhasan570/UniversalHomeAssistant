@@ -26,7 +26,7 @@ from universalassistant.const import (
     EntityCategory,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.helpers.issue_registry import IssueSeverity, async_create_issue
 from universalassistant.setup import async_setup_component
@@ -193,7 +193,7 @@ def platforms() -> list[str]:
 
 
 async def test_battery_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ring_keypad: Node,
     integration: MockConfigEntry,
@@ -244,7 +244,7 @@ async def test_battery_sensors(
 
 
 async def test_enabled_legacy_sensor(
-    hass: __HAC_KEEP__, ecolink_door_sensor, integration
+    hass: UniversalAssistant, ecolink_door_sensor, integration
 ) -> None:
     """Test enabled legacy boolean binary sensor."""
     node = ecolink_door_sensor
@@ -304,7 +304,7 @@ async def test_enabled_legacy_sensor(
 
 
 async def test_disabled_legacy_sensor(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, multisensor_6, integration
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, multisensor_6, integration
 ) -> None:
     """Test disabled legacy boolean binary sensor."""
     # this node has Notification CC implemented so legacy binary
@@ -327,7 +327,7 @@ async def test_disabled_legacy_sensor(
 
 
 async def test_notification_sensor(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, multisensor_6, integration
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, multisensor_6, integration
 ) -> None:
     """Test binary sensor created from Notification CC."""
     state = hass.states.get(NOTIFICATION_MOTION_BINARY_SENSOR)
@@ -349,7 +349,7 @@ async def test_notification_sensor(
 
 
 async def test_glass_break_notification_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     lock_schlage_be469_state: NodeDataType,
 ) -> None:
@@ -388,7 +388,7 @@ async def test_glass_break_notification_sensor(
 )
 @pytest.mark.usefixtures("ring_keypad", "integration")
 async def test_power_management_notification_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     entity_id: str,
     device_class: BinarySensorDeviceClass | None,
@@ -406,7 +406,7 @@ async def test_power_management_notification_sensor(
 
 @pytest.mark.usefixtures("ring_keypad", "integration")
 async def test_power_management_mains_disconnected_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test the AC mains disconnected sensor is kept as a diagnostic sensor.
@@ -435,7 +435,7 @@ async def test_power_management_mains_disconnected_sensor(
     ],
 )
 async def test_heat_notification_sensor_diagnostic(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     entity_id: str,
 ) -> None:
@@ -451,7 +451,7 @@ async def test_heat_notification_sensor_diagnostic(
 
 @pytest.mark.usefixtures("climate_heatit_z_trm6", "integration")
 async def test_heat_notification_sensor_primary(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test overheat/underheat is primary for heat-relevant generic device classes."""
@@ -467,7 +467,7 @@ async def test_heat_notification_sensor_primary(
 
 @pytest.mark.usefixtures("wallmote_central_scene", "integration")
 async def test_power_management_battery_charging_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test Power Management battery charging notification sensor."""
@@ -502,7 +502,7 @@ async def test_power_management_battery_charging_sensor(
 )
 @pytest.mark.usefixtures("wallmote_central_scene", "integration")
 async def test_power_management_battery_level_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     entity_id: str,
     device_class: BinarySensorDeviceClass | None,
@@ -528,7 +528,7 @@ async def test_power_management_battery_level_sensor(
 )
 @pytest.mark.usefixtures("aeotec_smart_switch_7", "integration")
 async def test_power_management_safety_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     entity_id: str,
 ) -> None:
@@ -553,7 +553,7 @@ async def test_power_management_safety_sensor(
 )
 @pytest.mark.usefixtures("lock_schlage_be469", "integration")
 async def test_power_management_battery_maintenance_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     entity_id: str,
 ) -> None:
@@ -569,7 +569,7 @@ async def test_power_management_battery_maintenance_sensor(
 
 
 async def test_notification_off_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     lock_popp_electric_strike_lock_control: Node,
 ) -> None:
     """Test the description off_state attribute of certain notification sensors."""
@@ -601,7 +601,7 @@ async def test_notification_off_state(
 
 
 async def test_property_sensor_door_status(
-    hass: __HAC_KEEP__, lock_august_pro, integration
+    hass: UniversalAssistant, lock_august_pro, integration
 ) -> None:
     """Test property binary sensor with sensor mapping (doorStatus)."""
     node = lock_august_pro
@@ -682,7 +682,7 @@ async def test_property_sensor_door_status(
 
 
 async def test_opening_state_creates_open_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     hoppe_ehandle_connectsense_state,
 ) -> None:
@@ -712,7 +712,7 @@ async def test_opening_state_creates_open_binary_sensor(
 
 
 async def test_opening_state_disables_legacy_window_door_notification_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     client,
     hoppe_ehandle_connectsense_state,
@@ -763,7 +763,7 @@ async def test_opening_state_disables_legacy_window_door_notification_sensors(
 
 
 async def test_opening_state_binary_sensors_with_tilted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     hoppe_ehandle_connectsense_state,
 ) -> None:
@@ -848,7 +848,7 @@ async def test_opening_state_binary_sensors_with_tilted(
 
 
 async def test_opening_state_tilted_appears_via_metadata_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     client,
     hoppe_ehandle_connectsense_state,
@@ -914,7 +914,7 @@ async def test_opening_state_tilted_appears_via_metadata_update(
 
 
 async def test_reenabled_legacy_door_state_entity_follows_opening_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     client,
     hoppe_ehandle_connectsense_state,
@@ -974,7 +974,7 @@ async def test_reenabled_legacy_door_state_entity_follows_opening_state(
 
 
 async def test_legacy_door_state_entities_follow_opening_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     client,
     hoppe_ehandle_connectsense_state,
@@ -1084,14 +1084,14 @@ async def test_legacy_door_state_entities_follow_opening_state(
 
 
 async def test_legacy_door_state_non_zero_endpoint(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
     hoppe_ehandle_connectsense_state: NodeDataType,
 ) -> None:
     """Test legacy door state entities work when notification values are on endpoint 1.
 
-    Regression test for https://github.com/yashhasan570/__HAC_KEEP__/issues/166365.
+    Regression test for https://github.com/yashhasan570/UniversalUniversalAssistant/issues/166365.
     """
     state = _move_notification_values_to_endpoint(
         hoppe_ehandle_connectsense_state, endpoint=1
@@ -1141,7 +1141,7 @@ async def test_legacy_door_state_non_zero_endpoint(
 
 
 async def test_access_control_lock_state_notification_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     client,
     lock_august_asl03_state,
@@ -1179,7 +1179,7 @@ async def test_access_control_lock_state_notification_sensors(
 
 
 async def test_access_control_catch_all_with_opening_state_present(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     client,
     hoppe_ehandle_connectsense_state,
@@ -1217,7 +1217,7 @@ async def test_access_control_catch_all_with_opening_state_present(
 
 
 async def test_config_parameter_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     climate_adc_t3000,
     integration,
@@ -1245,7 +1245,7 @@ async def test_config_parameter_binary_sensor(
 
 
 async def test_smoke_co_notification_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     zcombo_smoke_co_alarm: Node,
     integration: MockConfigEntry,
@@ -1390,7 +1390,7 @@ async def test_smoke_co_notification_sensors(
 
 
 async def test_hoppe_ehandle_connectsense(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hoppe_ehandle_connectsense: Node,
     integration: MockConfigEntry,
@@ -1411,7 +1411,7 @@ async def test_hoppe_ehandle_connectsense(
 
 
 async def test_legacy_door_open_state_repair_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     client: MagicMock,
@@ -1487,7 +1487,7 @@ async def test_legacy_door_open_state_repair_issue(
 
 
 async def test_legacy_door_tilt_state_repair_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     client: MagicMock,
@@ -1552,7 +1552,7 @@ async def test_legacy_door_tilt_state_repair_issue(
 
 
 async def test_legacy_door_open_state_no_repair_issue_when_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     client: MagicMock,
@@ -1603,7 +1603,7 @@ async def test_legacy_door_open_state_no_repair_issue_when_disabled(
 
 
 async def test_legacy_closed_door_state_does_not_create_repair_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     client: MagicMock,
@@ -1659,7 +1659,7 @@ async def test_legacy_closed_door_state_does_not_create_repair_issue(
 
 
 async def test_hoppe_custom_tilt_sensor_no_repair_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     client: MagicMock,
@@ -1709,7 +1709,7 @@ async def test_hoppe_custom_tilt_sensor_no_repair_issue(
 
 
 async def test_legacy_door_open_state_stale_repair_issue_cleaned_up(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     client: MagicMock,
@@ -1769,7 +1769,7 @@ ZSE43_VIBRATION_SENSOR = "binary_sensor.tilt_shock_xs_sensor_vibration"
 
 @pytest.mark.usefixtures("zooz_zse43", "integration")
 async def test_zooz_zse43_vibration_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test the ZSE43 cover-removed notification is exposed as a vibration sensor."""

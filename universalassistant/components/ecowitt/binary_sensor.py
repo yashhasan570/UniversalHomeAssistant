@@ -11,7 +11,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import EcowittConfigEntry
@@ -35,7 +35,7 @@ ECOWITT_BINARYSENSORS_MAPPING: Final = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: EcowittConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

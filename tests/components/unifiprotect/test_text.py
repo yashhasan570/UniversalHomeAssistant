@@ -12,7 +12,7 @@ from universalassistant.components.unifiprotect.const import DEFAULT_ATTRIBUTION
 from universalassistant.components.unifiprotect.text import CAMERA
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ATTRIBUTION, ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .utils import (
@@ -30,7 +30,7 @@ from .utils import (
 
 
 async def test_text_camera_remove(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera, unadopted_camera: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera, unadopted_camera: Camera
 ) -> None:
     """Test removing and re-adding a camera device."""
 
@@ -44,7 +44,7 @@ async def test_text_camera_remove(
 
 
 async def test_text_camera_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -70,7 +70,7 @@ async def test_text_camera_setup(
 
 
 async def test_text_camera_set(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """Test text entity setting value camera devices."""
 
@@ -118,7 +118,7 @@ async def test_text_camera_set(
     ],
 )
 async def test_text_camera_reads_public(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     lcd_message: PublicLcdMessage | None,
@@ -152,7 +152,7 @@ async def test_text_camera_reads_public(
 
 
 async def test_text_public_only_no_doorbell_text(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
@@ -175,7 +175,7 @@ async def test_text_public_only_no_doorbell_text(
 
 
 async def test_text_camera_default_from_public_nvr(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """Without a message the doorbell text shows the public NVR default."""
     nvr = ufp.api.public_bootstrap.nvr
@@ -207,7 +207,7 @@ async def test_text_camera_default_from_public_nvr(
 
 
 async def test_text_camera_read_only_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,

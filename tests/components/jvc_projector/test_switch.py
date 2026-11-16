@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 ESHIFT_ENTITY_ID = "switch.jvc_projector_e_shift"
@@ -26,7 +26,7 @@ def platform() -> Generator[AsyncMock]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: MagicMock,
     mock_integration: MockConfigEntry,
     mock_config_entry: MockConfigEntry,
@@ -39,7 +39,7 @@ async def test_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switch_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_device: MagicMock,
     mock_integration: MockConfigEntry,

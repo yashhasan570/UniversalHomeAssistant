@@ -20,7 +20,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import get_satellite_entity
@@ -32,7 +32,7 @@ from .conftest import (
 
 
 async def test_voice_assistant_select_keys_match_the_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -59,7 +59,7 @@ async def test_voice_assistant_select_keys_match_the_entities(
 
 
 async def test_selects_keep_their_choice_when_a_voice_assistant_returns(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -100,7 +100,7 @@ async def test_selects_keep_their_choice_when_a_voice_assistant_returns(
 
 
 async def test_selects_added_when_a_voice_assistant_appears(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -142,7 +142,7 @@ async def test_selects_added_when_a_voice_assistant_appears(
 
 
 async def test_selects_removed_when_the_platform_was_never_forwarded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -173,7 +173,7 @@ async def test_selects_removed_when_the_platform_was_never_forwarded(
 
 
 async def test_selects_restored_when_a_voice_assistant_returns(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -213,7 +213,7 @@ async def test_selects_restored_when_a_voice_assistant_returns(
 
 
 async def test_selects_removed_when_a_voice_assistant_goes_away(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -255,7 +255,7 @@ async def test_selects_removed_when_a_voice_assistant_goes_away(
 
 @pytest.mark.usefixtures("mock_voice_assistant_v1_entry")
 async def test_pipeline_selector(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test assist pipeline selector."""
 
@@ -266,7 +266,7 @@ async def test_pipeline_selector(
 
 @pytest.mark.usefixtures("mock_voice_assistant_v1_entry")
 async def test_secondary_pipeline_selector(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test secondary assist pipeline selector."""
 
@@ -277,7 +277,7 @@ async def test_secondary_pipeline_selector(
 
 @pytest.mark.usefixtures("mock_voice_assistant_v1_entry")
 async def test_vad_sensitivity_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test VAD sensitivity select.
 
@@ -291,7 +291,7 @@ async def test_vad_sensitivity_select(
 
 @pytest.mark.usefixtures("mock_voice_assistant_v1_entry")
 async def test_wake_word_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that wake word select is unavailable initially."""
     state = hass.states.get("select.test_wake_word")
@@ -301,7 +301,7 @@ async def test_wake_word_select(
 
 @pytest.mark.usefixtures("mock_voice_assistant_v1_entry")
 async def test_secondary_wake_word_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that secondary wake word select is unavailable initially."""
     state = hass.states.get("select.test_wake_word_2")
@@ -310,7 +310,7 @@ async def test_secondary_wake_word_select(
 
 
 async def test_select_generic_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -348,7 +348,7 @@ async def test_select_generic_entity(
 
 
 async def test_wake_word_select_no_wake_words(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -381,7 +381,7 @@ async def test_wake_word_select_no_wake_words(
 
 
 async def test_wake_word_select_zero_max_wake_words(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -416,7 +416,7 @@ async def test_wake_word_select_zero_max_wake_words(
 
 
 async def test_wake_word_select_no_active_wake_words(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -452,7 +452,7 @@ async def test_wake_word_select_no_active_wake_words(
 
 
 async def test_wake_word_select_first_active_wake_word(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:

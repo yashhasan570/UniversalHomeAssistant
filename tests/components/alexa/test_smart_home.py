@@ -36,7 +36,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     UnitOfTemperature,
 )
-from universalassistant.core import Context, Event, __HAC_KEEP__
+from universalassistant.core import Context, Event, UniversalAssistant
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.helpers import entity_registry as er, entityfilter
 from universalassistant.setup import async_setup_component
@@ -60,13 +60,13 @@ from .test_common import (
 
 
 @pytest.fixture
-def events(hass: __HAC_KEEP__) -> list[Event]:
+def events(hass: UniversalAssistant) -> list[Event]:
     """Fixture that catches alexa events."""
     return async_capture_events(hass, smart_home.EVENT_ALEXA_SMART_HOME)
 
 
 @pytest.fixture
-async def mock_camera(hass: __HAC_KEEP__) -> None:
+async def mock_camera(hass: UniversalAssistant) -> None:
     """Initialize a demo camera platform."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(
@@ -76,13 +76,13 @@ async def mock_camera(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.fixture
-async def mock_stream(hass: __HAC_KEEP__) -> None:
+async def mock_stream(hass: UniversalAssistant) -> None:
     """Initialize a demo camera platform with streaming."""
     assert await async_setup_component(hass, "stream", {"stream": {}})
     await hass.async_block_till_done()
 
 
-def test_create_api_message_defaults(hass: __HAC_KEEP__) -> None:
+def test_create_api_message_defaults(hass: UniversalAssistant) -> None:
     """Create an API message response of a request with defaults."""
     request = get_new_request("Alexa.PowerController", "TurnOn", "switch#xy")
     directive_header = request["directive"]["header"]
@@ -130,7 +130,7 @@ def test_create_api_message_special() -> None:
     assert "endpoint" not in msg
 
 
-async def test_wrong_version(hass: __HAC_KEEP__) -> None:
+async def test_wrong_version(hass: UniversalAssistant) -> None:
     """Test with wrong version."""
     msg = get_new_request("Alexa.PowerController", "TurnOn")
     msg["directive"]["header"]["payloadVersion"] = "2"
@@ -140,7 +140,7 @@ async def test_wrong_version(hass: __HAC_KEEP__) -> None:
 
 
 async def discovery_test(
-    device, hass: __HAC_KEEP__, expected_endpoints: int = 1
+    device, hass: UniversalAssistant, expected_endpoints: int = 1
 ) -> dict[str, Any] | list[dict[str, Any]] | None:
     """Test alexa discovery request."""
     request = get_new_request("Alexa.Discovery", "Discover")
@@ -190,7 +190,7 @@ def assert_endpoint_capabilities(endpoint, *interfaces):
 
 
 @pytest.mark.freeze_time("2022-04-19 07:53:05")
-async def test_switch(hass: __HAC_KEEP__, events: list[Event]) -> None:
+async def test_switch(hass: UniversalAssistant, events: list[Event]) -> None:
     """Test switch discovery."""
     device = ("switch.test", "on", {"friendly_name": "Test switch"})
     appliance = await discovery_test(device, hass)
@@ -222,7 +222,7 @@ async def test_switch(hass: __HAC_KEEP__, events: list[Event]) -> None:
     assert {"name": "detectionState"} in properties["supported"]
 
 
-async def test_outlet(hass: __HAC_KEEP__, events: list[Event]) -> None:
+async def test_outlet(hass: UniversalAssistant, events: list[Event]) -> None:
     """Test switch with device class outlet discovery."""
     device = (
         "switch.test",
@@ -244,7 +244,7 @@ async def test_outlet(hass: __HAC_KEEP__, events: list[Event]) -> None:
 
 
 @pytest.mark.freeze_time("2022-04-19 07:53:05")
-async def test_light(hass: __HAC_KEEP__) -> None:
+async def test_light(hass: UniversalAssistant) -> None:
     """Test light discovery."""
     device = ("light.test_1", "on", {"friendly_name": "Test light 1"})
     appliance = await discovery_test(device, hass)
@@ -261,7 +261,7 @@ async def test_light(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_dimmable_light(hass: __HAC_KEEP__) -> None:
+async def test_dimmable_light(hass: UniversalAssistant) -> None:
     """Test dimmable light discovery."""
     device = (
         "light.test_2",
@@ -301,7 +301,7 @@ async def test_dimmable_light(hass: __HAC_KEEP__) -> None:
     assert call.data["brightness_pct"] == 50
 
 
-async def test_dimmable_light_with_none_brightness(hass: __HAC_KEEP__) -> None:
+async def test_dimmable_light_with_none_brightness(hass: UniversalAssistant) -> None:
     """Test dimmable light discovery."""
     device = (
         "light.test_2",
@@ -346,7 +346,7 @@ async def test_dimmable_light_with_none_brightness(hass: __HAC_KEEP__) -> None:
     [["color_temp", "hs"], ["color_temp", "rgb"], ["color_temp", "xy"]],
 )
 async def test_color_light(
-    hass: __HAC_KEEP__, supported_color_modes: list[str]
+    hass: UniversalAssistant, supported_color_modes: list[str]
 ) -> None:
     """Test color light discovery."""
     device = (
@@ -379,7 +379,7 @@ async def test_color_light(
     # tests
 
 
-async def test_color_light_turned_off(hass: __HAC_KEEP__) -> None:
+async def test_color_light_turned_off(hass: UniversalAssistant) -> None:
     """Test color light discovery with turned off light."""
     device = (
         "light.test_off",
@@ -429,7 +429,7 @@ async def test_color_light_turned_off(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.freeze_time("2022-04-19 07:53:05")
-async def test_script(hass: __HAC_KEEP__) -> None:
+async def test_script(hass: UniversalAssistant) -> None:
     """Test script discovery."""
     device = ("script.test", "off", {"friendly_name": "Test script"})
     appliance = await discovery_test(device, hass)
@@ -450,7 +450,7 @@ async def test_script(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.freeze_time("2022-04-19 07:53:05")
-async def test_input_boolean(hass: __HAC_KEEP__) -> None:
+async def test_input_boolean(hass: UniversalAssistant) -> None:
     """Test input boolean discovery."""
     device = ("input_boolean.test", "off", {"friendly_name": "Test input boolean"})
     appliance = await discovery_test(device, hass)
@@ -487,7 +487,7 @@ async def test_input_boolean(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.freeze_time("2022-04-19 07:53:05")
-async def test_scene(hass: __HAC_KEEP__) -> None:
+async def test_scene(hass: UniversalAssistant) -> None:
     """Test scene discovery."""
     device = ("scene.test", "off", {"friendly_name": "Test scene"})
     appliance = await discovery_test(device, hass)
@@ -508,7 +508,7 @@ async def test_scene(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.freeze_time("2022-04-19 07:53:05")
-async def test_fan(hass: __HAC_KEEP__) -> None:
+async def test_fan(hass: UniversalAssistant) -> None:
     """Test fan discovery."""
     device = ("fan.test_1", "off", {"friendly_name": "Test fan 1"})
     appliance = await discovery_test(device, hass)
@@ -554,7 +554,7 @@ async def test_fan(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_fan2(hass: __HAC_KEEP__) -> None:
+async def test_fan2(hass: UniversalAssistant) -> None:
     """Test fan discovery with percentage_step."""
 
     # Test fan discovery with percentage_step
@@ -588,7 +588,7 @@ async def test_fan2(hass: __HAC_KEEP__) -> None:
     assert "configuration" not in power_capability
 
 
-async def test_variable_fan(hass: __HAC_KEEP__) -> None:
+async def test_variable_fan(hass: UniversalAssistant) -> None:
     """Test fan discovery.
 
     This one has variable speed.
@@ -687,7 +687,7 @@ async def test_variable_fan(hass: __HAC_KEEP__) -> None:
 
 
 async def test_variable_fan_no_current_speed(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test fan discovery.
 
@@ -742,7 +742,7 @@ async def test_variable_fan_no_current_speed(
     caplog.clear()
 
 
-async def test_oscillating_fan(hass: __HAC_KEEP__) -> None:
+async def test_oscillating_fan(hass: UniversalAssistant) -> None:
     """Test oscillating fan with ToggleController."""
     device = (
         "fan.test_3",
@@ -800,7 +800,7 @@ async def test_oscillating_fan(hass: __HAC_KEEP__) -> None:
     assert not call.data["oscillating"]
 
 
-async def test_direction_fan(hass: __HAC_KEEP__) -> None:
+async def test_direction_fan(hass: UniversalAssistant) -> None:
     """Test fan direction with modeController."""
     device = (
         "fan.test_4",
@@ -907,7 +907,7 @@ async def test_direction_fan(hass: __HAC_KEEP__) -> None:
 
 
 async def test_preset_mode_fan(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test fan discovery.
 
@@ -992,7 +992,7 @@ async def test_preset_mode_fan(
 
 
 async def test_single_preset_mode_fan(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test fan discovery.
 
@@ -1067,7 +1067,7 @@ async def test_single_preset_mode_fan(
 
 @pytest.mark.freeze_time("2022-04-19 07:53:05")
 async def test_humidifier(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test humidifier controller."""
     device = (
@@ -1139,7 +1139,7 @@ async def test_humidifier(
     assert call.data["humidity"] == 33
 
 
-async def test_humidifier_without_modes(hass: __HAC_KEEP__) -> None:
+async def test_humidifier_without_modes(hass: UniversalAssistant) -> None:
     """Test humidifier discovery without modes."""
 
     device = (
@@ -1171,7 +1171,7 @@ async def test_humidifier_without_modes(hass: __HAC_KEEP__) -> None:
     assert "configuration" not in power_capability
 
 
-async def test_humidifier_with_modes(hass: __HAC_KEEP__) -> None:
+async def test_humidifier_with_modes(hass: UniversalAssistant) -> None:
     """Test humidifier discovery with modes."""
 
     device = (
@@ -1206,7 +1206,7 @@ async def test_humidifier_with_modes(hass: __HAC_KEEP__) -> None:
     assert "configuration" not in power_capability
 
 
-async def test_lock(hass: __HAC_KEEP__) -> None:
+async def test_lock(hass: UniversalAssistant) -> None:
     """Test lock discovery."""
     device = ("lock.test", "off", {"friendly_name": "Test lock"})
     appliance = await discovery_test(device, hass)
@@ -1238,7 +1238,7 @@ async def test_lock(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.freeze_time("2022-04-19 07:53:05")
-async def test_media_player(hass: __HAC_KEEP__) -> None:
+async def test_media_player(hass: UniversalAssistant) -> None:
     """Test media player discovery."""
     device = (
         "media_player.test",
@@ -1400,7 +1400,7 @@ async def test_media_player(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_media_player_power(hass: __HAC_KEEP__) -> None:
+async def test_media_player_power(hass: UniversalAssistant) -> None:
     """Test media player discovery with mapped on/off."""
     device = (
         "media_player.test",
@@ -1446,7 +1446,7 @@ async def test_media_player_power(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_media_player_inputs(hass: __HAC_KEEP__) -> None:
+async def test_media_player_inputs(hass: UniversalAssistant) -> None:
     """Test media player discovery with source list inputs."""
     device = (
         "media_player.test",
@@ -1552,7 +1552,7 @@ async def test_media_player_inputs(hass: __HAC_KEEP__) -> None:
     assert call.data["source"] == "tv"
 
 
-async def test_media_player_no_supported_inputs(hass: __HAC_KEEP__) -> None:
+async def test_media_player_no_supported_inputs(hass: UniversalAssistant) -> None:
     """Test media player discovery with no supported inputs."""
     device = (
         "media_player.test_no_inputs",
@@ -1587,7 +1587,7 @@ async def test_media_player_no_supported_inputs(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_media_player_speaker(hass: __HAC_KEEP__) -> None:
+async def test_media_player_speaker(hass: UniversalAssistant) -> None:
     """Test media player with speaker interface."""
     device = (
         "media_player.test_speaker",
@@ -1664,7 +1664,7 @@ async def test_media_player_speaker(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_media_player_step_speaker(hass: __HAC_KEEP__) -> None:
+async def test_media_player_step_speaker(hass: UniversalAssistant) -> None:
     """Test media player with step speaker interface."""
     device = (
         "media_player.test_step_speaker",
@@ -1733,7 +1733,7 @@ async def test_media_player_step_speaker(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_media_player_seek(hass: __HAC_KEEP__) -> None:
+async def test_media_player_seek(hass: UniversalAssistant) -> None:
     """Test media player seek capability."""
     device = (
         "media_player.test_seek",
@@ -1820,7 +1820,7 @@ async def test_media_player_seek(hass: __HAC_KEEP__) -> None:
     assert {"name": "positionMilliseconds", "value": 600000} in properties
 
 
-async def test_media_player_seek_error(hass: __HAC_KEEP__) -> None:
+async def test_media_player_seek_error(hass: UniversalAssistant) -> None:
     """Test media player seek capability for media_position Error."""
     device = (
         "media_player.test_seek",
@@ -1846,7 +1846,7 @@ async def test_media_player_seek_error(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.freeze_time("2022-04-19 07:53:05")
-async def test_alert(hass: __HAC_KEEP__) -> None:
+async def test_alert(hass: UniversalAssistant) -> None:
     """Test alert discovery."""
     device = ("alert.test", "off", {"friendly_name": "Test alert"})
     appliance = await discovery_test(device, hass)
@@ -1864,7 +1864,7 @@ async def test_alert(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.freeze_time("2022-04-19 07:53:05")
-async def test_automation(hass: __HAC_KEEP__) -> None:
+async def test_automation(hass: UniversalAssistant) -> None:
     """Test automation discovery."""
     device = ("automation.test", "off", {"friendly_name": "Test automation"})
     appliance = await discovery_test(device, hass)
@@ -1886,7 +1886,7 @@ async def test_automation(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.freeze_time("2022-04-19 07:53:05")
-async def test_group(hass: __HAC_KEEP__) -> None:
+async def test_group(hass: UniversalAssistant) -> None:
     """Test group discovery."""
     device = ("group.test", "off", {"friendly_name": "Test group"})
     appliance = await discovery_test(device, hass)
@@ -1986,7 +1986,7 @@ async def test_group(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_cover_position(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     position: int,
     position_attr_in_service_call: int | None,
     supported_features: CoverEntityFeature,
@@ -2195,7 +2195,7 @@ async def test_cover_position(
     ],
 )
 async def test_valve_position(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     position: int,
     position_attr_in_service_call: int | None,
     supported_features: CoverEntityFeature,
@@ -2303,7 +2303,7 @@ async def test_valve_position(
 
 
 async def test_cover_position_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test cover discovery and position range using rangeController.
 
@@ -2420,7 +2420,7 @@ async def test_cover_position_range(
 
 
 async def test_valve_position_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test valve discovery and position range using rangeController.
 
@@ -2568,7 +2568,7 @@ async def test_valve_position_range(
     ],
 )
 async def test_stop_valve(
-    hass: __HAC_KEEP__, supported_features: ValveEntityFeature, state_controller: str
+    hass: UniversalAssistant, supported_features: ValveEntityFeature, state_controller: str
 ) -> None:
     """Test stop valve ToggleController."""
     device = (
@@ -2622,7 +2622,7 @@ async def test_stop_valve(
 
 
 async def assert_percentage_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     adjustments,
     namespace,
     name,
@@ -2644,7 +2644,7 @@ async def assert_percentage_changes(
 
 
 async def assert_range_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     adjustments: list[tuple[int | str, int, bool]],
     namespace: str,
     name: str,
@@ -2670,7 +2670,7 @@ async def assert_range_changes(
             assert call.data[changed_parameter] == result_range
 
 
-async def test_temp_sensor(hass: __HAC_KEEP__) -> None:
+async def test_temp_sensor(hass: UniversalAssistant) -> None:
     """Test temperature sensor discovery."""
     device = (
         "sensor.test_temp",
@@ -2702,7 +2702,7 @@ async def test_temp_sensor(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_contact_sensor(hass: __HAC_KEEP__) -> None:
+async def test_contact_sensor(hass: UniversalAssistant) -> None:
     """Test contact sensor discovery."""
     device = (
         "binary_sensor.test_contact",
@@ -2731,7 +2731,7 @@ async def test_contact_sensor(hass: __HAC_KEEP__) -> None:
     properties.assert_equal("Alexa.EndpointHealth", "connectivity", {"value": "OK"})
 
 
-async def test_forced_contact_sensor(hass: __HAC_KEEP__) -> None:
+async def test_forced_contact_sensor(hass: UniversalAssistant) -> None:
     """Test contact sensor discovery with specified display_category."""
     device = (
         "binary_sensor.test_contact_forced",
@@ -2760,7 +2760,7 @@ async def test_forced_contact_sensor(hass: __HAC_KEEP__) -> None:
     properties.assert_equal("Alexa.EndpointHealth", "connectivity", {"value": "OK"})
 
 
-async def test_motion_sensor(hass: __HAC_KEEP__) -> None:
+async def test_motion_sensor(hass: UniversalAssistant) -> None:
     """Test motion sensor discovery."""
     device = (
         "binary_sensor.test_motion",
@@ -2787,7 +2787,7 @@ async def test_motion_sensor(hass: __HAC_KEEP__) -> None:
     properties.assert_equal("Alexa.MotionSensor", "detectionState", "DETECTED")
 
 
-async def test_forced_motion_sensor(hass: __HAC_KEEP__) -> None:
+async def test_forced_motion_sensor(hass: UniversalAssistant) -> None:
     """Test motion sensor discovery with specified display_category."""
     device = (
         "binary_sensor.test_motion_forced",
@@ -2846,7 +2846,7 @@ async def test_forced_motion_sensor(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_doorbell_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device: tuple[str, str, dict[str, Any]],
     endpoint_id: str,
     friendly_name: str,
@@ -2868,7 +2868,7 @@ async def test_doorbell_event(
     assert doorbell_capability["proactivelyReported"] is True
 
 
-async def test_unknown_sensor(hass: __HAC_KEEP__) -> None:
+async def test_unknown_sensor(hass: UniversalAssistant) -> None:
     """Test sensors of unknown quantities are not discovered."""
     device = (
         "sensor.test_sickness",
@@ -2885,7 +2885,7 @@ async def test_unknown_sensor(hass: __HAC_KEEP__) -> None:
         pytest.param(METRIC_SYSTEM, id="metric_system"),
     ],
 )
-async def test_thermostat(hass: __HAC_KEEP__, unit_system: UnitSystem) -> None:
+async def test_thermostat(hass: UniversalAssistant, unit_system: UnitSystem) -> None:
     """Test thermostat discovery."""
     hass.config.units = unit_system
     device = (
@@ -3157,7 +3157,7 @@ async def test_thermostat(hass: __HAC_KEEP__, unit_system: UnitSystem) -> None:
     assert call.data["preset_mode"] == "eco"
 
 
-async def test_onoff_thermostat(hass: __HAC_KEEP__) -> None:
+async def test_onoff_thermostat(hass: UniversalAssistant) -> None:
     """Test onoff thermostat discovery."""
     on_off_features = (
         ClimateEntityFeature.TARGET_TEMPERATURE
@@ -3296,7 +3296,7 @@ async def test_onoff_thermostat(hass: __HAC_KEEP__) -> None:
         pytest.param(METRIC_SYSTEM, id="metric_system"),
     ],
 )
-async def test_water_heater(hass: __HAC_KEEP__, unit_system: UnitSystem) -> None:
+async def test_water_heater(hass: UniversalAssistant, unit_system: UnitSystem) -> None:
     """Test water_heater discovery."""
     hass.config.units = unit_system
     device = (
@@ -3472,7 +3472,7 @@ async def test_water_heater(hass: __HAC_KEEP__, unit_system: UnitSystem) -> None
     assert call.data["operation_mode"] == "off"
 
 
-async def test_no_current_target_temp_adjusting_temp(hass: __HAC_KEEP__) -> None:
+async def test_no_current_target_temp_adjusting_temp(hass: UniversalAssistant) -> None:
     """Test thermostat adjusting temp with no initial target temperature."""
     hass.config.units = US_CUSTOMARY_SYSTEM
     device = (
@@ -3549,7 +3549,7 @@ async def test_no_current_target_temp_adjusting_temp(hass: __HAC_KEEP__) -> None
         pytest.param(METRIC_SYSTEM, id="metric_system"),
     ],
 )
-async def test_thermostat_dual(hass: __HAC_KEEP__, unit_system: UnitSystem) -> None:
+async def test_thermostat_dual(hass: UniversalAssistant, unit_system: UnitSystem) -> None:
     """Test thermostat discovery with auto mode.
 
     Uses upper and lower target temperatures.
@@ -3650,7 +3650,7 @@ async def test_thermostat_dual(hass: __HAC_KEEP__, unit_system: UnitSystem) -> N
     assert msg["event"]["payload"]["type"] == "TEMPERATURE_VALUE_OUT_OF_RANGE"
 
 
-async def test_exclude_filters(hass: __HAC_KEEP__) -> None:
+async def test_exclude_filters(hass: UniversalAssistant) -> None:
     """Test exclusion filters."""
     request = get_new_request("Alexa.Discovery", "Discover")
 
@@ -3677,7 +3677,7 @@ async def test_exclude_filters(hass: __HAC_KEEP__) -> None:
     assert len(msg["payload"]["endpoints"]) == 1
 
 
-async def test_include_filters(hass: __HAC_KEEP__) -> None:
+async def test_include_filters(hass: UniversalAssistant) -> None:
     """Test inclusion filters."""
     request = get_new_request("Alexa.Discovery", "Discover")
 
@@ -3708,7 +3708,7 @@ async def test_include_filters(hass: __HAC_KEEP__) -> None:
     assert len(msg["payload"]["endpoints"]) == 3
 
 
-async def test_api_entity_not_exists(hass: __HAC_KEEP__) -> None:
+async def test_api_entity_not_exists(hass: UniversalAssistant) -> None:
     """Test api turn on process without entity."""
     request = get_new_request("Alexa.PowerController", "TurnOn", "switch#test")
 
@@ -3726,7 +3726,7 @@ async def test_api_entity_not_exists(hass: __HAC_KEEP__) -> None:
     assert msg["payload"]["type"] == "NO_SUCH_ENDPOINT"
 
 
-async def test_api_function_not_implemented(hass: __HAC_KEEP__) -> None:
+async def test_api_function_not_implemented(hass: UniversalAssistant) -> None:
     """Test api call that is not implemented to us."""
     request = get_new_request("Alexa.HAHAAH", "Sweet")
     msg = await smart_home.async_handle_message(hass, get_default_config(hass), request)
@@ -3739,7 +3739,7 @@ async def test_api_function_not_implemented(hass: __HAC_KEEP__) -> None:
     assert msg["payload"]["type"] == "INTERNAL_ERROR"
 
 
-async def test_api_accept_grant(hass: __HAC_KEEP__) -> None:
+async def test_api_accept_grant(hass: UniversalAssistant) -> None:
     """Test api AcceptGrant process."""
     request = get_new_request("Alexa.Authorization", "AcceptGrant")
 
@@ -3762,7 +3762,7 @@ async def test_api_accept_grant(hass: __HAC_KEEP__) -> None:
     assert msg["header"]["name"] == "AcceptGrant.Response"
 
 
-async def test_entity_config(hass: __HAC_KEEP__) -> None:
+async def test_entity_config(hass: UniversalAssistant) -> None:
     """Test that we can configure things via entity config."""
     request = get_new_request("Alexa.Discovery", "Discover")
 
@@ -3790,7 +3790,7 @@ async def test_entity_config(hass: __HAC_KEEP__) -> None:
     assert appliance["endpointId"] == "light#test_1"
     assert appliance["displayCategories"][0] == "SWITCH"
     assert appliance["friendlyName"] == "Config name"
-    assert appliance["description"] == "Config description via __HA_KEEP__"
+    assert appliance["description"] == "Config description via Universal Home Assistant"
     assert_endpoint_capabilities(
         appliance, "Alexa.PowerController", "Alexa.EndpointHealth", "Alexa"
     )
@@ -3799,10 +3799,10 @@ async def test_entity_config(hass: __HAC_KEEP__) -> None:
     assert scene["endpointId"] == "scene#test_1"
     assert scene["displayCategories"][0] == "SCENE_TRIGGER"
     assert scene["friendlyName"] == "Test 1"
-    assert scene["description"] == "Config description via __HA_KEEP__ (Scene)"
+    assert scene["description"] == "Config description via Universal Home Assistant (Scene)"
 
 
-async def test_logging_request(hass: __HAC_KEEP__, events: list[Event]) -> None:
+async def test_logging_request(hass: UniversalAssistant, events: list[Event]) -> None:
     """Test that we log requests."""
     context = Context()
     request = get_new_request("Alexa.Discovery", "Discover")
@@ -3825,7 +3825,7 @@ async def test_logging_request(hass: __HAC_KEEP__, events: list[Event]) -> None:
 
 
 async def test_logging_request_with_entity(
-    hass: __HAC_KEEP__, events: list[Event]
+    hass: UniversalAssistant, events: list[Event]
 ) -> None:
     """Test that we log requests."""
     context = Context()
@@ -3850,7 +3850,7 @@ async def test_logging_request_with_entity(
     assert event.context == context
 
 
-async def test_disabled(hass: __HAC_KEEP__) -> None:
+async def test_disabled(hass: UniversalAssistant) -> None:
     """When enabled=False, everything fails."""
     hass.states.async_set("switch.test", "on", {"friendly_name": "Test switch"})
     request = get_new_request("Alexa.PowerController", "TurnOn", "switch#test")
@@ -3863,7 +3863,7 @@ async def test_disabled(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_endpoint_good_health(hass: __HAC_KEEP__) -> None:
+async def test_endpoint_good_health(hass: UniversalAssistant) -> None:
     """Test endpoint health reporting."""
     device = (
         "binary_sensor.test_contact",
@@ -3875,7 +3875,7 @@ async def test_endpoint_good_health(hass: __HAC_KEEP__) -> None:
     properties.assert_equal("Alexa.EndpointHealth", "connectivity", {"value": "OK"})
 
 
-async def test_endpoint_bad_health(hass: __HAC_KEEP__) -> None:
+async def test_endpoint_bad_health(hass: UniversalAssistant) -> None:
     """Test endpoint health reporting."""
     device = (
         "binary_sensor.test_contact",
@@ -3889,7 +3889,7 @@ async def test_endpoint_bad_health(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_alarm_control_panel_disarmed(hass: __HAC_KEEP__) -> None:
+async def test_alarm_control_panel_disarmed(hass: UniversalAssistant) -> None:
     """Test alarm_control_panel discovery."""
     device = (
         "alarm_control_panel.test_1",
@@ -3961,7 +3961,7 @@ async def test_alarm_control_panel_disarmed(hass: __HAC_KEEP__) -> None:
     properties.assert_equal("Alexa.SecurityPanelController", "armState", "ARMED_NIGHT")
 
 
-async def test_alarm_control_panel_armed(hass: __HAC_KEEP__) -> None:
+async def test_alarm_control_panel_armed(hass: UniversalAssistant) -> None:
     """Test alarm_control_panel discovery."""
     device = (
         "alarm_control_panel.test_2",
@@ -4009,7 +4009,7 @@ async def test_alarm_control_panel_armed(hass: __HAC_KEEP__) -> None:
     assert msg["event"]["payload"]["type"] == "AUTHORIZATION_REQUIRED"
 
 
-async def test_alarm_control_panel_code_arm_required(hass: __HAC_KEEP__) -> None:
+async def test_alarm_control_panel_code_arm_required(hass: UniversalAssistant) -> None:
     """Test alarm_control_panel with code_arm_required not in discovery."""
     device = (
         "alarm_control_panel.test_3",
@@ -4023,7 +4023,7 @@ async def test_alarm_control_panel_code_arm_required(hass: __HAC_KEEP__) -> None
     await discovery_test(device, hass, expected_endpoints=0)
 
 
-async def test_alarm_control_panel_disarm_required(hass: __HAC_KEEP__) -> None:
+async def test_alarm_control_panel_disarm_required(hass: UniversalAssistant) -> None:
     """Test alarm_control_panel disarm required."""
     device = (
         "alarm_control_panel.test_4",
@@ -4075,7 +4075,7 @@ async def test_alarm_control_panel_disarm_required(hass: __HAC_KEEP__) -> None:
     properties.assert_equal("Alexa.SecurityPanelController", "armState", "ARMED_AWAY")
 
 
-async def test_alarm_control_panel_change_arm_type(hass: __HAC_KEEP__) -> None:
+async def test_alarm_control_panel_change_arm_type(hass: UniversalAssistant) -> None:
     """Test alarm_control_panel change arm type."""
     device = (
         "alarm_control_panel.test_5",
@@ -4125,7 +4125,7 @@ async def test_alarm_control_panel_change_arm_type(hass: __HAC_KEEP__) -> None:
     properties.assert_equal("Alexa.SecurityPanelController", "armState", "ARMED_AWAY")
 
 
-async def test_range_unsupported_domain(hass: __HAC_KEEP__) -> None:
+async def test_range_unsupported_domain(hass: UniversalAssistant) -> None:
     """Test rangeController with unsupported domain."""
     device = ("switch.test", "on", {"friendly_name": "Test switch"})
     await discovery_test(device, hass)
@@ -4146,7 +4146,7 @@ async def test_range_unsupported_domain(hass: __HAC_KEEP__) -> None:
     assert msg["payload"]["type"] == "INVALID_DIRECTIVE"
 
 
-async def test_mode_unsupported_domain(hass: __HAC_KEEP__) -> None:
+async def test_mode_unsupported_domain(hass: UniversalAssistant) -> None:
     """Test modeController with unsupported domain."""
     device = ("switch.test", "on", {"friendly_name": "Test switch"})
     await discovery_test(device, hass)
@@ -4167,7 +4167,7 @@ async def test_mode_unsupported_domain(hass: __HAC_KEEP__) -> None:
     assert msg["payload"]["type"] == "INVALID_DIRECTIVE"
 
 
-async def test_cover_garage_door(hass: __HAC_KEEP__) -> None:
+async def test_cover_garage_door(hass: UniversalAssistant) -> None:
     """Test garage door cover discovery."""
     device = (
         "cover.test_garage_door",
@@ -4189,7 +4189,7 @@ async def test_cover_garage_door(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_cover_gate(hass: __HAC_KEEP__) -> None:
+async def test_cover_gate(hass: UniversalAssistant) -> None:
     """Test gate cover discovery."""
     device = (
         "cover.test_gate",
@@ -4211,7 +4211,7 @@ async def test_cover_gate(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_cover_position_mode(hass: __HAC_KEEP__) -> None:
+async def test_cover_position_mode(hass: UniversalAssistant) -> None:
     """Test cover discovery and position using modeController."""
     device = (
         "cover.test_mode",
@@ -4352,7 +4352,7 @@ async def test_cover_position_mode(hass: __HAC_KEEP__) -> None:
     assert properties["value"] == "position.custom"
 
 
-async def test_valve_position_mode(hass: __HAC_KEEP__) -> None:
+async def test_valve_position_mode(hass: UniversalAssistant) -> None:
     """Test valve discovery and position using modeController."""
     device = (
         "valve.test_mode",
@@ -4483,7 +4483,7 @@ async def test_valve_position_mode(hass: __HAC_KEEP__) -> None:
     assert properties["value"] == "state.open"
 
 
-async def test_image_processing(hass: __HAC_KEEP__) -> None:
+async def test_image_processing(hass: UniversalAssistant) -> None:
     """Test image_processing discovery as event detection."""
     device = (
         "image_processing.test_face",
@@ -4506,7 +4506,7 @@ async def test_image_processing(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_motion_sensor_event_detection(hass: __HAC_KEEP__) -> None:
+async def test_motion_sensor_event_detection(hass: UniversalAssistant) -> None:
     """Test motion sensor with EventDetectionSensor discovery."""
     device = (
         "binary_sensor.test_motion_camera_event",
@@ -4537,7 +4537,7 @@ async def test_motion_sensor_event_detection(hass: __HAC_KEEP__) -> None:
     assert {"name": "humanPresenceDetectionState"} in properties["supported"]
 
 
-async def test_presence_sensor(hass: __HAC_KEEP__) -> None:
+async def test_presence_sensor(hass: UniversalAssistant) -> None:
     """Test presence sensor."""
     device = (
         "binary_sensor.test_presence_sensor",
@@ -4662,7 +4662,7 @@ async def test_presence_sensor(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_cover_tilt_position(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tilt_position: int,
     tilt_position_attr_in_service_call: int | None,
     supported_features: CoverEntityFeature,
@@ -4735,7 +4735,7 @@ async def test_cover_tilt_position(
     assert properties["value"] == tilt_position
 
 
-async def test_cover_tilt_position_range(hass: __HAC_KEEP__) -> None:
+async def test_cover_tilt_position_range(hass: UniversalAssistant) -> None:
     """Test cover discovery and tilt position range using rangeController.
 
     Also tests and invalid tilt position being handled correctly.
@@ -4843,7 +4843,7 @@ async def test_cover_tilt_position_range(hass: __HAC_KEEP__) -> None:
     ids=["cover_position", "cover_tilt", "valve_position"],
 )
 async def test_adjust_range_from_closed_position(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id: str,
     supported_features: int,
     position_attr: str,
@@ -4897,7 +4897,7 @@ async def test_adjust_range_from_closed_position(
     ids=["no_stop", "stop_cover", "stop_cover_tilt", "stop_cover_and_stop_cover_tilt"],
 )
 async def test_cover_stop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supported_stop_features: CoverEntityFeature,
     cover_stop_calls: int,
     cover_stop_tilt_calls: int,
@@ -4946,7 +4946,7 @@ async def test_cover_stop(
     assert len(calls_stop_tilt) == cover_stop_tilt_calls
 
 
-async def test_cover_semantics_position_and_tilt(hass: __HAC_KEEP__) -> None:
+async def test_cover_semantics_position_and_tilt(hass: UniversalAssistant) -> None:
     """Test cover discovery and semantics with position and tilt support."""
     device = (
         "cover.test_semantics",
@@ -5047,7 +5047,7 @@ async def test_cover_semantics_position_and_tilt(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.parametrize("domain", ["input_number", "number"])
-async def test_input_number(hass: __HAC_KEEP__, domain: str) -> None:
+async def test_input_number(hass: UniversalAssistant, domain: str) -> None:
     """Test input_number and number discovery."""
     device = (
         f"{domain}.test_slider",
@@ -5133,7 +5133,7 @@ async def test_input_number(hass: __HAC_KEEP__, domain: str) -> None:
 
 
 @pytest.mark.parametrize("domain", ["input_number", "number"])
-async def test_input_number_float(hass: __HAC_KEEP__, domain: str) -> None:
+async def test_input_number_float(hass: UniversalAssistant, domain: str) -> None:
     """Test input_number and number discovery."""
     device = (
         f"{domain}.test_slider_float",
@@ -5224,7 +5224,7 @@ async def test_input_number_float(hass: __HAC_KEEP__, domain: str) -> None:
     )
 
 
-async def test_media_player_eq_modes(hass: __HAC_KEEP__) -> None:
+async def test_media_player_eq_modes(hass: UniversalAssistant) -> None:
     """Test media player discovery with sound mode list."""
     device = (
         "media_player.test",
@@ -5272,7 +5272,7 @@ async def test_media_player_eq_modes(hass: __HAC_KEEP__) -> None:
         assert call.data["sound_mode"] == mode.lower()
 
 
-async def test_media_player_sound_mode_list_unsupported(hass: __HAC_KEEP__) -> None:
+async def test_media_player_sound_mode_list_unsupported(hass: UniversalAssistant) -> None:
     """Test EqualizerController with unsupported sound modes."""
     device = (
         "media_player.test",
@@ -5294,7 +5294,7 @@ async def test_media_player_sound_mode_list_unsupported(hass: __HAC_KEEP__) -> N
     )
 
 
-async def test_media_player_eq_bands_not_supported(hass: __HAC_KEEP__) -> None:
+async def test_media_player_eq_bands_not_supported(hass: UniversalAssistant) -> None:
     """Test EqualizerController bands directive not supported."""
     device = (
         "media_player.test_bands",
@@ -5360,7 +5360,7 @@ async def test_media_player_eq_bands_not_supported(hass: __HAC_KEEP__) -> None:
     assert msg["payload"]["type"] == "INVALID_DIRECTIVE"
 
 
-async def test_timer_hold(hass: __HAC_KEEP__) -> None:
+async def test_timer_hold(hass: UniversalAssistant) -> None:
     """Test timer hold."""
     device = (
         "timer.laundry",
@@ -5387,7 +5387,7 @@ async def test_timer_hold(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_timer_resume(hass: __HAC_KEEP__) -> None:
+async def test_timer_resume(hass: UniversalAssistant) -> None:
     """Test timer resume."""
     device = (
         "timer.laundry",
@@ -5404,7 +5404,7 @@ async def test_timer_resume(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_timer_start(hass: __HAC_KEEP__) -> None:
+async def test_timer_start(hass: UniversalAssistant) -> None:
     """Test timer start."""
     device = (
         "timer.laundry",
@@ -5421,7 +5421,7 @@ async def test_timer_start(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_timer_cancel(hass: __HAC_KEEP__) -> None:
+async def test_timer_cancel(hass: UniversalAssistant) -> None:
     """Test timer cancel."""
     device = (
         "timer.laundry",
@@ -5438,7 +5438,7 @@ async def test_timer_cancel(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_vacuum_discovery(hass: __HAC_KEEP__) -> None:
+async def test_vacuum_discovery(hass: UniversalAssistant) -> None:
     """Test vacuum discovery."""
     device = (
         "vacuum.test_1",
@@ -5481,7 +5481,7 @@ async def test_vacuum_discovery(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_vacuum_fan_speed(hass: __HAC_KEEP__) -> None:
+async def test_vacuum_fan_speed(hass: UniversalAssistant) -> None:
     """Test vacuum fan speed with rangeController."""
     device = (
         "vacuum.test_2",
@@ -5609,7 +5609,7 @@ async def test_vacuum_fan_speed(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_vacuum_pause(hass: __HAC_KEEP__) -> None:
+async def test_vacuum_pause(hass: UniversalAssistant) -> None:
     """Test vacuum pause with TimeHoldController."""
     device = (
         "vacuum.test_3",
@@ -5646,7 +5646,7 @@ async def test_vacuum_pause(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_vacuum_resume(hass: __HAC_KEEP__) -> None:
+async def test_vacuum_resume(hass: UniversalAssistant) -> None:
     """Test vacuum resume with TimeHoldController."""
     device = (
         "vacuum.test_4",
@@ -5685,7 +5685,7 @@ async def test_vacuum_resume(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_vacuum_discovery_without_power_controller(
-    hass: __HAC_KEEP__, supported_features: VacuumEntityFeature
+    hass: UniversalAssistant, supported_features: VacuumEntityFeature
 ) -> None:
     """Test vacuums need start and return home support for PowerController."""
     device = (
@@ -5701,7 +5701,7 @@ async def test_vacuum_discovery_without_power_controller(
     assert_endpoint_capabilities(appliance, "Alexa.EndpointHealth", "Alexa")
 
 
-async def test_camera_discovery(hass: __HAC_KEEP__, mock_stream: None) -> None:
+async def test_camera_discovery(hass: UniversalAssistant, mock_stream: None) -> None:
     """Test camera discovery."""
     device = (
         "camera.test",
@@ -5731,7 +5731,7 @@ async def test_camera_discovery(hass: __HAC_KEEP__, mock_stream: None) -> None:
     assert "AAC" in configuration["audioCodecs"]
 
 
-async def test_camera_discovery_without_stream(hass: __HAC_KEEP__) -> None:
+async def test_camera_discovery_without_stream(hass: UniversalAssistant) -> None:
     """Test camera discovery without stream integration."""
     device = (
         "camera.test",
@@ -5760,7 +5760,7 @@ async def test_camera_discovery_without_stream(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_camera_hass_urls(
-    hass: __HAC_KEEP__, mock_stream: None, url: str, result: int
+    hass: UniversalAssistant, mock_stream: None, url: str, result: int
 ) -> None:
     """Test camera discovery with unsupported urls."""
     device = (
@@ -5775,7 +5775,7 @@ async def test_camera_hass_urls(
 
 
 async def test_initialize_camera_stream(
-    hass: __HAC_KEEP__, mock_camera: None, mock_stream: None
+    hass: UniversalAssistant, mock_camera: None, mock_stream: None
 ) -> None:
     """Test InitializeCameraStreams handler."""
     request = get_new_request(
@@ -5818,7 +5818,7 @@ async def test_initialize_camera_stream(
     "domain",
     ["button", "input_button"],
 )
-async def test_button(hass: __HAC_KEEP__, domain: str) -> None:
+async def test_button(hass: UniversalAssistant, domain: str) -> None:
     """Test button discovery."""
     device = (
         f"{domain}.ring_doorbell",
@@ -5865,7 +5865,7 @@ async def test_button(hass: __HAC_KEEP__, domain: str) -> None:
     )
 
 
-async def test_api_message_sets_authorized(hass: __HAC_KEEP__) -> None:
+async def test_api_message_sets_authorized(hass: UniversalAssistant) -> None:
     """Test an incoming API messages sets the authorized flag."""
     msg = get_new_request("Alexa.PowerController", "TurnOn", "switch#xy")
     async_mock_service(hass, "switch", "turn_on")
@@ -5877,7 +5877,7 @@ async def test_api_message_sets_authorized(hass: __HAC_KEEP__) -> None:
 
 
 async def test_alexa_config(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test all methods of the AlexaConfig class."""
     config = {
@@ -5972,7 +5972,7 @@ RTC_SESSION_CAPABILITY = {
 )
 @pytest.mark.usefixtures("mock_stream", "mock_camera_capabilities")
 async def test_camera_discovery_webrtc(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     external_url: str,
     interfaces: tuple[str, ...],
     rtc_capability: dict[str, Any] | None,
@@ -5999,7 +5999,7 @@ async def test_camera_discovery_webrtc(
     "mock_camera_capabilities", [{camera.StreamType.WEB_RTC}], indirect=True
 )
 @pytest.mark.usefixtures("mock_camera_capabilities")
-async def test_camera_discovery_webrtc_camera_off(hass: __HAC_KEEP__) -> None:
+async def test_camera_discovery_webrtc_camera_off(hass: UniversalAssistant) -> None:
     """Test the RTC session controller is advertised for a switched off camera."""
     await hass.services.async_call(
         camera.DOMAIN,
@@ -6031,7 +6031,7 @@ async def test_camera_discovery_webrtc_camera_off(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("mock_camera_capabilities")
 async def test_initiate_session_with_offer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -6122,7 +6122,7 @@ async def test_initiate_session_with_offer(
 )
 @pytest.mark.usefixtures("mock_camera_capabilities")
 async def test_initiate_session_with_offer_candidate_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -6191,7 +6191,7 @@ async def test_initiate_session_with_offer_candidate_timeout(
 )
 @pytest.mark.usefixtures("mock_camera_capabilities")
 async def test_initiate_session_with_offer_without_ipv4_candidates(
-    hass: __HAC_KEEP__, answer: str
+    hass: UniversalAssistant, answer: str
 ) -> None:
     """Test an answer without IPv4 candidates returns ENDPOINT_UNREACHABLE."""
     request = get_new_request(
@@ -6265,7 +6265,7 @@ async def test_initiate_session_with_offer_without_ipv4_candidates(
 )
 @pytest.mark.usefixtures("mock_camera_capabilities")
 async def test_initiate_session_with_offer_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     messages: list[camera.WebRTCMessage],
     answer_timeout: float,
     error_message: str,
@@ -6323,7 +6323,7 @@ async def test_initiate_session_with_offer_failure(
 )
 @pytest.mark.usefixtures("mock_camera_capabilities")
 async def test_initiate_session_with_offer_cancelled(
-    hass: __HAC_KEEP__, messages: list[camera.WebRTCMessage]
+    hass: UniversalAssistant, messages: list[camera.WebRTCMessage]
 ) -> None:
     """Test the WebRTC session is closed when negotiation is cancelled."""
     request = get_new_request(
@@ -6368,7 +6368,7 @@ async def test_initiate_session_with_offer_cancelled(
     "mock_camera_capabilities", [{camera.StreamType.WEB_RTC}], indirect=True
 )
 @pytest.mark.usefixtures("mock_camera_capabilities")
-async def test_initiate_session_with_offer_slow_camera(hass: __HAC_KEEP__) -> None:
+async def test_initiate_session_with_offer_slow_camera(hass: UniversalAssistant) -> None:
     """Test a camera that does not return from the offer in time."""
     request = get_new_request(
         "Alexa.RTCSessionController",
@@ -6413,7 +6413,7 @@ async def test_initiate_session_with_offer_slow_camera(hass: __HAC_KEEP__) -> No
     "mock_camera_capabilities", [{camera.StreamType.HLS}], indirect=True
 )
 @pytest.mark.usefixtures("mock_camera_capabilities")
-async def test_initiate_session_with_offer_unsupported(hass: __HAC_KEEP__) -> None:
+async def test_initiate_session_with_offer_unsupported(hass: UniversalAssistant) -> None:
     """Test InitiateSessionWithOffer for a camera without WebRTC support."""
     request = get_new_request(
         "Alexa.RTCSessionController",
@@ -6433,7 +6433,7 @@ async def test_initiate_session_with_offer_unsupported(hass: __HAC_KEEP__) -> No
 
 
 async def test_initiate_session_with_offer_unknown_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test InitiateSessionWithOffer for a camera entity that does not exist."""
     hass.states.async_set(
@@ -6458,7 +6458,7 @@ async def test_initiate_session_with_offer_unknown_camera(
 
 @pytest.mark.usefixtures("mock_camera")
 async def test_rtc_session_connected(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test SessionConnected is acknowledged."""
     request = get_new_request(
@@ -6482,7 +6482,7 @@ async def test_rtc_session_connected(
 @pytest.mark.parametrize("camera_on", [True, False])
 @pytest.mark.usefixtures("mock_camera")
 async def test_rtc_session_disconnected(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, camera_on: bool
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, camera_on: bool
 ) -> None:
     """Test SessionDisconnected closes the WebRTC session, even for a camera that is off."""
     await hass.services.async_call(
@@ -6514,7 +6514,7 @@ async def test_rtc_session_disconnected(
     )
 
 
-async def test_rtc_session_disconnected_unknown_camera(hass: __HAC_KEEP__) -> None:
+async def test_rtc_session_disconnected_unknown_camera(hass: UniversalAssistant) -> None:
     """Test SessionDisconnected for a camera entity that does not exist."""
     hass.states.async_set(
         "camera.test",
@@ -6541,7 +6541,7 @@ async def _async_answer_webrtc_offer(
     send_message(camera.WebRTCCandidate(RTCIceCandidateInit("")))
 
 
-async def _async_negotiate_rtc_session(hass: __HAC_KEEP__) -> None:
+async def _async_negotiate_rtc_session(hass: UniversalAssistant) -> None:
     """Negotiate a WebRTC session with the demo camera."""
     request = get_new_request(
         "Alexa.RTCSessionController",
@@ -6569,7 +6569,7 @@ async def _async_negotiate_rtc_session(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("mock_camera_capabilities")
 async def test_rtc_session_expires(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -6599,7 +6599,7 @@ async def test_rtc_session_expires(
 )
 @pytest.mark.usefixtures("mock_camera_capabilities")
 async def test_rtc_session_disconnected_cancels_expiry(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test SessionDisconnected cancels the session expiry."""
     request = get_new_request(
@@ -6626,7 +6626,7 @@ async def test_rtc_session_disconnected_cancels_expiry(
 )
 @pytest.mark.usefixtures("mock_camera_capabilities")
 async def test_rtc_session_disconnected_during_negotiation(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test SessionDisconnected during negotiation closes the negotiated session."""
     open_sessions: set[str] = set()
@@ -6691,7 +6691,7 @@ async def test_rtc_session_disconnected_during_negotiation(
 
 
 async def test_alexa_config_migrate_entity_names(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     entity_registry: er.EntityRegistry,
 ) -> None:

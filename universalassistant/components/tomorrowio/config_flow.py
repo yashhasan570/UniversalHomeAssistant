@@ -26,7 +26,7 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CONF_NAME,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.selector import LocationSelector, LocationSelectorConfig
@@ -50,7 +50,7 @@ STEP_USER_DATA_SCHEMA = probatio.Schema(
 )
 
 
-def _get_location_schema(hass: __HAC_KEEP__) -> probatio.Schema:
+def _get_location_schema(hass: UniversalAssistant) -> probatio.Schema:
     """Return the schema for a location subentry."""
     return probatio.Schema(
         {

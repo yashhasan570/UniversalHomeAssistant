@@ -14,14 +14,14 @@ from universalassistant.components.lunatone.coordinator import (
     DEFAULT_SCAN_UPDATE_INTERVAL,
 )
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -42,7 +42,7 @@ async def test_setup(
 
 
 async def test_sensor_value_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -95,7 +95,7 @@ async def test_sensor_value_update(
 
 
 async def test_line_scan_status_removed_with_line(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,

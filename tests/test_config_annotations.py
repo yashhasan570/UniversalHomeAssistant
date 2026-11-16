@@ -1,4 +1,4 @@
-"""Test that YAML source annotations survive __HA_KEEP__'s config pipeline.
+"""Test that YAML source annotations survive Universal Home Assistant's config pipeline.
 
 The loader (annotatedyaml), the validation engine (probatio) and the readers in
 universalassistant.config are three separate packages, and what breaks in production
@@ -23,7 +23,7 @@ from pytest_universalassistant.common import get_fixture_path
 
 from universalassistant import config as config_util
 from universalassistant.config import _get_annotation, find_annotation
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.yaml.objects import NodeDictClass
 
 CONFIG_DIR = str(get_fixture_path("core/config/annotations/basic"))
@@ -64,8 +64,8 @@ def probatio_compile_policy(request: pytest.FixtureRequest) -> Generator[None]:
 
 
 @pytest.fixture
-async def annotated_config(hass: __HAC_KEEP__) -> dict:
-    """Load the annotations fixture directory the way __HA_KEEP__ loads it."""
+async def annotated_config(hass: UniversalAssistant) -> dict:
+    """Load the annotations fixture directory the way Universal Home Assistant loads it."""
     hass.config.config_dir = CONFIG_DIR
     return await config_util.async_hass_config_yaml(hass)
 

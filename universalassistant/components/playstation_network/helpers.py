@@ -10,7 +10,7 @@ from psnawp_api.models.trophies import PlatformType, TrophySummary, TrophyTitle
 from psnawp_api.models.user import User
 from pyrate_limiter import Duration, Rate
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import SUPPORTED_PLATFORMS
 
@@ -48,7 +48,7 @@ class PlaystationNetwork:
 
     shareable_profile_link: dict[str, str]
 
-    def __init__(self, hass: __HAC_KEEP__, npsso: str) -> None:
+    def __init__(self, hass: UniversalAssistant, npsso: str) -> None:
         """Initialize the class with the npsso token."""
         rate = Rate(300, Duration.MINUTE * 15)
         self.psn = PSNAWP(npsso, rate_limit=rate)

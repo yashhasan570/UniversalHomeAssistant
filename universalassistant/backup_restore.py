@@ -1,4 +1,4 @@
-"""__HA_KEEP__ module to handle restoring backups."""
+"""Universal Home Assistant module to handle restoring backups."""
 
 from collections.abc import Iterable
 from dataclasses import dataclass
@@ -117,7 +117,7 @@ def _extract_backup(
             )
         ) > HA_VERSION:
             raise ValueError(
-                f"You need at least __HA_KEEP__ version"
+                f"You need at least Universal Home Assistant version"
                 f" {backup_meta_version} to restore this backup"
             )
 

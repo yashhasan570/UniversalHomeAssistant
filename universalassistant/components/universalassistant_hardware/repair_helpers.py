@@ -1,8 +1,8 @@
-"""Repairs for the __HA_KEEP__ Hardware integration."""
+"""Repairs for the Universal Home Assistant Hardware integration."""
 
 from universalassistant.components.repairs import RepairsFlow, RepairsFlowResult
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import issue_registry as ir
 
 ISSUE_MULTI_PAN_MIGRATION = "multi_pan_migration"
@@ -16,7 +16,7 @@ def _multi_pan_issue_id(config_entry: ConfigEntry) -> str:
 
 @callback
 def async_create_multi_pan_migration_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain: str,
     config_entry: ConfigEntry,
 ) -> None:
@@ -37,7 +37,7 @@ def async_create_multi_pan_migration_issue(
 
 @callback
 def async_delete_multi_pan_migration_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain: str,
     config_entry: ConfigEntry,
 ) -> None:

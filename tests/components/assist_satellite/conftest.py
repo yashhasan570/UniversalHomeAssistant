@@ -24,7 +24,7 @@ from universalassistant.components.assist_satellite import (
 )
 from universalassistant.config_entries import ConfigEntry, ConfigFlow
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity import DeviceInfo
 from universalassistant.setup import async_setup_component
 from universalassistant.util.ulid import ulid_hex
@@ -120,7 +120,7 @@ def entity_no_features() -> MockAssistSatellite:
 
 
 @pytest.fixture
-def config_entry(hass: __HAC_KEEP__) -> ConfigEntry:
+def config_entry(hass: UniversalAssistant) -> ConfigEntry:
     """Mock config entry."""
     entry = MockConfigEntry(domain=TEST_DOMAIN)
     entry.add_to_hass(hass)
@@ -129,7 +129,7 @@ def config_entry(hass: __HAC_KEEP__) -> ConfigEntry:
 
 @pytest.fixture
 async def init_components(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     entity: MockAssistSatellite,
     entity2: MockAssistSatellite,
@@ -139,7 +139,7 @@ async def init_components(
     assert await async_setup_component(hass, "universalassistant", {})
 
     async def async_setup_entry_init(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -147,7 +147,7 @@ async def init_components(
         )
 
     async def async_unload_entry_init(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         """Unload test config entry."""
         await hass.config_entries.async_forward_entry_unload(

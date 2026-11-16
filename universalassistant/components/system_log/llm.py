@@ -12,8 +12,8 @@ import probatio
 
 from universalassistant.components.llm import LLMTools
 from universalassistant.const import KEY_DATA_LOGGING
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.hassio import is_hassio
 from universalassistant.helpers.llm import (
     LLM_API_UNIVERSAL_ASSISTANT,
@@ -141,7 +141,7 @@ class SystemLogGetEntriesTool(Tool):
     name = "system_log__get_entries"
     title = "Get system log entries"
     description = (
-        "Retrieve recent system log errors and warnings from __HA_KEEP__. "
+        "Retrieve recent system log errors and warnings from Universal Home Assistant. "
         "This inspects the in-memory system log, which only records WARNING, ERROR, "
         "and CRITICAL events (not DEBUG or INFO). Can filter by log level, integration "
         "or logger name, and choose whether to include full exception tracebacks."
@@ -183,7 +183,7 @@ class SystemLogGetEntriesTool(Tool):
 
     @override
     async def async_call(
-        self, hass: __HAC_KEEP__, tool_input: ToolInput, llm_context: LLMContext
+        self, hass: UniversalAssistant, tool_input: ToolInput, llm_context: LLMContext
     ) -> ToolResult:
         """Query the system log."""
         handler: LogErrorHandler | None = hass.data.get(DOMAIN)
@@ -263,7 +263,7 @@ def _read_log_file(path: str, start_time: datetime, lines: int) -> list[str]:
                 if len(result) >= lines:
                     break
     except OSError as err:
-        raise __HAC_KEEP__Error("Could not read the log file") from err
+        raise UniversalAssistantError("Could not read the log file") from err
     return result
 
 
@@ -300,7 +300,7 @@ class SystemLogGetLogsTool(Tool):
     description = (
         "Read the full logs in a time window, merged into one timeline. This "
         "includes INFO and DEBUG records. Use system_log__get_entries first for "
-        "a summary of __HA_KEEP__ errors and warnings. Use this tool to see "
+        "a summary of Universal Home Assistant errors and warnings. Use this tool to see "
         "what happened around a specific time, or to find the cause of an error. "
         "Records are sorted oldest first, with times in local time, starting at "
         "start_time. Long messages are shortened in the middle, and values "
@@ -378,7 +378,7 @@ class SystemLogGetLogsTool(Tool):
 
     async def async_read_source(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         source: str,
         start_time: datetime,
         end_time: datetime,
@@ -386,7 +386,7 @@ class SystemLogGetLogsTool(Tool):
     ) -> list[str]:
         """Return the oldest lines of the log of a source in the time window.
 
-        Raise __HAC_KEEP__Error when the log cannot be read.
+        Raise UniversalAssistantError when the log cannot be read.
         """
         return await hass.async_add_executor_job(
             _read_log_file, hass.data[KEY_DATA_LOGGING], start_time, lines
@@ -394,7 +394,7 @@ class SystemLogGetLogsTool(Tool):
 
     @override
     async def async_call(
-        self, hass: __HAC_KEEP__, tool_input: ToolInput, llm_context: LLMContext
+        self, hass: UniversalAssistant, tool_input: ToolInput, llm_context: LLMContext
     ) -> ToolResult:
         """Query the logs."""
         args = self.parameters(tool_input.tool_args)
@@ -436,7 +436,7 @@ class SystemLogGetLogsTool(Tool):
         complete_end: datetime | None = None
         merged: list[tuple[str, _LogRecord]] = []
         for name, result in zip(names, results, strict=True):
-            if isinstance(result, __HAC_KEEP__Error):
+            if isinstance(result, UniversalAssistantError):
                 errors[name] = str(result)
                 continue
             if isinstance(result, BaseException):
@@ -516,14 +516,14 @@ class SystemLogGetLogsTool(Tool):
 
 @callback
 def async_get_tools(
-    hass: __HAC_KEEP__, llm_context: LLMContext, api_id: str
+    hass: UniversalAssistant, llm_context: LLMContext, api_id: str
 ) -> LLMTools | None:
-    """Return the system log LLM tools for the __HA_KEEP__ API."""
+    """Return the system log LLM tools for the Universal Home Assistant API."""
     if api_id != LLM_API_UNIVERSAL_ASSISTANT:
         return None
 
     tools: list[Tool] = [SystemLogGetEntriesTool()]
     # The Supervisor integration provides the logs on Supervisor installations
     if not is_hassio(hass) and KEY_DATA_LOGGING in hass.data:
-        tools.append(SystemLogGetLogsTool({"core": "__HA_KEEP__"}, ["core"]))
+        tools.append(SystemLogGetLogsTool({"core": "Universal Home Assistant"}, ["core"]))
     return LLMTools(tools=tools)

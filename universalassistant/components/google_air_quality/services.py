@@ -9,13 +9,13 @@ import probatio
 
 from universalassistant.const import CommonServiceArgument
 from universalassistant.core import (
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import selector, service
 
 from .const import DOMAIN
@@ -49,7 +49,7 @@ SERVICE_GET_FORECAST_SCHEMA: Final = probatio.Schema(
 
 
 def _get_config_entry_and_subentry_id(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> tuple[GoogleAirQualityConfigEntry, str]:
     """Get the config entry and subentry from a selected location device."""
     config_entry: GoogleAirQualityConfigEntry
@@ -81,7 +81,7 @@ async def _async_get_forecast(call: ServiceCall) -> ServiceResponse:
             timedelta(hours=call.data[GoogleAirQualityServiceArgument.HOURS]),
         )
     except GoogleAirQualityApiError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="unable_to_fetch",
         ) from err
@@ -97,7 +97,7 @@ async def _async_get_forecast(call: ServiceCall) -> ServiceResponse:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up services."""
     hass.services.async_register(
         DOMAIN,

@@ -10,7 +10,7 @@ from universalassistant.const import (
     CONF_STATE,
     CONF_TYPE,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import (
     condition,
     config_validation as cv,
@@ -271,7 +271,7 @@ CONDITION_SCHEMA = cv.DEVICE_CONDITION_BASE_SCHEMA.extend(
 
 
 async def async_get_conditions(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, str]]:
     """List device conditions."""
     conditions: list[dict[str, str]] = []
@@ -305,7 +305,7 @@ async def async_get_conditions(
 
 @callback
 def async_condition_from_config(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> condition.ConditionCheckerType:
     """Evaluate state based on configuration."""
     condition_type = config[CONF_TYPE]
@@ -327,7 +327,7 @@ def async_condition_from_config(
 
 
 async def async_get_condition_capabilities(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List condition capabilities."""
     return {

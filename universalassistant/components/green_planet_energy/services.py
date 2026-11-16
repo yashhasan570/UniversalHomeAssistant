@@ -8,7 +8,7 @@ import probatio
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument
 from universalassistant.core import (
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -190,7 +190,7 @@ async def get_prices(call: ServiceCall) -> ServiceResponse:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up services for Green Planet Energy."""
 
     hass.services.async_register(

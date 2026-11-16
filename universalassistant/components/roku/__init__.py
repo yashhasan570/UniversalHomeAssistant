@@ -1,7 +1,7 @@
 """Support for Roku."""
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -19,13 +19,13 @@ PLATFORMS = [
 ]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: RokuConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: RokuConfigEntry) -> None:
     """Set up Roku from a config entry."""
     coordinator = RokuDataUpdateCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()
@@ -35,6 +35,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: RokuConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: RokuConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: RokuConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

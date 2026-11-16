@@ -7,14 +7,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.iotawatt.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import INPUT_SENSOR
 
 
 async def test_setup_unload(
-    hass: __HAC_KEEP__, mock_iotawatt: MagicMock, entry: MockConfigEntry
+    hass: UniversalAssistant, mock_iotawatt: MagicMock, entry: MockConfigEntry
 ) -> None:
     """Test we can setup and unload an entry."""
     mock_iotawatt.getSensors.return_value["sensors"]["my_sensor_key"] = INPUT_SENSOR
@@ -24,7 +24,7 @@ async def test_setup_unload(
 
 
 async def test_setup_connection_failed(
-    hass: __HAC_KEEP__, mock_iotawatt: MagicMock, entry: MockConfigEntry
+    hass: UniversalAssistant, mock_iotawatt: MagicMock, entry: MockConfigEntry
 ) -> None:
     """Test connection error during startup."""
     mock_iotawatt.connect.side_effect = httpx2.ConnectError("")
@@ -34,7 +34,7 @@ async def test_setup_connection_failed(
 
 
 async def test_setup_auth_failed(
-    hass: __HAC_KEEP__, mock_iotawatt: MagicMock, entry: MockConfigEntry
+    hass: UniversalAssistant, mock_iotawatt: MagicMock, entry: MockConfigEntry
 ) -> None:
     """Test auth error during startup."""
     mock_iotawatt.connect.return_value = False
@@ -44,7 +44,7 @@ async def test_setup_auth_failed(
 
 
 async def test_setup_update_failed(
-    hass: __HAC_KEEP__, mock_iotawatt: MagicMock, entry: MockConfigEntry
+    hass: UniversalAssistant, mock_iotawatt: MagicMock, entry: MockConfigEntry
 ) -> None:
     """Test error while fetching sensor data during startup."""
     mock_iotawatt.update.side_effect = httpx2.HTTPStatusError(

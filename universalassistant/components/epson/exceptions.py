@@ -3,9 +3,9 @@
 from universalassistant import exceptions
 
 
-class CannotConnect(exceptions.__HAC_KEEP__Error):
+class CannotConnect(exceptions.UniversalAssistantError):
     """Error to indicate we cannot connect."""
 
 
-class PoweredOff(exceptions.__HAC_KEEP__Error):
+class PoweredOff(exceptions.UniversalAssistantError):
     """Error to indicate projector is off."""

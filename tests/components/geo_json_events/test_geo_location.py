@@ -24,7 +24,7 @@ from universalassistant.const import (
     EntityStateAttribute,
     UnitOfLength,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.dispatcher import DATA_DISPATCHER
 from universalassistant.util import dt as dt_util
@@ -45,7 +45,7 @@ CONFIG_LEGACY = {
 
 
 async def test_entity_lifecycle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -147,7 +147,7 @@ async def test_entity_lifecycle(
 
 
 async def test_signals_disconnected_on_unload(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test entity signal listeners are disconnected when the entry unloads."""
     config_entry.add_to_hass(hass)

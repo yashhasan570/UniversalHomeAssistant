@@ -26,8 +26,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import (
@@ -109,7 +109,7 @@ DEVICE_WITH_LED_NO_RGB = {
 @pytest.mark.parametrize("device_payload", [[DEVICE_WITH_LED, DEVICE_WITHOUT_LED]])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_lights(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
 ) -> None:
@@ -128,7 +128,7 @@ async def test_lights(
 @pytest.mark.parametrize("device_payload", [[DEVICE_LED_OFF]])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_light_off_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test light off state."""
     assert len(hass.states.async_entity_ids(LIGHT_DOMAIN)) == 1
@@ -143,7 +143,7 @@ async def test_light_off_state(
 @pytest.mark.parametrize("device_payload", [[DEVICE_WITH_LED]])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_light_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
 ) -> None:
@@ -179,7 +179,7 @@ async def test_light_turn_on_off(
 @pytest.mark.parametrize("device_payload", [[DEVICE_WITH_LED]])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_light_set_brightness(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
 ) -> None:
@@ -207,7 +207,7 @@ async def test_light_set_brightness(
 @pytest.mark.parametrize("device_payload", [[DEVICE_WITH_LED]])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_light_set_rgb_color(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
 ) -> None:
@@ -235,7 +235,7 @@ async def test_light_set_rgb_color(
 @pytest.mark.parametrize("device_payload", [[DEVICE_WITH_LED]])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_light_set_brightness_and_color(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
 ) -> None:
@@ -264,7 +264,7 @@ async def test_light_set_brightness_and_color(
 @pytest.mark.parametrize("device_payload", [[DEVICE_WITH_LED]])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_light_state_update_via_websocket(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_message: WebsocketMessageMock,
 ) -> None:
     """Test state update via websocket."""
@@ -290,7 +290,7 @@ async def test_light_state_update_via_websocket(
 @pytest.mark.parametrize("device_payload", [[DEVICE_WITH_LED]])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_light_device_offline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_message: WebsocketMessageMock,
 ) -> None:
     """Test device offline."""
@@ -310,7 +310,7 @@ async def test_light_device_offline(
 @pytest.mark.parametrize("device_payload", [[DEVICE_WITH_LED]])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_light_device_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_websocket_state: WebsocketStateManager,
 ) -> None:
     """Test device unavailable."""
@@ -331,7 +331,7 @@ async def test_light_device_unavailable(
 
 @pytest.mark.parametrize("device_payload", [[DEVICE_WITH_LED]])
 async def test_light_platform_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     snapshot: SnapshotAssertion,
@@ -345,7 +345,7 @@ async def test_light_platform_snapshot(
 @pytest.mark.parametrize("device_payload", [[DEVICE_WITH_LED_NO_RGB]])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_light_onoff_mode_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test light with ONOFF mode only (no LED ring support)."""
     assert len(hass.states.async_entity_ids(LIGHT_DOMAIN)) == 1
@@ -363,7 +363,7 @@ async def test_light_onoff_mode_only(
 @pytest.mark.parametrize("device_payload", [[DEVICE_WITH_LED_NO_RGB]])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_light_onoff_mode_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
 ) -> None:
@@ -405,7 +405,7 @@ async def test_light_onoff_mode_turn_on_off(
 @pytest.mark.parametrize("device_payload", [[DEVICE_WITH_LED, DEVICE_WITH_LED_NO_RGB]])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_light_rgb_vs_onoff_modes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test RGB and ONOFF modes are assigned based on device capabilities."""
     assert len(hass.states.async_entity_ids(LIGHT_DOMAIN)) == 2
@@ -431,17 +431,17 @@ async def test_light_rgb_vs_onoff_modes(
 
 @pytest.mark.parametrize("device_payload", [[DEVICE_WITH_LED]])
 async def test_light_turn_on_request_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
 ) -> None:
-    """Verify __HAC_KEEP__Error is raised when turn on API request fails."""
+    """Verify UniversalAssistantError is raised when turn on API request fails."""
     with (
         patch.object(
             config_entry_setup.runtime_data.api,
             "request",
             side_effect=aiounifi.AiounifiException,
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             LIGHT_DOMAIN,
@@ -455,17 +455,17 @@ async def test_light_turn_on_request_failed(
 
 @pytest.mark.parametrize("device_payload", [[DEVICE_WITH_LED]])
 async def test_light_turn_off_request_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_setup: MockConfigEntry,
 ) -> None:
-    """Verify __HAC_KEEP__Error is raised when turn off API request fails."""
+    """Verify UniversalAssistantError is raised when turn off API request fails."""
     with (
         patch.object(
             config_entry_setup.runtime_data.api,
             "request",
             side_effect=aiounifi.AiounifiException,
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             LIGHT_DOMAIN,

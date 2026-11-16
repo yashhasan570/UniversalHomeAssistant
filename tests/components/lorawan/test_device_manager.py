@@ -24,8 +24,8 @@ from universalassistant.components.lorawan.connection import (
 )
 from universalassistant.components.lorawan.device_manager import _CollectionConnection
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -34,7 +34,7 @@ from .helpers import DESCRIPTOR, ExampleCoordinator, ExampleDevices
 
 
 async def test_multiple_connections_reconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     registered_backend: RegisterBackend,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -74,7 +74,7 @@ async def test_multiple_connections_reconnect(
 
 
 async def test_device_registry_owned_by_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     registered_backend: RegisterBackend,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_device_registry_owned_by_integration(
 
 
 async def test_late_connections(
-    hass: __HAC_KEEP__, registered_backend: RegisterBackend
+    hass: UniversalAssistant, registered_backend: RegisterBackend
 ) -> None:
     """A vendor starts without servers and consumes future registrations."""
     entry = MockConfigEntry(domain="test_vendor")
@@ -124,7 +124,7 @@ async def test_late_connections(
 
 
 async def test_offline_removals(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     registered_backend: RegisterBackend,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -149,7 +149,7 @@ async def test_offline_removals(
 
 
 async def test_deleted_server(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     registered_backend: RegisterBackend,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -169,7 +169,7 @@ async def test_deleted_server(
 
 
 async def test_startup_cleanup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     registered_backend: RegisterBackend,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -198,7 +198,7 @@ async def test_startup_cleanup(
 
 
 async def test_coordinator_listener_cleanup(
-    hass: __HAC_KEEP__, registered_backend: RegisterBackend
+    hass: UniversalAssistant, registered_backend: RegisterBackend
 ) -> None:
     """Subscriptions replay ready coordinators and unsubscribe independently."""
     backend, _ = await registered_backend("network", [DESCRIPTOR])
@@ -224,7 +224,7 @@ async def test_coordinator_listener_cleanup(
 
 
 async def test_reconnect_routes_commands_to_new_transport(
-    hass: __HAC_KEEP__, registered_backend: RegisterBackend
+    hass: UniversalAssistant, registered_backend: RegisterBackend
 ) -> None:
     """A retained model sends subsequent commands through the replacement backend."""
 
@@ -253,7 +253,7 @@ async def test_reconnect_routes_commands_to_new_transport(
 
 
 async def test_pending_command_fails_on_disconnect(
-    hass: __HAC_KEEP__, registered_backend: RegisterBackend
+    hass: UniversalAssistant, registered_backend: RegisterBackend
 ) -> None:
     """Disconnect fails ACK waits while preserving models and entity registrations."""
 
@@ -280,7 +280,7 @@ async def test_pending_command_fails_on_disconnect(
     "error", [RuntimeError("setup failed"), asyncio.CancelledError()]
 )
 async def test_collection_setup_failure_cleanup(
-    hass: __HAC_KEEP__, registered_backend: RegisterBackend, error: BaseException
+    hass: UniversalAssistant, registered_backend: RegisterBackend, error: BaseException
 ) -> None:
     """Failed or cancelled collection setup releases subscriptions and models."""
 
@@ -306,7 +306,7 @@ async def test_collection_setup_failure_cleanup(
 
 
 async def test_coordinator_creation_failure(
-    hass: __HAC_KEEP__, registered_backend: RegisterBackend
+    hass: UniversalAssistant, registered_backend: RegisterBackend
 ) -> None:
     """A failed coordinator cannot leave a partially loaded vendor integration."""
 
@@ -319,14 +319,14 @@ async def test_coordinator_creation_failure(
         create_collection=ExampleDevices,
         create_coordinator=Mock(side_effect=ValueError("coordinator failed")),
     )
-    with pytest.raises(__HAC_KEEP__Error, match="coordinator"):
+    with pytest.raises(UniversalAssistantError, match="coordinator"):
         await manager.async_setup()
     assert not manager.coordinators
     assert not manager._sessions
 
 
 async def test_listener_replay_failure_unsubscribes(
-    hass: __HAC_KEEP__, registered_backend: RegisterBackend
+    hass: UniversalAssistant, registered_backend: RegisterBackend
 ) -> None:
     """An observer that fails during initial replay is not retained."""
 
@@ -348,7 +348,7 @@ async def test_listener_replay_failure_unsubscribes(
 
 
 async def test_disconnect_during_collection_setup(
-    hass: __HAC_KEEP__, registered_backend: RegisterBackend
+    hass: UniversalAssistant, registered_backend: RegisterBackend
 ) -> None:
     """Withdrawal during setup retains the model for a later connection."""
 
@@ -432,7 +432,7 @@ async def test_disconnect_while_vendor_subscribes() -> None:
 
 
 async def test_vendor_subscription_failure_cleanup(
-    hass: __HAC_KEEP__, registered_backend: RegisterBackend
+    hass: UniversalAssistant, registered_backend: RegisterBackend
 ) -> None:
     """A failed vendor replay releases its collection and config-entry listeners."""
     backend, _ = await registered_backend("network", [DESCRIPTOR])
@@ -465,7 +465,7 @@ async def test_vendor_subscription_failure_cleanup(
     ids=["collection_setup", "subscription"],
 )
 async def test_reconnect_waits_for_cancelled_attach(
-    hass: __HAC_KEEP__, registered_backend: RegisterBackend, method: str
+    hass: UniversalAssistant, registered_backend: RegisterBackend, method: str
 ) -> None:
     """A cancelled attach cannot close the replacement connection's session."""
     entry = MockConfigEntry(domain="test_vendor")
@@ -519,7 +519,7 @@ async def test_reconnect_waits_for_cancelled_attach(
     "error", [ConnectionUnavailable("replay failed"), asyncio.CancelledError()]
 )
 async def test_failed_reconnect_preserves_devices(
-    hass: __HAC_KEEP__, registered_backend: RegisterBackend, error: BaseException
+    hass: UniversalAssistant, registered_backend: RegisterBackend, error: BaseException
 ) -> None:
     """A failed reconnect retains the existing model and coordinator for recovery."""
     _, unregister = await registered_backend("network", [DESCRIPTOR])
@@ -550,7 +550,7 @@ async def test_failed_reconnect_preserves_devices(
 
 
 async def test_reconnect_during_initial_setup(
-    hass: __HAC_KEEP__, registered_backend: RegisterBackend
+    hass: UniversalAssistant, registered_backend: RegisterBackend
 ) -> None:
     """Initial setup and a replacement connection cannot attach concurrently."""
     original_backend, unregister = await registered_backend("network", [DESCRIPTOR])

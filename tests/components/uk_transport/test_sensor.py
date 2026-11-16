@@ -19,7 +19,7 @@ from universalassistant.components.uk_transport.sensor import (
     CONF_API_APP_KEY,
     UkTransportSensor,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import now
 
@@ -45,7 +45,7 @@ VALID_CONFIG = {
 }
 
 
-async def test_bus(hass: __HAC_KEEP__) -> None:
+async def test_bus(hass: UniversalAssistant) -> None:
     """Test for operational uk_transport sensor with proper attributes."""
     with requests_mock.Mocker() as mock_req:
         uri = re.compile(UkTransportSensor.TRANSPORT_API_URL_BASE + "*")
@@ -67,7 +67,7 @@ async def test_bus(hass: __HAC_KEEP__) -> None:
         assert None is not direction_re.search(bus["direction"])
 
 
-async def test_train(hass: __HAC_KEEP__) -> None:
+async def test_train(hass: UniversalAssistant) -> None:
     """Test for operational uk_transport sensor with proper attributes."""
     with (
         requests_mock.Mocker() as mock_req,

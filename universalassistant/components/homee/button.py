@@ -11,7 +11,7 @@ from universalassistant.components.button import (
     ButtonEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import HomeeConfigEntry
@@ -43,7 +43,7 @@ BUTTON_DESCRIPTIONS: dict[AttributeType, ButtonEntityDescription] = {
 
 
 async def add_button_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
     nodes: list[HomeeNode],
@@ -58,7 +58,7 @@ async def add_button_entities(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -74,7 +74,7 @@ class HomeeButton(HomeeEntity, ButtonEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         attribute: HomeeAttribute,
         entry: HomeeConfigEntry,
         description: ButtonEntityDescription,

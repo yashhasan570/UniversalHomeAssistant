@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_IP_ADDRESS,
     CONF_PORT,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -35,7 +35,7 @@ from .conftest import MOCK_CODE, MOCK_DEVICE_ID, MOCK_HOST, MOCK_PORT
     ids=["alphanumeric_lower_space", "numeric_space", "alphanumeric_no_space"],
 )
 async def test_user_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     pre_normalized_code: str,
     normalized_code: str,
     mock_droplet_discovery: AsyncMock,
@@ -79,7 +79,7 @@ async def test_user_setup(
     ids=["no_device_id", "cannot_connect"],
 )
 async def test_user_setup_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_id: str,
     connect_res: bool,
     mock_droplet_discovery: AsyncMock,
@@ -125,7 +125,7 @@ async def test_user_setup_fail(
 
 
 async def test_user_setup_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_droplet_discovery: AsyncMock,
     mock_droplet: AsyncMock,
@@ -162,7 +162,7 @@ async def test_user_setup_already_configured(
     ids=["alphanumeric_lower_space", "numeric_space", "alphanumeric_no_space"],
 )
 async def test_zeroconf_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     pre_normalized_code: str,
     normalized_code: str,
     mock_droplet_discovery: AsyncMock,
@@ -206,7 +206,7 @@ async def test_zeroconf_setup(
 
 @pytest.mark.parametrize("mock_droplet_discovery", ["192.168.1.5"], indirect=True)
 async def test_zeroconf_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_droplet_discovery: AsyncMock,
 ) -> None:
@@ -252,7 +252,7 @@ async def test_zeroconf_update(
 )
 @pytest.mark.parametrize("mock_droplet_discovery", ["192.168.1.5"], indirect=True)
 async def test_zeroconf_update_device_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_droplet_discovery: AsyncMock,
     connect_res: bool,
@@ -285,7 +285,7 @@ async def test_zeroconf_update_device_mismatch(
 
 
 async def test_zeroconf_same_host(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_droplet_discovery: AsyncMock,
 ) -> None:
@@ -314,7 +314,7 @@ async def test_zeroconf_same_host(
 
 
 async def test_zeroconf_ignored_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_droplet_discovery: AsyncMock,
 ) -> None:
     """Test rediscovery of an ignored Droplet aborts without connecting."""
@@ -348,7 +348,7 @@ async def test_zeroconf_ignored_entry(
     mock_droplet_discovery.try_connect.assert_not_awaited()
 
 
-async def test_zeroconf_invalid_discovery(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_invalid_discovery(hass: UniversalAssistant) -> None:
     """Test that invalid discovery information causes the config flow to abort."""
     discovery_info = ZeroconfServiceInfo(
         ip_address=IPv4Address(MOCK_HOST),
@@ -370,7 +370,7 @@ async def test_zeroconf_invalid_discovery(hass: __HAC_KEEP__) -> None:
 
 
 async def test_confirm_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_droplet: AsyncMock,
     mock_droplet_connection: AsyncMock,

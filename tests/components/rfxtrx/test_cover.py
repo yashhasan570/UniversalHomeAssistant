@@ -5,13 +5,13 @@ from unittest.mock import call
 import pytest
 from pytest_universalassistant.common import mock_restore_cache
 
-from universalassistant.core import __HAC_KEEP__, State
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, State
+from universalassistant.exceptions import UniversalAssistantError
 
 from .conftest import create_rfx_test_entry
 
 
-async def test_one_cover(hass: __HAC_KEEP__, rfxtrx) -> None:
+async def test_one_cover(hass: UniversalAssistant, rfxtrx) -> None:
     """Test with 1 cover."""
     mock_entry = create_rfx_test_entry(devices={"0b1400cd0213c7f20d010f51": {}})
     mock_entry.add_to_hass(hass)
@@ -51,7 +51,7 @@ async def test_one_cover(hass: __HAC_KEEP__, rfxtrx) -> None:
 
 
 @pytest.mark.parametrize("state", ["open", "closed"])
-async def test_state_restore(hass: __HAC_KEEP__, rfxtrx, state) -> None:
+async def test_state_restore(hass: UniversalAssistant, rfxtrx, state) -> None:
     """State restoration."""
 
     entity_id = "cover.lightwaverf_siemens_0213c7_242"
@@ -67,7 +67,7 @@ async def test_state_restore(hass: __HAC_KEEP__, rfxtrx, state) -> None:
     assert hass.states.get(entity_id).state == state
 
 
-async def test_several_covers(hass: __HAC_KEEP__, rfxtrx) -> None:
+async def test_several_covers(hass: UniversalAssistant, rfxtrx) -> None:
     """Test with 3 covers."""
     mock_entry = create_rfx_test_entry(
         devices={
@@ -97,7 +97,7 @@ async def test_several_covers(hass: __HAC_KEEP__, rfxtrx) -> None:
     assert state.attributes.get("friendly_name") == "RollerTrol 009ba8:1"
 
 
-async def test_discover_covers(hass: __HAC_KEEP__, rfxtrx_automatic) -> None:
+async def test_discover_covers(hass: UniversalAssistant, rfxtrx_automatic) -> None:
     """Test with discovery of covers."""
     rfxtrx = rfxtrx_automatic
 
@@ -112,7 +112,7 @@ async def test_discover_covers(hass: __HAC_KEEP__, rfxtrx_automatic) -> None:
     assert state.state == "open"
 
 
-async def test_duplicate_cover(hass: __HAC_KEEP__, rfxtrx) -> None:
+async def test_duplicate_cover(hass: UniversalAssistant, rfxtrx) -> None:
     """Test with 2 duplicate covers."""
     mock_entry = create_rfx_test_entry(
         devices={
@@ -131,7 +131,7 @@ async def test_duplicate_cover(hass: __HAC_KEEP__, rfxtrx) -> None:
     assert state.attributes.get("friendly_name") == "LightwaveRF, Siemens 0213c7:242"
 
 
-async def test_rfy_cover(hass: __HAC_KEEP__, rfxtrx) -> None:
+async def test_rfy_cover(hass: UniversalAssistant, rfxtrx) -> None:
     """Test Rfy venetian blind covers."""
     mock_entry = create_rfx_test_entry(
         devices={
@@ -175,7 +175,7 @@ async def test_rfy_cover(hass: __HAC_KEEP__, rfxtrx) -> None:
         blocking=True,
     )
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "cover",
             "open_cover_tilt",
@@ -183,7 +183,7 @@ async def test_rfy_cover(hass: __HAC_KEEP__, rfxtrx) -> None:
             blocking=True,
         )
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "cover",
             "close_cover_tilt",

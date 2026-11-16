@@ -6,13 +6,13 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.uptime.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_user_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test the full user configuration flow."""
@@ -33,7 +33,7 @@ async def test_full_user_flow(
 
 
 async def test_single_instance_allowed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort if already setup."""

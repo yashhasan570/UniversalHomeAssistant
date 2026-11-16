@@ -2,7 +2,7 @@
 
 from enum import StrEnum
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.helpers.entity_platform import async_get_platforms
 from universalassistant.helpers.reload import async_integration_yaml_config
 from universalassistant.helpers.service import async_register_admin_service
@@ -34,7 +34,7 @@ async def _async_reload_config(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the command_line services."""
     async_register_admin_service(
         hass, DOMAIN, CommandLineService.RELOAD, _async_reload_config

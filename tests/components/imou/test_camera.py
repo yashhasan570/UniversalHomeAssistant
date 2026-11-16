@@ -23,8 +23,8 @@ from universalassistant.components.imou.const import PARAM_HEADER_DETECT
 from universalassistant.components.imou.coordinator import SCAN_INTERVAL
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .const import create_online_device
@@ -72,7 +72,7 @@ def _camera_entity_id(
     "init_integration",
 )
 async def test_camera_entities_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -96,7 +96,7 @@ async def test_camera_entities_snapshot(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_no_camera_without_channel(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -124,7 +124,7 @@ async def test_no_camera_without_channel(
 @pytest.mark.parametrize("platforms", [[Platform.CAMERA]], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_live_view_hd_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -162,7 +162,7 @@ async def test_live_view_hd_disabled_by_default(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_camera_stream_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_imou_ha_device_manager: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -201,7 +201,7 @@ async def test_camera_stream_source(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_camera_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_imou_ha_device_manager: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -291,7 +291,7 @@ async def test_camera_image(
     "init_integration",
 )
 async def test_camera_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -322,7 +322,7 @@ async def test_camera_state(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_camera_stream_source_propagates_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_imou_ha_device_manager: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -334,7 +334,7 @@ async def test_camera_stream_source_propagates_api_error(
 
     entity_id = _camera_entity_id(entity_registry, mock_config_entry)
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Could not get the live stream URL from Imou",
     ):
         await async_get_stream_source(hass, entity_id)
@@ -356,7 +356,7 @@ async def test_camera_stream_source_propagates_api_error(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_camera_stream_source_invalid_auth_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_imou_ha_device_manager: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -368,7 +368,7 @@ async def test_camera_stream_source_invalid_auth_starts_reauth(
 
     entity_id = _camera_entity_id(entity_registry, mock_config_entry)
     with pytest.raises(
-        __HAC_KEEP__Error, match="Imou rejected the App ID and App secret"
+        UniversalAssistantError, match="Imou rejected the App ID and App secret"
     ):
         await async_get_stream_source(hass, entity_id)
     await hass.async_block_till_done()
@@ -393,7 +393,7 @@ async def test_camera_stream_source_invalid_auth_starts_reauth(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_camera_image_propagates_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_imou_ha_device_manager: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -405,7 +405,7 @@ async def test_camera_image_propagates_api_error(
 
     entity_id = _camera_entity_id(entity_registry, mock_config_entry)
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Could not get a snapshot from Imou",
     ):
         await async_get_image(hass, entity_id)
@@ -427,7 +427,7 @@ async def test_camera_image_propagates_api_error(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_camera_image_invalid_auth_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_imou_ha_device_manager: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -439,7 +439,7 @@ async def test_camera_image_invalid_auth_starts_reauth(
 
     entity_id = _camera_entity_id(entity_registry, mock_config_entry)
     with pytest.raises(
-        __HAC_KEEP__Error, match="Imou rejected the App ID and App secret"
+        UniversalAssistantError, match="Imou rejected the App ID and App secret"
     ):
         await async_get_image(hass, entity_id)
     await hass.async_block_till_done()
@@ -464,7 +464,7 @@ async def test_camera_image_invalid_auth_starts_reauth(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_camera_entities_removed_when_device_leaves_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,

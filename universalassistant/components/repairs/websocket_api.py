@@ -13,7 +13,7 @@ from universalassistant.components import websocket_api
 from universalassistant.components.http.data_validator import RequestDataValidator
 from universalassistant.components.http.decorators import require_admin
 from universalassistant.config_entries import ConfigEntry, UnknownEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.data_entry_flow import (
     FlowManagerIndexView,
@@ -26,7 +26,7 @@ from .models import RepairsFlowResult
 
 
 @callback
-def async_setup(hass: __HAC_KEEP__) -> None:
+def async_setup(hass: UniversalAssistant) -> None:
     """Set up the repairs websocket API."""
     websocket_api.async_register_command(hass, ws_get_issue_data)
     websocket_api.async_register_command(hass, ws_ignore_issue)
@@ -47,7 +47,7 @@ def async_setup(hass: __HAC_KEEP__) -> None:
     }
 )
 def ws_get_issue_data(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Fix an issue."""
     issue_registry = ir.async_get(hass)
@@ -71,7 +71,7 @@ def ws_get_issue_data(
     }
 )
 def ws_ignore_issue(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Fix an issue."""
     issue_registry = ir.async_get(hass)
@@ -94,7 +94,7 @@ def ws_ignore_issue(
 )
 @callback
 def ws_list_issues(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Return a list of issues."""
     issue_registry = ir.async_get(hass)

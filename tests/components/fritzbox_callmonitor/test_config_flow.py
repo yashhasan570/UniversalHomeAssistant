@@ -29,7 +29,7 @@ from universalassistant.const import (
     CONF_PORT,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 MOCK_HOST = "fake_host"
@@ -121,7 +121,7 @@ def _patch_one_phonebook() -> Generator[None]:
         yield
 
 
-async def test_setup_one_phonebook(hass: __HAC_KEEP__) -> None:
+async def test_setup_one_phonebook(hass: UniversalAssistant) -> None:
     """Test setting up manually."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -173,7 +173,7 @@ async def test_setup_one_phonebook(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_setup_multiple_phonebooks(hass: __HAC_KEEP__) -> None:
+async def test_setup_multiple_phonebooks(hass: UniversalAssistant) -> None:
     """Test setting up manually."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -243,7 +243,7 @@ async def test_setup_multiple_phonebooks(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_setup_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_setup_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we handle cannot connect."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -262,7 +262,7 @@ async def test_setup_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == ConnectResult.NO_DEVIES_FOUND
 
 
-async def test_setup_insufficient_permissions(hass: __HAC_KEEP__) -> None:
+async def test_setup_insufficient_permissions(hass: UniversalAssistant) -> None:
     """Test we handle insufficient permissions."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -283,7 +283,7 @@ async def test_setup_insufficient_permissions(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("error", [FritzAuthorizationError, FritzConnectionException])
 async def test_setup_invalid_auth(
-    hass: __HAC_KEEP__, error: FritzConnectionException
+    hass: UniversalAssistant, error: FritzConnectionException
 ) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
@@ -309,7 +309,7 @@ async def test_setup_invalid_auth(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_reauth_successful(hass: __HAC_KEEP__) -> None:
+async def test_reauth_successful(hass: UniversalAssistant) -> None:
     """Test starting a reauthentication flow."""
     mock_config = MockConfigEntry(domain=DOMAIN, data=MOCK_CONFIG_ENTRY)
     mock_config.add_to_hass(hass)
@@ -375,7 +375,7 @@ async def test_reauth_successful(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_reauth_not_successful(
-    hass: __HAC_KEEP__, side_effect: Exception, error: str
+    hass: UniversalAssistant, side_effect: Exception, error: str
 ) -> None:
     """Test starting a reauthentication flow but no connection found."""
     mock_config = MockConfigEntry(domain=DOMAIN, data=MOCK_CONFIG_ENTRY)
@@ -411,7 +411,7 @@ async def test_reauth_not_successful(
     assert result["reason"] == "reauth_successful"
 
 
-async def test_options_flow_correct_prefixes(hass: __HAC_KEEP__) -> None:
+async def test_options_flow_correct_prefixes(hass: UniversalAssistant) -> None:
     """Test config flow options."""
 
     config_entry = MockConfigEntry(
@@ -440,7 +440,7 @@ async def test_options_flow_correct_prefixes(hass: __HAC_KEEP__) -> None:
         assert config_entry.options == {CONF_PREFIXES: ["+49", "491234"]}
 
 
-async def test_options_flow_incorrect_prefixes(hass: __HAC_KEEP__) -> None:
+async def test_options_flow_incorrect_prefixes(hass: UniversalAssistant) -> None:
     """Test config flow options."""
 
     config_entry = MockConfigEntry(
@@ -474,7 +474,7 @@ async def test_options_flow_incorrect_prefixes(hass: __HAC_KEEP__) -> None:
         assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_options_flow_no_prefixes(hass: __HAC_KEEP__) -> None:
+async def test_options_flow_no_prefixes(hass: UniversalAssistant) -> None:
     """Test config flow options."""
 
     config_entry = MockConfigEntry(
@@ -503,7 +503,7 @@ async def test_options_flow_no_prefixes(hass: __HAC_KEEP__) -> None:
         assert config_entry.options == {CONF_PREFIXES: None}
 
 
-async def test_reconfigure_successful(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_successful(hass: UniversalAssistant) -> None:
     """Test the reconfigure flow."""
     mock_config = MockConfigEntry(
         domain=DOMAIN, data=MOCK_CONFIG_ENTRY, unique_id=MOCK_UNIQUE_ID
@@ -548,7 +548,7 @@ async def test_reconfigure_successful(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_reconfigure_errors(
-    hass: __HAC_KEEP__, side_effect: type[Exception], error: str
+    hass: UniversalAssistant, side_effect: type[Exception], error: str
 ) -> None:
     """Test the reconfigure flow recovers from errors."""
     mock_config = MockConfigEntry(
@@ -578,7 +578,7 @@ async def test_reconfigure_errors(
     assert result["reason"] == "reconfigure_successful"
 
 
-async def test_reconfigure_unique_id_mismatch(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_unique_id_mismatch(hass: UniversalAssistant) -> None:
     """Test the reconfigure flow aborts when pointed at another FRITZ!Box."""
     mock_config = MockConfigEntry(
         domain=DOMAIN, data=MOCK_CONFIG_ENTRY, unique_id=MOCK_UNIQUE_ID

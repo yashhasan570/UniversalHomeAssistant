@@ -7,7 +7,7 @@ from librehardwaremonitor_api.model import LibreHardwareMonitorData
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import LibreHardwareMonitorConfigEntry
 
@@ -15,7 +15,7 @@ TO_REDACT = {CONF_USERNAME, CONF_PASSWORD}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: LibreHardwareMonitorConfigEntry
+    hass: UniversalAssistant, config_entry: LibreHardwareMonitorConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     lhm_data: LibreHardwareMonitorData = config_entry.runtime_data.data

@@ -9,7 +9,7 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CONF_UNIQUE_ID,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import PurpleAirConfigEntry
 
@@ -26,7 +26,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: PurpleAirConfigEntry
+    hass: UniversalAssistant, entry: PurpleAirConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return async_redact_data(

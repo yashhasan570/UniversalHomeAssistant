@@ -30,7 +30,7 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import MOCK_INFRARED_EMITTER_ENTITY_ID
@@ -46,7 +46,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -77,7 +77,7 @@ async def test_entities(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_state_changing_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     service: str,
     expected_code: PersangSpeakerCode,
@@ -108,7 +108,7 @@ async def test_state_changing_commands(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_stateless_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     service: str,
     expected_code: PersangSpeakerCode,
@@ -127,7 +127,7 @@ async def test_stateless_commands(
 @pytest.mark.parametrize("mute", [True, False])
 @pytest.mark.usefixtures("init_integration")
 async def test_mute(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     mute: bool,
 ) -> None:
@@ -146,7 +146,7 @@ async def test_mute(
 
 
 @pytest.mark.usefixtures("init_integration")
-async def test_state_unknown_without_restored_state(hass: __HAC_KEEP__) -> None:
+async def test_state_unknown_without_restored_state(hass: UniversalAssistant) -> None:
     """Test the entity starts as unknown when nothing was restored."""
     state = hass.states.get(MEDIA_PLAYER_ENTITY_ID)
     assert state
@@ -164,7 +164,7 @@ async def test_state_unknown_without_restored_state(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
 async def test_restore_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     platforms: list[Platform],
     restored_state: MediaPlayerState,
@@ -184,7 +184,7 @@ async def test_restore_state(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_media_player_availability_follows_ir_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the media player becomes unavailable when the IR entity is."""
     await assert_availability_follows_source_entity(

@@ -9,14 +9,14 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from theben_conexa_smgw import UnexpectedReturnCode
 
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from tests.test_setup import FrozenDateTimeFactory
 
 
 async def test_setup_entry_initializes_correctly(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_conexa_smgw: SimpleNamespace,
     mock_config_entry: MockConfigEntry,
@@ -56,7 +56,7 @@ async def test_setup_entry_initializes_correctly(
 
 
 async def test_setup_entry_not_ready_when_gateway_unreachable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_conexa_smgw: SimpleNamespace,
     mock_config_entry: MockConfigEntry,
@@ -83,7 +83,7 @@ async def test_setup_entry_not_ready_when_gateway_unreachable(
     ],
 )
 async def test_setup_entry_auth_failed_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_conexa_smgw: SimpleNamespace,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],
@@ -103,7 +103,7 @@ async def test_setup_entry_auth_failed_starts_reauth(
 
 
 async def test_setup_entry_not_ready_on_unexpected_reply(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_conexa_smgw: SimpleNamespace,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -119,7 +119,7 @@ async def test_setup_entry_not_ready_on_unexpected_reply(
 
 
 async def test_scheduled_update_unexpected_reply(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_conexa_smgw: SimpleNamespace,
     mock_config_entry: MockConfigEntry,

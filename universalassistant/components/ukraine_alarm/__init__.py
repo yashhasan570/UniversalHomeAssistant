@@ -7,7 +7,7 @@ import aiohttp
 from uasiren.client import Client
 
 from universalassistant.const import CONF_NAME, CONF_REGION
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -19,7 +19,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: UkraineAlarmConfigEntry
+    hass: UniversalAssistant, entry: UkraineAlarmConfigEntry
 ) -> None:
     """Set up Ukraine Alarm as config entry."""
     websession = async_get_clientsession(hass)
@@ -33,14 +33,14 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: UkraineAlarmConfigEntry
+    hass: UniversalAssistant, entry: UkraineAlarmConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, config_entry: UkraineAlarmConfigEntry
+    hass: UniversalAssistant, config_entry: UkraineAlarmConfigEntry
 ) -> None:
     """Migrate old entry."""
     _LOGGER.debug("Migrating from version %s", config_entry.version)

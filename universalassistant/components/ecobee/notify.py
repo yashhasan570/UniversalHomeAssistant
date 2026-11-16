@@ -3,7 +3,7 @@
 from typing import override
 
 from universalassistant.components.notify import NotifyEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import EcobeeConfigEntry, EcobeeData
@@ -11,7 +11,7 @@ from .entity import EcobeeBaseEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: EcobeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -2,10 +2,10 @@
 
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def init_integration(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+async def init_integration(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     """Fixture for setting up the integration with args."""
     entry.add_to_hass(hass)
 

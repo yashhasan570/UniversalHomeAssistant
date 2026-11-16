@@ -7,27 +7,27 @@ from pytest_universalassistant.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.jellyfin.const import DOMAIN
-from universalassistant.components.media_player import BrowseError
+from universalassistant.components.media_player import BrowseError, MediaClass
 from universalassistant.components.media_source import (
     DOMAIN as MEDIA_SOURCE_DOMAIN,
     URI_SCHEME,
     async_browse_media,
     async_resolve_media,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import load_json_fixture
 
 
 @pytest.fixture(autouse=True)
-async def setup_component(hass: __HAC_KEEP__) -> None:
+async def setup_component(hass: UniversalAssistant) -> None:
     """Set up component."""
     assert await async_setup_component(hass, MEDIA_SOURCE_DOMAIN, {})
 
 
 async def test_resolve(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
@@ -79,7 +79,7 @@ async def test_resolve(
     [("aac"), ("wma"), ("vorbis"), ("mp3")],
 )
 async def test_audio_codec_resolve(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
@@ -111,7 +111,7 @@ async def test_audio_codec_resolve(
 
 
 async def test_root(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
@@ -129,7 +129,7 @@ async def test_root(
 
 
 async def test_tv_library(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
@@ -194,7 +194,7 @@ async def test_tv_library(
 
 
 async def test_movie_library(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
@@ -233,7 +233,7 @@ async def test_movie_library(
 
 
 async def test_music_library(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
@@ -270,6 +270,19 @@ async def test_music_library(
     assert browse.title == "Music"
     assert vars(browse.children[0]) == snapshot
 
+    # Test browsing a music library containing album artists
+    mock_api.get_album_artists.return_value = load_json_fixture("artists.json")
+
+    browse = await async_browse_media(
+        hass, f"{URI_SCHEME}{DOMAIN}/MUSIC-COLLECTION-FOLDER-UUID"
+    )
+
+    assert browse.children_media_class == MediaClass.ARTIST
+    assert [child.identifier for child in browse.children] == ["ARTIST-UUID"]
+    mock_api.get_album_artists.assert_called_with(
+        parent_id="MUSIC-COLLECTION-FOLDER-UUID"
+    )
+
     # Test browsing an artist
     mock_api.get_item.side_effect = None
     mock_api.get_item.return_value = load_json_fixture("artist.json")
@@ -282,6 +295,16 @@ async def test_music_library(
     assert browse.identifier == "ARTIST-UUID"
     assert browse.title == "ARTIST"
     assert vars(browse.children[0]) == snapshot
+    # Albums are not always below their artist in the folder tree, so they
+    # must be looked up by album artist, not by parent.
+    mock_api.user_items.assert_called_with(
+        "",
+        {
+            "Recursive": "true",
+            "AlbumArtistIds": "ARTIST-UUID",
+            "IncludeItemTypes": "MusicAlbum",
+        },
+    )
 
     # Test browsing an album
     mock_api.get_item.side_effect = None
@@ -336,7 +359,7 @@ async def test_music_library(
 
 
 async def test_browse_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,

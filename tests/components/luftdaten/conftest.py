@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.luftdaten.const import CONF_SENSOR_ID, DOMAIN
 from universalassistant.const import CONF_SHOW_ON_MAP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -71,7 +71,7 @@ def mock_luftdaten(mock_luftdaten_class: MagicMock) -> MagicMock:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_luftdaten: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_luftdaten: MagicMock
 ) -> MockConfigEntry:
     """Set up the Luftdaten integration for testing."""
     mock_config_entry.add_to_hass(hass)

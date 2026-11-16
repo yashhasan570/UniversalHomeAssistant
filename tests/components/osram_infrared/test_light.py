@@ -36,7 +36,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -49,7 +49,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -77,7 +77,7 @@ async def test_entities(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on_sends_on_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Test turning on the light sends the OSRAM on code."""
@@ -103,7 +103,7 @@ async def test_turn_on_sends_on_code(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_off_sends_off_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Test turning off the light sends the OSRAM off code."""
@@ -137,7 +137,7 @@ async def test_turn_off_sends_off_code(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on_with_rgb_color_sends_nearest_color_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     rgb_color: tuple[int, int, int],
     expected_code: OsramLightCode,
@@ -174,7 +174,7 @@ async def test_turn_on_with_rgb_color_sends_nearest_color_code(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on_with_effect_sends_effect_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     effect: str,
     expected_code: OsramLightCode,
@@ -202,7 +202,7 @@ async def test_turn_on_with_effect_sends_effect_code(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on_with_effect_off_restores_last_static_color(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Test turning an effect off restores the last static color."""
@@ -252,7 +252,7 @@ async def test_turn_on_with_effect_off_restores_last_static_color(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on_with_unsupported_effect_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Test unsupported effect is rejected before sending infrared commands."""
@@ -275,7 +275,7 @@ async def test_turn_on_with_unsupported_effect_raises(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_light_availability_follows_ir_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test light becomes unavailable when IR entity is unavailable."""
     await assert_availability_follows_source_entity(
@@ -288,7 +288,7 @@ async def test_light_availability_follows_ir_entity(
 @pytest.mark.parametrize("has_receiver_entity", [True])
 @pytest.mark.usefixtures("init_integration")
 async def test_receiver_off_code_updates_light_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
 ) -> None:
     """Test receiving the OSRAM off command updates the assumed light state."""
@@ -319,7 +319,7 @@ async def test_receiver_off_code_updates_light_state(
 @pytest.mark.parametrize("has_receiver_entity", [True])
 @pytest.mark.usefixtures("init_integration")
 async def test_receiver_static_color_code_updates_light_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
     received_code: OsramLightCode,
     expected_rgb_color: tuple[int, int, int],
@@ -354,7 +354,7 @@ async def test_receiver_static_color_code_updates_light_state(
 @pytest.mark.parametrize("has_receiver_entity", [True])
 @pytest.mark.usefixtures("init_integration")
 async def test_receiver_effect_code_updates_light_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
     received_code: OsramLightCode,
     expected_effect: str,
@@ -380,7 +380,7 @@ async def test_receiver_effect_code_updates_light_state(
 @pytest.mark.parametrize("has_receiver_entity", [True])
 @pytest.mark.usefixtures("init_integration")
 async def test_receiver_ignores_other_nec_addresses(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
 ) -> None:
     """Test receiver ignores NEC commands from other addresses."""
@@ -403,7 +403,7 @@ async def test_receiver_ignores_other_nec_addresses(
 @pytest.mark.parametrize("has_receiver_entity", [True])
 @pytest.mark.usefixtures("init_integration")
 async def test_receiver_ignores_non_nec_signals(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
 ) -> None:
     """Test receiver ignores signals that cannot be decoded as NEC."""
@@ -421,7 +421,7 @@ async def test_receiver_ignores_non_nec_signals(
 @pytest.mark.parametrize("has_receiver_entity", [True])
 @pytest.mark.usefixtures("init_integration")
 async def test_receiver_resubscribes_after_receiver_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
 ) -> None:
     """Test light resubscribes when the configured receiver becomes available again."""
@@ -457,7 +457,7 @@ async def test_receiver_resubscribes_after_receiver_unavailable(
 @pytest.mark.parametrize("has_receiver_entity", [True])
 @pytest.mark.usefixtures("init_integration")
 async def test_receiver_on_like_codes_turn_light_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
     received_code: OsramLightCode,
 ) -> None:
@@ -480,7 +480,7 @@ async def test_receiver_on_like_codes_turn_light_on(
 @pytest.mark.parametrize("has_receiver_entity", [True])
 @pytest.mark.usefixtures("init_integration")
 async def test_receiver_ignores_unknown_osram_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
 ) -> None:
     """Test receiver ignores unknown OSRAM NEC commands."""

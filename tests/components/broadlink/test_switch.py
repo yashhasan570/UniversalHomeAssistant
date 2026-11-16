@@ -11,7 +11,7 @@ from universalassistant.components.broadlink.switch import (
 )
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import ATTR_FRIENDLY_NAME, STATE_OFF, STATE_ON, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import get_device
@@ -23,7 +23,7 @@ IR_PACKET = (
 
 
 async def test_switch_setup_works(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -47,7 +47,7 @@ async def test_switch_setup_works(
 
 
 async def test_switch_turn_off_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_switch_turn_off_turn_on(
 
 
 async def test_slots_switch_setup_works(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -108,7 +108,7 @@ async def test_slots_switch_setup_works(
 
 
 async def test_slots_switch_turn_off_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -147,7 +147,7 @@ async def test_slots_switch_turn_off_turn_on(
     "device_name", ["Entrance", "Living Room", "Office", "Garage", "Study"]
 )
 async def test_custom_ir_switch_setup_works(
-    hass: __HAC_KEEP__, device_name: str
+    hass: UniversalAssistant, device_name: str
 ) -> None:
     """Test a custom IR switch from YAML is added to each type of remote."""
     device = get_device(device_name)

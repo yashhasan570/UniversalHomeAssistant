@@ -11,7 +11,7 @@ from weheat.abstractions.heat_pump import HeatPump
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.components.weheat.sensor import COOLING_CONDITIONS_NOT_COUNTED
 from universalassistant.const import ATTR_UNIT_OF_MEASUREMENT, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -19,7 +19,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_weheat_discover: AsyncMock,
     mock_weheat_heat_pump: AsyncMock,
@@ -37,7 +37,7 @@ async def test_all_entities(
 
 @pytest.mark.parametrize(("has_dhw", "nr_of_entities"), [(False, 32), (True, 39)])
 async def test_create_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_weheat_discover: AsyncMock,
     mock_weheat_heat_pump: AsyncMock,
     mock_heat_pump_info: HeatPumpDiscovery.HeatPumpInfo,
@@ -66,7 +66,7 @@ async def test_create_entities(
 )
 @pytest.mark.usefixtures("mock_weheat_discover")
 async def test_dhw_target_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_weheat_heat_pump: AsyncMock,
     mock_config_entry: MockConfigEntry,
     target: int,
@@ -83,7 +83,7 @@ async def test_dhw_target_temperature(
 
 @pytest.mark.usefixtures("mock_weheat_discover")
 async def test_an_unknown_dhw_control_method_keeps_the_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_weheat_heat_pump: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -135,7 +135,7 @@ def _start_conditions(*unmet: str) -> dict[str, bool]:
 )
 @pytest.mark.usefixtures("mock_weheat_discover")
 async def test_cooling_conditions_met(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_weheat_heat_pump: AsyncMock,
     mock_config_entry: MockConfigEntry,
     unmet: tuple[str, ...],
@@ -169,7 +169,7 @@ async def test_cooling_conditions_met(
 )
 @pytest.mark.usefixtures("mock_weheat_discover")
 async def test_cooling_conditions_met_is_unknown_while_cooling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_weheat_heat_pump: AsyncMock,
     mock_config_entry: MockConfigEntry,
     cooling_state: HeatPump.CoolingState,
@@ -214,7 +214,7 @@ async def test_cooling_conditions_met_is_unknown_while_cooling(
 )
 @pytest.mark.usefixtures("mock_weheat_discover")
 async def test_stale_cooling_reasons_are_not_reported_while_cooling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_weheat_heat_pump: AsyncMock,
     mock_config_entry: MockConfigEntry,
     sensor: str,
@@ -234,7 +234,7 @@ async def test_stale_cooling_reasons_are_not_reported_while_cooling(
 
 @pytest.mark.usefixtures("mock_weheat_discover")
 async def test_a_heat_pump_without_cooling_gets_no_cooling_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_weheat_heat_pump: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -253,7 +253,7 @@ async def test_a_heat_pump_without_cooling_gets_no_cooling_sensors(
 
 @pytest.mark.usefixtures("mock_weheat_discover")
 async def test_cooling_without_start_conditions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_weheat_heat_pump: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

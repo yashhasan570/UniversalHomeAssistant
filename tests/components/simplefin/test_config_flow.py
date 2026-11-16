@@ -15,7 +15,7 @@ from simplefin4py.exceptions import (
 from universalassistant.components.simplefin import CONF_ACCESS_URL
 from universalassistant.components.simplefin.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 
@@ -24,7 +24,7 @@ from .conftest import MOCK_ACCESS_URL
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_successful_claim(
-    hass: __HAC_KEEP__, mock_simplefin_client: AsyncMock
+    hass: UniversalAssistant, mock_simplefin_client: AsyncMock
 ) -> None:
     """Test successful token claim in config flow."""
     result = await hass.config_entries.flow.async_init(
@@ -43,7 +43,7 @@ async def test_successful_claim(
 
 
 async def test_already_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_simplefin_client: AsyncMock,
@@ -65,7 +65,7 @@ async def test_already_setup(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_access_url(
-    hass: __HAC_KEEP__, mock_simplefin_client: AsyncMock
+    hass: UniversalAssistant, mock_simplefin_client: AsyncMock
 ) -> None:
     """Test standard config flow."""
     result = await hass.config_entries.flow.async_init(
@@ -90,7 +90,7 @@ async def test_access_url(
     ],
 )
 async def test_access_url_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_simplefin_client: AsyncMock,
     side_effect: Exception,
     error_key: str,
@@ -130,7 +130,7 @@ async def test_access_url_errors(
     ],
 )
 async def test_claim_token_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_simplefin_client: AsyncMock,
     side_effect: Exception,
     error_key: str,

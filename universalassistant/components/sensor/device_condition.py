@@ -13,8 +13,8 @@ from universalassistant.const import (
     CONF_ENTITY_ID,
     CONF_TYPE,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import (
     condition,
     config_validation as cv,
@@ -234,7 +234,7 @@ CONDITION_SCHEMA = probatio.All(
 
 
 async def async_get_conditions(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, str]]:
     """List device conditions."""
     conditions: list[dict[str, str]] = []
@@ -275,7 +275,7 @@ async def async_get_conditions(
 
 @callback
 def async_condition_from_config(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> condition.ConditionCheckerType:
     """Evaluate state based on configuration."""
     numeric_state_config = {
@@ -295,14 +295,14 @@ def async_condition_from_config(
 
 
 async def async_get_condition_capabilities(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List condition capabilities."""
 
     try:
         entry = async_get_entity_registry_entry_or_raise(hass, config[CONF_ENTITY_ID])
         unit_of_measurement = get_unit_of_measurement(hass, entry.entity_id)
-    except __HAC_KEEP__Error:
+    except UniversalAssistantError:
         unit_of_measurement = None
 
     if not unit_of_measurement:

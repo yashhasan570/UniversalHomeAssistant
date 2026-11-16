@@ -21,7 +21,7 @@ from renault_api.kamereon.models import KamereonVehiclesLink
 from renault_api.renault_account import RenaultAccount
 from renault_api.renault_client import RenaultClient
 
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -87,7 +87,7 @@ def _get_scan_interval(num_call_per_scan: int) -> timedelta:
 class RenaultHub:
     """Handle account communication with Renault servers."""
 
-    def __init__(self, hass: __HAC_KEEP__, locale: str) -> None:
+    def __init__(self, hass: UniversalAssistant, locale: str) -> None:
         """Initialise proxy."""
         self._hass = hass
         self._client = RenaultClient(

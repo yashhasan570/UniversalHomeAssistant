@@ -8,7 +8,7 @@ from aiorussound.rio.client import Controller, ZoneControlSurface
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import RussoundConfigEntry
@@ -37,7 +37,7 @@ CONTROL_ENTITIES: tuple[RussoundZoneSwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: RussoundConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -58,7 +58,7 @@ class RussoundSwitchEntity(RussoundBaseEntity, SwitchEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         controller: Controller,
         entry: RussoundConfigEntry,
         zone_id: int,

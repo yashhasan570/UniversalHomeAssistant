@@ -17,7 +17,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.helpers.selector import (
     TextSelector,
     TextSelectorConfig,
@@ -70,7 +70,7 @@ def _is_ip(host: str, ipv6_link_local: bool = False) -> bool:
     return True
 
 
-async def _async_resolves_to(hass: __HAC_KEEP__, host: str, ip: str) -> bool:
+async def _async_resolves_to(hass: UniversalAssistant, host: str, ip: str) -> bool:
     """Return whether host resolves to the given IP address."""
     try:
         addresses = await hass.loop.getaddrinfo(host, None)

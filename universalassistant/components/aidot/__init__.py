@@ -1,14 +1,14 @@
 """The aidot integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, async_noop
+from universalassistant.core import UniversalAssistant, async_noop
 
 from .coordinator import AidotConfigEntry, AidotDeviceManagerCoordinator
 
 PLATFORMS: list[Platform] = [Platform.LIGHT]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: AidotConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: AidotConfigEntry) -> None:
     """Set up aidot from a config entry."""
 
     coordinator = AidotDeviceManagerCoordinator(hass, entry)
@@ -18,7 +18,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: AidotConfigEntry) -> None
     entry.async_on_unload(coordinator.async_add_listener(async_noop))
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: AidotConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: AidotConfigEntry) -> None:
     """Unload a config entry."""
     await entry.runtime_data.async_cleanup()
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

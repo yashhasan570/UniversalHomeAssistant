@@ -30,7 +30,7 @@
         "data_description": {
           "host": "Hostname or IP address of your Yamaha MusicCast receiver."
         },
-        "description": "Set up MusicCast to integrate with __HA_KEEP__."
+        "description": "Set up MusicCast to integrate with Universal Home Assistant."
       }
     }
   },

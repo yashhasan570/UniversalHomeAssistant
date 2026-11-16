@@ -12,9 +12,9 @@ from universalassistant.components.neopool.helpers import prepare_device_time
 from universalassistant.components.neopool.services import NeoPoolService, _get_coordinator
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import Context, __HAC_KEEP__, ServiceCall
+from universalassistant.core import Context, UniversalAssistant, ServiceCall
 from universalassistant.exceptions import (
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     ServiceValidationError,
     Unauthorized,
 )
@@ -25,7 +25,7 @@ import universalassistant.util.dt as dt_util
 from . import setup_integration
 
 
-def _device_id(hass: __HAC_KEEP__, entry: MockConfigEntry) -> str:
+def _device_id(hass: UniversalAssistant, entry: MockConfigEntry) -> str:
     """Resolve the registry device_id for a loaded NeoPool config entry."""
     device = dr.async_get(hass).async_get_device_by_identifier(
         (DOMAIN, entry.unique_id), entry.entry_id
@@ -35,7 +35,7 @@ def _device_id(hass: __HAC_KEEP__, entry: MockConfigEntry) -> str:
 
 
 async def test_falls_back_to_single_loaded_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -53,7 +53,7 @@ async def test_falls_back_to_single_loaded_entry(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_unknown_device_id_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """A device_id that does not exist raises with translation key."""
@@ -71,7 +71,7 @@ async def test_unknown_device_id_raises(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_empty_device_id_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """An explicitly empty device_id is a bad target, not an omitted one.
@@ -94,7 +94,7 @@ async def test_empty_device_id_raises(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_explicit_device_id_must_be_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Explicit device_id whose entry is NOT_LOADED is rejected.
@@ -119,7 +119,7 @@ async def test_explicit_device_id_must_be_loaded(
 
 
 async def test_no_loaded_entry_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Calling the service before any entry is loaded raises."""
     # async_setup is invoked by HA before any entry, so the service is
@@ -139,7 +139,7 @@ async def test_no_loaded_entry_raises(
 
 
 async def test_get_coordinator_raises_when_runtime_data_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """If a LOADED entry has no runtime_data, _get_coordinator raises.
@@ -162,7 +162,7 @@ async def test_get_coordinator_raises_when_runtime_data_missing(
 
 
 async def test_get_coordinator_raises_when_multiple_entries_and_no_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Omitting device_id with more than one loaded entry is ambiguous.
@@ -189,7 +189,7 @@ async def test_get_coordinator_raises_when_multiple_entries_and_no_device(
 
 
 async def test_get_coordinator_resolves_by_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -207,7 +207,7 @@ async def test_get_coordinator_resolves_by_device_id(
 
 
 async def test_get_device_time_reads_fresh_from_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -217,7 +217,7 @@ async def test_get_device_time_reads_fresh_from_device(
 
     # A stale cached value that must NOT be used.
     coordinator.data["MBF_PAR_TIME"] = prepare_device_time(hass) - 3600
-    # A device clock two minutes ahead of __HA_KEEP__ time, split into words.
+    # A device clock two minutes ahead of Universal Home Assistant time, split into words.
     device_ts = prepare_device_time(hass) + 120
     mock_neopool_client.async_read_register = AsyncMock(
         return_value=[device_ts & 0xFFFF, device_ts >> 16]
@@ -241,17 +241,17 @@ async def test_get_device_time_reads_fresh_from_device(
 
 
 async def test_get_device_time_read_error_translates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
-    """A library error while reading the time surfaces as __HAC_KEEP__Error."""
+    """A library error while reading the time surfaces as UniversalAssistantError."""
     await setup_integration(hass, mock_config_entry)
     mock_neopool_client.async_read_register = AsyncMock(
         side_effect=ConnectionError("Modbus down")
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             NeoPoolService.GET_DEVICE_TIME,
@@ -263,15 +263,15 @@ async def test_get_device_time_read_error_translates(
 
 
 async def test_get_device_time_short_read_translates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
-    """A truncated clock read surfaces as __HAC_KEEP__Error, not IndexError."""
+    """A truncated clock read surfaces as UniversalAssistantError, not IndexError."""
     await setup_integration(hass, mock_config_entry)
     mock_neopool_client.async_read_register = AsyncMock(return_value=[123])
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             NeoPoolService.GET_DEVICE_TIME,
@@ -283,11 +283,11 @@ async def test_get_device_time_short_read_translates(
 
 
 async def test_get_device_time_undecodable_translates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
-    """An unparsable clock value surfaces as __HAC_KEEP__Error, not a crash."""
+    """An unparsable clock value surfaces as UniversalAssistantError, not a crash."""
     await setup_integration(hass, mock_config_entry)
     mock_neopool_client.async_read_register = AsyncMock(return_value=[0, 0])
 
@@ -296,7 +296,7 @@ async def test_get_device_time_undecodable_translates(
             "universalassistant.components.neopool.services.decode_device_time",
             return_value=None,
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -309,11 +309,11 @@ async def test_get_device_time_undecodable_translates(
 
 
 async def test_set_device_time_writes_ha_now(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
-    """set_device_time encodes __HA_KEEP__ time and syncs the device RTC."""
+    """set_device_time encodes Universal Home Assistant time and syncs the device RTC."""
     await setup_integration(hass, mock_config_entry)
     mock_neopool_client.async_sync_device_time = AsyncMock(return_value={"value": 1})
 
@@ -330,7 +330,7 @@ async def test_set_device_time_writes_ha_now(
 
 
 async def test_set_device_time_none_response_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -338,7 +338,7 @@ async def test_set_device_time_none_response_raises(
     await setup_integration(hass, mock_config_entry)
     mock_neopool_client.async_sync_device_time = AsyncMock(return_value=None)
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             NeoPoolService.SET_DEVICE_TIME,
@@ -349,17 +349,17 @@ async def test_set_device_time_none_response_raises(
 
 
 async def test_set_device_time_error_translates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
-    """A library error while syncing surfaces as __HAC_KEEP__Error."""
+    """A library error while syncing surfaces as UniversalAssistantError."""
     await setup_integration(hass, mock_config_entry)
     mock_neopool_client.async_sync_device_time = AsyncMock(
         side_effect=ConnectionError("Modbus down")
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             NeoPoolService.SET_DEVICE_TIME,
@@ -370,7 +370,7 @@ async def test_set_device_time_error_translates(
 
 
 async def test_set_device_time_denied_for_non_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     hass_read_only_user: MockUser,

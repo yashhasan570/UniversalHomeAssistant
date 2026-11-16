@@ -7,7 +7,7 @@ from loqedAPI import loqed
 
 from universalassistant.components import cloud
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -16,7 +16,7 @@ from .coordinator import LoqedConfigEntry, LoqedDataCoordinator, is_auth_error
 PLATFORMS: list[Platform] = [Platform.LOCK, Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: LoqedConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: LoqedConfigEntry) -> None:
     """Set up loqed from a config entry."""
     websession = async_get_clientsession(hass)
     host = entry.data["bridge_ip"]
@@ -53,7 +53,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: LoqedConfigEntry) -> None
         raise ConfigEntryNotReady(f"Unable to connect to bridge at {host}") from ex
     except cloud.CloudNotAvailable as ex:
         raise ConfigEntryNotReady(
-            "Unable to create __HA_KEEP__ Cloud webhook"
+            "Unable to create Universal Home Assistant Cloud webhook"
         ) from ex
 
     await coordinator.async_config_entry_first_refresh()
@@ -63,7 +63,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: LoqedConfigEntry) -> None
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: LoqedConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: LoqedConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await entry.runtime_data.remove_webhooks()

@@ -13,7 +13,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import TraneZoneEntity
@@ -48,7 +48,7 @@ SINGLE_SETPOINT_MODES = frozenset({ZoneMode.COOL, ZoneMode.HEAT})
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: TraneConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -78,7 +78,7 @@ class TraneClimateEntity(TraneZoneEntity, ClimateEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         conn: ThermostatConnection,
         entry_id: str,
         zone_id: str,

@@ -23,12 +23,12 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_form(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_traccar_api_client: Generator[AsyncMock],
 ) -> None:
     """Test we get the form."""
@@ -67,7 +67,7 @@ async def test_form(
     ],
 )
 async def test_form_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     side_effect: Exception,
     error: str,
     mock_traccar_api_client: Generator[AsyncMock],
@@ -115,7 +115,7 @@ async def test_form_cannot_connect(
 
 
 async def test_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_traccar_api_client: Generator[AsyncMock],
 ) -> None:
@@ -144,7 +144,7 @@ async def test_options(
 
 
 async def test_abort_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_traccar_api_client: Generator[AsyncMock],
 ) -> None:
@@ -170,7 +170,7 @@ async def test_abort_already_configured(
 
 
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_traccar_api_client: Generator[AsyncMock],
 ) -> None:
@@ -207,7 +207,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_traccar_api_client: Generator[AsyncMock],
     side_effect: Exception,

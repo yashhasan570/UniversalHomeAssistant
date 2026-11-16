@@ -21,15 +21,15 @@ from universalassistant.components.cover import (
 )
 from universalassistant.components.nice_go.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_covers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -43,7 +43,7 @@ async def test_covers(
 
 
 async def test_open_cover(
-    hass: __HAC_KEEP__, mock_nice_go: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_nice_go: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that opening the cover works as intended."""
 
@@ -69,7 +69,7 @@ async def test_open_cover(
 
 
 async def test_close_cover(
-    hass: __HAC_KEEP__, mock_nice_go: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_nice_go: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that closing the cover works as intended."""
 
@@ -95,7 +95,7 @@ async def test_close_cover(
 
 
 async def test_update_cover_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -138,7 +138,7 @@ async def test_update_cover_state(
     ],
 )
 async def test_cover_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -154,7 +154,7 @@ async def test_cover_exceptions(
     mock_nice_go.open_barrier.side_effect = error
     mock_nice_go.close_barrier.side_effect = error
 
-    with pytest.raises(__HAC_KEEP__Error, match=expected_error):
+    with pytest.raises(UniversalAssistantError, match=expected_error):
         await hass.services.async_call(
             COVER_DOMAIN,
             action,
@@ -164,7 +164,7 @@ async def test_cover_exceptions(
 
 
 async def test_auth_failed_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -189,7 +189,7 @@ async def test_auth_failed_error(
     mock_nice_go.open_barrier.side_effect = _open_side_effect
     mock_nice_go.close_barrier.side_effect = _close_side_effect
 
-    with pytest.raises(__HAC_KEEP__Error, match="Error opening the barrier"):
+    with pytest.raises(UniversalAssistantError, match="Error opening the barrier"):
         await hass.services.async_call(
             COVER_DOMAIN,
             SERVICE_OPEN_COVER,
@@ -200,7 +200,7 @@ async def test_auth_failed_error(
     assert mock_nice_go.authenticate.call_count == 1
     assert mock_nice_go.open_barrier.call_count == 2
 
-    with pytest.raises(__HAC_KEEP__Error, match="Error closing the barrier"):
+    with pytest.raises(UniversalAssistantError, match="Error closing the barrier"):
         await hass.services.async_call(
             COVER_DOMAIN,
             SERVICE_CLOSE_COVER,
@@ -225,7 +225,7 @@ async def test_auth_failed_error(
 
     # One more time but with an ApiError instead of AuthFailed
 
-    with pytest.raises(__HAC_KEEP__Error, match="Error opening the barrier"):
+    with pytest.raises(UniversalAssistantError, match="Error opening the barrier"):
         await hass.services.async_call(
             COVER_DOMAIN,
             SERVICE_OPEN_COVER,
@@ -233,7 +233,7 @@ async def test_auth_failed_error(
             blocking=True,
         )
 
-    with pytest.raises(__HAC_KEEP__Error, match="Error closing the barrier"):
+    with pytest.raises(UniversalAssistantError, match="Error closing the barrier"):
         await hass.services.async_call(
             COVER_DOMAIN,
             SERVICE_CLOSE_COVER,

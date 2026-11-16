@@ -6,15 +6,15 @@ import pytest
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.climate import (
-    ATTR_HVAC_MODE,
     DOMAIN as CLIMATE_DOMAIN,
     SERVICE_SET_TEMPERATURE,
+    ClimateServiceArgument,
     HVACMode,
 )
 from universalassistant.components.devolo_home_control.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import configure_integration
@@ -22,7 +22,7 @@ from .mocks import HomeControlMock, HomeControlMockClimate
 
 
 async def test_climate(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
 ) -> None:
     """Test setup and state change of a climate device."""
     entry = configure_integration(hass)
@@ -55,7 +55,7 @@ async def test_climate(
             SERVICE_SET_TEMPERATURE,
             {
                 ATTR_ENTITY_ID: f"{CLIMATE_DOMAIN}.test_test",
-                ATTR_HVAC_MODE: HVACMode.HEAT,
+                ClimateServiceArgument.HVAC_MODE: HVACMode.HEAT,
                 ATTR_TEMPERATURE: 20.0,
             },
             blocking=True,
@@ -67,14 +67,14 @@ async def test_climate(
             "devolo_home_control_api.properties.multi_level_switch_property.MultiLevelSwitchProperty.set",
             return_value=False,
         ),
-        pytest.raises(__HAC_KEEP__Error) as error,
+        pytest.raises(UniversalAssistantError) as error,
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_TEMPERATURE,
             {
                 ATTR_ENTITY_ID: f"{CLIMATE_DOMAIN}.test_test",
-                ATTR_HVAC_MODE: HVACMode.HEAT,
+                ClimateServiceArgument.HVAC_MODE: HVACMode.HEAT,
                 ATTR_TEMPERATURE: 20.0,
             },
             blocking=True,
@@ -89,7 +89,7 @@ async def test_climate(
     assert hass.states.get(f"{CLIMATE_DOMAIN}.test_test").state == STATE_UNAVAILABLE
 
 
-async def test_remove_from_hass(hass: __HAC_KEEP__) -> None:
+async def test_remove_from_hass(hass: UniversalAssistant) -> None:
     """Test removing entity."""
     entry = configure_integration(hass)
     test_gateway = HomeControlMockClimate()

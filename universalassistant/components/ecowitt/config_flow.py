@@ -8,7 +8,7 @@ from yarl import URL
 from universalassistant.components import webhook
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_WEBHOOK_ID
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.network import get_url
 
 from .const import DOMAIN
@@ -47,5 +47,5 @@ class EcowittConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class InvalidPort(__HAC_KEEP__Error):
+class InvalidPort(UniversalAssistantError):
     """Error to indicate there port is not usable."""

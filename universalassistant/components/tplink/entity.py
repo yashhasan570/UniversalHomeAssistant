@@ -16,8 +16,8 @@ from kasa import (
 )
 
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import EntityDescription
@@ -123,7 +123,7 @@ def async_refresh_after[_T: CoordinatedTPLinkEntity, **_P](
             await func(self, *args, **kwargs)
         except AuthenticationError as ex:
             self.coordinator.config_entry.async_start_reauth(self.hass)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="device_authentication",
                 translation_placeholders={
@@ -132,7 +132,7 @@ def async_refresh_after[_T: CoordinatedTPLinkEntity, **_P](
                 },
             ) from ex
         except TimeoutError as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="device_timeout",
                 translation_placeholders={
@@ -141,7 +141,7 @@ def async_refresh_after[_T: CoordinatedTPLinkEntity, **_P](
                 },
             ) from ex
         except KasaException as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="device_error",
                 translation_placeholders={
@@ -417,7 +417,7 @@ class CoordinatedTPLinkFeatureEntity(CoordinatedTPLinkEntity, ABC):
         _D: TPLinkFeatureEntityDescription,
     ](
         cls,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         device: Device,
         coordinator: TPLinkDataUpdateCoordinator,
         *,
@@ -470,7 +470,7 @@ class CoordinatedTPLinkFeatureEntity(CoordinatedTPLinkEntity, ABC):
         _D: TPLinkFeatureEntityDescription,
     ](
         cls,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         device: Device,
         coordinator: TPLinkDataUpdateCoordinator,
         *,
@@ -581,7 +581,7 @@ class CoordinatedTPLinkModuleEntity(CoordinatedTPLinkEntity, ABC):
         _D: TPLinkModuleEntityDescription,
     ](
         cls,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         device: Device,
         coordinator: TPLinkDataUpdateCoordinator,
         *,
@@ -617,7 +617,7 @@ class CoordinatedTPLinkModuleEntity(CoordinatedTPLinkEntity, ABC):
         _D: TPLinkModuleEntityDescription,
     ](
         cls,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         device: Device,
         coordinator: TPLinkDataUpdateCoordinator,
         *,

@@ -1,6 +1,6 @@
 """CodSpeed benchmarks for the state machine and entity write path.
 
-Every state update in __HA_KEEP__ flows through ``StateMachine.async_set``,
+Every state update in Universal Home Assistant flows through ``StateMachine.async_set``,
 and every entity that pushes an update lands in ``Entity._async_write_ha_state``.
 These are among the busiest call sites in the whole process.
 
@@ -13,7 +13,7 @@ from typing import Any
 import pytest
 from pytest_codspeed import BenchmarkFixture
 
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.entity import Entity
 
 _ATTRS = {
@@ -24,7 +24,7 @@ _ATTRS = {
 }
 
 
-def test_state_set_create(benchmark: BenchmarkFixture, hass: __HAC_KEEP__) -> None:
+def test_state_set_create(benchmark: BenchmarkFixture, hass: UniversalAssistant) -> None:
     """Write a brand new entity into the state machine (the create branch).
 
     ``pedantic`` with a teardown that removes the entity keeps every measured
@@ -38,7 +38,7 @@ def test_state_set_create(benchmark: BenchmarkFixture, hass: __HAC_KEEP__) -> No
     )
 
 
-def test_state_set_update(benchmark: BenchmarkFixture, hass: __HAC_KEEP__) -> None:
+def test_state_set_update(benchmark: BenchmarkFixture, hass: UniversalAssistant) -> None:
     """Write a changed state for an existing entity (the update branch)."""
     counter = 0
 
@@ -52,7 +52,7 @@ def test_state_set_update(benchmark: BenchmarkFixture, hass: __HAC_KEEP__) -> No
     assert hass.states.get("light.benchmark") is not None
 
 
-def test_state_set_report(benchmark: BenchmarkFixture, hass: __HAC_KEEP__) -> None:
+def test_state_set_report(benchmark: BenchmarkFixture, hass: UniversalAssistant) -> None:
     """Re-set an unchanged state (the EVENT_STATE_REPORTED fast path).
 
     Polling integrations hammer this branch: same value, same attributes, over
@@ -63,7 +63,7 @@ def test_state_set_report(benchmark: BenchmarkFixture, hass: __HAC_KEEP__) -> No
     benchmark(lambda: hass.states.async_set("sensor.benchmark", "21.5", _ATTRS))
 
 
-def test_state_get(benchmark: BenchmarkFixture, hass: __HAC_KEEP__) -> None:
+def test_state_get(benchmark: BenchmarkFixture, hass: UniversalAssistant) -> None:
     """Look a single state up by entity_id."""
     hass.states.async_set("sensor.benchmark", "21.5", _ATTRS)
 
@@ -77,7 +77,7 @@ def test_state_get(benchmark: BenchmarkFixture, hass: __HAC_KEEP__) -> None:
 def test_state_all(
     benchmark: BenchmarkFixture,
     populate_states: Callable[[int], None],
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     count: int,
 ) -> None:
     """Read the full state list out of a populated machine, at several sizes."""
@@ -92,7 +92,7 @@ def test_state_all(
 def test_state_entity_ids(
     benchmark: BenchmarkFixture,
     populate_states: Callable[[int], None],
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     count: int,
 ) -> None:
     """List entity ids out of a populated machine, at several sizes."""
@@ -124,7 +124,7 @@ class _BenchmarkEntity(Entity):
         return {"supported_color_modes": ["color_temp", "rgb"]}
 
 
-def test_entity_write(benchmark: BenchmarkFixture, hass: __HAC_KEEP__) -> None:
+def test_entity_write(benchmark: BenchmarkFixture, hass: UniversalAssistant) -> None:
     """Write an entity's state through the entity layer.
 
     This measures ``__async_calculate_state`` (assembling state and attributes

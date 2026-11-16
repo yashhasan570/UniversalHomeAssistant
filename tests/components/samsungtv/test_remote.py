@@ -13,8 +13,8 @@ from universalassistant.components.remote import (
 )
 from universalassistant.components.samsungtv.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF, SERVICE_TURN_ON
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_samsungtv_entry
@@ -24,7 +24,7 @@ ENTITY_ID = f"{REMOTE_DOMAIN}.mock_title"
 
 
 @pytest.mark.usefixtures("remote_encrypted_websocket", "rest_api")
-async def test_setup(hass: __HAC_KEEP__) -> None:
+async def test_setup(hass: UniversalAssistant) -> None:
     """Test setup with basic config."""
     await setup_samsungtv_entry(hass, ENTRYDATA_ENCRYPTED_WEBSOCKET)
     assert hass.states.get(ENTITY_ID)
@@ -32,7 +32,7 @@ async def test_setup(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("remote_encrypted_websocket", "rest_api")
 async def test_unique_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test unique id."""
     await setup_samsungtv_entry(hass, ENTRYDATA_ENCRYPTED_WEBSOCKET)
@@ -43,7 +43,7 @@ async def test_unique_id(
 
 @pytest.mark.usefixtures("remote_encrypted_websocket", "rest_api")
 async def test_main_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     remote_encrypted_websocket: Mock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -82,7 +82,7 @@ async def test_main_services(
 
 @pytest.mark.usefixtures("remote_encrypted_websocket", "rest_api")
 async def test_send_command_service(
-    hass: __HAC_KEEP__, remote_encrypted_websocket: Mock
+    hass: UniversalAssistant, remote_encrypted_websocket: Mock
 ) -> None:
     """Test the send command."""
     await setup_samsungtv_entry(hass, ENTRYDATA_ENCRYPTED_WEBSOCKET)
@@ -102,7 +102,7 @@ async def test_send_command_service(
 
 
 @pytest.mark.usefixtures("remote_websocket", "rest_api")
-async def test_turn_on_without_turnon_with_mac(hass: __HAC_KEEP__) -> None:
+async def test_turn_on_without_turnon_with_mac(hass: UniversalAssistant) -> None:
     """Test turn on fails even when a MAC address is configured."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -112,7 +112,7 @@ async def test_turn_on_without_turnon_with_mac(hass: __HAC_KEEP__) -> None:
     entry.add_to_hass(hass)
     assert await hass.config_entries.async_setup(entry.entry_id)
     await hass.async_block_till_done()
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             REMOTE_DOMAIN, SERVICE_TURN_ON, {ATTR_ENTITY_ID: ENTITY_ID}, True
         )
@@ -120,10 +120,10 @@ async def test_turn_on_without_turnon_with_mac(hass: __HAC_KEEP__) -> None:
     assert exc_info.value.translation_key == "service_unsupported"
 
 
-async def test_turn_on_without_turnon(hass: __HAC_KEEP__, remote_legacy: Mock) -> None:
+async def test_turn_on_without_turnon(hass: UniversalAssistant, remote_legacy: Mock) -> None:
     """Test turn on."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             REMOTE_DOMAIN, SERVICE_TURN_ON, {ATTR_ENTITY_ID: ENTITY_ID}, True
         )

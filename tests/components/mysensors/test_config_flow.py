@@ -23,7 +23,7 @@ from universalassistant.components.mysensors.const import (
     ConfGatewayType,
 )
 from universalassistant.const import CONF_DEVICE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResult, FlowResultType
 
 GATEWAY_TYPE_TO_STEP = {
@@ -41,7 +41,7 @@ VALID_INPUT = {
 
 
 async def get_form(
-    hass: __HAC_KEEP__, gateway_type: ConfGatewayType, expected_step_id: str
+    hass: UniversalAssistant, gateway_type: ConfGatewayType, expected_step_id: str
 ) -> FlowResult:
     """Get a form for the given gateway type."""
 
@@ -60,7 +60,7 @@ async def get_form(
     return result
 
 
-async def test_config_mqtt(hass: __HAC_KEEP__, mqtt: None) -> None:
+async def test_config_mqtt(hass: UniversalAssistant, mqtt: None) -> None:
     """Test configuring a mqtt gateway."""
     step = await get_form(hass, CONF_GATEWAY_TYPE_MQTT, "gw_mqtt")
     flow_id = step["flow_id"]
@@ -96,7 +96,7 @@ async def test_config_mqtt(hass: __HAC_KEEP__, mqtt: None) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_missing_mqtt(hass: __HAC_KEEP__) -> None:
+async def test_missing_mqtt(hass: UniversalAssistant) -> None:
     """Test configuring a mqtt gateway without mqtt integration setup."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -113,7 +113,7 @@ async def test_missing_mqtt(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "mqtt_required"
 
 
-async def test_config_serial(hass: __HAC_KEEP__) -> None:
+async def test_config_serial(hass: UniversalAssistant) -> None:
     """Test configuring a gateway via serial."""
     step = await get_form(hass, CONF_GATEWAY_TYPE_SERIAL, "gw_serial")
     flow_id = step["flow_id"]
@@ -158,7 +158,7 @@ async def test_config_serial(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_config_tcp(hass: __HAC_KEEP__) -> None:
+async def test_config_tcp(hass: UniversalAssistant) -> None:
     """Test configuring a gateway via tcp."""
     step = await get_form(hass, CONF_GATEWAY_TYPE_TCP, "gw_tcp")
     flow_id = step["flow_id"]
@@ -198,7 +198,7 @@ async def test_config_tcp(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_fail_to_connect(hass: __HAC_KEEP__) -> None:
+async def test_fail_to_connect(hass: UniversalAssistant) -> None:
     """Test configuring a gateway via tcp."""
     step = await get_form(hass, CONF_GATEWAY_TYPE_TCP, "gw_tcp")
     flow_id = step["flow_id"]
@@ -377,7 +377,7 @@ async def test_fail_to_connect(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("mqtt")
 async def test_config_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     gateway_type: ConfGatewayType,
     expected_step_id: str,
     user_input: dict[str, Any],
@@ -716,7 +716,7 @@ async def test_config_invalid(
     ],
 )
 async def test_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt: None,
     first_input: dict,
     second_input: dict,

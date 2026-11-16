@@ -43,7 +43,7 @@ from universalassistant.components.marketplace.repositories import (
 from universalassistant.components.marketplace.repositories.base import Repository
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import (
     create_install_folders,
@@ -137,7 +137,7 @@ class MarketplaceResponses:
 
 @pytest.fixture(autouse=True)
 async def response_mocker(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> MarketplaceResponses:
     """Serve the recorded GitHub and data service responses from disk."""
     responses = MarketplaceResponses()
@@ -164,7 +164,7 @@ async def response_mocker(
 
 
 @pytest.fixture(autouse=True)
-def config_dir(hass: __HAC_KEEP__, tmp_path: Path) -> Path:
+def config_dir(hass: UniversalAssistant, tmp_path: Path) -> Path:
     """Point the configuration directory at a temporary one.
 
     The Marketplace installs straight into the configuration directory, so
@@ -182,7 +182,7 @@ def device_activation_event() -> asyncio.Event:
 
 @pytest.fixture
 def github_device_client(
-    hass: __HAC_KEEP__, device_activation_event: asyncio.Event
+    hass: UniversalAssistant, device_activation_event: asyncio.Event
 ) -> Generator[AsyncMock]:
     """Mock the GitHub device flow client used by the config flow."""
     with patch(
@@ -232,13 +232,13 @@ def warning_accepted(hass_admin_user: MockUser) -> dict[str, Any] | None:
 
 
 @pytest.fixture
-async def second_admin_user(hass: __HAC_KEEP__) -> User:
+async def second_admin_user(hass: UniversalAssistant) -> User:
     """Return a second admin, who has not accepted the warning."""
     return await hass.auth.async_create_user("Second admin", group_ids=[GROUP_ID_ADMIN])
 
 
 @pytest.fixture
-async def second_admin_token(hass: __HAC_KEEP__, second_admin_user: User) -> str:
+async def second_admin_token(hass: UniversalAssistant, second_admin_user: User) -> str:
     """Return an access token of the second admin."""
     refresh_token = await hass.auth.async_create_refresh_token(
         second_admin_user, CLIENT_ID
@@ -308,7 +308,7 @@ def mock_setup_entry() -> Generator[None]:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> AsyncGenerator[MockConfigEntry]:
     """Set up the Marketplace integration for testing."""
     await setup_integration(hass, mock_config_entry)
@@ -318,7 +318,7 @@ async def init_integration(
 
 @pytest.fixture
 def marketplace(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> MarketplaceManager:
     """Return the Marketplace object of a set up integration."""
     return get_marketplace(hass)

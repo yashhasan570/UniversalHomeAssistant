@@ -21,7 +21,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, PRECISION_TENTHS, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -71,7 +71,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: TadoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -627,8 +627,18 @@ class TadoClimate(TadoZoneEntity, ClimateEntity):
         # This can happen when we switch from Off to On
         if self._target_temp is None:
             self._target_temp = self._tado_zone_data.current_temp
-        elif self._current_tado_hvac_mode == CONST_MODE_COOL:
-            self._target_temp = adjust_temp(self._cool_min_temp, self._cool_max_temp)
+        if self._target_temp is None:
+            return
+
+        # tado silently ignores an overlay whose temperature is outside the mode limits
+        capabilities: str | dict[str, Any] = self._current_tado_capabilities.get(
+            self._current_tado_hvac_mode, {}
+        )
+        if isinstance(capabilities, dict) and "temperatures" in capabilities:
+            celsius = capabilities["temperatures"]["celsius"]
+            self._target_temp = adjust_temp(
+                float(celsius["min"]), float(celsius["max"])
+            )
         elif self._current_tado_hvac_mode == CONST_MODE_HEAT:
             self._target_temp = adjust_temp(self._heat_min_temp, self._heat_max_temp)
 

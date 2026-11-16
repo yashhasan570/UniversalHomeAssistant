@@ -34,7 +34,7 @@ def patch_setup_entry(domain: str, *, enabled: bool = True):
 
 
 async def setup_bond_entity(
-    hass: core.__HAC_KEEP__,
+    hass: core.UniversalAssistant,
     config_entry: MockConfigEntry,
     *,
     patch_version=False,
@@ -61,7 +61,7 @@ async def setup_bond_entity(
 
 
 async def setup_platform(
-    hass: core.__HAC_KEEP__,
+    hass: core.UniversalAssistant,
     platform: str,
     discovered_device: dict[str, Any],
     *,
@@ -226,7 +226,7 @@ def patch_bond_device_state(return_value=None, side_effect=None):
 
 
 async def help_test_entity_available(
-    hass: core.__HAC_KEEP__, domain: str, device: dict[str, Any], entity_id: str
+    hass: core.UniversalAssistant, domain: str, device: dict[str, Any], entity_id: str
 ):
     """Run common test to verify available property."""
     await setup_platform(hass, domain, device)

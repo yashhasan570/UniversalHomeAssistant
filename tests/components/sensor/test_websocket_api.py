@@ -8,12 +8,12 @@ from universalassistant.components.sensor.const import (
     NON_NUMERIC_DEVICE_CLASSES,
     SensorDeviceClass,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
 async def test_device_class_units(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test we can get supported units."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -82,7 +82,7 @@ async def test_device_class_units(
 
 
 async def test_numeric_device_classes(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test we can get numeric device classes."""
     numeric_device_classes = set(SensorDeviceClass) - NON_NUMERIC_DEVICE_CLASSES

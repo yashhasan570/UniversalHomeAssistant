@@ -8,8 +8,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import MicroBeesConfigEntry
@@ -25,7 +25,7 @@ THERMOVALVE_SENSOR_ID = 782
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MicroBeesConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -108,7 +108,7 @@ class MBClimate(MicroBeesActuatorEntity, ClimateEntity):
         )
 
         if not send_command:
-            raise __HAC_KEEP__Error(f"Failed to set temperature {self.name}")
+            raise UniversalAssistantError(f"Failed to set temperature {self.name}")
 
         self.bee.instanceData.targetTemp = temperature
         self.async_write_ha_state()
@@ -129,7 +129,7 @@ class MBClimate(MicroBeesActuatorEntity, ClimateEntity):
         )
 
         if not send_command:
-            raise __HAC_KEEP__Error(f"Failed to set temperature {self.name}")
+            raise UniversalAssistantError(f"Failed to set temperature {self.name}")
 
         self.actuator.value = 1
         self._attr_hvac_mode = HVACMode.HEAT
@@ -144,7 +144,7 @@ class MBClimate(MicroBeesActuatorEntity, ClimateEntity):
         )
 
         if not send_command:
-            raise __HAC_KEEP__Error(f"Failed to set temperature {self.name}")
+            raise UniversalAssistantError(f"Failed to set temperature {self.name}")
 
         self.actuator.value = 0
         self._attr_hvac_mode = HVACMode.OFF

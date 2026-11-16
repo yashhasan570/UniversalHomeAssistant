@@ -8,7 +8,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
 )
 from universalassistant.const import PERCENTAGE, EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import CometBlueConfigEntry, CometBlueDataUpdateCoordinator
@@ -18,7 +18,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: CometBlueConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

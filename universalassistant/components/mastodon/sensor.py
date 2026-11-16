@@ -13,7 +13,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
     SensorStateClass,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 from universalassistant.util import dt as dt_util
@@ -85,7 +85,7 @@ ENTITY_DESCRIPTIONS = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MastodonConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

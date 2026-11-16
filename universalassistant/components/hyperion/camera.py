@@ -24,7 +24,7 @@ from universalassistant.components.camera import (
     Camera,
     async_get_still_stream,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
@@ -50,7 +50,7 @@ IMAGE_STREAM_JPG_SENTINEL = "data:image/jpg;base64,"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: HyperionConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

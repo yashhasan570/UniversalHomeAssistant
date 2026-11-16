@@ -22,7 +22,7 @@ from universalassistant.const import (
     UnitOfInformation,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
@@ -44,7 +44,7 @@ class WLEDSensorEntityDescription(SensorEntityDescription):
     value_fn: Callable[[WLEDDevice], datetime | StateType]
 
 
-# The units usermods report their readings in, as __HA_KEEP__ knows them.
+# The units usermods report their readings in, as Universal Home Assistant knows them.
 _TEMPERATURE_UNITS = {
     "°C": UnitOfTemperature.CELSIUS,
     "C": UnitOfTemperature.CELSIUS,
@@ -229,7 +229,7 @@ SENSORS: tuple[WLEDSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: WLEDConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

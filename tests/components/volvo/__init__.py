@@ -7,7 +7,7 @@ from pytest_universalassistant.common import async_load_fixture
 from volvocarsapi.models import VolvoCarsValueField
 
 from universalassistant.components.volvo.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.json import JsonObjectType, json_loads_object
 
 _MODEL_SPECIFIC_RESPONSES = {
@@ -36,7 +36,7 @@ _MODEL_SPECIFIC_RESPONSES = {
 
 
 async def async_load_fixture_as_json(
-    hass: __HAC_KEEP__, name: str, model: str
+    hass: UniversalAssistant, name: str, model: str
 ) -> JsonObjectType:
     """Load a JSON object from a fixture."""
     if name in _MODEL_SPECIFIC_RESPONSES[model]:
@@ -47,7 +47,7 @@ async def async_load_fixture_as_json(
 
 
 async def async_load_fixture_as_value_field(
-    hass: __HAC_KEEP__, name: str, model: str
+    hass: UniversalAssistant, name: str, model: str
 ) -> dict[str, VolvoCarsValueField]:
     """Load a `VolvoCarsValueField` object from a fixture."""
     data = await async_load_fixture_as_json(hass, name, model)

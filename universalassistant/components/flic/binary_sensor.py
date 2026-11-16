@@ -17,7 +17,7 @@ from universalassistant.const import (
     CONF_TIMEOUT,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
@@ -57,7 +57,7 @@ PLATFORM_SCHEMA = BINARY_SENSOR_PLATFORM_SCHEMA.extend(
 
 
 def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -77,7 +77,7 @@ def setup_platform(
         return
 
     def new_button_callback(address):
-        """Set up newly verified button as device in __HA_KEEP__."""
+        """Set up newly verified button as device in Universal Home Assistant."""
         setup_button(hass, config, add_entities, client, address)
 
     client.on_new_verified_button = new_button_callback
@@ -120,7 +120,7 @@ def start_scanning(config, add_entities, client):
 
 
 def setup_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     client,
@@ -142,7 +142,7 @@ class FlicButton(BinarySensorEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         client: pyflic.FlicClient,
         address: str,
         timeout: int,

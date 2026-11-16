@@ -15,7 +15,7 @@ from pytest_universalassistant.common import (
 from universalassistant.components.starlink.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_IP_ADDRESS
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.util import dt as dt_util
 
 from .patchers import (
@@ -28,7 +28,7 @@ from .patchers import (
 )
 
 
-async def test_successful_entry(hass: __HAC_KEEP__) -> None:
+async def test_successful_entry(hass: UniversalAssistant) -> None:
     """Test configuring Starlink."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -51,7 +51,7 @@ async def test_successful_entry(hass: __HAC_KEEP__) -> None:
         assert entry.state is ConfigEntryState.LOADED
 
 
-async def test_unload_entry(hass: __HAC_KEEP__) -> None:
+async def test_unload_entry(hass: UniversalAssistant) -> None:
     """Test removing Starlink."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -76,7 +76,7 @@ async def test_unload_entry(hass: __HAC_KEEP__) -> None:
 
 
 async def test_restore_cache_with_accumulation(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test Starlink accumulation."""
     entry = MockConfigEntry(
@@ -131,7 +131,7 @@ async def test_restore_cache_with_accumulation(
         assert hass.states.get(entity_id).state == str(1 + 0.01572462736977)
 
 
-async def test_last_restart_state(hass: __HAC_KEEP__) -> None:
+async def test_last_restart_state(hass: UniversalAssistant) -> None:
     """Test Starlink last restart state."""
     entry = MockConfigEntry(
         domain=DOMAIN,

@@ -8,7 +8,7 @@ from aussiebb.asyncio import AussieBB
 from aussiebb.exceptions import UnrecognisedServiceType
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DEFAULT_UPDATE_INTERVAL
@@ -36,7 +36,7 @@ class AussieBroadbandDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: AussieBroadbandConfigEntry,
         client: AussieBB,
         service_id: str,

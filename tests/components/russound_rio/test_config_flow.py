@@ -14,7 +14,7 @@ from universalassistant.components.russound_rio.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_TYPE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -49,7 +49,7 @@ ZEROCONF_DISCOVERY = ZeroconfServiceInfo(
 
 
 async def test_user_flow_tcp_creates_entry(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_russound_client: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_russound_client: AsyncMock
 ) -> None:
     """Test TCP user flow creates an entry."""
     result = await hass.config_entries.flow.async_init(
@@ -78,7 +78,7 @@ async def test_user_flow_tcp_creates_entry(
 
 
 async def test_tcp_flow_cannot_connect_then_recovers(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_russound_client: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_russound_client: AsyncMock
 ) -> None:
     """Test TCP flow handles cannot connect and recovers."""
     result = await hass.config_entries.flow.async_init(
@@ -116,7 +116,7 @@ async def test_tcp_flow_cannot_connect_then_recovers(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_tcp_flow_duplicate_aborts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_russound_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -146,7 +146,7 @@ async def test_tcp_flow_duplicate_aborts(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_flow(
-    hass: __HAC_KEEP__, mock_russound_client: AsyncMock
+    hass: UniversalAssistant, mock_russound_client: AsyncMock
 ) -> None:
     """Test zeroconf flow."""
     result = await hass.config_entries.flow.async_init(
@@ -174,7 +174,7 @@ async def test_zeroconf_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_flow_errors(
-    hass: __HAC_KEEP__, mock_russound_client: AsyncMock
+    hass: UniversalAssistant, mock_russound_client: AsyncMock
 ) -> None:
     """Test zeroconf flow errors."""
     mock_russound_client.connect.side_effect = TimeoutError
@@ -211,7 +211,7 @@ async def test_zeroconf_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_russound_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -230,7 +230,7 @@ async def test_zeroconf_duplicate(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_duplicate_different_ip(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_russound_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -274,7 +274,7 @@ async def test_zeroconf_duplicate_different_ip(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_after_zeroconf_started(
-    hass: __HAC_KEEP__, mock_russound_client: AsyncMock
+    hass: UniversalAssistant, mock_russound_client: AsyncMock
 ) -> None:
     """Test user flow after zeroconf started."""
     await hass.config_entries.flow.async_init(
@@ -306,7 +306,7 @@ async def test_user_flow_after_zeroconf_started(
 
 
 async def _start_reconfigure_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> ConfigFlowResult:
     """Initialize reconfigure flow."""
     mock_config_entry.add_to_hass(hass)
@@ -321,7 +321,7 @@ async def _start_reconfigure_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_tcp_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_russound_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -349,7 +349,7 @@ async def test_reconfigure_tcp_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_unique_id_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_russound_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -375,7 +375,7 @@ async def test_reconfigure_unique_id_mismatch(
 
 
 async def test_user_flow_serial_creates_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_russound_client: AsyncMock,
 ) -> None:
@@ -406,7 +406,7 @@ async def test_user_flow_serial_creates_entry(
 
 
 async def test_serial_flow_cannot_connect_then_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_russound_client: AsyncMock,
 ) -> None:
@@ -448,7 +448,7 @@ async def test_serial_flow_cannot_connect_then_recovers(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_serial_flow_duplicate_aborts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_russound_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -480,7 +480,7 @@ async def test_serial_flow_duplicate_aborts(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_serial_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_russound_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -509,7 +509,7 @@ async def test_reconfigure_serial_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_serial_unique_id_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_russound_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -535,7 +535,7 @@ async def test_reconfigure_serial_unique_id_mismatch(
 
 
 async def test_options_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     mock_russound_client: AsyncMock,

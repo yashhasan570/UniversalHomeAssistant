@@ -13,11 +13,11 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
     BinarySensorEntityDescription,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-from .common import rgetattr
+from .common import is_air_fryer, rgetattr
 from .const import VS_DEVICES, VS_DISCOVERY
 from .coordinator import VesyncConfigEntry, VeSyncDataCoordinator
 from .entity import VeSyncBaseEntity
@@ -52,11 +52,17 @@ SENSOR_DESCRIPTIONS: tuple[VeSyncBinarySensorEntityDescription, ...] = (
             lambda device: rgetattr(device, "state.water_tank_lifted") is not None
         ),
     ),
+    VeSyncBinarySensorEntityDescription(
+        key="sync_chambers",
+        translation_key="sync_chambers",
+        is_on=lambda device: device.state.sync_chambers,
+        exists_fn=lambda device: is_air_fryer(device) and device.is_dual_chamber,
+    ),
 )
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: VesyncConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -82,7 +82,7 @@ class OAuth2FlowHandler(
 
         try:
             doc = await self.hass.async_add_executor_job(
-                service.create, "__HA_KEEP__"
+                service.create, "Universal Home Assistant"
             )
         except (GSpreadException, PermissionError) as err:
             _LOGGER.error("Error creating spreadsheet: %s", str(err))

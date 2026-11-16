@@ -9,18 +9,18 @@ from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.components.conversation import UNIVERSAL_ASSISTANT_AGENT, async_get_agent
 from universalassistant.components.conversation.models import ConversationInput
-from universalassistant.core import Context, __HAC_KEEP__, ServiceCall
+from universalassistant.core import Context, UniversalAssistant, ServiceCall
 from universalassistant.helpers import trigger
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(autouse=True)
-async def setup_comp(hass: __HAC_KEEP__, init_components) -> None:
+async def setup_comp(hass: UniversalAssistant, init_components) -> None:
     """Initialize components."""
 
 
 async def test_if_fires_on_event(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test the firing of events."""
     assert await async_setup_component(
@@ -94,7 +94,7 @@ async def test_if_fires_on_event(
     }
 
 
-async def test_response(hass: __HAC_KEEP__) -> None:
+async def test_response(hass: UniversalAssistant) -> None:
     """Test the conversation response action."""
     response = "I'm sorry, Dave. I'm afraid I can't do that"
     assert await async_setup_component(
@@ -126,7 +126,7 @@ async def test_response(hass: __HAC_KEEP__) -> None:
     assert service_response["response"]["speech"]["plain"]["speech"] == response
 
 
-async def test_empty_response(hass: __HAC_KEEP__) -> None:
+async def test_empty_response(hass: UniversalAssistant) -> None:
     """Test the conversation response action with an empty response."""
     assert await async_setup_component(
         hass,
@@ -157,7 +157,7 @@ async def test_empty_response(hass: __HAC_KEEP__) -> None:
 
 
 async def test_response_same_sentence(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test conversation response with same sentence triggers."""
     assert await async_setup_component(
@@ -247,7 +247,7 @@ async def test_response_same_sentence(
 
 
 async def test_response_same_sentence_with_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test conversation response with same sentence and error."""
@@ -299,7 +299,7 @@ async def test_response_same_sentence_with_error(
 
 
 async def test_subscribe_trigger_does_not_interfere_with_responses(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test trigger subscription does not interfere with responses."""
     websocket_client = await hass_ws_client()
@@ -356,7 +356,7 @@ async def test_subscribe_trigger_does_not_interfere_with_responses(
 
 
 async def test_same_trigger_multiple_sentences(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test matching of multiple sentences from the same trigger."""
     assert await async_setup_component(
@@ -428,7 +428,7 @@ async def test_same_trigger_multiple_sentences(
 
 
 async def test_same_sentence_multiple_triggers(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test use of the same sentence in multiple triggers."""
     assert await async_setup_component(
@@ -521,7 +521,7 @@ async def test_same_sentence_multiple_triggers(
     "command",
     ["hello?", "hello!", "4 a.m."],
 )
-async def test_fails_on_punctuation(hass: __HAC_KEEP__, command: str) -> None:
+async def test_fails_on_punctuation(hass: UniversalAssistant, command: str) -> None:
     """Test that validation fails when sentences contain punctuation."""
     with pytest.raises(probatio.Invalid):
         await trigger.async_validate_trigger_config(
@@ -542,7 +542,7 @@ async def test_fails_on_punctuation(hass: __HAC_KEEP__, command: str) -> None:
     "command",
     [""],
 )
-async def test_fails_on_empty(hass: __HAC_KEEP__, command: str) -> None:
+async def test_fails_on_empty(hass: UniversalAssistant, command: str) -> None:
     """Test that validation fails when sentences are empty."""
     with pytest.raises(probatio.Invalid):
         await trigger.async_validate_trigger_config(
@@ -559,7 +559,7 @@ async def test_fails_on_empty(hass: __HAC_KEEP__, command: str) -> None:
         )
 
 
-async def test_fails_on_no_sentences(hass: __HAC_KEEP__) -> None:
+async def test_fails_on_no_sentences(hass: UniversalAssistant) -> None:
     """Test that validation fails when no sentences are provided."""
     with pytest.raises(probatio.Invalid):
         await trigger.async_validate_trigger_config(
@@ -574,7 +574,7 @@ async def test_fails_on_no_sentences(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_fails_on_bad_parse(hass: __HAC_KEEP__) -> None:
+async def test_fails_on_bad_parse(hass: UniversalAssistant) -> None:
     """Test that validation fails when sentence is malformed."""
     with pytest.raises(probatio.Invalid):
         await trigger.async_validate_trigger_config(
@@ -589,7 +589,7 @@ async def test_fails_on_bad_parse(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_wildcards(hass: __HAC_KEEP__, service_calls: list[ServiceCall]) -> None:
+async def test_wildcards(hass: UniversalAssistant, service_calls: list[ServiceCall]) -> None:
     """Test wildcards in trigger sentences."""
     assert await async_setup_component(
         hass,
@@ -675,7 +675,7 @@ async def test_wildcards(hass: __HAC_KEEP__, service_calls: list[ServiceCall]) -
     }
 
 
-async def test_trigger_with_device_id(hass: __HAC_KEEP__) -> None:
+async def test_trigger_with_device_id(hass: UniversalAssistant) -> None:
     """Test that a trigger receives a device_id."""
     assert await async_setup_component(
         hass,
@@ -714,7 +714,7 @@ async def test_trigger_with_device_id(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_inline_range_list(hass: __HAC_KEEP__) -> None:
+async def test_inline_range_list(hass: UniversalAssistant) -> None:
     """Test sentence trigger and response with an inline number range list."""
     assert await async_setup_component(
         hass,

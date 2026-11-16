@@ -13,7 +13,7 @@ from pytest_universalassistant.typing import MqttMockHAClient
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import fire_burst, setup_integration
@@ -27,7 +27,7 @@ SESSION_TIME_TOPIC = "prism/1/session_time"
 
 
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -44,7 +44,7 @@ async def test_sensors(
 
 @pytest.mark.usefixtures("mqtt_mock")
 async def test_undocumented_error_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -80,7 +80,7 @@ async def test_undocumented_error_code(
     ],
 )
 async def test_session_start_deviation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     elapsed: str,
@@ -102,7 +102,7 @@ async def test_session_start_deviation(
 
 @pytest.mark.usefixtures("mqtt_mock")
 async def test_session_start_without_session(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that no running session reads as unknown."""

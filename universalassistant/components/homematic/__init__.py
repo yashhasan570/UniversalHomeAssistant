@@ -20,7 +20,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv, discovery
 from universalassistant.helpers.typing import ConfigType
 
@@ -152,7 +152,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Homematic component."""
     conf = config[DOMAIN]
     hass.data[DATA_CONF] = remotes = {}
@@ -200,7 +200,7 @@ def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     # Start server thread, connect to hosts, initialize to receive events
     homematic.start()
 
-    # Stops server when __HA_KEEP__ is shutting down
+    # Stops server when Universal Home Assistant is shutting down
     hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, hass.data[DATA_HOMEMATIC].stop)
 
     # Init homematic hubs
@@ -238,7 +238,7 @@ def _system_callback_handler(hass, config, src, *args):
             if hmdevice.EVENTNODE:
                 hmdevice.setEventCallback(callback=bound_event_callback, bequeath=True)
 
-        # Create __HA_KEEP__ entities
+        # Create Universal Home Assistant entities
         if addresses:
             for component_name, discovery_type in (
                 ("switch", DISCOVER_SWITCHES),
@@ -254,7 +254,7 @@ def _system_callback_handler(hass, config, src, *args):
                 found_devices = _get_devices(hass, discovery_type, addresses, interface)
 
                 # When devices of this type are found
-                # they are setup in __HA_KEEP__ and a discovery event is fired
+                # they are setup in Universal Home Assistant and a discovery event is fired
                 if found_devices:
                     discovery.load_platform(
                         hass,

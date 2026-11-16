@@ -1,1 +1,1 @@
-"""Tests for the __HA_KEEP__ Green integration."""
+"""Tests for the Universal Home Assistant Green integration."""

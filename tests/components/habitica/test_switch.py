@@ -16,8 +16,8 @@ from universalassistant.components.switch import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import ERROR_BAD_REQUEST, ERROR_TOO_MANY_REQUESTS
@@ -35,7 +35,7 @@ def switch_only() -> Generator[None]:
 
 @pytest.mark.usefixtures("habitica")
 async def test_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -60,7 +60,7 @@ async def test_switch(
     ],
 )
 async def test_turn_on_off_toggle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     service_call: str,
     habitica: AsyncMock,
@@ -94,13 +94,13 @@ async def test_turn_on_off_toggle(
 @pytest.mark.parametrize(
     ("raise_exception", "expected_exception"),
     [
-        (ERROR_TOO_MANY_REQUESTS, __HAC_KEEP__Error),
-        (ERROR_BAD_REQUEST, __HAC_KEEP__Error),
-        (ClientError, __HAC_KEEP__Error),
+        (ERROR_TOO_MANY_REQUESTS, UniversalAssistantError),
+        (ERROR_BAD_REQUEST, UniversalAssistantError),
+        (ClientError, UniversalAssistantError),
     ],
 )
 async def test_turn_on_off_toggle_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     service_call: str,
     habitica: AsyncMock,

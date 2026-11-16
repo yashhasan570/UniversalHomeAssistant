@@ -4,7 +4,7 @@ from dataclasses import asdict
 from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import TRMNLConfigEntry
 
@@ -12,7 +12,7 @@ TO_REDACT = {"mac_address"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: TRMNLConfigEntry
+    hass: UniversalAssistant, entry: TRMNLConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return {

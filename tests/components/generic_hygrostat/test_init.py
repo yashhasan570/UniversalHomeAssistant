@@ -9,13 +9,13 @@ from universalassistant.components import generic_hygrostat
 from universalassistant.components.generic_hygrostat.config_flow import ConfigFlowHandler
 from universalassistant.components.generic_hygrostat.const import DOMAIN
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.event import async_track_entity_registry_updated_event
 
 
 @pytest.fixture
-def sensor_config_entry(hass: __HAC_KEEP__) -> er.RegistryEntry:
+def sensor_config_entry(hass: UniversalAssistant) -> er.RegistryEntry:
     """Fixture to create a sensor config entry."""
     sensor_config_entry = MockConfigEntry()
     sensor_config_entry.add_to_hass(hass)
@@ -51,7 +51,7 @@ def sensor_entity_entry(
 
 
 @pytest.fixture
-def switch_config_entry(hass: __HAC_KEEP__) -> er.RegistryEntry:
+def switch_config_entry(hass: UniversalAssistant) -> er.RegistryEntry:
     """Fixture to create a switch config entry."""
     switch_config_entry = MockConfigEntry()
     switch_config_entry.add_to_hass(hass)
@@ -88,7 +88,7 @@ def switch_entity_entry(
 
 @pytest.fixture
 def generic_hygrostat_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sensor_entity_entry: er.RegistryEntry,
     switch_entity_entry: er.RegistryEntry,
 ) -> MockConfigEntry:
@@ -123,7 +123,7 @@ def expected_helper_device_id(
     return switch_device.id if request.param == "switch_device_id" else None
 
 
-def track_entity_registry_actions(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
+def track_entity_registry_actions(hass: UniversalAssistant, entity_id: str) -> list[str]:
     """Track entity registry actions for an entity."""
     events = []
 
@@ -153,7 +153,7 @@ def track_entity_registry_actions(hass: __HAC_KEEP__, entity_id: str) -> list[st
     indirect=["expected_helper_device_id"],
 )
 async def test_async_handle_source_entity_changes_source_entity_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     generic_hygrostat_config_entry: MockConfigEntry,
@@ -226,7 +226,7 @@ async def test_async_handle_source_entity_changes_source_entity_removed(
     indirect=["expected_helper_device_id"],
 )
 async def test_async_handle_source_entity_changes_source_entity_removed_shared_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     generic_hygrostat_config_entry: MockConfigEntry,
@@ -307,7 +307,7 @@ async def test_async_handle_source_entity_changes_source_entity_removed_shared_d
     indirect=["expected_helper_device_id"],
 )
 async def test_async_handle_source_entity_changes_source_entity_removed_from_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     generic_hygrostat_config_entry: MockConfigEntry,
@@ -379,7 +379,7 @@ async def test_async_handle_source_entity_changes_source_entity_removed_from_dev
     [("switch.mock_title", 1, ["update"]), ("sensor.mock_title", 0, [])],
 )
 async def test_async_handle_source_entity_changes_source_entity_moved_other_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     generic_hygrostat_config_entry: MockConfigEntry,
@@ -463,7 +463,7 @@ async def test_async_handle_source_entity_changes_source_entity_moved_other_devi
     ],
 )
 async def test_async_handle_source_entity_new_entity_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     generic_hygrostat_config_entry: MockConfigEntry,
@@ -521,7 +521,7 @@ async def test_async_handle_source_entity_new_entity_id(
 
 @pytest.mark.usefixtures("sensor_device")
 async def test_migration_1_1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     sensor_entity_entry: er.RegistryEntry,
@@ -566,7 +566,7 @@ async def test_migration_1_1(
 
 
 async def test_migration_from_future_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test migration from future version."""
     config_entry = MockConfigEntry(

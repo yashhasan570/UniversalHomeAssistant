@@ -10,7 +10,7 @@ import probatio
 from universalassistant.components import http, websocket_api
 from universalassistant.components.http.data_validator import RequestDataValidator
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -35,7 +35,7 @@ __all__ = [
 ]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Initialize the shopping list."""
     async_setup_services(hass)
 
@@ -43,7 +43,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: ShoppingListConfigEntry
+    hass: UniversalAssistant, config_entry: ShoppingListConfigEntry
 ) -> None:
     """Set up shopping list from config flow."""
     data = config_entry.runtime_data = ShoppingData(hass)
@@ -64,7 +64,7 @@ async def async_setup_entry(
     await hass.config_entries.async_forward_entry_setups(config_entry, PLATFORMS)
 
 
-class ShoppingListView(http.__HAC_KEEP__View):
+class ShoppingListView(http.UniversalAssistantView):
     """View to retrieve shopping list content."""
 
     url = "/api/shopping_list"
@@ -76,7 +76,7 @@ class ShoppingListView(http.__HAC_KEEP__View):
         return self.json(_get_shopping_data(request.app[http.KEY_HASS]).items)
 
 
-class UpdateShoppingListItemView(http.__HAC_KEEP__View):
+class UpdateShoppingListItemView(http.UniversalAssistantView):
     """View to retrieve shopping list content."""
 
     url = "/api/shopping_list/item/{item_id}"
@@ -96,7 +96,7 @@ class UpdateShoppingListItemView(http.__HAC_KEEP__View):
             return self.json_message("Item not found", HTTPStatus.BAD_REQUEST)
 
 
-class CreateShoppingListItemView(http.__HAC_KEEP__View):
+class CreateShoppingListItemView(http.UniversalAssistantView):
     """View to retrieve shopping list content."""
 
     url = "/api/shopping_list/item"
@@ -110,7 +110,7 @@ class CreateShoppingListItemView(http.__HAC_KEEP__View):
         return self.json(item)
 
 
-class ClearCompletedItemsView(http.__HAC_KEEP__View):
+class ClearCompletedItemsView(http.UniversalAssistantView):
     """View to retrieve shopping list content."""
 
     url = "/api/shopping_list/clear_completed"
@@ -126,7 +126,7 @@ class ClearCompletedItemsView(http.__HAC_KEEP__View):
 @callback
 @websocket_api.websocket_command({probatio.Required("type"): "shopping_list/items"})
 def websocket_handle_items(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -144,7 +144,7 @@ def websocket_handle_items(
 )
 @websocket_api.async_response
 async def websocket_handle_add(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -163,7 +163,7 @@ async def websocket_handle_add(
 )
 @websocket_api.async_response
 async def websocket_handle_remove(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -195,7 +195,7 @@ async def websocket_handle_remove(
 )
 @websocket_api.async_response
 async def websocket_handle_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -223,7 +223,7 @@ async def websocket_handle_update(
 )
 @websocket_api.async_response
 async def websocket_handle_clear(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -241,7 +241,7 @@ async def websocket_handle_clear(
 )
 @websocket_api.async_response
 async def websocket_handle_reorder(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

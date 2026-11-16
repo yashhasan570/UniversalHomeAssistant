@@ -34,7 +34,7 @@ from .profiles import PROFILES, get_profile
 from .utils.logger import LOGGER
 
 if TYPE_CHECKING:
-    from universalassistant.core import __HAC_KEEP__
+    from universalassistant.core import UniversalAssistant
 
 # GitHub can answer this right after a quick approval, a later poll then gets
 # the token, see https://github.com/cli/cli/issues/9302
@@ -47,7 +47,7 @@ class MarketplaceConfigFlow(ConfigFlow, domain=DOMAIN):
 
     VERSION = 1
 
-    hass: __HAC_KEEP__
+    hass: UniversalAssistant
     activation_task: asyncio.Task | None = None
     device: GitHubDeviceAPI | None = None
 

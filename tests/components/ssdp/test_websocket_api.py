@@ -6,7 +6,7 @@ from unittest.mock import ANY, AsyncMock, Mock, patch
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from pytest_universalassistant.typing import WebSocketGenerator
 
-from universalassistant.core import EVENT_HOMEASSISTANT_STARTED, __HAC_KEEP__
+from universalassistant.core import EVENT_HOMEASSISTANT_STARTED, UniversalAssistant
 
 from . import _ssdp_headers, init_ssdp_component
 
@@ -17,7 +17,7 @@ from . import _ssdp_headers, init_ssdp_component
 )
 async def test_subscribe_discovery(
     mock_get_ssdp: Mock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_flow_init: AsyncMock,
     hass_ws_client: WebSocketGenerator,

@@ -3,7 +3,6 @@
 from universalassistant.const import Platform
 
 CONF_CODE = "2fa"
-CONF_DEVICE_NAME = "device_name"
 CONFIG_ENTRY_VERSION = 1
 DEFAULT_NAME = "Hive"
 DOMAIN = "hive"

@@ -19,7 +19,7 @@ from universalassistant.components.device_automation import (
 )
 from universalassistant.components.zha.helpers import get_zha_gateway, get_zha_gateway_proxy
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -54,7 +54,7 @@ def _same_lists(list_a, list_b):
 
 
 async def test_triggers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     setup_zha: Callable[..., Coroutine[None]],
 ) -> None:
@@ -143,7 +143,7 @@ async def test_triggers(
 
 
 async def test_no_triggers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     setup_zha: Callable[..., Coroutine[None]],
 ) -> None:
@@ -183,7 +183,7 @@ async def test_no_triggers(
 
 
 async def test_get_triggers_group_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_app_controller_with_group: ControllerApplication,
 ) -> None:
@@ -202,7 +202,7 @@ async def test_get_triggers_group_device(
 
 
 async def test_if_fires_on_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
     setup_zha: Callable[..., Coroutine[None]],
@@ -279,7 +279,7 @@ async def test_if_fires_on_event(
 
 
 async def test_device_offline_fires(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
     setup_zha: Callable[..., Coroutine[None]],
@@ -336,7 +336,7 @@ async def test_device_offline_fires(
 
 
 async def test_exception_no_triggers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
     setup_zha: Callable[..., Coroutine[None]],
@@ -390,7 +390,7 @@ async def test_exception_no_triggers(
 
 
 async def test_exception_bad_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
     setup_zha: Callable[..., Coroutine[None]],
@@ -451,7 +451,7 @@ async def test_exception_bad_trigger(
 
 
 async def test_validate_trigger_config_missing_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -518,7 +518,7 @@ async def test_validate_trigger_config_missing_info(
 
 
 async def test_validate_trigger_config_unloaded_bad_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,

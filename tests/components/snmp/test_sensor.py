@@ -7,7 +7,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.components.snmp.sensor import SCAN_INTERVAL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -20,7 +20,7 @@ CONFIG = {
 }
 
 
-async def test_setup_fetches_once(hass: __HAC_KEEP__) -> None:
+async def test_setup_fetches_once(hass: UniversalAssistant) -> None:
     """Test setup performs only one SNMP fetch."""
     get_cmd = AsyncMock(return_value=(None, None, None, [[Integer32(13)]]))
 
@@ -32,7 +32,7 @@ async def test_setup_fetches_once(hass: __HAC_KEEP__) -> None:
     assert get_cmd.call_count == 1
 
 
-async def test_entity_recovers_when_device_unreachable(hass: __HAC_KEEP__) -> None:
+async def test_entity_recovers_when_device_unreachable(hass: UniversalAssistant) -> None:
     """Test an entity unreachable at setup recovers on the next poll."""
     get_cmd = AsyncMock(
         side_effect=[

@@ -12,7 +12,7 @@ from universalassistant.components.prusalink import DOMAIN
 from universalassistant.components.prusalink.config_flow import PrusaLinkConfigFlow
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
 from universalassistant.const import CONF_API_KEY, CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -24,7 +24,7 @@ pytestmark = pytest.mark.usefixtures("mock_api")
 
 
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     area_registry: ar.AreaRegistry,
@@ -48,7 +48,7 @@ async def test_device_info(
 
 
 async def test_unloading(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: ConfigEntry,
 ) -> None:
     """Test unloading prusalink."""
@@ -74,7 +74,7 @@ async def test_unloading(
     ],
 )
 async def test_failed_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: ConfigEntry,
     exception: Exception | type[Exception],
     caplog: pytest.LogCaptureFixture,
@@ -110,7 +110,7 @@ async def test_failed_update(
 
 
 async def test_migration_from_1_1_to_1_2(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test migrating from version 1 to 2."""
     data = {
@@ -141,7 +141,7 @@ async def test_migration_from_1_1_to_1_2(
 
 
 async def test_migration_from_1_1_to_1_2_outdated_firmware(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test migrating from version 1.1 to 1.2."""
     entry = MockConfigEntry(
@@ -180,7 +180,7 @@ async def test_migration_from_1_1_to_1_2_outdated_firmware(
 
 
 async def test_outdated_firmware_issue_per_entry(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test each entry gets its own firmware issue, removed with the entry."""
     entries = [
@@ -222,7 +222,7 @@ async def test_outdated_firmware_issue_per_entry(
 
 
 async def test_migration_fails_on_future_version(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test migrating fails on a version higher than the current one."""
     entry = MockConfigEntry(

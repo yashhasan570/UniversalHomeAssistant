@@ -5,7 +5,7 @@ from universalassistant.components.media_player import (
     MediaPlayerEntityFeature,
 )
 from universalassistant.const import ATTR_SUPPORTED_FEATURES, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from ..common import (
     HUB_TEST_ACCESSORY_ID,
@@ -16,7 +16,7 @@ from ..common import (
 )
 
 
-async def test_lg_tv_setup(hass: __HAC_KEEP__) -> None:
+async def test_lg_tv_setup(hass: UniversalAssistant) -> None:
     """Test that a LG TV can be correctly setup in HA."""
     accessories = await setup_accessories_from_file(hass, "lg_tv.json")
     config_entry, _ = await setup_test_accessories(hass, accessories)

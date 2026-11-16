@@ -8,8 +8,8 @@ import probatio
 from synology_dsm.exceptions import SynologyDSMException
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.service import async_register_admin_service
 
@@ -45,7 +45,7 @@ async def _service_handler(call: ServiceCall) -> None:
             call.hass.config_entries.async_entry_for_domain_unique_id(DOMAIN, serial)
         )
         if not entry:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="serial_not_found",
                 translation_placeholders={"serial": serial},
@@ -61,7 +61,7 @@ async def _service_handler(call: ServiceCall) -> None:
         dsm_device = next(iter(dsm_devices.values()))
         serial = next(iter(dsm_devices))
     else:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="missing_serial",
             translation_placeholders={"serials": ", ".join(sorted(dsm_devices))},
@@ -83,7 +83,7 @@ async def _service_handler(call: ServiceCall) -> None:
         try:
             await getattr(dsm_api, f"async_{call.service}")()
         except SynologyDSMException as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="execution_error",
                 translation_placeholders={
@@ -95,7 +95,7 @@ async def _service_handler(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Service handler setup."""
 
     for service in SynologyDSMService:

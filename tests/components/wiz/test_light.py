@@ -25,8 +25,8 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -42,7 +42,7 @@ from . import (
 
 
 async def test_light_unique_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a light unique id."""
     await async_setup_integration(hass)
@@ -53,7 +53,7 @@ async def test_light_unique_id(
 
 
 async def test_light_operation(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a light operation."""
     bulb, _ = await async_setup_integration(hass)
@@ -88,23 +88,23 @@ async def test_light_operation(
     ],
 )
 async def test_light_operation_fails(
-    hass: __HAC_KEEP__, error: Exception, translation_key: str
+    hass: UniversalAssistant, error: Exception, translation_key: str
 ) -> None:
-    """Test a light command raises a translated __HAC_KEEP__Error on device errors."""
+    """Test a light command raises a translated UniversalAssistantError on device errors."""
     bulb, _ = await async_setup_integration(hass)
     entity_id = "light.mock_title"
 
     bulb.turn_on.side_effect = error
     bulb.turn_off.side_effect = error
     for service in (SERVICE_TURN_ON, SERVICE_TURN_OFF):
-        with pytest.raises(__HAC_KEEP__Error) as exc_info:
+        with pytest.raises(UniversalAssistantError) as exc_info:
             await hass.services.async_call(
                 LIGHT_DOMAIN, service, {ATTR_ENTITY_ID: entity_id}, blocking=True
             )
         assert exc_info.value.translation_key == translation_key
 
 
-async def test_rgbww_light(hass: __HAC_KEEP__) -> None:
+async def test_rgbww_light(hass: UniversalAssistant) -> None:
     """Test a light operation with a rgbww light."""
     bulb, _ = await async_setup_integration(hass, bulb_type=FAKE_RGBWW_BULB)
     entity_id = "light.mock_title"
@@ -185,7 +185,7 @@ async def test_rgbww_light(hass: __HAC_KEEP__) -> None:
     assert pilot.pilot_params == {}
 
 
-async def test_rgbw_light(hass: __HAC_KEEP__) -> None:
+async def test_rgbw_light(hass: UniversalAssistant) -> None:
     """Test a light operation with a rgbww light."""
     bulb, _ = await async_setup_integration(hass, bulb_type=FAKE_RGBW_BULB)
     entity_id = "light.mock_title"
@@ -216,7 +216,7 @@ async def test_rgbw_light(hass: __HAC_KEEP__) -> None:
     assert pilot.pilot_params == {"dimming": 50, "temp": 6535}
 
 
-async def test_turnable_light(hass: __HAC_KEEP__) -> None:
+async def test_turnable_light(hass: UniversalAssistant) -> None:
     """Test a light operation with a turnable light."""
     bulb, _ = await async_setup_integration(hass, bulb_type=FAKE_TURNABLE_BULB)
     entity_id = "light.mock_title"
@@ -237,7 +237,7 @@ async def test_turnable_light(hass: __HAC_KEEP__) -> None:
     assert state.attributes[ATTR_COLOR_TEMP_KELVIN] == 6535
 
 
-async def test_old_firmware_dimmable_light(hass: __HAC_KEEP__) -> None:
+async def test_old_firmware_dimmable_light(hass: UniversalAssistant) -> None:
     """Test a light operation with a dimmable light with old firmware."""
     bulb, _ = await async_setup_integration(
         hass, bulb_type=FAKE_OLD_FIRMWARE_DIMMABLE_BULB
@@ -270,7 +270,7 @@ async def test_old_firmware_dimmable_light(hass: __HAC_KEEP__) -> None:
     assert pilot.pilot_params == {"dimming": 100}
 
 
-async def test_light_without_any_color_state(hass: __HAC_KEEP__) -> None:
+async def test_light_without_any_color_state(hass: UniversalAssistant) -> None:
     """Test a light reporting no color values still reports a color mode."""
     bulb = _mocked_wizlight(None, None, FAKE_RGBWW_BULB)
     # A bulb can report being on without any of the values the color mode is

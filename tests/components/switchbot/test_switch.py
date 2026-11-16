@@ -17,8 +17,8 @@ from universalassistant.components.switch import (
     SwitchService,
 )
 from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, State
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, State
+from universalassistant.exceptions import UniversalAssistantError
 
 from . import (
     AIR_PURIFIER_JP_SERVICE_INFO,
@@ -36,7 +36,7 @@ from . import (
 
 
 async def test_switchbot_switch_with_restore_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_factory: Callable[[str], MockConfigEntry],
 ) -> None:
     """Test that Switchbot Switch restores state correctly after reboot."""
@@ -87,7 +87,7 @@ async def test_switchbot_switch_with_restore_state(
     ],
 )
 async def test_exception_handling_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     service: str,
     mock_method: str,
@@ -109,7 +109,7 @@ async def test_exception_handling_switch(
         assert await hass.config_entries.async_setup(entry.entry_id)
         await hass.async_block_till_done(wait_background_tasks=True)
 
-        with pytest.raises(__HAC_KEEP__Error, match=error_message):
+        with pytest.raises(UniversalAssistantError, match=error_message):
             await hass.services.async_call(
                 SWITCH_DOMAIN,
                 service,
@@ -134,7 +134,7 @@ async def test_exception_handling_switch(
     ],
 )
 async def test_relay_switch_control(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     sensor_type: str,
     service_info: BluetoothServiceInfoBleak,
@@ -173,7 +173,7 @@ async def test_relay_switch_control(
     [(SERVICE_TURN_ON, "turn_on"), (SERVICE_TURN_OFF, "turn_off")],
 )
 async def test_relay_switch_2pm_control(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     service: str,
     mock_method: str,
@@ -268,7 +268,7 @@ async def test_relay_switch_2pm_control(
     ],
 )
 async def test_relay_switch_control_with_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     sensor_type: str,
     service_info: BluetoothServiceInfoBleak,
@@ -293,7 +293,7 @@ async def test_relay_switch_control_with_exception(
         assert await hass.config_entries.async_setup(entry.entry_id)
         await hass.async_block_till_done(wait_background_tasks=True)
 
-        with pytest.raises(__HAC_KEEP__Error, match=error_message):
+        with pytest.raises(UniversalAssistantError, match=error_message):
             await hass.services.async_call(
                 SWITCH_DOMAIN,
                 service,
@@ -356,7 +356,7 @@ async def test_relay_switch_control_with_exception(
     ],
 )
 async def test_air_purifier_switch_control(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     service_info: BluetoothServiceInfoBleak,
     sensor_type: str,
@@ -416,7 +416,7 @@ async def test_air_purifier_switch_control(
     ],
 )
 async def test_standing_fan_oscillation_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     entity_id: str,
     set_method: str,
@@ -466,7 +466,7 @@ async def test_standing_fan_oscillation_switches(
     ],
 )
 async def test_circulator_fan_pro_vertical_oscillation_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     service: str,
     mock_method: str,

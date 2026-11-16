@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.airpatrol.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 TEST_USER_INPUT = {
@@ -19,7 +19,7 @@ TEST_USER_INPUT = {
 
 
 async def test_user_flow_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_client: AirPatrolAPI,
 ) -> None:
     """Test successful user flow."""
@@ -43,7 +43,7 @@ async def test_user_flow_success(
 
 
 async def test_async_step_reauth_confirm_success(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, get_client: AirPatrolAPI
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, get_client: AirPatrolAPI
 ) -> None:
     """Test successful reauthentication via async_step_reauth_confirm."""
     mock_config_entry.add_to_hass(hass)
@@ -63,7 +63,7 @@ async def test_async_step_reauth_confirm_success(
 
 
 async def test_async_step_reauth_confirm_invalid_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     get_client: AirPatrolAPI,
 ) -> None:
@@ -96,7 +96,7 @@ async def test_async_step_reauth_confirm_invalid_auth(
 
 
 async def test_async_step_reauth_confirm_another_account_failure(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, get_client: AirPatrolAPI
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, get_client: AirPatrolAPI
 ) -> None:
     """Test reauthentication failure due to another account."""
     mock_config_entry.add_to_hass(hass)
@@ -123,7 +123,7 @@ async def test_async_step_reauth_confirm_another_account_failure(
     ],
 )
 async def test_user_flow_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     side_effect,
     expected_error,
     get_client: AirPatrolAPI,
@@ -160,7 +160,7 @@ async def test_user_flow_error(
 
 
 async def test_user_flow_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_client: AirPatrolAPI,
     mock_config_entry: MockConfigEntry,
 ) -> None:

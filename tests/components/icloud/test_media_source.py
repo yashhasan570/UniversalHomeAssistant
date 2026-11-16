@@ -22,12 +22,12 @@ from universalassistant.components.media_source import (
     async_resolve_media,
 )
 from universalassistant.config_entries import ConfigEntryDisabler, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(autouse=True)
-async def setup_media_source(hass: __HAC_KEEP__) -> None:
+async def setup_media_source(hass: UniversalAssistant) -> None:
     """Setup media source component."""
 
     await async_setup_component(hass, "media_source", {})
@@ -84,7 +84,7 @@ async def setup_media_source(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("icloud_client")
 async def test_browse_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     url: str,
     title: str,
@@ -108,7 +108,7 @@ async def test_browse_media(
 
 @pytest.mark.usefixtures("icloud_client")
 async def test_browse_media_accounts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test browsing media with multiple accounts."""
 
@@ -251,7 +251,7 @@ async def test_browse_media_accounts(
     ],
 )
 async def test_browse_media_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     icloud_client: AsyncMock,
     media_content_id: str,
@@ -287,7 +287,7 @@ async def test_browse_media_exceptions(
 
 @pytest.mark.usefixtures("icloud_client")
 async def test_browse_media_not_initialized_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test browsing media with account not initialized."""
@@ -304,7 +304,7 @@ async def test_browse_media_not_initialized_exception(
 
 @pytest.mark.usefixtures("icloud_client")
 async def test_browse_media_item_is_leaf(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test browsing media with item that is a leaf node."""
@@ -322,7 +322,7 @@ async def test_browse_media_item_is_leaf(
 
 @pytest.mark.usefixtures("icloud_client")
 async def test_browse_media_not_configured_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test browsing media with no account configured."""
     config_entry = MockConfigEntry(
@@ -388,7 +388,7 @@ async def test_browse_media_not_configured_exception(
 )
 @pytest.mark.usefixtures("icloud_client")
 async def test_resolve_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     media_content_id: str,
     url: str,
@@ -455,7 +455,7 @@ async def test_resolve_media(
 )
 @pytest.mark.usefixtures("icloud_client")
 async def test_resolve_media_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     media_content_id: str,
     exception: type[Exception],
@@ -544,7 +544,7 @@ async def test_resolve_media_exceptions(
     ],
 )
 async def test_resolve_media_service_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     icloud_client: AsyncMock,
     media_content_id: str,
@@ -597,7 +597,7 @@ async def test_resolve_media_service_exceptions(
 )
 @pytest.mark.usefixtures("icloud_client")
 async def test_resolve_media_not_found_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     album_type: str,
     aid: str,
@@ -620,7 +620,7 @@ async def test_resolve_media_not_found_exceptions(
 
 @pytest.mark.usefixtures("icloud_client")
 async def test_resolve_media_not_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test resolving media with no account configured."""
     config_entry = MockConfigEntry(
@@ -649,7 +649,7 @@ async def test_resolve_media_not_configured(
 
 @pytest.mark.usefixtures("icloud_client")
 async def test_resolve_media_no_cache(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test resolving media with no photo cache configured."""
     config_entry = MockConfigEntry(
@@ -683,7 +683,7 @@ async def test_resolve_media_no_cache(
 
 @pytest.mark.usefixtures("icloud_client")
 async def test_media_source_view_requires_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
@@ -702,7 +702,7 @@ async def test_media_source_view_requires_auth(
 
 @pytest.mark.usefixtures("icloud_client")
 async def test_media_source_view_bad_identifier_returns_400(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -721,7 +721,7 @@ async def test_media_source_view_bad_identifier_returns_400(
 
 @pytest.mark.usefixtures("icloud_client")
 async def test_media_source_view_missing_version_returns_404(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -741,7 +741,7 @@ async def test_media_source_view_missing_version_returns_404(
 
 @pytest.mark.usefixtures("icloud_client")
 async def test_media_source_view_missing_photo_returns_404(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -769,7 +769,7 @@ async def test_media_source_view_missing_photo_returns_404(
 )
 @pytest.mark.usefixtures("icloud_client")
 async def test_media_source_view_streams_content_and_headers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
     media_content_id: str,
@@ -833,7 +833,7 @@ async def test_media_source_view_streams_content_and_headers(
 
 @pytest.mark.usefixtures("icloud_client")
 async def test_media_source_view_streams_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -887,7 +887,7 @@ async def test_media_source_view_streams_timeout(
 
 @pytest.mark.usefixtures("icloud_client")
 async def test_media_source_view_streams_content_and_headers_cache_tests(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
 ) -> None:

@@ -14,7 +14,7 @@ from universalassistant.components.todo import (
     TodoServices,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 
 TEST_ENTITY = "todo.shopping_list"
@@ -64,7 +64,7 @@ async def ws_move_item(hass_ws_client: WebSocketGenerator) -> WsMoveItemType:
 
 
 async def test_get_items(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     sl_setup: None,
     ws_get_items: WsGetItemsType,
@@ -96,7 +96,7 @@ async def test_get_items(
 
 
 async def test_add_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sl_setup: None,
     ws_get_items: WsGetItemsType,
 ) -> None:
@@ -123,7 +123,7 @@ async def test_add_item(
 
 
 async def test_remove_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sl_setup: None,
     ws_get_items: WsGetItemsType,
 ) -> None:
@@ -164,7 +164,7 @@ async def test_remove_item(
 
 
 async def test_bulk_remove(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sl_setup: None,
     ws_get_items: WsGetItemsType,
 ) -> None:
@@ -208,7 +208,7 @@ async def test_bulk_remove(
 
 
 async def test_update_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sl_setup: None,
     ws_get_items: WsGetItemsType,
 ) -> None:
@@ -261,7 +261,7 @@ async def test_update_item(
 
 
 async def test_partial_update_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sl_setup: None,
     ws_get_items: WsGetItemsType,
 ) -> None:
@@ -337,7 +337,7 @@ async def test_partial_update_item(
 
 
 async def test_update_invalid_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sl_setup: None,
     ws_get_items: WsGetItemsType,
 ) -> None:
@@ -383,7 +383,7 @@ async def test_update_invalid_item(
     ],
 )
 async def test_move_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sl_setup: None,
     ws_get_items: WsGetItemsType,
     ws_move_item: WsMoveItemType,
@@ -425,7 +425,7 @@ async def test_move_item(
 
 
 async def test_move_invalid_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sl_setup: None,
     ws_get_items: WsGetItemsType,
     ws_move_item: WsMoveItemType,
@@ -452,7 +452,7 @@ async def test_move_invalid_item(
 
 
 async def test_subscribe_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sl_setup: None,
     hass_ws_client: WebSocketGenerator,
 ) -> None:

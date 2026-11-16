@@ -11,7 +11,7 @@ import httpcore2  # noqa: F401
 import httpx2
 
 from universalassistant.const import APPLICATION_NAME, EVENT_HOMEASSISTANT_CLOSE, __version__
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.util.hass_dict import HassKey
 from universalassistant.util.ssl import (
     SSL_ALPN_HTTP11,
@@ -42,7 +42,7 @@ USER_AGENT = "User-Agent"
 
 @callback
 def get_async_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     verify_ssl: bool = True,
     alpn_protocols: SSLALPNProtocols = SSL_ALPN_HTTP11,
 ) -> httpx2.AsyncClient:
@@ -85,7 +85,7 @@ class HassHttpXAsyncClient(httpx2.AsyncClient):
 
 @callback
 def create_async_httpx_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     verify_ssl: bool = True,
     auto_cleanup: bool = True,
     ssl_cipher_list: SSLCipherList = SSLCipherList.PYTHON_DEFAULT,
@@ -126,7 +126,7 @@ def create_async_httpx_client(
     original_aclose = client.aclose
 
     client.aclose = warn_use(  # type: ignore[method-assign]
-        client.aclose, "closes the __HA_KEEP__ httpx client"
+        client.aclose, "closes the Universal Home Assistant httpx client"
     )
 
     if auto_cleanup:
@@ -137,11 +137,11 @@ def create_async_httpx_client(
 
 @callback
 def _async_register_async_client_shutdown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: httpx2.AsyncClient,
     original_aclose: Callable[[], Coroutine[Any, Any, None]],
 ) -> None:
-    """Register httpx AsyncClient aclose on __HA_KEEP__ shutdown.
+    """Register httpx AsyncClient aclose on Universal Home Assistant shutdown.
 
     This method must be run in the event loop.
     """

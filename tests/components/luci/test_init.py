@@ -16,7 +16,7 @@ from universalassistant.components.luci.const import DOMAIN, ISSUE_LEGACY_KNOWN_
 from universalassistant.components.luci.coordinator import SCAN_INTERVAL
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PLATFORM, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -43,7 +43,7 @@ def _issue_id(entry_id: str) -> str:
 
 @pytest.mark.usefixtures("mock_luci_client")
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test unloading a config entry."""
@@ -56,7 +56,7 @@ async def test_unload_entry(
 
 
 async def test_setup_entry_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_luci_client: MagicMock,
 ) -> None:
@@ -71,7 +71,7 @@ async def test_setup_entry_cannot_connect(
 
 
 async def test_setup_entry_invalid_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_luci_client: MagicMock,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_setup_entry_invalid_auth(
 
 @pytest.mark.usefixtures("mock_device_tracker_conf")
 async def test_yaml_import_invalid_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_luci_client: MagicMock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -110,7 +110,7 @@ async def test_yaml_import_invalid_auth(
 
 @pytest.mark.usefixtures("mock_device_tracker_conf")
 async def test_yaml_import_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_luci_client: MagicMock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -128,7 +128,7 @@ async def test_yaml_import_cannot_connect(
 
 @pytest.mark.usefixtures("mock_luci_client")
 async def test_legacy_known_devices_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -164,7 +164,7 @@ async def test_legacy_known_devices_issue(
 
 @pytest.mark.usefixtures("mock_luci_client")
 async def test_legacy_known_devices_issue_kept_on_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -193,7 +193,7 @@ async def test_legacy_known_devices_issue_kept_on_reload(
 
 @pytest.mark.usefixtures("mock_luci_client")
 async def test_legacy_known_devices_no_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -218,7 +218,7 @@ async def test_legacy_known_devices_no_issue(
 
 
 async def test_legacy_known_devices_issue_on_new_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_luci_client: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -266,7 +266,7 @@ async def test_legacy_known_devices_issue_on_new_device(
 
 
 async def test_legacy_known_devices_check_cancelled_on_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_luci_client: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -279,7 +279,7 @@ async def test_legacy_known_devices_check_cancelled_on_unload(
     calls = 0
 
     async def _load_config(
-        path: str, hass: __HAC_KEEP__, consider_home: timedelta
+        path: str, hass: UniversalAssistant, consider_home: timedelta
     ) -> list[Device]:
         nonlocal calls
         calls += 1
@@ -316,7 +316,7 @@ async def test_legacy_known_devices_check_cancelled_on_unload(
 
 
 async def test_legacy_known_devices_issue_per_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_luci_client: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -373,7 +373,7 @@ async def test_legacy_known_devices_issue_per_entry(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_luci_client")
 async def test_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -409,7 +409,7 @@ async def test_remove_config_entry_device(
 
 
 async def test_remove_config_entry_device_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_luci_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -435,7 +435,7 @@ async def test_remove_config_entry_device_not_loaded(
 
 
 async def test_remove_departed_client_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_luci_client: MagicMock,
     device_registry: dr.DeviceRegistry,

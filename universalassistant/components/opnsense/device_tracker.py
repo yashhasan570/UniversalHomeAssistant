@@ -3,7 +3,7 @@
 from typing import override
 
 from universalassistant.components.device_tracker import ScannerEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -13,7 +13,7 @@ from .types import DeviceDetails, OPNsenseConfigEntry
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: OPNsenseConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

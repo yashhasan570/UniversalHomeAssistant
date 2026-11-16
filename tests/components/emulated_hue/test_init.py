@@ -16,13 +16,13 @@ from universalassistant.components.emulated_hue.config import (
 )
 from universalassistant.components.emulated_hue.upnp import UPNPResponderProtocol
 from universalassistant.const import EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import utcnow
 
 
 async def test_config_google_home_entity_id_to_number(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test config adheres to the type."""
     conf = Config(hass, {"type": "google_home"}, "127.0.0.1")
@@ -55,7 +55,7 @@ async def test_config_google_home_entity_id_to_number(
 
 
 async def test_config_google_home_entity_id_to_number_altered(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test config adheres to the type."""
     conf = Config(hass, {"type": "google_home"}, "127.0.0.1")
@@ -88,7 +88,7 @@ async def test_config_google_home_entity_id_to_number_altered(
 
 
 async def test_config_google_home_entity_id_to_number_empty(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test config adheres to the type."""
     conf = Config(hass, {"type": "google_home"}, "127.0.0.1")
@@ -130,7 +130,7 @@ def test_config_alexa_entity_id_to_number() -> None:
     assert entity_id == "light.test"
 
 
-async def test_setup_works(hass: __HAC_KEEP__) -> None:
+async def test_setup_works(hass: UniversalAssistant) -> None:
     """Test setup works."""
     hass.config.components.add("network")
     with (

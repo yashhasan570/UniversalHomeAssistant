@@ -26,7 +26,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import async_poll, setup_integration
@@ -36,7 +36,7 @@ FAN_ENTITY_ID = "fan.test_vmc"
 
 @pytest.fixture(autouse=True)
 async def setup_intelliclima_fan_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_cloud_interface: AsyncMock,
 ) -> AsyncGenerator[None]:
@@ -48,7 +48,7 @@ async def setup_intelliclima_fan_only(
 
 
 async def test_all_fan_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -75,7 +75,7 @@ async def test_all_fan_entities(
 
 
 async def test_fan_turn_off_service_calls_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_interface: AsyncMock,
 ) -> None:
     """fan.turn_off should call ecocomfort.turn_off and refresh."""
@@ -92,7 +92,7 @@ async def test_fan_turn_off_service_calls_api(
 
 
 async def test_fan_turn_on_service_calls_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_interface: AsyncMock,
 ) -> None:
     """fan.turn_on should call ecocomfort.turn_on and refresh."""
@@ -113,7 +113,7 @@ async def test_fan_turn_on_service_calls_api(
 
 
 async def test_fan_set_percentage_maps_to_speed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_interface: AsyncMock,
 ) -> None:
     """fan.set_percentage maps to closest IntelliClima speed via set_mode_speed."""
@@ -132,7 +132,7 @@ async def test_fan_set_percentage_maps_to_speed(
 
 
 async def test_fan_set_preset_mode_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_interface: AsyncMock,
 ) -> None:
     """Test set preset mode service triggers correct api call."""
@@ -151,7 +151,7 @@ async def test_fan_set_preset_mode_service(
 
 
 async def test_fan_set_percentage_zero_turns_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_interface: AsyncMock,
 ) -> None:
     """Setting percentage to 0 should call turn_off, not set_mode_speed."""
@@ -178,7 +178,7 @@ async def test_fan_set_percentage_zero_turns_off(
     ],
 )
 async def test_fan_turn_on_defaulting_behavior(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_interface: AsyncMock,
     service_data: dict,
     expected_mode: FanMode,
@@ -201,7 +201,7 @@ async def test_fan_turn_on_defaulting_behavior(
 
 
 async def test_fan_turn_on_when_off_without_percentage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_interface: AsyncMock,
     single_eco_device: IntelliClimaDevices,
 ) -> None:
@@ -226,7 +226,7 @@ async def test_fan_turn_on_when_off_without_percentage(
 
 
 async def test_fan_turn_on_defaulting_behavior_auto_preset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_interface: AsyncMock,
 ) -> None:
     """turn_on with auto preset mode calls auto request."""
@@ -261,7 +261,7 @@ async def test_fan_turn_on_defaulting_behavior_auto_preset(
     ],
 )
 async def test_fan_running_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     single_eco_device: IntelliClimaDevices,
     mode_state: str,
@@ -283,7 +283,7 @@ async def test_fan_running_state(
 
 
 async def test_fan_turn_on_during_boost_keeps_commanded_speed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_cloud_interface: AsyncMock,
     single_eco_device: IntelliClimaDevices,

@@ -26,7 +26,7 @@ from universalassistant.components.specialized_turbo.const import (
 )
 from universalassistant.config_entries import ConfigFlowResult
 from universalassistant.const import CONF_ADDRESS, CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import (
@@ -47,7 +47,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 async def _choose_key_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     result: ConfigFlowResult,
     next_step_id: str,
 ) -> ConfigFlowResult:
@@ -61,7 +61,7 @@ async def _choose_key_source(
 
 
 async def test_bluetooth_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_library: MockLibrary,
 ) -> None:
     """Test Bluetooth discovery validates the connection and creates an entry."""
@@ -87,7 +87,7 @@ async def test_bluetooth_discovery(
 
 
 async def test_config_flow_uses_managed_ble_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_library: MockLibrary,
 ) -> None:
     """Test the library client factory uses bleak_retry_connector."""
@@ -123,7 +123,7 @@ async def test_config_flow_uses_managed_ble_client(
 
 
 async def test_bluetooth_discovery_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test Bluetooth discovery aborts for an existing bike."""
     entry = MockConfigEntry(
@@ -144,7 +144,7 @@ async def test_bluetooth_discovery_already_configured(
 
 
 async def test_bluetooth_discovery_tcu1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_library: MockLibrary,
 ) -> None:
     """Test Bluetooth discovery for a TCU1 bike."""
@@ -176,7 +176,7 @@ async def test_bluetooth_discovery_tcu1(
     ],
 )
 async def test_bluetooth_connection_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_library: MockLibrary,
     error: Exception,
 ) -> None:
@@ -206,7 +206,7 @@ async def test_bluetooth_connection_errors(
 
 
 async def test_bluetooth_device_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_library: MockLibrary,
 ) -> None:
     """Test confirmation fails when the bike is no longer discoverable."""
@@ -238,7 +238,7 @@ async def test_bluetooth_device_unavailable(
 
 
 async def test_bluetooth_key_required_without_metadata(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_library: MockLibrary,
 ) -> None:
     """Test a late encryption requirement is reported without crashing the flow."""
@@ -267,7 +267,7 @@ async def test_bluetooth_key_required_without_metadata(
 
 
 async def test_encrypted_account_setup_uses_managed_http_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_library: MockLibrary,
 ) -> None:
     """Test account setup stores only the wrapped key and HMI identifiers."""
@@ -333,7 +333,7 @@ async def test_encrypted_account_setup_uses_managed_http_client(
     ],
 )
 async def test_encrypted_account_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_library: MockLibrary,
     method_name: str,
     error: Exception,
@@ -386,7 +386,7 @@ async def test_encrypted_account_errors(
     ],
 )
 async def test_encrypted_account_key_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_library: MockLibrary,
     error: Exception,
 ) -> None:
@@ -428,7 +428,7 @@ async def test_encrypted_account_key_errors(
 
 
 async def test_encrypted_account_key_fails_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_library: MockLibrary,
 ) -> None:
     """Test an account key must complete the bike identification handshake."""
@@ -473,7 +473,7 @@ async def test_encrypted_account_key_fails_connection(
 
 
 async def test_encrypted_manual_key_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_library: MockLibrary,
 ) -> None:
     """Test manual wrapped-key setup and validation."""
@@ -516,7 +516,7 @@ async def test_encrypted_manual_key_setup(
     ],
 )
 async def test_manual_key_rejected_by_bike(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_library: MockLibrary,
     error: Exception,
 ) -> None:
@@ -549,7 +549,7 @@ async def test_manual_key_rejected_by_bike(
 
 
 async def test_manual_key_connection_failure_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_library: MockLibrary,
 ) -> None:
     """Test manual key setup recovers after an identification failure."""
@@ -581,7 +581,7 @@ async def test_manual_key_connection_failure_recovers(
 
 
 async def test_user_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_library: MockLibrary,
 ) -> None:
     """Test user setup with a discovered bike."""
@@ -614,7 +614,7 @@ async def test_user_flow(
     ids=["tcu1", "name_only"],
 )
 async def test_user_flow_discovers_supported_variants(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_library: MockLibrary,
     service_info: BluetoothServiceInfoBleak,
     expected_unique_id: str,
@@ -641,7 +641,7 @@ async def test_user_flow_discovers_supported_variants(
 
 
 async def test_user_flow_selects_encryption_source_after_bike(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_library: MockLibrary,
 ) -> None:
     """Test an encrypted user flow continues from the key-source menu."""
@@ -687,7 +687,7 @@ async def test_user_flow_selects_encryption_source_after_bike(
     ids=["none", "unsupported"],
 )
 async def test_user_flow_no_supported_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_infos: list[BluetoothServiceInfoBleak],
 ) -> None:
     """Test user setup aborts when no supported bikes are available."""
@@ -704,7 +704,7 @@ async def test_user_flow_no_supported_devices(
     assert result["reason"] == "no_devices_found"
 
 
-async def test_user_flow_filters_configured_bike(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_filters_configured_bike(hass: UniversalAssistant) -> None:
     """Test configured bikes are excluded from manual setup."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -727,7 +727,7 @@ async def test_user_flow_filters_configured_bike(hass: __HAC_KEEP__) -> None:
 
 
 async def test_reauth_adds_manual_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_library: MockLibrary,
 ) -> None:
     """Test reauthentication updates an encrypted entry."""
@@ -759,7 +759,7 @@ async def test_reauth_adds_manual_key(
 
 
 async def test_reconfigure_replaces_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     encrypted_config_entry: MockConfigEntry,
     mock_library: MockLibrary,
 ) -> None:
@@ -785,7 +785,7 @@ async def test_reconfigure_replaces_key(
 
 
 async def test_reconfigure_unencrypted_entry_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfiguration is limited to encrypted entries."""

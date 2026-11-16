@@ -17,7 +17,7 @@ from universalassistant.const import (
     CONF_PORT,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.update_coordinator import UpdateFailed
 
@@ -42,7 +42,7 @@ type SolaxConfigEntry = ConfigEntry[SolaxData]
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SolaxConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SolaxConfigEntry) -> None:
     """Set up the sensors from a ConfigEntry."""
 
     kwargs: dict[str, Any] = {"return_when": asyncio.FIRST_COMPLETED}
@@ -80,6 +80,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SolaxConfigEntry) -> None
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SolaxConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SolaxConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

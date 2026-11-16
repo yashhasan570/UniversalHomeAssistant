@@ -20,7 +20,7 @@ from universalassistant.components.event import EventEntityStateAttribute
 from universalassistant.components.husqvarna_automower.coordinator import SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_registry import EntityRegistry
 
@@ -30,7 +30,7 @@ from .const import TEST_MOWER_ID
 
 @pytest.mark.freeze_time(datetime(2023, 6, 5, 12))
 async def test_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -179,7 +179,7 @@ async def test_event(
 
 @pytest.mark.freeze_time(datetime(2023, 6, 5, 12))
 async def test_event_destination_blocked(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     automower_ws_ready: list[Callable[[], None]],
@@ -231,7 +231,7 @@ async def test_event_destination_blocked(
 
 @pytest.mark.freeze_time(datetime(2023, 6, 5, 12))
 async def test_event_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,

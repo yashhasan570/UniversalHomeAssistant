@@ -19,7 +19,7 @@ from propcache.api import cached_property
 from yarl import URL
 
 from universalassistant.const import EntityStateAttribute
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.entity import Entity, EntityDescription
 from universalassistant.helpers.network import get_url
@@ -874,7 +874,7 @@ def _image_response_appears_complete(
 
 
 async def async_fetch_image(
-    logger: logging.Logger, hass: __HAC_KEEP__, url: str
+    logger: logging.Logger, hass: UniversalAssistant, url: str
 ) -> tuple[bytes | None, str | None]:
     """Retrieve an image."""
     content, content_type = (None, None)

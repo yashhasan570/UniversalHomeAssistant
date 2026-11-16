@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_fixture
 
 from universalassistant.components.fumis.const import DOMAIN
 from universalassistant.const import CONF_MAC, CONF_PIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -63,7 +63,7 @@ def mock_fumis(device_fixture: str) -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_fumis: MagicMock,
     request: pytest.FixtureRequest,

@@ -33,7 +33,7 @@ from universalassistant.const import (
     CONF_PORT,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.data_entry_flow import AbortFlow, SectionConfig, section
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -75,7 +75,7 @@ def wsdiscovery() -> list[Service]:
         discovery.stop()
 
 
-async def async_discovery(hass: __HAC_KEEP__) -> list[dict[str, Any]]:
+async def async_discovery(hass: UniversalAssistant) -> list[dict[str, Any]]:
     """Return if there are devices that can be discovered."""
     LOGGER.debug("Starting ONVIF discovery")
     services = await hass.async_add_executor_job(wsdiscovery)
@@ -343,8 +343,8 @@ class OnvifFlowHandler(ConfigFlow, domain=DOMAIN):
 
         # Username and Password are optional and default empty
         # due to some cameras not allowing you to change ONVIF user settings.
-        # See https://github.com/yashhasan570/__HAC_KEEP__/issues/39182
-        # and https://github.com/yashhasan570/__HAC_KEEP__/issues/35904
+        # See https://github.com/yashhasan570/UniversalUniversalAssistant/issues/39182
+        # and https://github.com/yashhasan570/UniversalUniversalAssistant/issues/35904
         return self.async_show_form(
             step_id="configure",
             data_schema=probatio.Schema(

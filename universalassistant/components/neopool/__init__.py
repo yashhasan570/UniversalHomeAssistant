@@ -1,10 +1,10 @@
-"""NeoPool integration for __HA_KEEP__."""
+"""NeoPool integration for Universal Home Assistant."""
 
 from neopool_modbus import NeoPoolModbusClient
 
 from universalassistant.components.modbus import async_get_unit
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import ConfigEntryError, __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ConfigEntryError, UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -16,14 +16,14 @@ from .services import async_setup_services
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the NeoPool services."""
     async_setup_services(hass)
     return True
 
 
 def _async_build_client(
-    hass: __HAC_KEEP__, entry: NeoPoolConfigEntry
+    hass: UniversalAssistant, entry: NeoPoolConfigEntry
 ) -> NeoPoolModbusClient:
     """Build the client, borrowing a shared Modbus unit from the modbus integration.
 
@@ -37,7 +37,7 @@ def _async_build_client(
             build_modbus_params(entry.data),
             entry.data.get(CONF_UNIT_ID, DEFAULT_UNIT_ID),
         )
-    except __HAC_KEEP__Error as err:
+    except UniversalAssistantError as err:
         # The device is already in use over different link settings, which one
         # shared connection cannot honour. Retrying cannot clear this; it needs
         # the entry reconfigured, so fail setup instead of scheduling retries.
@@ -50,7 +50,7 @@ def _async_build_client(
     return NeoPoolModbusClient(entry.data, unit=unit)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: NeoPoolConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: NeoPoolConfigEntry) -> None:
     """Set up the NeoPool integration from a config entry."""
     client = _async_build_client(hass, entry)
     coordinator = NeoPoolCoordinator(hass, client, entry)
@@ -65,7 +65,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: NeoPoolConfigEntry) -> No
     await coordinator.async_refresh()
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: NeoPoolConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: NeoPoolConfigEntry) -> None:
     """Unload a NeoPool config entry."""
     entry.runtime_data.cancel_follow_up_refresh()
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

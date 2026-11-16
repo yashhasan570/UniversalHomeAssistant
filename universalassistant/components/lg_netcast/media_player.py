@@ -15,7 +15,7 @@ from universalassistant.components.media_player import (
     MediaType,
 )
 from universalassistant.const import CONF_MODEL, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.trigger import PluggableAction
@@ -44,7 +44,7 @@ SUPPORT_LGTV = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: LgNetCastConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

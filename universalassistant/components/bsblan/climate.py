@@ -14,7 +14,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -38,7 +38,7 @@ PRESET_MODES = [
 
 BSBLAN_AUTOMATIC_MODE: Final = 1
 
-# Mapping from __HA_KEEP__ HVACMode to BSB-LAN integer values
+# Mapping from Universal Home Assistant HVACMode to BSB-LAN integer values
 # BSB-LAN uses: 0=off, 1=auto, 2=eco/reduced, 3=heat/comfort
 HA_TO_BSBLAN_HVAC_MODE: Final[dict[HVACMode, int]] = {
     HVACMode.OFF: 0,
@@ -46,7 +46,7 @@ HA_TO_BSBLAN_HVAC_MODE: Final[dict[HVACMode, int]] = {
     HVACMode.HEAT: 3,
 }
 
-# Mapping from BSB-LAN integer values to __HA_KEEP__ HVACMode
+# Mapping from BSB-LAN integer values to Universal Home Assistant HVACMode
 BSBLAN_TO_HA_HVAC_MODE: Final[dict[int, HVACMode]] = {
     0: HVACMode.OFF,
     BSBLAN_AUTOMATIC_MODE: HVACMode.AUTO,
@@ -72,7 +72,7 @@ PRESET_TO_BSBLAN_TEMPORARY_MODE: Final[dict[str, int]] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: BSBLanConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

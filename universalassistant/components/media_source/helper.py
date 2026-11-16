@@ -8,7 +8,7 @@ from universalassistant.components.media_player import (
     SearchMedia,
     SearchMediaQuery,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.frame import report_usage
 from universalassistant.helpers.typing import Undefined
 
@@ -26,7 +26,7 @@ from .models import (
 
 
 async def _get_media_item(
-    hass: __HAC_KEEP__, media_content_id: str | None, target_media_player: str | None
+    hass: UniversalAssistant, media_content_id: str | None, target_media_player: str | None
 ) -> MediaSourceItem:
     """Return media item."""
     if media_content_id:
@@ -51,7 +51,7 @@ async def _get_media_item(
 
 
 async def async_browse_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     media_content_id: str | None,
     *,
     content_filter: Callable[[BrowseMedia], bool] | None = None,
@@ -85,7 +85,7 @@ async def async_browse_media(
 
 
 async def async_search_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     media_content_id: str | None,
     query: SearchMediaQuery,
 ) -> SearchMedia:
@@ -114,7 +114,7 @@ async def async_search_media(
 
 
 async def async_resolve_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     media_content_id: str,
     target_media_player: str | Undefined | None = Undefined,
 ) -> PlayMedia:
@@ -145,7 +145,7 @@ async def async_resolve_media(
 
 
 async def async_get_media_image(
-    hass: __HAC_KEEP__, media_content_id: str
+    hass: UniversalAssistant, media_content_id: str
 ) -> MediaImage | None:
     """Return a single image of a media item if its source supports it.
 

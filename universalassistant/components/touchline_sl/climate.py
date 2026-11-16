@@ -1,4 +1,4 @@
-"""Roth Touchline SL climate integration implementation for __HA_KEEP__."""
+"""Roth Touchline SL climate integration implementation for Universal Home Assistant."""
 
 from typing import Any, override
 
@@ -9,7 +9,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import TouchlineSLConfigEntry, TouchlineSLModuleCoordinator
@@ -19,7 +19,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: TouchlineSLConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

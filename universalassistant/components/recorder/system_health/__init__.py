@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.components import system_health
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.recorder import session_scope
 
 from .. import get_instance
@@ -23,7 +23,7 @@ DIALECT_TO_GET_SIZE = {
 
 @callback
 def async_register(
-    hass: __HAC_KEEP__, register: system_health.SystemHealthRegistration
+    hass: UniversalAssistant, register: system_health.SystemHealthRegistration
 ) -> None:
     """Register system health callbacks."""
     register.async_register_info(system_health_info)
@@ -53,7 +53,7 @@ def _async_get_db_engine_info(instance: Recorder) -> dict[str, Any]:
     return db_engine_info
 
 
-async def system_health_info(hass: __HAC_KEEP__) -> dict[str, Any]:
+async def system_health_info(hass: UniversalAssistant) -> dict[str, Any]:
     """Get info for the info page."""
     instance = get_instance(hass)
 

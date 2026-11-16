@@ -7,8 +7,8 @@ from typing import Any, Protocol, cast
 
 from universalassistant.config import config_per_platform
 from universalassistant.const import CONF_DESCRIPTION, CONF_NAME
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import discovery
 from universalassistant.helpers.service import async_set_service_schema
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -47,7 +47,7 @@ class LegacyNotifyPlatform(Protocol):
 
     async def async_get_service(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config: ConfigType,
         discovery_info: DiscoveryInfoType | None = ...,
     ) -> BaseNotificationService | None:
@@ -55,7 +55,7 @@ class LegacyNotifyPlatform(Protocol):
 
     def get_service(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config: ConfigType,
         discovery_info: DiscoveryInfoType | None = ...,
     ) -> BaseNotificationService | None:
@@ -64,7 +64,7 @@ class LegacyNotifyPlatform(Protocol):
 
 @callback
 def async_setup_legacy(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> list[Coroutine[Any, Any, None]]:
     """Set up legacy notify services."""
     hass.data.setdefault(NOTIFY_SERVICES, {})
@@ -107,7 +107,7 @@ def async_setup_legacy(
                         platform.get_service, hass, p_config, discovery_info
                     )
                 else:
-                    raise __HAC_KEEP__Error("Invalid notify platform.")  # noqa: TRY301
+                    raise UniversalAssistantError("Invalid notify platform.")  # noqa: TRY301
 
                 if notify_service is None:
                     # Platforms can decide not to create a service based
@@ -157,7 +157,7 @@ def async_setup_legacy(
     ]
 
 
-async def async_reload(hass: __HAC_KEEP__, integration_name: str) -> None:
+async def async_reload(hass: UniversalAssistant, integration_name: str) -> None:
     """Register notify services for an integration."""
     if not _async_integration_has_notify_services(hass, integration_name):
         return
@@ -170,7 +170,7 @@ async def async_reload(hass: __HAC_KEEP__, integration_name: str) -> None:
     await asyncio.gather(*tasks)
 
 
-async def async_reset_platform(hass: __HAC_KEEP__, integration_name: str) -> None:
+async def async_reset_platform(hass: UniversalAssistant, integration_name: str) -> None:
     """Unregister notify services for an integration."""
     notify_discovery_dispatcher = hass.data.get(NOTIFY_DISCOVERY_DISPATCHER)
     if notify_discovery_dispatcher:
@@ -190,7 +190,7 @@ async def async_reset_platform(hass: __HAC_KEEP__, integration_name: str) -> Non
 
 
 def _async_integration_has_notify_services(
-    hass: __HAC_KEEP__, integration_name: str
+    hass: UniversalAssistant, integration_name: str
 ) -> bool:
     """Determine if an integration has notify services registered."""
     if (
@@ -207,7 +207,7 @@ class BaseNotificationService:
 
     # While not purely typed, it makes typehinting more useful for us
     # and removes the need for constant None checks or asserts.
-    hass: __HAC_KEEP__ = None  # type: ignore[assignment]
+    hass: UniversalAssistant = None  # type: ignore[assignment]
 
     # Name => target
     registered_targets: dict[str, Any]
@@ -253,7 +253,7 @@ class BaseNotificationService:
 
     async def async_setup(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         service_name: str,
         target_service_name_prefix: str,
     ) -> None:

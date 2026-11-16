@@ -4,7 +4,7 @@ from typing import Any
 
 from pytest_universalassistant.common import load_json_value_fixture
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 def load_json_fixture(filename: str) -> Any:
@@ -12,6 +12,6 @@ def load_json_fixture(filename: str) -> Any:
     return load_json_value_fixture(f"jellyfin/{filename}")
 
 
-async def async_load_json_fixture(hass: __HAC_KEEP__, filename: str) -> Any:
+async def async_load_json_fixture(hass: UniversalAssistant, filename: str) -> Any:
     """Load JSON fixture on-demand asynchronously."""
     return await hass.async_add_executor_job(load_json_fixture, filename)

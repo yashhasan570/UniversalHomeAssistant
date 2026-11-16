@@ -1,4 +1,4 @@
-"""Handle the frontend for __HA_KEEP__."""
+"""Handle the frontend for Universal Home Assistant."""
 
 from collections.abc import Callable, Iterator
 from functools import lru_cache, partial
@@ -15,11 +15,11 @@ from propcache.api import cached_property
 from yarl import URL
 
 from universalassistant.components import onboarding, websocket_api
-from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View, StaticPathConfig
+from universalassistant.components.http import KEY_HASS, UniversalAssistantView, StaticPathConfig
 from universalassistant.components.websocket_api import ERR_NOT_FOUND, ActiveConnection
 from universalassistant.const import EVENT_PANELS_UPDATED
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.icon import async_get_icons
 from universalassistant.helpers.storage import Store
@@ -244,7 +244,7 @@ class Panel:
 
 @callback
 def async_register_built_in_panel(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     component_name: str,
     sidebar_title: str | None = None,
     sidebar_icon: str | None = None,
@@ -285,7 +285,7 @@ def async_register_built_in_panel(
 
 @callback
 def async_remove_panel(
-    hass: __HAC_KEEP__, frontend_url_path: str, *, warn_if_unknown: bool = True
+    hass: UniversalAssistant, frontend_url_path: str, *, warn_if_unknown: bool = True
 ) -> None:
     """Remove a built-in panel."""
     panel = hass.data.get(DATA_PANELS, {}).pop(frontend_url_path, None)
@@ -299,18 +299,18 @@ def async_remove_panel(
 
 
 @callback
-def async_panel_exists(hass: __HAC_KEEP__, frontend_url_path: str) -> bool:
+def async_panel_exists(hass: UniversalAssistant, frontend_url_path: str) -> bool:
     """Return if a panel is registered for the given frontend URL path."""
     return frontend_url_path in hass.data.get(DATA_PANELS, {})
 
 
 @callback
-def async_get_theme_names(hass: __HAC_KEEP__) -> list[str]:
+def async_get_theme_names(hass: UniversalAssistant) -> list[str]:
     """Return the sorted names of the user-defined themes."""
     return sorted(hass.data.get(DATA_THEMES, {}).keys())
 
 
-def add_extra_js_url(hass: __HAC_KEEP__, url: str, es5: bool = False) -> None:
+def add_extra_js_url(hass: UniversalAssistant, url: str, es5: bool = False) -> None:
     """Register extra js or module url to load.
 
     This function allows custom integrations to register extra js or module.
@@ -319,7 +319,7 @@ def add_extra_js_url(hass: __HAC_KEEP__, url: str, es5: bool = False) -> None:
     hass.data[key].add(url)
 
 
-def remove_extra_js_url(hass: __HAC_KEEP__, url: str, es5: bool = False) -> None:
+def remove_extra_js_url(hass: UniversalAssistant, url: str, es5: bool = False) -> None:
     """Remove extra js or module url to load.
 
     This function allows custom integrations to remove extra js or module.
@@ -343,7 +343,7 @@ def _frontend_root(dev_repo_path: str | None) -> pathlib.Path:
     return hass_frontend.where()
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the serving of the frontend."""
     await async_setup_frontend_storage(hass)
 
@@ -406,7 +406,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
             )
             repo_path = str(dev_pr_dir)
             _LOGGER.info("Using frontend from PR #%s", dev_pr_number)
-        except __HAC_KEEP__Error as err:
+        except UniversalAssistantError as err:
             _LOGGER.error(
                 "Failed to download PR #%s: %s, falling back"
                 " to the integrated frontend",
@@ -548,7 +548,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 
 async def _async_setup_themes(
-    hass: __HAC_KEEP__, themes: dict[str, Any] | None
+    hass: UniversalAssistant, themes: dict[str, Any] | None
 ) -> None:
     """Set up themes data."""
     hass.data[DATA_THEMES] = themes or {}
@@ -580,7 +580,7 @@ def _async_render_index_cached(template: jinja2.Template, **kwargs: Any) -> str:
 class IndexView(web_urldispatcher.AbstractResource):
     """Serve the frontend."""
 
-    def __init__(self, repo_path: str | None, hass: __HAC_KEEP__) -> None:
+    def __init__(self, repo_path: str | None, hass: UniversalAssistant) -> None:
         """Initialize the frontend view."""
         super().__init__(name="frontend:index")
         self.repo_path = repo_path
@@ -699,7 +699,7 @@ class IndexView(web_urldispatcher.AbstractResource):
         return iter([self._route])
 
 
-class ManifestJSONView(__HAC_KEEP__View):
+class ManifestJSONView(UniversalAssistantView):
     """View to return a manifest.json."""
 
     requires_auth = False
@@ -739,7 +739,7 @@ class ManifestJSONView(__HAC_KEEP__View):
 )
 @websocket_api.async_response
 async def websocket_get_icons(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle get icons command."""
     resources = await async_get_icons(
@@ -755,7 +755,7 @@ async def websocket_get_icons(
 @callback
 @websocket_api.websocket_command({"type": "get_panels"})
 def websocket_get_panels(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle get panels command."""
     user_is_admin = connection.user.is_admin
@@ -778,7 +778,7 @@ def websocket_get_panels(
 @callback
 @websocket_api.websocket_command({"type": "frontend/get_themes"})
 def websocket_get_themes(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle get themes command."""
     if hass.config.recovery_mode or hass.config.safe_mode:
@@ -816,7 +816,7 @@ def websocket_get_themes(
 )
 @websocket_api.async_response
 async def websocket_get_translations(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle get translations command."""
     resources = await async_get_translations(
@@ -831,7 +831,7 @@ async def websocket_get_translations(
     )
 
 
-async def async_get_version(hass: __HAC_KEEP__) -> str | None:
+async def async_get_version(hass: UniversalAssistant) -> str | None:
     """Return the version of the frontend package."""
     integration = await async_get_integration(hass, DOMAIN)
     for req in integration.requirements:
@@ -843,7 +843,7 @@ async def async_get_version(hass: __HAC_KEEP__) -> str | None:
 @websocket_api.websocket_command({"type": "frontend/get_version"})
 @websocket_api.async_response
 async def websocket_get_version(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle get version command."""
     if (frontend := await async_get_version(hass)) is None:
@@ -855,7 +855,7 @@ async def websocket_get_version(
 @callback
 @websocket_api.websocket_command({"type": "frontend/subscribe_extra_js"})
 def websocket_subscribe_extra_js(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Subscribe to URL manager updates."""
 
@@ -883,7 +883,7 @@ def websocket_subscribe_extra_js(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_update_panel(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle update panel command."""
     url_path: str = msg["url_path"]

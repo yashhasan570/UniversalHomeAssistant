@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_HOST, CONF_IP_ADDRESS, CONF_LOCATION
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import (
     CONF_GROUP,
@@ -30,7 +30,7 @@ TO_REDACT = [
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: LIFXConfigEntry
+    hass: UniversalAssistant, entry: LIFXConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a LIFX config entry."""
     coordinator = entry.runtime_data

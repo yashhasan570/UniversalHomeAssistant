@@ -31,8 +31,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 
@@ -43,7 +43,7 @@ def platforms() -> list[str]:
 
 
 async def test_generic_fan(
-    hass: __HAC_KEEP__, client, fan_generic, integration
+    hass: UniversalAssistant, client, fan_generic, integration
 ) -> None:
     """Test the fan entity for a generic fan that lacks specific speed configuration."""
     node = fan_generic
@@ -229,7 +229,7 @@ async def test_generic_fan(
 
 
 async def test_configurable_speeds_fan(
-    hass: __HAC_KEEP__, client, hs_fc200, integration
+    hass: UniversalAssistant, client, hs_fc200, integration
 ) -> None:
     """Test a fan entity with configurable speeds."""
     node = hs_fc200
@@ -299,7 +299,7 @@ async def test_configurable_speeds_fan(
 
 
 async def test_configurable_speeds_fan_with_missing_config_value(
-    hass: __HAC_KEEP__, client, hs_fc200_state, integration
+    hass: UniversalAssistant, client, hs_fc200_state, integration
 ) -> None:
     """Test a fan entity with configurable speeds."""
     entity_id = "fan.scene_capable_fan_control_switch"
@@ -327,7 +327,7 @@ async def test_configurable_speeds_fan_with_missing_config_value(
 
 
 async def test_configurable_speeds_fan_with_bad_config_value(
-    hass: __HAC_KEEP__, client, hs_fc200_state, integration
+    hass: UniversalAssistant, client, hs_fc200_state, integration
 ) -> None:
     """Test a fan entity with configurable speeds."""
     entity_id = "fan.scene_capable_fan_control_switch"
@@ -356,7 +356,7 @@ async def test_configurable_speeds_fan_with_bad_config_value(
     assert state.state == STATE_UNAVAILABLE
 
 
-async def test_ge_12730_fan(hass: __HAC_KEEP__, client, ge_12730, integration) -> None:
+async def test_ge_12730_fan(hass: UniversalAssistant, client, ge_12730, integration) -> None:
     """Test a GE 12730 fan with 3 fixed speeds."""
     node = ge_12730
     node_id = 24
@@ -448,7 +448,7 @@ async def test_ge_12730_fan(hass: __HAC_KEEP__, client, ge_12730, integration) -
 
 
 async def test_jasco_14314_fan(
-    hass: __HAC_KEEP__, client, jasco_14314, integration
+    hass: UniversalAssistant, client, jasco_14314, integration
 ) -> None:
     """Test a Jasco 14314 fan with 3 fixed speeds."""
     node = jasco_14314
@@ -541,7 +541,7 @@ async def test_jasco_14314_fan(
 
 
 async def test_inovelli_lzw36(
-    hass: __HAC_KEEP__, client, inovelli_lzw36, integration
+    hass: UniversalAssistant, client, inovelli_lzw36, integration
 ) -> None:
     """Test an LZW36."""
     node = inovelli_lzw36
@@ -649,7 +649,7 @@ async def test_inovelli_lzw36(
 
 
 async def test_leviton_zw4sf_fan(
-    hass: __HAC_KEEP__, client, leviton_zw4sf, integration
+    hass: UniversalAssistant, client, leviton_zw4sf, integration
 ) -> None:
     """Test a Leviton ZW4SF fan with 4 fixed speeds."""
     node = leviton_zw4sf
@@ -720,7 +720,7 @@ async def test_leviton_zw4sf_fan(
 
 
 async def test_leviton_vrf01_fan(
-    hass: __HAC_KEEP__, client, leviton_vrf01, integration
+    hass: UniversalAssistant, client, leviton_vrf01, integration
 ) -> None:
     """Test a Leviton VRF01 fan with 3 fixed speeds."""
     node = leviton_vrf01
@@ -790,7 +790,7 @@ async def test_leviton_vrf01_fan(
 
 
 async def test_enbrighten_55258_zw4002_fan(
-    hass: __HAC_KEEP__, client, enbrighten_55258_zw4002, integration
+    hass: UniversalAssistant, client, enbrighten_55258_zw4002, integration
 ) -> None:
     """Test a GE/Jasco Enbrighten 55258/ZW4002 fan with 3 fixed speeds."""
     node = enbrighten_55258_zw4002
@@ -860,7 +860,7 @@ async def test_enbrighten_55258_zw4002_fan(
 
 
 async def test_enbrighten_58446_zwa4013_fan(
-    hass: __HAC_KEEP__, client, enbrighten_58446_zwa4013, integration
+    hass: UniversalAssistant, client, enbrighten_58446_zwa4013, integration
 ) -> None:
     """Test a GE/Jasco Enbrighten 58446/ZWA4013 fan with 4 fixed speeds."""
     node = enbrighten_58446_zwa4013
@@ -931,7 +931,7 @@ async def test_enbrighten_58446_zwa4013_fan(
 
 
 async def test_thermostat_fan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     climate_adc_t3000,
     integration,
@@ -1171,7 +1171,7 @@ async def test_thermostat_fan(
 
 
 async def test_thermostat_fan_without_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     climate_radio_thermostat_ct100_plus,
     integration,
@@ -1203,7 +1203,7 @@ async def test_thermostat_fan_without_off(
     assert state.state == STATE_UNKNOWN
 
     # Test turning off
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             FAN_DOMAIN,
             SERVICE_TURN_OFF,
@@ -1217,7 +1217,7 @@ async def test_thermostat_fan_without_off(
     client.async_send_command.reset_mock()
 
     # Test turning on
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             FAN_DOMAIN,
             SERVICE_TURN_ON,
@@ -1232,7 +1232,7 @@ async def test_thermostat_fan_without_off(
 
 
 async def test_thermostat_fan_without_preset_modes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     climate_adc_t3000_missing_fan_mode_states,
     integration,
@@ -1265,7 +1265,7 @@ async def test_thermostat_fan_without_preset_modes(
 
 
 async def test_honeywell_39358_fan(
-    hass: __HAC_KEEP__, client, fan_honeywell_39358, integration
+    hass: UniversalAssistant, client, fan_honeywell_39358, integration
 ) -> None:
     """Test a Honeywell 39358 fan with 3 fixed speeds."""
     node = fan_honeywell_39358

@@ -9,7 +9,7 @@ from universalassistant.core import (
     CoreState,
     Event,
     HassJob,
-    __HAC_KEEP__,
+    UniversalAssistant,
     async_noop,
     callback,
 )
@@ -20,14 +20,14 @@ from .typing import NoEventData
 
 @callback
 def _async_at_core_state(
-    hass: __HAC_KEEP__,
-    at_start_cb: Callable[[__HAC_KEEP__], Coroutine[Any, Any, None] | None],
+    hass: UniversalAssistant,
+    at_start_cb: Callable[[UniversalAssistant], Coroutine[Any, Any, None] | None],
     event_type: EventType[NoEventData],
-    check_state: Callable[[__HAC_KEEP__], bool],
+    check_state: Callable[[UniversalAssistant], bool],
 ) -> CALLBACK_TYPE:
-    """Execute a job at_start_cb when __HA_KEEP__ has the wanted state.
+    """Execute a job at_start_cb when Universal Home Assistant has the wanted state.
 
-    The job is executed immediately if __HA_KEEP__ is in the wanted state.
+    The job is executed immediately if Universal Home Assistant is in the wanted state.
     Will wait for event specified by event_type if it isn't.
     """
     at_start_job = HassJob(at_start_cb)
@@ -39,7 +39,7 @@ def _async_at_core_state(
 
     @callback
     def _matched_event(event: Event) -> None:
-        """Call the callback when __HA_KEEP__ started."""
+        """Call the callback when Universal Home Assistant started."""
         hass.async_run_hass_job(at_start_job, hass)
         nonlocal unsub
         unsub = None
@@ -55,16 +55,16 @@ def _async_at_core_state(
 
 @callback
 def async_at_start(
-    hass: __HAC_KEEP__,
-    at_start_cb: Callable[[__HAC_KEEP__], Coroutine[Any, Any, None] | None],
+    hass: UniversalAssistant,
+    at_start_cb: Callable[[UniversalAssistant], Coroutine[Any, Any, None] | None],
 ) -> CALLBACK_TYPE:
-    """Execute a job at_start_cb when __HA_KEEP__ is starting.
+    """Execute a job at_start_cb when Universal Home Assistant is starting.
 
-    The job is executed immediately if __HA_KEEP__ is already starting or started.
+    The job is executed immediately if Universal Home Assistant is already starting or started.
     Will wait for EVENT_HOMEASSISTANT_START if it isn't.
     """
 
-    def _is_running(hass: __HAC_KEEP__) -> bool:
+    def _is_running(hass: UniversalAssistant) -> bool:
         return hass.is_running
 
     return _async_at_core_state(
@@ -74,16 +74,16 @@ def async_at_start(
 
 @callback
 def async_at_started(
-    hass: __HAC_KEEP__,
-    at_start_cb: Callable[[__HAC_KEEP__], Coroutine[Any, Any, None] | None],
+    hass: UniversalAssistant,
+    at_start_cb: Callable[[UniversalAssistant], Coroutine[Any, Any, None] | None],
 ) -> CALLBACK_TYPE:
-    """Execute a job at_start_cb when __HA_KEEP__ has started.
+    """Execute a job at_start_cb when Universal Home Assistant has started.
 
-    The job is executed immediately if __HA_KEEP__ is already started.
+    The job is executed immediately if Universal Home Assistant is already started.
     Will wait for EVENT_HOMEASSISTANT_STARTED if it isn't.
     """
 
-    def _is_started(hass: __HAC_KEEP__) -> bool:
+    def _is_started(hass: UniversalAssistant) -> bool:
         return hass.state is CoreState.running
 
     return _async_at_core_state(

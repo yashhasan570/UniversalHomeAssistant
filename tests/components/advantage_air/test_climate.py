@@ -27,8 +27,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import add_mock_config
@@ -43,7 +43,7 @@ def override_platforms() -> Generator[None]:
 
 @pytest.mark.usefixtures("mock_get")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_all_entities(
     ],
 )
 async def test_set_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_update: AsyncMock,
     entity_id: str,
     hvac_mode: HVACMode,
@@ -95,7 +95,7 @@ async def test_set_hvac_mode(
     "entity_id", ["climate.myzone", "climate.myzone_zone_open_with_sensor"]
 )
 async def test_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_update: AsyncMock,
     entity_id: str,
 ) -> None:
@@ -115,7 +115,7 @@ async def test_set_temperature(
 @pytest.mark.usefixtures("mock_get")
 @pytest.mark.parametrize("service", [SERVICE_TURN_ON, SERVICE_TURN_OFF])
 async def test_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_update: AsyncMock,
     service: str,
 ) -> None:
@@ -133,7 +133,7 @@ async def test_turn_on_off(
 
 
 @pytest.mark.usefixtures("mock_get")
-async def test_set_fan_mode(hass: __HAC_KEEP__, mock_update: AsyncMock) -> None:
+async def test_set_fan_mode(hass: UniversalAssistant, mock_update: AsyncMock) -> None:
     """Test setting the fan mode."""
 
     await add_mock_config(hass)
@@ -149,7 +149,7 @@ async def test_set_fan_mode(hass: __HAC_KEEP__, mock_update: AsyncMock) -> None:
 
 @pytest.mark.usefixtures("mock_get")
 async def test_set_preset_mode(
-    hass: __HAC_KEEP__, mock_update: AsyncMock, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, mock_update: AsyncMock, snapshot: SnapshotAssertion
 ) -> None:
     """Test setting the preset mode."""
 
@@ -167,7 +167,7 @@ async def test_set_preset_mode(
 
 @pytest.mark.usefixtures("mock_get")
 async def test_set_hvac_mode_unsupported(
-    hass: __HAC_KEEP__, mock_update: AsyncMock
+    hass: UniversalAssistant, mock_update: AsyncMock
 ) -> None:
     """Test setting an HVAC mode the main entity does not support."""
 
@@ -184,7 +184,7 @@ async def test_set_hvac_mode_unsupported(
 
 @pytest.mark.usefixtures("mock_get")
 async def test_myauto_set_temperature_range(
-    hass: __HAC_KEEP__, mock_update: AsyncMock, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, mock_update: AsyncMock, snapshot: SnapshotAssertion
 ) -> None:
     """Test setting the target temperature range on a MyAuto entity."""
 
@@ -206,7 +206,7 @@ async def test_myauto_set_temperature_range(
 
 @pytest.mark.usefixtures("mock_get")
 async def test_myauto_set_fan_mode(
-    hass: __HAC_KEEP__, mock_update: AsyncMock, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, mock_update: AsyncMock, snapshot: SnapshotAssertion
 ) -> None:
     """Test setting the fan mode on a MyAuto entity."""
 
@@ -224,14 +224,14 @@ async def test_myauto_set_fan_mode(
 
 @pytest.mark.usefixtures("mock_get")
 async def test_climate_async_failed_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_update: AsyncMock,
 ) -> None:
     """Test climate change failure."""
 
     mock_update.side_effect = ApiError
     await add_mock_config(hass)
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_TEMPERATURE,

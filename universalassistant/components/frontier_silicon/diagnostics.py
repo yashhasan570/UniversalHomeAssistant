@@ -6,7 +6,7 @@ from typing import Any
 
 from afsapi import FSApiError
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import FrontierSiliconConfigEntry
 
@@ -23,7 +23,7 @@ async def _query[_T](
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: FrontierSiliconConfigEntry
+    hass: UniversalAssistant, entry: FrontierSiliconConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     afsapi = entry.runtime_data

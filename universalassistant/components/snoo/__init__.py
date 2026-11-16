@@ -7,7 +7,7 @@ from python_snoo.exceptions import InvalidSnooAuth, SnooAuthException, SnooDevic
 from python_snoo.snoo import Snoo
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -26,7 +26,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SnooConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SnooConfigEntry) -> None:
     """Set up Happiest Baby Snoo from a config entry."""
 
     snoo = Snoo(
@@ -57,7 +57,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SnooConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SnooConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SnooConfigEntry) -> None:
     """Unload a config entry."""
     disconnects = await asyncio.gather(
         *(coordinator.snoo.disconnect() for coordinator in entry.runtime_data.values()),

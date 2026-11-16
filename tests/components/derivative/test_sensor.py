@@ -37,7 +37,7 @@ from universalassistant.const import (
 from universalassistant.core import (
     Event,
     EventStateChangedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     State,
     callback,
 )
@@ -61,7 +61,7 @@ A2 = {"attr": "value2"}
     ],
 )
 async def test_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     force_update: bool,
     attributes: list[dict[str, Any]],
 ) -> None:
@@ -111,7 +111,7 @@ async def test_state(
     ],
 )
 async def test_no_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     extra_config: dict[str, Any],
     force_update: bool,
     attributes: list[dict[str, Any]],
@@ -170,7 +170,7 @@ async def test_no_change(
 
 
 async def _setup_sensor(
-    hass: __HAC_KEEP__, config: dict[str, Any]
+    hass: UniversalAssistant, config: dict[str, Any]
 ) -> tuple[dict[str, Any], str]:
     default_config = {
         "platform": "derivative",
@@ -191,7 +191,7 @@ async def _setup_sensor(
 
 
 async def setup_tests(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict[str, Any],
     times: list[int],
     values: list[float],
@@ -217,7 +217,7 @@ async def setup_tests(
     return state
 
 
-async def test_dataSet1(hass: __HAC_KEEP__) -> None:
+async def test_dataSet1(hass: UniversalAssistant) -> None:
     """Test derivative sensor state."""
     await setup_tests(
         hass,
@@ -228,7 +228,7 @@ async def test_dataSet1(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_dataSet2(hass: __HAC_KEEP__) -> None:
+async def test_dataSet2(hass: UniversalAssistant) -> None:
     """Test derivative sensor state."""
     await setup_tests(
         hass,
@@ -239,7 +239,7 @@ async def test_dataSet2(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_dataSet3(hass: __HAC_KEEP__) -> None:
+async def test_dataSet3(hass: UniversalAssistant) -> None:
     """Test derivative sensor state."""
     state = await setup_tests(
         hass,
@@ -252,7 +252,7 @@ async def test_dataSet3(hass: __HAC_KEEP__) -> None:
     assert state.attributes.get("unit_of_measurement") == f"/{UnitOfTime.SECONDS}"
 
 
-async def test_dataSet4(hass: __HAC_KEEP__) -> None:
+async def test_dataSet4(hass: UniversalAssistant) -> None:
     """Test derivative sensor state."""
     await setup_tests(
         hass,
@@ -263,7 +263,7 @@ async def test_dataSet4(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_dataSet5(hass: __HAC_KEEP__) -> None:
+async def test_dataSet5(hass: UniversalAssistant) -> None:
     """Test derivative sensor state."""
     await setup_tests(
         hass,
@@ -274,7 +274,7 @@ async def test_dataSet5(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_dataSet6(hass: __HAC_KEEP__) -> None:
+async def test_dataSet6(hass: UniversalAssistant) -> None:
     """Test derivative sensor state."""
     await setup_tests(hass, {}, times=[0, 60], values=[0, 1 / 60], expected_state=1)
 
@@ -292,7 +292,7 @@ async def test_dataSet6(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_data_moving_average_with_zeroes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     extra_config: dict[str, Any],
     force_update: bool,
     attributes: list[dict[str, Any]],
@@ -360,7 +360,7 @@ async def test_data_moving_average_with_zeroes(
         last_derivative = derivative
 
 
-async def test_data_moving_average_for_discrete_sensor(hass: __HAC_KEEP__) -> None:
+async def test_data_moving_average_for_discrete_sensor(hass: UniversalAssistant) -> None:
     """Test derivative sensor state."""
     # We simulate the following situation:
     # The temperature rises 1 °C per minute for 30 minutes long.
@@ -400,7 +400,7 @@ async def test_data_moving_average_for_discrete_sensor(hass: __HAC_KEEP__) -> No
                 assert abs(1 - derivative) <= 0.1 + 1e-6
 
 
-async def test_data_moving_average_for_irregular_times(hass: __HAC_KEEP__) -> None:
+async def test_data_moving_average_for_irregular_times(hass: UniversalAssistant) -> None:
     """Test derivative sensor state."""
     # We simulate the following situation:
     # The temperature rises 1 °C per minute for 30 minutes long.
@@ -446,7 +446,7 @@ async def test_data_moving_average_for_irregular_times(hass: __HAC_KEEP__) -> No
                 assert abs(0.1 - derivative) <= 0.01 + 1e-6
 
 
-async def test_double_signal_after_delay(hass: __HAC_KEEP__) -> None:
+async def test_double_signal_after_delay(hass: UniversalAssistant) -> None:
     """Test derivative sensor state."""
     # The old algorithm would produce extreme values if, after
     # a delay longer than the time window there would be two
@@ -487,7 +487,7 @@ async def test_double_signal_after_delay(hass: __HAC_KEEP__) -> None:
             previous = derivative
 
 
-async def test_sub_intervals_instantaneous(hass: __HAC_KEEP__) -> None:
+async def test_sub_intervals_instantaneous(hass: UniversalAssistant) -> None:
     """Test derivative sensor state."""
     # We simulate the following situation:
     # Value changes from 0 to 10 in 5 seconds (derivative = 2)
@@ -583,7 +583,7 @@ async def test_sub_intervals_instantaneous(hass: __HAC_KEEP__) -> None:
         assert derivative == 0
 
 
-async def test_sub_intervals_with_time_window(hass: __HAC_KEEP__) -> None:
+async def test_sub_intervals_with_time_window(hass: UniversalAssistant) -> None:
     """Test derivative sensor state."""
     # We simulate the following situation:
     # The value rises by 1 every second for 1 minute, then pauses
@@ -744,7 +744,7 @@ async def test_device_classes(
     source_class: str,
     derived_unit: str,
     derived_class: str,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test derivative sensor handles unit conversions and device classes."""
     config = {
@@ -787,7 +787,7 @@ async def test_device_classes(
     assert state.attributes.get("device_class") == derived_class
 
 
-async def test_prefix(hass: __HAC_KEEP__) -> None:
+async def test_prefix(hass: UniversalAssistant) -> None:
     """Test derivative sensor state using a power source."""
     config = {
         "sensor": {
@@ -827,7 +827,7 @@ async def test_prefix(hass: __HAC_KEEP__) -> None:
     assert state.attributes.get("unit_of_measurement") == f"kW/{UnitOfTime.HOURS}"
 
 
-async def test_suffix(hass: __HAC_KEEP__) -> None:
+async def test_suffix(hass: UniversalAssistant) -> None:
     """Test derivative sensor state using a network counter source."""
     config = {
         "sensor": {
@@ -859,7 +859,7 @@ async def test_suffix(hass: __HAC_KEEP__) -> None:
     assert round(float(state.state), config["sensor"]["round"]) == 0.0
 
 
-async def test_total_increasing_reset(hass: __HAC_KEEP__) -> None:
+async def test_total_increasing_reset(hass: UniversalAssistant) -> None:
     """Test derivative with total_increasing input where it should ignore the reset."""
     times = [0, 20, 30, 35, 40, 50, 60]
     values = [0, 10, 30, 40, 0, 10, 40]
@@ -904,7 +904,7 @@ async def test_total_increasing_reset(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_total_increasing_reset_while_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     bad_state: str,
     extra_config: dict[str, Any],
     active_value: str,
@@ -946,7 +946,7 @@ async def test_total_increasing_reset_while_unavailable(
 
 
 async def test_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -993,7 +993,7 @@ async def test_device_id(
 
 
 async def test_device_id_yaml(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -1038,7 +1038,7 @@ async def test_device_id_yaml(
 @pytest.mark.parametrize("bad_state", [STATE_UNAVAILABLE, STATE_UNKNOWN, "foo"])
 async def test_unavailable(
     bad_state: str,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test derivative sensor state when unavailable."""
     config, entity_id = await _setup_sensor(hass, {"unit_time": "s"})
@@ -1073,7 +1073,7 @@ async def test_unavailable(
 @pytest.mark.parametrize("bad_state", [STATE_UNAVAILABLE, STATE_UNKNOWN, "foo"])
 async def test_unavailable_2(
     bad_state: str,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test derivative sensor state when unavailable with a time window."""
     config, entity_id = await _setup_sensor(
@@ -1114,7 +1114,7 @@ async def test_unavailable_2(
 @pytest.mark.parametrize("restore_state", ["3.00", STATE_UNKNOWN])
 async def test_unavailable_boot(
     restore_state,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that the booting sequence does not leave derivative in a bad state."""
 
@@ -1190,7 +1190,7 @@ async def test_unavailable_boot(
 
 
 async def test_source_unit_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test how derivative responds when the source sensor changes unit."""
     source_id = "sensor.source"
@@ -1252,7 +1252,7 @@ async def test_source_unit_change(
         assert state.attributes.get("unit_of_measurement") == "dogs/s"
 
 
-async def test_reload(hass: __HAC_KEEP__) -> None:
+async def test_reload(hass: UniversalAssistant) -> None:
     """Test hot-reloading derivative YAML sensors."""
     hass.state = ha.CoreState.not_running
     hass.states.async_set("sensor.energy", "0.0")
@@ -1311,7 +1311,7 @@ async def test_reload(hass: __HAC_KEEP__) -> None:
 
 
 async def test_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test YAML-based derivative with unique id."""

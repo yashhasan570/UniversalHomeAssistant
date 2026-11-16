@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.nibe_heatpump import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 MOCK_ENTRY_DATA = {
     "model": None,
@@ -58,7 +58,7 @@ class MockConnection(Connection):
         self.heatpump.notify_coil_update(CoilData(coil, value))
 
 
-async def async_add_entry(hass: __HAC_KEEP__, data: dict[str, Any]) -> MockConfigEntry:
+async def async_add_entry(hass: UniversalAssistant, data: dict[str, Any]) -> MockConfigEntry:
     """Add entry and get the coordinator."""
     entry = MockConfigEntry(
         domain=DOMAIN, title="Dummy", data=data, unique_id=MOCK_UNIQUE_ID
@@ -71,6 +71,6 @@ async def async_add_entry(hass: __HAC_KEEP__, data: dict[str, Any]) -> MockConfi
     return entry
 
 
-async def async_add_model(hass: __HAC_KEEP__, model: Model) -> MockConfigEntry:
+async def async_add_model(hass: UniversalAssistant, model: Model) -> MockConfigEntry:
     """Add entry of specific model."""
     return await async_add_entry(hass, {**MOCK_ENTRY_DATA, "model": model.name})

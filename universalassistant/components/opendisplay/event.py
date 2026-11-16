@@ -10,7 +10,7 @@ from universalassistant.components.event import (
     EventEntity,
     EventEntityDescription,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -34,7 +34,7 @@ class OpenDisplayEventEntityDescription(EventEntityDescription):
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: OpenDisplayConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -15,14 +15,14 @@ from universalassistant.components.nederlandse_spoorwegen.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import API_KEY
 
 
 async def test_full_flow(
-    hass: __HAC_KEEP__, mock_nsapi: AsyncMock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_nsapi: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test successful user config flow."""
     result = await hass.config_entries.flow.async_init(
@@ -43,7 +43,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_creating_route(
-    hass: __HAC_KEEP__, mock_nsapi: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_nsapi: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test creating a route after setting up the main config entry."""
     mock_config_entry.add_to_hass(hass)
@@ -87,7 +87,7 @@ async def test_creating_route(
     ],
 )
 async def test_flow_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nsapi: AsyncMock,
     mock_setup_entry: AsyncMock,
     exception: Exception,
@@ -124,7 +124,7 @@ async def test_flow_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_fetching_stations_failed(
-    hass: __HAC_KEEP__, mock_nsapi: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_nsapi: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test creating a route after setting up the main config entry."""
     mock_config_entry.add_to_hass(hass)
@@ -138,7 +138,7 @@ async def test_fetching_stations_failed(
 
 
 async def test_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test config flow aborts if already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -158,7 +158,7 @@ async def test_already_configured(
 
 
 async def test_reconfigure_success(
-    hass: __HAC_KEEP__, mock_nsapi: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_nsapi: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test successfully reconfiguring (updating) the API key."""
     new_key = "new_api_key_123456"
@@ -193,7 +193,7 @@ async def test_reconfigure_success(
     ],
 )
 async def test_reconfigure_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nsapi: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -230,7 +230,7 @@ async def test_reconfigure_errors(
 
 
 async def test_reconfigure_already_configured(
-    hass: __HAC_KEEP__, mock_nsapi: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_nsapi: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring with an API key that's already used by another entry."""
     # Add first entry

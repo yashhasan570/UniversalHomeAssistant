@@ -12,8 +12,8 @@ from universalassistant.components.calendar import (
     DOMAIN as CALENDAR_DOMAIN,
     CalendarEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import service
 from universalassistant.util import dt as dt_util
 
@@ -107,12 +107,12 @@ async def async_create_event(entity: GoogleCalendarEntity, call: ServiceCall) ->
             event,
         )
     except ApiException as err:
-        raise __HAC_KEEP__Error(str(err)) from err
+        raise UniversalAssistantError(str(err)) from err
     entity.async_write_ha_state()
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the services for the Google Calendar integration."""
 
     service.async_register_platform_entity_service(

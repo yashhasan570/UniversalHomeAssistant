@@ -9,6 +9,6 @@ import pytest
 def large_file_io() -> StringIO:
     """Generate a file on the fly. Simulates a large file."""
     return StringIO(
-        2 * "__HA_KEEP__ is awesome. Open source home automation"
+        2 * "Universal Home Assistant is awesome. Open source home automation"
         " that puts local control and privacy first."
     )

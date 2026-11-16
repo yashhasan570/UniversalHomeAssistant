@@ -16,8 +16,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     EntityCategory,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -25,7 +25,7 @@ pytestmark = pytest.mark.usefixtures("init_integration")
 
 
 async def test_bluetooth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lametric: MagicMock,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -92,7 +92,7 @@ async def test_bluetooth(
 
 
 async def test_switch_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lametric: MagicMock,
 ) -> None:
     """Test error handling of the LaMetric switches."""
@@ -103,7 +103,7 @@ async def test_switch_error(
     assert state.state == STATE_OFF
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="Invalid response from the LaMetric device"
+        UniversalAssistantError, match="Invalid response from the LaMetric device"
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,
@@ -120,7 +120,7 @@ async def test_switch_error(
 
 
 async def test_switch_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lametric: MagicMock,
 ) -> None:
     """Test connection error handling of the LaMetric switches."""
@@ -131,7 +131,7 @@ async def test_switch_connection_error(
     assert state.state == STATE_OFF
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="Error communicating with the LaMetric device"
+        UniversalAssistantError, match="Error communicating with the LaMetric device"
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,
@@ -149,7 +149,7 @@ async def test_switch_connection_error(
 
 @pytest.mark.parametrize("device_fixture", ["device_sa5_bluetooth_unavailable"])
 async def test_no_bluetooth_switch_without_bluetooth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test a device without Bluetooth, like a SKY, gets no Bluetooth switch."""
@@ -161,7 +161,7 @@ async def test_no_bluetooth_switch_without_bluetooth(
 
 
 async def test_screensaver(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lametric: MagicMock,
     entity_registry: er.EntityRegistry,
 ) -> None:

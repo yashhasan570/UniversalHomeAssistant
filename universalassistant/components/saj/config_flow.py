@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_TYPE,
     CONF_USERNAME,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.typing import ConfigType
 
 from .const import CONNECTION_TYPES, DOMAIN, INTEGRATION_TITLE
@@ -23,11 +23,11 @@ from .const import CONNECTION_TYPES, DOMAIN, INTEGRATION_TITLE
 _LOGGER = logging.getLogger(__name__)
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(__HAC_KEEP__Error):
+class InvalidAuth(UniversalAssistantError):
     """Error to indicate invalid credentials (config flow)."""
 
 

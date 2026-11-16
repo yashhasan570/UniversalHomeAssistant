@@ -10,7 +10,7 @@ from universalassistant.components.risco.models import CloudData, RiscoData
 from universalassistant.components.risco.services import RiscoService, RiscoServiceArgument
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.util import dt as dt_util
 
@@ -18,7 +18,7 @@ from .conftest import TEST_CLOUD_CONFIG
 
 
 async def test_set_time_service(
-    hass: __HAC_KEEP__, setup_risco_local, local_config_entry
+    hass: UniversalAssistant, setup_risco_local, local_config_entry
 ) -> None:
     """Test the set_time service."""
     with patch("universalassistant.components.risco.RiscoLocal.set_time") as mock:
@@ -38,7 +38,7 @@ async def test_set_time_service(
 
 @pytest.mark.freeze_time("2025-02-21T12:00:00Z")
 async def test_set_time_service_with_no_time(
-    hass: __HAC_KEEP__, setup_risco_local, local_config_entry
+    hass: UniversalAssistant, setup_risco_local, local_config_entry
 ) -> None:
     """Test the set_time service when no time is provided."""
     with patch("universalassistant.components.risco.RiscoLocal.set_time") as mock_set_time:
@@ -54,7 +54,7 @@ async def test_set_time_service_with_no_time(
 
 
 async def test_set_time_service_with_invalid_entry(
-    hass: __HAC_KEEP__, setup_risco_local
+    hass: UniversalAssistant, setup_risco_local
 ) -> None:
     """Test the set_time service with an invalid config entry."""
     data = {
@@ -69,7 +69,7 @@ async def test_set_time_service_with_invalid_entry(
 
 
 async def test_set_time_service_with_not_loaded_entry(
-    hass: __HAC_KEEP__, setup_risco_local, local_config_entry
+    hass: UniversalAssistant, setup_risco_local, local_config_entry
 ) -> None:
     """Test the set_time service with a config entry that is not loaded."""
     await hass.config_entries.async_unload(local_config_entry.entry_id)
@@ -89,7 +89,7 @@ async def test_set_time_service_with_not_loaded_entry(
 
 
 async def test_set_time_service_with_cloud_entry(
-    hass: __HAC_KEEP__, setup_risco_local
+    hass: UniversalAssistant, setup_risco_local
 ) -> None:
     """Test the set_time service with a cloud config entry."""
     cloud_entry = MockConfigEntry(

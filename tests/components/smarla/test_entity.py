@@ -7,7 +7,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration, update_property_listeners
 
@@ -15,7 +15,7 @@ TEST_ENTITY_ID = "switch.smarla"
 
 
 async def test_entity_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_federwiege: MagicMock,
 ) -> None:
@@ -49,7 +49,7 @@ async def test_entity_availability(
 
 
 async def test_entity_unavailable_logging(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
     mock_federwiege: MagicMock,

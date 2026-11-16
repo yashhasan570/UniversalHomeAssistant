@@ -24,8 +24,8 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -42,7 +42,7 @@ def _seed_light_relay_manual(mock_neopool_client: MagicMock) -> None:
     }
 
 
-async def _turn_on(hass: __HAC_KEEP__, entity_id: str) -> None:
+async def _turn_on(hass: UniversalAssistant, entity_id: str) -> None:
     await hass.services.async_call(
         LIGHT_DOMAIN,
         SERVICE_TURN_ON,
@@ -51,7 +51,7 @@ async def _turn_on(hass: __HAC_KEEP__, entity_id: str) -> None:
     )
 
 
-async def _turn_off(hass: __HAC_KEEP__, entity_id: str) -> None:
+async def _turn_off(hass: UniversalAssistant, entity_id: str) -> None:
     await hass.services.async_call(
         LIGHT_DOMAIN,
         SERVICE_TURN_OFF,
@@ -60,7 +60,7 @@ async def _turn_off(hass: __HAC_KEEP__, entity_id: str) -> None:
     )
 
 
-def _light_entity_id(hass: __HAC_KEEP__, entry: MockConfigEntry) -> str:
+def _light_entity_id(hass: UniversalAssistant, entry: MockConfigEntry) -> str:
     registry = er.async_get(hass)
     entries = [
         e
@@ -72,7 +72,7 @@ def _light_entity_id(hass: __HAC_KEEP__, entry: MockConfigEntry) -> str:
 
 
 async def test_light_turn_on_off_writes_via_relay_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_light: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -100,7 +100,7 @@ async def test_light_turn_on_off_writes_via_relay_state(
 
 
 async def test_light_is_on_reflects_relay_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_light: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -140,7 +140,7 @@ async def test_light_is_on_reflects_relay_state(
     ],
 )
 async def test_light_refuses_when_not_in_manual_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_light: MockConfigEntry,
     mock_neopool_client: MagicMock,
     light_enable: int | None,
@@ -186,7 +186,7 @@ async def test_light_refuses_when_not_in_manual_mode(
 
 
 async def test_light_maps_lib_invalid_state_to_service_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_light: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -218,17 +218,17 @@ async def test_light_maps_lib_invalid_state_to_service_validation(
     ],
 )
 async def test_light_maps_communication_error_to_universal_assistant_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_light: MockConfigEntry,
     mock_neopool_client: MagicMock,
     write_error: Exception,
 ) -> None:
-    """Communication errors on write are surfaced as translated __HAC_KEEP__Error."""
+    """Communication errors on write are surfaced as translated UniversalAssistantError."""
     await setup_integration(hass, mock_config_entry_light)
     entity_id = _light_entity_id(hass, mock_config_entry_light)
 
     mock_neopool_client.async_set_relay_state = AsyncMock(side_effect=write_error)
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await _turn_on(hass, entity_id)
     mock_neopool_client.async_set_relay_state.assert_awaited_once_with(
         RelayKind.LIGHT, True
@@ -237,7 +237,7 @@ async def test_light_maps_communication_error_to_universal_assistant_error(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_light_absent_when_option_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -254,7 +254,7 @@ async def test_light_absent_when_option_off(
 
 
 async def test_light_absent_when_gpio_unassigned(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry_light: MockConfigEntry,
     mock_neopool_client: MagicMock,
@@ -278,7 +278,7 @@ async def test_light_absent_when_gpio_unassigned(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry_light: MockConfigEntry,
@@ -292,7 +292,7 @@ async def test_all_entities(
 
 
 async def test_light_write_schedules_follow_up_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_light: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -315,7 +315,7 @@ async def test_light_write_schedules_follow_up_refresh(
 
 
 async def test_light_timer_enable_gates_writes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_light: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:

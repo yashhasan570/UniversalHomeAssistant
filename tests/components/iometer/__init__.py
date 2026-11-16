@@ -6,11 +6,11 @@ from unittest.mock import MagicMock, patch
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def setup_platform(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, platforms: list[Platform]
+    hass: UniversalAssistant, config_entry: MockConfigEntry, platforms: list[Platform]
 ) -> None:
     """Fixture for setting up the IOmeter platform."""
     config_entry.add_to_hass(hass)

@@ -26,7 +26,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     EntityCategory,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -113,7 +113,7 @@ def mock_all(
     ],
 )
 async def test_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id,
     expected,
     entity_registry: er.EntityRegistry,
@@ -163,7 +163,7 @@ async def test_sensor(
 )
 @patch.dict(os.environ, MOCK_ENVIRON)
 async def test_disk_lifetime_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     host_info: AsyncMock,
     disk_life_time: float | None,
@@ -205,7 +205,7 @@ async def test_disk_lifetime_sensor(
 )
 @patch.dict(os.environ, MOCK_ENVIRON)
 async def test_stats_addon_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id,
     expected,
     entity_registry: er.EntityRegistry,
@@ -298,7 +298,7 @@ async def test_stats_addon_sensor(
 )
 @patch.dict(os.environ, MOCK_ENVIRON)
 async def test_stats_addon_sensor_rename(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
     addon_stats: AsyncMock,

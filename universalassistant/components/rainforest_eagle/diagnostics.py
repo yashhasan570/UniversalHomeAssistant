@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONF_CLOUD_ID, CONF_INSTALL_CODE
 from .coordinator import RainforestEagleConfigEntry
@@ -12,7 +12,7 @@ TO_REDACT = {CONF_CLOUD_ID, CONF_INSTALL_CODE}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: RainforestEagleConfigEntry
+    hass: UniversalAssistant, config_entry: RainforestEagleConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return {

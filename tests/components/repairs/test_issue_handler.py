@@ -14,17 +14,17 @@ from universalassistant.components.repairs import (
     RepairsFlowResult,
     repairs_flow_manager,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 import universalassistant.helpers.issue_registry as ir
 
 
 @pytest.fixture(autouse=True)
-async def mock_repairs_integration(hass: __HAC_KEEP__) -> None:
+async def mock_repairs_integration(hass: UniversalAssistant) -> None:
     """Mock a repairs integration."""
     hass.config.components.add("fake_integration")
 
     async def async_create_fix_flow(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         issue_id: str,
         data: dict[str, str | int | float | None] | None,
     ) -> RepairsFlow:
@@ -54,7 +54,7 @@ class MockFixFlowContext(RepairsFlow):
     ],
 )
 async def test_flow_fix_via_data_deprecation(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that a repairs flow's issue_id can be set via data but logs a deprecation."""
 
@@ -90,7 +90,7 @@ async def test_flow_fix_via_data_deprecation(
         ["fake_integration"],
     ],
 )
-async def test_flow_fix_missing_context(hass: __HAC_KEEP__) -> None:
+async def test_flow_fix_missing_context(hass: UniversalAssistant) -> None:
     """Test that KeyError is thrown when context and data is missing."""
 
     assert await async_setup_component(hass, DOMAIN, {})

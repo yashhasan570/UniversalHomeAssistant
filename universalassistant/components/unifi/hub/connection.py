@@ -10,7 +10,7 @@ import aiounifi
 
 from universalassistant.config_entries import SOURCE_REAUTH
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
 from ..const import LOGGER
@@ -75,7 +75,7 @@ class UnifiConnectionManager:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: UnifiConfigEntry,
         api: aiounifi.Controller,
         signal: str,

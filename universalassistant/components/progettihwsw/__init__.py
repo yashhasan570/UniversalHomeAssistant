@@ -6,7 +6,7 @@ from ProgettiHWSW.relay import Relay
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 PLATFORMS = [Platform.BINARY_SENSOR, Platform.SWITCH]
 
@@ -14,7 +14,7 @@ type ProgettiHWSWConfigEntry = ConfigEntry[ProgettiHWSWAPI]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: ProgettiHWSWConfigEntry
+    hass: UniversalAssistant, entry: ProgettiHWSWConfigEntry
 ) -> None:
     """Set up ProgettiHWSW Automation from a config entry."""
     api = ProgettiHWSWAPI(f"{entry.data['host']}:{entry.data['port']}")
@@ -28,7 +28,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: ProgettiHWSWConfigEntry
+    hass: UniversalAssistant, entry: ProgettiHWSWConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

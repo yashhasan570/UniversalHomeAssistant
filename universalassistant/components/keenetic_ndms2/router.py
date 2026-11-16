@@ -9,7 +9,7 @@ from ndms2_client.client import RouterInfo
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -34,7 +34,7 @@ type KeeneticConfigEntry = ConfigEntry[KeeneticRouter]
 class KeeneticRouter:
     """Keenetic client Object."""
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: KeeneticConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: KeeneticConfigEntry) -> None:
         """Initialize the Client."""
         self.hass = hass
         self.config_entry = config_entry

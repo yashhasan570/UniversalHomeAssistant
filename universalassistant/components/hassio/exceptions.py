@@ -1,7 +1,7 @@
 """Exceptions for the Hassio integration."""
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 
-class HassioNotReadyError(__HAC_KEEP__Error):
+class HassioNotReadyError(UniversalAssistantError):
     """Raised when Hassio data is not yet available."""

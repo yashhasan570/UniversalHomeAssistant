@@ -13,7 +13,7 @@ from universalassistant import config_entries
 from universalassistant.components import hue
 from universalassistant.components.hue import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 from universalassistant.util.json import JsonArrayType
@@ -46,7 +46,7 @@ def mock_bridge_setup():
         yield mock_bridge.return_value
 
 
-async def test_setup_with_no_config(hass: __HAC_KEEP__) -> None:
+async def test_setup_with_no_config(hass: UniversalAssistant) -> None:
     """Test that we do not discover anything or try to set up a bridge."""
     assert await async_setup_component(hass, hue.DOMAIN, {}) is True
 
@@ -57,7 +57,7 @@ async def test_setup_with_no_config(hass: __HAC_KEEP__) -> None:
     assert not hass.config_entries.async_entries(hue.DOMAIN)
 
 
-async def test_unload_entry(hass: __HAC_KEEP__, mock_bridge_setup) -> None:
+async def test_unload_entry(hass: UniversalAssistant, mock_bridge_setup) -> None:
     """Test being able to unload an entry."""
     entry = MockConfigEntry(
         domain=hue.DOMAIN,
@@ -81,7 +81,7 @@ async def test_unload_entry(hass: __HAC_KEEP__, mock_bridge_setup) -> None:
 
 
 async def test_unload_entry_failed(
-    hass: __HAC_KEEP__, mock_bridge_setup: Mock
+    hass: UniversalAssistant, mock_bridge_setup: Mock
 ) -> None:
     """Test unloading fails when the bridge cannot be reset."""
     entry = MockConfigEntry(
@@ -101,7 +101,7 @@ async def test_unload_entry_failed(
     assert entry.reason == "Failed to unload the Hue bridge"
 
 
-async def test_setting_unique_id(hass: __HAC_KEEP__, mock_bridge_setup) -> None:
+async def test_setting_unique_id(hass: UniversalAssistant, mock_bridge_setup) -> None:
     """Test we set unique ID if not set yet."""
     entry = MockConfigEntry(
         domain=hue.DOMAIN,
@@ -114,7 +114,7 @@ async def test_setting_unique_id(hass: __HAC_KEEP__, mock_bridge_setup) -> None:
 
 
 async def test_fixing_unique_id_no_other(
-    hass: __HAC_KEEP__, mock_bridge_setup
+    hass: UniversalAssistant, mock_bridge_setup
 ) -> None:
     """Test we set unique ID if not set yet."""
     entry = MockConfigEntry(
@@ -129,7 +129,7 @@ async def test_fixing_unique_id_no_other(
 
 
 async def test_fixing_unique_id_other_ignored(
-    hass: __HAC_KEEP__, mock_bridge_setup
+    hass: UniversalAssistant, mock_bridge_setup
 ) -> None:
     """Test we set unique ID if not set yet."""
     MockConfigEntry(
@@ -153,7 +153,7 @@ async def test_fixing_unique_id_other_ignored(
 
 
 async def test_fixing_unique_id_other_correct(
-    hass: __HAC_KEEP__, mock_bridge_setup
+    hass: UniversalAssistant, mock_bridge_setup
 ) -> None:
     """Test we remove config entry if another one has correct ID."""
     correct_entry = MockConfigEntry(
@@ -176,7 +176,7 @@ async def test_fixing_unique_id_other_correct(
 
 
 async def test_fixing_unique_id_other_correct_setup_error(
-    hass: __HAC_KEEP__, mock_bridge_setup
+    hass: UniversalAssistant, mock_bridge_setup
 ) -> None:
     """Test setup error reason when another entry has the correct ID."""
     MockConfigEntry(
@@ -205,7 +205,7 @@ async def test_fixing_unique_id_other_correct_setup_error(
 
 
 async def test_bridge_initialization_failed(
-    hass: __HAC_KEEP__, mock_bridge_setup
+    hass: UniversalAssistant, mock_bridge_setup
 ) -> None:
     """Test setup fails when the bridge can't be initialized."""
     mock_bridge_setup.async_initialize_bridge.return_value = False
@@ -223,7 +223,7 @@ async def test_bridge_initialization_failed(
     assert entry.reason == "Failed to set up the Hue bridge at 0.0.0.0"
 
 
-async def test_security_vuln_check(hass: __HAC_KEEP__) -> None:
+async def test_security_vuln_check(hass: UniversalAssistant) -> None:
     """Test that we report security vulnerabilities."""
     entry = MockConfigEntry(
         domain=hue.DOMAIN, data={"host": "0.0.0.0", "api_version": 1}
@@ -262,7 +262,7 @@ async def test_security_vuln_check(hass: __HAC_KEEP__) -> None:
 
 
 async def test_zigbee_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,

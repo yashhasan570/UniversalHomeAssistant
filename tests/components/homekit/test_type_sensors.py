@@ -42,11 +42,11 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     UnitOfTemperature,
 )
-from universalassistant.core import CoreState, __HAC_KEEP__
+from universalassistant.core import CoreState, UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
-async def test_temperature(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_temperature(hass: UniversalAssistant, hk_driver) -> None:
     """Test if accessory is updated after state change."""
     entity_id = "sensor.temperature"
 
@@ -90,7 +90,7 @@ async def test_temperature(hass: __HAC_KEEP__, hk_driver) -> None:
         assert mock_reload.called
 
 
-async def test_humidity(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_humidity(hass: UniversalAssistant, hk_driver) -> None:
     """Test if accessory is updated after state change."""
     entity_id = "sensor.humidity"
 
@@ -118,7 +118,7 @@ async def test_humidity(hass: __HAC_KEEP__, hk_driver) -> None:
     assert acc.char_humidity.value == 0
 
 
-async def test_air_quality(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_air_quality(hass: UniversalAssistant, hk_driver) -> None:
     """Test if accessory is updated after state change."""
     entity_id = "sensor.air_quality"
 
@@ -150,7 +150,7 @@ async def test_air_quality(hass: __HAC_KEEP__, hk_driver) -> None:
     assert acc.char_quality.value == 5
 
 
-async def test_pm10(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_pm10(hass: UniversalAssistant, hk_driver) -> None:
     """Test if accessory is updated after state change."""
     entity_id = "sensor.air_quality_pm10"
 
@@ -197,7 +197,7 @@ async def test_pm10(hass: __HAC_KEEP__, hk_driver) -> None:
     assert acc.char_quality.value == 5
 
 
-async def test_pm25(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_pm25(hass: UniversalAssistant, hk_driver) -> None:
     """Test if accessory is updated after state change."""
     entity_id = "sensor.air_quality_pm25"
 
@@ -254,7 +254,7 @@ async def test_pm25(hass: __HAC_KEEP__, hk_driver) -> None:
     assert acc.char_quality.value == 5
 
 
-async def test_no2(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_no2(hass: UniversalAssistant, hk_driver) -> None:
     """Test if accessory is updated after state change."""
     entity_id = "sensor.air_quality_nitrogen_dioxide"
 
@@ -303,7 +303,7 @@ async def test_no2(hass: __HAC_KEEP__, hk_driver) -> None:
     assert acc.char_quality.value == 5
 
 
-async def test_voc(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_voc(hass: UniversalAssistant, hk_driver) -> None:
     """Test if accessory is updated after state change."""
     entity_id = "sensor.air_quality_volatile_organic_compounds"
 
@@ -376,7 +376,7 @@ async def test_voc(hass: __HAC_KEEP__, hk_driver) -> None:
     ],
 )
 async def test_gas_concentration_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hk_driver: HomeDriver,
     accessory_cls: type[GasConcentrationSensor],
     unit: str | None,
@@ -404,7 +404,7 @@ async def test_gas_concentration_sensor(
     assert acc.char_quality.value == air_quality
 
 
-async def test_co(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_co(hass: UniversalAssistant, hk_driver) -> None:
     """Test if accessory is updated after state change."""
     entity_id = "sensor.co"
 
@@ -444,7 +444,7 @@ async def test_co(hass: __HAC_KEEP__, hk_driver) -> None:
     assert acc.char_detected.value == 0
 
 
-async def test_co_with_configured_threshold(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_co_with_configured_threshold(hass: UniversalAssistant, hk_driver) -> None:
     """Test if co threshold of accessory can be configured ."""
     entity_id = "sensor.co"
 
@@ -472,7 +472,7 @@ async def test_co_with_configured_threshold(hass: __HAC_KEEP__, hk_driver) -> No
     assert acc.char_detected.value == 0
 
 
-async def test_co2(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_co2(hass: UniversalAssistant, hk_driver) -> None:
     """Test if accessory is updated after state change."""
     entity_id = "sensor.co2"
 
@@ -512,7 +512,7 @@ async def test_co2(hass: __HAC_KEEP__, hk_driver) -> None:
     assert acc.char_detected.value == 0
 
 
-async def test_co2_with_configured_threshold(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_co2_with_configured_threshold(hass: UniversalAssistant, hk_driver) -> None:
     """Test if co2 threshold of accessory can be configured ."""
     entity_id = "sensor.co2"
 
@@ -540,7 +540,7 @@ async def test_co2_with_configured_threshold(hass: __HAC_KEEP__, hk_driver) -> N
     assert acc.char_detected.value == 0
 
 
-async def test_light(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_light(hass: UniversalAssistant, hk_driver) -> None:
     """Test if accessory is updated after state change."""
     entity_id = "sensor.light"
 
@@ -568,7 +568,7 @@ async def test_light(hass: __HAC_KEEP__, hk_driver) -> None:
     assert acc.char_light.value == 0.0001
 
 
-async def test_binary(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_binary(hass: UniversalAssistant, hk_driver) -> None:
     """Test if accessory is updated after state change."""
     entity_id = "binary_sensor.opening"
 
@@ -605,7 +605,7 @@ async def test_binary(hass: __HAC_KEEP__, hk_driver) -> None:
     assert acc.char_detected.value == 0
 
 
-async def test_motion_uses_bool(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_motion_uses_bool(hass: UniversalAssistant, hk_driver) -> None:
     """Test if accessory is updated after state change."""
     entity_id = "binary_sensor.motion"
 
@@ -654,7 +654,7 @@ async def test_motion_uses_bool(hass: __HAC_KEEP__, hk_driver) -> None:
     assert acc.char_detected.value is False
 
 
-async def test_binary_device_classes(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_binary_device_classes(hass: UniversalAssistant, hk_driver) -> None:
     """Test if services and characteristics are assigned correctly."""
     entity_id = "binary_sensor.demo"
     aid = 1
@@ -670,7 +670,7 @@ async def test_binary_device_classes(hass: __HAC_KEEP__, hk_driver) -> None:
 
 
 async def test_sensor_restore(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, hk_driver
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, hk_driver
 ) -> None:
     """Test setting up an entity from state in the event registry."""
     hass.set_state(CoreState.not_running)
@@ -700,7 +700,7 @@ async def test_sensor_restore(
     assert acc.category == 10
 
 
-async def test_bad_name(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_bad_name(hass: UniversalAssistant, hk_driver) -> None:
     """Test an entity with a bad name."""
     entity_id = "sensor.humidity"
 
@@ -717,7 +717,7 @@ async def test_bad_name(hass: __HAC_KEEP__, hk_driver) -> None:
     assert acc.display_name == "Humid"
 
 
-async def test_empty_name(hass: __HAC_KEEP__, hk_driver) -> None:
+async def test_empty_name(hass: UniversalAssistant, hk_driver) -> None:
     """Test an entity with a empty name."""
     entity_id = "sensor.humidity"
 

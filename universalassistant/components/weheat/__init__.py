@@ -8,7 +8,7 @@ from weheat.abstractions.discovery import HeatPumpDiscovery
 from weheat.exceptions import UnauthorizedException
 
 from universalassistant.const import CONF_ACCESS_TOKEN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.config_entry_oauth2_flow import (
@@ -28,7 +28,7 @@ from .coordinator import (
 PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: WeheatConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: WeheatConfigEntry) -> None:
     """Set up Weheat from a config entry."""
     implementation = await async_get_config_entry_implementation(hass, entry)
 
@@ -92,6 +92,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: WeheatConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: WeheatConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: WeheatConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

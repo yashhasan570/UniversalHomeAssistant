@@ -5,14 +5,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.bluetooth import DOMAIN as BLUETOOTH_DOMAIN
 from universalassistant.components.ruuvi_gateway.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from .consts import BASE_DATA, EXPECTED_TITLE, GATEWAY_MAC, GATEWAY_MAC_LOWER
 
 
 async def test_scanner_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test the scanner gets a device entry that can hold an area."""
@@ -41,7 +41,7 @@ async def test_scanner_device(
 
 
 async def test_scanner_removed_with_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test removing the entry also removes the scanner's Bluetooth entry."""
     entry = MockConfigEntry(

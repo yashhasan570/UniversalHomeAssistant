@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.minecraft_server.api import MinecraftServerType
 from universalassistant.const import CONF_TYPE, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_registry import EntityRegistry
 
@@ -95,7 +95,7 @@ BEDROCK_SENSOR_ENTITIES_DISABLED_BY_DEFAULT: list[str] = [
     ],
 )
 async def test_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: str,
     server: JavaServer | BedrockServer | LegacyServer,
     lookup_function_name: str,
@@ -157,7 +157,7 @@ async def test_sensor(
     ],
 )
 async def test_sensor_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: str,
     server: JavaServer | BedrockServer | LegacyServer,
     lookup_function_name: str,
@@ -219,7 +219,7 @@ async def test_sensor_disabled_by_default(
     ],
 )
 async def test_sensor_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: str,
     server: JavaServer | BedrockServer | LegacyServer,
     lookup_function_name: str,
@@ -286,7 +286,7 @@ async def test_sensor_update(
     ],
 )
 async def test_sensor_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: str,
     server: JavaServer | BedrockServer | LegacyServer,
     lookup_function_name: str,
@@ -343,7 +343,7 @@ async def test_sensor_update_failure(
     ids=["java", "legacy_java"],
 )
 async def test_sensor_entities_removed_when_edition_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     bedrock_mock_config_entry: MockConfigEntry,
     server_type: MinecraftServerType,

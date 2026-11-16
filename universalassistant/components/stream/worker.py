@@ -19,7 +19,7 @@ import av.container
 from av.container import InputContainer
 import av.stream
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from . import redact_credentials
@@ -68,7 +68,7 @@ class StreamState:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         outputs_callback: Callable[[], Mapping[str, StreamOutput]],
         diagnostics: Diagnostics,
     ) -> None:
@@ -134,7 +134,7 @@ class StreamMuxer:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         video_stream: av.VideoStream,
         audio_stream: av.audio.AudioStream | None,
         audio_bsf: str | None,
@@ -183,7 +183,7 @@ class StreamMuxer:
         """Make a new av OutputContainer and add output streams."""
         container_options: dict[str, str] = {
             # Removed skip_sidx - see:
-            # https://github.com/yashhasan570/__HAC_KEEP__/pull/39970
+            # https://github.com/yashhasan570/UniversalUniversalAssistant/pull/39970
             # "cmaf" flag replaces several of the movflags used,
             # but too recent to use for now
             "movflags": (

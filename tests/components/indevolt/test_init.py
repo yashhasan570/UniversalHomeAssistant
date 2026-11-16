@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.indevolt.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC
 
@@ -17,7 +17,7 @@ from .conftest import DEVICE_MAPPING, TEST_DEVICE_SN_GEN2
 
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_load_unload(
-    hass: __HAC_KEEP__, mock_indevolt: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_indevolt: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setting up and removing a config entry."""
     await setup_integration(hass, mock_config_entry)
@@ -35,7 +35,7 @@ async def test_load_unload(
 
 @pytest.mark.parametrize("generation", [1, 2], indirect=True)
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
     generation: int,
@@ -60,7 +60,7 @@ async def test_device_info(
 
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_load_failure(
-    hass: __HAC_KEEP__, mock_indevolt: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_indevolt: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup failure when coordinator update fails."""
     # Simulate timeout error during coordinator initialization
@@ -76,7 +76,7 @@ async def test_load_failure(
 
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_migrate_main_heating_state_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_indevolt: AsyncMock,
     mock_config_entry_v1_1: MockConfigEntry,

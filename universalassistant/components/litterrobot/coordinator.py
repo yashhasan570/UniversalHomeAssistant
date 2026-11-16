@@ -10,7 +10,7 @@ from pylitterbot.exceptions import LitterRobotException, LitterRobotLoginExcepti
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -31,7 +31,7 @@ class LitterRobotDataUpdateCoordinator(DataUpdateCoordinator[None]):
     config_entry: LitterRobotConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: LitterRobotConfigEntry
+        self, hass: UniversalAssistant, config_entry: LitterRobotConfigEntry
     ) -> None:
         """Initialize the Litter-Robot data update coordinator."""
         super().__init__(

@@ -8,7 +8,7 @@ from epicstore_api import EpicGamesStoreAPI
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_COUNTRY, CONF_LANGUAGE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import DOMAIN, CalendarType
@@ -26,7 +26,7 @@ class EGSCalendarUpdateCoordinator(
 ):
     """Class to manage fetching data from the Epic Game Store."""
 
-    def __init__(self, hass: __HAC_KEEP__, entry: EGSConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: EGSConfigEntry) -> None:
         """Initialize."""
         self._api = EpicGamesStoreAPI(
             entry.data[CONF_LANGUAGE],

@@ -5,10 +5,10 @@ from unittest.mock import patch
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.dyson_infrared import PLATFORMS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def test_async_setup_entry(hass: __HAC_KEEP__) -> None:
+async def test_async_setup_entry(hass: UniversalAssistant) -> None:
     """Test setting up the Dyson Infrared config entry."""
     entry = MockConfigEntry(domain="dyson_infrared")
     entry.add_to_hass(hass)
@@ -22,7 +22,7 @@ async def test_async_setup_entry(hass: __HAC_KEEP__) -> None:
         mock_forward.assert_called_once_with(entry, PLATFORMS)
 
 
-async def test_async_unload_entry(hass: __HAC_KEEP__) -> None:
+async def test_async_unload_entry(hass: UniversalAssistant) -> None:
     """Test unloading a config entry forwards unload to platforms."""
     entry = MockConfigEntry(domain="dyson_infrared")
     entry.add_to_hass(hass)

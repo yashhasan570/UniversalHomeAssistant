@@ -12,7 +12,7 @@ from pytest_universalassistant.components.bluetooth import (
     patch_bleak_backend_type,
 )
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 MOCK_BLE_DEVICE = generate_ble_device(
     "00:00:00:00:00:00",
@@ -21,7 +21,7 @@ MOCK_BLE_DEVICE = generate_ble_device(
 )
 
 
-async def test_multiple_bleak_scanner_instances(hass: __HAC_KEEP__) -> None:
+async def test_multiple_bleak_scanner_instances(hass: UniversalAssistant) -> None:
     """Test creating multiple BleakScanners without an integration."""
     install_multiple_bleak_catcher()
 
@@ -38,7 +38,7 @@ async def test_multiple_bleak_scanner_instances(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_wrapping_bleak_client(hass: __HAC_KEEP__) -> None:
+async def test_wrapping_bleak_client(hass: UniversalAssistant) -> None:
     """Test we wrap BleakClient."""
     install_multiple_bleak_catcher()
 

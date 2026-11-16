@@ -11,7 +11,7 @@ from openai.types.chat import ChatCompletionUserMessageParam
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.httpx_client import get_async_client
 
@@ -22,7 +22,7 @@ PLATFORMS = [Platform.CONVERSATION]
 type OVHcloudAIEndpointsConfigEntry = ConfigEntry[AsyncOpenAI]
 
 
-def _create_client(hass: __HAC_KEEP__, api_key: str) -> AsyncOpenAI:
+def _create_client(hass: UniversalAssistant, api_key: str) -> AsyncOpenAI:
     """Create the AsyncOpenAI client used by this integration."""
     return AsyncOpenAI(
         base_url=BASE_URL,
@@ -51,7 +51,7 @@ async def _validate_api_key(client: AsyncOpenAI) -> None:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: OVHcloudAIEndpointsConfigEntry
+    hass: UniversalAssistant, entry: OVHcloudAIEndpointsConfigEntry
 ) -> None:
     """Set up OVHcloud AI Endpoints from a config entry."""
     client = _create_client(hass, entry.data[CONF_API_KEY])
@@ -71,14 +71,14 @@ async def async_setup_entry(
 
 
 async def async_update_entry(
-    hass: __HAC_KEEP__, entry: OVHcloudAIEndpointsConfigEntry
+    hass: UniversalAssistant, entry: OVHcloudAIEndpointsConfigEntry
 ) -> None:
     """Reload the entry when its data or subentries change."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: OVHcloudAIEndpointsConfigEntry
+    hass: UniversalAssistant, entry: OVHcloudAIEndpointsConfigEntry
 ) -> None:
     """Unload OVHcloud AI Endpoints."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

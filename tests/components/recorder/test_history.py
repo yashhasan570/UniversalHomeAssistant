@@ -32,7 +32,7 @@ from universalassistant.components.recorder.db_schema import (
 from universalassistant.components.recorder.filters import Filters
 from universalassistant.components.recorder.models import process_timestamp
 from universalassistant.components.recorder.util import session_scope
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.json import JSONEncoder
 from universalassistant.util import dt as dt_util
 
@@ -68,7 +68,7 @@ def setup_recorder(recorder_mock: Recorder) -> recorder.Recorder:
 
 
 async def test_get_full_significant_states_with_session_entity_no_matches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test getting states for entities that never have been recorded."""
     now = dt_util.utcnow()
@@ -93,7 +93,7 @@ async def test_get_full_significant_states_with_session_entity_no_matches(
 
 
 async def test_significant_states_with_session_entity_minimal_response_no_matches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test getting states for entities that never have been recorded."""
     now = dt_util.utcnow()
@@ -124,7 +124,7 @@ async def test_significant_states_with_session_entity_minimal_response_no_matche
 
 
 async def test_significant_states_with_session_single_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test get_significant_states_with_session with a single entity."""
     hass.states.async_set("demo.id", "any", {"attr": True})
@@ -153,7 +153,7 @@ async def test_significant_states_with_session_single_entity(
     ],
 )
 async def test_state_changes_during_period(
-    hass: __HAC_KEEP__, attributes, no_attributes, limit
+    hass: UniversalAssistant, attributes, no_attributes, limit
 ) -> None:
     """Test state change during period."""
     entity_id = "media_player.test"
@@ -207,7 +207,7 @@ async def test_state_changes_during_period(
     ],
 )
 async def test_state_changes_during_period_limited_order(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     offsets: list[int],
     no_attributes: bool,
     include_start_time_state: bool,
@@ -242,7 +242,7 @@ async def test_state_changes_during_period_limited_order(
 
 
 async def test_state_changes_during_period_last_reported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test state change during period."""
     entity_id = "media_player.test"
@@ -276,7 +276,7 @@ async def test_state_changes_during_period_last_reported(
 
 
 async def test_state_changes_during_period_descending(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test state change during period descending."""
     entity_id = "media_player.test"
@@ -378,7 +378,7 @@ async def test_state_changes_during_period_descending(
     )
 
 
-async def test_get_last_state_changes(hass: __HAC_KEEP__) -> None:
+async def test_get_last_state_changes(hass: UniversalAssistant) -> None:
     """Test number of state changes."""
     entity_id = "sensor.test"
 
@@ -408,7 +408,7 @@ async def test_get_last_state_changes(hass: __HAC_KEEP__) -> None:
 
 
 async def test_get_last_state_changes_last_reported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test number of state changes."""
     entity_id = "sensor.test"
@@ -438,7 +438,7 @@ async def test_get_last_state_changes_last_reported(
     assert_multiple_states_equal_without_context(states, hist[entity_id])
 
 
-async def test_get_last_state_change(hass: __HAC_KEEP__) -> None:
+async def test_get_last_state_change(hass: UniversalAssistant) -> None:
     """Test getting the last state change for an entity."""
     entity_id = "sensor.test"
 
@@ -468,7 +468,7 @@ async def test_get_last_state_change(hass: __HAC_KEEP__) -> None:
 
 
 async def test_ensure_state_can_be_copied(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Ensure a state can pass though copy().
 
@@ -499,7 +499,7 @@ async def test_ensure_state_can_be_copied(
 
 
 @pytest.mark.usefixtures("multiple_start_time_chunk_sizes")
-async def test_get_significant_states(hass: __HAC_KEEP__) -> None:
+async def test_get_significant_states(hass: UniversalAssistant) -> None:
     """Test that only significant states are returned.
 
     We should get back every thermostat change that
@@ -531,7 +531,7 @@ async def test_get_significant_states(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_stream_error_falls_back(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     get_states: Any,
 ) -> None:
@@ -557,7 +557,7 @@ async def test_stream_error_falls_back(
 
 @pytest.mark.usefixtures("multiple_start_time_chunk_sizes")
 async def test_get_significant_states_minimal_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that only significant states are returned.
 
@@ -628,7 +628,7 @@ async def test_get_significant_states_minimal_response(
 @pytest.mark.usefixtures("multiple_start_time_chunk_sizes")
 @pytest.mark.parametrize("time_zone", ["Europe/Berlin", "US/Hawaii", "UTC"])
 async def test_get_significant_states_with_initial(
-    time_zone, hass: __HAC_KEEP__
+    time_zone, hass: UniversalAssistant
 ) -> None:
     """Test that only significant states are returned.
 
@@ -660,7 +660,7 @@ async def test_get_significant_states_with_initial(
 
 @pytest.mark.usefixtures("multiple_start_time_chunk_sizes")
 async def test_get_significant_states_without_initial(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that only significant states are returned.
 
@@ -695,7 +695,7 @@ async def test_get_significant_states_without_initial(
 
 @pytest.mark.usefixtures("multiple_start_time_chunk_sizes")
 async def test_get_significant_states_entity_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that only significant states are returned for one entity."""
     zero, four, states = record_states(hass)
@@ -714,7 +714,7 @@ async def test_get_significant_states_entity_id(
 
 @pytest.mark.usefixtures("multiple_start_time_chunk_sizes")
 async def test_get_significant_states_multiple_entity_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that only significant states are returned for one entity."""
     zero, four, states = record_states(hass)
@@ -736,7 +736,7 @@ async def test_get_significant_states_multiple_entity_ids(
 
 
 async def test_get_significant_states_are_ordered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test order of results from get_significant_states.
 
@@ -755,7 +755,7 @@ async def test_get_significant_states_are_ordered(
 
 
 async def test_get_significant_states_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test significant states when significant_states_only is set."""
     entity_id = "sensor.test"
@@ -817,7 +817,7 @@ async def test_get_significant_states_only(
 
 
 async def test_get_significant_states_only_minimal_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test significant states when significant_states_only is True."""
     now = dt_util.utcnow()
@@ -844,7 +844,7 @@ async def test_get_significant_states_only_minimal_response(
 
 
 def record_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> tuple[datetime, datetime, dict[str, list[State]]]:
     """Record some test states.
 
@@ -929,7 +929,7 @@ def record_states(
 
 
 async def test_get_full_significant_states_handles_empty_last_changed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test getting states when last_changed is null."""
     now = dt_util.utcnow()
@@ -1024,7 +1024,7 @@ async def test_get_full_significant_states_handles_empty_last_changed(
 
 
 async def test_state_changes_during_period_multiple_entities_single_test(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test state change during period with multiple entities in the same test.
 
@@ -1047,7 +1047,7 @@ async def test_state_changes_during_period_multiple_entities_single_test(
 
 @pytest.mark.freeze_time("2039-01-19 03:14:07.555555-00:00")
 async def test_get_full_significant_states_past_year_2038(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test we can store times past year 2038."""
     past_2038_time = dt_util.parse_datetime("2039-01-19 03:14:07.555555-00:00")
@@ -1080,7 +1080,7 @@ async def test_get_full_significant_states_past_year_2038(
 
 
 async def test_get_significant_states_without_entity_ids_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test at least one entity id is required for get_significant_states."""
     now = dt_util.utcnow()
@@ -1089,7 +1089,7 @@ async def test_get_significant_states_without_entity_ids_raises(
 
 
 async def test_state_changes_during_period_without_entity_ids_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test at least one entity id is required for state_changes_during_period."""
     now = dt_util.utcnow()
@@ -1098,7 +1098,7 @@ async def test_state_changes_during_period_without_entity_ids_raises(
 
 
 async def test_get_significant_states_with_filters_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test passing filters is no longer supported."""
     now = dt_util.utcnow()
@@ -1109,7 +1109,7 @@ async def test_get_significant_states_with_filters_raises(
 
 
 async def test_get_significant_states_with_non_existent_entity_ids_returns_empty(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test get_significant_states returns an empty dict when entities not in the db."""
     now = dt_util.utcnow()
@@ -1117,7 +1117,7 @@ async def test_get_significant_states_with_non_existent_entity_ids_returns_empty
 
 
 async def test_state_changes_during_period_with_non_existent_entity_ids_returns_empty(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test state_changes_during_period with non-existent entities."""
     now = dt_util.utcnow()
@@ -1127,7 +1127,7 @@ async def test_state_changes_during_period_with_non_existent_entity_ids_returns_
 
 
 async def test_get_last_state_changes_with_non_existent_entity_ids_returns_empty(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test get_last_state_changes returns an empty dict when entities not in the db."""
     assert history.get_last_state_changes(hass, 1, "nonexistent.entity") == {}

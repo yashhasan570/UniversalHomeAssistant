@@ -5,7 +5,7 @@ from datetime import timedelta
 import probatio
 
 from universalassistant.const import CONF_DOMAIN, CONF_TTL, CONF_ZONE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.event import track_time_interval
 from universalassistant.helpers.typing import ConfigType
@@ -40,7 +40,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Route53 component."""
     domain_config = config[DOMAIN]
     data = hass.data[DATA_ROUTE53] = Route53Data(

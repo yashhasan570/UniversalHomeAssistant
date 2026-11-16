@@ -12,8 +12,8 @@ from universalassistant.components.notify import (
 )
 from universalassistant.components.webostv import DOMAIN
 from universalassistant.components.webostv.const import ATTR_ICON
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.setup import async_setup_component
 from universalassistant.util import slugify
 
@@ -25,7 +25,7 @@ MESSAGE = "one, two, testing, testing"
 SERVICE_NAME = slugify(TV_NAME)
 
 
-async def test_notify(hass: __HAC_KEEP__, client) -> None:
+async def test_notify(hass: UniversalAssistant, client) -> None:
     """Test sending a message."""
     await setup_webostv(hass)
     assert hass.services.has_service(NOTIFY_DOMAIN, SERVICE_NAME)
@@ -94,7 +94,7 @@ async def test_notify(hass: __HAC_KEEP__, client) -> None:
     ],
 )
 async def test_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client,
     is_on: bool,
     exception: Exception,
@@ -107,7 +107,7 @@ async def test_errors(
     assert hass.services.has_service("notify", SERVICE_NAME)
 
     client.send_message.side_effect = exception
-    with pytest.raises(__HAC_KEEP__Error, match=error_message):
+    with pytest.raises(UniversalAssistantError, match=error_message):
         await hass.services.async_call(
             NOTIFY_DOMAIN,
             SERVICE_NAME,
@@ -124,7 +124,7 @@ async def test_errors(
 
 
 async def test_no_discovery_info(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setup without discovery info."""
     assert NOTIFY_DOMAIN not in hass.config.components

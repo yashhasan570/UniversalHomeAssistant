@@ -50,8 +50,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 
@@ -84,7 +84,7 @@ def mock_token() -> Generator[MagicMock]:
     ids=["app", "idle", "livetvapp"],
 )
 async def test_media_players(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -115,7 +115,7 @@ async def test_media_players(
 
 
 async def test_media_player_added_before_console_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     xbox_live_client: AsyncMock,
@@ -165,7 +165,7 @@ async def test_media_player_added_before_console_status(
 
 
 async def test_media_player_unavailable_on_failed_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     xbox_live_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -200,7 +200,7 @@ async def test_media_player_unavailable_on_failed_update(
 
 @pytest.mark.usefixtures("xbox_live_client")
 async def test_browse_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     hass_ws_client: WebSocketGenerator,
@@ -286,7 +286,7 @@ async def test_browse_media(
     ],
 )
 async def test_media_player_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     xbox_live_client: AsyncMock,
     config_entry: MockConfigEntry,
     service: str,
@@ -358,7 +358,7 @@ async def test_media_player_actions(
     ],
 )
 async def test_media_player_action_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     xbox_live_client: AsyncMock,
     config_entry: MockConfigEntry,
     service: str,
@@ -385,7 +385,7 @@ async def test_media_player_action_exceptions(
 
     getattr(xbox_live_client.smartglass, call_method).side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error) as e:
+    with pytest.raises(UniversalAssistantError) as e:
         await hass.services.async_call(
             MEDIA_PLAYER_DOMAIN,
             service,
@@ -396,7 +396,7 @@ async def test_media_player_action_exceptions(
 
 
 async def test_media_player_turn_on_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     xbox_live_client: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -414,7 +414,7 @@ async def test_media_player_turn_on_failed(
         )  # type: ignore[reportArgumentType]
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as e:
+    with pytest.raises(UniversalAssistantError) as e:
         await hass.services.async_call(
             MEDIA_PLAYER_DOMAIN,
             SERVICE_TURN_ON,

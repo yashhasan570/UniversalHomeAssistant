@@ -2,13 +2,13 @@
 
 from universalassistant.components import notify
 from universalassistant.components.telegram.notify import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
 
 async def test_integration_removed_issue(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test a YAML notify configuration raises the integration removed issue."""
     assert await async_setup_component(

@@ -5,7 +5,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, CONF_UNIQUE_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import MelCloudHomeConfigEntry
 
@@ -21,7 +21,7 @@ TO_REDACT = [
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: MelCloudHomeConfigEntry
+    hass: UniversalAssistant, config_entry: MelCloudHomeConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a MELCloud Home config entry."""
 

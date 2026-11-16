@@ -1,4 +1,4 @@
-"""__HA_KEEP__ component for accessing the Wallbox Portal API select."""
+"""Universal Home Assistant component for accessing the Wallbox Portal API select."""
 
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
@@ -7,8 +7,8 @@ from typing import override
 from requests import HTTPError
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -55,7 +55,7 @@ SELECT_TYPES: dict[str, WallboxSelectEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: WallboxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -106,7 +106,7 @@ class WallboxSelect(WallboxEntity, SelectEntity):
         try:
             await self.entity_description.select_option_fn(self.coordinator, option)
         except (ConnectionError, HTTPError) as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_key="api_failed", translation_domain=DOMAIN
             ) from e
         await self.coordinator.async_request_refresh()

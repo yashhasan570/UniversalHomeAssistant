@@ -1,4 +1,4 @@
-"""Bridge between emulated_roku and __HA_KEEP__."""
+"""Bridge between emulated_roku and Universal Home Assistant."""
 
 import logging
 
@@ -10,7 +10,7 @@ from universalassistant.core import (
     CoreState,
     Event,
     EventOrigin,
-    __HAC_KEEP__,
+    UniversalAssistant,
 )
 
 LOGGER = logging.getLogger(__package__)
@@ -33,7 +33,7 @@ class EmulatedRoku:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry_id: str,
         name: str,
         host_ip: str,
@@ -66,7 +66,7 @@ class EmulatedRoku:
         class EventCommandHandler(EmulatedRokuCommandHandler):
             """emulated_roku command handler to turn commands into events."""
 
-            def __init__(self, hass: __HAC_KEEP__) -> None:
+            def __init__(self, hass: UniversalAssistant) -> None:
                 self.hass = hass
 
             def on_keydown(self, roku_usn: str, key: str) -> None:

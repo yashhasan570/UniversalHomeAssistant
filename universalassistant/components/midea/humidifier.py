@@ -13,7 +13,7 @@ from universalassistant.components.humidifier import (
     HumidifierEntityDescription,
     HumidifierEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import MideaConfigEntry, MideaEntity, midea_api_call
@@ -47,7 +47,7 @@ HUMIDIFIERS: list[MideaHumidifierEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MideaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -7,7 +7,7 @@ from python_dropbox_api import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.config_entry_oauth2_flow import (
@@ -21,7 +21,7 @@ from .const import DATA_BACKUP_AGENT_LISTENERS, DOMAIN, OAUTH2_SCOPES
 type DropboxConfigEntry = ConfigEntry[DropboxAPIClient]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: DropboxConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: DropboxConfigEntry) -> None:
     """Set up Dropbox from a config entry."""
     oauth2_implementation = await async_get_config_entry_implementation(hass, entry)
 
@@ -67,5 +67,5 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: DropboxConfigEntry) -> No
     entry.async_on_unload(entry.async_on_state_change(async_notify_backup_listeners))
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: DropboxConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: DropboxConfigEntry) -> None:
     """Unload a config entry."""

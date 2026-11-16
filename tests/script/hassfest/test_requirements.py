@@ -338,10 +338,10 @@ def test_check_dependency_file_names(integration: Integration) -> None:
 
 @pytest.fixture
 def core_config(tmp_path: Path) -> Generator[Config]:
-    """Fixture for a Config pointing at a stubbed __HA_KEEP__ checkout."""
+    """Fixture for a Config pointing at a stubbed Universal Home Assistant checkout."""
     (tmp_path / "universalassistant").mkdir()
     (tmp_path / "requirements.txt").write_text(
-        "# __HA_KEEP__ Core\n"
+        "# Universal Home Assistant Core\n"
         "-c universalassistant/package_constraints.txt\n"
         "aiohttp==3.14.3\n"
     )
@@ -390,57 +390,57 @@ def custom_integration(core_config: Config) -> Integration:
     [
         pytest.param(
             "aiohttp==3.14.3",
-            "Requirement aiohttp==3.14.3 is a dependency of __HA_KEEP__ itself "
+            "Requirement aiohttp==3.14.3 is a dependency of Universal Home Assistant itself "
             "and must not be listed in the manifest of a custom integration.",
             id="core_dependency",
         ),
         pytest.param(
             "pymodbus==3.6.2",
             "Requirement pymodbus==3.6.2 is incompatible with pymodbus==3.13.1, "
-            "which __HA_KEEP__ depends on.",
+            "which Universal Home Assistant depends on.",
             id="pinned_below_core",
         ),
         pytest.param(
             "pymodbus>=3.20.0",
             "Requirement pymodbus>=3.20.0 is incompatible with pymodbus==3.13.1, "
-            "which __HA_KEEP__ depends on.",
+            "which Universal Home Assistant depends on.",
             id="minimum_above_core",
         ),
         pytest.param(
             "pymodbus==3.13.1",
-            "Requirement pymodbus==3.13.1 pins a package __HA_KEEP__ depends on "
+            "Requirement pymodbus==3.13.1 pins a package Universal Home Assistant depends on "
             '(pymodbus==3.13.1). Use a minimum version ("pymodbus>=3.13.1") instead, '
-            "so it can follow along when __HA_KEEP__ updates it.",
+            "so it can follow along when Universal Home Assistant updates it.",
             id="pinned_to_core_version",
         ),
         pytest.param(
             "aiofiles<24.0.0",
             "Requirement aiofiles<24.0.0 is incompatible with aiofiles>=24.1.0, "
-            "which __HA_KEEP__'s package constraints require.",
+            "which Universal Home Assistant's package constraints require.",
             id="violates_package_constraint",
         ),
         pytest.param(
             "poetry>=1",
-            "Requirement poetry>=1 is prohibited by __HA_KEEP__, poetry must "
+            "Requirement poetry>=1 is prohibited by Universal Home Assistant, poetry must "
             "not be installed.",
             id="prohibited_package",
         ),
         pytest.param(
             "pymodbus==3.6.2;platform_machine=='aarch64'",
             "Requirement pymodbus==3.6.2;platform_machine=='aarch64' is "
-            "incompatible with pymodbus==3.13.1, which __HA_KEEP__ depends on.",
+            "incompatible with pymodbus==3.13.1, which Universal Home Assistant depends on.",
             id="marker_applying_on_another_platform",
         ),
         pytest.param(
             "tenacity==8.4.0",
             "Requirement tenacity==8.4.0 is incompatible with tenacity!=8.4.0, "
-            "which __HA_KEEP__'s package constraints require.",
+            "which Universal Home Assistant's package constraints require.",
             id="violates_excluded_version",
         ),
         pytest.param(
             "dupe-package==3.0",
             "Requirement dupe-package==3.0 is incompatible with "
-            "dupe-package<2.0,>=1.5, which __HA_KEEP__'s package constraints "
+            "dupe-package<2.0,>=1.5, which Universal Home Assistant's package constraints "
             "require.",
             id="violates_merged_constraints",
         ),
@@ -452,7 +452,7 @@ def test_validate_custom_requirements_invalid(
     requirement: str,
     error: str,
 ) -> None:
-    """Test custom integration requirements that clash with __HA_KEEP__."""
+    """Test custom integration requirements that clash with Universal Home Assistant."""
     custom_integration.manifest["requirements"] = [requirement]
 
     assert not validate_custom_requirements(custom_integration, core_config)
@@ -480,7 +480,7 @@ def test_validate_custom_requirements_invalid(
 def test_validate_custom_requirements_valid(
     custom_integration: Integration, core_config: Config, requirement: str
 ) -> None:
-    """Test custom integration requirements that __HA_KEEP__ is fine with."""
+    """Test custom integration requirements that Universal Home Assistant is fine with."""
     custom_integration.manifest["requirements"] = [requirement]
 
     assert validate_custom_requirements(custom_integration, core_config)

@@ -17,7 +17,7 @@ from universalassistant.const import (
     ATTR_UNIT_OF_MEASUREMENT,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from . import (
@@ -37,7 +37,7 @@ def mock_bluetooth(enable_bluetooth: None) -> None:
     """Auto mock bluetooth."""
 
 
-async def test_sensors_updates_fixed_mac_address(hass: __HAC_KEEP__) -> None:
+async def test_sensors_updates_fixed_mac_address(hass: UniversalAssistant) -> None:
     """Test creating and updating sensors with a fixed mac address."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -116,7 +116,7 @@ async def test_sensors_updates_fixed_mac_address(hass: __HAC_KEEP__) -> None:
     await hass.async_block_till_done()
 
 
-async def test_sensor_with_no_local_name(hass: __HAC_KEEP__) -> None:
+async def test_sensor_with_no_local_name(hass: UniversalAssistant) -> None:
     """Test creating and updating sensors."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -139,7 +139,7 @@ async def test_sensor_with_no_local_name(hass: __HAC_KEEP__) -> None:
     assert await hass.config_entries.async_unload(entry.entry_id)
 
 
-async def test_sensor_sees_last_service_info(hass: __HAC_KEEP__) -> None:
+async def test_sensor_sees_last_service_info(hass: UniversalAssistant) -> None:
     """Test sensors are created from recent history."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -158,7 +158,7 @@ async def test_sensor_sees_last_service_info(hass: __HAC_KEEP__) -> None:
     await hass.async_block_till_done()
 
 
-async def test_can_unload_and_reload(hass: __HAC_KEEP__) -> None:
+async def test_can_unload_and_reload(hass: UniversalAssistant) -> None:
     """Test sensors get recreated on unload/setup."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -186,7 +186,7 @@ async def test_can_unload_and_reload(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_multiple_uuids_same_beacon(hass: __HAC_KEEP__) -> None:
+async def test_multiple_uuids_same_beacon(hass: UniversalAssistant) -> None:
     """Test a beacon that broadcasts multiple uuids."""
     entry = MockConfigEntry(
         domain=DOMAIN,

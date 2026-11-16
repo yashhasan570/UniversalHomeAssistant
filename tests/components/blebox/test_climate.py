@@ -29,7 +29,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import async_setup_config_entry, async_setup_entity, mock_feature
@@ -84,7 +84,7 @@ def thermobox_fixture():
 
 
 async def test_init(
-    saunabox, hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    saunabox, hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test default state."""
 
@@ -120,7 +120,7 @@ async def test_init(
     assert device.sw_version == "1.23"
 
 
-async def test_update(saunabox, hass: __HAC_KEEP__, config) -> None:
+async def test_update(saunabox, hass: UniversalAssistant, config) -> None:
     """Test updating."""
 
     feature_mock, entity_id = saunabox
@@ -138,7 +138,7 @@ async def test_update(saunabox, hass: __HAC_KEEP__, config) -> None:
 
 
 async def test_update_with_safety_off_state_is_unavailable(
-    hass: __HAC_KEEP__, thermobox: tuple[Mock, str]
+    hass: UniversalAssistant, thermobox: tuple[Mock, str]
 ) -> None:
     """A thermostat switched off by its safety system must become unavailable."""
 
@@ -151,7 +151,7 @@ async def test_update_with_safety_off_state_is_unavailable(
     assert state.state == STATE_UNAVAILABLE
 
 
-async def test_set_hvac_mode_heat(saunabox, hass: __HAC_KEEP__) -> None:
+async def test_set_hvac_mode_heat(saunabox, hass: UniversalAssistant) -> None:
     """Test that setting HVAC mode to heat calls async_on."""
 
     feature_mock, entity_id = saunabox
@@ -170,7 +170,7 @@ async def test_set_hvac_mode_heat(saunabox, hass: __HAC_KEEP__) -> None:
     feature_mock.async_off.assert_not_called()
 
 
-async def test_set_hvac_mode_off(saunabox, hass: __HAC_KEEP__) -> None:
+async def test_set_hvac_mode_off(saunabox, hass: UniversalAssistant) -> None:
     """Test that setting HVAC mode to off calls async_off."""
 
     feature_mock, entity_id = saunabox
@@ -188,7 +188,7 @@ async def test_set_hvac_mode_off(saunabox, hass: __HAC_KEEP__) -> None:
     feature_mock.async_on.assert_not_called()
 
 
-async def test_set_thermo(saunabox, hass: __HAC_KEEP__) -> None:
+async def test_set_thermo(saunabox, hass: UniversalAssistant) -> None:
     """Test that setting the temperature calls async_set_temperature."""
 
     feature_mock, entity_id = saunabox
@@ -207,7 +207,7 @@ async def test_set_thermo(saunabox, hass: __HAC_KEEP__) -> None:
 
 async def test_update_failure(
     saunabox,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -226,7 +226,7 @@ async def test_update_failure(
     assert config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_hvac_action_heating(saunabox, hass: __HAC_KEEP__) -> None:
+async def test_hvac_action_heating(saunabox, hass: UniversalAssistant) -> None:
     """Test hvac_action reflects a heating device state."""
 
     feature_mock, entity_id = saunabox
@@ -241,7 +241,7 @@ async def test_hvac_action_heating(saunabox, hass: __HAC_KEEP__) -> None:
     assert state.attributes[ATTR_HVAC_MODES] == [HVACMode.OFF, HVACMode.HEAT]
 
 
-async def test_hvac_action_off(thermobox, hass: __HAC_KEEP__) -> None:
+async def test_hvac_action_off(thermobox, hass: UniversalAssistant) -> None:
     """Test hvac_action reflects a device that is off."""
 
     feature_mock, entity_id = thermobox

@@ -16,7 +16,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.ptdevices.const import DOMAIN
 from universalassistant.components.ptdevices.coordinator import UPDATE_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -26,7 +26,7 @@ GARDEN_IDENTIFIER = (DOMAIN, f"1234_{GARDEN_DEVICE_ID}")
 GARDEN_ENTITY_ID = "sensor.garden_rain_barrel_level_percent"
 
 
-async def _refresh(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+async def _refresh(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
     """Trigger a coordinator update."""
     freezer.tick(UPDATE_INTERVAL)
     async_fire_time_changed(hass)
@@ -40,7 +40,7 @@ def _without_garden(response: PTDevicesResponse) -> PTDevicesResponse:
 
 
 async def test_failed_device_is_not_purged(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device_registry: dr.DeviceRegistry,
     mock_ptdevices_interface: AsyncMock,
@@ -68,7 +68,7 @@ async def test_failed_device_is_not_purged(
 
 
 async def test_removed_device_is_purged(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device_registry: dr.DeviceRegistry,
     mock_ptdevices_interface: AsyncMock,
@@ -101,7 +101,7 @@ async def test_removed_device_is_purged(
     ],
 )
 async def test_update_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_ptdevices_interface: AsyncMock,
     mock_ptdevices_config_entry: MockConfigEntry,

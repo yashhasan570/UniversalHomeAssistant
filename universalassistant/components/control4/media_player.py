@@ -14,7 +14,7 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
     MediaType,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import ExtraStoredData, RestoreEntity
 
@@ -51,7 +51,7 @@ class _RoomSource:
     name: str
 
 
-async def get_rooms(hass: __HAC_KEEP__, entry: Control4ConfigEntry):
+async def get_rooms(hass: UniversalAssistant, entry: Control4ConfigEntry):
     """Return a list of all Control4 rooms."""
     return [
         item
@@ -61,7 +61,7 @@ async def get_rooms(hass: __HAC_KEEP__, entry: Control4ConfigEntry):
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: Control4ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

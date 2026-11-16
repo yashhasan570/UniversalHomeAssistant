@@ -12,11 +12,11 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CONF_NAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def init_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
-    """Set up the Met Éireann integration in __HA_KEEP__."""
+async def init_integration(hass: UniversalAssistant) -> MockConfigEntry:
+    """Set up the Met Éireann integration in Universal Home Assistant."""
     entry_data = {
         CONF_NAME: "test",
         CONF_LOCATION: {

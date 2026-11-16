@@ -7,7 +7,7 @@ from pyhomeworks.pyhomeworks import HW_LIGHT_CHANGED, Homeworks
 
 from universalassistant.components.light import ATTR_BRIGHTNESS, ColorMode, LightEntity
 from universalassistant.const import CONF_NAME
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -20,7 +20,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: HomeworksConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -24,7 +24,7 @@ from universalassistant.components.bluetooth.passive_update_coordinator import (
     PassiveBluetoothCoordinatorEntity,
     PassiveBluetoothDataUpdateCoordinator,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -50,7 +50,7 @@ class MyCoordinator(PassiveBluetoothDataUpdateCoordinator):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         logger: logging.Logger,
         device_id: str,
         mode: BluetoothScanningMode,
@@ -70,7 +70,7 @@ class MyCoordinator(PassiveBluetoothDataUpdateCoordinator):
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_basic_usage(hass: __HAC_KEEP__) -> None:
+async def test_basic_usage(hass: UniversalAssistant) -> None:
     """Test basic usage of the PassiveBluetoothDataUpdateCoordinator."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     coordinator = MyCoordinator(
@@ -100,7 +100,7 @@ async def test_basic_usage(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
 async def test_context_compatiblity_with_data_update_coordinator(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test contexts can be passed for compatibility with DataUpdateCoordinator."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -137,7 +137,7 @@ async def test_context_compatiblity_with_data_update_coordinator(
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
 async def test_unavailable_callbacks_mark_the_coordinator_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test coordinator goes unavailable when device unseen."""
     start_monotonic = time.monotonic()
@@ -197,7 +197,7 @@ async def test_unavailable_callbacks_mark_the_coordinator_unavailable(
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_passive_bluetooth_coordinator_entity(hass: __HAC_KEEP__) -> None:
+async def test_passive_bluetooth_coordinator_entity(hass: UniversalAssistant) -> None:
     """Test PassiveBluetoothDataUpdateCoordinator with entity."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     coordinator = MyCoordinator(

@@ -26,8 +26,8 @@ from universalassistant.const import (
     PRECISION_WHOLE,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -102,7 +102,7 @@ HVAC_ACTIONS = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: LyricConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -310,7 +310,7 @@ class LyricClimate(LyricDeviceEntity, ClimateEntity):
 
         if device.changeable_values.mode == LYRIC_HVAC_MODE_HEAT_COOL:
             if target_temp_low is None or target_temp_high is None:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     "Could not find target_temp_low and/or target_temp_high in"
                     " arguments"
                 )
@@ -456,7 +456,7 @@ class LyricClimate(LyricDeviceEntity, ClimateEntity):
         try:
             await update
         except LYRIC_EXCEPTIONS as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key=translation_key,
             ) from err

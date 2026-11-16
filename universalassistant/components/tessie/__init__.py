@@ -20,7 +20,7 @@ from tesla_fleet_api.tessie import Tessie
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ACCESS_TOKEN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -67,7 +67,7 @@ RETRY_EXCEPTIONS = (
 )
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: TessieConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: TessieConfigEntry) -> None:
     """Set up Tessie config."""
     api_key = entry.data[CONF_ACCESS_TOKEN]
     session = async_get_clientsession(hass)
@@ -225,6 +225,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: TessieConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: TessieConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: TessieConfigEntry) -> None:
     """Unload Tessie Config."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

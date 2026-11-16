@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.bryant_evolution.const import CONF_SYSTEM_ZONE, DOMAIN
 from universalassistant.const import CONF_FILENAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
 
@@ -53,7 +53,7 @@ def mock_evolution_client_factory() -> Generator[AsyncMock]:
 
 @pytest.fixture
 async def mock_evolution_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_evolution_client_factory: AsyncMock,
 ) -> MockConfigEntry:
     """Configure and return a Bryant evolution integration."""

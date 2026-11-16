@@ -23,8 +23,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -74,7 +74,7 @@ def _fb_device() -> DummyDevice:
 
 
 async def _assert_service_call(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id: str,
     value: float,
     expected_calls: list[tuple],
@@ -105,7 +105,7 @@ async def _assert_service_call(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_number_state_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -120,7 +120,7 @@ async def test_number_state_snapshot(
 
 
 async def test_c2_number_dynamic_max_and_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test C2 number entities read their max from a device property and can be set."""
@@ -156,7 +156,7 @@ async def test_c2_number_dynamic_max_and_services(
 
 
 async def test_cd_number_static_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test CD's vacation_days uses a static min/max/step range."""
@@ -181,7 +181,7 @@ async def test_cd_number_static_range(
 
 
 async def test_ed_number_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test ED exposes water_hardness, flushing_days, leak_water_protection_value and salt_setting."""
@@ -221,7 +221,7 @@ async def test_ed_number_entities(
 
 
 async def test_fb_heating_level(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test FB's heating_level number entity."""
@@ -244,7 +244,7 @@ async def test_fb_heating_level(
 
 
 async def test_number_unknown_when_attribute_not_numeric(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test native_value gracefully reports unknown if a later update clears it."""
@@ -266,7 +266,7 @@ async def test_number_unknown_when_attribute_not_numeric(
 
 
 async def test_number_not_created_when_attribute_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test no number entity is created when the device does not report the attribute."""
@@ -279,7 +279,7 @@ async def test_number_not_created_when_attribute_missing(
 
 
 async def test_number_not_created_for_other_device_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test no number entity is created for a device type without one (e.g. AC's fan_speed)."""
@@ -301,10 +301,10 @@ async def test_number_not_created_for_other_device_type(
 
 
 async def test_number_set_value_raises_on_device_communication_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
-    """Test a device communication failure surfaces as a __HAC_KEEP__Error."""
+    """Test a device communication failure surfaces as a UniversalAssistantError."""
     device = _fb_device()
     config_entry = mock_config_entry(device)
     with patch("universalassistant.components.midea._PLATFORMS", [Platform.NUMBER]):
@@ -314,7 +314,7 @@ async def test_number_set_value_raises_on_device_communication_error(
 
     with (
         patch.object(device, "set_attribute", side_effect=SocketException("offline")),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             NUMBER_DOMAIN,

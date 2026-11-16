@@ -17,5 +17,5 @@ USB_DATA_ZBT1 = UsbServiceInfo(
     pid="EA60",
     serial_number="9e2adbd75b8beb119fe564a0f320645d",
     manufacturer="Nabu Casa",
-    description="__HA_KEEP__ Connect ZBT-1",
+    description="Universal Home Assistant Connect ZBT-1",
 )

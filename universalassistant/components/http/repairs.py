@@ -13,7 +13,7 @@ from universalassistant.components.repairs import (
     RepairsFlow,
     RepairsFlowResult,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.util.ssl import SSLProfile
 
@@ -118,7 +118,7 @@ def _placeholders(store: HTTPConfigStore) -> dict[str, str]:
 
 
 async def async_create_fix_flow(
-    hass: __HAC_KEEP__, issue_id: str, data: dict[str, str] | None
+    hass: UniversalAssistant, issue_id: str, data: dict[str, str] | None
 ) -> RepairsFlow:
     """Create flow."""
     if issue_id == ISSUE_SSL_PROFILE_OUTDATED:

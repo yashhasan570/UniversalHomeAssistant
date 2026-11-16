@@ -7,14 +7,14 @@ import pytest
 
 from universalassistant import config_entries
 from universalassistant.const import EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import CoreState, __HAC_KEEP__
+from universalassistant.core import CoreState, UniversalAssistant
 from universalassistant.helpers import discovery_flow, json as json_helper
 from universalassistant.helpers.discovery_flow import DiscoveryKey
 from universalassistant.util import json as json_util
 
 
 @pytest.fixture
-def mock_flow_init(hass: __HAC_KEEP__) -> Generator[AsyncMock]:
+def mock_flow_init(hass: UniversalAssistant) -> Generator[AsyncMock]:
     """Mock hass.config_entries.flow.async_init."""
     with patch.object(
         hass.config_entries.flow, "async_init", return_value=AsyncMock()
@@ -41,7 +41,7 @@ def mock_flow_init(hass: __HAC_KEEP__) -> Generator[AsyncMock]:
     ],
 )
 async def test_async_create_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_flow_init: AsyncMock,
     discovery_key: DiscoveryKey | None,
     context: {},
@@ -64,7 +64,7 @@ async def test_async_create_flow(
 
 
 async def test_async_create_flow_deferred_until_started(
-    hass: __HAC_KEEP__, mock_flow_init: AsyncMock
+    hass: UniversalAssistant, mock_flow_init: AsyncMock
 ) -> None:
     """Test flows are deferred until started."""
     hass.set_state(CoreState.stopped)
@@ -87,7 +87,7 @@ async def test_async_create_flow_deferred_until_started(
 
 
 async def test_async_create_flow_checks_existing_flows_after_startup(
-    hass: __HAC_KEEP__, mock_flow_init: AsyncMock
+    hass: UniversalAssistant, mock_flow_init: AsyncMock
 ) -> None:
     """Test existing flows prevent an identical ones from being after startup."""
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
@@ -105,7 +105,7 @@ async def test_async_create_flow_checks_existing_flows_after_startup(
 
 
 async def test_async_create_flow_checks_existing_flows_before_startup(
-    hass: __HAC_KEEP__, mock_flow_init: AsyncMock
+    hass: UniversalAssistant, mock_flow_init: AsyncMock
 ) -> None:
     """Test existing flows prevent identical ones from being created."""
     hass.set_state(CoreState.stopped)
@@ -128,7 +128,7 @@ async def test_async_create_flow_checks_existing_flows_before_startup(
 
 
 async def test_async_create_flow_does_nothing_after_stop(
-    hass: __HAC_KEEP__, mock_flow_init: AsyncMock
+    hass: UniversalAssistant, mock_flow_init: AsyncMock
 ) -> None:
     """Test we no longer create flows when hass is stopping."""
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)

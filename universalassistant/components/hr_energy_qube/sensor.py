@@ -27,7 +27,7 @@ from .entity import QubeEntity
 PARALLEL_UPDATES = 0
 
 if TYPE_CHECKING:
-    from universalassistant.core import __HAC_KEEP__
+    from universalassistant.core import UniversalAssistant
     from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
     from . import QubeConfigEntry
@@ -239,7 +239,7 @@ SENSOR_TYPES: tuple[QubeSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: QubeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

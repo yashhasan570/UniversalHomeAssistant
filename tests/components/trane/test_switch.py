@@ -15,7 +15,7 @@ from universalassistant.const import (
     STATE_OFF,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -27,7 +27,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switch_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -37,7 +37,7 @@ async def test_switch_entities(
 
 
 async def test_hold_switch_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connection: MagicMock,
 ) -> None:
@@ -61,7 +61,7 @@ async def test_hold_switch_off(
     ],
 )
 async def test_hold_switch_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_connection: MagicMock,
     service: str,

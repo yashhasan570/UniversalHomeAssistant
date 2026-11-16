@@ -7,7 +7,7 @@ import probatio
 
 from universalassistant.components.climate import DOMAIN as CLIMATE_DOMAIN
 from universalassistant.components.water_heater import DOMAIN as WATER_HEATER_DOMAIN
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.service import verify_domain_control
 
@@ -56,7 +56,7 @@ SET_DHW_OVERRIDE_SCHEMA: Final[dict[str | probatio.Marker, Any]] = {
 }
 
 
-def _register_ctl_entity_services(hass: __HAC_KEEP__) -> None:
+def _register_ctl_entity_services(hass: UniversalAssistant) -> None:
     """Register entity-level services for controllers."""
 
     service.async_register_platform_entity_service(
@@ -69,7 +69,7 @@ def _register_ctl_entity_services(hass: __HAC_KEEP__) -> None:
     )
 
 
-def _register_zone_entity_services(hass: __HAC_KEEP__) -> None:
+def _register_zone_entity_services(hass: UniversalAssistant) -> None:
     """Register entity-level services for zones."""
 
     service.async_register_platform_entity_service(
@@ -82,7 +82,7 @@ def _register_zone_entity_services(hass: __HAC_KEEP__) -> None:
     )
 
 
-def _register_dhw_entity_services(hass: __HAC_KEEP__) -> None:
+def _register_dhw_entity_services(hass: UniversalAssistant) -> None:
     """Register entity-level services for DHW zones."""
 
     service.async_register_platform_entity_service(
@@ -96,7 +96,7 @@ def _register_dhw_entity_services(hass: __HAC_KEEP__) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the Evohome services."""
 
     @verify_domain_control(DOMAIN)

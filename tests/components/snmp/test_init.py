@@ -7,10 +7,10 @@ from pysnmp.hlapi.v3arch.asyncio.cmdgen import LCD
 
 from universalassistant.components import snmp
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def test_async_get_snmp_engine(hass: __HAC_KEEP__) -> None:
+async def test_async_get_snmp_engine(hass: UniversalAssistant) -> None:
     """Test async_get_snmp_engine."""
     engine = await snmp.async_get_snmp_engine(hass)
     assert isinstance(engine, SnmpEngine)

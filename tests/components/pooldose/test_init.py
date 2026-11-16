@@ -8,14 +8,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.pooldose.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import RequestStatus
 
 
 async def test_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -35,7 +35,7 @@ async def test_devices(
 
 
 async def test_setup_entry_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test successful setup of config entry."""
@@ -53,7 +53,7 @@ async def test_setup_entry_success(
 
 
 async def test_setup_entry_coordinator_refresh_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pooldose_client: AsyncMock,
 ) -> None:
@@ -80,7 +80,7 @@ async def test_setup_entry_coordinator_refresh_fails(
     ],
 )
 async def test_setup_entry_various_client_failures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pooldose_client: AsyncMock,
     status: RequestStatus,
@@ -104,7 +104,7 @@ async def test_setup_entry_various_client_failures(
     ],
 )
 async def test_setup_entry_timeout_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pooldose_client: AsyncMock,
     exception: Exception,
@@ -121,7 +121,7 @@ async def test_setup_entry_timeout_error(
 
 
 async def test_migrate_entity_unique_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry_v1_1: MockConfigEntry,
 ) -> None:

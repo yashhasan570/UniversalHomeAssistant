@@ -6,7 +6,7 @@ from motionmount import MotionMountSystemError
 import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import MAC, ZEROCONF_NAME
 
@@ -24,7 +24,7 @@ from . import MAC, ZEROCONF_NAME
     ],
 )
 async def test_error_status_sensor_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     system_status: MotionMountSystemError,
     state: str,

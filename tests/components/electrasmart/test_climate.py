@@ -32,8 +32,8 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_component import async_update_entity
 
 ENTITY_ID = "climate.living_room"
@@ -41,7 +41,7 @@ ENTITY_ID = "climate.living_room"
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_turn_on_keeps_the_mode_the_ac_was_last_running_in(
-    hass: __HAC_KEEP__, mock_api: Mock, mock_device: Mock
+    hass: UniversalAssistant, mock_api: Mock, mock_device: Mock
 ) -> None:
     """Turning on must not force a mode on the device."""
     await hass.services.async_call(
@@ -55,7 +55,7 @@ async def test_turn_on_keeps_the_mode_the_ac_was_last_running_in(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_turn_on_falls_back_to_cool_when_no_mode_can_be_restored(
-    hass: __HAC_KEEP__, mock_api: Mock, mock_device: Mock
+    hass: UniversalAssistant, mock_api: Mock, mock_device: Mock
 ) -> None:
     """A unit that reports no previous mode must still turn on."""
     mock_device.turn_on = Mock(return_value=False)
@@ -71,7 +71,7 @@ async def test_turn_on_falls_back_to_cool_when_no_mode_can_be_restored(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_turn_off_turns_the_device_off(
-    hass: __HAC_KEEP__, mock_api: Mock, mock_device: Mock
+    hass: UniversalAssistant, mock_api: Mock, mock_device: Mock
 ) -> None:
     """Turning off goes through set_hvac_mode, which calls turn_off()."""
     await hass.services.async_call(
@@ -84,7 +84,7 @@ async def test_turn_off_turns_the_device_off(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_set_hvac_mode_still_selects_the_requested_mode(
-    hass: __HAC_KEEP__, mock_api: Mock, mock_device: Mock
+    hass: UniversalAssistant, mock_api: Mock, mock_device: Mock
 ) -> None:
     """Explicitly picking a mode must keep working."""
     await hass.services.async_call(
@@ -101,7 +101,7 @@ async def test_set_hvac_mode_still_selects_the_requested_mode(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_set_fan_mode(
-    hass: __HAC_KEEP__, mock_api: Mock, mock_device: Mock
+    hass: UniversalAssistant, mock_api: Mock, mock_device: Mock
 ) -> None:
     """Setting a fan mode sends the new speed to the API."""
     await hass.services.async_call(
@@ -117,7 +117,7 @@ async def test_set_fan_mode(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_set_temperature(
-    hass: __HAC_KEEP__, mock_api: Mock, mock_device: Mock
+    hass: UniversalAssistant, mock_api: Mock, mock_device: Mock
 ) -> None:
     """Setting a target temperature sends it to the API."""
     await hass.services.async_call(
@@ -142,7 +142,7 @@ async def test_set_temperature(
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_set_swing_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api: Mock,
     mock_device: Mock,
     swing_mode: str,
@@ -167,7 +167,7 @@ async def test_set_swing_mode(
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_set_preset_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api: Mock,
     mock_device: Mock,
     preset_mode: str,
@@ -186,12 +186,12 @@ async def test_set_preset_mode(
 
 
 @pytest.mark.usefixtures("setup_integration")
-async def test_command_failure_raises(hass: __HAC_KEEP__, mock_api: Mock) -> None:
-    """A failing command surfaces as a __HA_KEEP__ error."""
+async def test_command_failure_raises(hass: UniversalAssistant, mock_api: Mock) -> None:
+    """A failing command surfaces as a Universal Home Assistant error."""
     mock_api.set_state = AsyncMock(side_effect=ElectraApiError("Failed to set state"))
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="Error communicating with Electra API"
+        UniversalAssistantError, match="Error communicating with Electra API"
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
@@ -202,12 +202,12 @@ async def test_command_failure_raises(hass: __HAC_KEEP__, mock_api: Mock) -> Non
 
 
 @pytest.mark.usefixtures("setup_integration")
-async def test_rejected_command_raises(hass: __HAC_KEEP__, mock_api: Mock) -> None:
-    """A command the API refuses surfaces as a __HA_KEEP__ error."""
+async def test_rejected_command_raises(hass: UniversalAssistant, mock_api: Mock) -> None:
+    """A command the API refuses surfaces as a Universal Home Assistant error."""
     mock_api.set_state = AsyncMock(return_value={"status": 1, "data": {"res": 0}})
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="Failed to update climate.living_room"
+        UniversalAssistantError, match="Failed to update climate.living_room"
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
@@ -218,7 +218,7 @@ async def test_rejected_command_raises(hass: __HAC_KEEP__, mock_api: Mock) -> No
 
 
 @pytest.mark.usefixtures("setup_integration")
-async def test_update_polls_the_cloud(hass: __HAC_KEEP__, mock_api: Mock) -> None:
+async def test_update_polls_the_cloud(hass: UniversalAssistant, mock_api: Mock) -> None:
     """A scheduled update asks the API for the latest telemetry."""
     await async_update_entity(hass, ENTITY_ID)
 
@@ -227,7 +227,7 @@ async def test_update_polls_the_cloud(hass: __HAC_KEEP__, mock_api: Mock) -> Non
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_update_is_skipped_right_after_a_command(
-    hass: __HAC_KEEP__, mock_api: Mock
+    hass: UniversalAssistant, mock_api: Mock
 ) -> None:
     """A command is not followed by a poll, as the API lags behind it."""
     await hass.services.async_call(
@@ -250,7 +250,7 @@ async def test_update_is_skipped_right_after_a_command(
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_swing_mode_reflects_the_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: Mock,
     horizontal: bool,
     vertical: bool,
@@ -267,7 +267,7 @@ async def test_swing_mode_reflects_the_device(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_unavailable_device_warns_once_and_recovers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: Mock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -297,7 +297,7 @@ async def test_unavailable_device_warns_once_and_recovers(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_update_failure_keeps_the_old_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api: Mock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -315,7 +315,7 @@ async def test_update_failure_keeps_the_old_state(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_failed_updates_are_counted_until_the_next_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api: Mock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

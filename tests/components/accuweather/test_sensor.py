@@ -26,7 +26,7 @@ from universalassistant.const import (
     UnitOfSpeed,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
@@ -36,7 +36,7 @@ from . import init_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_accuweather_client: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -48,7 +48,7 @@ async def test_sensor(
 
 
 async def test_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_accuweather_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -96,7 +96,7 @@ async def test_availability(
     ],
 )
 async def test_availability_forecast(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: Exception,
     mock_accuweather_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -137,7 +137,7 @@ async def test_availability_forecast(
 
 
 async def test_manual_update_entity(
-    hass: __HAC_KEEP__, mock_accuweather_client: AsyncMock
+    hass: UniversalAssistant, mock_accuweather_client: AsyncMock
 ) -> None:
     """Test manual update entity via service universalassistant/update_entity."""
     await init_integration(hass)
@@ -158,7 +158,7 @@ async def test_manual_update_entity(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_imperial_units(
-    hass: __HAC_KEEP__, mock_accuweather_client: AsyncMock
+    hass: UniversalAssistant, mock_accuweather_client: AsyncMock
 ) -> None:
     """Test states of the sensor without forecast."""
     hass.config.units = US_CUSTOMARY_SYSTEM
@@ -190,7 +190,7 @@ async def test_sensor_imperial_units(
 
 
 async def test_state_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_accuweather_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:

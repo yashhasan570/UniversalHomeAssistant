@@ -7,12 +7,12 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.kraken.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import TICKER_INFORMATION_RESPONSE, TRADEABLE_ASSET_PAIR_RESPONSE
 
 
-async def test_unload_entry(hass: __HAC_KEEP__) -> None:
+async def test_unload_entry(hass: UniversalAssistant) -> None:
     """Test unload for Kraken."""
     with (
         patch(
@@ -34,7 +34,7 @@ async def test_unload_entry(hass: __HAC_KEEP__) -> None:
 
 
 async def test_unknown_error(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test unload for Kraken."""
     with (
@@ -56,7 +56,7 @@ async def test_unknown_error(
 
 
 async def test_callrate_limit(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test unload for Kraken."""
     with (

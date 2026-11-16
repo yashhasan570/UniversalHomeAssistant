@@ -12,8 +12,8 @@ from uiprotect.data import (
 from uiprotect.data.public_devices import PublicLight
 
 from universalassistant.components.light import ATTR_BRIGHTNESS, ColorMode, LightEntity
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -27,7 +27,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: UFPConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -129,7 +129,7 @@ class ProtectLight(ProtectDeviceEntity, LightEntity):
     def _public_or_raise(self) -> PublicLight:
         """Return the public object, or raise if it vanished mid-command."""
         if (public := self._ufp_public_obj) is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="light_not_available",
                 translation_placeholders={"light_name": self.device.display_name},

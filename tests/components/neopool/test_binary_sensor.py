@@ -15,14 +15,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 from .conftest import MOCK_POOL_DATA
 
 
-def _binary_state(hass: __HAC_KEEP__, entry: MockConfigEntry, key: str):
+def _binary_state(hass: UniversalAssistant, entry: MockConfigEntry, key: str):
     """Return the HA state object of the binary_sensor for a coordinator key."""
     registry = er.async_get(hass)
     suffix = f"_{key.lower()}"
@@ -37,7 +37,7 @@ def _binary_state(hass: __HAC_KEEP__, entry: MockConfigEntry, key: str):
 
 
 async def test_direct_key_reflects_coordinator_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_binary_sensor: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -69,7 +69,7 @@ async def test_direct_key_reflects_coordinator_value(
 
 
 async def test_pool_cover_inverts_hardware_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_binary_sensor: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -107,7 +107,7 @@ async def test_pool_cover_inverts_hardware_value(
 
 
 async def test_pool_cover_none_yields_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_binary_sensor: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -137,7 +137,7 @@ async def test_pool_cover_none_yields_unknown(
     ],
 )
 async def test_pool_cover_unknown_when_detection_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_binary_sensor: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -171,7 +171,7 @@ async def test_pool_cover_unknown_when_detection_disabled(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_measurement_module_reads_raw_bit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_binary_sensor: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -214,7 +214,7 @@ async def test_measurement_module_reads_raw_bit(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_neopool_client")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry_binary_sensor: MockConfigEntry,
@@ -229,7 +229,7 @@ async def test_all_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_setup_when_modules_absent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry_binary_sensor: MockConfigEntry,
@@ -247,7 +247,7 @@ async def test_setup_when_modules_absent(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_neopool_client")
 async def test_opt_in_entities_absent_without_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_binary_sensor_no_options: MockConfigEntry,
 ) -> None:
     """Opt-in entities are not registered when their config option is off.

@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 
 from universalassistant.components.recorder import get_instance
 from universalassistant.core import (
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -128,7 +128,7 @@ async def _async_query_service(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the services for the SQL integration."""
 
     hass.services.async_register(

@@ -9,8 +9,8 @@ import probatio
 
 from universalassistant.components import websocket_api
 from universalassistant.components.websocket_api import messages
-from universalassistant.core import __HAC_KEEP__, callback, valid_entity_id
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback, valid_entity_id
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.json import json_bytes
 from universalassistant.helpers.recorder import get_instance
@@ -143,7 +143,7 @@ UNIT_SCHEMA = probatio.Schema(
 
 
 @callback
-def async_setup(hass: __HAC_KEEP__) -> None:
+def async_setup(hass: UniversalAssistant) -> None:
     """Set up the recorder websocket API."""
     websocket_api.async_register_command(hass, ws_adjust_sum_statistics)
     websocket_api.async_register_command(hass, ws_change_statistics_unit)
@@ -159,7 +159,7 @@ def async_setup(hass: __HAC_KEEP__) -> None:
 
 
 def _ws_get_statistic_during_period(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     msg_id: int,
     start_time: dt | None,
     end_time: dt | None,
@@ -191,13 +191,13 @@ def _ws_get_statistic_during_period(
 )
 @websocket_api.async_response
 async def ws_get_statistic_during_period(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle statistics websocket command."""
     if ("start_time" in msg or "end_time" in msg) and "duration" in msg:
-        raise __HAC_KEEP__Error
+        raise UniversalAssistantError
     if "offset" in msg and "duration" not in msg:
-        raise __HAC_KEEP__Error
+        raise UniversalAssistantError
 
     start_time, end_time = resolve_period(cast(StatisticPeriod, msg))
 
@@ -216,7 +216,7 @@ async def ws_get_statistic_during_period(
 
 
 def _ws_get_statistics_during_period(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     msg_id: int,
     start_time: dt,
     end_time: dt | None,
@@ -246,7 +246,7 @@ def _ws_get_statistics_during_period(
 
 
 async def ws_handle_get_statistics_during_period(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
 ) -> None:
     """Handle statistics websocket command."""
     start_time_str = msg["start_time"]
@@ -306,14 +306,14 @@ async def ws_handle_get_statistics_during_period(
 )
 @websocket_api.async_response
 async def ws_get_statistics_during_period(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle statistics websocket command."""
     await ws_handle_get_statistics_during_period(hass, connection, msg)
 
 
 def _ws_get_list_statistic_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     msg_id: int,
     statistic_type: Literal["mean", "sum"] | None = None,
 ) -> bytes:
@@ -327,7 +327,7 @@ def _ws_get_list_statistic_ids(
 
 
 async def ws_handle_list_statistic_ids(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
 ) -> None:
     """Fetch a list of available statistic_id."""
     connection.send_message(
@@ -348,7 +348,7 @@ async def ws_handle_list_statistic_ids(
 )
 @websocket_api.async_response
 async def ws_list_statistic_ids(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Fetch a list of available statistic_id."""
     await ws_handle_list_statistic_ids(hass, connection, msg)
@@ -361,7 +361,7 @@ async def ws_list_statistic_ids(
 )
 @websocket_api.async_response
 async def ws_validate_statistics(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Validate statistics and return issues found."""
     instance = get_instance(hass)
@@ -379,7 +379,7 @@ async def ws_validate_statistics(
 )
 @websocket_api.async_response
 async def ws_update_statistics_issues(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Update statistics issues."""
     instance = get_instance(hass)
@@ -409,7 +409,7 @@ async def ws_update_statistics_issues(
 )
 @websocket_api.async_response
 async def ws_clear_statistics(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Clear statistics for a list of statistic_ids.
 
@@ -460,7 +460,7 @@ async def ws_clear_statistics(
 )
 @websocket_api.async_response
 async def ws_get_statistics_metadata(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Get metadata for a list of statistic_ids."""
     statistic_ids = msg.get("statistic_ids")
@@ -480,7 +480,7 @@ async def ws_get_statistics_metadata(
 )
 @websocket_api.async_response
 async def ws_update_statistics_metadata(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Update statistics metadata for a statistic_id.
 
@@ -531,7 +531,7 @@ async def ws_update_statistics_metadata(
 )
 @websocket_api.async_response
 async def ws_change_statistics_unit(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Change the unit_of_measurement for a statistic_id.
 
@@ -558,7 +558,7 @@ async def ws_change_statistics_unit(
 )
 @websocket_api.async_response
 async def ws_adjust_sum_statistics(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Adjust sum statistics.
 
@@ -644,7 +644,7 @@ async def ws_adjust_sum_statistics(
 )
 @callback
 def ws_import_statistics(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Import statistics.
 

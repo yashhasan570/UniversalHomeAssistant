@@ -16,8 +16,8 @@ from universalassistant.components.light import (
     LightEntityDescription,
     LightEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -45,7 +45,7 @@ AMBILIGHT = SmLightEntityDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SmConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -131,7 +131,7 @@ class SmLightEntity(SmEntity, LightEntity):
             try:
                 idx = self.entity_description.effect_list.index(effect_name)
             except ValueError as err:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="unknown_effect",
                     translation_placeholders={"effect": effect_name},

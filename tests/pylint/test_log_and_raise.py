@@ -52,9 +52,9 @@ async def update():
         ),
         pytest.param(
             """
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     pass
 
 async def connect():
@@ -207,7 +207,7 @@ async def update():
         ),
         pytest.param(
             """
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 class MyEntity:
     async def async_turn_on(self):
@@ -216,9 +216,9 @@ class MyEntity:
         except OSError as err:
             self._logger.exception("Turning on failed")
             self._attr_is_on = False
-            raise __HAC_KEEP__Error("Turning on failed") from err
+            raise UniversalAssistantError("Turning on failed") from err
 """,
-            "__HAC_KEEP__Error",
+            "UniversalAssistantError",
             id="logger_attribute_not_directly_before",
         ),
     ],

@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_MAC, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import VeluxConfigEntry
@@ -13,7 +13,7 @@ TO_REDACT = {CONF_MAC, CONF_PASSWORD}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: VeluxConfigEntry
+    hass: UniversalAssistant, entry: VeluxConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry, includes nodes, devices, and entities."""
 

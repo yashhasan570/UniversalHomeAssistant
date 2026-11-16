@@ -14,8 +14,8 @@ from typing import Any, cast
 
 from propcache.api import cached_property
 
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.loader import (
     Integration,
     async_get_issue_integration,
@@ -30,16 +30,16 @@ _REPORTED_INTEGRATIONS: set[str] = set()
 
 
 class _Hass:
-    """Container which makes a __HAC_KEEP__ instance available to frame helper."""
+    """Container which makes a UniversalAssistant instance available to frame helper."""
 
-    hass: __HAC_KEEP__ | None = None
+    hass: UniversalAssistant | None = None
 
 
 _hass = _Hass()
 
 
 @callback
-def async_setup(hass: __HAC_KEEP__) -> None:
+def async_setup(hass: UniversalAssistant) -> None:
     """Set up the frame helper."""
     _hass.hass = hass
 
@@ -75,7 +75,7 @@ def get_integration_logger(fallback_name: str) -> logging.Logger:
 
     If Python is unable to access the sources files, the call stack frame
     will be missing information, so let's guard by requiring a fallback name.
-    https://github.com/yashhasan570/__HAC_KEEP__/issues/24982
+    https://github.com/yashhasan570/UniversalUniversalAssistant/issues/24982
     """
     try:
         integration_frame = get_integration_frame()
@@ -144,7 +144,7 @@ def get_integration_frame(exclude_integrations: set | None = None) -> Integratio
     )
 
 
-class MissingIntegrationFrame(__HAC_KEEP__Error):
+class MissingIntegrationFrame(UniversalAssistantError):
     """Raised when no integration is found in the frame."""
 
 
@@ -198,7 +198,7 @@ def report_usage(
         except MissingIntegrationFrame as err:
             # We need to be careful with assigning the error here as it affects the
             # cleanup of objects referenced from the stack trace as seen in
-            # https://github.com/yashhasan570/__HAC_KEEP__/pull/148021#discussion_r2182379834
+            # https://github.com/yashhasan570/UniversalUniversalAssistant/pull/148021#discussion_r2182379834
             # When core_behavior is ReportBehavior.ERROR, we will re-raise the error,
             # so we can safely assign it to integration_frame_err.
             if core_behavior is ReportBehavior.ERROR:
@@ -225,7 +225,7 @@ def report_usage(
 
 
 def _report_usage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     what: str,
     *,
     breaks_in_ha_version: str | None,
@@ -280,7 +280,7 @@ def _report_usage(
 
 
 def _report_usage_integration_domain(
-    hass: __HAC_KEEP__ | None,
+    hass: UniversalAssistant | None,
     what: str,
     breaks_in_ha_version: str | None,
     integration: Integration,
@@ -316,7 +316,7 @@ def _report_usage_integration_domain(
         integration_type,
         integration.domain,
         what,
-        f"This will stop working in __HA_KEEP__ {breaks_in_ha_version}, please"
+        f"This will stop working in Universal Home Assistant {breaks_in_ha_version}, please"
         if breaks_in_ha_version
         else "Please",
         report_issue,
@@ -330,7 +330,7 @@ def _report_usage_integration_domain(
 
 
 def _report_usage_integration_frame(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     what: str,
     breaks_in_ha_version: str | None,
     integration_frame: IntegrationFrame,
@@ -365,7 +365,7 @@ def _report_usage_integration_frame(
         integration_frame.relative_filename,
         integration_frame.line_number,
         integration_frame.line,
-        f"This will stop working in __HA_KEEP__ {breaks_in_ha_version}, please"
+        f"This will stop working in Universal Home Assistant {breaks_in_ha_version}, please"
         if breaks_in_ha_version
         else "Please",
         report_issue,
@@ -425,7 +425,7 @@ def report_non_thread_safe_operation(what: str) -> None:
     """Report a non-thread safe operation."""
     report_usage(
         f"calls {what} from a thread other than the event loop, "
-        "which may cause __HA_KEEP__ to crash or data to corrupt. "
+        "which may cause Universal Home Assistant to crash or data to corrupt. "
         "For more information, see "
         "https://contributors.universalassistant.io/core/internals/thread-safety/"
         f"#{what.replace('.', '')}",

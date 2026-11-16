@@ -5,7 +5,7 @@ from enum import StrEnum
 import probatio
 
 from universalassistant.const import CONF_SENSOR_TYPE, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv, service
 
@@ -38,7 +38,7 @@ SCHEMA_ADD_PASSWORD_SERVICE = probatio.Schema(
 
 @callback
 def _async_get_switchbot_entry_for_device_id(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> SwitchbotConfigEntry:
     """Return the loaded SwitchBot config entry for a device id."""
     config_entry: SwitchbotConfigEntry
@@ -57,7 +57,7 @@ def _is_supported_keypad(entry: SwitchbotConfigEntry) -> bool:
 
 @callback
 def _async_target(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> SwitchbotDataUpdateCoordinator:
     """Return coordinator for a single target device."""
     entry = _async_get_switchbot_entry_for_device_id(hass, device_id)
@@ -81,7 +81,7 @@ async def async_add_password(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the services for the SwitchBot integration."""
     hass.services.async_register(
         DOMAIN,

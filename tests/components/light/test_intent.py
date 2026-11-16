@@ -7,7 +7,7 @@ from universalassistant.components import light
 from universalassistant.components.universalassistant.exposed_entities import async_expose_entity
 from universalassistant.components.light import ATTR_SUPPORTED_COLOR_MODES, ColorMode, intent
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import area_registry as ar, entity_registry as er
 from universalassistant.helpers.intent import MatchFailedError, async_handle
 from universalassistant.setup import async_setup_component
@@ -15,7 +15,7 @@ from universalassistant.setup import async_setup_component
 ASSISTANT = "conversation"
 
 
-async def test_intent_set_color(hass: __HAC_KEEP__) -> None:
+async def test_intent_set_color(hass: UniversalAssistant) -> None:
     """Test the set color intent."""
     hass.states.async_set(
         "light.hello_2", "off", {ATTR_SUPPORTED_COLOR_MODES: [ColorMode.HS]}
@@ -40,7 +40,7 @@ async def test_intent_set_color(hass: __HAC_KEEP__) -> None:
     assert call.data.get(light.ATTR_RGB_COLOR) == (0, 0, 255)
 
 
-async def test_intent_set_color_and_brightness(hass: __HAC_KEEP__) -> None:
+async def test_intent_set_color_and_brightness(hass: UniversalAssistant) -> None:
     """Test the set color intent."""
     hass.states.async_set(
         "light.hello_2", "off", {ATTR_SUPPORTED_COLOR_MODES: [ColorMode.HS]}
@@ -70,7 +70,7 @@ async def test_intent_set_color_and_brightness(hass: __HAC_KEEP__) -> None:
     assert call.data.get(light.ATTR_BRIGHTNESS_PCT) == 20
 
 
-async def test_intent_set_temperature(hass: __HAC_KEEP__) -> None:
+async def test_intent_set_temperature(hass: UniversalAssistant) -> None:
     """Test setting the color temperature in kevin via intent."""
     hass.states.async_set(
         "light.test", "off", {ATTR_SUPPORTED_COLOR_MODES: [ColorMode.COLOR_TEMP]}
@@ -98,7 +98,7 @@ async def test_intent_set_temperature(hass: __HAC_KEEP__) -> None:
 
 
 async def test_intent_set_area_only_targets_lights(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -126,7 +126,7 @@ async def test_intent_set_area_only_targets_lights(
 
 
 async def test_intent_set_without_name_or_area_skips_unexposed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that unexposed lights are not targeted when no name or area is given."""
     assert await async_setup_component(hass, "universalassistant", {})
@@ -151,7 +151,7 @@ async def test_intent_set_without_name_or_area_skips_unexposed(
 
 
 async def test_intent_set_without_name_or_area_all_unexposed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that no lights are targeted when none are exposed."""
     assert await async_setup_component(hass, "universalassistant", {})

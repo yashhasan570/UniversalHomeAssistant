@@ -14,8 +14,8 @@ from universalassistant.components.prowl.const import DOMAIN
 from universalassistant.components.prowl.services import ProwlService, ProwlServiceArgument
 from universalassistant.config_entries import SOURCE_IMPORT
 from universalassistant.const import CONF_API_KEY, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import issue_registry as ir
 
 from .conftest import ENTITY_ID, TEST_API_KEY
@@ -33,7 +33,7 @@ EXPECTED_SEND_PARAMETERS = {
 
 @pytest.mark.usefixtures("configure_prowl_through_yaml")
 async def test_send_notification_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_prowlpy: AsyncMock,
 ) -> None:
     """Set up Prowl, call notify service, and check API call."""
@@ -49,7 +49,7 @@ async def test_send_notification_service(
 
 
 async def test_send_notification_entity_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_prowlpy: AsyncMock,
     mock_prowlpy_config_entry: MockConfigEntry,
 ) -> None:
@@ -78,24 +78,24 @@ async def test_send_notification_entity_service(
     [
         (
             prowlpy.APIError("Internal server error"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "Unexpected error when calling the Prowl API: Internal server error",
         ),
         (
             TimeoutError,
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "Timeout accessing the Prowl API",
         ),
         (
             prowlpy.APIError(f"Invalid API key: {TEST_API_KEY}"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "Invalid API key for the Prowl service",
         ),
         (
             prowlpy.APIError(
                 "Not accepted: Your IP address has exceeded the API limit"
             ),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "The Prowl service reported that the rate limit was exceeded",
         ),
         (
@@ -106,7 +106,7 @@ async def test_send_notification_entity_service(
     ],
 )
 async def test_fail_send_notification_entity_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_prowlpy: AsyncMock,
     mock_prowlpy_config_entry: MockConfigEntry,
     prowlpy_side_effect: Exception,
@@ -141,24 +141,24 @@ async def test_fail_send_notification_entity_service(
     [
         (
             prowlpy.APIError("Internal server error"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "Unexpected error when calling the Prowl API: Internal server error",
         ),
         (
             TimeoutError,
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "Timeout accessing the Prowl API",
         ),
         (
             prowlpy.APIError(f"Invalid API key: {TEST_API_KEY}"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "Invalid API key for the Prowl service",
         ),
         (
             prowlpy.APIError(
                 "Not accepted: Your IP address has exceeded the API limit"
             ),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "The Prowl service reported that the rate limit was exceeded",
         ),
         (
@@ -170,7 +170,7 @@ async def test_fail_send_notification_entity_service(
 )
 @pytest.mark.usefixtures("configure_prowl_through_yaml")
 async def test_fail_send_notification(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_prowlpy: AsyncMock,
     prowlpy_side_effect: Exception,
     raised_exception: type[Exception],
@@ -208,7 +208,7 @@ async def test_fail_send_notification(
 )
 @pytest.mark.usefixtures("configure_prowl_through_yaml")
 async def test_other_exception_send_notification(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_prowlpy: AsyncMock,
     service_data: dict[str, Any],
     expected_send_parameters: dict[str, Any],
@@ -287,7 +287,7 @@ async def test_other_exception_send_notification(
 )
 @pytest.mark.usefixtures("prowl_notification_entity")
 async def test_prowl_send_message_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_prowlpy: AsyncMock,
     freezer: FrozenDateTimeFactory,
     service_data: dict[str, Any],
@@ -319,7 +319,7 @@ async def test_prowl_send_message_action(
 )
 @pytest.mark.usefixtures("prowl_notification_entity")
 async def test_prowl_send_message_action_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_prowlpy: AsyncMock,
     service_data: dict[str, Any],
 ) -> None:
@@ -341,13 +341,13 @@ async def test_prowl_send_message_action_invalid(
 
 @pytest.mark.usefixtures("prowl_notification_entity")
 async def test_prowl_send_message_action_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_prowlpy: AsyncMock,
 ) -> None:
     """Test the prowl.send_message entity action raises on API errors."""
     mock_prowlpy.post.side_effect = TimeoutError
 
-    with pytest.raises(__HAC_KEEP__Error, match="Timeout accessing the Prowl API"):
+    with pytest.raises(UniversalAssistantError, match="Timeout accessing the Prowl API"):
         await hass.services.async_call(
             DOMAIN,
             ProwlService.SEND_MESSAGE,
@@ -361,7 +361,7 @@ async def test_prowl_send_message_action_error(
 
 @pytest.mark.usefixtures("configure_prowl_through_yaml", "mock_prowlpy")
 async def test_deprecated_legacy_notify_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test the legacy notify action creates a deprecation issue."""
@@ -384,7 +384,7 @@ async def test_deprecated_legacy_notify_action(
 
 @pytest.mark.usefixtures("mock_prowlpy")
 async def test_deprecated_legacy_notify_action_from_imported_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test the legacy action set up from an imported entry creates the issue."""

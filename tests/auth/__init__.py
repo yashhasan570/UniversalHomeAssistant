@@ -1,1 +1,1 @@
-"""Tests for the __HA_KEEP__ auth module."""
+"""Tests for the Universal Home Assistant auth module."""

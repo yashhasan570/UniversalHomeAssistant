@@ -12,8 +12,8 @@ import probatio
 from universalassistant import config_entries, data_entry_flow
 from universalassistant.components.llm import LLMTools
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState, ConfigFlowResult
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import DependencyError, __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import DependencyError, UniversalAssistantError
 from universalassistant.helpers import config_validation as cv, translation
 from universalassistant.helpers.llm import (
     LLM_API_UNIVERSAL_ASSISTANT,
@@ -51,7 +51,7 @@ _MIN_SHORT_ID_LEN = 4
 _OAUTH_RUNTIME_ERRORS = ("No current request in context", "No header in request")
 
 
-def _resolve_language(hass: __HAC_KEEP__, language: str | None) -> str:
+def _resolve_language(hass: UniversalAssistant, language: str | None) -> str:
     """Resolve a translation language code from an LLMContext language."""
     return language if language and language != "*" else (hass.config.language or "en")
 
@@ -79,11 +79,11 @@ def _format_short_entry_ids(entries: Iterable[ConfigEntry]) -> dict[str, str]:
     return result
 
 
-def _resolve_short_entry_id(hass: __HAC_KEEP__, entry_id: str) -> ConfigEntry:
+def _resolve_short_entry_id(hass: UniversalAssistant, entry_id: str) -> ConfigEntry:
     """Resolve a ConfigEntry from a '<domain>:<suffix>' short ID."""
     domain, sep, suffix = entry_id.partition(":")
     if not sep or not domain or len(suffix) < _MIN_SHORT_ID_LEN:
-        raise __HAC_KEEP__Error(f"Config entry '{entry_id}' not found.")
+        raise UniversalAssistantError(f"Config entry '{entry_id}' not found.")
 
     matches = [
         candidate
@@ -91,7 +91,7 @@ def _resolve_short_entry_id(hass: __HAC_KEEP__, entry_id: str) -> ConfigEntry:
         if candidate.entry_id.endswith(suffix)
     ]
     if len(matches) != 1:
-        raise __HAC_KEEP__Error(f"Config entry '{entry_id}' not found.")
+        raise UniversalAssistantError(f"Config entry '{entry_id}' not found.")
 
     return matches[0]
 
@@ -192,7 +192,7 @@ class GetConfigEntriesTool(Tool):
     name = "config__get_config_entries"
     title = "Get config entries"
     description = (
-        "Retrieve installed __HA_KEEP__ config entries (configured integrations "
+        "Retrieve installed Universal Home Assistant config entries (configured integrations "
         "and helpers). Use this to inspect which integrations are set up, check their "
         "status ('loaded', 'error', 'not_loaded'), and see translated error reasons."
     )
@@ -226,7 +226,7 @@ class GetConfigEntriesTool(Tool):
 
     @override
     async def async_call(
-        self, hass: __HAC_KEEP__, tool_input: ToolInput, llm_context: LLMContext
+        self, hass: UniversalAssistant, tool_input: ToolInput, llm_context: LLMContext
     ) -> ToolResult:
         """Return matching config entries."""
         args = self.parameters(tool_input.tool_args)
@@ -261,7 +261,7 @@ class ReloadConfigEntryTool(Tool):
     name = "config__reload_config_entry"
     title = "Reload config entry"
     description = (
-        "Reload an installed __HA_KEEP__ config entry by entry_id. Use this to "
+        "Reload an installed Universal Home Assistant config entry by entry_id. Use this to "
         "recover an integration from a transient setup or connection error or apply "
         "changes."
     )
@@ -282,7 +282,7 @@ class ReloadConfigEntryTool(Tool):
 
     @override
     async def async_call(
-        self, hass: __HAC_KEEP__, tool_input: ToolInput, llm_context: LLMContext
+        self, hass: UniversalAssistant, tool_input: ToolInput, llm_context: LLMContext
     ) -> ToolResult:
         """Reload the specified config entry."""
         args = self.parameters(tool_input.tool_args)
@@ -290,7 +290,7 @@ class ReloadConfigEntryTool(Tool):
 
         try:
             entry = _resolve_short_entry_id(hass, entry_id)
-        except __HAC_KEEP__Error as err:
+        except UniversalAssistantError as err:
             return _error_result(str(err))
 
         if entry.disabled_by is not None:
@@ -326,7 +326,7 @@ class SearchIntegrationsTool(Tool):
     name = "config__search_integrations"
     title = "Search available integrations"
     description = (
-        "Search the catalog of available __HA_KEEP__ integrations and helpers "
+        "Search the catalog of available Universal Home Assistant integrations and helpers "
         "that can be set up via a config flow (including uninstalled ones) by name, "
         "domain, or brand. Use config__get_config_entries instead to list "
         "integrations that are already installed."
@@ -355,7 +355,7 @@ class SearchIntegrationsTool(Tool):
 
     @override
     async def async_call(
-        self, hass: __HAC_KEEP__, tool_input: ToolInput, llm_context: LLMContext
+        self, hass: UniversalAssistant, tool_input: ToolInput, llm_context: LLMContext
     ) -> ToolResult:
         """Search available integrations and helpers."""
         args = self.parameters(tool_input.tool_args)
@@ -404,12 +404,12 @@ def _interpolate_placeholders(
 
 
 def _resolve_short_flow_id(
-    hass: __HAC_KEEP__, flow_id: str
+    hass: UniversalAssistant, flow_id: str
 ) -> data_entry_flow.FlowHandler[Any, Any, Any]:
     """Resolve an active config flow from a '<domain>:<suffix>' short ID."""
     domain, sep, suffix = flow_id.partition(":")
     if not sep or not domain or len(suffix) < _MIN_SHORT_ID_LEN:
-        raise __HAC_KEEP__Error(f"Flow '{flow_id}' not found.")
+        raise UniversalAssistantError(f"Flow '{flow_id}' not found.")
 
     flow_mgr = hass.config_entries.flow
     matches = [
@@ -418,7 +418,7 @@ def _resolve_short_flow_id(
         if flw["flow_id"].endswith(suffix)
     ]
     if len(matches) != 1:
-        raise __HAC_KEEP__Error(f"Flow '{flow_id}' not found.")
+        raise UniversalAssistantError(f"Flow '{flow_id}' not found.")
 
     return matches[0]
 
@@ -463,7 +463,7 @@ def _build_external_step_error(domain: str) -> ToolResult:
         data={
             "error": (
                 f"Integration '{domain}' requires browser authentication (OAuth / external step) "
-                f"and must be configured in the __HA_KEEP__ UI at {frontend_url}."
+                f"and must be configured in the Universal Home Assistant UI at {frontend_url}."
             ),
             "frontend_url": frontend_url,
         },
@@ -472,7 +472,7 @@ def _build_external_step_error(domain: str) -> ToolResult:
 
 
 async def _async_finalize_flow_step(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     result: ConfigFlowResult,
     domain: str,
     language: str | None,
@@ -602,7 +602,7 @@ class StartFlowTool(Tool):
     title = "Start configuration flow"
     description = (
         "Start a configuration flow to set up a new integration or helper instance "
-        "in __HA_KEEP__ and return its initial step."
+        "in Universal Home Assistant and return its initial step."
     )
     annotations = ToolAnnotations(
         read_only=False, destructive=False, idempotent=False, open_world=True
@@ -619,7 +619,7 @@ class StartFlowTool(Tool):
 
     @override
     async def async_call(
-        self, hass: __HAC_KEEP__, tool_input: ToolInput, llm_context: LLMContext
+        self, hass: UniversalAssistant, tool_input: ToolInput, llm_context: LLMContext
     ) -> ToolResult:
         """Start the requested config flow and return its formatted initial step."""
         args = self.parameters(tool_input.tool_args)
@@ -699,7 +699,7 @@ class ConfigureFlowTool(Tool):
 
     @override
     async def async_call(
-        self, hass: __HAC_KEEP__, tool_input: ToolInput, llm_context: LLMContext
+        self, hass: UniversalAssistant, tool_input: ToolInput, llm_context: LLMContext
     ) -> ToolResult:
         """Configure or abort the specified flow."""
         args = self.parameters(tool_input.tool_args)
@@ -718,7 +718,7 @@ class ConfigureFlowTool(Tool):
 
         try:
             flow_handler = _resolve_short_flow_id(hass, short_flow_id)
-        except __HAC_KEEP__Error as err:
+        except UniversalAssistantError as err:
             return _error_result(str(err))
 
         flow_mgr = hass.config_entries.flow
@@ -788,9 +788,9 @@ class ConfigureFlowTool(Tool):
 
 @callback
 def async_get_tools(
-    hass: __HAC_KEEP__, llm_context: LLMContext, api_id: str
+    hass: UniversalAssistant, llm_context: LLMContext, api_id: str
 ) -> LLMTools | None:
-    """Return the config LLM tools for the __HA_KEEP__ API."""
+    """Return the config LLM tools for the Universal Home Assistant API."""
     if api_id != LLM_API_UNIVERSAL_ASSISTANT:
         return None
 

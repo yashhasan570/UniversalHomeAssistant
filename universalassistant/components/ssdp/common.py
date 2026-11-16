@@ -4,10 +4,10 @@ from ipaddress import IPv4Address, IPv6Address
 from typing import cast
 
 from universalassistant.components import network
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def async_build_source_set(hass: __HAC_KEEP__) -> set[IPv4Address | IPv6Address]:
+async def async_build_source_set(hass: UniversalAssistant) -> set[IPv4Address | IPv6Address]:
     """Build the list of ssdp sources."""
     return {
         source_ip

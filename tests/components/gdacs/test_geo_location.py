@@ -28,7 +28,7 @@ from universalassistant.const import (
     EntityStateAttribute,
     UnitOfLength,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -38,7 +38,7 @@ CONFIG = {CONF_RADIUS: 200000}
 
 
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,
 ) -> None:

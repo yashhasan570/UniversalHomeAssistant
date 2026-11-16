@@ -8,12 +8,12 @@ from pytest_universalassistant.common import async_fire_mqtt_message
 from pytest_universalassistant.typing import MqttMockHAClient
 
 from universalassistant.components.sensor import SensorDeviceClass, SensorStateClass
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
 async def test_temperature_sensor_created(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
 ) -> None:
     """Test that a temperature MQTT message creates a sensor entity."""
@@ -39,7 +39,7 @@ async def test_temperature_sensor_created(
 
 
 async def test_temperature_sensor_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
 ) -> None:
     """Test that a second MQTT message updates an existing sensor."""
@@ -70,7 +70,7 @@ async def test_temperature_sensor_updates(
 
 
 async def test_rain_rate_exposed_total_suppressed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
 ) -> None:
     """Test rain/rate is created but rain/total is suppressed (expose=False)."""
@@ -119,7 +119,7 @@ async def test_rain_rate_exposed_total_suppressed(
     ],
 )
 async def test_single_reading_sensor_created(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
     topic: str,
     payload: dict[str, Any],
@@ -143,7 +143,7 @@ async def test_single_reading_sensor_created(
 
 
 async def test_wind_sensors_created(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
 ) -> None:
     """Test wind message creates speed, gust, and direction sensors."""
@@ -168,7 +168,7 @@ async def test_wind_sensors_created(
 
 
 async def test_unknown_topic_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
 ) -> None:
     """Test that messages on unknown topics do not create sensors."""
@@ -186,7 +186,7 @@ async def test_unknown_topic_ignored(
 
 
 async def test_wind_direction_state_class(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
 ) -> None:
     """Test wind direction sensor has measurement_angle state class."""
@@ -211,7 +211,7 @@ async def test_wind_direction_state_class(
 
 
 async def test_malformed_json_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
 ) -> None:
     """Test that a malformed JSON payload does not raise and is silently ignored."""

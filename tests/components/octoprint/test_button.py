@@ -10,7 +10,7 @@ from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, Button
 from universalassistant.components.octoprint import OctoprintDataUpdateCoordinator
 from universalassistant.components.octoprint.button import InvalidPrinterState
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -20,7 +20,7 @@ def platform() -> Platform:
 
 
 async def test_pause_job(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Test the pause job button."""
     coordinator: OctoprintDataUpdateCoordinator = init_integration.runtime_data
@@ -77,7 +77,7 @@ async def test_pause_job(
 
 
 async def test_resume_job(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Test the resume job button."""
     coordinator: OctoprintDataUpdateCoordinator = init_integration.runtime_data
@@ -133,7 +133,7 @@ async def test_resume_job(
             )
 
 
-async def test_stop_job(hass: __HAC_KEEP__, init_integration: MockConfigEntry) -> None:
+async def test_stop_job(hass: UniversalAssistant, init_integration: MockConfigEntry) -> None:
     """Test the stop job button."""
     coordinator: OctoprintDataUpdateCoordinator = init_integration.runtime_data
 
@@ -191,7 +191,7 @@ async def test_stop_job(hass: __HAC_KEEP__, init_integration: MockConfigEntry) -
 
 @pytest.mark.freeze_time("2023-01-01 00:00")
 @pytest.mark.usefixtures("init_integration")
-async def test_shutdown_system(hass: __HAC_KEEP__) -> None:
+async def test_shutdown_system(hass: UniversalAssistant) -> None:
     """Test the shutdown system button."""
     entity_id = "button.octoprint_shutdown_system"
 
@@ -215,7 +215,7 @@ async def test_shutdown_system(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.freeze_time("2023-01-01 00:00")
 @pytest.mark.usefixtures("init_integration")
-async def test_reboot_system(hass: __HAC_KEEP__) -> None:
+async def test_reboot_system(hass: UniversalAssistant) -> None:
     """Test the reboot system button."""
     entity_id = "button.octoprint_reboot_system"
 
@@ -241,7 +241,7 @@ async def test_reboot_system(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.freeze_time("2023-01-01 00:00")
 @pytest.mark.usefixtures("init_integration")
-async def test_restart_octoprint(hass: __HAC_KEEP__) -> None:
+async def test_restart_octoprint(hass: UniversalAssistant) -> None:
     """Test the restart octoprint button."""
     entity_id = "button.octoprint_restart_octoprint"
 

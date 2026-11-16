@@ -15,7 +15,7 @@ from wled import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import CALLBACK_TYPE, Event, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, Event, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.device_registry import format_mac
@@ -36,7 +36,7 @@ type WLEDConfigEntry = ConfigEntry[WLEDDataUpdateCoordinator]
 def normalize_mac_address(mac: str) -> str:
     """Normalize a MAC address to lowercase without separators.
 
-    This format is used by WLED firmware as well as unique IDs in __HA_KEEP__.
+    This format is used by WLED firmware as well as unique IDs in Universal Home Assistant.
 
     The universalassistant.helpers.device_registry.format_mac function is preferred but
     returns MAC addresses with colons as separators.
@@ -85,7 +85,7 @@ class WLEDDataUpdateCoordinator(DataUpdateCoordinator[WLEDDevice]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         *,
         entry: WLEDConfigEntry,
     ) -> None:
@@ -231,7 +231,7 @@ class WLEDDataUpdateCoordinator(DataUpdateCoordinator[WLEDDevice]):
             self.unsub = None
             await self.wled.disconnect()
 
-        # Clean disconnect WebSocket on __HA_KEEP__ shutdown
+        # Clean disconnect WebSocket on Universal Home Assistant shutdown
         self.unsub = self.hass.bus.async_listen_once(
             EVENT_HOMEASSISTANT_STOP, close_websocket
         )
@@ -293,7 +293,7 @@ class WLEDDataUpdateCoordinator(DataUpdateCoordinator[WLEDDevice]):
 class WLEDReleasesDataUpdateCoordinator(DataUpdateCoordinator[Releases]):
     """Class to manage fetching WLED releases."""
 
-    def __init__(self, hass: __HAC_KEEP__, repo: str) -> None:
+    def __init__(self, hass: UniversalAssistant, repo: str) -> None:
         """Initialize the WLED releases updater for a firmware repository."""
         self.repo = repo
         self.wled = WLEDReleases(session=async_get_clientsession(hass), repo=repo)

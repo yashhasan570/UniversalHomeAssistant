@@ -20,7 +20,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -29,7 +29,7 @@ from universalassistant.helpers import entity_registry as er
 @pytest.mark.parametrize("platforms", [(SELECT_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_adam_select_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
@@ -39,7 +39,7 @@ async def test_adam_select_entities(
 
 
 async def test_adam_change_select_entity(
-    hass: __HAC_KEEP__, mock_smile_adam: MagicMock, init_integration: MockConfigEntry
+    hass: UniversalAssistant, mock_smile_adam: MagicMock, init_integration: MockConfigEntry
 ) -> None:
     """Test changing of select entities."""
 
@@ -67,7 +67,7 @@ async def test_adam_change_select_entity(
 @pytest.mark.parametrize("platforms", [(SELECT_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_adam_2_select_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
@@ -79,7 +79,7 @@ async def test_adam_2_select_entities(
 @pytest.mark.parametrize("chosen_env", ["m_adam_cooling"], indirect=True)
 @pytest.mark.parametrize("cooling_present", [True], indirect=True)
 async def test_adam_select_regulation_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_smile_adam_heat_cool: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -125,7 +125,7 @@ async def test_adam_select_regulation_mode(
 @pytest.mark.parametrize("chosen_env", ["m_adam_heating"], indirect=True)
 @pytest.mark.parametrize("cooling_present", [True], indirect=True)
 async def test_adam_select_zone_profile(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_smile_adam_heat_cool: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -150,7 +150,7 @@ async def test_adam_select_zone_profile(
 
 @pytest.mark.usefixtures("mock_smile_legacy_anna")
 async def test_legacy_anna_select_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test that "off" is the selected option for legacy Anna without schedule."""
@@ -162,7 +162,7 @@ async def test_legacy_anna_select_entities(
 @pytest.mark.parametrize("chosen_env", ["anna_heatpump_heating"], indirect=True)
 @pytest.mark.parametrize("cooling_present", [True], indirect=True)
 async def test_anna_select_unavailable_schedule_mode(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Fail-test an Anna thermostat_schedule select option."""
 
@@ -184,7 +184,7 @@ async def test_anna_select_unavailable_schedule_mode(
 @pytest.mark.parametrize("platforms", [(SELECT_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_anna_entities_with_dhw_mode_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
@@ -194,7 +194,7 @@ async def test_anna_entities_with_dhw_mode_select(
 
 
 async def test_anna_select_dhw_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_smile_anna_loria: MagicMock,
     init_integration: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -225,7 +225,7 @@ async def test_anna_select_dhw_mode(
 @pytest.mark.parametrize("chosen_env", ["anna_heatpump_heating"], indirect=True)
 @pytest.mark.parametrize("cooling_present", [True], indirect=True)
 async def test_anna_select_dhw_mode_with_two_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_smile_anna: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -248,7 +248,7 @@ async def test_anna_select_dhw_mode_with_two_options(
 
 
 async def test_anna_select_dhw_mode_select_with_two_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_smile_anna_p1: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:

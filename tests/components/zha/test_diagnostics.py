@@ -26,7 +26,7 @@ from universalassistant.components.zha.helpers import (
     get_zha_gateway_proxy,
 )
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import (
@@ -49,7 +49,7 @@ def required_platforms_only():
 
 
 async def test_diagnostics_for_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     setup_zha: Callable[..., Coroutine[None]],
@@ -96,7 +96,7 @@ async def test_diagnostics_for_config_entry(
 
 
 async def test_diagnostics_for_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
@@ -149,7 +149,7 @@ async def test_diagnostics_for_device(
 
 
 async def test_diagnostics_for_group_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,

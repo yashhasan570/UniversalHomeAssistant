@@ -6,11 +6,11 @@ from pyspcwebgw.const import AreaMode
 
 from universalassistant.components.alarm_control_panel import AlarmControlPanelState
 from universalassistant.components.spc import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
-async def test_update_alarm_device(hass: __HAC_KEEP__, mock_client: AsyncMock) -> None:
+async def test_update_alarm_device(hass: UniversalAssistant, mock_client: AsyncMock) -> None:
     """Test that alarm panel state changes on incoming websocket data."""
 
     config = {"spc": {"api_url": "http://localhost/", "ws_url": "ws://localhost/"}}

@@ -11,7 +11,7 @@ from canary.model import Location, Reading
 from requests.exceptions import ConnectTimeout, HTTPError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN
@@ -27,7 +27,7 @@ class CanaryDataUpdateCoordinator(DataUpdateCoordinator[CanaryData]):
     """Class to manage fetching Canary data."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: CanaryConfigEntry, *, api: Api
+        self, hass: UniversalAssistant, config_entry: CanaryConfigEntry, *, api: Api
     ) -> None:
         """Initialize global Canary data updater."""
         self.canary = api

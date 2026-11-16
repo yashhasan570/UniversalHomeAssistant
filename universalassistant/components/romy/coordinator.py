@@ -5,7 +5,7 @@ from typing import override
 from romy import RomyRobot
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import DOMAIN, LOGGER, UPDATE_INTERVAL
@@ -19,7 +19,7 @@ class RomyVacuumCoordinator(DataUpdateCoordinator[None]):
     config_entry: RomyConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: RomyConfigEntry, romy: RomyRobot
+        self, hass: UniversalAssistant, config_entry: RomyConfigEntry, romy: RomyRobot
     ) -> None:
         """Initialize."""
         super().__init__(

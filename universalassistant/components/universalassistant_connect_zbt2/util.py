@@ -1,16 +1,16 @@
-"""Utility functions for __HA_KEEP__ Connect ZBT-2 integration."""
+"""Utility functions for Universal Home Assistant Connect ZBT-2 integration."""
 
 import logging
 
 from universalassistant.helpers.service_info.usb import UsbServiceInfo
 
-from . import __HAC_KEEP__ConnectZBT2ConfigEntry
+from . import UniversalAssistantConnectZBT2ConfigEntry
 
 _LOGGER = logging.getLogger(__name__)
 
 
 def get_usb_service_info(
-    config_entry: __HAC_KEEP__ConnectZBT2ConfigEntry,
+    config_entry: UniversalAssistantConnectZBT2ConfigEntry,
 ) -> UsbServiceInfo:
     """Return UsbServiceInfo."""
     return UsbServiceInfo(

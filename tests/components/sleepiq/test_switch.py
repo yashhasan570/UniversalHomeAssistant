@@ -5,7 +5,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 from universalassistant.components.sleepiq.coordinator import LONGER_UPDATE_INTERVAL
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.dt import utcnow
 
@@ -13,7 +13,7 @@ from .conftest import BED_ID, BED_NAME, BED_NAME_LOWER, setup_platform
 
 
 async def test_setup(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_asyncsleepiq
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_asyncsleepiq
 ) -> None:
     """Test for successfully setting up the SleepIQ platform."""
     entry = await setup_platform(hass, SWITCH_DOMAIN)
@@ -28,7 +28,7 @@ async def test_setup(
     assert entry.unique_id == f"{BED_ID}-pause-mode"
 
 
-async def test_switch_set_states(hass: __HAC_KEEP__, mock_asyncsleepiq) -> None:
+async def test_switch_set_states(hass: UniversalAssistant, mock_asyncsleepiq) -> None:
     """Test button press."""
     await setup_platform(hass, SWITCH_DOMAIN)
 
@@ -59,7 +59,7 @@ async def test_switch_set_states(hass: __HAC_KEEP__, mock_asyncsleepiq) -> None:
     mock_asyncsleepiq.beds[BED_ID].set_pause_mode.assert_called_with(True)
 
 
-async def test_switch_get_states(hass: __HAC_KEEP__, mock_asyncsleepiq) -> None:
+async def test_switch_get_states(hass: UniversalAssistant, mock_asyncsleepiq) -> None:
     """Test button press."""
     await setup_platform(hass, SWITCH_DOMAIN)
 

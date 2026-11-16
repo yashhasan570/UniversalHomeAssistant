@@ -17,8 +17,8 @@ from universalassistant.const import (
     CONF_USERNAME,
     EntityStateAttribute,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.event import async_call_later
@@ -43,7 +43,7 @@ PLATFORM_SCHEMA = LOCK_PLATFORM_SCHEMA.extend(
 
 
 def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -119,7 +119,7 @@ class KiwiLock(LockEntity):
         try:
             self._client.open_door(self.lock_id)
         except KiwiException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="unlock_failed",
             ) from err

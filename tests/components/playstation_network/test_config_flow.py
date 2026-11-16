@@ -23,7 +23,7 @@ from universalassistant.config_entries import (
     ConfigSubentry,
     ConfigSubentryData,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import NPSSO_TOKEN, NPSSO_TOKEN_INVALID_JSON, PSN_ID
@@ -31,7 +31,7 @@ from .conftest import NPSSO_TOKEN, NPSSO_TOKEN_INVALID_JSON, PSN_ID
 MOCK_DATA_ADVANCED_STEP = {CONF_NPSSO: NPSSO_TOKEN}
 
 
-async def test_manual_config(hass: __HAC_KEEP__, mock_psnawpapi: MagicMock) -> None:
+async def test_manual_config(hass: UniversalAssistant, mock_psnawpapi: MagicMock) -> None:
     """Test creating via manual configuration."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -52,7 +52,7 @@ async def test_manual_config(hass: __HAC_KEEP__, mock_psnawpapi: MagicMock) -> N
 
 
 async def test_form_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_psnawpapi: MagicMock,
 ) -> None:
@@ -77,7 +77,7 @@ async def test_form_already_configured(
 
 
 @pytest.mark.usefixtures("mock_psnawpapi")
-async def test_form_already_configured_as_subentry(hass: __HAC_KEEP__) -> None:
+async def test_form_already_configured_as_subentry(hass: UniversalAssistant) -> None:
     """Test we abort when entry is already configured as subentry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -125,7 +125,7 @@ async def test_form_already_configured_as_subentry(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_form_failures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_psnawpapi: MagicMock,
     raise_error: Exception,
     text_error: str,
@@ -164,7 +164,7 @@ async def test_form_failures(
 
 @pytest.mark.usefixtures("mock_psnawpapi")
 async def test_parse_npsso_token_failures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_psnawp_npsso: MagicMock,
 ) -> None:
     """Test parse_npsso_token raises the correct exceptions during config flow."""
@@ -197,7 +197,7 @@ async def test_parse_npsso_token_failures(
 
 @pytest.mark.usefixtures("mock_psnawpapi")
 async def test_flow_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test reauth flow."""
@@ -234,7 +234,7 @@ async def test_flow_reauth(
     ],
 )
 async def test_flow_reauth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_psnawpapi: MagicMock,
     config_entry: MockConfigEntry,
     raise_error: Exception,
@@ -281,7 +281,7 @@ async def test_flow_reauth_errors(
 
 @pytest.mark.usefixtures("mock_psnawpapi")
 async def test_flow_reauth_token_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_psnawp_npsso: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -326,7 +326,7 @@ async def test_flow_reauth_token_error(
 
 @pytest.mark.usefixtures("mock_psnawpapi")
 async def test_flow_reauth_account_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_user: MagicMock,
 ) -> None:
@@ -355,7 +355,7 @@ async def test_flow_reauth_account_mismatch(
 
 @pytest.mark.usefixtures("mock_psnawpapi")
 async def test_flow_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure flow."""
@@ -383,7 +383,7 @@ async def test_flow_reconfigure(
 
 
 @pytest.mark.usefixtures("mock_psnawpapi")
-async def test_add_friend_flow(hass: __HAC_KEEP__) -> None:
+async def test_add_friend_flow(hass: UniversalAssistant) -> None:
     """Test add friend subentry flow."""
 
     config_entry = MockConfigEntry(
@@ -427,7 +427,7 @@ async def test_add_friend_flow(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_psnawpapi")
 async def test_add_friend_flow_already_configured(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test we abort add friend subentry flow when already configured."""
 
@@ -456,7 +456,7 @@ async def test_add_friend_flow_already_configured(
 
 @pytest.mark.usefixtures("mock_psnawpapi")
 async def test_add_friend_flow_already_configured_as_entry(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test we abort add friend flow when already a config entry."""
     config_entry = MockConfigEntry(
@@ -503,7 +503,7 @@ async def test_add_friend_flow_already_configured_as_entry(
 
 
 async def test_add_friend_flow_no_friends(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_psnawpapi: MagicMock,
 ) -> None:
@@ -527,7 +527,7 @@ async def test_add_friend_flow_no_friends(
 
 @pytest.mark.usefixtures("mock_psnawpapi")
 async def test_add_friend_disabled_config_entry(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test we abort add friend flow when parent entry is disabled."""
     config_entry = MockConfigEntry(

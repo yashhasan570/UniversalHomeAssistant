@@ -30,7 +30,7 @@ from universalassistant.components.device_automation.trigger import (  # pylint:
 )
 from universalassistant.components.event import DOMAIN as EVENT_DOMAIN, EventDeviceClass
 from universalassistant.components.fan import DOMAIN as FAN_DOMAIN
-from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
+from universalassistant.components.http import KEY_HASS, UniversalAssistantView
 from universalassistant.components.humidifier import DOMAIN as HUMIDIFIER_DOMAIN
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN, SensorDeviceClass
@@ -45,7 +45,7 @@ from universalassistant.const import (
     CONF_TYPE,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, State, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, State, callback
 from universalassistant.exceptions import Unauthorized
 from universalassistant.helpers import (
     config_validation as cv,
@@ -211,7 +211,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the HomeKit from yaml."""
     hass.data[PERSIST_LOCK_DATA] = asyncio.Lock()
 
@@ -229,7 +229,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: HomeKitConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: HomeKitConfigEntry) -> None:
     """Set up HomeKit from a config entry."""
     _async_import_options_from_data_if_missing(hass, entry)
 
@@ -286,14 +286,14 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: HomeKitConfigEntry) -> No
     )
     entry.runtime_data = entry_data
 
-    async def _async_start_homekit(hass: __HAC_KEEP__) -> None:
+    async def _async_start_homekit(hass: UniversalAssistant) -> None:
         await homekit.async_start()
 
     entry.async_on_unload(async_at_started(hass, _async_start_homekit))
 
 
 async def _async_update_listener(
-    hass: __HAC_KEEP__, entry: HomeKitConfigEntry
+    hass: UniversalAssistant, entry: HomeKitConfigEntry
 ) -> None:
     """Handle options update."""
     if entry.source == SOURCE_IMPORT:
@@ -301,7 +301,7 @@ async def _async_update_listener(
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: HomeKitConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: HomeKitConfigEntry) -> None:
     """Unload a config entry."""
     async_dismiss_setup_message(hass, entry.entry_id)
     entry_data = entry.runtime_data
@@ -320,7 +320,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: HomeKitConfigEntry) -> N
         await asyncio.sleep(PORT_CLEANUP_CHECK_INTERVAL_SECS)
 
 
-async def async_remove_entry(hass: __HAC_KEEP__, entry: HomeKitConfigEntry) -> None:
+async def async_remove_entry(hass: UniversalAssistant, entry: HomeKitConfigEntry) -> None:
     """Remove a config entry."""
     await hass.async_add_executor_job(
         remove_state_files_for_entry_id, hass, entry.entry_id
@@ -329,7 +329,7 @@ async def async_remove_entry(hass: __HAC_KEEP__, entry: HomeKitConfigEntry) -> N
 
 @callback
 def _async_import_options_from_data_if_missing(
-    hass: __HAC_KEEP__, entry: HomeKitConfigEntry
+    hass: UniversalAssistant, entry: HomeKitConfigEntry
 ) -> None:
     options = deepcopy(dict(entry.options))
     data = deepcopy(dict(entry.data))
@@ -345,11 +345,11 @@ def _async_import_options_from_data_if_missing(
 
 
 class HomeKit:
-    """Class to handle all actions between HomeKit and __HA_KEEP__."""
+    """Class to handle all actions between HomeKit and Universal Home Assistant."""
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         name: str,
         port: int,
         ip_address: list[str] | str | None,
@@ -1069,7 +1069,7 @@ class HomeKit:
             config[ATTR_INTEGRATION] = entry.domain
 
 
-class HomeKitPairingQRView(__HAC_KEEP__View):
+class HomeKitPairingQRView(UniversalAssistantView):
     """Display the homekit pairing code at a protected url."""
 
     url = "/api/homekit/pairingqr"

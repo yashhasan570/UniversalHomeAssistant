@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.airpatrol.const import DOMAIN
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 DEFAULT_UNIT_ID = "test_unit_001"
 
@@ -55,7 +55,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 @pytest.fixture
 async def load_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_client: AirPatrolAPI,
     mock_config_entry: MockConfigEntry,
 ) -> MockConfigEntry:

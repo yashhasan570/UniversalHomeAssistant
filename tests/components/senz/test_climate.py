@@ -13,8 +13,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -26,7 +26,7 @@ SERVICE_SET_HVAC_MODE = "set_hvac_mode"
 
 
 async def test_climate_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_senz_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -42,7 +42,7 @@ async def test_climate_snapshot(
 
 
 async def test_set_target(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_senz_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -66,7 +66,7 @@ async def test_set_target(
 
 
 async def test_set_target_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_senz_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -81,7 +81,7 @@ async def test_set_target_fail(
     ):
         await setup_integration(hass, mock_config_entry)
         with pytest.raises(
-            __HAC_KEEP__Error, match="Failed to set target temperature on the device"
+            UniversalAssistantError, match="Failed to set target temperature on the device"
         ):
             await hass.services.async_call(
                 TEST_DOMAIN,
@@ -97,7 +97,7 @@ async def test_set_target_fail(
     [(HVACMode.HEAT, 1, 0), (HVACMode.AUTO, 0, 1)],
 )
 async def test_set_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_senz_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     mode: str,
@@ -129,7 +129,7 @@ async def test_set_hvac_mode(
 
 
 async def test_set_hvac_mode_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_senz_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -144,7 +144,7 @@ async def test_set_hvac_mode_fail(
     ):
         await setup_integration(hass, mock_config_entry)
         with pytest.raises(
-            __HAC_KEEP__Error, match="Failed to set hvac mode on the device"
+            UniversalAssistantError, match="Failed to set hvac mode on the device"
         ):
             await hass.services.async_call(
                 TEST_DOMAIN,

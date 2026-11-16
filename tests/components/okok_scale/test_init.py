@@ -6,7 +6,7 @@ from pytest_universalassistant.components.bluetooth import inject_bluetooth_serv
 
 from universalassistant.components.okok_scale.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 
 from . import OKOK_20_SERVICE_INFO, OKOK_C0_SERVICE_INFO, OKOK_F0_SERVICE_INFO
@@ -30,7 +30,7 @@ from . import OKOK_20_SERVICE_INFO, OKOK_C0_SERVICE_INFO, OKOK_F0_SERVICE_INFO
     ],
 )
 async def test_async_setup_entry_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     service_info: BluetoothServiceInfo,
 ) -> None:
@@ -54,7 +54,7 @@ async def test_async_setup_entry_success(
     ],
 )
 async def test_async_unload_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test unloading a config entry."""
     mock_config_entry.add_to_hass(hass)

@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.aprilaire.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -20,7 +20,7 @@ def client() -> AprilaireClient:
 
 
 async def test_config_flow_invalid_data(
-    client: AprilaireClient, hass: __HAC_KEEP__
+    client: AprilaireClient, hass: UniversalAssistant
 ) -> None:
     """Test that the flow shows an error with invalid data and can recover."""
     result = await hass.config_entries.flow.async_init(
@@ -68,7 +68,7 @@ async def test_config_flow_invalid_data(
     assert result["result"].unique_id == "1:2:3:4:5:6"
 
 
-async def test_config_flow_data(client: AprilaireClient, hass: __HAC_KEEP__) -> None:
+async def test_config_flow_data(client: AprilaireClient, hass: UniversalAssistant) -> None:
     """Test the config flow with valid data."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -112,7 +112,7 @@ async def test_config_flow_data(client: AprilaireClient, hass: __HAC_KEEP__) -> 
 
 
 async def test_config_flow_already_configured(
-    client: AprilaireClient, hass: __HAC_KEEP__
+    client: AprilaireClient, hass: UniversalAssistant
 ) -> None:
     """Test the config flow aborts when the device is already configured."""
     MockConfigEntry(

@@ -7,15 +7,15 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .common import ERROR_UNKNOWN, assert_entities, setup_platform
 
 
 async def test_buttons(
-    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, snapshot: SnapshotAssertion, entity_registry: er.EntityRegistry
 ) -> None:
     """Tests that the button entities are correct."""
 
@@ -51,7 +51,7 @@ async def test_buttons(
             mock_press.assert_called_once()
 
 
-async def test_button_error(hass: __HAC_KEEP__) -> None:
+async def test_button_error(hass: UniversalAssistant) -> None:
     """Test button transport errors are translated."""
 
     await setup_platform(hass, [Platform.BUTTON])
@@ -61,7 +61,7 @@ async def test_button_error(hass: __HAC_KEEP__) -> None:
             "tesla_fleet_api.tessie.Vehicle.wake",
             side_effect=ERROR_UNKNOWN,
         ) as mock_press,
-        pytest.raises(__HAC_KEEP__Error) as error,
+        pytest.raises(UniversalAssistantError) as error,
     ):
         await hass.services.async_call(
             BUTTON_DOMAIN,

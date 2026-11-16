@@ -11,14 +11,14 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import ATTR_UNIT_OF_MEASUREMENT, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 _TOPIC_WEATHER_STATE = "cloudapp/QBUSMQTTGW/UL1/UL60/state"
 
 
 async def test_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration_deferred: Callable[[], Awaitable],
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -33,7 +33,7 @@ async def test_sensor(
 
 
 async def test_sensor_gauge_unit_applied(
-    hass: __HAC_KEEP__, setup_integration: None
+    hass: UniversalAssistant, setup_integration: None
 ) -> None:
     """Test gauge sensor uses reported unit."""
 
@@ -43,7 +43,7 @@ async def test_sensor_gauge_unit_applied(
 
 
 async def test_sensor_gauge_unit_missing(
-    hass: __HAC_KEEP__, setup_integration: None
+    hass: UniversalAssistant, setup_integration: None
 ) -> None:
     """Test gauge sensor falls back to description default."""
 
@@ -53,7 +53,7 @@ async def test_sensor_gauge_unit_missing(
 
 
 async def test_weather_lux_uses_scale_factor(
-    hass: __HAC_KEEP__, setup_integration: None
+    hass: UniversalAssistant, setup_integration: None
 ) -> None:
     """Test whether lux values are using the scale factor."""
 
@@ -68,7 +68,7 @@ async def test_weather_lux_uses_scale_factor(
 
 
 async def test_weather_wind_skips_scale_factor(
-    hass: __HAC_KEEP__, setup_integration: None
+    hass: UniversalAssistant, setup_integration: None
 ) -> None:
     """Test whether wind value is not using the scale factor."""
 

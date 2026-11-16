@@ -10,12 +10,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.ptdevices.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_flow_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ptdevices_interface: AsyncMock,
     mock_ptdevices_setup_entry: AsyncMock,
 ) -> None:
@@ -43,7 +43,7 @@ async def test_flow_success(
 
 
 async def test_flow_duplicate_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ptdevices_interface: AsyncMock,
     mock_ptdevices_setup_entry: AsyncMock,
     mock_ptdevices_config_entry: MockConfigEntry,
@@ -76,7 +76,7 @@ async def test_flow_duplicate_device(
     ],
 )
 async def test_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ptdevices_interface: AsyncMock,
     mock_ptdevices_setup_entry: AsyncMock,
     exception: Exception,
@@ -111,7 +111,7 @@ async def test_flow_errors(
 
 
 async def test_flow_no_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ptdevices_interface: AsyncMock,
     mock_ptdevices_setup_entry: AsyncMock,
     mock_ptdevices_level: PTDevicesResponse,

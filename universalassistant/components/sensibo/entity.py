@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any, Concatenate, override
 
 from pysensibo.model import MotionSensor, SensiboDevice
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -45,7 +45,7 @@ def async_handle_api_call[_T: SensiboDeviceBaseEntity, **_P](
             async with asyncio.timeout(TIMEOUT):
                 res = await function(entity, *args, **kwargs)
         except SENSIBO_ERRORS as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="service_raised",
                 translation_placeholders={"error": str(err), "name": entity.name},
@@ -53,7 +53,7 @@ def async_handle_api_call[_T: SensiboDeviceBaseEntity, **_P](
 
         LOGGER.debug("Result %s for entity %s with arguments %s", res, entity, kwargs)
         if res is not True:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="service_result_not_true",
                 translation_placeholders={"name": entity.name},

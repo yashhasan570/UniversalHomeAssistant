@@ -1,4 +1,4 @@
-"""Zeroconf discovery for __HA_KEEP__."""
+"""Zeroconf discovery for Universal Home Assistant."""
 
 from collections.abc import Callable
 import contextlib
@@ -14,7 +14,7 @@ from zeroconf.asyncio import AsyncServiceBrowser, AsyncServiceInfo
 
 from universalassistant import config_entries
 from universalassistant.const import ATTR_DOMAIN, ATTR_NAME
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import discovery_flow
 from universalassistant.helpers.discovery_flow import DiscoveryKey
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -172,7 +172,7 @@ class ZeroconfDiscovery:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         zeroconf: HaZeroconf,
         zeroconf_types: dict[str, list[ZeroconfMatcher]],
         homekit_model_lookups: dict[str, HomeKitDiscoveredIntegration],
@@ -215,7 +215,7 @@ class ZeroconfDiscovery:
     async def async_setup(self) -> None:
         """Start discovery."""
         types = list(self.zeroconf_types)
-        # We want to make sure we know about other __HAC_KEEP__
+        # We want to make sure we know about other UniversalAssistant
         # instances as soon as possible to avoid name conflicts
         # so we always browse for ZEROCONF_TYPE
         types.extend(
@@ -277,7 +277,7 @@ class ZeroconfDiscovery:
         )
 
         if state_change is ServiceStateChange.Removed:
-            # Check if other __HA_KEEP__ instances has been removed.
+            # Check if other Universal Home Assistant instances has been removed.
             # Then we can remove the duplicate instance ID issue
             # as probably the conflicting instance has been shut down
             if service_type == ZEROCONF_TYPE and name in self._conflicting_instances:
@@ -346,7 +346,7 @@ class ZeroconfDiscovery:
         _LOGGER.debug("Discovered new device %s %s", name, info)
         props: dict[str, str | None] = info.properties
 
-        # Instance ID conflict detection for __HA_KEEP__ core
+        # Instance ID conflict detection for Universal Home Assistant core
         if service_type == ZEROCONF_TYPE and (
             discovered_instance_id := props.get("uuid")
         ):
@@ -460,7 +460,7 @@ class ZeroconfDiscovery:
         # Conflict detected, create repair issue
         _joined_ips = ", ".join(str(ip_address) for ip_address in discovered_ips)
         _LOGGER.warning(
-            "Discovered another __HA_KEEP__ instance"
+            "Discovered another Universal Home Assistant instance"
             " with the same instance ID (%s) at %s",
             discovered_instance_id,
             _joined_ips,

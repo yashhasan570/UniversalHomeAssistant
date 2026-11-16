@@ -29,7 +29,7 @@ from universalassistant.components.pterodactyl.sensor import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -64,7 +64,7 @@ GAME_SERVER_IDENTIFIERS = (SERVER_1_IDENTIFIER, SERVER_2_IDENTIFIER)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_pterodactyl")
 @pytest.mark.freeze_time("2026-01-01T12:00:00+00:00")
 async def test_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -82,7 +82,7 @@ async def test_sensor(
 
 @pytest.mark.usefixtures("mock_pterodactyl")
 async def test_sensor_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -103,7 +103,7 @@ async def test_sensor_disabled_by_default(
 
 @pytest.mark.usefixtures("mock_pterodactyl")
 async def test_sensor_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pterodactyl: Generator[AsyncMock],
     freezer: FrozenDateTimeFactory,
@@ -170,7 +170,7 @@ async def test_sensor_update(
     ],
 )
 async def test_uptime_sensor_stability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pterodactyl: Generator[AsyncMock],
     freezer: FrozenDateTimeFactory,
@@ -207,7 +207,7 @@ async def test_uptime_sensor_stability(
     "entity_registry_enabled_by_default", "suspended_game_servers", "mock_pterodactyl"
 )
 async def test_sensor_suspended_server(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pterodactyl: Generator[AsyncMock],
 ) -> None:
@@ -257,7 +257,7 @@ async def test_sensor_suspended_server(
     ],
 )
 async def test_sensor_update_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pterodactyl: Generator[AsyncMock],
     freezer: FrozenDateTimeFactory,
@@ -281,7 +281,7 @@ async def test_sensor_update_error(
 
 
 async def test_sensor_recovery_after_update_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pterodactyl: Generator[AsyncMock],
     freezer: FrozenDateTimeFactory,

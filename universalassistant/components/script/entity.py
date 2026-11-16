@@ -24,7 +24,7 @@ from universalassistant.const import (
 )
 from universalassistant.core import (
     Context,
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -239,7 +239,7 @@ class ScriptEntity(BaseScriptEntity, RestoreEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         key: str,
         cfg: ConfigType,
         raw_config: ConfigType | None,

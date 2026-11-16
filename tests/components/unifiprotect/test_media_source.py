@@ -27,7 +27,7 @@ from universalassistant.components.unifiprotect.media_source import (
     SimpleEventType,
     async_get_media_source,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -35,7 +35,7 @@ from .conftest import MockUFPFixture
 from .utils import init_entry
 
 
-async def test_get_media_source(hass: __HAC_KEEP__) -> None:
+async def test_get_media_source(hass: UniversalAssistant) -> None:
     """Test the async_get_media_source function and ProtectMediaSource constructor."""
     source = await async_get_media_source(hass)
     assert isinstance(source, ProtectMediaSource)
@@ -52,7 +52,7 @@ async def test_get_media_source(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_resolve_media_bad_identifier(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, identifier: str
+    hass: UniversalAssistant, ufp: MockUFPFixture, identifier: str
 ) -> None:
     """Test resolving bad identifiers."""
 
@@ -67,7 +67,7 @@ async def test_resolve_media_bad_identifier(
 
 
 async def test_resolve_media_thumbnail(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera, fixed_now: datetime
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera, fixed_now: datetime
 ) -> None:
     """Test resolving event thumbnails."""
 
@@ -99,7 +99,7 @@ async def test_resolve_media_thumbnail(
 
 
 async def test_resolve_media_event(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera, fixed_now: datetime
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera, fixed_now: datetime
 ) -> None:
     """Test resolving event clips."""
 
@@ -154,7 +154,7 @@ async def test_resolve_media_event(
     ],
 )
 async def test_browse_media_bad_identifier(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, identifier: str
+    hass: UniversalAssistant, ufp: MockUFPFixture, identifier: str
 ) -> None:
     """Test browsing media with bad identifiers."""
 
@@ -169,7 +169,7 @@ async def test_browse_media_bad_identifier(
 
 
 async def test_browse_media_event_ongoing(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, fixed_now: datetime, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, fixed_now: datetime, doorbell: Camera
 ) -> None:
     """Test browsing event that is still ongoing."""
 
@@ -197,7 +197,7 @@ async def test_browse_media_event_ongoing(
 
 
 async def test_browse_media_root_multiple_consoles(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, bootstrap: Bootstrap
+    hass: UniversalAssistant, ufp: MockUFPFixture, bootstrap: Bootstrap
 ) -> None:
     """Test browsing root level media with multiple consoles."""
 
@@ -264,7 +264,7 @@ async def test_browse_media_root_multiple_consoles(
 
 
 async def test_browse_media_root_multiple_consoles_only_one_media(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, bootstrap: Bootstrap
+    hass: UniversalAssistant, ufp: MockUFPFixture, bootstrap: Bootstrap
 ) -> None:
     """Test browsing root level media with multiple consoles."""
 
@@ -328,7 +328,7 @@ async def test_browse_media_root_multiple_consoles_only_one_media(
 
 
 async def test_browse_media_root_single_console(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """Test browsing root level media with a single console."""
 
@@ -351,7 +351,7 @@ async def test_browse_media_root_single_console(
 
 
 async def test_browse_media_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -393,7 +393,7 @@ async def test_browse_media_camera(
 
 
 async def test_browse_media_camera_offline(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """Test browsing camera selector level media when camera is offline."""
 
@@ -418,7 +418,7 @@ async def test_browse_media_camera_offline(
 
 
 async def test_browse_media_event_type(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """Test browsing event type selector level media."""
 
@@ -479,7 +479,7 @@ TWO_MONTH_SIMPLE = (
 )
 @pytest.mark.freeze_time("2022-09-15 03:00:00-07:00")
 async def test_browse_media_time(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     start: datetime,
@@ -551,7 +551,7 @@ TWO_MONTH_TIMEZONE = (
 )
 @pytest.mark.freeze_time("2022-08-31 21:00:00-07:00")
 async def test_browse_media_time_timezone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     start: datetime,
@@ -590,7 +590,7 @@ async def test_browse_media_time_timezone(
 
 
 async def test_browse_media_recent(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera, fixed_now: datetime
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera, fixed_now: datetime
 ) -> None:
     """Test browsing event selector level media for recent days."""
 
@@ -627,7 +627,7 @@ async def test_browse_media_recent(
 
 
 async def test_browse_media_recent_truncated(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera, fixed_now: datetime
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera, fixed_now: datetime
 ) -> None:
     """Test browsing event selector level media for recent days."""
     hass.config_entries.async_update_entry(ufp.entry, options={"max_media": 1})
@@ -782,7 +782,7 @@ async def test_browse_media_recent_truncated(
     ],
 )
 async def test_browse_media_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     fixed_now: datetime,
@@ -814,7 +814,7 @@ async def test_browse_media_event(
 
 
 async def test_browse_media_eventthumb(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera, fixed_now: datetime
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera, fixed_now: datetime
 ) -> None:
     """Test browsing specific event."""
 
@@ -847,7 +847,7 @@ async def test_browse_media_eventthumb(
 
 @pytest.mark.freeze_time("2022-09-15 03:00:00-07:00")
 async def test_browse_media_day(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """Test browsing day selector level media."""
 
@@ -875,7 +875,7 @@ async def test_browse_media_day(
 
 
 async def test_browse_media_browse_day(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera, fixed_now: datetime
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera, fixed_now: datetime
 ) -> None:
     """Test events for a specific day."""
 
@@ -919,7 +919,7 @@ async def test_browse_media_browse_day(
 
 
 async def test_browse_media_browse_whole_month(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera, fixed_now: datetime
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera, fixed_now: datetime
 ) -> None:
     """Test events for a specific day."""
 
@@ -962,7 +962,7 @@ async def test_browse_media_browse_whole_month(
 
 
 async def test_browse_media_browse_whole_month_december(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera, fixed_now: datetime
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera, fixed_now: datetime
 ) -> None:
     """Test events for a specific day."""
 
@@ -1060,7 +1060,7 @@ async def test_browse_media_browse_whole_month_december(
     ],
 )
 async def test_build_days_whole_month_date_calculation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     year: int,
     month: int,
@@ -1113,7 +1113,7 @@ async def test_build_days_whole_month_date_calculation(
 
 
 async def test_public_only_entry_skipped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
 ) -> None:
     """A public-only entry must not break the media source map.
@@ -1129,7 +1129,7 @@ async def test_public_only_entry_skipped(
 
 @pytest.mark.freeze_time("2022-09-15 03:00:00-07:00")
 async def test_browse_media_month_before_recording_started(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """Test browsing a month that is entirely before recording started."""
     start = datetime.fromisoformat("2022-09-03 03:00:00-07:00")
@@ -1155,7 +1155,7 @@ async def test_browse_media_month_before_recording_started(
 
 @pytest.mark.freeze_time("2022-09-15 03:00:00-07:00")
 async def test_browse_media_month_without_recording_start(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """Test browsing a month when the console reports no recording start."""
     # Falls back to the earliest camera recording, so clear that as well.
@@ -1176,7 +1176,7 @@ async def test_browse_media_month_without_recording_start(
 
 @pytest.mark.freeze_time("2022-09-15 03:00:00-07:00")
 async def test_browse_media_recording_started_on_last_local_day(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera
 ) -> None:
     """Test the last day of a month is offered across a UTC date boundary."""
     await hass.config.async_set_time_zone("US/Pacific")

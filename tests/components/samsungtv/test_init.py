@@ -20,7 +20,7 @@ from universalassistant.components.samsungtv.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_MAC, CONF_MODEL, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_samsungtv_entry
@@ -45,7 +45,7 @@ from .const import (
     "rest_api_failing",
 )
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry_data: dict[str, Any],
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -61,7 +61,7 @@ async def test_setup(
 
 @pytest.mark.usefixtures("remote_websocket")
 async def test_setup_h_j_model(
-    hass: __HAC_KEEP__, rest_api: Mock, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, rest_api: Mock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test Samsung TV integration is setup."""
     rest_api.rest_device_info.return_value = await async_load_json_object_fixture(
@@ -77,7 +77,7 @@ async def test_setup_h_j_model(
 
 
 @pytest.mark.usefixtures("remote_websocket", "rest_api")
-async def test_setup_updates_from_ssdp(hass: __HAC_KEEP__) -> None:
+async def test_setup_updates_from_ssdp(hass: UniversalAssistant) -> None:
     """Test setting up the entry fetches data from ssdp cache."""
     entry = MockConfigEntry(
         domain=DOMAIN, data=ENTRYDATA_WEBSOCKET, entry_id="sample-entry-id"
@@ -87,7 +87,7 @@ async def test_setup_updates_from_ssdp(hass: __HAC_KEEP__) -> None:
     assert not entry.data.get(CONF_SSDP_MAIN_TV_AGENT_LOCATION)
     assert not entry.data.get(CONF_SSDP_RENDERING_CONTROL_LOCATION)
 
-    async def _mock_async_get_discovery_info_by_st(hass: __HAC_KEEP__, mock_st: str):
+    async def _mock_async_get_discovery_info_by_st(hass: UniversalAssistant, mock_st: str):
         if mock_st == UPNP_SVC_RENDERING_CONTROL:
             return [MOCK_SSDP_DATA_RENDERING_CONTROL_ST]
         if mock_st == UPNP_SVC_MAIN_TV_AGENT:
@@ -110,7 +110,7 @@ async def test_setup_updates_from_ssdp(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("remote_encrypted_websocket", "rest_api")
-async def test_reauth_triggered_encrypted(hass: __HAC_KEEP__) -> None:
+async def test_reauth_triggered_encrypted(hass: UniversalAssistant) -> None:
     """Test reauth flow is triggered for encrypted TVs."""
     encrypted_entry_data = {**ENTRYDATA_ENCRYPTED_WEBSOCKET}
     del encrypted_entry_data[CONF_TOKEN]
@@ -127,7 +127,7 @@ async def test_reauth_triggered_encrypted(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("remote_websocket", "rest_api")
-async def test_incorrectly_formatted_mac_fixed(hass: __HAC_KEEP__) -> None:
+async def test_incorrectly_formatted_mac_fixed(hass: UniversalAssistant) -> None:
     """Test incorrectly formatted mac is corrected."""
     # Incorrect MAC cleanup introduced in #110599, can be removed in 2026.3
     await setup_samsungtv_entry(
@@ -142,7 +142,7 @@ async def test_incorrectly_formatted_mac_fixed(hass: __HAC_KEEP__) -> None:
 
 
 async def test_migrate_future_version_returns_false(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test migration failure for downgraded future config entry version."""
     entry = MockConfigEntry(

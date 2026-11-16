@@ -12,7 +12,7 @@ from universalassistant.core import (
     CALLBACK_TYPE,
     HassJob,
     HassJobType,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
 )
 from universalassistant.helpers import config_validation as cv
@@ -57,7 +57,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,

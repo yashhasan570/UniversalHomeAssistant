@@ -12,14 +12,14 @@ import pytest
 
 from universalassistant.components.london_air.sensor import CONF_LOCATIONS
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 VALID_CONFIG = {"sensor": {"platform": "london_air", CONF_LOCATIONS: ["Merton"]}}
 
 
 async def test_valid_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     london_air_data: LondonAirData,
     mock_london_air_client: AsyncMock,
 ) -> None:
@@ -67,7 +67,7 @@ async def test_valid_state(
     ],
 )
 async def test_api_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     error: LondonAirConnectionError | LondonAirUpdateError,
     mock_london_air_client: AsyncMock,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_api_failure(
     ],
 )
 async def test_authority_without_site_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     location: str,
     entity_id: str,
     london_air_data: LondonAirData,
@@ -119,7 +119,7 @@ async def test_authority_without_site_data(
 
 
 async def test_site_without_pollutants(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     london_air_data: LondonAirData,
     mock_london_air_client: AsyncMock,
 ) -> None:
@@ -139,7 +139,7 @@ async def test_site_without_pollutants(
 
 
 async def test_second_update_throttled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     london_air_data: LondonAirData,
     mock_london_air_client: AsyncMock,
 ) -> None:

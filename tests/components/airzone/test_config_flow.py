@@ -15,10 +15,10 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.airzone.config_flow import short_mac
-from universalassistant.components.airzone.const import DOMAIN
+from universalassistant.components.airzone.const import CONF_MQTT_TOPIC, DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_ID, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -44,7 +44,7 @@ TEST_IP = DHCP_SERVICE_INFO.ip
 TEST_PORT = 3000
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test that the form is served with valid input."""
 
     with (
@@ -104,7 +104,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
         assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_invalid_system_id(hass: __HAC_KEEP__) -> None:
+async def test_form_invalid_system_id(hass: UniversalAssistant) -> None:
     """Test Invalid System ID 0."""
 
     with (
@@ -181,7 +181,7 @@ async def test_form_invalid_system_id(hass: __HAC_KEEP__) -> None:
         mock_setup_entry.assert_called_once()
 
 
-async def test_form_duplicated_id(hass: __HAC_KEEP__) -> None:
+async def test_form_duplicated_id(hass: UniversalAssistant) -> None:
     """Test setting up duplicated entry."""
 
     config_entry = MockConfigEntry(
@@ -208,7 +208,7 @@ async def test_form_duplicated_id(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_connection_error(hass: __HAC_KEEP__) -> None:
+async def test_connection_error(hass: UniversalAssistant) -> None:
     """Test connection to host error."""
 
     with patch(
@@ -248,7 +248,7 @@ async def test_connection_error(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_dhcp_flow(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_flow(hass: UniversalAssistant) -> None:
     """Test that DHCP discovery works."""
 
     with patch(
@@ -310,7 +310,7 @@ async def test_dhcp_flow(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_dhcp_flow_error(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_flow_error(hass: UniversalAssistant) -> None:
     """Test that DHCP discovery fails."""
 
     with patch(
@@ -327,7 +327,7 @@ async def test_dhcp_flow_error(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "cannot_connect"
 
 
-async def test_dhcp_connection_error(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_connection_error(hass: UniversalAssistant) -> None:
     """Test DHCP connection to host error."""
 
     with patch(
@@ -407,7 +407,7 @@ async def test_dhcp_connection_error(hass: __HAC_KEEP__) -> None:
         mock_setup_entry.assert_called_once()
 
 
-async def test_dhcp_invalid_system_id(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_invalid_system_id(hass: UniversalAssistant) -> None:
     """Test Invalid System ID 0."""
 
     with patch(
@@ -488,3 +488,83 @@ async def test_dhcp_invalid_system_id(hass: __HAC_KEEP__) -> None:
         assert result["data"][CONF_ID] == TEST_ID
 
         mock_setup_entry.assert_called_once()
+
+
+async def test_options_flow(hass: UniversalAssistant) -> None:
+    """Test updating the MQTT topic through options flow."""
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        data=CONFIG,
+    )
+    entry.add_to_hass(hass)
+
+    with (
+        patch(
+            "universalassistant.components.airzone.async_setup_entry",
+            return_value=None,
+        ),
+        patch(
+            "universalassistant.components.airzone.AirzoneLocalApi.get_dhw",
+            return_value=HVAC_DHW_MOCK,
+        ),
+        patch(
+            "universalassistant.components.airzone.AirzoneLocalApi.get_hvac",
+            return_value=HVAC_MOCK,
+        ),
+        patch(
+            "universalassistant.components.airzone.AirzoneLocalApi.get_hvac_systems",
+            side_effect=SystemOutOfRange,
+        ),
+        patch(
+            "universalassistant.components.airzone.AirzoneLocalApi.get_iaq",
+            side_effect=IaqSensorNotAvailable,
+        ),
+        patch(
+            "universalassistant.components.airzone.AirzoneLocalApi.get_version",
+            return_value=HVAC_VERSION_MOCK,
+        ),
+        patch(
+            "universalassistant.components.airzone.AirzoneLocalApi.get_webserver",
+            return_value=HVAC_WEBSERVER_MOCK,
+        ),
+    ):
+        result = await hass.config_entries.options.async_init(entry.entry_id)
+
+        assert result["type"] is FlowResultType.FORM
+        assert result["step_id"] == "init"
+
+        result = await hass.config_entries.options.async_configure(
+            result["flow_id"],
+            user_input={CONF_MQTT_TOPIC: "airzone"},
+        )
+
+        assert result["type"] is FlowResultType.CREATE_ENTRY
+        assert entry.options[CONF_MQTT_TOPIC] == "airzone"
+
+
+async def test_options_flow_invalid_mqtt_topic(hass: UniversalAssistant) -> None:
+    """Test options flow rejects an invalid MQTT topic prefix."""
+    config_entry = MockConfigEntry(
+        domain=DOMAIN,
+        data={},
+        unique_id="airzone_unique_id",
+    )
+    config_entry.add_to_hass(hass)
+
+    result = await hass.config_entries.options.async_init(config_entry.entry_id)
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "init"
+
+    result = await hass.config_entries.options.async_configure(
+        result["flow_id"],
+        user_input={CONF_MQTT_TOPIC: "airzone/#"},
+    )
+    assert result["type"] is FlowResultType.FORM
+    assert result["errors"] == {"base": "invalid_mqtt_topic"}
+
+    result = await hass.config_entries.options.async_configure(
+        result["flow_id"],
+        user_input={CONF_MQTT_TOPIC: "airzone"},
+    )
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["data"] == {CONF_MQTT_TOPIC: "airzone"}

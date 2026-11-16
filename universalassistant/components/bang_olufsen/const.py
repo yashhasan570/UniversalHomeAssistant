@@ -29,7 +29,7 @@ class BeoSource:
 
 
 BEO_STATES: dict[str, MediaPlayerState] = {
-    # Dict used for translating device states to __HA_KEEP__ states.
+    # Dict used for translating device states to Universal Home Assistant states.
     "started": MediaPlayerState.PLAYING,
     "buffering": MediaPlayerState.PLAYING,
     "idle": MediaPlayerState.IDLE,
@@ -41,13 +41,13 @@ BEO_STATES: dict[str, MediaPlayerState] = {
     "unknown": MediaPlayerState.IDLE,
 }
 
-# Dict used for translating __HA_KEEP__ settings to device repeat settings.
+# Dict used for translating Universal Home Assistant settings to device repeat settings.
 BEO_REPEAT_FROM_HA: dict[RepeatMode, str] = {
     RepeatMode.ALL: "all",
     RepeatMode.ONE: "track",
     RepeatMode.OFF: "none",
 }
-# Dict used for translating device repeat settings to __HA_KEEP__ settings.
+# Dict used for translating device repeat settings to Universal Home Assistant settings.
 BEO_REPEAT_TO_HA: dict[str, RepeatMode] = {
     value: key for key, value in BEO_REPEAT_FROM_HA.items()
 }

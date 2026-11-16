@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.apsystems.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
@@ -19,7 +19,7 @@ SCAN_INTERVAL = dt.timedelta(seconds=12)
 
 @pytest.mark.usefixtures("mock_apsystems")
 async def test_load_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test load and unload entry."""
@@ -32,7 +32,7 @@ async def test_load_unload_entry(
 
 
 async def test_setup_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_apsystems: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -44,7 +44,7 @@ async def test_setup_failed(
 
 
 async def test_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_apsystems: AsyncMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,

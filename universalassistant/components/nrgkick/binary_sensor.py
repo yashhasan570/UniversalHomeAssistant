@@ -8,7 +8,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
     BinarySensorEntityDescription,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import NRGkickConfigEntry, NRGkickData, NRGkickDataUpdateCoordinator
@@ -43,7 +43,7 @@ BINARY_SENSORS: tuple[NRGkickBinarySensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    _hass: __HAC_KEEP__,
+    _hass: UniversalAssistant,
     entry: NRGkickConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

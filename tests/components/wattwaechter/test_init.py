@@ -21,7 +21,7 @@ from universalassistant.components.update import DOMAIN as UPDATE_DOMAIN
 from universalassistant.components.wattwaechter.const import DEFAULT_SCAN_INTERVAL, DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CONF_DEVICE_ID, CONF_MODEL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import (
@@ -38,7 +38,7 @@ LEGACY_GW_ID = f"WWGW-{MOCK_DEVICE_ID}"
 
 
 async def test_setup_and_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
 ) -> None:
@@ -55,7 +55,7 @@ async def test_setup_and_unload_entry(
 
 
 async def test_setup_entry_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_setup_entry_connection_error(
     ids=["no_data", "connection_error", "returns_none"],
 )
 async def test_setup_entry_retries_on_meter_data_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     attribute: str,
@@ -94,7 +94,7 @@ async def test_setup_entry_retries_on_meter_data_failure(
 
 
 async def test_setup_entry_auth_error_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
 ) -> None:
@@ -123,7 +123,7 @@ async def test_setup_entry_auth_error_starts_reauth(
     ids=["mdns", "ip_fallback"],
 )
 async def test_device_configuration_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -152,7 +152,7 @@ async def test_device_configuration_url(
     ids=["system_info", "entry_fallback"],
 )
 async def test_device_model(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -175,7 +175,7 @@ async def test_device_model(
 
 
 async def test_device_model_follows_system_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,
@@ -216,7 +216,7 @@ async def test_device_model_follows_system_info(
 
 
 async def test_migrate_gw_entry_to_bare_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -272,7 +272,7 @@ async def test_migrate_gw_entry_to_bare_device_id(
 
 
 async def test_migrate_plus_entry_unchanged(
-    hass: __HAC_KEEP__, mock_client: AsyncMock
+    hass: UniversalAssistant, mock_client: AsyncMock
 ) -> None:
     """Test an entry that already uses the bare ID only gets the new version."""
     entry = MockConfigEntry(
@@ -293,7 +293,7 @@ async def test_migrate_plus_entry_unchanged(
 
 
 async def test_migrate_keeps_id_when_device_configured_twice(
-    hass: __HAC_KEEP__, mock_client: AsyncMock
+    hass: UniversalAssistant, mock_client: AsyncMock
 ) -> None:
     """Test the old ID is kept when another entry already has the bare ID."""
     MockConfigEntry(
@@ -334,7 +334,7 @@ async def test_migrate_keeps_id_when_device_configured_twice(
     ],
 )
 async def test_migrate_enables_generic_gas_power(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: AsyncMock,
     entity_registry: er.EntityRegistry,
     disabled_by: er.RegistryEntryDisabler,

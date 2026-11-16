@@ -9,7 +9,7 @@ from swisscom_internet_box import SwisscomAuthError, SwisscomConnectionError
 from universalassistant.components.swisscom.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import TEST_FORMATTED_MAC, TEST_MODEL_NAME, USER_INPUT
@@ -19,7 +19,7 @@ NEW_PASSWORD = "new-password"
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_success(
-    hass: __HAC_KEEP__, mock_swisscom_client: MagicMock
+    hass: UniversalAssistant, mock_swisscom_client: MagicMock
 ) -> None:
     """Test a successful user-initiated config flow."""
     result = await hass.config_entries.flow.async_init(
@@ -50,7 +50,7 @@ async def test_user_flow_success(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_error_and_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_swisscom_client: MagicMock,
     side_effect: Exception,
     expected_error: str,
@@ -78,7 +78,7 @@ async def test_user_flow_error_and_recovery(
 
 
 async def test_user_flow_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_swisscom_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -98,7 +98,7 @@ async def test_user_flow_duplicate(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_no_model_name_uses_default_title(
-    hass: __HAC_KEEP__, mock_swisscom_client: MagicMock
+    hass: UniversalAssistant, mock_swisscom_client: MagicMock
 ) -> None:
     """Test the entry falls back to a default title when the box reports no model."""
     mock_swisscom_client.get_box_info.return_value.model_name = ""
@@ -117,7 +117,7 @@ async def test_user_flow_no_model_name_uses_default_title(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_swisscom_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -148,7 +148,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_error_and_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_swisscom_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],
@@ -177,7 +177,7 @@ async def test_reauth_flow_error_and_recovery(
 
 
 async def test_reauth_flow_unique_id_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_swisscom_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

@@ -7,14 +7,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import MOCK_SERIAL
 
 
 async def test_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: MagicMock,
     mock_integration: MockConfigEntry,
 ) -> None:
@@ -31,7 +31,7 @@ async def test_unload_config_entry(
 
 
 async def test_config_entry_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -46,11 +46,11 @@ async def test_config_entry_not_ready(
 
 
 async def test_disconnect_on_hass_stop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_device: MagicMock,
     mock_integration: MockConfigEntry,
 ) -> None:
-    """Test device disconnects when __HA_KEEP__ stops."""
+    """Test device disconnects when Universal Home Assistant stops."""
     assert mock_integration.state is ConfigEntryState.LOADED
     assert mock_device.disconnect.call_count == 0
 

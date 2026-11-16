@@ -10,7 +10,7 @@ from aiortm import AioRTMClient, AioRTMError, AuthError
 
 from universalassistant.components.todo import TodoItem, TodoItemStatus
 from universalassistant.config_entries import ConfigEntry, ConfigSubentry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -55,7 +55,7 @@ class RtmTodoCoordinator(DataUpdateCoordinator[dict[int, RtmList]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: RememberTheMilkConfigEntry,
         client: AioRTMClient,
     ) -> None:

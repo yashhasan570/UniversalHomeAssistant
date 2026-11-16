@@ -10,7 +10,7 @@ from nacl.encoding import Base64Encoder, HexEncoder, RawEncoder
 from nacl.secret import SecretBox
 
 from universalassistant.const import ATTR_DEVICE_ID, CONTENT_TYPE_JSON
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.json import json_bytes
 from universalassistant.util.json import JsonValueType, json_loads
@@ -113,7 +113,7 @@ def decrypt_payload_legacy(key: str, ciphertext: bytes) -> JsonValueType | None:
     )
 
 
-async def async_is_local_only_user(hass: __HAC_KEEP__, user_id: str) -> bool:
+async def async_is_local_only_user(hass: UniversalAssistant, user_id: str) -> bool:
     """Return True if the user is local only."""
     user = await hass.auth.async_get_user(user_id)
     if user is None:
@@ -166,7 +166,7 @@ def safe_registration(registration: dict) -> dict:
     }
 
 
-def savable_state(hass: __HAC_KEEP__) -> dict:
+def savable_state(hass: UniversalAssistant) -> dict:
     """Return a clean object containing things that should be saved."""
     # pylint: disable-next=universal-assistant-use-runtime-data
     domain_data = hass.data[DOMAIN]

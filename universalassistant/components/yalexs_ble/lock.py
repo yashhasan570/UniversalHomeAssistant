@@ -5,7 +5,7 @@ from typing import Any, override
 from yalexs_ble import ConnectionInfo, LockInfo, LockState, LockStatus
 
 from universalassistant.components.lock import LockEntity
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import YALEXSBLEConfigEntry
@@ -14,7 +14,7 @@ from .models import YaleXSBLEData
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: YALEXSBLEConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

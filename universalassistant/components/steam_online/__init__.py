@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 from universalassistant.config_entries import ConfigSubentry
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import CONF_ACCOUNTS, DOMAIN, SUBENTRY_TYPE_FRIEND
@@ -13,7 +13,7 @@ from .coordinator import SteamConfigEntry, SteamDataUpdateCoordinator
 PLATFORMS = [Platform.IMAGE, Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SteamConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SteamConfigEntry) -> None:
     """Set up Steam from a config entry."""
     coordinator = SteamDataUpdateCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()
@@ -23,17 +23,17 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SteamConfigEntry) -> None
     entry.async_on_unload(entry.add_update_listener(_async_update_listener))
 
 
-async def _async_update_listener(hass: __HAC_KEEP__, entry: SteamConfigEntry) -> None:
+async def _async_update_listener(hass: UniversalAssistant, entry: SteamConfigEntry) -> None:
     """Handle update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SteamConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SteamConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: SteamConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: SteamConfigEntry) -> None:
     """Migrate old entry."""
 
     if entry.version < 2:

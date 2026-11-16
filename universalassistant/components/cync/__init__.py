@@ -4,7 +4,7 @@ from pycync import Auth, Cync, User
 from pycync.exceptions import AuthFailedError, CyncError
 
 from universalassistant.const import CONF_ACCESS_TOKEN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.util.ssl import get_default_context
@@ -20,7 +20,7 @@ from .coordinator import CyncConfigEntry, CyncCoordinator
 _PLATFORMS: list[Platform] = [Platform.LIGHT]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: CyncConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: CyncConfigEntry) -> None:
     """Set up Cync from a config entry."""
     user_info = User(
         entry.data[CONF_ACCESS_TOKEN],
@@ -52,7 +52,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: CyncConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, _PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: CyncConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: CyncConfigEntry) -> None:
     """Unload a config entry."""
     cync = entry.runtime_data.cync
     await cync.shut_down()

@@ -13,7 +13,7 @@ from universalassistant import config_entries
 from universalassistant.components.keenetic_ndms2 import CONF_INTERFACES, const
 from universalassistant.components.keenetic_ndms2.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_SOURCE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_FRIENDLY_NAME,
@@ -59,7 +59,7 @@ def mock_keenetic_connect_failed():
         yield
 
 
-async def test_flow_works(hass: __HAC_KEEP__, connect) -> None:
+async def test_flow_works(hass: UniversalAssistant, connect) -> None:
     """Test config flow."""
 
     result = await hass.config_entries.flow.async_init(
@@ -84,7 +84,7 @@ async def test_flow_works(hass: __HAC_KEEP__, connect) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_reconfigure(hass: __HAC_KEEP__, connect) -> None:
+async def test_reconfigure(hass: UniversalAssistant, connect) -> None:
     """Test reconfigure flow."""
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_DATA)
     entry.add_to_hass(hass)
@@ -112,7 +112,7 @@ async def test_reconfigure(hass: __HAC_KEEP__, connect) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_options(hass: __HAC_KEEP__) -> None:
+async def test_options(hass: UniversalAssistant) -> None:
     """Test updating options."""
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_DATA)
     entry.add_to_hass(hass)
@@ -150,7 +150,7 @@ async def test_options(hass: __HAC_KEEP__) -> None:
     assert result2["data"] == MOCK_OPTIONS
 
 
-async def test_host_already_configured(hass: __HAC_KEEP__, connect) -> None:
+async def test_host_already_configured(hass: UniversalAssistant, connect) -> None:
     """Test host already configured."""
 
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_DATA, options=MOCK_OPTIONS)
@@ -169,7 +169,7 @@ async def test_host_already_configured(hass: __HAC_KEEP__, connect) -> None:
 
 
 @pytest.mark.usefixtures("connect_error")
-async def test_connection_error(hass: __HAC_KEEP__) -> None:
+async def test_connection_error(hass: UniversalAssistant) -> None:
     """Test error when connection is unsuccessful."""
 
     result = await hass.config_entries.flow.async_init(
@@ -199,7 +199,7 @@ async def test_connection_error(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_options_not_initialized(hass: __HAC_KEEP__) -> None:
+async def test_options_not_initialized(hass: UniversalAssistant) -> None:
     """Test the error when the integration is not initialized."""
 
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_DATA)
@@ -213,7 +213,7 @@ async def test_options_not_initialized(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "not_initialized"
 
 
-async def test_options_connection_error(hass: __HAC_KEEP__) -> None:
+async def test_options_connection_error(hass: UniversalAssistant) -> None:
     """Test updating options."""
 
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_DATA)
@@ -233,7 +233,7 @@ async def test_options_connection_error(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "cannot_connect"
 
 
-async def test_options_interface_filter(hass: __HAC_KEEP__) -> None:
+async def test_options_interface_filter(hass: UniversalAssistant) -> None:
     """Test the case when the default Home interface is missing on the router."""
 
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_DATA)
@@ -263,7 +263,7 @@ async def test_options_interface_filter(hass: __HAC_KEEP__) -> None:
     assert interfaces_schema.default() == []
 
 
-async def test_ssdp_works(hass: __HAC_KEEP__, connect) -> None:
+async def test_ssdp_works(hass: UniversalAssistant, connect) -> None:
     """Test host already configured and discovered."""
 
     discovery_info = dataclasses.replace(MOCK_SSDP_DISCOVERY_INFO)
@@ -295,7 +295,7 @@ async def test_ssdp_works(hass: __HAC_KEEP__, connect) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_ssdp_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_already_configured(hass: UniversalAssistant) -> None:
     """Test host already configured and discovered."""
 
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_DATA, options=MOCK_OPTIONS)
@@ -312,7 +312,7 @@ async def test_ssdp_already_configured(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_ssdp_ignored(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_ignored(hass: UniversalAssistant) -> None:
     """Test unique ID ignored and discovered."""
 
     entry = MockConfigEntry(
@@ -333,7 +333,7 @@ async def test_ssdp_ignored(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_ssdp_update_host(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_update_host(hass: UniversalAssistant) -> None:
     """Test unique ID configured and discovered with the new host."""
 
     entry = MockConfigEntry(
@@ -360,7 +360,7 @@ async def test_ssdp_update_host(hass: __HAC_KEEP__) -> None:
     assert entry.data[CONF_HOST] == new_ip
 
 
-async def test_ssdp_reject_no_udn(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_reject_no_udn(hass: UniversalAssistant) -> None:
     """Discovered device has no UDN."""
 
     discovery_info = dataclasses.replace(MOCK_SSDP_DISCOVERY_INFO)
@@ -377,7 +377,7 @@ async def test_ssdp_reject_no_udn(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "no_udn"
 
 
-async def test_ssdp_reject_non_keenetic(hass: __HAC_KEEP__) -> None:
+async def test_ssdp_reject_non_keenetic(hass: UniversalAssistant) -> None:
     """Discovered device does not look like a keenetic router."""
 
     discovery_info = dataclasses.replace(MOCK_SSDP_DISCOVERY_INFO)

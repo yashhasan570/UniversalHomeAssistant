@@ -13,7 +13,7 @@ from universalassistant.components.tesla_fleet.coordinator import VEHICLE_INTERV
 from universalassistant.components.tesla_fleet.update import INSTALLING, SCHEDULED
 from universalassistant.components.update import DOMAIN as UPDATE_DOMAIN, UpdateService
 from universalassistant.const import STATE_ON, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import assert_entities, setup_platform
@@ -26,7 +26,7 @@ def _get_software_update(data: dict[str, Any]) -> dict[str, Any]:
 
 
 async def test_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     normal_config_entry: MockConfigEntry,
@@ -38,7 +38,7 @@ async def test_update(
 
 
 async def test_update_alt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     normal_config_entry: MockConfigEntry,
@@ -52,7 +52,7 @@ async def test_update_alt(
 
 
 async def test_update_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     normal_config_entry: MockConfigEntry,
     mock_vehicle_data: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -89,7 +89,7 @@ async def test_update_services(
 
 
 async def test_update_scheduled_far_future_not_in_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     normal_config_entry: MockConfigEntry,
     mock_vehicle_data: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -125,7 +125,7 @@ async def test_update_scheduled_far_future_not_in_progress(
 
 
 async def test_update_scheduled_soon_in_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     normal_config_entry: MockConfigEntry,
     mock_vehicle_data: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -154,7 +154,7 @@ async def test_update_scheduled_soon_in_progress(
 
 
 async def test_update_scheduled_no_time_not_in_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     normal_config_entry: MockConfigEntry,
     mock_vehicle_data: AsyncMock,
     freezer: FrozenDateTimeFactory,

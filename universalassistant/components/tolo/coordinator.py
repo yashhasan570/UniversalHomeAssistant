@@ -8,7 +8,7 @@ from tololib import ToloClient, ToloSettings, ToloStatus
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -31,7 +31,7 @@ class ToloSaunaUpdateCoordinator(DataUpdateCoordinator[ToloSaunaData]):
 
     config_entry: ToloConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, entry: ToloConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: ToloConfigEntry) -> None:
         """Initialize ToloSaunaUpdateCoordinator."""
         self.client = ToloClient(
             address=entry.data[CONF_HOST],

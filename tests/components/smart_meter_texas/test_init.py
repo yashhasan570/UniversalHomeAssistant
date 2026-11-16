@@ -14,13 +14,13 @@ from universalassistant.components.universalassistant import (
 from universalassistant.components.smart_meter_texas.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .conftest import TEST_ENTITY_ID, setup_integration
 
 
-async def test_setup_with_no_config(hass: __HAC_KEEP__) -> None:
+async def test_setup_with_no_config(hass: UniversalAssistant) -> None:
     """Test that no config is successful."""
     assert await async_setup_component(hass, DOMAIN, {}) is True
     await hass.async_block_till_done()
@@ -30,7 +30,7 @@ async def test_setup_with_no_config(hass: __HAC_KEEP__) -> None:
 
 
 async def test_auth_failure(
-    hass: __HAC_KEEP__, config_entry, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, config_entry, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test a rejected username or password fails setup and starts reauth."""
     await setup_integration(hass, config_entry, aioclient_mock, auth_fail=True)
@@ -44,7 +44,7 @@ async def test_auth_failure(
 
 
 async def test_api_timeout(
-    hass: __HAC_KEEP__, config_entry, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, config_entry, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test that a timeout results in ConfigEntryNotReady."""
     await setup_integration(hass, config_entry, aioclient_mock, auth_timeout=True)
@@ -53,7 +53,7 @@ async def test_api_timeout(
 
 
 async def test_update_failure(
-    hass: __HAC_KEEP__, config_entry, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, config_entry, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test that the coordinator handles a bad response."""
     await setup_integration(hass, config_entry, aioclient_mock, bad_reading=True)
@@ -71,7 +71,7 @@ async def test_update_failure(
 
 
 async def test_update_auth_failure_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_update_auth_failure_starts_reauth(
 
 
 async def test_read_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
@@ -114,7 +114,7 @@ async def test_read_timeout(
 
 
 async def test_unload_config_entry(
-    hass: __HAC_KEEP__, config_entry, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, config_entry, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test entry unloading."""
     await setup_integration(hass, config_entry, aioclient_mock)

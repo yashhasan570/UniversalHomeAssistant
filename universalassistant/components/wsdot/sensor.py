@@ -8,7 +8,7 @@ import wsdot as wsdot_api
 
 from universalassistant.components.sensor import SensorEntity
 from universalassistant.const import CONF_ID, CONF_NAME, UnitOfTime
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import WsdotConfigEntry
@@ -22,7 +22,7 @@ SCAN_INTERVAL = timedelta(minutes=3)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: WsdotConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

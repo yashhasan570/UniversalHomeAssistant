@@ -17,7 +17,7 @@ from pytrafikverket import (
 )
 
 from universalassistant.const import CONF_API_KEY, CONF_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -42,7 +42,7 @@ class CameraData:
 class TVDataUpdateCoordinator(DataUpdateCoordinator[CameraData]):
     """A Trafikverket Data Update Coordinator."""
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: TVCameraConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: TVCameraConfigEntry) -> None:
         """Initialize the Trafikverket coordinator."""
         super().__init__(
             hass,

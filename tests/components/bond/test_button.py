@@ -5,7 +5,7 @@ from bond_async import Action, DeviceType
 from universalassistant.components.bond.button import STEP_SIZE
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import patch_bond_action, patch_bond_device_state, setup_platform
@@ -76,7 +76,7 @@ def motorized_shade_with_preset(name: str):
 
 
 async def test_entity_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Tests that the devices are registered in the entity registry."""
@@ -98,7 +98,7 @@ async def test_entity_registry(
     assert entity.unique_id == "test-hub-id_test-device-id_startdimmer"
 
 
-async def test_mutually_exclusive_actions(hass: __HAC_KEEP__) -> None:
+async def test_mutually_exclusive_actions(hass: UniversalAssistant) -> None:
     """Tests we do not create the button when there is a mutually exclusive action."""
     await setup_platform(
         hass,
@@ -110,7 +110,7 @@ async def test_mutually_exclusive_actions(hass: __HAC_KEEP__) -> None:
     assert not hass.states.async_all("button")
 
 
-async def test_stop_not_created_no_other_buttons(hass: __HAC_KEEP__) -> None:
+async def test_stop_not_created_no_other_buttons(hass: UniversalAssistant) -> None:
     """Tests we do not create the stop button when there are no other buttons."""
     await setup_platform(
         hass,
@@ -122,7 +122,7 @@ async def test_stop_not_created_no_other_buttons(hass: __HAC_KEEP__) -> None:
     assert not hass.states.async_all("button")
 
 
-async def test_press_button_with_argument(hass: __HAC_KEEP__) -> None:
+async def test_press_button_with_argument(hass: UniversalAssistant) -> None:
     """Tests we can press a button with an argument."""
     await setup_platform(
         hass,
@@ -161,7 +161,7 @@ async def test_press_button_with_argument(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_press_button(hass: __HAC_KEEP__) -> None:
+async def test_press_button(hass: UniversalAssistant) -> None:
     """Tests we can press a button."""
     await setup_platform(
         hass,
@@ -204,7 +204,7 @@ async def test_press_button(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_motorized_shade_actions(hass: __HAC_KEEP__) -> None:
+async def test_motorized_shade_actions(hass: UniversalAssistant) -> None:
     """Tests motorized shade open next and close next actions."""
     await setup_platform(
         hass,
@@ -239,7 +239,7 @@ async def test_motorized_shade_actions(hass: __HAC_KEEP__) -> None:
     mock_action.assert_called_once_with("test-device-id", Action(Action.CLOSE_NEXT))
 
 
-async def test_preset_button(hass: __HAC_KEEP__) -> None:
+async def test_preset_button(hass: UniversalAssistant) -> None:
     """Tests preset button is created and can be pressed."""
     await setup_platform(
         hass,
@@ -262,7 +262,7 @@ async def test_preset_button(hass: __HAC_KEEP__) -> None:
     mock_action.assert_called_once_with("test-device-id", Action(Action.PRESET))
 
 
-async def test_preset_does_not_trigger_stop_button(hass: __HAC_KEEP__) -> None:
+async def test_preset_does_not_trigger_stop_button(hass: UniversalAssistant) -> None:
     """Tests that Preset alone does not cause a Stop Actions button to appear.
 
     Preset is added independently of the main button list, so it should

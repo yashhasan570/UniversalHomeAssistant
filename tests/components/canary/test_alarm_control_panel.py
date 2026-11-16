@@ -15,7 +15,7 @@ from universalassistant.const import (
     SERVICE_ALARM_DISARM,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 
@@ -23,7 +23,7 @@ from . import init_integration, mock_device, mock_location, mock_mode
 
 
 async def test_alarm_control_panel(
-    hass: __HAC_KEEP__, canary, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, canary, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the creation and values of the alarm_control_panel for Canary."""
 
@@ -104,7 +104,7 @@ async def test_alarm_control_panel(
     assert state.state == AlarmControlPanelState.ARMED_NIGHT
 
 
-async def test_alarm_control_panel_services(hass: __HAC_KEEP__, canary) -> None:
+async def test_alarm_control_panel_services(hass: UniversalAssistant, canary) -> None:
     """Test the services of the alarm_control_panel for Canary."""
 
     online_device_at_home = mock_device(20, "Dining Room", True, "Canary Pro")

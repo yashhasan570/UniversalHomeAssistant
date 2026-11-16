@@ -24,8 +24,8 @@ from universalassistant.const import (
     SERVICE_ALARM_ARM_NIGHT,
     SERVICE_ALARM_ARM_VACATION,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_component import DATA_INSTANCES
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -36,7 +36,7 @@ CODE = "HELLO_CODE"
 
 
 async def test_fail_setup_without_state_topic(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test for failing with no state topic."""
     with assert_setup_component(0, alarm_control_panel.DOMAIN) as config:
@@ -54,7 +54,7 @@ async def test_fail_setup_without_state_topic(
 
 
 async def test_fail_setup_without_command_topic(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test failing with no command topic."""
     with assert_setup_component(0, alarm_control_panel.DOMAIN):
@@ -84,7 +84,7 @@ async def test_fail_setup_without_command_topic(
     ],
 )
 async def test_no_pending(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service,
     expected_state,
     mqtt_mock: MqttMockHAClient,
@@ -135,7 +135,7 @@ async def test_no_pending(
     ],
 )
 async def test_no_pending_when_code_not_req(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service,
     expected_state,
     mqtt_mock: MqttMockHAClient,
@@ -187,7 +187,7 @@ async def test_no_pending_when_code_not_req(
     ],
 )
 async def test_with_pending(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service,
     expected_state,
     mqtt_mock: MqttMockHAClient,
@@ -262,7 +262,7 @@ async def test_with_pending(
     ],
 )
 async def test_with_invalid_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service,
     expected_state,
     mqtt_mock: MqttMockHAClient,
@@ -289,7 +289,7 @@ async def test_with_invalid_code(
 
     assert hass.states.get(entity_id).state == AlarmControlPanelState.DISARMED
 
-    with pytest.raises(__HAC_KEEP__Error, match=r"^Invalid alarm code provided$"):
+    with pytest.raises(UniversalAssistantError, match=r"^Invalid alarm code provided$"):
         await hass.services.async_call(
             alarm_control_panel.DOMAIN,
             service,
@@ -314,7 +314,7 @@ async def test_with_invalid_code(
     ],
 )
 async def test_with_template_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service,
     expected_state,
     mqtt_mock: MqttMockHAClient,
@@ -366,7 +366,7 @@ async def test_with_template_code(
     ],
 )
 async def test_with_specific_pending(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service,
     expected_state,
     mqtt_mock: MqttMockHAClient,
@@ -411,7 +411,7 @@ async def test_with_specific_pending(
 
 
 async def test_trigger_no_pending(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test triggering when no pending submitted method."""
     assert await async_setup_component(
@@ -451,7 +451,7 @@ async def test_trigger_no_pending(
 
 
 async def test_trigger_with_delay(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test trigger method and switch from pending to triggered."""
     assert await async_setup_component(
@@ -499,7 +499,7 @@ async def test_trigger_with_delay(
 
 
 async def test_trigger_zero_trigger_time(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test disabled trigger."""
     assert await async_setup_component(
@@ -529,7 +529,7 @@ async def test_trigger_zero_trigger_time(
 
 
 async def test_trigger_zero_trigger_time_with_pending(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test disabled trigger."""
     assert await async_setup_component(
@@ -559,7 +559,7 @@ async def test_trigger_zero_trigger_time_with_pending(
 
 
 async def test_trigger_with_pending(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test arm home method."""
     assert await async_setup_component(
@@ -612,7 +612,7 @@ async def test_trigger_with_pending(
 
 
 async def test_trigger_with_disarm_after_trigger(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test disarm after trigger."""
     assert await async_setup_component(
@@ -652,7 +652,7 @@ async def test_trigger_with_disarm_after_trigger(
 
 
 async def test_trigger_with_zero_specific_trigger_time(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test trigger method."""
     assert await async_setup_component(
@@ -683,7 +683,7 @@ async def test_trigger_with_zero_specific_trigger_time(
 
 
 async def test_trigger_with_unused_zero_specific_trigger_time(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test disarm after trigger."""
     assert await async_setup_component(
@@ -724,7 +724,7 @@ async def test_trigger_with_unused_zero_specific_trigger_time(
 
 
 async def test_trigger_with_specific_trigger_time(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test disarm after trigger."""
     assert await async_setup_component(
@@ -764,7 +764,7 @@ async def test_trigger_with_specific_trigger_time(
 
 
 async def test_back_to_back_trigger_with_no_disarm_after_trigger(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test no disarm after back to back trigger."""
     assert await async_setup_component(
@@ -822,7 +822,7 @@ async def test_back_to_back_trigger_with_no_disarm_after_trigger(
 
 
 async def test_disarm_while_pending_trigger(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test disarming while pending state."""
     assert await async_setup_component(
@@ -865,7 +865,7 @@ async def test_disarm_while_pending_trigger(
 
 
 async def test_disarm_during_trigger_with_invalid_code(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test disarming while code is invalid."""
     assert await async_setup_component(
@@ -897,7 +897,7 @@ async def test_disarm_during_trigger_with_invalid_code(
 
     assert hass.states.get(entity_id).state == AlarmControlPanelState.PENDING
 
-    with pytest.raises(__HAC_KEEP__Error, match=r"Invalid alarm code provided$"):
+    with pytest.raises(UniversalAssistantError, match=r"Invalid alarm code provided$"):
         await common.async_alarm_disarm(hass, entity_id=entity_id)
 
     assert hass.states.get(entity_id).state == AlarmControlPanelState.PENDING
@@ -914,7 +914,7 @@ async def test_disarm_during_trigger_with_invalid_code(
 
 
 async def test_trigger_with_unused_specific_delay(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test trigger method and switch from pending to triggered."""
     assert await async_setup_component(
@@ -963,7 +963,7 @@ async def test_trigger_with_unused_specific_delay(
 
 
 async def test_trigger_with_specific_delay(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test trigger method and switch from pending to triggered."""
     assert await async_setup_component(
@@ -1012,7 +1012,7 @@ async def test_trigger_with_specific_delay(
 
 
 async def test_trigger_with_pending_and_delay(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test trigger method and switch from pending to triggered."""
     assert await async_setup_component(
@@ -1073,7 +1073,7 @@ async def test_trigger_with_pending_and_delay(
 
 
 async def test_trigger_with_pending_and_specific_delay(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test trigger method and switch from pending to triggered."""
     assert await async_setup_component(
@@ -1135,7 +1135,7 @@ async def test_trigger_with_pending_and_specific_delay(
 
 
 async def test_trigger_with_specific_pending(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test arm home method."""
     assert await async_setup_component(
@@ -1184,7 +1184,7 @@ async def test_trigger_with_specific_pending(
 
 
 async def test_trigger_with_no_disarm_after_trigger(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test disarm after trigger."""
     assert await async_setup_component(
@@ -1229,7 +1229,7 @@ async def test_trigger_with_no_disarm_after_trigger(
 
 
 async def test_arm_away_after_disabled_disarmed(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test pending state with and without zero trigger time."""
     assert await async_setup_component(
@@ -1299,7 +1299,7 @@ async def test_arm_away_after_disabled_disarmed(
 
 
 async def test_disarm_with_template_code(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Attempt to disarm with a valid or invalid template-based code."""
     assert await async_setup_component(
@@ -1328,7 +1328,7 @@ async def test_disarm_with_template_code(
     state = hass.states.get(entity_id)
     assert state.state == AlarmControlPanelState.ARMED_HOME
 
-    with pytest.raises(__HAC_KEEP__Error, match=r"Invalid alarm code provided$"):
+    with pytest.raises(UniversalAssistantError, match=r"Invalid alarm code provided$"):
         await common.async_alarm_disarm(hass, "def")
 
     state = hass.states.get(entity_id)
@@ -1351,7 +1351,7 @@ async def test_disarm_with_template_code(
     ],
 )
 async def test_arm_via_command_topic(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config,
     expected_state,
     mqtt_mock: MqttMockHAClient,
@@ -1396,7 +1396,7 @@ async def test_arm_via_command_topic(
 
 
 async def test_disarm_pending_via_command_topic(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test disarming pending alarm via command topic."""
     assert await async_setup_component(
@@ -1432,7 +1432,7 @@ async def test_disarm_pending_via_command_topic(
 
 
 async def test_state_changes_are_published_to_mqtt(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test publishing of MQTT messages when state changes."""
     assert await async_setup_component(
@@ -1559,7 +1559,7 @@ async def test_state_changes_are_published_to_mqtt(
 
 
 async def test_subscriptions_removed_with_entity(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test a removed alarm ignores commands and stops publishing its state."""
     assert await async_setup_component(
@@ -1592,7 +1592,7 @@ async def test_subscriptions_removed_with_entity(
     mqtt_mock.async_publish.assert_not_called()
 
 
-async def _async_setup_timed_alarm(hass: __HAC_KEEP__) -> ManualMQTTAlarm:
+async def _async_setup_timed_alarm(hass: UniversalAssistant) -> ManualMQTTAlarm:
     """Set up an alarm with pending and trigger times and return its entity."""
     assert await async_setup_component(
         hass,
@@ -1617,7 +1617,7 @@ async def _async_setup_timed_alarm(hass: __HAC_KEEP__) -> ManualMQTTAlarm:
 
 
 @pytest.mark.usefixtures("mqtt_mock")
-async def test_scheduled_updates_cancelled_on_removal(hass: __HAC_KEEP__) -> None:
+async def test_scheduled_updates_cancelled_on_removal(hass: UniversalAssistant) -> None:
     """Test removing the alarm cancels its pending scheduled updates."""
     entity = await _async_setup_timed_alarm(hass)
 
@@ -1638,7 +1638,7 @@ async def test_scheduled_updates_cancelled_on_removal(hass: __HAC_KEEP__) -> Non
 
 @pytest.mark.usefixtures("mqtt_mock")
 async def test_scheduled_updates_replaced_on_state_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test state changes replace obsolete scheduled updates instead of piling up."""
     entity = await _async_setup_timed_alarm(hass)
@@ -1657,7 +1657,7 @@ async def test_scheduled_updates_replaced_on_state_change(
         assert entity._scheduled_update_unsubs == []
 
 
-async def test_no_mqtt(hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture) -> None:
+async def test_no_mqtt(hass: UniversalAssistant, caplog: pytest.LogCaptureFixture) -> None:
     """Test publishing of MQTT messages when state changes."""
     assert await async_setup_component(
         hass,

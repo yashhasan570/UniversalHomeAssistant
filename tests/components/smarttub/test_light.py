@@ -3,7 +3,7 @@
 import pytest
 from smarttub import SpaLight
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 # the light in light_zone should have initial state light_state. we will call
@@ -20,7 +20,7 @@ from universalassistant.core import __HAC_KEEP__
 async def test_light(
     spa,
     setup_entry,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     light_zone,
     light_state,
     service_name,

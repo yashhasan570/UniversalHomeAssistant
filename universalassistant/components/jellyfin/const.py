@@ -56,7 +56,7 @@ SUPPORTED_AUDIO_CODECS: Final = ["aac", "mp3", "vorbis", "wma"]
 PLAYABLE_ITEM_TYPES: Final = [ITEM_TYPE_AUDIO, ITEM_TYPE_EPISODE, ITEM_TYPE_MOVIE]
 
 
-USER_APP_NAME: Final = "__HA_KEEP__"
+USER_APP_NAME: Final = "Universal Home Assistant"
 USER_AGENT: Final = f"Universal-Assistant/{CLIENT_VERSION}"
 
 CONTENT_TYPE_MAP = {

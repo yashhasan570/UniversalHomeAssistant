@@ -8,7 +8,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.kostal_plenticore.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceInfo
 
 
@@ -27,7 +27,7 @@ def mock_apiclient() -> Generator[ApiClient]:
 
 
 async def test_plenticore_async_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_apiclient: ApiClient,
 ) -> None:

@@ -11,7 +11,7 @@ from universalassistant.components.minecraft_server.const import DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ADDRESS, CONF_HOST, CONF_NAME, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import (
@@ -54,7 +54,7 @@ def v1_mock_config_entry() -> MockConfigEntry:
     )
 
 
-def create_v1_mock_device_entry(hass: __HAC_KEEP__, config_entry_id: str) -> str:
+def create_v1_mock_device_entry(hass: UniversalAssistant, config_entry_id: str) -> str:
     """Create mock device entry with version 1."""
     device_registry = dr.async_get(hass)
     device_entry_v1 = device_registry.async_get_or_create(
@@ -70,7 +70,7 @@ def create_v1_mock_device_entry(hass: __HAC_KEEP__, config_entry_id: str) -> str
 
 
 def create_v1_mock_sensor_entity_entries(
-    hass: __HAC_KEEP__, config_entry_id: str, device_entry_id: str
+    hass: UniversalAssistant, config_entry_id: str, device_entry_id: str
 ) -> list[dict]:
     """Create mock sensor entity entries with version 1."""
     sensor_entity_id_key_mapping_list = []
@@ -95,7 +95,7 @@ def create_v1_mock_sensor_entity_entries(
 
 
 def create_v1_mock_binary_sensor_entity_entry(
-    hass: __HAC_KEEP__, config_entry_id: str, device_entry_id: str
+    hass: UniversalAssistant, config_entry_id: str, device_entry_id: str
 ) -> dict:
     """Create mock binary sensor entity entry with version 1."""
     config_entry = hass.config_entries.async_get_entry(config_entry_id)
@@ -116,7 +116,7 @@ def create_v1_mock_binary_sensor_entity_entry(
 
 
 async def test_setup_and_unload_entry(
-    hass: __HAC_KEEP__, java_mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, java_mock_config_entry: MockConfigEntry
 ) -> None:
     """Test successful entry setup and unload."""
     java_mock_config_entry.add_to_hass(hass)
@@ -142,7 +142,7 @@ async def test_setup_and_unload_entry(
 
 
 async def test_setup_entry_lookup_failure(
-    hass: __HAC_KEEP__, java_mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, java_mock_config_entry: MockConfigEntry
 ) -> None:
     """Test lookup failure in entry setup."""
     java_mock_config_entry.add_to_hass(hass)
@@ -160,7 +160,7 @@ async def test_setup_entry_lookup_failure(
 
 
 async def test_setup_entry_init_failure(
-    hass: __HAC_KEEP__, java_mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, java_mock_config_entry: MockConfigEntry
 ) -> None:
     """Test init failure in entry setup."""
     java_mock_config_entry.add_to_hass(hass)
@@ -178,7 +178,7 @@ async def test_setup_entry_init_failure(
 
 
 async def test_setup_entry_not_ready(
-    hass: __HAC_KEEP__, java_mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, java_mock_config_entry: MockConfigEntry
 ) -> None:
     """Test entry setup not ready."""
     java_mock_config_entry.add_to_hass(hass)
@@ -202,7 +202,7 @@ async def test_setup_entry_not_ready(
 
 
 async def test_entry_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     v1_mock_config_entry: MockConfigEntry,
@@ -270,7 +270,7 @@ async def test_entry_migration(
 
 
 async def test_entry_migration_host_only(
-    hass: __HAC_KEEP__, v1_mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, v1_mock_config_entry: MockConfigEntry
 ) -> None:
     """Test entry migration v1 to v3, where host alone is sufficient."""
     v1_mock_config_entry.add_to_hass(hass)
@@ -308,7 +308,7 @@ async def test_entry_migration_host_only(
 
 
 async def test_entry_migration_v3_failure(
-    hass: __HAC_KEEP__, v1_mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, v1_mock_config_entry: MockConfigEntry
 ) -> None:
     """Test failed entry migration from version 2 to 3."""
     v1_mock_config_entry.add_to_hass(hass)
@@ -342,7 +342,7 @@ async def test_entry_migration_v3_failure(
 
 
 async def test_device_entry_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     java_mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:

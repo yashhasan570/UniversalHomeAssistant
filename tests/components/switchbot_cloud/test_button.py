@@ -10,13 +10,13 @@ from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, Button
 from universalassistant.components.switchbot_cloud import SwitchBotAPI
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import configure_integration
 
 
 async def test_pressmode_bot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices,
     mock_get_status,
     mock_setup_webhook,
@@ -67,7 +67,7 @@ async def test_pressmode_bot(
 
 
 async def test_switchmode_bot_no_button_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices,
     mock_get_status,
     mock_setup_webhook,
@@ -109,7 +109,7 @@ async def test_switchmode_bot_no_button_entity(
     ],
 )
 async def test_loaded_buttons(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status, buttons
+    hass: UniversalAssistant, mock_list_devices, mock_get_status, buttons
 ) -> None:
     """Test press."""
     mock_list_devices.return_value = [

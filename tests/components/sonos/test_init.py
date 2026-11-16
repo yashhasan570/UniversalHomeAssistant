@@ -27,7 +27,7 @@ from universalassistant.components.sonos.const import (
 from universalassistant.components.sonos.exception import SonosUpdateError
 from universalassistant.components.sonos.speaker import RESUB_COOLDOWN_SECONDS
 from universalassistant.components.ssdp import SsdpChange
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import (
     device_registry as dr,
@@ -47,7 +47,7 @@ from .conftest import MockSoCo, SoCoMockFactory, SonosMockEvent
 
 
 async def test_creating_entry_sets_up_media_player(
-    hass: __HAC_KEEP__, zeroconf_payload: ZeroconfServiceInfo
+    hass: UniversalAssistant, zeroconf_payload: ZeroconfServiceInfo
 ) -> None:
     """Test setting up Sonos loads the media player."""
 
@@ -76,7 +76,7 @@ async def test_creating_entry_sets_up_media_player(
     assert len(mock_setup.mock_calls) == 1
 
 
-async def test_configuring_sonos_creates_entry(hass: __HAC_KEEP__) -> None:
+async def test_configuring_sonos_creates_entry(hass: UniversalAssistant) -> None:
     """Test that specifying config will create an entry."""
     with patch(
         "universalassistant.components.sonos.async_setup_entry",
@@ -92,7 +92,7 @@ async def test_configuring_sonos_creates_entry(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup.mock_calls) == 1
 
 
-async def test_not_configuring_sonos_not_creates_entry(hass: __HAC_KEEP__) -> None:
+async def test_not_configuring_sonos_not_creates_entry(hass: UniversalAssistant) -> None:
     """Test that no config will not create an entry."""
     with patch(
         "universalassistant.components.sonos.async_setup_entry",
@@ -105,7 +105,7 @@ async def test_not_configuring_sonos_not_creates_entry(hass: __HAC_KEEP__) -> No
 
 
 async def test_upnp_disabled_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     config_entry: MockConfigEntry,
     soco: MockSoCo,
@@ -159,7 +159,7 @@ def _wrap_unsubscribes(soco: MockSoCo) -> list[AsyncMock]:
 
 
 async def test_disable_device_unsubscribes_speaker(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_autosetup_sonos: None,
     soco: MockSoCo,
     config_entry: MockConfigEntry,
@@ -199,7 +199,7 @@ async def test_disable_device_unsubscribes_speaker(
 
 
 async def test_disabled_device_ignores_household_poll_activity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_autosetup_sonos: None,
     soco: MockSoCo,
     config_entry: MockConfigEntry,
@@ -231,7 +231,7 @@ async def test_disabled_device_ignores_household_poll_activity(
 
 
 async def test_device_disabled_during_setup_does_not_subscribe(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_setup_sonos: Callable[[], Coroutine[Any, Any, None]],
     soco: MockSoCo,
     config_entry: MockConfigEntry,
@@ -292,7 +292,7 @@ async def test_device_disabled_during_setup_does_not_subscribe(
     ],
 )
 async def test_device_registry_update_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_autosetup_sonos: None,
     soco: MockSoCo,
     config_entry: MockConfigEntry,
@@ -314,7 +314,7 @@ async def test_device_registry_update_ignored(
 
 
 async def test_device_disabled_in_other_config_entry_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_autosetup_sonos: None,
     soco: MockSoCo,
     config_entry: MockConfigEntry,
@@ -339,7 +339,7 @@ async def test_device_disabled_in_other_config_entry_ignored(
 
 
 async def test_upnp_disabled_manual_hosts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     soco_factory: SoCoMockFactory,
 ) -> None:
@@ -367,7 +367,7 @@ async def test_upnp_disabled_manual_hosts(
 
 
 async def test_discovery_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -388,7 +388,7 @@ async def test_discovery_exception(
 
 
 async def test_discovery_skips_disabled_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     soco: MockSoCo,
     device_registry: dr.DeviceRegistry,
@@ -410,7 +410,7 @@ async def test_discovery_skips_disabled_device(
 
 
 async def test_discovery_reenable_device_on_new_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     soco: MockSoCo,
     device_registry: dr.DeviceRegistry,
@@ -446,7 +446,7 @@ async def test_discovery_reenable_device_on_new_discovery(
 
 
 async def test_discovery_from_ssdp_advertisement(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     soco: MockSoCo,
     discover: MagicMock,
@@ -461,7 +461,7 @@ async def test_discovery_from_ssdp_advertisement(
     }
 
     def replay_advertisement(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         callback: Callable[[SsdpServiceInfo, SsdpChange], None],
         match_dict: dict[str, str],
     ) -> MagicMock:
@@ -497,7 +497,7 @@ async def test_discovery_from_ssdp_advertisement(
     ],
 )
 async def test_discovery_unknown_uid_on_known_speaker_ip(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_autosetup_sonos: None,
     soco: MockSoCo,
     discover: MagicMock,
@@ -535,7 +535,7 @@ async def test_discovery_unknown_uid_on_known_speaker_ip(
 
 
 async def test_async_poll_manual_hosts_warnings(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     soco_factory: SoCoMockFactory,
     freezer: FrozenDateTimeFactory,
@@ -628,7 +628,7 @@ class _MockSoCoUidError(MockSoCo):
         return set()
 
 
-async def _setup_hass(hass: __HAC_KEEP__):
+async def _setup_hass(hass: UniversalAssistant):
     await async_setup_component(
         hass,
         sonos.DOMAIN,
@@ -645,7 +645,7 @@ async def _setup_hass(hass: __HAC_KEEP__):
 
 
 async def test_async_poll_manual_hosts_1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -671,7 +671,7 @@ async def test_async_poll_manual_hosts_1(
 
 
 async def test_async_poll_manual_hosts_uid_oserror(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -701,7 +701,7 @@ async def test_async_poll_manual_hosts_uid_oserror(
 
 
 async def test_async_poll_manual_hosts_uid_http_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -730,7 +730,7 @@ async def test_async_poll_manual_hosts_uid_http_error(
 
 
 async def test_async_poll_manual_hosts_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -756,7 +756,7 @@ async def test_async_poll_manual_hosts_2(
 
 
 async def test_async_poll_manual_hosts_3(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -782,7 +782,7 @@ async def test_async_poll_manual_hosts_3(
 
 
 async def test_async_poll_manual_hosts_4(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -810,7 +810,7 @@ async def test_async_poll_manual_hosts_4(
 class SpeakerActivity:
     """Unit test class to track speaker activity messages."""
 
-    def __init__(self, hass: __HAC_KEEP__, soco: MockSoCo) -> None:
+    def __init__(self, hass: UniversalAssistant, soco: MockSoCo) -> None:
         """Create the object from soco."""
         self.soco = soco
         self.hass = hass
@@ -831,7 +831,7 @@ class SpeakerActivity:
 
 
 async def test_async_poll_manual_hosts_5(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -867,7 +867,7 @@ async def test_async_poll_manual_hosts_5(
 
 
 async def test_async_poll_manual_hosts_6(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -921,7 +921,7 @@ async def test_async_poll_manual_hosts_6(
 
 
 async def test_async_poll_manual_hosts_skips_ping_for_disabled_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -985,7 +985,7 @@ async def test_async_poll_manual_hosts_skips_ping_for_disabled_device(
 
 
 async def test_async_poll_manual_hosts_7(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1014,7 +1014,7 @@ async def test_async_poll_manual_hosts_7(
 
 
 async def test_async_poll_manual_hosts_8(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1042,7 +1042,7 @@ async def test_async_poll_manual_hosts_8(
 
 
 async def test_async_poll_manual_hosts_skips_disabled_visible_zone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     soco_factory: SoCoMockFactory,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1074,7 +1074,7 @@ async def test_async_poll_manual_hosts_skips_disabled_visible_zone(
     await hass.async_block_till_done(wait_background_tasks=True)
 
 
-async def _setup_hass_ipv6_address_not_supported(hass: __HAC_KEEP__):
+async def _setup_hass_ipv6_address_not_supported(hass: UniversalAssistant):
     await async_setup_component(
         hass,
         sonos.DOMAIN,
@@ -1091,7 +1091,7 @@ async def _setup_hass_ipv6_address_not_supported(hass: __HAC_KEEP__):
 
 
 async def test_ipv6_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Tests that invalid ipv4 addresses do not generate stack dump."""
@@ -1103,7 +1103,7 @@ async def test_ipv6_not_supported(
 
 
 async def test_no_exception_when_entry_unloaded_during_speaker_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     soco: MockSoCo,
     soco_factory: SoCoMockFactory,

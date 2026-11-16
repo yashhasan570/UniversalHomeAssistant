@@ -1,7 +1,7 @@
 """Repairs for Opower."""
 
 from universalassistant.components.repairs import RepairsFlow, RepairsFlowResult
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 class UnsupportedUtilityFixFlow(RepairsFlow):
@@ -33,7 +33,7 @@ class UnsupportedUtilityFixFlow(RepairsFlow):
 
 
 async def async_create_fix_flow(
-    hass: __HAC_KEEP__, issue_id: str, data: dict[str, str] | None
+    hass: UniversalAssistant, issue_id: str, data: dict[str, str] | None
 ) -> RepairsFlow:
     """Create flow."""
     assert issue_id.startswith("unsupported_utility")

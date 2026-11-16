@@ -32,7 +32,7 @@ from universalassistant.components.zha.helpers import (
     get_zha_gateway_proxy,
 )
 from universalassistant.const import ATTR_DEVICE_CLASS, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import entity_registry as er
 
 ENTITY_ID = "event.fakemanufacturer_fakemodel_button"
@@ -100,7 +100,7 @@ def speed_up_radio_mgr() -> Generator[None]:
 
 
 async def _setup_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> ZHADeviceProxy:
@@ -130,7 +130,7 @@ async def _setup_device(
 
 
 async def _add_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     zha_device_proxy: ZHADeviceProxy,
     event_class: type[FakeEvent],
 ) -> tuple[str, FakeEvent]:
@@ -175,7 +175,7 @@ async def _add_event(
     ],
 )
 async def test_event_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
     event_class: type[FakeEvent],
@@ -196,11 +196,11 @@ async def test_event_entity(
 
 @pytest.mark.freeze_time("2026-09-25 12:00:00+00:00")
 async def test_event_triggered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:
-    """Test events triggered by the zha entity are fired in __HA_KEEP__."""
+    """Test events triggered by the zha entity are fired in Universal Home Assistant."""
     zha_device_proxy = await _setup_device(hass, setup_zha, zigpy_device_mock)
     entity_id, zha_entity = await _add_event(hass, zha_device_proxy, FakeButtonEvent)
 
@@ -224,7 +224,7 @@ async def test_event_triggered(
 
 @pytest.mark.freeze_time("2026-09-25 12:00:00+00:00")
 async def test_multiple_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:
@@ -256,7 +256,7 @@ async def test_multiple_events(
 
 
 async def test_event_restored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:
@@ -286,7 +286,7 @@ async def test_event_restored(
 
 
 async def test_event_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],

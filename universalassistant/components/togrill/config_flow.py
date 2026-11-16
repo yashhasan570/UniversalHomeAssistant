@@ -15,7 +15,7 @@ from universalassistant.components.bluetooth import (
 )
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_ADDRESS, CONF_MODEL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import AbortFlow
 
 from .const import CONF_HAS_AMBIENT, CONF_PROBE_COUNT, DOMAIN
@@ -25,7 +25,7 @@ _TIMEOUT = 10
 
 
 async def read_config_data(
-    hass: __HAC_KEEP__, info: BluetoothServiceInfoBleak
+    hass: UniversalAssistant, info: BluetoothServiceInfoBleak
 ) -> dict[str, Any]:
     """Read config from device."""
 

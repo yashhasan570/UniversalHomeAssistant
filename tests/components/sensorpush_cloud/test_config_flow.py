@@ -8,14 +8,14 @@ from sensorpush_ha import SensorPushCloudAuthError
 
 from universalassistant.components.sensorpush_cloud.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import CONF_DATA, CONF_EMAIL
 
 
 async def test_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api: AsyncMock,
     mock_helper: AsyncMock,
     mock_setup_entry: AsyncMock,
@@ -41,7 +41,7 @@ async def test_user(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_already_configured(
-    hass: __HAC_KEEP__, mock_api: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_api: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we fail on a duplicate entry in the user flow."""
     mock_config_entry.add_to_hass(hass)
@@ -65,7 +65,7 @@ async def test_user_already_configured(
     [(SensorPushCloudAuthError, "invalid_auth"), (Exception, "unknown")],
 )
 async def test_user_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api: AsyncMock,
     mock_setup_entry: AsyncMock,
     error: Exception,

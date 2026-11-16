@@ -13,7 +13,7 @@
           "station": "Station"
         },
         "data_description": {
-          "station": "Select the water measuring station you want to add to __HA_KEEP__."
+          "station": "Select the water measuring station you want to add to Universal Home Assistant."
         },
         "description": "Found {stations_count} stations in radius",
         "title": "Select the station to add"

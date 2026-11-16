@@ -15,8 +15,8 @@ from pytest_universalassistant.common import (
 
 from universalassistant import config
 from universalassistant.const import SERVICE_RELOAD
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import ConfigValidationError, __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ConfigValidationError, UniversalAssistantError
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.entity_platform import async_get_platforms
 from universalassistant.helpers.reload import (
@@ -32,7 +32,7 @@ DOMAIN = "test_domain"
 PLATFORM_DOMAIN = "test_platform"
 
 
-async def test_reload_platform(hass: __HAC_KEEP__) -> None:
+async def test_reload_platform(hass: UniversalAssistant) -> None:
     """Test the polling of only updated entities."""
     component_setup = Mock(return_value=True)
 
@@ -74,7 +74,7 @@ async def test_reload_platform(hass: __HAC_KEEP__) -> None:
     assert not async_get_platform_without_config_entry(hass, PLATFORM_DOMAIN, DOMAIN)
 
 
-async def test_setup_reload_service(hass: __HAC_KEEP__) -> None:
+async def test_setup_reload_service(hass: UniversalAssistant) -> None:
     """Test setting up a reload service."""
     component_setup = Mock(return_value=True)
 
@@ -116,7 +116,7 @@ async def test_setup_reload_service(hass: __HAC_KEEP__) -> None:
 
 
 async def test_setup_reload_service_when_async_process_component_config_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test setting up a reload service with the config processing failing."""
     component_setup = Mock(return_value=True)
@@ -166,7 +166,7 @@ async def test_setup_reload_service_when_async_process_component_config_fails(
 
 
 async def test_setup_reload_service_with_platform_that_provides_async_reset_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test reload service setup with platform's own async_reset_platform."""
     component_setup = AsyncMock(return_value=True)
@@ -214,7 +214,7 @@ async def test_setup_reload_service_with_platform_that_provides_async_reset_plat
     assert len(async_reset_platform_called) == 1
 
 
-async def test_async_integration_yaml_config(hass: __HAC_KEEP__) -> None:
+async def test_async_integration_yaml_config(hass: UniversalAssistant) -> None:
     """Test loading yaml config for an integration."""
     mock_integration(hass, MockModule(DOMAIN))
 
@@ -230,7 +230,7 @@ async def test_async_integration_yaml_config(hass: __HAC_KEEP__) -> None:
         assert processed_config == {DOMAIN: [{"name": "one"}, {"name": "two"}]}
 
 
-async def test_async_integration_failing_yaml_config(hass: __HAC_KEEP__) -> None:
+async def test_async_integration_failing_yaml_config(hass: UniversalAssistant) -> None:
     """Test reloading yaml config for an integration fails.
 
     In case an integration reloads its yaml configuration it should throw when
@@ -251,7 +251,7 @@ async def test_async_integration_failing_yaml_config(hass: __HAC_KEEP__) -> None
             await async_integration_yaml_config(hass, DOMAIN, raise_on_failure=True)
 
 
-async def test_async_integration_failing_on_reload(hass: __HAC_KEEP__) -> None:
+async def test_async_integration_failing_on_reload(hass: UniversalAssistant) -> None:
     """Test reloading yaml config for an integration fails with an other exception.
 
     In case an integration reloads its yaml configuration it should throw when
@@ -264,15 +264,15 @@ async def test_async_integration_failing_on_reload(hass: __HAC_KEEP__) -> None:
         patch.object(config, "YAML_CONFIG_FILE", yaml_path),
         patch(
             "universalassistant.config.async_process_component_config",
-            side_effect=__HAC_KEEP__Error(),
+            side_effect=UniversalAssistantError(),
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         # Test fetching yaml config does raise when the raise_on_failure option is set
         await async_integration_yaml_config(hass, DOMAIN, raise_on_failure=True)
 
 
-async def test_async_integration_missing_yaml_config(hass: __HAC_KEEP__) -> None:
+async def test_async_integration_missing_yaml_config(hass: UniversalAssistant) -> None:
     """Test loading missing yaml config for an integration."""
     mock_integration(hass, MockModule(DOMAIN))
 

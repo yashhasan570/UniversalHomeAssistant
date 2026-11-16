@@ -35,7 +35,7 @@ from universalassistant.const import (
     CONF_ROOM,
     CONF_SENDER,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv, template as template_helper
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -71,7 +71,7 @@ PLATFORM_SCHEMA = NOTIFY_PLATFORM_SCHEMA.extend(
 
 
 async def async_get_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> XmppNotificationService:

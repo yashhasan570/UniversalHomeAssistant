@@ -1,13 +1,13 @@
 """The Fitbit integration."""
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 
 DOMAIN = "fitbit"
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up Fitbit from a config entry."""
     ir.async_create_issue(
         hass,
@@ -25,11 +25,11 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a config entry."""
 
 
-async def async_remove_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_remove_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Remove a config entry."""
     if not hass.config_entries.async_loaded_entries(DOMAIN):
         ir.async_delete_issue(hass, DOMAIN, DOMAIN)

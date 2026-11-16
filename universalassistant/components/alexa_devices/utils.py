@@ -10,7 +10,7 @@ from aioamazondevices.const.schedules import (
 from aioamazondevices.structures import AmazonDevice
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 import universalassistant.helpers.entity_registry as er
 
 from .const import DOMAIN, LOGGER
@@ -18,7 +18,7 @@ from .coordinator import AmazonDevicesCoordinator
 
 
 async def async_update_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     coordinator: AmazonDevicesCoordinator,
     platform: str,
     old_key: str,
@@ -40,7 +40,7 @@ async def async_update_unique_id(
 
 
 async def async_remove_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     coordinator: AmazonDevicesCoordinator,
     platform: str,
     key: str,
@@ -60,7 +60,7 @@ async def async_remove_entities(
 
 
 async def async_remove_unsupported_notification_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     coordinator: AmazonDevicesCoordinator,
 ) -> None:
     """Remove notification sensors from unsupported devices."""

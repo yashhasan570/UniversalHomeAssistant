@@ -24,7 +24,7 @@ from pyicloud.services.findmyiphone import AppleDevice
 from universalassistant.components.zone import async_active_zone
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntry
 from universalassistant.const import CONF_USERNAME, EntityStateAttribute
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.dispatcher import dispatcher_send
 from universalassistant.helpers.event import track_point_in_utc_time
@@ -185,7 +185,7 @@ def _parse_timestamp(value: Any) -> datetime | None:
 
 
 def _cannot_connect(err: PyiCloudConnectionException) -> ConfigEntryNotReady:
-    """Return the error that has __HA_KEEP__ retry an unreachable iCloud."""
+    """Return the error that has Universal Home Assistant retry an unreachable iCloud."""
     return ConfigEntryNotReady(
         translation_domain=DOMAIN,
         translation_key="cannot_connect",
@@ -198,7 +198,7 @@ class IcloudAccount:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         username: str,
         password: str,
         icloud_dir: Store,
@@ -304,7 +304,7 @@ class IcloudAccount:
         except PyiCloudAPIResponseException as err:
             if not is_auth_error(err):
                 # Anything else is iCloud failing rather than refusing, so let
-                # __HA_KEEP__ retry the setup with its own backoff.
+                # Universal Home Assistant retry the setup with its own backoff.
                 raise ConfigEntryNotReady from err
             # self.api was never assigned, so there is no session to send a
             # code through even when the status asks for one.
@@ -344,7 +344,7 @@ class IcloudAccount:
             # that iCloud has since invalidated is only rejected here, not
             # while logging in. Only the user can resolve it, so this fails
             # setup as an authentication failure rather than something to
-            # retry: __HA_KEEP__ starts the reauth flow and stops
+            # retry: Universal Home Assistant starts the reauth flow and stops
             # re-attempting a login that cannot succeed until they are done.
             challenged = self.api is not None and self.api.requires_2fa
             self._handle_auth_required(
@@ -366,7 +366,7 @@ class IcloudAccount:
             # is a subclass of this one and would otherwise never be reached.
             if not is_auth_error(err):
                 # Anything else is iCloud failing rather than refusing, so let
-                # __HA_KEEP__ retry the setup with its own backoff.
+                # Universal Home Assistant retry the setup with its own backoff.
                 raise ConfigEntryNotReady from err
             # A challenge keeps its session for the code to go through. The
             # rejections do not: the session has just failed to refresh, so a

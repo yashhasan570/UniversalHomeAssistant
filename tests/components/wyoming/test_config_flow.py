@@ -10,7 +10,7 @@ from wyoming.info import Info
 
 from universalassistant import config_entries
 from universalassistant.components.wyoming.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.hassio import HassioServiceInfo
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -40,7 +40,7 @@ ZEROCONF_DISCOVERY = ZeroconfServiceInfo(
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
-async def test_form_stt(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_form_stt(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -71,7 +71,7 @@ async def test_form_stt(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_tts(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_form_tts(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -102,7 +102,7 @@ async def test_form_tts(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -138,7 +138,7 @@ async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_no_supported_services(hass: __HAC_KEEP__) -> None:
+async def test_no_supported_services(hass: UniversalAssistant) -> None:
     """Test we handle no supported services error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -162,7 +162,7 @@ async def test_no_supported_services(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("info", [STT_INFO, TTS_INFO])
 async def test_hassio_addon_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     snapshot: SnapshotAssertion,
     info: Info,
@@ -191,7 +191,7 @@ async def test_hassio_addon_discovery(
     assert len(mock_wyoming.mock_calls) == 1
 
 
-async def test_hassio_addon_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_hassio_addon_already_configured(hass: UniversalAssistant) -> None:
     """Test we abort discovery if the add-on is already configured."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -209,7 +209,7 @@ async def test_hassio_addon_already_configured(hass: __HAC_KEEP__) -> None:
     assert entry.unique_id == "1234"
 
 
-async def test_hassio_addon_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_hassio_addon_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -235,7 +235,7 @@ async def test_hassio_addon_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert result3.get("type") is FlowResultType.CREATE_ENTRY
 
 
-async def test_hassio_addon_no_supported_services(hass: __HAC_KEEP__) -> None:
+async def test_hassio_addon_no_supported_services(hass: UniversalAssistant) -> None:
     """Test we handle no supported services error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -254,7 +254,7 @@ async def test_hassio_addon_no_supported_services(hass: __HAC_KEEP__) -> None:
 
 
 async def test_zeroconf_discovery(
-    hass: __HAC_KEEP__, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, snapshot: SnapshotAssertion
 ) -> None:
     """Test config flow initiated by Supervisor."""
     with patch(
@@ -279,7 +279,7 @@ async def test_zeroconf_discovery(
 
 
 async def test_zeroconf_discovery_no_port(
-    hass: __HAC_KEEP__, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, snapshot: SnapshotAssertion
 ) -> None:
     """Test discovery when the zeroconf service does not have a port."""
     with (
@@ -300,7 +300,7 @@ async def test_zeroconf_discovery_no_port(
 
 
 async def test_zeroconf_discovery_no_services(
-    hass: __HAC_KEEP__, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, snapshot: SnapshotAssertion
 ) -> None:
     """Test discovery when there are no supported services on the client."""
     with patch(
@@ -318,7 +318,7 @@ async def test_zeroconf_discovery_no_services(
 
 
 async def test_zeroconf_discovery_already_configured(
-    hass: __HAC_KEEP__, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, snapshot: SnapshotAssertion
 ) -> None:
     """Test config flow initiated by Supervisor."""
     entry = MockConfigEntry(
@@ -341,7 +341,7 @@ async def test_zeroconf_discovery_already_configured(
     assert entry.unique_id == "test_zeroconf_name._wyoming._tcp.local._Test Satellite"
 
 
-async def test_bad_config_entry(hass: __HAC_KEEP__) -> None:
+async def test_bad_config_entry(hass: UniversalAssistant) -> None:
     """Test we can continue if a config entry is missing info."""
     entry = MockConfigEntry(
         domain=DOMAIN,

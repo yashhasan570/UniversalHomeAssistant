@@ -12,7 +12,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.daikin.const import DOMAIN, KEY_MAC
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_API_KEY, CONF_HOST, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -55,7 +55,7 @@ def mock_daikin_discovery():
         yield Discovery
 
 
-async def test_user(hass: __HAC_KEEP__, mock_daikin) -> None:
+async def test_user(hass: UniversalAssistant, mock_daikin) -> None:
     """Test user config."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -76,7 +76,7 @@ async def test_user(hass: __HAC_KEEP__, mock_daikin) -> None:
     assert result["result"].unique_id == MAC
 
 
-async def test_abort_if_already_setup(hass: __HAC_KEEP__, mock_daikin) -> None:
+async def test_abort_if_already_setup(hass: UniversalAssistant, mock_daikin) -> None:
     """Test we abort if Daikin is already setup."""
     MockConfigEntry(domain="daikin", unique_id=MAC).add_to_hass(hass)
     result = await hass.config_entries.flow.async_init(
@@ -107,7 +107,7 @@ async def test_abort_if_already_setup(hass: __HAC_KEEP__, mock_daikin) -> None:
     ],
 )
 async def test_device_abort(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_daikin: MagicMock,
     s_effect: type[Exception] | Exception,
     reason: str,
@@ -139,7 +139,7 @@ async def test_device_abort(
 
 
 @pytest.mark.usefixtures("mock_daikin")
-async def test_api_password_abort(hass: __HAC_KEEP__) -> None:
+async def test_api_password_abort(hass: UniversalAssistant) -> None:
     """Test device abort."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -182,7 +182,7 @@ async def test_api_password_abort(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_discovery_zeroconf(
-    hass: __HAC_KEEP__, mock_daikin, mock_daikin_discovery, source, data, unique_id
+    hass: UniversalAssistant, mock_daikin, mock_daikin_discovery, source, data, unique_id
 ) -> None:
     """Test discovery/zeroconf step."""
     result = await hass.config_entries.flow.async_init(

@@ -21,7 +21,7 @@ from pytest_universalassistant.components.diagnostics import get_diagnostics_for
 from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 from .conftest import (
@@ -72,7 +72,7 @@ def mock_expires_at() -> float:
 
 @pytest.fixture(autouse=True)
 async def setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_vehicles: MockConfigEntry,
     mock_abrp_client: AsyncMock,
     mock_abrp_vehicles: list[AbrpVehicle],
@@ -86,7 +86,7 @@ async def setup_entry(
     await setup_integration(hass, config_entry_with_vehicles)
 
 
-async def _replay(hass: __HAC_KEEP__, mock_telemetry_stream: MagicMock) -> None:
+async def _replay(hass: UniversalAssistant, mock_telemetry_stream: MagicMock) -> None:
     """Deliver a timeout and a telemetry frame through the stream."""
     fire_connection(mock_telemetry_stream, _TIMEOUT)
     fire_frame(mock_telemetry_stream, *_FRAME)
@@ -107,7 +107,7 @@ async def _replay(hass: __HAC_KEEP__, mock_telemetry_stream: MagicMock) -> None:
     ],
 )
 async def test_stream_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry_with_vehicles: MockConfigEntry,
     mock_telemetry_stream: MagicMock,
@@ -126,7 +126,7 @@ async def test_stream_diagnostics(
 
 
 async def test_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry_with_vehicles: MockConfigEntry,
     mock_telemetry_stream: MagicMock,
@@ -144,7 +144,7 @@ async def test_entry_diagnostics(
 
 
 async def test_diagnostics_omits_personal_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry_with_vehicles: MockConfigEntry,
     token_entry: dict[str, Any],

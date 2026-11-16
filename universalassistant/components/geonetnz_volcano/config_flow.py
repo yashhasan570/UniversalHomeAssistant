@@ -11,7 +11,7 @@ from universalassistant.const import (
     CONF_RADIUS,
     CONF_UNIT_SYSTEM,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
@@ -19,7 +19,7 @@ from .const import DEFAULT_RADIUS, DOMAIN, IMPERIAL_UNITS, METRIC_UNITS
 
 
 @callback
-def configured_instances(hass: __HAC_KEEP__) -> set[str]:
+def configured_instances(hass: UniversalAssistant) -> set[str]:
     """Return a set of configured GeoNet NZ Volcano instances."""
     return {
         f"{entry.data[CONF_LATITUDE]}, {entry.data[CONF_LONGITUDE]}"

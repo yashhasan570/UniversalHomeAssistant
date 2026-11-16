@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.const import CONF_API_KEY, CONF_MODE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.issue_registry import (
     IssueSeverity,
     async_create_issue,
@@ -23,7 +23,7 @@ PLATFORMS = [Platform.SENSOR]
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, config_entry: HereConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, config_entry: HereConfigEntry) -> None:
     """Set up HERE Travel Time from a config entry."""
     api_key = config_entry.data[CONF_API_KEY]
 
@@ -38,14 +38,14 @@ async def async_setup_entry(hass: __HAC_KEEP__, config_entry: HereConfigEntry) -
     data_coordinator = cls(hass, config_entry, api_key)
     config_entry.runtime_data = data_coordinator
 
-    async def _async_update_at_start(_: __HAC_KEEP__) -> None:
+    async def _async_update_at_start(_: UniversalAssistant) -> None:
         await data_coordinator.async_refresh()
 
     config_entry.async_on_unload(async_at_started(hass, _async_update_at_start))
     await hass.config_entries.async_forward_entry_setups(config_entry, PLATFORMS)
 
 
-def alert_for_multiple_entries(hass: __HAC_KEEP__) -> None:
+def alert_for_multiple_entries(hass: UniversalAssistant) -> None:
     """Check if there are multiple entries for the same API key."""
     if len(hass.config_entries.async_entries(DOMAIN)) > 1:
         async_create_issue(
@@ -69,14 +69,14 @@ def alert_for_multiple_entries(hass: __HAC_KEEP__) -> None:
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: HereConfigEntry
+    hass: UniversalAssistant, config_entry: HereConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, config_entry: HereConfigEntry
+    hass: UniversalAssistant, config_entry: HereConfigEntry
 ) -> None:
     """Migrate an old config entry."""
 

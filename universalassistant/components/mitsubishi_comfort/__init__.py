@@ -1,4 +1,4 @@
-"""Mitsubishi Comfort integration for __HA_KEEP__."""
+"""Mitsubishi Comfort integration for Universal Home Assistant."""
 
 import asyncio
 import logging
@@ -14,7 +14,7 @@ from mitsubishi_comfort.exceptions import AuthenticationError, DeviceConnectionE
 
 from universalassistant.components.dhcp import async_discovered_service_info
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -59,7 +59,7 @@ def _make_device(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: MitsubishiComfortConfigEntry
+    hass: UniversalAssistant, entry: MitsubishiComfortConfigEntry
 ) -> None:
     """Set up Mitsubishi Comfort from a config entry."""
     session = async_get_clientsession(hass)
@@ -212,7 +212,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: MitsubishiComfortConfigEntry
+    hass: UniversalAssistant, entry: MitsubishiComfortConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

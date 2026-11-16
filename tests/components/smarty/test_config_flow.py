@@ -8,12 +8,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.smarty.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_full_flow(
-    hass: __HAC_KEEP__, mock_smarty: AsyncMock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_smarty: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test the full flow."""
 
@@ -36,7 +36,7 @@ async def test_full_flow(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_cannot_connect(hass: __HAC_KEEP__, mock_smarty: AsyncMock) -> None:
+async def test_cannot_connect(hass: UniversalAssistant, mock_smarty: AsyncMock) -> None:
     """Test we handle cannot connect error."""
 
     mock_smarty.update.return_value = False
@@ -66,7 +66,7 @@ async def test_cannot_connect(hass: __HAC_KEEP__, mock_smarty: AsyncMock) -> Non
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_unknown_error(hass: __HAC_KEEP__, mock_smarty: AsyncMock) -> None:
+async def test_unknown_error(hass: UniversalAssistant, mock_smarty: AsyncMock) -> None:
     """Test we handle unknown error."""
 
     mock_smarty.update.side_effect = Exception
@@ -96,7 +96,7 @@ async def test_unknown_error(hass: __HAC_KEEP__, mock_smarty: AsyncMock) -> None
 
 
 async def test_existing_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we handle existing entry."""
     mock_config_entry.add_to_hass(hass)

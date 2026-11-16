@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.airthings_ble.const import DEVICE_MODEL, DOMAIN
 from universalassistant.config_entries import SOURCE_BLUETOOTH, SOURCE_IGNORE, SOURCE_USER
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
@@ -34,7 +34,7 @@ from . import (
     ],
 )
 async def test_bluetooth_discovery(
-    hass: __HAC_KEEP__, identifier: str, expected_name: str
+    hass: UniversalAssistant, identifier: str, expected_name: str
 ) -> None:
     """Test discovery via bluetooth with a valid device."""
     wave_plus_device = AirthingsDeviceType.WAVE_PLUS
@@ -71,7 +71,7 @@ async def test_bluetooth_discovery(
     assert result["result"].data == {DEVICE_MODEL: wave_plus_device.value}
 
 
-async def test_user_setup_device_added_while_form_open(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_device_added_while_form_open(hass: UniversalAssistant) -> None:
     """Test picking a device that was configured while the form was open aborts."""
     with (
         patch(
@@ -105,7 +105,7 @@ async def test_user_setup_device_added_while_form_open(hass: __HAC_KEEP__) -> No
     assert result["reason"] == "already_configured"
 
 
-async def test_bluetooth_discovery_no_BLEDevice(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_discovery_no_BLEDevice(hass: UniversalAssistant) -> None:
     """Test discovery via bluetooth but there's no BLEDevice."""
     with patch_async_ble_device_from_address(None):
         result = await hass.config_entries.flow.async_init(
@@ -126,7 +126,7 @@ async def test_bluetooth_discovery_no_BLEDevice(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_bluetooth_discovery_airthings_ble_update_failed(
-    hass: __HAC_KEEP__, exc: Exception, reason: str
+    hass: UniversalAssistant, exc: Exception, reason: str
 ) -> None:
     """Test discovery via bluetooth but there's an exception from airthings-ble."""
     with (
@@ -143,7 +143,7 @@ async def test_bluetooth_discovery_airthings_ble_update_failed(
     assert result["reason"] == reason
 
 
-async def test_bluetooth_discovery_already_setup(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_discovery_already_setup(hass: UniversalAssistant) -> None:
     """Test discovery via bluetooth with a valid device when already setup."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -159,7 +159,7 @@ async def test_bluetooth_discovery_already_setup(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_user_setup(hass: __HAC_KEEP__) -> None:
+async def test_user_setup(hass: UniversalAssistant) -> None:
     """Test the user initiated form."""
     wave_plus_device = AirthingsDeviceType.WAVE_PLUS
     with (
@@ -206,7 +206,7 @@ async def test_user_setup(hass: __HAC_KEEP__) -> None:
     assert result["result"].data == {DEVICE_MODEL: wave_plus_device.value}
 
 
-async def test_user_setup_replaces_ignored_device(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_replaces_ignored_device(hass: UniversalAssistant) -> None:
     """Test the user initiated form can replace an ignored device."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -259,7 +259,7 @@ async def test_user_setup_replaces_ignored_device(hass: __HAC_KEEP__) -> None:
     assert result["result"].data == {DEVICE_MODEL: wave_plus_device.value}
 
 
-async def test_user_setup_no_device(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_no_device(hass: UniversalAssistant) -> None:
     """Test the user initiated form without any device detected."""
     with patch(
         "universalassistant.components.airthings_ble.config_flow.async_discovered_service_info",
@@ -272,7 +272,7 @@ async def test_user_setup_no_device(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "no_devices_found"
 
 
-async def test_user_setup_existing_and_unknown_device(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_existing_and_unknown_device(hass: UniversalAssistant) -> None:
     """Test the user initiated form with existing devices and unknown ones."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -298,7 +298,7 @@ async def test_user_setup_existing_and_unknown_device(hass: __HAC_KEEP__) -> Non
     ],
 )
 async def test_user_setup_unknown_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exc: Exception,
     reason: str,
     service_info: BluetoothServiceInfoBleak,
@@ -320,7 +320,7 @@ async def test_user_setup_unknown_error(
     assert result["reason"] == reason
 
 
-async def test_user_setup_unable_to_connect(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_unable_to_connect(hass: UniversalAssistant) -> None:
     """Test the user initiated form with a device that's failing connection."""
     with (
         patch(
@@ -338,7 +338,7 @@ async def test_user_setup_unable_to_connect(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "no_devices_found"
 
 
-async def test_unsupported_device(hass: __HAC_KEEP__) -> None:
+async def test_unsupported_device(hass: UniversalAssistant) -> None:
     """Test the user initiated form with an unsupported device."""
     with patch(
         "universalassistant.components.airthings_ble.config_flow.async_discovered_service_info",
@@ -351,7 +351,7 @@ async def test_unsupported_device(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "no_devices_found"
 
 
-async def test_bluetooth_confirm_firmware_required(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_confirm_firmware_required(hass: UniversalAssistant) -> None:
     """Test discovery via bluetooth with a valid device."""
     device = AirthingsDevice(
         manufacturer="Airthings AS",
@@ -383,7 +383,7 @@ async def test_bluetooth_confirm_firmware_required(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "firmware_upgrade_required"
 
 
-async def test_step_user_firmware_required(hass: __HAC_KEEP__) -> None:
+async def test_step_user_firmware_required(hass: UniversalAssistant) -> None:
     """Test the user has selected a device with a firmware upgrade required."""
     device = AirthingsDevice(
         manufacturer="Airthings AS",
@@ -420,7 +420,7 @@ async def test_step_user_firmware_required(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "firmware_upgrade_required"
 
 
-async def test_discovering_unsupported_devices(hass: __HAC_KEEP__) -> None:
+async def test_discovering_unsupported_devices(hass: UniversalAssistant) -> None:
     """Test discovering unsupported devices."""
     with patch(
         "universalassistant.components.airthings_ble.config_flow.async_discovered_service_info",

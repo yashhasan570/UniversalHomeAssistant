@@ -21,7 +21,7 @@ from universalassistant.components.camera import CameraState, StreamType
 from universalassistant.components.nest.const import DOMAIN
 from universalassistant.components.websocket_api import TYPE_RESULT
 from universalassistant.const import ATTR_FRIENDLY_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
@@ -150,7 +150,7 @@ def make_stream_url_response(
 
 
 @pytest.fixture
-async def mock_create_stream(hass: __HAC_KEEP__) -> Generator[AsyncMock]:
+async def mock_create_stream(hass: UniversalAssistant) -> Generator[AsyncMock]:
     """Fixture to mock out the create stream call."""
     assert await async_setup_component(hass, "stream", {})
     with patch(
@@ -166,7 +166,7 @@ async def mock_create_stream(hass: __HAC_KEEP__) -> Generator[AsyncMock]:
 
 
 async def async_get_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     width: int | None = None,
     height: int | None = None,
     expected_content_type: str = "image/jpeg",
@@ -193,21 +193,21 @@ async def async_frontend_stream_types(
     return msg["result"].get("frontend_stream_types")
 
 
-async def fire_alarm(hass: __HAC_KEEP__, point_in_time: dt.datetime) -> None:
+async def fire_alarm(hass: UniversalAssistant, point_in_time: dt.datetime) -> None:
     """Fire an alarm and wait for callbacks to run."""
     with freeze_time(point_in_time):
         async_fire_time_changed(hass, point_in_time)
         await hass.async_block_till_done()
 
 
-async def test_no_devices(hass: __HAC_KEEP__, setup_platform: PlatformSetup) -> None:
+async def test_no_devices(hass: UniversalAssistant, setup_platform: PlatformSetup) -> None:
     """Test configuration that returns no devices."""
     await setup_platform()
     assert len(hass.states.async_all()) == 0
 
 
 async def test_ineligible_device(
-    hass: __HAC_KEEP__, setup_platform: PlatformSetup, create_device: CreateDevice
+    hass: UniversalAssistant, setup_platform: PlatformSetup, create_device: CreateDevice
 ) -> None:
     """Test configuration with devices that do not support cameras."""
     create_device.create(
@@ -223,7 +223,7 @@ async def test_ineligible_device(
 
 
 async def test_camera_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     setup_platform: PlatformSetup,
@@ -249,7 +249,7 @@ async def test_camera_device(
 
 
 async def test_camera_stream(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_platform: PlatformSetup,
     camera_device: None,
     auth: FakeAuth,
@@ -275,7 +275,7 @@ async def test_camera_stream(
 
 
 async def test_camera_ws_stream(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_platform,
     camera_device,
     hass_ws_client: WebSocketGenerator,
@@ -312,7 +312,7 @@ async def test_camera_ws_stream(
 
 
 async def test_camera_ws_stream_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_platform,
     camera_device,
     hass_ws_client: WebSocketGenerator,
@@ -345,7 +345,7 @@ async def test_camera_ws_stream_failure(
 
 
 async def test_camera_stream_missing_trait(
-    hass: __HAC_KEEP__, setup_platform, create_device
+    hass: UniversalAssistant, setup_platform, create_device
 ) -> None:
     """Test that cameras missing a live stream are not supported."""
     create_device.create(
@@ -367,7 +367,7 @@ async def test_camera_stream_missing_trait(
 
 
 async def test_refresh_expired_stream_token(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_platform: PlatformSetup,
     auth: FakeAuth,
     camera_device: None,
@@ -444,7 +444,7 @@ async def test_refresh_expired_stream_token(
 
 
 async def test_stream_response_already_expired(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     auth: FakeAuth,
     setup_platform: PlatformSetup,
     camera_device: None,
@@ -476,7 +476,7 @@ async def test_stream_response_already_expired(
 
 
 async def test_extending_stream_already_expired(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     auth: FakeAuth,
     setup_platform: PlatformSetup,
     camera_device: None,
@@ -521,7 +521,7 @@ async def test_extending_stream_already_expired(
 
 
 async def test_camera_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     auth: FakeAuth,
     camera_device: None,
     setup_platform: PlatformSetup,
@@ -549,7 +549,7 @@ async def test_camera_removed(
 
 
 async def test_camera_remove_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     auth: FakeAuth,
     camera_device: None,
     setup_platform: PlatformSetup,
@@ -579,7 +579,7 @@ async def test_camera_remove_failure(
 
 
 async def test_refresh_expired_stream_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     auth: FakeAuth,
     setup_platform: PlatformSetup,
     camera_device: None,
@@ -637,7 +637,7 @@ async def test_refresh_expired_stream_failure(
 
 @pytest.mark.usefixtures("webrtc_camera_device")
 async def test_camera_web_rtc(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     auth,
     hass_ws_client: WebSocketGenerator,
     setup_platform,
@@ -705,7 +705,7 @@ async def test_camera_web_rtc(
 
 @pytest.mark.usefixtures("auth", "camera_device")
 async def test_camera_web_rtc_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     setup_platform,
 ) -> None:
@@ -744,7 +744,7 @@ async def test_camera_web_rtc_unsupported(
 
 @pytest.mark.usefixtures("webrtc_camera_device")
 async def test_camera_web_rtc_offer_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     auth,
     hass_ws_client: WebSocketGenerator,
     setup_platform,
@@ -793,7 +793,7 @@ async def test_camera_web_rtc_offer_failure(
 
 @pytest.mark.usefixtures("mock_create_stream")
 async def test_camera_multiple_streams(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     auth,
     hass_ws_client: WebSocketGenerator,
     create_device,
@@ -878,7 +878,7 @@ async def test_camera_multiple_streams(
 
 @pytest.mark.usefixtures("webrtc_camera_device")
 async def test_webrtc_refresh_expired_stream(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_platform: PlatformSetup,
     hass_ws_client: WebSocketGenerator,
     auth: FakeAuth,
@@ -972,7 +972,7 @@ async def test_webrtc_refresh_expired_stream(
 
 @pytest.mark.usefixtures("webrtc_camera_device")
 async def test_webrtc_refresh_failed_precondition(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_platform: PlatformSetup,
     hass_ws_client: WebSocketGenerator,
     auth: FakeAuth,

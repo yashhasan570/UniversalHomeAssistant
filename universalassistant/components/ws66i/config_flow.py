@@ -12,8 +12,8 @@ from universalassistant.config_entries import (
     OptionsFlowWithReload,
 )
 from universalassistant.const import CONF_IP_ADDRESS
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import (
     CONF_SOURCE_1,
@@ -76,7 +76,7 @@ def _verify_connection(ws66i: WS66i) -> bool:
 
 
 async def validate_input(
-    hass: __HAC_KEEP__, input_data: dict[str, Any]
+    hass: UniversalAssistant, input_data: dict[str, Any]
 ) -> dict[str, Any]:
     """Validate the user input.
 
@@ -168,5 +168,5 @@ class Ws66iOptionsFlowHandler(OptionsFlowWithReload):
         )
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""

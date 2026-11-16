@@ -1,11 +1,11 @@
-"""__HA_KEEP__ component for accessing the Wallbox Portal API button."""
+"""Universal Home Assistant component for accessing the Wallbox Portal API button."""
 
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 from typing import override
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -34,7 +34,7 @@ BUTTON_TYPES: dict[str, WallboxButtonEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: WallboxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -16,7 +16,7 @@ from universalassistant.components.lutron_caseta.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.helpers import (
     device_registry as dr,
     issue_registry as ir,
@@ -35,7 +35,7 @@ from . import MockBridge, async_setup_integration, make_mock_entry
     ],
 )
 async def test_timeout_during_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     constant: str,
     message: str,
@@ -58,7 +58,7 @@ async def test_timeout_during_setup(
 
 
 async def test_cannot_connect(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test failing to connect."""
     mock_entry = make_mock_entry()
@@ -70,7 +70,7 @@ async def test_cannot_connect(
     assert "Connection failed to 1.1.1.1" in caplog.text
 
 
-async def test_invalid_certificate(hass: __HAC_KEEP__) -> None:
+async def test_invalid_certificate(hass: UniversalAssistant) -> None:
     """Test setup fails with an invalid certificate."""
     mock_entry = make_mock_entry()
     mock_entry.add_to_hass(hass)
@@ -88,7 +88,7 @@ async def test_invalid_certificate(hass: __HAC_KEEP__) -> None:
 
 
 async def test_keypad_device_via_device_id(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test the keypad device is linked to the bridge device via via_device_id."""
     mock_entry = await async_setup_integration(hass, MockBridge)
@@ -133,7 +133,7 @@ async def test_keypad_device_via_device_id(
     ],
 )
 async def test_yaml_import_creates_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     host: str,
     can_connect: bool,
@@ -179,7 +179,7 @@ async def test_yaml_import_creates_issue(
 
 
 async def test_yaml_import_partial_failure(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test a failed bridge import prevents the remove-your-YAML issue."""
     bridges = {
@@ -212,7 +212,7 @@ async def test_yaml_import_partial_failure(
     assert len(issue_registry.issues) == 1
 
 
-async def test_yaml_import_finishes_before_setup_returns(hass: __HAC_KEEP__) -> None:
+async def test_yaml_import_finishes_before_setup_returns(hass: UniversalAssistant) -> None:
     """Test all YAML bridges are imported before the integration setup returns."""
     await translation.async_load_integrations(hass, {DOMAIN})
     serials = {"2.2.2.2": 2222, "3.3.3.3": 3333}

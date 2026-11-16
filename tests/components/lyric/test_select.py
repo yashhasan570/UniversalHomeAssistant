@@ -14,8 +14,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -26,7 +26,7 @@ LCC_UNIQUE_ID = f"{LCC_SUPPORTED_MAC}_room_priority"
 
 @pytest.mark.usefixtures("setup_credentials", "mock_lyric_mixed_devices")
 async def test_room_priority_select_created_regardless_of_device_id_prefix(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -57,7 +57,7 @@ async def test_room_priority_select_created_regardless_of_device_id_prefix(
 
 
 async def _setup_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> str:
@@ -103,7 +103,7 @@ async def _setup_select(
 )
 @pytest.mark.usefixtures("setup_credentials")
 async def test_room_priority_current_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_lyric_mixed_devices: MagicMock,
@@ -129,7 +129,7 @@ async def test_room_priority_current_option(
 )
 @pytest.mark.usefixtures("setup_credentials")
 async def test_room_priority_select_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_lyric_mixed_devices: MagicMock,
@@ -159,7 +159,7 @@ async def test_room_priority_select_option(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_room_priority_select_option_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_lyric_mixed_devices: MagicMock,
@@ -168,7 +168,7 @@ async def test_room_priority_select_option_error(
     entity_id = await _setup_select(hass, mock_config_entry, entity_registry)
     mock_lyric_mixed_devices.update_priority.side_effect = lyric_exception(500)
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,

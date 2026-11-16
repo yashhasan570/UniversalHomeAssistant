@@ -9,7 +9,7 @@ import pytest
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.auth import indieauth
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 REQUEST_SCHEME = "https"
 REQUEST_NETLOC = "universalassistant.example"
@@ -364,7 +364,7 @@ async def test_verify_redirect_uri() -> None:
         )
 
 
-async def test_find_link_tag(hass: __HAC_KEEP__, mock_session) -> None:
+async def test_find_link_tag(hass: UniversalAssistant, mock_session) -> None:
     """Test finding link tag."""
     mock_session.get(
         "http://127.0.0.1:8000",
@@ -385,7 +385,7 @@ async def test_find_link_tag(hass: __HAC_KEEP__, mock_session) -> None:
     assert redirect_uris == ["hass://oauth2_redirect", "http://127.0.0.1:8000/beer"]
 
 
-async def test_find_link_tag_max_size(hass: __HAC_KEEP__, mock_session) -> None:
+async def test_find_link_tag_max_size(hass: UniversalAssistant, mock_session) -> None:
     """Test finding link tag."""
     text = "".join(
         [
@@ -401,7 +401,7 @@ async def test_find_link_tag_max_size(hass: __HAC_KEEP__, mock_session) -> None:
 
 
 async def test_find_link_tag_without_href(
-    hass: __HAC_KEEP__, mock_session: AiohttpClientMocker
+    hass: UniversalAssistant, mock_session: AiohttpClientMocker
 ) -> None:
     """Test a redirect_uri link tag without a usable href is skipped."""
     mock_session.get(
@@ -423,7 +423,7 @@ async def test_find_link_tag_without_href(
 
 
 async def test_fetch_redirect_uris_metadata_document(
-    hass: __HAC_KEEP__, mock_session: AiohttpClientMocker
+    hass: UniversalAssistant, mock_session: AiohttpClientMocker
 ) -> None:
     """Test fetching redirect uris from a client id metadata document."""
     mock_session.get(
@@ -450,7 +450,7 @@ async def test_fetch_redirect_uris_metadata_document(
 
 
 async def test_fetch_redirect_uris_metadata_document_text_plain(
-    hass: __HAC_KEEP__, mock_session: AiohttpClientMocker
+    hass: UniversalAssistant, mock_session: AiohttpClientMocker
 ) -> None:
     """Test the metadata document is parsed regardless of content type."""
     mock_session.get(
@@ -471,7 +471,7 @@ async def test_fetch_redirect_uris_metadata_document_text_plain(
 
 
 async def test_fetch_redirect_uris_link_tag_precedence(
-    hass: __HAC_KEEP__, mock_session: AiohttpClientMocker
+    hass: UniversalAssistant, mock_session: AiohttpClientMocker
 ) -> None:
     """Test link tags take precedence over metadata document parsing."""
     mock_session.get(
@@ -596,7 +596,7 @@ async def test_fetch_redirect_uris_link_tag_precedence(
     ],
 )
 async def test_fetch_redirect_uris_metadata_document_invalid(
-    hass: __HAC_KEEP__, mock_session: AiohttpClientMocker, text: str
+    hass: UniversalAssistant, mock_session: AiohttpClientMocker, text: str
 ) -> None:
     """Test that invalid metadata documents yield no redirect uris."""
     mock_session.get(
@@ -616,7 +616,7 @@ async def test_fetch_redirect_uris_metadata_document_invalid(
 
 
 async def test_verify_redirect_uri_metadata_document(
-    hass: __HAC_KEEP__, mock_session: AiohttpClientMocker
+    hass: UniversalAssistant, mock_session: AiohttpClientMocker
 ) -> None:
     """Test verifying a cross-origin redirect uri from a metadata document."""
     client_id = "https://example.com/client"
@@ -648,7 +648,7 @@ async def test_verify_redirect_uri_metadata_document(
     )
 
 
-async def test_verify_redirect_uri_unparsable(hass: __HAC_KEEP__) -> None:
+async def test_verify_redirect_uri_unparsable(hass: UniversalAssistant) -> None:
     """Test an unparsable requested redirect uri is rejected without raising."""
     assert not await indieauth.verify_redirect_uri(
         hass,
@@ -701,7 +701,7 @@ async def test_verify_redirect_uri_unparsable(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_verify_redirect_uri_metadata_loopback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: AiohttpClientMocker,
     client_id: str,
     registered_uri: str,
@@ -843,7 +843,7 @@ async def test_verify_redirect_uri_metadata_loopback(
     ],
 )
 async def test_verify_redirect_uri_metadata_loopback_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: AiohttpClientMocker,
     registered_uri: str,
     redirect_uri: str,
@@ -866,7 +866,7 @@ async def test_verify_redirect_uri_metadata_loopback_rejected(
 
 
 async def test_fetch_redirect_uris_metadata_document_invalid_utf8(
-    hass: __HAC_KEEP__, mock_session: AiohttpClientMocker
+    hass: UniversalAssistant, mock_session: AiohttpClientMocker
 ) -> None:
     """Test a metadata document with invalid UTF-8 is rejected."""
     mock_session.get(
@@ -889,7 +889,7 @@ async def test_fetch_redirect_uris_metadata_document_invalid_utf8(
     ],
 )
 async def test_fetch_redirect_uris_metadata_document_invalid_client_id(
-    hass: __HAC_KEEP__, mock_session: AiohttpClientMocker, client_id: str
+    hass: UniversalAssistant, mock_session: AiohttpClientMocker, client_id: str
 ) -> None:
     """Test client ids violating the metadata document URL rules are ignored."""
     mock_session.get(
@@ -907,7 +907,7 @@ async def test_fetch_redirect_uris_metadata_document_invalid_client_id(
 
 
 async def test_fetch_redirect_uris_metadata_document_not_ok(
-    hass: __HAC_KEEP__, mock_session: AiohttpClientMocker
+    hass: UniversalAssistant, mock_session: AiohttpClientMocker
 ) -> None:
     """Test a metadata document not served with 200 OK is ignored."""
     mock_session.get(
@@ -926,7 +926,7 @@ async def test_fetch_redirect_uris_metadata_document_not_ok(
 
 
 async def test_fetch_redirect_uris_metadata_document_http_scheme(
-    hass: __HAC_KEEP__, mock_session: AiohttpClientMocker
+    hass: UniversalAssistant, mock_session: AiohttpClientMocker
 ) -> None:
     """Test a metadata document served over http is ignored."""
     client_id = "http://example.com/client"
@@ -952,7 +952,7 @@ async def test_fetch_redirect_uris_metadata_document_http_scheme(
 
 
 async def test_fetch_redirect_uris_metadata_document_redirected(
-    hass: __HAC_KEEP__, mock_session: AiohttpClientMocker
+    hass: UniversalAssistant, mock_session: AiohttpClientMocker
 ) -> None:
     """Test a metadata document reached via a redirect is ignored."""
     mock_session.get(
@@ -971,7 +971,7 @@ async def test_fetch_redirect_uris_metadata_document_redirected(
 
 
 async def test_fetch_redirect_uris_metadata_document_private_use_scheme(
-    hass: __HAC_KEEP__, mock_session: AiohttpClientMocker
+    hass: UniversalAssistant, mock_session: AiohttpClientMocker
 ) -> None:
     """Test a private-use scheme redirect uri is accepted as an absolute URI."""
     mock_session.get(
@@ -991,7 +991,7 @@ async def test_fetch_redirect_uris_metadata_document_private_use_scheme(
 
 
 async def test_fetch_redirect_uris_metadata_document_oversized(
-    hass: __HAC_KEEP__, mock_session: AiohttpClientMocker
+    hass: UniversalAssistant, mock_session: AiohttpClientMocker
 ) -> None:
     """Test a document past the 10kB cap is rejected as an incomplete read."""
     mock_session.get(
@@ -1010,7 +1010,7 @@ async def test_fetch_redirect_uris_metadata_document_oversized(
 
 
 async def test_fetch_redirect_uris_metadata_document_exactly_at_cap(
-    hass: __HAC_KEEP__, mock_session: AiohttpClientMocker
+    hass: UniversalAssistant, mock_session: AiohttpClientMocker
 ) -> None:
     """Test a document of exactly the read cap is rejected as possibly truncated."""
     document = {
@@ -1032,7 +1032,7 @@ async def test_fetch_redirect_uris_metadata_document_exactly_at_cap(
 
 
 async def test_fetch_redirect_uris_metadata_document_at_cap_ineligible(
-    hass: __HAC_KEEP__, mock_session: AiohttpClientMocker
+    hass: UniversalAssistant, mock_session: AiohttpClientMocker
 ) -> None:
     """Test a valid document that reaches the 10kB cap is ineligible."""
     mock_session.get(
@@ -1052,7 +1052,7 @@ async def test_fetch_redirect_uris_metadata_document_at_cap_ineligible(
 
 
 async def test_fetch_redirect_uris_network_error(
-    hass: __HAC_KEEP__, mock_session: AiohttpClientMocker
+    hass: UniversalAssistant, mock_session: AiohttpClientMocker
 ) -> None:
     """Test a network error yields no redirect uris without raising."""
     mock_session.get("https://example.com/client", exc=aiohttp.ClientError())

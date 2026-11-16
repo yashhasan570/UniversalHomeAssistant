@@ -9,7 +9,7 @@ from typing import Any
 import probatio
 
 from universalassistant.const import CONF_ENTITIES, CONF_ICON, CONF_NAME
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.reload import async_reload_integration_platforms
 from universalassistant.helpers.typing import ConfigType
@@ -27,7 +27,7 @@ from .entity import Group, async_get_component
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_process_config(hass: __HAC_KEEP__, config: ConfigType) -> None:
+async def async_process_config(hass: UniversalAssistant, config: ConfigType) -> None:
     """Process group configuration."""
     hass.data.setdefault(GROUP_ORDER, 0)
 
@@ -182,7 +182,7 @@ async def _async_locked_groups_service(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the group services."""
     service_lock = asyncio.Lock()
 

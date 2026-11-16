@@ -7,7 +7,7 @@ import pytest
 from pytest_universalassistant.common import assert_setup_component
 
 from universalassistant.components.rest_command import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 type ComponentSetup = Callable[[dict[str, Any] | None], Awaitable[None]]
@@ -30,7 +30,7 @@ TEST_CONFIG = {
 
 @pytest.fixture(name="setup_component")
 async def mock_setup_component(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> ComponentSetup:
     """Set up the rest_command component."""
 

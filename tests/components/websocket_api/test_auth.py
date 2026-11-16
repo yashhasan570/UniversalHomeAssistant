@@ -29,7 +29,7 @@ from universalassistant.components.websocket_api.const import (
     URL,
 )
 from universalassistant.const import HASSIO_USER_NAME
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -38,7 +38,7 @@ from tests.test_util import mock_real_ip
 
 
 @pytest.fixture
-def track_connected(hass: __HAC_KEEP__) -> dict[str, list[int]]:
+def track_connected(hass: UniversalAssistant) -> dict[str, list[int]]:
     """Track connected and disconnected events."""
     connected_evt = []
 
@@ -59,7 +59,7 @@ def track_connected(hass: __HAC_KEEP__) -> dict[str, list[int]]:
 
 
 async def test_auth_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     no_auth_websocket_client,
     local_auth: HassAuthProvider,
     hass_access_token: str,
@@ -128,7 +128,7 @@ async def test_pre_auth_only_auth_allowed(no_auth_websocket_client) -> None:
 
 
 async def test_auth_active_with_token(
-    hass: __HAC_KEEP__, no_auth_websocket_client, hass_access_token: str
+    hass: UniversalAssistant, no_auth_websocket_client, hass_access_token: str
 ) -> None:
     """Test authenticating with a token."""
     await no_auth_websocket_client.send_json(
@@ -140,7 +140,7 @@ async def test_auth_active_with_token(
 
 
 async def test_auth_logs_long_lived_access_token_usage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     hass_admin_user: MockUser,
     freezer: FrozenDateTimeFactory,
@@ -171,7 +171,7 @@ async def test_auth_logs_long_lived_access_token_usage(
 
 
 async def test_auth_active_user_inactive(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     hass_access_token: str,
 ) -> None:
@@ -194,7 +194,7 @@ async def test_auth_active_user_inactive(
 
 
 async def test_auth_local_only_user_rejected_remote(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     hass_access_token: str,
 ) -> None:
@@ -227,7 +227,7 @@ async def test_auth_local_only_user_rejected_remote(
 
 
 async def test_auth_local_only_user_allowed_local(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     hass_access_token: str,
 ) -> None:
@@ -254,7 +254,7 @@ async def test_auth_local_only_user_allowed_local(
 
 
 async def test_auth_active_with_password_not_allow(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test authenticating with a token."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -273,7 +273,7 @@ async def test_auth_active_with_password_not_allow(
 
 
 async def test_auth_legacy_support_with_password(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     local_auth: HassAuthProvider,
 ) -> None:
@@ -294,7 +294,7 @@ async def test_auth_legacy_support_with_password(
 
 
 async def test_auth_with_invalid_token(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test authenticating with a token."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -313,7 +313,7 @@ async def test_auth_with_invalid_token(
 
 
 async def test_auth_close_after_revoke(
-    hass: __HAC_KEEP__, websocket_client, hass_access_token: str
+    hass: UniversalAssistant, websocket_client, hass_access_token: str
 ) -> None:
     """Test that a websocket is closed after the refresh token is revoked."""
     assert not websocket_client.closed
@@ -327,7 +327,7 @@ async def test_auth_close_after_revoke(
 
 
 async def test_auth_sending_invalid_json_disconnects(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test sending invalid json during auth."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -346,7 +346,7 @@ async def test_auth_sending_invalid_json_disconnects(
 
 
 async def test_auth_sending_too_large_message_disconnects(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test a too large auth message disconnects before it is parsed."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -372,7 +372,7 @@ async def test_auth_sending_too_large_message_disconnects(
 
 
 async def test_auth_sending_binary_disconnects(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test sending bytes during auth."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -391,7 +391,7 @@ async def test_auth_sending_binary_disconnects(
 
 
 async def test_auth_close_disconnects(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test closing during auth."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -410,7 +410,7 @@ async def test_auth_close_disconnects(
 
 
 async def test_auth_error_disconnects(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -443,7 +443,7 @@ async def test_auth_error_disconnects(
 
 
 async def test_auth_sending_unknown_type_disconnects(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test sending unknown type during auth."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -461,7 +461,7 @@ async def test_auth_sending_unknown_type_disconnects(
 
 
 async def test_error_right_after_auth_disconnects(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     hass_access_token: str,
     caplog: pytest.LogCaptureFixture,
@@ -499,7 +499,7 @@ async def test_error_right_after_auth_disconnects(
 
 
 async def test_unix_socket_auth_bypass(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test that Unix socket connections skip websocket auth phase."""
     # Create the Supervisor system user, as the hassio integration would

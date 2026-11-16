@@ -1,10 +1,10 @@
 """Helpers to track pending restarts and reboots of the running instance.
 
 The restart flag latches: once set, nothing clears it. Restarting
-__HA_KEEP__ creates a fresh instance, and that is what clears it.
+Universal Home Assistant creates a fresh instance, and that is what clears it.
 
 The reboot flag is owned by Supervisor, which keeps it across restarts of
-__HA_KEEP__. The hassio integration mirrors it here.
+Universal Home Assistant. The hassio integration mirrors it here.
 
 An admin can put off what is pending. That only hides it from the
 interface; the restart or reboot stays required. A put-off restart comes
@@ -17,7 +17,7 @@ from dataclasses import dataclass, replace
 
 from universalassistant.core import (
     CALLBACK_TYPE,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
     verify_event_loop_thread,
 )
@@ -43,7 +43,7 @@ class SystemState:
 
     @property
     def universal_assistant_restart_required(self) -> bool:
-        """Return if a restart of __HA_KEEP__ is required."""
+        """Return if a restart of Universal Home Assistant is required."""
         return bool(self.universal_assistant_restart_sources)
 
     @property
@@ -68,13 +68,13 @@ class SystemState:
 
 
 @callback
-def async_get(hass: __HAC_KEEP__) -> SystemState:
+def async_get(hass: UniversalAssistant) -> SystemState:
     """Return the system state of the running instance."""
     return hass.data.get(DATA_SYSTEM_STATE) or SystemState()
 
 
 @callback
-def _async_update(hass: __HAC_KEEP__, system_state: SystemState) -> None:
+def _async_update(hass: UniversalAssistant, system_state: SystemState) -> None:
     """Store a new snapshot and tell the subscribers."""
     hass.data[DATA_SYSTEM_STATE] = system_state
     async_dispatcher_send_internal(hass, SIGNAL_SYSTEM_STATE_UPDATED, system_state)
@@ -82,8 +82,8 @@ def _async_update(hass: __HAC_KEEP__, system_state: SystemState) -> None:
 
 @callback
 @verify_event_loop_thread("system_state.async_set_universal_assistant_restart_required")
-def async_set_universal_assistant_restart_required(hass: __HAC_KEEP__, domain: str) -> None:
-    """Flag that __HA_KEEP__ needs a restart to apply a change.
+def async_set_universal_assistant_restart_required(hass: UniversalAssistant, domain: str) -> None:
+    """Flag that Universal Home Assistant needs a restart to apply a change.
 
     The domain is the integration that asks for the restart. It is listed
     to the user, so they can see what is waiting for the restart.
@@ -105,7 +105,7 @@ def async_set_universal_assistant_restart_required(hass: __HAC_KEEP__, domain: s
 
 @callback
 def async_subscribe(
-    hass: __HAC_KEEP__, listener: Callable[[SystemState], None]
+    hass: UniversalAssistant, listener: Callable[[SystemState], None]
 ) -> CALLBACK_TYPE:
     """Subscribe to changes of the system state."""
     return async_dispatcher_connect(hass, SIGNAL_SYSTEM_STATE_UPDATED, listener)
@@ -113,7 +113,7 @@ def async_subscribe(
 
 @callback
 @verify_event_loop_thread("system_state.async_set_host_reboot_required")
-def async_set_host_reboot_required(hass: __HAC_KEEP__, required: bool) -> None:
+def async_set_host_reboot_required(hass: UniversalAssistant, required: bool) -> None:
     """Mirror whether Supervisor reports the host needs a reboot.
 
     Only meant for the hassio integration. Supervisor owns this state, so
@@ -136,7 +136,7 @@ def async_set_host_reboot_required(hass: __HAC_KEEP__, required: bool) -> None:
 
 @callback
 @verify_event_loop_thread("system_state.async_dismiss")
-def async_dismiss(hass: __HAC_KEEP__) -> None:
+def async_dismiss(hass: UniversalAssistant) -> None:
     """Put off what is pending right now, until something new asks."""
     system_state = async_get(hass)
     dismissed = replace(

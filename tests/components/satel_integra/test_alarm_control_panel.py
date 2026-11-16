@@ -35,8 +35,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
 
@@ -61,7 +61,7 @@ async def alarm_control_panel_only() -> AsyncGenerator[None]:
 
 @pytest.mark.usefixtures("mock_satel")
 async def test_alarm_control_panel(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry_with_subentries: MockConfigEntry,
     entity_registry: EntityRegistry,
@@ -81,7 +81,7 @@ async def test_alarm_control_panel(
 
 
 async def test_alarm_control_panel_initial_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
 ) -> None:
@@ -111,7 +111,7 @@ async def test_alarm_control_panel_initial_state(
     ],
 )
 async def test_alarm_status_callback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
     source_state: AlarmState,
@@ -138,7 +138,7 @@ async def test_alarm_status_callback(
 
 
 async def test_alarm_status_callback_debounce(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
 ) -> None:
@@ -181,7 +181,7 @@ async def test_alarm_status_callback_debounce(
 
 
 async def test_alarm_control_panel_arming(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
 ) -> None:
@@ -212,7 +212,7 @@ async def test_alarm_control_panel_arming(
 
 
 async def test_alarm_control_panel_disarming(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
 ) -> None:
@@ -254,7 +254,7 @@ async def test_alarm_control_panel_disarming(
     ],
 )
 async def test_alarm_command_validation_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
     service: str,
@@ -323,7 +323,7 @@ async def test_alarm_command_validation_error(
     ],
 )
 async def test_alarm_command_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
     service: str,
@@ -337,7 +337,7 @@ async def test_alarm_command_error(
 
     getattr(mock_satel, method).side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             ALARM_DOMAIN,
             service,
@@ -347,12 +347,12 @@ async def test_alarm_command_error(
 
     assert err.value.translation_domain == DOMAIN
     assert err.value.translation_key == translation_key
-    assert type(err.value) is __HAC_KEEP__Error
+    assert type(err.value) is UniversalAssistantError
     assert err.value.translation_placeholders == translation_placeholders
 
 
 async def test_clear_alarm_command_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
 ) -> None:
@@ -378,7 +378,7 @@ async def test_clear_alarm_command_rejected(
 
 
 async def test_alarm_control_panel_disarming_requires_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
 ) -> None:
@@ -400,7 +400,7 @@ async def test_alarm_control_panel_disarming_requires_code(
 
 
 async def test_alarm_panel_last_reported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
 ) -> None:
@@ -425,7 +425,7 @@ async def test_alarm_panel_last_reported(
 
 
 async def test_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
 ) -> None:

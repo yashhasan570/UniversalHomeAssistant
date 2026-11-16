@@ -11,7 +11,7 @@ from aio_ownet.proxy import OWServerStatelessProxy
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -63,7 +63,7 @@ class OneWireHub:
     _version: str | None = None
     _last_scan_success = True
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: OneWireConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: OneWireConfigEntry) -> None:
         """Initialize."""
         self._hass = hass
         self._config_entry = config_entry

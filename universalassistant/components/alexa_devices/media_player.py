@@ -18,7 +18,7 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
     MediaType,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import LOGGER
@@ -37,7 +37,7 @@ STANDARD_SUPPORTED_FEATURES = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: AmazonConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -90,15 +90,11 @@ class AlexaDevicesMediaPlayer(AmazonEntity, MediaPlayerEntity):
     @property
     def media_state(self) -> AmazonMediaState | None:
         """Return the media state relating to device."""
-        if not self.coordinator or not self.coordinator.media_states:
-            return None
         return self.coordinator.media_states.get(self._serial_num)
 
     @property
     def volume_state(self) -> AmazonVolumeState | None:
         """Volume settings for device."""
-        if not self.coordinator or not self.coordinator.volume_states:
-            return None
         return self.coordinator.volume_states.get(self._serial_num)
 
     @property

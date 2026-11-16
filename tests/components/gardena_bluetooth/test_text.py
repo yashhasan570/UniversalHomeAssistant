@@ -14,7 +14,7 @@ from universalassistant.components.text import (
     SERVICE_SET_VALUE,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import AQUA_CONTOUR_SERVICE_INFO, setup_entry
@@ -44,7 +44,7 @@ pytestmark = pytest.mark.usefixtures("constant_advertisements")
     ],
 )
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_read_char_raw: dict[str, bytes],
     service_info: BluetoothServiceInfo,
     raw: dict[str, bytes],
@@ -61,7 +61,7 @@ async def test_setup(
 
 
 async def test_text_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_read_char_raw: dict[str, bytes],
     mock_client: Mock,
 ) -> None:

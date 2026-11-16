@@ -35,7 +35,7 @@ from universalassistant.const import (
     CONF_UNIT_OF_MEASUREMENT,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 
@@ -48,7 +48,7 @@ from universalassistant.helpers import entity_registry as er
     ],
 )
 async def test_user_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     entity_registry: er.EntityRegistry,
     source: Callable[[er.RegistryEntry], str],
@@ -128,7 +128,7 @@ async def test_user_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_errors(
-    hass: __HAC_KEEP__, data_points: list[dict[str, Any]], error: str
+    hass: UniversalAssistant, data_points: list[dict[str, Any]], error: str
 ) -> None:
     """Test the flow shows an error for invalid data points and can recover."""
     result = await hass.config_entries.flow.async_init(
@@ -167,7 +167,7 @@ async def test_user_flow_errors(
 
 
 async def test_options_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the options flow updates the entry and reloads it."""
     hass.states.async_set("sensor.uncompensated", "5")

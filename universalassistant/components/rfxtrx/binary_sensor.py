@@ -12,7 +12,7 @@ from universalassistant.components.binary_sensor import (
 )
 from universalassistant.config_entries import ConfigSubentry
 from universalassistant.const import CONF_COMMAND_OFF, CONF_COMMAND_ON, STATE_ON
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.helpers import event as evt
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -93,7 +93,7 @@ def supported(event: rfxtrxmod.RFXtrxEvent) -> bool:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: RfxtrxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

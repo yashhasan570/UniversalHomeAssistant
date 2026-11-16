@@ -7,8 +7,8 @@ from aiohttp import ClientError
 import probatio
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 from universalassistant.helpers.service import (
@@ -45,7 +45,7 @@ SERVICE_SET_DATAPOINT_SCHEMA = probatio.Schema(
 
 
 async def _get_myuplink_device_id(
-    hass: __HAC_KEEP__, device_entry: AnyDeviceEntry
+    hass: UniversalAssistant, device_entry: AnyDeviceEntry
 ) -> str:
     """Extract the myUplink device ID from the device identifier."""
 
@@ -86,7 +86,7 @@ async def async_set_datapoint(call: ServiceCall) -> None:
     try:
         await api.async_set_device_points(device_id, data={datapoint_id: str(value)})
     except ClientError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="set_datapoint_error",
             translation_placeholders={
@@ -100,7 +100,7 @@ async def async_set_datapoint(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up services."""
 
     async_register_admin_service(

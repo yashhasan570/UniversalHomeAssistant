@@ -13,7 +13,7 @@ from python_awair.exceptions import AuthError, AwairError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -43,7 +43,7 @@ class AwairDataUpdateCoordinator(DataUpdateCoordinator[dict[str, AwairResult]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: AwairConfigEntry,
         update_interval: timedelta | None,
     ) -> None:
@@ -72,7 +72,7 @@ class AwairCloudDataUpdateCoordinator(AwairDataUpdateCoordinator):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: AwairConfigEntry,
         session: ClientSession,
     ) -> None:
@@ -107,7 +107,7 @@ class AwairLocalDataUpdateCoordinator(AwairDataUpdateCoordinator):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: AwairConfigEntry,
         session: ClientSession,
     ) -> None:

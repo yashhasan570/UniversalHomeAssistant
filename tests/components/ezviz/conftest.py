@@ -14,7 +14,7 @@ from universalassistant.components.ezviz import (
     DOMAIN,
 )
 from universalassistant.const import CONF_PASSWORD, CONF_TYPE, CONF_URL, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -27,7 +27,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 @pytest.fixture(autouse=True)
-def mock_ffmpeg(hass: __HAC_KEEP__) -> None:
+def mock_ffmpeg(hass: UniversalAssistant) -> None:
     """Mock ffmpeg is loaded."""
     hass.config.components.add("ffmpeg")
 

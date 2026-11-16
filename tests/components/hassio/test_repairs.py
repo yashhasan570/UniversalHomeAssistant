@@ -18,7 +18,7 @@ import pytest
 from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.hassio import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -35,7 +35,7 @@ def fixture_supervisor_environ() -> Generator[None]:
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issue_repair_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
@@ -116,7 +116,7 @@ async def test_supervisor_issue_repair_flow(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issue_repair_flow_with_multiple_suggestions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
@@ -198,7 +198,7 @@ async def test_supervisor_issue_repair_flow_with_multiple_suggestions(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issue_repair_flow_with_multiple_suggestions_and_confirmation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
@@ -292,7 +292,7 @@ async def test_supervisor_issue_repair_flow_with_multiple_suggestions_and_confir
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issue_repair_flow_skip_confirmation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
@@ -373,7 +373,7 @@ async def test_supervisor_issue_repair_flow_skip_confirmation(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issue_ntp_sync_failed_repair_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
@@ -454,7 +454,7 @@ async def test_supervisor_issue_ntp_sync_failed_repair_flow(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issue_ntp_sync_failed_repair_flow_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
@@ -523,7 +523,7 @@ async def test_supervisor_issue_ntp_sync_failed_repair_flow_error(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_mount_failed_repair_flow_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
@@ -603,7 +603,7 @@ async def test_mount_failed_repair_flow_error(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_mount_failed_repair_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
@@ -706,7 +706,7 @@ async def test_mount_failed_repair_flow(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_mount_failed_remove_repair_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
@@ -790,7 +790,7 @@ async def test_mount_failed_remove_repair_flow(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_mount_failed_move_local_data_repair_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
@@ -890,7 +890,7 @@ async def test_mount_failed_move_local_data_repair_flow(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_mount_failed_repair_flow_hides_untranslated_suggestion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
@@ -962,7 +962,7 @@ async def test_mount_failed_repair_flow_hides_untranslated_suggestion(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_unfixable_issue_with_new_suggestion_stays_unfixable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1008,7 +1008,7 @@ async def test_unfixable_issue_with_new_suggestion_stays_unfixable(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_mount_failed_repair_all_untranslated_suggestions_kept(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
@@ -1082,7 +1082,7 @@ async def test_mount_failed_repair_all_untranslated_suggestions_kept(
 )
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issue_docker_config_repair_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
@@ -1172,7 +1172,7 @@ async def test_supervisor_issue_docker_config_repair_flow(
         "step_id": "system_execute_rebuild",
         "data_schema": [],
         "errors": None,
-        "description_placeholders": {"components": "__HA_KEEP__\n- test"},
+        "description_placeholders": {"components": "Universal Home Assistant\n- test"},
         "last_step": True,
         "preview": None,
     }
@@ -1197,7 +1197,7 @@ async def test_supervisor_issue_docker_config_repair_flow(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issue_repair_flow_multiple_data_disks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
@@ -1318,7 +1318,7 @@ async def test_supervisor_issue_repair_flow_multiple_data_disks(
 )
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issue_app_port_conflict_repair_flow_execute_start(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
@@ -1406,7 +1406,7 @@ async def test_supervisor_issue_app_port_conflict_repair_flow_execute_start(
 )
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issue_app_port_conflict_repair_flow_menu(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
@@ -1517,7 +1517,7 @@ async def test_supervisor_issue_app_port_conflict_repair_flow_menu(
 )
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issue_detached_addon_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
@@ -1607,7 +1607,7 @@ async def test_supervisor_issue_detached_addon_removed(
 )
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issue_addon_boot_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
@@ -1717,7 +1717,7 @@ async def test_supervisor_issue_addon_boot_fail(
 @pytest.mark.usefixtures("all_setup_requests")
 @pytest.mark.skip
 async def test_supervisor_issue_deprecated_addon(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
@@ -1809,7 +1809,7 @@ async def test_supervisor_issue_deprecated_addon(
 )
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issue_deprecated_arch_addon(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_client: AsyncMock,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,

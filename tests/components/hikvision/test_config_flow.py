@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import (
@@ -29,7 +29,7 @@ from .conftest import (
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form(hass: __HAC_KEEP__, mock_hikcamera: MagicMock) -> None:
+async def test_form(hass: UniversalAssistant, mock_hikcamera: MagicMock) -> None:
     """Test we get the form and can create entry."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -68,7 +68,7 @@ async def test_form(hass: __HAC_KEEP__, mock_hikcamera: MagicMock) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_cannot_connect(
-    hass: __HAC_KEEP__, mock_hikcamera: MagicMock
+    hass: UniversalAssistant, mock_hikcamera: MagicMock
 ) -> None:
     """Test we handle cannot connect error and can recover."""
     mock_hikcamera.return_value.get_id = None
@@ -110,7 +110,7 @@ async def test_form_cannot_connect(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_exception(hass: __HAC_KEEP__, mock_hikcamera: MagicMock) -> None:
+async def test_form_exception(hass: UniversalAssistant, mock_hikcamera: MagicMock) -> None:
     """Test we handle exception during connection and can recover."""
     mock_hikcamera.side_effect = requests.exceptions.RequestException(
         "Connection failed"
@@ -156,7 +156,7 @@ async def test_form_exception(hass: __HAC_KEEP__, mock_hikcamera: MagicMock) -> 
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_unknown_exception(
-    hass: __HAC_KEEP__, mock_hikcamera: MagicMock
+    hass: UniversalAssistant, mock_hikcamera: MagicMock
 ) -> None:
     """Test we handle unknown exception during connection and can recover."""
     mock_hikcamera.side_effect = Exception("Unexpected error")
@@ -201,7 +201,7 @@ async def test_form_unknown_exception(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_already_configured(
-    hass: __HAC_KEEP__, mock_hikcamera: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_hikcamera: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we handle already configured devices."""
     mock_config_entry.add_to_hass(hass)
@@ -226,7 +226,7 @@ async def test_form_already_configured(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_with_ssl(hass: __HAC_KEEP__, mock_hikcamera: MagicMock) -> None:
+async def test_form_with_ssl(hass: UniversalAssistant, mock_hikcamera: MagicMock) -> None:
     """Test user flow with ssl enabled passes ssl parameter to HikCamera."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}

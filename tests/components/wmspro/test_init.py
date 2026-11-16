@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.wmspro.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.storage import STORAGE_DIR
 
@@ -18,7 +18,7 @@ from . import remove_config_entry, setup_config_entry, unload_config_entry
 
 
 async def test_config_entry_device_config_ping_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
 ) -> None:
@@ -30,7 +30,7 @@ async def test_config_entry_device_config_ping_failed(
 
 
 async def test_config_entry_device_config_refresh_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_refresh: AsyncMock,
@@ -44,7 +44,7 @@ async def test_config_entry_device_config_refresh_failed(
 
 
 async def test_config_entry_persistent_storage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_refresh: AsyncMock,
@@ -76,7 +76,7 @@ async def test_config_entry_persistent_storage(
     indirect=True,
 )
 async def test_device_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,

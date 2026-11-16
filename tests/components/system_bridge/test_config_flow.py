@@ -11,6 +11,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 from systembridgeconnector.exceptions import (
     AuthenticationException,
+    BadRequestException,
     ConnectionClosedException,
     ConnectionErrorException,
 )
@@ -20,12 +21,16 @@ from systembridgeconnector.models.system_control import PowerState, PowerStateEv
 from universalassistant import config_entries
 from universalassistant.components.system_bridge.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_TOKEN, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
     FIXTURE_AUTH_INPUT,
     FIXTURE_DATA_RESPONSE,
+    FIXTURE_KEY,
+    FIXTURE_NEW_KEY,
+    FIXTURE_OLD_TOKEN,
+    FIXTURE_PAIRING_CODE,
     FIXTURE_USER_INPUT,
     FIXTURE_UUID,
     FIXTURE_ZEROCONF,
@@ -33,6 +38,18 @@ from . import (
     FIXTURE_ZEROCONF_INPUT,
     mock_data_listener,
 )
+
+
+@pytest.fixture(autouse=True)
+def mock_flow_version() -> Generator[MagicMock]:
+    """Report a supported System Bridge version to the config flow."""
+    with patch(
+        "universalassistant.components.system_bridge.config_flow.Version",
+        autospec=True,
+    ) as mock_version:
+        version = mock_version.return_value
+        version.check_supported.return_value = True
+        yield version.check_supported
 
 
 @contextmanager
@@ -58,7 +75,7 @@ def _patch_success() -> Generator[None]:
         yield
 
 
-async def test_show_user_form(hass: __HAC_KEEP__) -> None:
+async def test_show_user_form(hass: UniversalAssistant) -> None:
     """Test that the setup form is served."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -68,7 +85,7 @@ async def test_show_user_form(hass: __HAC_KEEP__) -> None:
     assert result["step_id"] == "user"
 
 
-async def test_user_flow(hass: __HAC_KEEP__) -> None:
+async def test_user_flow(hass: UniversalAssistant) -> None:
     """Test full user flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -106,7 +123,149 @@ async def test_user_flow(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
+@pytest.mark.parametrize(
+    "entered",
+    [
+        pytest.param(FIXTURE_PAIRING_CODE, id="code"),
+        pytest.param(
+            f"http://test-bridge.local:9170/?ip=127.0.0.1&pair={FIXTURE_PAIRING_CODE}",
+            id="link",
+        ),
+    ],
+)
+async def test_user_flow_pairing_code(hass: UniversalAssistant, entered: str) -> None:
+    """Test a pairing code, or its link, is traded for a key that's kept."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+
+    with (
+        _patch_success(),
+        patch(
+            "universalassistant.components.system_bridge.config_flow.HTTPClient.pair",
+            return_value=FIXTURE_KEY,
+        ) as mock_pair,
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"], {**FIXTURE_USER_INPUT, CONF_TOKEN: entered}
+        )
+    await hass.async_block_till_done()
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["data"] == FIXTURE_USER_INPUT
+    assert result["result"].unique_id == FIXTURE_UUID
+    code, client = mock_pair.call_args.args
+    assert code == FIXTURE_PAIRING_CODE
+    assert client.kind == "universal-assistant"
+
+
+@pytest.mark.parametrize(
+    ("side_effect", "error"),
+    [
+        pytest.param(AuthenticationException, "invalid_pairing_code", id="used"),
+        pytest.param(BadRequestException, "invalid_pairing_code", id="mistyped"),
+        pytest.param(ConnectionErrorException, "cannot_connect", id="unreachable"),
+        pytest.param(TimeoutError, "cannot_connect", id="timeout"),
+    ],
+)
+async def test_user_flow_pairing_failed(
+    hass: UniversalAssistant, side_effect: type[Exception], error: str
+) -> None:
+    """Test pairing that fails says why, and can be tried again."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+
+    with patch(
+        "universalassistant.components.system_bridge.config_flow.HTTPClient.pair",
+        side_effect=side_effect,
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"], {**FIXTURE_USER_INPUT, CONF_TOKEN: FIXTURE_PAIRING_CODE}
+        )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["errors"] == {"base": error}
+
+    with _patch_success():
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"], FIXTURE_USER_INPUT
+        )
+    await hass.async_block_till_done()
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+
+
+async def test_user_flow_pairing_kept_after_failed_connection(
+    hass: UniversalAssistant,
+) -> None:
+    """Test a retry reuses the key from a used pairing code."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+    user_input = {**FIXTURE_USER_INPUT, CONF_TOKEN: FIXTURE_PAIRING_CODE}
+
+    with patch(
+        "universalassistant.components.system_bridge.config_flow.HTTPClient.pair",
+        return_value=FIXTURE_KEY,
+    ) as mock_pair:
+        with patch(
+            "systembridgeconnector.websocket_client.WebSocketClient.connect",
+            side_effect=ConnectionErrorException,
+        ):
+            result = await hass.config_entries.flow.async_configure(
+                result["flow_id"], user_input
+            )
+
+        assert result["type"] is FlowResultType.FORM
+        assert result["errors"] == {"base": "cannot_connect"}
+
+        with _patch_success():
+            result = await hass.config_entries.flow.async_configure(
+                result["flow_id"], user_input
+            )
+        await hass.async_block_till_done()
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["data"] == FIXTURE_USER_INPUT
+    mock_pair.assert_called_once()
+
+
+async def test_reauth_pairing_kept_after_failed_connection(
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+) -> None:
+    """Test a reauth retry reuses the key from a used pairing code."""
+    mock_config_entry.add_to_hass(hass)
+    result = await mock_config_entry.start_reauth_flow(hass)
+
+    with patch(
+        "universalassistant.components.system_bridge.config_flow.HTTPClient.pair",
+        return_value=FIXTURE_NEW_KEY,
+    ) as mock_pair:
+        with patch(
+            "systembridgeconnector.websocket_client.WebSocketClient.connect",
+            side_effect=TimeoutError,
+        ):
+            result = await hass.config_entries.flow.async_configure(
+                result["flow_id"], {CONF_TOKEN: FIXTURE_PAIRING_CODE}
+            )
+
+        assert result["type"] is FlowResultType.FORM
+        assert result["errors"] == {"base": "cannot_connect"}
+
+        with _patch_success():
+            result = await hass.config_entries.flow.async_configure(
+                result["flow_id"], {CONF_TOKEN: FIXTURE_PAIRING_CODE}
+            )
+        await hass.async_block_till_done()
+
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "reauth_successful"
+    assert mock_config_entry.data[CONF_TOKEN] == FIXTURE_NEW_KEY
+    mock_pair.assert_called_once()
+
+
+async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -137,7 +296,39 @@ async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_connection_closed_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_form_unsupported_version(
+    hass: UniversalAssistant, mock_flow_version: MagicMock
+) -> None:
+    """Test we ask for an update when System Bridge is too old."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+
+    mock_flow_version.return_value = False
+    with patch(
+        "universalassistant.components.system_bridge.config_flow.WebSocketClient.connect"
+    ) as mock_connect:
+        result2 = await hass.config_entries.flow.async_configure(
+            result["flow_id"], FIXTURE_USER_INPUT
+        )
+    await hass.async_block_till_done()
+
+    assert result2["type"] is FlowResultType.FORM
+    assert result2["step_id"] == "user"
+    assert result2["errors"] == {"base": "unsupported_version"}
+    mock_connect.assert_not_called()
+
+    mock_flow_version.return_value = True
+    with _patch_success():
+        result3 = await hass.config_entries.flow.async_configure(
+            result["flow_id"], FIXTURE_USER_INPUT
+        )
+    await hass.async_block_till_done()
+
+    assert result3["type"] is FlowResultType.CREATE_ENTRY
+
+
+async def test_form_connection_closed_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we handle connection closed cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -177,7 +368,7 @@ async def test_form_connection_closed_cannot_connect(hass: __HAC_KEEP__) -> None
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_timeout_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_form_timeout_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we handle timeout cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -217,7 +408,7 @@ async def test_form_timeout_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
+async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -257,7 +448,7 @@ async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_uuid_error(hass: __HAC_KEEP__) -> None:
+async def test_form_uuid_error(hass: UniversalAssistant) -> None:
     """Test we handle error from bad uuid."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -297,7 +488,7 @@ async def test_form_uuid_error(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_unknown_error(hass: __HAC_KEEP__) -> None:
+async def test_form_unknown_error(hass: UniversalAssistant) -> None:
     """Test we handle unknown errors."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -338,7 +529,7 @@ async def test_form_unknown_error(hass: __HAC_KEEP__) -> None:
 
 
 async def test_user_flow_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the user flow aborts when the device is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -356,7 +547,42 @@ async def test_user_flow_already_configured(
     assert result["reason"] == "already_configured"
 
 
-async def test_reauth_unique_id_mismatch(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_already_configured_updates_key(
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+) -> None:
+    """Test pairing an entry again keeps the new key, as the old one is replaced."""
+    mock_config_entry.add_to_hass(hass)
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+
+    with (
+        _patch_success(),
+        patch(
+            "universalassistant.components.system_bridge.config_flow.HTTPClient.pair",
+            return_value=FIXTURE_NEW_KEY,
+        ),
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            {
+                CONF_HOST: "127.0.0.1",
+                CONF_PORT: "9171",
+                CONF_TOKEN: FIXTURE_PAIRING_CODE,
+            },
+        )
+
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "already_configured"
+    assert mock_config_entry.data == {
+        CONF_HOST: "127.0.0.1",
+        CONF_PORT: "9171",
+        CONF_TOKEN: FIXTURE_NEW_KEY,
+    }
+
+
+async def test_reauth_unique_id_mismatch(hass: UniversalAssistant) -> None:
     """Test reauth aborts when the token belongs to another device."""
     mock_config = MockConfigEntry(
         domain=DOMAIN, unique_id="another-uuid", data=FIXTURE_USER_INPUT
@@ -367,7 +593,7 @@ async def test_reauth_unique_id_mismatch(hass: __HAC_KEEP__) -> None:
 
     with _patch_success():
         result = await hass.config_entries.flow.async_configure(
-            result["flow_id"], {CONF_TOKEN: "another-token"}
+            result["flow_id"], {CONF_TOKEN: FIXTURE_NEW_KEY}
         )
 
     assert result["type"] is FlowResultType.ABORT
@@ -375,7 +601,7 @@ async def test_reauth_unique_id_mismatch(hass: __HAC_KEEP__) -> None:
     assert mock_config.data == FIXTURE_USER_INPUT
 
 
-async def test_reauth_authorization_error(hass: __HAC_KEEP__) -> None:
+async def test_reauth_authorization_error(hass: UniversalAssistant) -> None:
     """Test we show user form on authorization error."""
     mock_config = MockConfigEntry(
         domain=DOMAIN, unique_id=FIXTURE_UUID, data=FIXTURE_USER_INPUT
@@ -419,7 +645,7 @@ async def test_reauth_authorization_error(hass: __HAC_KEEP__) -> None:
     assert result3["reason"] == "reauth_successful"
 
 
-async def test_reauth_connection_error(hass: __HAC_KEEP__) -> None:
+async def test_reauth_connection_error(hass: UniversalAssistant) -> None:
     """Test we show user form on connection error."""
     mock_config = MockConfigEntry(
         domain=DOMAIN, unique_id=FIXTURE_UUID, data=FIXTURE_USER_INPUT
@@ -476,7 +702,7 @@ async def test_reauth_connection_error(hass: __HAC_KEEP__) -> None:
     assert result4["reason"] == "reauth_successful"
 
 
-async def test_reauth_connection_closed_error(hass: __HAC_KEEP__) -> None:
+async def test_reauth_connection_closed_error(hass: UniversalAssistant) -> None:
     """Test we show user form on connection error."""
     mock_config = MockConfigEntry(
         domain=DOMAIN, unique_id=FIXTURE_UUID, data=FIXTURE_USER_INPUT
@@ -520,7 +746,7 @@ async def test_reauth_connection_closed_error(hass: __HAC_KEEP__) -> None:
     assert result3["reason"] == "reauth_successful"
 
 
-async def test_reauth_unknown_error(hass: __HAC_KEEP__) -> None:
+async def test_reauth_unknown_error(hass: UniversalAssistant) -> None:
     """Test reauth recovers from an unknown error."""
     mock_config = MockConfigEntry(
         domain=DOMAIN, unique_id=FIXTURE_UUID, data=FIXTURE_USER_INPUT
@@ -556,7 +782,7 @@ async def test_reauth_unknown_error(hass: __HAC_KEEP__) -> None:
 
 
 async def test_reauth_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reauth flow."""
     mock_config_entry.add_to_hass(hass)
@@ -593,24 +819,24 @@ async def test_reauth_flow(
 
 
 async def test_reauth_flow_reloads_once(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Test a successful reauth reloads a loaded entry once."""
     result = await init_integration.start_reauth_flow(hass)
 
     with patch.object(hass.config_entries, "async_reload") as mock_reload:
         result = await hass.config_entries.flow.async_configure(
-            result["flow_id"], {CONF_TOKEN: "new-token"}
+            result["flow_id"], {CONF_TOKEN: FIXTURE_NEW_KEY}
         )
         await hass.async_block_till_done()
 
     assert result["type"] is FlowResultType.ABORT
     assert result["reason"] == "reauth_successful"
-    assert init_integration.data[CONF_TOKEN] == "new-token"
+    assert init_integration.data[CONF_TOKEN] == FIXTURE_NEW_KEY
     mock_reload.assert_called_once_with(init_integration.entry_id)
 
 
-async def test_zeroconf_flow(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_flow(hass: UniversalAssistant) -> None:
     """Test zeroconf flow."""
 
     result = await hass.config_entries.flow.async_init(
@@ -651,7 +877,7 @@ async def test_zeroconf_flow(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_zeroconf_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_cannot_connect(hass: UniversalAssistant) -> None:
     """Test zeroconf cannot connect flow."""
 
     result = await hass.config_entries.flow.async_init(
@@ -693,7 +919,7 @@ async def test_zeroconf_cannot_connect(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_zeroconf_errors(
-    hass: __HAC_KEEP__, exception: type[Exception], error: str
+    hass: UniversalAssistant, exception: type[Exception], error: str
 ) -> None:
     """Test zeroconf recovers from errors."""
     result = await hass.config_entries.flow.async_init(
@@ -735,7 +961,7 @@ async def test_zeroconf_errors(
     ],
 )
 async def test_zeroconf_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, host: str
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, host: str
 ) -> None:
     """Test zeroconf aborts and updates the host of a configured device."""
     mock_config_entry.add_to_hass(hass)
@@ -755,7 +981,7 @@ async def test_zeroconf_already_configured(
 
 
 async def test_zeroconf_reconnects_loaded_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:
@@ -785,7 +1011,7 @@ async def test_zeroconf_reconnects_loaded_entry(
 
 
 async def test_zeroconf_resets_reconnect_backoff(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_websocket_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -817,7 +1043,7 @@ async def test_zeroconf_resets_reconnect_backoff(
 
 
 async def test_zeroconf_host_changed_reloads_loaded_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:
@@ -845,7 +1071,7 @@ async def test_zeroconf_host_changed_reloads_loaded_entry(
     assert register.await_count == calls
 
 
-async def test_zeroconf_bad_zeroconf_info(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_bad_zeroconf_info(hass: UniversalAssistant) -> None:
     """Test zeroconf cannot connect flow."""
 
     result = await hass.config_entries.flow.async_init(
@@ -859,7 +1085,7 @@ async def test_zeroconf_bad_zeroconf_info(hass: __HAC_KEEP__) -> None:
 
 
 async def test_zeroconf_updates_existing_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test zeroconf updates the host and port of an existing entry."""
     mock_config_entry.add_to_hass(hass)
@@ -884,7 +1110,7 @@ async def test_zeroconf_updates_existing_entry(
 
 
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow."""
     mock_config_entry.add_to_hass(hass)
@@ -909,6 +1135,34 @@ async def test_reconfigure_flow(
     }
 
 
+async def test_reconfigure_flow_old_token(hass: UniversalAssistant) -> None:
+    """Test reconfigure signs in with an old token as it is, without pairing."""
+    mock_config_entry = MockConfigEntry(
+        domain=DOMAIN,
+        unique_id=FIXTURE_UUID,
+        data={**FIXTURE_USER_INPUT, CONF_TOKEN: FIXTURE_OLD_TOKEN},
+    )
+    mock_config_entry.add_to_hass(hass)
+
+    result = await mock_config_entry.start_reconfigure_flow(hass)
+
+    with (
+        _patch_success(),
+        patch(
+            "universalassistant.components.system_bridge.config_flow.HTTPClient.pair"
+        ) as mock_pair,
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"], {CONF_HOST: "192.168.1.20", CONF_PORT: "9171"}
+        )
+    await hass.async_block_till_done()
+
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "reconfigure_successful"
+    mock_pair.assert_not_called()
+    assert mock_config_entry.data[CONF_TOKEN] == FIXTURE_OLD_TOKEN
+
+
 @pytest.mark.parametrize(
     ("side_effect", "error"),
     [
@@ -918,7 +1172,7 @@ async def test_reconfigure_flow(
     ],
 )
 async def test_reconfigure_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],
     error: str,
@@ -951,7 +1205,7 @@ async def test_reconfigure_flow_errors(
 
 
 async def test_reconfigure_flow_unique_id_mismatch(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow aborts when the host is a different System Bridge."""
     mock_config_entry.add_to_hass(hass)

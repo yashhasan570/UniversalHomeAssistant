@@ -6,10 +6,10 @@ from contextlib import AbstractContextManager, nullcontext as does_not_raise
 import pytest
 
 from universalassistant.components.config import view
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def _mock_validator(hass: __HAC_KEEP__, key: str, data: dict) -> dict:
+async def _mock_validator(hass: UniversalAssistant, key: str, data: dict) -> dict:
     """Mock data validator."""
     return data
 
@@ -24,7 +24,7 @@ async def _mock_validator(hass: __HAC_KEEP__, key: str, data: dict) -> dict:
     ],
 )
 async def test_view_requires_data_schema_or_validator(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     data_schema: Callable | None,
     data_validator: Callable | None,
     expected_result: AbstractContextManager,

@@ -12,7 +12,7 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import MockConfigEntry, async_check_entity_translations, setup_platform
@@ -29,7 +29,7 @@ from .common import MockConfigEntry, async_check_entity_translations, setup_plat
     ],
 )
 async def test_entity_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_ring_client: Mock,
     entity_id: str,
@@ -43,7 +43,7 @@ async def test_entity_registry(
 
 
 async def test_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ring_client: Mock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -70,7 +70,7 @@ async def test_states(
     ],
 )
 async def test_volume_can_be_changed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ring_client: Mock,
     entity_id: str,
     new_value: str,

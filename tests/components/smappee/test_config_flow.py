@@ -19,7 +19,7 @@ from universalassistant.components.smappee.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_CLIENT_ID, CONF_CLIENT_SECRET
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -28,7 +28,7 @@ CLIENT_ID = "1234"
 CLIENT_SECRET = "5678"
 
 
-async def test_show_user_form(hass: __HAC_KEEP__) -> None:
+async def test_show_user_form(hass: UniversalAssistant) -> None:
     """Test that the user set up form is served."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -39,7 +39,7 @@ async def test_show_user_form(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.FORM
 
 
-async def test_show_user_host_form(hass: __HAC_KEEP__) -> None:
+async def test_show_user_host_form(hass: UniversalAssistant) -> None:
     """Test that the host form is served after choosing the local option."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -56,7 +56,7 @@ async def test_show_user_host_form(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.FORM
 
 
-async def test_show_zeroconf_connection_error_form(hass: __HAC_KEEP__) -> None:
+async def test_show_zeroconf_connection_error_form(hass: UniversalAssistant) -> None:
     """Test that the zeroconf confirmation form is served."""
     with patch("pysmappee.api.SmappeeLocalApi.logon", return_value=None):
         result = await hass.config_entries.flow.async_init(
@@ -87,7 +87,7 @@ async def test_show_zeroconf_connection_error_form(hass: __HAC_KEEP__) -> None:
 
 
 async def test_show_zeroconf_connection_error_form_next_generation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that the zeroconf confirmation form is served."""
     with patch("pysmappee.mqtt.SmappeeLocalMqtt.start_attempt", return_value=False):
@@ -118,7 +118,7 @@ async def test_show_zeroconf_connection_error_form_next_generation(
         assert len(hass.config_entries.async_entries(DOMAIN)) == 0
 
 
-async def test_connection_error(hass: __HAC_KEEP__) -> None:
+async def test_connection_error(hass: UniversalAssistant) -> None:
     """Test we show user form on Smappee connection error."""
     with (
         patch("pysmappee.api.SmappeeLocalApi.logon", return_value=None),
@@ -144,7 +144,7 @@ async def test_connection_error(hass: __HAC_KEEP__) -> None:
         assert result["type"] is FlowResultType.ABORT
 
 
-async def test_user_local_connection_error(hass: __HAC_KEEP__) -> None:
+async def test_user_local_connection_error(hass: UniversalAssistant) -> None:
     """Test user form on Smappee local connection error."""
     with (
         patch("pysmappee.api.SmappeeLocalApi.logon", return_value=None),
@@ -173,7 +173,7 @@ async def test_user_local_connection_error(hass: __HAC_KEEP__) -> None:
         assert result["type"] is FlowResultType.ABORT
 
 
-async def test_zeroconf_wrong_mdns(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_wrong_mdns(hass: UniversalAssistant) -> None:
     """Test we abort if unsupported mDNS name is discovered."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -193,7 +193,7 @@ async def test_zeroconf_wrong_mdns(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.ABORT
 
 
-async def test_full_user_wrong_mdns(hass: __HAC_KEEP__) -> None:
+async def test_full_user_wrong_mdns(hass: UniversalAssistant) -> None:
     """Test we abort user flow if unsupported mDNS name got resolved."""
     with (
         patch("pysmappee.api.SmappeeLocalApi.logon", return_value={}),
@@ -229,7 +229,7 @@ async def test_full_user_wrong_mdns(hass: __HAC_KEEP__) -> None:
         assert result["reason"] == "invalid_mdns"
 
 
-async def test_user_device_exists_abort(hass: __HAC_KEEP__) -> None:
+async def test_user_device_exists_abort(hass: UniversalAssistant) -> None:
     """Test we abort user flow if Smappee device already configured."""
     with (
         patch("pysmappee.api.SmappeeLocalApi.logon", return_value={}),
@@ -275,7 +275,7 @@ async def test_user_device_exists_abort(hass: __HAC_KEEP__) -> None:
         assert len(hass.config_entries.async_entries(DOMAIN)) == 1
 
 
-async def test_zeroconf_device_exists_abort(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_device_exists_abort(hass: UniversalAssistant) -> None:
     """Test we abort zeroconf flow if Smappee device already configured."""
     with (
         patch("pysmappee.api.SmappeeLocalApi.logon", return_value={}),
@@ -319,7 +319,7 @@ async def test_zeroconf_device_exists_abort(hass: __HAC_KEEP__) -> None:
         assert len(hass.config_entries.async_entries(DOMAIN)) == 1
 
 
-async def test_cloud_device_exists_abort(hass: __HAC_KEEP__) -> None:
+async def test_cloud_device_exists_abort(hass: UniversalAssistant) -> None:
     """Test we abort cloud flow if Smappee Cloud device already configured."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -340,7 +340,7 @@ async def test_cloud_device_exists_abort(hass: __HAC_KEEP__) -> None:
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
 
 
-async def test_zeroconf_abort_if_cloud_device_exists(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_abort_if_cloud_device_exists(hass: UniversalAssistant) -> None:
     """Test we abort zeroconf flow if Smappee Cloud device already configured."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -370,7 +370,7 @@ async def test_zeroconf_abort_if_cloud_device_exists(hass: __HAC_KEEP__) -> None
 
 
 async def test_zeroconf_confirm_abort_if_cloud_device_exists(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test zeroconf abort if Cloud device already configured."""
     result = await hass.config_entries.flow.async_init(
@@ -403,7 +403,7 @@ async def test_zeroconf_confirm_abort_if_cloud_device_exists(
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
 
 
-async def test_abort_cloud_flow_if_local_device_exists(hass: __HAC_KEEP__) -> None:
+async def test_abort_cloud_flow_if_local_device_exists(hass: UniversalAssistant) -> None:
     """Test we abort the cloud flow if a Smappee local device already configured."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -430,7 +430,7 @@ async def test_abort_cloud_flow_if_local_device_exists(hass: __HAC_KEEP__) -> No
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_user_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -483,7 +483,7 @@ async def test_full_user_flow(
     assert len(mock_setup.mock_calls) == 1
 
 
-async def test_full_zeroconf_flow(hass: __HAC_KEEP__) -> None:
+async def test_full_zeroconf_flow(hass: UniversalAssistant) -> None:
     """Test the full zeroconf flow."""
     with (
         patch("pysmappee.api.SmappeeLocalApi.logon", return_value={}),
@@ -529,7 +529,7 @@ async def test_full_zeroconf_flow(hass: __HAC_KEEP__) -> None:
         assert entry.unique_id == "1006000212"
 
 
-async def test_full_user_local_flow(hass: __HAC_KEEP__) -> None:
+async def test_full_user_local_flow(hass: UniversalAssistant) -> None:
     """Test the full zeroconf flow."""
     with (
         patch("pysmappee.api.SmappeeLocalApi.logon", return_value={}),
@@ -572,7 +572,7 @@ async def test_full_user_local_flow(hass: __HAC_KEEP__) -> None:
         assert entry.unique_id == "1006000212"
 
 
-async def test_full_zeroconf_flow_next_generation(hass: __HAC_KEEP__) -> None:
+async def test_full_zeroconf_flow_next_generation(hass: UniversalAssistant) -> None:
     """Test the full zeroconf flow."""
     with (
         patch("pysmappee.mqtt.SmappeeLocalMqtt.start_attempt", return_value=True),
@@ -616,7 +616,7 @@ async def test_full_zeroconf_flow_next_generation(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:

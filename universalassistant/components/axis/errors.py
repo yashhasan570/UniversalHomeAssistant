@@ -1,9 +1,9 @@
 """Errors for the Axis component."""
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 
-class AxisException(__HAC_KEEP__Error):
+class AxisException(UniversalAssistantError):
     """Base class for Axis exceptions."""
 
 

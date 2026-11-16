@@ -15,7 +15,7 @@ from universalassistant.components.twentemilieu.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -70,7 +70,7 @@ def mock_twentemilieu() -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_twentemilieu: MagicMock,
 ) -> MockConfigEntry:

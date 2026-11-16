@@ -29,8 +29,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, State
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, State
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
 
@@ -59,7 +59,7 @@ def fixture_platforms():
 
 
 async def test_block_number_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -93,7 +93,7 @@ async def test_block_number_update(
 
 
 async def test_block_restored_number(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     device_registry: DeviceRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -142,7 +142,7 @@ async def test_block_restored_number(
 
 
 async def test_block_restored_number_no_last_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     device_registry: DeviceRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -182,7 +182,7 @@ async def test_block_restored_number_no_last_state(
 
 
 async def test_block_number_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -212,7 +212,7 @@ async def test_block_number_set_value(
 
 
 async def test_block_set_value_connection_error(
-    hass: __HAC_KEEP__, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test block device set value connection error."""
     monkeypatch.setitem(
@@ -232,7 +232,7 @@ async def test_block_set_value_connection_error(
     await hass.async_block_till_done(wait_background_tasks=True)
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Device communication error occurred while calling"
         " action for number.test_name_valve_position of Test name",
     ):
@@ -248,7 +248,7 @@ async def test_block_set_value_connection_error(
 
 
 async def test_block_set_value_auth_error(
-    hass: __HAC_KEEP__, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test block device set value authentication error."""
     monkeypatch.setitem(
@@ -316,7 +316,7 @@ async def test_block_set_value_auth_error(
     ],
 )
 async def test_rpc_device_virtual_number(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -375,7 +375,7 @@ async def test_rpc_device_virtual_number(
 
 @pytest.mark.usefixtures("disable_async_remove_shelly_rpc_entities")
 async def test_rpc_remove_virtual_number_when_mode_label(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
     mock_rpc_device: Mock,
@@ -413,7 +413,7 @@ async def test_rpc_remove_virtual_number_when_mode_label(
 
 
 async def test_rpc_remove_virtual_number_when_orphaned(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
     mock_rpc_device: Mock,
@@ -437,7 +437,7 @@ async def test_rpc_remove_virtual_number_when_orphaned(
 
 
 async def test_blu_trv_number_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_blu_trv: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -460,7 +460,7 @@ async def test_blu_trv_number_entity(
 
 
 async def test_blu_trv_ext_temp_set_value(
-    hass: __HAC_KEEP__, mock_blu_trv: Mock
+    hass: UniversalAssistant, mock_blu_trv: Mock
 ) -> None:
     """Test the set value action for BLU TRV External Temperature number entity."""
     await init_integration(hass, 3, model=MODEL_BLU_GATEWAY_G3)
@@ -489,7 +489,7 @@ async def test_blu_trv_ext_temp_set_value(
 
 
 async def test_blu_trv_valve_pos_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_blu_trv: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -537,7 +537,7 @@ async def test_blu_trv_valve_pos_set_value(
     ],
 )
 async def test_blu_trv_number_exc(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_blu_trv: Mock,
     exception: Exception,
     error: str,
@@ -547,7 +547,7 @@ async def test_blu_trv_number_exc(
 
     mock_blu_trv.blu_trv_set_external_temperature.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error, match=error):
+    with pytest.raises(UniversalAssistantError, match=error):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -560,7 +560,7 @@ async def test_blu_trv_number_exc(
 
 
 async def test_blu_trv_number_reauth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_blu_trv: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -594,7 +594,7 @@ async def test_blu_trv_number_reauth_error(
 
 
 async def test_cury_number_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -651,7 +651,7 @@ async def test_cury_number_entity(
     ],
 )
 async def test_rpc_ledstrip_number(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ledstrip_rpc_device: Mock,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -723,7 +723,7 @@ async def test_rpc_ledstrip_number(
     ],
 )
 async def test_rpc_ledstrip_speed_number_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ledstrip_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     ledstrip_status: dict[str, Any],

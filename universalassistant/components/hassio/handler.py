@@ -13,7 +13,7 @@ import aiohttp
 from yarl import URL
 
 from universalassistant.const import EVENT_HOMEASSISTANT_CLOSE
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers.aiohttp_client import (
     MAXIMUM_HEADER_SIZE,
     SERVER_SOFTWARE,
@@ -49,7 +49,7 @@ class HassioAPIError(RuntimeError):
 
 @dataclass(frozen=True, slots=True)
 class SupervisorConnection:
-    """Transport __HA_KEEP__ uses to reach Supervisor."""
+    """Transport Universal Home Assistant uses to reach Supervisor."""
 
     session: aiohttp.ClientSession
     base_url: URL
@@ -58,7 +58,7 @@ class SupervisorConnection:
 
     @property
     def auth_headers(self) -> dict[str, str]:
-        """Return headers authenticating __HA_KEEP__ to Supervisor."""
+        """Return headers authenticating Universal Home Assistant to Supervisor."""
         # Supervisor identifies the caller by the socket and ignores tokens there
         if self.unix_socket is not None:
             return {}
@@ -151,7 +151,7 @@ class HassIO:
 
 @callback
 def _async_create_supervisor_socket_session(
-    hass: __HAC_KEEP__, unix_socket: Path
+    hass: UniversalAssistant, unix_socket: Path
 ) -> aiohttp.ClientSession:
     """Create a session connecting to Supervisor over its Unix socket."""
     session = aiohttp.ClientSession(
@@ -174,7 +174,7 @@ def _async_create_supervisor_socket_session(
 
 
 @singleton(KEY_SUPERVISOR_CONNECTION)
-def get_supervisor_connection(hass: __HAC_KEEP__) -> SupervisorConnection:
+def get_supervisor_connection(hass: UniversalAssistant) -> SupervisorConnection:
     """Return the transport to the Supervisor this Core runs under."""
     if supervisor_socket := os.environ.get(ENV_SUPERVISOR_SOCKET):
         unix_socket = Path(supervisor_socket)
@@ -189,13 +189,13 @@ def get_supervisor_connection(hass: __HAC_KEEP__) -> SupervisorConnection:
 
 
 @singleton(KEY_SUPERVISOR_PASSTHROUGH_CLIENT)
-def get_supervisor_passthrough_client(hass: __HAC_KEEP__) -> HassIO:
+def get_supervisor_passthrough_client(hass: UniversalAssistant) -> HassIO:
     """Return the handler for the Supervisor API passthrough."""
     return HassIO(get_supervisor_connection(hass))
 
 
 @singleton(KEY_SUPERVISOR_CLIENT)
-def get_supervisor_client(hass: __HAC_KEEP__) -> SupervisorClient:
+def get_supervisor_client(hass: UniversalAssistant) -> SupervisorClient:
     """Return supervisor client."""
     connection = get_supervisor_connection(hass)
     if connection.unix_socket is not None:
@@ -213,7 +213,7 @@ def get_supervisor_client(hass: __HAC_KEEP__) -> SupervisorClient:
     )
 
 
-async def async_update_diagnostics(hass: __HAC_KEEP__, diagnostics: bool) -> None:
+async def async_update_diagnostics(hass: UniversalAssistant, diagnostics: bool) -> None:
     """Update Supervisor diagnostics toggle.
 
     The caller of the function should handle SupervisorError.

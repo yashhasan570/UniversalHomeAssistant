@@ -20,8 +20,8 @@ from roborock.roborock_message import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.issue_registry import (
@@ -147,7 +147,7 @@ class RoborockDataUpdateCoordinator(DataUpdateCoordinator[DeviceState | None]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: RoborockConfigEntry,
         device: RoborockDevice,
         properties_api: PropertiesApi,
@@ -246,7 +246,7 @@ class RoborockDataUpdateCoordinator(DataUpdateCoordinator[DeviceState | None]):
             await self.properties_api.home.discover_home()
             await self.properties_api.home.refresh()
         except RoborockException as ex:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="map_failure",
             ) from ex
@@ -327,7 +327,7 @@ class RoborockDataUpdateCoordinator(DataUpdateCoordinator[DeviceState | None]):
             self._last_home_update_attempt = dt_util.utcnow()
             try:
                 await self.update_map()
-            except __HAC_KEEP__Error as err:
+            except UniversalAssistantError as err:
                 _LOGGER.debug("Failed to update map: %s", err)
 
         if self.properties_api.status.in_cleaning:
@@ -394,7 +394,7 @@ class RoborockDataUpdateCoordinator(DataUpdateCoordinator[DeviceState | None]):
         except RoborockException as err:
             # pylint: disable-next=universal-assistant-log-and-raise
             _LOGGER.error("Failed to get routines %s", err)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -407,7 +407,7 @@ class RoborockDataUpdateCoordinator(DataUpdateCoordinator[DeviceState | None]):
         try:
             await self.properties_api.routines.execute_routine(routine_id)
         except RoborockException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -460,7 +460,7 @@ class RoborockDataUpdateCoordinatorA01[
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: RoborockConfigEntry,
         device: RoborockDevice,
     ) -> None:
@@ -519,7 +519,7 @@ class RoborockWashingMachineUpdateCoordinator(
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: RoborockConfigEntry,
         device: RoborockDevice,
         api: ZeoApi,
@@ -565,7 +565,7 @@ class RoborockWetDryVacUpdateCoordinator(
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: RoborockConfigEntry,
         device: RoborockDevice,
         api: DyadApi,
@@ -630,7 +630,7 @@ class RoborockDataUpdateCoordinatorB01(DataUpdateCoordinator[B01Props]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: RoborockConfigEntry,
         device: RoborockDevice,
     ) -> None:
@@ -666,7 +666,7 @@ class RoborockB01Q7UpdateCoordinator(RoborockDataUpdateCoordinatorB01):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: RoborockConfigEntry,
         device: RoborockDevice,
         api: Q7PropertiesApi,
@@ -744,7 +744,7 @@ class RoborockB01Q10UpdateCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: RoborockConfigEntry,
         device: RoborockDevice,
         api: Q10PropertiesApi,

@@ -7,8 +7,8 @@ from myuplink import DevicePoint
 
 from universalassistant.components.select import SelectEntity
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -18,7 +18,7 @@ from .helpers import find_matching_platform, skip_entity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MyUplinkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -90,7 +90,7 @@ class MyUplinkSelect(MyUplinkEntity, SelectEntity):
                 self.device_id, data={self.point_id: self.options_rev[option]}
             )
         except ClientError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_select_error",
                 translation_placeholders={

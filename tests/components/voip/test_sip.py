@@ -6,11 +6,11 @@ import pytest
 
 from universalassistant import config_entries
 from universalassistant.components import voip
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.usefixtures("socket_enabled")
-async def test_create_sip_server(hass: __HAC_KEEP__) -> None:
+async def test_create_sip_server(hass: UniversalAssistant) -> None:
     """Tests starting/stopping SIP server."""
     result = await hass.config_entries.flow.async_init(
         voip.DOMAIN, context={"source": config_entries.SOURCE_USER}

@@ -25,7 +25,7 @@ from universalassistant.components.recorder.statistics import (
 )
 from universalassistant.components.waterfurnace.const import DOMAIN, ENERGY_UPDATE_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from .conftest import SEED_STATISTIC_METADATA
@@ -46,7 +46,7 @@ def _make_energy_data(readings: list[tuple[datetime, float]]) -> WFEnergyData:
 
 
 async def _get_stats(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     start: datetime,
     end: datetime,
 ) -> list[StatisticsRow]:
@@ -64,7 +64,7 @@ async def _get_stats(
     return stats.get(STATISTIC_ID, [])
 
 
-async def _get_last_stat(hass: __HAC_KEEP__) -> StatisticsRow | None:
+async def _get_last_stat(hass: UniversalAssistant) -> StatisticsRow | None:
     """Get the most recent statistic."""
     last = await hass.async_add_executor_job(
         get_last_statistics, hass, 1, STATISTIC_ID, True, {"sum"}
@@ -76,7 +76,7 @@ async def _get_last_stat(hass: __HAC_KEEP__) -> StatisticsRow | None:
 
 
 async def _trigger_energy_poll(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Advance time to trigger an energy poll."""
     freezer.tick(ENERGY_UPDATE_INTERVAL)
@@ -93,7 +93,7 @@ async def _trigger_energy_poll(
 
 
 async def _setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Set up the integration and wait for background tasks to settle."""
@@ -127,7 +127,7 @@ async def _setup_integration(
 @pytest.mark.usefixtures("seed_statistics")
 async def test_poll_inserts_statistics(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_waterfurnace_client: Mock,
 ) -> None:
@@ -150,7 +150,7 @@ async def test_poll_inserts_statistics(
 @pytest.mark.usefixtures("seed_statistics")
 async def test_poll_skips_current_hour(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_waterfurnace_client: Mock,
 ) -> None:
@@ -173,7 +173,7 @@ async def test_poll_skips_current_hour(
 @pytest.mark.usefixtures("seed_statistics")
 async def test_poll_empty_response(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_waterfurnace_client: Mock,
 ) -> None:
@@ -190,7 +190,7 @@ async def test_poll_empty_response(
 @pytest.mark.usefixtures("seed_statistics")
 async def test_subsequent_poll_resumes_sum(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_waterfurnace_client: Mock,
     freezer: FrozenDateTimeFactory,
@@ -219,7 +219,7 @@ async def test_subsequent_poll_resumes_sum(
 
 async def test_no_data_error_handled_gracefully(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_waterfurnace_client: Mock,
 ) -> None:
@@ -238,7 +238,7 @@ async def test_no_data_error_handled_gracefully(
 @pytest.mark.usefixtures("seed_statistics")
 async def test_login_credential_error_raises_update_failed(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_waterfurnace_client: Mock,
     freezer: FrozenDateTimeFactory,
@@ -263,7 +263,7 @@ async def test_login_credential_error_raises_update_failed(
 @pytest.mark.usefixtures("seed_statistics")
 async def test_timezone_conversion(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_waterfurnace_client: Mock,
 ) -> None:
@@ -295,7 +295,7 @@ async def test_timezone_conversion(
 @pytest.mark.freeze_time(NOW)
 async def test_first_poll_no_statistics_triggers_reverse_backfill(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_waterfurnace_client: Mock,
 ) -> None:
@@ -319,7 +319,7 @@ async def test_first_poll_no_statistics_triggers_reverse_backfill(
 @pytest.mark.freeze_time(NOW)
 async def test_gap_backfill(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_waterfurnace_client: Mock,
 ) -> None:
@@ -349,7 +349,7 @@ async def test_gap_backfill(
 @pytest.mark.freeze_time(NOW)
 async def test_reverse_backfill_stops_on_no_data(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_waterfurnace_client: Mock,
 ) -> None:
@@ -377,7 +377,7 @@ async def test_reverse_backfill_stops_on_no_data(
 @pytest.mark.freeze_time(NOW)
 async def test_reverse_backfill_early_stop_on_consecutive_empty(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_waterfurnace_client: Mock,
 ) -> None:
@@ -394,7 +394,7 @@ async def test_reverse_backfill_early_stop_on_consecutive_empty(
 @pytest.mark.freeze_time(NOW)
 async def test_backfill_then_normal_poll(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_waterfurnace_client: Mock,
     freezer: FrozenDateTimeFactory,
@@ -432,7 +432,7 @@ async def test_backfill_then_normal_poll(
 @pytest.mark.freeze_time(NOW)
 async def test_backfill_multi_batch_running_totals(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_waterfurnace_client: Mock,
 ) -> None:

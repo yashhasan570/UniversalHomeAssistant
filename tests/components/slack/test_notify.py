@@ -10,7 +10,7 @@ from universalassistant.components import notify
 from universalassistant.components.slack import DOMAIN
 from universalassistant.components.slack.notify import ATTR_ICON, ATTR_THREAD_TS
 from universalassistant.const import CONF_ICON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 
 from . import CONF_DATA, TEAM_ID, mock_connection
@@ -19,7 +19,7 @@ SERVICE_NAME = "test_team"
 
 
 async def _async_setup_notify_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     entry_data: dict[str, str],
 ) -> AsyncMock:
@@ -72,7 +72,7 @@ async def _async_setup_notify_service(
     ],
 )
 async def test_message_icon(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     entry_icon: str,
     service_data: dict[str, str],
@@ -94,7 +94,7 @@ async def test_message_icon(
 
 
 async def test_message_as_reply(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Tests that a message pointer will be passed to Slack if specified."""
     mock_fn = await _async_setup_notify_service(hass, aioclient_mock, CONF_DATA)
@@ -116,7 +116,7 @@ async def test_message_as_reply(
 
 
 async def test_invalid_message_data(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Tests that invalid message data raises an error and sends no message."""
     mock_fn = await _async_setup_notify_service(hass, aioclient_mock, CONF_DATA)

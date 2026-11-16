@@ -17,7 +17,7 @@ from universalassistant.components.media_source import (
     async_get_media_image,
     async_resolve_media,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.os_error import os_read_error
 
@@ -110,7 +110,7 @@ def _build_text_msg(message: str) -> MIMEText:
 
 
 def _attach_file(
-    hass: __HAC_KEEP__, atch_name: str, content_id: str | None = None
+    hass: UniversalAssistant, atch_name: str, content_id: str | None = None
 ) -> MIMEImage | MIMEApplication | None:
     """Create a message attachment.
 
@@ -175,7 +175,7 @@ def _attach_file(
 
 
 def _build_multipart_msg(
-    hass: __HAC_KEEP__, message: str, images: list[str]
+    hass: UniversalAssistant, message: str, images: list[str]
 ) -> MIMEMultipart:
     """Build Multipart message with images as attachments."""
     _LOGGER.debug("Building multipart email with image attachment(s)")
@@ -192,7 +192,7 @@ def _build_multipart_msg(
 
 
 def _build_html_msg(
-    hass: __HAC_KEEP__, text: str, html: str, images: list[str]
+    hass: UniversalAssistant, text: str, html: str, images: list[str]
 ) -> MIMEMultipart:
     """Build Multipart message with in-line images and rich HTML (UTF-8)."""
     _LOGGER.debug("Building HTML rich email")
@@ -211,7 +211,7 @@ def _build_html_msg(
 
 
 async def _resolve_media(
-    hass: __HAC_KEEP__, media_source: dict[str, str]
+    hass: UniversalAssistant, media_source: dict[str, str]
 ) -> tuple[bytes, str | None, str | None]:
     """Resolve media from a media source."""
     media_content_id: str = media_source["media_content_id"]

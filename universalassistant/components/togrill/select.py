@@ -14,7 +14,7 @@ from togrill_bluetooth.packets import (
 )
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_PROBE_COUNT, MAX_PROBE_COUNT
@@ -126,7 +126,7 @@ ENTITY_DESCRIPTIONS = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ToGrillConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -5,12 +5,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.binary_sensor import BinarySensorDeviceClass
 from universalassistant.components.rdw.const import DOMAIN
 from universalassistant.const import ATTR_DEVICE_CLASS, ATTR_FRIENDLY_NAME, ATTR_ICON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
 async def test_vehicle_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,

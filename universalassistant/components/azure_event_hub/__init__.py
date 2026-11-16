@@ -14,7 +14,7 @@ import probatio
 
 from universalassistant.config_entries import SOURCE_IMPORT, ConfigEntry
 from universalassistant.const import MATCH_ALL
-from universalassistant.core import Event, __HAC_KEEP__, State
+from universalassistant.core import Event, UniversalAssistant, State
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entityfilter import FILTER_SCHEMA, EntityFilter
@@ -65,7 +65,7 @@ CONFIG_SCHEMA = probatio.Schema(
 DATA_COMPONENT: HassKey[EntityFilter] = HassKey(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, yaml_config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, yaml_config: ConfigType) -> bool:
     """Activate Azure EH component from yaml.
 
     Adds an empty filter to hass data.
@@ -95,7 +95,7 @@ async def async_setup(hass: __HAC_KEEP__, yaml_config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: AzureEventHubConfigEntry
+    hass: UniversalAssistant, entry: AzureEventHubConfigEntry
 ) -> None:
     """Do the setup based on the config entry and the filter from yaml."""
     hub = AzureEventHub(
@@ -114,14 +114,14 @@ async def async_setup_entry(
 
 
 async def async_update_listener(
-    hass: __HAC_KEEP__, entry: AzureEventHubConfigEntry
+    hass: UniversalAssistant, entry: AzureEventHubConfigEntry
 ) -> None:
     """Update listener for options."""
     entry.runtime_data.update_options(entry.options)
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: AzureEventHubConfigEntry
+    hass: UniversalAssistant, entry: AzureEventHubConfigEntry
 ) -> None:
     """Unload a config entry."""
 
@@ -131,7 +131,7 @@ class AzureEventHub:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: AzureEventHubConfigEntry,
         entities_filter: EntityFilter,
     ) -> None:

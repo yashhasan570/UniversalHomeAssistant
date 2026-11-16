@@ -2,7 +2,7 @@
 
 import probatio
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 
 from .const import (
@@ -14,7 +14,7 @@ from .const import (
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the cover services."""
     component = hass.data[DATA_COMPONENT]
 

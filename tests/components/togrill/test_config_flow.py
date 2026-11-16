@@ -9,7 +9,7 @@ from pytest_universalassistant.components.bluetooth import inject_bluetooth_serv
 
 from universalassistant import config_entries
 from universalassistant.components.togrill.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import TOGRILL_SERVICE_INFO, TOGRILL_SERVICE_INFO_NO_NAME, setup_entry
@@ -18,7 +18,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 async def test_user_selection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test we can select a device."""
 
@@ -52,7 +52,7 @@ async def test_user_selection(
 
 
 async def test_user_selection_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test we can select a device."""
     entry = MockConfigEntry(
@@ -79,7 +79,7 @@ async def test_user_selection_ignored(
 
 
 async def test_failed_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: Mock,
     mock_client_class: Mock,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_failed_connect(
 
 
 async def test_failed_read(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: Mock,
 ) -> None:
     """Test failure to read from device."""
@@ -128,7 +128,7 @@ async def test_failed_read(
 
 
 async def test_no_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test missing device."""
 
@@ -142,7 +142,7 @@ async def test_no_devices(
 
 
 async def test_duplicate_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_entry: MockConfigEntry,
 ) -> None:
     """Test we can not setup a device again."""
@@ -160,7 +160,7 @@ async def test_duplicate_setup(
 
 
 async def test_bluetooth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test bluetooth device discovery."""
 

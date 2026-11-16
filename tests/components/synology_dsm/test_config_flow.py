@@ -48,7 +48,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType, InvalidData
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_FRIENDLY_NAME,
@@ -245,7 +245,7 @@ def mock_controller_service_failed():
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service: MagicMock,
     snapshot: SnapshotAssertion,
     user_input: dict[str, Any],
@@ -273,7 +273,7 @@ async def test_user(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_2sa(
-    hass: __HAC_KEEP__, service_2sa: MagicMock, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, service_2sa: MagicMock, snapshot: SnapshotAssertion
 ) -> None:
     """Test user with 2sa authentication config."""
     result = await hass.config_entries.flow.async_init(
@@ -327,7 +327,7 @@ async def test_user_2sa(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_vdsm(
-    hass: __HAC_KEEP__, service_vdsm: MagicMock, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, service_vdsm: MagicMock, snapshot: SnapshotAssertion
 ) -> None:
     """Test user config."""
     with patch(
@@ -364,7 +364,7 @@ async def test_user_vdsm(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_with_filestation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_with_filestation: MagicMock,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -412,7 +412,7 @@ async def test_user_with_filestation(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_backup_share_form_reopened(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_with_filestation: MagicMock,
 ) -> None:
     """Test the backup location form can be shown again without losing the input."""
@@ -459,7 +459,7 @@ async def test_backup_share_form_reopened(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_backup_share_requires_a_path(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_with_filestation: MagicMock,
 ) -> None:
     """Test an empty backup path is rejected instead of looping the flow."""
@@ -505,7 +505,7 @@ async def test_backup_share_requires_a_path(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_reauth(hass: __HAC_KEEP__, service: MagicMock) -> None:
+async def test_reauth(hass: UniversalAssistant, service: MagicMock) -> None:
     """Test reauthentication."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -559,7 +559,7 @@ async def test_reauth(hass: __HAC_KEEP__, service: MagicMock) -> None:
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service: MagicMock,
     side_effect: Exception,
     errors: dict[str, str],
@@ -604,7 +604,7 @@ async def test_reauth_errors(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_reconfig_user(hass: __HAC_KEEP__, service: MagicMock) -> None:
+async def test_reconfig_user(hass: UniversalAssistant, service: MagicMock) -> None:
     """Test re-configuration of already existing entry by user."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -680,7 +680,7 @@ RECONFIGURED_DATA = {
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure(
-    hass: __HAC_KEEP__, service_with_filestation: MagicMock
+    hass: UniversalAssistant, service_with_filestation: MagicMock
 ) -> None:
     """Test reconfiguring the connection settings."""
     entry = MockConfigEntry(
@@ -719,7 +719,7 @@ async def test_reconfigure(
     service_with_filestation.file.get_shared_folders.assert_not_called()
 
 
-async def test_reconfigure_legacy_entry_without_verify_ssl(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_legacy_entry_without_verify_ssl(hass: UniversalAssistant) -> None:
     """Test the form defaults verify SSL for entries that never migrated it."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -743,7 +743,7 @@ async def test_reconfigure_legacy_entry_without_verify_ssl(hass: __HAC_KEEP__) -
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_reconfigure_2sa(hass: __HAC_KEEP__, service_2sa: MagicMock) -> None:
+async def test_reconfigure_2sa(hass: UniversalAssistant, service_2sa: MagicMock) -> None:
     """Test reconfiguring with 2SA authentication."""
     entry = _reconfigure_entry()
     entry.add_to_hass(hass)
@@ -771,7 +771,7 @@ async def test_reconfigure_2sa(hass: __HAC_KEEP__, service_2sa: MagicMock) -> No
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_keeps_disks_and_volumes(
-    hass: __HAC_KEEP__, service: MagicMock
+    hass: UniversalAssistant, service: MagicMock
 ) -> None:
     """Test reconfiguring keeps the legacy disk and volume selection."""
     entry = MockConfigEntry(
@@ -839,7 +839,7 @@ async def test_reconfigure_keeps_disks_and_volumes(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service: MagicMock,
     failing_call: str,
     side_effect: Exception,
@@ -874,7 +874,7 @@ async def test_reconfigure_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_missing_data(
-    hass: __HAC_KEEP__, service: MagicMock, service_failed: MagicMock
+    hass: UniversalAssistant, service: MagicMock, service_failed: MagicMock
 ) -> None:
     """Test reconfiguring when the NAS returns incomplete data."""
     entry = _reconfigure_entry()
@@ -900,7 +900,7 @@ async def test_reconfigure_missing_data(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_unique_id_mismatch(
-    hass: __HAC_KEEP__, service: MagicMock
+    hass: UniversalAssistant, service: MagicMock
 ) -> None:
     """Test reconfiguring to a different NAS aborts."""
     entry = _reconfigure_entry()
@@ -919,7 +919,7 @@ async def test_reconfigure_unique_id_mismatch(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_login_failed(hass: __HAC_KEEP__, service: MagicMock) -> None:
+async def test_login_failed(hass: UniversalAssistant, service: MagicMock) -> None:
     """Test when we have errors during login."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -947,7 +947,7 @@ async def test_login_failed(hass: __HAC_KEEP__, service: MagicMock) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_connection_failed(hass: __HAC_KEEP__, service: MagicMock) -> None:
+async def test_connection_failed(hass: UniversalAssistant, service: MagicMock) -> None:
     """Test when we have errors during connection."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -976,7 +976,7 @@ async def test_connection_failed(hass: __HAC_KEEP__, service: MagicMock) -> None
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_unknown_failed(hass: __HAC_KEEP__, service: MagicMock) -> None:
+async def test_unknown_failed(hass: UniversalAssistant, service: MagicMock) -> None:
     """Test when we have an unknown error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -1029,7 +1029,7 @@ async def test_unknown_failed(hass: __HAC_KEEP__, service: MagicMock) -> None:
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_errors_after_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service: MagicMock,
     failing_call: str,
     side_effect: Exception,
@@ -1064,7 +1064,7 @@ async def test_user_errors_after_connect(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_missing_data_after_login(
-    hass: __HAC_KEEP__, service: MagicMock, service_failed: MagicMock
+    hass: UniversalAssistant, service: MagicMock, service_failed: MagicMock
 ) -> None:
     """Test when we have errors during connection."""
     result = await hass.config_entries.flow.async_init(
@@ -1098,7 +1098,7 @@ async def test_missing_data_after_login(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_ssdp(
-    hass: __HAC_KEEP__, service: MagicMock, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, service: MagicMock, snapshot: SnapshotAssertion
 ) -> None:
     """Test we can setup from ssdp."""
 
@@ -1167,7 +1167,7 @@ async def test_form_ssdp(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_link_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service: MagicMock,
     source: str,
     discovery_info: SsdpServiceInfo | ZeroconfServiceInfo,
@@ -1201,7 +1201,7 @@ async def test_discovery_link_errors(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_reconfig_ssdp(hass: __HAC_KEEP__, service: MagicMock) -> None:
+async def test_reconfig_ssdp(hass: UniversalAssistant, service: MagicMock) -> None:
     """Test re-configuration of already existing entry by ssdp."""
 
     MockConfigEntry(
@@ -1244,7 +1244,7 @@ async def test_reconfig_ssdp(hass: __HAC_KEEP__, service: MagicMock) -> None:
     ],
 )
 async def test_skip_reconfig_ssdp(
-    hass: __HAC_KEEP__, current_host: str, new_host: str, service: MagicMock
+    hass: UniversalAssistant, current_host: str, new_host: str, service: MagicMock
 ) -> None:
     """Test re-configuration of already existing entry by ssdp."""
 
@@ -1279,7 +1279,7 @@ async def test_skip_reconfig_ssdp(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_existing_ssdp(hass: __HAC_KEEP__, service: MagicMock) -> None:
+async def test_existing_ssdp(hass: UniversalAssistant, service: MagicMock) -> None:
     """Test abort of already existing entry by ssdp."""
 
     MockConfigEntry(
@@ -1313,7 +1313,7 @@ async def test_existing_ssdp(hass: __HAC_KEEP__, service: MagicMock) -> None:
 
 
 async def test_options_flow(
-    hass: __HAC_KEEP__, service_with_filestation: MagicMock
+    hass: UniversalAssistant, service_with_filestation: MagicMock
 ) -> None:
     """Test config flow options."""
     with (
@@ -1371,7 +1371,7 @@ async def test_options_flow(
 
 
 async def test_options_flow_entry_not_loaded(
-    hass: __HAC_KEEP__, service_with_filestation: MagicMock
+    hass: UniversalAssistant, service_with_filestation: MagicMock
 ) -> None:
     """Test the options flow aborts when the integration is not loaded."""
     config_entry = MockConfigEntry(
@@ -1398,7 +1398,7 @@ async def test_options_flow_entry_not_loaded(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovered_via_zeroconf(
-    hass: __HAC_KEEP__, service: MagicMock, snapshot: SnapshotAssertion
+    hass: UniversalAssistant, service: MagicMock, snapshot: SnapshotAssertion
 ) -> None:
     """Test we can setup from zeroconf."""
 
@@ -1438,7 +1438,7 @@ async def test_discovered_via_zeroconf(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovered_via_zeroconf_missing_mac(
-    hass: __HAC_KEEP__, service: MagicMock
+    hass: UniversalAssistant, service: MagicMock
 ) -> None:
     """Test we abort if the mac address is missing."""
 

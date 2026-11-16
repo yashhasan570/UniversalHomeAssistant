@@ -16,7 +16,7 @@ from universalassistant.components.media_player import (
     RepeatMode,
 )
 from universalassistant.const import CONF_ID, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import Throttle
@@ -29,7 +29,7 @@ PLAYLIST_UPDATE_INTERVAL = timedelta(seconds=15)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: VolumioConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

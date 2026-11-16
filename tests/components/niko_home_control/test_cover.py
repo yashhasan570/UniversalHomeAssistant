@@ -16,14 +16,14 @@ from universalassistant.const import (
     STATE_OPEN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import find_update_callback, setup_integration
 
 
 async def test_cover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_niko_home_control_connection: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -45,7 +45,7 @@ async def test_cover(
     ],
 )
 async def test_open_cover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_niko_home_control_connection: AsyncMock,
     mock_config_entry: MockConfigEntry,
     cover_id: int,
@@ -70,7 +70,7 @@ async def test_open_cover(
     ],
 )
 async def test_close_cover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_niko_home_control_connection: AsyncMock,
     mock_config_entry: MockConfigEntry,
     cover_id: int,
@@ -95,7 +95,7 @@ async def test_close_cover(
     ],
 )
 async def test_stop_cover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_niko_home_control_connection: AsyncMock,
     mock_config_entry: MockConfigEntry,
     cover_id: int,
@@ -114,7 +114,7 @@ async def test_stop_cover(
 
 
 async def test_updating(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_niko_home_control_connection: AsyncMock,
     mock_config_entry: MockConfigEntry,
     cover: AsyncMock,

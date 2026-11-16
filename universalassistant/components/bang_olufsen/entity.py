@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 
 
 class BeoBase:
-    """Base class for Bang & Olufsen __HA_KEEP__ objects."""
+    """Base class for Bang & Olufsen Universal Home Assistant objects."""
 
     def __init__(self, entry: BeoConfigEntry, client: MozartClient) -> None:
         """Initialize the object."""

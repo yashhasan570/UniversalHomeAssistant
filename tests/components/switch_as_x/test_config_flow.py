@@ -13,7 +13,7 @@ from universalassistant.components.switch_as_x.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_ENTITY_ID, STATE_ON, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 
@@ -22,7 +22,7 @@ from . import PLATFORMS_TO_TEST, STATE_MAP
 
 @pytest.mark.parametrize("target_domain", PLATFORMS_TO_TEST)
 async def test_config_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_domain: Platform,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -71,7 +71,7 @@ async def test_config_flow(
 )
 @pytest.mark.parametrize("target_domain", PLATFORMS_TO_TEST)
 async def test_config_flow_registered_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     target_domain: Platform,
     mock_setup_entry: AsyncMock,
@@ -125,7 +125,7 @@ async def test_config_flow_registered_entity(
 
 @pytest.mark.parametrize("target_domain", PLATFORMS_TO_TEST)
 async def test_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_domain: Platform,
 ) -> None:
     """Test reconfiguring."""

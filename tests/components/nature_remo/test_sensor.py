@@ -21,7 +21,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.nature_remo.const import DOMAIN, UPDATE_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -29,7 +29,7 @@ from . import async_poll
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
@@ -39,7 +39,7 @@ async def test_all_entities(
 
 
 async def test_sensors_unavailable_on_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -54,7 +54,7 @@ async def test_sensors_unavailable_on_update_failure(
 
 
 async def test_rate_limit_defers_the_next_poll_until_the_reset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -86,7 +86,7 @@ async def test_rate_limit_defers_the_next_poll_until_the_reset(
     ids=["no_reset", "past_reset"],
 )
 async def test_rate_limit_without_a_usable_reset_keeps_polling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -117,7 +117,7 @@ async def test_rate_limit_without_a_usable_reset_keeps_polling(
 
 
 async def test_offline_device_sensors_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     devices: list[Device],
@@ -145,7 +145,7 @@ async def test_offline_device_sensors_unavailable(
 
 
 async def test_sensors_unavailable_when_the_hub_disappears(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: AsyncMock,
     devices: list[Device],
@@ -163,7 +163,7 @@ async def test_sensors_unavailable_when_the_hub_disappears(
 
 
 async def test_smart_meter_follows_the_hub_reading_it(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: AsyncMock,
     devices: list[Device],
@@ -187,7 +187,7 @@ async def test_smart_meter_follows_the_hub_reading_it(
 
 
 async def test_smart_meter_unavailable_when_its_hub_disappears(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: AsyncMock,
     devices: list[Device],
@@ -207,7 +207,7 @@ async def test_smart_meter_unavailable_when_its_hub_disappears(
 
 
 async def test_smart_meter_reading_dropout_is_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: AsyncMock,
     appliances: list[Appliance],
@@ -226,7 +226,7 @@ async def test_smart_meter_reading_dropout_is_unknown(
 
 
 async def test_smart_meter_without_reverse_direction(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
 ) -> None:

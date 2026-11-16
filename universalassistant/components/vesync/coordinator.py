@@ -9,7 +9,7 @@ from pyvesync import VeSync
 from pyvesync.utils.errors import VeSyncError, VeSyncLoginError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -27,7 +27,7 @@ class VeSyncDataCoordinator(DataUpdateCoordinator[None]):
     update_time: float | None = None
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: VesyncConfigEntry, manager: VeSync
+        self, hass: UniversalAssistant, config_entry: VesyncConfigEntry, manager: VeSync
     ) -> None:
         """Initialize."""
         self.manager = manager

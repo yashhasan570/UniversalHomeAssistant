@@ -6,7 +6,7 @@ from typing import Any, Final
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.core import HassJob, __HAC_KEEP__, callback
+from universalassistant.core import HassJob, UniversalAssistant, callback
 from universalassistant.helpers.json import json_bytes
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_FRIENDLY_NAME,
@@ -21,7 +21,7 @@ FIELD_SSDP_LOCATION: Final = "ssdp_location"
 
 
 @callback
-def async_setup(hass: __HAC_KEEP__) -> None:
+def async_setup(hass: UniversalAssistant) -> None:
     """Set up the ssdp websocket API."""
     websocket_api.async_register_command(hass, ws_subscribe_discovery)
 
@@ -34,7 +34,7 @@ def async_setup(hass: __HAC_KEEP__) -> None:
 )
 @websocket_api.async_response
 async def ws_subscribe_discovery(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle subscribe advertisements websocket command."""
     scanner: Scanner = hass.data[DOMAIN][SSDP_SCANNER]

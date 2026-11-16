@@ -9,7 +9,7 @@ import pytest
 from pytest_universalassistant.components.bluetooth import generate_ble_device
 
 from universalassistant.components.bluetooth import HaBluetoothConnector
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 ESP_MAC_ADDRESS = "AA:BB:CC:DD:EE:FF"
 ESP_NAME = "proxy"
@@ -17,7 +17,7 @@ ESP_NAME = "proxy"
 
 @pytest.fixture(name="client_data")
 async def client_data_fixture(
-    hass: __HAC_KEEP__, mock_client: APIClient
+    hass: UniversalAssistant, mock_client: APIClient
 ) -> ESPHomeClientData:
     """Return a client data fixture."""
     connector = HaBluetoothConnector(ESPHomeClientData, ESP_MAC_ADDRESS, lambda: True)

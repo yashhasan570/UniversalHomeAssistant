@@ -24,8 +24,8 @@ from universalassistant.components import switch
 from universalassistant.components.tplink_omada.const import DOMAIN
 from universalassistant.components.tplink_omada.coordinator import POLL_GATEWAY
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__, ServiceResponse
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, ServiceResponse
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.dt import utcnow
 
@@ -35,7 +35,7 @@ POLL_INTERVAL = timedelta(seconds=POLL_GATEWAY + 10)
 
 @pytest.mark.usefixtures("mock_omada_client")
 async def test_switch_port_setup_does_not_depend_on_debounced_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_omada_site_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -82,7 +82,7 @@ async def test_switch_port_setup_does_not_depend_on_debounced_refresh(
 
 
 async def test_poe_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_site_client: MagicMock,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -112,7 +112,7 @@ async def test_poe_switches(
 
 
 async def test_sfp_port_has_no_poe_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test PoE switch SFP ports have no PoE controls."""
@@ -123,7 +123,7 @@ async def test_sfp_port_has_no_poe_switch(
 
 
 async def test_gateway_connect_ipv4_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_site_client: MagicMock,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -176,7 +176,7 @@ async def test_gateway_connect_ipv4_switch(
 
 
 async def test_gateway_port_poe_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_site_client: MagicMock,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -231,19 +231,19 @@ async def test_gateway_port_poe_switch(
     ],
 )
 async def test_switch_action_failure_is_translated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_site_client: MagicMock,
     init_integration: MockConfigEntry,
     entity_id: str,
     service: str,
     api_method: str,
 ) -> None:
-    """Test switch action failures raise a translated __HAC_KEEP__Error."""
+    """Test switch action failures raise a translated UniversalAssistantError."""
     getattr(mock_omada_site_client, api_method).side_effect = OmadaClientException(
         "mock failure"
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await call_service(hass, service, entity_id)
 
     assert err.value.translation_domain == DOMAIN
@@ -251,7 +251,7 @@ async def test_switch_action_failure_is_translated(
 
 
 async def test_gateway_wan_port_has_no_poe_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test PoE switch SFP ports have no PoE controls."""
@@ -274,7 +274,7 @@ def _assert_gateway_poe_set(mock_omada_site_client, test_gateway, poe_enabled: b
 
 
 async def test_gateway_api_fail_disables_switch_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_site_client: MagicMock,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -296,7 +296,7 @@ async def test_gateway_api_fail_disables_switch_entities(
 
 
 async def test_gateway_port_change_disables_switch_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_site_client: MagicMock,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -323,7 +323,7 @@ async def test_gateway_port_change_disables_switch_entities(
 
 
 async def _test_poe_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_site_client: MagicMock,
     entity_id: str,
     network_switch_mac: str,
@@ -425,7 +425,7 @@ def _get_updated_gateway_port_status(
 
 
 async def call_service(
-    hass: __HAC_KEEP__, service: str, entity_id: str
+    hass: UniversalAssistant, service: str, entity_id: str
 ) -> ServiceResponse:
     """Call any service on entity."""
     return await hass.services.async_call(
@@ -464,7 +464,7 @@ def _build_vpn_policies(
 
 
 async def test_vpn_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -494,7 +494,7 @@ async def test_vpn_switches(
     ],
 )
 async def test_vpn_switch_toggle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_site_client: MagicMock,
     init_integration: MockConfigEntry,
     entity_id: str,
@@ -519,7 +519,7 @@ async def test_vpn_switch_toggle(
 
 
 async def test_vpn_switch_optimistic_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_site_client: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -536,7 +536,7 @@ async def test_vpn_switch_optimistic_state(
 
 
 async def test_vpn_switch_renamed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_site_client: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -560,7 +560,7 @@ async def test_vpn_switch_renamed(
 
 
 async def test_vpn_switch_added_dynamically(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_site_client: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -589,7 +589,7 @@ async def test_vpn_switch_added_dynamically(
 
 
 async def test_vpn_switch_unavailable_when_policy_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_site_client: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:

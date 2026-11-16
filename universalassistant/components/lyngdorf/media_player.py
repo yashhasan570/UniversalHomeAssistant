@@ -25,8 +25,8 @@ from universalassistant.components.media_player import (
     MediaType,
     RepeatMode,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -82,7 +82,7 @@ PLAYBACK_STATES: dict[PlaybackState, MediaPlayerState] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: LyngdorfConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -137,7 +137,7 @@ async def _async_transport(command: Awaitable[bool]) -> None:
         ) from err
     # False covers both a rejected request and one that never arrived.
     if not accepted:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="command_failed",
         )
@@ -289,7 +289,7 @@ class LyngdorfMainDevice(LyngdorfDevice):
     async def async_added_to_hass(self) -> None:
         """Subscribe to position discontinuities."""
         # The jump callback fires on a seek, track change, play/pause or
-        # drift, rather than once a second, which is all __HA_KEEP__
+        # drift, rather than once a second, which is all Universal Home Assistant
         # needs: it stores a position and a timestamp and extrapolates.
         await super().async_added_to_hass()
         if (player := self._receiver.player) is not None:

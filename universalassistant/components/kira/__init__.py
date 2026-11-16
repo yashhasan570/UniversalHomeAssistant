@@ -20,7 +20,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv, discovery
 from universalassistant.helpers.typing import ConfigType
 
@@ -94,7 +94,7 @@ def load_codes(path):
     return codes
 
 
-def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the KIRA component."""
     sensors = config.get(DOMAIN, {}).get(CONF_SENSORS, [])
     remotes = config.get(DOMAIN, {}).get(CONF_REMOTES, [])

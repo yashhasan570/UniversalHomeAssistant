@@ -14,9 +14,9 @@ from aiohttp.web_exceptions import (
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
+from universalassistant.components.http import KEY_HASS, UniversalAssistantView
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, callback
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_component import EntityComponent
@@ -81,7 +81,7 @@ AUDIO_CHUNK_SIZE = 4096
 
 
 @callback
-def async_default_engine(hass: __HAC_KEEP__) -> str | None:
+def async_default_engine(hass: UniversalAssistant) -> str | None:
     """Return the domain or entity id of the default engine."""
     default_entity_id: str | None = None
 
@@ -97,7 +97,7 @@ def async_default_engine(hass: __HAC_KEEP__) -> str | None:
 
 @callback
 def async_get_speech_to_text_entity(
-    hass: __HAC_KEEP__, entity_id: str
+    hass: UniversalAssistant, entity_id: str
 ) -> SpeechToTextEntity | None:
     """Return stt entity."""
     return hass.data[DATA_COMPONENT].get_entity(entity_id)
@@ -105,7 +105,7 @@ def async_get_speech_to_text_entity(
 
 @callback
 def async_get_speech_to_text_engine(
-    hass: __HAC_KEEP__, engine_id: str
+    hass: UniversalAssistant, engine_id: str
 ) -> SpeechToTextEntity | Provider | None:
     """Return stt entity or legacy provider."""
     if entity := async_get_speech_to_text_entity(hass, engine_id):
@@ -114,7 +114,7 @@ def async_get_speech_to_text_engine(
 
 
 @callback
-def async_get_speech_to_text_languages(hass: __HAC_KEEP__) -> set[str]:
+def async_get_speech_to_text_languages(hass: UniversalAssistant) -> set[str]:
     """Return a set with the union of languages supported by stt engines."""
     languages = set()
 
@@ -129,7 +129,7 @@ def async_get_speech_to_text_languages(hass: __HAC_KEEP__) -> set[str]:
     return languages
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up STT."""
     websocket_api.async_register_command(hass, websocket_list_engines)
 
@@ -153,7 +153,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up a config entry."""
     if not await hass.data[DATA_COMPONENT].async_setup_entry(entry):
         raise ConfigEntryError(
@@ -163,12 +163,12 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.data[DATA_COMPONENT].async_unload_entry(entry)
 
 
-class SpeechToTextView(__HAC_KEEP__View):
+class SpeechToTextView(UniversalAssistantView):
     """STT view to generate a text from audio stream."""
 
     _legacy_provider_reported = False
@@ -254,7 +254,7 @@ class SpeechToTextView(__HAC_KEEP__View):
             }
         )
 
-    def _get_provider(self, hass: __HAC_KEEP__, provider: str) -> Provider:
+    def _get_provider(self, hass: UniversalAssistant, provider: str) -> Provider:
         """Get provider.
 
         Method for legacy providers.
@@ -265,7 +265,7 @@ class SpeechToTextView(__HAC_KEEP__View):
         if not self._legacy_provider_reported:
             self._legacy_provider_reported = True
             report_issue = self._suggest_report_issue(hass, provider, stt_provider)
-            # This should raise in __HA_KEEP__ Core 2023.9
+            # This should raise in Universal Home Assistant Core 2023.9
             _LOGGER.warning(
                 "Provider %s (%s) is using a legacy implementation, "
                 "and should be updated to use the SpeechToTextEntity. Please "
@@ -278,7 +278,7 @@ class SpeechToTextView(__HAC_KEEP__View):
         return stt_provider
 
     def _suggest_report_issue(
-        self, hass: __HAC_KEEP__, provider: str, provider_instance: object
+        self, hass: UniversalAssistant, provider: str, provider_instance: object
     ) -> str:
         """Suggest to report an issue."""
         return async_suggest_report_issue(
@@ -340,7 +340,7 @@ def _metadata_from_header(request: web.Request) -> SpeechMetadata:
 )
 @callback
 def websocket_list_engines(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
 ) -> None:
     """List speech-to-text engines and, optionally, if they support a given language."""
     country = msg.get("country")

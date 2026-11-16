@@ -12,7 +12,7 @@ from universalassistant.const import (
     EVENT_STATE_CHANGED,
     EVENT_STATE_REPORTED,
 )
-from universalassistant.core import Event, EventStateReportedData, __HAC_KEEP__, callback
+from universalassistant.core import Event, EventStateReportedData, UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 
 KITCHEN_ENTITY_ID = "media_player.kitchen"
@@ -21,7 +21,7 @@ RENAMED_ENTITY_ID = "media_player.renamed"
 
 
 async def test_group_members_follow_renamed_group_member(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test group members report the new entity_id of another renamed player."""
     source_controls = [

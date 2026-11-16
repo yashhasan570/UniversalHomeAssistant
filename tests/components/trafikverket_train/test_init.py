@@ -15,14 +15,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.trafikverket_train.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, SOURCE_USER, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_registry import EntityRegistry
 
 from . import ENTRY_CONFIG, OPTIONS_CONFIG
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__, get_trains: list[TrainStopModel]
+    hass: UniversalAssistant, get_trains: list[TrainStopModel]
 ) -> None:
     """Test unload an entry."""
     entry = MockConfigEntry(
@@ -57,7 +57,7 @@ async def test_unload_entry(
 
 
 async def test_auth_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_trains: list[TrainStopModel],
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -88,7 +88,7 @@ async def test_auth_failed(
 
 
 async def test_no_stations(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_trains: list[TrainStopModel],
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -115,7 +115,7 @@ async def test_no_stations(
 
 
 async def test_migrate_entity_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_trains: list[TrainStopModel],
     snapshot: SnapshotAssertion,
     entity_registry: EntityRegistry,
@@ -159,7 +159,7 @@ async def test_migrate_entity_unique_id(
 
 
 async def test_migrate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_trains: list[TrainStopModel],
     get_train_stations: list[StationInfoModel],
 ) -> None:
@@ -210,7 +210,7 @@ async def test_migrate_entry(
 
 
 async def test_migrate_entry_from_future_version_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_trains: list[TrainStopModel],
 ) -> None:
     """Test migrate entry from future version fails."""
@@ -256,7 +256,7 @@ async def test_migrate_entry_from_future_version_fails(
     ],
 )
 async def test_migrate_entry_fails(
-    hass: __HAC_KEEP__, side_effect: type[Exception], reason: str
+    hass: UniversalAssistant, side_effect: type[Exception], reason: str
 ) -> None:
     """Test migrate entry fails."""
     entry = MockConfigEntry(
@@ -284,7 +284,7 @@ async def test_migrate_entry_fails(
 
 
 async def test_migrate_entry_fails_multiple_stations(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_multiple_train_stations: list[StationInfoModel],
 ) -> None:
     """Test migrate entry fails on multiple stations found."""

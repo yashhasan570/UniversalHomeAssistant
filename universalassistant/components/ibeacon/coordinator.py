@@ -16,7 +16,7 @@ from ibeacon_ble import (
 from universalassistant.components import bluetooth
 from universalassistant.components.bluetooth.match import BluetoothCallbackMatcher
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.event import async_track_time_interval
@@ -86,7 +86,7 @@ def async_name(
 
 @callback
 def _async_dispatch_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_id: str,
     service_info: bluetooth.BluetoothServiceInfoBleak,
     ibeacon_advertisement: iBeaconAdvertisement,
@@ -116,7 +116,7 @@ class IBeaconCoordinator:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: IBeaconConfigEntry,
         registry: dr.DeviceRegistry,
     ) -> None:
@@ -529,7 +529,7 @@ class IBeaconCoordinator:
                 )
 
     async def async_config_entry_updated(
-        self, hass: __HAC_KEEP__, config_entry: IBeaconConfigEntry
+        self, hass: UniversalAssistant, config_entry: IBeaconConfigEntry
     ) -> None:
         """Restore ignored nameless beacons when the allowlist is updated."""
 

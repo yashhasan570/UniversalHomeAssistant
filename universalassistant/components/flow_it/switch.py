@@ -6,8 +6,8 @@ from flow_it_api.exceptions import FlowItAuthError, FlowItCommandError, FlowItEr
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -29,7 +29,7 @@ SWITCHES: tuple[SwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: AriaQConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -84,7 +84,7 @@ class AriaQVmcFlowSwitch(AriaQVmcEntity, SwitchEntity):
                 translation_key="auth_failed",
             ) from err
         except (FlowItCommandError, FlowItError) as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
             ) from err

@@ -14,7 +14,7 @@ from universalassistant.auth.providers import universalassistant as auth_ha
 from universalassistant.auth.providers.universalassistant import InvalidAuth
 from universalassistant.components.hassio.auth import HassIOBaseAuth
 from universalassistant.components.http.const import DATA_SUPERVISOR_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_auth_success(hassio_client_supervisor: TestClient) -> None:
@@ -36,7 +36,7 @@ async def test_auth_success(hassio_client_supervisor: TestClient) -> None:
 
 
 async def _link_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     group_ids: list[str],
     *,
     is_owner: bool = False,
@@ -65,7 +65,7 @@ async def _link_user(
     ],
 )
 async def test_auth_reports_group_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hassio_client_supervisor: TestClient,
     group_ids: list[str],
     is_owner: bool,
@@ -84,7 +84,7 @@ async def test_auth_reports_group_ids(
 
 
 async def test_auth_refuses_inactive_user(
-    hass: __HAC_KEEP__, hassio_client_supervisor: TestClient
+    hass: UniversalAssistant, hassio_client_supervisor: TestClient
 ) -> None:
     """Test a deactivated user cannot log in through an app."""
     await _link_user(hass, [GROUP_ID_ADMIN], is_active=False)
@@ -248,7 +248,7 @@ async def test_password_fails_no_auth(hassio_noauth_client: TestClient) -> None:
 )
 @pytest.mark.usefixtures("hassio_stubs")
 async def test_check_access_unix_socket_or_missing_peername(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     peername: str | None,
     unix_socket: bool,
     expectation: AbstractContextManager,
@@ -287,7 +287,7 @@ async def test_check_access_unix_socket_or_missing_peername(
 )
 @pytest.mark.usefixtures("hassio_unix_socket_env", "hassio_stubs")
 async def test_check_access_core_using_supervisor_socket(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     peername: tuple[str, int] | str,
     unix_socket: bool,
     expectation: AbstractContextManager,

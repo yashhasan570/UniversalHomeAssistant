@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.enphase_envoy.const import Platform
 from universalassistant.components.enphase_envoy.coordinator import SCAN_INTERVAL
 from universalassistant.const import STATE_ON, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -27,7 +27,7 @@ from . import setup_integration
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
@@ -52,7 +52,7 @@ async def test_binary_sensor(
     indirect=["mock_envoy"],
 )
 async def test_no_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -69,7 +69,7 @@ async def test_no_binary_sensor(
     ("mock_envoy"), ["envoy_metered_batt_relay"], indirect=["mock_envoy"]
 )
 async def test_binary_sensor_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_binary_sensor_data(
 @pytest.mark.parametrize("mock_envoy", ["envoy_acb_batt"], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_acb_battery_removed_from_inventory(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -127,7 +127,7 @@ async def test_acb_battery_removed_from_inventory(
 @pytest.mark.parametrize("mock_envoy", ["envoy_acb_batt"], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_acb_inventory_becomes_none(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
     freezer: FrozenDateTimeFactory,

@@ -5,7 +5,7 @@ from pypck.lcn_addr import LcnAddr
 from pypck.lcn_defs import AccessControlPeriphery, KeyAction, SendKeyCommand
 from pytest_universalassistant.common import async_capture_events
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import MockConfigEntry, init_integration
 
@@ -16,7 +16,7 @@ LCN_SEND_KEYS = "lcn_send_keys"
 
 
 async def test_fire_transponder_event(
-    hass: __HAC_KEEP__, entry: MockConfigEntry
+    hass: UniversalAssistant, entry: MockConfigEntry
 ) -> None:
     """Test the transponder event is fired."""
     lcn_connection = await init_integration(hass, entry)
@@ -37,7 +37,7 @@ async def test_fire_transponder_event(
 
 
 async def test_fire_fingerprint_event(
-    hass: __HAC_KEEP__, entry: MockConfigEntry
+    hass: UniversalAssistant, entry: MockConfigEntry
 ) -> None:
     """Test the fingerprint event is fired."""
     lcn_connection = await init_integration(hass, entry)
@@ -57,7 +57,7 @@ async def test_fire_fingerprint_event(
     assert events[0].data["code"] == "aabbcc"
 
 
-async def test_fire_codelock_event(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+async def test_fire_codelock_event(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     """Test the codelock event is fired."""
     lcn_connection = await init_integration(hass, entry)
     events = async_capture_events(hass, "lcn_codelock")
@@ -77,7 +77,7 @@ async def test_fire_codelock_event(hass: __HAC_KEEP__, entry: MockConfigEntry) -
 
 
 async def test_fire_transmitter_event(
-    hass: __HAC_KEEP__, entry: MockConfigEntry
+    hass: UniversalAssistant, entry: MockConfigEntry
 ) -> None:
     """Test the transmitter event is fired."""
     lcn_connection = await init_integration(hass, entry)
@@ -103,7 +103,7 @@ async def test_fire_transmitter_event(
     assert events[0].data["action"] == "hit"
 
 
-async def test_fire_sendkeys_event(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+async def test_fire_sendkeys_event(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     """Test the send_keys event is fired."""
     lcn_connection = await init_integration(hass, entry)
     events = async_capture_events(hass, LCN_SEND_KEYS)
@@ -133,7 +133,7 @@ async def test_fire_sendkeys_event(hass: __HAC_KEEP__, entry: MockConfigEntry) -
 
 
 async def test_dont_fire_on_non_module_input(
-    hass: __HAC_KEEP__, entry: MockConfigEntry
+    hass: UniversalAssistant, entry: MockConfigEntry
 ) -> None:
     """Test for no event is fired if a non-module input is received."""
     lcn_connection = await init_integration(hass, entry)

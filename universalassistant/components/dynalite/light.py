@@ -7,7 +7,7 @@ from universalassistant.components.light import (
     LightEntity,
     LightEntityStateAttribute,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .bridge import DynaliteConfigEntry
@@ -15,7 +15,7 @@ from .entity import DynaliteBase, async_setup_entry_base
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: DynaliteConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -26,7 +26,7 @@ async def async_setup_entry(
 
 
 class DynaliteLight(DynaliteBase, LightEntity):
-    """Representation of a Dynalite Channel as a __HA_KEEP__ Light."""
+    """Representation of a Dynalite Channel as a Universal Home Assistant Light."""
 
     _attr_color_mode = ColorMode.BRIGHTNESS
     _attr_supported_color_modes = {ColorMode.BRIGHTNESS}

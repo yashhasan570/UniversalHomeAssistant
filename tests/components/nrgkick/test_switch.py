@@ -19,8 +19,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -29,7 +29,7 @@ pytestmark = pytest.mark.usefixtures("entity_registry_enabled_by_default")
 
 
 async def test_switch_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -42,7 +42,7 @@ async def test_switch_entities(
 
 
 async def test_charge_switch_service_calls_update_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:
@@ -89,7 +89,7 @@ async def test_charge_switch_service_calls_update_state(
 
 
 async def test_charge_switch_rejected_by_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:
@@ -103,7 +103,7 @@ async def test_charge_switch_rejected_by_device(
         "Charging pause is blocked by solar-charging"
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
@@ -138,7 +138,7 @@ async def test_charge_switch_rejected_by_device(
     ],
 )
 async def test_charge_switch_api_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
     side_effect: Exception,
@@ -150,7 +150,7 @@ async def test_charge_switch_api_errors(
 
     mock_nrgkick_api.set_charge_pause.side_effect = side_effect
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,

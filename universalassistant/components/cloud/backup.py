@@ -18,7 +18,7 @@ from universalassistant.components.backup import (
     BackupNotFound,
     OnProgressCallback,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.aiohttp_client import ChunkAsyncStreamIterator
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 
@@ -32,7 +32,7 @@ _RETRY_SECONDS_MAX = 600
 
 
 async def async_get_backup_agents(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     **kwargs: Any,
 ) -> list[BackupAgent]:
     """Return the cloud backup agent."""
@@ -45,7 +45,7 @@ async def async_get_backup_agents(
 
 @callback
 def async_register_backup_agents_listener(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     listener: Callable[[], None],
     **kwargs: Any,
@@ -73,7 +73,7 @@ class CloudBackupAgent(BackupAgent):
 
     domain = name = unique_id = DOMAIN
 
-    def __init__(self, hass: __HAC_KEEP__, cloud: Cloud[CloudClient]) -> None:
+    def __init__(self, hass: UniversalAssistant, cloud: Cloud[CloudClient]) -> None:
         """Initialize the cloud backup sync agent."""
         super().__init__()
         self._cloud = cloud

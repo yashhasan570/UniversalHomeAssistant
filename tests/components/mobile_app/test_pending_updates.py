@@ -8,14 +8,14 @@ from aiohttp.test_utils import TestClient
 from universalassistant.components.mobile_app.const import DATA_PENDING_UPDATES, DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import CONF_WEBHOOK_ID, PERCENTAGE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .const import REGISTER_CLEARTEXT
 
 
 async def test_pending_update_applied_when_entity_enabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
@@ -85,7 +85,7 @@ async def test_pending_update_applied_when_entity_enabled(
 
 
 async def test_pending_update_kept_when_app_registers_again(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
@@ -144,7 +144,7 @@ async def test_pending_update_kept_when_app_registers_again(
 
 
 async def test_pending_update_with_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
@@ -215,7 +215,7 @@ async def test_pending_update_with_attributes(
 
 
 async def test_pending_update_overwritten_by_newer_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
@@ -292,7 +292,7 @@ async def test_pending_update_overwritten_by_newer_update(
 
 
 async def test_pending_update_not_stored_on_enabled_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -345,7 +345,7 @@ async def test_pending_update_not_stored_on_enabled_entities(
 
 
 async def test_pending_update_fallback_to_restore_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
@@ -407,7 +407,7 @@ async def test_pending_update_fallback_to_restore_state(
 
 
 async def test_multiple_pending_updates_for_different_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
@@ -491,7 +491,7 @@ async def test_multiple_pending_updates_for_different_sensors(
 
 
 async def test_update_sensor_states_with_pending_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
@@ -561,7 +561,7 @@ async def test_update_sensor_states_with_pending_updates(
 
 
 async def test_update_sensor_states_always_stores_pending(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -615,7 +615,7 @@ async def test_update_sensor_states_always_stores_pending(
 
 
 async def test_binary_sensor_pending_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,

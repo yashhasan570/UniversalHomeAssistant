@@ -17,14 +17,14 @@ from watergate_local_api.models.webhook_model import (
     WifiChangedEventData,
 )
 
-from universalassistant.components.http import __HAC_KEEP__View
+from universalassistant.components.http import UniversalAssistantView
 from universalassistant.components.webhook import (
     async_generate_url,
     async_register,
     async_unregister,
 )
 from universalassistant.const import CONF_IP_ADDRESS, CONF_WEBHOOK_ID, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
@@ -47,7 +47,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: WatergateConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: WatergateConfigEntry) -> None:
     """Set up Watergate from a config entry."""
     sonic_address = entry.data[CONF_IP_ADDRESS]
     webhook_id = entry.data[CONF_WEBHOOK_ID]
@@ -84,7 +84,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: WatergateConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: WatergateConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: WatergateConfigEntry) -> None:
     """Unload a config entry."""
     webhook_id = entry.data[CONF_WEBHOOK_ID]
     async_unregister(hass, webhook_id)
@@ -99,14 +99,14 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: WatergateConfigEntry) ->
 
 def get_webhook_handler(
     coordinator: WatergateDataCoordinator,
-) -> Callable[[__HAC_KEEP__, str, Request], Awaitable[Response | None]]:
+) -> Callable[[UniversalAssistant, str, Request], Awaitable[Response | None]]:
     """Return webhook handler."""
 
     async def async_webhook_handler(
-        hass: __HAC_KEEP__, webhook_id: str, request: Request
+        hass: UniversalAssistant, webhook_id: str, request: Request
     ) -> Response | None:
         if not request.body_exists:
-            return __HAC_KEEP__View.json(
+            return UniversalAssistantView.json(
                 result="No Body", status_code=HTTPStatus.BAD_REQUEST
             )
 
@@ -120,7 +120,7 @@ def get_webhook_handler(
             # The event carries no state, and it may have changed while the
             # device was away, so fetch it instead of guessing.
             await coordinator.async_request_refresh()
-            return __HAC_KEEP__View.json(result="OK", status_code=HTTPStatus.OK)
+            return UniversalAssistantView.json(result="OK", status_code=HTTPStatus.OK)
 
         if not (coordinator_data := coordinator.data):
             pass
@@ -157,6 +157,6 @@ def get_webhook_handler(
             # (and what) /power reports.
             await coordinator.async_request_refresh()
 
-        return __HAC_KEEP__View.json(result="OK", status_code=HTTPStatus.OK)
+        return UniversalAssistantView.json(result="OK", status_code=HTTPStatus.OK)
 
     return async_webhook_handler

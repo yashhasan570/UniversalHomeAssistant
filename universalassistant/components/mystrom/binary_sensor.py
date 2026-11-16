@@ -7,8 +7,8 @@ from universalassistant.components.binary_sensor import (
     DOMAIN as BINARY_SENSOR_DOMAIN,
     BinarySensorEntity,
 )
-from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.components.http import KEY_HASS, UniversalAssistantView
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -16,7 +16,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -25,7 +25,7 @@ async def async_setup_platform(
     hass.http.register_view(MyStromView(async_add_entities))
 
 
-class MyStromView(__HAC_KEEP__View):
+class MyStromView(UniversalAssistantView):
     """View to handle requests from myStrom buttons."""
 
     url = "/api/mystrom"

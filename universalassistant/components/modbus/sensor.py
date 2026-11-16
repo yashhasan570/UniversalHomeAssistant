@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_UNIQUE_ID,
     CONF_UNIT_OF_MEASUREMENT,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from universalassistant.helpers.update_coordinator import (
@@ -39,7 +39,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -67,7 +67,7 @@ class ModbusRegisterSensor(ModbusStructEntity, RestoreSensor, SensorEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         hub: ModbusHub,
         entry: dict[str, Any],
         slave_count: int,
@@ -90,7 +90,7 @@ class ModbusRegisterSensor(ModbusStructEntity, RestoreSensor, SensorEntity):
             self._attr_suggested_display_precision = self._precision
 
     async def async_setup_slaves(
-        self, hass: __HAC_KEEP__, slave_count: int, entry: dict[str, Any]
+        self, hass: UniversalAssistant, slave_count: int, entry: dict[str, Any]
     ) -> list[SlaveSensor]:
         """Add slaves as needed (1 read for multiple sensors)."""
 

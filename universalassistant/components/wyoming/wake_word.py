@@ -12,7 +12,7 @@ from wyoming.info import WakeProgram
 from wyoming.wake import Detect, Detection
 
 from universalassistant.components import wake_word
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import WyomingInfoCoordinator
@@ -24,7 +24,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: WyomingConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -42,7 +42,7 @@ class WyomingWakeWordProvider(wake_word.WakeWordDetectionEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: WyomingConfigEntry,
         coordinator: WyomingInfoCoordinator,
         service: WyomingService,

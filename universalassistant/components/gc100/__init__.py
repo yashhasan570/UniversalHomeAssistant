@@ -4,7 +4,7 @@ import gc100
 import probatio
 
 from universalassistant.const import CONF_HOST, CONF_PORT, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.util.hass_dict import HassKey
@@ -29,7 +29,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-def setup(hass: __HAC_KEEP__, base_config: ConfigType) -> bool:
+def setup(hass: UniversalAssistant, base_config: ConfigType) -> bool:
     """Set up the gc100 component."""
     config = base_config[DOMAIN]
     host = config[CONF_HOST]

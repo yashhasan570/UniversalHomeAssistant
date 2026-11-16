@@ -10,7 +10,7 @@ from universalassistant.components.hue.v1 import light as hue_light
 from universalassistant.components.light import ColorMode
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -180,7 +180,7 @@ LIGHT_GAMUT = color_util.GamutType(
 LIGHT_GAMUT_TYPE = "A"
 
 
-async def setup_bridge(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> None:
+async def setup_bridge(hass: UniversalAssistant, mock_bridge_v1: Mock) -> None:
     """Load the Hue light platform with the provided bridge."""
     hass.config.components.add(hue.DOMAIN)
     config_entry = create_config_entry()
@@ -203,7 +203,7 @@ async def setup_bridge(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> None:
 
 
 async def test_not_load_groups_if_old_bridge(
-    hass: __HAC_KEEP__, mock_bridge_v1: Mock
+    hass: UniversalAssistant, mock_bridge_v1: Mock
 ) -> None:
     """Test that we don't try to load groups if bridge runs old software."""
     mock_bridge_v1.api.config.apiversion = "1.12.0"
@@ -214,7 +214,7 @@ async def test_not_load_groups_if_old_bridge(
     assert len(hass.states.async_all()) == 0
 
 
-async def test_no_lights_or_groups(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> None:
+async def test_no_lights_or_groups(hass: UniversalAssistant, mock_bridge_v1: Mock) -> None:
     """Test the update_lights function when no lights are found."""
     mock_bridge_v1.mock_light_responses.append({})
     mock_bridge_v1.mock_group_responses.append({})
@@ -223,7 +223,7 @@ async def test_no_lights_or_groups(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> 
     assert len(hass.states.async_all()) == 0
 
 
-async def test_lights(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> None:
+async def test_lights(hass: UniversalAssistant, mock_bridge_v1: Mock) -> None:
     """Test the update_lights function with some lights."""
     mock_bridge_v1.mock_light_responses.append(LIGHT_RESPONSE)
 
@@ -243,7 +243,7 @@ async def test_lights(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> None:
     assert lamp_2.state == "off"
 
 
-async def test_lights_color_mode(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> None:
+async def test_lights_color_mode(hass: UniversalAssistant, mock_bridge_v1: Mock) -> None:
     """Test that lights only report appropriate color mode."""
     mock_bridge_v1.mock_light_responses.append(LIGHT_RESPONSE)
     mock_bridge_v1.mock_group_responses.append(GROUP_RESPONSE)
@@ -289,7 +289,7 @@ async def test_lights_color_mode(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> No
 
 
 async def test_groups(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_bridge_v1: Mock
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_bridge_v1: Mock
 ) -> None:
     """Test the update_lights function with some lights."""
     mock_bridge_v1.mock_light_responses.append({})
@@ -314,7 +314,7 @@ async def test_groups(
     assert entity_registry.async_get("light.group_2").unique_id == "2"
 
 
-async def test_new_group_discovered(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> None:
+async def test_new_group_discovered(hass: UniversalAssistant, mock_bridge_v1: Mock) -> None:
     """Test if 2nd update has a new group."""
     mock_bridge_v1.allow_groups = True
     mock_bridge_v1.mock_light_responses.append({})
@@ -361,7 +361,7 @@ async def test_new_group_discovered(hass: __HAC_KEEP__, mock_bridge_v1: Mock) ->
     assert new_group.attributes["color_temp_kelvin"] == 4000
 
 
-async def test_new_light_discovered(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> None:
+async def test_new_light_discovered(hass: UniversalAssistant, mock_bridge_v1: Mock) -> None:
     """Test if 2nd update has a new light."""
     mock_bridge_v1.mock_light_responses.append(LIGHT_RESPONSE)
 
@@ -407,7 +407,7 @@ async def test_new_light_discovered(hass: __HAC_KEEP__, mock_bridge_v1: Mock) ->
     assert light.state == "off"
 
 
-async def test_group_removed(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> None:
+async def test_group_removed(hass: UniversalAssistant, mock_bridge_v1: Mock) -> None:
     """Test if 2nd update has removed group."""
     mock_bridge_v1.allow_groups = True
     mock_bridge_v1.mock_light_responses.append({})
@@ -438,7 +438,7 @@ async def test_group_removed(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> None:
     assert removed_group is None
 
 
-async def test_light_removed(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> None:
+async def test_light_removed(hass: UniversalAssistant, mock_bridge_v1: Mock) -> None:
     """Test if 2nd update has removed light."""
     mock_bridge_v1.mock_light_responses.append(LIGHT_RESPONSE)
 
@@ -467,7 +467,7 @@ async def test_light_removed(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> None:
     assert removed_light is None
 
 
-async def test_other_group_update(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> None:
+async def test_other_group_update(hass: UniversalAssistant, mock_bridge_v1: Mock) -> None:
     """Test changing one group that will impact the state of other light."""
     mock_bridge_v1.allow_groups = True
     mock_bridge_v1.mock_light_responses.append({})
@@ -520,7 +520,7 @@ async def test_other_group_update(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> N
     assert group_2.state == "off"
 
 
-async def test_other_light_update(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> None:
+async def test_other_light_update(hass: UniversalAssistant, mock_bridge_v1: Mock) -> None:
     """Test changing one light that will impact state of other light."""
     mock_bridge_v1.mock_light_responses.append(LIGHT_RESPONSE)
 
@@ -573,7 +573,7 @@ async def test_other_light_update(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> N
     assert lamp_2.attributes["brightness"] == 100
 
 
-async def test_update_timeout(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> None:
+async def test_update_timeout(hass: UniversalAssistant, mock_bridge_v1: Mock) -> None:
     """Test bridge marked as not available if timeout error during update."""
     mock_bridge_v1.api.lights.update = Mock(side_effect=TimeoutError)
     mock_bridge_v1.api.groups.update = Mock(side_effect=TimeoutError)
@@ -582,7 +582,7 @@ async def test_update_timeout(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> None:
     assert len(hass.states.async_all()) == 0
 
 
-async def test_update_unauthorized(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> None:
+async def test_update_unauthorized(hass: UniversalAssistant, mock_bridge_v1: Mock) -> None:
     """Test bridge marked as not authorized if unauthorized during update."""
     mock_bridge_v1.api.lights.update = Mock(side_effect=aiohue.Unauthorized)
     await setup_bridge(hass, mock_bridge_v1)
@@ -591,7 +591,7 @@ async def test_update_unauthorized(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> 
     assert len(mock_bridge_v1.handle_unauthorized_error.mock_calls) == 1
 
 
-async def test_light_turn_on_service(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> None:
+async def test_light_turn_on_service(hass: UniversalAssistant, mock_bridge_v1: Mock) -> None:
     """Test calling the turn on service on a light."""
     mock_bridge_v1.mock_light_responses.append(LIGHT_RESPONSE)
 
@@ -645,7 +645,7 @@ async def test_light_turn_on_service(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -
 
 
 async def test_light_turn_off_service(
-    hass: __HAC_KEEP__, mock_bridge_v1: Mock
+    hass: UniversalAssistant, mock_bridge_v1: Mock
 ) -> None:
     """Test calling the turn on service on a light."""
     mock_bridge_v1.mock_light_responses.append(LIGHT_RESPONSE)
@@ -785,7 +785,7 @@ def test_hs_color() -> None:
 
 
 async def test_group_features(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,

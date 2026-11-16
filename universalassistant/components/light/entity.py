@@ -5,7 +5,7 @@ from typing import Any, final, override
 import probatio
 from propcache.api import cached_property
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity import ToggleEntity, ToggleEntityDescription
 from universalassistant.util import color as color_util
 
@@ -282,7 +282,7 @@ class LightEntity(ToggleEntity, cached_properties=CACHED_PROPERTIES_WITH_ATTR_):
             # color modes
             if color_mode in supported_color_modes:
                 return
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"{self.entity_id} ({type(self)}) set to unsupported color mode "
                 f"{color_mode}, expected one of {supported_color_modes}"
             )
@@ -298,7 +298,7 @@ class LightEntity(ToggleEntity, cached_properties=CACHED_PROPERTIES_WITH_ATTR_):
         if color_mode in effect_color_modes:
             return
 
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             f"{self.entity_id} ({type(self)}) set to unsupported color mode "
             f"{color_mode} when rendering an effect, expected one "
             f"of {effect_color_modes}"
@@ -312,7 +312,7 @@ class LightEntity(ToggleEntity, cached_properties=CACHED_PROPERTIES_WITH_ATTR_):
         try:
             valid_supported_color_modes(supported_color_modes)
         except probatio.Error as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"{self.entity_id} ({type(self)}) sets invalid supported color modes "
                 f"{supported_color_modes}"
             ) from err
@@ -329,7 +329,7 @@ class LightEntity(ToggleEntity, cached_properties=CACHED_PROPERTIES_WITH_ATTR_):
         _is_on = self.is_on
         color_mode = self.color_mode if _is_on else None
         if _is_on and color_mode is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"{self.entity_id} ({type(self)}) does not report a color mode"
             )
 
@@ -376,7 +376,7 @@ class LightEntity(ToggleEntity, cached_properties=CACHED_PROPERTIES_WITH_ATTR_):
     def _light_internal_supported_color_modes(self) -> set[ColorMode]:
         """Get validated supported color modes."""
         if (_supported_color_modes := self.supported_color_modes) is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"{self.entity_id} ({type(self)}) does not set supported color modes"
             )
         self.__validate_supported_color_modes(_supported_color_modes)

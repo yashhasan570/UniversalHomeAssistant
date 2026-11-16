@@ -8,13 +8,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.syncthing.const import DOMAIN
 from universalassistant.const import CONF_TOKEN, CONF_URL, CONF_VERIFY_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import MOCK_ENTRY, SERVER_ID, TOKEN, URL, VERIFY_SSL
 
 
-async def test_show_setup_form(hass: __HAC_KEEP__) -> None:
+async def test_show_setup_form(hass: UniversalAssistant) -> None:
     """Test that the setup form is served."""
 
     result = await hass.config_entries.flow.async_init(
@@ -25,7 +25,7 @@ async def test_show_setup_form(hass: __HAC_KEEP__) -> None:
     assert result["step_id"] == "user"
 
 
-async def test_flow_successful(hass: __HAC_KEEP__) -> None:
+async def test_flow_successful(hass: UniversalAssistant) -> None:
     """Test with required fields only."""
     with (
         patch("aiosyncthing.system.System.status", return_value={"myID": SERVER_ID}),
@@ -54,7 +54,7 @@ async def test_flow_successful(hass: __HAC_KEEP__) -> None:
 
 
 async def test_flow_already_configured(
-    hass: __HAC_KEEP__, entry: MockConfigEntry
+    hass: UniversalAssistant, entry: MockConfigEntry
 ) -> None:
     """Test the server ID is already configured."""
     with patch("aiosyncthing.system.System.status", return_value={"myID": SERVER_ID}):
@@ -73,7 +73,7 @@ async def test_flow_already_configured(
     assert result["reason"] == "already_configured"
 
 
-async def test_flow_invalid_auth(hass: __HAC_KEEP__) -> None:
+async def test_flow_invalid_auth(hass: UniversalAssistant) -> None:
     """Test invalid auth."""
 
     with patch("aiosyncthing.system.System.status", side_effect=UnauthorizedError):
@@ -105,7 +105,7 @@ async def test_flow_invalid_auth(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_flow_cannot_connect(hass: UniversalAssistant) -> None:
     """Test cannot connect."""
 
     with patch("aiosyncthing.system.System.status", side_effect=Exception):

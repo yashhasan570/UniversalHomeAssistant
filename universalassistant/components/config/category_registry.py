@@ -6,12 +6,12 @@ import probatio
 
 from universalassistant.components import websocket_api
 from universalassistant.components.websocket_api import ActiveConnection
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import category_registry as cr, config_validation as cv
 
 
 @callback
-def async_setup(hass: __HAC_KEEP__) -> bool:
+def async_setup(hass: UniversalAssistant) -> bool:
     """Register the category registry WS commands."""
     websocket_api.async_register_command(hass, websocket_list_categories)
     websocket_api.async_register_command(hass, websocket_create_category)
@@ -28,7 +28,7 @@ def async_setup(hass: __HAC_KEEP__) -> bool:
 )
 @callback
 def websocket_list_categories(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle list categories command."""
     category_registry = cr.async_get(hass)
@@ -52,7 +52,7 @@ def websocket_list_categories(
 @websocket_api.require_admin
 @callback
 def websocket_create_category(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Create category command."""
     category_registry = cr.async_get(hass)
@@ -79,7 +79,7 @@ def websocket_create_category(
 @websocket_api.require_admin
 @callback
 def websocket_delete_category(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Delete category command."""
     category_registry = cr.async_get(hass)
@@ -106,7 +106,7 @@ def websocket_delete_category(
 @websocket_api.require_admin
 @callback
 def websocket_update_category(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle update category websocket command."""
     category_registry = cr.async_get(hass)

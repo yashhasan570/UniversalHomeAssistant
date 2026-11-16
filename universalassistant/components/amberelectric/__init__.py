@@ -3,7 +3,7 @@
 import amberelectric
 
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -14,13 +14,13 @@ from .services import async_setup_services
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Amber component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: AmberConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: AmberConfigEntry) -> None:
     """Set up Amber Electric from a config entry."""
     configuration = amberelectric.Configuration(access_token=entry.data[CONF_API_TOKEN])
     api_client = amberelectric.ApiClient(configuration)
@@ -33,6 +33,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: AmberConfigEntry) -> None
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: AmberConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: AmberConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

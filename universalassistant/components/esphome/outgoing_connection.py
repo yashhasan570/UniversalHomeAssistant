@@ -3,7 +3,7 @@
 from aioesphomeapi import OutgoingConnectionServer, ReconnectLogic
 
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import CALLBACK_TYPE, Event, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, Event, UniversalAssistant, callback
 from universalassistant.helpers.singleton import singleton
 from universalassistant.util.hass_dict import HassKey
 
@@ -14,8 +14,8 @@ _KEY_OUTGOING_CONNECTION_SERVER: HassKey[OutgoingConnectionServer] = HassKey(
 
 @singleton(_KEY_OUTGOING_CONNECTION_SERVER)
 @callback
-def _async_get_server(hass: __HAC_KEEP__) -> OutgoingConnectionServer:
-    """Create the shared listener and tie it to __HA_KEEP__'s shutdown."""
+def _async_get_server(hass: UniversalAssistant) -> OutgoingConnectionServer:
+    """Create the shared listener and tie it to Universal Home Assistant's shutdown."""
     server = OutgoingConnectionServer()
 
     @callback
@@ -28,7 +28,7 @@ def _async_get_server(hass: __HAC_KEEP__) -> OutgoingConnectionServer:
 
 @callback
 def async_register_outgoing_target(
-    hass: __HAC_KEEP__, mac: str, reconnect_logic: ReconnectLogic
+    hass: UniversalAssistant, mac: str, reconnect_logic: ReconnectLogic
 ) -> CALLBACK_TYPE | None:
     """Route dial-ins from this MAC to the reconnect logic.
 

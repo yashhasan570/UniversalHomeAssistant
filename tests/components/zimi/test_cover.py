@@ -11,14 +11,14 @@ from universalassistant.const import (
     SERVICE_SET_COVER_POSITION,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import mock_api_device, setup_platform
 
 
 async def test_cover_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_api: MagicMock,
     snapshot: SnapshotAssertion,

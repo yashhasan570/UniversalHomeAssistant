@@ -5,7 +5,7 @@ from typing import Any
 import pytest
 from pytest_universalassistant.typing import WebSocketGenerator
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import llm
 from universalassistant.setup import async_setup_component
 
@@ -23,7 +23,7 @@ class _StubAPI(llm.API):
 
 
 @pytest.fixture(autouse=True)
-async def setup_llm(hass: __HAC_KEEP__) -> None:
+async def setup_llm(hass: UniversalAssistant) -> None:
     """Set up the LLM integration."""
     assert await async_setup_component(hass, "llm", {})
 
@@ -37,7 +37,7 @@ async def setup_llm(hass: __HAC_KEEP__) -> None:
                 {"id": "assist", "name": "Device control", "requires_admin": False},
                 {
                     "id": "universalassistant",
-                    "name": "__HA_KEEP__",
+                    "name": "Universal Home Assistant",
                     "requires_admin": True,
                 },
             ],
@@ -49,7 +49,7 @@ async def setup_llm(hass: __HAC_KEEP__) -> None:
                 {"id": "assist", "name": "Device control", "requires_admin": False},
                 {
                     "id": "universalassistant",
-                    "name": "__HA_KEEP__",
+                    "name": "Universal Home Assistant",
                     "requires_admin": True,
                 },
                 {"id": "test-api", "name": "Test API", "requires_admin": False},
@@ -59,7 +59,7 @@ async def setup_llm(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_list_apis(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     registered_apis: list[tuple[str, str]],
     expected_apis: list[dict[str, Any]],
@@ -77,7 +77,7 @@ async def test_list_apis(
 
 
 async def test_list_apis_requires_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
 ) -> None:

@@ -18,7 +18,7 @@ from universalassistant.components.mqtt import (
     client as mqtt,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
@@ -35,7 +35,7 @@ class PrismCoordinator(DataUpdateCoordinator[PrismStatus]):
 
     config_entry: PrismConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, entry: PrismConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: PrismConfigEntry) -> None:
         """Initialize the coordinator."""
         super().__init__(hass, _LOGGER, config_entry=entry, name=DOMAIN)
         self.base_topic: str = entry.data[CONF_BASE_TOPIC]

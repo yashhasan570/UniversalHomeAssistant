@@ -12,7 +12,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONF_SYSTEM
 from .coordinator import PhilipsTVConfigEntry, PhilipsTVDataUpdateCoordinator
@@ -28,7 +28,7 @@ PLATFORMS = [
 LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: PhilipsTVConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: PhilipsTVConfigEntry) -> None:
     """Set up Philips TV from a config entry."""
 
     system: SystemType | None = entry.data.get(CONF_SYSTEM)
@@ -54,11 +54,11 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: PhilipsTVConfigEntry) -> 
     entry.async_on_unload(entry.add_update_listener(async_update_entry))
 
 
-async def async_update_entry(hass: __HAC_KEEP__, entry: PhilipsTVConfigEntry) -> None:
+async def async_update_entry(hass: UniversalAssistant, entry: PhilipsTVConfigEntry) -> None:
     """Update options."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: PhilipsTVConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: PhilipsTVConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

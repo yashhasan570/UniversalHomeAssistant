@@ -16,7 +16,7 @@ from universalassistant.components.saj.const import DOMAIN
 from universalassistant.components.saj.coordinator import SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -31,7 +31,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_aiosaj_saj")
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -42,7 +42,7 @@ async def test_sensors(
 
 
 async def test_sensor_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_aiosaj_saj: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -66,7 +66,7 @@ async def test_sensor_update_failure(
 
 
 async def test_yaml_import_creates_deprecated_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_aiosaj_saj: MagicMock,
 ) -> None:
@@ -84,7 +84,7 @@ async def test_yaml_import_creates_deprecated_issue(
 
 
 async def test_yaml_import_failure_creates_domain_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_aiosaj_saj: MagicMock,
 ) -> None:
@@ -105,7 +105,7 @@ async def test_yaml_import_failure_creates_domain_issue(
 
 @pytest.mark.usefixtures("mock_aiosaj_saj")
 async def test_sensor_without_unit_mapping_is_skipped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_aiosaj_sensors: list[MagicMock],
 ) -> None:

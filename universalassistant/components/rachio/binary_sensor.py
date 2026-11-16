@@ -11,7 +11,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -106,7 +106,7 @@ HOSE_TIMER_BINARY_SENSOR_TYPES: tuple[RachioHoseTimerBinarySensorDescription, ..
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: RachioConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -116,7 +116,7 @@ async def async_setup_entry(
 
 
 def _create_entities(
-    hass: __HAC_KEEP__, config_entry: RachioConfigEntry
+    hass: UniversalAssistant, config_entry: RachioConfigEntry
 ) -> list[Entity]:
     entities: list[Entity] = []
     person = config_entry.runtime_data

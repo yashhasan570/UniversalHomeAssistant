@@ -12,8 +12,8 @@ from universalassistant.components.notify import (
     BaseNotificationService,
 )
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -32,7 +32,7 @@ PLATFORM_SCHEMA = NOTIFY_PLATFORM_SCHEMA.extend(
 
 
 def get_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> CiscoWebexNotificationService | None:
@@ -67,7 +67,7 @@ class CiscoWebexNotificationService(BaseNotificationService):
         try:
             self.client.messages.create(roomId=self.room, html=f"{title}{message}")
         except ApiError as api_error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="send_message_failed",
             ) from api_error

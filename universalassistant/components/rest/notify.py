@@ -28,7 +28,7 @@ from universalassistant.const import (
     HTTP_BASIC_AUTHENTICATION,
     HTTP_DIGEST_AUTHENTICATION,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.httpx_client import get_async_client
 from universalassistant.helpers.template import Template
@@ -72,7 +72,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_get_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> RestNotificationService:
@@ -118,7 +118,7 @@ class RestNotificationService(BaseNotificationService):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         resource: str,
         method: str,
         headers: dict[str, str] | None,

@@ -7,7 +7,7 @@ from typing import Any, override
 from pysabnzbd import SabnzbdApi, SabnzbdApiException
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 _LOGGER = logging.getLogger(__name__)
@@ -22,7 +22,7 @@ class SabnzbdUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: SabnzbdConfigEntry,
         sab_api: SabnzbdApi,
     ) -> None:

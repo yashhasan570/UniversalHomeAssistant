@@ -37,7 +37,7 @@ from universalassistant.components.backup.manager import (
     UPLOAD_PROGRESS_DEBOUNCE_SECONDS,
     ManagerStateEvent,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.setup import async_setup_component
 
 LOCAL_AGENT_ID = f"{DOMAIN}.local"
@@ -169,7 +169,7 @@ def mock_backup_agent(name: str, backups: list[AgentBackup] | None = None) -> Mo
 
 
 async def setup_backup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     with_hassio: bool = False,
     *,
     backups: dict[str, list[AgentBackup]] | None = None,
@@ -228,7 +228,7 @@ async def setup_backup_integration(
 
 
 async def setup_backup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     domain: str,
     platform: Any,
@@ -270,7 +270,7 @@ async def upload_backup_via_http(
 
 @contextmanager
 def collect_upload_events(
-    hass: __HAC_KEEP__, agent_id: str
+    hass: UniversalAssistant, agent_id: str
 ) -> Generator[list[UploadBackupEvent]]:
     """Collect the upload events of an agent while the context is active."""
     events: list[UploadBackupEvent] = []
@@ -288,7 +288,7 @@ def collect_upload_events(
 
 
 @callback
-def flush_upload_progress(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+def flush_upload_progress(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
     """End the cooldown of the manager's upload progress debouncer.
 
     Call it between two progress reports of an agent, so both are emitted as

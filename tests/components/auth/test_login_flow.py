@@ -13,7 +13,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.auth import AuthManagerFlowManager
 from universalassistant.components.auth import indieauth
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.setup import async_setup_component
 
@@ -51,7 +51,7 @@ _TRUSTED_NETWORKS_CONFIG = {
             [{"type": "universalassistant"}],
             [
                 {
-                    "name": "__HA_KEEP__ Local",
+                    "name": "Universal Home Assistant Local",
                     "type": "universalassistant",
                     "id": None,
                 }
@@ -60,7 +60,7 @@ _TRUSTED_NETWORKS_CONFIG = {
     ],
 )
 async def test_fetch_auth_providers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_client: ClientSessionGenerator,
     provider_configs: list[dict[str, Any]],
     expected: list[dict[str, Any]],
@@ -92,7 +92,7 @@ async def test_fetch_auth_providers(
     ],
 )
 async def test_fetch_auth_providers_trusted_network(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_client: ClientSessionGenerator,
     expected: list[dict[str, Any]],
     ip: str,
@@ -107,7 +107,7 @@ async def test_fetch_auth_providers_trusted_network(
 
 
 async def test_fetch_auth_providers_skips_providers_that_cannot_start_login(
-    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
+    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test a provider that cannot be used right now is left off the list."""
     client = await async_setup_auth(hass, aiohttp_client, BASE_CONFIG)
@@ -123,7 +123,7 @@ async def test_fetch_auth_providers_skips_providers_that_cannot_start_login(
 
 
 async def test_login_flow_refuses_providers_that_cannot_start_login(
-    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
+    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test a provider left off the login screen can't be started directly."""
     client = await async_setup_auth(hass, aiohttp_client, BASE_CONFIG)
@@ -146,7 +146,7 @@ async def test_login_flow_refuses_providers_that_cannot_start_login(
 
 
 async def test_login_flow_trusted_networks_from_trusted_network(
-    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
+    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test a trusted networks login can be started from a trusted network."""
     client = await async_setup_auth(
@@ -172,7 +172,7 @@ async def test_login_flow_trusted_networks_from_trusted_network(
     ],
 )
 async def test_login_flow_hides_unavailable_trusted_networks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_client: ClientSessionGenerator,
     provider_configs: list[dict[str, Any]],
 ) -> None:
@@ -194,7 +194,7 @@ async def test_login_flow_hides_unavailable_trusted_networks(
 
 
 async def test_fetch_auth_providers_onboarding(
-    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
+    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test fetching auth providers."""
     client = await async_setup_auth(hass, aiohttp_client)
@@ -211,7 +211,7 @@ async def test_fetch_auth_providers_onboarding(
 
 
 async def test_cannot_get_flows_in_progress(
-    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
+    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test we cannot get flows in progress."""
     client = await async_setup_auth(hass, aiohttp_client, [])
@@ -220,7 +220,7 @@ async def test_cannot_get_flows_in_progress(
 
 
 async def test_invalid_username_password(
-    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
+    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test we cannot get flows in progress."""
     client = await async_setup_auth(hass, aiohttp_client)
@@ -297,7 +297,7 @@ async def test_invalid_username_password(
 
 
 async def test_invalid_redirect_uri(
-    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
+    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test invalid redirect URI."""
     client = await async_setup_auth(hass, aiohttp_client)
@@ -342,7 +342,7 @@ async def test_invalid_redirect_uri(
     [{}, {"response_type": "code"}],
 )
 async def test_login_exist_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_client: ClientSessionGenerator,
     authorization_data: dict[str, str],
 ) -> None:
@@ -385,7 +385,7 @@ async def test_login_exist_user(
 
 
 async def test_login_local_only_user(
-    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
+    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test logging in with local only user."""
     client = await async_setup_auth(hass, aiohttp_client, setup_api=True)
@@ -425,7 +425,7 @@ async def test_login_local_only_user(
 
 
 async def test_login_exist_user_ip_changes(
-    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
+    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test logging in and the ip address changes results in an rejection."""
     client = await async_setup_auth(hass, aiohttp_client, setup_api=True)
@@ -495,7 +495,7 @@ async def _async_post_while_held(
     ],
 )
 async def test_concurrent_requests_cannot_advance_the_same_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_client: ClientSessionGenerator,
     owner: object,
     held_name: str,
@@ -556,7 +556,7 @@ async def test_concurrent_requests_cannot_advance_the_same_flow(
     ],
 )
 async def test_flow_can_be_continued_after_a_request(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_client: ClientSessionGenerator,
     first_input: dict[str, str],
     first_status: HTTPStatus,
@@ -604,7 +604,7 @@ async def test_flow_can_be_continued_after_a_request(
     ],
 )
 async def test_flow_stays_busy_until_a_failed_login_is_processed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_client: ClientSessionGenerator,
     counted_by: str,
     login_input: dict[str, str],
@@ -673,7 +673,7 @@ async def test_flow_stays_busy_until_a_failed_login_is_processed(
     ids=["external_url", "internal_url", "no_match"],
 )
 async def test_well_known_auth_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_client: ClientSessionGenerator,
     config: dict[str, str],
     expected_url_prefix: str,
@@ -733,7 +733,7 @@ async def test_well_known_auth_info(
     ids=["external_url", "internal_url"],
 )
 async def test_well_known_protected_resource(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_client: ClientSessionGenerator,
     config: dict[str, str],
     expected_response: dict[str, Any],
@@ -750,7 +750,7 @@ async def test_well_known_protected_resource(
 
 @pytest.mark.usefixtures("current_request_with_host")  # Has example.com host
 async def test_well_known_protected_resource_no_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_client: ClientSessionGenerator,
 ) -> None:
     """Test the protected resource metadata returns 404 when no URL is configured."""
@@ -821,7 +821,7 @@ async def test_well_known_protected_resource_no_url(
     ],
 )
 async def test_login_flow_pkce_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_client: ClientSessionGenerator,
     payload: dict[str, str],
     expected_message: str,
@@ -853,7 +853,7 @@ async def test_login_flow_pkce_validation(
     ],
 )
 async def test_login_flow_url_too_long(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_client: ClientSessionGenerator,
     payload: dict[str, str],
 ) -> None:
@@ -882,7 +882,7 @@ async def test_login_flow_url_too_long(
     ],
 )
 async def test_well_known_auth_info_allows_cors(
-    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator, path: str
+    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator, path: str
 ) -> None:
     """Test browser clients can discover authorization server capabilities."""
     client = await async_setup_auth(hass, aiohttp_client, setup_api=True)
@@ -912,7 +912,7 @@ async def test_well_known_auth_info_allows_cors(
     ],
 )
 async def test_login_client_id_matches_request_origin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_client: ClientSessionGenerator,
     http_config: dict[str, Any],
     headers: dict[str, str],
@@ -973,7 +973,7 @@ async def test_login_client_id_matches_request_origin(
 
 
 async def test_login_client_id_does_not_match_request_origin(
-    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
+    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test a public IP client_id is rejected when the request origin differs."""
     client = await async_setup_auth(hass, aiohttp_client)

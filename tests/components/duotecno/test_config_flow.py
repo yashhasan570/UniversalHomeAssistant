@@ -8,13 +8,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.duotecno.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
-async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -55,7 +55,7 @@ async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     ],
 )
 async def test_invalid(
-    hass: __HAC_KEEP__, test_side_effect: Exception, test_error: str
+    hass: UniversalAssistant, test_side_effect: Exception, test_error: str
 ) -> None:
     """Test all side_effects on the controller.connect via parameters."""
     result = await hass.config_entries.flow.async_init(
@@ -93,7 +93,7 @@ async def test_invalid(
     }
 
 
-async def test_already_setup(hass: __HAC_KEEP__) -> None:
+async def test_already_setup(hass: UniversalAssistant) -> None:
     """Test duoteco flow - already setup."""
     entry = MockConfigEntry(
         domain=DOMAIN,

@@ -17,8 +17,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import make_service_info, payload
@@ -35,7 +35,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_select_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -56,7 +56,7 @@ async def test_select_entities(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_power_mode_follows_advertisements(
-    hass: __HAC_KEEP__, code: int, expected: str
+    hass: UniversalAssistant, code: int, expected: str
 ) -> None:
     """Test the power mode reflects the advertised power state."""
     inject_bluetooth_service_info_bleak(hass, make_service_info(payload(power=code)))
@@ -65,7 +65,7 @@ async def test_power_mode_follows_advertisements(
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
-async def test_channel_follows_advertisements(hass: __HAC_KEEP__) -> None:
+async def test_channel_follows_advertisements(hass: UniversalAssistant) -> None:
     """Test the channel reflects the advertised channel."""
     inject_bluetooth_service_info_bleak(hass, make_service_info(payload(channel=7)))
     await hass.async_block_till_done()
@@ -82,7 +82,7 @@ async def test_channel_follows_advertisements(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_select_power_mode(
-    hass: __HAC_KEEP__, mock_set_power: AsyncMock, option: str, target: PowerState
+    hass: UniversalAssistant, mock_set_power: AsyncMock, option: str, target: PowerState
 ) -> None:
     """Test choosing a power mode sends the matching power command."""
     await hass.services.async_call(
@@ -98,7 +98,7 @@ async def test_select_power_mode(
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
-async def test_select_channel(hass: __HAC_KEEP__, mock_set_channel: AsyncMock) -> None:
+async def test_select_channel(hass: UniversalAssistant, mock_set_channel: AsyncMock) -> None:
     """Test choosing a channel moves the station to it."""
     await hass.services.async_call(
         SELECT_DOMAIN,
@@ -110,7 +110,7 @@ async def test_select_channel(hass: __HAC_KEEP__, mock_set_channel: AsyncMock) -
 
 
 async def test_no_standby_on_legacy_firmware(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Test standby is not offered once the firmware turns out not to support it."""
     with patch.object(
@@ -122,11 +122,11 @@ async def test_no_standby_on_legacy_firmware(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_standby_not_supported(
-    hass: __HAC_KEEP__, mock_set_power: AsyncMock
+    hass: UniversalAssistant, mock_set_power: AsyncMock
 ) -> None:
     """Test firmware rejecting standby raises a translated error."""
     mock_set_power.side_effect = UnsupportedError("no standby")
-    with pytest.raises(__HAC_KEEP__Error) as raised:
+    with pytest.raises(UniversalAssistantError) as raised:
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -141,7 +141,7 @@ async def test_standby_not_supported(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_unparsable_advertisement(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the selects are unknown until the station advertises its state."""
     inject_bluetooth_service_info_bleak(hass, make_service_info(b"\x00"))

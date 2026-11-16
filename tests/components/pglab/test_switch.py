@@ -18,14 +18,14 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
 from .test_common import get_device_discovery_payload, send_discovery_message
 
 
-async def call_service(hass: __HAC_KEEP__, entity_id, service, **kwargs):
+async def call_service(hass: UniversalAssistant, entity_id, service, **kwargs):
     """Call a service."""
     await hass.services.async_call(
         SWITCH_DOMAIN,
@@ -36,7 +36,7 @@ async def call_service(hass: __HAC_KEEP__, entity_id, service, **kwargs):
 
 
 async def test_available_relay(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, setup_pglab
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, setup_pglab
 ) -> None:
     """Check if relay are properly created when two E-Relay boards are connected."""
 
@@ -54,7 +54,7 @@ async def test_available_relay(
 
 
 async def test_change_state_via_mqtt(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, setup_pglab
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, setup_pglab
 ) -> None:
     """Test state update via MQTT."""
 
@@ -97,7 +97,7 @@ async def test_change_state_via_mqtt(
 
 
 async def test_mqtt_state_by_calling_service(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, setup_pglab
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, setup_pglab
 ) -> None:
     """Calling service to turn ON/OFF relay and check mqtt state."""
 
@@ -138,7 +138,7 @@ async def test_mqtt_state_by_calling_service(
 
 
 async def test_discovery_update(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, setup_pglab
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, setup_pglab
 ) -> None:
     """Update discovery message and  check if relay are property updated."""
 
@@ -182,7 +182,7 @@ async def test_discovery_update(
 
 
 async def test_disable_entity_state_change_via_mqtt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mqtt_mock: MqttMockHAClient,
     setup_pglab,

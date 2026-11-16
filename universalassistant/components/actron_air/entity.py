@@ -6,7 +6,7 @@ from typing import Any, Concatenate, override
 
 from actron_neo_api import ActronAirAPIError, ActronAirPeripheral, ActronAirZone
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -30,7 +30,7 @@ def actron_air_command[_EntityT: ActronAirEntity, **_P](
         try:
             await func(self, *args, **kwargs)
         except ActronAirAPIError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="api_error",
                 translation_placeholders={"error": str(err)},

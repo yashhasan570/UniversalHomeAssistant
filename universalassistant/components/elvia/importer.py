@@ -25,7 +25,7 @@ from .const import DOMAIN, LOGGER
 if TYPE_CHECKING:
     from elvia.types.meter_value_types import MeterValueTimeSeries
 
-    from universalassistant.core import __HAC_KEEP__
+    from universalassistant.core import UniversalAssistant
 
 
 class ElviaImporter:
@@ -33,7 +33,7 @@ class ElviaImporter:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         api_token: str,
         metering_point_id: str,
     ) -> None:

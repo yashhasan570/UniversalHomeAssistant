@@ -6,7 +6,7 @@ from fjaraskupan import COMMAND_RESETGREASEFILTER
 
 from universalassistant.components.button import ButtonEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -16,7 +16,7 @@ from .coordinator import FjaraskupanConfigEntry, FjaraskupanCoordinator
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: FjaraskupanConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

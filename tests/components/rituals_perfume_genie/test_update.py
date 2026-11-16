@@ -23,8 +23,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     EntityCategory,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .common import init_integration, mock_config_entry, mock_diffuser
@@ -33,7 +33,7 @@ ENTITY_ID = "update.genie_firmware"
 
 
 async def _tick(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, delta: timedelta
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, delta: timedelta
 ) -> None:
     """Move the clock forward and let the coordinators update."""
     freezer.tick(delta)
@@ -42,7 +42,7 @@ async def _tick(
 
 
 async def test_up_to_date(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the firmware of a diffuser that is up to date."""
     config_entry = mock_config_entry(unique_id="id_123_update_up_to_date")
@@ -60,7 +60,7 @@ async def test_up_to_date(
     assert entry.entity_category is EntityCategory.CONFIG
 
 
-async def test_update_available_by_firmware_id(hass: __HAC_KEEP__) -> None:
+async def test_update_available_by_firmware_id(hass: UniversalAssistant) -> None:
     """Test the firmware IDs tell if an update is available, not the versions."""
     config_entry = mock_config_entry(unique_id="id_123_update_available")
     await init_integration(
@@ -82,7 +82,7 @@ async def test_update_available_by_firmware_id(hass: __HAC_KEEP__) -> None:
     assert state.attributes[ATTR_LATEST_VERSION] == "5.4-rc4 (130)"
 
 
-async def test_update_same_version_other_build(hass: __HAC_KEEP__) -> None:
+async def test_update_same_version_other_build(hass: UniversalAssistant) -> None:
     """Test a newer build with the same version can be installed."""
     config_entry = mock_config_entry(unique_id="id_123_update_same_version")
     client = await init_integration(
@@ -111,7 +111,7 @@ async def test_update_same_version_other_build(hass: __HAC_KEEP__) -> None:
     client.update_firmware.assert_called_once()
 
 
-async def test_update_available_by_version(hass: __HAC_KEEP__) -> None:
+async def test_update_available_by_version(hass: UniversalAssistant) -> None:
     """Test the versions tell if an update is available, without firmware IDs."""
     config_entry = mock_config_entry(unique_id="id_123_update_by_version")
     await init_integration(
@@ -135,7 +135,7 @@ async def test_update_available_by_version(hass: __HAC_KEEP__) -> None:
     ids=["no_firmware_info", "no_versions"],
 )
 async def test_no_firmware_info(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, firmware: dict[str, Any]
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, firmware: dict[str, Any]
 ) -> None:
     """Test a diffuser that doesn't report its firmware."""
     config_entry = mock_config_entry(unique_id="id_123_update_no_firmware")
@@ -155,7 +155,7 @@ async def test_no_firmware_info(
     ids=["firmware_ids", "versions_only"],
 )
 async def test_install(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device_registry: dr.DeviceRegistry,
     firmware_id: int | None,
@@ -186,7 +186,7 @@ async def test_install(
     assert state.attributes[ATTR_IN_PROGRESS] is True
 
     # While installing, another install isn't started.
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -219,7 +219,7 @@ async def test_install(
 
 
 async def test_install_timeout(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test an install that never finishes stops being reported."""
     config_entry = mock_config_entry(unique_id="id_123_update_timeout")
@@ -249,7 +249,7 @@ async def test_install_timeout(
 
 
 async def test_install_incomparable_versions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -280,7 +280,7 @@ async def test_install_incomparable_versions(
     assert state.attributes[ATTR_IN_PROGRESS] is True
 
 
-async def test_install_failed(hass: __HAC_KEEP__) -> None:
+async def test_install_failed(hass: UniversalAssistant) -> None:
     """Test a failing install is reported, and nothing is installing."""
     config_entry = mock_config_entry(unique_id="id_123_update_failed")
     client = await init_integration(
@@ -296,7 +296,7 @@ async def test_install_failed(hass: __HAC_KEEP__) -> None:
         "Already the latest firmware", status=409
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,

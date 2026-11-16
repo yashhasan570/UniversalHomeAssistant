@@ -17,7 +17,7 @@ from universalassistant.components.tessie.coordinator import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_ON, STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import UpdateFailed
 
 from .common import (
@@ -32,7 +32,7 @@ WAIT = timedelta(seconds=TESSIE_SYNC_INTERVAL)
 
 
 async def test_coordinator_online(
-    hass: __HAC_KEEP__, mock_get_state, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, mock_get_state, freezer: FrozenDateTimeFactory
 ) -> None:
     """Tests that the coordinator handles online vehicles."""
 
@@ -46,7 +46,7 @@ async def test_coordinator_online(
 
 
 async def test_coordinator_clienterror(
-    hass: __HAC_KEEP__, mock_get_state, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, mock_get_state, freezer: FrozenDateTimeFactory
 ) -> None:
     """Tests that the coordinator handles client errors."""
 
@@ -65,7 +65,7 @@ async def test_coordinator_clienterror(
 
 
 async def test_coordinator_auth(
-    hass: __HAC_KEEP__, mock_get_state, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, mock_get_state, freezer: FrozenDateTimeFactory
 ) -> None:
     """Tests that the coordinator handles auth errors."""
 
@@ -79,7 +79,7 @@ async def test_coordinator_auth(
 
 
 async def test_coordinator_connection(
-    hass: __HAC_KEEP__, mock_get_state, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, mock_get_state, freezer: FrozenDateTimeFactory
 ) -> None:
     """Tests that the coordinator handles connection errors."""
 
@@ -97,7 +97,7 @@ async def test_coordinator_connection(
 
 
 async def test_coordinator_live_error(
-    hass: __HAC_KEEP__, mock_live_status, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, mock_live_status, freezer: FrozenDateTimeFactory
 ) -> None:
     """Tests that the energy live coordinator handles fleet errors."""
 
@@ -118,7 +118,7 @@ async def test_coordinator_live_error(
 
 
 async def test_coordinator_info_error(
-    hass: __HAC_KEEP__, mock_site_info, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, mock_site_info, freezer: FrozenDateTimeFactory
 ) -> None:
     """Tests that the energy info coordinator handles fleet errors."""
 
@@ -151,7 +151,7 @@ async def test_coordinator_info_error(
     ],
 )
 async def test_coordinator_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fixture: str,
     side_effect: type[Exception],
     request: pytest.FixtureRequest,
@@ -165,7 +165,7 @@ async def test_coordinator_reauth(
 
 
 async def test_coordinator_energy_history_error(
-    hass: __HAC_KEEP__, mock_energy_history, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, mock_energy_history, freezer: FrozenDateTimeFactory
 ) -> None:
     """Tests that the energy history coordinator handles fleet errors."""
 
@@ -188,7 +188,7 @@ async def test_coordinator_energy_history_error(
 
 
 async def test_coordinator_energy_history_invalid_data(
-    hass: __HAC_KEEP__, mock_energy_history, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, mock_energy_history, freezer: FrozenDateTimeFactory
 ) -> None:
     """Tests that the energy history coordinator handles invalid data gracefully."""
 
@@ -212,7 +212,7 @@ async def test_coordinator_energy_history_invalid_data(
 
 
 async def test_coordinator_energy_history_cold_start_invalid_data(
-    hass: __HAC_KEEP__, mock_energy_history, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, mock_energy_history, freezer: FrozenDateTimeFactory
 ) -> None:
     """Tests cold-start fallback when first energy history fetch has invalid data."""
 

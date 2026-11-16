@@ -4,7 +4,7 @@ from dataclasses import dataclass
 import logging
 from typing import Protocol, override
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.frame import ReportBehavior, report_usage
 from universalassistant.helpers.integration_platform import LazyIntegrationPlatforms
@@ -55,7 +55,7 @@ class LLMToolsPlatformProtocol(Protocol):
 
     @callback
     def async_get_tools(
-        self, hass: __HAC_KEEP__, llm_context: LLMContext, api_id: str
+        self, hass: UniversalAssistant, llm_context: LLMContext, api_id: str
     ) -> LLMTools | None:
         """Return the integration's LLM tools for the given context and API.
 
@@ -63,27 +63,27 @@ class LLMToolsPlatformProtocol(Protocol):
         """
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the LLM integration."""
     hass.data[DATA_PLATFORMS] = LazyIntegrationPlatforms(
         hass, DOMAIN, _process_llm_tools_platform
     )
     async_register_api(hass, AssistAPI(hass))
-    async_register_api(hass, __HAC_KEEP__API(hass))
+    async_register_api(hass, UniversalAssistantAPI(hass))
     async_setup_ws_api(hass)
     return True
 
 
 @callback
 def _process_llm_tools_platform(
-    hass: __HAC_KEEP__, domain: str, platform: LLMToolsPlatformProtocol
+    hass: UniversalAssistant, domain: str, platform: LLMToolsPlatformProtocol
 ) -> LLMToolsPlatformProtocol:
     """Process an integration's LLM tools platform."""
     return platform
 
 
 async def async_get_tools(
-    hass: __HAC_KEEP__, llm_context: LLMContext, api_id: str
+    hass: UniversalAssistant, llm_context: LLMContext, api_id: str
 ) -> LLMTools:
     """Return the tools and merged prompt from all integration platforms."""
     platforms = await hass.data[DATA_PLATFORMS].async_get_platforms()
@@ -108,7 +108,7 @@ async def async_get_tools(
 
 @callback
 def _async_report_tool_issues(
-    hass: __HAC_KEEP__, domain: str, tools: list[Tool]
+    hass: UniversalAssistant, domain: str, tools: list[Tool]
 ) -> None:
     """Report tools that do not follow the current requirements."""
     prefix = f"{domain}__"
@@ -144,7 +144,7 @@ class AssistAPI(API):
     Its scope is bounded by entity exposure.
     """
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Init the class."""
         super().__init__(
             hass=hass,
@@ -166,20 +166,20 @@ class AssistAPI(API):
         )
 
 
-class __HAC_KEEP__API(API):
-    """API exposing __HA_KEEP__ API to LLMs.
+class UniversalAssistantAPI(API):
+    """API exposing Universal Home Assistant API to LLMs.
 
-    The __HA_KEEP__ API manages __HA_KEEP__ itself (e.g. registries, system logs,
+    The Universal Home Assistant API manages Universal Home Assistant itself (e.g. registries, system logs,
     automations, and config entries). It is not bounded by entity exposure and is
     restricted to admin users.
     """
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Init the class."""
         super().__init__(
             hass=hass,
             id=LLM_API_UNIVERSAL_ASSISTANT,
-            name="__HA_KEEP__",
+            name="Universal Home Assistant",
             requires_admin=True,
         )
 

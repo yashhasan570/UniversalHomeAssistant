@@ -15,15 +15,15 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.components.sonos.const import LONG_SERVICE_TIMEOUT
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MockSoCo, create_zgs_sonos_event, group_speakers, ungroup_speakers
 
 
 async def test_media_player_join(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sonos_setup_two_speakers: list[MockSoCo],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -69,13 +69,13 @@ async def test_media_player_join(
 
 
 async def test_media_player_join_bad_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sonos_setup_two_speakers: list[MockSoCo],
 ) -> None:
     """Test error handling of joining with a bad entity."""
 
     # Ensure an error is raised if the entity is unknown
-    with pytest.raises(__HAC_KEEP__Error) as excinfo:
+    with pytest.raises(UniversalAssistantError) as excinfo:
         await hass.services.async_call(
             MP_DOMAIN,
             SERVICE_JOIN,
@@ -89,7 +89,7 @@ async def test_media_player_join_bad_entity(
 
 
 async def test_media_player_join_entity_no_speaker(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sonos_setup_two_speakers: list[MockSoCo],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -100,7 +100,7 @@ async def test_media_player_join_entity_no_speaker(
     )
 
     # Ensure an error is raised if the entity does not have a speaker
-    with pytest.raises(__HAC_KEEP__Error) as excinfo:
+    with pytest.raises(UniversalAssistantError) as excinfo:
         await hass.services.async_call(
             MP_DOMAIN,
             SERVICE_JOIN,
@@ -122,7 +122,7 @@ async def instant_timeout(*args, **kwargs) -> None:
 
 
 async def test_media_player_join_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sonos_setup_two_speakers: list[MockSoCo],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -140,7 +140,7 @@ async def test_media_player_join_timeout(
         patch(
             "universalassistant.components.sonos.speaker.asyncio.timeout", instant_timeout
         ),
-        pytest.raises(__HAC_KEEP__Error, match=re.escape(expected)),
+        pytest.raises(UniversalAssistantError, match=re.escape(expected)),
     ):
         await hass.services.async_call(
             MP_DOMAIN,
@@ -157,7 +157,7 @@ async def test_media_player_join_timeout(
 
 
 async def test_media_player_unjoin_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sonos_setup_two_speakers: list[MockSoCo],
 ) -> None:
     """Test unjoining of speaker with timeout error."""
@@ -176,7 +176,7 @@ async def test_media_player_unjoin_timeout(
         patch(
             "universalassistant.components.sonos.speaker.asyncio.timeout", instant_timeout
         ),
-        pytest.raises(__HAC_KEEP__Error, match=re.escape(expected)),
+        pytest.raises(UniversalAssistantError, match=re.escape(expected)),
     ):
         await hass.services.async_call(
             MP_DOMAIN,
@@ -188,7 +188,7 @@ async def test_media_player_unjoin_timeout(
 
 
 async def test_media_player_unjoin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sonos_setup_two_speakers: list[MockSoCo],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -228,7 +228,7 @@ async def test_media_player_unjoin(
 
 
 async def test_media_player_unjoin_already_unjoined(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sonos_setup_two_speakers: list[MockSoCo],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -252,7 +252,7 @@ async def test_media_player_unjoin_already_unjoined(
 
 
 async def test_unjoin_completes_when_coordinator_receives_event_first(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sonos_setup_two_speakers: list[MockSoCo],
     caplog: pytest.LogCaptureFixture,
 ) -> None:

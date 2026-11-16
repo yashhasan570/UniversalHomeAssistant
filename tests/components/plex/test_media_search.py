@@ -16,11 +16,11 @@ from universalassistant.components.media_player import (
 from universalassistant.components.plex.const import DOMAIN
 from universalassistant.components.plex.errors import MediaNotFound
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_media_lookups(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_plex_server,
     requests_mock: requests_mock.Mocker,
     playqueue_created,

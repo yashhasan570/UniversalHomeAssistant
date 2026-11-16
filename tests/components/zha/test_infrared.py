@@ -32,8 +32,8 @@ from universalassistant.components.zha.helpers import (
 )
 from universalassistant.components.zha.infrared import ZHAInfraredReceiver
 from universalassistant.const import ATTR_DEVICE_CLASS, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 
@@ -119,7 +119,7 @@ def register_fake_infrared(emitter_class: type[FakeEmitter]) -> Generator[None]:
 
 
 async def _setup_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> ZHADeviceProxy:
@@ -148,7 +148,7 @@ async def _setup_device(
 
 
 def _get_entity[T: FakeEmitter | FakeReceiver](
-    hass: __HAC_KEEP__, zha_device_proxy: ZHADeviceProxy, entity_class: type[T]
+    hass: UniversalAssistant, zha_device_proxy: ZHADeviceProxy, entity_class: type[T]
 ) -> tuple[str, T]:
     """Return the HA entity ID and the zha entity of the given class."""
     zha_entity = next(
@@ -165,7 +165,7 @@ def _get_entity[T: FakeEmitter | FakeReceiver](
 
 
 async def test_infrared_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:
@@ -190,7 +190,7 @@ async def test_infrared_entities(
 
 @pytest.mark.freeze_time("2026-09-29 12:00:00+00:00")
 async def test_infrared_send_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:
@@ -209,16 +209,16 @@ async def test_infrared_send_command(
 
 @pytest.mark.parametrize("emitter_class", [FakeFailingEmitter])
 async def test_infrared_send_command_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:
-    """Test ZHA errors are raised as __HA_KEEP__ errors."""
+    """Test ZHA errors are raised as Universal Home Assistant errors."""
     zha_device_proxy = await _setup_device(hass, setup_zha, zigpy_device_mock)
     entity_id, _ = _get_entity(hass, zha_device_proxy, FakeFailingEmitter)
 
     command = NECCommand(address=0x04, command=0x08, modulation=38000)
-    with pytest.raises(__HAC_KEEP__Error, match="Failed to send IR command"):
+    with pytest.raises(UniversalAssistantError, match="Failed to send IR command"):
         await infrared.async_send_command(hass, entity_id, command)
 
     assert hass.states.get(entity_id).state == STATE_UNKNOWN
@@ -226,7 +226,7 @@ async def test_infrared_send_command_failure(
 
 @pytest.mark.freeze_time("2026-09-29 12:00:00+00:00")
 async def test_infrared_received_signal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:
@@ -254,7 +254,7 @@ async def test_infrared_received_signal(
 
 
 async def test_infrared_receiver_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
@@ -277,7 +277,7 @@ async def test_infrared_receiver_removed(
 
 
 async def test_infrared_receiver_entity_id_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],

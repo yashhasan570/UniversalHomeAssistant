@@ -9,8 +9,8 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.blueprint import DOMAIN, importer
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 
 @pytest.fixture(scope="module")
@@ -67,7 +67,7 @@ def test_extract_blueprint_from_community_topic(
 
 def test_extract_blueprint_from_community_topic_invalid_yaml() -> None:
     """Test extracting blueprint with invalid YAML."""
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         importer._extract_blueprint_from_community_topic(
             "http://example.com",
             {
@@ -82,7 +82,7 @@ def test_extract_blueprint_from_community_topic_invalid_yaml() -> None:
 
 def test_extract_blueprint_from_community_topic_wrong_lang() -> None:
     """Test extracting blueprint with invalid YAML."""
-    with pytest.raises(importer.__HAC_KEEP__Error):
+    with pytest.raises(importer.UniversalAssistantError):
         assert importer._extract_blueprint_from_community_topic(
             "http://example.com",
             {
@@ -96,7 +96,7 @@ def test_extract_blueprint_from_community_topic_wrong_lang() -> None:
 
 
 async def test_fetch_blueprint_from_community_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     community_post,
     snapshot: SnapshotAssertion,
@@ -130,7 +130,7 @@ async def test_fetch_blueprint_from_community_url(
     ],
 )
 async def test_fetch_blueprint_from_github_url(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, url: str
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, url: str
 ) -> None:
     """Test fetching blueprint from url."""
     aioclient_mock.get(
@@ -155,7 +155,7 @@ async def test_fetch_blueprint_from_github_url(
 
 
 async def test_fetch_blueprint_from_github_gist_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -175,7 +175,7 @@ async def test_fetch_blueprint_from_github_gist_url(
 
 
 async def test_fetch_blueprint_from_website_url(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test fetching blueprint from url."""
     aioclient_mock.get(
@@ -194,7 +194,7 @@ async def test_fetch_blueprint_from_website_url(
 
 
 async def test_fetch_blueprint_from_generic_url(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test fetching blueprint from url."""
     aioclient_mock.get(

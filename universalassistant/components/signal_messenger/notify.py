@@ -13,7 +13,7 @@ from universalassistant.components.notify import (
     PLATFORM_SCHEMA as NOTIFY_PLATFORM_SCHEMA,
     BaseNotificationService,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -74,7 +74,7 @@ PLATFORM_SCHEMA = NOTIFY_PLATFORM_SCHEMA.extend(
 
 
 def get_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> SignalNotificationService:
@@ -92,7 +92,7 @@ class SignalNotificationService(BaseNotificationService):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         recp_nrs: list[str],
         signal_cli_rest_api_url: str,
         sender_nr: str,
@@ -109,7 +109,7 @@ class SignalNotificationService(BaseNotificationService):
     def signal_cli_rest_api(self) -> SignalCliRestApi:
         """Return the REST API client, creating it on first use."""
         # Creating the client queries the REST API, which may not be up yet
-        # when __HA_KEEP__ starts.
+        # when Universal Home Assistant starts.
         if self._signal_cli_rest_api is None:
             self._signal_cli_rest_api = SignalCliRestApi(
                 self._signal_cli_rest_api_url, self._sender_nr
@@ -162,7 +162,7 @@ class SignalNotificationService(BaseNotificationService):
     def get_attachments_as_bytes(
         data: Any,
         attachment_size_limit: int,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
     ) -> list[bytearray] | None:
         """Retrieve attachments from URLs defined in data."""
         try:

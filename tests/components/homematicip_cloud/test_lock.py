@@ -8,14 +8,14 @@ import pytest
 
 from universalassistant.components.lock import LockEntityFeature, LockState
 from universalassistant.const import ATTR_SUPPORTED_FEATURES
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from .helper import HomeFactory, async_manipulate_test_data, get_and_check_entity_basics
 
 
 async def test_hmip_doorlockdrive(
-    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
+    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipDoorLockDrive."""
     entity_id = "lock.haustuer"
@@ -73,7 +73,7 @@ async def test_hmip_doorlockdrive(
 
 
 async def test_hmip_doorlockdrive_handle_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     default_mock_hap_factory: HomeFactory,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -94,7 +94,7 @@ async def test_hmip_doorlockdrive_handle_errors(
             hass, mock_hap, entity_id, entity_name, device_model
         )
 
-        with pytest.raises(__HAC_KEEP__Error, match="CLIENT_ACCESS_DENIED"):
+        with pytest.raises(UniversalAssistantError, match="CLIENT_ACCESS_DENIED"):
             await hass.services.async_call(
                 "lock",
                 "open",
@@ -102,7 +102,7 @@ async def test_hmip_doorlockdrive_handle_errors(
                 blocking=True,
             )
 
-        with pytest.raises(__HAC_KEEP__Error, match="CLIENT_ACCESS_DENIED"):
+        with pytest.raises(UniversalAssistantError, match="CLIENT_ACCESS_DENIED"):
             await hass.services.async_call(
                 "lock",
                 "lock",
@@ -110,7 +110,7 @@ async def test_hmip_doorlockdrive_handle_errors(
                 blocking=True,
             )
 
-        with pytest.raises(__HAC_KEEP__Error, match="CLIENT_ACCESS_DENIED"):
+        with pytest.raises(UniversalAssistantError, match="CLIENT_ACCESS_DENIED"):
             await hass.services.async_call(
                 "lock",
                 "unlock",

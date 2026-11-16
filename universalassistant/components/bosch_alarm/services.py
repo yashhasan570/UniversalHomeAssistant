@@ -8,8 +8,8 @@ from typing import Any
 import probatio
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.util import dt as dt_util
 
@@ -61,7 +61,7 @@ async def async_set_panel_date(call: ServiceCall) -> None:
     try:
         await panel.set_panel_date(value)
     except asyncio.InvalidStateError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="connection_error",
             translation_placeholders={"target": config_entry.title},
@@ -69,7 +69,7 @@ async def async_set_panel_date(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the services for the bosch alarm integration."""
 
     hass.services.async_register(

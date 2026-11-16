@@ -8,7 +8,7 @@ from simplipy.websocket import EVENT_CAMERA_MOTION_DETECTED, WebsocketEvent
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 CAMERA_SERIAL = "1234567890"
@@ -17,7 +17,7 @@ CAMERA_EVENT_ENTITY_ID = "event.camera_camera_motion"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_event_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     patch_simplisafe_api,
@@ -32,7 +32,7 @@ async def test_event_entities(
 
 
 async def test_camera_event_triggers_on_matching_serial(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     patch_simplisafe_api,
     websocket: Mock,
@@ -63,7 +63,7 @@ async def test_camera_event_triggers_on_matching_serial(
 
 
 async def test_camera_event_ignores_mismatched_serial(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     patch_simplisafe_api,
     websocket: Mock,

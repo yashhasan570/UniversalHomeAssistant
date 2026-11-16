@@ -41,8 +41,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from .common import find_entity_id
 
@@ -168,7 +168,7 @@ def register_fake_valve(valve_class: type[FakeValve]) -> Generator[None]:
 
 
 async def _setup_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> str:
@@ -209,7 +209,7 @@ async def _setup_device(
     ],
 )
 async def test_valve_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
     device_class: ValveDeviceClass | None,
@@ -228,7 +228,7 @@ async def test_valve_entity(
 
 
 async def test_valve_open_close(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:
@@ -248,7 +248,7 @@ async def test_valve_open_close(
 
 @pytest.mark.parametrize("valve_class", [FakePositionValve])
 async def test_valve_position(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:
@@ -301,14 +301,14 @@ async def test_valve_position(
 
 @pytest.mark.parametrize("valve_class", [FakeFailingValve])
 async def test_valve_command_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:
-    """Test ZHA errors are raised as __HA_KEEP__ errors."""
+    """Test ZHA errors are raised as Universal Home Assistant errors."""
     entity_id = await _setup_device(hass, setup_zha, zigpy_device_mock)
 
-    with pytest.raises(__HAC_KEEP__Error, match="Failed to open valve"):
+    with pytest.raises(UniversalAssistantError, match="Failed to open valve"):
         await hass.services.async_call(
             VALVE_DOMAIN,
             SERVICE_OPEN_VALVE,

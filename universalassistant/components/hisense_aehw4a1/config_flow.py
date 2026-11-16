@@ -2,13 +2,13 @@
 
 from pyaehw4a1.aehw4a1 import AehW4a1
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_entry_flow
 
 from .const import DOMAIN
 
 
-async def _async_has_devices(hass: __HAC_KEEP__) -> bool:
+async def _async_has_devices(hass: UniversalAssistant) -> bool:
     """Return if there are devices that can be discovered."""
     aehw4a1_ip_addresses = await AehW4a1().discovery()
     return len(aehw4a1_ip_addresses) > 0

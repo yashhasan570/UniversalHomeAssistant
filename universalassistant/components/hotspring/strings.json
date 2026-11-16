@@ -18,10 +18,10 @@
         "data_description": {
           "host": "Hostname or IP address of your Hot Spring Home Network Adapter (HNA)."
         },
-        "description": "Set up your Hot Spring Home Network Adapter (HNA) to integrate with __HA_KEEP__."
+        "description": "Set up your Hot Spring Home Network Adapter (HNA) to integrate with Universal Home Assistant."
       },
       "zeroconf_confirm": {
-        "description": "Do you want to add the Hot Spring spa named `{name}` to __HA_KEEP__?",
+        "description": "Do you want to add the Hot Spring spa named `{name}` to Universal Home Assistant?",
         "title": "Discovered Hot Spring spa"
       }
     }

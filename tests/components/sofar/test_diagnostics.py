@@ -11,11 +11,11 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 from syrupy.matchers import path_type
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -31,7 +31,7 @@ async def test_diagnostics(
 
 
 async def test_diagnostics_includes_active_faults(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_connection: MockModbusConnection,
     mock_config_entry: MockConfigEntry,
@@ -55,7 +55,7 @@ async def test_diagnostics_includes_active_faults(
 
 
 async def test_diagnostics_redacts_serial_number(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -69,7 +69,7 @@ async def test_diagnostics_redacts_serial_number(
 
 
 async def test_diagnostics_decodes_address_masks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_connection: MockModbusConnection,
     init_integration: MockConfigEntry,
@@ -96,7 +96,7 @@ async def test_diagnostics_decodes_address_masks(
     ],
 )
 async def test_diagnostics_inverter_unreachable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_connection: MockModbusConnection,
     init_integration: MockConfigEntry,

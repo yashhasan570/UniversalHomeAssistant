@@ -12,7 +12,7 @@ import requests
 from requests.models import Response
 
 from universalassistant.components.camera import Camera
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect, dispatcher_send
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import Throttle
@@ -25,7 +25,7 @@ MIN_TIME_BETWEEN_UPDATES = timedelta(seconds=90)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: AbodeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

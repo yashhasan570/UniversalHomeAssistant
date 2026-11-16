@@ -3,7 +3,7 @@
 from typing import TYPE_CHECKING, Any
 
 from universalassistant.components.device_tracker import DOMAIN as DEVICE_TRACKER_DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import LOGGER
@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 
 async def cleanup_device_tracker(
-    hass: __HAC_KEEP__, config_entry: VodafoneConfigEntry, devices: dict[str, Any]
+    hass: UniversalAssistant, config_entry: VodafoneConfigEntry, devices: dict[str, Any]
 ) -> None:
     """Cleanup stale device tracker."""
     entity_reg: er.EntityRegistry = er.async_get(hass)
@@ -68,7 +68,7 @@ async def cleanup_device_tracker(
 
 
 def _async_remove_empty_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_reg: er.EntityRegistry,
     config_entry: VodafoneConfigEntry,
 ) -> None:

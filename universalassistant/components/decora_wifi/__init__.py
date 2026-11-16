@@ -16,7 +16,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 
 PLATFORMS = [Platform.LIGHT]
@@ -57,7 +57,7 @@ def _login_and_get_switches(email: str, password: str) -> DecoraWifiData:
     return DecoraWifiData(session, all_switches)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: DecoraWifiConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: DecoraWifiConfigEntry) -> None:
     """Set up Leviton Decora Wi-Fi from a config entry."""
     try:
         data = await hass.async_add_executor_job(
@@ -82,6 +82,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: DecoraWifiConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: DecoraWifiConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: DecoraWifiConfigEntry) -> None:
     """Unload a Decora Wi-Fi config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

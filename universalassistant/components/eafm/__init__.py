@@ -1,7 +1,7 @@
 """UK Environment Agency Flood Monitoring Integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from .const import DOMAIN
@@ -11,7 +11,7 @@ PLATFORMS = [Platform.SENSOR]
 
 
 def _fix_device_registry_identifiers(
-    hass: __HAC_KEEP__, entry: EafmConfigEntry
+    hass: UniversalAssistant, entry: EafmConfigEntry
 ) -> None:
     """Fix invalid identifiers in device registry.
 
@@ -32,7 +32,7 @@ def _fix_device_registry_identifiers(
         )
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: EafmConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: EafmConfigEntry) -> None:
     """Set up flood monitoring sensors for this config entry."""
     _fix_device_registry_identifiers(hass, entry)
     coordinator = EafmCoordinator(hass, entry=entry)
@@ -41,6 +41,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: EafmConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: EafmConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: EafmConfigEntry) -> None:
     """Unload flood monitoring sensors."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

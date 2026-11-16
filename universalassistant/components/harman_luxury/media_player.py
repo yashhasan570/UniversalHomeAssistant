@@ -12,8 +12,8 @@ from universalassistant.components.media_player import (
     MediaPlayerEntityFeature,
     MediaPlayerState,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -36,7 +36,7 @@ _PLAY_STATE_MAP = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: HarmanLuxuryConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -166,7 +166,7 @@ class HarmanLuxuryMediaPlayer(
         try:
             await coro
         except HarmanLuxuryError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="command_failed"
             ) from err
         await self.coordinator.async_request_refresh()

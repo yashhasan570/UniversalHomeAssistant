@@ -11,7 +11,7 @@ from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.components.smhi.const import DOMAIN
 from universalassistant.components.weather import DOMAIN as WEATHER_DOMAIN
 from universalassistant.const import CONF_LATITUDE, CONF_LOCATION, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -19,7 +19,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 async def test_form(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     mock_fire_client: MagicMock,
 ) -> None:
@@ -84,7 +84,7 @@ async def test_form(
 
 
 async def test_form_invalid_coordinates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     mock_fire_client: MagicMock,
 ) -> None:
@@ -131,7 +131,7 @@ async def test_form_invalid_coordinates(
 
 
 async def test_form_unique_id_exist(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     mock_fire_client: MagicMock,
 ) -> None:
@@ -167,7 +167,7 @@ async def test_form_unique_id_exist(
 
 
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     mock_fire_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -250,7 +250,7 @@ async def test_reconfigure_flow(
 
 
 async def test_reconfigure_flow_unique_id_taken(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     mock_fire_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -301,7 +301,7 @@ async def test_reconfigure_flow_unique_id_taken(
 
 
 async def test_reconfigure_flow_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     mock_fire_client: MagicMock,
     entity_registry: er.EntityRegistry,

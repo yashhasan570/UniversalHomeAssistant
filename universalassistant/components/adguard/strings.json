@@ -11,8 +11,8 @@
     },
     "step": {
       "hassio_confirm": {
-        "description": "Do you want to configure __HA_KEEP__ to connect to the AdGuard Home provided by the app: {addon}?",
-        "title": "AdGuard Home via __HA_KEEP__ app"
+        "description": "Do you want to configure Universal Home Assistant to connect to the AdGuard Home provided by the app: {addon}?",
+        "title": "AdGuard Home via Universal Home Assistant app"
       },
       "reauth_confirm": {
         "data": {

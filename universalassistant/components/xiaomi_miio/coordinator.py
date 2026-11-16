@@ -7,7 +7,7 @@ from typing import override
 from miio.gateway.devices import SubDevice
 from miio.gateway.gateway import GatewayException
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .typing import XiaomiMiioConfigEntry
@@ -24,7 +24,7 @@ class GatewayDeviceCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: XiaomiMiioConfigEntry,
         sub_device: SubDevice,
     ) -> None:

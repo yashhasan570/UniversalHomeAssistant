@@ -29,11 +29,15 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import CALLBACK_TYPE, Event, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, Event, UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, format_mac
-from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from universalassistant.helpers.update_coordinator import (
+    DataUpdateCoordinator,
+    UpdateFailed,
+    UpdateFailedUnreachable,
+)
 from universalassistant.util import dt as dt_util
 
 from .bluetooth import async_connect_scanner
@@ -126,7 +130,7 @@ class ShellyCoordinatorBase[_DeviceT: BlockDevice | RpcDevice](
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: ShellyConfigEntry,
         device: _DeviceT,
         update_interval: float | None,
@@ -219,7 +223,7 @@ class ShellyCoordinatorBase[_DeviceT: BlockDevice | RpcDevice](
         await self.device.shutdown()
 
     async def _handle_ha_stop(self, _event: Event) -> None:
-        """Handle __HA_KEEP__ stopping."""
+        """Handle Universal Home Assistant stopping."""
         LOGGER.debug("Stopping RPC device coordinator for %s", self.name)
         await self.shutdown()
 
@@ -293,7 +297,7 @@ class ShellyBlockCoordinator(ShellyCoordinatorBase[BlockDevice]):
     """Coordinator for a Shelly block based device."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: ShellyConfigEntry, device: BlockDevice
+        self, hass: UniversalAssistant, entry: ShellyConfigEntry, device: BlockDevice
     ) -> None:
         """Initialize the Shelly block device coordinator."""
         update_interval: float | None
@@ -425,7 +429,7 @@ class ShellyBlockCoordinator(ShellyCoordinatorBase[BlockDevice]):
         """Fetch data."""
         if self.sleep_period:
             # Sleeping device, no point polling it, just mark it unavailable
-            raise UpdateFailed(
+            raise UpdateFailedUnreachable(
                 translation_domain=DOMAIN,
                 translation_key="update_error_sleeping_device",
                 translation_placeholders={
@@ -438,10 +442,9 @@ class ShellyBlockCoordinator(ShellyCoordinatorBase[BlockDevice]):
         try:
             await self.device.update()
         except DeviceConnectionError as err:
-            raise UpdateFailed(
+            raise UpdateFailedUnreachable(
                 translation_domain=DOMAIN,
-                translation_key="update_error",
-                translation_placeholders={"device": self.name},
+                translation_key="update_error_unreachable",
             ) from err
         except InvalidAuthError:
             await self.async_shutdown_device_and_start_reauth()
@@ -498,7 +501,7 @@ class ShellyRestCoordinator(ShellyCoordinatorBase[BlockDevice]):
     """Coordinator for a Shelly REST device."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, device: BlockDevice, entry: ShellyConfigEntry
+        self, hass: UniversalAssistant, device: BlockDevice, entry: ShellyConfigEntry
     ) -> None:
         """Initialize the Shelly REST device coordinator."""
         update_interval = REST_SENSORS_UPDATE_INTERVAL
@@ -521,11 +524,16 @@ class ShellyRestCoordinator(ShellyCoordinatorBase[BlockDevice]):
             if self.device.status["uptime"] > 2 * REST_SENSORS_UPDATE_INTERVAL:
                 return
             await self.device.update_shelly()
-        except (DeviceConnectionError, MacAddressMismatchError) as err:
-            raise UpdateFailed(
+        except DeviceConnectionError as err:
+            raise UpdateFailedUnreachable(
                 translation_domain=DOMAIN,
-                translation_key="update_error",
-                translation_placeholders={"device": self.name},
+                translation_key="update_error_unreachable",
+            ) from err
+        except MacAddressMismatchError as err:
+            raise UpdateFailedUnreachable(
+                translation_domain=DOMAIN,
+                translation_key="update_error_mac_mismatch",
+                translation_placeholders={"host": self.device.ip_address},
             ) from err
         except InvalidAuthError:
             await self.async_shutdown_device_and_start_reauth()
@@ -543,7 +551,7 @@ class ShellyRpcCoordinator(ShellyCoordinatorBase[RpcDevice]):
     """Coordinator for a Shelly RPC based device."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: ShellyConfigEntry, device: RpcDevice
+        self, hass: UniversalAssistant, entry: ShellyConfigEntry, device: RpcDevice
     ) -> None:
         """Initialize the Shelly RPC device coordinator."""
         if sleep_period := entry.data.get(CONF_SLEEP_PERIOD, 0):
@@ -757,7 +765,7 @@ class ShellyRpcCoordinator(ShellyCoordinatorBase[RpcDevice]):
 
         if self.sleep_period:
             # Sleeping device, no point polling it, just mark it unavailable
-            raise UpdateFailed(
+            raise UpdateFailedUnreachable(
                 translation_domain=DOMAIN,
                 translation_key="update_error_sleeping_device",
                 translation_placeholders={
@@ -780,10 +788,9 @@ class ShellyRpcCoordinator(ShellyCoordinatorBase[RpcDevice]):
                         self.name,
                     )
                     return
-                raise UpdateFailed(
+                raise UpdateFailedUnreachable(
                     translation_domain=DOMAIN,
-                    translation_key="update_error_reconnect_error",
-                    translation_placeholders={"device": self.name},
+                    translation_key="update_error_reconnect",
                 )
 
     async def _async_disconnected(self, reconnect: bool) -> None:
@@ -971,7 +978,7 @@ class ShellyRpcPollingCoordinator(ShellyCoordinatorBase[RpcDevice]):
     """Polling coordinator for a Shelly RPC based device."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: ShellyConfigEntry, device: RpcDevice
+        self, hass: UniversalAssistant, entry: ShellyConfigEntry, device: RpcDevice
     ) -> None:
         """Initialize the RPC polling coordinator."""
         super().__init__(hass, entry, device, RPC_SENSORS_POLLING_INTERVAL)
@@ -981,16 +988,20 @@ class ShellyRpcPollingCoordinator(ShellyCoordinatorBase[RpcDevice]):
         """Fetch data."""
         # The websocket is connected before initialization completes on reconnect
         if not self.device.connected or not self.device.initialized:
-            raise UpdateFailed(
+            raise UpdateFailedUnreachable(
                 translation_domain=DOMAIN,
-                translation_key="update_error_device_disconnected",
-                translation_placeholders={"device": self.name},
+                translation_key="update_error_disconnected",
             )
 
         LOGGER.debug("Polling Shelly RPC Device - %s", self.name)
         try:
             await self.device.poll()
-        except (DeviceConnectionError, RpcCallError) as err:
+        except DeviceConnectionError as err:
+            raise UpdateFailedUnreachable(
+                translation_domain=DOMAIN,
+                translation_key="update_error_unreachable",
+            ) from err
+        except RpcCallError as err:
             raise UpdateFailed(
                 translation_domain=DOMAIN,
                 translation_key="update_error",
@@ -1004,7 +1015,7 @@ class ShellyBluTrvUpdateCoordinator(ShellyCoordinatorBase[RpcDevice]):
     """Coordinator checking the BLU TRV firmware repository for a newer version."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: ShellyConfigEntry, device: RpcDevice
+        self, hass: UniversalAssistant, entry: ShellyConfigEntry, device: RpcDevice
     ) -> None:
         """Initialize the BLU TRV firmware update coordinator."""
         super().__init__(hass, entry, device, BLU_TRV_UPDATE_CHECK_INTERVAL)
@@ -1015,16 +1026,20 @@ class ShellyBluTrvUpdateCoordinator(ShellyCoordinatorBase[RpcDevice]):
     async def _async_update_data(self) -> None:
         """Fetch the latest firmware available for BLU TRV devices."""
         if not self.device.connected:
-            raise UpdateFailed(
+            raise UpdateFailedUnreachable(
                 translation_domain=DOMAIN,
-                translation_key="update_error_device_disconnected",
-                translation_placeholders={"device": self.name},
+                translation_key="update_error_disconnected",
             )
 
         LOGGER.debug("Checking for BLU TRV firmware update - %s", self.name)
         try:
             self.available_firmware = await self.device.blu_trv_check_for_updates()
-        except (DeviceConnectionError, RpcCallError) as err:
+        except DeviceConnectionError as err:
+            raise UpdateFailedUnreachable(
+                translation_domain=DOMAIN,
+                translation_key="update_error_unreachable",
+            ) from err
+        except RpcCallError as err:
             raise UpdateFailed(
                 translation_domain=DOMAIN,
                 translation_key="update_error",
@@ -1035,7 +1050,7 @@ class ShellyBluTrvUpdateCoordinator(ShellyCoordinatorBase[RpcDevice]):
 
 
 def get_block_coordinator_by_device_id(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> ShellyBlockCoordinator | None:
     """Get a Shelly block device coordinator for the given device id."""
     _device, entry = dr.async_get_device_and_config_entry_for_domain(
@@ -1054,7 +1069,7 @@ def get_block_coordinator_by_device_id(
 
 
 def get_rpc_coordinator_by_device_id(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> ShellyRpcCoordinator | None:
     """Get a Shelly RPC device coordinator for the given device id."""
     _device, entry = dr.async_get_device_and_config_entry_for_domain(
@@ -1072,7 +1087,7 @@ def get_rpc_coordinator_by_device_id(
     return None
 
 
-async def async_reconnect_soon(hass: __HAC_KEEP__, entry: ShellyConfigEntry) -> None:
+async def async_reconnect_soon(hass: UniversalAssistant, entry: ShellyConfigEntry) -> None:
     """Try to reconnect soon."""
     if (
         not hass.is_stopping

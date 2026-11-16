@@ -22,7 +22,7 @@ from universalassistant.components.event import (
     EventEntityStateAttribute,
 )
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_registry import EntityRegistry
 
 from .conftest import mock_websocket_connection
@@ -47,7 +47,7 @@ from .util import (
 
 
 async def _check_button_event_creation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
@@ -72,7 +72,7 @@ async def _check_button_event_creation(
 
 
 async def test_button_event_creation_balance(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -95,7 +95,7 @@ async def test_button_event_creation_balance(
 
 
 async def test_no_button_and_remote_key_event_creation_core(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_core: MockConfigEntry,
     mock_mozart_client: AsyncMock,
     entity_registry: EntityRegistry,
@@ -120,7 +120,7 @@ async def test_no_button_and_remote_key_event_creation_core(
 
 
 async def test_button_event_creation_premiere(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_premiere: MockConfigEntry,
     mock_mozart_client: AsyncMock,
     entity_registry: EntityRegistry,
@@ -148,7 +148,7 @@ async def test_button_event_creation_premiere(
 
 
 async def test_button_event_creation_a5(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_a5: MockConfigEntry,
     mock_mozart_client: AsyncMock,
     entity_registry: EntityRegistry,
@@ -174,7 +174,7 @@ async def test_button_event_creation_a5(
 
 
 async def test_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: None,
     mock_config_entry: MockConfigEntry,
     mock_mozart_client: AsyncMock,
@@ -207,7 +207,7 @@ async def test_button(
 
 
 async def test_remote_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_mozart_client: AsyncMock,
     entity_registry: EntityRegistry,

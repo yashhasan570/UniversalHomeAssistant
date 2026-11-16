@@ -11,8 +11,8 @@ import httpx2
 from propcache.api import cached_property
 
 from universalassistant.const import EntityStateAttribute
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity import Entity, EntityDescription
 from universalassistant.helpers.httpx_client import get_async_client
 from universalassistant.helpers.typing import Undefined
@@ -43,7 +43,7 @@ class Image:
     content: bytes
 
 
-class ImageContentTypeError(__HAC_KEEP__Error):
+class ImageContentTypeError(UniversalAssistantError):
     """Error with the content type while loading an image."""
 
 
@@ -81,7 +81,7 @@ class ImageEntity(Entity, cached_properties=CACHED_PROPERTIES_WITH_ATTR_):
     _attr_state: None = None  # State is determined by last_updated
     _cached_image: Image | None = None
 
-    def __init__(self, hass: __HAC_KEEP__, verify_ssl: bool = False) -> None:
+    def __init__(self, hass: UniversalAssistant, verify_ssl: bool = False) -> None:
         """Initialize an image entity."""
         self._client = get_async_client(hass, verify_ssl=verify_ssl)
         self.access_tokens: collections.deque = collections.deque(maxlen=2)

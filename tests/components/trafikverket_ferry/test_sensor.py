@@ -9,12 +9,12 @@ from pytest_universalassistant.common import async_fire_time_changed
 from pytrafikverket.models import FerryStopModel
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 
 async def test_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: ConfigEntry,
     monkeypatch: pytest.MonkeyPatch,
     get_ferries: list[FerryStopModel],

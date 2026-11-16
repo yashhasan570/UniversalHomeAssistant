@@ -12,7 +12,7 @@ from universalassistant.const import (
     CONF_SWITCHES,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.discovery import async_load_platform
 from universalassistant.helpers.typing import ConfigType
@@ -72,7 +72,7 @@ CONFIG_SCHEMA = probatio.Schema(
 PLATFORMS = (Platform.CLIMATE, Platform.SENSOR)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Try to start embedded Lightwave broker."""
     host = config[DOMAIN][CONF_HOST]
     lwlink = LWLink(host)

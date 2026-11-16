@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.kaco_rs485.const import DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import CYCLES_UNTIL_DARK, run_cycles
@@ -35,7 +35,7 @@ def _entity_id(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
@@ -45,7 +45,7 @@ async def test_all_entities(
 
 
 async def test_an_inverter_that_goes_dark_becomes_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
@@ -64,7 +64,7 @@ async def test_an_inverter_that_goes_dark_becomes_unavailable(
 
 
 async def test_an_inverter_that_returns_reports_again(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
@@ -85,7 +85,7 @@ async def test_an_inverter_that_returns_reports_again(
 
 
 async def test_a_half_answered_cycle_keeps_the_last_counters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
@@ -117,7 +117,7 @@ async def test_a_half_answered_cycle_keeps_the_last_counters(
 
 
 async def test_a_lost_bus_is_reopened(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,

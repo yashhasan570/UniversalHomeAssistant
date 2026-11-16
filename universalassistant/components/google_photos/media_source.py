@@ -15,7 +15,7 @@ from universalassistant.components.media_source import (
     MediaSourceItem,
     PlayMedia,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import DOMAIN, READ_SCOPE
 from .coordinator import GooglePhotosConfigEntry
@@ -93,7 +93,7 @@ class PhotosIdentifier:
         return cls(config_entry_id, PhotosIdentifierType.PHOTO, media_id)
 
 
-async def async_get_media_source(hass: __HAC_KEEP__) -> MediaSource:
+async def async_get_media_source(hass: UniversalAssistant) -> MediaSource:
     """Set up Google Photos media source."""
     return GooglePhotosMediaSource(hass)
 
@@ -103,7 +103,7 @@ class GooglePhotosMediaSource(MediaSource):
 
     name = "Google Photos"
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize Google Photos source."""
         super().__init__(DOMAIN)
         self.hass = hass

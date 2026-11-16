@@ -7,12 +7,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.easyenergy.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_full_user_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_easyenergy: MagicMock,
     mock_setup_entry: MagicMock,
 ) -> None:
@@ -44,7 +44,7 @@ async def test_full_user_flow(
 
 
 async def test_user_flow_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_easyenergy: MagicMock,
     mock_setup_entry: MagicMock,
 ) -> None:
@@ -84,7 +84,7 @@ async def test_user_flow_cannot_connect(
 
 
 async def test_single_instance(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test abort when setting up a duplicate entry."""

@@ -11,7 +11,7 @@ from yarl import URL
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.httpx_client import get_async_client
 from universalassistant.helpers.selector import (
     TextSelector,
@@ -25,7 +25,7 @@ from .const import DEFAULT_USERNAME, DOMAIN
 _LOGGER = logging.getLogger(__name__)
 
 
-async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> dict[str, Any]:
+async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> dict[str, Any]:
     """Validate the user input allows us to connect."""
     vmc = FlowItVMCMachine(
         data[CONF_HOST],

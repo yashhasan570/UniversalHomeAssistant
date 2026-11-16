@@ -22,8 +22,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.util.json import JsonArrayType
 
 from .patchers import (
@@ -39,7 +39,7 @@ SET_GPS_CONFIG_TARGET = "universalassistant.components.starlink.coordinator.set_
 
 
 async def setup_integration(
-    hass: __HAC_KEEP__, status_data: JsonArrayType
+    hass: UniversalAssistant, status_data: JsonArrayType
 ) -> MockConfigEntry:
     """Set up the Starlink integration with the given status data."""
     entry = MockConfigEntry(domain=DOMAIN, data={CONF_IP_ADDRESS: "1.2.3.4:0000"})
@@ -67,7 +67,7 @@ async def setup_integration(
     ],
 )
 async def test_starlink_positioning_exclusive_state(
-    hass: __HAC_KEEP__, gps_enabled: bool | None, expected_state: str
+    hass: UniversalAssistant, gps_enabled: bool | None, expected_state: str
 ) -> None:
     """Test the switch is on when the dish does not use GPS."""
     status_data = deepcopy(STATUS_DATA_FIXTURE)
@@ -79,7 +79,7 @@ async def test_starlink_positioning_exclusive_state(
 
 
 async def test_starlink_positioning_exclusive_not_reported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the switch is unknown when the dish omits the GPS state."""
     status_data = deepcopy(STATUS_DATA_FIXTURE)
@@ -98,7 +98,7 @@ async def test_starlink_positioning_exclusive_not_reported(
     ],
 )
 async def test_starlink_positioning_exclusive_set(
-    hass: __HAC_KEEP__, service: str, gps_enabled: bool
+    hass: UniversalAssistant, service: str, gps_enabled: bool
 ) -> None:
     """Test turning the switch on disables GPS and turning it off enables it."""
     entry = await setup_integration(hass, deepcopy(STATUS_DATA_FIXTURE))
@@ -116,13 +116,13 @@ async def test_starlink_positioning_exclusive_set(
     )
 
 
-async def test_starlink_positioning_exclusive_error(hass: __HAC_KEEP__) -> None:
-    """Test a communication error is raised as __HAC_KEEP__Error."""
+async def test_starlink_positioning_exclusive_error(hass: UniversalAssistant) -> None:
+    """Test a communication error is raised as UniversalAssistantError."""
     await setup_integration(hass, deepcopy(STATUS_DATA_FIXTURE))
 
     with (
         patch(SET_GPS_CONFIG_TARGET, side_effect=GrpcError("error")),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,

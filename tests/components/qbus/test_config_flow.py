@@ -11,7 +11,7 @@ from universalassistant.components.qbus.const import CONF_SERIAL_NUMBER, DOMAIN
 from universalassistant.components.qbus.coordinator import QbusConfigCoordinator
 from universalassistant.config_entries import SOURCE_MQTT, SOURCE_USER
 from universalassistant.const import CONF_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.mqtt import MqttServiceInfo
 from universalassistant.util.json import JsonObjectType
@@ -22,7 +22,7 @@ _PAYLOAD_DEVICE_STATE = '{"id":"UL1","properties":{"connected":true},"type":"eve
 
 
 async def test_step_discovery_confirm_create_entry(
-    hass: __HAC_KEEP__, payload_config: JsonObjectType
+    hass: UniversalAssistant, payload_config: JsonObjectType
 ) -> None:
     """Test mqtt confirm step and entry creation."""
     discovery = MqttServiceInfo(
@@ -69,7 +69,7 @@ async def test_step_discovery_confirm_create_entry(
     ],
 )
 async def test_step_mqtt_invalid(
-    hass: __HAC_KEEP__, topic: str, payload: bytes
+    hass: UniversalAssistant, topic: str, payload: bytes
 ) -> None:
     """Test mqtt discovery with empty payload."""
     discovery = MqttServiceInfo(
@@ -97,7 +97,7 @@ async def test_step_mqtt_invalid(
     ],
 )
 async def test_handle_gateway_topic_when_online(
-    hass: __HAC_KEEP__, payload: str, mqtt_publish: bool
+    hass: UniversalAssistant, payload: str, mqtt_publish: bool
 ) -> None:
     """Test handling of gateway topic with payload indicating online."""
     discovery = MqttServiceInfo(
@@ -122,7 +122,7 @@ async def test_handle_gateway_topic_when_online(
 
 
 async def test_handle_config_topic(
-    hass: __HAC_KEEP__, payload_config: JsonObjectType
+    hass: UniversalAssistant, payload_config: JsonObjectType
 ) -> None:
     """Test handling of config topic."""
 
@@ -147,7 +147,7 @@ async def test_handle_config_topic(
     assert result.get("reason") == "discovery_in_progress"
 
 
-async def test_handle_device_topic_missing_config(hass: __HAC_KEEP__) -> None:
+async def test_handle_device_topic_missing_config(hass: UniversalAssistant) -> None:
     """Test handling of device topic when config is missing."""
     discovery = MqttServiceInfo(
         subscribed_topic="cloudapp/QBUSMQTTGW/+/state",
@@ -167,7 +167,7 @@ async def test_handle_device_topic_missing_config(hass: __HAC_KEEP__) -> None:
 
 
 async def test_handle_device_topic_device_not_found(
-    hass: __HAC_KEEP__, payload_config: JsonObjectType
+    hass: UniversalAssistant, payload_config: JsonObjectType
 ) -> None:
     """Test handling of device topic when device is not found."""
     discovery = MqttServiceInfo(
@@ -192,7 +192,7 @@ async def test_handle_device_topic_device_not_found(
     assert result.get("reason") == "invalid_discovery_info"
 
 
-async def test_step_user_not_supported(hass: __HAC_KEEP__) -> None:
+async def test_step_user_not_supported(hass: UniversalAssistant) -> None:
     """Test user step, which should abort."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}

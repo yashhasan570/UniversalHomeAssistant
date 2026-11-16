@@ -9,7 +9,7 @@ from zwave_js_server.const import CommandClass
 from zwave_js_server.model.node import Node as ZwaveNode
 
 from universalassistant.const import ATTR_DEVICE_ID, CONF_OPTIONS
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.condition import (
     ATTR_BEHAVIOR,
@@ -88,7 +88,7 @@ def _condition_schema(
 
 @callback
 def _async_resolve_nodes(
-    hass: __HAC_KEEP__, device_ids: Iterable[str]
+    hass: UniversalAssistant, device_ids: Iterable[str]
 ) -> set[ZwaveNode]:
     """Resolve targeted device IDs to Z-Wave nodes, skipping any that don't resolve."""
     nodes: set[ZwaveNode] = set()
@@ -108,7 +108,7 @@ class _ZwaveNodeCondition(Condition):
     @classmethod
     @override
     async def async_validate_config(
-        cls, hass: __HAC_KEEP__, config: ConfigType
+        cls, hass: UniversalAssistant, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         config = cls._schema(config)
@@ -126,7 +126,7 @@ class _ZwaveNodeCondition(Condition):
     def _validate_nodes(cls, nodes: set[ZwaveNode], options: dict[str, Any]) -> None:
         """Validate the options against the resolved nodes."""
 
-    def __init__(self, hass: __HAC_KEEP__, config: ConditionConfig) -> None:
+    def __init__(self, hass: UniversalAssistant, config: ConditionConfig) -> None:
         """Initialize condition."""
         super().__init__(hass, config)
         if TYPE_CHECKING:
@@ -243,6 +243,6 @@ CONDITIONS: dict[str, type[Condition]] = {
 }
 
 
-async def async_get_conditions(hass: __HAC_KEEP__) -> dict[str, type[Condition]]:
+async def async_get_conditions(hass: UniversalAssistant) -> dict[str, type[Condition]]:
     """Return the Z-Wave JS conditions."""
     return CONDITIONS

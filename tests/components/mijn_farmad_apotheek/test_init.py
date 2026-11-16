@@ -10,12 +10,12 @@ from universalassistant.components.mijn_farmad_apotheek.const import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import API_APB, init_integration
 
 
-async def test_setup_entry(hass: __HAC_KEEP__, mock_farmad_client: MagicMock) -> None:
+async def test_setup_entry(hass: UniversalAssistant, mock_farmad_client: MagicMock) -> None:
     """Test a config entry sets up."""
     entry = await init_integration(hass)
     assert entry.state is ConfigEntryState.LOADED
@@ -27,7 +27,7 @@ async def test_setup_entry(hass: __HAC_KEEP__, mock_farmad_client: MagicMock) ->
 
 
 async def test_setup_entry_not_ready(
-    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
+    hass: UniversalAssistant, mock_farmad_client: MagicMock
 ) -> None:
     """Test a config entry retries setup when Farmad cannot be reached."""
     mock_farmad_client.return_value.async_get_account.side_effect = (
@@ -39,7 +39,7 @@ async def test_setup_entry_not_ready(
 
 
 async def test_setup_entry_auth_failed(
-    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
+    hass: UniversalAssistant, mock_farmad_client: MagicMock
 ) -> None:
     """Test a config entry starts reauthentication when the session expired."""
     mock_farmad_client.return_value.async_get_account.side_effect = (
@@ -52,7 +52,7 @@ async def test_setup_entry_auth_failed(
 
 
 async def test_setup_entry_not_ready_baskets(
-    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
+    hass: UniversalAssistant, mock_farmad_client: MagicMock
 ) -> None:
     """Test a config entry retries setup when the order history cannot be read."""
     mock_farmad_client.return_value.async_get_baskets.side_effect = (
@@ -63,7 +63,7 @@ async def test_setup_entry_not_ready_baskets(
     mock_farmad_client.return_value.async_close.assert_awaited_once()
 
 
-async def test_unload_entry(hass: __HAC_KEEP__, mock_farmad_client: MagicMock) -> None:
+async def test_unload_entry(hass: UniversalAssistant, mock_farmad_client: MagicMock) -> None:
     """Test a config entry unloads and closes the client."""
     entry = await init_integration(hass)
     assert await hass.config_entries.async_unload(entry.entry_id)
@@ -73,7 +73,7 @@ async def test_unload_entry(hass: __HAC_KEEP__, mock_farmad_client: MagicMock) -
 
 
 async def test_token_rotation(
-    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
+    hass: UniversalAssistant, mock_farmad_client: MagicMock
 ) -> None:
     """Test rotated tokens are stored and a missing refresh token keeps the old one."""
     entry = await init_integration(hass)

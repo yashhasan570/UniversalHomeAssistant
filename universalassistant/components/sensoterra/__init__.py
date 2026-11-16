@@ -3,14 +3,14 @@
 from sensoterra.customerapi import CustomerApi
 
 from universalassistant.const import CONF_TOKEN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import SensoterraConfigEntry, SensoterraCoordinator
 
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SensoterraConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SensoterraConfigEntry) -> None:
     """Set up Sensoterra platform based on a configuration entry."""
 
     # Create a coordinator and add an API instance to it. Store the coordinator
@@ -26,6 +26,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SensoterraConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SensoterraConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SensoterraConfigEntry) -> None:
     """Unload the configuration entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

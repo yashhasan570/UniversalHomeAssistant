@@ -31,7 +31,7 @@ from universalassistant.components.websocket_api.auth import (
     AUTH_REQUIRED_MESSAGE,
 )
 from universalassistant.components.websocket_api.connection import ActiveConnection
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.redact import REDACTED
 from universalassistant.setup import async_setup_component
@@ -53,7 +53,7 @@ def mock_low_peak():
 
 
 async def test_pending_msg_overflow(
-    hass: __HAC_KEEP__, mock_low_queue, websocket_client: MockHAClientWebSocket
+    hass: UniversalAssistant, mock_low_queue, websocket_client: MockHAClientWebSocket
 ) -> None:
     """Test pending messages overflows."""
     for idx in range(10):
@@ -63,7 +63,7 @@ async def test_pending_msg_overflow(
 
 
 async def test_cleanup_on_cancellation(
-    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
+    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
 ) -> None:
     """Test cleanup on cancellation."""
 
@@ -77,7 +77,7 @@ async def test_cleanup_on_cancellation(
         }
     )
     def fake_subscription(
-        hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+        hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
     ) -> None:
         nonlocal subscriptions
         msg_id: int = msg["id"]
@@ -95,7 +95,7 @@ async def test_cleanup_on_cancellation(
         }
     )
     def subscription_that_raises_on_cancel(
-        hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+        hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
     ) -> None:
         nonlocal subscriptions
         msg_id: int = msg["id"]
@@ -118,7 +118,7 @@ async def test_cleanup_on_cancellation(
         }
     )
     def cancel_in_handler(
-        hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+        hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
     ) -> None:
         raise asyncio.CancelledError
 
@@ -151,7 +151,7 @@ async def test_cleanup_on_cancellation(
 
 
 async def test_delayed_response_handler(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     websocket_client: MockHAClientWebSocket,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -167,7 +167,7 @@ async def test_delayed_response_handler(
         }
     )
     def async_late_responder(
-        hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+        hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
     ) -> None:
         msg_id: int = msg["id"]
         nonlocal subscriptions
@@ -202,7 +202,7 @@ async def test_delayed_response_handler(
 
 
 async def test_ensure_disconnect_invalid_json(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     websocket_client: MockHAClientWebSocket,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -218,7 +218,7 @@ async def test_ensure_disconnect_invalid_json(
 
 
 async def test_ensure_disconnect_invalid_binary(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     websocket_client: MockHAClientWebSocket,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -234,7 +234,7 @@ async def test_ensure_disconnect_invalid_binary(
 
 
 async def test_pending_msg_peak(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_low_peak,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
@@ -272,7 +272,7 @@ async def test_pending_msg_peak(
 
 
 async def test_pending_msg_peak_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_low_peak,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
@@ -316,7 +316,7 @@ async def test_pending_msg_peak_recovery(
 
 
 async def test_pending_msg_peak_but_does_not_overflow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_low_peak,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
@@ -362,7 +362,7 @@ async def test_pending_msg_peak_but_does_not_overflow(
 
 
 async def test_non_json_message(
-    hass: __HAC_KEEP__, websocket_client, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, websocket_client, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test trying to serialize non JSON objects."""
     bad_data = object()
@@ -380,7 +380,7 @@ async def test_non_json_message(
 
 
 async def test_prepare_fail_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -398,7 +398,7 @@ async def test_prepare_fail_timeout(
 
 
 async def test_prepare_fail_connection_reset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -416,7 +416,7 @@ async def test_prepare_fail_connection_reset(
 
 
 async def test_auth_timeout_logs_at_debug(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -476,7 +476,7 @@ async def test_auth_timeout_logs_at_debug(
     ],
 )
 async def test_connection_reset_during_auth_logs_at_debug(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     hass_access_token: str,
     caplog: pytest.LogCaptureFixture,
@@ -530,7 +530,7 @@ async def test_connection_reset_during_auth_logs_at_debug(
 
 
 async def test_enable_coalesce(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -582,7 +582,7 @@ async def test_enable_coalesce(
 
 
 async def test_binary_message(
-    hass: __HAC_KEEP__, websocket_client, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, websocket_client, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test binary messages."""
     binary_payloads = {
@@ -598,13 +598,13 @@ async def test_binary_message(
         }
     )
     def get_binary_message_handler(
-        hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+        hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
     ):
         unsub = None
 
         @callback
         def binary_message_handler(
-            hass: __HAC_KEEP__, connection: ActiveConnection, payload: bytes
+            hass: UniversalAssistant, connection: ActiveConnection, payload: bytes
         ):
             nonlocal unsub
             if msg["id"] == 103:
@@ -656,7 +656,7 @@ async def test_binary_message(
 
 
 async def test_enable_disable_debug_logging(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     websocket_client: MockHAClientWebSocket,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -681,7 +681,7 @@ async def test_enable_disable_debug_logging(
 
 
 async def test_received_secrets_are_redacted_in_debug_log(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_access_token: str,
     caplog: pytest.LogCaptureFixture,

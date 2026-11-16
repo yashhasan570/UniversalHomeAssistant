@@ -5,8 +5,8 @@ from typing import Any, override
 from gardena_bluetooth.const import Valve
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import GardenaBluetoothConfigEntry, GardenaBluetoothCoordinator
@@ -14,7 +14,7 @@ from .entity import GardenaBluetoothEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: GardenaBluetoothConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -62,7 +62,7 @@ class GardenaBluetoothValveSwitch(GardenaBluetoothEntity, SwitchEntity):
         """Turn the entity on."""
         value = self.coordinator.get_cached(Valve.manual_watering_time)
         if value is None:
-            raise __HAC_KEEP__Error("Unable to get manual activation time.")
+            raise UniversalAssistantError("Unable to get manual activation time.")
 
         await self.coordinator.write(Valve.remaining_open_time, value)
         self._attr_is_on = True

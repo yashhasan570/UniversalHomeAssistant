@@ -6,8 +6,8 @@ from aioridwell.errors import RidwellError
 from aioridwell.model import EventState, RidwellAccount
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import RidwellConfigEntry, RidwellDataUpdateCoordinator
@@ -20,7 +20,7 @@ SWITCH_DESCRIPTION = SwitchEntityDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: RidwellConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -60,7 +60,7 @@ class RidwellSwitch(RidwellEntity, SwitchEntity):
         try:
             await self.next_pickup_event.async_opt_out()
         except RidwellError as err:
-            raise __HAC_KEEP__Error(f"Error while opting out: {err}") from err
+            raise UniversalAssistantError(f"Error while opting out: {err}") from err
 
         await self.coordinator.async_request_refresh()
 
@@ -70,6 +70,6 @@ class RidwellSwitch(RidwellEntity, SwitchEntity):
         try:
             await self.next_pickup_event.async_opt_in()
         except RidwellError as err:
-            raise __HAC_KEEP__Error(f"Error while opting in: {err}") from err
+            raise UniversalAssistantError(f"Error while opting in: {err}") from err
 
         await self.coordinator.async_request_refresh()

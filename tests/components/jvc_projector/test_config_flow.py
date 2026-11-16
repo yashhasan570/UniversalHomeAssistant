@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.jvc_projector.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import MOCK_HOST, MOCK_MAC_FORMATED, MOCK_PASSWORD, MOCK_PORT
@@ -30,7 +30,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 @pytest.mark.parametrize("mock_device", [{"target": TARGET}], indirect=True)
 async def test_user_config_flow_success(
-    hass: __HAC_KEEP__, mock_device: AsyncMock
+    hass: UniversalAssistant, mock_device: AsyncMock
 ) -> None:
     """Test user config flow success."""
     result = await hass.config_entries.flow.async_init(
@@ -59,7 +59,7 @@ async def test_user_config_flow_success(
 
 @pytest.mark.parametrize("mock_device", [{"target": TARGET}], indirect=True)
 async def test_user_config_flow_bad_connect_errors(
-    hass: __HAC_KEEP__, mock_device: AsyncMock
+    hass: UniversalAssistant, mock_device: AsyncMock
 ) -> None:
     """Test errors when connection error occurs."""
     mock_device.connect.side_effect = JvcProjectorTimeoutError
@@ -106,7 +106,7 @@ async def test_user_config_flow_bad_connect_errors(
 
 @pytest.mark.parametrize("mock_device", [{"target": TARGET}], indirect=True)
 async def test_user_config_flow_device_exists_abort(
-    hass: __HAC_KEEP__, mock_device: AsyncMock, mock_integration: MockConfigEntry
+    hass: UniversalAssistant, mock_device: AsyncMock, mock_integration: MockConfigEntry
 ) -> None:
     """Test flow aborts when device already configured."""
     result = await hass.config_entries.flow.async_init(
@@ -130,7 +130,7 @@ async def test_user_config_flow_device_exists_abort(
 
 @pytest.mark.parametrize("mock_device", [{"target": TARGET}], indirect=True)
 async def test_user_config_flow_bad_host_errors(
-    hass: __HAC_KEEP__, mock_device: AsyncMock
+    hass: UniversalAssistant, mock_device: AsyncMock
 ) -> None:
     """Test errors when bad host error occurs."""
     result = await hass.config_entries.flow.async_init(
@@ -169,7 +169,7 @@ async def test_user_config_flow_bad_host_errors(
 
 @pytest.mark.parametrize("mock_device", [{"target": TARGET}], indirect=True)
 async def test_user_config_flow_bad_auth_errors(
-    hass: __HAC_KEEP__, mock_device: AsyncMock
+    hass: UniversalAssistant, mock_device: AsyncMock
 ) -> None:
     """Test errors when bad auth error occurs."""
     mock_device.connect.side_effect = JvcProjectorAuthError
@@ -216,7 +216,7 @@ async def test_user_config_flow_bad_auth_errors(
 
 @pytest.mark.parametrize("mock_device", [{"target": TARGET}], indirect=True)
 async def test_reauth_config_flow_success(
-    hass: __HAC_KEEP__, mock_device: AsyncMock, mock_integration: MockConfigEntry
+    hass: UniversalAssistant, mock_device: AsyncMock, mock_integration: MockConfigEntry
 ) -> None:
     """Test reauth config flow success."""
     result = await mock_integration.start_reauth_flow(hass)
@@ -238,7 +238,7 @@ async def test_reauth_config_flow_success(
 
 @pytest.mark.parametrize("mock_device", [{"target": TARGET}], indirect=True)
 async def test_reauth_config_flow_auth_error(
-    hass: __HAC_KEEP__, mock_device: AsyncMock, mock_integration: MockConfigEntry
+    hass: UniversalAssistant, mock_device: AsyncMock, mock_integration: MockConfigEntry
 ) -> None:
     """Test reauth config flow when connect fails."""
     mock_device.connect.side_effect = JvcProjectorAuthError
@@ -279,7 +279,7 @@ async def test_reauth_config_flow_auth_error(
 
 @pytest.mark.parametrize("mock_device", [{"target": TARGET}], indirect=True)
 async def test_reauth_config_flow_connect_error(
-    hass: __HAC_KEEP__, mock_device: AsyncMock, mock_integration: MockConfigEntry
+    hass: UniversalAssistant, mock_device: AsyncMock, mock_integration: MockConfigEntry
 ) -> None:
     """Test reauth config flow when connect fails."""
     mock_device.connect.side_effect = JvcProjectorTimeoutError

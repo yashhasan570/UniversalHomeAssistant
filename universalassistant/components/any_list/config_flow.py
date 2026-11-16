@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_EMAIL,
     CONF_PASSWORD,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.selector import (
     TextSelector,
@@ -51,7 +51,7 @@ class AnyListAuthData:
 
 
 async def validate_input(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     user_input: dict[str, str],
     *,
     client_id: str | None = None,

@@ -1,7 +1,7 @@
 """The Meater Temperature Probe integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import MEATER_DATA
 from .coordinator import MeaterConfigEntry, MeaterCoordinator
@@ -9,7 +9,7 @@ from .coordinator import MeaterConfigEntry, MeaterCoordinator
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: MeaterConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: MeaterConfigEntry) -> None:
     """Set up Meater Temperature Probe from a config entry."""
 
     coordinator = MeaterCoordinator(hass, entry)
@@ -22,7 +22,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: MeaterConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: MeaterConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: MeaterConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     hass.data[MEATER_DATA] = hass.data[MEATER_DATA] - entry.runtime_data.found_probes

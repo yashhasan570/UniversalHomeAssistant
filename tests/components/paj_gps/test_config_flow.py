@@ -12,7 +12,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.paj_gps.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 VALID_USER_INPUT = {
@@ -30,7 +30,7 @@ VALID_USER_INPUT = {
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_user_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_paj_gps_api: AsyncMock,
     raw_email: str,
     expected_email: str,
@@ -54,7 +54,7 @@ async def test_full_user_flow(
 
 
 async def test_duplicate_email_aborts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_paj_gps_api: AsyncMock,
 ) -> None:
@@ -82,7 +82,7 @@ async def test_duplicate_email_aborts(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_invalid_credentials_shows_form_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_paj_gps_api: AsyncMock,
     side_effect: Exception,
     expected_error: str,

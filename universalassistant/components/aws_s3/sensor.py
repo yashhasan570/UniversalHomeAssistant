@@ -10,7 +10,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
 )
 from universalassistant.const import EntityCategory, UnitOfInformation
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -43,7 +43,7 @@ SENSORS: tuple[S3SensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: S3ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

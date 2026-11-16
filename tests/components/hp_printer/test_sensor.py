@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.hp_printer.coordinator import UPDATE_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -36,7 +36,7 @@ def platforms() -> Generator[None]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_hp_printer")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -48,7 +48,7 @@ async def test_all_entities(
 
 
 async def test_sensors_added_when_data_appears(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hp_printer: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_data: HpPrinterData,
@@ -95,7 +95,7 @@ async def test_sensors_added_when_data_appears(
     ],
 )
 async def test_status_not_reported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hp_printer: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_data: HpPrinterData,
@@ -110,7 +110,7 @@ async def test_status_not_reported(
 
 
 async def test_consumable_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hp_printer: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_data: HpPrinterData,

@@ -24,12 +24,12 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
-async def test_setup_missing_basic_config(hass: __HAC_KEEP__) -> None:
+async def test_setup_missing_basic_config(hass: UniversalAssistant) -> None:
     """Test setup with configuration missing required entries."""
     assert await async_setup_component(
         hass, BINARY_SENSOR_DOMAIN, {BINARY_SENSOR_DOMAIN: {"platform": DOMAIN}}
@@ -38,7 +38,7 @@ async def test_setup_missing_basic_config(hass: __HAC_KEEP__) -> None:
     assert len(hass.states.async_all(BINARY_SENSOR_DOMAIN)) == 0
 
 
-async def test_setup_missing_config(hass: __HAC_KEEP__) -> None:
+async def test_setup_missing_config(hass: UniversalAssistant) -> None:
     """Test setup with configuration missing required entries."""
     assert await async_setup_component(
         hass,
@@ -56,7 +56,7 @@ async def test_setup_missing_config(hass: __HAC_KEEP__) -> None:
 
 
 async def test_setup_failed_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -80,7 +80,7 @@ async def test_setup_failed_connect(
 
 
 async def test_setup_fail_on_ssl_erros(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -103,7 +103,7 @@ async def test_setup_fail_on_ssl_erros(
 
 
 async def test_setup_timeout(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup when connection timeout occurs."""
     aioclient_mock.get("http://localhost", exc=TimeoutError())
@@ -123,7 +123,7 @@ async def test_setup_timeout(
 
 
 async def test_setup_minimum(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with minimum configuration."""
     aioclient_mock.get("http://localhost", status=HTTPStatus.OK)
@@ -143,7 +143,7 @@ async def test_setup_minimum(
 
 
 async def test_setup_minimum_resource_template(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with minimum configuration (resource_template)."""
     aioclient_mock.get("http://localhost", status=HTTPStatus.OK)
@@ -162,7 +162,7 @@ async def test_setup_minimum_resource_template(
 
 
 async def test_setup_duplicate_resource_template(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with duplicate resources."""
     aioclient_mock.get("http://localhost", status=HTTPStatus.OK)
@@ -182,7 +182,7 @@ async def test_setup_duplicate_resource_template(
 
 
 async def test_setup_get(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with valid configuration."""
     aioclient_mock.get("http://localhost", status=HTTPStatus.OK, json={})
@@ -216,7 +216,7 @@ async def test_setup_get(
 
 
 async def test_setup_get_template_headers_params(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with valid configuration."""
     aioclient_mock.get("http://localhost", status=200, json={})
@@ -254,7 +254,7 @@ async def test_setup_get_template_headers_params(
 
 
 async def test_setup_get_digest_auth(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with valid configuration."""
     aioclient_mock.get("http://localhost", status=HTTPStatus.OK, json={})
@@ -283,7 +283,7 @@ async def test_setup_get_digest_auth(
 
 
 async def test_setup_post(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with valid configuration."""
     aioclient_mock.post("http://localhost", status=HTTPStatus.OK, json={})
@@ -312,7 +312,7 @@ async def test_setup_post(
 
 
 async def test_setup_get_off(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with valid off configuration."""
     aioclient_mock.get(
@@ -344,7 +344,7 @@ async def test_setup_get_off(
 
 
 async def test_setup_get_on(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with valid on configuration."""
     aioclient_mock.get(
@@ -376,7 +376,7 @@ async def test_setup_get_on(
 
 
 async def test_setup_get_xml(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with valid xml configuration."""
     aioclient_mock.get(
@@ -415,7 +415,7 @@ async def test_setup_get_xml(
     ],
 )
 async def test_setup_get_bad_xml(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
     content: str,
@@ -452,7 +452,7 @@ async def test_setup_get_bad_xml(
 
 
 async def test_setup_with_exception(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with exception."""
     aioclient_mock.get("http://localhost", status=HTTPStatus.OK, json={})
@@ -494,7 +494,7 @@ async def test_setup_with_exception(
     assert state.state == STATE_UNAVAILABLE
 
 
-async def test_reload(hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker) -> None:
+async def test_reload(hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker) -> None:
     """Verify we can reload reset sensors."""
 
     aioclient_mock.get("http://localhost", status=HTTPStatus.OK)
@@ -534,7 +534,7 @@ async def test_reload(hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker) -
 
 
 async def test_setup_query_params(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with query params."""
     aioclient_mock.get("http://localhost?search=something", status=HTTPStatus.OK)
@@ -555,7 +555,7 @@ async def test_setup_query_params(
 
 
 async def test_entity_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -594,7 +594,7 @@ async def test_entity_config(
 
 
 async def test_availability_in_config(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test entity configuration."""
 
@@ -619,7 +619,7 @@ async def test_availability_in_config(
 
 
 async def test_availability_blocks_value_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -669,7 +669,7 @@ async def test_availability_blocks_value_template(
 
 
 async def test_setup_get_basic_auth_utf8(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with basic auth using UTF-8 characters."""
     # Use a password with the Unicode character \u2018 (left single quotation mark)

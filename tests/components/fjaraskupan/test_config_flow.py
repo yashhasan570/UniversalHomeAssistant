@@ -8,7 +8,7 @@ from pytest_universalassistant.components.bluetooth import inject_bluetooth_serv
 
 from universalassistant import config_entries
 from universalassistant.components.fjaraskupan.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import COOKER_SERVICE_INFO, COOKER_SERVICE_INFO_DATA
@@ -24,7 +24,7 @@ def fixture_mock_setup_entry() -> Generator[AsyncMock]:
         yield mock_setup_entry
 
 
-async def test_configure(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_configure(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
     with patch(
         "universalassistant.components.fjaraskupan.config_flow.async_discovered_service_info",
@@ -45,7 +45,7 @@ async def test_configure(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> Non
         assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_scan_no_devices(hass: __HAC_KEEP__) -> None:
+async def test_scan_no_devices(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     with patch(
@@ -63,7 +63,7 @@ async def test_scan_no_devices(hass: __HAC_KEEP__) -> None:
         assert result["reason"] == "no_devices_found"
 
 
-async def test_discovery(hass: __HAC_KEEP__) -> None:
+async def test_discovery(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     inject_bluetooth_service_info(
@@ -81,7 +81,7 @@ async def test_discovery(hass: __HAC_KEEP__) -> None:
     assert result["data"] == {}
 
 
-async def test_discovery_ignored_without_service(hass: __HAC_KEEP__) -> None:
+async def test_discovery_ignored_without_service(hass: UniversalAssistant) -> None:
     """Test we don't start discovery on only manufacturer data since that can be invalid."""
 
     inject_bluetooth_service_info(

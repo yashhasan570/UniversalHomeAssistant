@@ -12,7 +12,7 @@ from universalassistant import config_entries
 from universalassistant.components.uptimerobot.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 MOCK_UPTIMEROBOT_API_KEY = "u0242ac120003"
 MOCK_UPTIMEROBOT_API_KEY_READ_ONLY = "ur0242ac120003"
@@ -99,7 +99,7 @@ def mock_uptimerobot_api_response(
     )
 
 
-async def setup_uptimerobot_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def setup_uptimerobot_integration(hass: UniversalAssistant) -> MockConfigEntry:
     """Set up the UptimeRobot integration."""
     mock_entry = MockConfigEntry(**MOCK_UPTIMEROBOT_CONFIG_ENTRY_DATA)
     mock_entry.add_to_hass(hass)

@@ -1,10 +1,10 @@
-"""Sensor that can display the current __HA_KEEP__ versions."""
+"""Sensor that can display the current Universal Home Assistant versions."""
 
 from typing import Any, override
 
 from universalassistant.components.sensor import SensorEntity, SensorEntityDescription
 from universalassistant.const import CONF_NAME, CONF_SOURCE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -14,7 +14,7 @@ from .entity import VersionEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: VersionConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

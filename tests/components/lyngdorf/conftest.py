@@ -27,7 +27,7 @@ from universalassistant.components.lyngdorf.const import (
     PLATFORMS,
 )
 from universalassistant.const import CONF_HOST, CONF_MODEL, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture(autouse=True)
@@ -279,7 +279,7 @@ def platforms() -> list[Platform]:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
     platforms: list[Platform],

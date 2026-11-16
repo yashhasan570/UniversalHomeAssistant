@@ -17,7 +17,7 @@ from universalassistant.const import (
     HTTP_DIGEST_AUTHENTICATION,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.typing import ConfigType
@@ -39,13 +39,13 @@ LOGGER = logging.getLogger(__name__)
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the ONVIF integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ONVIFConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ONVIFConfigEntry) -> None:
     """Set up ONVIF from a config entry."""
     if not entry.options:
         await async_populate_options(hass, entry)
@@ -117,7 +117,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ONVIFConfigEntry) -> None
     )
 
 
-async def _async_stop_device(hass: __HAC_KEEP__, device: ONVIFDevice) -> None:
+async def _async_stop_device(hass: UniversalAssistant, device: ONVIFDevice) -> None:
     """Stop the ONVIF device."""
     if device.capabilities.events and device.events.started:
         try:
@@ -127,7 +127,7 @@ async def _async_stop_device(hass: __HAC_KEEP__, device: ONVIFDevice) -> None:
     await device.device.close()
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ONVIFConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ONVIFConfigEntry) -> None:
     """Unload a config entry."""
     device = entry.runtime_data
     await _async_stop_device(hass, device)
@@ -153,7 +153,7 @@ async def _get_snapshot_auth(device: ONVIFDevice) -> str | None:
 
 
 async def async_populate_snapshot_auth(
-    hass: __HAC_KEEP__, device: ONVIFDevice, entry: ONVIFConfigEntry
+    hass: UniversalAssistant, device: ONVIFDevice, entry: ONVIFConfigEntry
 ) -> None:
     """Check if digest auth for snapshots is possible."""
     if auth := await _get_snapshot_auth(device):
@@ -162,7 +162,7 @@ async def async_populate_snapshot_auth(
         )
 
 
-async def async_populate_options(hass: __HAC_KEEP__, entry: ONVIFConfigEntry) -> None:
+async def async_populate_options(hass: UniversalAssistant, entry: ONVIFConfigEntry) -> None:
     """Populate default options for device."""
     options = {
         CONF_EXTRA_ARGUMENTS: DEFAULT_ARGUMENTS,
@@ -175,7 +175,7 @@ async def async_populate_options(hass: __HAC_KEEP__, entry: ONVIFConfigEntry) ->
 
 @callback
 def _async_migrate_camera_entities_unique_ids(
-    hass: __HAC_KEEP__, config_entry: ONVIFConfigEntry, device: ONVIFDevice
+    hass: UniversalAssistant, config_entry: ONVIFConfigEntry, device: ONVIFDevice
 ) -> None:
     """Migrate unique ids of camera entities from profile index to profile token."""
     entity_reg = er.async_get(hass)

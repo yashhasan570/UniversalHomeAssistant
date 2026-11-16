@@ -10,14 +10,14 @@ from universalassistant import config_entries
 from universalassistant.components.snoo.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import create_entry
 
 
 async def test_config_flow_success(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, bypass_api: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, bypass_api: AsyncMock
 ) -> None:
     """Test we create the entry successfully."""
     result = await hass.config_entries.flow.async_init(
@@ -54,7 +54,7 @@ async def test_config_flow_success(
     ],
 )
 async def test_form_auth_issues(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     bypass_api: AsyncMock,
     exception,
@@ -96,7 +96,7 @@ async def test_form_auth_issues(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_account_already_configured(
-    hass: __HAC_KEEP__, bypass_api: AsyncMock
+    hass: UniversalAssistant, bypass_api: AsyncMock
 ) -> None:
     """Ensure we abort if the config flow already exists."""
     create_entry(hass)
@@ -119,7 +119,7 @@ async def test_account_already_configured(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_reauth(hass: __HAC_KEEP__, bypass_api: AsyncMock) -> None:
+async def test_reauth(hass: UniversalAssistant, bypass_api: AsyncMock) -> None:
     """Test a successful reauthentication flow."""
     entry = create_entry(hass)
     result = await entry.start_reauth_flow(hass)
@@ -149,7 +149,7 @@ async def test_reauth(hass: __HAC_KEEP__, bypass_api: AsyncMock) -> None:
     ],
 )
 async def test_reauth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     bypass_api: AsyncMock,
     exception: type[Exception],
     error_msg: str,
@@ -177,7 +177,7 @@ async def test_reauth_errors(
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "bypass_api")
-async def test_reauth_unique_id_mismatch(hass: __HAC_KEEP__) -> None:
+async def test_reauth_unique_id_mismatch(hass: UniversalAssistant) -> None:
     """Test reauthentication aborts when the credentials belong to another account."""
     entry = MockConfigEntry(
         domain=DOMAIN,

@@ -19,7 +19,7 @@ from nice_go import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -61,7 +61,7 @@ class NiceGOUpdateCoordinator(DataUpdateCoordinator[dict[str, NiceGODevice]]):
     config_entry: NiceGOConfigEntry
     organization_id: str
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: NiceGOConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: NiceGOConfigEntry) -> None:
         """Initialize DataUpdateCoordinator for Nice G.O."""
         super().__init__(hass, _LOGGER, config_entry=config_entry, name="Nice G.O.")
 

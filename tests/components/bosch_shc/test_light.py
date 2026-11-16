@@ -19,7 +19,7 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import (
     micromodule_dimmer_device,
@@ -48,7 +48,7 @@ def platforms() -> Generator[None]:
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_dimmer_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The dimmer reports its on/off state and brightness."""
@@ -67,7 +67,7 @@ async def test_dimmer_state(
     indirect=True,
 )
 async def test_dimmer_turn_on_with_brightness(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -93,7 +93,7 @@ async def test_dimmer_turn_on_with_brightness(
     indirect=True,
 )
 async def test_dimmer_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -124,7 +124,7 @@ async def test_dimmer_turn_off(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_motion_light_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The orientation light reports its on/off state and brightness."""
@@ -144,7 +144,7 @@ async def test_motion_light_state(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_motion_light_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

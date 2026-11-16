@@ -10,8 +10,8 @@ import tibber
 
 from universalassistant.components.tibber.const import DOMAIN
 from universalassistant.components.tibber.services import TibberService
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 
 START_TIME = dt.datetime.fromtimestamp(1615766400).replace(tzinfo=dt.UTC)
 
@@ -71,7 +71,7 @@ def generate_mock_home_data():
 )
 async def test_get_prices(
     mock_tibber_setup: MagicMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     data,
 ) -> None:
@@ -112,7 +112,7 @@ async def test_get_prices(
 
 async def test_get_prices_start_tomorrow(
     mock_tibber_setup: MagicMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test get_prices with start date tomorrow."""
@@ -167,7 +167,7 @@ async def test_get_prices_start_tomorrow(
 )
 async def test_get_prices_with_timezones(
     mock_tibber_setup: MagicMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     start_time: str,
 ) -> None:
@@ -228,7 +228,7 @@ async def test_get_prices_with_timezones(
 )
 async def test_get_prices_with_wrong_timezones(
     mock_tibber_setup: MagicMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     start_time: str,
 ) -> None:
@@ -252,7 +252,7 @@ async def test_get_prices_with_wrong_timezones(
 
 async def test_get_prices_invalid_input(
     mock_tibber_setup: MagicMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test get_prices with invalid input."""
 
@@ -278,11 +278,11 @@ async def test_get_prices_invalid_input(
 )
 async def test_get_prices_refresh_raises_handled_exception(
     mock_tibber_setup: MagicMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     exception: Exception,
 ) -> None:
-    """When price refresh fails with handled exceptions, raise __HAC_KEEP__Error."""
+    """When price refresh fails with handled exceptions, raise UniversalAssistantError."""
     freezer.move_to(START_TIME)
     mock_home = MagicMock()
     mock_home.name = "home"
@@ -290,7 +290,7 @@ async def test_get_prices_refresh_raises_handled_exception(
     mock_home.update_info_and_price_info = AsyncMock(side_effect=exception)
     mock_tibber_setup.get_homes.return_value = [mock_home]
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             TibberService.GET_PRICES,

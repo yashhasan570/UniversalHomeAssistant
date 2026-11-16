@@ -40,7 +40,7 @@ from universalassistant.config_entries import (
     ConfigEntryState,
 )
 from universalassistant.const import CONF_TOKEN, __version__ as HA_VERSION
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.dispatcher import (
@@ -242,7 +242,7 @@ REPOSITORY_COMMANDS: tuple[tuple[str, str, dict[str, Any]], ...] = (
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_commands_require_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
     message: dict[str, Any],
@@ -266,7 +266,7 @@ async def test_commands_require_admin(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_unknown_repository(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     command: str,
     field: str,
@@ -289,7 +289,7 @@ async def test_unknown_repository(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -316,7 +316,7 @@ async def test_info(
 
 
 async def test_info_follows_the_loaded_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -343,7 +343,7 @@ async def test_info_follows_the_loaded_entry(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_subscribe(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that a subscription forwards the Marketplace events."""
     client = await hass_ws_client(hass)
@@ -364,7 +364,7 @@ async def test_subscribe(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_subscribe_to_another_signal(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test a subscription only forwards the signals of the Marketplace."""
     client = await hass_ws_client(hass)
@@ -391,7 +391,7 @@ async def test_subscribe_to_another_signal(
     ],
 )
 async def test_commands_refuse_a_version_that_is_a_path(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     message: dict[str, Any],
@@ -410,7 +410,7 @@ async def test_commands_refuse_a_version_that_is_a_path(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_repository_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -438,7 +438,7 @@ async def test_repository_info(
     ],
 )
 async def test_repository_info_names_the_update_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
@@ -469,7 +469,7 @@ async def test_repository_info_names_the_update_entity(
     ],
 )
 async def test_repository_info_replaces_built_in(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     domain: str | None,
@@ -494,7 +494,7 @@ async def test_repository_info_replaces_built_in(
 
 
 async def test_repository_info_clears_new(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -515,7 +515,7 @@ async def test_repository_info_clears_new(
 
 
 async def test_repository_info_survives_a_broken_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
@@ -540,7 +540,7 @@ async def test_repository_info_survives_a_broken_update(
 
 
 async def test_repositories_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -557,7 +557,7 @@ async def test_repositories_list(
 
 
 async def test_repositories_list_without_a_description(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -580,7 +580,7 @@ async def test_repositories_list_without_a_description(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_repositories_list_by_category(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test listing the repositories of a single category."""
     client = await hass_ws_client(hass)
@@ -597,7 +597,7 @@ async def test_repositories_list_by_category(
 
 
 async def test_repositories_list_ignores_country(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -621,7 +621,7 @@ async def test_repositories_list_ignores_country(
 
 
 async def test_removing_a_custom_repository_tells_the_panel(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -647,7 +647,7 @@ async def test_removing_a_custom_repository_tells_the_panel(
 
 
 async def test_repositories_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -668,7 +668,7 @@ async def test_repositories_removed(
 
 
 async def test_repositories_removed_skips_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -687,7 +687,7 @@ async def test_repositories_removed_skips_ignored(
 
 
 async def test_repositories_clear_new_for_categories(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -708,7 +708,7 @@ async def test_repositories_clear_new_for_categories(
 
 
 async def test_repositories_clear_new_for_one_repository(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -743,7 +743,7 @@ async def test_repositories_clear_new_for_one_repository(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_repositories_detect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     repository: str,
     categories: list[str],
@@ -776,11 +776,11 @@ async def test_repositories_detect(
             id="not_a_link",
         ),
         pytest.param(
-            "https://github.com/yashhasan570/__HAC_KEEP__",
+            "https://github.com/yashhasan570/UniversalUniversalAssistant",
             translated_error(
                 "core_repository",
                 "core_repository",
-                "The integrations of __HA_KEEP__ itself come with Home"
+                "The integrations of Universal Home Assistant itself come with Home"
                 " Assistant, there is nothing to add",
             ),
             id="core",
@@ -800,7 +800,7 @@ async def test_repositories_detect(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_repositories_detect_refused(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     repository: str,
     error: dict[str, Any],
@@ -818,7 +818,7 @@ async def test_repositories_detect_refused(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_repositories_detect_what_github_does_not_know(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     response_mocker: MarketplaceResponses,
 ) -> None:
@@ -846,7 +846,7 @@ async def test_repositories_detect_what_github_does_not_know(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_repositories_add_existing(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test adding a repository the Marketplace already knows is answered."""
     client = await hass_ws_client(hass)
@@ -870,7 +870,7 @@ async def test_repositories_add_existing(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_repositories_add_unknown_category(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test adding a repository to a category that is not active is refused."""
     client = await hass_ws_client(hass)
@@ -896,7 +896,7 @@ async def test_repositories_add_unknown_category(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_repositories_add_invalid_url(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that a URL no repository can be read from is answered."""
     client = await hass_ws_client(hass)
@@ -920,7 +920,7 @@ async def test_repositories_add_invalid_url(
 
 
 async def test_repositories_remove(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -941,7 +941,7 @@ async def test_repositories_remove(
 
 
 async def test_repositories_remove_refuses_installed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -964,7 +964,7 @@ async def test_repositories_remove_refuses_installed(
 
 
 async def test_repository_ignore(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -983,7 +983,7 @@ async def test_repository_ignore(
 
 
 async def test_repository_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1007,7 +1007,7 @@ async def test_repository_version(
 
 
 async def test_repository_version_default_branch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1030,7 +1030,7 @@ async def test_repository_version_default_branch(
 
 
 async def test_repository_beta(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1052,7 +1052,7 @@ async def test_repository_beta(
 
 
 async def test_repository_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1077,7 +1077,7 @@ async def test_repository_refresh(
 
 
 async def test_repository_install(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1105,7 +1105,7 @@ async def test_repository_install(
     ],
 )
 async def test_install_replacing_a_built_in_needs_confirmation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     message: dict[str, Any],
@@ -1130,7 +1130,7 @@ async def test_install_replacing_a_built_in_needs_confirmation(
 
 
 async def test_install_confirms_the_domain_of_the_version_it_writes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1160,7 +1160,7 @@ async def test_install_confirms_the_domain_of_the_version_it_writes(
 
 
 async def test_update_replacing_a_built_in_needs_no_new_confirmation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1186,7 +1186,7 @@ async def test_update_replacing_a_built_in_needs_no_new_confirmation(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_repositories_add_invalid_repository(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test adding a repository that fails validation answers why."""
     client = await hass_ws_client(hass)
@@ -1224,7 +1224,7 @@ async def test_repositories_add_invalid_repository(
 
 
 async def test_repository_install_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1256,7 +1256,7 @@ async def test_repository_install_failure(
 
 
 async def test_repository_uninstall(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1286,7 +1286,7 @@ async def test_repository_uninstall(
 
 
 async def test_repository_uninstall_of_what_is_not_installed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1320,7 +1320,7 @@ async def test_repository_uninstall_of_what_is_not_installed(
     ],
 )
 async def test_repository_uninstall_refused_while_in_use(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     source: str,
@@ -1350,7 +1350,7 @@ async def test_repository_uninstall_refused_while_in_use(
 
 
 async def test_repository_releases(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1375,7 +1375,7 @@ async def test_repository_releases(
 
 
 async def test_repository_releases_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1406,7 +1406,7 @@ async def test_repository_releases_failure(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_critical_list_without_data(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test listing critical repositories before any were stored."""
     client = await hass_ws_client(hass)
@@ -1420,7 +1420,7 @@ async def test_critical_list_without_data(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_critical_list(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test listing the stored critical repositories."""
     await async_save_to_storage(hass, "critical", [CRITICAL_REPOSITORY])
@@ -1435,7 +1435,7 @@ async def test_critical_list(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_critical_acknowledge(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test acknowledging a critical repository."""
     await async_save_to_storage(hass, "critical", [CRITICAL_REPOSITORY])
@@ -1455,7 +1455,7 @@ async def test_critical_acknowledge(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_critical_acknowledge_unknown_repository(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test acknowledging a repository that is not critical."""
     await async_save_to_storage(hass, "critical", [CRITICAL_REPOSITORY])
@@ -1472,7 +1472,7 @@ async def test_critical_acknowledge_unknown_repository(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_critical_acknowledge_without_a_repository(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that the command needs to know what to acknowledge."""
     client = await hass_ws_client(hass)
@@ -1485,7 +1485,7 @@ async def test_critical_acknowledge_without_a_repository(
 
 
 @pytest.mark.usefixtures("init_integration")
-async def test_registered_commands(hass: __HAC_KEEP__) -> None:
+async def test_registered_commands(hass: UniversalAssistant) -> None:
     """Test that every Marketplace command is registered on the connection."""
     handlers = hass.data["websocket_api"]
 
@@ -1496,7 +1496,7 @@ async def test_registered_commands(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_categories_are_reported(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that the active categories are part of the Marketplace information."""
     client = await hass_ws_client(hass)
@@ -1521,7 +1521,7 @@ async def test_categories_are_reported(
     ],
 )
 async def test_commands_before_the_marketplace_is_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     message: dict[str, Any],
 ) -> None:
@@ -1544,7 +1544,7 @@ async def test_commands_before_the_marketplace_is_loaded(
 @pytest.mark.parametrize("github_token", [None])
 @pytest.mark.usefixtures("init_integration")
 async def test_info_without_github(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the information tells the panel no GitHub account is connected."""
     client = await hass_ws_client(hass)
@@ -1564,7 +1564,7 @@ async def test_info_without_github(
 @pytest.mark.parametrize("github_token", [None])
 @pytest.mark.usefixtures("init_integration")
 async def test_commands_need_github(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
     message: dict[str, Any],
@@ -1586,7 +1586,7 @@ async def test_commands_need_github(
 
 @pytest.mark.parametrize("github_token", [None])
 async def test_connect_github(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_integration: MockConfigEntry,
     github_device_client: AsyncMock,
@@ -1637,7 +1637,7 @@ async def test_connect_github(
 )
 @pytest.mark.parametrize("github_token", [None])
 async def test_commands_without_github(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     message: dict[str, Any],
@@ -1680,7 +1680,7 @@ async def test_commands_without_github(
 )
 @pytest.mark.parametrize("github_token", [None])
 async def test_commands_rate_limited_without_github(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     response_mocker: MarketplaceResponses,
@@ -1722,7 +1722,7 @@ async def test_commands_rate_limited_without_github(
     ],
 )
 async def test_commands_roll_back_when_the_refresh_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     message: dict[str, Any],
@@ -1746,7 +1746,7 @@ async def test_commands_roll_back_when_the_refresh_fails(
 
 @pytest.mark.parametrize("github_token", [None])
 async def test_repository_releases_rate_limited_without_github(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     response_mocker: MarketplaceResponses,
@@ -1776,7 +1776,7 @@ async def test_repository_releases_rate_limited_without_github(
 
 @pytest.mark.usefixtures("marketplace")
 async def test_repository_releases_rate_limited_with_github(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     response_mocker: MarketplaceResponses,
 ) -> None:
@@ -1803,7 +1803,7 @@ async def test_repository_releases_rate_limited_with_github(
 
 @pytest.mark.parametrize("github_token", [None])
 async def test_repository_info_rate_limited_without_github(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     response_mocker: MarketplaceResponses,
@@ -1835,7 +1835,7 @@ async def test_repository_info_rate_limited_without_github(
 
 @pytest.mark.parametrize("github_token", [None])
 async def test_repository_info_shows_the_readme_when_rate_limited(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     response_mocker: MarketplaceResponses,
@@ -1870,7 +1870,7 @@ async def test_repository_info_shows_the_readme_when_rate_limited(
 @pytest.mark.parametrize("github_token", [None])
 @pytest.mark.usefixtures("stored_repositories")
 async def test_repository_uninstall_without_github(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
@@ -1900,7 +1900,7 @@ async def test_repository_uninstall_without_github(
 @pytest.mark.parametrize("warning_accepted", [None])
 @pytest.mark.usefixtures("init_integration")
 async def test_commands_need_accepted_warning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
     message: dict[str, Any],
@@ -1938,7 +1938,7 @@ async def test_commands_need_accepted_warning(
 @pytest.mark.parametrize("warning_accepted", [None])
 @pytest.mark.usefixtures("init_integration")
 async def test_commands_without_accepted_warning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     message: dict[str, Any],
 ) -> None:
@@ -1960,7 +1960,7 @@ async def test_commands_without_accepted_warning(
 @pytest.mark.parametrize("warning_accepted", [None])
 @pytest.mark.usefixtures("frozen_time")
 async def test_accept_warning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
     init_integration: MockConfigEntry,
@@ -2004,7 +2004,7 @@ async def test_accept_warning(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_newer_warning_needs_accepting_again(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
     init_integration: MockConfigEntry,
@@ -2033,7 +2033,7 @@ async def test_newer_warning_needs_accepting_again(
 
 
 async def test_warning_accepted_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
     init_integration: MockConfigEntry,
@@ -2060,7 +2060,7 @@ async def test_warning_accepted_once(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_warning_is_accepted_per_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     second_admin_token: str,
     freezer: FrozenDateTimeFactory,
@@ -2093,7 +2093,7 @@ async def test_warning_is_accepted_per_user(
 @pytest.mark.parametrize("config_entry_source", [SOURCE_SYSTEM])
 @pytest.mark.parametrize("warning_accepted", [None])
 async def test_accept_warning_requires_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
     init_integration: MockConfigEntry,

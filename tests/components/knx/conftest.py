@@ -55,7 +55,7 @@ from universalassistant.components.knx.storage.config_store import (
     STORAGE_KEY as KNX_CONFIG_STORAGE_KEY,
 )
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.setup import async_setup_component
@@ -122,12 +122,12 @@ class KNXTestKit:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         mock_config_entry: MockConfigEntry,
         hass_storage: dict[str, Any],
     ) -> None:
         """Init KNX test helper class."""
-        self.hass: __HAC_KEEP__ = hass
+        self.hass: UniversalAssistant = hass
         self.mock_config_entry: MockConfigEntry = mock_config_entry
         self.hass_storage: dict[str, Any] = hass_storage
         self.xknx: XKNX
@@ -447,7 +447,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 @pytest.fixture
 async def knx(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     hass_storage: dict[str, Any],
 ):
@@ -458,7 +458,7 @@ async def knx(
 
 
 @pytest.fixture
-async def project_data(hass: __HAC_KEEP__) -> dict[str, Any]:
+async def project_data(hass: UniversalAssistant) -> dict[str, Any]:
     """Return the fixture project data."""
     return await async_load_json_object_fixture(hass, "project.json", DOMAIN)
 
@@ -476,7 +476,7 @@ async def load_knxproj(
 
 @pytest.fixture
 async def create_ui_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
@@ -520,7 +520,7 @@ async def create_ui_entity(
 
 @pytest.fixture
 async def get_entity_suggestions(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> KnxSuggestionGetter:
     """Return a helper to query entity suggestions via WS.
 

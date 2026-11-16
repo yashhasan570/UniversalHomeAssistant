@@ -17,7 +17,7 @@ from universalassistant.components.monzo.application_credentials import (
 from universalassistant.components.monzo.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_WEBHOOK_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
@@ -27,7 +27,7 @@ from .conftest import CLIENT_ID, USER_ID
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -130,7 +130,7 @@ async def test_full_flow(
 )
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_approval_error_retry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     approval_error: Exception,
@@ -205,7 +205,7 @@ async def test_approval_error_retry(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_config_non_unique_profile(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
@@ -255,7 +255,7 @@ async def test_config_non_unique_profile(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_config_reauth_profile(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     polling_config_entry: MockConfigEntry,
@@ -332,7 +332,7 @@ async def test_config_reauth_profile(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_config_reauth_wrong_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     polling_config_entry: MockConfigEntry,

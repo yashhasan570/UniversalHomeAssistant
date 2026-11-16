@@ -31,14 +31,14 @@ from universalassistant.const import (
     ATTR_SUPPORTED_FEATURES,
     ATTR_TEMPERATURE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
 from .conftest import MockGenericDeviceEntryType
 
 
 async def test_water_heater_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -82,7 +82,7 @@ async def test_water_heater_entity(
 
 
 async def test_water_heater_entity_no_modes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -118,7 +118,7 @@ async def test_water_heater_entity_no_modes(
 
 
 async def test_water_heater_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -162,7 +162,7 @@ async def test_water_heater_set_temperature(
 
 
 async def test_water_heater_set_operation_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -207,7 +207,7 @@ async def test_water_heater_set_operation_mode(
 
 
 async def test_water_heater_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -265,7 +265,7 @@ async def test_water_heater_on_off(
 
 
 async def test_water_heater_target_temperature_step(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -299,7 +299,7 @@ async def test_water_heater_target_temperature_step(
 
 
 async def test_water_heater_no_on_off_without_feature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -341,7 +341,7 @@ async def test_water_heater_no_on_off_without_feature(
     ],
 )
 async def test_water_heater_away_mode_feature_flag(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
     supported_features: WaterHeaterFeature,
@@ -385,7 +385,7 @@ async def test_water_heater_away_mode_feature_flag(
     ],
 )
 async def test_water_heater_away_mode_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
     state_flag: WaterHeaterStateFlag,
@@ -423,7 +423,7 @@ async def test_water_heater_away_mode_state(
 
 @pytest.mark.parametrize("away_mode", [True, False])
 async def test_water_heater_set_away_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
     away_mode: bool,
@@ -478,7 +478,7 @@ async def test_water_heater_set_away_mode(
     ],
 )
 async def test_water_heater_temperature_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
     temperature_unit: TemperatureUnit | int | None,
@@ -507,7 +507,7 @@ async def test_water_heater_temperature_unit(
 
 
 async def test_water_heater_fahrenheit_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -549,7 +549,7 @@ async def test_water_heater_fahrenheit_unit(
 
 
 async def test_water_heater_fahrenheit_unit_fahrenheit_system(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:

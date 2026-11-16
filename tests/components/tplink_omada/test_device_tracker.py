@@ -11,7 +11,7 @@ from tplink_omada_client.clients import OmadaConnectedClient
 
 from universalassistant.components.tplink_omada.const import DOMAIN
 from universalassistant.components.tplink_omada.coordinator import POLL_CLIENTS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util.dt import utcnow
 
@@ -29,7 +29,7 @@ MOCK_ENTRY_DATA = {
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_clients_only_client: MagicMock,
 ) -> MockConfigEntry:
     """Set up the TP-Link Omada integration for testing."""
@@ -48,7 +48,7 @@ async def init_integration(
 
 
 async def test_device_scanner_created(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
     device_registry: dr.DeviceRegistry,
@@ -74,7 +74,7 @@ async def test_device_scanner_created(
 
 
 async def test_device_scanner_update_to_away_nulls_properties(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_omada_clients_only_site_client: MagicMock,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,

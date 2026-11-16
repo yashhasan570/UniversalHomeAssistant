@@ -21,8 +21,8 @@ from universalassistant.components.notify import (
     NotifyEntityDescription,
 )
 from universalassistant.const import CONF_NAME
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -42,7 +42,7 @@ class HabiticaNotify(StrEnum):
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: HabiticaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -110,7 +110,7 @@ class HabiticaBaseNotifyEntity(HabiticaBase, NotifyEntity):
         try:
             await self._send_message(message)
         except NotAuthorizedError as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="send_message_forbidden",
                 translation_placeholders={
@@ -119,7 +119,7 @@ class HabiticaBaseNotifyEntity(HabiticaBase, NotifyEntity):
                 },
             ) from e
         except NotFoundError as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="send_message_not_found",
                 translation_placeholders={
@@ -128,19 +128,19 @@ class HabiticaBaseNotifyEntity(HabiticaBase, NotifyEntity):
                 },
             ) from e
         except TooManyRequestsError as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="setup_rate_limit_exception",
                 translation_placeholders={"retry_after": str(e.retry_after)},
             ) from e
         except HabiticaException as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="service_call_exception",
                 translation_placeholders={"reason": e.error.message},
             ) from e
         except ClientError as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="service_call_exception",
                 translation_placeholders={"reason": str(e)},

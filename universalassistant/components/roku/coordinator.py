@@ -9,7 +9,7 @@ from rokuecp.models import Device
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -34,7 +34,7 @@ class RokuDataUpdateCoordinator(DataUpdateCoordinator[Device]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: RokuConfigEntry,
     ) -> None:
         """Initialize global Roku data updater."""

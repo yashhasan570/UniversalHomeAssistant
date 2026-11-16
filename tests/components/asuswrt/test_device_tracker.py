@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components import device_tracker
 from universalassistant.components.asuswrt.const import CONF_TRACK_UNKNOWN, DOMAIN
 from universalassistant.const import CONF_PROTOCOL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .common import CONFIG_DATA_TELNET, MOCK_MACS, ROUTER_MAC_ADDR, new_device
@@ -15,7 +15,7 @@ from .common import CONFIG_DATA_TELNET, MOCK_MACS, ROUTER_MAC_ADDR, new_device
 
 @pytest.mark.usefixtures("connect_legacy")
 async def test_unnamed_client_device_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -60,7 +60,7 @@ async def test_unnamed_client_device_name(
 
 @pytest.mark.usefixtures("connect_legacy")
 async def test_connected_unnamed_client_device_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_devices_legacy: dict[str, LegacyDevice],

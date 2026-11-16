@@ -9,14 +9,14 @@ from pymystrom.pir import MyStromPir
 from pymystrom.switch import MyStromSwitch
 
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 
 from .const import DOMAIN
 from .models import MyStromConfigEntry, MyStromData
 
 PLATFORMS_PLUGS = [Platform.SENSOR, Platform.SWITCH]
-PLATFORMS_BULB = [Platform.LIGHT]
+PLATFORMS_BULB = [Platform.LIGHT, Platform.SENSOR]
 PLATFORMS_MOTION_SENSOR = [Platform.SENSOR]
 
 
@@ -50,7 +50,7 @@ def _get_mystrom_switch(host: str) -> MyStromSwitch:
     return MyStromSwitch(host)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: MyStromConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: MyStromConfigEntry) -> None:
     """Set up myStrom from a config entry."""
     host = entry.data[CONF_HOST]
     try:
@@ -98,7 +98,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: MyStromConfigEntry) -> No
     await hass.config_entries.async_forward_entry_setups(entry, platforms)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: MyStromConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: MyStromConfigEntry) -> None:
     """Unload a config entry."""
     device_type = entry.runtime_data.info["type"]
     platforms = []

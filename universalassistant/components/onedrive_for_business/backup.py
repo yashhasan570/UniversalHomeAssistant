@@ -12,6 +12,7 @@ from onedrive_personal_sdk.exceptions import (
     AuthenticationError,
     HashMismatchError,
     OneDriveException,
+    UploadSessionExpired,
 )
 from onedrive_personal_sdk.models.upload import FileInfo
 
@@ -24,7 +25,7 @@ from universalassistant.components.backup import (
     OnProgressCallback,
     suggested_filename,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.json import json_dumps
 from universalassistant.util.async_ import gather_with_limited_concurrency
@@ -42,7 +43,7 @@ METADATA_DOWNLOAD_CONCURRENCY = 10
 
 
 async def async_get_backup_agents(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> list[BackupAgent]:
     """Return a list of backup agents."""
     entries: list[OneDriveConfigEntry] = hass.config_entries.async_loaded_entries(
@@ -53,7 +54,7 @@ async def async_get_backup_agents(
 
 @callback
 def async_register_backup_agents_listener(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     listener: Callable[[], None],
     **kwargs: Any,
@@ -90,8 +91,9 @@ def handle_backup_errors[_R, **P](
             ) from err
         except OneDriveException as err:
             _LOGGER.error(
-                "Error during backup in %s:, message %s",
+                "Error during backup in %s: %s: %s",
                 func.__name__,
+                type(err).__name__,
                 err,
             )
             _LOGGER.debug("Full error: %s", err, exc_info=True)
@@ -123,7 +125,7 @@ class OneDriveBackupAgent(BackupAgent):
 
     domain = DOMAIN
 
-    def __init__(self, hass: __HAC_KEEP__, entry: OneDriveConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: OneDriveConfigEntry) -> None:
         """Initialize the OneDrive backup agent."""
         super().__init__()
         self._hass = hass
@@ -163,12 +165,6 @@ class OneDriveBackupAgent(BackupAgent):
     ) -> None:
         """Upload a backup."""
         backup_filename, metadata_filename = suggested_filenames(backup)
-        file = FileInfo(
-            backup_filename,
-            backup.size,
-            self._folder_id,
-            await open_stream(),
-        )
 
         # determine chunk based on target chunks
         upload_chunk_size = backup.size / TARGET_CHUNKS
@@ -179,10 +175,15 @@ class OneDriveBackupAgent(BackupAgent):
         # ensure minimum chunk size of 320KB
         upload_chunk_size = max(upload_chunk_size, 320 * 1024)
 
-        try:
+        async def upload() -> None:
             await LargeFileUploadClient.upload(
                 self._token_function,
-                file,
+                FileInfo(
+                    backup_filename,
+                    backup.size,
+                    self._folder_id,
+                    await open_stream(),
+                ),
                 upload_chunk_size=upload_chunk_size,
                 session=async_get_clientsession(self._hass),
                 smart_chunk_size=True,
@@ -190,6 +191,13 @@ class OneDriveBackupAgent(BackupAgent):
                     bytes_uploaded=bytes_uploaded
                 ),
             )
+
+        try:
+            try:
+                await upload()
+            except UploadSessionExpired:
+                _LOGGER.debug("Upload session expired, retrying with a new session")
+                await upload()
         except HashMismatchError as err:
             raise BackupAgentError(
                 translation_domain=DOMAIN,

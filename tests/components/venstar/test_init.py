@@ -8,14 +8,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.venstar.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import VenstarColorTouchMock
 
 TEST_HOST = "venstartest.localdomain"
 
 
-async def test_setup_entry(hass: __HAC_KEEP__) -> None:
+async def test_setup_entry(hass: UniversalAssistant) -> None:
     """Validate that setup entry also configure the client."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -62,7 +62,7 @@ async def test_setup_entry(hass: __HAC_KEEP__) -> None:
     assert config_entry.state is ConfigEntryState.NOT_LOADED
 
 
-async def test_setup_entry_exception(hass: __HAC_KEEP__) -> None:
+async def test_setup_entry_exception(hass: UniversalAssistant) -> None:
     """Validate that setup entry also configure the client."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -111,7 +111,7 @@ async def test_setup_entry_exception(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_silent_failure_triggers_retry(
-    hass: __HAC_KEEP__, failed_method: str, target_method: str
+    hass: UniversalAssistant, failed_method: str, target_method: str
 ) -> None:
     """Validate coordinator handles library methods returning False."""
     config_entry = MockConfigEntry(

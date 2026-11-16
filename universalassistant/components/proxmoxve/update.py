@@ -10,7 +10,7 @@ from universalassistant.components.update import (
     UpdateEntityFeature,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import ProxmoxConfigEntry, ProxmoxNodeData, proxmox_node_url
@@ -43,7 +43,7 @@ NODE_UPDATES: tuple[ProxmoxNodeUpdateEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ProxmoxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

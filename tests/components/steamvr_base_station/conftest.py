@@ -13,7 +13,7 @@ from pytest_universalassistant.components.bluetooth import (
 from universalassistant.components.steamvr_base_station import PLATFORMS
 from universalassistant.components.steamvr_base_station.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import STATION_SERVICE_INFO, TEST_ADDRESS, TEST_NAME
 
@@ -76,8 +76,8 @@ def mock_config_entry() -> MockConfigEntry:
 
 
 @pytest.fixture
-def station_in_range(hass: __HAC_KEEP__) -> None:
-    """Make the station visible to __HA_KEEP__'s Bluetooth stack."""
+def station_in_range(hass: UniversalAssistant) -> None:
+    """Make the station visible to Universal Home Assistant's Bluetooth stack."""
     inject_bluetooth_service_info_bleak(hass, STATION_SERVICE_INFO)
 
 
@@ -89,7 +89,7 @@ def platforms() -> list[Platform]:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     station_in_range: None,
     mock_config_entry: MockConfigEntry,
     platforms: list[Platform],

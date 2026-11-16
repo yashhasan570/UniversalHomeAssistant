@@ -3,7 +3,7 @@
 from typing import Any, override
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import HlkConfigEntry
@@ -24,7 +24,7 @@ def devices_from_entities(entry: HlkConfigEntry) -> list[SW16Switch]:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: HlkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

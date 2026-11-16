@@ -14,7 +14,7 @@ from pytest_universalassistant.common import (
 from universalassistant.components import image
 from universalassistant.config_entries import ConfigEntry, ConfigFlow
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
     AddEntitiesCallback,
@@ -124,7 +124,7 @@ class MockImageConfigEntry:
 
     async def async_setup_entry(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -143,7 +143,7 @@ class MockImagePlatform:
 
     async def async_setup_platform(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config: ConfigType,
         async_add_entities: AddEntitiesCallback,
         discovery_info: DiscoveryInfoType | None = None,
@@ -153,7 +153,7 @@ class MockImagePlatform:
 
 
 @pytest.fixture(name="config_flow")
-def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
+def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
     """Mock config flow."""
 
     class MockFlow(ConfigFlow):
@@ -167,12 +167,12 @@ def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
 
 @pytest.fixture(name="mock_image_config_entry")
 async def mock_image_config_entry_fixture(
-    hass: __HAC_KEEP__, config_flow: None
+    hass: UniversalAssistant, config_flow: None
 ) -> ConfigEntry:
     """Initialize a mock image config_entry."""
 
     async def async_setup_entry_init(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -180,7 +180,7 @@ async def mock_image_config_entry_fixture(
         )
 
     async def async_unload_entry_init(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         """Unload test config entry."""
         await hass.config_entries.async_unload_platforms(config_entry, [Platform.IMAGE])
@@ -209,7 +209,7 @@ async def mock_image_config_entry_fixture(
 
 
 @pytest.fixture(name="mock_image_platform")
-async def mock_image_platform_fixture(hass: __HAC_KEEP__) -> None:
+async def mock_image_platform_fixture(hass: UniversalAssistant) -> None:
     """Initialize a mock image platform."""
     mock_integration(hass, MockModule(domain="test"))
     mock_platform(hass, "test.image", MockImagePlatform([MockImageEntity(hass)]))

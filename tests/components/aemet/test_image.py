@@ -7,13 +7,13 @@ from freezegun.api import FrozenDateTimeFactory
 from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.aemet.coordinator import WEATHER_UPDATE_INTERVAL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .util import async_init_integration, mock_api_call
 
 
 async def test_aemet_create_images(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test creation of AEMET images."""
@@ -28,7 +28,7 @@ async def test_aemet_create_images(
 
 
 async def test_aemet_image_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test radar image discovery after a temporary API failure."""

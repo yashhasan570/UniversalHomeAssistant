@@ -8,13 +8,13 @@ from pyvesync.utils.errors import VeSyncLoginError
 from universalassistant.components.vesync import DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
 
-async def test_abort_duplicate_unique_id(hass: __HAC_KEEP__, config_entry) -> None:
+async def test_abort_duplicate_unique_id(hass: UniversalAssistant, config_entry) -> None:
     """Test if we abort because component is already setup under that Account ID."""
     config_entry.add_to_hass(hass)
 
@@ -39,7 +39,7 @@ async def test_abort_duplicate_unique_id(hass: __HAC_KEEP__, config_entry) -> No
     assert result["reason"] == "already_configured"
 
 
-async def test_invalid_login_error(hass: __HAC_KEEP__) -> None:
+async def test_invalid_login_error(hass: UniversalAssistant) -> None:
     """Test if we return error for invalid username and password."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": "user"}
@@ -70,7 +70,7 @@ async def test_invalid_login_error(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_config_flow_user_input(hass: __HAC_KEEP__) -> None:
+async def test_config_flow_user_input(hass: UniversalAssistant) -> None:
     """Test config flow with user input."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": "user"}
@@ -89,7 +89,7 @@ async def test_config_flow_user_input(hass: __HAC_KEEP__) -> None:
     assert result["result"].unique_id == "TESTACCOUNTID"
 
 
-async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
+async def test_reauth_flow(hass: UniversalAssistant) -> None:
     """Test a successful reauth flow."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -123,7 +123,7 @@ async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_reauth_flow_invalid_auth(hass: __HAC_KEEP__) -> None:
+async def test_reauth_flow_invalid_auth(hass: UniversalAssistant) -> None:
     """Test an authorization error reauth flow."""
 
     mock_entry = MockConfigEntry(
@@ -165,7 +165,7 @@ async def test_reauth_flow_invalid_auth(hass: __HAC_KEEP__) -> None:
 
 
 async def test_dhcp_discovery(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test DHCP discovery flow."""
 
@@ -197,7 +197,7 @@ async def test_dhcp_discovery(
 
 
 async def test_dhcp_discovery_duplicate(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test DHCP discovery flow with already setup integration."""
     result = await hass.config_entries.flow.async_init(

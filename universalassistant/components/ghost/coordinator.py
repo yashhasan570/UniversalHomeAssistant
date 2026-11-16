@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, Any, override
 from aioghost import GhostAdminAPI
 from aioghost.exceptions import GhostAuthError, GhostError
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -44,7 +44,7 @@ class GhostDataUpdateCoordinator(DataUpdateCoordinator[GhostData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         api: GhostAdminAPI,
         config_entry: GhostConfigEntry,
     ) -> None:

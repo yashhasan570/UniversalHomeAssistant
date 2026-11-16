@@ -23,7 +23,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.util.unit_system import (
@@ -41,7 +41,7 @@ from universalassistant.util.unit_system import (
     ],
 )
 async def test_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
@@ -165,7 +165,7 @@ async def test_sensor(
     ],
 )
 async def test_sensor_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
     unique_id: str,
@@ -260,7 +260,7 @@ async def test_sensor_migration(
 
 
 async def test_sensor_must_register(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -283,7 +283,7 @@ async def test_sensor_must_register(
 
 
 async def test_sensor_id_no_dupes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
     caplog: pytest.LogCaptureFixture,
@@ -350,7 +350,7 @@ async def test_sensor_id_no_dupes(
 
 
 async def test_register_sensor_no_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -411,7 +411,7 @@ async def test_register_sensor_no_state(
 
 
 async def test_update_sensor_no_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -486,7 +486,7 @@ async def test_update_sensor_no_state(
     ],
 )
 async def test_sensor_datetime(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
     device_class: SensorDeviceClass,
@@ -526,7 +526,7 @@ async def test_sensor_datetime(
 
 
 async def test_default_disabling_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
@@ -564,7 +564,7 @@ async def test_default_disabling_entity(
 
 
 async def test_updating_disabled_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
@@ -636,7 +636,7 @@ async def test_updating_disabled_sensor(
 
 
 async def test_recreate_correct_from_entity_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
@@ -711,7 +711,7 @@ async def test_recreate_correct_from_entity_registry(
 
 
 async def test_dispatcher_cleanup_on_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:

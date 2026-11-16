@@ -16,14 +16,14 @@ from universalassistant.components.intellifire.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_standard_config_with_single_fireplace(
-    hass: __HAC_KEEP__, mock_apis_single_fp
+    hass: UniversalAssistant, mock_apis_single_fp
 ) -> None:
     """Test standard flow with a user who has only a single fireplace."""
 
@@ -55,7 +55,7 @@ async def test_standard_config_with_single_fireplace(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_standard_config_with_pre_configured_fireplace(
-    hass: __HAC_KEEP__, mock_config_entry_current, mock_apis_single_fp
+    hass: UniversalAssistant, mock_config_entry_current, mock_apis_single_fp
 ) -> None:
     """What if we try to configure an already configured fireplace."""
     # Configure an existing entry
@@ -80,7 +80,7 @@ async def test_standard_config_with_pre_configured_fireplace(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_standard_config_with_single_fireplace_and_bad_credentials(
-    hass: __HAC_KEEP__, mock_apis_single_fp
+    hass: UniversalAssistant, mock_apis_single_fp
 ) -> None:
     """Test bad credentials on a login."""
     _mock_local_interface, mock_cloud_interface, _mock_fp = mock_apis_single_fp
@@ -125,7 +125,7 @@ async def test_standard_config_with_single_fireplace_and_bad_credentials(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_standard_config_with_multiple_fireplace(
-    hass: __HAC_KEEP__, mock_apis_multifp
+    hass: UniversalAssistant, mock_apis_multifp
 ) -> None:
     """Test multi-fireplace user who must be very rich."""
     result = await hass.config_entries.flow.async_init(
@@ -162,7 +162,7 @@ async def test_standard_config_with_multiple_fireplace(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_discovery_intellifire_device(
-    hass: __HAC_KEEP__, mock_apis_multifp
+    hass: UniversalAssistant, mock_apis_multifp
 ) -> None:
     """Test successful DHCP Discovery."""
 
@@ -188,7 +188,7 @@ async def test_dhcp_discovery_intellifire_device(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_discovery_non_intellifire_device(
-    hass: __HAC_KEEP__, mock_apis_multifp
+    hass: UniversalAssistant, mock_apis_multifp
 ) -> None:
     """Test successful DHCP Discovery of a non intellifire device.."""
 
@@ -213,7 +213,7 @@ async def test_dhcp_discovery_non_intellifire_device(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__, mock_config_entry_current: MockConfigEntry, mock_apis_single_fp
+    hass: UniversalAssistant, mock_config_entry_current: MockConfigEntry, mock_apis_single_fp
 ) -> None:
     """Test reauth."""
 
@@ -232,7 +232,7 @@ async def test_reauth_flow(
 
 
 async def test_options_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_current: MockConfigEntry,
     mock_apis_single_fp,
 ) -> None:
@@ -268,7 +268,7 @@ async def test_options_flow(
 
 
 async def test_options_flow_allows_submit_when_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_current: MockConfigEntry,
 ) -> None:
     """Test options flow allows submit when runtime data is missing."""
@@ -300,7 +300,7 @@ async def test_options_flow_allows_submit_when_not_loaded(
 
 
 async def test_options_flow_local_read_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_current: MockConfigEntry,
     mock_apis_single_fp: tuple[AsyncMock, AsyncMock, MagicMock],
 ) -> None:
@@ -340,7 +340,7 @@ async def test_options_flow_local_read_unavailable(
 
 
 async def test_options_flow_local_control_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_current: MockConfigEntry,
     mock_apis_single_fp: tuple[AsyncMock, AsyncMock, MagicMock],
 ) -> None:
@@ -378,7 +378,7 @@ async def test_options_flow_local_control_unavailable(
 
 
 async def test_options_flow_cloud_read_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_current: MockConfigEntry,
     mock_apis_single_fp: tuple[AsyncMock, AsyncMock, MagicMock],
 ) -> None:
@@ -418,7 +418,7 @@ async def test_options_flow_cloud_read_unavailable(
 
 
 async def test_options_flow_cloud_control_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_current: MockConfigEntry,
     mock_apis_single_fp: tuple[AsyncMock, AsyncMock, MagicMock],
 ) -> None:

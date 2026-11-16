@@ -15,12 +15,12 @@ from universalassistant.components.opentherm_gw.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_DEVICE, CONF_ID, PRECISION_HALVES, PRECISION_TENTHS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_user(hass: __HAC_KEEP__, mock_pyotgw: MagicMock) -> None:
+async def test_form_user(hass: UniversalAssistant, mock_pyotgw: MagicMock) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -46,7 +46,7 @@ async def test_form_user(hass: __HAC_KEEP__, mock_pyotgw: MagicMock) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_duplicate_entries(
-    hass: __HAC_KEEP__, mock_pyotgw: MagicMock
+    hass: UniversalAssistant, mock_pyotgw: MagicMock
 ) -> None:
     """Test duplicate device or id errors."""
     flow1 = await hass.config_entries.flow.async_init(
@@ -92,7 +92,7 @@ async def test_form_duplicate_entries(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_connection_timeout(
-    hass: __HAC_KEEP__, mock_pyotgw: MagicMock
+    hass: UniversalAssistant, mock_pyotgw: MagicMock
 ) -> None:
     """Test we handle connection timeout."""
     flow = await hass.config_entries.flow.async_init(
@@ -123,7 +123,7 @@ async def test_form_connection_timeout(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_connection_error(
-    hass: __HAC_KEEP__, mock_pyotgw: MagicMock
+    hass: UniversalAssistant, mock_pyotgw: MagicMock
 ) -> None:
     """Test we handle serial connection error."""
     flow = await hass.config_entries.flow.async_init(
@@ -150,7 +150,7 @@ async def test_form_connection_error(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_options_form(hass: __HAC_KEEP__, mock_pyotgw: MagicMock) -> None:
+async def test_options_form(hass: UniversalAssistant, mock_pyotgw: MagicMock) -> None:
     """Test the options form."""
     entry = MockConfigEntry(
         domain=DOMAIN,

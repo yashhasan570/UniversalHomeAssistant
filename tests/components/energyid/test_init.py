@@ -17,14 +17,14 @@ from universalassistant.components.energyid.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_DEVICE_ID, STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__
+from universalassistant.core import Event, EventStateChangedData, UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
 
 async def test_successful_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
 ) -> None:
@@ -37,7 +37,7 @@ async def test_successful_setup(
 
 
 async def test_setup_fails_on_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
 ) -> None:
@@ -51,7 +51,7 @@ async def test_setup_fails_on_timeout(
 
 
 async def test_setup_fails_on_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
 ) -> None:
@@ -67,7 +67,7 @@ async def test_setup_fails_on_auth_error(
 
 
 async def test_setup_fails_when_not_claimed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
 ) -> None:
@@ -89,7 +89,7 @@ async def test_setup_fails_when_not_claimed(
 
 
 async def test_setup_auth_error_401_triggers_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
 ) -> None:
@@ -116,7 +116,7 @@ async def test_setup_auth_error_401_triggers_reauth(
 
 
 async def test_setup_auth_error_403_triggers_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
 ) -> None:
@@ -143,7 +143,7 @@ async def test_setup_auth_error_403_triggers_reauth(
 
 
 async def test_setup_http_error_triggers_retry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
 ) -> None:
@@ -164,7 +164,7 @@ async def test_setup_http_error_triggers_retry(
 
 
 async def test_setup_network_error_triggers_retry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
 ) -> None:
@@ -180,7 +180,7 @@ async def test_setup_network_error_triggers_retry(
 
 
 async def test_state_change_sends_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -211,7 +211,7 @@ async def test_state_change_sends_data(
 
 
 async def test_state_change_handles_invalid_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -242,7 +242,7 @@ async def test_state_change_handles_invalid_values(
 
 
 async def test_state_change_ignores_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -273,7 +273,7 @@ async def test_state_change_ignores_unavailable(
 
 
 async def test_state_change_ignores_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -304,7 +304,7 @@ async def test_state_change_ignores_unknown(
 
 
 async def test_listener_tracks_entity_rename(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -352,7 +352,7 @@ async def test_listener_tracks_entity_rename(
 
 
 async def test_listener_tracks_entity_removal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -379,7 +379,7 @@ async def test_listener_tracks_entity_removal(
 
 
 async def test_entity_not_in_state_machine_during_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -413,7 +413,7 @@ async def test_entity_not_in_state_machine_during_setup(
 
 
 async def test_unload_cleans_up_listeners(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
 ) -> None:
@@ -432,7 +432,7 @@ async def test_unload_cleans_up_listeners(
 
 
 async def test_no_valid_subentries_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
 ) -> None:
@@ -449,7 +449,7 @@ async def test_no_valid_subentries_setup(
 
 
 async def test_subentry_with_missing_uuid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
 ) -> None:
@@ -467,7 +467,7 @@ async def test_subentry_with_missing_uuid(
 
 
 async def test_subentry_with_nonexistent_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
 ) -> None:
@@ -488,7 +488,7 @@ async def test_subentry_with_nonexistent_entity(
 
 
 async def test_initial_state_queued_for_new_mapping(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -512,7 +512,7 @@ async def test_initial_state_queued_for_new_mapping(
 
 
 async def test_synchronize_sensors_error_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
 ) -> None:
@@ -526,7 +526,7 @@ async def test_synchronize_sensors_error_handling(
     assert mock_config_entry.state is ConfigEntryState.LOADED
 
 
-async def test_setup_timeout_during_authentication(hass: __HAC_KEEP__) -> None:
+async def test_setup_timeout_during_authentication(hass: UniversalAssistant) -> None:
     """Test ConfigEntryNotReady raised on TimeoutError during authentication."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -554,7 +554,7 @@ async def test_setup_timeout_during_authentication(hass: __HAC_KEEP__) -> None:
         assert entry.error_reason_translation_key == "auth_timeout"
 
 
-async def test_periodic_sync_error_and_recovery(hass: __HAC_KEEP__) -> None:
+async def test_periodic_sync_error_and_recovery(hass: UniversalAssistant) -> None:
     """Test periodic sync error handling and recovery."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -604,7 +604,7 @@ async def test_periodic_sync_error_and_recovery(hass: __HAC_KEEP__) -> None:
         assert call_count[0] == 2  # Second periodic call succeeds
 
 
-async def test_periodic_sync_runtime_error(hass: __HAC_KEEP__) -> None:
+async def test_periodic_sync_runtime_error(hass: UniversalAssistant) -> None:
     """Test periodic sync handles RuntimeError."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -637,7 +637,7 @@ async def test_periodic_sync_runtime_error(hass: __HAC_KEEP__) -> None:
 
 
 async def test_config_entry_update_listener(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test config entry update listener reloads listeners."""
     entry = MockConfigEntry(
@@ -685,7 +685,7 @@ async def test_config_entry_update_listener(
 
 
 async def test_initial_state_non_numeric(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test initial state with non-numeric value."""
     entry = MockConfigEntry(
@@ -738,7 +738,7 @@ async def test_initial_state_non_numeric(
 
 
 async def test_state_change_during_entry_unload(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test state change handler when entry is being unloaded (line 305)."""
     entry = MockConfigEntry(
@@ -794,7 +794,7 @@ async def test_state_change_during_entry_unload(
 
 
 async def test_late_appearing_entity_missing_data(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test late-appearing entity with malformed subentry data (line 324)."""
     entry = MockConfigEntry(
@@ -845,7 +845,7 @@ async def test_late_appearing_entity_missing_data(
 
 
 async def test_state_change_for_untracked_entity(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test state change for entity not in any subentry (line 340)."""
     entry = MockConfigEntry(
@@ -906,7 +906,7 @@ async def test_state_change_for_untracked_entity(
 
 
 async def test_unload_entry_with_subentries(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test unloading entry with subentries (line 363)."""
     entry = MockConfigEntry(
@@ -962,7 +962,7 @@ async def test_unload_entry_with_subentries(
 # ============================================================================
 
 
-async def test_unload_entry_client_close_error(hass: __HAC_KEEP__) -> None:
+async def test_unload_entry_client_close_error(hass: UniversalAssistant) -> None:
     """Test error handling when client.close() fails (lines 379-380)."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1001,7 +1001,7 @@ async def test_unload_entry_client_close_error(hass: __HAC_KEEP__) -> None:
 # ============================================================================
 
 
-async def test_unload_entry_unexpected_exception(hass: __HAC_KEEP__) -> None:
+async def test_unload_entry_unexpected_exception(hass: UniversalAssistant) -> None:
     """Test unexpected exception during unload (lines 382-384)."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1045,7 +1045,7 @@ async def test_unload_entry_unexpected_exception(hass: __HAC_KEEP__) -> None:
 # ============================================================================
 
 
-async def test_config_entry_update_listener_called(hass: __HAC_KEEP__) -> None:
+async def test_config_entry_update_listener_called(hass: UniversalAssistant) -> None:
     """Test that config_entry_update_listener is called and logs (lines 133-134)."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1077,7 +1077,7 @@ async def test_config_entry_update_listener_called(hass: __HAC_KEEP__) -> None:
 
 
 async def test_initial_state_conversion_error_valueerror(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test ValueError/TypeError during initial state float conversion."""
     entry = MockConfigEntry(
@@ -1122,7 +1122,7 @@ async def test_initial_state_conversion_error_valueerror(
         await hass.async_block_till_done()
 
 
-async def test_state_change_untracked_entity_explicit(hass: __HAC_KEEP__) -> None:
+async def test_state_change_untracked_entity_explicit(hass: UniversalAssistant) -> None:
     """Test state change for explicitly untracked entity (line 340)."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1157,7 +1157,7 @@ async def test_state_change_untracked_entity_explicit(hass: __HAC_KEEP__) -> Non
         assert mock_sensor.update.call_count == 0
 
 
-async def test_subentry_missing_keys_continue(hass: __HAC_KEEP__) -> None:
+async def test_subentry_missing_keys_continue(hass: UniversalAssistant) -> None:
     """Test subentry with missing keys continues processing (line 324)."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1203,7 +1203,7 @@ async def test_subentry_missing_keys_continue(hass: __HAC_KEEP__) -> None:
         await hass.async_block_till_done()
 
 
-async def test_entry_unloading_flag_state_change(hass: __HAC_KEEP__) -> None:
+async def test_entry_unloading_flag_state_change(hass: UniversalAssistant) -> None:
     """Test entry unloading flag prevents state change processing (line 305)."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1239,7 +1239,7 @@ async def test_entry_unloading_flag_state_change(hass: __HAC_KEEP__) -> None:
         assert not hasattr(entry, "runtime_data")
 
 
-async def test_unload_subentries_explicit(hass: __HAC_KEEP__) -> None:
+async def test_unload_subentries_explicit(hass: UniversalAssistant) -> None:
     """Test explicit subentry unloading during entry unload (line 363)."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1284,7 +1284,7 @@ async def test_unload_subentries_explicit(hass: __HAC_KEEP__) -> None:
 
 
 async def test_initial_state_conversion_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -1320,7 +1320,7 @@ async def test_initial_state_conversion_error(
 
 
 async def test_state_change_after_entry_unloaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_webhook_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -1351,7 +1351,7 @@ async def test_state_change_after_entry_unloaded(
 
 
 async def test_direct_state_change_handler(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1387,7 +1387,7 @@ async def test_direct_state_change_handler(
 
 @pytest.mark.usefixtures("mock_webhook_client")
 async def test_subentry_unload_during_entry_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that subentries are unloaded when the main entry unloads."""

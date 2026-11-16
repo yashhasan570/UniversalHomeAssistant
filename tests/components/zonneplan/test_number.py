@@ -38,8 +38,8 @@ from universalassistant.components.zonneplan.coordinator import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 MAX_CHARGE_POWER_ENTITY_ID = "number.thuisbatterij_maximum_charge_power"
@@ -86,7 +86,7 @@ def all_modes_available(
     )
 
 
-async def _set_value(hass: __HAC_KEEP__, entity_id: str, value: float) -> None:
+async def _set_value(hass: UniversalAssistant, entity_id: str, value: float) -> None:
     """Set the value of a number entity."""
     await hass.services.async_call(
         NUMBER_DOMAIN,
@@ -101,7 +101,7 @@ async def _set_value(hass: __HAC_KEEP__, entity_id: str, value: float) -> None:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_number(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -112,7 +112,7 @@ async def test_number(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_backup_reserve_disabled_by_default(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the backup reserve is disabled by default."""
     assert hass.states.get(BACKUP_RESERVE_ENTITY_ID) is None
@@ -122,7 +122,7 @@ async def test_backup_reserve_disabled_by_default(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_number_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
 ) -> None:
@@ -142,7 +142,7 @@ async def test_number_unsupported(
 
 
 async def test_power_limit_range_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
 ) -> None:
@@ -164,7 +164,7 @@ async def test_power_limit_range_fallback(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_backup_reserve_without_capacity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
 ) -> None:
@@ -183,7 +183,7 @@ async def test_backup_reserve_without_capacity(
     "entity_id", [MAX_CHARGE_POWER_ENTITY_ID, MAX_DISCHARGE_POWER_ENTITY_ID]
 )
 async def test_power_limits_unavailable_without_both(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
     entity_id: str,
@@ -209,7 +209,7 @@ async def test_power_limits_unavailable_without_both(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_set_power_limit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zonneplan_client: AsyncMock,
     entity_id: str,
     value: int,
@@ -232,7 +232,7 @@ async def test_set_power_limit(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_power_limits_in_a_row(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zonneplan_client: AsyncMock,
 ) -> None:
     """Test quick successive power limit writes keep each other's limit."""
@@ -285,7 +285,7 @@ async def test_set_power_limits_in_a_row(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_power_limit_mode_changed_in_app(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zonneplan_client: AsyncMock,
 ) -> None:
     """Test a mode change since the last poll blocks writing the power limits."""
@@ -302,7 +302,7 @@ async def test_set_power_limit_mode_changed_in_app(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_power_limit_control_mode_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zonneplan_client: AsyncMock,
 ) -> None:
     """Test the power limits are not written when the control mode can't be fetched."""
@@ -310,7 +310,7 @@ async def test_set_power_limit_control_mode_error(
         ZonneplanConnectionError("boom")
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await _set_value(hass, MAX_CHARGE_POWER_ENTITY_ID, 1500)
 
     assert exc_info.value.translation_key == "cannot_connect"
@@ -319,7 +319,7 @@ async def test_set_power_limit_control_mode_error(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_price_spread_wrong_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zonneplan_client: AsyncMock,
 ) -> None:
     """Test the price spread can't be set outside day-ahead arbitrage."""
@@ -333,7 +333,7 @@ async def test_set_price_spread_wrong_mode(
 @pytest.mark.usefixtures("init_integration")
 @pytest.mark.parametrize("control_mode", [BatteryMode.DAY_AHEAD_ARBITRAGE])
 async def test_set_power_limit_wrong_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zonneplan_client: AsyncMock,
 ) -> None:
     """Test the power limits can't be set outside home optimization."""
@@ -347,7 +347,7 @@ async def test_set_power_limit_wrong_mode(
 @pytest.mark.usefixtures("init_integration")
 @pytest.mark.parametrize("control_mode", [BatteryMode.DAY_AHEAD_ARBITRAGE])
 async def test_set_price_spread(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zonneplan_client: AsyncMock,
 ) -> None:
     """Test setting the price spread keeps the market time resolution."""
@@ -365,7 +365,7 @@ async def test_set_price_spread(
 
 @pytest.mark.parametrize("control_mode", [BatteryMode.DAY_AHEAD_ARBITRAGE])
 async def test_set_price_spread_not_set_up(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
 ) -> None:
@@ -389,7 +389,7 @@ async def test_set_price_spread_not_set_up(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_set_backup_reserve(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zonneplan_client: AsyncMock,
 ) -> None:
     """Test setting the backup reserve in any mode refreshes the battery."""
@@ -422,7 +422,7 @@ async def test_set_backup_reserve(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_set_value_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zonneplan_client: AsyncMock,
     exception: Exception,
     translation_key: str,
@@ -430,7 +430,7 @@ async def test_set_value_error(
     """Test errors while setting a value."""
     mock_zonneplan_client.async_enable_battery_home_optimization.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await _set_value(hass, MAX_CHARGE_POWER_ENTITY_ID, 1500)
 
     assert exc_info.value.translation_domain == DOMAIN
@@ -439,7 +439,7 @@ async def test_set_value_error(
 
 
 async def test_set_value_authentication_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
 ) -> None:
@@ -448,7 +448,7 @@ async def test_set_value_authentication_error(
         ZonneplanAuthenticationError("bad token")
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await _set_value(hass, MAX_CHARGE_POWER_ENTITY_ID, 1500)
     await hass.async_block_till_done()
 
@@ -461,7 +461,7 @@ async def test_set_value_authentication_error(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_number_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zonneplan_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -491,7 +491,7 @@ async def test_number_update(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_number_control_mode_update_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zonneplan_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -521,7 +521,7 @@ async def test_number_control_mode_update_failed(
 
 
 async def test_number_control_mode_unavailable_at_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -550,7 +550,7 @@ async def test_number_control_mode_unavailable_at_setup(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_number_mode_no_longer_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zonneplan_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:

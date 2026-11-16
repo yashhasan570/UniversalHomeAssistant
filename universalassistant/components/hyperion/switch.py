@@ -26,7 +26,7 @@ from hyperion.const import (
 
 from universalassistant.components.switch import SwitchEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
@@ -89,7 +89,7 @@ def _component_to_translation_key(component: str) -> str:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: HyperionConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

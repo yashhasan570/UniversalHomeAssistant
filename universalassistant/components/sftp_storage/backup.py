@@ -12,7 +12,7 @@ from universalassistant.components.backup import (
     BackupNotFound,
     OnProgressCallback,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 from . import SFTPConfigEntry
 from .client import BackupAgentClient
@@ -20,7 +20,7 @@ from .const import DATA_BACKUP_AGENT_LISTENERS, DOMAIN, LOGGER
 
 
 async def async_get_backup_agents(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> list[BackupAgent]:
     """Register the backup agents."""
     entries: list[SFTPConfigEntry] = hass.config_entries.async_loaded_entries(DOMAIN)
@@ -29,7 +29,7 @@ async def async_get_backup_agents(
 
 @callback
 def async_register_backup_agents_listener(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     listener: Callable[[], None],
     **kwargs: Any,
@@ -52,11 +52,11 @@ class SFTPBackupAgent(BackupAgent):
 
     domain = DOMAIN
 
-    def __init__(self, hass: __HAC_KEEP__, entry: SFTPConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: SFTPConfigEntry) -> None:
         """Initialize the SFTPBackupAgent backup sync agent."""
         super().__init__()
         self._entry: SFTPConfigEntry = entry
-        self._hass: __HAC_KEEP__ = hass
+        self._hass: UniversalAssistant = hass
         self.name: str = entry.title
         self.unique_id: str = entry.entry_id
 

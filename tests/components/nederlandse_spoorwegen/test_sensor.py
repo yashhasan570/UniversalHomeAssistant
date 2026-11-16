@@ -21,7 +21,7 @@ from universalassistant.components.nederlandse_spoorwegen.const import (
 )
 from universalassistant.config_entries import ConfigSubentryDataWithId
 from universalassistant.const import CONF_API_KEY, CONF_NAME, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 import universalassistant.helpers.entity_registry as er
 
 from . import setup_integration
@@ -41,7 +41,7 @@ def mock_sensor_platform() -> Generator:
 @pytest.mark.freeze_time("2025-09-15 14:30:00+00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nsapi: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -56,7 +56,7 @@ async def test_sensor(
 @pytest.mark.freeze_time("2025-09-15 14:30:00+00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_single_trip_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_single_trip_nsapi: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -71,7 +71,7 @@ async def test_single_trip_sensor(
 @pytest.mark.freeze_time("2025-09-15 14:30:00+00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_no_trips_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_no_trips_nsapi: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -88,7 +88,7 @@ async def test_no_trips_sensor(
 
 
 async def test_sensor_with_api_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nsapi: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -114,7 +114,7 @@ async def test_sensor_with_api_connection_error(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_with_custom_time_parsing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nsapi: AsyncMock,
     time_input,
     route_name,
@@ -169,7 +169,7 @@ async def test_sensor_with_custom_time_parsing(
 @pytest.mark.freeze_time("2025-09-15 14:30:00+00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_with_time_filtering(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nsapi: AsyncMock,
 ) -> None:
     """Test that the time-based window filter correctly filters trips.
@@ -262,7 +262,7 @@ async def test_sensor_with_time_filtering(
 @pytest.mark.freeze_time("2025-09-15 14:30:00+00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_with_time_filtering_next_day(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tomorrow_trips_nsapi: AsyncMock,
 ) -> None:
     """Test time filtering rolls over to next day when time is in past.

@@ -7,13 +7,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import EVENT_STATE_CHANGED
-from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__, callback
+from universalassistant.core import Event, EventStateChangedData, UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
 
 async def test_event_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_int: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,

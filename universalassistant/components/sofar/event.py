@@ -10,7 +10,7 @@ from sofar_modbus import FAULTS, FaultLog, FaultLogEntry, SofarInverter
 
 from universalassistant.components.event import EventEntity, EventEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import CoreState, __HAC_KEEP__, callback
+from universalassistant.core import CoreState, UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import Undefined
 from universalassistant.util import dt as dt_util
@@ -49,7 +49,7 @@ EVENT_DESCRIPTIONS: tuple[SofarEventEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SofarConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -96,7 +96,7 @@ class SofarFaultEvent(SofarEntity, EventEntity):
         # A failed read says nothing about what the log holds.
         if not self.available:
             return
-        # Automations arm their triggers only once __HA_KEEP__ runs.
+        # Automations arm their triggers only once Universal Home Assistant runs.
         if self.hass.state is not CoreState.running:
             return
         if (handled := self._handled) is Undefined:

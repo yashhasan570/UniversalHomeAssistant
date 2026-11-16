@@ -6,7 +6,7 @@ from wmspro.const import WMS_WebControl_pro_API_actionDescription as ACTION_DESC
 
 from universalassistant.components.button import ButtonDeviceClass, ButtonEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import WebControlProConfigEntry
@@ -14,7 +14,7 @@ from .entity import WebControlProGenericEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: WebControlProConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -11,7 +11,7 @@ from yarl import URL
 
 from universalassistant.components.automation import automations_with_entity
 from universalassistant.components.script import scripts_with_entity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity import EntityDescription
@@ -191,7 +191,7 @@ def profile_pic(person: Person, _: Title | None = None) -> str | None:
     return str(URL(to_https(person.display_pic_raw)).without_query_params("mode"))
 
 
-def entity_used_in(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
+def entity_used_in(hass: UniversalAssistant, entity_id: str) -> list[str]:
     """Get list of related automations and scripts."""
     used_in = automations_with_entity(hass, entity_id)
     used_in += scripts_with_entity(hass, entity_id)
@@ -199,7 +199,7 @@ def entity_used_in(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
 
 
 def check_deprecated_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     xuid: str,
     entity_description: XboxBaseEntityDescription,
     entity_domain: str,

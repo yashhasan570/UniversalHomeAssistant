@@ -4,8 +4,8 @@ from dataclasses import dataclass
 from typing import override
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .api import (
@@ -59,7 +59,7 @@ BUTTON_DESCRIPTIONS = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: PterodactylConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -104,12 +104,12 @@ class PterodactylButtonEntity(PterodactylEntity, ButtonEntity):
                 self.game_server.identifier, self.entity_description.command
             )
         except PterodactylConnectionError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Failed to send action"
                 f" '{self.entity_description.key}':"
                 " Connection error"
             ) from err
         except PterodactylAuthorizationError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to send action '{self.entity_description.key}': Unauthorized"
             ) from err

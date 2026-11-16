@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_object_f
 from universalassistant.components.meteo_france.const import CONF_CITY, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture(autouse=True)
@@ -30,7 +30,7 @@ def patch_requests():
 
 
 @pytest.fixture(name="config_entry")
-def get_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def get_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Create and register mock config entry."""
     entry_data = {
         CONF_CITY: "La Clusaz",

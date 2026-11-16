@@ -1,12 +1,12 @@
 """Permission checks for AI tasks."""
 
 from universalassistant.auth.permissions.const import POLICY_CONTROL, POLICY_READ
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.exceptions import Unauthorized, UnknownUser
 
 
 async def async_check_permissions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id: str | None,
     attachments: list[dict] | None,
     context: Context | None,

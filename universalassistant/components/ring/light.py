@@ -8,7 +8,7 @@ from typing import Any, override
 from ring_doorbell import RingStickUpCam
 
 from universalassistant.components.light import ColorMode, LightEntity
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -37,7 +37,7 @@ class OnOffState(StrEnum):
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: RingConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -82,7 +82,7 @@ class RingLight(RingEntity[RingStickUpCam], LightEntity):
 
     @exception_wrap
     async def _async_set_light(self, new_state: OnOffState) -> None:
-        """Update light state, and causes __HA_KEEP__ to correctly update."""
+        """Update light state, and causes Universal Home Assistant to correctly update."""
         await self._device.async_set_lights(new_state)
 
         self._attr_is_on = new_state == OnOffState.ON

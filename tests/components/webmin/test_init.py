@@ -2,12 +2,12 @@
 
 from universalassistant.components.webmin.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import async_init_integration
 
 
-async def test_unload_entry(hass: __HAC_KEEP__) -> None:
+async def test_unload_entry(hass: UniversalAssistant) -> None:
     """Test successful unload of entry."""
 
     entry = await async_init_integration(hass)
@@ -21,7 +21,7 @@ async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     assert not hass.data.get(DOMAIN)
 
 
-async def test_entry_without_mac_address(hass: __HAC_KEEP__) -> None:
+async def test_entry_without_mac_address(hass: UniversalAssistant) -> None:
     """Test an entry without MAC address."""
 
     entry = await async_init_integration(hass, False)

@@ -32,7 +32,7 @@ from universalassistant.components.application_credentials import (
     async_import_client_credential,
 )
 from universalassistant.components.spotify.const import DOMAIN, SPOTIFY_SCOPES
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 SCOPES = " ".join(SPOTIFY_SCOPES)
@@ -46,7 +46,7 @@ def mock_expires_at() -> int:
 
 @pytest.fixture
 def mock_config_entry(expires_at: int) -> MockConfigEntry:
-    """Create Spotify entry in __HA_KEEP__."""
+    """Create Spotify entry in Universal Home Assistant."""
     return MockConfigEntry(
         domain=DOMAIN,
         title="spotify_1",
@@ -66,7 +66,7 @@ def mock_config_entry(expires_at: int) -> MockConfigEntry:
 
 
 @pytest.fixture
-async def setup_credentials(hass: __HAC_KEEP__) -> None:
+async def setup_credentials(hass: UniversalAssistant) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(

@@ -34,7 +34,7 @@ from universalassistant.components.satel_integra.const import (
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.config_entries import ConfigEntryState, ConfigSubentry
 from universalassistant.const import CONF_HOST, CONF_NAME, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
 
@@ -61,7 +61,7 @@ from . import (
     ],
 )
 async def test_config_flow_migration_v1_1_to_v1_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     original: ConfigSubentry,
     number_property: str,
@@ -99,7 +99,7 @@ async def test_config_flow_migration_v1_1_to_v1_2(
     ],
 )
 async def test_config_flow_migration_v1_to_v2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     entity_registry: EntityRegistry,
     platform: str,
@@ -139,7 +139,7 @@ async def test_config_flow_migration_v1_to_v2(
 
 
 async def test_config_flow_migration_v2_1_to_v2_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
 ) -> None:
     """Test that the encryption key is added to the config entry."""
@@ -166,7 +166,7 @@ async def test_config_flow_migration_v2_1_to_v2_2(
 
 
 async def test_config_flow_migration_v2_2_to_v2_3(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
 ) -> None:
     """Test that the temperature sensor option is added to zone subentries."""
@@ -211,7 +211,7 @@ async def test_config_flow_migration_v2_2_to_v2_3(
 
 
 async def test_parent_device_exists(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_satel: AsyncMock,
     device_registry: DeviceRegistry,
@@ -229,7 +229,7 @@ async def test_parent_device_exists(
 
 
 async def test_panel_info_read_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     device_registry: DeviceRegistry,
     mock_config_entry: MockConfigEntry,
@@ -249,7 +249,7 @@ async def test_panel_info_read_error(
 
 
 async def test_unload_unsubscribes_connection_status_callbacks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -271,7 +271,7 @@ async def test_unload_unsubscribes_connection_status_callbacks(
 
 
 async def test_unload_cancels_pending_partition_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -292,7 +292,7 @@ async def test_unload_cancels_pending_partition_update(
 
 
 async def test_setup_failure_unsubscribes_connection_status_callbacks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -309,7 +309,7 @@ async def test_setup_failure_unsubscribes_connection_status_callbacks(
 
 
 async def test_unload_unsubscribes_monitor_callbacks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -336,7 +336,7 @@ async def test_unload_unsubscribes_monitor_callbacks(
     ],
 )
 async def test_setup_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -349,7 +349,7 @@ async def test_setup_exceptions(
 
 
 async def test_monitoring_start_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -367,7 +367,7 @@ async def test_monitoring_start_error(
 
 
 async def test_connection_state_logging(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_satel: AsyncMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,

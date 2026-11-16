@@ -17,7 +17,7 @@ from universalassistant.components.onewire.const import DOMAIN
 from universalassistant.components.onewire.onewirehub import _DEVICE_SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -27,7 +27,7 @@ from .const import MOCK_OWPROXY_DEVICES
 
 @pytest.mark.usefixtures("owproxy_with_connerror")
 async def test_connect_failure(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test connection failure raises ConfigEntryNotReady."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -46,7 +46,7 @@ async def test_connect_failure(
     ],
 )
 async def test_listing_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     owproxy: MagicMock,
     exception: Exception,
@@ -64,7 +64,7 @@ async def test_listing_failure(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, owproxy: MagicMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, owproxy: MagicMock
 ) -> None:
     """Test being able to unload an entry."""
     setup_owproxy_mock_devices(owproxy, [])
@@ -82,7 +82,7 @@ async def test_unload_entry(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     owproxy: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -102,7 +102,7 @@ async def test_registry(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_registry_delayed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     owproxy: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -126,7 +126,7 @@ async def test_registry_delayed(
 
 
 async def test_scan_for_new_devices_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     owproxy: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -159,7 +159,7 @@ async def test_scan_for_new_devices_failure(
 
 
 async def test_device_via_device_links(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     owproxy: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -184,7 +184,7 @@ async def test_device_via_device_links(
 
 @patch("universalassistant.components.onewire._PLATFORMS", [Platform.SENSOR])
 async def test_registry_cleanup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
     owproxy: MagicMock,
@@ -232,7 +232,7 @@ async def test_registry_cleanup(
 
 @patch("universalassistant.components.onewire._PLATFORMS", [Platform.SENSOR])
 async def test_registry_cleanup_after_scan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
     owproxy: MagicMock,
@@ -284,7 +284,7 @@ async def test_registry_cleanup_after_scan(
 
 @patch("universalassistant.components.onewire._PLATFORMS", [Platform.SENSOR])
 async def test_registry_cleanup_reconnect_parent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
     owproxy: MagicMock,

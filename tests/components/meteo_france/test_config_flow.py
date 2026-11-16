@@ -11,7 +11,7 @@ from requests import RequestException
 from universalassistant.components.meteo_france.const import CONF_CITY, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 CITY_1_POSTAL = "74220"
@@ -89,7 +89,7 @@ def mock_setup() -> Generator[None]:
 
 
 @pytest.mark.usefixtures("client")
-async def test_user(hass: __HAC_KEEP__) -> None:
+async def test_user(hass: UniversalAssistant) -> None:
     """Test user config."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -110,7 +110,7 @@ async def test_user(hass: __HAC_KEEP__) -> None:
     assert result["data"][CONF_LONGITUDE] == str(CITY_1_LON)
 
 
-async def test_user_list(hass: __HAC_KEEP__, client: MagicMock) -> None:
+async def test_user_list(hass: UniversalAssistant, client: MagicMock) -> None:
     """Test user config."""
 
     client.return_value.search_places.return_value = [CITY_2, CITY_3]
@@ -142,7 +142,7 @@ async def test_user_list(hass: __HAC_KEEP__, client: MagicMock) -> None:
     assert result["data"][CONF_LONGITUDE] == str(CITY_3_LON)
 
 
-async def test_search_failed(hass: __HAC_KEEP__, client: MagicMock) -> None:
+async def test_search_failed(hass: UniversalAssistant, client: MagicMock) -> None:
     """Test error displayed if no result in search."""
     client.return_value.search_places.return_value = []
 
@@ -175,7 +175,7 @@ async def test_search_failed(hass: __HAC_KEEP__, client: MagicMock) -> None:
     assert result["data"][CONF_LONGITUDE] == str(CITY_1_LON)
 
 
-async def test_search_cannot_connect(hass: __HAC_KEEP__, client: MagicMock) -> None:
+async def test_search_cannot_connect(hass: UniversalAssistant, client: MagicMock) -> None:
     """Test error displayed if the search request fails."""
     client.return_value.search_places.side_effect = RequestException
 
@@ -201,7 +201,7 @@ async def test_search_cannot_connect(hass: __HAC_KEEP__, client: MagicMock) -> N
 
 
 @pytest.mark.usefixtures("client")
-async def test_abort_if_already_setup(hass: __HAC_KEEP__) -> None:
+async def test_abort_if_already_setup(hass: UniversalAssistant) -> None:
     """Test we abort if already setup."""
     MockConfigEntry(
         domain=DOMAIN,

@@ -7,7 +7,7 @@ import probatio
 from universalassistant.components import labs, websocket_api
 from universalassistant.components.hassio import HassioNotReadyError
 from universalassistant.config_entries import SOURCE_SYSTEM, ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import discovery_flow
 from universalassistant.helpers.start import async_at_started
@@ -58,7 +58,7 @@ _DATA_SNAPSHOTS_URL: HassKey[str | None] = HassKey(f"{DOMAIN}_snapshots_url")
 LABS_SNAPSHOT_FEATURE = "snapshots"
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the analytics integration."""
     analytics_config = config.get(DOMAIN, {})
 
@@ -83,7 +83,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up Analytics from a config entry."""
     snapshots_url = hass.data[_DATA_SNAPSHOTS_URL]
     analytics = Analytics(hass, snapshots_url)
@@ -106,8 +106,8 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         if started:
             await analytics.async_schedule()
 
-    async def start_schedule(hass: __HAC_KEEP__) -> None:
-        """Start the send schedule once __HA_KEEP__ has started."""
+    async def start_schedule(hass: UniversalAssistant) -> None:
+        """Start the send schedule once Universal Home Assistant has started."""
         nonlocal started
         started = True
         await analytics.async_schedule()
@@ -124,7 +124,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
 @websocket_api.require_admin
 @websocket_api.websocket_command({probatio.Required("type"): "analytics"})
 def websocket_analytics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -147,7 +147,7 @@ def websocket_analytics(
 )
 @websocket_api.async_response
 async def websocket_analytics_preferences(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

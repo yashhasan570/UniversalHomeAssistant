@@ -26,7 +26,7 @@ from universalassistant.components.energyzero.services import (
     EnergyZeroService,
     EnergyZeroServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.util import dt as dt_util
 
@@ -48,7 +48,7 @@ pytestmark = pytest.mark.freeze_time("2026-04-10 20:32:59")
     ],
 )
 async def test_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     service: str,
@@ -79,7 +79,7 @@ async def test_service(
     ],
 )
 async def test_service_price_type_mapping(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energyzero: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -112,7 +112,7 @@ async def test_service_price_type_mapping(
     "service", [EnergyZeroService.GET_GAS_PRICES, EnergyZeroService.GET_ENERGY_PRICES]
 )
 async def test_service_dates_normalized_to_hass_timezone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energyzero: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -183,7 +183,7 @@ async def test_service_dates_normalized_to_hass_timezone(
     ],
 )
 async def test_service_filters_datetime_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energyzero: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -267,7 +267,7 @@ async def test_service_filters_datetime_range(
     ],
 )
 async def test_service_equal_start_end_selects_full_local_day(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energyzero: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -311,7 +311,7 @@ async def test_service_equal_start_end_selects_full_local_day(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_service_equal_start_end_full_day_respects_dst(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energyzero: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -361,7 +361,7 @@ async def test_service_equal_start_end_full_day_respects_dst(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_service_date_and_equal_datetime_selects_full_local_day(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energyzero: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -483,7 +483,7 @@ def config_entry_data(
     indirect=["config_entry_data"],
 )
 async def test_service_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service: str,
     config_entry_data: dict[str, str],
     service_data: dict[str, str],
@@ -508,7 +508,7 @@ async def test_service_validation(
     "service", [EnergyZeroService.GET_GAS_PRICES, EnergyZeroService.GET_ENERGY_PRICES]
 )
 async def test_service_called_with_unloaded_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     service: str,
 ) -> None:
@@ -543,7 +543,7 @@ async def test_service_called_with_unloaded_entry(
     ],
 )
 async def test_service_no_data_returns_validation_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energyzero: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -606,7 +606,7 @@ async def test_service_no_data_returns_validation_error(
     ],
 )
 async def test_energy_service_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energyzero: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_interval: str,
@@ -718,7 +718,7 @@ async def test_energy_service_options(
     ],
 )
 async def test_energy_service_quarter_ranges(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energyzero: AsyncMock,
     mock_config_entry: MockConfigEntry,
     start: str,
@@ -806,7 +806,7 @@ async def test_energy_service_quarter_ranges(
     ],
 )
 async def test_service_rejects_unsupported_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energyzero: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -832,7 +832,7 @@ async def test_service_rejects_unsupported_options(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_energy_service_quarter_invalid_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_energyzero: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -857,7 +857,7 @@ async def test_energy_service_quarter_invalid_range(
 
 
 async def test_gas_action_deduplicates_overlapping_days(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:

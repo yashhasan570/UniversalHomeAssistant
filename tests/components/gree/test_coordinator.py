@@ -12,7 +12,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 from universalassistant.components.climate import HVACMode
 from universalassistant.components.gree.const import UPDATE_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .common import async_setup_gree, build_device_mock
 
@@ -20,7 +20,7 @@ ENTITY_ID = "climate.fake_device_1"
 
 
 async def test_silent_device_stays_unavailable(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Successful sends cannot keep a silent device available or revive it."""
     await async_setup_gree(hass)
@@ -43,7 +43,7 @@ async def test_silent_device_stays_unavailable(
 
 @pytest.mark.parametrize("response", [Response.DATA, Response.RESULT])
 async def test_responses_sustain_and_restore_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device: Mock,
     response: Response,
@@ -82,7 +82,7 @@ async def test_responses_sustain_and_restore_availability(
 
 
 async def test_one_lost_response_is_tolerated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device: Mock,
 ) -> None:
@@ -108,7 +108,7 @@ async def test_one_lost_response_is_tolerated(
 
 
 async def test_repeated_send_timeouts_stay_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device: Mock,
 ) -> None:
@@ -133,7 +133,7 @@ async def test_repeated_send_timeouts_stay_unavailable(
 
 @pytest.mark.parametrize("response", [Response.DATA, Response.RESULT])
 async def test_response_publishes_immediately(
-    hass: __HAC_KEEP__, device: Mock, response: Response
+    hass: UniversalAssistant, device: Mock, response: Response
 ) -> None:
     """Both reply types immediately publish the device state to HA."""
     await async_setup_gree(hass)
@@ -148,7 +148,7 @@ async def test_response_publishes_immediately(
 
 
 async def test_device_availability_is_independent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     discovery: Mock,
     device: Mock,

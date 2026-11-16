@@ -12,8 +12,8 @@ from roborock.data import DnDTimer, RoborockBaseTimer, ValleyElectricityTimer
 
 from universalassistant.components.time import TimeService
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from .conftest import FakeDevice
 
@@ -65,7 +65,7 @@ def platforms() -> list[Platform]:
     ],
 )
 async def test_update_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
     entity_id: str,
@@ -107,7 +107,7 @@ async def test_update_success(
     ],
 )
 async def test_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: MockConfigEntry,
     entity_id: str,
     fake_vacuum: FakeDevice,
@@ -118,7 +118,7 @@ async def test_update_failure(
     fake_vacuum.v1_properties.dnd.set_dnd_timer.side_effect = (
         roborock.exceptions.RoborockTimeout
     )
-    with pytest.raises(__HAC_KEEP__Error, match="Failed to update Roborock options"):
+    with pytest.raises(UniversalAssistantError, match="Failed to update Roborock options"):
         await hass.services.async_call(
             "time",
             TimeService.SET_VALUE,
@@ -156,7 +156,7 @@ async def test_update_failure(
     ],
 )
 async def test_missing_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     setup_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,

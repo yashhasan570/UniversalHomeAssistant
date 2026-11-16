@@ -1,7 +1,7 @@
 """The Fing integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryError
 
 from .coordinator import FingConfigEntry, FingDataUpdateCoordinator
@@ -9,7 +9,7 @@ from .coordinator import FingConfigEntry, FingDataUpdateCoordinator
 PLATFORMS = [Platform.DEVICE_TRACKER]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, config_entry: FingConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, config_entry: FingConfigEntry) -> None:
     """Set up the Fing component."""
 
     coordinator = FingDataUpdateCoordinator(hass, config_entry)
@@ -26,7 +26,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, config_entry: FingConfigEntry) -
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: FingConfigEntry
+    hass: UniversalAssistant, config_entry: FingConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)

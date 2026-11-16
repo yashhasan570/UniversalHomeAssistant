@@ -6,8 +6,8 @@ from switchbee.api.central_unit import SwitchBeeError
 from switchbee.device import ApiStateCommand, DeviceType
 
 from universalassistant.components.button import ButtonEntity
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import SwitchBeeConfigEntry
@@ -15,7 +15,7 @@ from .entity import SwitchBeeEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SwitchBeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -37,6 +37,6 @@ class SwitchBeeButton(SwitchBeeEntity, ButtonEntity):
         try:
             await self.coordinator.api.set_state(self._device.id, ApiStateCommand.ON)
         except SwitchBeeError as exp:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to fire scenario {self.name}, {exp!s}"
             ) from exp

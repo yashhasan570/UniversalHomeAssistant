@@ -1,7 +1,7 @@
 """Checker for direct calls to ``async_setup`` from tests.
 
 Tests should not invoke an integration's ``async_setup`` directly.
-Instead, tests should let __HA_KEEP__ perform the setup via the
+Instead, tests should let Universal Home Assistant perform the setup via the
 normal pipeline:
 
 * For integrations with config entries, add a ``MockConfigEntry`` and
@@ -76,7 +76,7 @@ class DirectAsyncSetup(BaseChecker):
             "`async_setup_component` instead",
             "universal-assistant-tests-direct-async-setup",
             "Used when a test module calls an integration's `async_setup` "
-            "directly. Tests should let __HA_KEEP__ drive the setup so "
+            "directly. Tests should let Universal Home Assistant drive the setup so "
             "the full setup pipeline is exercised.",
         ),
     }

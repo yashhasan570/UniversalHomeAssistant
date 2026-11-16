@@ -13,7 +13,7 @@ from gotailwind import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -28,7 +28,7 @@ class TailwindDataUpdateCoordinator(DataUpdateCoordinator[TailwindDeviceStatus])
 
     config_entry: TailwindConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, entry: TailwindConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: TailwindConfigEntry) -> None:
         """Initialize the coordinator."""
         self.tailwind = Tailwind(
             host=entry.data[CONF_HOST],

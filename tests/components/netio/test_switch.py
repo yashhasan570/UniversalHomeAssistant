@@ -24,8 +24,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -36,7 +36,7 @@ ENTITY_OUTPUT_1 = "switch.powercable_output_1"
 
 @pytest.mark.usefixtures("mock_netio")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -59,7 +59,7 @@ async def test_entities(
     ],
 )
 async def test_switch_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_netio: MagicMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -87,7 +87,7 @@ async def test_switch_turn_on_off(
 
 
 async def test_switch_optimistic_state_reconciled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_netio: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -112,16 +112,16 @@ async def test_switch_optimistic_state_reconciled(
 
 
 async def test_switch_action_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_netio: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
-    """Test an error while setting an output raises __HAC_KEEP__Error."""
+    """Test an error while setting an output raises UniversalAssistantError."""
     await setup_integration(hass, mock_config_entry)
     device = mock_netio.return_value
     device.set_output.side_effect = CommunicationError("failed")
 
-    with pytest.raises(__HAC_KEEP__Error, match="Error setting output 1"):
+    with pytest.raises(UniversalAssistantError, match="Error setting output 1"):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -131,7 +131,7 @@ async def test_switch_action_error(
 
 
 async def test_switch_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_netio: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -149,7 +149,7 @@ async def test_switch_unavailable(
 
 
 async def test_legacy_yaml_creates_issue(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test the legacy YAML platform creates a deprecation repair issue."""
     with patch("universalassistant.components.netio.switch.Netio"):

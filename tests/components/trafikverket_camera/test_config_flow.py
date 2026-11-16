@@ -14,11 +14,11 @@ from pytrafikverket import (
 from universalassistant import config_entries
 from universalassistant.components.trafikverket_camera.const import DOMAIN
 from universalassistant.const import CONF_API_KEY, CONF_ID, CONF_LOCATION
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_form(hass: __HAC_KEEP__, get_camera: CameraInfoModel) -> None:
+async def test_form(hass: UniversalAssistant, get_camera: CameraInfoModel) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -57,7 +57,7 @@ async def test_form(hass: __HAC_KEEP__, get_camera: CameraInfoModel) -> None:
 
 
 async def test_form_already_configured(
-    hass: __HAC_KEEP__, get_camera: CameraInfoModel
+    hass: UniversalAssistant, get_camera: CameraInfoModel
 ) -> None:
     """Test we abort when the camera is already configured."""
     MockConfigEntry(
@@ -88,7 +88,7 @@ async def test_form_already_configured(
 
 
 async def test_form_multiple_cameras(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_cameras: list[CameraInfoModel],
     get_camera2: CameraInfoModel,
 ) -> None:
@@ -142,7 +142,7 @@ async def test_form_multiple_cameras(
 
 
 async def test_form_no_location_data(
-    hass: __HAC_KEEP__, get_camera_no_location: CameraInfoModel
+    hass: UniversalAssistant, get_camera_no_location: CameraInfoModel
 ) -> None:
     """Test we get the form."""
 
@@ -202,7 +202,7 @@ async def test_form_no_location_data(
     ],
 )
 async def test_flow_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_camera: CameraInfoModel,
     side_effect: Exception,
     error_key: str,
@@ -252,7 +252,7 @@ async def test_flow_fails(
     assert result4["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
+async def test_reauth_flow(hass: UniversalAssistant) -> None:
     """Test a reauthentication flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -314,7 +314,7 @@ async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_reauth_flow_error(
-    hass: __HAC_KEEP__, side_effect: Exception, error_key: str, p_error: str
+    hass: UniversalAssistant, side_effect: Exception, error_key: str, p_error: str
 ) -> None:
     """Test a reauthentication flow with error."""
     entry = MockConfigEntry(
@@ -369,7 +369,7 @@ async def test_reauth_flow_error(
 
 
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_cameras: list[CameraInfoModel],
     get_camera2: CameraInfoModel,
 ) -> None:
@@ -430,7 +430,7 @@ async def test_reconfigure_flow(
 
 
 async def test_reconfigure_flow_same_camera(
-    hass: __HAC_KEEP__, get_camera: CameraInfoModel
+    hass: UniversalAssistant, get_camera: CameraInfoModel
 ) -> None:
     """Test reconfigure keeps the entry's own camera with a new API key."""
     entry = MockConfigEntry(
@@ -466,7 +466,7 @@ async def test_reconfigure_flow_same_camera(
 
 
 async def test_reconfigure_flow_already_configured(
-    hass: __HAC_KEEP__, get_camera2: CameraInfoModel
+    hass: UniversalAssistant, get_camera2: CameraInfoModel
 ) -> None:
     """Test reconfigure aborts when another entry has the camera."""
     entry = MockConfigEntry(
@@ -500,7 +500,7 @@ async def test_reconfigure_flow_already_configured(
 
 
 async def test_reconfigure_flow_multiple_cameras_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_cameras: list[CameraInfoModel],
     get_camera2: CameraInfoModel,
 ) -> None:
@@ -565,7 +565,7 @@ async def test_reconfigure_flow_multiple_cameras_already_configured(
     ],
 )
 async def test_reconfigure_flow_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_camera: CameraInfoModel,
     side_effect: Exception,
     error_key: str,

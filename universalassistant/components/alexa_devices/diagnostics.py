@@ -7,7 +7,7 @@ from aioamazondevices.structures import AmazonDevice
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_NAME, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import AnyDeviceEntry, DeviceEntry
 
 from .coordinator import AmazonConfigEntry, AmazonDevicesCoordinator
@@ -32,7 +32,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: AmazonConfigEntry
+    hass: UniversalAssistant, entry: AmazonConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
 
@@ -53,7 +53,7 @@ async def async_get_config_entry_diagnostics(
 
 
 async def async_get_device_diagnostics(
-    hass: __HAC_KEEP__, entry: AmazonConfigEntry, device_entry: AnyDeviceEntry
+    hass: UniversalAssistant, entry: AmazonConfigEntry, device_entry: AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device."""
 

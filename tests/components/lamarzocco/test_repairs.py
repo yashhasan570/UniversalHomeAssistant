@@ -15,7 +15,7 @@ from universalassistant.components.lamarzocco.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -24,7 +24,7 @@ from . import async_init_integration
 
 @pytest.mark.usefixtures("mock_lamarzocco")
 async def test_missing_bluetooth_token_disable_bluetooth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,

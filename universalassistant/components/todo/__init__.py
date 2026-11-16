@@ -11,8 +11,8 @@ from universalassistant.components import frontend, websocket_api
 from universalassistant.components.websocket_api import ERR_NOT_FOUND, ERR_NOT_SUPPORTED
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ENTITY_ID
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, callback
-from universalassistant.exceptions import ConfigEntryError, __HAC_KEEP__Error
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
+from universalassistant.exceptions import ConfigEntryError, UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.typing import ConfigType
@@ -63,7 +63,7 @@ __all__ = [
 ]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up Todo entities."""
     component = hass.data[DATA_COMPONENT] = EntityComponent[TodoListEntity](
         _LOGGER, DOMAIN, hass, SCAN_INTERVAL
@@ -81,7 +81,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up a config entry."""
     if not await hass.data[DATA_COMPONENT].async_setup_entry(entry):
         raise ConfigEntryError(
@@ -91,7 +91,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.data[DATA_COMPONENT].async_unload_entry(entry)
 
@@ -104,7 +104,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
 )
 @websocket_api.async_response
 async def websocket_handle_subscribe_todo_items(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Subscribe to To-do list item updates."""
     entity_id: str = msg["entity_id"]
@@ -145,7 +145,7 @@ async def websocket_handle_subscribe_todo_items(
 )
 @websocket_api.async_response
 async def websocket_handle_todo_item_list(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle the list of To-do items in a To-do- list."""
     if (
@@ -180,7 +180,7 @@ async def websocket_handle_todo_item_list(
 )
 @websocket_api.async_response
 async def websocket_handle_todo_item_move(
-    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle move of a To-do item within a To-do list."""
     if not (entity := hass.data[DATA_COMPONENT].get_entity(msg["entity_id"])):
@@ -203,7 +203,7 @@ async def websocket_handle_todo_item_move(
         await entity.async_move_todo_item(
             uid=msg["uid"], previous_uid=msg.get("previous_uid")
         )
-    except __HAC_KEEP__Error as ex:
+    except UniversalAssistantError as ex:
         connection.send_error(msg["id"], "failed", str(ex))
     else:
         connection.send_result(msg["id"])

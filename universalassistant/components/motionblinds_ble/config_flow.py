@@ -13,7 +13,7 @@ from universalassistant.components.bluetooth import BluetoothServiceInfoBleak
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult, OptionsFlow
 from universalassistant.const import CONF_ADDRESS
 from universalassistant.core import callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.selector import (
     SelectSelector,
     SelectSelectorConfig,
@@ -160,8 +160,7 @@ class FlowHandler(ConfigFlow, domain=DOMAIN):
             (
                 device
                 for device in devices
-                if device
-                and device.name
+                if device.name is not None
                 and f"MOTION_{mac_code.upper()}" in device.name
             ),
             None,
@@ -238,19 +237,19 @@ def get_mac_from_local_name(data: str) -> str | None:
     return str(match.group(1)) if match else None
 
 
-class CouldNotFindMotor(__HAC_KEEP__Error):
+class CouldNotFindMotor(UniversalAssistantError):
     """Error to indicate no motor with that MAC code could be found."""
 
 
-class InvalidMACCode(__HAC_KEEP__Error):
+class InvalidMACCode(UniversalAssistantError):
     """Error to indicate the MAC code is invalid."""
 
 
-class NoBluetoothAdapter(__HAC_KEEP__Error):
+class NoBluetoothAdapter(UniversalAssistantError):
     """Error to indicate no bluetooth adapter could be found."""
 
 
-class NoDevicesFound(__HAC_KEEP__Error):
+class NoDevicesFound(UniversalAssistantError):
     """Error to indicate no bluetooth devices could be found."""
 
 

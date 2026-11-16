@@ -28,7 +28,7 @@ from universalassistant.config_entries import (
     ConfigEntryState,
 )
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.service_info.hassio import HassioServiceInfo
@@ -57,7 +57,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 @pytest.mark.usefixtures("labs")
-async def test_user_flow_feature_off(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_feature_off(hass: UniversalAssistant) -> None:
     """Test nothing can be set up until the feature is on."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -68,7 +68,7 @@ async def test_user_flow_feature_off(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("preview_feature_enabled", "app_info")
-async def test_manual_flow(hass: __HAC_KEEP__) -> None:
+async def test_manual_flow(hass: UniversalAssistant) -> None:
     """Test saying where the app runs."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -97,7 +97,7 @@ async def test_manual_flow(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("preview_feature_enabled")
 async def test_manual_flow_cannot_use_app(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     response: dict[str, Any],
     reason: str,
@@ -123,7 +123,7 @@ async def test_manual_flow_cannot_use_app(
 
 
 @pytest.mark.usefixtures("preview_feature_enabled", "app_info")
-async def test_manual_flows_at_once(hass: __HAC_KEEP__) -> None:
+async def test_manual_flows_at_once(hass: UniversalAssistant) -> None:
     """Test two people saying where the app runs do not make two entries."""
     first = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -146,7 +146,7 @@ async def test_manual_flows_at_once(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("preview_feature_enabled")
 async def test_user_flow_single_instance(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test there is one app."""
     mock_config_entry.add_to_hass(hass)
@@ -160,7 +160,7 @@ async def test_user_flow_single_instance(
 
 
 @pytest.mark.usefixtures("supervisor", "preview_feature_enabled")
-async def test_on_supervisor_without_app(hass: __HAC_KEEP__) -> None:
+async def test_on_supervisor_without_app(hass: UniversalAssistant) -> None:
     """Test opting out of the app on Supervisor leads to manual setup."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -183,7 +183,7 @@ async def test_on_supervisor_without_app(hass: __HAC_KEEP__) -> None:
     "get_addon_discovery_info",
 )
 async def test_app_not_installed(
-    hass: __HAC_KEEP__, install_addon: AsyncMock, start_addon: AsyncMock
+    hass: UniversalAssistant, install_addon: AsyncMock, start_addon: AsyncMock
 ) -> None:
     """Test installing and starting the app."""
     result = await hass.config_entries.flow.async_init(
@@ -221,7 +221,7 @@ async def test_app_not_installed(
     "get_addon_discovery_info",
 )
 async def test_app_installed_not_running(
-    hass: __HAC_KEEP__, install_addon: AsyncMock, start_addon: AsyncMock
+    hass: UniversalAssistant, install_addon: AsyncMock, start_addon: AsyncMock
 ) -> None:
     """Test starting an installed app."""
     result = await hass.config_entries.flow.async_init(
@@ -249,7 +249,7 @@ async def test_app_installed_not_running(
     "get_addon_discovery_info",
 )
 async def test_app_running(
-    hass: __HAC_KEEP__, install_addon: AsyncMock, start_addon: AsyncMock
+    hass: UniversalAssistant, install_addon: AsyncMock, start_addon: AsyncMock
 ) -> None:
     """Test using an already running app."""
     result = await hass.config_entries.flow.async_init(
@@ -293,7 +293,7 @@ async def test_app_running(
     "start_addon",
 )
 async def test_app_running_cannot_be_used(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     get_addon_discovery_info: AsyncMock,
     discovery_failure: Exception | None,
@@ -318,7 +318,7 @@ async def test_app_running_cannot_be_used(
     "supervisor", "preview_feature_enabled", "addon_not_installed", "start_addon"
 )
 async def test_app_install_failed(
-    hass: __HAC_KEEP__, install_addon: AsyncMock
+    hass: UniversalAssistant, install_addon: AsyncMock
 ) -> None:
     """Test a failed installation is reported."""
     install_addon.side_effect = SupervisorError()
@@ -339,7 +339,7 @@ async def test_app_install_failed(
 @pytest.mark.usefixtures(
     "supervisor", "preview_feature_enabled", "addon_installed", "install_addon"
 )
-async def test_app_start_failed(hass: __HAC_KEEP__, start_addon: AsyncMock) -> None:
+async def test_app_start_failed(hass: UniversalAssistant, start_addon: AsyncMock) -> None:
     """Test a failed start is reported."""
     start_addon.side_effect = SupervisorError()
     result = await hass.config_entries.flow.async_init(
@@ -365,7 +365,7 @@ async def test_app_start_failed(hass: __HAC_KEEP__, start_addon: AsyncMock) -> N
     "get_addon_discovery_info",
 )
 async def test_app_start_unsupported_version(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test an app that starts speaking another protocol version is reported."""
     aioclient_mock.get(APP_INFO_URL, json={**INFO, "api_version": 2})
@@ -387,7 +387,7 @@ async def test_app_start_unsupported_version(
     "supervisor", "preview_feature_enabled", "addon_installed", "install_addon"
 )
 async def test_app_start_timeout(
-    hass: __HAC_KEEP__, start_addon: AsyncMock, get_addon_discovery_info: AsyncMock
+    hass: UniversalAssistant, start_addon: AsyncMock, get_addon_discovery_info: AsyncMock
 ) -> None:
     """Test an app that never answers after starting is reported."""
     get_addon_discovery_info.return_value = []
@@ -409,7 +409,7 @@ async def test_app_start_timeout(
 
 @pytest.mark.usefixtures("supervisor", "preview_feature_enabled", "addon_store_info")
 async def test_app_info_failed(
-    hass: __HAC_KEEP__, addon_store_info: AsyncMock
+    hass: UniversalAssistant, addon_store_info: AsyncMock
 ) -> None:
     """Test the Supervisor not answering about the app is reported."""
     addon_store_info.side_effect = SupervisorError()
@@ -432,7 +432,7 @@ async def test_app_info_failed(
     "get_addon_discovery_info",
 )
 async def test_system_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     install_addon: AsyncMock,
     start_addon: AsyncMock,
     issue_registry: ir.IssueRegistry,
@@ -459,7 +459,7 @@ async def test_system_flow(
 
 @pytest.mark.usefixtures("supervisor", "preview_feature_enabled")
 async def test_system_flow_with_an_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test nothing is set up behind the person's back when they have an app."""
     mock_config_entry.add_to_hass(hass)
@@ -472,7 +472,7 @@ async def test_system_flow_with_an_entry(
 
 
 @pytest.mark.usefixtures("supervisor", "labs")
-async def test_system_flow_feature_off(hass: __HAC_KEEP__) -> None:
+async def test_system_flow_feature_off(hass: UniversalAssistant) -> None:
     """Test the system flow does nothing with the feature off."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_SYSTEM}
@@ -486,7 +486,7 @@ async def test_system_flow_feature_off(hass: __HAC_KEEP__) -> None:
     "supervisor", "preview_feature_enabled", "addon_not_installed", "start_addon"
 )
 async def test_system_flow_failure_leaves_an_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     install_addon: AsyncMock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -513,7 +513,7 @@ async def test_system_flow_failure_leaves_an_issue(
     "get_addon_discovery_info",
 )
 async def test_system_flow_success_clears_the_issue(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test a later success takes the complaint back."""
     ir.async_create_issue(
@@ -536,7 +536,7 @@ async def test_system_flow_success_clears_the_issue(
 
 
 @pytest.mark.usefixtures("preview_feature_enabled", "app_info")
-async def test_hassio_flow(hass: __HAC_KEEP__) -> None:
+async def test_hassio_flow(hass: UniversalAssistant) -> None:
     """Test the app announcing itself gets an entry without a word."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_HASSIO}, data=HASSIO_DATA
@@ -548,7 +548,7 @@ async def test_hassio_flow(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("labs")
-async def test_hassio_flow_feature_off(hass: __HAC_KEEP__) -> None:
+async def test_hassio_flow_feature_off(hass: UniversalAssistant) -> None:
     """Test the app announcing itself is ignored with the feature off."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_HASSIO}, data=HASSIO_DATA
@@ -570,7 +570,7 @@ async def test_hassio_flow_feature_off(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("preview_feature_enabled")
 async def test_hassio_flow_cannot_use_app(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     response: dict[str, Any],
     reason: str,
@@ -595,7 +595,7 @@ async def test_hassio_flow_cannot_use_app(
     "get_addon_discovery_info",
 )
 async def test_hassio_flow_while_system_flow_runs(
-    hass: __HAC_KEEP__, install_addon: AsyncMock
+    hass: UniversalAssistant, install_addon: AsyncMock
 ) -> None:
     """Test the app announcing itself mid-setup does not start a second flow."""
     installing = hass.loop.create_future()
@@ -630,7 +630,7 @@ async def test_hassio_flow_while_system_flow_runs(
 )
 @pytest.mark.usefixtures("preview_feature_enabled", "app_info")
 async def test_discovery_updates_the_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     source: str,
     data: HassioServiceInfo | ZeroconfServiceInfo,
@@ -656,7 +656,7 @@ async def test_discovery_updates_the_entry(
 
 
 @pytest.mark.usefixtures("preview_feature_enabled", "app_info")
-async def test_discovery_reloads_a_retrying_entry(hass: __HAC_KEEP__) -> None:
+async def test_discovery_reloads_a_retrying_entry(hass: UniversalAssistant) -> None:
     """Test the app coming back does not wait out the retry backoff."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -678,7 +678,7 @@ async def test_discovery_reloads_a_retrying_entry(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("preview_feature_enabled", "app_info")
 async def test_discovery_leaves_an_unchanged_loaded_entry_alone(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test the app announcing itself again at the same address is no reason to reload.
 
@@ -704,7 +704,7 @@ async def test_discovery_leaves_an_unchanged_loaded_entry_alone(
 
 @pytest.mark.usefixtures("preview_feature_enabled", "app_info")
 async def test_discovery_leaves_another_host_alone(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test an entry pointed at an app of the person's own is not overwritten."""
     mock_config_entry.add_to_hass(hass)
@@ -719,7 +719,7 @@ async def test_discovery_leaves_another_host_alone(
 
 
 @pytest.mark.usefixtures("preview_feature_enabled", "app_info")
-async def test_zeroconf_flow(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_flow(hass: UniversalAssistant) -> None:
     """Test an app found on the network is confirmed before it is used."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_ZEROCONF}, data=ZEROCONF_DATA
@@ -736,7 +736,7 @@ async def test_zeroconf_flow(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("labs")
-async def test_zeroconf_flow_feature_off(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_flow_feature_off(hass: UniversalAssistant) -> None:
     """Test an app found on the network is ignored with the feature off."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_ZEROCONF}, data=ZEROCONF_DATA
@@ -747,7 +747,7 @@ async def test_zeroconf_flow_feature_off(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("preview_feature_enabled")
-async def test_zeroconf_flow_no_port(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_flow_no_port(hass: UniversalAssistant) -> None:
     """Test an announcement without a port is useless."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -779,7 +779,7 @@ async def test_zeroconf_flow_no_port(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("preview_feature_enabled")
 async def test_zeroconf_flow_cannot_use_app(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     response: dict[str, Any],
     reason: str,
@@ -797,7 +797,7 @@ async def test_zeroconf_flow_cannot_use_app(
 
 @pytest.mark.usefixtures("preview_feature_enabled", "app_info")
 async def test_zeroconf_confirm_after_an_entry_appeared(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test confirming a stale discovery does not make a second entry."""
     result = await hass.config_entries.flow.async_init(

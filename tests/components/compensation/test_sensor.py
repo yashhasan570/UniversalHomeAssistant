@@ -30,7 +30,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -54,7 +54,7 @@ TEST_CONFIG = {
 
 
 async def test_platform_config_creates_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -68,7 +68,7 @@ async def test_platform_config_creates_issue(
     )
 
 
-async def async_setup_compensation(hass: __HAC_KEEP__, config: dict[str, Any]) -> None:
+async def async_setup_compensation(hass: UniversalAssistant, config: dict[str, Any]) -> None:
     """Do setup of a compensation integration sensor."""
     with assert_setup_component(1, DOMAIN):
         assert await async_setup_component(
@@ -83,14 +83,14 @@ async def async_setup_compensation(hass: __HAC_KEEP__, config: dict[str, Any]) -
 
 
 @pytest.fixture
-async def setup_compensation(hass: __HAC_KEEP__, config: dict[str, Any]) -> None:
+async def setup_compensation(hass: UniversalAssistant, config: dict[str, Any]) -> None:
     """Do setup of a compensation integration sensor."""
     await async_setup_compensation(hass, config)
 
 
 @pytest.fixture
 async def setup_compensation_with_limits(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict[str, Any],
     upper: bool,
     lower: bool,
@@ -114,7 +114,7 @@ async def caplog_setup_text(caplog: pytest.LogCaptureFixture) -> str:
 
 @pytest.mark.parametrize("config", [TEST_CONFIG])
 @pytest.mark.usefixtures("setup_compensation")
-async def test_linear_state(hass: __HAC_KEEP__, config: dict[str, Any]) -> None:
+async def test_linear_state(hass: UniversalAssistant, config: dict[str, Any]) -> None:
     """Test compensation sensor state."""
     hass.bus.async_fire(EVENT_HOMEASSISTANT_START)
     hass.states.async_set(TEST_SOURCE, 4, {})
@@ -139,7 +139,7 @@ async def test_linear_state(hass: __HAC_KEEP__, config: dict[str, Any]) -> None:
     assert state.state == STATE_UNKNOWN
 
 
-async def test_initial_state_from_existing_source(hass: __HAC_KEEP__) -> None:
+async def test_initial_state_from_existing_source(hass: UniversalAssistant) -> None:
     """Test the sensor uses the source state that exists before setup."""
     hass.states.async_set(TEST_SOURCE, 4, {})
 
@@ -151,7 +151,7 @@ async def test_initial_state_from_existing_source(hass: __HAC_KEEP__) -> None:
 
 
 async def test_config_entry_initial_state_from_existing_source(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the config entry sensor uses the source state that exists before setup."""
     hass.states.async_set(TEST_SOURCE, "5")
@@ -165,7 +165,7 @@ async def test_config_entry_initial_state_from_existing_source(
 
 
 async def test_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     sensor_entity_entry: er.RegistryEntry,
@@ -182,7 +182,7 @@ async def test_device_id(
 
 @pytest.mark.usefixtures("sensor_entity_entry")
 async def test_device_id_yaml(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -197,7 +197,7 @@ async def test_device_id_yaml(
 
 @pytest.mark.parametrize("config", [{"name": TEST_OBJECT_ID, **TEST_BASE_CONFIG}])
 @pytest.mark.usefixtures("setup_compensation")
-async def test_attributes_come_from_source(hass: __HAC_KEEP__) -> None:
+async def test_attributes_come_from_source(hass: UniversalAssistant) -> None:
     """Test compensation sensor state."""
     hass.bus.async_fire(EVENT_HOMEASSISTANT_START)
     hass.states.async_set(
@@ -222,7 +222,7 @@ async def test_attributes_come_from_source(hass: __HAC_KEEP__) -> None:
 @pytest.mark.parametrize("config", [{"attribute": "value", **TEST_CONFIG}])
 @pytest.mark.usefixtures("setup_compensation")
 async def test_linear_state_from_attribute(
-    hass: __HAC_KEEP__, config: dict[str, Any]
+    hass: UniversalAssistant, config: dict[str, Any]
 ) -> None:
     """Test compensation sensor state that pulls from attribute."""
     hass.bus.async_fire(EVENT_HOMEASSISTANT_START)
@@ -276,7 +276,7 @@ async def test_linear_state_from_attribute(
     ],
 )
 @pytest.mark.usefixtures("setup_compensation")
-async def test_quadratic_state(hass: __HAC_KEEP__, config: dict[str, Any]) -> None:
+async def test_quadratic_state(hass: UniversalAssistant, config: dict[str, Any]) -> None:
     """Test 3 degree polynominial compensation sensor."""
     hass.states.async_set(TEST_SOURCE, 43.2, {})
     await hass.async_block_till_done()
@@ -301,13 +301,13 @@ async def test_quadratic_state(hass: __HAC_KEEP__, config: dict[str, Any]) -> No
     ],
 )
 @pytest.mark.usefixtures("setup_compensation")
-async def test_numpy_errors(hass: __HAC_KEEP__, caplog_setup_text) -> None:
+async def test_numpy_errors(hass: UniversalAssistant, caplog_setup_text) -> None:
     """Tests bad polyfits."""
     assert "invalid value encountered in divide" in caplog_setup_text
 
 
 async def test_datapoints_greater_than_degree(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Tests 3 bad data points."""
     config = {
@@ -332,7 +332,7 @@ async def test_datapoints_greater_than_degree(
 
 @pytest.mark.parametrize("config", [TEST_CONFIG])
 @pytest.mark.usefixtures("setup_compensation")
-async def test_new_state_is_none(hass: __HAC_KEEP__) -> None:
+async def test_new_state_is_none(hass: UniversalAssistant) -> None:
     """Tests catch for empty new states."""
     last_changed = hass.states.get(TEST_ENTITY_ID).last_changed
     hass.bus.async_fire(EVENT_STATE_CHANGED, event_data={"entity_id": TEST_SOURCE})
@@ -364,7 +364,7 @@ async def test_new_state_is_none(hass: __HAC_KEEP__) -> None:
     ],
 )
 @pytest.mark.usefixtures("setup_compensation_with_limits")
-async def test_limits(hass: __HAC_KEEP__, lower: bool, upper: bool) -> None:
+async def test_limits(hass: UniversalAssistant, lower: bool, upper: bool) -> None:
     """Test compensation sensor state."""
     hass.states.async_set(TEST_SOURCE, 0, {})
     await hass.async_block_till_done()
@@ -390,7 +390,7 @@ async def test_limits(hass: __HAC_KEEP__, lower: bool, upper: bool) -> None:
     ],
 )
 @pytest.mark.usefixtures("setup_compensation")
-async def test_default_name(hass: __HAC_KEEP__, expected: str) -> None:
+async def test_default_name(hass: UniversalAssistant, expected: str) -> None:
     """Test default configuration name."""
     assert hass.states.get(expected) is not None
 
@@ -402,7 +402,7 @@ async def test_default_name(hass: __HAC_KEEP__, expected: str) -> None:
 )
 @pytest.mark.usefixtures("setup_compensation")
 async def test_non_numerical_states_from_source_entity(
-    hass: __HAC_KEEP__, config: dict[str, Any], source_state: str, expected: str
+    hass: UniversalAssistant, config: dict[str, Any], source_state: str, expected: str
 ) -> None:
     """Test non-numerical states from source entity."""
     hass.bus.async_fire(EVENT_HOMEASSISTANT_START)
@@ -428,7 +428,7 @@ async def test_non_numerical_states_from_source_entity(
     assert state.state == expected
 
 
-async def test_source_state_none(hass: __HAC_KEEP__) -> None:
+async def test_source_state_none(hass: UniversalAssistant) -> None:
     """Test is source sensor state is null and sets state to STATE_UNKNOWN."""
     await async_setup_component(
         hass,

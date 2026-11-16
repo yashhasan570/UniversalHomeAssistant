@@ -9,11 +9,11 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_setup_unload_entry(
-    hass: __HAC_KEEP__, mock_ariaq: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_ariaq: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setting up and unloading the integration."""
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
@@ -39,7 +39,7 @@ async def test_setup_unload_entry(
     ],
 )
 async def test_setup_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ariaq: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -56,7 +56,7 @@ async def test_setup_exceptions(
 
 
 async def test_setup_auth_failed_starts_reauth(
-    hass: __HAC_KEEP__, mock_ariaq: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_ariaq: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test an authentication error during setup starts a reauth flow."""
     mock_ariaq.return_value.refresh_state.side_effect = FlowItAuthError
@@ -72,7 +72,7 @@ async def test_setup_auth_failed_starts_reauth(
 
 
 async def test_update_auth_failed_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ariaq: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

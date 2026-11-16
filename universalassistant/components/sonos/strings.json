@@ -175,11 +175,11 @@
   },
   "issues": {
     "subscriptions_failed": {
-      "description": "Falling back to polling, functionality may be limited.\n\nSonos device at {device_ip} cannot reach __HA_KEEP__ at {listener_address}.\n\nSee our [documentation]({sub_fail_url}) for more information on how to solve this issue.",
+      "description": "Falling back to polling, functionality may be limited.\n\nSonos device at {device_ip} cannot reach Universal Home Assistant at {listener_address}.\n\nSee our [documentation]({sub_fail_url}) for more information on how to solve this issue.",
       "title": "Networking error: subscriptions failed"
     },
     "upnp_disabled": {
-      "description": "Unable to connect to Sonos speaker at {device_ip}.\n\nPlease ensure UPnP is enabled on your Sonos system.\n\nOpen the Sonos app on your phone or tablet. Go to Account > Privacy and Security > UPnP. Enable the UPnP setting. Once UPnP is enabled, return to __HA_KEEP__ and reload the Sonos integration. The connection should now succeed. See our [documentation]({documentation_url}) for steps to resolve this issue.",
+      "description": "Unable to connect to Sonos speaker at {device_ip}.\n\nPlease ensure UPnP is enabled on your Sonos system.\n\nOpen the Sonos app on your phone or tablet. Go to Account > Privacy and Security > UPnP. Enable the UPnP setting. Once UPnP is enabled, return to Universal Home Assistant and reload the Sonos integration. The connection should now succeed. See our [documentation]({documentation_url}) for steps to resolve this issue.",
       "title": "Networking error: UPnP disabled"
     }
   },

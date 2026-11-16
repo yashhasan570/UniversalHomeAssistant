@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_UUID,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -47,7 +47,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 @pytest.fixture
 async def mock_printer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     request: pytest.FixtureRequest,
 ) -> Printer:
     """Return the mocked printer."""
@@ -84,7 +84,7 @@ def mock_ipp(mock_printer: Printer) -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_ipp: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_ipp: MagicMock
 ) -> MockConfigEntry:
     """Set up the IPP integration for testing."""
     mock_config_entry.add_to_hass(hass)

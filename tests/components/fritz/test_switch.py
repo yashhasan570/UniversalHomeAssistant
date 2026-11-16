@@ -25,7 +25,7 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_registry import EntityRegistry
 from universalassistant.util import slugify
@@ -583,7 +583,7 @@ MOCK_WLANCONFIGS_24_5_5HIGH_UNKNOWN_GUEST: dict[str, dict] = {
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switch_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     fc_class_mock,
     fh_class_mock,
@@ -606,7 +606,7 @@ async def test_switch_setup(
 
 
 async def test_switch_no_device_conn_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fc_class_mock,
     fh_class_mock,
     fs_class_mock,
@@ -629,7 +629,7 @@ async def test_switch_no_device_conn_type(
 
 
 async def test_switch_empty_port_entities_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fc_class_mock,
     fh_class_mock,
     fs_class_mock,
@@ -652,7 +652,7 @@ async def test_switch_empty_port_entities_list(
 
 
 async def test_switch_no_port_entities_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fc_class_mock,
     fh_class_mock,
     fs_class_mock,
@@ -675,7 +675,7 @@ async def test_switch_no_port_entities_list(
 
 
 async def test_switch_no_profile_entities_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fc_class_mock,
     fh_class_mock,
     fs_class_mock,
@@ -698,7 +698,7 @@ async def test_switch_no_profile_entities_list(
 
 
 async def test_switch_no_mesh_wifi_uplink(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fc_class_mock,
     fh_class_mock,
     fs_class_mock,
@@ -727,7 +727,7 @@ async def test_switch_no_mesh_wifi_uplink(
     ],
 )
 async def test_switch_device_wan_access(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fc_class_mock,
     fh_class_mock,
     fs_class_mock,
@@ -762,7 +762,7 @@ async def test_switch_device_wan_access(
     ],
 )
 async def test_switch_device_no_ip_address(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fc_class_mock,
     fh_class_mock,
     fs_class_mock,
@@ -812,7 +812,7 @@ async def test_switch_device_no_ip_address(
     ],
 )
 async def test_switch_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fc_class_mock,
     fh_class_mock,
     fs_class_mock,
@@ -866,7 +866,7 @@ async def test_switch_turn_on_off(
 
 
 async def test_switch_wifi_coordinator_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     fc_class_mock,
     fh_class_mock,
@@ -895,7 +895,7 @@ async def test_switch_wifi_coordinator_update(
 
 
 async def test_switch_port_coordinator_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     fc_class_mock,
     fh_class_mock,
@@ -947,7 +947,7 @@ async def test_switch_port_coordinator_update(
     ],
 )
 async def test_migrate_to_new_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     fc_class_mock,
     fh_class_mock,
     fs_class_mock,

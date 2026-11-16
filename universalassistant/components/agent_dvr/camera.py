@@ -8,7 +8,7 @@ from agent import AgentError
 
 from universalassistant.components.camera import CameraEntityFeature
 from universalassistant.components.mjpeg import MjpegCamera, filter_urllib3_logging
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -21,7 +21,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: AgentDVRConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

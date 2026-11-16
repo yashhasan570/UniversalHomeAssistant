@@ -33,7 +33,7 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
 )
 from universalassistant.const import CONF_ADDRESS, CONF_MAC, CONF_PASSWORD, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -56,7 +56,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 async def __do_successful_user_step(
-    hass: __HAC_KEEP__, result: ConfigFlowResult, mock_cloud_client: MagicMock
+    hass: UniversalAssistant, result: ConfigFlowResult, mock_cloud_client: MagicMock
 ) -> ConfigFlowResult:
     """Successfully configure the user step."""
     result2 = await hass.config_entries.flow.async_configure(
@@ -71,7 +71,7 @@ async def __do_successful_user_step(
 
 
 async def __do_sucessful_machine_selection_step(
-    hass: __HAC_KEEP__, result2: ConfigFlowResult
+    hass: UniversalAssistant, result2: ConfigFlowResult
 ) -> None:
     """Successfully configure the machine selection step."""
 
@@ -92,7 +92,7 @@ async def __do_sucessful_machine_selection_step(
 
 
 async def test_form(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_client: MagicMock,
 ) -> None:
     """Test we get the form."""
@@ -108,7 +108,7 @@ async def test_form(
 
 
 async def test_form_abort_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort if already configured."""
@@ -150,7 +150,7 @@ async def test_form_abort_already_configured(
     ],
 )
 async def test_form_invalid_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_client: MagicMock,
     side_effect: Exception,
     error: str,
@@ -178,7 +178,7 @@ async def test_form_invalid_auth(
 
 
 async def test_form_no_machines(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_client: MagicMock,
 ) -> None:
     """Test we don't have any devices."""
@@ -207,7 +207,7 @@ async def test_form_no_machines(
 
 
 async def test_form_accept_policy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_client: MagicMock,
 ) -> None:
     """Test the privacy policy is accepted when the cloud requires it."""
@@ -261,7 +261,7 @@ async def test_form_accept_policy(
     ],
 )
 async def test_form_accept_policy_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_client: MagicMock,
     accept_errors: list[Exception],
     list_things_errors: list[Exception],
@@ -304,7 +304,7 @@ async def test_form_accept_policy_errors(
 
 
 async def test_form_accept_policy_invalid_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_client: MagicMock,
 ) -> None:
     """Test an auth error while accepting the policy returns to the user step."""
@@ -352,7 +352,7 @@ async def test_form_accept_policy_invalid_auth(
 
 
 async def test_form_accept_policy_no_machines(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_client: MagicMock,
 ) -> None:
     """Test we abort when the account has no machines after accepting the policy."""
@@ -375,7 +375,7 @@ async def test_form_accept_policy_no_machines(
 
 
 async def test_grinders_not_configurable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_client: MagicMock,
 ) -> None:
     """Test that grinders are filtered out so only machines can be configured."""
@@ -399,7 +399,7 @@ async def test_grinders_not_configurable(
 
 
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -425,7 +425,7 @@ async def test_reauth_flow(
 
 
 async def test_reauth_flow_accept_policy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -478,7 +478,7 @@ async def test_reauth_flow_accept_policy(
     ],
 )
 async def test_reauth_flow_accept_policy_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     accept_errors: list[Exception],
@@ -521,7 +521,7 @@ async def test_reauth_flow_accept_policy_errors(
 
 
 async def test_reauth_flow_accept_policy_invalid_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -568,7 +568,7 @@ async def test_reauth_flow_accept_policy_invalid_auth(
 
 
 async def test_reauth_flow_accept_policy_no_machines(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -600,7 +600,7 @@ async def test_reauth_flow_accept_policy_no_machines(
     ],
 )
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     ble_name: str,
@@ -667,7 +667,7 @@ async def test_reconfigure_flow(
     ],
 )
 async def test_reconfigure_flow_no_machines(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     discovered: list[BluetoothServiceInfo],
@@ -705,7 +705,7 @@ async def test_reconfigure_flow_no_machines(
 
 
 async def test_reconfigure_flow_accept_policy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloud_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -751,7 +751,7 @@ async def test_reconfigure_flow_accept_policy(
 
 
 async def test_bluetooth_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lamarzocco: MagicMock,
     mock_cloud_client: MagicMock,
 ) -> None:
@@ -785,7 +785,7 @@ async def test_bluetooth_discovery(
 
 
 async def test_bluetooth_discovery_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -803,7 +803,7 @@ async def test_bluetooth_discovery_already_configured(
 
 
 async def test_bluetooth_discovery_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lamarzocco: MagicMock,
     mock_cloud_client: MagicMock,
 ) -> None:
@@ -849,7 +849,7 @@ async def test_bluetooth_discovery_errors(
 
 
 async def test_bluetooth_discovery_accept_policy_machine_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lamarzocco: MagicMock,
     mock_cloud_client: MagicMock,
 ) -> None:
@@ -884,7 +884,7 @@ async def test_bluetooth_discovery_accept_policy_machine_not_found(
 
 
 async def test_dhcp_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lamarzocco: MagicMock,
 ) -> None:
     """Test dhcp discovery."""
@@ -917,7 +917,7 @@ async def test_dhcp_discovery(
 
 
 async def test_dhcp_discovery_abort_on_hostname_changed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test dhcp discovery aborts when hostname was changed manually."""
@@ -936,7 +936,7 @@ async def test_dhcp_discovery_abort_on_hostname_changed(
 
 
 async def test_dhcp_already_configured_and_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -961,7 +961,7 @@ async def test_dhcp_already_configured_and_update(
 
 
 async def test_options_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test options flow."""
@@ -989,7 +989,7 @@ async def test_options_flow(
 
 
 async def test_options_flow_bluetooth_required_for_offline_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test options flow validates BT is required for offline mode."""

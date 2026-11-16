@@ -22,8 +22,8 @@ from universalassistant.const import (
     CONF_NAME,
     CONF_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from . import (
     API_KEY,
@@ -41,7 +41,7 @@ from . import (
     [(CONFIG_DATA_DEFAULTS, API_KEY)],
 )
 async def test_setup_api_v6(
-    hass: __HAC_KEEP__, config_entry_data: dict, expected_api_token: str
+    hass: UniversalAssistant, config_entry_data: dict, expected_api_token: str
 ) -> None:
     """Tests the API object is created with the expected parameters."""
     mocked_hole = _create_mocked_hole(api_version=6)
@@ -61,7 +61,7 @@ async def test_setup_api_v6(
         )
 
 
-async def test_version_probe_uses_configured_password(hass: __HAC_KEEP__) -> None:
+async def test_version_probe_uses_configured_password(hass: UniversalAssistant) -> None:
     """Test the v6 version probe never authenticates with a sentinel password.
 
     Pi-hole v6 rate-limits login attempts, so a deliberately failed probe makes
@@ -81,7 +81,7 @@ async def test_version_probe_uses_configured_password(hass: __HAC_KEEP__) -> Non
     mocked_hole.instances[0].logout.assert_awaited_once()
 
 
-async def test_version_probe_survives_failing_logout(hass: __HAC_KEEP__) -> None:
+async def test_version_probe_survives_failing_logout(hass: UniversalAssistant) -> None:
     """Test setup still succeeds when releasing the probe session fails.
 
     Releasing the session is a courtesy, not a requirement, so a failure there
@@ -101,7 +101,7 @@ async def test_version_probe_survives_failing_logout(hass: __HAC_KEEP__) -> None
     [({**CONFIG_DATA_DEFAULTS}, API_KEY)],
 )
 async def test_setup_api_v5(
-    hass: __HAC_KEEP__, config_entry_data: dict, expected_api_token: str
+    hass: UniversalAssistant, config_entry_data: dict, expected_api_token: str
 ) -> None:
     """Tests the API object is created with the expected parameters."""
     mocked_hole = _create_mocked_hole(api_version=5)
@@ -123,7 +123,7 @@ async def test_setup_api_v5(
         )
 
 
-async def test_setup_with_defaults_v5(hass: __HAC_KEEP__) -> None:
+async def test_setup_with_defaults_v5(hass: UniversalAssistant) -> None:
     """Tests component setup with default config."""
     mocked_hole = _create_mocked_hole(api_version=5)
     entry = MockConfigEntry(
@@ -176,7 +176,7 @@ async def test_setup_with_defaults_v5(hass: __HAC_KEEP__) -> None:
     assert state.state == "off"
 
 
-async def test_setup_with_defaults_v6(hass: __HAC_KEEP__) -> None:
+async def test_setup_with_defaults_v6(hass: UniversalAssistant) -> None:
     """Tests component setup with default config."""
     mocked_hole = _create_mocked_hole(
         api_version=6, has_data=True, incorrect_app_password=False
@@ -232,7 +232,7 @@ async def test_setup_with_defaults_v6(hass: __HAC_KEEP__) -> None:
     assert state.state == "off"
 
 
-async def test_setup_without_api_version(hass: __HAC_KEEP__) -> None:
+async def test_setup_without_api_version(hass: UniversalAssistant) -> None:
     """Tests component setup without API version."""
 
     mocked_hole = _create_mocked_hole(api_version=6)
@@ -256,7 +256,7 @@ async def test_setup_without_api_version(hass: __HAC_KEEP__) -> None:
     assert entry.runtime_data.api_version == 5
 
 
-async def test_setup_name_config(hass: __HAC_KEEP__) -> None:
+async def test_setup_name_config(hass: UniversalAssistant) -> None:
     """Tests entities are named from the title and a stored legacy name is ignored."""
     mocked_hole = _create_mocked_hole(api_version=6)
     entry = MockConfigEntry(
@@ -273,7 +273,7 @@ async def test_setup_name_config(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("sensor.custom_ads_blocked").name == "Custom Ads blocked"
 
 
-async def test_setup_name_from_entry_title(hass: __HAC_KEEP__) -> None:
+async def test_setup_name_from_entry_title(hass: UniversalAssistant) -> None:
     """Tests component setup with the name taken from the config entry title."""
     mocked_hole = _create_mocked_hole(api_version=6)
     config = {**CONFIG_DATA_DEFAULTS}
@@ -288,7 +288,7 @@ async def test_setup_name_from_entry_title(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("sensor.my_hole_ads_blocked").name == "My Hole Ads blocked"
 
 
-async def test_switch(hass: __HAC_KEEP__) -> None:
+async def test_switch(hass: UniversalAssistant) -> None:
     """Test Pi-hole switch."""
     mocked_hole = _create_mocked_hole()
     entry = MockConfigEntry(
@@ -321,7 +321,7 @@ async def test_switch(hass: __HAC_KEEP__) -> None:
 
         # Failed calls
         mocked_hole.instances[-1].enable = AsyncMock(side_effect=HoleError("Error1"))
-        with pytest.raises(__HAC_KEEP__Error) as enable_error:
+        with pytest.raises(UniversalAssistantError) as enable_error:
             await hass.services.async_call(
                 switch.DOMAIN,
                 switch.SERVICE_TURN_ON,
@@ -330,7 +330,7 @@ async def test_switch(hass: __HAC_KEEP__) -> None:
             )
 
         mocked_hole.instances[-1].disable = AsyncMock(side_effect=HoleError("Error2"))
-        with pytest.raises(__HAC_KEEP__Error) as disable_error:
+        with pytest.raises(UniversalAssistantError) as disable_error:
             await hass.services.async_call(
                 switch.DOMAIN,
                 switch.SERVICE_TURN_OFF,
@@ -346,7 +346,7 @@ async def test_switch(hass: __HAC_KEEP__) -> None:
     assert disable_error.value.translation_placeholders == {"error": "Error2"}
 
 
-async def test_disable_service_call(hass: __HAC_KEEP__) -> None:
+async def test_disable_service_call(hass: UniversalAssistant) -> None:
     """Test disable service call with no Pi-hole named."""
 
     mocked_hole = _create_mocked_hole(api_version=6)
@@ -373,7 +373,7 @@ async def test_disable_service_call(hass: __HAC_KEEP__) -> None:
         mocked_hole.instances[-1].disable.assert_called_with(1)
 
 
-async def test_unload(hass: __HAC_KEEP__) -> None:
+async def test_unload(hass: UniversalAssistant) -> None:
     """Test unload entities."""
     entry = MockConfigEntry(
         domain=pi_hole.DOMAIN,
@@ -391,7 +391,7 @@ async def test_unload(hass: __HAC_KEEP__) -> None:
     assert entry.state is ConfigEntryState.NOT_LOADED
 
 
-async def test_remove_obsolete(hass: __HAC_KEEP__) -> None:
+async def test_remove_obsolete(hass: UniversalAssistant) -> None:
     """Test removing obsolete config entry parameters."""
     mocked_hole = _create_mocked_hole(api_version=6)
     entry = MockConfigEntry(

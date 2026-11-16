@@ -34,9 +34,9 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STARTED,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
 from universalassistant.core_config import async_process_ha_core_config
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -45,7 +45,7 @@ from .common import EMPTY_8_6_JPEG, STREAM_SOURCE, SomeTestProvider, mock_turbo_
 
 
 @pytest.fixture(name="image_mock_url")
-async def image_mock_url_fixture(hass: __HAC_KEEP__) -> None:
+async def image_mock_url_fixture(hass: UniversalAssistant) -> None:
     """Fixture for get_image tests."""
     await async_setup_component(
         hass, camera.DOMAIN, {camera.DOMAIN: {"platform": "demo"}}
@@ -55,7 +55,7 @@ async def image_mock_url_fixture(hass: __HAC_KEEP__) -> None:
 
 @pytest.fixture
 async def register_provider_and_get_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> tuple[Camera, Callable[[], None]]:
     """Fixture for mock camera."""
     await async_setup_component(hass, DOMAIN, {})
@@ -69,7 +69,7 @@ async def register_provider_and_get_camera(
 
 
 @pytest.mark.usefixtures("image_mock_url")
-async def test_get_image_from_camera(hass: __HAC_KEEP__) -> None:
+async def test_get_image_from_camera(hass: UniversalAssistant) -> None:
     """Grab an image from camera entity."""
 
     with patch(
@@ -84,7 +84,7 @@ async def test_get_image_from_camera(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("image_mock_url")
-async def test_get_image_from_camera_with_width_height(hass: __HAC_KEEP__) -> None:
+async def test_get_image_from_camera_with_width_height(hass: UniversalAssistant) -> None:
     """Grab an image from camera entity with width and height."""
 
     turbo_jpeg = mock_turbo_jpeg(
@@ -111,7 +111,7 @@ async def test_get_image_from_camera_with_width_height(hass: __HAC_KEEP__) -> No
 
 @pytest.mark.usefixtures("image_mock_url")
 async def test_get_image_from_camera_with_width_height_scaled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Grab an image from camera entity with width and height and scale it."""
 
@@ -139,7 +139,7 @@ async def test_get_image_from_camera_with_width_height_scaled(
 
 
 @pytest.mark.usefixtures("image_mock_url")
-async def test_get_image_from_camera_not_jpeg(hass: __HAC_KEEP__) -> None:
+async def test_get_image_from_camera_not_jpeg(hass: UniversalAssistant) -> None:
     """Grab an image from camera entity that we cannot scale."""
 
     turbo_jpeg = mock_turbo_jpeg(
@@ -167,7 +167,7 @@ async def test_get_image_from_camera_not_jpeg(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_camera")
 async def test_get_stream_source_from_camera(
-    hass: __HAC_KEEP__, mock_stream_source: AsyncMock
+    hass: UniversalAssistant, mock_stream_source: AsyncMock
 ) -> None:
     """Fetch stream source from camera entity."""
 
@@ -178,20 +178,20 @@ async def test_get_stream_source_from_camera(
 
 
 @pytest.mark.usefixtures("image_mock_url")
-async def test_get_image_without_exists_camera(hass: __HAC_KEEP__) -> None:
+async def test_get_image_without_exists_camera(hass: UniversalAssistant) -> None:
     """Try to get image without exists camera."""
     with (
         patch(
             "universalassistant.helpers.entity_component.EntityComponent.get_entity",
             return_value=None,
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await camera.async_get_image(hass, "camera.demo_camera")
 
 
 @pytest.mark.usefixtures("image_mock_url")
-async def test_get_image_cancelled(hass: __HAC_KEEP__) -> None:
+async def test_get_image_cancelled(hass: UniversalAssistant) -> None:
     """Test cancelling fetching an image propagates the cancellation."""
     started = asyncio.Event()
 
@@ -215,33 +215,33 @@ async def test_get_image_cancelled(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("image_mock_url")
-async def test_get_image_with_timeout(hass: __HAC_KEEP__) -> None:
+async def test_get_image_with_timeout(hass: UniversalAssistant) -> None:
     """Try to get image with timeout."""
     with (
         patch(
             "universalassistant.components.demo.camera.DemoCamera.async_camera_image",
             side_effect=TimeoutError,
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await camera.async_get_image(hass, "camera.demo_camera")
 
 
 @pytest.mark.usefixtures("image_mock_url")
-async def test_get_image_fails(hass: __HAC_KEEP__) -> None:
+async def test_get_image_fails(hass: UniversalAssistant) -> None:
     """Try to get image with timeout."""
     with (
         patch(
             "universalassistant.components.demo.camera.DemoCamera.async_camera_image",
             return_value=None,
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await camera.async_get_image(hass, "camera.demo_camera")
 
 
 @pytest.mark.usefixtures("mock_camera")
-async def test_snapshot_service(hass: __HAC_KEEP__) -> None:
+async def test_snapshot_service(hass: UniversalAssistant) -> None:
     """Test snapshot service."""
     mopen = mock_open()
 
@@ -271,7 +271,7 @@ async def test_snapshot_service(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_camera")
-async def test_snapshot_service_entity_id_variable_removed(hass: __HAC_KEEP__) -> None:
+async def test_snapshot_service_entity_id_variable_removed(hass: UniversalAssistant) -> None:
     """Test filename no longer receives a pre-defined entity_id variable."""
     mopen = mock_open()
 
@@ -296,7 +296,7 @@ async def test_snapshot_service_entity_id_variable_removed(hass: __HAC_KEEP__) -
 
 
 @pytest.mark.usefixtures("mock_camera")
-async def test_snapshot_service_not_allowed_path(hass: __HAC_KEEP__) -> None:
+async def test_snapshot_service_not_allowed_path(hass: UniversalAssistant) -> None:
     """Test snapshot service with a not allowed path."""
     mopen = mock_open()
 
@@ -335,7 +335,7 @@ async def test_snapshot_service_not_allowed_path(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_snapshot_service_write_error(
-    hass: __HAC_KEEP__, error: int, translation_key: str
+    hass: UniversalAssistant, error: int, translation_key: str
 ) -> None:
     """Test snapshot service when the image can't be written."""
     with (
@@ -344,7 +344,7 @@ async def test_snapshot_service_write_error(
             "universalassistant.components.camera.services.os.makedirs",
             side_effect=OSError(error, "Error"),
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             camera.DOMAIN,
@@ -361,7 +361,7 @@ async def test_snapshot_service_write_error(
 
 
 @pytest.mark.usefixtures("mock_camera")
-async def test_snapshot_service_timeout(hass: __HAC_KEEP__) -> None:
+async def test_snapshot_service_timeout(hass: UniversalAssistant) -> None:
     """Test snapshot service when getting the image times out."""
     with (
         patch.object(hass.config, "is_allowed_path", return_value=True),
@@ -370,7 +370,7 @@ async def test_snapshot_service_timeout(hass: __HAC_KEEP__) -> None:
             side_effect=TimeoutError,
         ),
         pytest.raises(
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             match="Unable to get snapshot: timed out after 10 seconds",
         ),
     ):
@@ -387,7 +387,7 @@ async def test_snapshot_service_timeout(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_camera", "mock_stream")
 async def test_websocket_stream_no_source(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test camera/stream websocket command with camera with no source."""
     await async_setup_component(hass, DOMAIN, {})
@@ -407,7 +407,7 @@ async def test_websocket_stream_no_source(
 
 @pytest.mark.usefixtures("mock_camera", "mock_stream")
 async def test_websocket_camera_stream(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, mock_create_stream: Mock
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, mock_create_stream: Mock
 ) -> None:
     """Test camera/stream websocket command."""
     await async_setup_component(hass, DOMAIN, {})
@@ -433,7 +433,7 @@ async def test_websocket_camera_stream(
 
 @pytest.mark.usefixtures("mock_camera")
 async def test_websocket_get_prefs(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test get camera preferences websocket command."""
     await async_setup_component(hass, DOMAIN, {})
@@ -451,7 +451,7 @@ async def test_websocket_get_prefs(
 
 @pytest.mark.usefixtures("mock_camera")
 async def test_websocket_update_prefs_requires_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
 ) -> None:
@@ -472,7 +472,7 @@ async def test_websocket_update_prefs_requires_admin(
 
 @pytest.mark.usefixtures("mock_camera")
 async def test_websocket_update_preload_prefs(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test updating camera preferences."""
 
@@ -510,7 +510,7 @@ async def test_websocket_update_preload_prefs(
 
 @pytest.mark.usefixtures("mock_camera")
 async def test_websocket_update_orientation_prefs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -568,7 +568,7 @@ async def test_websocket_update_orientation_prefs(
 
 @pytest.mark.usefixtures("mock_camera_with_device", "mock_camera")
 async def test_prefs_follow_entity_id_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
     entity_registry: er.EntityRegistry,
@@ -625,13 +625,13 @@ async def test_prefs_follow_entity_id_change(
 
 
 @pytest.mark.usefixtures("mock_camera", "mock_stream")
-async def test_play_stream_service_no_source(hass: __HAC_KEEP__) -> None:
+async def test_play_stream_service_no_source(hass: UniversalAssistant) -> None:
     """Test camera play_stream service."""
     data = {
         ATTR_ENTITY_ID: "camera.demo_camera",
         camera.ATTR_MEDIA_PLAYER: "media_player.test",
     }
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         # Call service
         await hass.services.async_call(
             camera.DOMAIN, camera.SERVICE_PLAY_STREAM, data, blocking=True
@@ -640,7 +640,7 @@ async def test_play_stream_service_no_source(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_camera", "mock_stream")
 async def test_handle_play_stream_service(
-    hass: __HAC_KEEP__, mock_create_stream: Mock
+    hass: UniversalAssistant, mock_create_stream: Mock
 ) -> None:
     """Test camera play_stream service."""
     await async_process_ha_core_config(
@@ -668,7 +668,7 @@ async def test_handle_play_stream_service(
 
 
 @pytest.mark.usefixtures("mock_stream")
-async def test_no_preload_stream(hass: __HAC_KEEP__, mock_create_stream: Mock) -> None:
+async def test_no_preload_stream(hass: UniversalAssistant, mock_create_stream: Mock) -> None:
     """Test camera preload preference."""
     demo_settings = camera.DynamicStreamSettings()
     with (
@@ -689,7 +689,7 @@ async def test_no_preload_stream(hass: __HAC_KEEP__, mock_create_stream: Mock) -
 
 
 @pytest.mark.usefixtures("mock_stream")
-async def test_preload_stream(hass: __HAC_KEEP__, mock_create_stream: Mock) -> None:
+async def test_preload_stream(hass: UniversalAssistant, mock_create_stream: Mock) -> None:
     """Test camera preload preference."""
     demo_settings = camera.DynamicStreamSettings(preload_stream=True)
     with (
@@ -710,7 +710,7 @@ async def test_preload_stream(hass: __HAC_KEEP__, mock_create_stream: Mock) -> N
 
 
 @pytest.mark.usefixtures("mock_camera")
-async def test_record_service_not_supported(hass: __HAC_KEEP__) -> None:
+async def test_record_service_not_supported(hass: UniversalAssistant) -> None:
     """Test record service on a camera without stream support."""
     with pytest.raises(
         ServiceValidationError,
@@ -728,7 +728,7 @@ async def test_record_service_not_supported(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_camera", "mock_stream")
-async def test_record_service(hass: __HAC_KEEP__) -> None:
+async def test_record_service(hass: UniversalAssistant) -> None:
     """Test record service."""
     with (
         patch(
@@ -778,7 +778,7 @@ async def test_camera_proxy_stream(hass_client: ClientSessionGenerator) -> None:
 
 @pytest.mark.usefixtures("mock_camera")
 async def test_camera_proxy_unauthenticated(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test camera_proxy with an unauthenticated client."""
     client = await hass_client_no_auth()
@@ -818,7 +818,7 @@ async def test_camera_proxy_authenticated_unknown_entity(
 
 
 @pytest.mark.usefixtures("mock_camera")
-async def test_state_streaming(hass: __HAC_KEEP__) -> None:
+async def test_state_streaming(hass: UniversalAssistant) -> None:
     """Camera state."""
     demo_camera = hass.states.get("camera.demo_camera")
     assert demo_camera is not None
@@ -827,7 +827,7 @@ async def test_state_streaming(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_camera", "mock_stream", "mock_create_stream")
 async def test_stream_unavailable(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, mock_create_stream: Mock
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, mock_create_stream: Mock
 ) -> None:
     """Camera state."""
     await async_setup_component(hass, DOMAIN, {})
@@ -867,7 +867,7 @@ async def test_stream_unavailable(
 
 @pytest.mark.usefixtures("mock_camera")
 async def test_use_stream_for_stills(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test that the component can grab images from stream."""
 
@@ -923,7 +923,7 @@ async def test_use_stream_for_stills(
 
 
 @pytest.mark.usefixtures("mock_camera")
-async def test_entity_picture_url_changes_on_token_update(hass: __HAC_KEEP__) -> None:
+async def test_entity_picture_url_changes_on_token_update(hass: UniversalAssistant) -> None:
     """Test the token is rotated and entity entity picture cache is cleared."""
     await async_setup_component(hass, DOMAIN, {})
     await hass.async_block_till_done()
@@ -974,7 +974,7 @@ class _ReAddedRenameCamera(_RenameCamera):
     ],
 )
 async def test_entity_picture_url_changes_on_entity_id_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     entity_registry: er.EntityRegistry,
     camera_class: type[_RenameCamera],
@@ -1021,7 +1021,7 @@ async def test_entity_picture_url_changes_on_entity_id_change(
     assert resp.status == HTTPStatus.NOT_FOUND
 
 
-async def _register_test_webrtc_provider(hass: __HAC_KEEP__) -> Callable[[], None]:
+async def _register_test_webrtc_provider(hass: UniversalAssistant) -> Callable[[], None]:
     provider = SomeTestProvider()
     unsub = async_register_webrtc_provider(hass, provider)
     await hass.async_block_till_done()
@@ -1029,7 +1029,7 @@ async def _register_test_webrtc_provider(hass: __HAC_KEEP__) -> Callable[[], Non
 
 
 async def _test_capabilities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     entity_id: str,
     expected_stream_types: set[StreamType],
@@ -1076,7 +1076,7 @@ async def _test_capabilities(
 
 @pytest.mark.usefixtures("mock_camera", "mock_stream_source")
 async def test_camera_capabilities_hls(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test HLS camera capabilities."""
@@ -1091,7 +1091,7 @@ async def test_camera_capabilities_hls(
 
 @pytest.mark.usefixtures("mock_test_webrtc_cameras")
 async def test_camera_capabilities_webrtc(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test WebRTC camera capabilities."""
@@ -1102,7 +1102,7 @@ async def test_camera_capabilities_webrtc(
 
 
 async def _async_set_two_way_audio_preview_feature(
-    hass: __HAC_KEEP__, enabled: bool
+    hass: UniversalAssistant, enabled: bool
 ) -> None:
     """Set up labs and set the two way audio preview feature."""
     assert await async_setup_component(hass, "labs", {})
@@ -1120,7 +1120,7 @@ async def _async_set_two_way_audio_preview_feature(
 )
 @pytest.mark.usefixtures("mock_camera", "mock_stream_source")
 async def test_camera_capabilities_two_way_audio_hls(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     preview_feature_enabled: bool,
     expected_two_way_audio_with_webrtc_provider: bool,
@@ -1151,7 +1151,7 @@ async def test_camera_capabilities_two_way_audio_hls(
 )
 @pytest.mark.usefixtures("mock_test_webrtc_cameras")
 async def test_camera_capabilities_two_way_audio_native_webrtc(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     preview_feature_enabled: bool,
     expected_two_way_audio: bool,
@@ -1176,7 +1176,7 @@ async def test_camera_capabilities_two_way_audio_native_webrtc(
 
 @pytest.mark.usefixtures("mock_test_webrtc_cameras")
 async def test_camera_capabilities_two_way_audio_preview_feature_toggled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test toggling the labs feature is reflected without reloading."""
     await _async_set_two_way_audio_preview_feature(hass, True)
@@ -1194,7 +1194,7 @@ async def test_camera_capabilities_two_way_audio_preview_feature_toggled(
 
 @pytest.mark.usefixtures("mock_test_webrtc_cameras", "register_test_provider")
 async def test_webrtc_provider_not_added_for_native_webrtc(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that a WebRTC provider is not added for native WebRTC."""
     camera_obj = get_camera_from_entity_id(hass, "camera.async")
@@ -1205,7 +1205,7 @@ async def test_webrtc_provider_not_added_for_native_webrtc(
 
 @pytest.mark.usefixtures("mock_camera", "mock_stream_source")
 async def test_camera_capabilities_changing_non_native_support(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test WebRTC camera capabilities."""
@@ -1232,7 +1232,7 @@ async def test_camera_capabilities_changing_non_native_support(
 
 @pytest.mark.usefixtures("mock_test_webrtc_cameras")
 async def test_camera_capabilities_changing_native_support(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test WebRTC camera capabilities."""
@@ -1252,7 +1252,7 @@ async def test_camera_capabilities_changing_native_support(
 
 @pytest.mark.usefixtures("mock_camera", "mock_stream_source")
 async def test_snapshot_service_webrtc_provider(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     register_provider_and_get_camera: tuple[Camera, Callable[[], None]],
 ) -> None:
     """Test snapshot service with the webrtc provider."""
@@ -1364,11 +1364,11 @@ async def test_provider_change_register_unregister_called(
 @pytest.mark.usefixtures("mock_camera", "mock_stream_source")
 @pytest.mark.parametrize(
     "side_effect",
-    [__HAC_KEEP__Error("boom"), ValueError("boom")],
+    [UniversalAssistantError("boom"), ValueError("boom")],
     ids=["universal_assistant_error", "unexpected_error"],
 )
 async def test_provider_register_error_does_not_propagate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     side_effect: Exception,
 ) -> None:
     """Test a failing register callback does not prevent provider assignment."""
@@ -1387,7 +1387,7 @@ async def test_provider_register_error_does_not_propagate(
 @pytest.mark.usefixtures("mock_camera", "mock_stream_source")
 @pytest.mark.parametrize(
     "side_effect",
-    [__HAC_KEEP__Error("boom"), ValueError("boom")],
+    [UniversalAssistantError("boom"), ValueError("boom")],
     ids=["universal_assistant_error", "unexpected_error"],
 )
 async def test_provider_unregister_error_does_not_propagate(
@@ -1410,7 +1410,7 @@ async def test_provider_unregister_error_does_not_propagate(
 
 @pytest.mark.usefixtures("mock_camera", "mock_stream_source")
 async def test_camera_prefs_update_calls_provider_callback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     register_provider_and_get_camera: tuple[Camera, Callable[[], None]],
 ) -> None:
@@ -1461,11 +1461,11 @@ async def test_camera_prefs_update_calls_provider_callback(
 @pytest.mark.usefixtures("mock_camera", "mock_stream_source")
 @pytest.mark.parametrize(
     "side_effect",
-    [__HAC_KEEP__Error("boom"), ValueError("boom")],
+    [UniversalAssistantError("boom"), ValueError("boom")],
     ids=["universal_assistant_error", "unexpected_error"],
 )
 async def test_camera_prefs_update_provider_callback_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     register_provider_and_get_camera: tuple[Camera, Callable[[], None]],
     side_effect: Exception,

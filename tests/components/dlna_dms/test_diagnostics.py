@@ -9,7 +9,7 @@ from pytest_universalassistant.components.diagnostics import get_diagnostics_for
 from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -44,7 +44,7 @@ def connected_device(dms_device_mock: Mock) -> Mock:
 
 @pytest.mark.usefixtures("connected_device")
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry_mock: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -62,7 +62,7 @@ async def test_diagnostics(
 
 @pytest.mark.usefixtures("dms_device_mock")
 async def test_diagnostics_disconnected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     upnp_factory_mock: Mock,
     config_entry_mock: MockConfigEntry,

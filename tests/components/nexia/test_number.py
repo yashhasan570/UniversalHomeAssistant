@@ -7,13 +7,13 @@ from universalassistant.components.number import (
     NumberService,
     NumberServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import setup_integration
 
 
 async def test_create_fan_speed_number_entities(
-    hass: __HAC_KEEP__, patch_nexia_home: NexiaHome
+    hass: UniversalAssistant, patch_nexia_home: NexiaHome
 ) -> None:
     """Test creation of fan speed number entities."""
 
@@ -50,7 +50,7 @@ async def test_create_fan_speed_number_entities(
     )
 
 
-async def test_set_fan_speed(hass: __HAC_KEEP__, patch_nexia_home: NexiaHome) -> None:
+async def test_set_fan_speed(hass: UniversalAssistant, patch_nexia_home: NexiaHome) -> None:
     """Test setting fan speed."""
 
     await setup_integration(hass, patch_nexia_home)

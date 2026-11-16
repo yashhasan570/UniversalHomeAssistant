@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.touchline.const import DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 TEST_HOST = "1.2.3.4"
@@ -17,7 +17,7 @@ TEST_UNIQUE_ID = "controller-1"
 
 
 async def test_form_success(
-    hass: __HAC_KEEP__, mock_pytouchline: MagicMock, mock_setup_entry: MagicMock
+    hass: UniversalAssistant, mock_pytouchline: MagicMock, mock_setup_entry: MagicMock
 ) -> None:
     """Test successful user flow."""
     result = await hass.config_entries.flow.async_init(
@@ -47,7 +47,7 @@ async def test_form_success(
     ],
 )
 async def test_form_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pytouchline: MagicMock,
     side_effect: Exception,
     error_key: str,
@@ -84,7 +84,7 @@ async def test_form_errors(
 
 
 async def test_already_configured_by_host(
-    hass: __HAC_KEEP__, mock_pytouchline: MagicMock
+    hass: UniversalAssistant, mock_pytouchline: MagicMock
 ) -> None:
     """Test abort when host is already configured."""
     MockConfigEntry(domain=DOMAIN, data=TEST_DATA).add_to_hass(hass)
@@ -104,7 +104,7 @@ async def test_already_configured_by_host(
 
 
 async def test_already_configured_by_unique_id(
-    hass: __HAC_KEEP__, mock_pytouchline: MagicMock
+    hass: UniversalAssistant, mock_pytouchline: MagicMock
 ) -> None:
     """Test abort when unique id is already configured."""
     MockConfigEntry(

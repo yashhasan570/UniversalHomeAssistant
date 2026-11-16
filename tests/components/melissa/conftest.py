@@ -6,11 +6,11 @@ import pytest
 from pytest_universalassistant.common import async_load_json_object_fixture
 
 from universalassistant.components.melissa import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
-async def mock_melissa(hass: __HAC_KEEP__):
+async def mock_melissa(hass: UniversalAssistant):
     """Mock the Melissa API."""
     with patch(
         "universalassistant.components.melissa.AsyncMelissa", autospec=True

@@ -5,7 +5,7 @@ import logging
 
 from universalassistant.components.network import async_get_ipv4_broadcast_addresses
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.event import async_track_time_interval
 
 from .const import DISCOVERY_SCAN_INTERVAL
@@ -16,7 +16,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS = [Platform.CLIMATE, Platform.SWITCH]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: GreeConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: GreeConfigEntry) -> None:
     """Set up Gree Climate from a config entry."""
     gree_discovery = DiscoveryService(hass, entry)
     entry.runtime_data = GreeRuntimeData(
@@ -39,6 +39,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: GreeConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: GreeConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: GreeConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

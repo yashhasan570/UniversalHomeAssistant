@@ -1,7 +1,7 @@
 """Helpers for generating issues."""
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 
 from .const import DOMAIN
@@ -9,7 +9,7 @@ from .helpers import Observation
 
 
 def raise_mirrored_entries(
-    hass: __HAC_KEEP__, observations: list[Observation], text: str = ""
+    hass: UniversalAssistant, observations: list[Observation], text: str = ""
 ) -> None:
     """Raise an issue if mirrored entries suggest a patched bug workaround."""
     if len(observations) != 2:
@@ -24,12 +24,12 @@ def raise_mirrored_entries(
             severity=ir.IssueSeverity.WARNING,
             translation_key="manual_migration",
             translation_placeholders={"entity": text},
-            learn_more_url="https://github.com/yashhasan570/__HAC_KEEP__/pull/67631",
+            learn_more_url="https://github.com/yashhasan570/UniversalUniversalAssistant/pull/67631",
         )
 
 
 def raise_mirrored_observations(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     observations: list[Observation],
     key: str,

@@ -3,7 +3,7 @@
 import asyncio
 from pathlib import Path
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.os_error import os_write_error
 
 STORAGE_PATH = ".storage/{key}.ics"
@@ -12,7 +12,7 @@ STORAGE_PATH = ".storage/{key}.ics"
 class LocalCalendarStore:
     """Local calendar storage."""
 
-    def __init__(self, hass: __HAC_KEEP__, path: Path) -> None:
+    def __init__(self, hass: UniversalAssistant, path: Path) -> None:
         """Initialize LocalCalendarStore."""
         self._hass = hass
         self._path = path

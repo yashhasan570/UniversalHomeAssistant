@@ -5,7 +5,7 @@ from unittest.mock import patch
 import pytest
 
 from universalassistant.components.voip.devices import VoIPDevice
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import intent as intent_helper
 
 
@@ -23,7 +23,7 @@ from universalassistant.helpers import intent as intent_helper
     ],
 )
 async def test_timer_events(
-    hass: __HAC_KEEP__, voip_device: VoIPDevice, intent_args: dict, message: str
+    hass: UniversalAssistant, voip_device: VoIPDevice, intent_args: dict, message: str
 ) -> None:
     """Test for timer events."""
 

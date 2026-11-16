@@ -26,7 +26,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceNotSupported
 from universalassistant.helpers import entity_registry as er
 
@@ -42,7 +42,7 @@ def platform_autouse():
 
 @pytest.mark.usefixtures("no_quirk")
 async def test_platform_setup_and_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_devices: list[CustomerDevice],
@@ -117,7 +117,7 @@ async def test_platform_setup_and_discovery(
     ],
 )
 async def test_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -158,7 +158,7 @@ async def test_action(
     ],
 )
 async def test_percent_state_on_cover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -183,7 +183,7 @@ async def test_percent_state_on_cover(
     ["cl_zah67ekd"],
 )
 async def test_set_tilt_position_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -221,7 +221,7 @@ async def test_set_tilt_position_not_supported(
     ],
 )
 async def test_clkg_wltqkykhni0papzj_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -231,7 +231,7 @@ async def test_clkg_wltqkykhni0papzj_state(
 ) -> None:
     """Test cover position for wltqkykhni0papzj device.
 
-    See https://github.com/yashhasan570/__HAC_KEEP__/issues/151635
+    See https://github.com/yashhasan570/UniversalUniversalAssistant/issues/151635
     percent_control == 0 is when my roller shutter is completely open (meaning up)
     percent_control == 100 is when my roller shutter is completely closed (meaning down)
     """
@@ -277,7 +277,7 @@ async def test_clkg_wltqkykhni0papzj_state(
     ],
 )
 async def test_clkg_wltqkykhni0papzj_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -287,7 +287,7 @@ async def test_clkg_wltqkykhni0papzj_action(
 ) -> None:
     """Test cover position for wltqkykhni0papzj device.
 
-    See https://github.com/yashhasan570/__HAC_KEEP__/issues/151635
+    See https://github.com/yashhasan570/UniversalUniversalAssistant/issues/151635
     percent_control == 0 is when my roller shutter is completely open (meaning up)
     percent_control == 100 is when my roller shutter is completely closed (meaning down)
     """
@@ -322,7 +322,7 @@ async def test_clkg_wltqkykhni0papzj_action(
     ],
 )
 async def test_cl_n3xgr5pdmpinictg_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -331,7 +331,7 @@ async def test_cl_n3xgr5pdmpinictg_state(
 ) -> None:
     """Test cover position for n3xgr5pdmpinictg device.
 
-    See https://github.com/yashhasan570/__HAC_KEEP__/issues/153537
+    See https://github.com/yashhasan570/UniversalUniversalAssistant/issues/153537
     """
     entity_id = "cover.estore_sala_curtain"
     mock_device.status["control"] = initial_control

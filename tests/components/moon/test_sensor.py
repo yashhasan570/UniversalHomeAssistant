@@ -17,7 +17,7 @@ from universalassistant.components.moon.helpers import (
 )
 from universalassistant.components.sensor import ATTR_OPTIONS, SensorDeviceClass
 from universalassistant.const import ATTR_DEVICE_CLASS, ATTR_FRIENDLY_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
@@ -35,7 +35,7 @@ from universalassistant.helpers import device_registry as dr, entity_registry as
     ],
 )
 async def test_moon_day(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,

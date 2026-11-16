@@ -54,7 +54,7 @@ send_message:
   fields:
     title:
       required: false
-      example: __HA_KEEP__
+      example: Universal Home Assistant
       selector:
         text:
     message:

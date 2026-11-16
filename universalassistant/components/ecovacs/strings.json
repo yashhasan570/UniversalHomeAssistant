@@ -31,7 +31,7 @@
         "data": {
           "verification_code": "Verification code"
         },
-        "description": "Enter the verification code Ecovacs sent to {username} to confirm __HA_KEEP__ as a trusted device."
+        "description": "Enter the verification code Ecovacs sent to {username} to confirm Universal Home Assistant as a trusted device."
       },
       "reauth_confirm": {
         "data": {

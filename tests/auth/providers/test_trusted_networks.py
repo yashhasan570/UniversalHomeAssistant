@@ -12,13 +12,13 @@ from universalassistant.auth import auth_store
 from universalassistant.auth.models import AuthFlowContext
 from universalassistant.auth.providers import trusted_networks as tn_auth
 from universalassistant.components.http import CONF_TRUSTED_PROXIES, CONF_USE_X_FORWARDED_FOR
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture
-async def store(hass: __HAC_KEEP__) -> auth_store.AuthStore:
+async def store(hass: UniversalAssistant) -> auth_store.AuthStore:
     """Mock store."""
     store = auth_store.AuthStore(hass)
     await store.async_load()
@@ -27,7 +27,7 @@ async def store(hass: __HAC_KEEP__) -> auth_store.AuthStore:
 
 @pytest.fixture
 def provider(
-    hass: __HAC_KEEP__, store: auth_store.AuthStore
+    hass: UniversalAssistant, store: auth_store.AuthStore
 ) -> tn_auth.TrustedNetworksAuthProvider:
     """Mock provider."""
     return tn_auth.TrustedNetworksAuthProvider(
@@ -49,7 +49,7 @@ def provider(
 
 @pytest.fixture
 def provider_with_user(
-    hass: __HAC_KEEP__, store: auth_store.AuthStore
+    hass: UniversalAssistant, store: auth_store.AuthStore
 ) -> tn_auth.TrustedNetworksAuthProvider:
     """Mock provider with trusted users config."""
     return tn_auth.TrustedNetworksAuthProvider(
@@ -77,7 +77,7 @@ def provider_with_user(
 
 @pytest.fixture
 def provider_bypass_login(
-    hass: __HAC_KEEP__, store: auth_store.AuthStore
+    hass: UniversalAssistant, store: auth_store.AuthStore
 ) -> tn_auth.TrustedNetworksAuthProvider:
     """Mock provider with allow_bypass_login config."""
     return tn_auth.TrustedNetworksAuthProvider(
@@ -100,7 +100,7 @@ def provider_bypass_login(
 
 @pytest.fixture
 def manager(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     store: auth_store.AuthStore,
     provider: tn_auth.TrustedNetworksAuthProvider,
 ) -> auth.AuthManager:
@@ -110,7 +110,7 @@ def manager(
 
 @pytest.fixture
 def manager_with_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     store: auth_store.AuthStore,
     provider_with_user: tn_auth.TrustedNetworksAuthProvider,
 ) -> auth.AuthManager:
@@ -125,7 +125,7 @@ def manager_with_user(
 
 @pytest.fixture
 def manager_bypass_login(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     store: auth_store.AuthStore,
     provider_bypass_login: tn_auth.TrustedNetworksAuthProvider,
 ) -> auth.AuthManager:
@@ -222,7 +222,7 @@ async def test_can_start_login(
 
 
 async def test_validate_access_proxy(
-    hass: __HAC_KEEP__, provider: tn_auth.TrustedNetworksAuthProvider
+    hass: UniversalAssistant, provider: tn_auth.TrustedNetworksAuthProvider
 ) -> None:
     """Test validate access from trusted networks are blocked from proxy."""
 
@@ -247,7 +247,7 @@ async def test_validate_access_proxy(
 
 
 async def test_validate_access_cloud(
-    hass: __HAC_KEEP__, provider: tn_auth.TrustedNetworksAuthProvider
+    hass: UniversalAssistant, provider: tn_auth.TrustedNetworksAuthProvider
 ) -> None:
     """Test validate access from trusted networks are blocked from cloud."""
     await async_setup_component(

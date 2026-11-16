@@ -17,8 +17,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -31,7 +31,7 @@ def enable_all_entities(entity_registry_enabled_by_default: None) -> None:
 
 @pytest.mark.usefixtures("mock_melcloud_client")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -141,7 +141,7 @@ async def test_all_entities(
     ],
 )
 async def test_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -213,16 +213,16 @@ async def test_set_value(
     ],
 )
 async def test_set_value_validation_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
     value: float,
 ) -> None:
-    """Test that setting min >= max or max <= min raises __HAC_KEEP__Error."""
+    """Test that setting min >= max or max <= min raises UniversalAssistantError."""
     await setup_integration(hass, mock_config_entry)
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -285,13 +285,13 @@ async def test_set_value_validation_error(
 @pytest.mark.parametrize(
     ("raise_exception", "expected_exception"),
     [
-        (MelCloudHomeAuthenticationError, __HAC_KEEP__Error),
-        (MelCloudHomeConnectionError, __HAC_KEEP__Error),
-        (MelCloudHomeTimeoutError, __HAC_KEEP__Error),
+        (MelCloudHomeAuthenticationError, UniversalAssistantError),
+        (MelCloudHomeConnectionError, UniversalAssistantError),
+        (MelCloudHomeTimeoutError, UniversalAssistantError),
     ],
 )
 async def test_set_value_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -300,7 +300,7 @@ async def test_set_value_exceptions(
     raise_exception: type[Exception],
     expected_exception: type[Exception],
 ) -> None:
-    """Test number actions raise __HAC_KEEP__Error on client errors."""
+    """Test number actions raise UniversalAssistantError on client errors."""
     await setup_integration(hass, mock_config_entry)
 
     method_mock = getattr(mock_melcloud_client, method)

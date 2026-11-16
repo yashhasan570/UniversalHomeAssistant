@@ -13,7 +13,7 @@ from universalassistant.components.number import (
     NumberMode,
 )
 from universalassistant.const import PRECISION_WHOLE, EntityCategory, UnitOfTime
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import LetPotConfigEntry, LetPotDeviceCoordinator
@@ -94,7 +94,7 @@ NUMBERS: tuple[LetPotNumberEntityDescription[LetPotGardenStatus], ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: LetPotConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

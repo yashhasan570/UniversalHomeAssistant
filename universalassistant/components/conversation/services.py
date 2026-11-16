@@ -5,13 +5,13 @@ import logging
 import probatio
 
 from universalassistant.core import (
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv, intent
 from universalassistant.helpers.reload import async_integration_yaml_config
 
@@ -55,7 +55,7 @@ async def _async_handle_process(service: ServiceCall) -> ServiceResponse:
             agent_id=service.data.get(ConversationServiceArgument.AGENT_ID),
         )
     except intent.IntentHandleError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="process_failed",
             translation_placeholders={"text": text, "error": str(err)},
@@ -84,7 +84,7 @@ async def _async_handle_reload(service: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the conversation services."""
     hass.services.async_register(
         DOMAIN,

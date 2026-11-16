@@ -13,7 +13,7 @@ import probatio
 from universalassistant.components.file_upload import process_uploaded_file
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.selector import (
     FileSelector,
     FileSelectorConfig,
@@ -75,7 +75,7 @@ class SFTPFlowHandler(ConfigFlow, domain=DOMAIN):
         """Validate authentication input and persist uploaded key file.
 
         Ensures that at least one of password or private key is provided. When a
-        private key is supplied, the uploaded file is saved to __HA_KEEP__'s
+        private key is supplied, the uploaded file is saved to Universal Home Assistant's
         config storage and `user_input[CONF_PRIVATE_KEY_FILE]` is replaced with
         the stored path.
 
@@ -221,7 +221,7 @@ class SFTPFlowHandler(ConfigFlow, domain=DOMAIN):
         )
 
 
-async def save_uploaded_pkey_file(hass: __HAC_KEEP__, uploaded_file_id: str) -> str:
+async def save_uploaded_pkey_file(hass: UniversalAssistant, uploaded_file_id: str) -> str:
     """Validate the uploaded private key and move it to the storage directory.
 
     Return a string representing a path to private key file.

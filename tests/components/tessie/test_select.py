@@ -18,15 +18,15 @@ from universalassistant.components.tessie.const import (
     TessieSeatHeaterOptions,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .common import ERROR_UNKNOWN, TEST_RESPONSE, assert_entities, setup_platform
 
 
 async def test_select(
-    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, snapshot: SnapshotAssertion, entity_registry: er.EntityRegistry
 ) -> None:
     """Tests that the select entities are correct."""
 
@@ -112,7 +112,7 @@ async def test_select(
     assert mock_set.call_args[1]["level"] == 1
 
 
-async def test_errors(hass: __HAC_KEEP__) -> None:
+async def test_errors(hass: UniversalAssistant) -> None:
     """Tests unknown error is handled."""
 
     await setup_platform(hass, [Platform.SELECT])
@@ -123,7 +123,7 @@ async def test_errors(hass: __HAC_KEEP__) -> None:
             "universalassistant.components.tessie.select.set_seat_heat",
             side_effect=ERROR_UNKNOWN,
         ) as mock_set,
-        pytest.raises(__HAC_KEEP__Error) as error,
+        pytest.raises(UniversalAssistantError) as error,
     ):
         await hass.services.async_call(
             SELECT_DOMAIN,
@@ -145,7 +145,7 @@ async def test_errors(hass: __HAC_KEEP__) -> None:
             "tesla_fleet_api.tessie.EnergySite.operation",
             side_effect=UnsupportedVehicle,
         ) as mock_set,
-        pytest.raises(__HAC_KEEP__Error) as error,
+        pytest.raises(UniversalAssistantError) as error,
     ):
         await hass.services.async_call(
             SELECT_DOMAIN,

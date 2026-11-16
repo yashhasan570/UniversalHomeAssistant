@@ -8,7 +8,7 @@ from typing import Any
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.typing import ConfigType
@@ -56,7 +56,7 @@ __all__ = [
 ]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the persistent notification component."""
 
     async_setup_services(hass)
@@ -72,7 +72,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     {probatio.Required("type"): "persistent_notification/get"}
 )
 def websocket_get_notifications(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: Mapping[str, Any],
 ) -> None:
@@ -104,7 +104,7 @@ def _async_send_notification_update(
     {probatio.Required("type"): "persistent_notification/subscribe"}
 )
 def websocket_subscribe_notifications(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: Mapping[str, Any],
 ) -> None:

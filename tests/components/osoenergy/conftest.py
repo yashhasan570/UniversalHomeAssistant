@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_object_f
 from universalassistant.components.osoenergy.const import DOMAIN
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.json import JsonObjectType
 
 MOCK_CONFIG = {
@@ -43,7 +43,7 @@ def mock_entry_data() -> dict[str, Any]:
 
 @pytest.fixture
 def mock_config_entry(
-    hass: __HAC_KEEP__, mock_entry_data: dict[str, Any]
+    hass: UniversalAssistant, mock_entry_data: dict[str, Any]
 ) -> ConfigEntry:
     """Mock a config entry setup for incomfort integration."""
     entry = MockConfigEntry(domain=DOMAIN, data=mock_entry_data)

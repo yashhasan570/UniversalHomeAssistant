@@ -89,7 +89,7 @@ rules:
   entity-translations: todo
   exception-translations:
     status: todo
-    comment: __HAC_KEEP__Error in entity.py and ServiceValidationError in climate.py
+    comment: UniversalAssistantError in entity.py and ServiceValidationError in climate.py
   icon-translations: todo
   reconfiguration-flow: todo
   repair-issues:

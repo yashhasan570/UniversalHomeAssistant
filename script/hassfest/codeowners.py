@@ -10,7 +10,7 @@ BASE = """
 # https://github.com/blog/2392-introducing-code-owners
 # https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 
-# __HA_KEEP__ Core
+# Universal Home Assistant Core
 .core_files.yaml @universal-assistant/core
 .git-blame-ignore-revs @universal-assistant/core
 .gitattributes @universal-assistant/core
@@ -35,7 +35,7 @@ requirements_test.txt @universal-assistant/core
 /packages/pytest-universalassistant/ @universal-assistant/core
 /script/ @universal-assistant/core
 
-# __HA_KEEP__ Supervisor
+# Universal Home Assistant Supervisor
 .dockerignore @universal-assistant/supervisor
 build.json @universal-assistant/supervisor
 /machine/ @universal-assistant/supervisor

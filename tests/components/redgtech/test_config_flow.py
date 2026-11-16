@@ -9,7 +9,7 @@ from redgtech_api.api import RedgtechAuthError, RedgtechConnectionError
 from universalassistant.components.redgtech.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 TEST_EMAIL = "test@example.com"
@@ -18,7 +18,7 @@ FAKE_TOKEN = "fake_token"
 
 
 async def test_user_step_creates_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_redgtech_api: MagicMock,
 ) -> None:
     """Tests the correct creation of the entry in the configuration."""
@@ -46,7 +46,7 @@ async def test_user_step_creates_entry(
 
 
 async def test_user_step_duplicate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_redgtech_api: MagicMock,
 ) -> None:
     """Test attempt to add duplicate entry."""
@@ -84,7 +84,7 @@ async def test_user_step_duplicate_entry(
     ],
 )
 async def test_user_step_error_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_redgtech_api: MagicMock,
     side_effect: Exception,
     expected_error: str,

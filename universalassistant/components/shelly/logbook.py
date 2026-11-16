@@ -4,7 +4,7 @@ from collections.abc import Callable
 
 from universalassistant.components.logbook import LOGBOOK_ENTRY_MESSAGE, LOGBOOK_ENTRY_NAME
 from universalassistant.const import ATTR_DEVICE_ID
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 
 from .const import (
     ATTR_CHANNEL,
@@ -24,7 +24,7 @@ from .utils import get_rpc_channel_name
 
 @callback
 def async_describe_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_describe_event: Callable[[str, str, Callable[[Event], dict]], None],
 ) -> None:
     """Describe logbook events."""

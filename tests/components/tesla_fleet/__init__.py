@@ -12,13 +12,13 @@ from universalassistant.components.application_credentials import (
 )
 from universalassistant.components.tesla_fleet.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 async def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     platforms: list[Platform] | None = None,
 ) -> None:
@@ -28,7 +28,7 @@ async def setup_platform(
     await async_import_client_credential(
         hass,
         DOMAIN,
-        ClientCredential("CLIENT_ID", "CLIENT_SECRET", "__HA_KEEP__"),
+        ClientCredential("CLIENT_ID", "CLIENT_SECRET", "Universal Home Assistant"),
         DOMAIN,
     )
 
@@ -43,7 +43,7 @@ async def setup_platform(
 
 
 def assert_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry_id: str,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -60,7 +60,7 @@ def assert_entities(
 
 
 def assert_entities_alt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry_id: str,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,

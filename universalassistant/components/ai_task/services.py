@@ -7,7 +7,7 @@ import probatio
 from universalassistant.const import CONF_DESCRIPTION, CONF_SELECTOR
 from universalassistant.core import (
     HassJobType,
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -70,7 +70,7 @@ async def async_service_clear_images(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the AI Task services."""
     hass.services.async_register(
         DOMAIN,

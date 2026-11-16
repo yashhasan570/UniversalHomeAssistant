@@ -19,7 +19,7 @@ from universalassistant.components.rejseplanen.const import (
 )
 from universalassistant.config_entries import ConfigEntryState, ConfigSubentryDataWithId
 from universalassistant.const import CONF_API_KEY, CONF_NAME, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 TEST_ENTITY_ID = "sensor.work_line"
 
@@ -27,7 +27,7 @@ TEST_ENTITY_ID = "sensor.work_line"
 @pytest.mark.freeze_time("2024-01-01 11:00:00+00:00")
 @pytest.mark.usefixtures("setup_integration")
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the integration sets up and entities become available."""
@@ -48,7 +48,7 @@ async def test_setup(
     ],
 )
 async def test_setup_first_refresh_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
     error: Exception,
@@ -64,7 +64,7 @@ async def test_setup_first_refresh_fails(
 
 
 async def test_setup_first_refresh_auth_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_setup_first_refresh_auth_fails(
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_update_failure_marks_entities_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -112,7 +112,7 @@ async def test_update_failure_marks_entities_unavailable(
 @pytest.mark.freeze_time("2024-01-01 11:00:00+00:00")
 @pytest.mark.usefixtures("setup_integration")
 async def test_update_auth_failure_marks_entities_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -132,7 +132,7 @@ async def test_update_auth_failure_marks_entities_unavailable(
 
 @pytest.mark.freeze_time("2024-01-01 11:00:00+00:00")
 async def test_setup_without_stops(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api: AsyncMock,
 ) -> None:
     """Test that an entry with no stop subentries loads without entities."""
@@ -152,7 +152,7 @@ async def test_setup_without_stops(
 
 @pytest.mark.freeze_time("2024-01-01 11:00:00+00:00")
 async def test_departure_type_filter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api: AsyncMock,
 ) -> None:
     """Test that departures are filtered by the configured departure type.

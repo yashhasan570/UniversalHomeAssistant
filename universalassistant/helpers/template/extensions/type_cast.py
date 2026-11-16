@@ -1,4 +1,4 @@
-"""Type casting functions for __HA_KEEP__ templates."""
+"""Type casting functions for Universal Home Assistant templates."""
 
 import math
 from typing import TYPE_CHECKING, Any

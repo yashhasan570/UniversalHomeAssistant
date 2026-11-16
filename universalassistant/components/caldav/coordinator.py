@@ -13,7 +13,7 @@ from universalassistant.components.calendar import (
     CalendarEventStatus,
     extract_offset,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 from universalassistant.util import dt as dt_util
 
@@ -60,7 +60,7 @@ class CalDavUpdateCoordinator(DataUpdateCoordinator[CalendarEvent | None]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: CalDavConfigEntry | None,
         calendar: Calendar,
         calendar_name: str | None,
@@ -84,7 +84,7 @@ class CalDavUpdateCoordinator(DataUpdateCoordinator[CalendarEvent | None]):
         self.offset: timedelta | None = None
 
     async def async_get_events(
-        self, hass: __HAC_KEEP__, start_date: datetime, end_date: datetime
+        self, hass: UniversalAssistant, start_date: datetime, end_date: datetime
     ) -> list[CalendarEvent]:
         """Get all events in a specific time frame."""
         return await hass.async_add_executor_job(self._get_events, start_date, end_date)

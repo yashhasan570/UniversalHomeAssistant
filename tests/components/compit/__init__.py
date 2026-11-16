@@ -4,12 +4,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_registry import EntityRegistry
 
 
 async def setup_integration(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Set up the Compit integration for testing."""
     mock_config_entry.add_to_hass(hass)
@@ -19,7 +19,7 @@ async def setup_integration(
 
 
 def snapshot_compit_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,
     platform: Platform,

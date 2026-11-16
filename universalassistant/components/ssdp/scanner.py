@@ -22,7 +22,7 @@ from async_upnp_client.utils import CaseInsensitiveDict
 
 from universalassistant import config_entries
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP, MATCH_ALL
-from universalassistant.core import HassJob, __HAC_KEEP__, callback as core_callback
+from universalassistant.core import HassJob, UniversalAssistant, callback as core_callback
 from universalassistant.helpers import discovery_flow
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -73,7 +73,7 @@ SSDP_SOURCE_SSDP_CHANGE_MAPPING: Mapping[SsdpSource, SsdpChange] = {
 
 @core_callback
 def _async_process_callbacks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     callbacks: list[SsdpHassJobCallback],
     discovery_info: _SsdpServiceInfo,
     ssdp_change: SsdpChange,
@@ -146,7 +146,7 @@ class Scanner:
     """Class to manage SSDP searching and SSDP advertisements."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, integration_matchers: IntegrationMatchers
+        self, hass: UniversalAssistant, integration_matchers: IntegrationMatchers
     ) -> None:
         """Initialize class."""
         self.hass = hass

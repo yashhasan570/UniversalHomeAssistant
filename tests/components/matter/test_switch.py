@@ -14,8 +14,8 @@ import pytest
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -37,7 +37,7 @@ def platform() -> Platform:
 
 @pytest.mark.usefixtures("matter_devices")
 async def test_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -47,7 +47,7 @@ async def test_switches(
 
 @pytest.mark.parametrize("node_fixture", ["mock_on_off_plugin_unit"])
 async def test_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -82,7 +82,7 @@ async def test_turn_on(
 
 @pytest.mark.parametrize("node_fixture", ["mock_on_off_plugin_unit"])
 async def test_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_turn_off(
 
 
 @pytest.mark.parametrize("node_fixture", ["mock_switch_unit"])
-async def test_switch_unit(hass: __HAC_KEEP__, matter_node: MatterNode) -> None:
+async def test_switch_unit(hass: UniversalAssistant, matter_node: MatterNode) -> None:
     """Test switch entity discovered from any (non-light) OnOff device."""
     # A switch entity should be discovered as fallback for ANY Matter device (endpoint)
     # that has the OnOff cluster and does not fall into an explicit discovery schema
@@ -121,7 +121,7 @@ async def test_switch_unit(hass: __HAC_KEEP__, matter_node: MatterNode) -> None:
 
 
 @pytest.mark.parametrize("node_fixture", ["mock_room_airconditioner"])
-async def test_power_switch(hass: __HAC_KEEP__, matter_node: MatterNode) -> None:
+async def test_power_switch(hass: UniversalAssistant, matter_node: MatterNode) -> None:
     """Test if a Power switch entity is created for a device that supports that."""
     state = hass.states.get("switch.room_airconditioner_power")
     assert state
@@ -131,7 +131,7 @@ async def test_power_switch(hass: __HAC_KEEP__, matter_node: MatterNode) -> None
 
 @pytest.mark.parametrize("node_fixture", ["eve_thermo_v4"])
 async def test_numeric_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -185,15 +185,15 @@ async def test_numeric_switch(
 
 @pytest.mark.parametrize("node_fixture", ["mock_on_off_plugin_unit"])
 async def test_matter_exception_on_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
-    """Test MatterError converts to __HAC_KEEP__Error for switch."""
+    """Test MatterError converts to UniversalAssistantError for switch."""
     state = hass.states.get("switch.mock_onoffpluginunit")
     assert state
     matter_client.send_device_command.side_effect = MatterError("Boom")
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "switch",
             "turn_on",
@@ -206,7 +206,7 @@ async def test_matter_exception_on_command(
 
 @pytest.mark.parametrize("node_fixture", ["silabs_evse_charging"])
 async def test_evse_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -249,7 +249,7 @@ async def test_evse_sensor(
 
 @pytest.mark.parametrize("node_fixture", ["ikea_klippbok_water_leak"])
 async def test_boolean_state_configuration_alarm_enabled_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     matter_client: MagicMock,
     matter_node: MatterNode,
@@ -320,7 +320,7 @@ async def test_boolean_state_configuration_alarm_enabled_switches(
 
 @pytest.mark.parametrize("node_fixture", ["ikea_klippbok_water_leak"])
 async def test_boolean_state_configuration_alarm_enabled_switches_are_serialized(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -363,7 +363,7 @@ async def test_boolean_state_configuration_alarm_enabled_switches_are_serialized
 
 @pytest.mark.parametrize("node_fixture", ["mock_speaker"])
 async def test_speaker_mute_uses_onoff_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -416,7 +416,7 @@ async def test_speaker_mute_uses_onoff_commands(
 
 @pytest.mark.parametrize("node_fixture", ["eve_energy_plug"])
 async def test_eve_child_lock(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -468,7 +468,7 @@ async def test_eve_child_lock(
 
 @pytest.mark.parametrize("node_fixture", ["heiman_motion_sensor_m1_m"])
 async def test_heiman_led_indicator(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -522,7 +522,7 @@ async def test_heiman_led_indicator(
 
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 async def test_door_lock_one_touch_locking(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -565,7 +565,7 @@ async def test_door_lock_one_touch_locking(
 
 @pytest.mark.parametrize("node_fixture", ["mock_window_covering_full"])
 async def test_window_covering_reverse_motor_direction(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -598,7 +598,7 @@ async def test_window_covering_reverse_motor_direction(
     ],
 )
 async def test_window_covering_reverse_motor_direction_write(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     mode: int,
@@ -658,7 +658,7 @@ def _write_response(status: int) -> list[dict[str, Any]]:
     ],
 )
 async def test_window_covering_reverse_motor_direction_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     status: int,
@@ -667,7 +667,7 @@ async def test_window_covering_reverse_motor_direction_rejected(
     """Test a device rejecting the write raises a meaningful error."""
     matter_client.write_attribute.return_value = _write_response(status)
 
-    with pytest.raises(__HAC_KEEP__Error, match=expected_error):
+    with pytest.raises(UniversalAssistantError, match=expected_error):
         await hass.services.async_call(
             "switch",
             "turn_on",
@@ -678,7 +678,7 @@ async def test_window_covering_reverse_motor_direction_rejected(
 
 @pytest.mark.parametrize("node_fixture", ["mock_window_covering_full"])
 async def test_window_covering_reverse_motor_direction_accepted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -698,7 +698,7 @@ async def test_window_covering_reverse_motor_direction_accepted(
 
 @pytest.mark.parametrize("node_fixture", ["aqara_led_strip_t2"])
 async def test_aqara_led_strip_t2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:

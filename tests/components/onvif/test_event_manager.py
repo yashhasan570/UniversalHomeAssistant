@@ -4,7 +4,7 @@ from onvif_parsers.model import EventEntity
 
 from universalassistant.components.onvif.models import Capabilities, Event
 from universalassistant.const import ATTR_DEVICE_CLASS, STATE_OFF, STATE_ON, EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import MAC, setup_onvif_integration
@@ -16,7 +16,7 @@ IMAGE_TOO_BLURRY_UID = (
 LAST_RESET_UID = f"{MAC}_tns1:Monitoring/LastReset_0"
 
 
-async def test_motion_alarm_event(hass: __HAC_KEEP__) -> None:
+async def test_motion_alarm_event(hass: UniversalAssistant) -> None:
     """Test that a motion alarm event creates a binary sensor."""
     await setup_onvif_integration(
         hass,
@@ -38,7 +38,7 @@ async def test_motion_alarm_event(hass: __HAC_KEEP__) -> None:
     assert state.attributes[ATTR_DEVICE_CLASS] == "motion"
 
 
-async def test_motion_alarm_event_off(hass: __HAC_KEEP__) -> None:
+async def test_motion_alarm_event_off(hass: UniversalAssistant) -> None:
     """Test that a motion alarm event with false value is off."""
     await setup_onvif_integration(
         hass,
@@ -60,7 +60,7 @@ async def test_motion_alarm_event_off(hass: __HAC_KEEP__) -> None:
 
 
 async def test_diagnostic_event_entity_category(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that a diagnostic event gets the correct entity category."""
     await setup_onvif_integration(
@@ -87,7 +87,7 @@ async def test_diagnostic_event_entity_category(
     assert entry.entity_category is EntityCategory.DIAGNOSTIC
 
 
-async def test_timestamp_event_conversion(hass: __HAC_KEEP__) -> None:
+async def test_timestamp_event_conversion(hass: UniversalAssistant) -> None:
     """Test that timestamp sensor events get string values converted to datetime."""
     await setup_onvif_integration(
         hass,
@@ -115,7 +115,7 @@ async def test_timestamp_event_conversion(hass: __HAC_KEEP__) -> None:
     assert state.state == "2023-10-01T12:00:00+00:00"
 
 
-async def test_timestamp_event_invalid_value(hass: __HAC_KEEP__) -> None:
+async def test_timestamp_event_invalid_value(hass: UniversalAssistant) -> None:
     """Test that invalid timestamp values result in unknown state."""
     await setup_onvif_integration(
         hass,
@@ -141,7 +141,7 @@ async def test_timestamp_event_invalid_value(hass: __HAC_KEEP__) -> None:
     assert state.state == "unknown"
 
 
-async def test_multiple_events_same_topic(hass: __HAC_KEEP__) -> None:
+async def test_multiple_events_same_topic(hass: UniversalAssistant) -> None:
     """Test that multiple events with the same topic are all processed."""
     await setup_onvif_integration(
         hass,

@@ -10,7 +10,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntityDescription,
 )
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import F_SERIES
@@ -58,7 +58,7 @@ def get_description(device_point: DevicePoint) -> BinarySensorEntityDescription 
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MyUplinkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

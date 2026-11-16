@@ -34,7 +34,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.bang_olufsen.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import (
     TEST_BATTERY,
@@ -107,7 +107,7 @@ def mock_config_entry_a5() -> MockConfigEntry:
 
 
 async def mock_websocket_connection(
-    hass: __HAC_KEEP__, mock_mozart_client: AsyncMock
+    hass: UniversalAssistant, mock_mozart_client: AsyncMock
 ) -> None:
     """Register and receive initial WebSocket notifications."""
 
@@ -146,7 +146,7 @@ async def mock_websocket_connection(
 
 @pytest.fixture(name="integration")
 async def integration_fixture(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mozart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

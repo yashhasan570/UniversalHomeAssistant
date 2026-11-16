@@ -24,7 +24,7 @@ from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.config_entry_oauth2_flow import (
@@ -42,7 +42,7 @@ from .conftest import (
 
 
 async def test_entry_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -59,7 +59,7 @@ async def test_entry_setup(
 
 @pytest.mark.parametrize("token_expiration_time", [12345])
 async def test_token_refresh_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     client: MagicMock,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -153,7 +153,7 @@ async def test_setup_implementation_unavailable(
     ],
 )
 async def test_token_refresh_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -244,7 +244,7 @@ async def test_client_rate_limit_error(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.WASHER], indirect=True)
 async def test_required_program_or_at_least_an_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -277,7 +277,7 @@ async def test_required_program_or_at_least_an_option(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.WASHER], indirect=True)
 async def test_entity_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     config_entry_v1_1: MockConfigEntry,
@@ -360,7 +360,7 @@ async def test_bsh_key_transformations() -> None:
 
 
 async def test_config_entry_unique_id_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_v1_2: MockConfigEntry,
 ) -> None:
     """Test that old config entries use the unique id obtained from the JWT subject."""

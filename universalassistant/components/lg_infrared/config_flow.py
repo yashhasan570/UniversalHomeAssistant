@@ -11,7 +11,7 @@ from universalassistant.components.infrared import (
     async_get_receivers,
 )
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.selector import (
     EntitySelector,
@@ -47,7 +47,7 @@ _DEFAULT_HVAC_MODES = [HVACMode.COOL, HVACMode.DRY]
 
 @callback
 def _infrared_entity_schema(
-    hass: __HAC_KEEP__, *, emitter_required: bool
+    hass: UniversalAssistant, *, emitter_required: bool
 ) -> probatio.Schema:
     """Return the emitter/receiver selection schema shared by every device type."""
     emitter_marker = probatio.Required if emitter_required else probatio.Optional
@@ -70,7 +70,7 @@ def _infrared_entity_schema(
 
 
 @callback
-def _ac_schema(hass: __HAC_KEEP__) -> probatio.Schema:
+def _ac_schema(hass: UniversalAssistant) -> probatio.Schema:
     """Return the AC schema: emitter, optional receiver and supported modes."""
     return _infrared_entity_schema(hass, emitter_required=True).extend(
         {
@@ -92,7 +92,7 @@ def _ac_schema(hass: __HAC_KEEP__) -> probatio.Schema:
 
 
 @callback
-def _home_theater_schema(hass: __HAC_KEEP__) -> probatio.Schema:
+def _home_theater_schema(hass: UniversalAssistant) -> probatio.Schema:
     """Return the Home Theater schema: emitter only."""
     return probatio.Schema(
         {

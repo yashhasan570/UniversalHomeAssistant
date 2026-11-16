@@ -1,8 +1,8 @@
-"""Provides the Lupusec entity for __HA_KEEP__."""
+"""Provides the Lupusec entity for Universal Home Assistant."""
 
 import lupupy
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity
@@ -29,7 +29,7 @@ class LupusecBaseSensor(LupusecDevice):
     """Lupusec Sensor base entity."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, device: lupupy.devices.LupusecDevice, entry_id: str
+        self, hass: UniversalAssistant, device: lupupy.devices.LupusecDevice, entry_id: str
     ) -> None:
         """Initialize the LupusecBaseSensor."""
         super().__init__(device)

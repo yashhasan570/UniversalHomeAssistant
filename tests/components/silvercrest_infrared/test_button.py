@@ -1,5 +1,8 @@
 """Test the SilverCrest Infrared button platform."""
 
+from collections.abc import Generator
+from unittest.mock import patch
+
 from infrared_protocols.codes.silvercrest.fan import SilverCrestFanCode
 import pytest
 from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
@@ -16,9 +19,19 @@ from universalassistant.components.silvercrest_infrared.const import (
     SilverCrestIrDeviceType,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
+
+
+@pytest.fixture(autouse=True)
+def button_only() -> Generator[None]:
+    """Enable only the button platform."""
+    with patch(
+        "universalassistant.components.silvercrest_infrared.PLATFORMS",
+        [Platform.BUTTON],
+    ):
+        yield
 
 
 @pytest.mark.parametrize(
@@ -31,7 +44,7 @@ from universalassistant.helpers import entity_registry as er
 )
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -70,7 +83,7 @@ _BUTTON_PRESSES: dict[
 @pytest.mark.parametrize("device_type", list(_BUTTON_PRESSES))
 @pytest.mark.usefixtures("infrared_codes")
 async def test_button_press(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     entity_registry: er.EntityRegistry,
     device_type: SilverCrestIrDeviceType,

@@ -11,14 +11,14 @@ from universalassistant import config_entries
 from universalassistant.components import ifttt
 from universalassistant.components.ifttt import CONF_KEY
 from universalassistant.components.ifttt.const import DOMAIN, IftttService
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.data_entry_flow import FlowResultType
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 
 async def test_config_flow_registers_webhook(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test setting up IFTTT and sending webhook."""
     await async_process_ha_core_config(
@@ -61,7 +61,7 @@ async def test_config_flow_registers_webhook(
 
 
 async def test_trigger_service_raises_when_ifttt_unreachable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test trigger_service raises when IFTTT cannot be reached."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {CONF_KEY: "secret"}})
@@ -71,7 +71,7 @@ async def test_trigger_service_raises_when_ifttt_unreachable(
             "universalassistant.components.ifttt.services.pyfttt.send_event",
             side_effect=requests.exceptions.ConnectionError,
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -96,7 +96,7 @@ async def test_trigger_service_raises_when_ifttt_unreachable(
     ],
 )
 async def test_trigger_service_target(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_data: dict[str, str | list[str]],
     expected_keys: list[str],
 ) -> None:

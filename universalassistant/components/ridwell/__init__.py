@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 
 from .const import LOGGER, SENSOR_TYPE_NEXT_PICKUP
@@ -12,7 +12,7 @@ from .coordinator import RidwellConfigEntry, RidwellDataUpdateCoordinator
 PLATFORMS: list[Platform] = [Platform.CALENDAR, Platform.SENSOR, Platform.SWITCH]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: RidwellConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: RidwellConfigEntry) -> None:
     """Set up Ridwell from a config entry."""
     coordinator = RidwellDataUpdateCoordinator(hass, entry)
     await coordinator.async_initialize()
@@ -23,18 +23,18 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: RidwellConfigEntry) -> No
 
 
 async def options_update_listener(
-    hass: __HAC_KEEP__, entry: RidwellConfigEntry
+    hass: UniversalAssistant, entry: RidwellConfigEntry
 ) -> None:
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: RidwellConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: RidwellConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: RidwellConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: RidwellConfigEntry) -> None:
     """Migrate an old config entry."""
     version = entry.version
 

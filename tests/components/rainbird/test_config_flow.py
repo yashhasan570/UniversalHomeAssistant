@@ -17,7 +17,7 @@ from universalassistant.components.rainbird import DOMAIN
 from universalassistant.components.rainbird.const import ATTR_DURATION
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResult, FlowResultType
 
 from .conftest import (
@@ -63,7 +63,7 @@ async def mock_setup() -> AsyncGenerator[AsyncMock]:
         yield mock_setup
 
 
-async def complete_flow(hass: __HAC_KEEP__, password: str = PASSWORD) -> FlowResult:
+async def complete_flow(hass: UniversalAssistant, password: str = PASSWORD) -> FlowResult:
     """Start the config flow and enter the host and password."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -103,7 +103,7 @@ async def complete_flow(hass: __HAC_KEEP__, password: str = PASSWORD) -> FlowRes
     ],
 )
 async def test_controller_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup: Mock,
     expected_config_entry: dict[str, str],
     expected_unique_id: int | None,
@@ -166,7 +166,7 @@ async def test_controller_flow(
     ids=["with-serial", "with-mac-address", "zero-serial"],
 )
 async def test_multiple_config_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     responses: list[AiohttpClientMockResponse],
     config_flow_responses: list[AiohttpClientMockResponse],
@@ -252,7 +252,7 @@ async def test_multiple_config_entries(
     ],
 )
 async def test_duplicate_config_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     responses: list[AiohttpClientMockResponse],
     config_flow_responses: list[AiohttpClientMockResponse],
@@ -273,7 +273,7 @@ async def test_duplicate_config_entries(
 
 
 async def test_controller_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup: Mock,
     responses: list[AiohttpClientMockResponse],
     aioclient_mock: AiohttpClientMocker,
@@ -315,7 +315,7 @@ async def test_controller_cannot_connect(
 
 
 async def test_controller_invalid_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup: Mock,
     responses: list[AiohttpClientMockResponse],
     aioclient_mock: AiohttpClientMocker,
@@ -368,7 +368,7 @@ async def test_controller_invalid_auth(
 
 
 async def test_controller_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup: Mock,
     responses: list[AiohttpClientMockResponse],
 ) -> None:
@@ -430,7 +430,7 @@ async def test_controller_timeout(
     ],
 )
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup: Mock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -471,7 +471,7 @@ async def test_reauth_flow(
     assert len(mock_setup.mock_calls) == 1
 
 
-async def test_options_flow(hass: __HAC_KEEP__, mock_setup: Mock) -> None:
+async def test_options_flow(hass: UniversalAssistant, mock_setup: Mock) -> None:
     """Test config flow options."""
 
     # Setup config flow

@@ -7,7 +7,7 @@ from aioflo.api import API, async_get_api
 from aioflo.errors import RequestError
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -23,7 +23,7 @@ PLATFORMS = [Platform.BINARY_SENSOR, Platform.SENSOR, Platform.SWITCH]
 
 
 async def async_get_flo_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     username: str,
     password: str,
     *,
@@ -52,13 +52,13 @@ async def async_get_flo_api(
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Flo integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: FloConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: FloConfigEntry) -> None:
     """Set up flo from a config entry."""
     try:
         client, used_sso = await async_get_flo_api(
@@ -94,6 +94,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: FloConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: FloConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: FloConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

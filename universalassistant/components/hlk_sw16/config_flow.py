@@ -9,7 +9,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import (
     CONNECTION_TIMEOUT,
@@ -28,7 +28,7 @@ DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def connect_client(hass: __HAC_KEEP__, user_input: dict[str, Any]) -> SW16Client:
+async def connect_client(hass: UniversalAssistant, user_input: dict[str, Any]) -> SW16Client:
     """Connect the HLK-SW16 client."""
     client_aw = create_hlk_sw16_connection(
         host=user_input[CONF_HOST],
@@ -42,7 +42,7 @@ async def connect_client(hass: __HAC_KEEP__, user_input: dict[str, Any]) -> SW16
         return await client_aw
 
 
-async def validate_input(hass: __HAC_KEEP__, user_input: dict[str, Any]) -> None:
+async def validate_input(hass: UniversalAssistant, user_input: dict[str, Any]) -> None:
     """Validate the user input allows us to connect."""
     try:
         client = await connect_client(hass, user_input)

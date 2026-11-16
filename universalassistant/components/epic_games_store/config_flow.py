@@ -9,7 +9,7 @@ import probatio
 from universalassistant import config_entries
 from universalassistant.config_entries import ConfigFlowResult
 from universalassistant.const import CONF_COUNTRY, CONF_LANGUAGE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.selector import (
     CountrySelector,
     LanguageSelector,
@@ -30,8 +30,8 @@ STEP_USER_DATA_SCHEMA = probatio.Schema(
 )
 
 
-def get_default_language(hass: __HAC_KEEP__) -> str | None:
-    """Get default language code based on __HA_KEEP__ config."""
+def get_default_language(hass: UniversalAssistant) -> str | None:
+    """Get default language code based on Universal Home Assistant config."""
     language_code = f"{hass.config.language}-{hass.config.country}"
     if language_code in SUPPORTED_LANGUAGES:
         return language_code
@@ -40,7 +40,7 @@ def get_default_language(hass: __HAC_KEEP__) -> str | None:
     return None
 
 
-async def validate_input(hass: __HAC_KEEP__, user_input: dict[str, Any]) -> None:
+async def validate_input(hass: UniversalAssistant, user_input: dict[str, Any]) -> None:
     """Validate the user input allows us to connect."""
     api = EpicGamesStoreAPI(user_input[CONF_LANGUAGE], user_input[CONF_COUNTRY])
     data = await hass.async_add_executor_job(api.get_free_games)

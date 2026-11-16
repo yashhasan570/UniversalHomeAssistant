@@ -12,8 +12,8 @@ import probatio
 from universalassistant.components import websocket_api
 from universalassistant.components.frontend import async_panel_exists
 from universalassistant.const import CONF_FILENAME, CONF_ICON, EVENT_LOVELACE_UPDATED
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import collection, storage
 from universalassistant.helpers.json import cached_json_fragment, json_fragment
 from universalassistant.util.yaml import Secrets, load_yaml_dict
@@ -43,7 +43,7 @@ class LovelaceConfig(ABC):
     """Base class for Lovelace config."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, url_path: str | None, config: dict[str, Any] | None
+        self, hass: UniversalAssistant, url_path: str | None, config: dict[str, Any] | None
     ) -> None:
         """Initialize Lovelace config."""
         self.hass = hass
@@ -72,11 +72,11 @@ class LovelaceConfig(ABC):
 
     async def async_save(self, config: dict[str, Any]) -> None:
         """Save config."""
-        raise __HAC_KEEP__Error("Not supported")
+        raise UniversalAssistantError("Not supported")
 
     async def async_delete(self) -> None:
         """Delete config."""
-        raise __HAC_KEEP__Error("Not supported")
+        raise UniversalAssistantError("Not supported")
 
     @abstractmethod
     async def async_json(self, force: bool) -> json_fragment:
@@ -91,7 +91,7 @@ class LovelaceConfig(ABC):
 class LovelaceStorage(LovelaceConfig):
     """Class to handle Storage based Lovelace config."""
 
-    def __init__(self, hass: __HAC_KEEP__, config: dict[str, Any] | None) -> None:
+    def __init__(self, hass: UniversalAssistant, config: dict[str, Any] | None) -> None:
         """Initialize Lovelace config based on storage helper."""
         if config is None:
             url_path: str | None = None
@@ -147,7 +147,7 @@ class LovelaceStorage(LovelaceConfig):
     async def async_save(self, config: dict[str, Any]) -> None:
         """Save config."""
         if self.hass.config.recovery_mode:
-            raise __HAC_KEEP__Error("Saving not supported in recovery mode")
+            raise UniversalAssistantError("Saving not supported in recovery mode")
 
         if self._data is None:
             await self._load()
@@ -162,7 +162,7 @@ class LovelaceStorage(LovelaceConfig):
     async def async_delete(self) -> None:
         """Delete config."""
         if self.hass.config.recovery_mode:
-            raise __HAC_KEEP__Error("Deleting not supported in recovery mode")
+            raise UniversalAssistantError("Deleting not supported in recovery mode")
 
         await self._store.async_remove()
         self._data = None
@@ -188,7 +188,7 @@ class LovelaceYAML(LovelaceConfig):
     """Class to handle YAML-based Lovelace config."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, url_path: str | None, config: dict[str, Any] | None
+        self, hass: UniversalAssistant, url_path: str | None, config: dict[str, Any] | None
     ) -> None:
         """Initialize the YAML config."""
         super().__init__(hass, url_path, config)
@@ -277,7 +277,7 @@ class DashboardsCollection(collection.DictStorageCollection):
     CREATE_SCHEMA = probatio.Schema(STORAGE_DASHBOARD_CREATE_FIELDS)
     UPDATE_SCHEMA = probatio.Schema(STORAGE_DASHBOARD_UPDATE_FIELDS)
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the dashboards collection."""
         super().__init__(
             storage.Store(hass, DASHBOARDS_STORAGE_VERSION, DASHBOARDS_STORAGE_KEY),
@@ -294,7 +294,7 @@ class DashboardsCollection(collection.DictStorageCollection):
             raise probatio.Invalid("Url path needs to contain a hyphen (-)")
 
         if async_panel_exists(self.hass, url_path):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="url_already_exists",
                 translation_placeholders={"url": url_path},
@@ -327,7 +327,7 @@ class DashboardsCollectionWebSocket(collection.DictStorageCollectionWebsocket):
     @override
     def ws_list_item(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         connection: websocket_api.ActiveConnection,
         msg: dict[str, Any],
     ) -> None:

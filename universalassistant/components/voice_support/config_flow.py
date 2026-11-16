@@ -10,7 +10,7 @@ import probatio
 from universalassistant.components.hassio import AddonError, AddonState
 from universalassistant.config_entries import ConfigEntryState, ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.hassio import is_hassio
 from universalassistant.helpers.service_info.hassio import HassioServiceInfo
@@ -43,7 +43,7 @@ STEP_ON_SUPERVISOR_SCHEMA = probatio.Schema(
 )
 
 
-async def _async_get_info(hass: __HAC_KEEP__, host: str, port: int) -> AppInfo:
+async def _async_get_info(hass: UniversalAssistant, host: str, port: int) -> AppInfo:
     """Ask the app at this address what it is."""
     return await VoiceSupportClient(hass, host, port).async_update_info()
 

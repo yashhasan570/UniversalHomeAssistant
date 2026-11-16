@@ -8,7 +8,7 @@ import pytest
 from universalassistant.components.awair.const import DOMAIN
 from universalassistant.config_entries import SOURCE_ZEROCONF, ConfigEntryState
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr, discovery_flow, frame
 
@@ -23,7 +23,7 @@ DISCOVERY_KEY = discovery_flow.DiscoveryKey(
 
 
 async def test_local_awair_sensors(
-    hass: __HAC_KEEP__, local_devices, local_data, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, local_devices, local_data, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test expected sensors on a local Awair."""
     fixtures = [local_devices, local_data]
@@ -42,7 +42,7 @@ async def test_local_awair_sensors(
 
 
 async def test_zeroconf_host_change_reloads_local_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     local_devices: Any,
     local_data: Any,

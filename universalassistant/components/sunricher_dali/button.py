@@ -8,7 +8,7 @@ from PySrDaliGateway.helper import is_light_device
 
 from universalassistant.components.button import ButtonDeviceClass, ButtonEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import DaliDeviceEntity
@@ -20,7 +20,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: DaliCenterConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -42,7 +42,7 @@ class DaliCenterIdentifyButton(DaliDeviceEntity, ButtonEntity):
     _attr_name = None
 
     def __init__(
-        self, hass: __HAC_KEEP__, device: Device, entry: DaliCenterConfigEntry
+        self, hass: UniversalAssistant, device: Device, entry: DaliCenterConfigEntry
     ) -> None:
         """Initialize the device identify button."""
         super().__init__(hass, device, entry)

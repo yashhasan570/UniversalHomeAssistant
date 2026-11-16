@@ -8,8 +8,8 @@ import probatio
 
 from universalassistant.components import websocket_api
 from universalassistant.const import CONF_ENTITIES, CONF_TYPE
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er, selector
 from universalassistant.helpers.schema_config_entry_flow import (
     SchemaCommonFlowHandler,
@@ -335,7 +335,7 @@ PREVIEW_OPTIONS_SCHEMA: dict[str, probatio.Schema] = {}
 
 CREATE_PREVIEW_ENTITY: dict[
     str,
-    Callable[[__HAC_KEEP__, str, dict[str, Any]], GroupEntity | MediaPlayerGroup],
+    Callable[[UniversalAssistant, str, dict[str, Any]], GroupEntity | MediaPlayerGroup],
 ] = {
     "binary_sensor": async_create_preview_binary_sensor,
     "button": async_create_preview_button,
@@ -383,7 +383,7 @@ class GroupConfigFlowHandler(SchemaConfigFlowHandler, domain=DOMAIN):
     @staticmethod
     @override
     def async_options_flow_finished(
-        hass: __HAC_KEEP__, options: Mapping[str, Any]
+        hass: UniversalAssistant, options: Mapping[str, Any]
     ) -> None:
         """Hide or unhide the group members as requested."""
         hidden_by = (
@@ -393,7 +393,7 @@ class GroupConfigFlowHandler(SchemaConfigFlowHandler, domain=DOMAIN):
 
     @staticmethod
     @override
-    async def async_setup_preview(hass: __HAC_KEEP__) -> None:
+    async def async_setup_preview(hass: UniversalAssistant) -> None:
         """Set up preview WS API."""
         for group_type, form_step in OPTIONS_FLOW.items():
             if group_type not in GROUP_TYPES:
@@ -410,7 +410,7 @@ class GroupConfigFlowHandler(SchemaConfigFlowHandler, domain=DOMAIN):
 
 
 def _async_hide_members(
-    hass: __HAC_KEEP__, members: list[str], hidden_by: er.RegistryEntryHider | None
+    hass: UniversalAssistant, members: list[str], hidden_by: er.RegistryEntryHider | None
 ) -> None:
     """Hide or unhide group members."""
     registry = er.async_get(hass)
@@ -432,7 +432,7 @@ def _async_hide_members(
 )
 @callback
 def ws_start_preview(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -450,7 +450,7 @@ def ws_start_preview(
         config_entry_id = flow_status["handler"]
         config_entry = hass.config_entries.async_get_entry(config_entry_id)
         if not config_entry:
-            raise __HAC_KEEP__Error
+            raise UniversalAssistantError
         group_type = config_entry.options["group_type"]
         name = config_entry.options["name"]
         validated = PREVIEW_OPTIONS_SCHEMA[group_type](msg["user_input"])

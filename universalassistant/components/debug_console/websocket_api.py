@@ -1,4 +1,4 @@
-"""Websocket API of the Debug console, running Python inside __HA_KEEP__."""
+"""Websocket API of the Debug console, running Python inside Universal Home Assistant."""
 
 import asyncio
 from functools import wraps
@@ -11,7 +11,7 @@ from universalassistant.components.websocket_api import (
     ActiveConnection,
     WebSocketCommandHandler,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 from .completion import async_complete, signature_hint
 from .execution import async_execute, is_incomplete
@@ -33,7 +33,7 @@ SESSION_ID = probatio.All(str, probatio.Length(min=1, max=64))
 
 
 @callback
-def async_register_websocket_commands(hass: __HAC_KEEP__) -> None:
+def async_register_websocket_commands(hass: UniversalAssistant) -> None:
     """Register the websocket commands of the debug console."""
     websocket_api.async_register_command(hass, handle_check_input)
     websocket_api.async_register_command(hass, handle_clear)
@@ -54,7 +54,7 @@ def _require_accepted_warning(
 
     @wraps(func)
     def with_warning_check(
-        hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+        hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
     ) -> None:
         if async_warning_required(hass, connection.user.id):
             connection.send_error(
@@ -73,7 +73,7 @@ def _require_accepted_warning(
 @websocket_api.require_admin
 @callback
 def handle_info(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Return if the user has to accept the warning first."""
     connection.send_result(
@@ -88,7 +88,7 @@ def handle_info(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def handle_warning_accept(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Store that the user accepted the warning."""
     await async_accept_warning(hass, connection.user.id)
@@ -106,16 +106,16 @@ async def handle_warning_accept(
 @_require_accepted_warning
 @websocket_api.async_response
 async def handle_execute(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
-    """Execute Python code in the running __HA_KEEP__ instance."""
+    """Execute Python code in the running Universal Home Assistant instance."""
     async_log_execution(connection, msg["code"])
     session = async_get_session(hass, connection, msg["session_id"])
 
     try:
         result = await async_execute(hass, session, msg["code"])
     except asyncio.CancelledError:
-        # Stopped by the user, or when __HA_KEEP__ stops.
+        # Stopped by the user, or when Universal Home Assistant stops.
         connection.send_error(
             msg["id"], ERR_EXECUTION_STOPPED, "The code was stopped before it finished"
         )
@@ -135,7 +135,7 @@ async def handle_execute(
 @_require_accepted_warning
 @callback
 def handle_inspect(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Return the children of an object, such as items or attributes."""
     session = async_get_session(hass, connection, msg["session_id"])
@@ -171,7 +171,7 @@ def handle_inspect(
 @_require_accepted_warning
 @callback
 def handle_get_attribute(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Evaluate a property, which is deferred as it may have side effects."""
     session = async_get_session(hass, connection, msg["session_id"])
@@ -196,7 +196,7 @@ def handle_get_attribute(
 @_require_accepted_warning
 @websocket_api.async_response
 async def handle_complete(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Return completions for the code being typed, up to the cursor."""
     session = async_get_session(hass, connection, msg["session_id"])
@@ -216,7 +216,7 @@ async def handle_complete(
 @_require_accepted_warning
 @callback
 def handle_signature(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Return the signature of the call the cursor is in, if any."""
     session = async_get_session(hass, connection, msg["session_id"])
@@ -235,7 +235,7 @@ def handle_signature(
 @_require_accepted_warning
 @callback
 def handle_check_input(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Return if code needs more input before it runs, like in the Python REPL.
 
@@ -255,7 +255,7 @@ def handle_check_input(
 @_require_accepted_warning
 @callback
 def handle_clear(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Release the objects kept alive for inspection, keeping the namespace."""
     async_get_session(hass, connection, msg["session_id"]).release_objects()
@@ -272,7 +272,7 @@ def handle_clear(
 @_require_accepted_warning
 @callback
 def handle_stop(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Stop the code the session is running, which answers that it stopped."""
     async_stop_executions(hass, connection, msg["session_id"])

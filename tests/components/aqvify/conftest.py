@@ -18,7 +18,7 @@ from pytest_universalassistant.common import (
 )
 
 from universalassistant.components.aqvify.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -31,7 +31,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 @pytest.fixture
-def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Return the default mocked config entry."""
     config_entry = MockConfigEntry(
         minor_version=1,
@@ -103,7 +103,7 @@ def load_aggr_data_file() -> str:
 
 @pytest.fixture
 async def device_fixture(
-    hass: __HAC_KEEP__, load_device_file: str
+    hass: UniversalAssistant, load_device_file: str
 ) -> list[dict[str, Any]]:
     """Fixture for device."""
     return await async_load_json_array_fixture(hass, load_device_file, DOMAIN)
@@ -111,7 +111,7 @@ async def device_fixture(
 
 @pytest.fixture
 async def device_data_fixture(
-    hass: __HAC_KEEP__, load_device_data_file: str
+    hass: UniversalAssistant, load_device_data_file: str
 ) -> dict[str, Any]:
     """Fixture for device data."""
     return await async_load_json_object_fixture(hass, load_device_data_file, DOMAIN)
@@ -119,7 +119,7 @@ async def device_data_fixture(
 
 @pytest.fixture
 async def account_fixture(
-    hass: __HAC_KEEP__, load_account_file: str
+    hass: UniversalAssistant, load_account_file: str
 ) -> dict[str, Any]:
     """Fixture for account data."""
     return await async_load_json_object_fixture(hass, load_account_file, DOMAIN)
@@ -127,7 +127,7 @@ async def account_fixture(
 
 @pytest.fixture
 async def device_aggregated_data_fixture(
-    hass: __HAC_KEEP__, load_aggr_data_file: str
+    hass: UniversalAssistant, load_aggr_data_file: str
 ) -> list[dict[str, Any]]:
     """Fixture for aggregated datapoint."""
     return await async_load_json_array_fixture(hass, load_aggr_data_file, DOMAIN)

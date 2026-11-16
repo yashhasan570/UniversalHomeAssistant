@@ -13,7 +13,7 @@ from universalassistant.components.daikin import update_unique_id
 from universalassistant.components.daikin.const import DOMAIN, KEY_MAC
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .test_config_flow import HOST, MAC
@@ -51,7 +51,7 @@ INVALID_DATA = {**DATA, "name": None, "mac": HOST}
 
 
 async def test_duplicate_removal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_daikin,
@@ -123,7 +123,7 @@ async def test_duplicate_removal(
 
 
 async def test_unique_id_migrate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_daikin,
@@ -183,7 +183,7 @@ async def test_unique_id_migrate(
 
 
 async def test_client_update_connection_error(
-    hass: __HAC_KEEP__, mock_daikin, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, mock_daikin, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test client connection error on update."""
     config_entry = MockConfigEntry(
@@ -211,7 +211,7 @@ async def test_client_update_connection_error(
     assert mock_daikin.update_status.call_count == 2
 
 
-async def test_client_connection_error(hass: __HAC_KEEP__, mock_daikin) -> None:
+async def test_client_connection_error(hass: UniversalAssistant, mock_daikin) -> None:
     """Test client connection error on setup."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -227,7 +227,7 @@ async def test_client_connection_error(hass: __HAC_KEEP__, mock_daikin) -> None:
     assert config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_timeout_error(hass: __HAC_KEEP__, mock_daikin) -> None:
+async def test_timeout_error(hass: UniversalAssistant, mock_daikin) -> None:
     """Test timeout error on setup."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -243,7 +243,7 @@ async def test_timeout_error(hass: __HAC_KEEP__, mock_daikin) -> None:
     assert config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_daikin_exception_retries(hass: __HAC_KEEP__, mock_daikin) -> None:
+async def test_daikin_exception_retries(hass: UniversalAssistant, mock_daikin) -> None:
     """Test that a DaikinException during setup triggers SETUP_RETRY.
 
     A DaikinException (e.g. "Empty values." from DaikinAirBase.init when the

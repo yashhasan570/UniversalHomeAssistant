@@ -13,14 +13,14 @@ from universalassistant.components.switch import (
     SwitchService,
 )
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from . import async_init_integration, find_update_callback
 from .const import MOCK_SNOO_DATA
 
 
-async def test_switch(hass: __HAC_KEEP__, bypass_api: AsyncMock) -> None:
+async def test_switch(hass: UniversalAssistant, bypass_api: AsyncMock) -> None:
     """Test switch and check test values are correctly set."""
     await async_init_integration(hass)
     assert len(hass.states.async_all("switch")) == 2
@@ -35,7 +35,7 @@ async def test_switch(hass: __HAC_KEEP__, bypass_api: AsyncMock) -> None:
     assert hass.states.get("switch.test_snoo_level_lock").state == STATE_OFF
 
 
-async def test_update_success(hass: __HAC_KEEP__, bypass_api: AsyncMock) -> None:
+async def test_update_success(hass: UniversalAssistant, bypass_api: AsyncMock) -> None:
     """Test changing values for switch entities."""
     await async_init_integration(hass)
 
@@ -67,7 +67,7 @@ async def test_update_success(hass: __HAC_KEEP__, bypass_api: AsyncMock) -> None
     ],
 )
 async def test_update_failed(
-    hass: __HAC_KEEP__, bypass_api: AsyncMock, command: str, error_str: str
+    hass: UniversalAssistant, bypass_api: AsyncMock, command: str, error_str: str
 ) -> None:
     """Test failing to change values for switch entities."""
     await async_init_integration(hass)
@@ -76,7 +76,7 @@ async def test_update_failed(
     assert hass.states.get("switch.test_snoo_sleepytime_sounds").state == STATE_OFF
 
     bypass_api.set_sticky_white_noise.side_effect = SnooCommandException
-    with pytest.raises(__HAC_KEEP__Error, match=error_str):
+    with pytest.raises(UniversalAssistantError, match=error_str):
         await hass.services.async_call(
             "switch",
             command,

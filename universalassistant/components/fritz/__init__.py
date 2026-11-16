@@ -7,7 +7,7 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -28,13 +28,13 @@ from .services import async_setup_services
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up fritzboxtools integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: FritzConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: FritzConfigEntry) -> None:
     """Set up fritzboxtools from config entry."""
     LOGGER.debug("Setting up FRITZ!Box Tools component")
 
@@ -80,13 +80,14 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: FritzConfigEntry) -> None
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: FritzConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: FritzConfigEntry) -> None:
     """Unload FRITZ!Box Tools config entry."""
     avm_wrapper = entry.runtime_data
 
     fritz_data = hass.data[FRITZ_DATA_KEY]
 
     if avm_wrapper.unique_id in fritz_data.tracked:
+        fritz_data.link_sensors.pop(avm_wrapper.unique_id)
         fritz_data.tracked.pop(avm_wrapper.unique_id)
         fritz_data.profile_switches.pop(avm_wrapper.unique_id)
         fritz_data.wol_buttons.pop(avm_wrapper.unique_id)

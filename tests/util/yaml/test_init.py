@@ -1,4 +1,4 @@
-"""Test __HA_KEEP__ yaml loader."""
+"""Test Universal Home Assistant yaml loader."""
 
 from collections.abc import Generator
 import importlib
@@ -18,8 +18,8 @@ from universalassistant.config import (
     _get_annotation,
     load_yaml_config_file,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.util import yaml as yaml_util
 from universalassistant.util.yaml import loader as yaml_loader
 from universalassistant.util.yaml.objects import NodeDictClass, NodeListClass
@@ -84,7 +84,7 @@ def test_simple_dict() -> None:
 @pytest.mark.usefixtures("try_both_loaders", "mock_hass_config_yaml")
 def test_unhashable_key() -> None:
     """Test an unhashable key."""
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         load_yaml_config_file(YAML_CONFIG_FILE)
 
 
@@ -92,7 +92,7 @@ def test_unhashable_key() -> None:
 @pytest.mark.usefixtures("try_both_loaders", "mock_hass_config_yaml")
 def test_no_key() -> None:
     """Test item without a key."""
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         yaml_util.load_yaml(YAML_CONFIG_FILE)
 
 
@@ -120,7 +120,7 @@ def test_environment_variable_default() -> None:
 def test_invalid_environment_variable() -> None:
     """Test config file with no environment variable sat."""
     conf = "password: !env_var PASSWORD"
-    with pytest.raises(__HAC_KEEP__Error), io.StringIO(conf) as file:
+    with pytest.raises(UniversalAssistantError), io.StringIO(conf) as file:
         yaml_loader.parse_yaml(file)
 
 
@@ -435,7 +435,7 @@ def test_include_dir_list_annotates_its_elements() -> None:
 def test_load_yaml_encoding_error(mock_open: Mock) -> None:
     """Test raising a UnicodeDecodeError."""
     mock_open.side_effect = UnicodeDecodeError("", b"", 1, 0, "")
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         yaml_loader.load_yaml("test")
 
 
@@ -474,7 +474,7 @@ def test_duplicate_key(caplog: pytest.LogCaptureFixture) -> None:
 @pytest.mark.usefixtures("try_both_loaders", "mock_hass_config_yaml")
 def test_no_recursive_secrets() -> None:
     """Test that loading of secrets from the secrets file fails correctly."""
-    with pytest.raises(__HAC_KEEP__Error) as e:
+    with pytest.raises(UniversalAssistantError) as e:
         load_yaml_config_file(YAML_CONFIG_FILE)
 
     assert e.value.args == ("Secrets not supported in this YAML file",)
@@ -508,10 +508,10 @@ def test_c_loader_is_available_in_ci() -> None:
 
 
 @pytest.mark.usefixtures("try_both_loaders")
-async def test_loading_actual_file_with_syntax_error(hass: __HAC_KEEP__) -> None:
+async def test_loading_actual_file_with_syntax_error(hass: UniversalAssistant) -> None:
     """Test loading a real file with syntax errors."""
     fixture_path = pathlib.Path(__file__).parent.joinpath("fixtures", "bad.yaml.txt")
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.async_add_executor_job(load_yaml_config_file, fixture_path)
 
 
@@ -615,9 +615,9 @@ def test_load_yaml_dict(expected_data: Any) -> None:
 @pytest.mark.usefixtures("try_both_loaders", "mock_hass_config_yaml")
 def test_load_yaml_dict_fail() -> None:
     """Test item without a key."""
-    # Make sure we raise a subclass of __HAC_KEEP__Error, not
+    # Make sure we raise a subclass of UniversalAssistantError, not
     # annotated_yaml.YAMLException
-    assert issubclass(yaml_loader.YamlTypeError, __HAC_KEEP__Error)
+    assert issubclass(yaml_loader.YamlTypeError, UniversalAssistantError)
 
     with pytest.raises(yaml_loader.YamlTypeError):
         yaml_loader.load_yaml_dict(YAML_CONFIG_FILE)
@@ -638,7 +638,7 @@ def test_include_without_parameter(tag: str) -> None:
     """Test include extensions without parameters."""
     with (
         io.StringIO(f"key: {tag}") as file,
-        pytest.raises(__HAC_KEEP__Error, match=f"{tag} needs an argument"),
+        pytest.raises(UniversalAssistantError, match=f"{tag} needs an argument"),
     ):
         yaml_loader.parse_yaml(file)
 
@@ -647,8 +647,8 @@ def test_include_without_parameter(tag: str) -> None:
     ("open_exception", "load_yaml_exception"),
     [
         (FileNotFoundError, OSError),
-        (NotADirectoryError, __HAC_KEEP__Error),
-        (PermissionError, __HAC_KEEP__Error),
+        (NotADirectoryError, UniversalAssistantError),
+        (PermissionError, UniversalAssistantError),
     ],
 )
 @pytest.mark.usefixtures("try_both_loaders")
@@ -656,7 +656,7 @@ def test_load_yaml_wrap_oserror(
     open_exception: Exception,
     load_yaml_exception: Exception,
 ) -> None:
-    """Test load_yaml wraps OSError in __HAC_KEEP__Error."""
+    """Test load_yaml wraps OSError in UniversalAssistantError."""
     with (
         patch("annotatedyaml.loader.open", side_effect=open_exception),
         pytest.raises(load_yaml_exception),

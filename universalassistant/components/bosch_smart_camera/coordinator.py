@@ -17,8 +17,8 @@ from bosch_shc_camera_client.client import BoschCameraClient
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.config_entry_oauth2_flow import (
@@ -48,7 +48,7 @@ class BoschCameraCoordinator(DataUpdateCoordinator[dict[str, Camera]]):
     _client: BoschCameraClient
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: BoschCameraConfigEntry
+        self, hass: UniversalAssistant, config_entry: BoschCameraConfigEntry
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(
@@ -112,7 +112,7 @@ class BoschCameraCoordinator(DataUpdateCoordinator[dict[str, Camera]]):
                 BoschCameraConnectionError,
                 BoschCameraInvalidResponseError,
             ) as err:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN, translation_key="snapshot_failed"
                 ) from err
             self._snapshots[camera_id] = (time.monotonic(), image)

@@ -19,11 +19,11 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_BATTERY_LEVEL, ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_hvac_node_auto(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hvac_node_auto: Sensor,
     receive_message: Callable[[str], None],
     transport_write: MagicMock,
@@ -140,7 +140,7 @@ async def test_hvac_node_auto(
 
 
 async def test_hvac_node_heat(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hvac_node_heat: Sensor,
     receive_message: Callable[[str], None],
     transport_write: MagicMock,
@@ -252,7 +252,7 @@ async def test_hvac_node_heat(
 
 
 async def test_hvac_node_cool(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hvac_node_cool: Sensor,
     receive_message: Callable[[str], None],
     transport_write: MagicMock,
@@ -364,7 +364,7 @@ async def test_hvac_node_cool(
 
 
 async def test_hvac_node_only_hvac(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hvac_node_only_hvac: Sensor,
     receive_message: Callable[[str], None],
     transport_write: MagicMock,

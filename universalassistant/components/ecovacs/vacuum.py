@@ -24,7 +24,7 @@ from universalassistant.components.vacuum import (
     VacuumActivity,
     VacuumEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import slugify
@@ -41,7 +41,7 @@ ATTR_ERROR = "error"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: EcovacsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -56,7 +56,7 @@ async def async_setup_entry(
     vacuums.extend(
         [EcovacsLegacyVacuum(device) for device in controller.legacy_devices]
     )
-    _LOGGER.debug("Adding Ecovacs Vacuums to __HA_KEEP__: %s", vacuums)
+    _LOGGER.debug("Adding Ecovacs Vacuums to Universal Home Assistant: %s", vacuums)
     async_add_entities(vacuums)
 
 

@@ -6,8 +6,8 @@ from typing import Any, override
 from hole.exceptions import HoleError
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -18,7 +18,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: PiHoleConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -66,7 +66,7 @@ class PiHoleSwitch(PiHoleEntity, SwitchEntity):
             await self.api.enable()
             await self.async_update()
         except HoleError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="enable_failed",
                 translation_placeholders={"error": str(err)},
@@ -92,7 +92,7 @@ class PiHoleSwitch(PiHoleEntity, SwitchEntity):
             await self.api.disable(duration_seconds)
             await self.async_update()
         except HoleError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="disable_failed",
                 translation_placeholders={"error": str(err)},

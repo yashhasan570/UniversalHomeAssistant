@@ -14,7 +14,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -34,7 +34,7 @@ class MyNeomitisRuntimeData:
 type MyNeomitisConfigEntry = ConfigEntry[MyNeomitisRuntimeData]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: MyNeomitisConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: MyNeomitisConfigEntry) -> None:
     """Set up MyNeomitis from a config entry."""
     session = async_get_clientsession(hass)
 
@@ -90,7 +90,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: MyNeomitisConfigEntry) ->
     entry.runtime_data = MyNeomitisRuntimeData(api=api, devices=devices)
 
     async def _async_disconnect_websocket(_event: Event) -> None:
-        """Disconnect WebSocket on __HA_KEEP__ shutdown."""
+        """Disconnect WebSocket on Universal Home Assistant shutdown."""
         try:
             await api.disconnect_websocket()
         except (TimeoutError, ConnectionError, aiohttp.ClientError) as err:
@@ -118,7 +118,7 @@ def process_connection_update(new_state: dict[str, Any]) -> bool | None:
     return bool(new_state.get("connected"))
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: MyNeomitisConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: MyNeomitisConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     try:

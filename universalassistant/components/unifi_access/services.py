@@ -7,8 +7,8 @@ import probatio
 from unifi_access_api import UnifiAccessError
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import DOMAIN, MAX_LOCK_RULE_INTERVAL, MIN_LOCK_RULE_INTERVAL
@@ -56,7 +56,7 @@ SERVICE_SET_LOCK_RULE_SCHEMA = probatio.Schema(
 
 @callback
 def _async_get_target(
-    hass: __HAC_KEEP__, call: ServiceCall
+    hass: UniversalAssistant, call: ServiceCall
 ) -> tuple[UnifiAccessConfigEntry, str]:
     """Resolve a service call to a UniFi Access config entry and door ID."""
     config_entry: UnifiAccessConfigEntry
@@ -75,7 +75,7 @@ def _async_get_target(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up services for the UniFi Access integration."""
 
     async def _handle_set_lock_rule(call: ServiceCall) -> None:
@@ -90,7 +90,7 @@ def async_setup_services(hass: __HAC_KEEP__) -> None:
                 door_id, call.data[UnifiAccessServiceArgument.RULE], interval_minutes
             )
         except UnifiAccessError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="lock_rule_failed",
             ) from err

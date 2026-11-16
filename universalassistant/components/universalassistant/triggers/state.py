@@ -23,7 +23,7 @@ from universalassistant.core import (
     Event,
     EventStateChangedData,
     HassJob,
-    __HAC_KEEP__,
+    UniversalAssistant,
     State,
     callback,
 )
@@ -107,7 +107,7 @@ TRIGGER_ATTRIBUTE_SCHEMA = BASE_SCHEMA.extend(
 
 
 async def async_validate_trigger_config(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> ConfigType:
     """Validate trigger config."""
     if not isinstance(config, dict):
@@ -129,7 +129,7 @@ async def async_validate_trigger_config(
 
 
 async def async_attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,

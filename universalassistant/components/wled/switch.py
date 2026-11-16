@@ -9,7 +9,7 @@ from wled import WLED
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import ATTR_DURATION, ATTR_TARGET_BRIGHTNESS, ATTR_UDP_PORT
@@ -51,7 +51,7 @@ SEGMENT_SWITCHES: tuple[WLEDSegmentSwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: WLEDConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -321,7 +321,7 @@ def async_update_segments(
     """Update segments."""
     new_entities: list[WLEDSegmentSwitch] = []
 
-    # Process new segments, add them to __HA_KEEP__
+    # Process new segments, add them to Universal Home Assistant
     for segment_id in coordinator.segment_ids - current_ids:
         current_ids.add(segment_id)
         new_entities.extend(

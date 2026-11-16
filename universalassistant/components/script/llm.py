@@ -4,7 +4,7 @@ from operator import attrgetter
 
 from universalassistant.components.universalassistant import async_should_expose
 from universalassistant.components.llm import LLMTools
-from universalassistant.core import __HAC_KEEP__, callback, split_entity_id
+from universalassistant.core import UniversalAssistant, callback, split_entity_id
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.llm import LLM_API_ASSIST, ActionTool, LLMContext, Tool
 
@@ -16,7 +16,7 @@ class ScriptTool(ActionTool):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         script_entity_id: str,
     ) -> None:
         """Init the class."""
@@ -47,7 +47,7 @@ class ScriptTool(ActionTool):
 
 @callback
 def async_get_tools(
-    hass: __HAC_KEEP__, llm_context: LLMContext, api_id: str
+    hass: UniversalAssistant, llm_context: LLMContext, api_id: str
 ) -> LLMTools | None:
     """Return a script LLM tool for each exposed script."""
     if api_id != LLM_API_ASSIST:

@@ -15,14 +15,14 @@ from universalassistant.const import (
     CONF_TOKEN,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 async def test_user_flow_success(
-    hass: __HAC_KEEP__, mock_hass_splunk: AsyncMock
+    hass: UniversalAssistant, mock_hass_splunk: AsyncMock
 ) -> None:
     """Test successful user flow."""
     result = await hass.config_entries.flow.async_init(
@@ -59,7 +59,7 @@ async def test_user_flow_success(
 
 
 @pytest.mark.usefixtures("mock_hass_splunk")
-async def test_user_flow_defaults_ssl_on(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_defaults_ssl_on(hass: UniversalAssistant) -> None:
     """Test a new entry defaults to SSL enabled when the field is omitted."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -88,7 +88,7 @@ async def test_user_flow_defaults_ssl_on(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_user_flow_error_and_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hass_splunk: AsyncMock,
     side_effect: list[bool] | Exception,
     error: str,
@@ -132,7 +132,7 @@ async def test_user_flow_error_and_recovery(
 
 
 async def test_user_flow_already_configured(
-    hass: __HAC_KEEP__, mock_hass_splunk: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_hass_splunk: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test user flow when entry is already configured (single instance)."""
     mock_config_entry.add_to_hass(hass)
@@ -147,7 +147,7 @@ async def test_user_flow_already_configured(
 
 
 async def test_reconfigure_flow_success(
-    hass: __HAC_KEEP__, mock_hass_splunk: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_hass_splunk: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test successful reconfigure flow."""
     mock_config_entry.add_to_hass(hass)
@@ -182,7 +182,7 @@ async def test_reconfigure_flow_success(
 
 @pytest.mark.usefixtures("mock_hass_splunk")
 async def test_reconfigure_flow_preserves_stored_ssl(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure pre-fills the stored SSL value, not the schema default."""
     mock_config_entry.add_to_hass(hass)
@@ -203,7 +203,7 @@ async def test_reconfigure_flow_preserves_stored_ssl(
     ],
 )
 async def test_reconfigure_flow_error_and_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hass_splunk: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: list[bool] | Exception,
@@ -249,7 +249,7 @@ async def test_reconfigure_flow_error_and_recovery(
 
 
 async def test_reauth_flow_success(
-    hass: __HAC_KEEP__, mock_hass_splunk: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_hass_splunk: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test successful reauth flow."""
     mock_config_entry.add_to_hass(hass)
@@ -270,7 +270,7 @@ async def test_reauth_flow_success(
 
 
 async def test_reauth_flow_invalid_auth(
-    hass: __HAC_KEEP__, mock_hass_splunk: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_hass_splunk: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reauth flow with invalid token and recovery."""
     mock_config_entry.add_to_hass(hass)

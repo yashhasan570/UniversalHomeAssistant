@@ -1,4 +1,4 @@
-"""Test serialization functions for __HA_KEEP__ templates."""
+"""Test serialization functions for Universal Home Assistant templates."""
 
 import json
 import math
@@ -6,13 +6,13 @@ import math
 import orjson
 import pytest
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import TemplateError
 
 from tests.helpers.template.helpers import render, render_to_info
 
 
-def test_to_json(hass: __HAC_KEEP__) -> None:
+def test_to_json(hass: UniversalAssistant) -> None:
     """Test the object to JSON string filter."""
 
     # Note that we're not testing the actual json.loads and json.dumps methods,
@@ -60,7 +60,7 @@ def test_to_json(hass: __HAC_KEEP__) -> None:
     assert actual_result == expected_result
 
 
-def test_to_json_ensure_ascii(hass: __HAC_KEEP__) -> None:
+def test_to_json_ensure_ascii(hass: UniversalAssistant) -> None:
     """Test the object to JSON string filter."""
 
     # Note that we're not testing the actual json.loads and json.dumps methods,
@@ -87,7 +87,7 @@ def test_to_json_ensure_ascii(hass: __HAC_KEEP__) -> None:
     assert actual_result == expected_result
 
 
-def test_to_json_ensure_ascii_sort_keys_non_str_keys(hass: __HAC_KEEP__) -> None:
+def test_to_json_ensure_ascii_sort_keys_non_str_keys(hass: UniversalAssistant) -> None:
     """Test to_json with ensure_ascii sorts dicts with mixed key types."""
     value = {"b": 1, 2: 2, None: 3, "a": {1: 4, "x": 5}}
     actual_result = render(
@@ -118,7 +118,7 @@ def test_to_json_ensure_ascii_sort_keys_non_str_keys(hass: __HAC_KEEP__) -> None
     ],
 )
 def test_to_json_ensure_ascii_non_finite_floats(
-    hass: __HAC_KEEP__, value: object, expected: str
+    hass: UniversalAssistant, value: object, expected: str
 ) -> None:
     """Test to_json with ensure_ascii serializes NaN and Infinity as null."""
     actual_result = render(
@@ -134,7 +134,7 @@ def test_to_json_ensure_ascii_non_finite_floats(
     assert json.loads(actual_result) == json.loads(default_result)
 
 
-def test_from_json(hass: __HAC_KEEP__) -> None:
+def test_from_json(hass: UniversalAssistant) -> None:
     """Test the JSON string to object filter."""
 
     # Note that we're not testing the actual json.loads and json.dumps methods,
@@ -151,12 +151,12 @@ def test_from_json(hass: __HAC_KEEP__) -> None:
     assert actual_result == expected_result
 
 
-def test_from_hex(hass: __HAC_KEEP__) -> None:
+def test_from_hex(hass: UniversalAssistant) -> None:
     """Test the fromhex filter."""
     assert render(hass, "{{ '0F010003' | from_hex }}") == b"\x0f\x01\x00\x03"
 
 
-def test_pack(hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture) -> None:
+def test_pack(hass: UniversalAssistant, caplog: pytest.LogCaptureFixture) -> None:
     """Test struct pack method."""
 
     # render as filter
@@ -192,7 +192,7 @@ def test_pack(hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture) -> None:
     )
 
 
-def test_unpack(hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture) -> None:
+def test_unpack(hass: UniversalAssistant, caplog: pytest.LogCaptureFixture) -> None:
     """Test struct unpack method."""
 
     variables = {"value": b"\xde\xad\xbe\xef"}

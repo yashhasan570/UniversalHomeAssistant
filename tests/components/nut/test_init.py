@@ -18,14 +18,14 @@ from universalassistant.const import (
     CONF_USERNAME,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import area_registry as ar, device_registry as dr
 from universalassistant.setup import async_setup_component
 
 from .util import _get_mock_nutclient, async_init_integration
 
 
-async def test_config_entry_migrations(hass: __HAC_KEEP__) -> None:
+async def test_config_entry_migrations(hass: UniversalAssistant) -> None:
     """Test that config entries were migrated."""
     mock_pynut = _get_mock_nutclient(
         list_vars={"battery.voltage": "voltage"},
@@ -51,7 +51,7 @@ async def test_config_entry_migrations(hass: __HAC_KEEP__) -> None:
         assert CONF_SCAN_INTERVAL not in entry.options
 
 
-async def test_async_setup_entry(hass: __HAC_KEEP__) -> None:
+async def test_async_setup_entry(hass: UniversalAssistant) -> None:
     """Test a successful setup entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -86,7 +86,7 @@ async def test_async_setup_entry(hass: __HAC_KEEP__) -> None:
 
 
 async def test_remove_device_valid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -116,7 +116,7 @@ async def test_remove_device_valid(
 
 
 async def test_remove_device_stale(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -152,7 +152,7 @@ async def test_remove_device_stale(
 
 
 async def test_config_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test for setup failure if connection to broker is missing."""
@@ -182,7 +182,7 @@ async def test_config_not_ready(
 
 
 async def test_auth_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test for setup failure if auth has changed."""
@@ -216,7 +216,7 @@ async def test_auth_fails(
 
 
 async def test_serial_number(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test for serial number set on device."""
@@ -239,7 +239,7 @@ async def test_serial_number(
 
 
 async def test_device_location(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -270,7 +270,7 @@ async def test_device_location(
 
 
 async def test_device_info_strips_whitespace(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -313,7 +313,7 @@ async def test_device_info_strips_whitespace(
 
 
 async def test_device_info_whitespace_only_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test that whitespace-only device info fields are treated as missing."""
@@ -344,7 +344,7 @@ async def test_device_info_whitespace_only_values(
     assert device_entry.area_id is None
 
 
-async def test_update_options(hass: __HAC_KEEP__) -> None:
+async def test_update_options(hass: UniversalAssistant) -> None:
     """Test update options triggers reload."""
     mock_pynut = _get_mock_nutclient(
         list_ups={"ups1": "UPS 1"}, list_vars={"ups.status": "OL"}

@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.tessie import PLATFORMS
 from universalassistant.components.tessie.const import DOMAIN
 from universalassistant.const import CONF_ACCESS_TOKEN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.typing import Undefined
 
@@ -65,7 +65,7 @@ NO_SCOPES = ["user_data", "offline_access", "openid"]
 
 
 async def setup_platform(
-    hass: __HAC_KEEP__, platforms: list[Platform] | Undefined = Undefined
+    hass: UniversalAssistant, platforms: list[Platform] | Undefined = Undefined
 ) -> MockConfigEntry:
     """Set up the Tessie platform."""
 
@@ -86,7 +86,7 @@ async def setup_platform(
 
 
 def assert_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry_id: str,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,

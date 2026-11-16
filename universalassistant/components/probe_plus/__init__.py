@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.const import CONF_MODEL, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_registry import RegistryEntry
@@ -15,7 +15,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ProbePlusConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ProbePlusConfigEntry) -> None:
     """Set up Probe Plus from a config entry."""
     # Perform a migration to ensure the model is added to the config entry schema.
     if CONF_MODEL not in entry.data:
@@ -29,12 +29,12 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ProbePlusConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ProbePlusConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ProbePlusConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: ProbePlusConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: ProbePlusConfigEntry) -> None:
     """Migrate a config entry."""
     _LOGGER.debug(
         "Migrating config entry from version %s.%s",

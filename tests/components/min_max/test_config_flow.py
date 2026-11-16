@@ -7,12 +7,12 @@ from pytest_universalassistant.common import MockConfigEntry, get_schema_suggest
 
 from universalassistant import config_entries
 from universalassistant.components.min_max.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.parametrize("platform", ["sensor"])
-async def test_config_flow(hass: __HAC_KEEP__, platform: str) -> None:
+async def test_config_flow(hass: UniversalAssistant, platform: str) -> None:
     """Test the config flow."""
     input_sensors = ["sensor.input_one", "sensor.input_two"]
 
@@ -55,7 +55,7 @@ async def test_config_flow(hass: __HAC_KEEP__, platform: str) -> None:
 
 
 @pytest.mark.parametrize("platform", ["sensor"])
-async def test_options(hass: __HAC_KEEP__, platform: str) -> None:
+async def test_options(hass: UniversalAssistant, platform: str) -> None:
     """Test reconfiguring."""
     hass.states.async_set("sensor.input_one", "10")
     hass.states.async_set("sensor.input_two", "20")

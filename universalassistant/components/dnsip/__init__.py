@@ -9,7 +9,7 @@ from aiodns.error import DNSError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import (
@@ -37,7 +37,7 @@ class DnsIPRuntimeData:
 type DnsIPConfigEntry = ConfigEntry[DnsIPRuntimeData]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: DnsIPConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: DnsIPConfigEntry) -> None:
     """Set up DNS IP from a config entry."""
 
     hostname = entry.data[CONF_HOSTNAME]
@@ -93,7 +93,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: DnsIPConfigEntry) -> None
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: DnsIPConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: DnsIPConfigEntry) -> None:
     """Unload DNS IP config entry."""
 
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
@@ -104,7 +104,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: DnsIPConfigEntry) -> Non
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, config_entry: DnsIPConfigEntry
+    hass: UniversalAssistant, config_entry: DnsIPConfigEntry
 ) -> None:
     """Migrate old entry to a newer version."""
 

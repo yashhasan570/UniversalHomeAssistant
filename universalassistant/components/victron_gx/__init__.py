@@ -8,7 +8,7 @@ from universalassistant.components.automation import (
 )
 from universalassistant.components.script import DOMAIN as SCRIPT_DOMAIN, scripts_with_entity
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -41,7 +41,7 @@ PLATFORMS: list[Platform] = [
 
 
 def _automations_and_scripts_using_entity(
-    hass: __HAC_KEEP__, entity_id: str
+    hass: UniversalAssistant, entity_id: str
 ) -> list[str]:
     """Return links to automations and scripts referencing an entity."""
     entity_registry = er.async_get(hass)
@@ -62,7 +62,7 @@ def _automations_and_scripts_using_entity(
 
 
 def _async_check_legacy_sensors(
-    hass: __HAC_KEEP__, config_entry: VictronGxConfigEntry
+    hass: UniversalAssistant, config_entry: VictronGxConfigEntry
 ) -> None:
     """Create repairs for legacy sensors and remove them once disabled."""
     entity_registry = er.async_get(hass)
@@ -101,12 +101,12 @@ def _async_check_legacy_sensors(
         )
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: VictronGxConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: VictronGxConfigEntry) -> None:
     """Set up victron_gx from a config entry."""
     _LOGGER.debug("async_setup_entry called for entry: %s", entry.entry_id)
 
     @callback
-    def _async_check_legacy_sensors_at_start(_: __HAC_KEEP__) -> None:
+    def _async_check_legacy_sensors_at_start(_: UniversalAssistant) -> None:
         _async_check_legacy_sensors(hass, entry)
 
     entry.async_on_unload(
@@ -141,7 +141,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: VictronGxConfigEntry) -> 
     _LOGGER.debug("async_setup_entry completed for entry: %s", entry.entry_id)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: VictronGxConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: VictronGxConfigEntry) -> None:
     """Unload a config entry."""
     _LOGGER.debug("async_unload_entry called for entry: %s", entry.entry_id)
     hub = entry.runtime_data
@@ -151,7 +151,7 @@ async def async_unload_entry(hass: __HAC_KEEP__, entry: VictronGxConfigEntry) ->
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: VictronGxConfigEntry,
     device_entry: dr.AnyDeviceEntry,
 ) -> bool:

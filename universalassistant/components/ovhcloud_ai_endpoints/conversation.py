@@ -5,7 +5,7 @@ from typing import Literal, override
 from universalassistant.components import conversation
 from universalassistant.config_entries import ConfigSubentry
 from universalassistant.const import CONF_LLM_HASS_API, CONF_PROMPT, MATCH_ALL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import OVHcloudAIEndpointsConfigEntry
@@ -16,7 +16,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: OVHcloudAIEndpointsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

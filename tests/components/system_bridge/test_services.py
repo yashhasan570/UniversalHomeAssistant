@@ -16,8 +16,8 @@ from systembridgeconnector.models.response import Response
 from universalassistant.components.system_bridge.const import DOMAIN
 from universalassistant.components.system_bridge.services import SystemBridgeServiceArgument
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import Context, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, Unauthorized
+from universalassistant.core import Context, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, Unauthorized
 from universalassistant.helpers import device_registry as dr
 
 from . import FIXTURE_REQUEST_ID, FIXTURE_UUID
@@ -67,7 +67,7 @@ from . import FIXTURE_REQUEST_ID, FIXTURE_UUID
 )
 @pytest.mark.usefixtures("mock_version")
 async def test_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -106,7 +106,7 @@ async def test_services(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_power_command_without_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -167,7 +167,7 @@ async def test_power_command_without_response(
 )
 @pytest.mark.usefixtures("mock_version")
 async def test_service_error_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -193,7 +193,7 @@ async def test_service_error_response(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error, match=f"Failed to run {service}: Something went wrong"
+        UniversalAssistantError, match=f"Failed to run {service}: Something went wrong"
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -215,7 +215,7 @@ async def test_service_error_response(
     ],
 )
 async def test_service_connection_closed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -233,7 +233,7 @@ async def test_service_connection_closed(
 
     mock_websocket_client.power_shutdown.side_effect = side_effect
 
-    with pytest.raises(__HAC_KEEP__Error, match="A connection error occurred"):
+    with pytest.raises(UniversalAssistantError, match="A connection error occurred"):
         await hass.services.async_call(
             DOMAIN,
             "power_command",
@@ -257,7 +257,7 @@ async def test_service_connection_closed(
 )
 @pytest.mark.usefixtures("mock_version", "mock_websocket_client")
 async def test_admin_services_require_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_read_only_user: MockUser,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -300,7 +300,7 @@ async def test_admin_services_require_admin(
 )
 @pytest.mark.usefixtures("mock_version", "mock_websocket_client")
 async def test_get_process_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     device_registry: dr.DeviceRegistry,

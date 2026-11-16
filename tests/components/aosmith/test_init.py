@@ -14,7 +14,7 @@ from universalassistant.components.aosmith.const import (
     REGULAR_INTERVAL,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import build_device_fixture
 
@@ -27,7 +27,7 @@ async def test_config_entry_setup(init_integration: MockConfigEntry) -> None:
 
 
 async def test_config_entry_not_ready_get_devices_error(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the config entry not ready when get_devices fails."""
     mock_config_entry.add_to_hass(hass)
@@ -43,7 +43,7 @@ async def test_config_entry_not_ready_get_devices_error(
 
 
 async def test_config_entry_not_ready_get_energy_use_data_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the config entry not ready when get_energy_use_data fails."""
@@ -91,7 +91,7 @@ async def test_config_entry_not_ready_get_energy_use_data_error(
 )
 async def test_update(
     freezer: FrozenDateTimeFactory,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MagicMock,
     init_integration: MockConfigEntry,
     time_to_wait: timedelta,

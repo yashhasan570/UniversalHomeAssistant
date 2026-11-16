@@ -8,7 +8,7 @@ import zigpy.zcl
 import zigpy.zcl.foundation as zcl_f
 
 from universalassistant.components.zha.helpers import ZHADeviceProxy
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -90,13 +90,13 @@ def make_attribute(attrid, value, status=0):
     return attr
 
 
-def send_attribute_report(hass: __HAC_KEEP__, cluster, attrid, value):
+def send_attribute_report(hass: UniversalAssistant, cluster, attrid, value):
     """Send a single attribute report."""
     return send_attributes_report(hass, cluster, {attrid: value})
 
 
 async def send_attributes_report(
-    hass: __HAC_KEEP__, cluster: zigpy.zcl.Cluster, attributes: dict
+    hass: UniversalAssistant, cluster: zigpy.zcl.Cluster, attributes: dict
 ):
     """Cause the sensor to receive an attribute report from the network.
 
@@ -124,7 +124,7 @@ async def send_attributes_report(
 
 
 def find_entity_id(
-    domain: str, zha_device: ZHADeviceProxy, hass: __HAC_KEEP__, qualifier=None
+    domain: str, zha_device: ZHADeviceProxy, hass: UniversalAssistant, qualifier=None
 ) -> str | None:
     """Find the entity id under the testing.
 
@@ -143,7 +143,7 @@ def find_entity_id(
 
 
 def find_entity_ids(
-    domain: str, zha_device: ZHADeviceProxy, hass: __HAC_KEEP__
+    domain: str, zha_device: ZHADeviceProxy, hass: UniversalAssistant
 ) -> list[str]:
     """Find the entity ids under the testing.
 
@@ -159,7 +159,7 @@ def find_entity_ids(
     ]
 
 
-def async_find_group_entity_id(hass: __HAC_KEEP__, domain, group):
+def async_find_group_entity_id(hass: UniversalAssistant, domain, group):
     """Find the group entity id under test."""
     entity_id = f"{domain}.{group.name.lower().replace(' ', '_')}"
 
@@ -188,7 +188,7 @@ def reset_clusters(clusters):
         cluster.write_attributes.reset_mock()
 
 
-async def async_shift_time(hass: __HAC_KEEP__):
+async def async_shift_time(hass: UniversalAssistant):
     """Shift time to cause call later tasks to run."""
     next_update = dt_util.utcnow() + timedelta(seconds=11)
     async_fire_time_changed(hass, next_update)

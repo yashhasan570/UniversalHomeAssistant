@@ -9,7 +9,7 @@ from smarttub import LoginFailed
 from universalassistant import config_entries
 from universalassistant.components.smarttub.const import DOMAIN
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -23,7 +23,7 @@ def mock_setup_entry():
         yield mock
 
 
-async def test_user_flow(hass: __HAC_KEEP__, mock_setup_entry, account) -> None:
+async def test_user_flow(hass: UniversalAssistant, mock_setup_entry, account) -> None:
     """Test the user config flow creates an entry with correct data."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -47,7 +47,7 @@ async def test_user_flow(hass: __HAC_KEEP__, mock_setup_entry, account) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_invalid_auth(hass: __HAC_KEEP__, smarttub_api) -> None:
+async def test_form_invalid_auth(hass: UniversalAssistant, smarttub_api) -> None:
     """Test we handle invalid auth and can recover."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -73,7 +73,7 @@ async def test_form_invalid_auth(hass: __HAC_KEEP__, smarttub_api) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_reauth_success(hass: __HAC_KEEP__, smarttub_api, config_entry) -> None:
+async def test_reauth_success(hass: UniversalAssistant, smarttub_api, config_entry) -> None:
     """Test reauthentication flow."""
     config_entry.add_to_hass(hass)
 
@@ -93,7 +93,7 @@ async def test_reauth_success(hass: __HAC_KEEP__, smarttub_api, config_entry) ->
 
 
 async def test_reauth_wrong_account(
-    hass: __HAC_KEEP__, smarttub_api, account, config_entry
+    hass: UniversalAssistant, smarttub_api, account, config_entry
 ) -> None:
     """Test reauth flow with credentials for a different account."""
     config_entry.add_to_hass(hass)

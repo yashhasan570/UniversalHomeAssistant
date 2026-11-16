@@ -22,7 +22,7 @@ from universalassistant.components.google_generative_ai_conversation.stt import 
 )
 from universalassistant.config_entries import ConfigSubentry
 from universalassistant.const import CONF_API_KEY, CONF_PROMPT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import API_ERROR_500, CLIENT_ERROR_BAD_REQUEST
 
@@ -78,7 +78,7 @@ def mock_genai_client() -> Generator[AsyncMock]:
 
 @pytest.fixture
 async def setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_genai_client: AsyncMock,
     request: pytest.FixtureRequest,
 ) -> None:
@@ -111,7 +111,7 @@ async def setup_integration(
 
 
 @pytest.mark.usefixtures("setup_integration")
-async def test_stt_entity_properties(hass: __HAC_KEEP__) -> None:
+async def test_stt_entity_properties(hass: UniversalAssistant) -> None:
     """Test STT entity properties."""
     entity: stt.SpeechToTextEntity = hass.data[stt.DOMAIN].get_entity(
         "stt.google_ai_stt"
@@ -154,7 +154,7 @@ def test_model_requires_interactions_api(model: str, expected: bool) -> None:
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_stt_process_audio_stream_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_genai_client: AsyncMock,
     audio_format: stt.AudioFormats,
     call_convert_to_wav: bool,
@@ -214,7 +214,7 @@ async def test_stt_process_audio_stream_success(
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_stt_process_audio_stream_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_genai_client: AsyncMock,
     side_effect: Exception,
 ) -> None:
@@ -271,7 +271,7 @@ async def test_stt_process_audio_stream_api_error(
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_stt_process_audio_stream_no_text_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_genai_client: AsyncMock,
     caplog: pytest.LogCaptureFixture,
     response: types.GenerateContentResponse,
@@ -313,7 +313,7 @@ async def test_stt_process_audio_stream_no_text_response(
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_stt_process_audio_stream_interactions_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_genai_client: AsyncMock,
     language: str,
     expected_transcription_config: dict[str, list[str]],
@@ -382,7 +382,7 @@ async def test_stt_process_audio_stream_interactions_success(
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_stt_process_audio_stream_interactions_audio_format(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_genai_client: AsyncMock,
     audio_format: stt.AudioFormats,
     expected_convert_calls: list[call],
@@ -423,7 +423,7 @@ async def test_stt_process_audio_stream_interactions_audio_format(
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_stt_process_audio_stream_interactions_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_genai_client: AsyncMock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -457,7 +457,7 @@ async def test_stt_process_audio_stream_interactions_error(
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_stt_process_audio_stream_interactions_no_text(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_genai_client: AsyncMock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -486,7 +486,7 @@ async def test_stt_process_audio_stream_interactions_no_text(
 
 @pytest.mark.usefixtures("mock_genai_client")
 async def test_stt_uses_default_prompt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_genai_client: AsyncMock,
 ) -> None:
     """Test that the default prompt is used if none is configured."""
@@ -529,7 +529,7 @@ async def test_stt_uses_default_prompt(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_stt_includes_language_in_prompt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_genai_client: AsyncMock,
 ) -> None:
     """Test that metadata language is included in the prompt sent to the model."""
@@ -555,7 +555,7 @@ async def test_stt_includes_language_in_prompt(
 
 @pytest.mark.usefixtures("mock_genai_client")
 async def test_stt_uses_default_model(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_genai_client: AsyncMock,
 ) -> None:
     """Test that the default model is used if none is configured."""
@@ -604,7 +604,7 @@ async def test_stt_uses_default_model(
     ],
 )
 async def test_stt_wire_parameters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_genai_transport: AsyncMock,
     model: str,
@@ -645,7 +645,7 @@ async def test_stt_wire_parameters(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_stt_interactions_wire_parameters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_genai_interactions_transport: Mock,
 ) -> None:

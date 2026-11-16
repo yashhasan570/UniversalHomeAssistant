@@ -3,13 +3,13 @@
 from typing import Any
 
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import IpmaConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: IpmaConfigEntry
+    hass: UniversalAssistant, entry: IpmaConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
 

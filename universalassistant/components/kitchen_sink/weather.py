@@ -24,7 +24,7 @@ from universalassistant.components.weather import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import UnitOfPressure, UnitOfSpeed, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_track_time_interval
 from universalassistant.util import dt as dt_util
@@ -53,7 +53,7 @@ CONDITION_MAP = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -217,7 +217,7 @@ async def async_setup_entry(
 class DemoWeather(WeatherEntity):
     """Representation of a weather condition."""
 
-    _attr_attribution = "Powered by __HA_KEEP__"
+    _attr_attribution = "Powered by Universal Home Assistant"
     _attr_should_poll = False
 
     def __init__(

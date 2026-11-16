@@ -14,11 +14,11 @@ from universalassistant.components.energy.data import (
     WATER_SOURCE_SCHEMA,
     EnergyManager,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er, storage
 
 
-async def test_energy_preferences_no_migration_needed(hass: __HAC_KEEP__) -> None:
+async def test_energy_preferences_no_migration_needed(hass: UniversalAssistant) -> None:
     """Test that new data format doesn't get migrated."""
     # Create new format data (already has device_consumption_water field)
     new_data = {
@@ -45,7 +45,7 @@ async def test_energy_preferences_no_migration_needed(hass: __HAC_KEEP__) -> Non
 
 
 async def test_energy_preferences_load_resolves_renamed_power_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -82,7 +82,7 @@ async def test_energy_preferences_load_resolves_renamed_power_sensor(
     assert manager.data["energy_sources"][0]["stat_rate"] == "sensor.renamed_power"
 
 
-async def test_energy_preferences_default(hass: __HAC_KEEP__) -> None:
+async def test_energy_preferences_default(hass: UniversalAssistant) -> None:
     """Test default preferences include device_consumption_water."""
     defaults = EnergyManager.default_preferences()
 
@@ -92,7 +92,7 @@ async def test_energy_preferences_default(hass: __HAC_KEEP__) -> None:
     assert defaults["device_consumption_water"] == []
 
 
-async def test_energy_preferences_empty_store(hass: __HAC_KEEP__) -> None:
+async def test_energy_preferences_empty_store(hass: UniversalAssistant) -> None:
     """Test loading with no existing data."""
     manager = EnergyManager(hass)
     await manager.async_initialize()
@@ -102,7 +102,7 @@ async def test_energy_preferences_empty_store(hass: __HAC_KEEP__) -> None:
 
 
 async def test_energy_preferences_migration_from_version_1_1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that device_consumption_water is added when migrating from v1.1 to v1.2."""
     # Create version 1.1 data without device_consumption_water (old version)
@@ -126,7 +126,7 @@ async def test_energy_preferences_migration_from_version_1_1(
 
 
 async def test_energy_preferences_migration_from_version_1_3(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that device_consumption_gas is added when migrating from v1.3 to v1.4."""
     # Create version 1.3 data without device_consumption_gas (old version)
@@ -151,7 +151,7 @@ async def test_energy_preferences_migration_from_version_1_3(
 
 
 async def test_battery_power_config_inverted_sets_stat_rate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test battery with inverted power_config sets stat_rate."""
     manager = EnergyManager(hass)
@@ -183,7 +183,7 @@ async def test_battery_power_config_inverted_sets_stat_rate(
 
 
 async def test_battery_power_config_two_sensors_sets_stat_rate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that battery with two-sensor power_config sets stat_rate."""
     manager = EnergyManager(hass)
@@ -216,7 +216,7 @@ async def test_battery_power_config_two_sensors_sets_stat_rate(
 
 
 async def test_battery_stat_soc_round_trip(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that battery stat_soc is preserved through async_update."""
     manager = EnergyManager(hass)
@@ -242,7 +242,7 @@ async def test_battery_stat_soc_round_trip(
 
 
 async def test_battery_capacity_round_trip(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that battery capacity is preserved through async_update."""
     manager = EnergyManager(hass)
@@ -268,7 +268,7 @@ async def test_battery_capacity_round_trip(
 
 
 async def test_grid_power_config_inverted_sets_stat_rate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that grid with inverted power_config sets stat_rate."""
     manager = EnergyManager(hass)
@@ -303,7 +303,7 @@ async def test_grid_power_config_inverted_sets_stat_rate(
 
 
 async def test_power_config_standard_uses_stat_rate_directly(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that power_config with standard stat_rate uses it directly."""
     manager = EnergyManager(hass)
@@ -331,7 +331,7 @@ async def test_power_config_standard_uses_stat_rate_directly(
     assert source["stat_rate"] == "sensor.battery_power"
 
 
-async def test_battery_without_power_config_unchanged(hass: __HAC_KEEP__) -> None:
+async def test_battery_without_power_config_unchanged(hass: UniversalAssistant) -> None:
     """Test that battery without power_config is unchanged."""
     manager = EnergyManager(hass)
     await manager.async_initialize()
@@ -357,7 +357,7 @@ async def test_battery_without_power_config_unchanged(hass: __HAC_KEEP__) -> Non
 
 
 async def test_power_config_takes_precedence_over_stat_rate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that power_config takes precedence when both are provided."""
     manager = EnergyManager(hass)
@@ -487,7 +487,7 @@ async def test_power_config_validation_passes() -> None:
     }
 
 
-async def test_grid_power_config_standard_stat_rate(hass: __HAC_KEEP__) -> None:
+async def test_grid_power_config_standard_stat_rate(hass: UniversalAssistant) -> None:
     """Test that grid with power_config using standard stat_rate works correctly."""
     manager = EnergyManager(hass)
     await manager.async_initialize()
@@ -558,7 +558,7 @@ async def test_grid_new_format_validates_correctly() -> None:
     assert result[0]["stat_energy_to"] is None
 
 
-async def test_async_update_when_data_is_none(hass: __HAC_KEEP__) -> None:
+async def test_async_update_when_data_is_none(hass: UniversalAssistant) -> None:
     """Test async_update when manager.data is None uses default preferences."""
     manager = EnergyManager(hass)
     await manager.async_initialize()
@@ -588,7 +588,7 @@ async def test_async_update_when_data_is_none(hass: __HAC_KEEP__) -> None:
     assert manager.data["device_consumption_water"] == []
 
 
-async def test_grid_power_without_power_config(hass: __HAC_KEEP__) -> None:
+async def test_grid_power_without_power_config(hass: UniversalAssistant) -> None:
     """Test that grid without power_config is preserved unchanged."""
     manager = EnergyManager(hass)
     await manager.async_initialize()
@@ -622,7 +622,7 @@ async def test_grid_power_without_power_config(hass: __HAC_KEEP__) -> None:
     assert "power_config" not in grid_source
 
 
-async def test_grid_migration_single_import_export(hass: __HAC_KEEP__) -> None:
+async def test_grid_migration_single_import_export(hass: UniversalAssistant) -> None:
     """Test migration from legacy format with 1 import + 1 export creates 1 grid."""
     # Create legacy format data (v1.2) with flow_from/flow_to arrays
     old_data = {
@@ -680,7 +680,7 @@ async def test_grid_migration_single_import_export(hass: __HAC_KEEP__) -> None:
 
 
 async def test_grid_migration_multiple_imports_exports_paired(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test migration with 2 imports + 2 exports creates 2 paired grids."""
     old_data = {
@@ -746,7 +746,7 @@ async def test_grid_migration_multiple_imports_exports_paired(
     assert grid2["number_energy_price_export"] == 0.05
 
 
-async def test_grid_migration_more_imports_than_exports(hass: __HAC_KEEP__) -> None:
+async def test_grid_migration_more_imports_than_exports(hass: UniversalAssistant) -> None:
     """Test migration with 3 imports + 1 export creates 3 grids (first has export)."""
     old_data = {
         "energy_sources": [
@@ -791,7 +791,7 @@ async def test_grid_migration_more_imports_than_exports(hass: __HAC_KEEP__) -> N
     assert grid3["stat_energy_to"] is None
 
 
-async def test_grid_migration_with_power(hass: __HAC_KEEP__) -> None:
+async def test_grid_migration_with_power(hass: UniversalAssistant) -> None:
     """Test migration preserves power config from first grid.
 
     Note: stat_rate is regenerated from power_config when the preferences are
@@ -835,7 +835,7 @@ async def test_grid_migration_with_power(hass: __HAC_KEEP__) -> None:
     assert grid["stat_rate"] == "sensor.grid_power_inverted"
 
 
-async def test_grid_migration_import_only(hass: __HAC_KEEP__) -> None:
+async def test_grid_migration_import_only(hass: UniversalAssistant) -> None:
     """Test migration with imports but no exports creates import-only grids."""
     old_data = {
         "energy_sources": [
@@ -866,7 +866,7 @@ async def test_grid_migration_import_only(hass: __HAC_KEEP__) -> None:
     assert grid["stat_energy_to"] is None
 
 
-async def test_grid_migration_power_only(hass: __HAC_KEEP__) -> None:
+async def test_grid_migration_power_only(hass: UniversalAssistant) -> None:
     """Test migration with only power configured (no import/export meters)."""
     old_data = {
         "energy_sources": [
@@ -903,7 +903,7 @@ async def test_grid_migration_power_only(hass: __HAC_KEEP__) -> None:
     assert grid["cost_adjustment_day"] == 0.5
 
 
-async def test_grid_new_format_no_migration_needed(hass: __HAC_KEEP__) -> None:
+async def test_grid_new_format_no_migration_needed(hass: UniversalAssistant) -> None:
     """Test that new format data doesn't get migrated."""
     new_data = {
         "energy_sources": [
@@ -1213,3 +1213,351 @@ async def test_water_allows_price_with_stat_cost_for_external_stat() -> None:
     )
     assert result["stat_cost"] == "external:water_cost"
     assert result["number_energy_price"] == 0.005
+
+
+BATTERY_DIRECTIONS_ENERGY = {
+    "stat_energy_from_grid": "sensor.battery_from_grid",
+    "stat_energy_from_solar": "sensor.battery_from_solar",
+    "stat_energy_to_home": "sensor.battery_to_home",
+    "stat_energy_to_grid": "sensor.battery_to_grid",
+}
+BATTERY_DIRECTIONS_POWER = {
+    "stat_rate_from_grid": "sensor.battery_from_grid_power",
+    "stat_rate_from_solar": "sensor.battery_from_solar_power",
+    "stat_rate_to_home": "sensor.battery_to_home_power",
+    "stat_rate_to_grid": "sensor.battery_to_grid_power",
+}
+BATTERY_TOTALS = {
+    "type": "battery",
+    "stat_energy_from": "sensor.battery_energy_from",
+    "stat_energy_to": "sensor.battery_energy_to",
+}
+GRID = {
+    "type": "grid",
+    "stat_energy_from": "sensor.grid_import",
+    "stat_energy_to": "sensor.grid_export",
+    "stat_cost": None,
+    "entity_energy_price": None,
+    "number_energy_price": None,
+    "stat_compensation": None,
+    "entity_energy_price_export": None,
+    "number_energy_price_export": None,
+    "cost_adjustment_day": 0.0,
+}
+
+
+@pytest.mark.parametrize(
+    "sources",
+    [
+        pytest.param(
+            [{"type": "battery", **BATTERY_DIRECTIONS_ENERGY}], id="all_directions"
+        ),
+        pytest.param(
+            [
+                {
+                    "type": "battery",
+                    "stat_energy_from_grid": "sensor.battery_from_grid",
+                    "stat_energy_to_home": "sensor.battery_to_home",
+                }
+            ],
+            id="one_charge_one_discharge",
+        ),
+        pytest.param(
+            [
+                {
+                    "type": "battery",
+                    **BATTERY_DIRECTIONS_ENERGY,
+                    "power_config": BATTERY_DIRECTIONS_POWER,
+                    "stat_rate": "sensor.energy_battery_net_power",
+                }
+            ],
+            id="all_power_directions_with_generated_stat_rate",
+        ),
+        pytest.param(
+            [
+                {
+                    "type": "battery",
+                    **BATTERY_DIRECTIONS_ENERGY,
+                    "power_config": {
+                        "stat_rate_to_home": "sensor.battery_to_home_power"
+                    },
+                }
+            ],
+            id="power_direction_subset",
+        ),
+        pytest.param(
+            [
+                {
+                    "type": "battery",
+                    "stat_energy_from": "sensor.battery_energy",
+                    "stat_energy_to": "sensor.battery_energy",
+                    "power_config": {"stat_rate": "sensor.battery_power"},
+                    "stat_rate": "sensor.battery_power",
+                }
+            ],
+            id="totals_with_one_statistic_twice",
+        ),
+        pytest.param(
+            [
+                BATTERY_TOTALS,
+                {**BATTERY_TOTALS, "stat_energy_to": "sensor.other_energy_to"},
+            ],
+            id="totals_batteries_sharing_a_statistic",
+        ),
+        pytest.param(
+            [
+                GRID,
+                {
+                    "type": "battery",
+                    **BATTERY_DIRECTIONS_ENERGY,
+                    "stat_energy_to_grid": "sensor.grid_export",
+                },
+            ],
+            id="battery_to_grid_is_grid_export",
+        ),
+        pytest.param(
+            [
+                {
+                    "type": "battery",
+                    "stat_energy_from_grid": "external:battery_from_grid",
+                    "stat_energy_to_home": "sensor.battery_to_home",
+                }
+            ],
+            id="external_direction_energy",
+        ),
+        pytest.param(
+            [
+                BATTERY_TOTALS,
+                {"type": "battery", **BATTERY_DIRECTIONS_ENERGY},
+            ],
+            id="totals_and_directions_batteries",
+        ),
+    ],
+)
+async def test_battery_measurement_schema_valid(sources: list[dict[str, Any]]) -> None:
+    """Test valid battery measurements pass validation unchanged."""
+    assert ENERGY_SOURCE_SCHEMA(sources) == sources
+
+
+@pytest.mark.parametrize(
+    ("sources", "message"),
+    [
+        pytest.param(
+            [{**BATTERY_TOTALS, "stat_energy_to_home": "sensor.battery_to_home"}],
+            "either in total or per direction",
+            id="totals_and_directions",
+        ),
+        pytest.param(
+            [{"type": "battery", "stat_energy_from": "sensor.battery_energy_from"}],
+            "group of inclusion 'total_energy'",
+            id="one_total",
+        ),
+        pytest.param(
+            [{"type": "battery"}],
+            "or at least one charge and one discharge direction",
+            id="no_energy",
+        ),
+        pytest.param(
+            [
+                {
+                    "type": "battery",
+                    "stat_energy_from_grid": "sensor.battery_from_grid",
+                    "stat_energy_from_solar": "sensor.battery_from_solar",
+                }
+            ],
+            "or at least one charge and one discharge direction",
+            id="no_discharge_direction",
+        ),
+        pytest.param(
+            [
+                {
+                    "type": "battery",
+                    "stat_energy_to_home": "sensor.battery_to_home",
+                    "stat_energy_to_grid": "sensor.battery_to_grid",
+                }
+            ],
+            "or at least one charge and one discharge direction",
+            id="no_charge_direction",
+        ),
+        pytest.param(
+            [{**BATTERY_TOTALS, "power_config": BATTERY_DIRECTIONS_POWER}],
+            "direction power sensors need energy per direction",
+            id="direction_power_with_totals",
+        ),
+        pytest.param(
+            [
+                {
+                    "type": "battery",
+                    **BATTERY_DIRECTIONS_ENERGY,
+                    "power_config": {"stat_rate_inverted": "sensor.battery_power"},
+                }
+            ],
+            "per direction needs direction power",
+            id="signed_power_with_directions",
+        ),
+        pytest.param(
+            [
+                {
+                    "type": "battery",
+                    **BATTERY_DIRECTIONS_ENERGY,
+                    "stat_rate": "sensor.battery_power",
+                }
+            ],
+            "needs its power sensors in power_config",
+            id="bare_stat_rate_with_directions",
+        ),
+        pytest.param(
+            [
+                {
+                    "type": "battery",
+                    "stat_energy_from_grid": "sensor.battery_from_grid",
+                    "stat_energy_to_home": "sensor.battery_to_home",
+                    "power_config": BATTERY_DIRECTIONS_POWER,
+                }
+            ],
+            "stat_rate_from_solar needs stat_energy_from_solar",
+            id="power_direction_without_energy",
+        ),
+        pytest.param(
+            [
+                {
+                    "type": "battery",
+                    **BATTERY_DIRECTIONS_ENERGY,
+                    "stat_energy_to_grid": "sensor.battery_to_home",
+                }
+            ],
+            "can only be used once in a battery",
+            id="energy_statistic_twice",
+        ),
+        pytest.param(
+            [
+                {
+                    "type": "battery",
+                    **BATTERY_DIRECTIONS_ENERGY,
+                    "power_config": {"stat_rate_to_home": "sensor.battery_to_home"},
+                }
+            ],
+            "can only be used once in a battery",
+            id="energy_and_power_statistic_shared",
+        ),
+        pytest.param(
+            [
+                {
+                    "type": "battery",
+                    **BATTERY_DIRECTIONS_ENERGY,
+                    "power_config": {
+                        **BATTERY_DIRECTIONS_POWER,
+                        "stat_rate_inverted": "sensor.battery_power",
+                    },
+                }
+            ],
+            "only one configuration method",
+            id="direction_and_inverted_power",
+        ),
+        pytest.param(
+            [
+                {
+                    "type": "battery",
+                    **BATTERY_DIRECTIONS_ENERGY,
+                    "power_config": {"stat_rate_to_home": "external:battery_power"},
+                }
+            ],
+            "Battery direction power must be an entity",
+            id="external_direction_power",
+        ),
+        pytest.param(
+            [{**GRID, "power_config": {"stat_rate_to_home": "sensor.power"}}],
+            "not a valid option",
+            id="grid_with_direction_power",
+        ),
+        pytest.param(
+            [
+                BATTERY_TOTALS,
+                {
+                    "type": "battery",
+                    **BATTERY_DIRECTIONS_ENERGY,
+                    "stat_energy_to_home": "sensor.battery_energy_from",
+                },
+            ],
+            "sensor.battery_energy_from is used in multiple batteries",
+            id="direction_is_other_battery_total",
+        ),
+        pytest.param(
+            [
+                {"type": "battery", **BATTERY_DIRECTIONS_ENERGY},
+                {"type": "battery", **BATTERY_DIRECTIONS_ENERGY},
+            ],
+            "sensor.battery_from_grid is used in multiple batteries",
+            id="directions_shared_by_batteries",
+        ),
+        pytest.param(
+            [
+                {
+                    **BATTERY_TOTALS,
+                    "power_config": {
+                        "stat_rate_from": "sensor.battery_discharge",
+                        "stat_rate_to": "sensor.battery_charge",
+                    },
+                },
+                {
+                    "type": "battery",
+                    "stat_energy_from_grid": "sensor.other_from_grid",
+                    "stat_energy_to_home": "sensor.other_to_home",
+                    "power_config": {"stat_rate_to_home": "sensor.battery_discharge"},
+                },
+            ],
+            "sensor.battery_discharge is used in multiple batteries",
+            id="direction_power_is_other_battery_power",
+        ),
+    ],
+)
+async def test_battery_measurement_schema_invalid(
+    sources: list[dict[str, Any]], message: str
+) -> None:
+    """Test invalid battery measurements are rejected."""
+    with pytest.raises(probatio.Invalid, match=message):
+        ENERGY_SOURCE_SCHEMA(sources)
+
+
+@pytest.mark.parametrize(
+    ("power_config", "stat_rate"),
+    [
+        pytest.param(
+            BATTERY_DIRECTIONS_POWER,
+            "sensor.energy_battery_battery_from_grid_power_battery_from_solar_power"
+            "_battery_to_home_power_battery_to_grid_power_net_power",
+            id="all_directions",
+        ),
+        pytest.param(
+            {
+                "stat_rate_to_grid": "sensor.battery_to_grid_power",
+                "stat_rate_from_solar": "sensor.battery_from_solar_power",
+            },
+            "sensor.energy_battery_battery_from_solar_power_battery_to_grid_power"
+            "_net_power",
+            id="subset_in_slot_order",
+        ),
+    ],
+)
+async def test_battery_power_config_directions_sets_stat_rate(
+    hass: UniversalAssistant, power_config: dict[str, str], stat_rate: str
+) -> None:
+    """Test a battery with direction power sensors gets the generated net power."""
+    manager = EnergyManager(hass)
+    await manager.async_initialize()
+    manager.data = manager.default_preferences()
+
+    await manager.async_update(
+        {
+            "energy_sources": [
+                {
+                    "type": "battery",
+                    **BATTERY_DIRECTIONS_ENERGY,
+                    "power_config": power_config,
+                }
+            ],
+        }
+    )
+
+    assert manager.data is not None
+    assert manager.data["energy_sources"][0]["stat_rate"] == stat_rate

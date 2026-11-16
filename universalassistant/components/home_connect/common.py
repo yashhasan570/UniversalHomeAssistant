@@ -8,7 +8,7 @@ from typing import cast
 from aiohomeconnect.model import EventKey
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity import EntityDescription
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -70,7 +70,7 @@ def _create_option_entities(
 
 
 def _handle_paired_or_connected_appliance(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: HomeConnectConfigEntry,
     known_entity_unique_ids: dict[str, str],
     get_entities_for_appliance: Callable[
@@ -158,7 +158,7 @@ def _handle_depaired_appliance(
 
 
 def setup_home_connect_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: HomeConnectConfigEntry,
     get_entities_for_appliance: Callable[
         [HomeConnectApplianceCoordinator], list[HomeConnectEntity]

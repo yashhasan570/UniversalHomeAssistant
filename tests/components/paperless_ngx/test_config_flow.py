@@ -17,7 +17,7 @@ from universalassistant import config_entries
 from universalassistant.components.paperless_ngx.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import USER_INPUT_ONE, USER_INPUT_REAUTH, USER_INPUT_TWO
@@ -32,7 +32,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
         yield mock_setup_entry
 
 
-async def test_full_config_flow(hass: __HAC_KEEP__) -> None:
+async def test_full_config_flow(hass: UniversalAssistant) -> None:
     """Test registering an integration and finishing flow works."""
 
     result = await hass.config_entries.flow.async_init(
@@ -56,7 +56,7 @@ async def test_full_config_flow(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_reauth_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reauth an integration and finishing flow works."""
 
@@ -77,7 +77,7 @@ async def test_full_reauth_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_reconfigure_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure an integration and finishing flow works."""
 
@@ -109,7 +109,7 @@ async def test_full_reconfigure_flow(
     ],
 )
 async def test_config_flow_error_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_paperless: AsyncMock,
     side_effect: Exception,
     expected_error: dict[str, str],
@@ -158,7 +158,7 @@ async def test_config_flow_error_handling(
     ],
 )
 async def test_reauth_flow_error_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_paperless: AsyncMock,
     side_effect: Exception,
@@ -204,7 +204,7 @@ async def test_reauth_flow_error_handling(
     ],
 )
 async def test_reconfigure_flow_error_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_paperless: AsyncMock,
     side_effect: Exception,
@@ -241,7 +241,7 @@ async def test_reconfigure_flow_error_handling(
 
 
 async def test_config_already_exists(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we only allow a single config flow."""
     mock_config_entry.add_to_hass(hass)
@@ -265,7 +265,7 @@ async def test_config_already_exists(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_config_already_exists_reconfigure(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we only allow a single config if reconfiguring an entry."""
     mock_config_entry.add_to_hass(hass)

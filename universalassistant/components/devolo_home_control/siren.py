@@ -5,9 +5,13 @@ from typing import Any, override
 from devolo_home_control_api.devices.zwave import Zwave
 from devolo_home_control_api.homecontrol import HomeControl
 
-from universalassistant.components.siren import ATTR_TONE, SirenEntity, SirenEntityFeature
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.components.siren import (
+    SirenEntity,
+    SirenEntityFeature,
+    SirenServiceArgument,
+)
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import DevoloHomeControlConfigEntry
@@ -16,7 +20,7 @@ from .entity import DevoloMultiLevelSwitchDeviceEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: DevoloHomeControlConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -70,7 +74,7 @@ class DevoloSirenDeviceEntity(DevoloMultiLevelSwitchDeviceEntity, SirenEntity):
     @override
     def turn_on(self, **kwargs: Any) -> None:
         """Turn the device on."""
-        tone = kwargs.get(ATTR_TONE) or self._default_tone
+        tone = kwargs.get(SirenServiceArgument.TONE) or self._default_tone
         self._set_tone(tone)
 
     @override
@@ -81,7 +85,7 @@ class DevoloSirenDeviceEntity(DevoloMultiLevelSwitchDeviceEntity, SirenEntity):
     def _set_tone(self, tone: int) -> None:
         """Set the siren's tone."""
         if not self._multi_level_switch_property.set(tone):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_failed",
             )

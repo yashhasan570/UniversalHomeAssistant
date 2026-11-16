@@ -16,7 +16,7 @@ from screenlogicpy.const.data import ATTR
 from screenlogicpy.const.msg import CODE
 
 from universalassistant.core import callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import EntityDescription
@@ -94,7 +94,7 @@ class ScreenLogicEntity(CoordinatorEntity[ScreenlogicDataUpdateCoordinator]):
         try:
             return self.gateway.get_data(*self._data_path, strict=True)
         except KeyError as ke:
-            raise __HAC_KEEP__Error(f"Data not found: {self._data_path}") from ke
+            raise UniversalAssistantError(f"Data not found: {self._data_path}") from ke
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -174,7 +174,7 @@ class ScreenLogicCircuitEntity(ScreenLogicSwitchingEntity, ScreenLogicPushEntity
         try:
             await self.gateway.async_set_circuit(self._data_key, state.value)
         except (ScreenLogicCommunicationError, ScreenLogicError) as sle:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to set_circuit {self._data_key} {state.value}: {sle.msg}"
             ) from sle
         _LOGGER.debug("Set circuit %s %s", self._data_key, state.value)

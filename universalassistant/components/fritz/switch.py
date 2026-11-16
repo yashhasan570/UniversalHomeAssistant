@@ -5,7 +5,7 @@ from typing import Any, override
 from universalassistant.components.network import async_get_source_ip
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import EntityCategory, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -75,7 +75,7 @@ async def _get_wifi_networks_list(avm_wrapper: AvmWrapper) -> dict[int, dict[str
 
 
 async def _migrate_to_new_unique_id(
-    hass: __HAC_KEEP__, avm_wrapper: AvmWrapper
+    hass: UniversalAssistant, avm_wrapper: AvmWrapper
 ) -> None:
     """Migrate old unique ids to new unique ids."""
 
@@ -263,7 +263,7 @@ async def async_all_entities_list(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FritzConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

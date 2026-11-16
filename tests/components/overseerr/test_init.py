@@ -19,7 +19,7 @@ from universalassistant.components.overseerr import (
 )
 from universalassistant.components.overseerr.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -35,7 +35,7 @@ from tests.components.cloud import mock_cloud
     ],
 )
 async def test_initialization_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_overseerr_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -50,7 +50,7 @@ async def test_initialization_errors(
 
 
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_overseerr_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -66,7 +66,7 @@ async def test_device_info(
 
 
 async def test_proper_webhook_configuration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_overseerr_client: AsyncMock,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_proper_webhook_configuration(
     ],
 )
 async def test_webhook_configuration_need_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_overseerr_client: AsyncMock,
     update_mock: dict[str, Any],
@@ -143,7 +143,7 @@ async def test_webhook_configuration_need_update(
     ],
 )
 async def test_webhook_failing_test(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_overseerr_client: AsyncMock,
     update_mock: dict[str, Any],
@@ -165,7 +165,7 @@ async def test_webhook_json_payload_formatting() -> None:
 
 
 async def test_prefer_internal_ip(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_overseerr_client: AsyncMock,
 ) -> None:
@@ -187,7 +187,7 @@ async def test_prefer_internal_ip(
 
 
 async def test_cloudhook_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_overseerr_client_needs_change: AsyncMock,
 ) -> None:
@@ -240,7 +240,7 @@ async def test_cloudhook_setup(
 
 
 async def test_cloudhook_consistent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloudhook_config_entry: MockConfigEntry,
     mock_overseerr_client_needs_change: AsyncMock,
 ) -> None:
@@ -284,7 +284,7 @@ async def test_cloudhook_consistent(
 
 
 async def test_cloudhook_needs_no_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloudhook_config_entry: MockConfigEntry,
     mock_overseerr_client_cloudhook: AsyncMock,
 ) -> None:
@@ -299,7 +299,7 @@ async def test_cloudhook_needs_no_change(
 
 
 async def test_cloudhook_not_needed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_overseerr_client_needs_change: AsyncMock,
 ) -> None:
@@ -331,7 +331,7 @@ async def test_cloudhook_not_needed(
 
 
 async def test_cloudhook_not_connecting(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloudhook_config_entry: MockConfigEntry,
     mock_overseerr_client_needs_change: AsyncMock,
 ) -> None:
@@ -376,7 +376,7 @@ async def test_cloudhook_not_connecting(
 
 
 async def test_removing_entry_with_cloud_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_cloudhook_config_entry: MockConfigEntry,
     mock_overseerr_client: AsyncMock,
 ) -> None:

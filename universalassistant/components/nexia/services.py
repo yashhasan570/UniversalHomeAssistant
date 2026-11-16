@@ -6,7 +6,7 @@ from nexia.const import HOLD_PERMANENT, HOLD_RESUME_SCHEDULE
 import probatio
 
 from universalassistant.components.climate import DOMAIN as CLIMATE_DOMAIN, HVACMode
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.typing import VolDictType
 
@@ -60,7 +60,7 @@ SET_HVAC_RUN_MODE_SCHEMA = probatio.All(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the services for the Nexia/American Standard/Trane integration."""
 
     service.async_register_platform_entity_service(

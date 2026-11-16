@@ -14,7 +14,7 @@ from aiohttp import ClientError, ClientResponseError, client, hdrs
 from multidict import CIMultiDict
 from yarl import URL
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     OAuth2TokenRequestConnectionError,
     OAuth2TokenRequestError,
@@ -121,7 +121,7 @@ def raise_mapped_token_error(err: ClientError, domain: str) -> NoReturn:
 
 
 async def async_token_request(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     token_url: str,
     data: Mapping[str, Any],
     *,
@@ -172,7 +172,7 @@ async def async_token_request(
 
 
 async def async_oauth2_request(
-    hass: __HAC_KEEP__, token: dict, method: str, url: str, **kwargs: Any
+    hass: UniversalAssistant, token: dict, method: str, url: str, **kwargs: Any
 ) -> client.ClientResponse:
     """Make an OAuth2 authenticated request without refreshing the token."""
     session = async_get_clientsession(hass)

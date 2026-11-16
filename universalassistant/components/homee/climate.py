@@ -15,7 +15,7 @@ from universalassistant.components.climate import (
     HVACAction,
     HVACMode,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import HomeeConfigEntry
@@ -33,7 +33,7 @@ ROOM_THERMOSTATS = {
 
 
 async def add_climate_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
     nodes: list[HomeeNode],
@@ -47,7 +47,7 @@ async def add_climate_entities(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -65,7 +65,7 @@ class HomeeClimate(HomeeNodeEntity, ClimateEntity):
     _attr_translation_key = DOMAIN
 
     def __init__(
-        self, hass: __HAC_KEEP__, node: HomeeNode, entry: HomeeConfigEntry
+        self, hass: UniversalAssistant, node: HomeeNode, entry: HomeeConfigEntry
     ) -> None:
         """Initialize a Homee climate entity."""
         super().__init__(hass, node, entry)

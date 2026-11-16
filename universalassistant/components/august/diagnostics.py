@@ -5,7 +5,7 @@ from typing import Any
 from yalexs.const import DEFAULT_BRAND
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import AugustConfigEntry
 from .const import CONF_BRAND
@@ -27,7 +27,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: AugustConfigEntry
+    hass: UniversalAssistant, entry: AugustConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     data = entry.runtime_data

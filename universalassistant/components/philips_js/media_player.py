@@ -14,8 +14,8 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
     MediaType,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.trigger import PluggableAction
 
@@ -46,7 +46,7 @@ def _inverted(data):
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: PhilipsTVConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -235,7 +235,7 @@ class PhilipsTVMediaPlayer(PhilipsJsEntity, MediaPlayerEntity):
                 await self._async_update_soon()
                 return
 
-        raise __HAC_KEEP__Error(f"Unable to find channel {media_id}")
+        raise UniversalAssistantError(f"Unable to find channel {media_id}")
 
     @override
     async def async_play_media(
@@ -251,9 +251,9 @@ class PhilipsTVMediaPlayer(PhilipsJsEntity, MediaPlayerEntity):
                 await self._tv.setApplication(app["intent"])
                 await self._async_update_soon()
             else:
-                raise __HAC_KEEP__Error(f"Unable to find application {media_id}")
+                raise UniversalAssistantError(f"Unable to find application {media_id}")
         else:
-            raise __HAC_KEEP__Error(f"Unsupported media type {media_type}")
+            raise UniversalAssistantError(f"Unsupported media type {media_type}")
 
     async def async_browse_media_channels(self, expanded: bool) -> BrowseMedia:
         """Return channel media objects."""

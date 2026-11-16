@@ -22,8 +22,8 @@ from universalassistant.const import (
     DEVICE_DEFAULT_NAME,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv, issue_registry as ir
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -71,7 +71,7 @@ FLEXIT_TO_HA_HVAC_ACTION = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FlexitConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -80,7 +80,7 @@ async def async_setup_entry(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -304,7 +304,7 @@ class FlexitClimate(FlexitEntity, ClimateEntity):
                 target_temperature
             )
         except ModbusError as err:
-            raise __HAC_KEEP__Error("Failed to set target temperature") from err
+            raise UniversalAssistantError("Failed to set target temperature") from err
         await self.coordinator.async_request_refresh()
 
     @override
@@ -315,5 +315,5 @@ class FlexitClimate(FlexitEntity, ClimateEntity):
                 HA_TO_FLEXIT_FAN_MODE[fan_mode]
             )
         except ModbusError as err:
-            raise __HAC_KEEP__Error("Failed to set fan mode") from err
+            raise UniversalAssistantError("Failed to set fan mode") from err
         await self.coordinator.async_request_refresh()

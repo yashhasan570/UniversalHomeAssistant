@@ -5,12 +5,12 @@ from pytest_universalassistant.common import async_mock_service
 
 from universalassistant.components.alert import DOMAIN
 from universalassistant.components.alert.const import AlertService
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.state import async_reproduce_state
 
 
 async def test_reproducing_states(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test reproducing Alert states."""
     hass.states.async_set("alert.entity_off", "off", {})

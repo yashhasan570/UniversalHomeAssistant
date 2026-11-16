@@ -14,7 +14,7 @@ from universalassistant.components.brother.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_TYPE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -31,7 +31,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 @pytest.mark.parametrize("host", ["example.local", "127.0.0.1", "2001:db8::1428:57ab"])
 async def test_create_entry(
-    hass: __HAC_KEEP__, host: str, mock_brother_client: AsyncMock
+    hass: UniversalAssistant, host: str, mock_brother_client: AsyncMock
 ) -> None:
     """Test that the user step works with printer hostname/IPv4/IPv6."""
     config = CONFIG.copy()
@@ -59,7 +59,7 @@ async def test_create_entry(
 
 
 async def test_invalid_hostname(
-    hass: __HAC_KEEP__, mock_brother_client: AsyncMock
+    hass: UniversalAssistant, mock_brother_client: AsyncMock
 ) -> None:
     """Test invalid hostname in user_input."""
     result = await hass.config_entries.flow.async_init(
@@ -105,7 +105,7 @@ async def test_invalid_hostname(
     ],
 )
 async def test_errors(
-    hass: __HAC_KEEP__, exc: Exception, base_error: str, mock_brother_client: AsyncMock
+    hass: UniversalAssistant, exc: Exception, base_error: str, mock_brother_client: AsyncMock
 ) -> None:
     """Test connection to host error."""
     result = await hass.config_entries.flow.async_init(
@@ -143,7 +143,7 @@ async def test_errors(
 
 
 async def test_unsupported_model_error(
-    hass: __HAC_KEEP__, mock_brother: AsyncMock, mock_brother_client: AsyncMock
+    hass: UniversalAssistant, mock_brother: AsyncMock, mock_brother_client: AsyncMock
 ) -> None:
     """Test unsupported printer model error."""
     mock_brother.create.side_effect = UnsupportedModelError("error")
@@ -164,7 +164,7 @@ async def test_unsupported_model_error(
 
 
 async def test_device_exists_abort(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_brother_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -189,7 +189,7 @@ async def test_device_exists_abort(
 
 @pytest.mark.parametrize("exc", [ConnectionError, TimeoutError, SnmpError("error")])
 async def test_zeroconf_exception(
-    hass: __HAC_KEEP__, exc: Exception, mock_brother_client: AsyncMock
+    hass: UniversalAssistant, exc: Exception, mock_brother_client: AsyncMock
 ) -> None:
     """Test we abort zeroconf flow on exception."""
     mock_brother_client.async_update.side_effect = exc
@@ -213,7 +213,7 @@ async def test_zeroconf_exception(
 
 
 async def test_zeroconf_unsupported_model(
-    hass: __HAC_KEEP__, mock_brother: AsyncMock, mock_brother_client: AsyncMock
+    hass: UniversalAssistant, mock_brother: AsyncMock, mock_brother_client: AsyncMock
 ) -> None:
     """Test unsupported printer model error."""
     mock_brother.create.side_effect = UnsupportedModelError("error")
@@ -236,7 +236,7 @@ async def test_zeroconf_unsupported_model(
 
 
 async def test_zeroconf_device_exists_abort(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_brother_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -265,7 +265,7 @@ async def test_zeroconf_device_exists_abort(
 
 
 async def test_zeroconf_no_probe_existing_device(
-    hass: __HAC_KEEP__, mock_brother_client: AsyncMock
+    hass: UniversalAssistant, mock_brother_client: AsyncMock
 ) -> None:
     """Test we do not probe the device is the host is already configured."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id="0123456789", data=CONFIG)
@@ -292,7 +292,7 @@ async def test_zeroconf_no_probe_existing_device(
 
 
 async def test_zeroconf_confirm_create_entry(
-    hass: __HAC_KEEP__, mock_brother_client: AsyncMock
+    hass: UniversalAssistant, mock_brother_client: AsyncMock
 ) -> None:
     """Test zeroconf confirmation and create config entry."""
     result = await hass.config_entries.flow.async_init(
@@ -332,7 +332,7 @@ async def test_zeroconf_confirm_create_entry(
 
 
 async def test_reconfigure_successful(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_brother_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -370,7 +370,7 @@ async def test_reconfigure_successful(
     ],
 )
 async def test_reconfigure_not_successful(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exc: Exception,
     base_error: str,
     mock_brother_client: AsyncMock,
@@ -418,7 +418,7 @@ async def test_reconfigure_not_successful(
 
 
 async def test_reconfigure_invalid_hostname(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_brother_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -460,7 +460,7 @@ async def test_reconfigure_invalid_hostname(
 
 
 async def test_reconfigure_not_the_same_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_brother_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

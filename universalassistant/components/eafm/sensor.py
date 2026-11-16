@@ -4,7 +4,7 @@ from typing import Any, override
 
 from universalassistant.components.sensor import SensorEntity, SensorStateClass
 from universalassistant.const import UnitOfLength
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -18,7 +18,7 @@ UNIT_MAPPING = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: EafmConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

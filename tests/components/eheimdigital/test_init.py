@@ -10,7 +10,7 @@ from pytest_universalassistant.typing import WebSocketGenerator
 from universalassistant.components.eheimdigital.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -18,7 +18,7 @@ from .conftest import init_integration
 
 
 async def test_dynamic_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     eheimdigital_hub_mock: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -66,7 +66,7 @@ async def test_dynamic_entities(
 
 
 async def test_remove_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     eheimdigital_hub_mock: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -104,7 +104,7 @@ async def test_remove_device(
 
 
 async def test_entry_setup_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     eheimdigital_hub_mock: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -116,7 +116,7 @@ async def test_entry_setup_error(
 
 
 async def test_child_device_via_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     eheimdigital_hub_mock: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -145,7 +145,7 @@ async def test_child_device_via_device(
 
 
 async def test_entry_setup_retries_on_incomplete_main_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     eheimdigital_hub_mock: MagicMock,
     mock_config_entry: MockConfigEntry,
     filter_mock: MagicMock,

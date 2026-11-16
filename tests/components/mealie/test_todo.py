@@ -37,15 +37,15 @@ from universalassistant.components.todo import (
     TodoServices,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_mealie_client: AsyncMock,
@@ -71,7 +71,7 @@ async def test_entities(
     ],
 )
 async def test_todo_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -93,7 +93,7 @@ async def test_todo_actions(
 
 
 async def test_add_todo_item_parsed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -144,7 +144,7 @@ async def test_add_todo_item_parsed(
 
 
 async def test_add_todo_item_parser_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -174,7 +174,7 @@ async def test_add_todo_item_parser_disabled(
 
 
 async def test_add_todo_item_parse_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -202,7 +202,7 @@ async def test_add_todo_item_parse_fallback(
 
 
 async def test_add_todo_item_low_confidence_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -241,7 +241,7 @@ async def test_add_todo_item_low_confidence_fallback(
 
 
 async def test_add_todo_item_without_food_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -280,7 +280,7 @@ async def test_add_todo_item_without_food_fallback(
 
 
 async def test_add_todo_item_without_unit_id_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -320,7 +320,7 @@ async def test_add_todo_item_without_unit_id_fallback(
 
 
 async def test_add_todo_item_parse_error_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -350,7 +350,7 @@ async def test_add_todo_item_parse_error_fallback(
 
 
 async def test_update_todo_item_parsed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -395,7 +395,7 @@ async def test_update_todo_item_parsed(
 
 
 async def test_update_todo_item_parser_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -425,7 +425,7 @@ async def test_update_todo_item_parser_disabled(
 
 
 async def test_update_todo_item_parse_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -460,7 +460,7 @@ async def test_update_todo_item_parse_fallback(
 
 
 async def test_update_todo_item_without_unit_id_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -507,7 +507,7 @@ async def test_update_todo_item_without_unit_id_fallback(
 
 
 async def test_update_todo_item_parse_error_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -544,7 +544,7 @@ async def test_update_todo_item_parse_error_fallback(
 
 
 async def test_add_todo_list_item_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -554,7 +554,7 @@ async def test_add_todo_list_item_error(
     mock_mealie_client.add_shopping_item.side_effect = MealieError
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="An error occurred adding an item to Supermarket"
+        UniversalAssistantError, match="An error occurred adding an item to Supermarket"
     ):
         await hass.services.async_call(
             TODO_DOMAIN,
@@ -566,7 +566,7 @@ async def test_add_todo_list_item_error(
 
 
 async def test_update_todo_list_item_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -576,7 +576,7 @@ async def test_update_todo_list_item_error(
     mock_mealie_client.update_shopping_item.side_effect = MealieError
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="An error occurred updating an item in Supermarket"
+        UniversalAssistantError, match="An error occurred updating an item in Supermarket"
     ):
         await hass.services.async_call(
             TODO_DOMAIN,
@@ -588,7 +588,7 @@ async def test_update_todo_list_item_error(
 
 
 async def test_update_non_existent_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -608,7 +608,7 @@ async def test_update_non_existent_item(
 
 
 async def test_delete_todo_list_item_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -619,7 +619,7 @@ async def test_delete_todo_list_item_error(
     mock_mealie_client.delete_shopping_item.side_effect = MealieError
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="An error occurred deleting an item in Supermarket"
+        UniversalAssistantError, match="An error occurred deleting an item in Supermarket"
     ):
         await hass.services.async_call(
             TODO_DOMAIN,
@@ -631,7 +631,7 @@ async def test_delete_todo_list_item_error(
 
 
 async def test_moving_todo_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
@@ -711,7 +711,7 @@ async def test_moving_todo_item(
 
 
 async def test_not_moving_todo_item(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
@@ -738,7 +738,7 @@ async def test_not_moving_todo_item(
 
 
 async def test_moving_todo_item_invalid_uid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
@@ -766,7 +766,7 @@ async def test_moving_todo_item_invalid_uid(
 
 
 async def test_moving_todo_item_invalid_previous_uid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
@@ -795,7 +795,7 @@ async def test_moving_todo_item_invalid_previous_uid(
 
 
 async def test_runtime_management(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

@@ -8,7 +8,7 @@ from typing import override
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_FILE_PATH
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
 
@@ -25,7 +25,7 @@ class FileSizeCoordinator(DataUpdateCoordinator[dict[str, int | float | datetime
     config_entry: FileSizeConfigEntry
     path: pathlib.Path
 
-    def __init__(self, hass: __HAC_KEEP__, config_entry: FileSizeConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, config_entry: FileSizeConfigEntry) -> None:
         """Initialize filesize coordinator."""
         super().__init__(
             hass,

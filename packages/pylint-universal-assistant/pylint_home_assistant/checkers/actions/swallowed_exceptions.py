@@ -7,7 +7,7 @@ no feedback in the UI when the action fails.
 
 This checker detects suppression only — it does not validate *what*
 exception type is raised. A separate checker should verify that raised
-exceptions are ``__HAC_KEEP__Error`` subclasses with proper translations.
+exceptions are ``UniversalAssistantError`` subclasses with proper translations.
 
 This rule only applies to modules inside ``universalassistant.components.*``,
 not to test code or core framework code.

@@ -21,7 +21,7 @@ from universalassistant.const import (
     CONF_MODEL,
     CONF_TOKEN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 MOCK_HOST = "192.168.1.100"
 MOCK_TOKEN = "test-token-123"
@@ -123,7 +123,7 @@ def mock_client() -> Generator[AsyncMock]:
 
 
 @pytest.fixture
-def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Create a mock config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,

@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.bluetooth import BluetoothChange
 from universalassistant.components.bthome.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
@@ -19,7 +19,7 @@ from . import (
 )
 
 
-async def test_async_step_bluetooth_valid_device(hass: __HAC_KEEP__) -> None:
+async def test_async_step_bluetooth_valid_device(hass: UniversalAssistant) -> None:
     """Test discovery via bluetooth with a valid device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -38,7 +38,7 @@ async def test_async_step_bluetooth_valid_device(hass: __HAC_KEEP__) -> None:
     assert result2["result"].unique_id == "A4:C1:38:8D:18:B2"
 
 
-async def test_async_step_bluetooth_during_onboarding(hass: __HAC_KEEP__) -> None:
+async def test_async_step_bluetooth_during_onboarding(hass: UniversalAssistant) -> None:
     """Test discovery via bluetooth during onboarding."""
     with (
         patch(
@@ -64,7 +64,7 @@ async def test_async_step_bluetooth_during_onboarding(hass: __HAC_KEEP__) -> Non
 
 
 async def test_async_step_bluetooth_valid_device_with_encryption(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test discovery via bluetooth with a valid device, with encryption."""
     result = await hass.config_entries.flow.async_init(
@@ -87,7 +87,7 @@ async def test_async_step_bluetooth_valid_device_with_encryption(
 
 
 async def test_async_step_bluetooth_valid_device_encryption_wrong_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test bluetooth discovery with a valid device, encryption and invalid key."""
     result = await hass.config_entries.flow.async_init(
@@ -119,7 +119,7 @@ async def test_async_step_bluetooth_valid_device_encryption_wrong_key(
 
 
 async def test_async_step_bluetooth_valid_device_encryption_wrong_key_length(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test bluetooth discovery with a valid device, encryption and wrong key length."""
     result = await hass.config_entries.flow.async_init(
@@ -151,7 +151,7 @@ async def test_async_step_bluetooth_valid_device_encryption_wrong_key_length(
     assert result2["result"].unique_id == "54:48:E6:8F:80:A5"
 
 
-async def test_async_step_bluetooth_not_supported(hass: __HAC_KEEP__) -> None:
+async def test_async_step_bluetooth_not_supported(hass: UniversalAssistant) -> None:
     """Test discovery via bluetooth not supported."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -162,7 +162,7 @@ async def test_async_step_bluetooth_not_supported(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "not_supported"
 
 
-async def test_async_step_user_no_devices_found(hass: __HAC_KEEP__) -> None:
+async def test_async_step_user_no_devices_found(hass: UniversalAssistant) -> None:
     """Test setup from service info cache with no devices found."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -172,7 +172,7 @@ async def test_async_step_user_no_devices_found(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "no_devices_found"
 
 
-async def test_async_step_user_no_devices_found_2(hass: __HAC_KEEP__) -> None:
+async def test_async_step_user_no_devices_found_2(hass: UniversalAssistant) -> None:
     """Test setup from service info cache with no devices found.
 
     This variant tests with a non-BTHome device known to us.
@@ -189,7 +189,7 @@ async def test_async_step_user_no_devices_found_2(hass: __HAC_KEEP__) -> None:
         assert result["reason"] == "no_devices_found"
 
 
-async def test_async_step_user_with_found_devices(hass: __HAC_KEEP__) -> None:
+async def test_async_step_user_with_found_devices(hass: UniversalAssistant) -> None:
     """Test setup from service info cache with devices found."""
     with patch(
         "universalassistant.components.bthome.config_flow.async_discovered_service_info",
@@ -212,7 +212,7 @@ async def test_async_step_user_with_found_devices(hass: __HAC_KEEP__) -> None:
     assert result2["result"].unique_id == "54:48:E6:8F:80:A5"
 
 
-async def test_async_step_user_replaces_ignored(hass: __HAC_KEEP__) -> None:
+async def test_async_step_user_replaces_ignored(hass: UniversalAssistant) -> None:
     """Test setup from service info cache replaces an ignored entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -243,7 +243,7 @@ async def test_async_step_user_replaces_ignored(hass: __HAC_KEEP__) -> None:
 
 
 async def test_async_step_user_with_found_devices_encryption(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test setup from service info cache with devices found, with encryption."""
     with patch(
@@ -277,7 +277,7 @@ async def test_async_step_user_with_found_devices_encryption(
 
 
 async def test_async_step_user_with_found_devices_encryption_wrong_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test setup from service info cache with devices, encryption and wrong key."""
     # Get a list of devices
@@ -323,7 +323,7 @@ async def test_async_step_user_with_found_devices_encryption_wrong_key(
 
 
 async def test_async_step_user_with_found_devices_encryption_wrong_key_length(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test setup from service info cache, encryption and wrong key length."""
     # Get a list of devices
@@ -369,7 +369,7 @@ async def test_async_step_user_with_found_devices_encryption_wrong_key_length(
     assert result2["result"].unique_id == "54:48:E6:8F:80:A5"
 
 
-async def test_async_step_user_device_added_between_steps(hass: __HAC_KEEP__) -> None:
+async def test_async_step_user_device_added_between_steps(hass: UniversalAssistant) -> None:
     """Test the device gets added via another flow between steps."""
     with patch(
         "universalassistant.components.bthome.config_flow.async_discovered_service_info",
@@ -398,7 +398,7 @@ async def test_async_step_user_device_added_between_steps(hass: __HAC_KEEP__) ->
 
 
 async def test_async_step_user_with_found_devices_already_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test setup from service info cache with devices found."""
     entry = MockConfigEntry(
@@ -419,7 +419,7 @@ async def test_async_step_user_with_found_devices_already_setup(
     assert result["reason"] == "no_devices_found"
 
 
-async def test_async_step_bluetooth_devices_already_setup(hass: __HAC_KEEP__) -> None:
+async def test_async_step_bluetooth_devices_already_setup(hass: UniversalAssistant) -> None:
     """Test we can't start a flow if there is already a config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -436,7 +436,7 @@ async def test_async_step_bluetooth_devices_already_setup(hass: __HAC_KEEP__) ->
     assert result["reason"] == "already_configured"
 
 
-async def test_async_step_bluetooth_already_in_progress(hass: __HAC_KEEP__) -> None:
+async def test_async_step_bluetooth_already_in_progress(hass: UniversalAssistant) -> None:
     """Test we can't start a flow for the same device twice."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -456,7 +456,7 @@ async def test_async_step_bluetooth_already_in_progress(hass: __HAC_KEEP__) -> N
 
 
 async def test_async_step_user_takes_precedence_over_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test manual setup takes precedence over discovery."""
     result = await hass.config_entries.flow.async_init(
@@ -491,7 +491,7 @@ async def test_async_step_user_takes_precedence_over_discovery(
     assert not hass.config_entries.flow.async_progress(DOMAIN)
 
 
-async def test_async_step_reauth(hass: __HAC_KEEP__) -> None:
+async def test_async_step_reauth(hass: UniversalAssistant) -> None:
     """Test reauth with a key."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -533,7 +533,7 @@ async def test_async_step_reauth(hass: __HAC_KEEP__) -> None:
     assert result2["reason"] == "reauth_successful"
 
 
-async def test_async_step_reauth_wrong_key(hass: __HAC_KEEP__) -> None:
+async def test_async_step_reauth_wrong_key(hass: UniversalAssistant) -> None:
     """Test reauth with a bad key, and that we can recover."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -583,7 +583,7 @@ async def test_async_step_reauth_wrong_key(hass: __HAC_KEEP__) -> None:
     assert result2["reason"] == "reauth_successful"
 
 
-async def test_async_step_reauth_abort_early(hass: __HAC_KEEP__) -> None:
+async def test_async_step_reauth_abort_early(hass: UniversalAssistant) -> None:
     """Test we can abort the reauth if there is no encryption.
 
     (This can't currently happen in practice).

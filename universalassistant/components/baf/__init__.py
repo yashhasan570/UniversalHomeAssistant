@@ -8,7 +8,7 @@ from aiobafi6.exceptions import DeviceUUIDMismatchError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_IP_ADDRESS, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import QUERY_INTERVAL, RUN_TIMEOUT
@@ -27,7 +27,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: BAFConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: BAFConfigEntry) -> None:
     """Set up Big Ass Fans from a config entry."""
     ip_address = entry.data[CONF_IP_ADDRESS]
 
@@ -56,6 +56,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: BAFConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: BAFConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: BAFConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

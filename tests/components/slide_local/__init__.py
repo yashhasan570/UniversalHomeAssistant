@@ -7,11 +7,11 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_object_f
 
 from universalassistant.components.slide_local.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def setup_platform(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, platforms: list[Platform]
+    hass: UniversalAssistant, config_entry: MockConfigEntry, platforms: list[Platform]
 ) -> MockConfigEntry:
     """Set up the slide local integration."""
     config_entry.add_to_hass(hass)

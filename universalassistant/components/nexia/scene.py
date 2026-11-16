@@ -5,7 +5,7 @@ from typing import Any, override
 from nexia.automation import NexiaAutomation
 
 from universalassistant.components.scene import Scene
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_call_later
 
@@ -18,7 +18,7 @@ SCENE_ACTIVATION_TIME = 5
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: NexiaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

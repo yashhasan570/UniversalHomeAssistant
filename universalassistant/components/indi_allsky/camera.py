@@ -6,7 +6,7 @@ from aioindiallsky import IndiAllSkyAuthError, IndiAllSkyError
 
 from universalassistant.components.camera import Camera
 from universalassistant.components.image import infer_image_type
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import IndiAllSkyConfigEntry, IndiAllSkyDataUpdateCoordinator
@@ -16,7 +16,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: IndiAllSkyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

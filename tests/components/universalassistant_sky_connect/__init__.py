@@ -1,1 +1,1 @@
-"""Tests for the __HA_KEEP__ SkyConnect integration."""
+"""Tests for the Universal Home Assistant SkyConnect integration."""

@@ -18,7 +18,7 @@ from pajgps_api.pajgps_api_error import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -46,7 +46,7 @@ class PajGpsCoordinator(DataUpdateCoordinator[PajGpsData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: PajGpsConfigEntry,
     ) -> None:
         """Initialize the coordinator from config-entry data."""

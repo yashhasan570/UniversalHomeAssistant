@@ -22,7 +22,7 @@ from universalassistant.const import (
     ATTR_PERSONS,
     CONF_WEBHOOK_ID,
 )
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.event import async_call_later
 
@@ -52,7 +52,7 @@ SUBEVENT_TYPE_MAP = {
 
 
 async def async_handle_webhook(
-    hass: __HAC_KEEP__, webhook_id: str, request: Request
+    hass: UniversalAssistant, webhook_id: str, request: Request
 ) -> None:
     """Handle webhook callback."""
     try:
@@ -135,7 +135,7 @@ def async_send_event(
 
 
 async def async_cloudhook_generate_url(
-    hass: __HAC_KEEP__, entry: NetatmoConfigEntry
+    hass: UniversalAssistant, entry: NetatmoConfigEntry
 ) -> str:
     """Generate the full URL for a webhook_id."""
     if CONF_CLOUDHOOK_URL not in entry.data:
@@ -151,7 +151,7 @@ async def async_cloudhook_generate_url(
 
 
 async def async_unregister_webhook(
-    hass: __HAC_KEEP__, entry: NetatmoConfigEntry
+    hass: UniversalAssistant, entry: NetatmoConfigEntry
 ) -> None:
     """Unregister the webhook from the Netatmo backend.
 
@@ -183,7 +183,7 @@ async def async_unregister_webhook(
 
 
 async def async_register_webhook(
-    hass: __HAC_KEEP__, entry: NetatmoConfigEntry
+    hass: UniversalAssistant, entry: NetatmoConfigEntry
 ) -> bool:
     """Register the webhook with the Netatmo backend.
 
@@ -245,7 +245,7 @@ class NetatmoWebhookManager:
     Assistant no longer answers, and the failed deliveries suspend the URL.
     """
 
-    def __init__(self, hass: __HAC_KEEP__, entry: NetatmoConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: NetatmoConfigEntry) -> None:
         """Initialize the webhook manager."""
         self.hass = hass
         self.entry = entry

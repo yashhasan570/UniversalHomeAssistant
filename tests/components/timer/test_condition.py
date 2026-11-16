@@ -22,11 +22,11 @@ from universalassistant.components.timer.const import (
     STATUS_IDLE,
     STATUS_PAUSED,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
-async def target_timers(hass: __HAC_KEEP__) -> dict[str, list[str]]:
+async def target_timers(hass: UniversalAssistant) -> dict[str, list[str]]:
     """Create multiple timer entities associated with different targets."""
     return await target_entities(hass, "timer")
 
@@ -47,7 +47,7 @@ _CONDITION_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_timer_condition_options_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     condition_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -93,7 +93,7 @@ def test_condition_target_support() -> None:
     ],
 )
 async def test_timer_condition_behavior_any(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_timers: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -140,7 +140,7 @@ async def test_timer_condition_behavior_any(
     ],
 )
 async def test_timer_condition_behavior_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_timers: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,

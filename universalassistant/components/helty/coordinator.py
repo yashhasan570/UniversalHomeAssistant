@@ -6,7 +6,7 @@ from typing import override
 from pyhelty import HeltyClient, HeltyConnectionError, HeltyData, HeltyError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN, SCAN_INTERVAL
@@ -23,7 +23,7 @@ class HeltyDataUpdateCoordinator(DataUpdateCoordinator[HeltyData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: HeltyConfigEntry,
         client: HeltyClient,
     ) -> None:

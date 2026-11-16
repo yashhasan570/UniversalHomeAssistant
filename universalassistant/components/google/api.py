@@ -15,7 +15,7 @@ from oauth2client.client import (
 )
 
 from universalassistant.components.application_credentials import AuthImplementation
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.helpers.event import (
     async_track_point_in_utc_time,
@@ -46,7 +46,7 @@ class GoogleHybridAuth(AuthImplementation):
 
     @override
     async def async_resolve_external_data(self, external_data: Any) -> dict:
-        """Resolve a Google API Credentials object to __HA_KEEP__ token."""
+        """Resolve a Google API Credentials object to Universal Home Assistant token."""
         if DEVICE_AUTH_CREDS not in external_data:
             # Assume the Web Auth flow was used, so use the default behavior
             return await super().async_resolve_external_data(external_data)
@@ -69,7 +69,7 @@ class DeviceFlow:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         oauth_flow: OAuth2WebServerFlow,
         device_flow_info: DeviceFlowInfo,
     ) -> None:
@@ -160,7 +160,7 @@ def get_feature_access(config_entry: GoogleConfigEntry) -> FeatureAccess:
 
 
 async def async_create_device_flow(
-    hass: __HAC_KEEP__, client_id: str, client_secret: str, access: FeatureAccess
+    hass: UniversalAssistant, client_id: str, client_secret: str, access: FeatureAccess
 ) -> DeviceFlow:
     """Create a new Device flow."""
     oauth_flow = OAuth2WebServerFlow(

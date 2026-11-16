@@ -9,14 +9,14 @@ from pytest_universalassistant.typing import RecorderInstanceGenerator
 
 from universalassistant.components.recorder import get_instance
 from universalassistant.components.recorder.const import SupportedDialect
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
 @pytest.mark.skip_on_db_engine(["mysql", "postgresql"])
 @pytest.mark.usefixtures("skip_by_db_engine", "recorder_mock")
 async def test_recorder_system_health(
-    hass: __HAC_KEEP__, recorder_db_url: str
+    hass: UniversalAssistant, recorder_db_url: str
 ) -> None:
     """Test recorder system health.
 
@@ -41,7 +41,7 @@ async def test_recorder_system_health(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_recorder_system_health_alternate_dbms(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     db_engine: SupportedDialect,
     recorder_dialect_name: None,
 ) -> None:
@@ -70,7 +70,7 @@ async def test_recorder_system_health_alternate_dbms(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_recorder_system_health_db_url_missing_host(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     db_engine: SupportedDialect,
     recorder_dialect_name: None,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_recorder_system_health_db_url_missing_host(
 @pytest.mark.usefixtures("skip_by_db_engine")
 async def test_recorder_system_health_crashed_recorder_runs_table(
     async_setup_recorder_instance: RecorderInstanceGenerator,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     recorder_db_url: str,
 ) -> None:
     """Test recorder system health with crashed recorder runs table.
@@ -141,7 +141,7 @@ async def test_recorder_system_health_crashed_recorder_runs_table(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_recorder_system_health_db_name_with_special_characters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     db_engine: SupportedDialect,
     db_url: str,
     recorder_dialect_name: None,

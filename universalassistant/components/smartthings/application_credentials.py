@@ -5,14 +5,14 @@ from universalassistant.components.application_credentials import (
     AuthorizationServer,
     ClientCredential,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.config_entry_oauth2_flow import AbstractOAuth2Implementation
 
 from .const import DOMAIN
 
 
 async def async_get_auth_implementation(
-    hass: __HAC_KEEP__, auth_domain: str, credential: ClientCredential
+    hass: UniversalAssistant, auth_domain: str, credential: ClientCredential
 ) -> AbstractOAuth2Implementation:
     """Return auth implementation."""
     return SmartThingsOAuth2Implementation(

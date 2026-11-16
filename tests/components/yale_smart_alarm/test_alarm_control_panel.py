@@ -21,8 +21,8 @@ from universalassistant.components.alarm_control_panel import (
     AlarmControlPanelState,
 )
 from universalassistant.const import ATTR_CODE, ATTR_ENTITY_ID, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 
@@ -31,7 +31,7 @@ from universalassistant.helpers import entity_registry as er
     [[Platform.ALARM_CONTROL_PANEL]],
 )
 async def test_alarm_control_panel(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     load_config_entry: tuple[MockConfigEntry, Mock],
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -46,7 +46,7 @@ async def test_alarm_control_panel(
     [[Platform.ALARM_CONTROL_PANEL]],
 )
 async def test_alarm_control_panel_service_calls(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_data: YaleSmartAlarmData,
     load_config_entry: tuple[MockConfigEntry, Mock],
 ) -> None:
@@ -93,7 +93,7 @@ async def test_alarm_control_panel_service_calls(
     client.disarm = Mock(side_effect=ConnectionError("no connection"))
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Could not set alarm for test-username: no connection",
     ):
         await hass.services.async_call(
@@ -109,7 +109,7 @@ async def test_alarm_control_panel_service_calls(
     client.disarm = Mock(return_value=False)
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Could not change alarm, check system ready for arming",
     ):
         await hass.services.async_call(
@@ -128,7 +128,7 @@ async def test_alarm_control_panel_service_calls(
     [[Platform.ALARM_CONTROL_PANEL]],
 )
 async def test_alarm_control_panel_not_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_data: YaleSmartAlarmData,
     load_config_entry: tuple[MockConfigEntry, Mock],
     freezer: FrozenDateTimeFactory,

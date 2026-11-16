@@ -1,4 +1,4 @@
-"""The tests for the __HA_KEEP__ SpaceAPI component."""
+"""The tests for the Universal Home Assistant SpaceAPI component."""
 
 from http import HTTPStatus
 
@@ -13,7 +13,7 @@ from universalassistant.components.spaceapi import (
     URL_API_SPACEAPI,
 )
 from universalassistant.const import ATTR_UNIT_OF_MEASUREMENT, PERCENTAGE, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 CONFIG = {
@@ -93,9 +93,9 @@ SENSOR_OUTPUT = {
 
 @pytest.fixture
 async def mock_client(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> TestClient:
-    """Start the __HA_KEEP__ HTTP component."""
+    """Start the Universal Home Assistant HTTP component."""
     await async_setup_component(hass, DOMAIN, CONFIG)
 
     hass.states.async_set(
@@ -128,8 +128,8 @@ async def mock_client(
     return await hass_client()
 
 
-async def test_spaceapi_get(hass: __HAC_KEEP__, mock_client: TestClient) -> None:
-    """Test response after start-up __HA_KEEP__."""
+async def test_spaceapi_get(hass: UniversalAssistant, mock_client: TestClient) -> None:
+    """Test response after start-up Universal Home Assistant."""
     resp = await mock_client.get(URL_API_SPACEAPI)
     assert resp.status == HTTPStatus.OK
 
@@ -172,7 +172,7 @@ async def test_spaceapi_get(hass: __HAC_KEEP__, mock_client: TestClient) -> None
     assert data["radio_show"][0]["end"] == "2019-09-02T12:00Z"
 
 
-async def test_spaceapi_state_get(hass: __HAC_KEEP__, mock_client: TestClient) -> None:
+async def test_spaceapi_state_get(hass: UniversalAssistant, mock_client: TestClient) -> None:
     """Test response if the state entity was set."""
     hass.states.async_set("test.test_door", True)
 
@@ -184,7 +184,7 @@ async def test_spaceapi_state_get(hass: __HAC_KEEP__, mock_client: TestClient) -
 
 
 async def test_spaceapi_sensors_get(
-    hass: __HAC_KEEP__, mock_client: TestClient
+    hass: UniversalAssistant, mock_client: TestClient
 ) -> None:
     """Test the response for the sensors."""
     resp = await mock_client.get(URL_API_SPACEAPI)
@@ -195,7 +195,7 @@ async def test_spaceapi_sensors_get(
 
 
 async def test_spaceapi_no_auth_required(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test SpaceAPI is accessible without authentication."""
     assert await async_setup_component(hass, DOMAIN, CONFIG)
@@ -211,7 +211,7 @@ async def test_spaceapi_no_auth_required(
 
 
 async def test_spaceapi_cors_headers(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test CORS headers are present on SpaceAPI responses."""
     assert await async_setup_component(hass, DOMAIN, CONFIG)

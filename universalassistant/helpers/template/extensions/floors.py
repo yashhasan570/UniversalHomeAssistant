@@ -1,4 +1,4 @@
-"""Floor functions for __HA_KEEP__ templates."""
+"""Floor functions for Universal Home Assistant templates."""
 
 from collections.abc import Iterable
 from typing import TYPE_CHECKING, Any

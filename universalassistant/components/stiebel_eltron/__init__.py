@@ -5,11 +5,11 @@ from pystiebeleltron import StiebelEltronModbusError, get_controller_model
 
 from universalassistant.components.modbus import async_get_unit
 from universalassistant.const import CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryError,
     ConfigEntryNotReady,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
 )
 
 from .const import DEFAULT_PORT, UNIT_ID
@@ -19,7 +19,7 @@ _PLATFORMS: list[Platform] = [Platform.CLIMATE]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: StiebelEltronConfigEntry
+    hass: UniversalAssistant, entry: StiebelEltronConfigEntry
 ) -> None:
     """Set up STIEBEL ELTRON from a config entry."""
 
@@ -32,7 +32,7 @@ async def async_setup_entry(
         )
     # Another integration already holds this host and port with link settings
     # that cannot be honoured on one connection.
-    except __HAC_KEEP__Error as exception:
+    except UniversalAssistantError as exception:
         raise ConfigEntryError(str(exception)) from exception
 
     try:
@@ -49,7 +49,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: StiebelEltronConfigEntry,
 ) -> None:
     """Unload a config entry."""

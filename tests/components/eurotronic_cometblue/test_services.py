@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.eurotronic_cometblue import DOMAIN
 from universalassistant.components.eurotronic_cometblue.coordinator import SCAN_INTERVAL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.util import dt as dt_util
 
@@ -18,7 +18,7 @@ ENTITY_ID = "climate.comet_blue_aa_bb_cc_dd_ee_ff"
 
 
 async def test_get_schedule(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     # entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -38,7 +38,7 @@ async def test_get_schedule(
 
 
 async def test_set_schedule(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -115,7 +115,7 @@ async def test_set_schedule(
 
 
 async def test_set_schedule_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test set_schedule service error handling."""
@@ -214,7 +214,7 @@ async def test_set_schedule_errors(
 
 @freeze_time("2026-04-01T18:03:00+00:00")
 async def test_set_holiday(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -247,7 +247,7 @@ async def test_set_holiday(
 
 @freeze_time("2026-04-01T18:03:00+00:00")
 async def test_set_holiday_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
 ) -> None:

@@ -4,12 +4,12 @@ from unittest.mock import patch
 
 from universalassistant import config_entries
 from universalassistant.components.ecowitt.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.setup import async_setup_component
 
 
-async def test_create_entry(hass: __HAC_KEEP__) -> None:
+async def test_create_entry(hass: UniversalAssistant) -> None:
     """Test we can create a config entry."""
     await async_setup_component(hass, "http", {})
 

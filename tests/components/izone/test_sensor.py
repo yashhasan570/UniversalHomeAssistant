@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.izone.const import DOMAIN
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 import universalassistant.helpers.device_registry as dr
 import universalassistant.helpers.entity_registry as er
 
@@ -33,7 +33,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_sensor_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -62,7 +62,7 @@ async def test_sensor_device_linked_to_controller(
 
 @pytest.mark.usefixtures("mock_create_discovery")
 async def test_sensor_unknown_when_temp_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_controller: Mock,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_sensor_unknown_when_temp_missing(
 
 @pytest.mark.usefixtures("mock_create_discovery")
 async def test_damper_position_not_created_without_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zones: list[Mock],
     entity_registry: er.EntityRegistry,
@@ -100,7 +100,7 @@ async def test_damper_position_not_created_without_data(
 )
 @pytest.mark.usefixtures("mock_create_discovery")
 async def test_damper_position_enabled_when_any_zone_reports_feedback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_controller: Mock,
     entity_registry: er.EntityRegistry,
@@ -159,7 +159,7 @@ async def test_wireless_sensors_enabled_default(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_create_discovery")
 async def test_wireless_sensor_levels(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zones: list[Mock],
     rf_signal: Zone.RfSignal,
@@ -188,7 +188,7 @@ async def test_wireless_sensor_levels(
 )
 @pytest.mark.usefixtures("mock_create_discovery")
 async def test_wireless_sensors_not_created_for_wired_zones(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zones: list[Mock],
     entity_registry: er.EntityRegistry,
@@ -205,7 +205,7 @@ async def test_wireless_sensors_not_created_for_wired_zones(
 
 @pytest.mark.usefixtures("mock_create_discovery")
 async def test_wireless_sensors_not_created_without_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zones: list[Mock],
     entity_registry: er.EntityRegistry,

@@ -24,7 +24,7 @@ from universalassistant.const import (
     CONF_SHOW_ON_MAP,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -34,7 +34,7 @@ from universalassistant.data_entry_flow import FlowResultType
 )
 @pytest.mark.usefixtures("setup_watttime")
 async def test_auth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_auth: dict[str, Any],
     config_coordinates: dict[str, Any],
     config_location_type: dict[str, Any],
@@ -88,7 +88,7 @@ async def test_auth_errors(
 )
 @pytest.mark.usefixtures("setup_watttime")
 async def test_coordinate_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_auth: dict[str, Any],
     config_coordinates: dict[str, Any],
     config_location_type: dict[str, Any],
@@ -138,7 +138,7 @@ async def test_coordinate_errors(
 )
 @pytest.mark.usefixtures("config_entry", "setup_watttime")
 async def test_duplicate_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_auth: dict[str, Any],
     config_location_type: dict[str, Any],
 ) -> None:
@@ -164,7 +164,7 @@ async def test_duplicate_error(
     assert result["reason"] == "already_configured"
 
 
-async def test_options_flow(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def test_options_flow(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Test config flow options."""
     with patch(
         "universalassistant.components.watttime.async_setup_entry", return_value=None
@@ -183,7 +183,7 @@ async def test_options_flow(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -
 
 @pytest.mark.usefixtures("setup_watttime")
 async def test_show_form_coordinates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_auth: dict[str, Any],
     config_location_type: dict[str, Any],
 ) -> None:
@@ -215,7 +215,7 @@ async def test_show_form_coordinates(
     assert result["errors"] is None
 
 
-async def test_show_form_user(hass: __HAC_KEEP__) -> None:
+async def test_show_form_user(hass: UniversalAssistant) -> None:
     """Test showing the form to select the authentication type."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -226,7 +226,7 @@ async def test_show_form_user(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_watttime")
-async def test_step_reauth(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def test_step_reauth(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Test a full reauth flow."""
     result = await config_entry.start_reauth_flow(hass)
     with patch(
@@ -245,7 +245,7 @@ async def test_step_reauth(hass: __HAC_KEEP__, config_entry: MockConfigEntry) ->
 
 @pytest.mark.usefixtures("setup_watttime")
 async def test_step_user_coordinates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_auth: dict[str, Any],
     config_location_type: dict[str, Any],
     config_coordinates: dict[str, Any],
@@ -293,7 +293,7 @@ async def test_step_user_coordinates(
 )
 @pytest.mark.usefixtures("setup_watttime")
 async def test_step_user_home(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_auth: dict[str, Any],
     config_location_type: dict[str, Any],
 ) -> None:

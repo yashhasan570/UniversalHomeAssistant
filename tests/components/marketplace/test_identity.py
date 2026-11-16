@@ -15,7 +15,7 @@ from universalassistant.components.marketplace.const import DOMAIN, STORAGE_VERS
 from universalassistant.components.marketplace.enums import MarketplaceStage
 from universalassistant.components.marketplace.repositories.base import Repository
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import (
@@ -50,7 +50,7 @@ def _serve_feed(response_mocker: MarketplaceResponses, feed: dict[str, Any]) -> 
 
 @pytest.mark.usefixtures("stored_repositories")
 async def test_installed_repository_takes_the_new_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     response_mocker: MarketplaceResponses,
     entity_registry: er.EntityRegistry,
@@ -83,7 +83,7 @@ async def test_installed_repository_takes_the_new_id(
 
 @pytest.mark.usefixtures("stored_repositories")
 async def test_catalog_lists_a_repository_twice(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     response_mocker: MarketplaceResponses,
 ) -> None:
@@ -103,7 +103,7 @@ async def test_catalog_lists_a_repository_twice(
 
 
 async def test_stored_under_two_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
 ) -> None:

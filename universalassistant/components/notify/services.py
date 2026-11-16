@@ -3,7 +3,7 @@
 import probatio
 
 from universalassistant.components import persistent_notification as pn
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.helpers import config_validation as cv
 
 from .const import (
@@ -28,7 +28,7 @@ async def _async_persistent_notification(service: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the notify services."""
     hass.data[DATA_COMPONENT].async_register_entity_service(
         NotifyService.SEND_MESSAGE,

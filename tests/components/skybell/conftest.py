@@ -11,7 +11,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.skybell.const import DOMAIN
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, CONTENT_TYPE_JSON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 USERNAME = "user"
@@ -45,15 +45,15 @@ def skybell_mock():
         yield mocked_skybell
 
 
-def create_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
-    """Create fixture for adding config entry in __HA_KEEP__."""
+def create_entry(hass: UniversalAssistant) -> MockConfigEntry:
+    """Create fixture for adding config entry in Universal Home Assistant."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id=USER_ID, data=CONF_DATA)
     entry.add_to_hass(hass)
     return entry
 
 
 async def set_aioclient_responses(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Set AioClient responses."""
     aioclient_mock.get(
@@ -105,12 +105,12 @@ async def set_aioclient_responses(
 
 
 @pytest.fixture
-async def connection(hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker) -> None:
+async def connection(hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker) -> None:
     """Fixture for good connection responses."""
     await set_aioclient_responses(hass, aioclient_mock)
 
 
-async def create_skybell(hass: __HAC_KEEP__) -> Skybell:
+async def create_skybell(hass: UniversalAssistant) -> Skybell:
     """Create Skybell object."""
     skybell = Skybell(
         username=USERNAME,
@@ -122,7 +122,7 @@ async def create_skybell(hass: __HAC_KEEP__) -> Skybell:
     return skybell
 
 
-async def mock_skybell(hass: __HAC_KEEP__):
+async def mock_skybell(hass: UniversalAssistant):
     """Mock Skybell object."""
     return patch(
         "universalassistant.components.skybell.Skybell",
@@ -130,8 +130,8 @@ async def mock_skybell(hass: __HAC_KEEP__):
     )
 
 
-async def async_init_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
-    """Set up the Skybell integration in __HA_KEEP__."""
+async def async_init_integration(hass: UniversalAssistant) -> MockConfigEntry:
+    """Set up the Skybell integration in Universal Home Assistant."""
     config_entry = create_entry(hass)
 
     with await mock_skybell(hass), patch("aioskybell.utils.async_save_cache"):

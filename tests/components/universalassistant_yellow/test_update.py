@@ -14,19 +14,19 @@ from universalassistant.components.universalassistant_hardware.util import (
     FirmwareInfo,
 )
 from universalassistant.components.universalassistant_yellow.const import DOMAIN, RADIO_DEVICE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 UPDATE_ENTITY_ID = "update.universal_assistant_yellow_radio_firmware"
 
 
-async def test_yellow_update_entity(hass: __HAC_KEEP__) -> None:
+async def test_yellow_update_entity(hass: UniversalAssistant) -> None:
     """Test the Yellow firmware update entity."""
     await async_setup_component(hass, "universalassistant", {})
 
     # Set up the Yellow integration
     yellow_config_entry = MockConfigEntry(
-        title="__HA_KEEP__ Yellow",
+        title="Universal Home Assistant Yellow",
         domain=DOMAIN,
         data={
             "firmware": "ezsp",
@@ -107,14 +107,14 @@ async def test_yellow_update_entity(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_yellow_update_entity_state(
-    hass: __HAC_KEEP__, firmware: str, version: str, expected: str
+    hass: UniversalAssistant, firmware: str, version: str, expected: str
 ) -> None:
     """Test the Yellow firmware update entity with different firmware types."""
     await async_setup_component(hass, "universalassistant", {})
 
     # Set up the Yellow integration
     yellow_config_entry = MockConfigEntry(
-        title="__HA_KEEP__ Yellow",
+        title="Universal Home Assistant Yellow",
         domain=DOMAIN,
         data={
             "firmware": firmware,
@@ -147,7 +147,7 @@ async def test_yellow_update_entity_state(
 
 
 async def test_yellow_rpi_firmware_update_entity(
-    hass: __HAC_KEEP__, mock_rpi_firmware_info: AsyncMock
+    hass: UniversalAssistant, mock_rpi_firmware_info: AsyncMock
 ) -> None:
     """Test the Raspberry Pi EEPROM firmware entity on the Yellow device."""
     mock_rpi_firmware_info.return_value = RaspberryPiFirmwareInfo(
@@ -161,7 +161,7 @@ async def test_yellow_rpi_firmware_update_entity(
     await async_setup_component(hass, "universalassistant", {})
 
     yellow_config_entry = MockConfigEntry(
-        title="__HA_KEEP__ Yellow",
+        title="Universal Home Assistant Yellow",
         domain="universalassistant_yellow",
         data={
             "firmware": "ezsp",

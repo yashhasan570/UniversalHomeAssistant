@@ -22,8 +22,8 @@ from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, Switch
 from universalassistant.components.vodafone_station.const import DOMAIN
 from universalassistant.components.vodafone_station.coordinator import SCAN_INTERVAL
 from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import slugify
 
@@ -32,7 +32,7 @@ from .const import TEST_SERIAL_NUMBER
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -55,7 +55,7 @@ async def test_all_entities(
     ],
 )
 async def test_switch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -116,7 +116,7 @@ async def test_switch(
     ],
 )
 async def test_switch_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -129,7 +129,7 @@ async def test_switch_fails(
 
     mock_vodafone_station_router.set_wifi_status.side_effect = side_effect
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TOGGLE,

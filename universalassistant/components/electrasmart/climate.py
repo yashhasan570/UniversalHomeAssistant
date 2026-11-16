@@ -23,8 +23,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -86,7 +86,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ElectraSmartConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -339,7 +339,7 @@ class ElectraClimateEntity(ClimateEntity):
         try:
             resp = await self._api.set_state(self._electra_ac_device)
         except ElectraApiError as exp:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Error communicating with Electra API: {exp}"
             ) from exp
 
@@ -348,7 +348,7 @@ class ElectraClimateEntity(ClimateEntity):
             and resp[Attributes.DATA][Attributes.RES] == STATUS_SUCCESS
         ):
             self._async_write_ha_state()
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to update {self.entity_id}, error: {resp}"
             )
 

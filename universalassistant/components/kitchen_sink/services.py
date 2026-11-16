@@ -5,7 +5,7 @@ from enum import StrEnum
 import probatio
 
 from universalassistant.components.device_tracker import DOMAIN as DEVICE_TRACKER_DOMAIN
-from universalassistant.core import __HAC_KEEP__, ServiceCall, ServiceResponse, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, ServiceResponse, callback
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import DOMAIN
@@ -47,7 +47,7 @@ SCHEMA_SERVICE_TEST_SERVICE_1 = probatio.Schema(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register services for the Kitchen Sink integration."""
 
     @callback

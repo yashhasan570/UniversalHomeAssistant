@@ -6,7 +6,7 @@ from universalassistant.components.application_credentials import (
     AuthorizationServer,
     ClientCredential,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_entry_oauth2_flow
 
 from .api import GoogleHybridAuth
@@ -17,13 +17,13 @@ AUTHORIZATION_SERVER = AuthorizationServer(
 
 
 async def async_get_auth_implementation(
-    hass: __HAC_KEEP__, auth_domain: str, credential: ClientCredential
+    hass: UniversalAssistant, auth_domain: str, credential: ClientCredential
 ) -> config_entry_oauth2_flow.AbstractOAuth2Implementation:
     """Return auth implementation."""
     return GoogleHybridAuth(hass, auth_domain, credential, AUTHORIZATION_SERVER)
 
 
-async def async_get_description_placeholders(hass: __HAC_KEEP__) -> dict[str, str]:
+async def async_get_description_placeholders(hass: UniversalAssistant) -> dict[str, str]:
     """Return description placeholders for the credentials dialog."""
     return {
         "oauth_consent_url": (

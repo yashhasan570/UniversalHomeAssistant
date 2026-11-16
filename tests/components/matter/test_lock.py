@@ -24,8 +24,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -86,7 +86,7 @@ def platform() -> Platform:
 
 @pytest.mark.usefixtures("matter_devices")
 async def test_locks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -96,7 +96,7 @@ async def test_locks(
 
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 async def test_lock(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -199,7 +199,7 @@ async def test_lock(
 
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 async def test_lock_requires_pin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_registry: er.EntityRegistry,
@@ -262,7 +262,7 @@ async def test_lock_requires_pin(
 
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock_with_unbolt"])
 async def test_lock_with_unbolt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -328,7 +328,7 @@ async def test_lock_with_unbolt(
 
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 async def test_lock_operation_updates_changed_by(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -361,7 +361,7 @@ async def test_lock_operation_updates_changed_by(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR_PIN}])
 async def test_set_lock_user_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -411,7 +411,7 @@ async def test_set_lock_user_service(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR_PIN}])
 async def test_set_lock_user_update_existing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -468,7 +468,7 @@ async def test_set_lock_user_update_existing(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR_PIN}])
 async def test_set_lock_user_no_available_slots(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -493,7 +493,7 @@ async def test_set_lock_user_no_available_slots(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR_PIN}])
 async def test_set_lock_user_empty_slot_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -518,7 +518,7 @@ async def test_set_lock_user_empty_slot_error(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR_PIN}])
 async def test_clear_lock_user_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -548,7 +548,7 @@ async def test_clear_lock_user_service(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR_PIN}])
 async def test_get_lock_info_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -578,7 +578,7 @@ async def test_get_lock_info_service(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR_PIN}])
 async def test_get_lock_users_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -632,7 +632,7 @@ async def test_get_lock_users_service(
 
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 async def test_service_on_lock_without_user_management(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -663,7 +663,7 @@ async def test_service_on_lock_without_user_management(
 
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 async def test_on_matter_node_event_filters_non_matching_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -719,7 +719,7 @@ async def test_on_matter_node_event_filters_non_matching_events(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR_PIN}])
 async def test_get_lock_users_iterates_with_next_index(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -809,7 +809,7 @@ async def test_get_lock_users_iterates_with_next_index(
     ],
 )
 async def test_code_format_property_with_pin_required(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -826,7 +826,7 @@ async def test_code_format_property_with_pin_required(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR_PIN}])
 async def test_get_lock_users_scans_when_next_user_index_is_null(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -881,7 +881,7 @@ async def test_get_lock_users_scans_when_next_user_index_is_null(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR_PIN}])
 async def test_get_lock_users_follows_next_index_from_an_empty_slot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -922,7 +922,7 @@ async def test_get_lock_users_follows_next_index_from_an_empty_slot(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR_PIN}])
 async def test_get_lock_users_next_user_index_loop_prevention(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -964,7 +964,7 @@ async def test_get_lock_users_next_user_index_loop_prevention(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR_PIN}])
 async def test_get_lock_users_with_credentials(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1026,7 +1026,7 @@ async def test_get_lock_users_with_credentials(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR_PIN}])
 async def test_get_lock_users_with_nullvalue_credentials(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1071,7 +1071,7 @@ async def test_get_lock_users_with_nullvalue_credentials(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR_PIN}])
 async def test_get_lock_users_with_fabric_indices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1158,20 +1158,20 @@ async def test_get_lock_users_with_fabric_indices(
     ],
 )
 async def test_matter_error_converted_to_universal_assistant_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     service_name: str,
     service_data: dict[str, Any],
     return_response: bool,
 ) -> None:
-    """Test that MatterError from helpers is converted to __HAC_KEEP__Error."""
+    """Test that MatterError from helpers is converted to UniversalAssistantError."""
     # Simulate a MatterError from the device command
     matter_client.send_device_command = AsyncMock(
         side_effect=MatterError("Device communication failed")
     )
 
-    with pytest.raises(__HAC_KEEP__Error, match="Device communication failed"):
+    with pytest.raises(UniversalAssistantError, match="Device communication failed"):
         await hass.services.async_call(
             DOMAIN,
             service_name,
@@ -1207,7 +1207,7 @@ async def test_matter_error_converted_to_universal_assistant_error(
     ],
 )
 async def test_set_lock_credential_pin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     credential_data: str | int,
@@ -1286,7 +1286,7 @@ async def test_set_lock_credential_pin(
     ],
 )
 async def test_set_lock_credential_auto_find_slot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1352,7 +1352,7 @@ async def test_set_lock_credential_auto_find_slot(
     ],
 )
 async def test_set_lock_credential_with_user_index(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1407,7 +1407,7 @@ async def test_set_lock_credential_with_user_index(
     ],
 )
 async def test_set_lock_credential_invalid_pin_too_short(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1439,7 +1439,7 @@ async def test_set_lock_credential_invalid_pin_too_short(
     ],
 )
 async def test_set_lock_credential_invalid_pin_non_digit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1462,7 +1462,7 @@ async def test_set_lock_credential_invalid_pin_non_digit(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR}])
 async def test_set_lock_credential_unsupported_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1495,7 +1495,7 @@ async def test_set_lock_credential_unsupported_type(
     ],
 )
 async def test_set_lock_credential_status_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1513,7 +1513,7 @@ async def test_set_lock_credential_status_failure(
         ]
     )
 
-    with pytest.raises(__HAC_KEEP__Error, match="duplicate"):
+    with pytest.raises(UniversalAssistantError, match="duplicate"):
         await hass.services.async_call(
             DOMAIN,
             "set_lock_credential",
@@ -1542,7 +1542,7 @@ async def test_set_lock_credential_status_failure(
     ],
 )
 async def test_set_lock_credential_no_available_slot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1599,7 +1599,7 @@ async def test_set_lock_credential_no_available_slot(
     ],
 )
 async def test_set_lock_credential_auto_find_defaults_to_five(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1645,7 +1645,7 @@ async def test_set_lock_credential_auto_find_defaults_to_five(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR_PIN}])
 async def test_clear_lock_credential(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1680,7 +1680,7 @@ async def test_clear_lock_credential(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR_PIN}])
 async def test_get_lock_credential_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1728,7 +1728,7 @@ async def test_get_lock_credential_status(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR_PIN}])
 async def test_get_lock_credential_status_empty_slot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1784,7 +1784,7 @@ async def test_get_lock_credential_status_empty_slot(
     ],
 )
 async def test_get_lock_credential_status_with_fabric_indices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     creator: int,
@@ -1826,7 +1826,7 @@ async def test_get_lock_credential_status_with_fabric_indices(
 
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 async def test_credential_services_without_usr_feature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1887,7 +1887,7 @@ async def test_credential_services_without_usr_feature(
     ],
 )
 async def test_set_lock_credential_rfid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1958,7 +1958,7 @@ async def test_set_lock_credential_rfid(
     ],
 )
 async def test_set_lock_credential_rfid_auto_find_slot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -2031,7 +2031,7 @@ async def test_set_lock_credential_rfid_auto_find_slot(
     ],
 )
 async def test_set_lock_credential_rfid_no_available_slot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -2087,7 +2087,7 @@ async def test_set_lock_credential_rfid_no_available_slot(
     ],
 )
 async def test_set_lock_credential_fingerprint_auto_find_slot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -2157,7 +2157,7 @@ async def test_set_lock_credential_fingerprint_auto_find_slot(
     ],
 )
 async def test_set_lock_credential_rfid_invalid_hex(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -2191,7 +2191,7 @@ async def test_set_lock_credential_rfid_invalid_hex(
     ],
 )
 async def test_set_lock_credential_rfid_too_short(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -2226,7 +2226,7 @@ async def test_set_lock_credential_rfid_too_short(
     ],
 )
 async def test_set_lock_credential_rfid_too_long(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -2252,7 +2252,7 @@ async def test_set_lock_credential_rfid_too_long(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR_RFID}])
 async def test_clear_lock_credential_rfid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -2290,7 +2290,7 @@ async def test_clear_lock_credential_rfid(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR_PIN}])
 async def test_clear_lock_user_clear_all(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -2340,7 +2340,7 @@ async def test_clear_lock_user_clear_all(
     ],
 )
 async def test_set_lock_credential_status_codes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
     status_code: int,
@@ -2360,7 +2360,7 @@ async def test_set_lock_credential_status_codes(
         ]
     )
 
-    with pytest.raises(__HAC_KEEP__Error, match=expected_match):
+    with pytest.raises(UniversalAssistantError, match=expected_match):
         await hass.services.async_call(
             DOMAIN,
             "set_lock_credential",
@@ -2380,7 +2380,7 @@ async def test_set_lock_credential_status_codes(
 
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 async def test_lock_operation_event_missing_operation_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -2408,7 +2408,7 @@ async def test_lock_operation_event_missing_operation_source(
 
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 async def test_lock_operation_event_null_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -2436,7 +2436,7 @@ async def test_lock_operation_event_null_data(
 
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 async def test_lock_operation_event_unknown_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -2464,7 +2464,7 @@ async def test_lock_operation_event_unknown_source(
 
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 async def test_non_lock_operation_event_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -2498,7 +2498,7 @@ async def test_non_lock_operation_event_ignored(
 
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 async def test_get_lock_info_without_usr_feature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -2529,7 +2529,7 @@ async def test_get_lock_info_without_usr_feature(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR_PIN_RFID}])
 async def test_get_lock_info_with_multiple_credential_types(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -2563,7 +2563,7 @@ async def test_get_lock_info_with_multiple_credential_types(
     ],
 )
 async def test_set_lock_credential_pin_too_long(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -2595,7 +2595,7 @@ async def test_set_lock_credential_pin_too_long(
     ],
 )
 async def test_set_lock_credential_pin_exact_min_length(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -2635,7 +2635,7 @@ async def test_set_lock_credential_pin_exact_min_length(
     ],
 )
 async def test_set_lock_credential_pin_exact_max_length(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -2678,7 +2678,7 @@ async def test_set_lock_credential_pin_exact_max_length(
     ],
 )
 async def test_set_lock_credential_with_user_status_and_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -2723,7 +2723,7 @@ async def test_set_lock_credential_with_user_status_and_type(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR_PIN}])
 async def test_set_lock_user_new_with_explicit_params(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -2768,7 +2768,7 @@ async def test_set_lock_user_new_with_explicit_params(
 @pytest.mark.parametrize("node_fixture", ["mock_door_lock"])
 @pytest.mark.parametrize("attributes", [{"1/257/65532": _FEATURE_USR_PIN}])
 async def test_set_lock_user_update_with_explicit_type_and_rule(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:

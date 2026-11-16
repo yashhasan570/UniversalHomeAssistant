@@ -21,7 +21,7 @@ from universalassistant.components.voice_support.client import (
     WakeWordRejected,
     normalize_wake_word,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .common import (
@@ -62,7 +62,7 @@ def test_normalize_wake_word(wake_word: str, expected: str) -> None:
     ],
 )
 async def test_update_info(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, host: str, url: str
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, host: str, url: str
 ) -> None:
     """Test reading what the app says about itself."""
     aioclient_mock.get(url, json=INFO)
@@ -78,7 +78,7 @@ async def test_update_info(
 
 
 async def test_update_info_wrong_api_version(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test an app speaking another protocol version cannot be used."""
     aioclient_mock.get(INFO_URL, json={**INFO, "api_version": 2})
@@ -140,7 +140,7 @@ async def test_update_info_wrong_api_version(
     ],
 )
 async def test_update_info_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     response: dict[str, Any],
     error: type[Exception],
@@ -158,7 +158,7 @@ async def test_update_info_failure(
 
 @pytest.mark.parametrize("error", [AttributeError, KeyError, TypeError, ValueError])
 async def test_update_info_unexpected_error(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, error: type[Exception]
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, error: type[Exception]
 ) -> None:
     """Test errors outside response parsing are not handled as client failures."""
     aioclient_mock.get(INFO_URL, exc=error)
@@ -168,7 +168,7 @@ async def test_update_info_unexpected_error(
         await client.async_update_info()
 
 
-async def test_start_run_without_info(hass: __HAC_KEEP__) -> None:
+async def test_start_run_without_info(hass: UniversalAssistant) -> None:
     """Test no run is opened with an app that never answered."""
     client = VoiceSupportClient(hass, HOST, PORT)
 
@@ -190,7 +190,7 @@ async def test_start_run_without_info(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("app_info")
 async def test_start_run_nothing_to_do(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, request_: AudioRunRequest
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, request_: AudioRunRequest
 ) -> None:
     """Test no run is opened when the app could neither verify nor endpoint."""
     client = VoiceSupportClient(hass, HOST, PORT)
@@ -213,7 +213,7 @@ async def test_start_run_nothing_to_do(
 )
 @pytest.mark.usefixtures("app_info")
 async def test_start_run_unreachable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     request_: AudioRunRequest,
 ) -> None:
@@ -263,7 +263,7 @@ async def test_start_run_unreachable(
 )
 @pytest.mark.usefixtures("app_info")
 async def test_start_run(
-    hass: __HAC_KEEP__, request_: AudioRunRequest, run_start: dict[str, Any]
+    hass: UniversalAssistant, request_: AudioRunRequest, run_start: dict[str, Any]
 ) -> None:
     """Test a run is opened with what the app needs to know about it."""
     client = VoiceSupportClient(hass, HOST, PORT)
@@ -288,7 +288,7 @@ async def test_start_run(
 
 @pytest.mark.usefixtures("app_info")
 async def test_start_run_refused(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test a refused run closes its websocket and clears app info."""
     client = VoiceSupportClient(hass, HOST, PORT)
@@ -316,7 +316,7 @@ async def test_start_run_refused(
 
 
 @pytest.mark.usefixtures("app_info")
-async def test_start_run_cancelled(hass: __HAC_KEEP__) -> None:
+async def test_start_run_cancelled(hass: UniversalAssistant) -> None:
     """Test cancellation while starting a run closes the websocket."""
     client = VoiceSupportClient(hass, HOST, PORT)
     await client.async_update_info()
@@ -349,7 +349,7 @@ async def _audio(*chunks: bytes) -> AsyncGenerator[bytes]:
 
 
 def _run(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     websocket: FakeWebsocket,
     audio: AsyncIterable[bytes],
     verifies_wake_word: bool = True,
@@ -361,7 +361,7 @@ async def _drain(run: AudioRun) -> bytes:
     return b"".join([chunk async for chunk in run.async_stream()])
 
 
-async def test_run_feeds_the_app_the_whole_run(hass: __HAC_KEEP__) -> None:
+async def test_run_feeds_the_app_the_whole_run(hass: UniversalAssistant) -> None:
     """Test the app hears everything, the wake word audio included, then the end."""
     websocket = FakeWebsocket([(0, accepted(10))])
     run = _run(hass, websocket, _audio(WAKE, COMMAND))
@@ -375,7 +375,7 @@ async def test_run_feeds_the_app_the_whole_run(hass: __HAC_KEEP__) -> None:
     assert websocket.closed
 
 
-async def test_run_verdict_waits_for_more_audio(hass: __HAC_KEEP__) -> None:
+async def test_run_verdict_waits_for_more_audio(hass: UniversalAssistant) -> None:
     """Test audio keeps going in until the app answers, and none of it is lost."""
     websocket = FakeWebsocket([(2, accepted(10))])
     run = _run(hass, websocket, _audio(WAKE, TAIL, COMMAND))
@@ -385,7 +385,7 @@ async def test_run_verdict_waits_for_more_audio(hass: __HAC_KEEP__) -> None:
     assert bytes(websocket.audio) == WAKE + TAIL + COMMAND
 
 
-async def test_run_unknown_wake_word_has_no_verdict(hass: __HAC_KEEP__) -> None:
+async def test_run_unknown_wake_word_has_no_verdict(hass: UniversalAssistant) -> None:
     """Test a wake word the app does not know is not waited for at all."""
     websocket = FakeWebsocket()
     run = _run(hass, websocket, _audio(WAKE, COMMAND), verifies_wake_word=False)
@@ -395,7 +395,7 @@ async def test_run_unknown_wake_word_has_no_verdict(hass: __HAC_KEEP__) -> None:
     assert bytes(websocket.audio) == WAKE + COMMAND
 
 
-async def test_run_verdict_after_the_audio_ended(hass: __HAC_KEEP__) -> None:
+async def test_run_verdict_after_the_audio_ended(hass: UniversalAssistant) -> None:
     """Test an app that answers only once it has heard all there is."""
     websocket = FakeWebsocket()
     run = _run(hass, websocket, _audio(WAKE))
@@ -411,7 +411,7 @@ async def test_run_verdict_after_the_audio_ended(hass: __HAC_KEEP__) -> None:
     assert await _drain(run) == WAKE
 
 
-async def test_run_final_event_timeout(hass: __HAC_KEEP__) -> None:
+async def test_run_final_event_timeout(hass: UniversalAssistant) -> None:
     """Test a missing final app event does not prevent audio completion."""
     websocket = FakeWebsocket()
     with patch("universalassistant.components.voice_support.client.FINAL_EVENT_TIMEOUT", 0):
@@ -423,7 +423,7 @@ async def test_run_final_event_timeout(hass: __HAC_KEEP__) -> None:
     await run.async_close()
 
 
-async def test_run_close_while_waiting_for_final_event(hass: __HAC_KEEP__) -> None:
+async def test_run_close_while_waiting_for_final_event(hass: UniversalAssistant) -> None:
     """Test closing a run releases the stream while it waits for app events."""
     websocket = FakeWebsocket()
     run = _run(hass, websocket, _audio(WAKE), verifies_wake_word=False)
@@ -435,7 +435,7 @@ async def test_run_close_while_waiting_for_final_event(hass: __HAC_KEEP__) -> No
         assert await _drain(run) == WAKE
 
 
-async def test_run_verdict_timeout(hass: __HAC_KEEP__) -> None:
+async def test_run_verdict_timeout(hass: UniversalAssistant) -> None:
     """Test an app that takes too long is not waited for, and the run goes on.
 
     The source is waiting on the satellite when the timeout fires, as it is
@@ -463,7 +463,7 @@ async def test_run_verdict_timeout(hass: __HAC_KEEP__) -> None:
     assert bytes(websocket.audio) == WAKE + COMMAND
 
 
-async def test_run_app_goes_away(hass: __HAC_KEEP__) -> None:
+async def test_run_app_goes_away(hass: UniversalAssistant) -> None:
     """Test an app that stops answering releases whoever waits on it."""
     websocket = FakeWebsocket()
     run = _run(hass, websocket, _audio(WAKE, COMMAND))
@@ -474,7 +474,7 @@ async def test_run_app_goes_away(hass: __HAC_KEEP__) -> None:
 
 
 async def test_run_app_breaks_off(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test an app whose answers cannot be read any more is given up on."""
     caplog.set_level(logging.DEBUG)
@@ -486,7 +486,7 @@ async def test_run_app_breaks_off(
     assert "The app went away mid-run" in caplog.text
 
 
-async def test_run_app_unreachable(hass: __HAC_KEEP__) -> None:
+async def test_run_app_unreachable(hass: UniversalAssistant) -> None:
     """Test audio that cannot be sent stops the run listening, without raising."""
     websocket = FakeWebsocket()
     websocket.unreachable = True
@@ -497,7 +497,7 @@ async def test_run_app_unreachable(hass: __HAC_KEEP__) -> None:
     assert await _drain(run) == WAKE + COMMAND
 
 
-async def test_run_app_stalls(hass: __HAC_KEEP__) -> None:
+async def test_run_app_stalls(hass: UniversalAssistant) -> None:
     """Test an app that stops taking audio is given up on, and the run goes on."""
     websocket = FakeWebsocket()
     websocket.stalled = True
@@ -510,7 +510,7 @@ async def test_run_app_stalls(hass: __HAC_KEEP__) -> None:
     assert not run.listening
 
 
-async def test_run_source_error_reaches_the_stream(hass: __HAC_KEEP__) -> None:
+async def test_run_source_error_reaches_the_stream(hass: UniversalAssistant) -> None:
     """Test what the satellite's stream raises comes out of the run's."""
 
     async def _source() -> AsyncGenerator[bytes]:
@@ -525,7 +525,7 @@ async def test_run_source_error_reaches_the_stream(hass: __HAC_KEEP__) -> None:
             await _drain(run)
 
 
-async def test_run_close_stops_the_relay(hass: __HAC_KEEP__) -> None:
+async def test_run_close_stops_the_relay(hass: UniversalAssistant) -> None:
     """Test closing the run leaves the rest of the satellite's audio alone."""
     queue: asyncio.Queue[bytes | None] = asyncio.Queue()
 
@@ -549,7 +549,7 @@ async def test_run_close_stops_the_relay(hass: __HAC_KEEP__) -> None:
 
 
 async def test_run_error_ends_the_run(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test an app that cannot take the run releases whoever waits on it."""
     websocket = FakeWebsocket(
@@ -629,7 +629,7 @@ async def test_run_error_ends_the_run(
     ],
 )
 async def test_run_answers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     answer: Answer,
     wake_word: WakeWordAccepted | WakeWordRejected | None,
@@ -654,7 +654,7 @@ async def test_run_answers(
     "wake_word", [{"id": "okay_nabu"}, {"id": "okay_nabu", "phrase": None}]
 )
 async def test_update_info_optional_phrase(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     wake_word: dict[str, str | None],
 ) -> None:

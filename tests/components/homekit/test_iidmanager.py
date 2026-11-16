@@ -10,12 +10,12 @@ from universalassistant.components.homekit.iidmanager import (
     AccessoryIIDStorage,
     get_iid_storage_filename_for_entry_id,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.uuid import random_uuid_hex
 
 
 async def test_iid_generation_and_restore(
-    hass: __HAC_KEEP__, iid_storage, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, iid_storage, hass_storage: dict[str, Any]
 ) -> None:
     """Test generating iids and restoring them from storage."""
     entry = MockConfigEntry(domain=DOMAIN)
@@ -91,7 +91,7 @@ async def test_iid_generation_and_restore(
 
 
 async def test_iid_storage_filename(
-    hass: __HAC_KEEP__, iid_storage, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, iid_storage, hass_storage: dict[str, Any]
 ) -> None:
     """Test iid storage uses the expected filename."""
     entry = MockConfigEntry(domain=DOMAIN)
@@ -104,7 +104,7 @@ async def test_iid_storage_filename(
 
 
 async def test_iid_migration_to_v2(
-    hass: __HAC_KEEP__, iid_storage, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, iid_storage, hass_storage: dict[str, Any]
 ) -> None:
     """Test iid storage migration."""
     v1_iids = await async_load_json_object_fixture(hass, "iids_v1", DOMAIN)
@@ -128,7 +128,7 @@ async def test_iid_migration_to_v2(
 
 
 async def test_iid_migration_to_v2_with_underscore(
-    hass: __HAC_KEEP__, iid_storage, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, iid_storage, hass_storage: dict[str, Any]
 ) -> None:
     """Test iid storage migration with underscore."""
     v1_iids = await async_load_json_object_fixture(
@@ -156,7 +156,7 @@ async def test_iid_migration_to_v2_with_underscore(
 
 
 async def test_iid_generation_and_restore_v2(
-    hass: __HAC_KEEP__, iid_storage, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, iid_storage, hass_storage: dict[str, Any]
 ) -> None:
     """Test generating iids and restoring them from storage."""
     entry = MockConfigEntry(domain=DOMAIN)

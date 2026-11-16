@@ -100,7 +100,7 @@ from universalassistant.const import (
     Platform,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__, async_get_hass, callback
+from universalassistant.core import UniversalAssistant, async_get_hass, callback
 from universalassistant.data_entry_flow import AbortFlow, SectionConfig, section
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.hassio import is_hassio
@@ -5226,7 +5226,7 @@ def async_convert_to_pem(
         return None
 
 
-async def _get_uploaded_file(hass: __HAC_KEEP__, id: str) -> bytes:
+async def _get_uploaded_file(hass: UniversalAssistant, id: str) -> bytes:
     """Get file content from uploaded certificate or key file."""
 
     def _proces_uploaded_file() -> bytes:

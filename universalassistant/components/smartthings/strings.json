@@ -2,7 +2,7 @@
   "config": {
     "abort": {
       "already_configured": "[%key:common::config_flow::abort::already_configured_account%]",
-      "cloud_not_enabled": "Please make sure you run __HA_KEEP__ with `{default_config}` enabled in your configuration.yaml.",
+      "cloud_not_enabled": "Please make sure you run Universal Home Assistant with `{default_config}` enabled in your configuration.yaml.",
       "missing_configuration": "[%key:common::config_flow::abort::oauth2_missing_configuration%]",
       "missing_scopes": "Authentication failed. Please make sure you have granted all required permissions.",
       "reauth_account_mismatch": "Authenticated account does not match the account to be reauthenticated. Please log in with the correct account and pick the right location.",
@@ -16,7 +16,7 @@
     },
     "step": {
       "oauth_discovery": {
-        "description": "__HA_KEEP__ has found a SmartThings device on your network. Press **Submit** to continue setting up SmartThings."
+        "description": "Universal Home Assistant has found a SmartThings device on your network. Press **Submit** to continue setting up SmartThings."
       },
       "pick_implementation": {
         "data": {

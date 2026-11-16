@@ -11,8 +11,8 @@ import probatio
 
 from universalassistant.components.scene import Scene
 from universalassistant.const import CONF_PLATFORM, CONF_TIMEOUT, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
@@ -34,7 +34,7 @@ PLATFORM_SCHEMA = probatio.Schema(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -97,7 +97,7 @@ class LifxCloudScene(Scene):
                 await httpsession.put(url, headers=self._headers)
 
         except (TimeoutError, aiohttp.ClientError) as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="activate_failed",
                 translation_placeholders={"error": str(err)},

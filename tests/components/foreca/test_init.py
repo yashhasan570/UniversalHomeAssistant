@@ -13,7 +13,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.foreca.const import DOMAIN, SUBENTRY_TYPE_LOCATION
 from universalassistant.config_entries import ConfigEntryState, ConfigSubentry
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import init_integration
@@ -21,7 +21,7 @@ from . import init_integration
 
 @pytest.mark.usefixtures("mock_foreca_client")
 async def test_load_unload_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test loading and unloading the config entry."""
     await init_integration(hass, mock_config_entry)
@@ -33,7 +33,7 @@ async def test_load_unload_entry(
 
 
 async def test_setup_retries_on_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_foreca_client: MagicMock,
 ) -> None:
@@ -45,7 +45,7 @@ async def test_setup_retries_on_connection_error(
 
 @pytest.mark.parametrize("exception", [ForecaAuthError, ForecaProductUnavailableError])
 async def test_setup_fails_on_rejected_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_foreca_client: MagicMock,
     exception: type[Exception],
@@ -57,7 +57,7 @@ async def test_setup_fails_on_rejected_key(
 
 
 async def test_documented_request_budget(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_foreca_client: MagicMock,
 ) -> None:
@@ -80,7 +80,7 @@ async def test_documented_request_budget(
 
 
 async def test_documented_forecast_length(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_foreca_client: MagicMock,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_documented_forecast_length(
 
 
 async def test_daily_forecast_asks_for_the_ensemble(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_foreca_client: MagicMock,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_daily_forecast_asks_for_the_ensemble(
 
 @pytest.mark.usefixtures("mock_foreca_client")
 async def test_added_location_gets_an_entity(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test a location added after setup gets its own weather entity."""
     await init_integration(hass, mock_config_entry)
@@ -125,7 +125,7 @@ async def test_added_location_gets_an_entity(
 
 @pytest.mark.usefixtures("mock_foreca_client")
 async def test_removed_location_loses_its_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:

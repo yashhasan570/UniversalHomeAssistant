@@ -5,7 +5,7 @@ from pytest_universalassistant.components.bluetooth import inject_bluetooth_serv
 
 from universalassistant.components.govee_ble.const import CONF_DEVICE_TYPE, DOMAIN
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import (
     GV5121_MOTION_SERVICE_INFO,
@@ -17,7 +17,7 @@ from . import (
 )
 
 
-async def test_motion_sensor(hass: __HAC_KEEP__) -> None:
+async def test_motion_sensor(hass: UniversalAssistant) -> None:
     """Test setting up creates the motion sensor."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -48,7 +48,7 @@ async def test_motion_sensor(hass: __HAC_KEEP__) -> None:
     await hass.async_block_till_done()
 
 
-async def test_button(hass: __HAC_KEEP__) -> None:
+async def test_button(hass: UniversalAssistant) -> None:
     """Test setting up creates the buttons."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -77,7 +77,7 @@ async def test_button(hass: __HAC_KEEP__) -> None:
     await hass.async_block_till_done()
 
 
-async def test_vibration_sensor(hass: __HAC_KEEP__) -> None:
+async def test_vibration_sensor(hass: UniversalAssistant) -> None:
     """Test setting up creates the vibration sensor."""
     entry = MockConfigEntry(
         domain=DOMAIN,

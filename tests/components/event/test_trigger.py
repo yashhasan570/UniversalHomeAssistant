@@ -23,7 +23,7 @@ from universalassistant.components.event import (
 )
 from universalassistant.components.event.trigger import TRIGGERS
 from universalassistant.const import ATTR_FRIENDLY_NAME, STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
@@ -36,7 +36,7 @@ class _MockEventEntity(MockEntity, EventEntity):
         return self._handle("event_types")
 
 
-async def _setup_event_entity(hass: __HAC_KEEP__) -> EventEntity:
+async def _setup_event_entity(hass: UniversalAssistant) -> EventEntity:
     """Set up a single event entity and return the instance."""
     entity = _MockEventEntity(
         name="Torrent", unique_id="torrent", event_types=["downloaded"]
@@ -48,7 +48,7 @@ async def _setup_event_entity(hass: __HAC_KEEP__) -> EventEntity:
 
 
 @pytest.fixture
-async def target_events(hass: __HAC_KEEP__) -> dict[str, list[str]]:
+async def target_events(hass: UniversalAssistant) -> dict[str, list[str]]:
     """Create multiple event entities associated with different targets."""
     return await target_entities(hass, "event")
 
@@ -65,7 +65,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_event_trigger_options_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -338,7 +338,7 @@ def test_trigger_target_support() -> None:
     ],
 )
 async def test_event_state_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     target_events: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -376,7 +376,7 @@ async def test_event_state_trigger(
 
 
 async def test_multiple_events_in_one_millisecond_each_fire(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test each event fires the trigger even when they share a wall-clock time.
 
@@ -404,7 +404,7 @@ async def test_multiple_events_in_one_millisecond_each_fire(
     assert len(calls) == 3
 
 
-async def test_attribute_only_change_does_not_fire(hass: __HAC_KEEP__) -> None:
+async def test_attribute_only_change_does_not_fire(hass: UniversalAssistant) -> None:
     """Test a cosmetic state re-write (e.g. rename) does not fire the trigger.
 
     A rename re-writes the state in place with the same timestamp but a new

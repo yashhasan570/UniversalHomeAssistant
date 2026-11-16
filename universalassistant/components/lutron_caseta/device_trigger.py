@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_PLATFORM,
     CONF_TYPE,
 )
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
 from universalassistant.helpers.typing import ConfigType
 
@@ -298,7 +298,7 @@ FOUR_GROUP_REMOTE_TRIGGER_SCHEMA = LUTRON_BUTTON_TRIGGER_SCHEMA.extend(
     }
 )
 
-# See mappings at https://github.com/yashhasan570/__HAC_KEEP__/issues/137548#issuecomment-2643440119
+# See mappings at https://github.com/yashhasan570/UniversalUniversalAssistant/issues/137548#issuecomment-2643440119
 PADDLE_SWITCH_PICO_BUTTON_TYPES_TO_LIP = {
     "on": 2,  # 'Number': 2 in LIP
     "off": 4,  # 'Number': 4 in LIP
@@ -372,7 +372,7 @@ TRIGGER_SCHEMA = probatio.Any(
 
 
 async def async_validate_trigger_config(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> ConfigType:
     """Validate trigger config."""
 
@@ -420,7 +420,7 @@ async def async_validate_trigger_config(
 
 
 async def async_get_triggers(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, str]]:
     """List device triggers for lutron caseta devices."""
     # Check if device is a valid keypad.  Return empty if not.
@@ -460,7 +460,7 @@ async def async_get_triggers(
 
 
 async def async_attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,
@@ -485,7 +485,7 @@ async def async_attach_trigger(
     )
 
 
-def get_lutron_data_by_dr_id(hass: __HAC_KEEP__, device_id: str):
+def get_lutron_data_by_dr_id(hass: UniversalAssistant, device_id: str):
     """Get a lutron integration data for the given device registry device id."""
     entries = cast(
         list[LutronCasetaConfigEntry],

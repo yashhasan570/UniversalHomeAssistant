@@ -11,12 +11,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.green_planet_energy.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_create_entry(hass: __HAC_KEEP__, mock_api: MagicMock) -> None:
+async def test_form_create_entry(hass: UniversalAssistant, mock_api: MagicMock) -> None:
     """Test creating an entry."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -42,7 +42,7 @@ async def test_form_create_entry(hass: __HAC_KEEP__, mock_api: MagicMock) -> Non
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_errors_and_recovery(
-    hass: __HAC_KEEP__, mock_api: MagicMock, exception: Exception, error_base: str
+    hass: UniversalAssistant, mock_api: MagicMock, exception: Exception, error_base: str
 ) -> None:
     """Test handling errors and recovery."""
     result = await hass.config_entries.flow.async_init(
@@ -67,7 +67,7 @@ async def test_form_errors_and_recovery(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_already_configured(
-    hass: __HAC_KEEP__, mock_api: MagicMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_api: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we abort if already configured."""
     mock_config_entry.add_to_hass(hass)

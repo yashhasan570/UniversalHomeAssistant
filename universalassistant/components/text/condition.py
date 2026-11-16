@@ -6,7 +6,7 @@ import probatio
 
 from universalassistant.components.input_text import DOMAIN as INPUT_TEXT_DOMAIN
 from universalassistant.const import CONF_OPTIONS
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.automation import DomainSpec
 from universalassistant.helpers.condition import (
@@ -38,7 +38,7 @@ class TextIsEqualToCondition(EntityConditionBase):
     }
     _schema = _TEXT_CONDITION_SCHEMA
 
-    def __init__(self, hass: __HAC_KEEP__, config: ConditionConfig) -> None:
+    def __init__(self, hass: UniversalAssistant, config: ConditionConfig) -> None:
         """Initialize condition."""
         super().__init__(hass, config)
         if TYPE_CHECKING:
@@ -62,6 +62,6 @@ CONDITIONS: dict[str, type[Condition]] = {
 }
 
 
-async def async_get_conditions(hass: __HAC_KEEP__) -> dict[str, type[Condition]]:
+async def async_get_conditions(hass: UniversalAssistant) -> dict[str, type[Condition]]:
     """Return the text conditions."""
     return CONDITIONS

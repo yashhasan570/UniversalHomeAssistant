@@ -3,7 +3,7 @@
 from pymiele import MieleAPI
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.config_entry_oauth2_flow import (
@@ -37,14 +37,14 @@ PLATFORMS: list[Platform] = [
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up service actions."""
     async_setup_services(hass)
 
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: MieleConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: MieleConfigEntry) -> None:
     """Set up Miele from a config entry."""
     implementation = await async_get_config_entry_implementation(hass, entry)
 
@@ -73,14 +73,14 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: MieleConfigEntry) -> None
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: MieleConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: MieleConfigEntry) -> None:
     """Unload a config entry."""
 
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, config_entry: MieleConfigEntry, device_entry: dr.AnyDeviceEntry
+    hass: UniversalAssistant, config_entry: MieleConfigEntry, device_entry: dr.AnyDeviceEntry
 ) -> bool:
     """Remove a config entry from a device."""
     return not any(

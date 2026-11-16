@@ -12,20 +12,20 @@ from universalassistant.components import media_source
 from universalassistant.components.image_upload import DOMAIN
 from universalassistant.components.media_player import BrowseError
 from universalassistant.components.media_source import Unresolvable
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import TEST_IMAGE
 
 
 @pytest.fixture(autouse=True)
-async def setup_media_source(hass: __HAC_KEEP__) -> None:
+async def setup_media_source(hass: UniversalAssistant) -> None:
     """Set up media source."""
     assert await async_setup_component(hass, "media_source", {})
 
 
 async def __upload_test_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
 ) -> str:
     with (
@@ -47,7 +47,7 @@ async def __upload_test_image(
 
 
 async def test_browsing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test browsing image media source."""
@@ -72,7 +72,7 @@ async def test_browsing(
 
 
 async def test_resolving(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """Test resolving."""
     image_id = await __upload_test_image(hass, hass_client)

@@ -16,7 +16,7 @@ from universalassistant.components.media_player import MediaPlayerDeviceClass
 from universalassistant.components.switch import SwitchDeviceClass
 from universalassistant.components.valve import ValveDeviceClass
 from universalassistant.const import SERVICE_TURN_ON
-from universalassistant.core import Context, __HAC_KEEP__, callback
+from universalassistant.core import Context, UniversalAssistant, callback
 from universalassistant.helpers import intent, llm
 from universalassistant.setup import async_setup_component
 
@@ -25,7 +25,7 @@ LLM_AGENT_ID = "conversation.test_llm_agent"
 
 
 @pytest.fixture(autouse=True)
-async def setup_integrations(hass: __HAC_KEEP__) -> None:
+async def setup_integrations(hass: UniversalAssistant) -> None:
     """Set up the integrations and expose a cover."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, "intent", {})
@@ -46,20 +46,20 @@ def _llm_context(device_id: str | None = None) -> llm.LLMContext:
     )
 
 
-async def _tool_names(hass: __HAC_KEEP__) -> set[str]:
+async def _tool_names(hass: UniversalAssistant) -> set[str]:
     """Return the names of the tools offered by the intent platform."""
     result = await llm_component.async_get_tools(hass, _llm_context(), "assist")
     return {tool.name for tool in result.tools}
 
 
-async def test_generic_intents_exposed(hass: __HAC_KEEP__) -> None:
+async def test_generic_intents_exposed(hass: UniversalAssistant) -> None:
     """Test the always-on generic intents are exposed."""
     names = await _tool_names(hass)
     assert "intent__HassTurnOn" in names
     assert "intent__HassTurnOff" in names
 
 
-async def test_device_class_enum_has_a_stable_order(hass: __HAC_KEEP__) -> None:
+async def test_device_class_enum_has_a_stable_order(hass: UniversalAssistant) -> None:
     """Test the device class enum has a stable order."""
     result = await llm_component.async_get_tools(hass, _llm_context(), "assist")
     tool = next(tool for tool in result.tools if tool.name == "intent__HassTurnOn")
@@ -77,7 +77,7 @@ async def test_device_class_enum_has_a_stable_order(hass: __HAC_KEEP__) -> None:
     ]
 
 
-async def test_turn_on_uses_domain_when_name_blank(hass: __HAC_KEEP__) -> None:
+async def test_turn_on_uses_domain_when_name_blank(hass: UniversalAssistant) -> None:
     """Test HassTurnOn treats a blank name as omitted and uses the domain."""
     hass.states.async_set("light.test_light", "off", {"friendly_name": "Test Light"})
     async_expose_entity(hass, "conversation", "light.test_light", True)
@@ -101,7 +101,7 @@ async def test_turn_on_uses_domain_when_name_blank(hass: __HAC_KEEP__) -> None:
     assert calls[0].data == {"entity_id": ["light.test_light"]}
 
 
-async def test_turn_on_rejects_all_blank_targets(hass: __HAC_KEEP__) -> None:
+async def test_turn_on_rejects_all_blank_targets(hass: UniversalAssistant) -> None:
     """Test HassTurnOn still requires a target after omitting blank values."""
     api = await llm.async_get_api(hass, "assist", _llm_context())
 
@@ -115,12 +115,12 @@ async def test_turn_on_rejects_all_blank_targets(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_timer_intents_require_timer_device(hass: __HAC_KEEP__) -> None:
+async def test_timer_intents_require_timer_device(hass: UniversalAssistant) -> None:
     """Test timer intents are not exposed without a timer-capable device."""
     assert "intent__HassStartTimer" not in await _tool_names(hass)
 
 
-async def test_timer_intents_offered_for_timer_device(hass: __HAC_KEEP__) -> None:
+async def test_timer_intents_offered_for_timer_device(hass: UniversalAssistant) -> None:
     """Test timer intents are exposed for a timer-capable device."""
 
     @callback
@@ -137,7 +137,7 @@ async def test_timer_intents_offered_for_timer_device(hass: __HAC_KEEP__) -> Non
     assert "intent__HassTimerStatus" in names
 
 
-async def test_tool_annotations(hass: __HAC_KEEP__) -> None:
+async def test_tool_annotations(hass: UniversalAssistant) -> None:
     """Test the intent tools declare how they behave."""
 
     @callback
@@ -173,7 +173,7 @@ async def test_tool_annotations(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_set_position_requires_exposed_cover(hass: __HAC_KEEP__) -> None:
+async def test_set_position_requires_exposed_cover(hass: UniversalAssistant) -> None:
     """Test intent__HassSetPosition is only exposed when a cover/valve is exposed."""
     assert "intent__HassSetPosition" in await _tool_names(hass)
 
@@ -181,7 +181,7 @@ async def test_set_position_requires_exposed_cover(hass: __HAC_KEEP__) -> None:
     assert "intent__HassSetPosition" not in await _tool_names(hass)
 
 
-async def test_prompt_includes_device_control(hass: __HAC_KEEP__) -> None:
+async def test_prompt_includes_device_control(hass: UniversalAssistant) -> None:
     """Test the platform contributes device-control guidance when exposed."""
     result = intent_llm.async_get_tools(hass, _llm_context(), "assist")
     assert result is not None
@@ -190,7 +190,7 @@ async def test_prompt_includes_device_control(hass: __HAC_KEEP__) -> None:
     assert "This device is not able to start timers." in result.prompt
 
 
-async def test_no_prompt_without_exposed_entities(hass: __HAC_KEEP__) -> None:
+async def test_no_prompt_without_exposed_entities(hass: UniversalAssistant) -> None:
     """Test the platform contributes no prompt when nothing is exposed."""
     async_expose_entity(hass, "conversation", COVER_ENTITY_ID, False)
     result = intent_llm.async_get_tools(hass, _llm_context(), "assist")
@@ -198,7 +198,7 @@ async def test_no_prompt_without_exposed_entities(hass: __HAC_KEEP__) -> None:
     assert result.prompt is None
 
 
-async def test_no_tools_for_other_api(hass: __HAC_KEEP__) -> None:
+async def test_no_tools_for_other_api(hass: UniversalAssistant) -> None:
     """Test the platform returns None for an unsupported API."""
     assert intent_llm.async_get_tools(hass, _llm_context(), "other") is None
 
@@ -212,7 +212,7 @@ async def test_no_tools_for_other_api(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_schedule_command_requires_conversation_agent(
-    hass: __HAC_KEEP__, assistant: str, agent_id: str | None, offered: bool
+    hass: UniversalAssistant, assistant: str, agent_id: str | None, offered: bool
 ) -> None:
     """Test the schedule command tool needs an agent to run the command later."""
     llm_context = llm.LLMContext(
@@ -228,7 +228,7 @@ async def test_schedule_command_requires_conversation_agent(
     assert ("intent__schedule_command" in names) is offered
 
 
-async def test_schedule_command_runs_on_same_agent(hass: __HAC_KEEP__) -> None:
+async def test_schedule_command_runs_on_same_agent(hass: UniversalAssistant) -> None:
     """Test a scheduled command runs on the same agent as the same user."""
     request_context = Context(user_id="test_user")
     llm_context = llm.LLMContext(
@@ -261,7 +261,7 @@ async def test_schedule_command_runs_on_same_agent(hass: __HAC_KEEP__) -> None:
 
 
 async def test_prompt_offers_schedule_command_without_timers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the prompt points a device without timers to scheduled commands."""
     llm_context = llm.LLMContext(

@@ -44,8 +44,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
@@ -62,7 +62,7 @@ def light_only() -> Generator[None]:
 # Test basic entity setup and configuration
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -100,7 +100,7 @@ async def test_entities(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_light_with_black_leds(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_device: MagicMock,
 ) -> None:
@@ -125,7 +125,7 @@ async def test_light_with_black_leds(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_light_with_one_non_black_led(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_device: MagicMock,
 ) -> None:
@@ -152,7 +152,7 @@ async def test_light_with_one_non_black_led(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_light_with_non_color_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_device: MagicMock,
 ) -> None:
@@ -180,7 +180,7 @@ async def test_light_with_non_color_mode(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_light_with_no_effects(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_device: MagicMock,
 ) -> None:
@@ -212,7 +212,7 @@ async def test_light_with_no_effects(
 # Test basic turn on/off functionality
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_turn_on_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_device: MagicMock,
 ) -> None:
@@ -249,7 +249,7 @@ async def test_turn_on_light(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_turn_on_light_with_color(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_openrgb_device: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -286,7 +286,7 @@ async def test_turn_on_light_with_color(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_turn_on_light_with_brightness(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_openrgb_device: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -323,7 +323,7 @@ async def test_turn_on_light_with_brightness(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on_light_with_effect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_openrgb_device: MagicMock,
 ) -> None:
     """Test turning on the light with effect."""
@@ -342,7 +342,7 @@ async def test_turn_on_light_with_effect(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on_light_with_effect_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_openrgb_device: MagicMock,
 ) -> None:
     """Test turning on the light with effect Off."""
@@ -362,7 +362,7 @@ async def test_turn_on_light_with_effect_off(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_turn_on_restores_previous_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_device: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -408,7 +408,7 @@ async def test_turn_on_restores_previous_values(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_previous_values_updated_on_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_device: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -476,7 +476,7 @@ async def test_previous_values_updated_on_refresh(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_turn_on_restores_rainbow_after_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_device: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -525,7 +525,7 @@ async def test_turn_on_restores_rainbow_after_off(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_turn_on_restores_rainbow_after_off_by_color(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_device: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -575,7 +575,7 @@ async def test_turn_on_restores_rainbow_after_off_by_color(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_off_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_openrgb_device: MagicMock,
 ) -> None:
     """Test turning off the light."""
@@ -592,7 +592,7 @@ async def test_turn_off_light(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_turn_off_light_without_off_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_device: MagicMock,
 ) -> None:
@@ -631,7 +631,7 @@ async def test_turn_off_light_without_off_mode(
 
 @pytest.mark.usefixtures("mock_openrgb_client")
 async def test_turn_off_light_without_off_mode_in_non_color_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_device: MagicMock,
 ) -> None:
@@ -695,14 +695,14 @@ async def test_turn_off_light_without_off_mode_in_non_color_mode(
     [OpenRGBDisconnected(), ValueError("Invalid color")],
 )
 async def test_turn_on_light_with_color_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_openrgb_device: MagicMock,
     exception: Exception,
 ) -> None:
     """Test turning on the light with exceptions when setting color."""
     mock_openrgb_device.set_color.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_ON,
@@ -720,14 +720,14 @@ async def test_turn_on_light_with_color_exceptions(
     [OpenRGBDisconnected(), ValueError("Invalid mode")],
 )
 async def test_turn_on_light_with_mode_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_openrgb_device: MagicMock,
     exception: Exception,
 ) -> None:
     """Test turning on the light with exceptions when setting mode."""
     mock_openrgb_device.set_mode.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_ON,
@@ -741,7 +741,7 @@ async def test_turn_on_light_with_mode_exceptions(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on_light_with_unsupported_effect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test turning on the light with an invalid effect."""
     with pytest.raises(
@@ -761,7 +761,7 @@ async def test_turn_on_light_with_unsupported_effect(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on_light_with_color_and_non_color_effect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test turning on the light with color/brightness and a non-color effect."""
     with pytest.raises(
@@ -782,7 +782,7 @@ async def test_turn_on_light_with_color_and_non_color_effect(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on_light_with_brightness_and_non_color_effect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test turning on the light with brightness and a non-color effect."""
     with pytest.raises(
@@ -803,7 +803,7 @@ async def test_turn_on_light_with_brightness_and_non_color_effect(
 
 # Test device management
 async def test_dynamic_device_addition(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     mock_openrgb_device: MagicMock,
@@ -855,7 +855,7 @@ async def test_dynamic_device_addition(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_light_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -878,7 +878,7 @@ async def test_light_availability(
 
 
 async def test_duplicate_device_names(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_openrgb_client: MagicMock,
     mock_openrgb_device: MagicMock,

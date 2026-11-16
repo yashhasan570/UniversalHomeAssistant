@@ -26,8 +26,8 @@ from universalassistant.components.notify import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import (
@@ -50,7 +50,7 @@ async def notify_only() -> AsyncGenerator[None]:
 
 @pytest.mark.usefixtures("habitica")
 async def test_notify_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -83,7 +83,7 @@ async def test_notify_platform(
 )
 @pytest.mark.freeze_time("2025-08-13T00:00:00+00:00")
 async def test_send_message(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     entity_id: str,
@@ -131,7 +131,7 @@ async def test_send_message(
     ],
 )
 async def test_send_message_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     exception: Exception,
@@ -146,7 +146,7 @@ async def test_send_message_exceptions(
 
     assert config_entry.state is ConfigEntryState.LOADED
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             NOTIFY_DOMAIN,
             SERVICE_SEND_MESSAGE,
@@ -159,7 +159,7 @@ async def test_send_message_exceptions(
 
 
 async def test_remove_stale_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     freezer: FrozenDateTimeFactory,

@@ -8,7 +8,7 @@ from pydaikin.daikin_base import Appliance
 from pydaikin.exceptions import DaikinException
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN, TIMEOUT_SEC
@@ -22,7 +22,7 @@ class DaikinCoordinator(DataUpdateCoordinator[None]):
     """Class to manage fetching Daikin data."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: DaikinConfigEntry, device: Appliance
+        self, hass: UniversalAssistant, entry: DaikinConfigEntry, device: Appliance
     ) -> None:
         """Initialize global Daikin data updater."""
         super().__init__(

@@ -14,13 +14,13 @@ from wyoming.event import Event
 
 from universalassistant.components import stt
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import STT_INFO, MockAsyncTcpClient
 
 
 @pytest.mark.usefixtures("init_wyoming_stt")
-async def test_support(hass: __HAC_KEEP__) -> None:
+async def test_support(hass: UniversalAssistant) -> None:
     """Test supported properties."""
     state = hass.states.get("stt.test_asr")
     assert state is not None
@@ -42,7 +42,7 @@ async def test_support(hass: __HAC_KEEP__) -> None:
 
 
 async def test_audio_processing(
-    hass: __HAC_KEEP__, stt_config_entry: ConfigEntry
+    hass: UniversalAssistant, stt_config_entry: ConfigEntry
 ) -> None:
     """Test advertised audio processing properties."""
     asr_program = replace(
@@ -68,7 +68,7 @@ async def test_audio_processing(
 
 @pytest.mark.usefixtures("init_wyoming_stt")
 async def test_streaming_audio(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     metadata: stt.SpeechMetadata,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -105,7 +105,7 @@ async def test_streaming_audio(
 
 @pytest.mark.usefixtures("init_wyoming_stt")
 async def test_early_transcript_stops_audio_stream(
-    hass: __HAC_KEEP__, metadata: stt.SpeechMetadata
+    hass: UniversalAssistant, metadata: stt.SpeechMetadata
 ) -> None:
     """Test an early transcript stops the source audio stream."""
     entity = stt.async_get_speech_to_text_entity(hass, "stt.test_asr")
@@ -149,7 +149,7 @@ async def test_early_transcript_stops_audio_stream(
 
 @pytest.mark.usefixtures("init_wyoming_stt")
 async def test_early_transcript_preserved_after_upload_error(
-    hass: __HAC_KEEP__, metadata: stt.SpeechMetadata
+    hass: UniversalAssistant, metadata: stt.SpeechMetadata
 ) -> None:
     """Test an upload error does not replace a completed transcript."""
     entity = stt.async_get_speech_to_text_entity(hass, "stt.test_asr")
@@ -181,7 +181,7 @@ async def test_early_transcript_preserved_after_upload_error(
 
 @pytest.mark.usefixtures("init_wyoming_stt")
 async def test_streaming_audio_connection_lost(
-    hass: __HAC_KEEP__, metadata: stt.SpeechMetadata
+    hass: UniversalAssistant, metadata: stt.SpeechMetadata
 ) -> None:
     """Test streaming audio and losing connection."""
     entity = stt.async_get_speech_to_text_entity(hass, "stt.test_asr")
@@ -220,7 +220,7 @@ async def test_streaming_audio_connection_lost(
     ],
 )
 async def test_streaming_audio_error_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     metadata: stt.SpeechMetadata,
     caplog: pytest.LogCaptureFixture,
     error_code: str | None,
@@ -253,7 +253,7 @@ async def test_streaming_audio_error_event(
 
 @pytest.mark.usefixtures("init_wyoming_stt")
 async def test_streaming_audio_oserror(
-    hass: __HAC_KEEP__, metadata: stt.SpeechMetadata
+    hass: UniversalAssistant, metadata: stt.SpeechMetadata
 ) -> None:
     """Test streaming audio and error raising."""
     entity = stt.async_get_speech_to_text_entity(hass, "stt.test_asr")
@@ -279,7 +279,7 @@ async def test_streaming_audio_oserror(
 
 @pytest.mark.usefixtures("init_wyoming_stt")
 async def test_streaming_audio_source_error(
-    hass: __HAC_KEEP__, metadata: stt.SpeechMetadata
+    hass: UniversalAssistant, metadata: stt.SpeechMetadata
 ) -> None:
     """Test an audio source error is propagated and stops receiving."""
     entity = stt.async_get_speech_to_text_entity(hass, "stt.test_asr")
@@ -316,7 +316,7 @@ async def test_streaming_audio_source_error(
 
 @pytest.mark.usefixtures("init_wyoming_stt")
 async def test_streaming_audio_cancellation(
-    hass: __HAC_KEEP__, metadata: stt.SpeechMetadata
+    hass: UniversalAssistant, metadata: stt.SpeechMetadata
 ) -> None:
     """Test cancellation stops both upload and receive tasks."""
     entity = stt.async_get_speech_to_text_entity(hass, "stt.test_asr")

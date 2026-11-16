@@ -17,14 +17,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.centriconnect.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigFlowResult
 from universalassistant.const import CONF_DEVICE_ID, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import TEST_PASSWORD, TEST_TANK_ID, TEST_TANK_NAME, TEST_USERNAME
 
 
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_centriconnect_client: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -70,7 +70,7 @@ async def test_full_flow(
     ],
 )
 async def test_form_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_centriconnect_client: AsyncMock,
     mock_setup_entry: AsyncMock,
     exception: Exception,
@@ -125,7 +125,7 @@ async def test_form_errors(
 
 
 async def test_user_flow_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_centriconnect_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -158,7 +158,7 @@ RECONFIGURED_PASSWORD = "654321"
 
 
 async def _start_reconfigure_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> ConfigFlowResult:
     """Initialize a reconfigure flow."""
     mock_config_entry.add_to_hass(hass)
@@ -178,7 +178,7 @@ async def _start_reconfigure_flow(
 
 
 async def _start_reauth_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> ConfigFlowResult:
     """Initialize a reauthenticate flow."""
     mock_config_entry.add_to_hass(hass)
@@ -199,7 +199,7 @@ async def _start_reauth_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_centriconnect_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -221,7 +221,7 @@ async def test_reconfigure_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_unique_id_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_centriconnect_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -257,7 +257,7 @@ async def test_reconfigure_unique_id_mismatch(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauthenticate_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_centriconnect_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -279,7 +279,7 @@ async def test_reauthenticate_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauthenticate_unique_id_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_centriconnect_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

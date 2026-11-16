@@ -28,8 +28,8 @@ from universalassistant.components.reolink.const import DOMAIN
 from universalassistant.components.reolink.util import get_device_uid_and_ch
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import TEST_CAM_NAME, TEST_UID, TEST_UID_CAM
@@ -43,23 +43,23 @@ DEV_ID_STANDALONE_CAM = f"{TEST_UID_CAM}"
     [
         (
             ApiError("Test error"),
-            __HAC_KEEP__Error(translation_key="api_error"),
+            UniversalAssistantError(translation_key="api_error"),
         ),
         (
             ApiError("Test error", translation_key="firmware_rate_limit"),
-            __HAC_KEEP__Error(translation_key="firmware_rate_limit"),
+            UniversalAssistantError(translation_key="firmware_rate_limit"),
         ),
         (
             ApiError("Test error", translation_key="not_in_strings.json"),
-            __HAC_KEEP__Error(translation_key="api_error"),
+            UniversalAssistantError(translation_key="api_error"),
         ),
         (
             CredentialsInvalidError("Test error"),
-            __HAC_KEEP__Error(translation_key="invalid_credentials"),
+            UniversalAssistantError(translation_key="invalid_credentials"),
         ),
         (
             InvalidContentTypeError("Test error"),
-            __HAC_KEEP__Error(translation_key="invalid_content_type"),
+            UniversalAssistantError(translation_key="invalid_content_type"),
         ),
         (
             InvalidParameterError("Test error"),
@@ -67,44 +67,44 @@ DEV_ID_STANDALONE_CAM = f"{TEST_UID_CAM}"
         ),
         (
             LoginError("Test error"),
-            __HAC_KEEP__Error(translation_key="login_error"),
+            UniversalAssistantError(translation_key="login_error"),
         ),
         (
             NoDataError("Test error"),
-            __HAC_KEEP__Error(translation_key="no_data"),
+            UniversalAssistantError(translation_key="no_data"),
         ),
         (
             NotSupportedError("Test error"),
-            __HAC_KEEP__Error(translation_key="not_supported"),
+            UniversalAssistantError(translation_key="not_supported"),
         ),
         (
             ReolinkConnectionError("Test error"),
-            __HAC_KEEP__Error(translation_key="connection_error"),
+            UniversalAssistantError(translation_key="connection_error"),
         ),
         (
             ReolinkError("Test error"),
-            __HAC_KEEP__Error(translation_key="unexpected"),
+            UniversalAssistantError(translation_key="unexpected"),
         ),
         (
             ReolinkTimeoutError("Test error"),
-            __HAC_KEEP__Error(translation_key="timeout"),
+            UniversalAssistantError(translation_key="timeout"),
         ),
         (
             SubscriptionError("Test error"),
-            __HAC_KEEP__Error(translation_key="subscription_error"),
+            UniversalAssistantError(translation_key="subscription_error"),
         ),
         (
             UnexpectedDataError("Test error"),
-            __HAC_KEEP__Error(translation_key="unexpected_data"),
+            UniversalAssistantError(translation_key="unexpected_data"),
         ),
     ],
 )
 async def test_try_function(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     side_effect: ReolinkError,
-    expected: __HAC_KEEP__Error,
+    expected: UniversalAssistantError,
 ) -> None:
     """Test try_function error translations using number entity."""
     reolink_host.volume.return_value = 80
@@ -139,7 +139,7 @@ async def test_try_function(
     ],
 )
 async def test_get_device_uid_and_ch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     device_registry: dr.DeviceRegistry,

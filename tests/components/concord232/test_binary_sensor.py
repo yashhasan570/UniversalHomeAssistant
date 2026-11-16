@@ -17,7 +17,7 @@ from universalassistant.components.concord232.binary_sensor import (
     CONF_ZONE_TYPES,
 )
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 VALID_CONFIG = {
@@ -48,7 +48,7 @@ VALID_CONFIG_WITH_ZONE_TYPES = {
 
 
 async def test_setup_platform(
-    hass: __HAC_KEEP__, mock_concord232_client: MagicMock
+    hass: UniversalAssistant, mock_concord232_client: MagicMock
 ) -> None:
     """Test platform setup."""
     await async_setup_component(hass, BINARY_SENSOR_DOMAIN, VALID_CONFIG)
@@ -63,7 +63,7 @@ async def test_setup_platform(
 
 
 async def test_setup_platform_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_concord232_client: MagicMock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -80,7 +80,7 @@ async def test_setup_platform_connection_error(
 
 
 async def test_setup_with_exclude_zones(
-    hass: __HAC_KEEP__, mock_concord232_client: MagicMock
+    hass: UniversalAssistant, mock_concord232_client: MagicMock
 ) -> None:
     """Test platform setup with excluded zones."""
     await async_setup_component(hass, BINARY_SENSOR_DOMAIN, VALID_CONFIG_WITH_EXCLUDE)
@@ -93,7 +93,7 @@ async def test_setup_with_exclude_zones(
 
 
 async def test_setup_with_zone_types(
-    hass: __HAC_KEEP__, mock_concord232_client: MagicMock
+    hass: UniversalAssistant, mock_concord232_client: MagicMock
 ) -> None:
     """Test platform setup with custom zone types."""
     await async_setup_component(
@@ -111,7 +111,7 @@ async def test_setup_with_zone_types(
 
 
 async def test_zone_state_faulted(
-    hass: __HAC_KEEP__, mock_concord232_client: MagicMock
+    hass: UniversalAssistant, mock_concord232_client: MagicMock
 ) -> None:
     """Test zone state when faulted."""
     mock_concord232_client.list_zones.return_value = [
@@ -128,7 +128,7 @@ async def test_zone_state_faulted(
 
 @pytest.mark.freeze_time("2023-10-21")
 async def test_zone_update_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_concord232_client: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -179,7 +179,7 @@ async def test_zone_update_refresh(
     ],
 )
 async def test_device_class(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_concord232_client: MagicMock,
     sensor_name: str,
     entity_id: str,

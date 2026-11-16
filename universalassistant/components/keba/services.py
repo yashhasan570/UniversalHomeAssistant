@@ -1,6 +1,6 @@
 """Support for KEBA charging station services."""
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 
 from .const import DOMAIN, KebaService
 
@@ -24,7 +24,7 @@ async def _async_execute_service(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the KEBA services."""
     for service in _SERVICE_MAP:
         hass.services.async_register(DOMAIN, service, _async_execute_service)

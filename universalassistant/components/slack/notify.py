@@ -19,7 +19,7 @@ from universalassistant.components.notify import (
     BaseNotificationService,
 )
 from universalassistant.const import CONF_ICON, CONF_PATH, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import aiohttp_client, config_validation as cv, template
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -105,7 +105,7 @@ class MessageT(TypedDict, total=False):
 
 
 async def async_get_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> SlackNotificationService | None:
@@ -137,7 +137,7 @@ class SlackNotificationService(BaseNotificationService):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         client: AsyncWebClient,
         config: dict[str, str],
     ) -> None:

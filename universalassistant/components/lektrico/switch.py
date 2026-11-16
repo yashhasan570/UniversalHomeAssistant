@@ -8,7 +8,7 @@ from lektricowifi import Device
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import CONF_TYPE, EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_SERIAL_NUMBER
@@ -58,7 +58,7 @@ SWITCHS_FOR_3_PHASE_CHARGERS: tuple[LektricoSwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: LektricoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

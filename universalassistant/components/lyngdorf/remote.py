@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any, override
 from lyngdorf import LyngdorfReceiver, LyngdorfUnsupportedError, Remote
 
 from universalassistant.components.remote import ATTR_NUM_REPEATS, RemoteEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -19,7 +19,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: LyngdorfConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

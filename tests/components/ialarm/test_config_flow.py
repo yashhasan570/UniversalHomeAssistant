@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.ialarm.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 TEST_DATA = {CONF_HOST: "1.1.1.1", CONF_PORT: 18034}
@@ -16,7 +16,7 @@ TEST_DATA = {CONF_HOST: "1.1.1.1", CONF_PORT: 18034}
 TEST_MAC = "00:00:54:12:34:56"
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -57,7 +57,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("side_effect", [ConnectionError, TimeoutError])
 async def test_form_cannot_connect(
-    hass: __HAC_KEEP__, side_effect: type[Exception]
+    hass: UniversalAssistant, side_effect: type[Exception]
 ) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
@@ -103,7 +103,7 @@ async def test_form_cannot_connect(
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_exception(hass: __HAC_KEEP__) -> None:
+async def test_form_exception(hass: UniversalAssistant) -> None:
     """Test we handle unknown exception."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -148,7 +148,7 @@ async def test_form_exception(hass: __HAC_KEEP__) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_already_exists(hass: __HAC_KEEP__) -> None:
+async def test_form_already_exists(hass: UniversalAssistant) -> None:
     """Test that a flow with an existing host aborts."""
     entry = MockConfigEntry(
         domain=DOMAIN,

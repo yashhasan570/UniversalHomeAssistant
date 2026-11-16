@@ -9,7 +9,7 @@ from eheimdigital.types import EheimDigitalClientError
 
 from universalassistant.const import CONF_HOST
 from universalassistant.core import callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -86,7 +86,7 @@ def exception_handler[_EntityT: EheimDigitalEntity[EheimDigitalDevice], **_P](
         try:
             await func(self, *args, **kwargs)
         except EheimDigitalClientError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="communication_error",
                 translation_placeholders={"error": str(error)},

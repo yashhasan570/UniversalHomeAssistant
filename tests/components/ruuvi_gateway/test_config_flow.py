@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.ruuvi_gateway.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -44,7 +44,7 @@ DHCP_DATA = {**BASE_DATA, "host": DHCP_IP}
     ],
     ids=["user", "dhcp"],
 )
-async def test_ok_setup(hass: __HAC_KEEP__, init_data, init_context, entry) -> None:
+async def test_ok_setup(hass: UniversalAssistant, init_data, init_context, entry) -> None:
     """Test we get the form."""
     init_result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -69,7 +69,7 @@ async def test_ok_setup(hass: __HAC_KEEP__, init_data, init_context, entry) -> N
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
+async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
     """Test we handle invalid auth."""
     init_result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -98,7 +98,7 @@ async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we handle cannot connect error."""
     init_result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -127,7 +127,7 @@ async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_unexpected(hass: __HAC_KEEP__) -> None:
+async def test_form_unexpected(hass: UniversalAssistant) -> None:
     """Test we handle unexpected errors."""
     init_result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -156,7 +156,7 @@ async def test_form_unexpected(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_form_already_configured(hass: UniversalAssistant) -> None:
     """Test we abort and update the host if the gateway is already configured."""
     entry = MockConfigEntry(
         domain=DOMAIN,

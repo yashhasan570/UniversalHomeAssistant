@@ -23,7 +23,7 @@ from .v2.device_trigger import (
 )
 
 if TYPE_CHECKING:
-    from universalassistant.core import __HAC_KEEP__
+    from universalassistant.core import UniversalAssistant
     from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
 
     from .bridge import HueConfigEntry
@@ -32,7 +32,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 async def async_validate_trigger_config(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> ConfigType:
     """Validate config."""
     entries: list[HueConfigEntry] = hass.config_entries.async_loaded_entries(DOMAIN)
@@ -59,7 +59,7 @@ async def async_validate_trigger_config(
 
 
 async def async_attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,
@@ -99,7 +99,7 @@ async def async_attach_trigger(
 
 
 async def async_get_triggers(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, Any]]:
     """Get device triggers for given (hass) device id."""
     entries: list[HueConfigEntry] = hass.config_entries.async_loaded_entries(DOMAIN)
@@ -157,7 +157,7 @@ async def _async_attach_bridge_trigger(
 
 @callback
 def _async_attach_on_entry_load(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: HueConfigEntry,
     device_entry: dr.DeviceEntry,
     config: ConfigType,

@@ -11,8 +11,8 @@ from universalassistant.components.device_automation import (
 from universalassistant.components.samsungtv import device_trigger
 from universalassistant.components.samsungtv.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__, ServiceCall
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -22,7 +22,7 @@ from .const import ENTRYDATA_ENCRYPTED_WEBSOCKET
 
 @pytest.mark.usefixtures("remote_encrypted_websocket", "rest_api")
 async def test_get_triggers(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test we get the expected triggers."""
     entry = await setup_samsungtv_entry(hass, ENTRYDATA_ENCRYPTED_WEBSOCKET)
@@ -47,7 +47,7 @@ async def test_get_triggers(
 
 @pytest.mark.usefixtures("remote_encrypted_websocket", "rest_api")
 async def test_if_fires_on_turn_on_request(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -110,13 +110,13 @@ async def test_if_fires_on_turn_on_request(
 
 @pytest.mark.usefixtures("remote_encrypted_websocket", "rest_api")
 async def test_failure_scenarios(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test failure scenarios."""
     await setup_samsungtv_entry(hass, ENTRYDATA_ENCRYPTED_WEBSOCKET)
 
     # Test wrong trigger platform type
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await device_trigger.async_attach_trigger(
             hass, {"type": "wrong.type", "device_id": "invalid_device_id"}, None, {}
         )

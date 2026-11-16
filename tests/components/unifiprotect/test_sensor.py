@@ -48,7 +48,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.dt import utcnow
 
@@ -89,7 +89,7 @@ SENSE_SENSORS_WRITE = SENSE_SENSORS[:8]
 
 
 async def test_sensor_camera_remove(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera, unadopted_camera: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera, unadopted_camera: Camera
 ) -> None:
     """Test removing and re-adding a camera device."""
 
@@ -103,7 +103,7 @@ async def test_sensor_camera_remove(
 
 
 async def test_sensor_sensor_remove(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, sensor_all: Sensor
+    hass: UniversalAssistant, ufp: MockUFPFixture, sensor_all: Sensor
 ) -> None:
     """Test removing and re-adding a light device."""
 
@@ -117,7 +117,7 @@ async def test_sensor_sensor_remove(
 
 
 async def test_sensor_sense_capability_creation_filter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
@@ -147,7 +147,7 @@ async def test_sensor_sense_capability_creation_filter(
 
 
 async def test_sensor_sense_metrics_read_their_own_public_path(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
 ) -> None:
@@ -169,7 +169,7 @@ async def test_sensor_sense_metrics_read_their_own_public_path(
 
 
 async def test_sensor_setup_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
@@ -241,7 +241,7 @@ async def test_sensor_setup_sensor(
 
 
 async def test_sensor_setup_sensor_none(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     sensor: Sensor,
@@ -283,7 +283,7 @@ async def test_sensor_setup_sensor_none(
 
 
 async def test_sensor_battery_public_ws_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
 ) -> None:
@@ -304,7 +304,7 @@ async def test_sensor_battery_public_ws_update(
 
 
 async def test_sensor_battery_unavailable_on_public_disconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
 ) -> None:
@@ -325,7 +325,7 @@ async def test_sensor_battery_unavailable_on_public_disconnect(
 
 
 async def test_sensor_battery_unavailable_without_public_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
 ) -> None:
@@ -339,7 +339,7 @@ async def test_sensor_battery_unavailable_without_public_api(
 
 
 async def test_sensor_battery_unavailable_on_public_ws_disconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
 ) -> None:
@@ -360,7 +360,7 @@ async def test_sensor_battery_unavailable_on_public_ws_disconnect(
 
 
 async def test_sensor_battery_refreshes_on_public_ws_reconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
 ) -> None:
@@ -388,7 +388,7 @@ async def test_sensor_battery_refreshes_on_public_ws_reconnect(
 
 
 async def test_sensor_setup_nvr(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     fixed_now: datetime,
@@ -465,7 +465,7 @@ async def test_sensor_setup_nvr(
 
 
 async def test_sensor_nvr_missing_values(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, ufp: MockUFPFixture
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, ufp: MockUFPFixture
 ) -> None:
     """Test NVR sensor sensors if no data available."""
 
@@ -533,7 +533,7 @@ async def test_sensor_nvr_missing_values(
 
 
 async def test_sensor_setup_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -635,7 +635,7 @@ async def test_sensor_setup_camera(
     ],
 )
 async def test_sensor_setup_camera_with_last_trip_time(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -666,7 +666,7 @@ async def test_sensor_setup_camera_with_last_trip_time(
 
 
 async def test_sensor_camera_without_doorbell_has_no_last_ring(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -686,7 +686,7 @@ async def test_sensor_camera_without_doorbell_has_no_last_ring(
 
 
 async def test_sensor_update_alarm(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, sensor_all: Sensor, fixed_now: datetime
+    hass: UniversalAssistant, ufp: MockUFPFixture, sensor_all: Sensor, fixed_now: datetime
 ) -> None:
     """Test sensor motion entity."""
 
@@ -735,7 +735,7 @@ async def test_sensor_update_alarm(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_update_alarm_with_last_trip_time(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
@@ -803,7 +803,7 @@ async def test_sensor_update_alarm_with_last_trip_time(
 
 
 async def test_sensor_precision(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, sensor_all: Sensor, fixed_now: datetime
+    hass: UniversalAssistant, ufp: MockUFPFixture, sensor_all: Sensor, fixed_now: datetime
 ) -> None:
     """Test sensor precision value is respected."""
 
@@ -819,7 +819,7 @@ async def test_sensor_precision(
 
 
 async def test_sensor_light_last_motion_public(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """The light's last-motion timestamp reads from the public API."""
 
@@ -844,7 +844,7 @@ async def test_sensor_light_last_motion_public(
 
 
 async def test_sensor_light_last_motion_unavailable_without_public(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
+    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
 ) -> None:
     """The migrated last-motion sensor is unavailable without a public object."""
 
@@ -868,7 +868,7 @@ async def test_sensor_light_last_motion_unavailable_without_public(
     ],
 )
 async def test_sensor_light_mode_mirror_public(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     light: Light,
     mode: LightModeType,
@@ -889,7 +889,7 @@ async def test_sensor_light_mode_mirror_public(
 
 
 async def test_public_only_sensor_sense_end_to_end(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     sensor_all: Sensor,
     ufp_public_only: MockUFPFixture,
@@ -975,7 +975,7 @@ async def test_public_only_sensor_camera_has_none(
 
 
 async def test_public_only_sensor_added_after_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     light: Light,
     ufp_public_only: MockUFPFixture,
@@ -1026,7 +1026,7 @@ async def test_public_only_sensor_added_after_setup(
     ],
 )
 async def test_sensor_camera_mirror_reads_public(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -1050,7 +1050,7 @@ async def test_sensor_camera_mirror_reads_public(
 
 
 async def test_sensor_camera_mic_mirror_unavailable_with_module_only(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,

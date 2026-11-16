@@ -54,7 +54,7 @@ CONSTRAINT_PATH = (
 )
 CONSTRAINT_BASE = """
 # Constrain pycryptodome to avoid vulnerability
-# see https://github.com/yashhasan570/__HAC_KEEP__/pull/16238
+# see https://github.com/yashhasan570/UniversalUniversalAssistant/pull/16238
 pycryptodome>=3.6.6
 
 # Constrain httplib2 to protect against GHSA-93xj-8mrv-444m
@@ -73,7 +73,7 @@ grpcio-reflection==1.83.1
 # only accepts a narrow botocore version range. Pin them together so a
 # runtime requirement install cannot pull in a botocore version that is
 # incompatible with aiobotocore.
-# see https://github.com/yashhasan570/__HAC_KEEP__/issues/167399
+# see https://github.com/yashhasan570/UniversalUniversalAssistant/issues/167399
 boto3==1.43.117
 botocore==1.43.117
 
@@ -108,7 +108,7 @@ numpy==2.3.2
 pandas==2.3.3
 
 # Constrain multidict to avoid typing issues
-# https://github.com/yashhasan570/__HAC_KEEP__/pull/67046
+# https://github.com/yashhasan570/UniversalUniversalAssistant/pull/67046
 multidict>=6.0.2
 
 # Brotli 1.2.1 fixes CVE
@@ -189,9 +189,9 @@ async-timeout==4.0.3
 # aiofiles keeps getting downgraded by custom components
 # causing newer methods to not be available and breaking
 # some integrations at startup
-# https://github.com/yashhasan570/__HAC_KEEP__/issues/127529
-# https://github.com/yashhasan570/__HAC_KEEP__/issues/122508
-# https://github.com/yashhasan570/__HAC_KEEP__/issues/118004
+# https://github.com/yashhasan570/UniversalUniversalAssistant/issues/127529
+# https://github.com/yashhasan570/UniversalUniversalAssistant/issues/122508
+# https://github.com/yashhasan570/UniversalUniversalAssistant/issues/118004
 aiofiles>=24.1.0
 
 # multidict < 6.4.0 has memory leaks
@@ -210,7 +210,7 @@ pymodbus==3.13.1
 # Pin pytest-rerunfailures to prevent accidental breaks
 pytest-rerunfailures==16.0.1
 
-# Fixes detected blocking call to load_default_certs https://github.com/yashhasan570/__HAC_KEEP__/issues/157475
+# Fixes detected blocking call to load_default_certs https://github.com/yashhasan570/UniversalUniversalAssistant/issues/157475
 aiomqtt>=2.5.0
 
 # aiofile 3.10.0 crashes on import due to KeyError on package metadata
@@ -234,18 +234,18 @@ python-backoff<2.4.0
 
 # graphql-core 3.3 removed graphql_input_types, which apischema 0.19.0
 # (used by aioaseko) still imports
-# https://github.com/yashhasan570/__HAC_KEEP__/issues/184918
+# https://github.com/yashhasan570/UniversalUniversalAssistant/issues/184918
 graphql-core<3.3
 
 # pycares 5.1.0/5.2.0 bundle c-ares 1.34.8, which can break DNS
-# https://github.com/yashhasan570/__HAC_KEEP__/issues/185645
+# https://github.com/yashhasan570/UniversalUniversalAssistant/issues/185645
 pycares>=5.2.1
 
 # pypasser 1.0.0 removed reCaptchaV3, which Tami4EdgeAPI imports
 pypasser<1.0.0
 
 # srptools 2.0.0 made the private key a keyword-only argument, which pyatv passes positionally
-# https://github.com/yashhasan570/__HAC_KEEP__/issues/189315
+# https://github.com/yashhasan570/UniversalUniversalAssistant/issues/189315
 srptools<2
 
 # Pin dependencies with '.pth' files to exact versions, only update manually!
@@ -258,7 +258,7 @@ coloredlogs==15.0.1
 setuptools==84.0.0
 
 # Pin cffi to 2.0.0 to avoid version mismatch with the pre-baked _cffi_backend in the base image.
-# https://github.com/yashhasan570/__HAC_KEEP__/issues/175832
+# https://github.com/yashhasan570/UniversalUniversalAssistant/issues/175832
 cffi==2.0.0
 """
 
@@ -498,7 +498,7 @@ def requirements_output() -> str:
         GENERATED_MESSAGE,
         "-c universalassistant/package_constraints.txt\n",
         "\n",
-        "# __HA_KEEP__ Core\n",
+        "# Universal Home Assistant Core\n",
     ]
 
     requirements = set()
@@ -514,7 +514,7 @@ def requirements_output() -> str:
 def requirements_all_output(reqs: dict[str, list[str]]) -> str:
     """Generate output for requirements_all."""
     output = [
-        "# __HA_KEEP__ Core, full dependency set\n",
+        "# Universal Home Assistant Core, full dependency set\n",
         GENERATED_MESSAGE,
         "-r requirements.txt\n",
     ]
@@ -526,7 +526,7 @@ def requirements_all_output(reqs: dict[str, list[str]]) -> str:
 def requirements_all_action_output(reqs: dict[str, list[str]], action: str) -> str:
     """Generate output for requirements_all_{action}."""
     output = [
-        f"# __HA_KEEP__ Core, full dependency set for {action}\n",
+        f"# Universal Home Assistant Core, full dependency set for {action}\n",
         GENERATED_MESSAGE,
         "-r requirements.txt\n",
     ]
@@ -583,7 +583,7 @@ def pytest_package_output(reqs: dict[str, list[str]]) -> str:
         requirement = Requirement(dependency)
         name = canonicalize_name(requirement.name)
         if name == "universalassistant":
-            # The matching __HA_KEEP__ version is set when publishing.
+            # The matching Universal Home Assistant version is set when publishing.
             continue
         requirement.specifier = versions[name]
         content = content.replace(json.dumps(dependency), json.dumps(str(requirement)))

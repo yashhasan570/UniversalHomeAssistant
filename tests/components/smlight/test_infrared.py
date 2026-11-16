@@ -14,8 +14,8 @@ from universalassistant.components.infrared import (
     async_subscribe_receiver,
 )
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from . import get_mock_event_function
 from .conftest import setup_integration
@@ -40,7 +40,7 @@ def platforms() -> list[Platform]:
 
 
 async def test_infrared_setup_ultima(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ultima_client: MagicMock,
 ) -> None:
@@ -55,7 +55,7 @@ async def test_infrared_setup_ultima(
 
 
 async def test_infrared_not_created_non_ultima(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
 ) -> None:
@@ -70,7 +70,7 @@ async def test_infrared_not_created_non_ultima(
 
 
 async def test_infrared_send_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ultima_client: MagicMock,
 ) -> None:
@@ -93,7 +93,7 @@ async def test_infrared_send_command(
 
 
 async def test_infrared_send_command_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ultima_client: MagicMock,
 ) -> None:
@@ -106,7 +106,7 @@ async def test_infrared_send_command_error(
 
     mock_ultima_client.actions.send_ir_code.side_effect = SmlightError("Failed")
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await async_send_command(
             hass,
             entity_id,
@@ -116,11 +116,11 @@ async def test_infrared_send_command_error(
 
 
 async def test_infrared_send_empty_command_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ultima_client: MagicMock,
 ) -> None:
-    """Test ValueError from pysmlight is surfaced as __HAC_KEEP__Error."""
+    """Test ValueError from pysmlight is surfaced as UniversalAssistantError."""
     await setup_integration(hass, mock_config_entry)
 
     entity_id = "infrared.mock_title_infrared_emitter"
@@ -129,7 +129,7 @@ async def test_infrared_send_empty_command_error(
 
     mock_ultima_client.actions.send_ir_code.side_effect = ValueError("empty payload")
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await async_send_command(
             hass,
             entity_id,
@@ -140,7 +140,7 @@ async def test_infrared_send_empty_command_error(
 
 @pytest.mark.freeze_time("2025-09-03T22:00:00+00:00")
 async def test_infrared_state_updated_after_send(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ultima_client: MagicMock,
 ) -> None:
@@ -160,7 +160,7 @@ async def test_infrared_state_updated_after_send(
 
 @pytest.mark.freeze_time("2025-09-03T22:00:00+00:00")
 async def test_infrared_receiver_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ultima_client: MagicMock,
 ) -> None:

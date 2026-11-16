@@ -17,7 +17,7 @@ from universalassistant.components.update import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -35,7 +35,7 @@ def update_only() -> Generator[None]:
     "mock_version", "mock_websocket_client", "entity_registry_enabled_by_default"
 )
 async def test_update_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -52,7 +52,7 @@ async def test_update_platform(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_update_no_latest_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:
@@ -76,7 +76,7 @@ async def test_update_no_latest_version(
 
 @pytest.mark.usefixtures("mock_version", "mock_websocket_client")
 async def test_update_no_system_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the versions are unknown when the system module has no data."""

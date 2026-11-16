@@ -17,7 +17,7 @@ from universalassistant.components.media_player import (
     MediaType,
     async_process_play_media_url,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.dt import utcnow
@@ -35,7 +35,7 @@ STATE_MAPPING = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: SlimProtoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

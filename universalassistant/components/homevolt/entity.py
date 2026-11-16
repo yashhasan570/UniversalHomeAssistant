@@ -12,7 +12,7 @@ from homevolt import (
     HomevoltError,
 )
 
-from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
+from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -57,30 +57,30 @@ def homevolt_exception_handler[_HomevoltEntityT: HomevoltEntity, **_P](
                 translation_key="auth_failed",
             ) from error
         except HomevoltCommandRejectedError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_rejected",
             ) from error
         except HomevoltCommandVerificationError as error:
             await self.coordinator.async_refresh()
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_verification_failed",
             ) from error
         except HomevoltCommandOutcomeUnknownError as error:
             await self.coordinator.async_refresh()
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_outcome_unknown",
             ) from error
         except HomevoltConnectionError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="communication_error",
                 translation_placeholders={"error": str(error)},
             ) from error
         except HomevoltError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="unknown_error",
                 translation_placeholders={"error": str(error)},

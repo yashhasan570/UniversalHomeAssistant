@@ -4,7 +4,7 @@ from typing import Any, override
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import STATE_ON, EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import restore_state
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -13,7 +13,7 @@ from .models import WyomingConfigEntry
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: WyomingConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

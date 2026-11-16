@@ -19,7 +19,7 @@ from universalassistant.config_entries import (
     ConfigSubentryData,
 )
 from universalassistant.const import CONF_API_KEY, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import ACCOUNT_1, ACCOUNT_2, ACCOUNT_NAME_1, ACCOUNT_NAME_2, API_KEY, CONF_DATA
@@ -27,7 +27,7 @@ from . import ACCOUNT_1, ACCOUNT_2, ACCOUNT_NAME_1, ACCOUNT_NAME_2, API_KEY, CON
 
 @pytest.mark.usefixtures("steam_api")
 async def test_flow_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Test user initialized flow."""
@@ -61,7 +61,7 @@ async def test_flow_user(
     ],
 )
 async def test_flow_user_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     side_effect: type[Exception] | dict[str, Any],
     error_msg: str,
@@ -99,7 +99,7 @@ async def test_flow_user_errors(
 
 @pytest.mark.usefixtures("steam_api")
 async def test_flow_user_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test user initialized flow with duplicate account."""
@@ -120,7 +120,7 @@ async def test_flow_user_already_configured(
 
 @pytest.mark.usefixtures("steam_api")
 async def test_flow_user_already_configured_as_subentry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test user initialized flow with duplicate account."""
@@ -144,7 +144,7 @@ async def test_flow_user_already_configured_as_subentry(
 
 @pytest.mark.usefixtures("steam_api")
 async def test_flow_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test reauth step."""
@@ -176,7 +176,7 @@ async def test_flow_reauth(
     ],
 )
 async def test_flow_reauth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     steam_api: MagicMock,
     side_effect: type[Exception] | dict[str, Any],
@@ -210,7 +210,7 @@ async def test_flow_reauth_errors(
     assert len(hass.config_entries.async_entries()) == 1
 
 
-async def test_add_friend_flow(hass: __HAC_KEEP__, steam_api: MagicMock) -> None:
+async def test_add_friend_flow(hass: UniversalAssistant, steam_api: MagicMock) -> None:
     """Test add friend subentry flow."""
     steam_api.return_value.GetPlayerSummaries.return_value = (
         await async_load_json_object_fixture(
@@ -258,7 +258,7 @@ async def test_add_friend_flow(hass: __HAC_KEEP__, steam_api: MagicMock) -> None
 
 
 @pytest.mark.usefixtures("steam_api")
-async def test_add_friend_flow_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_add_friend_flow_already_configured(hass: UniversalAssistant) -> None:
     """Test add friend subentry flow aborts if friend is already configured as subentry."""
 
     MockConfigEntry(
@@ -306,7 +306,7 @@ async def test_add_friend_flow_already_configured(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("steam_api")
-async def test_add_friend_flow_already_configured_as_entry(hass: __HAC_KEEP__) -> None:
+async def test_add_friend_flow_already_configured_as_entry(hass: UniversalAssistant) -> None:
     """Test add friend subentry flow aborts if friend is already configured as config entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -376,7 +376,7 @@ async def test_add_friend_flow_already_configured_as_entry(hass: __HAC_KEEP__) -
     ],
 )
 async def test_add_friend_flow_abort_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     steam_api: MagicMock,
     config_entry: MockConfigEntry,
     side_effect: type[Exception] | Exception,
@@ -405,7 +405,7 @@ async def test_add_friend_flow_abort_errors(
 
 
 async def test_add_friend_flow_abort_no_more_friends(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     steam_api: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -435,7 +435,7 @@ async def test_add_friend_flow_abort_no_more_friends(
 
 @pytest.mark.usefixtures("steam_api")
 async def test_add_friend_flow_config_entry_not_loaded(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test add friend subentry flow."""
     config_entry.add_to_hass(hass)
@@ -460,7 +460,7 @@ async def test_add_friend_flow_config_entry_not_loaded(
     ],
 )
 async def test_add_friend_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     steam_api: MagicMock,
     side_effect: type[Exception],
     error_msg: str,
@@ -530,7 +530,7 @@ async def test_add_friend_errors(
 
 @pytest.mark.usefixtures("steam_api")
 async def test_flow_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure step."""
@@ -561,7 +561,7 @@ async def test_flow_reconfigure(
     ],
 )
 async def test_flow_reconfigure_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     steam_api: MagicMock,
     side_effect: Exception | dict[str, Any],

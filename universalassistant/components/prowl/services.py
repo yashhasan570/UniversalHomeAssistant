@@ -5,7 +5,7 @@ from enum import StrEnum
 import probatio
 
 from universalassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import DOMAIN, PRIORITY_MAP
@@ -42,7 +42,7 @@ SERVICE_SEND_MESSAGE_SCHEMA = cv.make_entity_service_schema(
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up services for Prowl integration."""
 
     service.async_register_platform_entity_service(

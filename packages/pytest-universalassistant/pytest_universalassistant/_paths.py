@@ -1,4 +1,4 @@
-"""Paths for test fixtures and the default __HA_KEEP__ configuration."""
+"""Paths for test fixtures and the default Universal Home Assistant configuration."""
 
 from pathlib import Path
 

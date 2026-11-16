@@ -1,7 +1,7 @@
 """WebSocket API related errors."""
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 
-class Disconnect(__HAC_KEEP__Error):
+class Disconnect(UniversalAssistantError):
     """Disconnect the current session."""

@@ -18,8 +18,8 @@ from universalassistant.components.fan import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_registry import EntityRegistry
 
 from . import init_integration, mutate_rpc_device_status, patch_platforms
@@ -50,7 +50,7 @@ def mock_fan_device(mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch) -> M
 
 @pytest.mark.usefixtures("mock_fan_device")
 async def test_rpc_fan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -81,7 +81,7 @@ async def test_rpc_fan(
     ],
 )
 async def test_rpc_fan_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fan_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     mode: str,
@@ -144,7 +144,7 @@ async def test_rpc_fan_state(
     ],
 )
 async def test_rpc_fan_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fan_device: Mock,
     service: str,
     service_data: dict[str, Any],
@@ -171,7 +171,7 @@ async def test_rpc_fan_services(
     ],
 )
 async def test_rpc_fan_set_preset_manual(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fan_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     is_on: bool,
@@ -209,7 +209,7 @@ async def test_rpc_fan_set_preset_manual(
     ],
 )
 async def test_rpc_fan_exc(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fan_device: Mock,
     exception: Exception,
     error: str,
@@ -219,7 +219,7 @@ async def test_rpc_fan_exc(
 
     mock_fan_device.fan_set.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error, match=error):
+    with pytest.raises(UniversalAssistantError, match=error):
         await hass.services.async_call(
             FAN_DOMAIN,
             SERVICE_TURN_OFF,
@@ -229,7 +229,7 @@ async def test_rpc_fan_exc(
 
 
 @pytest.mark.usefixtures("mock_block_device")
-async def test_block_device_no_fan(hass: __HAC_KEEP__) -> None:
+async def test_block_device_no_fan(hass: UniversalAssistant) -> None:
     """Test that block devices do not create fan entities."""
     await init_integration(hass, 1)
 

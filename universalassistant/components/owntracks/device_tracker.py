@@ -10,7 +10,7 @@ from universalassistant.components.device_tracker import (
     TrackerEntityStateAttribute,
 )
 from universalassistant.const import ATTR_BATTERY_LEVEL, EntityStateAttribute
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -39,7 +39,7 @@ _RESTORED_OWNTRACKS_ATTRIBUTES: tuple[str, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: OwnTracksConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -154,7 +154,7 @@ class OwnTracksEntity(TrackerEntity, RestoreEntity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Call when entity about to be added to __HA_KEEP__."""
+        """Call when entity about to be added to Universal Home Assistant."""
         await super().async_added_to_hass()
 
         # Don't restore if we got set up with data.

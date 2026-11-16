@@ -20,8 +20,8 @@ from universalassistant.components import camera
 from universalassistant.components.camera import CameraState
 from universalassistant.components.netatmo.const import NETATMO_EVENT, NetatmoService
 from universalassistant.const import CONF_WEBHOOK_ID, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -34,7 +34,7 @@ from .common import (
 
 
 async def test_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     netatmo_auth: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -60,7 +60,7 @@ async def test_entity(
     ],
 )
 async def test_setup_component_with_webhook(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     netatmo_auth: AsyncMock,
     camera_type: str,
@@ -142,7 +142,7 @@ IMAGE_BYTES_FROM_STREAM = b"test stream image bytes"
 
 
 async def test_camera_image_local(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test retrieval or local camera image."""
     with selected_platforms([Platform.CAMERA]):
@@ -170,7 +170,7 @@ async def test_camera_image_local(
 
 
 async def test_camera_image_vpn(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test retrieval of remote camera image."""
     with selected_platforms([Platform.CAMERA]):
@@ -196,7 +196,7 @@ async def test_camera_image_vpn(
 
 
 async def test_service_set_person_away(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test service to set person as away."""
     with selected_platforms([Platform.CAMERA]):
@@ -235,7 +235,7 @@ async def test_service_set_person_away(
 
 
 async def test_service_set_person_away_invalid_person(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test service to set invalid person as away."""
     with selected_platforms([Platform.CAMERA]):
@@ -250,7 +250,7 @@ async def test_service_set_person_away_invalid_person(
         "person": "Batman",
     }
 
-    with pytest.raises(__HAC_KEEP__Error) as excinfo:
+    with pytest.raises(UniversalAssistantError) as excinfo:
         await hass.services.async_call(
             "netatmo",
             NetatmoService.SET_PERSON_AWAY,
@@ -263,7 +263,7 @@ async def test_service_set_person_away_invalid_person(
 
 
 async def test_service_set_persons_home_invalid_person(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test service to set invalid persons as home."""
     with selected_platforms([Platform.CAMERA]):
@@ -278,7 +278,7 @@ async def test_service_set_persons_home_invalid_person(
         "persons": "Batman",
     }
 
-    with pytest.raises(__HAC_KEEP__Error) as excinfo:
+    with pytest.raises(UniversalAssistantError) as excinfo:
         await hass.services.async_call(
             "netatmo",
             NetatmoService.SET_PERSONS_HOME,
@@ -291,7 +291,7 @@ async def test_service_set_persons_home_invalid_person(
 
 
 async def test_service_set_persons_home(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test service to set persons as home."""
     with selected_platforms([Platform.CAMERA]):
@@ -323,7 +323,7 @@ async def test_service_set_persons_home(
     ],
 )
 async def test_light_component_with_webhook(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     netatmo_auth: AsyncMock,
     camera_type: str,
@@ -380,7 +380,7 @@ async def test_light_component_with_webhook(
 
 
 async def test_service_set_camera_light(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test service to set the outdoor camera light mode."""
     with selected_platforms([Platform.CAMERA]):
@@ -412,7 +412,7 @@ async def test_service_set_camera_light(
 
 
 async def test_service_set_camera_light_invalid_type(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test service to set the indoor camera light mode."""
     with selected_platforms([Platform.CAMERA]):
@@ -429,7 +429,7 @@ async def test_service_set_camera_light_invalid_type(
 
     with (
         patch("pyatmo.home.Home.async_set_state") as mock_set_state,
-        pytest.raises(__HAC_KEEP__Error) as excinfo,
+        pytest.raises(UniversalAssistantError) as excinfo,
     ):
         await hass.services.async_call(
             "netatmo",
@@ -452,7 +452,7 @@ async def test_service_set_camera_light_invalid_type(
     ],
 )
 async def test_camera_reconnect_webhook(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     camera_type: str,
     camera_id: str,
@@ -565,7 +565,7 @@ async def test_camera_reconnect_webhook(
     ],
 )
 async def test_camera_webhook_consistency(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     camera_type: str,
     camera_id: str,
@@ -651,7 +651,7 @@ async def test_camera_webhook_consistency(
 
 
 async def test_webhook_person_event(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test that person events are handled."""
     with selected_platforms(["camera"]):
@@ -690,7 +690,7 @@ async def test_webhook_person_event(
 
 
 async def test_setup_component_no_devices(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test setup with no devices."""
     fake_post_hits = 0
@@ -724,7 +724,7 @@ async def test_setup_component_no_devices(
 
 
 async def test_camera_image_raises_exception(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test setup with no devices."""
     fake_post_hits = 0

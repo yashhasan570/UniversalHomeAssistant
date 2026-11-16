@@ -7,7 +7,7 @@ from pynintendoauth.exceptions import (
 from pynintendoparental import Authenticator
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -28,14 +28,14 @@ _PLATFORMS: list[Platform] = [
 PLATFORM_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Nintendo Switch Parental Controls integration."""
     async_setup_services(hass)
     return True
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: NintendoParentalControlsConfigEntry
+    hass: UniversalAssistant, entry: NintendoParentalControlsConfigEntry
 ) -> None:
     """Set up Nintendo Switch parental controls from a config entry."""
     nintendo_auth = Authenticator(
@@ -57,7 +57,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: NintendoParentalControlsConfigEntry
+    hass: UniversalAssistant, entry: NintendoParentalControlsConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)

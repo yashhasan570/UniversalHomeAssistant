@@ -9,14 +9,14 @@ from pytest_universalassistant.components.diagnostics import get_diagnostics_for
 from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 from .conftest import make_state
 
 
 async def test_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_helty_cloud: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -36,7 +36,7 @@ async def test_entry_diagnostics(
 
 
 async def test_entry_diagnostics_no_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_helty_cloud: AsyncMock,
     mock_config_entry: MockConfigEntry,

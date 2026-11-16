@@ -12,13 +12,13 @@ from universalassistant.components.remote import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 REMOTE_ENTITY_ID = "remote.philips_tv_remote"
 
 
 async def setup_remote(
-    hass: __HAC_KEEP__, mock_tv: PhilipsTV, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_tv: PhilipsTV, mock_config_entry: MockConfigEntry
 ) -> None:
     """Set up the integration with the mocked TV."""
     mock_tv.json_feature_supported.return_value = False
@@ -40,7 +40,7 @@ async def setup_remote(
     ],
 )
 async def test_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tv: PhilipsTV,
     mock_config_entry: MockConfigEntry,
     on: bool,
@@ -91,7 +91,7 @@ async def test_state(
     ],
 )
 async def test_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tv: PhilipsTV,
     mock_config_entry: MockConfigEntry,
     on: bool,
@@ -124,7 +124,7 @@ async def test_turn_off(
 
 
 async def test_turn_on_with_powerstate(
-    hass: __HAC_KEEP__, mock_tv: PhilipsTV, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_tv: PhilipsTV, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test turning on a reachable TV that supports powerstate."""
     mock_tv.on = True

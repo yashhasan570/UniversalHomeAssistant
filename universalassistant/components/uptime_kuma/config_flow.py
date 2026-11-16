@@ -15,7 +15,7 @@ from yarl import URL
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_API_KEY, CONF_URL, CONF_VERIFY_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.selector import (
     TextSelector,
@@ -47,7 +47,7 @@ PLACEHOLDER = {"example_url": "https://uptime.example.com:3001"}
 
 
 async def validate_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     url: URL | str,
     verify_ssl: bool,
     api_key: str | None,

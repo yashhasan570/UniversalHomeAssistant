@@ -15,7 +15,7 @@ from universalassistant.const import (
     SERVICE_ALARM_ARM_HOME,
     SERVICE_ALARM_DISARM,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import setup_platform
@@ -24,7 +24,7 @@ DEVICE_ID = "alarm_control_panel.abode_alarm"
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -34,7 +34,7 @@ async def test_all_entities(
     await snapshot_platform(hass, entity_registry, snapshot, config_entry.entry_id)
 
 
-async def test_set_alarm_away(hass: __HAC_KEEP__) -> None:
+async def test_set_alarm_away(hass: UniversalAssistant) -> None:
     """Test alarm state updates immediately after arming away."""
     with (
         patch("jaraco.abode.event_controller.EventController.add_device_callback"),
@@ -64,7 +64,7 @@ async def test_set_alarm_away(hass: __HAC_KEEP__) -> None:
             assert hass.states.get(DEVICE_ID).state == AlarmControlPanelState.ARMED_AWAY
 
 
-async def test_set_alarm_home(hass: __HAC_KEEP__) -> None:
+async def test_set_alarm_home(hass: UniversalAssistant) -> None:
     """Test alarm state updates immediately after arming home."""
     with (
         patch("jaraco.abode.event_controller.EventController.add_device_callback"),
@@ -94,7 +94,7 @@ async def test_set_alarm_home(hass: __HAC_KEEP__) -> None:
             assert hass.states.get(DEVICE_ID).state == AlarmControlPanelState.ARMED_HOME
 
 
-async def test_set_alarm_standby(hass: __HAC_KEEP__) -> None:
+async def test_set_alarm_standby(hass: UniversalAssistant) -> None:
     """Test alarm state updates immediately after disarming."""
     with (
         patch("jaraco.abode.event_controller.EventController.add_device_callback"),
@@ -124,7 +124,7 @@ async def test_set_alarm_standby(hass: __HAC_KEEP__) -> None:
             assert hass.states.get(DEVICE_ID).state == AlarmControlPanelState.DISARMED
 
 
-async def test_state_unknown(hass: __HAC_KEEP__) -> None:
+async def test_state_unknown(hass: UniversalAssistant) -> None:
     """Test an unknown alarm control panel state."""
     with patch(
         "jaraco.abode.devices.alarm.Alarm.mode", new_callable=PropertyMock

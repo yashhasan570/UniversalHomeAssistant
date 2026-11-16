@@ -13,7 +13,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import PERCENTAGE, STATE_UNKNOWN, UnitOfMass
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import setup_integration
 
@@ -23,7 +23,7 @@ SLEEP_START_TIME_ENTITY_ID = "sensor.test_sleep_mode_start_time"
 
 
 async def test_waste_drawer_sensor(
-    hass: __HAC_KEEP__, mock_account: MagicMock
+    hass: UniversalAssistant, mock_account: MagicMock
 ) -> None:
     """Tests the waste drawer sensor entity was set up."""
     await setup_integration(hass, mock_account, SENSOR_DOMAIN)
@@ -35,7 +35,7 @@ async def test_waste_drawer_sensor(
 
 
 async def test_sleep_time_sensor_with_sleep_disabled(
-    hass: __HAC_KEEP__, mock_account_with_sleep_disabled_robot: MagicMock
+    hass: UniversalAssistant, mock_account_with_sleep_disabled_robot: MagicMock
 ) -> None:
     """Tests the sleep mode start time sensor where sleep mode is disabled."""
     await setup_integration(hass, mock_account_with_sleep_disabled_robot, SENSOR_DOMAIN)
@@ -76,7 +76,7 @@ async def test_gauge_icon() -> None:
 @pytest.mark.freeze_time("2022-09-18 23:00:44+00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_litter_robot_sensor(
-    hass: __HAC_KEEP__, mock_account_with_litterrobot_4: MagicMock
+    hass: UniversalAssistant, mock_account_with_litterrobot_4: MagicMock
 ) -> None:
     """Tests Litter-Robot sensors."""
     await setup_integration(hass, mock_account_with_litterrobot_4, SENSOR_DOMAIN)
@@ -106,7 +106,7 @@ async def test_litter_robot_sensor(
 
 @pytest.mark.freeze_time("2022-09-08 19:00:00+00:00")
 async def test_feeder_robot_sensor(
-    hass: __HAC_KEEP__, mock_account_with_feederrobot: MagicMock
+    hass: UniversalAssistant, mock_account_with_feederrobot: MagicMock
 ) -> None:
     """Tests Feeder-Robot sensors."""
     await setup_integration(hass, mock_account_with_feederrobot, SENSOR_DOMAIN)
@@ -130,7 +130,7 @@ async def test_feeder_robot_sensor(
 
 
 async def test_pet_weight_sensor(
-    hass: __HAC_KEEP__, mock_account_with_pet: MagicMock
+    hass: UniversalAssistant, mock_account_with_pet: MagicMock
 ) -> None:
     """Tests pet weight sensors."""
     await setup_integration(hass, mock_account_with_pet, SENSOR_DOMAIN)
@@ -141,7 +141,7 @@ async def test_pet_weight_sensor(
 
 @pytest.mark.freeze_time("2025-06-15 12:00:00+00:00")
 async def test_pet_visits_today_sensor(
-    hass: __HAC_KEEP__, mock_account_with_pet: MagicMock
+    hass: UniversalAssistant, mock_account_with_pet: MagicMock
 ) -> None:
     """Tests pet visits today sensors."""
     await setup_integration(hass, mock_account_with_pet, SENSOR_DOMAIN)
@@ -159,7 +159,7 @@ async def test_pet_visits_today_sensor(
     ],
 )
 async def test_litterhopper_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     request: pytest.FixtureRequest,
     account_fixture: str,
     expected_state: str,
@@ -178,7 +178,7 @@ async def test_litterhopper_sensor(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_litter_robot_5_sensor(
-    hass: __HAC_KEEP__, mock_account_with_litterrobot_5: MagicMock
+    hass: UniversalAssistant, mock_account_with_litterrobot_5: MagicMock
 ) -> None:
     """Tests Litter-Robot 5 sensors."""
     await setup_integration(hass, mock_account_with_litterrobot_5, SENSOR_DOMAIN)

@@ -8,8 +8,8 @@ from typing import Any, cast
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.os_error import os_write_error
 from universalassistant.util import yaml as yaml_util
@@ -21,7 +21,7 @@ from .schemas import BLUEPRINT_SCHEMA
 
 
 @callback
-def async_setup(hass: __HAC_KEEP__) -> None:
+def async_setup(hass: UniversalAssistant) -> None:
     """Set up the websocket API."""
     websocket_api.async_register_command(hass, ws_delete_blueprint)
     websocket_api.async_register_command(hass, ws_import_blueprint)
@@ -33,7 +33,7 @@ def async_setup(hass: __HAC_KEEP__) -> None:
 def _ws_with_blueprint_domain(
     func: Callable[
         [
-            __HAC_KEEP__,
+            UniversalAssistant,
             websocket_api.ActiveConnection,
             dict[str, Any],
             models.DomainBlueprints,
@@ -45,7 +45,7 @@ def _ws_with_blueprint_domain(
 
     @functools.wraps(func)
     async def with_domain_blueprints(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         connection: websocket_api.ActiveConnection,
         msg: dict[str, Any],
     ) -> None:
@@ -72,7 +72,7 @@ def _ws_with_blueprint_domain(
 )
 @websocket_api.async_response
 async def ws_list_blueprints(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -106,7 +106,7 @@ async def ws_list_blueprints(
 )
 @websocket_api.async_response
 async def ws_import_blueprint(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -165,7 +165,7 @@ async def ws_import_blueprint(
 @websocket_api.async_response
 @_ws_with_blueprint_domain
 async def ws_save_blueprint(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     domain_blueprints: models.DomainBlueprints,
@@ -182,7 +182,7 @@ async def ws_save_blueprint(
         )
         if "source_url" in msg:
             blueprint.update_metadata(source_url=msg["source_url"])
-    except __HAC_KEEP__Error as err:
+    except UniversalAssistantError as err:
         connection.send_error(msg["id"], websocket_api.ERR_INVALID_FORMAT, str(err))
         return
 
@@ -220,7 +220,7 @@ async def ws_save_blueprint(
 @websocket_api.async_response
 @_ws_with_blueprint_domain
 async def ws_delete_blueprint(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     domain_blueprints: models.DomainBlueprints,
@@ -249,7 +249,7 @@ async def ws_delete_blueprint(
 @websocket_api.async_response
 @_ws_with_blueprint_domain
 async def ws_substitute_blueprint(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     domain_blueprints: models.DomainBlueprints,

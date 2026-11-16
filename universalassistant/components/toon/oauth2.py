@@ -2,7 +2,7 @@
 
 from typing import Any, cast, override
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -10,7 +10,7 @@ from . import config_flow
 
 
 def register_oauth2_implementations(
-    hass: __HAC_KEEP__, client_id: str, client_secret: str
+    hass: UniversalAssistant, client_id: str, client_secret: str
 ) -> None:
     """Register Toon OAuth2 implementations."""
     config_flow.ToonFlowHandler.async_register_implementation(
@@ -52,7 +52,7 @@ class ToonLocalOAuth2Implementation(config_entry_oauth2_flow.LocalOAuth2Implemen
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         client_id: str,
         client_secret: str,
         name: str,

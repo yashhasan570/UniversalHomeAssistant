@@ -17,7 +17,7 @@ from universalassistant.components.amberelectric.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .helpers import GENERAL_CHANNEL, GENERAL_ONLY_SITE_ID, generate_current_interval
@@ -26,7 +26,7 @@ MOCK_API_TOKEN = "psk_0000000000000000"
 
 
 @pytest.fixture
-async def setup_no_spike(hass: __HAC_KEEP__) -> AsyncGenerator[Mock]:
+async def setup_no_spike(hass: UniversalAssistant) -> AsyncGenerator[Mock]:
     """Set up general channel."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -49,7 +49,7 @@ async def setup_no_spike(hass: __HAC_KEEP__) -> AsyncGenerator[Mock]:
 
 
 @pytest.fixture
-async def setup_potential_spike(hass: __HAC_KEEP__) -> AsyncGenerator[Mock]:
+async def setup_potential_spike(hass: UniversalAssistant) -> AsyncGenerator[Mock]:
     """Set up general channel."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -78,7 +78,7 @@ async def setup_potential_spike(hass: __HAC_KEEP__) -> AsyncGenerator[Mock]:
 
 
 @pytest.fixture
-async def setup_spike(hass: __HAC_KEEP__) -> AsyncGenerator[Mock]:
+async def setup_spike(hass: UniversalAssistant) -> AsyncGenerator[Mock]:
     """Set up general channel."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -107,7 +107,7 @@ async def setup_spike(hass: __HAC_KEEP__) -> AsyncGenerator[Mock]:
 
 
 @pytest.mark.usefixtures("setup_no_spike")
-def test_no_spike_sensor(hass: __HAC_KEEP__) -> None:
+def test_no_spike_sensor(hass: UniversalAssistant) -> None:
     """Testing the creation of the Amber renewables sensor."""
     assert len(hass.states.async_all()) == 6
     sensor = hass.states.get("binary_sensor.mock_title_price_spike")
@@ -118,7 +118,7 @@ def test_no_spike_sensor(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_potential_spike")
-def test_potential_spike_sensor(hass: __HAC_KEEP__) -> None:
+def test_potential_spike_sensor(hass: UniversalAssistant) -> None:
     """Testing the creation of the Amber renewables sensor."""
     assert len(hass.states.async_all()) == 6
     sensor = hass.states.get("binary_sensor.mock_title_price_spike")
@@ -129,7 +129,7 @@ def test_potential_spike_sensor(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_spike")
-def test_spike_sensor(hass: __HAC_KEEP__) -> None:
+def test_spike_sensor(hass: UniversalAssistant) -> None:
     """Testing the creation of the Amber renewables sensor."""
     assert len(hass.states.async_all()) == 6
     sensor = hass.states.get("binary_sensor.mock_title_price_spike")
@@ -140,7 +140,7 @@ def test_spike_sensor(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.fixture
-async def setup_inactive_demand_window(hass: __HAC_KEEP__) -> AsyncGenerator[Mock]:
+async def setup_inactive_demand_window(hass: UniversalAssistant) -> AsyncGenerator[Mock]:
     """Set up general channel."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -171,7 +171,7 @@ async def setup_inactive_demand_window(hass: __HAC_KEEP__) -> AsyncGenerator[Moc
 
 
 @pytest.fixture
-async def setup_active_demand_window(hass: __HAC_KEEP__) -> AsyncGenerator[Mock]:
+async def setup_active_demand_window(hass: UniversalAssistant) -> AsyncGenerator[Mock]:
     """Set up general channel."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -202,7 +202,7 @@ async def setup_active_demand_window(hass: __HAC_KEEP__) -> AsyncGenerator[Mock]
 
 
 @pytest.mark.usefixtures("setup_inactive_demand_window")
-def test_inactive_demand_window_sensor(hass: __HAC_KEEP__) -> None:
+def test_inactive_demand_window_sensor(hass: UniversalAssistant) -> None:
     """Testing the creation of the Amber demand_window sensor."""
     assert len(hass.states.async_all()) == 6
     sensor = hass.states.get("binary_sensor.mock_title_demand_window")
@@ -211,7 +211,7 @@ def test_inactive_demand_window_sensor(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_active_demand_window")
-def test_active_demand_window_sensor(hass: __HAC_KEEP__) -> None:
+def test_active_demand_window_sensor(hass: UniversalAssistant) -> None:
     """Testing the creation of the Amber demand_window sensor."""
     assert len(hass.states.async_all()) == 6
     sensor = hass.states.get("binary_sensor.mock_title_demand_window")

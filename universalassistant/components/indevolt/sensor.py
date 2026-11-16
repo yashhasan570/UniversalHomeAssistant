@@ -29,7 +29,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfTime,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import IndevoltConfigEntry, IndevoltCoordinator
@@ -915,7 +915,7 @@ BATTERY_PACK_SENSOR_KEYS = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: IndevoltConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

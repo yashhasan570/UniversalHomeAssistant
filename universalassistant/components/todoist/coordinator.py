@@ -10,7 +10,7 @@ from todoist_api_python.api_async import TodoistAPIAsync
 from todoist_api_python.models import Label, Project, Section, Task
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import MAX_PAGE_SIZE
@@ -33,7 +33,7 @@ class TodoistCoordinator(DataUpdateCoordinator[list[Task]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         logger: logging.Logger,
         entry: TodoistConfigEntry | None,
         update_interval: timedelta,

@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 
 from .const import DOMAIN, SENSOR_UNIQUE_ID_MIGRATION
@@ -13,7 +13,7 @@ PLATFORMS = [Platform.CALENDAR, Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: TwenteMilieuConfigEntry
+    hass: UniversalAssistant, entry: TwenteMilieuConfigEntry
 ) -> None:
     """Set up Twente Milieu from a config entry."""
     old_prefix = f"{DOMAIN}_{entry.unique_id}_"
@@ -39,7 +39,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: TwenteMilieuConfigEntry
+    hass: UniversalAssistant, entry: TwenteMilieuConfigEntry
 ) -> None:
     """Unload Twente Milieu config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

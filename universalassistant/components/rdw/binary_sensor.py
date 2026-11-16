@@ -11,7 +11,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
     BinarySensorEntityDescription,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import RDWConfigEntry, RDWDataUpdateCoordinator
@@ -43,7 +43,7 @@ BINARY_SENSORS: tuple[RDWBinarySensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: RDWConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

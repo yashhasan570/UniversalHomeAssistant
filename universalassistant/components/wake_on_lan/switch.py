@@ -18,7 +18,7 @@ from universalassistant.const import (
     CONF_MAC,
     CONF_NAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.script import Script
@@ -41,7 +41,7 @@ PLATFORM_SCHEMA = SWITCH_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -75,7 +75,7 @@ class WolSwitch(SwitchEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         name: str,
         host: str | None,
         mac_address: str,
@@ -127,7 +127,7 @@ class WolSwitch(SwitchEntity):
 
     @override
     async def async_will_remove_from_hass(self) -> None:
-        """Clean up script when removing from __HA_KEEP__."""
+        """Clean up script when removing from Universal Home Assistant."""
         if self._off_script is not None:
             await self._off_script.async_unload()
 

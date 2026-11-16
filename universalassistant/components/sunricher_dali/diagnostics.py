@@ -10,7 +10,7 @@ from universalassistant.const import (
     CONF_PORT,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONF_SERIAL_NUMBER
 from .types import DaliCenterConfigEntry
@@ -84,7 +84,7 @@ def _strip_gw_sn(data: Any, gw_sn: str) -> Any:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: DaliCenterConfigEntry
+    hass: UniversalAssistant, entry: DaliCenterConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     data = entry.runtime_data

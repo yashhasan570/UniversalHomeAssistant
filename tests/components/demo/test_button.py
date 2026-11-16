@@ -7,7 +7,7 @@ import pytest
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -25,7 +25,7 @@ async def button_only() -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_demo_button(hass: __HAC_KEEP__, button_only) -> None:
+async def setup_demo_button(hass: UniversalAssistant, button_only) -> None:
     """Initialize setup demo button entity."""
     assert await async_setup_component(
         hass, BUTTON_DOMAIN, {"button": {"platform": "demo"}}
@@ -33,14 +33,14 @@ async def setup_demo_button(hass: __HAC_KEEP__, button_only) -> None:
     await hass.async_block_till_done()
 
 
-def test_setup_params(hass: __HAC_KEEP__) -> None:
+def test_setup_params(hass: UniversalAssistant) -> None:
     """Test the initial parameters."""
     state = hass.states.get(ENTITY_PUSH)
     assert state
     assert state.state == STATE_UNKNOWN
 
 
-async def test_press(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+async def test_press(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
     """Test pressing the button."""
     state = hass.states.get(ENTITY_PUSH)
     assert state

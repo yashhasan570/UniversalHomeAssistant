@@ -41,8 +41,8 @@ from universalassistant.components.media_player import (
     SearchMediaQuery,
     async_process_play_media_url,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -95,7 +95,7 @@ ANNOUNCE_AUDIOCLIP_SUPPORTED_FORMATS: frozenset[str] = frozenset({".mp3", ".wav"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: SonosConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -535,7 +535,7 @@ class SonosMediaPlayerEntity(SonosEntity, MediaPlayerEntity):
                     volume=volume,
                 )
             except SonosWebsocketError as exc:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="websocket_error",
                 ) from exc
@@ -553,7 +553,7 @@ class SonosMediaPlayerEntity(SonosEntity, MediaPlayerEntity):
                     response,
                 )
             else:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="announce_media_error",
                     translation_placeholders={
@@ -927,7 +927,7 @@ class SonosMediaPlayerEntity(SonosEntity, MediaPlayerEntity):
         entity_registry = er.async_get(self.hass)
         for entity_id in group_members:
             if not (entity_reg_entry := entity_registry.async_get(entity_id)):
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="entity_not_found",
                     translation_placeholders={"entity_id": entity_id},
@@ -938,7 +938,7 @@ class SonosMediaPlayerEntity(SonosEntity, MediaPlayerEntity):
                     entity_reg_entry.unique_id
                 )
             ):
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="speaker_not_found",
                     translation_placeholders={"entity_id": entity_id},
@@ -973,7 +973,7 @@ class SonosMediaPlayerEntity(SonosEntity, MediaPlayerEntity):
                 await SonosSpeaker.unjoin_multi(
                     self.hass, self.config_entry, unjoin_data.speakers
                 )
-            except (__HAC_KEEP__Error, SoCoException, OSError) as err:
+            except (UniversalAssistantError, SoCoException, OSError) as err:
                 unjoin_data.exception = err
             finally:
                 unjoin_data.event.set()

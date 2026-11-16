@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_SOURCE,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
@@ -33,7 +33,7 @@ from . import (
 
 @pytest.mark.usefixtures("mock_srp_energy_config_flow")
 async def test_show_form(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, capsys: pytest.CaptureFixture[str]
+    recorder_mock: Recorder, hass: UniversalAssistant, capsys: pytest.CaptureFixture[str]
 ) -> None:
     """Test show configuration form."""
     result = await hass.config_entries.flow.async_init(
@@ -71,7 +71,7 @@ async def test_show_form(
 
 @pytest.mark.usefixtures("recorder_mock", "mock_setup_entry")
 async def test_form_invalid_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_srp_energy_config_flow: MagicMock,
 ) -> None:
     """Test flow to handle invalid account error."""
@@ -98,7 +98,7 @@ async def test_form_invalid_account(
 
 @pytest.mark.usefixtures("recorder_mock", "mock_setup_entry")
 async def test_form_invalid_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_srp_energy_config_flow: MagicMock,
 ) -> None:
     """Test flow to handle invalid authentication error."""
@@ -125,7 +125,7 @@ async def test_form_invalid_auth(
 
 async def test_form_unknown_error(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_srp_energy_config_flow: MagicMock,
 ) -> None:
     """Test flow to handle invalid authentication error."""
@@ -144,7 +144,7 @@ async def test_form_unknown_error(
 
 
 async def test_flow_entry_already_configured(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    recorder_mock: Recorder, hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Test user input for config_entry that already exists."""
     # Verify mock config setup from fixture
@@ -168,7 +168,7 @@ async def test_flow_entry_already_configured(
 
 
 async def test_flow_multiple_configs(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    recorder_mock: Recorder, hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Test multiple config entries."""
     # Verify mock config setup from fixture
@@ -202,7 +202,7 @@ async def test_flow_multiple_configs(
 
 
 async def test_reconfigure(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    recorder_mock: Recorder, hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Test reconfiguring an existing entry."""
 
@@ -236,7 +236,7 @@ async def test_reconfigure(
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_error(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_srp_energy_config_flow: MagicMock,
 ) -> None:
@@ -283,7 +283,7 @@ async def test_reconfigure_error(
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_unknown_error(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_srp_energy_config_flow: MagicMock,
 ) -> None:

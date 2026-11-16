@@ -18,8 +18,8 @@ from universalassistant.components.infrared import (
     InfraredReceiverEntity,
 )
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 from .conftest import MockESPHomeDevice, MockESPHomeDeviceType
 
@@ -59,7 +59,7 @@ async def _mock_ir_device(
     ],
 )
 async def test_infrared_entity_single_capability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     capabilities: InfraredCapability,
@@ -81,7 +81,7 @@ async def test_infrared_entity_single_capability(
 
 
 async def test_infrared_entity_dual_capability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -121,7 +121,7 @@ async def test_infrared_entity_dual_capability(
 
 
 async def test_infrared_send_command_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -148,11 +148,11 @@ async def test_infrared_send_command_success(
 
 
 async def test_infrared_send_command_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
-    """Test sending IR command with APIConnectionError raises __HAC_KEEP__Error."""
+    """Test sending IR command with APIConnectionError raises UniversalAssistantError."""
     await _mock_ir_device(mock_esphome_device, mock_client)
 
     mock_client.infrared_rf_transmit_raw_timings.side_effect = APIConnectionError(
@@ -161,14 +161,14 @@ async def test_infrared_send_command_failure(
 
     command = NECCommand(address=0x04, command=0x08, modulation=38000)
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await infrared.async_send_command(hass, ENTITY_ID, command)
     assert exc_info.value.translation_domain == "esphome"
     assert exc_info.value.translation_key == "error_communicating_with_device"
 
 
 async def test_infrared_receiver_signal_dispatched(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -200,7 +200,7 @@ async def test_infrared_receiver_signal_dispatched(
 
 
 async def test_infrared_receiver_unsubscribes_on_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -219,7 +219,7 @@ async def test_infrared_receiver_unsubscribes_on_unload(
 
 
 async def test_infrared_receiver_resubscribes_on_reconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -239,7 +239,7 @@ async def test_infrared_receiver_resubscribes_on_reconnect(
 
 
 async def test_infrared_entity_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:

@@ -7,7 +7,7 @@ from ayla_iot_unofficial import AylaApi, AylaAuthError
 from ayla_iot_unofficial.fujitsu_hvac import FujitsuHVAC
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -24,7 +24,7 @@ class FGLairCoordinator(DataUpdateCoordinator[dict[str, FujitsuHVAC]]):
     config_entry: FGLairConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: FGLairConfigEntry, api: AylaApi
+        self, hass: UniversalAssistant, config_entry: FGLairConfigEntry, api: AylaApi
     ) -> None:
         """Initialize coordinator for Fujitsu HVAC integration."""
         super().__init__(

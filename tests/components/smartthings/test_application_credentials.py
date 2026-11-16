@@ -12,13 +12,13 @@ from universalassistant.components.smartthings.application_credentials import (
     SmartThingsOAuth2Implementation,
 )
 from universalassistant.components.smartthings.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 TOKEN_URL = "https://auth-global.api.smartthings.com/oauth/token"
 
 
 async def test_token_request_sends_credentials_as_header(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test the token request authenticates with an Authorization header."""

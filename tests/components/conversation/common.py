@@ -3,12 +3,12 @@
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components import conversation
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import MockAgent
 
 
-def mock_conversation_agent_fixture_helper(hass: __HAC_KEEP__) -> MockAgent:
+def mock_conversation_agent_fixture_helper(hass: UniversalAssistant) -> MockAgent:
     """Mock agent."""
     entry = MockConfigEntry(entry_id="mock-entry")
     entry.add_to_hass(hass)

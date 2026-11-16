@@ -25,7 +25,7 @@ from universalassistant import config_entries
 from universalassistant.components import ssdp
 from universalassistant.components.media_player import DOMAIN as MP_DOMAIN
 from universalassistant.const import CONF_HOSTS, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -102,7 +102,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Sonos component."""
     conf = config.get(DOMAIN)
 
@@ -120,7 +120,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SonosConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SonosConfigEntry) -> None:
     """Set up Sonos from a config entry."""
     _LOGGER.debug("Setting up Sonos config entry: %s", entry.entry_id)
     soco_reset()
@@ -155,7 +155,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SonosConfigEntry) -> None
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: SonosConfigEntry
+    hass: UniversalAssistant, config_entry: SonosConfigEntry
 ) -> None:
     """Unload a Sonos config entry."""
     try:
@@ -181,7 +181,7 @@ class SonosDiscoveryManager:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: SonosConfigEntry,
         data: SonosData,
         hosts: list[str],
@@ -806,7 +806,7 @@ class SonosDiscoveryManager:
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, config_entry: SonosConfigEntry, device_entry: dr.AnyDeviceEntry
+    hass: UniversalAssistant, config_entry: SonosConfigEntry, device_entry: dr.AnyDeviceEntry
 ) -> bool:
     """Remove Sonos config entry from a device."""
     known_devices = config_entry.runtime_data.discovered.keys()

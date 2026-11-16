@@ -1,4 +1,4 @@
-"""Run __HA_KEEP__."""
+"""Run Universal Home Assistant."""
 
 import asyncio
 from collections.abc import Generator
@@ -82,7 +82,7 @@ def _report_existing_instance(lock_file_path: Path, config_dir: str) -> None:
     Attempts to read the lock file to provide details about the running instance.
     """
     error_msg: list[str] = []
-    error_msg.append("Error: Another __HA_KEEP__ instance is already running!")
+    error_msg.append("Error: Another Universal Home Assistant instance is already running!")
 
     # Try to read information about the existing instance
     try:
@@ -117,7 +117,7 @@ def _report_existing_instance(lock_file_path: Path, config_dir: str) -> None:
 
 @contextmanager
 def ensure_single_execution(config_dir: str) -> Generator[SingleExecutionLock]:
-    """Ensure only one __HA_KEEP__ instance runs per config directory.
+    """Ensure only one Universal Home Assistant instance runs per config directory.
 
     Uses file locking to prevent multiple instances from running with the
     same configuration directory, which can cause data corruption.
@@ -154,7 +154,7 @@ def ensure_single_execution(config_dir: str) -> Generator[SingleExecutionLock]:
 
 @dataclasses.dataclass(slots=True)
 class RuntimeConfig:
-    """Class to hold the information for running __HA_KEEP__."""
+    """Class to hold the information for running Universal Home Assistant."""
 
     config_dir: str
     skip_pip: bool = False
@@ -174,14 +174,14 @@ class RuntimeConfig:
 
 
 def create_event_loop(debug: bool = False) -> asyncio.AbstractEventLoop:
-    """Create the __HA_KEEP__ event loop."""
+    """Create the Universal Home Assistant event loop."""
     loop: asyncio.AbstractEventLoop = asyncio.EventLoop()
     configure_event_loop(loop, debug)
     return loop
 
 
 def configure_event_loop(loop: asyncio.AbstractEventLoop, debug: bool = False) -> None:
-    """Apply the __HA_KEEP__ configuration to an event loop."""
+    """Apply the Universal Home Assistant configuration to an event loop."""
     loop.set_exception_handler(_async_loop_exception_handler)
     if debug:
         loop.set_debug(True)
@@ -244,7 +244,7 @@ def _async_loop_exception_handler(
 
 
 async def setup_and_run_hass(runtime_config: RuntimeConfig) -> int:
-    """Set up __HA_KEEP__ and run."""
+    """Set up Universal Home Assistant and run."""
     hass = await bootstrap.async_setup_hass(runtime_config)
 
     if hass is None:
@@ -270,7 +270,7 @@ def _enable_posix_spawn() -> None:
 
 
 def run(runtime_config: RuntimeConfig) -> int:
-    """Run __HA_KEEP__."""
+    """Run Universal Home Assistant."""
     _enable_posix_spawn()
     set_open_file_descriptor_limit()
     # Backport of cpython 3.9 asyncio.run with a _cancel_all_tasks that times out

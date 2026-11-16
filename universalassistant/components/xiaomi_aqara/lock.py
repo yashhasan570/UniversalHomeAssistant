@@ -5,7 +5,7 @@ from typing import Any, override
 from xiaomi_gateway import XiaomiGateway
 
 from universalassistant.components.lock import LockEntity
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_call_later
 
@@ -23,7 +23,7 @@ UNLOCK_MAINTAIN_TIME = 5
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: XiaomiAqaraConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

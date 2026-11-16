@@ -8,7 +8,7 @@ from pyinsteon.address import Address
 from pyinsteon.constants import DeviceAction
 
 from universalassistant.components import websocket_api
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
@@ -61,7 +61,7 @@ def notify_device_not_found(connection, msg, text):
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_get_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -101,7 +101,7 @@ async def websocket_get_device(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_add_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -137,7 +137,7 @@ async def websocket_add_device(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_cancel_add_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -156,7 +156,7 @@ async def websocket_cancel_add_device(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_remove_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -189,7 +189,7 @@ async def websocket_remove_device(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_add_x10_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

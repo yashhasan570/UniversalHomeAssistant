@@ -11,14 +11,14 @@ from zinvolt.exceptions import ZinvoltAuthenticationError, ZinvoltError
 
 from universalassistant.components.zinvolt.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
 
 
 async def test_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_zinvolt_client: AsyncMock,
@@ -32,7 +32,7 @@ async def test_device(
 
 
 async def test_device_via_device_links(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_zinvolt_client: AsyncMock,
@@ -56,7 +56,7 @@ async def test_device_via_device_links(
     "method", ["get_batteries", "get_units", "get_battery_status", "get_battery_unit"]
 )
 async def test_setup_authentication_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zinvolt_client: AsyncMock,
     method: str,
@@ -77,7 +77,7 @@ async def test_setup_authentication_failed(
     "method", ["get_batteries", "get_units", "get_battery_status", "get_battery_unit"]
 )
 async def test_setup_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zinvolt_client: AsyncMock,
     method: str,
@@ -93,7 +93,7 @@ async def test_setup_not_ready(
 
 @pytest.mark.parametrize("method", ["get_battery_status", "get_battery_unit"])
 async def test_update_authentication_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_zinvolt_client: AsyncMock,
     freezer: FrozenDateTimeFactory,

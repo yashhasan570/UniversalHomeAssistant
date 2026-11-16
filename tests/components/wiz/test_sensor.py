@@ -2,7 +2,7 @@
 
 from unittest.mock import AsyncMock
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -18,7 +18,7 @@ from . import (
 
 
 async def test_signal_strength(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test signal strength."""
     bulb, entry = await async_setup_integration(
@@ -43,7 +43,7 @@ async def test_signal_strength(
 
 
 async def test_power_monitoring(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test power monitoring."""
     socket = _mocked_wizlight(None, None, FAKE_SOCKET_WITH_POWER_MONITORING)

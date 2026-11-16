@@ -20,7 +20,7 @@ from universalassistant.components.open_router.const import (
 )
 from universalassistant.config_entries import ConfigSubentryData
 from universalassistant.const import CONF_API_KEY, CONF_LLM_HASS_API, CONF_MODEL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import llm
 from universalassistant.setup import async_setup_component
 
@@ -86,7 +86,7 @@ def ai_task_data_subentry_data(output_modalities: list[str]) -> dict[str, Any]:
 
 @pytest.fixture
 def mock_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     conversation_subentry_data: dict[str, Any],
     ai_task_data_subentry_data: dict[str, Any],
 ) -> MockConfigEntry:
@@ -158,7 +158,7 @@ async def mock_openai_client() -> AsyncGenerator[AsyncMock]:
 
 
 @pytest.fixture
-async def mock_open_router_client(hass: __HAC_KEEP__) -> AsyncGenerator[AsyncMock]:
+async def mock_open_router_client(hass: UniversalAssistant) -> AsyncGenerator[AsyncMock]:
     """Initialize integration."""
     with patch(
         "universalassistant.components.open_router.config_flow.OpenRouterClient",
@@ -179,7 +179,7 @@ async def mock_open_router_client(hass: __HAC_KEEP__) -> AsyncGenerator[AsyncMoc
 
 @pytest.fixture
 async def mock_open_router_client_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> AsyncGenerator[AsyncMock]:
     """Mock the OpenRouter client used during entry setup and migration."""
     with patch(
@@ -193,8 +193,8 @@ async def mock_open_router_client_setup(
 
 
 @pytest.fixture(autouse=True)
-async def setup_ha(hass: __HAC_KEEP__) -> None:
-    """Set up __HA_KEEP__."""
+async def setup_ha(hass: UniversalAssistant) -> None:
+    """Set up Universal Home Assistant."""
     assert await async_setup_component(hass, "universalassistant", {})
 
 

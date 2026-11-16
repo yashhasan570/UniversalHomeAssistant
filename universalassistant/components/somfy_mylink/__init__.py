@@ -11,7 +11,7 @@ from pysomfymylink import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import CONF_SYSTEM_ID, PLATFORMS
@@ -27,7 +27,7 @@ class SomfyMyLinkRuntimeData:
     shades: list[Shade]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SomfyMyLinkConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SomfyMyLinkConfigEntry) -> None:
     """Set up Somfy MyLink from a config entry."""
     somfy_mylink = SomfyMyLink(
         entry.data[CONF_HOST],
@@ -51,7 +51,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SomfyMyLinkConfigEntry) -
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: SomfyMyLinkConfigEntry
+    hass: UniversalAssistant, entry: SomfyMyLinkConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

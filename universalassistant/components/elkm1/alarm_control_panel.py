@@ -15,7 +15,7 @@ from universalassistant.components.alarm_control_panel import (
     AlarmControlPanelState,
     CodeFormat,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
 
@@ -25,7 +25,7 @@ from .models import ElkM1ConfigEntry, ELKM1Data
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ElkM1ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

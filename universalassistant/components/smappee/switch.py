@@ -3,7 +3,7 @@
 from typing import Any, override
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -14,7 +14,7 @@ SWITCH_PREFIX = "Switch"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: SmappeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

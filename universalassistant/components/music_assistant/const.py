@@ -12,7 +12,7 @@ AUTH_SCHEMA_VERSION = 28
 # Schema version where hassio discovery support was added
 HASSIO_DISCOVERY_SCHEMA_VERSION = 28
 
-# The official Music Assistant __HA_KEEP__ app
+# The official Music Assistant Universal Home Assistant app
 APP_SLUG = "d5369777_music_assistant"
 APP_NAME = "Music Assistant"
 

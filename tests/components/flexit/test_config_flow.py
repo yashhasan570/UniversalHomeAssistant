@@ -15,9 +15,9 @@ from universalassistant.components.flexit.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_DEVICE, CONF_HOST, CONF_PORT, CONF_TYPE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType, InvalidData
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 TCP_USER_INPUT = {CONF_HOST: "1.1.1.1", CONF_PORT: 502, CONF_UNIT: 1}
 TCP_ENTRY_DATA = {CONF_TYPE: TYPE_TCP, **TCP_USER_INPUT}
@@ -32,7 +32,7 @@ SERIAL_ENTRY_DATA = {CONF_TYPE: "serial", **SERIAL_USER_INPUT}
 
 
 async def test_full_flow(
-    hass: __HAC_KEEP__, mock_get_temporary_modbus_unit: MagicMock
+    hass: UniversalAssistant, mock_get_temporary_modbus_unit: MagicMock
 ) -> None:
     """Test the full TCP flow."""
     result = await hass.config_entries.flow.async_init(
@@ -61,7 +61,7 @@ async def test_full_flow(
     )
 
 
-async def test_tcp_host_is_normalized(hass: __HAC_KEEP__) -> None:
+async def test_tcp_host_is_normalized(hass: UniversalAssistant) -> None:
     """Test TCP hosts are stored in lowercase."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -78,7 +78,7 @@ async def test_tcp_host_is_normalized(hass: __HAC_KEEP__) -> None:
     assert result["data"][CONF_HOST] == "device.local"
 
 
-async def test_maximum_unit(hass: __HAC_KEEP__) -> None:
+async def test_maximum_unit(hass: UniversalAssistant) -> None:
     """Test the maximum Flexit unit ID is accepted."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -96,7 +96,7 @@ async def test_maximum_unit(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.parametrize("unit", [0, 32])
-async def test_unit_out_of_range(hass: __HAC_KEEP__, unit: int) -> None:
+async def test_unit_out_of_range(hass: UniversalAssistant, unit: int) -> None:
     """Test unit IDs outside the Flexit address range are rejected."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -112,7 +112,7 @@ async def test_unit_out_of_range(hass: __HAC_KEEP__, unit: int) -> None:
 
 
 async def test_full_flow_serial(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the full serial (RTU) flow."""
     result = await hass.config_entries.flow.async_init(
@@ -144,7 +144,7 @@ async def test_full_flow_serial(
 
 
 async def test_form_cannot_connect_and_retry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
     """Test we handle a connect error, then allow retrying successfully."""
@@ -176,7 +176,7 @@ async def test_form_cannot_connect_and_retry(
 
 
 async def test_form_cannot_read_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
     """Test we handle a device that cannot be read while validating the flow."""
@@ -206,12 +206,12 @@ async def test_form_cannot_read_device(
 
 
 async def test_form_shared_link_conflict(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_get_temporary_modbus_unit: MagicMock,
 ) -> None:
     """Test an incompatible shared connection is a connection error."""
     temporary_unit = mock_get_temporary_modbus_unit.side_effect
-    mock_get_temporary_modbus_unit.side_effect = __HAC_KEEP__Error
+    mock_get_temporary_modbus_unit.side_effect = UniversalAssistantError
 
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -235,7 +235,7 @@ async def test_form_shared_link_conflict(
 
 
 async def test_form_unknown_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_get_temporary_modbus_unit: MagicMock,
 ) -> None:
     """Test we handle unknown exception."""
@@ -268,7 +268,7 @@ async def test_form_unknown_exception(
 
 
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfiguration flow."""
@@ -287,7 +287,7 @@ async def test_reconfigure_flow(
 
 
 async def test_reconfigure_flow_serial(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_serial_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfiguration flow for a serial connection."""
@@ -307,7 +307,7 @@ async def test_reconfigure_flow_serial(
 
 
 async def test_reconfigure_loaded_entry_releases_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_serial_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfiguration releases the active connection before validation."""
@@ -331,7 +331,7 @@ async def test_reconfigure_loaded_entry_releases_connection(
 
 
 async def test_reconfigure_loaded_entry_restored_after_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_serial_config_entry: MockConfigEntry,
 ) -> None:
     """Test failed reconfiguration restores the active connection."""
@@ -361,7 +361,7 @@ async def test_reconfigure_loaded_entry_restored_after_error(
 
 
 async def test_reconfigure_stops_when_unload_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_serial_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfiguration stops when the active entry cannot unload."""
@@ -396,7 +396,7 @@ async def test_reconfigure_stops_when_unload_fails(
 
 
 async def test_reconfigure_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -423,7 +423,7 @@ async def test_reconfigure_flow_errors(
 
 
 async def test_reconfigure_flow_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure aborts if another entry already uses the given connection."""
@@ -449,7 +449,7 @@ async def test_reconfigure_flow_already_configured(
 
 
 async def test_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we handle already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -470,7 +470,7 @@ async def test_already_configured(
 
 
 async def test_already_configured_host_case_insensitive(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test hostname case differences cannot create duplicate entries."""
     mock_config_entry.add_to_hass(hass)

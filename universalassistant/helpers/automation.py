@@ -8,7 +8,7 @@ from typing import Any, Final, Self
 import probatio
 
 from universalassistant.const import CONF_OPTIONS
-from universalassistant.core import __HAC_KEEP__, split_entity_id
+from universalassistant.core import UniversalAssistant, split_entity_id
 
 from .entity import get_device_class_or_undefined
 from .typing import ConfigType, Undefined
@@ -38,7 +38,7 @@ class DomainSpec:
 
 
 def filter_by_domain_specs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain_specs: Mapping[str, DomainSpec],
     entities: set[str],
 ) -> set[str]:

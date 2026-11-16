@@ -9,7 +9,7 @@ import pytest
 from universalassistant.components import automation
 from universalassistant.components.knx import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers.trigger import async_get_all_descriptions
 from universalassistant.setup import async_setup_component
 
@@ -27,7 +27,7 @@ TRIGGER_STYLES = [
 
 
 async def test_telegram_trigger_description(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
 ) -> None:
     """Test the telegram trigger is offered to the automation editor."""
@@ -55,7 +55,7 @@ async def test_telegram_trigger_description(
     ],
 )
 async def test_telegram_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     knx: KNXTestKit,
     catch_all_options: dict[str, Any],
@@ -148,7 +148,7 @@ async def test_telegram_trigger(
     ],
 )
 async def test_telegram_trigger_dpt_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     knx: KNXTestKit,
     payload: tuple[int, ...],
@@ -237,7 +237,7 @@ async def test_telegram_trigger_dpt_option(
     ],
 )
 async def test_telegram_trigger_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     knx: KNXTestKit,
     group_value_options: dict[str, bool],
@@ -314,7 +314,7 @@ async def test_telegram_trigger_options(
 
 
 async def test_remove_telegram_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     knx: KNXTestKit,
 ) -> None:
@@ -360,7 +360,7 @@ async def test_remove_telegram_trigger(
 
 
 async def test_invalid_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

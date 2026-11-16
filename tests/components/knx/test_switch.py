@@ -11,13 +11,13 @@ from universalassistant.components.knx.const import (
 )
 from universalassistant.components.knx.schema import SwitchSchema
 from universalassistant.const import CONF_NAME, STATE_OFF, STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 
 from . import KnxEntityGenerator
 from .conftest import KNXTestKit
 
 
-async def test_switch_simple(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_switch_simple(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test simple KNX switch."""
     await knx.setup_integration(
         {
@@ -55,7 +55,7 @@ async def test_switch_simple(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     await knx.assert_telegram_count(0)
 
 
-async def test_switch_state(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_switch_state(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX switch with state_address."""
     _ADDRESS = "1/1/1"
     _STATE_ADDRESS = "2/2/2"
@@ -117,7 +117,7 @@ async def test_switch_state(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
 
 
 async def test_switch_sync_state_false_invalid(
-    hass: __HAC_KEEP__, knx: KNXTestKit, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, knx: KNXTestKit, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test entities having a writable address don't allow disabling state updates."""
     await knx.setup_integration(
@@ -134,7 +134,7 @@ async def test_switch_sync_state_false_invalid(
     assert hass.states.get("switch.test") is None
 
 
-async def test_switch_state_restore(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_switch_state_restore(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX switch with state_address restores last known state until bus read completes."""
     _ADDRESS = "1/1/1"
     _STATE_ADDRESS = "2/2/2"
@@ -167,7 +167,7 @@ async def test_switch_state_restore(hass: __HAC_KEEP__, knx: KNXTestKit) -> None
     assert state.state is STATE_OFF
 
 
-async def test_switch_restore_and_respond(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_switch_restore_and_respond(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test restoring KNX switch state and respond to read."""
     _ADDRESS = "1/1/1"
     fake_state = State("switch.test", "on")
@@ -206,7 +206,7 @@ async def test_switch_restore_and_respond(hass: __HAC_KEEP__, knx: KNXTestKit) -
 
 
 async def test_switch_ui_create(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
 ) -> None:

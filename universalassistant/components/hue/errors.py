@@ -1,9 +1,9 @@
 """Errors for the Hue component."""
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 
-class HueException(__HAC_KEEP__Error):
+class HueException(UniversalAssistantError):
     """Base class for Hue exceptions."""
 
 

@@ -19,7 +19,7 @@ from universalassistant.components.mijn_farmad_apotheek.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.typing import Undefined
 
 API_ACCOUNT_ID = "auth0|farmad-account"
@@ -154,12 +154,12 @@ def get_mock_client() -> Mock:
 
 
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     data: dict[str, Any] | Undefined = Undefined,
     entry_id: str | None = None,
 ) -> MockConfigEntry:
-    """Set up the Mijn Farmad Apotheek integration in __HA_KEEP__."""
+    """Set up the Mijn Farmad Apotheek integration in Universal Home Assistant."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         data=ENTRY_DATA if data is Undefined else data,

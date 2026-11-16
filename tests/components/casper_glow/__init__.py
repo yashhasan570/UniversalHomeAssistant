@@ -8,7 +8,7 @@ from pytest_universalassistant.components.bluetooth import (
 )
 
 from universalassistant.components.bluetooth import BluetoothServiceInfoBleak
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 CASPER_GLOW_DISCOVERY_INFO = BluetoothServiceInfoBleak(
     name="Jar",
@@ -71,7 +71,7 @@ SAMSUNG_EARBUDS_DISCOVERY_INFO = BluetoothServiceInfoBleak(
 )
 
 
-async def setup_integration(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+async def setup_integration(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
     """Set up the Casper Glow integration."""
     entry.add_to_hass(hass)
     inject_bluetooth_service_info(hass, CASPER_GLOW_DISCOVERY_INFO)

@@ -3,7 +3,7 @@
 from solyx_energy_api.client import SolyxEnergyApiClient
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import BASE_URL, CONF_NYMO_CLIENT_ID, CONF_NYMO_CLIENT_SECRET, REALM_ID
@@ -12,7 +12,7 @@ from .coordinator import SolyxEnergyConfigEntry, SolyxEnergyCoordinator
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SolyxEnergyConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SolyxEnergyConfigEntry) -> None:
     """Init function upon Solyx Energy account setup from a config entry."""
     session = async_get_clientsession(hass)
     api_client = SolyxEnergyApiClient(
@@ -33,7 +33,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SolyxEnergyConfigEntry) -
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SolyxEnergyConfigEntry,
 ) -> None:
     """Unload a config entry."""

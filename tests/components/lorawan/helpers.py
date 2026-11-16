@@ -7,7 +7,7 @@ from lorawan_connection import Device, DeviceCollection, DeviceDescriptor
 
 from universalassistant.components.lorawan import LoRaWANEntity, device_identifier
 from universalassistant.components.sensor import SensorEntity, SensorEntityDescription
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 
@@ -38,7 +38,7 @@ DESCRIPTOR = DeviceDescriptor(
 class ExampleCoordinator(DataUpdateCoordinator[ExampleDevice]):
     """Forward library notifications to HA entities."""
 
-    def __init__(self, hass: __HAC_KEEP__, device: ExampleDevice) -> None:
+    def __init__(self, hass: UniversalAssistant, device: ExampleDevice) -> None:
         """Observe one model."""
         super().__init__(
             hass,

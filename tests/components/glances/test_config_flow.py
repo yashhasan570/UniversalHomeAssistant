@@ -13,7 +13,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.glances.const import DOMAIN
 from universalassistant.const import CONF_NAME, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import HA_SENSOR_DATA, MOCK_USER_INPUT
@@ -26,7 +26,7 @@ def glances_setup_fixture():
         yield
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test config entry configured successfully."""
 
     result = await hass.config_entries.flow.async_init(
@@ -53,7 +53,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_form_fails(
-    hass: __HAC_KEEP__, error: Exception, message: str, mock_api: MagicMock
+    hass: UniversalAssistant, error: Exception, message: str, mock_api: MagicMock
 ) -> None:
     """Test flow fails when api exception is raised."""
 
@@ -75,7 +75,7 @@ async def test_form_fails(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_form_already_configured(hass: UniversalAssistant) -> None:
     """Test host is already configured."""
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_USER_INPUT)
     entry.add_to_hass(hass)
@@ -90,7 +90,7 @@ async def test_form_already_configured(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_reauth_success(hass: __HAC_KEEP__) -> None:
+async def test_reauth_success(hass: UniversalAssistant) -> None:
     """Test we can reauth."""
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_USER_INPUT)
     entry.add_to_hass(hass)
@@ -122,7 +122,7 @@ async def test_reauth_success(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_reauth_fails(
-    hass: __HAC_KEEP__, error: Exception, message: str, mock_api: MagicMock
+    hass: UniversalAssistant, error: Exception, message: str, mock_api: MagicMock
 ) -> None:
     """Test we can reauth."""
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_USER_INPUT)

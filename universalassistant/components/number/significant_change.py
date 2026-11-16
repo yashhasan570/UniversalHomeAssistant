@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.const import PERCENTAGE, EntityStateAttribute, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.significant_change import (
     check_absolute_change,
     check_percentage_change,
@@ -26,7 +26,7 @@ def _absolute_and_relative_change(
 
 @callback
 def async_check_significant_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     old_state: str,
     old_attrs: dict,
     new_state: str,

@@ -5,8 +5,8 @@ from typing import override
 from unifi_access_api import Door, DoorLockRuleType, UnifiAccessError
 
 from universalassistant.components.select import SelectEntity
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -17,7 +17,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: UnifiAccessConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -100,7 +100,7 @@ class UnifiAccessDoorLockRuleSelectEntity(UnifiAccessEntity, SelectEntity):
         try:
             await self.coordinator.async_set_lock_rule(self._door_id, option)
         except UnifiAccessError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="lock_rule_failed",
             ) from err

@@ -9,7 +9,7 @@ import pytest
 from universalassistant.components.risco import CannotConnectError, UnauthorizedError
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 
@@ -19,7 +19,7 @@ SECOND_ENTITY_ID = "switch.zone_1_bypassed"
 
 @pytest.mark.parametrize("exception", [CannotConnectError, UnauthorizedError])
 async def test_error_on_login(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     login_with_error,
     cloud_config_entry,
@@ -32,7 +32,7 @@ async def test_error_on_login(
 
 
 async def test_cloud_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     two_zone_cloud,
     setup_risco_cloud,
@@ -43,7 +43,7 @@ async def test_cloud_setup(
 
 
 async def _check_cloud_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     zones: dict[int, Any],
     bypassed: bool,
     entity_id: str,
@@ -63,7 +63,7 @@ async def _check_cloud_state(
 
 
 async def test_cloud_states(
-    hass: __HAC_KEEP__, two_zone_cloud, setup_risco_cloud
+    hass: UniversalAssistant, two_zone_cloud, setup_risco_cloud
 ) -> None:
     """Test the various alarm states."""
     await _check_cloud_state(hass, two_zone_cloud, True, FIRST_ENTITY_ID, 0)
@@ -73,7 +73,7 @@ async def test_cloud_states(
 
 
 async def test_cloud_bypass(
-    hass: __HAC_KEEP__, two_zone_cloud, setup_risco_cloud
+    hass: UniversalAssistant, two_zone_cloud, setup_risco_cloud
 ) -> None:
     """Test bypassing a zone."""
     with patch("universalassistant.components.risco.RiscoCloud.bypass_zone") as mock:
@@ -87,7 +87,7 @@ async def test_cloud_bypass(
 
 
 async def test_cloud_unbypass(
-    hass: __HAC_KEEP__, two_zone_cloud, setup_risco_cloud
+    hass: UniversalAssistant, two_zone_cloud, setup_risco_cloud
 ) -> None:
     """Test unbypassing a zone."""
     with patch("universalassistant.components.risco.RiscoCloud.bypass_zone") as mock:
@@ -102,7 +102,7 @@ async def test_cloud_unbypass(
 
 @pytest.mark.parametrize("exception", [CannotConnectError, UnauthorizedError])
 async def test_error_on_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     connect_with_error,
     local_config_entry,
@@ -115,7 +115,7 @@ async def test_error_on_connect(
 
 
 async def test_local_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     two_zone_local,
     setup_risco_local,
@@ -126,7 +126,7 @@ async def test_local_setup(
 
 
 async def _check_local_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     zones: dict[int, Any],
     bypassed: bool,
     entity_id: str,
@@ -154,7 +154,7 @@ def mock_zone_handler():
 
 
 async def test_local_states(
-    hass: __HAC_KEEP__, two_zone_local, mock_zone_handler, setup_risco_local
+    hass: UniversalAssistant, two_zone_local, mock_zone_handler, setup_risco_local
 ) -> None:
     """Test the various alarm states."""
     callback = mock_zone_handler.call_args.args[0]
@@ -168,7 +168,7 @@ async def test_local_states(
 
 
 async def test_local_bypass(
-    hass: __HAC_KEEP__, two_zone_local, setup_risco_local
+    hass: UniversalAssistant, two_zone_local, setup_risco_local
 ) -> None:
     """Test bypassing a zone."""
     with patch.object(two_zone_local[0], "bypass") as mock:
@@ -182,7 +182,7 @@ async def test_local_bypass(
 
 
 async def test_local_unbypass(
-    hass: __HAC_KEEP__, two_zone_local, setup_risco_local
+    hass: UniversalAssistant, two_zone_local, setup_risco_local
 ) -> None:
     """Test unbypassing a zone."""
     with patch.object(two_zone_local[0], "bypass") as mock:

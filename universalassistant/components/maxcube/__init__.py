@@ -9,7 +9,7 @@ import probatio
 
 from universalassistant.components import persistent_notification
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_SCAN_INTERVAL, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.discovery import load_platform
 from universalassistant.helpers.typing import ConfigType
@@ -49,7 +49,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Establish connection to MAX! Cube."""
 
     if DATA_KEY not in hass.data:
@@ -70,7 +70,7 @@ def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
             persistent_notification.create(
                 hass,
                 (
-                    f"Error: {ex}<br />You will need to restart __HA_KEEP__ after"
+                    f"Error: {ex}<br />You will need to restart Universal Home Assistant after"
                     " fixing."
                 ),
                 title=NOTIFICATION_TITLE,

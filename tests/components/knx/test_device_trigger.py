@@ -13,7 +13,7 @@ from universalassistant.components.device_automation import (
 )
 from universalassistant.components.knx import DOMAIN, device_trigger
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -21,7 +21,7 @@ from .conftest import KNXTestKit
 
 
 async def test_if_fires_on_telegram(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     device_registry: dr.DeviceRegistry,
     knx: KNXTestKit,
@@ -116,7 +116,7 @@ async def test_if_fires_on_telegram(
 
 
 async def test_default_if_fires_on_telegram(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     device_registry: dr.DeviceRegistry,
     knx: KNXTestKit,
@@ -203,7 +203,7 @@ async def test_default_if_fires_on_telegram(
 
 
 async def test_remove_device_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_calls: list[ServiceCall],
     device_registry: dr.DeviceRegistry,
     knx: KNXTestKit,
@@ -256,7 +256,7 @@ async def test_remove_device_trigger(
 
 
 async def test_get_triggers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     knx: KNXTestKit,
 ) -> None:
@@ -280,7 +280,7 @@ async def test_get_triggers(
 
 
 async def test_get_trigger_capabilities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     knx: KNXTestKit,
 ) -> None:
@@ -368,7 +368,7 @@ async def test_get_trigger_capabilities(
 
 
 async def test_invalid_device_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     knx: KNXTestKit,
     caplog: pytest.LogCaptureFixture,
@@ -413,7 +413,7 @@ async def test_invalid_device_trigger(
 
 
 async def test_invalid_trigger_configuration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     knx: KNXTestKit,
 ) -> None:

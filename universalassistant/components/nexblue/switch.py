@@ -6,8 +6,8 @@ from typing import Any, override
 from nexblue_api import NexBlueError
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -30,7 +30,7 @@ ACTIVE_CHARGING_STATES = frozenset(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: NexBlueConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -136,7 +136,7 @@ class NexBlueChargingSwitch(
             else:
                 await self.coordinator.client.async_stop_charging(self._serial_number)
         except NexBlueError as err:
-            raise __HAC_KEEP__Error(str(err)) from err
+            raise UniversalAssistantError(str(err)) from err
 
         self._assumed_is_on = should_charge
         self._assumed_state_confirm_after = (

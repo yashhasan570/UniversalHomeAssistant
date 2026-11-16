@@ -13,7 +13,7 @@ from universalassistant.components.autoskope.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 USER_INPUT = {
@@ -26,7 +26,7 @@ USER_INPUT = {
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_flow(hass: __HAC_KEEP__, mock_autoskope_client: AsyncMock) -> None:
+async def test_full_flow(hass: UniversalAssistant, mock_autoskope_client: AsyncMock) -> None:
     """Test full user config flow from form to entry creation."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -58,7 +58,7 @@ async def test_full_flow(hass: __HAC_KEEP__, mock_autoskope_client: AsyncMock) -
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_autoskope_client: AsyncMock,
     exception: Exception,
     error: str,
@@ -89,7 +89,7 @@ async def test_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_invalid_url(
-    hass: __HAC_KEEP__, mock_autoskope_client: AsyncMock
+    hass: UniversalAssistant, mock_autoskope_client: AsyncMock
 ) -> None:
     """Test config flow rejects invalid URL with recovery."""
     result = await hass.config_entries.flow.async_init(
@@ -118,7 +118,7 @@ async def test_flow_invalid_url(
 
 
 async def test_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_autoskope_client: AsyncMock,
 ) -> None:
@@ -139,7 +139,7 @@ async def test_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_custom_host(
-    hass: __HAC_KEEP__, mock_autoskope_client: AsyncMock
+    hass: UniversalAssistant, mock_autoskope_client: AsyncMock
 ) -> None:
     """Test config flow with a custom white-label host."""
     result = await hass.config_entries.flow.async_init(
@@ -163,7 +163,7 @@ async def test_custom_host(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_autoskope_client: AsyncMock,
 ) -> None:
@@ -197,7 +197,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_autoskope_client: AsyncMock,
     exception: Exception,

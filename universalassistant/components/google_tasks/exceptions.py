@@ -1,7 +1,7 @@
 """Exceptions for Google Tasks api calls."""
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 
-class GoogleTasksApiError(__HAC_KEEP__Error):
+class GoogleTasksApiError(UniversalAssistantError):
     """Error talking to the Google Tasks API."""

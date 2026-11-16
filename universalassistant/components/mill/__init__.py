@@ -6,7 +6,7 @@ from mill import Mill
 from mill_local import Mill as MillLocal
 
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__, async_noop
+from universalassistant.core import UniversalAssistant, async_noop
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -27,13 +27,13 @@ __all__ = ["CLOUD", "CONNECTION_TYPE", "DOMAIN", "LOCAL"]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Mill integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: MillConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: MillConfigEntry) -> None:
     """Set up the Mill heater."""
     if entry.data.get(CONNECTION_TYPE) == LOCAL:
         mill_data_connection = MillLocal(
@@ -71,6 +71,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: MillConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: MillConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: MillConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

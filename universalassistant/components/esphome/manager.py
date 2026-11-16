@@ -53,7 +53,7 @@ from universalassistant.core import (
     CALLBACK_TYPE,
     Event,
     EventStateChangedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     State,
@@ -61,7 +61,7 @@ from universalassistant.core import (
     callback,
 )
 from universalassistant.exceptions import (
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     ServiceNotFound,
     ServiceValidationError,
     TemplateError,
@@ -131,7 +131,7 @@ def _mac_unique_id(entry: ESPHomeConfigEntry) -> str | None:
 
 @callback
 def async_create_api_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ESPHomeConfigEntry,
     zeroconf_instance: zeroconf.HaZeroconf,
     *,
@@ -195,7 +195,7 @@ LOGGER_TO_LOG_LEVEL = {
 
 @callback
 def _async_check_firmware_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ESPHomeConfigEntry,
     device_info: EsphomeDeviceInfo,
     api_version: APIVersion,
@@ -230,7 +230,7 @@ def _async_check_firmware_version(
 
 @callback
 def _async_check_using_api_password(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ESPHomeConfigEntry,
     device_info: EsphomeDeviceInfo,
     has_password: bool,
@@ -258,7 +258,7 @@ def _async_check_using_api_password(
 
 @callback
 def _async_remove_voice_assistant_entities(
-    hass: __HAC_KEEP__, mac_address: str
+    hass: UniversalAssistant, mac_address: str
 ) -> None:
     """Remove the entities a device that no longer offers a voice assistant left."""
     ent_reg = er.async_get(hass)
@@ -292,7 +292,7 @@ class ESPHomeManager:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: ESPHomeConfigEntry,
         host: str,
         password: str | None,
@@ -418,7 +418,7 @@ class ESPHomeManager:
             _LOGGER.error(
                 "%s: Service call %s.%s: with data %s rejected; "
                 "If you trust this device and want to allow access for it to make "
-                "__HA_KEEP__ service calls, you can enable this "
+                "Universal Home Assistant service calls, you can enable this "
                 "functionality in the options flow",
                 device_info.friendly_name or device_info.name,
                 domain,
@@ -473,7 +473,7 @@ class ESPHomeManager:
             ServiceNotFound,
             ServiceValidationError,
             probatio.Invalid,
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
         ) as ex:
             self._send_service_call_response(
                 call_id, success=False, error_message=str(ex), response_data=b""
@@ -526,7 +526,7 @@ class ESPHomeManager:
     def _send_universal_assistant_state(
         self, entity_id: str, attribute: str | None, state: State | None
     ) -> None:
-        """Forward __HA_KEEP__ states to ESPHome."""
+        """Forward Universal Home Assistant states to ESPHome."""
         if state is None or (attribute and attribute not in state.attributes):
             return
 
@@ -547,7 +547,7 @@ class ESPHomeManager:
         attribute: str | None,
         event: Event[EventStateChangedData],
     ) -> None:
-        """Forward __HA_KEEP__ states updates to ESPHome."""
+        """Forward Universal Home Assistant states updates to ESPHome."""
         event_data = event.data
         new_state = event_data["new_state"]
         old_state = event_data["old_state"]
@@ -791,7 +791,7 @@ class ESPHomeManager:
                 "No `friendly_name` set in the `esphome:` section of the "
                 "YAML config for device '%s' (MAC: %s); It's recommended "
                 "to add one for easier identification and better alignment "
-                "with __HA_KEEP__ naming conventions",
+                "with Universal Home Assistant naming conventions",
                 device_info.name,
                 device_mac,
             )
@@ -1100,7 +1100,7 @@ class ESPHomeManager:
         _LOGGER.warning(
             "The ESPHome dashboard could not store the encryption key for "
             "%s (%s), so installing that configuration may use a different "
-            "key and lock __HA_KEEP__ out: %s",
+            "key and lock Universal Home Assistant out: %s",
             device_info.name,
             self.entry.unique_id,
             cause,
@@ -1272,7 +1272,7 @@ class ESPHomeManager:
         self.reconnect_logic = reconnect_logic
 
         # Use async_listen instead of async_listen_once so that we don't deregister
-        # the callback twice when shutting down __HA_KEEP__.
+        # the callback twice when shutting down Universal Home Assistant.
         # "Unable to remove unknown listener
         # <function EventBus.async_listen_once.<locals>.onetime_listener>"
         # We only close the connection at the last possible moment
@@ -1363,7 +1363,7 @@ def async_get_manufacturer_model(device_info: EsphomeDeviceInfo) -> tuple[str, s
 
 @callback
 def _async_setup_device_registry(
-    hass: __HAC_KEEP__, entry: ESPHomeConfigEntry, entry_data: RuntimeEntryData
+    hass: UniversalAssistant, entry: ESPHomeConfigEntry, entry_data: RuntimeEntryData
 ) -> None:
     """Set up device registry feature for a particular config entry."""
     device_info = entry_data.device_info
@@ -1479,7 +1479,7 @@ def _async_setup_device_registry(
 
 
 @callback
-def _async_detach_entities(hass: __HAC_KEEP__, device_id: str) -> list[str]:
+def _async_detach_entities(hass: UniversalAssistant, device_id: str) -> list[str]:
     """Detach the entities of a device so they survive its removal."""
     ent_reg = er.async_get(hass)
     entity_ids = [
@@ -1495,7 +1495,7 @@ def _async_detach_entities(hass: __HAC_KEEP__, device_id: str) -> list[str]:
 
 @callback
 def _async_attach_entities(
-    hass: __HAC_KEEP__, entity_ids: list[str], device_id: str
+    hass: UniversalAssistant, entity_ids: list[str], device_id: str
 ) -> None:
     """Attach entities to a device."""
     ent_reg = er.async_get(hass)
@@ -1578,7 +1578,7 @@ async def execute_service(
         try:
             await entry_data.client.execute_service(service, call.data)
         except APIConnectionError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="action_call_failed",
                 translation_placeholders={
@@ -1607,7 +1607,7 @@ async def execute_service(
             return_response=need_response_data,
         )
     except APIConnectionError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="action_call_failed",
             translation_placeholders={
@@ -1617,7 +1617,7 @@ async def execute_service(
             },
         ) from err
     except TimeoutError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="action_call_timeout",
             translation_placeholders={
@@ -1629,7 +1629,7 @@ async def execute_service(
     assert response is not None
 
     if not response.success:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="action_call_failed",
             translation_placeholders={
@@ -1644,7 +1644,7 @@ async def execute_service(
         try:
             return json_loads_object(response.response_data)
         except ValueError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="action_call_failed",
                 translation_placeholders={
@@ -1661,7 +1661,7 @@ def build_service_name(device_info: EsphomeDeviceInfo, service: UserService) -> 
     return f"{device_info.name.replace('-', '_')}_{service.name}"
 
 
-# Map ESPHome SupportsResponseType to __HA_KEEP__ SupportsResponse
+# Map ESPHome SupportsResponseType to Universal Home Assistant SupportsResponse
 # STATUS (100) is ESPHome-specific: waits for success/error internally but
 # doesn't return data to HA, so it maps to NONE from HA's perspective
 _RESPONSE_TYPE_MAPPER = EsphomeEnumMapper[SupportsResponseType, SupportsResponse](
@@ -1676,7 +1676,7 @@ _RESPONSE_TYPE_MAPPER = EsphomeEnumMapper[SupportsResponseType, SupportsResponse
 
 @callback
 def _async_register_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry_data: RuntimeEntryData,
     device_info: EsphomeDeviceInfo,
     service: UserService,
@@ -1738,7 +1738,7 @@ def _async_register_service(
 
 @callback
 def _setup_services(
-    hass: __HAC_KEEP__, entry_data: RuntimeEntryData, services: list[UserService]
+    hass: UniversalAssistant, entry_data: RuntimeEntryData, services: list[UserService]
 ) -> None:
     device_info = entry_data.device_info
     if device_info is None:
@@ -1771,7 +1771,7 @@ def _setup_services(
 
 
 async def cleanup_instance(
-    hass: __HAC_KEEP__, entry: ESPHomeConfigEntry
+    hass: UniversalAssistant, entry: ESPHomeConfigEntry
 ) -> RuntimeEntryData:
     """Cleanup the esphome client if it exists."""
     data = entry.runtime_data
@@ -1791,7 +1791,7 @@ async def cleanup_instance(
 
 
 async def async_replace_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry_id: str,
     old_mac: str,  # will be lower case (format_mac)
     new_mac: str,  # will be lower case (format_mac)

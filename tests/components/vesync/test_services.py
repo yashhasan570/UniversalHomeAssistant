@@ -9,14 +9,14 @@ from pyvesync.utils.errors import VeSyncError
 from universalassistant.components.vesync.const import DOMAIN
 from universalassistant.components.vesync.services import VeSyncService
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 
 @pytest.mark.usefixtures("manager")
 async def test_async_new_device_discovery_no_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
 ) -> None:
     """Service should raise when no config entry exists."""
@@ -36,7 +36,7 @@ async def test_async_new_device_discovery_no_entry(
 
 @pytest.mark.usefixtures("manager")
 async def test_async_new_device_discovery_entry_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
 ) -> None:
     """Service should raise when entry exists but is not loaded."""
@@ -55,17 +55,17 @@ async def test_async_new_device_discovery_entry_not_loaded(
 
 
 async def test_async_new_device_discovery_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     manager: VeSync,
 ) -> None:
-    """Test VeSync errors are reported as translated __HA_KEEP__ errors."""
+    """Test VeSync errors are reported as translated Universal Home Assistant errors."""
     assert await hass.config_entries.async_setup(config_entry.entry_id)
     await hass.async_block_till_done()
 
     manager.get_devices = AsyncMock(side_effect=VeSyncError("API failure"))
 
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             DOMAIN, VeSyncService.UPDATE_DEVICES, {}, blocking=True
         )
@@ -75,7 +75,7 @@ async def test_async_new_device_discovery_error(
 
 
 async def test_async_new_device_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     manager: VeSync,
     fan,
@@ -105,7 +105,7 @@ async def test_async_new_device_discovery(
 
     assert manager.get_devices.call_count == 1
 
-    # Verify an entity for the new fan was created in __HA_KEEP__
+    # Verify an entity for the new fan was created in Universal Home Assistant
     fan_entry = next(
         (
             e

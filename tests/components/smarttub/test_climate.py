@@ -25,13 +25,13 @@ from universalassistant.const import (
     ATTR_SUPPORTED_FEATURES,
     ATTR_TEMPERATURE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import trigger_update
 
 
 async def test_thermostat_state(
-    spa, spa_state, setup_entry, hass: __HAC_KEEP__
+    spa, spa_state, setup_entry, hass: UniversalAssistant
 ) -> None:
     """Test the thermostat entity initial state and attributes."""
     entity_id = f"climate.{spa.brand}_{spa.model}_thermostat"
@@ -53,7 +53,7 @@ async def test_thermostat_state(
 
 
 async def test_thermostat_hvac_action_update(
-    spa, spa_state, setup_entry, hass: __HAC_KEEP__
+    spa, spa_state, setup_entry, hass: UniversalAssistant
 ) -> None:
     """Test the thermostat HVAC action transitions from heating to idle."""
     entity_id = f"climate.{spa.brand}_{spa.model}_thermostat"
@@ -67,7 +67,7 @@ async def test_thermostat_hvac_action_update(
 
 
 async def test_thermostat_set_temperature(
-    spa, setup_entry, hass: __HAC_KEEP__
+    spa, setup_entry, hass: UniversalAssistant
 ) -> None:
     """Test setting the target temperature."""
     entity_id = f"climate.{spa.brand}_{spa.model}_thermostat"
@@ -81,7 +81,7 @@ async def test_thermostat_set_temperature(
 
 
 async def test_thermostat_set_preset_mode(
-    spa, spa_state, setup_entry, hass: __HAC_KEEP__
+    spa, spa_state, setup_entry, hass: UniversalAssistant
 ) -> None:
     """Test setting a preset mode updates state correctly."""
     entity_id = f"climate.{spa.brand}_{spa.model}_thermostat"
@@ -99,7 +99,7 @@ async def test_thermostat_set_preset_mode(
     assert state.attributes.get(ATTR_PRESET_MODE) == PRESET_ECO
 
 
-async def test_thermostat_api_error(spa, setup_entry, hass: __HAC_KEEP__) -> None:
+async def test_thermostat_api_error(spa, setup_entry, hass: UniversalAssistant) -> None:
     """Test that an API error during update does not raise."""
     spa.get_status_full.side_effect = smarttub.APIError
     await trigger_update(hass)

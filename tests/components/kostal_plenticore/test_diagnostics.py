@@ -7,11 +7,11 @@ from pytest_universalassistant.components.diagnostics import get_diagnostics_for
 from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.diagnostics import REDACTED
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_plenticore_client: Mock,
     init_integration: MockConfigEntry,
@@ -104,7 +104,7 @@ async def test_entry_diagnostics(
 
 
 async def test_entry_diagnostics_invalid_string_count(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_plenticore_client: Mock,
     mock_get_setting_values: Mock,

@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, override
 from aioairq.core import AirQ, identify_warming_up_sensors
 
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.typing import Undefined
@@ -28,7 +28,7 @@ class AirQCoordinator(DataUpdateCoordinator[dict]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: AirQConfigEntry,
         clip_negative: bool = True,
         return_average: bool = True,

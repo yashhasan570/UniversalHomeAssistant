@@ -3,7 +3,7 @@
 from genie_partner_sdk.client import AladdinConnectClient
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     aiohttp_client,
     config_entry_oauth2_flow,
@@ -18,7 +18,7 @@ PLATFORMS: list[Platform] = [Platform.COVER, Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: AladdinConnectConfigEntry
+    hass: UniversalAssistant, entry: AladdinConnectConfigEntry
 ) -> None:
     """Set up Aladdin Connect Genie from a config entry."""
     implementation = (
@@ -46,14 +46,14 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: AladdinConnectConfigEntry
+    hass: UniversalAssistant, entry: AladdinConnectConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, config_entry: AladdinConnectConfigEntry
+    hass: UniversalAssistant, config_entry: AladdinConnectConfigEntry
 ) -> None:
     """Migrate old config."""
     if config_entry.version < CONFIG_FLOW_VERSION:
@@ -68,7 +68,7 @@ async def async_migrate_entry(
 
 
 def remove_stale_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: AladdinConnectConfigEntry,
 ) -> None:
     """Remove stale devices from device registry."""

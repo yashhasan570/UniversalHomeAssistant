@@ -21,7 +21,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.xbox.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -48,7 +48,7 @@ def mock_getrandbits():
 @pytest.mark.usefixtures("xbox_live_client")
 @pytest.mark.freeze_time("2013-12-13 12:13:12")
 async def test_image_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -66,7 +66,7 @@ async def test_image_platform(
 
 @respx.mock
 async def test_load_image_from_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
     freezer: FrozenDateTimeFactory,

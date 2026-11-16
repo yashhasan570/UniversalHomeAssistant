@@ -18,7 +18,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.smartthings.const import DOMAIN, MAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 DEVICE_FIXTURES = [
@@ -142,7 +142,7 @@ def get_fixture_name(device_id: str) -> str:
     raise KeyError(f"Fixture for device_id {device_id} not found")
 
 
-async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Fixture for setting up the component."""
     config_entry.add_to_hass(hass)
 
@@ -151,7 +151,7 @@ async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -
 
 
 def snapshot_smartthings_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     platform: Platform,
@@ -181,7 +181,7 @@ def set_attribute_value(
 
 
 async def trigger_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock: AsyncMock,
     device_id: str,
     capability: Capability,
@@ -214,7 +214,7 @@ async def trigger_update(
 
 
 async def trigger_health_update(
-    hass: __HAC_KEEP__, mock: AsyncMock, device_id: str, status: HealthStatus
+    hass: UniversalAssistant, mock: AsyncMock, device_id: str, status: HealthStatus
 ) -> None:
     """Trigger a health update."""
     event = DeviceHealthEvent("abc", "abc", status)

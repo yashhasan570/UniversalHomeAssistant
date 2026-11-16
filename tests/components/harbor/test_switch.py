@@ -15,8 +15,8 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -29,7 +29,7 @@ CLOCK_DISPLAY_ENTITY = "switch.harbor_camera_1234567890_clock_overlay"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_mqtt_client: AsyncMock,
@@ -62,7 +62,7 @@ async def test_switches(
     ],
 )
 async def test_turn_on_and_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_mqtt_client: AsyncMock,
     entity_id: str,
@@ -110,7 +110,7 @@ async def test_turn_on_and_off(
     ],
 )
 async def test_command_failure_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_mqtt_client: AsyncMock,
     entity_id: str,
@@ -118,12 +118,12 @@ async def test_command_failure_raises(
     service: str,
     error: Exception | type[Exception],
 ) -> None:
-    """Test a failed camera command surfaces as a __HAC_KEEP__Error."""
+    """Test a failed camera command surfaces as a UniversalAssistantError."""
     await setup_integration(hass, mock_config_entry)
 
     getattr(mock_mqtt_client.return_value, library_method).side_effect = error
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             service,

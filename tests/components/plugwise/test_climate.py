@@ -38,8 +38,8 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__, State
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, State
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 HA_PLUGWISE_SMILE_ASYNC_UPDATE = (
@@ -51,7 +51,7 @@ HA_PLUGWISE_SMILE_ASYNC_UPDATE = (
 @pytest.mark.parametrize("platforms", [(CLIMATE_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_adam_climate_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
@@ -61,7 +61,7 @@ async def test_adam_climate_snapshot(
 
 
 async def test_adam_climate_entity_climate_changes(
-    hass: __HAC_KEEP__, mock_smile_adam: MagicMock, init_integration: MockConfigEntry
+    hass: UniversalAssistant, mock_smile_adam: MagicMock, init_integration: MockConfigEntry
 ) -> None:
     """Test handling of user requests in adam climate device environment."""
     await hass.services.async_call(
@@ -138,12 +138,12 @@ async def test_adam_climate_entity_climate_changes(
 
 
 async def test_adam_climate_adjust_negative_testing(
-    hass: __HAC_KEEP__, mock_smile_adam: MagicMock, init_integration: MockConfigEntry
+    hass: UniversalAssistant, mock_smile_adam: MagicMock, init_integration: MockConfigEntry
 ) -> None:
     """Test PlugwiseError exception."""
     mock_smile_adam.set_temperature.side_effect = PlugwiseError
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -156,7 +156,7 @@ async def test_adam_climate_adjust_negative_testing(
 @pytest.mark.parametrize("cooling_present", [False], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_adam_restore_state_climate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_smile_adam_heat_cool: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -189,7 +189,7 @@ async def test_adam_restore_state_climate(
     assert (state := hass.states.get("climate.living_room"))
     assert state.state == "heat"
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_HVAC_MODE,
@@ -272,7 +272,7 @@ async def test_adam_restore_state_climate(
 @pytest.mark.parametrize("platforms", [(CLIMATE_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_adam_2_climate_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
@@ -285,7 +285,7 @@ async def test_adam_2_climate_snapshot(
 @pytest.mark.parametrize("cooling_present", [False], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_adam_none_restore(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_smile_adam_heat_cool: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -315,7 +315,7 @@ async def test_adam_none_restore(
     await hass.async_block_till_done()
 
     # Verify that setting a schedule with last_active_schedule=None fails
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_HVAC_MODE,
@@ -328,7 +328,7 @@ async def test_adam_none_restore(
 @pytest.mark.parametrize("cooling_present", [False], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_adam_off_regulation_mode_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_smile_adam_heat_cool: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -377,7 +377,7 @@ async def test_adam_off_regulation_mode_change(
 @pytest.mark.parametrize("chosen_env", ["m_adam_cooling"], indirect=True)
 @pytest.mark.parametrize("cooling_present", [True], indirect=True)
 async def test_adam_climate_entity_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_smile_adam_heat_cool: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -537,7 +537,7 @@ async def test_adam_climate_entity_attributes(
 
 
 async def test_adam_climate_off_mode_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_smile_adam_jip: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -596,7 +596,7 @@ async def test_adam_climate_off_mode_change(
 @pytest.mark.parametrize("platforms", [(CLIMATE_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_anna_climate_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
@@ -608,7 +608,7 @@ async def test_anna_climate_snapshot(
 @pytest.mark.parametrize("chosen_env", ["anna_heatpump_heating"], indirect=True)
 @pytest.mark.parametrize("cooling_present", [True], indirect=True)
 async def test_anna_climate_entity_climate_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_smile_anna: MagicMock,
     init_integration: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -704,7 +704,7 @@ async def test_anna_climate_entity_climate_changes(
 @pytest.mark.parametrize("platforms", [(CLIMATE_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_anna_2_climate_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
@@ -716,7 +716,7 @@ async def test_anna_2_climate_snapshot(
 @pytest.mark.parametrize("platforms", [(CLIMATE_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_anna_p1_climate_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_smile_anna_p1: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -729,7 +729,7 @@ async def test_anna_p1_climate_snapshot(
 @pytest.mark.parametrize("chosen_env", ["m_adam_cooling"], indirect=True)
 @pytest.mark.parametrize("cooling_present", [False], indirect=True)
 async def test_tom_without_temperature_measurement(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smile_adam_heat_cool: MagicMock,
 ) -> None:
@@ -747,11 +747,11 @@ async def test_tom_without_temperature_measurement(
 
 @pytest.mark.usefixtures("mock_smile_legacy_anna")
 async def test_legacy_anna_no_schedule(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test failing to set a schedule with no schedule defined."""
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_HVAC_MODE,

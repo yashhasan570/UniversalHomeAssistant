@@ -12,11 +12,11 @@ from universalassistant.components.light import (
     DOMAIN as LIGHT_DOMAIN,
 )
 from universalassistant.const import ATTR_BATTERY_LEVEL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_dimmer_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     dimmer_node: Sensor,
     receive_message: Callable[[str], None],
     transport_write: MagicMock,
@@ -97,7 +97,7 @@ async def test_dimmer_node(
 
 
 async def test_rgb_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     rgb_node: Sensor,
     receive_message: Callable[[str], None],
     transport_write: MagicMock,
@@ -208,7 +208,7 @@ async def test_rgb_node(
 
 
 async def test_rgbw_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     rgbw_node: Sensor,
     receive_message: Callable[[str], None],
     transport_write: MagicMock,

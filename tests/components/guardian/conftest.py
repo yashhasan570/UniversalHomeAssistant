@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_object_f
 
 from universalassistant.components.guardian import CONF_UID, DOMAIN
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PORT, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util.json import JsonObjectType
 
@@ -25,7 +25,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 @pytest.fixture(name="config_entry")
 def config_entry_fixture(
-    hass: __HAC_KEEP__, config: dict[str, Any], unique_id: str
+    hass: UniversalAssistant, config: dict[str, Any], unique_id: str
 ) -> MockConfigEntry:
     """Define a config entry fixture."""
     entry = MockConfigEntry(
@@ -104,7 +104,7 @@ def platforms_fixture() -> list[Platform]:
 
 @pytest.fixture(name="setup_guardian")
 async def setup_guardian_fixture(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict[str, Any],
     platforms: list[Platform],
     data_sensor_pair_dump: JsonObjectType,

@@ -50,7 +50,7 @@
       'documents-subentry-id': dict({
         'data': dict({
           'backup': True,
-          'backup_path': '/__HA_KEEP__ backups',
+          'backup_path': '/Universal Home Assistant backups',
           'library_id': '6490a72d-4c26-4020-ad00-1b72fb2c88c9',
         }),
         'subentry_type': 'library',

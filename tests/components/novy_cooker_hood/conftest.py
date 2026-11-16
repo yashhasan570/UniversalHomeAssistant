@@ -11,7 +11,7 @@ from pytest_universalassistant.components.radio_frequency.common import (
 
 from universalassistant.components.novy_cooker_hood.const import CONF_TRANSMITTER, DOMAIN
 from universalassistant.const import CONF_CODE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 TRANSMITTER_ENTITY_ID = "radio_frequency.test_rf_transmitter"
@@ -43,7 +43,7 @@ def mock_config_entry(
 
 @pytest.fixture
 async def init_novy_cooker_hood(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> MockConfigEntry:
     """Set up the Novy Cooker Hood integration."""
     mock_config_entry.add_to_hass(hass)

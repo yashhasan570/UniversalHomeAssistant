@@ -45,5 +45,5 @@ from universalassistant.components.weather import (
     ],
 )
 def test_symbol_to_condition(code: str | None, condition: str | None) -> None:
-    """Test Foreca symbol codes map to __HA_KEEP__ conditions."""
+    """Test Foreca symbol codes map to Universal Home Assistant conditions."""
     assert symbol_to_condition(code) == condition

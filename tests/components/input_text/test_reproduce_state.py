@@ -3,7 +3,7 @@
 import pytest
 
 from universalassistant.components.input_text import DOMAIN
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.state import async_reproduce_state
 from universalassistant.setup import async_setup_component
 
@@ -14,7 +14,7 @@ INVALID_TEXT2 = "Short"
 
 
 async def test_reproducing_states(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test reproducing Input text states."""
 

@@ -7,8 +7,8 @@ from pytest_universalassistant.common import MockConfigEntry
 from samsung_exlink import MODELS, InputSource, PowerState, SamsungTV, TVModel, TVState
 
 from universalassistant.components.samsung_exlink.const import DOMAIN
-from universalassistant.const import CONF_DEVICE, CONF_MODEL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.const import CONF_DEVICE, CONF_MODEL, Platform
+from universalassistant.core import UniversalAssistant
 
 from . import MOCK_DEVICE, MOCK_MODEL
 
@@ -31,6 +31,7 @@ class MockSamsungTV(SamsungTV):
         self.set_mute = AsyncMock()
         self.select_input_source = AsyncMock()
         self.set_art_mode = AsyncMock()
+        self.send_key = AsyncMock()
 
     def mock_state(self, state: TVState | None) -> None:
         """Push a state update through the TV."""
@@ -80,7 +81,7 @@ def mock_samsung_tv(
 
 
 @pytest.fixture
-def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Create a mock config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -93,22 +94,35 @@ def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 
 @pytest.fixture(autouse=True)
-async def mock_usb_component(hass: __HAC_KEEP__) -> None:
+async def mock_usb_component(hass: UniversalAssistant) -> None:
     """Mock the USB component to prevent setup failures."""
     hass.config.components.add("usb")
 
 
 @pytest.fixture
+def samsung_exlink_platforms() -> list[Platform]:
+    """Return the platforms loaded by a Samsung ExLink test."""
+    return [Platform.MEDIA_PLAYER, Platform.REMOTE]
+
+
+@pytest.fixture
 async def init_components(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_usb_component: None,
     mock_samsung_tv: MockSamsungTV,
     mock_config_entry: MockConfigEntry,
+    samsung_exlink_platforms: list[Platform],
 ) -> None:
     """Initialize the Samsung ExLink component."""
-    with patch(
-        "universalassistant.components.samsung_exlink.SamsungTV",
-        return_value=mock_samsung_tv,
+    with (
+        patch(
+            "universalassistant.components.samsung_exlink.PLATFORMS",
+            samsung_exlink_platforms,
+        ),
+        patch(
+            "universalassistant.components.samsung_exlink.SamsungTV",
+            return_value=mock_samsung_tv,
+        ),
     ):
         await hass.config_entries.async_setup(mock_config_entry.entry_id)
         await hass.async_block_till_done()

@@ -18,7 +18,7 @@ from universalassistant.components.kaco_modbus.coordinator import SCAN_INTERVAL
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import MOCK_SERIAL, model_registers
@@ -46,7 +46,7 @@ def _entity_id(entity_registry: er.EntityRegistry, key: str) -> str:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
@@ -56,7 +56,7 @@ async def test_all_entities(
 
 
 async def test_only_primary_readings_are_enabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -86,7 +86,7 @@ async def test_only_primary_readings_are_enabled_by_default(
     ],
 )
 async def test_sensor_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
     key: str,
@@ -97,7 +97,7 @@ async def test_sensor_values(
 
 
 async def test_lifetime_energy_is_converted_to_kilowatt_hours(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -112,7 +112,7 @@ async def test_lifetime_energy_is_converted_to_kilowatt_hours(
     "key", ["frequency", "power_factor", "temperature", "voltage_l1"]
 )
 async def test_readings_it_stops_taking_are_withheld(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
     key: str,
@@ -133,7 +133,7 @@ async def test_readings_it_stops_taking_are_withheld(
     "key", ["ac_power", "ac_current", "apparent_power", "dc_power", "current_l1"]
 )
 async def test_genuine_zeros_are_still_reported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
     key: str,
@@ -144,7 +144,7 @@ async def test_genuine_zeros_are_still_reported(
 
 @pytest.mark.parametrize("register_image", [BLUEPLANET_86TL3_ASLEEP])
 async def test_the_lifetime_total_survives_the_night(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -162,7 +162,7 @@ async def test_the_lifetime_total_survives_the_night(
 
 
 async def test_sensors_go_unavailable_when_the_link_drops(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
     mock_connection: MockModbusConnection,
@@ -187,7 +187,7 @@ async def test_sensors_go_unavailable_when_the_link_drops(
 
 
 async def test_an_unreadable_block_takes_its_sensors_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
     mock_connection: MockModbusConnection,

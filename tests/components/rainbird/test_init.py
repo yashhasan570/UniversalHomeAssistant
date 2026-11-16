@@ -12,7 +12,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.rainbird.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_MAC, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import (
@@ -30,7 +30,7 @@ from .conftest import (
 
 
 async def test_init_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test successful setup and unload."""
@@ -44,7 +44,7 @@ async def test_init_success(
 
 
 async def test_device_registry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -112,7 +112,7 @@ async def test_device_registry(
     ],
 )
 async def test_communication_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     config_entry_state: list[ConfigEntryState],
     config_flow_steps: list[str],
@@ -136,7 +136,7 @@ async def test_communication_failure(
     ids=["config_entry"],
 )
 async def test_fix_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     responses: list[AiohttpClientMockResponse],
     config_entry: MockConfigEntry,
 ) -> None:
@@ -191,7 +191,7 @@ async def test_fix_unique_id(
     ids=["service_unavailable", "not_found", "unexpected_response_format"],
 )
 async def test_fix_unique_id_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     initial_response: AiohttpClientMockResponse,
     responses: list[AiohttpClientMockResponse],
     expected_warning: str,
@@ -215,7 +215,7 @@ async def test_fix_unique_id_failure(
     [(MAC_ADDRESS_UNIQUE_ID)],
 )
 async def test_fix_unique_id_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     responses: list[AiohttpClientMockResponse],
     caplog: pytest.LogCaptureFixture,
@@ -257,7 +257,7 @@ async def test_fix_unique_id_duplicate(
     [(MAC_ADDRESS_UNIQUE_ID)],
 )
 async def test_fix_unique_id_duplicate_setup_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     responses: list[AiohttpClientMockResponse],
 ) -> None:
@@ -358,7 +358,7 @@ async def test_fix_unique_id_duplicate_setup_error(
     ),
 )
 async def test_fix_entity_unique_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     entity_unique_id: str,
     device_identifier: str,
@@ -464,7 +464,7 @@ async def test_fix_entity_unique_ids(
     ],
 )
 async def test_fix_duplicate_device_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     entry1_updates: dict[str, Any],
@@ -515,7 +515,7 @@ async def test_fix_duplicate_device_ids(
     ids=["no_default_entry"],
 )
 async def test_reload_migration_with_leading_zero_mac(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     responses: list[AiohttpClientMockResponse],
@@ -595,7 +595,7 @@ async def test_reload_migration_with_leading_zero_mac(
 
 
 async def test_options_listener(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test options update listener reloading the config entry."""

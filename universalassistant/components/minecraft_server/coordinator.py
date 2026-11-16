@@ -6,7 +6,7 @@ from typing import override
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ADDRESS, CONF_TYPE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -35,7 +35,7 @@ class MinecraftServerCoordinator(DataUpdateCoordinator[MinecraftServerData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: MinecraftServerConfigEntry,
     ) -> None:
         """Initialize coordinator instance."""

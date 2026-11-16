@@ -9,7 +9,7 @@ from pyhomematic import HMConnection
 from pyhomematic.devicetypes.generic import HMGeneric
 
 from universalassistant.const import ATTR_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity import Entity, EntityDescription
 from universalassistant.helpers.event import track_time_interval
@@ -122,7 +122,7 @@ class HMDevice(Entity):
             self._attr_available = not self._hmdevice.UNREACH
             has_changed = True
 
-        # If it has changed data point, update __HA_KEEP__
+        # If it has changed data point, update Universal Home Assistant
         if has_changed:
             self.schedule_update_ha_state()
 
@@ -201,7 +201,7 @@ class HMHub(Entity):
 
     _attr_should_poll = False
 
-    def __init__(self, hass: __HAC_KEEP__, homematic: HMConnection, name: str) -> None:
+    def __init__(self, hass: UniversalAssistant, homematic: HMConnection, name: str) -> None:
         """Initialize HomeMatic hub."""
         self.hass = hass
         self.entity_id = f"{DOMAIN}.{name.lower()}"

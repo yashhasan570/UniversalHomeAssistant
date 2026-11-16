@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.tractive.const import DOMAIN
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import init_integration
@@ -16,7 +16,7 @@ from . import init_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_tractive_client: AsyncMock,
@@ -37,7 +37,7 @@ async def test_binary_sensor(
 
 
 async def test_binary_sensor_device_assignment(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_tractive_client: AsyncMock,
@@ -62,7 +62,7 @@ async def test_binary_sensor_device_assignment(
 
 
 async def test_binary_sensor_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tractive_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

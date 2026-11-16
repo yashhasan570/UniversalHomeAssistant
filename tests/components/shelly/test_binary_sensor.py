@@ -27,7 +27,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
 
@@ -54,7 +54,7 @@ def fixture_platforms():
 
 
 async def test_block_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -78,7 +78,7 @@ async def test_block_binary_sensor(
 
 
 async def test_block_binary_gas_sensor_creation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -101,7 +101,7 @@ async def test_block_binary_gas_sensor_creation(
 
 
 async def test_block_rest_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -126,7 +126,7 @@ async def test_block_rest_binary_sensor(
 
 
 async def test_block_rest_binary_sensor_connected_battery_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -159,7 +159,7 @@ async def test_block_rest_binary_sensor_connected_battery_devices(
 
 
 async def test_block_sleeping_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -189,7 +189,7 @@ async def test_block_sleeping_binary_sensor(
 
 
 async def test_block_restored_sleeping_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     device_registry: DeviceRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -223,7 +223,7 @@ async def test_block_restored_sleeping_binary_sensor(
 
 
 async def test_block_restored_sleeping_binary_sensor_no_last_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_block_device: Mock,
     device_registry: DeviceRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -256,7 +256,7 @@ async def test_block_restored_sleeping_binary_sensor_no_last_state(
 
 
 async def test_rpc_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -281,7 +281,7 @@ async def test_rpc_binary_sensor(
 
 
 async def test_rpc_binary_sensor_input_custom_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -309,7 +309,7 @@ async def test_rpc_binary_sensor_input_custom_name(
 
 
 async def test_rpc_binary_sensor_removal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -328,7 +328,7 @@ async def test_rpc_binary_sensor_removal(
 
 
 async def test_rpc_sleeping_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -376,7 +376,7 @@ async def test_rpc_sleeping_binary_sensor(
 
 
 async def test_rpc_sleeping_binary_sensor_with_channel_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -411,7 +411,7 @@ async def test_rpc_sleeping_binary_sensor_with_channel_name(
 
 
 async def test_rpc_restored_sleeping_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     device_registry: DeviceRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -447,7 +447,7 @@ async def test_rpc_restored_sleeping_binary_sensor(
 
 
 async def test_rpc_restored_sleeping_binary_sensor_no_last_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     device_registry: DeviceRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -493,7 +493,7 @@ async def test_rpc_restored_sleeping_binary_sensor_no_last_state(
     ],
 )
 async def test_rpc_device_virtual_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -529,7 +529,7 @@ async def test_rpc_device_virtual_binary_sensor(
 
 @pytest.mark.usefixtures("disable_async_remove_shelly_rpc_entities")
 async def test_rpc_remove_virtual_binary_sensor_when_mode_toggle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
     mock_rpc_device: Mock,
@@ -562,7 +562,7 @@ async def test_rpc_remove_virtual_binary_sensor_when_mode_toggle(
 
 
 async def test_rpc_remove_virtual_binary_sensor_when_orphaned(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
     mock_rpc_device: Mock,
@@ -607,7 +607,7 @@ async def test_rpc_remove_virtual_binary_sensor_when_orphaned(
 
 
 async def test_blu_trv_binary_sensor_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_blu_trv: Mock,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -626,7 +626,7 @@ async def test_blu_trv_binary_sensor_entity(
 
 
 async def test_rpc_flood_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -645,7 +645,7 @@ async def test_rpc_flood_entities(
 
 
 async def test_rpc_flood_cable_unplugged(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -667,7 +667,7 @@ async def test_rpc_flood_cable_unplugged(
 
 
 async def test_rpc_presence_component(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -708,7 +708,7 @@ async def test_rpc_presence_component(
 
 
 async def test_rpc_presencezone_component(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -760,7 +760,7 @@ async def test_rpc_presencezone_component(
 )
 @pytest.mark.usefixtures("disable_async_remove_shelly_rpc_entities")
 async def test_migrate_unique_id_virtual_components_roles(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -806,7 +806,7 @@ async def test_migrate_unique_id_virtual_components_roles(
 
 
 async def test_rpc_cury_orientation_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -852,7 +852,7 @@ async def test_rpc_cury_orientation_errors(
 
 
 async def test_rpc_occupancy_component(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -880,7 +880,7 @@ async def test_rpc_occupancy_component(
 
 
 async def test_rpc_cb_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -927,7 +927,7 @@ async def test_rpc_cb_binary_sensors(
 
 
 async def test_rpc_camera_motion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -962,7 +962,7 @@ async def test_rpc_camera_motion(
     ],
 )
 async def test_rpc_camera_zone_motion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -994,7 +994,7 @@ async def test_rpc_camera_zone_motion(
 
 
 async def test_rpc_wall_display_xl_motion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:

@@ -14,15 +14,15 @@ from universalassistant.components.switch import (
     SwitchService,
 )
 from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_switch_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_actron_api: MagicMock,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -44,7 +44,7 @@ async def test_switch_entities(
     ],
 )
 async def test_switch_toggles(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_actron_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -76,7 +76,7 @@ async def test_switch_toggles(
 
 
 async def test_turbo_mode_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_actron_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -105,7 +105,7 @@ async def test_turbo_mode_not_supported(
     ],
 )
 async def test_switch_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_actron_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -120,7 +120,7 @@ async def test_switch_api_error(
     mock_method = getattr(status.user_aircon_settings, method)
     mock_method.side_effect = ActronAirAPIError("Test error")
 
-    with pytest.raises(__HAC_KEEP__Error, match="Test error"):
+    with pytest.raises(UniversalAssistantError, match="Test error"):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             service,

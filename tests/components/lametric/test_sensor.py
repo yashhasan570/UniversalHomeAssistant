@@ -11,7 +11,7 @@ from universalassistant.const import (
     PERCENTAGE,
     EntityCategory,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 pytestmark = pytest.mark.usefixtures(
@@ -20,7 +20,7 @@ pytestmark = pytest.mark.usefixtures(
 
 
 async def test_wifi_signal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:

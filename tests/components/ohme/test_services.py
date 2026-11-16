@@ -10,14 +10,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.ohme.const import DOMAIN
 from universalassistant.components.ohme.services import OhmeService, OhmeServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 
 from . import setup_integration
 
 
 async def test_list_charge_slots(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     snapshot: SnapshotAssertion,
@@ -46,7 +46,7 @@ async def test_list_charge_slots(
 
 
 async def test_set_price_cap(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     snapshot: SnapshotAssertion,
@@ -70,7 +70,7 @@ async def test_set_price_cap(
 
 
 async def test_list_charge_slots_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     snapshot: SnapshotAssertion,

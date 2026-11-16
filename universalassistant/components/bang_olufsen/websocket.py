@@ -19,7 +19,7 @@ from mozart_api.models import (
 )
 from mozart_api.mozart_client import BaseWebSocketResponse, MozartClient
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.util.enum import try_parse_enum
@@ -45,7 +45,7 @@ class BeoWebsocket(BeoBase):
     """The WebSocket listeners."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: BeoConfigEntry, client: MozartClient
+        self, hass: UniversalAssistant, entry: BeoConfigEntry, client: MozartClient
     ) -> None:
         """Initialize the WebSocket listeners."""
 
@@ -184,7 +184,7 @@ class BeoWebsocket(BeoBase):
         # to available remotes to determine action
         elif notification_type is WebsocketNotification.REMOTE_CONTROL_DEVICES:
             device_registry = dr.async_get(self.hass)
-            # Get remote devices connected to the device from __HA_KEEP__
+            # Get remote devices connected to the device from Universal Home Assistant
             device_serial_numbers = [
                 device.serial_number
                 for device in dr.async_entries_for_config_entry(

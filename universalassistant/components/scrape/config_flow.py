@@ -40,7 +40,7 @@ from universalassistant.const import (
     HTTP_DIGEST_AUTHENTICATION,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.selector import (
     BooleanSelector,
     DeviceClassSelector,
@@ -178,7 +178,7 @@ SENSOR_SETUP = probatio.Schema(
 
 
 async def validate_rest_setup(
-    hass: __HAC_KEEP__, user_input: dict[str, Any]
+    hass: UniversalAssistant, user_input: dict[str, Any]
 ) -> dict[str, Any]:
     """Validate rest setup."""
     config = deepcopy(user_input)

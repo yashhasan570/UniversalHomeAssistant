@@ -4,7 +4,7 @@ import logging
 
 from wirelesstagpy.sensortag import SensorTag
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .const import DOMAIN
@@ -13,7 +13,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def async_migrate_unique_id(
-    hass: __HAC_KEEP__, tag: SensorTag, domain: str, key: str
+    hass: UniversalAssistant, tag: SensorTag, domain: str, key: str
 ) -> None:
     """Migrate old unique id to new one with use of tag's uuid."""
     registry = er.async_get(hass)

@@ -12,7 +12,7 @@ import traceback
 from types import CodeType
 from typing import TYPE_CHECKING, Any
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .inspection import MAX_STRING_LENGTH, USER_CODE_ERRORS, class_name, describe
 
@@ -80,7 +80,7 @@ def is_incomplete(code: str) -> bool:
 
 
 async def async_execute(
-    hass: __HAC_KEEP__, session: ConsoleSession, code: str
+    hass: UniversalAssistant, session: ConsoleSession, code: str
 ) -> dict[str, Any]:
     """Execute code in a session, returning what it printed and its result."""
     execution = asyncio.current_task()
@@ -96,7 +96,7 @@ async def async_execute(
 
 
 async def _async_execute_and_report(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     session: ConsoleSession,
     code: str,
     execution: asyncio.Task[Any],
@@ -224,7 +224,7 @@ async def _async_run(code_object: CodeType, namespace: dict[str, Any]) -> Any:
     return result
 
 
-async def _async_format_exception(hass: __HAC_KEEP__, err: BaseException) -> str:
+async def _async_format_exception(hass: UniversalAssistant, err: BaseException) -> str:
     """Format an exception with its traceback, like Python does.
 
     Capturing and formatting it runs code of the exception, like its __str__

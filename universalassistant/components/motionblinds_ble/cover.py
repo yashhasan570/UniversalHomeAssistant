@@ -14,7 +14,7 @@ from universalassistant.components.cover import (
     CoverEntityDescription,
     CoverEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import MotionConfigEntry
@@ -58,7 +58,7 @@ BLIND_TYPE_TO_ENTITY_DESCRIPTION: dict[str, MotionblindsBLECoverEntityDescriptio
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MotionConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

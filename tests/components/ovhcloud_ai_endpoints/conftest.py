@@ -14,7 +14,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_load_fixture
 from universalassistant.components.ovhcloud_ai_endpoints.const import DOMAIN
 from universalassistant.config_entries import ConfigSubentryData
 from universalassistant.const import CONF_API_KEY, CONF_LLM_HASS_API, CONF_MODEL, CONF_PROMPT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import llm
 from universalassistant.setup import async_setup_component
 
@@ -49,7 +49,7 @@ def conversation_subentry_data(enable_assist: bool) -> dict[str, Any]:
 
 @pytest.fixture
 def mock_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     conversation_subentry_data: dict[str, Any],
 ) -> MockConfigEntry:
     """Mock a config entry."""
@@ -71,14 +71,14 @@ def mock_config_entry(
     )
 
 
-async def _build_models(hass: __HAC_KEEP__) -> list[Model]:
+async def _build_models(hass: UniversalAssistant) -> list[Model]:
     """Load mocked models from the fixture file."""
     raw = await async_load_fixture(hass, "models.json", DOMAIN)
     return [Model.model_validate(m) for m in json.loads(raw)["data"]]
 
 
 @pytest.fixture
-async def mock_openai_client(hass: __HAC_KEEP__) -> AsyncGenerator[AsyncMock]:
+async def mock_openai_client(hass: UniversalAssistant) -> AsyncGenerator[AsyncMock]:
     """Mock the AsyncOpenAI client used by the integration."""
     models = await _build_models(hass)
 
@@ -120,6 +120,6 @@ async def mock_openai_client(hass: __HAC_KEEP__) -> AsyncGenerator[AsyncMock]:
 
 
 @pytest.fixture(autouse=True)
-async def setup_ha(hass: __HAC_KEEP__) -> None:
-    """Set up __HA_KEEP__."""
+async def setup_ha(hass: UniversalAssistant) -> None:
+    """Set up Universal Home Assistant."""
     assert await async_setup_component(hass, "universalassistant", {})

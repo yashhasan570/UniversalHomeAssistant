@@ -33,8 +33,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceNotSupported
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceNotSupported
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -43,7 +43,7 @@ from .conftest import WEBHOOK_ID
 
 
 async def test_locks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tedee: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -58,7 +58,7 @@ async def test_locks(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_lock_service_calls(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tedee: MagicMock,
 ) -> None:
     """Test the tedee lock."""
@@ -111,7 +111,7 @@ async def test_lock_service_calls(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_lock_without_pullspring(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tedee: MagicMock,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -155,12 +155,12 @@ async def test_lock_without_pullspring(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_lock_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tedee: MagicMock,
 ) -> None:
     """Test event errors."""
     mock_tedee.lock.side_effect = TedeeClientException("Boom")
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.LOCK,
@@ -172,7 +172,7 @@ async def test_lock_errors(
     assert exc_info.value.translation_key == "lock_failed"
 
     mock_tedee.unlock.side_effect = TedeeClientException("Boom")
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.UNLOCK,
@@ -184,7 +184,7 @@ async def test_lock_errors(
     assert exc_info.value.translation_key == "unlock_failed"
 
     mock_tedee.open.side_effect = TedeeClientException("Boom")
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.OPEN,
@@ -207,7 +207,7 @@ async def test_lock_errors(
     ],
 )
 async def test_update_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tedee: MagicMock,
     freezer: FrozenDateTimeFactory,
     side_effect: Exception,
@@ -225,7 +225,7 @@ async def test_update_failed(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_cleanup_removed_locks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tedee: MagicMock,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
@@ -256,7 +256,7 @@ async def test_cleanup_removed_locks(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_new_lock(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tedee: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -294,7 +294,7 @@ async def test_new_lock(
     ],
 )
 async def test_webhook_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_tedee: MagicMock,
     hass_client_no_auth: ClientSessionGenerator,
     lib_state: TedeeLockState,

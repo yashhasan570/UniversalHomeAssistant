@@ -13,7 +13,7 @@ from universalassistant.config_entries import (
     OptionsFlowWithReload,
 )
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.device_registry import DeviceEntry
 from universalassistant.helpers.service_info.hassio import HassioServiceInfo
@@ -41,7 +41,7 @@ DATA_SCHEMA = probatio.Schema(
 
 
 async def validate_input(
-    hass: __HAC_KEEP__, data: dict[str, Any], errors: dict[str, str]
+    hass: UniversalAssistant, data: dict[str, Any], errors: dict[str, str]
 ) -> None:
     """Validate the user input allows us to connect."""
     proxy = OWServerStatelessProxy(data[CONF_HOST], data[CONF_PORT])

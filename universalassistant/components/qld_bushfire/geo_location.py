@@ -23,7 +23,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_START,
     UnitOfLength,
 )
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.dispatcher import async_dispatcher_connect, dispatcher_send
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
@@ -72,7 +72,7 @@ PLATFORM_SCHEMA = GEO_LOCATION_PLATFORM_SCHEMA.extend(
 
 
 def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -102,7 +102,7 @@ class QldBushfireFeedEntityManager:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         add_entities: AddEntitiesCallback,
         scan_interval: timedelta,
         coordinates: tuple[float, float],

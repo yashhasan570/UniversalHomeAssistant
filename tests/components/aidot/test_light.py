@@ -32,7 +32,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import async_init_integration
@@ -40,7 +40,7 @@ from .const import ENTITY_LIGHT, LIGHT_DOMAIN
 
 
 async def test_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -51,7 +51,7 @@ async def test_state(
 
 
 async def test_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mocked_device_client: MagicMock,
 ) -> None:
@@ -70,7 +70,7 @@ async def test_turn_on(
 
 
 async def test_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mocked_device_client: MagicMock,
 ) -> None:
@@ -89,7 +89,7 @@ async def test_turn_off(
 
 
 async def test_turn_on_brightness(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mocked_device_client: MagicMock,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_turn_on_brightness(
 
 
 async def test_turn_on_with_color_temp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mocked_device_client: MagicMock,
 ) -> None:
@@ -128,7 +128,7 @@ async def test_turn_on_with_color_temp(
 
 
 async def test_turn_on_with_rgbw(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mocked_device_client: MagicMock,
 ) -> None:
@@ -147,7 +147,7 @@ async def test_turn_on_with_rgbw(
 
 
 async def test_effect_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mocked_device_client: MagicMock,
 ) -> None:
@@ -162,7 +162,7 @@ async def test_effect_list(
 
 
 async def test_turn_on_with_effect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mocked_device_client: MagicMock,
 ) -> None:
@@ -183,7 +183,7 @@ async def test_turn_on_with_effect(
 
 
 async def test_turn_on_with_brightness_and_effect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mocked_device_client: MagicMock,
 ) -> None:
@@ -206,7 +206,7 @@ async def test_turn_on_with_brightness_and_effect(
 
 
 async def test_turn_on_with_color_clears_effect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mocked_device_client: MagicMock,
 ) -> None:
@@ -229,7 +229,7 @@ async def test_turn_on_with_color_clears_effect(
 
 
 async def test_effect_state_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mocked_device_client: MagicMock,
 ) -> None:
@@ -270,7 +270,7 @@ async def test_effect_state_update(
     ],
 )
 async def test_turn_on_with_brightness_and_color(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mocked_device_client: MagicMock,
     color_data: dict[str, Any],
@@ -295,7 +295,7 @@ async def test_turn_on_with_brightness_and_color(
 
 
 async def test_light_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mocked_device_client: MagicMock,
 ) -> None:
@@ -322,7 +322,7 @@ async def test_light_unavailable(
 
 
 async def test_coordinator_auth_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     patch_aidot_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -339,7 +339,7 @@ async def test_coordinator_auth_failed(
 
 
 async def test_coordinator_device_removal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     patch_aidot_client: MagicMock,
     freezer: FrozenDateTimeFactory,

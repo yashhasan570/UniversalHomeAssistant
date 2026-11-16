@@ -1,13 +1,13 @@
 """Provide a mock image processing."""
 
 from universalassistant.components.image_processing import ImageProcessingEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities_callback: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

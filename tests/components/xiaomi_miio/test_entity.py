@@ -7,14 +7,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.xiaomi_miio.const import DOMAIN
 from universalassistant.components.xiaomi_miio.coordinator import GatewayDeviceCoordinator
 from universalassistant.components.xiaomi_miio.entity import XiaomiGatewayDevice
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import TEST_MAC
 
 
 async def test_gateway_sub_device_via_device_id(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test a gateway sub device links to the gateway device via via_device_id."""
     config_entry = MockConfigEntry(domain=DOMAIN, unique_id=TEST_MAC)

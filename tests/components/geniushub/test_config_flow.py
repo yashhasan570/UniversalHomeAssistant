@@ -11,13 +11,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.geniushub import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_TOKEN, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_local_flow(
-    hass: __HAC_KEEP__, mock_geniushub_client: AsyncMock
+    hass: UniversalAssistant, mock_geniushub_client: AsyncMock
 ) -> None:
     """Test full local flow."""
     result = await hass.config_entries.flow.async_init(
@@ -70,7 +70,7 @@ async def test_full_local_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_local_flow_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_geniushub_client: AsyncMock,
     exception: Exception,
     error: str,
@@ -117,7 +117,7 @@ async def test_local_flow_exceptions(
 
 
 async def test_local_duplicate_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_geniushub_client: AsyncMock,
     mock_local_config_entry: MockConfigEntry,
 ) -> None:
@@ -149,7 +149,7 @@ async def test_local_duplicate_data(
 
 
 async def test_local_duplicate_mac(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_geniushub_client: AsyncMock,
     mock_local_config_entry: MockConfigEntry,
 ) -> None:
@@ -182,7 +182,7 @@ async def test_local_duplicate_mac(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_cloud_flow(
-    hass: __HAC_KEEP__, mock_geniushub_client: AsyncMock
+    hass: UniversalAssistant, mock_geniushub_client: AsyncMock
 ) -> None:
     """Test full cloud flow."""
     result = await hass.config_entries.flow.async_init(
@@ -231,7 +231,7 @@ async def test_full_cloud_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_cloud_flow_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_geniushub_client: AsyncMock,
     exception: Exception,
     error: str,
@@ -273,7 +273,7 @@ async def test_cloud_flow_exceptions(
 
 
 async def test_cloud_duplicate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_geniushub_client: AsyncMock,
     mock_cloud_config_entry: MockConfigEntry,
 ) -> None:

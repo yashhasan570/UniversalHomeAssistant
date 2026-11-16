@@ -10,7 +10,7 @@ from pytest_universalassistant.components.bluetooth import generate_ble_device
 from universalassistant.components.opendisplay import BASE_PLATFORMS, FLEX_PLATFORMS
 from universalassistant.components.opendisplay.const import CONF_ENCRYPTION_KEY, DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import (
     BUTTON_DEVICE_CONFIG,
@@ -176,7 +176,7 @@ def platforms() -> list[Platform]:
 
 @pytest.fixture
 def setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     platforms: list[Platform],
 ) -> Callable[[], Awaitable[None]]:

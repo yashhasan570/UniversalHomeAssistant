@@ -19,7 +19,7 @@ from universalassistant.components.stream.fmp4utils import (
     XYW_ROW,
     find_box,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 FAKE_TIME = dt_util.utcnow()
@@ -38,7 +38,7 @@ AUDIO_SAMPLE_RATE = 8000
 
 @asynccontextmanager
 async def worker_lifetime(
-    hass: __HAC_KEEP__, stream: Stream, *, request_quit: bool = False
+    hass: UniversalAssistant, stream: Stream, *, request_quit: bool = False
 ) -> AsyncIterator[threading.Thread]:
     """Scope a started stream's worker thread; on exit it has finished.
 

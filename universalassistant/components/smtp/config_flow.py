@@ -30,7 +30,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     UnitOfTime,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.selector import (
     NumberSelector,
@@ -308,7 +308,7 @@ class MailConfigFlow(ConfigFlow, domain=DOMAIN):
 
 
 async def validate_input(
-    hass: __HAC_KEEP__, user_input: dict[str, Any], options: dict[str, Any]
+    hass: UniversalAssistant, user_input: dict[str, Any], options: dict[str, Any]
 ) -> dict[str, str]:
     """Validate the user input allows us to connect."""
     errors: dict[str, str] = {}

@@ -33,8 +33,8 @@ from universalassistant.components.climate import (
 from universalassistant.components.eurotronic_cometblue.climate import MAX_TEMP, MIN_TEMP
 from universalassistant.components.eurotronic_cometblue.coordinator import SCAN_INTERVAL
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import setup_with_selected_platforms
@@ -43,7 +43,7 @@ ENTITY_ID = "climate.comet_blue_aa_bb_cc_dd_ee_ff"
 
 
 async def test_climate_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -65,7 +65,7 @@ async def test_climate_state(
     ],
 )
 async def test_climate_hvac_and_preset_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_gatt_characteristics: dict[uuid.UUID, bytearray],
     temperature_values: list[int],
@@ -85,7 +85,7 @@ async def test_climate_hvac_and_preset_states(
 
 
 async def test_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setting target temperature."""
@@ -108,7 +108,7 @@ async def test_set_temperature(
 
 
 async def test_climate_preset_away_active(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_gatt_characteristics: dict[uuid.UUID, bytearray],
 ) -> None:
@@ -149,7 +149,7 @@ async def test_climate_preset_away_active(
     ],
 )
 async def test_set_preset_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     preset_mode: str,
     expected_temperature: float,
@@ -179,7 +179,7 @@ async def test_set_preset_mode(
     ],
 )
 async def test_set_preset_mode_display_only_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     preset_mode: str,
     exc_translation_key: str,
@@ -206,7 +206,7 @@ async def test_set_preset_mode_display_only_raises(
     ],
 )
 async def test_set_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     hvac_mode: HVACMode,
     expected_temperature: float,
@@ -236,7 +236,7 @@ async def test_set_hvac_mode(
     ],
 )
 async def test_turn_on_turn_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     service: str,
     expected_temperature: float,
@@ -261,12 +261,12 @@ async def test_turn_on_turn_off(
 @pytest.mark.parametrize(
     ("raise_exception", "raised_exception"),
     [
-        (TimeoutError, __HAC_KEEP__Error),
+        (TimeoutError, UniversalAssistantError),
         (ValueError, ServiceValidationError),
     ],
 )
 async def test_set_temperature_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     raise_exception: type[Exception],
     raised_exception: type[Exception],
@@ -291,7 +291,7 @@ async def test_set_temperature_errors(
 
 
 async def test_update_data_error_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:

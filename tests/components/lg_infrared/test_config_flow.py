@@ -24,7 +24,7 @@ from universalassistant.components.lg_infrared.const import (
     LGDeviceType,
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState, ConfigFlowResult
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType, InvalidData
 from universalassistant.helpers import entity_registry as er
 
@@ -33,7 +33,7 @@ SECOND_RECEIVER_ENTITY_ID = "infrared.second_ir_receiver"
 
 
 async def _async_start_flow(
-    hass: __HAC_KEEP__, device_type: LGDeviceType
+    hass: UniversalAssistant, device_type: LGDeviceType
 ) -> ConfigFlowResult:
     """Start the user flow and pick a device type from the menu."""
     result = await hass.config_entries.flow.async_init(
@@ -75,7 +75,7 @@ async def _async_start_flow(
     "mock_infrared_emitter_entity", "mock_infrared_receiver_entity"
 )
 async def test_user_flow_tv_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tv_config: dict[str, str],
     expected_title: str,
 ) -> None:
@@ -97,7 +97,7 @@ async def test_user_flow_tv_success(
 
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
 async def test_user_flow_tv_requires_emitter_or_receiver(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test TV flow shows error when neither emitter nor receiver is selected."""
     result = await _async_start_flow(hass, LGDeviceType.TV)
@@ -142,7 +142,7 @@ async def test_user_flow_tv_requires_emitter_or_receiver(
     ],
 )
 async def test_user_flow_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     user_input: dict[str, str],
 ) -> None:
@@ -159,7 +159,7 @@ async def test_user_flow_already_configured(
 
 
 @pytest.mark.usefixtures("init_infrared")
-async def test_user_flow_no_emitters_receivers(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_no_emitters_receivers(hass: UniversalAssistant) -> None:
     """Test flow aborts when no infrared emitters or receivers exist."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -171,7 +171,7 @@ async def test_user_flow_no_emitters_receivers(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_infrared_receiver_entity")
 async def test_user_flow_menu_hides_ac_and_home_theater_without_emitter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the AC and Home Theater options are hidden when only a receiver is available."""
     result = await hass.config_entries.flow.async_init(
@@ -191,7 +191,7 @@ async def test_user_flow_menu_hides_ac_and_home_theater_without_emitter(
     ],
 )
 async def test_user_flow_tv_title_from_entity_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     entity_name: str | None,
     expected_title: str,
@@ -211,7 +211,7 @@ async def test_user_flow_tv_title_from_entity_name(
 
 
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
-async def test_user_flow_ac_success(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_ac_success(hass: UniversalAssistant) -> None:
     """Test successful AC config flow with default modes (cool + dry)."""
     result = await _async_start_flow(hass, LGDeviceType.AC)
 
@@ -239,7 +239,7 @@ async def test_user_flow_ac_success(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures(
     "mock_infrared_emitter_entity", "mock_infrared_receiver_entity"
 )
-async def test_user_flow_ac_with_heat_and_receiver(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_ac_with_heat_and_receiver(hass: UniversalAssistant) -> None:
     """Test AC flow with heat mode and optional receiver."""
     result = await _async_start_flow(hass, LGDeviceType.AC)
     result = await hass.config_entries.flow.async_configure(
@@ -263,7 +263,7 @@ async def test_user_flow_ac_with_heat_and_receiver(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
-async def test_user_flow_ac_requires_hvac_mode(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_ac_requires_hvac_mode(hass: UniversalAssistant) -> None:
     """Test AC flow rejects an empty list of supported modes."""
     result = await _async_start_flow(hass, LGDeviceType.AC)
 
@@ -283,7 +283,7 @@ async def test_user_flow_ac_requires_hvac_mode(hass: __HAC_KEEP__) -> None:
 @pytest.mark.parametrize("device_type", [LGDeviceType.AC])
 @pytest.mark.parametrize("has_receiver", [False])
 async def test_user_flow_ac_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test AC flow aborts when entry is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -302,7 +302,7 @@ async def test_user_flow_ac_already_configured(
 
 
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
-async def test_user_flow_home_theater_success(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_home_theater_success(hass: UniversalAssistant) -> None:
     """Test successful Home Theater config flow."""
     result = await _async_start_flow(hass, LGDeviceType.HOME_THEATER)
 
@@ -336,7 +336,7 @@ async def test_user_flow_home_theater_success(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_user_flow_home_theater_title_from_entity_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     entity_name: str | None,
     expected_title: str,
@@ -358,7 +358,7 @@ async def test_user_flow_home_theater_title_from_entity_name(
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
 @pytest.mark.parametrize("device_type", [LGDeviceType.HOME_THEATER])
 async def test_user_flow_home_theater_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test Home Theater flow aborts when emitter is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -375,7 +375,7 @@ async def test_user_flow_home_theater_already_configured(
 
 @pytest.fixture
 async def mock_second_infrared_entities(
-    hass: __HAC_KEEP__, init_infrared: None
+    hass: UniversalAssistant, init_infrared: None
 ) -> None:
     """Add a second infrared emitter and receiver to choose from."""
     await hass.data[INFRARED_DATA_COMPONENT].async_add_entities(
@@ -398,7 +398,7 @@ async def mock_second_infrared_entities(
     ],
 )
 async def test_reconfigure_flow_suggests_current_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     expected_hvac_modes: list[HVACMode] | None,
 ) -> None:
@@ -469,7 +469,7 @@ async def test_reconfigure_flow_suggests_current_values(
     ],
 )
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     device_type: LGDeviceType,
     user_input: dict[str, Any],
@@ -512,7 +512,7 @@ async def test_reconfigure_flow(
     ],
 )
 async def test_reconfigure_flow_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     user_input: dict[str, str],
 ) -> None:
@@ -542,7 +542,7 @@ async def test_reconfigure_flow_already_configured(
     "mock_infrared_emitter_entity", "mock_infrared_receiver_entity"
 )
 async def test_reconfigure_flow_tv_requires_emitter_or_receiver(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring a TV shows an error when both IR entities are cleared."""
     mock_config_entry.add_to_hass(hass)
@@ -570,7 +570,7 @@ async def test_reconfigure_flow_tv_requires_emitter_or_receiver(
 
 @pytest.mark.usefixtures("init_infrared")
 async def test_reconfigure_flow_tv_no_infrared_entities(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring a TV aborts when no infrared entity exists."""
     mock_config_entry.add_to_hass(hass)
@@ -584,7 +584,7 @@ async def test_reconfigure_flow_tv_no_infrared_entities(
 @pytest.mark.usefixtures("mock_infrared_receiver_entity")
 @pytest.mark.parametrize("device_type", [LGDeviceType.AC, LGDeviceType.HOME_THEATER])
 async def test_reconfigure_flow_no_infrared_emitters(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring an AC or Home Theater aborts when only a receiver exists."""
     mock_config_entry.add_to_hass(hass)

@@ -98,8 +98,8 @@ import probatio
 
 from universalassistant.components import conversation
 from universalassistant.config_entries import ConfigSubentry
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, llm
 from universalassistant.helpers.json import json_dumps
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -469,7 +469,7 @@ def _convert_content(  # noqa: C901
         else:
             # Note: We don't pass SystemContent here as it's
             # passed to the API as the prompt
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="unexpected_chat_log_content",
                 translation_placeholders={"type": type(content).__name__},
@@ -513,7 +513,7 @@ class AnthropicDeltaStream:
     def __init__(self, stream: AsyncStream[MessageStreamEvent]) -> None:
         """Initialize the delta stream."""
         if not hasattr(stream, "__aiter__"):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="unexpected_stream_object"
             )
         self._stream: AsyncStream[MessageStreamEvent] = stream
@@ -950,7 +950,7 @@ class AnthropicBaseLLMEntity(CoordinatorEntity[AnthropicCoordinator]):
 
         system = chat_log.content[0]
         if not isinstance(system, conversation.SystemContent):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="system_message_not_found"
             )
 
@@ -1103,7 +1103,7 @@ class AnthropicBaseLLMEntity(CoordinatorEntity[AnthropicCoordinator]):
         if last_content.role == "user" and last_content.attachments:
             last_message = messages[-1]
             if last_message["role"] != "user":
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN, translation_key="user_message_not_found"
                 )
             if isinstance(last_message["content"], str):
@@ -1191,7 +1191,7 @@ class AnthropicBaseLLMEntity(CoordinatorEntity[AnthropicCoordinator]):
                 # Trigger coordinator to confirm the auth failure
                 # and trigger the reauth flow.
                 await coordinator.async_request_refresh()
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="api_authentication_error",
                     translation_placeholders={"message": err.message},
@@ -1199,7 +1199,7 @@ class AnthropicBaseLLMEntity(CoordinatorEntity[AnthropicCoordinator]):
             except anthropic.APIConnectionError as err:
                 LOGGER.info("Connection error while talking to Anthropic: %s", err)
                 coordinator.mark_connection_error()
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="api_error",
                     translation_placeholders={"message": err.message},
@@ -1209,7 +1209,7 @@ class AnthropicBaseLLMEntity(CoordinatorEntity[AnthropicCoordinator]):
                 coordinator.mark_connection_healthy()
                 # pylint: disable-next=universal-assistant-log-and-raise
                 LOGGER.error("Error while talking to Anthropic: %s", err)
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="api_error",
                     translation_placeholders={
@@ -1226,7 +1226,7 @@ class AnthropicBaseLLMEntity(CoordinatorEntity[AnthropicCoordinator]):
                 "stop_sequence",
             ) or (stop_reason == "pause_turn" and iteration == max_iterations - 1):
                 coordinator.mark_connection_healthy()
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key={
                         "refusal": "api_refusal",
@@ -1239,7 +1239,7 @@ class AnthropicBaseLLMEntity(CoordinatorEntity[AnthropicCoordinator]):
 
             if delta_stream.tool_args_error is not None:
                 coordinator.mark_connection_healthy()
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="tool_args_parse_error",
                 ) from delta_stream.tool_args_error
@@ -1253,7 +1253,7 @@ class AnthropicBaseLLMEntity(CoordinatorEntity[AnthropicCoordinator]):
 
 
 async def async_prepare_files_for_prompt(
-    hass: __HAC_KEEP__, model_info: ModelInfo, files: list[tuple[Path, str | None]]
+    hass: UniversalAssistant, model_info: ModelInfo, files: list[tuple[Path, str | None]]
 ) -> Iterable[ImageBlockParam | DocumentBlockParam]:
     """Append files to a prompt.
 
@@ -1265,7 +1265,7 @@ async def async_prepare_files_for_prompt(
 
         for file_path, mime_type in files:
             if not file_path.exists():
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="wrong_file_path",
                     translation_placeholders={"file_path": file_path.as_posix()},
@@ -1287,7 +1287,7 @@ async def async_prepare_files_for_prompt(
                     and not model_info.capabilities.pdf_input.supported
                 )
             ):
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="wrong_file_type",
                     translation_placeholders={

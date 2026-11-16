@@ -6,7 +6,7 @@ import pytest
 
 from universalassistant.components import switch as switch_component
 from universalassistant.components.mfi import switch as mfi
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 PLATFORM = mfi
@@ -25,7 +25,7 @@ GOOD_CONFIG = {
 }
 
 
-async def test_setup_adds_proper_devices(hass: __HAC_KEEP__) -> None:
+async def test_setup_adds_proper_devices(hass: UniversalAssistant) -> None:
     """Test if setup adds devices."""
     with (
         mock.patch("universalassistant.components.mfi.switch.MFiClient") as mock_client,

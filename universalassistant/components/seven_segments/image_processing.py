@@ -15,7 +15,7 @@ from universalassistant.components.image_processing import (
     ImageProcessingEntity,
 )
 from universalassistant.const import CONF_ENTITY_ID, CONF_NAME, CONF_SOURCE
-from universalassistant.core import __HAC_KEEP__, split_entity_id
+from universalassistant.core import UniversalAssistant, split_entity_id
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -50,7 +50,7 @@ PLATFORM_SCHEMA = IMAGE_PROCESSING_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -71,7 +71,7 @@ class ImageProcessingSsocr(ImageProcessingEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         camera_entity: str,
         config: ConfigType,
         name: str | None,

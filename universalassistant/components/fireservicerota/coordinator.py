@@ -14,7 +14,7 @@ from pyfireservicerota import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_TOKEN, CONF_URL, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.dispatcher import dispatcher_send
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
@@ -37,7 +37,7 @@ class FireServiceUpdateCoordinator(DataUpdateCoordinator[dict | None]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         client: FireServiceRotaClient,
         entry: FireServiceConfigEntry,
     ) -> None:
@@ -62,7 +62,7 @@ class FireServiceRotaOauth:
     """Handle authentication tokens."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, entry: FireServiceConfigEntry, fsr: FireServiceRota
+        self, hass: UniversalAssistant, entry: FireServiceConfigEntry, fsr: FireServiceRota
     ) -> None:
         """Initialize the oauth object."""
         self._hass = hass
@@ -103,7 +103,7 @@ class FireServiceRotaOauth:
 class FireServiceRotaWebSocket:
     """Define a FireServiceRota websocket manager object."""
 
-    def __init__(self, hass: __HAC_KEEP__, entry: FireServiceConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: FireServiceConfigEntry) -> None:
         """Initialize the websocket object."""
         self._hass = hass
         self._entry = entry
@@ -137,7 +137,7 @@ class FireServiceRotaWebSocket:
 class FireServiceRotaClient:
     """Getting the latest data from fireservicerota."""
 
-    def __init__(self, hass: __HAC_KEEP__, entry: FireServiceConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: FireServiceConfigEntry) -> None:
         """Initialize the data object."""
         self._hass = hass
         self._entry = entry

@@ -15,7 +15,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import Event, __HAC_KEEP__, async_get_hass, callback
+from universalassistant.core import Event, UniversalAssistant, async_get_hass, callback
 from universalassistant.loader import (
     Integration,
     async_get_config_flows,
@@ -86,7 +86,7 @@ def build_resources(
 
 
 async def _async_get_component_strings(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     languages: Iterable[str],
     components: set[str],
     integrations: dict[str, Integration],
@@ -148,7 +148,7 @@ class _TranslationCache:
 
     __slots__ = ("cache_data", "generations", "hass", "lock")
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the cache."""
         self.hass = hass
         self.cache_data = _TranslationsCacheData({}, {})
@@ -375,7 +375,7 @@ class _TranslationCache:
 
 
 async def async_get_translations(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     language: str,
     category: str,
     integrations: Iterable[str] | None = None,
@@ -401,7 +401,7 @@ async def async_get_translations(
 
 @callback
 def async_invalidate_translations(
-    hass: __HAC_KEEP__, integrations: Iterable[str]
+    hass: UniversalAssistant, integrations: Iterable[str]
 ) -> None:
     """Invalidate cached translations after changing local integration resources.
 
@@ -413,7 +413,7 @@ def async_invalidate_translations(
 
 @callback
 def async_get_cached_translations(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     language: str,
     category: str,
     integration: str | None = None,
@@ -430,13 +430,13 @@ def async_get_cached_translations(
 
 
 @singleton.singleton(TRANSLATION_FLATTEN_CACHE)
-def _async_get_translations_cache(hass: __HAC_KEEP__) -> _TranslationCache:
+def _async_get_translations_cache(hass: UniversalAssistant) -> _TranslationCache:
     """Return the translation cache."""
     return _TranslationCache(hass)
 
 
 @callback
-def async_setup(hass: __HAC_KEEP__) -> None:
+def async_setup(hass: UniversalAssistant) -> None:
     """Create translation cache and register listeners for translation loaders.
 
     Listeners load translations for every loaded component and after config change.
@@ -468,7 +468,7 @@ def async_setup(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def async_load_integrations(hass: __HAC_KEEP__, integrations: set[str]) -> None:
+async def async_load_integrations(hass: UniversalAssistant, integrations: set[str]) -> None:
     """Load translations for integrations."""
     await _async_get_translations_cache(hass).async_load(
         hass.config.language, integrations
@@ -476,7 +476,7 @@ async def async_load_integrations(hass: __HAC_KEEP__, integrations: set[str]) ->
 
 
 @callback
-def async_translations_loaded(hass: __HAC_KEEP__, components: set[str]) -> bool:
+def async_translations_loaded(hass: UniversalAssistant, components: set[str]) -> bool:
     """Return if the given components are loaded for the language."""
     return _async_get_translations_cache(hass).async_is_loaded(
         hass.config.language, components
@@ -514,7 +514,7 @@ def async_get_exception_message(
 
 @callback
 def async_translate_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     state: str,
     domain: str,
     platform: str | None,
@@ -549,7 +549,7 @@ def async_translate_state(
 
 @callback
 def async_translate_state_attr(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     attr_value: str,
     domain: str,
     platform: str | None,

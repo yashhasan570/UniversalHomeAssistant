@@ -6,7 +6,7 @@ import aiohttp
 from spotifyaio import SpotifyClient
 
 from universalassistant.const import CONF_ACCESS_TOKEN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.config_entry_oauth2_flow import (
@@ -39,7 +39,7 @@ __all__ = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SpotifyConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SpotifyConfigEntry) -> None:
     """Set up Spotify from a config entry."""
     implementation = await async_get_config_entry_implementation(hass, entry)
     session = OAuth2Session(hass, entry, implementation)
@@ -84,6 +84,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SpotifyConfigEntry) -> No
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SpotifyConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SpotifyConfigEntry) -> None:
     """Unload Spotify config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

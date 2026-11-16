@@ -41,7 +41,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STARTED,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import CoreState, __HAC_KEEP__
+from universalassistant.core import CoreState, UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -67,7 +67,7 @@ def player_notification(speed: int) -> dict[str, Any]:
 
 
 async def advance_time(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, interval: timedelta
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, interval: timedelta
 ) -> None:
     """Let the given time pass."""
     freezer.tick(interval)
@@ -75,13 +75,13 @@ async def advance_time(
     await hass.async_block_till_done()
 
 
-async def start_universal_assistant(hass: __HAC_KEEP__) -> None:
-    """Announce that __HA_KEEP__ has started."""
+async def start_universal_assistant(hass: UniversalAssistant) -> None:
+    """Announce that Universal Home Assistant has started."""
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
     await hass.async_block_till_done()
 
 
-async def pass_watchdog_interval(hass: __HAC_KEEP__) -> None:
+async def pass_watchdog_interval(hass: UniversalAssistant) -> None:
     """Let the watchdog interval pass."""
     async_fire_time_changed(hass, dt_util.utcnow() + WATCHDOG_INTERVAL)
     await hass.async_block_till_done()
@@ -93,7 +93,7 @@ async def pass_watchdog_interval(hass: __HAC_KEEP__) -> None:
     [pytest.param(UUID, id="unique_id"), pytest.param(None, id="no_unique_id")],
 )
 async def test_entity_and_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -118,7 +118,7 @@ async def test_entity_and_device(
     ],
 )
 async def test_polled_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_kodi: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -147,7 +147,7 @@ async def test_polled_state(
     ],
 )
 async def test_polled_state_turns_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connection: MagicMock,
     mock_kodi: MagicMock,
@@ -185,7 +185,7 @@ async def test_polled_state_turns_off(
     ],
 )
 async def test_state_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_kodi: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -207,7 +207,7 @@ async def test_state_attributes(
 
 @pytest.mark.usefixtures("mock_connection", "mock_kodi")
 async def test_idle_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
@@ -242,7 +242,7 @@ async def test_idle_state(
     ],
 )
 async def test_media_title_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_kodi: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -276,7 +276,7 @@ async def test_media_title_fallback(
     ],
 )
 async def test_media_content_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_kodi: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -296,7 +296,7 @@ async def test_media_content_type(
 
 @pytest.mark.usefixtures("mock_connection")
 async def test_media_position_updated_at(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_kodi: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -328,7 +328,7 @@ async def test_media_position_updated_at(
 
 @pytest.mark.usefixtures("mock_connection")
 async def test_media_position_updated_at_after_idle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_kodi: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -353,7 +353,7 @@ async def test_media_position_updated_at_after_idle(
 
 @pytest.mark.usefixtures("mock_connection")
 async def test_entity_picture(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_kodi: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -393,7 +393,7 @@ async def test_entity_picture(
     ],
 )
 async def test_dynamic_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_kodi: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -412,7 +412,7 @@ async def test_dynamic_range(
 
 @pytest.mark.usefixtures("mock_kodi")
 async def test_no_dynamic_range_when_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connection: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -430,7 +430,7 @@ async def test_no_dynamic_range_when_off(
 
 @websocket
 async def test_websocket_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_connection: MagicMock,
@@ -458,7 +458,7 @@ async def test_websocket_setup(
     ],
 )
 async def test_websocket_setup_while_refresh_in_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_kodi: MagicMock,
     speed: int,
@@ -488,7 +488,7 @@ async def test_websocket_setup_while_refresh_in_progress(
 @websocket
 @pytest.mark.usefixtures("mock_connection")
 async def test_websocket_does_not_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_kodi: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -516,7 +516,7 @@ async def test_websocket_does_not_poll(
     ],
 )
 async def test_websocket_player_notification(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connection: MagicMock,
     mock_kodi: MagicMock,
@@ -541,7 +541,7 @@ async def test_websocket_player_notification(
 
 @websocket
 async def test_websocket_refresh_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connection: MagicMock,
     mock_kodi: MagicMock,
@@ -559,7 +559,7 @@ async def test_websocket_refresh_failure(
 
 @websocket
 async def test_websocket_stop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connection: MagicMock,
     mock_kodi: MagicMock,
@@ -582,7 +582,7 @@ async def test_websocket_stop(
 
 @websocket
 async def test_websocket_volume_changed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connection: MagicMock,
     mock_kodi: MagicMock,
@@ -609,7 +609,7 @@ async def test_websocket_volume_changed(
 @websocket
 @pytest.mark.usefixtures("mock_kodi")
 async def test_websocket_keypress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_connection: MagicMock,
@@ -634,7 +634,7 @@ async def test_websocket_keypress(
 @websocket
 @pytest.mark.parametrize("notification", ["OnQuit", "OnRestart", "OnSleep"])
 async def test_websocket_system_notification(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connection: MagicMock,
     mock_kodi: MagicMock,
@@ -670,12 +670,12 @@ async def test_websocket_system_notification(
     ],
 )
 async def test_watchdog_connects(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connection: MagicMock,
     mock_kodi: MagicMock,
     core_state: CoreState,
-    trigger: Callable[[__HAC_KEEP__], Awaitable[None]],
+    trigger: Callable[[UniversalAssistant], Awaitable[None]],
 ) -> None:
     """Test the watchdog connects the websocket and refreshes the state."""
 
@@ -697,7 +697,7 @@ async def test_watchdog_connects(
 
 @websocket
 async def test_watchdog_ping_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connection: MagicMock,
     mock_kodi: MagicMock,
@@ -723,7 +723,7 @@ async def test_watchdog_ping_failure(
 @websocket
 @pytest.mark.usefixtures("mock_kodi")
 async def test_watchdog_connect_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connection: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -743,7 +743,7 @@ async def test_watchdog_connect_failure(
 
 @websocket
 async def test_watchdog_warns_again_after_ping_failure_and_reconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connection: MagicMock,
     mock_kodi: MagicMock,
@@ -773,7 +773,7 @@ async def test_watchdog_warns_again_after_ping_failure_and_reconnect(
 @websocket
 @pytest.mark.usefixtures("mock_kodi")
 async def test_watchdog_warns_again_after_reconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connection: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -803,7 +803,7 @@ async def test_watchdog_warns_again_after_reconnect(
 
 @websocket
 async def test_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connection: MagicMock,
     mock_kodi: MagicMock,
@@ -834,7 +834,7 @@ async def test_unload(
     ],
 )
 async def test_season_and_episode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_kodi: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -860,7 +860,7 @@ async def test_season_and_episode(
 
 @pytest.mark.usefixtures("mock_connection")
 async def test_empty_series_title_and_album(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_kodi: MagicMock,
     freezer: FrozenDateTimeFactory,

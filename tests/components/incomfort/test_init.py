@@ -14,7 +14,7 @@ from universalassistant.components.incomfort.const import DOMAIN
 from universalassistant.components.incomfort.coordinator import UPDATE_INTERVAL
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import DeviceRegistry
 
@@ -23,7 +23,7 @@ from .conftest import MOCK_HEATER_STATUS
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_setup_platforms(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_incomfort: MagicMock,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -36,7 +36,7 @@ async def test_setup_platforms(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("mock_entry_unique_id", ["00:04:a3:de:ad:ff"])
 async def test_device_via_device_links(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: DeviceRegistry,
     mock_incomfort: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -68,7 +68,7 @@ async def test_device_via_device_links(
     "mock_heater_status", [MOCK_HEATER_STATUS | {"serial_no": "c01d00c0ffee"}]
 )
 async def test_stale_devices_cleanup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: DeviceRegistry,
     mock_incomfort: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -128,7 +128,7 @@ async def test_stale_devices_cleanup(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_coordinator_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_incomfort: MagicMock,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: ConfigEntry,
@@ -187,7 +187,7 @@ async def test_coordinator_updates(
     ],
 )
 async def test_coordinator_update_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_incomfort: MagicMock,
     freezer: FrozenDateTimeFactory,
     exc: Exception,
@@ -250,7 +250,7 @@ async def test_coordinator_update_fails(
     ],
 )
 async def test_entry_setup_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_incomfort: MagicMock,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: ConfigEntry,

@@ -12,11 +12,11 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.diagnostics import REDACTED
 from universalassistant.components.izone.discovery import DATA_DISCOVERY_SERVICE
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_config_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -48,7 +48,7 @@ async def test_config_entry_diagnostics(
 
 
 async def test_config_entry_diagnostics_redacts_discovery_peer_hosts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
     mock_discovery_service: Mock,
@@ -97,12 +97,12 @@ async def test_config_entry_diagnostics_redacts_discovery_peer_hosts(
     assert str(REDACTED) in udp["message"]
 
 
-def _pop_discovery_slot(hass: __HAC_KEEP__) -> None:
+def _pop_discovery_slot(hass: UniversalAssistant) -> None:
     """Remove the shared discovery slot entirely."""
     hass.data.pop(DATA_DISCOVERY_SERVICE, None)
 
 
-def _clear_discovery_runtime(hass: __HAC_KEEP__) -> None:
+def _clear_discovery_runtime(hass: UniversalAssistant) -> None:
     """Leave the slot present but with discovery stopped (runtime cleared)."""
     hass.data[DATA_DISCOVERY_SERVICE].runtime = None
 
@@ -115,10 +115,10 @@ def _clear_discovery_runtime(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_config_entry_diagnostics_without_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
-    prepare_discovery: Callable[[__HAC_KEEP__], None],
+    prepare_discovery: Callable[[UniversalAssistant], None],
 ) -> None:
     """Diagnostics report discovery stopped when discovery is not running."""
     entry = init_integration

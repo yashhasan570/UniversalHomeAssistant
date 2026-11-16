@@ -38,7 +38,7 @@ from universalassistant.const import (
     ATTR_SUPPORTED_FEATURES,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util.dt import utcnow
 
@@ -46,7 +46,7 @@ from . import async_load_json_fixture
 
 
 async def test_media_player(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
@@ -101,7 +101,7 @@ async def test_media_player(
 
 
 async def test_media_player_music(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
@@ -144,7 +144,7 @@ async def test_media_player_music(
 
 
 async def test_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
     mock_api: MagicMock,
@@ -260,7 +260,7 @@ async def test_services(
 
 
 async def test_services_enqueue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
     mock_api: MagicMock,
@@ -300,7 +300,7 @@ async def test_services_enqueue(
 
 
 async def test_services_shuffle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
     mock_api: MagicMock,
@@ -326,7 +326,7 @@ async def test_services_shuffle(
 
 
 async def test_browse_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
@@ -520,7 +520,7 @@ async def test_browse_media(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_browse_media_music_folder(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_api: MagicMock,
     item_fixture: str,
@@ -556,7 +556,7 @@ async def test_browse_media_music_folder(
 
 
 async def test_search_media(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
@@ -670,7 +670,7 @@ async def test_search_media(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_search_media_result_types(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_api: MagicMock,
     fixture: str,
@@ -781,7 +781,7 @@ async def test_search_media_item_types(
 
 
 async def test_new_client_connected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
     mock_api: MagicMock,
@@ -802,7 +802,7 @@ async def test_new_client_connected(
 
 
 async def test_capabilities_updated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_jellyfin: MagicMock,
     mock_api: MagicMock,
@@ -850,7 +850,7 @@ async def test_capabilities_updated(
 
 
 async def test_supports_media_control_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
@@ -885,7 +885,7 @@ async def test_supports_media_control_fallback(
 
 
 async def test_set_volume_command_alternative(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
@@ -906,7 +906,7 @@ async def test_set_volume_command_alternative(
 
 
 async def test_mute_requires_both_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
@@ -946,7 +946,7 @@ async def test_mute_requires_both_commands(
 
 
 async def test_session_with_server_device_id_skipped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,

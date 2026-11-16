@@ -18,7 +18,7 @@ from universalassistant.components.ecovacs import PLATFORMS
 from universalassistant.components.ecovacs.const import DOMAIN
 from universalassistant.components.ecovacs.controller import EcovacsController
 from universalassistant.const import CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CLOUD_DEVICE_ID, STORED_ENTRY_DATA_CLOUD
 
@@ -179,7 +179,7 @@ def platforms() -> Platform | list[Platform]:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     mock_config_entry: MockConfigEntry,
     mock_authenticator: Mock,
@@ -188,7 +188,7 @@ async def init_integration(
     platforms: Platform | list[Platform],
 ) -> AsyncGenerator[MockConfigEntry]:
     """Set up the Ecovacs integration for testing."""
-    # Workaround for https://github.com/yashhasan570/__HAC_KEEP__/issues/155417
+    # Workaround for https://github.com/yashhasan570/UniversalUniversalAssistant/issues/155417
     caplog.clear()
 
     if not isinstance(platforms, list):

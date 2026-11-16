@@ -10,13 +10,13 @@ from universalassistant.const import (
     STATE_PAUSED,
     STATE_PLAYING,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 class SimpleMediaPlayer(mp.MediaPlayerEntity):
     """Media player test class."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the test media player."""
         self.hass = hass
         self._volume = 0
@@ -110,7 +110,7 @@ class DescrMediaPlayer(SimpleMediaPlayer):
 
 
 @pytest.fixture(params=[ExtendedMediaPlayer, SimpleMediaPlayer])
-def player(hass: __HAC_KEEP__, request: pytest.FixtureRequest) -> mp.MediaPlayerEntity:
+def player(hass: UniversalAssistant, request: pytest.FixtureRequest) -> mp.MediaPlayerEntity:
     """Return a media player."""
     return request.param(hass)
 
@@ -125,7 +125,7 @@ def player(hass: __HAC_KEEP__, request: pytest.FixtureRequest) -> mp.MediaPlayer
     ],
 )
 async def test_volume_up(
-    hass: __HAC_KEEP__, player_class: type[mp.MediaPlayerEntity], volume_step: float
+    hass: UniversalAssistant, player_class: type[mp.MediaPlayerEntity], volume_step: float
 ) -> None:
     """Test the volume_up and set volume methods."""
     player = player_class(hass)
@@ -146,7 +146,7 @@ async def test_volume_up(
     ],
 )
 async def test_volume_down(
-    hass: __HAC_KEEP__, player_class: type[mp.MediaPlayerEntity], volume_step: float
+    hass: UniversalAssistant, player_class: type[mp.MediaPlayerEntity], volume_step: float
 ) -> None:
     """Test the volume_down and set volume methods."""
     player = player_class(hass)

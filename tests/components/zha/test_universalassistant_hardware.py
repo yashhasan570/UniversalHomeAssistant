@@ -1,4 +1,4 @@
-"""Test __HA_KEEP__ Hardware platform for ZHA."""
+"""Test Universal Home Assistant Hardware platform for ZHA."""
 
 from unittest.mock import MagicMock, patch
 
@@ -20,11 +20,11 @@ from universalassistant.components.universalassistant_hardware.util import (
 from universalassistant.components.zha import DOMAIN
 from universalassistant.components.zha.universalassistant_hardware import get_firmware_info
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
-async def test_get_firmware_info_normal(hass: __HAC_KEEP__) -> None:
+async def test_get_firmware_info_normal(hass: UniversalAssistant) -> None:
     """Test `get_firmware_info`."""
 
     zha = MockConfigEntry(
@@ -83,7 +83,7 @@ async def test_get_firmware_info_normal(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_get_firmware_info_errors(
-    hass: __HAC_KEEP__, data: dict[str, str | int | None]
+    hass: UniversalAssistant, data: dict[str, str | int | None]
 ) -> None:
     """Test `get_firmware_info` with config entry data format errors."""
     zha = MockConfigEntry(
@@ -98,7 +98,7 @@ async def test_get_firmware_info_errors(
 
 
 async def test_hardware_firmware_info_provider_notification(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_zigpy_connect: ControllerApplication,
 ) -> None:

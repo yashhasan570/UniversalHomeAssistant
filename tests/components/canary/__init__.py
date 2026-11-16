@@ -12,7 +12,7 @@ from universalassistant.components.canary.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_PASSWORD, CONF_TIMEOUT, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 ENTRY_CONFIG = {
     CONF_PASSWORD: "test-password",
@@ -44,11 +44,11 @@ def _patch_async_setup_entry(return_value=None):
 
 
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     skip_entry_setup: bool = False,
 ) -> MockConfigEntry:
-    """Set up the Canary integration in __HA_KEEP__."""
+    """Set up the Canary integration in Universal Home Assistant."""
     entry = MockConfigEntry(domain=DOMAIN, data=ENTRY_CONFIG, options=ENTRY_OPTIONS)
     entry.add_to_hass(hass)
 

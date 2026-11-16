@@ -1,4 +1,4 @@
-"""Expose __HA_KEEP__ entity states to KNX."""
+"""Expose Universal Home Assistant entity states to KNX."""
 
 from asyncio import TaskGroup
 from collections.abc import Callable, Iterable
@@ -28,7 +28,7 @@ from universalassistant.const import (
 from universalassistant.core import (
     Event,
     EventStateChangedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     State,
     callback,
 )
@@ -49,7 +49,7 @@ _LOGGER = logging.getLogger(__name__)
 
 @callback
 def create_knx_exposure(
-    hass: __HAC_KEEP__, xknx: XKNX, config: ConfigType
+    hass: UniversalAssistant, xknx: XKNX, config: ConfigType
 ) -> KnxExposeEntity | KnxExposeTime:
     """Create single exposure."""
     expose_type = config[ExposeSchema.CONF_KNX_EXPOSE_TYPE]
@@ -75,7 +75,7 @@ def create_knx_exposure(
 
 @callback
 def create_combined_knx_exposure(
-    hass: __HAC_KEEP__, xknx: XKNX, configs: list[ConfigType]
+    hass: UniversalAssistant, xknx: XKNX, configs: list[ConfigType]
 ) -> list[KnxExposeEntity | KnxExposeTime]:
     """Create exposures from YAML config combined by entity_id."""
     exposures: list[KnxExposeEntity | KnxExposeTime] = []
@@ -154,11 +154,11 @@ def _yaml_config_to_expose_options(config: ConfigType) -> KnxExposeOptions:
 
 
 class KnxExposeEntity:
-    """Expose __HA_KEEP__ entity values to KNX bus."""
+    """Expose Universal Home Assistant entity values to KNX bus."""
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         xknx: XKNX,
         entity_id: str,
         options: Iterable[KnxExposeOptions],
@@ -286,7 +286,7 @@ class KnxExposeEntity:
         await self._async_handle_state(event.data["new_state"])
 
     async def _async_handle_state(self, state: State | None) -> None:
-        """Handle a __HA_KEEP__ state for all exposures."""
+        """Handle a Universal Home Assistant state for all exposures."""
         async with TaskGroup() as tg:
             for option, xknx_expose in self._exposures:
                 expose_value = self._get_expose_value(state, option)

@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.ring.const import DOMAIN, SCAN_INTERVAL
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -23,7 +23,7 @@ from .device_mocks import FRONT_DOOR_DEVICE_ID
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_ring_client")
 async def test_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -58,7 +58,7 @@ async def test_states(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_ring_client")
 async def test_health_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device_name: str,
     sensor_name: str,
@@ -105,7 +105,7 @@ async def test_health_sensor(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_ring_client")
 async def test_history_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     device_name: str,
@@ -132,7 +132,7 @@ async def test_history_sensor(
 
 
 async def test_last_recording_sensor_handles_non_ready_history(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ring_client: Ring,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -188,7 +188,7 @@ async def test_last_recording_sensor_handles_non_ready_history(
 
 @pytest.mark.usefixtures("mock_ring_client")
 async def test_only_chime_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ring_devices,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,

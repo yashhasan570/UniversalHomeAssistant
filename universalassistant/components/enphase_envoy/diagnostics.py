@@ -20,7 +20,7 @@ from universalassistant.const import (
     CONF_UNIQUE_ID,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.json import json_dumps
 from universalassistant.util.json import json_loads
@@ -63,7 +63,7 @@ async def _get_fixture_collection(
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: EnphaseConfigEntry
+    hass: UniversalAssistant, entry: EnphaseConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data

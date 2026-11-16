@@ -7,7 +7,7 @@ from typing import override
 import nuheat
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import CONF_SERIAL_NUMBER
@@ -27,7 +27,7 @@ class NuHeatCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: NuHeatConfigEntry,
         thermostat: nuheat.NuHeatThermostat,
     ) -> None:

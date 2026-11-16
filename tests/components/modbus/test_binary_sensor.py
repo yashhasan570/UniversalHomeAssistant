@@ -29,7 +29,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, State
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, State
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -94,7 +94,7 @@ SLAVE_UNIQUE_ID = "ground_floor_sensor"
         },
     ],
 )
-async def test_config_binary_sensor(hass: __HAC_KEEP__, mock_modbus) -> None:
+async def test_config_binary_sensor(hass: UniversalAssistant, mock_modbus) -> None:
     """Run config test for binary sensor."""
     assert SENSOR_DOMAIN in hass.config.components
 
@@ -190,7 +190,7 @@ async def test_config_binary_sensor(hass: __HAC_KEEP__, mock_modbus) -> None:
         ),
     ],
 )
-async def test_all_binary_sensor(hass: __HAC_KEEP__, expected, mock_do_cycle) -> None:
+async def test_all_binary_sensor(hass: UniversalAssistant, expected, mock_do_cycle) -> None:
     """Run test for given config."""
     assert hass.states.get(ENTITY_ID).state == expected
 
@@ -210,7 +210,7 @@ async def test_all_binary_sensor(hass: __HAC_KEEP__, expected, mock_do_cycle) ->
     ],
 )
 async def test_service_binary_sensor_update(
-    hass: __HAC_KEEP__, mock_modbus_ha
+    hass: UniversalAssistant, mock_modbus_ha
 ) -> None:
     """Run test for service universalassistant.update_entity."""
 
@@ -266,7 +266,7 @@ ENTITY_ID2 = f"{ENTITY_ID}_1"
     ],
 )
 async def test_restore_state_binary_sensor(
-    hass: __HAC_KEEP__, mock_test_state, mock_modbus
+    hass: UniversalAssistant, mock_test_state, mock_modbus
 ) -> None:
     """Run test for binary sensor restore state."""
     assert hass.states.get(ENTITY_ID).state == mock_test_state[0].state
@@ -299,7 +299,7 @@ TEST_NAME = "test_sensor"
         },
     ],
 )
-async def test_config_virtual_binary_sensor(hass: __HAC_KEEP__, mock_modbus) -> None:
+async def test_config_virtual_binary_sensor(hass: UniversalAssistant, mock_modbus) -> None:
     """Run config test for binary sensor."""
     assert SENSOR_DOMAIN in hass.config.components
 
@@ -415,7 +415,7 @@ async def test_config_virtual_binary_sensor(hass: __HAC_KEEP__, mock_modbus) -> 
     ],
 )
 async def test_virtual_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     expected,
     slaves,
@@ -433,7 +433,7 @@ async def test_virtual_binary_sensor(
 
 
 async def test_no_discovery_info_binary_sensor(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setup without discovery info."""
     assert SENSOR_DOMAIN not in hass.config.components

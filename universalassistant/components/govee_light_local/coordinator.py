@@ -9,7 +9,7 @@ from typing import override
 from govee_local_api import GoveeController, GoveeDevice
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import (
@@ -52,7 +52,7 @@ class GoveeLocalApiCoordinator(DataUpdateCoordinator[list[GoveeDevice]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: GoveeLocalConfigEntry,
         listening_addresses: list[str],
     ) -> None:
@@ -81,7 +81,7 @@ class GoveeLocalApiCoordinator(DataUpdateCoordinator[list[GoveeDevice]]):
     async def start(self) -> None:
         """Start the Govee coordinator."""
 
-        # __HA_KEEP__ enumerates adapters once at startup, so an address can
+        # Universal Home Assistant enumerates adapters once at startup, so an address can
         # be stale by the time we bind it. Keep the adapters that do bind.
         await self._controller.start(require_all=False)
         self._controller.send_update_message()

@@ -6,7 +6,7 @@ from mill import Heater, MillDevice
 
 from universalassistant.components.number import NumberDeviceClass, NumberEntity
 from universalassistant.const import UnitOfPower
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CLOUD, CONNECTION_TYPE
@@ -15,7 +15,7 @@ from .entity import MillBaseEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MillConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

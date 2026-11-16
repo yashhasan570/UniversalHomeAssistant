@@ -16,7 +16,7 @@ from pyecobee import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -36,13 +36,13 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 type EcobeeConfigEntry = ConfigEntry[EcobeeData]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the ecobee integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: EcobeeConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: EcobeeConfigEntry) -> None:
     """Set up ecobee via a config entry."""
     api_key = entry.data.get(CONF_API_KEY)
     username = entry.data.get(CONF_USERNAME)
@@ -85,7 +85,7 @@ class EcobeeData:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: EcobeeConfigEntry,
         api_key: str | None = None,
         username: str | None = None,
@@ -171,6 +171,6 @@ class EcobeeData:
         return False
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: EcobeeConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: EcobeeConfigEntry) -> None:
     """Unload the config entry and platforms."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

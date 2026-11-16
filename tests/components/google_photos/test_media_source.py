@@ -13,21 +13,21 @@ from universalassistant.components.media_source import (
     async_browse_media,
     async_resolve_media,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .conftest import CONFIG_ENTRY_ID
 
 
 @pytest.fixture(autouse=True)
-async def setup_components(hass: __HAC_KEEP__) -> None:
+async def setup_components(hass: UniversalAssistant) -> None:
     """Fixture to initialize the integration."""
     await async_setup_component(hass, "media_source", {})
 
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_no_config_entries(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Test a media source with no active config entry."""
 
@@ -51,7 +51,7 @@ async def test_no_config_entries(
     ],
 )
 async def test_no_read_scopes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test media source with only write scopes has no media source."""
     browse = await async_browse_media(hass, f"{URI_SCHEME}{DOMAIN}")
@@ -86,7 +86,7 @@ async def test_no_read_scopes(
     ],
 )
 async def test_browse_albums(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     album_path: str,
     expected_album_title: str,
     expected_results: list[tuple[str, str]],
@@ -129,7 +129,7 @@ async def test_browse_albums(
 
 
 @pytest.mark.usefixtures("setup_integration", "mock_api")
-async def test_invalid_config_entry(hass: __HAC_KEEP__) -> None:
+async def test_invalid_config_entry(hass: UniversalAssistant) -> None:
     """Test browsing to a config entry that does not exist."""
     with pytest.raises(BrowseError, match="Could not find config entry"):
         await async_browse_media(hass, f"{URI_SCHEME}{DOMAIN}/invalid-config-entry")
@@ -137,7 +137,7 @@ async def test_invalid_config_entry(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("setup_integration", "mock_api")
 @pytest.mark.parametrize("fixture_name", ["list_mediaitems.json"])
-async def test_browse_invalid_path(hass: __HAC_KEEP__) -> None:
+async def test_browse_invalid_path(hass: UniversalAssistant) -> None:
     """Test browsing to a photo is not possible."""
     browse = await async_browse_media(hass, f"{URI_SCHEME}{DOMAIN}")
     assert browse.domain == DOMAIN
@@ -164,7 +164,7 @@ async def test_browse_invalid_path(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_missing_photo_id(
-    hass: __HAC_KEEP__, identifier: str, expected_error: str
+    hass: UniversalAssistant, identifier: str, expected_error: str
 ) -> None:
     """Test parsing an invalid media identifier."""
     with pytest.raises(BrowseError, match=expected_error):
@@ -172,7 +172,7 @@ async def test_missing_photo_id(
 
 
 @pytest.mark.usefixtures("setup_integration", "mock_api")
-async def test_list_media_items_failure(hass: __HAC_KEEP__, mock_api: Mock) -> None:
+async def test_list_media_items_failure(hass: UniversalAssistant, mock_api: Mock) -> None:
     """Test browsing to an album id that does not exist."""
     browse = await async_browse_media(hass, f"{URI_SCHEME}{DOMAIN}")
     assert browse.domain == DOMAIN

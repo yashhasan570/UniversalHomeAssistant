@@ -23,7 +23,7 @@ from universalassistant.components.hassio.handler import (
     get_supervisor_passthrough_client,
 )
 from universalassistant.const import EVENT_HOMEASSISTANT_CLOSE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import (
     SERVER_SOFTWARE,
     HassClientResponse,
@@ -44,7 +44,7 @@ from . import SUPERVISOR_TOKEN
 @pytest.mark.usefixtures("socket_enabled")
 async def test_api_headers(
     aiohttp_raw_server,  # 'aiohttp_raw_server' must be before 'hass'!
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     api_call: str,
     method: Literal["GET", "POST"],
     payload: Any,
@@ -110,7 +110,7 @@ async def test_api_headers(
 @pytest.mark.usefixtures("socket_enabled")
 async def test_supervisor_client_source_header(
     aiohttp_raw_server,  # 'aiohttp_raw_server' must be before 'hass'!
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client_call: Callable[[SupervisorClient], Awaitable[None]],
     method: Literal["GET", "POST"],
     path: str,
@@ -156,9 +156,9 @@ async def test_supervisor_client_source_header(
 )
 @pytest.mark.usefixtures("hassio_unix_socket_env")
 async def test_unix_socket(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor_unix_socket: tuple[Path, list[web.Request]],
-    client_call: Callable[[__HAC_KEEP__], Awaitable[Any]],
+    client_call: Callable[[UniversalAssistant], Awaitable[Any]],
     source: str,
 ) -> None:
     """Test requests over the Supervisor Unix socket carry no token."""
@@ -173,7 +173,7 @@ async def test_unix_socket(
     assert session.connector.path == str(path)
     # Every app is "localhost" over the socket, cookies must not be shared
     assert isinstance(session.cookie_jar, DummyCookieJar)
-    # Same JSON parsing as the shared __HA_KEEP__ session
+    # Same JSON parsing as the shared Universal Home Assistant session
     assert session._response_class is HassClientResponse
     assert session.headers[hdrs.USER_AGENT] == SERVER_SOFTWARE
     assert len(requests) == 1
@@ -183,8 +183,8 @@ async def test_unix_socket(
     assert requests[0].headers["X-Hass-Source"] == source
 
 
-async def test_unix_socket_session_closed(hass: __HAC_KEEP__) -> None:
-    """Test the Supervisor Unix socket session is closed with __HA_KEEP__."""
+async def test_unix_socket_session_closed(hass: UniversalAssistant) -> None:
+    """Test the Supervisor Unix socket session is closed with Universal Home Assistant."""
     with patch.dict(
         os.environ, {ENV_SUPERVISOR_SOCKET: "/run/supervisor/api/supervisor.sock"}
     ):
@@ -200,7 +200,7 @@ async def test_unix_socket_session_closed(hass: __HAC_KEEP__) -> None:
 @pytest.mark.usefixtures("socket_enabled")
 async def test_api_range_header(
     aiohttp_raw_server,  # 'aiohttp_raw_server' must be before 'hass'!
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the range header is sent."""
     received_request = None
@@ -231,7 +231,7 @@ async def test_api_range_header(
 @pytest.mark.usefixtures("socket_enabled")
 async def test_send_command_text_error(
     aiohttp_raw_server,  # 'aiohttp_raw_server' must be before 'hass'!
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test a plain text error response raises with the response text."""
@@ -254,7 +254,7 @@ async def test_send_command_text_error(
 
 
 @pytest.mark.usefixtures("hassio_stubs")
-async def test_send_command_invalid_command(hass: __HAC_KEEP__) -> None:
+async def test_send_command_invalid_command(hass: UniversalAssistant) -> None:
     """Test send command fails when command is invalid."""
     hassio = get_supervisor_passthrough_client(hass)
     with pytest.raises(HassioAPIError):

@@ -19,8 +19,8 @@ from universalassistant.components.threema.client import (
 from universalassistant.components.threema.const import SUBENTRY_TYPE_RECIPIENT
 from universalassistant.config_entries import ConfigSubentryDataWithId
 from universalassistant.const import CONF_RECIPIENT
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import MOCK_GATEWAY_ID, MOCK_RECIPIENT_ID, RECIPIENT_SUBENTRY
@@ -36,7 +36,7 @@ _SECOND_RECIPIENT_SUBENTRY: ConfigSubentryDataWithId = {
 
 
 async def test_notify_entity_created(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_credentials: AsyncMock,
     mock_send_message: AsyncMock,
@@ -59,7 +59,7 @@ async def test_notify_entity_created(
     "mock_subentries", [[RECIPIENT_SUBENTRY, _SECOND_RECIPIENT_SUBENTRY]]
 )
 async def test_notify_entities_get_separate_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_credentials: AsyncMock,
     mock_send_message: AsyncMock,
@@ -69,7 +69,7 @@ async def test_notify_entities_get_separate_devices(
     """Test each recipient gets its own device, not a shared one.
 
     A device can only belong to a single config subentry; sharing one
-    across recipient subentries makes __HA_KEEP__ silently reassign
+    across recipient subentries makes Universal Home Assistant silently reassign
     it whenever a new recipient is added, orphaning the previous one.
     """
     mock_config_entry.add_to_hass(hass)
@@ -94,7 +94,7 @@ async def test_notify_entities_get_separate_devices(
 
 @pytest.mark.parametrize("mock_subentries", [[]])
 async def test_notify_entity_not_created_without_subentry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_credentials: AsyncMock,
     mock_send_message: AsyncMock,
@@ -113,7 +113,7 @@ async def test_notify_entity_not_created_without_subentry(
 
 
 async def test_send_message_simple(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_credentials: AsyncMock,
     mock_send_message: AsyncMock,
@@ -141,7 +141,7 @@ async def test_send_message_simple(
 
 
 async def test_send_message_with_title(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_credentials: AsyncMock,
     mock_send_message: AsyncMock,
@@ -175,7 +175,7 @@ async def test_send_message_with_title(
 
 
 async def test_send_message_e2e(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_with_keys: MockConfigEntry,
     mock_credentials: AsyncMock,
     mock_send_message: AsyncMock,
@@ -223,7 +223,7 @@ async def test_send_message_e2e(
     ids=["send_error", "connection_error", "auth_error", "no_credits", "rate_limited"],
 )
 async def test_send_message_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_credentials: AsyncMock,
     mock_send_message: AsyncMock,
@@ -231,7 +231,7 @@ async def test_send_message_error(
     side_effect: Exception,
     expected_error: str,
 ) -> None:
-    """Test notify entity raises __HAC_KEEP__Error on send/connection errors."""
+    """Test notify entity raises UniversalAssistantError on send/connection errors."""
     mock_send_message.side_effect = side_effect
 
     mock_config_entry.add_to_hass(hass)
@@ -243,7 +243,7 @@ async def test_send_message_error(
     )
     notify_entities = [e for e in entities if e.domain == NOTIFY_DOMAIN]
 
-    with pytest.raises(__HAC_KEEP__Error, match=expected_error):
+    with pytest.raises(UniversalAssistantError, match=expected_error):
         await hass.services.async_call(
             NOTIFY_DOMAIN,
             "send_message",
@@ -256,7 +256,7 @@ async def test_send_message_error(
 
 
 async def test_send_message_auth_error_triggers_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_credentials: AsyncMock,
     mock_send_message: AsyncMock,
@@ -274,7 +274,7 @@ async def test_send_message_auth_error_triggers_reauth(
     )
     notify_entities = [e for e in entities if e.domain == NOTIFY_DOMAIN]
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             NOTIFY_DOMAIN,
             "send_message",

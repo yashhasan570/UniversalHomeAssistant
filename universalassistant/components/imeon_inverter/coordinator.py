@@ -10,7 +10,7 @@ from imeon_inverter_api.inverter import Inverter
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import TIMEOUT
@@ -35,7 +35,7 @@ class InverterCoordinator(DataUpdateCoordinator[dict[str, str | float | int]]):
     # Implement methods to fetch and update data
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: InverterConfigEntry,
     ) -> None:
         """Initialize data update coordinator."""

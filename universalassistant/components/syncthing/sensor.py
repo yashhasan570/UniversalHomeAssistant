@@ -6,7 +6,7 @@ from typing import Any, override
 import aiosyncthing
 
 from universalassistant.components.sensor import SensorEntity
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.exceptions import PlatformNotReady
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -26,7 +26,7 @@ from .const import (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: SyncthingConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

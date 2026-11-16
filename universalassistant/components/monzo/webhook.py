@@ -17,7 +17,7 @@ from monzopy import (
 
 from universalassistant.components import cloud, webhook
 from universalassistant.const import CONF_WEBHOOK_ID, EVENT_CORE_CONFIG_UPDATE
-from universalassistant.core import CALLBACK_TYPE, Event, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, Event, UniversalAssistant, callback
 from universalassistant.exceptions import OAuth2TokenRequestReauthError
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.event import async_call_later
@@ -46,7 +46,7 @@ def webhook_signal(account_id: str) -> str:
 async def async_delete_remote_webhooks(
     api: AbstractMonzoApi, account_ids: Iterable[str], webhook_url: str
 ) -> None:
-    """Delete remote Monzo webhooks registered to a __HA_KEEP__ URL."""
+    """Delete remote Monzo webhooks registered to a Universal Home Assistant URL."""
     for account_id in account_ids:
         account_webhooks = await api.user_account.list_account_webhooks(account_id)
         for account_webhook in account_webhooks:
@@ -55,11 +55,11 @@ async def async_delete_remote_webhooks(
 
 
 class MonzoWebhookManager:
-    """Manage __HA_KEEP__ and Monzo webhooks for a config entry."""
+    """Manage Universal Home Assistant and Monzo webhooks for a config entry."""
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: MonzoConfigEntry,
         coordinator: MonzoCoordinator,
     ) -> None:
@@ -155,7 +155,7 @@ class MonzoWebhookManager:
                     )
                 except NoURLAvailableError:
                     _LOGGER.warning(
-                        "Monzo webhooks require an external __HA_KEEP__ URL"
+                        "Monzo webhooks require an external Universal Home Assistant URL"
                     )
                     await self._async_remove_previous_remote_webhooks()
                     return
@@ -268,7 +268,7 @@ class MonzoWebhookManager:
             self._async_unregister_local_webhook()
 
     async def async_handle_webhook(
-        self, hass: __HAC_KEEP__, webhook_id: str, request: Request
+        self, hass: UniversalAssistant, webhook_id: str, request: Request
     ) -> None:
         """Handle an incoming Monzo webhook."""
         try:
@@ -313,7 +313,7 @@ class MonzoWebhookManager:
     def _async_cloud_connection_changed(
         self, state: cloud.CloudConnectionState
     ) -> None:
-        """Reconcile webhooks when __HA_KEEP__ Cloud availability changes."""
+        """Reconcile webhooks when Universal Home Assistant Cloud availability changes."""
         if (
             state is cloud.CloudConnectionState.CLOUD_DISCONNECTED
             and cloud.async_active_subscription(self.hass)
@@ -398,5 +398,5 @@ class MonzoWebhookManager:
 
     @callback
     def _async_unregister_local_webhook(self) -> None:
-        """Unregister the local __HA_KEEP__ webhook."""
+        """Unregister the local Universal Home Assistant webhook."""
         webhook.async_unregister(self.hass, self.entry.data[CONF_WEBHOOK_ID])

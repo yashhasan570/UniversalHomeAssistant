@@ -23,7 +23,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -49,14 +49,14 @@ PRESS_ACTION = make_test_action("press")
 
 
 @pytest.fixture
-async def setup_button(hass: __HAC_KEEP__, count: int, config: dict[str, Any]) -> None:
+async def setup_button(hass: UniversalAssistant, count: int, config: dict[str, Any]) -> None:
     """Do setup of button integration."""
     await setup_entity(hass, TEST_BUTTON, ConfigurationStyle.MODERN, count, config)
 
 
 @pytest.fixture
 async def setup_single_attribute_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     attribute: str,
     attribute_template: str,
     config: dict,
@@ -75,7 +75,7 @@ async def setup_single_attribute_button(
 
 
 def _verify(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     expected_value: str,
     attributes: dict[str, Any] | None = None,
     entity_id: str = TEST_BUTTON.entity_id,
@@ -99,7 +99,7 @@ def _verify(
     ],
 )
 async def test_setup_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     config_entry_extra_options: dict[str, str],
 ) -> None:
@@ -135,7 +135,7 @@ async def test_setup_config_entry(
 
 @pytest.mark.parametrize(("count", "config"), [(1, PRESS_ACTION)])
 @pytest.mark.usefixtures("setup_button")
-async def test_missing_optional_config(hass: __HAC_KEEP__) -> None:
+async def test_missing_optional_config(hass: UniversalAssistant) -> None:
     """Test: missing optional template is ok."""
     _verify(hass, STATE_UNKNOWN)
 
@@ -143,7 +143,7 @@ async def test_missing_optional_config(hass: __HAC_KEEP__) -> None:
 @pytest.mark.parametrize(("count", "config"), [(1, {"press": []})])
 @pytest.mark.usefixtures("setup_button")
 async def test_missing_emtpy_press_action_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test: missing optional template is ok."""
@@ -166,7 +166,7 @@ async def test_missing_emtpy_press_action_config(
 
 @pytest.mark.parametrize(("count", "config"), [(0, {})])
 @pytest.mark.usefixtures("setup_button")
-async def test_missing_required_keys(hass: __HAC_KEEP__) -> None:
+async def test_missing_required_keys(hass: UniversalAssistant) -> None:
     """Test: missing required fields will fail."""
     assert hass.states.async_all("button") == []
 
@@ -185,7 +185,7 @@ async def test_missing_required_keys(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("setup_button")
 async def test_device_class_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     calls: list[ServiceCall],
 ) -> None:
@@ -241,7 +241,7 @@ async def test_device_class_option(
 )
 @pytest.mark.usefixtures("setup_single_attribute_button")
 async def test_options_that_are_templates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     attribute_name: str,
     expected: str,
     freezer: FrozenDateTimeFactory,
@@ -274,7 +274,7 @@ async def test_options_that_are_templates(
     ("attribute", "attribute_template"), [("name", "Button {{ 1 + 1 }}")]
 )
 @pytest.mark.usefixtures("setup_single_attribute_button")
-async def test_name_template(hass: __HAC_KEEP__) -> None:
+async def test_name_template(hass: UniversalAssistant) -> None:
     """Test: name template."""
     _verify(
         hass,
@@ -286,7 +286,7 @@ async def test_name_template(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_unique_id(hass: __HAC_KEEP__) -> None:
+async def test_unique_id(hass: UniversalAssistant) -> None:
     """Test unique_id option only creates one button per id."""
     await setup_and_test_unique_id(
         hass, TEST_BUTTON, ConfigurationStyle.MODERN, PRESS_ACTION
@@ -294,7 +294,7 @@ async def test_unique_id(hass: __HAC_KEEP__) -> None:
 
 
 async def test_nested_unique_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a template unique_id propagates to button unique_ids."""
     await setup_and_test_nested_unique_id(
@@ -303,7 +303,7 @@ async def test_nested_unique_id(
 
 
 async def test_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -359,7 +359,7 @@ async def test_device_id(
     ],
 )
 @pytest.mark.usefixtures("setup_single_attribute_button")
-async def test_available_template_with_entities(hass: __HAC_KEEP__) -> None:
+async def test_available_template_with_entities(hass: UniversalAssistant) -> None:
     """Test availability templates with values from other entities."""
 
     await async_trigger(hass, TEST_AVAILABILITY_ENTITY, STATE_ON)
@@ -380,7 +380,7 @@ async def test_available_template_with_entities(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("setup_single_attribute_button")
 async def test_invalid_availability_template_keeps_component_available(
-    hass: __HAC_KEEP__, caplog_setup_text
+    hass: UniversalAssistant, caplog_setup_text
 ) -> None:
     """Test that an invalid availability keeps the device available."""
     assert hass.states.get(TEST_BUTTON.entity_id).state != STATE_UNAVAILABLE
@@ -392,7 +392,7 @@ async def test_invalid_availability_template_keeps_component_available(
 )
 @pytest.mark.parametrize("action", SCRIPT_FIELDS)
 async def test_invalid_yaml_actions_do_not_create_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     action: str,
     caplog: pytest.LogCaptureFixture,
@@ -405,7 +405,7 @@ async def test_invalid_yaml_actions_do_not_create_entities(
 
 @pytest.mark.parametrize("action", SCRIPT_FIELDS)
 async def test_invalid_config_entry_actions_do_not_create_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     action: str,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -415,7 +415,7 @@ async def test_invalid_config_entry_actions_do_not_create_entities(
     )
 
 
-async def test_extra_template_attributes(hass: __HAC_KEEP__) -> None:
+async def test_extra_template_attributes(hass: UniversalAssistant) -> None:
     """Test extra attributes."""
     await assert_extra_template_attributes(
         hass, TEST_BUTTON, ConfigurationStyle.MODERN, {"press": []}
@@ -423,7 +423,7 @@ async def test_extra_template_attributes(hass: __HAC_KEEP__) -> None:
 
 
 async def test_blocked_template_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test blocked extra attributes."""
@@ -444,7 +444,7 @@ async def test_blocked_template_attributes(
 
 
 async def test_attributes_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test attributes as a single template."""
@@ -454,7 +454,7 @@ async def test_attributes_template(
 
 
 async def test_attributes_template_with_blocked_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test blocked attributes for a single attributes template."""

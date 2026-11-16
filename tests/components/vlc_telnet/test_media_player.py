@@ -34,8 +34,8 @@ from universalassistant.const import (
     SERVICE_VOLUME_SET,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 ENTITY_ID = "media_player.vlc_telnet"
 
@@ -123,7 +123,7 @@ ENTITY_ID = "media_player.vlc_telnet"
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_action_handler_raises_universalassistant_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     vlc_mock: MagicMock,
     service: str,
     service_data: dict,
@@ -131,10 +131,10 @@ async def test_action_handler_raises_universalassistant_error(
     error_class: type[Exception],
     translation_key: str,
 ) -> None:
-    """Test that action handlers raise __HAC_KEEP__Error on VLC errors."""
+    """Test that action handlers raise UniversalAssistantError on VLC errors."""
     getattr(vlc_mock, vlc_method).side_effect = error_class("test error")
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             MEDIA_PLAYER_DOMAIN,
             service,
@@ -160,7 +160,7 @@ async def test_action_handler_raises_universalassistant_error(
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_update_logs_error_instead_of_raising(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     vlc_mock: MagicMock,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,

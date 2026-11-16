@@ -1,4 +1,4 @@
-"""Test the __HA_KEEP__ SkyConnect integration."""
+"""Test the Universal Home Assistant SkyConnect integration."""
 
 from datetime import timedelta
 from unittest.mock import patch
@@ -29,7 +29,7 @@ from universalassistant.config_entries import (
     ConfigEntryState,
 )
 from universalassistant.const import EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -40,7 +40,7 @@ from tests.components.usb import async_request_scan, patch_scanned_serial_ports
 from tests.components.usb.conftest import force_usb_polling_watcher  # noqa: F401
 
 
-async def test_config_entry_migration_v2(hass: __HAC_KEEP__) -> None:
+async def test_config_entry_migration_v2(hass: UniversalAssistant) -> None:
     """Test migrating config entries from v1 to v2 format."""
 
     config_entry = MockConfigEntry(
@@ -153,7 +153,7 @@ async def test_config_entry_migration_v2(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_config_entry_migration_v5_collapses_duplicates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     older: dict,
     newer: dict,
@@ -210,7 +210,7 @@ async def test_config_entry_migration_v5_collapses_duplicates(
     ],
 )
 async def test_config_entry_migration_v5_prefers_active_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sibling_source: str,
     sibling_disabled_by: ConfigEntryDisabler | None,
 ) -> None:
@@ -268,7 +268,7 @@ async def test_config_entry_migration_v5_prefers_active_entry(
 
 
 async def test_config_entry_migration_v5_removes_duplicates_of_migrated_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test v1.5 migration removes duplicates of an already migrated entry.
 
@@ -340,7 +340,7 @@ async def test_config_entry_migration_v5_removes_duplicates_of_migrated_entry(
     assert hass.config_entries.async_get_entry(duplicate_entry.entry_id) is None
 
 
-async def test_setup_fails_on_missing_usb_port(hass: __HAC_KEEP__) -> None:
+async def test_setup_fails_on_missing_usb_port(hass: UniversalAssistant) -> None:
     """Test setup failing when the USB port is missing."""
 
     config_entry = MockConfigEntry(
@@ -387,7 +387,7 @@ async def test_setup_fails_on_missing_usb_port(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
-async def test_usb_device_reactivity(hass: __HAC_KEEP__) -> None:
+async def test_usb_device_reactivity(hass: UniversalAssistant) -> None:
     """Test setting up USB monitoring."""
     assert await async_setup_component(hass, USB_DOMAIN, {"usb": {}})
 
@@ -469,7 +469,7 @@ async def test_usb_device_reactivity(hass: __HAC_KEEP__) -> None:
         assert config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_bad_config_entry_fixing(hass: __HAC_KEEP__) -> None:
+async def test_bad_config_entry_fixing(hass: UniversalAssistant) -> None:
     """Test fixing/deleting config entries with bad data."""
 
     # Newly-added ZBT-1
@@ -607,14 +607,14 @@ def _multi_pan_sky_connect_entry(firmware: str) -> MockConfigEntry:
             "firmware": firmware,
             "firmware_version": None,
         },
-        title="__HA_KEEP__ SkyConnect",
+        title="Universal Home Assistant SkyConnect",
         version=1,
         minor_version=4,
     )
 
 
 async def test_multi_pan_migration_issue_not_created_for_cpc(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test no repair issue is created for CPC firmware when the addon is not running."""
     config_entry = _multi_pan_sky_connect_entry(ApplicationType.CPC.value)
@@ -643,7 +643,7 @@ async def test_multi_pan_migration_issue_not_created_for_cpc(
 
 
 async def test_multi_pan_migration_issue_created_for_addon(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test the repair issue is created when the multi-PAN addon is running."""
     config_entry = _multi_pan_sky_connect_entry(ApplicationType.SPINEL.value)
@@ -669,7 +669,7 @@ async def test_multi_pan_migration_issue_created_for_addon(
     assert issue is not None
     assert issue.translation_key == ISSUE_MULTI_PAN_MIGRATION
     assert issue.translation_placeholders == {
-        "hardware_name": "__HA_KEEP__ SkyConnect"
+        "hardware_name": "Universal Home Assistant SkyConnect"
     }
     assert issue.data == {"entry_id": config_entry.entry_id}
     assert issue.config_entry_id == config_entry.entry_id
@@ -687,7 +687,7 @@ async def test_multi_pan_migration_issue_created_for_addon(
 
 
 async def test_multi_pan_migration_issue_deleted_for_ezsp(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test the multi-PAN migration repair issue is removed when not using multi-PAN."""
     config_entry = _multi_pan_sky_connect_entry(ApplicationType.EZSP.value)
@@ -700,7 +700,7 @@ async def test_multi_pan_migration_issue_deleted_for_ezsp(
         is_fixable=True,
         severity=ir.IssueSeverity.WARNING,
         translation_key=ISSUE_MULTI_PAN_MIGRATION,
-        translation_placeholders={"hardware_name": "__HA_KEEP__ SkyConnect"},
+        translation_placeholders={"hardware_name": "Universal Home Assistant SkyConnect"},
         data={"entry_id": config_entry.entry_id},
     )
 
@@ -727,7 +727,7 @@ async def test_multi_pan_migration_issue_deleted_for_ezsp(
 
 
 async def test_device_via_esphome_device(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test the device is linked to the ESPHome device proxying its serial port."""
     esphome_entry = MockConfigEntry(domain="esphome", unique_id="11:22:33:44:55:66")

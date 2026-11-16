@@ -4,7 +4,7 @@ import json
 
 from pytest_universalassistant.common import async_fire_mqtt_message
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 def get_device_discovery_payload(
@@ -35,7 +35,7 @@ def get_device_discovery_payload(
 
 
 async def send_discovery_message(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     payload: dict[str, any] | None,
 ) -> None:
     """Send the discovery message to make E-BOARD device discoverable."""

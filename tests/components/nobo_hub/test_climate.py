@@ -29,8 +29,8 @@ from universalassistant.components.nobo_hub.const import (
     OVERRIDE_TYPE_NOW,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import entity_unique_ids, fire_hub_update
@@ -54,7 +54,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_climate_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -74,7 +74,7 @@ async def test_climate_entities(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_state_maps_zone_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nobo_hub: MagicMock,
     zone_mode: str,
     expected_state: HVACMode,
@@ -90,7 +90,7 @@ async def test_state_maps_zone_mode(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_state_override_forces_heat(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nobo_hub: MagicMock,
 ) -> None:
     """A non-normal zone override maps to HVACMode.HEAT."""
@@ -102,7 +102,7 @@ async def test_state_override_forces_heat(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_current_temperature_unknown_when_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nobo_hub: MagicMock,
 ) -> None:
     """A missing current temperature surfaces as None."""
@@ -120,7 +120,7 @@ async def test_current_temperature_unknown_when_missing(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_set_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nobo_hub: MagicMock,
     hvac_mode: HVACMode,
     expected_override: str,
@@ -151,7 +151,7 @@ async def test_set_hvac_mode(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_set_preset_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nobo_hub: MagicMock,
     preset: str,
     expected_mode: str,
@@ -177,7 +177,7 @@ async def test_set_preset_mode(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_set_preset_with_override_type_now(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nobo_hub: MagicMock,
 ) -> None:
     """The override_type option flows into the zone override call."""
@@ -197,7 +197,7 @@ async def test_set_preset_with_override_type_now(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_zone_removed_removes_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nobo_hub: MagicMock,
 ) -> None:
     """Removing a zone via the Nobø app must not crash and removes the entity."""
@@ -208,7 +208,7 @@ async def test_zone_removed_removes_entity(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_temperature_updates_zone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nobo_hub: MagicMock,
 ) -> None:
     """Setting target temperatures updates the zone on the hub."""
@@ -253,16 +253,16 @@ async def test_set_temperature_updates_zone(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_climate_action_wraps_library_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nobo_hub: MagicMock,
     service: str,
     service_data: dict[str, object],
     mock_attr: str,
     expected_key: str,
 ) -> None:
-    """Library errors during climate actions are raised as __HAC_KEEP__Error."""
+    """Library errors during climate actions are raised as UniversalAssistantError."""
     getattr(mock_nobo_hub, mock_attr).side_effect = PynoboError("boom")
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             service,
@@ -275,7 +275,7 @@ async def test_climate_action_wraps_library_error(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_new_zone_adds_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nobo_hub: MagicMock,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -292,7 +292,7 @@ async def test_new_zone_adds_entity(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_readded_zone_reappears(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nobo_hub: MagicMock,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,

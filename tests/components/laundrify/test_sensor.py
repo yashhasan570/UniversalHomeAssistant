@@ -24,7 +24,7 @@ from universalassistant.const import (
     Platform,
     UnitOfPower,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.util import slugify
 
@@ -37,7 +37,7 @@ async def platforms() -> AsyncGenerator[None]:
 
 
 async def test_laundrify_sensor_init(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_device: LaundrifyDevice,
     laundrify_config_entry: MockConfigEntry,
@@ -61,7 +61,7 @@ async def test_laundrify_sensor_init(
 
 
 async def test_laundrify_sensor_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_device: LaundrifyDevice,
     laundrify_config_entry: MockConfigEntry,
@@ -83,7 +83,7 @@ async def test_laundrify_sensor_update(
 
 
 async def test_laundrify_sensor_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
     mock_device: LaundrifyDevice,

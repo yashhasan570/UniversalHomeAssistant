@@ -11,7 +11,7 @@
     },
     "error": {
       "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
-      "ingress_url": "Ingress URLs are only used for accessing the Mealie UI. Use your __HA_KEEP__ IP address and the network port within the configuration tab of the Mealie app.",
+      "ingress_url": "Ingress URLs are only used for accessing the Mealie UI. Use your Universal Home Assistant IP address and the network port within the configuration tab of the Mealie app.",
       "invalid_auth": "[%key:common::config_flow::error::invalid_auth%]",
       "mealie_version": "Minimum required version is v3.2.0. Please upgrade Mealie and then retry.",
       "unknown": "[%key:common::config_flow::error::unknown%]"
@@ -24,8 +24,8 @@
         "data_description": {
           "api_token": "[%key:component::mealie::common::data_description_api_token%]"
         },
-        "description": "Do you want to configure __HA_KEEP__ to connect to the Mealie instance provided by the app: {addon}?",
-        "title": "Mealie via __HA_KEEP__ app"
+        "description": "Do you want to configure Universal Home Assistant to connect to the Mealie instance provided by the app: {addon}?",
+        "title": "Mealie via Universal Home Assistant app"
       },
       "reauth_confirm": {
         "data": {

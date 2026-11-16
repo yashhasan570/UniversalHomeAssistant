@@ -19,7 +19,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     CONTENT_TYPE_TEXT_PLAIN,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -237,7 +237,7 @@ class ImapDataUpdateCoordinator(DataUpdateCoordinator[int | None]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         imap_client: IMAP4_SSL,
         entry: ImapConfigEntry,
         update_interval: timedelta | None,
@@ -364,7 +364,7 @@ class ImapDataUpdateCoordinator(DataUpdateCoordinator[int | None]):
         #
         # In rare cases, when no UID's are returned,
         # only the status line is returned, and not an empty line.
-        # See: https://github.com/yashhasan570/__HAC_KEEP__/issues/132042
+        # See: https://github.com/yashhasan570/UniversalUniversalAssistant/issues/132042
         #
         # Strictly the RfC notes that 0 or more numbers should be returned
         # delimited by a space.
@@ -429,7 +429,7 @@ class ImapPollingDataUpdateCoordinator(ImapDataUpdateCoordinator):
     """Class for imap client."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, imap_client: IMAP4_SSL, entry: ImapConfigEntry
+        self, hass: UniversalAssistant, imap_client: IMAP4_SSL, entry: ImapConfigEntry
     ) -> None:
         """Initiate imap client."""
         _LOGGER.debug(
@@ -477,7 +477,7 @@ class ImapPushDataUpdateCoordinator(ImapDataUpdateCoordinator):
     """Class for imap client."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, imap_client: IMAP4_SSL, entry: ImapConfigEntry
+        self, hass: UniversalAssistant, imap_client: IMAP4_SSL, entry: ImapConfigEntry
     ) -> None:
         """Initiate imap client."""
         _LOGGER.debug("Connected to server %s using IMAP push", entry.data[CONF_SERVER])

@@ -23,7 +23,7 @@ from universalassistant.const import (
     UnitOfEnergy,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -41,7 +41,7 @@ RANGE_4_DIGITS = round(max(VALUES) - min(VALUES), 4)
 SUM_VALUE = sum(VALUES)
 
 
-async def test_default_name_sensor(hass: __HAC_KEEP__) -> None:
+async def test_default_name_sensor(hass: UniversalAssistant) -> None:
     """Test the min sensor with a default name."""
     config = {
         "sensor": {
@@ -70,7 +70,7 @@ async def test_default_name_sensor(hass: __HAC_KEEP__) -> None:
 
 
 async def test_min_sensor(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the min sensor."""
     config = {
@@ -104,7 +104,7 @@ async def test_min_sensor(
     assert entity.unique_id == "very_unique_id"
 
 
-async def test_max_sensor(hass: __HAC_KEEP__) -> None:
+async def test_max_sensor(hass: UniversalAssistant) -> None:
     """Test the max sensor."""
     config = {
         "sensor": {
@@ -133,7 +133,7 @@ async def test_max_sensor(hass: __HAC_KEEP__) -> None:
     assert state.attributes.get(ATTR_STATE_CLASS) == SensorStateClass.MEASUREMENT
 
 
-async def test_mean_sensor(hass: __HAC_KEEP__) -> None:
+async def test_mean_sensor(hass: UniversalAssistant) -> None:
     """Test the mean sensor."""
     config = {
         "sensor": {
@@ -159,7 +159,7 @@ async def test_mean_sensor(hass: __HAC_KEEP__) -> None:
     assert state.attributes.get(ATTR_STATE_CLASS) == SensorStateClass.MEASUREMENT
 
 
-async def test_mean_1_digit_sensor(hass: __HAC_KEEP__) -> None:
+async def test_mean_1_digit_sensor(hass: UniversalAssistant) -> None:
     """Test the mean with 1-digit precision sensor."""
     config = {
         "sensor": {
@@ -185,7 +185,7 @@ async def test_mean_1_digit_sensor(hass: __HAC_KEEP__) -> None:
     assert str(float(MEAN_1_DIGIT)) == state.state
 
 
-async def test_mean_4_digit_sensor(hass: __HAC_KEEP__) -> None:
+async def test_mean_4_digit_sensor(hass: UniversalAssistant) -> None:
     """Test the mean with 4-digit precision sensor."""
     config = {
         "sensor": {
@@ -211,7 +211,7 @@ async def test_mean_4_digit_sensor(hass: __HAC_KEEP__) -> None:
     assert str(float(MEAN_4_DIGITS)) == state.state
 
 
-async def test_median_sensor(hass: __HAC_KEEP__) -> None:
+async def test_median_sensor(hass: UniversalAssistant) -> None:
     """Test the median sensor."""
     config = {
         "sensor": {
@@ -237,7 +237,7 @@ async def test_median_sensor(hass: __HAC_KEEP__) -> None:
     assert state.attributes.get(ATTR_STATE_CLASS) == SensorStateClass.MEASUREMENT
 
 
-async def test_range_4_digit_sensor(hass: __HAC_KEEP__) -> None:
+async def test_range_4_digit_sensor(hass: UniversalAssistant) -> None:
     """Test the range with 4-digit precision sensor."""
     config = {
         "sensor": {
@@ -263,7 +263,7 @@ async def test_range_4_digit_sensor(hass: __HAC_KEEP__) -> None:
     assert str(float(RANGE_4_DIGITS)) == state.state
 
 
-async def test_range_1_digit_sensor(hass: __HAC_KEEP__) -> None:
+async def test_range_1_digit_sensor(hass: UniversalAssistant) -> None:
     """Test the range with 1-digit precision sensor."""
     config = {
         "sensor": {
@@ -289,7 +289,7 @@ async def test_range_1_digit_sensor(hass: __HAC_KEEP__) -> None:
     assert str(float(RANGE_1_DIGIT)) == state.state
 
 
-async def test_not_enough_sensor_value(hass: __HAC_KEEP__) -> None:
+async def test_not_enough_sensor_value(hass: UniversalAssistant) -> None:
     """Test that there is nothing done if not enough values available."""
     config = {
         "sensor": {
@@ -345,7 +345,7 @@ async def test_not_enough_sensor_value(hass: __HAC_KEEP__) -> None:
     assert state.attributes.get("max_value") is None
 
 
-async def test_different_unit_of_measurement(hass: __HAC_KEEP__) -> None:
+async def test_different_unit_of_measurement(hass: UniversalAssistant) -> None:
     """Test for different unit of measurement."""
     config = {
         "sensor": {
@@ -394,7 +394,7 @@ async def test_different_unit_of_measurement(hass: __HAC_KEEP__) -> None:
     assert state.attributes.get("unit_of_measurement") == "ERR"
 
 
-async def test_device_class(hass: __HAC_KEEP__) -> None:
+async def test_device_class(hass: UniversalAssistant) -> None:
     """Test for setting the device class."""
     config = {
         "sensor": {
@@ -443,7 +443,7 @@ async def test_device_class(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_energy_device_class_not_inherited(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     device_class_1: SensorDeviceClass,
     device_class_2: SensorDeviceClass,
@@ -486,7 +486,7 @@ async def test_energy_device_class_not_inherited(
     assert "which is impossible considering device class" not in caplog.text
 
 
-async def test_last_sensor(hass: __HAC_KEEP__) -> None:
+async def test_last_sensor(hass: UniversalAssistant) -> None:
     """Test the last sensor."""
     config = {
         "sensor": {
@@ -513,7 +513,7 @@ async def test_last_sensor(hass: __HAC_KEEP__) -> None:
         assert state.attributes.get(ATTR_STATE_CLASS) == SensorStateClass.MEASUREMENT
 
 
-async def test_reload(hass: __HAC_KEEP__) -> None:
+async def test_reload(hass: UniversalAssistant) -> None:
     """Verify we can reload filter sensors."""
     hass.states.async_set("sensor.test_1", 12345)
     hass.states.async_set("sensor.test_2", 45678)
@@ -554,7 +554,7 @@ async def test_reload(hass: __HAC_KEEP__) -> None:
 
 
 async def test_sensor_incorrect_state(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the min sensor."""
     config = {
@@ -583,7 +583,7 @@ async def test_sensor_incorrect_state(
 
 
 async def test_sum_sensor(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the sum sensor."""
     config = {
@@ -614,7 +614,7 @@ async def test_sum_sensor(
     assert entity.unique_id == "very_unique_id_sum_sensor"
 
 
-async def test_sum_sensor_no_state(hass: __HAC_KEEP__) -> None:
+async def test_sum_sensor_no_state(hass: UniversalAssistant) -> None:
     """Test the sum sensor with no state ."""
     config = {
         "sensor": {

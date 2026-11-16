@@ -18,13 +18,13 @@ from universalassistant.components.climate import (
 from universalassistant.components.sensibo.const import DOMAIN, SENSIBO_ERRORS
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 
 
 async def test_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     load_int: ConfigEntry,
     snapshot: SnapshotAssertion,
@@ -66,7 +66,7 @@ async def test_motion_sensor_via_device(
 
 @pytest.mark.parametrize("load_platforms", [[Platform.BINARY_SENSOR]])
 async def test_motion_sensor_via_device_dynamic_add(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     load_int: ConfigEntry,
     mock_client: MagicMock,
@@ -123,7 +123,7 @@ async def test_motion_sensor_via_device_dynamic_add(
 
 @pytest.mark.parametrize("p_error", SENSIBO_ERRORS)
 async def test_entity_failed_service_calls(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     p_error: Exception,
     load_int: ConfigEntry,
     mock_client: MagicMock,
@@ -149,7 +149,7 @@ async def test_entity_failed_service_calls(
 
     mock_client.async_set_ac_state_property.side_effect = p_error
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_FAN_MODE,

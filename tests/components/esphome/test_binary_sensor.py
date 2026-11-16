@@ -4,7 +4,7 @@ from aioesphomeapi import APIClient, BinarySensorInfo, BinarySensorState, SubDev
 import pytest
 
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import MockESPHomeDeviceType, MockGenericDeviceEntryType
 
@@ -13,7 +13,7 @@ from .conftest import MockESPHomeDeviceType, MockGenericDeviceEntryType
     "binary_state", [(True, STATE_ON), (False, STATE_OFF), (None, STATE_UNKNOWN)]
 )
 async def test_binary_sensor_generic_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     binary_state: tuple[bool, str],
     mock_generic_device_entry: MockGenericDeviceEntryType,
@@ -41,7 +41,7 @@ async def test_binary_sensor_generic_entity(
 
 
 async def test_status_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -68,7 +68,7 @@ async def test_status_binary_sensor(
 
 
 async def test_binary_sensor_missing_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -94,7 +94,7 @@ async def test_binary_sensor_missing_state(
 
 
 async def test_binary_sensor_has_state_false(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -126,7 +126,7 @@ async def test_binary_sensor_has_state_false(
 
 
 async def test_binary_sensors_same_key_different_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -208,7 +208,7 @@ async def test_binary_sensors_same_key_different_device_id(
 
 
 async def test_binary_sensor_main_and_sub_device_same_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:

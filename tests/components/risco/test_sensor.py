@@ -8,7 +8,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.risco import CannotConnectError, UnauthorizedError
 from universalassistant.components.risco.coordinator import LAST_EVENT_TIMESTAMP_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -122,7 +122,7 @@ def _no_zones_and_partitions():
 
 @pytest.mark.parametrize("exception", [CannotConnectError, UnauthorizedError])
 async def test_error_on_login(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     login_with_error,
     cloud_config_entry,
@@ -135,7 +135,7 @@ async def test_error_on_login(
         assert not entity_registry.async_is_registered(entity_id)
 
 
-def _check_state(hass: __HAC_KEEP__, category: str, entity_id: str) -> None:
+def _check_state(hass: UniversalAssistant, category: str, entity_id: str) -> None:
     event_index = CATEGORIES_TO_EVENTS[category]
     event = TEST_EVENTS[event_index]
     state = hass.states.get(entity_id)
@@ -159,7 +159,7 @@ def _check_state(hass: __HAC_KEEP__, category: str, entity_id: str) -> None:
 
 
 @pytest.fixture
-async def _set_utc_time_zone(hass: __HAC_KEEP__) -> None:
+async def _set_utc_time_zone(hass: UniversalAssistant) -> None:
     await hass.config.async_set_time_zone("UTC")
 
 
@@ -175,7 +175,7 @@ def save_mock():
 @pytest.mark.parametrize("events", [TEST_EVENTS])
 @pytest.mark.usefixtures("two_zone_cloud", "_set_utc_time_zone")
 async def test_cloud_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     save_mock,
     setup_risco_cloud,

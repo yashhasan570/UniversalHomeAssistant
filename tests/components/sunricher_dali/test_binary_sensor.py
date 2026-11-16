@@ -18,7 +18,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import find_device_listener, trigger_availability_callback
@@ -41,7 +41,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -62,7 +62,7 @@ async def test_setup_entry(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_occupancy_sensor_initial_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test occupancy sensor initial state is OFF."""
     state = hass.states.get(TEST_OCCUPANCY_ENTITY_ID)
@@ -72,7 +72,7 @@ async def test_occupancy_sensor_initial_state(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_occupancy_sensor_motion_detected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_motion_sensor_device: MagicMock,
 ) -> None:
     """Test occupancy sensor turns ON when motion is detected."""
@@ -90,7 +90,7 @@ async def test_occupancy_sensor_motion_detected(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_occupancy_sensor_presence_detected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_motion_sensor_device: MagicMock,
 ) -> None:
     """Test occupancy sensor turns ON when presence is detected."""
@@ -108,7 +108,7 @@ async def test_occupancy_sensor_presence_detected(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_occupancy_sensor_occupancy_detected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_motion_sensor_device: MagicMock,
 ) -> None:
     """Test occupancy sensor turns ON when occupancy is detected."""
@@ -126,7 +126,7 @@ async def test_occupancy_sensor_occupancy_detected(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_occupancy_sensor_ignores_no_motion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_motion_sensor_device: MagicMock,
 ) -> None:
     """Test occupancy sensor stays ON after NO_MOTION (only VACANT turns it off)."""
@@ -151,7 +151,7 @@ async def test_occupancy_sensor_ignores_no_motion(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_occupancy_sensor_vacant(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_motion_sensor_device: MagicMock,
 ) -> None:
     """Test occupancy sensor turns OFF when vacant."""
@@ -176,7 +176,7 @@ async def test_occupancy_sensor_vacant(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_occupancy_sensor_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_motion_sensor_device: MagicMock,
 ) -> None:
     """Test availability changes are reflected in binary sensor entity state."""
@@ -202,7 +202,7 @@ async def test_occupancy_sensor_availability(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_motion_sensor_initial_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test motion sensor initial state is OFF."""
     state = hass.states.get(TEST_MOTION_ENTITY_ID)
@@ -212,7 +212,7 @@ async def test_motion_sensor_initial_state(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_motion_sensor_on_motion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_motion_sensor_device: MagicMock,
 ) -> None:
     """Test motion sensor turns ON when motion is detected."""
@@ -230,7 +230,7 @@ async def test_motion_sensor_on_motion(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_motion_sensor_off_no_motion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_motion_sensor_device: MagicMock,
 ) -> None:
     """Test motion sensor turns OFF when no motion."""
@@ -254,7 +254,7 @@ async def test_motion_sensor_off_no_motion(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_motion_sensor_ignores_occupancy_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_motion_sensor_device: MagicMock,
 ) -> None:
     """Test motion sensor ignores OCCUPANCY, PRESENCE, VACANT events."""

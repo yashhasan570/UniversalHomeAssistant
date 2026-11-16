@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -19,7 +19,7 @@ CHARGING_ENTITY_ID = "binary_sensor.jar_charging"
 
 
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -39,7 +39,7 @@ async def test_entities(
     ids=["paused", "not-paused"],
 )
 async def test_paused_state_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_casper_glow: MagicMock,
     mock_config_entry: MockConfigEntry,
     fire_callbacks: Callable[[GlowState], Awaitable[None]],
@@ -59,7 +59,7 @@ async def test_paused_state_update(
 
 
 async def test_paused_ignores_none_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_casper_glow: MagicMock,
     mock_config_entry: MockConfigEntry,
     fire_callbacks: Callable[[GlowState], Awaitable[None]],
@@ -89,7 +89,7 @@ async def test_paused_ignores_none_state(
     ids=["charging", "not-charging"],
 )
 async def test_charging_state_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_casper_glow: MagicMock,
     mock_config_entry: MockConfigEntry,
     fire_callbacks: Callable[[GlowState], Awaitable[None]],
@@ -109,7 +109,7 @@ async def test_charging_state_update(
 
 
 async def test_charging_ignores_none_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_casper_glow: MagicMock,
     mock_config_entry: MockConfigEntry,
     fire_callbacks: Callable[[GlowState], Awaitable[None]],

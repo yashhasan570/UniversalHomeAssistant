@@ -28,8 +28,8 @@ from universalassistant.components.camera import (
     WebRTCSendMessage,
 )
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import LOGGER
@@ -52,7 +52,7 @@ MAX_ICE_SERVERS = 10
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MatterConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -80,7 +80,7 @@ class MatterCamera(MatterEntity, Camera):
         entity_info: MatterEntityInfo,
     ) -> None:
         """Initialize the Matter camera."""
-        # Keyed by the __HA_KEEP__ session id, which is also the session's
+        # Keyed by the Universal Home Assistant session id, which is also the session's
         # client key on the Matter server.
         self._sessions: dict[str, WebRTCSendMessage] = {}
 
@@ -89,7 +89,7 @@ class MatterCamera(MatterEntity, Camera):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Handle being added to __HA_KEEP__."""
+        """Handle being added to Universal Home Assistant."""
         await super().async_added_to_hass()
         node_id = self._endpoint.node.node_id
         self.async_on_remove(
@@ -177,7 +177,7 @@ class MatterCamera(MatterEntity, Camera):
             # Closing the session while the offer is in flight cancels it.
             if self._sessions.pop(session_id, None) is None:
                 return
-            raise __HAC_KEEP__Error(str(err) or type(err).__name__) from err
+            raise UniversalAssistantError(str(err) or type(err).__name__) from err
         LOGGER.debug(
             "WebRTC session %s started for %s (talkback: %s)",
             result.webrtc_session_id,
@@ -191,7 +191,7 @@ class MatterCamera(MatterEntity, Camera):
     ) -> None:
         """Handle a WebRTC candidate from the frontend."""
         if session_id not in self._sessions:
-            raise __HAC_KEEP__Error(f"Unknown WebRTC session: {session_id}")
+            raise UniversalAssistantError(f"Unknown WebRTC session: {session_id}")
         # The server holds candidates until the camera has the offer.
         try:
             await self.matter_client.camera_provide_ice_candidates(
@@ -208,7 +208,7 @@ class MatterCamera(MatterEntity, Camera):
                 client_session_key=session_id,
             )
         except (MatterError, MatterClientException) as err:
-            raise __HAC_KEEP__Error(str(err) or type(err).__name__) from err
+            raise UniversalAssistantError(str(err) or type(err).__name__) from err
 
     @callback
     def _on_webrtc_callback(self, event: EventType, data: dict[str, Any]) -> None:
@@ -235,7 +235,7 @@ class MatterCamera(MatterEntity, Camera):
 
     @callback
     def _on_session_ended(self, event: EventType, data: CameraSessionEndedData) -> None:
-        """Handle a session that ended without __HA_KEEP__ stopping it."""
+        """Handle a session that ended without Universal Home Assistant stopping it."""
         if (
             data.client_session_key is None
             or (send_message := self._sessions.pop(data.client_session_key, None))
@@ -283,12 +283,12 @@ class MatterCamera(MatterEntity, Camera):
             result = await self.matter_client.camera_snapshot(
                 node_id=self._endpoint.node.node_id,
                 endpoint_id=self._endpoint.endpoint_id,
-                # Most browsers cannot show HEIC, and __HA_KEEP__ only scales JPEG.
+                # Most browsers cannot show HEIC, and Universal Home Assistant only scales JPEG.
                 codec="JPEG",
                 resolution=resolution or None,
             )
         except (MatterError, MatterClientException) as err:
-            raise __HAC_KEEP__Error(str(err) or type(err).__name__) from err
+            raise UniversalAssistantError(str(err) or type(err).__name__) from err
         return b64decode(result.data)
 
 

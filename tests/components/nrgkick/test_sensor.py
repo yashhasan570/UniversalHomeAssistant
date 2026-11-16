@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.nrgkick.const import DEFAULT_SCAN_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -26,7 +26,7 @@ pytestmark = pytest.mark.usefixtures("entity_registry_enabled_by_default")
 
 @pytest.mark.freeze_time("2023-10-21")
 async def test_sensor_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -39,7 +39,7 @@ async def test_sensor_entities(
 
 
 async def test_mapped_unknown_values_become_state_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:
@@ -59,7 +59,7 @@ async def test_mapped_unknown_values_become_state_unknown(
 
 
 async def test_cellular_and_gps_entities_are_gated_by_model_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:
@@ -75,7 +75,7 @@ async def test_cellular_and_gps_entities_are_gated_by_model_type(
 
 
 async def test_vehicle_connected_since_none_when_standby(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:
@@ -91,7 +91,7 @@ async def test_vehicle_connected_since_none_when_standby(
 
 
 async def test_power_factor_is_converted_to_percent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:
@@ -148,7 +148,7 @@ async def test_power_factor_is_converted_to_percent(
     ids=["type2_3_phases", "domestic_1_phase", "phase_count_missing"],
 )
 async def test_temperatures_depend_on_attachment(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
     connector_type: ConnectorType,
@@ -171,7 +171,7 @@ async def test_temperatures_depend_on_attachment(
 
 
 async def test_temperatures_follow_attachment_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -209,7 +209,7 @@ async def test_temperatures_follow_attachment_change(
     ids=["missing", "not_a_number", "too_large"],
 )
 async def test_vehicle_connected_since_invalid_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
     connect_time: int | str | None,
@@ -226,7 +226,7 @@ async def test_vehicle_connected_since_invalid_value(
 
 
 async def test_missing_status_code_becomes_state_unknown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:

@@ -9,13 +9,13 @@ import psutil_universal_assistant as ha_psutil
 from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.components.hardware.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
 async def test_board_info(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test we can get the board info."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -34,7 +34,7 @@ TEST_TIME_ADVANCE_INTERVAL = dt.timedelta(seconds=5 + 1)
 
 
 async def test_system_status_subscription(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
 ) -> None:

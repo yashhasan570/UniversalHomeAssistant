@@ -32,7 +32,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import CoreState, Event, EventStateChangedData, __HAC_KEEP__
+from universalassistant.core import CoreState, Event, EventStateChangedData, UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -89,7 +89,7 @@ def _fired(events: list[Event[EventStateChangedData]]) -> list[tuple[str, int, s
 
 @pytest.mark.freeze_time("2026-10-09 15:00:00+00:00")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -106,7 +106,7 @@ async def test_all_entities(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_new_entries_fire_one_event_each_oldest_first(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_connection: MockModbusConnection,
 ) -> None:
@@ -134,7 +134,7 @@ async def test_new_entries_fire_one_event_each_oldest_first(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entry_fires_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_connection: MockModbusConnection,
 ) -> None:
@@ -203,7 +203,7 @@ async def test_entry_fires_once(
 )
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_setup_fires_only_entries_logged_since_last_run(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_connection: MockModbusConnection,
     entry: MockConfigEntry,
@@ -226,7 +226,7 @@ async def test_setup_fires_only_entries_logged_since_last_run(
 
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_entries_wait_until_universal_assistant_runs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_connection: MockModbusConnection,
 ) -> None:
@@ -254,7 +254,7 @@ async def test_entries_wait_until_universal_assistant_runs(
 
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_entries_found_by_first_good_read_do_not_fire(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_connection: MockModbusConnection,
 ) -> None:
@@ -295,7 +295,7 @@ async def test_entries_found_by_first_good_read_do_not_fire(
 
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_log_dropped_at_the_wake_does_not_replay_later(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_connection: MockModbusConnection,
 ) -> None:
@@ -332,7 +332,7 @@ async def test_log_dropped_at_the_wake_does_not_replay_later(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_time_zone_change_does_not_refire(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_connection: MockModbusConnection,
 ) -> None:
@@ -352,7 +352,7 @@ async def test_time_zone_change_does_not_refire(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entry_logged_during_failed_read_fires_after_it(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_connection: MockModbusConnection,
 ) -> None:

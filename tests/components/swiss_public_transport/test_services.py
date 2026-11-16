@@ -24,8 +24,8 @@ from universalassistant.components.swiss_public_transport.services import (
     SwissPublicTransportServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 
 from . import setup_integration
 
@@ -51,7 +51,7 @@ MOCK_DATA_STEP_BASE = {
     ],
 )
 async def test_service_call_fetch_connections_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     data: dict,
     config_data,
 ) -> None:
@@ -112,19 +112,19 @@ async def test_service_call_fetch_connections_success(
         (
             1,
             MOCK_DATA_STEP_BASE,
-            pytest.raises(__HAC_KEEP__Error),
+            pytest.raises(UniversalAssistantError),
             OpendataTransportConnectionError(),
         ),
         (
             2,
             MOCK_DATA_STEP_BASE,
-            pytest.raises(__HAC_KEEP__Error),
+            pytest.raises(UniversalAssistantError),
             OpendataTransportError(),
         ),
     ],
 )
 async def test_service_call_fetch_connections_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     limit,
     config_data,
     expected_result,
@@ -170,7 +170,7 @@ async def test_service_call_fetch_connections_error(
 
 
 async def test_service_call_load_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test service call with integration error."""
 

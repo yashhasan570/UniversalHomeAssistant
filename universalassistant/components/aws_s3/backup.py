@@ -18,7 +18,7 @@ from universalassistant.components.backup import (
     suggested_filename,
 )
 from universalassistant.const import CONF_PREFIX
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.util.async_iterator import ResourceChunkIterator
 
 from .const import CONF_BUCKET, DATA_BACKUP_AGENT_LISTENERS, DOMAIN
@@ -55,7 +55,7 @@ def handle_boto_errors[T](
 
 
 async def async_get_backup_agents(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> list[BackupAgent]:
     """Return a list of backup agents."""
     entries: list[S3ConfigEntry] = hass.config_entries.async_loaded_entries(DOMAIN)
@@ -64,7 +64,7 @@ async def async_get_backup_agents(
 
 @callback
 def async_register_backup_agents_listener(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     listener: Callable[[], None],
     **kwargs: Any,
@@ -96,7 +96,7 @@ class S3BackupAgent(BackupAgent):
 
     domain = DOMAIN
 
-    def __init__(self, hass: __HAC_KEEP__, entry: S3ConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: S3ConfigEntry) -> None:
         """Initialize the S3 agent."""
         super().__init__()
         self._client = entry.runtime_data.client

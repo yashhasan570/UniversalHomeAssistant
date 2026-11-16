@@ -7,7 +7,7 @@ from pybravia import BraviaClient
 
 from universalassistant.components import ssdp
 from universalassistant.const import CONF_HOST, CONF_MAC, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
@@ -23,7 +23,7 @@ PLATFORMS: Final[list[Platform]] = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: BraviaTVConfigEntry
+    hass: UniversalAssistant, config_entry: BraviaTVConfigEntry
 ) -> None:
     """Set up a config entry."""
     host = config_entry.data[CONF_HOST]
@@ -61,14 +61,14 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: BraviaTVConfigEntry
+    hass: UniversalAssistant, config_entry: BraviaTVConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, config_entry: BraviaTVConfigEntry
+    hass: UniversalAssistant, config_entry: BraviaTVConfigEntry
 ) -> None:
     """Migrate an old config entry."""
     if config_entry.version == 1 and config_entry.minor_version == 1:

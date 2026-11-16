@@ -5,7 +5,7 @@ from denon_rs232.models import MODELS
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_DEVICE, CONF_MODEL, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import DOMAIN, LOGGER, DenonRS232ConfigEntry
@@ -13,7 +13,7 @@ from .const import DOMAIN, LOGGER, DenonRS232ConfigEntry
 PLATFORMS = [Platform.MEDIA_PLAYER]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: DenonRS232ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: DenonRS232ConfigEntry) -> None:
     """Set up Denon RS-232 from a config entry."""
     port = entry.data[CONF_DEVICE]
     model = MODELS[entry.data[CONF_MODEL]]
@@ -47,7 +47,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: DenonRS232ConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: DenonRS232ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: DenonRS232ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 

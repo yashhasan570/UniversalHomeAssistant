@@ -8,7 +8,7 @@ from elkm1_lib.discovery import AIOELKDiscovery, ElkSystem
 
 from universalassistant import config_entries
 from universalassistant.components import network
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, discovery_flow
 
 from .const import DISCOVER_SCAN_TIMEOUT, DOMAIN
@@ -23,7 +23,7 @@ def _short_mac(mac_address: str) -> str:
 
 @callback
 def async_update_entry_from_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ElkM1ConfigEntry,
     device: ElkSystem,
 ) -> bool:
@@ -38,7 +38,7 @@ def async_update_entry_from_discovery(
 
 
 async def async_discover_devices(
-    hass: __HAC_KEEP__, timeout: int, address: str | None = None
+    hass: UniversalAssistant, timeout: int, address: str | None = None
 ) -> list[ElkSystem]:
     """Discover elkm1 devices."""
     if address:
@@ -74,7 +74,7 @@ async def async_discover_devices(
     return list(combined_discoveries.values())
 
 
-async def async_discover_device(hass: __HAC_KEEP__, host: str) -> ElkSystem | None:
+async def async_discover_device(hass: UniversalAssistant, host: str) -> ElkSystem | None:
     """Direct discovery at a single ip instead of broadcast."""
     # If we are missing the unique_id we should be able to fetch it
     # from the device by doing a directed discovery at the host only
@@ -86,7 +86,7 @@ async def async_discover_device(hass: __HAC_KEEP__, host: str) -> ElkSystem | No
 
 @callback
 def async_trigger_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     discovered_devices: list[ElkSystem],
 ) -> None:
     """Trigger config flows for discovered devices."""

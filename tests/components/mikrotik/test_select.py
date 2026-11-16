@@ -14,7 +14,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_mikrotik_entry
@@ -22,7 +22,7 @@ from .const import BRIDGE1_INTERFACE, ETHER1_INTERFACE, ETHER1_POE, INTERFACE_DA
 
 
 async def test_select_entities_created(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -35,7 +35,7 @@ async def test_select_entities_created(
     await snapshot_platform(hass, entity_registry, snapshot, config_entry.entry_id)
 
 
-async def test_select_no_matching_interfaces(hass: __HAC_KEEP__) -> None:
+async def test_select_no_matching_interfaces(hass: UniversalAssistant) -> None:
     """Test no select entities are created for interfaces without PoE support."""
     with patch("universalassistant.components.mikrotik.PLATFORMS", [Platform.SELECT]):
         await setup_mikrotik_entry(hass, interface_data=[BRIDGE1_INTERFACE])
@@ -43,7 +43,7 @@ async def test_select_no_matching_interfaces(hass: __HAC_KEEP__) -> None:
     assert hass.states.async_entity_ids(SELECT_DOMAIN) == []
 
 
-async def test_select_option(hass: __HAC_KEEP__, mock_api: MagicMock) -> None:
+async def test_select_option(hass: UniversalAssistant, mock_api: MagicMock) -> None:
     """Test selecting a PoE option updates the Mikrotik interface."""
     with patch("universalassistant.components.mikrotik.PLATFORMS", [Platform.SELECT]):
         await setup_mikrotik_entry(
@@ -84,7 +84,7 @@ async def test_select_option(hass: __HAC_KEEP__, mock_api: MagicMock) -> None:
     assert state.state == "forced_on"
 
 
-async def test_current_option_none_without_poe_state(hass: __HAC_KEEP__) -> None:
+async def test_current_option_none_without_poe_state(hass: UniversalAssistant) -> None:
     """Test current_option is None for an interface without a reported PoE state."""
     with patch("universalassistant.components.mikrotik.PLATFORMS", [Platform.SELECT]):
         config_entry = await setup_mikrotik_entry(

@@ -22,7 +22,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .util import block_till_done
@@ -36,7 +36,7 @@ def platforms() -> Platform | list[Platform]:
     return Platform.SELECT
 
 
-async def notify_events(hass: __HAC_KEEP__, event_bus: EventBus):
+async def notify_events(hass: UniversalAssistant, event_bus: EventBus):
     """Notify events."""
     event_bus.notify(WaterAmountEvent(WaterAmount.ULTRAHIGH))
     event_bus.notify(WorkModeEvent(WorkMode.VACUUM))
@@ -100,7 +100,7 @@ async def notify_events(hass: __HAC_KEEP__, event_bus: EventBus):
     ],
 )
 async def test_selects(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -155,7 +155,7 @@ async def test_selects(
     ],
 )
 async def test_selects_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     controller: EcovacsController,
     entity_id: list[str],
     current_state: str,

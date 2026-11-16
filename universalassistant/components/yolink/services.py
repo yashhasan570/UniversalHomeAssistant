@@ -6,7 +6,7 @@ import probatio
 from yolink.client_request import ClientRequest
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 
@@ -36,7 +36,7 @@ _SPEAKER_HUB_PLAY_CALL_OPTIONAL_ATTRS = (
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register services for YoLink integration."""
 
     async def handle_speaker_hub_play_call(service_call: ServiceCall) -> None:

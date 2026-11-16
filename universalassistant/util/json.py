@@ -7,7 +7,7 @@ from typing import Any
 import orjson
 from typing_extensions import Sentinel as sentinel
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 _SENTINEL = sentinel("_SENTINEL")
 _LOGGER = logging.getLogger(__name__)
@@ -25,7 +25,7 @@ JSON_ENCODE_EXCEPTIONS = (TypeError, ValueError)
 JSON_DECODE_EXCEPTIONS = (orjson.JSONDecodeError,)
 
 
-class SerializationError(__HAC_KEEP__Error):
+class SerializationError(UniversalAssistantError):
     """Error serializing the data to JSON."""
 
 
@@ -75,10 +75,10 @@ def load_json(
         _LOGGER.debug("JSON file not found: %s", filename)
     except JSON_DECODE_EXCEPTIONS as error:
         _LOGGER.exception("Could not parse JSON content: %s", filename)
-        raise __HAC_KEEP__Error(f"Error while loading {filename}: {error}") from error
+        raise UniversalAssistantError(f"Error while loading {filename}: {error}") from error
     except OSError as error:
         _LOGGER.exception("JSON file reading failed: %s", filename)
-        raise __HAC_KEEP__Error(f"Error while loading {filename}: {error}") from error
+        raise UniversalAssistantError(f"Error while loading {filename}: {error}") from error
     return {} if default is _SENTINEL else default
 
 
@@ -99,7 +99,7 @@ def load_json_array(
     _LOGGER.exception(
         "Expected JSON to be parsed as a list got %s in: %s", {type(value)}, filename
     )
-    raise __HAC_KEEP__Error(f"Expected JSON to be parsed as a list got {type(value)}")
+    raise UniversalAssistantError(f"Expected JSON to be parsed as a list got {type(value)}")
 
 
 def load_json_object(
@@ -119,7 +119,7 @@ def load_json_object(
     _LOGGER.exception(
         "Expected JSON to be parsed as a dict got %s in: %s", {type(value)}, filename
     )
-    raise __HAC_KEEP__Error(f"Expected JSON to be parsed as a dict got {type(value)}")
+    raise UniversalAssistantError(f"Expected JSON to be parsed as a dict got {type(value)}")
 
 
 def format_unserializable_data(data: dict[str, Any]) -> str:

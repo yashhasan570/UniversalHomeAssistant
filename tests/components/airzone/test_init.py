@@ -14,7 +14,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.airzone.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .util import (
@@ -28,7 +28,7 @@ from .util import (
 
 
 async def test_unique_id_migrate(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test unique id migration."""
 
@@ -110,7 +110,7 @@ async def test_unique_id_migrate(
     )
 
 
-async def test_unload_entry(hass: __HAC_KEEP__) -> None:
+async def test_unload_entry(hass: UniversalAssistant) -> None:
     """Test unload."""
 
     config_entry = MockConfigEntry(
@@ -141,7 +141,7 @@ async def test_unload_entry(hass: __HAC_KEEP__) -> None:
 
 
 async def test_device_via_device_links(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test that child devices link to their registered parent via via_device_id."""
 
@@ -165,7 +165,7 @@ async def test_device_via_device_links(
     assert zone_device.via_device_id == system_device.id
 
 
-async def test_migrate_entry_v2(hass: __HAC_KEEP__) -> None:
+async def test_migrate_entry_v2(hass: UniversalAssistant) -> None:
     """Test entry migration to v2."""
 
     config_entry = MockConfigEntry(

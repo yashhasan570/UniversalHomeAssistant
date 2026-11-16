@@ -20,7 +20,7 @@ from universalassistant.components.ffmpeg import (
     get_ffmpeg_manager,
 )
 from universalassistant.const import CONF_NAME, CONF_REPEAT
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -55,7 +55,7 @@ PLATFORM_SCHEMA = BINARY_SENSOR_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -102,7 +102,7 @@ class FFmpegMotion(FFmpegBinarySensor[ffmpeg_sensor.SensorMotion]):
     """A binary sensor which use FFmpeg for noise detection."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, manager: FFmpegManager, config: dict[str, Any]
+        self, hass: UniversalAssistant, manager: FFmpegManager, config: dict[str, Any]
     ) -> None:
         """Initialize FFmpeg motion binary sensor."""
         ffmpeg = ffmpeg_sensor.SensorMotion(manager.binary, self._async_callback)

@@ -22,7 +22,7 @@ RUN --mount=type=tmpfs,target=/tmp \
     apk add --no-cache libturbojpeg \
     # Install uv at the version pinned in the requirements file
     && pip install --no-cache-dir "uv==$(awk -F'==' '/^uv==/{print $2}' /usr/src/universalassistant/requirements.txt)" \
-    # Install CI-only tooling from PyPI, bypassing the __HA_KEEP__ wheel index
+    # Install CI-only tooling from PyPI, bypassing the Universal Home Assistant wheel index
     && UV_EXTRA_INDEX_URL="" uv pip install \
         --no-build \
         --no-cache \
@@ -41,7 +41,7 @@ RUN --mount=type=tmpfs,target=/tmp \
         -e /usr/src/universalassistant/packages/hassfest
 
 LABEL "name"="hassfest"
-LABEL "maintainer"="__HA_KEEP__ <hello@universalassistant.io>"
+LABEL "maintainer"="Universal Home Assistant <hello@universalassistant.io>"
 
 LABEL "com.github.actions.name"="hassfest"
 LABEL "com.github.actions.description"="Run hassfest to validate standalone integration repositories"

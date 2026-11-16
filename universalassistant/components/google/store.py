@@ -8,7 +8,7 @@ from gcal_sync.api import GoogleCalendarService
 from gcal_sync.store import CalendarStore
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.storage import Store
 
 from .const import DOMAIN
@@ -34,7 +34,7 @@ class GoogleRuntimeData:
 class LocalCalendarStore(CalendarStore):
     """Storage for local persistence of calendar and event data."""
 
-    def __init__(self, hass: __HAC_KEEP__, entry_id: str) -> None:
+    def __init__(self, hass: UniversalAssistant, entry_id: str) -> None:
         """Initialize LocalCalendarStore."""
         self._store = Store[dict[str, Any]](
             hass,

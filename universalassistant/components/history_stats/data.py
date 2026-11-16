@@ -6,7 +6,7 @@ import logging
 import math
 
 from universalassistant.components.recorder import get_instance, history
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.template import Template
 from universalassistant.util import dt as dt_util
 
@@ -39,7 +39,7 @@ class HistoryStats:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entity_id: str,
         entity_states: list[str],
         start: Template | None,

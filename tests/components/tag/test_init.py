@@ -12,7 +12,7 @@ from syrupy.filters import props
 from universalassistant.components.tag import DOMAIN, _create_entry, async_scan_tag
 from universalassistant.components.tag.const import TagEntityStateAttribute
 from universalassistant.const import CONF_NAME, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import collection, entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -22,7 +22,7 @@ from . import TEST_DEVICE_ID, TEST_TAG_ID, TEST_TAG_ID_2, TEST_TAG_NAME, TEST_TA
 
 @pytest.fixture
 def storage_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_storage: dict[str, Any],
 ):
@@ -56,7 +56,7 @@ def storage_setup(
 
 
 @pytest.fixture
-def storage_setup_1_1(hass: __HAC_KEEP__, hass_storage: dict[str, Any]):
+def storage_setup_1_1(hass: UniversalAssistant, hass_storage: dict[str, Any]):
     """Storage version 1.1 setup."""
 
     async def _storage(items=None):
@@ -84,7 +84,7 @@ def storage_setup_1_1(hass: __HAC_KEEP__, hass_storage: dict[str, Any]):
 
 
 async def test_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     storage_setup_1_1,
     freezer: FrozenDateTimeFactory,
@@ -126,7 +126,7 @@ async def test_migration(
 
 
 async def test_ws_list(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, storage_setup
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, storage_setup
 ) -> None:
     """Test listing tags via WS."""
     assert await storage_setup()
@@ -143,7 +143,7 @@ async def test_ws_list(
 
 
 async def test_ws_update(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, storage_setup
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, storage_setup
 ) -> None:
     """Test listing tags via WS."""
     assert await storage_setup()
@@ -165,7 +165,7 @@ async def test_ws_update(
 
 
 async def test_tag_scanned(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     hass_storage: dict[str, Any],
@@ -230,7 +230,7 @@ def track_changes(coll: collection.ObservableCollection):
 
 
 async def test_tag_id_exists(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, storage_setup
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, storage_setup
 ) -> None:
     """Test scanning tags."""
     assert await storage_setup()
@@ -245,7 +245,7 @@ async def test_tag_id_exists(
 
 
 async def test_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     storage_setup,
@@ -279,7 +279,7 @@ async def test_entity(
 
 async def test_entity_created_and_removed(
     caplog: pytest.LogCaptureFixture,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     storage_setup,

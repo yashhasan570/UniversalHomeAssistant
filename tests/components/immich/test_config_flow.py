@@ -17,14 +17,14 @@ from universalassistant.const import (
     CONF_URL,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import MOCK_CONFIG_ENTRY_DATA, MOCK_USER_DATA
 
 
 async def test_step_user(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_immich: Mock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_immich: Mock
 ) -> None:
     """Test a user initiated config flow."""
     result = await hass.config_entries.flow.async_init(
@@ -65,7 +65,7 @@ async def test_step_user(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_user_error_handling(
-    hass: __HAC_KEEP__, mock_immich: Mock, exception: Exception, error: str
+    hass: UniversalAssistant, mock_immich: Mock, exception: Exception, error: str
 ) -> None:
     """Test a user initiated config flow with errors."""
     result = await hass.config_entries.flow.async_init(
@@ -95,7 +95,7 @@ async def test_step_user_error_handling(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_step_user_invalid_url(hass: __HAC_KEEP__, mock_immich: Mock) -> None:
+async def test_step_user_invalid_url(hass: UniversalAssistant, mock_immich: Mock) -> None:
     """Test a user initiated config flow with errors."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -120,7 +120,7 @@ async def test_step_user_invalid_url(hass: __HAC_KEEP__, mock_immich: Mock) -> N
 
 
 async def test_user_already_configured(
-    hass: __HAC_KEEP__, mock_immich: Mock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_immich: Mock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test starting a flow by user when already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -141,7 +141,7 @@ async def test_user_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: __HAC_KEEP__, mock_immich: Mock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_immich: Mock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reauthentication flow."""
     mock_config_entry.add_to_hass(hass)
@@ -180,7 +180,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_flow_error_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_immich: Mock,
     mock_config_entry: MockConfigEntry,
@@ -222,7 +222,7 @@ async def test_reauth_flow_error_handling(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_mismatch(
-    hass: __HAC_KEEP__, mock_immich: Mock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_immich: Mock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reauthentication flow with mis-matching unique id."""
     mock_config_entry.add_to_hass(hass)
@@ -244,7 +244,7 @@ async def test_reauth_flow_mismatch(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__, mock_immich: Mock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_immich: Mock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow."""
     mock_config_entry.add_to_hass(hass)
@@ -285,7 +285,7 @@ async def test_reconfigure_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_reconfigure_error_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_immich: Mock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -319,7 +319,7 @@ async def test_step_reconfigure_error_handling(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_reconfigure_invalid_url(
-    hass: __HAC_KEEP__, mock_immich: Mock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_immich: Mock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test a user initiated config flow with errors."""
     mock_config_entry.add_to_hass(hass)

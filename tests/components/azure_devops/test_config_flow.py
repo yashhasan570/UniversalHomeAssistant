@@ -8,13 +8,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.azure_devops.const import CONF_ORG, CONF_PROJECT, DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import DEVOPS_PROJECT, FIXTURE_REAUTH_INPUT, FIXTURE_USER_INPUT, UNIQUE_ID
 
 
-async def test_show_user_form(hass: __HAC_KEEP__) -> None:
+async def test_show_user_form(hass: UniversalAssistant) -> None:
     """Test that the setup form is served."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -26,7 +26,7 @@ async def test_show_user_form(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_authorization_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_devops_client: AsyncMock,
 ) -> None:
     """Test we show user form on Azure DevOps authorization error."""
@@ -61,7 +61,7 @@ async def test_authorization_error(
 
 
 async def test_reauth_authorization_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_devops_client: AsyncMock,
 ) -> None:
@@ -96,7 +96,7 @@ async def test_reauth_authorization_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_devops_client: AsyncMock,
 ) -> None:
     """Test we show user form on Azure DevOps connection error."""
@@ -131,7 +131,7 @@ async def test_connection_error(
 
 
 async def test_reauth_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_devops_client: AsyncMock,
 ) -> None:
@@ -167,7 +167,7 @@ async def test_reauth_connection_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_project_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_devops_client: AsyncMock,
 ) -> None:
     """Test we show user form on Azure DevOps connection error."""
@@ -202,7 +202,7 @@ async def test_project_error(
 
 
 async def test_reauth_project_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_devops_client: AsyncMock,
 ) -> None:
@@ -238,7 +238,7 @@ async def test_reauth_project_error(
 
 
 async def test_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_devops_client: AsyncMock,
 ) -> None:
@@ -267,7 +267,7 @@ async def test_reauth_flow(
 
 
 async def test_full_flow_implementation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_devops_client: AsyncMock,
 ) -> None:

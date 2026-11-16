@@ -37,8 +37,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, State as HassState
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant, State as HassState
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.state import async_reproduce_state
 
@@ -115,7 +115,7 @@ def _circuit_state(hvac_mode: int, current_setpoint: str | None) -> State:
     ],
 )
 async def test_climate_min_max_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     static_data: dict[str, Any],
@@ -134,7 +134,7 @@ async def test_climate_min_max_temperature(
 
 
 async def test_celsius_fahrenheit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -147,7 +147,7 @@ async def test_celsius_fahrenheit(
 
 
 async def test_climate_entity_loads_without_static_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -162,7 +162,7 @@ async def test_climate_entity_loads_without_static_values(
 
 
 async def test_climate_without_presets_on_pps(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -179,7 +179,7 @@ async def test_climate_without_presets_on_pps(
 
 
 async def test_climate_entity_properties(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -239,7 +239,7 @@ async def test_climate_entity_properties(
 
 
 async def _async_set_hvac_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     freezer: FrozenDateTimeFactory,
     value: MagicMock | None,
@@ -254,7 +254,7 @@ async def _async_set_hvac_action(
 
 
 async def test_hvac_action_handles_none_inputs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -270,7 +270,7 @@ async def test_hvac_action_handles_none_inputs(
 
 
 async def test_hvac_action_uses_library_mapping(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -291,7 +291,7 @@ async def test_hvac_action_uses_library_mapping(
 
 
 async def test_climate_without_current_temperature_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -313,7 +313,7 @@ async def test_climate_without_current_temperature_sensor(
 
 
 async def test_climate_without_target_temperature_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -335,7 +335,7 @@ async def test_climate_without_target_temperature_sensor(
 
 
 async def test_climate_hvac_mode_object_none(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -370,7 +370,7 @@ HA_TO_BSBLAN_HVAC_MODE_TEST: dict[HVACMode, int] = {
     [(1, HVACMode.HEAT), (3, HVACMode.AUTO), (3, HVACMode.OFF)],
 )
 async def test_async_set_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     hvac_mode_int: int,
@@ -406,7 +406,7 @@ async def test_async_set_hvac_mode(
     ],
 )
 async def test_set_hvac_mode_already_active(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     hvac_mode_int: int,
@@ -440,7 +440,7 @@ async def test_set_hvac_mode_already_active(
     ],
 )
 async def test_async_set_preset_mode_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     hvac_mode_int: int,
@@ -470,7 +470,7 @@ async def test_async_set_preset_mode_success(
     ],
 )
 async def test_async_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     target_temp: float,
@@ -491,7 +491,7 @@ async def test_async_set_temperature(
 
 
 async def test_async_set_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -532,7 +532,7 @@ async def test_async_set_data(
 
     # Test error handling
     mock_bsblan.thermostat.side_effect = BSBLANError("Test error")
-    with pytest.raises(__HAC_KEEP__Error) as exc:
+    with pytest.raises(UniversalAssistantError) as exc:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -544,7 +544,7 @@ async def test_async_set_data(
 
 
 async def test_dual_circuit_climate_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry_dual_circuit: MockConfigEntry,
 ) -> None:
@@ -571,7 +571,7 @@ async def test_dual_circuit_climate_entities(
     ],
 )
 async def test_hvac_action_in_protection_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     hvac_mode_int: int,
@@ -615,7 +615,7 @@ def mock_reduced_setpoint(mock_bsblan: AsyncMock) -> None:
     ],
 )
 async def test_target_temperature_follows_current_setpoint(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     hvac_mode_int: int,
@@ -635,7 +635,7 @@ async def test_target_temperature_follows_current_setpoint(
 
 
 async def test_preset_without_circuit_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -653,7 +653,7 @@ async def test_preset_without_circuit_config(
 
 
 async def test_preset_updates_after_slow_fetch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -699,7 +699,7 @@ async def test_preset_updates_after_slow_fetch(
     ids=["comfort", "reduced"],
 )
 async def test_set_temperature_writes_permanent_level(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     hvac_mode_int: int,
@@ -739,7 +739,7 @@ async def test_set_temperature_writes_permanent_level(
     ids=["in_auto", "switching_to_auto", "auto_again", "off", "switching_to_off"],
 )
 async def test_set_temperature_ignored_in_auto_or_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     hvac_mode_int: int,
@@ -771,7 +771,7 @@ async def test_set_temperature_ignored_in_auto_or_off(
     ],
 )
 async def test_restore_scene_in_auto(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     current_setpoint: str,
@@ -802,7 +802,7 @@ async def test_restore_scene_in_auto(
 
 @pytest.mark.usefixtures("mock_reduced_setpoint")
 async def test_restore_scene_in_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -819,7 +819,7 @@ async def test_restore_scene_in_off(
 
 @pytest.mark.usefixtures("mock_reduced_setpoint")
 async def test_restore_scene_in_permanent_reduced(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -846,7 +846,7 @@ async def test_restore_scene_in_permanent_reduced(
 
 @pytest.mark.usefixtures("mock_reduced_setpoint")
 async def test_set_temperature_with_auto_matching_setpoint(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -868,7 +868,7 @@ async def test_set_temperature_with_auto_matching_setpoint(
 
 
 async def test_set_temperature_with_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -904,7 +904,7 @@ async def test_set_temperature_with_hvac_mode(
     ],
 )
 async def test_set_temperature_rejects_setpoint_order(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     hvac_mode_int: int,
@@ -930,7 +930,7 @@ async def test_set_temperature_rejects_setpoint_order(
 
 @pytest.mark.usefixtures("mock_reduced_setpoint")
 async def test_set_temperature_with_heat_writes_comfort(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -956,7 +956,7 @@ async def test_set_temperature_with_heat_writes_comfort(
 
 
 async def test_set_data_rereads_only_the_circuit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -977,7 +977,7 @@ async def test_set_data_rereads_only_the_circuit(
 
 
 async def test_set_data_ignores_failed_reread(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -999,7 +999,7 @@ async def test_set_data_ignores_failed_reread(
 
 
 async def test_write_keeps_poll_schedule(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -1026,7 +1026,7 @@ async def test_write_keeps_poll_schedule(
 
 
 async def test_reread_waits_for_running_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

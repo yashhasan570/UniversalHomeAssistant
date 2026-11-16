@@ -15,12 +15,12 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.fumis.const import DOMAIN, SCAN_INTERVAL
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.usefixtures("mock_fumis")
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test loading and unloading the integration."""
@@ -45,7 +45,7 @@ async def test_load_unload_config_entry(
     ],
 )
 async def test_config_entry_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fumis: MagicMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -64,7 +64,7 @@ async def test_config_entry_not_ready(
 
 
 async def test_config_entry_authentication_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fumis: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -97,7 +97,7 @@ async def test_config_entry_authentication_failed(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_refresh_log_level(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fumis: MagicMock,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,

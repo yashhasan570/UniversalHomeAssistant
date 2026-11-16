@@ -10,7 +10,7 @@ from universalassistant.components.switchbot_cloud.const import DOMAIN
 from universalassistant.components.switchbot_cloud.services import SwitchBotCloudService
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
@@ -18,7 +18,7 @@ from . import AI_ART_FRAME_DEVICE, configure_integration
 
 
 async def _setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices,
     mock_get_status,
     device=AI_ART_FRAME_DEVICE,
@@ -33,7 +33,7 @@ async def _setup(
 
 
 async def test_upload_image_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_list_devices,
     mock_get_status,
@@ -65,7 +65,7 @@ async def test_upload_image_success(
 
 
 async def test_upload_image_no_device_id_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices,
     mock_get_status,
     mock_setup_webhook,
@@ -82,7 +82,7 @@ async def test_upload_image_no_device_id_raises(
 
 
 async def test_device_not_in_registry_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices,
     mock_get_status,
     mock_setup_webhook,
@@ -111,7 +111,7 @@ async def test_device_not_in_registry_raises(
 
 
 async def test_device_without_mac_raises_service_validation_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_list_devices,
     mock_get_status,

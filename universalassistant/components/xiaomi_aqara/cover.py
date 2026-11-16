@@ -5,7 +5,7 @@ from typing import Any, override
 from xiaomi_gateway import XiaomiGateway
 
 from universalassistant.components.cover import ATTR_POSITION, CoverEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import XiaomiAqaraConfigEntry
@@ -18,7 +18,7 @@ DATA_KEY_PROTO_V2 = "curtain_status"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: XiaomiAqaraConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

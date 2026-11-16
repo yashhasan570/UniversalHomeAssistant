@@ -1,4 +1,4 @@
-"""Support for __HA_KEEP__ iOS app sensors."""
+"""Support for Universal Home Assistant iOS app sensors."""
 
 from typing import Any, override
 
@@ -9,7 +9,7 @@ from universalassistant.components.sensor import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import PERCENTAGE
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -49,7 +49,7 @@ DEFAULT_ICON_STATE = "mdi:power-plug"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

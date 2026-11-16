@@ -16,12 +16,12 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_fully_kiosk: MagicMock,
 ) -> None:
@@ -46,7 +46,7 @@ async def test_load_unload_config_entry(
     [FullyKioskError("error", "status"), TimeoutError],
 )
 async def test_config_entry_not_ready(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_fully_kiosk: MagicMock,
     side_effect: Exception,
@@ -62,7 +62,7 @@ async def test_config_entry_not_ready(
 
 
 async def _load_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     device_info_fixture: str,
 ) -> None:
@@ -84,7 +84,7 @@ async def _load_config(
 
 
 async def test_multiple_kiosk_with_empty_mac(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:

@@ -14,8 +14,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -28,7 +28,7 @@ from . import setup_integration
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_number(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
@@ -51,7 +51,7 @@ async def test_number(
     indirect=True,
 )
 async def test_no_number(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -71,7 +71,7 @@ async def test_no_number(
     indirect=["mock_envoy"],
 )
 async def test_number_operation_storage(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     use_serial: bool,
@@ -108,7 +108,7 @@ async def test_number_operation_storage(
     indirect=["mock_envoy"],
 )
 async def test_number_operation_storage_with_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     use_serial: bool,
@@ -123,7 +123,7 @@ async def test_number_operation_storage_with_error(
 
     mock_envoy.set_reserve_soc.side_effect = EnvoyError("Test")
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=f"Failed to execute async_set_native_value for {test_entity}, host",
     ):
         await hass.services.async_call(
@@ -150,7 +150,7 @@ async def test_number_operation_storage_with_error(
     ],
 )
 async def test_number_operation_relays(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     relay: str,
@@ -194,7 +194,7 @@ async def test_number_operation_relays(
     indirect=["mock_envoy"],
 )
 async def test_number_operation_relays_with_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     relay: str,
@@ -212,7 +212,7 @@ async def test_number_operation_relays_with_error(
 
     mock_envoy.update_dry_contact.side_effect = EnvoyError("Test")
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=f"Failed to execute async_set_native_value for {test_entity}, host",
     ):
         await hass.services.async_call(

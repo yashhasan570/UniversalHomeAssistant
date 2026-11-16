@@ -6,7 +6,7 @@ from zcc import ControlPoint, ControlPointError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC
@@ -28,7 +28,7 @@ _LOGGER = logging.getLogger(__name__)
 type ZimiConfigEntry = ConfigEntry[ControlPoint]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ZimiConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ZimiConfigEntry) -> None:
     """Connect to Zimi Controller and register device."""
 
     try:
@@ -60,7 +60,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ZimiConfigEntry) -> None:
     _LOGGER.debug("Zimi setup complete")
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ZimiConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ZimiConfigEntry) -> None:
     """Unload a config entry."""
 
     api = entry.runtime_data

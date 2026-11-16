@@ -19,21 +19,21 @@ from universalassistant.const import (
     SERVICE_TURN_OFF,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import Context, __HAC_KEEP__, ServiceCall
+from universalassistant.core import Context, UniversalAssistant, ServiceCall
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
 @pytest.fixture(autouse=True)
-def setup_comp(hass: __HAC_KEEP__) -> None:
+def setup_comp(hass: UniversalAssistant) -> None:
     """Initialize components."""
     mock_component(hass, "group")
     hass.states.async_set("test.entity", "hello")
 
 
 async def test_if_fires_on_entity_change(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing on entity change."""
     context = Context()
@@ -86,7 +86,7 @@ async def test_if_fires_on_entity_change(
 
 
 async def test_if_fires_on_entity_change_uuid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -147,7 +147,7 @@ async def test_if_fires_on_entity_change_uuid(
 
 
 async def test_if_fires_on_entity_change_with_from_filter(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing on entity change with filter."""
     assert await async_setup_component(
@@ -172,7 +172,7 @@ async def test_if_fires_on_entity_change_with_from_filter(
 
 
 async def test_if_fires_on_entity_change_with_not_from_filter(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing on entity change inverse filter."""
     assert await async_setup_component(
@@ -202,7 +202,7 @@ async def test_if_fires_on_entity_change_with_not_from_filter(
 
 
 async def test_if_fires_on_entity_change_with_to_filter(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing on entity change with to filter."""
     assert await async_setup_component(
@@ -227,7 +227,7 @@ async def test_if_fires_on_entity_change_with_to_filter(
 
 
 async def test_if_fires_on_entity_change_with_not_to_filter(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing on entity change with to filter."""
     assert await async_setup_component(
@@ -257,7 +257,7 @@ async def test_if_fires_on_entity_change_with_not_to_filter(
 
 
 async def test_if_fires_on_entity_change_with_from_filter_all(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing on entity change with filter."""
     assert await async_setup_component(
@@ -283,7 +283,7 @@ async def test_if_fires_on_entity_change_with_from_filter_all(
 
 
 async def test_if_fires_on_entity_change_with_to_filter_all(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing on entity change with to filter."""
     assert await async_setup_component(
@@ -309,7 +309,7 @@ async def test_if_fires_on_entity_change_with_to_filter_all(
 
 
 async def test_if_fires_on_attribute_change_with_to_filter(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for not firing on attribute change."""
     assert await async_setup_component(
@@ -335,7 +335,7 @@ async def test_if_fires_on_attribute_change_with_to_filter(
 
 
 async def test_if_fires_on_entity_change_with_both_filters(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing if both filters are a non match."""
     assert await async_setup_component(
@@ -361,7 +361,7 @@ async def test_if_fires_on_entity_change_with_both_filters(
 
 
 async def test_if_fires_on_entity_change_with_not_from_to(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing if not from doesn't match and to match."""
     assert await async_setup_component(
@@ -408,7 +408,7 @@ async def test_if_fires_on_entity_change_with_not_from_to(
 
 
 async def test_if_fires_on_entity_change_with_from_not_to(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing if not from doesn't match and to match."""
     assert await async_setup_component(
@@ -455,7 +455,7 @@ async def test_if_fires_on_entity_change_with_from_not_to(
 
 
 async def test_if_not_fires_if_to_filter_not_match(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for not firing if to filter is not a match."""
     assert await async_setup_component(
@@ -481,7 +481,7 @@ async def test_if_not_fires_if_to_filter_not_match(
 
 
 async def test_if_not_fires_if_from_filter_not_match(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for not firing if from filter is not a match."""
     hass.states.async_set("test.entity", "bye")
@@ -509,7 +509,7 @@ async def test_if_not_fires_if_from_filter_not_match(
 
 
 async def test_if_not_fires_if_entity_not_match(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for not firing if entity is not matching."""
     assert await async_setup_component(
@@ -529,7 +529,7 @@ async def test_if_not_fires_if_entity_not_match(
     assert len(service_calls) == 0
 
 
-async def test_if_action(hass: __HAC_KEEP__, service_calls: list[ServiceCall]) -> None:
+async def test_if_action(hass: UniversalAssistant, service_calls: list[ServiceCall]) -> None:
     """Test for to action."""
     entity_id = "domain.test_entity"
     test_state = "new_state"
@@ -561,7 +561,7 @@ async def test_if_action(hass: __HAC_KEEP__, service_calls: list[ServiceCall]) -
     assert len(service_calls) == 1
 
 
-async def test_if_fails_setup_if_to_boolean_value(hass: __HAC_KEEP__) -> None:
+async def test_if_fails_setup_if_to_boolean_value(hass: UniversalAssistant) -> None:
     """Test for setup failure for boolean to."""
     with assert_setup_component(1, automation.DOMAIN):
         assert await async_setup_component(
@@ -581,7 +581,7 @@ async def test_if_fails_setup_if_to_boolean_value(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("automation.automation_0").state == STATE_UNAVAILABLE
 
 
-async def test_if_fails_setup_if_from_boolean_value(hass: __HAC_KEEP__) -> None:
+async def test_if_fails_setup_if_from_boolean_value(hass: UniversalAssistant) -> None:
     """Test for setup failure for boolean from."""
     with assert_setup_component(1, automation.DOMAIN):
         assert await async_setup_component(
@@ -601,7 +601,7 @@ async def test_if_fails_setup_if_from_boolean_value(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("automation.automation_0").state == STATE_UNAVAILABLE
 
 
-async def test_if_fails_setup_bad_for(hass: __HAC_KEEP__) -> None:
+async def test_if_fails_setup_bad_for(hass: UniversalAssistant) -> None:
     """Test for setup failure for bad for."""
     with assert_setup_component(1, automation.DOMAIN):
         assert await async_setup_component(
@@ -623,7 +623,7 @@ async def test_if_fails_setup_bad_for(hass: __HAC_KEEP__) -> None:
 
 
 async def test_if_not_fires_on_entity_change_with_for(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for not firing on entity change with for."""
     assert await async_setup_component(
@@ -653,7 +653,7 @@ async def test_if_not_fires_on_entity_change_with_for(
 
 
 async def test_if_not_fires_on_entities_change_with_for_after_stop(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for not firing on entity change with for after stop trigger."""
     assert await async_setup_component(
@@ -703,7 +703,7 @@ async def test_if_not_fires_on_entities_change_with_for_after_stop(
 
 
 async def test_if_fires_on_entity_change_with_for_attribute_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -741,7 +741,7 @@ async def test_if_fires_on_entity_change_with_for_attribute_change(
 
 
 async def test_if_fires_on_entity_change_with_for_multiple_force_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -778,7 +778,7 @@ async def test_if_fires_on_entity_change_with_for_multiple_force_update(
 
 
 async def test_if_fires_on_entity_change_with_for(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing on entity change with for."""
     assert await async_setup_component(
@@ -806,7 +806,7 @@ async def test_if_fires_on_entity_change_with_for(
 
 
 async def test_if_fires_on_entity_change_with_for_list_of_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -860,7 +860,7 @@ async def test_if_fires_on_entity_change_with_for_list_of_states(
 
 
 async def test_if_fires_on_entity_change_with_for_without_to(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing on entity change with for."""
     assert await async_setup_component(
@@ -899,7 +899,7 @@ async def test_if_fires_on_entity_change_with_for_without_to(
 
 
 async def test_if_does_not_fires_on_entity_change_with_for_without_to_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -931,7 +931,7 @@ async def test_if_does_not_fires_on_entity_change_with_for_without_to_2(
 
 
 async def test_if_fires_on_entity_creation_and_removal(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing on entity creation and removal, with to/from constraints."""
     # set automations for multiple combinations to/from
@@ -998,7 +998,7 @@ async def test_if_fires_on_entity_creation_and_removal(
 
 
 async def test_if_fires_on_for_condition(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing if condition is on."""
     point1 = dt_util.utcnow()
@@ -1037,7 +1037,7 @@ async def test_if_fires_on_for_condition(
 
 
 async def test_if_fires_on_for_condition_attribute_change(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing if condition is on with attribute change."""
     point1 = dt_util.utcnow()
@@ -1085,7 +1085,7 @@ async def test_if_fires_on_for_condition_attribute_change(
         assert len(service_calls) == 1
 
 
-async def test_if_fails_setup_for_without_time(hass: __HAC_KEEP__) -> None:
+async def test_if_fails_setup_for_without_time(hass: UniversalAssistant) -> None:
     """Test for setup failure if no time is provided."""
     with assert_setup_component(1, automation.DOMAIN):
         assert await async_setup_component(
@@ -1107,7 +1107,7 @@ async def test_if_fails_setup_for_without_time(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("automation.automation_0").state == STATE_UNAVAILABLE
 
 
-async def test_if_fails_setup_for_without_entity(hass: __HAC_KEEP__) -> None:
+async def test_if_fails_setup_for_without_entity(hass: UniversalAssistant) -> None:
     """Test for setup failure if no entity is provided."""
     with assert_setup_component(1, automation.DOMAIN):
         assert await async_setup_component(
@@ -1129,7 +1129,7 @@ async def test_if_fails_setup_for_without_entity(hass: __HAC_KEEP__) -> None:
 
 
 async def test_wait_template_with_trigger(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test using wait template with 'trigger.entity_id'."""
     assert await async_setup_component(
@@ -1170,7 +1170,7 @@ async def test_wait_template_with_trigger(
 
 
 async def test_if_fires_on_entities_change_no_overlap(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -1213,7 +1213,7 @@ async def test_if_fires_on_entities_change_no_overlap(
 
 
 async def test_if_fires_on_entities_change_overlap(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -1267,7 +1267,7 @@ async def test_if_fires_on_entities_change_overlap(
 
 
 async def test_if_fires_on_change_with_for_template_1(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing on change with for template."""
     assert await async_setup_component(
@@ -1295,7 +1295,7 @@ async def test_if_fires_on_change_with_for_template_1(
 
 
 async def test_if_fires_on_change_with_for_template_2(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing on change with for template."""
     assert await async_setup_component(
@@ -1323,7 +1323,7 @@ async def test_if_fires_on_change_with_for_template_2(
 
 
 async def test_if_fires_on_change_with_for_template_3(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing on change with for template."""
     assert await async_setup_component(
@@ -1351,7 +1351,7 @@ async def test_if_fires_on_change_with_for_template_3(
 
 
 async def test_if_fires_on_change_with_for_template_4(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing on change with for template."""
     assert await async_setup_component(
@@ -1380,7 +1380,7 @@ async def test_if_fires_on_change_with_for_template_4(
 
 
 async def test_if_fires_on_change_from_with_for(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing on change with from/for."""
     assert await async_setup_component(
@@ -1411,7 +1411,7 @@ async def test_if_fires_on_change_from_with_for(
 
 
 async def test_if_not_fires_on_change_from_with_for(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing on change with from/for."""
     assert await async_setup_component(
@@ -1441,7 +1441,7 @@ async def test_if_not_fires_on_change_from_with_for(
     assert len(service_calls) == 0
 
 
-async def test_invalid_for_template_1(hass: __HAC_KEEP__) -> None:
+async def test_invalid_for_template_1(hass: UniversalAssistant) -> None:
     """Test for invalid for template."""
     assert await async_setup_component(
         hass,
@@ -1466,7 +1466,7 @@ async def test_invalid_for_template_1(hass: __HAC_KEEP__) -> None:
 
 
 async def test_if_fires_on_entities_change_overlap_for_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -1526,7 +1526,7 @@ async def test_if_fires_on_entities_change_overlap_for_template(
 
 
 async def test_attribute_if_fires_on_entity_change_with_both_filters(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing if both filters are match attribute."""
     hass.states.async_set("test.entity", "bla", {"name": "hello"})
@@ -1555,7 +1555,7 @@ async def test_attribute_if_fires_on_entity_change_with_both_filters(
 
 
 async def test_attribute_if_fires_on_entity_where_attr_stays_constant(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing if attribute stays the same."""
     hass.states.async_set("test.entity", "bla", {"name": "hello", "other": "old_value"})
@@ -1593,7 +1593,7 @@ async def test_attribute_if_fires_on_entity_where_attr_stays_constant(
 
 
 async def test_attribute_if_fires_on_entity_where_attr_stays_constant_filter(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing if attribute stays the same."""
     hass.states.async_set("test.entity", "bla", {"name": "other_name"})
@@ -1638,7 +1638,7 @@ async def test_attribute_if_fires_on_entity_where_attr_stays_constant_filter(
 
 
 async def test_attribute_if_fires_on_entity_where_attr_stays_constant_all(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing if attribute stays the same."""
     hass.states.async_set("test.entity", "bla", {"name": "hello", "other": "old_value"})
@@ -1683,7 +1683,7 @@ async def test_attribute_if_fires_on_entity_where_attr_stays_constant_all(
 
 
 async def test_attribute_if_not_fires_on_entities_change_with_for_after_stop(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for not firing on entity change with for after stop trigger."""
     hass.states.async_set("test.entity", "bla", {"name": "hello"})
@@ -1739,7 +1739,7 @@ async def test_attribute_if_not_fires_on_entities_change_with_for_after_stop(
 
 
 async def test_attribute_if_fires_on_entity_change_with_both_filters_boolean(
-    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
+    hass: UniversalAssistant, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing if both filters are match attribute."""
     hass.states.async_set("test.entity", "bla", {"happening": False})
@@ -1768,7 +1768,7 @@ async def test_attribute_if_fires_on_entity_change_with_both_filters_boolean(
 
 
 async def test_variables_priority(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:

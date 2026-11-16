@@ -20,7 +20,7 @@ from universalassistant.components.vacuum import (
     VacuumEntityFeature,
 )
 from universalassistant.components.websocket_api import ERR_NOT_FOUND, ERR_NOT_SUPPORTED
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import (
@@ -32,7 +32,7 @@ from . import (
 
 @pytest.mark.usefixtures("config_flow_fixture")
 async def test_get_segments(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test vacuum/get_segments websocket command."""
@@ -71,7 +71,7 @@ async def test_get_segments(
 
 
 async def test_get_segments_entity_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test vacuum/get_segments with unknown entity."""
@@ -88,7 +88,7 @@ async def test_get_segments_entity_not_found(
 
 @pytest.mark.usefixtures("config_flow_fixture")
 async def test_get_segments_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test vacuum/get_segments with entity not supporting CLEAN_AREA."""

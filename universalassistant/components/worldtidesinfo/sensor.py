@@ -13,7 +13,7 @@ from universalassistant.components.sensor import (
     SensorEntity,
 )
 from universalassistant.const import CONF_API_KEY, CONF_LATITUDE, CONF_LONGITUDE, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import PlatformNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
@@ -38,7 +38,7 @@ PLATFORM_SCHEMA = SENSOR_PLATFORM_SCHEMA.extend(
 
 
 def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -51,7 +51,7 @@ def setup_platform(
     key = config.get(CONF_API_KEY)
 
     if None in (lat, lon):
-        _LOGGER.error("Latitude or longitude not set in __HA_KEEP__ config")
+        _LOGGER.error("Latitude or longitude not set in Universal Home Assistant config")
 
     tides = WorldTidesInfoSensor(name, lat, lon, key)
     tides.update()

@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.teleinfo.const import DOMAIN
 from universalassistant.components.teleinfo.coordinator import SCAN_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import (
@@ -42,7 +42,7 @@ ADCO = "021861348497"
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_teleinfo: MagicMock,
     mock_serial_port: MagicMock,
@@ -69,7 +69,7 @@ async def test_all_entities(
     ids=["serial_error", "timeout"],
 )
 async def test_sensor_unavailable_on_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_teleinfo: MagicMock,
     mock_serial_port: MagicMock,
@@ -98,7 +98,7 @@ async def test_sensor_unavailable_on_error(
 
 
 async def test_sensor_unavailable_on_decode_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_teleinfo: MagicMock,
     mock_serial_port: MagicMock,
@@ -124,7 +124,7 @@ async def test_sensor_unavailable_on_decode_error(
 
 
 async def test_sensor_recovers_after_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_teleinfo: MagicMock,
     mock_serial_port: MagicMock,
@@ -157,7 +157,7 @@ async def test_sensor_recovers_after_error(
 
 
 async def test_sensor_returns_unavailable_on_missing_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_teleinfo: MagicMock,
     mock_serial_port: MagicMock,

@@ -13,7 +13,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.fyta.const import CONF_EXPIRATION, DOMAIN
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -21,7 +21,7 @@ from .const import ACCESS_TOKEN, EXPIRATION, PASSWORD, USERNAME
 
 
 async def user_step(
-    hass: __HAC_KEEP__, flow_id: str, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, flow_id: str, mock_setup_entry: AsyncMock
 ) -> None:
     """Test user step (helper function)."""
 
@@ -41,7 +41,7 @@ async def user_step(
 
 
 async def test_user_flow(
-    hass: __HAC_KEEP__, mock_fyta_connector: AsyncMock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_fyta_connector: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we get the form."""
 
@@ -64,7 +64,7 @@ async def test_user_flow(
     ],
 )
 async def test_form_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: Exception,
     error: dict[str, str],
     mock_fyta_connector: AsyncMock,
@@ -107,7 +107,7 @@ async def test_form_exceptions(
 
 
 async def test_duplicate_entry(
-    hass: __HAC_KEEP__, mock_fyta_connector: AsyncMock
+    hass: UniversalAssistant, mock_fyta_connector: AsyncMock
 ) -> None:
     """Test duplicate setup handling."""
     entry = MockConfigEntry(
@@ -146,7 +146,7 @@ async def test_duplicate_entry(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: Exception,
     error: dict[str, str],
     mock_fyta_connector: AsyncMock,
@@ -200,7 +200,7 @@ async def test_reauth(
 
 
 async def test_dhcp_discovery(
-    hass: __HAC_KEEP__, mock_fyta_connector: AsyncMock, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_fyta_connector: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test DHCP discovery flow."""
 

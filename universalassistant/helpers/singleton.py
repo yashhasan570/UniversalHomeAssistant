@@ -6,11 +6,11 @@ import functools
 import inspect
 from typing import Any, Literal, assert_type, cast, overload
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.async_ import wait_shared_future
 from universalassistant.util.hass_dict import HassKey
 
-type _FuncType[_T] = Callable[[__HAC_KEEP__], _T]
+type _FuncType[_T] = Callable[[UniversalAssistant], _T]
 type _Coro[_T] = Coroutine[Any, Any, _T]
 
 
@@ -50,7 +50,7 @@ def singleton[_S, _T, _U](
 
             @functools.lru_cache(maxsize=1)
             @functools.wraps(func)
-            def wrapped(hass: __HAC_KEEP__) -> _U:
+            def wrapped(hass: UniversalAssistant) -> _U:
                 if data_key not in hass.data:
                     hass.data[data_key] = func(hass)
                 return cast(_U, hass.data[data_key])
@@ -58,7 +58,7 @@ def singleton[_S, _T, _U](
             return wrapped
 
         @functools.wraps(func)
-        async def async_wrapped(hass: __HAC_KEEP__) -> _T:
+        async def async_wrapped(hass: UniversalAssistant) -> _T:
             if data_key not in hass.data:
                 future: asyncio.Future[_T] = asyncio.get_running_loop().create_future()
                 hass.data[data_key] = future
@@ -88,7 +88,7 @@ def singleton[_S, _T, _U](
     return wrapper
 
 
-async def _test_singleton_typing(hass: __HAC_KEEP__) -> None:
+async def _test_singleton_typing(hass: UniversalAssistant) -> None:
     """Test singleton overloads work as intended.
 
     This is tested during the mypy run. Do not move it to 'tests'!
@@ -97,11 +97,11 @@ async def _test_singleton_typing(hass: __HAC_KEEP__) -> None:
     key = HassKey[int]("key")
 
     @singleton(key)
-    def func(hass: __HAC_KEEP__) -> int:
+    def func(hass: UniversalAssistant) -> int:
         return 2
 
     @singleton(key, async_=True)
-    async def async_func(hass: __HAC_KEEP__) -> int:
+    async def async_func(hass: UniversalAssistant) -> int:
         return 2
 
     assert_type(func(hass), int)
@@ -109,18 +109,18 @@ async def _test_singleton_typing(hass: __HAC_KEEP__) -> None:
 
     # Test invalid use of 'async_' with sync function
     @singleton(key, async_=True)  # type: ignore[arg-type]
-    def func_error(hass: __HAC_KEEP__) -> int:
+    def func_error(hass: UniversalAssistant) -> int:
         return 2
 
     # Test string key
     other_key = "key"
 
     @singleton(other_key)
-    def func2(hass: __HAC_KEEP__) -> str:
+    def func2(hass: UniversalAssistant) -> str:
         return ""
 
     @singleton(other_key)
-    async def async_func2(hass: __HAC_KEEP__) -> str:
+    async def async_func2(hass: UniversalAssistant) -> str:
         return ""
 
     assert_type(func2(hass), str)

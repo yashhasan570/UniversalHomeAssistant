@@ -10,7 +10,7 @@ from steamloop import FanMode, HoldType, ThermostatState, Zone, ZoneMode
 from universalassistant.components.trane import PLATFORMS
 from universalassistant.components.trane.const import CONF_SECRET_KEY, DOMAIN
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 MOCK_HOST = "192.168.1.100"
 MOCK_SECRET_KEY = "test_secret_key"
@@ -108,7 +108,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_connection: MagicMock,
 ) -> MockConfigEntry:

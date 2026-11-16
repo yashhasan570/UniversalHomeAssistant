@@ -12,8 +12,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -24,7 +24,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MyPVConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -107,7 +107,7 @@ class MyPVClimate(MyPVBaseEntity, ClimateEntity):
         if not await self.coordinator.set_target_temperature(
             float(kwargs[ATTR_TEMPERATURE])
         ):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="unknown_error"
             )
 
@@ -115,7 +115,7 @@ class MyPVClimate(MyPVBaseEntity, ClimateEntity):
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Turn the climate on."""
         if not await self.coordinator.turn_on():
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="unknown_error"
             )
 
@@ -123,6 +123,6 @@ class MyPVClimate(MyPVBaseEntity, ClimateEntity):
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Turn the climate off."""
         if not await self.coordinator.turn_off():
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="unknown_error"
             )

@@ -1,4 +1,4 @@
-"""Module for testing the Rehlko integration in __HA_KEEP__."""
+"""Module for testing the Rehlko integration in Universal Home Assistant."""
 
 from collections.abc import Generator
 from typing import Any
@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_value_fi
 
 from universalassistant.components.rehlko import CONF_REFRESH_TOKEN, DOMAIN
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 TEST_EMAIL = "MyEmail@email.com"
 TEST_PASSWORD = "password"
@@ -89,7 +89,7 @@ async def mock_rehlko(
 
 @pytest.fixture
 async def load_rehlko_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rehlko: Mock,
     rehlko_config_entry: MockConfigEntry,
 ) -> None:

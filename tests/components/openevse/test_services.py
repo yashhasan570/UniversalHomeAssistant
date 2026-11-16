@@ -15,10 +15,10 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.openevse.const import DOMAIN
 from universalassistant.components.openevse.services import OpenEVSEService
 from universalassistant.const import ATTR_DEVICE_ID, ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     ServiceValidationError,
 )
 from universalassistant.helpers import device_registry as dr
@@ -28,7 +28,7 @@ SERVICE_SET_OVERRIDE = OpenEVSEService.SET_OVERRIDE
 
 @pytest.fixture
 async def setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,
 ) -> None:
@@ -54,7 +54,7 @@ def device_entry(
 
 
 async def test_set_override_minimal(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_charger: MagicMock,
     device_entry: dr.DeviceEntry,
 ) -> None:
@@ -77,7 +77,7 @@ async def test_set_override_minimal(
 
 
 async def test_set_override_all_fields(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_charger: MagicMock,
     device_entry: dr.DeviceEntry,
 ) -> None:
@@ -108,7 +108,7 @@ async def test_set_override_all_fields(
 
 
 async def test_set_override_with_entity_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_charger: MagicMock,
     device_entry: dr.DeviceEntry,
 ) -> None:
@@ -135,7 +135,7 @@ async def test_set_override_with_entity_id(
 
 
 async def test_service_unknown_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: None,
 ) -> None:
     """Test service call with non-existent device."""
@@ -152,7 +152,7 @@ async def test_service_unknown_device(
 
 
 async def test_service_unknown_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: None,
 ) -> None:
     """Test service call with non-existent entity."""
@@ -174,29 +174,29 @@ async def test_service_unknown_entity(
         pytest.param(
             AuthenticationError("auth failed"), ConfigEntryAuthFailed, id="auth_error"
         ),
-        pytest.param(TimeoutError("timeout"), __HAC_KEEP__Error, id="timeout_error"),
+        pytest.param(TimeoutError("timeout"), UniversalAssistantError, id="timeout_error"),
         pytest.param(
             ServerTimeoutError("server timeout"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             id="server_timeout",
         ),
         pytest.param(
-            ParseJSONError("json error"), __HAC_KEEP__Error, id="parse_json_error"
+            ParseJSONError("json error"), UniversalAssistantError, id="parse_json_error"
         ),
         pytest.param(
-            UnsupportedFeature("old fw"), __HAC_KEEP__Error, id="unsupported_feature"
+            UnsupportedFeature("old fw"), UniversalAssistantError, id="unsupported_feature"
         ),
         pytest.param(
             ContentTypeError(MagicMock(), (), message="bad content"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             id="content_type_error",
         ),
-        pytest.param(UnknownError("unknown"), __HAC_KEEP__Error, id="unknown_error"),
-        pytest.param(RuntimeError("runtime"), __HAC_KEEP__Error, id="runtime_error"),
+        pytest.param(UnknownError("unknown"), UniversalAssistantError, id="unknown_error"),
+        pytest.param(RuntimeError("runtime"), UniversalAssistantError, id="runtime_error"),
     ],
 )
 async def test_service_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_charger: MagicMock,
     device_entry: dr.DeviceEntry,
     raised: Exception,
@@ -215,7 +215,7 @@ async def test_service_exceptions(
 
 
 async def test_service_value_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_charger: MagicMock,
     device_entry: dr.DeviceEntry,
 ) -> None:
@@ -238,7 +238,7 @@ async def test_service_value_error(
 
 
 async def test_set_override_subsecond_duration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_charger: MagicMock,
     device_entry: dr.DeviceEntry,
 ) -> None:

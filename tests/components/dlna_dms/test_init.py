@@ -13,7 +13,7 @@ from universalassistant.components.dlna_dms.const import (
 from universalassistant.components.dlna_dms.dms import DlnaDmsData
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_DEVICE_ID, CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .conftest import (
@@ -26,7 +26,7 @@ from .conftest import (
 
 
 async def test_resource_lifecycle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aiohttp_session_requester_mock: Mock,
     config_entry_mock: MockConfigEntry,
     ssdp_scanner_mock: Mock,
@@ -75,7 +75,7 @@ async def test_resource_lifecycle(
     assert not domain_data.sources
 
 
-async def test_migrate_entry(hass: __HAC_KEEP__) -> None:
+async def test_migrate_entry(hass: UniversalAssistant) -> None:
     """Test migrating a config entry from version 1 to version 2."""
     # Create mock entry with version 1
     mock_entry = MockConfigEntry(
@@ -102,7 +102,7 @@ async def test_migrate_entry(hass: __HAC_KEEP__) -> None:
 
 
 async def test_migrate_entry_collision(
-    hass: __HAC_KEEP__, config_entry_mock: MockConfigEntry
+    hass: UniversalAssistant, config_entry_mock: MockConfigEntry
 ) -> None:
     """Test migrating a config entry with a potentially colliding source ID."""
     # Use existing mock entry
@@ -133,7 +133,7 @@ async def test_migrate_entry_collision(
 
 
 async def test_setup_entry_failed(
-    hass: __HAC_KEEP__, config_entry_mock: MockConfigEntry
+    hass: UniversalAssistant, config_entry_mock: MockConfigEntry
 ) -> None:
     """Test setup fails when the data manager can't set up the entry."""
     config_entry_mock.add_to_hass(hass)

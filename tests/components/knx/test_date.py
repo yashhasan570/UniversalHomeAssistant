@@ -14,13 +14,13 @@ from universalassistant.components.knx.const import (
 )
 from universalassistant.components.knx.schema import DateSchema
 from universalassistant.const import CONF_NAME, Platform
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 
 from . import KnxEntityGenerator
 from .conftest import KNXTestKit
 
 
-async def test_date(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_date(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX date."""
     test_address = "1/1/1"
     await knx.setup_integration(
@@ -54,7 +54,7 @@ async def test_date(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     assert state.state == "2003-02-01"
 
 
-async def test_date_restore_and_respond(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_date_restore_and_respond(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX date with passive_address, restoring state and respond_to_read."""
     test_address = "1/1/1"
     test_passive_address = "3/3/3"
@@ -96,7 +96,7 @@ async def test_date_restore_and_respond(hass: __HAC_KEEP__, knx: KNXTestKit) -> 
     assert state.state == "2024-02-24"
 
 
-async def test_date_state_restore(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_date_state_restore(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """Test KNX date with state_address restores state until bus read completes."""
     test_address = "1/1/1"
     test_state_address = "2/2/2"
@@ -124,7 +124,7 @@ async def test_date_state_restore(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
 
 
 async def test_date_ui_create(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
 ) -> None:

@@ -13,7 +13,7 @@ import respx
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture(autouse=True)
@@ -29,7 +29,7 @@ def image_only() -> Generator[None]:
 @respx.mock
 @pytest.mark.usefixtures("mock_psnawpapi")
 async def test_image_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
     freezer: FrozenDateTimeFactory,

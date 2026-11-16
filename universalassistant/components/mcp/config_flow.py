@@ -18,8 +18,8 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
 )
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_API_TOKEN, CONF_TOKEN, CONF_URL
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, UnknownImplementationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, UnknownImplementationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.config_entry_oauth2_flow import (
     AbstractOAuth2FlowHandler,
@@ -78,7 +78,7 @@ class OAuthConfig:
 
 
 async def async_discover_authorization_server(
-    hass: __HAC_KEEP__, auth_server_url: str
+    hass: UniversalAssistant, auth_server_url: str
 ) -> OAuthConfig:
     """Perform OAuth 2.0 Authorization Server Metadata discovery as per RFC8414."""
     parsed_url = URL(auth_server_url)
@@ -119,7 +119,7 @@ async def async_discover_authorization_server(
 
 
 async def validate_input(
-    hass: __HAC_KEEP__, data: dict[str, Any], token_manager: TokenManager | None = None
+    hass: UniversalAssistant, data: dict[str, Any], token_manager: TokenManager | None = None
 ) -> dict[str, Any]:
     """Validate the user input and connect to the MCP server."""
     url = data[CONF_URL]
@@ -466,7 +466,7 @@ class ModelContextProtocolConfigFlow(AbstractOAuth2FlowHandler, domain=DOMAIN):
 
 
 async def _async_fetch_any(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     urls: Iterable[str],
 ) -> httpx2.Response:
     """Fetch all URLs concurrently and return the first successful response."""
@@ -509,7 +509,7 @@ async def _async_fetch_any(
 
 
 async def async_discover_protected_resource(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     auth_url: str,
     mcp_server_url: str,
 ) -> ResourceMetadata:
@@ -603,15 +603,15 @@ def _select_scopes(
     return oauth_config.scopes
 
 
-class InvalidUrl(__HAC_KEEP__Error):
+class InvalidUrl(UniversalAssistantError):
     """Error to indicate the URL format is invalid."""
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""
 
 
-class TimeoutConnectError(__HAC_KEEP__Error):
+class TimeoutConnectError(UniversalAssistantError):
     """Error to indicate we cannot connect."""
 
 
@@ -619,7 +619,7 @@ class NotFoundError(CannotConnect):
     """Error to indicate the resource was not found."""
 
 
-class InvalidAuth(__HAC_KEEP__Error):
+class InvalidAuth(UniversalAssistantError):
     """Error to indicate there is invalid auth."""
 
     def __init__(self, metadata: AuthenticateHeader | None = None) -> None:
@@ -628,5 +628,5 @@ class InvalidAuth(__HAC_KEEP__Error):
         self.metadata = metadata
 
 
-class MissingCapabilities(__HAC_KEEP__Error):
+class MissingCapabilities(UniversalAssistantError):
     """Error to indicate that the MCP server is missing required capabilities."""

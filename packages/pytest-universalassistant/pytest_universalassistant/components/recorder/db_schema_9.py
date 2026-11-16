@@ -1,7 +1,7 @@
 """Models for SQLAlchemy.
 
 This file contains the model definitions for schema version 9,
-used by __HA_KEEP__ Core 0.119.0.
+used by Universal Home Assistant Core 0.119.0.
 It is used to test the schema migration logic.
 """
 

@@ -9,11 +9,11 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.discovergy.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_form(hass: __HAC_KEEP__, discovergy: AsyncMock) -> None:
+async def test_form(hass: UniversalAssistant, discovergy: AsyncMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -45,7 +45,7 @@ async def test_form(hass: __HAC_KEEP__, discovergy: AsyncMock) -> None:
 
 
 async def test_reauth(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, discovergy: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, discovergy: AsyncMock
 ) -> None:
     """Test reauth flow."""
     config_entry.add_to_hass(hass)
@@ -81,7 +81,7 @@ async def test_reauth(
     ],
 )
 async def test_form_fail(
-    hass: __HAC_KEEP__, discovergy: AsyncMock, error: Exception, message: str
+    hass: UniversalAssistant, discovergy: AsyncMock, error: Exception, message: str
 ) -> None:
     """Test to handle exceptions."""
     user_input = {
@@ -118,7 +118,7 @@ async def test_form_fail(
 
 
 async def test_reauth_unique_id_mismatch(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, discovergy: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, discovergy: AsyncMock
 ) -> None:
     """Test reauth flow with unique id mismatch."""
     config_entry.add_to_hass(hass)

@@ -8,7 +8,7 @@ from slack_sdk.web.async_client import AsyncWebClient
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import aiohttp_client, config_validation as cv, discovery
 from universalassistant.helpers.typing import ConfigType
@@ -38,13 +38,13 @@ class SlackData:
     user_id: str
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Slack component."""
     hass.data[DATA_HASS_CONFIG] = config
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SlackConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SlackConfigEntry) -> None:
     """Set up Slack from a config entry."""
     session = aiohttp_client.async_get_clientsession(hass)
     slack = AsyncWebClient(

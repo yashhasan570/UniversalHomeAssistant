@@ -9,13 +9,13 @@ from universalassistant import config_entries
 from universalassistant.components.mill.const import CLOUD, CONNECTION_TYPE, DOMAIN, LOCAL
 from universalassistant.components.recorder import Recorder
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
-async def test_show_config_form(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
+async def test_show_config_form(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
     """Test show configuration form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -25,7 +25,7 @@ async def test_show_config_form(recorder_mock: Recorder, hass: __HAC_KEEP__) -> 
     assert result["step_id"] == "user"
 
 
-async def test_create_entry(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
+async def test_create_entry(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
     """Test create entry from user input."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -62,7 +62,7 @@ async def test_create_entry(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None
 
 
 async def test_flow_entry_already_exists(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test user input for config_entry that already exists."""
 
@@ -103,7 +103,7 @@ async def test_flow_entry_already_exists(
     assert result["reason"] == "already_configured"
 
 
-async def test_connection_error(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
+async def test_connection_error(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
     """Test connection error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -144,7 +144,7 @@ async def test_connection_error(recorder_mock: Recorder, hass: __HAC_KEEP__) -> 
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_local_create_entry(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
+async def test_local_create_entry(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
     """Test create entry from user input."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -186,7 +186,7 @@ async def test_local_create_entry(recorder_mock: Recorder, hass: __HAC_KEEP__) -
 
 
 async def test_local_flow_entry_already_exists(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test user input for config_entry that already exists."""
 
@@ -238,7 +238,7 @@ async def test_local_flow_entry_already_exists(
 
 
 async def test_local_connection_error(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test connection error."""
 

@@ -29,7 +29,7 @@ from universalassistant.const import (
     UnitOfSpeed,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__, ServiceResponse, callback
+from universalassistant.core import UniversalAssistant, ServiceResponse, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import TimestampDataUpdateCoordinator
@@ -79,7 +79,7 @@ def convert_condition(time: str, weather: tuple[tuple[str, int | None], ...]) ->
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: NWSConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

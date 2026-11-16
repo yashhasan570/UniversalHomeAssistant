@@ -6,7 +6,7 @@ from aiolibresync import DeviceState, LibreSyncClient, NotConnectedError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 
@@ -17,7 +17,7 @@ PLATFORMS: list[Platform] = [Platform.MEDIA_PLAYER]
 type LibreSyncConfigEntry = ConfigEntry[LibreSyncClient]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: LibreSyncConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: LibreSyncConfigEntry) -> None:
     """Set up LibreSync from a config entry."""
     client = LibreSyncClient(entry.data[CONF_HOST])
     try:
@@ -52,7 +52,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: LibreSyncConfigEntry) -> 
 
 
 def _device_updater(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> Callable[[DeviceState], None]:
     """Keep the model on the device up to date."""
     seen: str | None = None
@@ -68,6 +68,6 @@ def _device_updater(
     return update
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: LibreSyncConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: LibreSyncConfigEntry) -> None:
     """Unload a config entry. The client disconnects after the platforms."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

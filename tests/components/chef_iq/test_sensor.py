@@ -21,14 +21,14 @@ from universalassistant.components.bluetooth import (
     FALLBACK_MAXIMUM_STALE_ADVERTISEMENT_SECONDS,
 )
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
 from . import CHEFIQ_STATUS_SERVICE_INFO, CHEFIQ_TEMPERATURE_SERVICE_INFO
 
 
-def _food_state(hass: __HAC_KEEP__) -> str:
+def _food_state(hass: UniversalAssistant) -> str:
     state = hass.states.get("sensor.cq60_079a_food_temperature")
     assert state is not None
     return state.state
@@ -36,7 +36,7 @@ def _food_state(hass: __HAC_KEEP__) -> str:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -59,7 +59,7 @@ async def test_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_probe_unavailable_while_not_broadcasting(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

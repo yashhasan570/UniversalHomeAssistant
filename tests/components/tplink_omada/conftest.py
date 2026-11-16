@@ -34,7 +34,7 @@ from tplink_omada_client.devices import (
 from universalassistant.components.tplink_omada.config_flow import CONF_SITE
 from universalassistant.components.tplink_omada.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME, CONF_VERIFY_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -65,7 +65,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 @pytest.fixture
-async def mock_omada_site_client(hass: __HAC_KEEP__) -> AsyncGenerator[AsyncMock]:
+async def mock_omada_site_client(hass: UniversalAssistant) -> AsyncGenerator[AsyncMock]:
     """Mock Omada site client."""
     site_client = MagicMock()
 
@@ -127,7 +127,7 @@ async def mock_omada_site_client(hass: __HAC_KEEP__) -> AsyncGenerator[AsyncMock
 
 
 @pytest.fixture
-def mock_omada_clients_only_site_client(hass: __HAC_KEEP__) -> Generator[AsyncMock]:
+def mock_omada_clients_only_site_client(hass: UniversalAssistant) -> Generator[AsyncMock]:
     """Mock Omada site client containing only client connection data."""
     site_client = MagicMock()
 
@@ -147,7 +147,7 @@ def mock_omada_clients_only_site_client(hass: __HAC_KEEP__) -> Generator[AsyncMo
 
 
 async def _get_mock_known_clients(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> AsyncGenerator[OmadaNetworkClient]:
     """Mock known clients of the Omada network."""
     known_clients_data = await async_load_json_array_fixture(
@@ -161,7 +161,7 @@ async def _get_mock_known_clients(
 
 
 async def _get_mock_connected_clients(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> AsyncGenerator[OmadaConnectedClient]:
     """Mock connected clients of the Omada network."""
     connected_clients_data = await async_load_json_array_fixture(
@@ -174,7 +174,7 @@ async def _get_mock_connected_clients(
             yield OmadaWiredClient(c)
 
 
-async def _get_mock_client(hass: __HAC_KEEP__, mac: str) -> OmadaNetworkClient:
+async def _get_mock_client(hass: UniversalAssistant, mac: str) -> OmadaNetworkClient:
     """Mock an Omada client."""
     connected_clients_data = await async_load_json_array_fixture(
         hass, "connected-clients.json", DOMAIN
@@ -274,7 +274,7 @@ def mock_omada_clients_only_client(
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_omada_client: MagicMock,
 ) -> MockConfigEntry:

@@ -17,8 +17,8 @@ from uiprotect.data.public_devices import PublicCamera
 
 from universalassistant.components.camera import Camera, CameraEntityFeature
 from universalassistant.const import CONF_VERIFY_SSL
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_platform, issue_registry as ir
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -49,7 +49,7 @@ _MAIN_QUALITIES = (
 
 @callback
 def _create_rtsp_repair(
-    hass: __HAC_KEEP__, entry: UFPConfigEntry, public: PublicCamera
+    hass: UniversalAssistant, entry: UFPConfigEntry, public: PublicCamera
 ) -> None:
     # Keyed on the public camera: the fix flow verifies and creates the stream
     # through the public API, so it works without a private session too.
@@ -70,7 +70,7 @@ def _create_rtsp_repair(
 
 @callback
 def _async_camera_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: UFPConfigEntry,
     data: ProtectData,
     ufp_device: UFPCamera | None = None,
@@ -203,7 +203,7 @@ def _async_camera_entities(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: UFPConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -475,7 +475,7 @@ class ProtectCamera(ProtectDeviceEntity, Camera):
         # the public API has no motion-detection setter; without a private
         # session the command cannot be sent and must not report success.
         if (private := self._private) is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="motion_detection_public_only",
             )

@@ -10,7 +10,7 @@ from google.cloud.pubsub_v1 import PublisherClient
 import probatio
 
 from universalassistant.const import EVENT_STATE_CHANGED, STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__
+from universalassistant.core import Event, EventStateChangedData, UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entityfilter import FILTER_SCHEMA
 from universalassistant.helpers.typing import ConfigType
@@ -39,7 +39,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-def setup(hass: __HAC_KEEP__, yaml_config: ConfigType) -> bool:
+def setup(hass: UniversalAssistant, yaml_config: ConfigType) -> bool:
     """Activate Google Pub/Sub component."""
     config = yaml_config[DOMAIN]
     project_id = config[CONF_PROJECT_ID]

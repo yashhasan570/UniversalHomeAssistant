@@ -4,11 +4,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.victron_remote_monitoring import energy
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_energy_solar_forecast(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Test fetching the solar forecast for the energy dashboard."""
     config_entry = init_integration
@@ -27,13 +27,13 @@ async def test_energy_solar_forecast(
     }
 
 
-async def test_energy_missing_entry(hass: __HAC_KEEP__) -> None:
+async def test_energy_missing_entry(hass: UniversalAssistant) -> None:
     """Return None when config entry cannot be found."""
     assert await energy.async_get_solar_forecast(hass, "missing") is None
 
 
 async def test_energy_no_solar_data(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Return None when the coordinator has no solar forecast data."""
     config_entry = init_integration

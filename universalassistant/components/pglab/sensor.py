@@ -12,7 +12,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import Platform, UnitOfElectricPotential, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import PGLabConfigEntry
@@ -46,7 +46,7 @@ SENSOR_INFO: list[SensorEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: PGLabConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -2,7 +2,7 @@
 
 from universalassistant.components.switch import SwitchDeviceClass
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import (
     mock_config_entry,
@@ -12,7 +12,7 @@ from .conftest import (
 )
 
 
-async def test_manual_watering_switch_metadata(hass: __HAC_KEEP__) -> None:
+async def test_manual_watering_switch_metadata(hass: UniversalAssistant) -> None:
     """Test the manual watering switch."""
 
     entry = mock_config_entry(hass)
@@ -31,7 +31,7 @@ async def test_manual_watering_switch_metadata(hass: __HAC_KEEP__) -> None:
         assert switch.attributes["device_class"] == SwitchDeviceClass.SWITCH
 
 
-async def test_manual_watering_switch_on_off(hass: __HAC_KEEP__) -> None:
+async def test_manual_watering_switch_on_off(hass: UniversalAssistant) -> None:
     """Test the manual watering switch."""
 
     entry = mock_config_entry(hass)
@@ -78,7 +78,7 @@ async def test_manual_watering_switch_on_off(hass: __HAC_KEEP__) -> None:
         assert device.zone1.is_watering is False
 
 
-async def test_schedule_enabled_switch_on_off(hass: __HAC_KEEP__) -> None:
+async def test_schedule_enabled_switch_on_off(hass: UniversalAssistant) -> None:
     """Test the schedule enabled switch."""
 
     entry = mock_config_entry(hass)

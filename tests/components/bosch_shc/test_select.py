@@ -23,7 +23,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.select import DOMAIN as SELECT_DOMAIN, SelectService
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import (
     micromodule_dimmer_device,
@@ -65,7 +65,7 @@ VIBRATION_SENSITIVITY_ENTITY_ID = "select.shutter_contact_vibration_sensitivity"
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_outdoor_siren_sound_level_current_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The Outdoor Siren's current sound level is reported."""
@@ -83,7 +83,7 @@ async def test_outdoor_siren_sound_level_current_option(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_outdoor_siren_sound_level_select_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_outdoor_siren_sound_level_select_option(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_outdoor_siren_no_siren_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -135,7 +135,7 @@ async def test_outdoor_siren_no_siren_service(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_motion_sensitivity_current_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The Motion Detector II's current motion sensitivity is reported."""
@@ -153,7 +153,7 @@ async def test_motion_sensitivity_current_option(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_motion_sensitivity_select_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -183,7 +183,7 @@ async def test_motion_sensitivity_select_option(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_motion_sensitivity_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No select entity is created without the motion sensitivity service."""
@@ -207,7 +207,7 @@ async def test_motion_sensitivity_not_supported(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_vibration_sensitivity_current_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The contact's current vibration sensitivity is reported."""
@@ -225,7 +225,7 @@ async def test_vibration_sensitivity_current_option(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_vibration_sensitivity_select_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -252,7 +252,7 @@ async def test_vibration_sensitivity_select_option(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_vibration_sensitivity_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No select entity is created for a contact without a vibration sensor."""
@@ -276,7 +276,7 @@ async def test_vibration_sensitivity_not_supported(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smoke_sensitivity_current_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The Smoke Detector's current smoke sensitivity is reported."""
@@ -302,7 +302,7 @@ async def test_smoke_sensitivity_current_option(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smoke_sensitivity_select_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -331,7 +331,7 @@ async def test_smoke_sensitivity_select_option(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smoke_sensitivity_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No select is created without smoke sensitivity support."""
@@ -356,7 +356,7 @@ async def test_smoke_sensitivity_unsupported(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_thermostat_display_current_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The thermostat's display direction and shown temperature are reported."""
@@ -386,7 +386,7 @@ async def test_thermostat_display_current_options(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_thermostat_display_select_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -427,7 +427,7 @@ async def test_thermostat_display_select_options(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_thermostat_display_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No selects are created without display support."""
@@ -453,7 +453,7 @@ async def test_thermostat_display_unsupported(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_thermostat_display_unknown_initial_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Supported display selects are created even without an initial value."""
@@ -480,7 +480,7 @@ async def test_thermostat_display_unknown_initial_values(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_room_thermostat_2_display_selects(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -518,7 +518,7 @@ async def test_room_thermostat_2_display_selects(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_state_after_power_outage_current_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The Smart Plug's state after a power outage is reported."""
@@ -550,7 +550,7 @@ async def test_state_after_power_outage_current_option(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_state_after_power_outage_select_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -583,7 +583,7 @@ async def test_state_after_power_outage_select_option(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_state_after_power_outage_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No select is created without power switch configuration support."""
@@ -608,7 +608,7 @@ async def test_state_after_power_outage_unsupported(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_thermostat_valve_and_heater_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -649,7 +649,7 @@ async def test_thermostat_valve_and_heater_type(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_thermostat_valve_and_heater_type_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No valve or heater type selects are created without wall thermostat support."""
@@ -678,7 +678,7 @@ SWITCH_TYPE_ENTITY_ID = "select.relay_switch_type"
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_relay_switch_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -704,7 +704,7 @@ async def test_relay_switch_type(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_relay_switch_type_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No switch type select is created without switch configuration support."""
@@ -729,7 +729,7 @@ async def test_relay_switch_type_unsupported(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_room_thermostat_terminal_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -758,7 +758,7 @@ async def test_room_thermostat_terminal_type(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_room_thermostat_terminal_type_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No terminal type select is created without terminal configuration support."""
@@ -786,7 +786,7 @@ ACTUATOR_TYPE_ENTITY_ID = "select.relay_actuator_type"
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_relay_actuator_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -815,7 +815,7 @@ async def test_relay_actuator_type(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_relay_actuator_type_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No actuator type select is created without switch configuration support."""
@@ -843,7 +843,7 @@ OUTPUT_MODE_ENTITY_ID = "select.relay_output_mode"
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_relay_output_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -869,7 +869,7 @@ async def test_relay_output_mode(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_relay_output_mode_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No output mode select is created without switch configuration support."""
@@ -899,7 +899,7 @@ ORIENTATION_LIGHT_ENTITY_ID = "select.motion_detector_orientation_light_response
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smart_sensitivity_levels(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -929,7 +929,7 @@ async def test_smart_sensitivity_levels(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smart_sensitivity_levels_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No smart sensitivity selects are created without support."""
@@ -946,7 +946,7 @@ async def test_smart_sensitivity_levels_unsupported(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smart_sensitivity_levels_not_reported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The levels stay unknown while the controller reports none."""
@@ -972,7 +972,7 @@ async def test_smart_sensitivity_levels_not_reported(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_dimmer_phase_control(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1001,7 +1001,7 @@ async def test_dimmer_phase_control(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_dimmer_phase_control_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No phase control select is created without dimmer configuration support."""
@@ -1019,7 +1019,7 @@ async def test_dimmer_phase_control_unsupported(
 )
 @pytest.mark.parametrize("device_buckets", [{"motion_detectors2": []}], indirect=True)
 async def test_orientation_light_current_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
     long_poll_interval: PollControlService.PollControlState,
@@ -1042,7 +1042,7 @@ async def test_orientation_light_current_option(
     indirect=True,
 )
 async def test_orientation_light_select_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

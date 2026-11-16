@@ -18,7 +18,7 @@ from universalassistant.const import (
     CONF_PORT,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 def build_smile(**attrs):
@@ -135,7 +135,7 @@ def platforms() -> list[str]:
 
 @pytest.fixture
 async def setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     platforms,
 ) -> AsyncGenerator[None]:
@@ -406,7 +406,7 @@ def mock_stretch() -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> MockConfigEntry:
     """Set up the Plugwise integration for testing."""
     mock_config_entry.add_to_hass(hass)

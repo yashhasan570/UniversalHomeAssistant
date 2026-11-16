@@ -14,7 +14,7 @@ from universalassistant.components.remote import (
     SERVICE_SEND_COMMAND,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 
 from . import MODEL_NAME, setup_lgnetcast
@@ -31,7 +31,7 @@ def mock_lg_netcast() -> Generator[MagicMock]:
         yield mock_client_class
 
 
-async def test_send_command(hass: __HAC_KEEP__, mock_lg_netcast: MagicMock) -> None:
+async def test_send_command(hass: UniversalAssistant, mock_lg_netcast: MagicMock) -> None:
     """Test remote.send_command calls the client with the correct command code."""
     await setup_lgnetcast(hass)
     context_client = mock_lg_netcast.return_value.__enter__.return_value
@@ -47,7 +47,7 @@ async def test_send_command(hass: __HAC_KEEP__, mock_lg_netcast: MagicMock) -> N
 
 
 async def test_send_command_invalid(
-    hass: __HAC_KEEP__, mock_lg_netcast: MagicMock
+    hass: UniversalAssistant, mock_lg_netcast: MagicMock
 ) -> None:
     """Test send_command raises error for unknown command name."""
     await setup_lgnetcast(hass)
@@ -62,7 +62,7 @@ async def test_send_command_invalid(
 
 
 async def test_send_multiple_commands(
-    hass: __HAC_KEEP__, mock_lg_netcast: MagicMock
+    hass: UniversalAssistant, mock_lg_netcast: MagicMock
 ) -> None:
     """Test remote.send_command calls the client for each command in the list."""
     await setup_lgnetcast(hass)
@@ -85,7 +85,7 @@ async def test_send_multiple_commands(
 
 
 async def test_send_multiple_commands_with_delay(
-    hass: __HAC_KEEP__, mock_lg_netcast: MagicMock
+    hass: UniversalAssistant, mock_lg_netcast: MagicMock
 ) -> None:
     """Test remote.send_command sleeps between commands when delay_secs is set."""
     await setup_lgnetcast(hass)
@@ -116,7 +116,7 @@ async def test_send_multiple_commands_with_delay(
 
 
 async def test_send_command_repeats_with_delay(
-    hass: __HAC_KEEP__, mock_lg_netcast: MagicMock
+    hass: UniversalAssistant, mock_lg_netcast: MagicMock
 ) -> None:
     """Test remote.send_command sleeps between repeats when delay_secs is set."""
     await setup_lgnetcast(hass)
@@ -142,7 +142,7 @@ async def test_send_command_repeats_with_delay(
 
 
 async def test_send_multiple_commands_repeats_with_delay(
-    hass: __HAC_KEEP__, mock_lg_netcast: MagicMock
+    hass: UniversalAssistant, mock_lg_netcast: MagicMock
 ) -> None:
     """Test remote.send_command sleeps between commands and between repeats."""
     await setup_lgnetcast(hass)

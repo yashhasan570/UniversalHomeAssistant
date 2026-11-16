@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import ECConfigEntry
 
@@ -12,7 +12,7 @@ TO_REDACT = {CONF_LATITUDE, CONF_LONGITUDE}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: ECConfigEntry
+    hass: UniversalAssistant, config_entry: ECConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return {

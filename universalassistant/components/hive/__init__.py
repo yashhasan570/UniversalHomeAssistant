@@ -9,7 +9,7 @@ from apyhiveapi import Auth, Hive
 from apyhiveapi.helper.hive_exceptions import HiveReauthRequired
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import (
     aiohttp_client,
@@ -29,13 +29,13 @@ type HiveConfigEntry = ConfigEntry[Hive]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Hive integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: HiveConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: HiveConfigEntry) -> None:
     """Set up Hive from a config entry."""
     web_session = aiohttp_client.async_get_clientsession(hass)
     hive_config = dict(entry.data)
@@ -71,12 +71,12 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: HiveConfigEntry) -> None:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: HiveConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: HiveConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_remove_entry(hass: __HAC_KEEP__, entry: HiveConfigEntry) -> None:
+async def async_remove_entry(hass: UniversalAssistant, entry: HiveConfigEntry) -> None:
     """Remove a config entry."""
     hive = Auth(entry.data["username"], entry.data["password"])
     await hive.forget_device(
@@ -86,7 +86,7 @@ async def async_remove_entry(hass: __HAC_KEEP__, entry: HiveConfigEntry) -> None
 
 
 async def async_remove_config_entry_device(
-    hass: __HAC_KEEP__, config_entry: HiveConfigEntry, device_entry: dr.AnyDeviceEntry
+    hass: UniversalAssistant, config_entry: HiveConfigEntry, device_entry: dr.AnyDeviceEntry
 ) -> bool:
     """Remove a config entry from a device."""
     return True

@@ -11,8 +11,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntry
 from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 pytestmark = pytest.mark.usefixtures(
@@ -31,7 +31,7 @@ def override_platforms() -> Generator[None]:
 
 
 async def test_buttons(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry_with_auth: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -46,7 +46,7 @@ async def test_buttons(
 
 
 async def test_buttons_no_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -59,7 +59,7 @@ async def test_buttons_no_auth(
     assert len(entity_registry.entities) == 0
 
 
-async def test_reboot(hass: __HAC_KEEP__, config_entry_with_auth: ConfigEntry) -> None:
+async def test_reboot(hass: UniversalAssistant, config_entry_with_auth: ConfigEntry) -> None:
     """Test for SFR Box reboot button."""
     await hass.config_entries.async_setup(config_entry_with_auth.entry_id)
     await hass.async_block_till_done()
@@ -83,7 +83,7 @@ async def test_reboot(hass: __HAC_KEEP__, config_entry_with_auth: ConfigEntry) -
             "universalassistant.components.sfr_box.button.SFRBox.system_reboot",
             side_effect=SFRBoxError,
         ) as mock_action,
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             BUTTON_DOMAIN, ButtonService.PRESS, service_data=service_data, blocking=True
@@ -94,7 +94,7 @@ async def test_reboot(hass: __HAC_KEEP__, config_entry_with_auth: ConfigEntry) -
 
 
 async def test_reboot_invalid_auth(
-    hass: __HAC_KEEP__, config_entry_with_auth: ConfigEntry
+    hass: UniversalAssistant, config_entry_with_auth: ConfigEntry
 ) -> None:
     """Test reauthentication is started when credentials fail on press."""
     await hass.config_entries.async_setup(config_entry_with_auth.entry_id)
@@ -105,7 +105,7 @@ async def test_reboot_invalid_auth(
             "universalassistant.components.sfr_box.button.SFRBox.system_reboot",
             side_effect=SFRBoxAuthenticationError,
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             BUTTON_DOMAIN,

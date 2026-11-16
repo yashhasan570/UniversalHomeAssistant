@@ -10,7 +10,7 @@ from pywillow import WillowApiError, WillowAuthError
 from universalassistant.components.willow.const import SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
 )
@@ -23,7 +23,7 @@ ENTITY_ID = "sensor.kitchen_basil_temperature"
 
 
 async def test_setup_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_willow_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -37,7 +37,7 @@ async def test_setup_unload(
 
 
 async def test_setup_retries_on_api_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_willow_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -49,7 +49,7 @@ async def test_setup_retries_on_api_failure(
 
 
 async def test_setup_error_on_authentication_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_willow_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_setup_error_on_authentication_error(
 
 @pytest.mark.usefixtures("mock_willow_client")
 async def test_setup_retries_when_implementation_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Missing OAuth2 implementation defers setup as not-ready."""
@@ -85,7 +85,7 @@ async def test_setup_retries_when_implementation_missing(
     ],
 )
 async def test_poll_failure_marks_entities_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_willow_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

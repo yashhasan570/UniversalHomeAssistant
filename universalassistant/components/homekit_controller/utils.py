@@ -7,7 +7,7 @@ from aiohomekit import Controller
 
 from universalassistant.components import zeroconf
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 
 from .const import CONTROLLER
 from .storage import async_get_entity_storage
@@ -47,7 +47,7 @@ def folded_name(name: str) -> str:
     return name.casefold().replace(" ", "")
 
 
-async def async_get_controller(hass: __HAC_KEEP__) -> Controller:
+async def async_get_controller(hass: UniversalAssistant) -> Controller:
     """Get or create an aiohomekit Controller instance."""
     if existing := hass.data.get(CONTROLLER):
         return cast(Controller, existing)

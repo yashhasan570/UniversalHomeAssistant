@@ -7,7 +7,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_PASSWORD, CONF_TOKEN, CONF_USERNAME
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -43,7 +43,7 @@ class KnockiConfigFlow(ConfigFlow, domain=DOMAIN):
                 self._abort_if_unique_id_configured()
                 client.token = token_response.token
                 await client.link()
-            except __HAC_KEEP__Error:
+            except UniversalAssistantError:
                 # Catch the unique_id abort and reraise it to keep the code clean
                 raise
             except KnockiConnectionError:

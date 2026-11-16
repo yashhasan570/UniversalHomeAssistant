@@ -13,12 +13,12 @@ from universalassistant.const import (
     ATTR_FRIENDLY_NAME,
     ATTR_SUPPORTED_FEATURES,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 
 async def test_exclude_attributes(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, mock_image_platform
+    recorder_mock: Recorder, hass: UniversalAssistant, mock_image_platform
 ) -> None:
     """Test camera registered attributes to be excluded."""
     now = dt_util.utcnow()

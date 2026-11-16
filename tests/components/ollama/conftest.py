@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components import ollama
 from universalassistant.const import CONF_API_KEY, CONF_LLM_HASS_API
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import llm
 from universalassistant.setup import async_setup_component
 
@@ -39,7 +39,7 @@ def mock_config_entry_data(has_token: bool) -> dict[str, Any]:
 
 @pytest.fixture
 def mock_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_options: dict[str, Any],
     mock_config_entry_data: dict[str, Any],
 ) -> MockConfigEntry:
@@ -70,7 +70,7 @@ def mock_config_entry(
 
 @pytest.fixture
 def mock_config_entry_with_assist(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> MockConfigEntry:
     """Mock a config entry with assist."""
     subentry = next(iter(mock_config_entry.subentries.values()))
@@ -87,7 +87,7 @@ def mock_config_entry_with_assist(
 
 @pytest.fixture
 def mock_config_entry_with_assist_invalid_api(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> MockConfigEntry:
     """Mock a config entry with assist."""
     subentry = next(iter(mock_config_entry.subentries.values()))
@@ -103,7 +103,7 @@ def mock_config_entry_with_assist_invalid_api(
 
 
 @pytest.fixture
-async def mock_init_component(hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry):
+async def mock_init_component(hass: UniversalAssistant, mock_config_entry: MockConfigEntry):
     """Initialize integration."""
     assert await async_setup_component(hass, "universalassistant", {})
 
@@ -116,6 +116,6 @@ async def mock_init_component(hass: __HAC_KEEP__, mock_config_entry: MockConfigE
 
 
 @pytest.fixture(autouse=True)
-async def setup_ha(hass: __HAC_KEEP__) -> None:
-    """Set up __HA_KEEP__."""
+async def setup_ha(hass: UniversalAssistant) -> None:
+    """Set up Universal Home Assistant."""
     assert await async_setup_component(hass, "universalassistant", {})

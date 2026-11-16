@@ -10,11 +10,17 @@ from universalassistant.components.device_tracker import (
     ScannerEntity,
 )
 from universalassistant.config_entries import SOURCE_IMPORT
-from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
+from universalassistant.const import (
+    CONF_HOST,
+    CONF_PASSWORD,
+    CONF_SSL,
+    CONF_USERNAME,
+    CONF_VERIFY_SSL,
+)
 from universalassistant.core import (
     DOMAIN as HOMEASSISTANT_DOMAIN,
     Event,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
 )
 from universalassistant.data_entry_flow import FlowResultType
@@ -27,7 +33,14 @@ from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCal
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import CONF_DHCP_SOFTWARE, DEFAULT_DHCP_SOFTWARE, DHCP_SOFTWARES, DOMAIN
+from .const import (
+    CONF_DHCP_SOFTWARE,
+    DEFAULT_DHCP_SOFTWARE,
+    DEFAULT_SSL,
+    DEFAULT_VERIFY_SSL,
+    DHCP_SOFTWARES,
+    DOMAIN,
+)
 from .coordinator import UbusConfigEntry, UbusDataUpdateCoordinator
 
 PLATFORM_SCHEMA = DEVICE_TRACKER_PLATFORM_SCHEMA.extend(
@@ -35,6 +48,8 @@ PLATFORM_SCHEMA = DEVICE_TRACKER_PLATFORM_SCHEMA.extend(
         probatio.Required(CONF_HOST): cv.string,
         probatio.Required(probatio.Secret(CONF_PASSWORD)): cv.string,
         probatio.Required(CONF_USERNAME): cv.string,
+        probatio.Optional(CONF_SSL, default=DEFAULT_SSL): cv.boolean,
+        probatio.Optional(CONF_VERIFY_SSL, default=DEFAULT_VERIFY_SSL): cv.boolean,
         probatio.Optional(
             CONF_DHCP_SOFTWARE, default=DEFAULT_DHCP_SOFTWARE
         ): probatio.In(DHCP_SOFTWARES),
@@ -43,7 +58,7 @@ PLATFORM_SCHEMA = DEVICE_TRACKER_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_scanner(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_see: AsyncSeeCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -53,6 +68,8 @@ async def async_setup_scanner(
         CONF_HOST: config[CONF_HOST],
         CONF_USERNAME: config[CONF_USERNAME],
         CONF_PASSWORD: config[CONF_PASSWORD],
+        CONF_SSL: config[CONF_SSL],
+        CONF_VERIFY_SSL: config[CONF_VERIFY_SSL],
         CONF_DHCP_SOFTWARE: config[CONF_DHCP_SOFTWARE],
     }
     result = await hass.config_entries.flow.async_init(
@@ -93,7 +110,7 @@ async def async_setup_scanner(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: UbusConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

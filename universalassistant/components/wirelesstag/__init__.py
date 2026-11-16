@@ -11,7 +11,7 @@ from wirelesstagpy.exceptions import WirelessTagsException
 
 from universalassistant.components import persistent_notification
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.dispatcher import dispatcher_send
 from universalassistant.helpers.typing import ConfigType
@@ -55,7 +55,7 @@ CONFIG_SCHEMA = probatio.Schema(
 class WirelessTagPlatform:
     """Principal object to manage all registered in HA tags."""
 
-    def __init__(self, hass: __HAC_KEEP__, api: WirelessTags) -> None:
+    def __init__(self, hass: UniversalAssistant, api: WirelessTags) -> None:
         """Designated initializer for wirelesstags platform."""
         self.hass = hass
         self.api = api
@@ -122,7 +122,7 @@ class WirelessTagPlatform:
                     )
 
         def _stop_monitoring(_event: Event) -> None:
-            """Stop cloud push monitoring on __HA_KEEP__ shutdown."""
+            """Stop cloud push monitoring on Universal Home Assistant shutdown."""
             self.stop_monitoring()
 
         self.api.start_monitoring(push_callback)
@@ -133,7 +133,7 @@ class WirelessTagPlatform:
         self.api.stop_monitoring()
 
 
-def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Wireless Sensor Tag component."""
     conf: ConfigType = config[DOMAIN]
     username: str = conf[CONF_USERNAME]

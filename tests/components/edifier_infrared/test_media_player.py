@@ -32,7 +32,7 @@ from universalassistant.components.media_player import (
     SERVICE_VOLUME_UP,
 )
 from universalassistant.const import ATTR_ENTITY_ID, CONF_MODEL, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 MEDIA_PLAYER_ENTITY_ID = "media_player.edifier_r1700bts"
@@ -46,7 +46,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -71,7 +71,7 @@ async def test_entities(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_media_player_action_sends_correct_code(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     service: str,
     service_data: dict[str, bool],
@@ -120,7 +120,7 @@ async def test_media_player_action_sends_correct_code(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_rc20g_volume_sends_left_and_right_codes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     service: str,
     expected_codes: tuple[EdifierRC20GCode, ...],
@@ -138,7 +138,7 @@ async def test_rc20g_volume_sends_left_and_right_codes(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_media_player_availability_follows_ir_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test media player becomes unavailable when IR entity is unavailable."""
     await assert_availability_follows_source_entity(

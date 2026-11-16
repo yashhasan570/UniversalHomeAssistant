@@ -17,14 +17,14 @@ from universalassistant.const import (
     PERCENTAGE,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import area_registry as ar, label_registry as lr
 from universalassistant.util.dt import utcnow
 
 
 @pytest.fixture(name="client")
 async def client_fixture(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
 ) -> MockHAClientWebSocket:
     """Fixture that can interact with the config manager API."""
     area_registry.async_setup(hass)
@@ -32,7 +32,7 @@ async def client_fixture(
 
 
 @pytest.fixture
-async def mock_temperature_humidity_entity(hass: __HAC_KEEP__) -> None:
+async def mock_temperature_humidity_entity(hass: UniversalAssistant) -> None:
     """Mock temperature and humidity sensors."""
     hass.states.async_set(
         "sensor.mock_temperature",
@@ -548,7 +548,7 @@ async def test_reorder_areas_with_nonexistent_id(
 
 
 async def test_reorder_areas_persistence(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MockHAClientWebSocket,
     area_registry: ar.AreaRegistry,
     hass_storage: dict[str, Any],

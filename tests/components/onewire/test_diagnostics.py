@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.onewire import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_owproxy_mock_devices
@@ -29,7 +29,7 @@ def override_platforms() -> Generator[None]:
 
 @pytest.mark.parametrize("device_id", ["EF.111111111113"], indirect=True)
 async def test_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
     owproxy: MagicMock,
@@ -49,7 +49,7 @@ async def test_entry_diagnostics(
 
 @pytest.mark.parametrize("device_id", ["EF.111111111113"], indirect=True)
 async def test_device_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     hass_client: ClientSessionGenerator,

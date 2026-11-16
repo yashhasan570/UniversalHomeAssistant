@@ -13,7 +13,7 @@ from universalassistant.components.bluetooth.passive_update_processor import (
     PassiveBluetoothDataProcessor,
     PassiveBluetoothProcessorCoordinator,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONF_SLEEPY_DEVICE
 from .types import BTHomeConfigEntry
@@ -26,7 +26,7 @@ class BTHomePassiveBluetoothProcessorCoordinator(
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         logger: Logger,
         address: str,
         mode: BluetoothScanningMode,

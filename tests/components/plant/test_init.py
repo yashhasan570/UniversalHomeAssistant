@@ -16,7 +16,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     UnitOfConductivity,
 )
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.entity_component import DATA_INSTANCES
 from universalassistant.setup import async_setup_component
 
@@ -48,7 +48,7 @@ GOOD_CONFIG = {
 }
 
 
-async def test_valid_data(hass: __HAC_KEEP__) -> None:
+async def test_valid_data(hass: UniversalAssistant) -> None:
     """Test processing valid data."""
     sensor = plant.Plant("my plant", GOOD_CONFIG)
     sensor.entity_id = "sensor.mqtt_plant_battery"
@@ -66,7 +66,7 @@ async def test_valid_data(hass: __HAC_KEEP__) -> None:
         assert attrib[reading] == value
 
 
-async def test_low_battery(hass: __HAC_KEEP__) -> None:
+async def test_low_battery(hass: UniversalAssistant) -> None:
     """Test processing with low battery data and limit set."""
     sensor = plant.Plant("other plant", GOOD_CONFIG)
     sensor.entity_id = "sensor.mqtt_plant_battery"
@@ -80,7 +80,7 @@ async def test_low_battery(hass: __HAC_KEEP__) -> None:
     assert sensor.extra_state_attributes["problem"] == "battery low"
 
 
-async def test_initial_states(hass: __HAC_KEEP__) -> None:
+async def test_initial_states(hass: UniversalAssistant) -> None:
     """Test plant initialises attributes if sensor already exists."""
     hass.states.async_set(
         MOISTURE_ENTITY,
@@ -96,7 +96,7 @@ async def test_initial_states(hass: __HAC_KEEP__) -> None:
     assert state.attributes[plant.READING_MOISTURE] == 5
 
 
-async def test_update_states(hass: __HAC_KEEP__) -> None:
+async def test_update_states(hass: UniversalAssistant) -> None:
     """Test updating the state of a sensor.
 
     Make sure that plant processes this correctly.
@@ -116,7 +116,7 @@ async def test_update_states(hass: __HAC_KEEP__) -> None:
     assert state.attributes[plant.READING_MOISTURE] == 5
 
 
-async def test_state_tracking_stops_after_removal(hass: __HAC_KEEP__) -> None:
+async def test_state_tracking_stops_after_removal(hass: UniversalAssistant) -> None:
     """Test a removed plant no longer processes sensor state changes."""
     plant_name = "some_plant"
     entity_id = f"plant.{plant_name}"
@@ -137,7 +137,7 @@ async def test_state_tracking_stops_after_removal(hass: __HAC_KEEP__) -> None:
     assert hass.states.get(entity_id) is None
 
 
-async def test_unavailable_state(hass: __HAC_KEEP__) -> None:
+async def test_unavailable_state(hass: UniversalAssistant) -> None:
     """Test updating the state with unavailable.
 
     Make sure that plant processes this correctly.
@@ -157,7 +157,7 @@ async def test_unavailable_state(hass: __HAC_KEEP__) -> None:
     assert state.attributes[plant.READING_MOISTURE] == STATE_UNAVAILABLE
 
 
-async def test_state_problem_if_unavailable(hass: __HAC_KEEP__) -> None:
+async def test_state_problem_if_unavailable(hass: UniversalAssistant) -> None:
     """Test updating the state with unavailable after setting it to valid value.
 
     Make sure that plant processes this correctly.
@@ -186,7 +186,7 @@ async def test_state_problem_if_unavailable(hass: __HAC_KEEP__) -> None:
     assert state.attributes[plant.READING_MOISTURE] == STATE_UNAVAILABLE
 
 
-async def test_load_from_db(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
+async def test_load_from_db(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
     """Test bootstrapping the brightness history from the database.
 
     This test can should only be executed if the loading of the history
@@ -212,7 +212,7 @@ async def test_load_from_db(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None
     assert max_brightness == 30
 
 
-async def test_brightness_history(hass: __HAC_KEEP__) -> None:
+async def test_brightness_history(hass: UniversalAssistant) -> None:
     """Test the min_brightness check."""
     plant_name = "some_plant"
     assert await async_setup_component(
@@ -234,13 +234,13 @@ async def test_brightness_history(hass: __HAC_KEEP__) -> None:
     assert state.state == STATE_OK
 
 
-def test_daily_history_no_data(hass: __HAC_KEEP__) -> None:
+def test_daily_history_no_data(hass: UniversalAssistant) -> None:
     """Test with empty history."""
     dh = DailyHistory(3)
     assert dh.max is None
 
 
-def test_daily_history_one_day(hass: __HAC_KEEP__) -> None:
+def test_daily_history_one_day(hass: UniversalAssistant) -> None:
     """Test storing data for the same day."""
     dh = DailyHistory(3)
     values = [-2, 10, 0, 5, 20]
@@ -251,7 +251,7 @@ def test_daily_history_one_day(hass: __HAC_KEEP__) -> None:
         assert dh.max == max_value
 
 
-def test_daily_history_multiple_days(hass: __HAC_KEEP__) -> None:
+def test_daily_history_multiple_days(hass: UniversalAssistant) -> None:
     """Test storing data for different days."""
     dh = DailyHistory(3)
     today = datetime.now()  # pylint: disable=universal-assistant-enforce-naive-now

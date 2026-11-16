@@ -2,7 +2,7 @@
 
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .common import setup_platform
 
@@ -41,7 +41,7 @@ MOCK_VOIP_USAGE = {
 }
 
 
-async def test_nbn_sensor_states(hass: __HAC_KEEP__) -> None:
+async def test_nbn_sensor_states(hass: UniversalAssistant) -> None:
     """Tests that the sensors are correct."""
 
     await setup_platform(hass, [SENSOR_DOMAIN], usage=MOCK_NBN_USAGE)
@@ -59,7 +59,7 @@ async def test_nbn_sensor_states(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_phone_sensor_states(hass: __HAC_KEEP__) -> None:
+async def test_phone_sensor_states(hass: UniversalAssistant) -> None:
     """Tests that the sensors are correct."""
 
     await setup_platform(hass, [SENSOR_DOMAIN], usage=MOCK_MOBILE_USAGE)
@@ -78,7 +78,7 @@ async def test_phone_sensor_states(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_voip_sensor_states(hass: __HAC_KEEP__) -> None:
+async def test_voip_sensor_states(hass: UniversalAssistant) -> None:
     """Tests that the sensors are correct."""
 
     await setup_platform(hass, [SENSOR_DOMAIN], usage=MOCK_VOIP_USAGE)

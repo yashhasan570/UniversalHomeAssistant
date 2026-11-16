@@ -42,7 +42,7 @@ class HeatingProgram(enum.StrEnum):
 
     @staticmethod
     def to_ha_preset(program: str) -> str | None:
-        """Return the mapped __HA_KEEP__ preset for the ViCare heating program."""
+        """Return the mapped Universal Home Assistant preset for the ViCare heating program."""
 
         try:
             heating_program = HeatingProgram(program)
@@ -55,7 +55,7 @@ class HeatingProgram(enum.StrEnum):
     def from_ha_preset(
         ha_preset: str, supported_heating_programs: list[str]
     ) -> str | None:
-        """Return the mapped ViCare heating program for the __HA_KEEP__ preset."""
+        """Return the mapped ViCare heating program for the Universal Home Assistant preset."""
         for program in supported_heating_programs:
             with suppress(ValueError):
                 if (

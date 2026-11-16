@@ -16,13 +16,13 @@ from universalassistant.const import (
     CONF_LOCATION,
     CONF_LONGITUDE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def init_integration(
-    hass: __HAC_KEEP__, track_home: bool = False, title: str | None = None
+    hass: UniversalAssistant, track_home: bool = False, title: str | None = None
 ) -> MockConfigEntry:
-    """Set up the Met integration in __HA_KEEP__."""
+    """Set up the Met integration in Universal Home Assistant."""
     entry_data = {
         CONF_LOCATION: {
             CONF_LATITUDE: 0,

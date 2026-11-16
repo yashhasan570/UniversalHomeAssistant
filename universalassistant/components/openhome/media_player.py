@@ -31,8 +31,8 @@ from universalassistant.const import (
     SERVICE_VOLUME_SET,
     SERVICE_VOLUME_UP,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -49,7 +49,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: OpenhomeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -75,7 +75,7 @@ def catch_request_errors[_OpenhomeDeviceT: OpenhomeDevice, **_P, _R](
 ) -> Callable[
     [_FuncType[_OpenhomeDeviceT, _P, _R]], _ReturnFuncType[_OpenhomeDeviceT, _P, _R]
 ]:
-    """Return decorator that catches errors and raises __HAC_KEEP__Error."""
+    """Return decorator that catches errors and raises UniversalAssistantError."""
 
     def call_wrapper(
         func: _FuncType[_OpenhomeDeviceT, _P, _R],
@@ -90,7 +90,7 @@ def catch_request_errors[_OpenhomeDeviceT: OpenhomeDevice, **_P, _R](
             try:
                 return await func(self, *args, **kwargs)
             except OpenhomeError as err:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key=action,
                 ) from err
@@ -181,7 +181,7 @@ class OpenhomeDevice(MediaPlayerEntity):
                 self._attr_state = MediaPlayerState.PAUSED
             elif transport_state in ("Playing", "Buffering"):
                 self._attr_state = MediaPlayerState.PLAYING
-            elif transport_state == "Stopped":
+            elif transport_state in ("Stopped", "Waiting"):
                 self._attr_state = MediaPlayerState.IDLE
             else:
                 # Device is playing an external source with no transport controls
@@ -228,7 +228,7 @@ class OpenhomeDevice(MediaPlayerEntity):
 
         media_id = async_process_play_media_url(self.hass, media_id)
 
-        track_details = {"title": "__HA_KEEP__", "uri": media_id}
+        track_details = {"title": "Universal Home Assistant", "uri": media_id}
         await self._device.play_media(track_details)
 
     @catch_request_errors(SERVICE_MEDIA_PAUSE)
@@ -271,7 +271,7 @@ class OpenhomeDevice(MediaPlayerEntity):
     async def async_invoke_pin(self, pin):
         """Invoke pin."""
         if not self._device.pins_enabled:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="pins_not_supported",
             )

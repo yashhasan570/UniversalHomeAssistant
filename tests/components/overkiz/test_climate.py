@@ -21,7 +21,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import FixtureDevice, MockOverkizClient, SetupOverkizIntegration
@@ -100,7 +100,7 @@ def fixture_platforms() -> Generator[None]:
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_climate_entities_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -113,7 +113,7 @@ async def test_climate_entities_snapshot(
 
 
 async def test_valve_hvac_action_none_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
@@ -169,7 +169,7 @@ UNKNOWN_DEVICE_URL = "zigbee://1234-5678-1698/65535"
     ],
 )
 async def test_events_for_unknown_device_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
@@ -186,7 +186,7 @@ async def test_events_for_unknown_device_url(
 
 
 async def test_electrical_heater_adjustable_target_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
@@ -389,7 +389,7 @@ async def test_electrical_heater_adjustable_target_temperature(
     ],
 )
 async def test_electrical_heater_adjustable_hvac_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
@@ -417,7 +417,7 @@ async def test_electrical_heater_adjustable_hvac_action(
 
 
 async def test_hitachi_air_to_water_heating_zone_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
 ) -> None:
     """Test the second heating zone reads its own Zone2 states."""
@@ -435,7 +435,7 @@ async def test_hitachi_air_to_water_heating_zone_2(
 
 
 async def test_thermostat_heating_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
 ) -> None:
@@ -468,7 +468,7 @@ async def test_thermostat_heating_set_temperature(
     ],
 )
 async def test_thermostat_heating_set_preset_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
     preset_mode: str,
@@ -500,7 +500,7 @@ async def test_thermostat_heating_set_preset_mode(
     ],
 )
 async def test_heat_recovery_ventilation_without_ventilation_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_overkiz_integration: SetupOverkizIntegration,
     service: str,
     service_data: dict[str, str],

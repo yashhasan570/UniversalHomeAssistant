@@ -24,7 +24,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import ConfigEntryFactoryType
@@ -60,7 +60,7 @@ root.Properties.System.SerialNumber={MAC}
     ],
 )
 async def test_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     snapshot: SnapshotAssertion,
@@ -87,7 +87,7 @@ async def test_camera(
 
 @pytest.mark.parametrize("basic_auth_challenge", [pytest.param(True, id="basic")])
 async def test_camera_uses_vapix_basic_authentication_for_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     config_entry_factory: ConfigEntryFactoryType,
     basic_auth_challenge: bool,
@@ -109,7 +109,7 @@ async def test_camera_uses_vapix_basic_authentication_for_snapshot(
 
 @pytest.mark.parametrize("param_properties_payload", [PROPERTY_DATA])
 @pytest.mark.usefixtures("config_entry_setup")
-async def test_camera_disabled(hass: __HAC_KEEP__) -> None:
+async def test_camera_disabled(hass: UniversalAssistant) -> None:
     """Test Axis camera platform loads but does not create camera entity."""
     assert len(hass.states.async_entity_ids(CAMERA_DOMAIN)) == 0
 
@@ -129,7 +129,7 @@ async def test_camera_disabled(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_camera_companion(
-    hass: __HAC_KEEP__, config_entry_setup: MockConfigEntry
+    hass: UniversalAssistant, config_entry_setup: MockConfigEntry
 ) -> None:
     """Test Companion devices request media with the Axis-Orig-Sw parameter."""
     assert config_entry_setup.runtime_data.api.config.is_companion
@@ -177,7 +177,7 @@ async def test_camera_companion(
     [{CONF_STREAM_PROFILE: "profile 1", CONF_VIDEO_SOURCE: 2}],
 )
 async def test_stream_source_credentials(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     config_entry_factory: ConfigEntryFactoryType,
     username: str,

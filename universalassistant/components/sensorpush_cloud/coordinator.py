@@ -11,7 +11,7 @@ from sensorpush_ha import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -23,7 +23,7 @@ type SensorPushCloudConfigEntry = ConfigEntry[SensorPushCloudCoordinator]
 class SensorPushCloudCoordinator(DataUpdateCoordinator[dict[str, SensorPushCloudData]]):
     """SensorPush Cloud coordinator."""
 
-    def __init__(self, hass: __HAC_KEEP__, entry: SensorPushCloudConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: SensorPushCloudConfigEntry) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,

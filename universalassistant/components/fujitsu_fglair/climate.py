@@ -25,7 +25,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, PRECISION_HALVES, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import FGLairConfigEntry, FGLairCoordinator
@@ -60,7 +60,7 @@ FUJI_TO_HA_SWING = {value: key for key, value in HA_TO_FUJI_SWING.items()}
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FGLairConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

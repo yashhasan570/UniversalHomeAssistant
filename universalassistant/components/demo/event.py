@@ -4,7 +4,7 @@ from typing import override
 
 from universalassistant.components.event import EventDeviceClass, EventEntity
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -12,7 +12,7 @@ from . import DOMAIN
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

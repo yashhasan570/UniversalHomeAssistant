@@ -4,14 +4,14 @@ from typing import Any
 
 from pyatv.const import Protocol
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import AppleTvConfigEntry
 from .const import CONF_CREDENTIALS
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: AppleTvConfigEntry
+    hass: UniversalAssistant, entry: AppleTvConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     manager = entry.runtime_data

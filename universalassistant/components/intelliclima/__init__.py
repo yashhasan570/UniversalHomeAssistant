@@ -3,7 +3,7 @@
 from pyintelliclima.api import IntelliClimaAPI
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import LOGGER
@@ -18,7 +18,7 @@ PLATFORMS = [Platform.BINARY_SENSOR, Platform.FAN, Platform.SELECT, Platform.SEN
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: IntelliClimaConfigEntry
+    hass: UniversalAssistant, entry: IntelliClimaConfigEntry
 ) -> None:
     """Set up IntelliClima VMC from a config entry."""
     # Create API client
@@ -54,7 +54,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: IntelliClimaConfigEntry
+    hass: UniversalAssistant, entry: IntelliClimaConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

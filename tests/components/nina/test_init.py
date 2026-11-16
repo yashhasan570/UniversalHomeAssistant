@@ -16,7 +16,7 @@ from universalassistant.components.nina.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_platform
 
@@ -31,7 +31,7 @@ ENTRY_DATA: dict[str, Any] = {
 
 
 async def test_config_migration_from1_1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nina_class: AsyncMock,
     nina_warnings: list[Warning],
 ) -> None:
@@ -57,7 +57,7 @@ async def test_config_migration_from1_1(
 
 
 async def test_config_migration_from1_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nina_class: AsyncMock,
     nina_warnings: list[Warning],
 ) -> None:
@@ -84,7 +84,7 @@ async def test_config_migration_from1_2(
 
 
 async def test_config_migration_downgrade(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_nina_class: AsyncMock,
     nina_warnings: list[Warning],
 ) -> None:
@@ -104,7 +104,7 @@ async def test_config_migration_downgrade(
 
 
 async def test_sensors_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_nina_class: AsyncMock,
     nina_warnings: list[Warning],

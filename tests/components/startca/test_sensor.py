@@ -7,13 +7,13 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.startca.sensor import StartcaData
 from universalassistant.const import ATTR_UNIT_OF_MEASUREMENT, PERCENTAGE, UnitOfInformation
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.setup import async_setup_component
 
 
 async def test_capped_setup(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the default setup."""
     config = {
@@ -111,7 +111,7 @@ async def test_capped_setup(
 
 
 async def test_unlimited_setup(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the default setup."""
     config = {
@@ -202,7 +202,7 @@ async def test_unlimited_setup(
 
 
 async def test_bad_return_code(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test handling a return code that isn't HTTP OK."""
     aioclient_mock.get(
@@ -217,7 +217,7 @@ async def test_bad_return_code(
 
 
 async def test_bad_json_decode(
-    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
+    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test decoding invalid json result."""
     aioclient_mock.get(
@@ -231,7 +231,7 @@ async def test_bad_json_decode(
 
 
 async def test_invalid_api_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

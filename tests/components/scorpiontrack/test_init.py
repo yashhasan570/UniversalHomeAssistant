@@ -16,14 +16,14 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.scorpiontrack.const import DEFAULT_SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
 
 
 async def test_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test successful setup and unload of entry."""
@@ -36,7 +36,7 @@ async def test_setup_entry(
 
 
 async def test_device_is_registered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -67,7 +67,7 @@ async def test_device_is_registered(
     ],
 )
 async def test_setup_entry_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_scorpiontrack_client: AsyncMock,
     exception: Exception,
@@ -90,7 +90,7 @@ async def test_setup_entry_errors(
     ],
 )
 async def test_vehicle_added_after_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_share: ScorpionTrackShare,
@@ -172,7 +172,7 @@ async def test_vehicle_added_after_setup(
 
 
 async def test_discovery_stops_on_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_share: ScorpionTrackShare,

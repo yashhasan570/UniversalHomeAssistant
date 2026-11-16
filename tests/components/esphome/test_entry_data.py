@@ -15,7 +15,7 @@ from universalassistant.components.esphome import DOMAIN
 from universalassistant.components.esphome.const import CONF_NOISE_PSK
 from universalassistant.components.esphome.entry_data import RuntimeEntryData
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import discovery_flow, entity_registry as er
 from universalassistant.helpers.service_info.esphome import ESPHomeServiceInfo
 
@@ -23,7 +23,7 @@ from .conftest import MockGenericDeviceEntryType
 
 
 async def test_migrate_entity_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
@@ -70,7 +70,7 @@ async def test_migrate_entity_unique_id(
 
 
 async def test_migrate_entity_unique_id_downgrade_upgrade(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
@@ -216,7 +216,7 @@ async def test_discover_zwave_without_home_id() -> None:
 
 
 async def test_unknown_entity_type_skipped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
     caplog: pytest.LogCaptureFixture,
@@ -246,7 +246,7 @@ async def test_unknown_entity_type_skipped(
     )
 
     assert "UnknownInfo" in caplog.text
-    assert "not supported in this version of __HA_KEEP__" in caplog.text
+    assert "not supported in this version of Universal Home Assistant" in caplog.text
 
     # Known entity still works
     state = hass.states.get("sensor.test_my_sensor")

@@ -7,12 +7,12 @@ from aiohttp.test_utils import TestClient
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.webhook import async_generate_url
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import WEBHOOK_ID
 
 
-async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Fixture for setting up the component."""
     config_entry.add_to_hass(hass)
 
@@ -21,7 +21,7 @@ async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -
 
 
 async def call_webhook(
-    hass: __HAC_KEEP__, data: dict[str, Any], client: TestClient
+    hass: UniversalAssistant, data: dict[str, Any], client: TestClient
 ) -> None:
     """Call the webhook."""
     webhook_url = async_generate_url(hass, WEBHOOK_ID)

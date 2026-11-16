@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.tellduslive.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.util import dt as dt_util
 
@@ -16,7 +16,7 @@ from .conftest import DEVICE_ID, HUB_ID
 
 
 async def test_device_via_device_links(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_tellduslive: MagicMock,
@@ -49,7 +49,7 @@ async def test_device_via_device_links(
 
 
 async def test_device_added_without_hub(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_tellduslive: MagicMock,
@@ -81,7 +81,7 @@ async def test_device_added_without_hub(
 
 
 async def test_setup_not_authorized(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tellduslive: MagicMock,
 ) -> None:
@@ -97,7 +97,7 @@ async def test_setup_not_authorized(
 
 
 async def test_no_polling_after_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_tellduslive: MagicMock,
 ) -> None:

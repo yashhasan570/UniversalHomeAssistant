@@ -9,8 +9,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.seventeentrack import DOMAIN
 from universalassistant.components.seventeentrack.services import SeventeenTrackService
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 
 from . import init_integration
@@ -24,7 +24,7 @@ from .conftest import (
 
 
 async def test_get_packages_from_list(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_seventeentrack: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -47,7 +47,7 @@ async def test_get_packages_from_list(
 
 
 async def test_get_all_packages(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_seventeentrack: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -69,7 +69,7 @@ async def test_get_all_packages(
 
 
 async def test_service_called_with_unloaded_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_seventeentrack: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -77,7 +77,7 @@ async def test_service_called_with_unloaded_entry(
     """Test service call with not ready config entry."""
     await init_integration(hass, mock_config_entry)
     mock_config_entry.mock_state(hass, ConfigEntryState.SETUP_ERROR)
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             SeventeenTrackService.GET_PACKAGES,
@@ -90,7 +90,7 @@ async def test_service_called_with_unloaded_entry(
 
 
 async def test_service_called_with_non_17track_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_seventeentrack: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -111,7 +111,7 @@ async def test_service_called_with_non_17track_device(
         identifiers={(other_domain, "1")},
     )
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             SeventeenTrackService.GET_PACKAGES,
@@ -124,7 +124,7 @@ async def test_service_called_with_non_17track_device(
 
 
 async def test_archive_package(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_seventeentrack: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -147,7 +147,7 @@ async def test_archive_package(
 
 
 async def test_packages_with_none_timestamp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_seventeentrack: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,

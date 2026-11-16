@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.helty_cloud.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import EMAIL, PASSWORD, USER_ID
@@ -18,7 +18,7 @@ USER_INPUT = {CONF_EMAIL: EMAIL, CONF_PASSWORD: PASSWORD}
 
 
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_helty_cloud: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -46,7 +46,7 @@ async def test_full_flow(
     ],
 )
 async def test_flow_errors_and_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_helty_cloud: AsyncMock,
     mock_setup_entry: AsyncMock,
     side_effect: type[Exception],
@@ -72,7 +72,7 @@ async def test_flow_errors_and_recovery(
 
 
 async def test_duplicate_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_helty_cloud: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -90,7 +90,7 @@ async def test_duplicate_account(
 
 
 async def test_same_account_under_another_email(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_helty_cloud: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -115,7 +115,7 @@ async def test_same_account_under_another_email(
     ],
 )
 async def test_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_helty_cloud: AsyncMock,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -144,7 +144,7 @@ async def test_reauth(
     ],
 )
 async def test_reauth_errors_and_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_helty_cloud: AsyncMock,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -171,7 +171,7 @@ async def test_reauth_errors_and_recovery(
 
 
 async def test_reauth_with_another_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_helty_cloud: AsyncMock,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,

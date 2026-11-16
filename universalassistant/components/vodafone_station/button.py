@@ -18,8 +18,8 @@ from universalassistant.components.button import (
     ButtonEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -76,7 +76,7 @@ BUTTON_TYPES: Final = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: VodafoneConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -121,7 +121,7 @@ class VodafoneStationSensorEntity(
             await self.entity_description.press_action(self.coordinator)
         except CannotAuthenticate as err:
             self.coordinator.config_entry.async_start_reauth(self.hass)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="cannot_authenticate",
                 translation_placeholders={"error": repr(err)},
@@ -133,7 +133,7 @@ class VodafoneStationSensorEntity(
             JSONDecodeError,
         ) as err:
             self.coordinator.last_update_success = False
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="cannot_execute_action",
                 translation_placeholders={"error": repr(err)},

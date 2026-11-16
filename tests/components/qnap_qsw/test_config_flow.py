@@ -12,7 +12,7 @@ from universalassistant import config_entries
 from universalassistant.components.qnap_qsw.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -55,7 +55,7 @@ def _patch_success() -> Generator[None]:
         yield
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test that the form is served with valid input."""
 
     with (
@@ -107,7 +107,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
         assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_duplicated_id(hass: __HAC_KEEP__) -> None:
+async def test_form_duplicated_id(hass: UniversalAssistant) -> None:
     """Test setting up duplicated entry."""
 
     system_board = MagicMock()
@@ -142,7 +142,7 @@ async def test_form_duplicated_id(hass: __HAC_KEEP__) -> None:
         assert result["reason"] == "already_configured"
 
 
-async def test_form_unique_id_error(hass: __HAC_KEEP__) -> None:
+async def test_form_unique_id_error(hass: UniversalAssistant) -> None:
     """Test unique ID error."""
 
     system_board = MagicMock()
@@ -168,7 +168,7 @@ async def test_form_unique_id_error(hass: __HAC_KEEP__) -> None:
         assert result["reason"] == "invalid_id"
 
 
-async def test_connection_error(hass: __HAC_KEEP__) -> None:
+async def test_connection_error(hass: UniversalAssistant) -> None:
     """Test connection to host error."""
 
     with patch(
@@ -197,7 +197,7 @@ async def test_connection_error(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_login_error(hass: __HAC_KEEP__) -> None:
+async def test_login_error(hass: UniversalAssistant) -> None:
     """Test login error."""
 
     with patch(
@@ -226,7 +226,7 @@ async def test_login_error(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_dhcp_flow(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_flow(hass: UniversalAssistant) -> None:
     """Test that DHCP discovery works."""
     with patch(
         "universalassistant.components.qnap_qsw.QnapQswApi.get_live",
@@ -278,7 +278,7 @@ async def test_dhcp_flow(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_dhcp_flow_error(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_flow_error(hass: UniversalAssistant) -> None:
     """Test that DHCP discovery fails."""
 
     with patch(
@@ -295,7 +295,7 @@ async def test_dhcp_flow_error(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "cannot_connect"
 
 
-async def test_dhcp_connection_error(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_connection_error(hass: UniversalAssistant) -> None:
     """Test DHCP connection to host error."""
 
     with patch(
@@ -336,7 +336,7 @@ async def test_dhcp_connection_error(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_dhcp_login_error(hass: __HAC_KEEP__) -> None:
+async def test_dhcp_login_error(hass: UniversalAssistant) -> None:
     """Test DHCP login error."""
 
     with patch(

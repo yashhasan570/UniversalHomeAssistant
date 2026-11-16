@@ -31,7 +31,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -55,7 +55,7 @@ def _channel_muting_status(
 
 @pytest.fixture(autouse=True)
 async def auto_setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_receiver: AsyncMock,
@@ -83,7 +83,7 @@ async def auto_setup_integration(
 
 
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -92,7 +92,7 @@ async def test_entities(
     await snapshot_platform(hass, entity_registry, snapshot, mock_config_entry.entry_id)
 
 
-async def test_state_changes(hass: __HAC_KEEP__, read_queue: asyncio.Queue) -> None:
+async def test_state_changes(hass: UniversalAssistant, read_queue: asyncio.Queue) -> None:
     """Test NotAvailable message clears channel muting state."""
     assert (state := hass.states.get(ENTITY_ID)) is not None
     assert state.state == STATE_OFF
@@ -117,7 +117,7 @@ async def test_state_changes(hass: __HAC_KEEP__, read_queue: asyncio.Queue) -> N
     assert state.state == STATE_UNKNOWN
 
 
-async def test_availability(hass: __HAC_KEEP__, read_queue: asyncio.Queue) -> None:
+async def test_availability(hass: UniversalAssistant, read_queue: asyncio.Queue) -> None:
     """Test entity availability on disconnect and reconnect."""
     assert (state := hass.states.get(ENTITY_ID)) is not None
     assert state.state != STATE_UNAVAILABLE
@@ -157,7 +157,7 @@ async def test_availability(hass: __HAC_KEEP__, read_queue: asyncio.Queue) -> No
     ],
 )
 async def test_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     writes: list[Instruction],
     action: str,
     message: Instruction,
@@ -173,7 +173,7 @@ async def test_actions(
 
 
 async def test_query_state_delayed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     read_queue: asyncio.Queue,
     writes: list[Instruction],
@@ -208,7 +208,7 @@ async def test_query_state_delayed(
 
 
 async def test_update_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     writes: list[Instruction],
 ) -> None:
     """Test manual entity update."""

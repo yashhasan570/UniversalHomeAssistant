@@ -31,7 +31,7 @@
         "title": "Set up the Plaato devices"
       },
       "webhook": {
-        "description": "To send events to __HA_KEEP__, you will need to set up the webhook feature in Plaato Airlock.\n\nFill in the following info:\n\n- URL: `{webhook_url}`\n- Method: POST\n\nSee [the documentation]({docs_url}) for further details.",
+        "description": "To send events to Universal Home Assistant, you will need to set up the webhook feature in Plaato Airlock.\n\nFill in the following info:\n\n- URL: `{webhook_url}`\n- Method: POST\n\nSee [the documentation]({docs_url}) for further details.",
         "title": "Webhook to use"
       }
     }

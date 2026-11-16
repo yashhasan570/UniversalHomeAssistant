@@ -9,7 +9,7 @@ from aiohomekit.model.services import Service, ServicesTypes
 
 from universalassistant.components.number import NumberDeviceClass
 from universalassistant.const import UnitOfTime
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import PlatformData
 
@@ -54,7 +54,7 @@ def create_valve_with_set_duration(accessory: Accessory) -> Service:
 
 
 async def test_migrate_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     get_next_aid: Callable[[], int],
 ) -> None:
@@ -75,7 +75,7 @@ async def test_migrate_unique_id(
 
 
 async def test_translated_name_uses_english_object_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     get_next_aid: Callable[[], int],
 ) -> None:
@@ -114,7 +114,7 @@ async def test_translated_name_uses_english_object_id(
 
 
 async def test_read_number(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test a switch service that has a sensor characteristic is correctly handled."""
     helper = await setup_test_component(
@@ -145,7 +145,7 @@ async def test_read_number(
 
 
 async def test_write_number(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test a switch service that has a sensor characteristic is correctly handled."""
     helper = await setup_test_component(
@@ -186,7 +186,7 @@ async def test_write_number(
 
 
 async def test_valve_set_duration_number(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_next_aid: Callable[[], int],
 ) -> None:
     """Test a valve service set duration characteristic is correctly handled."""

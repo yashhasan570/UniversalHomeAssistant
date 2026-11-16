@@ -28,8 +28,8 @@ from universalassistant.config_entries import (
     ConfigEntry,
     ConfigEntryChange,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
@@ -161,11 +161,11 @@ class DeviceManager[DeviceT: Device, CoordinatorT: DataUpdateCoordinator[Any]]:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: ConfigEntry,
         *,
         create_collection: Callable[[Connection], DeviceCollection[DeviceT]],
-        create_coordinator: Callable[[__HAC_KEEP__, DeviceT], CoordinatorT],
+        create_coordinator: Callable[[UniversalAssistant, DeviceT], CoordinatorT],
     ) -> None:
         """Store collection and coordinator factories for every connection."""
         self.coordinators: dict[tuple[str, str], CoordinatorT] = {}
@@ -265,7 +265,7 @@ class DeviceManager[DeviceT: Device, CoordinatorT: DataUpdateCoordinator[Any]]:
             return
         current = {(entry_id, eui) for eui in session.collection.devices}
         if current != {key for key in self.coordinators if key[0] == entry_id}:
-            raise __HAC_KEEP__Error("Failed to create a LoRaWAN device coordinator")
+            raise UniversalAssistantError("Failed to create a LoRaWAN device coordinator")
         for key in current:
             coordinator = self.coordinators[key]
             coordinator.async_set_updated_data(coordinator.data)

@@ -2,7 +2,7 @@
 
 from collections.abc import Callable
 
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.helpers import singleton
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
@@ -25,7 +25,7 @@ from .const import (
 
 @callback
 def async_register_callback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     _callback: Callable[[UpdateType, dict[str, Notification]], None],
 ) -> CALLBACK_TYPE:
     """Register a callback."""
@@ -35,7 +35,7 @@ def async_register_callback(
 
 
 def create(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     message: str,
     title: str | None = None,
     notification_id: str | None = None,
@@ -44,14 +44,14 @@ def create(
     hass.add_job(async_create, hass, message, title, notification_id)
 
 
-def dismiss(hass: __HAC_KEEP__, notification_id: str) -> None:
+def dismiss(hass: UniversalAssistant, notification_id: str) -> None:
     """Remove a notification."""
     hass.add_job(async_dismiss, hass, notification_id)
 
 
 @callback
 def async_create(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     message: str,
     title: str | None = None,
     notification_id: str | None = None,
@@ -80,13 +80,13 @@ def async_create(
 
 @callback
 @singleton.singleton(DOMAIN)
-def _async_get_or_create_notifications(hass: __HAC_KEEP__) -> dict[str, Notification]:
+def _async_get_or_create_notifications(hass: UniversalAssistant) -> dict[str, Notification]:
     """Get or create notifications data."""
     return {}
 
 
 @callback
-def async_dismiss(hass: __HAC_KEEP__, notification_id: str) -> None:
+def async_dismiss(hass: UniversalAssistant, notification_id: str) -> None:
     """Remove a notification."""
     notifications = _async_get_or_create_notifications(hass)
     if not (notification := notifications.pop(notification_id, None)):
@@ -100,7 +100,7 @@ def async_dismiss(hass: __HAC_KEEP__, notification_id: str) -> None:
 
 
 @callback
-def async_dismiss_all(hass: __HAC_KEEP__) -> None:
+def async_dismiss_all(hass: UniversalAssistant) -> None:
     """Remove all notifications."""
     notifications = _async_get_or_create_notifications(hass)
     notifications_copy = notifications.copy()

@@ -13,7 +13,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.core import Event, UniversalAssistant
 from universalassistant.helpers import config_validation as cv, discovery
 from universalassistant.helpers.dispatcher import dispatcher_send
 from universalassistant.helpers.typing import ConfigType
@@ -29,7 +29,7 @@ CONF_USER_AGENT = "user_agent"
 DEFAULT_NAME = "ComfoAirQ"
 DEFAULT_PIN = 0
 DEFAULT_TOKEN = "00000000000000000000000000000001"
-DEFAULT_USER_AGENT = "__HA_KEEP__"
+DEFAULT_USER_AGENT = "Universal Home Assistant"
 
 CONFIG_SCHEMA = probatio.Schema(
     {
@@ -53,7 +53,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the ComfoConnect bridge."""
 
     conf = config[DOMAIN]
@@ -95,7 +95,7 @@ class ComfoConnectBridge:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         bridge: Bridge,
         name: str,
         token: str,

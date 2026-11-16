@@ -20,11 +20,11 @@ from universalassistant.core import (
     CALLBACK_TYPE,
     Event,
     EventStateChangedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
     split_entity_id,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.event import async_track_state_change_event
@@ -51,11 +51,11 @@ ITEM_TRIGGER_SCHEMA = probatio.Schema(
 _LOGGER = logging.getLogger(__name__)
 
 
-def get_entity(hass: __HAC_KEEP__, entity_id: str) -> TodoListEntity:
+def get_entity(hass: UniversalAssistant, entity_id: str) -> TodoListEntity:
     """Get the todo entity for the provided entity_id."""
     component: EntityComponent[TodoListEntity] = hass.data[DATA_COMPONENT]
     if not (entity := component.get_entity(entity_id)):
-        raise __HAC_KEEP__Error(f"Entity does not exist: {entity_id}")
+        raise UniversalAssistantError(f"Entity does not exist: {entity_id}")
     return entity
 
 
@@ -72,7 +72,7 @@ class ItemChangeListener(TargetEntityChangeTracker):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         target_selection: TargetSelection,
         listener: Callable[[TodoItemChangeEvent], None],
         entities_updated: Callable[[set[str]], None],
@@ -119,7 +119,7 @@ class ItemChangeListener(TargetEntityChangeTracker):
         for entity_id in tracked_entities:
             try:
                 entity = get_entity(self._hass, entity_id)
-            except __HAC_KEEP__Error:
+            except UniversalAssistantError:
                 _LOGGER.debug("Skipping entity %s: not found", entity_id)
                 continue
             _listener_wrapper(entity_id, entity.todo_items)
@@ -174,12 +174,12 @@ class ItemTriggerBase(Trigger, abc.ABC):
     @classmethod
     @override
     async def async_validate_config(
-        cls, hass: __HAC_KEEP__, config: ConfigType
+        cls, hass: UniversalAssistant, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         return cast(ConfigType, ITEM_TRIGGER_SCHEMA(config))
 
-    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
+    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
         """Initialize trigger."""
         super().__init__(hass, config)
 
@@ -197,7 +197,7 @@ class ItemTriggerBase(Trigger, abc.ABC):
 
         target_selection = TargetSelection(self._target)
         if not target_selection.has_any_target:
-            raise __HAC_KEEP__Error(f"No target defined in {self._target}")
+            raise UniversalAssistantError(f"No target defined in {self._target}")
         listener = ItemChangeListener(
             self._hass,
             target_selection,
@@ -223,7 +223,7 @@ class ItemChangeTriggerBase(ItemTriggerBase):
     """todo item change trigger base class."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, config: TriggerConfig, description: str
+        self, hass: UniversalAssistant, config: TriggerConfig, description: str
     ) -> None:
         """Initialize trigger."""
         super().__init__(hass, config)
@@ -290,7 +290,7 @@ class ItemChangeTriggerBase(ItemTriggerBase):
 class ItemAddedTrigger(ItemChangeTriggerBase):
     """todo item added trigger."""
 
-    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
+    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
         """Initialize trigger."""
         super().__init__(hass, config, description="added")
 
@@ -310,7 +310,7 @@ class ItemAddedTrigger(ItemChangeTriggerBase):
 class ItemRemovedTrigger(ItemChangeTriggerBase):
     """todo item removed trigger."""
 
-    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
+    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
         """Initialize trigger."""
         super().__init__(hass, config, description="removed")
 
@@ -330,7 +330,7 @@ class ItemRemovedTrigger(ItemChangeTriggerBase):
 class ItemCompletedTrigger(ItemChangeTriggerBase):
     """todo item completed trigger."""
 
-    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
+    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
         """Initialize trigger."""
         super().__init__(hass, config, description="completed")
 
@@ -354,6 +354,6 @@ TRIGGERS: dict[str, type[Trigger]] = {
 }
 
 
-async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
+async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
     """Return the triggers for todo platform."""
     return TRIGGERS

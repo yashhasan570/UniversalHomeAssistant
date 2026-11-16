@@ -1,4 +1,4 @@
-"""Foscam number platform for __HA_KEEP__."""
+"""Foscam number platform for Universal Home Assistant."""
 
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -7,7 +7,7 @@ from typing import Any, override
 from libpyfoscamcgi import FoscamCamera
 
 from universalassistant.components.number import NumberEntity, NumberEntityDescription
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import FoscamConfigEntry, FoscamCoordinator
@@ -47,7 +47,7 @@ NUMBER_DESCRIPTIONS: list[FoscamNumberEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: FoscamConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -20,7 +20,7 @@ from lunatone_rest_api_client.models.devices import DeviceStatus
 from pytest_universalassistant.common import MockConfigEntry
 from yarl import URL
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 BASE_IP: Final = "10.0.0.131"
 BASE_URL: Final = URL.build(scheme="http", host=BASE_IP).human_repr()[:-1]
@@ -31,7 +31,7 @@ UUID: Final = "be37ca9c-47c2-4498-a38b-c62c7c711840"
 VERSION: Final = "v1.14.1/1.4.3"
 
 
-async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Set up the Lunatone integration for testing."""
     config_entry.add_to_hass(hass)
     await hass.config_entries.async_setup(config_entry.entry_id)

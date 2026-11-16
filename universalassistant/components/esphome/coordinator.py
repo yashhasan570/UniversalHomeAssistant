@@ -7,7 +7,7 @@ from typing import override
 from awesomeversion import AwesomeVersion
 from esphome_dashboard_api import ConfiguredDevice, ESPHomeDashboardAPI
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -21,7 +21,7 @@ REFRESH_INTERVAL = timedelta(minutes=5)
 class ESPHomeDashboardCoordinator(DataUpdateCoordinator[dict[str, ConfiguredDevice]]):
     """Class to interact with the ESPHome dashboard."""
 
-    def __init__(self, hass: __HAC_KEEP__, addon_slug: str, url: str) -> None:
+    def __init__(self, hass: UniversalAssistant, addon_slug: str, url: str) -> None:
         """Initialize the dashboard coordinator."""
         super().__init__(
             hass,

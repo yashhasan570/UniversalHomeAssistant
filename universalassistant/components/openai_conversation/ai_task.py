@@ -13,8 +13,8 @@ from openai.types.decision_input_part_union_param import DecisionInputPartUnionP
 from openai.types.responses.response_output_item import ImageGenerationCall
 
 from universalassistant.components import ai_task, conversation
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.json import json_dumps
 from universalassistant.util.json import json_loads
@@ -40,7 +40,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: OpenAIConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -88,7 +88,7 @@ class OpenAITaskEntity(
         )
 
         if not isinstance(chat_log.content[-1], conversation.AssistantContent):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Last content in chat log is not an AssistantContent"
             )
 
@@ -108,7 +108,7 @@ class OpenAITaskEntity(
                 err,
                 text,
             )
-            raise __HAC_KEEP__Error("Error with OpenAI structured response") from err
+            raise UniversalAssistantError("Error with OpenAI structured response") from err
 
         return ai_task.GenDataTaskResult(
             conversation_id=chat_log.conversation_id,
@@ -125,7 +125,7 @@ class OpenAITaskEntity(
         await self._async_handle_chat_log(chat_log, task.name, force_image=True)
 
         if not isinstance(chat_log.content[-1], conversation.AssistantContent):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Last content in chat log is not an AssistantContent"
             )
 
@@ -140,7 +140,7 @@ class OpenAITaskEntity(
                     content.native.result = None
 
         if image_call is None or image_call.result is None:
-            raise __HAC_KEEP__Error("No image returned")
+            raise UniversalAssistantError("No image returned")
 
         image_data = base64.b64decode(image_call.result)
         image_call.result = None
@@ -240,7 +240,7 @@ class OpenAIEvaluationEntity(ai_task.AITaskEntity, OpenAIBaseLLMEntity):
                     "image/webp",
                     "image/gif",
                 ):
-                    raise __HAC_KEEP__Error(
+                    raise UniversalAssistantError(
                         "OpenAI decisions only support JPEG, PNG, WebP, and GIF "
                         f"image attachments; received {attachment.mime_type}"
                     )
@@ -249,7 +249,7 @@ class OpenAIEvaluationEntity(ai_task.AITaskEntity, OpenAIBaseLLMEntity):
                         _read_image_base64, attachment.path
                     )
                 except OSError as err:
-                    raise __HAC_KEEP__Error(
+                    raise UniversalAssistantError(
                         "Unable to read evaluation attachment"
                     ) from err
                 content.append(
@@ -269,17 +269,17 @@ class OpenAIEvaluationEntity(ai_task.AITaskEntity, OpenAIBaseLLMEntity):
                 questions=questions,
             )
         except openai.OpenAIError as err:
-            raise __HAC_KEEP__Error(f"Error evaluating OpenAI task: {err}") from err
+            raise UniversalAssistantError(f"Error evaluating OpenAI task: {err}") from err
 
         answers: dict[str, ai_task.EvaluationAnswer] = {}
         for answer in response.answers:
             if answer.name is None:
-                raise __HAC_KEEP__Error("OpenAI returned an unnamed answer")
+                raise UniversalAssistantError("OpenAI returned an unnamed answer")
             question_id = answer.name
             if question_id not in task.questions or question_id in answers:
-                raise __HAC_KEEP__Error("OpenAI returned an unexpected question name")
+                raise UniversalAssistantError("OpenAI returned an unexpected question name")
             if answer.type == "refusal":
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     f"OpenAI refused evaluation question {question_id}"
                 )
             if answer.type == "predicate":
@@ -288,13 +288,13 @@ class OpenAIEvaluationEntity(ai_task.AITaskEntity, OpenAIBaseLLMEntity):
                 if not isinstance(answer.choice, str) or any(
                     not isinstance(option.value, str) for option in answer.probabilities
                 ):
-                    raise __HAC_KEEP__Error("OpenAI returned an invalid choice")
+                    raise UniversalAssistantError("OpenAI returned an invalid choice")
                 probabilities = {
                     str(option.value): option.probability
                     for option in answer.probabilities
                 }
                 if len(probabilities) != len(answer.probabilities):
-                    raise __HAC_KEEP__Error(
+                    raise UniversalAssistantError(
                         "OpenAI returned duplicate choice probabilities"
                     )
                 answers[question_id] = ai_task.ChoiceAnswer(
@@ -303,11 +303,11 @@ class OpenAIEvaluationEntity(ai_task.AITaskEntity, OpenAIBaseLLMEntity):
             elif answer.type == "score":
                 levels = sorted(answer.probabilities, key=lambda level: level.value)
                 if [level.value for level in levels] != list(range(len(levels))):
-                    raise __HAC_KEEP__Error("OpenAI returned invalid score levels")
+                    raise UniversalAssistantError("OpenAI returned invalid score levels")
                 answers[question_id] = ai_task.ScoreAnswer(
                     score=answer.score,
                     probabilities=[level.probability for level in levels],
                 )
             else:
-                raise __HAC_KEEP__Error("OpenAI returned an unsupported answer type")
+                raise UniversalAssistantError("OpenAI returned an unsupported answer type")
         return ai_task.EvaluationTaskResult(answers=answers)

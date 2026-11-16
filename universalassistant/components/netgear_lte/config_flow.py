@@ -9,7 +9,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PASSWORD
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 
 from .const import DEFAULT_HOST, DOMAIN, MANUFACTURER
@@ -75,7 +75,7 @@ class NetgearLTEFlowHandler(ConfigFlow, domain=DOMAIN):
         return info
 
 
-class InputValidationError(__HAC_KEEP__Error):
+class InputValidationError(UniversalAssistantError):
     """Error to indicate we cannot proceed due to invalid input."""
 
     def __init__(self, base: str) -> None:

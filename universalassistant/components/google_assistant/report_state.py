@@ -11,7 +11,7 @@ from universalassistant.core import (
     Event,
     EventStateChangedData,
     HassJob,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
 )
 from universalassistant.helpers.event import async_call_later
@@ -37,7 +37,7 @@ _LOGGER = logging.getLogger(__name__)
 
 @callback
 def async_enable_report_state(
-    hass: __HAC_KEEP__, google_config: AbstractConfig
+    hass: UniversalAssistant, google_config: AbstractConfig
 ) -> CALLBACK_TYPE:
     """Enable state and notification reporting."""
     checker = None
@@ -146,7 +146,7 @@ def async_enable_report_state(
 
     @callback
     def extra_significant_check(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         old_state: str,
         old_attrs: dict,
         old_extra_arg: dict,

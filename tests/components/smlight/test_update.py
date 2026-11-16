@@ -38,10 +38,10 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     ServiceValidationError,
 )
 from universalassistant.helpers import entity_registry as er
@@ -97,7 +97,7 @@ def platforms() -> list[Platform]:
 
 
 async def test_update_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -117,7 +117,7 @@ async def test_update_setup(
     ["update.mock_title_core_firmware", "update.mock_title_zigbee_firmware"],
 )
 async def test_firmware_catalog_failure_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -160,7 +160,7 @@ async def test_firmware_catalog_failure_recovery(
 
 
 async def test_installed_version_updates_without_firmware_catalog(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -213,7 +213,7 @@ async def test_installed_version_updates_without_firmware_catalog(
     ],
 )
 async def test_catalog_connection_error_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -283,7 +283,7 @@ async def test_catalog_connection_error_recovery(
     ],
 )
 async def test_unsupported_radio_catalog(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
     radios: list[Radio],
@@ -334,7 +334,7 @@ async def test_unsupported_radio_catalog(
 @patch("universalassistant.components.smlight.update.asyncio.sleep", return_value=None)
 async def test_update_firmware(
     mock_sleep: MagicMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
@@ -385,7 +385,7 @@ async def test_update_firmware(
 
 
 async def test_update_zigbee2_firmware(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
@@ -429,7 +429,7 @@ async def test_update_zigbee2_firmware(
 
 
 async def test_update_legacy_firmware_v2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
@@ -477,7 +477,7 @@ async def test_update_legacy_firmware_v2(
 
 
 async def test_update_firmware_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
 ) -> None:
@@ -503,7 +503,7 @@ async def test_update_firmware_failed(
     async def _call_event_function(event: MessageEvent):
         event_function(event)
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await _call_event_function(MOCK_FIRMWARE_FAIL)
     state = hass.states.get(entity_id)
     assert state.attributes[ATTR_IN_PROGRESS] is False
@@ -515,7 +515,7 @@ async def test_update_firmware_failed(
     [
         pytest.param(
             SmlightConnectionError,
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "An error occurred while connecting to the SMLIGHT device",
             False,
             id="connection_error",
@@ -530,7 +530,7 @@ async def test_update_firmware_failed(
     ],
 )
 async def test_update_install_command_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
     side_effect: type[Exception],
@@ -566,7 +566,7 @@ async def test_update_install_command_error(
 
 
 async def test_update_reboot_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
 ) -> None:
@@ -606,7 +606,7 @@ async def test_update_reboot_timeout(
         event_function(MOCK_FIRMWARE_DONE)
 
         with pytest.raises(
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             match=r"Timeout waiting for .* to reboot after update",
         ):
             await install_task
@@ -627,7 +627,7 @@ async def test_update_reboot_timeout(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_ultima_client")
 async def test_update_release_notes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id: str,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
@@ -654,7 +654,7 @@ async def test_update_release_notes(
 
 
 async def test_update_blank_release_notes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
     hass_ws_client: WebSocketGenerator,
@@ -687,7 +687,7 @@ async def test_update_blank_release_notes(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_ultima_client")
 async def test_zwave_update_naming(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test Z-Wave radio (index 2) update entity naming."""
@@ -700,7 +700,7 @@ async def test_zwave_update_naming(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_zwave_update_naming_mr10(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
 ) -> None:
@@ -746,7 +746,7 @@ async def test_zwave_update_naming_mr10(
 @patch("universalassistant.components.smlight.update.asyncio.sleep", return_value=None)
 async def test_update_firmware_specific_version(
     mock_sleep: MagicMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
     entity_id: str,
@@ -801,7 +801,7 @@ async def test_update_firmware_specific_version(
     ],
 )
 async def test_update_firmware_specific_version_invalid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
     version: str,

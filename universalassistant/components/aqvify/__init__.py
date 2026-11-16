@@ -5,7 +5,7 @@ import logging
 from pyaqvify import AqvifyAPI
 
 from universalassistant.const import CONF_API_KEY, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .coordinator import (
@@ -19,7 +19,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: AqvifyConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: AqvifyConfigEntry) -> None:
     """Set up Aqvify from a config entry."""
 
     api_client = AqvifyAPI(
@@ -37,6 +37,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: AqvifyConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: AqvifyConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: AqvifyConfigEntry) -> None:
     """Unload Aqvify config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

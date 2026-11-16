@@ -6,7 +6,7 @@ from typing import Any, override
 from freebox_api.exceptions import InsufficientPermissionsError
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .router import FreeboxConfigEntry, FreeboxRouter
@@ -23,7 +23,7 @@ SWITCH_DESCRIPTIONS = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FreeboxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -56,7 +56,7 @@ class FreeboxSwitch(SwitchEntity):
             await self._router.wifi.set_global_config({"enabled": enabled})
         except InsufficientPermissionsError:
             _LOGGER.warning(
-                "__HA_KEEP__ does not have permissions to modify the Freebox"
+                "Universal Home Assistant does not have permissions to modify the Freebox"
                 " settings. Please refer to documentation"
             )
 

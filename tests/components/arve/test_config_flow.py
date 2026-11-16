@@ -9,14 +9,14 @@ from universalassistant.components.arve.config_flow import ArveConnectionError
 from universalassistant.components.arve.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_CLIENT_SECRET
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import USER_INPUT, async_init_integration
 
 
 async def test_correct_flow(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_arve: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_arve: AsyncMock
 ) -> None:
     """Test the whole flow."""
     result = await hass.config_entries.flow.async_init(
@@ -39,7 +39,7 @@ async def test_correct_flow(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_cannot_connect(hass: __HAC_KEEP__, mock_arve: AsyncMock) -> None:
+async def test_form_cannot_connect(hass: UniversalAssistant, mock_arve: AsyncMock) -> None:
     """Test we handle cannot connect error."""
     mock_arve.get_customer_id.side_effect = ArveConnectionError
     result = await hass.config_entries.flow.async_init(
@@ -61,7 +61,7 @@ async def test_form_cannot_connect(hass: __HAC_KEEP__, mock_arve: AsyncMock) -> 
 
 
 async def test_form_abort_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test form aborts if already configured."""
     await async_init_integration(hass, mock_config_entry)

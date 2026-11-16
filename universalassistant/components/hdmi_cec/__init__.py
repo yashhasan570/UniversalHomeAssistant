@@ -18,7 +18,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_START,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import HassJob, __HAC_KEEP__, callback
+from universalassistant.core import HassJob, UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv, discovery, event
 from universalassistant.helpers.typing import ConfigType
 
@@ -99,7 +99,7 @@ def parse_mapping(mapping, parents=None):
                 yield (val, pad_physical_address(cur))
 
 
-def setup(hass: __HAC_KEEP__, base_config: ConfigType) -> bool:
+def setup(hass: UniversalAssistant, base_config: ConfigType) -> bool:
     """Set up the CEC capability."""
 
     hass.data[DOMAIN] = {}

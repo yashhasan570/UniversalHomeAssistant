@@ -7,7 +7,7 @@ from zigpy.backups import NetworkBackup
 
 from universalassistant.components.repairs import RepairsFlow, RepairsFlowResult
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.json import json_dumps
 from universalassistant.util.json import json_loads_object
@@ -82,7 +82,7 @@ def _format_settings_diff(old_state: NetworkBackup, new_state: NetworkBackup) ->
 
 
 async def warn_on_inconsistent_network_settings(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     old_state: NetworkBackup,
     new_state: NetworkBackup,
@@ -108,7 +108,7 @@ async def warn_on_inconsistent_network_settings(
 class NetworkSettingsInconsistentFlow(RepairsFlow):
     """Handler for an issue fixing flow."""
 
-    def __init__(self, hass: __HAC_KEEP__, data: dict[str, Any]) -> None:
+    def __init__(self, hass: UniversalAssistant, data: dict[str, Any]) -> None:
         """Initialize the flow."""
         self.hass = hass
         self._old_state = NetworkBackup.from_dict(json_loads_object(data["old_state"]))

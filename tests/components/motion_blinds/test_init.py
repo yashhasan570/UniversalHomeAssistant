@@ -16,7 +16,7 @@ from universalassistant.components.motion_blinds.const import (
     UPDATE_INTERVAL,
 )
 from universalassistant.const import CONF_API_KEY, CONF_HOST, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 TEST_HOST = "1.2.3.4"
@@ -82,7 +82,7 @@ def mock_connect_fixture(mock_gateway: Mock) -> Generator[None]:
     ],
 )
 async def test_sub_blind_links_to_gateway_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_gateway: Mock,
     gateway_device_type: str,
@@ -126,7 +126,7 @@ async def test_sub_blind_links_to_gateway_device(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entity_unavailable_on_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: Mock,
     freezer: FrozenDateTimeFactory,
     entity_id: str,

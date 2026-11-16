@@ -28,37 +28,37 @@ from universalassistant.const import (
     SERVICE_TURN_OFF,
     SERVICE_TURN_ON,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def async_turn_on(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
+async def async_turn_on(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Turn all or specified vacuum on."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else None
     await hass.services.async_call(DOMAIN, SERVICE_TURN_ON, data, blocking=True)
 
 
 async def async_turn_off(
-    hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Turn all or specified vacuum off."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else None
     await hass.services.async_call(DOMAIN, SERVICE_TURN_OFF, data, blocking=True)
 
 
-async def async_toggle(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
+async def async_toggle(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Toggle all or specified vacuum."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else None
     await hass.services.async_call(DOMAIN, SERVICE_TOGGLE, data, blocking=True)
 
 
-async def async_locate(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
+async def async_locate(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Locate all or specified vacuum."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else None
     await hass.services.async_call(DOMAIN, SERVICE_LOCATE, data, blocking=True)
 
 
 async def async_clean_area(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     cleaning_area_id: list[str],
     entity_id: str = ENTITY_MATCH_ALL,
 ) -> None:
@@ -70,7 +70,7 @@ async def async_clean_area(
 
 
 async def async_clean_spot(
-    hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Tell all or specified vacuum to perform a spot clean-up."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else None
@@ -78,33 +78,33 @@ async def async_clean_spot(
 
 
 async def async_return_to_base(
-    hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Tell all or specified vacuum to return to base."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else None
     await hass.services.async_call(DOMAIN, SERVICE_RETURN_TO_BASE, data, blocking=True)
 
 
-async def async_start(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
+async def async_start(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Tell all or specified vacuum to start or resume the current task."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else None
     await hass.services.async_call(DOMAIN, SERVICE_START, data, blocking=True)
 
 
-async def async_pause(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
+async def async_pause(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Tell all or the specified vacuum to pause the current task."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else None
     await hass.services.async_call(DOMAIN, SERVICE_PAUSE, data, blocking=True)
 
 
-async def async_stop(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
+async def async_stop(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Stop all or specified vacuum."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else None
     await hass.services.async_call(DOMAIN, SERVICE_STOP, data, blocking=True)
 
 
 async def async_set_fan_speed(
-    hass: __HAC_KEEP__, fan_speed: str, entity_id: str = ENTITY_MATCH_ALL
+    hass: UniversalAssistant, fan_speed: str, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Set fan speed for all or specified vacuum."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
@@ -113,7 +113,7 @@ async def async_set_fan_speed(
 
 
 async def async_send_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     command: str,
     params: dict[str, Any] | list[Any] | None = None,
     entity_id: str = ENTITY_MATCH_ALL,

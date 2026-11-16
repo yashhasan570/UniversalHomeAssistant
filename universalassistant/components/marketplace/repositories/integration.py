@@ -232,7 +232,7 @@ class IntegrationRepository(Repository):
 
     @override
     async def async_replaces_built_in(self) -> bool:
-        """Return if the domain belongs to an integration of __HA_KEEP__."""
+        """Return if the domain belongs to an integration of Universal Home Assistant."""
         if not self.data.domain:
             return False
 

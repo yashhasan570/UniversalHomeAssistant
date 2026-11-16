@@ -18,7 +18,7 @@ from universalassistant.components.backup import (
     OnProgressCallback,
     suggested_filename,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.util.async_iterator import ResourceChunkIterator
 
 from . import IDriveE2ConfigEntry
@@ -54,7 +54,7 @@ def handle_boto_errors[T](
 
 
 async def async_get_backup_agents(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> list[BackupAgent]:
     """Return a list of backup agents."""
     entries: list[IDriveE2ConfigEntry] = hass.config_entries.async_loaded_entries(
@@ -65,7 +65,7 @@ async def async_get_backup_agents(
 
 @callback
 def async_register_backup_agents_listener(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     *,
     listener: Callable[[], None],
     **kwargs: Any,
@@ -97,7 +97,7 @@ class IDriveE2BackupAgent(BackupAgent):
 
     domain = DOMAIN
 
-    def __init__(self, hass: __HAC_KEEP__, entry: IDriveE2ConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: IDriveE2ConfigEntry) -> None:
         """Initialize the IDrive e2 agent."""
         super().__init__()
         self._client: S3Client = entry.runtime_data

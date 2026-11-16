@@ -12,7 +12,7 @@ from universalassistant.components.alarm_control_panel import (
     CodeFormat,
 )
 from universalassistant.const import CONF_CODE
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -32,7 +32,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -104,7 +104,7 @@ class EnvisalinkAlarm(EnvisalinkEntity, AlarmControlPanelEntity):
 
     @callback
     def async_update_callback(self, partition):
-        """Update __HA_KEEP__ state, if needed."""
+        """Update Universal Home Assistant state, if needed."""
         if partition is None or int(partition) == self._partition_number:
             self.async_write_ha_state()
 

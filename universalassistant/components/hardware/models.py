@@ -6,7 +6,7 @@ from typing import Protocol
 import psutil_universal_assistant as ha_psutil
 
 from universalassistant.components import websocket_api
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.helpers.integration_platform import LazyIntegrationPlatforms
 
 
@@ -63,5 +63,5 @@ class HardwareProtocol(Protocol):
     """Define the format of hardware platforms."""
 
     @callback
-    def async_info(self, hass: __HAC_KEEP__) -> list[HardwareInfo]:
+    def async_info(self, hass: UniversalAssistant) -> list[HardwareInfo]:
         """Return info."""

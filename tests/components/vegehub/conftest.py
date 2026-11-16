@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_MAC,
     CONF_WEBHOOK_ID,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 TEST_IP = "192.168.0.100"
 TEST_UNIQUE_ID = "aabbccddeeff"
@@ -65,7 +65,7 @@ def mock_vegehub() -> Generator[Any]:
 
 
 @pytest.fixture(name="mocked_config_entry")
-async def fixture_mocked_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def fixture_mocked_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Create a mock VegeHub config entry."""
     return MockConfigEntry(
         domain=DOMAIN,

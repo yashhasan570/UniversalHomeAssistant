@@ -25,8 +25,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 from universalassistant.util.unit_system import (
@@ -42,7 +42,7 @@ ENTITY_ID = "weather.helsinki"
 
 @pytest.mark.usefixtures("mock_foreca_client")
 async def test_weather(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -56,7 +56,7 @@ async def test_weather(
 @pytest.mark.usefixtures("mock_foreca_client")
 @pytest.mark.parametrize("forecast_type", ["daily", "hourly"])
 async def test_forecast(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     forecast_type: str,
@@ -83,7 +83,7 @@ async def test_forecast(
     ],
 )
 async def test_forecast_without_a_time_is_dropped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_foreca_client: MagicMock,
     forecast_type: str,
@@ -107,7 +107,7 @@ async def test_forecast_without_a_time_is_dropped(
 
 @pytest.mark.usefixtures("mock_foreca_client")
 async def test_daily_forecast_lands_on_the_right_local_day(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test a daily forecast keeps its date in a timezone west of UTC.
 
@@ -128,7 +128,7 @@ async def test_daily_forecast_lands_on_the_right_local_day(
     first = response[ENTITY_ID]["forecast"][0]
     timestamp = dt_util.parse_datetime(first["datetime"])
     assert timestamp is not None
-    # The date has to survive being rendered where __HA_KEEP__ is, which is
+    # The date has to survive being rendered where Universal Home Assistant is, which is
     # what midnight UTC would break.
     assert dt_util.as_local(timestamp).date() == date(2026, 9, 2)
 
@@ -143,7 +143,7 @@ async def test_daily_forecast_lands_on_the_right_local_day(
     ],
 )
 async def test_forecasts_extra(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     forecast_type: str,
@@ -172,7 +172,7 @@ async def test_forecasts_extra(
     ],
 )
 async def test_forecasts_extra_without_a_time_is_dropped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_foreca_client: MagicMock,
     forecast_type: str,
@@ -195,7 +195,7 @@ async def test_forecasts_extra_without_a_time_is_dropped(
 
 
 async def test_forecasts_extra_fails_while_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_foreca_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -210,7 +210,7 @@ async def test_forecasts_extra_fails_while_unavailable(
     await hass.async_block_till_done()
     assert hass.states.get(ENTITY_ID).state == STATE_UNAVAILABLE
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             ForecaService.GET_FORECASTS_EXTRA,
@@ -228,7 +228,7 @@ async def test_forecasts_extra_fails_while_unavailable(
     ],
 )
 async def test_3_hour_forecast(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     mock_foreca_client: MagicMock,
@@ -255,7 +255,7 @@ async def test_3_hour_forecast(
 
 
 async def test_3_hour_forecast_without_a_time_is_dropped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_foreca_client: MagicMock,
 ) -> None:
@@ -275,7 +275,7 @@ async def test_3_hour_forecast_without_a_time_is_dropped(
 
 
 async def test_3_hour_forecast_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_foreca_client: MagicMock,
 ) -> None:
@@ -284,7 +284,7 @@ async def test_3_hour_forecast_error(
     with patch("universalassistant.components.foreca.PLATFORMS", [Platform.WEATHER]):
         await init_integration(hass, mock_config_entry)
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             ForecaService.GET_3_HOUR_FORECAST,

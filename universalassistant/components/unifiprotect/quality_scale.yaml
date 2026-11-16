@@ -59,7 +59,7 @@ rules:
   entity-category: done
   entity-device-class:
     status: done
-    comment: "Planned improvement: remove doorbell occupancy binary sensor and keep the event sensor after a solution for https://github.com/yashhasan570/__HAC_KEEP__/issues/145941 is available."
+    comment: "Planned improvement: remove doorbell occupancy binary sensor and keep the event sensor after a solution for https://github.com/yashhasan570/UniversalUniversalAssistant/issues/145941 is available."
   entity-disabled-by-default: done
   entity-translations:
     status: done

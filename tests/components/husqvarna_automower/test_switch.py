@@ -32,8 +32,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -45,7 +45,7 @@ TEST_ZONE_ID = "AAAAAAAA-BBBB-CCCC-DDDD-123456789101"
 
 
 async def test_switch_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -68,7 +68,7 @@ async def test_switch_states(
 
 
 async def test_work_area_and_stay_out_zone_entities_unavailable_without_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -111,7 +111,7 @@ async def test_work_area_and_stay_out_zone_entities_unavailable_without_data(
     ],
 )
 async def test_switch_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioautomower_command: str,
     service: str,
     mock_automower_client: AsyncMock,
@@ -130,7 +130,7 @@ async def test_switch_commands(
 
     mocked_method.side_effect = ApiError("Test error")
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Failed to send command: Test error",
     ):
         await hass.services.async_call(
@@ -151,7 +151,7 @@ async def test_switch_commands(
     ],
 )
 async def test_stay_out_zone_switch_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service: str,
     boolean: bool,
     excepted_state: str,
@@ -186,7 +186,7 @@ async def test_stay_out_zone_switch_commands(
 
     mocked_method.side_effect = ApiError("Test error")
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Failed to send command: Test error",
     ):
         await hass.services.async_call(
@@ -207,7 +207,7 @@ async def test_stay_out_zone_switch_commands(
     ],
 )
 async def test_work_area_switch_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service: str,
     boolean: bool,
     excepted_state: str,
@@ -244,7 +244,7 @@ async def test_work_area_switch_commands(
 
     mocked_method.enabled.side_effect = ApiError("Test error")
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="Failed to send command: Test error",
     ):
         await hass.services.async_call(
@@ -257,7 +257,7 @@ async def test_work_area_switch_commands(
 
 
 async def test_add_stay_out_zone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -299,7 +299,7 @@ async def test_add_stay_out_zone(
 
 
 async def test_switch_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,

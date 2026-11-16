@@ -15,8 +15,8 @@ from pytest_universalassistant.test_util.aiohttp import (
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument, EntityCategory, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import (
@@ -43,7 +43,7 @@ def platforms() -> list[Platform]:
 
 @pytest.fixture(autouse=True)
 async def setup_config_entry(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """Fixture to setup the config entry."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -59,7 +59,7 @@ async def setup_config_entry(
     ],
 )
 async def test_program_buttons(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     program: str,
     unique_id: str,
@@ -78,7 +78,7 @@ async def test_program_buttons(
     assert entity_entry.unique_id == unique_id
 
 
-async def test_program_count(hass: __HAC_KEEP__) -> None:
+async def test_program_count(hass: UniversalAssistant) -> None:
     """Test no buttons exist beyond the model's program limit."""
     assert len(hass.states.async_entity_ids(BUTTON_DOMAIN)) == 3
 
@@ -92,7 +92,7 @@ async def test_program_count(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_press(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     responses: list[AiohttpClientMockResponse],
     program: str,
@@ -129,7 +129,7 @@ async def test_press(
     ],
 )
 async def test_press_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     responses: list[AiohttpClientMockResponse],
     status: HTTPStatus,
@@ -139,7 +139,7 @@ async def test_press_error(
     aioclient_mock.mock_calls.clear()
     responses.append(mock_response_error(status=status))
 
-    with pytest.raises(__HAC_KEEP__Error, match=expected_msg):
+    with pytest.raises(UniversalAssistantError, match=expected_msg):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -155,7 +155,7 @@ async def test_press_error(
     [(CONFIG_ENTRY_DATA_OLD_FORMAT, None, None)],
 )
 async def test_no_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     responses: list[AiohttpClientMockResponse],
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,
@@ -174,7 +174,7 @@ async def test_no_unique_id(
 
 
 async def test_sync_time_button_disabled_by_default(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the sync time button is a config entity that is disabled by default."""
     assert hass.states.get(SYNC_TIME_ENTITY_ID) is None
@@ -188,7 +188,7 @@ async def test_sync_time_button_disabled_by_default(
 @pytest.mark.parametrize("setup_config_entry", [None])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sync_time_press(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     responses: list[AiohttpClientMockResponse],
     freezer: FrozenDateTimeFactory,
@@ -241,7 +241,7 @@ async def test_sync_time_press(
     ],
 )
 async def test_sync_time_press_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     responses: list[AiohttpClientMockResponse],
     status: HTTPStatus,
@@ -256,7 +256,7 @@ async def test_sync_time_press_error(
     aioclient_mock.mock_calls.clear()
     responses.append(mock_response_error(status=status))
 
-    with pytest.raises(__HAC_KEEP__Error, match=expected_msg):
+    with pytest.raises(UniversalAssistantError, match=expected_msg):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

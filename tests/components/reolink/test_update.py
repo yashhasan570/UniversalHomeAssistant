@@ -21,8 +21,8 @@ from universalassistant.components.reolink.update import POLL_AFTER_INSTALL, POL
 from universalassistant.components.update import DOMAIN as UPDATE_DOMAIN, UpdateService
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.dt import utcnow
 
@@ -32,7 +32,7 @@ from .conftest import TEST_CAM_NAME, TEST_NVR_NAME
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "reolink_host")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -52,7 +52,7 @@ TEST_RELEASE_NOTES = "bugfix 1, bugfix 2"
 
 @pytest.mark.parametrize("entity_name", [TEST_NVR_NAME, TEST_CAM_NAME])
 async def test_no_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     entity_name: str,
@@ -69,7 +69,7 @@ async def test_no_update(
 
 @pytest.mark.parametrize("entity_name", [TEST_NVR_NAME, TEST_CAM_NAME])
 async def test_update_str(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     entity_name: str,
@@ -88,7 +88,7 @@ async def test_update_str(
 
 @pytest.mark.parametrize("entity_name", [TEST_NVR_NAME, TEST_CAM_NAME])
 async def test_update_firm(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     hass_ws_client: WebSocketGenerator,
@@ -156,7 +156,7 @@ async def test_update_firm(
     assert hass.states.get(entity_id).attributes["update_percentage"] is None
 
     reolink_host.update_firmware.side_effect = ReolinkError("Test error")
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -167,7 +167,7 @@ async def test_update_firm(
     reolink_host.update_firmware.side_effect = ApiError(
         "Test error", translation_key="firmware_rate_limit"
     )
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -187,7 +187,7 @@ async def test_update_firm(
 
 @pytest.mark.parametrize("entity_name", [TEST_NVR_NAME, TEST_CAM_NAME])
 async def test_update_firm_keeps_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     hass_ws_client: WebSocketGenerator,
@@ -234,7 +234,7 @@ async def test_update_firm_keeps_available(
 
 @pytest.mark.parametrize("entity_name", [TEST_NVR_NAME, TEST_CAM_NAME])
 async def test_external_firmware_update_detected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     freezer: FrozenDateTimeFactory,

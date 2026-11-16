@@ -24,7 +24,7 @@ from zwave_js_server.model.access_control import (
 )
 from zwave_js_server.model.node import Node
 
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 
 from .const import (
     CREDENTIAL_RULE_DUAL,
@@ -123,20 +123,20 @@ _SET_CREDENTIAL_RESULT_KEYS: dict[SetCredentialResult, str] = {
 
 
 def _raise_on_set_user_error(status: SetUserResult) -> None:
-    """Raise __HAC_KEEP__Error when a user-mutation command is rejected."""
+    """Raise UniversalAssistantError when a user-mutation command is rejected."""
     if status is SetUserResult.OK:
         return
-    raise __HAC_KEEP__Error(
+    raise UniversalAssistantError(
         translation_domain=DOMAIN,
         translation_key=_SET_USER_RESULT_KEYS.get(status, "user_rejected_unknown"),
     )
 
 
 def _raise_on_set_credential_error(status: SetCredentialResult) -> None:
-    """Raise __HAC_KEEP__Error when a credential-mutation command is rejected."""
+    """Raise UniversalAssistantError when a credential-mutation command is rejected."""
     if status is SetCredentialResult.OK:
         return
-    raise __HAC_KEEP__Error(
+    raise UniversalAssistantError(
         translation_domain=DOMAIN,
         translation_key=_SET_CREDENTIAL_RESULT_KEYS.get(
             status, "credential_rejected_unknown"
@@ -331,7 +331,7 @@ async def async_get_credential_capabilities(
     """Query access-control capabilities for the node."""
     supported = await node.access_control.is_supported()
     if not supported:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="access_control_not_supported",
         )
@@ -373,7 +373,7 @@ async def async_get_users(node: Node) -> UsersResult:
     """List all users with their credential references."""
     supported = await node.access_control.is_supported()
     if not supported:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="access_control_not_supported",
         )
@@ -426,7 +426,7 @@ async def async_set_user(
 ) -> SetUserReturn:
     """Create or update an access-control user, optionally with a credential."""
     if not await node.access_control.is_supported():
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="access_control_not_supported",
         )
@@ -526,7 +526,7 @@ async def _async_create_user(
 async def async_delete_user(node: Node, user_id: int) -> None:
     """Delete a single access-control user."""
     if not await node.access_control.is_supported():
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="access_control_not_supported",
         )
@@ -538,7 +538,7 @@ async def async_delete_user(node: Node, user_id: int) -> None:
 async def async_delete_all_users(node: Node) -> None:
     """Delete all access-control users."""
     if not await node.access_control.is_supported():
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="access_control_not_supported",
         )
@@ -562,7 +562,7 @@ async def async_set_credential(
     """
     supported = await node.access_control.is_supported()
     if not supported:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="access_control_not_supported",
         )
@@ -598,7 +598,7 @@ async def async_delete_credential(
     handling is needed here.
     """
     if not await node.access_control.is_supported():
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="access_control_not_supported",
         )
@@ -612,7 +612,7 @@ async def async_delete_credential(
 async def async_delete_all_credentials(node: Node, user_id: int) -> None:
     """Delete all credentials for a user."""
     if not await node.access_control.is_supported():
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="access_control_not_supported",
         )
@@ -635,7 +635,7 @@ async def async_delete_all_credentials(node: Node, user_id: int) -> None:
             continue
         try:
             _raise_on_set_credential_error(result)
-        except __HAC_KEEP__Error as err:
+        except UniversalAssistantError as err:
             failures.append((cred.slot, err))
 
     if not failures:
@@ -649,7 +649,7 @@ async def async_delete_all_credentials(node: Node, user_id: int) -> None:
         )
     if len(failures) == 1:
         raise failures[0][1]
-    raise __HAC_KEEP__Error(
+    raise UniversalAssistantError(
         translation_domain=DOMAIN,
         translation_key="delete_all_credentials_partial_failure",
         translation_placeholders={

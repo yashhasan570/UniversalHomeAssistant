@@ -8,7 +8,7 @@ from tellcore.telldus import AsyncioCallbackDispatcher, TelldusCore
 from tellcorenet import TellCoreClient
 
 from universalassistant.const import CONF_HOST, CONF_PORT, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv, discovery
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.typing import ConfigType
@@ -70,7 +70,7 @@ def _discover(hass, config, component_name, found_tellcore_devices):
     )
 
 
-def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Tellstick component."""
 
     conf = config.get(DOMAIN, {})

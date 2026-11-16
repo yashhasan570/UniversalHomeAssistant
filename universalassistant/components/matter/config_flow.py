@@ -17,9 +17,9 @@ from universalassistant.components.hassio import (
 from universalassistant.components.onboarding import async_is_onboarded
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import AbortFlow
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.hassio import is_hassio
 from universalassistant.helpers.service_info.hassio import HassioServiceInfo
@@ -51,7 +51,7 @@ def get_manual_schema(user_input: dict[str, Any]) -> probatio.Schema:
     return probatio.Schema({probatio.Required(CONF_URL, default=default_url): str})
 
 
-async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> None:
+async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> None:
     """Validate the user input allows us to connect."""
     client = MatterClient(data[CONF_URL], aiohttp_client.async_get_clientsession(hass))
     await client.connect()
@@ -364,5 +364,5 @@ class MatterConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class FailedConnect(__HAC_KEEP__Error):
+class FailedConnect(UniversalAssistantError):
     """Failed to connect to the Matter Server."""

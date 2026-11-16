@@ -10,7 +10,7 @@ from pygti.models import DLRequest, GTITime, SDName, SDNameType
 
 from universalassistant.components.sensor import SensorDeviceClass, SensorEntity
 from universalassistant.const import ATTR_ID, CONF_OFFSET
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -48,7 +48,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: HVVConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -72,7 +72,7 @@ class HVVDepartureSensor(SensorEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: HVVConfigEntry,
         session: ClientSession,
         hub: GTIHub,

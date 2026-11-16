@@ -22,7 +22,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfTime,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.dt import utcnow
 from universalassistant.util.variance import ignore_variance
@@ -291,7 +291,7 @@ SENSORS: tuple[FumisSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: FumisConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

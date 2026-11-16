@@ -22,15 +22,15 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant import config_entries
 from universalassistant.components.media_source import MediaImage
 from universalassistant.components.opendisplay.const import CONF_ENCRYPTION_KEY, DOMAIN
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
 from . import ENCRYPTION_KEY
 
 
 @pytest.fixture(autouse=True)
-async def setup_entry(hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry) -> None:
+async def setup_entry(hass: UniversalAssistant, mock_config_entry: MockConfigEntry) -> None:
     """Set up the config entry for service tests."""
     mock_config_entry.add_to_hass(hass)
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
@@ -57,7 +57,7 @@ def mock_resolve_media(tmp_path: Path) -> Generator[MagicMock]:
         yield mock_media
 
 
-def _device_id(hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry) -> str:
+def _device_id(hass: UniversalAssistant, mock_config_entry: MockConfigEntry) -> str:
     """Return the device registry ID for the config entry."""
     registry = dr.async_get(hass)
     devices = dr.async_entries_for_config_entry(registry, mock_config_entry.entry_id)
@@ -66,7 +66,7 @@ def _device_id(hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry) -> str:
 
 
 async def test_upload_image_local_file(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_upload_device: MagicMock,
     mock_resolve_media: MagicMock,
@@ -93,7 +93,7 @@ async def test_upload_image_local_file(
 
 
 async def test_upload_image_remote_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_upload_device: MagicMock,
     aioclient_mock: AiohttpClientMocker,
@@ -139,7 +139,7 @@ async def test_upload_image_remote_url(
     ],
 )
 async def test_upload_image_from_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_upload_device: MagicMock,
     media_content_id: str,
@@ -178,7 +178,7 @@ async def test_upload_image_from_entity(
 
 
 async def test_upload_image_invalid_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that an invalid device_id raises ServiceValidationError."""
     with pytest.raises(
@@ -200,10 +200,10 @@ async def test_upload_image_invalid_device_id(
 
 
 async def test_upload_image_device_not_in_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
-    """Test that __HAC_KEEP__Error is raised if device is out of BLE range."""
+    """Test that UniversalAssistantError is raised if device is out of BLE range."""
     device_id = _device_id(hass, mock_config_entry)
 
     with (
@@ -211,7 +211,7 @@ async def test_upload_image_device_not_in_range(
             "universalassistant.components.opendisplay.services.async_ble_device_from_address",
             return_value=None,
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -228,18 +228,18 @@ async def test_upload_image_device_not_in_range(
 
 
 async def test_upload_image_ble_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_opendisplay_device: MagicMock,
     mock_resolve_media: MagicMock,
 ) -> None:
-    """Test that __HAC_KEEP__Error is raised on BLE upload failure."""
+    """Test that UniversalAssistantError is raised on BLE upload failure."""
     device_id = _device_id(hass, mock_config_entry)
 
     mock_opendisplay_device.__aenter__.side_effect = BLEConnectionError(
         "connection lost"
     )
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             "upload_image",
@@ -255,11 +255,11 @@ async def test_upload_image_ble_error(
 
 
 async def test_upload_image_download_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
-    """Test that __HAC_KEEP__Error is raised on media download failure."""
+    """Test that UniversalAssistantError is raised on media download failure."""
     device_id = _device_id(hass, mock_config_entry)
 
     aioclient_mock.get(
@@ -276,7 +276,7 @@ async def test_upload_image_download_error(
             "universalassistant.components.opendisplay.services.async_resolve_media",
             return_value=mock_media,
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -307,7 +307,7 @@ async def test_upload_image_download_error(
     ],
 )
 async def test_upload_image_dither_modes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_upload_device: MagicMock,
     mock_resolve_media: MagicMock,
@@ -339,7 +339,7 @@ async def test_upload_image_dither_modes(
     ["dither_mode", "fit_mode", "refresh_mode"],
 )
 async def test_upload_image_invalid_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     field: str,
 ) -> None:
@@ -363,7 +363,7 @@ async def test_upload_image_invalid_mode(
 
 
 async def test_upload_image_cancels_previous_task(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_upload_device: MagicMock,
     mock_resolve_media: MagicMock,
@@ -392,7 +392,7 @@ async def test_upload_image_cancels_previous_task(
 
 
 async def test_upload_image_with_encryption_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_opendisplay_device_class: MagicMock,
     mock_resolve_media: MagicMock,
@@ -431,7 +431,7 @@ async def test_upload_image_with_encryption_key(
     ],
 )
 async def test_upload_image_auth_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_opendisplay_device: MagicMock,
     mock_resolve_media: MagicMock,
@@ -442,7 +442,7 @@ async def test_upload_image_auth_error(
 
     mock_opendisplay_device.__aenter__.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             "upload_image",
@@ -461,7 +461,7 @@ async def test_upload_image_auth_error(
 
 
 async def test_upload_image_invalid_encryption_key_format(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_resolve_media: MagicMock,
 ) -> None:
@@ -472,7 +472,7 @@ async def test_upload_image_invalid_encryption_key_format(
     )
     device_id = _device_id(hass, mock_config_entry)
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             "upload_image",

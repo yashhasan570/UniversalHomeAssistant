@@ -6,14 +6,14 @@ import probatio
 
 from universalassistant.components import websocket_api
 from universalassistant.components.websocket_api import ERR_NOT_FOUND, ERR_NOT_SUPPORTED
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 import universalassistant.helpers.config_validation as cv
 
 from .const import DATA_COMPONENT, VacuumEntityFeature
 
 
 @callback
-def async_register_websocket_handlers(hass: __HAC_KEEP__) -> None:
+def async_register_websocket_handlers(hass: UniversalAssistant) -> None:
     """Register websocket commands."""
     websocket_api.async_register_command(hass, handle_get_segments)
 
@@ -27,7 +27,7 @@ def async_register_websocket_handlers(hass: __HAC_KEEP__) -> None:
 )
 @websocket_api.async_response
 async def handle_get_segments(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

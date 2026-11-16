@@ -23,7 +23,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -31,7 +31,7 @@ from . import FritzDeviceSwitchMock, setup_config_entry
 from .const import CONF_FAKE_AIN, CONF_FAKE_NAME, MOCK_CONFIG
 
 
-async def test_setup(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_setup(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test setup of integration."""
     assert await setup_config_entry(hass, MOCK_CONFIG[DOMAIN][CONF_DEVICES][0])
     entries = hass.config_entries.async_entries()
@@ -78,7 +78,7 @@ async def test_setup(hass: __HAC_KEEP__, fritz: Mock) -> None:
     ],
 )
 async def test_update_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     fritz: Mock,
     entitydata: dict,
@@ -140,7 +140,7 @@ async def test_update_unique_id(
     ],
 )
 async def test_update_unique_id_no_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     fritz: Mock,
     entitydata: dict,
@@ -170,7 +170,7 @@ async def test_update_unique_id_no_change(
     assert entity_migrated.unique_id == unique_id
 
 
-async def test_unload_remove(hass: __HAC_KEEP__, fritz: Mock) -> None:
+async def test_unload_remove(hass: UniversalAssistant, fritz: Mock) -> None:
     """Test unload and remove of integration."""
     fritz().get_devices.return_value = [FritzDeviceSwitchMock()]
     entity_id = f"{SWITCH_DOMAIN}.{CONF_FAKE_NAME}"
@@ -211,8 +211,8 @@ async def test_unload_remove(hass: __HAC_KEEP__, fritz: Mock) -> None:
     assert state is None
 
 
-async def test_logout_on_stop(hass: __HAC_KEEP__, fritz: Mock) -> None:
-    """Test we log out from fritzbox when __HA_KEEP__s stops."""
+async def test_logout_on_stop(hass: UniversalAssistant, fritz: Mock) -> None:
+    """Test we log out from fritzbox when Universal Home Assistants stops."""
     fritz().get_devices.return_value = [FritzDeviceSwitchMock()]
     entity_id = f"{SWITCH_DOMAIN}.{CONF_FAKE_NAME}"
 
@@ -243,7 +243,7 @@ async def test_logout_on_stop(hass: __HAC_KEEP__, fritz: Mock) -> None:
 
 
 async def test_remove_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -288,7 +288,7 @@ async def test_remove_device(
     await hass.async_block_till_done()
 
 
-async def test_raise_config_entry_not_ready_when_offline(hass: __HAC_KEEP__) -> None:
+async def test_raise_config_entry_not_ready_when_offline(hass: UniversalAssistant) -> None:
     """Config entry state is SETUP_RETRY when fritzbox is offline."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -311,7 +311,7 @@ async def test_raise_config_entry_not_ready_when_offline(hass: __HAC_KEEP__) -> 
     assert config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_raise_config_entry_error_when_login_fail(hass: __HAC_KEEP__) -> None:
+async def test_raise_config_entry_error_when_login_fail(hass: UniversalAssistant) -> None:
     """Config entry state is SETUP_ERROR when login to fritzbox fail."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -405,7 +405,7 @@ async def test_raise_config_entry_error_when_login_fail(hass: __HAC_KEEP__) -> N
     ],
 )
 async def test_migrate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     fritz: Mock,
     old_data: dict,

@@ -16,7 +16,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import configure_integration
 
@@ -35,7 +35,7 @@ from . import configure_integration
     ],
 )
 async def test_lock(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status, device_info, test_index
+    hass: UniversalAssistant, mock_list_devices, mock_get_status, device_info, test_index
 ) -> None:
     """Test locking and unlocking."""
     mock_list_devices.return_value = [
@@ -87,7 +87,7 @@ async def test_lock(
     ],
 )
 async def test_lock_open(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status, device_info, test_index
+    hass: UniversalAssistant, mock_list_devices, mock_get_status, device_info, test_index
 ) -> None:
     """Test locking and unlocking."""
     mock_list_devices.return_value = [
@@ -137,7 +137,7 @@ async def test_lock_open(
     ],
 )
 async def test_lock_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices,
     mock_get_status,
     lock_state: str,
@@ -171,7 +171,7 @@ async def test_lock_states(
     ],
 )
 async def test_command_replaces_a_jam(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices,
     mock_get_status,
     service: str,

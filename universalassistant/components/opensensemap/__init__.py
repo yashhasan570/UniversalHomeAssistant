@@ -3,7 +3,7 @@
 from opensensemap_api import OpenSenseMap
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import CONF_STATION_ID
@@ -13,7 +13,7 @@ PLATFORMS: list[Platform] = [Platform.AIR_QUALITY, Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: OpenSenseMapConfigEntry
+    hass: UniversalAssistant, entry: OpenSenseMapConfigEntry
 ) -> None:
     """Set up openSenseMap from a config entry."""
     session = async_get_clientsession(hass)
@@ -26,7 +26,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: OpenSenseMapConfigEntry
+    hass: UniversalAssistant, entry: OpenSenseMapConfigEntry
 ) -> None:
     """Unload an openSenseMap config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

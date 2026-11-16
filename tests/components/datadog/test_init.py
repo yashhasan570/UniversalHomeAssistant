@@ -14,12 +14,12 @@ from universalassistant.components.datadog.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import EVENT_LOGBOOK_ENTRY, STATE_OFF, STATE_ON, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .common import MOCK_DATA, MOCK_OPTIONS, create_mock_state
 
 
-async def test_invalid_config(hass: __HAC_KEEP__) -> None:
+async def test_invalid_config(hass: UniversalAssistant) -> None:
     """Test invalid configuration."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -29,7 +29,7 @@ async def test_invalid_config(hass: __HAC_KEEP__) -> None:
     assert not await hass.config_entries.async_setup(entry.entry_id)
 
 
-async def test_datadog_setup_full(hass: __HAC_KEEP__) -> None:
+async def test_datadog_setup_full(hass: UniversalAssistant) -> None:
     """Test setup with all data."""
     with (
         patch("universalassistant.components.datadog.DogStatsd") as mock_dogstatsd,
@@ -55,7 +55,7 @@ async def test_datadog_setup_full(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_datadog_setup_defaults(hass: __HAC_KEEP__) -> None:
+async def test_datadog_setup_defaults(hass: UniversalAssistant) -> None:
     """Test setup with defaults."""
     with (
         patch("universalassistant.components.datadog.DogStatsd") as mock_dogstatsd,
@@ -74,7 +74,7 @@ async def test_datadog_setup_defaults(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_logbook_entry(hass: __HAC_KEEP__) -> None:
+async def test_logbook_entry(hass: UniversalAssistant) -> None:
     """Test event listener."""
     with (
         patch("universalassistant.components.datadog.DogStatsd") as mock_statsd_class,
@@ -108,13 +108,13 @@ async def test_logbook_entry(hass: __HAC_KEEP__) -> None:
 
         assert mock_statsd.event.call_count == 1
         assert mock_statsd.event.call_args == mock.call(
-            title="__HA_KEEP__",
+            title="Universal Home Assistant",
             message=f"%%% \n **{event['name']}** {event['message']} \n %%%",
             tags=["entity:sensor.foo.bar", "domain:automation"],
         )
 
 
-async def test_state_changed(hass: __HAC_KEEP__) -> None:
+async def test_state_changed(hass: UniversalAssistant) -> None:
     """Test event listener."""
     with (
         patch("universalassistant.components.datadog.DogStatsd") as mock_statsd_class,
@@ -172,7 +172,7 @@ async def test_state_changed(hass: __HAC_KEEP__) -> None:
             assert not mock_statsd.gauge.called
 
 
-async def test_unload_entry(hass: __HAC_KEEP__) -> None:
+async def test_unload_entry(hass: UniversalAssistant) -> None:
     """Test unloading the config entry cleans up properly."""
     client = mock.MagicMock()
 
@@ -200,7 +200,7 @@ async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     client.close_socket.assert_called_once()
 
 
-async def test_state_changed_skips_unknown(hass: __HAC_KEEP__) -> None:
+async def test_state_changed_skips_unknown(hass: UniversalAssistant) -> None:
     """Test state_changed_listener skips None and unknown states."""
     with (
         patch(

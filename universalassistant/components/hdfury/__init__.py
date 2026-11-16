@@ -1,7 +1,7 @@
 """The HDFury Integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import HDFuryConfigEntry, HDFuryCoordinator
 
@@ -14,7 +14,7 @@ PLATFORMS = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: HDFuryConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: HDFuryConfigEntry) -> None:
     """Set up HDFury as config entry."""
 
     coordinator = HDFuryCoordinator(hass, entry)
@@ -25,7 +25,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: HDFuryConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: HDFuryConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: HDFuryConfigEntry) -> None:
     """Unload a HDFury config entry."""
 
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

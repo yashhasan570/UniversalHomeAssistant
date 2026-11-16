@@ -14,7 +14,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_START,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity import Entity
@@ -67,7 +67,7 @@ __all__ = [
 ]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the FFmpeg component."""
     conf = config.get(DOMAIN, {})
 
@@ -81,7 +81,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-def get_ffmpeg_manager(hass: __HAC_KEEP__) -> FFmpegManager:
+def get_ffmpeg_manager(hass: UniversalAssistant) -> FFmpegManager:
     """Return the FFmpegManager."""
     if DATA_FFMPEG not in hass.data:
         raise ValueError("ffmpeg component not initialized")
@@ -89,7 +89,7 @@ def get_ffmpeg_manager(hass: __HAC_KEEP__) -> FFmpegManager:
 
 
 async def async_get_image(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     input_source: str,
     output_format: str = IMAGE_JPEG,
     extra_cmd: str | None = None,
@@ -115,7 +115,7 @@ async def async_get_image(
 class FFmpegManager:
     """Helper for ha-ffmpeg."""
 
-    def __init__(self, hass: __HAC_KEEP__, ffmpeg_bin: str) -> None:
+    def __init__(self, hass: UniversalAssistant, ffmpeg_bin: str) -> None:
         """Initialize helper."""
         self.hass = hass
         self._cache = {}  # type: ignore[var-annotated]

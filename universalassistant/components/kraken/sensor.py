@@ -10,7 +10,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
     SensorStateClass,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -135,7 +135,7 @@ SENSOR_TYPES: tuple[KrakenSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: KrakenConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -160,7 +160,7 @@ async def async_setup_entry(
 
     @callback
     def async_update_sensors(
-        hass: __HAC_KEEP__, config_entry: KrakenConfigEntry
+        hass: UniversalAssistant, config_entry: KrakenConfigEntry
     ) -> None:
         """Add or remove sensors for configured tracked asset pairs."""
         dev_reg = dr.async_get(hass)

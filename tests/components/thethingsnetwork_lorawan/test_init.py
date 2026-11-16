@@ -10,7 +10,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture(autouse=True)
@@ -24,7 +24,7 @@ def mock_registration() -> Generator[AsyncMock]:
 
 
 async def test_setup_and_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection_entry: MockConfigEntry,
     mock_connection: Mock,
     mock_registration: AsyncMock,
@@ -74,7 +74,7 @@ async def test_setup_and_unload(
     ],
 )
 async def test_configuration_url(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection_entry: MockConfigEntry,
     mock_registration: AsyncMock,
     endpoint: str,
@@ -97,7 +97,7 @@ async def test_configuration_url(
     ],
 )
 async def test_setup_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection_entry: MockConfigEntry,
     mock_connection: Mock,
     mock_registration: AsyncMock,
@@ -114,7 +114,7 @@ async def test_setup_failure(
 
 
 async def test_registration_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection_entry: MockConfigEntry,
     mock_connection: Mock,
     mock_registration: AsyncMock,
@@ -127,7 +127,7 @@ async def test_registration_failure(
 
 
 async def test_setup_cancelled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection_entry: MockConfigEntry,
     mock_connection: Mock,
 ) -> None:
@@ -139,7 +139,7 @@ async def test_setup_cancelled(
 
 
 async def test_disconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection_entry: MockConfigEntry,
     mock_connection: Mock,
 ) -> None:
@@ -152,12 +152,12 @@ async def test_disconnect(
 
 
 async def test_shutdown(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection_entry: MockConfigEntry,
     mock_connection: Mock,
     mock_registration: AsyncMock,
 ) -> None:
-    """__HA_KEEP__ shutdown withdraws and closes the connection."""
+    """Universal Home Assistant shutdown withdraws and closes the connection."""
     assert await hass.config_entries.async_setup(connection_entry.entry_id)
     mock_connection.close.side_effect = mock_connection.on_disconnect.call_args.args[0]
     with patch.object(hass.config_entries, "async_schedule_reload") as reload:

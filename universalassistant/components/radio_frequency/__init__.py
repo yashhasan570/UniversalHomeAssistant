@@ -6,8 +6,8 @@ import logging
 from rf_protocols import ModulationType, RadioFrequencyCommand
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, callback
-from universalassistant.exceptions import ConfigEntryError, __HAC_KEEP__Error
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
+from universalassistant.exceptions import ConfigEntryError, UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.typing import ConfigType
@@ -56,7 +56,7 @@ PLATFORM_SCHEMA_BASE = cv.PLATFORM_SCHEMA_BASE
 SCAN_INTERVAL = timedelta(seconds=30)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the radio_frequency domain."""
     component = hass.data[DATA_COMPONENT] = EntityComponent[
         RadioFrequencyTransmitterEntity | RadioFrequencyReceiverEntity
@@ -68,7 +68,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up a config entry."""
     if not await hass.data[DATA_COMPONENT].async_setup_entry(entry):
         raise ConfigEntryError(
@@ -78,14 +78,14 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         )
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.data[DATA_COMPONENT].async_unload_entry(entry)
 
 
 @callback
 def async_get_transmitters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     frequency: int,
     modulation: ModulationType,
 ) -> list[str]:
@@ -96,12 +96,12 @@ def async_get_transmitters(
     transmitters.
 
     Raises:
-        __HAC_KEEP__Error: If the component is not loaded or if no
+        UniversalAssistantError: If the component is not loaded or if no
             transmitters exist.
     """
     component = hass.data.get(DATA_COMPONENT)
     if component is None:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="component_not_loaded",
         )
@@ -112,7 +112,7 @@ def async_get_transmitters(
         if isinstance(entity, RadioFrequencyTransmitterEntity)
     ]
     if not entities:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="no_transmitters",
         )
@@ -127,7 +127,7 @@ def async_get_transmitters(
 
 @callback
 def async_get_receivers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     frequency: int,
     modulation: ModulationType,
 ) -> list[str]:
@@ -138,12 +138,12 @@ def async_get_receivers(
     receivers.
 
     Raises:
-        __HAC_KEEP__Error: If the component is not loaded or if no
+        UniversalAssistantError: If the component is not loaded or if no
             receivers exist.
     """
     component = hass.data.get(DATA_COMPONENT)
     if component is None:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="component_not_loaded",
         )
@@ -154,7 +154,7 @@ def async_get_receivers(
         if isinstance(entity, RadioFrequencyReceiverEntity)
     ]
     if not entities:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="no_receivers",
         )

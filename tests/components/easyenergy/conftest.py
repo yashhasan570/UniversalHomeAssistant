@@ -8,7 +8,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, async_load_json_object_fixture
 
 from universalassistant.components.easyenergy.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -32,7 +32,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 
 @pytest.fixture
-async def mock_easyenergy(hass: __HAC_KEEP__) -> AsyncGenerator[MagicMock]:
+async def mock_easyenergy(hass: UniversalAssistant) -> AsyncGenerator[MagicMock]:
     """Return a mocked easyEnergy client."""
     with patch(
         "universalassistant.components.easyenergy.coordinator.EasyEnergy", autospec=True
@@ -56,7 +56,7 @@ async def mock_easyenergy(hass: __HAC_KEEP__) -> AsyncGenerator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_easyenergy: MagicMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_easyenergy: MagicMock
 ) -> MockConfigEntry:
     """Set up the easyEnergy integration for testing."""
     mock_config_entry.add_to_hass(hass)

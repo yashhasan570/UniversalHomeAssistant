@@ -23,7 +23,7 @@ from aioairzone_cloud.const import (
 )
 from aioairzone_cloud.exceptions import AirzoneCloudError
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -97,7 +97,7 @@ class AirzoneAidooEntity(AirzoneEntity):
                 self.aidoo_id, params
             )
         except AirzoneCloudError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to set {self.entity_id} params: {error}"
             ) from error
 
@@ -142,7 +142,7 @@ class AirzoneGroupEntity(AirzoneEntity):
                 self.group_id, params
             )
         except AirzoneCloudError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to set {self.entity_id} params: {error}"
             ) from error
 
@@ -190,7 +190,7 @@ class AirzoneHotWaterEntity(AirzoneEntity):
         try:
             await self.coordinator.airzone.api_set_dhw_id_params(self.dhw_id, params)
         except AirzoneCloudError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to set {self.entity_id} params: {error}"
             ) from error
 
@@ -239,7 +239,7 @@ class AirzoneInstallationEntity(AirzoneEntity):
                 self.inst_id, params
             )
         except AirzoneCloudError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to set {self.entity_id} params: {error}"
             ) from error
 
@@ -357,7 +357,7 @@ class AirzoneZoneEntity(AirzoneEntity):
         try:
             await self.coordinator.airzone.api_set_zone_id_params(self.zone_id, params)
         except AirzoneCloudError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to set {self.entity_id} params: {error}"
             ) from error
 

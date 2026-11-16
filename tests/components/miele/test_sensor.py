@@ -19,7 +19,7 @@ from universalassistant.components.miele.const import DOMAIN
 from universalassistant.components.miele.sensor import _convert_temperature, _get_plate_count
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers import entity_registry as er
 
 from . import get_data_callback
@@ -29,7 +29,7 @@ from . import get_data_callback
 @pytest.mark.parametrize("platforms", [(SENSOR_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -44,7 +44,7 @@ async def test_sensor_states(
 @pytest.mark.parametrize("platforms", [(SENSOR_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_states_api_push(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -60,7 +60,7 @@ async def test_sensor_states_api_push(
 @pytest.mark.parametrize("platforms", [(SENSOR_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_states_api_push_one_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -83,7 +83,7 @@ async def test_sensor_states_api_push_one_device(
 @pytest.mark.parametrize("platforms", [(SENSOR_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_hob_sensor_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -98,7 +98,7 @@ async def test_hob_sensor_states(
 @pytest.mark.parametrize("platforms", [(SENSOR_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_fridge_freezer_sensor_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -112,7 +112,7 @@ async def test_fridge_freezer_sensor_states(
 @pytest.mark.parametrize("load_device_file", ["oven.json"])
 @pytest.mark.parametrize("platforms", [(SENSOR_DOMAIN,)])
 async def test_oven_temperatures_scenario(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     setup_platform: None,
     mock_config_entry: MockConfigEntry,
@@ -212,7 +212,7 @@ async def test_oven_temperatures_scenario(
 
 
 def check_sensor_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sensor_entity: str,
     expected: str,
     step: int,
@@ -235,7 +235,7 @@ def check_sensor_state(
 @pytest.mark.parametrize("load_device_file", ["oven.json"])
 @pytest.mark.parametrize("platforms", [(SENSOR_DOMAIN,)])
 async def test_oven_core_probe_sensors_unknown_when_inactive(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     setup_platform: None,
     device_fixture: MieleDevices,
@@ -289,7 +289,7 @@ async def test_oven_core_probe_sensors_unknown_when_inactive(
 @pytest.mark.parametrize("load_device_file", ["oven.json"])
 @pytest.mark.parametrize("platforms", [(SENSOR_DOMAIN,)])
 async def test_oven_core_probe_unknown_when_inactive_raw_scaled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     setup_platform: None,
     device_fixture: MieleDevices,
@@ -324,7 +324,7 @@ async def test_oven_core_probe_unknown_when_inactive_raw_scaled(
 @pytest.mark.parametrize("load_device_file", ["oven.json"])
 @pytest.mark.parametrize("platforms", [(SENSOR_DOMAIN,)])
 async def test_temperature_sensor_registry_lookup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_miele_client: MagicMock,
     setup_platform: None,
@@ -365,7 +365,7 @@ async def test_temperature_sensor_registry_lookup(
 @pytest.mark.parametrize("platforms", [(SENSOR_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_vacuum_sensor_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -380,7 +380,7 @@ async def test_vacuum_sensor_states(
 @pytest.mark.parametrize("platforms", [(SENSOR_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_fan_hob_sensor_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -395,7 +395,7 @@ async def test_fan_hob_sensor_states(
 @pytest.mark.parametrize("platforms", [(SENSOR_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_coffee_system_sensor_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -409,7 +409,7 @@ async def test_coffee_system_sensor_states(
 @pytest.mark.parametrize("load_device_file", ["laundry.json"])
 @pytest.mark.parametrize("platforms", [(SENSOR_DOMAIN,)])
 async def test_laundry_wash_scenario(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     setup_platform: None,
     mock_config_entry: MockConfigEntry,
@@ -659,7 +659,7 @@ async def test_laundry_wash_scenario(
 @pytest.mark.parametrize("load_device_file", ["laundry.json"])
 @pytest.mark.parametrize("platforms", [(SENSOR_DOMAIN,)])
 async def test_laundry_dry_scenario(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     setup_platform: None,
     mock_config_entry: MockConfigEntry,
@@ -759,7 +759,7 @@ async def test_laundry_dry_scenario(
 @pytest.mark.parametrize("load_device_file", ["laundry.json"])
 @pytest.mark.parametrize("platforms", [(SENSOR_DOMAIN,)])
 async def test_elapsed_time_sensor_restored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_miele_client: MagicMock,
     setup_platform: None,

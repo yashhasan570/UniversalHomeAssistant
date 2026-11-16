@@ -13,11 +13,11 @@ from zeversolar.exceptions import (
 from universalassistant import config_entries
 from universalassistant.components.zeversolar.const import DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_form(hass: __HAC_KEEP__, mock_zeversolar_client: MagicMock) -> None:
+async def test_form(hass: UniversalAssistant, mock_zeversolar_client: MagicMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -52,7 +52,7 @@ async def test_form(hass: __HAC_KEEP__, mock_zeversolar_client: MagicMock) -> No
     ],
 )
 async def test_form_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_zeversolar_client: MagicMock,
     side_effect: Exception,
     errors: dict,
@@ -80,7 +80,7 @@ async def test_form_errors(
 
 
 async def test_abort_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_zeversolar_client: MagicMock,
 ) -> None:
@@ -111,7 +111,7 @@ async def test_abort_already_configured(
 
 
 async def _set_up_zeversolar(
-    hass: __HAC_KEEP__, flow_id: str, mock_client: MagicMock
+    hass: UniversalAssistant, flow_id: str, mock_client: MagicMock
 ) -> None:
     """Reusable successful setup of Zeversolar sensor."""
     mock_client.get_data.return_value.serial_number = "test_serial"

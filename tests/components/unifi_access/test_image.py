@@ -17,7 +17,7 @@ from unifi_access_api.models.websocket import (
 )
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -44,7 +44,7 @@ def mock_getrandbits() -> Generator[None]:
 
 
 async def test_image_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -58,7 +58,7 @@ async def test_image_entities(
 
 
 async def test_async_image_with_thumbnail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
     hass_client: ClientSessionGenerator,
@@ -75,7 +75,7 @@ async def test_async_image_with_thumbnail(
 
 
 async def test_no_image_entity_for_door_without_thumbnail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -84,7 +84,7 @@ async def test_no_image_entity_for_door_without_thumbnail(
 
 
 async def test_initial_thumbnail_sets_image_last_updated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -98,7 +98,7 @@ async def test_initial_thumbnail_sets_image_last_updated(
 
 
 async def test_handle_coordinator_update_sets_image_last_updated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -150,7 +150,7 @@ async def test_handle_coordinator_update_sets_image_last_updated(
 
 
 async def test_async_image_get_thumbnail_api_error_returns_none(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
     hass_client: ClientSessionGenerator,

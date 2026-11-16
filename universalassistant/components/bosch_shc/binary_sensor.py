@@ -10,6 +10,7 @@ from boschshcpy import (
     BatteryLevelService,
     SHCBatteryDevice,
     SHCClimateControl,
+    SHCOutdoorSiren,
     SHCShutterContact,
     SHCSmokeDetectionSystem,
     SHCTwinguard,
@@ -23,7 +24,8 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
     BinarySensorEntityDescription,
 )
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.const import EntityCategory
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_call_later
 
@@ -77,6 +79,29 @@ CLIMATE_CONTROL_DESCRIPTIONS: tuple[
     ),
 )
 
+OUTDOOR_SIREN_DESCRIPTIONS: tuple[
+    SHCBinarySensorEntityDescription[SHCOutdoorSiren], ...
+] = (
+    SHCBinarySensorEntityDescription(
+        key="siren_acoustic_alarm",
+        translation_key="siren_acoustic_alarm",
+        device_class=BinarySensorDeviceClass.SOUND,
+        is_on_fn=lambda device: device.siren.acoustic_alarm_on,
+    ),
+    SHCBinarySensorEntityDescription(
+        key="siren_visual_alarm",
+        translation_key="siren_visual_alarm",
+        device_class=BinarySensorDeviceClass.LIGHT,
+        is_on_fn=lambda device: device.siren.visual_alarm_on,
+    ),
+    SHCBinarySensorEntityDescription(
+        key="siren_tamper",
+        device_class=BinarySensorDeviceClass.TAMPER,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        is_on_fn=lambda device: device.siren.tamper_activated,
+    ),
+)
+
 SHUTTER_CONTACT_DESCRIPTION = SHCShutterContactSensorEntityDescription(
     key="shutter_contact",
     is_on_fn=lambda device: device.state is ShutterContactService.State.OPEN,
@@ -84,7 +109,7 @@ SHUTTER_CONTACT_DESCRIPTION = SHCShutterContactSensorEntityDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: BoschConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -157,6 +182,19 @@ async def async_setup_entry(
         for description in CLIMATE_CONTROL_DESCRIPTIONS
     )
 
+    entities.extend(
+        SHCBinarySensor(
+            hass=hass,
+            device=siren,
+            parent_id=shc_info.unique_id,
+            entry_id=config_entry.entry_id,
+            entity_description=description,
+        )
+        for siren in session.device_helper.outdoor_sirens
+        if siren.siren is not None
+        for description in OUTDOOR_SIREN_DESCRIPTIONS
+    )
+
     async_add_entities(entities)
 
 
@@ -168,7 +206,7 @@ class SHCBinarySensor[_DeviceT: SHCDevice](SHCEntity, BinarySensorEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         device: _DeviceT,
         parent_id: str,
         entry_id: str,
@@ -200,7 +238,7 @@ class ShutterContactSensor(SHCEntity, BinarySensorEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         device: SHCDevice,
         parent_id: str,
         entry_id: str,
@@ -233,7 +271,7 @@ class BatterySensor(SHCEntity, BinarySensorEntity):
     _device: SHCBatteryDevice
 
     def __init__(
-        self, hass: __HAC_KEEP__, device: SHCDevice, parent_id: str, entry_id: str
+        self, hass: UniversalAssistant, device: SHCDevice, parent_id: str, entry_id: str
     ) -> None:
         """Initialize an SHC battery reporting sensor."""
         super().__init__(hass, device, parent_id, entry_id)
@@ -258,7 +296,7 @@ class TwinguardAlarmTracker:
     """
 
     def __init__(
-        self, hass: __HAC_KEEP__, smoke_detection_system: SHCSmokeDetectionSystem
+        self, hass: UniversalAssistant, smoke_detection_system: SHCSmokeDetectionSystem
     ) -> None:
         """Initialize the tracker and subscribe to the alarm state."""
         self._hass = hass
@@ -340,7 +378,7 @@ class TwinguardSmokeSensor(SHCEntity, BinarySensorEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         device: SHCDevice,
         parent_id: str,
         entry_id: str,

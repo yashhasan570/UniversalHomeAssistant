@@ -7,13 +7,13 @@ import pytest
 
 from universalassistant.components.advantage_air.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from . import TEST_SYSTEM_DATA_NO_RID, add_mock_config, patch_get
 
 
-async def test_async_setup_entry(hass: __HAC_KEEP__, mock_get: AsyncMock) -> None:
+async def test_async_setup_entry(hass: UniversalAssistant, mock_get: AsyncMock) -> None:
     """Test a successful setup entry and unload."""
 
     entry = await add_mock_config(hass)
@@ -34,7 +34,7 @@ async def test_async_setup_entry(hass: __HAC_KEEP__, mock_get: AsyncMock) -> Non
     ],
 )
 async def test_child_devices_via_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     child_identifier: str,
 ) -> None:
@@ -54,7 +54,7 @@ async def test_child_devices_via_device(
     assert child.via_device_id == parent.id
 
 
-async def test_async_setup_entry_failure(hass: __HAC_KEEP__) -> None:
+async def test_async_setup_entry_failure(hass: UniversalAssistant) -> None:
     """Test a unsuccessful setup entry."""
 
     with patch_get(side_effect=ApiError):
@@ -71,7 +71,7 @@ async def test_async_setup_entry_failure(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_devices_without_rid_use_mid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     child_identifier: str,
 ) -> None:

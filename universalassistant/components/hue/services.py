@@ -7,7 +7,7 @@ from aiohue import HueBridgeV1, HueBridgeV2
 import probatio
 
 from universalassistant.components.scene import DOMAIN as SCENE_DOMAIN
-from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service import (
     async_register_platform_entity_service,
@@ -35,7 +35,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register services for Hue integration."""
 
     async def hue_activate_scene(call: ServiceCall, skip_reload=True) -> None:

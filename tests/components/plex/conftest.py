@@ -9,7 +9,7 @@ import requests_mock
 
 from universalassistant.components.plex.const import DOMAIN, PLEX_SERVER_CONFIG
 from universalassistant.const import CONF_URL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import DEFAULT_DATA, DEFAULT_OPTIONS, PLEX_DIRECT_URL
 from .helpers import websocket_connected
@@ -308,6 +308,12 @@ def plextv_resources_two_servers_fixture():
     return load_fixture("plex/plextv_resources_two_servers.xml")
 
 
+@pytest.fixture(name="plextv_resources_other_server", scope="package")
+def plextv_resources_other_server_fixture():
+    """Load payload for plex.tv resources without the default server and return it."""
+    return load_fixture("plex/plextv_resources_other_server.xml")
+
+
 @pytest.fixture(name="plextv_shared_users", scope="package")
 def plextv_shared_users_fixture():
     """Load payload for plex.tv shared users and return it."""
@@ -546,7 +552,7 @@ def mock_plex_calls(
 
 @pytest.fixture
 def setup_plex_server(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry,
     livetv_sessions,
     mock_websocket,

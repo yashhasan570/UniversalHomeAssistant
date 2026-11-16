@@ -15,8 +15,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_SUPPORTED_MODES
@@ -48,7 +48,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: CoolmasterConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -189,7 +189,7 @@ class CoolmasterClimate(CoolmasterEntity, ClimateEntity):
         try:
             self._unit = await self._unit.set_swing(swing_mode)
         except ValueError as error:
-            raise __HAC_KEEP__Error(error) from error
+            raise UniversalAssistantError(error) from error
         self.async_write_ha_state()
 
     @override

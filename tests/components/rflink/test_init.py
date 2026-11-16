@@ -26,14 +26,14 @@ from universalassistant.const import (
     SERVICE_STOP_COVER,
     SERVICE_TURN_OFF,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 async def mock_rflink(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config,
     domain,
     monkeypatch: pytest.MonkeyPatch,
@@ -89,7 +89,7 @@ async def mock_rflink(
 
 
 async def test_version_banner(
-    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test sending unknown commands doesn't cause issues."""
     # use sensor domain during testing main platform
@@ -117,7 +117,7 @@ async def test_version_banner(
 
 
 async def test_send_no_wait(
-    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test command sending without ack."""
     domain = "switch"
@@ -145,7 +145,7 @@ async def test_send_no_wait(
 
 
 async def test_cover_send_no_wait(
-    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test command sending to a cover device without ack."""
     domain = "cover"
@@ -173,7 +173,7 @@ async def test_cover_send_no_wait(
 
 
 async def test_send_command(
-    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test send_command service."""
     domain = "rflink"
@@ -193,7 +193,7 @@ async def test_send_command(
 
 
 async def test_send_command_invalid_arguments(
-    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test send_command service."""
     domain = "rflink"
@@ -230,7 +230,7 @@ async def test_send_command_invalid_arguments(
 
 
 async def test_send_command_event_propagation(
-    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test event propagation for send_command service."""
     domain = "light"
@@ -275,7 +275,7 @@ async def test_send_command_event_propagation(
 
 
 async def test_reconnecting_after_disconnect(
-    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """An unexpected disconnect should cause a reconnect."""
     domain = "sensor"
@@ -304,7 +304,7 @@ async def test_reconnecting_after_disconnect(
 
 
 async def test_reconnecting_after_failure(
-    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """A failure to reconnect should be retried."""
     domain = "sensor"
@@ -336,7 +336,7 @@ async def test_reconnecting_after_failure(
 
 
 async def test_error_when_not_connected(
-    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Sending command should error when not connected."""
     domain = "switch"
@@ -370,7 +370,7 @@ async def test_error_when_not_connected(
 
 
 async def test_async_send_command_error(
-    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Sending command should error when protocol fails."""
     domain = "rflink"
@@ -393,7 +393,7 @@ async def test_async_send_command_error(
 
 
 async def test_race_condition(
-    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
+    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test race condition for unknown components."""
     domain = "light"
@@ -434,12 +434,12 @@ async def test_not_connected() -> None:
     """Test Error when sending commands to a disconnected device."""
     test_device = RflinkCommand("DUMMY_DEVICE")
     RflinkCommand.set_rflink_protocol(None)
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await test_device._async_handle_command("turn_on")
 
 
 async def test_keepalive(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monkeypatch: pytest.MonkeyPatch,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -469,7 +469,7 @@ async def test_keepalive(
 
 
 async def test_keepalive_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monkeypatch: pytest.MonkeyPatch,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -499,7 +499,7 @@ async def test_keepalive_2(
 
 
 async def test_keepalive_3(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monkeypatch: pytest.MonkeyPatch,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -519,7 +519,7 @@ async def test_keepalive_3(
 
 
 async def test_default_keepalive(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monkeypatch: pytest.MonkeyPatch,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -540,7 +540,7 @@ async def test_default_keepalive(
 
 
 async def test_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -580,7 +580,7 @@ async def test_unique_id(
 
 
 async def test_enable_debug_logs(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     monkeypatch: pytest.MonkeyPatch,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

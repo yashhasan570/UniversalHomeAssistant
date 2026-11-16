@@ -1,6 +1,6 @@
 """Checker that enforces ``universalassistant.util.dt.utcnow`` over ``datetime.now(UTC)``.
 
-__HA_KEEP__ exposes ``universalassistant.util.dt.utcnow`` -- a thin wrapper around
+Universal Home Assistant exposes ``universalassistant.util.dt.utcnow`` -- a thin wrapper around
 ``datetime.datetime.now(UTC)`` implemented as a ``functools.partial``. Using the
 helper avoids the per-call global lookup of ``UTC`` and keeps the codebase
 consistent in how the current UTC time is obtained.

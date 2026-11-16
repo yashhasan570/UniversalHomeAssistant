@@ -14,8 +14,8 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 pytestmark = pytest.mark.parametrize("platforms", [(Platform.SWITCH,)])
@@ -24,7 +24,7 @@ ENTITY_ID = "switch.freezer_superfreezing"
 
 
 async def test_switch_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -37,7 +37,7 @@ async def test_switch_states(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switch_states_api_push(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -65,7 +65,7 @@ async def test_switch_states_api_push(
     ],
 )
 async def test_switching(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     setup_platform: MockConfigEntry,
     service: str,
@@ -95,7 +95,7 @@ async def test_switching(
     ],
 )
 async def test_api_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     setup_platform: MockConfigEntry,
     service: str,
@@ -104,7 +104,7 @@ async def test_api_failure(
     """Test handling of exception from API."""
     mock_miele_client.send_action.side_effect = ClientResponseError(Mock(), Mock())
 
-    with pytest.raises(__HAC_KEEP__Error, match=f"Failed to set state for {entity}"):
+    with pytest.raises(UniversalAssistantError, match=f"Failed to set state for {entity}"):
         await hass.services.async_call(
             SWITCH_DOMAIN, service, {ATTR_ENTITY_ID: entity}, blocking=True
         )

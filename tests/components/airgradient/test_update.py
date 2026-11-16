@@ -14,14 +14,14 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -35,7 +35,7 @@ async def test_all_entities(
 
 
 async def test_v1_update_uses_model(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_v1_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -49,7 +49,7 @@ async def test_v1_update_uses_model(
 
 
 async def test_update_mechanism(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -93,7 +93,7 @@ async def test_update_mechanism(
 
 
 async def test_update_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

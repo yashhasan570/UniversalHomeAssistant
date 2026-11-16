@@ -3,17 +3,17 @@
 from unittest.mock import patch
 
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 CONFIG = {"wirelesstag": {"username": "foo@bar.com", "password": "secret"}}
 
 
-async def test_stop_monitoring_on_universalassistant_stop(hass: __HAC_KEEP__) -> None:
-    """Test cloud push monitoring is stopped when __HA_KEEP__ stops.
+async def test_stop_monitoring_on_universalassistant_stop(hass: UniversalAssistant) -> None:
+    """Test cloud push monitoring is stopped when Universal Home Assistant stops.
 
     The monitoring worker runs in a non-daemon thread, so it must be stopped on
-    shutdown; otherwise __HA_KEEP__ cannot exit cleanly.
+    shutdown; otherwise Universal Home Assistant cannot exit cleanly.
     """
     with patch("universalassistant.components.wirelesstag.WirelessTags") as mock_api_class:
         mock_api = mock_api_class.return_value

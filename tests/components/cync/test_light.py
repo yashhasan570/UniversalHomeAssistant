@@ -11,14 +11,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.light import ColorMode
 from universalassistant.const import STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -46,7 +46,7 @@ async def test_entities(
     ],
 )
 async def test_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     input_parameters: dict,
     expected_brightness: int | None,
@@ -84,7 +84,7 @@ async def test_turn_on(
 @pytest.mark.parametrize("device_mode", [0, 20, 254, 255])
 @pytest.mark.parametrize("brightness", [0, 90])
 async def test_turn_on_without_parameters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_mode: int,
     brightness: int,
@@ -142,7 +142,7 @@ async def test_turn_on_without_parameters(
 )
 @pytest.mark.parametrize("device_mode", [0, 101, 253, 255])
 async def test_unrecognized_color_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     capabilities: set[CyncCapability],
     expected_fallback: ColorMode,
@@ -170,7 +170,7 @@ async def test_unrecognized_color_mode(
     [(1, ColorMode.COLOR_TEMP), (100, ColorMode.COLOR_TEMP), (254, ColorMode.RGB)],
 )
 async def test_recognized_color_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_mode: int,
     expected_mode: ColorMode,
@@ -202,7 +202,7 @@ async def test_recognized_color_mode(
     ],
 )
 async def test_mesh_state_callback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     cync_client: MagicMock,

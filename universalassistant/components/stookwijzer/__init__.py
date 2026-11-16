@@ -5,7 +5,7 @@ from typing import Any
 from stookwijzer import Stookwijzer
 
 from universalassistant.const import CONF_LATITUDE, CONF_LOCATION, CONF_LONGITUDE, Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import (
     config_validation as cv,
@@ -23,13 +23,13 @@ PLATFORMS = [Platform.SENSOR]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Stookwijzer component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: StookwijzerConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: StookwijzerConfigEntry) -> None:
     """Set up Stookwijzer from a config entry."""
     await er.async_migrate_entries(hass, entry.entry_id, async_migrate_entity_entry)
 
@@ -41,14 +41,14 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: StookwijzerConfigEntry) -
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: StookwijzerConfigEntry
+    hass: UniversalAssistant, entry: StookwijzerConfigEntry
 ) -> None:
     """Unload Stookwijzer config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: __HAC_KEEP__, entry: StookwijzerConfigEntry
+    hass: UniversalAssistant, entry: StookwijzerConfigEntry
 ) -> None:
     """Migrate old entry."""
     LOGGER.debug("Migrating from version %s", entry.version)

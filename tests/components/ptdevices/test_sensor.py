@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.ptdevices.coordinator import UPDATE_INTERVAL
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -21,7 +21,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_ptdevices_interface: AsyncMock,
     mock_ptdevices_config_entry: MockConfigEntry,
@@ -38,7 +38,7 @@ async def test_all_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_add_remove_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ptdevices_interface: AsyncMock,
     mock_ptdevices_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

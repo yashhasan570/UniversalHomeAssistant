@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.knocki.const import DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_TOKEN, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -27,7 +27,7 @@ DHCP_DISCOVERY = DhcpServiceInfo(
 
 
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_knocki_client: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -57,7 +57,7 @@ async def test_full_flow(
 
 
 async def test_duplcate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_knocki_client: AsyncMock,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_duplcate_entry(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_knocki_client: AsyncMock,
     field: str,
     exception: Exception,
@@ -126,7 +126,7 @@ async def test_exceptions(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_dhcp(hass: __HAC_KEEP__, mock_knocki_client: AsyncMock) -> None:
+async def test_dhcp(hass: UniversalAssistant, mock_knocki_client: AsyncMock) -> None:
     """Test DHCP discovery."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_DHCP}, data=DHCP_DISCOVERY
@@ -147,7 +147,7 @@ async def test_dhcp(hass: __HAC_KEEP__, mock_knocki_client: AsyncMock) -> None:
 
 
 async def test_dhcp_mac(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_knocki_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -175,7 +175,7 @@ async def test_dhcp_mac(
 
 
 async def test_dhcp_mac_multiple_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -225,7 +225,7 @@ async def test_dhcp_mac_multiple_entries(
 
 
 async def test_dhcp_already_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_knocki_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

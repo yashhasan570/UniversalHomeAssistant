@@ -28,7 +28,7 @@ from universalassistant.const import (
     CONF_SENSOR_TYPE,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
@@ -65,7 +65,7 @@ def mock_scanners_all_passive() -> Generator[None]:
         yield
 
 
-async def test_bluetooth_discovery(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_discovery(hass: UniversalAssistant) -> None:
     """Test discovery via bluetooth with a valid device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -101,7 +101,7 @@ async def test_bluetooth_discovery(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_bluetooth_discovery_curtain_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     service_info: BluetoothServiceInfoBleak,
     sensor_type: str,
 ) -> None:
@@ -129,7 +129,7 @@ async def test_bluetooth_discovery_curtain_options(
     assert result["result"].minor_version == 1
 
 
-async def test_bluetooth_discovery_requires_password(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_discovery_requires_password(hass: UniversalAssistant) -> None:
     """Test discovery via bluetooth with a valid device that needs a password."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -158,7 +158,7 @@ async def test_bluetooth_discovery_requires_password(hass: __HAC_KEEP__) -> None
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_bluetooth_discovery_encrypted_key(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_discovery_encrypted_key(hass: UniversalAssistant) -> None:
     """Test discovery via bluetooth with a lock."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -221,7 +221,7 @@ async def test_bluetooth_discovery_encrypted_key(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_bluetooth_discovery_lock_ultra_max(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_discovery_lock_ultra_max(hass: UniversalAssistant) -> None:
     """Test discovery of an encrypted Lock Ultra Max."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -256,7 +256,7 @@ async def test_bluetooth_discovery_lock_ultra_max(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_bluetooth_discovery_circulator_fan_pro(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_discovery_circulator_fan_pro(hass: UniversalAssistant) -> None:
     """Test discovery of an encrypted Circulator Fan Pro."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -294,7 +294,7 @@ async def test_bluetooth_discovery_circulator_fan_pro(hass: __HAC_KEEP__) -> Non
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_bluetooth_discovery_key(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_discovery_key(hass: UniversalAssistant) -> None:
     """Test discovery via bluetooth with a encrypted device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -341,7 +341,7 @@ async def test_bluetooth_discovery_key(hass: __HAC_KEEP__) -> None:
 
 
 async def test_bluetooth_discovery_encrypted_key_back_navigation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that resuming an abandoned encrypted_key flow resets to the method menu."""
     result = await hass.config_entries.flow.async_init(
@@ -396,7 +396,7 @@ async def test_bluetooth_discovery_encrypted_key_back_navigation(
 
 
 async def test_bluetooth_discovery_encrypted_auth_back_navigation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that resuming an abandoned encrypted_auth flow resets to the method menu."""
     result = await hass.config_entries.flow.async_init(
@@ -449,7 +449,7 @@ async def test_bluetooth_discovery_encrypted_auth_back_navigation(
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_bluetooth_discovery_already_setup(hass: __HAC_KEEP__) -> None:
+async def test_bluetooth_discovery_already_setup(hass: UniversalAssistant) -> None:
     """Test discovery via bluetooth with a valid device when already setup."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -471,7 +471,7 @@ async def test_bluetooth_discovery_already_setup(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_async_step_bluetooth_not_switchbot(hass: __HAC_KEEP__) -> None:
+async def test_async_step_bluetooth_not_switchbot(hass: UniversalAssistant) -> None:
     """Test discovery via bluetooth not switchbot."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -482,7 +482,7 @@ async def test_async_step_bluetooth_not_switchbot(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "not_supported"
 
 
-async def test_async_step_bluetooth_not_connectable(hass: __HAC_KEEP__) -> None:
+async def test_async_step_bluetooth_not_connectable(hass: UniversalAssistant) -> None:
     """Test discovery via bluetooth and its not connectable switchbot."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -494,7 +494,7 @@ async def test_async_step_bluetooth_not_connectable(hass: __HAC_KEEP__) -> None:
 
 
 async def test_async_step_bluetooth_meter_pro_co2_not_connectable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test discovery via bluetooth for Meter Pro CO2 from a non-connectable source."""
     result = await hass.config_entries.flow.async_init(
@@ -524,7 +524,7 @@ async def test_async_step_bluetooth_meter_pro_co2_not_connectable(
 
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
-async def test_user_setup_wohand(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_wohand(hass: UniversalAssistant) -> None:
     """Test the user initiated form with password and valid mac."""
 
     result = await hass.config_entries.flow.async_init(
@@ -570,7 +570,7 @@ async def test_user_setup_wohand(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
-async def test_user_setup_wohand_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_wohand_already_configured(hass: UniversalAssistant) -> None:
     """Test the user initiated form with password and valid mac."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -603,7 +603,7 @@ async def test_user_setup_wohand_already_configured(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
-async def test_user_setup_wohand_replaces_ignored(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_wohand_replaces_ignored(hass: UniversalAssistant) -> None:
     """Test setting up a switchbot replaces an ignored entry."""
     entry = MockConfigEntry(
         domain=DOMAIN, data={}, unique_id="aabbccddeeff", source=SOURCE_IGNORE
@@ -646,7 +646,7 @@ async def test_user_setup_wohand_replaces_ignored(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
-async def test_user_setup_wocurtain(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_wocurtain(hass: UniversalAssistant) -> None:
     """Test the user initiated form with password and valid mac."""
 
     result = await hass.config_entries.flow.async_init(
@@ -686,7 +686,7 @@ async def test_user_setup_wocurtain(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
-async def test_user_setup_wocurtain_or_bot(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_wocurtain_or_bot(hass: UniversalAssistant) -> None:
     """Test the user initiated form with valid address."""
 
     result = await hass.config_entries.flow.async_init(
@@ -731,7 +731,7 @@ async def test_user_setup_wocurtain_or_bot(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
-async def test_user_setup_wocurtain_or_bot_with_password(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_wocurtain_or_bot_with_password(hass: UniversalAssistant) -> None:
     """Test the user initiated form and valid address and a bot with a password."""
 
     result = await hass.config_entries.flow.async_init(
@@ -784,7 +784,7 @@ async def test_user_setup_wocurtain_or_bot_with_password(hass: __HAC_KEEP__) -> 
 
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
-async def test_user_setup_single_bot_with_password(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_single_bot_with_password(hass: UniversalAssistant) -> None:
     """Test the user initiated form for a bot with a password."""
 
     result = await hass.config_entries.flow.async_init(
@@ -825,7 +825,7 @@ async def test_user_setup_single_bot_with_password(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
-async def test_user_setup_woencrypted_key(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_woencrypted_key(hass: UniversalAssistant) -> None:
     """Test the user initiated form for a lock."""
 
     result = await hass.config_entries.flow.async_init(
@@ -899,7 +899,7 @@ async def test_user_setup_woencrypted_key(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
-async def test_user_setup_woencrypted_auth(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_woencrypted_auth(hass: UniversalAssistant) -> None:
     """Test the user initiated form for a lock."""
 
     result = await hass.config_entries.flow.async_init(
@@ -981,7 +981,7 @@ async def test_user_setup_woencrypted_auth(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
 async def test_user_setup_woencrypted_auth_switchbot_api_down(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the user initiated form for a lock when the switchbot api is down."""
 
@@ -1029,7 +1029,7 @@ async def test_user_setup_woencrypted_auth_switchbot_api_down(
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
 async def test_user_setup_woencrypted_auth_unknown_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the encrypted auth step shows unknown error for unexpected exceptions."""
 
@@ -1109,7 +1109,7 @@ async def test_user_setup_woencrypted_auth_unknown_error(
 
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
-async def test_user_setup_wolock_or_bot(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_wolock_or_bot(hass: UniversalAssistant) -> None:
     """Test the user initiated form for a lock."""
 
     result = await hass.config_entries.flow.async_init(
@@ -1179,7 +1179,7 @@ async def test_user_setup_wolock_or_bot(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
-async def test_user_setup_wosensor(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_wosensor(hass: UniversalAssistant) -> None:
     """Test the user initiated form with password and valid mac."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -1218,7 +1218,7 @@ async def test_user_setup_wosensor(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
-async def test_user_cloud_login(hass: __HAC_KEEP__) -> None:
+async def test_user_cloud_login(hass: UniversalAssistant) -> None:
     """Test the cloud login flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -1273,7 +1273,7 @@ async def test_user_cloud_login(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
-async def test_user_cloud_login_auth_failed(hass: __HAC_KEEP__) -> None:
+async def test_user_cloud_login_auth_failed(hass: UniversalAssistant) -> None:
     """Test the cloud login flow with authentication failure."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -1337,7 +1337,7 @@ async def test_user_cloud_login_auth_failed(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
-async def test_user_cloud_login_api_error(hass: __HAC_KEEP__) -> None:
+async def test_user_cloud_login_api_error(hass: UniversalAssistant) -> None:
     """Test the cloud login flow with API error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -1370,7 +1370,7 @@ async def test_user_cloud_login_api_error(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
-async def test_user_cloud_login_unknown_error(hass: __HAC_KEEP__) -> None:
+async def test_user_cloud_login_unknown_error(hass: UniversalAssistant) -> None:
     """Test the cloud login step shows unknown error for unexpected exceptions."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -1437,7 +1437,7 @@ async def test_user_cloud_login_unknown_error(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
-async def test_user_cloud_login_then_encrypted_device(hass: __HAC_KEEP__) -> None:
+async def test_user_cloud_login_then_encrypted_device(hass: UniversalAssistant) -> None:
     """Test cloud login followed by encrypted device setup using saved credentials."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -1534,7 +1534,7 @@ async def test_user_cloud_login_then_encrypted_device(hass: __HAC_KEEP__) -> Non
 
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
-async def test_user_no_devices(hass: __HAC_KEEP__) -> None:
+async def test_user_no_devices(hass: UniversalAssistant) -> None:
     """Test the user initiated form with password and valid mac."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -1556,7 +1556,7 @@ async def test_user_no_devices(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
 async def test_async_step_user_takes_precedence_over_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test manual setup takes precedence over discovery."""
     result = await hass.config_entries.flow.async_init(
@@ -1603,7 +1603,7 @@ async def test_async_step_user_takes_precedence_over_discovery(
     assert not hass.config_entries.flow.async_progress(DOMAIN)
 
 
-async def test_options_flow(hass: __HAC_KEEP__) -> None:
+async def test_options_flow(hass: UniversalAssistant) -> None:
     """Test updating options."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1667,7 +1667,7 @@ async def test_options_flow(hass: __HAC_KEEP__) -> None:
     assert entry.options[CONF_RETRY_COUNT] == 6
 
 
-async def test_options_flow_lock_pro(hass: __HAC_KEEP__) -> None:
+async def test_options_flow_lock_pro(hass: UniversalAssistant) -> None:
     """Test updating options."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1731,7 +1731,7 @@ async def test_options_flow_lock_pro(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("sensor_type", ["curtain", "curtain_3"])
 async def test_options_flow_curtain_speed(
-    hass: __HAC_KEEP__, sensor_type: str
+    hass: UniversalAssistant, sensor_type: str
 ) -> None:
     """Test updating curtain speed option."""
     entry = MockConfigEntry(
@@ -1776,7 +1776,7 @@ async def test_options_flow_curtain_speed(
 
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
-async def test_user_setup_worelay_switch_1pm_key(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_worelay_switch_1pm_key(hass: UniversalAssistant) -> None:
     """Test the user initiated form for a relay switch 1pm."""
 
     result = await hass.config_entries.flow.async_init(
@@ -1833,7 +1833,7 @@ async def test_user_setup_worelay_switch_1pm_key(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
-async def test_user_setup_worelay_switch_1pm_auth(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_worelay_switch_1pm_auth(hass: UniversalAssistant) -> None:
     """Test the user initiated form for a relay switch 1pm."""
 
     result = await hass.config_entries.flow.async_init(
@@ -1914,7 +1914,7 @@ async def test_user_setup_worelay_switch_1pm_auth(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_scanners_all_passive")
 async def test_user_setup_worelay_switch_1pm_auth_switchbot_api_down(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test user form for relay switch 1pm when switchbot api is down."""
 
@@ -1960,7 +1960,7 @@ async def test_user_setup_worelay_switch_1pm_auth_switchbot_api_down(
     assert result["description_placeholders"] == {"error_detail": "Switchbot API down"}
 
 
-async def test_user_show_menu_when_passive_scanner_present(hass: __HAC_KEEP__) -> None:
+async def test_user_show_menu_when_passive_scanner_present(hass: UniversalAssistant) -> None:
     """Test that menu is shown when any scanner is in passive mode."""
     mock_scanner_active = Mock()
     mock_scanner_active.current_mode = BluetoothScanningMode.ACTIVE
@@ -2010,7 +2010,7 @@ async def test_user_show_menu_when_passive_scanner_present(hass: __HAC_KEEP__) -
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_user_show_menu_when_no_scanners(hass: __HAC_KEEP__) -> None:
+async def test_user_show_menu_when_no_scanners(hass: UniversalAssistant) -> None:
     """Test that menu is shown when no scanners are available."""
     with (
         patch(
@@ -2057,7 +2057,7 @@ async def test_user_show_menu_when_no_scanners(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.parametrize("sensor_type", ["lock_pro_wifi", "lock_ultra_max"])
 async def test_options_flow_lock_with_night_latch(
-    hass: __HAC_KEEP__, sensor_type: str
+    hass: UniversalAssistant, sensor_type: str
 ) -> None:
     """Test updating options for locks with night latch support."""
     entry = MockConfigEntry(

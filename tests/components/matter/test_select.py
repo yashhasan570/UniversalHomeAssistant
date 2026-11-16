@@ -10,7 +10,7 @@ import pytest
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -28,7 +28,7 @@ def platform() -> Platform:
 
 @pytest.mark.usefixtures("matter_devices")
 async def test_selects(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -38,7 +38,7 @@ async def test_selects(
 
 @pytest.mark.parametrize("node_fixture", ["mock_dimmable_light"])
 async def test_mode_select_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -88,7 +88,7 @@ async def test_mode_select_entities(
 
 @pytest.mark.parametrize("node_fixture", ["mock_dimmable_light"])
 async def test_attribute_select_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -130,7 +130,7 @@ async def test_attribute_select_entities(
 
 @pytest.mark.parametrize("node_fixture", ["silabs_laundrywasher"])
 async def test_list_select_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -206,7 +206,7 @@ async def test_list_select_entities(
 
 @pytest.mark.parametrize("node_fixture", ["silabs_laundrywasher"])
 async def test_map_select_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -224,7 +224,7 @@ async def test_map_select_entities(
 
 @pytest.mark.parametrize("node_fixture", ["mock_pump"])
 async def test_pump(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -243,7 +243,7 @@ async def test_pump(
 
 @pytest.mark.parametrize("node_fixture", ["aqara_camera_hub_g350"])
 async def test_camera_night_vision(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -320,7 +320,7 @@ async def test_camera_night_vision(
     ],
 )
 async def test_camera_night_vision_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_node: MatterNode,
     night_vision_entity_expected: bool,
 ) -> None:
@@ -331,7 +331,7 @@ async def test_camera_night_vision_discovery(
 
 @pytest.mark.parametrize("node_fixture", ["mock_microwave_oven"])
 async def test_microwave_oven(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -379,7 +379,7 @@ async def test_microwave_oven(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("node_fixture", ["aqara_door_window_p2"])
 async def test_aqara_door_window_p2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -399,7 +399,7 @@ async def test_aqara_door_window_p2(
 
 @pytest.mark.parametrize("node_fixture", ["secuyou_smart_lock"])
 async def test_door_lock_operating_mode_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -463,7 +463,7 @@ async def test_door_lock_operating_mode_select(
 
 @pytest.mark.parametrize("node_fixture", ["mock_chime"])
 async def test_chime_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -503,7 +503,7 @@ async def test_chime_select(
 
 @pytest.mark.parametrize("node_fixture", ["wago_home_relay_16a"])
 async def test_wago_switch_type_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -538,7 +538,7 @@ async def test_wago_switch_type_select(
 
 @pytest.mark.parametrize("node_fixture", ["wago_home_relay_16a"])
 async def test_wago_connection_mode_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -589,7 +589,7 @@ async def test_wago_connection_mode_select(
 
 @pytest.mark.parametrize("node_fixture", ["wago_home_blind_control"])
 async def test_wago_travel_time_mode_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -640,7 +640,7 @@ async def test_wago_travel_time_mode_select(
 
 @pytest.mark.parametrize("node_fixture", ["wago_home_blind_control"])
 async def test_wago_blind_type_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -691,7 +691,7 @@ async def test_wago_blind_type_select(
 
 @pytest.mark.parametrize("node_fixture", ["aqara_led_strip_t2"])
 async def test_aqara_led_strip_t2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:

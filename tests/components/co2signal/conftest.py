@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.co2signal.const import DOMAIN
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from . import VALID_RESPONSE
@@ -35,7 +35,7 @@ def mock_electricity_maps() -> Generator[MagicMock]:
 
 
 @pytest.fixture(name="config_entry")
-async def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Return a MockConfigEntry for testing."""
     return MockConfigEntry(
         domain=DOMAIN,
@@ -46,7 +46,7 @@ async def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 @pytest.fixture(name="setup_integration")
 async def mock_setup_integration(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, electricity_maps: AsyncMock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, electricity_maps: AsyncMock
 ) -> None:
     """Fixture for setting up the component."""
     config_entry.add_to_hass(hass)

@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.freedompro.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 LOGGER = logging.getLogger(__name__)
 
@@ -15,7 +15,7 @@ ENTITY_ID = f"{DOMAIN}.fake_name"
 
 
 async def test_async_setup_entry(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Test a successful setup entry."""
     entry = init_integration
@@ -24,7 +24,7 @@ async def test_async_setup_entry(
     assert state is not None
 
 
-async def test_config_not_ready(hass: __HAC_KEEP__) -> None:
+async def test_config_not_ready(hass: UniversalAssistant) -> None:
     """Test for setup failure if connection to Freedompro is missing."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -47,7 +47,7 @@ async def test_config_not_ready(hass: __HAC_KEEP__) -> None:
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__, init_integration: MockConfigEntry
+    hass: UniversalAssistant, init_integration: MockConfigEntry
 ) -> None:
     """Test successful unload of entry."""
     entry = init_integration

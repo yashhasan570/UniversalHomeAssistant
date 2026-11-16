@@ -16,8 +16,8 @@ from universalassistant.components.camera import (
 )
 from universalassistant.components.demo import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.setup import async_setup_component
 
 ENTITY_CAMERA = "camera.demo_camera"
@@ -34,7 +34,7 @@ def camera_only() -> Generator[None]:
 
 
 @pytest.fixture(autouse=True)
-async def demo_camera(hass: __HAC_KEEP__, camera_only: None) -> None:
+async def demo_camera(hass: UniversalAssistant, camera_only: None) -> None:
     """Initialize a demo camera platform."""
     assert await async_setup_component(
         hass, CAMERA_DOMAIN, {CAMERA_DOMAIN: {"platform": DOMAIN}}
@@ -42,7 +42,7 @@ async def demo_camera(hass: __HAC_KEEP__, camera_only: None) -> None:
     await hass.async_block_till_done()
 
 
-async def test_init_state_is_streaming(hass: __HAC_KEEP__) -> None:
+async def test_init_state_is_streaming(hass: UniversalAssistant) -> None:
     """Demo camera initialize as streaming."""
     state = hass.states.get(ENTITY_CAMERA)
     assert state.state == CameraState.STREAMING
@@ -55,7 +55,7 @@ async def test_init_state_is_streaming(hass: __HAC_KEEP__) -> None:
         assert image.content == b"ON"
 
 
-async def test_turn_on_state_back_to_streaming(hass: __HAC_KEEP__) -> None:
+async def test_turn_on_state_back_to_streaming(hass: UniversalAssistant) -> None:
     """After turn on state back to streaming."""
     state = hass.states.get(ENTITY_CAMERA)
     assert state.state == CameraState.STREAMING
@@ -75,18 +75,18 @@ async def test_turn_on_state_back_to_streaming(hass: __HAC_KEEP__) -> None:
     assert state.state == CameraState.STREAMING
 
 
-async def test_turn_off_image(hass: __HAC_KEEP__) -> None:
+async def test_turn_off_image(hass: UniversalAssistant) -> None:
     """After turn off, Demo camera raise error."""
     await hass.services.async_call(
         CAMERA_DOMAIN, SERVICE_TURN_OFF, {ATTR_ENTITY_ID: ENTITY_CAMERA}, blocking=True
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as error:
+    with pytest.raises(UniversalAssistantError) as error:
         await async_get_image(hass, ENTITY_CAMERA)
     assert error.value.args[0] == "Camera is off"
 
 
-async def test_turn_off_invalid_camera(hass: __HAC_KEEP__) -> None:
+async def test_turn_off_invalid_camera(hass: UniversalAssistant) -> None:
     """Turn off non-exist camera should quietly fail."""
     state = hass.states.get(ENTITY_CAMERA)
     assert state.state == CameraState.STREAMING
@@ -102,7 +102,7 @@ async def test_turn_off_invalid_camera(hass: __HAC_KEEP__) -> None:
     assert state.state == CameraState.STREAMING
 
 
-async def test_motion_detection(hass: __HAC_KEEP__) -> None:
+async def test_motion_detection(hass: UniversalAssistant) -> None:
     """Test motion detection services."""
 
     # Fetch state and check motion detection attribute

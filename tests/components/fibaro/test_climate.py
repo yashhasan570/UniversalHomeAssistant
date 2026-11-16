@@ -6,14 +6,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.climate import ClimateEntityFeature, HVACMode
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import init_integration
 
 
 async def test_climate_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
@@ -42,7 +42,7 @@ async def test_climate_setup(
 
 
 async def test_climate_setup_2_quickapps(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
@@ -72,7 +72,7 @@ async def test_climate_setup_2_quickapps(
 
 
 async def test_hvac_mode_preset(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_thermostat: Mock,
@@ -94,7 +94,7 @@ async def test_hvac_mode_preset(
 
 
 async def test_hvac_mode_heat(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_thermostat: Mock,
@@ -117,7 +117,7 @@ async def test_hvac_mode_heat(
 
 
 async def test_set_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_thermostat: Mock,
@@ -147,7 +147,7 @@ async def test_set_hvac_mode(
 
 
 async def test_hvac_mode_with_operation_mode_support(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_thermostat_with_operating_mode: Mock,
@@ -168,7 +168,7 @@ async def test_hvac_mode_with_operation_mode_support(
 
 
 async def test_set_hvac_mode_with_operation_mode_support(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_thermostat_with_operating_mode: Mock,
@@ -198,7 +198,7 @@ async def test_set_hvac_mode_with_operation_mode_support(
 
 
 async def test_fan_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_thermostat_parent: Mock,
@@ -226,7 +226,7 @@ async def test_fan_mode(
 
 
 async def test_set_fan_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_thermostat_parent: Mock,
@@ -262,7 +262,7 @@ async def test_set_fan_mode(
 
 
 async def test_target_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_thermostat_parent: Mock,
@@ -289,7 +289,7 @@ async def test_target_temperature(
 
 
 async def test_set_target_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_thermostat_parent: Mock,

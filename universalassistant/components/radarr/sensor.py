@@ -15,7 +15,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import EntityCategory, UnitOfInformation
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -54,7 +54,7 @@ def get_modified_description(
 
 @callback
 def async_migrate_disk_space_unique_ids(
-    hass: __HAC_KEEP__, entry: RadarrConfigEntry, mounts: list[RootFolder]
+    hass: UniversalAssistant, entry: RadarrConfigEntry, mounts: list[RootFolder]
 ) -> None:
     """Migrate disk space sensors from folder name to root folder ID unique IDs."""
     entity_registry = er.async_get(hass)
@@ -145,7 +145,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: RadarrConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

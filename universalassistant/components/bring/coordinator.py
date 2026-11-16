@@ -19,7 +19,7 @@ from bring_api import (
 from mashumaro.mixins.orjson import DataClassORJSONMixin
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -68,7 +68,7 @@ class BringDataUpdateCoordinator(BringBaseCoordinator[dict[str, BringData]]):
     user_settings: BringUserSettingsResponse
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: BringConfigEntry, bring: Bring
+        self, hass: UniversalAssistant, config_entry: BringConfigEntry, bring: Bring
     ) -> None:
         """Initialize the Bring data coordinator."""
         super().__init__(
@@ -185,7 +185,7 @@ class BringActivityCoordinator(BringBaseCoordinator[dict[str, BringActivityData]
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: BringConfigEntry,
         coordinator: BringDataUpdateCoordinator,
     ) -> None:

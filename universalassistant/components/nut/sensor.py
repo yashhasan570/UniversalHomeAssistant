@@ -20,7 +20,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfTime,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import outlet_numbers_from_status
@@ -1045,7 +1045,7 @@ SENSOR_TYPES: Final[dict[str, SensorEntityDescription]] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: NutConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

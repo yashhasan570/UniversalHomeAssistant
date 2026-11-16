@@ -14,7 +14,7 @@
     "flow_title": "{host}",
     "step": {
       "confirm": {
-        "description": "Do you want to add Arcam FMJ on `{host}` to __HA_KEEP__?"
+        "description": "Do you want to add Arcam FMJ on `{host}` to Universal Home Assistant?"
       },
       "reconfigure": {
         "data": {

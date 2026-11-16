@@ -5,7 +5,7 @@ from typing import Any, cast, override
 
 from universalassistant.components import light
 from universalassistant.components.light import ColorMode, LightEntity, LightEntityFeature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import EvilGeniusConfigEntry, EvilGeniusUpdateCoordinator
@@ -17,7 +17,7 @@ FIB_NO_EFFECT = "Solid Color"
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: EvilGeniusConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

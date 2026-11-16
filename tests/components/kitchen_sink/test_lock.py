@@ -14,7 +14,7 @@ from universalassistant.components.lock import (
     LockState,
 )
 from universalassistant.const import EVENT_STATE_CHANGED, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 LOCKED_LOCK = "lock.basic_lock"
@@ -33,19 +33,19 @@ async def lock_only() -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_comp(hass: __HAC_KEEP__, lock_only):
+async def setup_comp(hass: UniversalAssistant, lock_only):
     """Set up demo component."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     await hass.async_block_till_done()
 
 
-async def test_states(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
+async def test_states(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
     """Test the expected lock entities are added."""
     states = hass.states.async_all()
     assert set(states) == snapshot
 
 
-async def test_locking(hass: __HAC_KEEP__) -> None:
+async def test_locking(hass: UniversalAssistant) -> None:
     """Test the locking of a lock."""
     state = hass.states.get(UNLOCKED_LOCK)
     assert state.state == LockState.UNLOCKED
@@ -67,7 +67,7 @@ async def test_locking(hass: __HAC_KEEP__) -> None:
     assert state_changes[1].data["new_state"].state == LockState.LOCKED
 
 
-async def test_unlocking(hass: __HAC_KEEP__) -> None:
+async def test_unlocking(hass: UniversalAssistant) -> None:
     """Test the unlocking of a lock."""
     state = hass.states.get(LOCKED_LOCK)
     assert state.state == LockState.LOCKED
@@ -89,7 +89,7 @@ async def test_unlocking(hass: __HAC_KEEP__) -> None:
     assert state_changes[1].data["new_state"].state == LockState.UNLOCKED
 
 
-async def test_opening_mocked(hass: __HAC_KEEP__) -> None:
+async def test_opening_mocked(hass: UniversalAssistant) -> None:
     """Test the opening of a lock."""
     calls = async_mock_service(hass, LOCK_DOMAIN, SERVICE_OPEN)
     await hass.services.async_call(
@@ -101,7 +101,7 @@ async def test_opening_mocked(hass: __HAC_KEEP__) -> None:
     assert len(calls) == 1
 
 
-async def test_opening(hass: __HAC_KEEP__) -> None:
+async def test_opening(hass: UniversalAssistant) -> None:
     """Test the opening of a lock."""
     await hass.services.async_call(
         LOCK_DOMAIN,

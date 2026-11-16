@@ -7,7 +7,7 @@ from pyeconet.equipment import EquipmentType
 from pyeconet.equipment.thermostat import Thermostat, ThermostatOperationMode
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import EconetConfigEntry
@@ -17,7 +17,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: EconetConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

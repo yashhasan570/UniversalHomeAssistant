@@ -21,8 +21,8 @@ from universalassistant.const import (
     STATE_OFF,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -32,7 +32,7 @@ ENTITY_ID = "remote.bravia_tv_model"
 
 @pytest.mark.usefixtures("mock_braviatv_client")
 async def test_remote(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -45,7 +45,7 @@ async def test_remote(
 
 
 async def test_remote_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_remote_off(
     [(SERVICE_TURN_ON, "turn_on"), (SERVICE_TURN_OFF, "turn_off")],
 )
 async def test_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
     service: str,
@@ -91,7 +91,7 @@ async def test_turn_on_off(
     ],
 )
 async def test_send_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
     extra_data: dict[str, Any],
@@ -111,7 +111,7 @@ async def test_send_command(
 
 
 async def test_send_command_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
 ) -> None:
@@ -141,7 +141,7 @@ async def test_send_command_unsupported(
 
 
 async def test_send_command_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
 ) -> None:
@@ -151,7 +151,7 @@ async def test_send_command_error(
     mock_braviatv_client.send_command.side_effect = BraviaError
 
     with pytest.raises(
-        __HAC_KEEP__Error, match="Error sending command to BRAVIA TV-Model"
+        UniversalAssistantError, match="Error sending command to BRAVIA TV-Model"
     ):
         await hass.services.async_call(
             REMOTE_DOMAIN,

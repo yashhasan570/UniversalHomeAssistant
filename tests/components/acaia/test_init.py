@@ -20,7 +20,7 @@ from universalassistant.components.acaia.const import CONF_IDLE_TIMEOUT, DOMAIN
 from universalassistant.components.bluetooth import MONOTONIC_TIME, SOURCE_LOCAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 pytestmark = pytest.mark.usefixtures("init_integration")
@@ -46,7 +46,7 @@ def track_connection_state(mock_scale: MagicMock) -> None:
     mock_scale.disconnect.side_effect = _disconnect
 
 
-def _advertise(hass: __HAC_KEEP__, time: float) -> None:
+def _advertise(hass: UniversalAssistant, time: float) -> None:
     """Inject an advertisement from the scale, always with the same data."""
     inject_advertisement_with_time_and_source(
         hass,
@@ -58,7 +58,7 @@ def _advertise(hass: __HAC_KEEP__, time: float) -> None:
 
 
 async def _tick(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, minutes: float
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, minutes: float
 ) -> None:
     """Advance time and let the integration poll."""
     freezer.tick(timedelta(minutes=minutes))
@@ -66,7 +66,7 @@ async def _tick(
     await hass.async_block_till_done()
 
 
-def _weight_state(hass: __HAC_KEEP__) -> str:
+def _weight_state(hass: UniversalAssistant) -> str:
     """Return the state of the weight entity."""
     state = hass.states.get(WEIGHT_ENTITY_ID)
     assert state
@@ -74,7 +74,7 @@ def _weight_state(hass: __HAC_KEEP__) -> str:
 
 
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test loading and unloading the integration."""
@@ -88,7 +88,7 @@ async def test_load_unload_config_entry(
 
 
 async def test_unload_disconnects_scale(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_scale: MagicMock,
 ) -> None:
@@ -101,7 +101,7 @@ async def test_unload_disconnects_scale(
 
 
 async def test_unload_cancels_pending_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_scale: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -132,7 +132,7 @@ async def test_unload_cancels_pending_connect(
 
 
 async def test_no_reconnect_while_unloading(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_scale: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -166,7 +166,7 @@ async def test_no_reconnect_while_unloading(
 
 
 async def test_scale_stays_connected_without_idle_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_scale: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -178,7 +178,7 @@ async def test_scale_stays_connected_without_idle_timeout(
 
 @idle_timeout_5_minutes
 async def test_weight_change_resets_idle_timer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_scale: MagicMock,
     mock_scale_class: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -205,7 +205,7 @@ async def test_weight_change_resets_idle_timer(
     [pytest.param(0, id="resumes_between_polls"), pytest.param(3, id="polled")],
 )
 async def test_reconnects_after_scale_turns_off_and_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_scale: MagicMock,
     freezer: FrozenDateTimeFactory,
     polls_during_silence: int,
@@ -226,7 +226,7 @@ async def test_reconnects_after_scale_turns_off_and_on(
 
 @idle_timeout_5_minutes
 async def test_no_reconnect_while_scale_advertises_after_idle_disconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_scale: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -242,7 +242,7 @@ async def test_no_reconnect_while_scale_advertises_after_idle_disconnect(
 
 @idle_timeout_5_minutes
 async def test_no_advertising_while_connected_does_not_count_as_turned_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_scale: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -260,7 +260,7 @@ async def test_no_advertising_while_connected_does_not_count_as_turned_off(
     "exception", [AcaiaError, AcaiaDeviceNotFound("Boom"), TimeoutError]
 )
 async def test_update_exception_leads_to_active_disconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_scale: MagicMock,
     freezer: FrozenDateTimeFactory,
     exception: Exception,

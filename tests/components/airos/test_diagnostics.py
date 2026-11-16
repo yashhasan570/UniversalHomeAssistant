@@ -8,13 +8,13 @@ from pytest_universalassistant.typing import Any, ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.airos.coordinator import AirOS8Data
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
 
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_airos_client: MagicMock,
     mock_config_entry: MockConfigEntry,

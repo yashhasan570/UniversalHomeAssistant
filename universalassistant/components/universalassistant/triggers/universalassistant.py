@@ -1,9 +1,9 @@
-"""Offer __HA_KEEP__ core automation rules."""
+"""Offer Universal Home Assistant core automation rules."""
 
 import probatio
 
 from universalassistant.const import CONF_EVENT, CONF_PLATFORM, EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import CALLBACK_TYPE, Event, HassJob, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, Event, HassJob, UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
 from universalassistant.helpers.typing import ConfigType
@@ -22,7 +22,7 @@ TRIGGER_SCHEMA = cv.TRIGGER_BASE_SCHEMA.extend(
 
 
 async def async_attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,
@@ -40,7 +40,7 @@ async def async_attach_trigger(
                     **trigger_data,
                     "platform": DOMAIN,
                     "event": event,
-                    "description": "__HA_KEEP__ stopping",
+                    "description": "Universal Home Assistant stopping",
                 }
             },
         )
@@ -58,7 +58,7 @@ async def async_attach_trigger(
                     **trigger_data,
                     "platform": DOMAIN,
                     "event": event,
-                    "description": "__HA_KEEP__ starting",
+                    "description": "Universal Home Assistant starting",
                 }
             },
         )

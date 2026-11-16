@@ -11,7 +11,7 @@ from universalassistant.components.swisscom.const import DOMAIN
 from universalassistant.components.swisscom.coordinator import SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_HOME, STATE_NOT_HOME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -42,7 +42,7 @@ def _client(mac: str, name: str | None, *, active: bool = True) -> MagicMock:
     ],
 )
 async def test_device_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_swisscom_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -77,7 +77,7 @@ async def test_device_info(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_device_renamed_on_hostname_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_swisscom_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -117,7 +117,7 @@ async def test_device_renamed_on_hostname_change(
 
 
 async def test_disabled_tracker_device_renamed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_swisscom_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -145,7 +145,7 @@ async def test_disabled_tracker_device_renamed(
 
 
 async def test_reload_without_name_keeps_device_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_swisscom_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -186,7 +186,7 @@ async def test_reload_without_name_keeps_device_name(
     ],
 )
 async def test_remove_config_entry_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     mock_swisscom_client: MagicMock,
@@ -243,7 +243,7 @@ async def test_remove_config_entry_device(
     ],
 )
 async def test_remove_config_entry_device_unloaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_swisscom_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -280,7 +280,7 @@ async def test_remove_config_entry_device_unloaded(
 
 
 async def test_removed_client_rediscovered(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     mock_swisscom_client: MagicMock,
@@ -324,7 +324,7 @@ async def test_removed_client_rediscovered(
 
 
 async def test_removed_inactive_client_stays_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     mock_swisscom_client: MagicMock,
@@ -379,7 +379,7 @@ async def test_removed_inactive_client_stays_removed(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_inactive_client_tracker_set_up_after_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_swisscom_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -399,7 +399,7 @@ async def test_inactive_client_tracker_set_up_after_reload(
 
 
 async def test_new_inactive_client_not_tracked_until_active(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_swisscom_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -437,7 +437,7 @@ async def test_new_inactive_client_not_tracked_until_active(
 
 @pytest.mark.usefixtures("mock_swisscom_client")
 async def test_remove_config_entry_device_rejects_child_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,

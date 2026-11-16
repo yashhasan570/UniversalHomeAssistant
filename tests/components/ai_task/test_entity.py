@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.ai_task import async_generate_data
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import selector
 
 from .conftest import TEST_ENTITY_ID, MockAITaskEntity
@@ -14,7 +14,7 @@ from .conftest import TEST_ENTITY_ID, MockAITaskEntity
 
 @pytest.mark.freeze_time("2025-06-08 16:28:13")
 async def test_state_generate_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
     mock_config_entry: MockConfigEntry,
     mock_ai_task_entity: MockAITaskEntity,
@@ -41,7 +41,7 @@ async def test_state_generate_data(
 
 
 async def test_generate_structured_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_components: None,
     mock_config_entry: MockConfigEntry,
     mock_ai_task_entity: MockAITaskEntity,

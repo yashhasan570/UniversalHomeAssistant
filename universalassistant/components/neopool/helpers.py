@@ -9,7 +9,7 @@ from neopool_modbus.decoders import encode_device_time
 from neopool_modbus.registers import framer_to_socket_name
 
 from universalassistant.const import CONF_DEVICE, CONF_HOST, CONF_PORT, CONF_TYPE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 import universalassistant.util.dt as dt_util
 
 from .const import (
@@ -22,7 +22,7 @@ from .const import (
 )
 
 
-def prepare_device_time(hass: __HAC_KEEP__) -> int:
+def prepare_device_time(hass: UniversalAssistant) -> int:
     """Return the unix timestamp the device should display as local wall-clock."""
     tz = dt_util.get_time_zone(hass.config.time_zone) or dt.UTC
     return encode_device_time(dt_util.now(tz))

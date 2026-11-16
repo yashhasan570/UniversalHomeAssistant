@@ -26,7 +26,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.restore_state import STORAGE_KEY as RESTORE_STATE_KEY
@@ -95,7 +95,7 @@ MINIMUM_REQUIREMENTS = {
 
 
 async def _call_and_assert_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls: list[ServiceCall],
     service: str,
     service_data: ConfigType | None = None,
@@ -122,7 +122,7 @@ async def _call_and_assert_action(
 
 @pytest.fixture
 async def setup_base_water_heater(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     count: int,
     style: ConfigurationStyle,
     config: dict[str, Any],
@@ -133,7 +133,7 @@ async def setup_base_water_heater(
 
 @pytest.fixture
 async def setup_water_heater(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     config: dict[str, Any],
     extra_config: dict[str, Any],
@@ -146,7 +146,7 @@ async def setup_water_heater(
 
 @pytest.fixture
 async def setup_single_attribute_water_heater(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     attribute: str,
     attribute_template: str,
@@ -188,7 +188,7 @@ async def setup_single_attribute_water_heater(
     ],
 )
 @pytest.mark.usefixtures("setup_single_attribute_water_heater")
-async def test_temperature_template(hass: __HAC_KEEP__, expected: Any) -> None:
+async def test_temperature_template(hass: UniversalAssistant, expected: Any) -> None:
     """Test template current_temperature."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, "anything")
 
@@ -222,7 +222,7 @@ async def test_temperature_template(hass: __HAC_KEEP__, expected: Any) -> None:
     ],
 )
 @pytest.mark.usefixtures("setup_single_attribute_water_heater")
-async def test_operation_list_template(hass: __HAC_KEEP__, expected: Any) -> None:
+async def test_operation_list_template(hass: UniversalAssistant, expected: Any) -> None:
     """Test operation_list template."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, "anything")
 
@@ -254,7 +254,7 @@ async def test_operation_list_template(hass: __HAC_KEEP__, expected: Any) -> Non
     ],
 )
 @pytest.mark.usefixtures("setup_single_attribute_water_heater")
-async def test_operation_mode_template(hass: __HAC_KEEP__, expected: Any) -> None:
+async def test_operation_mode_template(hass: UniversalAssistant, expected: Any) -> None:
     """Test operation_mode template."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, "anything")
 
@@ -280,7 +280,7 @@ async def test_operation_mode_template(hass: __HAC_KEEP__, expected: Any) -> Non
     ],
 )
 async def test_missing_required_operation_mode_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     config: ConfigType,
     option: str,
@@ -303,7 +303,7 @@ async def test_missing_required_operation_mode_option(
 )
 @pytest.mark.usefixtures("setup_water_heater")
 async def test_set_operation_mode_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls: list[ServiceCall],
 ) -> None:
     """Test setting valid operation mode via action."""
@@ -341,7 +341,7 @@ async def test_set_operation_mode_action(
 )
 @pytest.mark.usefixtures("setup_water_heater")
 async def test_optimistic_set_operation_mode_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls: list[ServiceCall],
 ) -> None:
     """Test optimistic set_operation_mode action."""
@@ -415,7 +415,7 @@ async def test_optimistic_set_operation_mode_action(
     ],
 )
 @pytest.mark.usefixtures("setup_single_attribute_water_heater")
-async def test_target_temperature_template(hass: __HAC_KEEP__, expected: Any) -> None:
+async def test_target_temperature_template(hass: UniversalAssistant, expected: Any) -> None:
     """Test template target_temperature."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, "anything")
 
@@ -434,7 +434,7 @@ async def test_target_temperature_template(hass: __HAC_KEEP__, expected: Any) ->
     ],
 )
 async def test_missing_set_temperature_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     config: ConfigType,
     caplog: pytest.LogCaptureFixture,
@@ -454,7 +454,7 @@ async def test_missing_set_temperature_config(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 async def test_set_temperature_action_with_operation_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     calls: list[ServiceCall],
 ) -> None:
@@ -509,7 +509,7 @@ async def test_set_temperature_action_with_operation_mode(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 async def test_set_temperature_action_with_invalid_operation_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     calls: list[ServiceCall],
 ) -> None:
@@ -572,7 +572,7 @@ async def test_set_temperature_action_with_invalid_operation_mode(
 )
 @pytest.mark.usefixtures("setup_water_heater")
 async def test_optimistic_set_temperature_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     action_variables: ConfigType,
     expected_variables: ConfigType,
     expected_attributes: ConfigType,
@@ -637,7 +637,7 @@ async def test_optimistic_set_temperature_action(
 )
 @pytest.mark.usefixtures("setup_water_heater")
 async def test_target_temperature_step(
-    hass: __HAC_KEEP__, set_attribute: float, expected: float
+    hass: UniversalAssistant, set_attribute: float, expected: float
 ) -> None:
     """Test target temperature step."""
     await async_trigger(
@@ -660,7 +660,7 @@ async def test_target_temperature_step(
 )
 @pytest.mark.parametrize("value", ["not a number", None])
 async def test_bad_min_max_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     option: str,
     option_type: str,
@@ -706,7 +706,7 @@ async def test_bad_min_max_options(
     ],
 )
 @pytest.mark.usefixtures("setup_single_attribute_water_heater")
-async def test_away_mode_template(hass: __HAC_KEEP__, expected: Any) -> None:
+async def test_away_mode_template(hass: UniversalAssistant, expected: Any) -> None:
     """Test template away_mode."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, "anything")
 
@@ -726,7 +726,7 @@ async def test_away_mode_template(hass: __HAC_KEEP__, expected: Any) -> None:
     ],
 )
 async def test_bad_away_mode_actions_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     config: ConfigType,
     caplog: pytest.LogCaptureFixture,
@@ -748,7 +748,7 @@ async def test_bad_away_mode_actions_config(
 )
 @pytest.mark.usefixtures("setup_water_heater")
 async def test_optimistic_away_mode_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls: list[ServiceCall],
 ) -> None:
     """Test optimistic away mode actions."""
@@ -799,7 +799,7 @@ async def test_optimistic_away_mode_actions(
 )
 @pytest.mark.usefixtures("setup_water_heater")
 async def test_turn_on_off_actions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     calls: list[ServiceCall],
 ) -> None:
     """Test turn_on and turn_off actions."""
@@ -822,7 +822,7 @@ async def test_turn_on_off_actions(
     ],
 )
 async def test_bad_on_off_actions_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     config: ConfigType,
     caplog: pytest.LogCaptureFixture,
@@ -841,7 +841,7 @@ async def test_bad_on_off_actions_config(
     "value", [UnitOfTemperature.CELSIUS, UnitOfTemperature.FAHRENHEIT]
 )
 async def test_temperature_unit(
-    hass: __HAC_KEEP__, style: ConfigurationStyle, value: str
+    hass: UniversalAssistant, style: ConfigurationStyle, value: str
 ) -> None:
     """Test temperature_unit option."""
     platform = TEST_WATER_HEATER
@@ -865,7 +865,7 @@ async def test_temperature_unit(
 )
 @pytest.mark.parametrize("value", [-1, 0.0, "not a number", False, None])
 async def test_bad_temperature_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     value: Any,
 ) -> None:
@@ -898,7 +898,7 @@ async def test_bad_temperature_unit(
     ],
 )
 @pytest.mark.usefixtures("setup_single_attribute_water_heater")
-async def test_available_template_with_entities(hass: __HAC_KEEP__) -> None:
+async def test_available_template_with_entities(hass: UniversalAssistant) -> None:
     """Test availability templates with values from other entities."""
     hass.states.async_set(TEST_AVAILABILITY_ENTITY, STATE_ON)
     await hass.async_block_till_done()
@@ -935,7 +935,7 @@ async def test_available_template_with_entities(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("setup_single_attribute_water_heater")
 async def test_invalid_availability_template_keeps_component_available(
-    hass: __HAC_KEEP__, caplog_setup_text: str
+    hass: UniversalAssistant, caplog_setup_text: str
 ) -> None:
     """Test that an invalid availability keeps the device available."""
     assert hass.states.get(TEST_WATER_HEATER.entity_id).state != STATE_UNAVAILABLE
@@ -948,7 +948,7 @@ async def test_invalid_availability_template_keeps_component_available(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 async def test_unique_id(
-    hass: __HAC_KEEP__, style: ConfigurationStyle, config: ConfigType
+    hass: UniversalAssistant, style: ConfigurationStyle, config: ConfigType
 ) -> None:
     """Test unique_id option only creates one entity per id."""
     await setup_and_test_unique_id(hass, TEST_WATER_HEATER, style, config)
@@ -959,7 +959,7 @@ async def test_unique_id(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_nested_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     config: ConfigType,
     entity_registry: er.EntityRegistry,
@@ -971,7 +971,7 @@ async def test_nested_unique_id(
 
 
 async def test_setup_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Tests creating a entity from a config entry."""
@@ -998,7 +998,7 @@ async def test_setup_config_entry(
 
 
 async def test_flow_preview(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test the config flow preview."""
@@ -1072,7 +1072,7 @@ async def test_flow_preview(
     ],
 )
 async def test_restore_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     saved_state: str,
     saved_extra_data: dict | None,
@@ -1133,7 +1133,7 @@ async def test_restore_state(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_saving_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -1198,7 +1198,7 @@ async def test_saving_state(
     ],
 )
 async def test_invalid_yaml_actions_do_not_create_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     action: str,
     config: ConfigType,
@@ -1228,7 +1228,7 @@ async def test_invalid_yaml_actions_do_not_create_entities(
     ],
 )
 async def test_invalid_config_entry_actions_do_not_create_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     action: str,
     config: ConfigType,
     caplog: pytest.LogCaptureFixture,
@@ -1243,7 +1243,7 @@ async def test_invalid_config_entry_actions_do_not_create_entities(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_extra_template_attributes(
-    hass: __HAC_KEEP__, style: ConfigurationStyle
+    hass: UniversalAssistant, style: ConfigurationStyle
 ) -> None:
     """Test extra attributes."""
     await assert_extra_template_attributes(
@@ -1259,7 +1259,7 @@ async def test_extra_template_attributes(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_blocked_template_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     attribute: StrEnum,
     caplog: pytest.LogCaptureFixture,
@@ -1284,7 +1284,7 @@ async def test_blocked_template_attributes(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1306,7 +1306,7 @@ async def test_attributes_template(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template_with_blocked_attributes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     style: ConfigurationStyle,
     attribute: StrEnum,
     caplog: pytest.LogCaptureFixture,

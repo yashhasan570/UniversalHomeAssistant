@@ -9,8 +9,8 @@ from zwave_js_server.model.value import Value
 
 from universalassistant.components.number import DOMAIN as NUMBER_DOMAIN, NumberEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -22,7 +22,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ZwaveJSConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -105,7 +105,7 @@ class ZwaveNumberEntity(ZWaveBaseEntity, NumberEntity):
     async def async_set_native_value(self, value: float) -> None:
         """Set new value."""
         if (target_value := self._target_value) is None:
-            raise __HAC_KEEP__Error("Missing target value on device.")
+            raise UniversalAssistantError("Missing target value on device.")
         await self._async_set_value(target_value, value)
 
 

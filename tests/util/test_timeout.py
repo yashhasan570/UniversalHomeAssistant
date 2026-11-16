@@ -1,4 +1,4 @@
-"""Test __HA_KEEP__ timeout handler."""
+"""Test Universal Home Assistant timeout handler."""
 
 import asyncio
 from contextlib import suppress
@@ -6,7 +6,7 @@ import time
 
 import pytest
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.timeout import TimeoutManager
 
 
@@ -19,7 +19,7 @@ async def test_simple_global_timeout() -> None:
             await asyncio.sleep(0.3)
 
 
-async def test_simple_global_timeout_with_executor_job(hass: __HAC_KEEP__) -> None:
+async def test_simple_global_timeout_with_executor_job(hass: UniversalAssistant) -> None:
     """Test a simple global timeout with executor job."""
     timeout = TimeoutManager()
 
@@ -49,7 +49,7 @@ async def test_simple_global_timeout_cancel_message() -> None:
 
 
 async def test_simple_zone_timeout_freeze_inside_executor_job(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a simple zone timeout freeze inside an executor job."""
     timeout = TimeoutManager()
@@ -66,7 +66,7 @@ async def test_simple_zone_timeout_freeze_inside_executor_job(
 
 
 async def test_simple_global_timeout_freeze_inside_executor_job(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a simple global timeout freeze inside an executor job."""
     timeout = TimeoutManager()
@@ -80,7 +80,7 @@ async def test_simple_global_timeout_freeze_inside_executor_job(
 
 
 async def test_mix_global_timeout_freeze_and_zone_freeze_inside_executor_job(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a simple global timeout freeze inside an executor job."""
     timeout = TimeoutManager()
@@ -97,7 +97,7 @@ async def test_mix_global_timeout_freeze_and_zone_freeze_inside_executor_job(
 
 
 async def test_mix_global_timeout_freeze_and_zone_freeze_different_order(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test global timeout freeze in executor job before timeout set."""
     timeout = TimeoutManager()
@@ -113,7 +113,7 @@ async def test_mix_global_timeout_freeze_and_zone_freeze_different_order(
 
 
 async def test_mix_global_timeout_freeze_and_zone_freeze_other_zone_inside_executor_job(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a simple global timeout freeze other zone inside an executor job."""
     timeout = TimeoutManager()
@@ -132,7 +132,7 @@ async def test_mix_global_timeout_freeze_and_zone_freeze_other_zone_inside_execu
 
 
 async def test_mix_global_timeout_freeze_and_zone_freeze_executor_2nd_outside_zone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test global timeout freeze in executor with second job outside zone."""
     timeout = TimeoutManager()
@@ -149,7 +149,7 @@ async def test_mix_global_timeout_freeze_and_zone_freeze_executor_2nd_outside_zo
 
 
 async def test_simple_global_timeout_freeze_with_executor_job(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a simple global timeout freeze with executor job."""
     timeout = TimeoutManager()
@@ -159,7 +159,7 @@ async def test_simple_global_timeout_freeze_with_executor_job(
 
 
 async def test_simple_global_timeout_does_not_leak_upward(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a global timeout does not leak upward."""
     timeout = TimeoutManager()
@@ -178,7 +178,7 @@ async def test_simple_global_timeout_does_not_leak_upward(
 
 
 async def test_simple_global_timeout_does_swallow_cancellation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a global timeout does not swallow cancellation."""
     timeout = TimeoutManager()
@@ -245,7 +245,7 @@ async def test_simple_zone_timeout_cancel_message() -> None:
 
 
 async def test_simple_zone_timeout_does_not_leak_upward(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a zone timeout does not leak upward."""
     timeout = TimeoutManager()
@@ -264,7 +264,7 @@ async def test_simple_zone_timeout_does_not_leak_upward(
 
 
 async def test_simple_zone_timeout_does_swallow_cancellation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a zone timeout does not swallow cancellation."""
     timeout = TimeoutManager()
@@ -422,7 +422,7 @@ async def test_mix_zone_timeout_trigger_global_cool_down() -> None:
 
 
 async def test_simple_zone_timeout_freeze_without_timeout_cleanup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a simple zone timeout freeze on a zone that does not have a timeout set."""
     timeout = TimeoutManager()
@@ -437,7 +437,7 @@ async def test_simple_zone_timeout_freeze_without_timeout_cleanup(
 
 
 async def test_simple_zone_timeout_freeze_without_timeout_cleanup2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a simple zone timeout freeze on a zone that does not have a timeout set."""
     timeout = TimeoutManager()
@@ -478,7 +478,7 @@ async def test_simple_zone_timeout_zone_with_timeout_exception() -> None:
             await asyncio.sleep(0.3)
 
 
-async def test_multiple_global_freezes(hass: __HAC_KEEP__) -> None:
+async def test_multiple_global_freezes(hass: UniversalAssistant) -> None:
     """Test multiple global freezes."""
     timeout = TimeoutManager()
 

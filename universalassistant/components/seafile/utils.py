@@ -11,7 +11,7 @@ from aioseafile import (
     SeafileTimeoutError,
 )
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import DOMAIN, LOGGER
 
@@ -22,28 +22,28 @@ async def handle_seafile_errors() -> AsyncGenerator[None]:
     try:
         yield
     except SeafileAuthenticationError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="invalid_auth",
         ) from err
     except SeafileNotFoundError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="library_not_found",
         ) from err
     except SeafilePermissionError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="permission_denied",
         ) from err
     except SeafileTimeoutError as err:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="timeout_connect",
         ) from err
     except SeafileError as err:
         LOGGER.debug("Seafile API call failed: %s", err)
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             translation_domain=DOMAIN,
             translation_key="api_error",
         ) from err

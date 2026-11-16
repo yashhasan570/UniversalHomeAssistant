@@ -38,8 +38,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.translation import async_get_translations
 
@@ -54,7 +54,7 @@ READBACK_DELAY = timedelta(seconds=5)
 
 
 async def test_entity_registration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -74,7 +74,7 @@ async def test_entity_registration(
 
 
 async def test_push_updates_the_entity(
-    hass: __HAC_KEEP__, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test a status pushed by the gateway reaches the entity."""
     await setup_integration(hass, mock_config_entry)
@@ -92,7 +92,7 @@ async def test_push_updates_the_entity(
 
 
 async def test_push_of_a_switched_off_device(
-    hass: __HAC_KEEP__, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test a device reporting an operation while off still reads as off."""
     await setup_integration(hass, mock_config_entry)
@@ -106,7 +106,7 @@ async def test_push_of_a_switched_off_device(
 
 
 async def test_push_of_an_unknown_operation(
-    hass: __HAC_KEEP__, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test a device that is on but reports an operation we cannot decode."""
     await setup_integration(hass, mock_config_entry)
@@ -120,7 +120,7 @@ async def test_push_of_an_unknown_operation(
 
 
 async def test_scheduled_poll_queries_the_gateway(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -139,7 +139,7 @@ async def test_scheduled_poll_queries_the_gateway(
 
 
 async def test_a_push_does_not_postpone_the_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -168,7 +168,7 @@ async def test_a_push_does_not_postpone_the_poll(
 
 
 async def test_unavailable_when_the_gateway_connection_drops(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -190,7 +190,7 @@ async def test_unavailable_when_the_gateway_connection_drops(
 
 
 async def test_unavailable_when_the_query_cannot_be_sent(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -212,7 +212,7 @@ async def test_unavailable_when_the_query_cannot_be_sent(
 
 
 async def test_turn_on_success(
-    hass: __HAC_KEEP__, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test turn_on does not raise when the command is sent."""
     await setup_integration(hass, mock_config_entry)
@@ -235,7 +235,7 @@ async def test_turn_on_success(
     ],
 )
 async def test_command_send_failure_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -246,7 +246,7 @@ async def test_command_send_failure_raises(
     mock_gateway.send_result = False
     await setup_integration(hass, mock_config_entry)
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             service,
@@ -259,7 +259,7 @@ async def test_command_send_failure_raises(
 
 
 async def test_set_temperature_with_hvac_mode(
-    hass: __HAC_KEEP__, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setting the temperature and the mode in one call sends both."""
     await setup_integration(hass, mock_config_entry)
@@ -280,7 +280,7 @@ async def test_set_temperature_with_hvac_mode(
 
 
 async def test_set_hvac_mode_send_failure_raises(
-    hass: __HAC_KEEP__, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test set_hvac_mode raises when the mode command cannot be sent."""
     # The device is off, so set_hvac_mode turns it on first. Let that command
@@ -288,7 +288,7 @@ async def test_set_hvac_mode_send_failure_raises(
     mock_gateway.send_results = [True, False]
     await setup_integration(hass, mock_config_entry)
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_HVAC_MODE,
@@ -301,7 +301,7 @@ async def test_set_hvac_mode_send_failure_raises(
 
 
 async def test_set_hvac_mode_success(
-    hass: __HAC_KEEP__, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test set_hvac_mode does not raise when the command is sent."""
     await setup_integration(hass, mock_config_entry)
@@ -315,7 +315,7 @@ async def test_set_hvac_mode_success(
 
 
 async def test_set_hvac_mode_off_turns_the_device_off(
-    hass: __HAC_KEEP__, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test switching to off only sends the power command."""
     await setup_integration(hass, mock_config_entry)
@@ -335,7 +335,7 @@ async def test_set_hvac_mode_off_turns_the_device_off(
 
 
 async def test_set_fan_mode_success(
-    hass: __HAC_KEEP__, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test set_fan_mode does not raise when the command is sent."""
     await setup_integration(hass, mock_config_entry)
@@ -351,7 +351,7 @@ async def test_set_fan_mode_success(
 
 
 async def test_set_fan_mode_unsupported_logs_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -371,7 +371,7 @@ async def test_set_fan_mode_unsupported_logs_error(
 
 
 async def test_fan_modes_are_mapped(
-    hass: __HAC_KEEP__, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the gateway's fan modes are offered under their HA names."""
     await setup_integration(hass, mock_config_entry)
@@ -387,7 +387,7 @@ async def test_fan_modes_are_mapped(
 
 
 async def test_device_address_is_used_for_the_entity(
-    hass: __HAC_KEEP__, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_gateway: FakeGateway, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test a gateway with more than one device gets one entity each."""
     mock_gateway.discovery_result = [DEVICE_ADDRESS, (1, 2)]
@@ -399,7 +399,7 @@ async def test_device_address_is_used_for_the_entity(
 
 
 async def test_a_command_is_read_back(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -431,7 +431,7 @@ async def test_a_command_is_read_back(
 
 
 async def test_commands_in_a_row_are_read_back_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -479,7 +479,7 @@ async def test_commands_in_a_row_are_read_back_once(
 
 
 async def test_a_later_command_is_read_back_on_time(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -509,7 +509,7 @@ async def test_a_later_command_is_read_back_on_time(
 
 @pytest.mark.parametrize("expected_lingering_timers", [False])
 async def test_a_pending_readback_does_not_outlive_the_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -539,7 +539,7 @@ async def test_a_pending_readback_does_not_outlive_the_entry(
 
 @pytest.mark.parametrize("expected_lingering_timers", [False])
 async def test_a_command_landing_after_the_unload_schedules_nothing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_gateway: FakeGateway,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -573,7 +573,7 @@ async def test_a_command_landing_after_the_unload_schedules_nothing(
 
 
 async def test_every_fan_mode_has_a_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_gateway: FakeGateway,
     mock_config_entry: MockConfigEntry,

@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.eurotronic_cometblue.coordinator import SCAN_INTERVAL
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import setup_with_selected_platforms
@@ -22,7 +22,7 @@ ENTITY_ID = "sensor.comet_blue_aa_bb_cc_dd_ee_ff_battery"
 
 
 async def test_sensor_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -34,7 +34,7 @@ async def test_sensor_state(
 
 
 async def test_update_data_error_handling(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:

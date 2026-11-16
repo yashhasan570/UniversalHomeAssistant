@@ -13,7 +13,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.firefly_iii.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_URL, CONF_VERIFY_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import MOCK_TEST_CONFIG
@@ -33,7 +33,7 @@ USER_INPUT_RECONFIGURE = {
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_and_flow(
-    hass: __HAC_KEEP__, mock_firefly_client: MagicMock
+    hass: UniversalAssistant, mock_firefly_client: MagicMock
 ) -> None:
     """Test we get the form and can complete the flow."""
     result = await hass.config_entries.flow.async_init(
@@ -75,7 +75,7 @@ async def test_form_and_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_firefly_client: AsyncMock,
     exception: Exception,
     reason: str,
@@ -110,7 +110,7 @@ async def test_form_exceptions(
 
 
 async def test_duplicate_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_firefly_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -133,7 +133,7 @@ async def test_duplicate_entry(
 
 
 async def test_full_flow_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_firefly_client: AsyncMock,
     mock_setup_entry: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -186,7 +186,7 @@ async def test_full_flow_reauth(
     ],
 )
 async def test_reauth_flow_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_firefly_client: AsyncMock,
     mock_setup_entry: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -226,7 +226,7 @@ async def test_reauth_flow_exceptions(
 
 
 async def test_full_flow_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_firefly_client: AsyncMock,
     mock_setup_entry: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -253,7 +253,7 @@ async def test_full_flow_reconfigure(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_flow_reconfigure_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_firefly_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -309,7 +309,7 @@ async def test_full_flow_reconfigure_unique_id(
     ],
 )
 async def test_full_flow_reconfigure_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_firefly_client: AsyncMock,
     mock_setup_entry: MagicMock,
     mock_config_entry: MockConfigEntry,

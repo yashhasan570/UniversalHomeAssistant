@@ -9,8 +9,8 @@
     },
     "step": {
       "hassio_confirm": {
-        "description": "Do you want to configure __HA_KEEP__ to connect to the Agent DVR server provided by the app: {addon}?",
-        "title": "Agent DVR via __HA_KEEP__ app"
+        "description": "Do you want to configure Universal Home Assistant to connect to the Agent DVR server provided by the app: {addon}?",
+        "title": "Agent DVR via Universal Home Assistant app"
       },
       "user": {
         "data": {

@@ -8,7 +8,7 @@ from pysuez import PySuezError, SuezClient
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import CONF_COUNTER_ID, DOMAIN
 
@@ -88,13 +88,13 @@ class SuezWaterConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(__HAC_KEEP__Error):
+class InvalidAuth(UniversalAssistantError):
     """Error to indicate there is invalid auth."""
 
 
-class CounterNotFound(__HAC_KEEP__Error):
+class CounterNotFound(UniversalAssistantError):
     """Error to indicate we failed to automatically find the counter id."""

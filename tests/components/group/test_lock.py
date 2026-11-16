@@ -16,14 +16,14 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 async def test_default_state(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test lock group default state."""
     hass.states.async_set("lock.front", "locked")
@@ -53,7 +53,7 @@ async def test_default_state(
     assert entry.unique_id == "unique_identifier"
 
 
-async def test_state_reporting(hass: __HAC_KEEP__) -> None:
+async def test_state_reporting(hass: UniversalAssistant) -> None:
     """Test the state reporting.
 
     The group state is unavailable if all group members are
@@ -170,7 +170,7 @@ async def test_state_reporting(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("lock.lock_group").state == STATE_UNAVAILABLE
 
 
-async def test_service_calls_openable(hass: __HAC_KEEP__) -> None:
+async def test_service_calls_openable(hass: UniversalAssistant) -> None:
     """Test service calls with open support."""
     await async_setup_component(
         hass,
@@ -223,7 +223,7 @@ async def test_service_calls_openable(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("lock.another_openable_lock").state == LockState.UNLOCKED
 
 
-async def test_service_calls_basic(hass: __HAC_KEEP__) -> None:
+async def test_service_calls_basic(hass: UniversalAssistant) -> None:
     """Test service calls without open support."""
     await async_setup_component(
         hass,
@@ -266,7 +266,7 @@ async def test_service_calls_basic(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("lock.basic_lock").state == LockState.UNLOCKED
     assert hass.states.get("lock.another_basic_lock").state == LockState.UNLOCKED
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             LOCK_DOMAIN,
             LockService.OPEN,
@@ -275,7 +275,7 @@ async def test_service_calls_basic(hass: __HAC_KEEP__) -> None:
         )
 
 
-async def test_reload(hass: __HAC_KEEP__) -> None:
+async def test_reload(hass: UniversalAssistant) -> None:
     """Test the ability to reload locks."""
     await async_setup_component(
         hass,
@@ -316,7 +316,7 @@ async def test_reload(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("lock.outside_locks_g") is not None
 
 
-async def test_reload_with_platform_not_setup(hass: __HAC_KEEP__) -> None:
+async def test_reload_with_platform_not_setup(hass: UniversalAssistant) -> None:
     """Test the ability to reload locks."""
     hass.states.async_set("lock.something", LockState.UNLOCKED)
     await async_setup_component(
@@ -355,7 +355,7 @@ async def test_reload_with_platform_not_setup(hass: __HAC_KEEP__) -> None:
 
 
 async def test_reload_with_base_integration_platform_not_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test the ability to reload locks."""
     assert await async_setup_component(
@@ -392,7 +392,7 @@ async def test_reload_with_base_integration_platform_not_setup(
 
 
 @patch.object(demo_lock, "LOCK_UNLOCK_DELAY", 0)
-async def test_nested_group(hass: __HAC_KEEP__) -> None:
+async def test_nested_group(hass: UniversalAssistant) -> None:
     """Test nested lock group."""
     await async_setup_component(
         hass,
@@ -447,7 +447,7 @@ async def test_nested_group(hass: __HAC_KEEP__) -> None:
 
 
 @patch.object(demo_lock, "LOCK_UNLOCK_DELAY", 0)
-async def test_service_call_all_exclude_nested_group(hass: __HAC_KEEP__) -> None:
+async def test_service_call_all_exclude_nested_group(hass: UniversalAssistant) -> None:
     """Test excluding a nested group when targeting all locks."""
     await async_setup_component(
         hass,

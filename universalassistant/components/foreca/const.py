@@ -41,7 +41,7 @@ _RATE_CONTINUOUS = 3
 
 
 def symbol_to_condition(code: str | None) -> str | None:
-    """Map a Foreca symbol code (e.g. "d421") to a __HA_KEEP__ condition."""
+    """Map a Foreca symbol code (e.g. "d421") to a Universal Home Assistant condition."""
     symbol = Symbol.parse(code or "")
     if symbol is None:
         return None

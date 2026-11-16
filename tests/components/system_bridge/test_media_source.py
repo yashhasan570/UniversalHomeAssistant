@@ -1,18 +1,17 @@
 """Test the System Bridge integration."""
 
 from collections.abc import Generator
-from dataclasses import replace
-from datetime import timedelta
-import hashlib
-import hmac
-from unittest.mock import MagicMock, patch
-from urllib.parse import parse_qs, urlparse
+from unittest.mock import AsyncMock, patch
 
 import pytest
 from pytest_universalassistant.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import paths
-from systembridgeconnector.models.fixtures.modules.system import FIXTURE_SYSTEM
+from systembridgeconnector.exceptions import (
+    AuthenticationException,
+    BadRequestException,
+    ConnectionErrorException,
+)
 
 from universalassistant.components.media_player import BrowseError
 from universalassistant.components.media_source import (
@@ -25,15 +24,32 @@ from universalassistant.components.media_source import (
 from universalassistant.components.system_bridge.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
-from universalassistant.util import dt as dt_util
 
 from . import FIXTURE_USER_INPUT
 
 
+def _signed_url(base: str, path: str) -> str:
+    """Return a URL as System Bridge signs one for a file."""
+    return (
+        f"http://127.0.0.1:9170/api/media/file/data?base={base}&path={path}"
+        "&expires=1794771735&sig=signed"
+    )
+
+
 @pytest.fixture(autouse=True)
-async def setup_component(hass: __HAC_KEEP__) -> None:
+def mock_media_file_url() -> Generator[AsyncMock]:
+    """Have System Bridge sign media file URLs."""
+    with patch(
+        "universalassistant.components.system_bridge.media_source.HTTPClient.media_file_url",
+        AsyncMock(side_effect=_signed_url),
+    ) as mock_media_file_url:
+        yield mock_media_file_url
+
+
+@pytest.fixture(autouse=True)
+async def setup_component(hass: UniversalAssistant) -> None:
     """Set up component."""
     assert await async_setup_component(
         hass,
@@ -43,7 +59,7 @@ async def setup_component(hass: __HAC_KEEP__) -> None:
 
 
 async def test_root(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -60,7 +76,7 @@ async def test_root(
 
 
 async def test_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -77,7 +93,7 @@ async def test_entry(
 
 
 async def test_directory(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -94,7 +110,7 @@ async def test_directory(
 
 
 async def test_directory_children_content_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test subdirectories have a string media content type."""
@@ -110,7 +126,7 @@ async def test_directory_children_content_type(
 
 
 async def test_subdirectory(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -127,7 +143,7 @@ async def test_subdirectory(
 
 
 async def test_file(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -153,48 +169,42 @@ async def test_file(
     )
 
 
-@pytest.fixture
-def signed_url_backend(mock_websocket_client: MagicMock) -> Generator[None]:
-    """Report a backend that accepts signed media URLs."""
-    system = replace(FIXTURE_SYSTEM, version="5.25.0")
-    mock_websocket_client.get_data.return_value = replace(
-        mock_websocket_client.get_data.return_value, system=system
-    )
-    with patch("tests.components.system_bridge.FIXTURE_SYSTEM", system):
-        yield
-
-
-@pytest.mark.usefixtures("signed_url_backend")
-async def test_file_signed_url(
-    hass: __HAC_KEEP__,
+async def test_file_url_signed_by_system_bridge(
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
+    mock_media_file_url: AsyncMock,
 ) -> None:
-    """Test hosts that accept signed URLs get one, without the API token."""
-    earliest = int((dt_util.utcnow() + timedelta(hours=24)).timestamp())
+    """Test a file's URL is the one System Bridge signs, without the key."""
     resolved = await async_resolve_media(
         hass,
         f"{URI_SCHEME}{DOMAIN}/{init_integration.entry_id}~~documents/my file.txt~~text/plain",
         None,
     )
-    latest = int((dt_util.utcnow() + timedelta(hours=24)).timestamp())
 
-    url = urlparse(resolved.url)
-    query = parse_qs(url.query)
-    assert f"{url.scheme}://{url.netloc}{url.path}" == (
-        "http://127.0.0.1:9170/api/media/file/data"
-    )
-    assert "token" not in query
-    assert query["base"] == ["documents"]
-    assert query["path"] == ["my file.txt"]
-    [expires] = query["expires"]
-    assert earliest <= int(expires) <= latest
-    assert query["sig"] == [
-        hmac.new(
-            FIXTURE_USER_INPUT[CONF_TOKEN].encode(),
-            f"documents\nmy file.txt\n{expires}".encode(),
-            hashlib.sha256,
-        ).hexdigest()
-    ]
+    mock_media_file_url.assert_awaited_once_with("documents", "my file.txt")
+    assert resolved.url == _signed_url("documents", "my file.txt")
+    assert FIXTURE_USER_INPUT[CONF_TOKEN] not in resolved.url
+
+
+@pytest.mark.parametrize(
+    "side_effect",
+    [AuthenticationException, BadRequestException, ConnectionErrorException],
+)
+async def test_file_url_failed(
+    hass: UniversalAssistant,
+    init_integration: MockConfigEntry,
+    mock_media_file_url: AsyncMock,
+    side_effect: type[Exception],
+) -> None:
+    """Test a file System Bridge won't sign a URL for can't be resolved."""
+    mock_media_file_url.side_effect = side_effect
+
+    with pytest.raises(Unresolvable):
+        await async_resolve_media(
+            hass,
+            f"{URI_SCHEME}{DOMAIN}/{init_integration.entry_id}~~documents/my file.txt~~text/plain",
+            None,
+        )
 
 
 @pytest.mark.parametrize(
@@ -205,7 +215,7 @@ async def test_file_signed_url(
     ],
 )
 @pytest.mark.usefixtures("init_integration")
-async def test_bad_entry(hass: __HAC_KEEP__, entry_id: str) -> None:
+async def test_bad_entry(hass: UniversalAssistant, entry_id: str) -> None:
     """Test invalid entry raises BrowseError."""
     MockConfigEntry(
         domain="other", entry_id="other_entry", state=ConfigEntryState.LOADED

@@ -43,8 +43,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
@@ -121,13 +121,13 @@ VALUES = {
 }
 
 
-def _fire_poll(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+def _fire_poll(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
     """Start the next device poll."""
     freezer.tick(timedelta(seconds=DEVICE_POLLING_DELAY))
     async_fire_time_changed(hass)
 
 
-async def _async_poll(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+async def _async_poll(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
     """Run the next device poll and wait for its updates."""
     _fire_poll(hass, freezer)
     await hass.async_block_till_done()
@@ -145,7 +145,7 @@ async def _async_poll(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> Non
     ],
 )
 async def test_setup_entities_and_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
     controller: LivisiController,
@@ -226,7 +226,7 @@ async def test_setup_entities_and_unload(
         ]
     )
     connection.async_set_state.return_value = False
-    with pytest.raises(__HAC_KEEP__Error, match="Failed to set temperature"):
+    with pytest.raises(UniversalAssistantError, match="Failed to set temperature"):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -404,7 +404,7 @@ async def test_setup_entities_and_unload(
     ],
 )
 async def test_state_read_failure_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
     device: LivisiDevice,
@@ -454,7 +454,7 @@ async def test_state_read_failure_recovery(
 
 
 async def test_unreachable_event_during_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -522,7 +522,7 @@ async def test_unreachable_event_during_refresh(
 
 
 async def test_climate_target_temperature_read_failure_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -590,7 +590,7 @@ async def test_climate_target_temperature_read_failure_recovery(
     ],
 )
 async def test_failed_command_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
     device: LivisiDevice,
@@ -623,7 +623,7 @@ async def test_failed_command_recovery(
     entity_id = entity_registry.async_get_entity_id(platform, DOMAIN, device.id)
     assert entity_id is not None
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             domain,
             service,
@@ -639,7 +639,7 @@ async def test_failed_command_recovery(
 
 
 async def test_new_unreachable_event_wins_over_recovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -737,7 +737,7 @@ async def test_new_unreachable_event_wins_over_recovery(
     ],
 )
 async def test_setup_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     exception: LivisiException,
     expected_state: ConfigEntryState,
 ) -> None:
@@ -755,7 +755,7 @@ async def test_setup_error(
 
 
 async def test_unreachable_devices_ignore_cached_state(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test cached state does not make unreachable devices available."""
     connection = MagicMock(spec=LivisiConnection)

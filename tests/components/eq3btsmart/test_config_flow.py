@@ -8,7 +8,7 @@ from universalassistant import config_entries
 from universalassistant.components.bluetooth import BluetoothServiceInfoBleak
 from universalassistant.components.eq3btsmart.const import DOMAIN
 from universalassistant.const import CONF_MAC
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.util import slugify
@@ -16,7 +16,7 @@ from universalassistant.util import slugify
 from .const import MAC
 
 
-async def test_user_flow(hass: __HAC_KEEP__) -> None:
+async def test_user_flow(hass: UniversalAssistant) -> None:
     """Test we can handle a regular successflow setup flow."""
 
     result = await hass.config_entries.flow.async_init(
@@ -40,7 +40,7 @@ async def test_user_flow(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_user_flow_invalid_mac(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_invalid_mac(hass: UniversalAssistant) -> None:
     """Test we handle invalid mac address."""
 
     result = await hass.config_entries.flow.async_init(
@@ -75,7 +75,7 @@ async def test_user_flow_invalid_mac(hass: __HAC_KEEP__) -> None:
 
 
 async def test_bluetooth_flow(
-    hass: __HAC_KEEP__, fake_service_info: BluetoothServiceInfoBleak
+    hass: UniversalAssistant, fake_service_info: BluetoothServiceInfoBleak
 ) -> None:
     """Test we can handle a bluetooth discovery flow."""
 
@@ -102,7 +102,7 @@ async def test_bluetooth_flow(
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_duplicate_entry(hass: __HAC_KEEP__) -> None:
+async def test_duplicate_entry(hass: UniversalAssistant) -> None:
     """Test duplicate setup handling."""
 
     entry = MockConfigEntry(

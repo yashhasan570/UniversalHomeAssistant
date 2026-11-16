@@ -10,8 +10,8 @@ from pyuptimerobot.const import API_PATH_MONITOR_DETAIL
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.components.uptimerobot.const import COORDINATOR_UPDATE_INTERVAL
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.util import dt as dt_util
 
 from .common import (
@@ -25,7 +25,7 @@ from .common import (
 )
 
 
-async def test_presentation(hass: __HAC_KEEP__) -> None:
+async def test_presentation(hass: UniversalAssistant) -> None:
     """Test the presentation of UptimeRobot switches."""
     await setup_uptimerobot_integration(hass)
 
@@ -34,7 +34,7 @@ async def test_presentation(hass: __HAC_KEEP__) -> None:
     assert entity.attributes["target"] == MOCK_UPTIMEROBOT_MONITOR["url"]
 
 
-async def test_switch_off(hass: __HAC_KEEP__) -> None:
+async def test_switch_off(hass: UniversalAssistant) -> None:
     """Test entity unavailable on update failure."""
 
     mock_entry = MockConfigEntry(**MOCK_UPTIMEROBOT_CONFIG_ENTRY_DATA)
@@ -68,7 +68,7 @@ async def test_switch_off(hass: __HAC_KEEP__) -> None:
     assert entity.state == STATE_OFF
 
 
-async def test_switch_on(hass: __HAC_KEEP__) -> None:
+async def test_switch_on(hass: UniversalAssistant) -> None:
     """Test entity unavailable on update failure."""
 
     mock_entry = MockConfigEntry(**MOCK_UPTIMEROBOT_CONFIG_ENTRY_DATA)
@@ -102,7 +102,7 @@ async def test_switch_on(hass: __HAC_KEEP__) -> None:
 
 
 async def test_authentication_error(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test authentication error turning switch on/off."""
     await setup_uptimerobot_integration(hass)
@@ -129,7 +129,7 @@ async def test_authentication_error(
         config_entry_reauth.assert_called()
 
 
-async def test_action_execution_failure(hass: __HAC_KEEP__) -> None:
+async def test_action_execution_failure(hass: UniversalAssistant) -> None:
     """Test turning switch on/off failure."""
     await setup_uptimerobot_integration(hass)
 
@@ -141,7 +141,7 @@ async def test_action_execution_failure(hass: __HAC_KEEP__) -> None:
             "pyuptimerobot.UptimeRobot.async_start_monitor",
             side_effect=UptimeRobotException,
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,
@@ -157,7 +157,7 @@ async def test_action_execution_failure(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_switch_api_failure(hass: __HAC_KEEP__) -> None:
+async def test_switch_api_failure(hass: UniversalAssistant) -> None:
     """Test general exception turning switch on/off."""
     await setup_uptimerobot_integration(hass)
 
@@ -169,7 +169,7 @@ async def test_switch_api_failure(hass: __HAC_KEEP__) -> None:
             "pyuptimerobot.UptimeRobot.async_pause_monitor",
             side_effect=UptimeRobotException,
         ),
-        pytest.raises(__HAC_KEEP__Error) as exc_info,
+        pytest.raises(UniversalAssistantError) as exc_info,
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,
@@ -185,7 +185,7 @@ async def test_switch_api_failure(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_switch_dynamic(hass: __HAC_KEEP__) -> None:
+async def test_switch_dynamic(hass: UniversalAssistant) -> None:
     """Test switch dynamically added."""
     await setup_uptimerobot_integration(hass)
 

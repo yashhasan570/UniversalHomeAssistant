@@ -2,13 +2,13 @@
 
 from unittest.mock import MagicMock
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import init_integration
 
 
 async def test_connect_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_desk_api: MagicMock,
 ) -> None:
     """Test pressing the connect button."""
@@ -21,7 +21,7 @@ async def test_connect_button(
 
 
 async def test_disconnect_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_desk_api: MagicMock,
 ) -> None:
     """Test pressing the disconnect button."""

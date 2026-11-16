@@ -1,7 +1,7 @@
 {
   "issues": {
     "integration_removed": {
-      "description": "The Oncue integration has been removed from __HA_KEEP__.\n\nThe Oncue service has been discontinued and [Rehlko]({rehlko}) is the integration to keep using it.\n\nTo resolve this issue, please remove the (now defunct) integration entries from your __HA_KEEP__ setup. [View your existing Oncue integration entries]({entries}).",
+      "description": "The Oncue integration has been removed from Universal Home Assistant.\n\nThe Oncue service has been discontinued and [Rehlko]({rehlko}) is the integration to keep using it.\n\nTo resolve this issue, please remove the (now defunct) integration entries from your Universal Home Assistant setup. [View your existing Oncue integration entries]({entries}).",
       "title": "The Oncue integration has been removed"
     }
   }

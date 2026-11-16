@@ -22,7 +22,7 @@ from universalassistant.components.forecast_solar.const import (
 )
 from universalassistant.config_entries import ConfigEntryState, ConfigSubentryData
 from universalassistant.const import CONF_API_KEY, CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -30,7 +30,7 @@ from . import async_next_update
 
 
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_forecast_solar: MagicMock,
 ) -> None:
@@ -52,7 +52,7 @@ async def test_load_unload_config_entry(
 )
 async def test_config_entry_not_ready(
     mock_request: MagicMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the Forecast.Solar configuration entry not ready."""
@@ -65,7 +65,7 @@ async def test_config_entry_not_ready(
 
 
 async def test_migration_from_v1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_forecast_solar: MagicMock,
 ) -> None:
     """Test config entry migration from version 1."""
@@ -112,7 +112,7 @@ async def test_migration_from_v1(
 
 
 async def test_migration_from_v2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_forecast_solar: MagicMock,
 ) -> None:
     """Test config entry migration from version 2."""
@@ -156,7 +156,7 @@ async def test_migration_from_v2(
 
 
 async def test_setup_entry_no_planes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_forecast_solar: MagicMock,
 ) -> None:
     """Test setup fails when all plane subentries have been removed."""
@@ -181,7 +181,7 @@ async def test_setup_entry_no_planes(
 
 
 async def test_setup_entry_multiple_planes_no_api_key(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_forecast_solar: MagicMock,
 ) -> None:
     """Test setup fails when multiple planes are configured without an API key."""
@@ -228,7 +228,7 @@ async def test_setup_entry_multiple_planes_no_api_key(
 
 
 async def test_coordinator_multi_plane_initialization(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_forecast_solar_class: MagicMock,
 ) -> None:
     """Test the Forecast.Solar coordinator multi-plane initialization."""
@@ -311,7 +311,7 @@ async def test_coordinator_multi_plane_initialization(
 
 @pytest.mark.usefixtures("mock_forecast_solar")
 async def test_forecast_changes_reload_once_titles_and_renames_do_not(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -401,7 +401,7 @@ async def test_forecast_changes_reload_once_titles_and_renames_do_not(
 
 @pytest.mark.usefixtures("mock_forecast_solar")
 async def test_sensor_leaving_registry_does_not_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test a sensor removed from the registry doesn't make a title edit reload."""
@@ -463,7 +463,7 @@ async def test_sensor_leaving_registry_does_not_reload(
 )
 @pytest.mark.usefixtures("mock_forecast_solar")
 async def test_plane_follows_renamed_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
     title: str,
@@ -540,7 +540,7 @@ async def test_plane_follows_renamed_sensor(
 
 @pytest.mark.usefixtures("mock_forecast_solar")
 async def test_plane_follows_renamed_sensor_during_setup_retry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test a rename is followed while the entry is retrying on an unreadable sensor."""

@@ -13,15 +13,15 @@ from universalassistant.components.shelly.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
 from . import init_integration
 
 
 async def test_service_get_kvs_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -50,7 +50,7 @@ async def test_service_get_kvs_value(
     mock_rpc_device.kvs_get.assert_called_once_with("test_key")
 
 
-async def test_service_get_kvs_value_invalid_device(hass: __HAC_KEEP__) -> None:
+async def test_service_get_kvs_value_invalid_device(hass: UniversalAssistant) -> None:
     """Test get_kvs_value service with invalid device ID."""
     await init_integration(hass, 2)
 
@@ -72,7 +72,7 @@ async def test_service_get_kvs_value_invalid_device(hass: __HAC_KEEP__) -> None:
 
 
 async def test_service_get_kvs_value_block_device(
-    hass: __HAC_KEEP__, mock_block_device: Mock, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, mock_block_device: Mock, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test get_kvs_value service with non-RPC (Gen1) device."""
     entry = await init_integration(hass, 1)
@@ -104,7 +104,7 @@ async def test_service_get_kvs_value_block_device(
     ],
 )
 async def test_service_get_kvs_value_exc(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     device_registry: dr.DeviceRegistry,
     exc: Exception,
@@ -117,7 +117,7 @@ async def test_service_get_kvs_value_exc(
 
     mock_rpc_device.kvs_get.side_effect = exc
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             ShellyService.GET_KVS_VALUE,
@@ -135,7 +135,7 @@ async def test_service_get_kvs_value_exc(
 
 
 async def test_config_entry_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_rpc_device: Mock,
 ) -> None:
@@ -170,7 +170,7 @@ async def test_config_entry_not_loaded(
 
 
 async def test_service_get_kvs_value_sleeping_device(
-    hass: __HAC_KEEP__, mock_rpc_device: Mock, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, mock_rpc_device: Mock, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test get_kvs_value service with RPC sleeping device."""
     entry = await init_integration(hass, 2, sleep_period=1000)
@@ -199,7 +199,7 @@ async def test_service_get_kvs_value_sleeping_device(
 
 
 async def test_service_set_kvs_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -223,7 +223,7 @@ async def test_service_set_kvs_value(
 
 
 async def test_service_get_kvs_value_device_not_initialized(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rpc_device: Mock,
     device_registry: dr.DeviceRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -254,7 +254,7 @@ async def test_service_get_kvs_value_device_not_initialized(
 
 @pytest.mark.usefixtures("mock_rpc_device")
 async def test_service_get_kvs_value_wrong_domain(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test get_kvs_value when the device belongs to a different domain."""

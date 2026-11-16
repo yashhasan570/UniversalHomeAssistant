@@ -9,8 +9,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.climate import DOMAIN as CLIMATE_DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 pytestmark = pytest.mark.parametrize("platforms", [(Platform.CLIMATE,)])
@@ -21,7 +21,7 @@ SERVICE_SET_TEMPERATURE = "set_temperature"
 
 @pytest.mark.parametrize("load_action_file", ["action_freezer.json"], ids=["freezer"])
 async def test_climate_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -37,7 +37,7 @@ async def test_climate_states(
     "load_action_file", ["action_offline.json"], ids=["fridge_freezer_offline"]
 )
 async def test_climate_states_offline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -53,7 +53,7 @@ async def test_climate_states_offline(
     "load_action_file", ["action_fridge_freezer.json"], ids=["fridge_freezer"]
 )
 async def test_climate_states_mulizone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -67,7 +67,7 @@ async def test_climate_states_mulizone(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("load_action_file", ["action_freezer.json"], ids=["freezer"])
 async def test_climate_states_api_push(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -81,7 +81,7 @@ async def test_climate_states_api_push(
 
 @pytest.mark.parametrize("load_action_file", ["action_freezer.json"], ids=["freezer"])
 async def test_set_target(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     setup_platform: MockConfigEntry,
 ) -> None:
@@ -100,7 +100,7 @@ async def test_set_target(
 
 @pytest.mark.parametrize("load_action_file", ["action_freezer.json"], ids=["freezer"])
 async def test_api_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_miele_client: MagicMock,
     setup_platform: MockConfigEntry,
 ) -> None:
@@ -110,7 +110,7 @@ async def test_api_failure(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error, match=f"Failed to set state for {ENTITY_ID}"
+        UniversalAssistantError, match=f"Failed to set state for {ENTITY_ID}"
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,

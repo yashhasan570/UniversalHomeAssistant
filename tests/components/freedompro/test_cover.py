@@ -17,7 +17,7 @@ from universalassistant.const import (
     SERVICE_OPEN_COVER,
     SERVICE_SET_COVER_POSITION,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 from universalassistant.util.dt import utcnow
@@ -37,7 +37,7 @@ from .conftest import get_states_response_for_uid
     ],
 )
 async def test_cover_get_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     init_integration: MockConfigEntry,
@@ -98,7 +98,7 @@ async def test_cover_get_state(
     ],
 )
 async def test_cover_set_position(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
     entity_id: str,
@@ -152,7 +152,7 @@ async def test_cover_set_position(
     ],
 )
 async def test_cover_close(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
     entity_id: str,
@@ -214,7 +214,7 @@ async def test_cover_close(
     ],
 )
 async def test_cover_open(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
     entity_id: str,

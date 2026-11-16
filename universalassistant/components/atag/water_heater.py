@@ -9,7 +9,7 @@ from universalassistant.components.water_heater import (
     WaterHeaterEntityFeature,
 )
 from universalassistant.const import ATTR_TEMPERATURE, STATE_OFF, Platform, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import AtagConfigEntry
@@ -19,7 +19,7 @@ OPERATION_LIST = [STATE_OFF, STATE_ECO, STATE_PERFORMANCE]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: AtagConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -3,7 +3,7 @@
 from collections.abc import Generator
 
 import pytest
-from pytest_universalassistant.common import AsyncMock, __HAC_KEEP__, MockConfigEntry
+from pytest_universalassistant.common import AsyncMock, UniversalAssistant, MockConfigEntry
 from watergate_local_api import WatergateApiException
 from watergate_local_api.models import DeviceState
 
@@ -21,7 +21,7 @@ from .const import (
 
 
 async def test_step_user_form(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watergate_client: Generator[AsyncMock],
     mock_webhook_id_generation: Generator[None],
     user_input: dict[str, str],
@@ -51,7 +51,7 @@ async def test_step_user_form(
     [AsyncMock(return_value=None), AsyncMock(side_effect=WatergateApiException)],
 )
 async def test_step_user_form_with_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watergate_client: Generator[AsyncMock],
     user_input: dict[str, str],
     client_result: AsyncMock,
@@ -88,7 +88,7 @@ async def test_step_user_form_with_exception(
 
 
 async def test_abort_if_id_is_not_unique(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
     user_input: dict[str, str],
@@ -113,7 +113,7 @@ async def test_abort_if_id_is_not_unique(
 
 
 async def test_reconfigure_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
     user_input: dict[str, str],
@@ -150,7 +150,7 @@ async def test_reconfigure_success(
     [AsyncMock(return_value=None), AsyncMock(side_effect=WatergateApiException)],
 )
 async def test_reconfigure_cannot_connect_then_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
     user_input: dict[str, str],
@@ -182,7 +182,7 @@ async def test_reconfigure_cannot_connect_then_success(
 
 
 async def test_reconfigure_wrong_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
     user_input: dict[str, str],

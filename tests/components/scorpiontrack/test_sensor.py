@@ -23,7 +23,7 @@ from universalassistant.const import (
     Platform,
     UnitOfSpeed,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -34,7 +34,7 @@ HEADING_ENTITY_ID = "sensor.ab12_cde_heading"
 
 
 async def test_speed_sensor_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_scorpiontrack_client: AsyncMock,
 ) -> None:
@@ -53,7 +53,7 @@ async def test_speed_sensor_state(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.freeze_time("2026-08-11 12:00:00+00:00")
 async def test_sensor_snapshot(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_scorpiontrack_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -68,7 +68,7 @@ async def test_sensor_snapshot(
 
 
 async def test_heading_sensor_disabled_by_default(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -90,7 +90,7 @@ async def test_heading_sensor_disabled_by_default(
     ],
 )
 async def test_heading_sensor_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_share: ScorpionTrackShare,
     mock_scorpiontrack_client: AsyncMock,
@@ -115,7 +115,7 @@ async def test_heading_sensor_value(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_heading_sensor_update_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_scorpiontrack_client: AsyncMock,
@@ -136,7 +136,7 @@ async def test_heading_sensor_update_failure(
 
 
 async def test_speed_sensor_metric_display(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_share: ScorpionTrackShare,
     mock_scorpiontrack_client: AsyncMock,
@@ -162,7 +162,7 @@ async def test_speed_sensor_metric_display(
     ],
 )
 async def test_speed_sensor_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_share: ScorpionTrackShare,
     mock_scorpiontrack_client: AsyncMock,
@@ -198,7 +198,7 @@ async def test_speed_sensor_availability(
     ],
 )
 async def test_removed_vehicle_removes_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_share: ScorpionTrackShare,
@@ -226,7 +226,7 @@ async def test_removed_vehicle_removes_sensor(
     ],
 )
 async def test_sensor_uses_existing_vehicle_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -248,7 +248,7 @@ async def test_sensor_uses_existing_vehicle_device(
 
 
 async def test_last_reported_sensor_without_timestamp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_share: ScorpionTrackShare,
     mock_scorpiontrack_client: AsyncMock,

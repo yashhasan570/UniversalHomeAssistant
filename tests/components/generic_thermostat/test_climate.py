@@ -50,7 +50,7 @@ from universalassistant.core import (
     DOMAIN as HOMEASSISTANT_DOMAIN,
     Context,
     CoreState,
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     State,
     callback,
@@ -95,7 +95,7 @@ CONFIG_ENTRY_OPTIONS = {
 }
 
 
-async def test_setup_missing_conf(hass: __HAC_KEEP__) -> None:
+async def test_setup_missing_conf(hass: UniversalAssistant) -> None:
     """Test set up heat_control with missing config values."""
     config = {
         "platform": "generic_thermostat",
@@ -106,7 +106,7 @@ async def test_setup_missing_conf(hass: __HAC_KEEP__) -> None:
         await async_setup_component(hass, "climate", {"climate": config})
 
 
-async def test_valid_conf(hass: __HAC_KEEP__) -> None:
+async def test_valid_conf(hass: UniversalAssistant) -> None:
     """Test set up generic_thermostat with valid config values."""
     assert await async_setup_component(
         hass,
@@ -123,7 +123,7 @@ async def test_valid_conf(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.fixture
-async def setup_comp_1(hass: __HAC_KEEP__) -> None:
+async def setup_comp_1(hass: UniversalAssistant) -> None:
     """Initialize components."""
     hass.config.units = METRIC_SYSTEM
     assert await async_setup_component(hass, "universalassistant", {})
@@ -131,7 +131,7 @@ async def setup_comp_1(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_1")
-async def test_heater_input_boolean(hass: __HAC_KEEP__) -> None:
+async def test_heater_input_boolean(hass: UniversalAssistant) -> None:
     """Test heater switching input_boolean."""
     heater_switch = "input_boolean.test"
     assert await async_setup_component(
@@ -165,7 +165,7 @@ async def test_heater_input_boolean(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("setup_comp_1")
 async def test_heater_switch(
-    hass: __HAC_KEEP__, mock_switch_entities: list[MockSwitch]
+    hass: UniversalAssistant, mock_switch_entities: list[MockSwitch]
 ) -> None:
     """Test heater switching test switch."""
     setup_test_component_platform(hass, switch.DOMAIN, mock_switch_entities)
@@ -202,7 +202,7 @@ async def test_heater_switch(
 
 @pytest.mark.usefixtures("setup_comp_1")
 async def test_unique_id(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test setting a unique ID."""
     unique_id = "some_unique_id"
@@ -228,13 +228,13 @@ async def test_unique_id(
     assert entry.unique_id == unique_id
 
 
-def _setup_sensor(hass: __HAC_KEEP__, temp: StateType) -> None:
+def _setup_sensor(hass: UniversalAssistant, temp: StateType) -> None:
     """Set up the test sensor."""
     hass.states.async_set(ENT_SENSOR, temp)
 
 
 @pytest.fixture
-async def setup_comp_2(hass: __HAC_KEEP__) -> None:
+async def setup_comp_2(hass: UniversalAssistant) -> None:
     """Initialize components."""
     hass.config.units = METRIC_SYSTEM
     assert await async_setup_component(
@@ -261,7 +261,7 @@ async def setup_comp_2(hass: __HAC_KEEP__) -> None:
     await hass.async_block_till_done()
 
 
-async def test_setup_defaults_to_unknown(hass: __HAC_KEEP__) -> None:
+async def test_setup_defaults_to_unknown(hass: UniversalAssistant) -> None:
     """Test the setting of defaults to unknown."""
     hass.config.units = METRIC_SYSTEM
     await async_setup_component(
@@ -283,7 +283,7 @@ async def test_setup_defaults_to_unknown(hass: __HAC_KEEP__) -> None:
     assert hass.states.get(ENTITY).state == HVACMode.OFF
 
 
-async def test_setup_gets_current_temp_from_sensor(hass: __HAC_KEEP__) -> None:
+async def test_setup_gets_current_temp_from_sensor(hass: UniversalAssistant) -> None:
     """Test that current temperature is updated on entity addition."""
     hass.config.units = METRIC_SYSTEM
     _setup_sensor(hass, 18)
@@ -308,7 +308,7 @@ async def test_setup_gets_current_temp_from_sensor(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_default_setup_params(hass: __HAC_KEEP__) -> None:
+async def test_default_setup_params(hass: UniversalAssistant) -> None:
     """Test the setup with default parameters."""
     state = hass.states.get(ENTITY)
     assert state.attributes.get("min_temp") == 7
@@ -318,7 +318,7 @@ async def test_default_setup_params(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_get_hvac_modes(hass: __HAC_KEEP__) -> None:
+async def test_get_hvac_modes(hass: UniversalAssistant) -> None:
     """Test that the operation list returns the correct modes."""
     state = hass.states.get(ENTITY)
     modes = state.attributes.get("hvac_modes")
@@ -326,7 +326,7 @@ async def test_get_hvac_modes(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_set_target_temp(hass: __HAC_KEEP__) -> None:
+async def test_set_target_temp(hass: UniversalAssistant) -> None:
     """Test the setting of the target temperature."""
     await common.async_set_temperature(hass, 30)
     state = hass.states.get(ENTITY)
@@ -338,7 +338,7 @@ async def test_set_target_temp(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_set_target_temp_change_preset(hass: __HAC_KEEP__) -> None:
+async def test_set_target_temp_change_preset(hass: UniversalAssistant) -> None:
     """Test the setting of the target temperature.
 
     Verify that preset is changed.
@@ -364,7 +364,7 @@ async def test_set_target_temp_change_preset(hass: __HAC_KEEP__) -> None:
     ],
 )
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_set_away_mode(hass: __HAC_KEEP__, preset, temp) -> None:
+async def test_set_away_mode(hass: UniversalAssistant, preset, temp) -> None:
     """Test the setting away mode."""
     await common.async_set_temperature(hass, 23)
     await common.async_set_preset_mode(hass, preset)
@@ -386,7 +386,7 @@ async def test_set_away_mode(hass: __HAC_KEEP__, preset, temp) -> None:
 )
 @pytest.mark.usefixtures("setup_comp_2")
 async def test_set_away_mode_and_restore_prev_temp(
-    hass: __HAC_KEEP__, preset, temp
+    hass: UniversalAssistant, preset, temp
 ) -> None:
     """Test the setting and removing away mode.
 
@@ -415,7 +415,7 @@ async def test_set_away_mode_and_restore_prev_temp(
 )
 @pytest.mark.usefixtures("setup_comp_2")
 async def test_set_away_mode_twice_and_restore_prev_temp(
-    hass: __HAC_KEEP__, preset, temp
+    hass: UniversalAssistant, preset, temp
 ) -> None:
     """Test the setting away mode twice in a row.
 
@@ -432,7 +432,7 @@ async def test_set_away_mode_twice_and_restore_prev_temp(
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_set_preset_mode_invalid(hass: __HAC_KEEP__) -> None:
+async def test_set_preset_mode_invalid(hass: UniversalAssistant) -> None:
     """Test an invalid mode raises an error and ignore case when checking modes."""
     await common.async_set_temperature(hass, 23)
     await common.async_set_preset_mode(hass, "away")
@@ -448,7 +448,7 @@ async def test_set_preset_mode_invalid(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_sensor_bad_value(hass: __HAC_KEEP__) -> None:
+async def test_sensor_bad_value(hass: UniversalAssistant) -> None:
     """Test sensor that have None as state."""
     state = hass.states.get(ENTITY)
     temp = state.attributes.get("current_temperature")
@@ -469,7 +469,7 @@ async def test_sensor_bad_value(hass: __HAC_KEEP__) -> None:
     assert state.attributes.get("current_temperature") == temp
 
 
-async def test_sensor_unknown(hass: __HAC_KEEP__) -> None:
+async def test_sensor_unknown(hass: UniversalAssistant) -> None:
     """Test when target sensor is Unknown."""
     hass.states.async_set("sensor.unknown", STATE_UNKNOWN)
     assert await async_setup_component(
@@ -489,7 +489,7 @@ async def test_sensor_unknown(hass: __HAC_KEEP__) -> None:
     assert state.attributes.get("current_temperature") is None
 
 
-async def test_sensor_unavailable(hass: __HAC_KEEP__) -> None:
+async def test_sensor_unavailable(hass: UniversalAssistant) -> None:
     """Test when target sensor is Unavailable."""
     hass.states.async_set("sensor.unavailable", STATE_UNAVAILABLE)
     assert await async_setup_component(
@@ -510,7 +510,7 @@ async def test_sensor_unavailable(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_set_target_temp_heater_on(hass: __HAC_KEEP__) -> None:
+async def test_set_target_temp_heater_on(hass: UniversalAssistant) -> None:
     """Test if target temperature turn heater on."""
     calls = _setup_switch(hass, False)
     _setup_sensor(hass, 25)
@@ -524,7 +524,7 @@ async def test_set_target_temp_heater_on(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_set_target_temp_heater_off(hass: __HAC_KEEP__) -> None:
+async def test_set_target_temp_heater_off(hass: UniversalAssistant) -> None:
     """Test if target temperature turn heater off."""
     calls = _setup_switch(hass, True)
     _setup_sensor(hass, 30)
@@ -538,7 +538,7 @@ async def test_set_target_temp_heater_off(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_temp_change_heater_on_within_tolerance(hass: __HAC_KEEP__) -> None:
+async def test_temp_change_heater_on_within_tolerance(hass: UniversalAssistant) -> None:
     """Test if temperature change doesn't turn on within tolerance."""
     calls = _setup_switch(hass, False)
     await common.async_set_temperature(hass, 30)
@@ -548,7 +548,7 @@ async def test_temp_change_heater_on_within_tolerance(hass: __HAC_KEEP__) -> Non
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_temp_change_heater_on_outside_tolerance(hass: __HAC_KEEP__) -> None:
+async def test_temp_change_heater_on_outside_tolerance(hass: UniversalAssistant) -> None:
     """Test if temperature change turn heater on outside cold tolerance."""
     calls = _setup_switch(hass, False)
     await common.async_set_temperature(hass, 30)
@@ -562,7 +562,7 @@ async def test_temp_change_heater_on_outside_tolerance(hass: __HAC_KEEP__) -> No
 
 
 async def test_external_toggle_resets_min_cycle(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that an external toggle cancels the min_cycle scheduled check."""
     # Set up thermostat with min cycle duration and cooldown
@@ -596,7 +596,7 @@ async def test_external_toggle_resets_min_cycle(
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_temp_change_heater_off_within_tolerance(hass: __HAC_KEEP__) -> None:
+async def test_temp_change_heater_off_within_tolerance(hass: UniversalAssistant) -> None:
     """Test if temperature change doesn't turn off within tolerance."""
     calls = _setup_switch(hass, True)
     await common.async_set_temperature(hass, 30)
@@ -606,7 +606,7 @@ async def test_temp_change_heater_off_within_tolerance(hass: __HAC_KEEP__) -> No
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_temp_change_heater_off_outside_tolerance(hass: __HAC_KEEP__) -> None:
+async def test_temp_change_heater_off_outside_tolerance(hass: UniversalAssistant) -> None:
     """Test if temperature change turn heater off outside hot tolerance."""
     calls = _setup_switch(hass, True)
     await common.async_set_temperature(hass, 30)
@@ -620,7 +620,7 @@ async def test_temp_change_heater_off_outside_tolerance(hass: __HAC_KEEP__) -> N
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_running_when_hvac_mode_is_off(hass: __HAC_KEEP__) -> None:
+async def test_running_when_hvac_mode_is_off(hass: UniversalAssistant) -> None:
     """Test that the switch turns off when enabled is set False."""
     calls = _setup_switch(hass, True)
     await common.async_set_temperature(hass, 30)
@@ -633,7 +633,7 @@ async def test_running_when_hvac_mode_is_off(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_no_state_change_when_hvac_mode_off(hass: __HAC_KEEP__) -> None:
+async def test_no_state_change_when_hvac_mode_off(hass: UniversalAssistant) -> None:
     """Test that the switch doesn't turn on when enabled is False."""
     calls = _setup_switch(hass, False)
     await common.async_set_temperature(hass, 30)
@@ -644,7 +644,7 @@ async def test_no_state_change_when_hvac_mode_off(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_hvac_mode_heat(hass: __HAC_KEEP__) -> None:
+async def test_hvac_mode_heat(hass: UniversalAssistant) -> None:
     """Test change mode from OFF to HEAT.
 
     Switch turns on when temp below setpoint and mode changes.
@@ -662,7 +662,7 @@ async def test_hvac_mode_heat(hass: __HAC_KEEP__) -> None:
     assert call.data["entity_id"] == ENT_SWITCH
 
 
-def _setup_switch(hass: __HAC_KEEP__, is_on: bool) -> list[ServiceCall]:
+def _setup_switch(hass: UniversalAssistant, is_on: bool) -> list[ServiceCall]:
     """Set up the test switch."""
     hass.states.async_set(ENT_SWITCH, STATE_ON if is_on else STATE_OFF)
     calls = []
@@ -679,7 +679,7 @@ def _setup_switch(hass: __HAC_KEEP__, is_on: bool) -> list[ServiceCall]:
 
 
 @pytest.fixture
-async def setup_comp_3(hass: __HAC_KEEP__) -> None:
+async def setup_comp_3(hass: UniversalAssistant) -> None:
     """Initialize components."""
     hass.config.temperature_unit = UnitOfTemperature.CELSIUS
     assert await async_setup_component(
@@ -703,7 +703,7 @@ async def setup_comp_3(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_3")
-async def test_set_target_temp_ac_off(hass: __HAC_KEEP__) -> None:
+async def test_set_target_temp_ac_off(hass: UniversalAssistant) -> None:
     """Test if target temperature turn ac off."""
     calls = _setup_switch(hass, True)
     _setup_sensor(hass, 25)
@@ -717,7 +717,7 @@ async def test_set_target_temp_ac_off(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_3")
-async def test_turn_away_mode_on_cooling(hass: __HAC_KEEP__) -> None:
+async def test_turn_away_mode_on_cooling(hass: UniversalAssistant) -> None:
     """Test the setting away mode when cooling."""
     _setup_switch(hass, True)
     _setup_sensor(hass, 25)
@@ -729,7 +729,7 @@ async def test_turn_away_mode_on_cooling(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_3")
-async def test_hvac_mode_cool(hass: __HAC_KEEP__) -> None:
+async def test_hvac_mode_cool(hass: UniversalAssistant) -> None:
     """Test change mode from OFF to COOL.
 
     Switch turns on when temp below setpoint and mode changes.
@@ -748,7 +748,7 @@ async def test_hvac_mode_cool(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_3")
-async def test_set_target_temp_ac_on(hass: __HAC_KEEP__) -> None:
+async def test_set_target_temp_ac_on(hass: UniversalAssistant) -> None:
     """Test if target temperature turn ac on."""
     calls = _setup_switch(hass, False)
     _setup_sensor(hass, 30)
@@ -762,7 +762,7 @@ async def test_set_target_temp_ac_on(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_3")
-async def test_temp_change_ac_off_within_tolerance(hass: __HAC_KEEP__) -> None:
+async def test_temp_change_ac_off_within_tolerance(hass: UniversalAssistant) -> None:
     """Test if temperature change doesn't turn ac off within tolerance."""
     calls = _setup_switch(hass, True)
     await common.async_set_temperature(hass, 30)
@@ -772,7 +772,7 @@ async def test_temp_change_ac_off_within_tolerance(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_3")
-async def test_set_temp_change_ac_off_outside_tolerance(hass: __HAC_KEEP__) -> None:
+async def test_set_temp_change_ac_off_outside_tolerance(hass: UniversalAssistant) -> None:
     """Test if temperature change turn ac off."""
     calls = _setup_switch(hass, True)
     await common.async_set_temperature(hass, 30)
@@ -786,7 +786,7 @@ async def test_set_temp_change_ac_off_outside_tolerance(hass: __HAC_KEEP__) -> N
 
 
 @pytest.mark.usefixtures("setup_comp_3")
-async def test_temp_change_ac_on_within_tolerance(hass: __HAC_KEEP__) -> None:
+async def test_temp_change_ac_on_within_tolerance(hass: UniversalAssistant) -> None:
     """Test if temperature change doesn't turn ac on within tolerance."""
     calls = _setup_switch(hass, False)
     await common.async_set_temperature(hass, 25)
@@ -796,7 +796,7 @@ async def test_temp_change_ac_on_within_tolerance(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_3")
-async def test_temp_change_ac_on_outside_tolerance(hass: __HAC_KEEP__) -> None:
+async def test_temp_change_ac_on_outside_tolerance(hass: UniversalAssistant) -> None:
     """Test if temperature change turn ac on."""
     calls = _setup_switch(hass, False)
     await common.async_set_temperature(hass, 25)
@@ -810,7 +810,7 @@ async def test_temp_change_ac_on_outside_tolerance(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_3")
-async def test_running_when_operating_mode_is_off_2(hass: __HAC_KEEP__) -> None:
+async def test_running_when_operating_mode_is_off_2(hass: UniversalAssistant) -> None:
     """Test that the switch turns off when enabled is set False."""
     calls = _setup_switch(hass, True)
     await common.async_set_temperature(hass, 30)
@@ -823,7 +823,7 @@ async def test_running_when_operating_mode_is_off_2(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_3")
-async def test_no_state_change_when_operation_mode_off_2(hass: __HAC_KEEP__) -> None:
+async def test_no_state_change_when_operation_mode_off_2(hass: UniversalAssistant) -> None:
     """Test that the switch doesn't turn on when enabled is False."""
     calls = _setup_switch(hass, False)
     await common.async_set_temperature(hass, 30)
@@ -833,7 +833,7 @@ async def test_no_state_change_when_operation_mode_off_2(hass: __HAC_KEEP__) -> 
     assert len(calls) == 0
 
 
-async def test_set_target_temp_with_hvac_mode_heat(hass: __HAC_KEEP__) -> None:
+async def test_set_target_temp_with_hvac_mode_heat(hass: UniversalAssistant) -> None:
     """Test setting the target temperature and HVAC mode together."""
     hass.config.units = METRIC_SYSTEM
     assert await async_setup_component(
@@ -859,7 +859,7 @@ async def test_set_target_temp_with_hvac_mode_heat(hass: __HAC_KEEP__) -> None:
     assert state.state == HVACMode.HEAT
 
 
-async def test_set_target_temp_with_hvac_mode_off(hass: __HAC_KEEP__) -> None:
+async def test_set_target_temp_with_hvac_mode_off(hass: UniversalAssistant) -> None:
     """Test setting a temperature while switching the climate mode to OFF."""
     hass.config.units = METRIC_SYSTEM
     assert await async_setup_component(
@@ -888,7 +888,7 @@ async def test_set_target_temp_with_hvac_mode_off(hass: __HAC_KEEP__) -> None:
 
 
 async def test_set_target_temp_with_hvac_mode_cool_when_ac_mode_enabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test that COOL is accepted from set_temperature when ac_mode is enabled."""
     hass.config.units = METRIC_SYSTEM
@@ -919,7 +919,7 @@ async def test_set_target_temp_with_hvac_mode_cool_when_ac_mode_enabled(
 
 
 async def _setup_thermostat_with_min_cycle_duration(
-    hass: __HAC_KEEP__, ac_mode: bool, initial_hvac_mode: HVACMode
+    hass: UniversalAssistant, ac_mode: bool, initial_hvac_mode: HVACMode
 ):
     """Initialize components."""
     hass.config.temperature_unit = UnitOfTemperature.CELSIUS
@@ -962,7 +962,7 @@ async def _setup_thermostat_with_min_cycle_duration(
     ],
 )
 async def test_heating_cooling_switch_does_not_toggle_when_within_min_cycle_duration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ac_mode: bool,
     initial_hvac_mode: HVACMode,
     initial_switch_state: bool,
@@ -1000,7 +1000,7 @@ async def test_heating_cooling_switch_does_not_toggle_when_within_min_cycle_dura
     ],
 )
 async def test_heating_cooling_switch_toggles_when_outside_min_cycle_duration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ac_mode: bool,
     initial_hvac_mode: HVACMode,
     initial_switch_state: bool,
@@ -1046,7 +1046,7 @@ async def test_heating_cooling_switch_toggles_when_outside_min_cycle_duration(
     ],
 )
 async def test_hvac_mode_change_toggles_switch_within_min_cycle_duration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ac_mode: bool,
     initial_hvac_mode: HVACMode,
     initial_switch_state: bool,
@@ -1076,7 +1076,7 @@ async def test_hvac_mode_change_toggles_switch_within_min_cycle_duration(
 
 
 @pytest.fixture
-async def setup_comp_7(hass: __HAC_KEEP__) -> None:
+async def setup_comp_7(hass: UniversalAssistant) -> None:
     """Initialize components."""
     hass.config.temperature_unit = UnitOfTemperature.CELSIUS
     assert await async_setup_component(
@@ -1105,7 +1105,7 @@ async def setup_comp_7(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_7")
-async def test_temp_change_ac_trigger_on_long_enough_3(hass: __HAC_KEEP__) -> None:
+async def test_temp_change_ac_trigger_on_long_enough_3(hass: UniversalAssistant) -> None:
     """Test if turn on signal is sent at keep-alive intervals."""
     calls = _setup_switch(hass, True)
     await hass.async_block_till_done()
@@ -1129,7 +1129,7 @@ async def test_temp_change_ac_trigger_on_long_enough_3(hass: __HAC_KEEP__) -> No
 
 
 @pytest.mark.usefixtures("setup_comp_7")
-async def test_temp_change_ac_trigger_off_long_enough_3(hass: __HAC_KEEP__) -> None:
+async def test_temp_change_ac_trigger_off_long_enough_3(hass: UniversalAssistant) -> None:
     """Test if turn on signal is sent at keep-alive intervals."""
     calls = _setup_switch(hass, False)
     await hass.async_block_till_done()
@@ -1153,7 +1153,7 @@ async def test_temp_change_ac_trigger_off_long_enough_3(hass: __HAC_KEEP__) -> N
 
 
 @pytest.fixture
-async def setup_comp_8(hass: __HAC_KEEP__) -> None:
+async def setup_comp_8(hass: UniversalAssistant) -> None:
     """Initialize components."""
     hass.config.temperature_unit = UnitOfTemperature.CELSIUS
     assert await async_setup_component(
@@ -1180,7 +1180,7 @@ async def setup_comp_8(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_8")
-async def test_temp_change_heater_trigger_on_long_enough_2(hass: __HAC_KEEP__) -> None:
+async def test_temp_change_heater_trigger_on_long_enough_2(hass: UniversalAssistant) -> None:
     """Test if turn on signal is sent at keep-alive intervals."""
     calls = _setup_switch(hass, True)
     await hass.async_block_till_done()
@@ -1205,7 +1205,7 @@ async def test_temp_change_heater_trigger_on_long_enough_2(hass: __HAC_KEEP__) -
 
 @pytest.mark.usefixtures("setup_comp_8")
 async def test_temp_change_heater_trigger_off_long_enough_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test if turn on signal is sent at keep-alive intervals."""
     calls = _setup_switch(hass, False)
@@ -1229,7 +1229,7 @@ async def test_temp_change_heater_trigger_off_long_enough_2(
     assert call.data["entity_id"] == ENT_SWITCH
 
 
-async def test_max_cycle_duration_turns_off(hass: __HAC_KEEP__) -> None:
+async def test_max_cycle_duration_turns_off(hass: UniversalAssistant) -> None:
     """Test that max_cycle_duration forces the heater off after the duration."""
     hass.config.temperature_unit = UnitOfTemperature.CELSIUS
     assert await async_setup_component(
@@ -1275,7 +1275,7 @@ async def test_max_cycle_duration_turns_off(hass: __HAC_KEEP__) -> None:
 
 
 async def test_external_toggle_resets_max_cycle(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that an external toggle cancels the max_cycle scheduled check."""
     hass.config.temperature_unit = UnitOfTemperature.CELSIUS
@@ -1322,7 +1322,7 @@ async def test_external_toggle_resets_max_cycle(
 
 
 async def test_default_cycle_cooldown_allows_immediate_restart(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test default `cycle_cooldown` allows immediate restart when omitted."""
     hass.config.temperature_unit = UnitOfTemperature.CELSIUS
@@ -1369,7 +1369,7 @@ async def test_default_cycle_cooldown_allows_immediate_restart(
 
 
 async def test_cycle_cooldown_schedules_restart_after_cooldown(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that cooldown blocks restart and schedules a restart check."""
     hass.config.temperature_unit = UnitOfTemperature.CELSIUS
@@ -1432,7 +1432,7 @@ async def test_cycle_cooldown_schedules_restart_after_cooldown(
     ],
 )
 async def test_recheck_scheduled_for_remaining_time(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     min_cycle_duration: int,
     cycle_cooldown: int,
@@ -1487,7 +1487,7 @@ async def test_recheck_scheduled_for_remaining_time(
 
 
 @pytest.fixture
-async def setup_comp_9(hass: __HAC_KEEP__) -> None:
+async def setup_comp_9(hass: UniversalAssistant) -> None:
     """Initialize components."""
     assert await async_setup_component(
         hass,
@@ -1513,7 +1513,7 @@ async def setup_comp_9(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_9")
-async def test_precision(hass: __HAC_KEEP__) -> None:
+async def test_precision(hass: UniversalAssistant) -> None:
     """Test that setting precision to tenths works as intended."""
     hass.config.units = US_CUSTOMARY_SYSTEM
     await common.async_set_temperature(hass, 55.27)
@@ -1529,7 +1529,7 @@ async def test_precision(hass: __HAC_KEEP__) -> None:
         HVACMode.COOL,
     ]
 )
-async def setup_comp_10(hass: __HAC_KEEP__, request: pytest.FixtureRequest) -> None:
+async def setup_comp_10(hass: UniversalAssistant, request: pytest.FixtureRequest) -> None:
     """Initialize components."""
     assert await async_setup_component(
         hass,
@@ -1551,7 +1551,7 @@ async def setup_comp_10(hass: __HAC_KEEP__, request: pytest.FixtureRequest) -> N
 
 
 @pytest.mark.usefixtures("setup_comp_10")
-async def test_zero_tolerances(hass: __HAC_KEEP__) -> None:
+async def test_zero_tolerances(hass: UniversalAssistant) -> None:
     """Test that having a zero tolerance doesn't cause the switch to flip-flop."""
 
     # if the switch is off, it should remain off
@@ -1569,7 +1569,7 @@ async def test_zero_tolerances(hass: __HAC_KEEP__) -> None:
     assert len(calls) == 0
 
 
-async def test_custom_setup_params(hass: __HAC_KEEP__) -> None:
+async def test_custom_setup_params(hass: UniversalAssistant) -> None:
     """Test the setup with custom parameters."""
     result = await async_setup_component(
         hass,
@@ -1597,7 +1597,7 @@ async def test_custom_setup_params(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.parametrize("hvac_mode", [HVACMode.OFF, HVACMode.HEAT, HVACMode.COOL])
-async def test_restore_state(hass: __HAC_KEEP__, hvac_mode) -> None:
+async def test_restore_state(hass: UniversalAssistant, hvac_mode) -> None:
     """Ensure states are restored on startup."""
     mock_restore_cache(
         hass,
@@ -1689,7 +1689,7 @@ async def test_restore_state(hass: __HAC_KEEP__, hvac_mode) -> None:
     ],
 )
 async def test_restore_temperature_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     restored_attributes: dict[str, int | str],
     extra_data: dict[str, Any] | None,
     unit_system: UnitSystem,
@@ -1726,7 +1726,7 @@ async def test_restore_temperature_unit(
     assert state.attributes[ATTR_TEMPERATURE] == expected_temperature
 
 
-async def test_no_restore_state(hass: __HAC_KEEP__) -> None:
+async def test_no_restore_state(hass: UniversalAssistant) -> None:
     """Ensure states are restored on startup if they exist.
 
     Allows for graceful reboot.
@@ -1763,7 +1763,7 @@ async def test_no_restore_state(hass: __HAC_KEEP__) -> None:
     assert state.state == HVACMode.OFF
 
 
-async def test_initial_hvac_off_force_heater_off(hass: __HAC_KEEP__) -> None:
+async def test_initial_hvac_off_force_heater_off(hass: UniversalAssistant) -> None:
     """Ensure that restored state is coherent with real situation.
 
     'initial_hvac_mode: off' will force HVAC status, but we must be sure
@@ -1801,7 +1801,7 @@ async def test_initial_hvac_off_force_heater_off(hass: __HAC_KEEP__) -> None:
     assert call.data["entity_id"] == ENT_SWITCH
 
 
-async def test_restore_will_turn_off_(hass: __HAC_KEEP__) -> None:
+async def test_restore_will_turn_off_(hass: UniversalAssistant) -> None:
     """Ensure that restored state is coherent with real situation.
 
     Thermostat status must trigger heater event if temp raises the target .
@@ -1849,7 +1849,7 @@ async def test_restore_will_turn_off_(hass: __HAC_KEEP__) -> None:
     assert hass.states.get(heater_switch).state == STATE_ON
 
 
-async def test_restore_will_turn_off_when_loaded_second(hass: __HAC_KEEP__) -> None:
+async def test_restore_will_turn_off_when_loaded_second(hass: UniversalAssistant) -> None:
     """Ensure that restored state is coherent with real situation.
 
     Switch is not available until after component is loaded
@@ -1909,7 +1909,7 @@ async def test_restore_will_turn_off_when_loaded_second(hass: __HAC_KEEP__) -> N
     assert call.data["entity_id"] == "input_boolean.test"
 
 
-async def test_restore_state_uncoherence_case(hass: __HAC_KEEP__) -> None:
+async def test_restore_state_uncoherence_case(hass: UniversalAssistant) -> None:
     """Test restore from a strange state.
 
     - Turn the generic thermostat off
@@ -1933,7 +1933,7 @@ async def test_restore_state_uncoherence_case(hass: __HAC_KEEP__) -> None:
     assert state.state == HVACMode.OFF
 
 
-async def _setup_climate(hass: __HAC_KEEP__) -> None:
+async def _setup_climate(hass: UniversalAssistant) -> None:
     assert await async_setup_component(
         hass,
         CLIMATE_DOMAIN,
@@ -1953,7 +1953,7 @@ async def _setup_climate(hass: __HAC_KEEP__) -> None:
 
 
 def _mock_restore_cache(
-    hass: __HAC_KEEP__, temperature: int = 20, hvac_mode: HVACMode = HVACMode.OFF
+    hass: UniversalAssistant, temperature: int = 20, hvac_mode: HVACMode = HVACMode.OFF
 ) -> None:
     mock_restore_cache(
         hass,
@@ -1967,7 +1967,7 @@ def _mock_restore_cache(
     )
 
 
-async def test_reload(hass: __HAC_KEEP__) -> None:
+async def test_reload(hass: UniversalAssistant) -> None:
     """Test we can reload."""
 
     assert await async_setup_component(
@@ -2003,7 +2003,7 @@ async def test_reload(hass: __HAC_KEEP__) -> None:
 
 
 async def test_device_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -2050,7 +2050,7 @@ async def test_device_id(
 
 
 async def test_device_id_yaml(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -2108,7 +2108,7 @@ async def test_device_id_yaml(
     ],
 )
 async def test_config_entry_precision_rounds_temperatures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     precision: str,
     sensor_reading: str,
     target_temp: float,
@@ -2146,7 +2146,7 @@ async def test_config_entry_precision_rounds_temperatures(
     ],
 )
 async def test_config_entry_target_temp_step(
-    hass: __HAC_KEEP__, temp_step: str, expected_step: float
+    hass: UniversalAssistant, temp_step: str, expected_step: float
 ) -> None:
     """Test target_temp_step from config entry options sets the step attribute."""
     config_entry = MockConfigEntry(
@@ -2166,7 +2166,7 @@ async def test_config_entry_target_temp_step(
 
 @pytest.mark.usefixtures("setup_comp_1")
 async def test_hvac_mode_change_user_context(
-    hass: __HAC_KEEP__, hass_admin_user: MockUser
+    hass: UniversalAssistant, hass_admin_user: MockUser
 ) -> None:
     """Test user context is preserved through the full chain.
 
@@ -2235,7 +2235,7 @@ async def test_hvac_mode_change_user_context(
 
 
 @pytest.mark.usefixtures("setup_comp_1")
-async def test_sensor_change_inherits_context(hass: __HAC_KEEP__) -> None:
+async def test_sensor_change_inherits_context(hass: UniversalAssistant) -> None:
     """Test that sensor changes set the sensor's context on the thermostat.
 
     When the sensor updates, the thermostat should inherit the sensor's
@@ -2285,7 +2285,7 @@ async def test_sensor_change_inherits_context(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("setup_comp_1")
 async def test_stale_context_not_used_as_parent(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that an expired context is not used as parent for the switch call.
 

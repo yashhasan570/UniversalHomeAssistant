@@ -12,7 +12,7 @@ from aionanoleaf2 import (
     NoAuthToken,
 )
 
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -42,7 +42,7 @@ class NanoleafEntity(CoordinatorEntity[NanoleafCoordinator]):
 def async_handle_nanoleaf_errors[EntityT: NanoleafEntity, **P](
     func: Callable[Concatenate[EntityT, P], Coroutine[Any, Any, None]],
 ) -> Callable[Concatenate[EntityT, P], Coroutine[Any, Any, None]]:
-    """Map aionanoleaf2 errors of an entity action to __HA_KEEP__ errors."""
+    """Map aionanoleaf2 errors of an entity action to Universal Home Assistant errors."""
 
     @wraps(func)
     async def wrapper(self: EntityT, /, *args: P.args, **kwargs: P.kwargs) -> None:
@@ -56,12 +56,12 @@ def async_handle_nanoleaf_errors[EntityT: NanoleafEntity, **P](
         except (AuthError, NoAuthToken) as err:
             # The token was revoked while the integration is running.
             self.coordinator.config_entry.async_start_reauth(self.hass)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="invalid_token",
             ) from err
         except NanoleafError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="cannot_connect",
             ) from err

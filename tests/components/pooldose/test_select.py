@@ -21,7 +21,7 @@ from universalassistant.const import (
     UnitOfVolume,
     UnitOfVolumeFlowRate,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -34,7 +34,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_all_selects(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -45,7 +45,7 @@ async def test_all_selects(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_select_entity_unavailable_no_coordinator_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_pooldose_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -68,7 +68,7 @@ async def test_select_entity_unavailable_no_coordinator_data(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_select_state_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_pooldose_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -99,7 +99,7 @@ async def test_select_state_changes(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_select_option_unit_conversion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pooldose_client: AsyncMock,
 ) -> None:
     """Test selecting an option with unit conversion (HA unit -> API value)."""
@@ -128,7 +128,7 @@ async def test_select_option_unit_conversion(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_select_option_flow_rate_unit_conversion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pooldose_client: AsyncMock,
 ) -> None:
     """Test selecting flow rate unit with conversion."""
@@ -157,7 +157,7 @@ async def test_select_option_flow_rate_unit_conversion(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_select_option_no_conversion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pooldose_client: AsyncMock,
 ) -> None:
     """Test selecting an option without unit conversion."""
@@ -188,7 +188,7 @@ async def test_select_option_no_conversion(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_select_dosing_method_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pooldose_client: AsyncMock,
 ) -> None:
     """Test selecting different dosing method options."""
@@ -219,7 +219,7 @@ async def test_select_dosing_method_options(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_select_dosing_set_high_low(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pooldose_client: AsyncMock,
 ) -> None:
     """Test selecting high/low dosing intensity."""
@@ -248,7 +248,7 @@ async def test_select_dosing_set_high_low(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_actions_cannot_connect_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pooldose_client: AsyncMock,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -279,7 +279,7 @@ async def test_actions_cannot_connect_select(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_actions_write_rejected_select(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_pooldose_client: AsyncMock,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,

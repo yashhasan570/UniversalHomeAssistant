@@ -23,7 +23,7 @@
         "title": "Complete pairing process"
       },
       "pairing_complete": {
-        "description": "Your VIZIO SmartCast device is now connected to __HA_KEEP__.",
+        "description": "Your VIZIO SmartCast device is now connected to Universal Home Assistant.",
         "title": "Pairing complete"
       },
       "reauth_confirm": {
@@ -48,7 +48,7 @@
         "data_description": {
           "access_token": "The access token used to authenticate with your TV. Leave empty to start a pairing process that will provide one.",
           "host": "Hostname or IP address of your VIZIO SmartCast device. Optionally include the port as host:port; otherwise the standard SmartCast ports are tried.",
-          "name": "The name used for the device and its entities in __HA_KEEP__."
+          "name": "The name used for the device and its entities in Universal Home Assistant."
         },
         "description": "An access token is only needed for TVs. If you are configuring a TV and do not have an access token yet, leave it blank to go through a pairing process."
       }

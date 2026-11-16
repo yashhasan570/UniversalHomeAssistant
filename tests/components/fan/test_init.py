@@ -12,7 +12,7 @@ from universalassistant.components.fan import (
     FanEntityFeature,
     NotValidPresetModeError,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -50,7 +50,7 @@ def test_fanentity() -> None:
         fan.turn_off()
 
 
-async def test_async_fanentity(hass: __HAC_KEEP__) -> None:
+async def test_async_fanentity(hass: UniversalAssistant) -> None:
     """Test async fan entity methods."""
     fan = BaseFan()
     fan.hass = hass
@@ -99,7 +99,7 @@ def test_fanentity_attributes(attribute_name, attribute_value) -> None:
 
 
 async def test_preset_mode_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     entity_registry: er.EntityRegistry,
 ) -> None:

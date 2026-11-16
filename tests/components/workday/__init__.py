@@ -1,4 +1,4 @@
-"""Tests the __HA_KEEP__ workday binary sensor."""
+"""Tests the Universal Home Assistant workday binary sensor."""
 
 from typing import Any
 
@@ -13,16 +13,16 @@ from universalassistant.components.workday.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: dict[str, Any],
     entry_id: str = "1",
     source: str = SOURCE_USER,
 ) -> MockConfigEntry:
-    """Set up the Workday integration in __HA_KEEP__."""
+    """Set up the Workday integration in Universal Home Assistant."""
 
     name = DEFAULT_NAME
     if config.get("country"):

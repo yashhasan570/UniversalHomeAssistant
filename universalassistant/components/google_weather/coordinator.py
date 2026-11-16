@@ -2,7 +2,7 @@
 
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
-from datetime import timedelta
+from datetime import timedelta, tzinfo
 from functools import partial
 import logging
 from typing import override
@@ -18,12 +18,13 @@ from google_weather_api import (
 
 from universalassistant.config_entries import ConfigEntry, ConfigSubentry
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import (
     TimestampDataUpdateCoordinator,
     UpdateFailed,
 )
+from universalassistant.util import dt as dt_util
 
 from .const import DOMAIN
 
@@ -66,7 +67,7 @@ class GoogleWeatherBaseCoordinator[T: _GoogleWeatherDataType](
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: GoogleWeatherConfigEntry,
         subentry: ConfigSubentry,
         data_type_name: str,
@@ -117,7 +118,7 @@ class GoogleWeatherCurrentConditionsCoordinator(
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: GoogleWeatherConfigEntry,
         subentry: ConfigSubentry,
         api: GoogleWeatherApi,
@@ -138,9 +139,11 @@ class GoogleWeatherDailyForecastCoordinator(
 ):
     """Handle fetching daily weather forecast."""
 
+    time_zone: tzinfo | None = None
+
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: GoogleWeatherConfigEntry,
         subentry: ConfigSubentry,
         api: GoogleWeatherApi,
@@ -155,6 +158,13 @@ class GoogleWeatherDailyForecastCoordinator(
             api.async_get_daily_forecast,
         )
 
+    @override
+    async def _async_update_data(self) -> DailyForecastResponse:
+        """Fetch daily forecast and resolve its time zone."""
+        data = await super()._async_update_data()
+        self.time_zone = await dt_util.async_get_time_zone(data.time_zone.id)
+        return data
+
 
 class GoogleWeatherHourlyForecastCoordinator(
     GoogleWeatherBaseCoordinator[HourlyForecastResponse]
@@ -163,7 +173,7 @@ class GoogleWeatherHourlyForecastCoordinator(
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: GoogleWeatherConfigEntry,
         subentry: ConfigSubentry,
         api: GoogleWeatherApi,

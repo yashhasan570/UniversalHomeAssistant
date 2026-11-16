@@ -11,13 +11,13 @@ from universalassistant.components.debug_console.const import (
     DOMAIN,
     WARNING_VERSION,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture
 async def setup_integration(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any], hass_admin_user: MockUser
+    hass: UniversalAssistant, hass_storage: dict[str, Any], hass_admin_user: MockUser
 ) -> None:
     """Set up the Debug console, with the warning accepted by the admin."""
     hass_storage[DOMAIN] = {
@@ -37,7 +37,7 @@ async def setup_integration(
 
 @pytest.fixture
 async def websocket_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_integration: None,
     hass_ws_client: WebSocketGenerator,
 ) -> MockHAClientWebSocket:

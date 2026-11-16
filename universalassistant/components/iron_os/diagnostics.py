@@ -3,13 +3,13 @@
 from typing import Any
 
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import IronOSConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, config_entry: IronOSConfigEntry
+    hass: UniversalAssistant, config_entry: IronOSConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
 

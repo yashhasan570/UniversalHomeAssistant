@@ -5,7 +5,7 @@ from typing import Any
 from openai import __title__, __version__
 
 from universalassistant.const import CONF_PROMPT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import OpenAIConfigEntry
 from .const import (
@@ -25,7 +25,7 @@ TO_OMIT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: OpenAIConfigEntry
+    hass: UniversalAssistant, entry: OpenAIConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return {

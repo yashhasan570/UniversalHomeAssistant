@@ -19,7 +19,7 @@ from universalassistant.const import (
     CONF_RADIUS,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.fixture
@@ -34,7 +34,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 @pytest.fixture(name="config_entry")
 def mock_config_entry() -> MockConfigEntry:
-    """Create OpenSky entry in __HA_KEEP__."""
+    """Create OpenSky entry in Universal Home Assistant."""
     return MockConfigEntry(
         domain=DOMAIN,
         title="OpenSky",
@@ -51,7 +51,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 @pytest.fixture(name="config_entry_altitude")
 def mock_config_entry_altitude() -> MockConfigEntry:
-    """Create Opensky entry with altitude in __HA_KEEP__."""
+    """Create Opensky entry with altitude in Universal Home Assistant."""
     return MockConfigEntry(
         domain=DOMAIN,
         title="OpenSky",
@@ -68,7 +68,7 @@ def mock_config_entry_altitude() -> MockConfigEntry:
 
 @pytest.fixture(name="config_entry_authenticated")
 def mock_config_entry_authenticated() -> MockConfigEntry:
-    """Create authenticated Opensky entry in __HA_KEEP__."""
+    """Create authenticated Opensky entry in Universal Home Assistant."""
     return MockConfigEntry(
         domain=DOMAIN,
         title="OpenSky",
@@ -87,7 +87,7 @@ def mock_config_entry_authenticated() -> MockConfigEntry:
 
 
 @pytest.fixture
-async def opensky_client(hass: __HAC_KEEP__) -> AsyncGenerator[AsyncMock]:
+async def opensky_client(hass: UniversalAssistant) -> AsyncGenerator[AsyncMock]:
     """Mock the OpenSky client."""
     with (
         patch(

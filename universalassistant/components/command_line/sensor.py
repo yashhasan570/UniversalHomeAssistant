@@ -11,7 +11,7 @@ from universalassistant.const import (
     CONF_SCAN_INTERVAL,
     CONF_VALUE_TEMPLATE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.event import async_track_time_interval
 from universalassistant.helpers.template import Template
@@ -42,7 +42,7 @@ SCAN_INTERVAL = timedelta(seconds=60)
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -189,7 +189,7 @@ class CommandSensorData:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         command: str,
         command_timeout: int,
         platform: str,

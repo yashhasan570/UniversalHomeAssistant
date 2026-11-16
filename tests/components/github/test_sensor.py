@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.github.const import FALLBACK_UPDATE_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -23,7 +23,7 @@ TEST_SENSOR_ENTITY = "sensor.octocat_hello_world_latest_release"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     github_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -36,7 +36,7 @@ async def test_all_entities(
 
 
 async def test_sensor_updates_with_empty_release_array(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     github_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -57,7 +57,7 @@ async def test_sensor_updates_with_empty_release_array(
 
 
 async def test_latest_release_downloads_without_assets(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     github_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

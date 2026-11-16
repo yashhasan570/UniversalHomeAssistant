@@ -14,8 +14,8 @@ from universalassistant.components.subaru.services import (
     SubaruServiceArgument,
 )
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MOCK_API, MOCK_API_FETCH, advance_time_to_next_fetch
@@ -26,14 +26,14 @@ DEVICE_ID = "lock.test_vehicle_2_door_locks"
 
 
 async def test_device_exists(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, ev_entry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, ev_entry
 ) -> None:
     """Test subaru lock entity exists."""
     entry = entity_registry.async_get(DEVICE_ID)
     assert entry
 
 
-async def test_lock_cmd(hass: __HAC_KEEP__, ev_entry) -> None:
+async def test_lock_cmd(hass: UniversalAssistant, ev_entry) -> None:
     """Test subaru lock function."""
     with patch(MOCK_API_LOCK) as mock_lock:
         await hass.services.async_call(
@@ -46,7 +46,7 @@ async def test_lock_cmd(hass: __HAC_KEEP__, ev_entry) -> None:
         mock_lock.assert_called_once()
 
 
-async def test_unlock_cmd(hass: __HAC_KEEP__, ev_entry) -> None:
+async def test_unlock_cmd(hass: UniversalAssistant, ev_entry) -> None:
     """Test subaru unlock function."""
     with patch(MOCK_API_UNLOCK) as mock_unlock:
         await hass.services.async_call(
@@ -59,11 +59,11 @@ async def test_unlock_cmd(hass: __HAC_KEEP__, ev_entry) -> None:
         mock_unlock.assert_called_once()
 
 
-async def test_lock_cmd_fails(hass: __HAC_KEEP__, ev_entry) -> None:
+async def test_lock_cmd_fails(hass: UniversalAssistant, ev_entry) -> None:
     """Test subaru lock request that initiates but fails."""
     with (
         patch(MOCK_API_LOCK, return_value=False) as mock_lock,
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             LOCK_DOMAIN,
@@ -74,7 +74,7 @@ async def test_lock_cmd_fails(hass: __HAC_KEEP__, ev_entry) -> None:
     mock_lock.assert_not_called()
 
 
-async def test_unlock_specific_door(hass: __HAC_KEEP__, ev_entry) -> None:
+async def test_unlock_specific_door(hass: UniversalAssistant, ev_entry) -> None:
     """Test subaru unlock specific door function."""
     with patch(MOCK_API_UNLOCK) as mock_unlock:
         await hass.services.async_call(
@@ -90,7 +90,7 @@ async def test_unlock_specific_door(hass: __HAC_KEEP__, ev_entry) -> None:
         mock_unlock.assert_called_once()
 
 
-async def test_unlock_specific_door_invalid(hass: __HAC_KEEP__, ev_entry) -> None:
+async def test_unlock_specific_door_invalid(hass: UniversalAssistant, ev_entry) -> None:
     """Test subaru unlock specific door function."""
     with patch(MOCK_API_UNLOCK) as mock_unlock, pytest.raises(MultipleInvalid):
         await hass.services.async_call(
@@ -106,7 +106,7 @@ async def test_unlock_specific_door_invalid(hass: __HAC_KEEP__, ev_entry) -> Non
 
 
 async def test_lock_unavailable_on_fetch_failure(
-    hass: __HAC_KEEP__, ev_entry: MockConfigEntry
+    hass: UniversalAssistant, ev_entry: MockConfigEntry
 ) -> None:
     """Test lock goes unavailable when a fetch fails after setup."""
     with patch(MOCK_API_FETCH, side_effect=SubaruException("403 Error")):

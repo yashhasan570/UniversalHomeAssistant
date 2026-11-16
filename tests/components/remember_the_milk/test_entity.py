@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.remember_the_milk import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -28,7 +28,7 @@ CONFIG = {
     [(None, "ok"), (AuthError("Invalid token!"), "API token invalid")],
 )
 async def test_entity_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     check_token_side_effect: Exception | None,
@@ -138,7 +138,7 @@ async def test_entity_state(
     ],
 )
 async def test_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     storage: MagicMock,
     get_rtm_id_return_value: Any,
@@ -261,7 +261,7 @@ async def test_services(
     ],
 )
 async def test_services_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     storage: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -323,7 +323,7 @@ async def test_services_errors(
     ],
 )
 async def test_services_auth_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     storage: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -369,7 +369,7 @@ async def test_services_auth_errors(
     ],
 )
 async def test_deprecated_action_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     config_entry: MockConfigEntry,
     service: str,

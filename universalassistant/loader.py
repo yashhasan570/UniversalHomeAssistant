@@ -1,4 +1,4 @@
-"""The methods for loading __HA_KEEP__ integrations.
+"""The methods for loading Universal Home Assistant integrations.
 
 This module has quite some complex parts. I have tried to add as much
 documentation as possible to keep it understandable.
@@ -36,7 +36,7 @@ from propcache.api import cached_property
 
 from . import generated
 from .const import Platform
-from .core import __HAC_KEEP__, callback
+from .core import UniversalAssistant, callback
 from .generated.application_credentials import APPLICATION_CREDENTIALS
 from .generated.bluetooth import BLUETOOTH
 from .generated.config_flows import FLOWS
@@ -136,17 +136,17 @@ class BlockedIntegration:
 
 
 BLOCKED_CUSTOM_INTEGRATIONS: dict[str, BlockedIntegration] = {
-    # Added in 2024.3.0 because of https://github.com/yashhasan570/__HAC_KEEP__/issues/112464
-    "start_time": BlockedIntegration(AwesomeVersion("1.1.7"), "breaks __HA_KEEP__"),
+    # Added in 2024.3.0 because of https://github.com/yashhasan570/UniversalUniversalAssistant/issues/112464
+    "start_time": BlockedIntegration(AwesomeVersion("1.1.7"), "breaks Universal Home Assistant"),
     # Added in 2024.5.1 because of
     # https://community.universalassistant.io/t/psa-2024-5-upgrade-failure-and-dreame-vacuum-custom-integration/724612
     "dreame_vacuum": BlockedIntegration(
-        AwesomeVersion("1.0.4"), "crashes __HA_KEEP__"
+        AwesomeVersion("1.0.4"), "crashes Universal Home Assistant"
     ),
     # Added in 2024.5.5 because of
     # https://github.com/sh00t2kill/dolphin-robot/issues/185
     "mydolphin_plus": BlockedIntegration(
-        AwesomeVersion("1.0.13"), "crashes __HA_KEEP__"
+        AwesomeVersion("1.0.13"), "crashes Universal Home Assistant"
     ),
     # Added in 2024.7.2 because of
     # https://github.com/gcobb321/icloud3/issues/349
@@ -172,12 +172,12 @@ BLOCKED_CUSTOM_INTEGRATIONS: dict[str, BlockedIntegration] = {
     # https://github.com/JaccoR/hass-entso-e/issues/263
     "entsoe": BlockedIntegration(
         AwesomeVersion("0.7.1"),
-        "crashes __HA_KEEP__ when it can't connect to the API",
+        "crashes Universal Home Assistant when it can't connect to the API",
     ),
-    # Added in 2026.11.0 because HACS ships with __HA_KEEP__ now
+    # Added in 2026.11.0 because HACS ships with Universal Home Assistant now
     "hacs": BlockedIntegration(
         None,
-        "is now built into __HA_KEEP__ as the Marketplace",
+        "is now built into Universal Home Assistant as the Marketplace",
         replaced_by="marketplace",
     ),
 }
@@ -205,15 +205,15 @@ PACKAGE_CUSTOM_COMPONENTS = "custom_components"
 PACKAGE_BUILTIN = "universalassistant.components"
 CUSTOM_WARNING = (
     "We found a custom integration %s which has not "
-    "been tested by __HA_KEEP__. This component might "
+    "been tested by Universal Home Assistant. This component might "
     "cause stability problems, be sure to disable it if you "
-    "experience issues with __HA_KEEP__"
+    "experience issues with Universal Home Assistant"
 )
 IMPORT_EVENT_LOOP_WARNING = (
     "We found an integration %s which is configured to "
     "to import its code in the event loop. This component might "
     "cause stability problems, be sure to disable it if you "
-    "experience issues with __HA_KEEP__"
+    "experience issues with Universal Home Assistant"
 )
 
 MOVED_ZEROCONF_PROPS = ("macaddress", "model", "manufacturer")
@@ -336,7 +336,7 @@ class Manifest(TypedDict, total=False):
     preview_features: dict[str, dict[str, str]]
 
 
-def async_setup(hass: __HAC_KEEP__) -> None:
+def async_setup(hass: UniversalAssistant) -> None:
     """Set up the necessary data structures."""
     async_mount_config_dir(hass)
     hass.data[DATA_COMPONENTS] = {}
@@ -356,7 +356,7 @@ def manifest_from_legacy_module(domain: str, module: ModuleType) -> Manifest:
     }
 
 
-def _get_custom_components(hass: __HAC_KEEP__) -> dict[str, Integration]:
+def _get_custom_components(hass: UniversalAssistant) -> dict[str, Integration]:
     """Return list of custom integrations."""
     if hass.config.recovery_mode or hass.config.safe_mode:
         return {}
@@ -386,7 +386,7 @@ def _get_custom_components(hass: __HAC_KEEP__) -> dict[str, Integration]:
 
 
 async def async_get_custom_components(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> dict[str, Integration]:
     """Return cached list of custom integrations."""
     comps_or_future = hass.data.get(DATA_CUSTOM_COMPONENTS)
@@ -418,7 +418,7 @@ async def async_get_custom_components(
 
 
 @callback
-def async_clear_custom_components_cache(hass: __HAC_KEEP__) -> None:
+def async_clear_custom_components_cache(hass: UniversalAssistant) -> None:
     """Clear the cached list of custom integrations.
 
     The next call to async_get_custom_components scans the custom_components
@@ -430,7 +430,7 @@ def async_clear_custom_components_cache(hass: __HAC_KEEP__) -> None:
 
 
 async def async_get_config_flows(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     type_filter: Literal["device", "helper", "hub", "service"] | None = None,
 ) -> set[str]:
     """Return cached list of config flows."""
@@ -460,28 +460,28 @@ class ComponentProtocol(Protocol):
     DOMAIN: str
 
     async def async_setup_entry(
-        self, hass: __HAC_KEEP__, config_entry: ConfigEntry
+        self, hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         """Set up a config entry."""
 
     async def async_unload_entry(
-        self, hass: __HAC_KEEP__, config_entry: ConfigEntry
+        self, hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         """Unload a config entry."""
 
     async def async_migrate_entry(
-        self, hass: __HAC_KEEP__, config_entry: ConfigEntry
+        self, hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         """Migrate an old config entry."""
 
     async def async_remove_entry(
-        self, hass: __HAC_KEEP__, config_entry: ConfigEntry
+        self, hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         """Remove a config entry."""
 
     async def async_remove_config_entry_device(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         device_entry: dr.AnyDeviceEntry,
     ) -> bool:
@@ -492,19 +492,19 @@ class ComponentProtocol(Protocol):
         """
 
     async def async_reset_platform(
-        self, hass: __HAC_KEEP__, integration_name: str
+        self, hass: UniversalAssistant, integration_name: str
     ) -> None:
         """Release resources."""
 
-    async def async_setup(self, hass: __HAC_KEEP__, config: ConfigType) -> bool:
+    async def async_setup(self, hass: UniversalAssistant, config: ConfigType) -> bool:
         """Set up integration."""
 
-    def setup(self, hass: __HAC_KEEP__, config: ConfigType) -> bool:
+    def setup(self, hass: UniversalAssistant, config: ConfigType) -> bool:
         """Set up integration."""
 
 
 async def async_get_integration_descriptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> dict[str, Any]:
     """Return cached list of integrations."""
     base = generated.__path__[0]
@@ -552,7 +552,7 @@ async def async_get_integration_descriptions(
     return {"core": core_flows, "custom": custom_flows}
 
 
-async def async_get_application_credentials(hass: __HAC_KEEP__) -> list[str]:
+async def async_get_application_credentials(hass: UniversalAssistant) -> list[str]:
     """Return cached list of application credentials."""
     integrations = await async_get_custom_components(hass)
 
@@ -592,7 +592,7 @@ def async_process_zeroconf_match_dict(entry: dict[str, Any]) -> ZeroconfMatcher:
 
 
 async def async_get_zeroconf(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> dict[str, list[ZeroconfMatcher]]:
     """Return cached list of zeroconf types."""
     # Copy the lists too, custom integrations append to them below
@@ -619,7 +619,7 @@ async def async_get_zeroconf(
     return zeroconf
 
 
-async def async_get_bluetooth(hass: __HAC_KEEP__) -> list[BluetoothMatcher]:
+async def async_get_bluetooth(hass: UniversalAssistant) -> list[BluetoothMatcher]:
     """Return cached list of bluetooth types."""
     bluetooth = cast(list[BluetoothMatcher], BLUETOOTH.copy())
 
@@ -635,7 +635,7 @@ async def async_get_bluetooth(hass: __HAC_KEEP__) -> list[BluetoothMatcher]:
     return bluetooth
 
 
-async def async_get_dhcp(hass: __HAC_KEEP__) -> list[DHCPMatcher]:
+async def async_get_dhcp(hass: UniversalAssistant) -> list[DHCPMatcher]:
     """Return cached list of dhcp types."""
     dhcp = cast(list[DHCPMatcher], DHCP.copy())
 
@@ -649,7 +649,7 @@ async def async_get_dhcp(hass: __HAC_KEEP__) -> list[DHCPMatcher]:
     return dhcp
 
 
-async def async_get_usb(hass: __HAC_KEEP__) -> list[USBMatcher]:
+async def async_get_usb(hass: UniversalAssistant) -> list[USBMatcher]:
     """Return cached list of usb types."""
     usb = cast(list[USBMatcher], USB.copy())
 
@@ -686,7 +686,7 @@ def homekit_always_discover(iot_class: str | None) -> bool:
 
 
 async def async_get_homekit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> dict[str, HomeKitDiscoveredIntegration]:
     """Return cached list of homekit models."""
     homekit: dict[str, HomeKitDiscoveredIntegration] = {
@@ -714,7 +714,7 @@ async def async_get_homekit(
 
 
 async def async_get_lorawan(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> dict[str, list[tuple[str, int | str]]]:
     """Return LoRaWAN vendor registrations, including custom integrations."""
     registrations = LORAWAN.copy()
@@ -736,7 +736,7 @@ async def async_get_lorawan(
     return registrations
 
 
-async def async_get_ssdp(hass: __HAC_KEEP__) -> dict[str, list[dict[str, str]]]:
+async def async_get_ssdp(hass: UniversalAssistant) -> dict[str, list[dict[str, str]]]:
     """Return cached list of ssdp mappings."""
 
     ssdp: dict[str, list[dict[str, str]]] = SSDP.copy()
@@ -751,7 +751,7 @@ async def async_get_ssdp(hass: __HAC_KEEP__) -> dict[str, list[dict[str, str]]]:
     return ssdp
 
 
-async def async_get_mqtt(hass: __HAC_KEEP__) -> dict[str, list[str]]:
+async def async_get_mqtt(hass: UniversalAssistant) -> dict[str, list[str]]:
     """Return cached list of MQTT mappings."""
 
     mqtt: dict[str, list[str]] = MQTT.copy()
@@ -767,7 +767,7 @@ async def async_get_mqtt(hass: __HAC_KEEP__) -> dict[str, list[str]]:
 
 
 @callback
-def async_register_preload_platform(hass: __HAC_KEEP__, platform_name: str) -> None:
+def async_register_preload_platform(hass: UniversalAssistant, platform_name: str) -> None:
     """Register a platform to be preloaded."""
     preload_platforms = hass.data[DATA_PRELOAD_PLATFORMS]
     if platform_name not in preload_platforms:
@@ -776,11 +776,11 @@ def async_register_preload_platform(hass: __HAC_KEEP__, platform_name: str) -> N
 
 @final  # Final to allow direct checking of the type instead of using isinstance
 class Integration:
-    """An integration in __HA_KEEP__."""
+    """An integration in Universal Home Assistant."""
 
     @classmethod
     def resolve_from_root(
-        cls, hass: __HAC_KEEP__, root_module: ModuleType, domain: str
+        cls, hass: UniversalAssistant, root_module: ModuleType, domain: str
     ) -> Integration | None:
         """Resolve an integration from a root module."""
         for base in root_module.__path__:
@@ -822,7 +822,7 @@ class Integration:
             ) and blocked.replaced_by is not None:
                 _LOGGER.info(
                     (
-                        "Custom integration '%s' is now part of __HA_KEEP__"
+                        "Custom integration '%s' is now part of Universal Home Assistant"
                         " as '%s' and is no longer loaded"
                     ),
                     integration.domain,
@@ -889,7 +889,7 @@ class Integration:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         pkg_path: str,
         file_path: pathlib.Path,
         manifest: Manifest,
@@ -1485,7 +1485,7 @@ def _version_blocked(
 
 
 def _resolve_integrations_from_root(
-    hass: __HAC_KEEP__, root_module: ModuleType, domains: Iterable[str]
+    hass: UniversalAssistant, root_module: ModuleType, domains: Iterable[str]
 ) -> dict[str, Integration]:
     """Resolve multiple integrations from root."""
     integrations: dict[str, Integration] = {}
@@ -1501,7 +1501,7 @@ def _resolve_integrations_from_root(
 
 
 @callback
-def async_get_loaded_integration(hass: __HAC_KEEP__, domain: str) -> Integration:
+def async_get_loaded_integration(hass: UniversalAssistant, domain: str) -> Integration:
     """Get an integration which is already loaded.
 
     Raises IntegrationNotLoaded if the integration is not loaded.
@@ -1514,7 +1514,7 @@ def async_get_loaded_integration(hass: __HAC_KEEP__, domain: str) -> Integration
     raise IntegrationNotLoaded(domain)
 
 
-async def async_get_integration(hass: __HAC_KEEP__, domain: str) -> Integration:
+async def async_get_integration(hass: UniversalAssistant, domain: str) -> Integration:
     """Get integration."""
     cache = hass.data[DATA_INTEGRATIONS]
     if type(int_or_fut := cache.get(domain)) is Integration:
@@ -1527,7 +1527,7 @@ async def async_get_integration(hass: __HAC_KEEP__, domain: str) -> Integration:
 
 
 async def async_get_integrations(
-    hass: __HAC_KEEP__, domains: Iterable[str]
+    hass: UniversalAssistant, domains: Iterable[str]
 ) -> dict[str, Integration | Exception]:
     """Get integrations."""
     cache = hass.data[DATA_INTEGRATIONS]
@@ -1626,7 +1626,7 @@ class _ResolveDependenciesCache(_ResolveDependenciesCacheProtocol):
 
 
 async def resolve_integrations_dependencies(
-    hass: __HAC_KEEP__, integrations: Iterable[Integration]
+    hass: UniversalAssistant, integrations: Iterable[Integration]
 ) -> dict[str, set[str]]:
     """Resolve all dependencies for integrations.
 
@@ -1642,7 +1642,7 @@ async def resolve_integrations_dependencies(
 
 
 async def resolve_integrations_after_dependencies(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integrations: Iterable[Integration],
     possible_after_dependencies: set[str] | None = None,
     *,
@@ -1663,7 +1663,7 @@ async def resolve_integrations_after_dependencies(
 
 
 async def _resolve_integrations_dependencies(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     name: str,
     integrations: Iterable[Integration],
     *,
@@ -1835,7 +1835,7 @@ def bind_hass[_CallableT: Callable[..., Any]](func: _CallableT) -> _CallableT:
     return func
 
 
-def async_mount_config_dir(hass: __HAC_KEEP__) -> None:
+def async_mount_config_dir(hass: UniversalAssistant) -> None:
     """Mount config dir in order to load custom_component.
 
     Async friendly but not a coroutine. Only a custom_components folder that
@@ -1849,14 +1849,14 @@ def async_mount_config_dir(hass: __HAC_KEEP__) -> None:
     sys.path_importer_cache.pop(hass.config.config_dir, None)
 
 
-def is_component_module_loaded(hass: __HAC_KEEP__, module: str) -> bool:
+def is_component_module_loaded(hass: UniversalAssistant, module: str) -> bool:
     """Test if a component module is loaded."""
     return module in hass.data[DATA_COMPONENTS]
 
 
 @callback
 def async_get_issue_integration(
-    hass: __HAC_KEEP__ | None,
+    hass: UniversalAssistant | None,
     integration_domain: str | None,
 ) -> Integration | None:
     """Return details of an integration for issue reporting."""
@@ -1879,7 +1879,7 @@ def async_get_issue_integration(
 
 @callback
 def async_get_issue_tracker(
-    hass: __HAC_KEEP__ | None,
+    hass: UniversalAssistant | None,
     *,
     integration: Integration | None = None,
     integration_domain: str | None = None,
@@ -1887,7 +1887,7 @@ def async_get_issue_tracker(
 ) -> str | None:
     """Return a URL for an integration's issue tracker."""
     issue_tracker = (
-        "https://github.com/yashhasan570/__HAC_KEEP__/issues?q=is%3Aopen+is%3Aissue"
+        "https://github.com/yashhasan570/UniversalUniversalAssistant/issues?q=is%3Aopen+is%3Aissue"
     )
     if not integration and not integration_domain and not module:
         # If we know nothing about the integration, suggest opening an issue on HA core
@@ -1919,7 +1919,7 @@ def async_get_issue_tracker(
 
 @callback
 def async_suggest_report_issue(
-    hass: __HAC_KEEP__ | None,
+    hass: UniversalAssistant | None,
     *,
     integration: Integration | None = None,
     integration_domain: str | None = None,

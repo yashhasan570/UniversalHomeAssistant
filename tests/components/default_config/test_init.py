@@ -7,7 +7,7 @@ import pytest
 from universalassistant import bootstrap
 from universalassistant.components.default_config import DOMAIN
 from universalassistant.components.universalassistant import DOMAIN as HOMEASSISTANT_DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import recorder as recorder_helper
 from universalassistant.setup import async_setup_component
 
@@ -33,7 +33,7 @@ def recorder_url_mock():
 
 
 @pytest.mark.usefixtures("mock_bluetooth", "mock_zeroconf", "socket_enabled")
-async def test_setup(hass: __HAC_KEEP__) -> None:
+async def test_setup(hass: UniversalAssistant) -> None:
     """Test setup."""
     recorder_helper.async_initialize_recorder(hass)
     # default_config needs the universalassistant integration, assert it will be

@@ -7,7 +7,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.util.network import is_host_valid
 
 from .const import DOMAIN
@@ -65,9 +65,9 @@ class DuneHDConfigFlow(ConfigFlow, domain=DOMAIN):
         return host in existing_hosts
 
 
-class CannotConnect(__HAC_KEEP__Error):
+class CannotConnect(UniversalAssistantError):
     """Error to indicate we cannot connect."""
 
 
-class AlreadyConfigured(__HAC_KEEP__Error):
+class AlreadyConfigured(UniversalAssistantError):
     """Error to indicate device is already configured."""

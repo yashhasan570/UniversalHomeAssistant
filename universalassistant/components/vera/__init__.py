@@ -12,7 +12,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 
@@ -28,7 +28,7 @@ from .const import CONF_CONTROLLER, DOMAIN
 CONFIG_SCHEMA = cv.removed(DOMAIN, raise_if_present=False)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: VeraConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: VeraConfigEntry) -> None:
     """Do setup of vera."""
     # Use options entered during initial config flow or provided from configuration.yml
     if entry.data.get(CONF_LIGHTS) or entry.data.get(CONF_EXCLUDE):
@@ -107,7 +107,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: VeraConfigEntry) -> None:
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: VeraConfigEntry
+    hass: UniversalAssistant, config_entry: VeraConfigEntry
 ) -> None:
     """Unload vera config entry."""
     controller_data = config_entry.runtime_data
@@ -124,7 +124,7 @@ async def async_unload_entry(
 def map_vera_device(
     vera_device: veraApi.VeraDevice, remap: list[int]
 ) -> Platform | None:
-    """Map vera classes to __HA_KEEP__ types."""
+    """Map vera classes to Universal Home Assistant types."""
 
     type_map = {
         veraApi.VeraDimmer: Platform.LIGHT,

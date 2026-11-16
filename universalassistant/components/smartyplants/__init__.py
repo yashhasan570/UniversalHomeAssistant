@@ -3,7 +3,7 @@
 from pysmartyplants import SmartyPlantsClient
 
 from universalassistant.const import CONF_API_KEY, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .coordinator import SmartyPlantsConfigEntry, SmartyPlantsCoordinator
@@ -13,7 +13,7 @@ PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: SmartyPlantsConfigEntry
+    hass: UniversalAssistant, entry: SmartyPlantsConfigEntry
 ) -> None:
     """Set up SmartyPlants from a config entry."""
     client = SmartyPlantsClient(
@@ -33,7 +33,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: SmartyPlantsConfigEntry
+    hass: UniversalAssistant, entry: SmartyPlantsConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

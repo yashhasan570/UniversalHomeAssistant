@@ -22,7 +22,7 @@ from yarl import URL
 from universalassistant.auth import jwt_wrapper
 from universalassistant.auth.const import GROUP_ID_READ_ONLY
 from universalassistant.components import websocket_api
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.http import KEY_AUTHENTICATED, current_request
 from universalassistant.helpers.json import json_bytes
 from universalassistant.helpers.storage import Store
@@ -44,12 +44,12 @@ SAFE_QUERY_PARAMS: Final = frozenset(("height", "width"))
 
 STORAGE_VERSION = 1
 STORAGE_KEY = "http.auth"
-CONTENT_USER_NAME = "__HA_KEEP__ Content"
+CONTENT_USER_NAME = "Universal Home Assistant Content"
 
 
 @callback
 def async_sign_path(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     path: str,
     expiration: timedelta,
     *,
@@ -94,7 +94,7 @@ def async_sign_path(
 
 
 async def async_setup_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     app: Application,
 ) -> None:
     """Create auth middleware for the app."""

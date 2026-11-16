@@ -49,7 +49,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfVolumetricFlux,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -357,7 +357,7 @@ WEATHER_SENSORS: Final[tuple[AemetSensorEntityDescription, ...]] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: AemetConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

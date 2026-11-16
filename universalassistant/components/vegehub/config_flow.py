@@ -135,7 +135,7 @@ class VegeHubConfigFlow(ConfigFlow, domain=DOMAIN):
 
         # Send the webhook address to the hub as its server target.
         # This step can happen in the init, because that gets executed
-        # every time __HA_KEEP__ starts up, and this step should
+        # every time Universal Home Assistant starts up, and this step should
         # only happen in the initial setup of the VegeHub.
         try:
             await self._hub.setup("", webhook_url, retries=1)

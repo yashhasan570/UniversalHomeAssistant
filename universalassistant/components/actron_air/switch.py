@@ -6,7 +6,7 @@ from typing import Any, override
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import ActronAirConfigEntry, ActronAirSystemCoordinator
@@ -70,7 +70,7 @@ SWITCHES: tuple[ActronAirSwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ActronAirConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

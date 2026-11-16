@@ -1,11 +1,11 @@
-"""API for NEW_NAME bound to __HA_KEEP__ OAuth."""
+"""API for NEW_NAME bound to Universal Home Assistant OAuth."""
 
 from asyncio import run_coroutine_threadsafe
 
 from aiohttp import ClientSession
 import my_pypi_package
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_entry_oauth2_flow
 
 # TODO the following two API examples are based on our suggested best practices
@@ -18,7 +18,7 @@ class ConfigEntryAuth(my_pypi_package.AbstractAuth):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         oauth_session: config_entry_oauth2_flow.OAuth2Session,
     ) -> None:
         """Initialize NEW_NAME Auth."""

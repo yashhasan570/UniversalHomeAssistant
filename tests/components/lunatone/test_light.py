@@ -27,15 +27,15 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
 
 
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -57,7 +57,7 @@ async def test_setup(
 
 
 async def test_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -100,7 +100,7 @@ async def test_turn_on_off(
 
 
 async def test_turn_on_off_with_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -117,7 +117,7 @@ async def test_turn_on_off_with_connection_error(
     device.switch_on.side_effect = aiohttp.ClientConnectionError()
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=f"Unable to connect to the device and turn on {entity_id}",
     ):
         await hass.services.async_call(
@@ -130,7 +130,7 @@ async def test_turn_on_off_with_connection_error(
     device.switch_off.side_effect = aiohttp.ClientConnectionError()
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=f"Unable to connect to the device and turn off {entity_id}",
     ):
         await hass.services.async_call(
@@ -142,7 +142,7 @@ async def test_turn_on_off_with_connection_error(
 
 
 async def test_turn_on_off_with_brightness(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -203,7 +203,7 @@ async def test_turn_on_off_with_brightness(
 
 
 async def test_turn_on_off_broadcast(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -267,7 +267,7 @@ async def test_turn_on_off_broadcast(
 
 
 async def test_turn_on_off_broadcast_with_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -286,7 +286,7 @@ async def test_turn_on_off_broadcast_with_connection_error(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=f"Unable to connect to the device and turn on {entity_id}",
     ):
         await hass.services.async_call(
@@ -301,7 +301,7 @@ async def test_turn_on_off_broadcast_with_connection_error(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=f"Unable to connect to the device and turn off {entity_id}",
     ):
         await hass.services.async_call(
@@ -313,7 +313,7 @@ async def test_turn_on_off_broadcast_with_connection_error(
 
 
 async def test_line_broadcast_available_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -362,7 +362,7 @@ async def test_line_broadcast_available_status(
     [10000, 5000, 1000],
 )
 async def test_turn_on_with_color_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -403,7 +403,7 @@ async def test_turn_on_with_color_temperature(
     [(255, 128, 0), (0, 255, 128), (128, 0, 255)],
 )
 async def test_turn_on_with_rgb_color(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -446,7 +446,7 @@ async def test_turn_on_with_rgb_color(
     [(255, 128, 0, 255), (0, 255, 128, 128), (128, 0, 255, 0)],
 )
 async def test_turn_on_with_rgbw_color(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,

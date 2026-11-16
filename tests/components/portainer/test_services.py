@@ -20,9 +20,9 @@ from universalassistant.components.portainer.services import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.exceptions import (
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     ServiceValidationError,
     Unauthorized,
 )
@@ -40,7 +40,7 @@ TEST_CONTAINER_DEVICE_IDENTIFIER = (
 
 
 async def test_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: DeviceRegistry,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -89,7 +89,7 @@ async def test_services(
     ids=["no optional", "with duration", "with duration and dangling"],
 )
 async def test_service_prune_images(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: DeviceRegistry,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -139,7 +139,7 @@ async def test_service_prune_images(
     ids=["no optional", "dangling only", "with duration", "dangling with duration"],
 )
 async def test_service_prune_build_cache(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: DeviceRegistry,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -175,7 +175,7 @@ async def test_service_prune_build_cache(
     ],
 )
 async def test_service_prune_build_cache_portainer_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: DeviceRegistry,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -192,7 +192,7 @@ async def test_service_prune_build_cache_portainer_exceptions(
     assert device is not None
 
     mock_portainer_client.prune_build_cache.side_effect = exception
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             DOMAIN,
             PortainerService.PRUNE_BUILD_CACHE,
@@ -216,7 +216,7 @@ async def test_service_prune_build_cache_portainer_exceptions(
     ],
 )
 async def test_service_requires_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_read_only_user: MockUser,
     device_registry: DeviceRegistry,
     mock_portainer_client: AsyncMock,
@@ -261,7 +261,7 @@ async def test_service_requires_admin(
     ids=["no optional", "with duration", "with duration and pull_image"],
 )
 async def test_service_recreate_container(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: DeviceRegistry,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -309,7 +309,7 @@ async def test_service_recreate_container(
     ],
 )
 async def test_service_recreate_container_portainer_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: DeviceRegistry,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -326,7 +326,7 @@ async def test_service_recreate_container_portainer_exceptions(
     assert container is not None
 
     mock_portainer_client.container_recreate.side_effect = exception
-    with pytest.raises(__HAC_KEEP__Error) as err:
+    with pytest.raises(UniversalAssistantError) as err:
         await hass.services.async_call(
             DOMAIN,
             PortainerService.RECREATE_CONTAINER,
@@ -339,7 +339,7 @@ async def test_service_recreate_container_portainer_exceptions(
 
 
 async def test_service_validation_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: DeviceRegistry,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -453,7 +453,7 @@ async def test_service_validation_errors(
 
 
 async def test_service_prune_images_device_gone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -486,11 +486,11 @@ async def test_service_prune_images_device_gone(
     ],
 )
 async def test_service_portainer_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: DeviceRegistry,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
-    exception: __HAC_KEEP__Error,
+    exception: UniversalAssistantError,
     message: str,
 ) -> None:
     """Test service handles Portainer exceptions."""
@@ -500,7 +500,7 @@ async def test_service_portainer_exceptions(
     )
 
     mock_portainer_client.images_prune.side_effect = exception
-    with pytest.raises(__HAC_KEEP__Error, match=message):
+    with pytest.raises(UniversalAssistantError, match=message):
         await hass.services.async_call(
             DOMAIN,
             PortainerService.PRUNE_IMAGES,
@@ -511,7 +511,7 @@ async def test_service_portainer_exceptions(
 
 
 async def test_service_invalid_auth_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: DeviceRegistry,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -526,7 +526,7 @@ async def test_service_invalid_auth_starts_reauth(
         "auth"
     )
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             PortainerService.PRUNE_IMAGES,

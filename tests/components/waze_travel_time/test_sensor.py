@@ -22,7 +22,7 @@ from universalassistant.components.waze_travel_time.const import (
     METRIC_UNITS,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import MOCK_CONFIG
 
@@ -48,7 +48,7 @@ def mock_update_connect_error_fixture(mock_update):
     [(MOCK_CONFIG, DEFAULT_OPTIONS)],
 )
 @pytest.mark.usefixtures("mock_update", "mock_config")
-async def test_sensor(hass: __HAC_KEEP__) -> None:
+async def test_sensor(hass: UniversalAssistant) -> None:
     """Test that sensor works."""
 
     assert (state := hass.states.get(ENTITY_ID))
@@ -83,7 +83,7 @@ async def test_sensor(hass: __HAC_KEEP__) -> None:
     ],
 )
 @pytest.mark.usefixtures("mock_update", "mock_config")
-async def test_imperial(hass: __HAC_KEEP__) -> None:
+async def test_imperial(hass: UniversalAssistant) -> None:
     """Test that the imperial option works."""
 
     assert (state := hass.states.get(ENTITY_ID))
@@ -110,7 +110,7 @@ async def test_imperial(hass: __HAC_KEEP__) -> None:
     ],
 )
 @pytest.mark.usefixtures("mock_update", "mock_config")
-async def test_incl_filter(hass: __HAC_KEEP__) -> None:
+async def test_incl_filter(hass: UniversalAssistant) -> None:
     """Test that incl_filter only includes route with the wanted street name."""
 
     assert (state := hass.states.get(ENTITY_ID))
@@ -137,7 +137,7 @@ async def test_incl_filter(hass: __HAC_KEEP__) -> None:
     ],
 )
 @pytest.mark.usefixtures("mock_update", "mock_config")
-async def test_excl_filter(hass: __HAC_KEEP__) -> None:
+async def test_excl_filter(hass: UniversalAssistant) -> None:
     """Test that excl_filter only includes route without the street name."""
 
     assert (state := hass.states.get(ENTITY_ID))
@@ -160,7 +160,7 @@ async def test_excl_filter(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_sensor_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     error_fixture: str,
     log_message: str,

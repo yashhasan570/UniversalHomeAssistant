@@ -15,7 +15,7 @@ from universalassistant.components.siren import (
     SirenEntityFeature,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -65,7 +65,7 @@ SIRENS: dict[DeviceCategory, tuple[TuyaSirenEntityDescription, ...]] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: TuyaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -124,7 +124,7 @@ class TuyaSirenEntity(TuyaEntity, SirenEntity):
     ) -> bool:
         """Called when Tuya device sends an update with updated properties.
 
-        Returns True if the __HA_KEEP__ state should be written,
+        Returns True if the Universal Home Assistant state should be written,
         or False if the state write should be skipped.
         """
         return not self._dpcode_wrapper.skip_update(

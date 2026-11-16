@@ -385,7 +385,7 @@ class RepositoryManifest:
     filename: str | None = None
     hacs: str | None = None  # The `hacs` key of hacs.json, not compared
     hide_default_branch: bool = False
-    universalassistant: str | None = None  # Minimum __HA_KEEP__ version
+    universalassistant: str | None = None  # Minimum Universal Home Assistant version
     manifest: dict[str, Any] = attr.field(factory=dict)
     name: str | None = None
     persistent_directory: str | None = None
@@ -585,7 +585,7 @@ class Repository:
 
     @property
     def can_install(self) -> bool:
-        """Return if this __HA_KEEP__ is new enough for the repository."""
+        """Return if this Universal Home Assistant is new enough for the repository."""
         if self.repository_manifest.universalassistant is None or not self.data.releases:
             return True
 
@@ -2053,9 +2053,9 @@ class Repository:
         self._check_minimum_version(target_manifest)
 
     def _check_minimum_version(self, manifest: RepositoryManifest) -> None:
-        """Refuse a version that needs a newer __HA_KEEP__."""
+        """Refuse a version that needs a newer Universal Home Assistant."""
         # The `hacs` key in hacs.json names a version of the custom integration,
-        # which cannot be compared with a __HA_KEEP__ version.
+        # which cannot be compared with a Universal Home Assistant version.
         if (
             manifest.universalassistant is not None
             and self.marketplace.version < manifest.universalassistant

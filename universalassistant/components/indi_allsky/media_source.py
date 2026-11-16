@@ -11,7 +11,7 @@ from aiohttp import ClientError, ClientTimeout, web
 from aioindiallsky import IndiAllSkyError
 import yarl
 
-from universalassistant.components.http import __HAC_KEEP__View
+from universalassistant.components.http import UniversalAssistantView
 from universalassistant.components.media_player import BrowseError, MediaClass, MediaType
 from universalassistant.components.media_source import (
     BrowseMediaSource,
@@ -21,7 +21,7 @@ from universalassistant.components.media_source import (
     Unresolvable,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 from .const import DOMAIN
 from .coordinator import IndiAllSkyConfigEntry
@@ -85,26 +85,26 @@ def _is_same_origin(source: yarl.URL, target: yarl.URL) -> bool:
 
 
 def _encode_media_path(path: str) -> str:
-    """Encode an INDI Allsky media path for use in a __HA_KEEP__ proxy URL."""
+    """Encode an INDI Allsky media path for use in a Universal Home Assistant proxy URL."""
     return base64.urlsafe_b64encode(path.encode("utf-8")).decode("ascii")
 
 
 def _build_media_proxy_path(entry_id: str, path: str) -> str:
-    """Build a __HA_KEEP__ proxy path for INDI Allsky media."""
+    """Build a Universal Home Assistant proxy path for INDI Allsky media."""
     return MEDIA_PROXY_URL.format(
         entry_id=entry_id,
         path=_encode_media_path(path),
     )
 
 
-class IndiAllSkyMediaProxyView(__HAC_KEEP__View):
-    """Proxy INDI Allsky media assets through __HA_KEEP__."""
+class IndiAllSkyMediaProxyView(UniversalAssistantView):
+    """Proxy INDI Allsky media assets through Universal Home Assistant."""
 
     requires_auth = True
     url = MEDIA_PROXY_URL
     name = "api:indi_allsky:media"
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the proxy view."""
         self.hass = hass
 
@@ -238,7 +238,7 @@ class IndiAllSkyMediaProxyView(__HAC_KEEP__View):
             return web.Response(status=502)
 
 
-async def async_get_media_source(hass: __HAC_KEEP__) -> IndiAllSkyMediaSource:
+async def async_get_media_source(hass: UniversalAssistant) -> IndiAllSkyMediaSource:
     """Set up INDI Allsky media source."""
     hass.http.register_view(IndiAllSkyMediaProxyView(hass))
     return IndiAllSkyMediaSource(hass)
@@ -249,7 +249,7 @@ class IndiAllSkyMediaSource(MediaSource):
 
     name: str = "INDI Allsky"
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize IndiAllSkyMediaSource."""
         super().__init__(DOMAIN)
         self.hass = hass

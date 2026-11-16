@@ -22,7 +22,7 @@ from universalassistant.config_entries import (
     OptionsFlow,
 )
 from universalassistant.const import CONF_DEVICE_ID, CONF_HOST, CONF_MAC, CONF_TYPE, CONF_URL
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.exceptions import IntegrationError
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.service_info.ssdp import (
@@ -468,7 +468,7 @@ def _is_dmr_device(discovery_info: SsdpServiceInfo) -> bool:
     return True
 
 
-async def _async_get_mac_address(hass: __HAC_KEEP__, host: str) -> str | None:
+async def _async_get_mac_address(hass: UniversalAssistant, host: str) -> str | None:
     """Get mac address from host name, IPv4 address, or IPv6 address."""
     # Help mypy, which has trouble with the async_add_executor_job + partial call
     mac_address: str | None

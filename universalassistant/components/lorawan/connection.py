@@ -17,7 +17,7 @@ from lorawan_connection import (
 )
 
 from universalassistant.config_entries import SOURCE_INTEGRATION_DISCOVERY, ConfigEntry
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import discovery_flow
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.service_info.lorawan import LoRaWANDiscoveryInfo
@@ -63,7 +63,7 @@ class RegisteredConnection:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry_id: str,
         connection: Connection,
         configuration_url: str | None,
@@ -188,7 +188,7 @@ DATA_REGISTRY: HassKey[ConnectionRegistry] = HassKey("lorawan")
 
 
 async def async_register_connection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ConfigEntry,
     *,
     connection: Connection,

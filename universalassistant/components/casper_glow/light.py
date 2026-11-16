@@ -5,7 +5,7 @@ from typing import Any, override
 from pycasperglow import GlowState
 
 from universalassistant.components.light import ATTR_BRIGHTNESS, ColorMode, LightEntity
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
@@ -34,7 +34,7 @@ def _device_pct_to_ha_brightness(pct: int) -> int:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: CasperGlowConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

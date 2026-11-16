@@ -6,12 +6,12 @@ from unittest.mock import MagicMock
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 
 async def test_entry_setup_unload(
-    hass: __HAC_KEEP__, otp_config_entry: MockConfigEntry
+    hass: UniversalAssistant, otp_config_entry: MockConfigEntry
 ) -> None:
     """Test integration setup and unload."""
 
@@ -28,7 +28,7 @@ async def test_entry_setup_unload(
 
 
 async def test_update_timer_cancelled_on_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     otp_config_entry: MockConfigEntry,
     mock_pyotp: MagicMock,
 ) -> None:

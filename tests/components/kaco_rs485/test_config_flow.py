@@ -19,7 +19,7 @@ from universalassistant.components.kaco_rs485.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigFlowResult
 from universalassistant.const import CONF_MODEL, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import MOCK_PORT, MOCK_PORT_DESCRIPTION
@@ -28,7 +28,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 async def _submit_port(
-    hass: __HAC_KEEP__, flow_id: str, port: str = MOCK_PORT
+    hass: UniversalAssistant, flow_id: str, port: str = MOCK_PORT
 ) -> ConfigFlowResult:
     """Submit the port, let the scan finish, and return the step after it."""
     result = await hass.config_entries.flow.async_configure(flow_id, {CONF_PORT: port})
@@ -38,7 +38,7 @@ async def _submit_port(
     return await hass.config_entries.flow.async_configure(flow_id)
 
 
-async def _scan(hass: __HAC_KEEP__, port: str = MOCK_PORT) -> ConfigFlowResult:
+async def _scan(hass: UniversalAssistant, port: str = MOCK_PORT) -> ConfigFlowResult:
     """Start the flow, submit the port, and return the step after the scan."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -51,7 +51,7 @@ async def _scan(hass: __HAC_KEEP__, port: str = MOCK_PORT) -> ConfigFlowResult:
 
 @pytest.mark.usefixtures("mock_bus")
 async def test_scan_finds_inverters_and_creates_an_entry(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test the happy path: scan the bus, confirm what answered, create."""
     result = await _scan(hass)
@@ -78,7 +78,7 @@ async def test_scan_finds_inverters_and_creates_an_entry(
 
 
 async def test_a_bus_with_only_unsupported_units_says_so(
-    hass: __HAC_KEEP__, mock_bus: FakeBus
+    hass: UniversalAssistant, mock_bus: FakeBus
 ) -> None:
     """Test a blueplanet-only bus is told what answered, not to come back later."""
     mock_bus.silence(1, 2, 4)
@@ -92,7 +92,7 @@ async def test_a_bus_with_only_unsupported_units_says_so(
 
 
 async def test_a_blueplanet_alongside_xi_units_is_simply_skipped(
-    hass: __HAC_KEEP__, mock_bus: FakeBus
+    hass: UniversalAssistant, mock_bus: FakeBus
 ) -> None:
     """Test extra devices do not interrupt a scan that found what it wanted."""
     mock_bus.wake(3, BLUEPLANET)
@@ -108,7 +108,7 @@ async def test_a_blueplanet_alongside_xi_units_is_simply_skipped(
 
 
 async def test_a_bus_where_nothing_answers_aborts(
-    hass: __HAC_KEEP__, mock_bus: FakeBus
+    hass: UniversalAssistant, mock_bus: FakeBus
 ) -> None:
     """Test an empty scan refuses to create an entry."""
     mock_bus.silence(1, 2, 4)
@@ -120,7 +120,7 @@ async def test_a_bus_where_nothing_answers_aborts(
 
 
 async def test_a_port_that_will_not_open_can_be_corrected(
-    hass: __HAC_KEEP__, mock_bus: FakeBus
+    hass: UniversalAssistant, mock_bus: FakeBus
 ) -> None:
     """Test the port is opened before scanning, so a bad one can be retried."""
     mock_bus.open_error = BusError("could not open /dev/ttyUSB0")
@@ -145,7 +145,7 @@ async def test_a_port_that_will_not_open_can_be_corrected(
 
 
 async def test_a_port_that_dies_mid_scan_aborts(
-    hass: __HAC_KEEP__, mock_bus: FakeBus
+    hass: UniversalAssistant, mock_bus: FakeBus
 ) -> None:
     """Test a port lost after it opened ends the flow rather than hanging."""
     mock_bus.request_error = BusError("connection closed")
@@ -158,7 +158,7 @@ async def test_a_port_that_dies_mid_scan_aborts(
 
 @pytest.mark.usefixtures("mock_bus")
 async def test_a_port_already_configured_is_rejected(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the same port cannot be added twice; two masters corrupt the bus."""
     mock_config_entry.add_to_hass(hass)
@@ -176,7 +176,7 @@ async def test_a_port_already_configured_is_rejected(
 
 @pytest.mark.usefixtures("mock_bus")
 async def test_a_port_added_by_another_flow_during_the_scan_is_rejected(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test two flows on one port cannot both create an entry."""
     result = await _scan(hass)
@@ -190,7 +190,7 @@ async def test_a_port_added_by_another_flow_during_the_scan_is_rejected(
 
 
 @pytest.mark.usefixtures("mock_bus")
-async def test_a_port_already_being_set_up_is_rejected(hass: __HAC_KEEP__) -> None:
+async def test_a_port_already_being_set_up_is_rejected(hass: UniversalAssistant) -> None:
     """Test a second flow cannot scan a port another flow is scanning."""
     first = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -217,7 +217,7 @@ async def test_a_port_already_being_set_up_is_rejected(hass: __HAC_KEEP__) -> No
 
 @pytest.mark.usefixtures("mock_bus")
 async def test_a_port_added_during_the_title_lookup_is_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_serial_ports: AsyncMock,
 ) -> None:
@@ -227,7 +227,7 @@ async def test_a_port_added_during_the_title_lookup_is_rejected(
 
     ports = mock_serial_ports.return_value
 
-    async def _added_meanwhile(hass: __HAC_KEEP__) -> list[AsyncMock]:
+    async def _added_meanwhile(hass: UniversalAssistant) -> list[AsyncMock]:
         mock_config_entry.add_to_hass(hass)
         return ports
 
@@ -239,7 +239,7 @@ async def test_a_port_added_during_the_title_lookup_is_rejected(
 
 
 async def test_an_inverter_whose_type_could_not_be_read_is_still_offered(
-    hass: __HAC_KEEP__, mock_bus: FakeBus
+    hass: UniversalAssistant, mock_bus: FakeBus
 ) -> None:
     """Test a mangled reply still counts as an occupied address."""
     # Truncated cmd `0`: right protocol, too short to parse.
@@ -259,7 +259,7 @@ async def test_an_inverter_whose_type_could_not_be_read_is_still_offered(
 
 @pytest.mark.usefixtures("mock_bus")
 async def test_the_entry_is_named_after_the_port_even_when_unlisted(
-    hass: __HAC_KEEP__, mock_serial_ports: AsyncMock
+    hass: UniversalAssistant, mock_serial_ports: AsyncMock
 ) -> None:
     """Test a port the usb integration does not know falls back to its path."""
     other = AsyncMock()
@@ -276,7 +276,7 @@ async def test_the_entry_is_named_after_the_port_even_when_unlisted(
 
 @pytest.mark.usefixtures("mock_bus")
 async def test_the_entry_is_named_after_the_port_when_scanning_fails(
-    hass: __HAC_KEEP__, mock_serial_ports: AsyncMock
+    hass: UniversalAssistant, mock_serial_ports: AsyncMock
 ) -> None:
     """Test an unreadable serial-port list does not stop setup."""
     mock_serial_ports.side_effect = OSError("no /dev to read")
@@ -289,7 +289,7 @@ async def test_the_entry_is_named_after_the_port_when_scanning_fails(
 
 
 async def test_a_local_port_is_stored_by_its_stable_path(
-    hass: __HAC_KEEP__, mock_bus: FakeBus
+    hass: UniversalAssistant, mock_bus: FakeBus
 ) -> None:
     """Test /dev/ttyUSB0 is resolved to its by-id path before being stored."""
     by_id = "/dev/serial/by-id/usb-Silicon_Labs_CP2102_0001-if00-port0"
@@ -307,7 +307,7 @@ async def test_a_local_port_is_stored_by_its_stable_path(
 
 
 @pytest.mark.usefixtures("mock_bus")
-async def test_a_proxied_port_is_left_alone(hass: __HAC_KEEP__) -> None:
+async def test_a_proxied_port_is_left_alone(hass: UniversalAssistant) -> None:
     """Test an ESPHome proxy URL is not run through by-id resolution."""
     proxy = "esphome-hass://esphome/abc123?port_name=RS-485"
 
@@ -322,7 +322,7 @@ async def test_a_proxied_port_is_left_alone(hass: __HAC_KEEP__) -> None:
 
 
 async def test_an_unreadable_by_id_directory_falls_back_to_the_raw_path(
-    hass: __HAC_KEEP__, mock_bus: FakeBus
+    hass: UniversalAssistant, mock_bus: FakeBus
 ) -> None:
     """Test setup still completes when /dev/serial/by-id cannot be read."""
     with patch(

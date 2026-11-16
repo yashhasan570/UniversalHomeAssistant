@@ -1,4 +1,4 @@
-"""Test the __HA_KEEP__ Green integration."""
+"""Test the Universal Home Assistant Green integration."""
 
 from unittest.mock import AsyncMock, patch
 
@@ -8,11 +8,11 @@ from pytest_universalassistant.common import MockConfigEntry, MockModule, mock_i
 from universalassistant.components.hassio import DOMAIN as HASSIO_DOMAIN, HassioNotReadyError
 from universalassistant.components.universalassistant_green.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
-async def test_setup_entry(hass: __HAC_KEEP__) -> None:
+async def test_setup_entry(hass: UniversalAssistant) -> None:
     """Test setup of a config entry."""
     mock_integration(hass, MockModule("hassio"))
     await async_setup_component(hass, HASSIO_DOMAIN, {})
@@ -22,7 +22,7 @@ async def test_setup_entry(hass: __HAC_KEEP__) -> None:
         data={},
         domain=DOMAIN,
         options={},
-        title="__HA_KEEP__ Green",
+        title="Universal Home Assistant Green",
     )
     config_entry.add_to_hass(hass)
     with patch(
@@ -37,14 +37,14 @@ async def test_setup_entry(hass: __HAC_KEEP__) -> None:
     assert await hass.config_entries.async_unload(config_entry.entry_id)
 
 
-async def test_setup_entry_no_hassio(hass: __HAC_KEEP__) -> None:
+async def test_setup_entry_no_hassio(hass: UniversalAssistant) -> None:
     """Test setup of a config entry without hassio."""
     # Setup the config entry
     config_entry = MockConfigEntry(
         data={},
         domain=DOMAIN,
         options={},
-        title="__HA_KEEP__ Green",
+        title="Universal Home Assistant Green",
     )
     config_entry.add_to_hass(hass)
     assert len(hass.config_entries.async_entries()) == 1
@@ -59,7 +59,7 @@ async def test_setup_entry_no_hassio(hass: __HAC_KEEP__) -> None:
     assert len(hass.config_entries.async_entries()) == 0
 
 
-async def test_setup_entry_wrong_board(hass: __HAC_KEEP__) -> None:
+async def test_setup_entry_wrong_board(hass: UniversalAssistant) -> None:
     """Test setup of a config entry with wrong board type."""
     mock_integration(hass, MockModule("hassio"))
     await async_setup_component(hass, HASSIO_DOMAIN, {})
@@ -69,7 +69,7 @@ async def test_setup_entry_wrong_board(hass: __HAC_KEEP__) -> None:
         data={},
         domain=DOMAIN,
         options={},
-        title="__HA_KEEP__ Green",
+        title="Universal Home Assistant Green",
     )
     config_entry.add_to_hass(hass)
     assert len(hass.config_entries.async_entries()) == 1
@@ -91,28 +91,28 @@ async def test_setup_entry_wrong_board(hass: __HAC_KEEP__) -> None:
         pytest.param(
             False,
             None,
-            "__HA_KEEP__ is not running on __HA_KEEP__ OS, the __HA_KEEP__"
+            "Universal Home Assistant is not running on Universal Home Assistant OS, the Universal Home Assistant"
             " Green entry will be removed",
             id="no_hassio",
         ),
         pytest.param(
             True,
             "generic-x86-64",
-            "__HA_KEEP__ is not running on a __HA_KEEP__ Green"
-            " (generic-x86-64), the __HA_KEEP__ Green entry will be removed",
+            "Universal Home Assistant is not running on a Universal Home Assistant Green"
+            " (generic-x86-64), the Universal Home Assistant Green entry will be removed",
             id="wrong_board",
         ),
     ],
 )
 async def test_setup_entry_error_reason(
-    hass: __HAC_KEEP__, hassio: bool, board: str | None, reason: str
+    hass: UniversalAssistant, hassio: bool, board: str | None, reason: str
 ) -> None:
     """Test the setup error reason when the entry is about to be removed."""
     config_entry = MockConfigEntry(
         data={},
         domain=DOMAIN,
         options={},
-        title="__HA_KEEP__ Green",
+        title="Universal Home Assistant Green",
     )
     config_entry.add_to_hass(hass)
 
@@ -135,7 +135,7 @@ async def test_setup_entry_error_reason(
     mock_remove.assert_awaited_once_with(config_entry.entry_id)
 
 
-async def test_setup_entry_wait_hassio(hass: __HAC_KEEP__) -> None:
+async def test_setup_entry_wait_hassio(hass: UniversalAssistant) -> None:
     """Test setup of a config entry when hassio has not fetched os_info."""
     mock_integration(hass, MockModule("hassio"))
     await async_setup_component(hass, HASSIO_DOMAIN, {})
@@ -145,7 +145,7 @@ async def test_setup_entry_wait_hassio(hass: __HAC_KEEP__) -> None:
         data={},
         domain=DOMAIN,
         options={},
-        title="__HA_KEEP__ Green",
+        title="Universal Home Assistant Green",
     )
     config_entry.add_to_hass(hass)
     with patch(

@@ -8,7 +8,7 @@ from universalassistant import config_entries
 from universalassistant.components.tonewinner.const import CONF_SERIAL_PORT, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_MODEL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -23,7 +23,7 @@ def _mock_receiver(model: str | None = "AT-500") -> MagicMock:
     return mock_receiver
 
 
-async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form, probe the receiver and can successfully set up."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -57,7 +57,7 @@ async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
 
 
 async def test_form_unknown_model(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test setup falls back to a generic title when no model is reported."""
     result = await hass.config_entries.flow.async_init(
@@ -79,7 +79,7 @@ async def test_form_unknown_model(
     assert result["data"] == {CONF_SERIAL_PORT: "/dev/ttyUSB0"}
 
 
-async def test_form_duplicate_serial_port(hass: __HAC_KEEP__) -> None:
+async def test_form_duplicate_serial_port(hass: UniversalAssistant) -> None:
     """Test that configuring an already configured serial port aborts."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -106,7 +106,7 @@ async def test_form_duplicate_serial_port(hass: __HAC_KEEP__) -> None:
     mock_receiver_cls.assert_not_called()
 
 
-async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -142,7 +142,7 @@ async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_reconfigure(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
+async def test_reconfigure(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
     """Test reconfiguring to a port reporting a different model updates data and title."""
     mock_config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -175,7 +175,7 @@ async def test_reconfigure(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> N
 
 
 async def test_reconfigure_same_port(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test reconfiguring with an unchanged port releases and re-probes it."""
     mock_config_entry = MockConfigEntry(
@@ -218,7 +218,7 @@ async def test_reconfigure_same_port(
     assert mock_config_entry.title == "AT-300"
 
 
-async def test_reconfigure_unload_fails(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_unload_fails(hass: UniversalAssistant) -> None:
     """Test reconfigure aborts when the loaded entry cannot be unloaded."""
     mock_config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -252,7 +252,7 @@ async def test_reconfigure_unload_fails(hass: __HAC_KEEP__) -> None:
     mock_receiver_cls.assert_not_called()
 
 
-async def test_reconfigure_port_used_by_other_entry(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_port_used_by_other_entry(hass: UniversalAssistant) -> None:
     """Test reconfiguring onto a port owned by another entry aborts."""
     other_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -284,7 +284,7 @@ async def test_reconfigure_port_used_by_other_entry(hass: __HAC_KEEP__) -> None:
 
 
 async def test_reconfigure_cannot_connect(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test reconfigure shows an error, restores service and recovers after."""
     mock_config_entry = MockConfigEntry(
@@ -344,7 +344,7 @@ async def test_reconfigure_cannot_connect(
 
 
 async def test_reconfigure_unknown_model(
-    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
+    hass: UniversalAssistant, mock_setup_entry: AsyncMock
 ) -> None:
     """Test reconfiguring to a silent receiver drops the stale model and title."""
     mock_config_entry = MockConfigEntry(

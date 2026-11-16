@@ -39,7 +39,7 @@
 # name: test_time[time.universal_assistant_test_bedtime_alarm-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: '__HA_KEEP__ Test Bedtime alarm',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Universal Home Assistant Test Bedtime alarm',
     }),
     'context': <ANY>,
     'entity_id': 'time.universal_assistant_test_bedtime_alarm',
@@ -89,7 +89,7 @@
 # name: test_time[time.universal_assistant_test_bedtime_end_time-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: '__HA_KEEP__ Test Bedtime end time',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Universal Home Assistant Test Bedtime end time',
     }),
     'context': <ANY>,
     'entity_id': 'time.universal_assistant_test_bedtime_end_time',

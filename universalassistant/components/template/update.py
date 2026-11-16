@@ -15,7 +15,7 @@ from universalassistant.components.update import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_DEVICE_CLASS, CONF_NAME, Platform
-from universalassistant.core import __HAC_KEEP__, State, callback
+from universalassistant.core import UniversalAssistant, State, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -92,7 +92,7 @@ UPDATE_CONFIG_ENTRY_SCHEMA = UPDATE_COMMON_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -111,7 +111,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -128,7 +128,7 @@ async def async_setup_entry(
 
 @callback
 def async_create_preview_update(
-    hass: __HAC_KEEP__, name: str, config: dict[str, Any]
+    hass: UniversalAssistant, name: str, config: dict[str, Any]
 ) -> StateUpdateEntity:
     """Create a preview."""
     return async_setup_template_preview(
@@ -267,7 +267,7 @@ class StateUpdateEntity(TemplateEntity, AbstractTemplateUpdate):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config: ConfigType,
         unique_id: str | None,
     ) -> None:
@@ -301,7 +301,7 @@ class TriggerUpdateEntity(TriggerEntity, AbstractTemplateUpdate):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         coordinator: TriggerUpdateCoordinator,
         config: ConfigType,
     ) -> None:

@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any
 from govee_ble import DeviceKey, GoveeBluetoothDeviceData
 
 from universalassistant.components import bluetooth
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONF_DEVICE_TYPE
 from .coordinator import GoveeBLEConfigEntry
@@ -19,7 +19,7 @@ def _format_key(device_key: DeviceKey) -> str:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: GoveeBLEConfigEntry
+    hass: UniversalAssistant, entry: GoveeBLEConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data

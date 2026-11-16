@@ -30,7 +30,7 @@ from universalassistant.const import (
     SERVICE_VOLUME_SET,
     SERVICE_VOLUME_UP,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 
@@ -90,7 +90,7 @@ class MockMonoprice:
         self.zones[zone.zone] = AttrDict(zone)
 
 
-async def test_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_cannot_connect(hass: UniversalAssistant) -> None:
     """Test connection error."""
 
     with patch(
@@ -104,7 +104,7 @@ async def test_cannot_connect(hass: __HAC_KEEP__) -> None:
         assert hass.states.get(ZONE_1_ID) is None
 
 
-async def _setup_monoprice(hass: __HAC_KEEP__, monoprice: MockMonoprice) -> None:
+async def _setup_monoprice(hass: UniversalAssistant, monoprice: MockMonoprice) -> None:
     with patch(
         "universalassistant.components.monoprice.get_monoprice",
         new=lambda *a: monoprice,
@@ -116,7 +116,7 @@ async def _setup_monoprice(hass: __HAC_KEEP__, monoprice: MockMonoprice) -> None
 
 
 async def _setup_monoprice_with_options(
-    hass: __HAC_KEEP__, monoprice: MockMonoprice
+    hass: UniversalAssistant, monoprice: MockMonoprice
 ) -> None:
     with patch(
         "universalassistant.components.monoprice.get_monoprice",
@@ -131,7 +131,7 @@ async def _setup_monoprice_with_options(
 
 
 async def _setup_monoprice_not_first_run(
-    hass: __HAC_KEEP__, monoprice: MockMonoprice
+    hass: UniversalAssistant, monoprice: MockMonoprice
 ) -> None:
     with patch(
         "universalassistant.components.monoprice.get_monoprice",
@@ -145,7 +145,7 @@ async def _setup_monoprice_not_first_run(
 
 
 async def _call_media_player_service(
-    hass: __HAC_KEEP__, name: str, data: dict[str, Any]
+    hass: UniversalAssistant, name: str, data: dict[str, Any]
 ) -> None:
     await hass.services.async_call(
         MEDIA_PLAYER_DOMAIN, name, service_data=data, blocking=True
@@ -153,12 +153,12 @@ async def _call_media_player_service(
 
 
 async def _call_monoprice_service(
-    hass: __HAC_KEEP__, name: str, data: dict[str, Any]
+    hass: UniversalAssistant, name: str, data: dict[str, Any]
 ) -> None:
     await hass.services.async_call(DOMAIN, name, service_data=data, blocking=True)
 
 
-async def test_service_calls_with_entity_id(hass: __HAC_KEEP__) -> None:
+async def test_service_calls_with_entity_id(hass: UniversalAssistant) -> None:
     """Test snapshot save/restore service calls."""
     await _setup_monoprice(hass, MockMonoprice())
 
@@ -208,7 +208,7 @@ async def test_service_calls_with_entity_id(hass: __HAC_KEEP__) -> None:
     assert state.attributes[ATTR_INPUT_SOURCE] == "one"
 
 
-async def test_service_calls_with_all_entities(hass: __HAC_KEEP__) -> None:
+async def test_service_calls_with_all_entities(hass: UniversalAssistant) -> None:
     """Test snapshot save/restore service calls."""
     await _setup_monoprice(hass, MockMonoprice())
 
@@ -241,7 +241,7 @@ async def test_service_calls_with_all_entities(hass: __HAC_KEEP__) -> None:
     assert state.attributes[ATTR_INPUT_SOURCE] == "one"
 
 
-async def test_service_calls_without_relevant_entities(hass: __HAC_KEEP__) -> None:
+async def test_service_calls_without_relevant_entities(hass: UniversalAssistant) -> None:
     """Test snapshot save/restore service calls."""
     await _setup_monoprice(hass, MockMonoprice())
 
@@ -276,7 +276,7 @@ async def test_service_calls_without_relevant_entities(hass: __HAC_KEEP__) -> No
     assert state.attributes[ATTR_INPUT_SOURCE] == "three"
 
 
-async def test_restore_without_snapshort(hass: __HAC_KEEP__) -> None:
+async def test_restore_without_snapshort(hass: UniversalAssistant) -> None:
     """Test restore when snapshot wasn't called."""
     await _setup_monoprice(hass, MockMonoprice())
 
@@ -289,7 +289,7 @@ async def test_restore_without_snapshort(hass: __HAC_KEEP__) -> None:
         assert not method_call.called
 
 
-async def test_update(hass: __HAC_KEEP__) -> None:
+async def test_update(hass: UniversalAssistant) -> None:
     """Test updating values from monoprice."""
     monoprice = MockMonoprice()
     await _setup_monoprice(hass, monoprice)
@@ -314,7 +314,7 @@ async def test_update(hass: __HAC_KEEP__) -> None:
     assert state.attributes[ATTR_INPUT_SOURCE] == "three"
 
 
-async def test_failed_update(hass: __HAC_KEEP__) -> None:
+async def test_failed_update(hass: UniversalAssistant) -> None:
     """Test updating failure from monoprice."""
     monoprice = MockMonoprice()
     await _setup_monoprice(hass, monoprice)
@@ -340,7 +340,7 @@ async def test_failed_update(hass: __HAC_KEEP__) -> None:
     assert state.attributes[ATTR_INPUT_SOURCE] == "one"
 
 
-async def test_empty_update(hass: __HAC_KEEP__) -> None:
+async def test_empty_update(hass: UniversalAssistant) -> None:
     """Test updating with no state from monoprice."""
     monoprice = MockMonoprice()
     await _setup_monoprice(hass, monoprice)
@@ -366,7 +366,7 @@ async def test_empty_update(hass: __HAC_KEEP__) -> None:
     assert state.attributes[ATTR_INPUT_SOURCE] == "one"
 
 
-async def test_supported_features(hass: __HAC_KEEP__) -> None:
+async def test_supported_features(hass: UniversalAssistant) -> None:
     """Test supported features property."""
     await _setup_monoprice(hass, MockMonoprice())
 
@@ -382,7 +382,7 @@ async def test_supported_features(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_source_list(hass: __HAC_KEEP__) -> None:
+async def test_source_list(hass: UniversalAssistant) -> None:
     """Test source list property."""
     await _setup_monoprice(hass, MockMonoprice())
 
@@ -391,7 +391,7 @@ async def test_source_list(hass: __HAC_KEEP__) -> None:
     assert state.attributes[ATTR_INPUT_SOURCE_LIST] == ["one", "three"]
 
 
-async def test_source_list_with_options(hass: __HAC_KEEP__) -> None:
+async def test_source_list_with_options(hass: UniversalAssistant) -> None:
     """Test source list property."""
     await _setup_monoprice_with_options(hass, MockMonoprice())
 
@@ -400,7 +400,7 @@ async def test_source_list_with_options(hass: __HAC_KEEP__) -> None:
     assert state.attributes[ATTR_INPUT_SOURCE_LIST] == ["two", "four"]
 
 
-async def test_select_source(hass: __HAC_KEEP__) -> None:
+async def test_select_source(hass: UniversalAssistant) -> None:
     """Test source selection methods."""
     monoprice = MockMonoprice()
     await _setup_monoprice(hass, monoprice)
@@ -421,7 +421,7 @@ async def test_select_source(hass: __HAC_KEEP__) -> None:
     assert monoprice.zones[11].source == 3
 
 
-async def test_unknown_source(hass: __HAC_KEEP__) -> None:
+async def test_unknown_source(hass: UniversalAssistant) -> None:
     """Test behavior when device has unknown source."""
     monoprice = MockMonoprice()
     await _setup_monoprice(hass, monoprice)
@@ -436,7 +436,7 @@ async def test_unknown_source(hass: __HAC_KEEP__) -> None:
     assert state.attributes.get(ATTR_INPUT_SOURCE) is None
 
 
-async def test_turn_on_off(hass: __HAC_KEEP__) -> None:
+async def test_turn_on_off(hass: UniversalAssistant) -> None:
     """Test turning on the zone."""
     monoprice = MockMonoprice()
     await _setup_monoprice(hass, monoprice)
@@ -448,7 +448,7 @@ async def test_turn_on_off(hass: __HAC_KEEP__) -> None:
     assert monoprice.zones[11].power
 
 
-async def test_mute_volume(hass: __HAC_KEEP__) -> None:
+async def test_mute_volume(hass: UniversalAssistant) -> None:
     """Test mute functionality."""
     monoprice = MockMonoprice()
     await _setup_monoprice(hass, monoprice)
@@ -467,7 +467,7 @@ async def test_mute_volume(hass: __HAC_KEEP__) -> None:
     assert monoprice.zones[11].mute
 
 
-async def test_volume_up_down(hass: __HAC_KEEP__) -> None:
+async def test_volume_up_down(hass: UniversalAssistant) -> None:
     """Test increasing volume by one."""
     monoprice = MockMonoprice()
     await _setup_monoprice(hass, monoprice)
@@ -502,7 +502,7 @@ async def test_volume_up_down(hass: __HAC_KEEP__) -> None:
 
 
 async def test_first_run_with_available_zones(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test first run with all zones available."""
     monoprice = MockMonoprice()
@@ -513,7 +513,7 @@ async def test_first_run_with_available_zones(
 
 
 async def test_first_run_with_failing_zones(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test first run with failed zones."""
     monoprice = MockMonoprice()
@@ -530,7 +530,7 @@ async def test_first_run_with_failing_zones(
 
 
 async def test_not_first_run_with_failing_zone(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test first run with failed zones."""
     monoprice = MockMonoprice()

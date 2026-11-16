@@ -9,7 +9,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
 )
 from universalassistant.const import ATTR_DEVICE_CLASS
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import create_mock_account, setup_integration
 
@@ -17,7 +17,7 @@ from .conftest import create_mock_account, setup_integration
 @pytest.mark.freeze_time("2022-09-18 23:00:44+00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_account: MagicMock,
 ) -> None:
     """Tests binary sensors."""
@@ -34,7 +34,7 @@ async def test_binary_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_litterhopper_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_account_with_litterhopper: MagicMock,
 ) -> None:
     """Tests LitterHopper-specific binary sensors."""
@@ -52,7 +52,7 @@ async def test_litterhopper_binary_sensors(
     [(False, "off"), (True, "on")],
 )
 async def test_litter_robot_4_laser_dirty(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     laser_dirty: bool,
     expected_state: str,
 ) -> None:
@@ -68,7 +68,7 @@ async def test_litter_robot_4_laser_dirty(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_litter_robot_5_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_account_with_litterrobot_5: MagicMock,
 ) -> None:
     """Tests Litter-Robot 5 binary sensors."""
@@ -99,7 +99,7 @@ async def test_litter_robot_5_binary_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_litter_robot_5_online_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_account_with_litterrobot_5: MagicMock,
 ) -> None:
     """Tests Litter-Robot 5 online binary sensor (diagnostic, disabled by default)."""

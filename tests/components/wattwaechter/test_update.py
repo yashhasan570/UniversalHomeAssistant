@@ -13,15 +13,15 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.update import DOMAIN as UPDATE_DOMAIN, UpdateService
 from universalassistant.components.wattwaechter.const import DOMAIN
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MOCK_DEVICE_ID, MOCK_FW_VERSION, MOCK_OTA_CHECK
 
 
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -36,7 +36,7 @@ async def test_all_entities(
 
 
 async def test_install(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -66,7 +66,7 @@ async def test_install(
     ],
 )
 async def test_install_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -83,7 +83,7 @@ async def test_install_fails(
     entity_id = entity_registry.async_get_entity_id("update", DOMAIN, MOCK_DEVICE_ID)
     assert entity_id is not None
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -93,7 +93,7 @@ async def test_install_fails(
 
 
 async def test_installed_version_falls_back_without_system_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -129,7 +129,7 @@ async def test_installed_version_falls_back_without_system_info(
     ],
 )
 async def test_latest_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -157,7 +157,7 @@ async def test_latest_version(
     ],
 )
 async def test_release_notes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,

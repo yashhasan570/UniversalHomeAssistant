@@ -2,7 +2,7 @@
 
 from universalassistant.components.binary_sensor import BinarySensorDeviceClass
 from universalassistant.const import ATTR_DEVICE_CLASS, STATE_OFF, STATE_ON, EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import SERIAL, async_setup_lifx_entry, async_trigger_update
@@ -10,7 +10,7 @@ from .helpers import create_mock_hev_light
 
 
 async def test_hev_cycle_state(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test HEV cycle state follows typed HEV state."""
     device = create_mock_hev_light()

@@ -10,7 +10,7 @@ from universalassistant.components.event import (
     EventEntity,
     EventEntityDescription,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import HikvisionConfigEntry
@@ -59,7 +59,7 @@ def event_type_for_target(detection_target: str | None) -> str:
     if detection_target not in DETECTION_TARGETS:
         _LOGGER.warning(
             "Unknown Hikvision detection target '%s', please report this at "
-            "https://github.com/yashhasan570/__HAC_KEEP__/issues",
+            "https://github.com/yashhasan570/UniversalUniversalAssistant/issues",
             detection_target,
         )
         return EVENT_TYPE_TRIGGERED
@@ -67,7 +67,7 @@ def event_type_for_target(detection_target: str | None) -> str:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: HikvisionConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -111,7 +111,7 @@ class HikvisionEvent(HikvisionEntity, EventEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: HikvisionConfigEntry,
         description: EventEntityDescription,
         sensor_type: str,

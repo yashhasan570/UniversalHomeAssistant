@@ -18,7 +18,7 @@ from universalassistant.const import (
     SERVICE_ALARM_TRIGGER,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import ALARM_ENTITY, DOMAIN, MOCK_CODE, MOCK_CONFIG, setup_envisalink
 
@@ -37,7 +37,7 @@ from .conftest import ALARM_ENTITY, DOMAIN, MOCK_CODE, MOCK_CONFIG, setup_envisa
     ],
 )
 async def test_alarm_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_controller: MagicMock,
     status_overrides: dict[str, bool | str],
     expected_state: str,
@@ -63,7 +63,7 @@ async def test_alarm_states(
     ],
 )
 async def test_arm_disarm_commands(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_controller: MagicMock,
     service: str,
     method: str,
@@ -87,7 +87,7 @@ async def test_arm_disarm_commands(
 
 
 async def test_trigger_calls_panic(
-    hass: __HAC_KEEP__, mock_controller: MagicMock
+    hass: UniversalAssistant, mock_controller: MagicMock
 ) -> None:
     """Test the trigger service fires a panic alarm of the configured type."""
     assert await setup_envisalink(hass)
@@ -104,7 +104,7 @@ async def test_trigger_calls_panic(
 
 
 async def test_code_format_with_configured_code(
-    hass: __HAC_KEEP__, mock_controller: MagicMock
+    hass: UniversalAssistant, mock_controller: MagicMock
 ) -> None:
     """Test the keypad is hidden (no code_format) when a code is configured."""
     assert await setup_envisalink(hass)
@@ -113,7 +113,7 @@ async def test_code_format_with_configured_code(
 
 
 async def test_code_format_without_configured_code(
-    hass: __HAC_KEEP__, mock_controller: MagicMock
+    hass: UniversalAssistant, mock_controller: MagicMock
 ) -> None:
     """Test the numeric keypad shows when no code is configured."""
     config = deepcopy(MOCK_CONFIG)
@@ -124,7 +124,7 @@ async def test_code_format_without_configured_code(
 
 
 async def test_partition_update_filtering(
-    hass: __HAC_KEEP__, mock_controller: MagicMock
+    hass: UniversalAssistant, mock_controller: MagicMock
 ) -> None:
     """Test partition updates are filtered by number; None applies to all."""
     assert await setup_envisalink(hass)
@@ -149,7 +149,7 @@ async def test_partition_update_filtering(
 
 
 async def test_alarm_keypress_service(
-    hass: __HAC_KEEP__, mock_controller: MagicMock
+    hass: UniversalAssistant, mock_controller: MagicMock
 ) -> None:
     """Test the custom alarm_keypress service forwards to the partition."""
     assert await setup_envisalink(hass)

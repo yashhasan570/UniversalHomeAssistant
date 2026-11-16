@@ -36,7 +36,7 @@ from universalassistant.components.teslemetry.coordinator import METADATA_INTERV
 from universalassistant.components.teslemetry.repairs import async_create_fix_flow
 from universalassistant.config_entries import ConfigEntryState, ConfigSubentryData
 from universalassistant.const import CONF_HOST, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
@@ -84,7 +84,7 @@ def _metadata_with_vehicle_access(access: bool) -> dict[str, Any]:
 
 @pytest.mark.parametrize("issue_type", ["key", "streaming_toggle"])
 async def test_repair_issue_created(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     issue_type: str,
 ) -> None:
@@ -106,13 +106,13 @@ async def test_repair_issue_created(
         "entry_id": entry.entry_id,
         "vin": VEHICLE_VIN,
         "issue_type": issue_type,
-        "vehicle": "__HA_KEEP__",
+        "vehicle": "Universal Home Assistant",
     }
 
 
 @pytest.mark.parametrize("issue", [None, "no_data"])
 async def test_no_repair_issue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     issue: str | None,
 ) -> None:
@@ -134,7 +134,7 @@ async def test_no_repair_issue(
 
 
 async def test_repair_issue_auto_resolves(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -169,7 +169,7 @@ async def test_repair_issue_auto_resolves(
     ],
 )
 async def test_repair_issue_removed_when_vehicle_no_longer_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     issue_registry: ir.IssueRegistry,
     metadata: dict[str, Any],
@@ -195,7 +195,7 @@ async def test_repair_issue_removed_when_vehicle_no_longer_available(
 
 
 async def test_ignored_repair_issue_kept_while_valid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -228,7 +228,7 @@ async def test_ignored_repair_issue_kept_while_valid(
 
 
 async def test_stale_repair_issues_deleted_on_setup(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test repair issues of vehicles gone from the account are deleted on setup.
 
@@ -279,7 +279,7 @@ async def test_stale_repair_issues_deleted_on_setup(
 
 
 async def test_repair_fix_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -324,7 +324,7 @@ async def test_repair_fix_flow(
 
 
 async def test_repair_issues_per_entry_for_shared_vehicle(
-    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
+    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 ) -> None:
     """Two accounts sharing a vehicle keep separate repair issues."""
     base = mock_config_entry()
@@ -372,7 +372,7 @@ async def test_repair_issues_per_entry_for_shared_vehicle(
     ],
 )
 async def test_repair_invalid_data_returns_confirm_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     data: dict[str, Any] | None,
 ) -> None:
     """Test invalid repair flow data falls back to a confirm flow."""
@@ -395,7 +395,7 @@ def mock_powerwall_client() -> Generator[MagicMock]:
         yield client
 
 
-async def _setup_entry_with_lost_gateway(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def _setup_entry_with_lost_gateway(hass: UniversalAssistant) -> MockConfigEntry:
     """Set up an entry whose paired gateway could not be found."""
     assert await async_setup_component(hass, "repairs", {})
     hass.data[RSA_PARENT_KEY] = b"test-key-pem"
@@ -440,7 +440,7 @@ def _host_default(result: dict[str, Any]) -> str:
 
 
 async def test_gateway_repair_fixed_through_cloud(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
     mock_powerwall_client: MagicMock,
@@ -506,7 +506,7 @@ async def test_gateway_repair_fixed_through_cloud(
     ],
 )
 async def test_gateway_repair_manual_address(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
     mock_powerwall_client: MagicMock,
@@ -555,7 +555,7 @@ async def test_gateway_repair_manual_address(
 
 @pytest.mark.usefixtures("mock_powerwall_client")
 async def test_gateway_repair_key_load_failure_aborts(
-    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client: ClientSessionGenerator
 ) -> None:
     """The fix flow aborts when the RSA key cannot be loaded."""
     await _setup_entry_with_lost_gateway(hass)
@@ -580,7 +580,7 @@ async def test_gateway_repair_key_load_failure_aborts(
 )
 @pytest.mark.usefixtures("mock_powerwall_client")
 async def test_gateway_repair_aborts_without_loaded_site(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     entry_id: str | None,
     subentry_id: str | None,

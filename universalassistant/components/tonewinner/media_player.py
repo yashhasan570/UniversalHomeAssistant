@@ -12,8 +12,8 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
 )
 from universalassistant.const import CONF_MODEL
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -34,7 +34,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: TonewinnerConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -155,7 +155,7 @@ class TonewinnerMediaPlayer(MediaPlayerEntity):
         try:
             await self._receiver.power_on()
         except OSError as err:
-            raise __HAC_KEEP__Error(f"Failed to turn on: {err}") from err
+            raise UniversalAssistantError(f"Failed to turn on: {err}") from err
 
     @override
     async def async_turn_off(self) -> None:
@@ -163,7 +163,7 @@ class TonewinnerMediaPlayer(MediaPlayerEntity):
         try:
             await self._receiver.power_off()
         except OSError as err:
-            raise __HAC_KEEP__Error(f"Failed to turn off: {err}") from err
+            raise UniversalAssistantError(f"Failed to turn off: {err}") from err
         self._attr_state = MediaPlayerState.OFF
         self._attr_source = None
         self.async_write_ha_state()
@@ -179,7 +179,7 @@ class TonewinnerMediaPlayer(MediaPlayerEntity):
         try:
             await self._receiver.set_volume(round(volume * 160) / 2)
         except OSError as err:
-            raise __HAC_KEEP__Error(f"Failed to set volume: {err}") from err
+            raise UniversalAssistantError(f"Failed to set volume: {err}") from err
         self.async_write_ha_state()
 
     @override
@@ -188,7 +188,7 @@ class TonewinnerMediaPlayer(MediaPlayerEntity):
         try:
             await self._receiver.volume_up()
         except OSError as err:
-            raise __HAC_KEEP__Error(f"Failed to step volume up: {err}") from err
+            raise UniversalAssistantError(f"Failed to step volume up: {err}") from err
 
     @override
     async def async_volume_down(self) -> None:
@@ -196,7 +196,7 @@ class TonewinnerMediaPlayer(MediaPlayerEntity):
         try:
             await self._receiver.volume_down()
         except OSError as err:
-            raise __HAC_KEEP__Error(f"Failed to step volume down: {err}") from err
+            raise UniversalAssistantError(f"Failed to step volume down: {err}") from err
 
     @override
     async def async_mute_volume(self, mute: bool) -> None:
@@ -206,18 +206,18 @@ class TonewinnerMediaPlayer(MediaPlayerEntity):
             await command()
         except OSError as err:
             action = "mute" if mute else "unmute"
-            raise __HAC_KEEP__Error(f"Failed to {action}: {err}") from err
+            raise UniversalAssistantError(f"Failed to {action}: {err}") from err
 
     @override
     async def async_select_source(self, source: str) -> None:
         """Select input source."""
         if source not in INPUT_SOURCES:
-            raise __HAC_KEEP__Error(f"Unknown source: {source}")
+            raise UniversalAssistantError(f"Unknown source: {source}")
 
         try:
             await self._receiver.select_source(INPUT_SOURCES[source])
         except OSError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to select source {source}: {err}"
             ) from err
 
@@ -225,10 +225,10 @@ class TonewinnerMediaPlayer(MediaPlayerEntity):
     async def async_select_sound_mode(self, sound_mode: str) -> None:
         """Select sound mode."""
         if sound_mode not in SOUND_MODES:
-            raise __HAC_KEEP__Error(f"Unknown sound mode: {sound_mode}")
+            raise UniversalAssistantError(f"Unknown sound mode: {sound_mode}")
         try:
             await self._receiver.select_sound_mode(SOUND_MODES[sound_mode])
         except OSError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Failed to select sound mode {sound_mode}: {err}"
             ) from err

@@ -112,8 +112,8 @@ from universalassistant.const import (
     ATTR_NAME,
     Platform,
 )
-from universalassistant.core import Event, __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -122,7 +122,7 @@ from universalassistant.helpers import (
 from universalassistant.helpers.dispatcher import async_dispatcher_send, dispatcher_send
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, VolDictType
-from universalassistant.util.logging import __HAC_KEEP__QueueHandler
+from universalassistant.util.logging import UniversalAssistantQueueHandler
 
 from .const import (
     ATTR_ACTIVE_COORDINATOR,
@@ -718,7 +718,7 @@ class ZHAGatewayProxy(EventBase):
     """Proxy class to interact with the ZHA gateway."""
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: ConfigEntry, gateway: Gateway
+        self, hass: UniversalAssistant, config_entry: ConfigEntry, gateway: Gateway
     ) -> None:
         """Initialize the gateway proxy."""
         super().__init__()
@@ -738,7 +738,7 @@ class ZHAGatewayProxy(EventBase):
 
         log_relay_handler: LogRelayHandler = LogRelayHandler(hass, self)
         log_simple_queue: queue.SimpleQueue[logging.Handler] = queue.SimpleQueue()
-        self._log_queue_handler = __HAC_KEEP__QueueHandler(log_simple_queue)
+        self._log_queue_handler = UniversalAssistantQueueHandler(log_simple_queue)
         self._log_queue_handler.listener = logging.handlers.QueueListener(
             log_simple_queue, log_relay_handler
         )
@@ -1433,7 +1433,7 @@ def async_set_logger_levels(levels: dict[str, int]) -> None:
 class LogRelayHandler(logging.Handler):
     """Log handler for error messages."""
 
-    def __init__(self, hass: __HAC_KEEP__, gateway: ZHAGatewayProxy) -> None:
+    def __init__(self, hass: UniversalAssistant, gateway: ZHAGatewayProxy) -> None:
         """Initialize a new LogErrorHandler."""
         super().__init__()
         self.hass = hass
@@ -1489,7 +1489,7 @@ class EntityData:
         return self.group_proxy is not None and isinstance(self.entity, GroupEntity)
 
 
-def get_zha_data(hass: __HAC_KEEP__) -> HAZHAData:
+def get_zha_data(hass: UniversalAssistant) -> HAZHAData:
     """Get the global ZHA data object."""
     if DATA_ZHA not in hass.data:
         hass.data[DATA_ZHA] = HAZHAData()
@@ -1497,7 +1497,7 @@ def get_zha_data(hass: __HAC_KEEP__) -> HAZHAData:
     return hass.data[DATA_ZHA]
 
 
-def get_zha_gateway(hass: __HAC_KEEP__) -> Gateway:
+def get_zha_gateway(hass: UniversalAssistant) -> Gateway:
     """Get the ZHA gateway object."""
     if (gateway_proxy := get_zha_data(hass).gateway_proxy) is None:
         raise ValueError("No gateway object exists")
@@ -1505,7 +1505,7 @@ def get_zha_gateway(hass: __HAC_KEEP__) -> Gateway:
     return gateway_proxy.gateway
 
 
-def get_zha_gateway_proxy(hass: __HAC_KEEP__) -> ZHAGatewayProxy:
+def get_zha_gateway_proxy(hass: UniversalAssistant) -> ZHAGatewayProxy:
     """Get the ZHA gateway object."""
     if (gateway_proxy := get_zha_data(hass).gateway_proxy) is None:
         raise ValueError("No gateway object exists")
@@ -1513,7 +1513,7 @@ def get_zha_gateway_proxy(hass: __HAC_KEEP__) -> ZHAGatewayProxy:
     return gateway_proxy
 
 
-def get_config_entry(hass: __HAC_KEEP__) -> ConfigEntry:
+def get_config_entry(hass: UniversalAssistant) -> ConfigEntry:
     """Get the ZHA gateway object."""
     if (gateway_proxy := get_zha_data(hass).gateway_proxy) is None:
         raise ValueError("No gateway object exists to retrieve the config entry from.")
@@ -1522,7 +1522,7 @@ def get_config_entry(hass: __HAC_KEEP__) -> ConfigEntry:
 
 
 @callback
-def async_get_zha_device_proxy(hass: __HAC_KEEP__, device_id: str) -> ZHADeviceProxy:
+def async_get_zha_device_proxy(hass: UniversalAssistant, device_id: str) -> ZHADeviceProxy:
     """Get a ZHA device for the given device registry id."""
     device_registry = dr.async_get(hass)
     registry_device = device_registry.async_get(device_id)
@@ -1547,7 +1547,7 @@ def async_get_zha_device_proxy(hass: __HAC_KEEP__, device_id: str) -> ZHADeviceP
 
 
 @callback
-def async_is_zha_group_device(hass: __HAC_KEEP__, device_id: str) -> bool:
+def async_is_zha_group_device(hass: UniversalAssistant, device_id: str) -> bool:
     """Return whether the device registry id belongs to a ZHA group device."""
     registry_device = dr.async_get(hass).async_get(device_id)
     return (
@@ -1630,7 +1630,7 @@ def convert_to_zcl_values(
     return converted_fields
 
 
-def async_cluster_exists(hass: __HAC_KEEP__, cluster_id, skip_coordinator=True):
+def async_cluster_exists(hass: UniversalAssistant, cluster_id, skip_coordinator=True):
     """Determine if a device containing the specified in cluster is paired."""
     zha_gateway = get_zha_gateway(hass)
     zha_devices = zha_gateway.devices.values()
@@ -1717,7 +1717,7 @@ CONF_ZHA_ALARM_SCHEMA = probatio.Schema(
 )
 
 
-def create_zha_config(hass: __HAC_KEEP__, ha_zha_data: HAZHAData) -> ZHAData:
+def create_zha_config(hass: UniversalAssistant, ha_zha_data: HAZHAData) -> ZHAData:
     """Create ZHA lib configuration from HA config objects."""
 
     # ensure that we have the necessary HA configuration data
@@ -1811,11 +1811,11 @@ def create_zha_config(hass: __HAC_KEEP__, ha_zha_data: HAZHAData) -> ZHAData:
 
 @asynccontextmanager
 async def convert_zha_error_to_ha_error() -> AsyncGenerator[None]:
-    """Decorate ZHA commands and re-raises ZHAException as __HAC_KEEP__Error."""
+    """Decorate ZHA commands and re-raises ZHAException as UniversalAssistantError."""
     try:
         yield
     except TimeoutError as exc:
-        raise __HAC_KEEP__Error(
+        raise UniversalAssistantError(
             "Failed to send request: device did not respond"
         ) from exc
     except zigpy.exceptions.ZigbeeException as exc:
@@ -1824,9 +1824,9 @@ async def convert_zha_error_to_ha_error() -> AsyncGenerator[None]:
         if str(exc):
             message = f"{message}: {exc}"
 
-        raise __HAC_KEEP__Error(message) from exc
+        raise UniversalAssistantError(message) from exc
     except ZHAException as err:
-        raise __HAC_KEEP__Error(err) from err
+        raise UniversalAssistantError(err) from err
 
 
 def exclude_none_values(obj: Mapping[str, Any]) -> dict[str, Any]:
@@ -1836,7 +1836,7 @@ def exclude_none_values(obj: Mapping[str, Any]) -> dict[str, Any]:
 
 @callback
 def async_update_device_path(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry, new_path: str
+    hass: UniversalAssistant, config_entry: ConfigEntry, new_path: str
 ) -> None:
     """Point a config entry at the new path of its radio."""
     device = config_entry.data[CONF_DEVICE]

@@ -8,7 +8,7 @@ from pytest_universalassistant.components.bluetooth import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import make_service_info, payload
@@ -24,7 +24,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -45,7 +45,7 @@ async def test_sensor_entities(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_power_state_follows_advertisements(
-    hass: __HAC_KEEP__, code: int, expected: str
+    hass: UniversalAssistant, code: int, expected: str
 ) -> None:
     """Test the power state sensor reflects the advertised power state."""
     inject_bluetooth_service_info_bleak(hass, make_service_info(payload(power=code)))

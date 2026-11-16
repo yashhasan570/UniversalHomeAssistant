@@ -20,23 +20,25 @@ from universalassistant.const import (
     SERVICE_ALARM_TRIGGER,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .common import setup_platform
 from .const import DATA_HOME_ALARM_GET_VALUE, DATA_HOME_GET_NODES
 
 
 async def test_alarm_changed_from_external(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, router: Mock
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, router: Mock
 ) -> None:
     """Test Freebox Home alarm which state depends on external changes."""
     data_get_home_nodes = deepcopy(DATA_HOME_GET_NODES)
     data_get_home_endpoint_value = deepcopy(DATA_HOME_ALARM_GET_VALUE)
 
-    # Add remove arm_home feature
+    # Remove arm_home feature
     ALARM_NODE_ID = 7
-    ALARM_HOME_ENDPOINT_ID = 2
-    del data_get_home_nodes[ALARM_NODE_ID]["type"]["endpoints"][ALARM_HOME_ENDPOINT_ID]
+    alarm_node = next(n for n in data_get_home_nodes if n["id"] == ALARM_NODE_ID)
+    alarm_node["type"]["endpoints"] = [
+        ep for ep in alarm_node["type"]["endpoints"] if ep["name"] != "alarm2"
+    ]
     router().home.get_home_nodes.return_value = data_get_home_nodes
 
     data_get_home_endpoint_value["value"] = "alarm1_arming"
@@ -72,7 +74,7 @@ async def test_alarm_changed_from_external(
     )
 
 
-async def test_alarm_changed_from_hass(hass: __HAC_KEEP__, router: Mock) -> None:
+async def test_alarm_changed_from_hass(hass: UniversalAssistant, router: Mock) -> None:
     """Test Freebox Home alarm which state depends on HA."""
     data_get_home_endpoint_value = deepcopy(DATA_HOME_ALARM_GET_VALUE)
 
@@ -158,7 +160,7 @@ async def test_alarm_changed_from_hass(hass: __HAC_KEEP__, router: Mock) -> None
     )
 
 
-async def test_alarm_undefined_fetch_status(hass: __HAC_KEEP__, router: Mock) -> None:
+async def test_alarm_undefined_fetch_status(hass: UniversalAssistant, router: Mock) -> None:
     """Test Freebox Home alarm which state is undefined or null."""
     data_get_home_endpoint_value = deepcopy(DATA_HOME_ALARM_GET_VALUE)
     data_get_home_endpoint_value["value"] = None

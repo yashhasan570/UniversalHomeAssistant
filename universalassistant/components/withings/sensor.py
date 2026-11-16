@@ -8,6 +8,7 @@ from typing import Any, override
 from aiowithings import (
     Activity,
     Device,
+    DeviceModel,
     Goals,
     MeasurementPosition,
     MeasurementType,
@@ -33,7 +34,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfTime,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
@@ -695,6 +696,7 @@ class WithingsDeviceSensorEntityDescription(SensorEntityDescription):
     """Immutable class for describing withings data."""
 
     value_fn: Callable[[Device], StateType]
+    exists_fn: Callable[[Device], bool] = lambda _: True
 
 
 DEVICE_SENSORS = [
@@ -704,6 +706,8 @@ DEVICE_SENSORS = [
         options=["low", "medium", "high"],
         device_class=SensorDeviceClass.ENUM,
         value_fn=lambda device: device.battery,
+        # The Aura Sensor V2 is a wired Sleep Analyzer, so it has no battery
+        exists_fn=lambda device: device.model is not DeviceModel.AURA_SENSOR_V2,
     )
 ]
 
@@ -718,7 +722,7 @@ def get_current_goals(goals: Goals) -> set[str]:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: WithingsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -886,10 +890,27 @@ async def async_setup_entry(
                     )
                 ):
                     continue
-                async_add_entities(
+                withings_device = device_coordinator.data[device_id]
+                if device_entities := [
                     WithingsDeviceSensor(device_coordinator, description, device_id)
                     for description in DEVICE_SENSORS
-                )
+                    if description.exists_fn(withings_device)
+                ]:
+                    async_add_entities(device_entities)
+                else:
+                    # Register devices without sensors, so they still show up
+                    device_registry.async_get_or_create(
+                        config_entry_id=entry.entry_id,
+                        identifiers={(DOMAIN, device_id)},
+                        manufacturer="Withings",
+                        name=withings_device.raw_model,
+                        model=withings_device.raw_model,
+                        via_device_id=dr.async_get_device_id_by_identifier(
+                            hass,
+                            (DOMAIN, str(entry.unique_id)),
+                            config_entry_id=entry.entry_id,
+                        ),
+                    )
                 current_devices.add(device_id)
 
         if old_devices:

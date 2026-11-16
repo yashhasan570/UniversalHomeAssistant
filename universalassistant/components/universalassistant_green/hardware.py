@@ -1,27 +1,27 @@
-"""The __HA_KEEP__ Green hardware platform."""
+"""The Universal Home Assistant Green hardware platform."""
 
 from universalassistant.components.hardware import BoardInfo, HardwareInfo
 from universalassistant.components.hassio import get_os_info
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import DOMAIN
 
-BOARD_NAME = "__HA_KEEP__ Green"
+BOARD_NAME = "Universal Home Assistant Green"
 DOCUMENTATION_URL = "https://support.nabucasa.com/hc/en-us/categories/24638797677853-Universal-Assistant-Green"
 MANUFACTURER = "universalassistant"
 MODEL = "green"
 
 
 @callback
-def async_info(hass: __HAC_KEEP__) -> list[HardwareInfo]:
+def async_info(hass: UniversalAssistant) -> list[HardwareInfo]:
     """Return board info."""
     os_info = get_os_info(hass)
     board: str | None
     if (board := os_info.get("board")) is None:
-        raise __HAC_KEEP__Error
+        raise UniversalAssistantError
     if not board == "green":
-        raise __HAC_KEEP__Error
+        raise UniversalAssistantError
 
     config_entries = [
         entry.entry_id for entry in hass.config_entries.async_entries(DOMAIN)

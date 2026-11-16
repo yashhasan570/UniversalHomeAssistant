@@ -16,7 +16,7 @@ from universalassistant.const import (
     UnitOfElectricCurrent,
     UnitOfElectricPotential,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import V2CConfigEntry, V2CUpdateCoordinator
@@ -85,7 +85,7 @@ TRYDAN_NUMBER_SETTINGS = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: V2CConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

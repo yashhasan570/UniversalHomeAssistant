@@ -35,7 +35,7 @@ from universalassistant.components.stt import (
 )
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState, ConfigFlow
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.setup import async_setup_component
 
@@ -100,7 +100,7 @@ def config_flow_test_domain_fixture() -> Iterable[str]:
 
 @pytest.fixture(autouse=True)
 def config_flow_fixture(
-    hass: __HAC_KEEP__, config_flow_test_domains: Iterable[str]
+    hass: UniversalAssistant, config_flow_test_domains: Iterable[str]
 ) -> Generator[None]:
     """Mock config flow."""
     for domain in config_flow_test_domains:
@@ -114,7 +114,7 @@ def config_flow_fixture(
 
 @pytest.fixture(name="setup")
 async def setup_fixture(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     request: pytest.FixtureRequest,
 ) -> MockSTTProvider | MockSTTProviderEntity:
@@ -133,7 +133,7 @@ async def setup_fixture(
 
 
 async def mock_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     mock_provider: MockSTTProvider,
 ) -> None:
@@ -149,7 +149,7 @@ async def mock_setup(
 
 
 async def mock_config_entry_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     mock_provider_entity: MockSTTProviderEntity,
     test_domain: str = TEST_DOMAIN,
@@ -157,7 +157,7 @@ async def mock_config_entry_setup(
     """Set up a test provider via config entry."""
 
     async def async_setup_entry_init(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -165,7 +165,7 @@ async def mock_config_entry_setup(
         )
 
     async def async_unload_entry_init(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         """Unload up test config entry."""
         await hass.config_entries.async_forward_entry_unload(config_entry, Platform.STT)
@@ -180,7 +180,7 @@ async def mock_config_entry_setup(
     )
 
     async def async_setup_entry_platform(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -201,7 +201,7 @@ async def mock_config_entry_setup(
     "setup", ["mock_setup", "mock_config_entry_setup"], indirect=True
 )
 async def test_get_provider_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     setup: MockSTTProvider | MockSTTProviderEntity,
 ) -> None:
@@ -223,7 +223,7 @@ async def test_get_provider_info(
     "setup", ["mock_setup", "mock_config_entry_setup"], indirect=True
 )
 async def test_non_existing_provider(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     setup: MockSTTProvider | MockSTTProviderEntity,
 ) -> None:
@@ -249,7 +249,7 @@ async def test_non_existing_provider(
     "setup", ["mock_setup", "mock_config_entry_setup"], indirect=True
 )
 async def test_stream_audio(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     setup: MockSTTProvider | MockSTTProviderEntity,
 ) -> None:
@@ -272,7 +272,7 @@ async def test_stream_audio(
     "setup", ["mock_setup", "mock_config_entry_setup"], indirect=True
 )
 async def test_stream_audio_uses_enum_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     setup: MockSTTProvider | MockSTTProviderEntity,
 ) -> None:
@@ -345,7 +345,7 @@ async def test_stream_audio_uses_enum_values(
     ],
 )
 async def test_metadata_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     header: str | None,
     status: int,
@@ -364,7 +364,7 @@ async def test_metadata_errors(
 
 
 async def test_get_provider(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     mock_provider: MockSTTProvider,
 ) -> None:
@@ -377,7 +377,7 @@ async def test_get_provider(
 
 
 async def test_config_entry_unload(
-    hass: __HAC_KEEP__, tmp_path: Path, mock_provider_entity: MockSTTProviderEntity
+    hass: UniversalAssistant, tmp_path: Path, mock_provider_entity: MockSTTProviderEntity
 ) -> None:
     """Test we can unload config entry."""
     config_entry = await mock_config_entry_setup(hass, tmp_path, mock_provider_entity)
@@ -387,7 +387,7 @@ async def test_config_entry_unload(
 
 
 async def test_restore_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     mock_provider_entity: MockSTTProviderEntity,
 ) -> None:
@@ -406,7 +406,7 @@ async def test_restore_state(
 
 
 async def test_default_entity_emits_no_partial_results(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     mock_provider_entity: MockSTTProviderEntity,
 ) -> None:
@@ -425,7 +425,7 @@ async def test_default_entity_emits_no_partial_results(
 
 
 async def test_entity_emits_partial_results(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     mock_provider_partial_entity: MockSTTProviderPartialEntity,
 ) -> None:
@@ -448,7 +448,7 @@ async def test_entity_emits_partial_results(
 
 
 async def test_partial_results_update_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     mock_provider_partial_entity: MockSTTProviderPartialEntity,
 ) -> None:
@@ -472,7 +472,7 @@ async def test_partial_results_update_state(
 
 
 async def test_partial_results_closed_when_consumer_stops_early(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     mock_provider_partial_entity: MockSTTProviderPartialEntity,
 ) -> None:
@@ -493,7 +493,7 @@ async def test_partial_results_closed_when_consumer_stops_early(
 
 
 async def test_partial_results_without_speaker_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     mock_provider_partial_entity: MockSTTProviderPartialEntity,
 ) -> None:
@@ -515,7 +515,7 @@ async def test_partial_results_without_speaker_id(
 
 
 async def test_partial_results_with_speaker_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     mock_provider_speakers_entity: MockSTTProviderSpeakersEntity,
 ) -> None:
@@ -540,7 +540,7 @@ async def test_partial_results_with_speaker_id(
 
 
 async def test_stream_audio_partial_only_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     tmp_path: Path,
     mock_provider_partial_entity: MockSTTProviderPartialEntity,
@@ -567,7 +567,7 @@ async def test_stream_audio_partial_only_entity(
 
 
 async def test_process_audio_stream_without_final_result(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     mock_provider_partial_entity: MockSTTProviderPartialEntity,
 ) -> None:
@@ -601,7 +601,7 @@ async def test_process_audio_stream_without_final_result(
     indirect=["setup"],
 )
 async def test_ws_list_engines(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     setup: MockSTTProvider | MockSTTProviderEntity,
     engine_id: str,
@@ -674,7 +674,7 @@ async def test_ws_list_engines(
     }
 
 
-async def test_default_engine_none(hass: __HAC_KEEP__, tmp_path: Path) -> None:
+async def test_default_engine_none(hass: UniversalAssistant, tmp_path: Path) -> None:
     """Test async_default_engine."""
     assert await async_setup_component(hass, DOMAIN, {"stt": {}})
     await hass.async_block_till_done()
@@ -683,7 +683,7 @@ async def test_default_engine_none(hass: __HAC_KEEP__, tmp_path: Path) -> None:
 
 
 async def test_default_engine(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     mock_provider: MockSTTProvider,
 ) -> None:
@@ -701,7 +701,7 @@ async def test_default_engine(
 
 
 async def test_default_engine_entity(
-    hass: __HAC_KEEP__, tmp_path: Path, mock_provider_entity: MockSTTProviderEntity
+    hass: UniversalAssistant, tmp_path: Path, mock_provider_entity: MockSTTProviderEntity
 ) -> None:
     """Test async_default_engine."""
     await mock_config_entry_setup(hass, tmp_path, mock_provider_entity)
@@ -711,7 +711,7 @@ async def test_default_engine_entity(
 
 @pytest.mark.parametrize("config_flow_test_domains", [("new_test",)])
 async def test_default_engine_prefer_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     mock_provider_entity: MockSTTProviderEntity,
     mock_provider: MockSTTProvider,
@@ -750,7 +750,7 @@ async def test_default_engine_prefer_entity(
     ],
 )
 async def test_default_engine_prefer_cloud_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tmp_path: Path,
     mock_provider: MockSTTProvider,
     config_flow_test_domains: str,
@@ -783,7 +783,7 @@ async def test_default_engine_prefer_cloud_entity(
 
 
 async def test_get_engine_legacy(
-    hass: __HAC_KEEP__, tmp_path: Path, mock_provider: MockSTTProvider
+    hass: UniversalAssistant, tmp_path: Path, mock_provider: MockSTTProvider
 ) -> None:
     """Test async_get_speech_to_text_engine."""
     mock_stt_platform(
@@ -808,7 +808,7 @@ async def test_get_engine_legacy(
 
 
 async def test_get_engine_entity(
-    hass: __HAC_KEEP__, tmp_path: Path, mock_provider_entity: MockSTTProviderEntity
+    hass: UniversalAssistant, tmp_path: Path, mock_provider_entity: MockSTTProviderEntity
 ) -> None:
     """Test async_get_speech_to_text_engine."""
     await mock_config_entry_setup(hass, tmp_path, mock_provider_entity)
@@ -817,7 +817,7 @@ async def test_get_engine_entity(
 
 
 async def test_audio_processing_default(
-    hass: __HAC_KEEP__, tmp_path: Path, mock_provider: MockSTTProvider
+    hass: UniversalAssistant, tmp_path: Path, mock_provider: MockSTTProvider
 ) -> None:
     """Test that the default audio_processing property returns correct values."""
     await mock_setup(hass, tmp_path, mock_provider)
@@ -831,7 +831,7 @@ async def test_audio_processing_default(
 
 
 async def test_audio_processing_entity_default(
-    hass: __HAC_KEEP__, tmp_path: Path, mock_provider_entity: MockSTTProviderEntity
+    hass: UniversalAssistant, tmp_path: Path, mock_provider_entity: MockSTTProviderEntity
 ) -> None:
     """Test default audio_processing property returns correct values."""
     await mock_config_entry_setup(hass, tmp_path, mock_provider_entity)
@@ -844,7 +844,7 @@ async def test_audio_processing_entity_default(
     assert engine.audio_processing.prefers_noise_reduction_enabled is True
 
 
-async def test_audio_processing_custom(hass: __HAC_KEEP__, tmp_path: Path) -> None:
+async def test_audio_processing_custom(hass: UniversalAssistant, tmp_path: Path) -> None:
     """Test that custom audio_processing values are returned correctly."""
     custom_processing = SpeechAudioProcessing(
         requires_external_vad=False,
@@ -876,7 +876,7 @@ async def test_get_audio_processing_defaults_to_property(
     "setup", ["mock_setup", "mock_config_entry_setup"], indirect=True
 )
 async def test_stream_audio_large_no_newline_block(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     setup: MockSTTProvider | MockSTTProviderEntity,
 ) -> None:

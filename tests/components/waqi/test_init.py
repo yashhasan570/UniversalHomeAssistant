@@ -16,7 +16,7 @@ from universalassistant.config_entries import (
     ConfigEntryState,
 )
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import DeviceEntryDisabler
 from universalassistant.helpers.entity_registry import RegistryEntryDisabler
@@ -25,7 +25,7 @@ from . import setup_integration
 
 
 async def test_setup_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_waqi: AsyncMock,
 ) -> None:
@@ -41,7 +41,7 @@ async def test_setup_failed(
 
 
 async def test_setup_auth_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_waqi: AsyncMock,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_setup_auth_failed(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_migration_from_v1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -247,7 +247,7 @@ async def test_migration_from_v1(
     ],
 )
 async def test_migration_from_v1_disabled(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     config_entry_disabled_by: list[ConfigEntryDisabler | None],

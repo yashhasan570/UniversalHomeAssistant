@@ -71,7 +71,7 @@ from universalassistant.core import (
     Context,
     Event,
     HassJob,
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceResponse,
     State,
     SupportsResponse,
@@ -207,7 +207,7 @@ class trace_action:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         script_run: _ScriptRun,
         stop: asyncio.Future[None],
         variables: TemplateVarsType,
@@ -375,7 +375,7 @@ _NESTED_BLOCKS: dict[str, _Layout] = {
 
 
 async def _async_validate_block(
-    hass: __HAC_KEEP__, kind: _BlockKind, block: list[Any]
+    hass: UniversalAssistant, kind: _BlockKind, block: list[Any]
 ) -> list[Any]:
     """Validate a block of triggers, conditions or actions."""
     if kind == "triggers":
@@ -386,7 +386,7 @@ async def _async_validate_block(
 
 
 async def _async_validate_nested_blocks(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     layout: _Layout,
     path: tuple[str | int, ...] = (),
@@ -416,7 +416,7 @@ async def _async_validate_nested_blocks(
 
 
 async def async_validate_actions_config(
-    hass: __HAC_KEEP__, actions: list[ConfigType]
+    hass: UniversalAssistant, actions: list[ConfigType]
 ) -> list[ConfigType]:
     """Validate a list of actions."""
     # No gather here because async_validate_action_config is unlikely
@@ -432,7 +432,7 @@ async def async_validate_actions_config(
 
 
 async def async_validate_action_config(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> ConfigType:
     """Validate config."""
     action_type = cv.determine_script_action(config)
@@ -487,7 +487,7 @@ class _ScriptRun:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         script: Script,
         variables: ScriptRunVariables,
         context: Context | None,
@@ -665,8 +665,8 @@ class _ScriptRun:
         if isinstance(exception, CONFIGURATION_ERRORS):
             raise exception
 
-        # Only __HA_KEEP__ errors can be ignored.
-        if not isinstance(exception, exceptions.__HAC_KEEP__Error):
+        # Only Universal Home Assistant errors can be ignored.
+        if not isinstance(exception, exceptions.UniversalAssistantError):
             raise exception
 
         # Mark the step as having an error, but continue running the script.
@@ -690,7 +690,7 @@ class _ScriptRun:
         elif isinstance(exception, exceptions.ServiceNotFound):
             error_desc = "Service not found"
 
-        elif isinstance(exception, exceptions.__HAC_KEEP__Error):
+        elif isinstance(exception, exceptions.UniversalAssistantError):
             error_desc = "Error"
 
         else:
@@ -783,7 +783,7 @@ class _ScriptRun:
 
         @trace_condition_function
         def traced_test_conditions(
-            hass: __HAC_KEEP__, variables: TemplateVarsType
+            hass: UniversalAssistant, variables: TemplateVarsType
         ) -> bool | None:
             try:
                 with trace_path(condition_path):
@@ -1129,12 +1129,12 @@ class _ScriptRun:
                     eager_start=True,
                 )
             )
-        except (*CONFIGURATION_ERRORS, exceptions.__HAC_KEEP__Error):
+        except (*CONFIGURATION_ERRORS, exceptions.UniversalAssistantError):
             raise
         except Exception as ex:
             if not self._action.get(CONF_CONTINUE_ON_ERROR, False):
                 raise
-            raise exceptions.__HAC_KEEP__Error(ex) from ex
+            raise exceptions.UniversalAssistantError(ex) from ex
         if response_variable:
             self._variables[response_variable] = response_data
 
@@ -1456,7 +1456,7 @@ class _QueuedScriptRun(_ScriptRun):
 
 
 @callback
-def _schedule_stop_scripts_after_shutdown(hass: __HAC_KEEP__) -> None:
+def _schedule_stop_scripts_after_shutdown(hass: UniversalAssistant) -> None:
     """Stop running Script objects started after shutdown."""
     async_call_later(
         hass, _SHUTDOWN_MAX_WAIT, partial(_async_stop_scripts_after_shutdown, hass)
@@ -1464,7 +1464,7 @@ def _schedule_stop_scripts_after_shutdown(hass: __HAC_KEEP__) -> None:
 
 
 async def _async_stop_scripts_after_shutdown(
-    hass: __HAC_KEEP__, point_in_time: datetime
+    hass: UniversalAssistant, point_in_time: datetime
 ) -> None:
     """Stop running Script objects started after shutdown."""
     hass.data[DATA_NEW_SCRIPT_RUNS_NOT_ALLOWED] = None
@@ -1484,7 +1484,7 @@ async def _async_stop_scripts_after_shutdown(
         )
 
 
-async def _async_stop_scripts_at_shutdown(hass: __HAC_KEEP__, event: Event) -> None:
+async def _async_stop_scripts_at_shutdown(hass: UniversalAssistant, event: Event) -> None:
     """Stop running Script objects started before shutdown."""
     _schedule_stop_scripts_after_shutdown(hass)
 
@@ -1552,7 +1552,7 @@ class Script:
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         sequence: Sequence[dict[str, Any]],
         name: str,
         domain: str,
@@ -1948,7 +1948,7 @@ class Script:
                 f"Cannot run script '{self.name}' after it has been unloaded"
             )
         if DATA_NEW_SCRIPT_RUNS_NOT_ALLOWED in self._hass.data:
-            self._log("__HA_KEEP__ is shutting down, starting script blocked")
+            self._log("Universal Home Assistant is shutting down, starting script blocked")
             return None
         # The fences above rely on there being no await between these checks
         # and the _runs.append below, so that setting either flag is
@@ -2341,7 +2341,7 @@ class Script:
 
 @callback
 def breakpoint_clear(
-    hass: __HAC_KEEP__, key: str, run_id: str | None, node: str
+    hass: UniversalAssistant, key: str, run_id: str | None, node: str
 ) -> None:
     """Clear a breakpoint."""
     run_id = run_id or RUN_ID_ANY
@@ -2352,14 +2352,14 @@ def breakpoint_clear(
 
 
 @callback
-def breakpoint_clear_all(hass: __HAC_KEEP__) -> None:
+def breakpoint_clear_all(hass: UniversalAssistant) -> None:
     """Clear all breakpoints."""
     hass.data[DATA_SCRIPT_BREAKPOINTS] = {}
 
 
 @callback
 def breakpoint_set(
-    hass: __HAC_KEEP__, key: str, run_id: str | None, node: str
+    hass: UniversalAssistant, key: str, run_id: str | None, node: str
 ) -> None:
     """Set a breakpoint."""
     run_id = run_id or RUN_ID_ANY
@@ -2372,7 +2372,7 @@ def breakpoint_set(
 
 
 @callback
-def breakpoint_list(hass: __HAC_KEEP__) -> list[dict[str, Any]]:
+def breakpoint_list(hass: UniversalAssistant) -> list[dict[str, Any]]:
     """List breakpoints."""
     breakpoints = hass.data[DATA_SCRIPT_BREAKPOINTS]
 
@@ -2385,7 +2385,7 @@ def breakpoint_list(hass: __HAC_KEEP__) -> list[dict[str, Any]]:
 
 
 @callback
-def debug_continue(hass: __HAC_KEEP__, key: str, run_id: str) -> None:
+def debug_continue(hass: UniversalAssistant, key: str, run_id: str) -> None:
     """Continue execution of a halted script."""
     # Clear any wildcard breakpoint
     breakpoint_clear(hass, key, run_id, NODE_ANY)
@@ -2395,7 +2395,7 @@ def debug_continue(hass: __HAC_KEEP__, key: str, run_id: str) -> None:
 
 
 @callback
-def debug_step(hass: __HAC_KEEP__, key: str, run_id: str) -> None:
+def debug_step(hass: UniversalAssistant, key: str, run_id: str) -> None:
     """Single step a halted script."""
     # Set a wildcard breakpoint
     breakpoint_set(hass, key, run_id, NODE_ANY)
@@ -2405,7 +2405,7 @@ def debug_step(hass: __HAC_KEEP__, key: str, run_id: str) -> None:
 
 
 @callback
-def debug_stop(hass: __HAC_KEEP__, key: str, run_id: str) -> None:
+def debug_stop(hass: UniversalAssistant, key: str, run_id: str) -> None:
     """Stop execution of a running or halted script."""
     signal = SCRIPT_DEBUG_CONTINUE_STOP.format(key, run_id)
     async_dispatcher_send_internal(hass, signal, "stop")

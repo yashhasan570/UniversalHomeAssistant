@@ -10,7 +10,7 @@ from universalassistant import config_entries
 from universalassistant.components.snooz.const import CONF_FIRMWARE_VERSION, DOMAIN
 from universalassistant.config_entries import SOURCE_IGNORE
 from universalassistant.const import CONF_ADDRESS, CONF_MODEL, CONF_TOKEN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
@@ -28,7 +28,7 @@ from . import (
 )
 
 
-async def test_async_step_bluetooth_valid_device(hass: __HAC_KEEP__) -> None:
+async def test_async_step_bluetooth_valid_device(hass: UniversalAssistant) -> None:
     """Test discovery via bluetooth with a valid device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -40,7 +40,7 @@ async def test_async_step_bluetooth_valid_device(hass: __HAC_KEEP__) -> None:
     await _test_setup_entry(hass, result["flow_id"])
 
 
-async def test_async_step_bluetooth_waits_to_pair(hass: __HAC_KEEP__) -> None:
+async def test_async_step_bluetooth_waits_to_pair(hass: UniversalAssistant) -> None:
     """Test discovery with a device not in pairing mode that enters it."""
 
     result = await hass.config_entries.flow.async_init(
@@ -55,7 +55,7 @@ async def test_async_step_bluetooth_waits_to_pair(hass: __HAC_KEEP__) -> None:
     await _test_pairs(hass, result["flow_id"])
 
 
-async def test_async_step_bluetooth_characteristic_name(hass: __HAC_KEEP__) -> None:
+async def test_async_step_bluetooth_characteristic_name(hass: UniversalAssistant) -> None:
     """Test discovery of a device advertising only the bare device name."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -67,7 +67,7 @@ async def test_async_step_bluetooth_characteristic_name(hass: __HAC_KEEP__) -> N
     assert result["description_placeholders"] == {"name": TEST_SNOOZ_DISPLAY_NAME}
 
 
-async def test_async_step_bluetooth_retries_pairing(hass: __HAC_KEEP__) -> None:
+async def test_async_step_bluetooth_retries_pairing(hass: UniversalAssistant) -> None:
     """Test discovery retries pairing after timeout and completes setup."""
 
     result = await hass.config_entries.flow.async_init(
@@ -83,7 +83,7 @@ async def test_async_step_bluetooth_retries_pairing(hass: __HAC_KEEP__) -> None:
     await _test_pairs(hass, retry_id)
 
 
-async def test_async_step_bluetooth_not_snooz(hass: __HAC_KEEP__) -> None:
+async def test_async_step_bluetooth_not_snooz(hass: UniversalAssistant) -> None:
     """Test discovery via bluetooth not Snooz."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -94,7 +94,7 @@ async def test_async_step_bluetooth_not_snooz(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "not_supported"
 
 
-async def test_async_step_bluetooth_breez(hass: __HAC_KEEP__) -> None:
+async def test_async_step_bluetooth_breez(hass: UniversalAssistant) -> None:
     """Test a Breez advertisement matches and starts a discovery flow."""
     inject_bluetooth_service_info(hass, BREEZ_SERVICE_INFO)
     await hass.async_block_till_done(wait_background_tasks=True)
@@ -107,7 +107,7 @@ async def test_async_step_bluetooth_breez(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_async_step_user_no_devices_found(hass: __HAC_KEEP__) -> None:
+async def test_async_step_user_no_devices_found(hass: UniversalAssistant) -> None:
     """Test setup from service info cache with no devices found."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -117,7 +117,7 @@ async def test_async_step_user_no_devices_found(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "no_devices_found"
 
 
-async def test_async_step_user_with_found_devices(hass: __HAC_KEEP__) -> None:
+async def test_async_step_user_with_found_devices(hass: UniversalAssistant) -> None:
     """Test setup from service info cache with devices found."""
     with (
         patch(
@@ -144,7 +144,7 @@ async def test_async_step_user_with_found_devices(hass: __HAC_KEEP__) -> None:
 
 
 async def test_async_step_user_with_found_devices_waits_to_pair(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test setup from service info cache with devices requiring pairing."""
     with patch(
@@ -162,7 +162,7 @@ async def test_async_step_user_with_found_devices_waits_to_pair(
 
 
 async def test_async_step_user_with_found_devices_retries_pairing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test setup from service info cache retries pairing then completes."""
     with patch(
@@ -182,7 +182,7 @@ async def test_async_step_user_with_found_devices_retries_pairing(
     await _test_pairs(hass, retry_id, user_input)
 
 
-async def test_async_step_user_device_added_between_steps(hass: __HAC_KEEP__) -> None:
+async def test_async_step_user_device_added_between_steps(hass: UniversalAssistant) -> None:
     """Test the device gets added via another flow between steps."""
     with patch(
         "universalassistant.components.snooz.config_flow.async_discovered_service_info",
@@ -212,7 +212,7 @@ async def test_async_step_user_device_added_between_steps(hass: __HAC_KEEP__) ->
 
 
 async def test_async_step_user_with_found_devices_already_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test setup from service info cache with devices found."""
     entry = MockConfigEntry(
@@ -234,7 +234,7 @@ async def test_async_step_user_with_found_devices_already_setup(
     assert result["reason"] == "no_devices_found"
 
 
-async def test_async_step_bluetooth_devices_already_setup(hass: __HAC_KEEP__) -> None:
+async def test_async_step_bluetooth_devices_already_setup(hass: UniversalAssistant) -> None:
     """Test we can't start a flow if there is already a config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -252,7 +252,7 @@ async def test_async_step_bluetooth_devices_already_setup(hass: __HAC_KEEP__) ->
     assert result["reason"] == "already_configured"
 
 
-async def test_async_step_bluetooth_already_in_progress(hass: __HAC_KEEP__) -> None:
+async def test_async_step_bluetooth_already_in_progress(hass: UniversalAssistant) -> None:
     """Test we can't start a flow for the same device twice."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -272,7 +272,7 @@ async def test_async_step_bluetooth_already_in_progress(hass: __HAC_KEEP__) -> N
 
 
 async def test_async_step_user_takes_precedence_over_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test manual setup takes precedence over discovery."""
     result = await hass.config_entries.flow.async_init(
@@ -299,7 +299,7 @@ async def test_async_step_user_takes_precedence_over_discovery(
     assert not hass.config_entries.flow.async_progress()
 
 
-async def test_user_setup_replaces_ignored_device(hass: __HAC_KEEP__) -> None:
+async def test_user_setup_replaces_ignored_device(hass: UniversalAssistant) -> None:
     """Test the user initiated form can replace an ignored device."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -328,7 +328,7 @@ async def test_user_setup_replaces_ignored_device(hass: __HAC_KEEP__) -> None:
 
 
 async def _test_pairs(
-    hass: __HAC_KEEP__, flow_id: str, user_input: dict | None = None
+    hass: UniversalAssistant, flow_id: str, user_input: dict | None = None
 ) -> None:
     pairing_mode_entered = Event()
 
@@ -358,7 +358,7 @@ async def _test_pairs(
 
 
 async def _test_pairs_timeout(
-    hass: __HAC_KEEP__, flow_id: str, user_input: dict | None = None
+    hass: UniversalAssistant, flow_id: str, user_input: dict | None = None
 ) -> str:
     async def _async_process_advertisements(
         _hass, _callback, _matcher, _mode, _timeout
@@ -386,7 +386,7 @@ async def _test_pairs_timeout(
 
 
 async def _test_setup_entry(
-    hass: __HAC_KEEP__, flow_id: str, user_input: dict | None = None
+    hass: UniversalAssistant, flow_id: str, user_input: dict | None = None
 ) -> None:
     with patch("universalassistant.components.snooz.async_setup_entry", return_value=None):
         result = await hass.config_entries.flow.async_configure(

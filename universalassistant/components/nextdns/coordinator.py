@@ -20,7 +20,7 @@ from nextdns import (
 from nextdns.model import NextDnsData
 from tenacity import RetryError
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -47,7 +47,7 @@ class NextDnsUpdateCoordinator[CoordinatorDataT: NextDnsData](
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: NextDnsConfigEntry,
         nextdns: NextDns,
         profile_id: str,

@@ -27,12 +27,12 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .consts import HOST, MACS, PASSWORD, PORT, USE_SSL, USERNAME
 
 
-async def test_services_registered(hass: __HAC_KEEP__, mock_dsm: MagicMock) -> None:
+async def test_services_registered(hass: UniversalAssistant, mock_dsm: MagicMock) -> None:
     """Test if all services are registered."""
     with (
         patch(
@@ -65,7 +65,7 @@ async def test_services_registered(hass: __HAC_KEEP__, mock_dsm: MagicMock) -> N
         pytest.param(SynologyDSMLogin2SAForcedException(USERNAME), id="otp_enforced"),
     ],
 )
-async def test_reauth_triggered(hass: __HAC_KEEP__, side_effect: Exception) -> None:
+async def test_reauth_triggered(hass: UniversalAssistant, side_effect: Exception) -> None:
     """Test if reauthentication flow is triggered."""
     with patch(
         "universalassistant.components.synology_dsm.SynoApi.async_setup",
@@ -90,7 +90,7 @@ async def test_reauth_triggered(hass: __HAC_KEEP__, side_effect: Exception) -> N
 
 
 async def test_config_entry_migrations(
-    hass: __HAC_KEEP__, mock_dsm: MagicMock
+    hass: UniversalAssistant, mock_dsm: MagicMock
 ) -> None:
     """Test if reauthentication flow is triggered."""
     with (

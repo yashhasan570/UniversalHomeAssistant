@@ -8,8 +8,8 @@ from typing import Any, Concatenate, cast, override
 from aioshelly.block_device import Block
 from aioshelly.exceptions import DeviceConnectionError, InvalidAuthError, RpcCallError
 
-from universalassistant.core import __HAC_KEEP__, State, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, State, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import ChildDeviceInfo, DeviceInfo
 from universalassistant.helpers.entity import Entity, EntityDescription
@@ -34,7 +34,7 @@ from .utils import (
 
 @callback
 def async_setup_entry_block(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddEntitiesCallback,
     sensors: Mapping[tuple[str, str], BlockEntityDescription],
@@ -60,7 +60,7 @@ def async_setup_entry_block(
 
 @callback
 def async_setup_block_attribute_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     async_add_entities: AddEntitiesCallback,
     coordinator: ShellyBlockCoordinator,
     sensors: Mapping[tuple[str, str], BlockEntityDescription],
@@ -108,7 +108,7 @@ def async_setup_block_attribute_entities(
 
 @callback
 def async_restore_block_attribute_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddEntitiesCallback,
     coordinator: ShellyBlockCoordinator,
@@ -143,7 +143,7 @@ def async_restore_block_attribute_entities(
 
 @callback
 def async_setup_entry_rpc(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddEntitiesCallback,
     sensors: Mapping[str, RpcEntityDescription],
@@ -178,7 +178,7 @@ def async_setup_entry_rpc(
 
 @callback
 def async_setup_rpc_attribute_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddEntitiesCallback,
     sensors: Mapping[str, RpcEntityDescription],
@@ -262,7 +262,7 @@ def async_setup_rpc_attribute_entities(
 
 @callback
 def async_restore_rpc_attribute_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddEntitiesCallback,
     coordinator: ShellyRpcCoordinator,
@@ -299,7 +299,7 @@ def async_restore_rpc_attribute_entities(
 
 @callback
 def async_setup_entry_rest(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddEntitiesCallback,
     sensors: Mapping[str, RestEntityDescription],
@@ -363,7 +363,7 @@ def rpc_call[_T: ShellyRpcEntity, **_P](
             await func(self, *args, **kwargs)
         except DeviceConnectionError as err:
             self.coordinator.last_update_success = False
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="device_communication_action_error",
                 translation_placeholders={
@@ -372,7 +372,7 @@ def rpc_call[_T: ShellyRpcEntity, **_P](
                 },
             ) from err
         except RpcCallError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="rpc_call_action_error",
                 translation_placeholders={
@@ -417,7 +417,7 @@ class ShellyBlockEntity(CoordinatorEntity[ShellyBlockCoordinator]):
             return await self.block.set_state(**kwargs)
         except DeviceConnectionError as err:
             self.coordinator.last_update_success = False
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="device_communication_action_error",
                 translation_placeholders={

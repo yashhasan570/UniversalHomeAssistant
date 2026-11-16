@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.file import DOMAIN
 from universalassistant.const import CONF_UNIT_OF_MEASUREMENT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 MOCK_CONFIG_NOTIFY = {
@@ -33,7 +33,7 @@ MOCK_OPTIONS_SENSOR = {"value_template": "{{ value | round(1) }}"}
     ],
 )
 async def test_form(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     mock_is_allowed_path: bool,
     platform: str,
@@ -75,7 +75,7 @@ async def test_form(
     ],
 )
 async def test_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_is_allowed_path: bool,
     platform: str,
     data: dict[str, Any],
@@ -121,7 +121,7 @@ async def test_already_configured(
     ],
 )
 async def test_not_allowed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_is_allowed_path: MagicMock,
     platform: str,
     data: dict[str, Any],
@@ -176,7 +176,7 @@ async def test_not_allowed(
     ],
 )
 async def test_options_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_is_allowed_path: bool,
     platform: str,
     data: dict[str, Any],

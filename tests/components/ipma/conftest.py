@@ -7,13 +7,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.ipma.const import DOMAIN
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE, CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import MockLocation
 
 
 @pytest.fixture
-def config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+def config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     """Define a config entry fixture."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -29,7 +29,7 @@ def config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> MockConfigEntry:
     """Set up the IPMA integration for testing."""
     config_entry.add_to_hass(hass)

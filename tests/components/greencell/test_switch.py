@@ -24,8 +24,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import (
@@ -48,7 +48,7 @@ TEST_DEVICE_STATE_PAYLOAD_READ = b'{"level": "READ"}'
 @pytest.mark.parametrize("platforms", [[Platform.SWITCH]])
 @pytest.mark.usefixtures("setup_integration")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -70,7 +70,7 @@ async def test_entities(
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_switch_state_follows_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     payload: bytes,
     expected_state: str,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_switch_state_follows_status(
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_switch_sends_command(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
     service: str,
     expected_payload: str,
@@ -112,7 +112,7 @@ async def test_switch_sends_command(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_switch_rejects_command_without_execute_access(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
 ) -> None:
     """Commands are refused when the device only grants read access."""
@@ -121,7 +121,7 @@ async def test_switch_rejects_command_without_execute_access(
     )
     await hass.async_block_till_done()
 
-    with pytest.raises(__HAC_KEEP__Error, match="does not allow __HA_KEEP__"):
+    with pytest.raises(UniversalAssistantError, match="does not allow Universal Home Assistant"):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,

@@ -16,8 +16,8 @@ from universalassistant.components.notify import (
     NotifyEntity,
     NotifyEntityDescription,
 )
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -40,7 +40,7 @@ class PlaystationNetworkNotify(StrEnum):
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: PlaystationNetworkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -123,19 +123,19 @@ class PlaystationNetworkNotifyBaseEntity(PlaystationNetworkServiceEntity, Notify
         try:
             self._send_message(message)
         except PSNAWPNotFoundError as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="group_invalid",
                 translation_placeholders=dict(self.translation_placeholders),
             ) from e
         except PSNAWPForbiddenError as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="send_message_forbidden",
                 translation_placeholders=dict(self.translation_placeholders),
             ) from e
         except (PSNAWPServerError, PSNAWPClientError) as e:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="send_message_failed",
                 translation_placeholders=dict(self.translation_placeholders),

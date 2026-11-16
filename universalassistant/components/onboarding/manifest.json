@@ -1,6 +1,6 @@
 {
   "domain": "onboarding",
-  "name": "__HA_KEEP__ Onboarding",
+  "name": "Universal Home Assistant Onboarding",
   "codeowners": ["@universal-assistant/core"],
   "dependencies": ["auth", "http"],
   "documentation": "https://www.universalassistant.io/integrations/onboarding",

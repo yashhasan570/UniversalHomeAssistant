@@ -7,7 +7,7 @@ import pytest
 from universalassistant.components.debugpy.const import CONF_START, CONF_WAIT, DOMAIN
 from universalassistant.components.debugpy.services import DebugpyService
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
@@ -18,7 +18,7 @@ def mock_debugpy():
         yield mocked_debugpy
 
 
-async def test_default(hass: __HAC_KEEP__, mock_debugpy) -> None:
+async def test_default(hass: UniversalAssistant, mock_debugpy) -> None:
     """Test if the default settings work."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
 
@@ -27,7 +27,7 @@ async def test_default(hass: __HAC_KEEP__, mock_debugpy) -> None:
     assert len(mock_debugpy.method_calls) == 1
 
 
-async def test_wait_on_startup(hass: __HAC_KEEP__, mock_debugpy) -> None:
+async def test_wait_on_startup(hass: UniversalAssistant, mock_debugpy) -> None:
     """Test if the waiting for client is called."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {CONF_WAIT: True}})
 
@@ -36,7 +36,7 @@ async def test_wait_on_startup(hass: __HAC_KEEP__, mock_debugpy) -> None:
     assert len(mock_debugpy.method_calls) == 2
 
 
-async def test_on_demand(hass: __HAC_KEEP__, mock_debugpy) -> None:
+async def test_on_demand(hass: UniversalAssistant, mock_debugpy) -> None:
     """Test on-demand debugging using a service call."""
     assert await async_setup_component(
         hass,

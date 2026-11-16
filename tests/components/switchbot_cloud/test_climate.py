@@ -25,7 +25,7 @@ from universalassistant.components.climate import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.util.unit_system import (
     METRIC_SYSTEM,
@@ -37,7 +37,7 @@ from . import configure_integration
 
 
 async def test_air_conditioner_set_hvac_mode(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
+    hass: UniversalAssistant, mock_list_devices, mock_get_status
 ) -> None:
     """Test setting HVAC mode for air conditioner."""
     mock_list_devices.return_value = [
@@ -81,7 +81,7 @@ async def test_air_conditioner_set_hvac_mode(
 
 
 async def test_air_conditioner_set_fan_mode(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
+    hass: UniversalAssistant, mock_list_devices, mock_get_status
 ) -> None:
     """Test setting fan mode for air conditioner."""
     mock_list_devices.return_value = [
@@ -111,7 +111,7 @@ async def test_air_conditioner_set_fan_mode(
 
 
 async def test_air_conditioner_set_temperature(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
+    hass: UniversalAssistant, mock_list_devices, mock_get_status
 ) -> None:
     """Test setting temperature for air conditioner."""
     mock_list_devices.return_value = [
@@ -158,7 +158,7 @@ async def test_air_conditioner_set_temperature(
     ],
 )
 async def test_air_conditioner_set_temperature_while_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices: AsyncMock,
     mock_get_status: AsyncMock,
     service_data: dict[str, float | HVACMode],
@@ -198,7 +198,7 @@ async def test_air_conditioner_set_temperature_while_off(
 
 
 async def test_air_conditioner_set_temperature_unsupported_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices: AsyncMock,
     mock_get_status: AsyncMock,
 ) -> None:
@@ -236,7 +236,7 @@ async def test_air_conditioner_set_temperature_unsupported_hvac_mode(
 
 
 async def test_air_conditioner_restore_state(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
+    hass: UniversalAssistant, mock_list_devices, mock_get_status
 ) -> None:
     """Test restoring state for air conditioner."""
     mock_list_devices.return_value = [
@@ -289,7 +289,7 @@ async def test_air_conditioner_restore_state(
     ],
 )
 async def test_air_conditioner_restore_state_in_fahrenheit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices: AsyncMock,
     mock_get_status: AsyncMock,
     restored_temperature: float,
@@ -361,7 +361,7 @@ async def test_air_conditioner_restore_state_in_fahrenheit(
     ],
 )
 async def test_air_conditioner_restore_temperature_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_list_devices: AsyncMock,
     mock_get_status: AsyncMock,
     restored_attributes: dict[str, int | str],
@@ -400,7 +400,7 @@ async def test_air_conditioner_restore_temperature_unit(
 
 
 async def test_air_conditioner_no_last_state(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
+    hass: UniversalAssistant, mock_list_devices, mock_get_status
 ) -> None:
     """Test behavior when no previous state exists."""
     mock_list_devices.return_value = [
@@ -423,7 +423,7 @@ async def test_air_conditioner_no_last_state(
 
 
 async def test_air_conditioner_turn_off(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
+    hass: UniversalAssistant, mock_list_devices, mock_get_status
 ) -> None:
     """Test the climate.turn_off service."""
     mock_list_devices.return_value = [
@@ -455,7 +455,7 @@ async def test_air_conditioner_turn_off(
 
 
 async def test_air_conditioner_turn_on(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
+    hass: UniversalAssistant, mock_list_devices, mock_get_status
 ) -> None:
     """Test turning on a climate entity that has a non-off HVAC_STATE."""
     mock_list_devices.return_value = [
@@ -496,7 +496,7 @@ async def test_air_conditioner_turn_on(
 
 
 async def test_air_conditioner_turn_on_from_hvac_mode_off(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
+    hass: UniversalAssistant, mock_list_devices, mock_get_status
 ) -> None:
     """Test turning on a climate entity that has an off HVAC_STATE."""
     mock_list_devices.return_value = [
@@ -537,7 +537,7 @@ async def test_air_conditioner_turn_on_from_hvac_mode_off(
 
 
 async def test_smart_radiator_thermostat_set_temperature(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
+    hass: UniversalAssistant, mock_list_devices, mock_get_status
 ) -> None:
     """Test smart radiator thermostat set temperature."""
     mock_list_devices.return_value = [
@@ -584,7 +584,7 @@ async def test_smart_radiator_thermostat_set_temperature(
 
 
 async def test_smart_radiator_thermostat_set_preset_mode(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
+    hass: UniversalAssistant, mock_list_devices, mock_get_status
 ) -> None:
     """Test smart radiator thermostat set preset mode."""
     mock_list_devices.return_value = [
@@ -644,7 +644,7 @@ async def test_smart_radiator_thermostat_set_preset_mode(
 
 
 async def test_smart_radiator_thermostat_set_hvac_mode(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
+    hass: UniversalAssistant, mock_list_devices, mock_get_status
 ) -> None:
     """Test smart radiator thermostat set hvac mode."""
     mock_list_devices.return_value = [
@@ -704,7 +704,7 @@ async def test_smart_radiator_thermostat_set_hvac_mode(
 
 
 async def test_smart_radiator_thermostat_target_temperature(
-    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
+    hass: UniversalAssistant, mock_list_devices, mock_get_status
 ) -> None:
     """Test smart radiator thermostat uses targetTemperature from coordinator data."""
     mock_list_devices.return_value = [

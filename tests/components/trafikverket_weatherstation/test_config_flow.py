@@ -12,14 +12,14 @@ from pytrafikverket.exceptions import (
 
 from universalassistant import config_entries
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 DOMAIN = "trafikverket_weatherstation"
 CONF_STATION = "station"
 
 
-async def test_form(hass: __HAC_KEEP__) -> None:
+async def test_form(hass: UniversalAssistant) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -55,7 +55,7 @@ async def test_form(hass: __HAC_KEEP__) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_form_already_configured(hass: UniversalAssistant) -> None:
     """Test we abort when the weather station is already configured."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -97,7 +97,7 @@ async def test_form_already_configured(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_flow_fails(
-    hass: __HAC_KEEP__, side_effect: Exception, base_error: str
+    hass: UniversalAssistant, side_effect: Exception, base_error: str
 ) -> None:
     """Test config flow errors."""
     result4 = await hass.config_entries.flow.async_init(
@@ -142,7 +142,7 @@ async def test_flow_fails(
     assert result4["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
+async def test_reauth_flow(hass: UniversalAssistant) -> None:
     """Test a reauthentication flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -200,7 +200,7 @@ async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_reauth_flow_fails(
-    hass: __HAC_KEEP__, side_effect: Exception, base_error: str
+    hass: UniversalAssistant, side_effect: Exception, base_error: str
 ) -> None:
     """Test a reauthentication flow."""
     entry = MockConfigEntry(
@@ -256,7 +256,7 @@ async def test_reauth_flow_fails(
         pytest.param("Vallby", id="same_station"),
     ],
 )
-async def test_reconfigure_flow(hass: __HAC_KEEP__, station: str) -> None:
+async def test_reconfigure_flow(hass: UniversalAssistant, station: str) -> None:
     """Test a reconfigure flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -292,7 +292,7 @@ async def test_reconfigure_flow(hass: __HAC_KEEP__, station: str) -> None:
     assert entry.data == {"api_key": "1234567891", "station": station}
 
 
-async def test_reconfigure_flow_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_reconfigure_flow_already_configured(hass: UniversalAssistant) -> None:
     """Test reconfigure aborts when the weather station is used by another entry."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -338,7 +338,7 @@ async def test_reconfigure_flow_already_configured(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_reconfigure_flow_fails(
-    hass: __HAC_KEEP__, side_effect: Exception, base_error: str
+    hass: UniversalAssistant, side_effect: Exception, base_error: str
 ) -> None:
     """Test a reauthentication flow."""
     entry = MockConfigEntry(

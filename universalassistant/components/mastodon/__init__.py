@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_CLIENT_SECRET,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -36,13 +36,13 @@ PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.SENSOR]
 CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the Mastodon component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: MastodonConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: MastodonConfigEntry) -> None:
     """Set up Mastodon from a config entry."""
 
     try:
@@ -73,12 +73,12 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: MastodonConfigEntry) -> N
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: MastodonConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: MastodonConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: __HAC_KEEP__, entry: MastodonConfigEntry) -> None:
+async def async_migrate_entry(hass: UniversalAssistant, entry: MastodonConfigEntry) -> None:
     """Migrate old config."""
 
     if entry.version == 1 and entry.minor_version == 1:

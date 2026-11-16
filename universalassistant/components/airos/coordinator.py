@@ -17,7 +17,7 @@ from airos.exceptions import (
 from airos.helpers import DetectDeviceData
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -77,7 +77,7 @@ class AirOSDataUpdateCoordinator(DataUpdateCoordinator[AirOSDataDetect]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: AirOSConfigEntry,
         device_data: DetectDeviceData,
         airos_device: AirOSDeviceDetect,
@@ -106,7 +106,7 @@ class AirOSFirmwareUpdateCoordinator(DataUpdateCoordinator[AirOSUpdateData]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: AirOSConfigEntry,
         airos_device: AirOSDeviceDetect,
     ) -> None:

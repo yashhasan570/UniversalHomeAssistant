@@ -12,7 +12,7 @@ from universalassistant.components.cover import (
     CoverState,
 )
 from universalassistant.const import ATTR_BATTERY_LEVEL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FullDevice, SmartThingsConfigEntry
@@ -32,7 +32,7 @@ CAPABILITIES = (Capability.WINDOW_SHADE, Capability.DOOR_CONTROL)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SmartThingsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

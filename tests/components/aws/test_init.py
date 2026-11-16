@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.aws import DOMAIN, AWSData
 from universalassistant.components.aws.const import DATA_AWS
 from universalassistant.config_entries import SOURCE_IMPORT, ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
@@ -45,7 +45,7 @@ class MockAioSession:
         return ["us-east-1", "us-east-2", "us-west-1", "us-west-2"]
 
 
-async def test_empty_config(hass: __HAC_KEEP__) -> None:
+async def test_empty_config(hass: UniversalAssistant) -> None:
     """Test a default config will be create for empty config."""
     mock_session = MockAioSession()
     with async_patch(
@@ -58,7 +58,7 @@ async def test_empty_config(hass: __HAC_KEEP__) -> None:
     mock_session.get_user.assert_not_awaited()
 
 
-async def test_empty_credential(hass: __HAC_KEEP__) -> None:
+async def test_empty_credential(hass: UniversalAssistant) -> None:
     """Test a default config will be create for empty credential section."""
     mock_session = MockAioSession()
     with async_patch(
@@ -88,7 +88,7 @@ async def test_empty_credential(hass: __HAC_KEEP__) -> None:
     mock_session.invoke.assert_awaited_once()
 
 
-async def test_profile_credential(hass: __HAC_KEEP__) -> None:
+async def test_profile_credential(hass: UniversalAssistant) -> None:
     """Test credentials with profile name."""
     mock_session = MockAioSession()
     with async_patch(
@@ -123,7 +123,7 @@ async def test_profile_credential(hass: __HAC_KEEP__) -> None:
     mock_session.publish.assert_awaited_once()
 
 
-async def test_access_key_credential(hass: __HAC_KEEP__) -> None:
+async def test_access_key_credential(hass: UniversalAssistant) -> None:
     """Test credentials with access key."""
     mock_session = MockAioSession()
     with async_patch(
@@ -165,7 +165,7 @@ async def test_access_key_credential(hass: __HAC_KEEP__) -> None:
     mock_session.publish.assert_awaited_once()
 
 
-async def test_notify_credential(hass: __HAC_KEEP__) -> None:
+async def test_notify_credential(hass: UniversalAssistant) -> None:
     """Test notify service can use access key directly."""
     mock_session = MockAioSession()
     with (
@@ -202,7 +202,7 @@ async def test_notify_credential(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_notify_credential_profile(hass: __HAC_KEEP__) -> None:
+async def test_notify_credential_profile(hass: UniversalAssistant) -> None:
     """Test notify service can use profile directly."""
     mock_session = MockAioSession()
     with (
@@ -237,7 +237,7 @@ async def test_notify_credential_profile(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_credential_skip_validate(hass: __HAC_KEEP__) -> None:
+async def test_credential_skip_validate(hass: UniversalAssistant) -> None:
     """Test credential can skip validate."""
     mock_session = MockAioSession()
     with async_patch(
@@ -264,7 +264,7 @@ async def test_credential_skip_validate(hass: __HAC_KEEP__) -> None:
     mock_session.get_user.assert_not_awaited()
 
 
-async def test_config_removed(hass: __HAC_KEEP__) -> None:
+async def test_config_removed(hass: UniversalAssistant) -> None:
     """Test setup fails and the entry is removed when the YAML config is gone."""
     entry = MockConfigEntry(domain=DOMAIN, source=SOURCE_IMPORT, data={})
     entry.add_to_hass(hass)
@@ -288,7 +288,7 @@ async def test_config_removed(hass: __HAC_KEEP__) -> None:
     mock_remove.assert_awaited_once_with(entry.entry_id)
 
 
-async def test_credential_validation_failed(hass: __HAC_KEEP__) -> None:
+async def test_credential_validation_failed(hass: UniversalAssistant) -> None:
     """Test setup fails when a credential can't be validated."""
     mock_session = MockAioSession()
     mock_session.create_client = MagicMock(side_effect=Exception("Invalid credentials"))
@@ -317,7 +317,7 @@ async def test_credential_validation_failed(hass: __HAC_KEEP__) -> None:
     assert entry.reason == "Failed to validate one or more AWS credentials"
 
 
-async def test_service_call_extra_data(hass: __HAC_KEEP__) -> None:
+async def test_service_call_extra_data(hass: UniversalAssistant) -> None:
     """Test service call extra data are parsed properly."""
     mock_session = MockAioSession()
     with async_patch(
@@ -354,14 +354,14 @@ async def test_service_call_extra_data(hass: __HAC_KEEP__) -> None:
     mock_session.publish.assert_called_once_with(
         TargetArn="ARN",
         Message="test",
-        Subject="__HA_KEEP__",
+        Subject="Universal Home Assistant",
         MessageAttributes={
             "AWS.SNS.SMS.SenderID": {"StringValue": "HA-notify", "DataType": "String"}
         },
     )
 
 
-async def test_events_service_call(hass: __HAC_KEEP__) -> None:
+async def test_events_service_call(hass: UniversalAssistant) -> None:
     """Test events service (EventBridge) call works as expected."""
     mock_session = MockAioSession()
     with async_patch(
@@ -414,7 +414,7 @@ async def test_events_service_call(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_events_service_call_10_targets(hass: __HAC_KEEP__) -> None:
+async def test_events_service_call_10_targets(hass: UniversalAssistant) -> None:
     """Test events service (EventBridge) call works with more than 10 targets."""
     mock_session = MockAioSession()
     with async_patch(
@@ -447,7 +447,7 @@ async def test_events_service_call_10_targets(hass: __HAC_KEEP__) -> None:
             "data": {
                 "detail_type": "test_event",
                 "detail": {"eventkey": "eventvalue"},
-                "source": "__HAC_KEEP__-test",
+                "source": "UniversalAssistant-test",
                 "resources": ["resource1", "resource2"],
             },
         },
@@ -457,7 +457,7 @@ async def test_events_service_call_10_targets(hass: __HAC_KEEP__) -> None:
     entry = {
         "Detail": json.dumps({"eventkey": "eventvalue"}),
         "DetailType": "test_event",
-        "Source": "__HAC_KEEP__-test",
+        "Source": "UniversalAssistant-test",
         "Resources": ["resource1", "resource2"],
     }
 

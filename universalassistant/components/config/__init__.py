@@ -1,8 +1,8 @@
-"""Component to configure __HA_KEEP__ via an API."""
+"""Component to configure Universal Home Assistant via an API."""
 
 from universalassistant.components import frontend
 from universalassistant.const import EVENT_COMPONENT_LOADED
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.setup import EventComponentLoaded
@@ -48,7 +48,7 @@ __all__ = [
 ]
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the config component."""
     frontend.async_register_built_in_panel(
         hass, "config", "config", "mdi:cog", require_admin=True

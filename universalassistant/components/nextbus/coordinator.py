@@ -7,7 +7,7 @@ from typing import Any, override
 from py_nextbus import NextBusClient
 from py_nextbus.client import NextBusFormatError, NextBusHTTPError
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
 
@@ -26,7 +26,7 @@ class NextBusDataUpdateCoordinator(
 ):
     """Class to manage fetching NextBus data."""
 
-    def __init__(self, hass: __HAC_KEEP__, agency: str) -> None:
+    def __init__(self, hass: UniversalAssistant, agency: str) -> None:
         """Initialize a global coordinator for fetching data for a given agency."""
         super().__init__(
             hass,

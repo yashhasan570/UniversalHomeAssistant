@@ -10,7 +10,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from universalassistant.components import alexa
 from universalassistant.components.alexa import intent
 from universalassistant.const import CONTENT_TYPE_JSON
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.setup import async_setup_component
 
 SESSION_ID = "amzn1.echo-api.session.0000000-0000-0000-0000-00000000000"
@@ -29,10 +29,10 @@ NPR_NEWS_MP3_URL = "https://pd.npr.org/anon.npr-mp3/npr/news/newscast.mp3"
 
 @pytest.fixture
 async def alexa_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
 ) -> TestClient:
-    """Initialize a __HA_KEEP__ server for testing this module."""
+    """Initialize a Universal Home Assistant server for testing this module."""
 
     @callback
     def mock_service(call):
@@ -215,7 +215,7 @@ async def test_intent_launch_request_not_configured(alexa_client) -> None:
     assert req.status == HTTPStatus.OK
     data = await req.json()
     text = data.get("response", {}).get("outputSpeech", {}).get("text")
-    assert text == "This intent is not yet configured within __HA_KEEP__."
+    assert text == "This intent is not yet configured within Universal Home Assistant."
 
 
 async def test_intent_request_with_slots(alexa_client) -> None:
@@ -501,7 +501,7 @@ async def test_intent_request_with_slots_but_no_value(alexa_client) -> None:
     assert text == "You told us your sign is ."
 
 
-async def test_intent_request_without_slots(hass: __HAC_KEEP__, alexa_client) -> None:
+async def test_intent_request_without_slots(hass: UniversalAssistant, alexa_client) -> None:
     """Test a request without slots."""
     data = {
         "version": "1.0",
@@ -610,7 +610,7 @@ async def test_intent_session_ended_request(alexa_client) -> None:
     data = await req.json()
     assert (
         data["response"]["outputSpeech"]["text"]
-        == "This intent is not yet configured within __HA_KEEP__."
+        == "This intent is not yet configured within Universal Home Assistant."
     )
 
 

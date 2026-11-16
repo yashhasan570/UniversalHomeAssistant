@@ -22,7 +22,7 @@ from universalassistant.const import (
     UnitOfPower,
     UnitOfTemperature,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 from universalassistant.util.dt import utcnow
@@ -43,7 +43,7 @@ class PrismSensorEntityDescription(SensorEntityDescription):
     value_fn: Callable[[PrismStatus], StateType]
 
 
-# The __HA_KEEP__ state vocabulary differs from the protocol naming.
+# The Universal Home Assistant state vocabulary differs from the protocol naming.
 PORT_STATE_OPTIONS = {
     PortState.IDLE: "idle",
     PortState.WAITING: "waiting",
@@ -157,13 +157,13 @@ SESSION_START = PrismSensorEntityDescription(
 )
 
 # Prism reports the elapsed session time once a minute, and its counter runs
-# about a second off the __HA_KEEP__ clock, so the derived start time jitters
+# about a second off the Universal Home Assistant clock, so the derived start time jitters
 # between messages. Deviations below this threshold keep the previous value.
 SESSION_START_DEVIATION = timedelta(seconds=5)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: PrismConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -228,7 +228,7 @@ class PrismErrorSensor(PrismSensor):
             if code not in self._logged_codes:
                 self._logged_codes.add(code)
                 _LOGGER.warning(
-                    "Unknown error code: %s, please report at https://github.com/yashhasan570/__HAC_KEEP__/issues",
+                    "Unknown error code: %s, please report at https://github.com/yashhasan570/UniversalUniversalAssistant/issues",
                     code,
                 )
             return None

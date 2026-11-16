@@ -30,8 +30,8 @@ from neopool_modbus.registers import (
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -284,7 +284,7 @@ _ENTITY_OPTION_KEY: dict[str, str] = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: NeoPoolConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -363,7 +363,7 @@ class NeoPoolSwitch(NeoPoolEntity, SwitchEntity):
                 translation_key=translation_key,
             ) from err
         except (NeoPoolError, OSError, TimeoutError) as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="modbus_communication_error",
                 translation_placeholders={"error": str(err)},

@@ -19,7 +19,7 @@ from universalassistant.components.binary_sensor.device_condition import ENTITY_
 from universalassistant.components.binary_sensor.device_trigger import ENTITY_TRIGGERS
 from universalassistant.config_entries import ConfigEntry, ConfigFlow
 from universalassistant.const import STATE_OFF, STATE_ON, EntityCategory, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .common import MockBinarySensor
@@ -48,7 +48,7 @@ class MockFlow(ConfigFlow):
 
 
 @pytest.fixture(autouse=True)
-def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
+def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
     """Mock config flow."""
     mock_platform(hass, f"{TEST_DOMAIN}.config_flow")
 
@@ -56,11 +56,11 @@ def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
         yield
 
 
-async def test_name(hass: __HAC_KEEP__) -> None:
+async def test_name(hass: UniversalAssistant) -> None:
     """Test binary sensor name."""
 
     async def async_setup_entry_init(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -101,7 +101,7 @@ async def test_name(hass: __HAC_KEEP__) -> None:
     )
 
     async def async_setup_entry_platform(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -133,13 +133,13 @@ async def test_name(hass: __HAC_KEEP__) -> None:
 
 
 async def test_entity_category_config_raises_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test error is raised when entity category is set to config."""
 
     async def async_setup_entry_init(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -170,7 +170,7 @@ async def test_entity_category_config_raises_error(
     entity2.entity_id = "binary_sensor.test2"
 
     async def async_setup_entry_platform(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:

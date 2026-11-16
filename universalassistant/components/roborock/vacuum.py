@@ -19,9 +19,9 @@ from universalassistant.components.vacuum import (
     VacuumActivity,
     VacuumEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__, ServiceResponse, callback
+from universalassistant.core import UniversalAssistant, ServiceResponse, callback
 from universalassistant.exceptions import (
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     ServiceNotSupported,
     ServiceValidationError,
 )
@@ -113,7 +113,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: RoborockConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -269,7 +269,7 @@ class RoborockVacuum(RoborockCoordinatedEntityV1, StateVacuumEntity):
     async def async_set_fan_speed(self, fan_speed: str, **kwargs: Any) -> None:
         """Set vacuum fan speed."""
         if self.coordinator.data is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="update_options_failed",
             )
@@ -368,17 +368,17 @@ class RoborockVacuum(RoborockCoordinatedEntityV1, StateVacuumEntity):
             await map_content_trait.refresh()
         except RoborockException as err:
             _LOGGER.debug("Failed to refresh map content: %s", err)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="map_failure",
             ) from err
         if map_content_trait.map_data is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="map_failure",
             )
         if (robot_position := map_content_trait.map_data.vacuum_position) is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="position_not_found"
             )
 
@@ -444,7 +444,7 @@ class RoborockQ7Vacuum(RoborockCoordinatedEntityB01Q7, StateVacuumEntity):
         try:
             await self.coordinator.api.start_clean()
         except RoborockException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -458,7 +458,7 @@ class RoborockQ7Vacuum(RoborockCoordinatedEntityB01Q7, StateVacuumEntity):
         try:
             await self.coordinator.api.pause_clean()
         except RoborockException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -472,7 +472,7 @@ class RoborockQ7Vacuum(RoborockCoordinatedEntityB01Q7, StateVacuumEntity):
         try:
             await self.coordinator.api.stop_clean()
         except RoborockException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -486,7 +486,7 @@ class RoborockQ7Vacuum(RoborockCoordinatedEntityB01Q7, StateVacuumEntity):
         try:
             await self.coordinator.api.return_to_dock()
         except RoborockException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -500,7 +500,7 @@ class RoborockQ7Vacuum(RoborockCoordinatedEntityB01Q7, StateVacuumEntity):
         try:
             await self.coordinator.api.find_me()
         except RoborockException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -524,7 +524,7 @@ class RoborockQ7Vacuum(RoborockCoordinatedEntityB01Q7, StateVacuumEntity):
         try:
             await self.coordinator.api.set_fan_speed(fan_speed_code)
         except RoborockException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -543,7 +543,7 @@ class RoborockQ7Vacuum(RoborockCoordinatedEntityB01Q7, StateVacuumEntity):
         try:
             await self.coordinator.api.send(command, params)
         except RoborockException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -588,7 +588,7 @@ class RoborockQ7Vacuum(RoborockCoordinatedEntityB01Q7, StateVacuumEntity):
         map_trait = self.coordinator.api.map
         map_content_trait = self.coordinator.api.map_content
         if not await self.coordinator.async_refresh_q7_map():
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="map_failure",
             )
@@ -634,7 +634,7 @@ class RoborockQ7Vacuum(RoborockCoordinatedEntityB01Q7, StateVacuumEntity):
     async def async_clean_segments(self, segment_ids: list[str], **kwargs: Any) -> None:
         """Clean the specified segments."""
         if not await self.coordinator.async_refresh_q7_map():
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="map_failure",
             )
@@ -644,7 +644,7 @@ class RoborockQ7Vacuum(RoborockCoordinatedEntityB01Q7, StateVacuumEntity):
                 map_id_str, room_id_str = seg_id.split("_", maxsplit=1)
                 parsed.append((int(map_id_str), int(room_id_str)))
             except ValueError as err:
-                raise __HAC_KEEP__Error(
+                raise UniversalAssistantError(
                     translation_domain=DOMAIN,
                     translation_key="segment_id_parse_error",
                     translation_placeholders={"segment_id": seg_id},
@@ -658,7 +658,7 @@ class RoborockQ7Vacuum(RoborockCoordinatedEntityB01Q7, StateVacuumEntity):
         try:
             await self.coordinator.api.clean_segments(current_map_segments)
         except RoborockException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -743,7 +743,7 @@ class RoborockQ10Vacuum(RoborockCoordinatedEntityB01Q10, StateVacuumEntity):
         try:
             await self.coordinator.api.vacuum.start_clean()
         except RoborockException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -757,7 +757,7 @@ class RoborockQ10Vacuum(RoborockCoordinatedEntityB01Q10, StateVacuumEntity):
         try:
             await self.coordinator.api.vacuum.pause_clean()
         except RoborockException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -771,7 +771,7 @@ class RoborockQ10Vacuum(RoborockCoordinatedEntityB01Q10, StateVacuumEntity):
         try:
             await self.coordinator.api.vacuum.stop_clean()
         except RoborockException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -785,7 +785,7 @@ class RoborockQ10Vacuum(RoborockCoordinatedEntityB01Q10, StateVacuumEntity):
         try:
             await self.coordinator.api.vacuum.return_to_dock()
         except RoborockException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -799,7 +799,7 @@ class RoborockQ10Vacuum(RoborockCoordinatedEntityB01Q10, StateVacuumEntity):
         try:
             await self.coordinator.api.command.send(B01_Q10_DP.SEEK)
         except RoborockException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -823,7 +823,7 @@ class RoborockQ10Vacuum(RoborockCoordinatedEntityB01Q10, StateVacuumEntity):
         try:
             await self.coordinator.api.vacuum.set_fan_level(fan_level)
         except RoborockException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -847,7 +847,7 @@ class RoborockQ10Vacuum(RoborockCoordinatedEntityB01Q10, StateVacuumEntity):
                 [int(seg_id) for seg_id in segment_ids]
             )
         except RoborockException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -878,7 +878,7 @@ class RoborockQ10Vacuum(RoborockCoordinatedEntityB01Q10, StateVacuumEntity):
         try:
             await self.coordinator.api.command.send(dp_command, params=params)
         except RoborockException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -893,7 +893,7 @@ class RoborockQ10Vacuum(RoborockCoordinatedEntityB01Q10, StateVacuumEntity):
     async def get_vacuum_current_position(self) -> ServiceResponse:
         """Get the current position of the vacuum from the map."""
         if (position := self.coordinator.api.map.robot_position) is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="position_not_found",
             )
@@ -910,7 +910,7 @@ class RoborockQ10Vacuum(RoborockCoordinatedEntityB01Q10, StateVacuumEntity):
                 translation_placeholders={"x": str(x), "y": str(y)},
             ) from err
         except RoborockException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={"command": "set_vacuum_goto_position"},
@@ -921,7 +921,7 @@ class RoborockQ10Vacuum(RoborockCoordinatedEntityB01Q10, StateVacuumEntity):
     ) -> None:
         """Clean the specified zone."""
         try:
-            # __HA_KEEP__ defines repeats as additional passes, while Q10
+            # Universal Home Assistant defines repeats as additional passes, while Q10
             # carries the total clean count.
             await self.coordinator.api.vacuum.clean_zone(
                 Q10RoborockPoint(x1, y1),
@@ -934,7 +934,7 @@ class RoborockQ10Vacuum(RoborockCoordinatedEntityB01Q10, StateVacuumEntity):
                 translation_key="invalid_q10_zone",
             ) from err
         except RoborockException as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={"command": "set_vacuum_zoned_cleaning"},

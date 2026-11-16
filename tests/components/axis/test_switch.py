@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_ON, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import ConfigEntryFactoryType, RtspEventMock
@@ -57,7 +57,7 @@ PORT_MANAGEMENT_RESPONSE = {
 
 @pytest.mark.parametrize("param_ports_payload", [PORT_DATA])
 async def test_switches_with_port_cgi(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     mock_rtsp_event: RtspEventMock,
@@ -109,7 +109,7 @@ async def test_switches_with_port_cgi(
 @pytest.mark.parametrize("api_discovery_items", [API_DISCOVERY_PORT_MANAGEMENT])
 @pytest.mark.parametrize("port_management_payload", [PORT_MANAGEMENT_RESPONSE])
 async def test_switches_with_port_management(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     mock_rtsp_event: RtspEventMock,

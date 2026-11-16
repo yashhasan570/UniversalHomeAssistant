@@ -2,7 +2,7 @@
 
 from typing import Any
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 from .const import AlarmControlPanelEntityStateAttribute
 
@@ -14,7 +14,7 @@ SIGNIFICANT_ATTRIBUTES: set[str] = {
 
 @callback
 def async_check_significant_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     old_state: str,
     old_attrs: dict,
     new_state: str,

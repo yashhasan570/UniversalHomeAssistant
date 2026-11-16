@@ -6,13 +6,13 @@ from pytest_universalassistant.common import setup_test_component_platform
 
 from universalassistant.components.time import DOMAIN, TimeService, TimeServiceArgument
 from universalassistant.const import ATTR_FRIENDLY_NAME, CONF_PLATFORM, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .common import MockTimeEntity
 
 
-async def test_date(hass: __HAC_KEEP__) -> None:
+async def test_date(hass: UniversalAssistant) -> None:
     """Test time entity."""
     entity = MockTimeEntity(
         name="test",

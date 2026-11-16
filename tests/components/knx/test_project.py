@@ -17,13 +17,13 @@ from pytest_universalassistant.typing import WebSocketGenerator
 from xknx.telegram.address import GroupAddress
 
 from universalassistant.components.knx.const import KNX_MODULE_KEY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .conftest import KNXTestKit
 
 
 @pytest.mark.usefixtures("load_knxproj")
-async def test_project_is_read_once(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
+async def test_project_is_read_once(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     """A second read must not re-parse the store file."""
     await knx.setup_integration()
     project = hass.data[KNX_MODULE_KEY].project
@@ -33,7 +33,7 @@ async def test_project_is_read_once(hass: __HAC_KEEP__, knx: KNXTestKit) -> None
 
 @pytest.mark.usefixtures("load_knxproj")
 async def test_setup_does_not_hold_the_full_project(
-    hass: __HAC_KEEP__, knx: KNXTestKit
+    hass: UniversalAssistant, knx: KNXTestKit
 ) -> None:
     """Setup takes what it needs and leaves the rest collectable.
 
@@ -49,7 +49,7 @@ async def test_setup_does_not_hold_the_full_project(
 
 @pytest.mark.usefixtures("load_knxproj")
 async def test_cache_not_resurrected_by_concurrent_load(
-    hass: __HAC_KEEP__, knx: KNXTestKit
+    hass: UniversalAssistant, knx: KNXTestKit
 ) -> None:
     """A load in flight must not restore a project that was removed meanwhile."""
     await knx.setup_integration()
@@ -73,7 +73,7 @@ async def test_cache_not_resurrected_by_concurrent_load(
 
 @pytest.mark.usefixtures("load_knxproj")
 async def test_cache_is_refreshed_on_upload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     project_data: dict[str, Any],
@@ -104,7 +104,7 @@ async def test_cache_is_refreshed_on_upload(
 
 @pytest.mark.usefixtures("load_knxproj")
 async def test_new_project_replaces_group_addresses(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     project_data: dict[str, Any],

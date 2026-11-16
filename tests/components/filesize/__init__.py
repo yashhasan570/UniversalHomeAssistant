@@ -1,12 +1,12 @@
 """Tests for the filesize component."""
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 TEST_FILE_NAME = "mock_file_test_filesize.txt"
 TEST_FILE_NAME2 = "mock_file_test_filesize2.txt"
 
 
-async def async_create_file(hass: __HAC_KEEP__, path: str) -> None:
+async def async_create_file(hass: UniversalAssistant, path: str) -> None:
     """Create a test file."""
     await hass.async_add_executor_job(create_file, path)
 

@@ -3,7 +3,7 @@
 from lektricowifi import Device
 
 from universalassistant.const import CONF_TYPE, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import LektricoConfigEntry, LektricoDeviceDataUpdateCoordinator
 
@@ -24,7 +24,7 @@ LB_DEVICES_PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: LektricoConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: LektricoConfigEntry) -> None:
     """Set up Lektrico Charging Station from a config entry."""
     coordinator = LektricoDeviceDataUpdateCoordinator(hass, entry)
 
@@ -35,7 +35,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: LektricoConfigEntry) -> N
     await hass.config_entries.async_forward_entry_setups(entry, _get_platforms(entry))
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: LektricoConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: LektricoConfigEntry) -> None:
     """Unload a config entry."""
 
     await hass.config_entries.async_unload_platforms_or_raise(

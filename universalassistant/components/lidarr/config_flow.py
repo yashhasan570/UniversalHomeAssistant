@@ -10,7 +10,7 @@ import probatio
 
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_API_KEY, CONF_URL, CONF_VERIFY_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import DEFAULT_NAME, DOMAIN
@@ -89,7 +89,7 @@ class LidarrConfigFlow(ConfigFlow, domain=DOMAIN):
 
 
 async def validate_input(
-    hass: __HAC_KEEP__, data: dict[str, Any]
+    hass: UniversalAssistant, data: dict[str, Any]
 ) -> tuple[str, str, str] | None:
     """Validate the user input allows us to connect.
 

@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from collections.abc import Callable
 from typing import Any, override
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
@@ -15,7 +15,7 @@ from .const import DOMAIN, LOGGER
 
 
 def async_setup_entry_base(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: DynaliteConfigEntry,
     async_add_entities: AddEntitiesCallback,
     platform: str,

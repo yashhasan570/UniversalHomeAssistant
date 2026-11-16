@@ -18,7 +18,7 @@ from universalassistant.components.event import (
     EventEntity,
     EventEntityDescription,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import WEBSOCKET_EVENTS_TO_FIRE_HASS_EVENT, SimpliSafe, SimpliSafeConfigEntry
@@ -74,7 +74,7 @@ CAMERA_EVENT_DESCRIPTIONS: dict[CameraTypes, list[SimpliSafeCameraEventDescripti
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SimpliSafeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

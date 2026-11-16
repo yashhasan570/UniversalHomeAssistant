@@ -31,8 +31,8 @@ from universalassistant.components.infrared import (
 )
 from universalassistant.config_entries import ConfigEntry, ConfigFlow
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__, State
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, State
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -42,21 +42,21 @@ TEST_DOMAIN = "test"
 TEST_COMMAND = NECCommand(address=0x04FB, command=0xF7, modulation=38000)
 
 
-async def test_get_entities_component_not_loaded(hass: __HAC_KEEP__) -> None:
+async def test_get_entities_component_not_loaded(hass: UniversalAssistant) -> None:
     """Test getting entities when the component is not loaded."""
     assert async_get_emitters(hass) == []
     assert async_get_receivers(hass) == []
 
 
 @pytest.mark.usefixtures("init_infrared")
-async def test_get_entities_empty(hass: __HAC_KEEP__) -> None:
+async def test_get_entities_empty(hass: UniversalAssistant) -> None:
     """Test getting entities when none are registered."""
     assert async_get_emitters(hass) == []
     assert async_get_receivers(hass) == []
 
 
 async def test_get_entities_filters_by_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
 ) -> None:
@@ -68,7 +68,7 @@ async def test_get_entities_filters_by_type(
 @pytest.mark.usefixtures(
     "mock_infrared_emitter_entity", "mock_infrared_receiver_entity"
 )
-async def test_infrared_entities_initial_state(hass: __HAC_KEEP__) -> None:
+async def test_infrared_entities_initial_state(hass: UniversalAssistant) -> None:
     """Test infrared entities have no state before any command is sent."""
     assert (emitter_state := hass.states.get("infrared.test_ir_emitter")) is not None
     assert emitter_state.state == STATE_UNKNOWN
@@ -77,7 +77,7 @@ async def test_infrared_entities_initial_state(hass: __HAC_KEEP__) -> None:
 
 
 async def test_async_send_command_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -96,7 +96,7 @@ async def test_async_send_command_success(
 
 
 async def test_async_send_command_error_does_not_update_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Test that state is not updated when async_send_command raises an error."""
@@ -105,10 +105,10 @@ async def test_async_send_command_error_does_not_update_state(
     assert state.state == STATE_UNKNOWN
 
     mock_infrared_emitter_entity.async_send_command = AsyncMock(
-        side_effect=__HAC_KEEP__Error("Transmission failed")
+        side_effect=UniversalAssistantError("Transmission failed")
     )
 
-    with pytest.raises(__HAC_KEEP__Error, match="Transmission failed"):
+    with pytest.raises(UniversalAssistantError, match="Transmission failed"):
         await async_send_command(
             hass, mock_infrared_emitter_entity.entity_id, TEST_COMMAND
         )
@@ -119,22 +119,22 @@ async def test_async_send_command_error_does_not_update_state(
 
 
 @pytest.mark.usefixtures("init_infrared")
-async def test_async_send_command_entity_not_found(hass: __HAC_KEEP__) -> None:
+async def test_async_send_command_entity_not_found(hass: UniversalAssistant) -> None:
     """Test async_send_command raises error when entity not found."""
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=re.escape("Infrared entity `infrared.nonexistent_entity` not found"),
     ):
         await async_send_command(hass, "infrared.nonexistent_entity", TEST_COMMAND)
 
 
 async def test_async_send_command_rejects_receiver(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
 ) -> None:
     """Test async_send_command rejects a receiver entity."""
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=re.escape(
             f"Infrared entity `{mock_infrared_receiver_entity.entity_id}` not found"
         ),
@@ -144,9 +144,9 @@ async def test_async_send_command_rejects_receiver(
         )
 
 
-async def test_async_send_command_component_not_loaded(hass: __HAC_KEEP__) -> None:
+async def test_async_send_command_component_not_loaded(hass: UniversalAssistant) -> None:
     """Test async_send_command raises error when component not loaded."""
-    with pytest.raises(__HAC_KEEP__Error, match="component_not_loaded"):
+    with pytest.raises(UniversalAssistantError, match="component_not_loaded"):
         await async_send_command(hass, "infrared.some_entity", TEST_COMMAND)
 
 
@@ -158,7 +158,7 @@ async def test_async_send_command_component_not_loaded(hass: __HAC_KEEP__) -> No
     ],
 )
 async def test_infrared_entity_state_restore(
-    hass: __HAC_KEEP__, restored_value: str, expected_state: str
+    hass: UniversalAssistant, restored_value: str, expected_state: str
 ) -> None:
     """Test infrared entity state restore."""
     mock_restore_cache(
@@ -187,7 +187,7 @@ async def test_infrared_entity_state_restore(
 
 
 async def test_async_subscribe_receiver_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -216,7 +216,7 @@ async def test_async_subscribe_receiver_success(
 
 
 async def test_handle_received_signal_isolates_callback_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -239,7 +239,7 @@ async def test_handle_received_signal_isolates_callback_errors(
 
 
 async def test_handle_received_signal_unsubscribe_during_dispatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
 ) -> None:
     """Test a subscriber can unsubscribe itself during dispatch without error."""
@@ -273,23 +273,23 @@ async def test_handle_received_signal_unsubscribe_during_dispatch(
     ["infrared.nonexistent_entity", "invalid-id"],
 )
 async def test_async_subscribe_receiver_not_found(
-    hass: __HAC_KEEP__, entity_id_or_uuid: str
+    hass: UniversalAssistant, entity_id_or_uuid: str
 ) -> None:
     """Test async_subscribe_receiver raises when the entity is missing or invalid."""
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=re.escape(f"Infrared receiver entity `{entity_id_or_uuid}` not found"),
     ):
         async_subscribe_receiver(hass, entity_id_or_uuid, lambda _: None)
 
 
 async def test_async_subscribe_receiver_rejects_emitter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Test async_subscribe_receiver rejects an emitter entity."""
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=re.escape(
             f"Infrared receiver entity `{mock_infrared_emitter_entity.entity_id}`"
             " not found"
@@ -301,19 +301,19 @@ async def test_async_subscribe_receiver_rejects_emitter(
 
 
 async def test_async_subscribe_receiver_component_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test async_subscribe_receiver raises error when component not loaded."""
-    with pytest.raises(__HAC_KEEP__Error, match="component_not_loaded"):
+    with pytest.raises(UniversalAssistantError, match="component_not_loaded"):
         async_subscribe_receiver(hass, "infrared.some_entity", lambda _: None)
 
 
 @pytest.mark.usefixtures("init_infrared")
-async def test_name(hass: __HAC_KEEP__) -> None:
+async def test_name(hass: UniversalAssistant) -> None:
     """Test entity name / device class naming fallback."""
 
     async def async_setup_entry_init(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -353,7 +353,7 @@ async def test_name(hass: __HAC_KEEP__) -> None:
     receiver2._attr_has_entity_name = True
 
     async def async_setup_entry_platform(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:

@@ -19,7 +19,7 @@ from universalassistant.components.enphase_envoy.const import (
     OPTION_DIAGNOSTICS_INCLUDE_FIXTURES,
 )
 from universalassistant.components.enphase_envoy.coordinator import MAC_VERIFICATION_DELAY
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
@@ -42,7 +42,7 @@ def limit_diagnostic_attrs(prop, path) -> bool:
 
 
 async def test_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
     mock_envoy: AsyncMock,
@@ -56,7 +56,7 @@ async def test_entry_diagnostics(
 
 
 @pytest.fixture(name="config_entry_options")
-def config_entry_options_fixture(hass: __HAC_KEEP__, config: dict[str, str]):
+def config_entry_options_fixture(hass: UniversalAssistant, config: dict[str, str]):
     """Define a config entry fixture."""
     return MockConfigEntry(
         domain=DOMAIN,
@@ -69,7 +69,7 @@ def config_entry_options_fixture(hass: __HAC_KEEP__, config: dict[str, str]):
 
 
 async def test_entry_diagnostics_with_fixtures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry_options: MockConfigEntry,
     mock_envoy: AsyncMock,
@@ -83,7 +83,7 @@ async def test_entry_diagnostics_with_fixtures(
 
 
 async def test_entry_diagnostics_with_fixtures_with_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry_options: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -98,7 +98,7 @@ async def test_entry_diagnostics_with_fixtures_with_error(
 
 
 async def test_entry_diagnostics_with_fixtures_with_clientresponse_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry_options: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -211,7 +211,7 @@ async def test_entry_diagnostics_with_fixtures_with_clientresponse_error(
     indirect=["mock_envoy"],
 )
 async def test_entry_diagnostics_with_interface_information(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -271,7 +271,7 @@ async def test_entry_diagnostics_with_interface_information(
     indirect=["mock_envoy"],
 )
 async def test_entry_diagnostics_ct_presence(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,

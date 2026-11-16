@@ -10,7 +10,7 @@ from pytest_universalassistant.common import ANY, async_capture_events, flush_st
 
 from universalassistant.components.sensor import SensorDeviceClass
 from universalassistant.const import PERCENTAGE, EntityStateAttribute, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import (
     area_registry as ar,
     entity_registry as er,
@@ -21,7 +21,7 @@ from universalassistant.util.dt import utcnow
 
 
 @pytest.fixture
-async def mock_temperature_humidity_entity(hass: __HAC_KEEP__) -> None:
+async def mock_temperature_humidity_entity(hass: UniversalAssistant) -> None:
     """Mock temperature and humidity sensors."""
     hass.states.async_set(
         "sensor.mock_temperature",
@@ -51,7 +51,7 @@ async def test_list_areas(area_registry: ar.AreaRegistry) -> None:
 
 
 async def test_create_area(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     area_registry: ar.AreaRegistry,
     mock_temperature_humidity_entity: None,
@@ -124,7 +124,7 @@ async def test_create_area(
 
 
 async def test_create_area_with_name_already_in_use(
-    hass: __HAC_KEEP__, area_registry: ar.AreaRegistry
+    hass: UniversalAssistant, area_registry: ar.AreaRegistry
 ) -> None:
     """Make sure that we can't create an area with a name already in use."""
     update_events = async_capture_events(hass, ar.EVENT_AREA_REGISTRY_UPDATED)
@@ -154,7 +154,7 @@ async def test_create_area_with_id_already_in_use(
 
 
 async def test_delete_area(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
 ) -> None:
     """Make sure that we can delete an area."""
@@ -189,7 +189,7 @@ async def test_delete_non_existing_area(area_registry: ar.AreaRegistry) -> None:
 
 
 async def test_update_area(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     floor_registry: fr.FloorRegistry,
     label_registry: lr.LabelRegistry,
@@ -339,7 +339,7 @@ async def test_update_area_with_normalized_name_already_in_use(
     ],
 )
 async def test_update_area_entity_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     mock_temperature_humidity_entity: None,
     create_kwargs: dict[str, Any],
@@ -358,7 +358,7 @@ async def test_update_area_entity_validation(
     assert area.humidity_entity_id is None
 
 
-async def test_load_area(hass: __HAC_KEEP__, area_registry: ar.AreaRegistry) -> None:
+async def test_load_area(hass: UniversalAssistant, area_registry: ar.AreaRegistry) -> None:
     """Make sure that we can load/save data correctly."""
     area1 = area_registry.async_create("mock1")
     area2 = area_registry.async_create("mock2")
@@ -379,7 +379,7 @@ async def test_load_area(hass: __HAC_KEEP__, area_registry: ar.AreaRegistry) -> 
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_loading_area_from_storage(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test loading stored areas on start."""
     created_at = datetime.fromisoformat("2024-01-01T01:00:00+00:00")
@@ -428,7 +428,7 @@ async def test_loading_area_from_storage(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_migration_from_1_1(
-    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test migration from version 1.1."""
     hass_storage[ar.STORAGE_KEY] = {
@@ -631,7 +631,7 @@ async def test_async_get_area(area_registry: ar.AreaRegistry) -> None:
 
 
 async def test_removing_floors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     floor_registry: fr.FloorRegistry,
 ) -> None:
@@ -686,7 +686,7 @@ async def test_entries_for_floor(
 
 
 async def test_removing_labels(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     label_registry: lr.LabelRegistry,
 ) -> None:
@@ -731,7 +731,7 @@ async def test_removing_labels(
     ],
 )
 async def test_entity_renamed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
     attribute: str,
@@ -759,7 +759,7 @@ async def test_entity_renamed(
 
 
 async def test_entity_removed_or_unrelated_entity_renamed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -814,7 +814,7 @@ async def test_entries_for_label(
 
 
 async def test_async_get_or_create_thread_checks(
-    hass: __HAC_KEEP__, area_registry: ar.AreaRegistry
+    hass: UniversalAssistant, area_registry: ar.AreaRegistry
 ) -> None:
     """We raise when trying to create in the wrong thread."""
     with pytest.raises(
@@ -825,7 +825,7 @@ async def test_async_get_or_create_thread_checks(
 
 
 async def test_async_update_thread_checks(
-    hass: __HAC_KEEP__, area_registry: ar.AreaRegistry
+    hass: UniversalAssistant, area_registry: ar.AreaRegistry
 ) -> None:
     """We raise when trying to update in the wrong thread."""
     area = area_registry.async_create("Mock1")
@@ -839,7 +839,7 @@ async def test_async_update_thread_checks(
 
 
 async def test_async_delete_thread_checks(
-    hass: __HAC_KEEP__, area_registry: ar.AreaRegistry
+    hass: UniversalAssistant, area_registry: ar.AreaRegistry
 ) -> None:
     """We raise when trying to delete in the wrong thread."""
     area = area_registry.async_create("Mock1")

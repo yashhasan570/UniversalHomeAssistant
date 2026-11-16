@@ -29,8 +29,8 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .util import async_init_integration
@@ -44,7 +44,7 @@ def override_platforms() -> Generator[None]:
 
 
 async def test_airzone_create_climates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -55,7 +55,7 @@ async def test_airzone_create_climates(
     await snapshot_platform(hass, entity_registry, snapshot, config_entry.entry_id)
 
 
-async def test_airzone_climate_turn_on_off(hass: __HAC_KEEP__) -> None:
+async def test_airzone_climate_turn_on_off(hass: UniversalAssistant) -> None:
     """Test turning on/off."""
 
     await async_init_integration(hass)
@@ -177,7 +177,7 @@ async def test_airzone_climate_turn_on_off(hass: __HAC_KEEP__) -> None:
     assert state.state == HVACMode.OFF
 
 
-async def test_airzone_climate_set_fan_mode(hass: __HAC_KEEP__) -> None:
+async def test_airzone_climate_set_fan_mode(hass: UniversalAssistant) -> None:
     """Test setting the fan mode."""
 
     await async_init_integration(hass)
@@ -218,7 +218,7 @@ async def test_airzone_climate_set_fan_mode(hass: __HAC_KEEP__) -> None:
     assert state.attributes[ClimateEntityStateAttribute.FAN_MODE] == FAN_AUTO
 
 
-async def test_airzone_climate_set_hvac_mode(hass: __HAC_KEEP__) -> None:
+async def test_airzone_climate_set_hvac_mode(hass: UniversalAssistant) -> None:
     """Test setting the HVAC mode."""
 
     await async_init_integration(hass)
@@ -364,7 +364,7 @@ async def test_airzone_climate_set_hvac_mode(hass: __HAC_KEEP__) -> None:
     assert state.state == HVACMode.OFF
 
 
-async def test_airzone_climate_set_hvac_slave_error(hass: __HAC_KEEP__) -> None:
+async def test_airzone_climate_set_hvac_slave_error(hass: UniversalAssistant) -> None:
     """Test setting the HVAC mode for a slave zone."""
 
     await async_init_integration(hass)
@@ -374,7 +374,7 @@ async def test_airzone_climate_set_hvac_slave_error(hass: __HAC_KEEP__) -> None:
             "universalassistant.components.airzone_cloud.AirzoneCloudApi.api_patch_device",
             return_value=None,
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
@@ -390,7 +390,7 @@ async def test_airzone_climate_set_hvac_slave_error(hass: __HAC_KEEP__) -> None:
     assert state.state == HVACMode.COOL
 
 
-async def test_airzone_climate_set_temp(hass: __HAC_KEEP__) -> None:
+async def test_airzone_climate_set_temp(hass: UniversalAssistant) -> None:
     """Test setting the target temperature."""
 
     await async_init_integration(hass)
@@ -476,7 +476,7 @@ async def test_airzone_climate_set_temp(hass: __HAC_KEEP__) -> None:
     assert state.attributes.get(ClimateEntityStateAttribute.TARGET_TEMP_LOW) == 20.0
 
 
-async def test_airzone_climate_set_temp_error(hass: __HAC_KEEP__) -> None:
+async def test_airzone_climate_set_temp_error(hass: UniversalAssistant) -> None:
     """Test error when setting the target temperature."""
 
     await async_init_integration(hass)
@@ -487,7 +487,7 @@ async def test_airzone_climate_set_temp_error(hass: __HAC_KEEP__) -> None:
             "universalassistant.components.airzone_cloud.AirzoneCloudApi.api_patch_device",
             side_effect=AirzoneCloudError,
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
@@ -508,7 +508,7 @@ async def test_airzone_climate_set_temp_error(hass: __HAC_KEEP__) -> None:
             "universalassistant.components.airzone_cloud.AirzoneCloudApi.api_put_group",
             side_effect=AirzoneCloudError,
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
@@ -529,7 +529,7 @@ async def test_airzone_climate_set_temp_error(hass: __HAC_KEEP__) -> None:
             "universalassistant.components.airzone_cloud.AirzoneCloudApi.api_put_installation",
             side_effect=AirzoneCloudError,
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
@@ -550,7 +550,7 @@ async def test_airzone_climate_set_temp_error(hass: __HAC_KEEP__) -> None:
             "universalassistant.components.airzone_cloud.AirzoneCloudApi.api_patch_device",
             side_effect=AirzoneCloudError,
         ),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,

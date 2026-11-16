@@ -29,9 +29,9 @@ from universalassistant.const import (
     CONF_TOKEN,
     CommonServiceArgument,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import location as location_util
@@ -113,7 +113,7 @@ MOCK_GAMES = {MOCK_ID: MOCK_GAMES_DATA}
 MOCK_GAMES_LOCKED = {MOCK_ID: MOCK_GAMES_DATA_LOCKED}
 
 
-async def test_creating_entry_sets_up_media_player(hass: __HAC_KEEP__) -> None:
+async def test_creating_entry_sets_up_media_player(hass: UniversalAssistant) -> None:
     """Test setting up PS4 loads the media player."""
     mock_flow = "universalassistant.components.ps4.PlayStation4FlowHandler.async_step_user"
     with (
@@ -134,7 +134,7 @@ async def test_creating_entry_sets_up_media_player(hass: __HAC_KEEP__) -> None:
 
 
 async def test_config_flow_entry_migrate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -197,7 +197,7 @@ async def test_config_flow_entry_migrate(
     assert mock_entry.data["devices"][0][CONF_REGION] == DEFAULT_REGION
 
 
-async def test_config_flow_entry_migrate_no_location(hass: __HAC_KEEP__) -> None:
+async def test_config_flow_entry_migrate_no_location(hass: UniversalAssistant) -> None:
     """Test migration fails when the region cannot be detected."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -221,13 +221,13 @@ async def test_config_flow_entry_migrate_no_location(hass: __HAC_KEEP__) -> None
     assert mock_entry.version == 1
 
 
-async def test_media_player_is_setup(hass: __HAC_KEEP__) -> None:
+async def test_media_player_is_setup(hass: UniversalAssistant) -> None:
     """Test media_player is setup correctly."""
     await setup_mock_component(hass)
     assert len(hass.data[PS4_DATA].devices) == 1
 
 
-async def setup_mock_component(hass: __HAC_KEEP__) -> None:
+async def setup_mock_component(hass: UniversalAssistant) -> None:
     """Set up Mock Media Player."""
     entry = MockConfigEntry(domain=ps4.DOMAIN, data=MOCK_DATA, version=VERSION)
     entry.add_to_manager(hass.config_entries)
@@ -236,7 +236,7 @@ async def setup_mock_component(hass: __HAC_KEEP__) -> None:
 
 
 def test_games_reformat_to_dict(
-    hass: __HAC_KEEP__, patch_load_json_object: MagicMock
+    hass: UniversalAssistant, patch_load_json_object: MagicMock
 ) -> None:
     """Test old data format is converted to new format."""
     patch_load_json_object.return_value = MOCK_GAMES_DATA_OLD_STR_FORMAT
@@ -259,7 +259,7 @@ def test_games_reformat_to_dict(
         assert mock_data[ATTR_MEDIA_CONTENT_TYPE] == MediaType.GAME
 
 
-def test_load_games(hass: __HAC_KEEP__, patch_load_json_object: MagicMock) -> None:
+def test_load_games(hass: UniversalAssistant, patch_load_json_object: MagicMock) -> None:
     """Test that games are loaded correctly."""
     patch_load_json_object.return_value = MOCK_GAMES
     with (
@@ -279,10 +279,10 @@ def test_load_games(hass: __HAC_KEEP__, patch_load_json_object: MagicMock) -> No
 
 
 def test_loading_games_returns_dict(
-    hass: __HAC_KEEP__, patch_load_json_object: MagicMock
+    hass: UniversalAssistant, patch_load_json_object: MagicMock
 ) -> None:
     """Test that loading games always returns a dict."""
-    patch_load_json_object.side_effect = __HAC_KEEP__Error
+    patch_load_json_object.side_effect = UniversalAssistantError
     with (
         patch("universalassistant.components.ps4.save_json", side_effect=MagicMock()),
         patch("os.path.isfile", return_value=True),
@@ -293,7 +293,7 @@ def test_loading_games_returns_dict(
     assert not mock_games
 
 
-async def test_send_command(hass: __HAC_KEEP__) -> None:
+async def test_send_command(hass: UniversalAssistant) -> None:
     """Test send_command service."""
     await setup_mock_component(hass)
 

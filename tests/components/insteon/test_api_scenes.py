@@ -13,7 +13,7 @@ from pytest_universalassistant.typing import MockHAClientWebSocket, WebSocketGen
 
 from universalassistant.components.insteon.api import async_load_api, scenes
 from universalassistant.components.insteon.const import ID, TYPE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util.json import JsonArrayType
 
 from .mock_devices import MockDevices
@@ -26,7 +26,7 @@ def aldb_data_fixture() -> JsonArrayType:
 
 
 @pytest.fixture(name="remove_json")
-def remove_insteon_devices_json(hass: __HAC_KEEP__) -> Generator[None]:
+def remove_insteon_devices_json(hass: UniversalAssistant) -> Generator[None]:
     """Fixture to remove insteon_devices.json at the end of the test."""
     yield
     file = os.path.join(hass.config.config_dir, "insteon_devices.json")
@@ -49,7 +49,7 @@ def _scene_to_array(scene: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 async def _setup(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, scene_data: JsonArrayType
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, scene_data: JsonArrayType
 ) -> tuple[MockHAClientWebSocket, MockDevices]:
     """Set up tests."""
     ws_client = await hass_ws_client(hass)
@@ -64,7 +64,7 @@ async def _setup(
 
 
 async def test_get_scenes(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, scene_data: JsonArrayType
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, scene_data: JsonArrayType
 ) -> None:
     """Test getting all Insteon scenes."""
     ws_client, devices = await _setup(hass, hass_ws_client, scene_data)
@@ -78,7 +78,7 @@ async def test_get_scenes(
 
 
 async def test_get_scene(
-    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, scene_data: JsonArrayType
+    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, scene_data: JsonArrayType
 ) -> None:
     """Test getting an Insteon scene."""
     ws_client, devices = await _setup(hass, hass_ws_client, scene_data)
@@ -92,7 +92,7 @@ async def test_get_scene(
 
 @pytest.mark.usefixtures("remove_json")
 async def test_save_scene(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     scene_data: JsonArrayType,
 ) -> None:
@@ -125,7 +125,7 @@ async def test_save_scene(
 
 @pytest.mark.usefixtures("remove_json")
 async def test_save_new_scene(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     scene_data: JsonArrayType,
 ) -> None:
@@ -158,7 +158,7 @@ async def test_save_new_scene(
 
 @pytest.mark.usefixtures("remove_json")
 async def test_save_scene_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     scene_data: JsonArrayType,
 ) -> None:
@@ -191,7 +191,7 @@ async def test_save_scene_error(
 
 @pytest.mark.usefixtures("remove_json")
 async def test_delete_scene(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     scene_data: JsonArrayType,
 ) -> None:

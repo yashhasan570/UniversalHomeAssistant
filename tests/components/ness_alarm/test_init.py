@@ -34,10 +34,10 @@ from universalassistant.const import (
     SERVICE_ALARM_TRIGGER,
     STATE_UNKNOWN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
-async def test_config_entry_setup(hass: __HAC_KEEP__, mock_nessclient) -> None:
+async def test_config_entry_setup(hass: UniversalAssistant, mock_nessclient) -> None:
     """Test config entry setup."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -64,7 +64,7 @@ async def test_config_entry_setup(hass: __HAC_KEEP__, mock_nessclient) -> None:
     assert mock_nessclient.update.call_count == 2
 
 
-async def test_config_entry_unload(hass: __HAC_KEEP__, mock_nessclient) -> None:
+async def test_config_entry_unload(hass: UniversalAssistant, mock_nessclient) -> None:
     """Test config entry unload."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -85,7 +85,7 @@ async def test_config_entry_unload(hass: __HAC_KEEP__, mock_nessclient) -> None:
     mock_nessclient.close.assert_called_once()
 
 
-async def test_config_entry_not_ready(hass: __HAC_KEEP__, mock_nessclient) -> None:
+async def test_config_entry_not_ready(hass: UniversalAssistant, mock_nessclient) -> None:
     """Test config entry raises ConfigEntryNotReady on connection failure."""
     mock_nessclient.update.side_effect = OSError("Connection refused")
 
@@ -105,7 +105,7 @@ async def test_config_entry_not_ready(hass: __HAC_KEEP__, mock_nessclient) -> No
     mock_nessclient.close.assert_called_once()
 
 
-async def test_config_entry_with_zones(hass: __HAC_KEEP__, mock_nessclient) -> None:
+async def test_config_entry_with_zones(hass: UniversalAssistant, mock_nessclient) -> None:
     """Test config entry setup with zones as subentries."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -149,7 +149,7 @@ async def test_config_entry_with_zones(hass: __HAC_KEEP__, mock_nessclient) -> N
 
 
 async def test_config_entry_reload_on_subentry_add(
-    hass: __HAC_KEEP__, mock_nessclient
+    hass: UniversalAssistant, mock_nessclient
 ) -> None:
     """Test config entry with subentries."""
     entry = MockConfigEntry(
@@ -183,7 +183,7 @@ async def test_config_entry_reload_on_subentry_add(
 
 
 async def test_panic_service_with_config_entry(
-    hass: __HAC_KEEP__, mock_nessclient
+    hass: UniversalAssistant, mock_nessclient
 ) -> None:
     """Test calling panic service with config entry."""
     entry = MockConfigEntry(
@@ -207,7 +207,7 @@ async def test_panic_service_with_config_entry(
 
 
 async def test_aux_service_with_config_entry(
-    hass: __HAC_KEEP__, mock_nessclient
+    hass: UniversalAssistant, mock_nessclient
 ) -> None:
     """Test calling aux service with config entry."""
     entry = MockConfigEntry(
@@ -231,7 +231,7 @@ async def test_aux_service_with_config_entry(
 
 
 async def test_aux_service_with_state_false(
-    hass: __HAC_KEEP__, mock_nessclient
+    hass: UniversalAssistant, mock_nessclient
 ) -> None:
     """Test calling aux service with state=False."""
     entry = MockConfigEntry(
@@ -257,7 +257,7 @@ async def test_aux_service_with_state_false(
     mock_nessclient.aux.assert_awaited_once_with(2, False)
 
 
-async def test_alarm_panel_disarm(hass: __HAC_KEEP__, mock_nessclient) -> None:
+async def test_alarm_panel_disarm(hass: UniversalAssistant, mock_nessclient) -> None:
     """Test alarm panel disarm."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -282,7 +282,7 @@ async def test_alarm_panel_disarm(hass: __HAC_KEEP__, mock_nessclient) -> None:
     mock_nessclient.disarm.assert_called_once_with("1234")
 
 
-async def test_alarm_panel_arm_away(hass: __HAC_KEEP__, mock_nessclient) -> None:
+async def test_alarm_panel_arm_away(hass: UniversalAssistant, mock_nessclient) -> None:
     """Test alarm panel arm away."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -307,7 +307,7 @@ async def test_alarm_panel_arm_away(hass: __HAC_KEEP__, mock_nessclient) -> None
     mock_nessclient.arm_away.assert_called_once_with("1234")
 
 
-async def test_alarm_panel_arm_home(hass: __HAC_KEEP__, mock_nessclient) -> None:
+async def test_alarm_panel_arm_home(hass: UniversalAssistant, mock_nessclient) -> None:
     """Test alarm panel arm home."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -332,7 +332,7 @@ async def test_alarm_panel_arm_home(hass: __HAC_KEEP__, mock_nessclient) -> None
     mock_nessclient.arm_home.assert_called_once_with("1234")
 
 
-async def test_alarm_panel_trigger(hass: __HAC_KEEP__, mock_nessclient) -> None:
+async def test_alarm_panel_trigger(hass: UniversalAssistant, mock_nessclient) -> None:
     """Test alarm panel trigger."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -357,7 +357,7 @@ async def test_alarm_panel_trigger(hass: __HAC_KEEP__, mock_nessclient) -> None:
     mock_nessclient.panic.assert_called_once_with("1234")
 
 
-async def test_zone_state_change(hass: __HAC_KEEP__, mock_nessclient) -> None:
+async def test_zone_state_change(hass: UniversalAssistant, mock_nessclient) -> None:
     """Test zone state change events."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -414,7 +414,7 @@ async def test_zone_state_change(hass: __HAC_KEEP__, mock_nessclient) -> None:
     assert hass.states.is_state("binary_sensor.zone_1", "off")
 
 
-async def test_arming_state_changes(hass: __HAC_KEEP__, mock_nessclient) -> None:
+async def test_arming_state_changes(hass: UniversalAssistant, mock_nessclient) -> None:
     """Test all arming state changes."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -476,7 +476,7 @@ async def test_arming_state_changes(hass: __HAC_KEEP__, mock_nessclient) -> None
         assert hass.states.is_state("alarm_control_panel.alarm_panel", expected_state)
 
 
-async def test_arming_state_unknown_mode(hass: __HAC_KEEP__, mock_nessclient) -> None:
+async def test_arming_state_unknown_mode(hass: UniversalAssistant, mock_nessclient) -> None:
     """Test arming state with unknown arming mode (for coverage)."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -497,7 +497,7 @@ async def test_arming_state_unknown_mode(hass: __HAC_KEEP__, mock_nessclient) ->
     await hass.async_block_till_done()
 
 
-async def test_universalassistant_stop_event(hass: __HAC_KEEP__, mock_nessclient) -> None:
+async def test_universalassistant_stop_event(hass: UniversalAssistant, mock_nessclient) -> None:
     """Test client is closed on universalassistant_stop event."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -518,7 +518,7 @@ async def test_universalassistant_stop_event(hass: __HAC_KEEP__, mock_nessclient
     mock_nessclient.close.assert_called()
 
 
-async def test_entry_reload_on_update(hass: __HAC_KEEP__, mock_nessclient) -> None:
+async def test_entry_reload_on_update(hass: UniversalAssistant, mock_nessclient) -> None:
     """Test config entry reload when update listener is triggered."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -552,7 +552,7 @@ async def test_entry_reload_on_update(hass: __HAC_KEEP__, mock_nessclient) -> No
 
 
 async def test_alarm_panel_home_mode_disabled(
-    hass: __HAC_KEEP__, mock_nessclient
+    hass: UniversalAssistant, mock_nessclient
 ) -> None:
     """Test alarm panel with home mode disabled via options."""
     entry = MockConfigEntry(
@@ -579,7 +579,7 @@ async def test_alarm_panel_home_mode_disabled(
 
 
 async def test_alarm_panel_home_mode_enabled_by_default(
-    hass: __HAC_KEEP__, mock_nessclient
+    hass: UniversalAssistant, mock_nessclient
 ) -> None:
     """Test alarm panel has home mode enabled by default."""
     entry = MockConfigEntry(

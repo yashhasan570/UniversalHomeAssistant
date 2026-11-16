@@ -26,7 +26,7 @@ from universalassistant.components.mikrotik.const import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CONF_VERIFY_SSL
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.update_coordinator import UpdateFailed
 from universalassistant.setup import async_setup_component
@@ -72,7 +72,7 @@ def _command_side_effect(
 
 
 async def test_successful_config_entry(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntryFactory
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntryFactory
 ) -> None:
     """Test config entry successful setup."""
     entry = mock_config_entry()
@@ -81,7 +81,7 @@ async def test_successful_config_entry(
 
 
 async def test_hub_connect_uses_ssl_when_verify_ssl_enabled(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntryFactory
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntryFactory
 ) -> None:
     """Test setup wraps the hub connection in an SSL context when verify_ssl is set."""
     entry = mock_config_entry(data={**MOCK_DATA, CONF_VERIFY_SSL: True})
@@ -99,7 +99,7 @@ async def test_hub_connect_uses_ssl_when_verify_ssl_enabled(
     ids=["connection_closed", "os_error", "timeout_error"],
 )
 async def test_hub_connection_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api: MagicMock,
     mock_config_entry: MockConfigEntryFactory,
     error: Exception,
@@ -126,7 +126,7 @@ async def test_hub_connection_error(
     ids=["cannot_connect", "os_error", "timeout_error", "connection_closed"],
 )
 async def test_hub_connect_error_retries_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntryFactory,
     error: Exception,
 ) -> None:
@@ -142,7 +142,7 @@ async def test_hub_connect_error_retries_setup(
 
 
 async def test_hub_login_error_starts_reauth(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntryFactory
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntryFactory
 ) -> None:
     """Test setup starts a reauth flow when the hub rejects the credentials."""
     entry = mock_config_entry()
@@ -165,7 +165,7 @@ async def test_hub_login_error_starts_reauth(
     ids=["connection_closed", "os_error", "timeout_error"],
 )
 async def test_hub_connect_error_skips_token_login_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntryFactory,
     error: Exception,
 ) -> None:
@@ -187,7 +187,7 @@ async def test_hub_connect_error_skips_token_login_fallback(
 
 
 async def test_optional_command_error_is_suppressed(
-    hass: __HAC_KEEP__, mock_api: MagicMock, mock_config_entry: MockConfigEntryFactory
+    hass: UniversalAssistant, mock_api: MagicMock, mock_config_entry: MockConfigEntryFactory
 ) -> None:
     """Test setup succeeds when an optional command isn't supported by the hub."""
     entry = mock_config_entry()
@@ -204,7 +204,7 @@ async def test_optional_command_error_is_suppressed(
 
 
 async def test_optional_command_unexpected_error_fails_setup(
-    hass: __HAC_KEEP__, mock_api: MagicMock, mock_config_entry: MockConfigEntryFactory
+    hass: UniversalAssistant, mock_api: MagicMock, mock_config_entry: MockConfigEntryFactory
 ) -> None:
     """Test setup fails when an optional command raises an unexpected error."""
     entry = mock_config_entry()
@@ -221,7 +221,7 @@ async def test_optional_command_unexpected_error_fails_setup(
 
 
 async def test_required_command_error_fails_setup(
-    hass: __HAC_KEEP__, mock_api: MagicMock, mock_config_entry: MockConfigEntryFactory
+    hass: UniversalAssistant, mock_api: MagicMock, mock_config_entry: MockConfigEntryFactory
 ) -> None:
     """Test setup fails on a required command even with a suppressible message."""
     entry = mock_config_entry()
@@ -243,7 +243,7 @@ async def test_required_command_error_fails_setup(
     ids=["os_error", "timeout_error", "connection_closed"],
 )
 async def test_connection_lost_during_refresh_raises_update_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntryFactory,
     error: Exception,
 ) -> None:
@@ -273,7 +273,7 @@ async def test_connection_lost_during_refresh_raises_update_failed(
 
 
 async def test_hub_reconnect_error_during_refresh_raises_update_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api: MagicMock,
     mock_config_entry: MockConfigEntryFactory,
 ) -> None:
@@ -296,7 +296,7 @@ async def test_hub_reconnect_error_during_refresh_raises_update_failed(
 
 
 async def test_connection_dropped_during_refresh_reconnects_and_succeeds(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api: MagicMock,
     mock_config_entry: MockConfigEntryFactory,
     freezer: FrozenDateTimeFactory,
@@ -329,7 +329,7 @@ async def test_connection_dropped_during_refresh_reconnects_and_succeeds(
 
 
 async def test_connection_dropped_during_arp_ping_retries_with_params(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api: MagicMock,
     mock_config_entry: MockConfigEntryFactory,
     freezer: FrozenDateTimeFactory,
@@ -373,7 +373,7 @@ async def test_connection_dropped_during_arp_ping_retries_with_params(
 
 
 async def test_scheduled_refresh_reuses_persistent_connection(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntryFactory
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntryFactory
 ) -> None:
     """Test scheduled refreshes reuse the open connection instead of reconnecting."""
     entry = mock_config_entry()
@@ -391,7 +391,7 @@ async def test_scheduled_refresh_reuses_persistent_connection(
 
 
 async def test_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_api: MagicMock,
     mock_config_entry: MockConfigEntryFactory,
 ) -> None:
@@ -407,7 +407,7 @@ async def test_unload_entry(
 
 
 async def test_stale_interface_devices_are_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntryFactory,
 ) -> None:
@@ -454,7 +454,7 @@ async def test_stale_interface_devices_are_removed(
 
 
 async def test_stale_interface_device_removed_on_coordinator_update(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test an interface device is removed once the hub stops reporting it."""
     config_entry = await setup_mikrotik_entry(hass, interface_data=INTERFACE_DATA)
@@ -490,7 +490,7 @@ async def test_stale_interface_device_removed_on_coordinator_update(
 CONNECTED_CLIENT_MAC = "0A:BB:CC:DD:EE:01"
 
 
-async def _setup_entry_with_connected_client(hass: __HAC_KEEP__) -> MockConfigEntry:
+async def _setup_entry_with_connected_client(hass: UniversalAssistant) -> MockConfigEntry:
     """Set up an entry with interfaces and one connected wireless client."""
     config_entry = await setup_mikrotik_entry(
         hass,
@@ -516,7 +516,7 @@ async def _setup_entry_with_connected_client(hass: __HAC_KEEP__) -> MockConfigEn
     ],
 )
 async def test_remove_config_entry_device_refused(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     lookup: dict[str, set[tuple[str, str]]],
@@ -536,7 +536,7 @@ async def test_remove_config_entry_device_refused(
 
 
 async def test_remove_config_entry_device_stale_client(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -555,7 +555,7 @@ async def test_remove_config_entry_device_stale_client(
 
 
 async def test_remove_config_entry_device_rejects_child_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -595,7 +595,7 @@ async def test_remove_config_entry_device_rejects_child_device(
     ],
 )
 async def test_remove_config_entry_device_entry_not_loaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     lookup: dict[str, set[tuple[str, str]]],
@@ -617,7 +617,7 @@ async def test_remove_config_entry_device_entry_not_loaded(
 
 
 async def test_remove_departed_client_and_rediscover(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,

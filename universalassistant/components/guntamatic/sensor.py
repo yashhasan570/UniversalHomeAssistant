@@ -1,4 +1,4 @@
-"""Support for Guntamatic sensors in __HA_KEEP__."""
+"""Support for Guntamatic sensors in Universal Home Assistant."""
 
 from datetime import date, timedelta
 import re
@@ -16,7 +16,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfTime,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import ChildDeviceInfo, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -355,7 +355,7 @@ GUNTAMATIC_SENSORS: list[SensorEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: GuntamaticConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

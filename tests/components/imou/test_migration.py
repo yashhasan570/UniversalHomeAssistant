@@ -13,7 +13,7 @@ from universalassistant.components.imou.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONFIG_ENTRY_DATA
 
@@ -27,7 +27,7 @@ from .const import CONFIG_ENTRY_DATA
 )
 @pytest.mark.usefixtures("mock_imou_ha_device_manager")
 async def test_migrate_swapped_region_keeps_previous_host(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     saved_region: str,
     kept_host: str,
 ) -> None:
@@ -60,7 +60,7 @@ async def test_migrate_swapped_region_keeps_previous_host(
 @pytest.mark.parametrize("region", ["sg", "cn"])
 @pytest.mark.usefixtures("mock_imou_ha_device_manager")
 async def test_migrate_unchanged_region_only_bumps_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     region: str,
 ) -> None:
     """Singapore and China were already stored against the right server."""
@@ -89,7 +89,7 @@ async def test_migrate_unchanged_region_only_bumps_version(
 
 
 @pytest.mark.usefixtures("mock_imou_ha_device_manager")
-async def test_current_region_entry_is_not_swapped(hass: __HAC_KEEP__) -> None:
+async def test_current_region_entry_is_not_swapped(hass: UniversalAssistant) -> None:
     """An entry created after the correction keeps the region the user chose."""
     entry = MockConfigEntry(
         domain=DOMAIN,

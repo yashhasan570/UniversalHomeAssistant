@@ -21,7 +21,7 @@ from universalassistant.const import (
     CONF_SENSORS,
     CONF_TYPE,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 from universalassistant.util.hass_dict import HassKey
@@ -119,7 +119,7 @@ def mock_pymodbus_fixture(do_exception, register_words):
 
 @pytest.fixture(name="mock_modbus")
 async def mock_modbus_fixture(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
     check_config_loaded,
@@ -173,7 +173,7 @@ async def mock_modbus_fixture(
 
 @pytest.fixture(name="mock_modbus_to_test_errors_config")
 async def mock_modbus_to_test_errors_config_fixture(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     check_config_loaded,
     config_addon,
     do_config,
@@ -210,7 +210,7 @@ async def mock_modbus_to_test_errors_config_fixture(
 
 @pytest.fixture(name="mock_do_cycle")
 async def mock_do_cycle_fixture(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_modbus,
 ) -> FrozenDateTimeFactory:
@@ -222,7 +222,7 @@ async def mock_do_cycle_fixture(
 
 
 async def do_next_cycle(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, cycle: int
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, cycle: int
 ) -> None:
     """Trigger update call with time_changed event."""
     freezer.tick(timedelta(seconds=cycle))
@@ -232,7 +232,7 @@ async def do_next_cycle(
 
 @pytest.fixture(name="mock_test_state")
 async def mock_test_state_fixture(
-    hass: __HAC_KEEP__, request: pytest.FixtureRequest
+    hass: UniversalAssistant, request: pytest.FixtureRequest
 ) -> Any:
     """Mock restore cache."""
     mock_restore_cache(hass, request.param)
@@ -241,7 +241,7 @@ async def mock_test_state_fixture(
 
 @pytest.fixture(name="mock_modbus_ha")
 async def mock_modbus_ha_fixture(
-    hass: __HAC_KEEP__, mock_modbus: mock.AsyncMock
+    hass: UniversalAssistant, mock_modbus: mock.AsyncMock
 ) -> mock.AsyncMock:
     """Load universalassistant to allow service calls."""
     assert await async_setup_component(hass, "universalassistant", {})

@@ -483,8 +483,8 @@
         "isProxy": true,
         "deviceInfo": {
           "hwVersion": "UNKNOWN_HW_VERSION",
-          "manufacturer": "__HA_KEEP__",
-          "model": "__HA_KEEP__",
+          "manufacturer": "Universal Home Assistant",
+          "model": "Universal Home Assistant",
           "swVersion": "2024.3.0.dev0"
         }
       }
@@ -496,8 +496,8 @@
         "isProxy": true,
         "deviceInfo": {
           "hwVersion": "UNKNOWN_HW_VERSION",
-          "manufacturer": "__HA_KEEP__",
-          "model": "__HA_KEEP__",
+          "manufacturer": "Universal Home Assistant",
+          "model": "Universal Home Assistant",
           "swVersion": "2024.3.0.dev0"
         }
       }

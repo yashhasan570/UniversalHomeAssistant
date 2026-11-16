@@ -23,9 +23,9 @@ from universalassistant.components.neopool.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_DEVICE, CONF_HOST, CONF_PORT, CONF_TYPE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType, InvalidData
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 from . import setup_integration
 from .conftest import MOCK_HOST, MOCK_PORT, MOCK_SERIAL
@@ -72,7 +72,7 @@ def _raising_temporary_unit(exc: Exception) -> MagicMock:
     return patch(_TEMPORARY_UNIT_PATH, side_effect=_raise)
 
 
-async def _advance_to_step(hass: __HAC_KEEP__, step: str) -> dict:
+async def _advance_to_step(hass: UniversalAssistant, step: str) -> dict:
     """Start a user flow and pick a connection type from the menu."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -86,7 +86,7 @@ async def _advance_to_step(hass: __HAC_KEEP__, step: str) -> dict:
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_user_flow_tcp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """A happy-path TCP flow creates the entry."""
@@ -110,7 +110,7 @@ async def test_user_flow_tcp(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_user_flow_serial(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """A happy-path serial flow creates an entry with no host."""
@@ -135,7 +135,7 @@ async def test_user_flow_serial(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_user_flow_serial_rejects_non_positive_baudrate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """A non-positive baud rate is rejected by the schema."""
     result = await _advance_to_step(hass, TYPE_SERIAL)
@@ -150,7 +150,7 @@ async def test_user_flow_serial_rejects_non_positive_baudrate(
 @pytest.mark.parametrize("unit_id", [0, 248])
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_user_flow_rejects_out_of_range_unit_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     unit_id: int,
 ) -> None:
     """A unit ID outside the Modbus 1-247 range is rejected by the schema."""
@@ -172,7 +172,7 @@ async def test_user_flow_rejects_out_of_range_unit_id(
 )
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_user_flow_probe_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
     exc: Exception,
     expected_error: str,
@@ -196,13 +196,13 @@ async def test_user_flow_probe_errors(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_user_flow_device_in_use(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """A device held on different link settings surfaces as cannot_connect."""
     result = await _advance_to_step(hass, TYPE_TCP)
 
-    with _raising_temporary_unit(__HAC_KEEP__Error("in use")):
+    with _raising_temporary_unit(UniversalAssistantError("in use")):
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"], USER_INPUT
         )
@@ -218,7 +218,7 @@ async def test_user_flow_device_in_use(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_user_flow_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The flow aborts when the same device is already configured."""
@@ -235,7 +235,7 @@ async def test_user_flow_already_configured(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_reconfigure_flow_happy_path(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """A reconfigure flow updates host/port and reloads the entry."""
@@ -268,7 +268,7 @@ async def test_reconfigure_flow_happy_path(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_reconfigure_flow_serial(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_serial: MockConfigEntry,
 ) -> None:
     """A serial entry reconfigures through the serial step."""
@@ -299,7 +299,7 @@ async def test_reconfigure_flow_serial(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_reconfigure_flow_relink_same_endpoint(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_serial: MockConfigEntry,
 ) -> None:
     """A new baud rate on the same serial device takes the entry off the bus.
@@ -344,7 +344,7 @@ async def test_reconfigure_flow_relink_same_endpoint(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_reconfigure_flow_relink_aborts_on_failed_unload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_serial: MockConfigEntry,
 ) -> None:
     """A failed unload aborts the relink instead of probing a held port.
@@ -380,7 +380,7 @@ async def test_reconfigure_flow_relink_aborts_on_failed_unload(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_reconfigure_flow_relink_restores_on_cancellation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_serial: MockConfigEntry,
 ) -> None:
     """A cancelled probe restores the entry it took off the bus.
@@ -416,7 +416,7 @@ async def test_reconfigure_flow_relink_restores_on_cancellation(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_reconfigure_flow_relink_restores_on_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_serial: MockConfigEntry,
 ) -> None:
     """A failed probe puts the relinked entry back on the bus it was taken off."""
@@ -460,7 +460,7 @@ async def test_reconfigure_flow_relink_restores_on_error(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_reconfigure_flow_relink_restores_on_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry_serial: MockConfigEntry,
 ) -> None:
     """A different controller on the new settings restores the relinked entry."""
@@ -503,7 +503,7 @@ async def test_reconfigure_flow_relink_restores_on_mismatch(
 )
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_reconfigure_flow_probe_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     exc: Exception,
     expected_error: str,
@@ -540,7 +540,7 @@ async def test_reconfigure_flow_probe_errors(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_reconfigure_flow_serial_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """A reconfigure that targets a different physical controller is rejected."""
@@ -569,7 +569,7 @@ async def test_reconfigure_flow_serial_mismatch(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_options_flow_show_form(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Opening the options flow shows the init form."""
@@ -582,7 +582,7 @@ async def test_options_flow_show_form(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_options_flow_save_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Submitting the form persists the new option on the config entry."""

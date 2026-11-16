@@ -7,8 +7,8 @@ from typing import Any, override
 from tesla_fleet_api.const import Scope
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import TeslaFleetConfigEntry
@@ -56,7 +56,7 @@ DESCRIPTIONS: tuple[TeslaFleetButtonEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: TeslaFleetConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -93,7 +93,7 @@ class TeslaFleetButtonEntity(TeslaFleetVehicleEntity, ButtonEntity):
         if (lat := self.coordinator.data.get("drive_state_latitude")) is None or (
             lon := self.coordinator.data.get("drive_state_longitude")
         ) is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="homelink_no_location",
             )

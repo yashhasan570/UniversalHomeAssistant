@@ -4,7 +4,7 @@ from typing import override
 
 from pylutron import Keypad, Lutron, LutronEntity, LutronEvent
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity
@@ -62,7 +62,7 @@ class LutronDevice(LutronBaseEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         area_name: str,
         lutron_device: LutronEntity,
         controller: Lutron,
@@ -86,7 +86,7 @@ class LutronKeypad(LutronBaseEntity):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         area_name: str,
         lutron_device: LutronEntity,
         controller: Lutron,

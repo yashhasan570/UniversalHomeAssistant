@@ -42,7 +42,7 @@ from universalassistant.const import (
     MINOR_VERSION,
     Platform,
 )
-from universalassistant.core import CoreState, __HAC_KEEP__
+from universalassistant.core import CoreState, UniversalAssistant
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -63,7 +63,7 @@ def disable_platform_only():
 
 
 @pytest.fixture
-def config_entry_v1(hass: __HAC_KEEP__):
+def config_entry_v1(hass: UniversalAssistant):
     """Config entry version 1 fixture."""
     return MockConfigEntry(
         domain=DOMAIN,
@@ -75,7 +75,7 @@ def config_entry_v1(hass: __HAC_KEEP__):
 @pytest.mark.parametrize("config", [{}, {DOMAIN: {}}])
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
 async def test_migration_from_v1_no_baudrate(
-    hass: __HAC_KEEP__, config_entry_v1, config
+    hass: UniversalAssistant, config_entry_v1, config
 ) -> None:
     """Test migration of config entry from v1."""
     config_entry_v1.add_to_hass(hass)
@@ -90,7 +90,7 @@ async def test_migration_from_v1_no_baudrate(
 
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
 async def test_migration_from_v1_with_baudrate(
-    hass: __HAC_KEEP__, config_entry_v1
+    hass: UniversalAssistant, config_entry_v1
 ) -> None:
     """Test migration of config entry from v1 with baudrate in config."""
     config_entry_v1.add_to_hass(hass)
@@ -107,7 +107,7 @@ async def test_migration_from_v1_with_baudrate(
 
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
 async def test_migration_from_v1_wrong_baudrate(
-    hass: __HAC_KEEP__, config_entry_v1
+    hass: UniversalAssistant, config_entry_v1
 ) -> None:
     """Test migration of config entry from v1 with wrong baudrate."""
     config_entry_v1.add_to_hass(hass)
@@ -133,7 +133,7 @@ async def test_migration_from_v1_wrong_baudrate(
         {CONF_RADIO_TYPE: "ezsp", CONF_USB_PATH: "str"},
     ],
 )
-async def test_config_depreciation(hass: __HAC_KEEP__, zha_config) -> None:
+async def test_config_depreciation(hass: UniversalAssistant, zha_config) -> None:
     """Test config option depreciation."""
 
     with patch(
@@ -158,7 +158,7 @@ async def test_config_depreciation(hass: __HAC_KEEP__, zha_config) -> None:
 async def test_migration_v5_explicit_socket_port(
     old_path: str,
     new_path: str,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test that socket:// and tcp:// paths get an explicit default port."""
@@ -196,7 +196,7 @@ async def test_migration_version_downgrade_guard(
     version_delta: int,
     minor_delta: int,
     expected_state: ConfigEntryState,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test the config version downgrade guard."""
@@ -240,7 +240,7 @@ async def test_migration_baudrate_and_flow_control(
     old_flow_control: typing.Literal["hardware", "software"] | None,
     new_baudrate: int,
     new_flow_control: typing.Literal["hardware", "software"] | None,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test baudrate and flow control migration."""
@@ -273,7 +273,7 @@ async def test_migration_baudrate_and_flow_control(
     [Platform.LIGHT, Platform.BUTTON, Platform.SENSOR, Platform.SELECT],
 )
 async def test_zha_retry_unique_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     zigpy_device_mock: Callable[..., ZigbeeDevice],
     mock_zigpy_connect: ControllerApplication,
@@ -309,7 +309,7 @@ async def test_zha_retry_unique_ids(
 
 
 async def test_shutdown_on_ha_stop(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_zigpy_connect: ControllerApplication,
 ) -> None:
@@ -332,7 +332,7 @@ async def test_shutdown_on_ha_stop(
 
 
 async def test_timezone_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_zigpy_connect: ControllerApplication,
 ) -> None:
@@ -358,7 +358,7 @@ async def test_timezone_update(
 
 
 async def test_setup_no_firmware_update_in_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_zigpy_connect: ControllerApplication,
 ) -> None:
@@ -374,7 +374,7 @@ async def test_setup_no_firmware_update_in_progress(
 
 
 async def test_setup_firmware_update_in_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test that ZHA setup is blocked when firmware update is in progress."""
@@ -390,7 +390,7 @@ async def test_setup_firmware_update_in_progress(
 
 
 async def test_setup_firmware_update_in_progress_prevents_silabs_warning(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_zigpy_connect: ControllerApplication,
 ) -> None:
@@ -423,7 +423,7 @@ async def test_setup_firmware_update_in_progress_prevents_silabs_warning(
 
 
 async def test_device_path_migration_to_unique_path(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_zigpy_connect: ControllerApplication,
     caplog: pytest.LogCaptureFixture,
@@ -471,7 +471,7 @@ async def test_device_path_migration_to_unique_path(
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
 async def test_device_path_follows_moved_radio(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_zigpy_connect: ControllerApplication,
     caplog: pytest.LogCaptureFixture,
@@ -527,7 +527,7 @@ async def test_device_path_follows_moved_radio(
 
 
 async def test_device_path_not_changed_when_already_unique(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_zigpy_connect: ControllerApplication,
     caplog: pytest.LogCaptureFixture,
@@ -574,7 +574,7 @@ async def test_device_path_not_changed_when_already_unique(
 
 
 async def test_gateway_created_with_migrated_device_path(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     mock_zigpy_connect: ControllerApplication,
     caplog: pytest.LogCaptureFixture,

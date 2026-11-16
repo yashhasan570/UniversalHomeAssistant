@@ -36,7 +36,7 @@ from sqlalchemy.sql.expression import and_, true
 from sqlalchemy.sql.lambdas import StatementLambdaElement
 from sqlalchemy.types import BINARY
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.recorder import session_scope
 from universalassistant.util.enum import try_parse_enum
 from universalassistant.util.ulid import ulid_at_time, ulid_to_bytes
@@ -135,8 +135,8 @@ LIVE_MIGRATION_MIN_SCHEMA_VERSION = 48
 
 MIGRATION_NOTE_OFFLINE = (
     "Note: this may take several hours on large databases and slow machines. "
-    "__HA_KEEP__ will not start until the upgrade is completed. Please be patient "
-    "and do not turn off or restart __HA_KEEP__ while the upgrade is in progress!"
+    "Universal Home Assistant will not start until the upgrade is completed. Please be patient "
+    "and do not turn off or restart Universal Home Assistant while the upgrade is in progress!"
 )
 MIGRATION_NOTE_MINUTES = (
     "Note: this may take several minutes on large databases and slow machines. "
@@ -277,7 +277,7 @@ def _schema_is_current(current_version: int) -> bool:
 
 
 def validate_db_schema(
-    hass: __HAC_KEEP__, instance: Recorder, session_maker: Callable[[], Session]
+    hass: UniversalAssistant, instance: Recorder, session_maker: Callable[[], Session]
 ) -> SchemaValidationStatus | None:
     """Check if the schema is valid.
 
@@ -316,7 +316,7 @@ def validate_db_schema(
 
 
 def _find_schema_errors(
-    hass: __HAC_KEEP__, instance: Recorder, session_maker: Callable[[], Session]
+    hass: UniversalAssistant, instance: Recorder, session_maker: Callable[[], Session]
 ) -> set[str]:
     """Find schema errors."""
     schema_errors: set[str] = set()
@@ -353,7 +353,7 @@ def pre_migrate_schema(engine: Engine) -> None:
 
 def _migrate_schema(
     instance: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     engine: Engine,
     session_maker: Callable[[], Session],
     schema_status: SchemaValidationStatus,
@@ -392,7 +392,7 @@ def _migrate_schema(
 
 def migrate_schema_non_live(
     instance: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     engine: Engine,
     session_maker: Callable[[], Session],
     schema_status: SchemaValidationStatus,
@@ -406,7 +406,7 @@ def migrate_schema_non_live(
 
 def migrate_schema_live(
     instance: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     engine: Engine,
     session_maker: Callable[[], Session],
     schema_status: SchemaValidationStatus,
@@ -1027,7 +1027,7 @@ def _delete_foreign_key_violations(
 @database_job_retry_wrapper("Apply migration update", 10)
 def _apply_update(
     instance: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     engine: Engine,
     session_maker: Callable[[], Session],
     new_version: int,
@@ -1054,7 +1054,7 @@ class _SchemaVersionMigrator(ABC):
     def __init__(
         self,
         instance: Recorder,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         engine: Engine,
         session_maker: Callable[[], Session],
         old_version: int,
@@ -1658,7 +1658,7 @@ class _SchemaVersion33Migrator(_SchemaVersionMigrator, target_version=33):
         """Version specific update method."""
         # This index is no longer used and can cause MySQL to use the wrong index
         # when querying the states table.
-        # https://github.com/yashhasan570/__HAC_KEEP__/issues/83787
+        # https://github.com/yashhasan570/UniversalUniversalAssistant/issues/83787
         # There was an index cleanup here but its now done in schema 39
 
 
@@ -2059,7 +2059,7 @@ class _SchemaVersion48Migrator(_SchemaVersionMigrator, target_version=48):
     @override
     def _apply_update(self) -> None:
         """Version specific update method."""
-        # https://github.com/yashhasan570/__HAC_KEEP__/issues/134002
+        # https://github.com/yashhasan570/UniversalUniversalAssistant/issues/134002
         # If the system has unmigrated states rows, we need to
         # ensure they are migrated now so the new optimized
         # queries can be used. For most systems, this should
@@ -2203,7 +2203,7 @@ class _SchemaVersion53Migrator(_SchemaVersionMigrator, target_version=53):
 
 
 def _migrate_statistics_columns_to_timestamp_removing_duplicates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     instance: Recorder,
     session_maker: Callable[[], Session],
     engine: Engine,
@@ -2258,7 +2258,7 @@ def _correct_table_character_set_and_collation(
         connection = session.connection()
         connection.execute(
             # Using LOCK=EXCLUSIVE to prevent the database from corrupting
-            # https://github.com/yashhasan570/__HAC_KEEP__/issues/56104
+            # https://github.com/yashhasan570/UniversalUniversalAssistant/issues/56104
             text(
                 f"ALTER TABLE {table} CONVERT TO CHARACTER SET "
                 f"{MYSQL_DEFAULT_CHARSET} "
@@ -3145,7 +3145,7 @@ class EventIDPostMigration(BaseRunTimeMigration):
     # in this case because we need to run this migration on databases
     # version >= 43 because the schema was not bumped when the table
     # rebuild was added in
-    # https://github.com/yashhasan570/__HAC_KEEP__/pull/120779
+    # https://github.com/yashhasan570/UniversalUniversalAssistant/pull/120779
     # which means its only safe to assume version 44 and later
     # do not need the table rebuild
     max_initial_schema_version = LEGACY_STATES_EVENT_FOREIGN_KEYS_FIXED_SCHEMA_VERSION

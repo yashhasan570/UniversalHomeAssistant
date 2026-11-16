@@ -22,7 +22,7 @@ from universalassistant.const import (
     CONF_TOKEN,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 from universalassistant.helpers.typing import VolDictType
@@ -83,7 +83,7 @@ def descriptions(
 
 
 async def validate_input(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     host: str,
     username: str,
     password: str,

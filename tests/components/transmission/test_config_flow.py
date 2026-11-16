@@ -14,14 +14,14 @@ from universalassistant import config_entries
 from universalassistant.components import transmission
 from universalassistant.components.transmission.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import MOCK_CONFIG_DATA, setup_integration
 
 
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_transmission_client: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -43,7 +43,7 @@ async def test_full_flow(
 
 
 async def test_device_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test aborting if the device is already configured."""
@@ -66,7 +66,7 @@ async def test_device_already_configured(
 
 @pytest.mark.usefixtures("mock_transmission_client")
 async def test_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test updating options."""
     entry = MockConfigEntry(
@@ -95,7 +95,7 @@ async def test_options(
 
 
 async def test_error_on_wrong_credentials(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_transmission_client: AsyncMock,
 ) -> None:
     """Test we handle invalid credentials."""
@@ -130,7 +130,7 @@ async def test_error_on_wrong_credentials(
     ],
 )
 async def test_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -169,7 +169,7 @@ async def test_flow_errors(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_version_error(
-    hass: __HAC_KEEP__, mock_transmission_client: AsyncMock, version: str
+    hass: UniversalAssistant, mock_transmission_client: AsyncMock, version: str
 ) -> None:
     """Test flow version error."""
     mock_transmission_client.return_value.server_version = version
@@ -197,7 +197,7 @@ async def test_flow_version_error(
 
 
 async def test_reauth_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -230,7 +230,7 @@ async def test_reauth_success(
 
 
 async def test_reauth_success_after_setup_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -255,7 +255,7 @@ async def test_reauth_success_after_setup_error(
 
 
 async def test_reauth_success_when_credentials_are_unchanged(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -282,7 +282,7 @@ async def test_reauth_success_when_credentials_are_unchanged(
     ],
 )
 async def test_reauth_flow_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_transmission_client: AsyncMock,
     exception: Exception,
@@ -338,7 +338,7 @@ async def test_reauth_flow_errors(
     ],
 )
 async def test_reauth_version_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_transmission_client: AsyncMock,
     version: str,

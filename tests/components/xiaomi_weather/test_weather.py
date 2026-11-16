@@ -1,4 +1,4 @@
-"""Test __HA_KEEP__ display policies over the library's typed data."""
+"""Test Universal Home Assistant display policies over the library's typed data."""
 
 from datetime import timedelta
 from typing import Any, Literal
@@ -15,7 +15,7 @@ from pytest_universalassistant.typing import WebSocketGenerator
 from syrupy.assertion import SnapshotAssertion
 from xiaomi_weather import parse_weather
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 ENTITY_ID = "weather.beijing"
@@ -51,7 +51,7 @@ SUPPORTED_UNITS = {
     ],
 )
 async def test_clear_condition(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     entry: MockConfigEntry,
     payload: dict[str, Any],
@@ -88,7 +88,7 @@ async def test_clear_condition(
     ],
 )
 async def test_measurements(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     entry: MockConfigEntry,
     payload: dict[str, Any],
@@ -178,7 +178,7 @@ async def test_measurements(
 )
 @pytest.mark.parametrize("forecast_type", ["daily", "twice_daily"])
 async def test_daily_projection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     entry: MockConfigEntry,
     payload: dict[str, Any],
@@ -223,7 +223,7 @@ async def test_daily_projection(
     ],
 )
 async def test_hourly_projection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     entry: MockConfigEntry,
     payload: dict[str, Any],
@@ -271,7 +271,7 @@ async def test_hourly_projection(
     ],
 )
 async def test_forecast_subscription(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     entry: MockConfigEntry,
     forecast_type: Literal["daily", "hourly", "twice_daily"],
@@ -310,7 +310,7 @@ async def test_forecast_subscription(
 
 
 async def test_unknown_forecast_condition(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     entry: MockConfigEntry,
     payload: dict[str, Any],
@@ -344,7 +344,7 @@ async def test_unknown_forecast_condition(
     ],
 )
 async def test_forecast(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     entry: MockConfigEntry,
     forecast_type: str,
@@ -375,7 +375,7 @@ async def test_forecast(
 
 
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -405,7 +405,7 @@ async def test_entities(
 )
 @pytest.mark.parametrize("forecast_type", ["daily", "hourly", "twice_daily"])
 async def test_condition_codes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     entry: MockConfigEntry,
     payload: dict[str, Any],
@@ -447,7 +447,7 @@ async def test_condition_codes(
     ],
 )
 async def test_daily_dates_without_solar_times(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     entry: MockConfigEntry,
     payload: dict[str, Any],
@@ -480,7 +480,7 @@ async def test_daily_dates_without_solar_times(
 
 
 async def test_daily_without_date_anchor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     entry: MockConfigEntry,
     payload: dict[str, Any],

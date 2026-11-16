@@ -18,7 +18,7 @@ from universalassistant.const import (
     CONF_MAC,
     CONF_WEBHOOK_ID,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import (
     ATTR_PROPERTIES_ID,
@@ -51,7 +51,7 @@ def mock_setup_entry() -> Generator[Any]:
 
 
 # Tests for flows where the user manually inputs an IP address
-async def test_user_flow_success(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_success(hass: UniversalAssistant) -> None:
     """Test the user flow with successful configuration."""
 
     result = await hass.config_entries.flow.async_init(
@@ -83,7 +83,7 @@ async def test_user_flow_success(hass: __HAC_KEEP__) -> None:
 
 
 async def test_user_flow_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vegehub: MagicMock,
 ) -> None:
     """Test the user flow with bad data."""
@@ -121,7 +121,7 @@ async def test_user_flow_cannot_connect(
     ],
 )
 async def test_user_flow_device_bad_connection_then_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vegehub: MagicMock,
     side_effect: Exception,
     expected_error: str,
@@ -158,7 +158,7 @@ async def test_user_flow_device_bad_connection_then_success(
     assert result["data"][CONF_MAC] == TEST_SIMPLE_MAC
 
 
-async def test_user_flow_no_ip_entered(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_no_ip_entered(hass: UniversalAssistant) -> None:
     """Test the user flow with blank IP."""
 
     result = await hass.config_entries.flow.async_init(
@@ -182,7 +182,7 @@ async def test_user_flow_no_ip_entered(hass: __HAC_KEEP__) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_flow_bad_ip_entered(hass: __HAC_KEEP__) -> None:
+async def test_user_flow_bad_ip_entered(hass: UniversalAssistant) -> None:
     """Test the user flow with badly formed IP."""
 
     result = await hass.config_entries.flow.async_init(
@@ -207,7 +207,7 @@ async def test_user_flow_bad_ip_entered(hass: __HAC_KEEP__) -> None:
 
 
 async def test_user_flow_duplicate_device(
-    hass: __HAC_KEEP__, mocked_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mocked_config_entry: MockConfigEntry
 ) -> None:
     """Test when user flow gets the same device twice."""
 
@@ -225,7 +225,7 @@ async def test_user_flow_duplicate_device(
 
 
 # Tests for flows that start in zeroconf
-async def test_zeroconf_flow_success(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_flow_success(hass: UniversalAssistant) -> None:
     """Test the zeroconf discovery flow with successful configuration."""
 
     result = await hass.config_entries.flow.async_init(
@@ -252,7 +252,7 @@ async def test_zeroconf_flow_success(hass: __HAC_KEEP__) -> None:
 
 
 async def test_zeroconf_flow_abort_device_asleep(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vegehub: MagicMock,
 ) -> None:
     """Test when zeroconf tries to contact a device that is asleep."""
@@ -268,7 +268,7 @@ async def test_zeroconf_flow_abort_device_asleep(
 
 
 async def test_zeroconf_flow_abort_same_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mocked_config_entry: MockConfigEntry,
 ) -> None:
     """Test when zeroconf gets the same device twice."""
@@ -283,7 +283,7 @@ async def test_zeroconf_flow_abort_same_id(
 
 
 async def test_zeroconf_flow_abort_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vegehub: MagicMock,
 ) -> None:
     """Test when zeroconf gets bad data."""
@@ -299,7 +299,7 @@ async def test_zeroconf_flow_abort_cannot_connect(
 
 
 async def test_zeroconf_flow_abort_cannot_connect_404(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vegehub: MagicMock,
 ) -> None:
     """Test when zeroconf gets bad responses."""
@@ -322,7 +322,7 @@ async def test_zeroconf_flow_abort_cannot_connect_404(
     ],
 )
 async def test_zeroconf_flow_device_error_response(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_vegehub: MagicMock,
     side_effect: Exception,
     expected_error: str,
@@ -353,7 +353,7 @@ async def test_zeroconf_flow_device_error_response(
 
 
 async def test_zeroconf_flow_update_ip_hostname(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mocked_config_entry: MockConfigEntry,
 ) -> None:
     """Test when zeroconf gets the same device with a new IP and hostname."""

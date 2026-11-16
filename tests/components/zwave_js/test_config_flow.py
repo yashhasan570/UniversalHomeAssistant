@@ -41,7 +41,7 @@ from universalassistant.components.zwave_js.const import (
     DOMAIN,
 )
 from universalassistant.components.zwave_js.helpers import SERVER_VERSION_TIMEOUT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.redact import REDACTED
@@ -277,7 +277,7 @@ def mock_sdk_version(client: MagicMock) -> Generator[None]:
 
 
 @pytest.fixture(name="set_country", autouse=True)
-def set_country_fixture(hass: __HAC_KEEP__) -> Generator[None]:
+def set_country_fixture(hass: UniversalAssistant) -> Generator[None]:
     """Set the country for the test."""
     original_country = hass.config.country
     # Set a default country to avoid asking the user to select it.
@@ -287,7 +287,7 @@ def set_country_fixture(hass: __HAC_KEEP__) -> Generator[None]:
     hass.config.country = original_country
 
 
-async def test_manual(hass: __HAC_KEEP__) -> None:
+async def test_manual(hass: UniversalAssistant) -> None:
     """Test we create an entry with manual step."""
 
     result = await hass.config_entries.flow.async_init(
@@ -362,7 +362,7 @@ async def slow_server_version(*args: Any) -> Any:
     ],
 )
 async def test_manual_errors(
-    hass: __HAC_KEEP__, get_server_version: AsyncMock, url: str, error: str
+    hass: UniversalAssistant, get_server_version: AsyncMock, url: str, error: str
 ) -> None:
     """Test all errors with a manual set up."""
     result = await hass.config_entries.flow.async_init(
@@ -421,7 +421,7 @@ async def test_manual_errors(
     ],
 )
 async def test_reconfigure_manual_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
     get_server_version: AsyncMock,
     url: str,
@@ -462,7 +462,7 @@ async def test_reconfigure_manual_errors(
     assert entry.data["url"] == "ws://1.1.1.1:3001"
 
 
-async def test_manual_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_manual_already_configured(hass: UniversalAssistant) -> None:
     """Test that only one unique instance is allowed."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -499,7 +499,7 @@ async def test_manual_already_configured(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("supervisor", "addon_running")
 async def test_supervisor_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     addon_options: dict[str, Any],
 ) -> None:
     """Test flow started from Supervisor discovery."""
@@ -557,7 +557,7 @@ async def test_supervisor_discovery(
 
 @pytest.mark.usefixtures("supervisor")
 @pytest.mark.parametrize("server_version_side_effect", [TimeoutError()])
-async def test_supervisor_discovery_cannot_connect(hass: __HAC_KEEP__) -> None:
+async def test_supervisor_discovery_cannot_connect(hass: UniversalAssistant) -> None:
     """Test Supervisor discovery and cannot connect."""
 
     result = await hass.config_entries.flow.async_init(
@@ -576,7 +576,7 @@ async def test_supervisor_discovery_cannot_connect(hass: __HAC_KEEP__) -> None:
 
 
 async def test_clean_discovery_on_user_create(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     supervisor,
     addon_running,
     addon_options,
@@ -665,7 +665,7 @@ async def test_clean_discovery_on_user_create(
 
 @pytest.mark.usefixtures("supervisor", "addon_running")
 async def test_abort_discovery_with_existing_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     addon_options: dict[str, Any],
 ) -> None:
     """Test discovery flow is aborted if an entry already exists."""
@@ -696,7 +696,7 @@ async def test_abort_discovery_with_existing_entry(
 
 
 @pytest.mark.usefixtures("supervisor", "addon_installed", "addon_info")
-async def test_abort_hassio_discovery_with_existing_flow(hass: __HAC_KEEP__) -> None:
+async def test_abort_hassio_discovery_with_existing_flow(hass: UniversalAssistant) -> None:
     """Test hassio discovery flow is aborted when another discovery has happened."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -722,7 +722,7 @@ async def test_abort_hassio_discovery_with_existing_flow(hass: __HAC_KEEP__) -> 
 
 
 @pytest.mark.usefixtures("supervisor", "addon_installed", "addon_info")
-async def test_abort_hassio_discovery_for_other_addon(hass: __HAC_KEEP__) -> None:
+async def test_abort_hassio_discovery_for_other_addon(hass: UniversalAssistant) -> None:
     """Test hassio discovery flow is aborted for a non official add-on discovery."""
     result2 = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -762,12 +762,12 @@ async def test_abort_hassio_discovery_for_other_addon(hass: __HAC_KEEP__) -> Non
                 manufacturer="Nabu Casa",
             ),
             "/dev/zwa2",
-            "__HA_KEEP__ Connect ZWA-2",
+            "Universal Home Assistant Connect ZWA-2",
         ),
     ],
 )
 async def test_usb_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     install_addon: AsyncMock,
     mock_usb_serial_by_id: MagicMock,
     set_addon_options: AsyncMock,
@@ -882,7 +882,7 @@ async def test_usb_discovery(
 
 @pytest.mark.usefixtures("supervisor", "addon_installed")
 async def test_usb_discovery_addon_not_running(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     addon_options: dict[str, Any],
     mock_usb_serial_by_id: MagicMock,
     set_addon_options: AsyncMock,
@@ -996,7 +996,7 @@ async def test_usb_discovery_addon_not_running(
 
 @pytest.mark.usefixtures("supervisor", "addon_running", "backup_nvm", "restore_nvm")
 async def test_usb_discovery_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     addon_options: dict[str, Any],
     mock_usb_serial_by_id: MagicMock,
     set_addon_options: AsyncMock,
@@ -1119,7 +1119,7 @@ async def test_usb_discovery_migration(
     "lock_schlage_be469",
 )
 async def test_usb_discovery_migration_new_stick(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     integration: MockConfigEntry,
@@ -1233,7 +1233,7 @@ async def test_usb_discovery_migration_new_stick(
 
 @pytest.mark.usefixtures("supervisor", "addon_running", "backup_nvm")
 async def test_usb_discovery_migration_restore_driver_ready_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     addon_options: dict[str, Any],
     mock_usb_serial_by_id: MagicMock,
     set_addon_options: AsyncMock,
@@ -1383,7 +1383,7 @@ def test_migrate_legacy_network_key(
 
 
 @pytest.mark.usefixtures("supervisor", "addon_info")
-async def test_esphome_discovery_title_placeholders(hass: __HAC_KEEP__) -> None:
+async def test_esphome_discovery_title_placeholders(hass: UniversalAssistant) -> None:
     """Test ESPHome discovery sets the name placeholder for the flow_title."""
     await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -1404,7 +1404,7 @@ async def test_esphome_discovery_title_placeholders(hass: __HAC_KEEP__) -> None:
 )
 @pytest.mark.usefixtures("supervisor", "addon_info")
 async def test_esphome_discovery_intent_custom(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     install_addon: AsyncMock,
     set_addon_options: AsyncMock,
     start_addon: AsyncMock,
@@ -1515,7 +1515,7 @@ async def test_esphome_discovery_intent_custom(
 
 @pytest.mark.usefixtures("supervisor", "addon_running", "addon_info")
 async def test_esphome_discovery_intent_recommended(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     set_addon_options: AsyncMock,
     addon_options: dict,
     restart_addon: AsyncMock,
@@ -1602,7 +1602,7 @@ async def test_esphome_discovery_intent_recommended(
 
 @pytest.mark.usefixtures("supervisor", "addon_running", "addon_info")
 async def test_esphome_discovery_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     set_addon_options: AsyncMock,
     addon_options: dict[str, Any],
     stop_addon: AsyncMock,
@@ -1664,7 +1664,7 @@ async def test_esphome_discovery_already_configured(
     ],
 )
 async def test_esphome_discovery_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     addon_options: dict[str, Any],
     set_addon_options: AsyncMock,
     restart_addon: AsyncMock,
@@ -1760,7 +1760,7 @@ async def test_esphome_discovery_migration(
 
 @pytest.mark.usefixtures("supervisor", "addon_running")
 async def test_esphome_discovery_no_home_id_configured_socket_no_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a no-home-ID reconnect of the configured socket isn't a migration."""
     entry = MockConfigEntry(
@@ -1787,7 +1787,7 @@ async def test_esphome_discovery_no_home_id_configured_socket_no_migration(
 
 @pytest.mark.usefixtures("supervisor", "addon_running")
 async def test_esphome_discovery_placeholder_then_home_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a home ID discovery dedups against a pending placeholder prompt."""
     result = await hass.config_entries.flow.async_init(
@@ -1818,7 +1818,7 @@ async def test_esphome_discovery_placeholder_then_home_id(
 
 @pytest.mark.usefixtures("supervisor", "addon_running")
 async def test_esphome_discovery_placeholder_ignored_then_home_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a home ID discovery honors a placeholder-based ignore."""
     entry = MockConfigEntry(
@@ -1847,7 +1847,7 @@ async def test_esphome_discovery_placeholder_ignored_then_home_id(
 
 @pytest.mark.usefixtures("supervisor", "addon_running", "addon_info")
 async def test_esphome_discovery_same_socket_no_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     set_addon_options: AsyncMock,
     addon_options: dict[str, Any],
     stop_addon: AsyncMock,
@@ -1899,7 +1899,7 @@ async def test_esphome_discovery_same_socket_no_reload(
     ],
 )
 async def test_esphome_discovery_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     esphome_discovery_info: ESPHomeServiceInfo,
     ignored_unique_id: str,
 ) -> None:
@@ -1923,7 +1923,7 @@ async def test_esphome_discovery_ignored(
 
 @pytest.mark.usefixtures("supervisor", "addon_running")
 async def test_esphome_discovery_without_home_id_can_be_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test a discovery without a home ID gets a unique id for ignoring."""
     result = await hass.config_entries.flow.async_init(
@@ -1962,7 +1962,7 @@ async def test_esphome_discovery_without_home_id_can_be_ignored(
 
 @pytest.mark.usefixtures("supervisor", "addon_running", "backup_nvm")
 async def test_esphome_discovery_competing_migration_prompts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
     client: MagicMock,
 ) -> None:
@@ -2012,7 +2012,7 @@ async def test_esphome_discovery_competing_migration_prompts(
 
 @pytest.mark.usefixtures("supervisor", "addon_running", "addon_info")
 async def test_esphome_discovery_already_configured_unmanaged_addon(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     set_addon_options: AsyncMock,
     addon_options: dict[str, Any],
     stop_addon: AsyncMock,
@@ -2051,7 +2051,7 @@ async def test_esphome_discovery_already_configured_unmanaged_addon(
 
 @pytest.mark.usefixtures("supervisor", "addon_info")
 async def test_esphome_discovery_usb_same_home_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     install_addon: AsyncMock,
     set_addon_options: AsyncMock,
     start_addon: AsyncMock,
@@ -2161,7 +2161,7 @@ async def test_esphome_discovery_usb_same_home_id(
 
 
 @pytest.mark.usefixtures("supervisor")
-async def test_esphome_discovery_not_hassio(hass: __HAC_KEEP__) -> None:
+async def test_esphome_discovery_not_hassio(hass: UniversalAssistant) -> None:
     """Test ESPHome discovery aborts when not hassio."""
     with patch(
         "universalassistant.components.zwave_js.config_flow.is_hassio", return_value=False
@@ -2179,7 +2179,7 @@ async def test_esphome_discovery_not_hassio(hass: __HAC_KEEP__) -> None:
     "supervisor", "addon_installed", "set_addon_options", "start_addon"
 )
 async def test_configure_addon_usb_socket_validation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     addon_options: dict[str, Any],
 ) -> None:
     """Test USB path and socket path validation in the add-on config step."""
@@ -2275,7 +2275,7 @@ async def test_configure_addon_usb_socket_validation(
 
 @pytest.mark.usefixtures("supervisor", "addon_installed")
 async def test_discovery_addon_not_running(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     addon_options: dict[str, Any],
     set_addon_options: AsyncMock,
     start_addon: AsyncMock,
@@ -2389,7 +2389,7 @@ async def test_discovery_addon_not_running(
 
 @pytest.mark.usefixtures("supervisor", "addon_info")
 async def test_discovery_addon_not_installed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     install_addon: AsyncMock,
     set_addon_options: AsyncMock,
     start_addon: AsyncMock,
@@ -2509,7 +2509,7 @@ async def test_discovery_addon_not_installed(
 
 
 @pytest.mark.usefixtures("supervisor", "addon_info")
-async def test_abort_usb_discovery_with_existing_flow(hass: __HAC_KEEP__) -> None:
+async def test_abort_usb_discovery_with_existing_flow(hass: UniversalAssistant) -> None:
     """Test usb discovery flow is aborted when another discovery has happened."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -2535,7 +2535,7 @@ async def test_abort_usb_discovery_with_existing_flow(hass: __HAC_KEEP__) -> Non
 
 
 @pytest.mark.usefixtures("supervisor", "addon_installed")
-async def test_usb_discovery_with_existing_usb_flow(hass: __HAC_KEEP__) -> None:
+async def test_usb_discovery_with_existing_usb_flow(hass: UniversalAssistant) -> None:
     """Test usb discovery allows more than one USB flow in progress."""
     first_usb_info = UsbServiceInfo(
         device="/dev/other_device",
@@ -2575,7 +2575,7 @@ async def test_usb_discovery_with_existing_usb_flow(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("supervisor", "addon_installed")
-async def test_discovery_not_blocked_by_zeroconf_flow(hass: __HAC_KEEP__) -> None:
+async def test_discovery_not_blocked_by_zeroconf_flow(hass: UniversalAssistant) -> None:
     """Test USB and add-on discovery are not blocked by a zeroconf prompt."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -2659,7 +2659,7 @@ async def test_discovery_not_blocked_by_zeroconf_flow(hass: __HAC_KEEP__) -> Non
 
 @pytest.mark.usefixtures("supervisor", "addon_running", "restart_addon")
 async def test_usb_discovery_leaves_manual_entry_alone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     addon_options: dict[str, Any],
     set_addon_options: AsyncMock,
     mock_usb_serial_by_id: MagicMock,
@@ -2709,7 +2709,7 @@ async def test_usb_discovery_leaves_manual_entry_alone(
 
 @pytest.mark.usefixtures("supervisor", "addon_info", "addon_store_info")
 async def test_usb_discovery_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_usb_serial_by_id: MagicMock,
 ) -> None:
     """Test USB discovery aborts when the discovery was ignored."""
@@ -2732,7 +2732,7 @@ async def test_usb_discovery_ignored(
 
 @pytest.mark.usefixtures("supervisor", "addon_running", "restart_addon")
 async def test_concurrent_usb_setup_flows(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     set_addon_options: AsyncMock,
     mock_usb_serial_by_id: MagicMock,
 ) -> None:
@@ -2804,7 +2804,7 @@ async def test_concurrent_usb_setup_flows(
 
 @pytest.mark.usefixtures("supervisor", "addon_running", "restart_addon")
 async def test_concurrent_flow_during_addon_config_write(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     set_addon_options: AsyncMock,
     mock_usb_serial_by_id: MagicMock,
 ) -> None:
@@ -2928,7 +2928,7 @@ async def test_concurrent_flow_during_addon_config_write(
 
 
 @pytest.mark.usefixtures("supervisor", "addon_info")
-async def test_abort_usb_discovery_addon_required(hass: __HAC_KEEP__) -> None:
+async def test_abort_usb_discovery_addon_required(hass: UniversalAssistant) -> None:
     """Test usb discovery aborted when existing entry not using add-on."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -2947,7 +2947,7 @@ async def test_abort_usb_discovery_addon_required(hass: __HAC_KEEP__) -> None:
     assert result["reason"] == "addon_required"
 
 
-async def test_usb_discovery_requires_supervisor(hass: __HAC_KEEP__) -> None:
+async def test_usb_discovery_requires_supervisor(hass: UniversalAssistant) -> None:
     """Test usb discovery flow is aborted when there is no supervisor."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -2960,7 +2960,7 @@ async def test_usb_discovery_requires_supervisor(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("supervisor", "addon_running")
 async def test_usb_discovery_same_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     addon_options: dict[str, Any],
     mock_usb_serial_by_id: MagicMock,
 ) -> None:
@@ -2982,7 +2982,7 @@ async def test_usb_discovery_same_device(
     [CP2652_ZIGBEE_DISCOVERY_INFO],
 )
 async def test_abort_usb_discovery_aborts_specific_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     usb_discovery_info: UsbServiceInfo,
 ) -> None:
     """Test usb discovery flow is aborted on specific devices."""
@@ -2996,7 +2996,7 @@ async def test_abort_usb_discovery_aborts_specific_devices(
 
 
 @pytest.mark.usefixtures("supervisor")
-async def test_not_addon(hass: __HAC_KEEP__) -> None:
+async def test_not_addon(hass: UniversalAssistant) -> None:
     """Test opting out of add-on on Supervisor."""
 
     result = await hass.config_entries.flow.async_init(
@@ -3059,7 +3059,7 @@ async def test_not_addon(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("supervisor", "addon_running")
 async def test_addon_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     addon_options: dict[str, Any],
     set_addon_options: AsyncMock,
 ) -> None:
@@ -3106,7 +3106,7 @@ async def test_addon_already_configured(
 
 @pytest.mark.usefixtures("supervisor", "addon_running")
 async def test_reconfigure_addon_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
     set_addon_options: AsyncMock,
 ) -> None:
@@ -3147,7 +3147,7 @@ async def test_reconfigure_addon_already_configured(
 
 @pytest.mark.usefixtures("supervisor", "addon_running")
 async def test_addon_running(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     addon_options: dict[str, Any],
 ) -> None:
     """Test add-on already running on Supervisor."""
@@ -3269,7 +3269,7 @@ async def test_addon_running(
     ],
 )
 async def test_addon_running_failures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     addon_options: dict[str, Any],
     abort_reason: str,
 ) -> None:
@@ -3301,7 +3301,7 @@ async def test_addon_running_failures(
 
 @pytest.mark.usefixtures("supervisor", "addon_running")
 async def test_addon_running_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     addon_options: dict[str, Any],
 ) -> None:
     """Test that only one unique instance is allowed when add-on is running."""
@@ -3366,7 +3366,7 @@ async def test_addon_running_already_configured(
 
 @pytest.mark.usefixtures("supervisor", "addon_installed", "addon_info")
 async def test_addon_installed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     set_addon_options: AsyncMock,
     start_addon: AsyncMock,
 ) -> None:
@@ -3481,7 +3481,7 @@ async def test_addon_installed(
 @pytest.mark.usefixtures("supervisor", "addon_installed", "addon_info")
 @pytest.mark.parametrize("start_addon_side_effect", [SupervisorError()])
 async def test_addon_installed_start_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     set_addon_options: AsyncMock,
     start_addon: AsyncMock,
 ) -> None:
@@ -3589,7 +3589,7 @@ async def test_addon_installed_start_failure(
     ],
 )
 async def test_addon_installed_failures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     set_addon_options: AsyncMock,
     start_addon: AsyncMock,
 ) -> None:
@@ -3686,7 +3686,7 @@ async def test_addon_installed_failures(
     ],
 )
 async def test_addon_installed_set_options_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     set_addon_options: AsyncMock,
     start_addon: AsyncMock,
     caplog: pytest.LogCaptureFixture,
@@ -3773,7 +3773,7 @@ async def test_addon_installed_set_options_failure(
 
 
 @pytest.mark.usefixtures("supervisor", "addon_installed")
-async def test_addon_installed_usb_ports_failure(hass: __HAC_KEEP__) -> None:
+async def test_addon_installed_usb_ports_failure(hass: UniversalAssistant) -> None:
     """Test usb ports failure when add-on is installed."""
 
     result = await hass.config_entries.flow.async_init(
@@ -3804,7 +3804,7 @@ async def test_addon_installed_usb_ports_failure(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("supervisor", "addon_installed", "addon_info")
 async def test_addon_installed_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     set_addon_options: AsyncMock,
     start_addon: AsyncMock,
 ) -> None:
@@ -3919,7 +3919,7 @@ async def test_addon_installed_already_configured(
 
 @pytest.mark.usefixtures("supervisor", "addon_info")
 async def test_addon_not_installed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     install_addon: AsyncMock,
     set_addon_options: AsyncMock,
     start_addon: AsyncMock,
@@ -4043,7 +4043,7 @@ async def test_addon_not_installed(
 
 @pytest.mark.usefixtures("supervisor", "addon_not_installed")
 async def test_install_addon_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     install_addon: AsyncMock,
 ) -> None:
     """Test add-on install failure."""
@@ -4081,7 +4081,7 @@ async def test_install_addon_failure(
 
 
 async def test_reconfigure_manual(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     integration: MockConfigEntry,
 ) -> None:
@@ -4119,7 +4119,7 @@ async def test_reconfigure_manual(
 
 
 async def test_reconfigure_manual_different_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
 ) -> None:
     """Test reconfigure flow manual step connecting to different device."""
@@ -4149,7 +4149,7 @@ async def test_reconfigure_manual_different_device(
 
 @pytest.mark.usefixtures("supervisor")
 async def test_reconfigure_not_addon(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     integration: MockConfigEntry,
 ) -> None:
@@ -4198,7 +4198,7 @@ async def test_reconfigure_not_addon(
 
 @pytest.mark.usefixtures("supervisor")
 async def test_reconfigure_not_addon_with_addon(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: AsyncMock,
     unload_entry: AsyncMock,
     integration: MockConfigEntry,
@@ -4265,7 +4265,7 @@ async def test_reconfigure_not_addon_with_addon(
 
 @pytest.mark.usefixtures("supervisor")
 async def test_reconfigure_not_addon_with_addon_stop_fail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: AsyncMock,
     unload_entry: AsyncMock,
     integration: MockConfigEntry,
@@ -4426,7 +4426,7 @@ async def test_reconfigure_not_addon_with_addon_stop_fail(
     ],
 )
 async def test_reconfigure_addon_running(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     integration: MockConfigEntry,
     addon_options: dict[str, Any],
@@ -4556,7 +4556,7 @@ async def test_reconfigure_addon_running(
     ],
 )
 async def test_reconfigure_addon_running_no_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     integration: MockConfigEntry,
     addon_options: dict[str, Any],
@@ -4785,7 +4785,7 @@ async def different_device_server_version(*args):
     ],
 )
 async def test_reconfigure_different_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     integration: MockConfigEntry,
     addon_options: dict[str, Any],
@@ -4953,7 +4953,7 @@ async def test_reconfigure_different_device(
     ],
 )
 async def test_reconfigure_addon_restart_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     integration: MockConfigEntry,
     addon_options: dict[str, Any],
@@ -5036,7 +5036,7 @@ async def test_reconfigure_addon_restart_failed(
 @pytest.mark.usefixtures("supervisor", "addon_running", "restart_addon")
 @pytest.mark.parametrize("server_version_side_effect", [aiohttp.ClientError("Boom")])
 async def test_reconfigure_addon_running_server_info_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     integration: MockConfigEntry,
     addon_options: dict[str, Any],
@@ -5105,7 +5105,7 @@ async def test_reconfigure_addon_running_server_info_failure(
 
 @pytest.mark.usefixtures("supervisor", "addon_running")
 async def test_reconfigure_preserves_omitted_security_keys(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     integration: MockConfigEntry,
     addon_options: dict[str, Any],
@@ -5238,7 +5238,7 @@ async def test_reconfigure_preserves_omitted_security_keys(
     ],
 )
 async def test_reconfigure_addon_not_installed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     install_addon: AsyncMock,
     integration: MockConfigEntry,
@@ -5332,7 +5332,7 @@ async def test_reconfigure_addon_not_installed(
     ],
 )
 async def test_zeroconf_invalid_discovery_info(
-    hass: __HAC_KEEP__, properties: dict[str, str | None]
+    hass: UniversalAssistant, properties: dict[str, str | None]
 ) -> None:
     """Test zeroconf discovery with invalid home ID properties."""
     result = await hass.config_entries.flow.async_init(
@@ -5353,7 +5353,7 @@ async def test_zeroconf_invalid_discovery_info(
     assert result["reason"] == "invalid_discovery_info"
 
 
-async def test_zeroconf_confirm_already_configured(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf_confirm_already_configured(hass: UniversalAssistant) -> None:
     """Test zeroconf confirm aborts if the entry appeared while pending."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -5398,7 +5398,7 @@ async def test_zeroconf_confirm_already_configured(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_zeroconf(hass: __HAC_KEEP__) -> None:
+async def test_zeroconf(hass: UniversalAssistant) -> None:
     """Test zeroconf discovery."""
 
     result = await hass.config_entries.flow.async_init(
@@ -5460,7 +5460,7 @@ async def test_zeroconf(hass: __HAC_KEEP__) -> None:
 
 
 async def test_reconfigure_migrate_no_addon(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
 ) -> None:
     """Test migration flow fails when not using add-on."""
@@ -5484,7 +5484,7 @@ async def test_reconfigure_migrate_no_addon(
 
 @pytest.mark.usefixtures("mock_sdk_version")
 async def test_reconfigure_migrate_low_sdk_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
 ) -> None:
     """Test migration flow fails with too low controller SDK version."""
@@ -5519,7 +5519,7 @@ async def test_reconfigure_migrate_low_sdk_version(
 )
 @pytest.mark.usefixtures("backup_nvm", "restore_nvm")
 async def test_reconfigure_migrate_with_addon(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     device_registry: dr.DeviceRegistry,
     multisensor_6: Node,
@@ -5696,7 +5696,7 @@ async def test_reconfigure_migrate_with_addon(
 
 @pytest.mark.usefixtures("supervisor", "addon_running", "backup_nvm")
 async def test_reconfigure_migrate_restore_driver_ready_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     integration: MockConfigEntry,
     restart_addon: AsyncMock,
@@ -5820,7 +5820,7 @@ async def test_reconfigure_migrate_restore_driver_ready_timeout(
 
 
 async def test_reconfigure_migrate_backup_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
     client: MagicMock,
 ) -> None:
@@ -5849,7 +5849,7 @@ async def test_reconfigure_migrate_backup_failure(
 
 @pytest.mark.usefixtures("backup_nvm")
 async def test_reconfigure_migrate_backup_file_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
     client: MagicMock,
 ) -> None:
@@ -5883,7 +5883,7 @@ async def test_reconfigure_migrate_backup_file_failure(
 
 @pytest.mark.usefixtures("supervisor", "addon_running", "backup_nvm")
 async def test_reconfigure_migrate_start_addon_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     integration: MockConfigEntry,
     restart_addon: AsyncMock,
@@ -5950,7 +5950,7 @@ async def test_reconfigure_migrate_start_addon_failure(
     "supervisor", "addon_running", "restart_addon", "backup_nvm", "restore_nvm"
 )
 async def test_reconfigure_migrate_connect_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     integration: MockConfigEntry,
     set_addon_options: AsyncMock,
@@ -6024,7 +6024,7 @@ async def test_reconfigure_migrate_connect_failure(
 
 @pytest.mark.usefixtures("supervisor", "addon_running", "restart_addon", "backup_nvm")
 async def test_reconfigure_migrate_restore_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     integration: MockConfigEntry,
     set_addon_options: AsyncMock,
@@ -6118,7 +6118,7 @@ async def test_reconfigure_migrate_restore_failure(
 
 
 async def test_get_driver_failure_intent_migrate(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
 ) -> None:
     """Test get driver failure in intent migrate step."""
@@ -6142,7 +6142,7 @@ async def test_get_driver_failure_intent_migrate(
 
 @pytest.mark.usefixtures("backup_nvm")
 async def test_choose_serial_port_usb_ports_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
     client: MagicMock,
 ) -> None:
@@ -6194,7 +6194,7 @@ async def test_choose_serial_port_usb_ports_failure(
 
 @pytest.mark.usefixtures("supervisor", "addon_running")
 async def test_migrate_flow_abandoned_reloads_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
     client: MagicMock,
 ) -> None:
@@ -6245,7 +6245,7 @@ async def test_migrate_flow_abandoned_reloads_entry(
 
 @pytest.mark.usefixtures("supervisor", "addon_running")
 async def test_create_entry_spares_migration_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
     client: MagicMock,
 ) -> None:
@@ -6321,7 +6321,7 @@ async def test_create_entry_spares_migration_flow(
 
 @pytest.mark.usefixtures("supervisor", "addon_running", "restart_addon")
 async def test_reconfigure_abandoned_restores_addon_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
     addon_options: dict[str, Any],
     set_addon_options: AsyncMock,
@@ -6377,7 +6377,7 @@ async def test_reconfigure_abandoned_restores_addon_config(
 
 @pytest.mark.usefixtures("supervisor", "addon_running", "restart_addon")
 async def test_reconfigure_abandoned_restore_failure_keeps_unloaded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
     addon_options: dict[str, Any],
     set_addon_options: AsyncMock,
@@ -6424,7 +6424,7 @@ async def test_reconfigure_abandoned_restore_failure_keeps_unloaded(
 
 @pytest.mark.usefixtures("supervisor", "addon_running", "restart_addon", "backup_nvm")
 async def test_migrate_flow_abandoned_after_commit_keeps_new_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     integration: MockConfigEntry,
     set_addon_options: AsyncMock,
@@ -6492,7 +6492,7 @@ async def test_migrate_flow_abandoned_after_commit_keeps_new_config(
 
 @pytest.mark.usefixtures("supervisor", "addon_installed")
 async def test_configure_addon_usb_ports_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     integration: MockConfigEntry,
 ) -> None:
     """Test configure addon usb ports failure."""
@@ -6520,7 +6520,7 @@ async def test_configure_addon_usb_ports_failure(
         assert result["reason"] == "usb_ports_failed"
 
 
-async def test_get_usb_ports_filtering(hass: __HAC_KEEP__) -> None:
+async def test_get_usb_ports_filtering(hass: UniversalAssistant) -> None:
     """Test get_usb_ports filters out 'n/a' when others exist."""
     mock_ports = [
         USBDevice(
@@ -6572,7 +6572,7 @@ async def test_get_usb_ports_filtering(hass: __HAC_KEEP__) -> None:
         ]
 
 
-async def test_get_usb_ports_all_na(hass: __HAC_KEEP__) -> None:
+async def test_get_usb_ports_all_na(hass: UniversalAssistant) -> None:
     """Test get_usb_ports returns all when only 'n/a' descriptions."""
     mock_ports = [
         USBDevice(
@@ -6620,7 +6620,7 @@ async def test_get_usb_ports_all_na(hass: __HAC_KEEP__) -> None:
         assert "/dev/ttyUSB2" in device_paths
 
 
-async def test_get_usb_ports_mixed_case_filtering(hass: __HAC_KEEP__) -> None:
+async def test_get_usb_ports_mixed_case_filtering(hass: UniversalAssistant) -> None:
     """Test get_usb_ports filters 'n/a' case-insensitively."""
     mock_ports = [
         USBDevice(
@@ -6681,7 +6681,7 @@ async def test_get_usb_ports_mixed_case_filtering(hass: __HAC_KEEP__) -> None:
         ]
 
 
-async def test_get_usb_ports_empty_list(hass: __HAC_KEEP__) -> None:
+async def test_get_usb_ports_empty_list(hass: UniversalAssistant) -> None:
     """Test that get_usb_ports handles empty port list."""
     with patch(
         "universalassistant.components.zwave_js.config_flow.usb.async_scan_serial_ports",
@@ -6693,7 +6693,7 @@ async def test_get_usb_ports_empty_list(hass: __HAC_KEEP__) -> None:
         assert result == {}
 
 
-async def test_get_usb_ports_single_na_port(hass: __HAC_KEEP__) -> None:
+async def test_get_usb_ports_single_na_port(hass: UniversalAssistant) -> None:
     """Test get_usb_ports returns single 'n/a' port when alone."""
     mock_ports = [
         USBDevice(
@@ -6720,7 +6720,7 @@ async def test_get_usb_ports_single_na_port(hass: __HAC_KEEP__) -> None:
         ]
 
 
-async def test_get_usb_ports_single_valid_port(hass: __HAC_KEEP__) -> None:
+async def test_get_usb_ports_single_valid_port(hass: UniversalAssistant) -> None:
     """Test that get_usb_ports returns single valid port."""
     mock_ports = [
         SerialDevice(
@@ -6745,7 +6745,7 @@ async def test_get_usb_ports_single_valid_port(hass: __HAC_KEEP__) -> None:
         ]
 
 
-async def test_get_usb_ports_ignored_devices(hass: __HAC_KEEP__) -> None:
+async def test_get_usb_ports_ignored_devices(hass: UniversalAssistant) -> None:
     """Test that get_usb_ports filters out ignored non-Z-Wave devices."""
     mock_ports = [
         # ZBT-2, should be filtered
@@ -6773,7 +6773,7 @@ async def test_get_usb_ports_ignored_devices(hass: __HAC_KEEP__) -> None:
             pid="EA60",
             serial_number=None,
             manufacturer="Nabu Casa",
-            description="__HA_KEEP__ Connect ZBT-1",
+            description="Universal Home Assistant Connect ZBT-1",
         ),
         # ZWA-2, should be shown
         USBDevice(
@@ -6821,7 +6821,7 @@ async def test_get_usb_ports_ignored_devices(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("supervisor", "addon_info")
 async def test_intent_recommended_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     install_addon: AsyncMock,
     start_addon: AsyncMock,
     set_addon_options: AsyncMock,
@@ -6918,7 +6918,7 @@ async def test_intent_recommended_user(
 
 @pytest.mark.usefixtures("supervisor", "addon_installed")
 async def test_intent_recommended_preserves_existing_keys(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     addon_options: dict[str, Any],
     start_addon: AsyncMock,
     set_addon_options: AsyncMock,
@@ -7023,12 +7023,12 @@ async def test_intent_recommended_preserves_existing_keys(
                 manufacturer="Nabu Casa",
             ),
             "/dev/zwa2",
-            "__HA_KEEP__ Connect ZWA-2",
+            "Universal Home Assistant Connect ZWA-2",
         ),
     ],
 )
 async def test_recommended_usb_discovery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     install_addon: AsyncMock,
     mock_usb_serial_by_id: MagicMock,
     set_addon_options: AsyncMock,
@@ -7118,7 +7118,7 @@ async def test_recommended_usb_discovery(
 
 @pytest.mark.usefixtures("supervisor", "addon_installed", "addon_info", "unload_entry")
 async def test_addon_rf_region_new_network(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: AsyncMock,
     set_addon_options: AsyncMock,
     start_addon: AsyncMock,
@@ -7214,7 +7214,7 @@ async def test_addon_rf_region_new_network(
 
 @pytest.mark.usefixtures("supervisor", "addon_running", "backup_nvm", "restore_nvm")
 async def test_addon_rf_region_migrate_network(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     integration: MockConfigEntry,
     restart_addon: AsyncMock,
@@ -7342,7 +7342,7 @@ async def test_addon_rf_region_migrate_network(
 @pytest.mark.usefixtures("supervisor", "addon_installed", "unload_entry")
 @pytest.mark.parametrize(("country", "rf_region"), [("US", "Automatic"), (None, "USA")])
 async def test_addon_skip_rf_region(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     setup_entry: AsyncMock,
     addon_options: dict[str, Any],
     set_addon_options: AsyncMock,

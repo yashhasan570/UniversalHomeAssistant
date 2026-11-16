@@ -14,7 +14,7 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -25,7 +25,7 @@ pytestmark = [
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_setup_all_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -45,7 +45,7 @@ async def test_setup_all_entries(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_setup_no_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_get_settings: dict[str, list[SettingsData]],
@@ -82,7 +82,7 @@ async def test_setup_no_entries(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_number_has_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_get_setting_values: dict[str, dict[str, str]],
 ) -> None:
@@ -106,7 +106,7 @@ async def test_number_has_value(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_number_is_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_get_setting_values: dict[str, dict[str, str]],
 ) -> None:
@@ -128,7 +128,7 @@ async def test_number_is_unavailable(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_set_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_plenticore_client: ApiClient,
     mock_get_setting_values: dict[str, dict[str, str]],

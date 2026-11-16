@@ -16,8 +16,8 @@ from universalassistant.components.vacuum import (
     VacuumEntityFeature,
 )
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import MatterEntity, MatterEntityDescription
@@ -51,7 +51,7 @@ class ModeTag(IntEnum):
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MatterConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -97,7 +97,7 @@ class MatterVacuum(MatterEntity, StateVacuumEntity):
         # this is compatible with both Matter 1.2 and 1.3+ devices.
         mode = self._get_run_mode_by_tag(ModeTag.IDLE)
         if mode is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "No supported run mode found to stop the vacuum cleaner."
             )
 
@@ -140,7 +140,7 @@ class MatterVacuum(MatterEntity, StateVacuumEntity):
         # this is compatible with both Matter 1.2 and 1.3+ devices.
         mode = self._get_run_mode_by_tag(ModeTag.CLEANING)
         if mode is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "No supported run mode found to start the vacuum cleaner."
             )
 
@@ -206,7 +206,7 @@ class MatterVacuum(MatterEntity, StateVacuumEntity):
 
         mode = self._get_run_mode_by_tag(ModeTag.CLEANING)
         if mode is None:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "No supported run mode found to start the vacuum cleaner."
             )
 
@@ -219,7 +219,7 @@ class MatterVacuum(MatterEntity, StateVacuumEntity):
             and response["status"]
             != clusters.ServiceArea.Enums.SelectAreasStatus.kSuccess
         ):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 "Failed to select areas: "
                 f"{response['statusText'] or response['status']}"
             )

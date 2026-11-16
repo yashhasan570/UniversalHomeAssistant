@@ -1,4 +1,4 @@
-"""Test __HA_KEEP__ ssl utility functions."""
+"""Test Universal Home Assistant ssl utility functions."""
 
 from datetime import timedelta
 from pathlib import Path

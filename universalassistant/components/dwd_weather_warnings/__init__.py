@@ -1,6 +1,6 @@
 """The dwd_weather_warnings component."""
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from .const import DOMAIN, PLATFORMS
@@ -8,7 +8,7 @@ from .coordinator import DwdWeatherWarningsConfigEntry, DwdWeatherWarningsCoordi
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: DwdWeatherWarningsConfigEntry
+    hass: UniversalAssistant, entry: DwdWeatherWarningsConfigEntry
 ) -> None:
     """Set up a config entry."""
     device_registry = dr.async_get(hass)
@@ -24,7 +24,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: DwdWeatherWarningsConfigEntry
+    hass: UniversalAssistant, entry: DwdWeatherWarningsConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

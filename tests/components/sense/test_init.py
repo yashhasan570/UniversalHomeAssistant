@@ -15,7 +15,7 @@ from sense_energy import (
 
 from universalassistant.components.sense.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 from .const import DEVICE_1_ID, MONITOR_ID
@@ -23,7 +23,7 @@ from .const import DEVICE_1_ID, MONITOR_ID
 
 @pytest.mark.usefixtures("mock_sense")
 async def test_device_via_device_link(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -53,7 +53,7 @@ async def test_device_via_device_link(
     ],
 )
 async def test_setup_entry_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_sense: MagicMock,
     config_entry: MockConfigEntry,
     exception: Exception,
@@ -83,7 +83,7 @@ async def test_setup_entry_exceptions(
     ],
 )
 async def test_setup_get_monitor_data_auth_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_sense: MagicMock,
     config_entry: MockConfigEntry,
     exception: Exception,
@@ -108,7 +108,7 @@ async def test_setup_get_monitor_data_auth_exceptions(
     ],
 )
 async def test_setup_get_monitor_data_retry_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_sense: MagicMock,
     config_entry: MockConfigEntry,
     exception: Exception,
@@ -137,7 +137,7 @@ async def test_setup_get_monitor_data_retry_exceptions(
     ],
 )
 async def test_setup_get_realtime_retry_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_sense: MagicMock,
     config_entry: MockConfigEntry,
     exception: Exception,

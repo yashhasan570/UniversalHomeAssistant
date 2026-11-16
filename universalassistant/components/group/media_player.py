@@ -31,7 +31,7 @@ from universalassistant.core import (
     CALLBACK_TYPE,
     Event,
     EventStateChangedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     State,
     callback,
 )
@@ -68,7 +68,7 @@ PLATFORM_SCHEMA = MEDIA_PLAYER_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -84,7 +84,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -101,7 +101,7 @@ async def async_setup_entry(
 
 @callback
 def async_create_preview_media_player(
-    hass: __HAC_KEEP__, name: str, validated_config: dict[str, Any]
+    hass: UniversalAssistant, name: str, validated_config: dict[str, Any]
 ) -> MediaPlayerGroup:
     """Create a preview sensor."""
     return MediaPlayerGroup(

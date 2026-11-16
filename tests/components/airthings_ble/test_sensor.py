@@ -8,7 +8,7 @@ import pytest
 
 from universalassistant.components.airthings_ble.const import DOMAIN
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import (
@@ -36,7 +36,7 @@ _LOGGER = logging.getLogger(__name__)
     ],
 )
 async def test_translation_keys_wave_enhance(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     unique_suffix: str,
@@ -88,7 +88,7 @@ async def test_translation_keys_wave_enhance(
     ],
 )
 async def test_radon_averages_corentium_home_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     unique_suffix: str,
@@ -140,7 +140,7 @@ async def test_radon_averages_corentium_home_2(
     ],
 )
 async def test_radon_averages_enabled_default_corentium_home_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     unique_suffix: str,
@@ -175,7 +175,7 @@ async def test_radon_averages_enabled_default_corentium_home_2(
 
 
 async def test_disabled_connectivity_mode_corentium_home_2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -215,7 +215,7 @@ async def test_disabled_connectivity_mode_corentium_home_2(
 
 
 async def test_unknown_sensor_type_is_skipped(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test that sensor types without a description do not create entities."""
@@ -245,7 +245,7 @@ async def test_unknown_sensor_type_is_skipped(
     ],
 )
 async def test_device_name(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     identifier: str,
     expected_device_name: str,
@@ -281,7 +281,7 @@ async def test_device_name(
     ],
 )
 async def test_connectivity_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     source_value: Any,

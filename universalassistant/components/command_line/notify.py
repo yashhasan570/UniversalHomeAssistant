@@ -8,8 +8,8 @@ from universalassistant.components.notify import (
     BaseNotificationService,
 )
 from universalassistant.const import CONF_COMMAND
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
 from .const import CONF_COMMAND_TIMEOUT, DOMAIN, LOGGER
@@ -22,7 +22,7 @@ from .utils import (
 
 
 async def async_get_service(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> CommandLineNotificationService | None:
@@ -67,14 +67,14 @@ class CommandLineNotificationService(BaseNotificationService):
         except TimeoutError as err:
             # TimeoutError subclasses OSError, so it must be caught first.
             LOGGER.debug("Timeout for command: %s", command_str)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="timeout_error",
                 translation_placeholders={"command": command_str},
             ) from err
         except OSError as err:
             LOGGER.debug("Error trying to exec command: %s", command_str)
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_error",
                 translation_placeholders={"command": command_str, "error": str(err)},

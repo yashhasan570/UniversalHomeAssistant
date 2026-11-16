@@ -13,7 +13,7 @@
           "host": "The IP address or hostname of your P1 Monitor installation.",
           "port": "The port of your P1 Monitor installation."
         },
-        "description": "Set up P1 Monitor to integrate with __HA_KEEP__."
+        "description": "Set up P1 Monitor to integrate with Universal Home Assistant."
       }
     }
   },

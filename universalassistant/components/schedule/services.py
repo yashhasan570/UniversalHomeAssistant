@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 
 from universalassistant.const import CONF_ID
 from universalassistant.core import (
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -44,7 +44,7 @@ async def _async_reload_service(service_call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Register the schedule services."""
     async_register_admin_service(
         hass,

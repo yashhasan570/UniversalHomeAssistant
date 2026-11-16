@@ -16,8 +16,8 @@ from universalassistant.components.wallbox.coordinator import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.util import dt as dt_util
 
@@ -46,7 +46,7 @@ def test_token_validity(remaining_seconds: int, valid: bool) -> None:
 
 
 async def test_wallbox_setup_unload_entry(
-    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_wallbox
+    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
 ) -> None:
     """Test Wallbox Unload."""
 
@@ -58,7 +58,7 @@ async def test_wallbox_setup_unload_entry(
 
 
 async def test_wallbox_refresh_failed_connection_error_too_many_requests(
-    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_wallbox
+    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
 ) -> None:
     """Test Wallbox setup with connection error."""
 
@@ -73,7 +73,7 @@ async def test_wallbox_refresh_failed_connection_error_too_many_requests(
 
 
 async def test_wallbox_refresh_failed_error_auth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
     mock_wallbox,
 ) -> None:
@@ -102,7 +102,7 @@ async def test_wallbox_refresh_failed_error_auth(
 
     with (
         patch.object(mock_wallbox, "authenticate", side_effect=http_429_error),
-        pytest.raises(__HAC_KEEP__Error),
+        pytest.raises(UniversalAssistantError),
     ):
         await hass.services.async_call(
             "number",
@@ -119,7 +119,7 @@ async def test_wallbox_refresh_failed_error_auth(
 
 
 async def test_wallbox_refresh_failed_http_error(
-    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_wallbox
+    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
 ) -> None:
     """Test Wallbox setup with authentication error."""
 
@@ -133,7 +133,7 @@ async def test_wallbox_refresh_failed_http_error(
 
 
 async def test_wallbox_refresh_failed_too_many_requests(
-    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_wallbox
+    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
 ) -> None:
     """Test Wallbox setup with authentication error."""
 
@@ -149,7 +149,7 @@ async def test_wallbox_refresh_failed_too_many_requests(
 
 
 async def test_wallbox_refresh_failed_connection_error(
-    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_wallbox
+    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
 ) -> None:
     """Test Wallbox setup with connection error."""
 
@@ -165,7 +165,7 @@ async def test_wallbox_refresh_failed_connection_error(
 
 
 async def test_wallbox_setup_load_entry_no_eco_mode(
-    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_wallbox
+    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
 ) -> None:
     """Test Wallbox Unload."""
     with patch.object(
@@ -181,7 +181,7 @@ async def test_wallbox_setup_load_entry_no_eco_mode(
 
 
 async def test_insufficient_rights_issue_per_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
     mock_wallbox: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -231,7 +231,7 @@ async def test_insufficient_rights_issue_per_entry(
     ],
 )
 async def test_insufficient_rights_issue_deleted_on_success(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
     mock_wallbox: MagicMock,
     issue_registry: ir.IssueRegistry,

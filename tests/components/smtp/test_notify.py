@@ -37,8 +37,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
 from universalassistant.util.ssl import create_client_context
@@ -112,7 +112,7 @@ EMAIL_DATA = [
     ],
 )
 def test_send_message(
-    hass: __HAC_KEEP__, message_data, data, content_type, message
+    hass: UniversalAssistant, message_data, data, content_type, message
 ) -> None:
     """Verify if we can send messages of all types correctly."""
     sample_email = "<mock@mock>"
@@ -134,7 +134,7 @@ def test_send_message(
     ],
 )
 def test_sending_insecure_files_fails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     message_data,
     data,
     content_type,
@@ -159,7 +159,7 @@ def test_sending_insecure_files_fails(
 
 
 def test_file_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     message,
 ) -> None:
     """Verify if we cannot send messages when file is not found."""
@@ -188,16 +188,16 @@ def test_file_not_found(
     }
 
 
-def test_send_text_message(hass: __HAC_KEEP__, message) -> None:
+def test_send_text_message(hass: UniversalAssistant, message) -> None:
     """Verify if we can send simple text message."""
     expected = (
         '^Content-Type: text/plain; charset="us-ascii"\n'
         "MIME-Version: 1.0\n"
         "Content-Transfer-Encoding: 7bit\n"
-        "Subject: __HA_KEEP__\n"
+        "Subject: Universal Home Assistant\n"
         "To: recip1@example.com,testrecip@test.com\n"
-        "From: __HA_KEEP__ <email@example.com>\n"
-        "X-Mailer: __HA_KEEP__\n"
+        "From: Universal Home Assistant <email@example.com>\n"
+        "X-Mailer: Universal Home Assistant\n"
         "Date: [^\n]+\n"
         "Message-Id: <[^@]+@[^>]+>\n"
         "\n"
@@ -221,7 +221,7 @@ def test_send_text_message(hass: __HAC_KEEP__, message) -> None:
         "Verify email recipient can be overwritten by target arg.",
     ],
 )
-def test_send_target_message(target, hass: __HAC_KEEP__, message) -> None:
+def test_send_target_message(target, hass: UniversalAssistant, message) -> None:
     """Verify if we can send email to correct recipient."""
     sample_email = "<mock@mock>"
     message_data = "Test msg"
@@ -237,7 +237,7 @@ def test_send_target_message(target, hass: __HAC_KEEP__, message) -> None:
 
 @pytest.mark.usefixtures("smtp", "aiosmtplib")
 async def test_notify_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -256,7 +256,7 @@ async def test_notify_platform(
 @pytest.mark.usefixtures("make_msgid", "smtp", "version")
 @pytest.mark.freeze_time("2026-05-03T03:09:37+00:00")
 async def test_notify_send_message(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aiosmtplib: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -301,7 +301,7 @@ async def test_notify_send_message(
 @pytest.mark.usefixtures("make_msgid", "smtp")
 @pytest.mark.freeze_time("2026-05-03T03:09:37+00:00")
 async def test_notify_send_message_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aiosmtplib: AsyncMock,
     exception: Exception,
@@ -318,7 +318,7 @@ async def test_notify_send_message_exceptions(
 
     aiosmtplib.__aenter__.return_value.send_message.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error) as e:
+    with pytest.raises(UniversalAssistantError) as e:
         await hass.services.async_call(
             NOTIFY_DOMAIN,
             NotifyService.SEND_MESSAGE,
@@ -335,7 +335,7 @@ async def test_notify_send_message_exceptions(
 
 @pytest.mark.usefixtures("make_msgid", "smtp")
 async def test_notify_send_message_reauth_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aiosmtplib: AsyncMock,
 ) -> None:
@@ -351,7 +351,7 @@ async def test_notify_send_message_reauth_flow(
         SMTPAuthenticationError(0, "")
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as e:
+    with pytest.raises(UniversalAssistantError) as e:
         await hass.services.async_call(
             NOTIFY_DOMAIN,
             NotifyService.SEND_MESSAGE,
@@ -378,7 +378,7 @@ async def test_notify_send_message_reauth_flow(
 @pytest.mark.parametrize("exception", [SMTPServerDisconnected, SMTPException])
 @pytest.mark.usefixtures("aiosmtplib")
 async def test_legacy_notify_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     smtp: MagicMock,
     exception: Exception,
@@ -393,7 +393,7 @@ async def test_legacy_notify_exception(
 
     smtp.sendmail.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error) as e:
+    with pytest.raises(UniversalAssistantError) as e:
         await hass.services.async_call(
             NOTIFY_DOMAIN,
             "universal_assistant",
@@ -411,7 +411,7 @@ async def test_legacy_notify_exception(
 @pytest.mark.usefixtures("make_msgid", "smtp", "randrange", "version")
 @pytest.mark.freeze_time("2026-05-03T03:09:37+00:00")
 async def test_smtp_send_message(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aiosmtplib: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -451,7 +451,7 @@ async def test_smtp_send_message(
 @pytest.mark.usefixtures("make_msgid", "smtp", "randrange", "version")
 @pytest.mark.freeze_time("2026-05-03T03:09:37+00:00")
 async def test_smtp_send_message_local_media_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aiosmtplib: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -492,7 +492,7 @@ async def test_smtp_send_message_local_media_source(
 @pytest.mark.usefixtures("make_msgid", "smtp", "randrange", "version")
 @pytest.mark.freeze_time("2026-05-03T03:09:37+00:00")
 async def test_smtp_send_message_camera_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aiosmtplib: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -540,7 +540,7 @@ async def test_smtp_send_message_camera_source(
 @pytest.mark.usefixtures("make_msgid", "smtp", "randrange", "version")
 @pytest.mark.freeze_time("2026-05-03T03:09:37+00:00")
 async def test_smtp_send_message_image_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aiosmtplib: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -591,7 +591,7 @@ async def test_smtp_send_message_image_source(
 @pytest.mark.usefixtures("make_msgid", "smtp", "randrange", "version")
 @pytest.mark.freeze_time("2026-05-03T03:09:37+00:00")
 async def test_smtp_send_message_tts_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aiosmtplib: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -637,7 +637,7 @@ async def test_smtp_send_message_tts_source(
 @pytest.mark.usefixtures("smtp", "aiosmtplib")
 @pytest.mark.freeze_time("2026-05-03T03:09:37+00:00")
 async def test_smtp_send_message_media_source_not_supported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test sending an email message via smtp.send_message action with attachment from an unsupported media source."""
@@ -682,7 +682,7 @@ async def test_smtp_send_message_media_source_not_supported(
 
 @pytest.mark.usefixtures("smtp", "aiosmtplib")
 async def test_smtp_send_message_os_read_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test sending an email message via smtp.send_message action with attachment read errors."""
@@ -733,7 +733,7 @@ async def test_smtp_send_message_os_read_errors(
 @pytest.mark.usefixtures("smtp", "aiosmtplib")
 @pytest.mark.freeze_time("2026-05-03T03:09:37+00:00")
 async def test_smtp_send_message_media_source_missing_filename(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test sending an email message via smtp.send_message action with attachment from a media source that does not provide a filename."""
@@ -778,7 +778,7 @@ async def test_smtp_send_message_media_source_missing_filename(
 
 @pytest.mark.usefixtures("smtp", "aiosmtplib")
 async def test_deprecated_legacy_notify_action(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -830,7 +830,7 @@ async def test_deprecated_legacy_notify_action(
 )
 @pytest.mark.usefixtures("aiosmtplib")
 async def test_legacy_notify_image_attachment(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     smtp: MagicMock,
     tmp_path: Path,

@@ -16,7 +16,7 @@ from universalassistant.components.fan import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_ON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 ENTITY_ID = "fan.001122334455"
 
@@ -29,7 +29,7 @@ ENTITY_ID = "fan.001122334455"
     ],
 )
 async def test_fan_turn_on_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ariaq: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -55,7 +55,7 @@ async def test_fan_turn_on_off(
 
 
 async def test_fan_set_percentage(
-    hass: __HAC_KEEP__, mock_ariaq: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_ariaq: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setting percentage."""
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
@@ -75,7 +75,7 @@ async def test_fan_set_percentage(
 
 
 async def test_fan_set_percentage_zero(
-    hass: __HAC_KEEP__, mock_ariaq: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_ariaq: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setting percentage to 0 turns off fan."""
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
@@ -95,7 +95,7 @@ async def test_fan_set_percentage_zero(
 
 
 async def test_fan_set_preset_mode(
-    hass: __HAC_KEEP__, mock_ariaq: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_ariaq: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setting preset mode."""
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)

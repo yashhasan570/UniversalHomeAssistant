@@ -52,7 +52,7 @@ from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
 from universalassistant.core import (
     Event as HassEvent,
     EventStateChangedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     callback,
 )
 from universalassistant.helpers import device_registry as dr, entity_registry as er
@@ -142,7 +142,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.parametrize("appliance", [ApplianceType.WASHER], indirect=True)
 async def test_paired_depaired_devices_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -209,7 +209,7 @@ async def test_paired_depaired_devices_flow(
     indirect=["appliance"],
 )
 async def test_connected_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -270,7 +270,7 @@ async def test_connected_devices(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("appliance", [TEST_HC_APP], indirect=True)
 async def test_sensor_entity_availability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -371,7 +371,7 @@ ENTITY_ID_STATES = {
     ),
 )
 async def test_program_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -444,7 +444,7 @@ async def test_program_sensors(
     ],
 )
 async def test_program_sensor_edge_case(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -518,7 +518,7 @@ ENTITY_ID_EDGE_CASE_STATES = [
 
 @pytest.mark.parametrize("appliance", [TEST_HC_APP], indirect=True)
 async def test_remaining_prog_time_edge_cases(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -691,7 +691,7 @@ async def test_remaining_prog_time_edge_cases(
     indirect=["appliance"],
 )
 async def test_sensors_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -760,7 +760,7 @@ async def test_sensors_states(
     indirect=["appliance"],
 )
 async def test_sensor_unit_fetching(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -826,7 +826,7 @@ async def test_sensor_unit_fetching(
     indirect=["appliance"],
 )
 async def test_sensor_unit_fetching_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -876,7 +876,7 @@ async def test_sensor_unit_fetching_error(
     indirect=["appliance"],
 )
 async def test_sensor_unit_fetching_after_rate_limit_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -931,7 +931,7 @@ async def test_sensor_unit_fetching_after_rate_limit_error(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
     client: MagicMock,
@@ -1005,7 +1005,7 @@ PROGRAM_TIMES_TEST_START = "2021-01-09 12:00:00+00:00"
     ],
 )
 async def test_program_finish_time_not_carried_over_to_next_program(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -1110,7 +1110,7 @@ async def test_program_finish_time_not_carried_over_to_next_program(
     ],
 )
 async def test_program_finish_time_on_program_change_while_running(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -1166,7 +1166,7 @@ async def test_program_finish_time_on_program_change_while_running(
     ],
 )
 async def test_program_finish_time_after_reconnection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -1253,7 +1253,7 @@ async def test_program_finish_time_after_reconnection(
     ],
 )
 async def test_program_finish_time_on_program_start(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -1322,7 +1322,7 @@ async def test_program_finish_time_on_program_start(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.OVEN], indirect=True)
 async def test_program_change_does_not_write_intermediate_states(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -1386,7 +1386,7 @@ async def test_program_change_does_not_write_intermediate_states(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.OVEN], indirect=True)
 async def test_program_finish_time_kept_on_pause(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -1432,7 +1432,7 @@ async def test_program_finish_time_kept_on_pause(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.OVEN], indirect=True)
 async def test_program_running_time(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],

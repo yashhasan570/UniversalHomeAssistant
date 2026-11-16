@@ -9,7 +9,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.sensor import SCAN_INTERVAL
 from universalassistant.const import PERCENTAGE, STATE_UNAVAILABLE, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, valid_entity_id
+from universalassistant.core import UniversalAssistant, valid_entity_id
 from universalassistant.setup import async_setup_component
 
 UUID = "00000000-0000-0000-0000-000000000001"
@@ -53,7 +53,7 @@ def _mock_tag(name: str) -> MagicMock:
     return tag
 
 
-async def _poll(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
+async def _poll(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
     """Let the platform poll the tag once."""
     freezer.tick(SCAN_INTERVAL)
     async_fire_time_changed(hass)
@@ -61,7 +61,7 @@ async def _poll(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
 
 
 async def _recover_by_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tag: MagicMock,
     mock_api: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -72,7 +72,7 @@ async def _recover_by_poll(
 
 
 async def _recover_by_push(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     tag: MagicMock,
     mock_api: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -95,7 +95,7 @@ async def _recover_by_push(
     ],
 )
 async def test_sensor_entity_id_is_valid(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     tag_name: str,
     expected_entity_id: str,
@@ -130,10 +130,10 @@ async def test_sensor_entity_id_is_valid(
     ],
 )
 async def test_update_handles_tag_missing_from_reload(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     recover: Callable[
-        [__HAC_KEEP__, MagicMock, MagicMock, FrozenDateTimeFactory], Awaitable[None]
+        [UniversalAssistant, MagicMock, MagicMock, FrozenDateTimeFactory], Awaitable[None]
     ],
 ) -> None:
     """Test an update where the tag is no longer returned is handled gracefully.

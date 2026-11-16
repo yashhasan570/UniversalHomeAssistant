@@ -19,8 +19,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 
 from . import mock_responses, setup_fronius_integration
 from .test_modbus import GEN24_HYBRID_MODULES, assert_state
@@ -32,7 +32,7 @@ GRID_CHARGING = "switch.gen24_storage_battery_grid_charging"
 
 
 async def _setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     connection: MockModbusConnection,
 ) -> MockConfigEntry:
@@ -49,7 +49,7 @@ async def _setup(
 
 
 async def test_switches_read_from_the_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
 ) -> None:
@@ -70,7 +70,7 @@ async def test_switches_read_from_the_device(
     [(SERVICE_TURN_ON, STATE_ON), (SERVICE_TURN_OFF, STATE_OFF)],
 )
 async def test_toggling_writes_the_register(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
     service: str,
@@ -88,7 +88,7 @@ async def test_toggling_writes_the_register(
 
 
 async def test_limit_switches_keep_each_others_mode_bit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
 ) -> None:
@@ -112,7 +112,7 @@ async def test_limit_switches_keep_each_others_mode_bit(
 
 
 async def test_turning_a_limit_on_asserts_its_setpoint(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
 ) -> None:
@@ -140,7 +140,7 @@ async def test_turning_a_limit_on_asserts_its_setpoint(
 
 
 async def test_enabling_a_limit_into_an_empty_window_is_refused(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
 ) -> None:
@@ -167,7 +167,7 @@ async def test_enabling_a_limit_into_an_empty_window_is_refused(
 
 
 async def test_other_settings_stay_writable_with_refused_limits(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
 ) -> None:
@@ -201,7 +201,7 @@ async def test_other_settings_stay_writable_with_refused_limits(
 
 
 async def test_a_refused_write_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     mock_fronius_modbus: MockModbusConnection,
 ) -> None:
@@ -209,7 +209,7 @@ async def test_a_refused_write_raises(
     await _setup(hass, aioclient_mock, mock_fronius_modbus)
     mock_fronius_modbus.for_unit(1).fail_requests(IllegalDataValueError())
 
-    with pytest.raises(__HAC_KEEP__Error, match="Could not write"):
+    with pytest.raises(UniversalAssistantError, match="Could not write"):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,

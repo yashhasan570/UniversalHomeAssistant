@@ -9,7 +9,7 @@ from universalassistant.components import automation
 from universalassistant.components.device_automation import DeviceAutomationType
 from universalassistant.components.humidifier import DOMAIN, const, device_condition
 from universalassistant.const import ATTR_MODE, STATE_OFF, STATE_ON, EntityCategory
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -29,7 +29,7 @@ from universalassistant.setup import async_setup_component
     ],
 )
 async def test_get_conditions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     set_state,
@@ -97,7 +97,7 @@ async def test_get_conditions(
     ],
 )
 async def test_get_conditions_hidden_auxiliary(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     hidden_by,
@@ -136,7 +136,7 @@ async def test_get_conditions_hidden_auxiliary(
 
 
 async def test_if_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],
@@ -259,7 +259,7 @@ async def test_if_state(
 
 
 async def test_if_state_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],
@@ -443,7 +443,7 @@ async def test_if_state_legacy(
     ],
 )
 async def test_capabilities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     set_state,
@@ -617,7 +617,7 @@ async def test_capabilities(
     ],
 )
 async def test_capabilities_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     set_state,
@@ -674,7 +674,7 @@ async def test_capabilities_legacy(
     ],
 )
 async def test_capabilities_missing_entity(
-    hass: __HAC_KEEP__, condition, capability_name, extra
+    hass: UniversalAssistant, condition, capability_name, extra
 ) -> None:
     """Test getting capabilities."""
     config_entry = MockConfigEntry(domain="test", data={})

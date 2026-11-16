@@ -62,7 +62,7 @@ from zwave_js_server.model.value import ConfigurationValueFormat, Value
 from zwave_js_server.util.node import async_set_config_parameter
 
 from universalassistant.components import websocket_api
-from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View, require_admin
+from universalassistant.components.http import KEY_HASS, UniversalAssistantView, require_admin
 from universalassistant.components.websocket_api import (
     ERR_INVALID_FORMAT,
     ERR_NOT_FOUND,
@@ -72,7 +72,7 @@ from universalassistant.components.websocket_api import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_URL
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -257,7 +257,7 @@ QR_CODE_STRING_SCHEMA = probatio.All(str, probatio.Length(min=MINIMUM_QR_STRING_
 
 
 async def _async_get_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry_id: str,
@@ -292,7 +292,7 @@ async def _async_get_entry(
 def async_get_entry(
     orig_func: Callable[
         [
-            __HAC_KEEP__,
+            UniversalAssistant,
             ActiveConnection,
             dict[str, Any],
             ZwaveJSConfigEntry,
@@ -302,13 +302,13 @@ def async_get_entry(
         Coroutine[Any, Any, None],
     ],
 ) -> Callable[
-    [__HAC_KEEP__, ActiveConnection, dict[str, Any]], Coroutine[Any, Any, None]
+    [UniversalAssistant, ActiveConnection, dict[str, Any]], Coroutine[Any, Any, None]
 ]:
     """Decorate async function to get entry."""
 
     @wraps(orig_func)
     async def async_get_entry_func(
-        hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+        hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
     ) -> None:
         """Provide user specific data and store to function."""
         entry, client, driver = await _async_get_entry(
@@ -324,7 +324,7 @@ def async_get_entry(
 
 
 async def _async_get_node(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict, device_id: str
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict, device_id: str
 ) -> Node | None:
     """Get node from message data."""
     try:
@@ -340,17 +340,17 @@ async def _async_get_node(
 
 def async_get_node(
     orig_func: Callable[
-        [__HAC_KEEP__, ActiveConnection, dict[str, Any], Node],
+        [UniversalAssistant, ActiveConnection, dict[str, Any], Node],
         Coroutine[Any, Any, None],
     ],
 ) -> Callable[
-    [__HAC_KEEP__, ActiveConnection, dict[str, Any]], Coroutine[Any, Any, None]
+    [UniversalAssistant, ActiveConnection, dict[str, Any]], Coroutine[Any, Any, None]
 ]:
     """Decorate async function to get node."""
 
     @wraps(orig_func)
     async def async_get_node_func(
-        hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+        hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
     ) -> None:
         """Provide user specific data and store to function."""
         node = await _async_get_node(hass, connection, msg, msg[DEVICE_ID])
@@ -363,18 +363,18 @@ def async_get_node(
 
 def async_handle_failed_command[**_P](
     orig_func: Callable[
-        Concatenate[__HAC_KEEP__, ActiveConnection, dict[str, Any], _P],
+        Concatenate[UniversalAssistant, ActiveConnection, dict[str, Any], _P],
         Coroutine[Any, Any, None],
     ],
 ) -> Callable[
-    Concatenate[__HAC_KEEP__, ActiveConnection, dict[str, Any], _P],
+    Concatenate[UniversalAssistant, ActiveConnection, dict[str, Any], _P],
     Coroutine[Any, Any, None],
 ]:
     """Decorate async function to handle FailedCommand and send relevant error."""
 
     @wraps(orig_func)
     async def async_handle_failed_command_func(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         connection: ActiveConnection,
         msg: dict[str, Any],
         *args: _P.args,
@@ -412,7 +412,7 @@ def node_status(node: Node) -> dict[str, Any]:
 
 
 @callback
-def async_register_api(hass: __HAC_KEEP__) -> None:
+def async_register_api(hass: UniversalAssistant) -> None:
     """Register all of our api endpoints."""
     websocket_api.async_register_command(hass, websocket_network_status)
     websocket_api.async_register_command(hass, websocket_subscribe_node_status)
@@ -500,7 +500,7 @@ def async_register_api(hass: __HAC_KEEP__) -> None:
 )
 @websocket_api.async_response
 async def websocket_network_status(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Get the status of the Z-Wave JS network."""
     if ENTRY_ID in msg:
@@ -574,7 +574,7 @@ async def websocket_network_status(
 @websocket_api.async_response
 @async_get_node
 async def websocket_subscribe_node_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     node: Node,
@@ -615,7 +615,7 @@ async def websocket_subscribe_node_status(
 @websocket_api.async_response
 @async_get_node
 async def websocket_node_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     node: Node,
@@ -635,7 +635,7 @@ async def websocket_node_status(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_network_neighbors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -710,7 +710,7 @@ async def websocket_network_neighbors(
 @websocket_api.async_response
 @async_get_node
 async def websocket_node_metadata(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     node: Node,
@@ -739,7 +739,7 @@ async def websocket_node_metadata(
 )
 @websocket_api.async_response
 async def websocket_node_alerts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -822,7 +822,7 @@ async def websocket_node_alerts(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_add_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -1013,7 +1013,7 @@ async def websocket_add_node(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_cancel_secure_bootstrap_s2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -1036,7 +1036,7 @@ async def websocket_cancel_secure_bootstrap_s2(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_subscribe_s2_inclusion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -1089,7 +1089,7 @@ async def websocket_subscribe_s2_inclusion(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_grant_security_classes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -1117,7 +1117,7 @@ async def websocket_grant_security_classes(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_validate_dsk_and_enter_pin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -1138,7 +1138,7 @@ async def websocket_validate_dsk_and_enter_pin(
 )
 @websocket_api.async_response
 async def websocket_subscribe_new_devices(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -1189,7 +1189,7 @@ async def websocket_subscribe_new_devices(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_provision_smart_start_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -1279,7 +1279,7 @@ async def websocket_provision_smart_start_node(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_unprovision_smart_start_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -1329,7 +1329,7 @@ async def websocket_unprovision_smart_start_node(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_get_provisioning_entries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -1353,7 +1353,7 @@ async def websocket_get_provisioning_entries(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_parse_qr_code_string(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -1379,7 +1379,7 @@ async def websocket_parse_qr_code_string(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_try_parse_dsk_from_qr_code_string(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -1408,7 +1408,7 @@ async def websocket_try_parse_dsk_from_qr_code_string(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_lookup_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -1440,7 +1440,7 @@ async def websocket_lookup_device(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_supports_feature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -1466,7 +1466,7 @@ async def websocket_supports_feature(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_stop_inclusion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -1493,7 +1493,7 @@ async def websocket_stop_inclusion(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_stop_exclusion(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -1521,7 +1521,7 @@ async def websocket_stop_exclusion(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_remove_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -1603,7 +1603,7 @@ async def websocket_remove_node(
 @async_handle_failed_command
 @async_get_node
 async def websocket_replace_failed_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     node: Node,
@@ -1781,7 +1781,7 @@ async def websocket_replace_failed_node(
 @async_handle_failed_command
 @async_get_node
 async def websocket_remove_failed_node(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     node: Node,
@@ -1825,7 +1825,7 @@ async def websocket_remove_failed_node(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_begin_rebuilding_routes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -1852,7 +1852,7 @@ async def websocket_begin_rebuilding_routes(
 @websocket_api.async_response
 @async_get_entry
 async def websocket_subscribe_rebuild_routes_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -1910,7 +1910,7 @@ async def websocket_subscribe_rebuild_routes_progress(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_stop_rebuilding_routes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -1937,7 +1937,7 @@ async def websocket_stop_rebuilding_routes(
 @async_handle_failed_command
 @async_get_node
 async def websocket_rebuild_node_routes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     node: Node,
@@ -1965,7 +1965,7 @@ async def websocket_rebuild_node_routes(
 @async_handle_failed_command
 @async_get_node
 async def websocket_refresh_node_info(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     node: Node,
@@ -2029,7 +2029,7 @@ async def websocket_refresh_node_info(
 @async_handle_failed_command
 @async_get_node
 async def websocket_refresh_node_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     node: Node,
@@ -2051,7 +2051,7 @@ async def websocket_refresh_node_values(
 @async_handle_failed_command
 @async_get_node
 async def websocket_refresh_node_cc_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     node: Node,
@@ -2086,7 +2086,7 @@ async def websocket_refresh_node_cc_values(
 @async_handle_failed_command
 @async_get_node
 async def websocket_set_config_parameter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     node: Node,
@@ -2134,7 +2134,7 @@ async def websocket_set_config_parameter(
 @websocket_api.async_response
 @async_get_node
 async def websocket_get_config_parameters(
-    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any], node: Node
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any], node: Node
 ) -> None:
     """Get a list of configuration parameters for a Z-Wave node."""
     values = node.get_configuration_values()
@@ -2185,7 +2185,7 @@ async def websocket_get_config_parameters(
 @async_handle_failed_command
 @async_get_node
 async def websocket_set_raw_config_parameter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     node: Node,
@@ -2216,7 +2216,7 @@ async def websocket_set_raw_config_parameter(
 @websocket_api.async_response
 @async_get_node
 async def websocket_subscribe_config_parameter_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     node: Node,
@@ -2258,7 +2258,7 @@ async def websocket_subscribe_config_parameter_updates(
 @async_handle_failed_command
 @async_get_node
 async def websocket_get_raw_config_parameter(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     node: Node,
@@ -2294,7 +2294,7 @@ def filename_is_present_if_logging_to_file(obj: dict) -> dict:
 @async_handle_failed_command
 @async_get_entry
 async def websocket_subscribe_log_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -2379,7 +2379,7 @@ async def websocket_subscribe_log_updates(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_update_log_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -2403,7 +2403,7 @@ async def websocket_update_log_config(
 @websocket_api.async_response
 @async_get_entry
 async def websocket_get_log_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -2429,7 +2429,7 @@ async def websocket_get_log_config(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_update_data_collection_preference(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -2464,7 +2464,7 @@ async def websocket_update_data_collection_preference(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_data_collection_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -2490,7 +2490,7 @@ async def websocket_data_collection_status(
 @async_handle_failed_command
 @async_get_node
 async def websocket_abort_firmware_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     node: Node,
@@ -2511,7 +2511,7 @@ async def websocket_abort_firmware_update(
 @async_handle_failed_command
 @async_get_node
 async def websocket_is_node_firmware_update_in_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     node: Node,
@@ -2556,7 +2556,7 @@ def _get_driver_firmware_update_progress_dict(
 @websocket_api.async_response
 @async_get_node
 async def websocket_subscribe_firmware_update_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     node: Node,
@@ -2676,7 +2676,7 @@ async def websocket_subscribe_firmware_update_status(
 @async_handle_failed_command
 @async_get_node
 async def websocket_get_node_firmware_update_capabilities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     node: Node,
@@ -2697,7 +2697,7 @@ async def websocket_get_node_firmware_update_capabilities(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_is_any_ota_firmware_update_in_progress(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -2710,7 +2710,7 @@ async def websocket_is_any_ota_firmware_update_in_progress(
     )
 
 
-class FirmwareUploadView(__HAC_KEEP__View):
+class FirmwareUploadView(UniversalAssistantView):
     """View to upload firmware."""
 
     url = r"/api/zwave_js/firmware/upload/{device_id}"
@@ -2787,7 +2787,7 @@ class FirmwareUploadView(__HAC_KEEP__View):
 @async_handle_failed_command
 @async_get_entry
 async def websocket_check_for_config_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -2816,7 +2816,7 @@ async def websocket_check_for_config_updates(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_install_config_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -2855,7 +2855,7 @@ def _get_controller_statistics_dict(
 @websocket_api.async_response
 @async_get_entry
 async def websocket_subscribe_controller_statistics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -2905,7 +2905,7 @@ async def websocket_subscribe_controller_statistics(
 
 
 def _get_node_statistics_dict(
-    hass: __HAC_KEEP__, statistics: NodeStatistics
+    hass: UniversalAssistant, statistics: NodeStatistics
 ) -> dict[str, Any]:
     """Get dictionary of node statistics."""
     dev_reg = dr.async_get(hass)
@@ -2964,7 +2964,7 @@ def _get_node_statistics_dict(
 @websocket_api.async_response
 @async_get_node
 async def websocket_subscribe_node_statistics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     node: Node,
@@ -3020,7 +3020,7 @@ async def websocket_subscribe_node_statistics(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_hard_reset_controller(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -3088,7 +3088,7 @@ async def websocket_hard_reset_controller(
 @async_handle_failed_command
 @async_get_node
 async def websocket_node_capabilities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     node: Node,
@@ -3126,7 +3126,7 @@ async def websocket_node_capabilities(
 @async_handle_failed_command
 @async_get_node
 async def websocket_invoke_cc_api(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     node: Node,
@@ -3167,7 +3167,7 @@ async def websocket_invoke_cc_api(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_backup_nvm(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,
@@ -3229,7 +3229,7 @@ async def websocket_backup_nvm(
 @async_handle_failed_command
 @async_get_entry
 async def websocket_restore_nvm(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     connection: ActiveConnection,
     msg: dict[str, Any],
     entry: ZwaveJSConfigEntry,

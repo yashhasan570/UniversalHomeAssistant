@@ -46,8 +46,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 pytestmark = pytest.mark.usefixtures("init_integration")
@@ -64,7 +64,7 @@ def override_platforms() -> Generator[None]:
     "device_fixture", ["cct", "rgb_single_segment", "rgb", "rgb_websocket", "rgbw"]
 )
 async def test_snapshots(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -74,7 +74,7 @@ async def test_snapshots(
 
 
 async def test_segment_with_sparse_ids(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_wled: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -91,7 +91,7 @@ async def test_segment_with_sparse_ids(
 
 
 async def test_segment_change_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_wled: MagicMock,
 ) -> None:
     """Test the change of state of the WLED segments."""
@@ -132,7 +132,7 @@ async def test_segment_change_state(
 
 
 async def test_main_change_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_wled: MagicMock,
 ) -> None:
     """Test the change of state of the WLED main light control."""
@@ -197,7 +197,7 @@ async def test_main_change_state(
 
 @pytest.mark.parametrize("device_fixture", ["rgb_single_segment"])
 async def test_dynamically_handle_segments(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_wled: MagicMock,
 ) -> None:
@@ -239,7 +239,7 @@ async def test_dynamically_handle_segments(
 
 @pytest.mark.parametrize("device_fixture", ["rgb_single_segment"])
 async def test_single_segment_behavior(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_wled: MagicMock,
 ) -> None:
@@ -310,7 +310,7 @@ async def test_single_segment_behavior(
     ],
 )
 async def test_light_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_wled: MagicMock,
     side_effect: Exception,
     expected_state: str,
@@ -319,7 +319,7 @@ async def test_light_errors(
     """Test error handling of the WLED lights."""
     mock_wled.segment.side_effect = side_effect
 
-    with pytest.raises(__HAC_KEEP__Error) as ex:
+    with pytest.raises(UniversalAssistantError) as ex:
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_OFF,
@@ -337,7 +337,7 @@ async def test_light_errors(
 
 
 @pytest.mark.parametrize("device_fixture", ["rgbw"])
-async def test_rgbw_light(hass: __HAC_KEEP__, mock_wled: MagicMock) -> None:
+async def test_rgbw_light(hass: UniversalAssistant, mock_wled: MagicMock) -> None:
     """Test RGBW support for WLED."""
     assert (state := hass.states.get("light.wled_rgbw_light"))
     assert state.state == STATE_ON
@@ -364,7 +364,7 @@ async def test_rgbw_light(hass: __HAC_KEEP__, mock_wled: MagicMock) -> None:
 
 @pytest.mark.parametrize("device_fixture", ["rgb_single_segment"])
 async def test_single_segment_with_keep_main_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     init_integration: MockConfigEntry,
     mock_wled: MagicMock,
 ) -> None:
@@ -382,7 +382,7 @@ async def test_single_segment_with_keep_main_light(
 
 
 @pytest.mark.parametrize("device_fixture", ["cct"])
-async def test_cct_light(hass: __HAC_KEEP__, mock_wled: MagicMock) -> None:
+async def test_cct_light(hass: UniversalAssistant, mock_wled: MagicMock) -> None:
     """Test CCT support for WLED."""
     assert (state := hass.states.get("light.wled_cct_light"))
     assert state.state == STATE_ON
@@ -415,7 +415,7 @@ async def test_cct_light(hass: __HAC_KEEP__, mock_wled: MagicMock) -> None:
 
 @pytest.mark.parametrize("device_fixture", ["rgb_single_segment"])
 async def test_main_light_group_updates_when_segments_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_wled: MagicMock,
     init_integration: MockConfigEntry,
@@ -463,7 +463,7 @@ async def test_main_light_group_updates_when_segments_change(
 
 
 async def _async_load_segment(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_wled: MagicMock,
     mock_config_entry: MockConfigEntry,
     light_capabilities: int,
@@ -523,7 +523,7 @@ async def _async_load_segment(
     ],
 )
 async def test_color_mode_follows_color(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_wled: MagicMock,
     mock_config_entry: MockConfigEntry,
     light_capabilities: int,
@@ -543,7 +543,7 @@ async def test_color_mode_follows_color(
 
 @pytest.mark.parametrize("device_fixture", ["cct"])
 async def test_color_mode_changes_with_the_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_wled: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -575,7 +575,7 @@ async def test_color_mode_changes_with_the_device(
     ],
 )
 async def test_color_temp_sets_white(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_wled: MagicMock,
     mock_config_entry: MockConfigEntry,
     light_capabilities: int,
@@ -608,7 +608,7 @@ async def test_color_temp_sets_white(
     ],
 )
 async def test_color_leaves_color_temp_alone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_wled: MagicMock,
     mock_config_entry: MockConfigEntry,
     light_capabilities: int,
@@ -639,7 +639,7 @@ WS2805 = {"cb": 30, "ins": [{"start": 0, "len": 178, "type": 32}]}
 
 @pytest.mark.parametrize("device_fixture", ["cct"])
 async def test_rgbww_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_wled: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -661,7 +661,7 @@ async def test_rgbww_light(
 
 @pytest.mark.parametrize("device_fixture", ["cct"])
 async def test_rgbww_light_color_temp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_wled: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -676,7 +676,7 @@ async def test_rgbww_light_color_temp(
 
 @pytest.mark.parametrize("device_fixture", ["cct"])
 async def test_rgbww_light_turn_on(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_wled: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -721,7 +721,7 @@ async def test_rgbww_light_turn_on(
     ],
 )
 async def test_no_rgbww_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_wled: MagicMock,
     mock_config_entry: MockConfigEntry,
     led_config: dict[str, Any] | None,
@@ -740,7 +740,7 @@ async def test_no_rgbww_light(
 
 
 async def _async_refresh_with(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_wled: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -763,7 +763,7 @@ async def _async_refresh_with(
 
 @pytest.mark.parametrize("device_fixture", ["cct"])
 async def test_color_modes_follow_led_type_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_wled: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -784,7 +784,7 @@ async def test_color_modes_follow_led_type_change(
 
 @pytest.mark.parametrize("device_fixture", ["cct"])
 async def test_color_modes_follow_light_capabilities_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_wled: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -805,7 +805,7 @@ async def test_color_modes_follow_light_capabilities_change(
 
 @pytest.mark.parametrize("device_fixture", ["cct"])
 async def test_color_modes_kept_when_led_setup_not_known(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_wled: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -827,7 +827,7 @@ async def test_color_modes_kept_when_led_setup_not_known(
 
 @pytest.mark.parametrize("device_fixture", ["cct"])
 async def test_color_modes_once_led_setup_is_known(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_wled: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -844,7 +844,7 @@ async def test_color_modes_once_led_setup_is_known(
 
 
 async def test_color_modes_follow_segment_coming_back(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_wled: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -875,7 +875,7 @@ async def test_color_modes_follow_segment_coming_back(
 
 @pytest.mark.parametrize("device_fixture", ["cct"])
 async def test_color_modes_follow_segment_moving_to_other_leds(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_wled: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

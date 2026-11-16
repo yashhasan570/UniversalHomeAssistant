@@ -9,13 +9,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.luftdaten.const import CONF_SENSOR_ID, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_SHOW_ON_MAP
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.httpx_client import get_async_client
 
 
 async def test_duplicate_error(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that errors are shown when duplicates are added."""
     mock_config_entry.add_to_hass(hass)
@@ -37,7 +37,7 @@ async def test_duplicate_error(
 
 
 async def test_communication_error(
-    hass: __HAC_KEEP__, mock_luftdaten: MagicMock
+    hass: UniversalAssistant, mock_luftdaten: MagicMock
 ) -> None:
     """Test that no sensor is added while unable to communicate with API."""
     result = await hass.config_entries.flow.async_init(
@@ -71,7 +71,7 @@ async def test_communication_error(
     }
 
 
-async def test_invalid_sensor(hass: __HAC_KEEP__, mock_luftdaten: MagicMock) -> None:
+async def test_invalid_sensor(hass: UniversalAssistant, mock_luftdaten: MagicMock) -> None:
     """Test that an invalid sensor throws an error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -105,7 +105,7 @@ async def test_invalid_sensor(hass: __HAC_KEEP__, mock_luftdaten: MagicMock) -> 
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_luftdaten")
-async def test_step_user(hass: __HAC_KEEP__, mock_luftdaten_class: MagicMock) -> None:
+async def test_step_user(hass: UniversalAssistant, mock_luftdaten_class: MagicMock) -> None:
     """Test that the user step works."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}

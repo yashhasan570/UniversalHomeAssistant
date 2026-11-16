@@ -11,7 +11,7 @@ from ritualsgenie import RitualsGenieConnectionError, Sensor
 from universalassistant.components.rituals_perfume_genie.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .common import (
@@ -25,7 +25,7 @@ from .common import (
 
 
 async def _tick(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, delta: timedelta
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, delta: timedelta
 ) -> None:
     """Move the clock forward and let the coordinators update."""
     freezer.tick(delta)
@@ -34,7 +34,7 @@ async def _tick(
 
 
 async def test_one_request_for_all_diffusers(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the state of all diffusers is fetched in a single request."""
     config_entry = mock_config_entry(unique_id="id_123_single_request")
@@ -56,7 +56,7 @@ async def test_one_request_for_all_diffusers(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors_update_hourly(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the sensors are fetched once an hour, not with every hub update."""
     config_entry = mock_config_entry(unique_id="id_123_sensors_hourly")
@@ -77,7 +77,7 @@ async def test_sensors_update_hourly(
 
 
 async def test_fill_updates_daily(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the fill level is fetched once a day."""
     config_entry = mock_config_entry(unique_id="id_123_fill_daily")
@@ -103,7 +103,7 @@ async def test_fill_updates_daily(
 
 
 async def test_fill_updates_on_cartridge_change(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the fill level is fetched right away when the cartridge changes."""
     config_entry = mock_config_entry(unique_id="id_123_fill_cartridge")
@@ -123,7 +123,7 @@ async def test_fill_updates_on_cartridge_change(
 
 
 async def test_sensors_failure_does_not_block_setup(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test failing sensors don't block the setup, or the other entities."""
     config_entry = mock_config_entry(unique_id="id_123_sensors_failure")
@@ -158,7 +158,7 @@ async def test_sensors_failure_does_not_block_setup(
 
 
 async def test_diffuser_removed_from_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -184,7 +184,7 @@ async def test_diffuser_removed_from_account(
 
 
 async def test_diffuser_added_to_account(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test a diffuser added to the account gets its entities, without a reload."""
     config_entry = mock_config_entry(unique_id="id_123_diffuser_added")
@@ -214,7 +214,7 @@ async def test_diffuser_added_to_account(
 
 
 async def test_diffuser_returns_to_account(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -259,7 +259,7 @@ async def test_diffuser_returns_to_account(
 
 
 async def test_stale_device_removed_on_setup(
-    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test a device left behind by a diffuser no longer on the account is removed."""
     config_entry = mock_config_entry(unique_id="id_123_stale_device")
@@ -279,7 +279,7 @@ async def test_stale_device_removed_on_setup(
 
 
 async def test_disabled_sensors_not_fetched(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the sensors of disabled entities are not fetched."""
     config_entry = mock_config_entry(unique_id="id_123_disabled_sensors")
@@ -298,7 +298,7 @@ async def test_disabled_sensors_not_fetched(
 
 
 async def test_perfume_fetched_for_fill(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the perfume is fetched for the fill level, even when disabled."""
     config_entry = mock_config_entry(unique_id="id_123_perfume_for_fill")
@@ -325,7 +325,7 @@ async def test_perfume_fetched_for_fill(
 
 
 async def test_diffuser_offline_sensors_unavailable(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test sensors follow the diffuser state, without waiting for their update."""
     config_entry = mock_config_entry(unique_id="id_123_diffuser_offline")
@@ -343,7 +343,7 @@ async def test_diffuser_offline_sensors_unavailable(
 
 
 async def test_hubs_failure_sensors_unavailable(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test sensors become unavailable when the diffusers can't be fetched."""
     config_entry = mock_config_entry(unique_id="id_123_hubs_failure")
@@ -362,7 +362,7 @@ async def test_hubs_failure_sensors_unavailable(
 
 
 async def test_model_fetched_once(
-    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
+    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the model of each diffuser is fetched only once."""
     config_entry = mock_config_entry(unique_id="id_123_model_once")
@@ -383,7 +383,7 @@ async def test_model_fetched_once(
 
 
 async def test_model_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     device_registry: dr.DeviceRegistry,
 ) -> None:

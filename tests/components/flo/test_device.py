@@ -10,12 +10,12 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @pytest.mark.usefixtures("aioclient_mock_fixture")
 async def test_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,
@@ -43,7 +43,7 @@ async def test_device(
 
 @pytest.mark.usefixtures("aioclient_mock_fixture")
 async def test_device_failures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,

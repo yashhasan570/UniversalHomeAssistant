@@ -24,7 +24,7 @@ from universalassistant.components.universalassistant_alerts.const import (
 )
 from universalassistant.components.repairs import DOMAIN as REPAIRS_DOMAIN
 from universalassistant.const import EVENT_COMPONENT_LOADED
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import ATTR_COMPONENT, async_setup_component
 from universalassistant.util import dt as dt_util
@@ -39,7 +39,7 @@ def stub_alert(aioclient_mock: AiohttpClientMocker, alert_id) -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_repairs(hass: __HAC_KEEP__) -> None:
+async def setup_repairs(hass: UniversalAssistant) -> None:
     """Set up the repairs integration."""
     assert await async_setup_component(hass, REPAIRS_DOMAIN, {REPAIRS_DOMAIN: {}})
 
@@ -100,7 +100,7 @@ async def setup_repairs(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_alerts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
     ha_version: str,
@@ -293,7 +293,7 @@ async def test_alerts(
     ],
 )
 async def test_alerts_refreshed_on_component_load(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
     ha_version: str,
@@ -434,7 +434,7 @@ async def test_alerts_refreshed_on_component_load(
     ],
 )
 async def test_bad_alerts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
     ha_version: str,
@@ -495,7 +495,7 @@ async def test_bad_alerts(
 
 
 async def test_no_alerts(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -583,7 +583,7 @@ async def test_no_alerts(
     ],
 )
 async def test_alerts_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
     ha_version: str,
@@ -695,7 +695,7 @@ async def test_alerts_change(
 
 
 async def test_alerts_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     issue_registry: ir.IssueRegistry,
     aioclient_mock: AiohttpClientMocker,

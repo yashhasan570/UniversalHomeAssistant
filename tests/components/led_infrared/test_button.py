@@ -27,7 +27,7 @@ from universalassistant.components.led_infrared.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -56,7 +56,7 @@ def button_only() -> Generator[None]:
 )
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -130,7 +130,7 @@ _BUTTON_PRESSES: dict[LEDIrDeviceType, list[tuple[str, list[BaseGenericLEDCode]]
 @pytest.mark.parametrize("device_type", list(_BUTTON_PRESSES))
 @pytest.mark.usefixtures("infrared_codes")
 async def test_button_press(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     entity_registry: er.EntityRegistry,
     device_type: LEDIrDeviceType,

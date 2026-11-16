@@ -7,13 +7,13 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components import number
 from universalassistant.components.fully_kiosk.const import DOMAIN, UPDATE_INTERVAL
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__, ServiceResponse
+from universalassistant.core import UniversalAssistant, ServiceResponse
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
 
 async def test_numbers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_fully_kiosk: MagicMock,
@@ -82,7 +82,7 @@ async def test_numbers(
 
 
 async def set_value(
-    hass: __HAC_KEEP__, entity_id: str, value: float
+    hass: UniversalAssistant, entity_id: str, value: float
 ) -> ServiceResponse:
     """Set the value of a number entity."""
     return await hass.services.async_call(

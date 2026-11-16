@@ -10,7 +10,7 @@ from pyplaato.plaato import Plaato, PlaatoDeviceType
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -40,7 +40,7 @@ class PlaatoCoordinator(DataUpdateCoordinator[PlaatoDevice]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: PlaatoConfigEntry,
         auth_token: str,
         device_type: PlaatoDeviceType,

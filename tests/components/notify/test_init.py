@@ -25,8 +25,8 @@ from universalassistant.components.notify import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__, State
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, State
+from universalassistant.exceptions import UniversalAssistantError
 
 TEST_KWARGS = {notify.ATTR_MESSAGE: "Test message"}
 TEST_KWARGS_TITLE = {notify.ATTR_MESSAGE: "Test message", notify.ATTR_TITLE: "My title"}
@@ -60,11 +60,11 @@ class MockNotifyEntityWithException(MockEntity, NotifyEntity):
     async def async_send_message(self, message: str, title: str | None = None) -> None:
         """Send a notification message."""
         self.send_message_mock_calls(message, title=title)
-        raise __HAC_KEEP__Error
+        raise UniversalAssistantError
 
 
 async def help_async_setup_entry_init(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry
 ) -> None:
     """Set up test config entry."""
     await hass.config_entries.async_forward_entry_setups(
@@ -73,7 +73,7 @@ async def help_async_setup_entry_init(
 
 
 async def help_async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: ConfigEntry
+    hass: UniversalAssistant, config_entry: ConfigEntry
 ) -> None:
     """Unload test config emntry."""
     await hass.config_entries.async_unload_platforms_or_raise(
@@ -90,7 +90,7 @@ async def help_async_unload_entry(
     ids=["non_async", "async"],
 )
 async def test_send_message_service(
-    hass: __HAC_KEEP__, config_flow_fixture: None, entity: NotifyEntity
+    hass: UniversalAssistant, config_flow_fixture: None, entity: NotifyEntity
 ) -> None:
     """Test send_message service."""
 
@@ -161,7 +161,7 @@ async def test_send_message_service(
     ids=["non_async", "async"],
 )
 async def test_send_message_service_with_title(
-    hass: __HAC_KEEP__, config_flow_fixture: None, entity: NotifyEntity
+    hass: UniversalAssistant, config_flow_fixture: None, entity: NotifyEntity
 ) -> None:
     """Test send_message service."""
 
@@ -197,7 +197,7 @@ async def test_send_message_service_with_title(
 
 
 async def test_send_message_exception(
-    hass: __HAC_KEEP__, config_flow_fixture: None
+    hass: UniversalAssistant, config_flow_fixture: None
 ) -> None:
     """Test send_message service."""
 
@@ -224,7 +224,7 @@ async def test_send_message_exception(
     state = hass.states.get("notify.test")
     assert state.state is STATE_UNKNOWN
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             DOMAIN,
             SERVICE_SEND_MESSAGE,
@@ -251,7 +251,7 @@ async def test_send_message_exception(
     ],
 )
 async def test_restore_state(
-    hass: __HAC_KEEP__, config_flow_fixture: None, state: str, init_state: str
+    hass: UniversalAssistant, config_flow_fixture: None, state: str, init_state: str
 ) -> None:
     """Test we restore state integration."""
     mock_restore_cache(hass, (State("notify.test", state),))
@@ -276,7 +276,7 @@ async def test_restore_state(
     assert state.state is init_state
 
 
-async def test_name(hass: __HAC_KEEP__, config_flow_fixture: None) -> None:
+async def test_name(hass: UniversalAssistant, config_flow_fixture: None) -> None:
     """Test notify name."""
 
     mock_platform(hass, "test.config_flow")
@@ -326,7 +326,7 @@ async def test_name(hass: __HAC_KEEP__, config_flow_fixture: None) -> None:
 
 @pytest.mark.freeze_time("2021-01-01T23:59:59+00:00")
 async def test_async_record_notification(
-    hass: __HAC_KEEP__, config_flow_fixture: None
+    hass: UniversalAssistant, config_flow_fixture: None
 ) -> None:
     """Test record notification."""
 
@@ -356,7 +356,7 @@ async def test_async_record_notification(
 
 @pytest.mark.freeze_time("2021-01-01T23:59:59+00:00")
 async def test_record_notification(
-    hass: __HAC_KEEP__, config_flow_fixture: None
+    hass: UniversalAssistant, config_flow_fixture: None
 ) -> None:
     """Test record notification thread-safe."""
 

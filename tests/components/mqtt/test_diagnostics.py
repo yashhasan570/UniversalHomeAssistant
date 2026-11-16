@@ -17,7 +17,7 @@ from pytest_universalassistant.typing import (
 from universalassistant.components import mqtt
 from universalassistant.components.mqtt.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 default_entry_data = {"broker": "mock-broker", "protocol": "5"}
@@ -25,7 +25,7 @@ default_entry_options = {"birth_message": {}}
 
 
 async def test_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     hass_client: ClientSessionGenerator,
     mqtt_mock_entry: MqttMockHAClientGenerator,
@@ -157,7 +157,7 @@ async def test_entry_diagnostics(
     ],
 )
 async def test_redact_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     hass_client: ClientSessionGenerator,

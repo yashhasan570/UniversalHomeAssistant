@@ -33,7 +33,7 @@ from universalassistant.components.keyboard_remote.const import (
     DEVINPUT_BY_ID,
     DOMAIN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 # Stable evdev constants for tests (must match the constants used in event mocks
 # so that mocked events behave consistently with the integration under test)
@@ -107,7 +107,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 class DeviceCall:
     """A device method that runs in the executor, like evdev's C calls.
 
-    __HA_KEEP__'s tests run mock targets of async_add_executor_job inline on
+    Universal Home Assistant's tests run mock targets of async_add_executor_job inline on
     the event loop, so these record their calls as plain callables instead.
     """
 
@@ -247,7 +247,7 @@ class FakeInput:
     plugging or unplugging one emits the inotify events udev causes.
     """
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize an empty /dev/input."""
         self.hass = hass
         # A device of None exists but cannot be opened
@@ -534,7 +534,7 @@ def _devinput_path(path: Any) -> str | None:
 
 
 @pytest.fixture
-def fake_input(hass: __HAC_KEEP__) -> Generator[FakeInput]:
+def fake_input(hass: UniversalAssistant) -> Generator[FakeInput]:
     """Provide a fake /dev/input that the integration discovers and watches.
 
     Only /dev/input paths are faked; any other path goes to the real function.

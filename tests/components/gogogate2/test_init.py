@@ -14,11 +14,11 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 @patch("universalassistant.components.gogogate2.common.GogoGate2Api")
-async def test_config_update(gogogate2api_mock, hass: __HAC_KEEP__) -> None:
+async def test_config_update(gogogate2api_mock, hass: UniversalAssistant) -> None:
     """Test config setup where the config is updated."""
 
     api = MagicMock(GogoGate2Api)
@@ -47,7 +47,7 @@ async def test_config_update(gogogate2api_mock, hass: __HAC_KEEP__) -> None:
 
 
 @patch("universalassistant.components.gogogate2.common.ISmartGateApi")
-async def test_config_no_update(ismartgateapi_mock, hass: __HAC_KEEP__) -> None:
+async def test_config_no_update(ismartgateapi_mock, hass: UniversalAssistant) -> None:
     """Test config setup where the data is not updated."""
     api = MagicMock(GogoGate2Api)
     api.async_info.side_effect = Exception("Error")
@@ -75,7 +75,7 @@ async def test_config_no_update(ismartgateapi_mock, hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_api_failure_on_startup(hass: __HAC_KEEP__) -> None:
+async def test_api_failure_on_startup(hass: UniversalAssistant) -> None:
     """Test api failure on startup raises ConfigEntryNotReady."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

@@ -4,7 +4,7 @@ from typing import Any
 
 from advantage_air import ApiError
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -35,7 +35,7 @@ class AdvantageAirEntity(CoordinatorEntity[AdvantageAirCoordinator]):
                 if await func(*keys, *values):
                     await self.coordinator.async_request_refresh()
             except ApiError as err:
-                raise __HAC_KEEP__Error(err) from err
+                raise UniversalAssistantError(err) from err
 
         return update_handle
 

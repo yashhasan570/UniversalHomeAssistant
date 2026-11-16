@@ -6,7 +6,7 @@ from pyHomee.const import AttributeChangedBy, AttributeType
 from pyHomee.model import HomeeAttribute, HomeeNode
 
 from universalassistant.components.lock import LockEntity, LockEntityFeature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import HomeeConfigEntry
@@ -35,7 +35,7 @@ def _determine_lock_state_open(attribute: HomeeAttribute) -> float | None:
 
 
 async def add_lock_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
     nodes: list[HomeeNode],
@@ -50,7 +50,7 @@ async def add_lock_entities(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -67,7 +67,7 @@ class HomeeLock(HomeeEntity, LockEntity):
     _attr_name = None
 
     def __init__(
-        self, hass: __HAC_KEEP__, attribute: HomeeAttribute, entry: HomeeConfigEntry
+        self, hass: UniversalAssistant, attribute: HomeeAttribute, entry: HomeeConfigEntry
     ) -> None:
         """Initialize the homee lock."""
         super().__init__(hass, attribute, entry)

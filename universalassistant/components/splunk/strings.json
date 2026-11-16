@@ -46,7 +46,7 @@
         },
         "data_description": {
           "host": "The hostname or IP address of your Splunk server",
-          "name": "A name to identify this __HA_KEEP__ instance in Splunk events",
+          "name": "A name to identify this Universal Home Assistant instance in Splunk events",
           "port": "The port number for the HTTP Event Collector (usually 8088)",
           "ssl": "Enable if your Splunk server uses HTTPS",
           "token": "The HEC token configured in your Splunk instance",

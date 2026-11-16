@@ -9,11 +9,11 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.wake_on_lan.const import DOMAIN
 from universalassistant.components.wake_on_lan.services import WakeOnLanService
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
-async def test_unload_entry(hass: __HAC_KEEP__, loaded_entry: MockConfigEntry) -> None:
+async def test_unload_entry(hass: UniversalAssistant, loaded_entry: MockConfigEntry) -> None:
     """Test unload an entry."""
 
     assert loaded_entry.state is ConfigEntryState.LOADED
@@ -22,7 +22,7 @@ async def test_unload_entry(hass: __HAC_KEEP__, loaded_entry: MockConfigEntry) -
     assert loaded_entry.state is ConfigEntryState.NOT_LOADED
 
 
-async def test_send_magic_packet(hass: __HAC_KEEP__) -> None:
+async def test_send_magic_packet(hass: UniversalAssistant) -> None:
     """Test of send magic packet service call."""
     with patch(
         "universalassistant.components.wake_on_lan.services.wakeonlan"

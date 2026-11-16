@@ -9,7 +9,7 @@ from xiaomi_weather import Location, XiaomiWeatherError
 
 from universalassistant.components.xiaomi_weather.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.selector import LocationSelector
 
@@ -26,7 +26,7 @@ CHAOYANG = Location("weathercn:101010300", "朝阳区", "北京市, 中国", 39.
     ],
 )
 async def test_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     coordinates: dict[str, float],
 ) -> None:
@@ -85,7 +85,7 @@ async def test_setup(
     ],
 )
 async def test_lookup_error_retry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     failure: type[XiaomiWeatherError] | None,
     error: str,
@@ -120,7 +120,7 @@ async def test_lookup_error_retry(
     await hass.async_block_till_done()
 
 
-async def test_weather_error_retry(hass: __HAC_KEEP__, client: MagicMock) -> None:
+async def test_weather_error_retry(hass: UniversalAssistant, client: MagicMock) -> None:
     """Keep the location on the confirmation page until weather access succeeds."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -143,7 +143,7 @@ async def test_weather_error_retry(hass: __HAC_KEEP__, client: MagicMock) -> Non
     await hass.async_block_till_done()
 
 
-async def test_multiple_matches(hass: __HAC_KEEP__, client: MagicMock) -> None:
+async def test_multiple_matches(hass: UniversalAssistant, client: MagicMock) -> None:
     """Review the selected city before saving an ambiguous match."""
     client.locate.return_value = [BEIJING, CHAOYANG]
     result = await hass.config_entries.flow.async_init(
@@ -185,7 +185,7 @@ async def test_multiple_matches(hass: __HAC_KEEP__, client: MagicMock) -> None:
 
 
 async def test_duplicate(
-    hass: __HAC_KEEP__, client: MagicMock, entry: MockConfigEntry
+    hass: UniversalAssistant, client: MagicMock, entry: MockConfigEntry
 ) -> None:
     """Reject a city that is already configured before fetching weather."""
     entry.add_to_hass(hass)
@@ -201,7 +201,7 @@ async def test_duplicate(
 
 
 async def test_duplicate_during_selection(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     client: MagicMock,
     entry: MockConfigEntry,
 ) -> None:
@@ -224,7 +224,7 @@ async def test_duplicate_during_selection(
 
 
 async def test_duplicate_during_confirmation(
-    hass: __HAC_KEEP__, client: MagicMock, entry: MockConfigEntry
+    hass: UniversalAssistant, client: MagicMock, entry: MockConfigEntry
 ) -> None:
     """Recheck duplicates when another entry is added during confirmation."""
     result = await hass.config_entries.flow.async_init(
@@ -242,7 +242,7 @@ async def test_duplicate_during_confirmation(
 
 
 async def test_unsupported_current_temperature(
-    hass: __HAC_KEEP__, client: MagicMock
+    hass: UniversalAssistant, client: MagicMock
 ) -> None:
     """Require usable current temperature before accepting the confirmed city."""
     data = client.get_weather.return_value

@@ -34,8 +34,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import async_fire_coordinator_update, setup_platform_integration
@@ -53,7 +53,7 @@ def _identify_action(
     )
 
 
-async def _async_set_identify(hass: __HAC_KEEP__, service: str) -> None:
+async def _async_set_identify(hass: UniversalAssistant, service: str) -> None:
     """Set the identify switch state."""
     await hass.services.async_call(
         SWITCH_DOMAIN,
@@ -65,7 +65,7 @@ async def _async_set_identify(hass: __HAC_KEEP__, service: str) -> None:
 
 @pytest.fixture
 async def init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_node_actions: NodeListActionItemList,
@@ -77,7 +77,7 @@ async def init_integration(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_identify_switch_entity_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -87,14 +87,14 @@ async def test_identify_switch_entity_state(
 
 
 @pytest.mark.usefixtures("init_integration")
-async def test_identify_switch_discovery_and_state(hass: __HAC_KEEP__) -> None:
+async def test_identify_switch_discovery_and_state(hass: UniversalAssistant) -> None:
     """Test identify switches require a Boolean identify action."""
     assert hass.states.is_state(_IDENTIFY_ENTITY, STATE_OFF)
     assert hass.states.get("switch.office_co2_identify") is None
 
 
 async def test_non_boolean_identify_action_is_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_node_actions: NodeListActionItemList,
@@ -116,7 +116,7 @@ async def test_non_boolean_identify_action_is_ignored(
     ],
 )
 async def test_set_identify(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     mock_nodes: list[Node],
     service: str,
@@ -150,7 +150,7 @@ async def test_set_identify(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_identify_write_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     exception: Exception,
     match: str,
@@ -158,12 +158,12 @@ async def test_identify_write_error(
     """Test identify write failures report user-facing errors."""
     mock_duco_client.async_set_node_identify.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error, match=match):
+    with pytest.raises(UniversalAssistantError, match=match):
         await _async_set_identify(hass, SERVICE_TURN_ON)
 
 
 async def test_identify_switch_is_added_when_action_discovery_succeeds_later(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_node_actions: NodeListActionItemList,
@@ -186,7 +186,7 @@ async def test_identify_switch_is_added_when_action_discovery_succeeds_later(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_identify_switch_becomes_unavailable_when_node_is_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     mock_nodes: list[Node],
     freezer: FrozenDateTimeFactory,
@@ -201,7 +201,7 @@ async def test_identify_switch_becomes_unavailable_when_node_is_missing(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_targeted_identify_readback_keeps_coordinator_poll_schedule(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_duco_client: AsyncMock,
     mock_nodes: list[Node],
     freezer: FrozenDateTimeFactory,

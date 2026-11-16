@@ -4,7 +4,7 @@ from aiohttp import ClientError
 from py_nightscout import Api as NightscoutAPI
 
 from universalassistant.const import CONF_API_KEY, CONF_URL, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -17,7 +17,7 @@ PLATFORMS = [Platform.SENSOR]
 _API_TIMEOUT = SLOW_UPDATE_WARNING - 1
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: NightscoutConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: NightscoutConfigEntry) -> None:
     """Set up Nightscout from a config entry."""
     server_url = entry.data[CONF_URL]
     api_key = entry.data.get(CONF_API_KEY)
@@ -50,6 +50,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: NightscoutConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: NightscoutConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: NightscoutConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

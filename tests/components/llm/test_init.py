@@ -7,7 +7,7 @@ import pytest
 from pytest_universalassistant.common import MockUser, mock_platform
 
 from universalassistant.components.llm import DATA_PLATFORMS, LLMTools, async_get_tools
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.exceptions import Unauthorized
 from universalassistant.helpers import frame, llm
 from universalassistant.setup import async_setup_component
@@ -25,7 +25,7 @@ class _StubTool(llm.Tool):
 
     async def async_call(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         tool_input: llm.ToolInput,
         llm_context: llm.LLMContext,
     ) -> JsonObjectType:
@@ -46,7 +46,7 @@ def llm_context() -> llm.LLMContext:
 
 
 def _mock_tools_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     domain: str,
     tools: LLMTools | Exception | None,
     built_in: bool = True,
@@ -63,13 +63,13 @@ def _mock_tools_platform(
     return async_get_tools
 
 
-async def test_setup(hass: __HAC_KEEP__) -> None:
+async def test_setup(hass: UniversalAssistant) -> None:
     """Test the integration sets up."""
     assert await async_setup_component(hass, "llm", {})
     assert DATA_PLATFORMS in hass.data
 
 
-async def test_get_tools(hass: __HAC_KEEP__, llm_context: llm.LLMContext) -> None:
+async def test_get_tools(hass: UniversalAssistant, llm_context: llm.LLMContext) -> None:
     """Test that tools from an integration platform are returned."""
     tool = _StubTool("my_tool")
     platform_get_tools = _mock_tools_platform(
@@ -86,7 +86,7 @@ async def test_get_tools(hass: __HAC_KEEP__, llm_context: llm.LLMContext) -> Non
 
 
 async def test_get_tools_empty(
-    hass: __HAC_KEEP__, llm_context: llm.LLMContext
+    hass: UniversalAssistant, llm_context: llm.LLMContext
 ) -> None:
     """Test that only the llm integration's own tools are returned by default."""
     assert await async_setup_component(hass, "llm", {})
@@ -97,7 +97,7 @@ async def test_get_tools_empty(
 
 
 async def test_get_tools_merges_sorted(
-    hass: __HAC_KEEP__, llm_context: llm.LLMContext
+    hass: UniversalAssistant, llm_context: llm.LLMContext
 ) -> None:
     """Test that tools and prompts are merged in a load-order-independent order."""
     tool_a = _StubTool("tool_a")
@@ -118,7 +118,7 @@ async def test_get_tools_merges_sorted(
 
 
 async def test_get_tools_skips_none_platform(
-    hass: __HAC_KEEP__, llm_context: llm.LLMContext
+    hass: UniversalAssistant, llm_context: llm.LLMContext
 ) -> None:
     """Test that a platform returning None for the API is skipped."""
     tool = _StubTool("good_tool")
@@ -133,7 +133,7 @@ async def test_get_tools_skips_none_platform(
 
 
 async def test_get_tools_isolates_failing_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     llm_context: llm.LLMContext,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -156,7 +156,7 @@ async def test_get_tools_isolates_failing_platform(
     ids=["core", "custom"],
 )
 async def test_get_tools_reports_unprefixed_tool_names(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     llm_context: llm.LLMContext,
     caplog: pytest.LogCaptureFixture,
     built_in: bool,
@@ -190,7 +190,7 @@ async def test_get_tools_reports_unprefixed_tool_names(
 
 
 async def test_get_tools_untagged_tool_raises_for_core(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     llm_context: llm.LLMContext,
 ) -> None:
     """Test a core integration must record the integration on its tools."""
@@ -210,7 +210,7 @@ async def test_get_tools_untagged_tool_raises_for_core(
 
 
 async def test_get_tools_untagged_tool_reported_for_custom(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     llm_context: llm.LLMContext,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -227,7 +227,7 @@ async def test_get_tools_untagged_tool_reported_for_custom(
     assert "test__untagged" in [tool.name for tool in result.tools]
     assert (
         "Detected that custom integration 'test' provides the LLM tool test__untagged "
-        "without an integration. This will stop working in __HA_KEEP__ 2027.10"
+        "without an integration. This will stop working in Universal Home Assistant 2027.10"
         in caplog.text
     )
     # The platform domain is recorded on the tool, so it is not reported again.
@@ -235,7 +235,7 @@ async def test_get_tools_untagged_tool_reported_for_custom(
 
 
 async def test_get_tools_untagged_wrapped_tool_reported_once(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     llm_context: llm.LLMContext,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -255,7 +255,7 @@ async def test_get_tools_untagged_wrapped_tool_reported_once(
 
 
 async def test_get_tools_prefixed_tool_names_not_reported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     llm_context: llm.LLMContext,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -271,9 +271,9 @@ async def test_get_tools_prefixed_tool_names_not_reported(
 
 
 async def test_universal_assistant_api(
-    hass: __HAC_KEEP__, hass_admin_user: MockUser
+    hass: UniversalAssistant, hass_admin_user: MockUser
 ) -> None:
-    """Test that __HAC_KEEP__API is registered and retrieves __HA_KEEP__ tools for admin."""
+    """Test that UniversalAssistantAPI is registered and retrieves Universal Home Assistant tools for admin."""
     tool = _StubTool("test__ha_tool")
     _mock_tools_platform(hass, "test", LLMTools(tools=[tool], prompt="ha prompt"))
 
@@ -297,9 +297,9 @@ async def test_universal_assistant_api(
 
 
 async def test_universal_assistant_api_denied_for_non_admin(
-    hass: __HAC_KEEP__, hass_read_only_user: MockUser
+    hass: UniversalAssistant, hass_read_only_user: MockUser
 ) -> None:
-    """Test that __HAC_KEEP__API raises Unauthorized for non-admin user."""
+    """Test that UniversalAssistantAPI raises Unauthorized for non-admin user."""
     tool = _StubTool("test__ha_tool")
     _mock_tools_platform(hass, "test", LLMTools(tools=[tool], prompt="ha prompt"))
 
@@ -317,9 +317,9 @@ async def test_universal_assistant_api_denied_for_non_admin(
 
 
 async def test_universal_assistant_api_denied_without_user(
-    hass: __HAC_KEEP__, llm_context: llm.LLMContext
+    hass: UniversalAssistant, llm_context: llm.LLMContext
 ) -> None:
-    """Test that __HAC_KEEP__API raises Unauthorized when no user is in context."""
+    """Test that UniversalAssistantAPI raises Unauthorized when no user is in context."""
     tool = _StubTool("test__ha_tool")
     _mock_tools_platform(hass, "test", LLMTools(tools=[tool], prompt="ha prompt"))
 

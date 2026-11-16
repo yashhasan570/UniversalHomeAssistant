@@ -22,7 +22,7 @@ from universalassistant.components.stt import (
     SpeechToTextEntity,
 )
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.setup import async_when_setup
 
@@ -48,11 +48,11 @@ STT_V2_AUDIO_PROCESSING = SpeechAudioProcessing(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: CloudConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
-    """Set up __HA_KEEP__ Cloud speech platform via config entry."""
+    """Set up Universal Home Assistant Cloud speech platform via config entry."""
     stt_platform_loaded = hass.data[DATA_PLATFORMS_SETUP][Platform.STT]
     stt_platform_loaded.set()
     cloud = hass.data[DATA_CLOUD]
@@ -60,9 +60,9 @@ async def async_setup_entry(
 
 
 class CloudProviderEntity(SpeechToTextEntity):
-    """__HA_KEEP__ Cloud speech API provider."""
+    """Universal Home Assistant Cloud speech API provider."""
 
-    _attr_name = "__HA_KEEP__ Link"
+    _attr_name = "Universal Home Assistant Link"
     _attr_unique_id = STT_ENTITY_UNIQUE_ID
 
     def __init__(self, cloud: Cloud[CloudClient]) -> None:
@@ -133,7 +133,7 @@ class CloudProviderEntity(SpeechToTextEntity):
     async def async_added_to_hass(self) -> None:
         """Run when entity is about to be added to hass."""
 
-        async def pipeline_setup(hass: __HAC_KEEP__, _comp: str) -> None:
+        async def pipeline_setup(hass: UniversalAssistant, _comp: str) -> None:
             """When assist_pipeline is set up."""
             assert self.platform.config_entry
             self.platform.config_entry.async_create_task(

@@ -9,13 +9,13 @@ from universalassistant.components import statistics
 from universalassistant.components.statistics import DOMAIN
 from universalassistant.components.statistics.config_flow import StatisticsConfigFlowHandler
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.event import async_track_entity_registry_updated_event
 
 
 @pytest.fixture
-def sensor_config_entry(hass: __HAC_KEEP__) -> er.RegistryEntry:
+def sensor_config_entry(hass: UniversalAssistant) -> er.RegistryEntry:
     """Fixture to create a sensor config entry."""
     sensor_config_entry = MockConfigEntry()
     sensor_config_entry.add_to_hass(hass)
@@ -52,7 +52,7 @@ def sensor_entity_entry(
 
 @pytest.fixture
 def statistics_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     sensor_entity_entry: er.RegistryEntry,
 ) -> MockConfigEntry:
     """Fixture to create a statistics config entry."""
@@ -78,7 +78,7 @@ def statistics_config_entry(
     return config_entry
 
 
-def track_entity_registry_actions(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
+def track_entity_registry_actions(hass: UniversalAssistant, entity_id: str) -> list[str]:
     """Track entity registry actions for an entity."""
     events = []
 
@@ -92,7 +92,7 @@ def track_entity_registry_actions(hass: __HAC_KEEP__, entity_id: str) -> list[st
     return events
 
 
-async def test_unload_entry(hass: __HAC_KEEP__, loaded_entry: MockConfigEntry) -> None:
+async def test_unload_entry(hass: UniversalAssistant, loaded_entry: MockConfigEntry) -> None:
     """Test unload an entry."""
 
     assert loaded_entry.state is ConfigEntryState.LOADED
@@ -102,7 +102,7 @@ async def test_unload_entry(hass: __HAC_KEEP__, loaded_entry: MockConfigEntry) -
 
 
 async def test_async_handle_source_entity_changes_source_entity_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     statistics_config_entry: MockConfigEntry,
@@ -152,7 +152,7 @@ async def test_async_handle_source_entity_changes_source_entity_removed(
 
 
 async def test_async_handle_source_entity_changes_source_entity_removed_shared_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     statistics_config_entry: MockConfigEntry,
@@ -201,7 +201,7 @@ async def test_async_handle_source_entity_changes_source_entity_removed_shared_d
 
 
 async def test_async_handle_source_entity_changes_source_entity_removed_from_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     statistics_config_entry: MockConfigEntry,
@@ -251,7 +251,7 @@ async def test_async_handle_source_entity_changes_source_entity_removed_from_dev
 
 
 async def test_async_handle_source_entity_changes_source_entity_moved_other_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     statistics_config_entry: MockConfigEntry,
@@ -311,7 +311,7 @@ async def test_async_handle_source_entity_changes_source_entity_moved_other_devi
 
 
 async def test_async_handle_source_entity_new_entity_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     statistics_config_entry: MockConfigEntry,
@@ -358,7 +358,7 @@ async def test_async_handle_source_entity_new_entity_id(
 
 
 async def test_migration_1_1(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     sensor_entity_entry: er.RegistryEntry,
@@ -403,7 +403,7 @@ async def test_migration_1_1(
 
 
 async def test_migration_1_2_removes_zero_sampling_size(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test migration from v1.2 removes a sampling size of 0 from the options."""
     statistics_config_entry = MockConfigEntry(
@@ -435,7 +435,7 @@ async def test_migration_1_2_removes_zero_sampling_size(
 
 
 async def test_migration_from_future_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test migration from future version."""
     config_entry = MockConfigEntry(

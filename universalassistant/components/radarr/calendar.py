@@ -8,7 +8,7 @@ from universalassistant.components.calendar import (
     CalendarEntityDescription,
     CalendarEvent,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import CalendarUpdateCoordinator, RadarrConfigEntry, RadarrEvent
@@ -21,7 +21,7 @@ CALENDAR_TYPE = CalendarEntityDescription(
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: RadarrConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -51,7 +51,7 @@ class RadarrCalendarEntity(RadarrEntity, CalendarEntity):
     @override
     # pylint: disable-next=universal-assistant-return-type
     async def async_get_events(  # type: ignore[override]
-        self, hass: __HAC_KEEP__, start_date: datetime, end_date: datetime
+        self, hass: UniversalAssistant, start_date: datetime, end_date: datetime
     ) -> list[RadarrEvent]:
         """Get all events in a specific time frame."""
         return await self.coordinator.async_get_events(start_date, end_date)

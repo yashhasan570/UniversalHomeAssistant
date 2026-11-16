@@ -12,8 +12,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, PRECISION_TENTHS, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -23,7 +23,7 @@ from .coordinator import SENZConfigEntry, SENZDataUpdateCoordinator
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: SENZConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -110,7 +110,7 @@ class SENZClimate(CoordinatorEntity[SENZDataUpdateCoordinator], ClimateEntity):
             else:
                 await self._thermostat.manual()
         except RequestError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_attribute_error",
                 translation_placeholders={
@@ -126,7 +126,7 @@ class SENZClimate(CoordinatorEntity[SENZDataUpdateCoordinator], ClimateEntity):
         try:
             await self._thermostat.manual(temp)
         except RequestError as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="set_attribute_error",
                 translation_placeholders={

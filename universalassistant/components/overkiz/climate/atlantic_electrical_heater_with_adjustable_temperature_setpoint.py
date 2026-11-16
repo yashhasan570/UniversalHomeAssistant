@@ -28,7 +28,7 @@ PRESET_PROG = "prog"
 PRESET_EXTERNAL = "external"
 
 
-# Map Overkiz presets to __HA_KEEP__ presets
+# Map Overkiz presets to Universal Home Assistant presets
 OVERKIZ_TO_PRESET_MODE: dict[str, str] = {
     OverkizCommandParam.OFF: PRESET_NONE,
     OverkizCommandParam.FROSTPROTECTION: PRESET_FROST_PROTECTION,
@@ -44,10 +44,10 @@ OVERKIZ_TO_PRESET_MODE: dict[str, str] = {
 
 PRESET_MODE_TO_OVERKIZ = {v: k for k, v in OVERKIZ_TO_PRESET_MODE.items()}
 
-# Map Overkiz HVAC modes to __HA_KEEP__ HVAC modes
+# Map Overkiz HVAC modes to Universal Home Assistant HVAC modes
 #
 # HVAC_MODE_TO_OVERKIZ reverses this mapping, thus order matters.
-# Multiple Overkiz states may map to the same __HA_KEEP__ HVAC mode,
+# Multiple Overkiz states may map to the same Universal Home Assistant HVAC mode,
 # reversing the mapping picks the last one.
 OVERKIZ_TO_HVAC_MODE: dict[str, HVACMode] = {
     OverkizCommandParam.ON: HVACMode.HEAT,

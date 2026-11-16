@@ -10,12 +10,12 @@ from universalassistant.components.open_meteo.const import DOMAIN
 from universalassistant.components.zone import ENTITY_ID_HOME
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_ZONE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_user_flow(hass: __HAC_KEEP__, mock_open_meteo: MagicMock) -> None:
+async def test_full_user_flow(hass: UniversalAssistant, mock_open_meteo: MagicMock) -> None:
     """Test the full user configuration flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -44,7 +44,7 @@ async def test_full_user_flow(hass: __HAC_KEEP__, mock_open_meteo: MagicMock) ->
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_cannot_connect(
-    hass: __HAC_KEEP__, mock_open_meteo: MagicMock
+    hass: UniversalAssistant, mock_open_meteo: MagicMock
 ) -> None:
     """Test the flow shows an error when Open-Meteo can't be reached, and recovers."""
     mock_open_meteo.forecast.side_effect = OpenMeteoConnectionError
@@ -70,7 +70,7 @@ async def test_flow_cannot_connect(
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_open_meteo")
-async def test_flow_zone_not_found(hass: __HAC_KEEP__) -> None:
+async def test_flow_zone_not_found(hass: UniversalAssistant) -> None:
     """Test the flow shows an error for a zone that does not exist."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -92,7 +92,7 @@ async def test_flow_zone_not_found(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_open_meteo")
 async def test_flow_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the flow aborts for a zone that is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -110,7 +110,7 @@ async def test_flow_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_open_meteo")
 async def test_reconfigure_flow_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the reconfigure flow aborts when the new zone is already configured."""
@@ -142,7 +142,7 @@ async def test_reconfigure_flow_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_open_meteo: MagicMock,
 ) -> None:
@@ -181,7 +181,7 @@ async def test_reconfigure_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_cannot_connect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_open_meteo: MagicMock,
 ) -> None:
@@ -215,7 +215,7 @@ async def test_reconfigure_flow_cannot_connect(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_open_meteo")
 async def test_reconfigure_flow_zone_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the reconfigure flow shows an error for a zone that does not exist."""

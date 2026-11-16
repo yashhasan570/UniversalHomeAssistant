@@ -6,7 +6,7 @@ from typing import Any
 from universalassistant.components.backup import async_get_manager
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_PREFIX
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import CONF_ACCESS_KEY_ID, CONF_BUCKET, CONF_SECRET_ACCESS_KEY, DOMAIN
 from .coordinator import S3ConfigEntry
@@ -16,7 +16,7 @@ TO_REDACT = (CONF_ACCESS_KEY_ID, CONF_SECRET_ACCESS_KEY)
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: S3ConfigEntry,
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""

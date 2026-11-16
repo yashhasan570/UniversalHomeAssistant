@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.flume.const import DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import NOTIFICATIONS_URL, SENSOR_DEVICE, USER_ID
@@ -41,7 +41,7 @@ def platforms_fixture() -> Generator[None]:
 
 @pytest.mark.usefixtures("access_token", "device_list")
 async def test_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     requests_mock: Mocker,
@@ -65,7 +65,7 @@ async def test_binary_sensors(
     ],
 )
 async def test_notification_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     requests_mock: Mocker,
@@ -115,7 +115,7 @@ async def test_notification_binary_sensors(
     ],
 )
 async def test_low_battery(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     requests_mock: Mocker,

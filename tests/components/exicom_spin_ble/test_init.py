@@ -16,7 +16,7 @@ from universalassistant.components.exicom_spin_ble.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP, STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration, setup_persistent
 from .const import IDLE_STATUS, STATE_SENSOR, STATUS
@@ -24,7 +24,7 @@ from .const import IDLE_STATUS, STATE_SENSOR, STATUS
 
 @pytest.mark.usefixtures("mock_charger")
 async def test_setup_and_unload(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """The entry loads, then unloads cleanly."""
     await setup_integration(hass, mock_config_entry)
@@ -39,7 +39,7 @@ async def test_setup_and_unload(
 
 @pytest.mark.usefixtures("mock_charger")
 async def test_setup_retries_when_the_charger_is_not_seen(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ble_device: MagicMock,
 ) -> None:
@@ -54,7 +54,7 @@ async def test_setup_retries_when_the_charger_is_not_seen(
 
 
 async def test_setup_retries_when_the_first_read_fails(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_charger: AsyncMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_charger: AsyncMock
 ) -> None:
     """A charger that does not answer on setup is a retry, not a failure."""
     mock_charger.async_get_status.side_effect = SpinEvError("no reply")
@@ -74,7 +74,7 @@ async def test_setup_retries_when_the_first_read_fails(
     ],
 )
 async def test_the_poll_interval_follows_the_session(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_charger: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -100,7 +100,7 @@ async def test_the_poll_interval_follows_the_session(
 
 
 async def test_a_per_poll_connection_is_released(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_charger: AsyncMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_charger: AsyncMock
 ) -> None:
     """The default mode hands the charger back so the phone app can reach it."""
     await setup_integration(hass, mock_config_entry)
@@ -109,7 +109,7 @@ async def test_a_per_poll_connection_is_released(
 
 
 async def test_a_persistent_connection_is_held(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_charger: AsyncMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_charger: AsyncMock
 ) -> None:
     """Holding the charger's only Bluetooth slot keeps everyone else out."""
     await setup_persistent(hass, mock_config_entry)
@@ -119,7 +119,7 @@ async def test_a_persistent_connection_is_held(
 
 
 async def test_a_held_link_is_released_on_unload(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_charger: AsyncMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_charger: AsyncMock
 ) -> None:
     """Unloading hands the charger back even when the link was being held."""
     await setup_persistent(hass, mock_config_entry)
@@ -134,9 +134,9 @@ async def test_a_held_link_is_released_on_unload(
 
 
 async def test_a_held_link_is_released_on_stop(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_charger: AsyncMock
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_charger: AsyncMock
 ) -> None:
-    """Stopping __HA_KEEP__ hands the charger back, as no unload runs then."""
+    """Stopping Universal Home Assistant hands the charger back, as no unload runs then."""
     await setup_persistent(hass, mock_config_entry)
 
     mock_charger.async_disconnect.assert_not_awaited()
@@ -148,7 +148,7 @@ async def test_a_held_link_is_released_on_stop(
 
 
 async def test_a_held_link_that_drops_is_rebuilt(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_charger: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -166,7 +166,7 @@ async def test_a_held_link_that_drops_is_rebuilt(
 
 
 async def test_a_held_link_recovers_from_a_failed_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_charger: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -193,7 +193,7 @@ async def test_a_held_link_recovers_from_a_failed_poll(
 
 
 async def test_a_changed_connection_mode_takes_effect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_charger: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -219,7 +219,7 @@ async def test_a_changed_connection_mode_takes_effect(
 
 
 async def test_a_failed_poll_makes_entities_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_charger: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -239,7 +239,7 @@ async def test_a_failed_poll_makes_entities_unavailable(
 
 @pytest.mark.usefixtures("mock_charger")
 async def test_a_poll_fails_when_the_charger_goes_out_of_range(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_ble_device: MagicMock,
     freezer: FrozenDateTimeFactory,

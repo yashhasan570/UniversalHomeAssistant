@@ -30,7 +30,7 @@ from universalassistant.const import (
     UnitOfRatio,
     UnitOfTime,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import GATEWAY_ID
@@ -53,7 +53,7 @@ def remote_control_without_firmware(remote_control: str) -> str:
 
 @pytest.mark.parametrize("device", ["remote_control"], indirect=True)
 async def test_battery_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     command_store: CommandStore,
     device: Device,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_battery_sensor(
 @pytest.mark.parametrize("device", ["remote_control_without_firmware"], indirect=True)
 @pytest.mark.usefixtures("device")
 async def test_battery_sensor_without_firmware_version(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test that a device that reports no firmware version still gets its sensor."""
@@ -102,7 +102,7 @@ async def test_battery_sensor_without_firmware_version(
 
 @pytest.mark.parametrize("device", ["blind"], indirect=True)
 async def test_cover_battery_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device: Device,
 ) -> None:
     """Test that a battery sensor is correctly added for a cover (blind)."""
@@ -119,7 +119,7 @@ async def test_cover_battery_sensor(
 
 @pytest.mark.parametrize("device", ["air_purifier"], indirect=True)
 async def test_air_quality_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     command_store: CommandStore,
     device: Device,
 ) -> None:
@@ -151,7 +151,7 @@ async def test_air_quality_sensor(
 
 @pytest.mark.parametrize("device", ["air_purifier"], indirect=True)
 async def test_filter_time_left_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device: Device,
 ) -> None:
     """Test that a battery sensor is correctly added."""
@@ -168,7 +168,7 @@ async def test_filter_time_left_sensor(
 
 @pytest.mark.parametrize("device", ["air_purifier"], indirect=True)
 async def test_sensor_available(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     command_store: CommandStore,
     device: Device,
 ) -> None:
@@ -191,7 +191,7 @@ async def test_sensor_available(
 
 @pytest.mark.parametrize("device", ["remote_control"], indirect=True)
 async def test_unique_id_migration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device: Device,
 ) -> None:
@@ -244,7 +244,7 @@ async def test_unique_id_migration(
 )
 @pytest.mark.usefixtures("device")
 async def test_air_purifier_sensor_without_values(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_id: str,
 ) -> None:
     """Test air purifier sensors whose control reports no values."""

@@ -9,8 +9,8 @@ from pyezvizapi.constants import SupportExt
 from pyezvizapi.exceptions import HTTPError, PyEzvizError
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import EzvizConfigEntry, EzvizDataUpdateCoordinator
@@ -64,7 +64,7 @@ BUTTON_ENTITIES = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: EzvizConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -112,6 +112,6 @@ class EzvizButtonEntity(EzvizEntity, ButtonEntity):
                 self.coordinator.ezviz_client, self._serial, "STOP"
             )
         except (HTTPError, PyEzvizError) as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 f"Cannot perform PTZ action on {self.name}"
             ) from err

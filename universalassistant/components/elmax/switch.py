@@ -8,7 +8,7 @@ from elmax_api.model.command import SwitchCommand
 from elmax_api.model.panel import PanelStatus
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import ElmaxConfigEntry
@@ -18,7 +18,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ElmaxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

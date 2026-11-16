@@ -3,7 +3,7 @@
 import logging
 from typing import Any
 
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers.singleton import singleton
 from universalassistant.helpers.storage import Store
 from universalassistant.util.async_ import create_eager_task
@@ -25,13 +25,13 @@ DATA_NETWORK: HassKey[Network] = HassKey(DOMAIN)
 
 
 @callback
-def async_get_loaded_network(hass: __HAC_KEEP__) -> Network:
+def async_get_loaded_network(hass: UniversalAssistant) -> Network:
     """Get network singleton."""
     return hass.data[DATA_NETWORK]
 
 
 @singleton(DOMAIN)
-async def async_get_network(hass: __HAC_KEEP__) -> Network:
+async def async_get_network(hass: UniversalAssistant) -> Network:
     """Get network singleton."""
     network = Network(hass)
     await network.async_setup()
@@ -44,7 +44,7 @@ async def async_get_network(hass: __HAC_KEEP__) -> Network:
 class Network:
     """Network helper class for the network integration."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the Network class."""
         self._store = Store[dict[str, list[str]]](
             hass, STORAGE_VERSION, STORAGE_KEY, atomic_writes=True

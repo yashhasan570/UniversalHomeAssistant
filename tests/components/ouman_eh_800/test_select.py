@@ -27,8 +27,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import SCENARIOS
@@ -38,7 +38,7 @@ from .conftest import SCENARIOS
 @pytest.mark.parametrize("init_integration", [Platform.SELECT], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -88,7 +88,7 @@ async def test_entities(
     indirect=["scenario"],
 )
 async def test_async_select_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ouman_client: AsyncMock,
     entity_id: str,
     endpoint: EnumControlOumanEndpoint,
@@ -119,26 +119,26 @@ async def test_async_select_option(
     [
         pytest.param(
             OumanClientAuthenticationError("Wrong username or password"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "Authentication failed",
             id="auth_failure",
         ),
         pytest.param(
             OumanClientCommunicationError("Network error: Connection refused"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "Error communicating with API",
             id="communication_failure",
         ),
         pytest.param(
             OumanClientError("Endpoint ID missing from response"),
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "Unexpected response from device",
             id="unexpected_response",
         ),
     ],
 )
 async def test_async_select_option_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_ouman_client: AsyncMock,
     client_error: Exception,
     expected_exception: type[Exception],

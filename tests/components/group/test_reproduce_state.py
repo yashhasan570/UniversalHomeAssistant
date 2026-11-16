@@ -4,10 +4,10 @@ from asyncio import Future
 from unittest.mock import ANY, patch
 
 from universalassistant.components.group.reproduce_state import async_reproduce_states
-from universalassistant.core import Context, __HAC_KEEP__, State
+from universalassistant.core import Context, UniversalAssistant, State
 
 
-async def test_reproduce_group(hass: __HAC_KEEP__) -> None:
+async def test_reproduce_group(hass: UniversalAssistant) -> None:
     """Test reproduce_state with group."""
     context = Context()
 

@@ -1,7 +1,7 @@
 {
   "214792276": {
     "manifest": { "name": "Xiaomi Fan Lovelace Card" },
-    "description": "Xiaomi Smartmi Fan Lovelace card for HASS/__HA_KEEP__.",
+    "description": "Xiaomi Smartmi Fan Lovelace card for HASS/Universal Home Assistant.",
     "etag_releases": "W/\"2642ad4a3b1d9d1cf19b748c18ec5716707efe487b7247f88747c602d3843c96\"",
     "etag_repository": "W/\"9455804239da4e263cf8a68a91bbde60fb99a7a33516edfa1cc644e2260a737d\"",
     "full_name": "fineemb/lovelace-fan-xiaomi",
@@ -42,7 +42,7 @@
   },
   "197715418": {
     "manifest": {},
-    "description": "A __HA_KEEP__ Lovelace card to report MiFlora plant sensors based on the HA Plant Card.",
+    "description": "A Universal Home Assistant Lovelace card to report MiFlora plant sensors based on the HA Plant Card.",
     "etag_releases": "W/\"1ccfa36cd797f4486bc5755842d238572a601c9d3341ded424bf4eb39287179b\"",
     "etag_repository": "W/\"e30805b7172b3e3cb07438bf94a40a479277aee99f58fd3f72744229f2d9ea7f\"",
     "full_name": "RodBr/miflora-card",
@@ -82,7 +82,7 @@
   },
   "329411371": {
     "manifest": { "name": "HA Dashboard" },
-    "description": "A custom dashboard for __HA_KEEP__ with sidebar",
+    "description": "A custom dashboard for Universal Home Assistant with sidebar",
     "downloads": 3431,
     "etag_releases": "W/\"df67cb81198bbe5b3ebb7823d1210c2a77b80d69ed7701299d8a61f99bf78e67\"",
     "etag_repository": "W/\"fb4c92fbcf85087465845c6952d9f5a1721e2abc90d0c8b347f06a862578c58e\"",
@@ -121,7 +121,7 @@
   },
   "376904517": {
     "manifest": { "name": "Timer Bar Card" },
-    "description": "A progress bar display for __HA_KEEP__ timers",
+    "description": "A progress bar display for Universal Home Assistant timers",
     "downloads": 12966,
     "etag_releases": "W/\"59b8130868807586fba0d10a8b46a8cf7a0080de61dde9acbcca3364c111dea7\"",
     "etag_repository": "W/\"37b36c7c26e0e01fab000e0fe7efd30de86c0c330a3b1cf78f39bd305e3a6c30\"",
@@ -135,7 +135,7 @@
   },
   "286860710": {
     "manifest": { "name": "Cover Position Preset Row" },
-    "description": "Plug-in for __HA_KEEP__ that provides an easy means to set 3 fixed positions for a programmable cover entity.",
+    "description": "Plug-in for Universal Home Assistant that provides an easy means to set 3 fixed positions for a programmable cover entity.",
     "etag_releases": "W/\"e1c44ab8a1010b55b8dc57579cf5f0800a327e0ff7a41ce14ec7e53dab48361f\"",
     "etag_repository": "W/\"9a4b891003efb7e4575204795facb93e136e8a0dd037a495c28402fc7b084e28\"",
     "full_name": "finity69x2/cover-position-preset-row",
@@ -194,7 +194,7 @@
   },
   "257102434": {
     "manifest": { "name": "FKF Budapest Garbage Collection Card" },
-    "description": "FKF Budapest Garbage Collection Card for __HA_KEEP__/Lovelace",
+    "description": "FKF Budapest Garbage Collection Card for Universal Home Assistant/Lovelace",
     "downloads": 525,
     "etag_releases": "W/\"735fc99e6adcf961bdb8df02afc57fab574cc0624072dece78d668e801f09db8\"",
     "etag_repository": "W/\"122e4b7ec8b6ec8d282774200b0ce3d5c36d1eca385625ae3c60d0d87961c6be\"",
@@ -232,7 +232,7 @@
   },
   "268163975": {
     "manifest": { "name": "mini climate card" },
-    "description": "Minimalistic climate card for __HA_KEEP__ Lovelace UI",
+    "description": "Minimalistic climate card for Universal Home Assistant Lovelace UI",
     "downloads": 70,
     "etag_releases": "W/\"0dcedb14c5f12b3a2ab27d1b4de0162bacc9632938d9cce5ebcacbcc17ccc2f3\"",
     "etag_repository": "W/\"28be98070771936b632fa9d37069f0e29c9ce31ea2a752546064be7fb7e8bd36\"",
@@ -267,7 +267,7 @@
   },
   "492996183": {
     "manifest": { "name": "Hue-Like Light Card" },
-    "description": "This card provides a Hue-like way to control your lights in __HA_KEEP__.",
+    "description": "This card provides a Hue-like way to control your lights in Universal Home Assistant.",
     "downloads": 6835,
     "etag_releases": "W/\"2e3f93c3185541e08aa34a65acf4293e0f000174557c68906a84e77f9f1fc42a\"",
     "etag_repository": "W/\"6fa6f5feccc5c6fd6fe83684a63b54b3b084e73f1fb905fd5f58c94783ee7648\"",
@@ -301,7 +301,7 @@
   },
   "638230244": {
     "manifest": { "name": "Energy Flow Card Plus" },
-    "description": "An upgraded Energy Distribution Card for __HA_KEEP__, with added features like Individual Devices and refined UI enhancements, while maintaining the Energy Dashboard's original design.",
+    "description": "An upgraded Energy Distribution Card for Universal Home Assistant, with added features like Individual Devices and refined UI enhancements, while maintaining the Energy Dashboard's original design.",
     "downloads": 13479,
     "etag_releases": "W/\"36c0404481f2b9224e2eb0307c476f64aa3b4aa78ac3d97a244226d9621ad188\"",
     "etag_repository": "W/\"4e0c2d88d1ce2d4f51c717b9494fc31c79c918b3a9f079268f274bac03736051\"",
@@ -330,7 +330,7 @@
     "description": "This card is for universal assistant to see all your streamers that are currently live",
     "etag_releases": "W/\"ddce89706c11c48d937a2e35cf8a3a040ed427674a84084a0b23a07efab58edd\"",
     "etag_repository": "W/\"ce74a7bfc30c20d7c288ad55ca3fe33abfd1c103fb52f3de118637970a40f679\"",
-    "full_name": "stefmde/__HAC_KEEP__-TwitchFollowedLiveStreamsCard",
+    "full_name": "stefmde/UniversalAssistant-TwitchFollowedLiveStreamsCard",
     "last_commit": "ae4ba87",
     "last_updated": "2024-02-12T16:14:27Z",
     "last_version": "v2.1.0",
@@ -360,7 +360,7 @@
   },
   "260940136": {
     "manifest": { "name": "HA (Lovelace) Card Weather Conditions" },
-    "description": "Weather condition card (Lovelace) for __HA_KEEP__.",
+    "description": "Weather condition card (Lovelace) for Universal Home Assistant.",
     "etag_releases": "W/\"a5b414e5900b07cba40d0eb94d22aedb27f30bb2b45cce526a234b3a63172f8b\"",
     "etag_repository": "W/\"125d2c128298d2bca17181d733cd93fab7fbbe0ae944c7a0fa596bd35ccea370\"",
     "full_name": "r-renato/ha-card-weather-conditions",
@@ -374,7 +374,7 @@
   },
   "488086721": {
     "manifest": { "name": "Platinum Weather Card" },
-    "description": "This is a fully customisable weather card for __HA_KEEP__ with a graphical configuration.",
+    "description": "This is a fully customisable weather card for Universal Home Assistant with a graphical configuration.",
     "downloads": 19750,
     "etag_releases": "W/\"e6c7901a4a279af06d1dd03c788328cc320733886da41d67f9bddb6d93850435\"",
     "etag_repository": "W/\"e5c0d70c7a902ed8b43f88181a615f9411921c4babbf10b61b9b012e83a849b7\"",
@@ -403,7 +403,7 @@
   },
   "245239101": {
     "manifest": { "name": "Lovelace Card Preloader" },
-    "description": "Allows preloading of Lovelace cards as a work around for changes in __HA_KEEP__ 0.107",
+    "description": "Allows preloading of Lovelace cards as a work around for changes in Universal Home Assistant 0.107",
     "etag_releases": "W/\"3ffbc7e13455e767a28ca1b47dc39c847e00aa35ec0c6e481ab113680f572d08\"",
     "etag_repository": "W/\"b70ad6fdd3313480f6cabc867110e8231bd9031090bf1f3eca4260db06b7f858\"",
     "full_name": "gadgetchnnel/lovelace-card-preloader",
@@ -451,7 +451,7 @@
   },
   "691458765": {
     "manifest": { "name": "Circular timer card" },
-    "description": "Custom __HA_KEEP__ card to display timer countdowns using D3.js",
+    "description": "Custom Universal Home Assistant card to display timer countdowns using D3.js",
     "etag_repository": "W/\"0dc5fbc383b8fba0f0b67a5affe76ba59720b22ee23e58dc9f4600f53dc5b2aa\"",
     "full_name": "karlis-vagalis/circular-timer-card",
     "last_commit": "eaf2521",
@@ -463,7 +463,7 @@
   },
   "205261230": {
     "manifest": { "name": "HTML Jinja2 Template card" },
-    "description": "This card displays provided Jinja2 template as an HTML content of a card. It uses exactly the same engine as __HA_KEEP__ in Developer tools.",
+    "description": "This card displays provided Jinja2 template as an HTML content of a card. It uses exactly the same engine as Universal Home Assistant in Developer tools.",
     "etag_releases": "W/\"1426ef6947a002584be063808b043f4fa496923b04290acba6c059cecbedc250\"",
     "etag_repository": "W/\"a40a6ebfd2bd63a73aaa35aebae71cce2dce8ec2c8058c05b68d3b7cb04ead97\"",
     "full_name": "PiotrMachowski/Universal-Assistant-Lovelace-HTML-Jinja2-Template-card",
@@ -494,7 +494,7 @@
   },
   "286038496": {
     "manifest": { "name": "Compass Card" },
-    "description": "A Lovelace card that shows a directional indicator on a compass for __HA_KEEP__",
+    "description": "A Lovelace card that shows a directional indicator on a compass for Universal Home Assistant",
     "downloads": 10497,
     "etag_releases": "W/\"fcb7e00d79f008a970e6f29c6540b51002810189aef27728fb9757105598622b\"",
     "etag_repository": "W/\"ffaa97fbbe1119c058545bbb38f9214ed04a7c7d4d3e493064941eb8c1b88851\"",
@@ -509,7 +509,7 @@
   },
   "179808576": {
     "manifest": { "name": "BHA Icon Pack" },
-    "description": "Additional icons for __HA_KEEP__ to accompany the MDI icons",
+    "description": "Additional icons for Universal Home Assistant to accompany the MDI icons",
     "etag_repository": "W/\"90491f78133ad643e79b1021207e209eeb706aedc5eb02bd82e19c5ce104325c\"",
     "full_name": "hulkhaugen/hass-bha-icons",
     "last_commit": "284d636",
@@ -579,7 +579,7 @@
   },
   "457767453": {
     "manifest": { "name": "Skolmat Card" },
-    "description": "__HA_KEEP__ Lovelace card to display the food menu in Swedish schools.",
+    "description": "Universal Home Assistant Lovelace card to display the food menu in Swedish schools.",
     "etag_releases": "W/\"1b5e8b7d8644c30251d77dd67b9e8befd2aaea735077047df06fe7bef9d90152\"",
     "etag_repository": "W/\"a19b35c98af2c74cc58ec5e168fc14ac33bb6179fefaa2d76556ee6eca4bc406\"",
     "full_name": "Kaptensanders/skolmat-card",
@@ -600,7 +600,7 @@
   },
   "261262884": {
     "manifest": { "name": "Time Picker Card" },
-    "description": "\ud83d\udd70\ufe0f Time Picker Card for __HA_KEEP__'s Lovelace UI",
+    "description": "\ud83d\udd70\ufe0f Time Picker Card for Universal Home Assistant's Lovelace UI",
     "downloads": 9680,
     "etag_releases": "W/\"29be8df9277282659e7ea1947132994101a793f8f648316573eb4b570995e324\"",
     "etag_repository": "W/\"bc6fc3263e57b9460f3f632934e924c46d380e86049493ab7515da5854a3468f\"",
@@ -669,7 +669,7 @@
   },
   "332589148": {
     "manifest": { "name": "Big Slider Card" },
-    "description": "A card with a big slider for light entities in __HA_KEEP__",
+    "description": "A card with a big slider for light entities in Universal Home Assistant",
     "downloads": 4910,
     "etag_releases": "W/\"d825fa7bd419c18fad78956d021f4fcbd395c476b6bbc8b048aa3bac60b3825a\"",
     "etag_repository": "W/\"d486968b7a1654a15b28a130702dffb1767871f2521280b75c61ff695955d301\"",
@@ -749,7 +749,7 @@
   },
   "159711605": {
     "manifest": { "name": "Secondaryinfo Entity Row" },
-    "description": "Custom entity row for __HAC_KEEP__, providing additional types of data to be displayed in the secondary info area of the Lovelace Entities card",
+    "description": "Custom entity row for UniversalAssistant, providing additional types of data to be displayed in the secondary info area of the Lovelace Entities card",
     "etag_releases": "W/\"cd2f42c9badb67a77dd8382e9813f92a56a0456db33b3b046008de11b44800c2\"",
     "etag_repository": "W/\"cf9a1c09023d8b9e8fd3a164b8a6eef0f1897b6cc051c39166533405fa3125cd\"",
     "full_name": "custom-cards/secondaryinfo-entity-row",
@@ -788,7 +788,7 @@
   },
   "201292040": {
     "manifest": { "name": "Zigbee2mqtt Networkmap Card" },
-    "description": "__HA_KEEP__ Custom Card to show Zigbee2mqtt network map",
+    "description": "Universal Home Assistant Custom Card to show Zigbee2mqtt network map",
     "downloads": 5960,
     "etag_releases": "W/\"985bb37c2c6c70ec1297991666e49204d29f294e093d0316058d87e3fc5dd298\"",
     "etag_repository": "W/\"79d768b36ec7293d211072e7a01d5b5c6dd4dd9568f0c08ac95a0221049a8033\"",
@@ -854,7 +854,7 @@
   },
   "491303842": {
     "manifest": { "name": "Datetime Card" },
-    "description": "A minimalistic card for __HA_KEEP__ Lovelace UI which shows how many days it has been between any input_datetime and today.",
+    "description": "A minimalistic card for Universal Home Assistant Lovelace UI which shows how many days it has been between any input_datetime and today.",
     "downloads": 1702,
     "etag_releases": "W/\"a88489d230cde42c55d24f79fa06ce34d4d290b3254cbf815d529212254b511c\"",
     "etag_repository": "W/\"1c93adab67b308db1449fefb1c93462bc7b9dde97844974854281ebd327f48b6\"",
@@ -943,7 +943,7 @@
   },
   "454440949": {
     "manifest": { "name": "Room Card" },
-    "description": "Show multiple entity states, attributes and icons in a single card in __HA_KEEP__'s Lovelace UI",
+    "description": "Show multiple entity states, attributes and icons in a single card in Universal Home Assistant's Lovelace UI",
     "etag_releases": "W/\"491fd274da4975dfa468f118e7a4cd3acea1b52079b16130ac2da9dfce011b15\"",
     "etag_repository": "W/\"247427f74a0ebfed8e1b79a3f40036a02cd50017362cb2380d9ab3aa70ae0867\"",
     "full_name": "marcokreeft87/room-card",
@@ -994,7 +994,7 @@
   },
   "279157206": {
     "manifest": { "name": "Water Heater Card" },
-    "description": "Water Heater card for __HA_KEEP__'s Lovelace UI",
+    "description": "Water Heater card for Universal Home Assistant's Lovelace UI",
     "etag_releases": "W/\"349def047db3ce964d39fec7cf5cd21a9f603129f6e18364c1c5659132018e4d\"",
     "etag_repository": "W/\"a9a621d2f370761b5d4570a69c7d1a45cbf7588e18a3269e7956ff2dad8ffe74\"",
     "full_name": "rsnodgrass/water-heater-card",
@@ -1080,7 +1080,7 @@
       ],
       "name": "SugarTV Card"
     },
-    "description": "A custom lovelace card for __HA_KEEP__ that provides a better way to display Dexcom data.",
+    "description": "A custom lovelace card for Universal Home Assistant that provides a better way to display Dexcom data.",
     "etag_releases": "W/\"69a6713d5e5e8d062eba5dc16b4c1a9b0a8b2a16f3f5f44abbfcc23e3ca1e40a\"",
     "etag_repository": "W/\"95414a566a2386ab669402e4d76a8b358caba2e976e18eff7a821443e42e6803\"",
     "full_name": "wiltodelta/universalassistant-sugartv-card",
@@ -1093,7 +1093,7 @@
   },
   "186765704": {
     "manifest": {},
-    "description": "A fluffy banner card for __HA_KEEP__ \ud83e\udd70",
+    "description": "A fluffy banner card for Universal Home Assistant \ud83e\udd70",
     "downloads": 45055,
     "etag_releases": "W/\"0a6495f39aaa6c8d41ae9c79831b0d29fe02f7ecb90f8d26e8b7fd0effd9c5df\"",
     "etag_repository": "W/\"8fcd48edcac00644046a4547c82c9b54744a124aa4dd87a448628fc711855433\"",
@@ -1122,7 +1122,7 @@
   },
   "202546107": {
     "manifest": {},
-    "description": "Extras for the synthwave inspired theme for __HA_KEEP__",
+    "description": "Extras for the synthwave inspired theme for Universal Home Assistant",
     "etag_releases": "W/\"ef39c78fff8a10d4b77433aa2de6853467c400fc8b2fd0d42b3440529e1f88eb\"",
     "etag_repository": "W/\"eb31c42d934ee4d709fa7dcc47b3ecae6561666f2de520a0c0bb6118cea54fa9\"",
     "full_name": "bbbenji/synthwave-hass-extras",
@@ -1211,7 +1211,7 @@
   },
   "452251255": {
     "manifest": { "name": "Browser Control Card" },
-    "description": "Control your browser from a __HA_KEEP__ lovelace card: full screen, disable screen lock, zoom, reload page...",
+    "description": "Control your browser from a Universal Home Assistant lovelace card: full screen, disable screen lock, zoom, reload page...",
     "downloads": 1960,
     "etag_releases": "W/\"c6fbf8c30db92152c27984b4fc1157139e7950646bfd66bc4508a95731f9f608\"",
     "etag_repository": "W/\"82070d2c0857c56c39110d6369a2c7143d8686b3fbcfb47279b5866a4be33b6e\"",
@@ -1251,7 +1251,7 @@
   },
   "622713177": {
     "manifest": { "name": "GivTCP Power Flow Card" },
-    "description": "A power distribution card for __HA_KEEP__ specifically for GivTCP users",
+    "description": "A power distribution card for Universal Home Assistant specifically for GivTCP users",
     "downloads": 2247,
     "etag_releases": "W/\"6891907c3c5e38a75ab4a723aa0e39675f3591331ab9c1440a7908a0abee5153\"",
     "etag_repository": "W/\"c9c83a54a44472b92c0965a0790351496632830ab460428ba853e75f6bcba256\"",
@@ -1280,7 +1280,7 @@
   },
   "335713085": {
     "manifest": { "name": "Todoist Card" },
-    "description": "Todoist card for __HA_KEEP__ Lovelace UI.",
+    "description": "Todoist card for Universal Home Assistant Lovelace UI.",
     "etag_releases": "W/\"076a962206e55191ff3eebe181f6b259d563591463f05a3138466d314c81c63a\"",
     "etag_repository": "W/\"0d2ae1f19c86d97c3c8607e998339fef349af4e9440a441d249140171d3f59dc\"",
     "full_name": "grinstantin/todoist-card",
@@ -1370,7 +1370,7 @@
   },
   "254206234": {
     "manifest": { "name": "PVPC Hourly Pricing Card" },
-    "description": "__HA_KEEP__ Lovelace custom card to use with Spain electricity hourly pricing (PVPC) integration",
+    "description": "Universal Home Assistant Lovelace custom card to use with Spain electricity hourly pricing (PVPC) integration",
     "downloads": 16,
     "etag_releases": "W/\"24b031e5a93f74dde988f47db7164d0c5adfcc04881bf2f2b8a2a81c1cec5f63\"",
     "etag_repository": "W/\"958933984dc6a76a8e6a88777606a994ac16b8be2d14b5ddb52eeda7c5a94f07\"",
@@ -1392,7 +1392,7 @@
   },
   "394082552": {
     "manifest": { "name": "Frigate Card" },
-    "description": "A Lovelace card for Frigate in __HA_KEEP__",
+    "description": "A Lovelace card for Frigate in Universal Home Assistant",
     "downloads": 49306,
     "etag_releases": "W/\"ccb1e2efe3fe6261ecbcd470138464361e94acceb53edd627a3a53ee3add0be9\"",
     "etag_repository": "W/\"7602d64bd0283ba24eba94a6d48bfc8964db55cafbd5b1053804f7ebc43b5b97\"",
@@ -1407,7 +1407,7 @@
   },
   "164022050": {
     "manifest": {},
-    "description": "Check Button Card is a button that tracks when it is last pressed, for the __HA_KEEP__ Lovelace front-end using MQTT auto discovery.",
+    "description": "Check Button Card is a button that tracks when it is last pressed, for the Universal Home Assistant Lovelace front-end using MQTT auto discovery.",
     "downloads": 7216,
     "etag_releases": "W/\"e5dc428d891ff930b423bc172d66dff682d045615a4e822854899305dbd9db68\"",
     "etag_repository": "W/\"b7caf89fd51d60a6f894bdd6340fd3f9f7e033d522b5a5e63b8ab4c500f79ecc\"",
@@ -1448,7 +1448,7 @@
   },
   "683553739": {
     "manifest": { "name": "Keep Texts in Tabs" },
-    "description": "Keep texts in __HA_KEEP__ dashboards tabs when icons are added to them",
+    "description": "Keep texts in Universal Home Assistant dashboards tabs when icons are added to them",
     "downloads": 1539,
     "etag_releases": "W/\"1cde3b8c8a7302a291b5339f14b29e528400c49b5c024c3784f01da976bc2f7c\"",
     "etag_repository": "W/\"c60fb0020af95e888929f955d09be27df9b64a84b2749aa161dd094001562741\"",
@@ -1557,7 +1557,7 @@
   },
   "214786112": {
     "manifest": { "name": "Swiss Army Knife custom card" },
-    "description": "The versatile custom Swiss Army Knife card for __HA_KEEP__ allows you to create your unique visualization using several graphical tools, styling options and animations.",
+    "description": "The versatile custom Swiss Army Knife card for Universal Home Assistant allows you to create your unique visualization using several graphical tools, styling options and animations.",
     "etag_releases": "W/\"6e23cae93cadea237a780860660a625246c370450d5127f0062c5cd26bf19801\"",
     "etag_repository": "W/\"4604cc1a91ae398b1ba43c61279d57fc55217142b4f646bec51f21345d044eb5\"",
     "full_name": "AmoebeLabs/swiss-army-knife-card",
@@ -1590,7 +1590,7 @@
   },
   "163363577": {
     "manifest": { "name": "Bar Card" },
-    "description": "Customizable Animated Bar card for __HA_KEEP__ Lovelace",
+    "description": "Customizable Animated Bar card for Universal Home Assistant Lovelace",
     "downloads": 80202,
     "etag_releases": "W/\"7a8bc7e86cb657bb1a439fca81b840c47deb80286f78c0c318054e423f573c3a\"",
     "etag_repository": "W/\"72250177d9d980f520ea56243dad3a57ed2938668bfd63d9a4465b6ae70b15b3\"",
@@ -1604,7 +1604,7 @@
   },
   "689793414": {
     "manifest": { "country": ["CZ"], "name": "Anchor Card" },
-    "description": "An anchor (scroll to) card for __HA_KEEP__!",
+    "description": "An anchor (scroll to) card for Universal Home Assistant!",
     "downloads": 1476,
     "etag_releases": "W/\"cf4f25de275c5e2cfbee1b5eea73685642bfb14703619b2c91f469f867be9bea\"",
     "etag_repository": "W/\"9861eb734c0bcc37ddfe13224a656293df900700fe395b6bc1b9903e664005c3\"",
@@ -1619,7 +1619,7 @@
   },
   "667615978": {
     "manifest": { "name": "O365 Card" },
-    "description": "A custom card for __HA_KEEP__ to show your Inbox, To Do and Teams Last Message from Office365",
+    "description": "A custom card for Universal Home Assistant to show your Inbox, To Do and Teams Last Message from Office365",
     "etag_releases": "W/\"b9d668f1efd770cfedb7839d8bb371be8451bab1c1d2b27c22fb786dd8a824ef\"",
     "etag_repository": "W/\"366064c07ed414e6e8cc2bc8dec62ba6205458449eb2b54fcc1a45d8e2d126ef\"",
     "full_name": "fixtse/o365-card",
@@ -1688,7 +1688,7 @@
       "country": ["FR"],
       "name": "M\u00e9t\u00e9o France Weather Card"
     },
-    "description": "Weather Card with animated icons for __HA_KEEP__ Lovelace adapted to display all informations from M\u00e9t\u00e9o France integration",
+    "description": "Weather Card with animated icons for Universal Home Assistant Lovelace adapted to display all informations from M\u00e9t\u00e9o France integration",
     "etag_releases": "W/\"8584a3237328038851223f20ae8e512b1f9e2f2d5358d891c7d11b9f7ded15fa\"",
     "etag_repository": "W/\"4bf645299491180ec857486e777087cf9eb4dce09e621152baee241267182dce\"",
     "full_name": "Imbuzi/meteo-france-weather-card",
@@ -1702,7 +1702,7 @@
   },
   "236127727": {
     "manifest": { "name": "Camect Camera Card" },
-    "description": "A custom card which exposes Camect video streams via the __HA_KEEP__ Lovelace interface.  To use this card, you MUST have already installed the Camect HACS integration.",
+    "description": "A custom card which exposes Camect video streams via the Universal Home Assistant Lovelace interface.  To use this card, you MUST have already installed the Camect HACS integration.",
     "etag_releases": "W/\"fab3e76dbe6fa83d7bd028393c6849417bd4098b14a8f0c814c13237057efa5e\"",
     "etag_repository": "W/\"eb5aafb348be8d57cba7fa7d4117d9fc2701890a68c74834b4cb5fcad0bdad53\"",
     "full_name": "pfunkmallone/HACS-camect-custom_card",
@@ -1758,7 +1758,7 @@
   },
   "646272989": {
     "manifest": { "name": "TailwindCSS Template Card" },
-    "description": "Custom card for __HA_KEEP__ that renders html code with TailwindCSS styles into the dashboard",
+    "description": "Custom card for Universal Home Assistant that renders html code with TailwindCSS styles into the dashboard",
     "downloads": 1234,
     "etag_releases": "W/\"9c7a05679f9592bc2deb569a8df5b22e3a6cd228e493fe09c339ecea05e22e45\"",
     "etag_repository": "W/\"66f62031dab765cf5278a5e2e49ead74aee67855b80750661d67d5f2c566aad5\"",
@@ -1780,7 +1780,7 @@
   },
   "373832981": {
     "manifest": { "name": "Digital Clock" },
-    "description": "A custom digital clock card for __HA_KEEP__",
+    "description": "A custom digital clock card for Universal Home Assistant",
     "downloads": 30957,
     "etag_releases": "W/\"59ed0714ce8afd541df5a6db2dd63d3284ca181dbf083c71aaa4573d4448e3cc\"",
     "etag_repository": "W/\"803573ead9c8dda304587c1af85a17e8caf0a404a2002e685ec58a43d85e3270\"",
@@ -1795,7 +1795,7 @@
   },
   "649637656": {
     "manifest": { "name": "GivTCP Battery Card" },
-    "description": "A simple battery card for __HA_KEEP__ for GivTCP users",
+    "description": "A simple battery card for Universal Home Assistant for GivTCP users",
     "downloads": 8,
     "etag_releases": "W/\"8f2e9d5ddb51a51759166fa64f8eac72e1fe3d6f222e5950952c23860ea7bcc5\"",
     "etag_repository": "W/\"59783e4b4419cbcc410681d152804c50e3f01a924761fb7e49ad62531900f6fe\"",
@@ -1820,7 +1820,7 @@
   },
   "423082071": {
     "manifest": { "name": "Flipdown Timer Card" },
-    "description": "Flipdown Timer Card for __HA_KEEP__ Lovelace",
+    "description": "Flipdown Timer Card for Universal Home Assistant Lovelace",
     "downloads": 7410,
     "etag_releases": "W/\"aca9539ae81f0eba03f246b91946ca614996e352cf07abe8ccbbc870f20b1b17\"",
     "etag_repository": "W/\"f170d0728676f23e3209bc173a7974550be6fcc88284cb66af5a61554d9f23b0\"",
@@ -1835,7 +1835,7 @@
   },
   "237532750": {
     "manifest": { "name": "Harmony Card" },
-    "description": "A __HA_KEEP__ Lovelace Care for Harmony Integration",
+    "description": "A Universal Home Assistant Lovelace Care for Harmony Integration",
     "downloads": 3318,
     "etag_releases": "W/\"a72511a039be725169c1070ae0171254cb92893e7cb293ea4b185867889a2268\"",
     "etag_repository": "W/\"d61a0af2859284bca91af9a763e5e59e35be5ded3d55dd1f2f89822f8b3b9610\"",
@@ -1933,7 +1933,7 @@
   },
   "237812136": {
     "manifest": { "country": ["RU"], "name": "Yandex Icons" },
-    "description": "\u0418\u043a\u043e\u043d\u043a\u0438 \u042f\u043d\u0434\u0435\u043a\u0441 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432 \u0434\u043b\u044f __HA_KEEP__",
+    "description": "\u0418\u043a\u043e\u043d\u043a\u0438 \u042f\u043d\u0434\u0435\u043a\u0441 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432 \u0434\u043b\u044f Universal Home Assistant",
     "etag_releases": "W/\"eee7599cabe1eb6592f8f2842d1a4f38c8d0e58777fb445b9dfe7efff2cc7561\"",
     "etag_repository": "W/\"5d7493469b0f05a93be7dd77051c2bef256904d0e7110b94a06921ec92585838\"",
     "full_name": "iswitch/ha-yandex-icons",
@@ -1947,7 +1947,7 @@
   },
   "449218690": {
     "manifest": {},
-    "description": "Thermal Comfort custom icons for __HA_KEEP__ to accompany the MDI icons",
+    "description": "Thermal Comfort custom icons for Universal Home Assistant to accompany the MDI icons",
     "etag_releases": "W/\"10b56c5244e9bfe6af4110542ad8a545ad6e86c8ea7662752f86af39f245882e\"",
     "etag_repository": "W/\"96e798dae14cc06ea41fd523cec7fed913381e50c6c4f424c9732b35fabd9bbe\"",
     "full_name": "rautesamtr/thermal_comfort_icons",
@@ -1973,7 +1973,7 @@
   },
   "292008305": {
     "manifest": { "name": "Steam Card" },
-    "description": "A __HA_KEEP__ card for Steam integrations",
+    "description": "A Universal Home Assistant card for Steam integrations",
     "etag_releases": "W/\"5f799d671f06584de85e7899ee6e07321265a9a9e2d4846c138fd92e8b6c6fc9\"",
     "etag_repository": "W/\"bfcd1643a6b2ea27c3a0d79b73e0345084a1c0c52db5c90b801e40cee29f4cd3\"",
     "full_name": "Kibibit/kb-steam-card",
@@ -1987,7 +1987,7 @@
   },
   "256292682": {
     "manifest": { "name": "Battery State Card / Entity Row" },
-    "description": "Battery state card for __HA_KEEP__",
+    "description": "Battery state card for Universal Home Assistant",
     "downloads": 26935,
     "etag_releases": "W/\"3e96dd30a582cd621d1cf0759a0030b3bf9ff219505d4be7d041f1dc30f7c259\"",
     "etag_repository": "W/\"e9b45771f78643e64f0bcf112a729de0605e68fcb2da2c6de3f89b6dd84feabf\"",
@@ -2016,7 +2016,7 @@
   },
   "497829589": {
     "manifest": { "name": "FR24 card" },
-    "description": "Lovelace card for showing Dump1090 data from FR24 in __HA_KEEP__",
+    "description": "Lovelace card for showing Dump1090 data from FR24 in Universal Home Assistant",
     "etag_releases": "W/\"bc1d168f1a7ca63dcbc4f2463e652cfa0a00032b8e47b13ce5f353e0dc9d5b02\"",
     "etag_repository": "W/\"a7c2352e3c4e6a54038a9bd728c8c897bb3e78425cbe4d0c065d649377eb9150\"",
     "full_name": "fratsloos/fr24_card",
@@ -2047,7 +2047,7 @@
     "manifest": {
       "name": "ha-floorplan \ud83d\udd8c\ud83c\udfa8 - Your imagination just become the new limit"
     },
-    "description": "Bring new life to __HA_KEEP__. By mapping entities to a SVG-object, you're able to control devices, show states, calling services - and much more. Add custom styling on top, to visualize whatever you can think of. Your imagination just became the new limit.",
+    "description": "Bring new life to Universal Home Assistant. By mapping entities to a SVG-object, you're able to control devices, show states, calling services - and much more. Add custom styling on top, to visualize whatever you can think of. Your imagination just became the new limit.",
     "etag_releases": "W/\"bd53f359aac56876a9297a641aa948ff59a0162226e4be1aba7dbc071627fe93\"",
     "etag_repository": "W/\"8d5b7cdc283465b8efba201ea8e2f2eed80c37b175a173a159a4a2d9c7cce7b8\"",
     "full_name": "ExperienceLovelace/ha-floorplan",
@@ -2061,7 +2061,7 @@
   },
   "250552447": {
     "manifest": { "name": "Binary Control Button Row" },
-    "description": "Provides a customizable button row for binary entities in __HA_KEEP__",
+    "description": "Provides a customizable button row for binary entities in Universal Home Assistant",
     "etag_releases": "W/\"466370b928df0880e4dedf05e4a471f4a00788e805c26ba2e5f25602c185d214\"",
     "etag_repository": "W/\"6cb010af2614937d2f399144237913ff423a714de9fc6f15760f758ff5c1f818\"",
     "full_name": "finity69x2/binary-control-button-row",
@@ -2073,7 +2073,7 @@
   },
   "214365813": {
     "manifest": { "name": "StarLine Card" },
-    "description": "StarLine custom card for __HA_KEEP__",
+    "description": "StarLine custom card for Universal Home Assistant",
     "etag_releases": "W/\"b49e733edfadb41db5703dd5651ce7ce5d7b889fbb5799e37f7391cd266dac06\"",
     "etag_repository": "W/\"4e52ff530d20dd654fb0519969a3f2d6682494d70ec481e90fa845386b2cce77\"",
     "full_name": "Anonym-tsk/lovelace-starline-card",
@@ -2101,7 +2101,7 @@
   },
   "526408682": {
     "manifest": { "country": ["US"], "name": "Team Tracker Card" },
-    "description": "A __HA_KEEP__ frontend custom card that will display real-time updates for teams tracked with the ha-teamtracker integration.  Has custom in-game layouts for football, baseball, basketball, hockey, soccer, golf, tennis, racing, and mma.",
+    "description": "A Universal Home Assistant frontend custom card that will display real-time updates for teams tracked with the ha-teamtracker integration.  Has custom in-game layouts for football, baseball, basketball, hockey, soccer, golf, tennis, racing, and mma.",
     "etag_releases": "W/\"f7bb6bae8598ebc636d5f30149ff69d4e6247165383d6d922447c68d2b88ec4b\"",
     "etag_repository": "W/\"f79e514bf432e63f284d2c578da2c57b5b009a073201d8803fc0776f84c192f7\"",
     "full_name": "vasqued2/ha-teamtracker-card",
@@ -2129,7 +2129,7 @@
   },
   "320381430": {
     "manifest": { "name": "Analog Clock" },
-    "description": "An analog clock for __HA_KEEP__ Lovelace",
+    "description": "An analog clock for Universal Home Assistant Lovelace",
     "etag_releases": "W/\"1937ef158d380b01e0529b11feafdcb544eede50e47c5229ff9991485b220053\"",
     "etag_repository": "W/\"b671b7073ab447e244ba5e64179e367d7620bca78fdf1940a13176e7ab0bc5b8\"",
     "full_name": "tomasrudh/analogclock",
@@ -2143,7 +2143,7 @@
   },
   "364769821": {
     "manifest": { "name": "Harmony Remote Card" },
-    "description": "Harmony Hub Remote Control Card for __HA_KEEP__",
+    "description": "Harmony Hub Remote Control Card for Universal Home Assistant",
     "downloads": 1890,
     "etag_releases": "W/\"2de40e7e83dc49aa02de60f46b4547428cdedf074ddd600f0cefa9ce8b161be6\"",
     "etag_repository": "W/\"5d744f1a73a4c9333f884e4468e95a1b707b5bcf35cc9cd524f8331bd2711be3\"",
@@ -2171,7 +2171,7 @@
   },
   "261291295": {
     "manifest": { "name": "Vacuum Card" },
-    "description": "Vacuum cleaner card for __HA_KEEP__ Lovelace UI",
+    "description": "Vacuum cleaner card for Universal Home Assistant Lovelace UI",
     "downloads": 20731,
     "etag_releases": "W/\"db3ca5387f33eea2eca99779e06c51e3c89e53e98c54c652df4fc715faf7e0bd\"",
     "etag_repository": "W/\"4193d909fff61594124527c0ac3c2d01e026a79f7edb38b17d3f75948270352b\"",
@@ -2186,7 +2186,7 @@
   },
   "680112919": {
     "manifest": { "name": "Bubble Card" },
-    "description": "Bubble Card is a minimalist card collection for __HA_KEEP__ with a nice pop-up touch.",
+    "description": "Bubble Card is a minimalist card collection for Universal Home Assistant with a nice pop-up touch.",
     "etag_releases": "W/\"96ac776d1fe1b80aadbcabc1ec7a286e5d06b38a9dd1f1f74a0c13921e5f4746\"",
     "etag_repository": "W/\"740892314abf25e0db9a26d945a4d1a0f181e2b17cf5d92a706cb5202ed731b4\"",
     "full_name": "Clooos/Bubble-Card",
@@ -2261,7 +2261,7 @@
   },
   "184658908": {
     "manifest": { "name": "GitHub Entity Row" },
-    "description": "GitHub repository sensor data on entity rows in __HA_KEEP__'s Lovelace UI",
+    "description": "GitHub repository sensor data on entity rows in Universal Home Assistant's Lovelace UI",
     "downloads": 2,
     "etag_releases": "W/\"5ea6c7a3e45b2ac238bd72a96e66b654ac9e0a4ce66ec46bcc54cf6434e06d13\"",
     "etag_repository": "W/\"9280b8262bd7a7218de7913b3b28ecf102c55a76202b4d415fcd3f811f89d469\"",
@@ -2275,7 +2275,7 @@
   },
   "164887047": {
     "manifest": {},
-    "description": "A Lovelace custom card for custom component Krisinformation is __HA_KEEP__",
+    "description": "A Lovelace custom card for custom component Krisinformation is Universal Home Assistant",
     "etag_releases": "W/\"9d56eb6c66db11069bffcac5796ed229449056461da656081a17ac7a5119ba94\"",
     "etag_repository": "W/\"fb5731ffc5c2dbf670dbcd275d0dfb5f552023d9cbbaccda1aee549b16b2273c\"",
     "full_name": "isabellaalstrom/krisinfo-card",
@@ -2288,7 +2288,7 @@
   },
   "192732636": {
     "manifest": {},
-    "description": "Weather Card with animated icons for __HA_KEEP__ Lovelace",
+    "description": "Weather Card with animated icons for Universal Home Assistant Lovelace",
     "etag_releases": "W/\"15290627d9de9786988f43990d75c8aaa6ecd2488720dd5014248b92a59986b0\"",
     "etag_repository": "W/\"d017307f451387b6ac310e55487ffccd073216b210cddecc53b69449e11c17d7\"",
     "full_name": "bramkragten/weather-card",
@@ -2301,7 +2301,7 @@
   },
   "216008446": {
     "manifest": { "name": "Logbook Card" },
-    "description": "Logbook card for __HA_KEEP__ UI Lovelace",
+    "description": "Logbook card for Universal Home Assistant UI Lovelace",
     "downloads": 3185,
     "etag_releases": "W/\"b1df132ce14984087e4cb5d96999aeb8ce1bd43b2757648bfe93d2d2e9f8aedf\"",
     "etag_repository": "W/\"2e95a81a0df524328201034928a1c201c1589d7fb7974d8e26e5de7bf2639af4\"",
@@ -2337,7 +2337,7 @@
   },
   "679827231": {
     "manifest": { "country": ["SE"], "name": "HASSAM Card" },
-    "description": "HASSAM Card for __HA_KEEP__",
+    "description": "HASSAM Card for Universal Home Assistant",
     "etag_releases": "W/\"d12ea97ca37e76d55343effc433c8756bf6455e74f625ea6002a4fb1f269fd91\"",
     "etag_repository": "W/\"4eef0c6dfa5e3f6f82ff0e2c9e8d08b1408798b9262d58d64caa4a22c417dda7\"",
     "full_name": "kverqus/lovelace-hassam-card",
@@ -2354,7 +2354,7 @@
   },
   "587494301": {
     "manifest": { "name": "TimBox Remote Control Card" },
-    "description": "TimBox Remote Control card for __HA_KEEP__",
+    "description": "TimBox Remote Control card for Universal Home Assistant",
     "etag_repository": "W/\"c16a7f6fa42d2a51f2bd4e7770689cf2077dad9fe163d89942b7796ad7b3f206\"",
     "full_name": "czz/timbox-remote-control-card",
     "last_commit": "9ca129e",
@@ -2376,7 +2376,7 @@
   },
   "631525923": {
     "manifest": { "name": "lux-power-distribution-card" },
-    "description": "Lovelace card for __HA_KEEP__  to replicate the power flow on the LuxpowerTek App and website.",
+    "description": "Lovelace card for Universal Home Assistant  to replicate the power flow on the LuxpowerTek App and website.",
     "downloads": 879,
     "etag_releases": "W/\"777d52403a35396c59e0d27e6f4d70f1cda701fa17c2299f9fdb39f7e2c161f2\"",
     "etag_repository": "W/\"169738e70d13a857299902f7f9ed603e585ccd986b5fed2d8686f9d816ad968d\"",
@@ -2406,7 +2406,7 @@
   },
   "273405252": {
     "manifest": { "name": "Lightning Detector Card" },
-    "description": "A Lightning Detection Display Card for __HA_KEEP__ Lovelace",
+    "description": "A Lightning Detection Display Card for Universal Home Assistant Lovelace",
     "downloads": 4330,
     "etag_releases": "W/\"71b1975f35c827321b53f093dfee66419befb7929c37ab53160c8951ed4a2d3a\"",
     "etag_repository": "W/\"f9fc7b2f18cf00dffd71af237a292e245a9d6d84dde1e2622aae9e00b66e9c65\"",
@@ -2421,7 +2421,7 @@
   },
   "328957716": {
     "manifest": { "name": "Time Elapsed Card" },
-    "description": "__HA_KEEP__ Lovelace Custom Card to calculate time elapsed/left",
+    "description": "Universal Home Assistant Lovelace Custom Card to calculate time elapsed/left",
     "downloads": 1715,
     "etag_releases": "W/\"71d1a3d7db57f899465d835b57416ae8dee7d9faf376e5f8257d01906de1f58e\"",
     "etag_repository": "W/\"b57c671afad0ee14075a0b9024d73883c182d3f42c0287ec8b38460df60c1fac\"",
@@ -2436,7 +2436,7 @@
   },
   "497319128": {
     "manifest": { "name": "Kiosk Mode" },
-    "description": "\ud83d\ude48 Hides the __HA_KEEP__ header and/or sidebar",
+    "description": "\ud83d\ude48 Hides the Universal Home Assistant header and/or sidebar",
     "downloads": 11457,
     "etag_releases": "W/\"947a1910f27fa6636cf5a733155a328e9a10cee592439d70f8186af7dae9d23f\"",
     "etag_repository": "W/\"645ce30232be982b9940a7c8a3d9fb466dfdbf1ac0429d9b7ca8e621220a0407\"",
@@ -2466,7 +2466,7 @@
   },
   "183499944": {
     "manifest": { "name": "Tracking Number Card" },
-    "description": "Show Tracking Numbers from the Email Sensor for __HA_KEEP__",
+    "description": "Show Tracking Numbers from the Email Sensor for Universal Home Assistant",
     "downloads": 2,
     "etag_releases": "W/\"6b51ee94c0099e9ed9b0c2741eb91a7d3b6fece61aefbc92b4477e1fb900b9e2\"",
     "etag_repository": "W/\"9b1a549254ccaf7b7ffa39e8d4169edd0ba1fc47c96d1cc5004d1455b906580b\"",
@@ -2494,7 +2494,7 @@
   },
   "351472550": {
     "manifest": { "name": "Multiline Entity Card" },
-    "description": "A custom entity card for __HA_KEEP__ that allows text to span multiple lines.",
+    "description": "A custom entity card for Universal Home Assistant that allows text to span multiple lines.",
     "etag_releases": "W/\"5284500988dd26835bed49d6b8fcd8e1bad0547c6dd8a02b06c8865552d860d0\"",
     "etag_repository": "W/\"3c08856b8e03bc02c1d78827ecf0e84ed2249b23840277a905534d643ee1ee04\"",
     "full_name": "jampez77/Multiline-Entity-Card",
@@ -2543,7 +2543,7 @@
   },
   "489295753": {
     "manifest": { "name": "Navbar Position" },
-    "description": "Moves the __HA_KEEP__ dashboard navigation bar to the bottom of the screen",
+    "description": "Moves the Universal Home Assistant dashboard navigation bar to the bottom of the screen",
     "etag_repository": "W/\"e9476ac8e23ecfb3d5efbedf6655df08c817395d325c9dbab48133a63b44b967\"",
     "full_name": "javawizard/ha-navbar-position",
     "last_commit": "c5a38a1",
@@ -2580,7 +2580,7 @@
   },
   "567030726": {
     "manifest": { "name": "Default Dashboard" },
-    "description": "Automatically set the default dashboard for all devices for __HA_KEEP__",
+    "description": "Automatically set the default dashboard for all devices for Universal Home Assistant",
     "downloads": 2921,
     "etag_releases": "W/\"602ff4f0e569eaa903e0263e960585d7cede88b884b4fd5f16bb55ccd556bb11\"",
     "etag_repository": "W/\"7c5ae426e9ad52f329a8ce134c947234e92c0e8d7e42ebd842e4ea7db73169e2\"",
@@ -2595,7 +2595,7 @@
   },
   "191663150": {
     "manifest": {},
-    "description": "Provides a means to show a compact graphical control row for 2 or 3 speed fans in __HA_KEEP__",
+    "description": "Provides a means to show a compact graphical control row for 2 or 3 speed fans in Universal Home Assistant",
     "etag_releases": "W/\"7e73c59310af6c6f6f34974d5a30fcd1061abae4051e394cdc9f23096719a8ec\"",
     "etag_repository": "W/\"66739181f0300aacd316cb7f328d05474782af366b6f4e65397de520ca0b166a\"",
     "full_name": "finity69x2/fan-control-entity-row",
@@ -2607,7 +2607,7 @@
   },
   "259126760": {
     "manifest": { "name": "Honeycomb Menu" },
-    "description": "Honeycomb menu is a __HA_KEEP__ module (not a card) that can be applied to any lovelace card. When activated by the defined action on said card, the module will display a 'rounded' list of honeycomb buttons with an optional XY pad to make interfacing with lovelace more fluent",
+    "description": "Honeycomb menu is a Universal Home Assistant module (not a card) that can be applied to any lovelace card. When activated by the defined action on said card, the module will display a 'rounded' list of honeycomb buttons with an optional XY pad to make interfacing with lovelace more fluent",
     "downloads": 4102,
     "etag_releases": "W/\"a8ed054ac74ccbff270e02d4d3f072309ef2d88ee398882a95c5f039275efac0\"",
     "etag_repository": "W/\"044e5d781599b496bb2104d548215061c42e6539c873b20c2b1d3fec7c3000f4\"",
@@ -2637,7 +2637,7 @@
   },
   "163446489": {
     "manifest": { "name": "Entur Card" },
-    "description": "__HA_KEEP__ Lovelace card card for the Entur public transport component.",
+    "description": "Universal Home Assistant Lovelace card card for the Entur public transport component.",
     "etag_releases": "W/\"bf7c0ef6ce5d22e1775bb4e5d5a26100a5adcf2d3ee38b9afb769593d161b30e\"",
     "etag_repository": "W/\"bd3281d57000165b905991fdfe941648b0b5a8b3d67eb67e5f93c1173584443a\"",
     "full_name": "jonkristian/entur-card",
@@ -2651,7 +2651,7 @@
   },
   "373857882": {
     "manifest": { "name": "Entities Button Group" },
-    "description": "A custom card for __HA_KEEP__ to group multiple buttons",
+    "description": "A custom card for Universal Home Assistant to group multiple buttons",
     "downloads": 234,
     "etag_releases": "W/\"9d6a02bb9800da17f9efe59c57a9b2c8f1db992fc5dba71a39c3816b4b2d8a75\"",
     "etag_repository": "W/\"5c57a1bec7569e0cac8e8df2b5806ddcb46eb7bf1f05ffd2e1d63ccedd153fbe\"",
@@ -2664,8 +2664,8 @@
     "last_fetched": 1684858778.781824
   },
   "501725479": {
-    "manifest": { "name": "__HA_KEEP__ Swipe Navigation" },
-    "description": "\u2194\ufe0f Swipe through __HA_KEEP__ Dashboard views on mobile.",
+    "manifest": { "name": "Universal Home Assistant Swipe Navigation" },
+    "description": "\u2194\ufe0f Swipe through Universal Home Assistant Dashboard views on mobile.",
     "downloads": 7545,
     "etag_releases": "W/\"f0152bf00c62da9df6bd34859beae9fc0c8131fa603773dda9f0562fe9b651e2\"",
     "etag_repository": "W/\"e2fcf1b599c924f6795d66a22232bc27326b56ddc57881b28fdcf4d66b25530c\"",
@@ -2694,7 +2694,7 @@
   },
   "328132422": {
     "manifest": { "name": "Kodi Playlist Card" },
-    "description": "This repository is used to contain the code of a kodi playlist card for __HA_KEEP__ and publish it via HACS",
+    "description": "This repository is used to contain the code of a kodi playlist card for Universal Home Assistant and publish it via HACS",
     "downloads": 1,
     "etag_releases": "W/\"3bc92d708c32d02e02d199641ae3b74c0ef6a031599969ad6b1703f5da179051\"",
     "etag_repository": "W/\"2ca5376461797c2912f7293dc91fdf7176868a3bfbb1da4fb753f90b1c7a8a21\"",
@@ -2736,7 +2736,7 @@
     "manifest": {
       "name": "Card to display bar chart oriented to display power sensors"
     },
-    "description": "A __HA_KEEP__ lovelace card to display bar chart  oriented to display power sensors",
+    "description": "A Universal Home Assistant lovelace card to display bar chart  oriented to display power sensors",
     "downloads": 3821,
     "etag_releases": "W/\"26aac624b284514702ae0ff254a7382d5f61b67ccc91af3318389a4dc4b89576\"",
     "etag_repository": "W/\"6f77fdfbe445e61800fac524906dc6344b8b522aef58aa0f68eb7a0bbd5ad92a\"",
@@ -2761,7 +2761,7 @@
   },
   "366862031": {
     "manifest": { "name": "Custom brand icons" },
-    "description": "Custom brand icons for __HA_KEEP__",
+    "description": "Custom brand icons for Universal Home Assistant",
     "etag_releases": "W/\"fce627b58a81a0e2ed17d6ab5880b7192a2224c8b69e82808b9523e2c857a586\"",
     "etag_repository": "W/\"8155fce9d4ce30ca450f15dbcbe7edba6c313df17b4281c5b007bc3becbe8b5a\"",
     "full_name": "elax46/custom-brand-icons",
@@ -2783,7 +2783,7 @@
   },
   "587057164": {
     "manifest": { "name": "Magic Home Party Card" },
-    "description": "A __HA_KEEP__ custom card for managing Magic Home lighting effects",
+    "description": "A Universal Home Assistant custom card for managing Magic Home lighting effects",
     "downloads": 207,
     "etag_releases": "W/\"1cfb098806e2a23485ca1a3820786acecad5737ca34e8b84272cb0950f6968b2\"",
     "etag_repository": "W/\"9b150cbf4cc11699932d8156a3728645980b4de0d74c206e5b901efb12786e6e\"",
@@ -2798,7 +2798,7 @@
   },
   "341707887": {
     "manifest": { "name": "Pollen Information Card for Hungary " },
-    "description": "__HA_KEEP__ custom Lovelace card for pollen information in Hungary",
+    "description": "Universal Home Assistant custom Lovelace card for pollen information in Hungary",
     "downloads": 833,
     "etag_releases": "W/\"dde194be9eaca74ee56bd34e8ff7fa0974cf42043bb6a5ed86da4baaebf6abad\"",
     "etag_repository": "W/\"235e6c63439027f917e889501508f1c81e3fecaa1307289349dab0dd8e63b530\"",
@@ -2849,7 +2849,7 @@
   },
   "391372854": {
     "manifest": { "name": "Alarmo Card" },
-    "description": "__HA_KEEP__ card for controlling the Alarmo component",
+    "description": "Universal Home Assistant card for controlling the Alarmo component",
     "downloads": 22841,
     "etag_releases": "W/\"d3f4b30aac88fd8217cf1c2d636c62a60acabfefa405bc32f53aeb3714d1bfe5\"",
     "etag_repository": "W/\"0972510edbcd8fd277a83cf3f0c82a5c3ea92ea0e667a9de527c4532d409c10f\"",
@@ -2864,7 +2864,7 @@
   },
   "524783308": {
     "manifest": { "name": "Shutter Row" },
-    "description": "__HA_KEEP__ Lovelace Shutter Row Card",
+    "description": "Universal Home Assistant Lovelace Shutter Row Card",
     "downloads": 2786,
     "etag_releases": "W/\"e8baa50c6e9fb55fa2fd2f82c6ccc0c99592ff8e0338dfecdaca446319f19185\"",
     "etag_repository": "W/\"cf01abd43eaf4aeb3a423d78a56afcb82981e46b3fbe0f0494ef6af0cc02d049\"",
@@ -2879,7 +2879,7 @@
   },
   "536329656": {
     "manifest": { "name": "Firemote Card" },
-    "description": "Apple TV, Amazon Fire TV, Fire streaming stick, Chromecast, NVIDIA Shield, onn., Roku, Xiaomi Mi, and Android TV remote control card for __HA_KEEP__",
+    "description": "Apple TV, Amazon Fire TV, Fire streaming stick, Chromecast, NVIDIA Shield, onn., Roku, Xiaomi Mi, and Android TV remote control card for Universal Home Assistant",
     "etag_releases": "W/\"43e971bd644a795be3e9330e76235cf90533b92cffc5414a1fb3bdb99022dc66\"",
     "etag_repository": "W/\"3a417b6b1d537a188bdfc9c22a7fa36fabe11945bcd6831f127fba69cd9cdd29\"",
     "full_name": "PRProd/HA-Firemote",
@@ -2912,7 +2912,7 @@
   },
   "352399227": {
     "manifest": { "name": "KNX User Forum Icon Set" },
-    "description": "Icon set from KNX User Forum for __HA_KEEP__. The icon set contains more than 900 icons for home automation.",
+    "description": "Icon set from KNX User Forum for Universal Home Assistant. The icon set contains more than 900 icons for home automation.",
     "etag_releases": "W/\"5b9fbded164802bfd81d8b2b5f4a19ace10a51a160c35a11042344db72b4d784\"",
     "etag_repository": "W/\"81404c424f096dcbd6612a6f0d015d7fbdf55457c03cfb94650f1e52984b3363\"",
     "full_name": "mampfes/ha-knx-uf-iconset",
@@ -2967,7 +2967,7 @@
   },
   "158654878": {
     "manifest": { "name": "Simple Thermostat" },
-    "description": "A different take on the thermostat card for __HA_KEEP__ \u2668\ufe0f",
+    "description": "A different take on the thermostat card for Universal Home Assistant \u2668\ufe0f",
     "downloads": 69387,
     "etag_releases": "W/\"a33d73267fa5b3b6ae40a8b02e784561050978fabf02e71d37996a476d25933f\"",
     "etag_repository": "W/\"3e477df2d6c402bc1f32296c1e7f40c71c7d8201191515d6abf805c9066875e4\"",
@@ -2995,7 +2995,7 @@
   },
   "180229356": {
     "manifest": { "name": "Simple Vacuum Card" },
-    "description": "Simple card for various robot vacuums in __HA_KEEP__'s Lovelace UI",
+    "description": "Simple card for various robot vacuums in Universal Home Assistant's Lovelace UI",
     "downloads": 24013,
     "etag_releases": "W/\"d174d1b3b72065d3589a1151b1e703c4e472e58a0fda6380b2c1f060abacdd08\"",
     "etag_repository": "W/\"765afece4470355aff1e07619cf1031701b063646f7d170cd30034e5a119608b\"",
@@ -3029,7 +3029,7 @@
   },
   "345753205": {
     "manifest": { "name": "Fan Percent Button Row" },
-    "description": "Frontend plugin to control fans in __HA_KEEP__ using percent values for speeds",
+    "description": "Frontend plugin to control fans in Universal Home Assistant using percent values for speeds",
     "etag_releases": "W/\"4c621b16c12e480caf0fd0f18fac1630a3740e13c10760db8940e3c4329d84bf\"",
     "etag_repository": "W/\"ca12c1da166456a36d3ea10a07d1b464f40c0a6867f7fa343c07dac24e88cb1a\"",
     "full_name": "finity69x2/fan-percent-button-row",
@@ -3043,7 +3043,7 @@
   },
   "639953950": {
     "manifest": { "name": "Energy Period Selector Plus" },
-    "description": "An upgraded Energy Date Selection Card for __HA_KEEP__, with added customizability, while maintaining the Energy Dashboard's original design.",
+    "description": "An upgraded Energy Date Selection Card for Universal Home Assistant, with added customizability, while maintaining the Energy Dashboard's original design.",
     "downloads": 6475,
     "etag_releases": "W/\"ca980950f0fc5f54fa6b0fa6a8b592a7131286df9735e1e9e43e00d309285b90\"",
     "etag_repository": "W/\"e7b95cc0527cf7fa72bc58aeb3ebe7b6b71dcf604e32b9000b2a6901c2bef921\"",
@@ -3094,7 +3094,7 @@
   },
   "458491675": {
     "manifest": { "name": "Nicehash Excavator Monitor Card" },
-    "description": "__HA_KEEP__ UI Card for Nicehash Excavator Monitor integration",
+    "description": "Universal Home Assistant UI Card for Nicehash Excavator Monitor integration",
     "etag_releases": "W/\"a7611ca98b8828d5f243815a96af0b3d367c6baf77aa561942e6fb6d95fc8fa5\"",
     "etag_repository": "W/\"4fbd1a2c01cba1f33aa2e1fad6eff433f04dc4d717b300cefa3bf8dbdf2477d2\"",
     "full_name": "MesserschmittX/lovelace-nicehash-excavator-monitor-card",
@@ -3132,7 +3132,7 @@
   },
   "596085141": {
     "manifest": { "name": "octopus-energy-rates-card" },
-    "description": "This lovelace card for __HA_KEEP__ displays the Octopus Energy rate prices per each 30 minute slot",
+    "description": "This lovelace card for Universal Home Assistant displays the Octopus Energy rate prices per each 30 minute slot",
     "etag_releases": "W/\"c79aaf0520587bf9974cdf13272aab7465e770d5d04cf9d91c0317d7c62f580c\"",
     "etag_repository": "W/\"39f8375b4ad39206c2b4901b3e529a82c66d76f4f6bf6f0ee472230a1fe549d0\"",
     "full_name": "lozzd/octopus-energy-rates-card",
@@ -3154,7 +3154,7 @@
   },
   "173955605": {
     "manifest": { "name": "Spotify Lovelace Card" },
-    "description": "Spotify playlist card for __HA_KEEP__ card",
+    "description": "Spotify playlist card for Universal Home Assistant card",
     "etag_releases": "W/\"d8471bd355851f302b686e30959703c767dc6a10e34e5859aac8e4a41ee0cb32\"",
     "etag_repository": "W/\"13963d83c7caec0611592bbf23a449ed70d32d138a312e302211bb3addb6a58b\"",
     "full_name": "custom-cards/spotify-card",
@@ -3167,7 +3167,7 @@
   },
   "326033921": {
     "manifest": { "name": "Toggle Control Button Row" },
-    "description": "A one-button control row for any __HA_KEEP__ binary entity",
+    "description": "A one-button control row for any Universal Home Assistant binary entity",
     "etag_releases": "W/\"3ed67b1819c9e16ce7c8b718276112c0a0e05266c9a08892b5dac9fc81edb140\"",
     "etag_repository": "W/\"b39ca52b4ab06932cf123978fd53377b5010a7e6ad8ea05a817727106ae74d7e\"",
     "full_name": "finity69x2/toggle-control-button-row",
@@ -3180,7 +3180,7 @@
   },
   "618081815": {
     "manifest": { "name": "Power Flow Card Plus" },
-    "description": "A power distribution card inspired by the official Energy Distribution card for __HA_KEEP__",
+    "description": "A power distribution card inspired by the official Energy Distribution card for Universal Home Assistant",
     "downloads": 57458,
     "etag_releases": "W/\"54c3a2d46a45c9bcc3ea9916ae6d300132f446ab6561ba0497e4d05b0b217e89\"",
     "etag_repository": "W/\"71f5eb9fbca0e2f2f80e6b975f28d8d40faaa8d9fa665b542f58f04b229e8539\"",
@@ -3246,7 +3246,7 @@
   },
   "609593305": {
     "manifest": { "name": "Rain Gauge Card" },
-    "description": "A Lovelace card that shows the rain gauge for __HA_KEEP__",
+    "description": "A Lovelace card that shows the rain gauge for Universal Home Assistant",
     "downloads": 5440,
     "etag_releases": "W/\"1cbe080b291e2d3f0a7447ca1fc5fd099fca2766f9c091f97a072f9b73d4666c\"",
     "etag_repository": "W/\"c317df98703efc4461ed323177342cf0673e475ef09863750240f481c4b6e194\"",
@@ -3260,11 +3260,11 @@
     "last_fetched": 1712045910.023339
   },
   "363428919": {
-    "manifest": { "name": "Plex Meets __HA_KEEP__" },
-    "description": "Custom card which integrates plex into __HA_KEEP__ and makes it possible to launch movies or tv shows on TV with a simple click",
+    "manifest": { "name": "Plex Meets Universal Home Assistant" },
+    "description": "Custom card which integrates plex into Universal Home Assistant and makes it possible to launch movies or tv shows on TV with a simple click",
     "etag_releases": "W/\"d25545ca0b3d1e3f16527587438ed24f29d16fa995fdf367e9faf93b60ec8705\"",
     "etag_repository": "W/\"bcbbced352cac23e0b0b9359c876a8e06522fae200012f0ed5264c38a904f40a\"",
-    "full_name": "JurajNyiri/PlexMeets__HAC_KEEP__",
+    "full_name": "JurajNyiri/PlexMeetsUniversalAssistant",
     "last_commit": "e1e9fbf",
     "last_updated": "2024-01-12T18:09:30Z",
     "last_version": "3.6.11",
@@ -3301,7 +3301,7 @@
   },
   "264796130": {
     "manifest": { "name": "Pandora CAS card" },
-    "description": "Pandora lovelace card for __HA_KEEP__",
+    "description": "Pandora lovelace card for Universal Home Assistant",
     "etag_releases": "W/\"fbd934a023a24846a4e083c51c05f5d38321f151b24d93b0dcd7a7fbbf3e1cc7\"",
     "etag_repository": "W/\"7b4e1a4b12435bd7795da0d4e2f164ecf9794be9bb2258ad74600cd7b9f6cdb8\"",
     "full_name": "turbulator/pandora-cas-card",
@@ -3329,7 +3329,7 @@
   },
   "303857065": {
     "manifest": { "name": "Battery Entity Row" },
-    "description": "Show battery states or attributes with dynamic icon on entity rows in __HA_KEEP__'s Lovelace UI",
+    "description": "Show battery states or attributes with dynamic icon on entity rows in Universal Home Assistant's Lovelace UI",
     "downloads": 14493,
     "etag_releases": "W/\"45468d75f6c725b59bd23d034d9cd5af3d5cf461dad490bfe5e29afd3b8c0ecf\"",
     "etag_repository": "W/\"787c90c1ff3371e250e988deb7bfca362470f479517e507e18e532fbb8196619\"",
@@ -3375,7 +3375,7 @@
   },
   "613588535": {
     "manifest": { "name": "sunsynk-power-flow-card" },
-    "description": "\u26a1A customizable __HA_KEEP__ card to emulate the Sunsynk System flow that's displayed on the Inverter screen. ",
+    "description": "\u26a1A customizable Universal Home Assistant card to emulate the Sunsynk System flow that's displayed on the Inverter screen. ",
     "downloads": 1171,
     "etag_releases": "W/\"55da541cb594e1f35bf17dd188e5e03bc82ca1c608feaf010c073c885996e846\"",
     "etag_repository": "W/\"4988e50950797b994d84b120506df22462258217c4a365d63371e7ddacd39c57\"",
@@ -3404,7 +3404,7 @@
   },
   "253019926": {
     "manifest": { "name": "mini humidifier" },
-    "description": "Minimalistic humidifier card for __HA_KEEP__ Lovelace UI",
+    "description": "Minimalistic humidifier card for Universal Home Assistant Lovelace UI",
     "downloads": 4195,
     "etag_releases": "W/\"0cd55735bd0afb8c47775d2a1fd1aade3bfad23f7431ef2c6ac2ac3446277eb4\"",
     "etag_repository": "W/\"bd2a779b98394e8cd1df8a97cabea4165bb1b07569c4afe42a22ea86a09e9818\"",
@@ -3473,7 +3473,7 @@
   },
   "522634019": {
     "manifest": { "name": "Clock Weather Card" },
-    "description": "A __HA_KEEP__ Card indicating today's date/time, along with an iOS inspired weather forecast for the next days with animated icons",
+    "description": "A Universal Home Assistant Card indicating today's date/time, along with an iOS inspired weather forecast for the next days with animated icons",
     "downloads": 20333,
     "etag_releases": "W/\"a2b4580a13dc9cec2845521c6aba0cf2a01476e1e7c887240dcd37c2b186e0f4\"",
     "etag_repository": "W/\"afef7c90f884a78c82e83447f795ba440ee31609a5b5474b4b9bbbbff8ecff26\"",
@@ -3500,7 +3500,7 @@
   },
   "269011342": {
     "manifest": { "name": "Shutter Card" },
-    "description": "Shutter card for __HA_KEEP__ Lovelace UI",
+    "description": "Shutter card for Universal Home Assistant Lovelace UI",
     "downloads": 20026,
     "etag_releases": "W/\"d5e514048d62d94b1de93cf19b66c1b845bfd842dc990fa7edc73c9875d866e9\"",
     "etag_repository": "W/\"aa6a323036b7c18ac8f91682bc5bb2da55bd12889f9cba563028368ae70c1d7b\"",
@@ -3563,7 +3563,7 @@
   },
   "202874270": {
     "manifest": {},
-    "description": "Sets the background of your __HA_KEEP__ to match the entity picture of a media player. No longer maintained.",
+    "description": "Sets the background of your Universal Home Assistant to match the entity picture of a media player. No longer maintained.",
     "etag_repository": "W/\"815bd0f724fbd69183871fe6119b0091c23fd01634fe127cbc9aafd66c5f7405\"",
     "full_name": "TheLastProject/lovelace-media-art-background",
     "last_commit": "d5137b0",
@@ -3589,7 +3589,7 @@
   },
   "281214271": {
     "manifest": { "name": "RPi Monitor Card" },
-    "description": "A Raspberry Pi status display Card for __HA_KEEP__ Lovelace",
+    "description": "A Raspberry Pi status display Card for Universal Home Assistant Lovelace",
     "downloads": 12794,
     "etag_releases": "W/\"29532c1867d2b4deadf769c277816fbb0dab594331417ac2e22f598648e44f55\"",
     "etag_repository": "W/\"a3a79cfa06eb17e1a1ca290d3a04d08905933ae3e015e39c331bc38b1863dc22\"",
@@ -3618,7 +3618,7 @@
   },
   "143762825": {
     "manifest": { "name": "Dual gauge card" },
-    "description": "Dual gauge custom card for Lovelace in __HA_KEEP__",
+    "description": "Dual gauge custom card for Lovelace in Universal Home Assistant",
     "etag_releases": "W/\"2ce8b4ff8a76c6ff1942a512bcf77fb193fa40bc0406a1dc97d55a546beb16c1\"",
     "etag_repository": "W/\"ca807d2bd8cd1b12a2ffd1e6e0b206313b68381a62d9fe5487ff06ab50a4ab15\"",
     "full_name": "custom-cards/dual-gauge-card",
@@ -3659,7 +3659,7 @@
   },
   "148520838": {
     "manifest": {},
-    "description": "Minimalistic media card for __HA_KEEP__ Lovelace UI",
+    "description": "Minimalistic media card for Universal Home Assistant Lovelace UI",
     "downloads": 63816,
     "etag_releases": "W/\"ced421f98b6d4eed73f08608d0cf4597b5933c4a512d9e9afe298caed792cd32\"",
     "etag_repository": "W/\"6268186a64c37b9e84bf3a88c9957e9c93d58bffd9827206ea719a869fe3623b\"",
@@ -3712,7 +3712,7 @@
   },
   "350509867": {
     "manifest": { "name": "Uptime Card" },
-    "description": "Minimalistic uptime card for __HA_KEEP__ Lovelace UI",
+    "description": "Minimalistic uptime card for Universal Home Assistant Lovelace UI",
     "downloads": 6680,
     "etag_releases": "W/\"d62f984f0dda3940b5cfff12ff910108b0fbce088d244a0bab68308ca5cd012a\"",
     "etag_repository": "W/\"aecd9f26c01d1f928db9bc387bc3d51632d2858071f5fd36fa5129c1b05d2a4a\"",
@@ -3727,7 +3727,7 @@
   },
   "246549747": {
     "manifest": { "name": "Atomic Calendar Revive" },
-    "description": "An advanced calendar card for __HA_KEEP__ Lovelace.",
+    "description": "An advanced calendar card for Universal Home Assistant Lovelace.",
     "downloads": 15086,
     "etag_releases": "W/\"963120b15c03119414b88edb54a8c0da6dd8ad3b8b216fd3d275da9a3663d785\"",
     "etag_repository": "W/\"afd87b817f713b11d4858e2434538fd23d89b7a9339bb6dbc39a6d7a86e5ab5f\"",
@@ -3742,7 +3742,7 @@
   },
   "207292725": {
     "manifest": { "name": "Flexible Horseshoe Card for Lovelace" },
-    "description": "Flexible Horseshoe card for __HA_KEEP__ Lovelace UI. A card with a flexible layout,  a horseshoe-like donut graph, multiple entities or attributes, graphics and animations!",
+    "description": "Flexible Horseshoe card for Universal Home Assistant Lovelace UI. A card with a flexible layout,  a horseshoe-like donut graph, multiple entities or attributes, graphics and animations!",
     "etag_releases": "W/\"b54de68f0a74324913a1ab4643a23209fa2fb4cae45eabcd250b4a90ce03fb0c\"",
     "etag_repository": "W/\"e19fe88c09a6e85348b0ac03f31abdbf3e74e48bef2d201e06e714f006bf2104\"",
     "full_name": "AmoebeLabs/flex-horseshoe-card",
@@ -3776,10 +3776,10 @@
   },
   "446955395": {
     "manifest": { "name": "TV touchpad remote card" },
-    "description": "A card that simplifies TV interaction from __HAC_KEEP__",
+    "description": "A card that simplifies TV interaction from UniversalAssistant",
     "etag_releases": "W/\"b9e67604a08a053db4141bacf271b474f80584fdbaa6f4e4919c0fabbad5688b\"",
     "etag_repository": "W/\"733b50ad89af4744675e6e6e4035b240e1347976dc7e06ac2f3c5ab6c1af2a5c\"",
-    "full_name": "iablon/__HAC_KEEP__-Touchpad-Card",
+    "full_name": "iablon/UniversalAssistant-Touchpad-Card",
     "last_commit": "5588aaf",
     "last_updated": "2023-09-14T13:59:21Z",
     "last_version": "v1.1.0",
@@ -3796,7 +3796,7 @@
   },
   "509260172": {
     "manifest": { "name": "Curtain Card" },
-    "description": "Curtain card for __HA_KEEP__ Lovelace UI,  to control your motor of cover entities.",
+    "description": "Curtain card for Universal Home Assistant Lovelace UI,  to control your motor of cover entities.",
     "etag_releases": "W/\"64468b56dfa77fa7586353aedca0e5235040d005f1b3fd8c295c4e597fd525e8\"",
     "etag_repository": "W/\"c2abeeffe36937747f532edbf0f0e6ac141a034ea8c3a6e66e86db94d04fde28\"",
     "full_name": "georgezhao2010/lovelace-curtain-card",
@@ -3851,7 +3851,7 @@
   },
   "624448609": {
     "manifest": { "name": "FoxESS - Modbus: Charge Period Card" },
-    "description": "Custom __HA_KEEP__ Cards for the FoxESS Modbus Integration",
+    "description": "Custom Universal Home Assistant Cards for the FoxESS Modbus Integration",
     "downloads": 520,
     "etag_releases": "W/\"ad1db3e95c529dc846d7f80b62b9aec1b58a326c1e7ffaa3120e0736c9cc3ce1\"",
     "etag_repository": "W/\"413d916901836373bf3042a7c15c3fbeafab89006036c81938c01e69cf7fe665\"",
@@ -3880,7 +3880,7 @@
   },
   "274738925": {
     "manifest": { "name": "Purifier Card" },
-    "description": "Air Purifier card for __HA_KEEP__ Lovelace UI",
+    "description": "Air Purifier card for Universal Home Assistant Lovelace UI",
     "downloads": 4011,
     "etag_releases": "W/\"b56d67500575da46813cb0f2c3b2236b8fc30534996c5670a1fae30c0c97ebf1\"",
     "etag_repository": "W/\"102cf55085a3a3c7edb886640fe03ea758d694ac25458d85712abf718fc4c11a\"",
@@ -3895,7 +3895,7 @@
   },
   "361776538": {
     "manifest": { "name": "Your HA Digital Twin floor3d-card" },
-    "description": "Your Home Digital Twin: aka floor3d-card. Visualize __HA_KEEP__ state and perform actions using objects in a 3D home model based on Three.js.",
+    "description": "Your Home Digital Twin: aka floor3d-card. Visualize Universal Home Assistant state and perform actions using objects in a 3D home model based on Three.js.",
     "downloads": 6162,
     "etag_releases": "W/\"1895476cf5727fd6fda9523e9fbcbe3e66668bcdf9a439b04ec9f1a75e04f744\"",
     "etag_repository": "W/\"2cdf1e62f3fdb29802f992d340e8a7b0841742ff08add8c7bdd5df2ddd83694c\"",
@@ -3910,7 +3910,7 @@
   },
   "402799177": {
     "manifest": { "name": "Blind Card" },
-    "description": "Blind card for __HA_KEEP__ Lovelace UI",
+    "description": "Blind card for Universal Home Assistant Lovelace UI",
     "etag_releases": "W/\"dac229ef2bdcbe2333f04a89a834475ebf333213ce1ce9c50a5df9b579792d10\"",
     "etag_repository": "W/\"a9fd183f5bbbfb08aab6c45d9912d78c8bf7dd3a29b45c5be241b64cbc943403\"",
     "full_name": "tungmeister/hass-blind-card",
@@ -3934,7 +3934,7 @@
   },
   "361205663": {
     "manifest": { "name": "Meteoalarm Card" },
-    "description": "Meteoalarm, M\u00e9t\u00e9o-France and DWD severe weather warnings card for __HA_KEEP__ Lovelace UI \u26c8\ufe0f",
+    "description": "Meteoalarm, M\u00e9t\u00e9o-France and DWD severe weather warnings card for Universal Home Assistant Lovelace UI \u26c8\ufe0f",
     "downloads": 5313,
     "etag_releases": "W/\"38159fcb9481eedc637f7e9309a59f50b0f4da59b28d7f080af15a23f1f032e2\"",
     "etag_repository": "W/\"be4edc3cae944ae56814e5e5391fd73cfde8586de65212876aa4a977681b6871\"",
@@ -3959,7 +3959,7 @@
   },
   "302895020": {
     "manifest": { "name": "Github Flexi Card / Entity Row" },
-    "description": "Github stats card for __HA_KEEP__",
+    "description": "Github stats card for Universal Home Assistant",
     "downloads": 992,
     "etag_releases": "W/\"08f666f847c6af1543c8d366b8c200dbd7e50e0313af77243b15c784f67d7436\"",
     "etag_repository": "W/\"f574578eff2d51c134447192e539381f4a7236db820ac0e80a7e79e0480b008b\"",
@@ -3974,7 +3974,7 @@
   },
   "284283867": {
     "manifest": { "name": "Gallery Card" },
-    "description": "A custom card for __HA_KEEP__ that will display images and/or videos from a folder in the style of a gallery.  ",
+    "description": "A custom card for Universal Home Assistant that will display images and/or videos from a folder in the style of a gallery.  ",
     "etag_releases": "W/\"02147e85516525f9ae5bc025a652654fb01ba5dc23e2aca8560a3eb5706aa54a\"",
     "etag_repository": "W/\"d837349d1f317636e556c7fcab5cb772b67c53d399d9ab8d08404972d9e15808\"",
     "full_name": "TarheelGrad1998/gallery-card",
@@ -4003,7 +4003,7 @@
   },
   "192835334": {
     "manifest": { "name": "Lovelace Lock Card" },
-    "description": "__HA_KEEP__ Lovelace card to lock entire cards behind passwords or prompts.",
+    "description": "Universal Home Assistant Lovelace card to lock entire cards behind passwords or prompts.",
     "etag_repository": "W/\"82efb14612dae3c83a39c8ba651ff2620ce2588f42bef1103a0f2558ee0e5d1d\"",
     "full_name": "CyrisXD/love-lock-card",
     "last_commit": "0e3a06e",
@@ -4014,7 +4014,7 @@
   },
   "499270202": {
     "manifest": { "name": "Hourly Weather Card" },
-    "description": "Hourly weather card for __HA_KEEP__. Visualize upcoming weather conditions as a colored horizontal bar.",
+    "description": "Hourly weather card for Universal Home Assistant. Visualize upcoming weather conditions as a colored horizontal bar.",
     "downloads": 13681,
     "etag_releases": "W/\"85520c44a68a2b9727ec920229a4f8890e3a6a511349bc56b7a87804edc08919\"",
     "etag_repository": "W/\"b753952ca35f281576a6b8ef1d3b566f4ee483f37cec38475f058e177ec2ab6b\"",
@@ -4029,7 +4029,7 @@
   },
   "237620254": {
     "manifest": { "name": "todoist-task-list" },
-    "description": "This is a custom lovelace card for displaying a todoist calendar in __HA_KEEP__.",
+    "description": "This is a custom lovelace card for displaying a todoist calendar in Universal Home Assistant.",
     "etag_releases": "W/\"3725c1ae7c8fdd94f44378cee10932d0b95f0935b3d85d7ba0cb9cd1b6b4216d\"",
     "etag_repository": "W/\"aad31a349f3fde3c5a49450a0b58744dc0104da9c44a87c99cd027fb9adcb6b7\"",
     "full_name": "tholgir/TodoIst-Task-List",
@@ -4042,7 +4042,7 @@
   },
   "540873855": {
     "manifest": { "name": "VPD Chart card" },
-    "description": "A VPD chart card for __HA_KEEP__",
+    "description": "A VPD chart card for Universal Home Assistant",
     "etag_releases": "W/\"e62734c43fa62a9a1149c47f9ea2a5349efa04cd1e317600ec08942ef4322d9c\"",
     "etag_repository": "W/\"78cdaeabd85cc3f9b223b6f22648d04d370dba08b64b616c7f8e356c1a64f92a\"",
     "full_name": "vpdchart/vpdchart-card",
@@ -4056,7 +4056,7 @@
   },
   "215037975": {
     "manifest": { "name": "HA (Lovelace) Card Waze Travel Time" },
-    "description": "__HA_KEEP__ Lovelace card for Waze Travel Time Sensor",
+    "description": "Universal Home Assistant Lovelace card for Waze Travel Time Sensor",
     "etag_repository": "W/\"3cd98a7219fe5a1d5b9ccea6714f782cafca288e603727ab83c1c78cd9baea2a\"",
     "full_name": "r-renato/ha-card-waze-travel-time",
     "last_commit": "038f2a8",
@@ -4068,7 +4068,7 @@
   },
   "193372044": {
     "manifest": { "name": "Xiaomi Vacuum Map Card" },
-    "description": "This card provides a user-friendly way to fully control map-based vacuums in __HA_KEEP__. Supported brands include Xiaomi (Roborock/Viomi/Dreame/Roidmi/Valetudo/Valetudo RE), Neato, Wyze, Roomba, Ecovacs (and probably more).",
+    "description": "This card provides a user-friendly way to fully control map-based vacuums in Universal Home Assistant. Supported brands include Xiaomi (Roborock/Viomi/Dreame/Roidmi/Valetudo/Valetudo RE), Neato, Wyze, Roomba, Ecovacs (and probably more).",
     "downloads": 66393,
     "etag_releases": "W/\"c013b781e53a5d3799d0b9dc0428fea1c1c2a18d9d93f4be457d1ff01cf5423a\"",
     "etag_repository": "W/\"0dc5072499a5ed90dde0cd58e346a77a9b8e3de7298e14939c314179a9b9530c\"",
@@ -4098,7 +4098,7 @@
   },
   "484538222": {
     "manifest": { "name": "Power Flow Card" },
-    "description": "A power distribution card inspired by the official Energy Distribution card for __HA_KEEP__",
+    "description": "A power distribution card inspired by the official Energy Distribution card for Universal Home Assistant",
     "downloads": 20477,
     "etag_releases": "W/\"39ace65c472d89a27d08f0f5e0c28f335c563ade6db99adde3823c451a90be5f\"",
     "etag_repository": "W/\"81817bcaf7e14d71fa8309f8c5066369ff02f506c75dbe5c7db49c4d0d7e4a11\"",
@@ -4113,7 +4113,7 @@
   },
   "160042309": {
     "manifest": { "name": "Power wheel card" },
-    "description": "An intuitive way to represent the power and energy that your home is consuming or producing. (A custom card for the Lovelace UI of __HA_KEEP__.)",
+    "description": "An intuitive way to represent the power and energy that your home is consuming or producing. (A custom card for the Lovelace UI of Universal Home Assistant.)",
     "etag_releases": "W/\"fb0757a0fbef59957d143cfdffe481cbcf0067792fa816ab3067116b127160ac\"",
     "etag_repository": "W/\"e30cd3b39c6c76fe87e1959053efa6c9289f7e6e2659870a17e4e555e8a162de\"",
     "full_name": "gurbyz/power-wheel-card",
@@ -4167,7 +4167,7 @@
   },
   "335019855": {
     "manifest": { "name": "LinakDesk Card" },
-    "description": "__HA_KEEP__ Lovelace Card for controlling desks based on linak bluetooth controller.",
+    "description": "Universal Home Assistant Lovelace Card for controlling desks based on linak bluetooth controller.",
     "downloads": 670,
     "etag_releases": "W/\"1bbe03907da56881780695716ffdf0bcaf55f842ca23ee58912511d4b3146d1a\"",
     "etag_repository": "W/\"9a4f7f91fe1deab388580d557e2f62630e1732304b10c5e4b66af0e83bd9cf45\"",
@@ -4182,7 +4182,7 @@
   },
   "449416816": {
     "manifest": { "name": "Sonos Card" },
-    "description": "__HA_KEEP__ custom lovelace sonos card",
+    "description": "Universal Home Assistant custom lovelace sonos card",
     "downloads": 1461,
     "etag_releases": "W/\"d8cf9dfea02e34702b2ae3397cc9a644430b5ccd1b64a47f26fb63352f87e917\"",
     "etag_repository": "W/\"ac5d30759b4de11b92f007fc90a920f73a9b5b3914f79272ea0540b7de57f77c\"",
@@ -4197,7 +4197,7 @@
   },
   "640516976": {
     "manifest": { "name": "Energy Gauge Bundle Card" },
-    "description": "A collection of Gauge Cards for __HA_KEEP__ Energy Management",
+    "description": "A collection of Gauge Cards for Universal Home Assistant Energy Management",
     "downloads": 3846,
     "etag_releases": "W/\"b370a5fb21a6c3896c58e1d40513d7eb1e2f6b851b33147f09fa0a9d060aeb58\"",
     "etag_repository": "W/\"657cfaee20bcee362be51f6f5a62e2768c2382bf54470dd3e9eee0fd5f980001\"",
@@ -4222,7 +4222,7 @@
   },
   "433577603": {
     "manifest": { "name": "Config Editor Card" },
-    "description": "__HA_KEEP__ Configuration Files Editor for Lovelace",
+    "description": "Universal Home Assistant Configuration Files Editor for Lovelace",
     "etag_releases": "W/\"e78c84dd4aad2cdfa709335683fec358efc13319c1d9c73be747af19156d726a\"",
     "etag_repository": "W/\"8ee7202fbff66c24bfe85c26ea45719106b9919fa1d29ca733cf182895217f3e\"",
     "full_name": "htmltiger/config-editor-card",
@@ -4268,7 +4268,7 @@
   },
   "287409957": {
     "manifest": { "name": "Cover Control Button Row" },
-    "description": "button row for controlling open/close covers in __HA_KEEP__",
+    "description": "button row for controlling open/close covers in Universal Home Assistant",
     "etag_releases": "W/\"e4deb94177297c0674263cc158c64125787e8a4a372f847a95581c65a5e08423\"",
     "etag_repository": "W/\"37eab3b7e236e1d5a85fce8a481376af08d2dd41cb83055b4c024f7eacb7bb9f\"",
     "full_name": "finity69x2/cover-control-button-row",
@@ -4309,7 +4309,7 @@
   },
   "172998062": {
     "manifest": {},
-    "description": "Minimalistic weather card for __HA_KEEP__",
+    "description": "Minimalistic weather card for Universal Home Assistant",
     "downloads": 33634,
     "etag_releases": "W/\"024ca1d14208bf0390961b6d596334a4749ed049174195c839bae2522ab05daf\"",
     "etag_repository": "W/\"8d3ef0dfc31120b8d58b95ec5afaa434c42e94886e09af4028e8b143432ac355\"",
@@ -4324,7 +4324,7 @@
   },
   "331701152": {
     "manifest": { "name": "apexcharts-card" },
-    "description": "\ud83d\udcc8 A Lovelace card to display advanced graphs and charts based on ApexChartsJS for __HA_KEEP__",
+    "description": "\ud83d\udcc8 A Lovelace card to display advanced graphs and charts based on ApexChartsJS for Universal Home Assistant",
     "downloads": 119401,
     "etag_releases": "W/\"2564abfa54f85d5a5aa0993594fc85f617eb5484396515730cac81f0ee6f7aaa\"",
     "etag_repository": "W/\"b75d163e43c34b3759fffafca95f069c9afdfeddcf804c9bcf91717c00b63ad8\"",
@@ -4366,7 +4366,7 @@
   },
   "192732887": {
     "manifest": {},
-    "description": "Card that allows you to swipe throught multiple cards for __HA_KEEP__ Lovelace",
+    "description": "Card that allows you to swipe throught multiple cards for Universal Home Assistant Lovelace",
     "etag_releases": "W/\"acf6d1077af61fd08911f65c690b8cbac6732c2ed04c4fc7b4ceab04ec3ae92c\"",
     "etag_repository": "W/\"5a573fd9550c09d38180c66a5f30bb7743c1df7589b6300bda6cfcfd8a531b3f\"",
     "full_name": "bramkragten/swipe-card",
@@ -4407,7 +4407,7 @@
   },
   "315044466": {
     "manifest": { "name": "Transmission Card" },
-    "description": "Custom Transmission card for __HA_KEEP__/Lovelace",
+    "description": "Custom Transmission card for Universal Home Assistant/Lovelace",
     "downloads": 1220,
     "etag_releases": "W/\"4b222ea02faa24d6f7fa161938be571961506d7cd38d0e17c058164216784a41\"",
     "etag_repository": "W/\"8be72f5b1d96f6f4ecb5a5b95bf71c4b73800e1529c8c690653b2fa1c74a74ac\"",
@@ -4422,7 +4422,7 @@
   },
   "309506416": {
     "manifest": { "name": "WallPanel" },
-    "description": "\ud83d\uddbc\ufe0f Wall panel mode and photo screensaver for your __HA_KEEP__ Dashboards",
+    "description": "\ud83d\uddbc\ufe0f Wall panel mode and photo screensaver for your Universal Home Assistant Dashboards",
     "downloads": 4477,
     "etag_releases": "W/\"540a2cacea37e0e8369ccc0c6317ee027b30d1478887439774ec1ad86aea1c0c\"",
     "etag_repository": "W/\"840c6c497e1b228fd30cfbbaf6364a8c4105671d19ea34a4e544243c302da8b7\"",
@@ -4444,7 +4444,7 @@
   },
   "290281267": {
     "manifest": { "name": "Fullscreen Card" },
-    "description": "Make your __HA_KEEP__ browser fullscreen with one tap.",
+    "description": "Make your Universal Home Assistant browser fullscreen with one tap.",
     "downloads": 2241,
     "etag_releases": "W/\"4d3044e42baf3ed415d9abbba9acdecc9e913d97d22287f1e29db5fa770b014f\"",
     "etag_repository": "W/\"70ad00a7f456582401a76f126a9ccc013e01e9733c43258fa487c840c13edf4f\"",
@@ -4459,7 +4459,7 @@
   },
   "151280062": {
     "manifest": { "name": "mini-graph-card" },
-    "description": "Minimalistic graph card for __HA_KEEP__ Lovelace UI",
+    "description": "Minimalistic graph card for Universal Home Assistant Lovelace UI",
     "downloads": 54832,
     "etag_releases": "W/\"f276b4ea7f8311cb49653f86e0410e5c8630d846f43b41af50a11610d8fd1227\"",
     "etag_repository": "W/\"feb70fa661a33375702d10abfa18be80de498b30776a5ecf0e3b155873cd2795\"",
@@ -4553,7 +4553,7 @@
   },
   "637041617": {
     "manifest": { "name": "PowerTodoist Card" },
-    "description": "Improved Todoist card for __HA_KEEP__ Lovelace UI.",
+    "description": "Improved Todoist card for Universal Home Assistant Lovelace UI.",
     "etag_releases": "W/\"eb9851d5be2db5396d81a86831d19f67eba1fe2d1686ca1541e32aea0839c7a4\"",
     "etag_repository": "W/\"1b0497f684815f1a34fd3c4c49623c5507f180e8cb3637c4c42e8d556dec7455\"",
     "full_name": "pgorod/power-todoist-card",
@@ -4586,7 +4586,7 @@
   },
   "267558148": {
     "manifest": { "name": "Custom-ui" },
-    "description": "Add templates and icon_color to __HA_KEEP__ UI",
+    "description": "Add templates and icon_color to Universal Home Assistant UI",
     "downloads": 4597,
     "etag_releases": "W/\"1a75915e7b05d7cfe67b05c08467829b3dba7f42ddb63783f2119ee6fdbea41c\"",
     "etag_repository": "W/\"054659352e85ca1bf75a14116e1f8231579f02e505caf6f4b789126da2bb87ab\"",
@@ -4653,7 +4653,7 @@
   },
   "591270696": {
     "manifest": { "name": "windrose-card" },
-    "description": "__HA_KEEP__ Lovelace Windrose Card",
+    "description": "Universal Home Assistant Lovelace Windrose Card",
     "downloads": 4800,
     "etag_releases": "W/\"abe8c32b399017aed39a53180d9ad9dc3a7c3aba413811b3486e84c9b568e40c\"",
     "etag_repository": "W/\"3521e00e5bfe9a02018f10e434fabfb8124ac9a5e629389a69702f8b3d14d933\"",
@@ -4696,7 +4696,7 @@
   },
   "556306418": {
     "manifest": { "name": "Daily Schedule Card" },
-    "description": "__HA_KEEP__ Custom Card for Daily Schedule Integration",
+    "description": "Universal Home Assistant Custom Card for Daily Schedule Integration",
     "etag_releases": "W/\"2350cbd6ac305e837af89a6dd9d9718f0d5ebcd5fae54bbd70bf9ce2b5eaa88d\"",
     "etag_repository": "W/\"f26eca8b167414592bd1142cbb7cec3ce5f013d5e4c5ac19c4e94888caeaf60f\"",
     "full_name": "amitfin/lovelace-daily-schedule-card",
@@ -4710,7 +4710,7 @@
   },
   "350886220": {
     "manifest": { "name": "Fan Mode Button Row" },
-    "description": "Frontend plugin to control fans in __HA_KEEP__ using preset modes for speeds",
+    "description": "Frontend plugin to control fans in Universal Home Assistant using preset modes for speeds",
     "etag_releases": "W/\"1b20bfeff9d0f82bea08fcba85640dbe92696503451e5cff4d32dc66c0f4a5de\"",
     "etag_repository": "W/\"12d764f6585cdfbf0b54da4ba290745e2c8ed51e8fa15b1d680d9102c9fc10d7\"",
     "full_name": "finity69x2/fan-mode-button-row",
@@ -4724,7 +4724,7 @@
   },
   "560614992": {
     "manifest": { "name": "System Flow Card" },
-    "description": "A system flow card inspired by the official Energy Distribution card for __HA_KEEP__",
+    "description": "A system flow card inspired by the official Energy Distribution card for Universal Home Assistant",
     "etag_releases": "W/\"a60d32215b045715facc7da89acc7cfd87f6190604b4cdc37f08332804a7a2ca\"",
     "etag_repository": "W/\"3903cc6f18f71e1e289d81361941ae740a798b9eec12a74b8bbbf45dc3b55c7a\"",
     "full_name": "flyrmyr/system-flow-card",
@@ -4751,7 +4751,7 @@
   },
   "378256174": {
     "manifest": { "name": "OpenSprinkler Card" },
-    "description": "__HA_KEEP__ card for collecting OpenSprinkler status",
+    "description": "Universal Home Assistant card for collecting OpenSprinkler status",
     "downloads": 2129,
     "etag_releases": "W/\"652e0dbfea3686b6526c4d8aa01e8b9c8048d6354aebaa2134c53878d9a10616\"",
     "etag_repository": "W/\"84fd5a65497dc161055e58c2e582b6a7b89f66243be5e58d1ac54bb4682e4972\"",
@@ -4766,7 +4766,7 @@
   },
   "178921037": {
     "manifest": { "name": "Multiple Entity Row" },
-    "description": "Show multiple entity states and attributes on entity rows in __HA_KEEP__'s Lovelace UI",
+    "description": "Show multiple entity states and attributes on entity rows in Universal Home Assistant's Lovelace UI",
     "downloads": 31427,
     "etag_releases": "W/\"1d878ad1b1636b88c5460f4e692517e4715e2bd03252d54a43720369bcca2fee\"",
     "etag_repository": "W/\"8d5371d82560f37bf3677b1979c7be1299cb378b8e2b8856361f7342c9b1fb41\"",
@@ -4790,7 +4790,7 @@
   },
   "455846088": {
     "manifest": { "name": "Sankey Chart Card" },
-    "description": "A __HA_KEEP__ lovelace card to display a sankey chart. For example for power consumption",
+    "description": "A Universal Home Assistant lovelace card to display a sankey chart. For example for power consumption",
     "etag_releases": "W/\"02cb52c57c4cb926477e24fb0fbf13c6dc1892ddc32dfb7ae2a52727ddf91b29\"",
     "etag_repository": "W/\"59c3b00646e34b204b375d86787317bd6d2ea10eeb10ab1c6cfe1c4f47f7a10d\"",
     "full_name": "MindFreeze/ha-sankey-chart",
@@ -4804,7 +4804,7 @@
   },
   "226862969": {
     "manifest": { "name": "Light Brightness Preset Row" },
-    "description": "Provides a means to program 3 preset brightness settings for dimmable lights in __HA_KEEP__",
+    "description": "Provides a means to program 3 preset brightness settings for dimmable lights in Universal Home Assistant",
     "etag_releases": "W/\"7285b4b9bcb7b7b0b477ff7eb31030802e77bde61a168d4ac0e64ee3238b727e\"",
     "etag_repository": "W/\"eeccd9faa2a68d88f9f47c7276d8eba9c3abd80135b9ef49abf9b29a0dc4404c\"",
     "full_name": "finity69x2/light-brightness-preset-row",
@@ -4832,7 +4832,7 @@
   },
   "607398282": {
     "manifest": { "name": "UV Index Card" },
-    "description": "A Lovelace card that shows a the UV index and risk level for __HA_KEEP__",
+    "description": "A Lovelace card that shows a the UV index and risk level for Universal Home Assistant",
     "downloads": 5565,
     "etag_releases": "W/\"4edbcca1d1ff5f596942b30b08a617bcf12f9ccfb629fb27964b540b0e362977\"",
     "etag_repository": "W/\"32bb03164aa4d853354987e47755f67b39921be105704ab01cf869af277d4168\"",
@@ -4867,7 +4867,7 @@
   },
   "599334003": {
     "manifest": { "name": "simple-weather-clock" },
-    "description": "A card for __HA_KEEP__ designed to display a digital clock with six slots below for various numeric environmental sensor data.",
+    "description": "A card for Universal Home Assistant designed to display a digital clock with six slots below for various numeric environmental sensor data.",
     "etag_releases": "W/\"a2462655f67094b2b5cb97a47a2178d5a0a9606ea853a9dca39ad1da97716635\"",
     "etag_repository": "W/\"de2ef2b0072f0b21d074f39a24a01f77889e35130db28a764f0f227646b933f9\"",
     "full_name": "pkscout/simple-weather-clock",
@@ -4880,7 +4880,7 @@
   },
   "342944383": {
     "manifest": { "country": ["NL", "BE"], "name": "Neerslag Card" },
-    "description": "Display Buienalarm and/or Buienradar data in a graph for __HA_KEEP__.",
+    "description": "Display Buienalarm and/or Buienradar data in a graph for Universal Home Assistant.",
     "etag_releases": "W/\"93bb56e9180f188e72ebbe10bf51400fdc916b97073ce19ebb1009e03cb09403\"",
     "etag_repository": "W/\"839db0d401a79d39bfb3be31b7ba77cac1265d572585ef92e4d43f42d8eb4431\"",
     "full_name": "aex351/universal-assistant-neerslag-card",
@@ -4893,7 +4893,7 @@
   },
   "142051833": {
     "manifest": { "name": "Vertical Stack In Card" },
-    "description": "\ud83d\udcd0 __HA_KEEP__ Card: Group multiple cards into a single sleek card.",
+    "description": "\ud83d\udcd0 Universal Home Assistant Card: Group multiple cards into a single sleek card.",
     "etag_releases": "W/\"cc7491753d7b6e62acae27cf878f7e8205f97aad39ec95f5cb4f93190346ec0d\"",
     "etag_repository": "W/\"230708837c19a531b284720493fa45aacd5998b44c8b443ca4a1d481b1af8e2d\"",
     "full_name": "ofekashery/vertical-stack-in-card",

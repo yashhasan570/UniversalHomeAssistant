@@ -28,8 +28,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MOCK_DEVICE, MOCK_DEVICE_STATE, SSEStreamHelper
@@ -45,7 +45,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_lights(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -56,7 +56,7 @@ async def test_lights(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_light_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test light entity reports correct state."""
     entity_id = "light.test_fridge_presentation_light"
@@ -81,7 +81,7 @@ async def test_light_state(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_light_service_calls(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_liebherr_client: MagicMock,
     service: str,
     service_data: dict[str, Any],
@@ -104,7 +104,7 @@ async def test_light_service_calls(
 
 
 @pytest.mark.usefixtures("init_integration")
-async def test_light_updates_optimistically(hass: __HAC_KEEP__) -> None:
+async def test_light_updates_optimistically(hass: UniversalAssistant) -> None:
     """Test light state updates before an SSE event arrives."""
     entity_id = "light.test_fridge_presentation_light"
 
@@ -122,7 +122,7 @@ async def test_light_updates_optimistically(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_light_failure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_liebherr_client: MagicMock,
 ) -> None:
     """Test light fails gracefully on a library error."""
@@ -132,7 +132,7 @@ async def test_light_failure(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="An error occurred while communicating with the device",
     ):
         await hass.services.async_call(
@@ -145,7 +145,7 @@ async def test_light_failure(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_light_when_control_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_liebherr_client: MagicMock,
     sse_helper: SSEStreamHelper,
 ) -> None:
@@ -179,7 +179,7 @@ async def test_light_when_control_missing(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_light_state_updates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_liebherr_client: MagicMock,
     sse_helper: SSEStreamHelper,
     value: int | None,
@@ -211,7 +211,7 @@ async def test_light_state_updates(
 
 
 async def test_no_light_entity_without_control(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_liebherr_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     platforms: list[Platform],
@@ -230,7 +230,7 @@ async def test_no_light_entity_without_control(
 
 
 async def test_dynamic_device_discovery_light(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_liebherr_client: MagicMock,
     freezer: FrozenDateTimeFactory,

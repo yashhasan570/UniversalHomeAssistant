@@ -6,7 +6,7 @@ import socket
 import ssl
 from typing import Any
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 from universalassistant.util.ssl import get_default_context
 
@@ -22,7 +22,7 @@ from .errors import (
 
 
 async def async_get_cert(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     host: str,
     port: int,
 ) -> dict[str, Any]:
@@ -43,7 +43,7 @@ async def async_get_cert(
 
 
 async def get_cert_expiry_timestamp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hostname: str,
     port: int,
 ) -> dt.datetime:

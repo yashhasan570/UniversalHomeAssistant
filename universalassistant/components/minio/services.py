@@ -4,7 +4,7 @@ from enum import StrEnum
 
 import probatio
 
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import config_validation as cv
 
 from .const import DATA_MINIO, DOMAIN
@@ -70,7 +70,7 @@ def _remove_file(call: ServiceCall) -> None:
     call.hass.data[DATA_MINIO].remove_object(bucket, key)
 
 
-def setup_services(hass: __HAC_KEEP__) -> None:
+def setup_services(hass: UniversalAssistant) -> None:
     """Register the Minio services."""
     hass.services.register(
         DOMAIN, MinioService.PUT, _put_file, schema=BUCKET_KEY_FILE_SCHEMA

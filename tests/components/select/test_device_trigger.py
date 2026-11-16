@@ -19,7 +19,7 @@ from universalassistant.components.select.device_trigger import (
     async_get_trigger_capabilities,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.core import UniversalAssistant, ServiceCall
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -29,7 +29,7 @@ from universalassistant.setup import async_setup_component
 
 
 async def test_get_triggers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -69,7 +69,7 @@ async def test_get_triggers(
     ],
 )
 async def test_get_triggers_hidden_auxiliary(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     hidden_by,
@@ -108,7 +108,7 @@ async def test_get_triggers_hidden_auxiliary(
 
 
 async def test_if_fires_on_state_change(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],
@@ -233,7 +233,7 @@ async def test_if_fires_on_state_change(
 
 
 async def test_if_fires_on_state_change_with_for(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],
@@ -292,7 +292,7 @@ async def test_if_fires_on_state_change_with_for(
 
 
 async def test_if_fires_on_state_change_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],
@@ -354,7 +354,7 @@ async def test_if_fires_on_state_change_legacy(
 
 
 async def test_get_trigger_capabilities(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test we get the expected capabilities from a select trigger."""
     entry = entity_registry.async_get_or_create(DOMAIN, "test", "5678")
@@ -432,7 +432,7 @@ async def test_get_trigger_capabilities(
 
 
 async def test_get_trigger_capabilities_unknown(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test we get the expected capabilities from a select trigger."""
     config = {
@@ -474,7 +474,7 @@ async def test_get_trigger_capabilities_unknown(
 
 
 async def test_get_trigger_capabilities_legacy(
-    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
 ) -> None:
     """Test we get the expected capabilities from a select trigger."""
     entry = entity_registry.async_get_or_create(DOMAIN, "test", "5678")

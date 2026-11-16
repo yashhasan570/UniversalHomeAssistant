@@ -10,7 +10,7 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CONF_USERNAME,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -26,14 +26,14 @@ from .services import async_setup_services
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up Flume."""
     async_setup_services(hass)
     return True
 
 
 def _setup_entry(
-    hass: __HAC_KEEP__, entry: FlumeConfigEntry
+    hass: UniversalAssistant, entry: FlumeConfigEntry
 ) -> tuple[FlumeAuth, FlumeDeviceList, Session]:
     """Config entry set up in executor."""
     config = entry.data
@@ -64,7 +64,7 @@ def _setup_entry(
     return flume_auth, flume_devices, http_session
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: FlumeConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: FlumeConfigEntry) -> None:
     """Set up flume from a config entry."""
 
     flume_auth, flume_devices, http_session = await hass.async_add_executor_job(
@@ -84,7 +84,7 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: FlumeConfigEntry) -> None
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: FlumeConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: FlumeConfigEntry) -> None:
     """Unload a config entry."""
     entry.runtime_data.http_session.close()
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -17,7 +17,7 @@ from universalassistant.components.number import (
     NumberMode,
 )
 from universalassistant.const import UnitOfElectricCurrent, UnitOfEnergy
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import NRGkickConfigEntry, NRGkickData, NRGkickDataUpdateCoordinator
@@ -101,7 +101,7 @@ PHASE_COUNT_DESCRIPTION = NRGkickNumberEntityDescription(
 
 
 async def async_setup_entry(
-    _hass: __HAC_KEEP__,
+    _hass: UniversalAssistant,
     entry: NRGkickConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

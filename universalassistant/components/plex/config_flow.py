@@ -13,7 +13,7 @@ from plexauth import PlexAuth
 import probatio
 import requests.exceptions
 
-from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
+from universalassistant.components.http import KEY_HASS, UniversalAssistantView
 from universalassistant.components.media_player import DOMAIN as MP_DOMAIN
 from universalassistant.config_entries import (
     SOURCE_INTEGRATION_DISCOVERY,
@@ -32,7 +32,7 @@ from universalassistant.const import (
     CONF_URL,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv, discovery_flow, http
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -55,7 +55,7 @@ from .const import (
     X_PLEX_PRODUCT,
     X_PLEX_VERSION,
 )
-from .errors import NoServersFound, ServerNotSpecified
+from .errors import NoServersFound, ServerNotFound, ServerNotSpecified
 from .helpers import PlexConfigEntry, get_plex_server
 from .server import PlexServer
 
@@ -65,7 +65,7 @@ _LOGGER = logging.getLogger(__package__)
 
 
 @callback
-def configured_servers(hass: __HAC_KEEP__) -> set[str]:
+def configured_servers(hass: UniversalAssistant) -> set[str]:
     """Return a set of the configured Plex servers."""
     return {
         entry.data[CONF_SERVER_IDENTIFIER]
@@ -73,7 +73,7 @@ def configured_servers(hass: __HAC_KEEP__) -> set[str]:
     }
 
 
-async def async_discover(hass: __HAC_KEEP__) -> None:
+async def async_discover(hass: UniversalAssistant) -> None:
     """Scan for available Plex servers."""
     gdm = GDM()
     await hass.async_add_executor_job(gdm.scan)
@@ -196,6 +196,11 @@ class PlexFlowHandler(ConfigFlow, domain=DOMAIN):
         except NoServersFound:
             _LOGGER.error("No servers linked to Plex account")
             errors["base"] = "no_servers"
+        except ServerNotFound:
+            _LOGGER.debug(
+                "Plex server not found on Plex account: %s", plex_server.server_choice
+            )
+            errors["base"] = "server_not_found"
         except plexapi.exceptions.BadRequest, plexapi.exceptions.Unauthorized:
             _LOGGER.error("Invalid credentials provided, config not created")
             errors[CONF_TOKEN] = "faulty_credentials"
@@ -521,7 +526,7 @@ class PlexOptionsFlowHandler(OptionsFlow):
         )
 
 
-class PlexAuthorizationCallbackView(__HAC_KEEP__View):
+class PlexAuthorizationCallbackView(UniversalAssistantView):
     """Handle callback from external auth."""
 
     url = AUTH_CALLBACK_PATH

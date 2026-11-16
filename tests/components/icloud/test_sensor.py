@@ -21,7 +21,7 @@ from universalassistant.const import (
     EntityCategory,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
@@ -73,7 +73,7 @@ DIAGNOSTIC_UNIQUE_IDS = [
 
 
 async def _async_enable_entity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     unique_id: str,
@@ -120,7 +120,7 @@ async def _async_enable_entity(
     ],
 )
 async def test_sensor_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,
     setup_entry: Callable[[Platform], Awaitable[None]],
@@ -141,7 +141,7 @@ async def test_sensor_state(
 
 
 async def test_battery_status_sensor_without_a_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,
     setup_entry: Callable[[Platform], Awaitable[None]],
@@ -204,7 +204,7 @@ async def test_sensors_disabled_by_default(
     ],
 )
 async def test_timestamp_sensor_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,
@@ -285,7 +285,7 @@ async def test_sensor_not_added_when_unsupported(
     ],
 )
 async def test_numeric_sensor_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,
     setup_entry: Callable[[Platform], Awaitable[None]],
@@ -306,7 +306,7 @@ async def test_numeric_sensor_state(
 
 
 async def test_legacy_device_attributes_only_on_the_battery_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,
     setup_entry: Callable[[Platform], Awaitable[None]],
@@ -337,7 +337,7 @@ async def test_legacy_device_attributes_only_on_the_battery_sensor(
 
 
 async def test_floor_level_sensor_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,
@@ -361,7 +361,7 @@ async def test_floor_level_sensor_state(
 
 
 async def test_new_sensors_are_diagnostic(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,
     setup_entry: Callable[[Platform], Awaitable[None]],
@@ -405,7 +405,7 @@ async def test_location_sensors_not_added_without_location(
 
 
 async def test_location_sensors_added_when_location_appears(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,
@@ -430,7 +430,7 @@ async def test_location_sensors_added_when_location_appears(
 
 
 async def test_location_sensors_without_coordinates(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,
@@ -453,7 +453,7 @@ async def test_location_sensors_without_coordinates(
 
 
 async def test_last_location_sensor_without_timestamp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,
     setup_entry: Callable[[Platform], Awaitable[None]],
@@ -491,7 +491,7 @@ async def test_last_location_sensor_without_timestamp(
     ],
 )
 async def test_last_location_sensor_with_unusable_timestamp(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,
     setup_entry: Callable[[Platform], Awaitable[None]],
@@ -514,7 +514,7 @@ async def test_last_location_sensor_with_unusable_timestamp(
 
 
 async def test_existing_battery_entity_updates_and_reloads(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     devices_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,

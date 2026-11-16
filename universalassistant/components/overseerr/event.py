@@ -5,7 +5,7 @@ from typing import Any, override
 
 from universalassistant.components.event import EventEntity, EventEntityDescription
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -42,7 +42,7 @@ EVENTS: tuple[OverseerrEventEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: OverseerrConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -1,4 +1,4 @@
-"""Test __HA_KEEP__ scenes."""
+"""Test Universal Home Assistant scenes."""
 
 from unittest.mock import patch
 
@@ -20,12 +20,12 @@ from universalassistant.components.scene import (
     SceneServiceArgument,
 )
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.setup import async_setup_component
 
 
-async def test_reload_config_service(hass: __HAC_KEEP__) -> None:
+async def test_reload_config_service(hass: UniversalAssistant) -> None:
     """Test the reload config service."""
     assert await async_setup_component(hass, "scene", {})
     await hass.async_block_till_done()
@@ -67,7 +67,7 @@ async def test_reload_config_service(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_reload_config_service_failed(
-    hass: __HAC_KEEP__, files_patch: dict[str, str], expected_error: str
+    hass: UniversalAssistant, files_patch: dict[str, str], expected_error: str
 ) -> None:
     """Test error handling when the reload config service fails."""
     assert await async_setup_component(hass, "scene", {})
@@ -76,9 +76,9 @@ async def test_reload_config_service_failed(
     with (
         patch_yaml_files(files_patch, True),
         pytest.raises(
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             match=(
-                "Failed to reload the __HA_KEEP__ scene platform configuration - "
+                "Failed to reload the Universal Home Assistant scene platform configuration - "
                 f"{expected_error}"
             ),
         ),
@@ -86,7 +86,7 @@ async def test_reload_config_service_failed(
         await hass.services.async_call("scene", SceneService.RELOAD, blocking=True)
 
 
-async def test_apply_service(hass: __HAC_KEEP__) -> None:
+async def test_apply_service(hass: UniversalAssistant) -> None:
     """Test the apply service."""
     assert await async_setup_component(hass, "scene", {})
     # demo needs the universalassistant component, set up by scene in the background
@@ -140,7 +140,7 @@ async def test_apply_service(hass: __HAC_KEEP__) -> None:
 
 
 async def test_create_service(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the create service."""
     assert await async_setup_component(
@@ -235,7 +235,7 @@ async def test_create_service(
 
 
 async def test_delete_service(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the delete service."""
     assert await async_setup_component(
@@ -295,7 +295,7 @@ async def test_delete_service(
 
 
 async def test_snapshot_service(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the snapshot option."""
     assert await async_setup_component(hass, "scene", {"scene": {}})
@@ -366,7 +366,7 @@ async def test_snapshot_service(
     )
 
 
-async def test_ensure_no_intersection(hass: __HAC_KEEP__) -> None:
+async def test_ensure_no_intersection(hass: UniversalAssistant) -> None:
     """Test that entities and snapshot_entities do not overlap."""
     assert await async_setup_component(hass, "scene", {"scene": {}})
     await hass.async_block_till_done()
@@ -388,7 +388,7 @@ async def test_ensure_no_intersection(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("scene.hallo") is None
 
 
-async def test_scenes_with_entity(hass: __HAC_KEEP__) -> None:
+async def test_scenes_with_entity(hass: UniversalAssistant) -> None:
     """Test finding scenes with a specific entity."""
     assert await async_setup_component(
         hass,
@@ -412,7 +412,7 @@ async def test_scenes_with_entity(hass: __HAC_KEEP__) -> None:
     ]
 
 
-async def test_entities_in_scene(hass: __HAC_KEEP__) -> None:
+async def test_entities_in_scene(hass: UniversalAssistant) -> None:
     """Test finding entities in a scene."""
     assert await async_setup_component(
         hass,
@@ -438,7 +438,7 @@ async def test_entities_in_scene(hass: __HAC_KEEP__) -> None:
         assert ha_scene.entities_in_scene(hass, scene_id) == entities
 
 
-async def test_config(hass: __HAC_KEEP__) -> None:
+async def test_config(hass: UniversalAssistant) -> None:
     """Test passing config in YAML."""
     assert await async_setup_component(
         hass,

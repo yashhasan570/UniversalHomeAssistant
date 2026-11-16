@@ -9,7 +9,7 @@ from kasa import Device
 from universalassistant.components.automation import automations_with_entity
 from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN
 from universalassistant.components.script import scripts_with_entity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.issue_registry import IssueSeverity, async_create_issue
 
@@ -30,7 +30,7 @@ class DeprecatedInfo:
 
 
 def async_check_create_deprecated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     unique_id: str,
     entity_description: TPLinkEntityDescription,
 ) -> bool:
@@ -61,7 +61,7 @@ def async_check_create_deprecated(
 
 
 def async_process_deprecated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     platform_domain: str,
     entry_id: str,
     entities: Sequence[CoordinatedTPLinkEntity],

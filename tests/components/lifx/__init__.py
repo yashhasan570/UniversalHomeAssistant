@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.lifx.const import DOMAIN
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -30,7 +30,7 @@ UPDATE_INTERVAL = timedelta(seconds=15)
 
 
 async def async_setup_lifx_entry(
-    hass: __HAC_KEEP__, device: Device
+    hass: UniversalAssistant, device: Device
 ) -> MockConfigEntry:
     """Set up a config entry for one typed LIFX device."""
     entry = MockConfigEntry(
@@ -47,7 +47,7 @@ async def async_setup_lifx_entry(
 
 
 async def async_setup_lifx_entries(
-    hass: __HAC_KEEP__, devices: list[Device]
+    hass: UniversalAssistant, devices: list[Device]
 ) -> list[MockConfigEntry]:
     """Set up one config entry per typed LIFX device."""
     entries = [
@@ -73,7 +73,7 @@ async def async_setup_lifx_entries(
 
 
 async def async_enable_components(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device: Device,
@@ -91,7 +91,7 @@ async def async_enable_components(
         await hass.async_block_till_done()
 
 
-async def async_trigger_update(hass: __HAC_KEEP__) -> None:
+async def async_trigger_update(hass: UniversalAssistant) -> None:
     """Advance time so the coordinator polls the device again."""
     # Advancing the clock also fires the periodic discovery this helper does not want
     with patch(

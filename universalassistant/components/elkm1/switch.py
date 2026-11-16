@@ -11,8 +11,8 @@ from elkm1_lib.outputs import Output
 from elkm1_lib.thermostats import Thermostat
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import ElkAttachedEntity, ElkEntity, create_elk_entities
@@ -20,7 +20,7 @@ from .models import ElkM1ConfigEntry, ELKM1Data
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ElkM1ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -94,4 +94,4 @@ class ElkThermostatEMHeat(ElkEntity, SwitchEntity):
 
     async def async_switch_output_turn_on_for(self, duration: timedelta) -> None:
         """Turn on an output for specified length of time: not supported for thermostat."""
-        raise __HAC_KEEP__Error("supported only on ElkM1 output switch entities")
+        raise UniversalAssistantError("supported only on ElkM1 output switch entities")

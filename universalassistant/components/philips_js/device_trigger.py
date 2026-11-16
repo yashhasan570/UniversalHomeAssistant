@@ -4,8 +4,8 @@ import probatio
 
 from universalassistant.components.device_automation import DEVICE_TRIGGER_BASE_SCHEMA
 from universalassistant.const import CONF_DEVICE_ID, CONF_TYPE
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.trigger import (
     PluggableAction,
     TriggerActionType,
@@ -25,7 +25,7 @@ TRIGGER_SCHEMA = DEVICE_TRIGGER_BASE_SCHEMA.extend(
 
 
 async def async_get_triggers(
-    hass: __HAC_KEEP__, device_id: str
+    hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, str]]:
     """List device triggers for device."""
     triggers = []
@@ -35,7 +35,7 @@ async def async_get_triggers(
 
 
 async def async_attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,
@@ -58,4 +58,4 @@ async def async_attach_trigger(
             hass, turn_on_trigger, action, variables
         )
 
-    raise __HAC_KEEP__Error(f"Unhandled trigger type {trigger_type}")
+    raise UniversalAssistantError(f"Unhandled trigger type {trigger_type}")

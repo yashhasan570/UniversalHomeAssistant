@@ -174,4 +174,4 @@ mount_reload:
         device:
           filter:
             integration: hassio
-            model: __HA_KEEP__ Mount
+            model: Universal Home Assistant Mount

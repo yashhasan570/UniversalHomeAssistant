@@ -123,7 +123,7 @@ class LyngdorfFlowHandler(ConfigFlow, domain=DOMAIN):
         """Handle reconfiguration of an existing entry.
 
         SSDP rediscovery only recovers a changed address while the device is
-        still announcing somewhere __HA_KEEP__ can hear it, which a move to
+        still announcing somewhere Universal Home Assistant can hear it, which a move to
         a static address or another subnet can end.
         """
         errors: dict[str, str] = {}

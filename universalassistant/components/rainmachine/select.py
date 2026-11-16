@@ -7,8 +7,8 @@ from regenmaschine.errors import RainMachineError
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM, UnitSystem
 
@@ -79,7 +79,7 @@ SELECT_DESCRIPTIONS = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: RainMachineConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -137,7 +137,7 @@ class FreezeProtectionTemperatureSelect(RainMachineEntity, SelectEntity):
                 {self.entity_description.data_key: self._label_to_api_value_map[option]}
             )
         except RainMachineError as err:
-            raise __HAC_KEEP__Error(f"Error while setting {self.name}: {err}") from err
+            raise UniversalAssistantError(f"Error while setting {self.name}: {err}") from err
 
     @callback
     @override

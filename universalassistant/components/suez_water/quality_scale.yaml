@@ -58,13 +58,13 @@ rules:
   entity-device-class: done
   devices:
     status: todo
-    comment: see https://github.com/yashhasan570/__HAC_KEEP__/pull/134027#discussion_r1898732463
+    comment: see https://github.com/yashhasan570/UniversalUniversalAssistant/pull/134027#discussion_r1898732463
   entity-category:
     status: done
     comment: default class is fine
   entity-disabled-by-default:
     status: todo
-    comment: price can always be disabled and yesterday usage after https://github.com/yashhasan570/__HAC_KEEP__/pull/131166
+    comment: price can always be disabled and yesterday usage after https://github.com/yashhasan570/UniversalUniversalAssistant/pull/131166
   discovery:
     status: exempt
     comment: api only, nothing on local network to discover services

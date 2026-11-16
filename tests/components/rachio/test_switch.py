@@ -7,8 +7,8 @@ import pytest
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 
 CONTROLLER_ID = "controller-id"
 ZONE_ID = "zone-id"
@@ -47,11 +47,11 @@ pytestmark = [
     ],
 )
 async def test_zone_services_update_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rachio: MagicMock,
     success_status: int,
 ) -> None:
-    """Test zone services optimistically update __HA_KEEP__ state."""
+    """Test zone services optimistically update Universal Home Assistant state."""
     mock_rachio.device.stop_water.return_value = ({"status": success_status}, {})
     mock_rachio.zone.start.return_value = ({"status": success_status}, {})
 
@@ -87,14 +87,14 @@ async def test_zone_services_update_state(
         pytest.param(
             ({"status": 500}, {}),
             None,
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             id="error-response",
         ),
         pytest.param(None, RuntimeError, RuntimeError, id="exception"),
     ],
 )
 async def test_zone_start_failure_does_not_update_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rachio: MagicMock,
     response: tuple[dict[str, int], dict[str, Any]] | None,
     side_effect: type[Exception] | None,
@@ -122,14 +122,14 @@ async def test_zone_start_failure_does_not_update_state(
         pytest.param(
             ({"status": 500}, {}),
             None,
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             id="error-response",
         ),
         pytest.param(None, RuntimeError, RuntimeError, id="exception"),
     ],
 )
 async def test_zone_stop_failure_does_not_update_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_rachio: MagicMock,
     response: tuple[dict[str, int], dict[str, Any]] | None,
     side_effect: type[Exception] | None,

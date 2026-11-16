@@ -22,7 +22,7 @@ from universalassistant.components.anthropic.coordinator import (
     model_alias,
 )
 from universalassistant.config_entries import SOURCE_REAUTH
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.helpers import intent, issue_registry as ir
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -141,7 +141,7 @@ def test_model_alias(model_id: str, expected_alias: str) -> None:
     ],
 )
 def test_active_model_sdk_deprecation_fallback(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     model_id: str,
     cached_id: str,
@@ -173,7 +173,7 @@ def test_active_model_sdk_deprecation_fallback(
 
 
 def test_invalid_sdk_retirement_preserves_api_date(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Keep an existing API retirement date when the SDK date cannot be parsed."""
@@ -204,7 +204,7 @@ def test_invalid_sdk_retirement_preserves_api_date(
     ],
 )
 def test_model_lifecycle_without_sdk_deprecation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     lifecycle: str,
 ) -> None:
@@ -238,7 +238,7 @@ def test_model_lifecycle_without_sdk_deprecation(
     ],
 )
 def test_inactive_api_model_takes_precedence_over_sdk(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     lifecycle: str,
     sdk_date: str,
@@ -266,7 +266,7 @@ def test_inactive_api_model_takes_precedence_over_sdk(
 
 
 def test_unknown_sdk_deprecated_model_is_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """SDK deprecations do not turn an unknown model into a catalogue match."""
@@ -287,7 +287,7 @@ def test_unknown_sdk_deprecated_model_is_not_found(
 
 
 async def test_model_pagination(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
 ) -> None:
@@ -334,7 +334,7 @@ async def test_model_pagination(
     ],
 )
 async def test_model_lifecycle_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
@@ -405,7 +405,7 @@ async def test_model_lifecycle_refresh(
 
 @pytest.mark.freeze_time("2026-10-16T00:00:00Z")
 async def test_inactive_models_cached_until_active_metadata_changes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
@@ -451,7 +451,7 @@ async def test_inactive_models_cached_until_active_metadata_changes(
 
 @pytest.mark.freeze_time("2026-10-16T00:00:00Z")
 async def test_reactivated_model_replaces_cached_inactive_model(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
@@ -489,7 +489,7 @@ async def test_reactivated_model_replaces_cached_inactive_model(
 
 
 async def test_later_inactive_metadata_takes_precedence(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
 ) -> None:
@@ -512,7 +512,7 @@ async def test_later_inactive_metadata_takes_precedence(
 
 @pytest.mark.freeze_time("2026-10-16T00:00:00Z")
 async def test_empty_model_catalogue(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
@@ -566,7 +566,7 @@ async def test_empty_model_catalogue(
     ],
 )
 async def test_scheduled_lifecycle_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
@@ -602,7 +602,7 @@ async def test_scheduled_lifecycle_refresh(
 
 @pytest.mark.freeze_time("2026-10-16T00:00:00Z")
 async def test_passed_retirement_date_retries_until_model_is_retired(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
@@ -689,7 +689,7 @@ async def test_passed_retirement_date_retries_until_model_is_retired(
     ],
 )
 async def test_inactive_fetch_failure_retries_without_committing_partial_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
@@ -738,7 +738,7 @@ async def test_inactive_fetch_failure_retries_without_committing_partial_data(
 @pytest.mark.usefixtures("mock_init_component")
 async def test_auth_error_handling(
     mock_model_list: AsyncMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
 ) -> None:
@@ -781,7 +781,7 @@ async def test_auth_error_handling(
 @pytest.mark.usefixtures("mock_init_component")
 async def test_connection_error_handling(
     mock_model_list: AsyncMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_create_stream: AsyncMock,
 ) -> None:
@@ -872,7 +872,7 @@ async def test_connection_error_handling(
 @pytest.mark.freeze_time("2026-10-16T00:00:00Z")
 @pytest.mark.usefixtures("mock_init_component")
 async def test_successful_conversation_preserves_queued_catalogue_refresh(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_model_list: AsyncMock,
     mock_create_stream: AsyncMock,
@@ -919,7 +919,7 @@ async def test_successful_conversation_preserves_queued_catalogue_refresh(
 @pytest.mark.freeze_time("2026-10-16T00:00:00Z")
 @pytest.mark.usefixtures("mock_init_component")
 async def test_successful_conversation_preserves_in_flight_catalogue_retry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
@@ -981,7 +981,7 @@ async def test_successful_conversation_preserves_in_flight_catalogue_retry(
 @pytest.mark.usefixtures("mock_init_component")
 async def test_connection_check_reauth(
     mock_model_list: AsyncMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test authentication error during background availability check."""
@@ -1045,7 +1045,7 @@ async def test_connection_check_reauth(
 @pytest.mark.usefixtures("mock_init_component")
 async def test_connection_restore(
     mock_model_list: AsyncMock,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_create_stream: AsyncMock,
 ) -> None:
     """Test background availability check restore on non-connectivity error."""

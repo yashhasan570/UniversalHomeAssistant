@@ -5,7 +5,7 @@ from typing import Any, override
 from subarulink.const import LATITUDE, LONGITUDE, TIMESTAMP
 
 from universalassistant.components.device_tracker import TrackerEntity
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import VEHICLE_HAS_REMOTE_SERVICE, VEHICLE_STATUS
@@ -14,7 +14,7 @@ from .entity import SubaruCoordinatorEntity
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: SubaruConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

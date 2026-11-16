@@ -9,7 +9,7 @@ from Tami4EdgeAPI import Tami4EdgeAPI, exceptions
 from Tami4EdgeAPI.water_quality import WaterQuality
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 _LOGGER = logging.getLogger(__name__)
@@ -43,7 +43,7 @@ class Tami4EdgeCoordinator(DataUpdateCoordinator[FlattenedWaterQuality]):
     config_entry: Tami4ConfigEntry
 
     def __init__(
-        self, hass: __HAC_KEEP__, config_entry: Tami4ConfigEntry, api: Tami4EdgeAPI
+        self, hass: UniversalAssistant, config_entry: Tami4ConfigEntry, api: Tami4EdgeAPI
     ) -> None:
         """Initialize the water quality coordinator."""
         super().__init__(

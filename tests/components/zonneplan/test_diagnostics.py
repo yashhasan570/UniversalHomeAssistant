@@ -8,11 +8,11 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from pyzonneplan import ZonneplanConnectionError
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_diagnostics(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -29,7 +29,7 @@ async def test_diagnostics(
 
 
 async def test_diagnostics_without_control_modes(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,

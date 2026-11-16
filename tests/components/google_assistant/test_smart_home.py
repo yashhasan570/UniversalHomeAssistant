@@ -46,7 +46,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     __version__,
 )
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.helpers import (
     area_registry as ar,
@@ -86,7 +86,7 @@ def registries(
     return ret
 
 
-async def test_async_handle_message(hass: __HAC_KEEP__) -> None:
+async def test_async_handle_message(hass: UniversalAssistant) -> None:
     """Test the async handle message method."""
     config = MockConfig(
         should_expose=lambda entity_id: entity_id != "light.not_expose",
@@ -140,7 +140,7 @@ async def test_async_handle_message(hass: __HAC_KEEP__) -> None:
     await hass.async_block_till_done()
 
 
-async def test_sync_message(hass: __HAC_KEEP__, registries) -> None:
+async def test_sync_message(hass: UniversalAssistant, registries) -> None:
     """Test a sync message."""
     entity = registries.entity.async_get_or_create(
         "light",
@@ -283,7 +283,7 @@ async def test_sync_message(hass: __HAC_KEEP__, registries) -> None:
 async def test_sync_in_area(
     area_on_device: bool,
     expected_name: str,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     registries: SimpleNamespace,
 ) -> None:
     """Test a sync message where room hint comes from area."""
@@ -410,7 +410,7 @@ async def test_sync_in_area(
     assert events[0].data == {"request_id": REQ_ID, "source": "cloud"}
 
 
-async def test_query_message(hass: __HAC_KEEP__) -> None:
+async def test_query_message(hass: UniversalAssistant) -> None:
     """Test a sync message."""
     light = DemoLight(
         None,
@@ -523,7 +523,7 @@ async def test_query_message(hass: __HAC_KEEP__) -> None:
     [(False, True, 20, 0.2), (True, ANY, ANY, ANY)],
 )
 async def test_execute(
-    hass: __HAC_KEEP__, light_only, report_state, on, brightness, value
+    hass: UniversalAssistant, light_only, report_state, on, brightness, value
 ) -> None:
     """Test an execute command."""
     await async_setup_component(hass, "universalassistant", {})
@@ -672,7 +672,7 @@ async def test_execute(
     ("report_state", "on", "brightness", "value"), [(False, False, ANY, ANY)]
 )
 async def test_execute_times_out(
-    hass: __HAC_KEEP__, light_only, report_state, on, brightness, value
+    hass: UniversalAssistant, light_only, report_state, on, brightness, value
 ) -> None:
     """Test an execute command which times out."""
     orig_execute_limit = sh.EXECUTE_LIMIT
@@ -833,7 +833,7 @@ async def test_execute_times_out(
     sh.EXECUTE_LIMIT = orig_execute_limit
 
 
-async def test_raising_error_trait(hass: __HAC_KEEP__) -> None:
+async def test_raising_error_trait(hass: UniversalAssistant) -> None:
     """Test raising an error while executing a trait command."""
     hass.states.async_set(
         "climate.bla",
@@ -906,7 +906,7 @@ async def test_raising_error_trait(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_serialize_input_boolean(hass: __HAC_KEEP__) -> None:
+async def test_serialize_input_boolean(hass: UniversalAssistant) -> None:
     """Test serializing an input boolean entity."""
     state = State("input_boolean.bla", "on")
     entity = sh.GoogleEntity(hass, BASIC_CONFIG, state)
@@ -921,7 +921,7 @@ async def test_serialize_input_boolean(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_unavailable_state_does_sync(hass: __HAC_KEEP__) -> None:
+async def test_unavailable_state_does_sync(hass: UniversalAssistant) -> None:
     """Test that an unavailable entity does sync over."""
     light = DemoLight(
         None,
@@ -1020,7 +1020,7 @@ async def test_unavailable_state_does_sync(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_device_class_switch(
-    hass: __HAC_KEEP__, device_class, google_type
+    hass: UniversalAssistant, device_class, google_type
 ) -> None:
     """Test that a cover entity syncs to the correct device type."""
     switch = DemoSwitch(
@@ -1076,7 +1076,7 @@ async def test_device_class_switch(
     ],
 )
 async def test_device_class_binary_sensor(
-    hass: __HAC_KEEP__, device_class, google_type
+    hass: UniversalAssistant, device_class, google_type
 ) -> None:
     """Test that a binary entity syncs to the correct device type."""
     binary_sensor = DemoBinarySensor(
@@ -1134,7 +1134,7 @@ async def test_device_class_binary_sensor(
     ],
 )
 async def test_device_class_cover(
-    hass: __HAC_KEEP__, device_class, google_type
+    hass: UniversalAssistant, device_class, google_type
 ) -> None:
     """Test that a cover entity syncs to the correct device type."""
     cover = DemoCover(None, hass, "Demo Cover", device_class=device_class)
@@ -1186,7 +1186,7 @@ async def test_device_class_cover(
     ],
 )
 async def test_device_media_player(
-    hass: __HAC_KEEP__, device_class, google_type
+    hass: UniversalAssistant, device_class, google_type
 ) -> None:
     """Test that a binary entity syncs to the correct device type."""
     media_player = AbstractDemoPlayer("Demo", device_class=device_class)
@@ -1229,7 +1229,7 @@ async def test_device_media_player(
     }
 
 
-async def test_query_disconnect(hass: __HAC_KEEP__) -> None:
+async def test_query_disconnect(hass: UniversalAssistant) -> None:
     """Test a disconnect message."""
     config = MockConfig(hass=hass)
     config.async_enable_report_state()
@@ -1247,7 +1247,7 @@ async def test_query_disconnect(hass: __HAC_KEEP__) -> None:
     assert len(mock_disconnect.mock_calls) == 1
 
 
-async def test_trait_execute_adding_query_data(hass: __HAC_KEEP__) -> None:
+async def test_trait_execute_adding_query_data(hass: UniversalAssistant) -> None:
     """Test a trait execute influencing query data."""
     await async_process_ha_core_config(
         hass,
@@ -1319,7 +1319,7 @@ async def test_trait_execute_adding_query_data(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_identify(hass: __HAC_KEEP__) -> None:
+async def test_identify(hass: UniversalAssistant) -> None:
     """Test identify message."""
     user_agent_id = "mock-user-id"
     proxy_device_id = user_agent_id
@@ -1382,8 +1382,8 @@ async def test_identify(hass: __HAC_KEEP__) -> None:
                 "isProxy": True,
                 "deviceInfo": {
                     "hwVersion": "UNKNOWN_HW_VERSION",
-                    "manufacturer": "__HA_KEEP__",
-                    "model": "__HA_KEEP__",
+                    "manufacturer": "Universal Home Assistant",
+                    "model": "Universal Home Assistant",
                     "swVersion": __version__,
                 },
             }
@@ -1391,7 +1391,7 @@ async def test_identify(hass: __HAC_KEEP__) -> None:
     }
 
 
-async def test_reachable_devices(hass: __HAC_KEEP__) -> None:
+async def test_reachable_devices(hass: UniversalAssistant) -> None:
     """Test REACHABLE_DEVICES intent."""
     # Matching passed in device.
     hass.states.async_set("light.ceiling_lights", "on")
@@ -1487,7 +1487,7 @@ async def test_reachable_devices(hass: __HAC_KEEP__) -> None:
 
 
 async def test_sync_message_recovery(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test a sync message recovers from bad entities."""
     light = DemoLight(
@@ -1553,7 +1553,7 @@ async def test_sync_message_recovery(
 
 
 async def test_query_recover(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that we recover if an entity raises during query."""
 
@@ -1612,7 +1612,7 @@ async def test_query_recover(
 
 
 async def test_proxy_selected(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that we handle proxy selected."""
 

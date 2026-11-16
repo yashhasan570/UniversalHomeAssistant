@@ -14,7 +14,7 @@ from sharkiq import (
 
 from universalassistant import exceptions
 from universalassistant.const import CONF_PASSWORD, CONF_REGION, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 from universalassistant.helpers.typing import ConfigType
@@ -33,7 +33,7 @@ from .services import async_setup_services
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-class CannotConnect(exceptions.__HAC_KEEP__Error):
+class CannotConnect(exceptions.UniversalAssistantError):
     """Error to indicate we cannot connect."""
 
 
@@ -53,14 +53,14 @@ async def async_connect_or_timeout(ayla_api: AylaApi) -> bool:
     return True
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the component."""
     async_setup_services(hass)
     return True
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, config_entry: SharkIqConfigEntry
+    hass: UniversalAssistant, config_entry: SharkIqConfigEntry
 ) -> None:
     """Initialize the sharkiq platform via config entry."""
     if CONF_REGION not in config_entry.data:
@@ -112,13 +112,13 @@ async def async_disconnect_or_timeout(coordinator: SharkIqUpdateCoordinator):
             await coordinator.ayla_api.async_sign_out()
 
 
-async def async_update_options(hass: __HAC_KEEP__, config_entry):
+async def async_update_options(hass: UniversalAssistant, config_entry):
     """Update options."""
     await hass.config_entries.async_reload(config_entry.entry_id)
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, config_entry: SharkIqConfigEntry
+    hass: UniversalAssistant, config_entry: SharkIqConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)

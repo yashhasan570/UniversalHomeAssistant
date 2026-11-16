@@ -10,8 +10,8 @@ from universalassistant.components.device_automation import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_DEVICE_ID, CONF_PLATFORM, CONF_TYPE
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
 from universalassistant.helpers.typing import ConfigType
@@ -33,7 +33,7 @@ TRIGGER_SCHEMA = DEVICE_TRIGGER_BASE_SCHEMA.extend(
 
 
 async def async_validate_trigger_config(
-    hass: __HAC_KEEP__, config: ConfigType
+    hass: UniversalAssistant, config: ConfigType
 ) -> ConfigType:
     """Validate config."""
     config = TRIGGER_SCHEMA(config)
@@ -57,14 +57,14 @@ async def async_validate_trigger_config(
 
 
 async def async_get_triggers(
-    _hass: __HAC_KEEP__, device_id: str
+    _hass: UniversalAssistant, device_id: str
 ) -> list[dict[str, Any]]:
     """List device triggers for LG Netcast devices."""
     return [async_get_turn_on_trigger(device_id)]
 
 
 async def async_attach_trigger(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,
@@ -82,4 +82,4 @@ async def async_attach_trigger(
             hass, trigger_config, action, trigger_info
         )
 
-    raise __HAC_KEEP__Error(f"Unhandled trigger type {trigger_type}")
+    raise UniversalAssistantError(f"Unhandled trigger type {trigger_type}")

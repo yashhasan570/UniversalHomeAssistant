@@ -11,7 +11,7 @@ from universalassistant.components.number import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ID, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import OpenThermGatewayHub
@@ -59,7 +59,7 @@ NUMBER_DESCRIPTIONS: tuple[OpenThermNumberEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

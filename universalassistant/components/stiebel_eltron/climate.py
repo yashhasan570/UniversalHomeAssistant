@@ -14,8 +14,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, PRECISION_TENTHS, UnitOfTemperature
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import StiebelEltronConfigEntry, StiebelEltronDataCoordinator
@@ -74,7 +74,7 @@ HA_TO_LWZ_PRESET = {
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: StiebelEltronConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -136,7 +136,7 @@ class StiebelEltron(StiebelEltronEntity, ClimateEntity):
         try:
             await self.coordinator.api_client.set_operation(new_mode)
         except ModbusError as e:
-            raise __HAC_KEEP__Error(f"Failed to set HVAC mode: {e}") from e
+            raise UniversalAssistantError(f"Failed to set HVAC mode: {e}") from e
         await self.coordinator.async_request_refresh()
 
     @override
@@ -147,7 +147,7 @@ class StiebelEltron(StiebelEltronEntity, ClimateEntity):
         try:
             await self.coordinator.api_client.set_target_temp(target_temperature)
         except ModbusError as e:
-            raise __HAC_KEEP__Error(f"Failed to set target temperature: {e}") from e
+            raise UniversalAssistantError(f"Failed to set target temperature: {e}") from e
         await self.coordinator.async_request_refresh()
 
     @override
@@ -160,5 +160,5 @@ class StiebelEltron(StiebelEltronEntity, ClimateEntity):
         try:
             await self.coordinator.api_client.set_operation(new_preset)
         except ModbusError as e:
-            raise __HAC_KEEP__Error(f"Failed to set preset mode: {e}") from e
+            raise UniversalAssistantError(f"Failed to set preset mode: {e}") from e
         await self.coordinator.async_request_refresh()

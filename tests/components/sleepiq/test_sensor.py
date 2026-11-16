@@ -8,14 +8,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import BED_NAME_LOWER, SLEEPER_L_NAME_LOWER, setup_platform
 
 
 async def test_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     mock_asyncsleepiq,
     snapshot: SnapshotAssertion,
@@ -31,7 +31,7 @@ async def test_sensors(
     [pytest.param(None, id="missing"), pytest.param("Not/AZone", id="invalid")],
 )
 async def test_session_times_without_bed_timezone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_asyncsleepiq: MagicMock,
     mock_bed: MagicMock,
     timezone: str | None,

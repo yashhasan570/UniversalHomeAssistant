@@ -10,7 +10,7 @@ from surepy.exceptions import SurePetcareAuthenticationError, SurePetcareError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_TOKEN, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -29,7 +29,7 @@ class SurePetcareDataCoordinator(DataUpdateCoordinator[dict[int, SurepyEntity]])
 
     config_entry: SurePetcareConfigEntry
 
-    def __init__(self, hass: __HAC_KEEP__, entry: SurePetcareConfigEntry) -> None:
+    def __init__(self, hass: UniversalAssistant, entry: SurePetcareConfigEntry) -> None:
         """Initialize the data handler."""
         self.surepy = Surepy(
             entry.data[CONF_USERNAME],

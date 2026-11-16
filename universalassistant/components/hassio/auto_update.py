@@ -1,4 +1,4 @@
-"""Automatic updates of __HA_KEEP__ Core patch releases."""
+"""Automatic updates of Universal Home Assistant Core patch releases."""
 
 from collections.abc import Mapping
 from dataclasses import dataclass
@@ -14,8 +14,8 @@ import probatio
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import WEEKDAYS
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.event import async_track_time_interval
 from universalassistant.helpers.start import async_at_started
@@ -49,7 +49,7 @@ CHECK_INTERVAL = timedelta(minutes=5)
 # Long enough that a check always lands inside the window
 MIN_WINDOW_LENGTH = timedelta(minutes=30)
 
-# Supervisor jobs that must finish before __HA_KEEP__ is updated
+# Supervisor jobs that must finish before Universal Home Assistant is updated
 _BUSY_JOB_NAME = "universal_assistant_core_update"
 _BUSY_JOB_PREFIX = "backup_manager_"
 
@@ -108,7 +108,7 @@ class AutoUpdateUnavailableReason(StrEnum):
 
 @dataclass(frozen=True, kw_only=True)
 class AutoUpdateSettings:
-    """The user's settings for automatic __HA_KEEP__ updates."""
+    """The user's settings for automatic Universal Home Assistant updates."""
 
     # None means the user has not made a choice yet
     enabled: bool | None
@@ -144,7 +144,7 @@ class AutoUpdateSettings:
 
 
 class AutoUpdateStoreData(TypedDict):
-    """Stored data for automatic __HA_KEEP__ updates."""
+    """Stored data for automatic Universal Home Assistant updates."""
 
     first_seen: dict[str, str]
     skipped: list[str]
@@ -154,9 +154,9 @@ class AutoUpdateStoreData(TypedDict):
 
 
 class _AutoUpdateStore(Store[AutoUpdateStoreData]):
-    """Store for automatic __HA_KEEP__ updates."""
+    """Store for automatic Universal Home Assistant updates."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the store."""
         super().__init__(
             hass, STORAGE_VERSION, STORAGE_KEY, minor_version=STORAGE_VERSION_MINOR
@@ -209,11 +209,11 @@ def _major(version: str) -> tuple[int, int]:
 
 
 class AutoUpdateManager:
-    """Keep the state for automatic __HA_KEEP__ updates."""
+    """Keep the state for automatic Universal Home Assistant updates."""
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         entry: ConfigEntry,
         coordinator: HassioMainDataUpdateCoordinator,
     ) -> None:
@@ -253,8 +253,8 @@ class AutoUpdateManager:
         )
 
     @callback
-    def _async_start_checking(self, hass: __HAC_KEEP__) -> None:
-        """Check now and on an interval, once __HA_KEEP__ has started."""
+    def _async_start_checking(self, hass: UniversalAssistant) -> None:
+        """Check now and on an interval, once Universal Home Assistant has started."""
         self._entry.async_on_unload(
             async_track_time_interval(
                 hass,
@@ -394,7 +394,7 @@ class AutoUpdateManager:
 
         try:
             backup_manager = async_get_manager(self._hass)
-        except __HAC_KEEP__Error:
+        except UniversalAssistantError:
             # Without the backup integration there is no backup to wait for
             return False
         return not isinstance(backup_manager.last_event, IdleEvent)
@@ -456,7 +456,7 @@ class AutoUpdateManager:
         ):
             return
 
-        # Stored before the update starts; __HA_KEEP__ restarts during it
+        # Stored before the update starts; Universal Home Assistant restarts during it
         self._attempted_window = window
         await self._store.async_save(self._data_to_save())
 
@@ -484,17 +484,17 @@ class AutoUpdateManager:
                 or (not backup and self._async_backup_job_running())
             ):
                 _LOGGER.info(
-                    "Not installing __HA_KEEP__ %s automatically, "
+                    "Not installing Universal Home Assistant %s automatically, "
                     "it is no longer due or safe to install",
                     version,
                 )
                 return
 
-            _LOGGER.info("Installing __HA_KEEP__ %s automatically", version)
+            _LOGGER.info("Installing Universal Home Assistant %s automatically", version)
             await update_core(self._hass, version, False)
-        except __HAC_KEEP__Error as err:
+        except UniversalAssistantError as err:
             _LOGGER.error(
-                "Automatic update to __HA_KEEP__ %s failed: %s", version, err
+                "Automatic update to Universal Home Assistant %s failed: %s", version, err
             )
 
     @callback

@@ -6,7 +6,7 @@ from typing import Any
 
 from aioabrp import Metric
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .coordinator import AbrpConfigEntry
 
@@ -23,7 +23,7 @@ _URL = re.compile(r"https?://\S+")
 
 
 async def async_get_config_entry_diagnostics(
-    hass: __HAC_KEEP__, entry: AbrpConfigEntry
+    hass: UniversalAssistant, entry: AbrpConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data.telemetry_coordinator

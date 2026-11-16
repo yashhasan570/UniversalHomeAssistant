@@ -31,7 +31,7 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.core import UniversalAssistant, State
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -39,7 +39,7 @@ from universalassistant.util import dt as dt_util
 from .const import TEST_DOMAIN
 
 
-async def test_button(hass: __HAC_KEEP__) -> None:
+async def test_button(hass: UniversalAssistant) -> None:
     """Test getting data from the mocked button entity."""
     button = ButtonEntity()
     assert button.state is None
@@ -57,7 +57,7 @@ async def test_button(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("enable_custom_integrations", "setup_platform")
 async def test_custom_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_custom_integration(
 
 
 @pytest.mark.usefixtures("enable_custom_integrations", "setup_platform")
-async def test_restore_state(hass: __HAC_KEEP__) -> None:
+async def test_restore_state(hass: UniversalAssistant) -> None:
     """Test we restore state integration."""
     mock_restore_cache(hass, (State("button.button_1", "2021-01-01T23:59:59+00:00"),))
 
@@ -106,7 +106,7 @@ async def test_restore_state(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("enable_custom_integrations", "setup_platform")
-async def test_restore_state_does_not_restore_unavailable(hass: __HAC_KEEP__) -> None:
+async def test_restore_state_does_not_restore_unavailable(hass: UniversalAssistant) -> None:
     """Test we restore state integration except for unavailable."""
     mock_restore_cache(hass, (State("button.button_1", STATE_UNAVAILABLE),))
 
@@ -121,7 +121,7 @@ class MockFlow(ConfigFlow):
 
 
 @pytest.fixture(autouse=True)
-def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
+def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
     """Mock config flow."""
     mock_platform(hass, f"{TEST_DOMAIN}.config_flow")
 
@@ -129,11 +129,11 @@ def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
         yield
 
 
-async def test_name(hass: __HAC_KEEP__) -> None:
+async def test_name(hass: UniversalAssistant) -> None:
     """Test button name."""
 
     async def async_setup_entry_init(
-        hass: __HAC_KEEP__, config_entry: ConfigEntry
+        hass: UniversalAssistant, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -174,7 +174,7 @@ async def test_name(hass: __HAC_KEEP__) -> None:
     )
 
     async def async_setup_entry_platform(
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:

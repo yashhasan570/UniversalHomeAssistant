@@ -5,7 +5,7 @@ from typing import override
 import blebox_uniapi.button
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import BleBoxConfigEntry, BleBoxCoordinator
@@ -29,7 +29,7 @@ _DEFAULT_BUTTON = ButtonEntityDescription(key="button")
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: BleBoxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

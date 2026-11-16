@@ -42,7 +42,7 @@ from universalassistant.components.unifiprotect.event import (
     SENSOR_EVENT_DESCRIPTIONS,
 )
 from universalassistant.const import ATTR_ATTRIBUTION, STATE_UNAVAILABLE, Platform
-from universalassistant.core import Event as HAEvent, __HAC_KEEP__, callback
+from universalassistant.core import Event as HAEvent, UniversalAssistant, callback
 from universalassistant.helpers.entity_registry import EntityRegistry
 from universalassistant.helpers.event import async_track_state_change_event
 
@@ -64,7 +64,7 @@ from .utils import (
 
 
 async def test_camera_remove(
-    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera, unadopted_camera: Camera
+    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera, unadopted_camera: Camera
 ) -> None:
     """Test removing and re-adding a camera device."""
 
@@ -78,7 +78,7 @@ async def test_camera_remove(
 
 
 async def test_doorbell_ring(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -171,7 +171,7 @@ async def test_doorbell_ring(
     ],
 )
 async def test_package_detected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -345,7 +345,7 @@ async def test_package_detected(
 
 
 async def test_doorbell_nfc_scanned(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -420,7 +420,7 @@ async def test_doorbell_nfc_scanned(
 
 
 async def test_doorbell_nfc_scanned_ulpusr_deactivated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -496,7 +496,7 @@ async def test_doorbell_nfc_scanned_ulpusr_deactivated(
 
 
 async def test_doorbell_nfc_scanned_no_ulpusr(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -564,7 +564,7 @@ async def test_doorbell_nfc_scanned_no_ulpusr(
 
 
 async def test_doorbell_nfc_scanned_no_keyring(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -625,7 +625,7 @@ async def test_doorbell_nfc_scanned_no_keyring(
 
 
 async def test_doorbell_fingerprint_identified(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -693,7 +693,7 @@ async def test_doorbell_fingerprint_identified(
 
 
 async def test_doorbell_fingerprint_identified_user_deactivated(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -762,7 +762,7 @@ async def test_doorbell_fingerprint_identified_user_deactivated(
 
 
 async def test_doorbell_fingerprint_identified_no_user(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -823,7 +823,7 @@ async def test_doorbell_fingerprint_identified_no_user(
 
 
 async def test_doorbell_fingerprint_not_identified(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -881,7 +881,7 @@ async def test_doorbell_fingerprint_not_identified(
 
 
 async def test_vehicle_detection_basic(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -957,7 +957,7 @@ async def test_vehicle_detection_basic(
 
 
 async def test_vehicle_detection_with_lpr_ufp6(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -1043,7 +1043,7 @@ async def test_vehicle_detection_with_lpr_ufp6(
 
 
 async def test_vehicle_detection_with_lpr_legacy(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -1118,7 +1118,7 @@ async def test_vehicle_detection_with_lpr_legacy(
 
 
 async def test_vehicle_detection_multiple_thumbnails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -1221,7 +1221,7 @@ async def test_vehicle_detection_multiple_thumbnails(
 
 
 async def test_vehicle_detection_no_thumbnails(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -1281,7 +1281,7 @@ async def test_vehicle_detection_no_thumbnails(
 
 
 async def test_vehicle_detection_timer_reset_on_new_thumbnail(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -1395,7 +1395,7 @@ async def test_vehicle_detection_timer_reset_on_new_thumbnail(
 
 
 async def test_vehicle_detection_new_event_cancels_timer(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -1568,7 +1568,7 @@ def _process_vehicle_event(ufp: MockUFPFixture, event: Event) -> None:
     ],
 )
 async def test_vehicle_detection_line_crossing_in_zone(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -1645,7 +1645,7 @@ async def test_vehicle_detection_line_crossing_in_zone(
 
 
 async def test_vehicle_detection_timer_cleanup_on_remove(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -1712,7 +1712,7 @@ async def test_vehicle_detection_timer_cleanup_on_remove(
 
 
 async def test_vehicle_detection_refire_on_lpr_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -1826,7 +1826,7 @@ async def test_vehicle_detection_refire_on_lpr_data(
 
 
 async def test_vehicle_detection_no_refire_same_data(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -1913,7 +1913,7 @@ async def test_vehicle_detection_no_refire_same_data(
 
 
 async def test_motion_detection_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -1969,7 +1969,7 @@ async def test_motion_detection_event(
     ],
 )
 async def test_smart_detection_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -2032,7 +2032,7 @@ async def test_smart_detection_event(
 
 
 async def test_smart_detection_event_dedup_by_source(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -2084,7 +2084,7 @@ async def test_smart_detection_event_dedup_by_source(
 
 
 async def test_smart_detection_event_late_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -2150,7 +2150,7 @@ async def test_smart_detection_event_late_type(
 
 
 async def test_sound_detection_event(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -2189,7 +2189,7 @@ async def test_sound_detection_event(
 
 
 async def test_sound_detection_event_late_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -2251,7 +2251,7 @@ async def test_sound_detection_event_late_type(
 
 
 async def test_sound_detection_absent_without_audio_types(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     entity_registry: EntityRegistry,
@@ -2275,7 +2275,7 @@ async def test_sound_detection_absent_without_audio_types(
 
 
 async def test_detection_event_removed_change_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -2337,7 +2337,7 @@ def _send_public_camera(ufp: MockUFPFixture, camera: Camera) -> None:
     ],
 )
 async def test_doorbell_ring_follows_readopted_camera(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -2395,7 +2395,7 @@ async def test_doorbell_ring_follows_readopted_camera(
 
 
 async def test_doorbell_ring_dedup_across_dispatches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -2464,7 +2464,7 @@ def test_event_types_have_translations() -> None:
 
 
 async def test_smart_detection_event_interleaved_dedup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -2528,7 +2528,7 @@ async def test_smart_detection_event_interleaved_dedup(
 
 
 async def test_detection_event_dedup_is_bounded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -2570,7 +2570,7 @@ async def test_detection_event_dedup_is_bounded(
 
 
 async def test_detection_event_dedup_evicts_oldest(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -2626,7 +2626,7 @@ async def test_detection_event_dedup_evicts_oldest(
 
 
 async def test_event_entities_unavailable_on_events_ws_disconnect(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -2659,7 +2659,7 @@ async def test_event_entities_unavailable_on_events_ws_disconnect(
 
 
 async def test_smart_detection_events_need_advertised_types(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -2732,7 +2732,7 @@ async def test_public_only_skips_private_event_classes(
 
 
 async def test_public_only_event_fires(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     doorbell: Camera,
     ufp_public_only: MockUFPFixture,
@@ -2770,7 +2770,7 @@ async def test_public_only_event_fires(
 
 
 async def test_public_only_event_camera_added_after_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     camera: Camera,
     ufp_public_only: MockUFPFixture,
@@ -2828,7 +2828,7 @@ def _sensor_event(
 
 
 async def test_sensor_event_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     ufp: MockUFPFixture,
     sensor: Sensor,
@@ -2856,7 +2856,7 @@ async def test_sensor_event_entities(
     ],
 )
 async def test_sensor_event_entities_need_smoke_capability(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     ufp: MockUFPFixture,
     sensor: Sensor,
@@ -2878,7 +2878,7 @@ async def test_sensor_event_entities_need_smoke_capability(
     ],
 )
 async def test_sensor_adopted_before_public_mirror(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     ufp: MockUFPFixture,
     sensor: Sensor,
@@ -2930,7 +2930,7 @@ async def test_sensor_adopted_before_public_mirror(
     ],
 )
 async def test_sensor_adopted_after_public_mirror(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     ufp: MockUFPFixture,
     sensor: Sensor,
@@ -3000,7 +3000,7 @@ async def test_sensor_adopted_after_public_mirror(
     ],
 )
 async def test_sensor_event_fires(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     ufp: MockUFPFixture,
     sensor: Sensor,
@@ -3046,7 +3046,7 @@ async def test_sensor_event_fires(
     ],
 )
 async def test_sensor_alarm_ignores_other_types(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     ufp: MockUFPFixture,
     sensor: Sensor,
@@ -3070,7 +3070,7 @@ async def test_sensor_alarm_ignores_other_types(
 
 
 async def test_sensor_alarm_late_type(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     ufp: MockUFPFixture,
     sensor: Sensor,
@@ -3102,7 +3102,7 @@ async def test_sensor_alarm_late_type(
     ],
 )
 async def test_sensor_alarm_first_seen_ended(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     ufp: MockUFPFixture,
     sensor: Sensor,
@@ -3149,7 +3149,7 @@ async def test_sensor_alarm_first_seen_ended(
     ],
 )
 async def test_unsupported_sensor_event_entities_removed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     ufp: MockUFPFixture,
     sensor: Sensor,
@@ -3167,7 +3167,7 @@ async def test_unsupported_sensor_event_entities_removed(
 
 
 async def test_sensor_without_public_mirror_at_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     ufp: MockUFPFixture,
     sensor: Sensor,
@@ -3187,7 +3187,7 @@ async def test_sensor_without_public_mirror_at_setup(
 
 
 async def test_adopted_light_gets_no_sensor_events(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     ufp: MockUFPFixture,
     light: Light,
@@ -3225,7 +3225,7 @@ async def test_public_only_sensor_event_entities(
 
 
 async def test_public_only_sensor_added_after_setup(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: EntityRegistry,
     sensor: Sensor,
     ufp_public_only: MockUFPFixture,

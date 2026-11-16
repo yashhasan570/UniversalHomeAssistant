@@ -22,12 +22,12 @@ from universalassistant.core import (
     CALLBACK_TYPE,
     Event,
     EventStateChangedData,
-    __HAC_KEEP__,
+    UniversalAssistant,
     State,
     callback,
     split_entity_id,
 )
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.automation import (
     DomainSpec,
@@ -112,12 +112,12 @@ class EntityConditionBase(Condition):
     @override
     @classmethod
     async def async_validate_config(
-        cls, hass: __HAC_KEEP__, config: ConfigType
+        cls, hass: UniversalAssistant, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         return cast(ConfigType, cls._schema(config))
 
-    def __init__(self, hass: __HAC_KEEP__, config: ConditionConfig) -> None:
+    def __init__(self, hass: UniversalAssistant, config: ConditionConfig) -> None:
         """Initialize condition."""
         super().__init__(hass, config)
         if TYPE_CHECKING:
@@ -357,7 +357,7 @@ class EntityConditionBase(Condition):
         and the existing (live) anchor; entities with no usable history keep
         their existing anchor. Mutates `anchors` in place.
 
-        The recorder only processes its queue once __HA_KEEP__ has started
+        The recorder only processes its queue once Universal Home Assistant has started
         and any live schema migration is done, so the queue is not flushed
         before that; the changes still queued are taken from the recorder's
         index of them instead.
@@ -616,7 +616,7 @@ class EntityNumericalConditionBase(EntityConditionBase):
     _schema = NUMERICAL_CONDITION_SCHEMA
     _valid_unit: str | Undefined | None = Undefined
 
-    def __init__(self, hass: __HAC_KEEP__, config: ConditionConfig) -> None:
+    def __init__(self, hass: UniversalAssistant, config: ConditionConfig) -> None:
         """Initialize the numerical condition."""
         super().__init__(hass, config)
         if TYPE_CHECKING:
@@ -811,7 +811,7 @@ class EntityNumericalConditionWithUnitBase(EntityNumericalConditionBase):
                 entity_state.attributes.get(EntityStateAttribute.UNIT_OF_MEASUREMENT),
                 self._base_unit,
             )
-        except __HAC_KEEP__Error:
+        except UniversalAssistantError:
             # Unit conversion failed (i.e. incompatible units), treat as invalid number
             return None
 
@@ -834,7 +834,7 @@ class EntityNumericalConditionWithUnitBase(EntityNumericalConditionBase):
             return self._unit_converter.convert(
                 value, self._get_entity_unit(entity_state), self._base_unit
             )
-        except __HAC_KEEP__Error:
+        except UniversalAssistantError:
             return None
 
 
@@ -879,7 +879,7 @@ class HistoryPrimingManager:
     reads its own entities.
     """
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Initialize the manager."""
         self._hass = hass
         self._flush_condition = asyncio.Condition()

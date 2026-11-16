@@ -12,7 +12,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -20,7 +20,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_stream_magic_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -34,7 +34,7 @@ async def test_all_entities(
 
 
 async def test_setting_value(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_stream_magic_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

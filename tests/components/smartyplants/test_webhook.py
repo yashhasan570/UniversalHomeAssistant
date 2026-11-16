@@ -21,7 +21,7 @@ from universalassistant.components.smartyplants.const import (
     DOMAIN,
 )
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 from .conftest import WEBHOOK_ID, WEBHOOK_SECRET
@@ -69,7 +69,7 @@ async def _post_signed(
 
 @pytest.mark.usefixtures("mock_smartyplants_client")
 async def test_push_updates_readings(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     sensor_payloads: list[dict[str, Any]],
@@ -91,7 +91,7 @@ async def test_push_updates_readings(
 
 @pytest.mark.usefixtures("mock_smartyplants_client")
 async def test_push_takes_sensor_offline(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -121,7 +121,7 @@ async def test_push_takes_sensor_offline(
 )
 @pytest.mark.usefixtures("mock_smartyplants_client")
 async def test_push_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     payload: dict[str, Any],
@@ -141,7 +141,7 @@ async def test_push_ignored(
 )
 @pytest.mark.usefixtures("mock_smartyplants_client")
 async def test_push_signature_refused(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     signature: str | None,
@@ -155,7 +155,7 @@ async def test_push_signature_refused(
 
 @pytest.mark.usefixtures("mock_smartyplants_client")
 async def test_webhook_not_registered_without_secret(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     sensor_payloads: list[dict[str, Any]],
@@ -172,7 +172,7 @@ async def test_webhook_not_registered_without_secret(
     )
     await setup_integration(hass, entry)
 
-    # __HA_KEEP__ answers 200 for an unregistered webhook; a registered one would refuse with 401.
+    # Universal Home Assistant answers 200 for an unregistered webhook; a registered one would refuse with 401.
     assert (
         await _post_signed(hass_client_no_auth, _moisture_push(sensor_payloads, 55))
         == 200
@@ -202,7 +202,7 @@ async def test_webhook_not_registered_without_secret(
 )
 @pytest.mark.usefixtures("mock_smartyplants_client")
 async def test_malformed_payload_refused(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     payload: Any,
@@ -218,7 +218,7 @@ async def test_malformed_payload_refused(
 
 @pytest.mark.usefixtures("mock_smartyplants_client")
 async def test_non_json_body_refused(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -240,7 +240,7 @@ async def test_non_json_body_refused(
 )
 @pytest.mark.usefixtures("mock_smartyplants_client")
 async def test_wrongly_typed_timestamp_ignored(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     sensor_payloads: list[dict[str, Any]],
@@ -258,7 +258,7 @@ async def test_wrongly_typed_timestamp_ignored(
 
 
 async def test_push_does_not_recover_failed_poll(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_smartyplants_client: AsyncMock,
@@ -286,7 +286,7 @@ async def test_push_does_not_recover_failed_poll(
 
 
 async def test_push_keeps_poll_schedule(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_smartyplants_client: AsyncMock,
@@ -314,7 +314,7 @@ async def test_push_keeps_poll_schedule(
 
 
 async def test_push_during_poll_not_reverted(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_smartyplants_client: AsyncMock,

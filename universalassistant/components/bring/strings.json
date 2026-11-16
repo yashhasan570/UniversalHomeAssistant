@@ -46,7 +46,7 @@
           "email": "The email address associated with your Bring! account.",
           "password": "The password to log in to your Bring! account."
         },
-        "description": "Connect your Bring! account to sync your shopping lists with __HA_KEEP__.\n\nDon't have a Bring! account? Download the app on [Google Play for Android]({google_play}) or the [App Store for iOS]({app_store}) to sign up.",
+        "description": "Connect your Bring! account to sync your shopping lists with Universal Home Assistant.\n\nDon't have a Bring! account? Download the app on [Google Play for Android]({google_play}) or the [App Store for iOS]({app_store}) to sign up.",
         "title": "Bring! Grocery shopping list"
       }
     }

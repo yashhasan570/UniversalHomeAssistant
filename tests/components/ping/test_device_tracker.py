@@ -9,7 +9,7 @@ from icmplib import Host
 import pytest
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 
@@ -25,7 +25,7 @@ def entity_registry_enabled_by_default() -> Generator[None]:
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_setup_and_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -86,7 +86,7 @@ async def test_setup_and_update(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "setup_integration")
 async def test_reload_not_triggering_home(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     config_entry: MockConfigEntry,
 ) -> None:

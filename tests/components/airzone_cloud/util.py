@@ -117,7 +117,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.airzone_cloud.const import DOMAIN
 from universalassistant.const import CONF_ID, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 WS_ID = "11:22:33:44:55:66"
 WS_ID_AIDOO = "11:22:33:44:55:67"
@@ -527,9 +527,9 @@ def mock_get_webserver(webserver: WebServer, devices: bool) -> dict[str, Any]:
 
 
 async def async_init_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> MockConfigEntry:
-    """Set up the Airzone integration in __HA_KEEP__."""
+    """Set up the Airzone integration in Universal Home Assistant."""
 
     config_entry = MockConfigEntry(
         data=CONFIG,

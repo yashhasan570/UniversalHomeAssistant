@@ -13,7 +13,7 @@ from universalassistant.components.device_tracker import (
     DeviceScanner,
 )
 from universalassistant.const import CONF_API_KEY, CONF_CLIENT_ID, CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -32,7 +32,7 @@ PLATFORM_SCHEMA = DEVICE_TRACKER_PLATFORM_SCHEMA.extend(
 _LOGGER = logging.getLogger(__name__)
 
 
-def get_scanner(hass: __HAC_KEEP__, config: ConfigType) -> CPPMDeviceScanner | None:
+def get_scanner(hass: UniversalAssistant, config: ConfigType) -> CPPMDeviceScanner | None:
     """Initialize Scanner."""
 
     config = config[DEVICE_TRACKER_DOMAIN]

@@ -11,8 +11,8 @@ from simplepush.legacy import BadRequest, UnknownError
 from universalassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
 from universalassistant.components.simplepush.const import CONF_DEVICE_KEY, CONF_SALT, DOMAIN
 from universalassistant.const import CONF_NAME, CONF_PASSWORD
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.setup import async_setup_component
 
 MOCK_CONFIG = {
@@ -30,7 +30,7 @@ def mock_send() -> Generator[MagicMock]:
         yield mock
 
 
-async def setup_config_entry(hass: __HAC_KEEP__, data: dict[str, str]) -> None:
+async def setup_config_entry(hass: UniversalAssistant, data: dict[str, str]) -> None:
     """Set up the simplepush integration."""
     entry = MockConfigEntry(domain=DOMAIN, data=data)
     entry.add_to_hass(hass)
@@ -75,7 +75,7 @@ async def setup_config_entry(hass: __HAC_KEEP__, data: dict[str, str]) -> None:
     ],
 )
 async def test_send_message(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_send: MagicMock,
     service_data: dict[str, Any],
     expected_attachments: list[Any] | None,
@@ -93,7 +93,7 @@ async def test_send_message(
 
     mock_send.assert_called_once_with(
         key="abc",
-        title="__HA_KEEP__",
+        title="Universal Home Assistant",
         message="Hello",
         attachments=expected_attachments,
         event=expected_event,
@@ -101,7 +101,7 @@ async def test_send_message(
 
 
 async def test_send_message_with_password(
-    hass: __HAC_KEEP__, mock_send: MagicMock
+    hass: UniversalAssistant, mock_send: MagicMock
 ) -> None:
     """Test sending a message with an encryption password."""
     await setup_config_entry(
@@ -119,7 +119,7 @@ async def test_send_message_with_password(
         key="abc",
         password="password",
         salt="salt",
-        title="__HA_KEEP__",
+        title="Universal Home Assistant",
         message="Hello",
         attachments=None,
         event=None,
@@ -127,7 +127,7 @@ async def test_send_message_with_password(
 
 
 async def test_send_message_with_invalid_attachment(
-    hass: __HAC_KEEP__, mock_send: MagicMock, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, mock_send: MagicMock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that an invalid attachment format sends nothing."""
     await setup_config_entry(hass, MOCK_CONFIG)
@@ -154,17 +154,17 @@ async def test_send_message_with_invalid_attachment(
         ),
         pytest.param(
             UnknownError,
-            __HAC_KEEP__Error,
+            UniversalAssistantError,
             "send_message_failed",
             id="unknown_error",
         ),
     ],
 )
 async def test_send_message_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_send: MagicMock,
     side_effect: type[Exception],
-    expected_exception: type[__HAC_KEEP__Error],
+    expected_exception: type[UniversalAssistantError],
     translation_key: str,
 ) -> None:
     """Test that a failing send raises the correct exception."""
@@ -184,7 +184,7 @@ async def test_send_message_error(
 
 
 async def test_no_discovery_info(
-    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setup of the legacy platform without discovery info."""
     assert await async_setup_component(

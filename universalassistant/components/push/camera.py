@@ -17,7 +17,7 @@ from universalassistant.components.camera import (
     CameraState,
 )
 from universalassistant.const import CONF_NAME, CONF_TIMEOUT, CONF_WEBHOOK_ID
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.event import async_track_point_in_utc_time
@@ -50,7 +50,7 @@ PLATFORM_SCHEMA = CAMERA_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -76,7 +76,7 @@ async def async_setup_platform(
 
 
 async def handle_webhook(
-    hass: __HAC_KEEP__, webhook_id: str, request: web.Request
+    hass: UniversalAssistant, webhook_id: str, request: web.Request
 ) -> None:
     """Handle incoming webhook POST with image files."""
     try:
@@ -104,7 +104,7 @@ class PushCamera(Camera):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         name: str,
         buffer_size: int,
         timeout: timedelta,

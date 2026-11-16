@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import CONF_TRANSMITTER
@@ -24,7 +24,7 @@ PLATFORMS: list[Platform] = [Platform.SWITCH]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: KlikAanKlikUitConfigEntry
+    hass: UniversalAssistant, entry: KlikAanKlikUitConfigEntry
 ) -> None:
     """Setup KlikAanKlikUit RC from a config entry."""
     transmitter_entity_id = entry.data[CONF_TRANSMITTER]
@@ -41,14 +41,14 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: KlikAanKlikUitConfigEntry
+    hass: UniversalAssistant, entry: KlikAanKlikUitConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_update_listener(
-    hass: __HAC_KEEP__, entry: KlikAanKlikUitConfigEntry
+    hass: UniversalAssistant, entry: KlikAanKlikUitConfigEntry
 ) -> None:
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)

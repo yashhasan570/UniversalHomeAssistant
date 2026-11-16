@@ -16,8 +16,8 @@ from universalassistant.components.cover import (
     CoverEntity,
     CoverEntityFeature,
 )
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN, LOGGER
@@ -28,7 +28,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: TailwindConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -71,19 +71,19 @@ class TailwindDoorCoverEntity(TailwindDoorEntity, CoverEntity):
                 operation=TailwindDoorOperationCommand.OPEN,
             )
         except TailwindDoorDisabledError as exc:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="door_disabled",
             ) from exc
         except TailwindDoorLockedOutError as exc:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="door_locked_out",
             ) from exc
         except TailwindDoorAlreadyInStateError:
             LOGGER.debug("Already in the requested state: %s", self.entity_id)
         except TailwindError as exc:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="communication_error",
             ) from exc
@@ -106,19 +106,19 @@ class TailwindDoorCoverEntity(TailwindDoorEntity, CoverEntity):
                 operation=TailwindDoorOperationCommand.CLOSE,
             )
         except TailwindDoorDisabledError as exc:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="door_disabled",
             ) from exc
         except TailwindDoorLockedOutError as exc:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="door_locked_out",
             ) from exc
         except TailwindDoorAlreadyInStateError:
             LOGGER.debug("Already in the requested state: %s", self.entity_id)
         except TailwindError as exc:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="communication_error",
             ) from exc

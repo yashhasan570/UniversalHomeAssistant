@@ -1,4 +1,4 @@
-"""Tests for the __HA_KEEP__ SkyConnect diagnostics data."""
+"""Tests for the Universal Home Assistant SkyConnect diagnostics data."""
 
 from unittest.mock import patch
 
@@ -13,14 +13,14 @@ from universalassistant.components.universalassistant_hardware.util import (
     OwningAddon,
     OwningIntegration,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 from .common import USB_DATA_ZBT1
 
 
 async def test_diagnostics_for_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:

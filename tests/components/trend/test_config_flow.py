@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.trend import async_setup_entry
 from universalassistant.components.trend.const import DOMAIN
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -20,7 +20,7 @@ from universalassistant.data_entry_flow import FlowResultType
     ],
     ids=["sensor", "counter"],
 )
-async def test_form(hass: __HAC_KEEP__, name: str, entity_id: str) -> None:
+async def test_form(hass: UniversalAssistant, name: str, entity_id: str) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -59,7 +59,7 @@ async def test_form(hass: __HAC_KEEP__, name: str, entity_id: str) -> None:
     }
 
 
-async def test_options(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def test_options(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Test options flow."""
     config_entry.add_to_hass(hass)
 

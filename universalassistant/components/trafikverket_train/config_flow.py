@@ -20,7 +20,7 @@ from universalassistant.config_entries import (
     OptionsFlowWithReload,
 )
 from universalassistant.const import CONF_API_KEY, CONF_NAME, CONF_WEEKDAY, WEEKDAYS
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.selector import (
@@ -65,7 +65,7 @@ DATA_SCHEMA_REAUTH = probatio.Schema(
 
 
 async def validate_station(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     api_key: str,
     train_station: str,
     field: str,

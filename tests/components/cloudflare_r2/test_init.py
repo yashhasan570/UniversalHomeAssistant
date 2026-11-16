@@ -11,13 +11,13 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import setup_integration
 
 
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test loading and unloading the integration."""
@@ -46,7 +46,7 @@ async def test_load_unload_config_entry(
     ],
 )
 async def test_setup_entry_create_client_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
     state: ConfigEntryState,
@@ -61,7 +61,7 @@ async def test_setup_entry_create_client_errors(
 
 
 async def test_setup_entry_head_bucket_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
 ) -> None:
@@ -75,7 +75,7 @@ async def test_setup_entry_head_bucket_error(
 
 
 async def test_setup_entry_warms_loader_caches(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that create_client passes warm_up_loader_caches config."""

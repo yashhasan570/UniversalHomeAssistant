@@ -6,7 +6,7 @@ from sunsynk.client import SunsynkClient
 from sunsynk.exceptions import SunsynkAuthenticationError, SunsynkConnectionError
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -17,7 +17,7 @@ from .entity import inverter_device_info
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: SunsynkConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: SunsynkConfigEntry) -> None:
     """Set up Sunsynk from a config entry."""
     client = SunsynkClient(
         entry.data[CONF_USERNAME],
@@ -53,6 +53,6 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: SunsynkConfigEntry) -> No
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: SunsynkConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: SunsynkConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

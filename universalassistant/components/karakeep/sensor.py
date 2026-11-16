@@ -11,7 +11,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
     SensorStateClass,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import KarakeepConfigEntry
@@ -68,7 +68,7 @@ SENSOR_DESCRIPTIONS: tuple[KarakeepSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: KarakeepConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

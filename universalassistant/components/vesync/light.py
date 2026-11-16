@@ -6,17 +6,11 @@ from typing import Any, override
 from pyvesync.base_devices.bulb_base import VeSyncBulb
 from pyvesync.base_devices.humidifier_base import VeSyncHumidifier
 from pyvesync.base_devices.switch_base import VeSyncSwitch
-from pyvesync.const import NightlightStatus
+from pyvesync.const import DeviceStatus, NightlightStatus
 
-from universalassistant.components.light import (
-    ATTR_BRIGHTNESS,
-    ATTR_COLOR_TEMP_KELVIN,
-    ATTR_RGB_COLOR,
-    ColorMode,
-    LightEntity,
-)
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.components.light import ColorMode, LightEntity, LightServiceArgument
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import color as color_util
@@ -34,7 +28,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: VesyncConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -92,7 +86,7 @@ class VeSyncBaseLightHA(VeSyncBaseEntity[VeSyncSwitch | VeSyncBulb], LightEntity
     @override
     def is_on(self) -> bool:
         """Return True if device is on."""
-        return self.device.state.device_status == "on"
+        return self.device.state.device_status == DeviceStatus.ON
 
     @property
     @override
@@ -115,12 +109,12 @@ class VeSyncBaseLightHA(VeSyncBaseEntity[VeSyncSwitch | VeSyncBulb], LightEntity
         # set white temperature
         if (
             self.color_mode == ColorMode.COLOR_TEMP
-            and ATTR_COLOR_TEMP_KELVIN in kwargs
+            and LightServiceArgument.COLOR_TEMP_KELVIN in kwargs
             and hasattr(self.device, "set_color_temp")
         ):
             # get white temperature from HA data
             color_temp = color_util.color_temperature_kelvin_to_mired(
-                kwargs[ATTR_COLOR_TEMP_KELVIN]
+                kwargs[LightServiceArgument.COLOR_TEMP_KELVIN]
             )
             # ensure value between min-max supported Mireds
             color_temp = max(MIN_MIREDS, min(color_temp, MAX_MIREDS))
@@ -140,10 +134,10 @@ class VeSyncBaseLightHA(VeSyncBaseEntity[VeSyncSwitch | VeSyncBulb], LightEntity
         # set brightness level
         if (
             self.color_mode in (ColorMode.BRIGHTNESS, ColorMode.COLOR_TEMP)
-            and ATTR_BRIGHTNESS in kwargs
+            and LightServiceArgument.BRIGHTNESS in kwargs
         ):
             # get brightness from HA data
-            brightness = int(kwargs[ATTR_BRIGHTNESS])
+            brightness = int(kwargs[LightServiceArgument.BRIGHTNESS])
             # ensure value between 1-255
             brightness = max(1, min(brightness, 255))
             # convert to percent that vesync api expects
@@ -260,20 +254,23 @@ class VeSyncHumidifierRGBNightLightHA(VeSyncBaseEntity[VeSyncHumidifier], LightE
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Turn the night light on."""
         brightness = None
-        if ATTR_BRIGHTNESS in kwargs:
+        if LightServiceArgument.BRIGHTNESS in kwargs:
             brightness = max(
                 RGB_NIGHTLIGHT_BRIGHTNESS_RANGE[0],
                 round(
                     color_util.brightness_to_value(
-                        RGB_NIGHTLIGHT_BRIGHTNESS_RANGE, kwargs[ATTR_BRIGHTNESS]
+                        RGB_NIGHTLIGHT_BRIGHTNESS_RANGE,
+                        kwargs[LightServiceArgument.BRIGHTNESS],
                     )
                 ),
             )
-        red, green, blue = kwargs.get(ATTR_RGB_COLOR, (None, None, None))
+        red, green, blue = kwargs.get(
+            LightServiceArgument.RGB_COLOR, (None, None, None)
+        )
         if not await self.device.set_rgb_nightlight(
             power=True, brightness=brightness, red=red, green=green, blue=blue
         ):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="nightlight_command_failed"
             )
         self.async_write_ha_state()
@@ -282,7 +279,7 @@ class VeSyncHumidifierRGBNightLightHA(VeSyncBaseEntity[VeSyncHumidifier], LightE
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Turn the night light off."""
         if not await self.device.set_rgb_nightlight(power=False):
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN, translation_key="nightlight_command_failed"
             )
         self.async_write_ha_state()

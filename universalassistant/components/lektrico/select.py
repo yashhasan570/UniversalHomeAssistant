@@ -8,7 +8,7 @@ from lektricowifi import Device
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import CONF_TYPE, EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_SERIAL_NUMBER
@@ -45,7 +45,7 @@ SELECTS: tuple[LektricoSelectEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: LektricoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

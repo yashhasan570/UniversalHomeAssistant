@@ -8,8 +8,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.climate import HVACMode
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 CLIMATE_DEVICE = {
@@ -67,7 +67,7 @@ CLIMATE_NTD_COOL = {
 
 
 async def test_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -90,7 +90,7 @@ async def test_entities(
 
 
 async def test_set_temperature(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -115,7 +115,7 @@ async def test_set_temperature(
 
 
 async def test_set_preset_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -138,7 +138,7 @@ async def test_set_preset_mode(
 
 
 async def test_set_hvac_mode(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -161,7 +161,7 @@ async def test_set_hvac_mode(
 
 
 async def test_set_preset_mode_unknown_no_api_call(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -187,11 +187,11 @@ async def test_set_preset_mode_unknown_no_api_call(
 
 
 async def test_set_preset_mode_sub_device_timeout(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
-    """Sub-device preset mode timeout should raise __HAC_KEEP__Error."""
+    """Sub-device preset mode timeout should raise UniversalAssistantError."""
     mock_pyaxenco_client.get_devices.return_value = [CLIMATE_SUB_DEVICE]
     mock_pyaxenco_client.set_sub_device_mode.side_effect = TimeoutError
 
@@ -200,7 +200,7 @@ async def test_set_preset_mode_sub_device_timeout(
     await hass.async_block_till_done()
 
     entity_id = "climate.climate_sub_device"
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "climate",
             "set_preset_mode",
@@ -212,7 +212,7 @@ async def test_set_preset_mode_sub_device_timeout(
 
 
 async def test_set_temperature_sub_device_missing_parents(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -225,7 +225,7 @@ async def test_set_temperature_sub_device_missing_parents(
     await hass.async_block_till_done()
 
     entity_id = "climate.climate_sub_device"
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "climate",
             "set_temperature",
@@ -238,7 +238,7 @@ async def test_set_temperature_sub_device_missing_parents(
 
 
 async def test_websocket_state_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -271,7 +271,7 @@ async def test_websocket_state_update(
 
 
 async def test_device_becomes_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -297,7 +297,7 @@ async def test_device_becomes_unavailable(
 
 
 async def test_set_temperature_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -310,7 +310,7 @@ async def test_set_temperature_api_error(
     await hass.async_block_till_done()
 
     entity_id = "climate.climate_device"
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "climate",
             "set_temperature",
@@ -324,7 +324,7 @@ async def test_set_temperature_api_error(
 
 
 async def test_set_preset_mode_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -337,7 +337,7 @@ async def test_set_preset_mode_api_error(
     await hass.async_block_till_done()
 
     entity_id = "climate.climate_device"
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "climate",
             "set_preset_mode",
@@ -351,7 +351,7 @@ async def test_set_preset_mode_api_error(
 
 
 async def test_set_temperature_sub_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -376,7 +376,7 @@ async def test_set_temperature_sub_device(
 
 
 async def test_set_preset_mode_sub_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -398,7 +398,7 @@ async def test_set_preset_mode_sub_device(
 
 
 async def test_ntd_changeover_sets_cool(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -416,7 +416,7 @@ async def test_ntd_changeover_sets_cool(
 
 
 async def test_skip_device_without_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -434,7 +434,7 @@ async def test_skip_device_without_id(
 
 
 async def test_skip_unknown_model(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -460,7 +460,7 @@ async def test_skip_unknown_model(
 
 
 async def test_handle_ws_update_empty_returns(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -488,7 +488,7 @@ async def test_handle_ws_update_empty_returns(
 
 
 async def test_override_temp_update_from_websocket(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -508,7 +508,7 @@ async def test_override_temp_update_from_websocket(
 
 
 async def test_target_temp_update_from_websocket_sub_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -528,7 +528,7 @@ async def test_target_temp_update_from_websocket_sub_device(
 
 
 async def test_targetmode_standby_sets_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -548,7 +548,7 @@ async def test_targetmode_standby_sets_off(
 
 
 async def test_changeover_updates_hvac_when_not_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -578,7 +578,7 @@ async def test_changeover_updates_hvac_when_not_off(
 
 
 async def test_set_preset_mode_standby_sets_off(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -603,7 +603,7 @@ async def test_set_preset_mode_standby_sets_off(
 
 
 async def test_set_preset_mode_when_hvac_off_ntd_sets_cool(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -636,7 +636,7 @@ async def test_set_preset_mode_when_hvac_off_ntd_sets_cool(
 
 
 async def test_set_hvac_mode_restore_fallback_uses_first_non_standby(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
@@ -672,11 +672,11 @@ async def test_set_hvac_mode_restore_fallback_uses_first_non_standby(
 
 
 async def test_set_hvac_mode_off_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_pyaxenco_client: AsyncMock,
 ) -> None:
-    """Setting HVAC mode to off that fails at API should raise __HAC_KEEP__Error."""
+    """Setting HVAC mode to off that fails at API should raise UniversalAssistantError."""
     mock_pyaxenco_client.get_devices.return_value = [CLIMATE_DEVICE]
     mock_pyaxenco_client.set_device_mode.side_effect = TimeoutError
 
@@ -685,7 +685,7 @@ async def test_set_hvac_mode_off_api_error(
     await hass.async_block_till_done()
 
     entity_id = "climate.climate_device"
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             "climate",
             "set_hvac_mode",

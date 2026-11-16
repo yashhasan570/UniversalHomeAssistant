@@ -11,7 +11,7 @@ from universalassistant import config_entries
 from universalassistant.components import mailgun, webhook
 from universalassistant.components.mailgun import DOMAIN
 from universalassistant.const import CONF_API_KEY, CONF_DOMAIN
-from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.core import Event, UniversalAssistant, callback
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.setup import async_setup_component
@@ -21,15 +21,15 @@ API_KEY = "abc123"
 
 @pytest.fixture
 async def http_client(
-    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
 ) -> TestClient:
-    """Initialize a __HA_KEEP__ Server for testing this module."""
+    """Initialize a Universal Home Assistant Server for testing this module."""
     await async_setup_component(hass, webhook.DOMAIN, {})
     return await hass_client_no_auth()
 
 
 @pytest.fixture
-async def webhook_id_with_api_key(hass: __HAC_KEEP__) -> str:
+async def webhook_id_with_api_key(hass: UniversalAssistant) -> str:
     """Initialize the Mailgun component and get the webhook_id."""
     await async_setup_component(
         hass,
@@ -53,7 +53,7 @@ async def webhook_id_with_api_key(hass: __HAC_KEEP__) -> str:
 
 
 @pytest.fixture
-async def webhook_id_without_api_key(hass: __HAC_KEEP__) -> str:
+async def webhook_id_without_api_key(hass: UniversalAssistant) -> str:
     """Initialize the Mailgun component and get the webhook_id w/o API key."""
     await async_setup_component(hass, mailgun.DOMAIN, {})
 
@@ -73,7 +73,7 @@ async def webhook_id_without_api_key(hass: __HAC_KEEP__) -> str:
 
 
 @pytest.fixture
-async def mailgun_events(hass: __HAC_KEEP__) -> list[Event]:
+async def mailgun_events(hass: UniversalAssistant) -> list[Event]:
     """Return a list of mailgun_events triggered."""
     events = []
 

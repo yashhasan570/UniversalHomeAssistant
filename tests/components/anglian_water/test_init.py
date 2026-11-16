@@ -20,8 +20,8 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.anglian_water.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.update_coordinator import UpdateFailed
 
@@ -34,7 +34,7 @@ LATEST_READING_ENTITY_ID = "sensor.testsn_latest_reading"
     "recorder_mock", "mock_anglian_water_client", "mock_anglian_water_authenticator"
 )
 async def test_setup_unload_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test successful setup and unload of the config entry."""
@@ -77,7 +77,7 @@ async def test_setup_unload_entry(
 )
 @pytest.mark.usefixtures("mock_anglian_water_client")
 async def test_setup_auth_failures(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_anglian_water_authenticator: MagicMock,
     exception_type: type[Exception],
@@ -95,7 +95,7 @@ async def test_setup_auth_failures(
 
 @pytest.mark.usefixtures("recorder_mock", "mock_anglian_water_client")
 async def test_setup_consent_required(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
     mock_anglian_water_authenticator: MagicMock,
@@ -126,7 +126,7 @@ async def test_setup_consent_required(
 
 @pytest.mark.usefixtures("recorder_mock", "mock_anglian_water_client")
 async def test_consent_required_issue_removed_with_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
     mock_anglian_water_authenticator: MagicMock,
@@ -147,7 +147,7 @@ async def test_consent_required_issue_removed_with_entry(
 
 @pytest.mark.usefixtures("mock_anglian_water_authenticator")
 async def test_setup_smart_meter_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_anglian_water_client: AsyncMock,
 ) -> None:
@@ -165,7 +165,7 @@ async def test_setup_smart_meter_unavailable(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_setup_hourly_readings_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_anglian_water_client: AsyncMock,
 ) -> None:
@@ -220,12 +220,12 @@ async def test_setup_hourly_readings_unavailable(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_update_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_anglian_water_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
     side_effect: Exception,
-    exception_type: type[__HAC_KEEP__Error],
+    exception_type: type[UniversalAssistantError],
     translation_key: str,
     retry_after: float | None,
     caplog: pytest.LogCaptureFixture,
@@ -279,7 +279,7 @@ async def test_update_errors(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_update_retries(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_anglian_water_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -328,7 +328,7 @@ async def test_update_retries(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_update_auth_failed(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_anglian_water_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -366,7 +366,7 @@ async def test_update_auth_failed(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_update_issues(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_anglian_water_client: AsyncMock,
     issue_registry: ir.IssueRegistry,

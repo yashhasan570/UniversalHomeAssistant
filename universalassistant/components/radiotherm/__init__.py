@@ -7,7 +7,7 @@ from urllib.error import URLError
 from radiotherm.validate import RadiothermTstatError
 
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .coordinator import RadioThermConfigEntry, RadioThermUpdateCoordinator
@@ -34,7 +34,7 @@ async def _async_call_or_raise_not_ready[_T](
         raise ConfigEntryNotReady(msg) from ex
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: RadioThermConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: RadioThermConfigEntry) -> None:
     """Set up Radio Thermostat from a config entry."""
     host = entry.data[CONF_HOST]
     init_coro = async_get_init_data(hass, host)
@@ -56,12 +56,12 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: RadioThermConfigEntry) ->
 
 
 async def _async_update_listener(
-    hass: __HAC_KEEP__, entry: RadioThermConfigEntry
+    hass: UniversalAssistant, entry: RadioThermConfigEntry
 ) -> None:
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: RadioThermConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: RadioThermConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -30,8 +30,8 @@ from universalassistant.components.home_connect.const import (
 from universalassistant.components.home_connect.services import PROGRAM_OPTIONS
 from universalassistant.components.home_connect.utils import bsh_key_to_translation_key
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.util.yaml import load_yaml_dict
 
@@ -152,7 +152,7 @@ def test_services_yaml_set_program_and_options_option_keys() -> None:
 @pytest.mark.parametrize("appliance", [ApplianceType.WASHER], indirect=True)
 @pytest.mark.parametrize("service_call", SERVICE_KV_CALL_PARAMS)
 async def test_key_value_services(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -193,7 +193,7 @@ async def test_key_value_services(
     ),
 )
 async def test_set_program_and_options(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -235,7 +235,7 @@ async def test_set_program_and_options(
     ),
 )
 async def test_set_program_and_options_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client_with_exception: MagicMock,
     config_entry: MockConfigEntry,
@@ -254,7 +254,7 @@ async def test_set_program_and_options_exceptions(
     )
 
     service_call["service_data"]["device_id"] = device_entry.id
-    with pytest.raises(__HAC_KEEP__Error, match=error_regex):
+    with pytest.raises(UniversalAssistantError, match=error_regex):
         await hass.services.async_call(**service_call)
 
 
@@ -304,7 +304,7 @@ async def test_set_program_and_options_exceptions(
     [(None, 0), (NoProgramActiveError("error.key"), 1)],
 )
 async def test_start_selected_program(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -390,7 +390,7 @@ async def test_start_selected_program(
 )
 @pytest.mark.parametrize("appliance", [ApplianceType.DISHWASHER], indirect=True)
 async def test_start_select_program_non_writtable_options_discarded(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -476,7 +476,7 @@ async def test_start_select_program_non_writtable_options_discarded(
 )
 @pytest.mark.parametrize("appliance", [ApplianceType.DISHWASHER], indirect=True)
 async def test_start_selected_favorite_program(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -554,7 +554,7 @@ async def test_start_selected_favorite_program(
     ],
 )
 async def test_start_selected_program_and_options_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -586,7 +586,7 @@ async def test_start_selected_program_and_options_exceptions(
         identifiers={(DOMAIN, appliance.ha_id)},
     )
 
-    with pytest.raises(__HAC_KEEP__Error, match=error_regex):
+    with pytest.raises(UniversalAssistantError, match=error_regex):
         await hass.services.async_call(
             domain=DOMAIN,
             service="start_selected_program",
@@ -599,7 +599,7 @@ async def test_start_selected_program_and_options_exceptions(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.WASHER], indirect=True)
 async def test_start_selected_program_user_option_not_writable_raises(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -628,7 +628,7 @@ async def test_start_selected_program_user_option_not_writable_raises(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=r".*BSH.Common.Option.StartInRelative.*is not writable",
     ):
         await hass.services.async_call(
@@ -647,7 +647,7 @@ async def test_start_selected_program_user_option_not_writable_raises(
     [None, NoProgramActiveError("error.key")],
 )
 async def test_no_program_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -675,7 +675,7 @@ async def test_no_program_error(
         )
     )
 
-    with pytest.raises(__HAC_KEEP__Error, match="No program to start"):
+    with pytest.raises(UniversalAssistantError, match="No program to start"):
         await hass.services.async_call(
             domain=DOMAIN,
             service="start_selected_program",
@@ -691,7 +691,7 @@ async def test_no_program_error(
 )
 @pytest.mark.parametrize("appliance", [ApplianceType.DISHWASHER], indirect=True)
 async def test_start_selected_favorite_program_no_base_program(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -718,7 +718,7 @@ async def test_start_selected_favorite_program_no_base_program(
     )
 
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match="The API cannot start a favorite program and the base program is missing for the selected favorite program",
     ):
         await hass.services.async_call(
@@ -747,7 +747,7 @@ async def test_start_selected_favorite_program_no_base_program(
     ],
 )
 async def test_services_appliance_not_found(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -797,7 +797,7 @@ async def test_services_appliance_not_found(
     SERVICE_KV_CALL_PARAMS,
 )
 async def test_services_exception(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client_with_exception: MagicMock,
     config_entry: MockConfigEntry,
@@ -818,14 +818,14 @@ async def test_services_exception(
 
     service_name = service_call["service"]
     with pytest.raises(
-        __HAC_KEEP__Error,
+        UniversalAssistantError,
         match=SERVICE_VALIDATION_ERROR_MAPPING[service_name],
     ):
         await hass.services.async_call(**service_call)
 
 
 async def test_not_possible_to_use_favorite_program(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -912,7 +912,7 @@ async def test_not_possible_to_use_favorite_program(
     ],
 )
 async def test_temperature_options_convert(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -1034,7 +1034,7 @@ async def test_temperature_options_convert(
 )
 @pytest.mark.parametrize("options", [[], None])
 async def test_temperature_options_convert_missing_option(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -1138,7 +1138,7 @@ async def test_temperature_options_convert_missing_option(
     ],
 )
 async def test_temperature_options_convert_api_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     config_entry: MockConfigEntry,

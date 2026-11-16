@@ -2,11 +2,11 @@
 
 from unittest.mock import patch
 
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.setup import async_setup_component
 
 
-async def test_random_binary_sensor_on(hass: __HAC_KEEP__) -> None:
+async def test_random_binary_sensor_on(hass: UniversalAssistant) -> None:
     """Test the Random binary sensor."""
     config = {"binary_sensor": {"platform": "random", "name": "test"}}
 
@@ -26,7 +26,7 @@ async def test_random_binary_sensor_on(hass: __HAC_KEEP__) -> None:
     assert state.state == "on"
 
 
-async def test_random_binary_sensor_off(hass: __HAC_KEEP__) -> None:
+async def test_random_binary_sensor_off(hass: UniversalAssistant) -> None:
     """Test the Random binary sensor."""
     config = {"binary_sensor": {"platform": "random", "name": "test"}}
 

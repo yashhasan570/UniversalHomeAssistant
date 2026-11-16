@@ -11,12 +11,12 @@ from spotifyaio import SpotifyConnectionError, SpotifyForbiddenError
 
 from universalassistant.components.spotify.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
 
-async def test_abort_if_no_configuration(hass: __HAC_KEEP__) -> None:
+async def test_abort_if_no_configuration(hass: UniversalAssistant) -> None:
     """Check flow aborts when no configuration is present."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -36,7 +36,7 @@ async def test_abort_if_no_configuration(hass: __HAC_KEEP__) -> None:
     ],
 )
 async def test_full_flow(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_spotify: MagicMock,
@@ -109,7 +109,7 @@ async def test_full_flow(
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("setup_credentials")
 async def test_abort_if_account_already_configured(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_spotify: MagicMock,
@@ -158,7 +158,7 @@ async def test_abort_if_account_already_configured(
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("setup_credentials")
 async def test_abort_if_spotify_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_spotify: MagicMock,
@@ -201,7 +201,7 @@ async def test_abort_if_spotify_error(
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("setup_credentials")
 async def test_reauthentication(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_spotify: MagicMock,
@@ -257,7 +257,7 @@ async def test_reauthentication(
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("setup_credentials")
 async def test_reauth_account_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_spotify: MagicMock,
@@ -302,7 +302,7 @@ async def test_reauth_account_mismatch(
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("setup_credentials")
 async def test_reconfigure(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_spotify: MagicMock,
@@ -353,7 +353,7 @@ async def test_reconfigure(
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("setup_credentials")
 async def test_reconfigure_account_mismatch(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_spotify: MagicMock,

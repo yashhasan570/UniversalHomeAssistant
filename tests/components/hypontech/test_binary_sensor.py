@@ -7,14 +7,14 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hyponcloud: AsyncMock,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -30,7 +30,7 @@ async def test_binary_sensors(
 
 
 async def test_binary_sensor_unexpected_status(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_hyponcloud: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

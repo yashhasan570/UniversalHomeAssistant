@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant import config_entries
 from universalassistant.components.electrasmart.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr
 
 
@@ -29,7 +29,7 @@ async def test_device_registry(
 
 
 async def test_reauth_on_intruder_lockout(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
     """A locked out account asks for reauthentication instead of retrying setup."""
     config_entry.add_to_hass(hass)
@@ -63,9 +63,9 @@ async def test_reauth_on_intruder_lockout(
 
 
 async def test_setup_retries_when_the_api_cannot_be_reached(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry
+    hass: UniversalAssistant, config_entry: MockConfigEntry
 ) -> None:
-    """An API error during setup asks __HA_KEEP__ to retry."""
+    """An API error during setup asks Universal Home Assistant to retry."""
     config_entry.add_to_hass(hass)
 
     mock_api = Mock(
@@ -82,7 +82,7 @@ async def test_setup_retries_when_the_api_cannot_be_reached(
 
 
 async def test_update_listener_reloads_the_entry(
-    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_api: Mock
+    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_api: Mock
 ) -> None:
     """An updated config entry reloads the integration."""
     config_entry.add_to_hass(hass)

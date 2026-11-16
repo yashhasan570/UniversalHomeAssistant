@@ -5,7 +5,7 @@ from typing import Any, Concatenate
 
 from blebox_uniapi.error import Error
 
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.exceptions import UniversalAssistantError
 
 from .const import DOMAIN
 from .entity import BleBoxEntity
@@ -23,7 +23,7 @@ def blebox_command[_BleBoxEntityT: BleBoxEntity, **_P, _R](
         try:
             return await func(self, *args, **kwargs)
         except Error as err:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={"error": str(err)},

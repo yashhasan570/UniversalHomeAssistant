@@ -7,7 +7,7 @@ from typing import Any, cast, override
 from pyopenuv.errors import InvalidApiKeyError, OpenUvError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import event as evt
 from universalassistant.helpers.debounce import Debouncer
@@ -29,7 +29,7 @@ class OpenUvCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: __HAC_KEEP__,
+        hass: UniversalAssistant,
         *,
         entry: OpenUvConfigEntry,
         name: str,

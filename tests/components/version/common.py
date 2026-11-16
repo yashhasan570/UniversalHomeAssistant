@@ -16,7 +16,7 @@ from universalassistant.components.version.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_NAME
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 MOCK_VERSION: Final = "1970.1.0"
 MOCK_VERSION_DATA: Final = {"source": "local", "channel": "stable"}
@@ -36,7 +36,7 @@ TEST_DEFAULT_IMPORT_CONFIG: Final = {
 
 
 async def mock_get_version_update(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     freezer: FrozenDateTimeFactory,
     version: str = MOCK_VERSION,
     side_effect: Exception | None = None,
@@ -53,7 +53,7 @@ async def mock_get_version_update(
 
 
 async def setup_version_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry_data: dict[str, Any] | None = None,
 ) -> MockConfigEntry:
     """Set up the Version integration."""

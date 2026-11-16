@@ -29,11 +29,11 @@ from universalassistant.components.bluetooth import (
     async_scanner_by_source,
     async_scanner_devices_by_address,
 )
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_scanner_by_source(hass: __HAC_KEEP__) -> None:
+async def test_scanner_by_source(hass: UniversalAssistant) -> None:
     """Test we can get a scanner by source."""
 
     hci2_scanner = FakeScanner("hci2", "hci2")
@@ -50,7 +50,7 @@ async def test_monotonic_time() -> None:
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_async_get_advertisement_callback(hass: __HAC_KEEP__) -> None:
+async def test_async_get_advertisement_callback(hass: UniversalAssistant) -> None:
     """Test getting advertisement callback."""
     callback = bluetooth.async_get_advertisement_callback(hass)
     assert callback is not None
@@ -58,7 +58,7 @@ async def test_async_get_advertisement_callback(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_async_scanner_devices_by_address_connectable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test getting scanner devices by address with connectable devices."""
     manager = _get_manager()
@@ -114,7 +114,7 @@ async def test_async_scanner_devices_by_address_connectable(
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_async_address_reachability_diagnostics(hass: __HAC_KEEP__) -> None:
+async def test_async_address_reachability_diagnostics(hass: UniversalAssistant) -> None:
     """Test the address reachability diagnostics passthrough."""
     # An address that was never seen reports as unknown.
     assert "unknown" in async_address_reachability_diagnostics(
@@ -166,7 +166,7 @@ async def test_async_address_reachability_diagnostics(hass: __HAC_KEEP__) -> Non
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_async_scanner_devices_by_address_non_connectable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
 ) -> None:
     """Test getting scanner devices by address with non-connectable devices."""
     manager = _get_manager()
@@ -223,7 +223,7 @@ async def test_async_scanner_devices_by_address_non_connectable(
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_async_current_scanners(hass: __HAC_KEEP__) -> None:
+async def test_async_current_scanners(hass: UniversalAssistant) -> None:
     """Test getting the list of current scanners."""
     # The enable_bluetooth fixture registers one scanner
     initial_scanners = bluetooth.async_current_scanners(hass)
@@ -288,7 +288,7 @@ async def test_async_current_scanners(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_clear_advertisement_history(hass: __HAC_KEEP__) -> None:
+async def test_clear_advertisement_history(hass: UniversalAssistant) -> None:
     """Test clearing advertisement history bypasses the dedup guard."""
     callbacks: list[tuple[BluetoothServiceInfo, BluetoothChange]] = []
 
@@ -334,7 +334,7 @@ async def test_clear_advertisement_history(hass: __HAC_KEEP__) -> None:
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_async_request_active_scan(hass: __HAC_KEEP__) -> None:
+async def test_async_request_active_scan(hass: UniversalAssistant) -> None:
     """Test async_request_active_scan completes without error."""
     await async_request_active_scan(hass, 0.01)
 

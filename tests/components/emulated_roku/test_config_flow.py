@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.emulated_roku import DOMAIN, config_flow
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -21,7 +21,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
         yield mock_setup
 
 
-async def test_flow_works(hass: __HAC_KEEP__) -> None:
+async def test_flow_works(hass: UniversalAssistant) -> None:
     """Test that config flow works."""
     result = await hass.config_entries.flow.async_init(
         config_flow.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -40,7 +40,7 @@ async def test_flow_works(hass: __HAC_KEEP__) -> None:
     assert result["data"] == {"name": "Emulated Roku Test", "listen_port": 8060}
 
 
-async def test_flow_already_registered_entry(hass: __HAC_KEEP__) -> None:
+async def test_flow_already_registered_entry(hass: UniversalAssistant) -> None:
     """Test that config flow doesn't allow existing names."""
     MockConfigEntry(
         domain=DOMAIN, data={"name": "Emulated Roku Test", "listen_port": 8062}

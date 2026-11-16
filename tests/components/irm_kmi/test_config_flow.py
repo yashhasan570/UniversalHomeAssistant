@@ -14,12 +14,12 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CONF_UNIQUE_ID,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_config_flow_forecast")
-async def test_full_user_flow(hass: __HAC_KEEP__) -> None:
+async def test_full_user_flow(hass: UniversalAssistant) -> None:
     """Test the full user configuration flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -43,7 +43,7 @@ async def test_full_user_flow(hass: __HAC_KEEP__) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_config_flow_location_out_benelux(
-    hass: __HAC_KEEP__, mock_config_flow_forecast: AsyncMock
+    hass: UniversalAssistant, mock_config_flow_forecast: AsyncMock
 ) -> None:
     """Test configuration flow with a location outside of Benelux."""
     mock_config_flow_forecast.side_effect = [
@@ -75,7 +75,7 @@ async def test_config_flow_location_out_benelux(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_config_flow_with_api_error(
-    hass: __HAC_KEEP__, mock_config_flow_forecast: AsyncMock
+    hass: UniversalAssistant, mock_config_flow_forecast: AsyncMock
 ) -> None:
     """Test when API returns an error during the configuration flow."""
     mock_config_flow_forecast.side_effect = IrmKmiApiError
@@ -94,7 +94,7 @@ async def test_config_flow_with_api_error(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_config_flow_forecast")
 async def test_flow_already_configured(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the flow aborts when the location is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -112,7 +112,7 @@ async def test_flow_already_configured(
 
 
 async def test_option_flow(
-    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
+    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test when the user changes options with the option flow."""
     mock_config_entry.add_to_hass(hass)

@@ -10,7 +10,7 @@ from pytradfri.api.aiocoap_api import APIFactory
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.service_info.zeroconf import (
     ATTR_PROPERTIES_ID,
     ZeroconfServiceInfo,
@@ -166,7 +166,7 @@ class FlowHandler(ConfigFlow, domain=DOMAIN):
 
 
 async def authenticate(
-    hass: __HAC_KEEP__, host: str, security_code: str
+    hass: UniversalAssistant, host: str, security_code: str
 ) -> dict[str, str | bool]:
     """Authenticate with a Tradfri hub."""
 
@@ -189,7 +189,7 @@ async def authenticate(
 
 
 async def get_gateway_info(
-    hass: __HAC_KEEP__, host: str, identity: str, key: str
+    hass: UniversalAssistant, host: str, identity: str, key: str
 ) -> dict[str, str | bool]:
     """Return info for the gateway."""
 

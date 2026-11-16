@@ -20,8 +20,8 @@ from universalassistant.components.eq3btsmart.const import (
     SIGNAL_THERMOSTAT_CONNECTED,
 )
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, CONF_MAC, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
@@ -31,7 +31,7 @@ ENTITY_ID = "climate.aa_bb_cc_dd_ee_ff"
 
 
 @pytest.fixture(autouse=True)
-async def setup_integration(hass: __HAC_KEEP__, mock_thermostat: MagicMock) -> None:
+async def setup_integration(hass: UniversalAssistant, mock_thermostat: MagicMock) -> None:
     """Set up the integration with a connected thermostat."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -62,12 +62,12 @@ async def setup_integration(hass: __HAC_KEEP__, mock_thermostat: MagicMock) -> N
 
 
 async def test_set_temperature_failed(
-    hass: __HAC_KEEP__, mock_thermostat: MagicMock
+    hass: UniversalAssistant, mock_thermostat: MagicMock
 ) -> None:
     """Test a failed temperature change raises and restores the target temperature."""
     mock_thermostat.async_set_temperature.side_effect = Eq3Exception
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -81,12 +81,12 @@ async def test_set_temperature_failed(
 
 
 async def test_set_hvac_mode_failed(
-    hass: __HAC_KEEP__, mock_thermostat: MagicMock
+    hass: UniversalAssistant, mock_thermostat: MagicMock
 ) -> None:
     """Test a failed HVAC mode change raises."""
     mock_thermostat.async_set_mode.side_effect = Eq3Exception
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_HVAC_MODE,

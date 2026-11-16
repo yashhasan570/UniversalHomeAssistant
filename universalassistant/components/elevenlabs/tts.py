@@ -22,8 +22,8 @@ from universalassistant.components.tts import (
     Voice,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -53,6 +53,10 @@ class ElevenLabsTextToSpeechOption(StrEnum):
     MODEL = "model"
 
 
+# Not a user-facing option, only part of default_options for the cache key.
+ATTR_VOICE_SETTINGS = "voice_settings"
+
+
 def to_voice_settings(options: Mapping[str, Any]) -> VoiceSettings:
     """Return voice settings."""
     return VoiceSettings(
@@ -66,7 +70,7 @@ def to_voice_settings(options: Mapping[str, Any]) -> VoiceSettings:
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ElevenLabsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -124,6 +128,13 @@ class ElevenLabsTTSEntity(TextToSpeechEntity):
         if voice_indices:
             self._voices.insert(0, self._voices.pop(voice_indices[0]))
         self._voice_settings = voice_settings
+        # Expose the configured defaults so they are part of the TTS cache key
+        # and changing them in the options flow invalidates cached audio.
+        self._attr_default_options = {
+            TextToSpeechCommonOption.VOICE: default_voice_id,
+            ElevenLabsTextToSpeechOption.MODEL: model.model_id,
+            ATTR_VOICE_SETTINGS: voice_settings.model_dump_json(),
+        }
 
         # Entity attributes
         self._attr_unique_id = entry_id
@@ -169,7 +180,7 @@ class ElevenLabsTTSEntity(TextToSpeechEntity):
             bytes_combined = b"".join([byte_seg async for byte_seg in audio])
 
         except ApiError as exc:
-            raise __HAC_KEEP__Error(exc) from exc
+            raise UniversalAssistantError(exc) from exc
         return "mp3", bytes_combined
 
     @override
@@ -317,7 +328,7 @@ class ElevenLabsTTSEntity(TextToSpeechEntity):
                     _add_sentences_task.cancel()
                     with contextlib.suppress(asyncio.CancelledError):
                         await _add_sentences_task
-                    raise __HAC_KEEP__Error(exc) from exc
+                    raise UniversalAssistantError(exc) from exc
 
                 # Capture and store server request-id for
                 # next calls (only when supported)

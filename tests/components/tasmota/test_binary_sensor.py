@@ -25,7 +25,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.util import dt as dt_util
 
 from .test_common import (
@@ -45,7 +45,7 @@ from .test_common import (
 
 
 async def test_controlling_state_via_mqtt(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, setup_tasmota
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, setup_tasmota
 ) -> None:
     """Test state update via MQTT."""
     config = copy.deepcopy(DEFAULT_CONFIG)
@@ -112,7 +112,7 @@ async def test_controlling_state_via_mqtt(
 
 
 async def test_controlling_state_via_mqtt_switchname(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, setup_tasmota
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, setup_tasmota
 ) -> None:
     """Test state update via MQTT."""
     config = copy.deepcopy(DEFAULT_CONFIG)
@@ -174,7 +174,7 @@ async def test_controlling_state_via_mqtt_switchname(
 
 
 async def test_pushon_controlling_state_via_mqtt(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, setup_tasmota
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, setup_tasmota
 ) -> None:
     """Test state update via MQTT."""
     config = copy.deepcopy(DEFAULT_CONFIG)
@@ -225,7 +225,7 @@ async def test_pushon_controlling_state_via_mqtt(
 
 
 async def test_friendly_names(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, setup_tasmota
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, setup_tasmota
 ) -> None:
     """Test state update via MQTT."""
     config = copy.deepcopy(DEFAULT_CONFIG)
@@ -251,7 +251,7 @@ async def test_friendly_names(
 
 
 async def test_off_delay(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, setup_tasmota
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, setup_tasmota
 ) -> None:
     """Test off_delay option."""
     config = copy.deepcopy(DEFAULT_CONFIG)
@@ -301,7 +301,7 @@ async def test_off_delay(
 
 
 async def test_availability_when_connection_lost(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_client_mock: MqttMockPahoClient,
     mqtt_mock: MqttMockHAClient,
     setup_tasmota,
@@ -316,7 +316,7 @@ async def test_availability_when_connection_lost(
 
 
 async def test_deep_sleep_availability_when_connection_lost(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_client_mock: MqttMockPahoClient,
     mqtt_mock: MqttMockHAClient,
     setup_tasmota,
@@ -331,7 +331,7 @@ async def test_deep_sleep_availability_when_connection_lost(
 
 
 async def test_availability(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, setup_tasmota
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, setup_tasmota
 ) -> None:
     """Test availability."""
     config = copy.deepcopy(DEFAULT_CONFIG)
@@ -341,7 +341,7 @@ async def test_availability(
 
 
 async def test_deep_sleep_availability(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, setup_tasmota
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, setup_tasmota
 ) -> None:
     """Test availability when deep sleep is enabled."""
     config = copy.deepcopy(DEFAULT_CONFIG)
@@ -353,7 +353,7 @@ async def test_deep_sleep_availability(
 
 
 async def test_availability_discovery_update(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, setup_tasmota
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, setup_tasmota
 ) -> None:
     """Test availability discovery update."""
     config = copy.deepcopy(DEFAULT_CONFIG)
@@ -365,7 +365,7 @@ async def test_availability_discovery_update(
 
 
 async def test_availability_poll_state(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_client_mock: MqttMockPahoClient,
     mqtt_mock: MqttMockHAClient,
     setup_tasmota,
@@ -387,7 +387,7 @@ async def test_availability_poll_state(
 
 
 async def test_discovery_removal_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
     caplog: pytest.LogCaptureFixture,
     setup_tasmota,
@@ -406,7 +406,7 @@ async def test_discovery_removal_binary_sensor(
 
 
 async def test_discovery_update_unchanged_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mqtt_mock: MqttMockHAClient,
     caplog: pytest.LogCaptureFixture,
     setup_tasmota,
@@ -424,7 +424,7 @@ async def test_discovery_update_unchanged_binary_sensor(
 
 
 async def test_discovery_device_remove(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, setup_tasmota
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, setup_tasmota
 ) -> None:
     """Test device registry remove."""
     config = copy.deepcopy(DEFAULT_CONFIG)
@@ -436,7 +436,7 @@ async def test_discovery_device_remove(
 
 
 async def test_entity_id_update_subscriptions(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, setup_tasmota
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, setup_tasmota
 ) -> None:
     """Test MQTT subscriptions are managed when entity_id is updated."""
     config = copy.deepcopy(DEFAULT_CONFIG)
@@ -454,7 +454,7 @@ async def test_entity_id_update_subscriptions(
 
 
 async def test_entity_id_update_discovery_update(
-    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, setup_tasmota
+    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, setup_tasmota
 ) -> None:
     """Test MQTT discovery update when entity_id is updated."""
     config = copy.deepcopy(DEFAULT_CONFIG)

@@ -8,8 +8,8 @@ from hdfury import HDFuryAPI, HDFuryError
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -135,7 +135,7 @@ SWITCHES: tuple[HDFurySwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: HDFuryConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -169,7 +169,7 @@ class HDFurySwitch(HDFuryEntity, SwitchEntity):
         try:
             await self.entity_description.set_value_fn(self.coordinator.client, "on")
         except HDFuryError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="communication_error",
             ) from error
@@ -183,7 +183,7 @@ class HDFurySwitch(HDFuryEntity, SwitchEntity):
         try:
             await self.entity_description.set_value_fn(self.coordinator.client, "off")
         except HDFuryError as error:
-            raise __HAC_KEEP__Error(
+            raise UniversalAssistantError(
                 translation_domain=DOMAIN,
                 translation_key="communication_error",
             ) from error

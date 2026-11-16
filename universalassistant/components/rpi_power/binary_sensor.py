@@ -12,7 +12,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.issue_registry import IssueSeverity, create_issue
@@ -30,7 +30,7 @@ DESCRIPTION_UNDER_VOLTAGE = (
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: RpiPowerConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

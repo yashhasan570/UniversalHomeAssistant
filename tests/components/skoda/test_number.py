@@ -23,8 +23,8 @@ from universalassistant.components.number import (
 from universalassistant.components.skoda.const import DOMAIN
 from universalassistant.components.skoda.coordinator import UPDATE_INTERVAL
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -45,7 +45,7 @@ def platforms() -> Generator[None]:
     "vehicle_fixture", ["vehicle_electric.json", "vehicle_hybrid.json"]
 )
 async def test_numbers(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -72,7 +72,7 @@ async def test_numbers(
     ],
 )
 async def test_no_number_when_unsupported(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -93,7 +93,7 @@ async def test_no_number_when_unsupported(
 
 @pytest.mark.parametrize("vehicle_fixture", ["vehicle_incomplete.json"])
 async def test_number_when_operations_unavailable(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
 ) -> None:
@@ -105,7 +105,7 @@ async def test_number_when_operations_unavailable(
 
 
 async def test_set_charge_limit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
 ) -> None:
@@ -128,7 +128,7 @@ async def test_set_charge_limit(
 
 
 async def test_set_charge_limit_off_step(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
 ) -> None:
@@ -151,7 +151,7 @@ async def test_set_charge_limit_off_step(
 
 
 async def test_set_charge_limit_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
 ) -> None:
@@ -159,7 +159,7 @@ async def test_set_charge_limit_error(
     await setup_integration(hass, mock_config_entry)
     mock_skoda_client.set_charge_limit.side_effect = OpenApiError("boom")
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -176,7 +176,7 @@ async def test_set_charge_limit_error(
 
 
 async def test_number_updates_from_vehicle(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -195,7 +195,7 @@ async def test_number_updates_from_vehicle(
 
 
 async def test_number_unknown_when_data_missing(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
     freezer: FrozenDateTimeFactory,

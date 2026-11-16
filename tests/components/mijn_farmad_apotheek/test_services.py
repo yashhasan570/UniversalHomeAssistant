@@ -1,6 +1,7 @@
 """Test the actions of the Mijn Farmad Apotheek integration."""
 
 import asyncio
+import logging
 from unittest.mock import MagicMock
 
 from aiofarmad import (
@@ -12,6 +13,8 @@ from aiofarmad import (
     FarmadAuthorizationError,
     FarmadCommunicationError,
     FarmadError,
+    FarmadMissingPriceError,
+    FarmadPriceLookupError,
     FarmadRejectedError,
     FarmadTimeoutError,
 )
@@ -30,9 +33,9 @@ from universalassistant.components.mijn_farmad_apotheek.services import (
     FarmadServiceArgument,
 )
 from universalassistant.config_entries import SOURCE_REAUTH
-from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.core import Context, UniversalAssistant
 from universalassistant.exceptions import (
-    __HAC_KEEP__Error,
+    UniversalAssistantError,
     ServiceValidationError,
     Unauthorized,
 )
@@ -60,6 +63,8 @@ ORDER_DATA = {
     "apb": API_APB,
 }
 
+LOGGER_NAME = "universalassistant.components.mijn_farmad_apotheek"
+
 PRODUCTS = (DraftProduct(product_cnk=API_PRODUCT_CNK, quantity=1),)
 
 SEARCH_DATA = {"query": API_SEARCH_QUERY, "apb": API_APB}
@@ -80,7 +85,7 @@ SEARCH_RESPONSE = {
 
 
 async def test_order_medication_requires_admin(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_read_only_user: MockUser,
     mock_farmad_client: MagicMock,
 ) -> None:
@@ -102,7 +107,7 @@ async def test_order_medication_requires_admin(
 
 @pytest.mark.usefixtures("mock_farmad_client")
 async def test_search_medication_all_users(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_read_only_user: MockUser,
 ) -> None:
     """Test searching works for a user without admin access."""
@@ -121,7 +126,7 @@ async def test_search_medication_all_users(
 
 
 async def test_order_medication_from_history(
-    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
+    hass: UniversalAssistant, mock_farmad_client: MagicMock
 ) -> None:
     """Test ordering a product from the order history places the order."""
     await init_integration(hass)
@@ -149,7 +154,7 @@ async def test_order_medication_from_history(
 
 
 async def test_order_medication_from_later_history_page(
-    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
+    hass: UniversalAssistant, mock_farmad_client: MagicMock
 ) -> None:
     """Test a product from a later history page needs no catalog search."""
     client = mock_farmad_client.return_value
@@ -179,7 +184,7 @@ async def test_order_medication_from_later_history_page(
 
 
 async def test_order_medication_existing_draft(
-    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
+    hass: UniversalAssistant, mock_farmad_client: MagicMock
 ) -> None:
     """Test ordering replaces the lines of an existing draft."""
     await init_integration(hass)
@@ -235,7 +240,7 @@ async def test_order_medication_existing_draft(
     ],
 )
 async def test_order_medication_existing_draft_items(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_farmad_client: MagicMock,
     draft: DraftBasket,
 ) -> None:
@@ -256,7 +261,7 @@ async def test_order_medication_existing_draft_items(
 
 
 async def test_order_medication_with_comment(
-    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
+    hass: UniversalAssistant, mock_farmad_client: MagicMock
 ) -> None:
     """Test the comment passes through to the order."""
     await init_integration(hass)
@@ -275,7 +280,7 @@ async def test_order_medication_with_comment(
 
 
 async def test_order_medication_quantity(
-    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
+    hass: UniversalAssistant, mock_farmad_client: MagicMock
 ) -> None:
     """Test the quantity passes through to the order."""
     await init_integration(hass)
@@ -294,7 +299,7 @@ async def test_order_medication_quantity(
 
 
 async def test_order_medication_by_cnk(
-    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
+    hass: UniversalAssistant, mock_farmad_client: MagicMock
 ) -> None:
     """Test ordering a CNK code outside the list places the order."""
     await init_integration(hass)
@@ -322,7 +327,7 @@ async def test_order_medication_by_cnk(
 
 
 async def test_order_medication_no_search_results(
-    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
+    hass: UniversalAssistant, mock_farmad_client: MagicMock
 ) -> None:
     """Test ordering an unknown CNK code raises a translated error."""
     await init_integration(hass)
@@ -342,7 +347,7 @@ async def test_order_medication_no_search_results(
 
 
 async def test_order_medication_history_other_pharmacy(
-    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
+    hass: UniversalAssistant, mock_farmad_client: MagicMock
 ) -> None:
     """Test a CNK from another pharmacy's history goes through the catalog search."""
     client = mock_farmad_client.return_value
@@ -370,7 +375,7 @@ async def test_order_medication_history_other_pharmacy(
 
 
 async def test_order_medication_invalid_product(
-    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
+    hass: UniversalAssistant, mock_farmad_client: MagicMock
 ) -> None:
     """Test a product that is no list entry and no CNK code is rejected."""
     await init_integration(hass)
@@ -422,6 +427,13 @@ async def test_order_medication_invalid_product(
         ),
         pytest.param(
             "async_submit_basket",
+            FarmadPriceLookupError("mock"),
+            "order_failed",
+            1,
+            id="price-lookup-communication",
+        ),
+        pytest.param(
+            "async_submit_basket",
             FarmadCommunicationError("mock"),
             "order_unconfirmed",
             0,
@@ -451,29 +463,92 @@ async def test_order_medication_invalid_product(
     ],
 )
 async def test_order_medication_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_farmad_client: MagicMock,
+    caplog: pytest.LogCaptureFixture,
     method: str,
     side_effect: Exception,
     translation_key: str,
     clear_count: int,
 ) -> None:
-    """Test library errors during ordering map to translated __HA_KEEP__ errors."""
+    """Test library errors during ordering map to translated Universal Home Assistant errors."""
+    caplog.set_level(logging.DEBUG, logger=LOGGER_NAME)
     await init_integration(hass)
     client = mock_farmad_client.return_value
     getattr(client, method).side_effect = side_effect
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN, FarmadService.ORDER_MEDICATION, ORDER_DATA, blocking=True
         )
 
     assert exc_info.value.translation_key == translation_key
     assert client.async_clear_draft_basket.await_count == clear_count
+    assert f"Ordering at pharmacy {API_APB} failed: mock" in caplog.text
+
+
+async def test_order_medication_missing_price(
+    hass: UniversalAssistant,
+    mock_farmad_client: MagicMock,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    """Test a product without a catalog price raises a translated error with its CNK."""
+    caplog.set_level(logging.DEBUG, logger=LOGGER_NAME)
+    await init_integration(hass)
+    client = mock_farmad_client.return_value
+    client.async_submit_basket.side_effect = FarmadMissingPriceError("mock")
+
+    with pytest.raises(UniversalAssistantError) as exc_info:
+        await hass.services.async_call(
+            DOMAIN, FarmadService.ORDER_MEDICATION, ORDER_DATA, blocking=True
+        )
+
+    assert exc_info.value.translation_key == "price_unavailable"
+    assert exc_info.value.translation_placeholders == {
+        "apb": API_APB,
+        "product": API_PRODUCT_CNK,
+    }
+    assert f"Ordering at pharmacy {API_APB} failed: mock" in caplog.text
+    client.async_clear_draft_basket.assert_awaited_once_with(API_APB)
+
+
+async def test_order_medication_retries_after_a_price_lookup_failure(
+    hass: UniversalAssistant,
+    mock_farmad_client: MagicMock,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    """Test a failed price lookup clears the draft so a retry places the order."""
+    caplog.set_level(logging.DEBUG, logger=LOGGER_NAME)
+    await init_integration(hass)
+    client = mock_farmad_client.return_value
+    client.async_submit_basket.side_effect = [
+        FarmadPriceLookupError("mock"),
+        API_BASKET_ID,
+    ]
+
+    with pytest.raises(UniversalAssistantError) as exc_info:
+        await hass.services.async_call(
+            DOMAIN, FarmadService.ORDER_MEDICATION, ORDER_DATA, blocking=True
+        )
+    response = await hass.services.async_call(
+        DOMAIN,
+        FarmadService.ORDER_MEDICATION,
+        ORDER_DATA,
+        blocking=True,
+        return_response=True,
+    )
+
+    assert exc_info.value.translation_key == "order_failed"
+    assert f"Ordering at pharmacy {API_APB} failed: mock" in caplog.text
+    assert response == {
+        ATTR_BASKET_ID: API_BASKET_ID,
+        ATTR_DESCRIPTION: API_PRODUCT_DESCRIPTION,
+    }
+    client.async_clear_draft_basket.assert_awaited_once_with(API_APB)
 
 
 async def test_order_medication_update_draft_error(
-    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
+    hass: UniversalAssistant, mock_farmad_client: MagicMock
 ) -> None:
     """Test a failed draft update clears the draft and raises a translated error."""
     await init_integration(hass)
@@ -483,7 +558,7 @@ async def test_order_medication_update_draft_error(
     )
     client.async_update_draft_basket.side_effect = FarmadError("mock")
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN, FarmadService.ORDER_MEDICATION, ORDER_DATA, blocking=True
         )
@@ -493,7 +568,7 @@ async def test_order_medication_update_draft_error(
 
 
 async def test_order_medication_clear_draft_fails(
-    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
+    hass: UniversalAssistant, mock_farmad_client: MagicMock
 ) -> None:
     """Test a failed draft clear does not hide the original order error."""
     await init_integration(hass)
@@ -501,7 +576,7 @@ async def test_order_medication_clear_draft_fails(
     client.async_submit_basket.side_effect = FarmadError("mock")
     client.async_clear_draft_basket.side_effect = FarmadCommunicationError("mock")
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN, FarmadService.ORDER_MEDICATION, ORDER_DATA, blocking=True
         )
@@ -511,14 +586,14 @@ async def test_order_medication_clear_draft_fails(
 
 
 async def test_order_medication_without_draft_id(
-    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
+    hass: UniversalAssistant, mock_farmad_client: MagicMock
 ) -> None:
     """Test ordering fails and clears the draft when Farmad returns no draft id."""
     await init_integration(hass)
     client = mock_farmad_client.return_value
     client.async_save_draft_basket.return_value = None
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN, FarmadService.ORDER_MEDICATION, ORDER_DATA, blocking=True
         )
@@ -529,14 +604,14 @@ async def test_order_medication_without_draft_id(
 
 
 async def test_order_medication_without_basket_id(
-    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
+    hass: UniversalAssistant, mock_farmad_client: MagicMock
 ) -> None:
     """Test ordering keeps the draft when Farmad returns no basket id."""
     await init_integration(hass)
     client = mock_farmad_client.return_value
     client.async_submit_basket.return_value = None
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN, FarmadService.ORDER_MEDICATION, ORDER_DATA, blocking=True
         )
@@ -546,7 +621,7 @@ async def test_order_medication_without_basket_id(
 
 
 async def test_order_medication_serialized(
-    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
+    hass: UniversalAssistant, mock_farmad_client: MagicMock
 ) -> None:
     """Test concurrent orders do not overlap in the draft handling."""
     await init_integration(hass)
@@ -601,7 +676,7 @@ async def test_order_medication_serialized(
     ],
 )
 async def test_order_medication_invalid_quantity(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_farmad_client: MagicMock,
     quantity: float | str,
 ) -> None:
@@ -653,7 +728,7 @@ async def test_order_medication_invalid_quantity(
     ],
 )
 async def test_empty_input_rejected(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_farmad_client: MagicMock,
     action: str,
     data: dict[str, str],
@@ -673,7 +748,7 @@ async def test_empty_input_rejected(
 
 
 async def test_order_medication_after_unload(
-    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
+    hass: UniversalAssistant, mock_farmad_client: MagicMock
 ) -> None:
     """Test ordering is rejected when the entry is not loaded."""
     entry = await init_integration(hass)
@@ -687,7 +762,7 @@ async def test_order_medication_after_unload(
 
 
 async def test_search_medication(
-    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
+    hass: UniversalAssistant, mock_farmad_client: MagicMock
 ) -> None:
     """Test searching returns plain products."""
     await init_integration(hass)
@@ -708,7 +783,7 @@ async def test_search_medication(
 
 
 async def test_search_medication_no_results(
-    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
+    hass: UniversalAssistant, mock_farmad_client: MagicMock
 ) -> None:
     """Test searching without matches returns an empty product list."""
     await init_integration(hass)
@@ -747,18 +822,20 @@ async def test_search_medication_no_results(
     ],
 )
 async def test_search_medication_errors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_farmad_client: MagicMock,
+    caplog: pytest.LogCaptureFixture,
     side_effect: Exception,
     translation_key: str,
 ) -> None:
-    """Test library errors map to translated __HA_KEEP__ errors."""
+    """Test library errors map to translated Universal Home Assistant errors."""
+    caplog.set_level(logging.DEBUG, logger=LOGGER_NAME)
     await init_integration(hass)
     mock_farmad_client.return_value.async_search_products_in_apb.side_effect = (
         side_effect
     )
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             FarmadService.SEARCH_MEDICATION,
@@ -768,10 +845,11 @@ async def test_search_medication_errors(
         )
 
     assert exc_info.value.translation_key == translation_key
+    assert f"Searching pharmacy {API_APB} failed: mock" in caplog.text
 
 
 async def test_search_medication_after_unload(
-    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
+    hass: UniversalAssistant, mock_farmad_client: MagicMock
 ) -> None:
     """Test searching is rejected when the entry is not loaded."""
     entry = await init_integration(hass)
@@ -806,7 +884,7 @@ async def test_search_medication_after_unload(
     ],
 )
 async def test_rejected_session_starts_reauth(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_farmad_client: MagicMock,
     action: str,
     data: dict[str, str],
@@ -818,7 +896,7 @@ async def test_rejected_session_starts_reauth(
         mock_farmad_client.return_value, method
     ).side_effect = FarmadAuthenticationError("mock")
 
-    with pytest.raises(__HAC_KEEP__Error) as exc_info:
+    with pytest.raises(UniversalAssistantError) as exc_info:
         await hass.services.async_call(
             DOMAIN, action, data, blocking=True, return_response=True
         )

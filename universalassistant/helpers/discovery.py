@@ -34,7 +34,7 @@ class DiscoveryDict(TypedDict):
 
 @core.callback
 def async_listen(
-    hass: core.__HAC_KEEP__,
+    hass: core.UniversalAssistant,
     service: str,
     callback: Callable[
         [str, DiscoveryInfoType | None], Coroutine[Any, Any, None] | None
@@ -59,7 +59,7 @@ def async_listen(
 
 
 def discover(
-    hass: core.__HAC_KEEP__,
+    hass: core.UniversalAssistant,
     service: str,
     discovered: DiscoveryInfoType,
     component: str,
@@ -73,7 +73,7 @@ def discover(
 
 
 async def async_discover(
-    hass: core.__HAC_KEEP__,
+    hass: core.UniversalAssistant,
     service: str,
     discovered: DiscoveryInfoType | None,
     component: str | None,
@@ -95,7 +95,7 @@ async def async_discover(
 
 
 def async_listen_platform(
-    hass: core.__HAC_KEEP__,
+    hass: core.UniversalAssistant,
     component: str,
     callback: Callable[[str, dict[str, Any] | None], Any],
 ) -> Callable[[], None]:
@@ -121,7 +121,7 @@ def async_listen_platform(
 
 
 def load_platform(
-    hass: core.__HAC_KEEP__,
+    hass: core.UniversalAssistant,
     component: Platform | str,
     platform: str,
     discovered: DiscoveryInfoType | None,
@@ -135,7 +135,7 @@ def load_platform(
 
 
 async def async_load_platform(
-    hass: core.__HAC_KEEP__,
+    hass: core.UniversalAssistant,
     component: Platform | str,
     platform: str,
     discovered: DiscoveryInfoType | None,

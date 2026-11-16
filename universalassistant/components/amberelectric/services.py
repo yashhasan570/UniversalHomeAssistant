@@ -7,7 +7,7 @@ import probatio
 
 from universalassistant.const import CommonServiceArgument
 from universalassistant.core import (
-    __HAC_KEEP__,
+    UniversalAssistant,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -97,7 +97,7 @@ def get_forecasts(channel_type: str, data: dict) -> list[JsonValueType]:
 
 
 @callback
-def async_setup_services(hass: __HAC_KEEP__) -> None:
+def async_setup_services(hass: UniversalAssistant) -> None:
     """Set up the services for the Amber integration."""
 
     async def handle_get_forecasts(call: ServiceCall) -> ServiceResponse:

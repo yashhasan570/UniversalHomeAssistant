@@ -15,7 +15,7 @@ from universalassistant.components.tuya.const import (
     CONF_USER_CODE,
     DOMAIN,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import DEVICE_MOCKS, TuyaNotificationHelper, create_device, create_manager
 
@@ -38,7 +38,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 @pytest.fixture
 async def mock_loaded_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -116,7 +116,7 @@ def mock_device_code() -> str:
 
 
 @pytest.fixture
-async def mock_devices(hass: __HAC_KEEP__) -> list[CustomerDevice]:
+async def mock_devices(hass: UniversalAssistant) -> list[CustomerDevice]:
     """Load all Tuya CustomerDevice fixtures.
 
     Use this to generate global snapshots for each platform.
@@ -125,7 +125,7 @@ async def mock_devices(hass: __HAC_KEEP__) -> list[CustomerDevice]:
 
 
 @pytest.fixture
-async def mock_device(hass: __HAC_KEEP__, mock_device_code: str) -> CustomerDevice:
+async def mock_device(hass: UniversalAssistant, mock_device_code: str) -> CustomerDevice:
     """Load a single Tuya CustomerDevice fixture.
 
     Use this for testing behavior on a specific device.
@@ -135,7 +135,7 @@ async def mock_device(hass: __HAC_KEEP__, mock_device_code: str) -> CustomerDevi
 
 @pytest.fixture
 def notification_helper(
-    hass: __HAC_KEEP__, mock_manager: Manager
+    hass: UniversalAssistant, mock_manager: Manager
 ) -> TuyaNotificationHelper:
     """Fixture for Tuya NotificationHelper."""
     return TuyaNotificationHelper(hass, mock_manager)

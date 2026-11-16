@@ -4,7 +4,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.envertech_evt800.const import TYPE_TCP_SERVER_MODE
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PORT, CONF_TYPE
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 MOCK_DEVICE = {
     "manufacturer": "Envertech",
@@ -21,7 +21,7 @@ MOCK_USER_INPUT = {
 }
 
 
-async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
     """Fixture for setting up the component."""
     config_entry.add_to_hass(hass)
 

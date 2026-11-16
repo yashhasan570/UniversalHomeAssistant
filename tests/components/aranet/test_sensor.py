@@ -19,7 +19,7 @@ from universalassistant.const import (
     ATTR_UNIT_OF_MEASUREMENT,
     UnitOfRadiationConcentration,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util.unit_system import (
     METRIC_SYSTEM,
@@ -42,7 +42,7 @@ RADON_UNIQUE_ID = "aa:bb:cc:dd:ee:ff-radon_concentration-aa:bb:cc:dd:ee:ff"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors_aranet_radiation(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -113,7 +113,7 @@ async def test_sensors_aranet_radiation(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors_aranet2(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -175,7 +175,7 @@ async def test_sensors_aranet2(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors_aranet4(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -257,7 +257,7 @@ async def test_sensors_aranet4(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors_aranetrn(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -372,7 +372,7 @@ async def test_sensors_aranetrn(
     ],
 )
 async def test_radon_device_class_and_units(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     service_info: BluetoothServiceInfoBleak,
     entity_id: str,
@@ -455,7 +455,7 @@ async def test_radon_device_class_and_units(
     indirect=["mock_bluetooth_storage"],
 )
 async def test_existing_radon_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     restored_device_classes: dict[str, SensorDeviceClass],
 ) -> None:
@@ -504,7 +504,7 @@ async def test_existing_radon_sensor(
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_smart_home_integration_disabled(hass: __HAC_KEEP__) -> None:
+async def test_smart_home_integration_disabled(hass: UniversalAssistant) -> None:
     """Test disabling smart home integration marks entities as unavailable."""
     entry = MockConfigEntry(
         domain=DOMAIN,

@@ -12,8 +12,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import __HAC_KEEP__
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import entity_registry as er
 
 from . import AUDIT_PERMISSIONS, setup_integration
@@ -27,7 +27,7 @@ def enable_all_entities(entity_registry_enabled_by_default: None) -> None:
 
 
 async def test_all_button_entities(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     snapshot: SnapshotAssertion,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -52,7 +52,7 @@ async def test_all_button_entities(
     ],
 )
 async def test_node_buttons(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -84,7 +84,7 @@ async def test_node_buttons(
     ],
 )
 async def test_node_all_actions_buttons(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -118,7 +118,7 @@ async def test_node_all_actions_buttons(
     ],
 )
 async def test_vm_buttons(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -150,7 +150,7 @@ async def test_vm_buttons(
     ],
 )
 async def test_snapshot_button(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -189,7 +189,7 @@ async def test_snapshot_button(
     ],
 )
 async def test_container_buttons(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -226,18 +226,18 @@ async def test_container_buttons(
     ],
 )
 async def test_node_buttons_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
     exception: Exception,
 ) -> None:
-    """Test that ProxmoxVE node button errors are raised as __HAC_KEEP__Error."""
+    """Test that ProxmoxVE node button errors are raised as UniversalAssistantError."""
     await setup_integration(hass, mock_config_entry)
 
     mock_proxmox_client._node_mock.status.post.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -276,7 +276,7 @@ async def test_node_buttons_exceptions(
     ],
 )
 async def test_vm_buttons_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -284,7 +284,7 @@ async def test_vm_buttons_exceptions(
     action: str,
     exception: Exception,
 ) -> None:
-    """Test that ProxmoxVE VM button errors are raised as __HAC_KEEP__Error."""
+    """Test that ProxmoxVE VM button errors are raised as UniversalAssistantError."""
     await setup_integration(hass, mock_config_entry)
 
     mock_proxmox_client._node_mock.qemu(vmid)
@@ -292,7 +292,7 @@ async def test_vm_buttons_exceptions(
         mock_proxmox_client._qemu_mocks[vmid].status, action
     ).post.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -331,7 +331,7 @@ async def test_vm_buttons_exceptions(
     ],
 )
 async def test_container_buttons_exceptions(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -339,7 +339,7 @@ async def test_container_buttons_exceptions(
     action: str,
     exception: Exception,
 ) -> None:
-    """Test that ProxmoxVE container button errors are raised as __HAC_KEEP__Error."""
+    """Test that ProxmoxVE container button errors are raised as UniversalAssistantError."""
     await setup_integration(hass, mock_config_entry)
 
     mock_proxmox_client._node_mock.lxc(vmid)
@@ -347,7 +347,7 @@ async def test_container_buttons_exceptions(
         mock_proxmox_client._lxc_mocks[vmid].status, action
     ).post.side_effect = exception
 
-    with pytest.raises(__HAC_KEEP__Error):
+    with pytest.raises(UniversalAssistantError):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -357,7 +357,7 @@ async def test_container_buttons_exceptions(
 
 
 async def test_buttons_only_allowed_buttons(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

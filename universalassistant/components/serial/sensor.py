@@ -14,7 +14,7 @@ from universalassistant.components.sensor import (
     SensorEntity,
 )
 from universalassistant.const import CONF_NAME, CONF_VALUE_TEMPLATE, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.core import UniversalAssistant, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.template import Template
@@ -73,7 +73,7 @@ PLATFORM_SCHEMA = SENSOR_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -129,7 +129,7 @@ class SerialSensor(SensorEntity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Handle when an entity is about to be added to __HA_KEEP__."""
+        """Handle when an entity is about to be added to Universal Home Assistant."""
         self._serial_loop_task = self.hass.async_create_background_task(
             self.serial_read(
                 self._port,

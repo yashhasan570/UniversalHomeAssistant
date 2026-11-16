@@ -7,7 +7,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.directv.const import CONF_RECEIVER_ID, DOMAIN
 from universalassistant.const import CONF_HOST, CONTENT_TYPE_JSON
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
 
 HOST = "127.0.0.1"
@@ -26,7 +26,7 @@ MOCK_USER_INPUT = {CONF_HOST: HOST}
 
 
 def mock_connection(aioclient_mock: AiohttpClientMocker) -> None:
-    """Mock the DirecTV connection for __HA_KEEP__."""
+    """Mock the DirecTV connection for Universal Home Assistant."""
     aioclient_mock.get(
         f"http://{HOST}:8080/info/getVersion",
         text=load_fixture("directv/info-get-version.json"),
@@ -102,12 +102,12 @@ def mock_connection(aioclient_mock: AiohttpClientMocker) -> None:
 
 
 async def setup_integration(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     aioclient_mock: AiohttpClientMocker,
     skip_entry_setup: bool = False,
     setup_error: bool = False,
 ) -> MockConfigEntry:
-    """Set up the DirecTV integration in __HA_KEEP__."""
+    """Set up the DirecTV integration in Universal Home Assistant."""
     if setup_error:
         aioclient_mock.get(
             f"http://{HOST}:8080/info/getVersion",

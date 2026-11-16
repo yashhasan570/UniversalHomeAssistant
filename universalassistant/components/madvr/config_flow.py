@@ -13,7 +13,7 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
 )
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from .const import DEFAULT_NAME, DEFAULT_PORT, DOMAIN
 from .errors import CannotConnect
@@ -97,7 +97,7 @@ class MadVRConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-async def test_connection(hass: __HAC_KEEP__, host: str, port: int) -> str:
+async def test_connection(hass: UniversalAssistant, host: str, port: int) -> str:
     """Test if we can connect to the device and grab the mac."""
     madvr_client = Madvr(host=host, port=port, loop=hass.loop)
     _LOGGER.debug("Testing connection to madVR at %s:%s", host, port)

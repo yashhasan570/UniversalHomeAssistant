@@ -23,11 +23,11 @@ from aiohttp.web_exceptions import HTTPForbidden, HTTPUnauthorized
 import probatio
 
 from universalassistant.config import load_yaml_config_file
-from universalassistant.core import __HAC_KEEP__, callback
-from universalassistant.exceptions import __HAC_KEEP__Error
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.exceptions import UniversalAssistantError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.hassio import get_supervisor_ip, is_hassio
-from universalassistant.helpers.http import KEY_HASS, __HAC_KEEP__View
+from universalassistant.helpers.http import KEY_HASS, UniversalAssistantView
 from universalassistant.util import dt as dt_util, yaml as yaml_util
 
 from .const import is_supervisor_unix_socket_request
@@ -54,7 +54,7 @@ SCHEMA_IP_BAN_ENTRY: Final = probatio.Schema(
 
 
 @callback
-def setup_bans(hass: __HAC_KEEP__, app: Application, login_threshold: int) -> None:
+def setup_bans(hass: UniversalAssistant, app: Application, login_threshold: int) -> None:
     """Create IP Ban middleware for the app."""
     app.middlewares.append(ban_middleware)
     app[KEY_FAILED_LOGIN_ATTEMPTS] = defaultdict[IPv4Address | IPv6Address, int](int)
@@ -94,7 +94,7 @@ async def ban_middleware(
         raise
 
 
-def log_invalid_auth[_HassViewT: __HAC_KEEP__View, **_P](
+def log_invalid_auth[_HassViewT: UniversalAssistantView, **_P](
     func: Callable[Concatenate[_HassViewT, Request, _P], Awaitable[Response]],
 ) -> Callable[Concatenate[_HassViewT, Request, _P], Coroutine[Any, Any, Response]]:
     """Decorate function to handle invalid auth or failed login attempts."""
@@ -163,7 +163,7 @@ async def process_wrong_login(request: Request) -> None:
 
 
 async def _async_count_wrong_login(
-    app: Application, hass: __HAC_KEEP__, remote_addr: IPv4Address | IPv6Address
+    app: Application, hass: UniversalAssistant, remote_addr: IPv4Address | IPv6Address
 ) -> bool:
     """Count a wrong login attempt and return if it got the address banned."""
     # Check if ban middleware is loaded
@@ -221,7 +221,7 @@ class IpBan:
 class IpBanManager:
     """Manage IP bans."""
 
-    def __init__(self, hass: __HAC_KEEP__) -> None:
+    def __init__(self, hass: UniversalAssistant) -> None:
         """Init the ban manager."""
         self.hass = hass
         self.path = hass.config.path(IP_BANS_FILE)
@@ -235,7 +235,7 @@ class IpBanManager:
             )
         except FileNotFoundError:
             return
-        except __HAC_KEEP__Error as err:
+        except UniversalAssistantError as err:
             _LOGGER.error("Unable to load %s: %s", self.path, str(err))
             return
 
@@ -270,5 +270,5 @@ class IpBanManager:
             try:
                 await self.hass.async_add_executor_job(self._add_ban, new_ban)
             except OSError as err:
-                # The ban still applies until __HA_KEEP__ restarts.
+                # The ban still applies until Universal Home Assistant restarts.
                 _LOGGER.error("Unable to save the ban of %s: %s", remote_addr, err)

@@ -6,11 +6,11 @@ from pytest_universalassistant.common import MockConfigEntry
 from sn2 import DeviceInitializationError
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 
 async def test_load_unload_config_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_system_nexa_2_device: MagicMock,
 ) -> None:
@@ -36,7 +36,7 @@ async def test_load_unload_config_entry(
 
 
 async def test_setup_failure_device_initialization_error(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     mock_config_entry: MockConfigEntry,
     mock_system_nexa_2_device: MagicMock,
 ) -> None:

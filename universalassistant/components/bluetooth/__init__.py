@@ -41,7 +41,7 @@ from universal_assistant_bluetooth import BluetoothServiceInfo, BluetoothService
 from universalassistant.components import usb
 from universalassistant.config_entries import SOURCE_INTEGRATION_DISCOVERY, ConfigEntry
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, HassJob, __HAC_KEEP__, callback as hass_callback
+from universalassistant.core import Event, HassJob, UniversalAssistant, callback as hass_callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -93,7 +93,7 @@ from .const import (
     LINUX_FIRMWARE_LOAD_FALLBACK_SECONDS,
     SOURCE_LOCAL,
 )
-from .manager import __HAC_KEEP__BluetoothManager
+from .manager import UniversalAssistantBluetoothManager
 from .match import BluetoothCallbackMatcher, IntegrationMatcher
 from .models import BluetoothCallback, BluetoothCallbackReplay, BluetoothChange
 from .storage import BluetoothStorage
@@ -151,8 +151,8 @@ CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
 
 async def _async_start_adapter_discovery(
-    hass: __HAC_KEEP__,
-    manager: __HAC_KEEP__BluetoothManager,
+    hass: UniversalAssistant,
+    manager: UniversalAssistantBluetoothManager,
     bluetooth_adapters: BluetoothAdapters,
 ) -> None:
     """Start adapter discovery."""
@@ -202,7 +202,7 @@ async def _async_start_adapter_discovery(
         # the debounce time to ensure we do not miss the
         # adapter becoming available to DBus since otherwise
         # we will never see the new adapter until
-        # __HA_KEEP__ is restarted
+        # Universal Home Assistant is restarted
         async_call_later(
             hass,
             BLUETOOTH_DISCOVERY_COOLDOWN_SECONDS + LINUX_FIRMWARE_LOAD_FALLBACK_SECONDS,
@@ -216,7 +216,7 @@ async def _async_start_adapter_discovery(
     )
 
 
-async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     """Set up the bluetooth integration."""
     if platform.system() == "Linux":
         # Remove any config entries that are using the default address
@@ -246,7 +246,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         bluetooth_storage.async_setup(), "bluetooth storage setup", eager_start=True
     )
     integration_matcher.async_setup()
-    manager = __HAC_KEEP__BluetoothManager(
+    manager = UniversalAssistantBluetoothManager(
         hass, integration_matcher, bluetooth_adapters, bluetooth_storage, slot_manager
     )
     set_manager(manager)
@@ -266,7 +266,7 @@ async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
 
 @hass_callback
 def async_migrate_entries(
-    hass: __HAC_KEEP__, adapters: dict[str, AdapterDetails], default_adapter: str
+    hass: UniversalAssistant, adapters: dict[str, AdapterDetails], default_adapter: str
 ) -> None:
     """Migrate config entries to support multiple."""
     current_entries = hass.config_entries.async_entries(DOMAIN)
@@ -285,7 +285,7 @@ def async_migrate_entries(
 
 
 async def async_discover_adapters(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     adapters: dict[str, AdapterDetails],
 ) -> None:
     """Discover adapters and start flows."""
@@ -311,7 +311,7 @@ async def async_discover_adapters(
 
 
 async def async_update_device(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entry: ConfigEntry,
     adapter: str,
     details: AdapterDetails,
@@ -375,7 +375,7 @@ async def async_update_device(
         device_registry.async_update_device(device_entry.id, **kwargs)
 
 
-async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Set up a config entry for a bluetooth scanner."""
     if source_entry_id := entry.data.get(CONF_SOURCE_CONFIG_ENTRY_ID):
         if not (source_entry := hass.config_entries.async_get_entry(source_entry_id)):
@@ -446,10 +446,10 @@ async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     entry.async_on_unload(scanner.async_stop)
 
 
-async def async_update_listener(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_update_listener(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
     """Unload a config entry."""

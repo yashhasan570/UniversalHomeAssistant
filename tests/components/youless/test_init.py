@@ -3,12 +3,12 @@
 from universalassistant import setup
 from universalassistant.components.youless.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 
 from . import init_component
 
 
-async def test_async_setup_entry(hass: __HAC_KEEP__) -> None:
+async def test_async_setup_entry(hass: UniversalAssistant) -> None:
     """Check if the setup of the integration succeeds."""
 
     entry = await init_component(hass)

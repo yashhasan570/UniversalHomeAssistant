@@ -40,7 +40,7 @@ from universalassistant.const import (
     UnitOfPower,
     UnitOfVolume,
 )
-from universalassistant.core import CoreState, __HAC_KEEP__, State
+from universalassistant.core import CoreState, UniversalAssistant, State
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -59,10 +59,10 @@ TEST_TIME_ADVANCE_INTERVAL = timedelta(milliseconds=10)
 @pytest.fixture
 async def setup_integration(
     recorder_mock: Recorder,
-) -> Callable[[__HAC_KEEP__], Coroutine[Any, Any, None]]:
+) -> Callable[[UniversalAssistant], Coroutine[Any, Any, None]]:
     """Set up the integration."""
 
-    async def setup_integration(hass: __HAC_KEEP__) -> None:
+    async def setup_integration(hass: UniversalAssistant) -> None:
         assert await async_setup_component(hass, DOMAIN, {})
         await hass.async_block_till_done()
 
@@ -85,7 +85,7 @@ def get_statistics_for_entity(statistics_results, entity_id):
 
 
 async def test_cost_sensor_no_states(
-    setup_integration, hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    setup_integration, hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test sensors are created."""
     energy_data = data.EnergyManager.default_preferences()
@@ -115,7 +115,7 @@ async def test_cost_sensor_no_states(
 
 async def test_cost_sensor_attributes(
     setup_integration,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -151,8 +151,8 @@ async def test_cost_sensor_attributes(
 
 
 async def test_cost_sensor_names(
-    setup_integration: Callable[[__HAC_KEEP__], Coroutine[Any, Any, None]],
-    hass: __HAC_KEEP__,
+    setup_integration: Callable[[UniversalAssistant], Coroutine[Any, Any, None]],
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test cost sensors are named after their energy sensor."""
@@ -232,7 +232,7 @@ async def test_cost_sensor_names(
 async def test_cost_sensor_price_entity_total_increasing(
     frozen_time,
     setup_integration,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
@@ -451,7 +451,7 @@ async def test_cost_sensor_price_entity_total_increasing(
 async def test_cost_sensor_price_entity_total(
     frozen_time,
     setup_integration,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
@@ -673,7 +673,7 @@ async def test_cost_sensor_price_entity_total(
 async def test_cost_sensor_price_entity_total_no_reset(
     frozen_time,
     setup_integration,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
@@ -838,7 +838,7 @@ async def test_cost_sensor_price_entity_total_no_reset(
 )
 async def test_cost_sensor_handle_energy_units(
     setup_integration,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     energy_unit,
     factor,
@@ -906,7 +906,7 @@ async def test_cost_sensor_handle_energy_units(
 )
 async def test_cost_sensor_handle_price_units(
     setup_integration,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     price_unit,
     factor,
@@ -969,7 +969,7 @@ async def test_cost_sensor_handle_price_units(
 
 async def test_cost_sensor_handle_late_price_sensor(
     setup_integration,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test energy cost where the price sensor is not immediately available."""
@@ -1080,7 +1080,7 @@ async def test_cost_sensor_handle_late_price_sensor(
     [UnitOfVolume.CUBIC_FEET, UnitOfVolume.CUBIC_METERS, UnitOfVolume.LITERS],
 )
 async def test_cost_sensor_handle_gas(
-    setup_integration, hass: __HAC_KEEP__, hass_storage: dict[str, Any], unit
+    setup_integration, hass: UniversalAssistant, hass_storage: dict[str, Any], unit
 ) -> None:
     """Test gas cost price from sensor entity."""
     energy_attributes = {
@@ -1127,7 +1127,7 @@ async def test_cost_sensor_handle_gas(
 
 
 async def test_cost_sensor_handle_gas_kwh(
-    setup_integration, hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    setup_integration, hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test gas cost price from sensor entity."""
     energy_attributes = {
@@ -1189,8 +1189,8 @@ async def test_cost_sensor_handle_gas_kwh(
     ],
 )
 async def test_cost_sensor_gas_price_unit_mismatch(
-    setup_integration: Callable[[__HAC_KEEP__], Coroutine[Any, Any, None]],
-    hass: __HAC_KEEP__,
+    setup_integration: Callable[[UniversalAssistant], Coroutine[Any, Any, None]],
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
     usage_unit: str,
@@ -1268,7 +1268,7 @@ async def test_cost_sensor_gas_price_unit_mismatch(
 )
 async def test_cost_sensor_handle_water(
     setup_integration,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     unit_system,
     usage_unit,
@@ -1322,7 +1322,7 @@ async def test_cost_sensor_handle_water(
 @pytest.mark.parametrize("state_class", [None])
 async def test_cost_sensor_wrong_state_class(
     setup_integration,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
     state_class,
@@ -1384,7 +1384,7 @@ async def test_cost_sensor_wrong_state_class(
 @pytest.mark.parametrize("state_class", [SensorStateClass.MEASUREMENT])
 async def test_cost_sensor_state_class_measurement_no_reset(
     setup_integration,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
     state_class,
@@ -1441,7 +1441,7 @@ async def test_cost_sensor_state_class_measurement_no_reset(
 
 async def test_inherit_source_unique_id(
     setup_integration,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -1488,8 +1488,8 @@ async def test_inherit_source_unique_id(
 
 
 async def test_cost_sensor_rename(
-    setup_integration: Callable[[__HAC_KEEP__], Coroutine[Any, Any, None]],
-    hass: __HAC_KEEP__,
+    setup_integration: Callable[[UniversalAssistant], Coroutine[Any, Any, None]],
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     hass_storage: dict[str, Any],
     hass_ws_client: WebSocketGenerator,
@@ -1586,8 +1586,8 @@ def _fixed_price_grid_storage(hass_storage: dict[str, Any]) -> None:
     ],
 )
 async def test_cost_sensor_restore_state(
-    setup_integration: Callable[[__HAC_KEEP__], Coroutine[Any, Any, None]],
-    hass: __HAC_KEEP__,
+    setup_integration: Callable[[UniversalAssistant], Coroutine[Any, Any, None]],
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     energy_attributes: dict[str, Any],
     startup_energy: str,
@@ -1658,8 +1658,8 @@ async def test_cost_sensor_restore_state(
     ],
 )
 async def test_cost_sensor_restore_invalid_data(
-    setup_integration: Callable[[__HAC_KEEP__], Coroutine[Any, Any, None]],
-    hass: __HAC_KEEP__,
+    setup_integration: Callable[[UniversalAssistant], Coroutine[Any, Any, None]],
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     extra_data: dict[str, Any],
 ) -> None:
@@ -1688,8 +1688,8 @@ async def test_cost_sensor_restore_invalid_data(
     ],
 )
 async def test_cost_sensor_saves_restore_data(
-    setup_integration: Callable[[__HAC_KEEP__], Coroutine[Any, Any, None]],
-    hass: __HAC_KEEP__,
+    setup_integration: Callable[[UniversalAssistant], Coroutine[Any, Any, None]],
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     core_state: CoreState,
     stored_cost: float,
@@ -1722,8 +1722,8 @@ async def test_cost_sensor_saves_restore_data(
 
 
 async def test_cost_sensor_readded_starts_over(
-    setup_integration: Callable[[__HAC_KEEP__], Coroutine[Any, Any, None]],
-    hass: __HAC_KEEP__,
+    setup_integration: Callable[[UniversalAssistant], Coroutine[Any, Any, None]],
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test energy used while costs were not tracked is not priced later."""
@@ -1781,8 +1781,8 @@ async def test_cost_sensor_readded_starts_over(
     ],
 )
 async def test_cost_sensor_meter_unit_change(
-    setup_integration: Callable[[__HAC_KEEP__], Coroutine[Any, Any, None]],
-    hass: __HAC_KEEP__,
+    setup_integration: Callable[[UniversalAssistant], Coroutine[Any, Any, None]],
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     source_type: str,
     first_unit: str,
@@ -1832,12 +1832,12 @@ async def test_cost_sensor_meter_unit_change(
     assert float(hass.states.get("sensor.meter_cost").state) == pytest.approx(24.0)
 
 
-async def test_needs_power_sensor_standard(hass: __HAC_KEEP__) -> None:
+async def test_needs_power_sensor_standard(hass: UniversalAssistant) -> None:
     """Test _needs_power_sensor returns False for standard stat_rate."""
     assert SensorManager._needs_power_sensor({"stat_rate": "sensor.power"}) is False
 
 
-async def test_needs_power_sensor_inverted(hass: __HAC_KEEP__) -> None:
+async def test_needs_power_sensor_inverted(hass: UniversalAssistant) -> None:
     """Test _needs_power_sensor returns True for inverted config."""
     assert (
         SensorManager._needs_power_sensor({"stat_rate_inverted": "sensor.power"})
@@ -1845,7 +1845,7 @@ async def test_needs_power_sensor_inverted(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_needs_power_sensor_combined(hass: __HAC_KEEP__) -> None:
+async def test_needs_power_sensor_combined(hass: UniversalAssistant) -> None:
     """Test _needs_power_sensor returns True for combined config."""
     assert (
         SensorManager._needs_power_sensor(
@@ -1858,7 +1858,7 @@ async def test_needs_power_sensor_combined(hass: __HAC_KEEP__) -> None:
     )
 
 
-async def test_needs_power_sensor_partial_combined(hass: __HAC_KEEP__) -> None:
+async def test_needs_power_sensor_partial_combined(hass: UniversalAssistant) -> None:
     """Test _needs_power_sensor returns False for incomplete combined config."""
     # Only stat_rate_from without stat_rate_to
     assert (
@@ -1868,7 +1868,7 @@ async def test_needs_power_sensor_partial_combined(hass: __HAC_KEEP__) -> None:
 
 
 async def test_power_sensor_manager_creation(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test SensorManager creates power sensors correctly."""
     assert await async_setup_component(hass, DOMAIN, {"energy": {}})
@@ -1908,7 +1908,7 @@ async def test_power_sensor_manager_creation(
 
 
 async def test_power_sensor_inverted_propagates_unit(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test inverted power sensor copies unit from the source state."""
     assert await async_setup_component(hass, DOMAIN, {"energy": {}})
@@ -1960,7 +1960,7 @@ async def test_power_sensor_inverted_propagates_unit(
 
 
 async def test_power_sensor_inverted_source_without_unit(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test inverted sensor reports no unit when source has none."""
     assert await async_setup_component(hass, DOMAIN, {"energy": {}})
@@ -1993,7 +1993,7 @@ async def test_power_sensor_inverted_source_without_unit(
 
 
 async def test_power_sensor_manager_cleanup(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test SensorManager removes power sensors when config changes."""
     assert await async_setup_component(hass, DOMAIN, {"energy": {}})
@@ -2048,7 +2048,7 @@ async def test_power_sensor_manager_cleanup(
 
 
 async def test_power_sensor_grid_combined(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test power sensor for grid with combined config."""
     assert await async_setup_component(hass, DOMAIN, {"energy": {}})
@@ -2098,7 +2098,7 @@ async def test_power_sensor_grid_combined(
 
 async def test_power_sensor_device_assignment(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -2160,7 +2160,7 @@ async def test_power_sensor_device_assignment(
 
 async def test_power_sensor_device_assignment_combined_second_sensor(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -2237,7 +2237,7 @@ async def test_power_sensor_device_assignment_combined_second_sensor(
 
 
 async def test_power_sensor_inverted_availability(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test inverted power sensor availability follows source sensor."""
     assert await async_setup_component(hass, DOMAIN, {"energy": {}})
@@ -2290,7 +2290,7 @@ async def test_power_sensor_inverted_availability(
 
 
 async def test_power_sensor_combined_availability(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test combined power sensor availability requires both sources available."""
     assert await async_setup_component(hass, DOMAIN, {"energy": {}})
@@ -2362,7 +2362,7 @@ async def test_power_sensor_combined_availability(
 
 
 async def test_power_sensor_battery_combined(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test power sensor for battery with combined config."""
     assert await async_setup_component(hass, DOMAIN, {"energy": {}})
@@ -2423,7 +2423,7 @@ async def test_power_sensor_battery_combined(
 
 
 async def test_power_sensor_combined_unit_conversion(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test power sensor combined mode with different units."""
     assert await async_setup_component(hass, DOMAIN, {"energy": {}})
@@ -2472,7 +2472,7 @@ async def test_power_sensor_combined_unit_conversion(
 
 
 async def test_power_sensor_inverted_negative_values(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test inverted power sensor with negative source values."""
     assert await async_setup_component(hass, DOMAIN, {"energy": {}})
@@ -2519,7 +2519,7 @@ async def test_power_sensor_inverted_negative_values(
 
 
 async def test_energy_data_removal(
-    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    recorder_mock: Recorder, hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test that cost sensors are removed when energy data is cleared."""
     energy_data = data.EnergyManager.default_preferences()
@@ -2573,7 +2573,7 @@ async def test_energy_data_removal(
 
 
 async def test_stat_cost_already_configured(
-    setup_integration, hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    setup_integration, hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test that no cost sensor is created when stat_cost is already configured."""
     energy_data = data.EnergyManager.default_preferences()
@@ -2616,7 +2616,7 @@ async def test_stat_cost_already_configured(
 
 
 async def test_invalid_energy_state(
-    setup_integration, hass: __HAC_KEEP__, hass_storage: dict[str, Any]
+    setup_integration, hass: UniversalAssistant, hass_storage: dict[str, Any]
 ) -> None:
     """Test handling of invalid energy state value."""
     energy_data = data.EnergyManager.default_preferences()
@@ -2674,7 +2674,7 @@ async def test_invalid_energy_state(
 
 async def test_invalid_energy_unit(
     setup_integration,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2750,7 +2750,7 @@ async def test_invalid_energy_unit(
 
 async def test_no_energy_unit(
     setup_integration,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2807,7 +2807,7 @@ async def test_no_energy_unit(
 
 
 async def test_power_sensor_inverted_invalid_value(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test inverted power sensor with invalid source value."""
     assert await async_setup_component(hass, DOMAIN, {"energy": {}})
@@ -2851,7 +2851,7 @@ async def test_power_sensor_inverted_invalid_value(
 
 
 async def test_power_sensor_combined_invalid_value(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test combined power sensor with invalid source value."""
     assert await async_setup_component(hass, DOMAIN, {"energy": {}})
@@ -2931,7 +2931,7 @@ async def test_power_sensor_combined_invalid_value(
     ],
 )
 async def test_power_sensor_combined_invalid_unit(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     caplog: pytest.LogCaptureFixture,
     invalid_source: str,
     value: str,
@@ -3013,7 +3013,7 @@ async def test_power_sensor_combined_invalid_unit(
 
 
 async def test_power_sensor_naming_fallback(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test power sensor naming when source not in registry."""
     assert await async_setup_component(hass, DOMAIN, {"energy": {}})
@@ -3050,7 +3050,7 @@ async def test_power_sensor_naming_fallback(
 
 async def test_power_sensor_no_device_assignment(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test power sensor when source sensors have no device."""
@@ -3094,7 +3094,7 @@ async def test_power_sensor_no_device_assignment(
 
 
 async def test_power_sensor_keeps_existing_on_update(
-    recorder_mock: Recorder, hass: __HAC_KEEP__
+    recorder_mock: Recorder, hass: UniversalAssistant
 ) -> None:
     """Test that existing power sensor is kept when config doesn't change."""
     assert await async_setup_component(hass, DOMAIN, {"energy": {}})
@@ -3141,7 +3141,7 @@ async def test_power_sensor_keeps_existing_on_update(
 
 async def test_invalid_price_entity_value(
     setup_integration,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test handling of invalid energy price entity value."""
@@ -3203,7 +3203,7 @@ async def test_invalid_price_entity_value(
 
 async def test_power_sensor_naming_with_registry_name(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test power sensor naming uses registry name when available."""
@@ -3249,7 +3249,7 @@ async def test_power_sensor_naming_with_registry_name(
 
 async def test_missing_price_entity(
     setup_integration,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test handling when energy price entity doesn't exist."""
@@ -3409,7 +3409,7 @@ async def test_add_finished_resolved_on_abort(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_disabled_sensor_removed_from_config(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     source: data.SourceType,
     source_without_sensor: data.SourceType,
@@ -3467,11 +3467,25 @@ async def test_disabled_sensor_removed_from_config(
             "sensor.energy_grid_grid_import_grid_export_net_power",
             id="grid_combined",
         ),
+        pytest.param(
+            {
+                "type": "battery",
+                "stat_energy_from_grid": "sensor.battery_from_grid",
+                "stat_energy_to_home": "sensor.battery_to_home",
+                "power_config": {
+                    "stat_rate_from_grid": "sensor.battery_from_grid_power",
+                    "stat_rate_to_home": "sensor.battery_to_home_power",
+                },
+            },
+            "sensor.energy_battery_battery_from_grid_power_battery_to_home_power"
+            "_net_power",
+            id="battery_directions",
+        ),
     ],
 )
 async def test_power_sensor_rename_updates_stat_rate(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     hass_storage: dict[str, Any],
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
@@ -3506,7 +3520,7 @@ async def test_power_sensor_rename_updates_stat_rate(
 
 async def test_power_sensor_rename_other_entity_keeps_prefs(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test renaming an entity which is not a power sensor leaves prefs alone."""
@@ -3543,7 +3557,7 @@ async def test_power_sensor_rename_other_entity_keeps_prefs(
 
 async def test_power_sensor_suggested_entity_id_taken(
     recorder_mock: Recorder,
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test stat_rate follows the power sensor when its entity_id is taken."""
@@ -3578,3 +3592,286 @@ async def test_power_sensor_suggested_entity_id_taken(
         manager.data["energy_sources"][0]["stat_rate"]
         == "sensor.battery_power_inverted_2"
     )
+
+
+BATTERY_DIRECTIONS_ENERGY = {
+    "stat_energy_from_grid": "sensor.battery_from_grid",
+    "stat_energy_from_solar": "sensor.battery_from_solar",
+    "stat_energy_to_home": "sensor.battery_to_home",
+    "stat_energy_to_grid": "sensor.battery_to_grid",
+}
+BATTERY_DIRECTIONS_POWER = {
+    "stat_rate_from_grid": "sensor.from_grid",
+    "stat_rate_from_solar": "sensor.from_solar",
+    "stat_rate_to_home": "sensor.to_home",
+    "stat_rate_to_grid": "sensor.to_grid",
+}
+BATTERY_DIRECTIONS_NET_POWER = (
+    "sensor.energy_battery_from_grid_from_solar_to_home_to_grid_net_power"
+)
+
+
+@pytest.mark.parametrize("power_key", list(BATTERY_DIRECTIONS_POWER))
+async def test_needs_power_sensor_battery_direction(power_key: str) -> None:
+    """Test _needs_power_sensor returns True for a single battery direction."""
+    assert SensorManager._needs_power_sensor({power_key: "sensor.power"}) is True
+
+
+async def test_power_sensor_battery_directions(
+    recorder_mock: Recorder, hass: UniversalAssistant
+) -> None:
+    """Test the net power of a battery measured per direction."""
+    assert await async_setup_component(hass, DOMAIN, {"energy": {}})
+    manager = await async_get_manager(hass)
+    manager.data = manager.default_preferences()
+
+    hass.states.async_set(
+        "sensor.from_grid", "0.5", {ATTR_UNIT_OF_MEASUREMENT: UnitOfPower.KILO_WATT}
+    )
+    hass.states.async_set(
+        "sensor.from_solar", "300", {ATTR_UNIT_OF_MEASUREMENT: UnitOfPower.WATT}
+    )
+    hass.states.async_set(
+        "sensor.to_home", "1200", {ATTR_UNIT_OF_MEASUREMENT: UnitOfPower.WATT}
+    )
+    hass.states.async_set(
+        "sensor.to_grid", "100", {ATTR_UNIT_OF_MEASUREMENT: UnitOfPower.WATT}
+    )
+    await hass.async_block_till_done()
+
+    await manager.async_update(
+        {
+            "energy_sources": [
+                {
+                    "type": "battery",
+                    **BATTERY_DIRECTIONS_ENERGY,
+                    "power_config": BATTERY_DIRECTIONS_POWER,
+                }
+            ],
+        }
+    )
+    await hass.async_block_till_done()
+
+    state = hass.states.get(BATTERY_DIRECTIONS_NET_POWER)
+    assert state
+    # (1200 + 100) - (500 + 300): discharging is positive
+    assert float(state.state) == 500.0
+    assert state.attributes[ATTR_UNIT_OF_MEASUREMENT] == UnitOfPower.WATT
+    assert state.attributes[ATTR_FRIENDLY_NAME] == "Battery power"
+    assert manager.data["energy_sources"][0]["stat_rate"] == (
+        BATTERY_DIRECTIONS_NET_POWER
+    )
+
+    hass.states.async_set(
+        "sensor.to_home", "0", {ATTR_UNIT_OF_MEASUREMENT: UnitOfPower.WATT}
+    )
+    await hass.async_block_till_done()
+    state = hass.states.get(BATTERY_DIRECTIONS_NET_POWER)
+    assert state
+    # 100 - (500 + 300): charging is negative
+    assert float(state.state) == -700.0
+
+    hass.states.async_set("sensor.from_solar", "unavailable")
+    await hass.async_block_till_done()
+    state = hass.states.get(BATTERY_DIRECTIONS_NET_POWER)
+    assert state
+    assert state.state == "unavailable"
+
+
+async def test_power_sensor_battery_one_charge_direction(
+    recorder_mock: Recorder, hass: UniversalAssistant
+) -> None:
+    """Test a single charging direction gives negative net power."""
+    assert await async_setup_component(hass, DOMAIN, {"energy": {}})
+    manager = await async_get_manager(hass)
+    manager.data = manager.default_preferences()
+
+    hass.states.async_set(
+        "sensor.from_grid", "200", {ATTR_UNIT_OF_MEASUREMENT: UnitOfPower.WATT}
+    )
+    await hass.async_block_till_done()
+
+    await manager.async_update(
+        {
+            "energy_sources": [
+                {
+                    "type": "battery",
+                    **BATTERY_DIRECTIONS_ENERGY,
+                    "power_config": {"stat_rate_from_grid": "sensor.from_grid"},
+                }
+            ],
+        }
+    )
+    await hass.async_block_till_done()
+
+    state = hass.states.get("sensor.energy_battery_from_grid_net_power")
+    assert state
+    assert float(state.state) == -200.0
+
+
+async def test_power_sensor_battery_directions_device_assignment(
+    recorder_mock: Recorder,
+    hass: UniversalAssistant,
+    entity_registry: er.EntityRegistry,
+    device_registry: dr.DeviceRegistry,
+) -> None:
+    """Test the net power sensor takes the first device of its direction sensors."""
+    assert await async_setup_component(hass, DOMAIN, {"energy": {}})
+    manager = await async_get_manager(hass)
+    manager.data = manager.default_preferences()
+
+    config_entry = MockConfigEntry(domain="test")
+    config_entry.add_to_hass(hass)
+    device_entry = device_registry.async_get_or_create(
+        config_entry_id=config_entry.entry_id,
+        identifiers={("test", "battery_device")},
+    )
+    for object_id in ("from_grid", "from_solar"):
+        entity_registry.async_get_or_create(
+            "sensor", "test", object_id, suggested_object_id=object_id
+        )
+    entity_registry.async_get_or_create(
+        "sensor",
+        "test",
+        "to_home",
+        suggested_object_id="to_home",
+        device_id=device_entry.id,
+    )
+    for entity_id in BATTERY_DIRECTIONS_POWER.values():
+        hass.states.async_set(
+            entity_id, "100", {ATTR_UNIT_OF_MEASUREMENT: UnitOfPower.WATT}
+        )
+    await hass.async_block_till_done()
+
+    await manager.async_update(
+        {
+            "energy_sources": [
+                {
+                    "type": "battery",
+                    **BATTERY_DIRECTIONS_ENERGY,
+                    "power_config": BATTERY_DIRECTIONS_POWER,
+                }
+            ],
+        }
+    )
+    await hass.async_block_till_done()
+
+    power_sensor_entry = entity_registry.async_get(BATTERY_DIRECTIONS_NET_POWER)
+    assert power_sensor_entry
+    assert power_sensor_entry.device_id == device_entry.id
+
+
+async def test_power_sensor_battery_directions_invalid_unit(
+    recorder_mock: Recorder, hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+) -> None:
+    """Test the net power sensor with a direction sensor in a non-power unit."""
+    assert await async_setup_component(hass, DOMAIN, {"energy": {}})
+    manager = await async_get_manager(hass)
+    manager.data = manager.default_preferences()
+
+    for entity_id in BATTERY_DIRECTIONS_POWER.values():
+        hass.states.async_set(
+            entity_id, "100", {ATTR_UNIT_OF_MEASUREMENT: UnitOfPower.WATT}
+        )
+    hass.states.async_set(
+        "sensor.to_grid", "1", {ATTR_UNIT_OF_MEASUREMENT: UnitOfEnergy.KILO_WATT_HOUR}
+    )
+    await hass.async_block_till_done()
+
+    await manager.async_update(
+        {
+            "energy_sources": [
+                {
+                    "type": "battery",
+                    **BATTERY_DIRECTIONS_ENERGY,
+                    "power_config": BATTERY_DIRECTIONS_POWER,
+                }
+            ],
+        }
+    )
+    await hass.async_block_till_done()
+
+    state = hass.states.get(BATTERY_DIRECTIONS_NET_POWER)
+    assert state
+    assert state.state == "unknown"
+    assert (
+        "Unable to combine sensor.from_grid and sensor.from_solar and sensor.to_home"
+        " and sensor.to_grid: kWh is not a recognized power unit" in caplog.text
+    )
+
+
+async def test_power_sensor_battery_measurement_switch(
+    recorder_mock: Recorder, hass: UniversalAssistant
+) -> None:
+    """Test switching a battery between total and direction power sensors."""
+    assert await async_setup_component(hass, DOMAIN, {"energy": {}})
+    manager = await async_get_manager(hass)
+    manager.data = manager.default_preferences()
+
+    for entity_id in (
+        "sensor.battery_discharge",
+        "sensor.battery_charge",
+        *BATTERY_DIRECTIONS_POWER.values(),
+    ):
+        hass.states.async_set(
+            entity_id, "100", {ATTR_UNIT_OF_MEASUREMENT: UnitOfPower.WATT}
+        )
+    await hass.async_block_till_done()
+
+    total_battery = {
+        "type": "battery",
+        "stat_energy_from": "sensor.battery_energy_from",
+        "stat_energy_to": "sensor.battery_energy_to",
+        "power_config": {
+            "stat_rate_from": "sensor.battery_discharge",
+            "stat_rate_to": "sensor.battery_charge",
+        },
+    }
+    total_net_power = "sensor.energy_battery_battery_discharge_battery_charge_net_power"
+    two_directions = {
+        "stat_rate_from_grid": "sensor.from_grid",
+        "stat_rate_to_home": "sensor.to_home",
+    }
+    two_directions_net_power = "sensor.energy_battery_from_grid_to_home_net_power"
+
+    await manager.async_update({"energy_sources": [total_battery]})
+    await hass.async_block_till_done()
+    assert hass.states.get(total_net_power).state == "0.0"
+
+    await manager.async_update(
+        {
+            "energy_sources": [
+                {
+                    "type": "battery",
+                    **BATTERY_DIRECTIONS_ENERGY,
+                    "power_config": two_directions,
+                }
+            ]
+        }
+    )
+    await hass.async_block_till_done()
+    assert hass.states.get(total_net_power).state == "unavailable"
+    assert hass.states.get(two_directions_net_power).state == "0.0"
+    assert manager.data["energy_sources"][0]["stat_rate"] == two_directions_net_power
+
+    # Another set of directions is another sensor
+    await manager.async_update(
+        {
+            "energy_sources": [
+                {
+                    "type": "battery",
+                    **BATTERY_DIRECTIONS_ENERGY,
+                    "power_config": BATTERY_DIRECTIONS_POWER,
+                }
+            ]
+        }
+    )
+    await hass.async_block_till_done()
+    assert hass.states.get(two_directions_net_power).state == "unavailable"
+    assert hass.states.get(BATTERY_DIRECTIONS_NET_POWER).state == "0.0"
+
+    await manager.async_update({"energy_sources": [total_battery]})
+    await hass.async_block_till_done()
+    assert hass.states.get(BATTERY_DIRECTIONS_NET_POWER).state == "unavailable"
+    assert hass.states.get(total_net_power).state == "0.0"
+    assert manager.data["energy_sources"][0]["stat_rate"] == total_net_power

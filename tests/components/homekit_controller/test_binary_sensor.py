@@ -7,7 +7,7 @@ from aiohomekit.model.characteristics import CharacteristicsTypes
 from aiohomekit.model.services import Service, ServicesTypes
 
 from universalassistant.components.binary_sensor import BinarySensorDeviceClass
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import entity_registry as er
 
 from .common import Helper, setup_test_accessories, setup_test_component
@@ -22,7 +22,7 @@ def create_motion_sensor_service(accessory: Accessory) -> None:
 
 
 async def test_motion_sensor_read_state(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test that we can read the state of a HomeKit motion sensor accessory."""
     helper = await setup_test_component(
@@ -53,7 +53,7 @@ def create_contact_sensor_service(accessory: Accessory) -> None:
 
 
 async def test_contact_sensor_read_state(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test that we can read the state of a HomeKit contact accessory."""
     helper = await setup_test_component(
@@ -84,7 +84,7 @@ def create_smoke_sensor_service(accessory: Accessory) -> None:
 
 
 async def test_smoke_sensor_read_state(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test that we can read the state of a HomeKit contact accessory."""
     helper = await setup_test_component(
@@ -115,7 +115,7 @@ def create_carbon_monoxide_sensor_service(accessory: Accessory) -> None:
 
 
 async def test_carbon_monoxide_sensor_read_state(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test that we can read the state of a HomeKit contact accessory."""
     helper = await setup_test_component(
@@ -148,7 +148,7 @@ def create_occupancy_sensor_service(accessory: Accessory) -> None:
 
 
 async def test_occupancy_sensor_read_state(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test that we can read the state of a HomeKit occupancy sensor accessory."""
     helper = await setup_test_component(
@@ -285,7 +285,7 @@ def create_sensor_with_battery_service(accessory: Accessory) -> None:
 
 
 async def test_leak_sensor_read_state(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test that we can read the state of a HomeKit leak sensor accessory."""
     helper = await setup_test_component(
@@ -308,7 +308,7 @@ async def test_leak_sensor_read_state(
 
 
 async def test_valve_status_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_next_aid: Callable[[], int],
 ) -> None:
     """Test valve status characteristics are exposed as binary sensors."""
@@ -353,7 +353,7 @@ async def test_valve_status_binary_sensors(
 
 
 async def test_duplicate_low_battery_characteristics_create_single_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_next_aid: Callable[[], int],
 ) -> None:
     """Test repeated low battery characteristics on one sensor create one entity."""
@@ -370,7 +370,7 @@ async def test_duplicate_low_battery_characteristics_create_single_binary_sensor
 
 
 async def test_unnamed_low_battery_characteristics_create_single_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_next_aid: Callable[[], int],
 ) -> None:
     """Test unnamed low battery characteristics on one sensor create one entity."""
@@ -387,7 +387,7 @@ async def test_unnamed_low_battery_characteristics_create_single_binary_sensor(
 
 
 async def test_named_low_battery_characteristic_creates_binary_sensor(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_next_aid: Callable[[], int],
 ) -> None:
     """Test low battery characteristics on named services create an entity."""
@@ -403,7 +403,7 @@ async def test_named_low_battery_characteristic_creates_binary_sensor(
 
 
 async def test_labeled_low_battery_characteristics_create_binary_sensors(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     get_next_aid: Callable[[], int],
 ) -> None:
     """Test low battery characteristics on labeled services create entities."""
@@ -419,7 +419,7 @@ async def test_labeled_low_battery_characteristics_create_binary_sensors(
 
 
 async def test_low_battery_characteristic_ignored_with_battery_service(
-    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
+    hass: UniversalAssistant, get_next_aid: Callable[[], int]
 ) -> None:
     """Test low battery characteristics are ignored when a battery service exists."""
     accessory = Accessory.create_with_info(
@@ -435,7 +435,7 @@ async def test_low_battery_characteristic_ignored_with_battery_service(
 
 
 async def test_migrate_unique_id(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     entity_registry: er.EntityRegistry,
     get_next_aid: Callable[[], int],
 ) -> None:

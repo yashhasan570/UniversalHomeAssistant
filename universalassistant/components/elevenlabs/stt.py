@@ -20,7 +20,7 @@ from universalassistant.components.stt import (
     SpeechResultState,
     SpeechToTextEntity,
 )
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -37,7 +37,7 @@ PARALLEL_UPDATES = 10
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     config_entry: ElevenLabsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

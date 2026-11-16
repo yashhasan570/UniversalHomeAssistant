@@ -7,7 +7,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.ecovacs.const import DOMAIN
 from universalassistant.components.ecovacs.controller import EcovacsController
 from universalassistant.const import STATE_OFF, STATE_UNKNOWN, Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .util import notify_and_wait
@@ -22,7 +22,7 @@ def platforms() -> Platform | list[Platform]:
 
 
 async def test_mop_attached(
-    hass: __HAC_KEEP__,
+    hass: UniversalAssistant,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,

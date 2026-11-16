@@ -9,7 +9,7 @@ from google_health_api.const import HealthApiScope
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import __HAC_KEEP__
+from universalassistant.core import UniversalAssistant
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import aiohttp_client, device_registry as dr
 from universalassistant.helpers.config_entry_oauth2_flow import (
@@ -46,7 +46,7 @@ type GoogleHealthConfigEntry = ConfigEntry[GoogleHealthData]
 
 
 async def async_setup_entry(
-    hass: __HAC_KEEP__, entry: GoogleHealthConfigEntry
+    hass: UniversalAssistant, entry: GoogleHealthConfigEntry
 ) -> None:
     """Set up Google Health from a config entry."""
     implementation = await async_get_config_entry_implementation(hass, entry)
@@ -123,7 +123,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: __HAC_KEEP__, entry: GoogleHealthConfigEntry
+    hass: UniversalAssistant, entry: GoogleHealthConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)
